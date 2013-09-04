@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>SchemeUserState</key>
+	<dict>
+		<key>LegendsOfChaos.xcscheme</key>
+		<dict>
+			<key>orderHint</key>
+			<integer>5</integer>
+		</dict>
+		<key>Mobsters-Release.xcscheme</key>
+		<dict>
+			<key>isShown</key>
+			<false/>
+			<key>orderHint</key>
+			<integer>3</integer>
+		</dict>
+		<key>Mobsters.xcscheme</key>
+		<dict>
+			<key>orderHint</key>
+			<integer>2</integer>
+		</dict>
+	</dict>
+	<key>SuppressBuildableAutocreation</key>
+	<dict>
+		<key>455FC6B0157EE4E2008DB9E4</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>CF1256411538A94D00E0C1AD</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>CF69F6401742115F001C96D0</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>CF69F65A174212ED001C96D0</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+	</dict>
+</dict>
+</plist>
