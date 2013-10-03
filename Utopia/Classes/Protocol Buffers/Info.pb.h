@@ -10,6 +10,8 @@
 @class BossEventProto_Builder;
 @class BuildStructJobProto;
 @class BuildStructJobProto_Builder;
+@class CityExpansionCostProto;
+@class CityExpansionCostProto_Builder;
 @class CityGemProto;
 @class CityGemProto_Builder;
 @class ClanBulletinPostProto;
@@ -42,8 +44,6 @@
 @class FullClanProto_Builder;
 @class FullEquipProto;
 @class FullEquipProto_Builder;
-@class FullMarketplacePostProto;
-@class FullMarketplacePostProto_Builder;
 @class FullQuestProto;
 @class FullQuestProto_Builder;
 @class FullStructureProto;
@@ -54,8 +54,6 @@
 @class FullTaskProto_FullTaskEquipReqProto_Builder;
 @class FullUserBossProto;
 @class FullUserBossProto_Builder;
-@class FullUserCityExpansionDataProto;
-@class FullUserCityExpansionDataProto_Builder;
 @class FullUserCityProto;
 @class FullUserCityProto_Builder;
 @class FullUserClanProto;
@@ -140,6 +138,8 @@
 @class UserBoosterItemProto_Builder;
 @class UserBoosterPackProto;
 @class UserBoosterPackProto_Builder;
+@class UserCityExpansionDataProto;
+@class UserCityExpansionDataProto_Builder;
 @class UserCityGemProto;
 @class UserCityGemProto_Builder;
 @class UserLockBoxEventProto;
@@ -218,9 +218,7 @@ BOOL EarnFreeDiamondsTypeIsValidValue(EarnFreeDiamondsType value);
 
 typedef enum {
   SpecialQuestActionPurchaseFromArmory = 1,
-  SpecialQuestActionPurchaseFromMarketplace = 2,
   SpecialQuestActionSellToArmory = 3,
-  SpecialQuestActionPostToMarketplace = 4,
   SpecialQuestActionDepositInVault = 5,
   SpecialQuestActionWithdrawFromVault = 6,
   SpecialQuestActionWriteOnEnemyWall = 7,
@@ -250,25 +248,10 @@ typedef enum {
 BOOL BattleResultIsValidValue(BattleResult value);
 
 typedef enum {
-  MarketplacePostTypePremiumEquipPost = 0,
-  MarketplacePostTypeNormEquipPost = 2,
-} MarketplacePostType;
-
-BOOL MarketplacePostTypeIsValidValue(MarketplacePostType value);
-
-typedef enum {
-  MarketplaceJobRequirementTypeBuy = 0,
-  MarketplaceJobRequirementTypeSell = 1,
-} MarketplaceJobRequirementType;
-
-BOOL MarketplaceJobRequirementTypeIsValidValue(MarketplaceJobRequirementType value);
-
-typedef enum {
   CritStructTypeAviary = 0,
   CritStructTypeCarpenter = 2,
   CritStructTypeVault = 3,
   CritStructTypeArmory = 4,
-  CritStructTypeMarketplace = 5,
   CritStructTypeBlacksmith = 6,
 } CritStructType;
 
@@ -289,6 +272,14 @@ typedef enum {
 } ExpansionDirection;
 
 BOOL ExpansionDirectionIsValidValue(ExpansionDirection value);
+
+typedef enum {
+  MonsterProto_MonsterTypeRegular = 1,
+  MonsterProto_MonsterTypeMiniBoss = 2,
+  MonsterProto_MonsterTypeBoss = 3,
+} MonsterProto_MonsterType;
+
+BOOL MonsterProto_MonsterTypeIsValidValue(MonsterProto_MonsterType value);
 
 typedef enum {
   FullEquipProto_RarityCommon = 0,
@@ -418,7 +409,6 @@ BOOL DialogueProto_SpeechSegmentProto_DialogueSpeakerIsValidValue(DialogueProto_
 
 @interface MonsterProto : PBGeneratedMessage {
 @private
-  BOOL hasIsBoss_:1;
   BOOL hasMonsterId_:1;
   BOOL hasMaxHp_:1;
   BOOL hasWeaponId_:1;
@@ -432,7 +422,7 @@ BOOL DialogueProto_SpeechSegmentProto_DialogueSpeakerIsValidValue(DialogueProto_
   BOOL hasEquipId_:1;
   BOOL hasName_:1;
   BOOL hasImageName_:1;
-  BOOL isBoss_:1;
+  BOOL hasMonsterType_:1;
   int32_t monsterId;
   int32_t maxHp;
   int32_t weaponId;
@@ -446,12 +436,13 @@ BOOL DialogueProto_SpeechSegmentProto_DialogueSpeakerIsValidValue(DialogueProto_
   int32_t equipId;
   NSString* name;
   NSString* imageName;
+  MonsterProto_MonsterType monsterType;
 }
 - (BOOL) hasMonsterId;
 - (BOOL) hasName;
 - (BOOL) hasMaxHp;
 - (BOOL) hasImageName;
-- (BOOL) hasIsBoss;
+- (BOOL) hasMonsterType;
 - (BOOL) hasWeaponId;
 - (BOOL) hasWeaponLvl;
 - (BOOL) hasArmorId;
@@ -465,7 +456,7 @@ BOOL DialogueProto_SpeechSegmentProto_DialogueSpeakerIsValidValue(DialogueProto_
 @property (readonly, retain) NSString* name;
 @property (readonly) int32_t maxHp;
 @property (readonly, retain) NSString* imageName;
-- (BOOL) isBoss;
+@property (readonly) MonsterProto_MonsterType monsterType;
 @property (readonly) int32_t weaponId;
 @property (readonly) int32_t weaponLvl;
 @property (readonly) int32_t armorId;
@@ -530,10 +521,10 @@ BOOL DialogueProto_SpeechSegmentProto_DialogueSpeakerIsValidValue(DialogueProto_
 - (MonsterProto_Builder*) setImageName:(NSString*) value;
 - (MonsterProto_Builder*) clearImageName;
 
-- (BOOL) hasIsBoss;
-- (BOOL) isBoss;
-- (MonsterProto_Builder*) setIsBoss:(BOOL) value;
-- (MonsterProto_Builder*) clearIsBoss;
+- (BOOL) hasMonsterType;
+- (MonsterProto_MonsterType) monsterType;
+- (MonsterProto_Builder*) setMonsterType:(MonsterProto_MonsterType) value;
+- (MonsterProto_Builder*) clearMonsterType;
 
 - (BOOL) hasWeaponId;
 - (int32_t) weaponId;
@@ -4322,130 +4313,120 @@ BOOL DialogueProto_SpeechSegmentProto_DialogueSpeakerIsValidValue(DialogueProto_
 
 @interface FullUserProto : PBGeneratedMessage {
 @private
-  BOOL hasHasReceivedfbReward_:1;
-  BOOL hasIsAdmin_:1;
   BOOL hasIsMentor_:1;
   BOOL hasHasActiveShield_:1;
+  BOOL hasIsAdmin_:1;
   BOOL hasIsFake_:1;
-  BOOL hasLastGoldmineRetrieval_:1;
+  BOOL hasHasReceivedfbReward_:1;
   BOOL hasShieldEndTime_:1;
-  BOOL hasLastEnergyRefillTime_:1;
-  BOOL hasLastStaminaRefillTime_:1;
+  BOOL hasLastTimeQueued_:1;
+  BOOL hasLastLoginTime_:1;
+  BOOL hasLastLogoutTime_:1;
+  BOOL hasLastShortLicensePurchaseTime_:1;
+  BOOL hasLastLongLicensePurchaseTime_:1;
   BOOL hasLastBattleNotificationTime_:1;
   BOOL hasLastTimeAttacked_:1;
-  BOOL hasLastLongLicensePurchaseTime_:1;
+  BOOL hasLastEnergyRefillTime_:1;
   BOOL hasCreateTime_:1;
-  BOOL hasLastShortLicensePurchaseTime_:1;
-  BOOL hasLastLogoutTime_:1;
-  BOOL hasLastLoginTime_:1;
-  BOOL hasNumCoinsRetrievedFromStructs_:1;
-  BOOL hasNumAdColonyVideosWatched_:1;
-  BOOL hasNumGroupChatsRemaining_:1;
+  BOOL hasLastGoldmineRetrieval_:1;
   BOOL hasPrestigeLevel_:1;
+  BOOL hasNumGroupChatsRemaining_:1;
   BOOL hasNumAdditionalForgeSlots_:1;
   BOOL hasNumBeginnerSalesPurchased_:1;
   BOOL hasElo_:1;
+  BOOL hasAttacksWon_:1;
+  BOOL hasDefensesWon_:1;
+  BOOL hasAttacksLost_:1;
+  BOOL hasDefensesLost_:1;
   BOOL hasNumBadges_:1;
   BOOL hasApsalarId_:1;
   BOOL hasNumTimesKiipRewarded_:1;
   BOOL hasNumConsecutiveDaysPlayed_:1;
   BOOL hasUserId_:1;
   BOOL hasLevel_:1;
-  BOOL hasAttack_:1;
-  BOOL hasDefense_:1;
-  BOOL hasStamina_:1;
   BOOL hasEnergy_:1;
-  BOOL hasSkillPoints_:1;
   BOOL hasEnergyMax_:1;
-  BOOL hasStaminaMax_:1;
   BOOL hasDiamonds_:1;
   BOOL hasCoins_:1;
-  BOOL hasMarketplaceDiamondsEarnings_:1;
-  BOOL hasMarketplaceCoinsEarnings_:1;
   BOOL hasVaultBalance_:1;
-  BOOL hasNumMarketplaceSalesUnredeemed_:1;
   BOOL hasExperience_:1;
   BOOL hasTasksCompleted_:1;
   BOOL hasBattlesWon_:1;
   BOOL hasBattlesLost_:1;
   BOOL hasFlees_:1;
+  BOOL hasNumAdColonyVideosWatched_:1;
   BOOL hasNumReferrals_:1;
-  BOOL hasNumPostsInMarketplace_:1;
+  BOOL hasNumCoinsRetrievedFromStructs_:1;
   BOOL hasName_:1;
-  BOOL hasReferralCode_:1;
-  BOOL hasRank_:1;
-  BOOL hasUdid_:1;
   BOOL hasDeviceToken_:1;
-  BOOL hasWeaponEquippedUserEquip_:1;
-  BOOL hasArmorEquippedUserEquip_:1;
-  BOOL hasAmuletEquippedUserEquip_:1;
-  BOOL hasUserLocation_:1;
+  BOOL hasUdid_:1;
+  BOOL hasRank_:1;
+  BOOL hasReferralCode_:1;
   BOOL hasAmuletTwoEquippedUserEquip_:1;
   BOOL hasArmorTwoEquippedUserEquip_:1;
+  BOOL hasArmorEquippedUserEquip_:1;
+  BOOL hasWeaponEquippedUserEquip_:1;
   BOOL hasWeaponTwoEquippedUserEquip_:1;
+  BOOL hasAmuletEquippedUserEquip_:1;
+  BOOL hasUserLocation_:1;
   BOOL hasClan_:1;
   BOOL hasUserType_:1;
-  BOOL hasReceivedfbReward_:1;
-  BOOL isAdmin_:1;
   BOOL isMentor_:1;
   BOOL hasActiveShield_:1;
+  BOOL isAdmin_:1;
   BOOL isFake_:1;
-  int64_t lastGoldmineRetrieval;
+  BOOL hasReceivedfbReward_:1;
   int64_t shieldEndTime;
-  int64_t lastEnergyRefillTime;
-  int64_t lastStaminaRefillTime;
+  int64_t lastTimeQueued;
+  int64_t lastLoginTime;
+  int64_t lastLogoutTime;
+  int64_t lastShortLicensePurchaseTime;
+  int64_t lastLongLicensePurchaseTime;
   int64_t lastBattleNotificationTime;
   int64_t lastTimeAttacked;
-  int64_t lastLongLicensePurchaseTime;
+  int64_t lastEnergyRefillTime;
   int64_t createTime;
-  int64_t lastShortLicensePurchaseTime;
-  int64_t lastLogoutTime;
-  int64_t lastLoginTime;
-  int32_t numCoinsRetrievedFromStructs;
-  int32_t numAdColonyVideosWatched;
-  int32_t numGroupChatsRemaining;
+  int64_t lastGoldmineRetrieval;
   int32_t prestigeLevel;
+  int32_t numGroupChatsRemaining;
   int32_t numAdditionalForgeSlots;
   int32_t numBeginnerSalesPurchased;
   int32_t elo;
+  int32_t attacksWon;
+  int32_t defensesWon;
+  int32_t attacksLost;
+  int32_t defensesLost;
   int32_t numBadges;
   int32_t apsalarId;
   int32_t numTimesKiipRewarded;
   int32_t numConsecutiveDaysPlayed;
   int32_t userId;
   int32_t level;
-  int32_t attack;
-  int32_t defense;
-  int32_t stamina;
   int32_t energy;
-  int32_t skillPoints;
   int32_t energyMax;
-  int32_t staminaMax;
   int32_t diamonds;
   int32_t coins;
-  int32_t marketplaceDiamondsEarnings;
-  int32_t marketplaceCoinsEarnings;
   int32_t vaultBalance;
-  int32_t numMarketplaceSalesUnredeemed;
   int32_t experience;
   int32_t tasksCompleted;
   int32_t battlesWon;
   int32_t battlesLost;
   int32_t flees;
+  int32_t numAdColonyVideosWatched;
   int32_t numReferrals;
-  int32_t numPostsInMarketplace;
+  int32_t numCoinsRetrievedFromStructs;
   NSString* name;
-  NSString* referralCode;
-  NSString* rank;
-  NSString* udid;
   NSString* deviceToken;
-  FullUserEquipProto* weaponEquippedUserEquip;
-  FullUserEquipProto* armorEquippedUserEquip;
-  FullUserEquipProto* amuletEquippedUserEquip;
-  LocationProto* userLocation;
+  NSString* udid;
+  NSString* rank;
+  NSString* referralCode;
   FullUserEquipProto* amuletTwoEquippedUserEquip;
   FullUserEquipProto* armorTwoEquippedUserEquip;
+  FullUserEquipProto* armorEquippedUserEquip;
+  FullUserEquipProto* weaponEquippedUserEquip;
   FullUserEquipProto* weaponTwoEquippedUserEquip;
+  FullUserEquipProto* amuletEquippedUserEquip;
+  LocationProto* userLocation;
   MinimumClanProto* clan;
   UserType userType;
 }
@@ -4453,19 +4434,11 @@ BOOL DialogueProto_SpeechSegmentProto_DialogueSpeakerIsValidValue(DialogueProto_
 - (BOOL) hasName;
 - (BOOL) hasLevel;
 - (BOOL) hasUserType;
-- (BOOL) hasAttack;
-- (BOOL) hasDefense;
-- (BOOL) hasStamina;
-- (BOOL) hasLastStaminaRefillTime;
 - (BOOL) hasEnergy;
 - (BOOL) hasLastEnergyRefillTime;
-- (BOOL) hasSkillPoints;
 - (BOOL) hasEnergyMax;
-- (BOOL) hasStaminaMax;
 - (BOOL) hasDiamonds;
 - (BOOL) hasCoins;
-- (BOOL) hasMarketplaceDiamondsEarnings;
-- (BOOL) hasMarketplaceCoinsEarnings;
 - (BOOL) hasVaultBalance;
 - (BOOL) hasExperience;
 - (BOOL) hasTasksCompleted;
@@ -4475,8 +4448,6 @@ BOOL DialogueProto_SpeechSegmentProto_DialogueSpeakerIsValidValue(DialogueProto_
 - (BOOL) hasReferralCode;
 - (BOOL) hasNumReferrals;
 - (BOOL) hasUserLocation;
-- (BOOL) hasNumPostsInMarketplace;
-- (BOOL) hasNumMarketplaceSalesUnredeemed;
 - (BOOL) hasWeaponEquippedUserEquip;
 - (BOOL) hasArmorEquippedUserEquip;
 - (BOOL) hasAmuletEquippedUserEquip;
@@ -4503,6 +4474,11 @@ BOOL DialogueProto_SpeechSegmentProto_DialogueSpeakerIsValidValue(DialogueProto_
 - (BOOL) hasShieldEndTime;
 - (BOOL) hasElo;
 - (BOOL) hasRank;
+- (BOOL) hasLastTimeQueued;
+- (BOOL) hasAttacksWon;
+- (BOOL) hasDefensesWon;
+- (BOOL) hasAttacksLost;
+- (BOOL) hasDefensesLost;
 - (BOOL) hasUdid;
 - (BOOL) hasDeviceToken;
 - (BOOL) hasLastBattleNotificationTime;
@@ -4516,19 +4492,11 @@ BOOL DialogueProto_SpeechSegmentProto_DialogueSpeakerIsValidValue(DialogueProto_
 @property (readonly, retain) NSString* name;
 @property (readonly) int32_t level;
 @property (readonly) UserType userType;
-@property (readonly) int32_t attack;
-@property (readonly) int32_t defense;
-@property (readonly) int32_t stamina;
-@property (readonly) int64_t lastStaminaRefillTime;
 @property (readonly) int32_t energy;
 @property (readonly) int64_t lastEnergyRefillTime;
-@property (readonly) int32_t skillPoints;
 @property (readonly) int32_t energyMax;
-@property (readonly) int32_t staminaMax;
 @property (readonly) int32_t diamonds;
 @property (readonly) int32_t coins;
-@property (readonly) int32_t marketplaceDiamondsEarnings;
-@property (readonly) int32_t marketplaceCoinsEarnings;
 @property (readonly) int32_t vaultBalance;
 @property (readonly) int32_t experience;
 @property (readonly) int32_t tasksCompleted;
@@ -4538,8 +4506,6 @@ BOOL DialogueProto_SpeechSegmentProto_DialogueSpeakerIsValidValue(DialogueProto_
 @property (readonly, retain) NSString* referralCode;
 @property (readonly) int32_t numReferrals;
 @property (readonly, retain) LocationProto* userLocation;
-@property (readonly) int32_t numPostsInMarketplace;
-@property (readonly) int32_t numMarketplaceSalesUnredeemed;
 @property (readonly, retain) FullUserEquipProto* weaponEquippedUserEquip;
 @property (readonly, retain) FullUserEquipProto* armorEquippedUserEquip;
 @property (readonly, retain) FullUserEquipProto* amuletEquippedUserEquip;
@@ -4566,6 +4532,11 @@ BOOL DialogueProto_SpeechSegmentProto_DialogueSpeakerIsValidValue(DialogueProto_
 @property (readonly) int64_t shieldEndTime;
 @property (readonly) int32_t elo;
 @property (readonly, retain) NSString* rank;
+@property (readonly) int64_t lastTimeQueued;
+@property (readonly) int32_t attacksWon;
+@property (readonly) int32_t defensesWon;
+@property (readonly) int32_t attacksLost;
+@property (readonly) int32_t defensesLost;
 @property (readonly, retain) NSString* udid;
 @property (readonly, retain) NSString* deviceToken;
 @property (readonly) int64_t lastBattleNotificationTime;
@@ -4630,26 +4601,6 @@ BOOL DialogueProto_SpeechSegmentProto_DialogueSpeakerIsValidValue(DialogueProto_
 - (FullUserProto_Builder*) setUserType:(UserType) value;
 - (FullUserProto_Builder*) clearUserType;
 
-- (BOOL) hasAttack;
-- (int32_t) attack;
-- (FullUserProto_Builder*) setAttack:(int32_t) value;
-- (FullUserProto_Builder*) clearAttack;
-
-- (BOOL) hasDefense;
-- (int32_t) defense;
-- (FullUserProto_Builder*) setDefense:(int32_t) value;
-- (FullUserProto_Builder*) clearDefense;
-
-- (BOOL) hasStamina;
-- (int32_t) stamina;
-- (FullUserProto_Builder*) setStamina:(int32_t) value;
-- (FullUserProto_Builder*) clearStamina;
-
-- (BOOL) hasLastStaminaRefillTime;
-- (int64_t) lastStaminaRefillTime;
-- (FullUserProto_Builder*) setLastStaminaRefillTime:(int64_t) value;
-- (FullUserProto_Builder*) clearLastStaminaRefillTime;
-
 - (BOOL) hasEnergy;
 - (int32_t) energy;
 - (FullUserProto_Builder*) setEnergy:(int32_t) value;
@@ -4660,20 +4611,10 @@ BOOL DialogueProto_SpeechSegmentProto_DialogueSpeakerIsValidValue(DialogueProto_
 - (FullUserProto_Builder*) setLastEnergyRefillTime:(int64_t) value;
 - (FullUserProto_Builder*) clearLastEnergyRefillTime;
 
-- (BOOL) hasSkillPoints;
-- (int32_t) skillPoints;
-- (FullUserProto_Builder*) setSkillPoints:(int32_t) value;
-- (FullUserProto_Builder*) clearSkillPoints;
-
 - (BOOL) hasEnergyMax;
 - (int32_t) energyMax;
 - (FullUserProto_Builder*) setEnergyMax:(int32_t) value;
 - (FullUserProto_Builder*) clearEnergyMax;
-
-- (BOOL) hasStaminaMax;
-- (int32_t) staminaMax;
-- (FullUserProto_Builder*) setStaminaMax:(int32_t) value;
-- (FullUserProto_Builder*) clearStaminaMax;
 
 - (BOOL) hasDiamonds;
 - (int32_t) diamonds;
@@ -4684,16 +4625,6 @@ BOOL DialogueProto_SpeechSegmentProto_DialogueSpeakerIsValidValue(DialogueProto_
 - (int32_t) coins;
 - (FullUserProto_Builder*) setCoins:(int32_t) value;
 - (FullUserProto_Builder*) clearCoins;
-
-- (BOOL) hasMarketplaceDiamondsEarnings;
-- (int32_t) marketplaceDiamondsEarnings;
-- (FullUserProto_Builder*) setMarketplaceDiamondsEarnings:(int32_t) value;
-- (FullUserProto_Builder*) clearMarketplaceDiamondsEarnings;
-
-- (BOOL) hasMarketplaceCoinsEarnings;
-- (int32_t) marketplaceCoinsEarnings;
-- (FullUserProto_Builder*) setMarketplaceCoinsEarnings:(int32_t) value;
-- (FullUserProto_Builder*) clearMarketplaceCoinsEarnings;
 
 - (BOOL) hasVaultBalance;
 - (int32_t) vaultBalance;
@@ -4741,16 +4672,6 @@ BOOL DialogueProto_SpeechSegmentProto_DialogueSpeakerIsValidValue(DialogueProto_
 - (FullUserProto_Builder*) setUserLocationBuilder:(LocationProto_Builder*) builderForValue;
 - (FullUserProto_Builder*) mergeUserLocation:(LocationProto*) value;
 - (FullUserProto_Builder*) clearUserLocation;
-
-- (BOOL) hasNumPostsInMarketplace;
-- (int32_t) numPostsInMarketplace;
-- (FullUserProto_Builder*) setNumPostsInMarketplace:(int32_t) value;
-- (FullUserProto_Builder*) clearNumPostsInMarketplace;
-
-- (BOOL) hasNumMarketplaceSalesUnredeemed;
-- (int32_t) numMarketplaceSalesUnredeemed;
-- (FullUserProto_Builder*) setNumMarketplaceSalesUnredeemed:(int32_t) value;
-- (FullUserProto_Builder*) clearNumMarketplaceSalesUnredeemed;
 
 - (BOOL) hasWeaponEquippedUserEquip;
 - (FullUserEquipProto*) weaponEquippedUserEquip;
@@ -4896,6 +4817,31 @@ BOOL DialogueProto_SpeechSegmentProto_DialogueSpeakerIsValidValue(DialogueProto_
 - (FullUserProto_Builder*) setRank:(NSString*) value;
 - (FullUserProto_Builder*) clearRank;
 
+- (BOOL) hasLastTimeQueued;
+- (int64_t) lastTimeQueued;
+- (FullUserProto_Builder*) setLastTimeQueued:(int64_t) value;
+- (FullUserProto_Builder*) clearLastTimeQueued;
+
+- (BOOL) hasAttacksWon;
+- (int32_t) attacksWon;
+- (FullUserProto_Builder*) setAttacksWon:(int32_t) value;
+- (FullUserProto_Builder*) clearAttacksWon;
+
+- (BOOL) hasDefensesWon;
+- (int32_t) defensesWon;
+- (FullUserProto_Builder*) setDefensesWon:(int32_t) value;
+- (FullUserProto_Builder*) clearDefensesWon;
+
+- (BOOL) hasAttacksLost;
+- (int32_t) attacksLost;
+- (FullUserProto_Builder*) setAttacksLost:(int32_t) value;
+- (FullUserProto_Builder*) clearAttacksLost;
+
+- (BOOL) hasDefensesLost;
+- (int32_t) defensesLost;
+- (FullUserProto_Builder*) setDefensesLost:(int32_t) value;
+- (FullUserProto_Builder*) clearDefensesLost;
+
 - (BOOL) hasUdid;
 - (NSString*) udid;
 - (FullUserProto_Builder*) setUdid:(NSString*) value;
@@ -4944,35 +4890,27 @@ BOOL DialogueProto_SpeechSegmentProto_DialogueSpeakerIsValidValue(DialogueProto_
 
 @interface FullEquipProto : PBGeneratedMessage {
 @private
-  BOOL hasIsBuyableInArmory_:1;
-  BOOL hasChanceOfLoss_:1;
   BOOL hasChanceOfForgeFailureBase_:1;
   BOOL hasEquipId_:1;
   BOOL hasAttackBoost_:1;
   BOOL hasDefenseBoost_:1;
   BOOL hasMinLevel_:1;
-  BOOL hasCoinPrice_:1;
-  BOOL hasDiamondPrice_:1;
   BOOL hasMinutesToAttemptForgeBase_:1;
+  BOOL hasMaxDurability_:1;
   BOOL hasName_:1;
   BOOL hasDescription_:1;
   BOOL hasEquipType_:1;
-  BOOL hasClassType_:1;
   BOOL hasRarity_:1;
-  BOOL isBuyableInArmory_:1;
-  Float32 chanceOfLoss;
   Float32 chanceOfForgeFailureBase;
   int32_t equipId;
   int32_t attackBoost;
   int32_t defenseBoost;
   int32_t minLevel;
-  int32_t coinPrice;
-  int32_t diamondPrice;
   int32_t minutesToAttemptForgeBase;
+  int32_t maxDurability;
   NSString* name;
   NSString* description;
   FullEquipProto_EquipType equipType;
-  EquipClassType classType;
   FullEquipProto_Rarity rarity;
 }
 - (BOOL) hasEquipId;
@@ -4982,14 +4920,10 @@ BOOL DialogueProto_SpeechSegmentProto_DialogueSpeakerIsValidValue(DialogueProto_
 - (BOOL) hasAttackBoost;
 - (BOOL) hasDefenseBoost;
 - (BOOL) hasMinLevel;
-- (BOOL) hasCoinPrice;
-- (BOOL) hasDiamondPrice;
-- (BOOL) hasChanceOfLoss;
-- (BOOL) hasClassType;
 - (BOOL) hasRarity;
-- (BOOL) hasIsBuyableInArmory;
 - (BOOL) hasChanceOfForgeFailureBase;
 - (BOOL) hasMinutesToAttemptForgeBase;
+- (BOOL) hasMaxDurability;
 @property (readonly) int32_t equipId;
 @property (readonly, retain) NSString* name;
 @property (readonly) FullEquipProto_EquipType equipType;
@@ -4997,14 +4931,10 @@ BOOL DialogueProto_SpeechSegmentProto_DialogueSpeakerIsValidValue(DialogueProto_
 @property (readonly) int32_t attackBoost;
 @property (readonly) int32_t defenseBoost;
 @property (readonly) int32_t minLevel;
-@property (readonly) int32_t coinPrice;
-@property (readonly) int32_t diamondPrice;
-@property (readonly) Float32 chanceOfLoss;
-@property (readonly) EquipClassType classType;
 @property (readonly) FullEquipProto_Rarity rarity;
-- (BOOL) isBuyableInArmory;
 @property (readonly) Float32 chanceOfForgeFailureBase;
 @property (readonly) int32_t minutesToAttemptForgeBase;
+@property (readonly) int32_t maxDurability;
 
 + (FullEquipProto*) defaultInstance;
 - (FullEquipProto*) defaultInstance;
@@ -5075,35 +5005,10 @@ BOOL DialogueProto_SpeechSegmentProto_DialogueSpeakerIsValidValue(DialogueProto_
 - (FullEquipProto_Builder*) setMinLevel:(int32_t) value;
 - (FullEquipProto_Builder*) clearMinLevel;
 
-- (BOOL) hasCoinPrice;
-- (int32_t) coinPrice;
-- (FullEquipProto_Builder*) setCoinPrice:(int32_t) value;
-- (FullEquipProto_Builder*) clearCoinPrice;
-
-- (BOOL) hasDiamondPrice;
-- (int32_t) diamondPrice;
-- (FullEquipProto_Builder*) setDiamondPrice:(int32_t) value;
-- (FullEquipProto_Builder*) clearDiamondPrice;
-
-- (BOOL) hasChanceOfLoss;
-- (Float32) chanceOfLoss;
-- (FullEquipProto_Builder*) setChanceOfLoss:(Float32) value;
-- (FullEquipProto_Builder*) clearChanceOfLoss;
-
-- (BOOL) hasClassType;
-- (EquipClassType) classType;
-- (FullEquipProto_Builder*) setClassType:(EquipClassType) value;
-- (FullEquipProto_Builder*) clearClassType;
-
 - (BOOL) hasRarity;
 - (FullEquipProto_Rarity) rarity;
 - (FullEquipProto_Builder*) setRarity:(FullEquipProto_Rarity) value;
 - (FullEquipProto_Builder*) clearRarity;
-
-- (BOOL) hasIsBuyableInArmory;
-- (BOOL) isBuyableInArmory;
-- (FullEquipProto_Builder*) setIsBuyableInArmory:(BOOL) value;
-- (FullEquipProto_Builder*) clearIsBuyableInArmory;
 
 - (BOOL) hasChanceOfForgeFailureBase;
 - (Float32) chanceOfForgeFailureBase;
@@ -5114,6 +5019,11 @@ BOOL DialogueProto_SpeechSegmentProto_DialogueSpeakerIsValidValue(DialogueProto_
 - (int32_t) minutesToAttemptForgeBase;
 - (FullEquipProto_Builder*) setMinutesToAttemptForgeBase:(int32_t) value;
 - (FullEquipProto_Builder*) clearMinutesToAttemptForgeBase;
+
+- (BOOL) hasMaxDurability;
+- (int32_t) maxDurability;
+- (FullEquipProto_Builder*) setMaxDurability:(int32_t) value;
+- (FullEquipProto_Builder*) clearMaxDurability;
 @end
 
 @interface FullUserStructureProto : PBGeneratedMessage {
@@ -5254,22 +5164,26 @@ BOOL DialogueProto_SpeechSegmentProto_DialogueSpeakerIsValidValue(DialogueProto_
   BOOL hasEquipId_:1;
   BOOL hasLevel_:1;
   BOOL hasEnhancementPercentage_:1;
+  BOOL hasCurrentDurability_:1;
   int64_t userEquipId;
   int32_t userId;
   int32_t equipId;
   int32_t level;
   int32_t enhancementPercentage;
+  int32_t currentDurability;
 }
 - (BOOL) hasUserEquipId;
 - (BOOL) hasUserId;
 - (BOOL) hasEquipId;
 - (BOOL) hasLevel;
 - (BOOL) hasEnhancementPercentage;
+- (BOOL) hasCurrentDurability;
 @property (readonly) int64_t userEquipId;
 @property (readonly) int32_t userId;
 @property (readonly) int32_t equipId;
 @property (readonly) int32_t level;
 @property (readonly) int32_t enhancementPercentage;
+@property (readonly) int32_t currentDurability;
 
 + (FullUserEquipProto*) defaultInstance;
 - (FullUserEquipProto*) defaultInstance;
@@ -5329,6 +5243,11 @@ BOOL DialogueProto_SpeechSegmentProto_DialogueSpeakerIsValidValue(DialogueProto_
 - (int32_t) enhancementPercentage;
 - (FullUserEquipProto_Builder*) setEnhancementPercentage:(int32_t) value;
 - (FullUserEquipProto_Builder*) clearEnhancementPercentage;
+
+- (BOOL) hasCurrentDurability;
+- (int32_t) currentDurability;
+- (FullUserEquipProto_Builder*) setCurrentDurability:(int32_t) value;
+- (FullUserEquipProto_Builder*) clearCurrentDurability;
 @end
 
 @interface FullStructureProto : PBGeneratedMessage {
@@ -5882,115 +5801,145 @@ BOOL DialogueProto_SpeechSegmentProto_DialogueSpeakerIsValidValue(DialogueProto_
 - (FullCityProto_Builder*) clearBoosterPackId;
 @end
 
-@interface FullUserCityExpansionDataProto : PBGeneratedMessage {
+@interface UserCityExpansionDataProto : PBGeneratedMessage {
 @private
   BOOL hasIsExpanding_:1;
-  BOOL hasLastExpandTime_:1;
+  BOOL hasExpandStartTime_:1;
   BOOL hasUserId_:1;
-  BOOL hasFarLeftExpansions_:1;
-  BOOL hasFarRightExpansions_:1;
-  BOOL hasNearLeftExpansions_:1;
-  BOOL hasNearRightExpansions_:1;
-  BOOL hasLastExpandDirection_:1;
+  BOOL hasXPosition_:1;
+  BOOL hasYPosition_:1;
   BOOL isExpanding_:1;
-  int64_t lastExpandTime;
+  int64_t expandStartTime;
   int32_t userId;
-  int32_t farLeftExpansions;
-  int32_t farRightExpansions;
-  int32_t nearLeftExpansions;
-  int32_t nearRightExpansions;
-  ExpansionDirection lastExpandDirection;
+  int32_t xPosition;
+  int32_t yPosition;
 }
 - (BOOL) hasUserId;
-- (BOOL) hasFarLeftExpansions;
-- (BOOL) hasFarRightExpansions;
-- (BOOL) hasNearLeftExpansions;
-- (BOOL) hasNearRightExpansions;
+- (BOOL) hasXPosition;
+- (BOOL) hasYPosition;
 - (BOOL) hasIsExpanding;
-- (BOOL) hasLastExpandTime;
-- (BOOL) hasLastExpandDirection;
+- (BOOL) hasExpandStartTime;
 @property (readonly) int32_t userId;
-@property (readonly) int32_t farLeftExpansions;
-@property (readonly) int32_t farRightExpansions;
-@property (readonly) int32_t nearLeftExpansions;
-@property (readonly) int32_t nearRightExpansions;
+@property (readonly) int32_t xPosition;
+@property (readonly) int32_t yPosition;
 - (BOOL) isExpanding;
-@property (readonly) int64_t lastExpandTime;
-@property (readonly) ExpansionDirection lastExpandDirection;
+@property (readonly) int64_t expandStartTime;
 
-+ (FullUserCityExpansionDataProto*) defaultInstance;
-- (FullUserCityExpansionDataProto*) defaultInstance;
++ (UserCityExpansionDataProto*) defaultInstance;
+- (UserCityExpansionDataProto*) defaultInstance;
 
 - (BOOL) isInitialized;
 - (void) writeToCodedOutputStream:(PBCodedOutputStream*) output;
-- (FullUserCityExpansionDataProto_Builder*) builder;
-+ (FullUserCityExpansionDataProto_Builder*) builder;
-+ (FullUserCityExpansionDataProto_Builder*) builderWithPrototype:(FullUserCityExpansionDataProto*) prototype;
+- (UserCityExpansionDataProto_Builder*) builder;
++ (UserCityExpansionDataProto_Builder*) builder;
++ (UserCityExpansionDataProto_Builder*) builderWithPrototype:(UserCityExpansionDataProto*) prototype;
 
-+ (FullUserCityExpansionDataProto*) parseFromData:(NSData*) data;
-+ (FullUserCityExpansionDataProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
-+ (FullUserCityExpansionDataProto*) parseFromInputStream:(NSInputStream*) input;
-+ (FullUserCityExpansionDataProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
-+ (FullUserCityExpansionDataProto*) parseFromCodedInputStream:(PBCodedInputStream*) input;
-+ (FullUserCityExpansionDataProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (UserCityExpansionDataProto*) parseFromData:(NSData*) data;
++ (UserCityExpansionDataProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (UserCityExpansionDataProto*) parseFromInputStream:(NSInputStream*) input;
++ (UserCityExpansionDataProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (UserCityExpansionDataProto*) parseFromCodedInputStream:(PBCodedInputStream*) input;
++ (UserCityExpansionDataProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
 @end
 
-@interface FullUserCityExpansionDataProto_Builder : PBGeneratedMessage_Builder {
+@interface UserCityExpansionDataProto_Builder : PBGeneratedMessage_Builder {
 @private
-  FullUserCityExpansionDataProto* result;
+  UserCityExpansionDataProto* result;
 }
 
-- (FullUserCityExpansionDataProto*) defaultInstance;
+- (UserCityExpansionDataProto*) defaultInstance;
 
-- (FullUserCityExpansionDataProto_Builder*) clear;
-- (FullUserCityExpansionDataProto_Builder*) clone;
+- (UserCityExpansionDataProto_Builder*) clear;
+- (UserCityExpansionDataProto_Builder*) clone;
 
-- (FullUserCityExpansionDataProto*) build;
-- (FullUserCityExpansionDataProto*) buildPartial;
+- (UserCityExpansionDataProto*) build;
+- (UserCityExpansionDataProto*) buildPartial;
 
-- (FullUserCityExpansionDataProto_Builder*) mergeFrom:(FullUserCityExpansionDataProto*) other;
-- (FullUserCityExpansionDataProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input;
-- (FullUserCityExpansionDataProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+- (UserCityExpansionDataProto_Builder*) mergeFrom:(UserCityExpansionDataProto*) other;
+- (UserCityExpansionDataProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input;
+- (UserCityExpansionDataProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
 
 - (BOOL) hasUserId;
 - (int32_t) userId;
-- (FullUserCityExpansionDataProto_Builder*) setUserId:(int32_t) value;
-- (FullUserCityExpansionDataProto_Builder*) clearUserId;
+- (UserCityExpansionDataProto_Builder*) setUserId:(int32_t) value;
+- (UserCityExpansionDataProto_Builder*) clearUserId;
 
-- (BOOL) hasFarLeftExpansions;
-- (int32_t) farLeftExpansions;
-- (FullUserCityExpansionDataProto_Builder*) setFarLeftExpansions:(int32_t) value;
-- (FullUserCityExpansionDataProto_Builder*) clearFarLeftExpansions;
+- (BOOL) hasXPosition;
+- (int32_t) xPosition;
+- (UserCityExpansionDataProto_Builder*) setXPosition:(int32_t) value;
+- (UserCityExpansionDataProto_Builder*) clearXPosition;
 
-- (BOOL) hasFarRightExpansions;
-- (int32_t) farRightExpansions;
-- (FullUserCityExpansionDataProto_Builder*) setFarRightExpansions:(int32_t) value;
-- (FullUserCityExpansionDataProto_Builder*) clearFarRightExpansions;
-
-- (BOOL) hasNearLeftExpansions;
-- (int32_t) nearLeftExpansions;
-- (FullUserCityExpansionDataProto_Builder*) setNearLeftExpansions:(int32_t) value;
-- (FullUserCityExpansionDataProto_Builder*) clearNearLeftExpansions;
-
-- (BOOL) hasNearRightExpansions;
-- (int32_t) nearRightExpansions;
-- (FullUserCityExpansionDataProto_Builder*) setNearRightExpansions:(int32_t) value;
-- (FullUserCityExpansionDataProto_Builder*) clearNearRightExpansions;
+- (BOOL) hasYPosition;
+- (int32_t) yPosition;
+- (UserCityExpansionDataProto_Builder*) setYPosition:(int32_t) value;
+- (UserCityExpansionDataProto_Builder*) clearYPosition;
 
 - (BOOL) hasIsExpanding;
 - (BOOL) isExpanding;
-- (FullUserCityExpansionDataProto_Builder*) setIsExpanding:(BOOL) value;
-- (FullUserCityExpansionDataProto_Builder*) clearIsExpanding;
+- (UserCityExpansionDataProto_Builder*) setIsExpanding:(BOOL) value;
+- (UserCityExpansionDataProto_Builder*) clearIsExpanding;
 
-- (BOOL) hasLastExpandTime;
-- (int64_t) lastExpandTime;
-- (FullUserCityExpansionDataProto_Builder*) setLastExpandTime:(int64_t) value;
-- (FullUserCityExpansionDataProto_Builder*) clearLastExpandTime;
+- (BOOL) hasExpandStartTime;
+- (int64_t) expandStartTime;
+- (UserCityExpansionDataProto_Builder*) setExpandStartTime:(int64_t) value;
+- (UserCityExpansionDataProto_Builder*) clearExpandStartTime;
+@end
 
-- (BOOL) hasLastExpandDirection;
-- (ExpansionDirection) lastExpandDirection;
-- (FullUserCityExpansionDataProto_Builder*) setLastExpandDirection:(ExpansionDirection) value;
-- (FullUserCityExpansionDataProto_Builder*) clearLastExpandDirection;
+@interface CityExpansionCostProto : PBGeneratedMessage {
+@private
+  BOOL hasExpansionNum_:1;
+  BOOL hasExpansionCost_:1;
+  int32_t expansionNum;
+  int32_t expansionCost;
+}
+- (BOOL) hasExpansionNum;
+- (BOOL) hasExpansionCost;
+@property (readonly) int32_t expansionNum;
+@property (readonly) int32_t expansionCost;
+
++ (CityExpansionCostProto*) defaultInstance;
+- (CityExpansionCostProto*) defaultInstance;
+
+- (BOOL) isInitialized;
+- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output;
+- (CityExpansionCostProto_Builder*) builder;
++ (CityExpansionCostProto_Builder*) builder;
++ (CityExpansionCostProto_Builder*) builderWithPrototype:(CityExpansionCostProto*) prototype;
+
++ (CityExpansionCostProto*) parseFromData:(NSData*) data;
++ (CityExpansionCostProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (CityExpansionCostProto*) parseFromInputStream:(NSInputStream*) input;
++ (CityExpansionCostProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (CityExpansionCostProto*) parseFromCodedInputStream:(PBCodedInputStream*) input;
++ (CityExpansionCostProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+@end
+
+@interface CityExpansionCostProto_Builder : PBGeneratedMessage_Builder {
+@private
+  CityExpansionCostProto* result;
+}
+
+- (CityExpansionCostProto*) defaultInstance;
+
+- (CityExpansionCostProto_Builder*) clear;
+- (CityExpansionCostProto_Builder*) clone;
+
+- (CityExpansionCostProto*) build;
+- (CityExpansionCostProto*) buildPartial;
+
+- (CityExpansionCostProto_Builder*) mergeFrom:(CityExpansionCostProto*) other;
+- (CityExpansionCostProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input;
+- (CityExpansionCostProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+
+- (BOOL) hasExpansionNum;
+- (int32_t) expansionNum;
+- (CityExpansionCostProto_Builder*) setExpansionNum:(int32_t) value;
+- (CityExpansionCostProto_Builder*) clearExpansionNum;
+
+- (BOOL) hasExpansionCost;
+- (int32_t) expansionCost;
+- (CityExpansionCostProto_Builder*) setExpansionCost:(int32_t) value;
+- (CityExpansionCostProto_Builder*) clearExpansionCost;
 @end
 
 @interface FullUserCityProto : PBGeneratedMessage {
@@ -6302,130 +6251,6 @@ BOOL DialogueProto_SpeechSegmentProto_DialogueSpeakerIsValidValue(DialogueProto_
 - (StructOrientation) orientation;
 - (NeutralCityElementProto_Builder*) setOrientation:(StructOrientation) value;
 - (NeutralCityElementProto_Builder*) clearOrientation;
-@end
-
-@interface FullMarketplacePostProto : PBGeneratedMessage {
-@private
-  BOOL hasTimeOfPost_:1;
-  BOOL hasMarketplacePostId_:1;
-  BOOL hasDiamondCost_:1;
-  BOOL hasCoinCost_:1;
-  BOOL hasEquipLevel_:1;
-  BOOL hasEquipEnhancementPercent_:1;
-  BOOL hasPoster_:1;
-  BOOL hasPostedEquip_:1;
-  BOOL hasPostType_:1;
-  int64_t timeOfPost;
-  int32_t marketplacePostId;
-  int32_t diamondCost;
-  int32_t coinCost;
-  int32_t equipLevel;
-  int32_t equipEnhancementPercent;
-  MinimumUserProto* poster;
-  FullEquipProto* postedEquip;
-  MarketplacePostType postType;
-}
-- (BOOL) hasMarketplacePostId;
-- (BOOL) hasPoster;
-- (BOOL) hasPostType;
-- (BOOL) hasTimeOfPost;
-- (BOOL) hasPostedEquip;
-- (BOOL) hasDiamondCost;
-- (BOOL) hasCoinCost;
-- (BOOL) hasEquipLevel;
-- (BOOL) hasEquipEnhancementPercent;
-@property (readonly) int32_t marketplacePostId;
-@property (readonly, retain) MinimumUserProto* poster;
-@property (readonly) MarketplacePostType postType;
-@property (readonly) int64_t timeOfPost;
-@property (readonly, retain) FullEquipProto* postedEquip;
-@property (readonly) int32_t diamondCost;
-@property (readonly) int32_t coinCost;
-@property (readonly) int32_t equipLevel;
-@property (readonly) int32_t equipEnhancementPercent;
-
-+ (FullMarketplacePostProto*) defaultInstance;
-- (FullMarketplacePostProto*) defaultInstance;
-
-- (BOOL) isInitialized;
-- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output;
-- (FullMarketplacePostProto_Builder*) builder;
-+ (FullMarketplacePostProto_Builder*) builder;
-+ (FullMarketplacePostProto_Builder*) builderWithPrototype:(FullMarketplacePostProto*) prototype;
-
-+ (FullMarketplacePostProto*) parseFromData:(NSData*) data;
-+ (FullMarketplacePostProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
-+ (FullMarketplacePostProto*) parseFromInputStream:(NSInputStream*) input;
-+ (FullMarketplacePostProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
-+ (FullMarketplacePostProto*) parseFromCodedInputStream:(PBCodedInputStream*) input;
-+ (FullMarketplacePostProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
-@end
-
-@interface FullMarketplacePostProto_Builder : PBGeneratedMessage_Builder {
-@private
-  FullMarketplacePostProto* result;
-}
-
-- (FullMarketplacePostProto*) defaultInstance;
-
-- (FullMarketplacePostProto_Builder*) clear;
-- (FullMarketplacePostProto_Builder*) clone;
-
-- (FullMarketplacePostProto*) build;
-- (FullMarketplacePostProto*) buildPartial;
-
-- (FullMarketplacePostProto_Builder*) mergeFrom:(FullMarketplacePostProto*) other;
-- (FullMarketplacePostProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input;
-- (FullMarketplacePostProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
-
-- (BOOL) hasMarketplacePostId;
-- (int32_t) marketplacePostId;
-- (FullMarketplacePostProto_Builder*) setMarketplacePostId:(int32_t) value;
-- (FullMarketplacePostProto_Builder*) clearMarketplacePostId;
-
-- (BOOL) hasPoster;
-- (MinimumUserProto*) poster;
-- (FullMarketplacePostProto_Builder*) setPoster:(MinimumUserProto*) value;
-- (FullMarketplacePostProto_Builder*) setPosterBuilder:(MinimumUserProto_Builder*) builderForValue;
-- (FullMarketplacePostProto_Builder*) mergePoster:(MinimumUserProto*) value;
-- (FullMarketplacePostProto_Builder*) clearPoster;
-
-- (BOOL) hasPostType;
-- (MarketplacePostType) postType;
-- (FullMarketplacePostProto_Builder*) setPostType:(MarketplacePostType) value;
-- (FullMarketplacePostProto_Builder*) clearPostType;
-
-- (BOOL) hasTimeOfPost;
-- (int64_t) timeOfPost;
-- (FullMarketplacePostProto_Builder*) setTimeOfPost:(int64_t) value;
-- (FullMarketplacePostProto_Builder*) clearTimeOfPost;
-
-- (BOOL) hasPostedEquip;
-- (FullEquipProto*) postedEquip;
-- (FullMarketplacePostProto_Builder*) setPostedEquip:(FullEquipProto*) value;
-- (FullMarketplacePostProto_Builder*) setPostedEquipBuilder:(FullEquipProto_Builder*) builderForValue;
-- (FullMarketplacePostProto_Builder*) mergePostedEquip:(FullEquipProto*) value;
-- (FullMarketplacePostProto_Builder*) clearPostedEquip;
-
-- (BOOL) hasDiamondCost;
-- (int32_t) diamondCost;
-- (FullMarketplacePostProto_Builder*) setDiamondCost:(int32_t) value;
-- (FullMarketplacePostProto_Builder*) clearDiamondCost;
-
-- (BOOL) hasCoinCost;
-- (int32_t) coinCost;
-- (FullMarketplacePostProto_Builder*) setCoinCost:(int32_t) value;
-- (FullMarketplacePostProto_Builder*) clearCoinCost;
-
-- (BOOL) hasEquipLevel;
-- (int32_t) equipLevel;
-- (FullMarketplacePostProto_Builder*) setEquipLevel:(int32_t) value;
-- (FullMarketplacePostProto_Builder*) clearEquipLevel;
-
-- (BOOL) hasEquipEnhancementPercent;
-- (int32_t) equipEnhancementPercent;
-- (FullMarketplacePostProto_Builder*) setEquipEnhancementPercent:(int32_t) value;
-- (FullMarketplacePostProto_Builder*) clearEquipEnhancementPercent;
 @end
 
 @interface FullUserCritstructProto : PBGeneratedMessage {

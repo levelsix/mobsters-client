@@ -133,7 +133,9 @@ NSString *ccRemoveHDSuffixFromFile( NSString *path )
 		if( !validate || [__localFileManager fileExistsAtPath:retinaName] )
 			return retinaName;
 
-		CCLOG(@"cocos2d: CCFileUtils: Warning HD file not found: %@", [retinaName lastPathComponent] );
+    if (![extension isEqualToString:@"plist"]) {
+      CCLOG(@"cocos2d: CCFileUtils: Warning HD file not found: %@", [retinaName lastPathComponent] );
+    }
 	}
 	
 #endif // CC_IS_RETINA_DISPLAY_SUPPORTED

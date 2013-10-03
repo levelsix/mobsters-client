@@ -87,5 +87,6 @@
 + (CCScene *) scene;
 + (GameLayer *) sharedGameLayer;
 + (void) purgeSingleton;
++ (BOOL) isInitialized;
 
 @end

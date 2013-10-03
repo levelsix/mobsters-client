@@ -11,24 +11,16 @@
 #import "Globals.h"
 #import "SoundEngine.h"
 #import "AnimatedSprite.h"
+#import "CCAnimation+SpriteLoading.h"
 
 @implementation MyPlayer
-
-@synthesize walkActionD = _walkActionD;
-@synthesize walkActionF = _walkActionF;
-@synthesize walkActionLR = _walkActionLR;
-@synthesize walkActionN = _walkActionN;
-@synthesize walkActionU = _walkActionU;
-@synthesize sprite = _sprite;
-@synthesize currentAction = _currentAction;
-@synthesize agAnimation = _agAnimation;
 
 - (id) initWithLocation:(CGRect)loc map:(GameMap *)map {
   if ((self = [super initWithFile:nil location:loc map:map])) {
     GameState *gs = [GameState sharedGameState];
     NSString *prefix = [Globals animatedSpritePrefix:gs.type];
     
-    [self schedule:@selector(incrementalLoad) interval:0.1f];
+//    [self schedule:@selector(incrementalLoad) interval:0.1f];
     
     // Create sprite
     self.contentSize = CGSizeMake(40, 70);
@@ -39,6 +31,13 @@
     self.sprite.position = ccpAdd(ccp(self.contentSize.width/2, self.contentSize.height/2), ccp(cp.x, cp.y+5));
     
     [self addChild:_sprite z:5 tag:9999];
+    
+    CCSprite *s = [CCSprite spriteWithFile:@"shadow.png"];
+    [self addChild:s];
+    s.position = ccp(self.contentSize.width/2, 5);
+    
+    [[CCSpriteFrameCache sharedSpriteFrameCache] addSpriteFramesWithFile:@"MafiaManRunNF.plist"];
+    [self setUpAnimations:prefix];
   }
   return self;
 }
@@ -53,7 +52,7 @@
   NSString *prefix = [Globals animatedSpritePrefix:gs.type];
   switch (_incrementalLoadCounter) {
     case 0:
-      [[CCSpriteFrameCache sharedSpriteFrameCache] addSpriteFramesWithFile:[NSString stringWithFormat:@"%@WalkNF.plist",prefix]];
+      [[CCSpriteFrameCache sharedSpriteFrameCache] addSpriteFramesWithFile:@"MafiaManRunNF.plist"];
       break;
       
     case 1:
@@ -82,7 +81,7 @@
   //Creating animation for Near
   NSMutableArray *walkAnimN= [NSMutableArray array];
   for(int i = 0; true; ++i) {
-    NSString *file = [NSString stringWithFormat:@"%@WalkN%02d.png",prefix, i];
+    NSString *file = [NSString stringWithFormat:@"MafiaManRunN%02d@2x.png", i];
     BOOL exists = [[CCSpriteFrameCache sharedSpriteFrameCache] containsFrame:file];
     if (exists) {
       CCSpriteFrame *frame = [[CCSpriteFrameCache sharedSpriteFrameCache] spriteFrameByName:file];
@@ -98,7 +97,7 @@
   //Creating animation for far
   NSMutableArray *walkAnimF= [NSMutableArray array];
   for(int i = 0; true; ++i) {
-    NSString *file = [NSString stringWithFormat:@"%@WalkF%02d.png",prefix, i];
+    NSString *file = [NSString stringWithFormat:@"MafiaManRunF%02d@2x.png", i];
     BOOL exists = [[CCSpriteFrameCache sharedSpriteFrameCache] containsFrame:file];
     if (exists) {
       CCSpriteFrame *frame = [[CCSpriteFrameCache sharedSpriteFrameCache] spriteFrameByName:file];
@@ -110,55 +109,7 @@
   CCAnimation *walkAnimationF = [CCAnimation animationWithFrames:walkAnimF delay:ANIMATATION_DELAY];
   self.walkActionF = [CCRepeatForever actionWithAction:[CCAnimate actionWithAnimation:walkAnimationF restoreOriginalFrame:NO]];
   
-  //creating animation for walking up
-  NSMutableArray *walkAnimU = [NSMutableArray array];
-  for(int i = 0; true; ++i) {
-    NSString *file = [NSString stringWithFormat:@"%@WalkU%02d.png",prefix, i];
-    BOOL exists = [[CCSpriteFrameCache sharedSpriteFrameCache] containsFrame:file];
-    if (exists) {
-      CCSpriteFrame *frame = [[CCSpriteFrameCache sharedSpriteFrameCache] spriteFrameByName:file];
-      [walkAnimU addObject:frame];
-    } else {
-      break;
-    }
-  }
-  
-  CCAnimation *walkAnimationU = [CCAnimation animationWithFrames:walkAnimU delay:ANIMATATION_DELAY];
-  self.walkActionU = [CCRepeatForever actionWithAction:[CCAnimate actionWithAnimation:walkAnimationU restoreOriginalFrame:NO]];
-  
-  //create animation for walking down
-  NSMutableArray *walkAnimD= [NSMutableArray array];
-  for(int i = 0; true; ++i) {
-    NSString *file = [NSString stringWithFormat:@"%@WalkD%02d.png",prefix, i];
-    BOOL exists = [[CCSpriteFrameCache sharedSpriteFrameCache] containsFrame:file];
-    if (exists) {
-      CCSpriteFrame *frame = [[CCSpriteFrameCache sharedSpriteFrameCache] spriteFrameByName:file];
-      [walkAnimD addObject:frame];
-    } else {
-      break;
-    }
-  }
-  
-  CCAnimation *walkAnimationD = [CCAnimation animationWithFrames:walkAnimD delay:ANIMATATION_DELAY];
-  self.walkActionD = [CCRepeatForever actionWithAction:[CCAnimate actionWithAnimation:walkAnimationD restoreOriginalFrame:NO]];
-  
-  //create animation for left and right
-  NSMutableArray *walkAnimLR = [NSMutableArray array];
-  for(int i = 0; true; ++i) {
-    NSString *file = [NSString stringWithFormat:@"%@WalkLR%02d.png", prefix, i];
-    BOOL exists = [[CCSpriteFrameCache sharedSpriteFrameCache] containsFrame:file];
-    if (exists) {
-      CCSpriteFrame *frame = [[CCSpriteFrameCache sharedSpriteFrameCache] spriteFrameByName:file];
-      [walkAnimLR addObject:frame];
-    } else {
-      break;
-    }
-  }
-  
-  CCAnimation *walkAnimationLR = [CCAnimation animationWithFrames:walkAnimLR delay:ANIMATATION_DELAY];
-  self.walkActionLR = [CCRepeatForever actionWithAction:[CCAnimate actionWithAnimation:walkAnimationLR restoreOriginalFrame:NO]];
-  
-  NSString *name1 = [NSString stringWithFormat:@"%@WalkD00.png",prefix];
+  NSString *name1 = @"MafiaManRunN00@2x.png";
   CCSpriteFrame *frame = nil;
   if ([[CCSpriteFrameCache sharedSpriteFrameCache] containsFrame:name1]) {
     frame = [[CCSpriteFrameCache sharedSpriteFrameCache] spriteFrameByName:name1];
@@ -264,6 +215,23 @@
   self.location = r;
 }
 
+- (void) performAttackAnimation {
+  [[CCSpriteFrameCache sharedSpriteFrameCache] addSpriteFramesWithFile:@"MafiaManAttackNF.plist"];
+  
+  //create animation for left and right
+  NSMutableArray *agArray = [NSMutableArray array];
+  for(int i = 0; true; ++i) {
+    CCSpriteFrame *frame = [[CCSpriteFrameCache sharedSpriteFrameCache] spriteFrameByName:[NSString stringWithFormat:@"MafiaManAttackF%02d@2x.png", i]];
+    if (frame) {
+      [agArray addObject:frame];
+    } else {
+      break;
+    }
+  }
+  
+  [self.sprite runAction:[CCRepeat actionWithAction:[CCAnimate actionWithAnimation:[CCAnimation animationWithFrames:agArray delay:ANIMATATION_DELAY] restoreOriginalFrame:NO] times:3]];
+}
+
 - (void) repeatCurrentAttackAnimation {
   if(_shouldContinueAnimation) {
     CCAction *agAction = [CCSequence actions:[CCAnimate actionWithAnimation:_agAnimation restoreOriginalFrame:NO],
@@ -317,28 +285,16 @@
   if(distance <=100){
     CCAction *newAction = nil;
     
-    if (angle >= 165 || angle <= -165) {
-      self.sprite.flipX = NO;
-      newAction = self.walkActionLR;
-    } else if (angle >= 120) {
+    if (angle <= 180 && angle >= 90) {
       self.sprite.flipX = NO;
       newAction = self.walkActionF;
-    } else if (angle >= 60) {
-      self.sprite.flipX = NO; 
-      newAction = self.walkActionU;
-    } else if (angle >= 15) {
+    } else if (angle >= 0) {
       self.sprite.flipX = YES;
       newAction = self.walkActionF;
-    } else if (angle >= -15) {
-      self.sprite.flipX = YES;
-      newAction = self.walkActionLR;
-    } else if (angle >= -60) {
+    } else if (angle >= -90) {
       self.sprite.flipX = YES;
       newAction = self.walkActionN;
-    } else if (angle >= -120) {
-      self.sprite.flipX = NO;
-      newAction = self.walkActionD;
-    } else if (angle >= -165) {
+    } else {
       self.sprite.flipX = NO;
       newAction = self.walkActionN;
     }
@@ -375,14 +331,14 @@
     }
     CGRect startingPosition = startingLocation;
     
-    if (!self.walkActionU) {
+    if (!self.walkActionF) {
       return;
     }
     
     [self setLocation:startingPosition];
     [self.sprite stopAllActions];
     [self stopAllActions];
-    [self.sprite runAction:self.walkActionU];
+    [self.sprite runAction:self.walkActionF];
     
     float dist = ccpDistance([_map convertTilePointToCCPoint:startingPosition.origin], [_map convertTilePointToCCPoint:loc.origin]);
     [self runAction:[CCSequence actions:[MoveToLocation actionWithDuration:dist/MY_WALKING_SPEED location:loc], [CCCallBlock actionWithBlock:^{

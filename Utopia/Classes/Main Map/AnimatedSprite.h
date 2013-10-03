@@ -23,12 +23,6 @@
 
 @class MissionMap;
 
-@interface CCSpriteFrameCache (FrameCheck)
-
-- (BOOL) containsFrame:(NSString *)frameName;
-
-@end
-
 @interface CharacterSprite : SelectableSprite {
   CCLabelTTF *_nameLabel;
 }

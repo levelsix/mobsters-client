@@ -59,6 +59,10 @@ static CCSpriteFrameCache *sharedSpriteFrameCache_=nil;
 	return sharedSpriteFrameCache_;
 }
 
+- (NSMutableDictionary *)spriteFrames {
+  return spriteFrames_;
+}
+
 +(id)alloc
 {
 	NSAssert(sharedSpriteFrameCache_ == nil, @"Attempted to allocate a second instance of a singleton.");

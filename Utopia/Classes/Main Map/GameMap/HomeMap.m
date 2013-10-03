@@ -50,7 +50,7 @@
 SYNTHESIZE_SINGLETON_FOR_CLASS(HomeMap);
 
 - (id) init {
-  self = [self initWithTMXFile:@"testtilemap.tmx"];
+  self = [self initWithTMXFile:@"Home.tmx"];
   return self;
 }
 
@@ -161,24 +161,24 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(HomeMap);
       [[GameViewController sharedGameViewController] startGame];
     }
     
-    CCSprite *s1 = [CCSprite spriteWithFile:@"backgroundleft.png"];
-    CCSprite *s2 = [CCSprite spriteWithFile:@"backgroundright.png"];
-    [self addChild:s1 z:-1000];
-    [self addChild:s2 z:-1000];
-    
-    s1.position = ccp(s1.contentSize.width/2, s1.contentSize.height/2);
-    s2.position = ccp(s1.position.x+s1.contentSize.width/2+s2.contentSize.width/2, s1.position.y);
-    self.contentSize = CGSizeMake(s2.position.x+s2.contentSize.width/2, s2.position.y+s2.contentSize.height/2);
-    
-    
-    CCSprite *road = [CCSprite spriteWithFile:@"homeroad.png"];
-    [self addChild:road z:-999];
-    road.position = ccp(self.contentSize.width/2+0.5, self.contentSize.height/2+0.5);
-    
+//    CCSprite *s1 = [CCSprite spriteWithFile:@"backgroundleft.png"];
+//    CCSprite *s2 = [CCSprite spriteWithFile:@"backgroundright.png"];
+//    [self addChild:s1 z:-1000];
+//    [self addChild:s2 z:-1000];
+//    
+//    s1.position = ccp(s1.contentSize.width/2, s1.contentSize.height/2);
+//    s2.position = ccp(s1.position.x+s1.contentSize.width/2+s2.contentSize.width/2, s1.position.y);
+//    self.contentSize = CGSizeMake(s2.position.x+s2.contentSize.width/2, s2.position.y+s2.contentSize.height/2);
+//    
+//    
+//    CCSprite *road = [CCSprite spriteWithFile:@"homeroad.png"];
+//    [self addChild:road z:-999];
+//    road.position = ccp(self.contentSize.width/2+0.5, self.contentSize.height/2+0.5);
+//    
     bottomLeftCorner = ccp(0,0);
     topRightCorner = ccp(100000, 100000);//ccp(s2.position.x+s2.contentSize.width/2, s2.position.y+s2.contentSize.height/2);
-    
-    self.scale = 1;
+//
+//    self.scale = 1;
   }
   return self;
 }

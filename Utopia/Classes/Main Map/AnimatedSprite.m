@@ -16,14 +16,7 @@
 #import "CarpenterMenuController.h"
 #import "ProfileViewController.h"
 #import "Globals.h"
-
-@implementation CCSpriteFrameCache (FrameCheck)
-
-- (BOOL) containsFrame:(NSString *)frameName {
-  return [spriteFrames_ objectForKey:frameName] != nil;
-}
-
-@end
+#import "CCAnimation+SpriteLoading.h"
 
 @implementation CharacterSprite
 

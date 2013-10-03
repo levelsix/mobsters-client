@@ -108,9 +108,7 @@ BOOL EarnFreeDiamondsTypeIsValidValue(EarnFreeDiamondsType value) {
 BOOL SpecialQuestActionIsValidValue(SpecialQuestAction value) {
   switch (value) {
     case SpecialQuestActionPurchaseFromArmory:
-    case SpecialQuestActionPurchaseFromMarketplace:
     case SpecialQuestActionSellToArmory:
-    case SpecialQuestActionPostToMarketplace:
     case SpecialQuestActionDepositInVault:
     case SpecialQuestActionWithdrawFromVault:
     case SpecialQuestActionWriteOnEnemyWall:
@@ -144,31 +142,12 @@ BOOL BattleResultIsValidValue(BattleResult value) {
       return NO;
   }
 }
-BOOL MarketplacePostTypeIsValidValue(MarketplacePostType value) {
-  switch (value) {
-    case MarketplacePostTypePremiumEquipPost:
-    case MarketplacePostTypeNormEquipPost:
-      return YES;
-    default:
-      return NO;
-  }
-}
-BOOL MarketplaceJobRequirementTypeIsValidValue(MarketplaceJobRequirementType value) {
-  switch (value) {
-    case MarketplaceJobRequirementTypeBuy:
-    case MarketplaceJobRequirementTypeSell:
-      return YES;
-    default:
-      return NO;
-  }
-}
 BOOL CritStructTypeIsValidValue(CritStructType value) {
   switch (value) {
     case CritStructTypeAviary:
     case CritStructTypeCarpenter:
     case CritStructTypeVault:
     case CritStructTypeArmory:
-    case CritStructTypeMarketplace:
     case CritStructTypeBlacksmith:
       return YES;
     default:
@@ -434,7 +413,7 @@ static TaskStageProto* defaultTaskStageProtoInstance = nil;
 @property (retain) NSString* name;
 @property int32_t maxHp;
 @property (retain) NSString* imageName;
-@property BOOL isBoss;
+@property MonsterProto_MonsterType monsterType;
 @property int32_t weaponId;
 @property int32_t weaponLvl;
 @property int32_t armorId;
@@ -476,18 +455,13 @@ static TaskStageProto* defaultTaskStageProtoInstance = nil;
   hasImageName_ = !!value;
 }
 @synthesize imageName;
-- (BOOL) hasIsBoss {
-  return !!hasIsBoss_;
+- (BOOL) hasMonsterType {
+  return !!hasMonsterType_;
 }
-- (void) setHasIsBoss:(BOOL) value {
-  hasIsBoss_ = !!value;
+- (void) setHasMonsterType:(BOOL) value {
+  hasMonsterType_ = !!value;
 }
-- (BOOL) isBoss {
-  return !!isBoss_;
-}
-- (void) setIsBoss:(BOOL) value {
-  isBoss_ = !!value;
-}
+@synthesize monsterType;
 - (BOOL) hasWeaponId {
   return !!hasWeaponId_;
 }
@@ -562,7 +536,7 @@ static TaskStageProto* defaultTaskStageProtoInstance = nil;
     self.name = @"";
     self.maxHp = 0;
     self.imageName = @"";
-    self.isBoss = NO;
+    self.monsterType = MonsterProto_MonsterTypeRegular;
     self.weaponId = 0;
     self.weaponLvl = 0;
     self.armorId = 0;
@@ -603,8 +577,8 @@ static MonsterProto* defaultMonsterProtoInstance = nil;
   if (self.hasImageName) {
     [output writeString:4 value:self.imageName];
   }
-  if (self.hasIsBoss) {
-    [output writeBool:5 value:self.isBoss];
+  if (self.hasMonsterType) {
+    [output writeEnum:5 value:self.monsterType];
   }
   if (self.hasWeaponId) {
     [output writeInt32:6 value:self.weaponId];
@@ -654,8 +628,8 @@ static MonsterProto* defaultMonsterProtoInstance = nil;
   if (self.hasImageName) {
     size += computeStringSize(4, self.imageName);
   }
-  if (self.hasIsBoss) {
-    size += computeBoolSize(5, self.isBoss);
+  if (self.hasMonsterType) {
+    size += computeEnumSize(5, self.monsterType);
   }
   if (self.hasWeaponId) {
     size += computeInt32Size(6, self.weaponId);
@@ -717,6 +691,16 @@ static MonsterProto* defaultMonsterProtoInstance = nil;
 }
 @end
 
+BOOL MonsterProto_MonsterTypeIsValidValue(MonsterProto_MonsterType value) {
+  switch (value) {
+    case MonsterProto_MonsterTypeRegular:
+    case MonsterProto_MonsterTypeMiniBoss:
+    case MonsterProto_MonsterTypeBoss:
+      return YES;
+    default:
+      return NO;
+  }
+}
 @interface MonsterProto_Builder()
 @property (retain) MonsterProto* result;
 @end
@@ -771,8 +755,8 @@ static MonsterProto* defaultMonsterProtoInstance = nil;
   if (other.hasImageName) {
     [self setImageName:other.imageName];
   }
-  if (other.hasIsBoss) {
-    [self setIsBoss:other.isBoss];
+  if (other.hasMonsterType) {
+    [self setMonsterType:other.monsterType];
   }
   if (other.hasWeaponId) {
     [self setWeaponId:other.weaponId];
@@ -839,7 +823,12 @@ static MonsterProto* defaultMonsterProtoInstance = nil;
         break;
       }
       case 40: {
-        [self setIsBoss:[input readBool]];
+        int32_t value = [input readEnum];
+        if (MonsterProto_MonsterTypeIsValidValue(value)) {
+          [self setMonsterType:value];
+        } else {
+          [unknownFields mergeVarintField:5 value:value];
+        }
         break;
       }
       case 48: {
@@ -945,20 +934,20 @@ static MonsterProto* defaultMonsterProtoInstance = nil;
   result.imageName = @"";
   return self;
 }
-- (BOOL) hasIsBoss {
-  return result.hasIsBoss;
+- (BOOL) hasMonsterType {
+  return result.hasMonsterType;
 }
-- (BOOL) isBoss {
-  return result.isBoss;
+- (MonsterProto_MonsterType) monsterType {
+  return result.monsterType;
 }
-- (MonsterProto_Builder*) setIsBoss:(BOOL) value {
-  result.hasIsBoss = YES;
-  result.isBoss = value;
+- (MonsterProto_Builder*) setMonsterType:(MonsterProto_MonsterType) value {
+  result.hasMonsterType = YES;
+  result.monsterType = value;
   return self;
 }
-- (MonsterProto_Builder*) clearIsBoss {
-  result.hasIsBoss = NO;
-  result.isBoss = NO;
+- (MonsterProto_Builder*) clearMonsterType {
+  result.hasMonsterType = NO;
+  result.monsterType = MonsterProto_MonsterTypeRegular;
   return self;
 }
 - (BOOL) hasWeaponId {
@@ -16442,19 +16431,11 @@ static MinimumUserProtoWithLevelForLeaderboard* defaultMinimumUserProtoWithLevel
 @property (retain) NSString* name;
 @property int32_t level;
 @property UserType userType;
-@property int32_t attack;
-@property int32_t defense;
-@property int32_t stamina;
-@property int64_t lastStaminaRefillTime;
 @property int32_t energy;
 @property int64_t lastEnergyRefillTime;
-@property int32_t skillPoints;
 @property int32_t energyMax;
-@property int32_t staminaMax;
 @property int32_t diamonds;
 @property int32_t coins;
-@property int32_t marketplaceDiamondsEarnings;
-@property int32_t marketplaceCoinsEarnings;
 @property int32_t vaultBalance;
 @property int32_t experience;
 @property int32_t tasksCompleted;
@@ -16464,8 +16445,6 @@ static MinimumUserProtoWithLevelForLeaderboard* defaultMinimumUserProtoWithLevel
 @property (retain) NSString* referralCode;
 @property int32_t numReferrals;
 @property (retain) LocationProto* userLocation;
-@property int32_t numPostsInMarketplace;
-@property int32_t numMarketplaceSalesUnredeemed;
 @property (retain) FullUserEquipProto* weaponEquippedUserEquip;
 @property (retain) FullUserEquipProto* armorEquippedUserEquip;
 @property (retain) FullUserEquipProto* amuletEquippedUserEquip;
@@ -16492,6 +16471,11 @@ static MinimumUserProtoWithLevelForLeaderboard* defaultMinimumUserProtoWithLevel
 @property int64_t shieldEndTime;
 @property int32_t elo;
 @property (retain) NSString* rank;
+@property int64_t lastTimeQueued;
+@property int32_t attacksWon;
+@property int32_t defensesWon;
+@property int32_t attacksLost;
+@property int32_t defensesLost;
 @property (retain) NSString* udid;
 @property (retain) NSString* deviceToken;
 @property int64_t lastBattleNotificationTime;
@@ -16533,34 +16517,6 @@ static MinimumUserProtoWithLevelForLeaderboard* defaultMinimumUserProtoWithLevel
   hasUserType_ = !!value;
 }
 @synthesize userType;
-- (BOOL) hasAttack {
-  return !!hasAttack_;
-}
-- (void) setHasAttack:(BOOL) value {
-  hasAttack_ = !!value;
-}
-@synthesize attack;
-- (BOOL) hasDefense {
-  return !!hasDefense_;
-}
-- (void) setHasDefense:(BOOL) value {
-  hasDefense_ = !!value;
-}
-@synthesize defense;
-- (BOOL) hasStamina {
-  return !!hasStamina_;
-}
-- (void) setHasStamina:(BOOL) value {
-  hasStamina_ = !!value;
-}
-@synthesize stamina;
-- (BOOL) hasLastStaminaRefillTime {
-  return !!hasLastStaminaRefillTime_;
-}
-- (void) setHasLastStaminaRefillTime:(BOOL) value {
-  hasLastStaminaRefillTime_ = !!value;
-}
-@synthesize lastStaminaRefillTime;
 - (BOOL) hasEnergy {
   return !!hasEnergy_;
 }
@@ -16575,13 +16531,6 @@ static MinimumUserProtoWithLevelForLeaderboard* defaultMinimumUserProtoWithLevel
   hasLastEnergyRefillTime_ = !!value;
 }
 @synthesize lastEnergyRefillTime;
-- (BOOL) hasSkillPoints {
-  return !!hasSkillPoints_;
-}
-- (void) setHasSkillPoints:(BOOL) value {
-  hasSkillPoints_ = !!value;
-}
-@synthesize skillPoints;
 - (BOOL) hasEnergyMax {
   return !!hasEnergyMax_;
 }
@@ -16589,13 +16538,6 @@ static MinimumUserProtoWithLevelForLeaderboard* defaultMinimumUserProtoWithLevel
   hasEnergyMax_ = !!value;
 }
 @synthesize energyMax;
-- (BOOL) hasStaminaMax {
-  return !!hasStaminaMax_;
-}
-- (void) setHasStaminaMax:(BOOL) value {
-  hasStaminaMax_ = !!value;
-}
-@synthesize staminaMax;
 - (BOOL) hasDiamonds {
   return !!hasDiamonds_;
 }
@@ -16610,20 +16552,6 @@ static MinimumUserProtoWithLevelForLeaderboard* defaultMinimumUserProtoWithLevel
   hasCoins_ = !!value;
 }
 @synthesize coins;
-- (BOOL) hasMarketplaceDiamondsEarnings {
-  return !!hasMarketplaceDiamondsEarnings_;
-}
-- (void) setHasMarketplaceDiamondsEarnings:(BOOL) value {
-  hasMarketplaceDiamondsEarnings_ = !!value;
-}
-@synthesize marketplaceDiamondsEarnings;
-- (BOOL) hasMarketplaceCoinsEarnings {
-  return !!hasMarketplaceCoinsEarnings_;
-}
-- (void) setHasMarketplaceCoinsEarnings:(BOOL) value {
-  hasMarketplaceCoinsEarnings_ = !!value;
-}
-@synthesize marketplaceCoinsEarnings;
 - (BOOL) hasVaultBalance {
   return !!hasVaultBalance_;
 }
@@ -16687,20 +16615,6 @@ static MinimumUserProtoWithLevelForLeaderboard* defaultMinimumUserProtoWithLevel
   hasUserLocation_ = !!value;
 }
 @synthesize userLocation;
-- (BOOL) hasNumPostsInMarketplace {
-  return !!hasNumPostsInMarketplace_;
-}
-- (void) setHasNumPostsInMarketplace:(BOOL) value {
-  hasNumPostsInMarketplace_ = !!value;
-}
-@synthesize numPostsInMarketplace;
-- (BOOL) hasNumMarketplaceSalesUnredeemed {
-  return !!hasNumMarketplaceSalesUnredeemed_;
-}
-- (void) setHasNumMarketplaceSalesUnredeemed:(BOOL) value {
-  hasNumMarketplaceSalesUnredeemed_ = !!value;
-}
-@synthesize numMarketplaceSalesUnredeemed;
 - (BOOL) hasWeaponEquippedUserEquip {
   return !!hasWeaponEquippedUserEquip_;
 }
@@ -16908,6 +16822,41 @@ static MinimumUserProtoWithLevelForLeaderboard* defaultMinimumUserProtoWithLevel
   hasRank_ = !!value;
 }
 @synthesize rank;
+- (BOOL) hasLastTimeQueued {
+  return !!hasLastTimeQueued_;
+}
+- (void) setHasLastTimeQueued:(BOOL) value {
+  hasLastTimeQueued_ = !!value;
+}
+@synthesize lastTimeQueued;
+- (BOOL) hasAttacksWon {
+  return !!hasAttacksWon_;
+}
+- (void) setHasAttacksWon:(BOOL) value {
+  hasAttacksWon_ = !!value;
+}
+@synthesize attacksWon;
+- (BOOL) hasDefensesWon {
+  return !!hasDefensesWon_;
+}
+- (void) setHasDefensesWon:(BOOL) value {
+  hasDefensesWon_ = !!value;
+}
+@synthesize defensesWon;
+- (BOOL) hasAttacksLost {
+  return !!hasAttacksLost_;
+}
+- (void) setHasAttacksLost:(BOOL) value {
+  hasAttacksLost_ = !!value;
+}
+@synthesize attacksLost;
+- (BOOL) hasDefensesLost {
+  return !!hasDefensesLost_;
+}
+- (void) setHasDefensesLost:(BOOL) value {
+  hasDefensesLost_ = !!value;
+}
+@synthesize defensesLost;
 - (BOOL) hasUdid {
   return !!hasUdid_;
 }
@@ -16993,19 +16942,11 @@ static MinimumUserProtoWithLevelForLeaderboard* defaultMinimumUserProtoWithLevel
     self.name = @"";
     self.level = 0;
     self.userType = UserTypeGoodWarrior;
-    self.attack = 0;
-    self.defense = 0;
-    self.stamina = 0;
-    self.lastStaminaRefillTime = 0L;
     self.energy = 0;
     self.lastEnergyRefillTime = 0L;
-    self.skillPoints = 0;
     self.energyMax = 0;
-    self.staminaMax = 0;
     self.diamonds = 0;
     self.coins = 0;
-    self.marketplaceDiamondsEarnings = 0;
-    self.marketplaceCoinsEarnings = 0;
     self.vaultBalance = 0;
     self.experience = 0;
     self.tasksCompleted = 0;
@@ -17015,8 +16956,6 @@ static MinimumUserProtoWithLevelForLeaderboard* defaultMinimumUserProtoWithLevel
     self.referralCode = @"";
     self.numReferrals = 0;
     self.userLocation = [LocationProto defaultInstance];
-    self.numPostsInMarketplace = 0;
-    self.numMarketplaceSalesUnredeemed = 0;
     self.weaponEquippedUserEquip = [FullUserEquipProto defaultInstance];
     self.armorEquippedUserEquip = [FullUserEquipProto defaultInstance];
     self.amuletEquippedUserEquip = [FullUserEquipProto defaultInstance];
@@ -17043,6 +16982,11 @@ static MinimumUserProtoWithLevelForLeaderboard* defaultMinimumUserProtoWithLevel
     self.shieldEndTime = 0L;
     self.elo = 0;
     self.rank = @"";
+    self.lastTimeQueued = 0L;
+    self.attacksWon = 0;
+    self.defensesWon = 0;
+    self.attacksLost = 0;
+    self.defensesLost = 0;
     self.udid = @"";
     self.deviceToken = @"";
     self.lastBattleNotificationTime = 0L;
@@ -17083,44 +17027,20 @@ static FullUserProto* defaultFullUserProtoInstance = nil;
   if (self.hasUserType) {
     [output writeEnum:4 value:self.userType];
   }
-  if (self.hasAttack) {
-    [output writeInt32:5 value:self.attack];
-  }
-  if (self.hasDefense) {
-    [output writeInt32:6 value:self.defense];
-  }
-  if (self.hasStamina) {
-    [output writeInt32:7 value:self.stamina];
-  }
-  if (self.hasLastStaminaRefillTime) {
-    [output writeInt64:8 value:self.lastStaminaRefillTime];
-  }
   if (self.hasEnergy) {
     [output writeInt32:10 value:self.energy];
   }
   if (self.hasLastEnergyRefillTime) {
     [output writeInt64:11 value:self.lastEnergyRefillTime];
   }
-  if (self.hasSkillPoints) {
-    [output writeInt32:13 value:self.skillPoints];
-  }
   if (self.hasEnergyMax) {
     [output writeInt32:15 value:self.energyMax];
-  }
-  if (self.hasStaminaMax) {
-    [output writeInt32:16 value:self.staminaMax];
   }
   if (self.hasDiamonds) {
     [output writeInt32:17 value:self.diamonds];
   }
   if (self.hasCoins) {
     [output writeInt32:18 value:self.coins];
-  }
-  if (self.hasMarketplaceDiamondsEarnings) {
-    [output writeInt32:19 value:self.marketplaceDiamondsEarnings];
-  }
-  if (self.hasMarketplaceCoinsEarnings) {
-    [output writeInt32:20 value:self.marketplaceCoinsEarnings];
   }
   if (self.hasVaultBalance) {
     [output writeInt32:21 value:self.vaultBalance];
@@ -17148,12 +17068,6 @@ static FullUserProto* defaultFullUserProtoInstance = nil;
   }
   if (self.hasUserLocation) {
     [output writeMessage:30 value:self.userLocation];
-  }
-  if (self.hasNumPostsInMarketplace) {
-    [output writeInt32:31 value:self.numPostsInMarketplace];
-  }
-  if (self.hasNumMarketplaceSalesUnredeemed) {
-    [output writeInt32:32 value:self.numMarketplaceSalesUnredeemed];
   }
   if (self.hasWeaponEquippedUserEquip) {
     [output writeMessage:33 value:self.weaponEquippedUserEquip];
@@ -17260,6 +17174,21 @@ static FullUserProto* defaultFullUserProtoInstance = nil;
   if (self.hasRank) {
     [output writeString:68 value:self.rank];
   }
+  if (self.hasLastTimeQueued) {
+    [output writeInt64:69 value:self.lastTimeQueued];
+  }
+  if (self.hasAttacksWon) {
+    [output writeInt32:70 value:self.attacksWon];
+  }
+  if (self.hasDefensesWon) {
+    [output writeInt32:71 value:self.defensesWon];
+  }
+  if (self.hasAttacksLost) {
+    [output writeInt32:72 value:self.attacksLost];
+  }
+  if (self.hasDefensesLost) {
+    [output writeInt32:73 value:self.defensesLost];
+  }
   [self.unknownFields writeToCodedOutputStream:output];
 }
 - (int32_t) serializedSize {
@@ -17281,44 +17210,20 @@ static FullUserProto* defaultFullUserProtoInstance = nil;
   if (self.hasUserType) {
     size += computeEnumSize(4, self.userType);
   }
-  if (self.hasAttack) {
-    size += computeInt32Size(5, self.attack);
-  }
-  if (self.hasDefense) {
-    size += computeInt32Size(6, self.defense);
-  }
-  if (self.hasStamina) {
-    size += computeInt32Size(7, self.stamina);
-  }
-  if (self.hasLastStaminaRefillTime) {
-    size += computeInt64Size(8, self.lastStaminaRefillTime);
-  }
   if (self.hasEnergy) {
     size += computeInt32Size(10, self.energy);
   }
   if (self.hasLastEnergyRefillTime) {
     size += computeInt64Size(11, self.lastEnergyRefillTime);
   }
-  if (self.hasSkillPoints) {
-    size += computeInt32Size(13, self.skillPoints);
-  }
   if (self.hasEnergyMax) {
     size += computeInt32Size(15, self.energyMax);
-  }
-  if (self.hasStaminaMax) {
-    size += computeInt32Size(16, self.staminaMax);
   }
   if (self.hasDiamonds) {
     size += computeInt32Size(17, self.diamonds);
   }
   if (self.hasCoins) {
     size += computeInt32Size(18, self.coins);
-  }
-  if (self.hasMarketplaceDiamondsEarnings) {
-    size += computeInt32Size(19, self.marketplaceDiamondsEarnings);
-  }
-  if (self.hasMarketplaceCoinsEarnings) {
-    size += computeInt32Size(20, self.marketplaceCoinsEarnings);
   }
   if (self.hasVaultBalance) {
     size += computeInt32Size(21, self.vaultBalance);
@@ -17346,12 +17251,6 @@ static FullUserProto* defaultFullUserProtoInstance = nil;
   }
   if (self.hasUserLocation) {
     size += computeMessageSize(30, self.userLocation);
-  }
-  if (self.hasNumPostsInMarketplace) {
-    size += computeInt32Size(31, self.numPostsInMarketplace);
-  }
-  if (self.hasNumMarketplaceSalesUnredeemed) {
-    size += computeInt32Size(32, self.numMarketplaceSalesUnredeemed);
   }
   if (self.hasWeaponEquippedUserEquip) {
     size += computeMessageSize(33, self.weaponEquippedUserEquip);
@@ -17458,6 +17357,21 @@ static FullUserProto* defaultFullUserProtoInstance = nil;
   if (self.hasRank) {
     size += computeStringSize(68, self.rank);
   }
+  if (self.hasLastTimeQueued) {
+    size += computeInt64Size(69, self.lastTimeQueued);
+  }
+  if (self.hasAttacksWon) {
+    size += computeInt32Size(70, self.attacksWon);
+  }
+  if (self.hasDefensesWon) {
+    size += computeInt32Size(71, self.defensesWon);
+  }
+  if (self.hasAttacksLost) {
+    size += computeInt32Size(72, self.attacksLost);
+  }
+  if (self.hasDefensesLost) {
+    size += computeInt32Size(73, self.defensesLost);
+  }
   size += self.unknownFields.serializedSize;
   memoizedSerializedSize = size;
   return size;
@@ -17545,44 +17459,20 @@ static FullUserProto* defaultFullUserProtoInstance = nil;
   if (other.hasUserType) {
     [self setUserType:other.userType];
   }
-  if (other.hasAttack) {
-    [self setAttack:other.attack];
-  }
-  if (other.hasDefense) {
-    [self setDefense:other.defense];
-  }
-  if (other.hasStamina) {
-    [self setStamina:other.stamina];
-  }
-  if (other.hasLastStaminaRefillTime) {
-    [self setLastStaminaRefillTime:other.lastStaminaRefillTime];
-  }
   if (other.hasEnergy) {
     [self setEnergy:other.energy];
   }
   if (other.hasLastEnergyRefillTime) {
     [self setLastEnergyRefillTime:other.lastEnergyRefillTime];
   }
-  if (other.hasSkillPoints) {
-    [self setSkillPoints:other.skillPoints];
-  }
   if (other.hasEnergyMax) {
     [self setEnergyMax:other.energyMax];
-  }
-  if (other.hasStaminaMax) {
-    [self setStaminaMax:other.staminaMax];
   }
   if (other.hasDiamonds) {
     [self setDiamonds:other.diamonds];
   }
   if (other.hasCoins) {
     [self setCoins:other.coins];
-  }
-  if (other.hasMarketplaceDiamondsEarnings) {
-    [self setMarketplaceDiamondsEarnings:other.marketplaceDiamondsEarnings];
-  }
-  if (other.hasMarketplaceCoinsEarnings) {
-    [self setMarketplaceCoinsEarnings:other.marketplaceCoinsEarnings];
   }
   if (other.hasVaultBalance) {
     [self setVaultBalance:other.vaultBalance];
@@ -17610,12 +17500,6 @@ static FullUserProto* defaultFullUserProtoInstance = nil;
   }
   if (other.hasUserLocation) {
     [self mergeUserLocation:other.userLocation];
-  }
-  if (other.hasNumPostsInMarketplace) {
-    [self setNumPostsInMarketplace:other.numPostsInMarketplace];
-  }
-  if (other.hasNumMarketplaceSalesUnredeemed) {
-    [self setNumMarketplaceSalesUnredeemed:other.numMarketplaceSalesUnredeemed];
   }
   if (other.hasWeaponEquippedUserEquip) {
     [self mergeWeaponEquippedUserEquip:other.weaponEquippedUserEquip];
@@ -17695,6 +17579,21 @@ static FullUserProto* defaultFullUserProtoInstance = nil;
   if (other.hasRank) {
     [self setRank:other.rank];
   }
+  if (other.hasLastTimeQueued) {
+    [self setLastTimeQueued:other.lastTimeQueued];
+  }
+  if (other.hasAttacksWon) {
+    [self setAttacksWon:other.attacksWon];
+  }
+  if (other.hasDefensesWon) {
+    [self setDefensesWon:other.defensesWon];
+  }
+  if (other.hasAttacksLost) {
+    [self setAttacksLost:other.attacksLost];
+  }
+  if (other.hasDefensesLost) {
+    [self setDefensesLost:other.defensesLost];
+  }
   if (other.hasUdid) {
     [self setUdid:other.udid];
   }
@@ -17764,22 +17663,6 @@ static FullUserProto* defaultFullUserProtoInstance = nil;
         }
         break;
       }
-      case 40: {
-        [self setAttack:[input readInt32]];
-        break;
-      }
-      case 48: {
-        [self setDefense:[input readInt32]];
-        break;
-      }
-      case 56: {
-        [self setStamina:[input readInt32]];
-        break;
-      }
-      case 64: {
-        [self setLastStaminaRefillTime:[input readInt64]];
-        break;
-      }
       case 80: {
         [self setEnergy:[input readInt32]];
         break;
@@ -17788,16 +17671,8 @@ static FullUserProto* defaultFullUserProtoInstance = nil;
         [self setLastEnergyRefillTime:[input readInt64]];
         break;
       }
-      case 104: {
-        [self setSkillPoints:[input readInt32]];
-        break;
-      }
       case 120: {
         [self setEnergyMax:[input readInt32]];
-        break;
-      }
-      case 128: {
-        [self setStaminaMax:[input readInt32]];
         break;
       }
       case 136: {
@@ -17806,14 +17681,6 @@ static FullUserProto* defaultFullUserProtoInstance = nil;
       }
       case 144: {
         [self setCoins:[input readInt32]];
-        break;
-      }
-      case 152: {
-        [self setMarketplaceDiamondsEarnings:[input readInt32]];
-        break;
-      }
-      case 160: {
-        [self setMarketplaceCoinsEarnings:[input readInt32]];
         break;
       }
       case 168: {
@@ -17855,14 +17722,6 @@ static FullUserProto* defaultFullUserProtoInstance = nil;
         }
         [input readMessage:subBuilder extensionRegistry:extensionRegistry];
         [self setUserLocation:[subBuilder buildPartial]];
-        break;
-      }
-      case 248: {
-        [self setNumPostsInMarketplace:[input readInt32]];
-        break;
-      }
-      case 256: {
-        [self setNumMarketplaceSalesUnredeemed:[input readInt32]];
         break;
       }
       case 266: {
@@ -18040,6 +17899,26 @@ static FullUserProto* defaultFullUserProtoInstance = nil;
         [self setRank:[input readString]];
         break;
       }
+      case 552: {
+        [self setLastTimeQueued:[input readInt64]];
+        break;
+      }
+      case 560: {
+        [self setAttacksWon:[input readInt32]];
+        break;
+      }
+      case 568: {
+        [self setDefensesWon:[input readInt32]];
+        break;
+      }
+      case 576: {
+        [self setAttacksLost:[input readInt32]];
+        break;
+      }
+      case 584: {
+        [self setDefensesLost:[input readInt32]];
+        break;
+      }
     }
   }
 }
@@ -18107,70 +17986,6 @@ static FullUserProto* defaultFullUserProtoInstance = nil;
   result.userType = UserTypeGoodWarrior;
   return self;
 }
-- (BOOL) hasAttack {
-  return result.hasAttack;
-}
-- (int32_t) attack {
-  return result.attack;
-}
-- (FullUserProto_Builder*) setAttack:(int32_t) value {
-  result.hasAttack = YES;
-  result.attack = value;
-  return self;
-}
-- (FullUserProto_Builder*) clearAttack {
-  result.hasAttack = NO;
-  result.attack = 0;
-  return self;
-}
-- (BOOL) hasDefense {
-  return result.hasDefense;
-}
-- (int32_t) defense {
-  return result.defense;
-}
-- (FullUserProto_Builder*) setDefense:(int32_t) value {
-  result.hasDefense = YES;
-  result.defense = value;
-  return self;
-}
-- (FullUserProto_Builder*) clearDefense {
-  result.hasDefense = NO;
-  result.defense = 0;
-  return self;
-}
-- (BOOL) hasStamina {
-  return result.hasStamina;
-}
-- (int32_t) stamina {
-  return result.stamina;
-}
-- (FullUserProto_Builder*) setStamina:(int32_t) value {
-  result.hasStamina = YES;
-  result.stamina = value;
-  return self;
-}
-- (FullUserProto_Builder*) clearStamina {
-  result.hasStamina = NO;
-  result.stamina = 0;
-  return self;
-}
-- (BOOL) hasLastStaminaRefillTime {
-  return result.hasLastStaminaRefillTime;
-}
-- (int64_t) lastStaminaRefillTime {
-  return result.lastStaminaRefillTime;
-}
-- (FullUserProto_Builder*) setLastStaminaRefillTime:(int64_t) value {
-  result.hasLastStaminaRefillTime = YES;
-  result.lastStaminaRefillTime = value;
-  return self;
-}
-- (FullUserProto_Builder*) clearLastStaminaRefillTime {
-  result.hasLastStaminaRefillTime = NO;
-  result.lastStaminaRefillTime = 0L;
-  return self;
-}
 - (BOOL) hasEnergy {
   return result.hasEnergy;
 }
@@ -18203,22 +18018,6 @@ static FullUserProto* defaultFullUserProtoInstance = nil;
   result.lastEnergyRefillTime = 0L;
   return self;
 }
-- (BOOL) hasSkillPoints {
-  return result.hasSkillPoints;
-}
-- (int32_t) skillPoints {
-  return result.skillPoints;
-}
-- (FullUserProto_Builder*) setSkillPoints:(int32_t) value {
-  result.hasSkillPoints = YES;
-  result.skillPoints = value;
-  return self;
-}
-- (FullUserProto_Builder*) clearSkillPoints {
-  result.hasSkillPoints = NO;
-  result.skillPoints = 0;
-  return self;
-}
 - (BOOL) hasEnergyMax {
   return result.hasEnergyMax;
 }
@@ -18233,22 +18032,6 @@ static FullUserProto* defaultFullUserProtoInstance = nil;
 - (FullUserProto_Builder*) clearEnergyMax {
   result.hasEnergyMax = NO;
   result.energyMax = 0;
-  return self;
-}
-- (BOOL) hasStaminaMax {
-  return result.hasStaminaMax;
-}
-- (int32_t) staminaMax {
-  return result.staminaMax;
-}
-- (FullUserProto_Builder*) setStaminaMax:(int32_t) value {
-  result.hasStaminaMax = YES;
-  result.staminaMax = value;
-  return self;
-}
-- (FullUserProto_Builder*) clearStaminaMax {
-  result.hasStaminaMax = NO;
-  result.staminaMax = 0;
   return self;
 }
 - (BOOL) hasDiamonds {
@@ -18281,38 +18064,6 @@ static FullUserProto* defaultFullUserProtoInstance = nil;
 - (FullUserProto_Builder*) clearCoins {
   result.hasCoins = NO;
   result.coins = 0;
-  return self;
-}
-- (BOOL) hasMarketplaceDiamondsEarnings {
-  return result.hasMarketplaceDiamondsEarnings;
-}
-- (int32_t) marketplaceDiamondsEarnings {
-  return result.marketplaceDiamondsEarnings;
-}
-- (FullUserProto_Builder*) setMarketplaceDiamondsEarnings:(int32_t) value {
-  result.hasMarketplaceDiamondsEarnings = YES;
-  result.marketplaceDiamondsEarnings = value;
-  return self;
-}
-- (FullUserProto_Builder*) clearMarketplaceDiamondsEarnings {
-  result.hasMarketplaceDiamondsEarnings = NO;
-  result.marketplaceDiamondsEarnings = 0;
-  return self;
-}
-- (BOOL) hasMarketplaceCoinsEarnings {
-  return result.hasMarketplaceCoinsEarnings;
-}
-- (int32_t) marketplaceCoinsEarnings {
-  return result.marketplaceCoinsEarnings;
-}
-- (FullUserProto_Builder*) setMarketplaceCoinsEarnings:(int32_t) value {
-  result.hasMarketplaceCoinsEarnings = YES;
-  result.marketplaceCoinsEarnings = value;
-  return self;
-}
-- (FullUserProto_Builder*) clearMarketplaceCoinsEarnings {
-  result.hasMarketplaceCoinsEarnings = NO;
-  result.marketplaceCoinsEarnings = 0;
   return self;
 }
 - (BOOL) hasVaultBalance {
@@ -18471,38 +18222,6 @@ static FullUserProto* defaultFullUserProtoInstance = nil;
 - (FullUserProto_Builder*) clearUserLocation {
   result.hasUserLocation = NO;
   result.userLocation = [LocationProto defaultInstance];
-  return self;
-}
-- (BOOL) hasNumPostsInMarketplace {
-  return result.hasNumPostsInMarketplace;
-}
-- (int32_t) numPostsInMarketplace {
-  return result.numPostsInMarketplace;
-}
-- (FullUserProto_Builder*) setNumPostsInMarketplace:(int32_t) value {
-  result.hasNumPostsInMarketplace = YES;
-  result.numPostsInMarketplace = value;
-  return self;
-}
-- (FullUserProto_Builder*) clearNumPostsInMarketplace {
-  result.hasNumPostsInMarketplace = NO;
-  result.numPostsInMarketplace = 0;
-  return self;
-}
-- (BOOL) hasNumMarketplaceSalesUnredeemed {
-  return result.hasNumMarketplaceSalesUnredeemed;
-}
-- (int32_t) numMarketplaceSalesUnredeemed {
-  return result.numMarketplaceSalesUnredeemed;
-}
-- (FullUserProto_Builder*) setNumMarketplaceSalesUnredeemed:(int32_t) value {
-  result.hasNumMarketplaceSalesUnredeemed = YES;
-  result.numMarketplaceSalesUnredeemed = value;
-  return self;
-}
-- (FullUserProto_Builder*) clearNumMarketplaceSalesUnredeemed {
-  result.hasNumMarketplaceSalesUnredeemed = NO;
-  result.numMarketplaceSalesUnredeemed = 0;
   return self;
 }
 - (BOOL) hasWeaponEquippedUserEquip {
@@ -19019,6 +18738,86 @@ static FullUserProto* defaultFullUserProtoInstance = nil;
   result.rank = @"";
   return self;
 }
+- (BOOL) hasLastTimeQueued {
+  return result.hasLastTimeQueued;
+}
+- (int64_t) lastTimeQueued {
+  return result.lastTimeQueued;
+}
+- (FullUserProto_Builder*) setLastTimeQueued:(int64_t) value {
+  result.hasLastTimeQueued = YES;
+  result.lastTimeQueued = value;
+  return self;
+}
+- (FullUserProto_Builder*) clearLastTimeQueued {
+  result.hasLastTimeQueued = NO;
+  result.lastTimeQueued = 0L;
+  return self;
+}
+- (BOOL) hasAttacksWon {
+  return result.hasAttacksWon;
+}
+- (int32_t) attacksWon {
+  return result.attacksWon;
+}
+- (FullUserProto_Builder*) setAttacksWon:(int32_t) value {
+  result.hasAttacksWon = YES;
+  result.attacksWon = value;
+  return self;
+}
+- (FullUserProto_Builder*) clearAttacksWon {
+  result.hasAttacksWon = NO;
+  result.attacksWon = 0;
+  return self;
+}
+- (BOOL) hasDefensesWon {
+  return result.hasDefensesWon;
+}
+- (int32_t) defensesWon {
+  return result.defensesWon;
+}
+- (FullUserProto_Builder*) setDefensesWon:(int32_t) value {
+  result.hasDefensesWon = YES;
+  result.defensesWon = value;
+  return self;
+}
+- (FullUserProto_Builder*) clearDefensesWon {
+  result.hasDefensesWon = NO;
+  result.defensesWon = 0;
+  return self;
+}
+- (BOOL) hasAttacksLost {
+  return result.hasAttacksLost;
+}
+- (int32_t) attacksLost {
+  return result.attacksLost;
+}
+- (FullUserProto_Builder*) setAttacksLost:(int32_t) value {
+  result.hasAttacksLost = YES;
+  result.attacksLost = value;
+  return self;
+}
+- (FullUserProto_Builder*) clearAttacksLost {
+  result.hasAttacksLost = NO;
+  result.attacksLost = 0;
+  return self;
+}
+- (BOOL) hasDefensesLost {
+  return result.hasDefensesLost;
+}
+- (int32_t) defensesLost {
+  return result.defensesLost;
+}
+- (FullUserProto_Builder*) setDefensesLost:(int32_t) value {
+  result.hasDefensesLost = YES;
+  result.defensesLost = value;
+  return self;
+}
+- (FullUserProto_Builder*) clearDefensesLost {
+  result.hasDefensesLost = NO;
+  result.defensesLost = 0;
+  return self;
+}
 - (BOOL) hasUdid {
   return result.hasUdid;
 }
@@ -19173,14 +18972,10 @@ static FullUserProto* defaultFullUserProtoInstance = nil;
 @property int32_t attackBoost;
 @property int32_t defenseBoost;
 @property int32_t minLevel;
-@property int32_t coinPrice;
-@property int32_t diamondPrice;
-@property Float32 chanceOfLoss;
-@property EquipClassType classType;
 @property FullEquipProto_Rarity rarity;
-@property BOOL isBuyableInArmory;
 @property Float32 chanceOfForgeFailureBase;
 @property int32_t minutesToAttemptForgeBase;
+@property int32_t maxDurability;
 @end
 
 @implementation FullEquipProto
@@ -19234,34 +19029,6 @@ static FullUserProto* defaultFullUserProtoInstance = nil;
   hasMinLevel_ = !!value;
 }
 @synthesize minLevel;
-- (BOOL) hasCoinPrice {
-  return !!hasCoinPrice_;
-}
-- (void) setHasCoinPrice:(BOOL) value {
-  hasCoinPrice_ = !!value;
-}
-@synthesize coinPrice;
-- (BOOL) hasDiamondPrice {
-  return !!hasDiamondPrice_;
-}
-- (void) setHasDiamondPrice:(BOOL) value {
-  hasDiamondPrice_ = !!value;
-}
-@synthesize diamondPrice;
-- (BOOL) hasChanceOfLoss {
-  return !!hasChanceOfLoss_;
-}
-- (void) setHasChanceOfLoss:(BOOL) value {
-  hasChanceOfLoss_ = !!value;
-}
-@synthesize chanceOfLoss;
-- (BOOL) hasClassType {
-  return !!hasClassType_;
-}
-- (void) setHasClassType:(BOOL) value {
-  hasClassType_ = !!value;
-}
-@synthesize classType;
 - (BOOL) hasRarity {
   return !!hasRarity_;
 }
@@ -19269,18 +19036,6 @@ static FullUserProto* defaultFullUserProtoInstance = nil;
   hasRarity_ = !!value;
 }
 @synthesize rarity;
-- (BOOL) hasIsBuyableInArmory {
-  return !!hasIsBuyableInArmory_;
-}
-- (void) setHasIsBuyableInArmory:(BOOL) value {
-  hasIsBuyableInArmory_ = !!value;
-}
-- (BOOL) isBuyableInArmory {
-  return !!isBuyableInArmory_;
-}
-- (void) setIsBuyableInArmory:(BOOL) value {
-  isBuyableInArmory_ = !!value;
-}
 - (BOOL) hasChanceOfForgeFailureBase {
   return !!hasChanceOfForgeFailureBase_;
 }
@@ -19295,6 +19050,13 @@ static FullUserProto* defaultFullUserProtoInstance = nil;
   hasMinutesToAttemptForgeBase_ = !!value;
 }
 @synthesize minutesToAttemptForgeBase;
+- (BOOL) hasMaxDurability {
+  return !!hasMaxDurability_;
+}
+- (void) setHasMaxDurability:(BOOL) value {
+  hasMaxDurability_ = !!value;
+}
+@synthesize maxDurability;
 - (void) dealloc {
   self.name = nil;
   self.description = nil;
@@ -19309,14 +19071,10 @@ static FullUserProto* defaultFullUserProtoInstance = nil;
     self.attackBoost = 0;
     self.defenseBoost = 0;
     self.minLevel = 0;
-    self.coinPrice = 0;
-    self.diamondPrice = 0;
-    self.chanceOfLoss = 0;
-    self.classType = EquipClassTypeWarrior;
     self.rarity = FullEquipProto_RarityCommon;
-    self.isBuyableInArmory = NO;
     self.chanceOfForgeFailureBase = 0;
     self.minutesToAttemptForgeBase = 0;
+    self.maxDurability = 0;
   }
   return self;
 }
@@ -19357,29 +19115,17 @@ static FullEquipProto* defaultFullEquipProtoInstance = nil;
   if (self.hasMinLevel) {
     [output writeInt32:7 value:self.minLevel];
   }
-  if (self.hasCoinPrice) {
-    [output writeInt32:8 value:self.coinPrice];
-  }
-  if (self.hasDiamondPrice) {
-    [output writeInt32:9 value:self.diamondPrice];
-  }
-  if (self.hasChanceOfLoss) {
-    [output writeFloat:10 value:self.chanceOfLoss];
-  }
-  if (self.hasClassType) {
-    [output writeEnum:11 value:self.classType];
-  }
   if (self.hasRarity) {
     [output writeEnum:12 value:self.rarity];
-  }
-  if (self.hasIsBuyableInArmory) {
-    [output writeBool:13 value:self.isBuyableInArmory];
   }
   if (self.hasChanceOfForgeFailureBase) {
     [output writeFloat:14 value:self.chanceOfForgeFailureBase];
   }
   if (self.hasMinutesToAttemptForgeBase) {
     [output writeInt32:15 value:self.minutesToAttemptForgeBase];
+  }
+  if (self.hasMaxDurability) {
+    [output writeInt32:16 value:self.maxDurability];
   }
   [self.unknownFields writeToCodedOutputStream:output];
 }
@@ -19411,29 +19157,17 @@ static FullEquipProto* defaultFullEquipProtoInstance = nil;
   if (self.hasMinLevel) {
     size += computeInt32Size(7, self.minLevel);
   }
-  if (self.hasCoinPrice) {
-    size += computeInt32Size(8, self.coinPrice);
-  }
-  if (self.hasDiamondPrice) {
-    size += computeInt32Size(9, self.diamondPrice);
-  }
-  if (self.hasChanceOfLoss) {
-    size += computeFloatSize(10, self.chanceOfLoss);
-  }
-  if (self.hasClassType) {
-    size += computeEnumSize(11, self.classType);
-  }
   if (self.hasRarity) {
     size += computeEnumSize(12, self.rarity);
-  }
-  if (self.hasIsBuyableInArmory) {
-    size += computeBoolSize(13, self.isBuyableInArmory);
   }
   if (self.hasChanceOfForgeFailureBase) {
     size += computeFloatSize(14, self.chanceOfForgeFailureBase);
   }
   if (self.hasMinutesToAttemptForgeBase) {
     size += computeInt32Size(15, self.minutesToAttemptForgeBase);
+  }
+  if (self.hasMaxDurability) {
+    size += computeInt32Size(16, self.maxDurability);
   }
   size += self.unknownFields.serializedSize;
   memoizedSerializedSize = size;
@@ -19554,29 +19288,17 @@ BOOL FullEquipProto_EquipTypeIsValidValue(FullEquipProto_EquipType value) {
   if (other.hasMinLevel) {
     [self setMinLevel:other.minLevel];
   }
-  if (other.hasCoinPrice) {
-    [self setCoinPrice:other.coinPrice];
-  }
-  if (other.hasDiamondPrice) {
-    [self setDiamondPrice:other.diamondPrice];
-  }
-  if (other.hasChanceOfLoss) {
-    [self setChanceOfLoss:other.chanceOfLoss];
-  }
-  if (other.hasClassType) {
-    [self setClassType:other.classType];
-  }
   if (other.hasRarity) {
     [self setRarity:other.rarity];
-  }
-  if (other.hasIsBuyableInArmory) {
-    [self setIsBuyableInArmory:other.isBuyableInArmory];
   }
   if (other.hasChanceOfForgeFailureBase) {
     [self setChanceOfForgeFailureBase:other.chanceOfForgeFailureBase];
   }
   if (other.hasMinutesToAttemptForgeBase) {
     [self setMinutesToAttemptForgeBase:other.minutesToAttemptForgeBase];
+  }
+  if (other.hasMaxDurability) {
+    [self setMaxDurability:other.maxDurability];
   }
   [self mergeUnknownFields:other.unknownFields];
   return self;
@@ -19632,27 +19354,6 @@ BOOL FullEquipProto_EquipTypeIsValidValue(FullEquipProto_EquipType value) {
         [self setMinLevel:[input readInt32]];
         break;
       }
-      case 64: {
-        [self setCoinPrice:[input readInt32]];
-        break;
-      }
-      case 72: {
-        [self setDiamondPrice:[input readInt32]];
-        break;
-      }
-      case 85: {
-        [self setChanceOfLoss:[input readFloat]];
-        break;
-      }
-      case 88: {
-        int32_t value = [input readEnum];
-        if (EquipClassTypeIsValidValue(value)) {
-          [self setClassType:value];
-        } else {
-          [unknownFields mergeVarintField:11 value:value];
-        }
-        break;
-      }
       case 96: {
         int32_t value = [input readEnum];
         if (FullEquipProto_RarityIsValidValue(value)) {
@@ -19662,16 +19363,16 @@ BOOL FullEquipProto_EquipTypeIsValidValue(FullEquipProto_EquipType value) {
         }
         break;
       }
-      case 104: {
-        [self setIsBuyableInArmory:[input readBool]];
-        break;
-      }
       case 117: {
         [self setChanceOfForgeFailureBase:[input readFloat]];
         break;
       }
       case 120: {
         [self setMinutesToAttemptForgeBase:[input readInt32]];
+        break;
+      }
+      case 128: {
+        [self setMaxDurability:[input readInt32]];
         break;
       }
     }
@@ -19789,70 +19490,6 @@ BOOL FullEquipProto_EquipTypeIsValidValue(FullEquipProto_EquipType value) {
   result.minLevel = 0;
   return self;
 }
-- (BOOL) hasCoinPrice {
-  return result.hasCoinPrice;
-}
-- (int32_t) coinPrice {
-  return result.coinPrice;
-}
-- (FullEquipProto_Builder*) setCoinPrice:(int32_t) value {
-  result.hasCoinPrice = YES;
-  result.coinPrice = value;
-  return self;
-}
-- (FullEquipProto_Builder*) clearCoinPrice {
-  result.hasCoinPrice = NO;
-  result.coinPrice = 0;
-  return self;
-}
-- (BOOL) hasDiamondPrice {
-  return result.hasDiamondPrice;
-}
-- (int32_t) diamondPrice {
-  return result.diamondPrice;
-}
-- (FullEquipProto_Builder*) setDiamondPrice:(int32_t) value {
-  result.hasDiamondPrice = YES;
-  result.diamondPrice = value;
-  return self;
-}
-- (FullEquipProto_Builder*) clearDiamondPrice {
-  result.hasDiamondPrice = NO;
-  result.diamondPrice = 0;
-  return self;
-}
-- (BOOL) hasChanceOfLoss {
-  return result.hasChanceOfLoss;
-}
-- (Float32) chanceOfLoss {
-  return result.chanceOfLoss;
-}
-- (FullEquipProto_Builder*) setChanceOfLoss:(Float32) value {
-  result.hasChanceOfLoss = YES;
-  result.chanceOfLoss = value;
-  return self;
-}
-- (FullEquipProto_Builder*) clearChanceOfLoss {
-  result.hasChanceOfLoss = NO;
-  result.chanceOfLoss = 0;
-  return self;
-}
-- (BOOL) hasClassType {
-  return result.hasClassType;
-}
-- (EquipClassType) classType {
-  return result.classType;
-}
-- (FullEquipProto_Builder*) setClassType:(EquipClassType) value {
-  result.hasClassType = YES;
-  result.classType = value;
-  return self;
-}
-- (FullEquipProto_Builder*) clearClassType {
-  result.hasClassType = NO;
-  result.classType = EquipClassTypeWarrior;
-  return self;
-}
 - (BOOL) hasRarity {
   return result.hasRarity;
 }
@@ -19867,22 +19504,6 @@ BOOL FullEquipProto_EquipTypeIsValidValue(FullEquipProto_EquipType value) {
 - (FullEquipProto_Builder*) clearRarity {
   result.hasRarity = NO;
   result.rarity = FullEquipProto_RarityCommon;
-  return self;
-}
-- (BOOL) hasIsBuyableInArmory {
-  return result.hasIsBuyableInArmory;
-}
-- (BOOL) isBuyableInArmory {
-  return result.isBuyableInArmory;
-}
-- (FullEquipProto_Builder*) setIsBuyableInArmory:(BOOL) value {
-  result.hasIsBuyableInArmory = YES;
-  result.isBuyableInArmory = value;
-  return self;
-}
-- (FullEquipProto_Builder*) clearIsBuyableInArmory {
-  result.hasIsBuyableInArmory = NO;
-  result.isBuyableInArmory = NO;
   return self;
 }
 - (BOOL) hasChanceOfForgeFailureBase {
@@ -19915,6 +19536,22 @@ BOOL FullEquipProto_EquipTypeIsValidValue(FullEquipProto_EquipType value) {
 - (FullEquipProto_Builder*) clearMinutesToAttemptForgeBase {
   result.hasMinutesToAttemptForgeBase = NO;
   result.minutesToAttemptForgeBase = 0;
+  return self;
+}
+- (BOOL) hasMaxDurability {
+  return result.hasMaxDurability;
+}
+- (int32_t) maxDurability {
+  return result.maxDurability;
+}
+- (FullEquipProto_Builder*) setMaxDurability:(int32_t) value {
+  result.hasMaxDurability = YES;
+  result.maxDurability = value;
+  return self;
+}
+- (FullEquipProto_Builder*) clearMaxDurability {
+  result.hasMaxDurability = NO;
+  result.maxDurability = 0;
   return self;
 }
 @end
@@ -20474,6 +20111,7 @@ static FullUserStructureProto* defaultFullUserStructureProtoInstance = nil;
 @property int32_t equipId;
 @property int32_t level;
 @property int32_t enhancementPercentage;
+@property int32_t currentDurability;
 @end
 
 @implementation FullUserEquipProto
@@ -20513,6 +20151,13 @@ static FullUserStructureProto* defaultFullUserStructureProtoInstance = nil;
   hasEnhancementPercentage_ = !!value;
 }
 @synthesize enhancementPercentage;
+- (BOOL) hasCurrentDurability {
+  return !!hasCurrentDurability_;
+}
+- (void) setHasCurrentDurability:(BOOL) value {
+  hasCurrentDurability_ = !!value;
+}
+@synthesize currentDurability;
 - (void) dealloc {
   [super dealloc];
 }
@@ -20523,6 +20168,7 @@ static FullUserStructureProto* defaultFullUserStructureProtoInstance = nil;
     self.equipId = 0;
     self.level = 0;
     self.enhancementPercentage = 0;
+    self.currentDurability = 0;
   }
   return self;
 }
@@ -20557,6 +20203,9 @@ static FullUserEquipProto* defaultFullUserEquipProtoInstance = nil;
   if (self.hasEnhancementPercentage) {
     [output writeInt32:5 value:self.enhancementPercentage];
   }
+  if (self.hasCurrentDurability) {
+    [output writeInt32:6 value:self.currentDurability];
+  }
   [self.unknownFields writeToCodedOutputStream:output];
 }
 - (int32_t) serializedSize {
@@ -20580,6 +20229,9 @@ static FullUserEquipProto* defaultFullUserEquipProtoInstance = nil;
   }
   if (self.hasEnhancementPercentage) {
     size += computeInt32Size(5, self.enhancementPercentage);
+  }
+  if (self.hasCurrentDurability) {
+    size += computeInt32Size(6, self.currentDurability);
   }
   size += self.unknownFields.serializedSize;
   memoizedSerializedSize = size;
@@ -20671,6 +20323,9 @@ static FullUserEquipProto* defaultFullUserEquipProtoInstance = nil;
   if (other.hasEnhancementPercentage) {
     [self setEnhancementPercentage:other.enhancementPercentage];
   }
+  if (other.hasCurrentDurability) {
+    [self setCurrentDurability:other.currentDurability];
+  }
   [self mergeUnknownFields:other.unknownFields];
   return self;
 }
@@ -20710,6 +20365,10 @@ static FullUserEquipProto* defaultFullUserEquipProtoInstance = nil;
       }
       case 40: {
         [self setEnhancementPercentage:[input readInt32]];
+        break;
+      }
+      case 48: {
+        [self setCurrentDurability:[input readInt32]];
         break;
       }
     }
@@ -20793,6 +20452,22 @@ static FullUserEquipProto* defaultFullUserEquipProtoInstance = nil;
 - (FullUserEquipProto_Builder*) clearEnhancementPercentage {
   result.hasEnhancementPercentage = NO;
   result.enhancementPercentage = 0;
+  return self;
+}
+- (BOOL) hasCurrentDurability {
+  return result.hasCurrentDurability;
+}
+- (int32_t) currentDurability {
+  return result.currentDurability;
+}
+- (FullUserEquipProto_Builder*) setCurrentDurability:(int32_t) value {
+  result.hasCurrentDurability = YES;
+  result.currentDurability = value;
+  return self;
+}
+- (FullUserEquipProto_Builder*) clearCurrentDurability {
+  result.hasCurrentDurability = NO;
+  result.currentDurability = 0;
   return self;
 }
 @end
@@ -23128,18 +22803,15 @@ static FullCityProto* defaultFullCityProtoInstance = nil;
 }
 @end
 
-@interface FullUserCityExpansionDataProto ()
+@interface UserCityExpansionDataProto ()
 @property int32_t userId;
-@property int32_t farLeftExpansions;
-@property int32_t farRightExpansions;
-@property int32_t nearLeftExpansions;
-@property int32_t nearRightExpansions;
+@property int32_t xPosition;
+@property int32_t yPosition;
 @property BOOL isExpanding;
-@property int64_t lastExpandTime;
-@property ExpansionDirection lastExpandDirection;
+@property int64_t expandStartTime;
 @end
 
-@implementation FullUserCityExpansionDataProto
+@implementation UserCityExpansionDataProto
 
 - (BOOL) hasUserId {
   return !!hasUserId_;
@@ -23148,34 +22820,20 @@ static FullCityProto* defaultFullCityProtoInstance = nil;
   hasUserId_ = !!value;
 }
 @synthesize userId;
-- (BOOL) hasFarLeftExpansions {
-  return !!hasFarLeftExpansions_;
+- (BOOL) hasXPosition {
+  return !!hasXPosition_;
 }
-- (void) setHasFarLeftExpansions:(BOOL) value {
-  hasFarLeftExpansions_ = !!value;
+- (void) setHasXPosition:(BOOL) value {
+  hasXPosition_ = !!value;
 }
-@synthesize farLeftExpansions;
-- (BOOL) hasFarRightExpansions {
-  return !!hasFarRightExpansions_;
+@synthesize xPosition;
+- (BOOL) hasYPosition {
+  return !!hasYPosition_;
 }
-- (void) setHasFarRightExpansions:(BOOL) value {
-  hasFarRightExpansions_ = !!value;
+- (void) setHasYPosition:(BOOL) value {
+  hasYPosition_ = !!value;
 }
-@synthesize farRightExpansions;
-- (BOOL) hasNearLeftExpansions {
-  return !!hasNearLeftExpansions_;
-}
-- (void) setHasNearLeftExpansions:(BOOL) value {
-  hasNearLeftExpansions_ = !!value;
-}
-@synthesize nearLeftExpansions;
-- (BOOL) hasNearRightExpansions {
-  return !!hasNearRightExpansions_;
-}
-- (void) setHasNearRightExpansions:(BOOL) value {
-  hasNearRightExpansions_ = !!value;
-}
-@synthesize nearRightExpansions;
+@synthesize yPosition;
 - (BOOL) hasIsExpanding {
   return !!hasIsExpanding_;
 }
@@ -23188,47 +22846,37 @@ static FullCityProto* defaultFullCityProtoInstance = nil;
 - (void) setIsExpanding:(BOOL) value {
   isExpanding_ = !!value;
 }
-- (BOOL) hasLastExpandTime {
-  return !!hasLastExpandTime_;
+- (BOOL) hasExpandStartTime {
+  return !!hasExpandStartTime_;
 }
-- (void) setHasLastExpandTime:(BOOL) value {
-  hasLastExpandTime_ = !!value;
+- (void) setHasExpandStartTime:(BOOL) value {
+  hasExpandStartTime_ = !!value;
 }
-@synthesize lastExpandTime;
-- (BOOL) hasLastExpandDirection {
-  return !!hasLastExpandDirection_;
-}
-- (void) setHasLastExpandDirection:(BOOL) value {
-  hasLastExpandDirection_ = !!value;
-}
-@synthesize lastExpandDirection;
+@synthesize expandStartTime;
 - (void) dealloc {
   [super dealloc];
 }
 - (id) init {
   if ((self = [super init])) {
     self.userId = 0;
-    self.farLeftExpansions = 0;
-    self.farRightExpansions = 0;
-    self.nearLeftExpansions = 0;
-    self.nearRightExpansions = 0;
+    self.xPosition = 0;
+    self.yPosition = 0;
     self.isExpanding = NO;
-    self.lastExpandTime = 0L;
-    self.lastExpandDirection = ExpansionDirectionFarLeft;
+    self.expandStartTime = 0L;
   }
   return self;
 }
-static FullUserCityExpansionDataProto* defaultFullUserCityExpansionDataProtoInstance = nil;
+static UserCityExpansionDataProto* defaultUserCityExpansionDataProtoInstance = nil;
 + (void) initialize {
-  if (self == [FullUserCityExpansionDataProto class]) {
-    defaultFullUserCityExpansionDataProtoInstance = [[FullUserCityExpansionDataProto alloc] init];
+  if (self == [UserCityExpansionDataProto class]) {
+    defaultUserCityExpansionDataProtoInstance = [[UserCityExpansionDataProto alloc] init];
   }
 }
-+ (FullUserCityExpansionDataProto*) defaultInstance {
-  return defaultFullUserCityExpansionDataProtoInstance;
++ (UserCityExpansionDataProto*) defaultInstance {
+  return defaultUserCityExpansionDataProtoInstance;
 }
-- (FullUserCityExpansionDataProto*) defaultInstance {
-  return defaultFullUserCityExpansionDataProtoInstance;
+- (UserCityExpansionDataProto*) defaultInstance {
+  return defaultUserCityExpansionDataProtoInstance;
 }
 - (BOOL) isInitialized {
   return YES;
@@ -23237,26 +22885,17 @@ static FullUserCityExpansionDataProto* defaultFullUserCityExpansionDataProtoInst
   if (self.hasUserId) {
     [output writeInt32:1 value:self.userId];
   }
-  if (self.hasFarLeftExpansions) {
-    [output writeInt32:2 value:self.farLeftExpansions];
+  if (self.hasXPosition) {
+    [output writeSInt32:2 value:self.xPosition];
   }
-  if (self.hasFarRightExpansions) {
-    [output writeInt32:3 value:self.farRightExpansions];
-  }
-  if (self.hasNearLeftExpansions) {
-    [output writeInt32:4 value:self.nearLeftExpansions];
-  }
-  if (self.hasNearRightExpansions) {
-    [output writeInt32:5 value:self.nearRightExpansions];
+  if (self.hasYPosition) {
+    [output writeSInt32:3 value:self.yPosition];
   }
   if (self.hasIsExpanding) {
-    [output writeBool:6 value:self.isExpanding];
+    [output writeBool:4 value:self.isExpanding];
   }
-  if (self.hasLastExpandTime) {
-    [output writeInt64:7 value:self.lastExpandTime];
-  }
-  if (self.hasLastExpandDirection) {
-    [output writeEnum:8 value:self.lastExpandDirection];
+  if (self.hasExpandStartTime) {
+    [output writeInt64:5 value:self.expandStartTime];
   }
   [self.unknownFields writeToCodedOutputStream:output];
 }
@@ -23270,65 +22909,56 @@ static FullUserCityExpansionDataProto* defaultFullUserCityExpansionDataProtoInst
   if (self.hasUserId) {
     size += computeInt32Size(1, self.userId);
   }
-  if (self.hasFarLeftExpansions) {
-    size += computeInt32Size(2, self.farLeftExpansions);
+  if (self.hasXPosition) {
+    size += computeSInt32Size(2, self.xPosition);
   }
-  if (self.hasFarRightExpansions) {
-    size += computeInt32Size(3, self.farRightExpansions);
-  }
-  if (self.hasNearLeftExpansions) {
-    size += computeInt32Size(4, self.nearLeftExpansions);
-  }
-  if (self.hasNearRightExpansions) {
-    size += computeInt32Size(5, self.nearRightExpansions);
+  if (self.hasYPosition) {
+    size += computeSInt32Size(3, self.yPosition);
   }
   if (self.hasIsExpanding) {
-    size += computeBoolSize(6, self.isExpanding);
+    size += computeBoolSize(4, self.isExpanding);
   }
-  if (self.hasLastExpandTime) {
-    size += computeInt64Size(7, self.lastExpandTime);
-  }
-  if (self.hasLastExpandDirection) {
-    size += computeEnumSize(8, self.lastExpandDirection);
+  if (self.hasExpandStartTime) {
+    size += computeInt64Size(5, self.expandStartTime);
   }
   size += self.unknownFields.serializedSize;
   memoizedSerializedSize = size;
   return size;
 }
-+ (FullUserCityExpansionDataProto*) parseFromData:(NSData*) data {
-  return (FullUserCityExpansionDataProto*)[[[FullUserCityExpansionDataProto builder] mergeFromData:data] build];
++ (UserCityExpansionDataProto*) parseFromData:(NSData*) data {
+  return (UserCityExpansionDataProto*)[[[UserCityExpansionDataProto builder] mergeFromData:data] build];
 }
-+ (FullUserCityExpansionDataProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
-  return (FullUserCityExpansionDataProto*)[[[FullUserCityExpansionDataProto builder] mergeFromData:data extensionRegistry:extensionRegistry] build];
++ (UserCityExpansionDataProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (UserCityExpansionDataProto*)[[[UserCityExpansionDataProto builder] mergeFromData:data extensionRegistry:extensionRegistry] build];
 }
-+ (FullUserCityExpansionDataProto*) parseFromInputStream:(NSInputStream*) input {
-  return (FullUserCityExpansionDataProto*)[[[FullUserCityExpansionDataProto builder] mergeFromInputStream:input] build];
++ (UserCityExpansionDataProto*) parseFromInputStream:(NSInputStream*) input {
+  return (UserCityExpansionDataProto*)[[[UserCityExpansionDataProto builder] mergeFromInputStream:input] build];
 }
-+ (FullUserCityExpansionDataProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
-  return (FullUserCityExpansionDataProto*)[[[FullUserCityExpansionDataProto builder] mergeFromInputStream:input extensionRegistry:extensionRegistry] build];
++ (UserCityExpansionDataProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (UserCityExpansionDataProto*)[[[UserCityExpansionDataProto builder] mergeFromInputStream:input extensionRegistry:extensionRegistry] build];
 }
-+ (FullUserCityExpansionDataProto*) parseFromCodedInputStream:(PBCodedInputStream*) input {
-  return (FullUserCityExpansionDataProto*)[[[FullUserCityExpansionDataProto builder] mergeFromCodedInputStream:input] build];
++ (UserCityExpansionDataProto*) parseFromCodedInputStream:(PBCodedInputStream*) input {
+  return (UserCityExpansionDataProto*)[[[UserCityExpansionDataProto builder] mergeFromCodedInputStream:input] build];
 }
-+ (FullUserCityExpansionDataProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
-  return (FullUserCityExpansionDataProto*)[[[FullUserCityExpansionDataProto builder] mergeFromCodedInputStream:input extensionRegistry:extensionRegistry] build];
++ (UserCityExpansionDataProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (UserCityExpansionDataProto*)[[[UserCityExpansionDataProto builder] mergeFromCodedInputStream:input extensionRegistry:extensionRegistry] build];
 }
-+ (FullUserCityExpansionDataProto_Builder*) builder {
-  return [[[FullUserCityExpansionDataProto_Builder alloc] init] autorelease];
++ (UserCityExpansionDataProto_Builder*) builder {
+  return [[[UserCityExpansionDataProto_Builder alloc] init] autorelease];
 }
-+ (FullUserCityExpansionDataProto_Builder*) builderWithPrototype:(FullUserCityExpansionDataProto*) prototype {
-  return [[FullUserCityExpansionDataProto builder] mergeFrom:prototype];
++ (UserCityExpansionDataProto_Builder*) builderWithPrototype:(UserCityExpansionDataProto*) prototype {
+  return [[UserCityExpansionDataProto builder] mergeFrom:prototype];
 }
-- (FullUserCityExpansionDataProto_Builder*) builder {
-  return [FullUserCityExpansionDataProto builder];
+- (UserCityExpansionDataProto_Builder*) builder {
+  return [UserCityExpansionDataProto builder];
 }
 @end
 
-@interface FullUserCityExpansionDataProto_Builder()
-@property (retain) FullUserCityExpansionDataProto* result;
+@interface UserCityExpansionDataProto_Builder()
+@property (retain) UserCityExpansionDataProto* result;
 @end
 
-@implementation FullUserCityExpansionDataProto_Builder
+@implementation UserCityExpansionDataProto_Builder
 @synthesize result;
 - (void) dealloc {
   self.result = nil;
@@ -23336,67 +22966,58 @@ static FullUserCityExpansionDataProto* defaultFullUserCityExpansionDataProtoInst
 }
 - (id) init {
   if ((self = [super init])) {
-    self.result = [[[FullUserCityExpansionDataProto alloc] init] autorelease];
+    self.result = [[[UserCityExpansionDataProto alloc] init] autorelease];
   }
   return self;
 }
 - (PBGeneratedMessage*) internalGetResult {
   return result;
 }
-- (FullUserCityExpansionDataProto_Builder*) clear {
-  self.result = [[[FullUserCityExpansionDataProto alloc] init] autorelease];
+- (UserCityExpansionDataProto_Builder*) clear {
+  self.result = [[[UserCityExpansionDataProto alloc] init] autorelease];
   return self;
 }
-- (FullUserCityExpansionDataProto_Builder*) clone {
-  return [FullUserCityExpansionDataProto builderWithPrototype:result];
+- (UserCityExpansionDataProto_Builder*) clone {
+  return [UserCityExpansionDataProto builderWithPrototype:result];
 }
-- (FullUserCityExpansionDataProto*) defaultInstance {
-  return [FullUserCityExpansionDataProto defaultInstance];
+- (UserCityExpansionDataProto*) defaultInstance {
+  return [UserCityExpansionDataProto defaultInstance];
 }
-- (FullUserCityExpansionDataProto*) build {
+- (UserCityExpansionDataProto*) build {
   [self checkInitialized];
   return [self buildPartial];
 }
-- (FullUserCityExpansionDataProto*) buildPartial {
-  FullUserCityExpansionDataProto* returnMe = [[result retain] autorelease];
+- (UserCityExpansionDataProto*) buildPartial {
+  UserCityExpansionDataProto* returnMe = [[result retain] autorelease];
   self.result = nil;
   return returnMe;
 }
-- (FullUserCityExpansionDataProto_Builder*) mergeFrom:(FullUserCityExpansionDataProto*) other {
-  if (other == [FullUserCityExpansionDataProto defaultInstance]) {
+- (UserCityExpansionDataProto_Builder*) mergeFrom:(UserCityExpansionDataProto*) other {
+  if (other == [UserCityExpansionDataProto defaultInstance]) {
     return self;
   }
   if (other.hasUserId) {
     [self setUserId:other.userId];
   }
-  if (other.hasFarLeftExpansions) {
-    [self setFarLeftExpansions:other.farLeftExpansions];
+  if (other.hasXPosition) {
+    [self setXPosition:other.xPosition];
   }
-  if (other.hasFarRightExpansions) {
-    [self setFarRightExpansions:other.farRightExpansions];
-  }
-  if (other.hasNearLeftExpansions) {
-    [self setNearLeftExpansions:other.nearLeftExpansions];
-  }
-  if (other.hasNearRightExpansions) {
-    [self setNearRightExpansions:other.nearRightExpansions];
+  if (other.hasYPosition) {
+    [self setYPosition:other.yPosition];
   }
   if (other.hasIsExpanding) {
     [self setIsExpanding:other.isExpanding];
   }
-  if (other.hasLastExpandTime) {
-    [self setLastExpandTime:other.lastExpandTime];
-  }
-  if (other.hasLastExpandDirection) {
-    [self setLastExpandDirection:other.lastExpandDirection];
+  if (other.hasExpandStartTime) {
+    [self setExpandStartTime:other.expandStartTime];
   }
   [self mergeUnknownFields:other.unknownFields];
   return self;
 }
-- (FullUserCityExpansionDataProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input {
+- (UserCityExpansionDataProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input {
   return [self mergeFromCodedInputStream:input extensionRegistry:[PBExtensionRegistry emptyRegistry]];
 }
-- (FullUserCityExpansionDataProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+- (UserCityExpansionDataProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
   PBUnknownFieldSet_Builder* unknownFields = [PBUnknownFieldSet builderWithUnknownFields:self.unknownFields];
   while (YES) {
     int32_t tag = [input readTag];
@@ -23416,36 +23037,19 @@ static FullUserCityExpansionDataProto* defaultFullUserCityExpansionDataProtoInst
         break;
       }
       case 16: {
-        [self setFarLeftExpansions:[input readInt32]];
+        [self setXPosition:[input readSInt32]];
         break;
       }
       case 24: {
-        [self setFarRightExpansions:[input readInt32]];
+        [self setYPosition:[input readSInt32]];
         break;
       }
       case 32: {
-        [self setNearLeftExpansions:[input readInt32]];
-        break;
-      }
-      case 40: {
-        [self setNearRightExpansions:[input readInt32]];
-        break;
-      }
-      case 48: {
         [self setIsExpanding:[input readBool]];
         break;
       }
-      case 56: {
-        [self setLastExpandTime:[input readInt64]];
-        break;
-      }
-      case 64: {
-        int32_t value = [input readEnum];
-        if (ExpansionDirectionIsValidValue(value)) {
-          [self setLastExpandDirection:value];
-        } else {
-          [unknownFields mergeVarintField:8 value:value];
-        }
+      case 40: {
+        [self setExpandStartTime:[input readInt64]];
         break;
       }
     }
@@ -23457,78 +23061,46 @@ static FullUserCityExpansionDataProto* defaultFullUserCityExpansionDataProtoInst
 - (int32_t) userId {
   return result.userId;
 }
-- (FullUserCityExpansionDataProto_Builder*) setUserId:(int32_t) value {
+- (UserCityExpansionDataProto_Builder*) setUserId:(int32_t) value {
   result.hasUserId = YES;
   result.userId = value;
   return self;
 }
-- (FullUserCityExpansionDataProto_Builder*) clearUserId {
+- (UserCityExpansionDataProto_Builder*) clearUserId {
   result.hasUserId = NO;
   result.userId = 0;
   return self;
 }
-- (BOOL) hasFarLeftExpansions {
-  return result.hasFarLeftExpansions;
+- (BOOL) hasXPosition {
+  return result.hasXPosition;
 }
-- (int32_t) farLeftExpansions {
-  return result.farLeftExpansions;
+- (int32_t) xPosition {
+  return result.xPosition;
 }
-- (FullUserCityExpansionDataProto_Builder*) setFarLeftExpansions:(int32_t) value {
-  result.hasFarLeftExpansions = YES;
-  result.farLeftExpansions = value;
+- (UserCityExpansionDataProto_Builder*) setXPosition:(int32_t) value {
+  result.hasXPosition = YES;
+  result.xPosition = value;
   return self;
 }
-- (FullUserCityExpansionDataProto_Builder*) clearFarLeftExpansions {
-  result.hasFarLeftExpansions = NO;
-  result.farLeftExpansions = 0;
+- (UserCityExpansionDataProto_Builder*) clearXPosition {
+  result.hasXPosition = NO;
+  result.xPosition = 0;
   return self;
 }
-- (BOOL) hasFarRightExpansions {
-  return result.hasFarRightExpansions;
+- (BOOL) hasYPosition {
+  return result.hasYPosition;
 }
-- (int32_t) farRightExpansions {
-  return result.farRightExpansions;
+- (int32_t) yPosition {
+  return result.yPosition;
 }
-- (FullUserCityExpansionDataProto_Builder*) setFarRightExpansions:(int32_t) value {
-  result.hasFarRightExpansions = YES;
-  result.farRightExpansions = value;
+- (UserCityExpansionDataProto_Builder*) setYPosition:(int32_t) value {
+  result.hasYPosition = YES;
+  result.yPosition = value;
   return self;
 }
-- (FullUserCityExpansionDataProto_Builder*) clearFarRightExpansions {
-  result.hasFarRightExpansions = NO;
-  result.farRightExpansions = 0;
-  return self;
-}
-- (BOOL) hasNearLeftExpansions {
-  return result.hasNearLeftExpansions;
-}
-- (int32_t) nearLeftExpansions {
-  return result.nearLeftExpansions;
-}
-- (FullUserCityExpansionDataProto_Builder*) setNearLeftExpansions:(int32_t) value {
-  result.hasNearLeftExpansions = YES;
-  result.nearLeftExpansions = value;
-  return self;
-}
-- (FullUserCityExpansionDataProto_Builder*) clearNearLeftExpansions {
-  result.hasNearLeftExpansions = NO;
-  result.nearLeftExpansions = 0;
-  return self;
-}
-- (BOOL) hasNearRightExpansions {
-  return result.hasNearRightExpansions;
-}
-- (int32_t) nearRightExpansions {
-  return result.nearRightExpansions;
-}
-- (FullUserCityExpansionDataProto_Builder*) setNearRightExpansions:(int32_t) value {
-  result.hasNearRightExpansions = YES;
-  result.nearRightExpansions = value;
-  return self;
-}
-- (FullUserCityExpansionDataProto_Builder*) clearNearRightExpansions {
-  result.hasNearRightExpansions = NO;
-  result.nearRightExpansions = 0;
+- (UserCityExpansionDataProto_Builder*) clearYPosition {
+  result.hasYPosition = NO;
+  result.yPosition = 0;
   return self;
 }
 - (BOOL) hasIsExpanding {
@@ -23537,46 +23109,245 @@ static FullUserCityExpansionDataProto* defaultFullUserCityExpansionDataProtoInst
 - (BOOL) isExpanding {
   return result.isExpanding;
 }
-- (FullUserCityExpansionDataProto_Builder*) setIsExpanding:(BOOL) value {
+- (UserCityExpansionDataProto_Builder*) setIsExpanding:(BOOL) value {
   result.hasIsExpanding = YES;
   result.isExpanding = value;
   return self;
 }
-- (FullUserCityExpansionDataProto_Builder*) clearIsExpanding {
+- (UserCityExpansionDataProto_Builder*) clearIsExpanding {
   result.hasIsExpanding = NO;
   result.isExpanding = NO;
   return self;
 }
-- (BOOL) hasLastExpandTime {
-  return result.hasLastExpandTime;
+- (BOOL) hasExpandStartTime {
+  return result.hasExpandStartTime;
 }
-- (int64_t) lastExpandTime {
-  return result.lastExpandTime;
+- (int64_t) expandStartTime {
+  return result.expandStartTime;
 }
-- (FullUserCityExpansionDataProto_Builder*) setLastExpandTime:(int64_t) value {
-  result.hasLastExpandTime = YES;
-  result.lastExpandTime = value;
+- (UserCityExpansionDataProto_Builder*) setExpandStartTime:(int64_t) value {
+  result.hasExpandStartTime = YES;
+  result.expandStartTime = value;
   return self;
 }
-- (FullUserCityExpansionDataProto_Builder*) clearLastExpandTime {
-  result.hasLastExpandTime = NO;
-  result.lastExpandTime = 0L;
+- (UserCityExpansionDataProto_Builder*) clearExpandStartTime {
+  result.hasExpandStartTime = NO;
+  result.expandStartTime = 0L;
   return self;
 }
-- (BOOL) hasLastExpandDirection {
-  return result.hasLastExpandDirection;
+@end
+
+@interface CityExpansionCostProto ()
+@property int32_t expansionNum;
+@property int32_t expansionCost;
+@end
+
+@implementation CityExpansionCostProto
+
+- (BOOL) hasExpansionNum {
+  return !!hasExpansionNum_;
 }
-- (ExpansionDirection) lastExpandDirection {
-  return result.lastExpandDirection;
+- (void) setHasExpansionNum:(BOOL) value {
+  hasExpansionNum_ = !!value;
 }
-- (FullUserCityExpansionDataProto_Builder*) setLastExpandDirection:(ExpansionDirection) value {
-  result.hasLastExpandDirection = YES;
-  result.lastExpandDirection = value;
+@synthesize expansionNum;
+- (BOOL) hasExpansionCost {
+  return !!hasExpansionCost_;
+}
+- (void) setHasExpansionCost:(BOOL) value {
+  hasExpansionCost_ = !!value;
+}
+@synthesize expansionCost;
+- (void) dealloc {
+  [super dealloc];
+}
+- (id) init {
+  if ((self = [super init])) {
+    self.expansionNum = 0;
+    self.expansionCost = 0;
+  }
   return self;
 }
-- (FullUserCityExpansionDataProto_Builder*) clearLastExpandDirection {
-  result.hasLastExpandDirection = NO;
-  result.lastExpandDirection = ExpansionDirectionFarLeft;
+static CityExpansionCostProto* defaultCityExpansionCostProtoInstance = nil;
++ (void) initialize {
+  if (self == [CityExpansionCostProto class]) {
+    defaultCityExpansionCostProtoInstance = [[CityExpansionCostProto alloc] init];
+  }
+}
++ (CityExpansionCostProto*) defaultInstance {
+  return defaultCityExpansionCostProtoInstance;
+}
+- (CityExpansionCostProto*) defaultInstance {
+  return defaultCityExpansionCostProtoInstance;
+}
+- (BOOL) isInitialized {
+  return YES;
+}
+- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output {
+  if (self.hasExpansionNum) {
+    [output writeInt32:1 value:self.expansionNum];
+  }
+  if (self.hasExpansionCost) {
+    [output writeInt32:2 value:self.expansionCost];
+  }
+  [self.unknownFields writeToCodedOutputStream:output];
+}
+- (int32_t) serializedSize {
+  int32_t size = memoizedSerializedSize;
+  if (size != -1) {
+    return size;
+  }
+
+  size = 0;
+  if (self.hasExpansionNum) {
+    size += computeInt32Size(1, self.expansionNum);
+  }
+  if (self.hasExpansionCost) {
+    size += computeInt32Size(2, self.expansionCost);
+  }
+  size += self.unknownFields.serializedSize;
+  memoizedSerializedSize = size;
+  return size;
+}
++ (CityExpansionCostProto*) parseFromData:(NSData*) data {
+  return (CityExpansionCostProto*)[[[CityExpansionCostProto builder] mergeFromData:data] build];
+}
++ (CityExpansionCostProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (CityExpansionCostProto*)[[[CityExpansionCostProto builder] mergeFromData:data extensionRegistry:extensionRegistry] build];
+}
++ (CityExpansionCostProto*) parseFromInputStream:(NSInputStream*) input {
+  return (CityExpansionCostProto*)[[[CityExpansionCostProto builder] mergeFromInputStream:input] build];
+}
++ (CityExpansionCostProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (CityExpansionCostProto*)[[[CityExpansionCostProto builder] mergeFromInputStream:input extensionRegistry:extensionRegistry] build];
+}
++ (CityExpansionCostProto*) parseFromCodedInputStream:(PBCodedInputStream*) input {
+  return (CityExpansionCostProto*)[[[CityExpansionCostProto builder] mergeFromCodedInputStream:input] build];
+}
++ (CityExpansionCostProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (CityExpansionCostProto*)[[[CityExpansionCostProto builder] mergeFromCodedInputStream:input extensionRegistry:extensionRegistry] build];
+}
++ (CityExpansionCostProto_Builder*) builder {
+  return [[[CityExpansionCostProto_Builder alloc] init] autorelease];
+}
++ (CityExpansionCostProto_Builder*) builderWithPrototype:(CityExpansionCostProto*) prototype {
+  return [[CityExpansionCostProto builder] mergeFrom:prototype];
+}
+- (CityExpansionCostProto_Builder*) builder {
+  return [CityExpansionCostProto builder];
+}
+@end
+
+@interface CityExpansionCostProto_Builder()
+@property (retain) CityExpansionCostProto* result;
+@end
+
+@implementation CityExpansionCostProto_Builder
+@synthesize result;
+- (void) dealloc {
+  self.result = nil;
+  [super dealloc];
+}
+- (id) init {
+  if ((self = [super init])) {
+    self.result = [[[CityExpansionCostProto alloc] init] autorelease];
+  }
+  return self;
+}
+- (PBGeneratedMessage*) internalGetResult {
+  return result;
+}
+- (CityExpansionCostProto_Builder*) clear {
+  self.result = [[[CityExpansionCostProto alloc] init] autorelease];
+  return self;
+}
+- (CityExpansionCostProto_Builder*) clone {
+  return [CityExpansionCostProto builderWithPrototype:result];
+}
+- (CityExpansionCostProto*) defaultInstance {
+  return [CityExpansionCostProto defaultInstance];
+}
+- (CityExpansionCostProto*) build {
+  [self checkInitialized];
+  return [self buildPartial];
+}
+- (CityExpansionCostProto*) buildPartial {
+  CityExpansionCostProto* returnMe = [[result retain] autorelease];
+  self.result = nil;
+  return returnMe;
+}
+- (CityExpansionCostProto_Builder*) mergeFrom:(CityExpansionCostProto*) other {
+  if (other == [CityExpansionCostProto defaultInstance]) {
+    return self;
+  }
+  if (other.hasExpansionNum) {
+    [self setExpansionNum:other.expansionNum];
+  }
+  if (other.hasExpansionCost) {
+    [self setExpansionCost:other.expansionCost];
+  }
+  [self mergeUnknownFields:other.unknownFields];
+  return self;
+}
+- (CityExpansionCostProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input {
+  return [self mergeFromCodedInputStream:input extensionRegistry:[PBExtensionRegistry emptyRegistry]];
+}
+- (CityExpansionCostProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  PBUnknownFieldSet_Builder* unknownFields = [PBUnknownFieldSet builderWithUnknownFields:self.unknownFields];
+  while (YES) {
+    int32_t tag = [input readTag];
+    switch (tag) {
+      case 0:
+        [self setUnknownFields:[unknownFields build]];
+        return self;
+      default: {
+        if (![self parseUnknownField:input unknownFields:unknownFields extensionRegistry:extensionRegistry tag:tag]) {
+          [self setUnknownFields:[unknownFields build]];
+          return self;
+        }
+        break;
+      }
+      case 8: {
+        [self setExpansionNum:[input readInt32]];
+        break;
+      }
+      case 16: {
+        [self setExpansionCost:[input readInt32]];
+        break;
+      }
+    }
+  }
+}
+- (BOOL) hasExpansionNum {
+  return result.hasExpansionNum;
+}
+- (int32_t) expansionNum {
+  return result.expansionNum;
+}
+- (CityExpansionCostProto_Builder*) setExpansionNum:(int32_t) value {
+  result.hasExpansionNum = YES;
+  result.expansionNum = value;
+  return self;
+}
+- (CityExpansionCostProto_Builder*) clearExpansionNum {
+  result.hasExpansionNum = NO;
+  result.expansionNum = 0;
+  return self;
+}
+- (BOOL) hasExpansionCost {
+  return result.hasExpansionCost;
+}
+- (int32_t) expansionCost {
+  return result.expansionCost;
+}
+- (CityExpansionCostProto_Builder*) setExpansionCost:(int32_t) value {
+  result.hasExpansionCost = YES;
+  result.expansionCost = value;
+  return self;
+}
+- (CityExpansionCostProto_Builder*) clearExpansionCost {
+  result.hasExpansionCost = NO;
+  result.expansionCost = 0;
   return self;
 }
 @end
@@ -24823,532 +24594,6 @@ BOOL NeutralCityElementProto_NeutralCityElemTypeIsValidValue(NeutralCityElementP
 - (NeutralCityElementProto_Builder*) clearOrientation {
   result.hasOrientation = NO;
   result.orientation = StructOrientationPosition1;
-  return self;
-}
-@end
-
-@interface FullMarketplacePostProto ()
-@property int32_t marketplacePostId;
-@property (retain) MinimumUserProto* poster;
-@property MarketplacePostType postType;
-@property int64_t timeOfPost;
-@property (retain) FullEquipProto* postedEquip;
-@property int32_t diamondCost;
-@property int32_t coinCost;
-@property int32_t equipLevel;
-@property int32_t equipEnhancementPercent;
-@end
-
-@implementation FullMarketplacePostProto
-
-- (BOOL) hasMarketplacePostId {
-  return !!hasMarketplacePostId_;
-}
-- (void) setHasMarketplacePostId:(BOOL) value {
-  hasMarketplacePostId_ = !!value;
-}
-@synthesize marketplacePostId;
-- (BOOL) hasPoster {
-  return !!hasPoster_;
-}
-- (void) setHasPoster:(BOOL) value {
-  hasPoster_ = !!value;
-}
-@synthesize poster;
-- (BOOL) hasPostType {
-  return !!hasPostType_;
-}
-- (void) setHasPostType:(BOOL) value {
-  hasPostType_ = !!value;
-}
-@synthesize postType;
-- (BOOL) hasTimeOfPost {
-  return !!hasTimeOfPost_;
-}
-- (void) setHasTimeOfPost:(BOOL) value {
-  hasTimeOfPost_ = !!value;
-}
-@synthesize timeOfPost;
-- (BOOL) hasPostedEquip {
-  return !!hasPostedEquip_;
-}
-- (void) setHasPostedEquip:(BOOL) value {
-  hasPostedEquip_ = !!value;
-}
-@synthesize postedEquip;
-- (BOOL) hasDiamondCost {
-  return !!hasDiamondCost_;
-}
-- (void) setHasDiamondCost:(BOOL) value {
-  hasDiamondCost_ = !!value;
-}
-@synthesize diamondCost;
-- (BOOL) hasCoinCost {
-  return !!hasCoinCost_;
-}
-- (void) setHasCoinCost:(BOOL) value {
-  hasCoinCost_ = !!value;
-}
-@synthesize coinCost;
-- (BOOL) hasEquipLevel {
-  return !!hasEquipLevel_;
-}
-- (void) setHasEquipLevel:(BOOL) value {
-  hasEquipLevel_ = !!value;
-}
-@synthesize equipLevel;
-- (BOOL) hasEquipEnhancementPercent {
-  return !!hasEquipEnhancementPercent_;
-}
-- (void) setHasEquipEnhancementPercent:(BOOL) value {
-  hasEquipEnhancementPercent_ = !!value;
-}
-@synthesize equipEnhancementPercent;
-- (void) dealloc {
-  self.poster = nil;
-  self.postedEquip = nil;
-  [super dealloc];
-}
-- (id) init {
-  if ((self = [super init])) {
-    self.marketplacePostId = 0;
-    self.poster = [MinimumUserProto defaultInstance];
-    self.postType = MarketplacePostTypePremiumEquipPost;
-    self.timeOfPost = 0L;
-    self.postedEquip = [FullEquipProto defaultInstance];
-    self.diamondCost = 0;
-    self.coinCost = 0;
-    self.equipLevel = 0;
-    self.equipEnhancementPercent = 0;
-  }
-  return self;
-}
-static FullMarketplacePostProto* defaultFullMarketplacePostProtoInstance = nil;
-+ (void) initialize {
-  if (self == [FullMarketplacePostProto class]) {
-    defaultFullMarketplacePostProtoInstance = [[FullMarketplacePostProto alloc] init];
-  }
-}
-+ (FullMarketplacePostProto*) defaultInstance {
-  return defaultFullMarketplacePostProtoInstance;
-}
-- (FullMarketplacePostProto*) defaultInstance {
-  return defaultFullMarketplacePostProtoInstance;
-}
-- (BOOL) isInitialized {
-  return YES;
-}
-- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output {
-  if (self.hasMarketplacePostId) {
-    [output writeInt32:1 value:self.marketplacePostId];
-  }
-  if (self.hasPoster) {
-    [output writeMessage:2 value:self.poster];
-  }
-  if (self.hasPostType) {
-    [output writeEnum:3 value:self.postType];
-  }
-  if (self.hasTimeOfPost) {
-    [output writeInt64:4 value:self.timeOfPost];
-  }
-  if (self.hasPostedEquip) {
-    [output writeMessage:5 value:self.postedEquip];
-  }
-  if (self.hasDiamondCost) {
-    [output writeInt32:6 value:self.diamondCost];
-  }
-  if (self.hasCoinCost) {
-    [output writeInt32:7 value:self.coinCost];
-  }
-  if (self.hasEquipLevel) {
-    [output writeInt32:8 value:self.equipLevel];
-  }
-  if (self.hasEquipEnhancementPercent) {
-    [output writeInt32:9 value:self.equipEnhancementPercent];
-  }
-  [self.unknownFields writeToCodedOutputStream:output];
-}
-- (int32_t) serializedSize {
-  int32_t size = memoizedSerializedSize;
-  if (size != -1) {
-    return size;
-  }
-
-  size = 0;
-  if (self.hasMarketplacePostId) {
-    size += computeInt32Size(1, self.marketplacePostId);
-  }
-  if (self.hasPoster) {
-    size += computeMessageSize(2, self.poster);
-  }
-  if (self.hasPostType) {
-    size += computeEnumSize(3, self.postType);
-  }
-  if (self.hasTimeOfPost) {
-    size += computeInt64Size(4, self.timeOfPost);
-  }
-  if (self.hasPostedEquip) {
-    size += computeMessageSize(5, self.postedEquip);
-  }
-  if (self.hasDiamondCost) {
-    size += computeInt32Size(6, self.diamondCost);
-  }
-  if (self.hasCoinCost) {
-    size += computeInt32Size(7, self.coinCost);
-  }
-  if (self.hasEquipLevel) {
-    size += computeInt32Size(8, self.equipLevel);
-  }
-  if (self.hasEquipEnhancementPercent) {
-    size += computeInt32Size(9, self.equipEnhancementPercent);
-  }
-  size += self.unknownFields.serializedSize;
-  memoizedSerializedSize = size;
-  return size;
-}
-+ (FullMarketplacePostProto*) parseFromData:(NSData*) data {
-  return (FullMarketplacePostProto*)[[[FullMarketplacePostProto builder] mergeFromData:data] build];
-}
-+ (FullMarketplacePostProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
-  return (FullMarketplacePostProto*)[[[FullMarketplacePostProto builder] mergeFromData:data extensionRegistry:extensionRegistry] build];
-}
-+ (FullMarketplacePostProto*) parseFromInputStream:(NSInputStream*) input {
-  return (FullMarketplacePostProto*)[[[FullMarketplacePostProto builder] mergeFromInputStream:input] build];
-}
-+ (FullMarketplacePostProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
-  return (FullMarketplacePostProto*)[[[FullMarketplacePostProto builder] mergeFromInputStream:input extensionRegistry:extensionRegistry] build];
-}
-+ (FullMarketplacePostProto*) parseFromCodedInputStream:(PBCodedInputStream*) input {
-  return (FullMarketplacePostProto*)[[[FullMarketplacePostProto builder] mergeFromCodedInputStream:input] build];
-}
-+ (FullMarketplacePostProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
-  return (FullMarketplacePostProto*)[[[FullMarketplacePostProto builder] mergeFromCodedInputStream:input extensionRegistry:extensionRegistry] build];
-}
-+ (FullMarketplacePostProto_Builder*) builder {
-  return [[[FullMarketplacePostProto_Builder alloc] init] autorelease];
-}
-+ (FullMarketplacePostProto_Builder*) builderWithPrototype:(FullMarketplacePostProto*) prototype {
-  return [[FullMarketplacePostProto builder] mergeFrom:prototype];
-}
-- (FullMarketplacePostProto_Builder*) builder {
-  return [FullMarketplacePostProto builder];
-}
-@end
-
-@interface FullMarketplacePostProto_Builder()
-@property (retain) FullMarketplacePostProto* result;
-@end
-
-@implementation FullMarketplacePostProto_Builder
-@synthesize result;
-- (void) dealloc {
-  self.result = nil;
-  [super dealloc];
-}
-- (id) init {
-  if ((self = [super init])) {
-    self.result = [[[FullMarketplacePostProto alloc] init] autorelease];
-  }
-  return self;
-}
-- (PBGeneratedMessage*) internalGetResult {
-  return result;
-}
-- (FullMarketplacePostProto_Builder*) clear {
-  self.result = [[[FullMarketplacePostProto alloc] init] autorelease];
-  return self;
-}
-- (FullMarketplacePostProto_Builder*) clone {
-  return [FullMarketplacePostProto builderWithPrototype:result];
-}
-- (FullMarketplacePostProto*) defaultInstance {
-  return [FullMarketplacePostProto defaultInstance];
-}
-- (FullMarketplacePostProto*) build {
-  [self checkInitialized];
-  return [self buildPartial];
-}
-- (FullMarketplacePostProto*) buildPartial {
-  FullMarketplacePostProto* returnMe = [[result retain] autorelease];
-  self.result = nil;
-  return returnMe;
-}
-- (FullMarketplacePostProto_Builder*) mergeFrom:(FullMarketplacePostProto*) other {
-  if (other == [FullMarketplacePostProto defaultInstance]) {
-    return self;
-  }
-  if (other.hasMarketplacePostId) {
-    [self setMarketplacePostId:other.marketplacePostId];
-  }
-  if (other.hasPoster) {
-    [self mergePoster:other.poster];
-  }
-  if (other.hasPostType) {
-    [self setPostType:other.postType];
-  }
-  if (other.hasTimeOfPost) {
-    [self setTimeOfPost:other.timeOfPost];
-  }
-  if (other.hasPostedEquip) {
-    [self mergePostedEquip:other.postedEquip];
-  }
-  if (other.hasDiamondCost) {
-    [self setDiamondCost:other.diamondCost];
-  }
-  if (other.hasCoinCost) {
-    [self setCoinCost:other.coinCost];
-  }
-  if (other.hasEquipLevel) {
-    [self setEquipLevel:other.equipLevel];
-  }
-  if (other.hasEquipEnhancementPercent) {
-    [self setEquipEnhancementPercent:other.equipEnhancementPercent];
-  }
-  [self mergeUnknownFields:other.unknownFields];
-  return self;
-}
-- (FullMarketplacePostProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input {
-  return [self mergeFromCodedInputStream:input extensionRegistry:[PBExtensionRegistry emptyRegistry]];
-}
-- (FullMarketplacePostProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
-  PBUnknownFieldSet_Builder* unknownFields = [PBUnknownFieldSet builderWithUnknownFields:self.unknownFields];
-  while (YES) {
-    int32_t tag = [input readTag];
-    switch (tag) {
-      case 0:
-        [self setUnknownFields:[unknownFields build]];
-        return self;
-      default: {
-        if (![self parseUnknownField:input unknownFields:unknownFields extensionRegistry:extensionRegistry tag:tag]) {
-          [self setUnknownFields:[unknownFields build]];
-          return self;
-        }
-        break;
-      }
-      case 8: {
-        [self setMarketplacePostId:[input readInt32]];
-        break;
-      }
-      case 18: {
-        MinimumUserProto_Builder* subBuilder = [MinimumUserProto builder];
-        if (self.hasPoster) {
-          [subBuilder mergeFrom:self.poster];
-        }
-        [input readMessage:subBuilder extensionRegistry:extensionRegistry];
-        [self setPoster:[subBuilder buildPartial]];
-        break;
-      }
-      case 24: {
-        int32_t value = [input readEnum];
-        if (MarketplacePostTypeIsValidValue(value)) {
-          [self setPostType:value];
-        } else {
-          [unknownFields mergeVarintField:3 value:value];
-        }
-        break;
-      }
-      case 32: {
-        [self setTimeOfPost:[input readInt64]];
-        break;
-      }
-      case 42: {
-        FullEquipProto_Builder* subBuilder = [FullEquipProto builder];
-        if (self.hasPostedEquip) {
-          [subBuilder mergeFrom:self.postedEquip];
-        }
-        [input readMessage:subBuilder extensionRegistry:extensionRegistry];
-        [self setPostedEquip:[subBuilder buildPartial]];
-        break;
-      }
-      case 48: {
-        [self setDiamondCost:[input readInt32]];
-        break;
-      }
-      case 56: {
-        [self setCoinCost:[input readInt32]];
-        break;
-      }
-      case 64: {
-        [self setEquipLevel:[input readInt32]];
-        break;
-      }
-      case 72: {
-        [self setEquipEnhancementPercent:[input readInt32]];
-        break;
-      }
-    }
-  }
-}
-- (BOOL) hasMarketplacePostId {
-  return result.hasMarketplacePostId;
-}
-- (int32_t) marketplacePostId {
-  return result.marketplacePostId;
-}
-- (FullMarketplacePostProto_Builder*) setMarketplacePostId:(int32_t) value {
-  result.hasMarketplacePostId = YES;
-  result.marketplacePostId = value;
-  return self;
-}
-- (FullMarketplacePostProto_Builder*) clearMarketplacePostId {
-  result.hasMarketplacePostId = NO;
-  result.marketplacePostId = 0;
-  return self;
-}
-- (BOOL) hasPoster {
-  return result.hasPoster;
-}
-- (MinimumUserProto*) poster {
-  return result.poster;
-}
-- (FullMarketplacePostProto_Builder*) setPoster:(MinimumUserProto*) value {
-  result.hasPoster = YES;
-  result.poster = value;
-  return self;
-}
-- (FullMarketplacePostProto_Builder*) setPosterBuilder:(MinimumUserProto_Builder*) builderForValue {
-  return [self setPoster:[builderForValue build]];
-}
-- (FullMarketplacePostProto_Builder*) mergePoster:(MinimumUserProto*) value {
-  if (result.hasPoster &&
-      result.poster != [MinimumUserProto defaultInstance]) {
-    result.poster =
-      [[[MinimumUserProto builderWithPrototype:result.poster] mergeFrom:value] buildPartial];
-  } else {
-    result.poster = value;
-  }
-  result.hasPoster = YES;
-  return self;
-}
-- (FullMarketplacePostProto_Builder*) clearPoster {
-  result.hasPoster = NO;
-  result.poster = [MinimumUserProto defaultInstance];
-  return self;
-}
-- (BOOL) hasPostType {
-  return result.hasPostType;
-}
-- (MarketplacePostType) postType {
-  return result.postType;
-}
-- (FullMarketplacePostProto_Builder*) setPostType:(MarketplacePostType) value {
-  result.hasPostType = YES;
-  result.postType = value;
-  return self;
-}
-- (FullMarketplacePostProto_Builder*) clearPostType {
-  result.hasPostType = NO;
-  result.postType = MarketplacePostTypePremiumEquipPost;
-  return self;
-}
-- (BOOL) hasTimeOfPost {
-  return result.hasTimeOfPost;
-}
-- (int64_t) timeOfPost {
-  return result.timeOfPost;
-}
-- (FullMarketplacePostProto_Builder*) setTimeOfPost:(int64_t) value {
-  result.hasTimeOfPost = YES;
-  result.timeOfPost = value;
-  return self;
-}
-- (FullMarketplacePostProto_Builder*) clearTimeOfPost {
-  result.hasTimeOfPost = NO;
-  result.timeOfPost = 0L;
-  return self;
-}
-- (BOOL) hasPostedEquip {
-  return result.hasPostedEquip;
-}
-- (FullEquipProto*) postedEquip {
-  return result.postedEquip;
-}
-- (FullMarketplacePostProto_Builder*) setPostedEquip:(FullEquipProto*) value {
-  result.hasPostedEquip = YES;
-  result.postedEquip = value;
-  return self;
-}
-- (FullMarketplacePostProto_Builder*) setPostedEquipBuilder:(FullEquipProto_Builder*) builderForValue {
-  return [self setPostedEquip:[builderForValue build]];
-}
-- (FullMarketplacePostProto_Builder*) mergePostedEquip:(FullEquipProto*) value {
-  if (result.hasPostedEquip &&
-      result.postedEquip != [FullEquipProto defaultInstance]) {
-    result.postedEquip =
-      [[[FullEquipProto builderWithPrototype:result.postedEquip] mergeFrom:value] buildPartial];
-  } else {
-    result.postedEquip = value;
-  }
-  result.hasPostedEquip = YES;
-  return self;
-}
-- (FullMarketplacePostProto_Builder*) clearPostedEquip {
-  result.hasPostedEquip = NO;
-  result.postedEquip = [FullEquipProto defaultInstance];
-  return self;
-}
-- (BOOL) hasDiamondCost {
-  return result.hasDiamondCost;
-}
-- (int32_t) diamondCost {
-  return result.diamondCost;
-}
-- (FullMarketplacePostProto_Builder*) setDiamondCost:(int32_t) value {
-  result.hasDiamondCost = YES;
-  result.diamondCost = value;
-  return self;
-}
-- (FullMarketplacePostProto_Builder*) clearDiamondCost {
-  result.hasDiamondCost = NO;
-  result.diamondCost = 0;
-  return self;
-}
-- (BOOL) hasCoinCost {
-  return result.hasCoinCost;
-}
-- (int32_t) coinCost {
-  return result.coinCost;
-}
-- (FullMarketplacePostProto_Builder*) setCoinCost:(int32_t) value {
-  result.hasCoinCost = YES;
-  result.coinCost = value;
-  return self;
-}
-- (FullMarketplacePostProto_Builder*) clearCoinCost {
-  result.hasCoinCost = NO;
-  result.coinCost = 0;
-  return self;
-}
-- (BOOL) hasEquipLevel {
-  return result.hasEquipLevel;
-}
-- (int32_t) equipLevel {
-  return result.equipLevel;
-}
-- (FullMarketplacePostProto_Builder*) setEquipLevel:(int32_t) value {
-  result.hasEquipLevel = YES;
-  result.equipLevel = value;
-  return self;
-}
-- (FullMarketplacePostProto_Builder*) clearEquipLevel {
-  result.hasEquipLevel = NO;
-  result.equipLevel = 0;
-  return self;
-}
-- (BOOL) hasEquipEnhancementPercent {
-  return result.hasEquipEnhancementPercent;
-}
-- (int32_t) equipEnhancementPercent {
-  return result.equipEnhancementPercent;
-}
-- (FullMarketplacePostProto_Builder*) setEquipEnhancementPercent:(int32_t) value {
-  result.hasEquipEnhancementPercent = YES;
-  result.equipEnhancementPercent = value;
-  return self;
-}
-- (FullMarketplacePostProto_Builder*) clearEquipEnhancementPercent {
-  result.hasEquipEnhancementPercent = NO;
-  result.equipEnhancementPercent = 0;
   return self;
 }
 @end

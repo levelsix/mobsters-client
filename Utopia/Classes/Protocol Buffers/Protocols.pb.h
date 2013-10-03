@@ -70,6 +70,8 @@
 @class ChatRequestProto_Builder;
 @class ChatResponseProto;
 @class ChatResponseProto_Builder;
+@class CityExpansionCostProto;
+@class CityExpansionCostProto_Builder;
 @class CityGemProto;
 @class CityGemProto_Builder;
 @class ClanBulletinPostProto;
@@ -78,10 +80,6 @@
 @class ClanTierLevelProto_Builder;
 @class ClanTowerProto;
 @class ClanTowerProto_Builder;
-@class CollectEquipEnhancementRequestProto;
-@class CollectEquipEnhancementRequestProto_Builder;
-@class CollectEquipEnhancementResponseProto;
-@class CollectEquipEnhancementResponseProto_Builder;
 @class CollectForgeEquipsRequestProto;
 @class CollectForgeEquipsRequestProto_Builder;
 @class CollectForgeEquipsResponseProto;
@@ -162,8 +160,6 @@
 @class FullClanProto_Builder;
 @class FullEquipProto;
 @class FullEquipProto_Builder;
-@class FullMarketplacePostProto;
-@class FullMarketplacePostProto_Builder;
 @class FullQuestProto;
 @class FullQuestProto_Builder;
 @class FullStructureProto;
@@ -174,8 +170,6 @@
 @class FullTaskProto_FullTaskEquipReqProto_Builder;
 @class FullUserBossProto;
 @class FullUserBossProto_Builder;
-@class FullUserCityExpansionDataProto;
-@class FullUserCityExpansionDataProto_Builder;
 @class FullUserCityProto;
 @class FullUserCityProto_Builder;
 @class FullUserClanProto;
@@ -302,10 +296,6 @@
 @class PostOnPlayerWallRequestProto_Builder;
 @class PostOnPlayerWallResponseProto;
 @class PostOnPlayerWallResponseProto_Builder;
-@class PostToMarketplaceRequestProto;
-@class PostToMarketplaceRequestProto_Builder;
-@class PostToMarketplaceResponseProto;
-@class PostToMarketplaceResponseProto_Builder;
 @class PrestigeRequestProto;
 @class PrestigeRequestProto_Builder;
 @class PrestigeResponseProto;
@@ -328,18 +318,10 @@
 @class PurchaseForgeSlotRequestProto_Builder;
 @class PurchaseForgeSlotResponseProto;
 @class PurchaseForgeSlotResponseProto_Builder;
-@class PurchaseFromMarketplaceRequestProto;
-@class PurchaseFromMarketplaceRequestProto_Builder;
-@class PurchaseFromMarketplaceResponseProto;
-@class PurchaseFromMarketplaceResponseProto_Builder;
 @class PurchaseGroupChatRequestProto;
 @class PurchaseGroupChatRequestProto_Builder;
 @class PurchaseGroupChatResponseProto;
 @class PurchaseGroupChatResponseProto_Builder;
-@class PurchaseMarketplaceLicenseRequestProto;
-@class PurchaseMarketplaceLicenseRequestProto_Builder;
-@class PurchaseMarketplaceLicenseResponseProto;
-@class PurchaseMarketplaceLicenseResponseProto_Builder;
 @class PurchaseNormStructureRequestProto;
 @class PurchaseNormStructureRequestProto_Builder;
 @class PurchaseNormStructureResponseProto;
@@ -370,10 +352,6 @@
 @class ReconnectRequestProto_Builder;
 @class ReconnectResponseProto;
 @class ReconnectResponseProto_Builder;
-@class RedeemMarketplaceEarningsRequestProto;
-@class RedeemMarketplaceEarningsRequestProto_Builder;
-@class RedeemMarketplaceEarningsResponseProto;
-@class RedeemMarketplaceEarningsResponseProto_Builder;
 @class RedeemUserCityGemsRequestProto;
 @class RedeemUserCityGemsRequestProto_Builder;
 @class RedeemUserCityGemsResponseProto;
@@ -400,10 +378,6 @@
 @class ResetBoosterPackRequestProto_Builder;
 @class ResetBoosterPackResponseProto;
 @class ResetBoosterPackResponseProto_Builder;
-@class RetractMarketplacePostRequestProto;
-@class RetractMarketplacePostRequestProto_Builder;
-@class RetractMarketplacePostResponseProto;
-@class RetractMarketplacePostResponseProto_Builder;
 @class RetractRequestJoinClanRequestProto;
 @class RetractRequestJoinClanRequestProto_Builder;
 @class RetractRequestJoinClanResponseProto;
@@ -438,10 +412,6 @@
 @class RetrieveCurrencyFromNormStructureRequestProto_StructRetrieval_Builder;
 @class RetrieveCurrencyFromNormStructureResponseProto;
 @class RetrieveCurrencyFromNormStructureResponseProto_Builder;
-@class RetrieveCurrentMarketplacePostsRequestProto;
-@class RetrieveCurrentMarketplacePostsRequestProto_Builder;
-@class RetrieveCurrentMarketplacePostsResponseProto;
-@class RetrieveCurrentMarketplacePostsResponseProto_Builder;
 @class RetrieveLeaderboardRankingsRequestProto;
 @class RetrieveLeaderboardRankingsRequestProto_Builder;
 @class RetrieveLeaderboardRankingsResponseProto;
@@ -508,8 +478,6 @@
 @class StartupResponseProto_Builder;
 @class StartupResponseProto_DailyBonusInfo;
 @class StartupResponseProto_DailyBonusInfo_Builder;
-@class StartupResponseProto_MarketplacePostPurchasedNotificationProto;
-@class StartupResponseProto_MarketplacePostPurchasedNotificationProto_Builder;
 @class StartupResponseProto_ReferralNotificationProto;
 @class StartupResponseProto_ReferralNotificationProto_Builder;
 @class StartupResponseProto_StartupConstants;
@@ -580,6 +548,10 @@
 @class UnhandledBlacksmithAttemptProto_Builder;
 @class UpdateClientUserResponseProto;
 @class UpdateClientUserResponseProto_Builder;
+@class UpdateEquipDurabilityRequestProto;
+@class UpdateEquipDurabilityRequestProto_Builder;
+@class UpdateEquipDurabilityResponseProto;
+@class UpdateEquipDurabilityResponseProto_Builder;
 @class UpgradeClanTierLevelRequestProto;
 @class UpgradeClanTierLevelRequestProto_Builder;
 @class UpgradeClanTierLevelResponseProto;
@@ -598,6 +570,8 @@
 @class UserBoosterItemProto_Builder;
 @class UserBoosterPackProto;
 @class UserBoosterPackProto_Builder;
+@class UserCityExpansionDataProto;
+@class UserCityExpansionDataProto_Builder;
 @class UserCityGemProto;
 @class UserCityGemProto_Builder;
 @class UserCreateRequestProto;
@@ -626,10 +600,6 @@ typedef enum {
   EventProtocolRequestCRetrieveStaticDataForShopEvent = 8,
   EventProtocolRequestCArmoryEvent = 9,
   EventProtocolRequestCInAppPurchaseEvent = 10,
-  EventProtocolRequestCRetrieveCurrentMarketplacePostsEvent = 11,
-  EventProtocolRequestCPostToMarketplaceEvent = 12,
-  EventProtocolRequestCRetractPostFromMarketplaceEvent = 13,
-  EventProtocolRequestCPurchaseFromMarketplaceEvent = 14,
   EventProtocolRequestCUseSkillPointEvent = 15,
   EventProtocolRequestCGenerateAttackListEvent = 16,
   EventProtocolRequestCPurchaseNormStructureEvent = 17,
@@ -640,7 +610,6 @@ typedef enum {
   EventProtocolRequestCRefillStatWithDiamondsEvent = 22,
   EventProtocolRequestCFinishNormStructWaittimeWithDiamondsEvent = 23,
   EventProtocolRequestCNormStructWaitCompleteEvent = 24,
-  EventProtocolRequestCRedeemMarketplaceEarningsEvent = 25,
   EventProtocolRequestCCritStructureActionEvent = 26,
   EventProtocolRequestCLoadPlayerCityEvent = 27,
   EventProtocolRequestCRetrieveStaticDataEvent = 28,
@@ -652,7 +621,6 @@ typedef enum {
   EventProtocolRequestCRefillStatWaitCompleteEvent = 34,
   EventProtocolRequestCLevelUpEvent = 35,
   EventProtocolRequestCEnableApnsEvent = 36,
-  EventProtocolRequestCPurchaseMarketplaceLicenseEvent = 37,
   EventProtocolRequestCUserCreateEvent = 38,
   EventProtocolRequestCEquipEquipmentEvent = 39,
   EventProtocolRequestCChangeUserLocationEvent = 40,
@@ -713,6 +681,7 @@ typedef enum {
   EventProtocolRequestCEndDungeonEvent = 97,
   EventProtocolRequestCReviveInDungeonEvent = 98,
   EventProtocolRequestCQueueUpEvent = 99,
+  EventProtocolRequestCUpdateEquipDurabilityEvent = 200,
   EventProtocolRequestCLogoutEvent = 101,
   EventProtocolRequestAAdminUpdate = 300,
 } EventProtocolRequest;
@@ -729,10 +698,6 @@ typedef enum {
   EventProtocolResponseSRetrieveStaticDataForShopEvent = 8,
   EventProtocolResponseSArmoryEvent = 9,
   EventProtocolResponseSInAppPurchaseEvent = 10,
-  EventProtocolResponseSRetrieveCurrentMarketplacePostsEvent = 11,
-  EventProtocolResponseSPostToMarketplaceEvent = 12,
-  EventProtocolResponseSRetractPostFromMarketplaceEvent = 13,
-  EventProtocolResponseSPurchaseFromMarketplaceEvent = 14,
   EventProtocolResponseSUseSkillPointEvent = 15,
   EventProtocolResponseSGenerateAttackListEvent = 16,
   EventProtocolResponseSPurchaseNormStructureEvent = 17,
@@ -743,7 +708,6 @@ typedef enum {
   EventProtocolResponseSRefillStatWithDiamondsEvent = 22,
   EventProtocolResponseSFinishNormStructWaittimeWithDiamondsEvent = 23,
   EventProtocolResponseSNormStructWaitCompleteEvent = 24,
-  EventProtocolResponseSRedeemMarketplaceEarningsEvent = 25,
   EventProtocolResponseSCritStructureActionEvent = 26,
   EventProtocolResponseSLoadPlayerCityEvent = 27,
   EventProtocolResponseSRetrieveStaticDataEvent = 28,
@@ -755,7 +719,6 @@ typedef enum {
   EventProtocolResponseSRefillStatWaitCompleteEvent = 34,
   EventProtocolResponseSLevelUpEvent = 35,
   EventProtocolResponseSEnableApnsEvent = 36,
-  EventProtocolResponseSPurchaseMarketplaceLicenseEvent = 37,
   EventProtocolResponseSUserCreateEvent = 38,
   EventProtocolResponseSEquipEquipmentEvent = 39,
   EventProtocolResponseSChangeUserLocationEvent = 40,
@@ -817,6 +780,7 @@ typedef enum {
   EventProtocolResponseSEndDungeonEvent = 97,
   EventProtocolResponseSReviveInDungeonEvent = 98,
   EventProtocolResponseSQueueUpEvent = 99,
+  EventProtocolResponseSUpdateEquipDurabilityEvent = 200,
   EventProtocolResponseSUpdateClientUserEvent = 101,
   EventProtocolResponseSQuestCompleteEvent = 102,
   EventProtocolResponseSReferralCodeUsedEvent = 103,

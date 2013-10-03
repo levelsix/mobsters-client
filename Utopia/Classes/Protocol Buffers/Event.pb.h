@@ -70,6 +70,8 @@
 @class ChatRequestProto_Builder;
 @class ChatResponseProto;
 @class ChatResponseProto_Builder;
+@class CityExpansionCostProto;
+@class CityExpansionCostProto_Builder;
 @class CityGemProto;
 @class CityGemProto_Builder;
 @class ClanBulletinPostProto;
@@ -78,10 +80,6 @@
 @class ClanTierLevelProto_Builder;
 @class ClanTowerProto;
 @class ClanTowerProto_Builder;
-@class CollectEquipEnhancementRequestProto;
-@class CollectEquipEnhancementRequestProto_Builder;
-@class CollectEquipEnhancementResponseProto;
-@class CollectEquipEnhancementResponseProto_Builder;
 @class CollectForgeEquipsRequestProto;
 @class CollectForgeEquipsRequestProto_Builder;
 @class CollectForgeEquipsResponseProto;
@@ -162,8 +160,6 @@
 @class FullClanProto_Builder;
 @class FullEquipProto;
 @class FullEquipProto_Builder;
-@class FullMarketplacePostProto;
-@class FullMarketplacePostProto_Builder;
 @class FullQuestProto;
 @class FullQuestProto_Builder;
 @class FullStructureProto;
@@ -174,8 +170,6 @@
 @class FullTaskProto_FullTaskEquipReqProto_Builder;
 @class FullUserBossProto;
 @class FullUserBossProto_Builder;
-@class FullUserCityExpansionDataProto;
-@class FullUserCityExpansionDataProto_Builder;
 @class FullUserCityProto;
 @class FullUserCityProto_Builder;
 @class FullUserClanProto;
@@ -302,10 +296,6 @@
 @class PostOnPlayerWallRequestProto_Builder;
 @class PostOnPlayerWallResponseProto;
 @class PostOnPlayerWallResponseProto_Builder;
-@class PostToMarketplaceRequestProto;
-@class PostToMarketplaceRequestProto_Builder;
-@class PostToMarketplaceResponseProto;
-@class PostToMarketplaceResponseProto_Builder;
 @class PrestigeRequestProto;
 @class PrestigeRequestProto_Builder;
 @class PrestigeResponseProto;
@@ -328,18 +318,10 @@
 @class PurchaseForgeSlotRequestProto_Builder;
 @class PurchaseForgeSlotResponseProto;
 @class PurchaseForgeSlotResponseProto_Builder;
-@class PurchaseFromMarketplaceRequestProto;
-@class PurchaseFromMarketplaceRequestProto_Builder;
-@class PurchaseFromMarketplaceResponseProto;
-@class PurchaseFromMarketplaceResponseProto_Builder;
 @class PurchaseGroupChatRequestProto;
 @class PurchaseGroupChatRequestProto_Builder;
 @class PurchaseGroupChatResponseProto;
 @class PurchaseGroupChatResponseProto_Builder;
-@class PurchaseMarketplaceLicenseRequestProto;
-@class PurchaseMarketplaceLicenseRequestProto_Builder;
-@class PurchaseMarketplaceLicenseResponseProto;
-@class PurchaseMarketplaceLicenseResponseProto_Builder;
 @class PurchaseNormStructureRequestProto;
 @class PurchaseNormStructureRequestProto_Builder;
 @class PurchaseNormStructureResponseProto;
@@ -370,10 +352,6 @@
 @class ReconnectRequestProto_Builder;
 @class ReconnectResponseProto;
 @class ReconnectResponseProto_Builder;
-@class RedeemMarketplaceEarningsRequestProto;
-@class RedeemMarketplaceEarningsRequestProto_Builder;
-@class RedeemMarketplaceEarningsResponseProto;
-@class RedeemMarketplaceEarningsResponseProto_Builder;
 @class RedeemUserCityGemsRequestProto;
 @class RedeemUserCityGemsRequestProto_Builder;
 @class RedeemUserCityGemsResponseProto;
@@ -400,10 +378,6 @@
 @class ResetBoosterPackRequestProto_Builder;
 @class ResetBoosterPackResponseProto;
 @class ResetBoosterPackResponseProto_Builder;
-@class RetractMarketplacePostRequestProto;
-@class RetractMarketplacePostRequestProto_Builder;
-@class RetractMarketplacePostResponseProto;
-@class RetractMarketplacePostResponseProto_Builder;
 @class RetractRequestJoinClanRequestProto;
 @class RetractRequestJoinClanRequestProto_Builder;
 @class RetractRequestJoinClanResponseProto;
@@ -438,10 +412,6 @@
 @class RetrieveCurrencyFromNormStructureRequestProto_StructRetrieval_Builder;
 @class RetrieveCurrencyFromNormStructureResponseProto;
 @class RetrieveCurrencyFromNormStructureResponseProto_Builder;
-@class RetrieveCurrentMarketplacePostsRequestProto;
-@class RetrieveCurrentMarketplacePostsRequestProto_Builder;
-@class RetrieveCurrentMarketplacePostsResponseProto;
-@class RetrieveCurrentMarketplacePostsResponseProto_Builder;
 @class RetrieveLeaderboardRankingsRequestProto;
 @class RetrieveLeaderboardRankingsRequestProto_Builder;
 @class RetrieveLeaderboardRankingsResponseProto;
@@ -508,8 +478,6 @@
 @class StartupResponseProto_Builder;
 @class StartupResponseProto_DailyBonusInfo;
 @class StartupResponseProto_DailyBonusInfo_Builder;
-@class StartupResponseProto_MarketplacePostPurchasedNotificationProto;
-@class StartupResponseProto_MarketplacePostPurchasedNotificationProto_Builder;
 @class StartupResponseProto_ReferralNotificationProto;
 @class StartupResponseProto_ReferralNotificationProto_Builder;
 @class StartupResponseProto_StartupConstants;
@@ -580,6 +548,10 @@
 @class UnhandledBlacksmithAttemptProto_Builder;
 @class UpdateClientUserResponseProto;
 @class UpdateClientUserResponseProto_Builder;
+@class UpdateEquipDurabilityRequestProto;
+@class UpdateEquipDurabilityRequestProto_Builder;
+@class UpdateEquipDurabilityResponseProto;
+@class UpdateEquipDurabilityResponseProto_Builder;
 @class UpgradeClanTierLevelRequestProto;
 @class UpgradeClanTierLevelRequestProto_Builder;
 @class UpgradeClanTierLevelResponseProto;
@@ -598,6 +570,8 @@
 @class UserBoosterItemProto_Builder;
 @class UserBoosterPackProto;
 @class UserBoosterPackProto_Builder;
+@class UserCityExpansionDataProto;
+@class UserCityExpansionDataProto_Builder;
 @class UserCityGemProto;
 @class UserCityGemProto_Builder;
 @class UserCreateRequestProto;
@@ -619,9 +593,8 @@
 typedef enum {
   QueueUpResponseProto_QueueUpStatusSuccess = 0,
   QueueUpResponseProto_QueueUpStatusOtherFail = 1,
-  QueueUpResponseProto_QueueUpStatusNotEnoughSilver = 2,
-  QueueUpResponseProto_QueueUpStatusCantFindAnyone = 3,
-  QueueUpResponseProto_QueueUpStatusHasShield = 4,
+  QueueUpResponseProto_QueueUpStatusFailNotEnoughSilver = 2,
+  QueueUpResponseProto_QueueUpStatusFailCantFindAnyone = 3,
 } QueueUpResponseProto_QueueUpStatus;
 
 BOOL QueueUpResponseProto_QueueUpStatusIsValidValue(QueueUpResponseProto_QueueUpStatus value);
@@ -834,68 +807,6 @@ typedef enum {
 BOOL InAppPurchaseResponseProto_InAppPurchaseStatusIsValidValue(InAppPurchaseResponseProto_InAppPurchaseStatus value);
 
 typedef enum {
-  RetrieveCurrentMarketplacePostsRequestProto_RetrieveCurrentMarketplacePostsFilterAll = 0,
-  RetrieveCurrentMarketplacePostsRequestProto_RetrieveCurrentMarketplacePostsFilterWeapons = 1,
-  RetrieveCurrentMarketplacePostsRequestProto_RetrieveCurrentMarketplacePostsFilterArmor = 2,
-  RetrieveCurrentMarketplacePostsRequestProto_RetrieveCurrentMarketplacePostsFilterAmulets = 3,
-} RetrieveCurrentMarketplacePostsRequestProto_RetrieveCurrentMarketplacePostsFilter;
-
-BOOL RetrieveCurrentMarketplacePostsRequestProto_RetrieveCurrentMarketplacePostsFilterIsValidValue(RetrieveCurrentMarketplacePostsRequestProto_RetrieveCurrentMarketplacePostsFilter value);
-
-typedef enum {
-  RetrieveCurrentMarketplacePostsRequestProto_RetrieveCurrentMarketplacePostsSortingOrderMostRecentPosts = 0,
-  RetrieveCurrentMarketplacePostsRequestProto_RetrieveCurrentMarketplacePostsSortingOrderPriceLowToHigh = 1,
-  RetrieveCurrentMarketplacePostsRequestProto_RetrieveCurrentMarketplacePostsSortingOrderPriceHighToLow = 2,
-  RetrieveCurrentMarketplacePostsRequestProto_RetrieveCurrentMarketplacePostsSortingOrderAttackHighToLow = 3,
-  RetrieveCurrentMarketplacePostsRequestProto_RetrieveCurrentMarketplacePostsSortingOrderDefenseHighToLow = 4,
-  RetrieveCurrentMarketplacePostsRequestProto_RetrieveCurrentMarketplacePostsSortingOrderTotalStatsHighToLow = 5,
-} RetrieveCurrentMarketplacePostsRequestProto_RetrieveCurrentMarketplacePostsSortingOrder;
-
-BOOL RetrieveCurrentMarketplacePostsRequestProto_RetrieveCurrentMarketplacePostsSortingOrderIsValidValue(RetrieveCurrentMarketplacePostsRequestProto_RetrieveCurrentMarketplacePostsSortingOrder value);
-
-typedef enum {
-  RetrieveCurrentMarketplacePostsResponseProto_RetrieveCurrentMarketplacePostsStatusSuccess = 0,
-  RetrieveCurrentMarketplacePostsResponseProto_RetrieveCurrentMarketplacePostsStatusOtherFail = 2,
-} RetrieveCurrentMarketplacePostsResponseProto_RetrieveCurrentMarketplacePostsStatus;
-
-BOOL RetrieveCurrentMarketplacePostsResponseProto_RetrieveCurrentMarketplacePostsStatusIsValidValue(RetrieveCurrentMarketplacePostsResponseProto_RetrieveCurrentMarketplacePostsStatus value);
-
-typedef enum {
-  PostToMarketplaceResponseProto_PostToMarketplaceStatusSuccess = 0,
-  PostToMarketplaceResponseProto_PostToMarketplaceStatusNegativePost = 1,
-  PostToMarketplaceResponseProto_PostToMarketplaceStatusNotEnoughEquip = 2,
-  PostToMarketplaceResponseProto_PostToMarketplaceStatusNegativeCost = 3,
-  PostToMarketplaceResponseProto_PostToMarketplaceStatusNoCost = 4,
-  PostToMarketplaceResponseProto_PostToMarketplaceStatusUserAlreadyMaxMarketplacePosts = 5,
-  PostToMarketplaceResponseProto_PostToMarketplaceStatusCantDemandBoth = 6,
-  PostToMarketplaceResponseProto_PostToMarketplaceStatusInvalidCostTypeForPost = 7,
-  PostToMarketplaceResponseProto_PostToMarketplaceStatusOtherFail = 8,
-} PostToMarketplaceResponseProto_PostToMarketplaceStatus;
-
-BOOL PostToMarketplaceResponseProto_PostToMarketplaceStatusIsValidValue(PostToMarketplaceResponseProto_PostToMarketplaceStatus value);
-
-typedef enum {
-  RetractMarketplacePostResponseProto_RetractMarketplacePostStatusSuccess = 0,
-  RetractMarketplacePostResponseProto_RetractMarketplacePostStatusNotRequestersPost = 1,
-  RetractMarketplacePostResponseProto_RetractMarketplacePostStatusPostNoLongerExists = 2,
-  RetractMarketplacePostResponseProto_RetractMarketplacePostStatusNotEnoughDiamonds = 3,
-  RetractMarketplacePostResponseProto_RetractMarketplacePostStatusNotEnoughCoins = 4,
-  RetractMarketplacePostResponseProto_RetractMarketplacePostStatusOtherFail = 5,
-} RetractMarketplacePostResponseProto_RetractMarketplacePostStatus;
-
-BOOL RetractMarketplacePostResponseProto_RetractMarketplacePostStatusIsValidValue(RetractMarketplacePostResponseProto_RetractMarketplacePostStatus value);
-
-typedef enum {
-  PurchaseFromMarketplaceResponseProto_PurchaseFromMarketplaceStatusSuccess = 0,
-  PurchaseFromMarketplaceResponseProto_PurchaseFromMarketplaceStatusNotEnoughMaterials = 1,
-  PurchaseFromMarketplaceResponseProto_PurchaseFromMarketplaceStatusPostNoLongerExists = 2,
-  PurchaseFromMarketplaceResponseProto_PurchaseFromMarketplaceStatusPurchaserIsSeller = 3,
-  PurchaseFromMarketplaceResponseProto_PurchaseFromMarketplaceStatusOtherFail = 5,
-} PurchaseFromMarketplaceResponseProto_PurchaseFromMarketplaceStatus;
-
-BOOL PurchaseFromMarketplaceResponseProto_PurchaseFromMarketplaceStatusIsValidValue(PurchaseFromMarketplaceResponseProto_PurchaseFromMarketplaceStatus value);
-
-typedef enum {
   UseSkillPointResponseProto_UseSkillPointStatusSuccess = 0,
   UseSkillPointResponseProto_UseSkillPointStatusNotEnoughSkillPoints = 1,
   UseSkillPointResponseProto_UseSkillPointStatusOtherFail = 2,
@@ -927,13 +838,6 @@ typedef enum {
 } RefillStatWithDiamondsResponseProto_RefillStatStatus;
 
 BOOL RefillStatWithDiamondsResponseProto_RefillStatStatusIsValidValue(RefillStatWithDiamondsResponseProto_RefillStatStatus value);
-
-typedef enum {
-  RedeemMarketplaceEarningsResponseProto_RedeemMarketplaceEarningsStatusSuccess = 0,
-  RedeemMarketplaceEarningsResponseProto_RedeemMarketplaceEarningsStatusOtherFail = 1,
-} RedeemMarketplaceEarningsResponseProto_RedeemMarketplaceEarningsStatus;
-
-BOOL RedeemMarketplaceEarningsResponseProto_RedeemMarketplaceEarningsStatusIsValidValue(RedeemMarketplaceEarningsResponseProto_RedeemMarketplaceEarningsStatus value);
 
 typedef enum {
   LoadPlayerCityResponseProto_LoadPlayerCityStatusSuccess = 0,
@@ -1017,23 +921,6 @@ typedef enum {
 } EnableAPNSResponseProto_EnableAPNSStatus;
 
 BOOL EnableAPNSResponseProto_EnableAPNSStatusIsValidValue(EnableAPNSResponseProto_EnableAPNSStatus value);
-
-typedef enum {
-  PurchaseMarketplaceLicenseRequestProto_LicenseTypeShort = 0,
-  PurchaseMarketplaceLicenseRequestProto_LicenseTypeLong = 1,
-} PurchaseMarketplaceLicenseRequestProto_LicenseType;
-
-BOOL PurchaseMarketplaceLicenseRequestProto_LicenseTypeIsValidValue(PurchaseMarketplaceLicenseRequestProto_LicenseType value);
-
-typedef enum {
-  PurchaseMarketplaceLicenseResponseProto_PurchaseMarketplaceLicenseStatusSuccess = 0,
-  PurchaseMarketplaceLicenseResponseProto_PurchaseMarketplaceLicenseStatusNotEnoughDiamonds = 1,
-  PurchaseMarketplaceLicenseResponseProto_PurchaseMarketplaceLicenseStatusAlreadyHaveLicenseNow = 2,
-  PurchaseMarketplaceLicenseResponseProto_PurchaseMarketplaceLicenseStatusOtherFail = 3,
-  PurchaseMarketplaceLicenseResponseProto_PurchaseMarketplaceLicenseStatusClientTooApartFromServerTime = 4,
-} PurchaseMarketplaceLicenseResponseProto_PurchaseMarketplaceLicenseStatus;
-
-BOOL PurchaseMarketplaceLicenseResponseProto_PurchaseMarketplaceLicenseStatusIsValidValue(PurchaseMarketplaceLicenseResponseProto_PurchaseMarketplaceLicenseStatus value);
 
 typedef enum {
   EquipEquipmentResponseProto_EquipEquipmentStatusSuccess = 0,
@@ -1415,21 +1302,10 @@ typedef enum {
   SubmitEquipEnhancementResponseProto_EnhanceEquipStatusClientTooApartFromServerTime = 2,
   SubmitEquipEnhancementResponseProto_EnhanceEquipStatusMainOrFeederOrEquipsNonexistent = 3,
   SubmitEquipEnhancementResponseProto_EnhanceEquipStatusTryingToSurpassMaxLevel = 4,
-  SubmitEquipEnhancementResponseProto_EnhanceEquipStatusAlreadyEnhancing = 5,
-  SubmitEquipEnhancementResponseProto_EnhanceEquipStatusNotEnoughSilver = 6,
+  SubmitEquipEnhancementResponseProto_EnhanceEquipStatusNotEnoughSilver = 5,
 } SubmitEquipEnhancementResponseProto_EnhanceEquipStatus;
 
 BOOL SubmitEquipEnhancementResponseProto_EnhanceEquipStatusIsValidValue(SubmitEquipEnhancementResponseProto_EnhanceEquipStatus value);
-
-typedef enum {
-  CollectEquipEnhancementResponseProto_CollectEquipStatusSuccess = 0,
-  CollectEquipEnhancementResponseProto_CollectEquipStatusClientTooApartFromServerTime = 1,
-  CollectEquipEnhancementResponseProto_CollectEquipStatusEnhancementNotComplete = 2,
-  CollectEquipEnhancementResponseProto_CollectEquipStatusOtherFail = 3,
-  CollectEquipEnhancementResponseProto_CollectEquipStatusNotEnoughGold = 4,
-} CollectEquipEnhancementResponseProto_CollectEquipStatus;
-
-BOOL CollectEquipEnhancementResponseProto_CollectEquipStatusIsValidValue(CollectEquipEnhancementResponseProto_CollectEquipStatus value);
 
 typedef enum {
   RetrieveClanTowerScoresResponseProto_RetrieveClanTowerScoresStatusSuccess = 0,
@@ -1599,6 +1475,14 @@ typedef enum {
 
 BOOL ReviveInDungeonResponseProto_ReviveInDungeonStatusIsValidValue(ReviveInDungeonResponseProto_ReviveInDungeonStatus value);
 
+typedef enum {
+  UpdateEquipDurabilityResponseProto_UpdateEquipDurabilityStatusSuccess = 0,
+  UpdateEquipDurabilityResponseProto_UpdateEquipDurabilityStatusFailInsufficientFunds = 1,
+  UpdateEquipDurabilityResponseProto_UpdateEquipDurabilityStatusFailOther = 2,
+} UpdateEquipDurabilityResponseProto_UpdateEquipDurabilityStatus;
+
+BOOL UpdateEquipDurabilityResponseProto_UpdateEquipDurabilityStatusIsValidValue(UpdateEquipDurabilityResponseProto_UpdateEquipDurabilityStatus value);
+
 
 @interface EventRoot : NSObject {
 }
@@ -1737,18 +1621,14 @@ BOOL ReviveInDungeonResponseProto_ReviveInDungeonStatusIsValidValue(ReviveInDung
 @interface QueueUpRequestProto : PBGeneratedMessage {
 @private
   BOOL hasClientTime_:1;
-  BOOL hasElo_:1;
   BOOL hasAttacker_:1;
   int64_t clientTime;
-  int32_t elo;
   MinimumUserProto* attacker;
   NSMutableArray* mutableSeenUserIdsList;
 }
 - (BOOL) hasAttacker;
-- (BOOL) hasElo;
 - (BOOL) hasClientTime;
 @property (readonly, retain) MinimumUserProto* attacker;
-@property (readonly) int32_t elo;
 @property (readonly) int64_t clientTime;
 - (NSArray*) seenUserIdsList;
 - (int32_t) seenUserIdsAtIndex:(int32_t) index;
@@ -1794,11 +1674,6 @@ BOOL ReviveInDungeonResponseProto_ReviveInDungeonStatusIsValidValue(ReviveInDung
 - (QueueUpRequestProto_Builder*) mergeAttacker:(MinimumUserProto*) value;
 - (QueueUpRequestProto_Builder*) clearAttacker;
 
-- (BOOL) hasElo;
-- (int32_t) elo;
-- (QueueUpRequestProto_Builder*) setElo:(int32_t) value;
-- (QueueUpRequestProto_Builder*) clearElo;
-
 - (NSArray*) seenUserIdsList;
 - (int32_t) seenUserIdsAtIndex:(int32_t) index;
 - (QueueUpRequestProto_Builder*) replaceSeenUserIdsAtIndex:(int32_t) index with:(int32_t) value;
@@ -1814,9 +1689,11 @@ BOOL ReviveInDungeonResponseProto_ReviveInDungeonStatusIsValidValue(ReviveInDung
 
 @interface QueueUpResponseProto : PBGeneratedMessage {
 @private
+  BOOL hasPossibleCoinReward_:1;
   BOOL hasAttacker_:1;
   BOOL hasDefender_:1;
   BOOL hasStatus_:1;
+  int32_t possibleCoinReward;
   MinimumUserProto* attacker;
   MinimumUserProto* defender;
   QueueUpResponseProto_QueueUpStatus status;
@@ -1824,9 +1701,11 @@ BOOL ReviveInDungeonResponseProto_ReviveInDungeonStatusIsValidValue(ReviveInDung
 - (BOOL) hasAttacker;
 - (BOOL) hasDefender;
 - (BOOL) hasStatus;
+- (BOOL) hasPossibleCoinReward;
 @property (readonly, retain) MinimumUserProto* attacker;
 @property (readonly, retain) MinimumUserProto* defender;
 @property (readonly) QueueUpResponseProto_QueueUpStatus status;
+@property (readonly) int32_t possibleCoinReward;
 
 + (QueueUpResponseProto*) defaultInstance;
 - (QueueUpResponseProto*) defaultInstance;
@@ -1880,6 +1759,11 @@ BOOL ReviveInDungeonResponseProto_ReviveInDungeonStatusIsValidValue(ReviveInDung
 - (QueueUpResponseProto_QueueUpStatus) status;
 - (QueueUpResponseProto_Builder*) setStatus:(QueueUpResponseProto_QueueUpStatus) value;
 - (QueueUpResponseProto_Builder*) clearStatus;
+
+- (BOOL) hasPossibleCoinReward;
+- (int32_t) possibleCoinReward;
+- (QueueUpResponseProto_Builder*) setPossibleCoinReward:(int32_t) value;
+- (QueueUpResponseProto_Builder*) clearPossibleCoinReward;
 @end
 
 @interface BattleRequestProto : PBGeneratedMessage {
@@ -2514,67 +2398,67 @@ BOOL ReviveInDungeonResponseProto_ReviveInDungeonStatusIsValidValue(ReviveInDung
 @interface StartupResponseProto : PBGeneratedMessage {
 @private
   BOOL hasPlayerHasBoughtInAppPurchase_:1;
-  BOOL hasExperienceRequiredForCurrentLevel_:1;
   BOOL hasExperienceRequiredForNextLevel_:1;
-  BOOL hasKabamNaid_:1;
+  BOOL hasExperienceRequiredForCurrentLevel_:1;
   BOOL hasReviewPageConfirmationMessage_:1;
   BOOL hasReviewPageUrl_:1;
+  BOOL hasKabamNaid_:1;
   BOOL hasAppStoreUrl_:1;
-  BOOL hasEquipEnhancement_:1;
-  BOOL hasDailyBonusInfo_:1;
-  BOOL hasStartupConstants_:1;
   BOOL hasSender_:1;
+  BOOL hasStartupConstants_:1;
   BOOL hasTutorialConstants_:1;
-  BOOL hasUpdateStatus_:1;
+  BOOL hasDailyBonusInfo_:1;
+  BOOL hasEquipEnhancement_:1;
   BOOL hasStartupStatus_:1;
+  BOOL hasUpdateStatus_:1;
   BOOL playerHasBoughtInAppPurchase_:1;
-  int32_t experienceRequiredForCurrentLevel;
   int32_t experienceRequiredForNextLevel;
-  NSString* kabamNaid;
+  int32_t experienceRequiredForCurrentLevel;
   NSString* reviewPageConfirmationMessage;
   NSString* reviewPageUrl;
+  NSString* kabamNaid;
   NSString* appStoreUrl;
-  EquipEnhancementProto* equipEnhancement;
-  StartupResponseProto_DailyBonusInfo* dailyBonusInfo;
-  StartupResponseProto_StartupConstants* startupConstants;
   FullUserProto* sender;
+  StartupResponseProto_StartupConstants* startupConstants;
   StartupResponseProto_TutorialConstants* tutorialConstants;
-  StartupResponseProto_UpdateStatus updateStatus;
+  StartupResponseProto_DailyBonusInfo* dailyBonusInfo;
+  EquipEnhancementProto* equipEnhancement;
   StartupResponseProto_StartupStatus startupStatus;
+  StartupResponseProto_UpdateStatus updateStatus;
   NSMutableArray* mutableNoticesToPlayersList;
-  NSMutableArray* mutableMktSearchEquipsList;
-  NSMutableArray* mutableGlobalChatsList;
-  NSMutableArray* mutableClanChatsList;
-  NSMutableArray* mutableGoldSalesList;
-  NSMutableArray* mutableClanTierLevelsList;
-  NSMutableArray* mutableClanTowersList;
-  NSMutableArray* mutableStaticStructsList;
-  NSMutableArray* mutableStaticEquipsList;
-  NSMutableArray* mutableBossEventsList;
   NSMutableArray* mutableLeaderboardEventsList;
+  NSMutableArray* mutableBossEventsList;
+  NSMutableArray* mutableStaticEquipsList;
+  NSMutableArray* mutableStaticStructsList;
+  NSMutableArray* mutableClanTowersList;
+  NSMutableArray* mutableClanTierLevelsList;
   NSMutableArray* mutableRareBoosterPurchasesList;
   NSMutableArray* mutablePcppList;
   NSMutableArray* mutableGemsForAllCitiesList;
+  NSMutableArray* mutableGoldSalesList;
   NSMutableArray* mutableLivingBossesList;
   NSMutableArray* mutableBossesList;
+  NSMutableArray* mutableClanChatsList;
+  NSMutableArray* mutableGlobalChatsList;
+  NSMutableArray* mutableExpansionCostsList;
+  NSMutableArray* mutableAllCitiesList;
+  NSMutableArray* mutableUserCityInfosList;
+  NSMutableArray* mutableInProgressIncompleteQuestsList;
+  NSMutableArray* mutableInProgressCompleteQuestsList;
   NSMutableArray* mutableAvailableQuestsList;
   NSMutableArray* mutableUserEquipsList;
   NSMutableArray* mutableEquipsList;
-  NSMutableArray* mutableInProgressCompleteQuestsList;
-  NSMutableArray* mutableInProgressIncompleteQuestsList;
   NSMutableArray* mutableUserClanInfoList;
-  NSMutableArray* mutableMarketplacePurchaseNotificationsList;
   NSMutableArray* mutableAttackNotificationsList;
   NSMutableArray* mutableReferralNotificationsList;
   NSMutableArray* mutablePlayerWallPostNotificationsList;
   NSMutableArray* mutableClanBulletinPostNotificationsList;
   NSMutableArray* mutableLockBoxEventsList;
   NSMutableArray* mutableUserLockBoxEventsList;
-  NSMutableArray* mutableUserCityInfosList;
-  NSMutableArray* mutableAllCitiesList;
   NSMutableArray* mutableAlliesList;
   NSMutableArray* mutableUnhandledForgeAttemptList;
   NSMutableArray* mutableForgeAttemptEquipList;
+  NSMutableArray* mutableMktSearchEquipsList;
 }
 - (BOOL) hasSender;
 - (BOOL) hasStartupStatus;
@@ -2620,8 +2504,6 @@ BOOL ReviveInDungeonResponseProto_ReviveInDungeonStatusIsValidValue(ReviveInDung
 - (FullEquipProto*) equipsAtIndex:(int32_t) index;
 - (NSArray*) userClanInfoList;
 - (FullUserClanProto*) userClanInfoAtIndex:(int32_t) index;
-- (NSArray*) marketplacePurchaseNotificationsList;
-- (StartupResponseProto_MarketplacePostPurchasedNotificationProto*) marketplacePurchaseNotificationsAtIndex:(int32_t) index;
 - (NSArray*) attackNotificationsList;
 - (StartupResponseProto_AttackedNotificationProto*) attackNotificationsAtIndex:(int32_t) index;
 - (NSArray*) referralNotificationsList;
@@ -2672,6 +2554,8 @@ BOOL ReviveInDungeonResponseProto_ReviveInDungeonStatusIsValidValue(ReviveInDung
 - (FullUserBossProto*) livingBossesAtIndex:(int32_t) index;
 - (NSArray*) bossesList;
 - (FullBossProto*) bossesAtIndex:(int32_t) index;
+- (NSArray*) expansionCostsList;
+- (CityExpansionCostProto*) expansionCostsAtIndex:(int32_t) index;
 
 + (StartupResponseProto*) defaultInstance;
 - (StartupResponseProto*) defaultInstance;
@@ -2801,85 +2685,6 @@ BOOL ReviveInDungeonResponseProto_ReviveInDungeonStatusIsValidValue(ReviveInDung
 - (int64_t) timeAwarded;
 - (StartupResponseProto_DailyBonusInfo_Builder*) setTimeAwarded:(int64_t) value;
 - (StartupResponseProto_DailyBonusInfo_Builder*) clearTimeAwarded;
-@end
-
-@interface StartupResponseProto_MarketplacePostPurchasedNotificationProto : PBGeneratedMessage {
-@private
-  BOOL hasSellerHadLicense_:1;
-  BOOL hasTimeOfPurchase_:1;
-  BOOL hasMarketplacePost_:1;
-  BOOL hasBuyer_:1;
-  BOOL sellerHadLicense_:1;
-  int64_t timeOfPurchase;
-  FullMarketplacePostProto* marketplacePost;
-  MinimumUserProto* buyer;
-}
-- (BOOL) hasMarketplacePost;
-- (BOOL) hasBuyer;
-- (BOOL) hasTimeOfPurchase;
-- (BOOL) hasSellerHadLicense;
-@property (readonly, retain) FullMarketplacePostProto* marketplacePost;
-@property (readonly, retain) MinimumUserProto* buyer;
-@property (readonly) int64_t timeOfPurchase;
-- (BOOL) sellerHadLicense;
-
-+ (StartupResponseProto_MarketplacePostPurchasedNotificationProto*) defaultInstance;
-- (StartupResponseProto_MarketplacePostPurchasedNotificationProto*) defaultInstance;
-
-- (BOOL) isInitialized;
-- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output;
-- (StartupResponseProto_MarketplacePostPurchasedNotificationProto_Builder*) builder;
-+ (StartupResponseProto_MarketplacePostPurchasedNotificationProto_Builder*) builder;
-+ (StartupResponseProto_MarketplacePostPurchasedNotificationProto_Builder*) builderWithPrototype:(StartupResponseProto_MarketplacePostPurchasedNotificationProto*) prototype;
-
-+ (StartupResponseProto_MarketplacePostPurchasedNotificationProto*) parseFromData:(NSData*) data;
-+ (StartupResponseProto_MarketplacePostPurchasedNotificationProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
-+ (StartupResponseProto_MarketplacePostPurchasedNotificationProto*) parseFromInputStream:(NSInputStream*) input;
-+ (StartupResponseProto_MarketplacePostPurchasedNotificationProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
-+ (StartupResponseProto_MarketplacePostPurchasedNotificationProto*) parseFromCodedInputStream:(PBCodedInputStream*) input;
-+ (StartupResponseProto_MarketplacePostPurchasedNotificationProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
-@end
-
-@interface StartupResponseProto_MarketplacePostPurchasedNotificationProto_Builder : PBGeneratedMessage_Builder {
-@private
-  StartupResponseProto_MarketplacePostPurchasedNotificationProto* result;
-}
-
-- (StartupResponseProto_MarketplacePostPurchasedNotificationProto*) defaultInstance;
-
-- (StartupResponseProto_MarketplacePostPurchasedNotificationProto_Builder*) clear;
-- (StartupResponseProto_MarketplacePostPurchasedNotificationProto_Builder*) clone;
-
-- (StartupResponseProto_MarketplacePostPurchasedNotificationProto*) build;
-- (StartupResponseProto_MarketplacePostPurchasedNotificationProto*) buildPartial;
-
-- (StartupResponseProto_MarketplacePostPurchasedNotificationProto_Builder*) mergeFrom:(StartupResponseProto_MarketplacePostPurchasedNotificationProto*) other;
-- (StartupResponseProto_MarketplacePostPurchasedNotificationProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input;
-- (StartupResponseProto_MarketplacePostPurchasedNotificationProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
-
-- (BOOL) hasMarketplacePost;
-- (FullMarketplacePostProto*) marketplacePost;
-- (StartupResponseProto_MarketplacePostPurchasedNotificationProto_Builder*) setMarketplacePost:(FullMarketplacePostProto*) value;
-- (StartupResponseProto_MarketplacePostPurchasedNotificationProto_Builder*) setMarketplacePostBuilder:(FullMarketplacePostProto_Builder*) builderForValue;
-- (StartupResponseProto_MarketplacePostPurchasedNotificationProto_Builder*) mergeMarketplacePost:(FullMarketplacePostProto*) value;
-- (StartupResponseProto_MarketplacePostPurchasedNotificationProto_Builder*) clearMarketplacePost;
-
-- (BOOL) hasBuyer;
-- (MinimumUserProto*) buyer;
-- (StartupResponseProto_MarketplacePostPurchasedNotificationProto_Builder*) setBuyer:(MinimumUserProto*) value;
-- (StartupResponseProto_MarketplacePostPurchasedNotificationProto_Builder*) setBuyerBuilder:(MinimumUserProto_Builder*) builderForValue;
-- (StartupResponseProto_MarketplacePostPurchasedNotificationProto_Builder*) mergeBuyer:(MinimumUserProto*) value;
-- (StartupResponseProto_MarketplacePostPurchasedNotificationProto_Builder*) clearBuyer;
-
-- (BOOL) hasTimeOfPurchase;
-- (int64_t) timeOfPurchase;
-- (StartupResponseProto_MarketplacePostPurchasedNotificationProto_Builder*) setTimeOfPurchase:(int64_t) value;
-- (StartupResponseProto_MarketplacePostPurchasedNotificationProto_Builder*) clearTimeOfPurchase;
-
-- (BOOL) hasSellerHadLicense;
-- (BOOL) sellerHadLicense;
-- (StartupResponseProto_MarketplacePostPurchasedNotificationProto_Builder*) setSellerHadLicense:(BOOL) value;
-- (StartupResponseProto_MarketplacePostPurchasedNotificationProto_Builder*) clearSellerHadLicense;
 @end
 
 @interface StartupResponseProto_AttackedNotificationProto : PBGeneratedMessage {
@@ -3048,13 +2853,14 @@ BOOL ReviveInDungeonResponseProto_ReviveInDungeonStatusIsValidValue(ReviveInDung
 @interface StartupResponseProto_StartupConstants : PBGeneratedMessage {
 @private
   BOOL hasUseOldBattleFormula_:1;
-  BOOL hasLevelEquipBoostExponentBase_:1;
   BOOL hasPercentReturnedToUserForSellingEquipInArmory_:1;
-  BOOL hasBossEventSuperAttack_:1;
+  BOOL hasLevelEquipBoostExponentBase_:1;
   BOOL hasCutOfVaultDepositTaken_:1;
-  BOOL hasPercentOfSellingCostTakenFromSellerOnMarketplaceRetract_:1;
-  BOOL hasPercentOfSellingCostTakenFromSellerOnMarketplacePurchase_:1;
+  BOOL hasBossEventSuperAttack_:1;
   BOOL hasPercentReturnedToUserForSellingNormStructure_:1;
+  BOOL hasMinNameLength_:1;
+  BOOL hasAdColonyVideosRequiredToRedeemDiamonds_:1;
+  BOOL hasAverageSizeOfLevelBracket_:1;
   BOOL hasNumBeginnerSalesAllowed_:1;
   BOOL hasPlayerWallPostsRetrieveCap_:1;
   BOOL hasMaxCharLengthForWallPost_:1;
@@ -3062,53 +2868,43 @@ BOOL ReviveInDungeonResponseProto_ReviveInDungeonStatusIsValidValue(ReviveInDung
   BOOL hasInitStamina_:1;
   BOOL hasAviaryImgVerticalPixelOffset_:1;
   BOOL hasCarpenterImgVerticalPixelOffset_:1;
-  BOOL hasMarketplaceImgVerticalPixelOffset_:1;
   BOOL hasVaultImgVerticalPixelOffset_:1;
+  BOOL hasMaxNameLength_:1;
+  BOOL hasSizeOfAttackList_:1;
+  BOOL hasMaxNumTimesAttackedByOneInProtectionPeriod_:1;
+  BOOL hasHoursInAttackedByOneProtectionPeriod_:1;
+  BOOL hasMinBattlesRequiredForKdrconsideration_:1;
+  BOOL hasNumChatsGivenPerGroupChatPurchasePackage_:1;
+  BOOL hasDiamondPriceForGroupChatPurchasePackage_:1;
+  BOOL hasMaxLengthOfChatString_:1;
+  BOOL hasBossEventNumberOfAttacksUntilSuperAttack_:1;
+  BOOL hasMaxNumTowersClanCanHold_:1;
+  BOOL hasFbConnectRewardDiamonds_:1;
+  BOOL hasQuestIdForFirstLossTutorial_:1;
+  BOOL hasLevelToShowRateUsPopup_:1;
+  BOOL hasNumHoursBeforeReshowingGoldSale_:1;
+  BOOL hasNumHoursBeforeReshowingLockBox_:1;
+  BOOL hasNumHoursBeforeReshowingBossEvent_:1;
+  BOOL hasMinClanMembersToHoldClanTower_:1;
+  BOOL hasMaxLevelDifferenceForBattle_:1;
+  BOOL hasMaxLevelForUser_:1;
+  BOOL hasArmoryXlength_:1;
+  BOOL hasArmoryYlength_:1;
+  BOOL hasVaultXlength_:1;
+  BOOL hasVaultYlength_:1;
+  BOOL hasCarpenterXlength_:1;
+  BOOL hasCarpenterYlength_:1;
+  BOOL hasAviaryXlength_:1;
+  BOOL hasAviaryYlength_:1;
+  BOOL hasAttackBaseGain_:1;
+  BOOL hasDefenseBaseGain_:1;
+  BOOL hasEnergyBaseGain_:1;
+  BOOL hasStaminaBaseGain_:1;
+  BOOL hasAttackBaseCost_:1;
   BOOL hasArmoryImgVerticalPixelOffset_:1;
   BOOL hasMaxCityRank_:1;
   BOOL hasMaxNumbersOfEnemiesToGenerateAtOnce_:1;
-  BOOL hasNumHoursBeforeReshowingBossEvent_:1;
-  BOOL hasNumHoursBeforeReshowingLockBox_:1;
-  BOOL hasNumHoursBeforeReshowingGoldSale_:1;
-  BOOL hasLevelToShowRateUsPopup_:1;
-  BOOL hasQuestIdForFirstLossTutorial_:1;
-  BOOL hasFbConnectRewardDiamonds_:1;
-  BOOL hasMaxNumTowersClanCanHold_:1;
-  BOOL hasBossEventNumberOfAttacksUntilSuperAttack_:1;
-  BOOL hasMaxLengthOfChatString_:1;
-  BOOL hasDiamondPriceForGroupChatPurchasePackage_:1;
-  BOOL hasNumChatsGivenPerGroupChatPurchasePackage_:1;
-  BOOL hasMinBattlesRequiredForKdrconsideration_:1;
-  BOOL hasHoursInAttackedByOneProtectionPeriod_:1;
-  BOOL hasMaxNumTimesAttackedByOneInProtectionPeriod_:1;
-  BOOL hasSizeOfAttackList_:1;
-  BOOL hasMaxNameLength_:1;
-  BOOL hasMinNameLength_:1;
-  BOOL hasAdColonyVideosRequiredToRedeemDiamonds_:1;
-  BOOL hasAverageSizeOfLevelBracket_:1;
-  BOOL hasAttackBaseCost_:1;
-  BOOL hasMaxLevelDifferenceForBattle_:1;
-  BOOL hasStaminaBaseGain_:1;
-  BOOL hasEnergyBaseGain_:1;
-  BOOL hasDefenseBaseGain_:1;
-  BOOL hasAttackBaseGain_:1;
-  BOOL hasAviaryYlength_:1;
-  BOOL hasAviaryXlength_:1;
-  BOOL hasCarpenterYlength_:1;
-  BOOL hasCarpenterXlength_:1;
-  BOOL hasMarketplaceYlength_:1;
-  BOOL hasMarketplaceXlength_:1;
-  BOOL hasVaultYlength_:1;
-  BOOL hasVaultXlength_:1;
-  BOOL hasArmoryYlength_:1;
-  BOOL hasArmoryXlength_:1;
-  BOOL hasMaxLevelForUser_:1;
   BOOL hasNumDaysUntilFreeRetract_:1;
-  BOOL hasDiamondCostOfShortMarketplaceLicense_:1;
-  BOOL hasDiamondCostOfLongMarketplaceLicense_:1;
-  BOOL hasNumDaysShortMarketplaceLicenseLastsFor_:1;
-  BOOL hasNumDaysLongMarketplaceLicenseLastsFor_:1;
-  BOOL hasMaxNumberOfMarketplacePosts_:1;
   BOOL hasDiamondCostForFullEnergyRefill_:1;
   BOOL hasDiamondCostForFullStaminaRefill_:1;
   BOOL hasMinutesToRefillAstamina_:1;
@@ -3118,10 +2914,9 @@ BOOL ReviveInDungeonResponseProto_ReviveInDungeonStatusIsValidValue(ReviveInDung
   BOOL hasSkillPointsGainedOnLevelup_:1;
   BOOL hasStaminaBaseCost_:1;
   BOOL hasEnergyBaseCost_:1;
-  BOOL hasMinClanMembersToHoldClanTower_:1;
   BOOL hasDefenseBaseCost_:1;
-  BOOL hasFaqFileName_:1;
   BOOL hasPrestigeFaqFileName_:1;
+  BOOL hasFaqFileName_:1;
   BOOL hasEnhanceConstants_:1;
   BOOL hasBoosterPackConstants_:1;
   BOOL hasPrestigeConstants_:1;
@@ -3143,13 +2938,14 @@ BOOL ReviveInDungeonResponseProto_ReviveInDungeonStatusIsValidValue(ReviveInDung
   BOOL hasMinLevelConstants_:1;
   BOOL hasLeaderboardConstants_:1;
   BOOL useOldBattleFormula_:1;
-  Float64 levelEquipBoostExponentBase;
   Float64 percentReturnedToUserForSellingEquipInArmory;
-  Float64 bossEventSuperAttack;
+  Float64 levelEquipBoostExponentBase;
   Float64 cutOfVaultDepositTaken;
-  Float64 percentOfSellingCostTakenFromSellerOnMarketplaceRetract;
-  Float64 percentOfSellingCostTakenFromSellerOnMarketplacePurchase;
+  Float64 bossEventSuperAttack;
   Float64 percentReturnedToUserForSellingNormStructure;
+  int32_t minNameLength;
+  int32_t adColonyVideosRequiredToRedeemDiamonds;
+  int32_t averageSizeOfLevelBracket;
   int32_t numBeginnerSalesAllowed;
   int32_t playerWallPostsRetrieveCap;
   int32_t maxCharLengthForWallPost;
@@ -3157,53 +2953,43 @@ BOOL ReviveInDungeonResponseProto_ReviveInDungeonStatusIsValidValue(ReviveInDung
   int32_t initStamina;
   int32_t aviaryImgVerticalPixelOffset;
   int32_t carpenterImgVerticalPixelOffset;
-  int32_t marketplaceImgVerticalPixelOffset;
   int32_t vaultImgVerticalPixelOffset;
+  int32_t maxNameLength;
+  int32_t sizeOfAttackList;
+  int32_t maxNumTimesAttackedByOneInProtectionPeriod;
+  int32_t hoursInAttackedByOneProtectionPeriod;
+  int32_t minBattlesRequiredForKdrconsideration;
+  int32_t numChatsGivenPerGroupChatPurchasePackage;
+  int32_t diamondPriceForGroupChatPurchasePackage;
+  int32_t maxLengthOfChatString;
+  int32_t bossEventNumberOfAttacksUntilSuperAttack;
+  int32_t maxNumTowersClanCanHold;
+  int32_t fbConnectRewardDiamonds;
+  int32_t questIdForFirstLossTutorial;
+  int32_t levelToShowRateUsPopup;
+  int32_t numHoursBeforeReshowingGoldSale;
+  int32_t numHoursBeforeReshowingLockBox;
+  int32_t numHoursBeforeReshowingBossEvent;
+  int32_t minClanMembersToHoldClanTower;
+  int32_t maxLevelDifferenceForBattle;
+  int32_t maxLevelForUser;
+  int32_t armoryXlength;
+  int32_t armoryYlength;
+  int32_t vaultXlength;
+  int32_t vaultYlength;
+  int32_t carpenterXlength;
+  int32_t carpenterYlength;
+  int32_t aviaryXlength;
+  int32_t aviaryYlength;
+  int32_t attackBaseGain;
+  int32_t defenseBaseGain;
+  int32_t energyBaseGain;
+  int32_t staminaBaseGain;
+  int32_t attackBaseCost;
   int32_t armoryImgVerticalPixelOffset;
   int32_t maxCityRank;
   int32_t maxNumbersOfEnemiesToGenerateAtOnce;
-  int32_t numHoursBeforeReshowingBossEvent;
-  int32_t numHoursBeforeReshowingLockBox;
-  int32_t numHoursBeforeReshowingGoldSale;
-  int32_t levelToShowRateUsPopup;
-  int32_t questIdForFirstLossTutorial;
-  int32_t fbConnectRewardDiamonds;
-  int32_t maxNumTowersClanCanHold;
-  int32_t bossEventNumberOfAttacksUntilSuperAttack;
-  int32_t maxLengthOfChatString;
-  int32_t diamondPriceForGroupChatPurchasePackage;
-  int32_t numChatsGivenPerGroupChatPurchasePackage;
-  int32_t minBattlesRequiredForKdrconsideration;
-  int32_t hoursInAttackedByOneProtectionPeriod;
-  int32_t maxNumTimesAttackedByOneInProtectionPeriod;
-  int32_t sizeOfAttackList;
-  int32_t maxNameLength;
-  int32_t minNameLength;
-  int32_t adColonyVideosRequiredToRedeemDiamonds;
-  int32_t averageSizeOfLevelBracket;
-  int32_t attackBaseCost;
-  int32_t maxLevelDifferenceForBattle;
-  int32_t staminaBaseGain;
-  int32_t energyBaseGain;
-  int32_t defenseBaseGain;
-  int32_t attackBaseGain;
-  int32_t aviaryYlength;
-  int32_t aviaryXlength;
-  int32_t carpenterYlength;
-  int32_t carpenterXlength;
-  int32_t marketplaceYlength;
-  int32_t marketplaceXlength;
-  int32_t vaultYlength;
-  int32_t vaultXlength;
-  int32_t armoryYlength;
-  int32_t armoryXlength;
-  int32_t maxLevelForUser;
   int32_t numDaysUntilFreeRetract;
-  int32_t diamondCostOfShortMarketplaceLicense;
-  int32_t diamondCostOfLongMarketplaceLicense;
-  int32_t numDaysShortMarketplaceLicenseLastsFor;
-  int32_t numDaysLongMarketplaceLicenseLastsFor;
-  int32_t maxNumberOfMarketplacePosts;
   int32_t diamondCostForFullEnergyRefill;
   int32_t diamondCostForFullStaminaRefill;
   int32_t minutesToRefillAstamina;
@@ -3213,10 +2999,9 @@ BOOL ReviveInDungeonResponseProto_ReviveInDungeonStatusIsValidValue(ReviveInDung
   int32_t skillPointsGainedOnLevelup;
   int32_t staminaBaseCost;
   int32_t energyBaseCost;
-  int32_t minClanMembersToHoldClanTower;
   int32_t defenseBaseCost;
-  NSString* faqFileName;
   NSString* prestigeFaqFileName;
+  NSString* faqFileName;
   StartupResponseProto_StartupConstants_EnhancementConstants* enhanceConstants;
   StartupResponseProto_StartupConstants_BoosterPackConstants* boosterPackConstants;
   StartupResponseProto_StartupConstants_PrestigeConstants* prestigeConstants;
@@ -3249,8 +3034,6 @@ BOOL ReviveInDungeonResponseProto_ReviveInDungeonStatusIsValidValue(ReviveInDung
 - (BOOL) hasArmoryYlength;
 - (BOOL) hasVaultXlength;
 - (BOOL) hasVaultYlength;
-- (BOOL) hasMarketplaceXlength;
-- (BOOL) hasMarketplaceYlength;
 - (BOOL) hasCarpenterXlength;
 - (BOOL) hasCarpenterYlength;
 - (BOOL) hasAviaryXlength;
@@ -3272,20 +3055,12 @@ BOOL ReviveInDungeonResponseProto_ReviveInDungeonStatusIsValidValue(ReviveInDung
 - (BOOL) hasMinutesToRefillAstamina;
 - (BOOL) hasDiamondCostForFullStaminaRefill;
 - (BOOL) hasDiamondCostForFullEnergyRefill;
-- (BOOL) hasMaxNumberOfMarketplacePosts;
-- (BOOL) hasPercentOfSellingCostTakenFromSellerOnMarketplacePurchase;
-- (BOOL) hasPercentOfSellingCostTakenFromSellerOnMarketplaceRetract;
-- (BOOL) hasNumDaysLongMarketplaceLicenseLastsFor;
-- (BOOL) hasNumDaysShortMarketplaceLicenseLastsFor;
-- (BOOL) hasDiamondCostOfLongMarketplaceLicense;
-- (BOOL) hasDiamondCostOfShortMarketplaceLicense;
 - (BOOL) hasNumDaysUntilFreeRetract;
 - (BOOL) hasMaxNumbersOfEnemiesToGenerateAtOnce;
 - (BOOL) hasPercentReturnedToUserForSellingEquipInArmory;
 - (BOOL) hasMaxCityRank;
 - (BOOL) hasArmoryImgVerticalPixelOffset;
 - (BOOL) hasVaultImgVerticalPixelOffset;
-- (BOOL) hasMarketplaceImgVerticalPixelOffset;
 - (BOOL) hasCarpenterImgVerticalPixelOffset;
 - (BOOL) hasAviaryImgVerticalPixelOffset;
 - (BOOL) hasFormulaConstants;
@@ -3344,8 +3119,6 @@ BOOL ReviveInDungeonResponseProto_ReviveInDungeonStatusIsValidValue(ReviveInDung
 @property (readonly) int32_t armoryYlength;
 @property (readonly) int32_t vaultXlength;
 @property (readonly) int32_t vaultYlength;
-@property (readonly) int32_t marketplaceXlength;
-@property (readonly) int32_t marketplaceYlength;
 @property (readonly) int32_t carpenterXlength;
 @property (readonly) int32_t carpenterYlength;
 @property (readonly) int32_t aviaryXlength;
@@ -3367,20 +3140,12 @@ BOOL ReviveInDungeonResponseProto_ReviveInDungeonStatusIsValidValue(ReviveInDung
 @property (readonly) int32_t minutesToRefillAstamina;
 @property (readonly) int32_t diamondCostForFullStaminaRefill;
 @property (readonly) int32_t diamondCostForFullEnergyRefill;
-@property (readonly) int32_t maxNumberOfMarketplacePosts;
-@property (readonly) Float64 percentOfSellingCostTakenFromSellerOnMarketplacePurchase;
-@property (readonly) Float64 percentOfSellingCostTakenFromSellerOnMarketplaceRetract;
-@property (readonly) int32_t numDaysLongMarketplaceLicenseLastsFor;
-@property (readonly) int32_t numDaysShortMarketplaceLicenseLastsFor;
-@property (readonly) int32_t diamondCostOfLongMarketplaceLicense;
-@property (readonly) int32_t diamondCostOfShortMarketplaceLicense;
 @property (readonly) int32_t numDaysUntilFreeRetract;
 @property (readonly) int32_t maxNumbersOfEnemiesToGenerateAtOnce;
 @property (readonly) Float64 percentReturnedToUserForSellingEquipInArmory;
 @property (readonly) int32_t maxCityRank;
 @property (readonly) int32_t armoryImgVerticalPixelOffset;
 @property (readonly) int32_t vaultImgVerticalPixelOffset;
-@property (readonly) int32_t marketplaceImgVerticalPixelOffset;
 @property (readonly) int32_t carpenterImgVerticalPixelOffset;
 @property (readonly) int32_t aviaryImgVerticalPixelOffset;
 @property (readonly, retain) StartupResponseProto_StartupConstants_FormulaConstants* formulaConstants;
@@ -4045,14 +3810,12 @@ BOOL ReviveInDungeonResponseProto_ReviveInDungeonStatusIsValidValue(ReviveInDung
   BOOL hasClanHouseMinLevel_:1;
   BOOL hasVaultMinLevel_:1;
   BOOL hasArmoryMinLevel_:1;
-  BOOL hasMarketplaceMinLevel_:1;
   BOOL hasBlacksmithMinLevel_:1;
   BOOL hasLeaderboardMinLevel_:1;
   BOOL hasEnhancingMinLevel_:1;
   int32_t clanHouseMinLevel;
   int32_t vaultMinLevel;
   int32_t armoryMinLevel;
-  int32_t marketplaceMinLevel;
   int32_t blacksmithMinLevel;
   int32_t leaderboardMinLevel;
   int32_t enhancingMinLevel;
@@ -4060,14 +3823,12 @@ BOOL ReviveInDungeonResponseProto_ReviveInDungeonStatusIsValidValue(ReviveInDung
 - (BOOL) hasClanHouseMinLevel;
 - (BOOL) hasVaultMinLevel;
 - (BOOL) hasArmoryMinLevel;
-- (BOOL) hasMarketplaceMinLevel;
 - (BOOL) hasBlacksmithMinLevel;
 - (BOOL) hasLeaderboardMinLevel;
 - (BOOL) hasEnhancingMinLevel;
 @property (readonly) int32_t clanHouseMinLevel;
 @property (readonly) int32_t vaultMinLevel;
 @property (readonly) int32_t armoryMinLevel;
-@property (readonly) int32_t marketplaceMinLevel;
 @property (readonly) int32_t blacksmithMinLevel;
 @property (readonly) int32_t leaderboardMinLevel;
 @property (readonly) int32_t enhancingMinLevel;
@@ -4120,11 +3881,6 @@ BOOL ReviveInDungeonResponseProto_ReviveInDungeonStatusIsValidValue(ReviveInDung
 - (int32_t) armoryMinLevel;
 - (StartupResponseProto_StartupConstants_BazaarMinLevelConstants_Builder*) setArmoryMinLevel:(int32_t) value;
 - (StartupResponseProto_StartupConstants_BazaarMinLevelConstants_Builder*) clearArmoryMinLevel;
-
-- (BOOL) hasMarketplaceMinLevel;
-- (int32_t) marketplaceMinLevel;
-- (StartupResponseProto_StartupConstants_BazaarMinLevelConstants_Builder*) setMarketplaceMinLevel:(int32_t) value;
-- (StartupResponseProto_StartupConstants_BazaarMinLevelConstants_Builder*) clearMarketplaceMinLevel;
 
 - (BOOL) hasBlacksmithMinLevel;
 - (int32_t) blacksmithMinLevel;
@@ -5449,16 +5205,6 @@ BOOL ReviveInDungeonResponseProto_ReviveInDungeonStatusIsValidValue(ReviveInDung
 - (StartupResponseProto_StartupConstants_Builder*) setVaultYlength:(int32_t) value;
 - (StartupResponseProto_StartupConstants_Builder*) clearVaultYlength;
 
-- (BOOL) hasMarketplaceXlength;
-- (int32_t) marketplaceXlength;
-- (StartupResponseProto_StartupConstants_Builder*) setMarketplaceXlength:(int32_t) value;
-- (StartupResponseProto_StartupConstants_Builder*) clearMarketplaceXlength;
-
-- (BOOL) hasMarketplaceYlength;
-- (int32_t) marketplaceYlength;
-- (StartupResponseProto_StartupConstants_Builder*) setMarketplaceYlength:(int32_t) value;
-- (StartupResponseProto_StartupConstants_Builder*) clearMarketplaceYlength;
-
 - (BOOL) hasCarpenterXlength;
 - (int32_t) carpenterXlength;
 - (StartupResponseProto_StartupConstants_Builder*) setCarpenterXlength:(int32_t) value;
@@ -5564,41 +5310,6 @@ BOOL ReviveInDungeonResponseProto_ReviveInDungeonStatusIsValidValue(ReviveInDung
 - (StartupResponseProto_StartupConstants_Builder*) setDiamondCostForFullEnergyRefill:(int32_t) value;
 - (StartupResponseProto_StartupConstants_Builder*) clearDiamondCostForFullEnergyRefill;
 
-- (BOOL) hasMaxNumberOfMarketplacePosts;
-- (int32_t) maxNumberOfMarketplacePosts;
-- (StartupResponseProto_StartupConstants_Builder*) setMaxNumberOfMarketplacePosts:(int32_t) value;
-- (StartupResponseProto_StartupConstants_Builder*) clearMaxNumberOfMarketplacePosts;
-
-- (BOOL) hasPercentOfSellingCostTakenFromSellerOnMarketplacePurchase;
-- (Float64) percentOfSellingCostTakenFromSellerOnMarketplacePurchase;
-- (StartupResponseProto_StartupConstants_Builder*) setPercentOfSellingCostTakenFromSellerOnMarketplacePurchase:(Float64) value;
-- (StartupResponseProto_StartupConstants_Builder*) clearPercentOfSellingCostTakenFromSellerOnMarketplacePurchase;
-
-- (BOOL) hasPercentOfSellingCostTakenFromSellerOnMarketplaceRetract;
-- (Float64) percentOfSellingCostTakenFromSellerOnMarketplaceRetract;
-- (StartupResponseProto_StartupConstants_Builder*) setPercentOfSellingCostTakenFromSellerOnMarketplaceRetract:(Float64) value;
-- (StartupResponseProto_StartupConstants_Builder*) clearPercentOfSellingCostTakenFromSellerOnMarketplaceRetract;
-
-- (BOOL) hasNumDaysLongMarketplaceLicenseLastsFor;
-- (int32_t) numDaysLongMarketplaceLicenseLastsFor;
-- (StartupResponseProto_StartupConstants_Builder*) setNumDaysLongMarketplaceLicenseLastsFor:(int32_t) value;
-- (StartupResponseProto_StartupConstants_Builder*) clearNumDaysLongMarketplaceLicenseLastsFor;
-
-- (BOOL) hasNumDaysShortMarketplaceLicenseLastsFor;
-- (int32_t) numDaysShortMarketplaceLicenseLastsFor;
-- (StartupResponseProto_StartupConstants_Builder*) setNumDaysShortMarketplaceLicenseLastsFor:(int32_t) value;
-- (StartupResponseProto_StartupConstants_Builder*) clearNumDaysShortMarketplaceLicenseLastsFor;
-
-- (BOOL) hasDiamondCostOfLongMarketplaceLicense;
-- (int32_t) diamondCostOfLongMarketplaceLicense;
-- (StartupResponseProto_StartupConstants_Builder*) setDiamondCostOfLongMarketplaceLicense:(int32_t) value;
-- (StartupResponseProto_StartupConstants_Builder*) clearDiamondCostOfLongMarketplaceLicense;
-
-- (BOOL) hasDiamondCostOfShortMarketplaceLicense;
-- (int32_t) diamondCostOfShortMarketplaceLicense;
-- (StartupResponseProto_StartupConstants_Builder*) setDiamondCostOfShortMarketplaceLicense:(int32_t) value;
-- (StartupResponseProto_StartupConstants_Builder*) clearDiamondCostOfShortMarketplaceLicense;
-
 - (BOOL) hasNumDaysUntilFreeRetract;
 - (int32_t) numDaysUntilFreeRetract;
 - (StartupResponseProto_StartupConstants_Builder*) setNumDaysUntilFreeRetract:(int32_t) value;
@@ -5628,11 +5339,6 @@ BOOL ReviveInDungeonResponseProto_ReviveInDungeonStatusIsValidValue(ReviveInDung
 - (int32_t) vaultImgVerticalPixelOffset;
 - (StartupResponseProto_StartupConstants_Builder*) setVaultImgVerticalPixelOffset:(int32_t) value;
 - (StartupResponseProto_StartupConstants_Builder*) clearVaultImgVerticalPixelOffset;
-
-- (BOOL) hasMarketplaceImgVerticalPixelOffset;
-- (int32_t) marketplaceImgVerticalPixelOffset;
-- (StartupResponseProto_StartupConstants_Builder*) setMarketplaceImgVerticalPixelOffset:(int32_t) value;
-- (StartupResponseProto_StartupConstants_Builder*) clearMarketplaceImgVerticalPixelOffset;
 
 - (BOOL) hasCarpenterImgVerticalPixelOffset;
 - (int32_t) carpenterImgVerticalPixelOffset;
@@ -6661,13 +6367,6 @@ BOOL ReviveInDungeonResponseProto_ReviveInDungeonStatusIsValidValue(ReviveInDung
 - (StartupResponseProto_Builder*) addAllUserClanInfo:(NSArray*) values;
 - (StartupResponseProto_Builder*) clearUserClanInfoList;
 
-- (NSArray*) marketplacePurchaseNotificationsList;
-- (StartupResponseProto_MarketplacePostPurchasedNotificationProto*) marketplacePurchaseNotificationsAtIndex:(int32_t) index;
-- (StartupResponseProto_Builder*) replaceMarketplacePurchaseNotificationsAtIndex:(int32_t) index with:(StartupResponseProto_MarketplacePostPurchasedNotificationProto*) value;
-- (StartupResponseProto_Builder*) addMarketplacePurchaseNotifications:(StartupResponseProto_MarketplacePostPurchasedNotificationProto*) value;
-- (StartupResponseProto_Builder*) addAllMarketplacePurchaseNotifications:(NSArray*) values;
-- (StartupResponseProto_Builder*) clearMarketplacePurchaseNotificationsList;
-
 - (NSArray*) attackNotificationsList;
 - (StartupResponseProto_AttackedNotificationProto*) attackNotificationsAtIndex:(int32_t) index;
 - (StartupResponseProto_Builder*) replaceAttackNotificationsAtIndex:(int32_t) index with:(StartupResponseProto_AttackedNotificationProto*) value;
@@ -6881,6 +6580,13 @@ BOOL ReviveInDungeonResponseProto_ReviveInDungeonStatusIsValidValue(ReviveInDung
 - (StartupResponseProto_Builder*) addBosses:(FullBossProto*) value;
 - (StartupResponseProto_Builder*) addAllBosses:(NSArray*) values;
 - (StartupResponseProto_Builder*) clearBossesList;
+
+- (NSArray*) expansionCostsList;
+- (CityExpansionCostProto*) expansionCostsAtIndex:(int32_t) index;
+- (StartupResponseProto_Builder*) replaceExpansionCostsAtIndex:(int32_t) index with:(CityExpansionCostProto*) value;
+- (StartupResponseProto_Builder*) addExpansionCosts:(CityExpansionCostProto*) value;
+- (StartupResponseProto_Builder*) addAllExpansionCosts:(NSArray*) values;
+- (StartupResponseProto_Builder*) clearExpansionCostsList;
 @end
 
 @interface UserCreateRequestProto : PBGeneratedMessage {
@@ -9160,737 +8866,6 @@ BOOL ReviveInDungeonResponseProto_ReviveInDungeonStatusIsValidValue(ReviveInDung
 - (UpdateClientUserResponseProto_Builder*) clearTimeOfUserUpdate;
 @end
 
-@interface RetrieveCurrentMarketplacePostsRequestProto : PBGeneratedMessage {
-@private
-  BOOL hasFromSender_:1;
-  BOOL hasCommonEquips_:1;
-  BOOL hasUncommonEquips_:1;
-  BOOL hasRareEquips_:1;
-  BOOL hasSuperRareEquips_:1;
-  BOOL hasEpicEquips_:1;
-  BOOL hasLegendaryEquips_:1;
-  BOOL hasMyClassOnly_:1;
-  BOOL hasSpecificEquipId_:1;
-  BOOL hasMaxForgeLevel_:1;
-  BOOL hasMinForgeLevel_:1;
-  BOOL hasMaxEquipLevel_:1;
-  BOOL hasMinEquipLevel_:1;
-  BOOL hasCurrentNumOfEntries_:1;
-  BOOL hasSender_:1;
-  BOOL hasFilter_:1;
-  BOOL hasSortOrder_:1;
-  BOOL fromSender_:1;
-  BOOL commonEquips_:1;
-  BOOL uncommonEquips_:1;
-  BOOL rareEquips_:1;
-  BOOL superRareEquips_:1;
-  BOOL epicEquips_:1;
-  BOOL legendaryEquips_:1;
-  BOOL myClassOnly_:1;
-  int32_t specificEquipId;
-  int32_t maxForgeLevel;
-  int32_t minForgeLevel;
-  int32_t maxEquipLevel;
-  int32_t minEquipLevel;
-  int32_t currentNumOfEntries;
-  MinimumUserProto* sender;
-  RetrieveCurrentMarketplacePostsRequestProto_RetrieveCurrentMarketplacePostsFilter filter;
-  RetrieveCurrentMarketplacePostsRequestProto_RetrieveCurrentMarketplacePostsSortingOrder sortOrder;
-}
-- (BOOL) hasSender;
-- (BOOL) hasCurrentNumOfEntries;
-- (BOOL) hasFromSender;
-- (BOOL) hasFilter;
-- (BOOL) hasCommonEquips;
-- (BOOL) hasUncommonEquips;
-- (BOOL) hasRareEquips;
-- (BOOL) hasSuperRareEquips;
-- (BOOL) hasEpicEquips;
-- (BOOL) hasLegendaryEquips;
-- (BOOL) hasMyClassOnly;
-- (BOOL) hasMinEquipLevel;
-- (BOOL) hasMaxEquipLevel;
-- (BOOL) hasMinForgeLevel;
-- (BOOL) hasMaxForgeLevel;
-- (BOOL) hasSortOrder;
-- (BOOL) hasSpecificEquipId;
-@property (readonly, retain) MinimumUserProto* sender;
-@property (readonly) int32_t currentNumOfEntries;
-- (BOOL) fromSender;
-@property (readonly) RetrieveCurrentMarketplacePostsRequestProto_RetrieveCurrentMarketplacePostsFilter filter;
-- (BOOL) commonEquips;
-- (BOOL) uncommonEquips;
-- (BOOL) rareEquips;
-- (BOOL) superRareEquips;
-- (BOOL) epicEquips;
-- (BOOL) legendaryEquips;
-- (BOOL) myClassOnly;
-@property (readonly) int32_t minEquipLevel;
-@property (readonly) int32_t maxEquipLevel;
-@property (readonly) int32_t minForgeLevel;
-@property (readonly) int32_t maxForgeLevel;
-@property (readonly) RetrieveCurrentMarketplacePostsRequestProto_RetrieveCurrentMarketplacePostsSortingOrder sortOrder;
-@property (readonly) int32_t specificEquipId;
-
-+ (RetrieveCurrentMarketplacePostsRequestProto*) defaultInstance;
-- (RetrieveCurrentMarketplacePostsRequestProto*) defaultInstance;
-
-- (BOOL) isInitialized;
-- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output;
-- (RetrieveCurrentMarketplacePostsRequestProto_Builder*) builder;
-+ (RetrieveCurrentMarketplacePostsRequestProto_Builder*) builder;
-+ (RetrieveCurrentMarketplacePostsRequestProto_Builder*) builderWithPrototype:(RetrieveCurrentMarketplacePostsRequestProto*) prototype;
-
-+ (RetrieveCurrentMarketplacePostsRequestProto*) parseFromData:(NSData*) data;
-+ (RetrieveCurrentMarketplacePostsRequestProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
-+ (RetrieveCurrentMarketplacePostsRequestProto*) parseFromInputStream:(NSInputStream*) input;
-+ (RetrieveCurrentMarketplacePostsRequestProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
-+ (RetrieveCurrentMarketplacePostsRequestProto*) parseFromCodedInputStream:(PBCodedInputStream*) input;
-+ (RetrieveCurrentMarketplacePostsRequestProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
-@end
-
-@interface RetrieveCurrentMarketplacePostsRequestProto_Builder : PBGeneratedMessage_Builder {
-@private
-  RetrieveCurrentMarketplacePostsRequestProto* result;
-}
-
-- (RetrieveCurrentMarketplacePostsRequestProto*) defaultInstance;
-
-- (RetrieveCurrentMarketplacePostsRequestProto_Builder*) clear;
-- (RetrieveCurrentMarketplacePostsRequestProto_Builder*) clone;
-
-- (RetrieveCurrentMarketplacePostsRequestProto*) build;
-- (RetrieveCurrentMarketplacePostsRequestProto*) buildPartial;
-
-- (RetrieveCurrentMarketplacePostsRequestProto_Builder*) mergeFrom:(RetrieveCurrentMarketplacePostsRequestProto*) other;
-- (RetrieveCurrentMarketplacePostsRequestProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input;
-- (RetrieveCurrentMarketplacePostsRequestProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
-
-- (BOOL) hasSender;
-- (MinimumUserProto*) sender;
-- (RetrieveCurrentMarketplacePostsRequestProto_Builder*) setSender:(MinimumUserProto*) value;
-- (RetrieveCurrentMarketplacePostsRequestProto_Builder*) setSenderBuilder:(MinimumUserProto_Builder*) builderForValue;
-- (RetrieveCurrentMarketplacePostsRequestProto_Builder*) mergeSender:(MinimumUserProto*) value;
-- (RetrieveCurrentMarketplacePostsRequestProto_Builder*) clearSender;
-
-- (BOOL) hasCurrentNumOfEntries;
-- (int32_t) currentNumOfEntries;
-- (RetrieveCurrentMarketplacePostsRequestProto_Builder*) setCurrentNumOfEntries:(int32_t) value;
-- (RetrieveCurrentMarketplacePostsRequestProto_Builder*) clearCurrentNumOfEntries;
-
-- (BOOL) hasFromSender;
-- (BOOL) fromSender;
-- (RetrieveCurrentMarketplacePostsRequestProto_Builder*) setFromSender:(BOOL) value;
-- (RetrieveCurrentMarketplacePostsRequestProto_Builder*) clearFromSender;
-
-- (BOOL) hasFilter;
-- (RetrieveCurrentMarketplacePostsRequestProto_RetrieveCurrentMarketplacePostsFilter) filter;
-- (RetrieveCurrentMarketplacePostsRequestProto_Builder*) setFilter:(RetrieveCurrentMarketplacePostsRequestProto_RetrieveCurrentMarketplacePostsFilter) value;
-- (RetrieveCurrentMarketplacePostsRequestProto_Builder*) clearFilter;
-
-- (BOOL) hasCommonEquips;
-- (BOOL) commonEquips;
-- (RetrieveCurrentMarketplacePostsRequestProto_Builder*) setCommonEquips:(BOOL) value;
-- (RetrieveCurrentMarketplacePostsRequestProto_Builder*) clearCommonEquips;
-
-- (BOOL) hasUncommonEquips;
-- (BOOL) uncommonEquips;
-- (RetrieveCurrentMarketplacePostsRequestProto_Builder*) setUncommonEquips:(BOOL) value;
-- (RetrieveCurrentMarketplacePostsRequestProto_Builder*) clearUncommonEquips;
-
-- (BOOL) hasRareEquips;
-- (BOOL) rareEquips;
-- (RetrieveCurrentMarketplacePostsRequestProto_Builder*) setRareEquips:(BOOL) value;
-- (RetrieveCurrentMarketplacePostsRequestProto_Builder*) clearRareEquips;
-
-- (BOOL) hasSuperRareEquips;
-- (BOOL) superRareEquips;
-- (RetrieveCurrentMarketplacePostsRequestProto_Builder*) setSuperRareEquips:(BOOL) value;
-- (RetrieveCurrentMarketplacePostsRequestProto_Builder*) clearSuperRareEquips;
-
-- (BOOL) hasEpicEquips;
-- (BOOL) epicEquips;
-- (RetrieveCurrentMarketplacePostsRequestProto_Builder*) setEpicEquips:(BOOL) value;
-- (RetrieveCurrentMarketplacePostsRequestProto_Builder*) clearEpicEquips;
-
-- (BOOL) hasLegendaryEquips;
-- (BOOL) legendaryEquips;
-- (RetrieveCurrentMarketplacePostsRequestProto_Builder*) setLegendaryEquips:(BOOL) value;
-- (RetrieveCurrentMarketplacePostsRequestProto_Builder*) clearLegendaryEquips;
-
-- (BOOL) hasMyClassOnly;
-- (BOOL) myClassOnly;
-- (RetrieveCurrentMarketplacePostsRequestProto_Builder*) setMyClassOnly:(BOOL) value;
-- (RetrieveCurrentMarketplacePostsRequestProto_Builder*) clearMyClassOnly;
-
-- (BOOL) hasMinEquipLevel;
-- (int32_t) minEquipLevel;
-- (RetrieveCurrentMarketplacePostsRequestProto_Builder*) setMinEquipLevel:(int32_t) value;
-- (RetrieveCurrentMarketplacePostsRequestProto_Builder*) clearMinEquipLevel;
-
-- (BOOL) hasMaxEquipLevel;
-- (int32_t) maxEquipLevel;
-- (RetrieveCurrentMarketplacePostsRequestProto_Builder*) setMaxEquipLevel:(int32_t) value;
-- (RetrieveCurrentMarketplacePostsRequestProto_Builder*) clearMaxEquipLevel;
-
-- (BOOL) hasMinForgeLevel;
-- (int32_t) minForgeLevel;
-- (RetrieveCurrentMarketplacePostsRequestProto_Builder*) setMinForgeLevel:(int32_t) value;
-- (RetrieveCurrentMarketplacePostsRequestProto_Builder*) clearMinForgeLevel;
-
-- (BOOL) hasMaxForgeLevel;
-- (int32_t) maxForgeLevel;
-- (RetrieveCurrentMarketplacePostsRequestProto_Builder*) setMaxForgeLevel:(int32_t) value;
-- (RetrieveCurrentMarketplacePostsRequestProto_Builder*) clearMaxForgeLevel;
-
-- (BOOL) hasSortOrder;
-- (RetrieveCurrentMarketplacePostsRequestProto_RetrieveCurrentMarketplacePostsSortingOrder) sortOrder;
-- (RetrieveCurrentMarketplacePostsRequestProto_Builder*) setSortOrder:(RetrieveCurrentMarketplacePostsRequestProto_RetrieveCurrentMarketplacePostsSortingOrder) value;
-- (RetrieveCurrentMarketplacePostsRequestProto_Builder*) clearSortOrder;
-
-- (BOOL) hasSpecificEquipId;
-- (int32_t) specificEquipId;
-- (RetrieveCurrentMarketplacePostsRequestProto_Builder*) setSpecificEquipId:(int32_t) value;
-- (RetrieveCurrentMarketplacePostsRequestProto_Builder*) clearSpecificEquipId;
-@end
-
-@interface RetrieveCurrentMarketplacePostsResponseProto : PBGeneratedMessage {
-@private
-  BOOL hasFromSender_:1;
-  BOOL hasBeforeThisPostId_:1;
-  BOOL hasSender_:1;
-  BOOL hasStatus_:1;
-  BOOL fromSender_:1;
-  int32_t beforeThisPostId;
-  MinimumUserProto* sender;
-  RetrieveCurrentMarketplacePostsResponseProto_RetrieveCurrentMarketplacePostsStatus status;
-  NSMutableArray* mutableMarketplacePostsList;
-}
-- (BOOL) hasSender;
-- (BOOL) hasFromSender;
-- (BOOL) hasBeforeThisPostId;
-- (BOOL) hasStatus;
-@property (readonly, retain) MinimumUserProto* sender;
-- (BOOL) fromSender;
-@property (readonly) int32_t beforeThisPostId;
-@property (readonly) RetrieveCurrentMarketplacePostsResponseProto_RetrieveCurrentMarketplacePostsStatus status;
-- (NSArray*) marketplacePostsList;
-- (FullMarketplacePostProto*) marketplacePostsAtIndex:(int32_t) index;
-
-+ (RetrieveCurrentMarketplacePostsResponseProto*) defaultInstance;
-- (RetrieveCurrentMarketplacePostsResponseProto*) defaultInstance;
-
-- (BOOL) isInitialized;
-- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output;
-- (RetrieveCurrentMarketplacePostsResponseProto_Builder*) builder;
-+ (RetrieveCurrentMarketplacePostsResponseProto_Builder*) builder;
-+ (RetrieveCurrentMarketplacePostsResponseProto_Builder*) builderWithPrototype:(RetrieveCurrentMarketplacePostsResponseProto*) prototype;
-
-+ (RetrieveCurrentMarketplacePostsResponseProto*) parseFromData:(NSData*) data;
-+ (RetrieveCurrentMarketplacePostsResponseProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
-+ (RetrieveCurrentMarketplacePostsResponseProto*) parseFromInputStream:(NSInputStream*) input;
-+ (RetrieveCurrentMarketplacePostsResponseProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
-+ (RetrieveCurrentMarketplacePostsResponseProto*) parseFromCodedInputStream:(PBCodedInputStream*) input;
-+ (RetrieveCurrentMarketplacePostsResponseProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
-@end
-
-@interface RetrieveCurrentMarketplacePostsResponseProto_Builder : PBGeneratedMessage_Builder {
-@private
-  RetrieveCurrentMarketplacePostsResponseProto* result;
-}
-
-- (RetrieveCurrentMarketplacePostsResponseProto*) defaultInstance;
-
-- (RetrieveCurrentMarketplacePostsResponseProto_Builder*) clear;
-- (RetrieveCurrentMarketplacePostsResponseProto_Builder*) clone;
-
-- (RetrieveCurrentMarketplacePostsResponseProto*) build;
-- (RetrieveCurrentMarketplacePostsResponseProto*) buildPartial;
-
-- (RetrieveCurrentMarketplacePostsResponseProto_Builder*) mergeFrom:(RetrieveCurrentMarketplacePostsResponseProto*) other;
-- (RetrieveCurrentMarketplacePostsResponseProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input;
-- (RetrieveCurrentMarketplacePostsResponseProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
-
-- (BOOL) hasSender;
-- (MinimumUserProto*) sender;
-- (RetrieveCurrentMarketplacePostsResponseProto_Builder*) setSender:(MinimumUserProto*) value;
-- (RetrieveCurrentMarketplacePostsResponseProto_Builder*) setSenderBuilder:(MinimumUserProto_Builder*) builderForValue;
-- (RetrieveCurrentMarketplacePostsResponseProto_Builder*) mergeSender:(MinimumUserProto*) value;
-- (RetrieveCurrentMarketplacePostsResponseProto_Builder*) clearSender;
-
-- (BOOL) hasFromSender;
-- (BOOL) fromSender;
-- (RetrieveCurrentMarketplacePostsResponseProto_Builder*) setFromSender:(BOOL) value;
-- (RetrieveCurrentMarketplacePostsResponseProto_Builder*) clearFromSender;
-
-- (BOOL) hasBeforeThisPostId;
-- (int32_t) beforeThisPostId;
-- (RetrieveCurrentMarketplacePostsResponseProto_Builder*) setBeforeThisPostId:(int32_t) value;
-- (RetrieveCurrentMarketplacePostsResponseProto_Builder*) clearBeforeThisPostId;
-
-- (BOOL) hasStatus;
-- (RetrieveCurrentMarketplacePostsResponseProto_RetrieveCurrentMarketplacePostsStatus) status;
-- (RetrieveCurrentMarketplacePostsResponseProto_Builder*) setStatus:(RetrieveCurrentMarketplacePostsResponseProto_RetrieveCurrentMarketplacePostsStatus) value;
-- (RetrieveCurrentMarketplacePostsResponseProto_Builder*) clearStatus;
-
-- (NSArray*) marketplacePostsList;
-- (FullMarketplacePostProto*) marketplacePostsAtIndex:(int32_t) index;
-- (RetrieveCurrentMarketplacePostsResponseProto_Builder*) replaceMarketplacePostsAtIndex:(int32_t) index with:(FullMarketplacePostProto*) value;
-- (RetrieveCurrentMarketplacePostsResponseProto_Builder*) addMarketplacePosts:(FullMarketplacePostProto*) value;
-- (RetrieveCurrentMarketplacePostsResponseProto_Builder*) addAllMarketplacePosts:(NSArray*) values;
-- (RetrieveCurrentMarketplacePostsResponseProto_Builder*) clearMarketplacePostsList;
-@end
-
-@interface PostToMarketplaceRequestProto : PBGeneratedMessage {
-@private
-  BOOL hasUserEquipId_:1;
-  BOOL hasDiamondCost_:1;
-  BOOL hasCoinCost_:1;
-  BOOL hasSender_:1;
-  int32_t userEquipId;
-  int32_t diamondCost;
-  int32_t coinCost;
-  MinimumUserProto* sender;
-}
-- (BOOL) hasSender;
-- (BOOL) hasUserEquipId;
-- (BOOL) hasDiamondCost;
-- (BOOL) hasCoinCost;
-@property (readonly, retain) MinimumUserProto* sender;
-@property (readonly) int32_t userEquipId;
-@property (readonly) int32_t diamondCost;
-@property (readonly) int32_t coinCost;
-
-+ (PostToMarketplaceRequestProto*) defaultInstance;
-- (PostToMarketplaceRequestProto*) defaultInstance;
-
-- (BOOL) isInitialized;
-- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output;
-- (PostToMarketplaceRequestProto_Builder*) builder;
-+ (PostToMarketplaceRequestProto_Builder*) builder;
-+ (PostToMarketplaceRequestProto_Builder*) builderWithPrototype:(PostToMarketplaceRequestProto*) prototype;
-
-+ (PostToMarketplaceRequestProto*) parseFromData:(NSData*) data;
-+ (PostToMarketplaceRequestProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
-+ (PostToMarketplaceRequestProto*) parseFromInputStream:(NSInputStream*) input;
-+ (PostToMarketplaceRequestProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
-+ (PostToMarketplaceRequestProto*) parseFromCodedInputStream:(PBCodedInputStream*) input;
-+ (PostToMarketplaceRequestProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
-@end
-
-@interface PostToMarketplaceRequestProto_Builder : PBGeneratedMessage_Builder {
-@private
-  PostToMarketplaceRequestProto* result;
-}
-
-- (PostToMarketplaceRequestProto*) defaultInstance;
-
-- (PostToMarketplaceRequestProto_Builder*) clear;
-- (PostToMarketplaceRequestProto_Builder*) clone;
-
-- (PostToMarketplaceRequestProto*) build;
-- (PostToMarketplaceRequestProto*) buildPartial;
-
-- (PostToMarketplaceRequestProto_Builder*) mergeFrom:(PostToMarketplaceRequestProto*) other;
-- (PostToMarketplaceRequestProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input;
-- (PostToMarketplaceRequestProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
-
-- (BOOL) hasSender;
-- (MinimumUserProto*) sender;
-- (PostToMarketplaceRequestProto_Builder*) setSender:(MinimumUserProto*) value;
-- (PostToMarketplaceRequestProto_Builder*) setSenderBuilder:(MinimumUserProto_Builder*) builderForValue;
-- (PostToMarketplaceRequestProto_Builder*) mergeSender:(MinimumUserProto*) value;
-- (PostToMarketplaceRequestProto_Builder*) clearSender;
-
-- (BOOL) hasUserEquipId;
-- (int32_t) userEquipId;
-- (PostToMarketplaceRequestProto_Builder*) setUserEquipId:(int32_t) value;
-- (PostToMarketplaceRequestProto_Builder*) clearUserEquipId;
-
-- (BOOL) hasDiamondCost;
-- (int32_t) diamondCost;
-- (PostToMarketplaceRequestProto_Builder*) setDiamondCost:(int32_t) value;
-- (PostToMarketplaceRequestProto_Builder*) clearDiamondCost;
-
-- (BOOL) hasCoinCost;
-- (int32_t) coinCost;
-- (PostToMarketplaceRequestProto_Builder*) setCoinCost:(int32_t) value;
-- (PostToMarketplaceRequestProto_Builder*) clearCoinCost;
-@end
-
-@interface PostToMarketplaceResponseProto : PBGeneratedMessage {
-@private
-  BOOL hasSender_:1;
-  BOOL hasStatus_:1;
-  MinimumUserProto* sender;
-  PostToMarketplaceResponseProto_PostToMarketplaceStatus status;
-}
-- (BOOL) hasSender;
-- (BOOL) hasStatus;
-@property (readonly, retain) MinimumUserProto* sender;
-@property (readonly) PostToMarketplaceResponseProto_PostToMarketplaceStatus status;
-
-+ (PostToMarketplaceResponseProto*) defaultInstance;
-- (PostToMarketplaceResponseProto*) defaultInstance;
-
-- (BOOL) isInitialized;
-- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output;
-- (PostToMarketplaceResponseProto_Builder*) builder;
-+ (PostToMarketplaceResponseProto_Builder*) builder;
-+ (PostToMarketplaceResponseProto_Builder*) builderWithPrototype:(PostToMarketplaceResponseProto*) prototype;
-
-+ (PostToMarketplaceResponseProto*) parseFromData:(NSData*) data;
-+ (PostToMarketplaceResponseProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
-+ (PostToMarketplaceResponseProto*) parseFromInputStream:(NSInputStream*) input;
-+ (PostToMarketplaceResponseProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
-+ (PostToMarketplaceResponseProto*) parseFromCodedInputStream:(PBCodedInputStream*) input;
-+ (PostToMarketplaceResponseProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
-@end
-
-@interface PostToMarketplaceResponseProto_Builder : PBGeneratedMessage_Builder {
-@private
-  PostToMarketplaceResponseProto* result;
-}
-
-- (PostToMarketplaceResponseProto*) defaultInstance;
-
-- (PostToMarketplaceResponseProto_Builder*) clear;
-- (PostToMarketplaceResponseProto_Builder*) clone;
-
-- (PostToMarketplaceResponseProto*) build;
-- (PostToMarketplaceResponseProto*) buildPartial;
-
-- (PostToMarketplaceResponseProto_Builder*) mergeFrom:(PostToMarketplaceResponseProto*) other;
-- (PostToMarketplaceResponseProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input;
-- (PostToMarketplaceResponseProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
-
-- (BOOL) hasSender;
-- (MinimumUserProto*) sender;
-- (PostToMarketplaceResponseProto_Builder*) setSender:(MinimumUserProto*) value;
-- (PostToMarketplaceResponseProto_Builder*) setSenderBuilder:(MinimumUserProto_Builder*) builderForValue;
-- (PostToMarketplaceResponseProto_Builder*) mergeSender:(MinimumUserProto*) value;
-- (PostToMarketplaceResponseProto_Builder*) clearSender;
-
-- (BOOL) hasStatus;
-- (PostToMarketplaceResponseProto_PostToMarketplaceStatus) status;
-- (PostToMarketplaceResponseProto_Builder*) setStatus:(PostToMarketplaceResponseProto_PostToMarketplaceStatus) value;
-- (PostToMarketplaceResponseProto_Builder*) clearStatus;
-@end
-
-@interface RetractMarketplacePostRequestProto : PBGeneratedMessage {
-@private
-  BOOL hasCurTime_:1;
-  BOOL hasMarketplacePostId_:1;
-  BOOL hasSender_:1;
-  int64_t curTime;
-  int32_t marketplacePostId;
-  MinimumUserProto* sender;
-}
-- (BOOL) hasSender;
-- (BOOL) hasMarketplacePostId;
-- (BOOL) hasCurTime;
-@property (readonly, retain) MinimumUserProto* sender;
-@property (readonly) int32_t marketplacePostId;
-@property (readonly) int64_t curTime;
-
-+ (RetractMarketplacePostRequestProto*) defaultInstance;
-- (RetractMarketplacePostRequestProto*) defaultInstance;
-
-- (BOOL) isInitialized;
-- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output;
-- (RetractMarketplacePostRequestProto_Builder*) builder;
-+ (RetractMarketplacePostRequestProto_Builder*) builder;
-+ (RetractMarketplacePostRequestProto_Builder*) builderWithPrototype:(RetractMarketplacePostRequestProto*) prototype;
-
-+ (RetractMarketplacePostRequestProto*) parseFromData:(NSData*) data;
-+ (RetractMarketplacePostRequestProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
-+ (RetractMarketplacePostRequestProto*) parseFromInputStream:(NSInputStream*) input;
-+ (RetractMarketplacePostRequestProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
-+ (RetractMarketplacePostRequestProto*) parseFromCodedInputStream:(PBCodedInputStream*) input;
-+ (RetractMarketplacePostRequestProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
-@end
-
-@interface RetractMarketplacePostRequestProto_Builder : PBGeneratedMessage_Builder {
-@private
-  RetractMarketplacePostRequestProto* result;
-}
-
-- (RetractMarketplacePostRequestProto*) defaultInstance;
-
-- (RetractMarketplacePostRequestProto_Builder*) clear;
-- (RetractMarketplacePostRequestProto_Builder*) clone;
-
-- (RetractMarketplacePostRequestProto*) build;
-- (RetractMarketplacePostRequestProto*) buildPartial;
-
-- (RetractMarketplacePostRequestProto_Builder*) mergeFrom:(RetractMarketplacePostRequestProto*) other;
-- (RetractMarketplacePostRequestProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input;
-- (RetractMarketplacePostRequestProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
-
-- (BOOL) hasSender;
-- (MinimumUserProto*) sender;
-- (RetractMarketplacePostRequestProto_Builder*) setSender:(MinimumUserProto*) value;
-- (RetractMarketplacePostRequestProto_Builder*) setSenderBuilder:(MinimumUserProto_Builder*) builderForValue;
-- (RetractMarketplacePostRequestProto_Builder*) mergeSender:(MinimumUserProto*) value;
-- (RetractMarketplacePostRequestProto_Builder*) clearSender;
-
-- (BOOL) hasMarketplacePostId;
-- (int32_t) marketplacePostId;
-- (RetractMarketplacePostRequestProto_Builder*) setMarketplacePostId:(int32_t) value;
-- (RetractMarketplacePostRequestProto_Builder*) clearMarketplacePostId;
-
-- (BOOL) hasCurTime;
-- (int64_t) curTime;
-- (RetractMarketplacePostRequestProto_Builder*) setCurTime:(int64_t) value;
-- (RetractMarketplacePostRequestProto_Builder*) clearCurTime;
-@end
-
-@interface RetractMarketplacePostResponseProto : PBGeneratedMessage {
-@private
-  BOOL hasSender_:1;
-  BOOL hasRetractedUserEquip_:1;
-  BOOL hasStatus_:1;
-  MinimumUserProto* sender;
-  FullUserEquipProto* retractedUserEquip;
-  RetractMarketplacePostResponseProto_RetractMarketplacePostStatus status;
-}
-- (BOOL) hasSender;
-- (BOOL) hasStatus;
-- (BOOL) hasRetractedUserEquip;
-@property (readonly, retain) MinimumUserProto* sender;
-@property (readonly) RetractMarketplacePostResponseProto_RetractMarketplacePostStatus status;
-@property (readonly, retain) FullUserEquipProto* retractedUserEquip;
-
-+ (RetractMarketplacePostResponseProto*) defaultInstance;
-- (RetractMarketplacePostResponseProto*) defaultInstance;
-
-- (BOOL) isInitialized;
-- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output;
-- (RetractMarketplacePostResponseProto_Builder*) builder;
-+ (RetractMarketplacePostResponseProto_Builder*) builder;
-+ (RetractMarketplacePostResponseProto_Builder*) builderWithPrototype:(RetractMarketplacePostResponseProto*) prototype;
-
-+ (RetractMarketplacePostResponseProto*) parseFromData:(NSData*) data;
-+ (RetractMarketplacePostResponseProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
-+ (RetractMarketplacePostResponseProto*) parseFromInputStream:(NSInputStream*) input;
-+ (RetractMarketplacePostResponseProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
-+ (RetractMarketplacePostResponseProto*) parseFromCodedInputStream:(PBCodedInputStream*) input;
-+ (RetractMarketplacePostResponseProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
-@end
-
-@interface RetractMarketplacePostResponseProto_Builder : PBGeneratedMessage_Builder {
-@private
-  RetractMarketplacePostResponseProto* result;
-}
-
-- (RetractMarketplacePostResponseProto*) defaultInstance;
-
-- (RetractMarketplacePostResponseProto_Builder*) clear;
-- (RetractMarketplacePostResponseProto_Builder*) clone;
-
-- (RetractMarketplacePostResponseProto*) build;
-- (RetractMarketplacePostResponseProto*) buildPartial;
-
-- (RetractMarketplacePostResponseProto_Builder*) mergeFrom:(RetractMarketplacePostResponseProto*) other;
-- (RetractMarketplacePostResponseProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input;
-- (RetractMarketplacePostResponseProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
-
-- (BOOL) hasSender;
-- (MinimumUserProto*) sender;
-- (RetractMarketplacePostResponseProto_Builder*) setSender:(MinimumUserProto*) value;
-- (RetractMarketplacePostResponseProto_Builder*) setSenderBuilder:(MinimumUserProto_Builder*) builderForValue;
-- (RetractMarketplacePostResponseProto_Builder*) mergeSender:(MinimumUserProto*) value;
-- (RetractMarketplacePostResponseProto_Builder*) clearSender;
-
-- (BOOL) hasStatus;
-- (RetractMarketplacePostResponseProto_RetractMarketplacePostStatus) status;
-- (RetractMarketplacePostResponseProto_Builder*) setStatus:(RetractMarketplacePostResponseProto_RetractMarketplacePostStatus) value;
-- (RetractMarketplacePostResponseProto_Builder*) clearStatus;
-
-- (BOOL) hasRetractedUserEquip;
-- (FullUserEquipProto*) retractedUserEquip;
-- (RetractMarketplacePostResponseProto_Builder*) setRetractedUserEquip:(FullUserEquipProto*) value;
-- (RetractMarketplacePostResponseProto_Builder*) setRetractedUserEquipBuilder:(FullUserEquipProto_Builder*) builderForValue;
-- (RetractMarketplacePostResponseProto_Builder*) mergeRetractedUserEquip:(FullUserEquipProto*) value;
-- (RetractMarketplacePostResponseProto_Builder*) clearRetractedUserEquip;
-@end
-
-@interface PurchaseFromMarketplaceRequestProto : PBGeneratedMessage {
-@private
-  BOOL hasCurTime_:1;
-  BOOL hasMarketplacePostId_:1;
-  BOOL hasPosterId_:1;
-  BOOL hasSender_:1;
-  int64_t curTime;
-  int32_t marketplacePostId;
-  int32_t posterId;
-  MinimumUserProto* sender;
-}
-- (BOOL) hasSender;
-- (BOOL) hasMarketplacePostId;
-- (BOOL) hasPosterId;
-- (BOOL) hasCurTime;
-@property (readonly, retain) MinimumUserProto* sender;
-@property (readonly) int32_t marketplacePostId;
-@property (readonly) int32_t posterId;
-@property (readonly) int64_t curTime;
-
-+ (PurchaseFromMarketplaceRequestProto*) defaultInstance;
-- (PurchaseFromMarketplaceRequestProto*) defaultInstance;
-
-- (BOOL) isInitialized;
-- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output;
-- (PurchaseFromMarketplaceRequestProto_Builder*) builder;
-+ (PurchaseFromMarketplaceRequestProto_Builder*) builder;
-+ (PurchaseFromMarketplaceRequestProto_Builder*) builderWithPrototype:(PurchaseFromMarketplaceRequestProto*) prototype;
-
-+ (PurchaseFromMarketplaceRequestProto*) parseFromData:(NSData*) data;
-+ (PurchaseFromMarketplaceRequestProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
-+ (PurchaseFromMarketplaceRequestProto*) parseFromInputStream:(NSInputStream*) input;
-+ (PurchaseFromMarketplaceRequestProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
-+ (PurchaseFromMarketplaceRequestProto*) parseFromCodedInputStream:(PBCodedInputStream*) input;
-+ (PurchaseFromMarketplaceRequestProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
-@end
-
-@interface PurchaseFromMarketplaceRequestProto_Builder : PBGeneratedMessage_Builder {
-@private
-  PurchaseFromMarketplaceRequestProto* result;
-}
-
-- (PurchaseFromMarketplaceRequestProto*) defaultInstance;
-
-- (PurchaseFromMarketplaceRequestProto_Builder*) clear;
-- (PurchaseFromMarketplaceRequestProto_Builder*) clone;
-
-- (PurchaseFromMarketplaceRequestProto*) build;
-- (PurchaseFromMarketplaceRequestProto*) buildPartial;
-
-- (PurchaseFromMarketplaceRequestProto_Builder*) mergeFrom:(PurchaseFromMarketplaceRequestProto*) other;
-- (PurchaseFromMarketplaceRequestProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input;
-- (PurchaseFromMarketplaceRequestProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
-
-- (BOOL) hasSender;
-- (MinimumUserProto*) sender;
-- (PurchaseFromMarketplaceRequestProto_Builder*) setSender:(MinimumUserProto*) value;
-- (PurchaseFromMarketplaceRequestProto_Builder*) setSenderBuilder:(MinimumUserProto_Builder*) builderForValue;
-- (PurchaseFromMarketplaceRequestProto_Builder*) mergeSender:(MinimumUserProto*) value;
-- (PurchaseFromMarketplaceRequestProto_Builder*) clearSender;
-
-- (BOOL) hasMarketplacePostId;
-- (int32_t) marketplacePostId;
-- (PurchaseFromMarketplaceRequestProto_Builder*) setMarketplacePostId:(int32_t) value;
-- (PurchaseFromMarketplaceRequestProto_Builder*) clearMarketplacePostId;
-
-- (BOOL) hasPosterId;
-- (int32_t) posterId;
-- (PurchaseFromMarketplaceRequestProto_Builder*) setPosterId:(int32_t) value;
-- (PurchaseFromMarketplaceRequestProto_Builder*) clearPosterId;
-
-- (BOOL) hasCurTime;
-- (int64_t) curTime;
-- (PurchaseFromMarketplaceRequestProto_Builder*) setCurTime:(int64_t) value;
-- (PurchaseFromMarketplaceRequestProto_Builder*) clearCurTime;
-@end
-
-@interface PurchaseFromMarketplaceResponseProto : PBGeneratedMessage {
-@private
-  BOOL hasSellerHadLicense_:1;
-  BOOL hasPosterId_:1;
-  BOOL hasPurchaser_:1;
-  BOOL hasMarketplacePost_:1;
-  BOOL hasFullUserEquipOfBoughtItem_:1;
-  BOOL hasStatus_:1;
-  BOOL sellerHadLicense_:1;
-  int32_t posterId;
-  MinimumUserProto* purchaser;
-  FullMarketplacePostProto* marketplacePost;
-  FullUserEquipProto* fullUserEquipOfBoughtItem;
-  PurchaseFromMarketplaceResponseProto_PurchaseFromMarketplaceStatus status;
-}
-- (BOOL) hasPurchaser;
-- (BOOL) hasPosterId;
-- (BOOL) hasMarketplacePost;
-- (BOOL) hasFullUserEquipOfBoughtItem;
-- (BOOL) hasSellerHadLicense;
-- (BOOL) hasStatus;
-@property (readonly, retain) MinimumUserProto* purchaser;
-@property (readonly) int32_t posterId;
-@property (readonly, retain) FullMarketplacePostProto* marketplacePost;
-@property (readonly, retain) FullUserEquipProto* fullUserEquipOfBoughtItem;
-- (BOOL) sellerHadLicense;
-@property (readonly) PurchaseFromMarketplaceResponseProto_PurchaseFromMarketplaceStatus status;
-
-+ (PurchaseFromMarketplaceResponseProto*) defaultInstance;
-- (PurchaseFromMarketplaceResponseProto*) defaultInstance;
-
-- (BOOL) isInitialized;
-- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output;
-- (PurchaseFromMarketplaceResponseProto_Builder*) builder;
-+ (PurchaseFromMarketplaceResponseProto_Builder*) builder;
-+ (PurchaseFromMarketplaceResponseProto_Builder*) builderWithPrototype:(PurchaseFromMarketplaceResponseProto*) prototype;
-
-+ (PurchaseFromMarketplaceResponseProto*) parseFromData:(NSData*) data;
-+ (PurchaseFromMarketplaceResponseProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
-+ (PurchaseFromMarketplaceResponseProto*) parseFromInputStream:(NSInputStream*) input;
-+ (PurchaseFromMarketplaceResponseProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
-+ (PurchaseFromMarketplaceResponseProto*) parseFromCodedInputStream:(PBCodedInputStream*) input;
-+ (PurchaseFromMarketplaceResponseProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
-@end
-
-@interface PurchaseFromMarketplaceResponseProto_Builder : PBGeneratedMessage_Builder {
-@private
-  PurchaseFromMarketplaceResponseProto* result;
-}
-
-- (PurchaseFromMarketplaceResponseProto*) defaultInstance;
-
-- (PurchaseFromMarketplaceResponseProto_Builder*) clear;
-- (PurchaseFromMarketplaceResponseProto_Builder*) clone;
-
-- (PurchaseFromMarketplaceResponseProto*) build;
-- (PurchaseFromMarketplaceResponseProto*) buildPartial;
-
-- (PurchaseFromMarketplaceResponseProto_Builder*) mergeFrom:(PurchaseFromMarketplaceResponseProto*) other;
-- (PurchaseFromMarketplaceResponseProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input;
-- (PurchaseFromMarketplaceResponseProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
-
-- (BOOL) hasPurchaser;
-- (MinimumUserProto*) purchaser;
-- (PurchaseFromMarketplaceResponseProto_Builder*) setPurchaser:(MinimumUserProto*) value;
-- (PurchaseFromMarketplaceResponseProto_Builder*) setPurchaserBuilder:(MinimumUserProto_Builder*) builderForValue;
-- (PurchaseFromMarketplaceResponseProto_Builder*) mergePurchaser:(MinimumUserProto*) value;
-- (PurchaseFromMarketplaceResponseProto_Builder*) clearPurchaser;
-
-- (BOOL) hasPosterId;
-- (int32_t) posterId;
-- (PurchaseFromMarketplaceResponseProto_Builder*) setPosterId:(int32_t) value;
-- (PurchaseFromMarketplaceResponseProto_Builder*) clearPosterId;
-
-- (BOOL) hasMarketplacePost;
-- (FullMarketplacePostProto*) marketplacePost;
-- (PurchaseFromMarketplaceResponseProto_Builder*) setMarketplacePost:(FullMarketplacePostProto*) value;
-- (PurchaseFromMarketplaceResponseProto_Builder*) setMarketplacePostBuilder:(FullMarketplacePostProto_Builder*) builderForValue;
-- (PurchaseFromMarketplaceResponseProto_Builder*) mergeMarketplacePost:(FullMarketplacePostProto*) value;
-- (PurchaseFromMarketplaceResponseProto_Builder*) clearMarketplacePost;
-
-- (BOOL) hasFullUserEquipOfBoughtItem;
-- (FullUserEquipProto*) fullUserEquipOfBoughtItem;
-- (PurchaseFromMarketplaceResponseProto_Builder*) setFullUserEquipOfBoughtItem:(FullUserEquipProto*) value;
-- (PurchaseFromMarketplaceResponseProto_Builder*) setFullUserEquipOfBoughtItemBuilder:(FullUserEquipProto_Builder*) builderForValue;
-- (PurchaseFromMarketplaceResponseProto_Builder*) mergeFullUserEquipOfBoughtItem:(FullUserEquipProto*) value;
-- (PurchaseFromMarketplaceResponseProto_Builder*) clearFullUserEquipOfBoughtItem;
-
-- (BOOL) hasSellerHadLicense;
-- (BOOL) sellerHadLicense;
-- (PurchaseFromMarketplaceResponseProto_Builder*) setSellerHadLicense:(BOOL) value;
-- (PurchaseFromMarketplaceResponseProto_Builder*) clearSellerHadLicense;
-
-- (BOOL) hasStatus;
-- (PurchaseFromMarketplaceResponseProto_PurchaseFromMarketplaceStatus) status;
-- (PurchaseFromMarketplaceResponseProto_Builder*) setStatus:(PurchaseFromMarketplaceResponseProto_PurchaseFromMarketplaceStatus) value;
-- (PurchaseFromMarketplaceResponseProto_Builder*) clearStatus;
-@end
-
 @interface UseSkillPointRequestProto : PBGeneratedMessage {
 @private
   BOOL hasAttackIncrease_:1;
@@ -10354,115 +9329,6 @@ BOOL ReviveInDungeonResponseProto_ReviveInDungeonStatusIsValidValue(ReviveInDung
 - (RefillStatWithDiamondsResponseProto_Builder*) clearStatus;
 @end
 
-@interface RedeemMarketplaceEarningsRequestProto : PBGeneratedMessage {
-@private
-  BOOL hasSender_:1;
-  MinimumUserProto* sender;
-}
-- (BOOL) hasSender;
-@property (readonly, retain) MinimumUserProto* sender;
-
-+ (RedeemMarketplaceEarningsRequestProto*) defaultInstance;
-- (RedeemMarketplaceEarningsRequestProto*) defaultInstance;
-
-- (BOOL) isInitialized;
-- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output;
-- (RedeemMarketplaceEarningsRequestProto_Builder*) builder;
-+ (RedeemMarketplaceEarningsRequestProto_Builder*) builder;
-+ (RedeemMarketplaceEarningsRequestProto_Builder*) builderWithPrototype:(RedeemMarketplaceEarningsRequestProto*) prototype;
-
-+ (RedeemMarketplaceEarningsRequestProto*) parseFromData:(NSData*) data;
-+ (RedeemMarketplaceEarningsRequestProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
-+ (RedeemMarketplaceEarningsRequestProto*) parseFromInputStream:(NSInputStream*) input;
-+ (RedeemMarketplaceEarningsRequestProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
-+ (RedeemMarketplaceEarningsRequestProto*) parseFromCodedInputStream:(PBCodedInputStream*) input;
-+ (RedeemMarketplaceEarningsRequestProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
-@end
-
-@interface RedeemMarketplaceEarningsRequestProto_Builder : PBGeneratedMessage_Builder {
-@private
-  RedeemMarketplaceEarningsRequestProto* result;
-}
-
-- (RedeemMarketplaceEarningsRequestProto*) defaultInstance;
-
-- (RedeemMarketplaceEarningsRequestProto_Builder*) clear;
-- (RedeemMarketplaceEarningsRequestProto_Builder*) clone;
-
-- (RedeemMarketplaceEarningsRequestProto*) build;
-- (RedeemMarketplaceEarningsRequestProto*) buildPartial;
-
-- (RedeemMarketplaceEarningsRequestProto_Builder*) mergeFrom:(RedeemMarketplaceEarningsRequestProto*) other;
-- (RedeemMarketplaceEarningsRequestProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input;
-- (RedeemMarketplaceEarningsRequestProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
-
-- (BOOL) hasSender;
-- (MinimumUserProto*) sender;
-- (RedeemMarketplaceEarningsRequestProto_Builder*) setSender:(MinimumUserProto*) value;
-- (RedeemMarketplaceEarningsRequestProto_Builder*) setSenderBuilder:(MinimumUserProto_Builder*) builderForValue;
-- (RedeemMarketplaceEarningsRequestProto_Builder*) mergeSender:(MinimumUserProto*) value;
-- (RedeemMarketplaceEarningsRequestProto_Builder*) clearSender;
-@end
-
-@interface RedeemMarketplaceEarningsResponseProto : PBGeneratedMessage {
-@private
-  BOOL hasSender_:1;
-  BOOL hasStatus_:1;
-  MinimumUserProto* sender;
-  RedeemMarketplaceEarningsResponseProto_RedeemMarketplaceEarningsStatus status;
-}
-- (BOOL) hasSender;
-- (BOOL) hasStatus;
-@property (readonly, retain) MinimumUserProto* sender;
-@property (readonly) RedeemMarketplaceEarningsResponseProto_RedeemMarketplaceEarningsStatus status;
-
-+ (RedeemMarketplaceEarningsResponseProto*) defaultInstance;
-- (RedeemMarketplaceEarningsResponseProto*) defaultInstance;
-
-- (BOOL) isInitialized;
-- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output;
-- (RedeemMarketplaceEarningsResponseProto_Builder*) builder;
-+ (RedeemMarketplaceEarningsResponseProto_Builder*) builder;
-+ (RedeemMarketplaceEarningsResponseProto_Builder*) builderWithPrototype:(RedeemMarketplaceEarningsResponseProto*) prototype;
-
-+ (RedeemMarketplaceEarningsResponseProto*) parseFromData:(NSData*) data;
-+ (RedeemMarketplaceEarningsResponseProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
-+ (RedeemMarketplaceEarningsResponseProto*) parseFromInputStream:(NSInputStream*) input;
-+ (RedeemMarketplaceEarningsResponseProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
-+ (RedeemMarketplaceEarningsResponseProto*) parseFromCodedInputStream:(PBCodedInputStream*) input;
-+ (RedeemMarketplaceEarningsResponseProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
-@end
-
-@interface RedeemMarketplaceEarningsResponseProto_Builder : PBGeneratedMessage_Builder {
-@private
-  RedeemMarketplaceEarningsResponseProto* result;
-}
-
-- (RedeemMarketplaceEarningsResponseProto*) defaultInstance;
-
-- (RedeemMarketplaceEarningsResponseProto_Builder*) clear;
-- (RedeemMarketplaceEarningsResponseProto_Builder*) clone;
-
-- (RedeemMarketplaceEarningsResponseProto*) build;
-- (RedeemMarketplaceEarningsResponseProto*) buildPartial;
-
-- (RedeemMarketplaceEarningsResponseProto_Builder*) mergeFrom:(RedeemMarketplaceEarningsResponseProto*) other;
-- (RedeemMarketplaceEarningsResponseProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input;
-- (RedeemMarketplaceEarningsResponseProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
-
-- (BOOL) hasSender;
-- (MinimumUserProto*) sender;
-- (RedeemMarketplaceEarningsResponseProto_Builder*) setSender:(MinimumUserProto*) value;
-- (RedeemMarketplaceEarningsResponseProto_Builder*) setSenderBuilder:(MinimumUserProto_Builder*) builderForValue;
-- (RedeemMarketplaceEarningsResponseProto_Builder*) mergeSender:(MinimumUserProto*) value;
-- (RedeemMarketplaceEarningsResponseProto_Builder*) clearSender;
-
-- (BOOL) hasStatus;
-- (RedeemMarketplaceEarningsResponseProto_RedeemMarketplaceEarningsStatus) status;
-- (RedeemMarketplaceEarningsResponseProto_Builder*) setStatus:(RedeemMarketplaceEarningsResponseProto_RedeemMarketplaceEarningsStatus) value;
-- (RedeemMarketplaceEarningsResponseProto_Builder*) clearStatus;
-@end
-
 @interface LoadPlayerCityRequestProto : PBGeneratedMessage {
 @private
   BOOL hasCityOwnerId_:1;
@@ -10526,30 +9392,29 @@ BOOL ReviveInDungeonResponseProto_ReviveInDungeonStatusIsValidValue(ReviveInDung
 @private
   BOOL hasSender_:1;
   BOOL hasCityOwner_:1;
-  BOOL hasUserCityExpansionData_:1;
   BOOL hasStatus_:1;
   MinimumUserProto* sender;
   MinimumUserProto* cityOwner;
-  FullUserCityExpansionDataProto* userCityExpansionData;
   LoadPlayerCityResponseProto_LoadPlayerCityStatus status;
   NSMutableArray* mutableOwnerNormStructsList;
   NSMutableArray* mutableOwnerAlliesList;
   NSMutableArray* mutableOwnerEnemiesList;
+  NSMutableArray* mutableUserCityExpansionDataProtoListList;
 }
 - (BOOL) hasSender;
 - (BOOL) hasCityOwner;
 - (BOOL) hasStatus;
-- (BOOL) hasUserCityExpansionData;
 @property (readonly, retain) MinimumUserProto* sender;
 @property (readonly, retain) MinimumUserProto* cityOwner;
 @property (readonly) LoadPlayerCityResponseProto_LoadPlayerCityStatus status;
-@property (readonly, retain) FullUserCityExpansionDataProto* userCityExpansionData;
 - (NSArray*) ownerNormStructsList;
 - (FullUserStructureProto*) ownerNormStructsAtIndex:(int32_t) index;
 - (NSArray*) ownerAlliesList;
 - (FullUserProto*) ownerAlliesAtIndex:(int32_t) index;
 - (NSArray*) ownerEnemiesList;
 - (FullUserProto*) ownerEnemiesAtIndex:(int32_t) index;
+- (NSArray*) userCityExpansionDataProtoListList;
+- (UserCityExpansionDataProto*) userCityExpansionDataProtoListAtIndex:(int32_t) index;
 
 + (LoadPlayerCityResponseProto*) defaultInstance;
 - (LoadPlayerCityResponseProto*) defaultInstance;
@@ -10625,12 +9490,12 @@ BOOL ReviveInDungeonResponseProto_ReviveInDungeonStatusIsValidValue(ReviveInDung
 - (LoadPlayerCityResponseProto_Builder*) addAllOwnerEnemies:(NSArray*) values;
 - (LoadPlayerCityResponseProto_Builder*) clearOwnerEnemiesList;
 
-- (BOOL) hasUserCityExpansionData;
-- (FullUserCityExpansionDataProto*) userCityExpansionData;
-- (LoadPlayerCityResponseProto_Builder*) setUserCityExpansionData:(FullUserCityExpansionDataProto*) value;
-- (LoadPlayerCityResponseProto_Builder*) setUserCityExpansionDataBuilder:(FullUserCityExpansionDataProto_Builder*) builderForValue;
-- (LoadPlayerCityResponseProto_Builder*) mergeUserCityExpansionData:(FullUserCityExpansionDataProto*) value;
-- (LoadPlayerCityResponseProto_Builder*) clearUserCityExpansionData;
+- (NSArray*) userCityExpansionDataProtoListList;
+- (UserCityExpansionDataProto*) userCityExpansionDataProtoListAtIndex:(int32_t) index;
+- (LoadPlayerCityResponseProto_Builder*) replaceUserCityExpansionDataProtoListAtIndex:(int32_t) index with:(UserCityExpansionDataProto*) value;
+- (LoadPlayerCityResponseProto_Builder*) addUserCityExpansionDataProtoList:(UserCityExpansionDataProto*) value;
+- (LoadPlayerCityResponseProto_Builder*) addAllUserCityExpansionDataProtoList:(NSArray*) values;
+- (LoadPlayerCityResponseProto_Builder*) clearUserCityExpansionDataProtoListList;
 @end
 
 @interface QuestAcceptRequestProto : PBGeneratedMessage {
@@ -11513,16 +10378,20 @@ BOOL ReviveInDungeonResponseProto_ReviveInDungeonStatusIsValidValue(ReviveInDung
 @private
   BOOL hasTimeOfPurchase_:1;
   BOOL hasSender_:1;
-  BOOL hasDirection_:1;
+  BOOL hasXPosition_:1;
+  BOOL hasYPosition_:1;
   int64_t timeOfPurchase;
   MinimumUserProto* sender;
-  ExpansionDirection direction;
+  int32_t xPosition;
+  int32_t yPosition;
 }
 - (BOOL) hasSender;
-- (BOOL) hasDirection;
+- (BOOL) hasXPosition;
+- (BOOL) hasYPosition;
 - (BOOL) hasTimeOfPurchase;
 @property (readonly, retain) MinimumUserProto* sender;
-@property (readonly) ExpansionDirection direction;
+@property (readonly) int32_t xPosition;
+@property (readonly) int32_t yPosition;
 @property (readonly) int64_t timeOfPurchase;
 
 + (PurchaseCityExpansionRequestProto*) defaultInstance;
@@ -11566,10 +10435,15 @@ BOOL ReviveInDungeonResponseProto_ReviveInDungeonStatusIsValidValue(ReviveInDung
 - (PurchaseCityExpansionRequestProto_Builder*) mergeSender:(MinimumUserProto*) value;
 - (PurchaseCityExpansionRequestProto_Builder*) clearSender;
 
-- (BOOL) hasDirection;
-- (ExpansionDirection) direction;
-- (PurchaseCityExpansionRequestProto_Builder*) setDirection:(ExpansionDirection) value;
-- (PurchaseCityExpansionRequestProto_Builder*) clearDirection;
+- (BOOL) hasXPosition;
+- (int32_t) xPosition;
+- (PurchaseCityExpansionRequestProto_Builder*) setXPosition:(int32_t) value;
+- (PurchaseCityExpansionRequestProto_Builder*) clearXPosition;
+
+- (BOOL) hasYPosition;
+- (int32_t) yPosition;
+- (PurchaseCityExpansionRequestProto_Builder*) setYPosition:(int32_t) value;
+- (PurchaseCityExpansionRequestProto_Builder*) clearYPosition;
 
 - (BOOL) hasTimeOfPurchase;
 - (int64_t) timeOfPurchase;
@@ -11580,14 +10454,18 @@ BOOL ReviveInDungeonResponseProto_ReviveInDungeonStatusIsValidValue(ReviveInDung
 @interface PurchaseCityExpansionResponseProto : PBGeneratedMessage {
 @private
   BOOL hasSender_:1;
+  BOOL hasUcedp_:1;
   BOOL hasStatus_:1;
   MinimumUserProto* sender;
+  UserCityExpansionDataProto* ucedp;
   PurchaseCityExpansionResponseProto_PurchaseCityExpansionStatus status;
 }
 - (BOOL) hasSender;
 - (BOOL) hasStatus;
+- (BOOL) hasUcedp;
 @property (readonly, retain) MinimumUserProto* sender;
 @property (readonly) PurchaseCityExpansionResponseProto_PurchaseCityExpansionStatus status;
+@property (readonly, retain) UserCityExpansionDataProto* ucedp;
 
 + (PurchaseCityExpansionResponseProto*) defaultInstance;
 - (PurchaseCityExpansionResponseProto*) defaultInstance;
@@ -11634,6 +10512,13 @@ BOOL ReviveInDungeonResponseProto_ReviveInDungeonStatusIsValidValue(ReviveInDung
 - (PurchaseCityExpansionResponseProto_PurchaseCityExpansionStatus) status;
 - (PurchaseCityExpansionResponseProto_Builder*) setStatus:(PurchaseCityExpansionResponseProto_PurchaseCityExpansionStatus) value;
 - (PurchaseCityExpansionResponseProto_Builder*) clearStatus;
+
+- (BOOL) hasUcedp;
+- (UserCityExpansionDataProto*) ucedp;
+- (PurchaseCityExpansionResponseProto_Builder*) setUcedp:(UserCityExpansionDataProto*) value;
+- (PurchaseCityExpansionResponseProto_Builder*) setUcedpBuilder:(UserCityExpansionDataProto_Builder*) builderForValue;
+- (PurchaseCityExpansionResponseProto_Builder*) mergeUcedp:(UserCityExpansionDataProto*) value;
+- (PurchaseCityExpansionResponseProto_Builder*) clearUcedp;
 @end
 
 @interface ExpansionWaitCompleteRequestProto : PBGeneratedMessage {
@@ -11641,16 +10526,24 @@ BOOL ReviveInDungeonResponseProto_ReviveInDungeonStatusIsValidValue(ReviveInDung
   BOOL hasSpeedUp_:1;
   BOOL hasCurTime_:1;
   BOOL hasSender_:1;
+  BOOL hasXPosition_:1;
+  BOOL hasYPosition_:1;
   BOOL speedUp_:1;
   int64_t curTime;
   MinimumUserProto* sender;
+  int32_t xPosition;
+  int32_t yPosition;
 }
 - (BOOL) hasSender;
 - (BOOL) hasCurTime;
 - (BOOL) hasSpeedUp;
+- (BOOL) hasXPosition;
+- (BOOL) hasYPosition;
 @property (readonly, retain) MinimumUserProto* sender;
 @property (readonly) int64_t curTime;
 - (BOOL) speedUp;
+@property (readonly) int32_t xPosition;
+@property (readonly) int32_t yPosition;
 
 + (ExpansionWaitCompleteRequestProto*) defaultInstance;
 - (ExpansionWaitCompleteRequestProto*) defaultInstance;
@@ -11702,19 +10595,33 @@ BOOL ReviveInDungeonResponseProto_ReviveInDungeonStatusIsValidValue(ReviveInDung
 - (BOOL) speedUp;
 - (ExpansionWaitCompleteRequestProto_Builder*) setSpeedUp:(BOOL) value;
 - (ExpansionWaitCompleteRequestProto_Builder*) clearSpeedUp;
+
+- (BOOL) hasXPosition;
+- (int32_t) xPosition;
+- (ExpansionWaitCompleteRequestProto_Builder*) setXPosition:(int32_t) value;
+- (ExpansionWaitCompleteRequestProto_Builder*) clearXPosition;
+
+- (BOOL) hasYPosition;
+- (int32_t) yPosition;
+- (ExpansionWaitCompleteRequestProto_Builder*) setYPosition:(int32_t) value;
+- (ExpansionWaitCompleteRequestProto_Builder*) clearYPosition;
 @end
 
 @interface ExpansionWaitCompleteResponseProto : PBGeneratedMessage {
 @private
   BOOL hasSender_:1;
+  BOOL hasUcedp_:1;
   BOOL hasStatus_:1;
   MinimumUserProto* sender;
+  UserCityExpansionDataProto* ucedp;
   ExpansionWaitCompleteResponseProto_ExpansionWaitCompleteStatus status;
 }
 - (BOOL) hasSender;
 - (BOOL) hasStatus;
+- (BOOL) hasUcedp;
 @property (readonly, retain) MinimumUserProto* sender;
 @property (readonly) ExpansionWaitCompleteResponseProto_ExpansionWaitCompleteStatus status;
+@property (readonly, retain) UserCityExpansionDataProto* ucedp;
 
 + (ExpansionWaitCompleteResponseProto*) defaultInstance;
 - (ExpansionWaitCompleteResponseProto*) defaultInstance;
@@ -11761,6 +10668,13 @@ BOOL ReviveInDungeonResponseProto_ReviveInDungeonStatusIsValidValue(ReviveInDung
 - (ExpansionWaitCompleteResponseProto_ExpansionWaitCompleteStatus) status;
 - (ExpansionWaitCompleteResponseProto_Builder*) setStatus:(ExpansionWaitCompleteResponseProto_ExpansionWaitCompleteStatus) value;
 - (ExpansionWaitCompleteResponseProto_Builder*) clearStatus;
+
+- (BOOL) hasUcedp;
+- (UserCityExpansionDataProto*) ucedp;
+- (ExpansionWaitCompleteResponseProto_Builder*) setUcedp:(UserCityExpansionDataProto*) value;
+- (ExpansionWaitCompleteResponseProto_Builder*) setUcedpBuilder:(UserCityExpansionDataProto_Builder*) builderForValue;
+- (ExpansionWaitCompleteResponseProto_Builder*) mergeUcedp:(UserCityExpansionDataProto*) value;
+- (ExpansionWaitCompleteResponseProto_Builder*) clearUcedp;
 @end
 
 @interface RefillStatWaitCompleteRequestProto : PBGeneratedMessage {
@@ -12006,133 +10920,6 @@ BOOL ReviveInDungeonResponseProto_ReviveInDungeonStatusIsValidValue(ReviveInDung
 - (EnableAPNSResponseProto_EnableAPNSStatus) status;
 - (EnableAPNSResponseProto_Builder*) setStatus:(EnableAPNSResponseProto_EnableAPNSStatus) value;
 - (EnableAPNSResponseProto_Builder*) clearStatus;
-@end
-
-@interface PurchaseMarketplaceLicenseRequestProto : PBGeneratedMessage {
-@private
-  BOOL hasClientTime_:1;
-  BOOL hasSender_:1;
-  BOOL hasLicenseType_:1;
-  int64_t clientTime;
-  MinimumUserProto* sender;
-  PurchaseMarketplaceLicenseRequestProto_LicenseType licenseType;
-}
-- (BOOL) hasSender;
-- (BOOL) hasClientTime;
-- (BOOL) hasLicenseType;
-@property (readonly, retain) MinimumUserProto* sender;
-@property (readonly) int64_t clientTime;
-@property (readonly) PurchaseMarketplaceLicenseRequestProto_LicenseType licenseType;
-
-+ (PurchaseMarketplaceLicenseRequestProto*) defaultInstance;
-- (PurchaseMarketplaceLicenseRequestProto*) defaultInstance;
-
-- (BOOL) isInitialized;
-- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output;
-- (PurchaseMarketplaceLicenseRequestProto_Builder*) builder;
-+ (PurchaseMarketplaceLicenseRequestProto_Builder*) builder;
-+ (PurchaseMarketplaceLicenseRequestProto_Builder*) builderWithPrototype:(PurchaseMarketplaceLicenseRequestProto*) prototype;
-
-+ (PurchaseMarketplaceLicenseRequestProto*) parseFromData:(NSData*) data;
-+ (PurchaseMarketplaceLicenseRequestProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
-+ (PurchaseMarketplaceLicenseRequestProto*) parseFromInputStream:(NSInputStream*) input;
-+ (PurchaseMarketplaceLicenseRequestProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
-+ (PurchaseMarketplaceLicenseRequestProto*) parseFromCodedInputStream:(PBCodedInputStream*) input;
-+ (PurchaseMarketplaceLicenseRequestProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
-@end
-
-@interface PurchaseMarketplaceLicenseRequestProto_Builder : PBGeneratedMessage_Builder {
-@private
-  PurchaseMarketplaceLicenseRequestProto* result;
-}
-
-- (PurchaseMarketplaceLicenseRequestProto*) defaultInstance;
-
-- (PurchaseMarketplaceLicenseRequestProto_Builder*) clear;
-- (PurchaseMarketplaceLicenseRequestProto_Builder*) clone;
-
-- (PurchaseMarketplaceLicenseRequestProto*) build;
-- (PurchaseMarketplaceLicenseRequestProto*) buildPartial;
-
-- (PurchaseMarketplaceLicenseRequestProto_Builder*) mergeFrom:(PurchaseMarketplaceLicenseRequestProto*) other;
-- (PurchaseMarketplaceLicenseRequestProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input;
-- (PurchaseMarketplaceLicenseRequestProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
-
-- (BOOL) hasSender;
-- (MinimumUserProto*) sender;
-- (PurchaseMarketplaceLicenseRequestProto_Builder*) setSender:(MinimumUserProto*) value;
-- (PurchaseMarketplaceLicenseRequestProto_Builder*) setSenderBuilder:(MinimumUserProto_Builder*) builderForValue;
-- (PurchaseMarketplaceLicenseRequestProto_Builder*) mergeSender:(MinimumUserProto*) value;
-- (PurchaseMarketplaceLicenseRequestProto_Builder*) clearSender;
-
-- (BOOL) hasClientTime;
-- (int64_t) clientTime;
-- (PurchaseMarketplaceLicenseRequestProto_Builder*) setClientTime:(int64_t) value;
-- (PurchaseMarketplaceLicenseRequestProto_Builder*) clearClientTime;
-
-- (BOOL) hasLicenseType;
-- (PurchaseMarketplaceLicenseRequestProto_LicenseType) licenseType;
-- (PurchaseMarketplaceLicenseRequestProto_Builder*) setLicenseType:(PurchaseMarketplaceLicenseRequestProto_LicenseType) value;
-- (PurchaseMarketplaceLicenseRequestProto_Builder*) clearLicenseType;
-@end
-
-@interface PurchaseMarketplaceLicenseResponseProto : PBGeneratedMessage {
-@private
-  BOOL hasSender_:1;
-  BOOL hasStatus_:1;
-  MinimumUserProto* sender;
-  PurchaseMarketplaceLicenseResponseProto_PurchaseMarketplaceLicenseStatus status;
-}
-- (BOOL) hasSender;
-- (BOOL) hasStatus;
-@property (readonly, retain) MinimumUserProto* sender;
-@property (readonly) PurchaseMarketplaceLicenseResponseProto_PurchaseMarketplaceLicenseStatus status;
-
-+ (PurchaseMarketplaceLicenseResponseProto*) defaultInstance;
-- (PurchaseMarketplaceLicenseResponseProto*) defaultInstance;
-
-- (BOOL) isInitialized;
-- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output;
-- (PurchaseMarketplaceLicenseResponseProto_Builder*) builder;
-+ (PurchaseMarketplaceLicenseResponseProto_Builder*) builder;
-+ (PurchaseMarketplaceLicenseResponseProto_Builder*) builderWithPrototype:(PurchaseMarketplaceLicenseResponseProto*) prototype;
-
-+ (PurchaseMarketplaceLicenseResponseProto*) parseFromData:(NSData*) data;
-+ (PurchaseMarketplaceLicenseResponseProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
-+ (PurchaseMarketplaceLicenseResponseProto*) parseFromInputStream:(NSInputStream*) input;
-+ (PurchaseMarketplaceLicenseResponseProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
-+ (PurchaseMarketplaceLicenseResponseProto*) parseFromCodedInputStream:(PBCodedInputStream*) input;
-+ (PurchaseMarketplaceLicenseResponseProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
-@end
-
-@interface PurchaseMarketplaceLicenseResponseProto_Builder : PBGeneratedMessage_Builder {
-@private
-  PurchaseMarketplaceLicenseResponseProto* result;
-}
-
-- (PurchaseMarketplaceLicenseResponseProto*) defaultInstance;
-
-- (PurchaseMarketplaceLicenseResponseProto_Builder*) clear;
-- (PurchaseMarketplaceLicenseResponseProto_Builder*) clone;
-
-- (PurchaseMarketplaceLicenseResponseProto*) build;
-- (PurchaseMarketplaceLicenseResponseProto*) buildPartial;
-
-- (PurchaseMarketplaceLicenseResponseProto_Builder*) mergeFrom:(PurchaseMarketplaceLicenseResponseProto*) other;
-- (PurchaseMarketplaceLicenseResponseProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input;
-- (PurchaseMarketplaceLicenseResponseProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
-
-- (BOOL) hasSender;
-- (MinimumUserProto*) sender;
-- (PurchaseMarketplaceLicenseResponseProto_Builder*) setSender:(MinimumUserProto*) value;
-- (PurchaseMarketplaceLicenseResponseProto_Builder*) setSenderBuilder:(MinimumUserProto_Builder*) builderForValue;
-- (PurchaseMarketplaceLicenseResponseProto_Builder*) mergeSender:(MinimumUserProto*) value;
-- (PurchaseMarketplaceLicenseResponseProto_Builder*) clearSender;
-
-- (BOOL) hasStatus;
-- (PurchaseMarketplaceLicenseResponseProto_PurchaseMarketplaceLicenseStatus) status;
-- (PurchaseMarketplaceLicenseResponseProto_Builder*) setStatus:(PurchaseMarketplaceLicenseResponseProto_PurchaseMarketplaceLicenseStatus) value;
-- (PurchaseMarketplaceLicenseResponseProto_Builder*) clearStatus;
 @end
 
 @interface ReferralCodeUsedResponseProto : PBGeneratedMessage {
@@ -13648,15 +12435,15 @@ BOOL ReviveInDungeonResponseProto_ReviveInDungeonStatusIsValidValue(ReviveInDung
 @interface SubmitEquipsToBlacksmithRequestProto : PBGeneratedMessage {
 @private
   BOOL hasPaidToGuarantee_:1;
-  BOOL hasStartTime_:1;
   BOOL hasUserEquipOne_:1;
   BOOL hasUserEquipTwo_:1;
+  BOOL hasStartTime_:1;
   BOOL hasForgeSlotNumber_:1;
   BOOL hasSender_:1;
   BOOL paidToGuarantee_:1;
+  int64_t userEquipOne;
+  int64_t userEquipTwo;
   int64_t startTime;
-  int32_t userEquipOne;
-  int32_t userEquipTwo;
   int32_t forgeSlotNumber;
   MinimumUserProto* sender;
 }
@@ -13667,8 +12454,8 @@ BOOL ReviveInDungeonResponseProto_ReviveInDungeonStatusIsValidValue(ReviveInDung
 - (BOOL) hasStartTime;
 - (BOOL) hasForgeSlotNumber;
 @property (readonly, retain) MinimumUserProto* sender;
-@property (readonly) int32_t userEquipOne;
-@property (readonly) int32_t userEquipTwo;
+@property (readonly) int64_t userEquipOne;
+@property (readonly) int64_t userEquipTwo;
 - (BOOL) paidToGuarantee;
 @property (readonly) int64_t startTime;
 @property (readonly) int32_t forgeSlotNumber;
@@ -13715,13 +12502,13 @@ BOOL ReviveInDungeonResponseProto_ReviveInDungeonStatusIsValidValue(ReviveInDung
 - (SubmitEquipsToBlacksmithRequestProto_Builder*) clearSender;
 
 - (BOOL) hasUserEquipOne;
-- (int32_t) userEquipOne;
-- (SubmitEquipsToBlacksmithRequestProto_Builder*) setUserEquipOne:(int32_t) value;
+- (int64_t) userEquipOne;
+- (SubmitEquipsToBlacksmithRequestProto_Builder*) setUserEquipOne:(int64_t) value;
 - (SubmitEquipsToBlacksmithRequestProto_Builder*) clearUserEquipOne;
 
 - (BOOL) hasUserEquipTwo;
-- (int32_t) userEquipTwo;
-- (SubmitEquipsToBlacksmithRequestProto_Builder*) setUserEquipTwo:(int32_t) value;
+- (int64_t) userEquipTwo;
+- (SubmitEquipsToBlacksmithRequestProto_Builder*) setUserEquipTwo:(int64_t) value;
 - (SubmitEquipsToBlacksmithRequestProto_Builder*) clearUserEquipTwo;
 
 - (BOOL) hasPaidToGuarantee;
@@ -18178,11 +16965,11 @@ BOOL ReviveInDungeonResponseProto_ReviveInDungeonStatusIsValidValue(ReviveInDung
 
 @interface SubmitEquipEnhancementRequestProto : PBGeneratedMessage {
 @private
-  BOOL hasClientTime_:1;
   BOOL hasEnhancingUserEquipId_:1;
+  BOOL hasClientTime_:1;
   BOOL hasSender_:1;
+  int64_t enhancingUserEquipId;
   int64_t clientTime;
-  int32_t enhancingUserEquipId;
   MinimumUserProto* sender;
   NSMutableArray* mutableFeederUserEquipIdsList;
 }
@@ -18190,10 +16977,10 @@ BOOL ReviveInDungeonResponseProto_ReviveInDungeonStatusIsValidValue(ReviveInDung
 - (BOOL) hasEnhancingUserEquipId;
 - (BOOL) hasClientTime;
 @property (readonly, retain) MinimumUserProto* sender;
-@property (readonly) int32_t enhancingUserEquipId;
+@property (readonly) int64_t enhancingUserEquipId;
 @property (readonly) int64_t clientTime;
 - (NSArray*) feederUserEquipIdsList;
-- (int32_t) feederUserEquipIdsAtIndex:(int32_t) index;
+- (int64_t) feederUserEquipIdsAtIndex:(int32_t) index;
 
 + (SubmitEquipEnhancementRequestProto*) defaultInstance;
 - (SubmitEquipEnhancementRequestProto*) defaultInstance;
@@ -18237,14 +17024,14 @@ BOOL ReviveInDungeonResponseProto_ReviveInDungeonStatusIsValidValue(ReviveInDung
 - (SubmitEquipEnhancementRequestProto_Builder*) clearSender;
 
 - (BOOL) hasEnhancingUserEquipId;
-- (int32_t) enhancingUserEquipId;
-- (SubmitEquipEnhancementRequestProto_Builder*) setEnhancingUserEquipId:(int32_t) value;
+- (int64_t) enhancingUserEquipId;
+- (SubmitEquipEnhancementRequestProto_Builder*) setEnhancingUserEquipId:(int64_t) value;
 - (SubmitEquipEnhancementRequestProto_Builder*) clearEnhancingUserEquipId;
 
 - (NSArray*) feederUserEquipIdsList;
-- (int32_t) feederUserEquipIdsAtIndex:(int32_t) index;
-- (SubmitEquipEnhancementRequestProto_Builder*) replaceFeederUserEquipIdsAtIndex:(int32_t) index with:(int32_t) value;
-- (SubmitEquipEnhancementRequestProto_Builder*) addFeederUserEquipIds:(int32_t) value;
+- (int64_t) feederUserEquipIdsAtIndex:(int32_t) index;
+- (SubmitEquipEnhancementRequestProto_Builder*) replaceFeederUserEquipIdsAtIndex:(int32_t) index with:(int64_t) value;
+- (SubmitEquipEnhancementRequestProto_Builder*) addFeederUserEquipIds:(int64_t) value;
 - (SubmitEquipEnhancementRequestProto_Builder*) addAllFeederUserEquipIds:(NSArray*) values;
 - (SubmitEquipEnhancementRequestProto_Builder*) clearFeederUserEquipIdsList;
 
@@ -18257,18 +17044,18 @@ BOOL ReviveInDungeonResponseProto_ReviveInDungeonStatusIsValidValue(ReviveInDung
 @interface SubmitEquipEnhancementResponseProto : PBGeneratedMessage {
 @private
   BOOL hasSender_:1;
-  BOOL hasEquipToEnhance_:1;
+  BOOL hasResultingEquip_:1;
   BOOL hasStatus_:1;
   MinimumUserProto* sender;
-  EquipEnhancementProto* equipToEnhance;
+  FullUserEquipProto* resultingEquip;
   SubmitEquipEnhancementResponseProto_EnhanceEquipStatus status;
 }
 - (BOOL) hasSender;
 - (BOOL) hasStatus;
-- (BOOL) hasEquipToEnhance;
+- (BOOL) hasResultingEquip;
 @property (readonly, retain) MinimumUserProto* sender;
 @property (readonly) SubmitEquipEnhancementResponseProto_EnhanceEquipStatus status;
-@property (readonly, retain) EquipEnhancementProto* equipToEnhance;
+@property (readonly, retain) FullUserEquipProto* resultingEquip;
 
 + (SubmitEquipEnhancementResponseProto*) defaultInstance;
 - (SubmitEquipEnhancementResponseProto*) defaultInstance;
@@ -18316,159 +17103,12 @@ BOOL ReviveInDungeonResponseProto_ReviveInDungeonStatusIsValidValue(ReviveInDung
 - (SubmitEquipEnhancementResponseProto_Builder*) setStatus:(SubmitEquipEnhancementResponseProto_EnhanceEquipStatus) value;
 - (SubmitEquipEnhancementResponseProto_Builder*) clearStatus;
 
-- (BOOL) hasEquipToEnhance;
-- (EquipEnhancementProto*) equipToEnhance;
-- (SubmitEquipEnhancementResponseProto_Builder*) setEquipToEnhance:(EquipEnhancementProto*) value;
-- (SubmitEquipEnhancementResponseProto_Builder*) setEquipToEnhanceBuilder:(EquipEnhancementProto_Builder*) builderForValue;
-- (SubmitEquipEnhancementResponseProto_Builder*) mergeEquipToEnhance:(EquipEnhancementProto*) value;
-- (SubmitEquipEnhancementResponseProto_Builder*) clearEquipToEnhance;
-@end
-
-@interface CollectEquipEnhancementRequestProto : PBGeneratedMessage {
-@private
-  BOOL hasSpeedUp_:1;
-  BOOL hasClientTime_:1;
-  BOOL hasEquipEnhancementId_:1;
-  BOOL hasSender_:1;
-  BOOL speedUp_:1;
-  int64_t clientTime;
-  int32_t equipEnhancementId;
-  MinimumUserProto* sender;
-}
-- (BOOL) hasSender;
-- (BOOL) hasEquipEnhancementId;
-- (BOOL) hasClientTime;
-- (BOOL) hasSpeedUp;
-@property (readonly, retain) MinimumUserProto* sender;
-@property (readonly) int32_t equipEnhancementId;
-@property (readonly) int64_t clientTime;
-- (BOOL) speedUp;
-
-+ (CollectEquipEnhancementRequestProto*) defaultInstance;
-- (CollectEquipEnhancementRequestProto*) defaultInstance;
-
-- (BOOL) isInitialized;
-- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output;
-- (CollectEquipEnhancementRequestProto_Builder*) builder;
-+ (CollectEquipEnhancementRequestProto_Builder*) builder;
-+ (CollectEquipEnhancementRequestProto_Builder*) builderWithPrototype:(CollectEquipEnhancementRequestProto*) prototype;
-
-+ (CollectEquipEnhancementRequestProto*) parseFromData:(NSData*) data;
-+ (CollectEquipEnhancementRequestProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
-+ (CollectEquipEnhancementRequestProto*) parseFromInputStream:(NSInputStream*) input;
-+ (CollectEquipEnhancementRequestProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
-+ (CollectEquipEnhancementRequestProto*) parseFromCodedInputStream:(PBCodedInputStream*) input;
-+ (CollectEquipEnhancementRequestProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
-@end
-
-@interface CollectEquipEnhancementRequestProto_Builder : PBGeneratedMessage_Builder {
-@private
-  CollectEquipEnhancementRequestProto* result;
-}
-
-- (CollectEquipEnhancementRequestProto*) defaultInstance;
-
-- (CollectEquipEnhancementRequestProto_Builder*) clear;
-- (CollectEquipEnhancementRequestProto_Builder*) clone;
-
-- (CollectEquipEnhancementRequestProto*) build;
-- (CollectEquipEnhancementRequestProto*) buildPartial;
-
-- (CollectEquipEnhancementRequestProto_Builder*) mergeFrom:(CollectEquipEnhancementRequestProto*) other;
-- (CollectEquipEnhancementRequestProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input;
-- (CollectEquipEnhancementRequestProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
-
-- (BOOL) hasSender;
-- (MinimumUserProto*) sender;
-- (CollectEquipEnhancementRequestProto_Builder*) setSender:(MinimumUserProto*) value;
-- (CollectEquipEnhancementRequestProto_Builder*) setSenderBuilder:(MinimumUserProto_Builder*) builderForValue;
-- (CollectEquipEnhancementRequestProto_Builder*) mergeSender:(MinimumUserProto*) value;
-- (CollectEquipEnhancementRequestProto_Builder*) clearSender;
-
-- (BOOL) hasEquipEnhancementId;
-- (int32_t) equipEnhancementId;
-- (CollectEquipEnhancementRequestProto_Builder*) setEquipEnhancementId:(int32_t) value;
-- (CollectEquipEnhancementRequestProto_Builder*) clearEquipEnhancementId;
-
-- (BOOL) hasClientTime;
-- (int64_t) clientTime;
-- (CollectEquipEnhancementRequestProto_Builder*) setClientTime:(int64_t) value;
-- (CollectEquipEnhancementRequestProto_Builder*) clearClientTime;
-
-- (BOOL) hasSpeedUp;
-- (BOOL) speedUp;
-- (CollectEquipEnhancementRequestProto_Builder*) setSpeedUp:(BOOL) value;
-- (CollectEquipEnhancementRequestProto_Builder*) clearSpeedUp;
-@end
-
-@interface CollectEquipEnhancementResponseProto : PBGeneratedMessage {
-@private
-  BOOL hasSender_:1;
-  BOOL hasResultingEquip_:1;
-  BOOL hasStatus_:1;
-  MinimumUserProto* sender;
-  FullUserEquipProto* resultingEquip;
-  CollectEquipEnhancementResponseProto_CollectEquipStatus status;
-}
-- (BOOL) hasSender;
-- (BOOL) hasStatus;
-- (BOOL) hasResultingEquip;
-@property (readonly, retain) MinimumUserProto* sender;
-@property (readonly) CollectEquipEnhancementResponseProto_CollectEquipStatus status;
-@property (readonly, retain) FullUserEquipProto* resultingEquip;
-
-+ (CollectEquipEnhancementResponseProto*) defaultInstance;
-- (CollectEquipEnhancementResponseProto*) defaultInstance;
-
-- (BOOL) isInitialized;
-- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output;
-- (CollectEquipEnhancementResponseProto_Builder*) builder;
-+ (CollectEquipEnhancementResponseProto_Builder*) builder;
-+ (CollectEquipEnhancementResponseProto_Builder*) builderWithPrototype:(CollectEquipEnhancementResponseProto*) prototype;
-
-+ (CollectEquipEnhancementResponseProto*) parseFromData:(NSData*) data;
-+ (CollectEquipEnhancementResponseProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
-+ (CollectEquipEnhancementResponseProto*) parseFromInputStream:(NSInputStream*) input;
-+ (CollectEquipEnhancementResponseProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
-+ (CollectEquipEnhancementResponseProto*) parseFromCodedInputStream:(PBCodedInputStream*) input;
-+ (CollectEquipEnhancementResponseProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
-@end
-
-@interface CollectEquipEnhancementResponseProto_Builder : PBGeneratedMessage_Builder {
-@private
-  CollectEquipEnhancementResponseProto* result;
-}
-
-- (CollectEquipEnhancementResponseProto*) defaultInstance;
-
-- (CollectEquipEnhancementResponseProto_Builder*) clear;
-- (CollectEquipEnhancementResponseProto_Builder*) clone;
-
-- (CollectEquipEnhancementResponseProto*) build;
-- (CollectEquipEnhancementResponseProto*) buildPartial;
-
-- (CollectEquipEnhancementResponseProto_Builder*) mergeFrom:(CollectEquipEnhancementResponseProto*) other;
-- (CollectEquipEnhancementResponseProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input;
-- (CollectEquipEnhancementResponseProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
-
-- (BOOL) hasSender;
-- (MinimumUserProto*) sender;
-- (CollectEquipEnhancementResponseProto_Builder*) setSender:(MinimumUserProto*) value;
-- (CollectEquipEnhancementResponseProto_Builder*) setSenderBuilder:(MinimumUserProto_Builder*) builderForValue;
-- (CollectEquipEnhancementResponseProto_Builder*) mergeSender:(MinimumUserProto*) value;
-- (CollectEquipEnhancementResponseProto_Builder*) clearSender;
-
-- (BOOL) hasStatus;
-- (CollectEquipEnhancementResponseProto_CollectEquipStatus) status;
-- (CollectEquipEnhancementResponseProto_Builder*) setStatus:(CollectEquipEnhancementResponseProto_CollectEquipStatus) value;
-- (CollectEquipEnhancementResponseProto_Builder*) clearStatus;
-
 - (BOOL) hasResultingEquip;
 - (FullUserEquipProto*) resultingEquip;
-- (CollectEquipEnhancementResponseProto_Builder*) setResultingEquip:(FullUserEquipProto*) value;
-- (CollectEquipEnhancementResponseProto_Builder*) setResultingEquipBuilder:(FullUserEquipProto_Builder*) builderForValue;
-- (CollectEquipEnhancementResponseProto_Builder*) mergeResultingEquip:(FullUserEquipProto*) value;
-- (CollectEquipEnhancementResponseProto_Builder*) clearResultingEquip;
+- (SubmitEquipEnhancementResponseProto_Builder*) setResultingEquip:(FullUserEquipProto*) value;
+- (SubmitEquipEnhancementResponseProto_Builder*) setResultingEquipBuilder:(FullUserEquipProto_Builder*) builderForValue;
+- (SubmitEquipEnhancementResponseProto_Builder*) mergeResultingEquip:(FullUserEquipProto*) value;
+- (SubmitEquipEnhancementResponseProto_Builder*) clearResultingEquip;
 @end
 
 @interface RetrieveClanTowerScoresRequestProto : PBGeneratedMessage {
@@ -21177,5 +19817,143 @@ BOOL ReviveInDungeonResponseProto_ReviveInDungeonStatusIsValidValue(ReviveInDung
 - (ReviveInDungeonResponseProto_ReviveInDungeonStatus) status;
 - (ReviveInDungeonResponseProto_Builder*) setStatus:(ReviveInDungeonResponseProto_ReviveInDungeonStatus) value;
 - (ReviveInDungeonResponseProto_Builder*) clearStatus;
+@end
+
+@interface UpdateEquipDurabilityRequestProto : PBGeneratedMessage {
+@private
+  BOOL hasClientTime_:1;
+  BOOL hasSender_:1;
+  int64_t clientTime;
+  MinimumUserProto* sender;
+  NSMutableArray* mutableFuepsList;
+}
+- (BOOL) hasSender;
+- (BOOL) hasClientTime;
+@property (readonly, retain) MinimumUserProto* sender;
+@property (readonly) int64_t clientTime;
+- (NSArray*) fuepsList;
+- (FullUserEquipProto*) fuepsAtIndex:(int32_t) index;
+
++ (UpdateEquipDurabilityRequestProto*) defaultInstance;
+- (UpdateEquipDurabilityRequestProto*) defaultInstance;
+
+- (BOOL) isInitialized;
+- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output;
+- (UpdateEquipDurabilityRequestProto_Builder*) builder;
++ (UpdateEquipDurabilityRequestProto_Builder*) builder;
++ (UpdateEquipDurabilityRequestProto_Builder*) builderWithPrototype:(UpdateEquipDurabilityRequestProto*) prototype;
+
++ (UpdateEquipDurabilityRequestProto*) parseFromData:(NSData*) data;
++ (UpdateEquipDurabilityRequestProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (UpdateEquipDurabilityRequestProto*) parseFromInputStream:(NSInputStream*) input;
++ (UpdateEquipDurabilityRequestProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (UpdateEquipDurabilityRequestProto*) parseFromCodedInputStream:(PBCodedInputStream*) input;
++ (UpdateEquipDurabilityRequestProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+@end
+
+@interface UpdateEquipDurabilityRequestProto_Builder : PBGeneratedMessage_Builder {
+@private
+  UpdateEquipDurabilityRequestProto* result;
+}
+
+- (UpdateEquipDurabilityRequestProto*) defaultInstance;
+
+- (UpdateEquipDurabilityRequestProto_Builder*) clear;
+- (UpdateEquipDurabilityRequestProto_Builder*) clone;
+
+- (UpdateEquipDurabilityRequestProto*) build;
+- (UpdateEquipDurabilityRequestProto*) buildPartial;
+
+- (UpdateEquipDurabilityRequestProto_Builder*) mergeFrom:(UpdateEquipDurabilityRequestProto*) other;
+- (UpdateEquipDurabilityRequestProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input;
+- (UpdateEquipDurabilityRequestProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+
+- (BOOL) hasSender;
+- (MinimumUserProto*) sender;
+- (UpdateEquipDurabilityRequestProto_Builder*) setSender:(MinimumUserProto*) value;
+- (UpdateEquipDurabilityRequestProto_Builder*) setSenderBuilder:(MinimumUserProto_Builder*) builderForValue;
+- (UpdateEquipDurabilityRequestProto_Builder*) mergeSender:(MinimumUserProto*) value;
+- (UpdateEquipDurabilityRequestProto_Builder*) clearSender;
+
+- (NSArray*) fuepsList;
+- (FullUserEquipProto*) fuepsAtIndex:(int32_t) index;
+- (UpdateEquipDurabilityRequestProto_Builder*) replaceFuepsAtIndex:(int32_t) index with:(FullUserEquipProto*) value;
+- (UpdateEquipDurabilityRequestProto_Builder*) addFueps:(FullUserEquipProto*) value;
+- (UpdateEquipDurabilityRequestProto_Builder*) addAllFueps:(NSArray*) values;
+- (UpdateEquipDurabilityRequestProto_Builder*) clearFuepsList;
+
+- (BOOL) hasClientTime;
+- (int64_t) clientTime;
+- (UpdateEquipDurabilityRequestProto_Builder*) setClientTime:(int64_t) value;
+- (UpdateEquipDurabilityRequestProto_Builder*) clearClientTime;
+@end
+
+@interface UpdateEquipDurabilityResponseProto : PBGeneratedMessage {
+@private
+  BOOL hasSender_:1;
+  BOOL hasStatus_:1;
+  MinimumUserProto* sender;
+  UpdateEquipDurabilityResponseProto_UpdateEquipDurabilityStatus status;
+  NSMutableArray* mutableFuepsList;
+}
+- (BOOL) hasSender;
+- (BOOL) hasStatus;
+@property (readonly, retain) MinimumUserProto* sender;
+@property (readonly) UpdateEquipDurabilityResponseProto_UpdateEquipDurabilityStatus status;
+- (NSArray*) fuepsList;
+- (FullUserEquipProto*) fuepsAtIndex:(int32_t) index;
+
++ (UpdateEquipDurabilityResponseProto*) defaultInstance;
+- (UpdateEquipDurabilityResponseProto*) defaultInstance;
+
+- (BOOL) isInitialized;
+- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output;
+- (UpdateEquipDurabilityResponseProto_Builder*) builder;
++ (UpdateEquipDurabilityResponseProto_Builder*) builder;
++ (UpdateEquipDurabilityResponseProto_Builder*) builderWithPrototype:(UpdateEquipDurabilityResponseProto*) prototype;
+
++ (UpdateEquipDurabilityResponseProto*) parseFromData:(NSData*) data;
++ (UpdateEquipDurabilityResponseProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (UpdateEquipDurabilityResponseProto*) parseFromInputStream:(NSInputStream*) input;
++ (UpdateEquipDurabilityResponseProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (UpdateEquipDurabilityResponseProto*) parseFromCodedInputStream:(PBCodedInputStream*) input;
++ (UpdateEquipDurabilityResponseProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+@end
+
+@interface UpdateEquipDurabilityResponseProto_Builder : PBGeneratedMessage_Builder {
+@private
+  UpdateEquipDurabilityResponseProto* result;
+}
+
+- (UpdateEquipDurabilityResponseProto*) defaultInstance;
+
+- (UpdateEquipDurabilityResponseProto_Builder*) clear;
+- (UpdateEquipDurabilityResponseProto_Builder*) clone;
+
+- (UpdateEquipDurabilityResponseProto*) build;
+- (UpdateEquipDurabilityResponseProto*) buildPartial;
+
+- (UpdateEquipDurabilityResponseProto_Builder*) mergeFrom:(UpdateEquipDurabilityResponseProto*) other;
+- (UpdateEquipDurabilityResponseProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input;
+- (UpdateEquipDurabilityResponseProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+
+- (BOOL) hasSender;
+- (MinimumUserProto*) sender;
+- (UpdateEquipDurabilityResponseProto_Builder*) setSender:(MinimumUserProto*) value;
+- (UpdateEquipDurabilityResponseProto_Builder*) setSenderBuilder:(MinimumUserProto_Builder*) builderForValue;
+- (UpdateEquipDurabilityResponseProto_Builder*) mergeSender:(MinimumUserProto*) value;
+- (UpdateEquipDurabilityResponseProto_Builder*) clearSender;
+
+- (NSArray*) fuepsList;
+- (FullUserEquipProto*) fuepsAtIndex:(int32_t) index;
+- (UpdateEquipDurabilityResponseProto_Builder*) replaceFuepsAtIndex:(int32_t) index with:(FullUserEquipProto*) value;
+- (UpdateEquipDurabilityResponseProto_Builder*) addFueps:(FullUserEquipProto*) value;
+- (UpdateEquipDurabilityResponseProto_Builder*) addAllFueps:(NSArray*) values;
+- (UpdateEquipDurabilityResponseProto_Builder*) clearFuepsList;
+
+- (BOOL) hasStatus;
+- (UpdateEquipDurabilityResponseProto_UpdateEquipDurabilityStatus) status;
+- (UpdateEquipDurabilityResponseProto_Builder*) setStatus:(UpdateEquipDurabilityResponseProto_UpdateEquipDurabilityStatus) value;
+- (UpdateEquipDurabilityResponseProto_Builder*) clearStatus;
 @end
 

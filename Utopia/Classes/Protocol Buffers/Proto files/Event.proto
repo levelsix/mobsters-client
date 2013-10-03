@@ -25,9 +25,8 @@ message ChatResponseProto {
 
 message QueueUpRequestProto {
 	optional MinimumUserProto attacker = 1;
-	optional int32 elo = 2;
-	repeated int32 seenUserIds = 3;
-	optional int64 clientTime = 4;
+	repeated int32 seenUserIds = 2;
+	optional int64 clientTime = 3;
 	
 }
 
@@ -35,13 +34,13 @@ message QueueUpResponseProto {
 	optional MinimumUserProto attacker = 1;
 	optional MinimumUserProto defender = 2;
 	optional QueueUpStatus status = 3;
+	optional int32 possibleCoinReward = 4;
 
 	enum QueueUpStatus {
 		SUCCESS = 0;
 		OTHER_FAIL = 1;
-		NOT_ENOUGH_SILVER = 2;
-		CANT_FIND_ANYONE = 3;
-		HAS_SHIELD = 4;
+		FAIL_NOT_ENOUGH_SILVER = 2;
+		FAIL_CANT_FIND_ANYONE = 3; //DON'T SUBTRACT SILVER
 	}
 }
 
@@ -165,7 +164,7 @@ message StartupResponseProto {
 	optional int32 experienceRequiredForCurrentLevel = 15;
 	repeated FullUserClanProto userClanInfo = 26;
 	
-	repeated MarketplacePostPurchasedNotificationProto marketplacePurchaseNotifications = 12;
+	//repeated MarketplacePostPurchasedNotificationProto marketplacePurchaseNotifications = 12;
 	repeated AttackedNotificationProto attackNotifications = 13;
 	repeated ReferralNotificationProto referralNotifications = 14;
 	repeated PlayerWallPostProto playerWallPostNotifications = 19;
@@ -220,6 +219,8 @@ message StartupResponseProto {
 	repeated FullUserBossProto livingBosses = 47;
 	repeated FullBossProto bosses = 48;
 	
+	repeated CityExpansionCostProto expansionCosts = 49;
+	
 	message DailyBonusInfo {
 		optional int32 numConsecutiveDaysPlayed = 1;
 		optional int32 dayOneCoins = 2;
@@ -231,12 +232,12 @@ message StartupResponseProto {
 		optional int64 timeAwarded = 8;
 	}
 
-	message MarketplacePostPurchasedNotificationProto {
-		optional FullMarketplacePostProto marketplacePost = 1;
-		optional MinimumUserProto buyer = 2;
-		optional int64 timeOfPurchase = 3;
-		optional bool sellerHadLicense = 4;
-	}
+	//message MarketplacePostPurchasedNotificationProto {
+	//	optional FullMarketplacePostProto marketplacePost = 1;
+	//	optional MinimumUserProto buyer = 2;
+	//	optional int64 timeOfPurchase = 3;
+	//	optional bool sellerHadLicense = 4;
+	//}
 
 	message AttackedNotificationProto {
 		optional MinimumUserProto attacker = 1;
@@ -265,8 +266,8 @@ message StartupResponseProto {
     	optional int32 armoryYLength = 8;
     	optional int32 vaultXLength = 9;
     	optional int32 vaultYLength = 10;
-    	optional int32 marketplaceXLength = 11;
-    	optional int32 marketplaceYLength = 12;
+    	//optional int32 marketplaceXLength = 11;
+    	//optional int32 marketplaceYLength = 12;
     	optional int32 carpenterXLength = 13;
     	optional int32 carpenterYLength = 14;
     	optional int32 aviaryXLength = 15;
@@ -294,13 +295,13 @@ message StartupResponseProto {
 		optional int32 diamondCostForFullStaminaRefill = 48;
 		optional int32 diamondCostForFullEnergyRefill = 49;
 		
-		optional int32 maxNumberOfMarketplacePosts = 40;
-		optional double percentOfSellingCostTakenFromSellerOnMarketplacePurchase = 41;
-   		optional double percentOfSellingCostTakenFromSellerOnMarketplaceRetract = 42;
-		optional int32 numDaysLongMarketplaceLicenseLastsFor = 43;
-		optional int32 numDaysShortMarketplaceLicenseLastsFor = 44;
-		optional int32 diamondCostOfLongMarketplaceLicense = 45;
-		optional int32 diamondCostOfShortMarketplaceLicense = 46;
+		//optional int32 maxNumberOfMarketplacePosts = 40;
+		//optional double percentOfSellingCostTakenFromSellerOnMarketplacePurchase = 41;
+   		//optional double percentOfSellingCostTakenFromSellerOnMarketplaceRetract = 42;
+		//optional int32 numDaysLongMarketplaceLicenseLastsFor = 43;
+		//optional int32 numDaysShortMarketplaceLicenseLastsFor = 44;
+		//optional int32 diamondCostOfLongMarketplaceLicense = 45;
+		//optional int32 diamondCostOfShortMarketplaceLicense = 46;
 		optional int32 numDaysUntilFreeRetract = 87;
 
 		optional int32 maxNumbersOfEnemiesToGenerateAtOnce = 4;
@@ -310,7 +311,7 @@ message StartupResponseProto {
 		
 		optional int32 armoryImgVerticalPixelOffset = 54;
 		optional int32 vaultImgVerticalPixelOffset = 55;
-		optional int32 marketplaceImgVerticalPixelOffset = 56;
+		//optional int32 marketplaceImgVerticalPixelOffset = 56;
 		optional int32 carpenterImgVerticalPixelOffset = 57;
 		optional int32 aviaryImgVerticalPixelOffset = 58;
 		
@@ -464,7 +465,7 @@ message StartupResponseProto {
 			optional int32 clanHouseMinLevel = 1;
 			optional int32 vaultMinLevel = 2;
 			optional int32 armoryMinLevel = 3;
-			optional int32 marketplaceMinLevel = 4;
+			//optional int32 marketplaceMinLevel = 4;
 			optional int32 blacksmithMinLevel = 5;
 			optional int32 leaderboardMinLevel = 6;
 			optional int32 enhancingMinLevel = 7;
@@ -1083,138 +1084,138 @@ message UpdateClientUserResponseProto {
 
 //------------------------------------------------------------------------------------------
 
-message RetrieveCurrentMarketplacePostsRequestProto {
-	optional MinimumUserProto sender = 1;
-	optional int32 currentNumOfEntries = 2;
-	optional bool fromSender = 3;
-	optional RetrieveCurrentMarketplacePostsFilter filter = 4;
-	optional bool commonEquips = 5;
-	optional bool uncommonEquips = 6;
-	optional bool rareEquips = 7;
-	optional bool superRareEquips = 17;
-	optional bool epicEquips = 8;
-	optional bool legendaryEquips = 9;
-	optional bool myClassOnly = 10;
-	optional int32 minEquipLevel = 11;
-	optional int32 maxEquipLevel = 12;
-	optional int32 minForgeLevel = 13;
-	optional int32 maxForgeLevel = 14;
-	optional RetrieveCurrentMarketplacePostsSortingOrder sortOrder = 15;
-	optional int32 specificEquipId = 16;
-	
-	enum RetrieveCurrentMarketplacePostsFilter {
-		ALL = 0;
-		WEAPONS = 1;
-		ARMOR = 2;
-		AMULETS = 3;
-	}
-	
-	enum RetrieveCurrentMarketplacePostsSortingOrder {
-		MOST_RECENT_POSTS = 0;
-		PRICE_LOW_TO_HIGH = 1;
-		PRICE_HIGH_TO_LOW = 2;
-		ATTACK_HIGH_TO_LOW = 3;
-		DEFENSE_HIGH_TO_LOW = 4;
-		TOTAL_STATS_HIGH_TO_LOW = 5;
-	}
-}
+//message RetrieveCurrentMarketplacePostsRequestProto {
+//	optional MinimumUserProto sender = 1;
+//	optional int32 currentNumOfEntries = 2;
+//	optional bool fromSender = 3;
+//	optional RetrieveCurrentMarketplacePostsFilter filter = 4;
+//	optional bool commonEquips = 5;
+//	optional bool uncommonEquips = 6;
+//	optional bool rareEquips = 7;
+//	optional bool superRareEquips = 17;
+//	optional bool epicEquips = 8;
+//	optional bool legendaryEquips = 9;
+//	optional bool myClassOnly = 10;
+//	optional int32 minEquipLevel = 11;
+//	optional int32 maxEquipLevel = 12;
+//	optional int32 minForgeLevel = 13;
+//	optional int32 maxForgeLevel = 14;
+//	optional RetrieveCurrentMarketplacePostsSortingOrder sortOrder = 15;
+//	optional int32 specificEquipId = 16;
+//	
+//	enum RetrieveCurrentMarketplacePostsFilter {
+//		ALL = 0;
+//		WEAPONS = 1;
+//		ARMOR = 2;
+//		AMULETS = 3;
+//	}
+//	
+//	enum RetrieveCurrentMarketplacePostsSortingOrder {
+//		MOST_RECENT_POSTS = 0;
+//		PRICE_LOW_TO_HIGH = 1;
+//		PRICE_HIGH_TO_LOW = 2;
+//		ATTACK_HIGH_TO_LOW = 3;
+//		DEFENSE_HIGH_TO_LOW = 4;
+//		TOTAL_STATS_HIGH_TO_LOW = 5;
+//	}
+//}
 
 																						//DONE
-message RetrieveCurrentMarketplacePostsResponseProto {
-     optional MinimumUserProto sender = 1;
-     optional bool fromSender = 2;
-     optional int32 beforeThisPostId = 3;
-	 optional RetrieveCurrentMarketplacePostsStatus status = 4;
+//message RetrieveCurrentMarketplacePostsResponseProto {
+//     optional MinimumUserProto sender = 1;
+//     optional bool fromSender = 2;
+//     optional int32 beforeThisPostId = 3;
+//	 optional RetrieveCurrentMarketplacePostsStatus status = 4;
      
-     repeated FullMarketplacePostProto marketplacePosts = 5;
+//     repeated FullMarketplacePostProto marketplacePosts = 5;
      
-     enum RetrieveCurrentMarketplacePostsStatus {
-     	SUCCESS = 0;
-     	OTHER_FAIL = 2;
-     }
-}
+//     enum RetrieveCurrentMarketplacePostsStatus {
+//     	SUCCESS = 0;
+//     	OTHER_FAIL = 2;
+//     }
+//}
 
 //------------------------------------------------------------------------------------------
 
 																						//DONE
-message PostToMarketplaceRequestProto {
-	optional MinimumUserProto sender = 1;
-	optional int32 userEquipId = 2;
-	optional int32 diamondCost = 3;
-	optional int32 coinCost = 4;
-}
+//message PostToMarketplaceRequestProto {
+//	optional MinimumUserProto sender = 1;
+//	optional int32 userEquipId = 2;
+//	optional int32 diamondCost = 3;
+//	optional int32 coinCost = 4;
+//}
 
 																						//DONE
-message PostToMarketplaceResponseProto {
-     optional MinimumUserProto sender = 1;
-     optional PostToMarketplaceStatus status = 2;
-    
-    enum PostToMarketplaceStatus {
-		SUCCESS = 0;
-		NEGATIVE_POST = 1;
-		NOT_ENOUGH_EQUIP = 2;
-		NEGATIVE_COST = 3;
-		NO_COST = 4;
-		USER_ALREADY_MAX_MARKETPLACE_POSTS = 5;
-		CANT_DEMAND_BOTH = 6;
-		INVALID_COST_TYPE_FOR_POST = 7;
-		OTHER_FAIL = 8;
-	}
-}
+//message PostToMarketplaceResponseProto {
+ //    optional MinimumUserProto sender = 1;
+  //   optional PostToMarketplaceStatus status = 2;
+   // 
+    //enum PostToMarketplaceStatus {
+	//	SUCCESS = 0;
+	//	NEGATIVE_POST = 1;
+	//	NOT_ENOUGH_EQUIP = 2;
+	//	NEGATIVE_COST = 3;
+	//	NO_COST = 4;
+	//	USER_ALREADY_MAX_MARKETPLACE_POSTS = 5;
+	//	CANT_DEMAND_BOTH = 6;
+	//	INVALID_COST_TYPE_FOR_POST = 7;
+	//	OTHER_FAIL = 8;
+	//}
+//}
 
 //------------------------------------------------------------------------------------------
 
 																						//DONE
-message RetractMarketplacePostRequestProto {
-	optional MinimumUserProto sender = 1;
-	optional int32 marketplacePostId = 2;
-	optional int64 curTime = 3;
-}
+//message RetractMarketplacePostRequestProto {
+//	optional MinimumUserProto sender = 1;
+//	optional int32 marketplacePostId = 2;
+//	optional int64 curTime = 3;
+//}
 
 																						//DONE
-message RetractMarketplacePostResponseProto {
-     optional MinimumUserProto sender = 1;
-     optional RetractMarketplacePostStatus status = 2;
-     optional FullUserEquipProto retractedUserEquip = 3;
+//message RetractMarketplacePostResponseProto {
+ //    optional MinimumUserProto sender = 1;
+  //   optional RetractMarketplacePostStatus status = 2;
+   //  optional FullUserEquipProto retractedUserEquip = 3;
 
-	enum RetractMarketplacePostStatus {
-		SUCCESS = 0;
-		NOT_REQUESTERS_POST = 1;
-		POST_NO_LONGER_EXISTS = 2;
-		NOT_ENOUGH_DIAMONDS = 3;
-		NOT_ENOUGH_COINS = 4;
-		OTHER_FAIL = 5;
-	}
-}
+//	enum RetractMarketplacePostStatus {
+//		SUCCESS = 0;
+//		NOT_REQUESTERS_POST = 1;
+//		POST_NO_LONGER_EXISTS = 2;
+//		NOT_ENOUGH_DIAMONDS = 3;
+//		NOT_ENOUGH_COINS = 4;
+//		OTHER_FAIL = 5;
+//	}
+//}
 
 //------------------------------------------------------------------------------------------
 
 																						//DONE
-message PurchaseFromMarketplaceRequestProto {
-	optional MinimumUserProto sender = 1;
-	optional int32 marketplacePostId = 2;
-	optional int32 posterId = 3;
-	optional int64 curTime = 4;
-}
+//message PurchaseFromMarketplaceRequestProto {
+//	optional MinimumUserProto sender = 1;
+//	optional int32 marketplacePostId = 2;
+//	optional int32 posterId = 3;
+//	optional int64 curTime = 4;
+//}
 
 																						//DONE
-message PurchaseFromMarketplaceResponseProto {
-     optional MinimumUserProto purchaser = 1;
-     optional int32 posterId = 2;
-     optional FullMarketplacePostProto marketplacePost = 3;
-     optional FullUserEquipProto fullUserEquipOfBoughtItem = 5;
-     optional bool sellerHadLicense = 6;
+//message PurchaseFromMarketplaceResponseProto {
+ //    optional MinimumUserProto purchaser = 1;
+  //   optional int32 posterId = 2;
+   //  optional FullMarketplacePostProto marketplacePost = 3;
+    // optional FullUserEquipProto fullUserEquipOfBoughtItem = 5;
+     //optional bool sellerHadLicense = 6;
      
-     optional PurchaseFromMarketplaceStatus status = 4;
+     //optional PurchaseFromMarketplaceStatus status = 4;
 
-	enum PurchaseFromMarketplaceStatus {
-		SUCCESS = 0;
-		NOT_ENOUGH_MATERIALS = 1;
-		POST_NO_LONGER_EXISTS = 2;
-		PURCHASER_IS_SELLER = 3;
-		OTHER_FAIL = 5;
-	}
-}
+//	enum PurchaseFromMarketplaceStatus {
+//		SUCCESS = 0;
+//		NOT_ENOUGH_MATERIALS = 1;
+//		POST_NO_LONGER_EXISTS = 2;
+//		PURCHASER_IS_SELLER = 3;
+//		OTHER_FAIL = 5;
+//	}
+//}
 
 //------------------------------------------------------------------------------------------
 
@@ -1298,20 +1299,20 @@ message RefillStatWithDiamondsResponseProto {
 //------------------------------------------------------------------------------------------
 
 																						//DONE
-message RedeemMarketplaceEarningsRequestProto {
-	optional MinimumUserProto sender = 1;
-}
+//message RedeemMarketplaceEarningsRequestProto {
+//	optional MinimumUserProto sender = 1;
+//}
 
 																						//DONE
-message RedeemMarketplaceEarningsResponseProto {
-     optional MinimumUserProto sender = 1;
-     optional RedeemMarketplaceEarningsStatus status = 2;
-     
-     enum RedeemMarketplaceEarningsStatus {
-     	SUCCESS = 0;
-     	OTHER_FAIL = 1;
-     }
-}
+//message RedeemMarketplaceEarningsResponseProto {
+//     optional MinimumUserProto sender = 1;
+ //    optional RedeemMarketplaceEarningsStatus status = 2;
+  //   
+   //  enum RedeemMarketplaceEarningsStatus {
+    // 	SUCCESS = 0;
+     //	OTHER_FAIL = 1;
+     //}
+//}
 
 //------------------------------------------------------------------------------------------
 
@@ -1330,7 +1331,7 @@ message LoadPlayerCityResponseProto {
 	repeated FullUserProto ownerAllies = 5;			//only if owner is an enemy
 	repeated FullUserProto ownerEnemies = 6;		//only if owner is you or ally
 
-	optional FullUserCityExpansionDataProto userCityExpansionData = 12;
+	repeated UserCityExpansionDataProto userCityExpansionDataProtoList = 12;
      
     enum LoadPlayerCityStatus {
      	SUCCESS = 0;
@@ -1474,14 +1475,18 @@ message RetrieveStaticDataResponseProto {
 																						//DONE
 message PurchaseCityExpansionRequestProto {
     optional MinimumUserProto sender = 1;
-    optional ExpansionDirection direction = 2;
-    optional int64 timeOfPurchase = 3;
+    //optional ExpansionDirection direction = 2;
+    //sint32 to be more efficient in storing negative numbers
+    optional sint32 xPosition = 2; //in relation to center square (the origin 0,0)
+    optional sint32 yPosition = 3;
+    optional int64 timeOfPurchase = 4;
 }
 
 																						//DONE
 message PurchaseCityExpansionResponseProto {
     optional MinimumUserProto sender = 1;
     optional PurchaseCityExpansionStatus status = 2;
+    optional UserCityExpansionDataProto ucedp = 3;
     
     enum PurchaseCityExpansionStatus {
     	SUCCESS = 0;
@@ -1499,12 +1504,18 @@ message ExpansionWaitCompleteRequestProto {
 	optional MinimumUserProto sender = 1;
 	optional int64 curTime = 2;						//used for checking
 	optional bool speedUp = 3;
+	
+	//the (x,y) coordinates in relation to the original plot of land
+	//sint32 because it's more efficient when google protocol buffers serializes/encodes the values
+	optional sint32 xPosition = 4; 
+	optional sint32 yPosition = 5;
 }
 
 																						//DONE
 message ExpansionWaitCompleteResponseProto {
      optional MinimumUserProto sender = 1;
      optional ExpansionWaitCompleteStatus status = 2;
+     optional UserCityExpansionDataProto ucedp = 3;
      
      enum ExpansionWaitCompleteStatus {
      	SUCCESS = 0;
@@ -1565,30 +1576,30 @@ message EnableAPNSResponseProto {
 //------------------------------------------------------------------------------------------
 
 																						//DONE
-message PurchaseMarketplaceLicenseRequestProto {
-	optional MinimumUserProto sender = 1;
-	optional int64 clientTime = 2;
-	optional LicenseType licenseType = 3;
-	
-	enum LicenseType {
-		SHORT = 0;
-		LONG = 1;
-	}
-}
+//message PurchaseMarketplaceLicenseRequestProto {
+//	optional MinimumUserProto sender = 1;
+//	optional int64 clientTime = 2;
+//	optional LicenseType licenseType = 3;
+//	
+//	enum LicenseType {
+//		SHORT = 0;
+//		LONG = 1;
+//	}
+//}
 
 																						//DONE
-message PurchaseMarketplaceLicenseResponseProto {
-	optional MinimumUserProto sender = 1;
-	optional PurchaseMarketplaceLicenseStatus status = 2;
+//message PurchaseMarketplaceLicenseResponseProto {
+//	optional MinimumUserProto sender = 1;
+//	optional PurchaseMarketplaceLicenseStatus status = 2;
 	
-	enum PurchaseMarketplaceLicenseStatus {
-		SUCCESS = 0;
-		NOT_ENOUGH_DIAMONDS = 1;
-		ALREADY_HAVE_LICENSE_NOW = 2;
-		OTHER_FAIL = 3;
-		CLIENT_TOO_APART_FROM_SERVER_TIME = 4;
-	}
-}
+//	enum PurchaseMarketplaceLicenseStatus {
+//		SUCCESS = 0;
+//		NOT_ENOUGH_DIAMONDS = 1;
+//		ALREADY_HAVE_LICENSE_NOW = 2;
+//		OTHER_FAIL = 3;
+//		CLIENT_TOO_APART_FROM_SERVER_TIME = 4;
+//	}
+//}
 
 //------------------------------------------------------------------------------------------
 
@@ -1821,8 +1832,8 @@ message LogoutRequestProto {
 
 message SubmitEquipsToBlacksmithRequestProto {
 	optional MinimumUserProto sender = 1;
-	optional int32 userEquipOne = 2;
-	optional int32 userEquipTwo = 3;
+	optional int64 userEquipOne = 2;
+	optional int64 userEquipTwo = 3;
 	optional bool paidToGuarantee = 4;
 	optional int64 startTime = 5;
 	optional int32 forgeSlotNumber = 6;
@@ -2540,15 +2551,16 @@ message GeneralNotificationResponseProto {
 
 message SubmitEquipEnhancementRequestProto {
 	optional MinimumUserProto sender = 1;
-	optional int32 enhancingUserEquipId = 2;
-	repeated int32 feederUserEquipIds = 3;
+	optional int64 enhancingUserEquipId = 2;
+	repeated int64 feederUserEquipIds = 3;
 	optional int64 clientTime = 4;
 }
 
 message SubmitEquipEnhancementResponseProto {
 	optional MinimumUserProto sender = 1;
 	optional EnhanceEquipStatus status = 2;
-	optional EquipEnhancementProto equipToEnhance = 3;
+	optional FullUserEquipProto resultingEquip = 3;
+	
 
 	enum EnhanceEquipStatus {
 		SUCCESS = 0;
@@ -2556,31 +2568,10 @@ message SubmitEquipEnhancementResponseProto {
 		CLIENT_TOO_APART_FROM_SERVER_TIME = 2;
 		MAIN_OR_FEEDER_OR_EQUIPS_NONEXISTENT = 3;
 		TRYING_TO_SURPASS_MAX_LEVEL = 4;
-		ALREADY_ENHANCING = 5;
-		NOT_ENOUGH_SILVER = 6;
+		NOT_ENOUGH_SILVER = 5;
 	}
 }
 
-message CollectEquipEnhancementRequestProto {
-	optional MinimumUserProto sender = 1;
-	optional int32 equipEnhancementId = 2;
-	optional int64 clientTime = 3; //this will be the time of speed up if speedUp is true
-	optional bool speedUp = 4;
-}
-
-message CollectEquipEnhancementResponseProto {
-	optional MinimumUserProto sender = 1;
-	optional CollectEquipStatus status = 2;
-	optional FullUserEquipProto resultingEquip = 3;
-	
-	enum CollectEquipStatus {
-		SUCCESS = 0;
-		CLIENT_TOO_APART_FROM_SERVER_TIME = 1;
-		ENHANCEMENT_NOT_COMPLETE = 2;
-		OTHER_FAIL = 3;
-		NOT_ENOUGH_GOLD = 4;
-	}
-}
 
 message RetrieveClanTowerScoresRequestProto {
 	optional MinimumUserProto sender = 1;
@@ -2967,3 +2958,23 @@ message ReviveInDungeonResponseProto {
 		FAIL_OTHER = 2;
 	}
 }
+
+//mainly used during battle
+message UpdateEquipDurabilityRequestProto {
+	optional MinimumUserProto sender = 1;
+	repeated FullUserEquipProto fueps = 2; //contains new durabilities 
+	optional int64 clientTime = 3; //history, tracking purposes
+}
+
+message UpdateEquipDurabilityResponseProto {
+	optional MinimumUserProto sender = 1;
+	repeated FullUserEquipProto fueps = 2;
+	optional UpdateEquipDurabilityStatus status = 3;
+	
+	enum UpdateEquipDurabilityStatus {
+		SUCCESS = 0;
+		FAIL_INSUFFICIENT_FUNDS = 1;
+		FAIL_OTHER = 2;
+	}
+}
+

@@ -31,10 +31,6 @@ BOOL EventProtocolRequestIsValidValue(EventProtocolRequest value) {
     case EventProtocolRequestCRetrieveStaticDataForShopEvent:
     case EventProtocolRequestCArmoryEvent:
     case EventProtocolRequestCInAppPurchaseEvent:
-    case EventProtocolRequestCRetrieveCurrentMarketplacePostsEvent:
-    case EventProtocolRequestCPostToMarketplaceEvent:
-    case EventProtocolRequestCRetractPostFromMarketplaceEvent:
-    case EventProtocolRequestCPurchaseFromMarketplaceEvent:
     case EventProtocolRequestCUseSkillPointEvent:
     case EventProtocolRequestCGenerateAttackListEvent:
     case EventProtocolRequestCPurchaseNormStructureEvent:
@@ -45,7 +41,6 @@ BOOL EventProtocolRequestIsValidValue(EventProtocolRequest value) {
     case EventProtocolRequestCRefillStatWithDiamondsEvent:
     case EventProtocolRequestCFinishNormStructWaittimeWithDiamondsEvent:
     case EventProtocolRequestCNormStructWaitCompleteEvent:
-    case EventProtocolRequestCRedeemMarketplaceEarningsEvent:
     case EventProtocolRequestCCritStructureActionEvent:
     case EventProtocolRequestCLoadPlayerCityEvent:
     case EventProtocolRequestCRetrieveStaticDataEvent:
@@ -57,7 +52,6 @@ BOOL EventProtocolRequestIsValidValue(EventProtocolRequest value) {
     case EventProtocolRequestCRefillStatWaitCompleteEvent:
     case EventProtocolRequestCLevelUpEvent:
     case EventProtocolRequestCEnableApnsEvent:
-    case EventProtocolRequestCPurchaseMarketplaceLicenseEvent:
     case EventProtocolRequestCUserCreateEvent:
     case EventProtocolRequestCEquipEquipmentEvent:
     case EventProtocolRequestCChangeUserLocationEvent:
@@ -118,6 +112,7 @@ BOOL EventProtocolRequestIsValidValue(EventProtocolRequest value) {
     case EventProtocolRequestCEndDungeonEvent:
     case EventProtocolRequestCReviveInDungeonEvent:
     case EventProtocolRequestCQueueUpEvent:
+    case EventProtocolRequestCUpdateEquipDurabilityEvent:
     case EventProtocolRequestCLogoutEvent:
     case EventProtocolRequestAAdminUpdate:
       return YES;
@@ -136,10 +131,6 @@ BOOL EventProtocolResponseIsValidValue(EventProtocolResponse value) {
     case EventProtocolResponseSRetrieveStaticDataForShopEvent:
     case EventProtocolResponseSArmoryEvent:
     case EventProtocolResponseSInAppPurchaseEvent:
-    case EventProtocolResponseSRetrieveCurrentMarketplacePostsEvent:
-    case EventProtocolResponseSPostToMarketplaceEvent:
-    case EventProtocolResponseSRetractPostFromMarketplaceEvent:
-    case EventProtocolResponseSPurchaseFromMarketplaceEvent:
     case EventProtocolResponseSUseSkillPointEvent:
     case EventProtocolResponseSGenerateAttackListEvent:
     case EventProtocolResponseSPurchaseNormStructureEvent:
@@ -150,7 +141,6 @@ BOOL EventProtocolResponseIsValidValue(EventProtocolResponse value) {
     case EventProtocolResponseSRefillStatWithDiamondsEvent:
     case EventProtocolResponseSFinishNormStructWaittimeWithDiamondsEvent:
     case EventProtocolResponseSNormStructWaitCompleteEvent:
-    case EventProtocolResponseSRedeemMarketplaceEarningsEvent:
     case EventProtocolResponseSCritStructureActionEvent:
     case EventProtocolResponseSLoadPlayerCityEvent:
     case EventProtocolResponseSRetrieveStaticDataEvent:
@@ -162,7 +152,6 @@ BOOL EventProtocolResponseIsValidValue(EventProtocolResponse value) {
     case EventProtocolResponseSRefillStatWaitCompleteEvent:
     case EventProtocolResponseSLevelUpEvent:
     case EventProtocolResponseSEnableApnsEvent:
-    case EventProtocolResponseSPurchaseMarketplaceLicenseEvent:
     case EventProtocolResponseSUserCreateEvent:
     case EventProtocolResponseSEquipEquipmentEvent:
     case EventProtocolResponseSChangeUserLocationEvent:
@@ -224,6 +213,7 @@ BOOL EventProtocolResponseIsValidValue(EventProtocolResponse value) {
     case EventProtocolResponseSEndDungeonEvent:
     case EventProtocolResponseSReviveInDungeonEvent:
     case EventProtocolResponseSQueueUpEvent:
+    case EventProtocolResponseSUpdateEquipDurabilityEvent:
     case EventProtocolResponseSUpdateClientUserEvent:
     case EventProtocolResponseSQuestCompleteEvent:
     case EventProtocolResponseSReferralCodeUsedEvent:

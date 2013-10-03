@@ -269,9 +269,11 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
   
   [[TopBar sharedTopBar] shouldDisplayShieldView:[self hasBeginnerShield]];
   
-  GameLayer *glay = [GameLayer sharedGameLayer];
-  if ([glay.currentMap isKindOfClass:[BazaarMap class]]) {
-    [(BazaarMap *)glay.currentMap reloadLocks];
+  if ([GameLayer isInitialized]) {
+    GameLayer *glay = [GameLayer sharedGameLayer];
+    if ([glay.currentMap isKindOfClass:[BazaarMap class]]) {
+      [(BazaarMap *)glay.currentMap reloadLocks];
+    }
   }
 }
 

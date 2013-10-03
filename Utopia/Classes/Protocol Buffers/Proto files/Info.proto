@@ -13,7 +13,7 @@ message MonsterProto {
 	optional string name = 2;
 	optional int32 maxHp = 3;
 	optional string imageName = 4;
-	optional bool isBoss = 5;
+	optional MonsterType monsterType = 5;
 	optional int32 weaponId = 6;
 	optional int32 weaponLvl = 7;
 	optional int32 armorId = 8;
@@ -25,6 +25,12 @@ message MonsterProto {
 	
 	//set only if the monster drops it, otherwise don't set it
 	optional int32 equipId = 14; 
+	
+	enum MonsterType {
+		REGULAR = 1;
+		MINI_BOSS = 2;
+		BOSS = 3;
+	}
 }
 
 //------------------------------------------------------------------------------------------
@@ -473,9 +479,9 @@ enum EarnFreeDiamondsType {
 
 enum SpecialQuestAction {
 	PURCHASE_FROM_ARMORY = 1;
-	PURCHASE_FROM_MARKETPLACE = 2;
+	//PURCHASE_FROM_MARKETPLACE = 2;
 	SELL_TO_ARMORY = 3;
-	POST_TO_MARKETPLACE = 4;
+	//POST_TO_MARKETPLACE = 4;
 	DEPOSIT_IN_VAULT = 5;
 	WITHDRAW_FROM_VAULT = 6;
 	WRITE_ON_ENEMY_WALL = 7;
@@ -520,19 +526,13 @@ message FullUserProto {
     optional string name = 2;
     optional int32 level = 3;
     optional UserType userType = 4;
-	optional int32 attack = 5;
-	optional int32 defense = 6;
-	optional int32 stamina = 7;
-	optional int64 lastStaminaRefillTime = 8;
 	optional int32 energy = 10;
 	optional int64 lastEnergyRefillTime = 11;
-	optional int32 skillPoints = 13;
 	optional int32 energyMax = 15;
-	optional int32 staminaMax = 16;
 	optional int32 diamonds = 17;
 	optional int32 coins = 18;
-	optional int32 marketplaceDiamondsEarnings = 19;
-	optional int32 marketplaceCoinsEarnings = 20;
+	//optional int32 marketplaceDiamondsEarnings = 19;
+	//optional int32 marketplaceCoinsEarnings = 20;
 	optional int32 vaultBalance = 21;
 	optional int32 experience = 22;
 	optional int32 tasksCompleted = 23;
@@ -541,23 +541,34 @@ message FullUserProto {
 	optional int32 flees = 45;
 	optional string referralCode = 27;
 	optional int32 numReferrals = 28;
+	//optional string udid = 29; //defined below
 	optional LocationProto userLocation = 30;
-	optional int32 numPostsInMarketplace = 31;
-	optional int32 numMarketplaceSalesUnredeemed = 32;
+	//optional int32 numPostsInMarketplace = 31;
+	//optional int32 numMarketplaceSalesUnredeemed = 32;
 	optional FullUserEquipProto weaponEquippedUserEquip = 33;
 	optional FullUserEquipProto armorEquippedUserEquip = 34;
 	optional FullUserEquipProto amuletEquippedUserEquip = 35;
 	optional int64 lastLoginTime = 36;
 	optional int64 lastLogoutTime = 37;
+	//optional string deviceToken = 38; //defined below
+	//optional int64 lastBattleNotificationTime = 39; //defined below
+	//optional int32 numBadges = 42; //defined below
 	optional int64 lastShortLicensePurchaseTime = 43;
 	optional int64 lastLongLicensePurchaseTime = 44;
 	optional bool isFake = 46;
+	//optional int64 createTime = 47; //defined below
 	optional bool isAdmin = 48;
+	//optional int32 apsalarId = 49;
 	optional int32 numCoinsRetrievedFromStructs = 50;
 	optional int32 numAdColonyVideosWatched = 51;
+	//optional int32 numTimesKiipRewarded = 52; //defined below
+	//optional int32 numConsecutiveDaysPlayed = 53; defined below
 	optional int32 numGroupChatsRemaining = 54;
 	optional MinimumClanProto clan = 55;
 	optional int64 lastGoldmineRetrieval = 56;
+	//last marketplace notification time
+	//last wall post notification time
+	//kabam naid
 	optional bool hasReceivedfbReward = 57;
 	optional FullUserEquipProto weaponTwoEquippedUserEquip = 58;
 	optional FullUserEquipProto armorTwoEquippedUserEquip = 59;
@@ -566,12 +577,15 @@ message FullUserProto {
 	optional int32 numAdditionalForgeSlots = 62;
 	optional int32 numBeginnerSalesPurchased = 63;
 	optional bool isMentor = 64;
-	optional bool hasActiveShield = 65;
-	
+	optional bool hasActiveShield = 65; 
 	optional int64 shieldEndTime = 66;
 	optional int32 elo = 67;
 	optional string rank = 68;
-	
+	optional int64 lastTimeQueued = 69; 
+	optional int32 attacksWon = 70;
+	optional int32 defensesWon = 71;
+	optional int32 attacksLost = 72;
+	optional int32 defensesLost = 73;
 
 	//CreateInfoProtoUtils.java doesn't set these (I can't think of a time the client would need this
 	//consider making other fields like this
@@ -585,6 +599,13 @@ message FullUserProto {
 	optional int32 numTimesKiipRewarded = 52;
 	optional int32 numConsecutiveDaysPlayed = 53;
 
+	//not needed in mobsters
+	//optional int32 attack = 5;
+	//optional int32 defense = 6;
+	//optional int32 stamina = 7;
+	//optional int64 lastStaminaRefillTime = 8;
+	//optional int32 skillPoints = 13;
+	//optional int32 staminaMax = 16;
 }
 
 //------------------------------------------------------------------------------------------
@@ -597,14 +618,15 @@ message FullEquipProto {
 	optional int32 attackBoost = 5;	
 	optional int32 defenseBoost = 6;
 	optional int32 minLevel = 7;
-	optional int32 coinPrice = 8;
-	optional int32 diamondPrice = 9;
-	optional float chanceOfLoss = 10;
-	optional EquipClassType classType = 11;
+	//optional int32 coinPrice = 8;
+	//optional int32 diamondPrice = 9;
+	//optional float chanceOfLoss = 10;
+	//optional EquipClassType classType = 11;
 	optional Rarity rarity = 12;
-	optional bool isBuyableInArmory = 13;
+	//optional bool isBuyableInArmory = 13;
 	optional float chanceOfForgeFailureBase = 14;
 	optional int32 minutesToAttemptForgeBase = 15;
+	optional int32 maxDurability = 16;
 	
 	enum Rarity {
 		COMMON = 0;
@@ -645,6 +667,9 @@ message FullUserEquipProto {
 	optional int32 equipId = 3;
 	optional int32 level = 4;
 	optional int32 enhancementPercentage = 5;
+	//create time
+	//reason
+	optional int32 currentDurability = 6; 
 }
 
 //------------------------------------------------------------------------------------------
@@ -712,15 +737,19 @@ message FullCityProto {
 
 //------------------------------------------------------------------------------------------
 
-message FullUserCityExpansionDataProto {
+message UserCityExpansionDataProto {
 	optional int32 userId = 1;
-	optional int32 farLeftExpansions = 2;
-	optional int32 farRightExpansions = 3;
-	optional int32 nearLeftExpansions = 4;
-	optional int32 nearRightExpansions = 5;
-	optional bool isExpanding = 6;
-	optional int64 lastExpandTime = 7;
-	optional ExpansionDirection lastExpandDirection = 8;
+	optional sint32 xPosition = 2;
+	optional sint32 yPosition = 3;
+	optional bool isExpanding = 4;
+	optional int64 expandStartTime = 5;
+}
+
+//------------------------------------------------------------------------------------------
+
+message CityExpansionCostProto {
+	optional int32 expansionNum = 1; //first, second,...or nth expansion
+	optional int32 expansionCost = 2;
 }
 
 //------------------------------------------------------------------------------------------
@@ -778,29 +807,29 @@ message NeutralCityElementProto {
 
 //------------------------------------------------------------------------------------------
 
-enum MarketplacePostType {
-	PREMIUM_EQUIP_POST = 0;		//diamond, epics, and legendarys for diamonds
-	NORM_EQUIP_POST = 2;		//armory (so non epic and non legendar	y) coin items for coins
-}
+//enum MarketplacePostType {
+//	PREMIUM_EQUIP_POST = 0;		//diamond, epics, and legendarys for diamonds
+//	NORM_EQUIP_POST = 2;		//armory (so non epic and non legendar	y) coin items for coins
+//}
 
-message FullMarketplacePostProto {
-	optional int32 marketplacePostId = 1;
-	optional MinimumUserProto poster = 2;
-	optional MarketplacePostType postType = 3;
-	optional int64 timeOfPost = 4;
-	optional FullEquipProto postedEquip = 5;
-	optional int32 diamondCost = 6;
-	optional int32 coinCost = 7;
-	optional int32 equipLevel = 8;
-	optional int32 equipEnhancementPercent = 9;
-}
+//message FullMarketplacePostProto {
+//	optional int32 marketplacePostId = 1;
+//	optional MinimumUserProto poster = 2;
+//	optional MarketplacePostType postType = 3;
+//	optional int64 timeOfPost = 4;
+//	optional FullEquipProto postedEquip = 5;
+//	optional int32 diamondCost = 6;
+//	optional int32 coinCost = 7;
+//	optional int32 equipLevel = 8;
+//	optional int32 equipEnhancementPercent = 9;
+//}
 
 //------------------------------------------------------------------------------------------
 
-enum MarketplaceJobRequirementType { 
-	BUY = 0;
-	SELL = 1;
-}
+//enum MarketplaceJobRequirementType { 
+//	BUY = 0;
+//	SELL = 1;
+//}
 
 //------------------------------------------------------------------------------------------
 
@@ -809,7 +838,7 @@ enum CritStructType {
 	CARPENTER = 2;
 	VAULT = 3;
 	ARMORY = 4;
-	MARKETPLACE = 5;
+	//MARKETPLACE = 5;
 	BLACKSMITH = 6;
 }
 

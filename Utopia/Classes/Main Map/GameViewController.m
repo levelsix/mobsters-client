@@ -56,6 +56,7 @@
 #import "TournamentMenuController.h"
 #import "TutorialBattleLayer.h"
 #import "GameLayer.h"
+#import "NewBattleLayer.h"
 
 #define DOOR_CLOSE_DURATION 1.5f
 #define DOOR_OPEN_DURATION 1.f
@@ -283,7 +284,8 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(GameViewController);
     [Globals displayUIView:csvc.view];
     [csvc.view.superview insertSubview:csvc.view atIndex:1];
   } else {
-    [[TopBar sharedTopBar] start];
+    [[CCDirector sharedDirector] replaceScene:[NewBattleLayer scene]];
+//    [[TopBar sharedTopBar] start];
   }
   
   [self removeSplashImageView];
@@ -321,13 +323,13 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(GameViewController);
   GameState *gs = [GameState sharedGameState];
   
   if (!gs.isTutorial) {
-    CCLayer *layer = [GameLayer sharedGameLayer];
-    
-    layer.tag = 5;
-    
-    if (!layer.parent) {
-      [[[CCDirector sharedDirector] runningScene] addChild:layer];
-    }
+//    CCLayer *layer = [GameLayer sharedGameLayer];
+//    
+//    layer.tag = 5;
+//    
+//    if (!layer.parent) {
+//      [[[CCDirector sharedDirector] runningScene] addChild:layer];
+//    }
   } else {
     [[CCDirector sharedDirector] replaceScene:[GameLayer scene]];
     [self startGame];

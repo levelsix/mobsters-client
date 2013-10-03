@@ -2336,6 +2336,8 @@ withCompletionBlock:(void(^)(BOOL))completionBlock
   return fbp.hpConstantA*(MIN(self.maxBossHealthMultiplier, boss.currentLevel)*fbp.hpConstantB+fbp.hpConstantC);
 }
 
+
+
 - (void) dealloc {
   self.imageCache = nil;
   self.imageViewsWaitingForDownloading = nil;

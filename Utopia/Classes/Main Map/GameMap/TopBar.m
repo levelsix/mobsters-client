@@ -321,8 +321,8 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(TopBar);
     [[[[CCDirector sharedDirector] openGLView] superview] insertSubview:self.chatBottomView atIndex:1];
     
     
-    [[NSBundle mainBundle] loadNibNamed:@"TopBarView" owner:self options:nil];
-    [Globals displayUIView:self.topBarView];
+//    [[NSBundle mainBundle] loadNibNamed:@"TopBarView" owner:self options:nil];
+//    [Globals displayUIView:self.topBarView];
     
     CGRect r = chatBottomView.frame;
     r.origin.x = BOTTOM_BUTTON_OFFSET;
