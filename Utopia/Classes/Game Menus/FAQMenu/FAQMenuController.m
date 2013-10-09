@@ -160,7 +160,7 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(FAQMenuController);
   NSString *fileContents = [NSString stringWithContentsOfFile:fileRoot encoding:NSUTF8StringEncoding error:&e];
   
   if (!fileContents) {
-    DDLogError(@"fileContents is nil! error = %@", e);
+    LNLog(@"fileContents is nil! error = %@", e);
     return;
   }
   
@@ -304,7 +304,7 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(FAQMenuController);
     [controller setToRecipients:[NSArray arrayWithObject:e]];
     
     [controller setMessageBody:messageBody isHTML:NO];
-    if (controller) [[GameViewController sharedGameViewController] presentModalViewController:controller animated:YES];
+    if (controller) [[GameViewController sharedGameViewController] presentViewController:controller animated:YES completion:nil];
     [controller release];
   } else {
     // Launches the Mail application on the device.
@@ -319,7 +319,7 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(FAQMenuController);
 // Dismisses the email composition interface when users tap Cancel or Send. Proceeds to update the message field with the result of the operation.
 - (void)mailComposeController:(MFMailComposeViewController*)controller didFinishWithResult:(MFMailComposeResult)result error:(NSError*)error
 {
-	[controller.presentingViewController dismissModalViewControllerAnimated:YES];
+	[controller.presentingViewController dismissViewControllerAnimated:YES completion:nil];
 }
 
 - (IBAction)closeClicked:(id)sender {

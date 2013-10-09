@@ -24,9 +24,7 @@
 - (BOOL) taskAction:(int)taskId curTimesActed:(int)numTimesActed;
 
 - (void) battle:(FullUserProto *)defender result:(BattleResult)result city:(int)city equips:(NSArray *)equips isTutorialBattle:(BOOL)isTutorialBattle;
-- (void) buyEquip:(int)equipId;
-//- (int) sellEquip:(int)equipId;
-- (BOOL) wearEquip:(int)userEquipId forPrestigeSlot:(BOOL)forPrestigeSlot;
+- (BOOL) wearEquip:(uint64_t)userEquipId forPrestigeSlot:(BOOL)forPrestigeSlot;
 
 - (void) generateAttackList:(int)numEnemies realPlayersOnly:(BOOL)realPlayersOnly;
 - (void) generateAttackList:(int)numEnemies bounds:(CGRect)bounds;
@@ -36,17 +34,6 @@
 - (void) reconnect;
 
 - (void) inAppPurchase:(NSString *)receipt goldAmt:(int)gold silverAmt:(int)silver product:(SKProduct *)product;
-
-- (void) retrieveMostRecentMarketplacePosts:(int)searchEquipId;
-- (void) retrieveMoreMarketplacePosts:(int)searchEquipId;
-- (void) retrieveMostRecentMarketplacePostsFromSender;
-- (void) retrieveMoreMarketplacePostsFromSender;
-- (void) equipPostToMarketplace:(int)equipId price:(int)amount;
-- (void) retractMarketplacePost: (int)postId;
-- (void) purchaseFromMarketplace: (int)postId;
-- (void) redeemMarketplaceEarnings;
-- (void) purchaseShortMarketplaceLicense;
-- (void) purchaseLongMarketplaceLicense;
 
 - (void) addAttackSkillPoint;
 - (void) addDefenseSkillPoint;
@@ -134,7 +121,6 @@
 - (void) changeClanJoinType:(BOOL)requestRequired delegate:(id)delegate;
 - (void) bootPlayerFromClan:(int)playerId delegate:(id)delegate;
 - (void) retrieveClanInfo:(NSString *)clanName clanId:(int)clanId grabType:(RetrieveClanInfoRequestProto_ClanInfoGrabType)grabType isForBrowsingList:(BOOL)isForBrowsingList beforeClanId:(int)beforeClanId delegate:(id)delegate;
-- (int) bootPlayerFromClan:(int)playerId;
 - (ClanBulletinPostProto *) postOnClanBulletin:(NSString *)content;
 - (void) retrieveClanBulletinPosts:(int)beforeThisPostId;
 - (void) upgradeClanTierLevel;
@@ -144,8 +130,8 @@
 
 - (void) pickLockBox:(int)eventId method:(PickLockBoxRequestProto_PickLockBoxMethod)method;
 
-- (void) purchaseCityExpansion:(ExpansionDirection)direction;
-- (void) expansionWaitComplete:(BOOL)speedUp;
+- (void) purchaseCityExpansionAtX:(int)x atY:(int)y;
+- (void) expansionWaitComplete:(BOOL)speedUp atX:(int)x atY:(int)y;
 
 - (void) retrieveThreeCardMonte;
 - (void) playThreeCardMonte:(int)cardID;
@@ -168,5 +154,7 @@
 
 - (void) redeemLockBoxItems:(int)lockBoxEventId;
 - (void) redeemUserCityGems:(int)cityId;
+
+- (void) beginDungeon:(int)taskId;
 
 @end

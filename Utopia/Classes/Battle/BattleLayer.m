@@ -17,7 +17,6 @@
 #import "AttackMenuController.h"
 #import "SoundEngine.h"
 #import "MissionMap.h"
-#import "MarketplaceViewController.h"
 #import "Downloader.h"
 #import "LeaderboardController.h"
 #import "TopBar.h"
@@ -153,7 +152,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(BattleLayer);
     CCSprite *spr = [CCSprite spriteWithFile:@"nametag.png"];
     spr.flipX = YES;
     
-    CCMenuItemSprite *menuSpr = [CCMenuItemSprite itemFromNormalSprite:spr selectedSprite:nil target:self selector:@selector(profileButtonClicked:)];
+    CCMenuItemSprite *menuSpr = [CCMenuItemSprite itemWithNormalSprite:spr selectedSprite:nil target:self selector:@selector(profileButtonClicked:)];
     ((CCSprite *)menuSpr.selectedImage).flipX = YES;
     
     _rightNameBg = [CCSprite node];
@@ -180,15 +179,15 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(BattleLayer);
     _attackButton.position = ccp(self.contentSize.width/2, self.contentSize.height/2);
     [self addChild:_attackButton z:2];
     
-    _attackProgressTimer = [CCProgressTimer progressWithFile:@"yellowtimer.png"];
+    _attackProgressTimer = [CCProgressTimer progressWithSprite:[CCSprite spriteWithFile:@"yellowtimer.png"]];
     _attackProgressTimer.position = ccp(_attackButton.contentSize.width/2, _attackButton.contentSize.height/2);
-    _attackProgressTimer.type = kCCProgressTimerTypeRadialCCW;
+    _attackProgressTimer.type = kCCProgressTimerTypeRadial;
     _attackProgressTimer.percentage = 0;
     [_attackProgressTimer.sprite.texture setAntiAliasTexParameters];
     [_attackButton addChild:_attackProgressTimer];
     
     CCSprite *attackImage = [CCSprite spriteWithFile:@"circleattackbutton.png"];
-    CCMenuItemSprite *attackImageButton = [CCMenuItemSprite itemFromNormalSprite:attackImage selectedSprite:nil target:self selector:@selector(attackStart)];
+    CCMenuItemSprite *attackImageButton = [CCMenuItemSprite itemWithNormalSprite:attackImage selectedSprite:nil target:self selector:@selector(attackStart)];
     
     CCMenu *menu = [CCMenu menuWithItems:attackImageButton,nil];
     [_attackButton addChild:menu];
@@ -230,11 +229,11 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(BattleLayer);
     [_flippedComboBar addChild:flippedMax];
     
     CCSprite *pause = [CCSprite spriteWithFile:@"pause.png"];
-    CCMenuItemSprite *pauseButton = [CCMenuItemSprite itemFromNormalSprite:pause selectedSprite:nil target:self selector:@selector(pauseClicked)];
+    CCMenuItemSprite *pauseButton = [CCMenuItemSprite itemWithNormalSprite:pause selectedSprite:nil target:self selector:@selector(pauseClicked)];
     pauseButton.anchorPoint = ccp(1, 0);
     
     CCSprite *flee = [CCSprite spriteWithFile:@"flee.png"];
-    CCMenuItemSprite *fleeButton = [CCMenuItemSprite itemFromNormalSprite:flee selectedSprite:nil target:self selector:@selector(fleeClicked)];
+    CCMenuItemSprite *fleeButton = [CCMenuItemSprite itemWithNormalSprite:flee selectedSprite:nil target:self selector:@selector(fleeClicked)];
     fleeButton.anchorPoint = ccp(0,0);
     
     _bottomMenu = [CCMenu menuWithItems:pauseButton, fleeButton, nil];
@@ -268,7 +267,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(BattleLayer);
     [_pausedLayer addChild:p];
     
     CCSprite *buttonImage = [CCSprite spriteWithFile:@"doneresume.png"];
-    CCMenuItemSprite *button = [CCMenuItemSprite itemFromNormalSprite:buttonImage selectedSprite:nil target:self selector:@selector(resumeClicked)];
+    CCMenuItemSprite *button = [CCMenuItemSprite itemWithNormalSprite:buttonImage selectedSprite:nil target:self selector:@selector(resumeClicked)];
     
     menu = [CCMenu menuWithItems:button,nil];
     [_pausedLayer addChild:menu];
@@ -287,7 +286,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(BattleLayer);
     [_fleeLayer addChild:p];
     
     buttonImage = [CCSprite spriteWithFile:@"doneresume.png"];
-    _fleeButton = [CCMenuItemSprite itemFromNormalSprite:buttonImage selectedSprite:nil target:self selector:@selector(doneClicked)];
+    _fleeButton = [CCMenuItemSprite itemWithNormalSprite:buttonImage selectedSprite:nil target:self selector:@selector(doneClicked)];
     
     menu = [CCMenu menuWithItems:_fleeButton,nil];
     [_fleeLayer addChild:menu];
@@ -306,7 +305,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(BattleLayer);
     [_winLayer addChild:p];
     
     buttonImage = [CCSprite spriteWithFile:@"doneresume.png"];
-    _winButton = [CCMenuItemSprite itemFromNormalSprite:buttonImage selectedSprite:nil target:self selector:@selector(doneClicked)];
+    _winButton = [CCMenuItemSprite itemWithNormalSprite:buttonImage selectedSprite:nil target:self selector:@selector(doneClicked)];
     
     menu = [CCMenu menuWithItems:_winButton,nil];
     [_winLayer addChild:menu];
@@ -325,7 +324,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(BattleLayer);
     [_loseLayer addChild:p];
     
     buttonImage = [CCSprite spriteWithFile:@"doneresume.png"];
-    _loseButton = [CCMenuItemSprite itemFromNormalSprite:buttonImage selectedSprite:nil target:self selector:@selector(doneClicked)];
+    _loseButton = [CCMenuItemSprite itemWithNormalSprite:buttonImage selectedSprite:nil target:self selector:@selector(doneClicked)];
     
     menu = [CCMenu menuWithItems:_loseButton,nil];
     [_loseLayer addChild:menu];
@@ -379,11 +378,11 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(BattleLayer);
     return NO;
   }
   
-  if (gs.currentStamina <= 0) {
-    [[RefillMenuController sharedRefillMenuController] displayEnstView:NO];
-    [Analytics notEnoughStaminaForBattle];
-    return NO;
-  }
+//  if (gs.currentStamina <= 0) {
+//    [[RefillMenuController sharedRefillMenuController] displayEnstView:NO];
+//    [Analytics notEnoughStaminaForBattle];
+//    return NO;
+//  }
   
   // Check if this is a clan tower battle
   int myClan = gs.clan.clanId;
@@ -507,10 +506,6 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(BattleLayer);
       }
     } else {
       _cameFromAviary = NO;
-    }
-    
-    if ([MarketplaceViewController isInitialized]) {
-      [[MarketplaceViewController sharedMarketplaceViewController] backClicked:nil];
     }
     
     if ([LeaderboardController isInitialized]) {
@@ -1321,14 +1316,14 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(BattleLayer);
 }
 
 - (IBAction) attackAgainClicked:(id)sender {
-  GameState *gs = [GameState sharedGameState];
-  if (gs.currentStamina > 0) {
-    [self beginBattleAgainst:_fup inCity:_cityId];
-    
-    [Analytics attackAgain];
-  } else {
-    [[RefillMenuController sharedRefillMenuController] displayEnstView:NO];
-  }
+//  GameState *gs = [GameState sharedGameState];
+//  if (gs.currentStamina > 0) {
+//    [self beginBattleAgainst:_fup inCity:_cityId];
+//    
+//    [Analytics attackAgain];
+//  } else {
+//    [[RefillMenuController sharedRefillMenuController] displayEnstView:NO];
+//  }
 }
 
 - (IBAction)analysisClicked:(id)sender {
@@ -1484,22 +1479,6 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(BattleLayer);
 }
 
 - (IBAction)twitterclicked:(id)sender {
-  if ([TWTweetComposeViewController canSendTweet])
-  {
-#ifdef LEGENDS_OF_CHAOS
-    NSString *link = @"#LegendsOfChaos @LoCMobile";
-#else
-    NSString *link = @"Click here to play now! http://bit.ly/14BpdVg #AgeOfChaos @AoCMobile";
-#endif
-    
-    TWTweetComposeViewController *tweetSheet = [[[TWTweetComposeViewController alloc] init] autorelease];
-    GameState *gs = [GameState sharedGameState];
-    NSString *str = [NSString stringWithFormat:@"%@ %@ %@ in %@. %@", gs.name, brp.hasExpGained ? @"massacred" : @"was defeated by", _fup.name, GAME_NAME, link];
-    [tweetSheet setInitialText:str];
-    [[GameViewController sharedGameViewController] presentModalViewController:tweetSheet animated:YES];
-  } else {
-    [Globals popupMessage:@"Sorry, something went wrong. Make sure you have a Twitter account setup."];
-  }
 }
 
 - (void) dealloc {

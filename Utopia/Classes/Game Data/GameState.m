@@ -121,7 +121,7 @@
 
 @synthesize mktSearchEquips = _mktSearchEquips;
 
-@synthesize userExpansion = _userExpansion;
+@synthesize userExpansions = _userExpansions;
 
 @synthesize goldSaleTimers = _goldSaleTimers;
 
@@ -210,13 +210,8 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
     [[SocketCommunication sharedSocketCommunication] rebuildSender];
   }
   self.level = user.level;
-//  self.defense = user.defense;
-//  self.attack = user.attack;
   self.currentEnergy = user.energy;
   self.maxEnergy = user.energyMax;
-//  self.currentStamina = user.stamina;
-//  self.maxStamina = user.staminaMax;
-//  self.skillPoints = user.skillPoints;
   self.gold = user.diamonds;
   self.silver = user.coins;
   self.vaultBalance = user.vaultBalance;
@@ -227,10 +222,6 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
   self.flees = user.flees;
   self.referralCode = user.referralCode;
   self.numReferrals = user.numReferrals;
-  self.marketplaceGoldEarnings = user.marketplaceDiamondsEarnings;
-  self.marketplaceSilverEarnings = user.marketplaceCoinsEarnings;
-  self.numPostsInMarketplace = user.numPostsInMarketplace;
-  self.numMarketplaceSalesUnredeemed = user.numMarketplaceSalesUnredeemed;
   self.weaponEquipped = user.weaponEquippedUserEquip.userEquipId;
   self.armorEquipped = user.armorEquippedUserEquip.userEquipId;
   self.amuletEquipped = user.amuletEquippedUserEquip.userEquipId;
@@ -247,7 +238,6 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
   
   NSTimeInterval t = user.lastEnergyRefillTime/1000.0;
   self.lastEnergyRefill = [NSDate dateWithTimeIntervalSince1970:t];
-//  self.lastStaminaRefill = [NSDate dateWithTimeIntervalSince1970:user.lastStaminaRefillTime/1000.0];
   self.lastShortLicensePurchaseTime = [NSDate dateWithTimeIntervalSince1970:user.lastShortLicensePurchaseTime/1000.0];
   self.lastLongLicensePurchaseTime = [NSDate dateWithTimeIntervalSince1970:user.lastLongLicensePurchaseTime/1000.0];
   self.createTime = [NSDate dateWithTimeIntervalSince1970:user.createTime/1000.0];
@@ -298,7 +288,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
   while (!p) {
     numTimes++;
     if (numTimes == 50 || (numTimes %= 100) == 99) {
-      ContextLogWarn(LN_CONTEXT_GAMESTATE, @"Lotsa wait time for this. Re-retrieving.");
+      LNLog(@"Lotsa wait time for this. Re-retrieving.");
       
       LNLog(@"Re-retrieving item: %d. Current things:", itemId);
       
@@ -720,7 +710,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
   return array;
 }
 
-- (UserEquip *) myEquipWithUserEquipId:(int)userEquipId {
+- (UserEquip *) myEquipWithUserEquipId:(uint64_t)userEquipId {
   for (UserEquip *ue in self.myEquips) {
     if (userEquipId == ue.userEquipId) {
       return ue;
@@ -1136,26 +1126,67 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
   }
 }
 
+- (UserExpansion *) getExpansionForX:(int)x y:(int)y {
+  for (UserExpansion *e in self.userExpansions) {
+    if (e.xPosition == x && e.yPosition == y) {
+      return e;
+    }
+  }
+  return nil;
+}
+
+- (int) numCompletedExpansions {
+  int count = 0;
+  for (UserExpansion *e in self.userExpansions) {
+    if (!e.isExpanding) {
+      count ++;
+    }
+  }
+  return count;
+}
+
+- (BOOL) isExpanding {
+  for (UserExpansion *e in self.userExpansions) {
+    if (e.isExpanding) {
+      return YES;
+    }
+  }
+  return NO;
+}
+
+- (UserExpansion *) currentExpansion {
+  for (UserExpansion *e in self.userExpansions) {
+    if (e.isExpanding) {
+      return e;
+    }
+  }
+  return nil;
+}
+
 - (void) beginExpansionTimer {
   [self stopExpansionTimer];
   Globals *gl = [Globals sharedGlobals];
-  UserExpansion *ue = _userExpansion;
   
-  if (ue.isExpanding) {
-    float seconds = [gl calculateNumMinutesForNewExpansion:ue]*60;
-    NSDate *endTime = [ue.lastExpandTime dateByAddingTimeInterval:seconds];
-    
-    if ([endTime compare:[NSDate date]] == NSOrderedDescending) {
-      _expansionTimer = [[NSTimer timerWithTimeInterval:endTime.timeIntervalSinceNow target:self selector:@selector(expansionWaitTimeComplete) userInfo:nil repeats:NO] retain];
-      [[NSRunLoop mainRunLoop] addTimer:_expansionTimer forMode:NSRunLoopCommonModes];
-    } else {
-      [self expansionWaitTimeComplete];
+  for (UserExpansion *ue in self.userExpansions) {
+    if (ue.isExpanding) {
+      float seconds = [gl calculateNumMinutesForNewExpansion]*60;
+      NSDate *endTime = [ue.lastExpandTime dateByAddingTimeInterval:seconds];
+      
+      _expansionTimer = [[NSTimer timerWithTimeInterval:endTime.timeIntervalSinceNow target:self selector:@selector(expansionWaitTimeComplete:) userInfo:ue repeats:NO] retain];
+      if ([endTime compare:[NSDate date]] == NSOrderedDescending) {
+        [[NSRunLoop mainRunLoop] addTimer:_expansionTimer forMode:NSRunLoopCommonModes];
+      } else {
+        [self expansionWaitTimeComplete:_expansionTimer];
+        [_expansionTimer release];
+        _expansionTimer = nil;
+      }
     }
   }
 }
 
-- (void) expansionWaitTimeComplete {
-  [[OutgoingEventController sharedOutgoingEventController] expansionWaitComplete:NO];
+- (void) expansionWaitTimeComplete:(NSTimer *)timer {
+  UserExpansion *exp = [timer userInfo];
+  [[OutgoingEventController sharedOutgoingEventController] expansionWaitComplete:NO atX:exp.xPosition atY:exp.yPosition];
   
   if ([HomeMap isInitialized]) {
     [[HomeMap sharedHomeMap] refresh];
@@ -1687,7 +1718,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
   
   self.mktSearchEquips = nil;
   
-  self.userExpansion = nil;
+  self.userExpansions = nil;
   
   self.clanTierLevels = nil;
   self.clanTowers = nil;
@@ -1755,7 +1786,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
   self.myLockBoxEvents = nil;
   self.staticLockBoxEvents = nil;
   self.mktSearchEquips = nil;
-  self.userExpansion = nil;
+  self.userExpansions = nil;
   self.clanTowers = nil;
   self.equipEnhancement = nil;
   self.clanTowerUserBattles = nil;

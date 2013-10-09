@@ -12,4 +12,6 @@
   BOOL _isForgePhase;
 }
 
+- (void) beginForgePhase;
+
 @end

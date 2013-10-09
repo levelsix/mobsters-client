@@ -13,10 +13,17 @@
 @class GameMap;
 @class HomeMap;
 
-@interface Building : SelectableSprite
+@interface Building : SelectableSprite {
+  float _percentage;
+}
 
 @property (nonatomic, assign) StructOrientation orientation;
 @property (nonatomic, assign) float verticalOffset;
+
+- (void) displayProgressBar;
+- (void) updateUpgradeBar;
+- (void) removeProgressBar;
+- (void) instaFinishUpgradeWithCompletionBlock:(void(^)(void))completed;
 
 @end
 
@@ -32,6 +39,7 @@
 @property (nonatomic, assign) CGPoint startTouchLocation;
 @property (nonatomic, assign) BOOL isSetDown;
 @property (nonatomic, assign) BOOL isConstructing;
+@property (nonatomic, assign) BOOL isPurchasing;
 
 + (id) homeWithFile: (NSString *) file location: (CGRect) loc map: (HomeMap *) map;
 - (id) initWithFile: (NSString *) file location: (CGRect)loc map: (HomeMap *) map;
@@ -73,8 +81,7 @@
 @property (nonatomic, assign) BOOL retrievable;
 @property (nonatomic, retain) NSTimer *timer;
 
-- (void) displayUpgradeIcon;
-- (void) removeUpgradeIcon;
+- (void) displayUpgradeComplete;
 
 - (void) createTimerForCurrentState;
 
@@ -84,12 +91,11 @@
 
 @end
 
-@interface ExpansionBoard : Building {
-  ExpansionDirection _direction;
-}
+@interface ExpansionBoard : Building
 
-@property (nonatomic, assign) ExpansionDirection direction;
+@property (nonatomic, assign) CGPoint expandSpot;
 
-- (id) initForDirection:(ExpansionDirection)direction location:(CGRect)location map:(GameMap *)map isExpanding:(BOOL)isExpanding;
+- (id) initWithExpansionBlock:(CGPoint)block location:(CGRect)location map:(GameMap *)map isExpanding:(BOOL)isExpanding;
+- (void) beginExpanding;
 
 @end

@@ -457,7 +457,6 @@
 								<string key="NSFrame">{{351, 222}, {46, 22}}</string>
 								<reference key="NSSuperview" ref="604267153"/>
 								<reference key="NSWindow"/>
-								<reference key="NSNextKeyView"/>
 								<string key="NSReuseIdentifierKey">_NS:328</string>
 								<bool key="IBUIOpaque">NO</bool>
 								<bool key="IBUIClipsSubviews">YES</bool>
@@ -507,7 +506,7 @@
 								<string key="NSFrame">{{186, 105}, {210, 51}}</string>
 								<reference key="NSSuperview" ref="604267153"/>
 								<reference key="NSWindow"/>
-								<reference key="NSNextKeyView" ref="73926531"/>
+								<reference key="NSNextKeyView"/>
 								<string key="NSReuseIdentifierKey">_NS:328</string>
 								<bool key="IBUIOpaque">NO</bool>
 								<bool key="IBUIClipsSubviews">YES</bool>
@@ -600,62 +599,6 @@
 								<object class="NSColor" key="IBUIShadowColor">
 									<int key="NSColorSpace">1</int>
 									<bytes key="NSRGB">MC45NDUwOTgwMzkyIDAuNzEzNzI1NDkwMiAwLjEwOTgwMzkyMTYgMC44AA</bytes>
-								</object>
-								<string key="IBUIShadowOffset">{0, 1}</string>
-								<int key="IBUIBaselineAdjustment">0</int>
-								<float key="IBUIMinimumFontSize">10</float>
-								<int key="IBUITextAlignment">1</int>
-								<reference key="IBUIFontDescription" ref="685352834"/>
-								<reference key="IBUIFont" ref="783315299"/>
-								<bool key="IBUIAdjustsFontSizeToFit">NO</bool>
-							</object>
-							<object class="IBUIButton" id="73926531">
-								<reference key="NSNextResponder" ref="604267153"/>
-								<int key="NSvFlags">292</int>
-								<string key="NSFrame">{{73, 166}, {163, 28}}</string>
-								<reference key="NSSuperview" ref="604267153"/>
-								<reference key="NSWindow"/>
-								<reference key="NSNextKeyView" ref="194054204"/>
-								<string key="NSReuseIdentifierKey">_NS:9</string>
-								<bool key="IBUIOpaque">NO</bool>
-								<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
-								<int key="IBUIContentHorizontalAlignment">0</int>
-								<int key="IBUIContentVerticalAlignment">0</int>
-								<reference key="IBUIHighlightedTitleColor" ref="764250810"/>
-								<object class="NSColor" key="IBUINormalTitleColor">
-									<int key="NSColorSpace">1</int>
-									<bytes key="NSRGB">MC4xOTYwNzg0MzQ2IDAuMzA5ODAzOTMyOSAwLjUyMTU2ODY1NgA</bytes>
-								</object>
-								<reference key="IBUINormalTitleShadowColor" ref="84706442"/>
-								<object class="NSCustomResource" key="IBUINormalBackgroundImage">
-									<string key="NSClassName">NSImage</string>
-									<string key="NSResourceName">findinmarketplace.png</string>
-								</object>
-								<reference key="IBUIFontDescription" ref="835776683"/>
-								<reference key="IBUIFont" ref="563304073"/>
-							</object>
-							<object class="IBUILabel" id="194054204">
-								<reference key="NSNextResponder" ref="604267153"/>
-								<int key="NSvFlags">292</int>
-								<string key="NSFrame">{{79, 167}, {151, 24}}</string>
-								<reference key="NSSuperview" ref="604267153"/>
-								<reference key="NSWindow"/>
-								<reference key="NSNextKeyView" ref="1044899226"/>
-								<string key="NSReuseIdentifierKey">_NS:9</string>
-								<bool key="IBUIOpaque">NO</bool>
-								<bool key="IBUIClipsSubviews">YES</bool>
-								<int key="IBUIContentMode">7</int>
-								<bool key="IBUIUserInteractionEnabled">NO</bool>
-								<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
-								<string key="IBUIText">FIND IN MARKETPLACE</string>
-								<object class="NSColor" key="IBUITextColor">
-									<int key="NSColorSpace">1</int>
-									<bytes key="NSRGB">MCAwIDAgMC43AA</bytes>
-								</object>
-								<nil key="IBUIHighlightedColor"/>
-								<object class="NSColor" key="IBUIShadowColor">
-									<int key="NSColorSpace">1</int>
-									<bytes key="NSRGB">MSAwLjQ1ODgyMzUyOTQgMC40NjI3NDUwOTggMC40AA</bytes>
 								</object>
 								<string key="IBUIShadowOffset">{0, 1}</string>
 								<int key="IBUIBaselineAdjustment">0</int>
@@ -942,15 +885,6 @@
 					</object>
 					<int key="connectionID">90</int>
 				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBCocoaTouchEventConnection" key="connection">
-						<string key="label">marketplaceClicked:</string>
-						<reference key="source" ref="73926531"/>
-						<reference key="destination" ref="372490531"/>
-						<int key="IBEventType">7</int>
-					</object>
-					<int key="connectionID">101</int>
-				</object>
 			</array>
 			<object class="IBMutableOrderedSet" key="objectRecords">
 				<array key="orderedObjects">
@@ -1008,8 +942,6 @@
 							<reference ref="1068069856"/>
 							<reference ref="1044899226"/>
 							<reference ref="22451907"/>
-							<reference ref="73926531"/>
-							<reference ref="194054204"/>
 						</array>
 						<reference key="parent" ref="191373211"/>
 					</object>
@@ -1155,16 +1087,6 @@
 						<reference key="object" ref="1068069856"/>
 						<reference key="parent" ref="604267153"/>
 					</object>
-					<object class="IBObjectRecord">
-						<int key="objectID">97</int>
-						<reference key="object" ref="73926531"/>
-						<reference key="parent" ref="604267153"/>
-					</object>
-					<object class="IBObjectRecord">
-						<int key="objectID">98</int>
-						<reference key="object" ref="194054204"/>
-						<reference key="parent" ref="604267153"/>
-					</object>
 				</array>
 			</object>
 			<dictionary class="NSMutableDictionary" key="flattenedProperties">
@@ -1217,9 +1139,6 @@
 				<string key="92.IBPluginDependency">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 				<string key="93.CustomClassName">EnhancementLevelIcon</string>
 				<string key="93.IBPluginDependency">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
-				<string key="97.IBPluginDependency">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
-				<string key="98.CustomClassName">NiceFontLabel</string>
-				<string key="98.IBPluginDependency">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 			</dictionary>
 			<dictionary class="NSMutableDictionary" key="unlocalizedProperties"/>
 			<nil key="activeLocalization"/>
@@ -1389,15 +1308,10 @@
 		</object>
 		<int key="IBDocument.localizationMode">0</int>
 		<string key="IBDocument.TargetRuntimeIdentifier">IBCocoaTouchFramework</string>
-		<object class="NSMutableDictionary" key="IBDocument.PluginDeclaredDependencyDefaults">
-			<string key="NS.key.0">com.apple.InterfaceBuilder.CocoaTouchPlugin.iPhoneOS</string>
-			<real value="1552" key="NS.object.0"/>
-		</object>
 		<bool key="IBDocument.PluginDeclaredDependenciesTrackSystemTargetVersion">YES</bool>
 		<int key="IBDocument.defaultPropertyAccessControl">3</int>
 		<dictionary class="NSMutableDictionary" key="IBDocument.LastKnownImageSizes">
 			<string key="close1.png">{30, 30}</string>
-			<string key="findinmarketplace.png">{163, 28}</string>
 			<string key="marketattack.png">{13, 13}</string>
 			<string key="marketdefense.png">{12, 13}</string>
 			<string key="marketplacepopupbg.png">{374, 198}</string>

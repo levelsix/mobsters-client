@@ -12,7 +12,7 @@
 #import "SSZipArchive.h"
 #import "CharSelectionViewController.h"
 
-#define URL_BASE @"https://s3.amazonaws.com/lvl6utopia/Resources/";
+#define URL_BASE @"https://s3-us-west-1.amazonaws.com/lvl6mobsters/Resources/";
 
 @implementation Downloader
 
@@ -54,7 +54,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(Downloader);
 
 - (void) asyncDownloadFile:(NSString *)imageName completion:(void (^)(void))completed {
   // Get an image from the URL below
-  ContextLogInfo(LN_CONTEXT_DOWNLOAD, @"Beginning async download of %@", imageName);
+  LNLog(@"Beginning async download of %@", imageName);
   dispatch_async(_asyncQueue, ^{
     NSAutoreleasePool *a = [[NSAutoreleasePool alloc] init];
     [self downloadFile:imageName];
@@ -63,13 +63,13 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(Downloader);
       if (completed) {
         completed();
       }
-      ContextLogInfo(LN_CONTEXT_DOWNLOAD, @"Download of %@ complete", imageName);
+      LNLog(@"Download of %@ complete", imageName);
     });
   });
 }
   
 - (void) syncDownloadFile:(NSString *)fileName {
-  ContextLogInfo(LN_CONTEXT_DOWNLOAD, @"Beginning sync download of file %@", fileName);
+  LNLog(@"Beginning sync download of file %@", fileName);
 //  [self performSelectorOnMainThread:@selector(beginLoading:) withObject:fileName waitUntilDone:YES];
   [self beginLoading:fileName];
   [[NSRunLoop mainRunLoop] runUntilDate:[NSDate dateWithTimeIntervalSinceNow:0.01f]];
@@ -79,7 +79,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(Downloader);
     [a release];
   });
   [self stopLoading];
-  ContextLogInfo(LN_CONTEXT_DOWNLOAD, @"Download of %@ complete", fileName);
+  LNLog(@"Download of %@ complete", fileName);
 }
 
 - (void) beginLoading:(NSString *)fileName {
@@ -141,7 +141,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(Downloader);
 }
 
 - (void) syncDownloadBundle:(NSString *)bundleName {
-  ContextLogInfo(LN_CONTEXT_DOWNLOAD, @"Beginning sync download of bundle %@", bundleName);
+  LNLog(@"Beginning sync download of bundle %@", bundleName);
   //  [self performSelectorOnMainThread:@selector(beginLoading:) withObject:bundleName waitUntilDone:YES];
   [self beginLoading:bundleName];
   [[NSRunLoop mainRunLoop] runUntilDate:[NSDate dateWithTimeIntervalSinceNow:0.01f]];
@@ -152,18 +152,18 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(Downloader);
     [a release];
   });
   [self stopLoading];
-  ContextLogInfo(LN_CONTEXT_DOWNLOAD, @"Download of bundle %@ complete", bundleName);
+  LNLog(@"Download of bundle %@ complete", bundleName);
 }
 
 - (void) asyncDownloadBundle:(NSString *)bundleName {
-  ContextLogInfo(LN_CONTEXT_DOWNLOAD, @"Beginning async download of bundle %@", bundleName);
+  LNLog(@"Beginning async download of bundle %@", bundleName);
   dispatch_async(_asyncQueue, ^{
     NSAutoreleasePool *a = [[NSAutoreleasePool alloc] init];
     [self downloadBundle:[bundleName stringByAppendingString:@".zip"]];
     [self deletePreviousBundles:bundleName];
     [a release];
     dispatch_async(dispatch_get_main_queue(), ^(void) {
-      ContextLogInfo(LN_CONTEXT_DOWNLOAD, @"Download of bundle %@ complete", bundleName);
+      LNLog(@"Download of bundle %@ complete", bundleName);
     });
   });
 }
@@ -181,7 +181,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(Downloader);
   BOOL success = [fileMgr removeItemAtPath:[_cacheDir stringByAppendingPathComponent:file] error:NULL];
   
   if (success) {
-    ContextLogInfo(LN_CONTEXT_DOWNLOAD, @"Deleted %@.", file);
+    LNLog(@"Deleted %@.", file);
   }
 }
 

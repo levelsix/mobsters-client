@@ -160,7 +160,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(BazaarMap);
 
 - (void) moveToCritStruct:(BazaarStructType)type animated:(BOOL)animated {
   CritStructBuilding *csb = nil;
-  for (CCNode *c in children_) {
+  for (CCNode *c in _children) {
     if ([c isKindOfClass:[CritStructBuilding class]]) {
       CritStructBuilding *check = (CritStructBuilding *)c;
       if (check.critStruct.type == type) {
@@ -185,7 +185,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(BazaarMap);
   NSArray *allies = gs.allies;
   
   NSMutableArray *toRemove = [NSMutableArray array];
-  for (CCNode *node in children_) {
+  for (CCNode *node in _children) {
     if ([node isKindOfClass:[Ally class]]) {
       [toRemove addObject:node];
     }

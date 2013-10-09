@@ -43,6 +43,5 @@
 + (BOOL) isInitialized;
 
 - (void) updateForEquip:(int)equipId level:(int)level enhancePercent:(int)enhancePercent;
-- (void) receivedArmoryResponse:(ArmoryResponseProto *)proto;
 
 @end

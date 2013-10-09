@@ -69,6 +69,20 @@
   return NO;
 }
 
+- (void) replaceChatViewWithView:(UIView *)view {
+  if (self.curViewOverChatView) {
+    [self.curViewOverChatView removeFromSuperview];
+  }
+  self.curViewOverChatView = view;
+  [self addSubview:self.curViewOverChatView];
+  self.curViewOverChatView.center = ccp(self.frame.size.width/2, self.frame.size.height-10-view.frame.size.height/2);
+}
+
+- (void) removeViewOverChatView {
+  [self.curViewOverChatView removeFromSuperview];
+  self.curViewOverChatView = nil;
+}
+
 - (IBAction)menuClicked:(id)sender {
   MenuNavigationController *m = [[[MenuNavigationController alloc] init] autorelease];
   GameViewController *gvc = [GameViewController sharedGameViewController];
@@ -79,14 +93,6 @@
 
 - (IBAction)plusClicked:(id)sender {
   [Globals popupMessage:@"Not implemented."];
-}
-
-- (void) dealloc {
-  self.energyBar = nil;
-  self.expBar = nil;
-  self.silverLabel = nil;
-  self.goldLabel = nil;
-  [super dealloc];
 }
 
 @end

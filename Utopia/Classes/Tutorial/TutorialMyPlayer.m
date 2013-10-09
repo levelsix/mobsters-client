@@ -30,7 +30,7 @@
 //    }
 //  }
 //  
-//  CCAnimation *walkAnimationN = [CCAnimation animationWithFrames:walkAnimN delay:ANIMATATION_DELAY];
+//  CCAnimation *walkAnimationN = [CCAnimation animationWithSpriteFrames:walkAnimN delay:ANIMATATION_DELAY];
 //  self.walkActionN = [CCRepeatForever actionWithAction:[CCAnimate actionWithAnimation:walkAnimationN restoreOriginalFrame:NO]];
 //  
 //  //Creating animation for far
@@ -43,7 +43,7 @@
 //      break;
 //    }
 //  }
-//  CCAnimation *walkAnimationF = [CCAnimation animationWithFrames:walkAnimF delay:ANIMATATION_DELAY];
+//  CCAnimation *walkAnimationF = [CCAnimation animationWithSpriteFrames:walkAnimF delay:ANIMATATION_DELAY];
 //  self.walkActionF = [CCRepeatForever actionWithAction:[CCAnimate actionWithAnimation:walkAnimationF restoreOriginalFrame:NO]]                                                                                                                                                                                                                                                                                                                                                                                                                                                       ;
 }
 

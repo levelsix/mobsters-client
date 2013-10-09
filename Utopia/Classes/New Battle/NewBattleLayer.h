@@ -11,6 +11,9 @@
 #import "OrbLayer.h"
 #import "MyPlayer.h"
 #import "BattleSprite.h"
+#import "BattlePlayer.h"
+#import "BattleContinueView.h"
+#import "BattleEndView.h"
 
 @protocol BattleBgdLayerDelegate <NSObject>
 
@@ -31,6 +34,25 @@
   int _comboCount;
   int _currentScore;
   int _labelScore;
+  int _movesLeft;
+  int _numStages;
+  
+  int _scoreForThisTurn;
+  
+  int _enemyDamagePercent;
+  
+  int _curStage;
+  int _lootCount;
+  
+  ccColor3B *_chargingColors;
+  int _numChargingColors;
+  BOOL _isChargingUp;
+  
+  int _soundComboCount;
+  BOOL _canPlayNextComboSound;
+  BOOL _canPlayNextGemPop;
+  
+  BOOL _isLoading;
 }
 
 @property (nonatomic, assign) CCSprite *rightDamageBgd;
@@ -38,11 +60,14 @@
 @property (nonatomic, assign) CCSprite *leftDamageBgd;
 @property (nonatomic, assign) CCLabelTTF *leftDamageLabel;
 @property (nonatomic, assign) CCLabelTTF *movesLeftLabel;
+@property (nonatomic, assign) CCLabelTTF *lootLabel;
 
 @property (nonatomic, assign) CCLabelTTF *leftHealthLabel;
 @property (nonatomic, assign) CCLabelTTF *rightHealthLabel;
 @property (nonatomic, assign) CCProgressTimer *leftHealthBar;
 @property (nonatomic, assign) CCProgressTimer *rightHealthBar;
+
+@property (nonatomic, assign) CCLabelTTF *orbCountLabel;
 
 @property (nonatomic, assign) BattleBgdLayer *bgdLayer;
 @property (nonatomic, assign) OrbLayer *orbLayer;
@@ -50,6 +75,20 @@
 @property (nonatomic, assign) BattleSprite *myPlayer;
 @property (nonatomic, assign) BattleSprite *currentEnemy;
 
-+(CCScene *) scene;
+@property (nonatomic, retain) BattlePlayer *myPlayerObject;
+@property (nonatomic, retain) BattlePlayer *enemyPlayerObject;
+
+@property (nonatomic, assign) CCSprite *bloodSplatter;
+
+@property (nonatomic, retain) NSMutableArray *myEquipCards;
+@property (nonatomic, retain) NSMutableArray *enemyEquipCards;
+
+@property (nonatomic, assign) CCParticleSystemQuad *chargingEffect;
+
+@property (nonatomic, retain) IBOutlet BattleContinueView *continueView;
+@property (nonatomic, retain) IBOutlet BattleEndView *endView;
+
+- (void) createNextEnemyObject;
+- (int) getCurrentEnemyLoot;
 
 @end

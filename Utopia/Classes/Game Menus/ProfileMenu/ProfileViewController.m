@@ -656,7 +656,6 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ProfileViewController);
   attackStatLabel.text = [NSString stringWithFormat:@"%d", gs.attack];
   defenseStatLabel.text = [NSString stringWithFormat:@"%d", gs.defense];
   energyStatLabel.text = [NSString stringWithFormat:@"%d", gs.maxEnergy];
-  staminaStatLabel.text = [NSString stringWithFormat:@"%d", gs.maxStamina];
   
   skillPointsLabel.text = [NSString stringWithFormat:@"%d", gs.skillPoints];
   

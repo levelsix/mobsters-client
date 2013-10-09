@@ -10,9 +10,17 @@
 #import "HomeBuildingMenus.h"
 #import "AnimatedSprite.h"
 
-#define CENTER_TILE_X 51
-#define CENTER_TILE_Y 51
+#define CENTER_TILE_X 18
+#define CENTER_TILE_Y 18
 #define ROAD_SIZE 2
+
+#define EXPANSION_BLOCK_SIZE 8
+#define EXPANSION_MID_SQUARE_SIZE 12
+#define EXPANSION_ROAD_SIZE 2
+#define EXPANSION_OVERLAY_OFFSETS \
+{{ccp(0.2, 0.2), ccp(0,-0.1), ccp(0.1,-1.)}, \
+{ccp(0,0.1), ccp(0,0), ccp(-0.1,-0.3)}, \
+{ccp(-1.05,0.2), ccp(-0.3,0), ccp(-1,-1.05)}}
 
 @class HomeBuildingMenu;
 
@@ -22,6 +30,7 @@
   BOOL _canMove;
   BOOL _loading;
   BOOL _purchasing;
+  BOOL _isSpeedingUp;
   int _purchStructId;
   
   MoneyBuilding *_constrBuilding;
@@ -38,9 +47,18 @@
 
 @property (nonatomic, retain) IBOutlet HomeBuildingMenu *hbMenu;
 @property (nonatomic, retain) IBOutlet HomeBuildingCollectMenu *collectMenu;
-@property (nonatomic, retain) IBOutlet UIView *moveMenu;
 @property (nonatomic, retain) IBOutlet UpgradeBuildingMenu *upgradeMenu;
 @property (nonatomic, retain) IBOutlet ExpansionView *expansionView;
+@property (nonatomic, retain) IBOutlet UIView *buildBotView;
+@property (nonatomic, retain) IBOutlet UIView *upgradeBotView;
+@property (nonatomic, retain) IBOutlet UIView *expandBotView;
+@property (nonatomic, retain) IBOutlet UIView *expandingBotView;
+
+@property (nonatomic, assign) IBOutlet UILabel *buildingNameLabel;
+@property (nonatomic, assign) IBOutlet UILabel *buildingIncomeLabel;
+@property (nonatomic, assign) IBOutlet UILabel *buildingUpgradeCostLabel;
+@property (nonatomic, assign) IBOutlet UILabel *upgradingNameLabel;
+@property (nonatomic, assign) IBOutlet UILabel *expandingCostLabel;
 
 @property (nonatomic, assign, readonly) BOOL loading;
 @property (nonatomic, assign) int redGid;
@@ -49,11 +67,6 @@
 + (HomeMap *)sharedHomeMap;
 + (void) purgeSingleton;
 + (BOOL) isInitialized;
-
-- (void) doMenuAnimations;
-- (void) closeMenus;
-- (void) upgradeMenuClosed;
-- (void) openMoveMenuOnSelected;
 
 - (void) changeTiles: (CGRect) buildBlock toBuildable:(BOOL)canBuild;
 - (BOOL) isBlockBuildable: (CGRect) buildBlock;
@@ -72,5 +85,11 @@
 - (void) beginTimers;
 
 - (void) collectAllIncome;
+
+- (IBAction)finishExpansionClicked:(id)sender;
+
+- (void) buildComplete:(NSTimer *)timer;
+- (void) upgradeComplete:(NSTimer *)timer;
+- (void) waitForIncomeComplete:(NSTimer *)timer;
 
 @end

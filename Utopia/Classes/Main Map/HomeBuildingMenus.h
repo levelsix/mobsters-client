@@ -12,10 +12,18 @@
 
 #define PROGRESS_BAR_SPEED 2.f
 
+@interface PurchaseConfirmMenu : CCNode
+
+- (id) initWithCheckTarget:(id)cTarget checkSelector:(SEL)cSelector cancelTarget:(id)xTarget cancelSelector:(SEL)xSelector;
+
+@end
+
 @interface UpgradeProgressBar : CCSprite {
   CCProgressTimer *_progressBar;
   CCLabelTTF *_timeLabel;
 }
+
+@property (nonatomic, assign) CCProgressTimer *progressBar;
 
 - (id) initBar;
 - (void) updateForSecsLeft:(int)secs totalSecs:(int)totalSecs;
@@ -47,64 +55,34 @@
 
 @interface UpgradeBuildingMenu : UIView
 
-@property (nonatomic, retain) IBOutlet UILabel *titleLabel;
-@property (nonatomic, retain) IBOutlet UILabel *currentIncomeLabel;
-@property (nonatomic, retain) IBOutlet UILabel *upgradedIncomeLabel;
-@property (nonatomic, retain) IBOutlet UILabel *upgradeTimeLabel;
-@property (nonatomic, retain) IBOutlet UILabel *upgradePriceLabel;
-@property (nonatomic, retain) IBOutlet UIImageView *structIcon;
-@property (nonatomic, retain) IBOutlet UIImageView *coinIcon;
-@property (nonatomic, retain) IBOutlet UILabel *coinLabel;
+@property (nonatomic, assign) IBOutlet UILabel *titleLabel;
+@property (nonatomic, assign) IBOutlet UILabel *currentIncomeLabel;
+@property (nonatomic, assign) IBOutlet UILabel *currentTimeLabel;
+@property (nonatomic, assign) IBOutlet UILabel *upgradedIncomeLabel;
+@property (nonatomic, assign) IBOutlet UILabel *upgradedTimeLabel;
+@property (nonatomic, assign) IBOutlet UILabel *upgradeTimeLabel;
+@property (nonatomic, assign) IBOutlet UILabel *upgradePriceLabel;
+@property (nonatomic, assign) IBOutlet UILabel *nameLabel;
+@property (nonatomic, assign) IBOutlet UIImageView *structIcon;
 
-@property (nonatomic, retain) IBOutlet UILabel *timeLeftLabel;
-@property (nonatomic, retain) IBOutlet ProgressBar *progressBar;
-
-@property (nonatomic, retain) IBOutlet UIView *hazardSign;
-@property (nonatomic, retain) IBOutlet UIView *upgradingMiddleView;
-@property (nonatomic, retain) IBOutlet UIView *upgradingBottomView;
-@property (nonatomic, retain) IBOutlet UIView *notUpgradingMiddleView;
-@property (nonatomic, retain) IBOutlet UIView *notUpgradingBottomView;
-
-@property (nonatomic, retain) IBOutlet UIView *mainView;
-@property (nonatomic, retain) IBOutlet UIView *bgdView;
-
-@property (nonatomic, retain) UserStruct *userStruct;
-@property (nonatomic, retain) NSTimer *timer;
+@property (nonatomic, assign) IBOutlet UIView *mainView;
+@property (nonatomic, assign) IBOutlet UIView *bgdView;
 
 - (void) displayForUserStruct:(UserStruct *)us;
-- (void) finishNow:(void(^)(void))completed;
 
 - (IBAction)closeClicked:(id)sender;
 
 @end
 
-@interface ExpansionView : UIView {
-  ExpansionDirection _direction;
-}
+@interface ExpansionView : UIView
 
-@property (nonatomic, retain) IBOutlet UIImageView *farLeftArrow;
-@property (nonatomic, retain) IBOutlet UIImageView *farRightArrow;
-@property (nonatomic, retain) IBOutlet UIImageView *nearLeftArrow;
-@property (nonatomic, retain) IBOutlet UIImageView *nearRightArrow;
-@property (nonatomic, retain) IBOutlet UIImageView *expandingSign;
+@property (nonatomic, assign) IBOutlet UILabel *totalTimeLabel;
+@property (nonatomic, assign) IBOutlet UILabel *costLabel;
 
-@property (nonatomic, retain) IBOutlet UILabel *titleLabel;
-@property (nonatomic, retain) IBOutlet UILabel *buttonLabel;
-@property (nonatomic, retain) IBOutlet UILabel *timeLeftLabel;
-@property (nonatomic, retain) IBOutlet UILabel *totalTimeLabel;
-@property (nonatomic, retain) IBOutlet UILabel *costLabel;
+@property (nonatomic, assign) IBOutlet UIView *bgdView;
+@property (nonatomic, assign) IBOutlet UIView *mainView;
 
-@property (nonatomic, retain) IBOutlet ProgressBar *progressBar;
-
-@property (nonatomic, retain) IBOutlet UIView *expandingView;
-@property (nonatomic, retain) IBOutlet UIView *cantExpandView;
-@property (nonatomic, retain) IBOutlet UIView *expandNowView;
-
-@property (nonatomic, retain) IBOutlet UIView *bgdView;
-@property (nonatomic, retain) IBOutlet UIView *mainView;
-
-@property (nonatomic, retain) NSTimer *timer;
-
-- (void) displayForDirection:(ExpansionDirection)direction;
+- (void) display;
+- (IBAction)closeClicked:(id)sender;
 
 @end

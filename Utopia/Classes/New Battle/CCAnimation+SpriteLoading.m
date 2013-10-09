@@ -11,7 +11,7 @@
 @implementation CCSpriteFrameCache (FrameCheck)
 
 - (BOOL) containsFrame:(NSString *)frameName {
-  return [spriteFrames_ objectForKey:frameName] != nil;
+  return [_spriteFrames objectForKey:frameName] != nil;
 }
 
 @end
@@ -26,7 +26,7 @@
   //create the animation for Near
   NSMutableArray *anim = [NSMutableArray array];
   for(int i = 0; true; i++) {
-    NSString *file = [NSString stringWithFormat:@"%@%02d@2x.png",prefix, i];
+    NSString *file = [NSString stringWithFormat:@"%@%02d.png",prefix, i];
     BOOL exists = [[CCSpriteFrameCache sharedSpriteFrameCache] containsFrame:file];
     if (exists) {
       CCSpriteFrame *frame = [[CCSpriteFrameCache sharedSpriteFrameCache] spriteFrameByName:file];
@@ -35,7 +35,16 @@
       break;
     }
   }
-  return [self initWithFrames:anim delay:delay];
+  
+  if (anim.count == 0) {
+    NSLog(@"Created animation with 0 frames..");
+  }
+  
+  return [self initWithSpriteFrames:anim delay:delay];
+}
+
+- (id) copy {
+  return [[CCAnimation alloc] initWithSpriteFrames:[self.frames.mutableCopy autorelease] delay:self.delayPerUnit];
 }
 
 @end

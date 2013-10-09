@@ -25,14 +25,14 @@
 @implementation CCMoveByCustom
 - (void) update: (ccTime) t {
 	//Here we neglect to change something with a zero delta.
-  if (delta_.x == 0 && delta_.y == 0) {
+  if (_positionDelta.x == 0 && _positionDelta.y == 0) {
     // Do nothing
-  } else if (delta_.x == 0) {
-		[target_ setPosition: ccp( [(CCNode*)target_ position].x, (startPosition_.y + delta_.y * t ) )];
-	} else if (delta_.y == 0) {
-		[target_ setPosition: ccp( (startPosition_.x + delta_.x * t ), [(CCNode*)target_ position].y )];
+  } else if (_positionDelta.x == 0) {
+		[_target setPosition: ccp( [(CCNode*)_target position].x, (_startPos.y + _positionDelta.y * t ) )];
+	} else if (_positionDelta.y == 0) {
+		[_target setPosition: ccp( (_startPos.x + _positionDelta.x * t ), [(CCNode*)_target position].y )];
 	} else {
-		[target_ setPosition: ccp( (startPosition_.x + delta_.x * t ), (startPosition_.y + delta_.y * t ) )];
+		[_target setPosition: ccp( (_startPos.x + _positionDelta.x * t ), (_startPos.y + _positionDelta.y * t ) )];
 	}
 }
 @end
@@ -40,12 +40,12 @@
 @implementation CCMoveToCustom
 - (void) update: (ccTime) t {
 	//Here we neglect to change something with a zero delta.
-	if (delta_.x == 0) {
-		[target_ setPosition: ccp( [(CCNode*)target_ position].x, (startPosition_.y + delta_.y * t ) )];
-	} else if (delta_.y == 0) {
-		[target_ setPosition: ccp( (startPosition_.x + delta_.x * t ), [(CCNode*)target_ position].y )];
+	if (_positionDelta.x == 0) {
+		[_target setPosition: ccp( [(CCNode*)_target position].x, (_startPos.y + _positionDelta.y * t ) )];
+	} else if (_positionDelta.y == 0) {
+		[_target setPosition: ccp( (_startPos.x + _positionDelta.x * t ), [(CCNode*)_target position].y )];
 	} else{
-		[target_ setPosition: ccp( (startPosition_.x + delta_.x * t ), (startPosition_.y + delta_.y * t ) )];
+		[_target setPosition: ccp( (_startPos.x + _positionDelta.x * t ), (_startPos.y + _positionDelta.y * t ) )];
 	}
 }
 @end
@@ -122,7 +122,7 @@
     if (CC_CONTENT_SCALE_FACTOR() == 2) {
       tileSizeInPoints = CGSizeMake(self.tileSize.width/2, self.tileSize.height/2);
     } else {
-      tileSizeInPoints = tileSize_;
+      tileSizeInPoints = _tileSize;
     }
     
     [self createMyPlayer];
@@ -134,7 +134,7 @@
     
     [[NSBundle mainBundle] loadNibNamed:@"EnemyPopupView" owner:self options:nil];
     [Globals displayUIView:self.enemyMenu];
-    [[[CCDirector sharedDirector] openGLView] setUserInteractionEnabled:YES];
+    [[[CCDirector sharedDirector] view] setUserInteractionEnabled:YES];
     
     enemyMenu.hidden = YES;
     
@@ -154,7 +154,7 @@
 
 - (void) createMyPlayer {
   // Do this so that tutorial classes can override
-  _myPlayer = [[MyPlayer alloc] initWithLocation:CGRectMake(mapSize_.width/2, mapSize_.height/2, 1, 1) map:self];
+  _myPlayer = [[MyPlayer alloc] initWithLocation:CGRectMake(_mapSize.width/2, _mapSize.height/2, 1, 1) map:self];
   [self addChild:_myPlayer];
   [_myPlayer release];
 }
@@ -461,7 +461,7 @@
 
 - (void) pickUpAllDrops {
   NSMutableArray *toPickUp = [NSMutableArray array];
-  for (CCNode *n in children_) {
+  for (CCNode *n in _children) {
     [toPickUp addObject:n];
   }
   for (CCNode *n in toPickUp) {
@@ -503,7 +503,7 @@
 }
 
 - (Enemy *) enemyWithUserId:(int)userId {
-  for (CCNode *child in children_) {
+  for (CCNode *child in _children) {
     if ([child isKindOfClass:[Enemy class]]) {
       Enemy *enemy = (Enemy *)child;
       if (enemy.user.userId == userId) {
@@ -572,7 +572,9 @@
   
   for (int i = 0; i < [_mapSprites count]; i++) {
     MapSprite *child = [_mapSprites objectAtIndex:i];
-    [self reorderChild:child z:i+REORDER_START_Z];
+    if (![child isExemptFromReorder]) {
+      [self reorderChild:child z:i+REORDER_START_Z];
+    }
   }
 }
 
@@ -691,10 +693,10 @@
   float x = MAX(MIN(-minX*self.scaleX, position.x), -maxX*self.scaleX + [[CCDirector sharedDirector] winSize].width);
   float y = MAX(MIN(-minY*self.scaleY, position.y), -maxY*self.scaleY + [[CCDirector sharedDirector] winSize].height);
   
-  CGPoint oldPos = position_;
+  CGPoint oldPos = _position;
   [super setPosition:ccp(x,y)];
   if (!enemyMenu.hidden) {
-    CGPoint diff = ccpSub(oldPos, position_);
+    CGPoint diff = ccpSub(oldPos, _position);
     diff.x *= -1;
     CGRect curRect = enemyMenu.frame;
     curRect.origin = ccpAdd(curRect.origin, diff);
@@ -757,26 +759,27 @@
 
 -(CGPoint)convertVectorToGL:(CGPoint)uiPoint
 {
-  float newY = - uiPoint.y;
-  float newX = - uiPoint.x;
+//  float newY = - uiPoint.y;
+//  float newX = - uiPoint.x;
   
   CGPoint ret = CGPointZero;
-  switch ([[CCDirector sharedDirector] deviceOrientation]) {
-    case CCDeviceOrientationPortrait:
-      ret = ccp( uiPoint.x, newY );
-      break;
-    case CCDeviceOrientationPortraitUpsideDown:
-      ret = ccp(newX, uiPoint.y);
-      break;
-    case CCDeviceOrientationLandscapeLeft:
-      ret.x = uiPoint.y;
-      ret.y = uiPoint.x;
-      break;
-    case CCDeviceOrientationLandscapeRight:
-      ret.x = newY;
-      ret.y = newX;
-      break;
-  }
+//  switch ([[CCDirector sharedDirector] deviceOrientation]) {
+//    case CCDeviceOrientationPortrait:
+//      ret = ccp( uiPoint.x, newY );
+//      break;
+//    case CCDeviceOrientationPortraitUpsideDown:
+//      ret = ccp(newX, uiPoint.y);
+//      break;
+//    case CCDeviceOrientationLandscapeLeft:
+//      ret.x = uiPoint.y;
+//      ret.y = uiPoint.x;
+//      break;
+//    case CCDeviceOrientationLandscapeRight:
+//      ret.x = newY;
+//      ret.y = newX;
+//      break;
+//  }
+  ret = uiPoint;
   return ret;
 }
 
@@ -829,8 +832,8 @@
   CGPoint back = ccpSub(point, diff);
   
   CGPoint pts[4] = {straight, right, left, back};
-  int width = mapSize_.width;
-  int height = mapSize_.height;
+  int width = _mapSize.width;
+  int height = _mapSize.height;
   
   // Don't let it infinite loop in case its stuck
   int max = 50;
@@ -859,8 +862,8 @@
   CGSize ts = [self tileSizeInPoints];
   CGSize size = [[CCDirector sharedDirector] winSize];
   
-  float x = -ms.width*ts.width/2*scaleX_+size.width/2;
-  float y = -ms.height*ts.height/2*scaleY_+size.height/2;
+  float x = -ms.width*ts.width/2*_scaleX+size.width/2;
+  float y = -ms.height*ts.height/2*_scaleY+size.height/2;
   CGPoint newPos = ccp(x,y);
   if (animated) {
     [self runAction:[CCMoveTo actionWithDuration:0.2f position:newPos]];
@@ -876,8 +879,8 @@
     CGSize size = [[CCDirector sharedDirector] winSize];
     
     // Since all sprites have anchor point ccp(0.5,0) adjust accordingly
-    float x = -pt.x*scaleX_+size.width/2;
-    float y = (-pt.y-spr.contentSize.height*3/4)*scaleY_+size.height/2;
+    float x = -pt.x*_scaleX+size.width/2;
+    float y = (-pt.y-spr.contentSize.height*3/4)*_scaleY+size.height/2;
     CGPoint newPos = ccpAdd(offset,ccp(x,y));
     if (animated) {
       dur = ccpDistance(newPos, self.position)/1000.f;
@@ -894,14 +897,14 @@
 }
 
 - (CGPoint) convertTilePointToCCPoint:(CGPoint)pt {
-  CGSize ms = mapSize_;
+  CGSize ms = _mapSize;
   CGSize ts = tileSizeInPoints;
   return ccp( ms.width * ts.width/2.f + ts.width * (pt.x-pt.y)/2.f,
              ts.height * (pt.y+pt.x)/2.f);
 }
 
 - (CGPoint) convertCCPointToTilePoint:(CGPoint)pt {
-  CGSize ms = mapSize_;
+  CGSize ms = _mapSize;
   CGSize ts = tileSizeInPoints;
   float a = (pt.x - ms.width*ts.width/2.f)/ts.width;
   float b = pt.y/ts.height;
@@ -924,7 +927,7 @@
 
 - (void) moveToEnemyType:(DefeatTypeJobProto_DefeatTypeJobEnemyType)type animated:(BOOL)animated {
   Enemy *enemyWithType = nil;
-  for (CCNode *child in children_) {
+  for (CCNode *child in _children) {
     if ([child isKindOfClass:[Enemy class]]) {
       Enemy *enemy = (Enemy *)child;
       if (enemy.user.userType == type || type == DefeatTypeJobProto_DefeatTypeJobEnemyTypeAllTypesFromOpposingSide) {

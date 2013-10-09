@@ -47,7 +47,7 @@
 - (id) initWithNSString:(NSString*)str dimensions:(CGSize)dimensions alignment:(CCTextAlignment)alignment fontName:(NSString*)name fontSize:(CGFloat)size
          shadowOffset:(CGSize)shadowSize shadowBlur:(float)shadowBlur shadowColor:(ccColor4B)sColor fillColor:(ccColor4B)fColor
 {
-	if( (self=[super initWithString:str dimensions:dimensions alignment:alignment fontName:name fontSize:size])) 
+	if( (self=[super initWithString:str fontName:name fontSize:size dimensions:dimensions hAlignment:alignment]))
     {
         shadowOffset_ = CGSizeMake(shadowSize.width * CC_CONTENT_SCALE_FACTOR(), shadowSize.height*CC_CONTENT_SCALE_FACTOR());
         shadowBlur_ = SIGNCHECK(shadowBlur* CC_CONTENT_SCALE_FACTOR());
@@ -89,11 +89,11 @@
 
 - (void) setString:(NSString*)str
 {
-	[string_ release];
-	string_ = [str copy];
+	[_string release];
+	_string = [str copy];
     
 	CCTexture2D *tex;
-	if( CGSizeEqualToSize( dimensions_, CGSizeZero ) )
+	if( CGSizeEqualToSize( _dimensions, CGSizeZero ) )
     {
         ccColor4F sColor4F = ccc4FFromccc4B(shadowColor_);
         ccColor4F fColor4F = ccc4FFromccc4B(fillColor_);
@@ -102,10 +102,10 @@
         float fColor[4] = {fColor4F.r, fColor4F.g, fColor4F.b, fColor4F.a};
         
         tex = [[CCTexture2D alloc] initWithString:str
-                                         fontName:fontName_
-                                         fontSize:fontSize_
-                                     shadowOffset:shadowOffset_
-                                       shadowBlur:shadowBlur_
+                                         fontName:_fontName
+                                         fontSize:_fontSize
+                                     shadowOffset:_shadowOffset
+                                       shadowBlur:_shadowBlur
                                       shadowColor:sColor
                                         fillColor:fColor];
     }
@@ -118,12 +118,12 @@
         float fColor[4] = {fColor4F.r, fColor4F.g, fColor4F.b, fColor4F.a};
         
         tex = [[CCTexture2D alloc] initWithString:str
-                                       dimensions:dimensions_
-                                        alignment:alignment_
-                                         fontName:fontName_
-                                         fontSize:fontSize_
-                                     shadowOffset:shadowOffset_
-                                       shadowBlur:shadowBlur_
+                                       dimensions:_dimensions
+                                        alignment:_hAlignment
+                                         fontName:_fontName
+                                         fontSize:_fontSize
+                                     shadowOffset:_shadowOffset
+                                       shadowBlur:_shadowBlur
                                       shadowColor:sColor
                                         fillColor:fColor];
     }
@@ -132,26 +132,26 @@
 	[tex release];
     
 	CGRect rect = CGRectZero;
-	rect.size = [texture_ contentSize];
+	rect.size = [_texture contentSize];
 	[self setTextureRect: rect];
 }
 
 - (void)setShadowColor:(ccColor4B)shadowColor
 {
     shadowColor_ = shadowColor;
-    [self setString:string_];
+    [self setString:_string];
 }
 
 - (void)setFillColor:(ccColor4B)fillColor
 {
     fillColor_ = fillColor;
-    [self setString:string_];
+    [self setString:_string];
 }
 
 - (NSString*) description
 {
 	return [NSString stringWithFormat:@"<%@ = %p | FontName = %@, FontSize = %.1f, ShadowOffset = %@, ShadowBlur = %f>", 
-            [self class], self, fontName_, fontSize_, NSStringFromCGSize(shadowOffset_), shadowBlur_];
+            [self class], self, _fontName, _fontSize, NSStringFromCGSize(_shadowOffset), _shadowBlur];
 }
 
 @end

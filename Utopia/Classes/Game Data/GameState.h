@@ -12,97 +12,9 @@
 #import "FullUserUpdates.h"
 
 @interface GameState : NSObject {
-  BOOL _isTutorial;
-  BOOL _connected;
-  int _userId;
-  NSString *_name;
-  UserType _type;
-  int _level;
-  int _defense;
-  int _attack;
-  int _currentEnergy;
-  int _maxEnergy;
-  int _currentStamina;
-  int _maxStamina;
-  int _gold;
-  int _silver;
-  int _vaultBalance;
-  NSString *_referralCode;
-  int _battlesWon;
-  int _battlesLost;
-  int _flees;
-  CLLocationCoordinate2D _location;
-  int _skillPoints;
-  int _experience;
-  int _tasksCompleted;
-  int _numReferrals;
-  int _marketplaceGoldEarnings;
-  int _marketplaceSilverEarnings;
-  int _numMarketplaceSalesUnredeemed;
-  int _numPostsInMarketplace;
-  int _playerHasBoughtInAppPurchase;
-  NSDate *_lastEnergyRefill;
-  NSDate *_lastStaminaRefill;
-  NSDate *_lastShortLicensePurchaseTime;
-  NSDate *_lastLongLicensePurchaseTime;
-  
-  int _numAdColonyVideosWatched;
-  int _numGroupChatsRemaining;
-  
-  NSString *_deviceToken;
-  
-  int _expRequiredForCurrentLevel;
-  int _expRequiredForNextLevel;
-  
-  NSMutableArray *_marketplaceEquipPosts;
-  NSMutableArray *_marketplaceEquipPostsFromSender;
-  
-  NSMutableDictionary *_staticStructs;
-  NSMutableDictionary *_staticTasks;
-  NSMutableDictionary *_staticQuests;
-  NSMutableDictionary *_staticCities;
-  NSMutableDictionary *_staticEquips;
-  NSMutableDictionary *_staticBuildStructJobs;
-  NSMutableDictionary *_staticDefeatTypeJobs;
-  NSMutableDictionary *_staticPossessEquipJobs;
-  NSMutableDictionary *_staticUpgradeStructJobs;
-  
-  NSArray *_carpenterStructs;
-  NSArray *_armoryWeapons;
-  NSArray *_armoryArmor;
-  NSArray *_armoryAmulets;
-  
-  NSMutableArray *_myEquips;
-  NSMutableArray *_myStructs;
-  NSMutableDictionary *_myCities;
-  
-  NSMutableDictionary *_inProgressIncompleteQuests;
-  NSMutableDictionary *_inProgressCompleteQuests;
-  NSMutableDictionary *_availableQuests;
-  
-  NSMutableArray *_notifications;
-  NSMutableArray *_wallPosts;
-  NSMutableArray *_globalChatMessages;
-  NSMutableArray *_clanChatMessages;
-  
   NSTimer *_enhanceTimer;
-  
-  NSDate *_lastLogoutTime;
-  
-  uint64_t _lastUserUpdate;
-  
-  NSArray *_allies;
-  
-  // For the tagging scheme
-  NSMutableArray *_unrespondedUpdates;
-  
-  NSDate *_lastGoldmineRetrieval;
-  NSTimer *_goldmineTimer;
-  
-  MinimumClanProto *_clan;
-  NSMutableArray *_requestedClans;
-  
   NSTimer *_expansionTimer;
+  NSTimer *_goldmineTimer;
 }
 
 @property (nonatomic, assign) BOOL isTutorial;
@@ -223,7 +135,7 @@
 
 @property (nonatomic, copy) NSArray *mktSearchEquips;
 
-@property (nonatomic, nonatomic, retain) UserExpansion *userExpansion;
+@property (nonatomic, retain) NSMutableArray *userExpansions;
 
 @property (nonatomic, retain) NSMutableArray *lockBoxEventTimers;
 @property (nonatomic, retain) NSMutableArray *goldSaleTimers;
@@ -281,7 +193,7 @@
 - (UserEquip *) myEquipWithId:(int)equipId level:(int)level;
 - (NSArray *) myEquipsWithId:(int)equipId level:(int)level;
 - (NSArray *) myEquipsWithEquipId:(int)equipId;
-- (UserEquip *) myEquipWithUserEquipId:(int)userEquipId;  
+- (UserEquip *) myEquipWithUserEquipId:(uint64_t)userEquipId;  
 - (int) quantityOfEquip:(int)equipId;
 - (int) quantityOfEquip:(int)equipId level:(int)level;
 - (UserStruct *) myStructWithId:(int)structId;
@@ -329,6 +241,10 @@
 - (void) goldmineTimeComplete;
 - (void) stopGoldmineTimer;
 
+- (UserExpansion *) getExpansionForX:(int)x y:(int)y;
+- (int) numCompletedExpansions;
+- (BOOL) isExpanding;
+- (UserExpansion *) currentExpansion;
 - (void) beginExpansionTimer;
 - (void) stopExpansionTimer;
 

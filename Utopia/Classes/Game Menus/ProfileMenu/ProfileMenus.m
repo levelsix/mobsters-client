@@ -692,84 +692,6 @@ static float origLabelCenterY = 0;
 
 @end
 
-@implementation MarketplacePostView
-
-@synthesize bgdView, mainView;
-@synthesize postedPriceIcon, postedPriceTextField;
-@synthesize armoryPriceIcon, armoryPriceLabel;
-
-- (void) updateForEquip:(UserEquip *)ue andAddToSuperView:(UIView *)view {
-  GameState *gs = [GameState sharedGameState];
-  FullEquipProto *fep = [gs equipWithId:ue.equipId];
-  Globals *gl = [Globals sharedGlobals];
-  
-  BOOL sellsForGold = [Globals sellsForGoldInMarketplace:fep];
-  int retail = [gl calculateRetailValueForEquip:ue.equipId level:ue.level];
-  NSString *price = retail > 0 ? [Globals commafyNumber:retail] : @"N/A";
-  
-  if (sellsForGold) {
-    postedPriceIcon.highlighted = YES;
-    armoryPriceIcon.highlighted = YES;
-    armoryPriceLabel.text = price;
-  } else {
-    postedPriceIcon.highlighted = NO;
-    armoryPriceIcon.highlighted = NO;
-    armoryPriceLabel.text = price;
-  }
-  postedPriceTextField.text = @"";
-  
-  self.frame = view.bounds;
-  [view addSubview:self];
-  [Globals bounceView:self.mainView fadeInBgdView:self.bgdView];
-  
-  [postedPriceTextField becomeFirstResponder];
-}
-
-- (IBAction)closeClicked:(id)sender {
-  if (self.superview) {
-    [postedPriceTextField resignFirstResponder];
-    [Globals popOutView:self.mainView fadeOutBgdView:self.bgdView completion:^{
-      [self removeFromSuperview];
-    }];
-  }
-}
-
-- (BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string {
-  NSString *str = [textField.text stringByReplacingCharactersInRange:range withString:string];
-  if ([str length] > PRICE_DIGITS) {
-    return NO;
-  }
-  return YES;
-}
-
-- (void) textFieldDidBeginEditing:(UITextField *)textField {
-  [UIView animateWithDuration:0.3f animations:^{
-    self.mainView.center = ccpAdd(self.mainView.center, ccp(0, -75));
-  }];
-}
-
-- (void) textFieldDidEndEditing:(UITextField *)textField {
-  [UIView animateWithDuration:0.3f animations:^{
-    self.mainView.center = ccpAdd(self.mainView.center, ccp(0, 75));
-  }];
-}
-
-- (void) touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event {
-  [self endEditing:YES];
-}
-
-- (void) dealloc {
-  self.bgdView = nil;
-  self.mainView = nil;
-  self.postedPriceIcon = nil;
-  self.postedPriceTextField = nil;
-  self.armoryPriceLabel = nil;
-  self.armoryPriceIcon = nil;
-  [super dealloc];
-}
-
-@end
-
 @implementation ProfileEquipPopup
 
 @synthesize titleLabel, classLabel, attackLabel, defenseLabel;
@@ -780,7 +702,6 @@ static float origLabelCenterY = 0;
 @synthesize equipButton, equipLabel;
 @synthesize sellButton, sellLabel;
 @synthesize userEquip;
-@synthesize mktPostView;
 @synthesize soldSilverLabel, soldItemLabel, soldView;
 
 - (void) updateForUserEquip:(UserEquip *)ue {
@@ -812,18 +733,6 @@ static float origLabelCenterY = 0;
     equipLabel.alpha = 0.75f;
   }
   
-  if (!fep.isBuyableInArmory || fep.diamondPrice > 0) {
-    sellButton.enabled = NO;
-  } else {
-    sellButton.enabled = YES;
-  }
-  
-  if ([Globals class:gs.type canEquip:fep.classType]) {
-    wrongClassView.hidden = YES;
-  } else {
-    wrongClassView.hidden = NO;
-  }
-  
   if (gs.level >= fep.minLevel) {
     tooLowLevelView.hidden = YES;
   } else {
@@ -839,8 +748,6 @@ static float origLabelCenterY = 0;
     [Globals popOutView:self.mainView fadeOutBgdView:self.bgdView completion:^(void) {
       [self removeFromSuperview];
     }];
-    
-    [self.mktPostView closeClicked:nil];
   }
 }
 
@@ -854,59 +761,6 @@ static float origLabelCenterY = 0;
 
 - (IBAction)equipItemClicked:(id)sender {
   [[ProfileViewController sharedProfileViewController] doEquip:userEquip];
-  [self closeClicked:nil];
-}
-
-//- (IBAction)sellClicked:(id)sender {
-//  GameState *gs = [GameState sharedGameState];
-//  FullEquipProto *fep = [gs equipWithId:userEquip.equipId];
-//  int sellAmt = fep.coinPrice ? [[Globals sharedGlobals] calculateEquipSilverSellCost:userEquip] : [[Globals sharedGlobals] calculateEquipGoldSellCost:userEquip];
-//  NSString *str = [NSString stringWithFormat:@"Sell for %d %@?", sellAmt, fep.coinPrice ? @"silver" : @"gold"];
-//  [GenericPopupController displayConfirmationWithDescription:str title:nil okayButton:@"Sell" cancelButton:nil target:self selector:@selector(sellItem)];
-//}
-
-//- (void) sellItem {
-//  [[OutgoingEventController sharedOutgoingEventController] sellEquip:userEquip.equipId];
-//  FullEquipProto *fep = [[GameState sharedGameState] equipWithId:userEquip.equipId];
-//  Globals *gl = [Globals sharedGlobals];
-//
-//  int price = fep.coinPrice > 0 ? [gl calculateEquipSilverSellCost:userEquip] : [gl calculateEquipGoldSellCost:userEquip];
-//  CGPoint startLoc = wallIcon.center;
-//  startLoc = [self.superview convertPoint:startLoc fromView:self];
-//
-//  UIView *testView = [EquipDeltaView
-//                      createForUpperString:[NSString stringWithFormat:@"+ %d",
-//                                            price]
-//                      andLowerString:[NSString stringWithFormat:@"-1 %@", fep.name]
-//                      andCenter:startLoc
-//                      topColor:[Globals greenColor]
-//                      botColor:[Globals colorForRarity:fep.rarity]];
-//
-//  [Globals popupView:testView
-//         onSuperView:self.superview
-//             atPoint:startLoc
-// withCompletionBlock:nil];
-//
-//  if (userEquip.quantity <= 0) {
-//    [self closeClicked:nil];
-//  }
-//}
-
-- (IBAction)postClicked:(id)sender {
-  GameState *gs = [GameState sharedGameState];
-  Globals *gl = [Globals sharedGlobals];
-  if (gs.level < gl.minLevelConstants.marketplaceMinLevel && gs.prestigeLevel <= 0) {
-    [Globals popupMessage:[NSString stringWithFormat:@"You cannot post to the marketplace until level %d.", gl.minLevelConstants.marketplaceMinLevel]];
-  } else {
-    [self.mktPostView updateForEquip:userEquip andAddToSuperView:self.superview];
-  }
-}
-
-- (IBAction)postOkayClicked:(id)sender
-{
-  [[OutgoingEventController sharedOutgoingEventController] equipPostToMarketplace:userEquip.userEquipId price:[self.mktPostView.postedPriceTextField.text intValue]];
-  [self.mktPostView closeClicked:nil];
-  
   [self closeClicked:nil];
 }
 
@@ -929,7 +783,6 @@ static float origLabelCenterY = 0;
   self.equipLabel = nil;
   self.sellButton = nil;
   self.sellLabel = nil;
-  self.mktPostView = nil;
   [super dealloc];
 }
 

@@ -6,8 +6,18 @@
 //  Copyright (c) 2013 LVL6. All rights reserved.
 //
 
-#import "CCAnimation.h"
+#import "cocos2d.h"
 
-@interface CCSoundAnimation : CCAnimation
+@interface CCAnimation (SoundAnimation)
+
+- (void) repeatFrames:(NSRange)range;
+- (void) addSoundEffect:(NSString *)effectName atIndex:(int)index;
+
+@end
+
+@interface CCSoundAnimate : CCAnimate
+
+@property (nonatomic, retain) NSDictionary *soundDictionary;
+@property (nonatomic, retain) NSMutableSet *playedSounds;
 
 @end

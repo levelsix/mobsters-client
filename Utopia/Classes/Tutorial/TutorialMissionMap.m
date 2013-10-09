@@ -132,13 +132,6 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(TutorialMissionMap);
     asset.numTimesActedForTask = 0;
     
     [[NSBundle mainBundle] loadNibNamed:@"MissionBuildingMenu" owner:self options:nil];
-    [Globals displayUIView:self.obMenu];
-    [Globals displayUIView:self.summaryMenu];
-    [self.obMenu setMissionMap:self];
-    self.obMenu.hidden = YES;
-    
-    self.summaryMenu.center = CGPointMake(self.summaryMenu.frame.size.width/2+5.f, self.summaryMenu.superview.frame.size.height-self.summaryMenu.frame.size.height/2-2.f);
-    self.summaryMenu.alpha = 0.f;
     
     self.selected = nil;
     
@@ -151,10 +144,6 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(TutorialMissionMap);
     
     [self doReorder];
     
-    _taskProgBar = [TaskProgressBar node];
-    [self addChild:_taskProgBar z:1002];
-    _taskProgBar.visible = NO;
-    
     _coinsGiven = 0;
   }
   return self;
@@ -162,7 +151,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(TutorialMissionMap);
 
 - (void) createMyPlayer {
   // Do this so that tutorial classes can override
-  _myPlayer = [[TutorialMyPlayer alloc] initWithLocation:CGRectMake(mapSize_.width/2, mapSize_.height/2, 1, 1) map:self];
+  _myPlayer = [[TutorialMyPlayer alloc] initWithLocation:CGRectMake(_mapSize.width/2, _mapSize.height/2, 1, 1) map:self];
   [self addChild:_myPlayer];
   [_myPlayer release];
   
@@ -314,133 +303,6 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(TutorialMissionMap);
 }
 
 - (void) performCurrentTask {
-  if ([_selected conformsToProtocol:@protocol(TaskElement)]) {
-    [_ccArrow removeFromParentAndCleanup:YES];
-    
-    id<TaskElement> te = (id<TaskElement>)_selected;
-    FullTaskProto *ftp = te.ftp;
-    
-    [self closeMenus:_selected];
-    
-    CGPoint pt = ccp(ftp.spriteLandingCoords.x, ftp.spriteLandingCoords.y);
-    CGPoint ccPt = pt;
-    // Angle should be relevant to entire building, not origin
-    if (ccPt.x < 0) {
-      ccPt.x = -1;
-    } else if (ccPt.x >= te.location.size.width) {
-      ccPt.x = 1;
-    } else {
-      ccPt.x = 0;
-    }
-    
-    if (ccPt.y < 0) {
-      ccPt.y = -1;
-    } else if (ccPt.y >= te.location.size.height) {
-      ccPt.y = 1;
-    } else {
-      ccPt.y = 0;
-    }
-    
-    ccPt = ccpSub([self convertTilePointToCCPoint:ccp(0, 0)], [self convertTilePointToCCPoint:ccPt]);
-    float angle = CC_RADIANS_TO_DEGREES(ccpToAngle(ccPt));
-    if (ftp.animationType == AnimationTypeDragon) {
-      CGRect loc = te.location;
-      loc.origin.x += 6;
-      loc.origin.y += 2;
-      MapSprite *ms = [[MapSprite alloc] initWithFile:@"dragon.png" location:loc map:self];
-      ms.isFlying = YES;
-      [self addChild:ms z:1 tag:DRAGON_TAG];
-      [ms release];
-      
-      loc = te.location;
-      loc.origin.x += 6;
-      loc.origin.y += 3;
-      
-      CGRect newLoc = te.location;
-      newLoc.origin.x -= 2;
-      newLoc.origin.y += 3;
-      self.isTouchEnabled = NO;
-      [ms runAction:[CCSequence actions:
-                     [CCSpawn actions:
-                      [CCFadeIn actionWithDuration:0.3f],
-                      //                            [MoveToLocation actionWithDuration:1.f location:loc],
-                      nil],
-                     [CCCallBlock actionWithBlock:
-                      ^{
-                        CCParticleSystemQuad *ps = [[CCParticleSystemQuad alloc] initWithFile:@"fire.plist"];
-                        [ms addChild:ps z:2];
-                        ps.position = ccp(3, 7);
-                        [ps release];
-                      }],
-                     //                           [MoveToLocation actionWithDuration:2.f location:newLoc],
-                     [CCDelayTime actionWithDuration:2.f],
-                     [CCFadeOut actionWithDuration:0.3f],
-                     [CCCallBlock actionWithBlock:
-                      ^{
-                        [ms removeFromParentAndCleanup:YES];
-                        self.isTouchEnabled = YES;
-                      }],
-                     nil]];
-    } else {
-      [_myPlayer stopWalking];
-      [_myPlayer performAnimation:ftp.animationType atLocation:ccpAdd(te.location.origin, pt) inDirection:angle];
-    }
-    
-    _taskProgBar.position = ccp(te.position.x, te.position.y+te.contentSize.height);
-    [_taskProgBar animateBarWithText:ftp.processingText];
-    _taskProgBar.visible = YES;
-    _receivedTaskActionResponse = YES;
-    
-    // Use total-1 because we add the num at the end
-    if (te.numTimesActedForQuest == ftp.numRequiredForCompletion-1) {
-      _doTaskPhase = NO;
-      
-      [self performSelectorInBackground:@selector(preloadLevelUp) withObject:nil];
-    }
-    _performingTask = YES;
-    
-    [self runAction:
-     [CCSequence actions:[CCDelayTime actionWithDuration:1.5f],
-      [CCCallBlock actionWithBlock:
-       ^{
-         GameState *gs = [GameState sharedGameState];
-         TutorialConstants *tc = [TutorialConstants sharedTutorialConstants];
-         StartupResponseProto_TutorialConstants_FullTutorialQuestProto *tutQuest = tc.tutorialQuest;
-         FullTaskProto *ftp = nil;
-         
-         if (_doQuestPhase) {
-           ftp = [Globals userTypeIsGood:gs.type] ? tutQuest.taskGood : tutQuest.taskBad;
-           [Analytics tutCompleteQuestTask];
-         } else {
-           ftp = [Globals userTypeIsGood:gs.type] ? tc.firstTaskGood : tc.firstTaskBad;
-           [Analytics tutCompleteTask1];
-         }
-         
-         int coins = 0;
-         if (_doTaskPhase) {
-           coins = ftp.minCoinsGained;
-         } else {
-           coins = tutQuest.taskCompleteCoinGain;
-         }
-         
-         // Fake a task action response
-         TaskActionResponseProto *tarp = [[[[[TaskActionResponseProto builder]
-                                             setSender:[[[MinimumUserProto builder] setUserId:0] build]]
-                                            setStatus:TaskActionResponseProto_TaskActionStatusSuccess]
-                                           setCoinsGained:coins]
-                                          build];
-         [self receivedTaskResponse:tarp];
-         _canUnclick = YES;
-         
-         gs.currentEnergy -= ftp.energyCost;
-         gs.silver += coins;
-         _coinsGiven += coins;
-         // Exp will be same for either task
-         gs.experience += ftp.expGained;
-       }], nil]];
-    
-    _pickupSilver = YES;
-  }
 }
 
 - (void) addSilverDrop:(int)amount fromSprite:(MapSprite *)sprite toPosition:(CGPoint)pt secondsToPickup:(int)secondsToPickup {

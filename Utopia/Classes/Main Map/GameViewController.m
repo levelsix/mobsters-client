@@ -31,7 +31,6 @@
 #import "GenericPopupController.h"
 #import "GoldShoppeViewController.h"
 #import "MapViewController.h"
-#import "MarketplaceViewController.h"
 #import "ProfileViewController.h"
 #import "QuestLogController.h"
 #import "RefillMenuController.h"
@@ -79,8 +78,8 @@
 @synthesize glView;
 
 - (void) didAddSubview:(UIView *)subview {
-  if ([subview isKindOfClass:[EAGLView class]]) {
-    self.glView = (EAGLView *)subview;
+  if ([subview isKindOfClass:[CCGLView class]]) {
+    self.glView = (CCGLView *)subview;
   }
   //  else if (self.glView && subview != self.glView) {
   //    self.glView.userInteractionEnabled = NO;
@@ -107,7 +106,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(GameViewController);
 + (void) releaseAllViews {
   [[GameState sharedGameState] clearAllData];
   
-  [sharedGameViewController dismissModalViewControllerAnimated:NO];
+  [sharedGameViewController dismissViewControllerAnimated:NO completion:nil];
   
   [ActivityFeedController removeView];
   [ActivityFeedController purgeSingleton];
@@ -134,8 +133,6 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(GameViewController);
   [LockBoxMenuController removeView];
   [LockBoxMenuController purgeSingleton];
   [MapViewController cleanupAndPurgeSingleton];
-  [MarketplaceViewController removeView];
-  [MarketplaceViewController purgeSingleton];
   [ProfileViewController removeView];
   [ProfileViewController purgeSingleton];
   [QuestLogController removeView];
@@ -170,7 +167,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(GameViewController);
 - (void) removeAllSubviews {
   NSMutableArray *toRemove = [NSMutableArray array];
   for (UIView *view in sharedGameViewController.view.subviews) {
-    if (![view isKindOfClass:[EAGLView class]] && view.tag != CHAR_SELECTION_VIEW_TAG) {
+    if (![view isKindOfClass:[CCGLView class]] && view.tag != CHAR_SELECTION_VIEW_TAG) {
       [toRemove addObject:view];
     }
   }
@@ -284,8 +281,8 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(GameViewController);
     [Globals displayUIView:csvc.view];
     [csvc.view.superview insertSubview:csvc.view atIndex:1];
   } else {
-    [[CCDirector sharedDirector] replaceScene:[NewBattleLayer scene]];
-//    [[TopBar sharedTopBar] start];
+//    [[CCDirector sharedDirector] replaceScene:[NewBattleLayer scene]];
+    [[TopBar sharedTopBar] start];
   }
   
   [self removeSplashImageView];
@@ -294,15 +291,19 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(GameViewController);
 
 - (void)setupCocos2D {
 //  CGRect frame = CGRectMake(0, 0, 480, 320);
-  EAGLView *glView = [EAGLView viewWithFrame:self.view.bounds
-                                 pixelFormat:kEAGLColorFormatRGBA8	// kEAGLColorFormatRGBA8
-                                 depthFormat:0];                       // GL_DEPTH_COMPONENT16_OES
+  CCGLView *glView = [CCGLView viewWithFrame:self.view.bounds
+                                 pixelFormat:kEAGLColorFormatRGB565
+                                 depthFormat:0
+                          preserveBackbuffer:NO
+                                  sharegroup:nil
+                               multiSampling:NO
+                             numberOfSamples:0];
   
 //  glView.center = CGPointMake(self.view.frame.size.width/2, self.view.frame.size.height/2);
   
   // Display link director is causing problems with uiscrollview and table view.
-  [CCDirector setDirectorType:kCCDirectorTypeDisplayLink];
-  [[CCDirector sharedDirector] setOpenGLView:glView];
+  [[CCDirector sharedDirector] setProjection:kCCDirectorProjection2D];
+  [[CCDirector sharedDirector] setView:glView];
   
 	// Enables High Res mode (Retina Display) on iPhone 4 and maintains low res on all other devices
 	if( ! [[CCDirector sharedDirector] enableRetinaDisplay:YES] )
@@ -323,13 +324,13 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(GameViewController);
   GameState *gs = [GameState sharedGameState];
   
   if (!gs.isTutorial) {
-//    CCLayer *layer = [GameLayer sharedGameLayer];
-//    
-//    layer.tag = 5;
-//    
-//    if (!layer.parent) {
-//      [[[CCDirector sharedDirector] runningScene] addChild:layer];
-//    }
+    CCLayer *layer = [GameLayer sharedGameLayer];
+    
+    layer.tag = 5;
+    
+    if (!layer.parent) {
+      [[[CCDirector sharedDirector] runningScene] addChild:layer];
+    }
   } else {
     [[CCDirector sharedDirector] replaceScene:[GameLayer scene]];
     [self startGame];

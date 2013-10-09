@@ -13,7 +13,6 @@
 #import "OutgoingEventController.h"
 #import "GenericPopupController.h"
 #import "RefillMenuController.h"
-#import "MarketplaceViewController.h"
 #import "EquipDeltaView.h"
 #import "SoundEngine.h"
 
@@ -1019,41 +1018,6 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ForgeMenuController);
   }
 }
 
-- (IBAction)goToMarketplaceClicked:(id)sender {
-  GameState *gs = [GameState sharedGameState];
-  Globals *gl = [Globals sharedGlobals];
-  if (gs.level < gl.minLevelConstants.marketplaceMinLevel && gs.prestigeLevel <= 0) {
-    [Globals popupMessage:[NSString stringWithFormat:@"You must be level %d to enter the marketplace.", gl.minLevelConstants.marketplaceMinLevel]];
-  } else {
-    [self closeClicked:nil];
-    [[MarketplaceViewController sharedMarketplaceViewController] searchForEquipId:self.curItem.equipId level:self.curItem.level allowAllAbove:NO];
-    
-    [Analytics blacksmithGoToMarketplaceWithEquipId:self.curItem.equipId level:self.curItem.level];
-  }
-}
-
-- (IBAction)buyOneClicked:(id)sender {
-  GameState *gs = [GameState sharedGameState];
-  FullEquipProto *fep = [gs equipWithId:self.curItem.equipId];
-  
-  if (fep.coinPrice) {
-    if (fep.coinPrice > gs.silver) {
-      [[RefillMenuController sharedRefillMenuController] displayBuySilverView:fep.coinPrice];
-      return;
-    }
-  } else {
-    if (fep.diamondPrice > gs.gold) {
-      [[RefillMenuController sharedRefillMenuController] displayBuyGoldView:fep.diamondPrice];
-      return;
-    }
-  }
-  
-  [[OutgoingEventController sharedOutgoingEventController] buyEquip:self.curItem.equipId];
-  [self.loadingView display:self.view];
-  
-  [Analytics blacksmithBuyOneWithEquipId:self.curItem.equipId level:self.curItem.level];
-}
-
 - (IBAction)buyForgeSlotClicked:(id)sender {
   GameState *gs = [GameState sharedGameState];
   Globals *gl = [Globals sharedGlobals];
@@ -1298,42 +1262,6 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ForgeMenuController);
     _collectingEquips = NO;
   }
   _shouldShake = NO;
-}
-
-- (void) receivedArmoryResponse:(BOOL)success {
-  if (self.view.superview) {
-    [self.loadingView stop];
-    
-    if (success) {
-      GameState *gs = [GameState sharedGameState];
-      FullEquipProto *fep = [gs equipWithId:self.curItem.equipId];
-      
-      int price = fep.diamondPrice > 0 ? fep.diamondPrice : fep.coinPrice;
-      CGPoint startLoc = ccp(forgeButton.center.x, CGRectGetMinY(forgeButton.frame));
-      
-      UIView *testView = [EquipDeltaView
-                          createForUpperString:[NSString stringWithFormat:@"- %d %@",
-                                                price, fep.diamondPrice ? @"Gold" : @"Silver"]
-                          andLowerString:[NSString stringWithFormat:@"+1 %@", fep.name]
-                          andCenter:startLoc
-                          topColor:[Globals redColor]
-                          botColor:[Globals colorForRarity:fep.rarity]];
-      
-      [Globals popupView:testView
-             onSuperView:self.forgingView
-                 atPoint:startLoc
-     withCompletionBlock:nil];
-      
-      [coinBar updateLabels];
-      
-      // Set collecting equips to on so that we can reload same item
-      _collectingEquips = YES;
-      [self loadForgeItems];
-      _collectingEquips = NO;
-      
-      [self reloadCurrentItem];
-    }
-  }
 }
 
 - (void) receivedPurchaseForgeSlot {

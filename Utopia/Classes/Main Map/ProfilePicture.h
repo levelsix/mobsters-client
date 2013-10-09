@@ -41,7 +41,7 @@
 
 @end
 
-@interface ProfilePicture : CCSprite <CCTargetedTouchDelegate> {
+@interface ProfilePicture : CCSprite <CCTouchOneByOneDelegate> {
   BOOL _inAction;
   BOOL _menuOut;
   NSMutableArray *_menuItems;

@@ -12,7 +12,6 @@
 #import "MaskedSprite.h"
 #import "QuestLogController.h"
 #import "ArmoryViewController.h"
-#import "MarketplaceViewController.h"
 #import "GoldShoppeViewController.h"
 #import "VaultMenuController.h"
 #import "CarpenterMenuController.h"
@@ -51,12 +50,12 @@
 
 - (id) initCircle {
   if ((self = [super initWithFile:@"expring.png"])) {
-    _expBar = [CCProgressTimer progressWithFile:@"expringover.png"];
-    _expBar.position = ccp(self.contentSize.width/2, self.contentSize.height/2);
-    _expBar.type = kCCProgressTimerTypeRadialCW;
-    _expBar.percentage = 1;
-    [_expBar.sprite.texture setAntiAliasTexParameters];
-    [self addChild:_expBar];
+//    _expBar = [CCProgressTimer progressWithSprite:[CCSprite spriteWithFile:@"expringover.png"];
+//    _expBar.position = ccp(self.contentSize.width/2, self.contentSize.height/2);
+//    _expBar.type = kCCProgressTimerTypeRadialCW;
+//    _expBar.percentage = 1;
+//    [_expBar.sprite.texture setAntiAliasTexParameters];
+//    [self addChild:_expBar];
     
     _levelCircle = [CCSprite spriteWithFile:@"levelnumberbg.png"];
     _levelCircle.position = ccp(21.5, 25.5);
@@ -195,30 +194,30 @@
     
     _menuItems = [[NSMutableArray alloc] init];
     
-    ProfileButton *button1 = [ProfileButton itemFromNormalImage:@"pathnotifications.png" selectedImage:nil target:self selector:@selector(button1Clicked:)];
-    button1.visible = NO;
-    button1.tag = 1;
-    [_menuItems addObject:button1];
+//    ProfileButton *button1 = [ProfileButton itemFromNormalImage:@"pathnotifications.png" selectedImage:nil target:self selector:@selector(button1Clicked:)];
+//    button1.visible = NO;
+//    button1.tag = 1;
+//    [_menuItems addObject:button1];
+//    
+//    ProfileButton *button2 = [ProfileButton itemFromNormalImage:@"pathprofile.png" selectedImage:nil target:self selector:@selector(button2Clicked:)];
+//    button2.visible = NO;
+//    button2.tag = 2;
+//    [_menuItems addObject:button2];
+//    
+//    ProfileButton *button3 = [ProfileButton itemFromNormalImage:@"pathhelp.png" selectedImage:nil target:self selector:@selector(button3Clicked:)];
+//    button3.visible = NO;
+//    button3.tag = 3;
+//    [_menuItems addObject:button3];
+//    
+//    ProfileButton *button4 = [ProfileButton itemFromNormalImage:@"pathsettings.png" selectedImage:nil target:self selector:@selector(button4Clicked:)];
+//    button4.visible = NO;
+//    button4.tag = 4;
+//    [_menuItems addObject:button4];
     
-    ProfileButton *button2 = [ProfileButton itemFromNormalImage:@"pathprofile.png" selectedImage:nil target:self selector:@selector(button2Clicked:)];
-    button2.visible = NO;
-    button2.tag = 2;
-    [_menuItems addObject:button2];
+//    CCMenu *menu = [CCMenu menuWithItems:button1, button2, button3, button4, nil];
+//    menu.position = ccp(self.contentSize.width/2, self.contentSize.height/2);
     
-    ProfileButton *button3 = [ProfileButton itemFromNormalImage:@"pathhelp.png" selectedImage:nil target:self selector:@selector(button3Clicked:)];
-    button3.visible = NO;
-    button3.tag = 3;
-    [_menuItems addObject:button3];
-    
-    ProfileButton *button4 = [ProfileButton itemFromNormalImage:@"pathsettings.png" selectedImage:nil target:self selector:@selector(button4Clicked:)];
-    button4.visible = NO;
-    button4.tag = 4;
-    [_menuItems addObject:button4];
-    
-    CCMenu *menu = [CCMenu menuWithItems:button1, button2, button3, button4, nil];
-    menu.position = ccp(self.contentSize.width/2, self.contentSize.height/2);
-    
-    [self addChild:menu z:-1];
+//    [self addChild:menu z:-1];
     
     self.expLabelTop = [CCLabelFX labelWithString:@"" 
                                   fontName:[Globals font]
@@ -249,14 +248,14 @@
 }
 
 - (void) setIsTouchEnabled:(BOOL)isTouchEnabled {
-  if (isTouchEnabled != isTouchEnabled_) {
-    [super setIsTouchEnabled:isTouchEnabled];
-    if (isTouchEnabled) {
-      [[CCTouchDispatcher sharedDispatcher] addTargetedDelegate:self priority:-1 swallowsTouches:YES];
-    } else {
-      [[CCTouchDispatcher sharedDispatcher] removeDelegate:self];
-    }
-  }
+//  if (isTouchEnabled != isTouchEnabled_) {
+//    [super setIsTouchEnabled:isTouchEnabled];
+//    if (isTouchEnabled) {
+//      [[CCTouchDispatcher sharedDispatcher] addTargetedDelegate:self priority:-1 swallowsTouches:YES];
+//    } else {
+//      [[CCTouchDispatcher sharedDispatcher] removeDelegate:self];
+//    }
+//  }
 }
 
 - (void) setExpPercentage:(float)perc {

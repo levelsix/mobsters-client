@@ -33,7 +33,7 @@
   BOOL _collectingEquips;
   BOOL _shouldShake;
   
-  int _forgedUserEquipId;
+  uint64_t _forgedUserEquipId;
 }
 
 @property (nonatomic, retain) IBOutlet UIView *topBar;
@@ -126,7 +126,6 @@
 
 - (void) receivedSubmitEquipResponse:(SubmitEquipsToBlacksmithResponseProto *)proto;
 - (void) receivedCollectForgeEquipsResponse:(CollectForgeEquipsResponseProto *)proto;
-- (void) receivedArmoryResponse:(BOOL)success;
 - (void) receivedPurchaseForgeSlot;
 
 @end

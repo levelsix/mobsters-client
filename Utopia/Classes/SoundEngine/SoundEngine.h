@@ -21,9 +21,13 @@ typedef enum {
   BackgroundMusic _lastPlayedMusic;
   
   int _curChargeUp;
+  int _puzzWalk;
+  int _puzzPowerUp;
 }
 
 + (SoundEngine *)sharedSoundEngine;
+
+- (int) playEffect:(NSString *)effect;
 
 - (void) playHomeMapMusic;
 - (void) playMissionMapMusic;
@@ -91,5 +95,17 @@ typedef enum {
 - (void) forgeFailure;
 
 - (void) notificationAlert;
+
+// Puzzle
+- (void) puzzleBoardExplosion;
+- (void) puzzlePlane;
+- (void) puzzleRocket;
+- (void) puzzleComboSound:(int)combo;
+- (void) puzzleGemPop;
+- (void) puzzleWrongMove;
+- (void) puzzleWalking;
+- (void) puzzleStopWalking;
+- (void) puzzlePowerUp;
+- (void) puzzleStopPowerUp;
 
 @end

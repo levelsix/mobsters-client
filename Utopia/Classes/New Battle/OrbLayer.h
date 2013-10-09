@@ -9,7 +9,7 @@
 #import <Foundation/Foundation.h>
 #import "cocos2d.h"
 
-#define NUM_COLORS 5
+#define NUM_COLORS 3
 #define TIME_LIMIT 100
 
 typedef enum {
@@ -53,7 +53,7 @@ typedef enum {
 
 @end
 
-@interface OrbLayer : CCLayer <CCTargetedTouchDelegate> {
+@interface OrbLayer : CCLayer <CCTouchOneByOneDelegate> {
   BOOL _allowInput;
   Gem * _dragGem;
   Gem * _realDragGem;
@@ -61,6 +61,7 @@ typedef enum {
   CGPoint _dragOffset;
   NSMutableSet *_run, *_tempRun;
   int _gemsToProcess;
+  int _numColors;
   BOOL _beganTimer;
   CGPoint _lastGridPt;
   int _currentComboCount;
@@ -71,12 +72,15 @@ typedef enum {
 @property (nonatomic, readonly) CGSize gridSize;
 @property (nonatomic, retain) NSMutableArray *gems;
 @property (nonatomic, retain) NSMutableArray *oldGems;
-@property (nonatomic, retain) NSMutableArray *destroyedGems;
+@property (nonatomic, retain) NSMutableSet *destroyedGems;
+@property (nonatomic, retain) NSMutableSet *reservedGems;
 @property (nonatomic, retain) NSMutableArray *comboLabels;
 @property (nonatomic, retain) NSMutableArray *powerups;
 
 @property (nonatomic, assign) id<OrbLayerDelegate> delegate;
 
-- (id) initWithContentSize:(CGSize)size;
+- (id) initWithGridSize:(CGSize)gridSize numColors:(int)numColors;
+- (id) initWithContentSize:(CGSize)size gridSize:(CGSize)gridSize numColors:(int)numColors;
+- (void) allowInput;
 
 @end

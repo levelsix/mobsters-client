@@ -12,7 +12,6 @@
 #import "Analytics.h"
 #import "GameMap.h"
 #import "BattleConstants.h"
-#import "LoggingContexts.h"
 #import "FullEvent.h"
 
 #define BUTTON_CLICKED_LEEWAY 30
@@ -38,8 +37,10 @@
 #define GAME_ABBREV @"AoC"
 #endif
 
+#define POINT_OFFSET_PER_SCENE ccp(512,360)
+
 @interface Globals : NSObject <BattleConstants, EnemyBattleStats> {
-  int _equipIdToWear;
+  uint64_t _equipIdToWear;
   BOOL _isForSlot2;
 }
 
@@ -288,6 +289,7 @@
 + (void) loadImageForStruct:(int)structId toView:(UIImageView *)view masked:(BOOL)mask indicator:(UIActivityIndicatorViewStyle)indicator;
 + (void) loadImageForEquip:(int)equipId toView:(UIImageView *)view maskedView:(UIImageView *)maskedView;
 + (void) imageNamed:(NSString *)imageName withView:(UIView *)view maskedColor:(UIColor *)color indicator:(UIActivityIndicatorViewStyle)indicatorStyle clearImageDuringDownload:(BOOL)clear;
++ (void) imageNamed:(NSString *)imageName toReplaceSprite:(CCSprite *)s;
 
 + (UIColor *) colorForUnequippable;
 + (UIColor *) colorForUnknownEquip;
@@ -311,7 +313,6 @@
 + (NSString *) battleAnimationFileForUser:(UserType)type;
 + (NSString *) stringForTimeSinceNow:(NSDate *)date shortened:(BOOL)shortened ;
 + (BOOL) sellsForGoldInMarketplace:(FullEquipProto *)fep;
-+ (BOOL) class:(UserType)ut canEquip:(EquipClassType) ct;
 + (BOOL) canEquip:(FullEquipProto *)fep;
 
 + (NSString *) nameForDialogueSpeaker:(DialogueProto_SpeechSegmentProto_DialogueSpeaker)speaker;
@@ -368,7 +369,7 @@ withCompletionBlock:(void(^)(BOOL))completionBlock;
 + (BOOL) userTypeIsBad:(UserType)type;
 + (BOOL) userType:(UserType)t1 isAlliesWith:(UserType)t2;
 
-- (void) confirmWearEquip:(int)userEquipId;
+- (void) confirmWearEquip:(uint64_t)userEquipId;
 
 - (BOOL) validateUserName:(NSString *)name;
 
@@ -376,7 +377,6 @@ withCompletionBlock:(void(^)(BOOL))completionBlock;
 
 + (void) checkRateUsPopup;
 
-- (int) percentOfSkillPointsInStamina;
 + (UIColor *) colorForColorProto:(ColorProto *)cp;
 
 + (void) makePixelAddictsCreateUserCall;
@@ -386,8 +386,6 @@ withCompletionBlock:(void(^)(BOOL))completionBlock;
 + (BOOL) userHasBeginnerShield:(uint64_t)createTime hasActiveShield:(BOOL)hasActiveShield;
 
 // Formulas
-- (int) calculateEquipSilverSellCost:(UserEquip *)ue;
-- (int) calculateEquipGoldSellCost:(UserEquip *)ue;
 - (int) calculateIncomeForUserStruct:(UserStruct *)us;
 - (int) calculateIncomeForUserStructAfterLevelUp:(UserStruct *)us;
 - (int) calculateStructSilverSellCost:(UserStruct *)us;
@@ -400,8 +398,6 @@ withCompletionBlock:(void(^)(BOOL))completionBlock;
 - (float) calculateDefenseForDefenseStat:(int)defenseStat weapon:(UserEquip *)weapon armor:(UserEquip *)armor amulet:(UserEquip *)amulet weapon2:(UserEquip *)weapon2 armor2:(UserEquip *)armor2 amulet2:(UserEquip *)amulet2;
 - (int) calculateHealthForLevel:(int)level;
 
-- (BOOL) canRetractMarketplacePostForFree:(FullMarketplacePostProto *)post;
-
 - (int) healthForBoss:(UserBoss *)boss;
 
 // Forging formulas
@@ -411,10 +407,10 @@ withCompletionBlock:(void(^)(BOOL))completionBlock;
 - (int) calculateMinutesForForge:(int)equipId level:(int)level;
 - (int) calculateGoldCostToGuaranteeForgingSuccess:(int)equipId level:(int)level;
 - (int) calculateGoldCostToSpeedUpForging:(int)equipId level:(int)level timeLeft:(int)seconds;
-- (int) calculateRetailValueForEquip:(int)equipId level:(int)level;
-- (int) calculateNumMinutesForNewExpansion:(UserExpansion *)ue;
-- (int) calculateGoldCostToSpeedUpExpansion:(UserExpansion *)ue timeLeft:(int)seconds;
-- (int) calculateSilverCostForNewExpansion:(UserExpansion *)ue;
+
+- (int) calculateNumMinutesForNewExpansion;
+- (int) calculateGoldCostToSpeedUpExpansionTimeLeft:(int)seconds;
+- (int) calculateSilverCostForNewExpansion;
 
 // Enhancement formulas
 - (int) calculateSecondsToEnhance:(UserEquip *)enhancingEquip feeders:(NSArray *)feeders;
@@ -455,5 +451,11 @@ withCompletionBlock:(void(^)(BOOL))completionBlock;
 - (void)setUpCloseButton;
 - (IBAction)popCurrentViewController:(id)sender;
 - (IBAction)menuCloseClicked:(id)sender;
+
+@end
+
+@interface NSMutableArray (Shuffling)
+
+- (void)shuffle;
 
 @end

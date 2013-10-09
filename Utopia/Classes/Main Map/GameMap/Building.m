@@ -49,6 +49,62 @@
   }
 }
 
+#define UPGRADING_TAG 123
+
+- (void) displayProgressBar {
+  if (![self getChildByTag:UPGRADING_TAG]) {
+    UpgradeProgressBar *upgrIcon = [[[UpgradeProgressBar alloc] initBar] autorelease];
+    [self addChild:upgrIcon z:1 tag:UPGRADING_TAG];
+    upgrIcon.position = ccp(self.contentSize.width/2, self.contentSize.height);
+    [self schedule:@selector(updateUpgradeBar) interval:1.f];
+    
+    _percentage = 0;
+    [self updateUpgradeBar];
+  }
+}
+
+- (void) updateUpgradeBar {
+  
+}
+
+- (void) removeProgressBar {
+  [self removeChildByTag:UPGRADING_TAG cleanup:YES];
+  [self unschedule:@selector(updateUpgradeBar)];
+}
+
+- (void) instaFinishUpgradeWithCompletionBlock:(void(^)(void))completed {
+  CCNode *n = [self getChildByTag:UPGRADING_TAG];
+  if (n && [n isKindOfClass:[UpgradeProgressBar class]]) {
+    UpgradeProgressBar *u = (UpgradeProgressBar *)n;
+    [self unschedule:@selector(updateUpgradeBar)];
+    
+    float interval = 1;
+    float timestep = 0.02;
+    _percentage = u.progressBar.percentage;
+    int numTimes = (100-_percentage)/interval;
+    CCCallBlock *b = [CCCallBlock actionWithBlock:^{
+      _percentage += interval;
+      [self updateUpgradeBar];
+    }];
+    CCSequence *cycle = [CCSequence actions:b, [CCDelayTime actionWithDuration:timestep], nil];
+    CCRepeat *r = [CCRepeat actionWithAction:cycle times:numTimes];
+    [u runAction:
+     [CCSequence actions:
+      r,
+      [CCCallBlock actionWithBlock:
+       ^{
+         _percentage = 100;
+         [self updateUpgradeBar];
+         
+         [self removeProgressBar];
+         if (completed) {
+           completed();
+         }
+       }],
+      nil]];
+  }
+}
+
 @end
 
 @implementation HomeBuilding
@@ -75,10 +131,12 @@
   if (isSelected) {
     _startMoveCoordinate = _location.origin;
     _startOrientation = self.orientation;
+    [self displayMoveArrows];
   } else {
-    if (!_isSetDown) {
+    if (!_isSetDown && !_isPurchasing) {
       [self cancelMove];
     }
+    [self removeMoveArrows];
   }
 }
 
@@ -232,9 +290,14 @@
 #define ARROW_FADE_DURATION 0.2f
 
 - (void) displayMoveArrows {
-  [self removeMoveArrows];
+  CCNode *o = [self getChildByTag:ARROW_LAYER_TAG];
+  if (o) {
+    [o stopAllActions];
+    [o recursivelyApplyOpacity:255];
+    return;
+  }
   
-  CCNode *node = [CCNode node];
+  CCSprite *node = [CCSprite node];
   
   CCSprite *nr = [CCSprite spriteWithFile:@"arrowdown.png"];
   CCSprite *nl = [CCSprite spriteWithFile:@"arrowdown.png"];
@@ -260,9 +323,10 @@
   [node addChild:nl];
   [node addChild:fr];
   [node addChild:fl];
-  node.position = ccp(self.contentSize.width/2, 0);
+  node.position = ccp(self.contentSize.width/2, -self.verticalOffset);
   
-  [node runAction:[CCFadeIn actionWithDuration:ARROW_FADE_DURATION]];
+  [node recursivelyApplyOpacity:0];
+  [node runAction:[RecursiveFadeTo actionWithDuration:ARROW_FADE_DURATION opacity:255]];
   
   [self addChild:node z:-1 tag:ARROW_LAYER_TAG];
 }
@@ -270,7 +334,7 @@
 - (void) removeMoveArrows {
   CCNode *node = [self getChildByTag:ARROW_LAYER_TAG];
   [node stopAllActions];
-  [node runAction:[CCSequence actions:[CCFadeOut actionWithDuration:ARROW_FADE_DURATION],
+  [node runAction:[CCSequence actions:[RecursiveFadeTo actionWithDuration:ARROW_FADE_DURATION opacity:0],
                    [CCCallBlock actionWithBlock:^{[node removeFromParentAndCleanup:YES];}], nil]];
 }
 
@@ -291,6 +355,17 @@
   _retrieveBubble = [[CCSprite spriteWithFile:@"silverover.png"] retain];
   [self addChild:_retrieveBubble];
   _retrieveBubble.position = ccp(self.contentSize.width/2,self.contentSize.height-OVER_HOME_BUILDING_MENU_OFFSET);
+}
+
+- (void) setIsSelected:(BOOL)isSelected {
+  [super setIsSelected:isSelected];
+  if (self.userStruct.state == kWaitingForIncome || self.userStruct.state == kRetrieving) {
+    if (isSelected) {
+      [self displayProgressBar];
+    } else {
+      [self removeProgressBar];
+    }
+  }
 }
 
 - (void) setUserStruct:(UserStruct *)userStruct {
@@ -321,18 +396,6 @@
   }
 }
 
-#define UPGRADING_TAG 123
-
-- (void) displayUpgradeIcon {
-  if (![self getChildByTag:UPGRADING_TAG]) {
-    UpgradeProgressBar *upgrIcon = [[[UpgradeProgressBar alloc] initBar] autorelease];
-    [self addChild:upgrIcon z:1 tag:UPGRADING_TAG];
-    upgrIcon.position = ccp(self.contentSize.width/2, self.contentSize.height);
-    [self updateUpgradeBar];
-    [self schedule:@selector(updateUpgradeBar) interval:1.f];
-  }
-}
-
 - (void) updateUpgradeBar {
   CCNode *n = [self getChildByTag:UPGRADING_TAG];
   if (n && [n isKindOfClass:[UpgradeProgressBar class]]) {
@@ -353,16 +416,55 @@
         time = [[NSDate dateWithTimeInterval:totalTime sinceDate:self.userStruct.purchaseTime] timeIntervalSinceNow];
         break;
         
+      case kWaitingForIncome:
+        totalTime = fsp.minutesToGain*60;
+        time = [[NSDate dateWithTimeInterval:totalTime sinceDate:self.userStruct.lastRetrieved] timeIntervalSinceNow];
+        
       default:
         break;
     }
+    
+    if (_percentage) {
+      time = totalTime*(100.f-_percentage)/100.f;
+    }
+    
     [bar updateForSecsLeft:(int)time totalSecs:totalTime];
   }
 }
 
-- (void) removeUpgradeIcon {
-  [self removeChildByTag:UPGRADING_TAG cleanup:YES];
-  [self unschedule:@selector(updateUpgradeBar)];
+- (void) displayUpgradeComplete {
+  CCSprite *spinner = [CCSprite spriteWithFile:@"buildingspinner.png"];
+  CCLabelTTF *label = [CCLabelTTF labelWithString:@"Building Upgraded!" fontName:[Globals font] fontSize:22.f];
+  
+  [self addChild:spinner z:-1];
+  [self addChild:label];
+  
+  spinner.position = ccp(self.contentSize.width/2, self.contentSize.height/2);
+  label.position = ccp(self.contentSize.width/2, self.contentSize.height + 10);
+  
+  label.color = ccc3(255, 200, 0);
+  
+  [spinner runAction:
+   [CCSpawn actions:
+    [CCFadeIn actionWithDuration:0.3f],
+    [CCRotateBy actionWithDuration:5.f angle:360.f],
+    [CCSequence actions:
+     [CCDelayTime actionWithDuration:3.7f],
+     [CCFadeOut actionWithDuration:1.3f],
+     [CCCallBlock actionWithBlock:^{[spinner removeFromParentAndCleanup:YES];}],
+     nil],
+    nil]];
+  
+  label.scale = 0.3f;
+  [label runAction:[CCSequence actions:
+                    [CCSpawn actions:
+                     [CCEaseElasticOut actionWithAction:[CCScaleTo actionWithDuration:1.2f scale:1]],
+                     [CCSequence actions:
+                      [CCDelayTime actionWithDuration:3.7f],
+                      [CCFadeOut actionWithDuration:1.3f],
+                      nil],
+                     [CCMoveBy actionWithDuration:5.f position:ccp(0,35)],nil],
+                    [CCCallBlock actionWithBlock:^{[label removeFromParentAndCleanup:YES];}], nil]];
 }
 
 - (void) setTimer:(NSTimer *)timer {
@@ -512,31 +614,65 @@
 
 @implementation ExpansionBoard
 
-@synthesize direction = _direction;
-
-- (id) initForDirection:(ExpansionDirection)direction location:(CGRect)location map:(GameMap *)map isExpanding:(BOOL)isExpanding {
-  NSString *file = nil;
-  if (direction == ExpansionDirectionFarLeft || direction == ExpansionDirectionNearRight) {
-    file = @"leftexpand.png";
-  } else if (direction == ExpansionDirectionFarRight || direction == ExpansionDirectionNearLeft) {
-    file = @"rightexpand.png";
-  }
+- (id) initWithExpansionBlock:(CGPoint)block location:(CGRect)location map:(GameMap *)map isExpanding:(BOOL)isExpanding {
+  int blockSum = abs(block.x)+abs(block.y);
+  NSString *file = blockSum == 2 ? @"leftrightexpand.png" : @"wide.png";
   if ((self = [super initWithFile:file location:location map:map])) {
-    _direction = direction;
-    
-    if (isExpanding) {
-      CCSprite *yellow = nil;
-      if (direction == ExpansionDirectionFarLeft || direction == ExpansionDirectionNearRight) {
-        yellow = [CCSprite spriteWithFile:@"leftexpanding.png"];
-      } else if (direction == ExpansionDirectionFarRight || direction == ExpansionDirectionNearLeft) {
-        yellow = [CCSprite spriteWithFile:@"expandingright.png"];
-      }
-      yellow.anchorPoint = ccp(0,0);
-      yellow.position = ccp(18, 25);
-      [self addChild:yellow];
+    if (block.y == 0 || (block.x == 1 && block.y == -1)) {
+      self.flipX = YES;
+    } else if (block.x == -1 && block.y == -1) {
+      self.flipY = YES;
+      self.color = ccc3(0, 0, 0);
     }
+    self.expandSpot = block;
   }
   return self;
+}
+
+- (BOOL) isExemptFromReorder {
+  return YES;
+}
+
+- (BOOL) isPointInArea:(CGPoint)pt {
+  pt = [_map convertToNodeSpace:pt];
+  
+  CGPoint tilePt = [_map convertCCPointToTilePoint:pt];
+  return CGRectContainsPoint(self.location, tilePt);
+}
+
+- (void) beginExpanding {
+  CGPoint pt =  ccp(CENTER_TILE_X-1, CENTER_TILE_Y-1);
+  pt.x += self.expandSpot.x*(EXPANSION_MID_SQUARE_SIZE/2+EXPANSION_ROAD_SIZE+EXPANSION_BLOCK_SIZE/2);
+  pt.y += self.expandSpot.y*(EXPANSION_MID_SQUARE_SIZE/2+EXPANSION_ROAD_SIZE+EXPANSION_BLOCK_SIZE/2);
+  pt = [_map convertTilePointToCCPoint:pt];
+  pt = [self convertToNodeSpace:[_map convertToWorldSpace:pt]];
+  CCSprite *s = [CCSprite spriteWithFile:@"expand.png"];
+  [self addChild:s];
+  s.anchorPoint = ccp(0.7, 0);
+  s.position = pt;//ccp(self.contentSize.width/2-12, self.contentSize.height/2+6);
+  
+  [self displayProgressBar];
+  CCNode *n = [self getChildByTag:UPGRADING_TAG];
+  n.position = ccpAdd(s.position, ccp(0, s.contentSize.height-5));
+}
+
+- (void) updateUpgradeBar {
+  CCNode *n = [self getChildByTag:UPGRADING_TAG];
+  if (n && [n isKindOfClass:[UpgradeProgressBar class]]) {
+    UpgradeProgressBar *bar = (UpgradeProgressBar *)n;
+    Globals *gl = [Globals sharedGlobals];
+    GameState *gs = [GameState sharedGameState];
+    UserExpansion *ue = [gs getExpansionForX:self.expandSpot.x y:self.expandSpot.y];
+    
+    int totalTime = [gl calculateNumMinutesForNewExpansion]*60;
+    NSTimeInterval time = [[NSDate dateWithTimeInterval:totalTime sinceDate:ue.lastExpandTime] timeIntervalSinceNow];
+    
+    if (_percentage) {
+      time = totalTime*(100.f-_percentage)/100.f;
+    }
+    
+    [bar updateForSecsLeft:(int)time totalSecs:totalTime];
+  }
 }
 
 @end

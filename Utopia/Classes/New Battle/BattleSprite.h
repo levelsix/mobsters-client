@@ -18,15 +18,24 @@
 @property (nonatomic, retain) CCAnimation *attackAnimationN;
 @property (nonatomic, retain) CCAnimation *attackAnimationF;
 
-@property (nonatomic, retain) CCSprite *sprite;
+@property (nonatomic, retain) CCAnimation *flinchAnimationN;
+@property (nonatomic, retain) CCAnimation *flinchAnimationF;
 
-@property (nonatomic, assign) BOOL isFacingNear;
+@property (nonatomic, retain) CCSprite *sprite;
+  
+  @property (nonatomic, assign) BOOL isFacingNear;
+  @property (nonatomic, assign) BOOL isWalking;
 
 - (void) beginWalking;
 - (void) stopWalking;
 
-- (void) performNearAttackAnimation;
-- (void) performFarAttackAnimation;
+- (void) displayChargingFrame;
+- (void) restoreStandingFrame;
+
+- (void) performNearAttackAnimationWithTarget:(id)target selector:(SEL)selector;
+- (void) performFarAttackAnimationWithStrength:(float)strength target:(id)target selector:(SEL)selector;
+
+- (void) performNearFlinchAnimationWithStrength:(float)strength target:(id)target selector:(SEL)selector;
 
 - (id) initWithPrefix:(NSString *)prefix;
 

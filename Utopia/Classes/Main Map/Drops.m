@@ -17,11 +17,14 @@
 
 - (id) initWithFile:(NSString *)file {
   if ((self = [super initWithFile:file])) {
-    [[CCTouchDispatcher sharedDispatcher] addTargetedDelegate:self priority:0 swallowsTouches:YES];
     // Set isTouchEnabled to YES so that gesture recognizers will ignore
     self.isTouchEnabled = YES;
   }
   return self;
+}
+
+- (void) registerWithTouchDispatcher {
+  [[[CCDirector sharedDirector] touchDispatcher] addTargetedDelegate:self priority:0 swallowsTouches:YES];
 }
 
 - (BOOL) isPointInArea:(CGPoint)pt {

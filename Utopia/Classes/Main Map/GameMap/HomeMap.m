@@ -24,10 +24,6 @@
 
 #define HOME_BUILDING_TAG_OFFSET 123456
 
-#define FAR_LEFT_EXPANSION_BOARD_START_POSITION ccp(51.25, 60.5)
-#define FAR_RIGHT_EXPANSION_BOARD_START_POSITION ccp(60, 51.75)
-#define NEAR_LEFT_EXPANSION_BOARD_START_POSITION ccp(42.25, 51.75)
-#define NEAR_RIGHT_EXPANSION_BOARD_START_POSITION ccp(51.25, 43)
 #define FAR_LEFT_EXPANSION_START 58
 #define FAR_RIGHT_EXPANSION_START 58
 #define NEAR_LEFT_EXPANSION_START 45
@@ -40,17 +36,19 @@
 #define WALKABLE_LAYER_NAME @"Walkable"
 #define TREES_LAYER_NAME @"Treez"
 
+#define PURCHASE_CONFIRM_MENU_TAG 39245
+
 @implementation HomeMap
 
 @synthesize buildableData = _buildableData;
-@synthesize hbMenu, collectMenu, moveMenu, upgradeMenu, expansionView;
+@synthesize hbMenu, collectMenu, upgradeMenu, expansionView;
 @synthesize loading = _loading;
 @synthesize redGid, greenGid;
 
 SYNTHESIZE_SINGLETON_FOR_CLASS(HomeMap);
 
 - (id) init {
-  self = [self initWithTMXFile:@"Home.tmx"];
+  self = [self initWithTMXFile:@"testtilemap.tmx"];
   return self;
 }
 
@@ -66,8 +64,8 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(HomeMap);
           // Put meta tile layer at front,
           // when something is selected, we will make it z = 1000
           [self reorderChild:layer z:1001];
-          CGPoint redGidPt = ccp(mapSize_.width-1, mapSize_.height-1);
-          CGPoint greenGidPt = ccp(mapSize_.width-1, mapSize_.height-2);
+          CGPoint redGidPt = ccp(_mapSize.width-1, _mapSize.height-1);
+          CGPoint greenGidPt = ccp(_mapSize.width-1, _mapSize.height-2);
           redGid = [layer tileGIDAt:redGidPt];
           greenGid = [layer tileGIDAt:greenGidPt];
           [layer removeTileAt:redGidPt];
@@ -103,22 +101,6 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(HomeMap);
     
     [self refreshForExpansion];
     
-    // Create the attack gate
-    //    MapSprite *mid = [[MapSprite alloc] initWithFile:@"centergate.png" location:CGRectMake(47, 23, 3, 1) map:self];
-    //    [self addChild:mid];
-    //    [mid release];
-    //
-    //    for (int i = 1; i < 9; i++) {
-    //      MapSprite *left = [[MapSprite alloc] initWithFile:@"leftgate.png" location:CGRectMake(47-3*i, 23, 3, 1) map:self];
-    //      [self addChild:left];
-    //      [left release];
-    //    }
-    //    for (int i = 1; i < 9; i++) {
-    //      MapSprite *right = [[MapSprite alloc] initWithFile:@"rightgate.png" location:CGRectMake(47+3*i, 23, 3, 1) map:self];
-    //      [self addChild:right];
-    //      [right release];
-    //    }
-    
     CGRect r = CGRectZero;
     r = CGRectZero;
     r.origin = [self randomWalkablePosition];
@@ -138,15 +120,13 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(HomeMap);
     [[NSBundle mainBundle] loadNibNamed:@"HomeBuildingMenu" owner:self options:nil];
     [Globals displayUIView:self.hbMenu];
     [Globals displayUIView:self.collectMenu];
-    [Globals displayUIView:self.moveMenu];
     
     [[NSBundle mainBundle] loadNibNamed:@"UpgradeBuildingMenu" owner:self options:nil];
     
-    [[[CCDirector sharedDirector] openGLView] setUserInteractionEnabled:YES];
+    [[[CCDirector sharedDirector] view] setUserInteractionEnabled:YES];
     
     hbMenu.alpha = 0.f;
     collectMenu.alpha = 0.f;
-    moveMenu.hidden = YES;
     
     _timers = [[NSMutableArray alloc] init];
     
@@ -161,32 +141,29 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(HomeMap);
       [[GameViewController sharedGameViewController] startGame];
     }
     
-//    CCSprite *s1 = [CCSprite spriteWithFile:@"backgroundleft.png"];
-//    CCSprite *s2 = [CCSprite spriteWithFile:@"backgroundright.png"];
-//    [self addChild:s1 z:-1000];
-//    [self addChild:s2 z:-1000];
-//    
-//    s1.position = ccp(s1.contentSize.width/2, s1.contentSize.height/2);
-//    s2.position = ccp(s1.position.x+s1.contentSize.width/2+s2.contentSize.width/2, s1.position.y);
-//    self.contentSize = CGSizeMake(s2.position.x+s2.contentSize.width/2, s2.position.y+s2.contentSize.height/2);
-//    
-//    
-//    CCSprite *road = [CCSprite spriteWithFile:@"homeroad.png"];
-//    [self addChild:road z:-999];
-//    road.position = ccp(self.contentSize.width/2+0.5, self.contentSize.height/2+0.5);
-//    
-    bottomLeftCorner = ccp(0,0);
-    topRightCorner = ccp(100000, 100000);//ccp(s2.position.x+s2.contentSize.width/2, s2.position.y+s2.contentSize.height/2);
-//
-//    self.scale = 1;
+    CCSprite *s1 = [CCSprite spriteWithFile:@"backgroundleft.png"];
+    CCSprite *s2 = [CCSprite spriteWithFile:@"backgroundright.png"];
+    [self addChild:s1 z:-1000];
+    [self addChild:s2 z:-1000];
+    
+    s1.position = ccp(s1.contentSize.width/2-29, s1.contentSize.height/2-52);
+    s2.position = ccp(s1.position.x+s1.contentSize.width/2+s2.contentSize.width/2, s1.position.y);
+    
+    CCSprite *road = [CCSprite spriteWithFile:@"homeroad.png"];
+    [self addChild:road z:-998];
+    road.position = ccp(self.contentSize.width/2+0.5, self.contentSize.height/2+0.5);
+    
+    self.scale = 1;
+    
+    bottomLeftCorner = ccp(s1.position.x-s1.contentSize.width/2, s1.position.y-s1.contentSize.height/2);
+    topRightCorner = ccp(s2.position.x+s2.contentSize.width/2, s2.position.y+s2.contentSize.height/2);//ccp(s2.position.x+s2.contentSize.width/2, s2.position.y+s2.contentSize.height/2);
   }
   return self;
 }
 
 - (ExpansionView *)expansionView {
   if (!expansionView) {
-    Globals *gl = [Globals sharedGlobals];
-    [[Globals bundleNamed:gl.downloadableNibConstants.expansionNibName] loadNibNamed:@"ExpansionView" owner:self options:nil];
+    [[NSBundle mainBundle] loadNibNamed:@"ExpansionView" owner:self options:nil];
   }
   return expansionView;
 }
@@ -205,7 +182,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(HomeMap);
 }
 
 - (void) beginTimers {
-  for (CCNode *node in children_) {
+  for (CCNode *node in _children) {
     if ([node isKindOfClass:[MoneyBuilding class]]) {
       [self updateTimersForBuilding:(MoneyBuilding *)node];
     }
@@ -313,11 +290,11 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(HomeMap);
   }
   
   if (_upgrBuilding) {
-    [_upgrBuilding displayUpgradeIcon];
+    [_upgrBuilding displayProgressBar];
   }
   
   if (_constrBuilding) {
-    [_constrBuilding displayUpgradeIcon];
+    [_constrBuilding displayProgressBar];
   }
   
   [self doReorder];
@@ -325,68 +302,15 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(HomeMap);
 }
 
 - (NSArray *) refreshForExpansion {
-  Globals *gl = [Globals sharedGlobals];
+  //  Globals *gl = [Globals sharedGlobals];
   GameState *gs = [GameState sharedGameState];
   NSMutableArray *arr = [NSMutableArray array];
-  UserExpansion *ue = gs.userExpansion;
+  //  UserExpansion *ue = gs.userExpansion;
   
-  // Only display expansion signs if server supports it
-  if (gl.expansionPurchaseCostExponentBase > 0) {
-    CGRect r = CGRectZero;
-    r.size = CGSizeMake(3, 1);
-    r.origin = FAR_LEFT_EXPANSION_BOARD_START_POSITION;
-    r.origin.y += ue.farLeftExpansions*EXPANSION_EXTRA_TILES;
-    BOOL isExpanding = (ue.isExpanding && ue.lastExpandDirection == ExpansionDirectionFarLeft);
-    ExpansionBoard *eb = [[ExpansionBoard alloc] initForDirection:ExpansionDirectionFarLeft location:r map:self isExpanding:isExpanding];
-    [self addChild:eb];
-    [arr addObject:eb];
-    [eb release];
-    
-    r.origin = FAR_RIGHT_EXPANSION_BOARD_START_POSITION;
-    r.origin.x += ue.farRightExpansions*EXPANSION_EXTRA_TILES;
-    isExpanding = (ue.isExpanding && ue.lastExpandDirection == ExpansionDirectionFarRight);
-    eb = [[ExpansionBoard alloc] initForDirection:ExpansionDirectionFarRight location:r map:self isExpanding:isExpanding];
-    [self addChild:eb];
-    [arr addObject:eb];
-    [eb release];
-    
-    r.origin = NEAR_LEFT_EXPANSION_BOARD_START_POSITION;
-    r.origin.x -= ue.nearLeftExpansions*EXPANSION_EXTRA_TILES;
-    isExpanding = (ue.isExpanding && ue.lastExpandDirection == ExpansionDirectionNearLeft);
-    eb = [[ExpansionBoard alloc] initForDirection:ExpansionDirectionNearLeft location:r map:self isExpanding:isExpanding];
-    [self addChild:eb];
-    [arr addObject:eb];
-    [eb release];
-    
-    r.origin = NEAR_RIGHT_EXPANSION_BOARD_START_POSITION;
-    r.origin.y -= ue.nearRightExpansions*EXPANSION_EXTRA_TILES;
-    isExpanding = (ue.isExpanding && ue.lastExpandDirection == ExpansionDirectionNearRight);
-    eb = [[ExpansionBoard alloc] initForDirection:ExpansionDirectionNearRight location:r map:self isExpanding:isExpanding];
-    [self addChild:eb];
-    [arr addObject:eb];
-    [eb release];
-  }
-  
-  int left = NEAR_LEFT_EXPANSION_START-EXPANSION_EXTRA_TILES*ue.nearLeftExpansions;
-  int right = FAR_RIGHT_EXPANSION_START+EXPANSION_EXTRA_TILES*ue.farRightExpansions;
-  int top = FAR_LEFT_EXPANSION_START+EXPANSION_EXTRA_TILES*ue.farLeftExpansions;
-  int bottom = NEAR_RIGHT_EXPANSION_START-EXPANSION_EXTRA_TILES*ue.nearRightExpansions;
-  
-  CCTMXLayer *expLayer = [self layerNamed:EXPANSION_LAYER_NAME];
-  CCTMXLayer *treeLayer = [self layerNamed:TREES_LAYER_NAME];
   CCTMXLayer *buildLayer = [self layerNamed:BUILDABLE_LAYER_NAME];
   CCTMXLayer *walkLayer = [self layerNamed:WALKABLE_LAYER_NAME];
   int width = self.mapSize.width;
   int height = self.mapSize.height;
-  for (int i = 0; i < width; i++) {
-    for (int j = 0; j < height; j++) {
-      if (i >= left && i <= right && j <= top && j >= bottom) {
-        CGPoint tileCoord = ccp(height-j-1, width-i-1);
-        [expLayer removeTileAt:tileCoord];
-        [treeLayer removeTileAt:tileCoord];
-      }
-    }
-  }
   
   for (int i = 0; i < width; i++) {
     for (int j = 0; j < height; j++) {
@@ -398,19 +322,51 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(HomeMap);
       
       // Convert their coordinates to our coordinate system
       CGPoint tileCoord = ccp(height-j-1, width-i-1);
-      int tileGid = [buildLayer tileGIDAt:tileCoord];
-      if (tileGid) {
+      int btileGid = [buildLayer tileGIDAt:tileCoord];
+      if (btileGid) {
         [brow replaceObjectAtIndex:j withObject:[NSNumber numberWithBool:YES]];
       }
       
-      tileGid = [walkLayer tileGIDAt:tileCoord];
-      if (tileGid) {
+      int wtileGid = [walkLayer tileGIDAt:tileCoord];
+      if (wtileGid || btileGid) {
         [wrow replaceObjectAtIndex:j withObject:[NSNumber numberWithBool:YES]];
       }
+    }
+  }
+  
+  CGPoint offsets[3][3] = EXPANSION_OVERLAY_OFFSETS;
+  for (int i = -1; i <= 1; i++) {
+    for (int j = -1; j <= 1; j++) {
+      if (i == 0 && j == 0) {
+        continue;
+      }
       
-      if (i < left || i > right || j > top || j < bottom) {
-        [brow replaceObjectAtIndex:j withObject:[NSNumber numberWithBool:NO]];
-        [wrow replaceObjectAtIndex:j withObject:[NSNumber numberWithBool:NO]];
+      UserExpansion *ue = [gs getExpansionForX:i y:j];
+      
+      if (!ue || ue.isExpanding) {
+        CGPoint offset = offsets[i+1][j+1];
+        
+        CGRect r = CGRectZero;
+        r.size.width = i == 0 ? EXPANSION_MID_SQUARE_SIZE : EXPANSION_BLOCK_SIZE;
+        r.size.height = j == 0 ? EXPANSION_MID_SQUARE_SIZE : EXPANSION_BLOCK_SIZE;
+        r.origin = ccp(CENTER_TILE_X, CENTER_TILE_Y);
+        r.origin.x += i*(EXPANSION_MID_SQUARE_SIZE/2+EXPANSION_ROAD_SIZE+EXPANSION_BLOCK_SIZE/2)-r.size.width/2+offset.x;
+        r.origin.y += j*(EXPANSION_MID_SQUARE_SIZE/2+EXPANSION_ROAD_SIZE+EXPANSION_BLOCK_SIZE/2)-r.size.height/2+offset.y;
+        ExpansionBoard *eb = [[[ExpansionBoard alloc] initWithExpansionBlock:ccp(i,j) location:r map:self isExpanding:NO] autorelease];
+        [self addChild:eb z:-999];
+        [arr addObject:eb];
+        
+        r.origin.x -= offset.x;
+        r.origin.y -= offset.y;
+        for (int i = r.origin.x; i < r.origin.x+r.size.width; i++) {
+          for (int j = r.origin.y; j < r.origin.y+r.size.height; j++) {
+            [[self.buildableData objectAtIndex:i] replaceObjectAtIndex:j withObject:[NSNumber numberWithBool:NO]];
+          }
+        }
+        
+        if (ue.isExpanding) {
+          [eb beginExpanding];
+        }
       }
     }
   }
@@ -477,6 +433,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(HomeMap);
   FullStructureProto *fsp = [[GameState sharedGameState] structWithId:structId];
   CGRect loc = CGRectMake(CENTER_TILE_X, CENTER_TILE_Y, fsp.xLength, fsp.yLength);
   _purchBuilding = [[MoneyBuilding alloc] initWithFile:[Globals imageNameForStruct:structId] location:loc map:self];
+  _purchBuilding.isPurchasing = YES;
   _purchBuilding.verticalOffset = fsp.imgVerticalPixelOffset;
   
   int baseTag = [self baseTagForStructId:structId];
@@ -495,15 +452,19 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(HomeMap);
   // Only keep a weak ref
   [_purchBuilding release];
   
-  self.selected = _purchBuilding;
   _canMove = YES;
   _purchasing = YES;
   _purchStructId = structId;
+  self.selected = _purchBuilding;
   
   [self doReorder];
   
   [self moveToSprite:_purchBuilding animated:YES];
-  [self openMoveMenuOnSelected];
+  
+  PurchaseConfirmMenu *m = [[[PurchaseConfirmMenu alloc] initWithCheckTarget:self checkSelector:@selector(moveCheckClicked:) cancelTarget:self cancelSelector:@selector(cancelMoveClicked:)] autorelease];
+  m.tag = PURCHASE_CONFIRM_MENU_TAG;
+  [_purchBuilding addChild:m];
+  m.position = ccp(_purchBuilding.contentSize.width/2, _purchBuilding.contentSize.height+10);
 }
 
 - (void) setViewForSelected:(UIView *)view {
@@ -519,8 +480,10 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(HomeMap);
     if ([selected isKindOfClass: [MoneyBuilding class]]) {
       MoneyBuilding *mb = (MoneyBuilding *) selected;
       UserStruct *us = mb.userStruct;
-      if (us.state == kUpgrading || us.state == kBuilding) {
-        [self.upgradeMenu displayForUserStruct:us];
+      if (_purchasing) {
+        // Do nothing
+      } else if (us.state == kUpgrading || us.state == kBuilding) {
+        [self displayUpgradingView];
         [mb removeArrowAnimated:YES];
         
         [self beginMoveClicked:nil];
@@ -531,21 +494,25 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(HomeMap);
       } else {
         [self.hbMenu updateForUserStruct:us];
         [self.collectMenu updateForUserStruct:us];
+        [self displayBuildingView];
         
         [self setViewForSelected:self.collectMenu];
         [mb removeArrowAnimated:YES];
         
-        [self doMenuAnimations];
-        
         [self beginMoveClicked:nil];
       }
     } else if ([selected isKindOfClass:[ExpansionBoard class]]) {
-      [self.expansionView displayForDirection:((ExpansionBoard *)_selected).direction];
-      self.selected = nil;
+      GameState *gs = [GameState sharedGameState];
+      ExpansionBoard *exp = (ExpansionBoard *)_selected;
+      UserExpansion *ue = [gs getExpansionForX:exp.expandSpot.x y:exp.expandSpot.y];
+      
+      if (!ue.isExpanding) {
+        [self displayExpandingView];
+      } else {
+        [[[TopBar sharedTopBar] topBarView] replaceChatViewWithView:self.expandingBotView];
+      }
     } else {
-      [self closeMenus];
-      [self.upgradeMenu closeClicked:nil];
-      self.moveMenu.hidden = YES;
+      [[[TopBar sharedTopBar] topBarView] removeViewOverChatView];
       _canMove = NO;
       if (_purchasing) {
         _purchasing = NO;
@@ -555,27 +522,35 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(HomeMap);
   }
 }
 
-- (void) doMenuAnimations {
-  [[TopBar sharedTopBar] fadeInMenuOverChatView:hbMenu];
-  
-  // Do 0.01f because timer gets deallocated when alpha is 0.f
-  collectMenu.alpha = 0.01f;
-  
-  [UIView animateWithDuration:0.3f animations:^{
-    collectMenu.alpha = 1.f;
-  }];
+- (void) displayBuildingView {
+  if ([_selected isKindOfClass:[MoneyBuilding class]]) {
+    GameState *gs = [GameState sharedGameState];
+    Globals *gl = [Globals sharedGlobals];
+    MoneyBuilding *mb = (MoneyBuilding *)_selected;
+    FullStructureProto *fsp = [gs structWithId:mb.userStruct.structId];
+    self.buildingNameLabel.text = [NSString stringWithFormat:@"%@ (lvl %d)", fsp.name, mb.userStruct.level];
+    self.buildingIncomeLabel.text = [NSString stringWithFormat:@"%@ IN %@", [Globals cashStringForNumber:[gl calculateIncomeForUserStruct:mb.userStruct]], [Globals convertTimeToShortString:fsp.minutesToGain*60]];
+    self.buildingUpgradeCostLabel.text = [Globals cashStringForNumber:[gl calculateUpgradeCost:mb.userStruct]];
+    [[[TopBar sharedTopBar] topBarView] replaceChatViewWithView:self.buildBotView];
+  }
 }
 
-- (void) openMoveMenuOnSelected {
-  [self setViewForSelected:self.moveMenu];
-  
-  self.moveMenu.hidden = NO;
+- (void) displayUpgradingView {
+  if ([_selected isKindOfClass:[MoneyBuilding class]]) {
+    GameState *gs = [GameState sharedGameState];
+    MoneyBuilding *mb = (MoneyBuilding *)_selected;
+    FullStructureProto *fsp = [gs structWithId:mb.userStruct.structId];
+    self.upgradingNameLabel.text = [NSString stringWithFormat:@"%@ (lvl %d)", fsp.name, mb.userStruct.level];
+    [[[TopBar sharedTopBar] topBarView] replaceChatViewWithView:self.upgradeBotView];
+  }
 }
 
-- (void) closeMenus {
-  [[TopBar sharedTopBar] fadeOutMenuOverChatView:hbMenu];
-  collectMenu.alpha = 0.f;
-  moveMenu.hidden = YES;
+- (void) displayExpandingView {
+  if ([_selected isKindOfClass:[ExpansionBoard class]]) {
+    Globals *gl = [Globals sharedGlobals];
+    self.expandingCostLabel.text = [Globals cashStringForNumber:[gl calculateSilverCostForNewExpansion]];
+    [[[TopBar sharedTopBar] topBarView] replaceChatViewWithView:self.expandBotView];
+  }
 }
 
 - (void) drag:(UIGestureRecognizer*)recognizer node:(CCNode*)node
@@ -610,6 +585,11 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(HomeMap);
         [homeBuilding placeBlock];
         _isMoving = NO;
         [self doReorder];
+        
+        if (homeBuilding.isSetDown && !_purchasing) {
+          MoneyBuilding *m = (MoneyBuilding *)homeBuilding;
+          [[OutgoingEventController sharedOutgoingEventController] moveNormStruct:m.userStruct atX:m.location.origin.x atY:m.location.origin.y];
+        }
         return;
       }
     }
@@ -621,20 +601,9 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(HomeMap);
 }
 
 - (void) tap:(UIGestureRecognizer *)recognizer node:(CCNode *)node {
-  // Reimplement for retrievals and moving buildings
-  if (!_canMove) {
+  if (!_purchasing) {
     [super tap:recognizer node:node];
     [self doReorder];
-  } else if (!_isMoving) {
-    if ([_selected isKindOfClass:[HomeBuilding class]]) {
-      HomeBuilding *homeBuilding = (HomeBuilding *)_selected;
-      [homeBuilding placeBlock];
-      if (!homeBuilding.isSetDown) {
-        [homeBuilding cancelMove];
-      }
-      _canMove = NO;
-      self.selected = nil;
-    }
   }
 }
 
@@ -643,17 +612,11 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(HomeMap);
   
   if (self.collectMenu.alpha > 0.f) {
     [self setViewForSelected:self.collectMenu];
-  } else if (self.moveMenu.alpha > 0.f) {
-    [self setViewForSelected:self.moveMenu];
   }
 }
 
 - (void) setPosition:(CGPoint)position {
   [super setPosition:position];
-//  position_ = position;
-  if (!self.moveMenu.hidden) {
-    [self openMoveMenuOnSelected];
-  }
   
   if (self.collectMenu.alpha > 0.f) {
     [self setViewForSelected:self.collectMenu];
@@ -690,11 +653,11 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(HomeMap);
   [[OutgoingEventController sharedOutgoingEventController] normStructWaitComplete:mb.userStruct];
   [self updateTimersForBuilding:mb];
   mb.isConstructing = NO;
-  [self displayUpgradeBuildPopupForUserStruct:mb.userStruct];
-  if (mb == _selected && _canMove) {
+  [mb removeProgressBar];
+  [mb displayUpgradeComplete];
+  if (mb == _selected) {
     [mb cancelMove];
-    _canMove = NO;
-    self.selected = nil;
+    [self reselectCurrentSelection];
   }
   _constrBuilding = nil;
 }
@@ -703,8 +666,12 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(HomeMap);
   MoneyBuilding *mb = [timer userInfo];
   [[OutgoingEventController sharedOutgoingEventController] normStructWaitComplete:mb.userStruct];
   [self updateTimersForBuilding:mb];
-  [self displayUpgradeBuildPopupForUserStruct:mb.userStruct];
-  [_upgrBuilding removeUpgradeIcon];
+  [mb removeProgressBar];
+  [mb displayUpgradeComplete];
+  if (mb == _selected) {
+    [mb cancelMove];
+    [self reselectCurrentSelection];
+  }
   _upgrBuilding = nil;
 }
 
@@ -721,18 +688,11 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(HomeMap);
   }
 }
 
-- (void) upgradeMenuClosed {
-  if (!_canMove) {
-    self.selected = nil;
-  }
-}
-
 - (IBAction)beginMoveClicked:(id)sender {
   _canMove = YES;
 }
 
 - (IBAction)moveCheckClicked:(id)sender {
-  OutgoingEventController *oec = [OutgoingEventController sharedOutgoingEventController];
   HomeBuilding *homeBuilding = (HomeBuilding *)_selected;
   
   if (homeBuilding.isSetDown) {
@@ -748,24 +708,23 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(HomeMap);
           _constrBuilding = moneyBuilding;
           [self updateTimersForBuilding:_constrBuilding];
           moneyBuilding.isConstructing = YES;
+          moneyBuilding.isPurchasing = NO;
           
-          [_constrBuilding displayUpgradeIcon];
+          [_constrBuilding displayProgressBar];
           
           [[SoundEngine sharedSoundEngine] carpenterPurchase];
+          
+          [moneyBuilding removeChildByTag:PURCHASE_CONFIRM_MENU_TAG cleanup:YES];
         } else {
           [moneyBuilding liftBlock];
           [self removeChild:moneyBuilding cleanup:YES];
         }
       }
-    } else {
-      if ([homeBuilding isKindOfClass:[MoneyBuilding class]]) {
-        MoneyBuilding *moneyBuilding = (MoneyBuilding *)homeBuilding;
-        [oec moveNormStruct:moneyBuilding.userStruct atX:moneyBuilding.location.origin.x atY:moneyBuilding.location.origin.y];
-        [oec rotateNormStruct:moneyBuilding.userStruct to:moneyBuilding.orientation];
-      }
     }
     _canMove = NO;
     [self doReorder];
+    
+    [self reselectCurrentSelection];
   }
 }
 
@@ -807,14 +766,13 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(HomeMap);
   UserStruct *us = ((MoneyBuilding *)_selected).userStruct;
   int structId = us.structId;
   [[OutgoingEventController sharedOutgoingEventController] sellNormStruct:us];
-  [self closeMenus];
   if (![[[GameState sharedGameState] myStructs] containsObject:us]) {
     MoneyBuilding *spr = (MoneyBuilding *)self.selected;
     self.selected = nil;
     [_timers removeObject:spr.timer];
     spr.timer = nil;
     
-    [spr runAction:[CCSequence actions:[CCFadeOut actionWithDuration:1.f],
+    [spr runAction:[CCSequence actions:[RecursiveFadeTo actionWithDuration:1.f opacity:0],
                     [CCCallBlock actionWithBlock:
                      ^{
                        [spr liftBlock];
@@ -846,7 +804,6 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(HomeMap);
   Globals *gl = [Globals sharedGlobals];
   if (us.level < gl.maxLevelForStruct) {
     [self.upgradeMenu displayForUserStruct:us];
-    [self closeMenus];
   } else {
     [Globals popupMessage:[NSString stringWithFormat:@"The maximum level for buildings is level %d.", gl.maxLevelForStruct]];
   }
@@ -872,11 +829,12 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(HomeMap);
         [[OutgoingEventController sharedOutgoingEventController] upgradeNormStruct:us];
         _upgrBuilding = (MoneyBuilding *)_selected;
         [self updateTimersForBuilding:_upgrBuilding];
-        [self.upgradeMenu displayForUserStruct:us];
-        [self closeMenus];
-        [_upgrBuilding displayUpgradeIcon];
+        [self.upgradeMenu closeClicked:nil];
+        [_upgrBuilding displayProgressBar];
         
         [[SoundEngine sharedSoundEngine] carpenterPurchase];
+        
+        [self reselectCurrentSelection];
       }
     } else {
       if (cost > gs.gold) {
@@ -887,11 +845,12 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(HomeMap);
         [[OutgoingEventController sharedOutgoingEventController] upgradeNormStruct:us];
         _upgrBuilding = (MoneyBuilding *)_selected;
         [self updateTimersForBuilding:_upgrBuilding];
-        [self.upgradeMenu displayForUserStruct:us];
-        [self closeMenus];
-        [_upgrBuilding displayUpgradeIcon];
+        [self.upgradeMenu closeClicked:nil];
+        [_upgrBuilding displayProgressBar];
         
         [[SoundEngine sharedSoundEngine] carpenterPurchase];
+        
+        [self reselectCurrentSelection];
       }
     }
   } else {
@@ -900,6 +859,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(HomeMap);
 }
 
 - (IBAction)finishNowClicked:(id)sender {
+  if (_isSpeedingUp) return;
   MoneyBuilding *mb = (MoneyBuilding *)_selected;
   UserStruct *us = mb.userStruct;
   UserStructState state = us.state;
@@ -934,38 +894,119 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(HomeMap);
       [[RefillMenuController sharedRefillMenuController] displayBuyGoldView:goldCost];
       [Analytics notEnoughGoldForInstaUpgrade:us.structId level:us.level cost:goldCost];
     } else {
-      [[OutgoingEventController sharedOutgoingEventController] instaUpgrade:mb.userStruct];
-      [_upgrBuilding removeUpgradeIcon];
+      _isSpeedingUp = YES;
+      [mb instaFinishUpgradeWithCompletionBlock:^{
+        [[OutgoingEventController sharedOutgoingEventController] instaUpgrade:mb.userStruct];
+        [mb displayUpgradeComplete];
+        [self reselectCurrentSelection];
+        
+        if (mb.userStruct.state == kWaitingForIncome) {
+          _upgrBuilding = nil;
+          [self updateTimersForBuilding:mb];
+        }
+        _isSpeedingUp = NO;
+      }];
     }
   } else if (state == kBuilding) {
     int timeLeft = us.purchaseTime.timeIntervalSinceNow + fsp.minutesToBuild*60;
     int goldCost = [gl calculateDiamondCostForInstaBuild:us timeLeft:timeLeft];
     if (gs.gold < goldCost) {
       [[RefillMenuController sharedRefillMenuController] displayBuyGoldView:goldCost];
-    } else {
-      [[OutgoingEventController sharedOutgoingEventController] instaBuild:_constrBuilding.userStruct];
       [Analytics notEnoughGoldForInstaBuild:_constrBuilding.userStruct.structId];
-    }
-  }
-  
-  if (mb.userStruct.state == kWaitingForIncome) {
-    if (_selected == _constrBuilding) {
-      _constrBuilding = nil;
-    } else if (_selected == _upgrBuilding) {
-      _upgrBuilding = nil;
     } else {
-      [Globals popupMessage:@"This should never come up.. Inconsistent state in HomeMap->finishNowClicked"];
+      _isSpeedingUp = YES;
+      [mb instaFinishUpgradeWithCompletionBlock:^{
+        mb.isConstructing = NO;
+        [[OutgoingEventController sharedOutgoingEventController] instaBuild:_constrBuilding.userStruct];
+        [mb displayUpgradeComplete];
+        [self reselectCurrentSelection];
+        
+        if (mb.userStruct.state == kWaitingForIncome) {
+          _constrBuilding = nil;
+          [self updateTimersForBuilding:mb];
+        }
+        _isSpeedingUp = NO;
+      }];
     }
-    
-    [self updateTimersForBuilding:mb];
-    
-    [self.upgradeMenu finishNow:^{
-      mb.isConstructing = NO;
-    }];
   }
 }
 
--(void) changeTiles: (CGRect) buildBlock toBuildable:(BOOL)canBuild {
+- (IBAction)expandClicked:(id)sender {
+  GameState *gs = [GameState sharedGameState];
+  Globals *gl = [Globals sharedGlobals];
+  if (gs.isExpanding) {
+    UserExpansion *exp = [gs currentExpansion];
+    int timeLeft = exp.lastExpandTime.timeIntervalSinceNow + [gl calculateNumMinutesForNewExpansion]*60;
+    NSString *desc = [NSString stringWithFormat:@"A block is already expanding. Speed it up for %d gold?", [gl calculateGoldCostToSpeedUpExpansionTimeLeft:timeLeft]];
+    [GenericPopupController displayConfirmationWithDescription:desc title:@"Already Expanding" okayButton:@"Speed Up" cancelButton:@"Cancel" target:self selector:@selector(speedupExpansion)];
+  } else {
+    [self.expansionView display];
+  }
+}
+
+- (IBAction)expandMenuButtonClicked:(id)sender {
+  Globals *gl = [Globals sharedGlobals];
+  GameState *gs = [GameState sharedGameState];
+  ExpansionBoard *exp = (ExpansionBoard *)_selected;
+  
+  int silverCost = [gl calculateSilverCostForNewExpansion];
+  if (gs.silver < silverCost) {
+    [[RefillMenuController sharedRefillMenuController] displayBuySilverView:silverCost];
+  } else {
+    [[OutgoingEventController sharedOutgoingEventController] purchaseCityExpansionAtX:exp.expandSpot.x atY:exp.expandSpot.y];
+    [self.expansionView closeClicked:nil];
+    [exp beginExpanding];
+    [self reselectCurrentSelection];
+  }
+}
+
+- (IBAction)finishExpansionClicked:(id)sender {
+  GameState *gs = [GameState sharedGameState];
+  Globals *gl = [Globals sharedGlobals];
+  UserExpansion *exp = [gs currentExpansion];
+  int timeLeft = exp.lastExpandTime.timeIntervalSinceNow + [gl calculateNumMinutesForNewExpansion]*60;
+  NSString *desc = [NSString stringWithFormat:@"Would you like to speed up this expansion for %d gold?", [gl calculateGoldCostToSpeedUpExpansionTimeLeft:timeLeft]];
+  [GenericPopupController displayConfirmationWithDescription:desc title:@"Speed Up?" okayButton:@"Speed Up" cancelButton:@"Cancel" target:self selector:@selector(speedupExpansion)];
+}
+
+- (void) speedupExpansion {
+  Globals *gl = [Globals sharedGlobals];
+  GameState *gs = [GameState sharedGameState];
+  UserExpansion *exp = [gs currentExpansion];
+  
+  int timeLeft = exp.lastExpandTime.timeIntervalSinceNow + [gl calculateNumMinutesForNewExpansion]*60;
+  int goldCost = [gl calculateGoldCostToSpeedUpExpansionTimeLeft:timeLeft];
+  if (gs.gold < goldCost) {
+    [[RefillMenuController sharedRefillMenuController] displayBuyGoldView:goldCost];
+  } else {
+    [[OutgoingEventController sharedOutgoingEventController] expansionWaitComplete:YES atX:exp.xPosition atY:exp.yPosition];
+    
+    // Get the expansion board
+    ExpansionBoard *expBoard = nil;
+    for (CCNode *n in self.children) {
+      if ([n isKindOfClass:[ExpansionBoard class]]) {
+        ExpansionBoard *b = (ExpansionBoard *)n;
+        if (b.expandSpot.x == exp.xPosition && b.expandSpot.y == exp.yPosition) {
+          expBoard = b;
+          break;
+        }
+      }
+    }
+    
+    if (expBoard) {
+      [expBoard instaFinishUpgradeWithCompletionBlock:^{
+        self.selected = nil;
+        [self refresh];
+      }];
+    } else {
+      self.selected = nil;
+      [self refresh];
+    }
+    
+  }
+}
+
+- (void) changeTiles: (CGRect) buildBlock toBuildable:(BOOL)canBuild {
   for (float i = floorf(buildBlock.origin.x); i < ceilf(buildBlock.size.width+buildBlock.origin.x); i++) {
     for (float j = floorf(buildBlock.origin.y); j < ceilf(buildBlock.size.height+buildBlock.origin.y); j++) {
       [[self.buildableData objectAtIndex:i] replaceObjectAtIndex:j withObject:[NSNumber numberWithBool:canBuild]];
@@ -974,7 +1015,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(HomeMap);
   }
 }
 
--(BOOL) isBlockBuildable: (CGRect) buildBlock {
+- (BOOL) isBlockBuildable: (CGRect) buildBlock {
   for (int i = buildBlock.origin.x; i < buildBlock.size.width+buildBlock.origin.x; i++) {
     for (int j = buildBlock.origin.y; j < buildBlock.size.height+buildBlock.origin.y; j++) {
       if (![[[self.buildableData objectAtIndex:i] objectAtIndex:j] boolValue]) {
@@ -1055,23 +1096,27 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(HomeMap);
   }
 }
 
+- (void) reselectCurrentSelection {
+  SelectableSprite *n = _selected;
+  self.selected = nil;
+  self.selected = n;
+}
+
 - (void) onExit {
   [super onExit];
   [self invalidateAllTimers];
 }
 
 - (void) dealloc {
-  [hbMenu removeFromSuperview];
   self.hbMenu = nil;
-  [collectMenu removeFromSuperview];
   self.collectMenu = nil;
-  [moveMenu removeFromSuperview];
-  self.collectMenu = nil;
-  [upgradeMenu removeFromSuperview];
   self.upgradeMenu = nil;
   self.buildableData = nil;
-  [expansionView removeFromSuperview];
   self.expansionView = nil;
+  self.buildBotView  = nil;
+  self.upgradeBotView = nil;
+  self.expandBotView = nil;
+  self.expandingBotView = nil;
   
   [self invalidateAllTimers];
   [_timers release];

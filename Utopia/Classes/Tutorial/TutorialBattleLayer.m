@@ -26,7 +26,7 @@
 
 - (id) initWithScale:(float)scale position:(CGPoint)position {
   UIImage *img = [self makeAHoleWithMask:[Globals imageNamed:@"blackcircle.png"] onPosition:position scale:scale];
-  if ((self = [super initWithTexture:[[[CCTexture2D alloc] initWithImage:img] autorelease]])) {
+  if ((self = [super initWithTexture:[[[CCTexture2D alloc] initWithCGImage:img.CGImage resolutionType:kCCResolutioniPhone] autorelease]])) {
   }
   return self;
 }
@@ -331,7 +331,7 @@
     [_overLayer addChild:tapPerfect];
     
     CCSprite *okay = [CCSprite spriteWithFile:@"tutokay.png"];
-    CCMenuItemSprite *item = [CCMenuItemSprite itemFromNormalSprite:okay selectedSprite:nil target:self selector:@selector(okayClickedMyTurn:)];
+    CCMenuItemSprite *item = [CCMenuItemSprite itemWithNormalSprite:okay selectedSprite:nil target:self selector:@selector(okayClickedMyTurn:)];
     CCMenu *menu = [CCMenu menuWithItems:item, nil];
     // Need to left align it
     item.position = ccp(-menu.contentSize.width/2+375, 0);
@@ -431,7 +431,7 @@
     [_overLayer addChild:oppAttack];
     
     CCSprite *okay = [CCSprite spriteWithFile:@"tutokay.png"];
-    CCMenuItemSprite *item = [CCMenuItemSprite itemFromNormalSprite:okay selectedSprite:nil target:self selector:@selector(startEnemyTurn)];
+    CCMenuItemSprite *item = [CCMenuItemSprite itemWithNormalSprite:okay selectedSprite:nil target:self selector:@selector(startEnemyTurn)];
     CCMenu *menu = [CCMenu menuWithItems:item, nil];
     item.position = ccp(0, -48);
     [_overLayer addChild:menu];

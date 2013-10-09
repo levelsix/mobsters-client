@@ -273,11 +273,9 @@
 
 + (void) notEnoughSilverInArmory:(int)equipId {
   GameState *gs = [GameState sharedGameState];
-  FullEquipProto *fep = [gs equipWithId:equipId];
   NSDictionary *args = [NSDictionary dictionaryWithObjectsAndKeys:
                         [NSNumber numberWithInt:equipId], @"equip id",
                         [NSNumber numberWithInt:gs.silver], @"current silver",
-                        [NSNumber numberWithInt:fep.coinPrice], @"silver needed",
                         nil];
   
   [Analytics event:NOT_ENOUGH_SILVER_ARMORY withArgs:args];
@@ -285,11 +283,9 @@
 
 + (void) notEnoughGoldInArmory:(int)equipId {
   GameState *gs = [GameState sharedGameState];
-  FullEquipProto *fep = [gs equipWithId:equipId];
   NSDictionary *args = [NSDictionary dictionaryWithObjectsAndKeys:
                         [NSNumber numberWithInt:equipId], @"equip id",
                         [NSNumber numberWithInt:gs.gold], @"current gold",
-                        [NSNumber numberWithInt:fep.diamondPrice], @"gold needed",
                         nil];
   
   [Analytics event:NOT_ENOUGH_GOLD_ARMORY withArgs:args];
@@ -303,16 +299,6 @@
                         nil];
   
   [Analytics event:NOT_ENOUGH_GOLD_TO_REFILL_ENERGY_POPUP withArgs:args];
-}
-
-+ (void) notEnoughGoldToRefillStaminaPopup {
-  GameState *gs = [GameState sharedGameState];
-  NSDictionary *args = [NSDictionary dictionaryWithObjectsAndKeys:
-                        [NSNumber numberWithInt:gs.currentStamina], @"current stamina",
-                        [NSNumber numberWithInt:gs.gold], @"current gold",
-                        nil];
-  
-  [Analytics event:NOT_ENOUGH_GOLD_TO_REFILL_STAMINA_POPUP withArgs:args];
 }
 
 + (void) notEnoughSilverInCarpenter:(int)structId {
@@ -457,25 +443,6 @@
   [Analytics event:NOT_ENOUGH_GOLD_TO_REFILL_ENERGY_TOPBAR withArgs:args];
 }
 
-+ (void) notEnoughGoldToRefillStaminaTopBar {
-  GameState *gs = [GameState sharedGameState];
-  NSDictionary *args = [NSDictionary dictionaryWithObjectsAndKeys:
-                        [NSNumber numberWithInt:gs.currentStamina], @"current stamina",
-                        [NSNumber numberWithInt:gs.gold], @"current gold",
-                        nil];
-  
-  [Analytics event:NOT_ENOUGH_GOLD_TO_REFILL_STAMINA_TOPBAR withArgs:args];
-}
-
-+ (void) notEnoughStaminaForBattle {
-  GameState *gs = [GameState sharedGameState];
-  NSDictionary *args = [NSDictionary dictionaryWithObjectsAndKeys:
-                        [NSNumber numberWithInt:gs.currentStamina], @"current stamina",
-                        nil];
-  
-  [Analytics event:NOT_ENOUGH_STAMINA_BATTLE withArgs:args];
-}
-
 + (void) notEnoughEnergyForTasks:(int)taskId {
   GameState *gs = [GameState sharedGameState];
   NSDictionary *args = [NSDictionary dictionaryWithObjectsAndKeys:
@@ -484,17 +451,6 @@
                         nil];
   
   [Analytics event:NOT_ENOUGH_ENERGY_TASKS withArgs:args];
-}
-
-+ (void) notEnoughEquipsForTasks:(int)taskId equipReqs:(NSArray *)reqs {
-  GameState *gs = [GameState sharedGameState];
-  NSDictionary *args = [NSDictionary dictionaryWithObjectsAndKeys:
-                        [NSNumber numberWithInt:taskId], @"task id",
-                        reqs, @"equip reqs",
-                        [NSNumber numberWithInt:gs.currentStamina], @"current stamina",
-                        nil];
-  
-  [Analytics event:NOT_ENOUGH_EQUIPS_TASKS withArgs:args];
 }
 
 // Engagement events
@@ -739,16 +695,6 @@
                         nil];
   
   [Analytics event:CLICKED_FILL_ENERGY withArgs:args];
-}
-
-+ (void) clickedFillStamina {
-  GameState *gs = [GameState sharedGameState];
-  NSDictionary *args = [NSDictionary dictionaryWithObjectsAndKeys:
-                        [NSNumber numberWithInt:gs.currentStamina], @"current stamina",
-                        [NSNumber numberWithInt:gs.level], @"level",
-                        nil];
-  
-  [Analytics event:CLICKED_FILL_STAMINA withArgs:args];
 }
 
 + (void) enemyProfileFromBattle {

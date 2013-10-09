@@ -27,20 +27,20 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(SoundEngine);
 }
 
 - (int) playEffect:(NSString *)effect {
-#ifndef DEBUG
+//#ifndef DEBUG
   NSUserDefaults *ud = [NSUserDefaults standardUserDefaults];
   BOOL play = ![ud boolForKey:SOUND_EFFECTS_DEFAULTS_KEY];
   if (play) {
     return [[SimpleAudioEngine sharedEngine] playEffect:effect];
   }
-#endif
+//#endif
   return 0;
 }
 
 - (void) stopEffect:(int)effect {
-#ifndef DEBUG
+//#ifndef DEBUG
   [[SimpleAudioEngine sharedEngine] stopEffect:effect];
-#endif
+//#endif
 }
 
 - (void) playHomeMapMusic {
@@ -303,6 +303,48 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(SoundEngine);
 
 - (void) forgeFailure {
   [self playEffect:@"ForgeFail.m4a"];
+}
+
+#pragma mark - Puzzle Effects
+
+- (void) puzzleBoardExplosion {
+  [self playEffect:@"boardexplosions.aif"];
+}
+
+- (void) puzzlePlane {
+  [self playEffect:@"plane.aif"];
+}
+
+- (void) puzzleRocket {
+  [self playEffect:@"rocket.aif"];
+}
+
+- (void) puzzleComboSound:(int)combo {
+  [self playEffect:[NSString stringWithFormat:@"combo%da.aif", MIN(13, combo)]];
+}
+
+- (void) puzzleGemPop {
+  [self playEffect:@"gem_blows_up.mp3"];
+}
+
+- (void) puzzleWalking {
+  _puzzWalk = [self playEffect:@"walking.aif"];
+}
+
+- (void) puzzleStopWalking {
+  [self stopEffect:_puzzWalk];
+}
+
+- (void) puzzleWrongMove {
+  [self playEffect:@"wrongmove.aif"];
+}
+
+- (void) puzzlePowerUp {
+  _puzzPowerUp = [self playEffect:@"power_up.aif"];
+}
+
+- (void) puzzleStopPowerUp {
+  [self stopEffect:_puzzPowerUp];
 }
 
 @end

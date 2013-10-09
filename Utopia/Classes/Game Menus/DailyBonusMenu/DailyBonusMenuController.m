@@ -94,7 +94,7 @@
   }];
   
   NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
-  [defaults setObject:[NSNumber numberWithLong:_dbi.timeAwarded] forKey:LAST_DAILY_BONUS_TIME_KEY];
+  [defaults setObject:[NSNumber numberWithLongLong:_dbi.timeAwarded] forKey:LAST_DAILY_BONUS_TIME_KEY];
 }
 
 - (void) viewDidDisappear:(BOOL)animated {

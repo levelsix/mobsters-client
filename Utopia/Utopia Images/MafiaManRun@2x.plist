@@ -322,13 +322,13 @@
 		<key>format</key>
 		<integer>2</integer>
 		<key>realTextureFileName</key>
-		<string>MafiaManRunNF@2x.pvr.ccz</string>
+		<string>MafiaManRun@2x.pvr.ccz</string>
 		<key>size</key>
 		<string>{1956,116}</string>
 		<key>smartupdate</key>
 		<string>$TexturePacker:SmartUpdate:413ee1ad4b12f6a74f136bfcd1d6376e:1/1$</string>
 		<key>textureFileName</key>
-		<string>MafiaManRunNF@2x.pvr.ccz</string>
+		<string>MafiaManRun@2x.pvr.ccz</string>
 	</dict>
 </dict>
 </plist>

@@ -9,7 +9,6 @@
 #import "GameMap.h"
 #import "Protocols.pb.h"
 #import "CCLabelFX.h"
-#import "MissionBuildingMenus.h"
 #import "MissionMapViews.h"
 #import "BossViews.h"
 
@@ -17,24 +16,8 @@
 
 #define DRAGON_TAG 5456
 
-@interface TaskProgressBar : CCSprite {
-  CCProgressTimer *_progressBar;
-  CCLabelFX *_label;
-}
-
-@property (nonatomic, assign) BOOL isAnimating;
-
-- (void) animateBarWithText:(NSString *)str;
-
-@end
-
-@interface MissionMap : GameMap <UserBossDelegate> {
+@interface MissionMap : GameMap {
   int _cityId;
-  
-  TaskProgressBar *_taskProgBar;
-  
-  BOOL _receivedTaskActionResponse;
-  BOOL _performingTask;
   
   NSMutableArray *_jobs;
   
@@ -49,33 +32,19 @@
   BOOL _allowSelection;
 }
 
-@property (nonatomic, retain) IBOutlet MissionBuildingSummaryMenu *summaryMenu;
-@property (nonatomic, retain) IBOutlet MissionOverBuildingMenu *obMenu;
-@property (nonatomic, retain) IBOutlet ResetStaminaView *resetStaminaView;
-@property (nonatomic, retain) IBOutlet CityGemsView *gemsView;
 @property (nonatomic, retain) IBOutlet BossUnlockedView *bossUnlockedView;
 @property (nonatomic, retain) IBOutlet CityBossView *bossView;
-@property (nonatomic, retain) IBOutlet GemTutorialView *tutView;
 @property (nonatomic, retain) IBOutlet BossInfoView *bossInfoView;
 
-@property (nonatomic, retain) NSMutableArray *userGems;
+@property (nonatomic, retain) IBOutlet UIView *missionBotView;
+
+@property (nonatomic, assign) IBOutlet UILabel *missionNameLabel;
 
 - (id) initWithProto:(LoadNeutralCityResponseProto *)proto;
 - (id) assetWithId:(int)assetId;
 - (void) moveToAssetId:(int)a animated:(BOOL)animated;
-- (void) performCurrentTask;
-- (void) receivedTaskResponse:(TaskActionResponseProto *)tarp;
-- (void) receivedBossResponse:(BossActionResponseProto *)barp;
 - (void) changeTiles: (CGRect) buildBlock canWalk:(BOOL)canWalk;
-- (void) receivedRedeemGemsResponse:(RedeemUserCityGemsResponseProto *)proto;
-- (void) endGemTutorial;
-
-- (void) displayGemsView;
 
 - (void) killEnemy:(int)userId;
-
-- (void) closeMenus:(SelectableSprite *)selected;
-
-- (IBAction)bossAttackClicked:(UIView *)sender;
 
 @end

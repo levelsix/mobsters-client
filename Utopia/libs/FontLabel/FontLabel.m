@@ -119,12 +119,12 @@
 			size.width = MIN(size.width, origSize.width);
 			// adjust the point for alignment
 			switch (self.textAlignment) {
-				case UITextAlignmentLeft:
+				case NSTextAlignmentLeft:
 					break;
-				case UITextAlignmentCenter:
+				case NSTextAlignmentCenter:
 					point.x += (origSize.width - size.width) / 2.0f;
 					break;
-				case UITextAlignmentRight:
+				case NSTextAlignmentRight:
 					point.x += origSize.width - size.width;
 					break;
         default:

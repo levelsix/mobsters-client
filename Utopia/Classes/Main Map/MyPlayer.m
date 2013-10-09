@@ -91,8 +91,9 @@
     }
   }
   
-  CCAnimation *walkAnimationN = [CCAnimation animationWithFrames:walkAnimN delay:ANIMATATION_DELAY];
-  self.walkActionN = [CCRepeatForever actionWithAction:[CCAnimate actionWithAnimation:walkAnimationN restoreOriginalFrame:NO]];
+  CCAnimation *walkAnimationN = [CCAnimation animationWithSpriteFrames:walkAnimN delay:ANIMATATION_DELAY];
+  walkAnimationN.restoreOriginalFrame = NO;
+  self.walkActionN = [CCRepeatForever actionWithAction:[CCAnimate actionWithAnimation:walkAnimationN]];
   
   //Creating animation for far
   NSMutableArray *walkAnimF= [NSMutableArray array];
@@ -106,8 +107,9 @@
       break;
     }
   }
-  CCAnimation *walkAnimationF = [CCAnimation animationWithFrames:walkAnimF delay:ANIMATATION_DELAY];
-  self.walkActionF = [CCRepeatForever actionWithAction:[CCAnimate actionWithAnimation:walkAnimationF restoreOriginalFrame:NO]];
+  CCAnimation *walkAnimationF = [CCAnimation animationWithSpriteFrames:walkAnimF delay:ANIMATATION_DELAY];
+  walkAnimationF.restoreOriginalFrame = NO;
+  self.walkActionF = [CCRepeatForever actionWithAction:[CCAnimate actionWithAnimation:walkAnimationF]];
   
   NSString *name1 = @"MafiaManRunN00@2x.png";
   CCSpriteFrame *frame = nil;
@@ -180,7 +182,7 @@
     }
   }
   
-  self.agAnimation = [CCAnimation animationWithFrames:agArray delay:ANIMATATION_DELAY];
+  self.agAnimation = [CCAnimation animationWithSpriteFrames:agArray delay:ANIMATATION_DELAY];
   _shouldContinueAnimation = YES;
   
   // Play the appropriate sound
@@ -229,12 +231,15 @@
     }
   }
   
-  [self.sprite runAction:[CCRepeat actionWithAction:[CCAnimate actionWithAnimation:[CCAnimation animationWithFrames:agArray delay:ANIMATATION_DELAY] restoreOriginalFrame:NO] times:3]];
+  CCAnimation *anim = [CCAnimation animationWithSpriteFrames:agArray delay:ANIMATATION_DELAY];
+  anim.restoreOriginalFrame = NO;
+  [self.sprite runAction:[CCRepeat actionWithAction:[CCAnimate actionWithAnimation:anim] times:3]];
 }
 
 - (void) repeatCurrentAttackAnimation {
   if(_shouldContinueAnimation) {
-    CCAction *agAction = [CCSequence actions:[CCAnimate actionWithAnimation:_agAnimation restoreOriginalFrame:NO],
+    _agAnimation.restoreOriginalFrame = NO;
+    CCAction *agAction = [CCSequence actions:[CCAnimate actionWithAnimation:_agAnimation],
                           [CCCallFunc actionWithTarget:self selector:@selector(repeatCurrentAttackAnimation)], nil];
     agAction.tag = 9999;
     
@@ -244,8 +249,8 @@
   } else {
     GameState *gs = [GameState sharedGameState];
     NSString *prefix = [Globals animatedSpritePrefix:gs.type];
-    [[CCSpriteFrameCache sharedSpriteFrameCache] addSpriteFramesWithFile:[NSString stringWithFormat:@"%@WalkUD.plist",prefix]];
-    CCSpriteFrame *frame = [[CCSpriteFrameCache sharedSpriteFrameCache] spriteFrameByName:[NSString stringWithFormat:@"%@WalkD00.png",prefix]];
+    [[CCSpriteFrameCache sharedSpriteFrameCache] addSpriteFramesWithFile:[NSString stringWithFormat:@"%@Run.plist",prefix]];
+    CCSpriteFrame *frame = [[CCSpriteFrameCache sharedSpriteFrameCache] spriteFrameByName:[NSString stringWithFormat:@"%@RunN00.png",prefix]];
     [self.sprite setDisplayFrame:frame];
   }
 }
@@ -313,8 +318,8 @@
     [self stopAllActions];
     [self runAction:[CCSequence actions:[MoveToLocation actionWithDuration:distance/MY_WALKING_SPEED location:loc], [CCCallBlock actionWithBlock:^{
       [self.sprite stopAllActions];
-      CCSpriteFrame *frame = [[CCSpriteFrameCache sharedSpriteFrameCache] spriteFrameByName:[NSString stringWithFormat:@"%@WalkD00.png",prefix]];
-      frame = frame ? frame : [[CCSpriteFrameCache sharedSpriteFrameCache] spriteFrameByName:[NSString stringWithFormat:@"%@WalkN00.png",prefix]];
+      [[CCSpriteFrameCache sharedSpriteFrameCache] addSpriteFramesWithFile:[NSString stringWithFormat:@"%@Run.plist",prefix]];
+      CCSpriteFrame *frame = [[CCSpriteFrameCache sharedSpriteFrameCache] spriteFrameByName:[NSString stringWithFormat:@"%@RunN00.png",prefix]];
       [self.sprite setDisplayFrame:frame];
       self.currentAction = nil;
     }], nil]];
@@ -343,7 +348,8 @@
     float dist = ccpDistance([_map convertTilePointToCCPoint:startingPosition.origin], [_map convertTilePointToCCPoint:loc.origin]);
     [self runAction:[CCSequence actions:[MoveToLocation actionWithDuration:dist/MY_WALKING_SPEED location:loc], [CCCallBlock actionWithBlock:^{
       [self.sprite stopAllActions];
-      CCSpriteFrame *frame = [[CCSpriteFrameCache sharedSpriteFrameCache] spriteFrameByName:[NSString stringWithFormat:@"%@WalkD00.png",prefix]];
+      [[CCSpriteFrameCache sharedSpriteFrameCache] addSpriteFramesWithFile:[NSString stringWithFormat:@"%@Run.plist",prefix]];
+      CCSpriteFrame *frame = [[CCSpriteFrameCache sharedSpriteFrameCache] spriteFrameByName:[NSString stringWithFormat:@"%@RunN00.png",prefix]];
       [self.sprite setDisplayFrame:frame];
     }], nil]];
   }

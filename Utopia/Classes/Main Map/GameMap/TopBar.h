@@ -35,7 +35,7 @@ typedef enum {
 
 @end
 
-@interface TopBar : CCLayer <CCTargetedTouchDelegate> {
+@interface TopBar : CCLayer {
   CCSprite *_enstBgd;
   MaskedBar *_energyBar;
   MaskedBar *_staminaBar;
@@ -71,7 +71,6 @@ typedef enum {
   CCMenuItemSprite *_homeButton;
   CCMenuItemSprite *_towerButton;
   CCMenuItemSprite *_mapButton;
-  CCMenuItemSprite *_gemsButton;
   CCMenu *_bottomButtons;
   
   CCSprite *_shieldOnView;

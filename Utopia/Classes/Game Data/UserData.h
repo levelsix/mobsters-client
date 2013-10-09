@@ -104,7 +104,6 @@ typedef enum {
 @property (nonatomic, retain) MinimumUserProto *otherPlayer;
 @property (nonatomic, assign) NotificationType type;
 @property (nonatomic, retain) NSDate *time;
-@property (nonatomic, retain) FullMarketplacePostProto *marketPost;
 @property (nonatomic, assign) BOOL sellerHadLicense;
 @property (nonatomic, assign) BattleResult battleResult;
 @property (nonatomic, assign) int coinsStolen;
@@ -121,10 +120,8 @@ typedef enum {
 @property (nonatomic, retain) UIColor *color;
 
 - (id) initBattleNotificationAtStartup:(StartupResponseProto_AttackedNotificationProto *)proto;
-- (id) initMarketplaceNotificationAtStartup:(StartupResponseProto_MarketplacePostPurchasedNotificationProto *)proto;
 - (id) initReferralNotificationAtStartup:(StartupResponseProto_ReferralNotificationProto *)proto;
 - (id) initWithBattleResponse:(BattleResponseProto *)proto;
-- (id) initWithMarketplaceResponse:(PurchaseFromMarketplaceResponseProto *)proto;
 - (id) initWithReferralResponse:(ReferralCodeUsedResponseProto *)proto;
 - (id) initWithForgeAttempt:(ForgeAttempt *)fa;
 - (id) initWithEnhancement:(EquipEnhancementProto *)ee;
@@ -200,16 +197,12 @@ typedef enum {
 @interface UserExpansion : NSObject
 
 @property (nonatomic, assign) int userId;
-@property (nonatomic, assign) int farLeftExpansions;
-@property (nonatomic, assign) int farRightExpansions;
-@property (nonatomic, assign) int nearLeftExpansions;
-@property (nonatomic, assign) int nearRightExpansions;
+@property (nonatomic, assign) int xPosition;
+@property (nonatomic, assign) int yPosition;
 @property (nonatomic, assign) BOOL isExpanding;
 @property (nonatomic, retain) NSDate *lastExpandTime;
-@property (nonatomic, assign) ExpansionDirection lastExpandDirection;
 
-+ (id) userExpansionWithFullUserCityExpansionDataProto:(FullUserCityExpansionDataProto *)proto;
-- (int) numCompletedExpansions;
++ (id) userExpansionWithUserCityExpansionDataProto:(UserCityExpansionDataProto *)proto;
 
 @end
 

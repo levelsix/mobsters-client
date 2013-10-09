@@ -63,10 +63,7 @@
 - (void) displayBuyGoldView:(int)needsGold;
 - (void) displayBuySilverView:(int)needsSilver;
 - (void) displayEnstView:(BOOL)isEnergy;
-- (void) displayEquipsView:(NSArray *)equipIds;
 - (void) displayBuySpeakersView;
-
-- (void) receivedArmoryResponse:(BOOL)success equip:(int)equipId;
 
 + (RefillMenuController *) sharedRefillMenuController;
 + (void) displayView;

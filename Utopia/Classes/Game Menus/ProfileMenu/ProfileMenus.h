@@ -118,8 +118,6 @@ typedef enum {
 @property (nonatomic, retain) IBOutlet UILabel *soldItemLabel;
 @property (nonatomic, retain) IBOutlet UILabel *soldSilverLabel;
 
-@property (nonatomic, retain) IBOutlet MarketplacePostView *mktPostView;
-
 @property (nonatomic, retain) UserEquip *userEquip;
 
 - (void) updateForUserEquip:(UserEquip *)ue;

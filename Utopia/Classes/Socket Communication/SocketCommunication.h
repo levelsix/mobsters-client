@@ -65,15 +65,6 @@
 - (int) sendTaskActionMessage:(int) taskId curTime:(uint64_t)clientTime ;
 - (int) sendInAppPurchaseMessage:(NSString *)receipt product:(SKProduct *)product;
 
-// Marketplace messages
-- (int) sendRetrieveCurrentMarketplacePostsMessageWithCurNumEntries:(int)curNumEntries filter:(RetrieveCurrentMarketplacePostsRequestProto_RetrieveCurrentMarketplacePostsFilter)filter commonEquips:(BOOL)commonEquips uncommonEquips:(BOOL)uncommonEquips rareEquips:(BOOL)rareEquips superRareEquips:(BOOL)superRareEquips  epicEquips:(BOOL)epicEquips legendaryEquips:(BOOL)legendaryEquips myClassOnly:(BOOL)myClassOnly minEquipLevel:(int)minEquipLevel maxEquipLevel:(int)maxEquipLevel minForgeLevel:(int)minForgeLevel maxForgeLevel:(int)maxForgeLevel sortOrder:(RetrieveCurrentMarketplacePostsRequestProto_RetrieveCurrentMarketplacePostsSortingOrder)sortOrder specificEquipId:(int)specificEquipId;
-- (int) sendRetrieveCurrentMarketplacePostsMessageFromSenderWithCurNumEntries:(int)curNumEntries;
-- (int) sendEquipPostToMarketplaceMessage:(int)equipId coins:(int)coins diamonds:(int)diamonds;
-- (int) sendRetractMarketplacePostMessage:(int)postId curTime:(uint64_t)curTime;
-- (int) sendPurchaseFromMarketplaceMessage:(int)postId poster:(int)posterId clientTime:(uint64_t)clientTime;
-- (int) sendRedeemMarketplaceEarningsMessage;
-- (int) sendPurchaseMarketplaceLicenseMessage: (uint64_t)clientTime type:(PurchaseMarketplaceLicenseRequestProto_LicenseType)type;
-
 - (int) sendGenerateAttackListMessage:(int)numEnemies realPlayersOnly:(BOOL)realPlayersOnly;
 - (int) sendGenerateAttackListMessage:(int)numEnemies latUpperBound:(CGFloat)latUpperBound latLowerBound:(CGFloat)latLowerBound lonUpperBound:(CGFloat)lonUpperBound lonLowerBound:(CGFloat)lonLowerBound;
 
@@ -95,7 +86,7 @@
 - (int) sendRetrieveStaticDataMessageWithStructIds:(NSArray *)structIds taskIds:(NSArray *)taskIds questIds:(NSArray *)questIds cityIds:(NSArray *)cityIds equipIds:(NSArray *)equipIds buildStructJobIds:(NSArray *)buildStructJobIds defeatTypeJobIds:(NSArray *)defeatTypeJobIds possessEquipJobIds:(NSArray *)possessEquipJobIds upgradeStructJobIds:(NSArray *)upgradeStructJobIds events:(BOOL)events clanTierLevels:(BOOL)clanTierLevels bossIds:(NSArray *)bossIds;
 - (int) sendRetrieveStaticDataFromShopMessage:(RetrieveStaticDataForShopRequestProto_RetrieveForShopType)type;
 
-- (int) sendEquipEquipmentMessage:(int)equipId forPrestigeSlot:(BOOL)forPrestigeSlot;
+- (int) sendEquipEquipmentMessage:(uint64_t)equipId forPrestigeSlot:(BOOL)forPrestigeSlot;
 - (int) sendChangeUserLocationMessageWithLatitude:(CGFloat)lat longitude:(CGFloat)lon;
 
 - (int) sendLevelUpMessage;
@@ -150,8 +141,8 @@
 - (int) sendPickLockBoxMessage:(int)eventId method:(PickLockBoxRequestProto_PickLockBoxMethod)method clientTime:(uint64_t)clientTime;
 - (int) sendRedeemUserLockBoxItemsMessage:(int)lockBoxEventId;
 
-- (int) sendPurchaseCityExpansionMessage:(ExpansionDirection)direction timeOfPurchase:(uint64_t)time;
-- (int) sendExpansionWaitCompleteMessage:(BOOL)speedUp curTime:(uint64_t)time;
+- (int) sendPurchaseCityExpansionMessageAtX:(int)x atY:(int)y timeOfPurchase:(uint64_t)time;
+- (int) sendExpansionWaitCompleteMessage:(BOOL)speedUp curTime:(uint64_t)time atX:(int)x atY:(int)y;
 
 - (int) sendRetrieveThreeCardMonteMessage;
 - (int) sendPlayThreeCardMonteMessage:(int)cardId;
@@ -164,7 +155,6 @@
 - (int) sendRetrieveLeaderboardRankingsMessage:(int)eventId afterThisRank:(int)afterThisRank;
 
 - (int) sendSubmitEquipEnhancementMessage:(int)enhancingId feeders:(NSArray *)feeders clientTime:(uint64_t)clientTime;
-- (int) sendCollectEquipEnhancementMessage:(int)enhancementId speedup:(BOOL)speedup time:(uint64_t)clientTime;
 
 - (int) sendRetrieveClanTowerScoresMessage:(int)towerId;
 
@@ -176,6 +166,8 @@
 - (int) sendRetrievePrivateChatPostsMessage:(int)otherUserId;
 
 - (int) sendRedeemUserCityGemsMessage:(int)cityId;
+
+- (int) sendBeginDungeonMessage:(uint64_t)clientTime taskId:(int)taskId;
 
 - (int) addAttackSkillPoint;
 - (int) addDefenseSkillPoint;

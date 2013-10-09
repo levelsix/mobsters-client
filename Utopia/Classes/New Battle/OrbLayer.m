@@ -7,6 +7,8 @@
 //
 
 #import "OrbLayer.h"
+#import "SoundEngine.h"
+#import "Globals.h"
 
 #define ORB_ANIMATION_OFFSET 10
 #define ORB_ANIMATION_TIME 0.15
@@ -33,29 +35,34 @@
 
 @implementation OrbLayer
 
--(id) init
+-(id) initWithGridSize:(CGSize)gridSize numColors:(int)numColors
 {
   if((self=[super init])) {
 		_gridSize = CGSizeMake(8, 5);
+    _numColors = numColors;
     
     _run = [[NSMutableSet alloc] init];
     _tempRun = [[NSMutableSet alloc] init];
     _powerups = [[NSMutableArray alloc] init];
     _dragGem = nil;
     self.comboLabels = [NSMutableArray array];
-    self.destroyedGems = [NSMutableArray array];
+    self.destroyedGems = [NSMutableSet set];
+    self.reservedGems = [NSMutableSet set];
     
     [self initBoard];
     
-    [[CCTouchDispatcher sharedDispatcher] addTargetedDelegate:self priority:0 swallowsTouches:YES];
-    _allowInput = YES;
+    self.isTouchEnabled = YES;
 	}
 	
 	return self;
 }
 
-- (id) initWithContentSize:(CGSize)size {
-  if ((self = [self init])) {
+- (void)registerWithTouchDispatcher {
+  [[[CCDirector sharedDirector] touchDispatcher] addTargetedDelegate:self priority:0 swallowsTouches:YES];
+}
+
+- (id) initWithContentSize:(CGSize)size gridSize:(CGSize)gridSize numColors:(int)numColors {
+  if ((self = [self initWithGridSize:gridSize numColors:numColors])) {
     self.contentSize = size;
     [self initBoard];
   }
@@ -63,7 +70,7 @@
 }
 
 - (CGSize) squareSize {
-  return CGSizeMake(contentSize_.width/_gridSize.width, contentSize_.height/_gridSize.height);
+  return CGSizeMake(_contentSize.width/_gridSize.width, _contentSize.height/_gridSize.height);
 }
 
 - (CCSprite *) createGemSpriteWithColor:(GemColorId)gemColor powerup:(PowerupId)powerupId
@@ -94,7 +101,7 @@
 
 - (Gem *) createRandomGem
 {
-  int gemColor = (arc4random() % NUM_COLORS) + 1;
+  int gemColor = (arc4random() % _numColors) + 1;
   CCSprite * gem = [self createGemSpriteWithColor:gemColor powerup:powerup_none];
   Gem *container = [[Gem alloc] init];
   container.sprite = gem;
@@ -328,6 +335,99 @@
   [self updateGemPositionsAfterSwap];
 }
 
+// Color of gem that destroyed this gem
+- (void) destroyGem:(Gem *)gem fromColor:(GemColorId)color fromPowerup:(PowerupId)powerup {
+  if (![self.gems containsObject:gem] || [self.destroyedGems containsObject:gem]) {
+    return;
+  }
+  CCSprite *s = [CCSprite spriteWithFile:@"white.png"];
+  [gem.sprite addChild:s];
+  s.position = ccp(s.contentSize.width/2, s.contentSize.height/2);
+  s.visible = NO;
+  
+  //  CCSprite *c = nil;
+  //  if (gem.color == color_red) {
+  //    c = [CCSprite spriteWithFile:@"redcracked.png"];
+  //    [gem.sprite addChild:c];
+  //    c.position = ccp(c.contentSize.width/2, c.contentSize.height/2);
+  //    c.opacity = 100;
+  //    c.visible = NO;
+  //  }
+  
+  _gemsToProcess++;
+  CGPoint pt = [self coordinateOfGem:gem];
+  // Run is a set so repeats are fine
+  [_run addObject:gem];
+  [self.destroyedGems addObject:gem];
+  [self.reservedGems addObject:gem];
+  if (gem.powerup != powerup_none) {
+    [self initiatePowerup:gem.powerup atLocation:pt withColor:color];
+  }
+  
+  NSMutableArray *arr = [NSMutableArray array];
+  for (int i = 0; i < 0; i++) {
+    [arr addObject:[CCCallBlock actionWithBlock:^{
+      s.visible = YES;
+    }]];
+    [arr addObject:[CCDelayTime actionWithDuration:0.04]];
+    [arr addObject:[CCCallBlock actionWithBlock:^{
+      s.visible = NO;
+    }]];
+    [arr addObject:[CCDelayTime actionWithDuration:0.04]];
+  }
+  
+  CCCallBlock *crack = [CCCallBlock actionWithBlock:^{
+    //    c.visible = YES;
+    //    [c runAction:[CCFadeTo actionWithDuration:0.05 opacity:0]];
+    
+    if (powerup == powerup_horizontal_line || powerup == powerup_vertical_line) {
+      CCParticleSystemQuad *q = [CCParticleSystemQuad particleWithFile:@"molotov.plist"];
+      [self addChild:q z:100];
+      q.position = gem.sprite.position;
+      q.autoRemoveOnFinish = YES;
+      
+      [[SoundEngine sharedSoundEngine] puzzleBoardExplosion];
+    } else if (powerup == powerup_all_of_one_color) {
+      CCParticleSystemQuad *q = [CCParticleSystemQuad particleWithFile:@"molotov.plist"];
+      [self addChild:q z:100];
+      q.position = gem.sprite.position;
+      q.autoRemoveOnFinish = YES;
+      
+      [[SoundEngine sharedSoundEngine] puzzleBoardExplosion];
+    } else {
+      CCSprite *q = [CCSprite spriteWithFile:@"ring.png"];
+      [self addChild:q];
+      q.position = gem.sprite.position;
+      q.scale = 0.5;
+      [q runAction:[CCSequence actions:
+                    [CCSpawn actions:[CCFadeOut actionWithDuration:0.2], [CCScaleTo actionWithDuration:0.2 scale:1], nil],
+                    [CCCallBlock actionWithBlock:
+                     ^{
+                       [q removeFromParentAndCleanup:YES];
+                     }], nil]];
+      
+      CCParticleSystemQuad *x = [CCParticleSystemQuad particleWithFile:@"sparkle1.plist"];
+      [self addChild:x z:12];
+      x.position = gem.sprite.position;
+      x.autoRemoveOnFinish = YES;
+    }
+  }];
+  CCScaleTo *scale = [CCScaleTo actionWithDuration:0.2 scale:0];
+  CCCallBlock *completion = [CCCallBlock actionWithBlock:^{
+    _gemsToProcess--;
+    [self checkAllGemsAndPowerupsDone];
+    [gem.sprite removeFromParentAndCleanup:YES];
+  }];
+  [arr addObject:crack];
+  [arr addObject:scale];
+  [arr addObject:completion];
+  
+  CCSequence *sequence = [CCSequence actionWithArray:arr];
+  [gem.sprite runAction:sequence];
+  
+  [self.delegate orbKilled];
+}
+
 - (Gem *) getPowerupGemForBatch:(NSArray *)batch {
   int maxLength = 0;
   BOOL isHorizontal = YES;
@@ -364,94 +464,6 @@
     }
   }
   return nil;
-}
-
-// Color of gem that destroyed this gem
-- (void) destroyGem:(Gem *)gem fromColor:(GemColorId)color fromPowerup:(PowerupId)powerup {
-  if (![self.gems containsObject:gem] || [self.destroyedGems containsObject:gem]) {
-    return;
-  }
-  CCSprite *s = [CCSprite spriteWithFile:@"white.png"];
-  [gem.sprite addChild:s];
-  s.position = ccp(s.contentSize.width/2, s.contentSize.height/2);
-  s.visible = NO;
-  
-  //  CCSprite *c = nil;
-  //  if (gem.color == color_red) {
-  //    c = [CCSprite spriteWithFile:@"redcracked.png"];
-  //    [gem.sprite addChild:c];
-  //    c.position = ccp(c.contentSize.width/2, c.contentSize.height/2);
-  //    c.opacity = 100;
-  //    c.visible = NO;
-  //  }
-  
-  _gemsToProcess++;
-  CGPoint pt = [self coordinateOfGem:gem];
-  // Run is a set so repeats are fine
-  [_run addObject:gem];
-  [self.destroyedGems addObject:gem];
-  if (gem.powerup != powerup_none) {
-    [self initiatePowerup:gem.powerup atLocation:pt withColor:color];
-  }
-  
-  NSMutableArray *arr = [NSMutableArray array];
-  for (int i = 0; i < 0; i++) {
-    [arr addObject:[CCCallBlock actionWithBlock:^{
-      s.visible = YES;
-    }]];
-    [arr addObject:[CCDelayTime actionWithDuration:0.04]];
-    [arr addObject:[CCCallBlock actionWithBlock:^{
-      s.visible = NO;
-    }]];
-    [arr addObject:[CCDelayTime actionWithDuration:0.04]];
-  }
-  
-  CCCallBlock *crack = [CCCallBlock actionWithBlock:^{
-    //    c.visible = YES;
-    //    [c runAction:[CCFadeTo actionWithDuration:0.05 opacity:0]];
-    
-    if (powerup == powerup_horizontal_line || powerup == powerup_vertical_line) {
-      CCParticleSystemQuad *q = [CCParticleSystemQuad particleWithFile:@"orbblowup.plist"];
-      [self addChild:q];
-      q.position = gem.sprite.position;
-      q.autoRemoveOnFinish = YES;
-    } else {
-      CCSprite *q = [CCSprite spriteWithFile:@"ring.png"];
-      [self addChild:q];
-      q.position = gem.sprite.position;
-      q.scale = 0.5;
-      [q runAction:[CCSequence actions:
-                    [CCSpawn actions:[CCFadeOut actionWithDuration:0.2], [CCScaleTo actionWithDuration:0.2 scale:1], nil],
-                    [CCCallBlock actionWithBlock:
-                     ^{
-                       [q removeFromParentAndCleanup:YES];
-                     }], nil]];
-      
-      //      CCParticleSystemQuad *x1 = [CCParticleSystemQuad particleWithFile:@"ring2.plist"];
-      //      [self addChild:x1 z:1];
-      //      x1.position = gem.sprite.position;
-      //      x1.autoRemoveOnFinish = YES;
-      
-      CCParticleSystemQuad *x = [CCParticleSystemQuad particleWithFile:@"sparkle1.plist"];
-      [self addChild:x z:12];
-      x.position = gem.sprite.position;
-      x.autoRemoveOnFinish = YES;
-    }
-  }];
-  CCScaleTo *scale = [CCScaleTo actionWithDuration:0.2 scale:0];
-  CCCallBlock *completion = [CCCallBlock actionWithBlock:^{
-    _gemsToProcess--;
-    [self checkAllGemsAndPowerupsDone];
-    [gem.sprite removeFromParentAndCleanup:YES];
-  }];
-  [arr addObject:crack];
-  [arr addObject:scale];
-  [arr addObject:completion];
-  
-  CCSequence *sequence = [CCSequence actionsWithArray:arr];
-  [gem.sprite runAction:sequence];
-  
-  [self.delegate orbKilled];
 }
 
 - (void) processBatches:(NSMutableArray*)batches
@@ -492,6 +504,12 @@
     powerupGem.sprite.position = ccp(self.squareSize.width*(pt.x+0.5), self.squareSize.height*(pt.y+0.5));
     
     [toReplace.sprite removeFromParentAndCleanup:YES];
+    
+    [powerupGem.sprite runAction:
+     [CCSequence actions:
+      [CCEaseSineOut actionWithAction:[CCScaleTo actionWithDuration:0.2 scale:1.3]],
+      [CCEaseSineIn actionWithAction:[CCScaleTo actionWithDuration:0.2 scale:1]], nil]];
+    
     _gemsToProcess--;
   }
   
@@ -505,6 +523,7 @@
 - (void) checkAllGemsAndPowerupsDone {
   if (_gemsToProcess == 0 && self.powerups.count == 0) {
     [self.destroyedGems removeAllObjects];
+    [self.reservedGems removeAllObjects];
     [self clearAndFillBoard];
   }
 }
@@ -538,7 +557,9 @@
       [seq addObject:[CCMoveTo actionWithDuration:TIME_TO_TRAVEL_PER_SQUARE position:[self pointForGridPosition:pos]]];
       [seq addObject:[CCCallBlock actionWithBlock:^{
         Gem *g = _gems[(int)(pos.x+pos.y*self.gridSize.width)];
-        [self destroyGem:g fromColor:color fromPowerup:powerupId];
+        if (![self.reservedGems containsObject:g]) {
+          [self destroyGem:g fromColor:color fromPowerup:powerupId];
+        }
       }]];
     }
     
@@ -556,7 +577,7 @@
       [r removeFromParentAndCleanup:YES];
     }]];
     
-    [r runAction:[CCSequence actionsWithArray:seq]];
+    [r runAction:[CCSequence actionWithArray:seq]];
     
     r = [CCSprite spriteWithFile:@"rocket.png"];
     r.position = [self pointForGridPosition:p.startLocation];
@@ -591,7 +612,9 @@
       [r removeFromParentAndCleanup:YES];
     }]];
     
-    [r runAction:[CCSequence actionsWithArray:seq]];
+    [r runAction:[CCSequence actionWithArray:seq]];
+    
+    [[SoundEngine sharedSoundEngine] puzzleRocket];
   } else if (p.powerupId == powerup_vertical_line) {
     for (Powerup *p2 in self.powerups) {
       if (p2.powerupId == powerup_vertical_line && p2.startLocation.x == p.startLocation.x) {
@@ -622,7 +645,9 @@
       [seq addObject:[CCMoveTo actionWithDuration:TIME_TO_TRAVEL_PER_SQUARE position:[self pointForGridPosition:pos]]];
       [seq addObject:[CCCallBlock actionWithBlock:^{
         Gem *g = _gems[(int)(pos.x+pos.y*self.gridSize.width)];
-        [self destroyGem:g fromColor:color fromPowerup:powerupId];
+        if (![self.reservedGems containsObject:g]) {
+          [self destroyGem:g fromColor:color fromPowerup:powerupId];
+        }
       }]];
     }
     
@@ -640,7 +665,7 @@
       [r removeFromParentAndCleanup:YES];
     }]];
     
-    [r runAction:[CCSequence actionsWithArray:seq]];
+    [r runAction:[CCSequence actionWithArray:seq]];
     
     
     r = [CCSprite spriteWithFile:@"rocket.png"];
@@ -681,17 +706,24 @@
       [r removeFromParentAndCleanup:YES];
     }]];
     
-    [r runAction:[CCSequence actionsWithArray:seq]];
+    [r runAction:[CCSequence actionWithArray:seq]];
+    
+    [[SoundEngine sharedSoundEngine] puzzleRocket];
   } else if (p.powerupId == powerup_explosion) {
+    NSMutableArray *blowup = [NSMutableArray array];
+    for (Gem *gem in _gems) {
+      if ([self gem:gem isInExplosionRangeOfLocation:p.startLocation] && ![self.reservedGems containsObject:gem]) {
+        [blowup addObject:gem];
+        [self.reservedGems addObject:gem];
+      }
+    }
     [self runAction:[CCSequence actions:
                      [CCDelayTime actionWithDuration:0.05],
                      [CCCallBlock actionWithBlock:
                       ^{
                         [self.powerups removeObject:p];
-                        for (Gem *gem in _gems) {
-                          if ([self gem:gem isInExplosionRangeOfLocation:p.startLocation]) {
-                            [self destroyGem:gem fromColor:color fromPowerup:powerupId];
-                          }
+                        for (Gem *gem in blowup) {
+                          [self destroyGem:gem fromColor:color fromPowerup:powerupId];
                         }
                         [self checkAllGemsAndPowerupsDone];
                         
@@ -706,30 +738,45 @@
       return;
     }
     
+    NSMutableArray *blowup = [NSMutableArray array];
     for (Gem *gem in _gems) {
-      if (gem.color == p.color && ![self.destroyedGems containsObject:gem]) {
-        CCParticleSystemQuad *q = [CCParticleSystemQuad particleWithFile:@"rockettail.plist"];
-        [self addChild:q z:10];
-        q.position = [self pointForGridPosition:p.startLocation];
-        [q runAction:[CCMoveTo actionWithDuration:MOLOTOV_PARTICLE_DURATION position:gem.sprite.position]];
-        q.duration = MOLOTOV_PARTICLE_DURATION;
-        q.autoRemoveOnFinish = YES;
+      if (gem.color == p.color && ![self.reservedGems containsObject:gem]) {
+        [blowup addObject:gem];
+        [self.reservedGems addObject:gem];
       }
     }
     
-    [self runAction:[CCSequence actions:
-                     [CCDelayTime actionWithDuration:MOLOTOV_PARTICLE_DURATION],
-                     [CCCallBlock actionWithBlock:
-                      ^{
-                        [self.powerups removeObject:p];
-                        for (Gem *gem in _gems) {
-                          if (gem.color == p.color) {
-                            [self destroyGem:gem fromColor:color fromPowerup:powerupId];
-                          }
-                        }
-                        [self checkAllGemsAndPowerupsDone];
-                      }],
-                     nil]];
+    [blowup shuffle];
+    
+    if (blowup.count > 0) {
+      for (int i = 0; i < blowup.count; i++) {
+        Gem *gem = [blowup objectAtIndex:i];
+        CCParticleSystemQuad *q = [CCParticleSystemQuad particleWithFile:@"rockettail.plist"];
+        [self addChild:q z:10];
+        q.position = [self pointForGridPosition:p.startLocation];
+        
+        BOOL last = i == blowup.count-1;
+        [q runAction:
+         [CCSequence actions:
+          [CCDelayTime actionWithDuration:i*0.1],
+          [CCMoveTo actionWithDuration:MOLOTOV_PARTICLE_DURATION position:gem.sprite.position],
+          [CCCallBlock actionWithBlock:
+           ^{
+             [q removeFromParentAndCleanup:YES];
+             
+             [self destroyGem:gem fromColor:color fromPowerup:powerupId];
+             
+             if (last) {
+               [self.powerups removeObject:p];
+             }
+             
+             [self checkAllGemsAndPowerupsDone];
+           }],
+          nil]];
+      }
+    } else {
+      return;
+    }
   }
   
   [self.powerups addObject:p];
@@ -825,7 +872,7 @@
       [self.powerups addObject:p];
       
       for (Gem *gem in _gems) {
-        if (gem.color == color && ![self.destroyedGems containsObject:gem]) {
+        if (gem.color == color) {
           CCParticleSystemQuad *q = [CCParticleSystemQuad particleWithFile:@"rockettail.plist"];
           [self addChild:q z:10];
           q.position = _realDragGem.sprite.position;
@@ -842,7 +889,7 @@
         NSMutableSet *colorGems = [NSMutableSet set];
         for (int i = 0; i < self.gems.count; i++) {
           Gem *gem = [self.gems objectAtIndex:i];
-          if (gem.color == color && ![self.destroyedGems containsObject:gem]) {
+          if (gem.color == color) {
             Gem *newGem = [self createGemWithColor:color powerup:arc4random() % 2 == 0 ? powerup_horizontal_line : powerup_vertical_line];
             [self.gems replaceObjectAtIndex:[self.gems indexOfObject:gem] withObject:newGem];
             newGem.sprite.position = [self pointForGridPosition:[self coordinateOfGem:newGem]];
@@ -854,20 +901,20 @@
         }
         
         NSMutableArray *seq = [NSMutableArray array];
-        [seq addObject:[CCDelayTime actionWithDuration:0.4]];
+        [seq addObject:[CCDelayTime actionWithDuration:0.2]];
         for (Gem *gem in colorGems) {
+          [seq addObject:[CCDelayTime actionWithDuration:0.2]];
           [seq addObject:[CCCallBlock actionWithBlock:^{
             [self destroyGem:gem fromColor:gem.color fromPowerup:powerup_none];
           }]];
-          [seq addObject:[CCDelayTime actionWithDuration:0.2]];
         }
         [seq addObject:[CCCallBlock actionWithBlock:^{
           [self.powerups removeObject:p];
           [self checkAllGemsAndPowerupsDone];
         }]];
-        [self runAction:[CCSequence actionsWithArray:seq]];
+        [self runAction:[CCSequence actionWithArray:seq]];
       }]];
-      [self runAction:[CCSequence actionsWithArray:seq]];
+      [self runAction:[CCSequence actionWithArray:seq]];
       
       _realDragGem.powerup = powerup_none;
       _swapGem.powerup = powerup_none;
@@ -916,7 +963,7 @@
         [self.powerups removeObject:p];
         [self checkAllGemsAndPowerupsDone];
       }]];
-      [self runAction:[CCSequence actionsWithArray:seq]];
+      [self runAction:[CCSequence actionWithArray:seq]];
     }
     _foundMatch = YES;
     return YES;
@@ -931,7 +978,7 @@
       colorGem = _realDragGem;
     }
     
-    [self destroyGem:powerupGem fromColor:colorGem.color fromPowerup:powerup_all_of_one_color];
+    [self destroyGem:powerupGem fromColor:colorGem.color fromPowerup:powerup_none];
     _foundMatch = YES;
     return YES;
   }
@@ -1001,13 +1048,14 @@
         int idxB = [_gems indexOfObject:realDragGem];
         [_gems replaceObjectAtIndex:idxA withObject:realDragGem];
         [_gems replaceObjectAtIndex:idxB withObject:swapGem];
+        
+        [[SoundEngine sharedSoundEngine] puzzleWrongMove];
       }
       
       [self.comboLabels enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
         [obj removeFromParentAndCleanup:YES];
       }];
       [self.comboLabels removeAllObjects];
-      _allowInput = YES;
       [self.delegate turnComplete];
     }
   } else {
@@ -1032,7 +1080,7 @@
       {
         _gemsBouncing++;
         int numSquares = (container.sprite.position.y - startY) / squareSize.height;
-        [container.sprite stopAllActions];
+//        [container.sprite stopAllActions];
         CCMoveTo * moveTo = [CCMoveTo actionWithDuration:0.4+0.1*numSquares position:CGPointMake(startX, startY)];
         [container.sprite runAction:[CCSequence actions:
                                      [CCEaseBounceOut actionWithAction:moveTo],
@@ -1098,12 +1146,17 @@
   [gem2.sprite runAction:move2];
 }
 
+- (void) allowInput {
+  _allowInput = YES;
+}
+
 #pragma mark touch handling
 
 -(BOOL)ccTouchBegan:(UITouch *)touch withEvent:(UIEvent *)event {
   if (!_allowInput) return NO;
   
   CGPoint location = [self convertTouchToNodeSpace: touch];
+  if (![self isPointInArea:[self convertToWorldSpace:location]]) return NO;
   CGPoint square = ccp((int)(location.x/self.squareSize.width), (int)(location.y/self.squareSize.height));
   if (square.x > self.gridSize.width-1 || square.y > self.gridSize.height-1) {
     return NO;
@@ -1224,6 +1277,9 @@
   self.oldGems = nil;
   self.gems = nil;
   self.comboLabels = nil;
+  self.destroyedGems = nil;
+  self.reservedGems = nil;
+  self.powerups = nil;
   [super dealloc];
 }
 

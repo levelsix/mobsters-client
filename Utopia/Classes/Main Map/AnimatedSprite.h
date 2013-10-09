@@ -47,7 +47,6 @@
   int _curNum;
 }
 
-@property (nonatomic, retain) CCSpriteBatchNode *spritesheet;
 @property (nonatomic, retain) CCSprite *sprite;
 @property (nonatomic, retain) CCAction *walkActionN;
 @property (nonatomic, retain) CCAction *walkActionF;
@@ -131,8 +130,6 @@ typedef enum {
 @property (nonatomic, copy) CCSprite *bossMenu;
 
 @property (nonatomic, retain) NSInvocation *callback;
-
-- (void) animateBarWithCallback:(NSInvocation *)inv;
 
 @end
 

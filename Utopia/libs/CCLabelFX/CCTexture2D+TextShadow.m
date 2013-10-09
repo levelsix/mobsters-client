@@ -75,11 +75,11 @@ float addedPixels =0.0;
     
 	// normal fonts
 	if( [uifont isKindOfClass:[UIFont class] ] )
-		[string drawInRect:stringRect withFont:uifont lineBreakMode:UILineBreakModeWordWrap alignment:alignment];
+		[string drawInRect:stringRect withFont:uifont lineBreakMode:NSLineBreakByWordWrapping alignment:(NSTextAlignment)alignment];
 	
 #if CC_FONT_LABEL_SUPPORT
 	else // ZFont class 
-		[string drawInRect:stringRect withZFont:uifont lineBreakMode:UILineBreakModeWordWrap alignment:alignment];
+		[string drawInRect:stringRect withZFont:uifont lineBreakMode:NSLineBreakByWordWrapping alignment:alignment];
 #endif
 	
 	UIGraphicsPopContext();
@@ -175,9 +175,8 @@ float addedPixels =0.0;
 	}
     
     CGSize newDimensions = [self transformDimensions:dim offset:shadowSize blur:shadowBlur];
-    
-	return [self initWithString:string dimensions:newDimensions alignment:CCTextAlignmentCenter font:font shadowOffset:shadowSize 
-                     shadowBlur:shadowBlur shadowColor:shadowColor fillColor:fillColor];
+  
+	return [self initWithString:string dimensions:newDimensions alignment:kCCTextAlignmentCenter font:font shadowOffset:shadowSize shadowBlur:shadowBlur shadowColor:shadowColor fillColor:fillColor];
 #elif defined(__MAC_OS_X_VERSION_MAX_ALLOWED)
 	{
 		NSSize shadowNSSize = NSSizeFromCGSize(shadowSize);

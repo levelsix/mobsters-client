@@ -11,7 +11,6 @@
 #import "GameState.h"
 #import "SocketCommunication.h"
 #import "Globals.h"
-#import "MarketplaceViewController.h"
 #import "TopBar.h"
 #import "GameLayer.h"
 #import "MissionMap.h"
@@ -191,49 +190,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
   }
 }
 
-- (void) buyEquip:(int)equipId {
-  [Globals popupMessage:@"Equips can no longer be purchased this way!"];
-  return;
-  
-  GameState *gs = [GameState sharedGameState];
-  FullEquipProto *fep = [gs equipWithId:equipId];
-  
-  if (!fep.isBuyableInArmory) {
-    [Globals popupMessage:@"Attempting to buy equip that is not in the armory.."];
-  } else if (gs.silver >= fep.coinPrice && gs.gold >= fep.diamondPrice) {
-    int tag = [[SocketCommunication sharedSocketCommunication] sendArmoryMessage:ArmoryRequestProto_ArmoryRequestTypeBuy quantity:1 equipId:equipId];
-    
-    SilverUpdate *su = [SilverUpdate updateWithTag:tag change:-fep.coinPrice];
-    GoldUpdate *gu = [GoldUpdate updateWithTag:tag change:-fep.diamondPrice];
-    
-    [gs addUnrespondedUpdates:su, gu, nil];
-  } else {
-    [Globals popupMessage:@"Not enough money to buy this equipment"];
-  }
-}
-
-//- (int) sellEquip:(int)equipId {
-//  GameState *gs = [GameState sharedGameState];
-//  Globals *gl = [Globals sharedGlobals];
-//  UserEquip *ue = [gs myEquipWithId:equipId];
-//
-//  if (ue) {
-//    int tag = [[SocketCommunication sharedSocketCommunication] sendArmoryMessage:ArmoryRequestProto_ArmoryRequestTypeSell quantity:1 equipId:equipId];
-//
-//    SilverUpdate *su = [SilverUpdate updateWithTag:tag change:[gl calculateEquipSilverSellCost:ue]];
-//    GoldUpdate *gu = [GoldUpdate updateWithTag:tag change:[gl calculateEquipGoldSellCost:ue]];
-//    ChangeEquipUpdate *ceu = [ChangeEquipUpdate updateWithTag:tag equipId:equipId change:-1];
-//
-//    [gs addUnrespondedUpdates:ceu, su, gu, nil];
-//
-//  } else {
-//    [Globals popupMessage:@"You do not own this equipment"];
-//  }
-//
-//  return [gs myEquipWithId:equipId].quantity;
-//}
-
-- (BOOL) wearEquip:(int)userEquipId forPrestigeSlot:(BOOL)forPrestigeSlot {
+- (BOOL) wearEquip:(uint64_t)userEquipId forPrestigeSlot:(BOOL)forPrestigeSlot {
   GameState *gs = [GameState sharedGameState];
   UserEquip *ue = [gs myEquipWithUserEquipId:userEquipId];
   
@@ -282,10 +239,6 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
     if ([ArmoryViewController isInitialized] && [ArmoryViewController sharedArmoryViewController].view.superview) {
       [[ArmoryViewController sharedArmoryViewController] refresh];
     }
-    
-    if ([MarketplaceViewController isInitialized] && [MarketplaceViewController sharedMarketplaceViewController].view.superview) {
-      [[MarketplaceViewController sharedMarketplaceViewController].bottomBar updateLabels];
-    }
   } else {
     [Globals popupMessage:@"You do not own this equip"];
     return NO;
@@ -297,7 +250,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
 - (void) generateAttackList:(int)numEnemies bounds:(CGRect)bounds {
   // Deactivate this
   return;
-  ContextLogInfo( LN_CONTEXT_COMMUNICATION, @"%d enemies in rect: %@", numEnemies, [NSValue valueWithCGRect:bounds]);
+  LNLog(@"%d enemies in rect: %@", numEnemies, [NSValue valueWithCGRect:bounds]);
   if (bounds.size.width <= 0 || bounds.size.height <= 0) {
     [Globals popupMessage:@"Invalid bounds to generate attack list"];
     return;
@@ -345,247 +298,6 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
   [mut addObject:receipt];
   [defaults setObject:mut forKey:IAP_DEFAULTS_KEY];
   [defaults synchronize];
-}
-
-- (void) retrieveMarketplacePosts:(int)searchEquipId {
-  SocketCommunication *sc = [SocketCommunication sharedSocketCommunication];
-  Globals *gl = [Globals sharedGlobals];
-  NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
-  
-  int filterBarButton = [defaults integerForKey:FILTER_BAR_USER_DEFAULTS_KEY];
-  int rarityBarButton = [defaults integerForKey:RARITY_BAR_USER_DEFAULTS_KEY];
-  BOOL myClassOnly = [defaults boolForKey:SWITCH_BUTTON_USER_DEFAULTS_KEY];
-  int equipMin = [defaults integerForKey:EQUIP_LEVEL_MIN_USER_DEFAULTS_KEY];
-  int equipMax = [defaults integerForKey:EQUIP_LEVEL_MAX_USER_DEFAULTS_KEY];
-  int forgeMin = [defaults integerForKey:FORGE_LEVEL_MIN_USER_DEFAULTS_KEY];
-  int forgeMax = [defaults integerForKey:FORGE_LEVEL_MAX_USER_DEFAULTS_KEY];
-  int sortOrder = [defaults integerForKey:SORT_ORDER_USER_DEFAULTS_KEY];
-  BOOL commonEquips = YES;
-  BOOL uncommonEquips = YES;
-  BOOL rareEquips = YES;
-  BOOL superRareEquips = YES;
-  BOOL epicEquips = YES;
-  BOOL legendaryEquips = YES;
-  
-  RetrieveCurrentMarketplacePostsRequestProto_RetrieveCurrentMarketplacePostsFilter filter = RetrieveCurrentMarketplacePostsRequestProto_RetrieveCurrentMarketplacePostsFilterAll;
-  switch (filterBarButton) {
-    case 1:
-      filter = RetrieveCurrentMarketplacePostsRequestProto_RetrieveCurrentMarketplacePostsFilterWeapons;
-      break;
-    case 2:
-      filter = RetrieveCurrentMarketplacePostsRequestProto_RetrieveCurrentMarketplacePostsFilterArmor;
-      break;
-    case 3:
-      filter = RetrieveCurrentMarketplacePostsRequestProto_RetrieveCurrentMarketplacePostsFilterAmulets;
-      break;
-    default:
-      break;
-  }
-  
-  
-  if (rarityBarButton & 1) {
-    if (!(rarityBarButton & (1 << 1))) legendaryEquips = NO;
-    if (!(rarityBarButton & (1 << 2))) epicEquips = NO;
-    if (!(rarityBarButton & (1 << 3))) rareEquips = NO;
-    if (!(rarityBarButton & (1 << 4))) superRareEquips = NO;
-    if (!(rarityBarButton & (1 << 5))) uncommonEquips = NO;
-    if (!(rarityBarButton & (1 << 6))) commonEquips = NO;
-  }
-  
-  if (equipMin == 0) equipMin = 1;
-  if (equipMax == 0) equipMax = gl.maxLevelForUser/5*5+4;
-  
-  if (forgeMin == 0) forgeMin = 1;
-  if (forgeMax == 0) forgeMax = gl.forgeMaxEquipLevel;
-  
-  int curNumEntries = [[GameState sharedGameState] marketplaceEquipPosts].count;
-  int tag = [sc sendRetrieveCurrentMarketplacePostsMessageWithCurNumEntries:curNumEntries filter:filter commonEquips:commonEquips uncommonEquips:uncommonEquips rareEquips:rareEquips superRareEquips:superRareEquips epicEquips:epicEquips legendaryEquips:legendaryEquips myClassOnly:myClassOnly minEquipLevel:equipMin maxEquipLevel:equipMax minForgeLevel:forgeMin maxForgeLevel:forgeMax sortOrder:sortOrder specificEquipId:searchEquipId];
-  [[GameState sharedGameState] addUnrespondedUpdate:[NoUpdate updateWithTag:tag]];
-}
-
-- (void) retrieveMostRecentMarketplacePosts:(int)searchEquipId {
-  [[[GameState sharedGameState] marketplaceEquipPosts] removeAllObjects];
-  [[MarketplaceViewController sharedMarketplaceViewController] deleteRows:1];
-  [self retrieveMarketplacePosts:searchEquipId];
-}
-
-- (void) retrieveMoreMarketplacePosts:(int)searchEquipId {
-  [self retrieveMarketplacePosts:searchEquipId];
-}
-
-- (void) retrieveMostRecentMarketplacePostsFromSender {
-  SocketCommunication *sc = [SocketCommunication sharedSocketCommunication];
-  [[[GameState sharedGameState] marketplaceEquipPostsFromSender] removeAllObjects];
-  int tag = [sc sendRetrieveCurrentMarketplacePostsMessageFromSenderWithCurNumEntries:0];
-  [[MarketplaceViewController sharedMarketplaceViewController] deleteRows:2];
-  [[GameState sharedGameState] addUnrespondedUpdate:[NoUpdate updateWithTag:tag]];
-}
-
-- (void) retrieveMoreMarketplacePostsFromSender {
-  SocketCommunication *sc = [SocketCommunication sharedSocketCommunication];
-  GameState *gs = [GameState sharedGameState];
-  int tag = [sc sendRetrieveCurrentMarketplacePostsMessageFromSenderWithCurNumEntries:gs.marketplaceEquipPostsFromSender.count];
-  [[GameState sharedGameState] addUnrespondedUpdate:[NoUpdate updateWithTag:tag]];
-}
-
-- (void) equipPostToMarketplace:(int)userEquipId price:(int)price {
-  GameState *gs = [GameState sharedGameState];
-  
-  if (price <= 0) {
-    [Globals popupMessage:@"You need to enter a price!"];
-    return;
-  }
-  
-  UserEquip *eq = [gs myEquipWithUserEquipId:userEquipId];
-  
-  if (eq) {
-    FullEquipProto *fep = [gs equipWithId:eq.equipId];
-    BOOL sellsForGold = [Globals sellsForGoldInMarketplace:fep];
-    int silver = sellsForGold ? 0 : price;
-    int gold = sellsForGold ? price : 0;
-    int tag = [[SocketCommunication sharedSocketCommunication] sendEquipPostToMarketplaceMessage:userEquipId coins:silver diamonds:gold];
-    
-    ChangeEquipUpdate *ceu = [ChangeEquipUpdate updateWithTag:tag userEquip:eq remove:YES];
-    [gs addUnrespondedUpdate:ceu];
-    [GenericPopupController displayNotificationViewWithText:[NSString stringWithFormat:@"You have posted your %@ for %d %@!", fep.name, silver ? silver : gold, silver ? @"silver" : @"gold"] title:@"Congratulations!"];
-  } else {
-    [Globals popupMessage:@"Unable to find this equip!"];
-  }
-}
-
-- (void) retractMarketplacePost:(int)postId {
-  SocketCommunication *sc = [SocketCommunication sharedSocketCommunication];
-  MarketplaceViewController *mvc = [MarketplaceViewController sharedMarketplaceViewController];
-  GameState *gs = [GameState sharedGameState];
-  Globals *gl = [Globals sharedGlobals];
-  
-  NSMutableArray *mktPostsFromSender = mvc.arrayForCurrentState;
-  for (int i = 0; i < mktPostsFromSender.count; i++) {
-    FullMarketplacePostProto *proto = [mktPostsFromSender objectAtIndex:i];
-    if (proto.marketplacePostId == postId) {
-      BOOL isGold = NO;
-      int amount = 0;
-      if (![gl canRetractMarketplacePostForFree:proto]) {
-        if (proto.diamondCost > 0) {
-          isGold = YES;
-          amount = (int) ceilf(proto.diamondCost*gl.retractPercentCut);
-          if (gs.gold < amount)  {
-            [Globals popupMessage:@"Not enough gold to retract"];
-            return;
-          }
-        } else {
-          isGold = NO;
-          amount = (int) ceilf(proto.coinCost*gl.retractPercentCut);
-          if (gs.silver < amount) {
-            [Globals popupMessage:@"Not enough silver to retract"];
-            return;
-          }
-        }
-      }
-      int tag = [sc sendRetractMarketplacePostMessage:postId curTime:[self getCurrentMilliseconds]];
-      
-      [proto retain];
-      [mktPostsFromSender removeObject:proto];
-      // Might be in either list depending on current state
-      [gs.marketplaceEquipPostsFromSender removeObject:proto];
-      [gs.marketplaceEquipPosts removeObject:proto];
-      [proto release];
-      
-      BOOL showsLicenseRow = (mvc.state == kEquipSellingState);
-      NSIndexPath *y = [NSIndexPath indexPathForRow:i+1+showsLicenseRow inSection:0];
-      NSIndexPath *z = nil;
-      if (mvc.state == kEquipBuyingState && mktPostsFromSender.count == 0) {
-        z = [NSIndexPath indexPathForRow:0 inSection:0];
-      } else if (mvc.state == kEquipSellingState && mktPostsFromSender.count+gs.myEquips.count == 0) {
-        z = [NSIndexPath indexPathForRow:0 inSection:0];
-      }
-      NSArray *a = [NSArray arrayWithObjects:y, z, nil];
-      [mvc.postsTableView deleteRowsAtIndexPaths:a withRowAnimation:UITableViewRowAnimationFade];
-      
-      FullUserUpdate *fuu = isGold ? [GoldUpdate updateWithTag:tag change:-amount] : [SilverUpdate updateWithTag:tag change:-amount];
-      [gs addUnrespondedUpdate:fuu];
-      
-      return;
-    }
-  }
-  
-  [Globals popupMessage:@"Cannot verify that this item belongs to user.."];
-}
-
-- (void) purchaseFromMarketplace:(int)postId {
-  SocketCommunication *sc = [SocketCommunication sharedSocketCommunication];
-  GameState *gs = [GameState sharedGameState];
-  
-  NSMutableArray *mktPosts = gs.marketplaceEquipPosts;
-  for (int i = 0; i < mktPosts.count; i++) {
-    FullMarketplacePostProto *mktPost = [mktPosts objectAtIndex:i];
-    if ([mktPost marketplacePostId] == postId) {
-      if (gs.userId != mktPost.poster.userId) {
-        if (gs.gold >= mktPost.diamondCost && gs.silver >= mktPost.coinCost) {
-          [sc sendPurchaseFromMarketplaceMessage:postId poster:mktPost.poster.userId clientTime:[self getCurrentMilliseconds]];
-        } else {
-          [Globals popupMessage:@"Not enough coins to purchase"];
-        }
-        return;
-      }
-    }
-  }
-  
-  [Globals popupMessage:@"Cannot find this item.."];
-}
-
-- (void) redeemMarketplaceEarnings {
-  SocketCommunication *sc = [SocketCommunication sharedSocketCommunication];
-  GameState *gs = [GameState sharedGameState];
-  
-  if (gs.marketplaceGoldEarnings || gs.marketplaceSilverEarnings) {
-    int tag = [sc sendRedeemMarketplaceEarningsMessage];
-    
-    GoldUpdate *gu = [GoldUpdate updateWithTag:tag change:gs.marketplaceGoldEarnings];
-    SilverUpdate *su = [SilverUpdate updateWithTag:tag change:gs.marketplaceSilverEarnings];
-    [gs addUnrespondedUpdates:gu, su, nil];
-    
-    gs.marketplaceGoldEarnings = 0;
-    gs.marketplaceSilverEarnings = 0;
-  } else {
-    [Globals popupMessage:@"Nothing to earn!"];
-  }
-}
-
-- (void) purchaseShortMarketplaceLicense {
-  SocketCommunication *sc = [SocketCommunication sharedSocketCommunication];
-  GameState *gs = [GameState sharedGameState];
-  Globals *gl = [Globals sharedGlobals];
-  
-  if (gs.hasValidLicense) {
-    [Globals popupMessage:@"Trying to buy short license when you already own one"];
-  } else if (gs.gold < gl.diamondCostOfShortMarketplaceLicense) {
-    [Globals popupMessage:@"Trying to buy short license without enough gold"];
-  } else {
-    uint64_t curTime = [self getCurrentMilliseconds];
-    int tag = [sc sendPurchaseMarketplaceLicenseMessage:curTime type:PurchaseMarketplaceLicenseRequestProto_LicenseTypeShort];
-    gs.lastShortLicensePurchaseTime = [NSDate dateWithTimeIntervalSince1970:curTime/1000.];
-    
-    [gs addUnrespondedUpdate:[GoldUpdate updateWithTag:tag change:-gl.diamondCostOfShortMarketplaceLicense]];
-  }
-}
-
-- (void) purchaseLongMarketplaceLicense {
-  SocketCommunication *sc = [SocketCommunication sharedSocketCommunication];
-  GameState *gs = [GameState sharedGameState];
-  Globals *gl = [Globals sharedGlobals];
-  
-  if (gs.hasValidLicense) {
-    [Globals popupMessage:@"Trying to buy long license when you already own one"];
-  } else if (gs.gold < gl.diamondCostOfLongMarketplaceLicense) {
-    [Globals popupMessage:@"Trying to buy long license without enough gold"];
-  } else {
-    uint64_t curTime = [self getCurrentMilliseconds];
-    int tag = [sc sendPurchaseMarketplaceLicenseMessage:curTime type:PurchaseMarketplaceLicenseRequestProto_LicenseTypeLong];
-    gs.lastShortLicensePurchaseTime = [NSDate dateWithTimeIntervalSince1970:curTime/1000.];
-    
-    [gs addUnrespondedUpdate:[GoldUpdate updateWithTag:tag change:-gl.diamondCostOfLongMarketplaceLicense]];
-  }
 }
 
 - (void) addAttackSkillPoint {
@@ -1182,14 +894,6 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
   for (UserNotification *un in gs.notifications) {
     if (un.stolenEquipId != 0) {
       NSNumber *n = [NSNumber numberWithInt:un.stolenEquipId];
-      if (![sEquips objectForKey:n]) {
-        [rEquips addObject:n];
-        shouldSend = YES;
-      }
-    }
-    
-    if (un.marketPost.postedEquip.equipId) {
-      NSNumber *n = [NSNumber numberWithInt:un.marketPost.postedEquip.equipId];
       if (![sEquips objectForKey:n]) {
         [rEquips addObject:n];
         shouldSend = YES;
@@ -2131,71 +1835,51 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
   }
 }
 
-- (void) purchaseCityExpansion:(ExpansionDirection)direction {
+- (void) purchaseCityExpansionAtX:(int)x atY:(int)y {
   GameState *gs = [GameState sharedGameState];
   Globals *gl = [Globals sharedGlobals];
-  UserExpansion *ue = gs.userExpansion;
   
-  int silverCost = [gl calculateSilverCostForNewExpansion:ue];
+  int silverCost = [gl calculateSilverCostForNewExpansion];
   if (gs.silver < silverCost) {
     [Globals popupMessage:@"Attempting to expand without enough silver"];
-  } else if (ue.isExpanding) {
+  } else if (gs.isExpanding) {
     [Globals popupMessage:@"Attempting to expand while already expanding"];
   } else {
     uint64_t ms = [self getCurrentMilliseconds];
-    int tag = [[SocketCommunication sharedSocketCommunication] sendPurchaseCityExpansionMessage:direction timeOfPurchase:ms];
+    int tag = [[SocketCommunication sharedSocketCommunication] sendPurchaseCityExpansionMessageAtX:x atY:y timeOfPurchase:ms];
     [gs addUnrespondedUpdate:[SilverUpdate updateWithTag:tag change:-silverCost]];
     
-    if (!ue) {
-      ue = [[UserExpansion alloc] init];
-      ue.userId = gs.userId;
-    }
-    
+    UserExpansion *ue = [[UserExpansion alloc] init];
+    ue.userId = gs.userId;
     ue.isExpanding = YES;
-    ue.lastExpandDirection = direction;
+    ue.xPosition = x;
+    ue.yPosition = y;
     ue.lastExpandTime = [NSDate dateWithTimeIntervalSince1970:ms/1000.0];
-    gs.userExpansion = ue;
+    [gs.userExpansions addObject:ue];
     
     [gs beginExpansionTimer];
   }
 }
 
-- (void) expansionWaitComplete:(BOOL)speedUp {
+- (void) expansionWaitComplete:(BOOL)speedUp atX:(int)x atY:(int)y {
   GameState *gs = [GameState sharedGameState];
   Globals *gl = [Globals sharedGlobals];
-  UserExpansion *ue = gs.userExpansion;
+  UserExpansion *ue = [gs getExpansionForX:x y:y];
   
-  int timeLeft = ue.lastExpandTime.timeIntervalSinceNow + [gl calculateNumMinutesForNewExpansion:ue]*60;
-  int goldCost = speedUp ? [gl calculateGoldCostToSpeedUpExpansion:ue timeLeft:timeLeft] : 0;
+  int timeLeft = ue.lastExpandTime.timeIntervalSinceNow + [gl calculateNumMinutesForNewExpansion]*60;
+  int goldCost = speedUp ? [gl calculateGoldCostToSpeedUpExpansionTimeLeft:timeLeft] : 0;
   if (gs.gold < goldCost) {
     [Globals popupMessage:@"Attempting to speedup without enough gold"];
   } else if (!ue.isExpanding) {
     [Globals popupMessage:@"Attempting to complete expansion while not expanding"];
-  } else if (!speedUp && [[NSDate date] compare:[ue.lastExpandTime dateByAddingTimeInterval:[gl calculateNumMinutesForNewExpansion:ue]*60]] == NSOrderedAscending) {
+  } else if (!speedUp && [[NSDate date] compare:[ue.lastExpandTime dateByAddingTimeInterval:[gl calculateNumMinutesForNewExpansion]*60]] == NSOrderedAscending) {
     [Globals popupMessage:@"Attempting to complete expansion before it is ready"];
   } else {
     uint64_t ms = [self getCurrentMilliseconds];
-    int tag = [[SocketCommunication sharedSocketCommunication] sendExpansionWaitCompleteMessage:speedUp curTime:ms];
+    int tag = [[SocketCommunication sharedSocketCommunication] sendExpansionWaitCompleteMessage:speedUp curTime:ms atX:x atY:y];
     [gs addUnrespondedUpdate:[GoldUpdate updateWithTag:tag change:-goldCost]];
     
     ue.isExpanding = NO;
-    
-    switch (ue.lastExpandDirection) {
-      case ExpansionDirectionFarLeft:
-        ue.farLeftExpansions++;
-        break;
-      case ExpansionDirectionFarRight:
-        ue.farRightExpansions++;
-        break;
-      case ExpansionDirectionNearLeft:
-        ue.nearLeftExpansions++;
-        break;
-      case ExpansionDirectionNearRight:
-        ue.nearRightExpansions++;
-        break;
-      default:
-        break;
-    }
     
     [gs stopExpansionTimer];
   }
@@ -2373,6 +2057,10 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
 
 - (void) redeemUserCityGems:(int)cityId {
   [[SocketCommunication sharedSocketCommunication] sendRedeemUserCityGemsMessage:cityId];
+}
+
+- (void) beginDungeon:(int)taskId {
+  [[SocketCommunication sharedSocketCommunication] sendBeginDungeonMessage:[self getCurrentMilliseconds] taskId:taskId];
 }
 
 @end

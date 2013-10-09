@@ -57,7 +57,7 @@
   NSRange curRange = NSMakeRange(0, 1);
   NSString *curChar = [self.string substringWithRange:curRange];
   CGContextSetShadowWithColor(context, shadowOffset, 0.f, shadowColor.CGColor);
-  [curChar drawInRect:curRect withFont:_font lineBreakMode:UILineBreakModeClip alignment:UITextAlignmentCenter];
+  [curChar drawInRect:curRect withFont:_font lineBreakMode:NSLineBreakByClipping alignment:NSTextAlignmentCenter];
   
   CGContextSetShadow(context, CGSizeMake(0, 0), 0.f);
   curRect.origin.x += _tickerImage.size.width+TICKER_SEPERATION;
@@ -65,7 +65,7 @@
   curRange.location++;
   curChar = [self.string substringWithRange:curRange];
   CGContextSetShadowWithColor(context, shadowOffset, 0.f, shadowColor.CGColor);
-  [curChar drawInRect:curRect withFont:_font lineBreakMode:UILineBreakModeClip alignment:UITextAlignmentCenter];
+  [curChar drawInRect:curRect withFont:_font lineBreakMode:NSLineBreakByClipping alignment:NSTextAlignmentCenter];
   
   CGContextSetShadow(context, CGSizeMake(0, 0), 0.f);
   CGRect midRect = curRect;
@@ -74,7 +74,7 @@
   curRange.location++;
   curChar = [self.string substringWithRange:curRange];
   CGContextSetShadowWithColor(context, shadowOffset, 0.f, shadowColor.CGColor);
-  [curChar drawInRect:midRect withFont:_font lineBreakMode:UILineBreakModeClip alignment:UITextAlignmentCenter];
+  [curChar drawInRect:midRect withFont:_font lineBreakMode:NSLineBreakByClipping alignment:NSTextAlignmentCenter];
   
   CGContextSetShadow(context, CGSizeMake(0, 0), 0.f);
   curRect.origin.x += _tickerImage.size.width+TICKER_MIDDLE_SEPARATION;
@@ -82,7 +82,7 @@
   curRange.location++;
   curChar = [self.string substringWithRange:curRange];
   CGContextSetShadowWithColor(context, shadowOffset, 0.f, shadowColor.CGColor);
-  [curChar drawInRect:curRect withFont:_font lineBreakMode:UILineBreakModeClip alignment:UITextAlignmentCenter];
+  [curChar drawInRect:curRect withFont:_font lineBreakMode:NSLineBreakByClipping alignment:NSTextAlignmentCenter];
   
   CGContextSetShadow(context, CGSizeMake(0, 0), 0.f);
   curRect.origin.x += _tickerImage.size.width+TICKER_SEPERATION;
@@ -90,7 +90,7 @@
   curRange.location++;
   curChar = [self.string substringWithRange:curRange];
   CGContextSetShadowWithColor(context, shadowOffset, 0.f, shadowColor.CGColor);
-  [curChar drawInRect:curRect withFont:_font lineBreakMode:UILineBreakModeClip alignment:UITextAlignmentCenter];
+  [curChar drawInRect:curRect withFont:_font lineBreakMode:NSLineBreakByClipping alignment:NSTextAlignmentCenter];
 }
 
 - (void) dealloc {

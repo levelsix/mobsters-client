@@ -29,7 +29,6 @@
 #define END_TRIANGLE_ROTATION 225.f
 
 @interface BattleLayer : CCLayer {
-  BOOL _isRunning;
   BOOL _isBattling;
   BOOL _isAnimating;
   

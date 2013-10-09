@@ -11,7 +11,6 @@
 #import "cocos2d.h"
 #import "Globals.h"
 #import "GameState.h"
-#import "MarketplaceViewController.h"
 #import "OutgoingEventController.h"
 #import "BattleLayer.h"
 #import "ProfileViewController.h"
@@ -71,17 +70,6 @@
     }
     
     [button setImage:[Globals imageNamed:@"revenge.png"] forState:UIControlStateNormal];
-  } else if (notification.type == kNotificationMarketplace) {
-    FullEquipProto *fep = [gs equipWithId:notification.marketPost.postedEquip.equipId];
-    titleLabel.text = [NSString stringWithFormat:@"%@ bought your %@.", name, fep.name ];
-    
-    float percentReceived = n.sellerHadLicense ? 1.f : (1-gl.purchasePercentCut);
-    NSString *coinStr = notification.marketPost.coinCost > 0 ? [NSString stringWithFormat:@"%d silver", (int)floorf(notification.marketPost.coinCost*percentReceived)] : [NSString stringWithFormat:@"%d gold", (int)floorf(notification.marketPost.diamondCost*percentReceived)];
-    
-    subtitleLabel.text = [NSString stringWithFormat:@"You have %@ waiting for you.", coinStr];
-    titleLabel.textColor = [Globals goldColor];
-    [button setImage:[Globals imageNamed:@"afcollect.png"] forState:UIControlStateNormal];
-    buttonLabel.text = @"Collect";
   } else if (notification.type == kNotificationReferral) {
     titleLabel.text = [NSString stringWithFormat:@"%@ used your referral code.", name];
     subtitleLabel.text = [NSString stringWithFormat:@"You received %d gold.", [[Globals sharedGlobals] diamondRewardForReferrer]];
@@ -159,12 +147,7 @@
 }
 
 - (IBAction)buttonClicked:(id)sender {
-  if (notification.type == kNotificationMarketplace) {
-    [[ActivityFeedController sharedActivityFeedController] close];
-    [MarketplaceViewController displayView];
-    
-    [Analytics clickedCollect];
-  } else if (notification.type == kNotificationBattle) {
+  if (notification.type == kNotificationBattle) {
     NSArray *users = [[ActivityFeedController sharedActivityFeedController] users];
     
     FullUserProto *user = nil;

@@ -442,8 +442,8 @@ static float buttonInitialWidth = 159.f;
     self.typeIcon.transform = CGAffineTransformMakeScale(-1, 1);
     self.timeLabel.transform = CGAffineTransformMakeScale(-1, 1);
     self.nameButton.contentHorizontalAlignment = UIControlContentHorizontalAlignmentRight;
-    self.textLabel.textAlignment = UITextAlignmentRight;
-    self.timeLabel.textAlignment = UITextAlignmentLeft;
+    self.textLabel.textAlignment = NSTextAlignmentRight;
+    self.timeLabel.textAlignment = NSTextAlignmentLeft;
   } else {
     self.transform = CGAffineTransformIdentity;
     self.nameButton.transform = CGAffineTransformIdentity;
@@ -451,8 +451,8 @@ static float buttonInitialWidth = 159.f;
     self.typeIcon.transform = CGAffineTransformIdentity;
     self.timeLabel.transform = CGAffineTransformIdentity;
     self.nameButton.contentHorizontalAlignment = UIControlContentHorizontalAlignmentLeft;
-    self.textLabel.textAlignment = UITextAlignmentLeft;
-    self.timeLabel.textAlignment = UITextAlignmentRight;
+    self.textLabel.textAlignment = NSTextAlignmentLeft;
+    self.timeLabel.textAlignment = NSTextAlignmentRight;
   }
 }
 
@@ -601,7 +601,7 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ChatMenuController);
     }
     
     ChatMessage *cm = [[self arrayForState] objectAtIndex:indexPath.row];
-    CGSize size = [cm.message sizeWithFont:[UIFont fontWithName:@"SanvitoPro-Semibold" size:cellLabelFontSize] constrainedToSize:CGSizeMake(chatLabelWidth, 999) lineBreakMode:UILineBreakModeWordWrap];
+    CGSize size = [cm.message sizeWithFont:[UIFont fontWithName:@"SanvitoPro-Semibold" size:cellLabelFontSize] constrainedToSize:CGSizeMake(chatLabelWidth, 999) lineBreakMode:NSLineBreakByWordWrapping];
     
     return cellHeight + (size.height-cellLabelHeight);
   }

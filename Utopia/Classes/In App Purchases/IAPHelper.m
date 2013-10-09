@@ -40,7 +40,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IAPHelper);
 }
 
 - (void)productsRequest:(SKProductsRequest *)request didReceiveResponse:(SKProductsResponse *)response {
-  ContextLogInfo(LN_CONTEXT_IAP, @"Received products results for %d products...", response.products.count);
+  LNLog(@"Received products results for %d products...", response.products.count);
   
   NSMutableDictionary *d = [NSMutableDictionary dictionaryWithCapacity:response.products.count];
   for (SKProduct *p in response.products) {
@@ -53,7 +53,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IAPHelper);
     [[GoldShoppeViewController sharedGoldShoppeViewController] update];
   }
   
-  ContextLogWarn(LN_CONTEXT_IAP,@"Invalid product ids: %@", response.invalidProductIdentifiers);
+  LNLog(@"Invalid product ids: %@", response.invalidProductIdentifiers);
   
   //  if (response.products.count == 0) {
   //    [self requestProducts];
@@ -102,7 +102,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IAPHelper);
 }
 
 - (void)completeTransaction:(SKPaymentTransaction *)transaction {
-  ContextLogVerbose(LN_CONTEXT_IAP,@"completeTransaction...");
+  LNLog(@"completeTransaction...");
   
   Globals *gl = [Globals sharedGlobals];
   NSString *encodedReceipt = [self base64forData:transaction.transactionReceipt];
@@ -120,7 +120,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IAPHelper);
   [[GoldShoppeViewController sharedGoldShoppeViewController] stopLoading];
   if (transaction.error.code != SKErrorPaymentCancelled)
   {
-    ContextLogError(LN_CONTEXT_IAP, @"Transaction error: %@", transaction.error.localizedDescription);
+    LNLog(@"Transaction error: %@", transaction.error.localizedDescription);
     [Globals popupMessage:[NSString stringWithFormat:@"Error: %@", transaction.error.localizedDescription]];
   } else {
     // Transaction was cancelled
@@ -155,7 +155,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IAPHelper);
     return;
   }
   
-  ContextLogInfo(LN_CONTEXT_IAP, @"Buying %@...", product.debugDescription);
+  LNLog(@"Buying %@...", product.debugDescription);
   
   SKPayment *payment = [SKPayment paymentWithProduct:product];
   [[SKPaymentQueue defaultQueue] addPayment:payment];

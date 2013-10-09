@@ -3,12 +3,12 @@
  <tileset firstgid="1" name="tiles" tilewidth="68" tileheight="51">
   <image source="tiles.png" width="136" height="51"/>
  </tileset>
- <layer name="Tile Layer 1" width="36" height="36">
+ <layer name="Walkable" width="36" height="36">
   <data encoding="base64" compression="zlib">
    eJzt0tEJACAIQEHbf+kWiNIgiDrh/RUcYouIpmWryb7b/cfDw/OvR/Oy+6zOK/fDw8PDw3OnR/Oy+6zOK/fDw8NzzqNxHVlsAgE=
   </data>
  </layer>
- <layer name="Tile Layer 2" width="36" height="36">
+ <layer name="Buildable" width="36" height="36">
   <data encoding="base64" compression="zlib">
    eJzt0cEJADAIADHp/kN3gWLFl2AO/CkEjFCl85nqXveOh4dnr0d50/7Fw8PDw8NT8Shv2r94eHj2ePTuAigiBiE=
   </data>

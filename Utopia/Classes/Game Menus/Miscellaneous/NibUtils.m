@@ -117,7 +117,7 @@
   [super awakeFromNib];
   _label = [[UILabel alloc] initWithFrame:self.bounds];
   _label.backgroundColor = [UIColor clearColor];
-  _label.textAlignment = UITextAlignmentCenter;
+  _label.textAlignment = NSTextAlignmentCenter;
   _label.textColor = [UIColor colorWithRed:235/255.f green:235/255.f blue:200/255.f alpha:1];
   _label.shadowColor = [UIColor colorWithWhite:0.f alpha:0.3f];
   _label.shadowOffset = CGSizeMake(0, 1.f);

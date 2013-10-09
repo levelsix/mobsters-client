@@ -9,8 +9,12 @@
 #import "BattleSprite.h"
 #import "CCAnimation+SpriteLoading.h"
 #import "cocos2d.h"
+#import "Globals.h"
+#import "CCSoundAnimation.h"
+#import "SoundEngine.h"
 
 #define ANIMATATION_DELAY 0.07f
+#define MAX_SHOTS 5
 
 @implementation BattleSprite
 
@@ -29,7 +33,7 @@
     
     self.anchorPoint = ccp(0.5, 0);
     
-    [self restoreStandingFrame];
+    self.isFacingNear = YES;
   }
   return self;
 }
@@ -41,7 +45,7 @@
 
 - (CCAction *) walkActionN {
   if (!_walkActionN) {
-    [[CCSpriteFrameCache sharedSpriteFrameCache] addSpriteFramesWithFile:[NSString stringWithFormat:@"%@RunNF.plist", self.prefix]];
+    [[CCSpriteFrameCache sharedSpriteFrameCache] addSpriteFramesWithFile:[NSString stringWithFormat:@"%@Run.plist", self.prefix]];
     NSString *p = [NSString stringWithFormat:@"%@RunN", self.prefix];
     CCAnimation *anim = [CCAnimation animationWithSpritePrefix:p delay:ANIMATATION_DELAY];
     self.walkActionN = [CCRepeatForever actionWithAction:[CCAnimate actionWithAnimation:anim]];
@@ -51,7 +55,7 @@
 
 - (CCAction *) walkActionF {
   if (!_walkActionF) {
-    [[CCSpriteFrameCache sharedSpriteFrameCache] addSpriteFramesWithFile:[NSString stringWithFormat:@"%@RunNF.plist", self.prefix]];
+    [[CCSpriteFrameCache sharedSpriteFrameCache] addSpriteFramesWithFile:[NSString stringWithFormat:@"%@Run.plist", self.prefix]];
     NSString *p = [NSString stringWithFormat:@"%@RunF", self.prefix];
     CCAnimation *anim = [CCAnimation animationWithSpritePrefix:p delay:ANIMATATION_DELAY];
     self.walkActionF = [CCRepeatForever actionWithAction:[CCAnimate actionWithAnimation:anim]];
@@ -61,43 +65,144 @@
 
 - (CCAnimation *) attackAnimationN {
   if (!_attackAnimationN) {
-    [[CCSpriteFrameCache sharedSpriteFrameCache] addSpriteFramesWithFile:[NSString stringWithFormat:@"%@AttackNF.plist", self.prefix]];
+    [[CCSpriteFrameCache sharedSpriteFrameCache] addSpriteFramesWithFile:[NSString stringWithFormat:@"%@Attack.plist", self.prefix]];
     NSString *p = [NSString stringWithFormat:@"%@AttackN", self.prefix];
-    self.attackAnimationF = [CCAnimation animationWithSpritePrefix:p delay:ANIMATATION_DELAY];
+    self.attackAnimationN = [CCAnimation animationWithSpritePrefix:p delay:ANIMATATION_DELAY];
   }
   return _attackAnimationN;
 }
 
 - (CCAnimation *) attackAnimationF {
   if (!_attackAnimationF) {
-    [[CCSpriteFrameCache sharedSpriteFrameCache] addSpriteFramesWithFile:[NSString stringWithFormat:@"%@AttackNF.plist", self.prefix]];
+    [[CCSpriteFrameCache sharedSpriteFrameCache] addSpriteFramesWithFile:[NSString stringWithFormat:@"%@Attack.plist", self.prefix]];
     NSString *p = [NSString stringWithFormat:@"%@AttackF", self.prefix];
     self.attackAnimationF = [CCAnimation animationWithSpritePrefix:p delay:ANIMATATION_DELAY];
   }
   return _attackAnimationF;
 }
 
+- (CCAnimation *) flinchAnimationN {
+  if (!_flinchAnimationN) {
+    [[CCSpriteFrameCache sharedSpriteFrameCache] addSpriteFramesWithFile:[NSString stringWithFormat:@"%@Attack.plist", self.prefix]];
+    NSString *p = [NSString stringWithFormat:@"%@FlinchN", self.prefix];
+    self.flinchAnimationN = [CCAnimation animationWithSpritePrefix:p delay:ANIMATATION_DELAY];
+  }
+  return _flinchAnimationN;
+}
+
 - (void) restoreStandingFrame {
-  [self attackAnimationF];
-  CCSpriteFrame *frame = [[CCSpriteFrameCache sharedSpriteFrameCache] spriteFrameByName:[NSString stringWithFormat:@"%@Attack%@00@2x.png", self.prefix, self.isFacingNear ? @"N" : @"F"]];
+  [self attackAnimationN];
+  CCSpriteFrame *frame = [[CCSpriteFrameCache sharedSpriteFrameCache] spriteFrameByName:[NSString stringWithFormat:@"%@Attack%@00.png", self.prefix, self.isFacingNear ? @"N" : @"F"]];
   [self.sprite setDisplayFrame:frame];
+  
+  self.sprite.flipX = !self.isFacingNear;
 }
 
 - (void) beginWalking {
+  self.sprite.flipX = YES;
   [self.sprite runAction:self.walkActionF];
+  self.isWalking = YES;
+  
+  CCSequence *seq = [CCSequence actions:
+                     [CCCallBlock actionWithBlock:
+                      ^{
+                        [[SoundEngine sharedSoundEngine] puzzleWalking];
+                      }],
+                     [CCDelayTime actionWithDuration:0.9], nil];
+  CCRepeatForever *r = [CCRepeatForever actionWithAction:seq];
+  r.tag = 7654;
+  [self runAction:r];
 }
 
 - (void) stopWalking {
+  self.isWalking = NO;
   [self.sprite stopAction:self.walkActionF];
   [self restoreStandingFrame];
+  
+  [self stopActionByTag:7654];
+  [[SoundEngine sharedSoundEngine] puzzleStopWalking];
 }
 
-- (void) performNearAttackAnimation {
-  [self.sprite runAction:[CCAnimate actionWithAnimation:self.attackAnimationN]];
+- (void) performNearAttackAnimationWithTarget:(id)target selector:(SEL)selector {
+  self.sprite.flipX = NO;
+  [self.sprite runAction:
+   [CCSequence actions:
+    [CCAnimate actionWithAnimation:self.attackAnimationN],
+    [CCCallFunc actionWithTarget:self selector:@selector(restoreStandingFrame)],
+    [CCCallFunc actionWithTarget:target selector:selector],
+    nil]];
 }
 
-- (void) performFarAttackAnimation {
-  [self.sprite runAction:[CCAnimate actionWithAnimation:self.attackAnimationF]];
+- (void) performFarAttackAnimationWithStrength:(float)strength target:(id)target selector:(SEL)selector {
+  CCAnimation *anim = [self.attackAnimationF.copy autorelease];
+  
+  self.sprite.flipX = YES;
+  
+  // Repeat 4-8 x times
+  int numTimes = strength*(MAX_SHOTS-1);
+  
+  [anim addSoundEffect:@"pistol.aif" atIndex:5];
+  for (int i = 0; i < numTimes; i++) {
+    [anim repeatFrames:NSMakeRange(4, 6)];
+  }
+  
+  [self.sprite runAction:
+   [CCSequence actions:
+    [CCSoundAnimate actionWithAnimation:anim],
+    [CCCallFunc actionWithTarget:self selector:@selector(restoreStandingFrame)],
+    [CCCallFunc actionWithTarget:target selector:selector],
+    nil]];
+}
+
+- (void) displayChargingFrame {
+  [self attackAnimationN];
+  CCSpriteFrame *frame = [[CCSpriteFrameCache sharedSpriteFrameCache] spriteFrameByName:[NSString stringWithFormat:@"%@Charge.png", self.prefix]];
+  [self.sprite setDisplayFrame:frame];
+  self.sprite.flipX = NO;
+}
+
+- (void) performNearFlinchAnimationWithStrength:(float)strength target:(id)target selector:(SEL)selector {
+  CGPoint pointOffset = POINT_OFFSET_PER_SCENE;
+  CGPoint startPos = self.position;
+  [self.sprite runAction:
+    [CCAnimate actionWithAnimation:self.flinchAnimationN]];
+  
+  float moveTime = 0.15f;
+  float moveAmount = 0.006;
+  float delayTime = 0.2f;
+  int numTimes = strength*(MAX_SHOTS-1)+1;
+  
+  [self runAction:
+   [CCSequence actions:
+    [CCDelayTime actionWithDuration:0.2],
+    [CCRepeat actionWithAction:
+     [CCSequence actions:
+      [CCCallBlock actionWithBlock:
+       ^{
+         int totalParticles = 40+strength*40;
+         
+         NSString *path = [[CCFileUtils sharedFileUtils] fullPathFromRelativePath:@"flinchstars.plist"];
+         NSMutableDictionary *dict = [NSMutableDictionary dictionaryWithContentsOfFile:path];
+         [dict setObject:[NSNumber numberWithInt:totalParticles] forKey:@"maxParticles"];
+         
+         CCParticleSystemQuad *q = [[CCParticleSystemQuad alloc] initWithDictionary:dict];
+         q.autoRemoveOnFinish = YES;
+         q.position = ccpAdd(self.position, ccp(0, self.contentSize.height/2-5));
+         q.speedVar = 40+strength*15;
+         q.endSizeVar = 5+strength*10;
+         [self.parent addChild:q];
+         [q release];
+       }],
+      [CCMoveBy actionWithDuration:moveTime position:ccpMult(pointOffset, moveAmount)],
+      [CCDelayTime actionWithDuration:delayTime], nil] times:numTimes],
+    [CCMoveBy actionWithDuration:0.1f position:ccpMult(pointOffset, -moveAmount*3)],
+    [CCCallBlock actionWithBlock:
+     ^{
+       self.position = startPos;
+       [self restoreStandingFrame];
+     }],
+    [CCCallFunc actionWithTarget:target selector:selector],
+    nil]];
 }
 
 - (void) dealloc {
@@ -105,6 +210,8 @@
   self.walkActionN = nil;
   self.attackAnimationF = nil;
   self.attackAnimationN = nil;
+  self.flinchAnimationF = nil;
+  self.flinchAnimationN = nil;
   self.prefix = nil;
   self.sprite = nil;
   [super dealloc];

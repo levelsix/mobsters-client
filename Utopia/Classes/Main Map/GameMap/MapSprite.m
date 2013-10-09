@@ -25,9 +25,13 @@
   if (self) {
     _map = map;
     self.location = loc;
-    self.anchorPoint = ccp(0.5, 0);
+    self.anchorPoint = ccp(loc.size.height/(loc.size.height+loc.size.width), 0);
   }
   return self;
+}
+
+- (BOOL) isExemptFromReorder {
+  return NO;
 }
 
 - (void) setLocation:(CGRect)location {

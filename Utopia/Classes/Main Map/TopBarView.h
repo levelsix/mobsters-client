@@ -21,16 +21,19 @@
 
 @interface TopBarView : UIView
 
-@property (nonatomic, retain) IBOutlet SplitImageProgressBar *energyBar;
-@property (nonatomic, retain) IBOutlet SplitImageProgressBar *expBar;
-@property (nonatomic, retain) IBOutlet UILabel *silverLabel;
-@property (nonatomic, retain) IBOutlet UILabel *goldLabel;
-@property (nonatomic, retain) IBOutlet UILabel *expLabel;
-@property (nonatomic, retain) IBOutlet UILabel *energyLabel;
+@property (nonatomic, assign) IBOutlet SplitImageProgressBar *energyBar;
+@property (nonatomic, assign) IBOutlet SplitImageProgressBar *expBar;
+@property (nonatomic, assign) IBOutlet UILabel *silverLabel;
+@property (nonatomic, assign) IBOutlet UILabel *goldLabel;
+@property (nonatomic, assign) IBOutlet UILabel *expLabel;
+@property (nonatomic, assign) IBOutlet UILabel *energyLabel;
 
+@property (nonatomic, assign) IBOutlet UIView *barButtonView;
 
-@property (nonatomic, retain) IBOutlet UIView *barButtonView;
+@property (nonatomic, assign) IBOutlet UIView *curViewOverChatView;
 
 - (IBAction)menuClicked:(id)sender;
+- (void) replaceChatViewWithView:(UIView *)view;
+- (void) removeViewOverChatView;
 
 @end

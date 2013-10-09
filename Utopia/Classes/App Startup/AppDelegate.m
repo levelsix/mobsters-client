@@ -18,7 +18,6 @@
 #import "OutgoingEventController.h"
 #import "Globals.h"
 //#import "Apsalar.h"
-#import "LoggingContextFilter.h"
 #import "SoundEngine.h"
 //#import "Crittercism.h"
 #import "Downloader.h"
@@ -60,28 +59,6 @@
                                openURL:url
                      sourceApplication:sourceApplication
                             annotation:annotation];
-}
-
-- (void) removeStartupFlicker
-{
-	//
-	// THIS CODE REMOVES THE STARTUP FLICKER
-	//
-	// Uncomment the following code if you Application only supports landscape mode
-	//
-#if GAME_AUTOROTATION == kGameAutorotationUIViewController
-  
-	CC_ENABLE_DEFAULT_GL_STATES();
-	CCDirector *director = [CCDirector sharedDirector];
-	CGSize size = [director winSize];
-	CCSprite *sprite = [CCSprite spriteWithFile:@"Default.png"];
-	sprite.position = ccp(size.width/2, size.height/2);
-	sprite.rotation = -90;
-	[sprite visit];
-	[[director openGLView] swapBuffers];
-	CC_ENABLE_DEFAULT_GL_STATES();
-	
-#endif // GAME_AUTOROTATION == kGameAutorotationUIViewController
 }
 
 -(void) setUpAlauMeRefferalTracking
@@ -204,27 +181,12 @@
    [director setOpenGLView:glView];
    */
 	
-	//
-	// VERY IMPORTANT:
-	// If the rotation is going to be controlled by a UIViewController
-	// then the device orientation should be "Portrait".
-	//
-	// IMPORTANT:
-	// By default, this template only supports Landscape orientations.
-	// Edit the RootViewController.m file to edit the supported orientations.
-	///Users/Ashwin/Utopia/Utopia/Classes/App Startup/DoorViewController.h
-#if GAME_AUTOROTATION == kGameAutorotationUIViewController
-	[director setDeviceOrientation:kCCDeviceOrientationPortrait];
-#else
-	[director setDeviceOrientation:kCCDeviceOrientationLandscapeLeft];
-#endif
-	
 	[director setAnimationInterval:1.0/60];
   
 #ifdef DEBUG
-	[director setDisplayFPS:YES];
+	[director setDisplayStats:YES];
 #else
-	[director setDisplayFPS:NO];
+	[director setDisplayStats:NO];
 #endif
 	/*
    // make the OpenGLView a child of the view controller
@@ -252,13 +214,6 @@
   [Analytics openedApp];
   
   [[SocketCommunication sharedSocketCommunication] initNetworkCommunication];
-  
-  
-  // Cocoa Lumberjack (logging framework)
-  [DDLog addLogger:[DDASLLogger sharedInstance]];
-  [DDLog addLogger:[DDTTYLogger sharedInstance]];
-	[[DDTTYLogger sharedInstance] setLogFormatter:[LoggingContextFilter
-                                                 createTagFilter]];
   
   // Alau.Me
   [self setUpAlauMeRefferalTracking];
@@ -311,12 +266,12 @@
 }
 
 - (void)applicationWillResignActive:(UIApplication *)application {
-  DDLogVerbose(@"will resign active");
+  LNLog(@"will resign active");
 	[[CCDirector sharedDirector] pause];
 }
 
 - (void)applicationDidBecomeActive:(UIApplication *)application {
-  DDLogVerbose(@"did become active");
+  LNLog(@"did become active");
 	[[CCDirector sharedDirector] resume];
   
 #ifdef AGE_OF_CHAOS
@@ -327,7 +282,7 @@
 }
 
 - (void)applicationDidReceiveMemoryWarning:(UIApplication *)application {
-  DDLogWarn(@"did receive mem warning");
+  LNLog(@"did receive mem warning");
 	[[CCDirector sharedDirector] purgeCachedData];
   [[[Globals sharedGlobals] imageCache] removeAllObjects];
   
@@ -337,7 +292,7 @@
 }
 
 -(void) applicationDidEnterBackground:(UIApplication*)application {
-  DDLogVerbose(@"did enter background");
+  LNLog(@"did enter background");
 	[[CCDirector sharedDirector] stopAnimation];
   [self registerLocalNotifications];
   
@@ -360,7 +315,7 @@
 }
 
 -(void) applicationWillEnterForeground:(UIApplication*)application {
-  DDLogVerbose(@"will enter foreground");
+  LNLog(@"will enter foreground");
   self.isActive = YES;
   self.hasTrackedVisit = NO;
   
@@ -382,11 +337,11 @@
 }
 
 - (void)applicationWillTerminate:(UIApplication *)application {
-  DDLogVerbose(@"will terminate");
+  LNLog(@"will terminate");
 	CCDirector *director = [CCDirector sharedDirector];
   [self registerLocalNotifications];
 	
-	[[director openGLView] removeFromSuperview];
+	[[director view] removeFromSuperview];
 	
 	[window release];
 	
@@ -402,19 +357,19 @@
 }
 
 - (void)applicationSignificantTimeChange:(UIApplication *)application {
-  DDLogInfo(@"sig time change");
+  LNLog(@"sig time change");
 	[[CCDirector sharedDirector] setNextDeltaTimeZero:YES];
 }
 
 - (void)application:(UIApplication*)application didRegisterForRemoteNotificationsWithDeviceToken:(NSData*)deviceToken
 {
-	DDLogInfo(@"My token is: %@", deviceToken);
+	LNLog(@"My token is: %@", deviceToken);
   [[OutgoingEventController sharedOutgoingEventController] enableApns:deviceToken];
 }
 
 - (void)application:(UIApplication*)application didFailToRegisterForRemoteNotificationsWithError:(NSError*)error
 {
-	DDLogError(@"Failed to get token, error: %@", error);
+	LNLog(@"Failed to get token, error: %@", error);
   [[OutgoingEventController sharedOutgoingEventController] enableApns:nil];
 }
 
@@ -438,24 +393,15 @@
   
   // Determine times so we can choose order of badge icons
   NSDate *energyRefilled = [gs.lastEnergyRefill dateByAddingTimeInterval:gl.energyRefillWaitMinutes*60*(gs.maxEnergy-gs.currentEnergy)];
-  NSDate *staminaRefilled = [gs.lastStaminaRefill dateByAddingTimeInterval:gl.staminaRefillWaitMinutes*60*(gs.maxStamina-gs.currentStamina)];
   
   // Only send if energy and stamina are more than halfway used.
   BOOL shouldSendEnergyNotification = gs.connected ? gs.maxEnergy > 2*gs.currentEnergy : NO;
-  BOOL shouldSendStaminaNotification = gs.connected ? gs.maxStamina > 2*gs.currentStamina : NO;
   
   if (shouldSendEnergyNotification) {
     // Stamina refilled
     NSString *text = [NSString stringWithFormat:@"Your energy has fully recharged! Hurry back and complete quests in the name of the %@!", [Globals factionForUserType:(gs.type+3)%6]];
     int badge = 1;//shouldSendStaminaNotification && [staminaRefilled compare:energyRefilled] == NSOrderedAscending ? 2 : 1;
     [self scheduleNotificationWithText:text badge:badge date:energyRefilled];
-  }
-  
-  if (shouldSendStaminaNotification) {
-    // Energy refilled
-    NSString *text = [NSString stringWithFormat:@"Your stamina has fully recharged! Come back to show the %@ who's superior!", [Globals factionForUserType:(gs.type+3)%6]];
-    int badge = 1;//shouldSendEnergyNotification && [energyRefilled compare:staminaRefilled] == NSOrderedAscending ? 2 : 1;
-    [self scheduleNotificationWithText:text badge:badge date:staminaRefilled];
   }
   
   for (ForgeAttempt *forgeAttempt in gs.forgeAttempts) {
@@ -482,10 +428,12 @@
     }
   }
   
-  if (gs.userExpansion.isExpanding) {
-    NSString *text = @"Your expansion has completed! Come back to build a bigger city!";
-    int minutes = [gl calculateNumMinutesForNewExpansion:gs.userExpansion];
-    [self scheduleNotificationWithText:text badge:1 date:[gs.userExpansion.lastExpandTime dateByAddingTimeInterval:minutes*60.f]];
+  for (UserExpansion *exp in gs.userExpansions) {
+    if (exp.isExpanding) {
+      NSString *text = @"Your expansion has completed! Come back to build a bigger city!";
+      int minutes = [gl calculateNumMinutesForNewExpansion];
+      [self scheduleNotificationWithText:text badge:1 date:[exp.lastExpandTime dateByAddingTimeInterval:minutes*60.f]];
+    }
   }
   
   for (UserStruct *us in gs.myStructs) {

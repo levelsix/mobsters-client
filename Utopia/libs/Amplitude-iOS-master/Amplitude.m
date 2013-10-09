@@ -8,8 +8,6 @@
 
 #import "Amplitude.h"
 #import "AmplitudeLocationManagerDelegate.h"
-#import "AmplitudeCJSONSerializer.h"
-#import "AmplitudeCJSONDeserializer.h"
 #import "AmplitudeARCMacros.h"
 #import <math.h>
 #import <sys/socket.h>
@@ -18,6 +16,8 @@
 #import <net/if_dl.h>
 #import <CommonCrypto/CommonDigest.h>
 #import <UIKit/UIKit.h>
+#include <sys/types.h>
+#include <sys/sysctl.h>
 
 static int apiVersion = 2;
 
@@ -27,6 +27,7 @@ static NSString *_deviceId;
 
 static NSString *_versionName;
 static NSString *_buildVersionRelease;
+static NSString *_platformString;
 static NSString *_phoneModel;
 static NSString *_phoneCarrier;
 static NSString *_country;
@@ -74,12 +75,12 @@ static AmplitudeLocationManagerDelegate *locationManagerDelegate;
     
     [initializerQueue addOperationWithBlock:^{
         
-        _deviceId = SAFE_ARC_RETAIN([Amplitude getDeviceId]);
-        
         _versionName = SAFE_ARC_RETAIN([[[NSBundle mainBundle] infoDictionary] valueForKey:@"CFBundleShortVersionString"]);
         
         _buildVersionRelease = SAFE_ARC_RETAIN([[UIDevice currentDevice] systemVersion]);
-        _phoneModel = SAFE_ARC_RETAIN([[UIDevice currentDevice] model]);
+        
+        _platformString = SAFE_ARC_RETAIN([self getPlatformString]);
+        _phoneModel = SAFE_ARC_RETAIN([self getPhoneModel]);
         
         Class CTTelephonyNetworkInfo = NSClassFromString(@"CTTelephonyNetworkInfo");
         SEL subscriberCellularProvider = NSSelectorFromString(@"subscriberCellularProvider");
@@ -181,12 +182,14 @@ static AmplitudeLocationManagerDelegate *locationManagerDelegate;
         [backgroundQueue setSuspended:NO];
     }];
     
-    // Location manager callbacks must be fired on a thread with a run loop (eg the main thread)
-    Class CLLocationManager = NSClassFromString(@"CLLocationManager");
-    locationManager = [[CLLocationManager alloc] init];
-    locationManagerDelegate = [[AmplitudeLocationManagerDelegate alloc] init];
-    SEL setDelegate = NSSelectorFromString(@"setDelegate:");
-    [locationManager performSelector:setDelegate withObject:locationManagerDelegate];
+    // CLLocationManager must be created on the main thread
+    dispatch_async(dispatch_get_main_queue(), ^{
+        Class CLLocationManager = NSClassFromString(@"CLLocationManager");
+        locationManager = [[CLLocationManager alloc] init];
+        locationManagerDelegate = [[AmplitudeLocationManagerDelegate alloc] init];
+        SEL setDelegate = NSSelectorFromString(@"setDelegate:");
+        [locationManager performSelector:setDelegate withObject:locationManagerDelegate];
+    });
 }
 
 + (void)initializeApiKey:(NSString*) apiKey
@@ -230,6 +233,14 @@ static AmplitudeLocationManagerDelegate *locationManagerDelegate;
     [backgroundQueue addOperationWithBlock:^{
         
         @synchronized (eventsData) {
+            if (_deviceId == nil) {
+                _deviceId = SAFE_ARC_RETAIN([eventsData objectForKey:@"device_id"]);
+                if (_deviceId == nil) {
+                    _deviceId = SAFE_ARC_RETAIN([Amplitude getDeviceId]);
+                    [eventsData setObject:_deviceId forKey:@"device_id"];
+                }
+            }
+            
             if (userId != nil) {
                 (void) SAFE_ARC_RETAIN(userId);
                 SAFE_ARC_RELEASE(_userId);
@@ -310,9 +321,9 @@ static AmplitudeLocationManagerDelegate *locationManagerDelegate;
         [fingerprint setObject:[Amplitude replaceWithJSONNull:_phoneCarrier] forKey:@"carrier"];
         
         NSError *error = nil;
-        NSData *fingerprintData = [[AmplitudeCJSONSerializer serializer] serializeDictionary:fingerprint error:&error];
+        NSData *fingerprintData = [NSJSONSerialization dataWithJSONObject:fingerprint options:0 error:&error];
         if (error != nil) {
-            NSLog(@"ERROR: JSONSerializer error: %@", error);
+            NSLog(@"ERROR: NSJSONSerialization error: %@", error);
             isCurrentlyTrackingCampaign = NO;
             return;
         }
@@ -346,7 +357,7 @@ static AmplitudeLocationManagerDelegate *locationManagerDelegate;
          if (response != nil) {
              if ([httpResponse statusCode] == 200) {
                  NSError *error = nil;
-                 NSDictionary *result = [[AmplitudeCJSONDeserializer deserializer] deserialize:data error:&error];
+                 NSDictionary *result = [NSJSONSerialization JSONObjectWithData:data options:0 error:&error];
                  
                  if (error != nil) {
                      NSLog(@"ERROR: Deserialization error:%@", error);
@@ -394,7 +405,7 @@ static AmplitudeLocationManagerDelegate *locationManagerDelegate;
     }
     
     NSError *error = nil;
-    NSDictionary *result = [[AmplitudeCJSONDeserializer deserializer] deserialize:[_campaignInformation dataUsingEncoding:NSUTF8StringEncoding] error:&error];
+    NSDictionary *result = [NSJSONSerialization JSONObjectWithData:[_campaignInformation dataUsingEncoding:NSUTF8StringEncoding] options:0 error:&error];
     if (error != nil) {
         NSLog(@"ERROR: Deserialization error:%@", error);
     } else if (![result isKindOfClass:[NSDictionary class]]) {
@@ -486,6 +497,7 @@ static AmplitudeLocationManagerDelegate *locationManagerDelegate;
     [event setValue:[NSNumber numberWithLongLong:_sessionId] forKey:@"session_id"];
     [event setValue:[Amplitude replaceWithJSONNull:_versionName] forKey:@"version_name"];
     [event setValue:[Amplitude replaceWithJSONNull:_buildVersionRelease] forKey:@"build_version_release"];
+    [event setValue:[Amplitude replaceWithJSONNull:_platformString] forKey:@"platform_string"];
     [event setValue:[Amplitude replaceWithJSONNull:_phoneModel] forKey:@"phone_model"];
     [event setValue:[Amplitude replaceWithJSONNull:_phoneCarrier] forKey:@"phone_carrier"];
     [event setValue:[Amplitude replaceWithJSONNull:_country] forKey:@"country"];
@@ -497,23 +509,24 @@ static AmplitudeLocationManagerDelegate *locationManagerDelegate;
     [apiProperties setValue:[Amplitude replaceWithJSONNull:propertyListMaxId] forKey:@"max_id"];
     
     if (lastKnownLocation != nil) {
-        NSMutableDictionary *location = [NSMutableDictionary dictionary];
-        
-        // Need to use NSInvocation because coordinate selector returns a C struct
-        SEL coordinateSelector = NSSelectorFromString(@"coordinate");
-        NSMethodSignature *coordinateMethodSignature = [lastKnownLocation methodSignatureForSelector:coordinateSelector];
-        NSInvocation *coordinateInvocation = [NSInvocation invocationWithMethodSignature:coordinateMethodSignature];
-        [coordinateInvocation setTarget:lastKnownLocation];
-        [coordinateInvocation setSelector:coordinateSelector];
-        [coordinateInvocation invoke];
-        CLLocationCoordinate2D lastKnownLocationCoordinate;
-        [coordinateInvocation getReturnValue:&lastKnownLocationCoordinate];
-        
-        [location setValue:[Amplitude replaceWithJSONNull:[NSNumber numberWithDouble:lastKnownLocationCoordinate.latitude]] forKey:@"lat"];
-        [location setValue:[Amplitude replaceWithJSONNull:[NSNumber numberWithDouble:lastKnownLocationCoordinate.longitude]] forKey:@"lng"];
-        
-        [apiProperties setValue:location forKey:@"location"];
-        
+        @synchronized (locationManager) {
+            NSMutableDictionary *location = [NSMutableDictionary dictionary];
+            
+            // Need to use NSInvocation because coordinate selector returns a C struct
+            SEL coordinateSelector = NSSelectorFromString(@"coordinate");
+            NSMethodSignature *coordinateMethodSignature = [lastKnownLocation methodSignatureForSelector:coordinateSelector];
+            NSInvocation *coordinateInvocation = [NSInvocation invocationWithMethodSignature:coordinateMethodSignature];
+            [coordinateInvocation setTarget:lastKnownLocation];
+            [coordinateInvocation setSelector:coordinateSelector];
+            [coordinateInvocation invoke];
+            CLLocationCoordinate2D lastKnownLocationCoordinate;
+            [coordinateInvocation getReturnValue:&lastKnownLocationCoordinate];
+            
+            [location setValue:[Amplitude replaceWithJSONNull:[NSNumber numberWithDouble:lastKnownLocationCoordinate.latitude]] forKey:@"lat"];
+            [location setValue:[Amplitude replaceWithJSONNull:[NSNumber numberWithDouble:lastKnownLocationCoordinate.longitude]] forKey:@"lng"];
+            
+            [apiProperties setValue:location forKey:@"location"];
+        }
     }
     
     if (sessionStarted) {
@@ -569,12 +582,12 @@ static AmplitudeLocationManagerDelegate *locationManagerDelegate;
                 updatingCurrently = NO;
                 return;
             }
-            NSArray *uploadEvents = [events subarrayWithRange:NSMakeRange(0, numEvents)];
+            NSArray *uploadEvents = [events subarrayWithRange:NSMakeRange(0, (int) numEvents)];
             long long lastEventIDUploaded = [[[uploadEvents lastObject] objectForKey:@"event_id"] longLongValue];
             NSError *error = nil;
-            NSData *eventsDataLocal = [[AmplitudeCJSONSerializer serializer] serializeArray:uploadEvents error:&error];
+            NSData *eventsDataLocal = [NSJSONSerialization dataWithJSONObject:uploadEvents options:0 error:&error];
             if (error != nil) {
-                NSLog(@"ERROR: JSONSerializer error: %@", error);
+                NSLog(@"ERROR: NSJSONSerialization error: %@", error);
                 updatingCurrently = NO;
                 return;
             }
@@ -639,7 +652,7 @@ static AmplitudeLocationManagerDelegate *locationManagerDelegate;
                                  break;
                              }
                          }
-                         [[eventsData objectForKey:@"events"] removeObjectsInRange:NSMakeRange(0, numberToRemove)];
+                         [[eventsData objectForKey:@"events"] removeObjectsInRange:NSMakeRange(0, (int) numberToRemove)];
                          [Amplitude saveEventsData];
                      }
                  } else if ([result isEqualToString:@"invalid_api_key"]) {
@@ -785,7 +798,6 @@ static AmplitudeLocationManagerDelegate *locationManagerDelegate;
 // ex. $3.99 would be passed as [NSNumber numberWithDouble:3.99]
 + (void)logRevenue:(NSNumber*) amount
 {
-    [NSNumber numberWithFloat:2.0];
     if (_apiKey == nil) {
         NSLog(@"ERROR: apiKey cannot be nil or empty, set apiKey with initializeApiKey: before calling logRevenue:");
         return;
@@ -843,10 +855,12 @@ static AmplitudeLocationManagerDelegate *locationManagerDelegate;
 {
     if (locationListeningEnabled) {
         CLLocation *location = [locationManager location];
-        if (location != nil) {
-            (void) SAFE_ARC_RETAIN(location);
-            SAFE_ARC_RELEASE(lastKnownLocation);
-            lastKnownLocation = location;
+        @synchronized (locationManager) {
+            if (location != nil) {
+                (void) SAFE_ARC_RETAIN(location);
+                SAFE_ARC_RELEASE(lastKnownLocation);
+                lastKnownLocation = location;
+            }
         }
     }
 }
@@ -898,8 +912,55 @@ static AmplitudeLocationManagerDelegate *locationManagerDelegate;
 
 + (NSString*)getDeviceId
 {
-    // MD5 Hash of the mac address
-    return [Amplitude md5HexDigest:[Amplitude getMacAddress]];
+    // On iOS 7+, return advertiser ID
+    if ([[[UIDevice currentDevice] systemVersion] floatValue] >= (float) 7.0) {
+        NSString *advertiserId = [Amplitude getAdvertiserID:0];
+        if (advertiserId != nil && ![advertiserId isEqualToString:@"00000000-0000-0000-0000-000000000000"]) {
+            return advertiserId;
+        }
+    }
+    
+    // On iOS 6 and below, md5 hash of the mac address
+    NSString *macAddress = [Amplitude getMacAddress];
+    if (macAddress != nil && ![macAddress isEqualToString:@"020000000000"]) {
+        return [Amplitude md5HexDigest:macAddress];
+    }
+    
+    NSString *randomId = [Amplitude generateRandomId];
+    return randomId;
+}
+
++ (NSString*)getAdvertiserID:(int) timesCalled
+{
+    Class ASIdentifierManager = NSClassFromString(@"ASIdentifierManager");
+    SEL sharedManager = NSSelectorFromString(@"sharedManager");
+    SEL advertisingIdentifier = NSSelectorFromString(@"advertisingIdentifier");
+    SEL UUIDString = NSSelectorFromString(@"UUIDString");
+    if (ASIdentifierManager && sharedManager && advertisingIdentifier && UUIDString) {
+        NSString *identifier = [[[ASIdentifierManager performSelector: sharedManager] performSelector: advertisingIdentifier] performSelector: UUIDString];
+        if (identifier == nil && timesCalled < 5) {
+            // Try again every 5 seconds
+            [NSThread sleepForTimeInterval:5.0];
+            return [Amplitude getAdvertiserID:timesCalled + 1];
+        } else {
+            return identifier;
+        }
+    } else {
+        return nil;
+    }
+}
+
++ (NSString*)generateRandomId
+{
+    CFUUIDRef uuid = CFUUIDCreate(kCFAllocatorDefault);
+#if __has_feature(objc_arc)
+    NSString *uuidStr = (__bridge_transfer NSString *)CFUUIDCreateString(kCFAllocatorDefault, uuid);
+#else
+    NSString *uuidStr = (NSString *) CFUUIDCreateString(kCFAllocatorDefault, uuid);
+#endif
+    CFRelease(uuid);
+    // Add "R" at the end of the ID to distinguish it from advertiserId
+    return [uuidStr stringByAppendingString:@"R"];
 }
 
 + (id)replaceWithJSONNull:(id) obj
@@ -993,7 +1054,54 @@ static AmplitudeLocationManagerDelegate *locationManagerDelegate;
     return macAddressString;
 }
 
-+ (NSString*)md5HexDigest:(NSString*)input {
+// Taken from http://stackoverflow.com/a/3950748/340520
++ (NSString *)getPlatformString
+{
+    size_t size;
+    sysctlbyname("hw.machine", NULL, &size, NULL, 0);
+    char *machine = malloc(size);
+    sysctlbyname("hw.machine", machine, &size, NULL, 0);
+    NSString *platform = [NSString stringWithUTF8String:machine];
+    free(machine);
+    return platform;
+}
+
++ (NSString *)getPhoneModel{
+    NSString *platform = [self getPlatformString];
+    if ([platform isEqualToString:@"iPhone1,1"])    return @"iPhone 1";
+    if ([platform isEqualToString:@"iPhone1,2"])    return @"iPhone 3G";
+    if ([platform isEqualToString:@"iPhone2,1"])    return @"iPhone 3GS";
+    if ([platform isEqualToString:@"iPhone3,1"])    return @"iPhone 4";
+    if ([platform isEqualToString:@"iPhone3,3"])    return @"iPhone 4";
+    if ([platform isEqualToString:@"iPhone4,1"])    return @"iPhone 4S";
+    if ([platform isEqualToString:@"iPhone5,1"])    return @"iPhone 5";
+    if ([platform isEqualToString:@"iPhone5,2"])    return @"iPhone 5";
+    if ([platform isEqualToString:@"iPod1,1"])      return @"iPod Touch 1G";
+    if ([platform isEqualToString:@"iPod2,1"])      return @"iPod Touch 2G";
+    if ([platform isEqualToString:@"iPod3,1"])      return @"iPod Touch 3G";
+    if ([platform isEqualToString:@"iPod4,1"])      return @"iPod Touch 4G";
+    if ([platform isEqualToString:@"iPod5,1"])      return @"iPod Touch 5G";
+    if ([platform isEqualToString:@"iPad1,1"])      return @"iPad 1";
+    if ([platform isEqualToString:@"iPad2,1"])      return @"iPad 2";
+    if ([platform isEqualToString:@"iPad2,2"])      return @"iPad 2";
+    if ([platform isEqualToString:@"iPad2,3"])      return @"iPad 2";
+    if ([platform isEqualToString:@"iPad2,4"])      return @"iPad 2";
+    if ([platform isEqualToString:@"iPad2,5"])      return @"iPad Mini";
+    if ([platform isEqualToString:@"iPad2,6"])      return @"iPad Mini";
+    if ([platform isEqualToString:@"iPad2,7"])      return @"iPad Mini";
+    if ([platform isEqualToString:@"iPad3,1"])      return @"iPad 3";
+    if ([platform isEqualToString:@"iPad3,2"])      return @"iPad 3";
+    if ([platform isEqualToString:@"iPad3,3"])      return @"iPad 3";
+    if ([platform isEqualToString:@"iPad3,4"])      return @"iPad 4";
+    if ([platform isEqualToString:@"iPad3,5"])      return @"iPad 4";
+    if ([platform isEqualToString:@"iPad3,6"])      return @"iPad 4";
+    if ([platform isEqualToString:@"i386"])         return @"Simulator";
+    if ([platform isEqualToString:@"x86_64"])       return @"Simulator";
+    return platform;
+}
+
++ (NSString*)md5HexDigest:(NSString*)input
+{
     const char* str = [input UTF8String];
     unsigned char result[CC_MD5_DIGEST_LENGTH];
     CC_MD5(str, strlen(str), result);

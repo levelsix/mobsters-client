@@ -23,8 +23,8 @@
 @implementation ResetStaminaView
 
 - (void) display {
-  Globals *gl = [Globals sharedGlobals];
-  int percent = [gl percentOfSkillPointsInStamina];
+//  Globals *gl = [Globals sharedGlobals];
+  int percent = 0;//[gl percentOfSkillPointsInStamina];
   
   self.descriptionLabel.text = [NSString stringWithFormat:@"You are only using %d%% of your skill points in Stamina. Redistribute skill points to defeat the boss faster!", percent];
   
@@ -382,10 +382,6 @@
     [self displayViewForText:[_curLines objectAtIndex:_curLine] showNextButton:showNextButton];
   } else {
     [self closeView];
-    
-    GameLayer *glay = [GameLayer sharedGameLayer];
-    MissionMap *map = glay.missionMap;
-    [map endGemTutorial];
     
     TopBar *tb = [TopBar sharedTopBar];
     [tb enableButtonsAfterMiniTutorial];

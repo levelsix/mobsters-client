@@ -17,7 +17,6 @@
 #import "GenericPopupController.h"
 #import "EquipDeltaView.h"
 #import "ArmoryViewController.h"
-#import "MarketplaceViewController.h"
 
 @implementation EquipMenuController
 
@@ -72,21 +71,12 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(EquipMenuController);
   if (fep.rarity == FullEquipProto_RarityLegendary) {
     priceLabel.text = @"Item must be found.";
     buyButton.enabled = NO;
-  } else if (![Globals class:gs.type canEquip:fep.classType]) {
-    priceLabel.text = [NSString stringWithFormat:@"Item not available for %@s", [Globals classForUserType:gs.type]];
-    buyButton.enabled = NO;
   } else {
     priceLabel.text = @"View item in Armory.";
     buyButton.enabled = YES;
   }
   
   [Globals loadImageForEquip:fep.equipId toView:equipIcon maskedView:nil];
-  
-  if ([Globals class:gs.type canEquip:fep.classType]) {
-    wrongClassView.hidden = YES;
-  } else {
-    wrongClassView.hidden = NO;
-  }
   
   if (gs.level >= fep.minLevel) {
     tooLowLevelView.hidden = YES;
@@ -115,46 +105,6 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(EquipMenuController);
   [ArmoryViewController displayView];
   [[ArmoryViewController sharedArmoryViewController] loadForLevel:fep.minLevel rarity:fep.rarity];
   [self closeClicked:nil];
-}
-
-- (IBAction)marketplaceClicked:(id)sender {
-  GameState *gs = [GameState sharedGameState];
-  Globals *gl = [Globals sharedGlobals];
-  if (gs.level < gl.minLevelConstants.marketplaceMinLevel && gs.prestigeLevel <= 0) {
-    [Globals popupMessage:[NSString stringWithFormat:@"You must be level %d to enter the marketplace.", gl.minLevelConstants.marketplaceMinLevel]];
-  } else {
-    [[MarketplaceViewController sharedMarketplaceViewController] searchForEquipId:equipId level:_level allowAllAbove:YES];
-    [self closeClicked:nil]; 
-  }
-}
-
-- (void) receivedArmoryResponse:(ArmoryResponseProto *)proto {
-  if (self.view.superview) {
-    [self.loadingView stop];
-    
-    if (proto.status == ArmoryResponseProto_ArmoryStatusSuccess) {
-      GameState *gs = [GameState sharedGameState];
-      FullEquipProto *fep = [gs equipWithId:equipId];
-      
-      int price = fep.diamondPrice > 0 ? fep.diamondPrice : fep.coinPrice;
-      CGPoint startLoc = equipIcon.center;
-      
-      UIView *testView = [EquipDeltaView
-                          createForUpperString:[NSString stringWithFormat:@"- %d %@",
-                                                price, fep.diamondPrice ? @"Gold" : @"Silver"]
-                          andLowerString:[NSString stringWithFormat:@"+1 %@", fep.name]
-                          andCenter:startLoc
-                          topColor:[Globals redColor]
-                          botColor:[Globals colorForRarity:fep.rarity]];
-      
-      [Globals popupView:testView
-             onSuperView:self.mainView
-                 atPoint:startLoc
-     withCompletionBlock:nil];
-      
-      [[Globals sharedGlobals] confirmWearEquip:proto.fullUserEquipOfBoughtItem.userEquipId];
-    }
-  }
 }
 
 - (void)didReceiveMemoryWarning

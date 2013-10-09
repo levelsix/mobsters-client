@@ -179,8 +179,6 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
   self.armoryYLength = constants.armoryYlength;
   self.vaultXLength = constants.vaultXlength;
   self.vaultYLength = constants.vaultYlength;
-  self.marketplaceXLength = constants.marketplaceXlength;
-  self.marketplaceYLength = constants.marketplaceYlength;
   self.carpenterXLength = constants.carpenterXlength;
   self.carpenterYLength = constants.carpenterYlength;
   self.attackBaseGain = constants.attackBaseGain;
@@ -197,14 +195,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
   self.maxRepeatedNormStructs = constants.maxNumOfSingleStruct;
   self.percentReturnedToUserForSellingEquipInArmory = constants.percentReturnedToUserForSellingEquipInArmory;
   self.percentReturnedToUserForSellingNormStructure = constants.percentReturnedToUserForSellingNormStructure;
-  self.numDaysLongMarketplaceLicenseLastsFor = constants.numDaysLongMarketplaceLicenseLastsFor;
-  self.numDaysShortMarketplaceLicenseLastsFor = constants.numDaysShortMarketplaceLicenseLastsFor;
-  self.diamondCostOfLongMarketplaceLicense = constants.diamondCostOfLongMarketplaceLicense;
-  self.diamondCostOfShortMarketplaceLicense = constants.diamondCostOfShortMarketplaceLicense;
   self.maxNumbersOfEnemiesToGenerateAtOnce = constants.maxNumbersOfEnemiesToGenerateAtOnce;
-  self.purchasePercentCut = constants.percentOfSellingCostTakenFromSellerOnMarketplacePurchase;
-  self.retractPercentCut = constants.percentOfSellingCostTakenFromSellerOnMarketplaceRetract;
-  self.maxNumberOfMarketplacePosts = constants.maxNumberOfMarketplacePosts;
   self.energyRefillCost = constants.diamondCostForFullEnergyRefill;
   self.staminaRefillCost = constants.diamondCostForFullStaminaRefill;
   self.energyRefillWaitMinutes = constants.minutesToRefillAenergy;
@@ -430,17 +421,17 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
   secs %= 60;
   
   if (days > 0) {
-    NSString *hrsStr = [NSString stringWithFormat:@" %dH", hrs];
+    NSString *hrsStr = hrs == 0 ? @"" : [NSString stringWithFormat:@" %dH", hrs];
     return [NSString stringWithFormat:@"%dD%@", days, hrsStr];
   }
   
   if (hrs > 0) {
-    NSString *minsStr = [NSString stringWithFormat:@" %dM", hrs];
+    NSString *minsStr = mins == 0 ? @"" : [NSString stringWithFormat:@" %dM", mins];
     return [NSString stringWithFormat:@"%dH%@", hrs, minsStr];
   }
   
   if (mins > 0) {
-    NSString *secsStr = [NSString stringWithFormat:@" %dS", secs];
+    NSString *secsStr = secs == 0 ? @"" : [NSString stringWithFormat:@" %dS", secs];
     return [NSString stringWithFormat:@"%dM%@", mins, secsStr];
   }
 
@@ -674,13 +665,9 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
   return [NSString stringWithFormat:@"%d year%@ ago", time / interval, time / interval != 1 ? @"s" : @""];
 }
 
-+ (BOOL) class:(UserType)ut canEquip:(EquipClassType) ct {
-  return (ct == ut % 3 || ct == EquipClassTypeAllAmulet);
-}
-
 + (BOOL) canEquip:(FullEquipProto *)fep {
   GameState *gs = [GameState sharedGameState];
-  return fep.minLevel <= gs.level && [self class:gs.type canEquip:fep.classType];
+  return fep.minLevel <= gs.level;
 }
 
 + (void) adjustFontSizeForSize:(int)size withUIView:(UIView *)somethingWithText {
@@ -1092,6 +1079,50 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
   }
 }
 
++ (void) imageNamed:(NSString *)imageName toReplaceSprite:(CCSprite *)s {
+  Globals *gl = [Globals sharedGlobals];
+  NSString *key = [NSString stringWithFormat:@"%p", s];
+  [[gl imageViewsWaitingForDownloading] removeObjectForKey:key];
+  
+  NSString *resName = [CCFileUtils getDoubleResolutionImage:imageName validate:NO];
+  NSString *fullpath = [[NSBundle mainBundle] pathForResource:resName ofType:nil];
+  
+  if (!fullpath) {
+    // Image not in NSBundle: look in documents
+    NSArray *paths = NSSearchPathForDirectoriesInDomains (NSCachesDirectory, NSUserDomainMask, YES);
+    NSString *documentsPath = [paths objectAtIndex:0];
+    
+    fullpath = [documentsPath stringByAppendingPathComponent:resName];
+    if (![[NSFileManager defaultManager] fileExistsAtPath:fullpath]) {
+      [[gl imageViewsWaitingForDownloading] setObject:imageName forKey:key];
+      
+      [s retain];
+      [[Downloader sharedDownloader] asyncDownloadFile:fullpath.lastPathComponent completion:^{
+        NSString *str = [[gl imageViewsWaitingForDownloading] objectForKey:key];
+        if ([str isEqualToString:imageName]) {
+          if ([[NSFileManager defaultManager] fileExistsAtPath:fullpath]) {
+            CCSprite *newSprite = [CCSprite spriteWithFile:imageName];
+            [s.parent addChild:newSprite];
+            newSprite.position = s.position;
+            newSprite.anchorPoint = s.anchorPoint;
+            newSprite.scale = s.scale;
+          }
+          [s removeFromParentAndCleanup:YES];
+        }
+      }];
+      return;
+    }
+  }
+  
+  CCSprite *newSprite = [CCSprite spriteWithFile:imageName];
+  [s.parent addChild:newSprite];
+  newSprite.position = s.position;
+  newSprite.anchorPoint = s.anchorPoint;
+  newSprite.scale = s.scale;
+  [s removeFromParentAndCleanup:YES];
+  
+}
+
 + (void) setFrameForView:(UIView *)view forPoint:(CGPoint)pt {
   // place it so that the bottom middle is at pt
   // Remember, frame is relative to top left corner
@@ -1500,27 +1531,27 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
 + (NSString *) animatedSpritePrefix:(UserType)type {
   switch (type) {
     case UserTypeGoodWarrior:
-      return @"AllianceWarrior";
+      return @"MafiaMan";
       break;
       
     case UserTypeGoodArcher:
-      return @"AllianceArcher";
+      return @"MafiaMan";
       break;
       
     case UserTypeGoodMage:
-      return @"AllianceMage";
+      return @"MafiaMan";
       break;
       
     case UserTypeBadWarrior:
-      return @"LegionWarrior";
+      return @"MafiaMan";
       break;
       
     case UserTypeBadArcher:
-      return @"LegionArcher";
+      return @"MafiaMan";
       break;
       
     case UserTypeBadMage:
-      return @"LegionMage";
+      return @"MafiaMan";
       break;
       
     default:
@@ -1590,16 +1621,6 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
   float percentRemaining = timeRemaining/(float)totalTime;
   float speedupConstant = 1 + speedupMultiplierConstant*(1-percentRemaining);
   return (int)ceilf(baseCost*percentRemaining*speedupConstant);
-}
-
-- (int) calculateEquipSilverSellCost:(UserEquip *)ue {
-  FullEquipProto *fep = [[GameState sharedGameState] equipWithId:ue.equipId];
-  return fep.coinPrice * self.percentReturnedToUserForSellingEquipInArmory;
-}
-
-- (int) calculateEquipGoldSellCost:(UserEquip *)ue {
-  FullEquipProto *fep = [[GameState sharedGameState] equipWithId:ue.equipId];
-  return fep.diamondPrice * self.percentReturnedToUserForSellingEquipInArmory;
 }
 
 - (int) calculateIncome:(int)income level:(int)level {
@@ -1718,29 +1739,24 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
   return [self calculateDiamondCostForSpeedupWithBaseCost:base speedupMultiplierConstant:self.forgeLateSpeedupConstant timeRemaining:seconds totalTime:mins*60];
 }
 
-- (int) calculateRetailValueForEquip:(int)equipId level:(int)level {
-  GameState *gs = [GameState sharedGameState];
-  FullEquipProto *fep = [gs equipWithId:equipId];
-  int value = fep.diamondPrice ? fep.diamondPrice : fep.coinPrice;
-  return (int)(value*pow(2.f, level-1));
-}
-
 - (int) calculateHealthForLevel:(int)level {
   return (int)(level < self.healthFormulaLevelCutoff ? (30.f * powf(self.healthFormulaExponentBase, level-1)) : self.healthFormulaLinearA*level+self.healthFormulaLinearB );
 }
 
-- (int) calculateNumMinutesForNewExpansion:(UserExpansion *)ue {
-  return (expansionWaitCompleteHourConstant + expansionWaitCompleteHourIncrementBase*(ue.numCompletedExpansions+1))*60;
+- (int) calculateNumMinutesForNewExpansion {
+  GameState *gs = [GameState sharedGameState];
+  return (expansionWaitCompleteHourConstant + expansionWaitCompleteHourIncrementBase*(gs.numCompletedExpansions+1))*60;
 }
 
-- (int) calculateGoldCostToSpeedUpExpansion:(UserExpansion *)ue timeLeft:(int)seconds {
-  int mins = [self calculateNumMinutesForNewExpansion:ue];
+- (int) calculateGoldCostToSpeedUpExpansionTimeLeft:(int)seconds {
+  int mins = [self calculateNumMinutesForNewExpansion];
   int base = ((float)mins)/expansionWaitCompleteBaseMinutesToOneGold;
   return [self calculateDiamondCostForSpeedupWithBaseCost:base speedupMultiplierConstant:self.expansionLateSpeedupConstant timeRemaining:seconds totalTime:mins*60];
 }
 
-- (int) calculateSilverCostForNewExpansion:(UserExpansion *)ue {
-  return (int)(expansionPurchaseCostConstant*powf(expansionPurchaseCostExponentBase, ue.numCompletedExpansions));
+- (int) calculateSilverCostForNewExpansion {
+  GameState *gs = [GameState sharedGameState];
+  return (int)(expansionPurchaseCostConstant*powf(expansionPurchaseCostExponentBase, gs.numCompletedExpansions));
 }
 
 - (int) calculateTotalMinutesToLevelUpEnhancementEquip:(UserEquip *)ue {
@@ -1829,19 +1845,6 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
   }
   
   return (int)ceilf(stats*self.enhancingCost);
-}
-
-- (BOOL) canRetractMarketplacePostForFree:(FullMarketplacePostProto *)post {
-  GameState *gs = [GameState sharedGameState];
-  if ([gs hasValidLicense]) {
-    return YES;
-  } else {
-    NSDate *date = [NSDate dateWithTimeIntervalSince1970:post.timeOfPost/1000.+numDaysUntilFreeRetract*24.*60*60];
-    if (date.timeIntervalSinceNow < 0) {
-      return YES;
-    }
-    return NO;
-  }
 }
 
 + (void) popupView:(UIView *)targetView
@@ -2115,7 +2118,7 @@ withCompletionBlock:(void(^)(BOOL))completionBlock
   [arrow runAction:[CCRepeatForever actionWithAction:[CCSequence actions:upAction, downAction, nil]]];
 }
 
-- (void) confirmWearEquip:(int)userEquipId {
+- (void) confirmWearEquip:(uint64_t)userEquipId {
   _equipIdToWear = userEquipId;
   
   GameState *gs = [GameState sharedGameState];
@@ -2248,13 +2251,6 @@ withCompletionBlock:(void(^)(BOOL))completionBlock
   [[NSUserDefaults standardUserDefaults] setBool:YES forKey:RATE_US_CLICKED_LATER];
 }
 
-- (int) percentOfSkillPointsInStamina {
-  GameState *gs = [GameState sharedGameState];
-  int totalSkillPoints = (gs.level-1)*self.skillPointsGainedOnLevelup;
-  int percent = ((float)(gs.maxStamina-self.initStamina)*self.staminaBaseCost)/totalSkillPoints*100;
-  return percent;
-}
-
 + (void) adjustViewForCentering:(UIView *)view withLabel:(UILabel *)label {
   CGSize size = [label.text sizeWithFont:label.font constrainedToSize:label.frame.size lineBreakMode:label.lineBreakMode];
   CGPoint oldCenter = view.center;
@@ -2360,7 +2356,7 @@ withCompletionBlock:(void(^)(BOOL))completionBlock
   if ([self isKindOfClass:[CCProgressTimer class]]) {
     self.visible = opacity > 150;
   }
-  for (CCNode *c in children_) {
+  for (CCNode *c in self.children) {
     [c recursivelyApplyOpacity:opacity];
   }
 }
@@ -2371,7 +2367,7 @@ withCompletionBlock:(void(^)(BOOL))completionBlock
 
 -(void) update: (ccTime) t
 {
-	[target_ recursivelyApplyOpacity:fromOpacity_ + ( toOpacity_ - fromOpacity_ ) * t];
+	[_target recursivelyApplyOpacity:_fromOpacity + ( _toOpacity - _fromOpacity ) * t];
 }
 
 @end
@@ -2425,6 +2421,21 @@ withCompletionBlock:(void(^)(BOOL))completionBlock
   self.menuBackButton = nil;
   self.menuBackLabel = nil;
   [super dealloc];
+}
+
+@end
+
+@implementation NSMutableArray (Shuffling)
+
+- (void)shuffle
+{
+  NSUInteger count = [self count];
+  for (NSUInteger i = 0; i < count; ++i) {
+    // Select a random element between i and end of array to swap with.
+    NSInteger nElements = count - i;
+    NSInteger n = (arc4random() % nElements) + i;
+    [self exchangeObjectAtIndex:i withObjectAtIndex:n];
+  }
 }
 
 @end

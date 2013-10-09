@@ -33,7 +33,6 @@
 + (void) notEnoughGoldForUpgrade:(int)structId cost:(int)cost;
 
 + (void) notEnoughGoldToRefillEnergyPopup;
-+ (void) notEnoughGoldToRefillStaminaPopup;
 
 + (void) notEnoughSilverInCarpenter:(int)structId;
 + (void) notEnoughGoldInCarpenter:(int)structId;
@@ -49,11 +48,8 @@
 + (void) notEnoughGoldForMarketplaceLongLicense;
 
 + (void) notEnoughGoldToRefillEnergyTopBar;
-+ (void) notEnoughGoldToRefillStaminaTopBar;
 
-+ (void) notEnoughStaminaForBattle;
 + (void) notEnoughEnergyForTasks:(int)taskId;
-+ (void) notEnoughEquipsForTasks:(int)taskId equipReqs:(NSArray *)reqs;
 
 // Engagement events
 + (void) levelUp:(int)level;
@@ -104,7 +100,6 @@
 + (void) clickedCollect;
 
 + (void) clickedFillEnergy;
-+ (void) clickedFillStamina;
 + (void) enemyProfileFromBattle;
 + (void) enemyProfileFromSprite;
 + (void) enemyProfileFromAttackMap;

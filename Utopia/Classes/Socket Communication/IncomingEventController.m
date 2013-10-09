@@ -11,7 +11,6 @@
 #import "LNSynthesizeSingleton.h"
 #import "GameState.h"
 #import "Globals.h"
-#import "MarketplaceViewController.h"
 #import "OutgoingEventController.h"
 #import "HomeMap.h"
 #import "MapViewController.h"
@@ -50,6 +49,7 @@
 #import "DailyBonusMenuController.h"
 #import "Nanigans.h"
 #import "ChatMenuController.h"
+#import "DungeonBattleLayer.h"
 
 #define QUEST_REDEEM_KIIP_REWARD @"quest_redeem"
 
@@ -90,24 +90,6 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
       break;
     case EventProtocolResponseSUpdateClientUserEvent:
       responseClass = [UpdateClientUserResponseProto class];
-      break;
-    case EventProtocolResponseSRetrieveCurrentMarketplacePostsEvent:
-      responseClass = [RetrieveCurrentMarketplacePostsResponseProto class];
-      break;
-    case EventProtocolResponseSPostToMarketplaceEvent:
-      responseClass = [PostToMarketplaceResponseProto class];
-      break;
-    case EventProtocolResponseSPurchaseFromMarketplaceEvent:
-      responseClass = [PurchaseFromMarketplaceResponseProto class];
-      break;
-    case EventProtocolResponseSRetractPostFromMarketplaceEvent:
-      responseClass = [RetractMarketplacePostResponseProto class];
-      break;
-    case EventProtocolResponseSRedeemMarketplaceEarningsEvent:
-      responseClass = [RedeemMarketplaceEarningsResponseProto class];
-      break;
-    case EventProtocolResponseSPurchaseMarketplaceLicenseEvent:
-      responseClass = [PurchaseMarketplaceLicenseResponseProto class];
       break;
     case EventProtocolResponseSGenerateAttackListEvent:
       responseClass = [GenerateAttackListResponseProto class];
@@ -310,9 +292,6 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
     case EventProtocolResponseSSubmitEquipEnhancementEvent:
       responseClass = [SubmitEquipEnhancementResponseProto class];
       break;
-    case EventProtocolResponseSCollectEquipEnhancementEvent:
-      responseClass = [CollectEquipEnhancementResponseProto class];
-      break;
     case EventProtocolResponseSRetrieveClanTowerScoresEvent:
       responseClass = [RetrieveClanTowerScoresResponseProto class];
       break;
@@ -349,6 +328,15 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
     case EventProtocolResponseSRedeemUserCityGemsEvent:
       responseClass = [RedeemUserCityGemsResponseProto class];
       break;
+    case EventProtocolResponseSBeginDungeonEvent:
+      responseClass = [BeginDungeonResponseProto class];
+      break;
+    case EventProtocolResponseSReviveInDungeonEvent:
+      responseClass = [ReviveInDungeonResponseProto class];
+      break;
+    case EventProtocolResponseSEndDungeonEvent:
+      responseClass = [EndDungeonRequestProto class];
+      break;
       
     default:
       responseClass = nil;
@@ -367,7 +355,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
   
   UserCreateResponseProto *proto = (UserCreateResponseProto *)fe.event;
   
-  ContextLogInfo( LN_CONTEXT_COMMUNICATION, @"Received user create with status %d", proto.status);
+  LNLog(@"Received user create with status %d", proto.status);
   
   TutorialConstants *tc = [TutorialConstants sharedTutorialConstants];
   if (!tc.userCreateResponse) {
@@ -406,7 +394,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
   StartupResponseProto *proto = (StartupResponseProto *)fe.event;
   int tag = fe.tag;
   
-  ContextLogInfo( LN_CONTEXT_COMMUNICATION, @"Startup response received with status %d.", proto.startupStatus);
+  LNLog(@"Startup response received with status %d.", proto.startupStatus);
   
   Globals *gl = [Globals sharedGlobals];
   GameState *gs = [GameState sharedGameState];
@@ -466,7 +454,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
     
     [gs setPlayerHasBoughtInAppPurchase:proto.playerHasBoughtInAppPurchase];
     
-    [Globals asyncDownloadBundles];
+//    [Globals asyncDownloadBundles];
     
     OutgoingEventController *oec = [OutgoingEventController sharedOutgoingEventController];
     
@@ -541,11 +529,6 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
       [gs addNotification:un];
       [un release];
     }
-    for (StartupResponseProto_MarketplacePostPurchasedNotificationProto *p in proto.marketplacePurchaseNotificationsList) {
-      un = [[UserNotification alloc] initMarketplaceNotificationAtStartup:p];
-      [gs addNotification:un];
-      [un release];
-    }
     for (StartupResponseProto_ReferralNotificationProto *p in proto.referralNotificationsList) {
       un = [[UserNotification alloc] initReferralNotificationAtStartup:p];
       [gs addNotification:un];
@@ -586,12 +569,12 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
     //Display daily bonus screen if its applicable
     NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
     NSNumber *lastTime = [defaults objectForKey:LAST_DAILY_BONUS_TIME_KEY];
-    if (proto.hasDailyBonusInfo && !gs.isTutorial && ![lastTime isEqualToNumber:[NSNumber numberWithLong:proto.dailyBonusInfo.timeAwarded]]) {
+    if (proto.hasDailyBonusInfo && !gs.isTutorial && ![lastTime isEqualToNumber:[NSNumber numberWithLongLong:proto.dailyBonusInfo.timeAwarded]]) {
       StartupResponseProto_DailyBonusInfo *dbi = proto.dailyBonusInfo;
       [[TopBar sharedTopBar] setDbi:dbi];
     }
     
-    [[OutgoingEventController sharedOutgoingEventController] retrieveBoosterPacks];
+//    [[OutgoingEventController sharedOutgoingEventController] retrieveBoosterPacks];
     
     // Display generic popups for strings that haven't been seen before
     NSUserDefaults *standardDefault = [NSUserDefaults standardUserDefaults];
@@ -640,20 +623,20 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
 - (void) handleReconnectResponseProto:(FullEvent *)fe {
   ReconnectResponseProto *proto = (ReconnectResponseProto *)fe.event;
   
-  ContextLogInfo( LN_CONTEXT_COMMUNICATION, @"Received reconnect response with %@incoming messages.", proto.incomingResponseMessages ? @"" : @"no ");
+  LNLog(@"Received reconnect response with %@incoming messages.", proto.incomingResponseMessages ? @"" : @"no ");
 }
 
 - (void) handleChatResponseProto:(FullEvent *)fe {
   ChatResponseProto *proto = (ChatResponseProto *)fe.event;
   
-  ContextLogInfo( LN_CONTEXT_COMMUNICATION, @"%@", [proto message]);
+  LNLog(@"%@", [proto message]);
 }
 
 - (void) handleVaultResponseProto:(FullEvent *)fe {
   VaultResponseProto *proto = (VaultResponseProto *)fe.event;
   int tag = fe.tag;
   
-  ContextLogInfo( LN_CONTEXT_COMMUNICATION, @"Vault response received with status %d", proto.status);
+  LNLog(@"Vault response received with status %d", proto.status);
   
   GameState *gs = [GameState sharedGameState];
   if (proto.status == VaultResponseProto_VaultStatusSuccess) {
@@ -671,7 +654,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
   BattleResponseProto *proto = (BattleResponseProto *)fe.event;
   int tag = fe.tag;
   
-  ContextLogInfo( LN_CONTEXT_COMMUNICATION, @"Battle response received with status %d.", proto.status);
+  LNLog(@"Battle response received with status %d.", proto.status);
   
   GameState *gs = [GameState sharedGameState];
   if (proto.status == BattleResponseProto_BattleStatusSuccess) {
@@ -717,40 +700,11 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
   }
 }
 
-- (void) handleArmoryResponseProto:(FullEvent *)fe {
-  ArmoryResponseProto *proto = (ArmoryResponseProto *)fe.event;
-  int tag = fe.tag;
-  
-  ContextLogInfo( LN_CONTEXT_COMMUNICATION, @"Armory response received with status %d", proto.status);
-  
-  GameState *gs =[GameState sharedGameState];
-  BOOL success = YES;
-  if (proto.status != ArmoryResponseProto_ArmoryStatusSuccess) {
-    [Globals popupMessage:@"Server failed to perform armory action."];
-    [gs removeAndUndoAllUpdatesForTag:tag];
-    success = NO;
-  } else {
-    [gs.myEquips addObject:[UserEquip userEquipWithProto:proto.fullUserEquipOfBoughtItem]];
-    
-    [gs removeNonFullUserUpdatesForTag:tag];
-  }
-  
-  if ([EquipMenuController isInitialized]) {
-    [[EquipMenuController sharedEquipMenuController] receivedArmoryResponse:proto];
-  }
-  if ([ForgeMenuController isInitialized]) {
-    [[ForgeMenuController sharedForgeMenuController] receivedArmoryResponse:success];
-  }
-  if ([RefillMenuController isInitialized]) {
-    [[RefillMenuController sharedRefillMenuController] receivedArmoryResponse:success equip:proto.fullUserEquipOfBoughtItem.equipId];
-  }
-}
-
 - (void) handleLevelUpResponseProto:(FullEvent *)fe {
   LevelUpResponseProto *proto = (LevelUpResponseProto *)fe.event;
   int tag = fe.tag;
   
-  ContextLogInfo( LN_CONTEXT_COMMUNICATION, @"Level up response received with status %d.", proto.status);
+  LNLog(@"Level up response received with status %d.", proto.status);
   
   GameState *gs = [GameState sharedGameState];
   if (proto.status == LevelUpResponseProto_LevelUpStatusSuccess) {
@@ -786,7 +740,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
   
   GameState *gs = [GameState sharedGameState];
   
-  ContextLogInfo( LN_CONTEXT_COMMUNICATION, @"In App Purchase response received with status %d.", proto.status);
+  LNLog(@"In App Purchase response received with status %d.", proto.status);
   
   GoldShoppeViewController *gsvc = [GoldShoppeViewController sharedGoldShoppeViewController];
   [gsvc stopLoading];
@@ -827,266 +781,22 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
   }
 }
 
-- (void) handleTaskActionResponseProto:(FullEvent *)fe {
-  TaskActionResponseProto *proto = (TaskActionResponseProto *)fe.event;
-  int tag = fe.tag;
-  
-  ContextLogInfo( LN_CONTEXT_COMMUNICATION, @"Task action received with status %d.", proto.status);
-  
-  GameState *gs = [GameState sharedGameState];
-  GameLayer *gLay = [GameLayer sharedGameLayer];
-  
-  [[gLay missionMap] receivedTaskResponse:proto];
-  
-  if (proto.status == TaskActionResponseProto_TaskActionStatusSuccess) {
-    gs.silver +=  proto.coinsGained;
-    
-    if (proto.hasEventIdOfLockBoxGained) {
-      [gs addToNumLockBoxesForEvent:proto.eventIdOfLockBoxGained];
-    }
-    
-    if (proto.hasLootUserEquip) {
-      [gs.myEquips addObject:[UserEquip userEquipWithProto:proto.lootUserEquip]];
-    }
-    
-    if (proto.cityRankedUp) {
-      int cityId = proto.cityId;
-      UserCity *city = [gs myCityWithId:cityId];
-      city.curRank++;
-      city.numTasksComplete = 0;
-      
-      gs.silver += proto.coinBonusIfCityRankup;
-      gs.experience += proto.expBonusIfCityRankup;
-      
-      if (gLay.currentCity == cityId) {
-        NSArray *sprites = [[gLay missionMap] mapSprites];
-        for (MapSprite *spr in sprites) {
-          if ([spr conformsToProtocol:@protocol(TaskElement)]) {
-            id<TaskElement> te = (id<TaskElement>)spr;
-            te.numTimesActedForTask = 0;
-          }
-        }
-      }
-    }
-    
-    if (proto.hasBoss) {
-      [gs addToMyBosses:[NSArray arrayWithObject:proto.boss]];
-    }
-    
-    [gs removeNonFullUserUpdatesForTag:tag];
-  } else {
-    if (proto.status == TaskActionResponseProto_TaskActionStatusClientTooApartFromServerTime) {
-      [self handleTimeOutOfSync];
-    } else {
-      [Globals popupMessage:@"Server failed to complete task"];
-    }
-    [gs removeAndUndoAllUpdatesForTag:tag];
-  }
-}
-
 - (void) handleUpdateClientUserResponseProto:(FullEvent *)fe {
   UpdateClientUserResponseProto *proto = (UpdateClientUserResponseProto *)fe.event;
   int tag = fe.tag;
   
-  ContextLogInfo( LN_CONTEXT_COMMUNICATION, @"Update client user response received.");
+  LNLog(@"Update client user response received.");
   
   GameState *gs = [GameState sharedGameState];
   [gs removeFullUserUpdatesForTag:tag];
   [gs updateUser:proto.sender timestamp:proto.timeOfUserUpdate];
 }
 
-- (void) handleRetrieveCurrentMarketplacePostsResponseProto:(FullEvent *)fe {
-  RetrieveCurrentMarketplacePostsResponseProto *proto = (RetrieveCurrentMarketplacePostsResponseProto *)fe.event;
-  int tag = fe.tag;
-  
-  ContextLogInfo( LN_CONTEXT_COMMUNICATION, @"Retrieve mkt response received with %d posts%@ and status %d.", proto.marketplacePostsList.count, proto.fromSender ? @" from sender" : @"", proto.status);
-  
-  GameState *gs = [GameState sharedGameState];
-  MarketplaceViewController *mvc = [MarketplaceViewController sharedMarketplaceViewController];
-  if (proto.status == RetrieveCurrentMarketplacePostsResponseProto_RetrieveCurrentMarketplacePostsStatusSuccess) {
-    if ([proto.marketplacePostsList count] > 0) {
-      if (mvc.view.superview) {
-        NSMutableArray *eq;
-        NSMutableArray *staticEquips = [NSMutableArray arrayWithCapacity:proto.marketplacePostsList.count];
-        
-        if (proto.fromSender) {
-          eq = [gs marketplaceEquipPostsFromSender];
-        } else {
-          eq = [gs marketplaceEquipPosts];
-        }
-        
-        if (proto.beforeThisPostId == 0) {
-          [eq removeAllObjects];
-        }
-        
-        NSArray *arr = [mvc arrayForCurrentState];
-        int oldCount = arr.count;
-        
-        for (FullMarketplacePostProto *fmpp in proto.marketplacePostsList) {
-          [eq addObject:fmpp];
-          [staticEquips addObject:fmpp.postedEquip];
-        }
-        [gs addToStaticEquips:staticEquips];
-        
-        BOOL showsLicenseRow = proto.fromSender;
-        [mvc insertRowsFrom:oldCount+showsLicenseRow+1];
-      }
-    }
-    [gs removeNonFullUserUpdatesForTag:tag];
-  } else {
-    [Globals popupMessage:@"Server failed to retrieve current marketplace posts."];
-    [gs removeAndUndoAllUpdatesForTag:tag];
-  }
-  [mvc stopLoading];
-  [mvc doneRefreshing];
-}
-
-- (void) handlePostToMarketplaceResponseProto:(FullEvent *)fe {
-  PostToMarketplaceResponseProto *proto = (PostToMarketplaceResponseProto *)fe.event;
-  int tag = fe.tag;
-  
-  ContextLogInfo( LN_CONTEXT_COMMUNICATION, @"Post to mkt response received with status %d", [proto status]);
-  
-  GameState *gs = [GameState sharedGameState];
-  if (proto.status == PostToMarketplaceResponseProto_PostToMarketplaceStatusSuccess) {
-    MarketplaceViewController *mvc = [MarketplaceViewController sharedMarketplaceViewController];
-    if (mvc.view.superview) {
-      [[OutgoingEventController sharedOutgoingEventController] retrieveMostRecentMarketplacePostsFromSender];
-    }
-    [gs removeNonFullUserUpdatesForTag:tag];
-  } else {
-    if (proto.status == PostToMarketplaceResponseProto_PostToMarketplaceStatusUserAlreadyMaxMarketplacePosts) {
-      [Globals popupMessage:@"You have already reached the maximum number of posts."];;
-    } else {
-      [Globals popupMessage:@"Server failed to post item."];
-    }
-    [gs removeAndUndoAllUpdatesForTag:tag];
-  }
-}
-
-- (void) handlePurchaseFromMarketplaceResponseProto:(FullEvent *)fe {
-  PurchaseFromMarketplaceResponseProto *proto = (PurchaseFromMarketplaceResponseProto *)fe.event;
-  int tag = fe.tag;
-  
-  ContextLogInfo( LN_CONTEXT_COMMUNICATION, @"Purchase from mkt response received with status %d", proto.status);
-  
-  MarketplaceViewController *mvc = [MarketplaceViewController sharedMarketplaceViewController];
-  GameState *gs = [GameState sharedGameState];
-  Globals *gl = [Globals sharedGlobals];
-  if (proto.status == PurchaseFromMarketplaceResponseProto_PurchaseFromMarketplaceStatusSuccess) {
-    if (proto.posterId == gs.userId) {
-      // This is a notification
-      UserNotification *un = [[UserNotification alloc] initWithMarketplaceResponse:proto];
-      [gs addNotification:un];
-      [un release];
-      gs.marketplaceGoldEarnings += proto.sellerHadLicense ? proto.marketplacePost.diamondCost : (int)floorf(proto.marketplacePost.diamondCost * (1.f-gl.purchasePercentCut));
-      gs.marketplaceSilverEarnings += proto.sellerHadLicense ? proto.marketplacePost.coinCost : (int)floorf(proto.marketplacePost.coinCost * (1.f-gl.purchasePercentCut));
-      
-      [mvc displayRedeemView];
-      
-      [Analytics receivedNotification];
-    } else {
-      [gs.myEquips addObject:[UserEquip userEquipWithProto:proto.fullUserEquipOfBoughtItem]];
-      gs.gold -= proto.marketplacePost.diamondCost;
-      gs.silver -= proto.marketplacePost.coinCost;
-      [mvc.coinBar updateLabels];
-      
-      NSMutableArray *mktPosts = mvc.arrayForCurrentState;
-      [[Globals sharedGlobals] confirmWearEquip:proto.fullUserEquipOfBoughtItem.userEquipId];
-      
-      if (mvc.view.superview) {
-        for (int i = 0; i < mktPosts.count; i++) {
-          FullMarketplacePostProto *p = [mktPosts objectAtIndex:i];
-          if (p.marketplacePostId == proto.marketplacePost.marketplacePostId) {
-            if (mvc.view.superview) {
-              // Add one to account for the empty cell at the top
-              [mktPosts removeObject:p];
-              
-              BOOL showsLicenseRow = mvc.state == kEquipSellingState;
-              
-              NSIndexPath *y = [NSIndexPath indexPathForRow:i+1+showsLicenseRow inSection:0];
-              NSIndexPath *z = mktPosts.count == 0 ? [NSIndexPath indexPathForRow:0 inSection:0] : nil;
-              NSArray *a = [NSArray arrayWithObjects:y, z, nil];
-              [mvc.postsTableView deleteRowsAtIndexPaths:a withRowAnimation:UITableViewRowAnimationTop];
-            }
-            break;
-          }
-        }
-      }
-    }
-    [gs removeNonFullUserUpdatesForTag:tag];
-  } else {
-    if (proto.status == PurchaseFromMarketplaceResponseProto_PurchaseFromMarketplaceStatusPostNoLongerExists) {
-      [Globals popupMessage:@"Sorry, this item has already been bought!"];
-    } else {
-      [Globals popupMessage:@"Server failed to purchase from marketplace."];
-    }
-    [gs removeAndUndoAllUpdatesForTag:tag];
-  }
-  [mvc.loadingView stop];
-}
-
-- (void) handleRetractMarketplacePostResponseProto:(FullEvent *)fe {
-  RetractMarketplacePostResponseProto *proto = (RetractMarketplacePostResponseProto *)fe.event;
-  int tag = fe.tag;
-  
-  ContextLogInfo( LN_CONTEXT_COMMUNICATION, @"Retract marketplace response received with status %d", proto.status);
-  
-  GameState *gs = [GameState sharedGameState];
-  if (proto.status == RetractMarketplacePostResponseProto_RetractMarketplacePostStatusSuccess) {
-    [gs.myEquips addObject:[UserEquip userEquipWithProto:proto.retractedUserEquip]];
-    [gs removeNonFullUserUpdatesForTag:tag];
-  } else {
-    [Globals popupMessage:@"Server failed to retract marketplace post."];
-    [gs removeAndUndoAllUpdatesForTag:tag];
-  }
-  
-  MarketplaceViewController *mvc = [MarketplaceViewController sharedMarketplaceViewController];
-  [mvc.loadingView stop];
-  [mvc.postsTableView reloadData];
-}
-
-- (void) handleRedeemMarketplaceEarningsResponseProto:(FullEvent *)fe {
-  RedeemMarketplaceEarningsResponseProto *proto = (RedeemMarketplaceEarningsResponseProto *)fe.event;
-  int tag = fe.tag;
-  
-  ContextLogInfo( LN_CONTEXT_COMMUNICATION, @"Redeem response received with status %d", proto.status);
-  
-  GameState *gs = [GameState sharedGameState];
-  if (proto.status != RedeemMarketplaceEarningsResponseProto_RedeemMarketplaceEarningsStatusSuccess) {
-    [Globals popupMessage:@"Server failed to redeem marketplace earnings."];
-    [gs removeAndUndoAllUpdatesForTag:tag];
-  } else {
-    [gs removeNonFullUserUpdatesForTag:tag];
-  }
-}
-
-- (void) handlePurchaseMarketplaceLicenseResponseProto:(FullEvent *)fe {
-  PurchaseMarketplaceLicenseResponseProto *proto = (PurchaseMarketplaceLicenseResponseProto *)fe.event;
-  int tag = fe.tag;
-  
-  ContextLogInfo( LN_CONTEXT_COMMUNICATION, @"Purchase marketplace license received with status %d", proto.status);
-  
-  GameState *gs = [GameState sharedGameState];
-  if (proto.status != PurchaseMarketplaceLicenseResponseProto_PurchaseMarketplaceLicenseStatusSuccess) {
-    if (proto.status == PurchaseMarketplaceLicenseResponseProto_PurchaseMarketplaceLicenseStatusClientTooApartFromServerTime) {
-      [self handleTimeOutOfSync];
-    } else {
-      [Globals popupMessage:@"Server failed to purchase marketplace license"];
-    }
-    [gs removeAndUndoAllUpdatesForTag:tag];
-  } else {
-    [[MarketplaceViewController sharedMarketplaceViewController] receivedPurchaseMktLicenseResponse:proto];
-    
-    [gs removeNonFullUserUpdatesForTag:tag];
-  }
-}
-
 - (void) handleGenerateAttackListResponseProto:(FullEvent *)fe {
   GenerateAttackListResponseProto *proto = (GenerateAttackListResponseProto *)fe.event;
   int tag = fe.tag;
   
-  ContextLogInfo( LN_CONTEXT_COMMUNICATION, @"Generate attack list response received with status %d and %d %@ enemies.", proto.status, proto.enemiesList.count, proto.showRealPlayers ? @"real" : @"fake");
+  LNLog(@"Generate attack list response received with status %d and %d %@ enemies.", proto.status, proto.enemiesList.count, proto.showRealPlayers ? @"real" : @"fake");
   
   GameState *gs = [GameState sharedGameState];
   if (proto.status == GenerateAttackListResponseProto_GenerateAttackListStatusSuccess) {
@@ -1131,7 +841,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
 - (void) handleUseSkillPointResponseProto:(FullEvent *)fe {
   UseSkillPointResponseProto *proto = (UseSkillPointResponseProto *)fe.event;
   
-  ContextLogInfo( LN_CONTEXT_COMMUNICATION, @"Use skill point response received with status %d.", proto.status);
+  LNLog(@"Use skill point response received with status %d.", proto.status);
   
   if (proto.status != UseSkillPointResponseProto_UseSkillPointStatusSuccess) {
     [Globals popupMessage:@"Server failed to add skill point."];
@@ -1142,7 +852,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
   RefillStatWaitCompleteResponseProto *proto = (RefillStatWaitCompleteResponseProto *)fe.event;
   int tag = fe.tag;
   
-  ContextLogInfo( LN_CONTEXT_COMMUNICATION, @"Refill stat wait complete response received with status %d.", proto.status);
+  LNLog(@"Refill stat wait complete response received with status %d.", proto.status);
   
   GameState *gs = [GameState sharedGameState];
   if (proto.status != RefillStatWaitCompleteResponseProto_RefillStatWaitCompleteStatusSuccess) {
@@ -1163,7 +873,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
   RefillStatWithDiamondsResponseProto *proto = (RefillStatWithDiamondsResponseProto *)fe.event;
   int tag = fe.tag;
   
-  ContextLogInfo( LN_CONTEXT_COMMUNICATION, @"Refill stat with diamonds response with status %d.", proto.status);
+  LNLog(@"Refill stat with diamonds response with status %d.", proto.status);
   
   GameState *gs = [GameState sharedGameState];
   if (proto.status != RefillStatWithDiamondsResponseProto_RefillStatStatusSuccess) {
@@ -1178,7 +888,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
   PurchaseNormStructureResponseProto *proto = (PurchaseNormStructureResponseProto *)fe.event;
   int tag = fe.tag;
   
-  ContextLogInfo( LN_CONTEXT_COMMUNICATION, @"Purchase norm struct response received with status: %d.", proto.status);
+  LNLog(@"Purchase norm struct response received with status: %d.", proto.status);
   
   GameState *gs = [GameState sharedGameState];
   if (proto.status == PurchaseNormStructureResponseProto_PurchaseNormStructureStatusSuccess) {
@@ -1196,7 +906,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
         us.userStructId = proto.userStructId;
       } else {
         // This should never happen
-        ContextLogError( LN_CONTEXT_COMMUNICATION, @"Received success in purchase with no userStructId");
+        LNLog(@"Received success in purchase with no userStructId");
       }
     } else {
       [Globals popupMessage:[NSString stringWithFormat:@"Something went wrong in the purchase. Error Status: %d", proto.status]];
@@ -1218,7 +928,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
   MoveOrRotateNormStructureResponseProto *proto = (MoveOrRotateNormStructureResponseProto *)fe.event;
   int tag = fe.tag;
   
-  ContextLogInfo( LN_CONTEXT_COMMUNICATION, @"Move norm struct response received with status: %d.", proto.status);
+  LNLog(@"Move norm struct response received with status: %d.", proto.status);
   
   GameState *gs = [GameState sharedGameState];
   if (proto.status != MoveOrRotateNormStructureResponseProto_MoveOrRotateNormStructureStatusSuccess) {
@@ -1233,7 +943,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
   UpgradeNormStructureResponseProto *proto = (UpgradeNormStructureResponseProto *)fe.event;
   int tag = fe.tag;
   
-  ContextLogInfo( LN_CONTEXT_COMMUNICATION, @"Upgrade norm structure response received with status %d.", proto.status);
+  LNLog(@"Upgrade norm structure response received with status %d.", proto.status);
   
   GameState *gs = [GameState sharedGameState];
   if (proto.status != UpgradeNormStructureResponseProto_UpgradeNormStructureStatusSuccess) {
@@ -1252,7 +962,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
   NormStructWaitCompleteResponseProto *proto = (NormStructWaitCompleteResponseProto *)fe.event;
   int tag = fe.tag;
   
-  ContextLogInfo( LN_CONTEXT_COMMUNICATION, @"Norm struct builds complete response received with status %d.", proto.status);
+  LNLog(@"Norm struct builds complete response received with status %d.", proto.status);
   
   GameState *gs = [GameState sharedGameState];
   if (proto.status != NormStructWaitCompleteResponseProto_NormStructWaitCompleteStatusSuccess) {
@@ -1271,7 +981,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
   FinishNormStructWaittimeWithDiamondsResponseProto *proto = (FinishNormStructWaittimeWithDiamondsResponseProto *)fe.event;
   int tag = fe.tag;
   
-  ContextLogInfo( LN_CONTEXT_COMMUNICATION, @"Finish norm struct with diamonds response received with status %d.", proto.status);
+  LNLog(@"Finish norm struct with diamonds response received with status %d.", proto.status);
   
   GameState *gs = [GameState sharedGameState];
   if (proto.status != FinishNormStructWaittimeWithDiamondsResponseProto_FinishNormStructWaittimeStatusSuccess) {
@@ -1290,7 +1000,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
   RetrieveCurrencyFromNormStructureResponseProto *proto = (RetrieveCurrencyFromNormStructureResponseProto *)fe.event;
   int tag = fe.tag;
   
-  ContextLogInfo( LN_CONTEXT_COMMUNICATION, @"Retrieve currency response received with status: %d.", proto.status);
+  LNLog(@"Retrieve currency response received with status: %d.", proto.status);
   
   GameState *gs = [GameState sharedGameState];
   if (proto.status != RetrieveCurrencyFromNormStructureResponseProto_RetrieveCurrencyFromNormStructureStatusSuccess) {
@@ -1313,7 +1023,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
   SellNormStructureResponseProto *proto = (SellNormStructureResponseProto *)fe.event;
   int tag = fe.tag;
   
-  ContextLogInfo( LN_CONTEXT_COMMUNICATION, @"Sell norm struct response received with status %d.", proto.status);
+  LNLog(@"Sell norm struct response received with status %d.", proto.status);
   
   GameState *gs = [GameState sharedGameState];
   if (proto.status != SellNormStructureResponseProto_SellNormStructureStatusSuccess) {
@@ -1328,7 +1038,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
   CriticalStructureActionResponseProto *proto = (CriticalStructureActionResponseProto *)fe.event;
   int tag = fe.tag;
   
-  ContextLogInfo( LN_CONTEXT_COMMUNICATION, @"Crit struct action response received with status %d", proto.status);
+  LNLog(@"Crit struct action response received with status %d", proto.status);
   
   GameState *gs = [GameState sharedGameState];
   if (proto.status != CriticalStructureActionResponseProto_CritStructActionStatusSuccess) {
@@ -1343,7 +1053,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
   LoadPlayerCityResponseProto *proto = (LoadPlayerCityResponseProto *)fe.event;
   int tag = fe.tag;
   
-  ContextLogInfo( LN_CONTEXT_COMMUNICATION, @"Load player city response received with status %d.", proto.status);
+  LNLog(@"Load player city response received with status %d.", proto.status);
   
   GameState *gs = [GameState sharedGameState];
   
@@ -1356,10 +1066,14 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
       [gs.myStructs removeAllObjects];
       [gs addToMyStructs:proto.ownerNormStructsList];
       
-      if (proto.hasUserCityExpansionData) {
-        gs.userExpansion = [UserExpansion userExpansionWithFullUserCityExpansionDataProto:proto.userCityExpansionData];
-        [gs beginExpansionTimer];
+      NSMutableArray *exp = [NSMutableArray array];
+      if (proto.userCityExpansionDataProtoListList.count > 0) {
+        for (UserCityExpansionDataProto *e in proto.userCityExpansionDataProtoListList) {
+          [exp  addObject:[UserExpansion userExpansionWithUserCityExpansionDataProto:e]];
+        }
       }
+      gs.userExpansions = exp;
+      [gs beginExpansionTimer];
       
       [[OutgoingEventController sharedOutgoingEventController] retrieveAllStaticData];
       
@@ -1394,7 +1108,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
   LoadNeutralCityResponseProto *proto = (LoadNeutralCityResponseProto *)fe.event;
   int tag = fe.tag;
   
-  ContextLogInfo( LN_CONTEXT_COMMUNICATION, @"Load neutral city response received for city %d with status %d.", proto.cityId, proto.status);
+  LNLog(@"Load neutral city response received for city %d with status %d.", proto.cityId, proto.status);
   
   for (FullUserProto *fup in proto.defeatTypeJobEnemiesList) {
     [[OutgoingEventController sharedOutgoingEventController] retrieveStaticEquipsForUser:fup];
@@ -1418,7 +1132,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
   RetrieveStaticDataResponseProto *proto = (RetrieveStaticDataResponseProto *)fe.event;
   int tag = fe.tag;
   
-  ContextLogInfo( LN_CONTEXT_COMMUNICATION, @"Retrieve static data response received with status %d", proto.status);
+  LNLog(@"Retrieve static data response received with status %d", proto.status);
   GameState *gs = [GameState sharedGameState];
   
   if (proto.status == RetrieveStaticDataResponseProto_RetrieveStaticDataStatusSuccess) {
@@ -1454,7 +1168,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
   RetrieveStaticDataForShopResponseProto *proto = (RetrieveStaticDataForShopResponseProto *)fe.event;
   int tag = fe.tag;
   
-  ContextLogInfo( LN_CONTEXT_COMMUNICATION, @"Retrieve static data for shop response received with status %d, %d structs, %d equips.", proto.status, proto.structsList.count, proto.equipsList.count);
+  LNLog(@"Retrieve static data for shop response received with status %d, %d structs, %d equips.", proto.status, proto.structsList.count, proto.equipsList.count);
   
   GameState *gs = [GameState sharedGameState];
   if (proto.status == RetrieveStaticDataForShopResponseProto_RetrieveStaticDataForShopStatusSuccess) {
@@ -1515,7 +1229,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
   RetrieveBoosterPackResponseProto *proto = (RetrieveBoosterPackResponseProto *)fe.event;
   int tag = fe.tag;
   
-  ContextLogInfo( LN_CONTEXT_COMMUNICATION, @"Retrieve booster pack response received with status %d.", proto.status);
+  LNLog(@"Retrieve booster pack response received with status %d.", proto.status);
   
   GameState *gs = [GameState sharedGameState];
   if (proto.status == RetrieveBoosterPackResponseProto_RetrieveBoosterPackStatusSuccess) {
@@ -1537,7 +1251,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
   EquipEquipmentResponseProto *proto = (EquipEquipmentResponseProto *)fe.event;
   int tag = fe.tag;
   
-  ContextLogInfo( LN_CONTEXT_COMMUNICATION, @"Equip equipment response received with status %d.", proto.status);
+  LNLog(@"Equip equipment response received with status %d.", proto.status);
   
   GameState *gs = [GameState sharedGameState];
   if (proto.status != EquipEquipmentResponseProto_EquipEquipmentStatusSuccess) {
@@ -1552,7 +1266,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
   ChangeUserLocationResponseProto *proto = (ChangeUserLocationResponseProto *)fe.event;
   int tag = fe.tag;
   
-  ContextLogInfo( LN_CONTEXT_COMMUNICATION, @"Change user location response received with status %d.", proto.status);
+  LNLog(@"Change user location response received with status %d.", proto.status);
   
   GameState *gs = [GameState sharedGameState];
   if (proto.status != ChangeUserLocationResponseProto_ChangeUserLocationStatusSuccess) {
@@ -1567,7 +1281,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
   QuestAcceptResponseProto *proto = (QuestAcceptResponseProto *)fe.event;
   int tag = fe.tag;
   
-  ContextLogInfo( LN_CONTEXT_COMMUNICATION, @"Quest accept response received with status %d", proto.status);
+  LNLog(@"Quest accept response received with status %d", proto.status);
   
   GameState *gs = [GameState sharedGameState];
   if (proto.status != QuestAcceptResponseProto_QuestAcceptStatusSuccess) {
@@ -1584,7 +1298,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
   QuestRedeemResponseProto *proto = (QuestRedeemResponseProto *)fe.event;
   int tag = fe.tag;
   
-  ContextLogInfo( LN_CONTEXT_COMMUNICATION, @"Quest redeem response received with status %d", proto.status);
+  LNLog(@"Quest redeem response received with status %d", proto.status);
   
   GameState *gs = [GameState sharedGameState];
   if (proto.status == QuestRedeemResponseProto_QuestRedeemStatusSuccess) {
@@ -1614,7 +1328,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
   UserQuestDetailsResponseProto *proto = (UserQuestDetailsResponseProto *)fe.event;
   int tag = fe.tag;
   
-  ContextLogInfo( LN_CONTEXT_COMMUNICATION, @"Quest log details response received with status %d", proto.status);
+  LNLog(@"Quest log details response received with status %d", proto.status);
   GameState *gs = [GameState sharedGameState];
   if (proto.status == UserQuestDetailsResponseProto_UserQuestDetailsStatusSuccess) {
     [[QuestLogController sharedQuestLogController] loadQuestData:proto.inProgressUserQuestDataList];
@@ -1629,7 +1343,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
 - (void) handleQuestCompleteResponseProto:(FullEvent *)fe {
   QuestCompleteResponseProto *proto = (QuestCompleteResponseProto *)fe.event;
   
-  ContextLogInfo( LN_CONTEXT_COMMUNICATION, @"Received quest complete response for quest %d.", proto.questId);
+  LNLog(@"Received quest complete response for quest %d.", proto.questId);
   
   GameState *gs = [GameState sharedGameState];
   NSNumber *questNum = [NSNumber numberWithInt:proto.questId];
@@ -1654,7 +1368,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
   RetrieveUserEquipForUserResponseProto *proto = (RetrieveUserEquipForUserResponseProto *)fe.event;
   int tag = fe.tag;
   
-  ContextLogInfo( LN_CONTEXT_COMMUNICATION, @"Retrieve user equip response received.");
+  LNLog(@"Retrieve user equip response received.");
   
   OutgoingEventController *oec = [OutgoingEventController sharedOutgoingEventController];
   NSMutableArray *arr = [NSMutableArray array];
@@ -1677,7 +1391,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
   RetrieveUsersForUserIdsResponseProto *proto = (RetrieveUsersForUserIdsResponseProto *)fe.event;
   int tag = fe.tag;
   
-  ContextLogInfo( LN_CONTEXT_COMMUNICATION, @"Retrieve user ids for user received.");
+  LNLog(@"Retrieve user ids for user received.");
   
   OutgoingEventController *oec = [OutgoingEventController sharedOutgoingEventController];
   [oec retrieveStaticEquipsForUsers:proto.requestedUsersList];
@@ -1696,7 +1410,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
 - (void) handleReferralCodeUsedResponseProto:(FullEvent *)fe {
   ReferralCodeUsedResponseProto *proto = (ReferralCodeUsedResponseProto *)fe.event;
   
-  ContextLogInfo( LN_CONTEXT_COMMUNICATION, @"Referral code used received.");
+  LNLog(@"Referral code used received.");
   
   GameState *gs = [GameState sharedGameState];
   Globals *gl = [Globals sharedGlobals];
@@ -1712,7 +1426,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
   RetrievePlayerWallPostsResponseProto *proto = (RetrievePlayerWallPostsResponseProto *)fe.event;
   int tag = fe.tag;
   
-  ContextLogInfo( LN_CONTEXT_COMMUNICATION, @"Retrieve player wall response received with status %d.", proto.status);
+  LNLog(@"Retrieve player wall response received with status %d.", proto.status);
   
   GameState *gs = [GameState sharedGameState];
   if (proto.status == RetrievePlayerWallPostsResponseProto_RetrievePlayerWallPostsStatusSuccess) {
@@ -1728,7 +1442,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
   PostOnPlayerWallResponseProto *proto = (PostOnPlayerWallResponseProto *)fe.event;
   int tag = fe.tag;
   
-  ContextLogInfo( LN_CONTEXT_COMMUNICATION, @"Post on player wall response received with status %d.", proto.status);
+  LNLog(@"Post on player wall response received with status %d.", proto.status);
   
   GameState *gs = [GameState sharedGameState];
   if (proto.status == PostOnPlayerWallResponseProto_PostOnPlayerWallStatusSuccess) {
@@ -1749,7 +1463,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
   EnableAPNSResponseProto *proto = (EnableAPNSResponseProto *)fe.event;
   int tag = fe.tag;
   
-  ContextLogInfo( LN_CONTEXT_COMMUNICATION, @"Enable apns response received with status %d.", proto.status);
+  LNLog(@"Enable apns response received with status %d.", proto.status);
   
   GameState *gs = [GameState sharedGameState];
   if (proto.status == EnableAPNSResponseProto_EnableAPNSStatusSuccess) {
@@ -1764,7 +1478,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
   EarnFreeDiamondsResponseProto *proto = (EarnFreeDiamondsResponseProto *)fe.event;
   int tag = fe.tag;
   
-  ContextLogInfo( LN_CONTEXT_COMMUNICATION, @"Earn free diamonds response received with status %d.", proto.status);
+  LNLog(@"Earn free diamonds response received with status %d.", proto.status);
   
   GameState *gs = [GameState sharedGameState];
   if (proto.status == EarnFreeDiamondsResponseProto_EarnFreeDiamondsStatusSuccess) {
@@ -1795,7 +1509,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
   SubmitEquipsToBlacksmithResponseProto *proto = (SubmitEquipsToBlacksmithResponseProto *)fe.event;
   int tag = fe.tag;
   
-  ContextLogInfo( LN_CONTEXT_COMMUNICATION, @"Submit equips to blacksmith response received with status %d.", proto.status);
+  LNLog(@"Submit equips to blacksmith response received with status %d.", proto.status);
   
   GameState *gs = [GameState sharedGameState];
   if (proto.status == SubmitEquipsToBlacksmithResponseProto_SubmitEquipsToBlacksmithStatusSuccess) {
@@ -1819,7 +1533,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
   ForgeAttemptWaitCompleteResponseProto *proto = (ForgeAttemptWaitCompleteResponseProto *)fe.event;
   int tag = fe.tag;
   
-  ContextLogInfo( LN_CONTEXT_COMMUNICATION, @"Forge attempt wait complete response received with status %d.", proto.status);
+  LNLog(@"Forge attempt wait complete response received with status %d.", proto.status);
   
   GameState *gs = [GameState sharedGameState];
   if (proto.status == ForgeAttemptWaitCompleteResponseProto_ForgeAttemptWaitCompleteStatusSuccess) {
@@ -1841,7 +1555,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
   FinishForgeAttemptWaittimeWithDiamondsResponseProto *proto = (FinishForgeAttemptWaittimeWithDiamondsResponseProto *)fe.event;
   int tag = fe.tag;
   
-  ContextLogInfo( LN_CONTEXT_COMMUNICATION, @"Finish forge attempt with diamonds response received with status %d.", proto.status);
+  LNLog(@"Finish forge attempt with diamonds response received with status %d.", proto.status);
   
   GameState *gs = [GameState sharedGameState];
   if (proto.status == FinishForgeAttemptWaittimeWithDiamondsResponseProto_FinishForgeAttemptWaittimeWithDiamondsStatusSuccess) {
@@ -1861,7 +1575,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
   CollectForgeEquipsResponseProto *proto = (CollectForgeEquipsResponseProto *)fe.event;
   int tag = fe.tag;
   
-  ContextLogInfo( LN_CONTEXT_COMMUNICATION, @"Collect forge equips response received with status %d.", proto.status);
+  LNLog(@"Collect forge equips response received with status %d.", proto.status);
   
   GameState *gs = [GameState sharedGameState];
   if (proto.status == CollectForgeEquipsResponseProto_CollectForgeEquipsStatusSuccess) {
@@ -1881,7 +1595,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
   PurchaseForgeSlotResponseProto *proto = (PurchaseForgeSlotResponseProto *)fe.event;
   int tag = fe.tag;
   
-  ContextLogInfo( LN_CONTEXT_COMMUNICATION, @"Purchase forge slot response received with status %d.", proto.status);
+  LNLog(@"Purchase forge slot response received with status %d.", proto.status);
   
   GameState *gs = [GameState sharedGameState];
   if (proto.status == PurchaseForgeSlotResponseProto_PurchaseForgeSlotStatusSuccess) {
@@ -1897,7 +1611,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
 }
 
 - (void) handlePurgeClientStaticDataResponseProto:(FullEvent *)fe {
-  ContextLogInfo( LN_CONTEXT_COMMUNICATION, @"Purge static data response received.");
+  LNLog(@"Purge static data response received.");
   
   [[GameState sharedGameState] reretrieveStaticData];
 }
@@ -1905,7 +1619,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
 - (void) handleCharacterModResponseProto:(FullEvent *)fe {
   CharacterModResponseProto *proto = (CharacterModResponseProto *)fe.event;
   int tag = fe.tag;
-  ContextLogInfo( LN_CONTEXT_COMMUNICATION, @"Character mod response received with status %d.", proto.status);
+  LNLog(@"Character mod response received with status %d.", proto.status);
   
   GameState *gs = [GameState sharedGameState];
   if (proto.status == CharacterModResponseProto_CharacterModStatusSuccess) {
@@ -1968,7 +1682,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
 
 - (void) handlePrestigeResponseProto:(FullEvent *)fe {
   PrestigeResponseProto *proto = (PrestigeResponseProto *)fe.event;
-  ContextLogInfo( LN_CONTEXT_COMMUNICATION, @"Prestige response received with status %d.", proto.status);
+  LNLog(@"Prestige response received with status %d.", proto.status);
   
   if (proto.status == PrestigeResponseProto_PrestigeStatusSuccess) {
     UIApplication *app = [UIApplication sharedApplication];
@@ -1982,7 +1696,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
 - (void) handleRetrieveLeaderboardResponseProto:(FullEvent *)fe {
   RetrieveLeaderboardResponseProto *proto = (RetrieveLeaderboardResponseProto *)fe.event;
   int tag = fe.tag;
-  ContextLogInfo( LN_CONTEXT_COMMUNICATION, @"Leaderboard response received with status %d.", proto.status);
+  LNLog(@"Leaderboard response received with status %d.", proto.status);
   
   GameState *gs = [GameState sharedGameState];
   if (proto.status == RetrieveLeaderboardResponseProto_RetrieveLeaderboardStatusSuccess) {
@@ -1997,7 +1711,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
 - (void) handleSendGroupChatResponseProto:(FullEvent *)fe {
   SendGroupChatResponseProto *proto = (SendGroupChatResponseProto *)fe.event;
   int tag = fe.tag;
-  ContextLogInfo( LN_CONTEXT_COMMUNICATION, @"Send group chat response received with status %d.", proto.status);
+  LNLog(@"Send group chat response received with status %d.", proto.status);
   
   GameState *gs = [GameState sharedGameState];
   if (proto.status == SendGroupChatResponseProto_SendGroupChatStatusSuccess) {
@@ -2012,7 +1726,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
 - (void) handlePurchaseGroupChatResponseProto:(FullEvent *)fe {
   SendGroupChatResponseProto *proto = (SendGroupChatResponseProto *)fe.event;
   int tag = fe.tag;
-  ContextLogInfo( LN_CONTEXT_COMMUNICATION, @"Purchase group chat response received with status %d.", proto.status);
+  LNLog(@"Purchase group chat response received with status %d.", proto.status);
   
   GameState *gs = [GameState sharedGameState];
   if (proto.status == PurchaseGroupChatResponseProto_PurchaseGroupChatStatusSuccess) {
@@ -2026,7 +1740,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
 
 - (void) handleReceivedGroupChatResponseProto:(FullEvent *)fe {
   ReceivedGroupChatResponseProto *proto = (ReceivedGroupChatResponseProto *)fe.event;
-  ContextLogInfo( LN_CONTEXT_COMMUNICATION, @"Received group chat response received.");
+  LNLog(@"Received group chat response received.");
   
   // Chats sent from this user will be faked.
   GameState *gs = [GameState sharedGameState];
@@ -2038,7 +1752,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
 - (void) handleCreateClanResponseProto:(FullEvent *)fe {
   CreateClanResponseProto *proto = (CreateClanResponseProto *)fe.event;
   int tag = fe.tag;
-  ContextLogInfo( LN_CONTEXT_COMMUNICATION, @"Create clan response received with status %d.", proto.status);
+  LNLog(@"Create clan response received with status %d.", proto.status);
   
   GameState *gs = [GameState sharedGameState];
   
@@ -2059,7 +1773,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
 - (void) handleRetrieveClanInfoResponseProto:(FullEvent *)fe {
   RetrieveClanInfoResponseProto *proto = (RetrieveClanInfoResponseProto *)fe.event;
   int tag = fe.tag;
-  ContextLogInfo( LN_CONTEXT_COMMUNICATION, @"Retrieve clan response received with status %d.", proto.status);
+  LNLog(@"Retrieve clan response received with status %d.", proto.status);
   
   GameState *gs = [GameState sharedGameState];
   if (proto.status == RetrieveClanInfoResponseProto_RetrieveClanInfoStatusSuccess) {
@@ -2075,7 +1789,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
 - (void) handleApproveOrRejectRequestToJoinClanResponseProto:(FullEvent *)fe {
   ApproveOrRejectRequestToJoinClanResponseProto *proto = (ApproveOrRejectRequestToJoinClanResponseProto *)fe.event;
   int tag = fe.tag;
-  ContextLogInfo( LN_CONTEXT_COMMUNICATION, @"Approve or reject request to join clan response received with status %d.", proto.status);
+  LNLog(@"Approve or reject request to join clan response received with status %d.", proto.status);
   
   GameState *gs = [GameState sharedGameState];
   if (proto.status == ApproveOrRejectRequestToJoinClanResponseProto_ApproveOrRejectRequestToJoinClanStatusSuccess) {
@@ -2098,7 +1812,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
 - (void) handleLeaveClanResponseProto:(FullEvent *)fe {
   LeaveClanResponseProto *proto = (LeaveClanResponseProto *)fe.event;
   int tag = fe.tag;
-  ContextLogInfo( LN_CONTEXT_COMMUNICATION, @"Leave clan response received with status %d.", proto.status);
+  LNLog(@"Leave clan response received with status %d.", proto.status);
   
   GameState *gs = [GameState sharedGameState];
   if (proto.status == LeaveClanResponseProto_LeaveClanStatusSuccess) {
@@ -2119,7 +1833,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
 - (void) handleRequestJoinClanResponseProto:(FullEvent *)fe {
   RequestJoinClanResponseProto *proto = (RequestJoinClanResponseProto *)fe.event;
   int tag = fe.tag;
-  ContextLogInfo( LN_CONTEXT_COMMUNICATION, @"Request join clan response received with status %d.", proto.status);
+  LNLog(@"Request join clan response received with status %d.", proto.status);
   
   GameState *gs = [GameState sharedGameState];
   if (proto.status == RequestJoinClanResponseProto_RequestJoinClanStatusRequestSuccess) {
@@ -2148,7 +1862,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
 - (void) handleRetractRequestJoinClanResponseProto:(FullEvent *)fe {
   RetractRequestJoinClanResponseProto *proto = (RetractRequestJoinClanResponseProto *)fe.event;
   int tag = fe.tag;
-  ContextLogInfo( LN_CONTEXT_COMMUNICATION, @"Retract request to join clan response received with status %d.", proto.status);
+  LNLog(@"Retract request to join clan response received with status %d.", proto.status);
   
   GameState *gs = [GameState sharedGameState];
   if (proto.status == RetractRequestJoinClanResponseProto_RetractRequestJoinClanStatusSuccess) {
@@ -2167,7 +1881,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
 - (void) handleTransferClanOwnershipResponseProto:(FullEvent *)fe {
   TransferClanOwnershipResponseProto *proto = (TransferClanOwnershipResponseProto *)fe.event;
   int tag = fe.tag;
-  ContextLogInfo( LN_CONTEXT_COMMUNICATION, @"Transfer clan ownership response received with status %d.", proto.status);
+  LNLog(@"Transfer clan ownership response received with status %d.", proto.status);
   
   GameState *gs = [GameState sharedGameState];
   if (proto.status == TransferClanOwnershipResponseProto_TransferClanOwnershipStatusSuccess) {
@@ -2187,7 +1901,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
 - (void) handleChangeClanDescriptionResponseProto:(FullEvent *)fe {
   ChangeClanDescriptionResponseProto *proto = (ChangeClanDescriptionResponseProto *)fe.event;
   int tag = fe.tag;
-  ContextLogInfo( LN_CONTEXT_COMMUNICATION, @"Change clan description response received with status %d.", proto.status);
+  LNLog(@"Change clan description response received with status %d.", proto.status);
   
   GameState *gs = [GameState sharedGameState];
   if (proto.status == ChangeClanDescriptionResponseProto_ChangeClanDescriptionStatusSuccess) {
@@ -2207,7 +1921,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
 - (void) handleChangeClanJoinTypeResponseProto:(FullEvent *)fe {
   ChangeClanJoinTypeResponseProto *proto = (ChangeClanJoinTypeResponseProto *)fe.event;
   int tag = fe.tag;
-  ContextLogInfo( LN_CONTEXT_COMMUNICATION, @"Change clan join type response received with status %d.", proto.status);
+  LNLog(@"Change clan join type response received with status %d.", proto.status);
   
   GameState *gs = [GameState sharedGameState];
   if (proto.status == ChangeClanJoinTypeResponseProto_ChangeClanJoinTypeStatusSuccess) {
@@ -2227,7 +1941,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
 - (void) handleBootPlayerFromClanResponseProto:(FullEvent *)fe {
   BootPlayerFromClanResponseProto *proto = (BootPlayerFromClanResponseProto *)fe.event;
   int tag = fe.tag;
-  ContextLogInfo( LN_CONTEXT_COMMUNICATION, @"Boot player from clan response received with status %d.", proto.status);
+  LNLog(@"Boot player from clan response received with status %d.", proto.status);
   
   GameState *gs = [GameState sharedGameState];
   if (proto.status == PostOnClanBulletinResponseProto_PostOnClanBulletinStatusSuccess) {
@@ -2247,7 +1961,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
 - (void) handlePostOnClanBulletinResponseProto:(FullEvent *)fe {
   PostOnClanBulletinResponseProto *proto = (PostOnClanBulletinResponseProto *)fe.event;
   int tag = fe.tag;
-  ContextLogInfo( LN_CONTEXT_COMMUNICATION, @"Post on clan wall response received with status %d.", proto.status);
+  LNLog(@"Post on clan wall response received with status %d.", proto.status);
   
   GameState *gs = [GameState sharedGameState];
   if (proto.status == PostOnClanBulletinResponseProto_PostOnClanBulletinStatusSuccess) {
@@ -2263,7 +1977,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
 - (void) handleRetrieveClanBulletinPostsResponseProto:(FullEvent *)fe {
   RetrieveClanBulletinPostsResponseProto *proto = (RetrieveClanBulletinPostsResponseProto *)fe.event;
   int tag = fe.tag;
-  ContextLogInfo( LN_CONTEXT_COMMUNICATION, @"Retrieve clan wall posts response received with status %d.", proto.status);
+  LNLog(@"Retrieve clan wall posts response received with status %d.", proto.status);
   
   GameState *gs = [GameState sharedGameState];
   if (proto.status == PostOnClanBulletinResponseProto_PostOnClanBulletinStatusSuccess) {
@@ -2279,7 +1993,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
 - (void) handleUpgradeClanTierLevelResponseProto:(FullEvent *)fe {
   UpgradeClanTierLevelResponseProto *proto = (UpgradeClanTierLevelResponseProto *)fe.event;
   int tag = fe.tag;
-  ContextLogInfo( LN_CONTEXT_COMMUNICATION, @"Upgrade clan tier level response received with status %d.", proto.status);
+  LNLog(@"Upgrade clan tier level response received with status %d.", proto.status);
   
   GameState *gs = [GameState sharedGameState];
   if (proto.status == UpgradeClanTierLevelResponseProto_UpgradeClanTierLevelStatusSuccess) {
@@ -2299,7 +2013,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
 - (void) handleBeginGoldmineTimerResponseProto:(FullEvent *)fe {
   BeginGoldmineTimerResponseProto *proto = (BeginGoldmineTimerResponseProto *)fe.event;
   int tag = fe.tag;
-  ContextLogInfo( LN_CONTEXT_COMMUNICATION, @"Begin goldmine timer response received with status %d.", proto.status);
+  LNLog(@"Begin goldmine timer response received with status %d.", proto.status);
   
   GameState *gs = [GameState sharedGameState];
   if (proto.status == BeginGoldmineTimerResponseProto_BeginGoldmineTimerStatusSuccess) {
@@ -2319,7 +2033,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
 - (void) handleCollectFromGoldmineResponseProto:(FullEvent *)fe {
   CollectFromGoldmineResponseProto *proto = (CollectFromGoldmineResponseProto *)fe.event;
   int tag = fe.tag;
-  ContextLogInfo( LN_CONTEXT_COMMUNICATION, @"Collect from goldmine response received with status %d.", proto.status);
+  LNLog(@"Collect from goldmine response received with status %d.", proto.status);
   
   GameState *gs = [GameState sharedGameState];
   if (proto.status == CollectFromGoldmineResponseProto_CollectFromGoldmineStatusSuccess) {
@@ -2338,7 +2052,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
 - (void) handlePickLockBoxResponseProto:(FullEvent *)fe {
   PickLockBoxResponseProto *proto = (PickLockBoxResponseProto *)fe.event;
   int tag = fe.tag;
-  ContextLogInfo( LN_CONTEXT_COMMUNICATION, @"Pick lock box response received with status %d.", proto.status);
+  LNLog(@"Pick lock box response received with status %d.", proto.status);
   
   GameState *gs = [GameState sharedGameState];
   if (proto.status == PickLockBoxResponseProto_PickLockBoxStatusSuccess) {
@@ -2412,7 +2126,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
 - (void) handleExpansionWaitCompleteResponseProto:(FullEvent *)fe {
   ExpansionWaitCompleteResponseProto *proto = (ExpansionWaitCompleteResponseProto *)fe.event;
   int tag = fe.tag;
-  ContextLogInfo( LN_CONTEXT_COMMUNICATION, @"Expansion wait complete response received with status %d.", proto.status);
+  LNLog(@"Expansion wait complete response received with status %d.", proto.status);
   
   GameState *gs = [GameState sharedGameState];
   if (proto.status == ExpansionWaitCompleteResponseProto_ExpansionWaitCompleteStatusSuccess) {
@@ -2431,7 +2145,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
 - (void) handlePurchaseCityExpansionResponseProto:(FullEvent *)fe {
   PurchaseCityExpansionResponseProto *proto = (PurchaseCityExpansionResponseProto *)fe.event;
   int tag = fe.tag;
-  ContextLogInfo( LN_CONTEXT_COMMUNICATION, @"Purchase city expansion response received with status %d.", proto.status);
+  LNLog(@"Purchase city expansion response received with status %d.", proto.status);
   
   GameState *gs = [GameState sharedGameState];
   if (proto.status == PurchaseCityExpansionResponseProto_PurchaseCityExpansionStatusSuccess) {
@@ -2450,7 +2164,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
 - (void) handleRetrieveThreeCardMonteResponseProto:(FullEvent *)fe {
   RetrieveThreeCardMonteResponseProto *proto = (RetrieveThreeCardMonteResponseProto *)fe.event;
   int tag = fe.tag;
-  ContextLogInfo( LN_CONTEXT_COMMUNICATION, @"Retrieve three card monte response received with status %d.", proto.status);
+  LNLog(@"Retrieve three card monte response received with status %d.", proto.status);
   
   GameState *gs = [GameState sharedGameState];
   if (proto.status == RetrieveThreeCardMonteResponseProto_RetrieveThreeCardMonteStatusSuccess) {
@@ -2471,7 +2185,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
 - (void) handlePlayThreeCardMonteResponseProto:(FullEvent *)fe {
   PlayThreeCardMonteResponseProto *proto = (PlayThreeCardMonteResponseProto *)fe.event;
   int tag = fe.tag;
-  ContextLogInfo( LN_CONTEXT_COMMUNICATION, @"Play three card monte response received with status %d.", proto.status);
+  LNLog(@"Play three card monte response received with status %d.", proto.status);
   
   GameState *gs = [GameState sharedGameState];
   if(proto.status == PlayThreeCardMonteResponseProto_PlayThreeCardMonteStatusSuccess) {
@@ -2487,49 +2201,16 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
 - (void) handleSendAdminMessageResponseProto:(FullEvent *)fe {
   SendAdminMessageResponseProto *proto = (SendAdminMessageResponseProto *)fe.event;
   
-  ContextLogInfo( LN_CONTEXT_COMMUNICATION, @"Send admin message response received");
+  LNLog(@"Send admin message response received");
   
   [Globals popupMessage:proto.message];
-}
-
-- (void) handleBossActionResponseProto:(FullEvent *)fe {
-  BossActionResponseProto *proto = (BossActionResponseProto *)fe.event;
-  int tag = fe.tag;
-  
-  ContextLogInfo( LN_CONTEXT_COMMUNICATION, @"Boss action received with status %d.", proto.status);
-  
-  GameState *gs = [GameState sharedGameState];
-  GameLayer *gLay = [GameLayer sharedGameLayer];
-  
-  if (proto.status == BossActionResponseProto_BossActionStatusSuccess) {
-    for (NSNumber *n in proto.coinsGainedList) {
-      gs.silver += n.intValue;
-    }
-    for (NSNumber *n in proto.diamondsGainedList) {
-      gs.gold += n.intValue;
-    }
-    gs.experience += proto.expGained;
-    
-    [gs addToMyEquips:proto.lootUserEquipList];
-    
-    [gs removeNonFullUserUpdatesForTag:tag];
-  } else {
-    if (proto.status == BossActionResponseProto_BossActionStatusFailClientTooApartFromServerTime) {
-      [self handleTimeOutOfSync];
-    } else {
-      [Globals popupMessage:@"Server failed to attack boss."];
-    }
-    [gs removeAndUndoAllUpdatesForTag:tag];
-  }
-  
-  [[gLay missionMap] receivedBossResponse:proto];
 }
 
 - (void) handleBeginClanTowerWarResponseProto:(FullEvent *)fe {
   BeginClanTowerWarResponseProto *proto = (BeginClanTowerWarResponseProto *)fe.event;
   int tag = fe.tag;
   
-  ContextLogInfo( LN_CONTEXT_COMMUNICATION, @"Begin clan tower war response received with status %d.", proto.status);
+  LNLog(@"Begin clan tower war response received with status %d.", proto.status);
   
   GameState *gs = [GameState sharedGameState];
   Globals *gl = [Globals sharedGlobals];
@@ -2566,7 +2247,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
 - (void) handleChangedClanTowerResponseProto:(FullEvent *)fe {
   ChangedClanTowerResponseProto *proto = (ChangedClanTowerResponseProto *)fe.event;
   
-  ContextLogInfo( LN_CONTEXT_COMMUNICATION, @"Changed clan tower response received with reason %d and %d tower%@.", proto.reason, proto.clanTowersList.count, proto.clanTowersList.count != 1 ? @"s" : @"");
+  LNLog(@"Changed clan tower response received with reason %d and %d tower%@.", proto.reason, proto.clanTowersList.count, proto.clanTowersList.count != 1 ? @"s" : @"");
   
   GameState *gs = [GameState sharedGameState];
   if (proto.clanTowersList.count > 0) {
@@ -2597,7 +2278,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
   ConcedeClanTowerWarResponseProto *proto = (ConcedeClanTowerWarResponseProto *)fe.event;
   int tag = fe.tag;
   
-  ContextLogInfo( LN_CONTEXT_COMMUNICATION, @"Concede clan tower war response received with status %d.", proto.status);
+  LNLog(@"Concede clan tower war response received with status %d.", proto.status);
   
   GameState *gs = [GameState sharedGameState];
   if (proto.status == ConcedeClanTowerWarResponseProto_ConcedeClanTowerWarStatusSuccess) {
@@ -2612,7 +2293,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
 - (void) handleGeneralNotificationResponseProto:(FullEvent *)fe {
   GeneralNotificationResponseProto *proto = (GeneralNotificationResponseProto *)fe.event;
   
-  ContextLogInfo( LN_CONTEXT_COMMUNICATION, @"General notification received with title \"%@\".", proto.title);
+  LNLog(@"General notification received with title \"%@\".", proto.title);
   
   TopBar *tb = [TopBar sharedTopBar];
   UIColor *c = [Globals colorForColorProto:proto.rgb];
@@ -2624,7 +2305,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
 - (void) handleRetrieveLeaderboardRankingsResponseProto:(FullEvent *)fe {
   RetrieveLeaderboardRankingsResponseProto *proto = (RetrieveLeaderboardRankingsResponseProto *)fe.event;
   int tag = fe.tag;
-  ContextLogInfo( LN_CONTEXT_COMMUNICATION, @"Retrieve tournament response received with status %d and %d rankings.", proto.status, proto.resultPlayersList.count);
+  LNLog(@"Retrieve tournament response received with status %d and %d rankings.", proto.status, proto.resultPlayersList.count);
   
   GameState *gs = [GameState sharedGameState];
   if (proto.status == RetrieveLeaderboardRankingsResponseProto_RetrieveLeaderboardStatusSuccess) {
@@ -2641,11 +2322,11 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
 - (void) handleSubmitEquipEnhancementResponseProto:(FullEvent *)fe {
   SubmitEquipEnhancementResponseProto *proto = (SubmitEquipEnhancementResponseProto *)fe.event;
   int tag = fe.tag;
-  ContextLogInfo( LN_CONTEXT_COMMUNICATION, @"Submit equip enhancement received with status %d.", proto.status);
+  LNLog(@"Submit equip enhancement received with status %d.", proto.status);
   
   GameState *gs = [GameState sharedGameState];
   if (proto.status == SubmitEquipEnhancementResponseProto_EnhanceEquipStatusSuccess) {
-    gs.equipEnhancement = proto.equipToEnhance;
+    [gs addToMyEquips:[NSArray arrayWithObject:proto.resultingEquip]];
     
     [gs removeNonFullUserUpdatesForTag:tag];
   } else {
@@ -2662,31 +2343,10 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
   [fmc.enhancingView receivedSubmitEquipEnhancementResponse:proto];
 }
 
-- (void) handleCollectEquipEnhancementResponseProto:(FullEvent *)fe {
-  CollectEquipEnhancementResponseProto *proto = (CollectEquipEnhancementResponseProto *)fe.event;
-  int tag = fe.tag;
-  ContextLogInfo( LN_CONTEXT_COMMUNICATION, @"Collect equip enhancement received with status %d.", proto.status);
-  
-  GameState *gs = [GameState sharedGameState];
-  if (proto.status == CollectEquipEnhancementResponseProto_CollectEquipStatusSuccess) {
-    gs.equipEnhancement = nil;
-    [gs addToMyEquips:[NSArray arrayWithObject:proto.resultingEquip]];
-    [gs removeNonFullUserUpdatesForTag:tag];
-  } else {
-    if (proto.status == CollectEquipEnhancementResponseProto_CollectEquipStatusClientTooApartFromServerTime) {
-      [self handleTimeOutOfSync];
-    } else {
-      [Globals popupMessage:@"Server failed to collect equip enhancement."];
-    }
-    
-    [gs removeAndUndoAllUpdatesForTag:tag];
-  }
-}
-
 - (void) handleRetrieveClanTowerScoresResponseProto:(FullEvent *)fe {
   RetrieveClanTowerScoresResponseProto *proto = (RetrieveClanTowerScoresResponseProto *)fe.event;
   int tag = fe.tag;
-  ContextLogInfo( LN_CONTEXT_COMMUNICATION, @"Retrieve clan tower scores received with status %d, %d owner members, %d attacker members.", proto.status, proto.ownerMembersList.count, proto.attackerMembersList.count);
+  LNLog(@"Retrieve clan tower scores received with status %d, %d owner members, %d attacker members.", proto.status, proto.ownerMembersList.count, proto.attackerMembersList.count);
   
   GameState *gs = [GameState sharedGameState];
   if (proto.status == RetrieveClanTowerScoresResponseProto_RetrieveClanTowerScoresStatusSuccess) {
@@ -2702,7 +2362,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
 - (void) handlePurchaseBoosterPackResponseProto:(FullEvent *)fe {
   PurchaseBoosterPackResponseProto *proto = (PurchaseBoosterPackResponseProto *)fe.event;
   int tag = fe.tag;
-  ContextLogInfo( LN_CONTEXT_COMMUNICATION, @"Purchase booster pack received with status %d and %d equips.", proto.status, proto.userEquipsList.count);
+  LNLog(@"Purchase booster pack received with status %d and %d equips.", proto.status, proto.userEquipsList.count);
   
   GameState *gs = [GameState sharedGameState];
   if (proto.status == PurchaseBoosterPackResponseProto_PurchaseBoosterPackStatusSuccess) {
@@ -2736,7 +2396,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
 - (void) handleResetBoosterPackResponseProto:(FullEvent *)fe {
   ResetBoosterPackResponseProto *proto = (ResetBoosterPackResponseProto *)fe.event;
   int tag = fe.tag;
-  ContextLogInfo( LN_CONTEXT_COMMUNICATION, @"Reset booster pack received with status %d.", proto.status);
+  LNLog(@"Reset booster pack received with status %d.", proto.status);
   
   GameState *gs = [GameState sharedGameState];
   if (proto.status == ResetBoosterPackResponseProto_ResetBoosterPackStatusSuccess) {
@@ -2758,7 +2418,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
 
 - (void) handlePrivateChatPostResponseProto:(FullEvent *)fe {
   PrivateChatPostResponseProto *proto = (PrivateChatPostResponseProto *)fe.event;
-  ContextLogInfo( LN_CONTEXT_COMMUNICATION, @"Private chat post response received with status %d.", proto.status);
+  LNLog(@"Private chat post response received with status %d.", proto.status);
   
   [[ChatMenuController sharedChatMenuController] receivedPrivateChatPost:proto];
 }
@@ -2766,12 +2426,12 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
 - (void) handleRetrievePrivateChatPostsResponseProto:(FullEvent *)fe {
   RetrievePrivateChatPostsResponseProto *proto = (RetrievePrivateChatPostsResponseProto *)fe.event;
   [[ChatMenuController sharedChatMenuController] receivedRetrievePrivateChats:proto];
-  ContextLogInfo( LN_CONTEXT_COMMUNICATION, @"Retrieve private chats received with status %d and %d posts.", proto.status, proto.postsList.count);
+  LNLog(@"Retrieve private chats received with status %d and %d posts.", proto.status, proto.postsList.count);
 }
 
 - (void) handleRedeemUserLockBoxItemsResponseProto:(FullEvent *)fe {
   RedeemUserLockBoxItemsResponseProto *proto = (RedeemUserLockBoxItemsResponseProto *)fe.event;
-  ContextLogInfo( LN_CONTEXT_COMMUNICATION, @"Redeem user lock box items response received with status %d and %d equips.", proto.status, proto.equipsList.count);
+  LNLog(@"Redeem user lock box items response received with status %d and %d equips.", proto.status, proto.equipsList.count);
   
   LockBoxMenuController *lbc = [LockBoxMenuController sharedLockBoxMenuController];
   [lbc.lockBoxInfoView.unusedItemsView.loadingView stop];
@@ -2799,21 +2459,14 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
   }
 }
 
-- (void) handleRedeemUserCityGemsResponseProto:(FullEvent *)fe {
-  RedeemUserCityGemsResponseProto *proto = (RedeemUserCityGemsResponseProto *)fe.event;
-  ContextLogInfo( LN_CONTEXT_COMMUNICATION, @"Redeem user city gems response received with status %d and %d equips.", proto.status, proto.equipsList.count);
+- (void) handleBeginDungeonResponseProto:(FullEvent *)fe {
+  BeginDungeonResponseProto *proto = (BeginDungeonResponseProto *)fe.event;
+  LNLog(@"Begin dungeon response received with status %d.", proto.status);
   
-  GameState *gs = [GameState sharedGameState];
-  if (proto.status == RedeemUserCityGemsResponseProto_RedeemUserCityGemsStatusSuccess) {
-    [gs addToMyEquips:proto.equipsList];
-    [gs.myBoosterPacks setObject:proto.userBoosterPack forKey:[NSNumber numberWithInt:proto.userBoosterPack.boosterPackId]];
+  if (proto.status == BeginDungeonResponseProto_BeginDungeonStatusSuccess) {
+    [[CCDirector sharedDirector] pushScene:[CCTransitionFade transitionWithDuration:0.5 scene:[DungeonBattleLayer sceneWithBeginDungeonResponseProto:proto] withColor:ccBLACK]];
   } else {
-    [Globals popupMessage:@"Server failed to redeem user city gems."];
-  }
-  
-  GameLayer *gl = [GameLayer sharedGameLayer];
-  if ([gl.currentMap isKindOfClass:[MissionMap class]]) {
-    [ (MissionMap *)gl.currentMap receivedRedeemGemsResponse:proto];
+    [Globals popupMessage:@"Server failed to enter dungeon."];
   }
 }
 

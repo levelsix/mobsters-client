@@ -19,7 +19,6 @@
 #import "MapViewController.h"
 #import "ProfileViewController.h"
 #import "VaultMenuController.h"
-#import "MarketplaceViewController.h"
 #import "ArmoryViewController.h"
 #import "AttackMenuController.h"
 #import "ClanViewController.h"
@@ -204,7 +203,6 @@ static float originalLabelX = 0.f;
   
   if (_cityId == 0 && _assetNum == 2) {
     if ([VaultMenuController isInitialized]) [[VaultMenuController sharedVaultMenuController] close];
-    if ([MarketplaceViewController isInitialized]) [[MarketplaceViewController sharedMarketplaceViewController] close];
     if ([ArmoryViewController isInitialized]) [[ArmoryViewController sharedArmoryViewController] close];
     if ([ProfileViewController isInitialized]) [[ProfileViewController sharedProfileViewController] closeClicked:nil];
   } else if (_cityId == 0 && _assetNum == 1) {
@@ -304,21 +302,6 @@ static float originalLabelX = 0.f;
       case SpecialQuestActionWithdrawFromVault:
         [glay loadBazaarMap];
         [bm moveToCritStruct:BazaarStructTypeVault animated:YES];
-        break;
-        
-      case SpecialQuestActionPostToMarketplace:
-        [glay loadBazaarMap];
-        [bm moveToCritStruct:BazaarStructTypeMarketplace animated:YES];
-        break;
-        
-      case SpecialQuestActionPurchaseFromMarketplace:
-        [glay loadBazaarMap];
-        [bm moveToCritStruct:BazaarStructTypeMarketplace animated:YES];
-        break;
-        
-      case SpecialQuestActionPurchaseFromArmory:
-        [glay loadBazaarMap];
-        [bm moveToCritStruct:BazaarStructTypeArmory animated:YES];
         break;
         
       case SpecialQuestActionWriteOnEnemyWall:

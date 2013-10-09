@@ -57,15 +57,10 @@
 
 @implementation AnimatedSprite
 
-@synthesize spritesheet = _spritesheet;
-@synthesize sprite = _sprite;
-@synthesize walkActionF = _walkActionF;
-@synthesize walkActionN = _walkActionN;
-
 -(id) initWithFile:(NSString *)prefix location:(CGRect)loc map:(GameMap *)map {
   prefix = [[prefix.lastPathComponent stringByReplacingOccurrencesOfString:prefix.pathExtension withString:@""] stringByReplacingOccurrencesOfString:@"." withString:@""];
   if((self = [super initWithFile:nil location:loc map:map])) {
-    self.prefix = prefix;
+    self.prefix = @"MafiaMan";
     [self schedule:@selector(setUpAnimations)];
     
     self.sprite = [CCSprite node];
@@ -93,13 +88,13 @@ BOOL _loading = NO;
   CGRect loc = self.location;
   NSString *prefix = _prefix;
   
-  NSString *plist = [NSString stringWithFormat:@"%@WalkNF.plist",prefix];
+  NSString *plist = [NSString stringWithFormat:@"%@Run.plist",prefix];
   [[CCSpriteFrameCache sharedSpriteFrameCache] addSpriteFramesWithFile:plist];
   
   //create the animation for Near
   NSMutableArray *walkAnimN = [NSMutableArray array];
   for(int i = 0; true; i++) {
-    NSString *file = [NSString stringWithFormat:@"%@WalkN%02d.png",prefix, i];
+    NSString *file = [NSString stringWithFormat:@"%@RunN%02d.png",prefix, i];
     BOOL exists = [[CCSpriteFrameCache sharedSpriteFrameCache] containsFrame:file];
     if (exists) {
       CCSpriteFrame *frame = [[CCSpriteFrameCache sharedSpriteFrameCache] spriteFrameByName:file];
@@ -109,24 +104,14 @@ BOOL _loading = NO;
     }
   }
   
-  NSDictionary *dict = [NSDictionary dictionaryWithContentsOfFile:[Globals pathToFile:plist]];
-  NSDictionary *metadataDict = [dict objectForKey:@"metadata"];
-  NSDictionary *targetDict = [metadataDict objectForKey:@"target"];
-  NSString *texturePath = [targetDict objectForKey:@"textureFileName"];
-  NSString *end = [targetDict objectForKey:@"textureFileExtension"];
-  texturePath = [[texturePath stringByDeletingPathExtension] stringByReplacingOccurrencesOfString:@"@2x" withString:@""];
-  texturePath = [texturePath stringByAppendingString:end];
-  
-  self.spritesheet = [CCSpriteBatchNode batchNodeWithFile:texturePath];
-  [self addChild:_spritesheet];
-  
-  CCAnimation *walkAnimationN = [CCAnimation animationWithFrames:walkAnimN delay:ANIMATATION_DELAY];
-  self.walkActionN = [CCRepeatForever actionWithAction:[CCAnimate actionWithAnimation:walkAnimationN restoreOriginalFrame:NO]];
+  CCAnimation *walkAnimationN = [CCAnimation animationWithSpriteFrames:walkAnimN delay:ANIMATATION_DELAY];
+  walkAnimationN.restoreOriginalFrame = NO;
+  self.walkActionN = [CCRepeatForever actionWithAction:[CCAnimate actionWithAnimation:walkAnimationN]];
   
   //create the animation for Far
   NSMutableArray *walkAnimF = [NSMutableArray array];
   for(int i = 0; true; i++) {
-    NSString *file = [NSString stringWithFormat:@"%@WalkF%02d.png",prefix, i];
+    NSString *file = [NSString stringWithFormat:@"%@RunF%02d.png",prefix, i];
     BOOL exists = [[CCSpriteFrameCache sharedSpriteFrameCache] containsFrame:file];
     if (exists) {
       CCSpriteFrame *frame = [[CCSpriteFrameCache sharedSpriteFrameCache] spriteFrameByName:file];
@@ -136,12 +121,13 @@ BOOL _loading = NO;
     }
   }
   
-  CCAnimation *walkAnimationF = [CCAnimation animationWithFrames:walkAnimF delay:ANIMATATION_DELAY];
-  self.walkActionF = [CCRepeatForever actionWithAction:[CCAnimate actionWithAnimation:walkAnimationF restoreOriginalFrame:NO]];
+  CCAnimation *walkAnimationF = [CCAnimation animationWithSpriteFrames:walkAnimF delay:ANIMATATION_DELAY];
+  walkAnimationF.restoreOriginalFrame = NO;
+  self.walkActionF = [CCRepeatForever actionWithAction:[CCAnimate actionWithAnimation:walkAnimationF]];
   
-  CCSpriteFrame *frame = [[CCSpriteFrameCache sharedSpriteFrameCache] spriteFrameByName:[NSString stringWithFormat:@"%@WalkN00.png",prefix]];
+  CCSpriteFrame *frame = [[CCSpriteFrameCache sharedSpriteFrameCache] spriteFrameByName:[NSString stringWithFormat:@"%@RunN00.png",prefix]];
   [self.sprite setDisplayFrame:frame];
-  [self.spritesheet addChild:_sprite];
+  [self addChild:_sprite];
   
   _oldMapPos = loc.origin;
   
@@ -184,7 +170,6 @@ BOOL _loading = NO;
 }
 
 - (void) walk {
-  return;
   MissionMap *missionMap = (MissionMap *)_map;
   CGPoint pt = [missionMap nextWalkablePositionFromPoint:self.location.origin prevPoint:_oldMapPos];
   if (CGPointEqualToPoint(self.location.origin, pt)) {
@@ -299,8 +284,8 @@ BOOL _loading = NO;
   [self removeChild:_aboveHeadMark cleanup:YES];
   _aboveHeadMark = nil;
   if (questGiverState == kInProgress) {
-    _aboveHeadMark = [CCProgressTimer progressWithFile:@"questinprogress.png"];
-    ((CCProgressTimer *) _aboveHeadMark).type = kCCProgressTimerTypeHorizontalBarLR;
+    _aboveHeadMark = [CCProgressTimer progressWithSprite:[CCSprite spriteWithFile:@"questinprogress.png"]];
+    ((CCProgressTimer *) _aboveHeadMark).type = kCCProgressTimerTypeRadial;
     [self removeArrowAnimated:YES];
   } else if (questGiverState == kAvailable) {
     _aboveHeadMark = [CCSprite spriteWithFile:@"questnew.png"];
@@ -519,8 +504,8 @@ BOOL _loading = NO;
     [self addChild:_bossMenu z:1];
     _bossMenu.position = ccpAdd(_nameLabel.position, ccp(0, 20));
     
-    _healthBar = [CCProgressTimer progressWithFile:@"minihealthbar.png"];
-    _healthBar.type = kCCProgressTimerTypeHorizontalBarLR;
+    _healthBar = [CCProgressTimer progressWithSprite:[CCSprite spriteWithFile:@"minihealthbar.png"]];
+    _healthBar.type = kCCProgressTimerTypeBar;
     _healthBar.percentage = 845.f/1000*100;
     [_bossMenu addChild:_healthBar];
     _healthBar.position = ccp(_bossMenu.contentSize.width/2-0.5, _bossMenu.contentSize.height/2-5.5);
@@ -548,14 +533,9 @@ BOOL _loading = NO;
   [super setOpacity:opacity];
   
   // Must do this to make sure all children also fade out
-  for (CCNode *n in children_) {
+  for (CCNode *n in _children) {
     [n recursivelyApplyOpacity:opacity];
   }
-}
-
-- (void) animateBarWithCallback:(NSInvocation *)inv {
-  self.callback = inv;
-  [self schedule:@selector(updateBar:)];
 }
 
 - (void) updateTime {
@@ -630,7 +610,7 @@ BOOL _loading = NO;
 -(void) startWithTarget:(CCNode *)aTarget
 {
   [super startWithTarget:aTarget];
-  startLocation_ = [(MapSprite*)target_ location];
+  startLocation_ = [(MapSprite*)_target location];
   delta_ = ccpSub( endLocation_.origin, startLocation_.origin );
 }
 
@@ -639,7 +619,7 @@ BOOL _loading = NO;
   CGRect r = startLocation_;
   r.origin.x = (startLocation_.origin.x + delta_.x * t );
   r.origin.y = (startLocation_.origin.y + delta_.y * t );
-  [(MapSprite *)target_ setLocation: r];
+  [(MapSprite *)_target setLocation: r];
 }
 
 @end

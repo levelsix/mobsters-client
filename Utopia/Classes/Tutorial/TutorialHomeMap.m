@@ -41,16 +41,14 @@
   
   [_purchBuilding placeBlock];
   
-  [self openMoveMenuOnSelected];
-  
   TutorialConstants *tc = [TutorialConstants sharedTutorialConstants];
   [DialogMenuController displayViewForText:tc.beforePlacingText];
   
-  _uiArrow = [[UIImageView alloc] initWithImage:[Globals imageNamed:@"3darrow.png"]];
-  UIView *check = [self.moveMenu viewWithTag:10];
-  [self.moveMenu addSubview:_uiArrow];
-  _uiArrow.center = ccp(CGRectGetMaxX(check.frame)+_uiArrow.frame.size.width/2, check.center.y);
-  [Globals animateUIArrow:_uiArrow atAngle:-M_PI];
+//  _uiArrow = [[UIImageView alloc] initWithImage:[Globals imageNamed:@"3darrow.png"]];
+//  UIView *check = [self.moveMenu viewWithTag:10];
+//  [self.moveMenu addSubview:_uiArrow];
+//  _uiArrow.center = ccp(CGRectGetMaxX(check.frame)+_uiArrow.frame.size.width/2, check.center.y);
+//  [Globals animateUIArrow:_uiArrow atAngle:-M_PI];
 }
 
 - (void) startCarpPhase {
@@ -91,21 +89,21 @@
       // Reset ccArrow
       [_ccArrow removeFromParentAndCleanup:YES];
     } else if (_waitingForBuildPhase && [_selected isKindOfClass:[MoneyBuilding class]]) {
-      TutorialConstants *tc = [TutorialConstants sharedTutorialConstants];
-      [DialogMenuController displayViewForText:tc.beforeSpeedupText];
-      
-      [_ccArrow removeFromParentAndCleanup:YES];
-      
-      UIView *finishNowButton = [self.upgradeMenu.upgradingBottomView viewWithTag:17];
-      [self.upgradeMenu.upgradingBottomView addSubview:_uiArrow];
-      _uiArrow.center = CGPointMake(CGRectGetMinX(finishNowButton.frame)-_uiArrow.frame.size.width/2, finishNowButton.center.y);
-      _uiArrow.tag = 111;
-      [Globals animateUIArrow:_uiArrow atAngle:0];
-      
-      self.upgradeMenu.coinLabel.text = [Globals commafyNumber:tc.diamondCostToInstabuildFirstStruct];
-      
-      UIView * closeButton = [self.upgradeMenu viewWithTag:4];
-      closeButton.userInteractionEnabled = NO;
+//      TutorialConstants *tc = [TutorialConstants sharedTutorialConstants];
+//      [DialogMenuController displayViewForText:tc.beforeSpeedupText];
+//      
+//      [_ccArrow removeFromParentAndCleanup:YES];
+//      
+//      UIView *finishNowButton = [self.upgradeMenu.upgradingBottomView viewWithTag:17];
+//      [self.upgradeMenu.upgradingBottomView addSubview:_uiArrow];
+//      _uiArrow.center = CGPointMake(CGRectGetMinX(finishNowButton.frame)-_uiArrow.frame.size.width/2, finishNowButton.center.y);
+//      _uiArrow.tag = 111;
+//      [Globals animateUIArrow:_uiArrow atAngle:0];
+//      
+//      self.upgradeMenu.coinLabel.text = [Globals commafyNumber:tc.diamondCostToInstabuildFirstStruct];
+//      
+//      UIView * closeButton = [self.upgradeMenu viewWithTag:4];
+//      closeButton.userInteractionEnabled = NO;
     } else {
       self.selected = nil;
     }
@@ -262,10 +260,10 @@
   
   _constrBuilding = nil;
   
-  [self.upgradeMenu finishNow:^{
-    mb.isConstructing = NO;
-    [self buildingComplete];
-  }];
+//  [self.upgradeMenu finishNow:^{
+//    mb.isConstructing = NO;
+//    [self buildingComplete];
+//  }];
   
   [self updateTimersForBuilding:mb];
   

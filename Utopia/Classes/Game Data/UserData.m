@@ -11,7 +11,6 @@
 #import "Globals.h"
 #import "OutgoingEventController.h"
 #import "VaultMenuController.h"
-#import "MarketplaceViewController.h"
 #import "MapViewController.h"
 #import "ArmoryViewController.h"
 #import "CarpenterMenuController.h"
@@ -185,11 +184,6 @@
       name = @"Carpenter";
       break;
       
-    case BazaarStructTypeMarketplace:
-      name = @"Marketplace";
-      self.minLevel = mlc.marketplaceMinLevel;
-      break;
-      
     case BazaarStructTypeLeaderboard:
       name = @"Leaderboard";
       self.minLevel = mlc.leaderboardMinLevel;
@@ -246,10 +240,6 @@
       [CarpenterMenuController displayView];
       break;
       
-    case BazaarStructTypeMarketplace:
-      [MarketplaceViewController displayView];
-      break;
-      
     case BazaarStructTypeLeaderboard:
       [LeaderboardController displayView];
       break;
@@ -292,7 +282,6 @@
 @implementation UserNotification
 
 @synthesize time, type, otherPlayer;
-@synthesize marketPost, sellerHadLicense;
 @synthesize battleResult, coinsStolen, stolenEquipId, stolenEquipLevel;
 @synthesize forgeEquipId;
 @synthesize wallPost;
@@ -308,17 +297,6 @@
     self.stolenEquipId = proto.stolenEquipId;
     self.stolenEquipLevel = proto.stolenEquipLevel;
     self.type = kNotificationBattle;
-  }
-  return self;
-}
-
-- (id) initMarketplaceNotificationAtStartup:(StartupResponseProto_MarketplacePostPurchasedNotificationProto *)proto {
-  if ((self = [super init])) {
-    self.otherPlayer = proto.buyer;
-    self.time = [NSDate dateWithTimeIntervalSince1970:proto.timeOfPurchase/1000.0];
-    self.marketPost = proto.marketplacePost;
-    self.type = kNotificationMarketplace;
-    self.sellerHadLicense = proto.sellerHadLicense;
   }
   return self;
 }
@@ -341,17 +319,6 @@
     self.stolenEquipId = proto.userEquipGained.equipId;
     self.stolenEquipLevel = proto.userEquipGained.level;
     self.type = kNotificationBattle;
-  }
-  return self;
-}
-
-- (id) initWithMarketplaceResponse:(PurchaseFromMarketplaceResponseProto *)proto {
-  if ((self = [super init])) {
-    self.otherPlayer = proto.purchaser;
-    self.time = [NSDate date];
-    self.marketPost = proto.marketplacePost;
-    self.type = kNotificationMarketplace;
-    self.sellerHadLicense = proto.sellerHadLicense;
   }
   return self;
 }
@@ -453,7 +420,6 @@
 - (void) dealloc {
   self.time = nil;
   self.otherPlayer = nil;
-  self.marketPost = nil;
   self.wallPost = nil;
   [super dealloc];
 }
@@ -557,20 +523,12 @@
         desc = @"Write on an Enemy's Wall";
         break;
         
-      case SpecialQuestActionPostToMarketplace:
-        desc = @"Post an Item to the Marketplace";
-        break;
-        
       case SpecialQuestActionWithdrawFromVault:
         desc = @"Make 1 Withdrawal from the Vault";
         break;
         
       case SpecialQuestActionPurchaseFromArmory:
         desc = @"Purchase 1 Item from the Armory";
-        break;
-        
-      case SpecialQuestActionPurchaseFromMarketplace:
-        desc = @"Purchase 1 Item from the Marketplace";
         break;
         
       case SpecialQuestActionRequestJoinClan:
@@ -706,29 +664,19 @@
 
 @implementation UserExpansion
 
-@synthesize userId, isExpanding, lastExpandDirection, lastExpandTime;
-@synthesize farLeftExpansions, farRightExpansions, nearLeftExpansions, nearRightExpansions;
-
-- (id) initWithFullUserCityExpansionDataProto:(FullUserCityExpansionDataProto *)proto {
+- (id) initWithUserCityExpansionDataProto:(UserCityExpansionDataProto *)proto {
   if ((self = [super init])) {
     self.userId = proto.userId;
-    self.farLeftExpansions = proto.farLeftExpansions;
-    self.farRightExpansions = proto.farRightExpansions;
-    self.nearLeftExpansions = proto.nearLeftExpansions;
-    self.nearRightExpansions = proto.nearRightExpansions;
-    self.lastExpandTime = proto.hasLastExpandTime ? [NSDate dateWithTimeIntervalSince1970:proto.lastExpandTime/1000.0] : nil;
+    self.xPosition = proto.xPosition;
+    self.yPosition = proto.yPosition;
+    self.lastExpandTime = proto.hasExpandStartTime ? [NSDate dateWithTimeIntervalSince1970:proto.expandStartTime/1000.0] : nil;
     self.isExpanding = proto.isExpanding;
-    self.lastExpandDirection = proto.lastExpandDirection;
   }
   return self;
 }
 
-+ (id) userExpansionWithFullUserCityExpansionDataProto:(FullUserCityExpansionDataProto *)proto {
-  return [[[self alloc] initWithFullUserCityExpansionDataProto:proto] autorelease];
-}
-
-- (int) numCompletedExpansions {
-  return farLeftExpansions + farRightExpansions + nearLeftExpansions + nearRightExpansions;
++ (id) userExpansionWithUserCityExpansionDataProto:(UserCityExpansionDataProto *)proto {
+  return [[[self alloc] initWithUserCityExpansionDataProto:proto] autorelease];
 }
 
 - (void) dealloc {

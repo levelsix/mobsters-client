@@ -39,7 +39,7 @@
 }
 
 - (void) displayWithText:(NSString *)text {
-  [super display:[[[CCDirector sharedDirector] openGLView] superview]];
+  [super display:[[[CCDirector sharedDirector] view] superview]];
   self.label.text = text;
 }
 
@@ -115,12 +115,11 @@ static BOOL shake_once = NO;
     [Globals displayUIView:welcomeView];
     
     [welcomeView.superview sendSubviewToBack:welcomeView];
-    [welcomeView.superview sendSubviewToBack:[[CCDirector sharedDirector] openGLView]];
+    [welcomeView.superview sendSubviewToBack:[[CCDirector sharedDirector] view]];
     
     [self begin];
     
-    self.isAccelerometerEnabled = YES;
-    [[UIAccelerometer sharedAccelerometer] setUpdateInterval:1/60.f];
+//    self.isAccelerometerEnabled = YES;
     shake_once = NO;
   }
   return self;
@@ -141,6 +140,9 @@ static BOOL shake_once = NO;
     [self addChild:_topBar z:2];
     
     [self displayHomeMap];
+    
+    [[OutgoingEventController sharedOutgoingEventController] loadNeutralCity:1];
+//    [[OutgoingEventController sharedOutgoingEventController] beginDungeon:1];
   } else {
     _topBar = [TopBar sharedTopBar];
     [self addChild:_topBar z:2];

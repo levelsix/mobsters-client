@@ -150,96 +150,93 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(TopBar);
     [_bigToolTip addChild:_bigTimerLabel];
     [Globals adjustFontSizeForCCLabelTTF:_bigTimerLabel size:fontSize];
     
-    CCSprite *fillButtonSprite = [ToolTip spriteWithFile:@"fillbutton.png"];
-    CCMenuItemSprite *fillButton = [CCMenuItemSprite itemFromNormalSprite:fillButtonSprite selectedSprite:nil target:self selector:@selector(fillClicked)];
-    
-    CCMenu *menu = [CCMenu menuWithItems:fillButton,nil];
-    [_bigToolTip addChild:menu];
-    menu.position = ccp(_bigToolTip.contentSize.width/2, 15.f);
-    
-    CCSprite *coin = [CCSprite spriteWithFile:@"goldcoin.png"];
-    coin.scale = 0.4;
-    coin.position = ccp(9, fillButton.contentSize.height/2+1);
-    [fillButton addChild:coin];
-    
-    fontSize = 8;
-    _bigGoldCostLabel = [CCLabelTTF labelWithString:@"12" fontName:[Globals font] fontSize:fontSize];
-    _bigGoldCostLabel.anchorPoint = ccp(0, 0.5);
-    _bigGoldCostLabel.position = ccp(16, fillButton.contentSize.height/2+1);
-    [fillButton addChild:_bigGoldCostLabel];
-    _bigGoldCostLabelShadow = [CCLabelTTF labelWithString:@"12" fontName:[Globals font] fontSize:fontSize];
-    _bigGoldCostLabelShadow.color = ccc3(0, 0, 0);
-    _bigGoldCostLabelShadow.opacity = TOOL_TIP_SHADOW_OPACITY;
-    _bigGoldCostLabelShadow.position = ccp(_bigGoldCostLabel.contentSize.width/2, _bigGoldCostLabel.contentSize.height/2-1);
-    [_bigGoldCostLabel addChild:_bigGoldCostLabelShadow z:-1];
-    
-    CCLabelTTF *fillLabel = [CCLabelTTF labelWithString:@"FILL" fontName:[Globals font] fontSize:fontSize];
-    fillLabel.anchorPoint = ccp(1, 0.5);
-    fillLabel.position = ccp(fillButton.contentSize.width-5.f, fillButton.contentSize.height/2+1);
-    [fillButton addChild:fillLabel];
-    CCLabelTTF *fillLabelShadow = [CCLabelTTF labelWithString:@"FILL" fontName:[Globals font] fontSize:fontSize];
-    fillLabelShadow.color = ccc3(0, 0, 0);
-    fillLabelShadow.opacity = TOOL_TIP_SHADOW_OPACITY;
-    fillLabelShadow.position = ccp(fillLabel.contentSize.width/2, fillLabel.contentSize.height/2-1);
-    [fillLabel addChild:fillLabelShadow z:-1];
-    
-    [Globals adjustFontSizeForSize:fontSize CCLabelTTFs:_bigGoldCostLabel, fillLabel, nil];
-    
-    _littleToolTip = [ToolTip spriteWithFile:@"quantleftclick.png"];
-    [_enstBgd addChild:_littleToolTip z:2];
-    
-    fontSize = 12;
-    _littleCurValLabel = [CCLabelTTF labelWithString:@"" fontName:[Globals font] fontSize:fontSize];
-    _littleCurValLabel.position = ccp(_bigToolTip.contentSize.width/2, 10);
-    [_littleToolTip addChild:_littleCurValLabel];
-    [Globals adjustFontSizeForCCLabelTTF:_littleCurValLabel size:fontSize];
-    
-    _bigToolTip.visible = NO;
-    _littleToolTip.visible = NO;
-    
-    s = [CCSprite spriteWithFile:@"map.png"];
-    _mapButton = [CCMenuItemSprite itemFromNormalSprite:s selectedSprite:nil target:self selector:@selector(mapClicked)];
-    _mapButton.position = ccp(self.contentSize.width-s.contentSize.width/2-BOTTOM_BUTTON_OFFSET, s.contentSize.height/2+BOTTOM_BUTTON_OFFSET);
-    
-    s = [CCSprite spriteWithFile:@"bazaarbutton.png"];
-    _bazaarButton = [CCMenuItemSprite itemFromNormalSprite:s selectedSprite:nil target:self selector:@selector(bazaarClicked)];
-    _bazaarButton.position = ccp(_mapButton.position.x, _mapButton.position.y+_mapButton.contentSize.height/2+_bazaarButton.contentSize.height/2);
-    
-    s = [CCSprite spriteWithFile:@"mycity.png"];
-    _homeButton = [CCMenuItemSprite itemFromNormalSprite:s selectedSprite:nil target:self selector:@selector(homeClicked)];
-    _homeButton.position = ccp(_bazaarButton.position.x, _bazaarButton.position.y+_bazaarButton.contentSize.height/2+_homeButton.contentSize.height/2);
-    
-    s = [CCSprite spriteWithFile:@"attack.png"];
-    _attackButton = [CCMenuItemSprite itemFromNormalSprite:s selectedSprite:nil target:self selector:@selector(attackClicked)];
-    _attackButton.position = ccp(_mapButton.position.x-_mapButton.contentSize.width/2-_attackButton.contentSize.width/2, s.contentSize.height/2+BOTTOM_BUTTON_OFFSET);
-    
-    s = [CCSprite spriteWithFile:@"quests.png"];
-    _questButton = [CCMenuItemSprite itemFromNormalSprite:s selectedSprite:nil target:self selector:@selector(questButtonClicked)];
-    _questButton.position = ccp(_mapButton.position.x, self.contentSize.height-_coinBar.contentSize.height-_questButton.contentSize.height/2-BOTTOM_BUTTON_OFFSET);
-    
-    s = [CCSprite spriteWithFile:@"tblockbox.png"];
-    _lockBoxButton = [CCMenuItemSprite itemFromNormalSprite:s selectedSprite:nil target:self selector:@selector(lockBoxButtonClicked)];
-    _lockBoxButton.position = ccp(_questButton.position.x, _questButton.position.y-_questButton.contentSize.height/2-_lockBoxButton.contentSize.height/2-BOTTOM_BUTTON_OFFSET);
-    
-    s = [CCSprite spriteWithFile:@"tourneyicon.png"];
-    _tournamentButton = [CCMenuItemSprite itemFromNormalSprite:s selectedSprite:nil target:self selector:@selector(tournamentButtonClicked)];
-    _tournamentButton.position = _lockBoxButton.position;
-    
-    s = [CCSprite spriteWithFile:@"towericon.png"];
-    _towerButton = [CCMenuItemSprite itemFromNormalSprite:s selectedSprite:nil target:self selector:@selector(towerButtonClicked)];
-    _towerButton.position = ccp(s.contentSize.width/2+BOTTOM_BUTTON_OFFSET, 3*s.contentSize.height/2+2*BOTTOM_BUTTON_OFFSET);
-    
-    s = [CCSprite spriteWithFile:@"bossicon.png"];
-    _bossButton = [CCMenuItemSprite itemFromNormalSprite:s selectedSprite:nil target:self selector:@selector(bossButtonClicked)];
-    _bossButton.position = _towerButton.position;
-    
-    s = [CCSprite spriteWithFile:@"collectablesicon.png"];
-    _gemsButton = [CCMenuItemSprite itemFromNormalSprite:s selectedSprite:nil target:self selector:@selector(gemsButtonClicked)];
-    
-    _bottomButtons = [CCMenu menuWithItems: _mapButton, _attackButton, _bazaarButton, _homeButton, _questButton, _lockBoxButton, _bossButton, _tournamentButton, _towerButton, _gemsButton, nil];
-    _bottomButtons.contentSize = CGSizeZero;
-    _bottomButtons.position = CGPointZero;
-    [self addChild:_bottomButtons z:10];
+//    CCSprite *fillButtonSprite = [ToolTip spriteWithFile:@"fillbutton.png"];
+//    CCMenuItemSprite *fillButton = [CCMenuItemSprite itemWithNormalSprite:fillButtonSprite selectedSprite:nil target:self selector:@selector(fillClicked)];
+//    
+//    CCMenu *menu = [CCMenu menuWithItems:fillButton,nil];
+//    [_bigToolTip addChild:menu];
+//    menu.position = ccp(_bigToolTip.contentSize.width/2, 15.f);
+//    
+//    CCSprite *coin = [CCSprite spriteWithFile:@"goldcoin.png"];
+//    coin.scale = 0.4;
+//    coin.position = ccp(9, fillButton.contentSize.height/2+1);
+//    [fillButton addChild:coin];
+//    
+//    fontSize = 8;
+//    _bigGoldCostLabel = [CCLabelTTF labelWithString:@"12" fontName:[Globals font] fontSize:fontSize];
+//    _bigGoldCostLabel.anchorPoint = ccp(0, 0.5);
+//    _bigGoldCostLabel.position = ccp(16, fillButton.contentSize.height/2+1);
+//    [fillButton addChild:_bigGoldCostLabel];
+//    _bigGoldCostLabelShadow = [CCLabelTTF labelWithString:@"12" fontName:[Globals font] fontSize:fontSize];
+//    _bigGoldCostLabelShadow.color = ccc3(0, 0, 0);
+//    _bigGoldCostLabelShadow.opacity = TOOL_TIP_SHADOW_OPACITY;
+//    _bigGoldCostLabelShadow.position = ccp(_bigGoldCostLabel.contentSize.width/2, _bigGoldCostLabel.contentSize.height/2-1);
+//    [_bigGoldCostLabel addChild:_bigGoldCostLabelShadow z:-1];
+//    
+//    CCLabelTTF *fillLabel = [CCLabelTTF labelWithString:@"FILL" fontName:[Globals font] fontSize:fontSize];
+//    fillLabel.anchorPoint = ccp(1, 0.5);
+//    fillLabel.position = ccp(fillButton.contentSize.width-5.f, fillButton.contentSize.height/2+1);
+//    [fillButton addChild:fillLabel];
+//    CCLabelTTF *fillLabelShadow = [CCLabelTTF labelWithString:@"FILL" fontName:[Globals font] fontSize:fontSize];
+//    fillLabelShadow.color = ccc3(0, 0, 0);
+//    fillLabelShadow.opacity = TOOL_TIP_SHADOW_OPACITY;
+//    fillLabelShadow.position = ccp(fillLabel.contentSize.width/2, fillLabel.contentSize.height/2-1);
+//    [fillLabel addChild:fillLabelShadow z:-1];
+//    
+//    [Globals adjustFontSizeForSize:fontSize CCLabelTTFs:_bigGoldCostLabel, fillLabel, nil];
+//    
+//    _littleToolTip = [ToolTip spriteWithFile:@"quantleftclick.png"];
+//    [_enstBgd addChild:_littleToolTip z:2];
+//    
+//    fontSize = 12;
+//    _littleCurValLabel = [CCLabelTTF labelWithString:@"" fontName:[Globals font] fontSize:fontSize];
+//    _littleCurValLabel.position = ccp(_bigToolTip.contentSize.width/2, 10);
+//    [_littleToolTip addChild:_littleCurValLabel];
+//    [Globals adjustFontSizeForCCLabelTTF:_littleCurValLabel size:fontSize];
+//    
+//    _bigToolTip.visible = NO;
+//    _littleToolTip.visible = NO;
+//    
+//    s = [CCSprite spriteWithFile:@"map.png"];
+//    _mapButton = [CCMenuItemSprite itemWithNormalSprite:s selectedSprite:nil target:self selector:@selector(mapClicked)];
+//    _mapButton.position = ccp(self.contentSize.width-s.contentSize.width/2-BOTTOM_BUTTON_OFFSET, s.contentSize.height/2+BOTTOM_BUTTON_OFFSET);
+//    
+//    s = [CCSprite spriteWithFile:@"bazaarbutton.png"];
+//    _bazaarButton = [CCMenuItemSprite itemWithNormalSprite:s selectedSprite:nil target:self selector:@selector(bazaarClicked)];
+//    _bazaarButton.position = ccp(_mapButton.position.x, _mapButton.position.y+_mapButton.contentSize.height/2+_bazaarButton.contentSize.height/2);
+//    
+//    s = [CCSprite spriteWithFile:@"mycity.png"];
+//    _homeButton = [CCMenuItemSprite itemWithNormalSprite:s selectedSprite:nil target:self selector:@selector(homeClicked)];
+//    _homeButton.position = ccp(_bazaarButton.position.x, _bazaarButton.position.y+_bazaarButton.contentSize.height/2+_homeButton.contentSize.height/2);
+//    
+//    s = [CCSprite spriteWithFile:@"attack.png"];
+//    _attackButton = [CCMenuItemSprite itemWithNormalSprite:s selectedSprite:nil target:self selector:@selector(attackClicked)];
+//    _attackButton.position = ccp(_mapButton.position.x-_mapButton.contentSize.width/2-_attackButton.contentSize.width/2, s.contentSize.height/2+BOTTOM_BUTTON_OFFSET);
+//    
+//    s = [CCSprite spriteWithFile:@"quests.png"];
+//    _questButton = [CCMenuItemSprite itemWithNormalSprite:s selectedSprite:nil target:self selector:@selector(questButtonClicked)];
+//    _questButton.position = ccp(_mapButton.position.x, self.contentSize.height-_coinBar.contentSize.height-_questButton.contentSize.height/2-BOTTOM_BUTTON_OFFSET);
+//    
+//    s = [CCSprite spriteWithFile:@"tblockbox.png"];
+//    _lockBoxButton = [CCMenuItemSprite itemWithNormalSprite:s selectedSprite:nil target:self selector:@selector(lockBoxButtonClicked)];
+//    _lockBoxButton.position = ccp(_questButton.position.x, _questButton.position.y-_questButton.contentSize.height/2-_lockBoxButton.contentSize.height/2-BOTTOM_BUTTON_OFFSET);
+//    
+//    s = [CCSprite spriteWithFile:@"tourneyicon.png"];
+//    _tournamentButton = [CCMenuItemSprite itemWithNormalSprite:s selectedSprite:nil target:self selector:@selector(tournamentButtonClicked)];
+//    _tournamentButton.position = _lockBoxButton.position;
+//    
+//    s = [CCSprite spriteWithFile:@"towericon.png"];
+//    _towerButton = [CCMenuItemSprite itemWithNormalSprite:s selectedSprite:nil target:self selector:@selector(towerButtonClicked)];
+//    _towerButton.position = ccp(s.contentSize.width/2+BOTTOM_BUTTON_OFFSET, 3*s.contentSize.height/2+2*BOTTOM_BUTTON_OFFSET);
+//    
+//    s = [CCSprite spriteWithFile:@"bossicon.png"];
+//    _bossButton = [CCMenuItemSprite itemWithNormalSprite:s selectedSprite:nil target:self selector:@selector(bossButtonClicked)];
+//    _bossButton.position = _towerButton.position;
+//    
+//    _bottomButtons = [CCMenu menuWithItems: _mapButton, _attackButton, _bazaarButton, _homeButton, _questButton, _lockBoxButton, _bossButton, _tournamentButton, _towerButton, nil];
+//    _bottomButtons.contentSize = CGSizeZero;
+//    _bottomButtons.position = CGPointZero;
+//    [self addChild:_bottomButtons z:10];
     
     _shieldOnView = [CCSprite spriteWithFile:@"shieldonbg.png"];
     [_attackButton addChild:_shieldOnView z:-1];
@@ -318,11 +315,10 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(TopBar);
     
     [[NSBundle mainBundle] loadNibNamed:@"ChatBottomView" owner:self options:nil];
     // Put chatBottomView right above openGlView
-    [[[[CCDirector sharedDirector] openGLView] superview] insertSubview:self.chatBottomView atIndex:1];
+    [[[[CCDirector sharedDirector] view] superview] insertSubview:self.chatBottomView atIndex:1];
     
-    
-//    [[NSBundle mainBundle] loadNibNamed:@"TopBarView" owner:self options:nil];
-//    [Globals displayUIView:self.topBarView];
+    [[NSBundle mainBundle] loadNibNamed:@"TopBarView" owner:self options:nil];
+    [Globals displayUIView:self.topBarView];
     
     CGRect r = chatBottomView.frame;
     r.origin.x = BOTTOM_BUTTON_OFFSET;
@@ -431,15 +427,6 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(TopBar);
     return;
   }
   [[GameLayer sharedGameLayer] loadHomeMap];
-}
-
-- (void) gemsButtonClicked {
-  GameLayer *gl = [GameLayer sharedGameLayer];
-  GameMap *gm = gl.currentMap;
-  if ([gm isKindOfClass:[MissionMap class]]) {
-    MissionMap *mm = (MissionMap *)gm;
-    [mm displayGemsView];
-  }
 }
 
 - (void) lowerAllOpacities {
@@ -721,35 +708,17 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(TopBar);
     [self displayNewQuestArrow];
   }
   
-  //#ifndef DEBUG
-  //  if (!gs.playerHasBoughtInAppPurchase && !gs.isTutorial) {
-  //    // Configure Chartboost
-  //    Chartboost *cb = [Chartboost sharedChartboost];
-  //    cb.appId = CHART_BOOST_APP_ID;
-  //    cb.appSignature = CHART_BOOST_APP_SIGNATURE;
-  //
-  //    // Notify the beginnin g of a user session
-  //    [cb startSession];
-  //    // Show an interstitial
-  //    [cb showInterstitial];
-  //  }
-  //#endif
-  
   _curSilver = 0;
   _curGold = 0;
   _curEnergy = 0;
   _curStamina = 0;
   _curExp = gs.expRequiredForCurrentLevel;
   
-  
-  //  NSMutableDictionary *userInfo = [NSDictionary dictionaryWithObjectsAndKeys:gs.name, @"alias", nil];
-  //  [[KPManager sharedManager] updateUserInfo:userInfo];
-  
-  [self schedule:@selector(update)];
+//  [self schedule:@selector(update)];
 }
 
 - (void) registerWithTouchDispatcher {
-  [[CCTouchDispatcher sharedDispatcher] addTargetedDelegate:self priority:0 swallowsTouches:YES];
+//  [[CCTouchDispatcher sharedDispatcher] addTargetedDelegate:self priority:0 swallowsTouches:YES];
 }
 
 - (void) fillClicked {
@@ -767,14 +736,12 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(TopBar);
       [Analytics notEnoughGoldToRefillEnergyTopBar];
     }
   } else if (_bigToolTipState == kStamina) {
-    [Analytics clickedFillStamina];
     if (gs.gold >= gl.staminaRefillCost) {
       if (gs.currentStamina < gs.maxStamina) {
         [[OutgoingEventController sharedOutgoingEventController] refillStaminaWithDiamonds];
       }
     } else {
       [[RefillMenuController sharedRefillMenuController] displayBuyGoldView:gl.staminaRefillCost];
-      [Analytics notEnoughGoldToRefillStaminaTopBar];
     }
   }
 }
@@ -823,7 +790,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(TopBar);
     NSTimeInterval staminaComplete = gs.lastStaminaRefill.timeIntervalSinceNow+60*gl.staminaRefillWaitMinutes+0.1;
     _staminaTimer = [NSTimer timerWithTimeInterval:staminaComplete target:self selector:@selector(staminaRefillWaitComplete) userInfo:nil repeats:NO];
     [[NSRunLoop mainRunLoop] addTimer:_staminaTimer forMode:NSRunLoopCommonModes];
-    DDLogVerbose(@"Firing up stamina timer with time %f. Cur: %d, Max: %d", staminaComplete, gs.currentStamina, gs.maxStamina);
+    LNLog(@"Firing up stamina timer with time %f. Cur: %d, Max: %d", staminaComplete, gs.currentStamina, gs.maxStamina);
   } else {
     _staminaTimer = nil;
   }
@@ -892,7 +859,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(TopBar);
   } else if (sender == _littleToolTip) {
     _littleToolTipState = kNotShowing;
   } else {
-    DDLogError(@"ERROR IN TOOL TIPS!!! sender = %@", [sender description]);
+    LNLog(@"ERROR IN TOOL TIPS!!! sender = %@", [sender description]);
   }
 }
 
@@ -932,7 +899,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(TopBar);
 }
 
 - (BOOL) ccTouchBegan:(UITouch *)touch withEvent:(UIEvent *)event {
-  if (!isRunning_) {
+  if (!_isRunning) {
     return NO;
   }
   CGPoint pt = [self convertTouchToNodeSpace:touch];
@@ -1129,7 +1096,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(TopBar);
       } completion:^(BOOL finished) {
         // Animate back up after 5 seconds.
         // Must use block otherwise can't interact with view for 5s
-        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, 5.f * NSEC_PER_SEC), dispatch_get_current_queue(), ^{
+        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, 5.f * NSEC_PER_SEC), dispatch_get_main_queue(), ^{
           [UIView animateWithDuration:0.3f animations:^{
             self.inGameNotification.center = ccp(self.inGameNotification.superview.frame.size.width/2,-self.inGameNotification.frame.size.height/2);
           } completion:^(BOOL finished) {
@@ -1348,6 +1315,16 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(TopBar);
       self.chatBottomView.alpha = 1.f;
     } completion:nil];
   }
+}
+
+- (void) onEnterTransitionDidFinish {
+  [super onEnterTransitionDidFinish];
+  self.topBarView.hidden = NO;
+}
+
+- (void) onExit {
+  [super onExit];
+  self.topBarView.hidden = YES;
 }
 
 - (void) dealloc {

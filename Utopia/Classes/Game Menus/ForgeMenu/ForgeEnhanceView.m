@@ -613,47 +613,6 @@
   [fmc.loadingView stop];
 }
 
-- (void) receivedCollectEquipEnhancementResponse:(CollectEquipEnhancementResponseProto *)proto {
-  Globals *gl = [Globals sharedGlobals];
-  [self reloadUserEquips];
-  
-  [UIView animateWithDuration:0.3f animations:^{
-    for (ForgeEnhanceItemView *fiv in self.feederViews) {
-      fiv.equipIcon.alpha = 0.f;
-    }
-  } completion:^(BOOL finished) {
-    for (ForgeEnhanceItemView *fiv in self.feederViews) {
-      [fiv updateForNoEquip];
-      fiv.equipIcon.alpha = 1.f;
-    }
-    
-    [self updateBottomView];
-  }];
-  
-  int index = 0;
-  for (int i = 0; i < self.userEquips.count; i++) {
-    UserEquip *ue = [self.userEquips objectAtIndex:i];
-    if (ue.userEquipId == proto.resultingEquip.userEquipId) {
-      index = i;
-    }
-  }
-  
-  if (index != NSNotFound) {
-    UserEquip *ue = [self.userEquips objectAtIndex:index];
-    if([gl calculateEnhancementLevel:ue.enhancementPercentage] >= gl.maxEnhancementLevel) {
-      [self clearAllViewsAnimated:YES];
-    } else {
-      [self.enhanceTableView selectRowAtIndexPath:[NSIndexPath indexPathForRow:index inSection:0] animated:YES scrollPosition:UITableViewScrollPositionMiddle];
-      [self.enhancingView updateForUserEquip:ue];
-      [self reloadCurrentCells];
-    }
-  }
-  
-  ForgeMenuController *fmc = [ForgeMenuController sharedForgeMenuController];
-  [fmc.loadingView stop];
-  [fmc.coinBar updateLabels];
-}
-
 - (IBAction)infoClicked:(id)sender {
   [GenericPopupController displayNotificationViewWithText:@"Enhancement percent is determined by an equip's attack and defense stats." title:@"Enhancement Information"];
 }

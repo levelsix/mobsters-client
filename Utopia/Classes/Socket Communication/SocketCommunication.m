@@ -199,16 +199,16 @@ static NSString *udid = nil;
 
 - (void) unableToConnectToHost:(NSString *)error
 {
-	ContextLogError(LN_CONTEXT_COMMUNICATION, @"Unable to connect: %@", error);
+	LNLog(@"Unable to connect: %@", error);
   
   if (_shouldReconnect) {
     _numDisconnects++;
     if (_numDisconnects > NUM_SILENT_RECONNECTS) {
-      ContextLogWarn(LN_CONTEXT_COMMUNICATION, @"Asking to reconnect..");
+      LNLog(@"Asking to reconnect..");
       [GenericPopupController displayNotificationViewWithText:@"Sorry, we are unable to connect to the server. Please try again." title:@"Disconnected!" okayButton:@"Reconnect" target:self selector:@selector(tryReconnect)];
       _numDisconnects = 0;
     } else {
-      ContextLogWarn(LN_CONTEXT_COMMUNICATION, @"Silently reconnecting..");
+      LNLog(@"Silently reconnecting..");
       [self tryReconnect];
     }
   }
@@ -224,8 +224,8 @@ static NSString *udid = nil;
   
   if (_sender.userId == 0) {
     if (type != EventProtocolRequestCStartupEvent&& type != EventProtocolRequestCUserCreateEvent) {
-      ContextLogError(LN_CONTEXT_COMMUNICATION, @"User id is 0!!!");
-      ContextLogError(LN_CONTEXT_COMMUNICATION, @"Did not send event.");
+      LNLog(@"User id is 0!!!");
+      LNLog(@"Did not send event.");
       return 0;
     }
   }
@@ -280,7 +280,7 @@ static NSString *udid = nil;
   // Get the proto class for this event type
   Class typeClass = [iec getClassForType:eventType];
   if (!typeClass) {
-    ContextLogError(LN_CONTEXT_COMMUNICATION, @"Unable to find controller for event type: %d", eventType);
+    LNLog(@"Unable to find controller for event type: %d", eventType);
     return;
   }
   
@@ -297,12 +297,12 @@ static NSString *udid = nil;
       if ([delegate respondsToSelector:handleMethod]) {
         [delegate performSelectorOnMainThread:handleMethod withObject:fe waitUntilDone:NO];
       } else {
-        ContextLogError(LN_CONTEXT_COMMUNICATION, @"Unable to find %@ in %@", selectorStr, NSStringFromClass(delegate.class));
+        LNLog(@"Unable to find %@ in %@", selectorStr, NSStringFromClass(delegate.class));
       }
       [self.tagDelegates removeObjectForKey:num];
     }
   } else {
-    ContextLogError(LN_CONTEXT_COMMUNICATION, @"Unable to find %@ in IncomingEventController", selectorStr);
+    LNLog(@"Unable to find %@ in IncomingEventController", selectorStr);
   }
 }
 
@@ -445,89 +445,6 @@ static NSString *udid = nil;
                                      setIpaddr:[self getIPAddress]]
                                     build];
   return [self sendData:req withMessageType:EventProtocolRequestCInAppPurchaseEvent];
-}
-
-- (int) sendRetrieveCurrentMarketplacePostsMessageWithCurNumEntries:(int)curNumEntries filter:(RetrieveCurrentMarketplacePostsRequestProto_RetrieveCurrentMarketplacePostsFilter)filter commonEquips:(BOOL)commonEquips uncommonEquips:(BOOL)uncommonEquips rareEquips:(BOOL)rareEquips superRareEquips:(BOOL)superRareEquips epicEquips:(BOOL)epicEquips legendaryEquips:(BOOL)legendaryEquips myClassOnly:(BOOL)myClassOnly minEquipLevel:(int)minEquipLevel maxEquipLevel:(int)maxEquipLevel minForgeLevel:(int)minForgeLevel maxForgeLevel:(int)maxForgeLevel sortOrder:(RetrieveCurrentMarketplacePostsRequestProto_RetrieveCurrentMarketplacePostsSortingOrder)sortOrder specificEquipId:(int)specificEquipId {
-  RetrieveCurrentMarketplacePostsRequestProto_Builder *bldr = [[RetrieveCurrentMarketplacePostsRequestProto builder] setSender:_sender];
-  
-  bldr.currentNumOfEntries = curNumEntries;
-  bldr.filter = filter;
-  bldr.commonEquips = commonEquips;
-  bldr.uncommonEquips = uncommonEquips;
-  bldr.rareEquips = rareEquips;
-  bldr.superRareEquips = superRareEquips;
-  bldr.epicEquips = epicEquips;
-  bldr.legendaryEquips = legendaryEquips;
-  bldr.myClassOnly = myClassOnly;
-  bldr.minEquipLevel = minEquipLevel;
-  bldr.maxEquipLevel = maxEquipLevel;
-  bldr.minForgeLevel = minForgeLevel;
-  bldr.maxForgeLevel = maxForgeLevel;
-  bldr.sortOrder = sortOrder;
-  if (specificEquipId > 0) bldr.specificEquipId = specificEquipId;
-  
-  RetrieveCurrentMarketplacePostsRequestProto *req = bldr.build;
-  return [self sendData:req withMessageType:EventProtocolRequestCRetrieveCurrentMarketplacePostsEvent];
-}
-
-- (int) sendRetrieveCurrentMarketplacePostsMessageFromSenderWithCurNumEntries:(int)curNumEntries {
-  RetrieveCurrentMarketplacePostsRequestProto_Builder *bldr = [[RetrieveCurrentMarketplacePostsRequestProto builder] setSender:_sender];
-  
-  bldr.fromSender = YES;
-  bldr.currentNumOfEntries = curNumEntries;
-  
-  RetrieveCurrentMarketplacePostsRequestProto *req = bldr.build;
-  return [self sendData:req withMessageType:EventProtocolRequestCRetrieveCurrentMarketplacePostsEvent];
-}
-
-- (int) sendEquipPostToMarketplaceMessage:(int)equipId coins:(int)coins diamonds:(int)diamonds {
-  PostToMarketplaceRequestProto *req = [[[[[[PostToMarketplaceRequestProto builder]
-                                            setUserEquipId:equipId]
-                                           setCoinCost:coins]
-                                          setDiamondCost:diamonds]
-                                         setSender:_sender]
-                                        build];
-  
-  return [self sendData:req withMessageType:EventProtocolRequestCPostToMarketplaceEvent];
-}
-
-- (int) sendRetractMarketplacePostMessage:(int)postId curTime:(uint64_t)curTime {
-  RetractMarketplacePostRequestProto *req = [[[[[RetractMarketplacePostRequestProto builder]
-                                                setSender:_sender]
-                                               setMarketplacePostId:postId]
-                                              setCurTime:curTime]
-                                             build];
-  
-  return [self sendData:req withMessageType:EventProtocolRequestCRetractPostFromMarketplaceEvent];
-}
-
-- (int) sendPurchaseFromMarketplaceMessage: (int)postId poster:(int)posterId clientTime:(uint64_t)clientTime {
-  PurchaseFromMarketplaceRequestProto *req = [[[[[[PurchaseFromMarketplaceRequestProto builder]
-                                                  setSender:_sender]
-                                                 setMarketplacePostId:postId]
-                                                setPosterId:posterId]
-                                               setCurTime:clientTime]
-                                              build];
-  
-  return [self sendData:req withMessageType:EventProtocolRequestCPurchaseFromMarketplaceEvent];
-}
-
-- (int) sendRedeemMarketplaceEarningsMessage {
-  RedeemMarketplaceEarningsRequestProto *req = [[[RedeemMarketplaceEarningsRequestProto builder]
-                                                 setSender:_sender]
-                                                build];
-  
-  return [self sendData:req withMessageType:EventProtocolRequestCRedeemMarketplaceEarningsEvent];
-}
-
-- (int) sendPurchaseMarketplaceLicenseMessage: (uint64_t)clientTime type:(PurchaseMarketplaceLicenseRequestProto_LicenseType)type {
-  PurchaseMarketplaceLicenseRequestProto *req = [[[[[PurchaseMarketplaceLicenseRequestProto builder]
-                                                    setSender:_sender]
-                                                   setClientTime:clientTime]
-                                                  setLicenseType:type]
-                                                 build];
-  
-  return [self sendData:req withMessageType:EventProtocolRequestCPurchaseMarketplaceLicenseEvent];
 }
 
 - (int) sendGenerateAttackListMessage:(int)numEnemies latUpperBound:(CGFloat)latUpperBound latLowerBound:(CGFloat)latLowerBound lonUpperBound:(CGFloat)lonUpperBound lonLowerBound:(CGFloat)lonLowerBound {
@@ -704,7 +621,7 @@ static NSString *udid = nil;
   return [self sendData:req withMessageType:EventProtocolRequestCRetrieveStaticDataForShopEvent];
 }
 
-- (int) sendEquipEquipmentMessage:(int)equipId forPrestigeSlot:(BOOL)forPrestigeSlot {
+- (int) sendEquipEquipmentMessage:(uint64_t)equipId forPrestigeSlot:(BOOL)forPrestigeSlot {
   EquipEquipmentRequestProto *req = [[[[[EquipEquipmentRequestProto builder]
                                         setSender:_sender]
                                        setUserEquipId:equipId]
@@ -1119,19 +1036,22 @@ static NSString *udid = nil;
   return [self sendData:req withMessageType:EventProtocolRequestCPickLockBoxEvent];
 }
 
-- (int) sendPurchaseCityExpansionMessage:(ExpansionDirection)direction timeOfPurchase:(uint64_t)time {
-  PurchaseCityExpansionRequestProto *req = [[[[[PurchaseCityExpansionRequestProto builder]
-                                               setSender:_sender]
-                                              setDirection:direction]
+- (int) sendPurchaseCityExpansionMessageAtX:(int)x atY:(int)y timeOfPurchase:(uint64_t)time {
+  PurchaseCityExpansionRequestProto *req = [[[[[[PurchaseCityExpansionRequestProto builder]
+                                                setSender:_sender]
+                                               setXPosition:x]
+                                              setYPosition:y]
                                              setTimeOfPurchase:time]
                                             build];
   
   return [self sendData:req withMessageType:EventProtocolRequestCPurchaseCityExpansionEvent];
 }
 
-- (int) sendExpansionWaitCompleteMessage:(BOOL)speedUp curTime:(uint64_t)time {
-  ExpansionWaitCompleteRequestProto *req = [[[[[ExpansionWaitCompleteRequestProto builder]
-                                               setSender:_sender]
+- (int) sendExpansionWaitCompleteMessage:(BOOL)speedUp curTime:(uint64_t)time atX:(int)x atY:(int)y {
+  ExpansionWaitCompleteRequestProto *req = [[[[[[[ExpansionWaitCompleteRequestProto builder]
+                                                 setSender:_sender]
+                                                setXPosition:x]
+                                               setYPosition:y]
                                               setSpeedUp:speedUp]
                                              setCurTime:time]
                                             build];
@@ -1198,17 +1118,6 @@ static NSString *udid = nil;
                                              build];
   
   return [self sendData:req withMessageType:EventProtocolRequestCSubmitEquipEnhancementEvent];
-}
-
-- (int) sendCollectEquipEnhancementMessage:(int)enhancementId speedup:(BOOL)speedup time:(uint64_t)clientTime {
-  CollectEquipEnhancementRequestProto *req = [[[[[[CollectEquipEnhancementRequestProto builder]
-                                                  setSender:_sender]
-                                                 setEquipEnhancementId:enhancementId]
-                                                setSpeedUp:speedup]
-                                               setClientTime:clientTime]
-                                              build];
-  
-  return [self sendData:req withMessageType:EventProtocolRequestCCollectEquipEnhancementEvent];
 }
 
 - (int) sendRetrieveClanTowerScoresMessage:(int)towerId {
@@ -1291,6 +1200,15 @@ static NSString *udid = nil;
                                          build];
   
   return [self sendData:req withMessageType:EventProtocolRequestCRedeemUserCityGemsEvent];
+}
+
+- (int) sendBeginDungeonMessage:(uint64_t)clientTime taskId:(int)taskId {
+  BeginDungeonRequestProto *req = [[[[[BeginDungeonRequestProto builder]
+                                      setSender:_sender]
+                                     setClientTime:clientTime]
+                                    setTaskId:taskId]
+                                   build];
+  return [self sendData:req withMessageType:EventProtocolRequestCBeginDungeonEvent];
 }
 
 - (int) addAttackSkillPoint {

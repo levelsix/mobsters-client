@@ -93,7 +93,7 @@
 {
   assert( node_ != NULL && "gesture recognizer must have a node" );
   
-  if (touch.view != [[CCDirector sharedDirector] openGLView]) {
+  if (touch.view != [[CCDirector sharedDirector] view]) {
     return NO;
   }
   
@@ -119,7 +119,7 @@
     CCNode* n;
     CCARRAY_FOREACH(node_.children, n)
     {
-      if(n.isTouchEnabled && [n isNodeInTreeTouched:pt])
+      if([n isNodeInTreeTouched:pt])
       {
         rslt = NO;
         break;

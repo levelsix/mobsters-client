@@ -7,7 +7,14 @@
 //
 
 #import "CCSprite.h"
+#import "BattlePlayer.h"
+#import "cocos2d.h"
 
 @interface CCEquipCard : CCSprite
+
+@property (nonatomic, assign) CCProgressTimer *durabilityBar;
+
++ (id) cardWithBattleEquip:(BattleEquip *)equip isOnRightSide:(BOOL)isOnRightSide;
+- (id) initWithBattleEquip:(BattleEquip *)equip isOnRightSide:(BOOL)isOnRightSide;
 
 @end

@@ -156,73 +156,6 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(RefillMenuController);
   [self openView:spkrView];
 }
 
-- (void) displayEquipsView:(NSArray *)equipIds {
-  if (equipIds.count == 0) {
-    return;
-  }
-  GameState *gs = [GameState sharedGameState];
-  
-  UIView *view = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 0, itemsScrollView.frame.size.height)];
-  [self.itemsContainerView removeFromSuperview];
-  self.itemsContainerView = view;
-  self.itemsContainerView.backgroundColor = [UIColor clearColor];
-  [self.itemsScrollView addSubview:self.itemsContainerView];
-  [view release];
-  
-  int totalCost = 0;
-  
-  // Format of array will be EquipId, Owned repeated
-  for (int i = 0; i+2 < equipIds.count; i += 3) {
-    [[NSBundle mainBundle] loadNibNamed:@"RequiredEquipView" owner:self options:nil];
-    
-    CGRect r = rev.frame;
-    r.origin.x = i/3*(r.size.width+EQUIPS_VIEW_SPACING);
-    r.origin.y = itemsContainerView.frame.size.height/2-r.size.height/2;
-    rev.frame = r;
-    
-    int equipId = [[equipIds objectAtIndex:i] intValue];
-    int level = [[equipIds objectAtIndex:i+1] intValue];
-    BOOL owned = [[equipIds objectAtIndex:i+2] boolValue];
-    [rev loadWithEquipId:equipId level:level owned:owned];
-    
-    [self.itemsContainerView addSubview:rev];
-    
-    if (! owned) {
-      FullEquipProto *fep = [gs equipWithId:equipId];
-      totalCost += fep.coinPrice;
-    }
-  }
-  CGRect r = self.itemsContainerView.frame;
-  r.size.width = CGRectGetMaxX(rev.frame);
-  self.itemsContainerView.frame = r;
-  
-  if (itemsContainerView.frame.size.width > itemsScrollView.frame.size.width) {
-    self.itemsScrollView.contentSize = CGSizeMake(itemsContainerView.frame.size.width, itemsScrollView.frame.size.height);
-  } else {
-    CGRect r = self.itemsContainerView.frame;
-    r.origin.x = itemsScrollView.frame.size.width/2-itemsContainerView.frame.size.width/2;
-    self.itemsContainerView.frame = r;
-    
-    self.itemsScrollView.contentSize = CGSizeMake(itemsScrollView.frame.size.width, itemsScrollView.frame.size.height);
-  }
-  
-  float center = itemsCostView.center.x;
-  NSString *string = [Globals commafyNumber:totalCost];
-  itemsSilverLabel.text = string;
-  CGSize expectedLabelSize = [string sizeWithFont:itemsSilverLabel.font];
-  r = itemsSilverLabel.frame;
-  r.size.width = expectedLabelSize.width;
-  itemsSilverLabel.frame = r;
-  
-  r = itemsCostView.frame;
-  r.size.width = CGRectGetMaxX(itemsSilverLabel.frame);
-  itemsCostView.frame = r;
-  
-  itemsCostView.center = CGPointMake(center, itemsCostView.center.y);
-  
-  [self openView:itemsView];
-}
-
 - (void) openView:(UIView *)view {
   [self.view bringSubviewToFront:view];
   view.hidden = NO;
@@ -278,7 +211,7 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(RefillMenuController);
     if (_isEnergy) {
       [Analytics notEnoughGoldToRefillEnergyPopup];
     } else {
-      [Analytics notEnoughGoldToRefillStaminaPopup];
+//      [Analytics notEnoughGoldToRefillStaminaPopup];
     }
   } else {
     if (_isEnergy) {
@@ -306,61 +239,6 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(RefillMenuController);
     [[OutgoingEventController sharedOutgoingEventController] purchaseGroupChats];
     [[ChatMenuController sharedChatMenuController] updateNumChatsLabel];
     [self closeView:spkrView];
-  }
-}
-
-- (IBAction) buyItemsClicked:(id)sender {
-  GameState *gs = [GameState sharedGameState];
-  int amount = [itemsSilverLabel.text stringByReplacingOccurrencesOfString:@"," withString:@""].intValue;
-  
-  if (amount > gs.silver) {
-    [self displayBuySilverView:amount];
-  } else {
-    // Buy items
-    _numArmoryResponsesExpected = 0;
-    for (RequiresEquipView *r in itemsContainerView.subviews) {
-      if (r.checkIcon.highlighted) {
-        int equipId = r.equipIcon.equipId;
-        [[OutgoingEventController sharedOutgoingEventController] buyEquip:equipId];
-        _numArmoryResponsesExpected++;
-      }
-    }
-    [self.loadingView display:self.view];
-    
-    [[SoundEngine sharedSoundEngine] armoryBuy];
-  }
-}
-
-- (void) receivedArmoryResponse:(BOOL)success equip:(int)equipId {
-  if (self.view.superview && !self.itemsView.hidden) {
-    _numArmoryResponsesExpected--;
-    if (_numArmoryResponsesExpected <= 0) {
-      [self.loadingView stop];
-      [self closeView:itemsView];
-    }
-    
-    if (success) {
-      GameState *gs = [GameState sharedGameState];
-      FullEquipProto *fep = [gs equipWithId:equipId];
-      
-      int price = fep.diamondPrice > 0 ? fep.diamondPrice : fep.coinPrice;
-      
-      UIView *contView = [[[CCDirector sharedDirector] openGLView] superview];
-      CGPoint startLoc = contView.center;
-      
-      UIView *testView = [EquipDeltaView
-                          createForUpperString:[NSString stringWithFormat:@"- %d %@",
-                                                price, fep.diamondPrice ? @"Gold" : @"Silver"]
-                          andLowerString:[NSString stringWithFormat:@"+1 %@", fep.name]
-                          andCenter:startLoc
-                          topColor:[Globals redColor]
-                          botColor:[Globals colorForRarity:fep.rarity]];
-      
-      [Globals popupView:testView
-             onSuperView:contView
-                 atPoint:startLoc
-     withCompletionBlock:nil];
-    }
   }
 }
 

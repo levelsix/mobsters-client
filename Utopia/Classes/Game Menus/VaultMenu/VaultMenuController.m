@@ -49,7 +49,7 @@
   CGContextSetAllowsAntialiasing(context, true);
   CGContextSetRGBFillColor(context, 65/255.f, 65/255.f, 65/255.f, 1.0);
   NSString *str = [NSString stringWithFormat:@"%d", num];
-  [str drawInRect:CGRectMake(0, 4, self.bounds.size.width, self.bounds.size.height-4) withFont:font lineBreakMode:UILineBreakModeClip alignment:UITextAlignmentCenter];
+  [str drawInRect:CGRectMake(0, 4, self.bounds.size.width, self.bounds.size.height-4) withFont:font lineBreakMode:NSLineBreakByClipping alignment:NSTextAlignmentCenter];
 }
 
 - (void) setNum:(int)n {

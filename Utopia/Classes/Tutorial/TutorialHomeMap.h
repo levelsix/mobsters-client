@@ -23,5 +23,7 @@
 
 - (void) startCarpPhase;
 - (void) startGoToAviaryPhase;
+- (void) buildingComplete;
+- (void) endTutorial;
 
 @end

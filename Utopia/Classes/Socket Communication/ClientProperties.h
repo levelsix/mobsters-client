@@ -46,7 +46,7 @@
 #ifdef LEGENDS_OF_CHAOS
 #define MQ_VHOST @"devlegendsofchaos"
 #else
-#define MQ_VHOST @"devageofchaos"
+#define MQ_VHOST @"devmobsters"
 #endif
 
 #endif

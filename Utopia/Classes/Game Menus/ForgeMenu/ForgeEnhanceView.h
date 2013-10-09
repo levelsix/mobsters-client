@@ -57,6 +57,5 @@
 - (void) reload;
 
 - (void) receivedSubmitEquipEnhancementResponse:(SubmitEquipEnhancementResponseProto *)proto;
-- (void) receivedCollectEquipEnhancementResponse:(CollectEquipEnhancementResponseProto *)proto;
 
 @end

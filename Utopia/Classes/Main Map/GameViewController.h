@@ -11,7 +11,7 @@
 
 @interface GameView : UIView
 
-@property (nonatomic, retain) EAGLView *glView;
+@property (nonatomic, retain) CCGLView *glView;
 
 @end
 
