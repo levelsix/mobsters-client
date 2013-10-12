@@ -10,7 +10,6 @@
 #import "cocos2d.h"
 #import "MainMenuController.h"
 #import "Globals.h"
-#import "GoldShoppeViewController.h"
 #import "GameViewController.h"
 #import "MenuNavigationController.h"
 

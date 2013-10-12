@@ -17,8 +17,7 @@
 
 - (id) initWithLocation:(CGRect)loc map:(GameMap *)map {
   if ((self = [super initWithFile:nil location:loc map:map])) {
-    GameState *gs = [GameState sharedGameState];
-    NSString *prefix = [Globals animatedSpritePrefix:gs.type];
+    NSString *prefix = @"MafiaMan";
     
 //    [self schedule:@selector(incrementalLoad) interval:0.1f];
     
@@ -47,27 +46,16 @@
     return;
   }
   _isDownloading = YES;
-  
-  GameState *gs = [GameState sharedGameState];
-  NSString *prefix = [Globals animatedSpritePrefix:gs.type];
   switch (_incrementalLoadCounter) {
     case 0:
       [[CCSpriteFrameCache sharedSpriteFrameCache] addSpriteFramesWithFile:@"MafiaManRunNF.plist"];
       break;
       
     case 1:
-      [[CCSpriteFrameCache sharedSpriteFrameCache] addSpriteFramesWithFile:[NSString stringWithFormat:@"%@WalkLR.plist",prefix]];
+      [self setUpAnimations:@"MafiaMan"];
       break;
       
     case 2:
-      [[CCSpriteFrameCache sharedSpriteFrameCache] addSpriteFramesWithFile:[NSString stringWithFormat:@"%@WalkUD.plist",prefix]];
-      break;
-      
-    case 3:
-      [self setUpAnimations:prefix];
-      break;
-      
-    case 4:
       [self unschedule:@selector(incrementalLoad)];
       
     default:
@@ -122,101 +110,6 @@
   }
 }
 
-- (void) performAnimation:(AnimationType)type atLocation:(CGPoint)point inDirection:(float)angle {
-  GameState *gs = [GameState sharedGameState];
-  
-  // Alliance Warrior, Legion Mage, Both archers
-//  if (gs.type == UserTypeGoodWarrior || gs.type == UserTypeGoodArcher || gs.type == UserTypeBadArcher) {
-    type = AnimationTypeGenericAction;
-//  }
-  
-  NSString *dir = nil;
-  NSString *plistDir = nil;
-  
-  if (angle >= 165 || angle <= -165) {
-    self.sprite.flipX = NO;
-    dir = @"LR";
-    plistDir = @"LR";
-  } else if (angle >= 120) {
-    self.sprite.flipX = NO;
-    dir = @"F";
-    plistDir = @"NF";
-  } else if (angle >= 60) {
-    self.sprite.flipX = NO; 
-    dir = @"U";
-    plistDir = @"UD";
-  } else if (angle >= 15) {
-    self.sprite.flipX = YES;
-    dir = @"F";
-    plistDir = @"NF";
-  } else if (angle >= -15) {
-    self.sprite.flipX = YES;
-    dir = @"LR";
-    plistDir = @"LR";
-  } else if (angle >= -60) {
-    self.sprite.flipX = YES;
-    dir = @"N";
-    plistDir = @"NF";
-  } else if (angle >= -120) {
-    self.sprite.flipX = NO;
-    dir = @"D";
-    plistDir = @"UD";
-  } else if (angle >= -165) {
-    self.sprite.flipX = NO;
-    dir = @"N";
-    plistDir = @"NF";
-  }
-  
-  NSString *prefix = [NSString stringWithFormat:@"%@%@", [Globals animatedSpritePrefix:gs.type], type == AnimationTypeGenericAction ? @"Generic" : @"Attack"];
-  
-  [[CCSpriteFrameCache sharedSpriteFrameCache] addSpriteFramesWithFile:[prefix stringByAppendingFormat:@"%@.plist", plistDir]];
-  
-  //create animation for left and right
-  NSMutableArray *agArray = [NSMutableArray array];
-  for(int i = 0; true; ++i) {
-    CCSpriteFrame *frame = [[CCSpriteFrameCache sharedSpriteFrameCache] spriteFrameByName:[NSString stringWithFormat:@"%@%@%02d.png",prefix, dir, i]];
-    if (frame) {
-      [agArray addObject:frame];
-    } else {
-      break;
-    }
-  }
-  
-  self.agAnimation = [CCAnimation animationWithSpriteFrames:agArray delay:ANIMATATION_DELAY];
-  _shouldContinueAnimation = YES;
-  
-  // Play the appropriate sound
-  if (type == AnimationTypeGenericAction) {
-    _soundSelector = @selector(genericTaskSound);
-  } else if (type == AnimationTypeAttack) {
-    switch (gs.type) {
-      case UserTypeBadArcher:
-      case UserTypeGoodArcher:
-        _soundSelector = @selector(archerTaskSound);
-        break;
-        
-      case UserTypeBadMage:
-      case UserTypeGoodMage:
-        _soundSelector = @selector(mageTaskSound);
-        break;
-        
-      case UserTypeBadWarrior:
-      case UserTypeGoodWarrior:
-        _soundSelector = @selector(warriorTaskSound);
-        break;
-        
-      default:
-        break;
-    }
-  }
-  
-  [self repeatCurrentAttackAnimation]; 
-  
-  CGRect r = self.location;
-  r.origin = point;
-  self.location = r;
-}
-
 - (void) performAttackAnimation {
   [[CCSpriteFrameCache sharedSpriteFrameCache] addSpriteFramesWithFile:@"MafiaManAttackNF.plist"];
   
@@ -247,8 +140,7 @@
     
     [[SoundEngine sharedSoundEngine] performSelector:_soundSelector];
   } else {
-    GameState *gs = [GameState sharedGameState];
-    NSString *prefix = [Globals animatedSpritePrefix:gs.type];
+    NSString *prefix = @"MafiaMan";
     [[CCSpriteFrameCache sharedSpriteFrameCache] addSpriteFramesWithFile:[NSString stringWithFormat:@"%@Run.plist",prefix]];
     CCSpriteFrame *frame = [[CCSpriteFrameCache sharedSpriteFrameCache] spriteFrameByName:[NSString stringWithFormat:@"%@RunN00.png",prefix]];
     [self.sprite setDisplayFrame:frame];
@@ -265,9 +157,7 @@
 }
 
 - (void) moveToLocation:(CGRect)loc {
-  
-  GameState *gs = [GameState sharedGameState];
-  NSString *prefix = [Globals animatedSpritePrefix:gs.type];
+  NSString *prefix = @"MafiaMan";
   
   CGPoint startPt = [_map convertTilePointToCCPoint:self.location.origin];
   CGPoint endPt = [_map convertTilePointToCCPoint:loc.origin];

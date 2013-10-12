@@ -12,7 +12,26 @@ static PBExtensionRegistry* extensionRegistry = nil;
   if (self == [ProtocolsRoot class]) {
     PBMutableExtensionRegistry* registry = [PBMutableExtensionRegistry registry];
     [self registerAllExtensions:registry];
+    [BattleRoot registerAllExtensions:registry];
+    [BoosterPackStuffRoot registerAllExtensions:registry];
+    [ChatRoot registerAllExtensions:registry];
+    [CityRoot registerAllExtensions:registry];
+    [ClanRoot registerAllExtensions:registry];
     [EventRoot registerAllExtensions:registry];
+    [EventCityRoot registerAllExtensions:registry];
+    [EventPvpRoot registerAllExtensions:registry];
+    [EventQuestRoot registerAllExtensions:registry];
+    [EventStartupRoot registerAllExtensions:registry];
+    [EventStructureRoot registerAllExtensions:registry];
+    [EventUserRoot registerAllExtensions:registry];
+    [InfoRoot registerAllExtensions:registry];
+    [JobRoot registerAllExtensions:registry];
+    [MonsterStuffRoot registerAllExtensions:registry];
+    [QuestRoot registerAllExtensions:registry];
+    [StructureRoot registerAllExtensions:registry];
+    [TaskRoot registerAllExtensions:registry];
+    [TournamentStuffRoot registerAllExtensions:registry];
+    [UserRoot registerAllExtensions:registry];
     extensionRegistry = [registry retain];
   }
 }
@@ -22,26 +41,15 @@ static PBExtensionRegistry* extensionRegistry = nil;
 
 BOOL EventProtocolRequestIsValidValue(EventProtocolRequest value) {
   switch (value) {
-    case EventProtocolRequestCChatEvent:
-    case EventProtocolRequestCBattleEvent:
-    case EventProtocolRequestCVaultEvent:
-    case EventProtocolRequestCTaskActionEvent:
-    case EventProtocolRequestCRetrieveUserEquipForUser:
     case EventProtocolRequestCStartupEvent:
-    case EventProtocolRequestCRetrieveStaticDataForShopEvent:
-    case EventProtocolRequestCArmoryEvent:
     case EventProtocolRequestCInAppPurchaseEvent:
-    case EventProtocolRequestCUseSkillPointEvent:
-    case EventProtocolRequestCGenerateAttackListEvent:
     case EventProtocolRequestCPurchaseNormStructureEvent:
     case EventProtocolRequestCMoveOrRotateNormStructureEvent:
     case EventProtocolRequestCSellNormStructureEvent:
     case EventProtocolRequestCUpgradeNormStructureEvent:
     case EventProtocolRequestCRetrieveCurrencyFromNormStructureEvent:
-    case EventProtocolRequestCRefillStatWithDiamondsEvent:
     case EventProtocolRequestCFinishNormStructWaittimeWithDiamondsEvent:
     case EventProtocolRequestCNormStructWaitCompleteEvent:
-    case EventProtocolRequestCCritStructureActionEvent:
     case EventProtocolRequestCLoadPlayerCityEvent:
     case EventProtocolRequestCRetrieveStaticDataEvent:
     case EventProtocolRequestCQuestAcceptEvent:
@@ -49,26 +57,13 @@ BOOL EventProtocolRequestIsValidValue(EventProtocolRequest value) {
     case EventProtocolRequestCQuestRedeemEvent:
     case EventProtocolRequestCPurchaseCityExpansionEvent:
     case EventProtocolRequestCExpansionWaitCompleteEvent:
-    case EventProtocolRequestCRefillStatWaitCompleteEvent:
     case EventProtocolRequestCLevelUpEvent:
     case EventProtocolRequestCEnableApnsEvent:
     case EventProtocolRequestCUserCreateEvent:
-    case EventProtocolRequestCEquipEquipmentEvent:
-    case EventProtocolRequestCChangeUserLocationEvent:
     case EventProtocolRequestCLoadNeutralCityEvent:
     case EventProtocolRequestCRetrieveUsersForUserIdsEvent:
-    case EventProtocolRequestCPostOnPlayerWallEvent:
-    case EventProtocolRequestCRetrievePlayerWallPostsEvent:
     case EventProtocolRequestCEarnFreeDiamondsEvent:
-    case EventProtocolRequestCReconnectEvent:
-    case EventProtocolRequestCSubmitEquipsToBlacksmith:
-    case EventProtocolRequestCForgeAttemptWaitComplete:
-    case EventProtocolRequestCFinishForgeAttemptWaittimeWithDiamonds:
-    case EventProtocolRequestCCollectForgeEquips:
-    case EventProtocolRequestCCharacterModEvent:
-    case EventProtocolRequestCRetrieveLeaderboardEvent:
     case EventProtocolRequestCSendGroupChatEvent:
-    case EventProtocolRequestCPurchaseGroupChatEvent:
     case EventProtocolRequestCCreateClanEvent:
     case EventProtocolRequestCLeaveClanEvent:
     case EventProtocolRequestCRequestJoinClanEvent:
@@ -77,44 +72,23 @@ BOOL EventProtocolRequestIsValidValue(EventProtocolRequest value) {
     case EventProtocolRequestCTransferClanOwnership:
     case EventProtocolRequestCRetrieveClanInfoEvent:
     case EventProtocolRequestCChangeClanDescriptionEvent:
-    case EventProtocolRequestCPostOnClanBulletinEvent:
-    case EventProtocolRequestCRetrieveClanBulletinPostsEvent:
     case EventProtocolRequestCBootPlayerFromClanEvent:
-    case EventProtocolRequestCRetrieveThreeCardMonteEvent:
-    case EventProtocolRequestCPlayThreeCardMonteEvent:
-    case EventProtocolRequestCBeginGoldmineTimerEvent:
-    case EventProtocolRequestCCollectFromGoldmineEvent:
     case EventProtocolRequestCPickLockBoxEvent:
-    case EventProtocolRequestCBossActionEvent:
-    case EventProtocolRequestCBeginClanTowerWar:
-    case EventProtocolRequestCUpgradeClanTierEvent:
-    case EventProtocolRequestCConcedeClanTowerWar:
     case EventProtocolRequestCRetrieveLeaderboardRankingsEvent:
     case EventProtocolRequestCSubmitEquipEnhancementEvent:
-    case EventProtocolRequestCCollectEquipEnhancementEvent:
-    case EventProtocolRequestCRetrieveClanTowerScoresEvent:
     case EventProtocolRequestCRetrieveBoosterPackEvent:
     case EventProtocolRequestCPurchaseBoosterPackEvent:
     case EventProtocolRequestCResetBoosterPackEvent:
     case EventProtocolRequestCChangeClanJoinTypeEvent:
-    case EventProtocolRequestCPurchaseForgeSlotEvent:
-    case EventProtocolRequestCPrestigeEvent:
     case EventProtocolRequestCPrivateChatPostEvent:
     case EventProtocolRequestCRetrievePrivateChatPostEvent:
     case EventProtocolRequestCRedeemUserLockBoxItemsEvent:
-    case EventProtocolRequestCBeginMentoringUserEvent:
-    case EventProtocolRequestCRetrieveAllMentorsEvent:
-    case EventProtocolRequestCRetrieveAvailableMenteesEvent:
-    case EventProtocolRequestCDropMenteeEvent:
-    case EventProtocolRequestCRetrieveMyMenteesEvent:
-    case EventProtocolRequestCRedeemUserCityGemsEvent:
     case EventProtocolRequestCBeginDungeonEvent:
     case EventProtocolRequestCEndDungeonEvent:
     case EventProtocolRequestCReviveInDungeonEvent:
     case EventProtocolRequestCQueueUpEvent:
     case EventProtocolRequestCUpdateEquipDurabilityEvent:
     case EventProtocolRequestCLogoutEvent:
-    case EventProtocolRequestAAdminUpdate:
       return YES;
     default:
       return NO;
@@ -122,26 +96,15 @@ BOOL EventProtocolRequestIsValidValue(EventProtocolRequest value) {
 }
 BOOL EventProtocolResponseIsValidValue(EventProtocolResponse value) {
   switch (value) {
-    case EventProtocolResponseSChatEvent:
-    case EventProtocolResponseSBattleEvent:
-    case EventProtocolResponseSVaultEvent:
-    case EventProtocolResponseSTaskActionEvent:
-    case EventProtocolResponseSRetrieveUserEquipForUser:
     case EventProtocolResponseSStartupEvent:
-    case EventProtocolResponseSRetrieveStaticDataForShopEvent:
-    case EventProtocolResponseSArmoryEvent:
     case EventProtocolResponseSInAppPurchaseEvent:
-    case EventProtocolResponseSUseSkillPointEvent:
-    case EventProtocolResponseSGenerateAttackListEvent:
     case EventProtocolResponseSPurchaseNormStructureEvent:
     case EventProtocolResponseSMoveOrRotateNormStructureEvent:
     case EventProtocolResponseSSellNormStructureEvent:
     case EventProtocolResponseSUpgradeNormStructureEvent:
     case EventProtocolResponseSRetrieveCurrencyFromNormStructureEvent:
-    case EventProtocolResponseSRefillStatWithDiamondsEvent:
     case EventProtocolResponseSFinishNormStructWaittimeWithDiamondsEvent:
     case EventProtocolResponseSNormStructWaitCompleteEvent:
-    case EventProtocolResponseSCritStructureActionEvent:
     case EventProtocolResponseSLoadPlayerCityEvent:
     case EventProtocolResponseSRetrieveStaticDataEvent:
     case EventProtocolResponseSQuestAcceptEvent:
@@ -149,26 +112,13 @@ BOOL EventProtocolResponseIsValidValue(EventProtocolResponse value) {
     case EventProtocolResponseSQuestRedeemEvent:
     case EventProtocolResponseSPurchaseCityExpansionEvent:
     case EventProtocolResponseSExpansionWaitCompleteEvent:
-    case EventProtocolResponseSRefillStatWaitCompleteEvent:
     case EventProtocolResponseSLevelUpEvent:
     case EventProtocolResponseSEnableApnsEvent:
     case EventProtocolResponseSUserCreateEvent:
-    case EventProtocolResponseSEquipEquipmentEvent:
-    case EventProtocolResponseSChangeUserLocationEvent:
     case EventProtocolResponseSLoadNeutralCityEvent:
     case EventProtocolResponseSRetrieveUsersForUserIdsEvent:
-    case EventProtocolResponseSPostOnPlayerWallEvent:
-    case EventProtocolResponseSRetrievePlayerWallPostsEvent:
     case EventProtocolResponseSEarnFreeDiamondsEvent:
-    case EventProtocolResponseSReconnectEvent:
-    case EventProtocolResponseSSubmitEquipsToBlacksmith:
-    case EventProtocolResponseSForgeAttemptWaitComplete:
-    case EventProtocolResponseSFinishForgeAttemptWaittimeWithDiamonds:
-    case EventProtocolResponseSCollectForgeEquips:
-    case EventProtocolResponseSCharacterModEvent:
-    case EventProtocolResponseSRetrieveLeaderboardEvent:
     case EventProtocolResponseSSendGroupChatEvent:
-    case EventProtocolResponseSPurchaseGroupChatEvent:
     case EventProtocolResponseSCreateClanEvent:
     case EventProtocolResponseSLeaveClanEvent:
     case EventProtocolResponseSRequestJoinClanEvent:
@@ -177,38 +127,17 @@ BOOL EventProtocolResponseIsValidValue(EventProtocolResponse value) {
     case EventProtocolResponseSTransferClanOwnership:
     case EventProtocolResponseSRetrieveClanInfoEvent:
     case EventProtocolResponseSChangeClanDescriptionEvent:
-    case EventProtocolResponseSPostOnClanBulletinEvent:
-    case EventProtocolResponseSRetrieveClanBulletinPostsEvent:
     case EventProtocolResponseSBootPlayerFromClanEvent:
-    case EventProtocolResponseSRetrieveThreeCardMonteEvent:
-    case EventProtocolResponseSPlayThreeCardMonteEvent:
-    case EventProtocolResponseSBeginGoldmineTimerEvent:
-    case EventProtocolResponseSCollectFromGoldmineEvent:
     case EventProtocolResponseSPickLockBoxEvent:
-    case EventProtocolResponseSBossActionEvent:
-    case EventProtocolResponseSBeginClanTowerWar:
-    case EventProtocolResponseSUpgradeClanTierEvent:
-    case EventProtocolResponseSConcedeClanTowerWarEvent:
-    case EventProtocolResponseSChangedClanTowerEvent:
     case EventProtocolResponseSRetrieveLeaderboardRankingsEvent:
     case EventProtocolResponseSSubmitEquipEnhancementEvent:
-    case EventProtocolResponseSCollectEquipEnhancementEvent:
-    case EventProtocolResponseSRetrieveClanTowerScoresEvent:
     case EventProtocolResponseSRetrieveBoosterPackEvent:
     case EventProtocolResponseSPurchaseBoosterPackEvent:
     case EventProtocolResponseSResetBoosterPackEvent:
     case EventProtocolResponseSChangeClanJoinTypeEvent:
-    case EventProtocolResponseSPurchaseForgeSlotEvent:
-    case EventProtocolResponseSPrestigeEvent:
     case EventProtocolResponseSPrivateChatPostEvent:
     case EventProtocolResponseSRetrievePrivateChatPostEvent:
     case EventProtocolResponseSRedeemUserLockBoxItemsEvent:
-    case EventProtocolResponseSBeginMentoringUserEvent:
-    case EventProtocolResponseSRetrieveAllMentorsEvent:
-    case EventProtocolResponseSRetrieveAvailableMenteesEvent:
-    case EventProtocolResponseSDropMenteeEvent:
-    case EventProtocolResponseSRetrieveMyMenteesEvent:
-    case EventProtocolResponseSRedeemUserCityGemsEvent:
     case EventProtocolResponseSBeginDungeonEvent:
     case EventProtocolResponseSEndDungeonEvent:
     case EventProtocolResponseSReviveInDungeonEvent:
@@ -222,8 +151,6 @@ BOOL EventProtocolResponseIsValidValue(EventProtocolResponse value) {
     case EventProtocolResponseSSendAdminMessageEvent:
     case EventProtocolResponseSGeneralNotificationEvent:
     case EventProtocolResponseSReceivedRareBoosterPurchaseEvent:
-    case EventProtocolResponseSMenteeBecameAvailableEvent:
-    case EventProtocolResponseSMenteeFinishedQuestEvent:
       return YES;
     default:
       return NO;

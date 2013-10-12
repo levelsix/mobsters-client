@@ -76,38 +76,9 @@ typedef enum {
 
 @end
 
-@interface Enemy : AnimatedSprite
-
-@property (nonatomic, retain) FullUserProto *user;
-@property (nonatomic, assign) BOOL isAlive;
-
-- (id) initWithUser:(FullUserProto *)fup location:(CGRect)loc map:(GameMap *)map;
-- (void) kill;
-
-@end
-
-@interface Ally : AnimatedSprite
-
-@property (nonatomic, retain) MinimumUserProtoWithLevel *user;
-
-- (id) initWithUser:(MinimumUserProtoWithLevel *)mup location:(CGRect)loc map:(GameMap *)map;
-
-@end
-
 @interface TutorialGirl : QuestGiver
 
 - (id) initWithLocation:(CGRect)loc map:(GameMap *)map;
-
-@end
-
-@interface Carpenter : AnimatedSprite {
-  CCSprite *carpIcon;
-  int _structIdToShowArrow;
-}
-
-- (id) initWithLocation:(CGRect)loc map:(GameMap *)map;
-
-- (void) displayArrow:(int)structId;
 
 @end
 
@@ -124,7 +95,6 @@ typedef enum {
 }
 
 @property (nonatomic, retain) FullBossProto *fbp;
-@property (nonatomic, retain) UserBoss *ub;
 @property (nonatomic, copy) NSString *name;
 
 @property (nonatomic, copy) CCSprite *bossMenu;

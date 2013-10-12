@@ -59,7 +59,6 @@
 
 
 #import "iCarousel.h"
-#import "ArmoryCarouselView.h"
 
 #define MIN_TOGGLE_DURATION 0.2f
 #define MAX_TOGGLE_DURATION 0.4f
@@ -738,9 +737,9 @@ NSComparisonResult compareViewDepth(UIView *view1, UIView *view2, iCarousel *sel
       else
       {
         // LVL6 Addition
-        UIImageView *overlay = [view respondsToSelector:@selector(overlay)] ? [(ArmoryListing *)view overlay] : nil;
-        CGFloat alpha = ABS(fmaxf(-4.0f, fminf(4.0f, offset)));
-        overlay.alpha = alpha;
+//        UIImageView *overlay = [view respondsToSelector:@selector(overlay)] ? [(ArmoryListing *)view overlay] : nil;
+//        CGFloat alpha = ABS(fmaxf(-4.0f, fminf(4.0f, offset)));
+//        overlay.alpha = alpha;
         
         transform = CATransform3DTranslate(transform, x, 0.0f, z);
         return CATransform3DScale(CATransform3DRotate(transform, -clampedOffset * M_PI_2 * tilt, 0.0f, 1.0f, 0.0f), scale, scale, 1.);

@@ -7,8 +7,6 @@
 //
 
 #import "FacebookDelegate.h"
-#import "InAppPurchaseData.h"
-#import "OperationWaitCounter.h"
 #import "FBSBJSON.h"
 #import "GameState.h"
 #import "OutgoingEventController.h"
@@ -95,25 +93,6 @@
   if (![facebook isSessionValid]) {
     NSArray *permissions = [NSArray arrayWithObjects:@"email", @"status_update", nil];
     [facebook authorize:permissions];
-  } else {
-    [self notifyServer];
-  }
-}
-
-#pragma mark FBDialogDelegate
-- (void) dialogCompleteWithUrl:(NSURL*)url
-{
-  // If we successfully made the friend request.
-  if ([url.absoluteString rangeOfString:@"success?request="].location != NSNotFound) {
-    id<OperationWaitCounter> waitCounter = [OperationWaitCounter 
-                                            createForKey:PREV_FACEBOOK_FRIEND_REQ
-                                            andTimeInterval:SECONDS_PER_WEEK];
-    // We only want to increase the user's waitCounter if they recieved gold
-    if ([waitCounter canPerfomOperation]) {
-      [waitCounter performedOperation];
-      [waitCounter serialize];      
-    }
-    [InAppPurchaseData postAdTakeoverResignedNotificationForSender:self];
   } else {
     [self notifyServer];
   }

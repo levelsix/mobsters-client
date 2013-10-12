@@ -10,11 +10,7 @@
 #import "MissionMap.h"
 #import "OutgoingEventController.h"
 #import "Globals.h"
-#import "ConvoMenuController.h"
-#import "QuestLogController.h"
 #import "GameState.h"
-#import "CarpenterMenuController.h"
-#import "ProfileViewController.h"
 #import "Globals.h"
 #import "CCAnimation+SpriteLoading.h"
 
@@ -341,78 +337,10 @@ BOOL _loading = NO;
 
 @end
 
-@implementation Enemy
-
-@synthesize user, isAlive;
-
-- (id) initWithUser:(FullUserProto *)fup location:(CGRect)loc map:(GameMap *)map {
-  if ((self = [super initWithFile:[Globals animatedSpritePrefix:fup.userType] location:loc map:map])) {
-    self.user = fup;
-    self.isAlive = YES;
-  }
-  return self;
-}
-
-- (void) setUser:(FullUserProto *)u {
-  if (user != u) {
-    [user release];
-    user = [u retain];
-    _nameLabel.string = [Globals fullNameWithName:u.name clanTag:u.clan.tag];
-  }
-}
-
-- (void) kill {
-  // Need to delay time so check has time to display
-  [self stopAllActions];
-  [self runAction:[CCSequence actions:
-                   [CCFadeOut actionWithDuration:1.5f],
-                   [CCDelayTime actionWithDuration:1.5f],
-                   [CCCallBlock actionWithBlock:
-                    ^{
-                      [self removeFromParentAndCleanup:YES];
-                    }], nil]];
-  
-  self.isAlive = NO;
-}
-
-- (void) dealloc {
-  self.user = nil;
-  [super dealloc];
-}
-
-@end
-
-@implementation Ally
-
-@synthesize user;
-
-- (id) initWithUser:(MinimumUserProtoWithLevel *)mup location:(CGRect)loc map:(GameMap *)map {
-  if ((self = [super initWithFile:[Globals animatedSpritePrefix:mup.minUserProto.userType] location:loc map:map])) {
-    self.user = mup;
-  }
-  return self;
-}
-
-- (void) setUser:(MinimumUserProtoWithLevel *)u {
-  if (user != u) {
-    [user release];
-    user = [u retain];
-    _nameLabel.string = [Globals fullNameWithName:u.minUserProto.name clanTag:u.minUserProto.clan.tag];
-  }
-}
-
-- (void) dealloc {
-  self.user = nil;
-  [super dealloc];
-}
-
-@end
-
 @implementation TutorialGirl
 
 - (id) initWithLocation:(CGRect)loc map:(GameMap *)map {
-  GameState *gs = [GameState sharedGameState];
-  NSString *prefix = [Globals userTypeIsGood:gs.type] ? @"TutorialGuide" : @"TutorialGuideBad";
+  NSString *prefix = @"TutorialGuide";
   
   if ((self = [super initWithQuest:nil questGiverState:kNoQuest file:prefix map:map location:loc])) {
     self.name = [Globals homeQuestGiverName];
@@ -423,44 +351,6 @@ BOOL _loading = NO;
 - (void) dealloc {
   [[CCSpriteFrameCache sharedSpriteFrameCache] removeUnusedSpriteFrames];
 	[super dealloc];
-}
-
-@end
-
-@implementation Carpenter
-
-- (id) initWithLocation:(CGRect)loc map:(GameMap *)map {
-  if ((self = [super initWithFile:@"Carpenter.png" location:loc map:map])) {
-    carpIcon = [CCSprite spriteWithFile:@"carpentericon.png"];
-    [self addChild:carpIcon];
-    carpIcon.position = ccp(self.contentSize.width/2, self.contentSize.height+carpIcon.contentSize.height/2);
-    
-    self.touchableArea = CGSizeMake(self.contentSize.width, self.contentSize.height+carpIcon.contentSize.height);
-    
-  }
-  return self;
-}
-
-- (void) displayArrow {
-  [super displayArrow];
-  _arrow.position = ccpAdd(_arrow.position, ccp(0, carpIcon.contentSize.height));
-}
-
-- (void) displayArrow:(int)structId {
-  [self displayArrow];
-  _structIdToShowArrow = structId;
-}
-
-- (void) setIsSelected:(BOOL)isSelected {
-  if (isSelected) {
-    if (_structIdToShowArrow > 0) {
-      [[CarpenterMenuController sharedCarpenterMenuController] displayArrowOnNextOpen:_structIdToShowArrow];
-      _structIdToShowArrow = 0;
-    }
-    [CarpenterMenuController displayView];
-    [_map setSelected:nil];
-    [self removeArrowAnimated:YES];
-  }
 }
 
 @end
@@ -522,9 +412,6 @@ BOOL _loading = NO;
     _lock = [CCSprite spriteWithFile:@"bossoverlock.png"];
     [self addChild:_lock z:1];
     _lock.position = ccpAdd(_nameLabel.position, ccp(-2, 10));
-    
-    [self updateTime];
-    [self schedule:@selector(updateTime) interval:1];
   }
   return self;
 }
@@ -538,33 +425,6 @@ BOOL _loading = NO;
   }
 }
 
-- (void) updateTime {
-  Globals *gl = [Globals sharedGlobals];
-  if ([self.ub isAlive]) {
-    int totalHealth = [gl healthForBoss:self.ub];
-    _healthBar.percentage = (float)self.ub.curHealth/totalHealth*100.f;
-    _timeLabel.string = [self.ub timeTillEndString];
-    _bossMenu.visible = YES;
-  } else {
-    _bossMenu.visible = NO;
-  }
-}
-
-#define BAR_SPEED 110
-
-- (void) setUb:(UserBoss *)ub {
-  if (_ub != ub) {
-    [_ub release];
-    _ub = [ub retain];
-  }
-  
-  _curHp = _ub.curHealth;
-  
-  [self updateTime];
-  
-  _lock.visible = ![ub isAlive];
-}
-
 - (void) setName:(NSString *)n {
   if (_name != n) {
     [_name release];
@@ -576,9 +436,6 @@ BOOL _loading = NO;
 
 - (void) dealloc {
   // Need to deallocate timer first to prevent
-  [self.ub.timer invalidate];
-  self.ub.timer = nil;
-  self.ub = nil;
   self.fbp = nil;
   self.name = nil;
   [super dealloc];

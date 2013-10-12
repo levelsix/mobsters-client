@@ -10,9 +10,7 @@
 #import "GameState.h"
 #import "Globals.h"
 #import "LNSynthesizeSingleton.h"
-#import "GoldShoppeViewController.h"
 #import "OutgoingEventController.h"
-#import "RefillMenuController.h"
 #import "GenericPopupController.h"
 
 @implementation ClanViewController

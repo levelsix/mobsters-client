@@ -86,17 +86,6 @@
 //  [Crittercism enableWithAppID:@"5029a2f0eeaf4125dd000001"];
 }
 
-- (void) registerPixelAddictsOpen {
-  [Globals makePixelAddictsAppOpenCall];
-  
-  NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
-  BOOL install = [userDefaults boolForKey:PA_INSTALL_KEY];
-  if (!install) {
-    [Globals makePixelAddictsCreateUserCall];
-    [userDefaults setBool:YES forKey:PA_INSTALL_KEY];
-  }
-}
-
 - (void) setUpMobileAppTracker {
   [[MobileAppTracker sharedManager] setDebugMode:NO];
   [[MobileAppTracker sharedManager] setDelegate:self];
@@ -304,10 +293,7 @@
   [[SoundEngine sharedSoundEngine] stopBackgroundMusic];
   
   [NSObject cancelPreviousPerformRequestsWithTarget:[Downloader sharedDownloader]];
-  
-  if (![[GameState sharedGameState] isTutorial]) {
-    [GameViewController releaseAllViews];
-  }
+
   [Analytics suspendedApp];
 #ifndef DEBUG
   //  [Apsalar endSession];
@@ -391,43 +377,6 @@
     return;
   }
   
-  // Determine times so we can choose order of badge icons
-  NSDate *energyRefilled = [gs.lastEnergyRefill dateByAddingTimeInterval:gl.energyRefillWaitMinutes*60*(gs.maxEnergy-gs.currentEnergy)];
-  
-  // Only send if energy and stamina are more than halfway used.
-  BOOL shouldSendEnergyNotification = gs.connected ? gs.maxEnergy > 2*gs.currentEnergy : NO;
-  
-  if (shouldSendEnergyNotification) {
-    // Stamina refilled
-    NSString *text = [NSString stringWithFormat:@"Your energy has fully recharged! Hurry back and complete quests in the name of the %@!", [Globals factionForUserType:(gs.type+3)%6]];
-    int badge = 1;//shouldSendStaminaNotification && [staminaRefilled compare:energyRefilled] == NSOrderedAscending ? 2 : 1;
-    [self scheduleNotificationWithText:text badge:badge date:energyRefilled];
-  }
-  
-  for (ForgeAttempt *forgeAttempt in gs.forgeAttempts) {
-    if (forgeAttempt && !forgeAttempt.isComplete) {
-      FullEquipProto *fep = [gs equipWithId:forgeAttempt.equipId];
-      NSString *text = [NSString stringWithFormat:@"The Blacksmith has completed forging your %@. Come back to check if it succeeded!", fep.name];
-      int minutes = [gl calculateMinutesForForge:forgeAttempt.equipId level:forgeAttempt.level];
-      [self scheduleNotificationWithText:text badge:1 date:[forgeAttempt.startTime dateByAddingTimeInterval:minutes*60.f]];
-    }
-  }
-  
-  if (gs.lastGoldmineRetrieval) {
-    NSTimeInterval timeInterval = -[gs.lastGoldmineRetrieval timeIntervalSinceNow];
-    int timeToStartCollect = 3600.f*gl.numHoursBeforeGoldmineRetrieval;
-    int timeToEndCollect = 3600.f*(gl.numHoursBeforeGoldmineRetrieval+gl.numHoursForGoldminePickup);
-    
-    if (timeInterval < timeToStartCollect) {
-      NSString *text = [NSString stringWithFormat:@"The Gold Mine has finished producing %d gold. Hurry and pick it up before the workers go on strike!", gl.goldAmountFromGoldminePickup];
-      [self scheduleNotificationWithText:text badge:1 date:[gs.lastGoldmineRetrieval dateByAddingTimeInterval:timeToStartCollect]];
-    }
-    if (timeInterval < timeToEndCollect) {
-      NSString *text = @"The workers at the Gold Mine have gone on strike! Come back to settle them down!";
-      [self scheduleNotificationWithText:text badge:1 date:[gs.lastGoldmineRetrieval dateByAddingTimeInterval:timeToEndCollect]];
-    }
-  }
-  
   for (UserExpansion *exp in gs.userExpansions) {
     if (exp.isExpanding) {
       NSString *text = @"Your expansion has completed! Come back to build a bigger city!";
@@ -449,26 +398,6 @@
       [self scheduleNotificationWithText:text badge:1 date:[us.purchaseTime dateByAddingTimeInterval:minutes*60.f]];
     }
   }
-  
-  int curBadgeCount = 1;//shouldSendEnergyNotification + shouldSendStaminaNotification + 1;
-  NSString *text = [NSString stringWithFormat:@"A kingdom cannot survive without a leader! %@, your people need you!", gs.name];
-  NSDate *date = [NSDate dateWithTimeIntervalSinceNow:12*60*60];
-  [self scheduleNotificationWithText:text badge:curBadgeCount date:date];
-  
-  //  curBadgeCount++;
-  text = [NSString stringWithFormat:@"%@, the %@ needs you! Come back and prevent the %@ from taking over", gs.name, [Globals factionForUserType:gs.type] , [Globals factionForUserType:(gs.type+3)%6]];
-  date = [NSDate dateWithTimeIntervalSinceNow:2*24*60*60];
-  [self scheduleNotificationWithText:text badge:curBadgeCount date:date];
-  
-  //  curBadgeCount++;
-  text = [NSString stringWithFormat:@"%@, come back and reclaim the world for the all powerful %@!", gs.name, [Globals factionForUserType:gs.type]];
-  date = [NSDate dateWithTimeIntervalSinceNow:3*24*60*60];
-  [self scheduleNotificationWithText:text badge:curBadgeCount date:date];
-  
-  //  curBadgeCount++;
-  text = [NSString stringWithFormat:@"%@, the %@ needs you! Come back and prevent the %@ from taking over", gs.name, [Globals factionForUserType:gs.type] , [Globals factionForUserType:(gs.type+3)%6]];
-  date = [NSDate dateWithTimeIntervalSinceNow:6*24*60*60];
-  [self scheduleNotificationWithText:text badge:curBadgeCount date:date];
 }
 
 - (void) removeLocalNotifications {

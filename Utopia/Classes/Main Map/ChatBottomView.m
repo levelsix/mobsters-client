@@ -7,7 +7,6 @@
 //
 
 #import "ChatBottomView.h"
-#import "ChatMenuController.h"
 #import "Globals.h"
 #import "GameState.h"
 
@@ -17,8 +16,6 @@
 
 - (void) updateForChat:(ChatMessage *)chat {
   self.hasBeenUsed = YES;
-  self.factionLabel.text = [Globals userTypeIsGood:chat.sender.userType] ? @"[A]" : @"[L]";
-  self.factionLabel.textColor = [Globals userTypeIsGood:chat.sender.userType] ? [Globals blueColor] : [Globals redColor];
   self.textLabel.text = [NSString stringWithFormat:@"%@%@: %@", [Globals fullNameWithName:chat.sender.name clanTag:chat.sender.clan.tag], chat.isAdmin ? @" (A)" : @"", chat.message];
 }
 
@@ -62,7 +59,6 @@
     clanIcon.hidden = NO;
     arr = gs.globalChatMessages;
   } else {
-    [gs clanChatViewed];
     globalIcon.hidden = NO;
     clanIcon.hidden = YES;
     arr = gs.clanChatMessages;
@@ -159,8 +155,8 @@
   CGPoint pt = [touch locationInView:self];
   
   if ([self pointInside:pt withEvent:event]) {
-    [ChatMenuController displayView];
-    [[ChatMenuController sharedChatMenuController] setState:self.isGlobal ? kChatStateGlobal : kChatStateClan];
+//    [ChatMenuController displayView];
+//    [[ChatMenuController sharedChatMenuController] setState:self.isGlobal ? kChatStateGlobal : kChatStateClan];
   }
 }
 

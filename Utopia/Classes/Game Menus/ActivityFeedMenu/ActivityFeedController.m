@@ -12,9 +12,6 @@
 #import "Globals.h"
 #import "GameState.h"
 #import "OutgoingEventController.h"
-#import "BattleLayer.h"
-#import "ProfileViewController.h"
-#import "ForgeMenuController.h"
 #import "GameLayer.h"
 
 @implementation ActivityFeedCell
@@ -38,86 +35,26 @@
 @synthesize notification;
 
 - (void) updateForNotification:(UserNotification *)n {
-  GameState *gs = [GameState sharedGameState];
-  Globals *gl = [Globals sharedGlobals];
-  
   self.notification = n;
   
   NSString *name = [Globals fullNameWithName:notification.otherPlayer.name clanTag:notification.otherPlayer.clan.tag];
-  [userIcon setImage:[Globals squareImageForUser:notification.otherPlayer.userType] forState:UIControlStateNormal];
   
   timeLabel.text = [Globals stringForTimeSinceNow:n.time shortened:NO];
   
   if (notification.type == kNotificationBattle) {
-    FullEquipProto *fep = nil;
-    if (notification.stolenEquipId != 0) {
-      fep = [gs equipWithId:notification.stolenEquipId];
-    }
-    
-    NSString *equipStr = fep ? [NSString stringWithFormat:@" and a lvl %d %@", notification.stolenEquipLevel, fep.name] : @"";
     
     BOOL won = notification.battleResult != BattleResultAttackerWin ? YES : NO;
     if (won) {
       titleLabel.text = [NSString stringWithFormat:@"You beat %@.", name ];
-      subtitleLabel.text = [NSString stringWithFormat:@"You won %d silver%@.", notification.coinsStolen, equipStr];
       titleLabel.textColor = [Globals greenColor];
       buttonLabel.text = @"Attack";
     } else {
       titleLabel.text = [NSString stringWithFormat:@"You lost to %@.", name ];
-      subtitleLabel.text = [NSString stringWithFormat:@"You lost %d silver%@.", notification.coinsStolen, equipStr];
       titleLabel.textColor = [Globals redColor];
       buttonLabel.text = @"Revenge";
     }
     
     [button setImage:[Globals imageNamed:@"revenge.png"] forState:UIControlStateNormal];
-  } else if (notification.type == kNotificationReferral) {
-    titleLabel.text = [NSString stringWithFormat:@"%@ used your referral code.", name];
-    subtitleLabel.text = [NSString stringWithFormat:@"You received %d gold.", [[Globals sharedGlobals] diamondRewardForReferrer]];
-    
-    titleLabel.textColor = [UIColor colorWithRed:100/256.f green:200/256.f blue:200/256.f alpha:1.f];
-    [button setImage:nil forState:UIControlStateNormal];
-    buttonLabel.text = @"";
-  } else if (notification.type == kNotificationForge) {
-    FullEquipProto *fep = [gs equipWithId:notification.forgeEquipId];
-    titleLabel.text = [NSString stringWithFormat:@"The Blacksmith has forged your %@.", fep.name];
-    subtitleLabel.text = @"Visit to check if it succeeded.";
-    
-    titleLabel.textColor = [Globals orangeColor];
-    [button setImage:[Globals imageNamed:@"checkstatus.png"] forState:UIControlStateNormal];
-    [userIcon setImage:[Globals imageNamed:@"blacksmithicon.png"] forState:UIControlStateNormal];
-    
-    buttonLabel.text = @"Visit";
-  } else if (notification.type == kNotificationEnhance) {
-    FullEquipProto *fep = [gs equipWithId:notification.forgeEquipId];
-    titleLabel.text = [NSString stringWithFormat:@"The Blacksmith has enhanced your %@.", fep.name];
-    subtitleLabel.text = @"Visit to collect it.";
-    
-    titleLabel.textColor = [Globals orangeColor];
-    [button setImage:[Globals imageNamed:@"checkstatus.png"] forState:UIControlStateNormal];
-    [userIcon setImage:[Globals imageNamed:@"blacksmithicon.png"] forState:UIControlStateNormal];
-    
-    buttonLabel.text = @"Visit";
-  } else if (notification.type == kNotificationGoldmine) {
-    if (notification.goldmineCollect) {
-      titleLabel.text = [NSString stringWithFormat:@"The Gold Mine has produced %d gold.", gl.goldAmountFromGoldminePickup];
-      subtitleLabel.text = @"Visit to pick up your gold!";
-      titleLabel.textColor = [Globals goldColor];
-    } else {
-      titleLabel.text = @"The Gold Mine workers have gone on strike.";
-      subtitleLabel.text = @"Visit to pay them off!";
-      titleLabel.textColor = [Globals redColor];
-    }
-    
-    [button setImage:[Globals imageNamed:@"afcollect.png"] forState:UIControlStateNormal];
-    [userIcon setImage:[Globals imageNamed:@"goldmineicon.png"] forState:UIControlStateNormal];
-    
-    buttonLabel.text = @"Visit";
-  } else if (notification.type == kNotificationWallPost) {
-    // This will only be used in the drop down notifications
-    titleLabel.text = [NSString stringWithFormat:@"%@ has posted on your wall.", name];
-    subtitleLabel.text = notification.wallPost;
-    
-    titleLabel.textColor = [Globals blueColor];
   } else if (notification.type == kNotificationPrivateChat) {
     // This will only be used in the drop down notifications
     titleLabel.text = [NSString stringWithFormat:@"%@ has sent you a message.", name];
@@ -139,11 +76,6 @@
     button.hidden = YES;
     buttonLabel.hidden = YES;
   }
-  
-  if (gs.marketplaceGoldEarnings == 0 && gs.marketplaceSilverEarnings == 0 && notification.type == kNotificationMarketplace) {
-    button.hidden = YES;
-    buttonLabel.hidden = YES;
-  }
 }
 
 - (IBAction)buttonClicked:(id)sender {
@@ -159,48 +91,33 @@
     }
     
     if (user) {
-      BOOL success = [[BattleLayer sharedBattleLayer] beginBattleAgainst:user];
-      if (success) {
-        [[ActivityFeedController sharedActivityFeedController] close];
-      }
+//      BOOL success = [[BattleLayer sharedBattleLayer] beginBattleAgainst:user];
+//      if (success) {
+//        [[ActivityFeedController sharedActivityFeedController] close];
+//      }
     }
     
     [Analytics clickedRevenge];
-  } else if (notification.type == kNotificationForge) {
-    [ForgeMenuController displayView];
-    [[ActivityFeedController sharedActivityFeedController] close];
-  } else if (notification.type == kNotificationEnhance) {
-    [ForgeMenuController displayView];
-    [[ForgeMenuController sharedForgeMenuController] displayEnhanceMenu];
-    [[ActivityFeedController sharedActivityFeedController] close];
-  } else if (notification.type == kNotificationGoldmine) {
-    [[GameLayer sharedGameLayer] loadBazaarMap];
-    [[BazaarMap sharedBazaarMap] moveToCritStruct:BazaarStructTypeGoldMine animated:YES];
-    [[ActivityFeedController sharedActivityFeedController] close];
   }
 }
 
 - (IBAction)profilePicClicked:(id)sender {
-  if (notification.type == kNotificationForge || notification.type == kNotificationGoldmine) {
-    [self buttonClicked:nil];
-  } else {
-    NSArray *users = [[ActivityFeedController sharedActivityFeedController] users];
-    
-    FullUserProto *user = nil;
-    for (FullUserProto *fup in users) {
-      if (fup.userId == notification.otherPlayer.userId) {
-        user = fup;
-        break;
-      }
-    }
-    
-    if (user) {
-      [[ProfileViewController sharedProfileViewController] loadProfileForPlayer:user buttonsEnabled:YES];
-    } else {
-      [[ProfileViewController sharedProfileViewController] loadProfileForMinimumUser:notification.otherPlayer withState:kProfileState];
-    }
-    [ProfileViewController displayView];
-  }
+//    NSArray *users = [[ActivityFeedController sharedActivityFeedController] users];
+//    
+//    FullUserProto *user = nil;
+//    for (FullUserProto *fup in users) {
+//      if (fup.userId == notification.otherPlayer.userId) {
+//        user = fup;
+//        break;
+//      }
+//    }
+//    
+//    if (user) {
+//      [[ProfileViewController sharedProfileViewController] loadProfileForPlayer:user buttonsEnabled:YES];
+//    } else {
+//      [[ProfileViewController sharedProfileViewController] loadProfileForMinimumUser:notification.otherPlayer withState:kProfileState];
+//    }
+//    [ProfileViewController displayView];
 }
 
 - (void) dealloc {

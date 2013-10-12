@@ -297,15 +297,7 @@
 }
 
 - (void) createMyPlayerObject {
-  GameState *gs = [GameState sharedGameState];
-  Globals *gl = [Globals sharedGlobals];
-  UserEquip *ue = [gs myEquipWithUserEquipId:gs.weaponEquipped];
-  BattleEquip *weapon = [BattleEquip equipWithEquipId:ue.equipId enhancePercent:ue.enhancementPercentage durability:ue.durability];
-  ue = [gs myEquipWithUserEquipId:gs.armorEquipped];
-  BattleEquip *armor = [BattleEquip equipWithEquipId:ue.equipId enhancePercent:ue.enhancementPercentage durability:ue.durability];
-  ue = [gs myEquipWithUserEquipId:gs.amuletEquipped];
-  BattleEquip *amulet = [BattleEquip equipWithEquipId:ue.equipId enhancePercent:ue.enhancementPercentage durability:ue.durability];
-  self.myPlayerObject = [BattlePlayer playerWithHealth:[gl calculateHealthForLevel:gs.level] weapon:weapon armor:armor amulet:amulet];
+  
 }
 
 - (void) moveToNextEnemy {
@@ -683,7 +675,7 @@
 }
 
 - (void) dropLoot:(int)equipId {
-  CCSprite *ed = [CCSprite spriteWithFile:[Globals imageNameForEquip:equipId]];
+  CCSprite *ed = nil;//[CCSprite spriteWithFile:[Globals imageNameForEquip:equipId]];
   [self addChild:ed z:1000];
   ed.position = ccpAdd(self.currentEnemy.position, ccp(0,self.currentEnemy.contentSize.height/2));
   ed.scale = 0.01;

@@ -16,17 +16,6 @@
 
 @end
 
-@interface ChangeEquipUpdate : NSObject <GameStateUpdate> {
-  UserEquip *_userEquip;
-  BOOL _remove;
-  BOOL _equipped;
-}
-
-+ (id) updateWithTag:(int)tag userEquip:(UserEquip *)ue remove:(BOOL)remove;
-- (id) initWithTag:(int)tag userEquip:(UserEquip *)ue remove:(BOOL)remove;
-
-@end
-
 @interface AddStructUpdate : NSObject <GameStateUpdate>
 
 @property (nonatomic, retain) UserStruct *userStruct;

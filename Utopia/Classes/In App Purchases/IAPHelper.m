@@ -12,7 +12,6 @@
 #import "Globals.h"
 #import "LNSynthesizeSingleton.h"
 #import "GameState.h"
-#import "GoldShoppeViewController.h"
 
 @implementation IAPHelper
 
@@ -48,10 +47,6 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IAPHelper);
   }
   self.products = d;
   self.request = nil;
-  
-  if ([GoldShoppeViewController isInitialized]) {
-    [[GoldShoppeViewController sharedGoldShoppeViewController] update];
-  }
   
   LNLog(@"Invalid product ids: %@", response.invalidProductIdentifiers);
   
@@ -117,7 +112,6 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IAPHelper);
 }
 
 - (void)failedTransaction:(SKPaymentTransaction *)transaction {
-  [[GoldShoppeViewController sharedGoldShoppeViewController] stopLoading];
   if (transaction.error.code != SKErrorPaymentCancelled)
   {
     LNLog(@"Transaction error: %@", transaction.error.localizedDescription);
@@ -151,7 +145,6 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IAPHelper);
 - (void)buyProductIdentifier:(SKProduct *)product {
   if (!product) {
     [Globals popupMessage:@"An error has occurred processing this transaction.."];
-    [[GoldShoppeViewController sharedGoldShoppeViewController] stopLoading];
     return;
   }
   

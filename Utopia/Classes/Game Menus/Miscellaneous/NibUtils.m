@@ -9,7 +9,6 @@
 #import "NibUtils.h"
 #import "Globals.h"
 #import "GameState.h"
-#import "EquipMenuController.h"
 
 @implementation NiceFontLabel
 
@@ -317,9 +316,8 @@
 @implementation TutorialGirlImageView
 
 - (void) awakeFromNib {
-  GameState *gs = [GameState sharedGameState];
   self.contentMode = UIViewContentModeScaleToFill;
-  NSString *imageName = [Globals userTypeIsGood:gs.type] ? @"goodgirltall.png" : @"badgirltall.png";
+  NSString *imageName = @"goodgirltall.png";
   self.image = [Globals imageNamed:imageName];
 }
 
@@ -341,109 +339,6 @@
 
 @end
 
-@implementation EquipButton
-
-@synthesize equipId, darkOverlay;
-
-- (void) awakeFromNib {
-  self.userInteractionEnabled = YES;
-  self.darkOverlay = [[[UIImageView alloc] initWithFrame:self.bounds] autorelease];
-  self.darkOverlay.contentMode = UIViewContentModeScaleAspectFit;
-  
-  self.level = 1;
-  self.enhancePercent = 0;
-  
-  [self addSubview:darkOverlay];
-}
-
-- (void) setEquipId:(int)eq {
-  equipId = eq;
-  
-  [Globals loadImageForEquip:equipId toView:self maskedView:nil];
-  darkOverlay.hidden = YES;
-  darkOverlay.image = nil;
-}
-
-- (void) equipClicked {
-  if (equipId != 0) {
-    [EquipMenuController displayViewForEquip:self.equipId level:self.level enhancePercent:self.enhancePercent];
-  }
-}
-
-- (void) touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event {
-  if (!equipId) {
-    return;
-  }
-  
-  if (!darkOverlay.image && self.image) {
-    darkOverlay.image = [Globals maskImage:self.image withColor:[UIColor colorWithWhite:0.f alpha:0.5f]];
-  }
-  
-  self.darkOverlay.hidden = NO;
-}
-
-- (void) touchesMoved:(NSSet *)touches withEvent:(UIEvent *)event {
-  if (!equipId) {
-    return;
-  }
-  
-  if (!darkOverlay.image && self.image) {
-    darkOverlay.image = [Globals maskImage:self.image withColor:[UIColor colorWithWhite:0.f alpha:0.3f]];
-  }
-  
-  UITouch *touch = [touches anyObject];
-  CGPoint loc = [touch locationInView:touch.view];
-  if ([self pointInside:loc withEvent:event]) {
-    self.darkOverlay.hidden = NO;
-  } else {
-    self.darkOverlay.hidden = YES;
-  }
-}
-
-- (void) touchesEnded:(NSSet *)touches withEvent:(UIEvent *)event {
-  if (!equipId) {
-    return;
-  }
-  
-  self.darkOverlay.hidden = YES;
-  
-  UITouch *touch = [touches anyObject];
-  CGPoint loc = [touch locationInView:touch.view];
-  if ([self pointInside:loc withEvent:event]) {
-    [self equipClicked];
-  }
-}
-
-- (void) touchesCancelled:(NSSet *)touches withEvent:(UIEvent *)event {
-  self.darkOverlay.hidden = YES;
-}
-
-- (void) dealloc {
-  self.darkOverlay = nil;
-  [super dealloc];
-}
-
-@end
-
-@implementation EquipLevelIcon
-
-@synthesize level;
-
-- (void) setLevel:(int)l {
-  if (level != l) {
-    level = l;
-    
-    Globals *gl = [Globals sharedGlobals];
-    if (level > 0 && level <= gl.forgeMaxEquipLevel) {
-      [Globals imageNamed:[NSString stringWithFormat:@"lvl%d.png", l] withView:self maskedColor:nil indicator:UIActivityIndicatorViewStyleWhite clearImageDuringDownload:YES];
-    } else {
-      self.image = nil;
-    }
-  }
-}
-
-@end
-
 @implementation EnhancementLevelIcon
 
 @synthesize level;
@@ -452,8 +347,8 @@
   if (level != l) {
     level = l;
     
-    Globals *gl = [Globals sharedGlobals];
-    if (level > 0 && level <= gl.maxEnhancementLevel) {
+//    Globals *gl = [Globals sharedGlobals];
+    if (level > 0 && level <= 3) {
       [Globals imageNamed:[NSString stringWithFormat:@"enhancelvl%d.png", l] withView:self maskedColor:nil indicator:UIActivityIndicatorViewStyleWhite clearImageDuringDownload:YES];
     } else {
       self.image = nil;

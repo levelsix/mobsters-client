@@ -9,7 +9,6 @@
 #import "CoinBar.h"
 #import "GameState.h"
 #import "Globals.h"
-#import "GoldShoppeViewController.h"
 
 @implementation CoinBar
 
@@ -27,7 +26,7 @@
 }
 
 - (IBAction)barClicked:(id)sender {
-  [GoldShoppeViewController displayView];
+//  [GoldShoppeViewController displayView];
 }
 
 - (void) dealloc {

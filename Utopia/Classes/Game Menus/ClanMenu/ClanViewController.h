@@ -6,7 +6,6 @@
 //  Copyright (c) 2012 LVL6. All rights reserved.
 //
 
-#import "LeaderboardController.h"
 #import "NibUtils.h"
 #import "Globals.h"
 #import "ClanBrowseViewController.h"

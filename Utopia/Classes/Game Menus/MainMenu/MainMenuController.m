@@ -8,7 +8,6 @@
 
 #import "MainMenuController.h"
 #import "Globals.h"
-#import "GoldShoppeViewController.h"
 #import "ClanViewController.h"
 #import "EnhanceViewController.h"
 
@@ -31,7 +30,6 @@
 }
 
 - (IBAction)fundsClicked:(id)sender {
-  [self.navigationController pushViewController:[GoldShoppeViewController sharedGoldShoppeViewController] animated:YES];
 }
 
 - (IBAction)cratesClicked:(id)sender {

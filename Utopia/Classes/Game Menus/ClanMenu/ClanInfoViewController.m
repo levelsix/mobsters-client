@@ -29,7 +29,6 @@
   
   self.nameLabel.text = mupl.minUserProto.name;
   self.typeLabel.text = isLeader ? @"Clan Leader" : mup.clanStatus == UserClanStatusMember ? @"Clan Member" : @"Requestee";
-  self.userIcon.image = [Globals squareImageForUser:mupl.minUserProto.userType];
 }
 
 - (void) editMemberConfiguration {
@@ -91,10 +90,9 @@
 - (void) loadForClan:(FullClanProtoWithClanSize *)c {
   if (c) {
     GameState *gs = [GameState sharedGameState];
-    int maxForTier = [gs clanTierForLevel:c.clan.currentTierLevel].maxSize;
     
     self.nameLabel.text = c.clan.name;
-    self.membersLabel.text = [NSString stringWithFormat:@"%d/%d", c.clanSize, maxForTier];
+    self.membersLabel.text = [NSString stringWithFormat:@"%d/%d", c.clanSize, 5];
     self.descriptionView.text = c.clan.description;
     
     NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];

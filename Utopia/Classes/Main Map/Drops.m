@@ -49,8 +49,8 @@
 - (void) ccTouchEnded:(UITouch *)touch withEvent:(UIEvent *)event {
   CCNode *n = self.parent;
   if ([n isKindOfClass:[GameMap class]]) {
-    GameMap *map = (GameMap *)self.parent;
-    [map pickUpDrop:self];
+//    GameMap *map = (GameMap *)self.parent;
+//    [map pickUpDrop:self];
     _clicked = YES;
   }
 }
@@ -79,53 +79,6 @@
   if ((self = [super initWithFile:file])) {
     amount = amt;
   }
-  return self;
-}
-
-@end
-
-@implementation EquipDrop
-
-@synthesize equipId;
-
-- (id) initWithEquipId:(int)eq {
-  if ((self = [super initWithFile:[Globals imageNameForEquip:eq]])) {
-    equipId = eq;
-  }
-  return self;
-}
-
-@end
-
-@implementation LockBoxDrop
-
-- (id) initWithEventId:(int)e {
-  GameState *gs = [GameState sharedGameState];
-  LockBoxEventProto *ev = [gs lockBoxEventWithId:e];
-  if (!ev) {
-    [self release];
-    return nil;
-  }
-  
-  return [super initWithFile:ev.lockBoxImageName];
-}
-
-@end
-
-@implementation GemDrop
-
-- (id) initWithGemId:(int)gemId {
-  GameState *gs = [GameState sharedGameState];
-  CityGemProto *g = [gs gemForId:gemId];
-  if (!g) {
-    [self release];
-    return nil;
-  }
-  
-  if ((self = [super initWithFile:g.gemImageName])) {
-    self.gemId = gemId;
-  }
-  
   return self;
 }
 

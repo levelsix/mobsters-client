@@ -119,20 +119,14 @@ typedef enum {
 @interface CancellableScrollView : UIScrollView
 @end
 
-@interface EquipButton : UIImageView
+@interface MonsterButton : UIImageView
 
-@property (nonatomic, assign) int equipId;
+@property (nonatomic, assign) int monsterId;
 @property (nonatomic, assign) int level;
 @property (nonatomic, assign) int enhancePercent;
 @property (nonatomic, retain) UIImageView *darkOverlay;
 
-- (void) equipClicked;
-
-@end
-
-@interface EquipLevelIcon : UIImageView
-
-@property (nonatomic, assign) int level;
+- (void) monsterClicked;
 
 @end
 

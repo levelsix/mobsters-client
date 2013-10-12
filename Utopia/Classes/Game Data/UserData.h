@@ -8,21 +8,18 @@
 
 #import <Foundation/Foundation.h>
 #import "Protocols.pb.h"
-#import "GoldMineView.h"
 
 @class ForgeAttempt;
 
-@interface UserEquip : NSObject
+@interface UserMonster : NSObject
 
-@property (nonatomic, assign) int userEquipId;
+@property (nonatomic, assign) int userMonsterId;
 @property (nonatomic, assign) int userId;
-@property (nonatomic, assign) int equipId;
-@property (nonatomic, assign) int level;
+@property (nonatomic, assign) int monsterId;
 @property (nonatomic, assign) int durability;
 @property (nonatomic, assign) int enhancementPercentage;
 
-+ (id) userEquipWithProto:(FullUserEquipProto *)proto;
-+ (id) userEquipWithEquipEnhancementItemProto:(EquipEnhancementItemProto *)proto;
++ (id) userMonsterWithProto:(FullUserMonsterProto *)proto;
 
 @end
 
@@ -52,49 +49,9 @@ typedef enum {
 
 @end
 
-@interface UserCity : NSObject
-
-@property (nonatomic, assign) int curRank;
-@property (nonatomic, assign) int cityId;
-@property (nonatomic, assign) int numTasksComplete;
-
-+ (id) userCityWithProto:(FullUserCityProto *)proto;
-
-@end
-
 typedef enum {
-  BazaarStructTypeAviary = 994,
-  BazaarStructTypeCarpenter,
-  BazaarStructTypeVault,
-  BazaarStructTypeArmory,
-  BazaarStructTypeMarketplace,
-  BazaarStructTypeBlacksmith,
-  BazaarStructTypeLeaderboard,
-  BazaarStructTypeClanHouse,
-  BazaarStructTypeGoldMine
-} BazaarStructType;
-
-@interface CritStruct : NSObject 
-
-@property (nonatomic, retain) NSString *name;
-@property (nonatomic, assign) BazaarStructType type;
-@property (nonatomic, assign) int minLevel;
-
-@property (nonatomic, retain) IBOutlet GoldMineView *goldMineView;
-
-- (id) initWithType:(BazaarStructType)t;
-- (void) openMenu;
-
-@end
-
-typedef enum {
-  kNotificationBattle = 1,
-  kNotificationMarketplace,
+  kNotificationBattle,
   kNotificationReferral,
-  kNotificationForge,
-  kNotificationEnhance,
-  kNotificationWallPost,
-  kNotificationGoldmine,
   kNotificationGeneral,
   kNotificationPrivateChat
 } NotificationType;
@@ -107,11 +64,6 @@ typedef enum {
 @property (nonatomic, assign) BOOL sellerHadLicense;
 @property (nonatomic, assign) BattleResult battleResult;
 @property (nonatomic, assign) int coinsStolen;
-@property (nonatomic, assign) int stolenEquipId;
-@property (nonatomic, assign) int stolenEquipLevel;
-@property (nonatomic, assign) int forgeEquipId;
-@property (nonatomic, assign) int blacksmithId;
-@property (nonatomic, assign) BOOL goldmineCollect;
 @property (nonatomic, assign) BOOL hasBeenViewed;
 @property (nonatomic, retain) NSString *wallPost;
 
@@ -119,14 +71,7 @@ typedef enum {
 @property (nonatomic, retain) NSString *subtitle;
 @property (nonatomic, retain) UIColor *color;
 
-- (id) initBattleNotificationAtStartup:(StartupResponseProto_AttackedNotificationProto *)proto;
-- (id) initReferralNotificationAtStartup:(StartupResponseProto_ReferralNotificationProto *)proto;
-- (id) initWithBattleResponse:(BattleResponseProto *)proto;
 - (id) initWithReferralResponse:(ReferralCodeUsedResponseProto *)proto;
-- (id) initWithForgeAttempt:(ForgeAttempt *)fa;
-- (id) initWithEnhancement:(EquipEnhancementProto *)ee;
-- (id) initWithWallPost:(PlayerWallPostProto *)proto;
-- (id) initWithGoldmineRetrieval:(NSDate *)goldmineStart;
 - (id) initWithPrivateChatPost:(PrivateChatPostProto *)proto;
 - (id) initWithTitle:(NSString *)t subtitle:(NSString *)st color:(UIColor *)c;
 
@@ -159,27 +104,10 @@ typedef enum {
 @property (nonatomic, assign) int jobId;
 
 - (id) initWithTask:(FullTaskProto *)p;
-- (id) initWithDefeatTypeJob:(DefeatTypeJobProto *)p;
-- (id) initWithPossessEquipJob:(PossessEquipJobProto *)p;
 - (id) initWithBuildStructJob:(BuildStructJobProto *)p;
 - (id) initWithUpgradeStructJob:(UpgradeStructJobProto *)p;
 - (id) initWithCoinRetrieval:(int)amount questId:(int)questId;
 + (NSArray *)jobsForQuest:(FullQuestProto *)fqp;
-
-@end
-
-@interface ForgeAttempt : NSObject
-
-@property (nonatomic, assign) int blacksmithId;
-@property (nonatomic, assign) int equipId;
-@property (nonatomic, assign) int level;
-@property (nonatomic, assign) BOOL guaranteed;
-@property (nonatomic, retain) NSDate *startTime;
-@property (nonatomic, assign) BOOL isComplete;
-@property (nonatomic, retain) NSDate *speedupTime;
-@property (nonatomic, assign) int slotNumber;
-
-+ (id) forgeAttemptWithUnhandledBlacksmithAttemptProto:(UnhandledBlacksmithAttemptProto *)attempt;
 
 @end
 
@@ -203,56 +131,5 @@ typedef enum {
 @property (nonatomic, retain) NSDate *lastExpandTime;
 
 + (id) userExpansionWithUserCityExpansionDataProto:(UserCityExpansionDataProto *)proto;
-
-@end
-
-@class UserBoss;
-
-@protocol UserBossDelegate <NSObject>
-
-- (void) bossRespawned:(UserBoss *)boss;
-- (void) bossTimeUp:(UserBoss *)boss;
-
-@end
-
-@interface UserBoss : NSObject
-
-@property (nonatomic, assign) int bossId;
-@property (nonatomic, assign) int userId;
-@property (nonatomic, assign) int curHealth;
-@property (nonatomic, assign) int currentLevel;
-@property (nonatomic, retain) NSDate *startTime;
-@property (nonatomic, retain) NSTimer *timer;
-@property (nonatomic, assign) id<UserBossDelegate> delegate;
-
-+ (id) userBossWithFullUserBossProto:(FullUserBossProto *)ub;
-- (BOOL) isAlive;
-- (NSDate *) timeUpDate;
-- (NSString *) timeTillEndString;
-- (void) createTimer;
-
-@end
-
-@interface BossReward : NSObject
-
-typedef enum {
-  kSilverDrop = 1,
-  kGoldDrop = 2,
-  kEquipDrop = 3
-} BossDropType;
-
-@property (nonatomic, assign) BossDropType type;
-@property (nonatomic, assign) int value;
-
-@end
-
-@interface ClanTowerUserBattle : NSObject
-
-@property (nonatomic, retain) MinimumUserProto *attacker;
-@property (nonatomic, retain) MinimumUserProto *defender;
-@property (nonatomic, assign) BOOL attackerWon;
-@property (nonatomic, assign) int pointsGained;
-@property (nonatomic, assign) int towerId;
-@property (nonatomic, retain) NSDate *date;
 
 @end

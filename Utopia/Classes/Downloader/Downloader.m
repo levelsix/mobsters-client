@@ -10,7 +10,6 @@
 #import "LNSynthesizeSingleton.h"
 #import "Globals.h"
 #import "SSZipArchive.h"
-#import "CharSelectionViewController.h"
 
 #define URL_BASE @"https://s3-us-west-1.amazonaws.com/lvl6mobsters/Resources/";
 
@@ -103,12 +102,6 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(Downloader);
   f = [f capitalizedString];
   loadingView.label.text = fileName ? [NSString stringWithFormat:@"Loading\n%@", f] : @"Loading Files";
   [Globals displayUIView:loadingView];
-  
-  // Put it under char selection view
-  UIView *cv = [loadingView.superview viewWithTag:CHAR_SELECTION_VIEW_TAG];
-  if (cv) {
-    [cv.superview bringSubviewToFront:cv];
-  }
 }
 
 - (void) stopLoading {

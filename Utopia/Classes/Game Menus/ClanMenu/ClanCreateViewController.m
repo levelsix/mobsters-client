@@ -8,7 +8,6 @@
 
 #import "ClanCreateViewController.h"
 #import "GameState.h"
-#import "RefillMenuController.h"
 #import "OutgoingEventController.h"
 
 @implementation ClanCreateViewController
@@ -109,7 +108,7 @@
   } else if (name.length > gl.maxCharLengthForClanName || tag.length > gl.maxCharLengthForClanTag) {
     [Globals popupMessage:@"Name or tag is too long."];
   } else if (gs.gold < gl.diamondPriceToCreateClan) {
-    [[RefillMenuController sharedRefillMenuController] displayBuyGoldView:gl.diamondPriceToCreateClan];
+//    [[RefillMenuController sharedRefillMenuController] displayBuyGoldView:gl.diamondPriceToCreateClan];
   } else {
     [[OutgoingEventController sharedOutgoingEventController] createClan:name tag:tag description:description requestOnly:_isRequestType delegate:self.parentViewController];
   }

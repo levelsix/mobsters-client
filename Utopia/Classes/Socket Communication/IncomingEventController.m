@@ -13,42 +13,16 @@
 #import "Globals.h"
 #import "OutgoingEventController.h"
 #import "HomeMap.h"
-#import "MapViewController.h"
-#import "ArmoryViewController.h"
-#import "CarpenterMenuController.h"
 #import "GameLayer.h"
-#import "QuestLogController.h"
-#import "BattleLayer.h"
-#import "LevelUpViewController.h"
 #import "MissionMap.h"
-#import "TutorialConstants.h"
 #import "GameViewController.h"
-#import "CityRankupViewController.h"
-#import "GoldShoppeViewController.h"
 #import "ActivityFeedController.h"
 #import "GenericPopupController.h"
-#import "DialogMenuController.h"
-#import "ProfileViewController.h"
-#import "VaultMenuController.h"
-#import "TopBar.h"
 #import "FullEvent.h"
-//#import "KiipDelegate.h"
-#import "EquipMenuController.h"
-#import "ForgeMenuController.h"
-#import "RefillMenuController.h"
 #import "AppDelegate.h"
 #import "IAPHelper.h"
-#import "AttackMenuController.h"
-#import "LeaderboardController.h"
 #import "ClanViewController.h"
 #import "SocketCommunication.h"
-#import "LockBoxMenuController.h"
-#import "ThreeCardMonteViewController.h"
-#import "CharSelectionViewController.h"
-#import "TournamentMenuController.h"
-#import "DailyBonusMenuController.h"
-#import "Nanigans.h"
-#import "ChatMenuController.h"
 #import "DungeonBattleLayer.h"
 
 #define QUEST_REDEEM_KIIP_REWARD @"quest_redeem"
@@ -64,44 +38,17 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
     case EventProtocolResponseSUserCreateEvent:
       responseClass = [UserCreateResponseProto class];
       break;
-    case EventProtocolResponseSChatEvent:
-      responseClass = [ChatResponseProto class];
-      break;
-    case EventProtocolResponseSVaultEvent:
-      responseClass = [VaultResponseProto class];
-      break;
-    case EventProtocolResponseSBattleEvent:
-      responseClass = [BattleResponseProto class];
-      break;
-    case EventProtocolResponseSArmoryEvent:
-      responseClass = [ArmoryResponseProto class];
-      break;
     case EventProtocolResponseSStartupEvent:
       responseClass = [StartupResponseProto class];
       break;
     case EventProtocolResponseSLevelUpEvent:
       responseClass = [LevelUpResponseProto class];
       break;
-    case EventProtocolResponseSTaskActionEvent:
-      responseClass = [TaskActionResponseProto class];
-      break;
     case EventProtocolResponseSInAppPurchaseEvent:
       responseClass = [InAppPurchaseResponseProto class];
       break;
     case EventProtocolResponseSUpdateClientUserEvent:
       responseClass = [UpdateClientUserResponseProto class];
-      break;
-    case EventProtocolResponseSGenerateAttackListEvent:
-      responseClass = [GenerateAttackListResponseProto class];
-      break;
-    case EventProtocolResponseSUseSkillPointEvent:
-      responseClass = [UseSkillPointResponseProto class];
-      break;
-    case EventProtocolResponseSRefillStatWaitCompleteEvent:
-      responseClass = [RefillStatWaitCompleteResponseProto class];
-      break;
-    case EventProtocolResponseSRefillStatWithDiamondsEvent:
-      responseClass = [RefillStatWithDiamondsResponseProto class];
       break;
     case EventProtocolResponseSPurchaseNormStructureEvent:
       responseClass = [PurchaseNormStructureResponseProto class];
@@ -124,26 +71,14 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
     case EventProtocolResponseSSellNormStructureEvent:
       responseClass = [SellNormStructureResponseProto class];
       break;
-    case EventProtocolResponseSCritStructureActionEvent:
-      responseClass = [CriticalStructureActionResponseProto class];
-      break;
     case EventProtocolResponseSLoadPlayerCityEvent:
       responseClass = [LoadPlayerCityResponseProto class];
       break;
     case EventProtocolResponseSLoadNeutralCityEvent:
-      responseClass = [LoadNeutralCityResponseProto class];
+      responseClass = [LoadCityResponseProto class];
       break;
     case EventProtocolResponseSRetrieveStaticDataEvent:
       responseClass = [RetrieveStaticDataResponseProto class];
-      break;
-    case EventProtocolResponseSRetrieveStaticDataForShopEvent:
-      responseClass = [RetrieveStaticDataForShopResponseProto class];
-      break;
-    case EventProtocolResponseSEquipEquipmentEvent:
-      responseClass = [EquipEquipmentResponseProto class];
-      break;
-    case EventProtocolResponseSChangeUserLocationEvent:
-      responseClass = [ChangeUserLocationResponseProto class];
       break;
     case EventProtocolResponseSQuestAcceptEvent:
       responseClass = [QuestAcceptResponseProto class];
@@ -157,20 +92,11 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
     case EventProtocolResponseSQuestCompleteEvent:
       responseClass = [QuestCompleteResponseProto class];
       break;
-    case EventProtocolResponseSRetrieveUserEquipForUser:
-      responseClass = [RetrieveUserEquipForUserResponseProto class];
-      break;
     case EventProtocolResponseSRetrieveUsersForUserIdsEvent:
       responseClass = [RetrieveUsersForUserIdsResponseProto class];
       break;
     case EventProtocolResponseSReferralCodeUsedEvent:
       responseClass = [ReferralCodeUsedResponseProto class];
-      break;
-    case EventProtocolResponseSRetrievePlayerWallPostsEvent:
-      responseClass = [RetrievePlayerWallPostsResponseProto class];
-      break;
-    case EventProtocolResponseSPostOnPlayerWallEvent:
-      responseClass = [PostOnPlayerWallResponseProto class];
       break;
     case EventProtocolResponseSEnableApnsEvent:
       responseClass = [EnableAPNSResponseProto class];
@@ -178,35 +104,11 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
     case EventProtocolResponseSEarnFreeDiamondsEvent:
       responseClass = [EarnFreeDiamondsResponseProto class];
       break;
-    case EventProtocolResponseSReconnectEvent:
-      responseClass = [ReconnectResponseProto class];
-      break;
-    case EventProtocolResponseSSubmitEquipsToBlacksmith:
-      responseClass = [SubmitEquipsToBlacksmithResponseProto class];
-      break;
-    case EventProtocolResponseSForgeAttemptWaitComplete:
-      responseClass = [ForgeAttemptWaitCompleteResponseProto class];
-      break;
-    case EventProtocolResponseSFinishForgeAttemptWaittimeWithDiamonds:
-      responseClass = [FinishForgeAttemptWaittimeWithDiamondsResponseProto class];
-      break;
-    case EventProtocolResponseSCollectForgeEquips:
-      responseClass = [CollectForgeEquipsResponseProto class];
-      break;
     case EventProtocolResponseSPurgeStaticDataEvent:
       responseClass = [PurgeClientStaticDataResponseProto class];
       break;
-    case EventProtocolResponseSCharacterModEvent:
-      responseClass = [CharacterModResponseProto class];
-      break;
-    case EventProtocolResponseSRetrieveLeaderboardEvent:
-      responseClass = [RetrieveLeaderboardResponseProto class];
-      break;
     case EventProtocolResponseSSendGroupChatEvent:
       responseClass = [SendGroupChatResponseProto class];
-      break;
-    case EventProtocolResponseSPurchaseGroupChatEvent:
-      responseClass = [PurchaseGroupChatResponseProto class];
       break;
     case EventProtocolResponseSReceivedGroupChatEvent:
       responseClass = [ReceivedGroupChatResponseProto class];
@@ -238,62 +140,23 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
     case EventProtocolResponseSBootPlayerFromClanEvent:
       responseClass = [BootPlayerFromClanResponseProto class];
       break;
-    case EventProtocolResponseSPostOnClanBulletinEvent:
-      responseClass = [PostOnClanBulletinResponseProto class];
-      break;
-    case EventProtocolResponseSRetrieveClanBulletinPostsEvent:
-      responseClass = [RetrieveClanBulletinPostsResponseProto class];
-      break;
-    case EventProtocolResponseSRetrieveThreeCardMonteEvent:
-      responseClass = [RetrieveThreeCardMonteResponseProto class];
-      break;
-    case EventProtocolResponseSBeginGoldmineTimerEvent:
-      responseClass = [BeginGoldmineTimerResponseProto class];
-      break;
-    case EventProtocolResponseSCollectFromGoldmineEvent:
-      responseClass = [CollectFromGoldmineResponseProto class];
-      break;
-    case EventProtocolResponseSPickLockBoxEvent:
-      responseClass = [PickLockBoxResponseProto class];
-      break;
     case EventProtocolResponseSExpansionWaitCompleteEvent:
       responseClass = [ExpansionWaitCompleteResponseProto class];
       break;
     case EventProtocolResponseSPurchaseCityExpansionEvent:
       responseClass = [PurchaseCityExpansionResponseProto class];
       break;
-    case EventProtocolResponseSPlayThreeCardMonteEvent:
-      responseClass = [PlayThreeCardMonteResponseProto class];
-      break;
-    case EventProtocolResponseSUpgradeClanTierEvent:
-      responseClass = [UpgradeClanTierLevelResponseProto class];
-      break;
     case EventProtocolResponseSSendAdminMessageEvent:
       responseClass = [SendAdminMessageResponseProto class];
-      break;
-    case EventProtocolResponseSBossActionEvent:
-      responseClass = [BossActionResponseProto class];
-      break;
-    case EventProtocolResponseSBeginClanTowerWar:
-      responseClass = [BeginClanTowerWarResponseProto class];
-      break;
-    case EventProtocolResponseSChangedClanTowerEvent:
-      responseClass = [ChangedClanTowerResponseProto class];
-      break;
-    case EventProtocolResponseSConcedeClanTowerWarEvent:
-      responseClass = [ConcedeClanTowerWarResponseProto class];
       break;
     case EventProtocolResponseSGeneralNotificationEvent:
       responseClass = [GeneralNotificationResponseProto class];
       break;
     case EventProtocolResponseSRetrieveLeaderboardRankingsEvent:
-      responseClass = [RetrieveLeaderboardRankingsResponseProto class];
+      responseClass = [RetrieveLeaderboardEventRankingsResponseProto class];
       break;
     case EventProtocolResponseSSubmitEquipEnhancementEvent:
-      responseClass = [SubmitEquipEnhancementResponseProto class];
-      break;
-    case EventProtocolResponseSRetrieveClanTowerScoresEvent:
-      responseClass = [RetrieveClanTowerScoresResponseProto class];
+      responseClass = [SubmitMonsterEnhancementResponseProto class];
       break;
     case EventProtocolResponseSRetrieveBoosterPackEvent:
       responseClass = [RetrieveBoosterPackResponseProto class];
@@ -301,32 +164,17 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
     case EventProtocolResponseSPurchaseBoosterPackEvent:
       responseClass = [PurchaseBoosterPackResponseProto class];
       break;
-    case EventProtocolResponseSResetBoosterPackEvent:
-      responseClass = [ResetBoosterPackResponseProto class];
-      break;
     case EventProtocolResponseSChangeClanJoinTypeEvent:
       responseClass = [ChangeClanJoinTypeResponseProto class];
       break;
     case EventProtocolResponseSReceivedRareBoosterPurchaseEvent:
       responseClass = [ReceivedRareBoosterPurchaseResponseProto class];
       break;
-    case EventProtocolResponseSPurchaseForgeSlotEvent:
-      responseClass = [PurchaseForgeSlotResponseProto class];
-      break;
-    case EventProtocolResponseSPrestigeEvent:
-      responseClass = [PrestigeResponseProto class];
-      break;
     case EventProtocolResponseSPrivateChatPostEvent:
       responseClass = [PrivateChatPostResponseProto class];
       break;
     case EventProtocolResponseSRetrievePrivateChatPostEvent:
       responseClass = [RetrievePrivateChatPostsResponseProto class];
-      break;
-    case EventProtocolResponseSRedeemUserLockBoxItemsEvent:
-      responseClass = [RedeemUserLockBoxItemsResponseProto class];
-      break;
-    case EventProtocolResponseSRedeemUserCityGemsEvent:
-      responseClass = [RedeemUserCityGemsResponseProto class];
       break;
     case EventProtocolResponseSBeginDungeonEvent:
       responseClass = [BeginDungeonResponseProto class];
@@ -350,43 +198,6 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
 }
 
 - (void) handleUserCreateResponseProto:(FullEvent *)fe {
-  GameState *gs = [GameState sharedGameState];
-  DialogMenuController *dmc = [DialogMenuController sharedDialogMenuController];
-  
-  UserCreateResponseProto *proto = (UserCreateResponseProto *)fe.event;
-  
-  LNLog(@"Received user create with status %d", proto.status);
-  
-  TutorialConstants *tc = [TutorialConstants sharedTutorialConstants];
-  if (!tc.userCreateResponse) {
-    tc.userCreateResponse = proto;
-  }
-  
-  if (proto.status == UserCreateResponseProto_UserCreateStatusSuccess ||
-      proto.status == UserCreateResponseProto_UserCreateStatusUserWithUdidAlreadyExists) {
-    [[OutgoingEventController sharedOutgoingEventController] startup];
-    if (dmc.waitingForUserCreate) {
-      dmc.waitingForStartup = YES;
-    }
-  }
-  
-  if (dmc.waitingForUserCreate) {
-    [dmc receivedUserCreateResponse:proto];
-    
-    if (proto.hasSender) {
-      [gs updateUser:proto.sender timestamp:0];
-    }
-  }
-  
-  //  [[DialogMenuController sharedDialogMenuController] receivedUserCreateResponse:proto];
-  //  GameState *gs = [GameState sharedGameState];
-  //  if (proto.status == UserCreateResponseProto_UserCreateStatusSuccess) {
-  //    [gs updateUser:proto.sender timestamp:0];
-  //    [[OutgoingEventController sharedOutgoingEventController] startup];
-  //    [gs removeNonFullUserUpdatesForTag:tag];
-  //  } else {
-  //    [gs removeAndUndoAllUpdatesForTag:tag];
-  //  }
 }
 
 - (void) handleStartupResponseProto:(FullEvent *)fe {
@@ -398,23 +209,6 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
   
   Globals *gl = [Globals sharedGlobals];
   GameState *gs = [GameState sharedGameState];
-  
-  
-  if (gs.isTutorial) {
-    DialogMenuController *dmc = [DialogMenuController sharedDialogMenuController];
-    if (!dmc.waitingForStartup) {
-      TutorialConstants *tc = [TutorialConstants sharedTutorialConstants];
-      if (!tc.startupResponse) {
-        tc.startupResponse = proto;
-      }
-      return;
-    }
-  }
-  
-  gs.kabamNaid = proto.kabamNaid;
-  NSLog(@"Kabam NAID: %@", gs.kabamNaid);
-  [Nanigans trackInstall];
-  [Nanigans trackVisit];
   
   if (proto.updateStatus == StartupResponseProto_UpdateStatusMajorUpdate) {
     [GenericPopupController displayMajorUpdatePopup:proto.appStoreUrl];
@@ -428,17 +222,6 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
   gl.reviewPageURL = proto.reviewPageUrl;
   gl.reviewPageConfirmationMessage = proto.reviewPageConfirmationMessage;
   
-  // Must do gold sales before startup constants so that the product ids can be retrieved
-  gs.staticGoldSales = [proto.goldSalesList.mutableCopy autorelease];
-  [gs.staticGoldSales sortUsingComparator:^NSComparisonResult(GoldSaleProto *obj1, GoldSaleProto *obj2) {
-    if (obj1.isBeginnerSale) {
-      return  NSOrderedAscending;
-    } else if (obj2.isBeginnerSale) {
-      return NSOrderedDescending;
-    }
-    return NSOrderedSame;
-  }];
-  [gs resetGoldSaleTimers];
   [gl updateConstants:proto.startupConstants];
   if (proto.startupStatus == StartupResponseProto_StartupStatusUserInDb) {
     if (proto.sender.userId == 0) {
@@ -458,10 +241,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
     
     OutgoingEventController *oec = [OutgoingEventController sharedOutgoingEventController];
     
-    [gs.myEquips removeAllObjects];
-    [gs addToMyEquips:proto.userEquipsList];
     [gs.myCities removeAllObjects];
-    [gs addToMyCities:proto.userCityInfosList];
     [gs.staticCities removeAllObjects];
     [gs addToStaticCities:proto.allCitiesList];
     [gs.inProgressCompleteQuests removeAllObjects];
@@ -471,26 +251,12 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
     // Put this after inprogress complete because available quests will be autoaccepted
     [gs.availableQuests removeAllObjects];
     [gs addToAvailableQuests:proto.availableQuestsList];
-    [gs addToClanTierLevels:proto.clanTierLevelsList];
     [oec loadPlayerCity:gs.userId];
     [oec retrieveAllStaticData];
-    [gs addNewStaticLockBoxEvents:proto.lockBoxEventsList];
-    [gs addNewStaticBossEvents:proto.bossEventsList];
-    [gs addNewStaticTournaments:proto.leaderboardEventsList];
-    [gs addToMyLockBoxEvents:proto.userLockBoxEventsList];
-    [gs setMktSearchEquips:proto.staticEquipsList.count > 0 ? proto.staticEquipsList : proto.mktSearchEquipsList];
-    [gs.staticEquips removeAllObjects];
-    [gs addToStaticEquips:proto.staticEquipsList.count > 0 ? proto.staticEquipsList : proto.equipsList];
     [gs.staticStructs removeAllObjects];
     [gs addToStaticStructs:proto.staticStructsList];
-    [gs addToStaticBosses:proto.bossesList];
-    [gs addToMyBosses:proto.livingBossesList];
-    
-    gs.cityGems = proto.gemsForAllCitiesList;
     
     [gs addToRequestedClans:proto.userClanInfoList];
-    
-    [gs setAllies:proto.alliesList];
     
     gs.privateChats = proto.pcppList ? [proto.pcppList mutableCopy] : [NSMutableArray array];
     [gs.privateChats sortUsingComparator:^NSComparisonResult(PrivateChatPostProto *obj1, PrivateChatPostProto *obj2) {
@@ -502,42 +268,6 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
         return NSOrderedSame;
       }
     }];
-    
-    if (proto.unhandledForgeAttemptList.count > 0) {
-      for (UnhandledBlacksmithAttemptProto *u in proto.unhandledForgeAttemptList) {
-        [gs addForgeAttempt:[ForgeAttempt forgeAttemptWithUnhandledBlacksmithAttemptProto:u]];
-      }
-      [gs beginForgeTimers];
-    }
-    
-    if (proto.hasEquipEnhancement) {
-      gs.equipEnhancement = proto.equipEnhancement;
-      [gs beginEnhancementTimer];
-    }
-    
-    [gs goldmineTimeComplete];
-    [gs beginGoldmineTimer];
-    
-    [gs updateClanTowers:proto.clanTowersList];
-    
-    gs.expRequiredForCurrentLevel = proto.experienceRequiredForCurrentLevel;
-    gs.expRequiredForNextLevel = proto.experienceRequiredForNextLevel;
-    
-    UserNotification *un;
-    for (StartupResponseProto_AttackedNotificationProto *p in proto.attackNotificationsList) {
-      un = [[UserNotification alloc] initBattleNotificationAtStartup:p];
-      [gs addNotification:un];
-      [un release];
-    }
-    for (StartupResponseProto_ReferralNotificationProto *p in proto.referralNotificationsList) {
-      un = [[UserNotification alloc] initReferralNotificationAtStartup:p];
-      [gs addNotification:un];
-      [un release];
-    }
-    
-    for (PlayerWallPostProto *wallPost in proto.playerWallPostNotificationsList) {
-      [gs addWallPost:wallPost];
-    }
     
     for (GroupChatMessageProto *msg in proto.globalChatsList) {
       ChatMessage *cm = [[ChatMessage alloc] initWithProto:msg];
@@ -551,30 +281,14 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
     }
     
     for (RareBoosterPurchaseProto *rbp in proto.rareBoosterPurchasesList) {
-      NSLog(@"%@ got %@ from %@.", rbp.user.name, rbp.equip.name, rbp.booster.name);
-      [gs addBoosterPurchase:rbp];
+//      NSLog(@"%@ got %@ from %@.", rbp.user.name, rbp.equip.name, rbp.booster.name);
+//      [gs addBoosterPurchase:rbp];
     }
     
     [(AppDelegate *)[[UIApplication sharedApplication] delegate] registerForPushNotifications];
     [(AppDelegate *)[[UIApplication sharedApplication] delegate] removeLocalNotifications];
     
-    // This means we just finished tutorial
-    if (gs.isTutorial) {
-      [Nanigans trackTutorialComplete];
-      [[DialogMenuController sharedDialogMenuController] stopLoading:YES];
-    } else {
-      [[GameViewController sharedGameViewController] loadGame:NO];
-    }
-    
-    //Display daily bonus screen if its applicable
-    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
-    NSNumber *lastTime = [defaults objectForKey:LAST_DAILY_BONUS_TIME_KEY];
-    if (proto.hasDailyBonusInfo && !gs.isTutorial && ![lastTime isEqualToNumber:[NSNumber numberWithLongLong:proto.dailyBonusInfo.timeAwarded]]) {
-      StartupResponseProto_DailyBonusInfo *dbi = proto.dailyBonusInfo;
-      [[TopBar sharedTopBar] setDbi:dbi];
-    }
-    
-//    [[OutgoingEventController sharedOutgoingEventController] retrieveBoosterPacks];
+    [[GameViewController sharedGameViewController] loadGame:NO];
     
     // Display generic popups for strings that haven't been seen before
     NSUserDefaults *standardDefault = [NSUserDefaults standardUserDefaults];
@@ -602,102 +316,15 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
     [standardDefault synchronize];
   } else {
     // Need to create new player
-    StartupResponseProto_TutorialConstants *tc = proto.tutorialConstants;
-    [[TutorialConstants sharedTutorialConstants] loadTutorialConstants:tc];
-    [gs addToStaticStructs:tc.carpenterStructsList];
-    NSArray *arr = [NSArray arrayWithObjects:tc.warriorInitWeapon, tc.warriorInitArmor, tc.archerInitWeapon, tc.archerInitArmor, tc.mageInitWeapon, tc.mageInitArmor, tc.tutorialQuest.equipReward, nil];
-    [gs addToStaticEquips:arr];
-    
     [[GameViewController sharedGameViewController] loadGame:YES];
     
     gs.connected = YES;
     gs.expRequiredForCurrentLevel = 0;
-    gs.expRequiredForNextLevel = tc.expRequiredForLevelTwo;
   }
   
   [gs removeNonFullUserUpdatesForTag:tag];
   
   [[GameViewController sharedGameViewController] startupComplete];
-}
-
-- (void) handleReconnectResponseProto:(FullEvent *)fe {
-  ReconnectResponseProto *proto = (ReconnectResponseProto *)fe.event;
-  
-  LNLog(@"Received reconnect response with %@incoming messages.", proto.incomingResponseMessages ? @"" : @"no ");
-}
-
-- (void) handleChatResponseProto:(FullEvent *)fe {
-  ChatResponseProto *proto = (ChatResponseProto *)fe.event;
-  
-  LNLog(@"%@", [proto message]);
-}
-
-- (void) handleVaultResponseProto:(FullEvent *)fe {
-  VaultResponseProto *proto = (VaultResponseProto *)fe.event;
-  int tag = fe.tag;
-  
-  LNLog(@"Vault response received with status %d", proto.status);
-  
-  GameState *gs = [GameState sharedGameState];
-  if (proto.status == VaultResponseProto_VaultStatusSuccess) {
-    [gs setVaultBalance:proto.vaultAmount];
-    [gs setSilver:proto.coinAmount];
-    [gs removeNonFullUserUpdatesForTag:tag];
-  } else {
-    [Globals popupMessage:@"Server failed to perform vault action."];
-    [gs removeAndUndoAllUpdatesForTag:tag];
-    [[VaultMenuController sharedVaultMenuController] updateBalance];
-  }
-}
-
-- (void) handleBattleResponseProto:(FullEvent *)fe {
-  BattleResponseProto *proto = (BattleResponseProto *)fe.event;
-  int tag = fe.tag;
-  
-  LNLog(@"Battle response received with status %d.", proto.status);
-  
-  GameState *gs = [GameState sharedGameState];
-  if (proto.status == BattleResponseProto_BattleStatusSuccess) {
-    if (proto.attacker.userId == gs.userId) {
-      gs.experience += proto.expGained;
-      
-      if (proto.battleResult == BattleResultAttackerWin) {
-        gs.silver += proto.coinsGained;
-      } else {
-        gs.silver -= proto.coinsGained;
-      }
-      
-      if (proto.hasEventIdOfLockBoxGained) {
-        [gs addToNumLockBoxesForEvent:proto.eventIdOfLockBoxGained];
-      }
-      if (proto.hasUserEquipGained) {
-        [gs.staticEquips setObject:proto.equipGained forKey:[NSNumber numberWithInt:proto.equipGained.equipId]];
-        [gs.myEquips addObject:[UserEquip userEquipWithProto:proto.userEquipGained]];
-      }
-      [[BattleLayer sharedBattleLayer] setBrp:proto];
-    } else {
-      if (proto.battleResult == BattleResultAttackerWin) {
-        gs.silver -= proto.coinsGained;
-      } else {
-        gs.silver += proto.coinsGained;
-      }
-      
-      if (proto.hasUserEquipGained) {
-        [[gs staticEquips] setObject:proto.equipGained forKey:[NSNumber numberWithInt:proto.equipGained.equipId]];
-        [gs.myEquips removeObject:[gs myEquipWithUserEquipId:proto.userEquipGained.userEquipId]];
-      }
-      
-      UserNotification *un = [[UserNotification alloc] initWithBattleResponse:proto];
-      [gs addNotification:un];
-      [un release];
-      
-      [Analytics receivedNotification];
-    }
-    [gs removeNonFullUserUpdatesForTag:tag];
-  } else {
-    [Globals popupMessage:@"Server failed to record battle"];
-    [gs removeAndUndoAllUpdatesForTag:tag];
-  }
 }
 
 - (void) handleLevelUpResponseProto:(FullEvent *)fe {
@@ -708,25 +335,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
   
   GameState *gs = [GameState sharedGameState];
   if (proto.status == LevelUpResponseProto_LevelUpStatusSuccess) {
-    gs.expRequiredForNextLevel = proto.experienceRequiredForNewNextLevel;
-    [gs addToStaticEquips:proto.newlyEquippableEpicsAndLegendariesList];
-    [gs addToStaticCities:proto.citiesNewlyAvailableToUserList];
     [gs addToStaticStructs:proto.newlyAvailableStructsList];
-    
-    for (FullCityProto *fcp in proto.citiesNewlyAvailableToUserList) {
-      UserCity *uc = [[UserCity alloc] init];
-      uc.cityId = fcp.cityId;
-      uc.curRank = 1;
-      uc.numTasksComplete = 0;
-      [gs.myCities setObject:uc forKey:[NSNumber numberWithInt:fcp.cityId]];
-      [uc release];
-    }
-    
-    // This will be released after the level up controller closes
-    LevelUpViewController *vc = [[LevelUpViewController alloc] initWithLevelUpResponse:proto];
-    [Globals displayUIView:vc.view];
-    
-    [Analytics levelUp:proto.newLevel];
     [gs removeNonFullUserUpdatesForTag:tag];
   } else {
     [Globals popupMessage:@"Server failed to handle level up"];
@@ -741,11 +350,6 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
   GameState *gs = [GameState sharedGameState];
   
   LNLog(@"In App Purchase response received with status %d.", proto.status);
-  
-  GoldShoppeViewController *gsvc = [GoldShoppeViewController sharedGoldShoppeViewController];
-  [gsvc stopLoading];
-  gsvc.state = gsvc.state;
-  [gs resetGoldSaleTimers];
   
   NSString *key = IAP_DEFAULTS_KEY;
   NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
@@ -771,9 +375,6 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
     }
     [gs removeAndUndoAllUpdatesForTag:tag];
   } else {
-    [Nanigans trackPurchase:proto.packagePrice*100];
-    [Globals makePixelAddictsPurchaseCall:proto.packagePrice];
-    
     // Post notification so all UI with that bar can update
     [[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:IAP_SUCCESS_NOTIFICATION object:nil]];
     [gs removeNonFullUserUpdatesForTag:tag];
@@ -790,98 +391,6 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
   GameState *gs = [GameState sharedGameState];
   [gs removeFullUserUpdatesForTag:tag];
   [gs updateUser:proto.sender timestamp:proto.timeOfUserUpdate];
-}
-
-- (void) handleGenerateAttackListResponseProto:(FullEvent *)fe {
-  GenerateAttackListResponseProto *proto = (GenerateAttackListResponseProto *)fe.event;
-  int tag = fe.tag;
-  
-  LNLog(@"Generate attack list response received with status %d and %d %@ enemies.", proto.status, proto.enemiesList.count, proto.showRealPlayers ? @"real" : @"fake");
-  
-  GameState *gs = [GameState sharedGameState];
-  if (proto.status == GenerateAttackListResponseProto_GenerateAttackListStatusSuccess) {
-    NSMutableArray *list;
-    if (proto.showRealPlayers) {
-      gs.attackPlayersList = [NSMutableArray array];
-      list = gs.attackPlayersList;
-    } else {
-      gs.attackBotList = [NSMutableArray array];
-      list = gs.attackBotList;
-    }
-    
-    if (proto.enemiesList.count != 0) {
-      for (FullUserProto *fup in proto.enemiesList) {
-        BOOL shouldBeAdded = YES;
-        // Make sure this is not a repeat
-        for (FullUserProto *checkFup in list) {
-          if (checkFup.userId == fup.userId) {
-            shouldBeAdded = NO;
-          }
-        }
-        
-        if (shouldBeAdded) {
-          [list addObject:fup];
-        }
-      }
-    }
-    [[OutgoingEventController sharedOutgoingEventController] retrieveAllStaticData];
-    
-    //    if (proto.forMap) {
-    //      [[AttackMenuController sharedAttackMenuController] addNewPins];
-    //    } else {
-    [[[AttackMenuController sharedAttackMenuController] attackTableView] reloadData];
-    //    }
-    [gs removeNonFullUserUpdatesForTag:tag];
-  } else {
-    [Globals popupMessage:@"An error occurred while generating the attack list"];
-    [gs removeAndUndoAllUpdatesForTag:tag];
-  }
-}
-
-- (void) handleUseSkillPointResponseProto:(FullEvent *)fe {
-  UseSkillPointResponseProto *proto = (UseSkillPointResponseProto *)fe.event;
-  
-  LNLog(@"Use skill point response received with status %d.", proto.status);
-  
-  if (proto.status != UseSkillPointResponseProto_UseSkillPointStatusSuccess) {
-    [Globals popupMessage:@"Server failed to add skill point."];
-  }
-}
-
-- (void) handleRefillStatWaitCompleteResponseProto:(FullEvent *)fe {
-  RefillStatWaitCompleteResponseProto *proto = (RefillStatWaitCompleteResponseProto *)fe.event;
-  int tag = fe.tag;
-  
-  LNLog(@"Refill stat wait complete response received with status %d.", proto.status);
-  
-  GameState *gs = [GameState sharedGameState];
-  if (proto.status != RefillStatWaitCompleteResponseProto_RefillStatWaitCompleteStatusSuccess) {
-    if (proto.status == RefillStatWaitCompleteResponseProto_RefillStatWaitCompleteStatusClientTooApartFromServerTime) {
-      [self handleTimeOutOfSync];
-    } else {
-      [Globals popupMessage:@"Server failed to refill stat."];
-    }
-    [gs removeAndUndoAllUpdatesForTag:tag];
-    [[TopBar sharedTopBar] setUpEnergyTimer];
-    [[TopBar sharedTopBar] setUpStaminaTimer];
-  } else {
-    [gs removeNonFullUserUpdatesForTag:tag];
-  }
-}
-
-- (void) handleRefillStatWithDiamondsResponseProto:(FullEvent *)fe {
-  RefillStatWithDiamondsResponseProto *proto = (RefillStatWithDiamondsResponseProto *)fe.event;
-  int tag = fe.tag;
-  
-  LNLog(@"Refill stat with diamonds response with status %d.", proto.status);
-  
-  GameState *gs = [GameState sharedGameState];
-  if (proto.status != RefillStatWithDiamondsResponseProto_RefillStatStatusSuccess) {
-    [Globals popupMessage:@"Server failed to refill stat with diamonds."];
-    [gs removeAndUndoAllUpdatesForTag:tag];
-  } else {
-    [gs removeNonFullUserUpdatesForTag:tag];
-  }
 }
 
 - (void) handlePurchaseNormStructureResponseProto:(FullEvent *)fe {
@@ -1034,21 +543,6 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
   }
 }
 
-- (void) handleCriticalStructureActionResponseProto:(FullEvent *)fe {
-  CriticalStructureActionResponseProto *proto = (CriticalStructureActionResponseProto *)fe.event;
-  int tag = fe.tag;
-  
-  LNLog(@"Crit struct action response received with status %d", proto.status);
-  
-  GameState *gs = [GameState sharedGameState];
-  if (proto.status != CriticalStructureActionResponseProto_CritStructActionStatusSuccess) {
-    [Globals popupMessage:@"Server failed to perform critical struct action"];
-    [gs removeAndUndoAllUpdatesForTag:tag];
-  } else {
-    [gs removeNonFullUserUpdatesForTag:tag];
-  }
-}
-
 - (void) handleLoadPlayerCityResponseProto:(FullEvent *)fe {
   LoadPlayerCityResponseProto *proto = (LoadPlayerCityResponseProto *)fe.event;
   int tag = fe.tag;
@@ -1104,22 +598,18 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
   }
 }
 
-- (void) handleLoadNeutralCityResponseProto:(FullEvent *)fe {
-  LoadNeutralCityResponseProto *proto = (LoadNeutralCityResponseProto *)fe.event;
+- (void) handleLoadCityResponseProto:(FullEvent *)fe {
+  LoadCityResponseProto *proto = (LoadCityResponseProto *)fe.event;
   int tag = fe.tag;
   
   LNLog(@"Load neutral city response received for city %d with status %d.", proto.cityId, proto.status);
   
-  for (FullUserProto *fup in proto.defeatTypeJobEnemiesList) {
-    [[OutgoingEventController sharedOutgoingEventController] retrieveStaticEquipsForUser:fup];
-  }
-  
   GameState *gs = [GameState sharedGameState];
-  if (proto.status == LoadNeutralCityResponseProto_LoadNeutralCityStatusSuccess) {
+  if (proto.status == LoadCityResponseProto_LoadCityStatusSuccess) {
     [[GameLayer sharedGameLayer] loadMissionMapWithProto:proto];//performSelectorInBackground:@selector(loadMissionMapWithProto:) withObject:proto];
     [[OutgoingEventController sharedOutgoingEventController] retrieveAllStaticData];
     [gs removeNonFullUserUpdatesForTag:tag];
-  } else if (proto.status == LoadNeutralCityResponseProto_LoadNeutralCityStatusNotAccessibleToUser) {
+  } else if (proto.status == LoadCityResponseProto_LoadCityStatusNotAccessibleToUser) {
     [Globals popupMessage:@"Trying to reach inaccessible city.."];
     [gs removeAndUndoAllUpdatesForTag:tag];
   } else {
@@ -1138,89 +628,15 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
   if (proto.status == RetrieveStaticDataResponseProto_RetrieveStaticDataStatusSuccess) {
     [gs addToStaticBuildStructJobs:proto.buildStructJobsList];
     [gs addToStaticCities:proto.citiesList];
-    [gs addToStaticDefeatTypeJobs:proto.defeatTypeJobsList];
-    [gs addToStaticEquips:proto.equipsList];
-    [gs addToStaticPossessEquipJobs:proto.possessEquipJobsList];
     [gs addToStaticQuests:proto.questsList];
     [gs addToStaticStructs:proto.structsList];
     [gs addToStaticTasks:proto.tasksList];
     [gs addToStaticUpgradeStructJobs:proto.upgradeStructJobsList];
-    [gs addToStaticBosses:proto.bossesList];
-    
-    if (proto.clanTierLevelsList > 0) [gs addToClanTierLevels:proto.clanTierLevelsList];
-    if (proto.lockBoxEventsList.count > 0) [gs addNewStaticLockBoxEvents:proto.lockBoxEventsList];
-    if (proto.bossEventsList.count > 0) [gs addNewStaticBossEvents:proto.bossEventsList];
-    if (proto.leaderboardEventsList.count > 0) [gs addNewStaticTournaments:proto.leaderboardEventsList];
-    
-    [gs resetGoldSaleTimers];
-    [gs resetLockBoxTimers];
-    [gs resetTournamentTimers];
     
     [[OutgoingEventController sharedOutgoingEventController] retrieveAllStaticData];
     [gs removeNonFullUserUpdatesForTag:tag];
   } else {
     [Globals popupMessage:@"Server failed to send back static data."];
-    [gs removeAndUndoAllUpdatesForTag:tag];
-  }
-}
-
-- (void) handleRetrieveStaticDataForShopResponseProto:(FullEvent *)fe {
-  RetrieveStaticDataForShopResponseProto *proto = (RetrieveStaticDataForShopResponseProto *)fe.event;
-  int tag = fe.tag;
-  
-  LNLog(@"Retrieve static data for shop response received with status %d, %d structs, %d equips.", proto.status, proto.structsList.count, proto.equipsList.count);
-  
-  GameState *gs = [GameState sharedGameState];
-  if (proto.status == RetrieveStaticDataForShopResponseProto_RetrieveStaticDataForShopStatusSuccess) {
-    if (proto.structsList.count > 0) {
-      [gs setCarpenterStructs:proto.structsList];
-      
-      [gs addToStaticStructs:proto.structsList];
-      
-      CarpenterMenuController *cmc = [CarpenterMenuController sharedCarpenterMenuController];
-      [cmc reloadCarpenterStructs];
-    }
-    
-    if (proto.equipsList.count > 0) {
-      // Need to sort armory equips
-      NSMutableArray *weapons = [NSMutableArray array];
-      NSMutableArray *armor = [NSMutableArray array];
-      NSMutableArray *amulets = [NSMutableArray array];
-      for (FullEquipProto *fep in proto.equipsList) {
-        NSMutableArray *toAdd = nil;
-        if (fep.equipType == FullEquipProto_EquipTypeWeapon) {
-          toAdd = weapons;
-        } else if (fep.equipType == FullEquipProto_EquipTypeArmor) {
-          toAdd = armor;
-        } else if (fep.equipType == FullEquipProto_EquipTypeAmulet) {
-          toAdd = amulets;
-        } else {
-          [Globals popupMessage:@"Found an equip with invalid type."];
-        }
-        
-        // Make sure to enter them in order
-        int i = toAdd.count-1;
-        while (i >= 0) {
-          FullEquipProto *cur = [toAdd objectAtIndex:i];
-          if (cur.equipId < fep.equipId) {
-            break;
-          }
-          i--;
-        }
-        [toAdd insertObject:fep atIndex:i+1];
-      }
-      gs.armoryWeapons = weapons;
-      gs.armoryArmor = armor;
-      gs.armoryAmulets = amulets;
-      
-      [gs addToStaticEquips:proto.equipsList];
-      
-      ArmoryViewController *avc = [ArmoryViewController sharedArmoryViewController];
-      [avc refresh];
-    }
-    [gs removeNonFullUserUpdatesForTag:tag];
-  } else {
-    [Globals popupMessage:@"Server failed to send back store data.."];
     [gs removeAndUndoAllUpdatesForTag:tag];
   }
 }
@@ -1233,47 +649,11 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
   
   GameState *gs = [GameState sharedGameState];
   if (proto.status == RetrieveBoosterPackResponseProto_RetrieveBoosterPackStatusSuccess) {
-    [gs addStaticBoosterPacks:proto.packsList userBoosterPacks:proto.userPacksList];
-    
-    if ([ArmoryViewController isInitialized]) {
-      ArmoryViewController *avc = [ArmoryViewController sharedArmoryViewController];
-      [avc refresh];
-    }
-    
+    [gs addStaticBoosterPacks:proto.packsList];
     [gs removeNonFullUserUpdatesForTag:tag];
   } else {
     [Globals popupMessage:@"Server failed to send back booster packs.."];
     [gs removeAndUndoAllUpdatesForTag:tag];
-  }
-}
-
-- (void) handleEquipEquipmentResponseProto:(FullEvent *)fe {
-  EquipEquipmentResponseProto *proto = (EquipEquipmentResponseProto *)fe.event;
-  int tag = fe.tag;
-  
-  LNLog(@"Equip equipment response received with status %d.", proto.status);
-  
-  GameState *gs = [GameState sharedGameState];
-  if (proto.status != EquipEquipmentResponseProto_EquipEquipmentStatusSuccess) {
-    [Globals popupMessage:@"Server failed to equip equipment."];
-    [gs removeAndUndoAllUpdatesForTag:tag];
-  } else {
-    [gs removeNonFullUserUpdatesForTag:tag];
-  }
-}
-
-- (void) handleChangeUserLocationResponseProto:(FullEvent *)fe {
-  ChangeUserLocationResponseProto *proto = (ChangeUserLocationResponseProto *)fe.event;
-  int tag = fe.tag;
-  
-  LNLog(@"Change user location response received with status %d.", proto.status);
-  
-  GameState *gs = [GameState sharedGameState];
-  if (proto.status != ChangeUserLocationResponseProto_ChangeUserLocationStatusSuccess) {
-    [Globals popupMessage:@"Server failed to update user location."];
-    [gs removeAndUndoAllUpdatesForTag:tag];
-  } else {
-    [gs removeNonFullUserUpdatesForTag:tag];
   }
 }
 
@@ -1305,19 +685,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
     [[GameState sharedGameState] addToAvailableQuests:proto.newlyAvailableQuestsList];
     [[OutgoingEventController sharedOutgoingEventController] retrieveAllStaticData];
     
-    // Reload quest givers for all maps cuz we have new quests
-    //[[[GameLayer sharedGameLayer] currentMap] reloadQuestGivers];
-    //[[BazaarMap sharedBazaarMap] reloadQuestGivers];
-    //[[HomeMap sharedHomeMap] reloadQuestGivers];
     [gs removeNonFullUserUpdatesForTag:tag];
-    
-    if (proto.shouldGiveKiipReward) {
-      //      [KiipDelegate postAchievementNotificationAchievement:QUEST_REDEEM_KIIP_REWARD];
-    }
-    
-    if (proto.hasEquipRewardFromQuest) {
-      [gs addToMyEquips:[NSArray arrayWithObject:proto.equipRewardFromQuest]];
-    }
   } else {
     [Globals popupMessage:@"Server failed to redeem quest"];
     [gs removeAndUndoAllUpdatesForTag:tag];
@@ -1331,7 +699,6 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
   LNLog(@"Quest log details response received with status %d", proto.status);
   GameState *gs = [GameState sharedGameState];
   if (proto.status == UserQuestDetailsResponseProto_UserQuestDetailsStatusSuccess) {
-    [[QuestLogController sharedQuestLogController] loadQuestData:proto.inProgressUserQuestDataList];
     [[OutgoingEventController sharedOutgoingEventController] retrieveAllStaticData];
     [gs removeNonFullUserUpdatesForTag:tag];
   } else {
@@ -1353,8 +720,6 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
     [gs.inProgressCompleteQuests setObject:fqp forKey:questNum];
     [gs.inProgressIncompleteQuests removeObjectForKey:questNum];
     
-    [[QuestLogController sharedQuestLogController] loadQuestRedeemScreen:fqp animated:NO];
-    
     //GameMap *map = [Globals mapForQuest:fqp];
     //[map reloadQuestGivers];
     
@@ -1364,44 +729,10 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
   }
 }
 
-- (void) handleRetrieveUserEquipForUserResponseProto:(FullEvent *)fe {
-  RetrieveUserEquipForUserResponseProto *proto = (RetrieveUserEquipForUserResponseProto *)fe.event;
-  int tag = fe.tag;
-  
-  LNLog(@"Retrieve user equip response received.");
-  
-  OutgoingEventController *oec = [OutgoingEventController sharedOutgoingEventController];
-  NSMutableArray *arr = [NSMutableArray array];
-  for (FullUserEquipProto *fuep in proto.userEquipsList) {
-    [arr addObject:[NSNumber numberWithInt:fuep.equipId]];
-  }
-  
-  [oec retrieveStaticEquips:arr];
-  
-  if ([BattleLayer isInitialized]) {
-    [[BattleLayer sharedBattleLayer] receivedUserEquips:proto];
-  }
-  [[ProfileViewController sharedProfileViewController] receivedEquips:proto];
-  
-  GameState *gs = [GameState sharedGameState];
-  [gs removeNonFullUserUpdatesForTag:tag];
-}
-
 - (void) handleRetrieveUsersForUserIdsResponseProto:(FullEvent *)fe {
-  RetrieveUsersForUserIdsResponseProto *proto = (RetrieveUsersForUserIdsResponseProto *)fe.event;
   int tag = fe.tag;
   
   LNLog(@"Retrieve user ids for user received.");
-  
-  OutgoingEventController *oec = [OutgoingEventController sharedOutgoingEventController];
-  [oec retrieveStaticEquipsForUsers:proto.requestedUsersList];
-  
-  if ([ActivityFeedController isInitialized]) {
-    [[ActivityFeedController sharedActivityFeedController] receivedUsers:proto];
-  }
-  if ([ProfileViewController isInitialized]) {
-    [[ProfileViewController sharedProfileViewController] receivedFullUserProtos:proto.requestedUsersList];
-  }
   
   GameState *gs = [GameState sharedGameState];
   [gs removeNonFullUserUpdatesForTag:tag];
@@ -1413,50 +744,11 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
   LNLog(@"Referral code used received.");
   
   GameState *gs = [GameState sharedGameState];
-  Globals *gl = [Globals sharedGlobals];
-  gs.gold += gl.diamondRewardForReferrer;
   UserNotification *un = [[UserNotification alloc] initWithReferralResponse:proto];
   [gs addNotification:un];
   [un release];
   
   [Analytics receivedNotification];
-}
-
-- (void) handleRetrievePlayerWallPostsResponseProto:(FullEvent *)fe {
-  RetrievePlayerWallPostsResponseProto *proto = (RetrievePlayerWallPostsResponseProto *)fe.event;
-  int tag = fe.tag;
-  
-  LNLog(@"Retrieve player wall response received with status %d.", proto.status);
-  
-  GameState *gs = [GameState sharedGameState];
-  if (proto.status == RetrievePlayerWallPostsResponseProto_RetrievePlayerWallPostsStatusSuccess) {
-    [[ProfileViewController sharedProfileViewController] receivedWallPosts:proto];
-    [gs removeNonFullUserUpdatesForTag:tag];
-  } else {
-    [Globals popupMessage:@"Server failed to send back wall posts."];
-    [gs removeAndUndoAllUpdatesForTag:tag];
-  }
-}
-
-- (void) handlePostOnPlayerWallResponseProto:(FullEvent *)fe {
-  PostOnPlayerWallResponseProto *proto = (PostOnPlayerWallResponseProto *)fe.event;
-  int tag = fe.tag;
-  
-  LNLog(@"Post on player wall response received with status %d.", proto.status);
-  
-  GameState *gs = [GameState sharedGameState];
-  if (proto.status == PostOnPlayerWallResponseProto_PostOnPlayerWallStatusSuccess) {
-    GameState *gs = [GameState sharedGameState];
-    
-    if (proto.post.poster.userId != gs.userId && proto.post.wallOwnerId == gs.userId) {
-      [gs addWallPost:proto.post];
-    }
-    
-    [gs removeNonFullUserUpdatesForTag:tag];
-  } else {
-    [Globals popupMessage:@"Server failed to send post on wall."];
-    [gs removeAndUndoAllUpdatesForTag:tag];
-  }
 }
 
 - (void) handleEnableAPNSResponseProto:(FullEvent *)fe {
@@ -1488,224 +780,17 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
       gs.hasReceivedfbReward = YES;
     }
     
-    [[GoldShoppeViewController sharedGoldShoppeViewController] refreshTableView];
-    
     [gs removeNonFullUserUpdatesForTag:tag];
   } else {
     [Globals popupMessage:@"Server failed to validate free gold."];
     [gs removeAndUndoAllUpdatesForTag:tag];
-    
-    if (proto.freeDiamondsType == EarnFreeDiamondsTypeAdcolony) {
-      [Analytics adColonyFailed];
-    } else if (proto.freeDiamondsType == EarnFreeDiamondsTypeKiip) {
-      [Analytics kiipFailed];
-    }
   }
-  
-  [[GoldShoppeViewController sharedGoldShoppeViewController] stopLoading];
-}
-
-- (void) handleSubmitEquipsToBlacksmithResponseProto:(FullEvent *)fe {
-  SubmitEquipsToBlacksmithResponseProto *proto = (SubmitEquipsToBlacksmithResponseProto *)fe.event;
-  int tag = fe.tag;
-  
-  LNLog(@"Submit equips to blacksmith response received with status %d.", proto.status);
-  
-  GameState *gs = [GameState sharedGameState];
-  if (proto.status == SubmitEquipsToBlacksmithResponseProto_SubmitEquipsToBlacksmithStatusSuccess) {
-    [gs addForgeAttempt:[ForgeAttempt forgeAttemptWithUnhandledBlacksmithAttemptProto:proto.unhandledBlacksmithAttempt]];
-    [gs beginForgeTimers];
-    
-    [gs removeNonFullUserUpdatesForTag:tag];
-  } else {
-    if (proto.status == SubmitEquipsToBlacksmithResponseProto_SubmitEquipsToBlacksmithStatusClientTooApartFromServerTime) {
-      [self handleTimeOutOfSync];
-    } else {
-      [Globals popupMessage:@"Server failed to submit equips to blacksmith."];
-    }
-    [gs removeAndUndoAllUpdatesForTag:tag];
-  }
-  
-  [[ForgeMenuController sharedForgeMenuController] receivedSubmitEquipResponse:proto];
-}
-
-- (void) handleForgeAttemptWaitCompleteResponseProto:(FullEvent *)fe {
-  ForgeAttemptWaitCompleteResponseProto *proto = (ForgeAttemptWaitCompleteResponseProto *)fe.event;
-  int tag = fe.tag;
-  
-  LNLog(@"Forge attempt wait complete response received with status %d.", proto.status);
-  
-  GameState *gs = [GameState sharedGameState];
-  if (proto.status == ForgeAttemptWaitCompleteResponseProto_ForgeAttemptWaitCompleteStatusSuccess) {
-    // Begin the forge timer so that the notification will pop.
-    [gs beginForgeTimers];
-    
-    [gs removeNonFullUserUpdatesForTag:tag];
-  } else {
-    if (proto.status == ForgeAttemptWaitCompleteResponseProto_ForgeAttemptWaitCompleteStatusClientTooApartFromServerTime) {
-      [self handleTimeOutOfSync];
-    } else {
-      [Globals popupMessage:@"Server failed to complete wait time for forge attempt."];
-    }
-    [gs removeAndUndoAllUpdatesForTag:tag];
-  }
-}
-
-- (void) handleFinishForgeAttemptWaittimeWithDiamondsResponseProto:(FullEvent *)fe {
-  FinishForgeAttemptWaittimeWithDiamondsResponseProto *proto = (FinishForgeAttemptWaittimeWithDiamondsResponseProto *)fe.event;
-  int tag = fe.tag;
-  
-  LNLog(@"Finish forge attempt with diamonds response received with status %d.", proto.status);
-  
-  GameState *gs = [GameState sharedGameState];
-  if (proto.status == FinishForgeAttemptWaittimeWithDiamondsResponseProto_FinishForgeAttemptWaittimeWithDiamondsStatusSuccess) {
-    
-    [gs removeNonFullUserUpdatesForTag:tag];
-  } else {
-    if (proto.status == FinishForgeAttemptWaittimeWithDiamondsResponseProto_FinishForgeAttemptWaittimeWithDiamondsStatusClientTooApartFromServerTime) {
-      [self handleTimeOutOfSync];
-    } else {
-      [Globals popupMessage:@"Server failed to finish forge attempt with diamonds."];
-    }
-    [gs removeAndUndoAllUpdatesForTag:tag];
-  }
-}
-
-- (void) handleCollectForgeEquipsResponseProto:(FullEvent *)fe {
-  CollectForgeEquipsResponseProto *proto = (CollectForgeEquipsResponseProto *)fe.event;
-  int tag = fe.tag;
-  
-  LNLog(@"Collect forge equips response received with status %d.", proto.status);
-  
-  GameState *gs = [GameState sharedGameState];
-  if (proto.status == CollectForgeEquipsResponseProto_CollectForgeEquipsStatusSuccess) {
-    [gs addToMyEquips:proto.userEquipsList];
-    [gs removeForgeAttempt:proto.blacksmithId];
-    
-    [gs removeNonFullUserUpdatesForTag:tag];
-  } else {
-    [Globals popupMessage:@"Server failed to collect forge equips."];
-    [gs removeAndUndoAllUpdatesForTag:tag];
-  }
-  
-  [[ForgeMenuController sharedForgeMenuController] receivedCollectForgeEquipsResponse:proto];
-}
-
-- (void) handlePurchaseForgeSlotResponseProto:(FullEvent *)fe {
-  PurchaseForgeSlotResponseProto *proto = (PurchaseForgeSlotResponseProto *)fe.event;
-  int tag = fe.tag;
-  
-  LNLog(@"Purchase forge slot response received with status %d.", proto.status);
-  
-  GameState *gs = [GameState sharedGameState];
-  if (proto.status == PurchaseForgeSlotResponseProto_PurchaseForgeSlotStatusSuccess) {
-    gs.numAdditionalForgeSlots++;
-    
-    [gs removeNonFullUserUpdatesForTag:tag];
-  } else {
-    [Globals popupMessage:@"Server failed to purchase forge slot."];
-    [gs removeAndUndoAllUpdatesForTag:tag];
-  }
-  
-  [[ForgeMenuController sharedForgeMenuController] receivedPurchaseForgeSlot];
 }
 
 - (void) handlePurgeClientStaticDataResponseProto:(FullEvent *)fe {
   LNLog(@"Purge static data response received.");
   
   [[GameState sharedGameState] reretrieveStaticData];
-}
-
-- (void) handleCharacterModResponseProto:(FullEvent *)fe {
-  CharacterModResponseProto *proto = (CharacterModResponseProto *)fe.event;
-  int tag = fe.tag;
-  LNLog(@"Character mod response received with status %d.", proto.status);
-  
-  GameState *gs = [GameState sharedGameState];
-  if (proto.status == CharacterModResponseProto_CharacterModStatusSuccess) {
-    if (proto.modType == CharacterModTypeNewPlayer) {
-      UIApplication *app = [UIApplication sharedApplication];
-      [app.delegate applicationDidEnterBackground:app];
-      [app.delegate applicationWillEnterForeground:app];
-    } else if (proto.modType == CharacterModTypeResetSkillPoints) {
-      GameState *gs = [GameState sharedGameState];
-      gs.attack = proto.attackNew;
-      gs.defense = proto.defenseNew;
-      gs.skillPoints = proto.skillPointsNew;
-      gs.maxStamina = proto.staminaNew;
-      gs.currentStamina = MIN(gs.currentStamina, gs.maxStamina);
-      gs.maxEnergy = proto.energyNew;
-      gs.currentEnergy = MIN(gs.currentEnergy, gs.maxEnergy);
-      [[[ProfileViewController sharedProfileViewController] loadingView] stop];
-      [[ProfileViewController sharedProfileViewController] loadSkills];
-    } else if (proto.modType == CharacterModTypeChangeName) {
-      [[[ProfileViewController sharedProfileViewController] loadingView] stop];
-      [[ProfileViewController sharedProfileViewController] loadMyProfile];
-    } else if (proto.modType == CharacterModTypeChangeCharacterType) {
-      GameViewController *gvc = [GameViewController sharedGameViewController];
-      [gvc removeAllSubviews];
-      [gvc loadGame:NO];
-      [gvc startGame];
-      gs.armoryAmulets = nil;
-      gs.armoryArmor = nil;
-      gs.armoryWeapons = nil;
-    }
-    
-    [gs removeNonFullUserUpdatesForTag:tag];
-  } else {
-    if (proto.modType == CharacterModTypeNewPlayer) {
-      UIApplication *app = [UIApplication sharedApplication];
-      [app.delegate applicationDidEnterBackground:app];
-      [app.delegate applicationWillEnterForeground:app];
-    } else if (proto.modType == CharacterModTypeResetSkillPoints) {
-      [[[ProfileViewController sharedProfileViewController] loadingView] stop];
-      [[ProfileViewController sharedProfileViewController] loadSkills];
-    } else if (proto.modType == CharacterModTypeChangeName) {
-      [[[ProfileViewController sharedProfileViewController] loadingView] stop];
-      [[ProfileViewController sharedProfileViewController] loadMyProfile];
-    } else if (proto.modType == CharacterModTypeChangeCharacterType) {
-      GameViewController *gvc = [GameViewController sharedGameViewController];
-      [gvc loadGame:NO];
-      [gvc startGame];
-      [gvc removeAllSubviews];
-      gs.armoryAmulets = nil;
-      gs.armoryArmor = nil;
-      gs.armoryWeapons = nil;
-    }
-    [Globals popupMessage:@"Server failed to modify character."];
-    
-    [gs removeAndUndoAllUpdatesForTag:tag];
-  }
-  
-  [[SocketCommunication sharedSocketCommunication] rebuildSender];
-}
-
-- (void) handlePrestigeResponseProto:(FullEvent *)fe {
-  PrestigeResponseProto *proto = (PrestigeResponseProto *)fe.event;
-  LNLog(@"Prestige response received with status %d.", proto.status);
-  
-  if (proto.status == PrestigeResponseProto_PrestigeStatusSuccess) {
-    UIApplication *app = [UIApplication sharedApplication];
-    [app.delegate applicationDidEnterBackground:app];
-    [app.delegate applicationWillEnterForeground:app];
-  } else {
-    [Globals popupMessage:@"Server failed to prestige."];
-  }
-}
-
-- (void) handleRetrieveLeaderboardResponseProto:(FullEvent *)fe {
-  RetrieveLeaderboardResponseProto *proto = (RetrieveLeaderboardResponseProto *)fe.event;
-  int tag = fe.tag;
-  LNLog(@"Leaderboard response received with status %d.", proto.status);
-  
-  GameState *gs = [GameState sharedGameState];
-  if (proto.status == RetrieveLeaderboardResponseProto_RetrieveLeaderboardStatusSuccess) {
-    [[LeaderboardController sharedLeaderboardController] receivedLeaderboardResponse:proto];
-    
-    [gs removeNonFullUserUpdatesForTag:tag];
-  } else {
-    [gs removeAndUndoAllUpdatesForTag:tag];
-  }
 }
 
 - (void) handleSendGroupChatResponseProto:(FullEvent *)fe {
@@ -1718,21 +803,6 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
     [gs removeNonFullUserUpdatesForTag:tag];
   } else {
     [Globals popupMessage:@"Server failed to send group chat."];
-    
-    [gs removeAndUndoAllUpdatesForTag:tag];
-  }
-}
-
-- (void) handlePurchaseGroupChatResponseProto:(FullEvent *)fe {
-  SendGroupChatResponseProto *proto = (SendGroupChatResponseProto *)fe.event;
-  int tag = fe.tag;
-  LNLog(@"Purchase group chat response received with status %d.", proto.status);
-  
-  GameState *gs = [GameState sharedGameState];
-  if (proto.status == PurchaseGroupChatResponseProto_PurchaseGroupChatStatusSuccess) {
-    [gs removeNonFullUserUpdatesForTag:tag];
-  } else {
-    [Globals popupMessage:@"Server failed to purchase group chat."];
     
     [gs removeAndUndoAllUpdatesForTag:tag];
   }
@@ -1944,7 +1014,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
   LNLog(@"Boot player from clan response received with status %d.", proto.status);
   
   GameState *gs = [GameState sharedGameState];
-  if (proto.status == PostOnClanBulletinResponseProto_PostOnClanBulletinStatusSuccess) {
+  if (proto.status == BootPlayerFromClanResponseProto_BootPlayerFromClanStatusSuccess) {
     if (proto.playerToBoot == gs.userId) {
       gs.clan = nil;
       [[SocketCommunication sharedSocketCommunication] rebuildSender];
@@ -1953,171 +1023,6 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
     [gs removeNonFullUserUpdatesForTag:tag];
   } else {
     [Globals popupMessage:@"Server failed to boot player from clan."];
-    
-    [gs removeAndUndoAllUpdatesForTag:tag];
-  }
-}
-
-- (void) handlePostOnClanBulletinResponseProto:(FullEvent *)fe {
-  PostOnClanBulletinResponseProto *proto = (PostOnClanBulletinResponseProto *)fe.event;
-  int tag = fe.tag;
-  LNLog(@"Post on clan wall response received with status %d.", proto.status);
-  
-  GameState *gs = [GameState sharedGameState];
-  if (proto.status == PostOnClanBulletinResponseProto_PostOnClanBulletinStatusSuccess) {
-    
-    [gs removeNonFullUserUpdatesForTag:tag];
-  } else {
-    [Globals popupMessage:@"Server failed to post on clan wall."];
-    
-    [gs removeAndUndoAllUpdatesForTag:tag];
-  }
-}
-
-- (void) handleRetrieveClanBulletinPostsResponseProto:(FullEvent *)fe {
-  RetrieveClanBulletinPostsResponseProto *proto = (RetrieveClanBulletinPostsResponseProto *)fe.event;
-  int tag = fe.tag;
-  LNLog(@"Retrieve clan wall posts response received with status %d.", proto.status);
-  
-  GameState *gs = [GameState sharedGameState];
-  if (proto.status == PostOnClanBulletinResponseProto_PostOnClanBulletinStatusSuccess) {
-    
-    [gs removeNonFullUserUpdatesForTag:tag];
-  } else {
-    [Globals popupMessage:@"Server failed to retrieve clan wall posts."];
-    
-    [gs removeAndUndoAllUpdatesForTag:tag];
-  }
-}
-
-- (void) handleUpgradeClanTierLevelResponseProto:(FullEvent *)fe {
-  UpgradeClanTierLevelResponseProto *proto = (UpgradeClanTierLevelResponseProto *)fe.event;
-  int tag = fe.tag;
-  LNLog(@"Upgrade clan tier level response received with status %d.", proto.status);
-  
-  GameState *gs = [GameState sharedGameState];
-  if (proto.status == UpgradeClanTierLevelResponseProto_UpgradeClanTierLevelStatusSuccess) {
-    if (proto.hasMinClan) {
-      gs.clan = proto.minClan;
-      [[SocketCommunication sharedSocketCommunication] rebuildSender];
-    }
-    
-    [gs removeNonFullUserUpdatesForTag:tag];
-  } else {
-    [Globals popupMessage:@"Server failed to upgrade clan tier level."];
-    
-    [gs removeAndUndoAllUpdatesForTag:tag];
-  }
-}
-
-- (void) handleBeginGoldmineTimerResponseProto:(FullEvent *)fe {
-  BeginGoldmineTimerResponseProto *proto = (BeginGoldmineTimerResponseProto *)fe.event;
-  int tag = fe.tag;
-  LNLog(@"Begin goldmine timer response received with status %d.", proto.status);
-  
-  GameState *gs = [GameState sharedGameState];
-  if (proto.status == BeginGoldmineTimerResponseProto_BeginGoldmineTimerStatusSuccess) {
-    
-    [gs removeNonFullUserUpdatesForTag:tag];
-  } else {
-    if (proto.status == BeginGoldmineTimerResponseProto_BeginGoldmineTimerStatusClientTooApartFromServerTime) {
-      [self handleTimeOutOfSync];
-    } else {
-      [Globals popupMessage:@"Server failed to retrieve begin goldmine timer."];
-    }
-    
-    [gs removeAndUndoAllUpdatesForTag:tag];
-  }
-}
-
-- (void) handleCollectFromGoldmineResponseProto:(FullEvent *)fe {
-  CollectFromGoldmineResponseProto *proto = (CollectFromGoldmineResponseProto *)fe.event;
-  int tag = fe.tag;
-  LNLog(@"Collect from goldmine response received with status %d.", proto.status);
-  
-  GameState *gs = [GameState sharedGameState];
-  if (proto.status == CollectFromGoldmineResponseProto_CollectFromGoldmineStatusSuccess) {
-    [gs removeNonFullUserUpdatesForTag:tag];
-  } else {
-    if (proto.status == CollectFromGoldmineResponseProto_CollectFromGoldmineStatusClientTooApartFromServerTime) {
-      [self handleTimeOutOfSync];
-    } else {
-      [Globals popupMessage:@"Server failed to collect from goldmine."];
-    }
-    
-    [gs removeAndUndoAllUpdatesForTag:tag];
-  }
-}
-
-- (void) handlePickLockBoxResponseProto:(FullEvent *)fe {
-  PickLockBoxResponseProto *proto = (PickLockBoxResponseProto *)fe.event;
-  int tag = fe.tag;
-  LNLog(@"Pick lock box response received with status %d.", proto.status);
-  
-  GameState *gs = [GameState sharedGameState];
-  if (proto.status == PickLockBoxResponseProto_PickLockBoxStatusSuccess) {
-    NSNumber *num = [NSNumber numberWithInt:proto.lockBoxEventId];
-    UserLockBoxEventProto *ulbe = [gs.myLockBoxEvents objectForKey:num];
-    
-    if (ulbe) {
-      UserLockBoxEventProto_Builder *bldr = [UserLockBoxEventProto builderWithPrototype:ulbe];
-      
-      bldr.lastPickTime = proto.clientTime;
-      
-      if (proto.success) {
-        bldr.numLockBoxes--;
-        
-        NSArray *items = bldr.itemsList;
-        UserLockBoxItemProto *oldItem = nil;
-        int i = 0;
-        for (; i < items.count; i++) {
-          UserLockBoxItemProto *item = [items objectAtIndex:i];
-          if (item.lockBoxItemId == proto.item.lockBoxItemId) {
-            oldItem = item;
-            break;
-          }
-        }
-        
-        if (oldItem) {
-          UserLockBoxItemProto_Builder *newItem = [UserLockBoxItemProto builderWithPrototype:oldItem];
-          newItem.quantity++;
-          [bldr replaceItemsAtIndex:i with:newItem.build];
-        } else {
-          UserLockBoxItemProto_Builder *newItem = [UserLockBoxItemProto builder];
-          newItem.quantity = 1;
-          newItem.userId = gs.userId;
-          newItem.lockBoxItemId = proto.item.lockBoxItemId;
-          [bldr addItems:newItem.build];
-        }
-        
-        if (proto.hasPrizeEquip) {
-          [gs.myEquips addObject:[UserEquip userEquipWithProto:proto.prizeEquip]];
-          
-          for (int i = 0; i < items.count; i++) {
-            UserLockBoxItemProto *item = [items objectAtIndex:i];
-            UserLockBoxItemProto_Builder *newItem = [UserLockBoxItemProto builderWithPrototype:item];
-            newItem.quantity--;
-            [bldr replaceItemsAtIndex:i with:newItem.build];
-          }
-        }
-      }
-      
-      [gs.myLockBoxEvents setObject:bldr.build forKey:num];
-      
-      [[[LockBoxMenuController sharedLockBoxMenuController] pickView] receivedPickLockResponse:proto];
-      
-      [[GameState sharedGameState] resetLockBoxTimers];
-    } else {
-      [Globals popupMessage:@"An error occurred while trying to pick lock box"];
-    }
-    
-    [gs removeNonFullUserUpdatesForTag:tag];
-  } else {
-    if (proto.status == PickLockBoxResponseProto_PickLockBoxStatusClientTooApartFromServerTime) {
-      [self handleTimeOutOfSync];
-    } else {
-      [Globals popupMessage:@"Server failed to pick lock box."];
-    }
     
     [gs removeAndUndoAllUpdatesForTag:tag];
   }
@@ -2161,43 +1066,6 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
   }
 }
 
-- (void) handleRetrieveThreeCardMonteResponseProto:(FullEvent *)fe {
-  RetrieveThreeCardMonteResponseProto *proto = (RetrieveThreeCardMonteResponseProto *)fe.event;
-  int tag = fe.tag;
-  LNLog(@"Retrieve three card monte response received with status %d.", proto.status);
-  
-  GameState *gs = [GameState sharedGameState];
-  if (proto.status == RetrieveThreeCardMonteResponseProto_RetrieveThreeCardMonteStatusSuccess) {
-    NSMutableArray *staticEquips = [NSMutableArray array];
-    if (proto.badMonteCard.hasEquip) [staticEquips addObject:proto.badMonteCard.equip];
-    if (proto.mediumMonteCard.hasEquip) [staticEquips addObject:proto.mediumMonteCard.equip];
-    if (proto.goodMonteCard.hasEquip) [staticEquips addObject:proto.goodMonteCard.equip];
-    [gs addToStaticEquips:staticEquips];
-    
-    [[ThreeCardMonteViewController sharedThreeCardMonteViewController] receivedRetreiveThreeCardMonteResponse:proto];
-    [gs removeNonFullUserUpdatesForTag:tag];
-  } else {
-    [Globals popupMessage:@"Server failed to retrieve three card monte cards."];
-    [gs removeFullUserUpdatesForTag:tag];
-  }
-}
-
-- (void) handlePlayThreeCardMonteResponseProto:(FullEvent *)fe {
-  PlayThreeCardMonteResponseProto *proto = (PlayThreeCardMonteResponseProto *)fe.event;
-  int tag = fe.tag;
-  LNLog(@"Play three card monte response received with status %d.", proto.status);
-  
-  GameState *gs = [GameState sharedGameState];
-  if(proto.status == PlayThreeCardMonteResponseProto_PlayThreeCardMonteStatusSuccess) {
-    if (proto.hasUserEquip) [gs.myEquips addObject:[UserEquip userEquipWithProto:proto.userEquip]];
-    [[ThreeCardMonteViewController sharedThreeCardMonteViewController] receivedPlayThreeCardMonteResponse:proto];
-    [gs removeFullUserUpdatesForTag:tag];
-  }
-  else {
-    [Globals popupMessage:@"Server failed to play three card monte."];
-  }
-}
-
 - (void) handleSendAdminMessageResponseProto:(FullEvent *)fe {
   SendAdminMessageResponseProto *proto = (SendAdminMessageResponseProto *)fe.event;
   
@@ -2206,111 +1074,25 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
   [Globals popupMessage:proto.message];
 }
 
-- (void) handleBeginClanTowerWarResponseProto:(FullEvent *)fe {
-  BeginClanTowerWarResponseProto *proto = (BeginClanTowerWarResponseProto *)fe.event;
-  int tag = fe.tag;
-  
-  LNLog(@"Begin clan tower war response received with status %d.", proto.status);
-  
-  GameState *gs = [GameState sharedGameState];
-  Globals *gl = [Globals sharedGlobals];
-  if (proto.status == BeginClanTowerWarResponseProto_BeginClanTowerWarStatusSuccess) {
-    [gs removeNonFullUserUpdatesForTag:tag];
-  } else {
-    if (proto.status == BeginClanTowerWarResponseProto_BeginClanTowerWarStatusTowerAlreadyClaimed) {
-      [Globals popupMessage:@"Sorry, this tower has already been claimed."];
-    } else if (proto.status == BeginClanTowerWarResponseProto_BeginClanTowerWarStatusTowerAlreadyInBattle) {
-      [Globals popupMessage:@"Sorry, there is already a war taking place at this tower."];
-    } else if (proto.status == BeginClanTowerWarResponseProto_BeginClanTowerWarStatusClientTooApartFromServerTime) {
-      [self handleTimeOutOfSync];
-    } else if (proto.status == BeginClanTowerWarResponseProto_BeginClanTowerWarStatusNotClanLeader) {
-      [Globals popupMessage:@"You must be a clan leader to claim a tower or wage war."];
-    } else if (proto.status == BeginClanTowerWarResponseProto_BeginClanTowerWarStatusNotEnoughClanMembers) {
-      [Globals popupMessage:[NSString stringWithFormat:@"You need at least %d members to claim a tower or wage war.", gl.minClanMembersToHoldClanTower]];
-    } else if (proto.status == BeginClanTowerWarResponseProto_BeginClanTowerWarStatusAlreadyOwnsMaxNumberOfTowers) {
-      [Globals popupMessage:@"Sorry, you can only be engaged in one clan tower at a time."];
-    } else if (proto.status == BeginClanTowerWarResponseProto_BeginClanTowerWarStatusNotEnoughTimeSinceLastBattle) {
-      int numMins = proto.numMinutesTillNextAttack;
-      int hrs = numMins / 60;
-      int mins = numMins % 60;
-      NSString *h = hrs > 0 ? [NSString stringWithFormat:@"%dh ", hrs] : @"";
-      NSString *m = [NSString stringWithFormat:@"%dm", mins];
-      [Globals popupMessage:[NSString stringWithFormat:@"Morale is down from defeat! You can wage war again in %@%@.", h, m]];
-    } else {
-      [Globals popupMessage:@"Server failed to perform clan tower action."];
-    }
-    
-    [gs removeAndUndoAllUpdatesForTag:tag];
-  }
-}
-
-- (void) handleChangedClanTowerResponseProto:(FullEvent *)fe {
-  ChangedClanTowerResponseProto *proto = (ChangedClanTowerResponseProto *)fe.event;
-  
-  LNLog(@"Changed clan tower response received with reason %d and %d tower%@.", proto.reason, proto.clanTowersList.count, proto.clanTowersList.count != 1 ? @"s" : @"");
-  
-  GameState *gs = [GameState sharedGameState];
-  if (proto.clanTowersList.count > 0) {
-    [gs updateClanTowers:proto.clanTowersList];
-  }
-  
-  if (proto.reason == ChangedClanTowerResponseProto_ReasonForClanTowerChangeNumBattleWinsChanged) {
-    LNLog(@"attackerId=%d, defenderId=%d, attackerWon=%d, pointsGained=%d", proto.attackerUser.userId, proto.defenderUser.userId, proto.attackerWon, proto.pointsGained);
-    for (ClanTowerProto *ctp in proto.clanTowersList) {
-      ClanTowerUserBattle *ctub = [[ClanTowerUserBattle alloc] init];
-      ctub.attacker = proto.attackerUser;
-      ctub.defender = proto.defenderUser;
-      ctub.attackerWon = proto.attackerWon;
-      ctub.pointsGained = proto.pointsGained;
-      ctub.date = [NSDate date];
-      ctub.towerId = ctp.towerId;
-      [gs addClanTowerUserBattle:ctub];
-      [ctub release];
-    }
-  } else {
-    for (ClanTowerProto *ctp in proto.clanTowersList) {
-      [gs removeClanTowerUserBattlesForTowerId:ctp.towerId];
-    }
-  }
-}
-
-- (void) handleConcedeClanTowerWarResponseProto:(FullEvent *)fe {
-  ConcedeClanTowerWarResponseProto *proto = (ConcedeClanTowerWarResponseProto *)fe.event;
-  int tag = fe.tag;
-  
-  LNLog(@"Concede clan tower war response received with status %d.", proto.status);
-  
-  GameState *gs = [GameState sharedGameState];
-  if (proto.status == ConcedeClanTowerWarResponseProto_ConcedeClanTowerWarStatusSuccess) {
-    [gs removeNonFullUserUpdatesForTag:tag];
-  } else {
-    [Globals popupMessage:@"Server was unable to concede clan tower war"];
-    
-    [gs removeAndUndoAllUpdatesForTag:tag];
-  }
-}
-
 - (void) handleGeneralNotificationResponseProto:(FullEvent *)fe {
   GeneralNotificationResponseProto *proto = (GeneralNotificationResponseProto *)fe.event;
   
   LNLog(@"General notification received with title \"%@\".", proto.title);
   
-  TopBar *tb = [TopBar sharedTopBar];
-  UIColor *c = [Globals colorForColorProto:proto.rgb];
-  UserNotification *un = [[UserNotification alloc] initWithTitle:proto.title subtitle:proto.subtitle color:c];
-  [tb addNotificationToDisplayQueue:un];
-  [un release];
+//  TopBar *tb = [TopBar sharedTopBar];
+//  UIColor *c = [Globals colorForColorProto:proto.rgb];
+//  UserNotification *un = [[UserNotification alloc] initWithTitle:proto.title subtitle:proto.subtitle color:c];
+//  [tb addNotificationToDisplayQueue:un];
+//  [un release];
 }
 
 - (void) handleRetrieveLeaderboardRankingsResponseProto:(FullEvent *)fe {
-  RetrieveLeaderboardRankingsResponseProto *proto = (RetrieveLeaderboardRankingsResponseProto *)fe.event;
+  RetrieveLeaderboardEventRankingsResponseProto *proto = (RetrieveLeaderboardEventRankingsResponseProto *)fe.event;
   int tag = fe.tag;
   LNLog(@"Retrieve tournament response received with status %d and %d rankings.", proto.status, proto.resultPlayersList.count);
   
   GameState *gs = [GameState sharedGameState];
-  if (proto.status == RetrieveLeaderboardRankingsResponseProto_RetrieveLeaderboardStatusSuccess) {
-    [[TournamentMenuController sharedTournamentMenuController] receivedLeaderboardResponse:proto];
-    
+  if (proto.status == RetrieveLeaderboardEventRankingsResponseProto_RetrieveLeaderboardStatusSuccess) {
     [gs removeNonFullUserUpdatesForTag:tag];
   } else {
     [Globals popupMessage:@"Server failed to send back leaderboard rankings."];
@@ -2319,41 +1101,20 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
   }
 }
 
-- (void) handleSubmitEquipEnhancementResponseProto:(FullEvent *)fe {
-  SubmitEquipEnhancementResponseProto *proto = (SubmitEquipEnhancementResponseProto *)fe.event;
+- (void) handleSubmitMonsterEnhancementResponseProto:(FullEvent *)fe {
+  SubmitMonsterEnhancementResponseProto *proto = (SubmitMonsterEnhancementResponseProto *)fe.event;
   int tag = fe.tag;
-  LNLog(@"Submit equip enhancement received with status %d.", proto.status);
+  LNLog(@"Submit monster enhancement received with status %d.", proto.status);
   
   GameState *gs = [GameState sharedGameState];
-  if (proto.status == SubmitEquipEnhancementResponseProto_EnhanceEquipStatusSuccess) {
-    [gs addToMyEquips:[NSArray arrayWithObject:proto.resultingEquip]];
-    
+  if (proto.status == SubmitMonsterEnhancementResponseProto_EnhanceMonsterStatusSuccess) {
     [gs removeNonFullUserUpdatesForTag:tag];
   } else {
-    if (proto.status == SubmitEquipEnhancementResponseProto_EnhanceEquipStatusClientTooApartFromServerTime) {
+    if (proto.status == SubmitMonsterEnhancementResponseProto_EnhanceMonsterStatusClientTooApartFromServerTime) {
       [self handleTimeOutOfSync];
     } else {
-      [Globals popupMessage:@"Server failed to submit equip enhancement."];
+      [Globals popupMessage:@"Server failed to submit monster enhancement."];
     }
-    
-    [gs removeAndUndoAllUpdatesForTag:tag];
-  }
-  
-  ForgeMenuController *fmc = [ForgeMenuController sharedForgeMenuController];
-  [fmc.enhancingView receivedSubmitEquipEnhancementResponse:proto];
-}
-
-- (void) handleRetrieveClanTowerScoresResponseProto:(FullEvent *)fe {
-  RetrieveClanTowerScoresResponseProto *proto = (RetrieveClanTowerScoresResponseProto *)fe.event;
-  int tag = fe.tag;
-  LNLog(@"Retrieve clan tower scores received with status %d, %d owner members, %d attacker members.", proto.status, proto.ownerMembersList.count, proto.attackerMembersList.count);
-  
-  GameState *gs = [GameState sharedGameState];
-  if (proto.status == RetrieveClanTowerScoresResponseProto_RetrieveClanTowerScoresStatusSuccess) {
-    
-    [gs removeNonFullUserUpdatesForTag:tag];
-  } else {
-    [Globals popupMessage:@"Server failed to retrieve clan tower scores."];
     
     [gs removeAndUndoAllUpdatesForTag:tag];
   }
@@ -2362,52 +1123,21 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
 - (void) handlePurchaseBoosterPackResponseProto:(FullEvent *)fe {
   PurchaseBoosterPackResponseProto *proto = (PurchaseBoosterPackResponseProto *)fe.event;
   int tag = fe.tag;
-  LNLog(@"Purchase booster pack received with status %d and %d equips.", proto.status, proto.userEquipsList.count);
+  LNLog(@"Purchase booster pack received with status %d.", proto.status);
   
   GameState *gs = [GameState sharedGameState];
   if (proto.status == PurchaseBoosterPackResponseProto_PurchaseBoosterPackStatusSuccess) {
-    [gs addToMyEquips:proto.userEquipsList];
-    [gs.myBoosterPacks setObject:proto.userBoosterPack forKey:[NSNumber numberWithInt:proto.userBoosterPack.boosterPackId]];
     
     [gs removeNonFullUserUpdatesForTag:tag];
   } else {
-    if (proto.status == PurchaseBoosterPackResponseProto_PurchaseBoosterPackStatusExceedingPurchaseLimit) {
-      int numMins = proto.minutesUntilLimitReset;
-      int hrs = numMins / 60;
-      int mins = numMins % 60;
-      NSString *h = hrs > 0 ? [NSString stringWithFormat:@"%dh ", hrs] : @"";
-      NSString *m = [NSString stringWithFormat:@"%dm", mins];
-      NSString *first = proto.numPacksToExceedLimit > 0 ? [NSString stringWithFormat:@"You may only buy %d more of this chest today.", proto.numPacksToExceedLimit] : @"You may not buy anymore of this chest today.";
-      [Globals popupMessage:[NSString stringWithFormat:@"%@ Buy more in %@%@.", first, h, m]];
-    } else {
       if (proto.status == PurchaseBoosterPackResponseProto_PurchaseBoosterPackStatusClientTooApartFromServerTime) {
         [self handleTimeOutOfSync];
       } else {
         [Globals popupMessage:@"Server failed to purchase booster pack."];
       }
-    }
     
     [gs removeAndUndoAllUpdatesForTag:tag];
   }
-  
-  [[ArmoryViewController sharedArmoryViewController] receivedPurchaseBoosterPackResponse:proto];
-}
-
-- (void) handleResetBoosterPackResponseProto:(FullEvent *)fe {
-  ResetBoosterPackResponseProto *proto = (ResetBoosterPackResponseProto *)fe.event;
-  int tag = fe.tag;
-  LNLog(@"Reset booster pack received with status %d.", proto.status);
-  
-  GameState *gs = [GameState sharedGameState];
-  if (proto.status == ResetBoosterPackResponseProto_ResetBoosterPackStatusSuccess) {
-    [gs.myBoosterPacks setObject:proto.userBoosterPack forKey:[NSNumber numberWithInt:proto.userBoosterPack.boosterPackId]];
-    
-    [gs removeNonFullUserUpdatesForTag:tag];
-  } else {
-    [gs removeAndUndoAllUpdatesForTag:tag];
-  }
-  
-  [[ArmoryViewController sharedArmoryViewController] resetBoosterPackResponse:proto];
 }
 
 - (void) handleReceivedRareBoosterPurchaseResponseProto:(FullEvent *)fe {
@@ -2420,43 +1150,12 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
   PrivateChatPostResponseProto *proto = (PrivateChatPostResponseProto *)fe.event;
   LNLog(@"Private chat post response received with status %d.", proto.status);
   
-  [[ChatMenuController sharedChatMenuController] receivedPrivateChatPost:proto];
+//  [[ChatMenuController sharedChatMenuController] receivedPrivateChatPost:proto];
 }
 
 - (void) handleRetrievePrivateChatPostsResponseProto:(FullEvent *)fe {
   RetrievePrivateChatPostsResponseProto *proto = (RetrievePrivateChatPostsResponseProto *)fe.event;
-  [[ChatMenuController sharedChatMenuController] receivedRetrievePrivateChats:proto];
   LNLog(@"Retrieve private chats received with status %d and %d posts.", proto.status, proto.postsList.count);
-}
-
-- (void) handleRedeemUserLockBoxItemsResponseProto:(FullEvent *)fe {
-  RedeemUserLockBoxItemsResponseProto *proto = (RedeemUserLockBoxItemsResponseProto *)fe.event;
-  LNLog(@"Redeem user lock box items response received with status %d and %d equips.", proto.status, proto.equipsList.count);
-  
-  LockBoxMenuController *lbc = [LockBoxMenuController sharedLockBoxMenuController];
-  [lbc.lockBoxInfoView.unusedItemsView.loadingView stop];
-  
-  GameState *gs = [GameState sharedGameState];
-  if (proto.status == RedeemUserLockBoxItemsResponseProto_RedeemUserLockBoxItemsStatusSuccess) {
-    [gs addToMyEquips:proto.equipsList];
-    
-    ArmoryViewController *amc = [ArmoryViewController sharedArmoryViewController];
-    [Globals displayUIViewWithoutAdjustment:amc.cardDisplayView];
-    [amc.cardDisplayView beginAnimatingForEquips:proto.equipsList withTarget:lbc.lockBoxInfoView.unusedItemsView andSelector:@selector(closeClicked:)];
-    
-    LockBoxEventProto *e = [gs getCurrentLockBoxEvent];
-    NSNumber *key = [NSNumber numberWithInt:e.lockBoxEventId];
-    UserLockBoxEventProto *ue = [gs.myLockBoxEvents objectForKey:key];
-    ue = [[[UserLockBoxEventProto builderWithPrototype:ue] setHasBeenRedeemed:YES] build];
-    [gs.myLockBoxEvents setObject:ue forKey:key];
-    [gs resetLockBoxTimers];
-    
-    gs.boosterPacks = nil;
-    gs.myBoosterPacks = nil;
-    [[OutgoingEventController sharedOutgoingEventController] retrieveBoosterPacks];
-  } else {
-    [Globals popupMessage:@"Server failed to redeem user lock box items."];
-  }
 }
 
 - (void) handleBeginDungeonResponseProto:(FullEvent *)fe {
