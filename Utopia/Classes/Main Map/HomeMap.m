@@ -187,7 +187,6 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(HomeMap);
       NSString *imgName = [Globals imageNameForStruct:s.structId];
       moneyBuilding = [[MoneyBuilding alloc] initWithFile:imgName location:loc map:self];
       [self addChild:moneyBuilding z:0 tag:tag+offset];
-      [moneyBuilding release];
     } else {
       [moneyBuilding liftBlock];
       moneyBuilding.location = loc;
@@ -313,7 +312,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(HomeMap);
         r.origin = ccp(CENTER_TILE_X, CENTER_TILE_Y);
         r.origin.x += i*(EXPANSION_MID_SQUARE_SIZE/2+EXPANSION_ROAD_SIZE+EXPANSION_BLOCK_SIZE/2)-r.size.width/2+offset.x;
         r.origin.y += j*(EXPANSION_MID_SQUARE_SIZE/2+EXPANSION_ROAD_SIZE+EXPANSION_BLOCK_SIZE/2)-r.size.height/2+offset.y;
-        ExpansionBoard *eb = [[[ExpansionBoard alloc] initWithExpansionBlock:ccp(i,j) location:r map:self isExpanding:NO] autorelease];
+        ExpansionBoard *eb = [[ExpansionBoard alloc] initWithExpansionBlock:ccp(i,j) location:r map:self isExpanding:NO];
         [self addChild:eb z:-999];
         [arr addObject:eb];
         
@@ -360,8 +359,8 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(HomeMap);
 - (void) doReorder {
   [super doReorder];
   
-  if ((_isMoving && _selected) || ([_selected isKindOfClass:[HomeBuilding class]] && !((HomeBuilding *)_selected).isSetDown)) {
-    [self reorderChild:_selected z:1000];
+  if ((_isMoving && self.selected) || ([self.selected isKindOfClass:[HomeBuilding class]] && !((HomeBuilding *)self.selected).isSetDown)) {
+    [self reorderChild:self.selected z:1000];
   }
 }
 
@@ -397,8 +396,6 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(HomeMap);
   }
   
   [self addChild:_purchBuilding z:0 tag:tag];
-  // Only keep a weak ref
-  [_purchBuilding release];
   
   _canMove = YES;
   _purchasing = YES;
@@ -409,14 +406,14 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(HomeMap);
   
   [self moveToSprite:_purchBuilding animated:YES];
   
-  PurchaseConfirmMenu *m = [[[PurchaseConfirmMenu alloc] initWithCheckTarget:self checkSelector:@selector(moveCheckClicked:) cancelTarget:self cancelSelector:@selector(cancelMoveClicked:)] autorelease];
+  PurchaseConfirmMenu *m = [[PurchaseConfirmMenu alloc] initWithCheckTarget:self checkSelector:@selector(moveCheckClicked:) cancelTarget:self cancelSelector:@selector(cancelMoveClicked:)];
   m.tag = PURCHASE_CONFIRM_MENU_TAG;
   [_purchBuilding addChild:m];
   m.position = ccp(_purchBuilding.contentSize.width/2, _purchBuilding.contentSize.height+10);
 }
 
 - (void) setSelected:(SelectableSprite *)selected {
-  if (_selected != selected) {
+  if (self.selected != selected) {
     [super setSelected:selected];
     if ([selected isKindOfClass: [MoneyBuilding class]]) {
       MoneyBuilding *mb = (MoneyBuilding *) selected;
@@ -441,7 +438,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(HomeMap);
       }
     } else if ([selected isKindOfClass:[ExpansionBoard class]]) {
       GameState *gs = [GameState sharedGameState];
-      ExpansionBoard *exp = (ExpansionBoard *)_selected;
+      ExpansionBoard *exp = (ExpansionBoard *)self.selected;
       UserExpansion *ue = [gs getExpansionForX:exp.expandSpot.x y:exp.expandSpot.y];
       
       if (!ue.isExpanding) {
@@ -461,10 +458,10 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(HomeMap);
 }
 
 - (void) displayBuildingView {
-  if ([_selected isKindOfClass:[MoneyBuilding class]]) {
+  if ([self.selected isKindOfClass:[MoneyBuilding class]]) {
     GameState *gs = [GameState sharedGameState];
     Globals *gl = [Globals sharedGlobals];
-    MoneyBuilding *mb = (MoneyBuilding *)_selected;
+    MoneyBuilding *mb = (MoneyBuilding *)self.selected;
     FullStructureProto *fsp = [gs structWithId:mb.userStruct.structId];
     self.buildingNameLabel.text = [NSString stringWithFormat:@"%@ (lvl %d)", fsp.name, mb.userStruct.level];
     self.buildingIncomeLabel.text = [NSString stringWithFormat:@"%@ IN %@", [Globals cashStringForNumber:[gl calculateIncomeForUserStruct:mb.userStruct]], [Globals convertTimeToShortString:fsp.minutesToGain*60]];
@@ -474,9 +471,9 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(HomeMap);
 }
 
 - (void) displayUpgradingView {
-  if ([_selected isKindOfClass:[MoneyBuilding class]]) {
+  if ([self.selected isKindOfClass:[MoneyBuilding class]]) {
     GameState *gs = [GameState sharedGameState];
-    MoneyBuilding *mb = (MoneyBuilding *)_selected;
+    MoneyBuilding *mb = (MoneyBuilding *)self.selected;
     FullStructureProto *fsp = [gs structWithId:mb.userStruct.structId];
     self.upgradingNameLabel.text = [NSString stringWithFormat:@"%@ (lvl %d)", fsp.name, mb.userStruct.level];
 //    [[[TopBar sharedTopBar] topBarView] replaceChatViewWithView:self.upgradeBotView];
@@ -484,7 +481,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(HomeMap);
 }
 
 - (void) displayExpandingView {
-  if ([_selected isKindOfClass:[ExpansionBoard class]]) {
+  if ([self.selected isKindOfClass:[ExpansionBoard class]]) {
     Globals *gl = [Globals sharedGlobals];
     self.expandingCostLabel.text = [Globals cashStringForNumber:[gl calculateSilverCostForNewExpansion]];
 //    [[[TopBar sharedTopBar] topBarView] replaceChatViewWithView:self.expandBotView];
@@ -500,11 +497,11 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(HomeMap);
   
   // During drag, take out menus
   if (_canMove) {
-    if ([_selected isKindOfClass:[HomeBuilding class]]) {
-      HomeBuilding *homeBuilding = (HomeBuilding *)_selected;
+    if ([self.selected isKindOfClass:[HomeBuilding class]]) {
+      HomeBuilding *homeBuilding = (HomeBuilding *)self.selected;
       if([recognizer state] == UIGestureRecognizerStateBegan ) {
         // This fat statement just checks that the drag touch is somewhere closeby the selected sprite
-        if (CGRectContainsPoint(CGRectMake(_selected.position.x-_selected.contentSize.width/2*_selected.scale-20, _selected.position.y-20, _selected.contentSize.width*_selected.scale+40, _selected.contentSize.height*_selected.scale+40), pt)) {
+        if (CGRectContainsPoint(CGRectMake(self.selected.position.x-self.selected.contentSize.width/2*self.selected.scale-20, self.selected.position.y-20, self.selected.contentSize.width*self.selected.scale+40, self.selected.contentSize.height*self.selected.scale+40), pt)) {
           [homeBuilding setStartTouchLocation: pt];
           [homeBuilding liftBlock];
           
@@ -577,7 +574,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(HomeMap);
   mb.isConstructing = NO;
   [mb removeProgressBar];
   [mb displayUpgradeComplete];
-  if (mb == _selected) {
+  if (mb == self.selected) {
     [mb cancelMove];
     [self reselectCurrentSelection];
   }
@@ -590,7 +587,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(HomeMap);
   [self updateTimersForBuilding:mb];
   [mb removeProgressBar];
   [mb displayUpgradeComplete];
-  if (mb == _selected) {
+  if (mb == self.selected) {
     [mb cancelMove];
     [self reselectCurrentSelection];
   }
@@ -601,7 +598,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(HomeMap);
   MoneyBuilding *mb = [timer userInfo];
   mb.retrievable = YES;
   
-  if (mb == _selected) {
+  if (mb == self.selected) {
     if (_canMove) {
       [mb cancelMove];
       _canMove = NO;
@@ -615,7 +612,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(HomeMap);
 }
 
 - (IBAction)moveCheckClicked:(id)sender {
-  HomeBuilding *homeBuilding = (HomeBuilding *)_selected;
+  HomeBuilding *homeBuilding = (HomeBuilding *)self.selected;
   
   if (homeBuilding.isSetDown) {
     if (_purchasing) {
@@ -651,8 +648,8 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(HomeMap);
 }
 
 - (IBAction)rotateClicked:(id)sender {
-  if ([_selected isKindOfClass:[Building class]] && !_purchasing) {
-    Building *building = (Building *)_selected;
+  if ([self.selected isKindOfClass:[Building class]] && !_purchasing) {
+    Building *building = (Building *)self.selected;
     [building setOrientation:building.orientation+1];
   }
 }
@@ -664,7 +661,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(HomeMap);
     _canMove = NO;
     _purchasing = NO;
   } else {
-    HomeBuilding *hb = (HomeBuilding *)_selected;
+    HomeBuilding *hb = (HomeBuilding *)self.selected;
     [hb cancelMove];
     _canMove = NO;
     self.selected = nil;
@@ -674,7 +671,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(HomeMap);
 
 - (IBAction)sellClicked:(id)sender {
   GameState *gs = [GameState sharedGameState];
-  UserStruct *us = ((MoneyBuilding *)_selected).userStruct;
+  UserStruct *us = ((MoneyBuilding *)self.selected).userStruct;
   Globals *gl = [Globals sharedGlobals];
   FullStructureProto *fsp = [gs structWithId:us.structId];
   int silver = [gl calculateStructSilverSellCost:us];
@@ -685,7 +682,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(HomeMap);
 }
 
 - (void) sellSelected {
-  UserStruct *us = ((MoneyBuilding *)_selected).userStruct;
+  UserStruct *us = ((MoneyBuilding *)self.selected).userStruct;
   int structId = us.structId;
   [[OutgoingEventController sharedOutgoingEventController] sellNormStruct:us];
   if (![[[GameState sharedGameState] myStructs] containsObject:us]) {
@@ -722,7 +719,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(HomeMap);
 }
 
 - (IBAction)littleUpgradeClicked:(id)sender {
-  UserStruct *us = ((MoneyBuilding *)_selected).userStruct;
+  UserStruct *us = ((MoneyBuilding *)self.selected).userStruct;
   int maxLevel = 2;
   if (us.level < maxLevel) {
     [self.upgradeMenu displayForUserStruct:us];
@@ -732,7 +729,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(HomeMap);
 }
 
 - (IBAction)bigUpgradeClicked:(id)sender {
-  UserStruct *us = ((MoneyBuilding *)_selected).userStruct;
+  UserStruct *us = ((MoneyBuilding *)self.selected).userStruct;
   Globals *gl = [Globals sharedGlobals];
   GameState *gs = [GameState sharedGameState];
   FullStructureProto *fsp = [gs structWithId:us.structId];
@@ -750,7 +747,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(HomeMap);
         self.selected = nil;
       } else {
         [[OutgoingEventController sharedOutgoingEventController] upgradeNormStruct:us];
-        _upgrBuilding = (MoneyBuilding *)_selected;
+        _upgrBuilding = (MoneyBuilding *)self.selected;
         [self updateTimersForBuilding:_upgrBuilding];
         [self.upgradeMenu closeClicked:nil];
         [_upgrBuilding displayProgressBar];
@@ -766,7 +763,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(HomeMap);
         self.selected = nil;
       } else {
         [[OutgoingEventController sharedOutgoingEventController] upgradeNormStruct:us];
-        _upgrBuilding = (MoneyBuilding *)_selected;
+        _upgrBuilding = (MoneyBuilding *)self.selected;
         [self updateTimersForBuilding:_upgrBuilding];
         [self.upgradeMenu closeClicked:nil];
         [_upgrBuilding displayProgressBar];
@@ -783,7 +780,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(HomeMap);
 
 - (IBAction)finishNowClicked:(id)sender {
   if (_isSpeedingUp) return;
-  MoneyBuilding *mb = (MoneyBuilding *)_selected;
+  MoneyBuilding *mb = (MoneyBuilding *)self.selected;
   UserStruct *us = mb.userStruct;
   UserStructState state = us.state;
   Globals *gl = [Globals sharedGlobals];
@@ -803,7 +800,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(HomeMap);
 }
 
 - (void) speedUpBuilding {
-  MoneyBuilding *mb = (MoneyBuilding *)_selected;
+  MoneyBuilding *mb = (MoneyBuilding *)self.selected;
   UserStruct *us = mb.userStruct;
   UserStructState state = us.state;
   Globals *gl = [Globals sharedGlobals];
@@ -869,7 +866,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(HomeMap);
 - (IBAction)expandMenuButtonClicked:(id)sender {
   Globals *gl = [Globals sharedGlobals];
   GameState *gs = [GameState sharedGameState];
-  ExpansionBoard *exp = (ExpansionBoard *)_selected;
+  ExpansionBoard *exp = (ExpansionBoard *)self.selected;
   
   int silverCost = [gl calculateSilverCostForNewExpansion];
   if (gs.silver < silverCost) {
@@ -970,7 +967,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(HomeMap);
 }
 
 - (void) reselectCurrentSelection {
-  SelectableSprite *n = _selected;
+  SelectableSprite *n = self.selected;
   self.selected = nil;
   self.selected = n;
 }
@@ -978,20 +975,6 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(HomeMap);
 - (void) onExit {
   [super onExit];
   [self invalidateAllTimers];
-}
-
-- (void) dealloc {
-  self.upgradeMenu = nil;
-  self.buildableData = nil;
-  self.buildBotView  = nil;
-  self.upgradeBotView = nil;
-  self.expandBotView = nil;
-  self.expandingBotView = nil;
-  
-  [self invalidateAllTimers];
-  [_timers release];
-  
-  [super dealloc];
 }
 
 @end

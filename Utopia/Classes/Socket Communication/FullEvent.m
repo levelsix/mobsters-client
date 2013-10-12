@@ -14,7 +14,7 @@
 @synthesize tag;
 
 + (id) createWithEvent:(PBGeneratedMessage *)e tag:(int)t {
-  return [[[self alloc] initWithEvent:e tag:t] autorelease];
+  return [[self alloc] initWithEvent:e tag:t];
 }
 
 - (id) initWithEvent:(PBGeneratedMessage *)e tag:(int)t {
@@ -23,11 +23,6 @@
     self.tag = t;
   }
 return self;
-}
-
-- (void) dealloc {
-  self.event = nil;
-  [super dealloc];
 }
 
 @end

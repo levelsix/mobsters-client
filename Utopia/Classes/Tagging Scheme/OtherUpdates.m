@@ -14,7 +14,7 @@
 @synthesize tag;
 
 + (id) updateWithTag:(int)tag {
-  return [[[self alloc] initWithTag:tag] autorelease];
+  return [[self alloc] initWithTag:tag];
 }
 
 - (id) initWithTag:(int)t {
@@ -32,7 +32,7 @@
 @synthesize userStruct;
 
 + (id) updateWithTag:(int)tag userStruct:(UserStruct *)us {
-  return [[[self alloc] initWithTag:tag userStruct:us] autorelease];
+  return [[self alloc] initWithTag:tag userStruct:us];
 }
 
 - (id) initWithTag:(int)t userStruct:(UserStruct *)us {
@@ -59,7 +59,7 @@
 @synthesize userStruct;
 
 + (id) updateWithTag:(int)tag userStruct:(UserStruct *)us {
-  return [[[self alloc] initWithTag:tag userStruct:us] autorelease];
+  return [[self alloc] initWithTag:tag userStruct:us];
 }
 
 - (id) initWithTag:(int)t userStruct:(UserStruct *)us {
@@ -85,7 +85,7 @@
 @synthesize tag;
 
 + (id) updateWithTag:(int)tag prevLevel:(int)prevLevel curLevel:(int)curLevel nextLevel:(int)nextLevel {
-  return [[[self alloc] initWithTag:tag prevLevel:prevLevel curLevel:curLevel nextLevel:nextLevel] autorelease];
+  return [[self alloc] initWithTag:tag prevLevel:prevLevel curLevel:curLevel nextLevel:nextLevel];
 }
 
 - (id) initWithTag:(int)t prevLevel:(int)prevLevel curLevel:(int)curLevel nextLevel:(int)nextLevel {

@@ -43,10 +43,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(Downloader);
     if (data) {
       success = [data writeToFile:filePath atomically:YES];
     }
-    [data release];
   }
-  
-  [url release];
   
   return success ? filePath : nil;
 }
@@ -55,9 +52,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(Downloader);
   // Get an image from the URL below
   LNLog(@"Beginning async download of %@", imageName);
   dispatch_async(_asyncQueue, ^{
-    NSAutoreleasePool *a = [[NSAutoreleasePool alloc] init];
     [self downloadFile:imageName];
-    [a release];
     dispatch_async(dispatch_get_main_queue(), ^(void) {
       if (completed) {
         completed();
@@ -73,9 +68,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(Downloader);
   [self beginLoading:fileName];
   [[NSRunLoop mainRunLoop] runUntilDate:[NSDate dateWithTimeIntervalSinceNow:0.01f]];
   dispatch_sync(_syncQueue, ^{
-    NSAutoreleasePool *a = [[NSAutoreleasePool alloc] init];
     [self downloadFile:fileName];
-    [a release];
   });
   [self stopLoading];
   LNLog(@"Download of %@ complete", fileName);
@@ -139,10 +132,8 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(Downloader);
   [self beginLoading:bundleName];
   [[NSRunLoop mainRunLoop] runUntilDate:[NSDate dateWithTimeIntervalSinceNow:0.01f]];
   dispatch_sync(_syncQueue, ^{
-    NSAutoreleasePool *a = [[NSAutoreleasePool alloc] init];
     [self downloadBundle:[bundleName stringByAppendingString:@".zip"]];
     [self deletePreviousBundles:bundleName];
-    [a release];
   });
   [self stopLoading];
   LNLog(@"Download of bundle %@ complete", bundleName);
@@ -151,10 +142,8 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(Downloader);
 - (void) asyncDownloadBundle:(NSString *)bundleName {
   LNLog(@"Beginning async download of bundle %@", bundleName);
   dispatch_async(_asyncQueue, ^{
-    NSAutoreleasePool *a = [[NSAutoreleasePool alloc] init];
     [self downloadBundle:[bundleName stringByAppendingString:@".zip"]];
     [self deletePreviousBundles:bundleName];
-    [a release];
     dispatch_async(dispatch_get_main_queue(), ^(void) {
       LNLog(@"Download of bundle %@ complete", bundleName);
     });
@@ -178,14 +167,6 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(Downloader);
   }
 }
 
-- (void) dealloc {
-  dispatch_release(_syncQueue);
-  dispatch_release(_asyncQueue);
-  [_cacheDir release];
-  self.loadingView = nil;
-  [super dealloc];
-}
-
 @end
 
 @implementation DownloaderLoadingView
@@ -194,14 +175,6 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(Downloader);
 
 - (void) awakeFromNib {
   self.darkView.layer.cornerRadius = 10.f;
-}
-
-- (void) dealloc {
-  self.darkView = nil;
-  self.actIndView = nil;
-  self.label = nil;
-  
-  [super dealloc];
 }
 
 @end

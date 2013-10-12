@@ -13,7 +13,7 @@
 @implementation BattleEquip
 
 + (id) equipWithEquipId:(int)equipId enhancePercent:(int)enhancePercent durability:(int)durability {
-  return [[[self alloc] initWithEquipId:equipId enhancePercent:enhancePercent durability:durability] autorelease];
+  return [[self alloc] initWithEquipId:equipId enhancePercent:enhancePercent durability:durability];
 }
 
 - (id) initWithEquipId:(int)equipId enhancePercent:(int)enhancePercent durability:(int)durability {
@@ -30,7 +30,7 @@
 @implementation BattlePlayer
 
 + (id) playerWithHealth:(int)health weapon:(BattleEquip *)weapon armor:(BattleEquip *)armor amulet:(BattleEquip *)amulet {
-  return [[[self alloc] initWithHealth:health weapon:weapon armor:armor amulet:amulet] autorelease];
+  return [[self alloc] initWithHealth:health weapon:weapon armor:armor amulet:amulet];
 }
 
 - (id) initWithHealth:(int)health weapon:(BattleEquip *)weapon armor:(BattleEquip *)armor amulet:(BattleEquip *)amulet {
@@ -46,13 +46,6 @@
 
 - (int) attackPower {
   return 50;
-}
-
-- (void) dealloc {
-  self.weapon = nil;
-  self.armor = nil;
-  self.amulet = nil;
-  [super dealloc];
 }
 
 @end

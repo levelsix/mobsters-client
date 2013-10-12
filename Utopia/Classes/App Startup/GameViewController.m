@@ -53,20 +53,6 @@
   if ([subview isKindOfClass:[CCGLView class]]) {
     self.glView = (CCGLView *)subview;
   }
-  //  else if (self.glView && subview != self.glView) {
-  //    self.glView.userInteractionEnabled = NO;
-  //  }
-}
-
-//- (void) willRemoveSubview:(UIView *)subview {
-//  if (self.glView && subview != self.glView) {
-//    self.glView.userInteractionEnabled = YES;
-//  }
-//}
-
-- (void) dealloc {
-  self.glView = nil;
-  [super dealloc];
 }
 
 @end
@@ -100,17 +86,15 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(GameViewController);
   imgView.center = CGPointMake(v.frame.size.width/2, v.frame.size.height/2);
   imgView.userInteractionEnabled = YES;
   [v addSubview:imgView];
-  [imgView release];
-  [v release];
   
-  self.loadingBar = [[[ProgressBar alloc] initWithImage:[Globals imageNamed:@"loadingbar.png"]] autorelease];
+  self.loadingBar = [[ProgressBar alloc] initWithImage:[Globals imageNamed:@"loadingbar.png"]];
   [self.loadingBar awakeFromNib];
   self.loadingBar.center = CGPointMake(imgView.frame.size.width/2, imgView.frame.size.height/2+87);
   [imgView addSubview:self.loadingBar];
   self.loadingBar.percentage = 0.f;
   [self progressFrom:PART_0_PERCENT to:PART_1_PERCENT];
   
-  self.loadingLabel = [[[NiceFontLabel alloc] initWithFrame:CGRectZero] autorelease];
+  self.loadingLabel = [[NiceFontLabel alloc] initWithFrame:CGRectZero];
   [Globals adjustFontSizeForSize:12.f withUIView:self.loadingLabel];
   [imgView addSubview:self.loadingLabel];
   self.loadingLabel.text = @"Loading...";
@@ -257,7 +241,6 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(GameViewController);
   v.backgroundColor = [UIColor blackColor];
   
   self.view = v;
-  [v release];
   
   [self loadDefaultImage];
   
@@ -274,8 +257,6 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(GameViewController);
   imgView.transform = CGAffineTransformMakeRotation(M_PI/2);
   imgView.center = CGPointMake(v.frame.size.width/2, v.frame.size.height/2);
   [v addSubview:imgView];
-  [imgView release];
-  [v release];
   
   _startedGame = NO;
 }
@@ -283,10 +264,6 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(GameViewController);
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation {
   BOOL should =  UIInterfaceOrientationIsLandscape(interfaceOrientation);
 	return should;
-}
-
-- (void)dealloc {
-  [super dealloc];
 }
 
 @end

@@ -144,11 +144,6 @@
   }
 }
 
-- (void) dealloc {
-  self.label = nil;
-  [super dealloc];
-}
-
 @end
 
 @implementation NiceFontTextFieldDelegate
@@ -185,11 +180,6 @@
   return NO;
 }
 
-- (void) dealloc {
-  self.otherDelegate = nil;
-  [super dealloc];
-}
-
 @end
 
 @implementation NiceFontTextField
@@ -197,19 +187,12 @@
 @synthesize label, nfDelegate;
 
 - (void) awakeFromNib {
-  UIView *clipView = [[UIView alloc] initWithFrame:self.frame];
-  //  [self.superview insertSubview:clipView belowSubview:self];
-  [clipView release];
-  
   label = [[UILabel alloc] initWithFrame:self.bounds];
-  //  [clipView addSubview:label];
   
   self.font =  [UIFont fontWithName:[Globals font] size:self.font.pointSize];
   label.font = self.font;
   label.backgroundColor = [UIColor clearColor];
   [Globals adjustFontSizeForUILabel:label];
-  //  label.textColor = self.textColor;
-  //  self.textColor = [UIColor whiteColor];
   
   nfDelegate = [[NiceFontTextFieldDelegate alloc] init];
   nfDelegate.otherDelegate = self.delegate;
@@ -219,12 +202,6 @@
 - (void) setText:(NSString *)text {
   [super setText:text];
   label.text = self.text;
-}
-
-- (void) dealloc {
-  self.label = nil;
-  self.nfDelegate = nil;
-  [super dealloc];
 }
 
 @end
@@ -282,12 +259,6 @@
   }
 }
 
-- (void) dealloc {
-  self.path = nil;
-  self.highlightedPath = nil;
-  [super dealloc];
-}
-
 @end
 
 @implementation ServerButton
@@ -296,11 +267,6 @@
 
 - (void) awakeFromNib {
   [self setImage:[Globals imageNamed:path] forState:UIControlStateNormal] ;
-}
-
-- (void) dealloc {
-  self.path = nil;
-  [super dealloc];
 }
 
 @end
@@ -412,13 +378,6 @@
   }
 }
 
-- (void) dealloc {
-  self.darkView = nil;
-  self.actIndView = nil;
-  
-  [super dealloc];
-}
-
 @end
 
 @implementation SwitchButton
@@ -436,12 +395,10 @@
   UISwipeGestureRecognizer *swipe = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(turnOn)];
   swipe.direction = UISwipeGestureRecognizerDirectionRight;
   [self addGestureRecognizer:swipe];
-  [swipe release];
   
   swipe = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(turnOff)];
   swipe.direction = UISwipeGestureRecognizerDirectionLeft;
   [self addGestureRecognizer:swipe];
-  [swipe release];
 }
 
 - (void) turnOn {
@@ -524,12 +481,6 @@
   self.isOn = isOn;
 }
 
-- (void) dealloc {
-  self.handle = nil;
-  self.darkHandle = nil;
-  [super dealloc];
-}
-
 @end
 
 @implementation AutoScrollingScrollView
@@ -547,8 +498,7 @@
 - (void) setTimer:(NSTimer *)timer {
   if (_timer != timer) {
     [_timer invalidate];
-    [_timer release];
-    _timer = [timer retain];
+    _timer = timer;
   }
 }
 
@@ -698,13 +648,6 @@
   [self unclickButton:kButton2];
   _trackingButton1 = NO;
   _trackingButton2 = NO;
-}
-
-- (void) dealloc {
-  self.bgdImage = nil;
-  self.button2 = nil;
-  self.button1 = nil;
-  [super dealloc];
 }
 
 @end

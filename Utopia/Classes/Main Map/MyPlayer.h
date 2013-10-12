@@ -46,7 +46,6 @@
 - (void) stopPerformingAnimation;
 - (id) initWithLocation:(CGRect)loc map:(GameMap *)map;
 - (void) moveToLocation:(CGRect)loc;
-- (void) repeatCurrentAttackAnimation;
 - (void) performAttackAnimation;
 
 @end

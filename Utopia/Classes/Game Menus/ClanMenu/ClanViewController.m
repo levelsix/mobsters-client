@@ -16,9 +16,9 @@
 @implementation ClanViewController
 
 - (void) viewDidLoad {
-  self.clanBrowseViewController = [[[ClanBrowseViewController alloc] initWithNibName:nil bundle:nil] autorelease];
-  self.clanInfoViewController = [[[ClanInfoViewController alloc] initWithNibName:nil bundle:nil] autorelease];
-  self.clanCreateViewController = [[[ClanCreateViewController alloc] initWithNibName:nil bundle:nil] autorelease];
+  self.clanBrowseViewController = [[ClanBrowseViewController alloc] initWithNibName:nil bundle:nil];
+  self.clanInfoViewController = [[ClanInfoViewController alloc] initWithNibName:nil bundle:nil];
+  self.clanCreateViewController = [[ClanCreateViewController alloc] initWithNibName:nil bundle:nil];
   
   [self addChildViewController:self.clanBrowseViewController];
   [self addChildViewController:self.clanInfoViewController];
@@ -111,17 +111,6 @@
 
 - (void) handleRetractRequestJoinClanResponseProto:(FullEvent *)e {
   [self.clanBrowseViewController.browseClansTable reloadData];
-}
-
-- (void) dealloc {
-  [self.clanBrowseViewController removeFromParentViewController];
-  [self.clanInfoViewController removeFromParentViewController];
-  [self.clanCreateViewController removeFromParentViewController];
-  self.clanBrowseViewController = nil;
-  self.clanInfoViewController = nil;
-  self.clanCreateViewController = nil;
-  self.menuTopBar = nil;
-  [super dealloc];
 }
 
 @end

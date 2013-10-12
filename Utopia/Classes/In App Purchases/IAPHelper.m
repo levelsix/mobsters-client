@@ -32,7 +32,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IAPHelper);
   NSMutableSet *productIds = [NSMutableSet setWithArray:gl.productIdsToPackages.allKeys];
   
   if (productIds.count > 0) {
-    self.request = [[[SKProductsRequest alloc] initWithProductIdentifiers:productIds] autorelease];
+    self.request = [[SKProductsRequest alloc] initWithProductIdentifiers:productIds];
     _request.delegate = self;
     [_request start];
   }
@@ -83,7 +83,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IAPHelper);
     output[theIndex + 3] = (i + 2) < length ? table[(value >> 0)  & 0x3F] : '=';
   }
   
-  return [[[NSString alloc] initWithData:data encoding:NSASCIIStringEncoding] autorelease];
+  return [[NSString alloc] initWithData:data encoding:NSASCIIStringEncoding];
 }
 
 - (NSString *) priceForProduct:(SKProduct *)product {
@@ -92,7 +92,6 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IAPHelper);
   [numberFormatter setNumberStyle:NSNumberFormatterCurrencyStyle];
   [numberFormatter setLocale:product.priceLocale];
   NSString *str = [numberFormatter stringFromNumber:product.price];
-  [numberFormatter release];
   return str;
 }
 
@@ -152,15 +151,6 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IAPHelper);
   
   SKPayment *payment = [SKPayment paymentWithProduct:product];
   [[SKPaymentQueue defaultQueue] addPayment:payment];
-}
-
-- (void)dealloc
-{
-  [_products release];
-  _products = nil;
-  [_request release];
-  _request = nil;
-  [super dealloc];
 }
 
 @end

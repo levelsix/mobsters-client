@@ -31,7 +31,7 @@
 
 - (void) displayArrow {
   [super displayArrow];
-  _arrow.position = ccpAdd(_arrow.position, ccp(0, 10.f));
+  self.arrow.position = ccpAdd(self.arrow.position, ccp(0, 10.f));
 }
 
 - (void) setOpacity:(GLubyte)opacity {
@@ -42,11 +42,6 @@
 - (void) setLocation:(CGRect)location {
   [super setLocation:location];
   self.position = ccpAdd(self.position, ccp(0, VERTICAL_OFFSET));
-}
-
-- (void) dealloc {
-  self.nameLabel = nil;
-  [super dealloc];
 }
 
 @end
@@ -223,10 +218,6 @@ BOOL _loading = NO;
 
 - (void) dealloc {
   [[CCSpriteFrameCache sharedSpriteFrameCache] removeUnusedSpriteFrames];
-  self.sprite = nil;
-  self.walkActionF = nil;
-  self.walkActionN = nil;
-	[super dealloc];
 }
 
 @end
@@ -247,8 +238,7 @@ BOOL _loading = NO;
 
 - (void) setName:(NSString *)n {
   if (name != n) {
-    [name release];
-    name = [n copy];
+    name = n;
     _nameLabel.string = name;
   }
 }
@@ -270,7 +260,7 @@ BOOL _loading = NO;
 
 - (void) displayArrow {
   [super displayArrow];
-  _arrow.position = ccpAdd(_arrow.position, ccp(0, _aboveHeadMark.contentSize.height));
+  self.arrow.position = ccpAdd(self.arrow.position, ccp(0, _aboveHeadMark.contentSize.height));
 }
 
 - (void) setQuestGiverState:(QuestGiverState)i {
@@ -329,12 +319,6 @@ BOOL _loading = NO;
   }
 }
 
-- (void) dealloc {
-  self.quest = nil;
-  self.name = nil;
-  [super dealloc];
-}
-
 @end
 
 @implementation TutorialGirl
@@ -350,7 +334,6 @@ BOOL _loading = NO;
 
 - (void) dealloc {
   [[CCSpriteFrameCache sharedSpriteFrameCache] removeUnusedSpriteFrames];
-	[super dealloc];
 }
 
 @end
@@ -370,15 +353,9 @@ BOOL _loading = NO;
 
 - (void) setName:(NSString *)n {
   if (name != n) {
-    [name release];
-    name = [n retain];
+    name = n;
     _nameLabel.string = name;
   }
-}
-
-- (void) dealloc {
-  self.ftp = nil;
-  [super dealloc];
 }
 
 @end
@@ -427,18 +404,10 @@ BOOL _loading = NO;
 
 - (void) setName:(NSString *)n {
   if (_name != n) {
-    [_name release];
-    _name = [n retain];
+    _name = n;
     _nameLabel.string = _name;
     _nameLabel.visible = NO;
   }
-}
-
-- (void) dealloc {
-  // Need to deallocate timer first to prevent
-  self.fbp = nil;
-  self.name = nil;
-  [super dealloc];
 }
 
 @end
@@ -447,7 +416,7 @@ BOOL _loading = NO;
 
 +(id) actionWithDuration: (ccTime) t location: (CGRect) p
 {
-  return [[[self alloc] initWithDuration:t location:p ] autorelease];
+  return [[self alloc] initWithDuration:t location:p];
 }
 
 -(id) initWithDuration: (ccTime) t location: (CGRect) p

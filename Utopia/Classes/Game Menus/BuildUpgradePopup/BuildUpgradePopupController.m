@@ -20,7 +20,7 @@
 
 - (id) initWithUserStruct:(UserStruct *)us {
   if ((self = [super init])) {
-    _userStruct = [us retain];
+    _userStruct = us;
   }
   return self;
 }
@@ -55,27 +55,6 @@
   [Globals popOutView:self.mainView fadeOutBgdView:self.bgdView completion:^{
     [self.view removeFromSuperview];
   }];
-}
-
-- (void) viewDidDisappear:(BOOL)animated {
-  [self didReceiveMemoryWarning];
-  [self release];
-}
-
-- (void)didReceiveMemoryWarning
-{
-  [super didReceiveMemoryWarning];
-  if (self.isViewLoaded && !self.view.superview) {
-    self.view = nil;
-    // Release any retained subviews of the main view.
-    // e.g. self.myOutlet = nil;
-    [_userStruct release];
-    self.titleLabel = nil;
-    self.descriptionLabel = nil;
-    self.structIcon = nil;
-    self.mainView = nil;
-    self.bgdView = nil;
-  }
 }
 
 @end

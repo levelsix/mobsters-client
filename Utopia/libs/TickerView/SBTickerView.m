@@ -90,17 +90,6 @@
   return self;
 }
 
-- (void) dealloc {
-  self.frontView = nil;
-  self.backView = nil;
-  self.topFaceLayer = nil;
-  self.bottomFaceLayer = nil;
-  self.tickLayer = nil;
-  self.flipLayer = nil;
-  self.panGestureRecognizer = nil;
-  [super dealloc];
-}
-
 - (void)layoutSubviews {
   [super layoutSubviews];
   
@@ -114,7 +103,7 @@
   if (_frontView.superview)
     [_frontView removeFromSuperview];
   
-  _frontView = [frontView retain];
+  _frontView = frontView;
   [self addSubview:frontView];
 }
 
@@ -160,29 +149,29 @@
   
   // Face layers
   // Top
-  [self setTopFaceLayer:[[[SBGradientOverlayLayer alloc] initWithStyle:SBGradientOverlayLayerTypeFace
-                                                              segment:SBGradientOverlayLayerSegmentTop] autorelease]];
+  [self setTopFaceLayer:[[SBGradientOverlayLayer alloc] initWithStyle:SBGradientOverlayLayerTypeFace
+                                                              segment:SBGradientOverlayLayerSegmentTop]];
   
   [_topFaceLayer setFrame:CGRectMake(0., 0., _flipLayer.frame.size.width, floorf(_flipLayer.frame.size.height/2))];
   
   // Bottom
-  [self setBottomFaceLayer:[[[SBGradientOverlayLayer alloc] initWithStyle:SBGradientOverlayLayerTypeFace
-                                                                 segment:SBGradientOverlayLayerSegmentBottom] autorelease]];
+  [self setBottomFaceLayer:[[SBGradientOverlayLayer alloc] initWithStyle:SBGradientOverlayLayerTypeFace
+                                                                 segment:SBGradientOverlayLayerSegmentBottom]];
   
   [_bottomFaceLayer setFrame:CGRectMake(0., floorf(_flipLayer.frame.size.height / 2), _flipLayer.frame.size.width, floorf(_flipLayer.frame.size.height/2))];
   
   // Tick layer
-  [self setTickLayer:[[[SBDoubleSidedLayer alloc] init] autorelease]];
+  [self setTickLayer:[[SBDoubleSidedLayer alloc] init]];
   
   [_tickLayer setAnchorPoint:CGPointMake(1., 1.)];
   [_tickLayer setFrame:CGRectMake(0., 0., _flipLayer.frame.size.width, floorf(_flipLayer.frame.size.height/2))];
   [_tickLayer setZPosition:1.]; // Above the other ones
   
-  [_tickLayer setFrontLayer:[[[SBGradientOverlayLayer alloc] initWithStyle:SBGradientOverlayLayerTypeTick
-                                                                  segment:SBGradientOverlayLayerSegmentTop] autorelease]];
+  [_tickLayer setFrontLayer:[[SBGradientOverlayLayer alloc] initWithStyle:SBGradientOverlayLayerTypeTick
+                                                                  segment:SBGradientOverlayLayerSegmentTop]];
   
-  [_tickLayer setBackLayer:[[[SBGradientOverlayLayer alloc] initWithStyle:SBGradientOverlayLayerTypeTick
-                                                                 segment:SBGradientOverlayLayerSegmentBottom] autorelease]];
+  [_tickLayer setBackLayer:[[SBGradientOverlayLayer alloc] initWithStyle:SBGradientOverlayLayerTypeTick
+                                                                 segment:SBGradientOverlayLayerSegmentBottom]];
   
   
   // Images

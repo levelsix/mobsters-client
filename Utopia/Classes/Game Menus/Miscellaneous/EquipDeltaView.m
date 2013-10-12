@@ -48,7 +48,6 @@ static NSString *viewName = @"EquipDeltaView";
 
   newView.upperLabel.textColor = topColor;
   newView.lowerLabel.textColor = botColor;
-  [newView autorelease];
   return newView;
 }
 

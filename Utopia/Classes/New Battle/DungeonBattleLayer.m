@@ -14,7 +14,7 @@
 + (CCScene *) sceneWithBeginDungeonResponseProto:(BeginDungeonResponseProto *)dungeonInfo {
 	CCScene *scene = [CCScene node];
 	
-	NewBattleLayer *layer = [[[DungeonBattleLayer alloc] initWithBeginDungeonResponseProto:dungeonInfo] autorelease];
+	NewBattleLayer *layer = [[DungeonBattleLayer alloc] initWithBeginDungeonResponseProto:dungeonInfo];
 	[scene addChild: layer];
   
 	return scene;
@@ -57,11 +57,6 @@
 //  MonsterProto *monster = [stage mpAtIndex:0];
   
   return 0;//monster.equipId;
-}
-
-- (void) dealloc {
-  self.dungeonInfo = nil;
-  [super dealloc];
 }
 
 @end

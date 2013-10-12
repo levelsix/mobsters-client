@@ -64,22 +64,6 @@
   [self endEditing:YES];
 }
 
-- (void) dealloc {
-  self.titleLabel = nil;
-  self.descriptionLabel = nil;
-  self.greenButtonLabel = nil;
-  self.blackButtonLabel = nil;
-  self.redButtonLabel = nil;
-  self.mainView = nil;
-  self.bgdColorView = nil;
-  self.notificationView = nil;
-  self.confirmationView = nil;
-  self.okInvocation = nil;
-  self.cancelInvocation = nil;
-  
-  [super dealloc];
-}
-
 @end
 
 @implementation GenericPopupController
@@ -233,11 +217,6 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(GenericPopupController);
 
 - (void) openAppStoreLink {
   [[UIApplication sharedApplication] openURL:[NSURL URLWithString:self.appStoreLink]];
-}
-
-- (void) dealloc {
-  self.appStoreLink = nil;
-  [super dealloc];
 }
 
 @end

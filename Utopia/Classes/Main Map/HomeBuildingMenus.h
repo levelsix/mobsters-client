@@ -19,7 +19,6 @@
 @end
 
 @interface UpgradeProgressBar : CCSprite {
-  CCProgressTimer *_progressBar;
   CCLabelTTF *_timeLabel;
 }
 

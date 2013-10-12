@@ -42,7 +42,7 @@ static NSString *udid = nil;
 
 - (NSString *)getIPAddress
 {
-  NSURL *url = [[[NSURL alloc] initWithString:@"http://checkip.dyndns.com/"] autorelease];
+  NSURL *url = [[NSURL alloc] initWithString:@"http://checkip.dyndns.com/"];
   NSString *contents = [NSString stringWithContentsOfURL:url encoding:NSStringEncodingConversionAllowLossy error:nil];
   NSRegularExpression *regex = [NSRegularExpression regularExpressionWithPattern:@"\\d+\\.\\d+\\.\\d+\\.\\d+" options:NSRegularExpressionCaseInsensitive error:nil];
   NSRange rangeOfFirstMatch = [regex rangeOfFirstMatchInString:contents options:0 range:NSMakeRange(0, [contents length])];
@@ -132,7 +132,7 @@ static NSString *udid = nil;
 #ifdef FORCE_TUTORIAL
     udid = [[NSString stringWithFormat:@"%d%d%d", arc4random(), arc4random(), arc4random()] retain];
 #else
-    udid = [UDID retain];
+    udid = UDID;
 #endif
   }
   return self;
@@ -140,9 +140,8 @@ static NSString *udid = nil;
 
 - (void) rebuildSender {
   int oldClanId = _sender.clan.clanId;
-  [_sender release];
   GameState *gs = [GameState sharedGameState];
-  _sender = [gs.minUser retain];
+  _sender = gs.minUser;
   
   // if clan changes, reload the queue
   if (oldClanId != _sender.clan.clanId) {
@@ -178,7 +177,7 @@ static NSString *udid = nil;
     [[OutgoingEventController sharedOutgoingEventController] startup];
     [[GameViewController sharedGameViewController] connectedToHost];
     
-    _flushTimer = [[NSTimer timerWithTimeInterval:10.f target:self selector:@selector(flush) userInfo:nil repeats:YES] retain];
+    _flushTimer = [NSTimer timerWithTimeInterval:10.f target:self selector:@selector(flush) userInfo:nil repeats:YES];
     [[NSRunLoop mainRunLoop] addTimer:_flushTimer forMode:NSRunLoopCommonModes];
   }
   
@@ -795,23 +794,17 @@ static NSString *udid = nil;
 
 - (void) closeDownConnection {
   [_flushTimer invalidate];
-  [_flushTimer release];
   _flushTimer = nil;
   [self flush];
   [_connectionThread end];
   _connectionThread = nil;
-  [_sender release];
   _sender = nil;
   
   LNLog(@"Disconnected from host..");
 }
 
 - (void) dealloc {
-  [udid release];
-  udid = nil;
-  [_sender release];
   [self closeDownConnection];
-  [super dealloc];
 }
 
 @end

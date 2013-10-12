@@ -53,7 +53,7 @@
 
 - (void) displayProgressBar {
   if (![self getChildByTag:UPGRADING_TAG]) {
-    UpgradeProgressBar *upgrIcon = [[[UpgradeProgressBar alloc] initBar] autorelease];
+    UpgradeProgressBar *upgrIcon = [[UpgradeProgressBar alloc] initBar];
     [self addChild:upgrIcon z:1 tag:UPGRADING_TAG];
     upgrIcon.position = ccp(self.contentSize.width/2, self.contentSize.height);
     [self schedule:@selector(updateUpgradeBar) interval:1.f];
@@ -114,7 +114,7 @@
 @synthesize isConstructing = _isConstructing;
 
 + (id) homeWithFile: (NSString *) file location: (CGRect) loc map: (HomeMap *) map {
-  return [[[self alloc] initWithFile:file location:loc map:map] autorelease];
+  return [[self alloc] initWithFile:file location:loc map:map];
 }
 
 - (id) initWithFile: (NSString *) file location: (CGRect)loc map: (HomeMap *) map {
@@ -350,9 +350,8 @@
   if (_retrieveBubble) {
     // Make sure to cleanup just in case
     [self removeChild:_retrieveBubble cleanup:YES];
-    [_retrieveBubble release];
   }
-  _retrieveBubble = [[CCSprite spriteWithFile:@"silverover.png"] retain];
+  _retrieveBubble = [CCSprite spriteWithFile:@"silverover.png"];
   [self addChild:_retrieveBubble];
   _retrieveBubble.position = ccp(self.contentSize.width/2,self.contentSize.height-OVER_HOME_BUILDING_MENU_OFFSET);
 }
@@ -370,8 +369,7 @@
 
 - (void) setUserStruct:(UserStruct *)userStruct {
   if (_userStruct != userStruct) {
-    [_userStruct release];
-    _userStruct = [userStruct retain];
+    _userStruct = userStruct;
     
     // Re-set location
     if (userStruct) {
@@ -470,8 +468,7 @@
 - (void) setTimer:(NSTimer *)timer {
   if (_timer != timer) {
     [_timer invalidate];
-    [_timer release];
-    _timer = [timer retain];
+    _timer = timer;
   }
 }
 
@@ -514,10 +511,7 @@
 }
 
 - (void) dealloc {
-  self.userStruct = nil;
   self.timer = nil;
-  [_retrieveBubble release];
-  [super dealloc];
 }
 
 @end
@@ -533,12 +527,6 @@
   } else {
     [Analytics taskClosed:ftp.taskId];
   }
-}
-
-- (void) dealloc {
-  self.ftp = nil;
-  self.name = nil;
-  [super dealloc];
 }
 
 @end

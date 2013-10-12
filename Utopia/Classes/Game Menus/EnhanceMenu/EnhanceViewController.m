@@ -15,11 +15,6 @@
 
 @implementation EnhanceBrowseCell
 
-- (void) dealloc {
-  self.containerViews = nil;
-  [super dealloc];
-}
-
 @end
 
 @implementation EnhanceViewController
@@ -340,17 +335,6 @@
   }
   
   return cell;
-}
-
-- (void) dealloc {
-  self.browseCell = nil;
-  self.monsterChosenView = nil;
-  self.noMonsterChosenView = nil;
-  self.baseMonster = nil;
-  self.feeders = nil;
-  self.feederCards = nil;
-  self.monsterCardView = nil;
-  [super dealloc];
 }
 
 @end

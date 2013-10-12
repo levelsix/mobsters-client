@@ -40,14 +40,11 @@
 - (void)dealloc
 {
 	[self close];
-	[connection release];
-	
-	[super dealloc];
 }
 
 - (void)openChannel:(unsigned int)theChannel onConnection:(AMQPConnection*)theConnection
 {
-	connection = [theConnection retain];
+	connection = theConnection;
 	channel = theChannel;
 	
 	amqp_channel_open(connection.internalConnection, channel);

@@ -23,11 +23,6 @@
   [self.textField resignFirstResponder];
 }
 
-- (void) dealloc {
-  self.textField = nil;
-  [super dealloc];
-}
-
 @end
 
 @implementation BrowseClanCell
@@ -68,11 +63,6 @@
   }
 }
 
-- (void) dealloc {
-  self.clan = nil;
-  [super dealloc];
-}
-
 @end
 
 @implementation ClanBrowseViewController
@@ -88,7 +78,7 @@
 - (void) viewDidLoad {
   self.clanList = [NSMutableArray array];
   
-  self.browseClansTable.tableFooterView = [[[UIView alloc] init] autorelease];
+  self.browseClansTable.tableFooterView = [[UIView alloc] init];
   
   [(UIActivityIndicatorView *)[self.loadingCell viewWithTag:31] startAnimating];
   
@@ -256,17 +246,6 @@
 
 - (void) touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event {
   [self.view endEditing:YES];
-}
-
-- (void) dealloc {
-  self.clanList = nil;
-  self.browseClansTable = nil;
-  self.spinner = nil;
-  self.clanCell = nil;
-  self.searchCell = nil;
-  self.searchString = nil;
-  self.loadingCell = nil;
-  [super dealloc];
 }
 
 @end

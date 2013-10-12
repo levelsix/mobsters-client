@@ -44,8 +44,6 @@
 	[self disconnect];
 	
 	amqp_destroy_connection(connection);
-	
-	[super dealloc];
 }
 
 - (void)connectToHost:(NSString*)host onPort:(int)port
@@ -97,7 +95,7 @@
 	
 	nextChannel++;
 
-	return [channel autorelease];
+	return channel;
 }
 
 @end

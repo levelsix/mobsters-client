@@ -272,12 +272,10 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
     for (GroupChatMessageProto *msg in proto.globalChatsList) {
       ChatMessage *cm = [[ChatMessage alloc] initWithProto:msg];
       [gs addChatMessage:cm scope:GroupChatScopeGlobal];
-      [cm release];
     }
     for (GroupChatMessageProto *msg in proto.clanChatsList) {
       ChatMessage *cm = [[ChatMessage alloc] initWithProto:msg];
       [gs addChatMessage:cm scope:GroupChatScopeClan];
-      [cm release];
     }
     
     for (RareBoosterPurchaseProto *rbp in proto.rareBoosterPurchasesList) {
@@ -292,11 +290,11 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
     
     // Display generic popups for strings that haven't been seen before
     NSUserDefaults *standardDefault = [NSUserDefaults standardUserDefaults];
-    NSMutableArray *stringsStored = [[[[NSUserDefaults standardUserDefaults] objectForKey:@"myCurrentString"]mutableCopy] autorelease];
+    NSMutableArray *stringsStored = [[[NSUserDefaults standardUserDefaults] objectForKey:@"myCurrentString"]mutableCopy];
     NSMutableArray *incomingStrings = [NSMutableArray arrayWithArray:proto.noticesToPlayersList];
     
     if (stringsStored == NULL){
-      stringsStored = [[[NSMutableArray alloc]init] autorelease];
+      stringsStored = [[NSMutableArray alloc]init];
     }
     for(NSString *incomingString in incomingStrings){
       BOOL hasStringAlready = NO;
@@ -353,7 +351,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
   
   NSString *key = IAP_DEFAULTS_KEY;
   NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
-  NSMutableArray *arr = [[[defaults arrayForKey:key] mutableCopy] autorelease];
+  NSMutableArray *arr = [[defaults arrayForKey:key] mutableCopy];
   int origCount = arr.count;
   NSString *x = nil;
   for (NSString *str in arr) {
@@ -746,7 +744,6 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
   GameState *gs = [GameState sharedGameState];
   UserNotification *un = [[UserNotification alloc] initWithReferralResponse:proto];
   [gs addNotification:un];
-  [un release];
   
   [Analytics receivedNotification];
 }

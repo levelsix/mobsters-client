@@ -140,9 +140,4 @@
   [self.navigationController popViewControllerAnimated:YES];
 }
 
-- (void) dealloc {
-  self.clan = nil;
-  [super dealloc];
-}
-
 @end

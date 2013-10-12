@@ -75,14 +75,6 @@
   rankLabel.text = [NSString stringWithFormat:@"%d", us.level];
 }
 
-- (void) dealloc {
-  self.titleLabel = nil;
-  self.incomeLabel = nil;
-  self.rankLabel = nil;
-  
-  [super dealloc];
-}
-
 @end
 
 @implementation HomeBuildingCollectMenu
@@ -126,8 +118,7 @@
 - (void) setTimer:(NSTimer *)t {
   if (timer != t) {
     [timer invalidate];
-    [timer release];
-    timer = [t retain];
+    timer = t;
   }
 }
 
@@ -138,15 +129,6 @@
     self.timer = nil;
     self.userStruct = nil;
   }
-}
-
-- (void) dealloc {
-  self.userStruct = nil;
-  self.timer = nil;
-  self.coinsLabel = nil;
-  self.timeLabel = nil;
-  self.progressBar = nil;
-  [super dealloc];
 }
 
 @end

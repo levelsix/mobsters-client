@@ -13,7 +13,7 @@
 @synthesize tag;
 
 + (id) updateWithTag:(int)t change:(int)change {
-  return [[[self alloc] initWithTag:t change:change] autorelease];
+  return [[self alloc] initWithTag:t change:change];
 }
 
 - (id) initWithTag:(int)t change:(int)change {

@@ -21,7 +21,6 @@
 #import "OpenUDID.h"
 #import "SocketCommunication.h"
 #import "ODIN.h"
-#import "PAStatsTracker.h"
 
 #define FONT_LABEL_OFFSET 1.f
 #define SHAKE_DURATION 0.05f
@@ -619,7 +618,6 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
         // Set up scale
         float scale = MIN(1.f, MIN(view.frame.size.width/loadingView.frame.size.width/2.f, view.frame.size.width/loadingView.frame.size.width/2.f));
         loadingView.transform = CGAffineTransformMakeScale(scale, scale);
-        [loadingView release];
       }
       
       if (clear) {
@@ -632,9 +630,6 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
       
       [[gl imageViewsWaitingForDownloading] setObject:imageName forKey:key];
       
-      // Image not in docs: download it
-      // Game will crash if view is released before image download completes so retain it
-      [view retain];
       [[Downloader sharedDownloader] asyncDownloadFile:fullpath.lastPathComponent completion:^{
         NSString *str = [[gl imageViewsWaitingForDownloading] objectForKey:key];
         if ([str isEqualToString:imageName]) {
@@ -662,7 +657,6 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
             r.size = img.size;
             view.frame = r;
           }
-          [view release];
           
           UIActivityIndicatorView *loadingView = (UIActivityIndicatorView *)[view viewWithTag:150];
           [loadingView stopAnimating];
@@ -719,7 +713,6 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
     if (![[NSFileManager defaultManager] fileExistsAtPath:fullpath]) {
       [[gl imageViewsWaitingForDownloading] setObject:imageName forKey:key];
       
-      [s retain];
       [[Downloader sharedDownloader] asyncDownloadFile:fullpath.lastPathComponent completion:^{
         NSString *str = [[gl imageViewsWaitingForDownloading] objectForKey:key];
         if ([str isEqualToString:imageName]) {
@@ -1192,16 +1185,6 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
   return curTime < shieldEndTime;
 }
 
-- (void) dealloc {
-  self.imageCache = nil;
-  self.imageViewsWaitingForDownloading = nil;
-  self.animatingSpriteOffsets = nil;
-  self.downloadableNibConstants = nil;
-  self.reviewPageURL = nil;
-  self.reviewPageConfirmationMessage = nil;
-  [super dealloc];
-}
-
 @end
 
 @implementation CCNode (RecursiveOpacity)
@@ -1239,14 +1222,14 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
 
 - (void)setUpSettingsAndCloseButtons {
   [self loadNib];
-  UIBarButtonItem *rightButton1 = [[[UIBarButtonItem alloc] initWithCustomView:self.menuCloseButton] autorelease];
-  UIBarButtonItem *rightButton2 = [[[UIBarButtonItem alloc] initWithCustomView:self.menuSettingsButton] autorelease];
+  UIBarButtonItem *rightButton1 = [[UIBarButtonItem alloc] initWithCustomView:self.menuCloseButton];
+  UIBarButtonItem *rightButton2 = [[UIBarButtonItem alloc] initWithCustomView:self.menuSettingsButton];
   self.navigationItem.rightBarButtonItems = [NSArray arrayWithObjects:rightButton1, rightButton2, nil];
 }
 
 - (void)setUpCloseButton {
   [self loadNib];
-  UIBarButtonItem *rightButton1 = [[[UIBarButtonItem alloc] initWithCustomView:self.menuCloseButton] autorelease];
+  UIBarButtonItem *rightButton1 = [[UIBarButtonItem alloc] initWithCustomView:self.menuCloseButton];
   self.navigationItem.rightBarButtonItem = rightButton1;
 }
 
@@ -1255,7 +1238,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
   self.navigationItem.hidesBackButton = YES;
   if (self.navigationController.viewControllers.count > 1) {
     [self loadNib];
-    self.navigationItem.leftBarButtonItem = [[[UIBarButtonItem alloc] initWithCustomView:self.menuBackButton] autorelease];
+    self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:self.menuBackButton];
     
     NSArray *vcs = self.navigationController.viewControllers;
     self.menuBackLabel.text = [[vcs objectAtIndex:vcs.count-2] title];
@@ -1270,14 +1253,6 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
 - (IBAction)menuCloseClicked:(id)sender {
   [self.navigationController.view removeFromSuperview];
   [self.navigationController removeFromParentViewController];
-}
-
-- (void) dealloc {
-  self.menuCloseButton = nil;
-  self.menuSettingsButton = nil;
-  self.menuBackButton = nil;
-  self.menuBackLabel = nil;
-  [super dealloc];
 }
 
 @end

@@ -44,7 +44,7 @@ static int sessionId;
     NSString *udidKey = UDID_KEY;
     _udidQueue = [[AMQPQueue alloc] initWithName:[udidKey stringByAppendingFormat:@"_%d_queue", sessionId] onChannel:channel isPassive:NO isExclusive:NO isDurable:YES getsAutoDeleted:YES];
     [_udidQueue bindToExchange:_directExchange withKey:udidKey];
-    _udidConsumer = [[_udidQueue startConsumerWithAcknowledgements:NO isExclusive:NO receiveLocalMessages:YES] retain];
+    _udidConsumer = [_udidQueue startConsumerWithAcknowledgements:NO isExclusive:NO receiveLocalMessages:YES];
     
     if ([_delegate respondsToSelector:@selector(connectedToHost)]) {
       [_delegate performSelectorOnMainThread:@selector(connectedToHost) withObject:nil waitUntilDone:NO];
@@ -66,12 +66,12 @@ static int sessionId;
   NSString *useridKey = USER_ID_KEY;
   _useridQueue = [[AMQPQueue alloc] initWithName:[useridKey stringByAppendingFormat:@"_%d_queue", sessionId]  onChannel:_udidConsumer.channel  isPassive:NO isExclusive:NO isDurable:YES getsAutoDeleted:YES];
   [_useridQueue bindToExchange:_directExchange withKey:useridKey];
-  _useridConsumer = [[_useridQueue startConsumerWithAcknowledgements:NO isExclusive:NO receiveLocalMessages:YES] retain];
+  _useridConsumer = [_useridQueue startConsumerWithAcknowledgements:NO isExclusive:NO receiveLocalMessages:YES];
   
   NSString *udidKey = USER_ID_KEY;
   _chatQueue = [[AMQPQueue alloc] initWithName:[udidKey stringByAppendingFormat:@"_%d_chat_queue", sessionId] onChannel:[_connection openChannel] isPassive:NO isExclusive:NO isDurable:YES getsAutoDeleted:YES];
   [_chatQueue bindToExchange:_topicExchange withKey:CHAT_KEY];
-  _chatConsumer = [[_chatQueue startConsumerWithAcknowledgements:NO isExclusive:NO receiveLocalMessages:YES] retain];
+  _chatConsumer = [_chatQueue startConsumerWithAcknowledgements:NO isExclusive:NO receiveLocalMessages:YES];
   
   LNLog(@"Created queues");
 }
@@ -88,14 +88,12 @@ static int sessionId;
     self.lastClanKey = CLAN_KEY;
     _clanQueue = [[AMQPQueue alloc] initWithName:[useridKey stringByAppendingFormat:@"_%d_clan_queue", sessionId] onChannel:[_connection openChannel] isPassive:NO isExclusive:NO isDurable:YES getsAutoDeleted:YES];
     [_clanQueue bindToExchange:_topicExchange withKey:self.lastClanKey];
-    _clanConsumer = [[_clanQueue startConsumerWithAcknowledgements:NO isExclusive:NO receiveLocalMessages:YES] retain];
+    _clanConsumer = [_clanQueue startConsumerWithAcknowledgements:NO isExclusive:NO receiveLocalMessages:YES];
   }
 }
 
 - (void) destroyClanMessageQueue {
-  [_clanConsumer release];
   _clanConsumer = nil;
-  [_clanQueue release];
   _clanConsumer = nil;
   _clanQueue = nil;
 }
@@ -115,15 +113,6 @@ static int sessionId;
 - (void) endConnection {
   @try {
     [self destroyClanMessageQueue];
-    [_useridConsumer release];
-    [_udidConsumer release];
-    [_chatConsumer release];
-    [_udidQueue release];
-    [_useridQueue release];
-    [_chatQueue release];
-    [_directExchange release];
-    [_topicExchange release];
-    [_connection release];
   } @catch (NSException *e) {
     LNLog(@"%@", e);
   } @finally {
@@ -146,15 +135,10 @@ static int sessionId;
 
 - (void)main
 {
-	NSAutoreleasePool *localPool;
-	
 	while(![self isCancelled])
 	{
-    localPool = [[NSAutoreleasePool alloc] init];
-    
 		NSDate *d = [[NSDate alloc] initWithTimeIntervalSinceNow:0.1];
     [[NSRunLoop currentRunLoop] runUntilDate:d];
-    [d release];
     
     if (_connection) {
       if (amqp_data_available(_connection.internalConnection) || amqp_data_in_buffer(_connection.internalConnection)) {
@@ -165,11 +149,7 @@ static int sessionId;
         }
       }
     }
-		
-		[localPool release];
 	}
-  
-  [[NSRunLoop currentRunLoop] runUntilDate:[NSDate dateWithTimeIntervalSinceNow:10]];
 }
 
 @end

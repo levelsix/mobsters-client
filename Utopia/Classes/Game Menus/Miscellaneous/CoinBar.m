@@ -30,10 +30,7 @@
 }
 
 - (void) dealloc {
-  self.goldLabel = nil;
-  self.silverLabel = nil;
   [[NSNotificationCenter defaultCenter] removeObserver:self];
-  [super dealloc];
 }
 
 @end

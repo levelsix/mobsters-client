@@ -46,11 +46,6 @@
   self.respondInviteView.hidden = YES;
 }
 
-- (void) dealloc {
-  self.user = nil;
-  [super dealloc];
-}
-
 @end
 
 @implementation ClanInfoCell
@@ -99,7 +94,6 @@
     [dateFormatter setDateStyle:NSDateFormatterShortStyle];
     NSDate *date = [NSDate dateWithTimeIntervalSince1970:c.clan.createTime/1000.0];
     self.foundedLabel.text = [NSString stringWithFormat:@"%@", [dateFormatter stringFromDate:date]];
-    [dateFormatter release];
     
     if (c.clan.requestToJoinRequired) {
       self.typeLabel.text = @"By Request Only";
@@ -144,16 +138,6 @@
 
 - (void) setSelected:(BOOL)selected {
   [self.buttonOverlay setSelected:selected];
-}
-
-- (void) dealloc {
-  self.requestView = nil;
-  self.cancelView = nil;
-  self.leaveView = nil;
-  self.joinView = nil;
-  self.leaderView = nil;
-  self.anotherClanView = nil;
-  [super dealloc];
 }
 
 @end
@@ -266,7 +250,7 @@
 }
 
 - (IBAction)editClicked:(id)sender {
-  [self.navigationController pushViewController:[[[ClanCreateViewController alloc] initInEditModeForClan:self.clan] autorelease] animated:YES];
+  [self.navigationController pushViewController:[[ClanCreateViewController alloc] initInEditModeForClan:self.clan] animated:YES];
 }
 
 - (IBAction)cancelClicked:(id)sender {
@@ -296,13 +280,6 @@
 
 - (void) handleLeaveClanResponseProto:(FullEvent *)e {
   [self.navigationController popViewControllerAnimated:YES];
-}
-
-- (void) dealloc {
-  self.clan = nil;
-  self.members = nil;
-  self.requesters = nil;
-  [super dealloc];
 }
 
 @end

@@ -129,24 +129,6 @@
   [self.sprite runAction:[CCRepeat actionWithAction:[CCAnimate actionWithAnimation:anim] times:3]];
 }
 
-- (void) repeatCurrentAttackAnimation {
-  if(_shouldContinueAnimation) {
-    _agAnimation.restoreOriginalFrame = NO;
-    CCAction *agAction = [CCSequence actions:[CCAnimate actionWithAnimation:_agAnimation],
-                          [CCCallFunc actionWithTarget:self selector:@selector(repeatCurrentAttackAnimation)], nil];
-    agAction.tag = 9999;
-    
-    [self.sprite runAction:agAction];
-    
-    [[SoundEngine sharedSoundEngine] performSelector:_soundSelector];
-  } else {
-    NSString *prefix = @"MafiaMan";
-    [[CCSpriteFrameCache sharedSpriteFrameCache] addSpriteFramesWithFile:[NSString stringWithFormat:@"%@Run.plist",prefix]];
-    CCSpriteFrame *frame = [[CCSpriteFrameCache sharedSpriteFrameCache] spriteFrameByName:[NSString stringWithFormat:@"%@RunN00.png",prefix]];
-    [self.sprite setDisplayFrame:frame];
-  }
-}
-
 - (void) stopWalking {
   [self stopAllActions];
   [self.sprite stopAllActions];
@@ -243,19 +225,6 @@
       [self.sprite setDisplayFrame:frame];
     }], nil]];
   }
-
-}
-
-- (void) dealloc {
-  self.walkActionN = nil;
-  self.walkActionF = nil;
-  self.walkActionLR = nil;
-  self.walkActionU = nil;
-  self.walkActionD = nil;
-  self.currentAction = nil;
-  self.sprite = nil;
-  self.agAnimation = nil;
-  [super dealloc];
 }
 
 @end

@@ -41,7 +41,7 @@
 }
 
 - (void) postToFacebookWithString:(NSString *)str {
-  FBSBJSON *jsonWriter = [[FBSBJSON new] autorelease];
+  FBSBJSON *jsonWriter = [FBSBJSON new];
 #ifdef LEGENDS_OF_CHAOS
   NSString *gameName = @"Legends of Chaos for iOS.";
   NSString *link = @"https://itunes.apple.com/us/app/age-of-chaos/id648221050?mt=8";
@@ -177,12 +177,7 @@
     [delegate attemptSignOn];
   }
   
-  return [delegate autorelease];
+  return delegate;
 }
 
--(void) dealloc
-{
-  [facebook release];
-  [super dealloc];
-}
 @end

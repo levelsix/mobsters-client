@@ -22,11 +22,6 @@
   [self.notiView updateForNotification:n];
 }
 
-- (void) dealloc {
-  self.notiView = nil;
-  [super dealloc];
-}
-
 @end
 
 @implementation NotificationView
@@ -120,16 +115,6 @@
 //    [ProfileViewController displayView];
 }
 
-- (void) dealloc {
-  self.titleLabel = nil;
-  self.subtitleLabel = nil;
-  self.userIcon = nil;
-  self.button = nil;
-  self.buttonLabel = nil;
-  self.notification = nil;
-  [super dealloc];
-}
-
 @end
 
 @implementation ActivityFeedController
@@ -191,7 +176,6 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ActivityFeedController);
     view.backgroundColor = [UIColor colorWithWhite:1 alpha:0.08f];
     view.tag = 1001;
     [cell.contentView insertSubview:view atIndex:0];
-    [view release];
   }
   
   if (un.type == kNotificationBattle) {

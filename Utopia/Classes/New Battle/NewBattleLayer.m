@@ -118,10 +118,11 @@
     [self addChild:s z:2 tag:PUZZLE_BGD_TAG];
     s.position = ccp(self.contentSize.width/2, s.contentSize.height/2);
     
-    self.orbLayer = [[[OrbLayer alloc] initWithContentSize:CGSizeMake(290, 180) gridSize:CGSizeMake(8, 5) numColors:4] autorelease];
-    self.orbLayer.position = ccp(self.contentSize.width/2-self.orbLayer.contentSize.width/2, 0);
-    [self addChild:self.orbLayer z:3];
-    self.orbLayer.delegate = self;
+    OrbLayer *ol = [[OrbLayer alloc] initWithContentSize:CGSizeMake(290, 180) gridSize:CGSizeMake(8, 5) numColors:4];
+    ol.position = ccp(self.contentSize.width/2-self.orbLayer.contentSize.width/2, 0);
+    [self addChild:ol z:3];
+    ol.delegate = self;
+    self.orbLayer = ol;
     
     self.bgdLayer = [BattleBgdLayer node];
     [self addChild:self.bgdLayer];
@@ -130,7 +131,7 @@
     
     [self setupHealthBars];
     
-    BattleSprite *mp = [[[BattleSprite alloc] initWithPrefix:@"MafiaMan"] autorelease];
+    BattleSprite *mp = [[BattleSprite alloc] initWithPrefix:@"MafiaMan"];
     [self addChild:mp z:0];
     mp.position = ccp(self.contentSize.width/2-15,191);
     mp.sprite.flipX = YES;
@@ -323,7 +324,6 @@
   CGPoint offsetPerScene = POINT_OFFSET_PER_SCENE;
   CGPoint newPos = ccpAdd(finalPos, ccp(Y_MOVEMENT_FOR_NEW_SCENE*offsetPerScene.x/offsetPerScene.y, Y_MOVEMENT_FOR_NEW_SCENE));
   
-  [self addChild:self.currentEnemy];
   self.currentEnemy.position = newPos;
   [self.currentEnemy runAction:[CCMoveTo actionWithDuration:TIME_TO_SCROLL_PER_SCENE position:finalPos]];
   
@@ -334,7 +334,9 @@
 }
 
 - (void) createNextEnemySprite {
-  self.currentEnemy = [[[BattleSprite alloc] initWithPrefix:@"Clown2"] autorelease];
+  BattleSprite *bs = [[BattleSprite alloc] initWithPrefix:@"Clown2"];
+  [self addChild:bs];
+  self.currentEnemy = bs;
   self.currentEnemy.isFacingNear = YES;
 }
 
@@ -767,7 +769,10 @@
          [bomb removeFromParentAndCleanup:YES];
          
          if (i == end) {
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Warc-performSelector-leaks"
            [target performSelector:selector];
+#pragma clang diagnostic pop
          }
          
          if (i == 0) {
@@ -789,7 +794,7 @@
   NSArray *arr = [NSArray arrayWithObjects:self.bgdLayer, self.currentEnemy, self.myPlayer, nil];
   for (CCNode *n in arr) {
     CGPoint curPos = n.position;
-    [n runAction:[CCSequence actions:[repeat.copy autorelease], [CCCallBlock actionWithBlock:^{
+    [n runAction:[CCSequence actions:repeat.copy, [CCCallBlock actionWithBlock:^{
       n.position = curPos;
     }], nil]];
   }
@@ -847,12 +852,15 @@
       ^{
         [phrase removeFromParentAndCleanup:YES];
         
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Warc-performSelector-leaks"
         [target performSelector:selector];
       }],
      nil];
     [phrase runAction:seq];
   } else {
     [target performSelector:selector];
+#pragma clang diagnostic pop
   }
 }
 
@@ -1048,14 +1056,7 @@
 }
 
 - (void) dealloc {
-  self.myPlayerObject = nil;
-  self.enemyPlayerObject = nil;
-  self.continueView = nil;
-  self.endView = nil;
-  self.myEquipCards = nil;
-  self.enemyEquipCards = nil;
   free(_chargingColors);
-  [super dealloc];
 }
 
 @end

@@ -126,7 +126,6 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
     [Globals popupMessage:@"Attempted to access static item 0"];
     return nil;
   }
-  [dict retain];
   NSNumber *num = [NSNumber numberWithInt:itemId];
   id p = [dict objectForKey:num];
   int numTimes = 1;
@@ -172,7 +171,6 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
       }
       LNLog(@"%@)", s);
     } else if (!ad.isActive || numTimes > 10000) {
-      [dict release];
       return nil;
     }
     //    NSAssert(numTimes < 1000000, @"Waiting too long for static data.. Probably not retrieved!", itemId);
@@ -181,9 +179,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
     p = [dict objectForKey:num];
   }
   // Retain and autorelease in case data gets purged
-  [p retain];
-  [dict release];
-  return [p autorelease];
+  return p;
 }
 
 - (FullStructureProto *) structWithId:(int)structId {
@@ -309,7 +305,6 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
   cm.date = [NSDate date];
   cm.isAdmin = isAdmin;
   [self addChatMessage:cm scope:scope];
-  [cm release];
 }
 
 - (void) addChatMessage:(ChatMessage *)cm scope:(GroupChatScope) scope {
@@ -510,12 +505,11 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
       float seconds = [gl calculateNumMinutesForNewExpansion]*60;
       NSDate *endTime = [ue.lastExpandTime dateByAddingTimeInterval:seconds];
       
-      _expansionTimer = [[NSTimer timerWithTimeInterval:endTime.timeIntervalSinceNow target:self selector:@selector(expansionWaitTimeComplete:) userInfo:ue repeats:NO] retain];
+      _expansionTimer = [NSTimer timerWithTimeInterval:endTime.timeIntervalSinceNow target:self selector:@selector(expansionWaitTimeComplete:) userInfo:ue repeats:NO];
       if ([endTime compare:[NSDate date]] == NSOrderedDescending) {
         [[NSRunLoop mainRunLoop] addTimer:_expansionTimer forMode:NSRunLoopCommonModes];
       } else {
         [self expansionWaitTimeComplete:_expansionTimer];
-        [_expansionTimer release];
         _expansionTimer = nil;
       }
     }
@@ -534,7 +528,6 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
 - (void) stopExpansionTimer {
   if (_expansionTimer) {
     [_expansionTimer invalidate];
-    [_expansionTimer release];
     _expansionTimer = nil;
   }
 }
@@ -577,44 +570,44 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
 - (void) reretrieveStaticData {
   [[SocketCommunication sharedSocketCommunication] sendRetrieveStaticDataMessageWithStructIds:_staticStructs.allKeys taskIds:_staticTasks.allKeys questIds:_staticQuests.allKeys cityIds:_staticCities.allKeys buildStructJobIds:_staticBuildStructJobs.allKeys defeatTypeJobIds:_staticDefeatTypeJobs.allKeys possessEquipJobIds:nil upgradeStructJobIds:_staticUpgradeStructJobs.allKeys events:YES bossIds:_staticBosses.allKeys];
   
-  self.staticTasks = [[[NSMutableDictionary alloc] init] autorelease];
-  self.staticCities = [[[NSMutableDictionary alloc] init] autorelease];
-  self.staticQuests = [[[NSMutableDictionary alloc] init] autorelease];
-  self.staticStructs = [[[NSMutableDictionary alloc] init] autorelease];
-  self.staticDefeatTypeJobs = [[[NSMutableDictionary alloc] init] autorelease];
-  self.staticBuildStructJobs = [[[NSMutableDictionary alloc] init] autorelease];
-  self.staticUpgradeStructJobs = [[[NSMutableDictionary alloc] init] autorelease];
-  self.staticBosses = [[[NSMutableDictionary alloc] init] autorelease];
+  self.staticTasks = [[NSMutableDictionary alloc] init];
+  self.staticCities = [[NSMutableDictionary alloc] init];
+  self.staticQuests = [[NSMutableDictionary alloc] init];
+  self.staticStructs = [[NSMutableDictionary alloc] init];
+  self.staticDefeatTypeJobs = [[NSMutableDictionary alloc] init];
+  self.staticBuildStructJobs = [[NSMutableDictionary alloc] init];
+  self.staticUpgradeStructJobs = [[NSMutableDictionary alloc] init];
+  self.staticBosses = [[NSMutableDictionary alloc] init];
   self.boosterPacks = nil;
 }
 
 - (void) clearAllData {
   _connected = NO;
-  self.staticTasks = [[[NSMutableDictionary alloc] init] autorelease];
-  self.staticCities = [[[NSMutableDictionary alloc] init] autorelease];
-  self.staticQuests = [[[NSMutableDictionary alloc] init] autorelease];
-  self.staticStructs = [[[NSMutableDictionary alloc] init] autorelease];
-  self.staticBosses = [[[NSMutableDictionary alloc] init] autorelease];
-  self.staticDefeatTypeJobs = [[[NSMutableDictionary alloc] init] autorelease];
-  self.staticBuildStructJobs = [[[NSMutableDictionary alloc] init] autorelease];
-  self.staticUpgradeStructJobs = [[[NSMutableDictionary alloc] init] autorelease];
-  self.notifications = [[[NSMutableArray alloc] init] autorelease];
-  self.myStructs = [[[NSMutableArray alloc] init] autorelease];
-  self.myCities = [[[NSMutableDictionary alloc] init] autorelease];
-  self.clanChatMessages = [[[NSMutableArray alloc] init] autorelease];
-  self.globalChatMessages = [[[NSMutableArray alloc] init] autorelease];
-  self.rareBoosterPurchases = [[[NSMutableArray alloc] init] autorelease];
+  self.staticTasks = [[NSMutableDictionary alloc] init];
+  self.staticCities = [[NSMutableDictionary alloc] init];
+  self.staticQuests = [[NSMutableDictionary alloc] init];
+  self.staticStructs = [[NSMutableDictionary alloc] init];
+  self.staticBosses = [[NSMutableDictionary alloc] init];
+  self.staticDefeatTypeJobs = [[NSMutableDictionary alloc] init];
+  self.staticBuildStructJobs = [[NSMutableDictionary alloc] init];
+  self.staticUpgradeStructJobs = [[NSMutableDictionary alloc] init];
+  self.notifications = [[NSMutableArray alloc] init];
+  self.myStructs = [[NSMutableArray alloc] init];
+  self.myCities = [[NSMutableDictionary alloc] init];
+  self.clanChatMessages = [[NSMutableArray alloc] init];
+  self.globalChatMessages = [[NSMutableArray alloc] init];
+  self.rareBoosterPurchases = [[NSMutableArray alloc] init];
   
-  self.availableQuests = [[[NSMutableDictionary alloc] init] autorelease];
-  self.inProgressCompleteQuests = [[[NSMutableDictionary alloc] init] autorelease];
-  self.inProgressIncompleteQuests = [[[NSMutableDictionary alloc] init] autorelease];
+  self.availableQuests = [[NSMutableDictionary alloc] init];
+  self.inProgressCompleteQuests = [[NSMutableDictionary alloc] init];
+  self.inProgressIncompleteQuests = [[NSMutableDictionary alloc] init];
   
   self.carpenterStructs = nil;
   self.boosterPacks = nil;
   
-  self.unrespondedUpdates = [[[NSMutableArray alloc] init] autorelease];
-  
-  self.requestedClans = [[[NSMutableArray alloc] init] autorelease];
+  self.unrespondedUpdates = [[NSMutableArray alloc] init];
+
+  self.requestedClans = [[NSMutableArray alloc] init];
   
   self.userExpansions = nil;
   

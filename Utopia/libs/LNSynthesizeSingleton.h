@@ -71,7 +71,6 @@ static classname *shared##classname = nil; \
   if ([shared##classname isKindOfClass:[UIViewController class]]) { \
     [(UIViewController *)shared##classname didReceiveMemoryWarning]; \
   } \
-  [shared##classname release]; \
   shared##classname = nil; \
 } \
 \

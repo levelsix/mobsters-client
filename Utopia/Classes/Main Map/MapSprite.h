@@ -28,8 +28,6 @@
 @interface SelectableSprite : MapSprite {
   BOOL _isSelected;
   CCSprite *_glow;
-  
-  CCSprite *_arrow;
 }
 
 @property (nonatomic, assign) CCSprite *arrow;

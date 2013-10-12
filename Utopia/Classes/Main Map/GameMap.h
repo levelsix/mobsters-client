@@ -54,7 +54,6 @@
 @end
 
 @interface GameMap : CCTMXTiledMap {
-  SelectableSprite *_selected;
   NSMutableArray *_mapSprites;
   NSMutableArray *_walkableData;
   

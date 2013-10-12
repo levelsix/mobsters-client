@@ -135,9 +135,4 @@
   return [NSString stringWithFormat:@"%@: %@", [super description], NSStringFromCGRect(self.location)];
 }
 
--(void) dealloc {
-  [_glow release];
-  [super dealloc];
-}
-
 @end

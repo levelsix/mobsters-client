@@ -41,11 +41,11 @@
 }
 
 - (IBAction)labClicked:(id)sender {
-  [self.navigationController pushViewController:[[[EnhanceViewController alloc] init] autorelease] animated:YES];
+  [self.navigationController pushViewController:[[EnhanceViewController alloc] init] animated:YES];
 }
 
 - (IBAction)clansClicked:(id)sender {
-  [self.navigationController pushViewController:[[[ClanViewController alloc] init] autorelease] animated:YES];
+  [self.navigationController pushViewController:[[ClanViewController alloc] init] animated:YES];
 }
 
 - (IBAction)profileClicked:(id)sender {

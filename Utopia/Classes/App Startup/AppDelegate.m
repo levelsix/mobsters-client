@@ -112,7 +112,7 @@
 
 - (void)mobileAppTracker:(MobileAppTracker *)tracker didSucceedWithData:(NSData *)data {
   LNLog(@"MAT.didSucceed:");
-  LNLog(@"%@", [[[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding] autorelease]);
+  LNLog(@"%@", [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding]);
 }
 
 - (void)mobileAppTracker:(MobileAppTracker *)tracker didFailWithError:(NSError *)error {
@@ -235,7 +235,7 @@
    */
   
   // Facebook
-  facebookDelegate = [[FacebookDelegate createFacebookDelegate] retain];
+  facebookDelegate = [FacebookDelegate createFacebookDelegate];
   
   // TestFlight SDK
   //  [TestFlight takeOff:TEST_FLIGHT_API_KEY];
@@ -329,8 +329,6 @@
 	
 	[[director view] removeFromSuperview];
 	
-	[window release];
-	
 	[director end];
   
   [[OutgoingEventController sharedOutgoingEventController] logout];
@@ -366,7 +364,6 @@
   ln.soundName = UILocalNotificationDefaultSoundName;
   ln.fireDate = date;
   [[UIApplication sharedApplication] scheduleLocalNotification:ln];
-  [ln release];
 }
 
 - (void) registerLocalNotifications {
@@ -407,13 +404,6 @@
 
 - (void)dealloc {
 	[[CCDirector sharedDirector] end];
-  //  [adColonyDelegate release];
-  //  [tapJoyDelegate      release];
-  //  [flurryClipsDelegate release];
-  [facebookDelegate    release];
-  //  [kiipDelegate        release];
-	[window release];
-	[super dealloc];
 }
 
 @end

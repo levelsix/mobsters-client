@@ -46,9 +46,9 @@
 }
 
 - (void)setupStrings{
-  textPull = [[NSString alloc] initWithString:@"Pull down to refresh..."];
-  textRelease = [[NSString alloc] initWithString:@"Release to refresh..."];
-  textLoading = [[NSString alloc] initWithString:@"Loading..."];
+  textPull = @"Pull down to refresh...";
+  textRelease = @"Release to refresh...";
+  textLoading = @"Loading...";
 }
 
 - (void)addPullToRefreshHeader:(UITableView *)tableView {
@@ -144,18 +144,6 @@
   // This is just a demo. Override this method with your custom reload action.
   // Don't forget to call stopLoading at the end.
   [self performSelector:@selector(stopLoading) withObject:nil afterDelay:2.0];
-}
-
-- (void)dealloc {
-  [_tableView release];
-  [refreshHeaderView release];
-  [refreshLabel release];
-  [refreshArrow release];
-  [refreshSpinner release];
-  [textPull release];
-  [textRelease release];
-  [textLoading release];
-  [super dealloc];
 }
 
 @end

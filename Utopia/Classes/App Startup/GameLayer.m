@@ -34,11 +34,6 @@
   self.label.text = text;
 }
 
-- (void) dealloc {
-  self.label = nil;
-  [super dealloc];
-}
-
 @end
 
 @implementation WelcomeView
@@ -61,13 +56,6 @@
       self.alpha = 0.f;
     } completion:nil];
   }];
-}
-
-- (void) dealloc {
-  self.nameLabel = nil;
-  self.rankLabel = nil;
-  self.middleLine = nil;
-  [super dealloc];
 }
 
 @end
@@ -301,13 +289,6 @@ static BOOL shake_once = NO;
   else {
     shake_once = false;
   }
-}
-
-- (void) dealloc {
-  self.missionMap = nil;
-  self.welcomeView = nil;
-  self.loadingView = nil;
-  [super dealloc];
 }
 
 @end

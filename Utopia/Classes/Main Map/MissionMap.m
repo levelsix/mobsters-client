@@ -79,7 +79,6 @@
         mb.name = ncep.name;
         mb.orientation = ncep.orientation;
         [self addChild:mb z:1 tag:ncep.assetId+ASSET_TAG_BASE];
-        [mb release];
         
         [self changeTiles:mb.location canWalk:NO];
       } else if (ncep.type == CityElementProto_NeutralCityElemTypeDecoration) {
@@ -104,7 +103,6 @@
         }
         [self addChild:ne z:1 tag:ncep.assetId+ASSET_TAG_BASE];
         ne.name = ncep.name;
-        [ne release];
       } else if (ncep.type == CityElementProto_NeutralCityElemTypeBoss) {
         CGRect r = CGRectZero;
         r.origin = [self randomWalkablePosition];
@@ -116,7 +114,6 @@
         }
         //        [self addChild:bs z:1 tag:ncep.assetId+ASSET_TAG_BASE];
         bs.name = ncep.name;
-        [bs release];
       }
     }
     
@@ -218,8 +215,8 @@
 }
 
 - (IBAction) performCurrentTask:(id)sender {
-  if ([_selected conformsToProtocol:@protocol(TaskElement)]) {
-    id<TaskElement> te = (id<TaskElement>)_selected;
+  if ([self.selected conformsToProtocol:@protocol(TaskElement)]) {
+    id<TaskElement> te = (id<TaskElement>)self.selected;
     [[OutgoingEventController sharedOutgoingEventController] beginDungeon:te.ftp.taskId];
   }
 }
@@ -231,22 +228,17 @@
   
   [super setSelected:selected];
   
-  if (_selected) {
-    if ([_selected conformsToProtocol:@protocol(TaskElement)]) {
-      id<TaskElement> te = (id<TaskElement>)_selected;
+  if (self.selected) {
+    if ([self.selected conformsToProtocol:@protocol(TaskElement)]) {
+      id<TaskElement> te = (id<TaskElement>)self.selected;
       
       self.missionNameLabel.text = te.name;
 //      [[[TopBar sharedTopBar] topBarView] replaceChatViewWithView:self.missionBotView];
-    } else if ([_selected isKindOfClass:[BossSprite class]]) {
+    } else if ([self.selected isKindOfClass:[BossSprite class]]) {
     }
   } else {
 //    [[[TopBar sharedTopBar] topBarView] removeViewOverChatView];
   }
-}
-
-- (void) dealloc {
-  [_jobs release];
-  [super dealloc];
 }
 
 @end

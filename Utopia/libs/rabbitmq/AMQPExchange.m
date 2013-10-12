@@ -42,7 +42,7 @@
 		[theChannel.connection checkLastOperation:@"Failed to declare exchange"];
 		
 		exchange = amqp_bytes_malloc_dup(amqp_cstring_bytes([theName UTF8String]));
-		channel = [theChannel retain];
+		channel = theChannel;
 	}
 	
 	return self;
@@ -62,9 +62,6 @@
 - (void)dealloc
 {
 	amqp_bytes_free(exchange);
-	[channel release];
-	
-	[super dealloc];
 }
 
 - (void)publishMessageWithString:(NSString*)body usingRoutingKey:(NSString*)theRoutingKey

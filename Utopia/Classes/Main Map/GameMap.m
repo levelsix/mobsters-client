@@ -55,29 +55,17 @@
   allyView.frame = enemyView.frame;
 }
 
-- (void) dealloc {
-  self.nameLabel = nil;
-  self.levelLabel = nil;
-  self.imageIcon = nil;
-  self.enemyView = nil;
-  self.allyView = nil;
-  [super dealloc];
-}
-
 @end
 
 @implementation GameMap
 
-@synthesize selected = _selected;
 @synthesize tileSizeInPoints;
-@synthesize mapSprites = _mapSprites;
 @synthesize silverOnMap, goldOnMap;
 @synthesize decLayer;
-@synthesize walkableData = _walkableData;
 
 +(id) tiledMapWithTMXFile:(NSString*)tmxFile
 {
-	return [[[self alloc] initWithTMXFile:tmxFile] autorelease];
+	return [[self alloc] initWithTMXFile:tmxFile];
 }
 
 -(void) addChild:(CCNode *)node z:(NSInteger)z tag:(NSInteger)tag {
@@ -96,22 +84,22 @@
 
 -(id) initWithTMXFile:(NSString *)tmxFile {
   if ((self = [super initWithTMXFile:tmxFile])) {
-    _mapSprites = [[NSMutableArray array] retain];
+    _mapSprites = [NSMutableArray array];
     
     // add UIPanGestureRecognizer
-    UIPanGestureRecognizer *uig = [[[UIPanGestureRecognizer alloc ]init] autorelease];
+    UIPanGestureRecognizer *uig = [UIPanGestureRecognizer alloc];
     uig.maximumNumberOfTouches = 1;
     CCGestureRecognizer *recognizer = [CCGestureRecognizer CCRecognizerWithRecognizerTargetAction: uig target:self action:@selector(drag:node:)];
     [self addGestureRecognizer:recognizer];
     
     // add UIPinchGestureRecognizer
-    recognizer = [CCGestureRecognizer CCRecognizerWithRecognizerTargetAction:[[[UIPinchGestureRecognizer alloc ]init] autorelease] target:self action:@selector(scale:node:)];
+    recognizer = [CCGestureRecognizer CCRecognizerWithRecognizerTargetAction:[[UIPinchGestureRecognizer alloc ]init] target:self action:@selector(scale:node:)];
     [self addGestureRecognizer:recognizer];
     
     self.isTouchEnabled = YES;
     
     // add UITapGestureRecognizer
-    recognizer = [CCGestureRecognizer CCRecognizerWithRecognizerTargetAction:[[[UITapGestureRecognizer alloc ]init] autorelease] target:self action:@selector(tap:node:)];
+    recognizer = [CCGestureRecognizer CCRecognizerWithRecognizerTargetAction:[[UITapGestureRecognizer alloc ]init] target:self action:@selector(tap:node:)];
     [self addGestureRecognizer:recognizer];
     
     if (CC_CONTENT_SCALE_FACTOR() == 2) {
@@ -125,7 +113,6 @@
     // Add the decoration layer for clouds
     decLayer = [[DecorationLayer alloc] initWithSize:self.contentSize];
     [self addChild:self.decLayer z:2000];
-    [decLayer release];
     
     self.scale = DEFAULT_ZOOM;
   }
@@ -136,7 +123,6 @@
   // Do this so that tutorial classes can override
   _myPlayer = [[MyPlayer alloc] initWithLocation:CGRectMake(_mapSize.width/2, _mapSize.height/2, 1, 1) map:self];
   [self addChild:_myPlayer];
-  [_myPlayer release];
 }
 
 - (void) setVisible:(BOOL)visible {
@@ -509,12 +495,6 @@
 - (void) onExit {
   [super onExit];
   self.selected = nil;
-}
-
-- (void) dealloc {
-  self.walkableData = nil;
-  self.mapSprites = nil;
-  [super dealloc];
 }
 
 @end

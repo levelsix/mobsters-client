@@ -26,11 +26,6 @@
 
 @implementation Gem
 
-- (void) dealloc {
-  self.sprite = nil;
-  [super dealloc];
-}
-
 @end
 
 @implementation OrbLayer
@@ -127,7 +122,7 @@
 {
   CGSize gs = [self gridSize];
   [self removeAllChildrenWithCleanup:YES];
-  self.gems = [[[NSMutableArray alloc] init] autorelease];
+  self.gems = [[NSMutableArray alloc] init];
   for (int i = 0; i < gs.width*gs.height; i++) {
     BOOL gemOkay = NO;
     while (!gemOkay) {
@@ -280,7 +275,7 @@
 
 -(void)clearAndFillBoard
 {
-  self.oldGems = [[self.gems mutableCopy] autorelease];
+  self.oldGems = [self.gems mutableCopy];
   
   // slide down
   NSMutableSet * used = [NSMutableSet set];
@@ -529,7 +524,7 @@
 }
 
 - (void) initiatePowerup:(PowerupId)powerupId atLocation:(CGPoint)location withColor:(GemColorId)color {
-  Powerup *p = [[[Powerup alloc] init] autorelease];
+  Powerup *p = [[Powerup alloc] init];
   p.powerupId = powerupId;
   p.startLocation = location;
   p.color = color;
@@ -868,7 +863,7 @@
              ((_swapGem.powerup == powerup_horizontal_line || _swapGem.powerup == powerup_vertical_line)&& _realDragGem.powerup == powerup_all_of_one_color)) {
       GemColorId color = _realDragGem.powerup == powerup_all_of_one_color ? _swapGem.color : _realDragGem.color;
       
-      Powerup *p = [[[Powerup alloc] init] autorelease];
+      Powerup *p = [[Powerup alloc] init];
       [self.powerups addObject:p];
       
       for (Gem *gem in _gems) {
@@ -957,7 +952,7 @@
           [seq addObject:[CCDelayTime actionWithDuration:0.08]];
         }
       }
-      Powerup *p = [[[Powerup alloc] init] autorelease];
+      Powerup *p = [[Powerup alloc] init];
       [self.powerups addObject:p];
       [seq addObject:[CCCallBlock actionWithBlock:^{
         [self.powerups removeObject:p];
@@ -1003,7 +998,7 @@
     if ( _run.count > 0) {
       _foundMatch = YES;
       
-      NSMutableSet *s = [[_run mutableCopy] autorelease];
+      NSMutableSet *s = [_run mutableCopy];
       
       NSMutableArray * batches = [NSMutableArray array];
       while (s.count > 0)
@@ -1016,9 +1011,9 @@
         BOOL foundGem = YES;
         while (foundGem) {
           foundGem = NO;
-          for (Gem * g in [[s copy] autorelease])
+          for (Gem * g in [s copy])
           {
-            for (Gem *g2 in [[batch copy] autorelease]) {
+            for (Gem *g2 in [batch copy]) {
               if (g.color == g2.color && [self gem:g isTouchingGem:g2])
               {
                 [batch addObject:g];
@@ -1180,7 +1175,7 @@
       
       _beganTimer = NO;
       
-      self.oldGems = [[self.gems copy] autorelease];
+      self.oldGems = [self.gems copy];
       
       return YES;
     }
@@ -1271,16 +1266,6 @@
 
 - (void) ccTouchCancelled:(UITouch *)touch withEvent:(UIEvent *)event {
   [self ccTouchEnded:touch withEvent:event];
-}
-
-- (void) dealloc {
-  self.oldGems = nil;
-  self.gems = nil;
-  self.comboLabels = nil;
-  self.destroyedGems = nil;
-  self.reservedGems = nil;
-  self.powerups = nil;
-  [super dealloc];
 }
 
 @end

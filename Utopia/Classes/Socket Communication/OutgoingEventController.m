@@ -101,8 +101,6 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
     GoldUpdate *gu = [GoldUpdate updateWithTag:tag change:-fsp.diamondPrice];
     [gs addUnrespondedUpdates:asu, su, gu, nil];
     
-    [us release];
-    
     [Analytics normStructPurchase:structId];
   } else {
     [Globals popupMessage:@"Not enough money to purchase this building"];
@@ -528,7 +526,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
   NSString *key = IAP_DEFAULTS_KEY;
   NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
   NSArray *arr = [defaults arrayForKey:key];
-  NSMutableArray *mut = arr ? [[arr mutableCopy] autorelease] : [NSMutableArray array];
+  NSMutableArray *mut = arr ? [arr mutableCopy] : [NSMutableArray array];
   [mut addObject:receipt];
   [defaults setObject:mut forKey:IAP_DEFAULTS_KEY];
   [defaults synchronize];

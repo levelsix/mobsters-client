@@ -119,9 +119,4 @@
   return ((float)(arc4random()%((unsigned)RAND_MAX+1))/RAND_MAX);
 }
 
-- (void) dealloc {
-  [_clouds release];
-  [super dealloc];
-}
-
 @end

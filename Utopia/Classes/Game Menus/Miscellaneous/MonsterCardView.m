@@ -75,13 +75,6 @@ static CGSize initSize;
   self.userInteractionEnabled = NO;
 }
 
-- (void) dealloc {
-  self.monster = nil;
-  self.mainView = nil;
-  self.noMonsterView = nil;
-  [super dealloc];
-}
-
 @end
 
 
@@ -92,11 +85,6 @@ static CGSize initSize;
   [self addSubview:self.monsterCardView];
   self.monsterCardView.frame = self.bounds;
   self.backgroundColor = [UIColor clearColor];
-}
-
-- (void) dealloc {
-  self.monsterCardView = nil;
-  [super dealloc];
 }
 
 @end

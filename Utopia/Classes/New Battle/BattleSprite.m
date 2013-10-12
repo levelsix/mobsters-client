@@ -134,7 +134,7 @@
 }
 
 - (void) performFarAttackAnimationWithStrength:(float)strength target:(id)target selector:(SEL)selector {
-  CCAnimation *anim = [self.attackAnimationF.copy autorelease];
+  CCAnimation *anim = self.attackAnimationF.copy;
   
   self.sprite.flipX = YES;
   
@@ -191,7 +191,6 @@
          q.speedVar = 40+strength*15;
          q.endSizeVar = 5+strength*10;
          [self.parent addChild:q];
-         [q release];
        }],
       [CCMoveBy actionWithDuration:moveTime position:ccpMult(pointOffset, moveAmount)],
       [CCDelayTime actionWithDuration:delayTime], nil] times:numTimes],
@@ -203,18 +202,6 @@
      }],
     [CCCallFunc actionWithTarget:target selector:selector],
     nil]];
-}
-
-- (void) dealloc {
-  self.walkActionF = nil;
-  self.walkActionN = nil;
-  self.attackAnimationF = nil;
-  self.attackAnimationN = nil;
-  self.flinchAnimationF = nil;
-  self.flinchAnimationN = nil;
-  self.prefix = nil;
-  self.sprite = nil;
-  [super dealloc];
 }
 
 @end

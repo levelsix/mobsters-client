@@ -25,7 +25,7 @@
 }
 
 + (id) userMonsterWithProto:(FullUserMonsterProto *)proto {
-  return [[[self alloc] initWithMonsterProto:proto] autorelease];
+  return [[self alloc] initWithMonsterProto:proto];
 }
 
 - (BOOL) isEqual:(UserMonster *)object {
@@ -58,7 +58,7 @@
 }
 
 + (id) userStructWithProto:(FullUserStructureProto *)proto {
-  return [[[self alloc] initWithStructProto:proto] autorelease];
+  return [[self alloc] initWithStructProto:proto];
 }
 
 - (FullStructureProto *) fsp {
@@ -88,13 +88,6 @@
 - (NSString *) description {
   FullStructureProto *fsp = [[GameState sharedGameState] structWithId:self.structId];
   return [NSString stringWithFormat:@"%p: %@, %@", self, fsp.name, NSStringFromCGPoint(coordinates)];
-}
-
-- (void) dealloc {
-  self.lastRetrieved = nil;
-  self.lastUpgradeTime = nil;
-  self.purchaseTime = nil;
-  [super dealloc];
 }
 
 @end
@@ -141,13 +134,6 @@
 
 - (NSString *) description {
   return [NSString stringWithFormat:@"<UserNotification> Type: %d", self.type];
-}
-
-- (void) dealloc {
-  self.time = nil;
-  self.otherPlayer = nil;
-  self.wallPost = nil;
-  [super dealloc];
 }
 
 @end
@@ -230,40 +216,29 @@
   for (NSNumber *n in fqp.taskReqsList) {
     job = [[UserJob alloc] initWithTask:[gs taskWithId:n.intValue]];
     [jobs addObject:job];
-    [job release];
   }
   
   for (NSNumber *n in fqp.buildStructJobsReqsList) {
     job = [[UserJob alloc] initWithBuildStructJob:[gs.staticBuildStructJobs objectForKey:n]];
     [jobs addObject:job];
-    [job release];
   }
   
   for (NSNumber *n in fqp.upgradeStructJobsReqsList) {
     job = [[UserJob alloc] initWithUpgradeStructJob:[gs.staticUpgradeStructJobs objectForKey:n]];
     [jobs addObject:job];
-    [job release];
   }
   
   if (fqp.coinRetrievalReq > 0) {
     job = [[UserJob alloc] initWithCoinRetrieval:fqp.coinRetrievalReq questId:fqp.questId];
     [jobs addObject:job];
-    [job release];
   }
   
   if (fqp.hasSpecialQuestActionReq) {
     job = [[UserJob alloc] initWithSpecialQuestAction:fqp.specialQuestActionReq questId:fqp.questId];
     [jobs addObject:job];
-    [job release];
   }
   
   return jobs;
-}
-
-- (void) dealloc {
-  self.title = nil;
-  self.subtitle = nil;
-  [super dealloc];
 }
 
 @end
@@ -282,13 +257,6 @@
   return self;
 }
 
-- (void) dealloc {
-  self.message = nil;
-  self.sender = nil;
-  self.date = nil;
-  [super dealloc];
-}
-
 @end
 
 @implementation UserExpansion
@@ -305,12 +273,7 @@
 }
 
 + (id) userExpansionWithUserCityExpansionDataProto:(UserCityExpansionDataProto *)proto {
-  return [[[self alloc] initWithUserCityExpansionDataProto:proto] autorelease];
-}
-
-- (void) dealloc {
-  self.lastExpandTime = nil;
-  [super dealloc];
+  return [[self alloc] initWithUserCityExpansionDataProto:proto];
 }
 
 @end

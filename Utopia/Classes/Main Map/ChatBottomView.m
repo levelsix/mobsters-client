@@ -26,12 +26,6 @@
   self.textLabel.text = nil;
 }
 
-- (void) dealloc {
-  self.factionLabel = nil;
-  self.textLabel = nil;
-  [super dealloc];
-}
-
 @end
 
 @implementation ChatBottomView
@@ -158,18 +152,6 @@
 //    [ChatMenuController displayView];
 //    [[ChatMenuController sharedChatMenuController] setState:self.isGlobal ? kChatStateGlobal : kChatStateClan];
   }
-}
-
-- (void) dealloc {
-  self.chatView1 = nil;
-  self.chatView2 = nil;
-  self.chatView3 = nil;
-  self.globalIcon = nil;
-  self.clanIcon = nil;
-  self.mainView = nil;
-  self.badgeView = nil;
-  self.badgeLabel = nil;
-  [super dealloc];
 }
 
 @end
