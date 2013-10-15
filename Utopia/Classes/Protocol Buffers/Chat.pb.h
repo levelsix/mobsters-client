@@ -14,8 +14,6 @@
 @class MinimumClanProto_Builder;
 @class MinimumUserProto;
 @class MinimumUserProtoWithLevel;
-@class MinimumUserProtoWithLevelForLeaderboard;
-@class MinimumUserProtoWithLevelForLeaderboard_Builder;
 @class MinimumUserProtoWithLevel_Builder;
 @class MinimumUserProto_Builder;
 @class PrivateChatPostProto;

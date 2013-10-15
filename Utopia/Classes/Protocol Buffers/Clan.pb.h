@@ -21,8 +21,6 @@
 @class MinimumUserProtoWithBattleHistory;
 @class MinimumUserProtoWithBattleHistory_Builder;
 @class MinimumUserProtoWithLevel;
-@class MinimumUserProtoWithLevelForLeaderboard;
-@class MinimumUserProtoWithLevelForLeaderboard_Builder;
 @class MinimumUserProtoWithLevel_Builder;
 @class MinimumUserProto_Builder;
 typedef enum {

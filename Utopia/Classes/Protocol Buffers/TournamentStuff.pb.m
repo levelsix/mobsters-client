@@ -13,6 +13,7 @@ static PBExtensionRegistry* extensionRegistry = nil;
     PBMutableExtensionRegistry* registry = [PBMutableExtensionRegistry registry];
     [self registerAllExtensions:registry];
     [ChatRoot registerAllExtensions:registry];
+    [UserRoot registerAllExtensions:registry];
     extensionRegistry = [registry retain];
   }
 }
@@ -20,7 +21,7 @@ static PBExtensionRegistry* extensionRegistry = nil;
 }
 @end
 
-@interface TournamentProto ()
+@interface TournamentEventProto ()
 @property int32_t eventId;
 @property int64_t startDate;
 @property int64_t endDate;
@@ -29,7 +30,7 @@ static PBExtensionRegistry* extensionRegistry = nil;
 @property int64_t lastShowDate;
 @end
 
-@implementation TournamentProto
+@implementation TournamentEventProto
 
 - (BOOL) hasEventId {
   return !!hasEventId_;
@@ -82,22 +83,22 @@ static PBExtensionRegistry* extensionRegistry = nil;
   }
   return self;
 }
-static TournamentProto* defaultTournamentProtoInstance = nil;
+static TournamentEventProto* defaultTournamentEventProtoInstance = nil;
 + (void) initialize {
-  if (self == [TournamentProto class]) {
-    defaultTournamentProtoInstance = [[TournamentProto alloc] init];
+  if (self == [TournamentEventProto class]) {
+    defaultTournamentEventProtoInstance = [[TournamentEventProto alloc] init];
   }
 }
-+ (TournamentProto*) defaultInstance {
-  return defaultTournamentProtoInstance;
++ (TournamentEventProto*) defaultInstance {
+  return defaultTournamentEventProtoInstance;
 }
-- (TournamentProto*) defaultInstance {
-  return defaultTournamentProtoInstance;
+- (TournamentEventProto*) defaultInstance {
+  return defaultTournamentEventProtoInstance;
 }
 - (NSArray*) rewardsList {
   return mutableRewardsList;
 }
-- (TournamentRewardProto*) rewardsAtIndex:(int32_t) index {
+- (TournamentEventRewardProto*) rewardsAtIndex:(int32_t) index {
   id value = [mutableRewardsList objectAtIndex:index];
   return value;
 }
@@ -117,7 +118,7 @@ static TournamentProto* defaultTournamentProtoInstance = nil;
   if (self.hasEventName) {
     [output writeString:4 value:self.eventName];
   }
-  for (TournamentRewardProto* element in self.rewardsList) {
+  for (TournamentEventRewardProto* element in self.rewardsList) {
     [output writeMessage:5 value:element];
   }
   if (self.hasLastShowDate) {
@@ -144,7 +145,7 @@ static TournamentProto* defaultTournamentProtoInstance = nil;
   if (self.hasEventName) {
     size += computeStringSize(4, self.eventName);
   }
-  for (TournamentRewardProto* element in self.rewardsList) {
+  for (TournamentEventRewardProto* element in self.rewardsList) {
     size += computeMessageSize(5, element);
   }
   if (self.hasLastShowDate) {
@@ -154,40 +155,40 @@ static TournamentProto* defaultTournamentProtoInstance = nil;
   memoizedSerializedSize = size;
   return size;
 }
-+ (TournamentProto*) parseFromData:(NSData*) data {
-  return (TournamentProto*)[[[TournamentProto builder] mergeFromData:data] build];
++ (TournamentEventProto*) parseFromData:(NSData*) data {
+  return (TournamentEventProto*)[[[TournamentEventProto builder] mergeFromData:data] build];
 }
-+ (TournamentProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
-  return (TournamentProto*)[[[TournamentProto builder] mergeFromData:data extensionRegistry:extensionRegistry] build];
++ (TournamentEventProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (TournamentEventProto*)[[[TournamentEventProto builder] mergeFromData:data extensionRegistry:extensionRegistry] build];
 }
-+ (TournamentProto*) parseFromInputStream:(NSInputStream*) input {
-  return (TournamentProto*)[[[TournamentProto builder] mergeFromInputStream:input] build];
++ (TournamentEventProto*) parseFromInputStream:(NSInputStream*) input {
+  return (TournamentEventProto*)[[[TournamentEventProto builder] mergeFromInputStream:input] build];
 }
-+ (TournamentProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
-  return (TournamentProto*)[[[TournamentProto builder] mergeFromInputStream:input extensionRegistry:extensionRegistry] build];
++ (TournamentEventProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (TournamentEventProto*)[[[TournamentEventProto builder] mergeFromInputStream:input extensionRegistry:extensionRegistry] build];
 }
-+ (TournamentProto*) parseFromCodedInputStream:(PBCodedInputStream*) input {
-  return (TournamentProto*)[[[TournamentProto builder] mergeFromCodedInputStream:input] build];
++ (TournamentEventProto*) parseFromCodedInputStream:(PBCodedInputStream*) input {
+  return (TournamentEventProto*)[[[TournamentEventProto builder] mergeFromCodedInputStream:input] build];
 }
-+ (TournamentProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
-  return (TournamentProto*)[[[TournamentProto builder] mergeFromCodedInputStream:input extensionRegistry:extensionRegistry] build];
++ (TournamentEventProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (TournamentEventProto*)[[[TournamentEventProto builder] mergeFromCodedInputStream:input extensionRegistry:extensionRegistry] build];
 }
-+ (TournamentProto_Builder*) builder {
-  return [[[TournamentProto_Builder alloc] init] autorelease];
++ (TournamentEventProto_Builder*) builder {
+  return [[[TournamentEventProto_Builder alloc] init] autorelease];
 }
-+ (TournamentProto_Builder*) builderWithPrototype:(TournamentProto*) prototype {
-  return [[TournamentProto builder] mergeFrom:prototype];
++ (TournamentEventProto_Builder*) builderWithPrototype:(TournamentEventProto*) prototype {
+  return [[TournamentEventProto builder] mergeFrom:prototype];
 }
-- (TournamentProto_Builder*) builder {
-  return [TournamentProto builder];
+- (TournamentEventProto_Builder*) builder {
+  return [TournamentEventProto builder];
 }
 @end
 
-@interface TournamentProto_Builder()
-@property (retain) TournamentProto* result;
+@interface TournamentEventProto_Builder()
+@property (retain) TournamentEventProto* result;
 @end
 
-@implementation TournamentProto_Builder
+@implementation TournamentEventProto_Builder
 @synthesize result;
 - (void) dealloc {
   self.result = nil;
@@ -195,34 +196,34 @@ static TournamentProto* defaultTournamentProtoInstance = nil;
 }
 - (id) init {
   if ((self = [super init])) {
-    self.result = [[[TournamentProto alloc] init] autorelease];
+    self.result = [[[TournamentEventProto alloc] init] autorelease];
   }
   return self;
 }
 - (PBGeneratedMessage*) internalGetResult {
   return result;
 }
-- (TournamentProto_Builder*) clear {
-  self.result = [[[TournamentProto alloc] init] autorelease];
+- (TournamentEventProto_Builder*) clear {
+  self.result = [[[TournamentEventProto alloc] init] autorelease];
   return self;
 }
-- (TournamentProto_Builder*) clone {
-  return [TournamentProto builderWithPrototype:result];
+- (TournamentEventProto_Builder*) clone {
+  return [TournamentEventProto builderWithPrototype:result];
 }
-- (TournamentProto*) defaultInstance {
-  return [TournamentProto defaultInstance];
+- (TournamentEventProto*) defaultInstance {
+  return [TournamentEventProto defaultInstance];
 }
-- (TournamentProto*) build {
+- (TournamentEventProto*) build {
   [self checkInitialized];
   return [self buildPartial];
 }
-- (TournamentProto*) buildPartial {
-  TournamentProto* returnMe = [[result retain] autorelease];
+- (TournamentEventProto*) buildPartial {
+  TournamentEventProto* returnMe = [[result retain] autorelease];
   self.result = nil;
   return returnMe;
 }
-- (TournamentProto_Builder*) mergeFrom:(TournamentProto*) other {
-  if (other == [TournamentProto defaultInstance]) {
+- (TournamentEventProto_Builder*) mergeFrom:(TournamentEventProto*) other {
+  if (other == [TournamentEventProto defaultInstance]) {
     return self;
   }
   if (other.hasEventId) {
@@ -249,10 +250,10 @@ static TournamentProto* defaultTournamentProtoInstance = nil;
   [self mergeUnknownFields:other.unknownFields];
   return self;
 }
-- (TournamentProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input {
+- (TournamentEventProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input {
   return [self mergeFromCodedInputStream:input extensionRegistry:[PBExtensionRegistry emptyRegistry]];
 }
-- (TournamentProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+- (TournamentEventProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
   PBUnknownFieldSet_Builder* unknownFields = [PBUnknownFieldSet builderWithUnknownFields:self.unknownFields];
   while (YES) {
     int32_t tag = [input readTag];
@@ -284,7 +285,7 @@ static TournamentProto* defaultTournamentProtoInstance = nil;
         break;
       }
       case 42: {
-        TournamentRewardProto_Builder* subBuilder = [TournamentRewardProto builder];
+        TournamentEventRewardProto_Builder* subBuilder = [TournamentEventRewardProto builder];
         [input readMessage:subBuilder extensionRegistry:extensionRegistry];
         [self addRewards:[subBuilder buildPartial]];
         break;
@@ -302,12 +303,12 @@ static TournamentProto* defaultTournamentProtoInstance = nil;
 - (int32_t) eventId {
   return result.eventId;
 }
-- (TournamentProto_Builder*) setEventId:(int32_t) value {
+- (TournamentEventProto_Builder*) setEventId:(int32_t) value {
   result.hasEventId = YES;
   result.eventId = value;
   return self;
 }
-- (TournamentProto_Builder*) clearEventId {
+- (TournamentEventProto_Builder*) clearEventId {
   result.hasEventId = NO;
   result.eventId = 0;
   return self;
@@ -318,12 +319,12 @@ static TournamentProto* defaultTournamentProtoInstance = nil;
 - (int64_t) startDate {
   return result.startDate;
 }
-- (TournamentProto_Builder*) setStartDate:(int64_t) value {
+- (TournamentEventProto_Builder*) setStartDate:(int64_t) value {
   result.hasStartDate = YES;
   result.startDate = value;
   return self;
 }
-- (TournamentProto_Builder*) clearStartDate {
+- (TournamentEventProto_Builder*) clearStartDate {
   result.hasStartDate = NO;
   result.startDate = 0L;
   return self;
@@ -334,12 +335,12 @@ static TournamentProto* defaultTournamentProtoInstance = nil;
 - (int64_t) endDate {
   return result.endDate;
 }
-- (TournamentProto_Builder*) setEndDate:(int64_t) value {
+- (TournamentEventProto_Builder*) setEndDate:(int64_t) value {
   result.hasEndDate = YES;
   result.endDate = value;
   return self;
 }
-- (TournamentProto_Builder*) clearEndDate {
+- (TournamentEventProto_Builder*) clearEndDate {
   result.hasEndDate = NO;
   result.endDate = 0L;
   return self;
@@ -350,12 +351,12 @@ static TournamentProto* defaultTournamentProtoInstance = nil;
 - (NSString*) eventName {
   return result.eventName;
 }
-- (TournamentProto_Builder*) setEventName:(NSString*) value {
+- (TournamentEventProto_Builder*) setEventName:(NSString*) value {
   result.hasEventName = YES;
   result.eventName = value;
   return self;
 }
-- (TournamentProto_Builder*) clearEventName {
+- (TournamentEventProto_Builder*) clearEventName {
   result.hasEventName = NO;
   result.eventName = @"";
   return self;
@@ -364,25 +365,25 @@ static TournamentProto* defaultTournamentProtoInstance = nil;
   if (result.mutableRewardsList == nil) { return [NSArray array]; }
   return result.mutableRewardsList;
 }
-- (TournamentRewardProto*) rewardsAtIndex:(int32_t) index {
+- (TournamentEventRewardProto*) rewardsAtIndex:(int32_t) index {
   return [result rewardsAtIndex:index];
 }
-- (TournamentProto_Builder*) replaceRewardsAtIndex:(int32_t) index with:(TournamentRewardProto*) value {
+- (TournamentEventProto_Builder*) replaceRewardsAtIndex:(int32_t) index with:(TournamentEventRewardProto*) value {
   [result.mutableRewardsList replaceObjectAtIndex:index withObject:value];
   return self;
 }
-- (TournamentProto_Builder*) addAllRewards:(NSArray*) values {
+- (TournamentEventProto_Builder*) addAllRewards:(NSArray*) values {
   if (result.mutableRewardsList == nil) {
     result.mutableRewardsList = [NSMutableArray array];
   }
   [result.mutableRewardsList addObjectsFromArray:values];
   return self;
 }
-- (TournamentProto_Builder*) clearRewardsList {
+- (TournamentEventProto_Builder*) clearRewardsList {
   result.mutableRewardsList = nil;
   return self;
 }
-- (TournamentProto_Builder*) addRewards:(TournamentRewardProto*) value {
+- (TournamentEventProto_Builder*) addRewards:(TournamentEventRewardProto*) value {
   if (result.mutableRewardsList == nil) {
     result.mutableRewardsList = [NSMutableArray array];
   }
@@ -395,20 +396,20 @@ static TournamentProto* defaultTournamentProtoInstance = nil;
 - (int64_t) lastShowDate {
   return result.lastShowDate;
 }
-- (TournamentProto_Builder*) setLastShowDate:(int64_t) value {
+- (TournamentEventProto_Builder*) setLastShowDate:(int64_t) value {
   result.hasLastShowDate = YES;
   result.lastShowDate = value;
   return self;
 }
-- (TournamentProto_Builder*) clearLastShowDate {
+- (TournamentEventProto_Builder*) clearLastShowDate {
   result.hasLastShowDate = NO;
   result.lastShowDate = 0L;
   return self;
 }
 @end
 
-@interface TournamentRewardProto ()
-@property int32_t leaderboardEventId;
+@interface TournamentEventRewardProto ()
+@property int32_t tournamentEventId;
 @property int32_t minRank;
 @property int32_t maxRank;
 @property int32_t goldRewarded;
@@ -417,15 +418,15 @@ static TournamentProto* defaultTournamentProtoInstance = nil;
 @property (retain) ColorProto* titleColor;
 @end
 
-@implementation TournamentRewardProto
+@implementation TournamentEventRewardProto
 
-- (BOOL) hasLeaderboardEventId {
-  return !!hasLeaderboardEventId_;
+- (BOOL) hasTournamentEventId {
+  return !!hasTournamentEventId_;
 }
-- (void) setHasLeaderboardEventId:(BOOL) value {
-  hasLeaderboardEventId_ = !!value;
+- (void) setHasTournamentEventId:(BOOL) value {
+  hasTournamentEventId_ = !!value;
 }
-@synthesize leaderboardEventId;
+@synthesize tournamentEventId;
 - (BOOL) hasMinRank {
   return !!hasMinRank_;
 }
@@ -476,7 +477,7 @@ static TournamentProto* defaultTournamentProtoInstance = nil;
 }
 - (id) init {
   if ((self = [super init])) {
-    self.leaderboardEventId = 0;
+    self.tournamentEventId = 0;
     self.minRank = 0;
     self.maxRank = 0;
     self.goldRewarded = 0;
@@ -486,24 +487,24 @@ static TournamentProto* defaultTournamentProtoInstance = nil;
   }
   return self;
 }
-static TournamentRewardProto* defaultTournamentRewardProtoInstance = nil;
+static TournamentEventRewardProto* defaultTournamentEventRewardProtoInstance = nil;
 + (void) initialize {
-  if (self == [TournamentRewardProto class]) {
-    defaultTournamentRewardProtoInstance = [[TournamentRewardProto alloc] init];
+  if (self == [TournamentEventRewardProto class]) {
+    defaultTournamentEventRewardProtoInstance = [[TournamentEventRewardProto alloc] init];
   }
 }
-+ (TournamentRewardProto*) defaultInstance {
-  return defaultTournamentRewardProtoInstance;
++ (TournamentEventRewardProto*) defaultInstance {
+  return defaultTournamentEventRewardProtoInstance;
 }
-- (TournamentRewardProto*) defaultInstance {
-  return defaultTournamentRewardProtoInstance;
+- (TournamentEventRewardProto*) defaultInstance {
+  return defaultTournamentEventRewardProtoInstance;
 }
 - (BOOL) isInitialized {
   return YES;
 }
 - (void) writeToCodedOutputStream:(PBCodedOutputStream*) output {
-  if (self.hasLeaderboardEventId) {
-    [output writeInt32:1 value:self.leaderboardEventId];
+  if (self.hasTournamentEventId) {
+    [output writeInt32:1 value:self.tournamentEventId];
   }
   if (self.hasMinRank) {
     [output writeInt32:2 value:self.minRank];
@@ -532,8 +533,8 @@ static TournamentRewardProto* defaultTournamentRewardProtoInstance = nil;
   }
 
   size = 0;
-  if (self.hasLeaderboardEventId) {
-    size += computeInt32Size(1, self.leaderboardEventId);
+  if (self.hasTournamentEventId) {
+    size += computeInt32Size(1, self.tournamentEventId);
   }
   if (self.hasMinRank) {
     size += computeInt32Size(2, self.minRank);
@@ -557,40 +558,40 @@ static TournamentRewardProto* defaultTournamentRewardProtoInstance = nil;
   memoizedSerializedSize = size;
   return size;
 }
-+ (TournamentRewardProto*) parseFromData:(NSData*) data {
-  return (TournamentRewardProto*)[[[TournamentRewardProto builder] mergeFromData:data] build];
++ (TournamentEventRewardProto*) parseFromData:(NSData*) data {
+  return (TournamentEventRewardProto*)[[[TournamentEventRewardProto builder] mergeFromData:data] build];
 }
-+ (TournamentRewardProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
-  return (TournamentRewardProto*)[[[TournamentRewardProto builder] mergeFromData:data extensionRegistry:extensionRegistry] build];
++ (TournamentEventRewardProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (TournamentEventRewardProto*)[[[TournamentEventRewardProto builder] mergeFromData:data extensionRegistry:extensionRegistry] build];
 }
-+ (TournamentRewardProto*) parseFromInputStream:(NSInputStream*) input {
-  return (TournamentRewardProto*)[[[TournamentRewardProto builder] mergeFromInputStream:input] build];
++ (TournamentEventRewardProto*) parseFromInputStream:(NSInputStream*) input {
+  return (TournamentEventRewardProto*)[[[TournamentEventRewardProto builder] mergeFromInputStream:input] build];
 }
-+ (TournamentRewardProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
-  return (TournamentRewardProto*)[[[TournamentRewardProto builder] mergeFromInputStream:input extensionRegistry:extensionRegistry] build];
++ (TournamentEventRewardProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (TournamentEventRewardProto*)[[[TournamentEventRewardProto builder] mergeFromInputStream:input extensionRegistry:extensionRegistry] build];
 }
-+ (TournamentRewardProto*) parseFromCodedInputStream:(PBCodedInputStream*) input {
-  return (TournamentRewardProto*)[[[TournamentRewardProto builder] mergeFromCodedInputStream:input] build];
++ (TournamentEventRewardProto*) parseFromCodedInputStream:(PBCodedInputStream*) input {
+  return (TournamentEventRewardProto*)[[[TournamentEventRewardProto builder] mergeFromCodedInputStream:input] build];
 }
-+ (TournamentRewardProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
-  return (TournamentRewardProto*)[[[TournamentRewardProto builder] mergeFromCodedInputStream:input extensionRegistry:extensionRegistry] build];
++ (TournamentEventRewardProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (TournamentEventRewardProto*)[[[TournamentEventRewardProto builder] mergeFromCodedInputStream:input extensionRegistry:extensionRegistry] build];
 }
-+ (TournamentRewardProto_Builder*) builder {
-  return [[[TournamentRewardProto_Builder alloc] init] autorelease];
++ (TournamentEventRewardProto_Builder*) builder {
+  return [[[TournamentEventRewardProto_Builder alloc] init] autorelease];
 }
-+ (TournamentRewardProto_Builder*) builderWithPrototype:(TournamentRewardProto*) prototype {
-  return [[TournamentRewardProto builder] mergeFrom:prototype];
++ (TournamentEventRewardProto_Builder*) builderWithPrototype:(TournamentEventRewardProto*) prototype {
+  return [[TournamentEventRewardProto builder] mergeFrom:prototype];
 }
-- (TournamentRewardProto_Builder*) builder {
-  return [TournamentRewardProto builder];
+- (TournamentEventRewardProto_Builder*) builder {
+  return [TournamentEventRewardProto builder];
 }
 @end
 
-@interface TournamentRewardProto_Builder()
-@property (retain) TournamentRewardProto* result;
+@interface TournamentEventRewardProto_Builder()
+@property (retain) TournamentEventRewardProto* result;
 @end
 
-@implementation TournamentRewardProto_Builder
+@implementation TournamentEventRewardProto_Builder
 @synthesize result;
 - (void) dealloc {
   self.result = nil;
@@ -598,38 +599,38 @@ static TournamentRewardProto* defaultTournamentRewardProtoInstance = nil;
 }
 - (id) init {
   if ((self = [super init])) {
-    self.result = [[[TournamentRewardProto alloc] init] autorelease];
+    self.result = [[[TournamentEventRewardProto alloc] init] autorelease];
   }
   return self;
 }
 - (PBGeneratedMessage*) internalGetResult {
   return result;
 }
-- (TournamentRewardProto_Builder*) clear {
-  self.result = [[[TournamentRewardProto alloc] init] autorelease];
+- (TournamentEventRewardProto_Builder*) clear {
+  self.result = [[[TournamentEventRewardProto alloc] init] autorelease];
   return self;
 }
-- (TournamentRewardProto_Builder*) clone {
-  return [TournamentRewardProto builderWithPrototype:result];
+- (TournamentEventRewardProto_Builder*) clone {
+  return [TournamentEventRewardProto builderWithPrototype:result];
 }
-- (TournamentRewardProto*) defaultInstance {
-  return [TournamentRewardProto defaultInstance];
+- (TournamentEventRewardProto*) defaultInstance {
+  return [TournamentEventRewardProto defaultInstance];
 }
-- (TournamentRewardProto*) build {
+- (TournamentEventRewardProto*) build {
   [self checkInitialized];
   return [self buildPartial];
 }
-- (TournamentRewardProto*) buildPartial {
-  TournamentRewardProto* returnMe = [[result retain] autorelease];
+- (TournamentEventRewardProto*) buildPartial {
+  TournamentEventRewardProto* returnMe = [[result retain] autorelease];
   self.result = nil;
   return returnMe;
 }
-- (TournamentRewardProto_Builder*) mergeFrom:(TournamentRewardProto*) other {
-  if (other == [TournamentRewardProto defaultInstance]) {
+- (TournamentEventRewardProto_Builder*) mergeFrom:(TournamentEventRewardProto*) other {
+  if (other == [TournamentEventRewardProto defaultInstance]) {
     return self;
   }
-  if (other.hasLeaderboardEventId) {
-    [self setLeaderboardEventId:other.leaderboardEventId];
+  if (other.hasTournamentEventId) {
+    [self setTournamentEventId:other.tournamentEventId];
   }
   if (other.hasMinRank) {
     [self setMinRank:other.minRank];
@@ -652,10 +653,10 @@ static TournamentRewardProto* defaultTournamentRewardProtoInstance = nil;
   [self mergeUnknownFields:other.unknownFields];
   return self;
 }
-- (TournamentRewardProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input {
+- (TournamentEventRewardProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input {
   return [self mergeFromCodedInputStream:input extensionRegistry:[PBExtensionRegistry emptyRegistry]];
 }
-- (TournamentRewardProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+- (TournamentEventRewardProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
   PBUnknownFieldSet_Builder* unknownFields = [PBUnknownFieldSet builderWithUnknownFields:self.unknownFields];
   while (YES) {
     int32_t tag = [input readTag];
@@ -671,7 +672,7 @@ static TournamentRewardProto* defaultTournamentRewardProtoInstance = nil;
         break;
       }
       case 8: {
-        [self setLeaderboardEventId:[input readInt32]];
+        [self setTournamentEventId:[input readInt32]];
         break;
       }
       case 16: {
@@ -706,20 +707,20 @@ static TournamentRewardProto* defaultTournamentRewardProtoInstance = nil;
     }
   }
 }
-- (BOOL) hasLeaderboardEventId {
-  return result.hasLeaderboardEventId;
+- (BOOL) hasTournamentEventId {
+  return result.hasTournamentEventId;
 }
-- (int32_t) leaderboardEventId {
-  return result.leaderboardEventId;
+- (int32_t) tournamentEventId {
+  return result.tournamentEventId;
 }
-- (TournamentRewardProto_Builder*) setLeaderboardEventId:(int32_t) value {
-  result.hasLeaderboardEventId = YES;
-  result.leaderboardEventId = value;
+- (TournamentEventRewardProto_Builder*) setTournamentEventId:(int32_t) value {
+  result.hasTournamentEventId = YES;
+  result.tournamentEventId = value;
   return self;
 }
-- (TournamentRewardProto_Builder*) clearLeaderboardEventId {
-  result.hasLeaderboardEventId = NO;
-  result.leaderboardEventId = 0;
+- (TournamentEventRewardProto_Builder*) clearTournamentEventId {
+  result.hasTournamentEventId = NO;
+  result.tournamentEventId = 0;
   return self;
 }
 - (BOOL) hasMinRank {
@@ -728,12 +729,12 @@ static TournamentRewardProto* defaultTournamentRewardProtoInstance = nil;
 - (int32_t) minRank {
   return result.minRank;
 }
-- (TournamentRewardProto_Builder*) setMinRank:(int32_t) value {
+- (TournamentEventRewardProto_Builder*) setMinRank:(int32_t) value {
   result.hasMinRank = YES;
   result.minRank = value;
   return self;
 }
-- (TournamentRewardProto_Builder*) clearMinRank {
+- (TournamentEventRewardProto_Builder*) clearMinRank {
   result.hasMinRank = NO;
   result.minRank = 0;
   return self;
@@ -744,12 +745,12 @@ static TournamentRewardProto* defaultTournamentRewardProtoInstance = nil;
 - (int32_t) maxRank {
   return result.maxRank;
 }
-- (TournamentRewardProto_Builder*) setMaxRank:(int32_t) value {
+- (TournamentEventRewardProto_Builder*) setMaxRank:(int32_t) value {
   result.hasMaxRank = YES;
   result.maxRank = value;
   return self;
 }
-- (TournamentRewardProto_Builder*) clearMaxRank {
+- (TournamentEventRewardProto_Builder*) clearMaxRank {
   result.hasMaxRank = NO;
   result.maxRank = 0;
   return self;
@@ -760,12 +761,12 @@ static TournamentRewardProto* defaultTournamentRewardProtoInstance = nil;
 - (int32_t) goldRewarded {
   return result.goldRewarded;
 }
-- (TournamentRewardProto_Builder*) setGoldRewarded:(int32_t) value {
+- (TournamentEventRewardProto_Builder*) setGoldRewarded:(int32_t) value {
   result.hasGoldRewarded = YES;
   result.goldRewarded = value;
   return self;
 }
-- (TournamentRewardProto_Builder*) clearGoldRewarded {
+- (TournamentEventRewardProto_Builder*) clearGoldRewarded {
   result.hasGoldRewarded = NO;
   result.goldRewarded = 0;
   return self;
@@ -776,12 +777,12 @@ static TournamentRewardProto* defaultTournamentRewardProtoInstance = nil;
 - (NSString*) backgroundImageName {
   return result.backgroundImageName;
 }
-- (TournamentRewardProto_Builder*) setBackgroundImageName:(NSString*) value {
+- (TournamentEventRewardProto_Builder*) setBackgroundImageName:(NSString*) value {
   result.hasBackgroundImageName = YES;
   result.backgroundImageName = value;
   return self;
 }
-- (TournamentRewardProto_Builder*) clearBackgroundImageName {
+- (TournamentEventRewardProto_Builder*) clearBackgroundImageName {
   result.hasBackgroundImageName = NO;
   result.backgroundImageName = @"";
   return self;
@@ -792,12 +793,12 @@ static TournamentRewardProto* defaultTournamentRewardProtoInstance = nil;
 - (NSString*) prizeImageName {
   return result.prizeImageName;
 }
-- (TournamentRewardProto_Builder*) setPrizeImageName:(NSString*) value {
+- (TournamentEventRewardProto_Builder*) setPrizeImageName:(NSString*) value {
   result.hasPrizeImageName = YES;
   result.prizeImageName = value;
   return self;
 }
-- (TournamentRewardProto_Builder*) clearPrizeImageName {
+- (TournamentEventRewardProto_Builder*) clearPrizeImageName {
   result.hasPrizeImageName = NO;
   result.prizeImageName = @"";
   return self;
@@ -808,15 +809,15 @@ static TournamentRewardProto* defaultTournamentRewardProtoInstance = nil;
 - (ColorProto*) titleColor {
   return result.titleColor;
 }
-- (TournamentRewardProto_Builder*) setTitleColor:(ColorProto*) value {
+- (TournamentEventRewardProto_Builder*) setTitleColor:(ColorProto*) value {
   result.hasTitleColor = YES;
   result.titleColor = value;
   return self;
 }
-- (TournamentRewardProto_Builder*) setTitleColorBuilder:(ColorProto_Builder*) builderForValue {
+- (TournamentEventRewardProto_Builder*) setTitleColorBuilder:(ColorProto_Builder*) builderForValue {
   return [self setTitleColor:[builderForValue build]];
 }
-- (TournamentRewardProto_Builder*) mergeTitleColor:(ColorProto*) value {
+- (TournamentEventRewardProto_Builder*) mergeTitleColor:(ColorProto*) value {
   if (result.hasTitleColor &&
       result.titleColor != [ColorProto defaultInstance]) {
     result.titleColor =
@@ -827,9 +828,320 @@ static TournamentRewardProto* defaultTournamentRewardProtoInstance = nil;
   result.hasTitleColor = YES;
   return self;
 }
-- (TournamentRewardProto_Builder*) clearTitleColor {
+- (TournamentEventRewardProto_Builder*) clearTitleColor {
   result.hasTitleColor = NO;
   result.titleColor = [ColorProto defaultInstance];
+  return self;
+}
+@end
+
+@interface MinimumUserProtoWithLevelForTournament ()
+@property (retain) MinimumUserProto* minUserProto;
+@property int32_t level;
+@property int32_t tournamentRank;
+@property Float64 tournamentScore;
+@end
+
+@implementation MinimumUserProtoWithLevelForTournament
+
+- (BOOL) hasMinUserProto {
+  return !!hasMinUserProto_;
+}
+- (void) setHasMinUserProto:(BOOL) value {
+  hasMinUserProto_ = !!value;
+}
+@synthesize minUserProto;
+- (BOOL) hasLevel {
+  return !!hasLevel_;
+}
+- (void) setHasLevel:(BOOL) value {
+  hasLevel_ = !!value;
+}
+@synthesize level;
+- (BOOL) hasTournamentRank {
+  return !!hasTournamentRank_;
+}
+- (void) setHasTournamentRank:(BOOL) value {
+  hasTournamentRank_ = !!value;
+}
+@synthesize tournamentRank;
+- (BOOL) hasTournamentScore {
+  return !!hasTournamentScore_;
+}
+- (void) setHasTournamentScore:(BOOL) value {
+  hasTournamentScore_ = !!value;
+}
+@synthesize tournamentScore;
+- (void) dealloc {
+  self.minUserProto = nil;
+  [super dealloc];
+}
+- (id) init {
+  if ((self = [super init])) {
+    self.minUserProto = [MinimumUserProto defaultInstance];
+    self.level = 0;
+    self.tournamentRank = 0;
+    self.tournamentScore = 0;
+  }
+  return self;
+}
+static MinimumUserProtoWithLevelForTournament* defaultMinimumUserProtoWithLevelForTournamentInstance = nil;
++ (void) initialize {
+  if (self == [MinimumUserProtoWithLevelForTournament class]) {
+    defaultMinimumUserProtoWithLevelForTournamentInstance = [[MinimumUserProtoWithLevelForTournament alloc] init];
+  }
+}
++ (MinimumUserProtoWithLevelForTournament*) defaultInstance {
+  return defaultMinimumUserProtoWithLevelForTournamentInstance;
+}
+- (MinimumUserProtoWithLevelForTournament*) defaultInstance {
+  return defaultMinimumUserProtoWithLevelForTournamentInstance;
+}
+- (BOOL) isInitialized {
+  return YES;
+}
+- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output {
+  if (self.hasMinUserProto) {
+    [output writeMessage:1 value:self.minUserProto];
+  }
+  if (self.hasLevel) {
+    [output writeInt32:2 value:self.level];
+  }
+  if (self.hasTournamentRank) {
+    [output writeInt32:3 value:self.tournamentRank];
+  }
+  if (self.hasTournamentScore) {
+    [output writeDouble:4 value:self.tournamentScore];
+  }
+  [self.unknownFields writeToCodedOutputStream:output];
+}
+- (int32_t) serializedSize {
+  int32_t size = memoizedSerializedSize;
+  if (size != -1) {
+    return size;
+  }
+
+  size = 0;
+  if (self.hasMinUserProto) {
+    size += computeMessageSize(1, self.minUserProto);
+  }
+  if (self.hasLevel) {
+    size += computeInt32Size(2, self.level);
+  }
+  if (self.hasTournamentRank) {
+    size += computeInt32Size(3, self.tournamentRank);
+  }
+  if (self.hasTournamentScore) {
+    size += computeDoubleSize(4, self.tournamentScore);
+  }
+  size += self.unknownFields.serializedSize;
+  memoizedSerializedSize = size;
+  return size;
+}
++ (MinimumUserProtoWithLevelForTournament*) parseFromData:(NSData*) data {
+  return (MinimumUserProtoWithLevelForTournament*)[[[MinimumUserProtoWithLevelForTournament builder] mergeFromData:data] build];
+}
++ (MinimumUserProtoWithLevelForTournament*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (MinimumUserProtoWithLevelForTournament*)[[[MinimumUserProtoWithLevelForTournament builder] mergeFromData:data extensionRegistry:extensionRegistry] build];
+}
++ (MinimumUserProtoWithLevelForTournament*) parseFromInputStream:(NSInputStream*) input {
+  return (MinimumUserProtoWithLevelForTournament*)[[[MinimumUserProtoWithLevelForTournament builder] mergeFromInputStream:input] build];
+}
++ (MinimumUserProtoWithLevelForTournament*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (MinimumUserProtoWithLevelForTournament*)[[[MinimumUserProtoWithLevelForTournament builder] mergeFromInputStream:input extensionRegistry:extensionRegistry] build];
+}
++ (MinimumUserProtoWithLevelForTournament*) parseFromCodedInputStream:(PBCodedInputStream*) input {
+  return (MinimumUserProtoWithLevelForTournament*)[[[MinimumUserProtoWithLevelForTournament builder] mergeFromCodedInputStream:input] build];
+}
++ (MinimumUserProtoWithLevelForTournament*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (MinimumUserProtoWithLevelForTournament*)[[[MinimumUserProtoWithLevelForTournament builder] mergeFromCodedInputStream:input extensionRegistry:extensionRegistry] build];
+}
++ (MinimumUserProtoWithLevelForTournament_Builder*) builder {
+  return [[[MinimumUserProtoWithLevelForTournament_Builder alloc] init] autorelease];
+}
++ (MinimumUserProtoWithLevelForTournament_Builder*) builderWithPrototype:(MinimumUserProtoWithLevelForTournament*) prototype {
+  return [[MinimumUserProtoWithLevelForTournament builder] mergeFrom:prototype];
+}
+- (MinimumUserProtoWithLevelForTournament_Builder*) builder {
+  return [MinimumUserProtoWithLevelForTournament builder];
+}
+@end
+
+@interface MinimumUserProtoWithLevelForTournament_Builder()
+@property (retain) MinimumUserProtoWithLevelForTournament* result;
+@end
+
+@implementation MinimumUserProtoWithLevelForTournament_Builder
+@synthesize result;
+- (void) dealloc {
+  self.result = nil;
+  [super dealloc];
+}
+- (id) init {
+  if ((self = [super init])) {
+    self.result = [[[MinimumUserProtoWithLevelForTournament alloc] init] autorelease];
+  }
+  return self;
+}
+- (PBGeneratedMessage*) internalGetResult {
+  return result;
+}
+- (MinimumUserProtoWithLevelForTournament_Builder*) clear {
+  self.result = [[[MinimumUserProtoWithLevelForTournament alloc] init] autorelease];
+  return self;
+}
+- (MinimumUserProtoWithLevelForTournament_Builder*) clone {
+  return [MinimumUserProtoWithLevelForTournament builderWithPrototype:result];
+}
+- (MinimumUserProtoWithLevelForTournament*) defaultInstance {
+  return [MinimumUserProtoWithLevelForTournament defaultInstance];
+}
+- (MinimumUserProtoWithLevelForTournament*) build {
+  [self checkInitialized];
+  return [self buildPartial];
+}
+- (MinimumUserProtoWithLevelForTournament*) buildPartial {
+  MinimumUserProtoWithLevelForTournament* returnMe = [[result retain] autorelease];
+  self.result = nil;
+  return returnMe;
+}
+- (MinimumUserProtoWithLevelForTournament_Builder*) mergeFrom:(MinimumUserProtoWithLevelForTournament*) other {
+  if (other == [MinimumUserProtoWithLevelForTournament defaultInstance]) {
+    return self;
+  }
+  if (other.hasMinUserProto) {
+    [self mergeMinUserProto:other.minUserProto];
+  }
+  if (other.hasLevel) {
+    [self setLevel:other.level];
+  }
+  if (other.hasTournamentRank) {
+    [self setTournamentRank:other.tournamentRank];
+  }
+  if (other.hasTournamentScore) {
+    [self setTournamentScore:other.tournamentScore];
+  }
+  [self mergeUnknownFields:other.unknownFields];
+  return self;
+}
+- (MinimumUserProtoWithLevelForTournament_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input {
+  return [self mergeFromCodedInputStream:input extensionRegistry:[PBExtensionRegistry emptyRegistry]];
+}
+- (MinimumUserProtoWithLevelForTournament_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  PBUnknownFieldSet_Builder* unknownFields = [PBUnknownFieldSet builderWithUnknownFields:self.unknownFields];
+  while (YES) {
+    int32_t tag = [input readTag];
+    switch (tag) {
+      case 0:
+        [self setUnknownFields:[unknownFields build]];
+        return self;
+      default: {
+        if (![self parseUnknownField:input unknownFields:unknownFields extensionRegistry:extensionRegistry tag:tag]) {
+          [self setUnknownFields:[unknownFields build]];
+          return self;
+        }
+        break;
+      }
+      case 10: {
+        MinimumUserProto_Builder* subBuilder = [MinimumUserProto builder];
+        if (self.hasMinUserProto) {
+          [subBuilder mergeFrom:self.minUserProto];
+        }
+        [input readMessage:subBuilder extensionRegistry:extensionRegistry];
+        [self setMinUserProto:[subBuilder buildPartial]];
+        break;
+      }
+      case 16: {
+        [self setLevel:[input readInt32]];
+        break;
+      }
+      case 24: {
+        [self setTournamentRank:[input readInt32]];
+        break;
+      }
+      case 33: {
+        [self setTournamentScore:[input readDouble]];
+        break;
+      }
+    }
+  }
+}
+- (BOOL) hasMinUserProto {
+  return result.hasMinUserProto;
+}
+- (MinimumUserProto*) minUserProto {
+  return result.minUserProto;
+}
+- (MinimumUserProtoWithLevelForTournament_Builder*) setMinUserProto:(MinimumUserProto*) value {
+  result.hasMinUserProto = YES;
+  result.minUserProto = value;
+  return self;
+}
+- (MinimumUserProtoWithLevelForTournament_Builder*) setMinUserProtoBuilder:(MinimumUserProto_Builder*) builderForValue {
+  return [self setMinUserProto:[builderForValue build]];
+}
+- (MinimumUserProtoWithLevelForTournament_Builder*) mergeMinUserProto:(MinimumUserProto*) value {
+  if (result.hasMinUserProto &&
+      result.minUserProto != [MinimumUserProto defaultInstance]) {
+    result.minUserProto =
+      [[[MinimumUserProto builderWithPrototype:result.minUserProto] mergeFrom:value] buildPartial];
+  } else {
+    result.minUserProto = value;
+  }
+  result.hasMinUserProto = YES;
+  return self;
+}
+- (MinimumUserProtoWithLevelForTournament_Builder*) clearMinUserProto {
+  result.hasMinUserProto = NO;
+  result.minUserProto = [MinimumUserProto defaultInstance];
+  return self;
+}
+- (BOOL) hasLevel {
+  return result.hasLevel;
+}
+- (int32_t) level {
+  return result.level;
+}
+- (MinimumUserProtoWithLevelForTournament_Builder*) setLevel:(int32_t) value {
+  result.hasLevel = YES;
+  result.level = value;
+  return self;
+}
+- (MinimumUserProtoWithLevelForTournament_Builder*) clearLevel {
+  result.hasLevel = NO;
+  result.level = 0;
+  return self;
+}
+- (BOOL) hasTournamentRank {
+  return result.hasTournamentRank;
+}
+- (int32_t) tournamentRank {
+  return result.tournamentRank;
+}
+- (MinimumUserProtoWithLevelForTournament_Builder*) setTournamentRank:(int32_t) value {
+  result.hasTournamentRank = YES;
+  result.tournamentRank = value;
+  return self;
+}
+- (MinimumUserProtoWithLevelForTournament_Builder*) clearTournamentRank {
+  result.hasTournamentRank = NO;
+  result.tournamentRank = 0;
+  return self;
+}
+- (BOOL) hasTournamentScore {
+  return result.hasTournamentScore;
+}
+- (Float64) tournamentScore {
+  return result.tournamentScore;
+}
+- (MinimumUserProtoWithLevelForTournament_Builder*) setTournamentScore:(Float64) value {
+  result.hasTournamentScore = YES;
+  result.tournamentScore = value;
+  return self;
+}
+- (MinimumUserProtoWithLevelForTournament_Builder*) clearTournamentScore {
+  result.hasTournamentScore = NO;
+  result.tournamentScore = 0;
   return self;
 }
 @end

@@ -17,14 +17,23 @@ static PBExtensionRegistry* extensionRegistry = nil;
     [ChatRoot registerAllExtensions:registry];
     [CityRoot registerAllExtensions:registry];
     [ClanRoot registerAllExtensions:registry];
-    [EventRoot registerAllExtensions:registry];
+    [EventApnsRoot registerAllExtensions:registry];
+    [EventBoosterPackRoot registerAllExtensions:registry];
+    [EventChatRoot registerAllExtensions:registry];
     [EventCityRoot registerAllExtensions:registry];
+    [EventClanRoot registerAllExtensions:registry];
+    [EventDungeonRoot registerAllExtensions:registry];
+    [EventInAppPurchaseRoot registerAllExtensions:registry];
+    [EventMonsterRoot registerAllExtensions:registry];
     [EventPvpRoot registerAllExtensions:registry];
     [EventQuestRoot registerAllExtensions:registry];
+    [EventReferralRoot registerAllExtensions:registry];
     [EventStartupRoot registerAllExtensions:registry];
+    [EventStaticDataRoot registerAllExtensions:registry];
     [EventStructureRoot registerAllExtensions:registry];
+    [EventTournamentRoot registerAllExtensions:registry];
     [EventUserRoot registerAllExtensions:registry];
-    [InfoRoot registerAllExtensions:registry];
+    [InAppPurchaseRoot registerAllExtensions:registry];
     [JobRoot registerAllExtensions:registry];
     [MonsterStuffRoot registerAllExtensions:registry];
     [QuestRoot registerAllExtensions:registry];
@@ -60,7 +69,7 @@ BOOL EventProtocolRequestIsValidValue(EventProtocolRequest value) {
     case EventProtocolRequestCLevelUpEvent:
     case EventProtocolRequestCEnableApnsEvent:
     case EventProtocolRequestCUserCreateEvent:
-    case EventProtocolRequestCLoadNeutralCityEvent:
+    case EventProtocolRequestCLoadCityEvent:
     case EventProtocolRequestCRetrieveUsersForUserIdsEvent:
     case EventProtocolRequestCEarnFreeDiamondsEvent:
     case EventProtocolRequestCSendGroupChatEvent:
@@ -74,8 +83,8 @@ BOOL EventProtocolRequestIsValidValue(EventProtocolRequest value) {
     case EventProtocolRequestCChangeClanDescriptionEvent:
     case EventProtocolRequestCBootPlayerFromClanEvent:
     case EventProtocolRequestCPickLockBoxEvent:
-    case EventProtocolRequestCRetrieveLeaderboardRankingsEvent:
-    case EventProtocolRequestCSubmitEquipEnhancementEvent:
+    case EventProtocolRequestCRetrieveTournamentRankingsEvent:
+    case EventProtocolRequestCSubmitMonsterEnhancementEvent:
     case EventProtocolRequestCRetrieveBoosterPackEvent:
     case EventProtocolRequestCPurchaseBoosterPackEvent:
     case EventProtocolRequestCResetBoosterPackEvent:
@@ -87,7 +96,7 @@ BOOL EventProtocolRequestIsValidValue(EventProtocolRequest value) {
     case EventProtocolRequestCEndDungeonEvent:
     case EventProtocolRequestCReviveInDungeonEvent:
     case EventProtocolRequestCQueueUpEvent:
-    case EventProtocolRequestCUpdateEquipDurabilityEvent:
+    case EventProtocolRequestCUpdateMonsterHealthEvent:
     case EventProtocolRequestCLogoutEvent:
       return YES;
     default:
@@ -115,7 +124,7 @@ BOOL EventProtocolResponseIsValidValue(EventProtocolResponse value) {
     case EventProtocolResponseSLevelUpEvent:
     case EventProtocolResponseSEnableApnsEvent:
     case EventProtocolResponseSUserCreateEvent:
-    case EventProtocolResponseSLoadNeutralCityEvent:
+    case EventProtocolResponseSLoadCityEvent:
     case EventProtocolResponseSRetrieveUsersForUserIdsEvent:
     case EventProtocolResponseSEarnFreeDiamondsEvent:
     case EventProtocolResponseSSendGroupChatEvent:
@@ -129,8 +138,8 @@ BOOL EventProtocolResponseIsValidValue(EventProtocolResponse value) {
     case EventProtocolResponseSChangeClanDescriptionEvent:
     case EventProtocolResponseSBootPlayerFromClanEvent:
     case EventProtocolResponseSPickLockBoxEvent:
-    case EventProtocolResponseSRetrieveLeaderboardRankingsEvent:
-    case EventProtocolResponseSSubmitEquipEnhancementEvent:
+    case EventProtocolResponseSRetrieveTournamentRankingsEvent:
+    case EventProtocolResponseSSubmitMonsterEnhancementEvent:
     case EventProtocolResponseSRetrieveBoosterPackEvent:
     case EventProtocolResponseSPurchaseBoosterPackEvent:
     case EventProtocolResponseSResetBoosterPackEvent:
@@ -142,7 +151,7 @@ BOOL EventProtocolResponseIsValidValue(EventProtocolResponse value) {
     case EventProtocolResponseSEndDungeonEvent:
     case EventProtocolResponseSReviveInDungeonEvent:
     case EventProtocolResponseSQueueUpEvent:
-    case EventProtocolResponseSUpdateEquipDurabilityEvent:
+    case EventProtocolResponseSUpdateMonsterHealthEvent:
     case EventProtocolResponseSUpdateClientUserEvent:
     case EventProtocolResponseSQuestCompleteEvent:
     case EventProtocolResponseSReferralCodeUsedEvent:

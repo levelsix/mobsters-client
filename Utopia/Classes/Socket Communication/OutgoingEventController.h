@@ -18,7 +18,7 @@
 
 - (void) createUser;
 
-- (void) startup;
+- (void) startupWithDelegate:(id)delegate;
 - (void) logout;
 
 - (void) inAppPurchase:(NSString *)receipt goldAmt:(int)gold silverAmt:(int)silver product:(SKProduct *)product;
@@ -35,7 +35,7 @@
 - (void) retrieveAllStaticData;
 - (void) retrieveBoosterPacks;
 
-- (void) loadPlayerCity:(int)userId;
+- (void) loadPlayerCity:(int)userId withDelegate:(id)delegate;
 - (void) loadNeutralCity:(int)cityId;
 - (void) loadNeutralCity:(int)cityId asset:(int)assetId;
 

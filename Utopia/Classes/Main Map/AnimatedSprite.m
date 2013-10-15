@@ -360,58 +360,6 @@ BOOL _loading = NO;
 
 @end
 
-@implementation BossSprite
-
-- (id) initWithFile:(NSString *)file location:(CGRect)loc map:(GameMap *)map {
-  if ((self = [super initWithFile:file location:loc map:map])) {
-    self.contentSize = CGSizeMake(120, 100);
-    self.sprite.scale = 1.5f;
-    
-    _bossMenu = [CCSprite spriteWithFile:@"smallbossbubble.png"];
-    [self addChild:_bossMenu z:1];
-    _bossMenu.position = ccpAdd(_nameLabel.position, ccp(0, 20));
-    
-    _healthBar = [CCProgressTimer progressWithSprite:[CCSprite spriteWithFile:@"minihealthbar.png"]];
-    _healthBar.type = kCCProgressTimerTypeBar;
-    _healthBar.percentage = 845.f/1000*100;
-    [_bossMenu addChild:_healthBar];
-    _healthBar.position = ccp(_bossMenu.contentSize.width/2-0.5, _bossMenu.contentSize.height/2-5.5);
-    
-    CCSprite *timer =  [CCSprite spriteWithFile:@"clocktimer.png"];
-    [_bossMenu addChild:timer];
-    timer.position = ccp(15, _bossMenu.contentSize.height-15);
-    
-    _timeLabel = [CCLabelTTF labelWithString:@"5:34:22" fontName:[Globals font] fontSize:13.f];
-    [_bossMenu addChild:_timeLabel];
-    _timeLabel.anchorPoint = ccp(0, 0.5);
-    _timeLabel.position = ccpAdd(timer.position, ccp(13,-3));
-    
-    _lock = [CCSprite spriteWithFile:@"bossoverlock.png"];
-    [self addChild:_lock z:1];
-    _lock.position = ccpAdd(_nameLabel.position, ccp(-2, 10));
-  }
-  return self;
-}
-
-- (void) setOpacity:(GLubyte)opacity {
-  [super setOpacity:opacity];
-  
-  // Must do this to make sure all children also fade out
-  for (CCNode *n in _children) {
-    [n recursivelyApplyOpacity:opacity];
-  }
-}
-
-- (void) setName:(NSString *)n {
-  if (_name != n) {
-    _name = n;
-    _nameLabel.string = _name;
-    _nameLabel.visible = NO;
-  }
-}
-
-@end
-
 @implementation MoveToLocation
 
 +(id) actionWithDuration: (ccTime) t location: (CGRect) p

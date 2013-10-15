@@ -10,6 +10,8 @@
 #import "Globals.h"
 #import "ClanViewController.h"
 #import "EnhanceViewController.h"
+#import "DiamondShopViewController.h"
+#import "SettingsViewController.h"
 
 @interface MainMenuController ()
 
@@ -17,19 +19,26 @@
 
 @implementation MainMenuController
 
-- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
+- (id)init
 {
-    self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
-    if (self) {
+    if ((self = [super init])) {
       self.title = @"Menu";
       
-      [self setUpSettingsAndCloseButtons];
       [self setUpImageBackButton];
     }
     return self;
 }
 
+- (void) viewWillAppear:(BOOL)animated {
+  // Set up settings button with close button
+  [self loadCustomNavBarButtons];
+  UIBarButtonItem *rightButton1 = [[UIBarButtonItem alloc] initWithCustomView:self.menuCloseButton];
+  UIBarButtonItem *rightButton2 = [[UIBarButtonItem alloc] initWithCustomView:self.menuSettingsButton];
+  self.navigationItem.rightBarButtonItems = [NSArray arrayWithObjects:rightButton1, rightButton2, nil];
+}
+
 - (IBAction)fundsClicked:(id)sender {
+  [self.navigationController pushViewController:[[DiamondShopViewController alloc] init] animated:YES];
 }
 
 - (IBAction)cratesClicked:(id)sender {
@@ -50,6 +59,11 @@
 
 - (IBAction)profileClicked:(id)sender {
   
+}
+
+- (IBAction)settingsClicked:(id)sender {
+  SettingsViewController *svc = [[SettingsViewController alloc] init];
+  [self.navigationController pushViewController:svc animated:YES];
 }
 
 @end

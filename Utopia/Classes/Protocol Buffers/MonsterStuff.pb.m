@@ -794,10 +794,10 @@ static FullUserMonsterProto* defaultFullUserMonsterProtoInstance = nil;
     [output writeInt32:3 value:self.monsterId];
   }
   if (self.hasEnhancementPercentage) {
-    [output writeInt32:5 value:self.enhancementPercentage];
+    [output writeInt32:4 value:self.enhancementPercentage];
   }
   if (self.hasCurrentDurability) {
-    [output writeInt32:6 value:self.currentDurability];
+    [output writeInt32:5 value:self.currentDurability];
   }
   [self.unknownFields writeToCodedOutputStream:output];
 }
@@ -818,10 +818,10 @@ static FullUserMonsterProto* defaultFullUserMonsterProtoInstance = nil;
     size += computeInt32Size(3, self.monsterId);
   }
   if (self.hasEnhancementPercentage) {
-    size += computeInt32Size(5, self.enhancementPercentage);
+    size += computeInt32Size(4, self.enhancementPercentage);
   }
   if (self.hasCurrentDurability) {
-    size += computeInt32Size(6, self.currentDurability);
+    size += computeInt32Size(5, self.currentDurability);
   }
   size += self.unknownFields.serializedSize;
   memoizedSerializedSize = size;
@@ -946,11 +946,11 @@ static FullUserMonsterProto* defaultFullUserMonsterProtoInstance = nil;
         [self setMonsterId:[input readInt32]];
         break;
       }
-      case 40: {
+      case 32: {
         [self setEnhancementPercentage:[input readInt32]];
         break;
       }
-      case 48: {
+      case 40: {
         [self setCurrentDurability:[input readInt32]];
         break;
       }
@@ -1035,259 +1035,6 @@ static FullUserMonsterProto* defaultFullUserMonsterProtoInstance = nil;
 - (FullUserMonsterProto_Builder*) clearCurrentDurability {
   result.hasCurrentDurability = NO;
   result.currentDurability = 0;
-  return self;
-}
-@end
-
-@interface FullBossProto ()
-@property int32_t bossId;
-@property int32_t cityId;
-@property int32_t assetNumWithinCity;
-@end
-
-@implementation FullBossProto
-
-- (BOOL) hasBossId {
-  return !!hasBossId_;
-}
-- (void) setHasBossId:(BOOL) value {
-  hasBossId_ = !!value;
-}
-@synthesize bossId;
-- (BOOL) hasCityId {
-  return !!hasCityId_;
-}
-- (void) setHasCityId:(BOOL) value {
-  hasCityId_ = !!value;
-}
-@synthesize cityId;
-- (BOOL) hasAssetNumWithinCity {
-  return !!hasAssetNumWithinCity_;
-}
-- (void) setHasAssetNumWithinCity:(BOOL) value {
-  hasAssetNumWithinCity_ = !!value;
-}
-@synthesize assetNumWithinCity;
-- (void) dealloc {
-  [super dealloc];
-}
-- (id) init {
-  if ((self = [super init])) {
-    self.bossId = 0;
-    self.cityId = 0;
-    self.assetNumWithinCity = 0;
-  }
-  return self;
-}
-static FullBossProto* defaultFullBossProtoInstance = nil;
-+ (void) initialize {
-  if (self == [FullBossProto class]) {
-    defaultFullBossProtoInstance = [[FullBossProto alloc] init];
-  }
-}
-+ (FullBossProto*) defaultInstance {
-  return defaultFullBossProtoInstance;
-}
-- (FullBossProto*) defaultInstance {
-  return defaultFullBossProtoInstance;
-}
-- (BOOL) isInitialized {
-  return YES;
-}
-- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output {
-  if (self.hasBossId) {
-    [output writeInt32:1 value:self.bossId];
-  }
-  if (self.hasCityId) {
-    [output writeInt32:2 value:self.cityId];
-  }
-  if (self.hasAssetNumWithinCity) {
-    [output writeInt32:3 value:self.assetNumWithinCity];
-  }
-  [self.unknownFields writeToCodedOutputStream:output];
-}
-- (int32_t) serializedSize {
-  int32_t size = memoizedSerializedSize;
-  if (size != -1) {
-    return size;
-  }
-
-  size = 0;
-  if (self.hasBossId) {
-    size += computeInt32Size(1, self.bossId);
-  }
-  if (self.hasCityId) {
-    size += computeInt32Size(2, self.cityId);
-  }
-  if (self.hasAssetNumWithinCity) {
-    size += computeInt32Size(3, self.assetNumWithinCity);
-  }
-  size += self.unknownFields.serializedSize;
-  memoizedSerializedSize = size;
-  return size;
-}
-+ (FullBossProto*) parseFromData:(NSData*) data {
-  return (FullBossProto*)[[[FullBossProto builder] mergeFromData:data] build];
-}
-+ (FullBossProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
-  return (FullBossProto*)[[[FullBossProto builder] mergeFromData:data extensionRegistry:extensionRegistry] build];
-}
-+ (FullBossProto*) parseFromInputStream:(NSInputStream*) input {
-  return (FullBossProto*)[[[FullBossProto builder] mergeFromInputStream:input] build];
-}
-+ (FullBossProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
-  return (FullBossProto*)[[[FullBossProto builder] mergeFromInputStream:input extensionRegistry:extensionRegistry] build];
-}
-+ (FullBossProto*) parseFromCodedInputStream:(PBCodedInputStream*) input {
-  return (FullBossProto*)[[[FullBossProto builder] mergeFromCodedInputStream:input] build];
-}
-+ (FullBossProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
-  return (FullBossProto*)[[[FullBossProto builder] mergeFromCodedInputStream:input extensionRegistry:extensionRegistry] build];
-}
-+ (FullBossProto_Builder*) builder {
-  return [[[FullBossProto_Builder alloc] init] autorelease];
-}
-+ (FullBossProto_Builder*) builderWithPrototype:(FullBossProto*) prototype {
-  return [[FullBossProto builder] mergeFrom:prototype];
-}
-- (FullBossProto_Builder*) builder {
-  return [FullBossProto builder];
-}
-@end
-
-@interface FullBossProto_Builder()
-@property (retain) FullBossProto* result;
-@end
-
-@implementation FullBossProto_Builder
-@synthesize result;
-- (void) dealloc {
-  self.result = nil;
-  [super dealloc];
-}
-- (id) init {
-  if ((self = [super init])) {
-    self.result = [[[FullBossProto alloc] init] autorelease];
-  }
-  return self;
-}
-- (PBGeneratedMessage*) internalGetResult {
-  return result;
-}
-- (FullBossProto_Builder*) clear {
-  self.result = [[[FullBossProto alloc] init] autorelease];
-  return self;
-}
-- (FullBossProto_Builder*) clone {
-  return [FullBossProto builderWithPrototype:result];
-}
-- (FullBossProto*) defaultInstance {
-  return [FullBossProto defaultInstance];
-}
-- (FullBossProto*) build {
-  [self checkInitialized];
-  return [self buildPartial];
-}
-- (FullBossProto*) buildPartial {
-  FullBossProto* returnMe = [[result retain] autorelease];
-  self.result = nil;
-  return returnMe;
-}
-- (FullBossProto_Builder*) mergeFrom:(FullBossProto*) other {
-  if (other == [FullBossProto defaultInstance]) {
-    return self;
-  }
-  if (other.hasBossId) {
-    [self setBossId:other.bossId];
-  }
-  if (other.hasCityId) {
-    [self setCityId:other.cityId];
-  }
-  if (other.hasAssetNumWithinCity) {
-    [self setAssetNumWithinCity:other.assetNumWithinCity];
-  }
-  [self mergeUnknownFields:other.unknownFields];
-  return self;
-}
-- (FullBossProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input {
-  return [self mergeFromCodedInputStream:input extensionRegistry:[PBExtensionRegistry emptyRegistry]];
-}
-- (FullBossProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
-  PBUnknownFieldSet_Builder* unknownFields = [PBUnknownFieldSet builderWithUnknownFields:self.unknownFields];
-  while (YES) {
-    int32_t tag = [input readTag];
-    switch (tag) {
-      case 0:
-        [self setUnknownFields:[unknownFields build]];
-        return self;
-      default: {
-        if (![self parseUnknownField:input unknownFields:unknownFields extensionRegistry:extensionRegistry tag:tag]) {
-          [self setUnknownFields:[unknownFields build]];
-          return self;
-        }
-        break;
-      }
-      case 8: {
-        [self setBossId:[input readInt32]];
-        break;
-      }
-      case 16: {
-        [self setCityId:[input readInt32]];
-        break;
-      }
-      case 24: {
-        [self setAssetNumWithinCity:[input readInt32]];
-        break;
-      }
-    }
-  }
-}
-- (BOOL) hasBossId {
-  return result.hasBossId;
-}
-- (int32_t) bossId {
-  return result.bossId;
-}
-- (FullBossProto_Builder*) setBossId:(int32_t) value {
-  result.hasBossId = YES;
-  result.bossId = value;
-  return self;
-}
-- (FullBossProto_Builder*) clearBossId {
-  result.hasBossId = NO;
-  result.bossId = 0;
-  return self;
-}
-- (BOOL) hasCityId {
-  return result.hasCityId;
-}
-- (int32_t) cityId {
-  return result.cityId;
-}
-- (FullBossProto_Builder*) setCityId:(int32_t) value {
-  result.hasCityId = YES;
-  result.cityId = value;
-  return self;
-}
-- (FullBossProto_Builder*) clearCityId {
-  result.hasCityId = NO;
-  result.cityId = 0;
-  return self;
-}
-- (BOOL) hasAssetNumWithinCity {
-  return result.hasAssetNumWithinCity;
-}
-- (int32_t) assetNumWithinCity {
-  return result.assetNumWithinCity;
-}
-- (FullBossProto_Builder*) setAssetNumWithinCity:(int32_t) value {
-  result.hasAssetNumWithinCity = YES;
-  result.assetNumWithinCity = value;
-  return self;
-}
-- (FullBossProto_Builder*) clearAssetNumWithinCity {
-  result.hasAssetNumWithinCity = NO;
-  result.assetNumWithinCity = 0;
   return self;
 }
 @end

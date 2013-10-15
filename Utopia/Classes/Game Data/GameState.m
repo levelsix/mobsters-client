@@ -36,7 +36,6 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
     _staticDefeatTypeJobs = [[NSMutableDictionary alloc] init];
     _staticBuildStructJobs = [[NSMutableDictionary alloc] init];
     _staticUpgradeStructJobs = [[NSMutableDictionary alloc] init];
-    _staticBosses = [[NSMutableDictionary alloc] init];
     _notifications = [[NSMutableArray alloc] init];
     _myStructs = [[NSMutableArray alloc] init];
     _myMonsters = [[NSMutableArray alloc] init];
@@ -165,9 +164,6 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
       } else if (dict == _staticUpgradeStructJobs) {
         [sc sendRetrieveStaticDataMessageWithStructIds:nil taskIds:nil questIds:nil cityIds:nil buildStructJobIds:nil defeatTypeJobIds:nil possessEquipJobIds:nil upgradeStructJobIds:arr events:NO bossIds:nil];
         LNLog(@"Upgrade Struct Jobs");
-      } else if (dict == _staticBosses) {
-        [sc sendRetrieveStaticDataMessageWithStructIds:nil taskIds:nil questIds:nil cityIds:nil buildStructJobIds:nil defeatTypeJobIds:nil possessEquipJobIds:nil upgradeStructJobIds:nil events:NO bossIds:arr];
-        LNLog(@"Bosses");
       }
       LNLog(@"%@)", s);
     } else if (!ad.isActive || numTimes > 10000) {
@@ -212,14 +208,6 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
     return nil;
   }
   return [self getStaticDataFrom:_staticTasks withId:taskId];
-}
-
-- (FullTaskProto *) bossWithId:(int)bossId {
-  if (bossId == 0) {
-    [Globals popupMessage:@"Attempted to access boss 0"];
-    return nil;
-  }
-  return [self getStaticDataFrom:_staticBosses withId:bossId];
 }
 
 - (void) addToMyMonsters:(NSArray *)monsters {
@@ -347,12 +335,6 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
 - (void) addToStaticTasks:(NSArray *)arr {
   for (FullTaskProto *p in arr) {
     [self.staticTasks setObject:p forKey:[NSNumber numberWithInt:p.taskId]];
-  }
-}
-
-- (void) addToStaticBosses:(NSArray *)arr {
-  for (FullBossProto *p in arr) {
-    [self.staticBosses setObject:p forKey:[NSNumber numberWithInt:p.bossId]];
   }
 }
 
@@ -519,10 +501,6 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
 - (void) expansionWaitTimeComplete:(NSTimer *)timer {
   UserExpansion *exp = [timer userInfo];
   [[OutgoingEventController sharedOutgoingEventController] expansionWaitComplete:NO atX:exp.xPosition atY:exp.yPosition];
-  
-  if ([HomeMap isInitialized]) {
-    [[HomeMap sharedHomeMap] refresh];
-  }
 }
 
 - (void) stopExpansionTimer {
@@ -568,7 +546,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
 }
 
 - (void) reretrieveStaticData {
-  [[SocketCommunication sharedSocketCommunication] sendRetrieveStaticDataMessageWithStructIds:_staticStructs.allKeys taskIds:_staticTasks.allKeys questIds:_staticQuests.allKeys cityIds:_staticCities.allKeys buildStructJobIds:_staticBuildStructJobs.allKeys defeatTypeJobIds:_staticDefeatTypeJobs.allKeys possessEquipJobIds:nil upgradeStructJobIds:_staticUpgradeStructJobs.allKeys events:YES bossIds:_staticBosses.allKeys];
+  [[SocketCommunication sharedSocketCommunication] sendRetrieveStaticDataMessageWithStructIds:_staticStructs.allKeys taskIds:_staticTasks.allKeys questIds:_staticQuests.allKeys cityIds:_staticCities.allKeys buildStructJobIds:_staticBuildStructJobs.allKeys defeatTypeJobIds:_staticDefeatTypeJobs.allKeys possessEquipJobIds:nil upgradeStructJobIds:_staticUpgradeStructJobs.allKeys events:YES bossIds:nil];
   
   self.staticTasks = [[NSMutableDictionary alloc] init];
   self.staticCities = [[NSMutableDictionary alloc] init];
@@ -577,7 +555,6 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
   self.staticDefeatTypeJobs = [[NSMutableDictionary alloc] init];
   self.staticBuildStructJobs = [[NSMutableDictionary alloc] init];
   self.staticUpgradeStructJobs = [[NSMutableDictionary alloc] init];
-  self.staticBosses = [[NSMutableDictionary alloc] init];
   self.boosterPacks = nil;
 }
 
@@ -587,7 +564,6 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
   self.staticCities = [[NSMutableDictionary alloc] init];
   self.staticQuests = [[NSMutableDictionary alloc] init];
   self.staticStructs = [[NSMutableDictionary alloc] init];
-  self.staticBosses = [[NSMutableDictionary alloc] init];
   self.staticDefeatTypeJobs = [[NSMutableDictionary alloc] init];
   self.staticBuildStructJobs = [[NSMutableDictionary alloc] init];
   self.staticUpgradeStructJobs = [[NSMutableDictionary alloc] init];

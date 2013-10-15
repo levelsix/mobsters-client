@@ -23,7 +23,7 @@ static PBExtensionRegistry* extensionRegistry = nil;
 BOOL SpecialQuestActionIsValidValue(SpecialQuestAction value) {
   switch (value) {
     case SpecialQuestActionRequestJoinClan:
-    case SpecialQuestActionSuccessfullyForgeAnItem:
+    case SpecialQuestActionEvolveAMonster:
       return YES;
     default:
       return NO;
@@ -44,8 +44,6 @@ BOOL SpecialQuestActionIsValidValue(SpecialQuestAction value) {
 @property (retain) NSMutableArray* mutableTaskReqsList;
 @property (retain) NSMutableArray* mutableUpgradeStructJobsReqsList;
 @property (retain) NSMutableArray* mutableBuildStructJobsReqsList;
-@property (retain) NSMutableArray* mutableDefeatTypeReqsList;
-@property (retain) NSMutableArray* mutablePossessEquipJobReqsList;
 @property int32_t coinRetrievalReq;
 @property SpecialQuestAction specialQuestActionReq;
 @property int32_t numComponentsForGood;
@@ -131,8 +129,6 @@ BOOL SpecialQuestActionIsValidValue(SpecialQuestAction value) {
 @synthesize mutableTaskReqsList;
 @synthesize mutableUpgradeStructJobsReqsList;
 @synthesize mutableBuildStructJobsReqsList;
-@synthesize mutableDefeatTypeReqsList;
-@synthesize mutablePossessEquipJobReqsList;
 - (BOOL) hasCoinRetrievalReq {
   return !!hasCoinRetrievalReq_;
 }
@@ -190,8 +186,6 @@ BOOL SpecialQuestActionIsValidValue(SpecialQuestAction value) {
   self.mutableTaskReqsList = nil;
   self.mutableUpgradeStructJobsReqsList = nil;
   self.mutableBuildStructJobsReqsList = nil;
-  self.mutableDefeatTypeReqsList = nil;
-  self.mutablePossessEquipJobReqsList = nil;
   self.acceptDialogue = nil;
   self.questGiverName = nil;
   self.questGiverImageSuffix = nil;
@@ -259,20 +253,6 @@ static FullQuestProto* defaultFullQuestProtoInstance = nil;
   id value = [mutableBuildStructJobsReqsList objectAtIndex:index];
   return [value intValue];
 }
-- (NSArray*) defeatTypeReqsList {
-  return mutableDefeatTypeReqsList;
-}
-- (int32_t) defeatTypeReqsAtIndex:(int32_t) index {
-  id value = [mutableDefeatTypeReqsList objectAtIndex:index];
-  return [value intValue];
-}
-- (NSArray*) possessEquipJobReqsList {
-  return mutablePossessEquipJobReqsList;
-}
-- (int32_t) possessEquipJobReqsAtIndex:(int32_t) index {
-  id value = [mutablePossessEquipJobReqsList objectAtIndex:index];
-  return [value intValue];
-}
 - (BOOL) isInitialized {
   return YES;
 }
@@ -319,32 +299,26 @@ static FullQuestProto* defaultFullQuestProtoInstance = nil;
   for (NSNumber* value in self.mutableBuildStructJobsReqsList) {
     [output writeInt32:14 value:[value intValue]];
   }
-  for (NSNumber* value in self.mutableDefeatTypeReqsList) {
-    [output writeInt32:15 value:[value intValue]];
-  }
-  for (NSNumber* value in self.mutablePossessEquipJobReqsList) {
-    [output writeInt32:16 value:[value intValue]];
-  }
   if (self.hasCoinRetrievalReq) {
-    [output writeInt32:17 value:self.coinRetrievalReq];
+    [output writeInt32:15 value:self.coinRetrievalReq];
   }
   if (self.hasSpecialQuestActionReq) {
-    [output writeEnum:18 value:self.specialQuestActionReq];
+    [output writeEnum:16 value:self.specialQuestActionReq];
   }
   if (self.hasNumComponentsForGood) {
-    [output writeInt32:19 value:self.numComponentsForGood];
+    [output writeInt32:17 value:self.numComponentsForGood];
   }
   if (self.hasAcceptDialogue) {
-    [output writeMessage:20 value:self.acceptDialogue];
+    [output writeMessage:18 value:self.acceptDialogue];
   }
   if (self.hasQuestGiverName) {
-    [output writeString:21 value:self.questGiverName];
+    [output writeString:19 value:self.questGiverName];
   }
   if (self.hasQuestGiverImageSuffix) {
-    [output writeString:22 value:self.questGiverImageSuffix];
+    [output writeString:20 value:self.questGiverImageSuffix];
   }
   if (self.hasPriority) {
-    [output writeInt32:23 value:self.priority];
+    [output writeInt32:21 value:self.priority];
   }
   [self.unknownFields writeToCodedOutputStream:output];
 }
@@ -417,42 +391,26 @@ static FullQuestProto* defaultFullQuestProtoInstance = nil;
     size += dataSize;
     size += 1 * self.mutableBuildStructJobsReqsList.count;
   }
-  {
-    int32_t dataSize = 0;
-    for (NSNumber* value in self.mutableDefeatTypeReqsList) {
-      dataSize += computeInt32SizeNoTag([value intValue]);
-    }
-    size += dataSize;
-    size += 1 * self.mutableDefeatTypeReqsList.count;
-  }
-  {
-    int32_t dataSize = 0;
-    for (NSNumber* value in self.mutablePossessEquipJobReqsList) {
-      dataSize += computeInt32SizeNoTag([value intValue]);
-    }
-    size += dataSize;
-    size += 2 * self.mutablePossessEquipJobReqsList.count;
-  }
   if (self.hasCoinRetrievalReq) {
-    size += computeInt32Size(17, self.coinRetrievalReq);
+    size += computeInt32Size(15, self.coinRetrievalReq);
   }
   if (self.hasSpecialQuestActionReq) {
-    size += computeEnumSize(18, self.specialQuestActionReq);
+    size += computeEnumSize(16, self.specialQuestActionReq);
   }
   if (self.hasNumComponentsForGood) {
-    size += computeInt32Size(19, self.numComponentsForGood);
+    size += computeInt32Size(17, self.numComponentsForGood);
   }
   if (self.hasAcceptDialogue) {
-    size += computeMessageSize(20, self.acceptDialogue);
+    size += computeMessageSize(18, self.acceptDialogue);
   }
   if (self.hasQuestGiverName) {
-    size += computeStringSize(21, self.questGiverName);
+    size += computeStringSize(19, self.questGiverName);
   }
   if (self.hasQuestGiverImageSuffix) {
-    size += computeStringSize(22, self.questGiverImageSuffix);
+    size += computeStringSize(20, self.questGiverImageSuffix);
   }
   if (self.hasPriority) {
-    size += computeInt32Size(23, self.priority);
+    size += computeInt32Size(21, self.priority);
   }
   size += self.unknownFields.serializedSize;
   memoizedSerializedSize = size;
@@ -583,18 +541,6 @@ static FullQuestProto* defaultFullQuestProtoInstance = nil;
     }
     [result.mutableBuildStructJobsReqsList addObjectsFromArray:other.mutableBuildStructJobsReqsList];
   }
-  if (other.mutableDefeatTypeReqsList.count > 0) {
-    if (result.mutableDefeatTypeReqsList == nil) {
-      result.mutableDefeatTypeReqsList = [NSMutableArray array];
-    }
-    [result.mutableDefeatTypeReqsList addObjectsFromArray:other.mutableDefeatTypeReqsList];
-  }
-  if (other.mutablePossessEquipJobReqsList.count > 0) {
-    if (result.mutablePossessEquipJobReqsList == nil) {
-      result.mutablePossessEquipJobReqsList = [NSMutableArray array];
-    }
-    [result.mutablePossessEquipJobReqsList addObjectsFromArray:other.mutablePossessEquipJobReqsList];
-  }
   if (other.hasCoinRetrievalReq) {
     [self setCoinRetrievalReq:other.coinRetrievalReq];
   }
@@ -694,31 +640,23 @@ static FullQuestProto* defaultFullQuestProtoInstance = nil;
         break;
       }
       case 120: {
-        [self addDefeatTypeReqs:[input readInt32]];
-        break;
-      }
-      case 128: {
-        [self addPossessEquipJobReqs:[input readInt32]];
-        break;
-      }
-      case 136: {
         [self setCoinRetrievalReq:[input readInt32]];
         break;
       }
-      case 144: {
+      case 128: {
         int32_t value = [input readEnum];
         if (SpecialQuestActionIsValidValue(value)) {
           [self setSpecialQuestActionReq:value];
         } else {
-          [unknownFields mergeVarintField:18 value:value];
+          [unknownFields mergeVarintField:16 value:value];
         }
         break;
       }
-      case 152: {
+      case 136: {
         [self setNumComponentsForGood:[input readInt32]];
         break;
       }
-      case 162: {
+      case 146: {
         DialogueProto_Builder* subBuilder = [DialogueProto builder];
         if (self.hasAcceptDialogue) {
           [subBuilder mergeFrom:self.acceptDialogue];
@@ -727,15 +665,15 @@ static FullQuestProto* defaultFullQuestProtoInstance = nil;
         [self setAcceptDialogue:[subBuilder buildPartial]];
         break;
       }
-      case 170: {
+      case 154: {
         [self setQuestGiverName:[input readString]];
         break;
       }
-      case 178: {
+      case 162: {
         [self setQuestGiverImageSuffix:[input readString]];
         break;
       }
-      case 184: {
+      case 168: {
         [self setPriority:[input readInt32]];
         break;
       }
@@ -1024,68 +962,6 @@ static FullQuestProto* defaultFullQuestProtoInstance = nil;
 }
 - (FullQuestProto_Builder*) clearBuildStructJobsReqsList {
   result.mutableBuildStructJobsReqsList = nil;
-  return self;
-}
-- (NSArray*) defeatTypeReqsList {
-  if (result.mutableDefeatTypeReqsList == nil) {
-    return [NSArray array];
-  }
-  return result.mutableDefeatTypeReqsList;
-}
-- (int32_t) defeatTypeReqsAtIndex:(int32_t) index {
-  return [result defeatTypeReqsAtIndex:index];
-}
-- (FullQuestProto_Builder*) replaceDefeatTypeReqsAtIndex:(int32_t) index with:(int32_t) value {
-  [result.mutableDefeatTypeReqsList replaceObjectAtIndex:index withObject:[NSNumber numberWithInt:value]];
-  return self;
-}
-- (FullQuestProto_Builder*) addDefeatTypeReqs:(int32_t) value {
-  if (result.mutableDefeatTypeReqsList == nil) {
-    result.mutableDefeatTypeReqsList = [NSMutableArray array];
-  }
-  [result.mutableDefeatTypeReqsList addObject:[NSNumber numberWithInt:value]];
-  return self;
-}
-- (FullQuestProto_Builder*) addAllDefeatTypeReqs:(NSArray*) values {
-  if (result.mutableDefeatTypeReqsList == nil) {
-    result.mutableDefeatTypeReqsList = [NSMutableArray array];
-  }
-  [result.mutableDefeatTypeReqsList addObjectsFromArray:values];
-  return self;
-}
-- (FullQuestProto_Builder*) clearDefeatTypeReqsList {
-  result.mutableDefeatTypeReqsList = nil;
-  return self;
-}
-- (NSArray*) possessEquipJobReqsList {
-  if (result.mutablePossessEquipJobReqsList == nil) {
-    return [NSArray array];
-  }
-  return result.mutablePossessEquipJobReqsList;
-}
-- (int32_t) possessEquipJobReqsAtIndex:(int32_t) index {
-  return [result possessEquipJobReqsAtIndex:index];
-}
-- (FullQuestProto_Builder*) replacePossessEquipJobReqsAtIndex:(int32_t) index with:(int32_t) value {
-  [result.mutablePossessEquipJobReqsList replaceObjectAtIndex:index withObject:[NSNumber numberWithInt:value]];
-  return self;
-}
-- (FullQuestProto_Builder*) addPossessEquipJobReqs:(int32_t) value {
-  if (result.mutablePossessEquipJobReqsList == nil) {
-    result.mutablePossessEquipJobReqsList = [NSMutableArray array];
-  }
-  [result.mutablePossessEquipJobReqsList addObject:[NSNumber numberWithInt:value]];
-  return self;
-}
-- (FullQuestProto_Builder*) addAllPossessEquipJobReqs:(NSArray*) values {
-  if (result.mutablePossessEquipJobReqsList == nil) {
-    result.mutablePossessEquipJobReqsList = [NSMutableArray array];
-  }
-  [result.mutablePossessEquipJobReqsList addObjectsFromArray:values];
-  return self;
-}
-- (FullQuestProto_Builder*) clearPossessEquipJobReqsList {
-  result.mutablePossessEquipJobReqsList = nil;
   return self;
 }
 - (BOOL) hasCoinRetrievalReq {

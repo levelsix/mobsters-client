@@ -1250,6 +1250,716 @@ BOOL LevelUpResponseProto_LevelUpStatusIsValidValue(LevelUpResponseProto_LevelUp
 }
 @end
 
+@interface RetrieveUsersForUserIdsRequestProto ()
+@property (retain) MinimumUserProto* sender;
+@property (retain) NSMutableArray* mutableRequestedUserIdsList;
+@end
+
+@implementation RetrieveUsersForUserIdsRequestProto
+
+- (BOOL) hasSender {
+  return !!hasSender_;
+}
+- (void) setHasSender:(BOOL) value {
+  hasSender_ = !!value;
+}
+@synthesize sender;
+@synthesize mutableRequestedUserIdsList;
+- (void) dealloc {
+  self.sender = nil;
+  self.mutableRequestedUserIdsList = nil;
+  [super dealloc];
+}
+- (id) init {
+  if ((self = [super init])) {
+    self.sender = [MinimumUserProto defaultInstance];
+  }
+  return self;
+}
+static RetrieveUsersForUserIdsRequestProto* defaultRetrieveUsersForUserIdsRequestProtoInstance = nil;
++ (void) initialize {
+  if (self == [RetrieveUsersForUserIdsRequestProto class]) {
+    defaultRetrieveUsersForUserIdsRequestProtoInstance = [[RetrieveUsersForUserIdsRequestProto alloc] init];
+  }
+}
++ (RetrieveUsersForUserIdsRequestProto*) defaultInstance {
+  return defaultRetrieveUsersForUserIdsRequestProtoInstance;
+}
+- (RetrieveUsersForUserIdsRequestProto*) defaultInstance {
+  return defaultRetrieveUsersForUserIdsRequestProtoInstance;
+}
+- (NSArray*) requestedUserIdsList {
+  return mutableRequestedUserIdsList;
+}
+- (int32_t) requestedUserIdsAtIndex:(int32_t) index {
+  id value = [mutableRequestedUserIdsList objectAtIndex:index];
+  return [value intValue];
+}
+- (BOOL) isInitialized {
+  return YES;
+}
+- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output {
+  if (self.hasSender) {
+    [output writeMessage:1 value:self.sender];
+  }
+  for (NSNumber* value in self.mutableRequestedUserIdsList) {
+    [output writeInt32:2 value:[value intValue]];
+  }
+  [self.unknownFields writeToCodedOutputStream:output];
+}
+- (int32_t) serializedSize {
+  int32_t size = memoizedSerializedSize;
+  if (size != -1) {
+    return size;
+  }
+
+  size = 0;
+  if (self.hasSender) {
+    size += computeMessageSize(1, self.sender);
+  }
+  {
+    int32_t dataSize = 0;
+    for (NSNumber* value in self.mutableRequestedUserIdsList) {
+      dataSize += computeInt32SizeNoTag([value intValue]);
+    }
+    size += dataSize;
+    size += 1 * self.mutableRequestedUserIdsList.count;
+  }
+  size += self.unknownFields.serializedSize;
+  memoizedSerializedSize = size;
+  return size;
+}
++ (RetrieveUsersForUserIdsRequestProto*) parseFromData:(NSData*) data {
+  return (RetrieveUsersForUserIdsRequestProto*)[[[RetrieveUsersForUserIdsRequestProto builder] mergeFromData:data] build];
+}
++ (RetrieveUsersForUserIdsRequestProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (RetrieveUsersForUserIdsRequestProto*)[[[RetrieveUsersForUserIdsRequestProto builder] mergeFromData:data extensionRegistry:extensionRegistry] build];
+}
++ (RetrieveUsersForUserIdsRequestProto*) parseFromInputStream:(NSInputStream*) input {
+  return (RetrieveUsersForUserIdsRequestProto*)[[[RetrieveUsersForUserIdsRequestProto builder] mergeFromInputStream:input] build];
+}
++ (RetrieveUsersForUserIdsRequestProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (RetrieveUsersForUserIdsRequestProto*)[[[RetrieveUsersForUserIdsRequestProto builder] mergeFromInputStream:input extensionRegistry:extensionRegistry] build];
+}
++ (RetrieveUsersForUserIdsRequestProto*) parseFromCodedInputStream:(PBCodedInputStream*) input {
+  return (RetrieveUsersForUserIdsRequestProto*)[[[RetrieveUsersForUserIdsRequestProto builder] mergeFromCodedInputStream:input] build];
+}
++ (RetrieveUsersForUserIdsRequestProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (RetrieveUsersForUserIdsRequestProto*)[[[RetrieveUsersForUserIdsRequestProto builder] mergeFromCodedInputStream:input extensionRegistry:extensionRegistry] build];
+}
++ (RetrieveUsersForUserIdsRequestProto_Builder*) builder {
+  return [[[RetrieveUsersForUserIdsRequestProto_Builder alloc] init] autorelease];
+}
++ (RetrieveUsersForUserIdsRequestProto_Builder*) builderWithPrototype:(RetrieveUsersForUserIdsRequestProto*) prototype {
+  return [[RetrieveUsersForUserIdsRequestProto builder] mergeFrom:prototype];
+}
+- (RetrieveUsersForUserIdsRequestProto_Builder*) builder {
+  return [RetrieveUsersForUserIdsRequestProto builder];
+}
+@end
+
+@interface RetrieveUsersForUserIdsRequestProto_Builder()
+@property (retain) RetrieveUsersForUserIdsRequestProto* result;
+@end
+
+@implementation RetrieveUsersForUserIdsRequestProto_Builder
+@synthesize result;
+- (void) dealloc {
+  self.result = nil;
+  [super dealloc];
+}
+- (id) init {
+  if ((self = [super init])) {
+    self.result = [[[RetrieveUsersForUserIdsRequestProto alloc] init] autorelease];
+  }
+  return self;
+}
+- (PBGeneratedMessage*) internalGetResult {
+  return result;
+}
+- (RetrieveUsersForUserIdsRequestProto_Builder*) clear {
+  self.result = [[[RetrieveUsersForUserIdsRequestProto alloc] init] autorelease];
+  return self;
+}
+- (RetrieveUsersForUserIdsRequestProto_Builder*) clone {
+  return [RetrieveUsersForUserIdsRequestProto builderWithPrototype:result];
+}
+- (RetrieveUsersForUserIdsRequestProto*) defaultInstance {
+  return [RetrieveUsersForUserIdsRequestProto defaultInstance];
+}
+- (RetrieveUsersForUserIdsRequestProto*) build {
+  [self checkInitialized];
+  return [self buildPartial];
+}
+- (RetrieveUsersForUserIdsRequestProto*) buildPartial {
+  RetrieveUsersForUserIdsRequestProto* returnMe = [[result retain] autorelease];
+  self.result = nil;
+  return returnMe;
+}
+- (RetrieveUsersForUserIdsRequestProto_Builder*) mergeFrom:(RetrieveUsersForUserIdsRequestProto*) other {
+  if (other == [RetrieveUsersForUserIdsRequestProto defaultInstance]) {
+    return self;
+  }
+  if (other.hasSender) {
+    [self mergeSender:other.sender];
+  }
+  if (other.mutableRequestedUserIdsList.count > 0) {
+    if (result.mutableRequestedUserIdsList == nil) {
+      result.mutableRequestedUserIdsList = [NSMutableArray array];
+    }
+    [result.mutableRequestedUserIdsList addObjectsFromArray:other.mutableRequestedUserIdsList];
+  }
+  [self mergeUnknownFields:other.unknownFields];
+  return self;
+}
+- (RetrieveUsersForUserIdsRequestProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input {
+  return [self mergeFromCodedInputStream:input extensionRegistry:[PBExtensionRegistry emptyRegistry]];
+}
+- (RetrieveUsersForUserIdsRequestProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  PBUnknownFieldSet_Builder* unknownFields = [PBUnknownFieldSet builderWithUnknownFields:self.unknownFields];
+  while (YES) {
+    int32_t tag = [input readTag];
+    switch (tag) {
+      case 0:
+        [self setUnknownFields:[unknownFields build]];
+        return self;
+      default: {
+        if (![self parseUnknownField:input unknownFields:unknownFields extensionRegistry:extensionRegistry tag:tag]) {
+          [self setUnknownFields:[unknownFields build]];
+          return self;
+        }
+        break;
+      }
+      case 10: {
+        MinimumUserProto_Builder* subBuilder = [MinimumUserProto builder];
+        if (self.hasSender) {
+          [subBuilder mergeFrom:self.sender];
+        }
+        [input readMessage:subBuilder extensionRegistry:extensionRegistry];
+        [self setSender:[subBuilder buildPartial]];
+        break;
+      }
+      case 16: {
+        [self addRequestedUserIds:[input readInt32]];
+        break;
+      }
+    }
+  }
+}
+- (BOOL) hasSender {
+  return result.hasSender;
+}
+- (MinimumUserProto*) sender {
+  return result.sender;
+}
+- (RetrieveUsersForUserIdsRequestProto_Builder*) setSender:(MinimumUserProto*) value {
+  result.hasSender = YES;
+  result.sender = value;
+  return self;
+}
+- (RetrieveUsersForUserIdsRequestProto_Builder*) setSenderBuilder:(MinimumUserProto_Builder*) builderForValue {
+  return [self setSender:[builderForValue build]];
+}
+- (RetrieveUsersForUserIdsRequestProto_Builder*) mergeSender:(MinimumUserProto*) value {
+  if (result.hasSender &&
+      result.sender != [MinimumUserProto defaultInstance]) {
+    result.sender =
+      [[[MinimumUserProto builderWithPrototype:result.sender] mergeFrom:value] buildPartial];
+  } else {
+    result.sender = value;
+  }
+  result.hasSender = YES;
+  return self;
+}
+- (RetrieveUsersForUserIdsRequestProto_Builder*) clearSender {
+  result.hasSender = NO;
+  result.sender = [MinimumUserProto defaultInstance];
+  return self;
+}
+- (NSArray*) requestedUserIdsList {
+  if (result.mutableRequestedUserIdsList == nil) {
+    return [NSArray array];
+  }
+  return result.mutableRequestedUserIdsList;
+}
+- (int32_t) requestedUserIdsAtIndex:(int32_t) index {
+  return [result requestedUserIdsAtIndex:index];
+}
+- (RetrieveUsersForUserIdsRequestProto_Builder*) replaceRequestedUserIdsAtIndex:(int32_t) index with:(int32_t) value {
+  [result.mutableRequestedUserIdsList replaceObjectAtIndex:index withObject:[NSNumber numberWithInt:value]];
+  return self;
+}
+- (RetrieveUsersForUserIdsRequestProto_Builder*) addRequestedUserIds:(int32_t) value {
+  if (result.mutableRequestedUserIdsList == nil) {
+    result.mutableRequestedUserIdsList = [NSMutableArray array];
+  }
+  [result.mutableRequestedUserIdsList addObject:[NSNumber numberWithInt:value]];
+  return self;
+}
+- (RetrieveUsersForUserIdsRequestProto_Builder*) addAllRequestedUserIds:(NSArray*) values {
+  if (result.mutableRequestedUserIdsList == nil) {
+    result.mutableRequestedUserIdsList = [NSMutableArray array];
+  }
+  [result.mutableRequestedUserIdsList addObjectsFromArray:values];
+  return self;
+}
+- (RetrieveUsersForUserIdsRequestProto_Builder*) clearRequestedUserIdsList {
+  result.mutableRequestedUserIdsList = nil;
+  return self;
+}
+@end
+
+@interface RetrieveUsersForUserIdsResponseProto ()
+@property (retain) MinimumUserProto* sender;
+@property (retain) NSMutableArray* mutableRequestedUsersList;
+@end
+
+@implementation RetrieveUsersForUserIdsResponseProto
+
+- (BOOL) hasSender {
+  return !!hasSender_;
+}
+- (void) setHasSender:(BOOL) value {
+  hasSender_ = !!value;
+}
+@synthesize sender;
+@synthesize mutableRequestedUsersList;
+- (void) dealloc {
+  self.sender = nil;
+  self.mutableRequestedUsersList = nil;
+  [super dealloc];
+}
+- (id) init {
+  if ((self = [super init])) {
+    self.sender = [MinimumUserProto defaultInstance];
+  }
+  return self;
+}
+static RetrieveUsersForUserIdsResponseProto* defaultRetrieveUsersForUserIdsResponseProtoInstance = nil;
++ (void) initialize {
+  if (self == [RetrieveUsersForUserIdsResponseProto class]) {
+    defaultRetrieveUsersForUserIdsResponseProtoInstance = [[RetrieveUsersForUserIdsResponseProto alloc] init];
+  }
+}
++ (RetrieveUsersForUserIdsResponseProto*) defaultInstance {
+  return defaultRetrieveUsersForUserIdsResponseProtoInstance;
+}
+- (RetrieveUsersForUserIdsResponseProto*) defaultInstance {
+  return defaultRetrieveUsersForUserIdsResponseProtoInstance;
+}
+- (NSArray*) requestedUsersList {
+  return mutableRequestedUsersList;
+}
+- (FullUserProto*) requestedUsersAtIndex:(int32_t) index {
+  id value = [mutableRequestedUsersList objectAtIndex:index];
+  return value;
+}
+- (BOOL) isInitialized {
+  return YES;
+}
+- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output {
+  if (self.hasSender) {
+    [output writeMessage:1 value:self.sender];
+  }
+  for (FullUserProto* element in self.requestedUsersList) {
+    [output writeMessage:2 value:element];
+  }
+  [self.unknownFields writeToCodedOutputStream:output];
+}
+- (int32_t) serializedSize {
+  int32_t size = memoizedSerializedSize;
+  if (size != -1) {
+    return size;
+  }
+
+  size = 0;
+  if (self.hasSender) {
+    size += computeMessageSize(1, self.sender);
+  }
+  for (FullUserProto* element in self.requestedUsersList) {
+    size += computeMessageSize(2, element);
+  }
+  size += self.unknownFields.serializedSize;
+  memoizedSerializedSize = size;
+  return size;
+}
++ (RetrieveUsersForUserIdsResponseProto*) parseFromData:(NSData*) data {
+  return (RetrieveUsersForUserIdsResponseProto*)[[[RetrieveUsersForUserIdsResponseProto builder] mergeFromData:data] build];
+}
++ (RetrieveUsersForUserIdsResponseProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (RetrieveUsersForUserIdsResponseProto*)[[[RetrieveUsersForUserIdsResponseProto builder] mergeFromData:data extensionRegistry:extensionRegistry] build];
+}
++ (RetrieveUsersForUserIdsResponseProto*) parseFromInputStream:(NSInputStream*) input {
+  return (RetrieveUsersForUserIdsResponseProto*)[[[RetrieveUsersForUserIdsResponseProto builder] mergeFromInputStream:input] build];
+}
++ (RetrieveUsersForUserIdsResponseProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (RetrieveUsersForUserIdsResponseProto*)[[[RetrieveUsersForUserIdsResponseProto builder] mergeFromInputStream:input extensionRegistry:extensionRegistry] build];
+}
++ (RetrieveUsersForUserIdsResponseProto*) parseFromCodedInputStream:(PBCodedInputStream*) input {
+  return (RetrieveUsersForUserIdsResponseProto*)[[[RetrieveUsersForUserIdsResponseProto builder] mergeFromCodedInputStream:input] build];
+}
++ (RetrieveUsersForUserIdsResponseProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (RetrieveUsersForUserIdsResponseProto*)[[[RetrieveUsersForUserIdsResponseProto builder] mergeFromCodedInputStream:input extensionRegistry:extensionRegistry] build];
+}
++ (RetrieveUsersForUserIdsResponseProto_Builder*) builder {
+  return [[[RetrieveUsersForUserIdsResponseProto_Builder alloc] init] autorelease];
+}
++ (RetrieveUsersForUserIdsResponseProto_Builder*) builderWithPrototype:(RetrieveUsersForUserIdsResponseProto*) prototype {
+  return [[RetrieveUsersForUserIdsResponseProto builder] mergeFrom:prototype];
+}
+- (RetrieveUsersForUserIdsResponseProto_Builder*) builder {
+  return [RetrieveUsersForUserIdsResponseProto builder];
+}
+@end
+
+@interface RetrieveUsersForUserIdsResponseProto_Builder()
+@property (retain) RetrieveUsersForUserIdsResponseProto* result;
+@end
+
+@implementation RetrieveUsersForUserIdsResponseProto_Builder
+@synthesize result;
+- (void) dealloc {
+  self.result = nil;
+  [super dealloc];
+}
+- (id) init {
+  if ((self = [super init])) {
+    self.result = [[[RetrieveUsersForUserIdsResponseProto alloc] init] autorelease];
+  }
+  return self;
+}
+- (PBGeneratedMessage*) internalGetResult {
+  return result;
+}
+- (RetrieveUsersForUserIdsResponseProto_Builder*) clear {
+  self.result = [[[RetrieveUsersForUserIdsResponseProto alloc] init] autorelease];
+  return self;
+}
+- (RetrieveUsersForUserIdsResponseProto_Builder*) clone {
+  return [RetrieveUsersForUserIdsResponseProto builderWithPrototype:result];
+}
+- (RetrieveUsersForUserIdsResponseProto*) defaultInstance {
+  return [RetrieveUsersForUserIdsResponseProto defaultInstance];
+}
+- (RetrieveUsersForUserIdsResponseProto*) build {
+  [self checkInitialized];
+  return [self buildPartial];
+}
+- (RetrieveUsersForUserIdsResponseProto*) buildPartial {
+  RetrieveUsersForUserIdsResponseProto* returnMe = [[result retain] autorelease];
+  self.result = nil;
+  return returnMe;
+}
+- (RetrieveUsersForUserIdsResponseProto_Builder*) mergeFrom:(RetrieveUsersForUserIdsResponseProto*) other {
+  if (other == [RetrieveUsersForUserIdsResponseProto defaultInstance]) {
+    return self;
+  }
+  if (other.hasSender) {
+    [self mergeSender:other.sender];
+  }
+  if (other.mutableRequestedUsersList.count > 0) {
+    if (result.mutableRequestedUsersList == nil) {
+      result.mutableRequestedUsersList = [NSMutableArray array];
+    }
+    [result.mutableRequestedUsersList addObjectsFromArray:other.mutableRequestedUsersList];
+  }
+  [self mergeUnknownFields:other.unknownFields];
+  return self;
+}
+- (RetrieveUsersForUserIdsResponseProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input {
+  return [self mergeFromCodedInputStream:input extensionRegistry:[PBExtensionRegistry emptyRegistry]];
+}
+- (RetrieveUsersForUserIdsResponseProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  PBUnknownFieldSet_Builder* unknownFields = [PBUnknownFieldSet builderWithUnknownFields:self.unknownFields];
+  while (YES) {
+    int32_t tag = [input readTag];
+    switch (tag) {
+      case 0:
+        [self setUnknownFields:[unknownFields build]];
+        return self;
+      default: {
+        if (![self parseUnknownField:input unknownFields:unknownFields extensionRegistry:extensionRegistry tag:tag]) {
+          [self setUnknownFields:[unknownFields build]];
+          return self;
+        }
+        break;
+      }
+      case 10: {
+        MinimumUserProto_Builder* subBuilder = [MinimumUserProto builder];
+        if (self.hasSender) {
+          [subBuilder mergeFrom:self.sender];
+        }
+        [input readMessage:subBuilder extensionRegistry:extensionRegistry];
+        [self setSender:[subBuilder buildPartial]];
+        break;
+      }
+      case 18: {
+        FullUserProto_Builder* subBuilder = [FullUserProto builder];
+        [input readMessage:subBuilder extensionRegistry:extensionRegistry];
+        [self addRequestedUsers:[subBuilder buildPartial]];
+        break;
+      }
+    }
+  }
+}
+- (BOOL) hasSender {
+  return result.hasSender;
+}
+- (MinimumUserProto*) sender {
+  return result.sender;
+}
+- (RetrieveUsersForUserIdsResponseProto_Builder*) setSender:(MinimumUserProto*) value {
+  result.hasSender = YES;
+  result.sender = value;
+  return self;
+}
+- (RetrieveUsersForUserIdsResponseProto_Builder*) setSenderBuilder:(MinimumUserProto_Builder*) builderForValue {
+  return [self setSender:[builderForValue build]];
+}
+- (RetrieveUsersForUserIdsResponseProto_Builder*) mergeSender:(MinimumUserProto*) value {
+  if (result.hasSender &&
+      result.sender != [MinimumUserProto defaultInstance]) {
+    result.sender =
+      [[[MinimumUserProto builderWithPrototype:result.sender] mergeFrom:value] buildPartial];
+  } else {
+    result.sender = value;
+  }
+  result.hasSender = YES;
+  return self;
+}
+- (RetrieveUsersForUserIdsResponseProto_Builder*) clearSender {
+  result.hasSender = NO;
+  result.sender = [MinimumUserProto defaultInstance];
+  return self;
+}
+- (NSArray*) requestedUsersList {
+  if (result.mutableRequestedUsersList == nil) { return [NSArray array]; }
+  return result.mutableRequestedUsersList;
+}
+- (FullUserProto*) requestedUsersAtIndex:(int32_t) index {
+  return [result requestedUsersAtIndex:index];
+}
+- (RetrieveUsersForUserIdsResponseProto_Builder*) replaceRequestedUsersAtIndex:(int32_t) index with:(FullUserProto*) value {
+  [result.mutableRequestedUsersList replaceObjectAtIndex:index withObject:value];
+  return self;
+}
+- (RetrieveUsersForUserIdsResponseProto_Builder*) addAllRequestedUsers:(NSArray*) values {
+  if (result.mutableRequestedUsersList == nil) {
+    result.mutableRequestedUsersList = [NSMutableArray array];
+  }
+  [result.mutableRequestedUsersList addObjectsFromArray:values];
+  return self;
+}
+- (RetrieveUsersForUserIdsResponseProto_Builder*) clearRequestedUsersList {
+  result.mutableRequestedUsersList = nil;
+  return self;
+}
+- (RetrieveUsersForUserIdsResponseProto_Builder*) addRequestedUsers:(FullUserProto*) value {
+  if (result.mutableRequestedUsersList == nil) {
+    result.mutableRequestedUsersList = [NSMutableArray array];
+  }
+  [result.mutableRequestedUsersList addObject:value];
+  return self;
+}
+@end
+
+@interface LogoutRequestProto ()
+@property (retain) MinimumUserProto* sender;
+@end
+
+@implementation LogoutRequestProto
+
+- (BOOL) hasSender {
+  return !!hasSender_;
+}
+- (void) setHasSender:(BOOL) value {
+  hasSender_ = !!value;
+}
+@synthesize sender;
+- (void) dealloc {
+  self.sender = nil;
+  [super dealloc];
+}
+- (id) init {
+  if ((self = [super init])) {
+    self.sender = [MinimumUserProto defaultInstance];
+  }
+  return self;
+}
+static LogoutRequestProto* defaultLogoutRequestProtoInstance = nil;
++ (void) initialize {
+  if (self == [LogoutRequestProto class]) {
+    defaultLogoutRequestProtoInstance = [[LogoutRequestProto alloc] init];
+  }
+}
++ (LogoutRequestProto*) defaultInstance {
+  return defaultLogoutRequestProtoInstance;
+}
+- (LogoutRequestProto*) defaultInstance {
+  return defaultLogoutRequestProtoInstance;
+}
+- (BOOL) isInitialized {
+  return YES;
+}
+- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output {
+  if (self.hasSender) {
+    [output writeMessage:1 value:self.sender];
+  }
+  [self.unknownFields writeToCodedOutputStream:output];
+}
+- (int32_t) serializedSize {
+  int32_t size = memoizedSerializedSize;
+  if (size != -1) {
+    return size;
+  }
+
+  size = 0;
+  if (self.hasSender) {
+    size += computeMessageSize(1, self.sender);
+  }
+  size += self.unknownFields.serializedSize;
+  memoizedSerializedSize = size;
+  return size;
+}
++ (LogoutRequestProto*) parseFromData:(NSData*) data {
+  return (LogoutRequestProto*)[[[LogoutRequestProto builder] mergeFromData:data] build];
+}
++ (LogoutRequestProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (LogoutRequestProto*)[[[LogoutRequestProto builder] mergeFromData:data extensionRegistry:extensionRegistry] build];
+}
++ (LogoutRequestProto*) parseFromInputStream:(NSInputStream*) input {
+  return (LogoutRequestProto*)[[[LogoutRequestProto builder] mergeFromInputStream:input] build];
+}
++ (LogoutRequestProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (LogoutRequestProto*)[[[LogoutRequestProto builder] mergeFromInputStream:input extensionRegistry:extensionRegistry] build];
+}
++ (LogoutRequestProto*) parseFromCodedInputStream:(PBCodedInputStream*) input {
+  return (LogoutRequestProto*)[[[LogoutRequestProto builder] mergeFromCodedInputStream:input] build];
+}
++ (LogoutRequestProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (LogoutRequestProto*)[[[LogoutRequestProto builder] mergeFromCodedInputStream:input extensionRegistry:extensionRegistry] build];
+}
++ (LogoutRequestProto_Builder*) builder {
+  return [[[LogoutRequestProto_Builder alloc] init] autorelease];
+}
++ (LogoutRequestProto_Builder*) builderWithPrototype:(LogoutRequestProto*) prototype {
+  return [[LogoutRequestProto builder] mergeFrom:prototype];
+}
+- (LogoutRequestProto_Builder*) builder {
+  return [LogoutRequestProto builder];
+}
+@end
+
+@interface LogoutRequestProto_Builder()
+@property (retain) LogoutRequestProto* result;
+@end
+
+@implementation LogoutRequestProto_Builder
+@synthesize result;
+- (void) dealloc {
+  self.result = nil;
+  [super dealloc];
+}
+- (id) init {
+  if ((self = [super init])) {
+    self.result = [[[LogoutRequestProto alloc] init] autorelease];
+  }
+  return self;
+}
+- (PBGeneratedMessage*) internalGetResult {
+  return result;
+}
+- (LogoutRequestProto_Builder*) clear {
+  self.result = [[[LogoutRequestProto alloc] init] autorelease];
+  return self;
+}
+- (LogoutRequestProto_Builder*) clone {
+  return [LogoutRequestProto builderWithPrototype:result];
+}
+- (LogoutRequestProto*) defaultInstance {
+  return [LogoutRequestProto defaultInstance];
+}
+- (LogoutRequestProto*) build {
+  [self checkInitialized];
+  return [self buildPartial];
+}
+- (LogoutRequestProto*) buildPartial {
+  LogoutRequestProto* returnMe = [[result retain] autorelease];
+  self.result = nil;
+  return returnMe;
+}
+- (LogoutRequestProto_Builder*) mergeFrom:(LogoutRequestProto*) other {
+  if (other == [LogoutRequestProto defaultInstance]) {
+    return self;
+  }
+  if (other.hasSender) {
+    [self mergeSender:other.sender];
+  }
+  [self mergeUnknownFields:other.unknownFields];
+  return self;
+}
+- (LogoutRequestProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input {
+  return [self mergeFromCodedInputStream:input extensionRegistry:[PBExtensionRegistry emptyRegistry]];
+}
+- (LogoutRequestProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  PBUnknownFieldSet_Builder* unknownFields = [PBUnknownFieldSet builderWithUnknownFields:self.unknownFields];
+  while (YES) {
+    int32_t tag = [input readTag];
+    switch (tag) {
+      case 0:
+        [self setUnknownFields:[unknownFields build]];
+        return self;
+      default: {
+        if (![self parseUnknownField:input unknownFields:unknownFields extensionRegistry:extensionRegistry tag:tag]) {
+          [self setUnknownFields:[unknownFields build]];
+          return self;
+        }
+        break;
+      }
+      case 10: {
+        MinimumUserProto_Builder* subBuilder = [MinimumUserProto builder];
+        if (self.hasSender) {
+          [subBuilder mergeFrom:self.sender];
+        }
+        [input readMessage:subBuilder extensionRegistry:extensionRegistry];
+        [self setSender:[subBuilder buildPartial]];
+        break;
+      }
+    }
+  }
+}
+- (BOOL) hasSender {
+  return result.hasSender;
+}
+- (MinimumUserProto*) sender {
+  return result.sender;
+}
+- (LogoutRequestProto_Builder*) setSender:(MinimumUserProto*) value {
+  result.hasSender = YES;
+  result.sender = value;
+  return self;
+}
+- (LogoutRequestProto_Builder*) setSenderBuilder:(MinimumUserProto_Builder*) builderForValue {
+  return [self setSender:[builderForValue build]];
+}
+- (LogoutRequestProto_Builder*) mergeSender:(MinimumUserProto*) value {
+  if (result.hasSender &&
+      result.sender != [MinimumUserProto defaultInstance]) {
+    result.sender =
+      [[[MinimumUserProto builderWithPrototype:result.sender] mergeFrom:value] buildPartial];
+  } else {
+    result.sender = value;
+  }
+  result.hasSender = YES;
+  return self;
+}
+- (LogoutRequestProto_Builder*) clearSender {
+  result.hasSender = NO;
+  result.sender = [MinimumUserProto defaultInstance];
+  return self;
+}
+@end
+
 @interface UpdateClientUserResponseProto ()
 @property (retain) FullUserProto* sender;
 @property int64_t timeOfUserUpdate;

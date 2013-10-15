@@ -14,11 +14,18 @@ static float imgHeight = 40.f;
 
 @implementation CustomNavBar
 
+- (id) init {
+  if ((self = [super init])) {
+    self.clipsToBounds = NO;
+  }
+  return self;
+}
+
 - (void)drawRect:(CGRect)rect {
   UIImage *image = [UIImage imageNamed:@"menutopbar.png"];
   imgHeight = image.size.height;
   [image drawInRect:CGRectMake(0, 0, self.frame.size.width, imgHeight)];
-  [self setTitleVerticalPositionAdjustment:-3.f forBarMetrics:UIBarMetricsDefault];
+  [self setTitleVerticalPositionAdjustment:3.f forBarMetrics:UIBarMetricsDefault];
   
   UIFont *font = [UIFont fontWithName:[Globals font] size:24.f];
   UIColor *color = [UIColor colorWithWhite:0.f alpha:0.8f];
@@ -33,9 +40,9 @@ static float imgHeight = 40.f;
   [self setTitleTextAttributes:dict];
 }
 
-- (void) setFrame:(CGRect)frame {
-  frame.size.height = imgHeight;
-  [super setFrame:frame];
+- (CGSize) sizeThatFits:(CGSize)size {
+  CGSize newSize = CGSizeMake(self.frame.size.width,imgHeight);
+  return newSize;
 }
 
 @end

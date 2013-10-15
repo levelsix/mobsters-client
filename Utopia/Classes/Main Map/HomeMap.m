@@ -39,8 +39,6 @@
 
 @synthesize redGid, greenGid;
 
-SYNTHESIZE_SINGLETON_FOR_CLASS(HomeMap);
-
 - (id) init {
   self = [self initWithTMXFile:@"testtilemap.tmx"];
   return self;
@@ -104,12 +102,6 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(HomeMap);
     
     [self refresh];
     [self moveToCenterAnimated:NO];
-    
-    // Will only actually start game if its not yet started
-    GameState *gs = [GameState sharedGameState];
-    if (gs.connected) {
-      [[GameViewController sharedGameViewController] startGame];
-    }
     
     CCSprite *s1 = [CCSprite spriteWithFile:@"backgroundleft.png"];
     CCSprite *s2 = [CCSprite spriteWithFile:@"backgroundright.png"];

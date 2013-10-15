@@ -7,11 +7,12 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "AppDelegate.h"
 
 int main(int argc, char *argv[]) {
   int retVal = -1;
   @try {
-    retVal = UIApplicationMain(argc, argv, nil, nil);
+    retVal = UIApplicationMain(argc, argv, nil, NSStringFromClass([AppDelegate class]));
   }
   @catch (NSException* exception) {
     NSLog(@"Uncaught exception: %@", exception.description);

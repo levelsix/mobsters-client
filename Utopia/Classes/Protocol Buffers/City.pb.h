@@ -23,20 +23,18 @@
 @class MinimumClanProto_Builder;
 @class MinimumUserProto;
 @class MinimumUserProtoWithLevel;
-@class MinimumUserProtoWithLevelForLeaderboard;
-@class MinimumUserProtoWithLevelForLeaderboard_Builder;
 @class MinimumUserProtoWithLevel_Builder;
 @class MinimumUserProto_Builder;
 @class UserCityExpansionDataProto;
 @class UserCityExpansionDataProto_Builder;
 typedef enum {
-  CityElementProto_NeutralCityElemTypeBuilding = 1,
-  CityElementProto_NeutralCityElemTypeDecoration = 2,
-  CityElementProto_NeutralCityElemTypePersonNeutralEnemy = 3,
-  CityElementProto_NeutralCityElemTypeBoss = 4,
-} CityElementProto_NeutralCityElemType;
+  CityElementProto_CityElemTypeBuilding = 1,
+  CityElementProto_CityElemTypeDecoration = 2,
+  CityElementProto_CityElemTypePersonNeutralEnemy = 3,
+  CityElementProto_CityElemTypeBoss = 4,
+} CityElementProto_CityElemType;
 
-BOOL CityElementProto_NeutralCityElemTypeIsValidValue(CityElementProto_NeutralCityElemType value);
+BOOL CityElementProto_CityElemTypeIsValidValue(CityElementProto_CityElemType value);
 
 
 @interface CityRoot : NSObject {
@@ -213,7 +211,7 @@ BOOL CityElementProto_NeutralCityElemTypeIsValidValue(CityElementProto_NeutralCi
   NSString* name;
   NSString* imgId;
   CoordinateProto* coords;
-  CityElementProto_NeutralCityElemType type;
+  CityElementProto_CityElemType type;
   StructOrientation orientation;
 }
 - (BOOL) hasCityId;
@@ -228,7 +226,7 @@ BOOL CityElementProto_NeutralCityElemTypeIsValidValue(CityElementProto_NeutralCi
 @property (readonly) int32_t cityId;
 @property (readonly) int32_t assetId;
 @property (readonly, retain) NSString* name;
-@property (readonly) CityElementProto_NeutralCityElemType type;
+@property (readonly) CityElementProto_CityElemType type;
 @property (readonly, retain) CoordinateProto* coords;
 @property (readonly) int32_t xLength;
 @property (readonly) int32_t yLength;
@@ -285,8 +283,8 @@ BOOL CityElementProto_NeutralCityElemTypeIsValidValue(CityElementProto_NeutralCi
 - (CityElementProto_Builder*) clearName;
 
 - (BOOL) hasType;
-- (CityElementProto_NeutralCityElemType) type;
-- (CityElementProto_Builder*) setType:(CityElementProto_NeutralCityElemType) value;
+- (CityElementProto_CityElemType) type;
+- (CityElementProto_Builder*) setType:(CityElementProto_CityElemType) value;
 - (CityElementProto_Builder*) clearType;
 
 - (BOOL) hasCoords;

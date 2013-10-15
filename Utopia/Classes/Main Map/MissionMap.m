@@ -68,7 +68,7 @@
     
     // Add all the buildings, can't add people till after aviary placed
     for (CityElementProto *ncep in proto.cityElementsList) {
-      if (ncep.type == CityElementProto_NeutralCityElemTypeBuilding) {
+      if (ncep.type == CityElementProto_CityElemTypeBuilding) {
         // Add a mission building
         CGRect loc = CGRectMake(ncep.coords.x, ncep.coords.y, ncep.xLength, ncep.yLength);
         MissionBuilding *mb = [[MissionBuilding alloc] initWithFile:ncep.imgId location:loc map:self];
@@ -81,7 +81,7 @@
         [self addChild:mb z:1 tag:ncep.assetId+ASSET_TAG_BASE];
         
         [self changeTiles:mb.location canWalk:NO];
-      } else if (ncep.type == CityElementProto_NeutralCityElemTypeDecoration) {
+      } else if (ncep.type == CityElementProto_CityElemTypeDecoration) {
         // Decorations aren't selectable so just make a map sprite
         CGRect loc = CGRectMake(ncep.coords.x, ncep.coords.y, ncep.xLength, ncep.yLength);
         MapSprite *s = [[MapSprite alloc] initWithFile:ncep.imgId location:loc map:self];
@@ -92,7 +92,7 @@
         [self addChild:s z:1 tag:ncep.assetId+ASSET_TAG_BASE];
         
         [self changeTiles:s.location canWalk:NO];
-      } else if (ncep.type == CityElementProto_NeutralCityElemTypePersonNeutralEnemy) {
+      } else if (ncep.type == CityElementProto_CityElemTypePersonNeutralEnemy) {
         CGRect r = CGRectZero;
         r.origin = [self randomWalkablePosition];
         r.size = CGSizeMake(1, 1);
@@ -103,17 +103,6 @@
         }
         [self addChild:ne z:1 tag:ncep.assetId+ASSET_TAG_BASE];
         ne.name = ncep.name;
-      } else if (ncep.type == CityElementProto_NeutralCityElemTypeBoss) {
-        CGRect r = CGRectZero;
-        r.origin = [self randomWalkablePosition];
-        r.size = CGSizeMake(1, 1);
-        BossSprite *bs = [[BossSprite alloc] initWithFile:ncep.imgId location:r map:self];
-        if (!bs) {
-          LNLog(@"Unable to find %@", ncep.imgId);
-          continue;
-        }
-        //        [self addChild:bs z:1 tag:ncep.assetId+ASSET_TAG_BASE];
-        bs.name = ncep.name;
       }
     }
     
@@ -234,7 +223,6 @@
       
       self.missionNameLabel.text = te.name;
 //      [[[TopBar sharedTopBar] topBarView] replaceChatViewWithView:self.missionBotView];
-    } else if ([self.selected isKindOfClass:[BossSprite class]]) {
     }
   } else {
 //    [[[TopBar sharedTopBar] topBarView] removeViewOverChatView];

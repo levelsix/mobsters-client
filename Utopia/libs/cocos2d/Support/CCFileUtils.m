@@ -740,8 +740,6 @@ NSInteger ccLoadFileIntoMemory(const char *filename, unsigned char **out)
 
 +(NSString*) getDoubleResolutionImage:(NSString*)path validate:(BOOL)validate
 {
-#if CC_IS_RETINA_DISPLAY_SUPPORTED
-  
 	if( CC_CONTENT_SCALE_FACTOR() == 2 )
 	{
 		
@@ -749,9 +747,9 @@ NSInteger ccLoadFileIntoMemory(const char *filename, unsigned char **out)
 		NSString *name = [pathWithoutExtension lastPathComponent];
 		
 		// check if path already has the suffix.
-		if( [name rangeOfString:CC_RETINA_DISPLAY_FILENAME_SUFFIX].location != NSNotFound ) {
+		if( [name rangeOfString:@"@2x"].location != NSNotFound ) {
       
-			CCLOG(@"cocos2d: WARNING Filename(%@) already has the suffix %@. Using it.", name, CC_RETINA_DISPLAY_FILENAME_SUFFIX);
+			CCLOG(@"cocos2d: WARNING Filename(%@) already has the suffix @2x. Using it.", name);
 			return path;
 		}
     
@@ -767,16 +765,14 @@ NSInteger ccLoadFileIntoMemory(const char *filename, unsigned char **out)
 		}
 		
 		
-		NSString *retinaName = [pathWithoutExtension stringByAppendingString:CC_RETINA_DISPLAY_FILENAME_SUFFIX];
+		NSString *retinaName = [pathWithoutExtension stringByAppendingString:@"@2x"];
 		retinaName = [retinaName stringByAppendingPathExtension:extension];
     
-		if( !validate || [__localFileManager fileExistsAtPath:retinaName] )
+		if( !validate || [[[[NSFileManager alloc] init] autorelease] fileExistsAtPath:retinaName] )
 			return retinaName;
     
 		CCLOG(@"cocos2d: CCFileUtils: Warning HD file not found: %@", [retinaName lastPathComponent] );
 	}
-	
-#endif // CC_IS_RETINA_DISPLAY_SUPPORTED
 	
 	return path;
 }

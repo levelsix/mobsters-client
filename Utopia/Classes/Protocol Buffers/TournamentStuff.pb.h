@@ -3,6 +3,7 @@
 #import "ProtocolBuffers.h"
 
 #import "Chat.pb.h"
+#import "User.pb.h"
 
 @class ColorProto;
 @class ColorProto_Builder;
@@ -14,16 +15,16 @@
 @class MinimumClanProto_Builder;
 @class MinimumUserProto;
 @class MinimumUserProtoWithLevel;
-@class MinimumUserProtoWithLevelForLeaderboard;
-@class MinimumUserProtoWithLevelForLeaderboard_Builder;
+@class MinimumUserProtoWithLevelForTournament;
+@class MinimumUserProtoWithLevelForTournament_Builder;
 @class MinimumUserProtoWithLevel_Builder;
 @class MinimumUserProto_Builder;
 @class PrivateChatPostProto;
 @class PrivateChatPostProto_Builder;
-@class TournamentProto;
-@class TournamentProto_Builder;
-@class TournamentRewardProto;
-@class TournamentRewardProto_Builder;
+@class TournamentEventProto;
+@class TournamentEventProto_Builder;
+@class TournamentEventRewardProto;
+@class TournamentEventRewardProto_Builder;
 
 @interface TournamentStuffRoot : NSObject {
 }
@@ -31,7 +32,7 @@
 + (void) registerAllExtensions:(PBMutableExtensionRegistry*) registry;
 @end
 
-@interface TournamentProto : PBGeneratedMessage {
+@interface TournamentEventProto : PBGeneratedMessage {
 @private
   BOOL hasStartDate_:1;
   BOOL hasEndDate_:1;
@@ -56,85 +57,85 @@
 @property (readonly, retain) NSString* eventName;
 @property (readonly) int64_t lastShowDate;
 - (NSArray*) rewardsList;
-- (TournamentRewardProto*) rewardsAtIndex:(int32_t) index;
+- (TournamentEventRewardProto*) rewardsAtIndex:(int32_t) index;
 
-+ (TournamentProto*) defaultInstance;
-- (TournamentProto*) defaultInstance;
++ (TournamentEventProto*) defaultInstance;
+- (TournamentEventProto*) defaultInstance;
 
 - (BOOL) isInitialized;
 - (void) writeToCodedOutputStream:(PBCodedOutputStream*) output;
-- (TournamentProto_Builder*) builder;
-+ (TournamentProto_Builder*) builder;
-+ (TournamentProto_Builder*) builderWithPrototype:(TournamentProto*) prototype;
+- (TournamentEventProto_Builder*) builder;
++ (TournamentEventProto_Builder*) builder;
++ (TournamentEventProto_Builder*) builderWithPrototype:(TournamentEventProto*) prototype;
 
-+ (TournamentProto*) parseFromData:(NSData*) data;
-+ (TournamentProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
-+ (TournamentProto*) parseFromInputStream:(NSInputStream*) input;
-+ (TournamentProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
-+ (TournamentProto*) parseFromCodedInputStream:(PBCodedInputStream*) input;
-+ (TournamentProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (TournamentEventProto*) parseFromData:(NSData*) data;
++ (TournamentEventProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (TournamentEventProto*) parseFromInputStream:(NSInputStream*) input;
++ (TournamentEventProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (TournamentEventProto*) parseFromCodedInputStream:(PBCodedInputStream*) input;
++ (TournamentEventProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
 @end
 
-@interface TournamentProto_Builder : PBGeneratedMessage_Builder {
+@interface TournamentEventProto_Builder : PBGeneratedMessage_Builder {
 @private
-  TournamentProto* result;
+  TournamentEventProto* result;
 }
 
-- (TournamentProto*) defaultInstance;
+- (TournamentEventProto*) defaultInstance;
 
-- (TournamentProto_Builder*) clear;
-- (TournamentProto_Builder*) clone;
+- (TournamentEventProto_Builder*) clear;
+- (TournamentEventProto_Builder*) clone;
 
-- (TournamentProto*) build;
-- (TournamentProto*) buildPartial;
+- (TournamentEventProto*) build;
+- (TournamentEventProto*) buildPartial;
 
-- (TournamentProto_Builder*) mergeFrom:(TournamentProto*) other;
-- (TournamentProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input;
-- (TournamentProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+- (TournamentEventProto_Builder*) mergeFrom:(TournamentEventProto*) other;
+- (TournamentEventProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input;
+- (TournamentEventProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
 
 - (BOOL) hasEventId;
 - (int32_t) eventId;
-- (TournamentProto_Builder*) setEventId:(int32_t) value;
-- (TournamentProto_Builder*) clearEventId;
+- (TournamentEventProto_Builder*) setEventId:(int32_t) value;
+- (TournamentEventProto_Builder*) clearEventId;
 
 - (BOOL) hasStartDate;
 - (int64_t) startDate;
-- (TournamentProto_Builder*) setStartDate:(int64_t) value;
-- (TournamentProto_Builder*) clearStartDate;
+- (TournamentEventProto_Builder*) setStartDate:(int64_t) value;
+- (TournamentEventProto_Builder*) clearStartDate;
 
 - (BOOL) hasEndDate;
 - (int64_t) endDate;
-- (TournamentProto_Builder*) setEndDate:(int64_t) value;
-- (TournamentProto_Builder*) clearEndDate;
+- (TournamentEventProto_Builder*) setEndDate:(int64_t) value;
+- (TournamentEventProto_Builder*) clearEndDate;
 
 - (BOOL) hasEventName;
 - (NSString*) eventName;
-- (TournamentProto_Builder*) setEventName:(NSString*) value;
-- (TournamentProto_Builder*) clearEventName;
+- (TournamentEventProto_Builder*) setEventName:(NSString*) value;
+- (TournamentEventProto_Builder*) clearEventName;
 
 - (NSArray*) rewardsList;
-- (TournamentRewardProto*) rewardsAtIndex:(int32_t) index;
-- (TournamentProto_Builder*) replaceRewardsAtIndex:(int32_t) index with:(TournamentRewardProto*) value;
-- (TournamentProto_Builder*) addRewards:(TournamentRewardProto*) value;
-- (TournamentProto_Builder*) addAllRewards:(NSArray*) values;
-- (TournamentProto_Builder*) clearRewardsList;
+- (TournamentEventRewardProto*) rewardsAtIndex:(int32_t) index;
+- (TournamentEventProto_Builder*) replaceRewardsAtIndex:(int32_t) index with:(TournamentEventRewardProto*) value;
+- (TournamentEventProto_Builder*) addRewards:(TournamentEventRewardProto*) value;
+- (TournamentEventProto_Builder*) addAllRewards:(NSArray*) values;
+- (TournamentEventProto_Builder*) clearRewardsList;
 
 - (BOOL) hasLastShowDate;
 - (int64_t) lastShowDate;
-- (TournamentProto_Builder*) setLastShowDate:(int64_t) value;
-- (TournamentProto_Builder*) clearLastShowDate;
+- (TournamentEventProto_Builder*) setLastShowDate:(int64_t) value;
+- (TournamentEventProto_Builder*) clearLastShowDate;
 @end
 
-@interface TournamentRewardProto : PBGeneratedMessage {
+@interface TournamentEventRewardProto : PBGeneratedMessage {
 @private
-  BOOL hasLeaderboardEventId_:1;
+  BOOL hasTournamentEventId_:1;
   BOOL hasMinRank_:1;
   BOOL hasMaxRank_:1;
   BOOL hasGoldRewarded_:1;
   BOOL hasBackgroundImageName_:1;
   BOOL hasPrizeImageName_:1;
   BOOL hasTitleColor_:1;
-  int32_t leaderboardEventId;
+  int32_t tournamentEventId;
   int32_t minRank;
   int32_t maxRank;
   int32_t goldRewarded;
@@ -142,14 +143,14 @@
   NSString* prizeImageName;
   ColorProto* titleColor;
 }
-- (BOOL) hasLeaderboardEventId;
+- (BOOL) hasTournamentEventId;
 - (BOOL) hasMinRank;
 - (BOOL) hasMaxRank;
 - (BOOL) hasGoldRewarded;
 - (BOOL) hasBackgroundImageName;
 - (BOOL) hasPrizeImageName;
 - (BOOL) hasTitleColor;
-@property (readonly) int32_t leaderboardEventId;
+@property (readonly) int32_t tournamentEventId;
 @property (readonly) int32_t minRank;
 @property (readonly) int32_t maxRank;
 @property (readonly) int32_t goldRewarded;
@@ -157,75 +158,152 @@
 @property (readonly, retain) NSString* prizeImageName;
 @property (readonly, retain) ColorProto* titleColor;
 
-+ (TournamentRewardProto*) defaultInstance;
-- (TournamentRewardProto*) defaultInstance;
++ (TournamentEventRewardProto*) defaultInstance;
+- (TournamentEventRewardProto*) defaultInstance;
 
 - (BOOL) isInitialized;
 - (void) writeToCodedOutputStream:(PBCodedOutputStream*) output;
-- (TournamentRewardProto_Builder*) builder;
-+ (TournamentRewardProto_Builder*) builder;
-+ (TournamentRewardProto_Builder*) builderWithPrototype:(TournamentRewardProto*) prototype;
+- (TournamentEventRewardProto_Builder*) builder;
++ (TournamentEventRewardProto_Builder*) builder;
++ (TournamentEventRewardProto_Builder*) builderWithPrototype:(TournamentEventRewardProto*) prototype;
 
-+ (TournamentRewardProto*) parseFromData:(NSData*) data;
-+ (TournamentRewardProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
-+ (TournamentRewardProto*) parseFromInputStream:(NSInputStream*) input;
-+ (TournamentRewardProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
-+ (TournamentRewardProto*) parseFromCodedInputStream:(PBCodedInputStream*) input;
-+ (TournamentRewardProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (TournamentEventRewardProto*) parseFromData:(NSData*) data;
++ (TournamentEventRewardProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (TournamentEventRewardProto*) parseFromInputStream:(NSInputStream*) input;
++ (TournamentEventRewardProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (TournamentEventRewardProto*) parseFromCodedInputStream:(PBCodedInputStream*) input;
++ (TournamentEventRewardProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
 @end
 
-@interface TournamentRewardProto_Builder : PBGeneratedMessage_Builder {
+@interface TournamentEventRewardProto_Builder : PBGeneratedMessage_Builder {
 @private
-  TournamentRewardProto* result;
+  TournamentEventRewardProto* result;
 }
 
-- (TournamentRewardProto*) defaultInstance;
+- (TournamentEventRewardProto*) defaultInstance;
 
-- (TournamentRewardProto_Builder*) clear;
-- (TournamentRewardProto_Builder*) clone;
+- (TournamentEventRewardProto_Builder*) clear;
+- (TournamentEventRewardProto_Builder*) clone;
 
-- (TournamentRewardProto*) build;
-- (TournamentRewardProto*) buildPartial;
+- (TournamentEventRewardProto*) build;
+- (TournamentEventRewardProto*) buildPartial;
 
-- (TournamentRewardProto_Builder*) mergeFrom:(TournamentRewardProto*) other;
-- (TournamentRewardProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input;
-- (TournamentRewardProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+- (TournamentEventRewardProto_Builder*) mergeFrom:(TournamentEventRewardProto*) other;
+- (TournamentEventRewardProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input;
+- (TournamentEventRewardProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
 
-- (BOOL) hasLeaderboardEventId;
-- (int32_t) leaderboardEventId;
-- (TournamentRewardProto_Builder*) setLeaderboardEventId:(int32_t) value;
-- (TournamentRewardProto_Builder*) clearLeaderboardEventId;
+- (BOOL) hasTournamentEventId;
+- (int32_t) tournamentEventId;
+- (TournamentEventRewardProto_Builder*) setTournamentEventId:(int32_t) value;
+- (TournamentEventRewardProto_Builder*) clearTournamentEventId;
 
 - (BOOL) hasMinRank;
 - (int32_t) minRank;
-- (TournamentRewardProto_Builder*) setMinRank:(int32_t) value;
-- (TournamentRewardProto_Builder*) clearMinRank;
+- (TournamentEventRewardProto_Builder*) setMinRank:(int32_t) value;
+- (TournamentEventRewardProto_Builder*) clearMinRank;
 
 - (BOOL) hasMaxRank;
 - (int32_t) maxRank;
-- (TournamentRewardProto_Builder*) setMaxRank:(int32_t) value;
-- (TournamentRewardProto_Builder*) clearMaxRank;
+- (TournamentEventRewardProto_Builder*) setMaxRank:(int32_t) value;
+- (TournamentEventRewardProto_Builder*) clearMaxRank;
 
 - (BOOL) hasGoldRewarded;
 - (int32_t) goldRewarded;
-- (TournamentRewardProto_Builder*) setGoldRewarded:(int32_t) value;
-- (TournamentRewardProto_Builder*) clearGoldRewarded;
+- (TournamentEventRewardProto_Builder*) setGoldRewarded:(int32_t) value;
+- (TournamentEventRewardProto_Builder*) clearGoldRewarded;
 
 - (BOOL) hasBackgroundImageName;
 - (NSString*) backgroundImageName;
-- (TournamentRewardProto_Builder*) setBackgroundImageName:(NSString*) value;
-- (TournamentRewardProto_Builder*) clearBackgroundImageName;
+- (TournamentEventRewardProto_Builder*) setBackgroundImageName:(NSString*) value;
+- (TournamentEventRewardProto_Builder*) clearBackgroundImageName;
 
 - (BOOL) hasPrizeImageName;
 - (NSString*) prizeImageName;
-- (TournamentRewardProto_Builder*) setPrizeImageName:(NSString*) value;
-- (TournamentRewardProto_Builder*) clearPrizeImageName;
+- (TournamentEventRewardProto_Builder*) setPrizeImageName:(NSString*) value;
+- (TournamentEventRewardProto_Builder*) clearPrizeImageName;
 
 - (BOOL) hasTitleColor;
 - (ColorProto*) titleColor;
-- (TournamentRewardProto_Builder*) setTitleColor:(ColorProto*) value;
-- (TournamentRewardProto_Builder*) setTitleColorBuilder:(ColorProto_Builder*) builderForValue;
-- (TournamentRewardProto_Builder*) mergeTitleColor:(ColorProto*) value;
-- (TournamentRewardProto_Builder*) clearTitleColor;
+- (TournamentEventRewardProto_Builder*) setTitleColor:(ColorProto*) value;
+- (TournamentEventRewardProto_Builder*) setTitleColorBuilder:(ColorProto_Builder*) builderForValue;
+- (TournamentEventRewardProto_Builder*) mergeTitleColor:(ColorProto*) value;
+- (TournamentEventRewardProto_Builder*) clearTitleColor;
+@end
+
+@interface MinimumUserProtoWithLevelForTournament : PBGeneratedMessage {
+@private
+  BOOL hasTournamentScore_:1;
+  BOOL hasLevel_:1;
+  BOOL hasTournamentRank_:1;
+  BOOL hasMinUserProto_:1;
+  Float64 tournamentScore;
+  int32_t level;
+  int32_t tournamentRank;
+  MinimumUserProto* minUserProto;
+}
+- (BOOL) hasMinUserProto;
+- (BOOL) hasLevel;
+- (BOOL) hasTournamentRank;
+- (BOOL) hasTournamentScore;
+@property (readonly, retain) MinimumUserProto* minUserProto;
+@property (readonly) int32_t level;
+@property (readonly) int32_t tournamentRank;
+@property (readonly) Float64 tournamentScore;
+
++ (MinimumUserProtoWithLevelForTournament*) defaultInstance;
+- (MinimumUserProtoWithLevelForTournament*) defaultInstance;
+
+- (BOOL) isInitialized;
+- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output;
+- (MinimumUserProtoWithLevelForTournament_Builder*) builder;
++ (MinimumUserProtoWithLevelForTournament_Builder*) builder;
++ (MinimumUserProtoWithLevelForTournament_Builder*) builderWithPrototype:(MinimumUserProtoWithLevelForTournament*) prototype;
+
++ (MinimumUserProtoWithLevelForTournament*) parseFromData:(NSData*) data;
++ (MinimumUserProtoWithLevelForTournament*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (MinimumUserProtoWithLevelForTournament*) parseFromInputStream:(NSInputStream*) input;
++ (MinimumUserProtoWithLevelForTournament*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (MinimumUserProtoWithLevelForTournament*) parseFromCodedInputStream:(PBCodedInputStream*) input;
++ (MinimumUserProtoWithLevelForTournament*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+@end
+
+@interface MinimumUserProtoWithLevelForTournament_Builder : PBGeneratedMessage_Builder {
+@private
+  MinimumUserProtoWithLevelForTournament* result;
+}
+
+- (MinimumUserProtoWithLevelForTournament*) defaultInstance;
+
+- (MinimumUserProtoWithLevelForTournament_Builder*) clear;
+- (MinimumUserProtoWithLevelForTournament_Builder*) clone;
+
+- (MinimumUserProtoWithLevelForTournament*) build;
+- (MinimumUserProtoWithLevelForTournament*) buildPartial;
+
+- (MinimumUserProtoWithLevelForTournament_Builder*) mergeFrom:(MinimumUserProtoWithLevelForTournament*) other;
+- (MinimumUserProtoWithLevelForTournament_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input;
+- (MinimumUserProtoWithLevelForTournament_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+
+- (BOOL) hasMinUserProto;
+- (MinimumUserProto*) minUserProto;
+- (MinimumUserProtoWithLevelForTournament_Builder*) setMinUserProto:(MinimumUserProto*) value;
+- (MinimumUserProtoWithLevelForTournament_Builder*) setMinUserProtoBuilder:(MinimumUserProto_Builder*) builderForValue;
+- (MinimumUserProtoWithLevelForTournament_Builder*) mergeMinUserProto:(MinimumUserProto*) value;
+- (MinimumUserProtoWithLevelForTournament_Builder*) clearMinUserProto;
+
+- (BOOL) hasLevel;
+- (int32_t) level;
+- (MinimumUserProtoWithLevelForTournament_Builder*) setLevel:(int32_t) value;
+- (MinimumUserProtoWithLevelForTournament_Builder*) clearLevel;
+
+- (BOOL) hasTournamentRank;
+- (int32_t) tournamentRank;
+- (MinimumUserProtoWithLevelForTournament_Builder*) setTournamentRank:(int32_t) value;
+- (MinimumUserProtoWithLevelForTournament_Builder*) clearTournamentRank;
+
+- (BOOL) hasTournamentScore;
+- (Float64) tournamentScore;
+- (MinimumUserProtoWithLevelForTournament_Builder*) setTournamentScore:(Float64) value;
+- (MinimumUserProtoWithLevelForTournament_Builder*) clearTournamentScore;
 @end
 

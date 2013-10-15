@@ -59,10 +59,6 @@
 @property (nonatomic, assign) int redGid;
 @property (nonatomic, assign) int greenGid;
 
-+ (HomeMap *)sharedHomeMap;
-+ (void) purgeSingleton;
-+ (BOOL) isInitialized;
-
 - (void) changeTiles: (CGRect) buildBlock toBuildable:(BOOL)canBuild;
 - (BOOL) isBlockBuildable: (CGRect) buildBlock;
 - (void) refresh;

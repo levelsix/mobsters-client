@@ -87,19 +87,19 @@
     _mapSprites = [NSMutableArray array];
     
     // add UIPanGestureRecognizer
-    UIPanGestureRecognizer *uig = [UIPanGestureRecognizer alloc];
+    UIPanGestureRecognizer *uig = [[UIPanGestureRecognizer alloc] init];
     uig.maximumNumberOfTouches = 1;
-    CCGestureRecognizer *recognizer = [CCGestureRecognizer CCRecognizerWithRecognizerTargetAction: uig target:self action:@selector(drag:node:)];
+    CCGestureRecognizer *recognizer = [CCGestureRecognizer CCRecognizerWithRecognizerTargetAction:uig target:self action:@selector(drag:node:)];
     [self addGestureRecognizer:recognizer];
     
     // add UIPinchGestureRecognizer
-    recognizer = [CCGestureRecognizer CCRecognizerWithRecognizerTargetAction:[[UIPinchGestureRecognizer alloc ]init] target:self action:@selector(scale:node:)];
+    recognizer = [CCGestureRecognizer CCRecognizerWithRecognizerTargetAction:[[UIPinchGestureRecognizer alloc]init] target:self action:@selector(scale:node:)];
     [self addGestureRecognizer:recognizer];
     
     self.isTouchEnabled = YES;
     
     // add UITapGestureRecognizer
-    recognizer = [CCGestureRecognizer CCRecognizerWithRecognizerTargetAction:[[UITapGestureRecognizer alloc ]init] target:self action:@selector(tap:node:)];
+    recognizer = [CCGestureRecognizer CCRecognizerWithRecognizerTargetAction:[[UITapGestureRecognizer alloc]init] target:self action:@selector(tap:node:)];
     [self addGestureRecognizer:recognizer];
     
     if (CC_CONTENT_SCALE_FACTOR() == 2) {
@@ -338,28 +338,7 @@
 
 -(CGPoint)convertVectorToGL:(CGPoint)uiPoint
 {
-//  float newY = - uiPoint.y;
-//  float newX = - uiPoint.x;
-  
-  CGPoint ret = CGPointZero;
-//  switch ([[CCDirector sharedDirector] deviceOrientation]) {
-//    case CCDeviceOrientationPortrait:
-//      ret = ccp( uiPoint.x, newY );
-//      break;
-//    case CCDeviceOrientationPortraitUpsideDown:
-//      ret = ccp(newX, uiPoint.y);
-//      break;
-//    case CCDeviceOrientationLandscapeLeft:
-//      ret.x = uiPoint.y;
-//      ret.y = uiPoint.x;
-//      break;
-//    case CCDeviceOrientationLandscapeRight:
-//      ret.x = newY;
-//      ret.y = newX;
-//      break;
-//  }
-  ret = uiPoint;
-  return ret;
+  return ccp(uiPoint.x, -uiPoint.y);
 }
 
 - (CGPoint) randomWalkablePosition {

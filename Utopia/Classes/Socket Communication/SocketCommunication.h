@@ -8,13 +8,14 @@
 
 //#import "GCDAsyncSocket.h"
 
-#import "Event.pb.h"
 #import "Protocols.pb.h"
 #import "StoreKit/StoreKit.h"
 
 #import "AMQPWrapper.h"
 #import "AMQPConnectionThread.h"
 #import "AMQPConnectionThreadDelegate.h"
+
+#define CONNECTED_TO_HOST_DELEGATE_TAG 9999
 
 @interface SocketCommunication : NSObject <UIAlertViewDelegate, AMQPConnectionThreadDelegate> {
   BOOL _shouldReconnect;

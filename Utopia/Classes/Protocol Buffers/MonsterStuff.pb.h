@@ -2,8 +2,6 @@
 
 #import "ProtocolBuffers.h"
 
-@class FullBossProto;
-@class FullBossProto_Builder;
 @class FullUserMonsterProto;
 @class FullUserMonsterProto_Builder;
 @class MonsterProto;
@@ -282,71 +280,5 @@ BOOL MonsterProto_MonsterElementIsValidValue(MonsterProto_MonsterElement value);
 - (int32_t) currentDurability;
 - (FullUserMonsterProto_Builder*) setCurrentDurability:(int32_t) value;
 - (FullUserMonsterProto_Builder*) clearCurrentDurability;
-@end
-
-@interface FullBossProto : PBGeneratedMessage {
-@private
-  BOOL hasBossId_:1;
-  BOOL hasCityId_:1;
-  BOOL hasAssetNumWithinCity_:1;
-  int32_t bossId;
-  int32_t cityId;
-  int32_t assetNumWithinCity;
-}
-- (BOOL) hasBossId;
-- (BOOL) hasCityId;
-- (BOOL) hasAssetNumWithinCity;
-@property (readonly) int32_t bossId;
-@property (readonly) int32_t cityId;
-@property (readonly) int32_t assetNumWithinCity;
-
-+ (FullBossProto*) defaultInstance;
-- (FullBossProto*) defaultInstance;
-
-- (BOOL) isInitialized;
-- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output;
-- (FullBossProto_Builder*) builder;
-+ (FullBossProto_Builder*) builder;
-+ (FullBossProto_Builder*) builderWithPrototype:(FullBossProto*) prototype;
-
-+ (FullBossProto*) parseFromData:(NSData*) data;
-+ (FullBossProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
-+ (FullBossProto*) parseFromInputStream:(NSInputStream*) input;
-+ (FullBossProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
-+ (FullBossProto*) parseFromCodedInputStream:(PBCodedInputStream*) input;
-+ (FullBossProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
-@end
-
-@interface FullBossProto_Builder : PBGeneratedMessage_Builder {
-@private
-  FullBossProto* result;
-}
-
-- (FullBossProto*) defaultInstance;
-
-- (FullBossProto_Builder*) clear;
-- (FullBossProto_Builder*) clone;
-
-- (FullBossProto*) build;
-- (FullBossProto*) buildPartial;
-
-- (FullBossProto_Builder*) mergeFrom:(FullBossProto*) other;
-- (FullBossProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input;
-- (FullBossProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
-
-- (BOOL) hasBossId;
-- (int32_t) bossId;
-- (FullBossProto_Builder*) setBossId:(int32_t) value;
-- (FullBossProto_Builder*) clearBossId;
-
-- (BOOL) hasCityId;
-- (int32_t) cityId;
-- (FullBossProto_Builder*) setCityId:(int32_t) value;
-- (FullBossProto_Builder*) clearCityId;
-
-- (BOOL) hasAssetNumWithinCity;
-- (int32_t) assetNumWithinCity;
-- (FullBossProto_Builder*) setAssetNumWithinCity:(int32_t) value;
-- (FullBossProto_Builder*) clearAssetNumWithinCity;
 @end
 

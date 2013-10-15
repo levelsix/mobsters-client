@@ -13,6 +13,7 @@ static PBExtensionRegistry* extensionRegistry = nil;
     PBMutableExtensionRegistry* registry = [PBMutableExtensionRegistry registry];
     [self registerAllExtensions:registry];
     [CityRoot registerAllExtensions:registry];
+    [QuestRoot registerAllExtensions:registry];
     [StructureRoot registerAllExtensions:registry];
     [UserRoot registerAllExtensions:registry];
     extensionRegistry = [registry retain];
@@ -1296,6 +1297,643 @@ BOOL PurchaseCityExpansionResponseProto_PurchaseCityExpansionStatusIsValidValue(
 - (PurchaseCityExpansionResponseProto_Builder*) clearUcedp {
   result.hasUcedp = NO;
   result.ucedp = [UserCityExpansionDataProto defaultInstance];
+  return self;
+}
+@end
+
+@interface LoadCityRequestProto ()
+@property (retain) MinimumUserProto* sender;
+@property int32_t cityId;
+@end
+
+@implementation LoadCityRequestProto
+
+- (BOOL) hasSender {
+  return !!hasSender_;
+}
+- (void) setHasSender:(BOOL) value {
+  hasSender_ = !!value;
+}
+@synthesize sender;
+- (BOOL) hasCityId {
+  return !!hasCityId_;
+}
+- (void) setHasCityId:(BOOL) value {
+  hasCityId_ = !!value;
+}
+@synthesize cityId;
+- (void) dealloc {
+  self.sender = nil;
+  [super dealloc];
+}
+- (id) init {
+  if ((self = [super init])) {
+    self.sender = [MinimumUserProto defaultInstance];
+    self.cityId = 0;
+  }
+  return self;
+}
+static LoadCityRequestProto* defaultLoadCityRequestProtoInstance = nil;
++ (void) initialize {
+  if (self == [LoadCityRequestProto class]) {
+    defaultLoadCityRequestProtoInstance = [[LoadCityRequestProto alloc] init];
+  }
+}
++ (LoadCityRequestProto*) defaultInstance {
+  return defaultLoadCityRequestProtoInstance;
+}
+- (LoadCityRequestProto*) defaultInstance {
+  return defaultLoadCityRequestProtoInstance;
+}
+- (BOOL) isInitialized {
+  return YES;
+}
+- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output {
+  if (self.hasSender) {
+    [output writeMessage:1 value:self.sender];
+  }
+  if (self.hasCityId) {
+    [output writeInt32:2 value:self.cityId];
+  }
+  [self.unknownFields writeToCodedOutputStream:output];
+}
+- (int32_t) serializedSize {
+  int32_t size = memoizedSerializedSize;
+  if (size != -1) {
+    return size;
+  }
+
+  size = 0;
+  if (self.hasSender) {
+    size += computeMessageSize(1, self.sender);
+  }
+  if (self.hasCityId) {
+    size += computeInt32Size(2, self.cityId);
+  }
+  size += self.unknownFields.serializedSize;
+  memoizedSerializedSize = size;
+  return size;
+}
++ (LoadCityRequestProto*) parseFromData:(NSData*) data {
+  return (LoadCityRequestProto*)[[[LoadCityRequestProto builder] mergeFromData:data] build];
+}
++ (LoadCityRequestProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (LoadCityRequestProto*)[[[LoadCityRequestProto builder] mergeFromData:data extensionRegistry:extensionRegistry] build];
+}
++ (LoadCityRequestProto*) parseFromInputStream:(NSInputStream*) input {
+  return (LoadCityRequestProto*)[[[LoadCityRequestProto builder] mergeFromInputStream:input] build];
+}
++ (LoadCityRequestProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (LoadCityRequestProto*)[[[LoadCityRequestProto builder] mergeFromInputStream:input extensionRegistry:extensionRegistry] build];
+}
++ (LoadCityRequestProto*) parseFromCodedInputStream:(PBCodedInputStream*) input {
+  return (LoadCityRequestProto*)[[[LoadCityRequestProto builder] mergeFromCodedInputStream:input] build];
+}
++ (LoadCityRequestProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (LoadCityRequestProto*)[[[LoadCityRequestProto builder] mergeFromCodedInputStream:input extensionRegistry:extensionRegistry] build];
+}
++ (LoadCityRequestProto_Builder*) builder {
+  return [[[LoadCityRequestProto_Builder alloc] init] autorelease];
+}
++ (LoadCityRequestProto_Builder*) builderWithPrototype:(LoadCityRequestProto*) prototype {
+  return [[LoadCityRequestProto builder] mergeFrom:prototype];
+}
+- (LoadCityRequestProto_Builder*) builder {
+  return [LoadCityRequestProto builder];
+}
+@end
+
+@interface LoadCityRequestProto_Builder()
+@property (retain) LoadCityRequestProto* result;
+@end
+
+@implementation LoadCityRequestProto_Builder
+@synthesize result;
+- (void) dealloc {
+  self.result = nil;
+  [super dealloc];
+}
+- (id) init {
+  if ((self = [super init])) {
+    self.result = [[[LoadCityRequestProto alloc] init] autorelease];
+  }
+  return self;
+}
+- (PBGeneratedMessage*) internalGetResult {
+  return result;
+}
+- (LoadCityRequestProto_Builder*) clear {
+  self.result = [[[LoadCityRequestProto alloc] init] autorelease];
+  return self;
+}
+- (LoadCityRequestProto_Builder*) clone {
+  return [LoadCityRequestProto builderWithPrototype:result];
+}
+- (LoadCityRequestProto*) defaultInstance {
+  return [LoadCityRequestProto defaultInstance];
+}
+- (LoadCityRequestProto*) build {
+  [self checkInitialized];
+  return [self buildPartial];
+}
+- (LoadCityRequestProto*) buildPartial {
+  LoadCityRequestProto* returnMe = [[result retain] autorelease];
+  self.result = nil;
+  return returnMe;
+}
+- (LoadCityRequestProto_Builder*) mergeFrom:(LoadCityRequestProto*) other {
+  if (other == [LoadCityRequestProto defaultInstance]) {
+    return self;
+  }
+  if (other.hasSender) {
+    [self mergeSender:other.sender];
+  }
+  if (other.hasCityId) {
+    [self setCityId:other.cityId];
+  }
+  [self mergeUnknownFields:other.unknownFields];
+  return self;
+}
+- (LoadCityRequestProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input {
+  return [self mergeFromCodedInputStream:input extensionRegistry:[PBExtensionRegistry emptyRegistry]];
+}
+- (LoadCityRequestProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  PBUnknownFieldSet_Builder* unknownFields = [PBUnknownFieldSet builderWithUnknownFields:self.unknownFields];
+  while (YES) {
+    int32_t tag = [input readTag];
+    switch (tag) {
+      case 0:
+        [self setUnknownFields:[unknownFields build]];
+        return self;
+      default: {
+        if (![self parseUnknownField:input unknownFields:unknownFields extensionRegistry:extensionRegistry tag:tag]) {
+          [self setUnknownFields:[unknownFields build]];
+          return self;
+        }
+        break;
+      }
+      case 10: {
+        MinimumUserProto_Builder* subBuilder = [MinimumUserProto builder];
+        if (self.hasSender) {
+          [subBuilder mergeFrom:self.sender];
+        }
+        [input readMessage:subBuilder extensionRegistry:extensionRegistry];
+        [self setSender:[subBuilder buildPartial]];
+        break;
+      }
+      case 16: {
+        [self setCityId:[input readInt32]];
+        break;
+      }
+    }
+  }
+}
+- (BOOL) hasSender {
+  return result.hasSender;
+}
+- (MinimumUserProto*) sender {
+  return result.sender;
+}
+- (LoadCityRequestProto_Builder*) setSender:(MinimumUserProto*) value {
+  result.hasSender = YES;
+  result.sender = value;
+  return self;
+}
+- (LoadCityRequestProto_Builder*) setSenderBuilder:(MinimumUserProto_Builder*) builderForValue {
+  return [self setSender:[builderForValue build]];
+}
+- (LoadCityRequestProto_Builder*) mergeSender:(MinimumUserProto*) value {
+  if (result.hasSender &&
+      result.sender != [MinimumUserProto defaultInstance]) {
+    result.sender =
+      [[[MinimumUserProto builderWithPrototype:result.sender] mergeFrom:value] buildPartial];
+  } else {
+    result.sender = value;
+  }
+  result.hasSender = YES;
+  return self;
+}
+- (LoadCityRequestProto_Builder*) clearSender {
+  result.hasSender = NO;
+  result.sender = [MinimumUserProto defaultInstance];
+  return self;
+}
+- (BOOL) hasCityId {
+  return result.hasCityId;
+}
+- (int32_t) cityId {
+  return result.cityId;
+}
+- (LoadCityRequestProto_Builder*) setCityId:(int32_t) value {
+  result.hasCityId = YES;
+  result.cityId = value;
+  return self;
+}
+- (LoadCityRequestProto_Builder*) clearCityId {
+  result.hasCityId = NO;
+  result.cityId = 0;
+  return self;
+}
+@end
+
+@interface LoadCityResponseProto ()
+@property (retain) MinimumUserProto* sender;
+@property LoadCityResponseProto_LoadCityStatus status;
+@property (retain) NSMutableArray* mutableCityElementsList;
+@property int32_t cityId;
+@property (retain) NSMutableArray* mutableInProgressUserQuestDataInCityList;
+@end
+
+@implementation LoadCityResponseProto
+
+- (BOOL) hasSender {
+  return !!hasSender_;
+}
+- (void) setHasSender:(BOOL) value {
+  hasSender_ = !!value;
+}
+@synthesize sender;
+- (BOOL) hasStatus {
+  return !!hasStatus_;
+}
+- (void) setHasStatus:(BOOL) value {
+  hasStatus_ = !!value;
+}
+@synthesize status;
+@synthesize mutableCityElementsList;
+- (BOOL) hasCityId {
+  return !!hasCityId_;
+}
+- (void) setHasCityId:(BOOL) value {
+  hasCityId_ = !!value;
+}
+@synthesize cityId;
+@synthesize mutableInProgressUserQuestDataInCityList;
+- (void) dealloc {
+  self.sender = nil;
+  self.mutableCityElementsList = nil;
+  self.mutableInProgressUserQuestDataInCityList = nil;
+  [super dealloc];
+}
+- (id) init {
+  if ((self = [super init])) {
+    self.sender = [MinimumUserProto defaultInstance];
+    self.status = LoadCityResponseProto_LoadCityStatusSuccess;
+    self.cityId = 0;
+  }
+  return self;
+}
+static LoadCityResponseProto* defaultLoadCityResponseProtoInstance = nil;
++ (void) initialize {
+  if (self == [LoadCityResponseProto class]) {
+    defaultLoadCityResponseProtoInstance = [[LoadCityResponseProto alloc] init];
+  }
+}
++ (LoadCityResponseProto*) defaultInstance {
+  return defaultLoadCityResponseProtoInstance;
+}
+- (LoadCityResponseProto*) defaultInstance {
+  return defaultLoadCityResponseProtoInstance;
+}
+- (NSArray*) cityElementsList {
+  return mutableCityElementsList;
+}
+- (CityElementProto*) cityElementsAtIndex:(int32_t) index {
+  id value = [mutableCityElementsList objectAtIndex:index];
+  return value;
+}
+- (NSArray*) inProgressUserQuestDataInCityList {
+  return mutableInProgressUserQuestDataInCityList;
+}
+- (FullUserQuestDataLargeProto*) inProgressUserQuestDataInCityAtIndex:(int32_t) index {
+  id value = [mutableInProgressUserQuestDataInCityList objectAtIndex:index];
+  return value;
+}
+- (BOOL) isInitialized {
+  return YES;
+}
+- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output {
+  if (self.hasSender) {
+    [output writeMessage:1 value:self.sender];
+  }
+  if (self.hasStatus) {
+    [output writeEnum:2 value:self.status];
+  }
+  for (CityElementProto* element in self.cityElementsList) {
+    [output writeMessage:3 value:element];
+  }
+  if (self.hasCityId) {
+    [output writeInt32:4 value:self.cityId];
+  }
+  for (FullUserQuestDataLargeProto* element in self.inProgressUserQuestDataInCityList) {
+    [output writeMessage:5 value:element];
+  }
+  [self.unknownFields writeToCodedOutputStream:output];
+}
+- (int32_t) serializedSize {
+  int32_t size = memoizedSerializedSize;
+  if (size != -1) {
+    return size;
+  }
+
+  size = 0;
+  if (self.hasSender) {
+    size += computeMessageSize(1, self.sender);
+  }
+  if (self.hasStatus) {
+    size += computeEnumSize(2, self.status);
+  }
+  for (CityElementProto* element in self.cityElementsList) {
+    size += computeMessageSize(3, element);
+  }
+  if (self.hasCityId) {
+    size += computeInt32Size(4, self.cityId);
+  }
+  for (FullUserQuestDataLargeProto* element in self.inProgressUserQuestDataInCityList) {
+    size += computeMessageSize(5, element);
+  }
+  size += self.unknownFields.serializedSize;
+  memoizedSerializedSize = size;
+  return size;
+}
++ (LoadCityResponseProto*) parseFromData:(NSData*) data {
+  return (LoadCityResponseProto*)[[[LoadCityResponseProto builder] mergeFromData:data] build];
+}
++ (LoadCityResponseProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (LoadCityResponseProto*)[[[LoadCityResponseProto builder] mergeFromData:data extensionRegistry:extensionRegistry] build];
+}
++ (LoadCityResponseProto*) parseFromInputStream:(NSInputStream*) input {
+  return (LoadCityResponseProto*)[[[LoadCityResponseProto builder] mergeFromInputStream:input] build];
+}
++ (LoadCityResponseProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (LoadCityResponseProto*)[[[LoadCityResponseProto builder] mergeFromInputStream:input extensionRegistry:extensionRegistry] build];
+}
++ (LoadCityResponseProto*) parseFromCodedInputStream:(PBCodedInputStream*) input {
+  return (LoadCityResponseProto*)[[[LoadCityResponseProto builder] mergeFromCodedInputStream:input] build];
+}
++ (LoadCityResponseProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (LoadCityResponseProto*)[[[LoadCityResponseProto builder] mergeFromCodedInputStream:input extensionRegistry:extensionRegistry] build];
+}
++ (LoadCityResponseProto_Builder*) builder {
+  return [[[LoadCityResponseProto_Builder alloc] init] autorelease];
+}
++ (LoadCityResponseProto_Builder*) builderWithPrototype:(LoadCityResponseProto*) prototype {
+  return [[LoadCityResponseProto builder] mergeFrom:prototype];
+}
+- (LoadCityResponseProto_Builder*) builder {
+  return [LoadCityResponseProto builder];
+}
+@end
+
+BOOL LoadCityResponseProto_LoadCityStatusIsValidValue(LoadCityResponseProto_LoadCityStatus value) {
+  switch (value) {
+    case LoadCityResponseProto_LoadCityStatusSuccess:
+    case LoadCityResponseProto_LoadCityStatusNotAccessibleToUser:
+    case LoadCityResponseProto_LoadCityStatusOtherFail:
+      return YES;
+    default:
+      return NO;
+  }
+}
+@interface LoadCityResponseProto_Builder()
+@property (retain) LoadCityResponseProto* result;
+@end
+
+@implementation LoadCityResponseProto_Builder
+@synthesize result;
+- (void) dealloc {
+  self.result = nil;
+  [super dealloc];
+}
+- (id) init {
+  if ((self = [super init])) {
+    self.result = [[[LoadCityResponseProto alloc] init] autorelease];
+  }
+  return self;
+}
+- (PBGeneratedMessage*) internalGetResult {
+  return result;
+}
+- (LoadCityResponseProto_Builder*) clear {
+  self.result = [[[LoadCityResponseProto alloc] init] autorelease];
+  return self;
+}
+- (LoadCityResponseProto_Builder*) clone {
+  return [LoadCityResponseProto builderWithPrototype:result];
+}
+- (LoadCityResponseProto*) defaultInstance {
+  return [LoadCityResponseProto defaultInstance];
+}
+- (LoadCityResponseProto*) build {
+  [self checkInitialized];
+  return [self buildPartial];
+}
+- (LoadCityResponseProto*) buildPartial {
+  LoadCityResponseProto* returnMe = [[result retain] autorelease];
+  self.result = nil;
+  return returnMe;
+}
+- (LoadCityResponseProto_Builder*) mergeFrom:(LoadCityResponseProto*) other {
+  if (other == [LoadCityResponseProto defaultInstance]) {
+    return self;
+  }
+  if (other.hasSender) {
+    [self mergeSender:other.sender];
+  }
+  if (other.hasStatus) {
+    [self setStatus:other.status];
+  }
+  if (other.mutableCityElementsList.count > 0) {
+    if (result.mutableCityElementsList == nil) {
+      result.mutableCityElementsList = [NSMutableArray array];
+    }
+    [result.mutableCityElementsList addObjectsFromArray:other.mutableCityElementsList];
+  }
+  if (other.hasCityId) {
+    [self setCityId:other.cityId];
+  }
+  if (other.mutableInProgressUserQuestDataInCityList.count > 0) {
+    if (result.mutableInProgressUserQuestDataInCityList == nil) {
+      result.mutableInProgressUserQuestDataInCityList = [NSMutableArray array];
+    }
+    [result.mutableInProgressUserQuestDataInCityList addObjectsFromArray:other.mutableInProgressUserQuestDataInCityList];
+  }
+  [self mergeUnknownFields:other.unknownFields];
+  return self;
+}
+- (LoadCityResponseProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input {
+  return [self mergeFromCodedInputStream:input extensionRegistry:[PBExtensionRegistry emptyRegistry]];
+}
+- (LoadCityResponseProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  PBUnknownFieldSet_Builder* unknownFields = [PBUnknownFieldSet builderWithUnknownFields:self.unknownFields];
+  while (YES) {
+    int32_t tag = [input readTag];
+    switch (tag) {
+      case 0:
+        [self setUnknownFields:[unknownFields build]];
+        return self;
+      default: {
+        if (![self parseUnknownField:input unknownFields:unknownFields extensionRegistry:extensionRegistry tag:tag]) {
+          [self setUnknownFields:[unknownFields build]];
+          return self;
+        }
+        break;
+      }
+      case 10: {
+        MinimumUserProto_Builder* subBuilder = [MinimumUserProto builder];
+        if (self.hasSender) {
+          [subBuilder mergeFrom:self.sender];
+        }
+        [input readMessage:subBuilder extensionRegistry:extensionRegistry];
+        [self setSender:[subBuilder buildPartial]];
+        break;
+      }
+      case 16: {
+        int32_t value = [input readEnum];
+        if (LoadCityResponseProto_LoadCityStatusIsValidValue(value)) {
+          [self setStatus:value];
+        } else {
+          [unknownFields mergeVarintField:2 value:value];
+        }
+        break;
+      }
+      case 26: {
+        CityElementProto_Builder* subBuilder = [CityElementProto builder];
+        [input readMessage:subBuilder extensionRegistry:extensionRegistry];
+        [self addCityElements:[subBuilder buildPartial]];
+        break;
+      }
+      case 32: {
+        [self setCityId:[input readInt32]];
+        break;
+      }
+      case 42: {
+        FullUserQuestDataLargeProto_Builder* subBuilder = [FullUserQuestDataLargeProto builder];
+        [input readMessage:subBuilder extensionRegistry:extensionRegistry];
+        [self addInProgressUserQuestDataInCity:[subBuilder buildPartial]];
+        break;
+      }
+    }
+  }
+}
+- (BOOL) hasSender {
+  return result.hasSender;
+}
+- (MinimumUserProto*) sender {
+  return result.sender;
+}
+- (LoadCityResponseProto_Builder*) setSender:(MinimumUserProto*) value {
+  result.hasSender = YES;
+  result.sender = value;
+  return self;
+}
+- (LoadCityResponseProto_Builder*) setSenderBuilder:(MinimumUserProto_Builder*) builderForValue {
+  return [self setSender:[builderForValue build]];
+}
+- (LoadCityResponseProto_Builder*) mergeSender:(MinimumUserProto*) value {
+  if (result.hasSender &&
+      result.sender != [MinimumUserProto defaultInstance]) {
+    result.sender =
+      [[[MinimumUserProto builderWithPrototype:result.sender] mergeFrom:value] buildPartial];
+  } else {
+    result.sender = value;
+  }
+  result.hasSender = YES;
+  return self;
+}
+- (LoadCityResponseProto_Builder*) clearSender {
+  result.hasSender = NO;
+  result.sender = [MinimumUserProto defaultInstance];
+  return self;
+}
+- (BOOL) hasStatus {
+  return result.hasStatus;
+}
+- (LoadCityResponseProto_LoadCityStatus) status {
+  return result.status;
+}
+- (LoadCityResponseProto_Builder*) setStatus:(LoadCityResponseProto_LoadCityStatus) value {
+  result.hasStatus = YES;
+  result.status = value;
+  return self;
+}
+- (LoadCityResponseProto_Builder*) clearStatus {
+  result.hasStatus = NO;
+  result.status = LoadCityResponseProto_LoadCityStatusSuccess;
+  return self;
+}
+- (NSArray*) cityElementsList {
+  if (result.mutableCityElementsList == nil) { return [NSArray array]; }
+  return result.mutableCityElementsList;
+}
+- (CityElementProto*) cityElementsAtIndex:(int32_t) index {
+  return [result cityElementsAtIndex:index];
+}
+- (LoadCityResponseProto_Builder*) replaceCityElementsAtIndex:(int32_t) index with:(CityElementProto*) value {
+  [result.mutableCityElementsList replaceObjectAtIndex:index withObject:value];
+  return self;
+}
+- (LoadCityResponseProto_Builder*) addAllCityElements:(NSArray*) values {
+  if (result.mutableCityElementsList == nil) {
+    result.mutableCityElementsList = [NSMutableArray array];
+  }
+  [result.mutableCityElementsList addObjectsFromArray:values];
+  return self;
+}
+- (LoadCityResponseProto_Builder*) clearCityElementsList {
+  result.mutableCityElementsList = nil;
+  return self;
+}
+- (LoadCityResponseProto_Builder*) addCityElements:(CityElementProto*) value {
+  if (result.mutableCityElementsList == nil) {
+    result.mutableCityElementsList = [NSMutableArray array];
+  }
+  [result.mutableCityElementsList addObject:value];
+  return self;
+}
+- (BOOL) hasCityId {
+  return result.hasCityId;
+}
+- (int32_t) cityId {
+  return result.cityId;
+}
+- (LoadCityResponseProto_Builder*) setCityId:(int32_t) value {
+  result.hasCityId = YES;
+  result.cityId = value;
+  return self;
+}
+- (LoadCityResponseProto_Builder*) clearCityId {
+  result.hasCityId = NO;
+  result.cityId = 0;
+  return self;
+}
+- (NSArray*) inProgressUserQuestDataInCityList {
+  if (result.mutableInProgressUserQuestDataInCityList == nil) { return [NSArray array]; }
+  return result.mutableInProgressUserQuestDataInCityList;
+}
+- (FullUserQuestDataLargeProto*) inProgressUserQuestDataInCityAtIndex:(int32_t) index {
+  return [result inProgressUserQuestDataInCityAtIndex:index];
+}
+- (LoadCityResponseProto_Builder*) replaceInProgressUserQuestDataInCityAtIndex:(int32_t) index with:(FullUserQuestDataLargeProto*) value {
+  [result.mutableInProgressUserQuestDataInCityList replaceObjectAtIndex:index withObject:value];
+  return self;
+}
+- (LoadCityResponseProto_Builder*) addAllInProgressUserQuestDataInCity:(NSArray*) values {
+  if (result.mutableInProgressUserQuestDataInCityList == nil) {
+    result.mutableInProgressUserQuestDataInCityList = [NSMutableArray array];
+  }
+  [result.mutableInProgressUserQuestDataInCityList addObjectsFromArray:values];
+  return self;
+}
+- (LoadCityResponseProto_Builder*) clearInProgressUserQuestDataInCityList {
+  result.mutableInProgressUserQuestDataInCityList = nil;
+  return self;
+}
+- (LoadCityResponseProto_Builder*) addInProgressUserQuestDataInCity:(FullUserQuestDataLargeProto*) value {
+  if (result.mutableInProgressUserQuestDataInCityList == nil) {
+    result.mutableInProgressUserQuestDataInCityList = [NSMutableArray array];
+  }
+  [result.mutableInProgressUserQuestDataInCityList addObject:value];
   return self;
 }
 @end

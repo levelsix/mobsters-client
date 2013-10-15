@@ -74,7 +74,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
     case EventProtocolResponseSLoadPlayerCityEvent:
       responseClass = [LoadPlayerCityResponseProto class];
       break;
-    case EventProtocolResponseSLoadNeutralCityEvent:
+    case EventProtocolResponseSLoadCityEvent:
       responseClass = [LoadCityResponseProto class];
       break;
     case EventProtocolResponseSRetrieveStaticDataEvent:
@@ -152,10 +152,10 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
     case EventProtocolResponseSGeneralNotificationEvent:
       responseClass = [GeneralNotificationResponseProto class];
       break;
-    case EventProtocolResponseSRetrieveLeaderboardRankingsEvent:
-      responseClass = [RetrieveLeaderboardEventRankingsResponseProto class];
+    case EventProtocolResponseSRetrieveTournamentRankingsEvent:
+      responseClass = [RetrieveTournamentRankingsResponseProto class];
       break;
-    case EventProtocolResponseSSubmitEquipEnhancementEvent:
+    case EventProtocolResponseSSubmitMonsterEnhancementEvent:
       responseClass = [SubmitMonsterEnhancementResponseProto class];
       break;
     case EventProtocolResponseSRetrieveBoosterPackEvent:
@@ -201,7 +201,6 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
 }
 
 - (void) handleStartupResponseProto:(FullEvent *)fe {
-  
   StartupResponseProto *proto = (StartupResponseProto *)fe.event;
   int tag = fe.tag;
   
@@ -239,8 +238,6 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
     
 //    [Globals asyncDownloadBundles];
     
-    OutgoingEventController *oec = [OutgoingEventController sharedOutgoingEventController];
-    
     [gs.myCities removeAllObjects];
     [gs.staticCities removeAllObjects];
     [gs addToStaticCities:proto.allCitiesList];
@@ -251,8 +248,6 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
     // Put this after inprogress complete because available quests will be autoaccepted
     [gs.availableQuests removeAllObjects];
     [gs addToAvailableQuests:proto.availableQuestsList];
-    [oec loadPlayerCity:gs.userId];
-    [oec retrieveAllStaticData];
     [gs.staticStructs removeAllObjects];
     [gs addToStaticStructs:proto.staticStructsList];
     
@@ -286,8 +281,6 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
     [(AppDelegate *)[[UIApplication sharedApplication] delegate] registerForPushNotifications];
     [(AppDelegate *)[[UIApplication sharedApplication] delegate] removeLocalNotifications];
     
-    [[GameViewController sharedGameViewController] loadGame:NO];
-    
     // Display generic popups for strings that haven't been seen before
     NSUserDefaults *standardDefault = [NSUserDefaults standardUserDefaults];
     NSMutableArray *stringsStored = [[[NSUserDefaults standardUserDefaults] objectForKey:@"myCurrentString"]mutableCopy];
@@ -314,15 +307,12 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
     [standardDefault synchronize];
   } else {
     // Need to create new player
-    [[GameViewController sharedGameViewController] loadGame:YES];
     
     gs.connected = YES;
     gs.expRequiredForCurrentLevel = 0;
   }
   
   [gs removeNonFullUserUpdatesForTag:tag];
-  
-  [[GameViewController sharedGameViewController] startupComplete];
 }
 
 - (void) handleLevelUpResponseProto:(FullEvent *)fe {
@@ -417,8 +407,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
       }
     } else {
       [Globals popupMessage:[NSString stringWithFormat:@"Something went wrong in the purchase. Error Status: %d", proto.status]];
-      [[[GameState sharedGameState] myStructs] removeObject:us];
-      [[HomeMap sharedHomeMap] refresh];
+      [gs.myStructs removeObject:us];
     }
     [gs removeNonFullUserUpdatesForTag:tag];
   } else {
@@ -549,8 +538,6 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
   
   GameState *gs = [GameState sharedGameState];
   
-  [[GameViewController sharedGameViewController] loadPlayerCityComplete];
-  
   if (proto.status == LoadPlayerCityResponseProto_LoadPlayerCityStatusSuccess) {
     if (proto.cityOwner.userId == gs.userId) {
       gs.connected = YES;
@@ -568,10 +555,6 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
       [gs beginExpansionTimer];
       
       [[OutgoingEventController sharedOutgoingEventController] retrieveAllStaticData];
-      
-      if (![[HomeMap sharedHomeMap] loading]) {
-        [[GameViewController sharedGameViewController] startGame];
-      }
       
       [gs removeNonFullUserUpdatesForTag:tag];
       
@@ -1084,12 +1067,12 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
 }
 
 - (void) handleRetrieveLeaderboardRankingsResponseProto:(FullEvent *)fe {
-  RetrieveLeaderboardEventRankingsResponseProto *proto = (RetrieveLeaderboardEventRankingsResponseProto *)fe.event;
+  RetrieveTournamentRankingsResponseProto *proto = (RetrieveTournamentRankingsResponseProto *)fe.event;
   int tag = fe.tag;
   LNLog(@"Retrieve tournament response received with status %d and %d rankings.", proto.status, proto.resultPlayersList.count);
   
   GameState *gs = [GameState sharedGameState];
-  if (proto.status == RetrieveLeaderboardEventRankingsResponseProto_RetrieveLeaderboardStatusSuccess) {
+  if (proto.status == RetrieveTournamentRankingsResponseProto_RetrieveTournamentStatusSuccess) {
     [gs removeNonFullUserUpdatesForTag:tag];
   } else {
     [Globals popupMessage:@"Server failed to send back leaderboard rankings."];

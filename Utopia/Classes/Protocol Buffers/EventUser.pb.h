@@ -17,14 +17,18 @@
 @class LevelUpRequestProto_Builder;
 @class LevelUpResponseProto;
 @class LevelUpResponseProto_Builder;
+@class LogoutRequestProto;
+@class LogoutRequestProto_Builder;
 @class MinimumClanProto;
 @class MinimumClanProto_Builder;
 @class MinimumUserProto;
 @class MinimumUserProtoWithLevel;
-@class MinimumUserProtoWithLevelForLeaderboard;
-@class MinimumUserProtoWithLevelForLeaderboard_Builder;
 @class MinimumUserProtoWithLevel_Builder;
 @class MinimumUserProto_Builder;
+@class RetrieveUsersForUserIdsRequestProto;
+@class RetrieveUsersForUserIdsRequestProto_Builder;
+@class RetrieveUsersForUserIdsResponseProto;
+@class RetrieveUsersForUserIdsResponseProto_Builder;
 @class UpdateClientUserResponseProto;
 @class UpdateClientUserResponseProto_Builder;
 @class UserCreateRequestProto;
@@ -346,6 +350,176 @@ BOOL LevelUpResponseProto_LevelUpStatusIsValidValue(LevelUpResponseProto_LevelUp
 - (LevelUpResponseProto_Builder*) addNewlyAvailableStructs:(FullStructureProto*) value;
 - (LevelUpResponseProto_Builder*) addAllNewlyAvailableStructs:(NSArray*) values;
 - (LevelUpResponseProto_Builder*) clearNewlyAvailableStructsList;
+@end
+
+@interface RetrieveUsersForUserIdsRequestProto : PBGeneratedMessage {
+@private
+  BOOL hasSender_:1;
+  MinimumUserProto* sender;
+  NSMutableArray* mutableRequestedUserIdsList;
+}
+- (BOOL) hasSender;
+@property (readonly, retain) MinimumUserProto* sender;
+- (NSArray*) requestedUserIdsList;
+- (int32_t) requestedUserIdsAtIndex:(int32_t) index;
+
++ (RetrieveUsersForUserIdsRequestProto*) defaultInstance;
+- (RetrieveUsersForUserIdsRequestProto*) defaultInstance;
+
+- (BOOL) isInitialized;
+- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output;
+- (RetrieveUsersForUserIdsRequestProto_Builder*) builder;
++ (RetrieveUsersForUserIdsRequestProto_Builder*) builder;
++ (RetrieveUsersForUserIdsRequestProto_Builder*) builderWithPrototype:(RetrieveUsersForUserIdsRequestProto*) prototype;
+
++ (RetrieveUsersForUserIdsRequestProto*) parseFromData:(NSData*) data;
++ (RetrieveUsersForUserIdsRequestProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (RetrieveUsersForUserIdsRequestProto*) parseFromInputStream:(NSInputStream*) input;
++ (RetrieveUsersForUserIdsRequestProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (RetrieveUsersForUserIdsRequestProto*) parseFromCodedInputStream:(PBCodedInputStream*) input;
++ (RetrieveUsersForUserIdsRequestProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+@end
+
+@interface RetrieveUsersForUserIdsRequestProto_Builder : PBGeneratedMessage_Builder {
+@private
+  RetrieveUsersForUserIdsRequestProto* result;
+}
+
+- (RetrieveUsersForUserIdsRequestProto*) defaultInstance;
+
+- (RetrieveUsersForUserIdsRequestProto_Builder*) clear;
+- (RetrieveUsersForUserIdsRequestProto_Builder*) clone;
+
+- (RetrieveUsersForUserIdsRequestProto*) build;
+- (RetrieveUsersForUserIdsRequestProto*) buildPartial;
+
+- (RetrieveUsersForUserIdsRequestProto_Builder*) mergeFrom:(RetrieveUsersForUserIdsRequestProto*) other;
+- (RetrieveUsersForUserIdsRequestProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input;
+- (RetrieveUsersForUserIdsRequestProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+
+- (BOOL) hasSender;
+- (MinimumUserProto*) sender;
+- (RetrieveUsersForUserIdsRequestProto_Builder*) setSender:(MinimumUserProto*) value;
+- (RetrieveUsersForUserIdsRequestProto_Builder*) setSenderBuilder:(MinimumUserProto_Builder*) builderForValue;
+- (RetrieveUsersForUserIdsRequestProto_Builder*) mergeSender:(MinimumUserProto*) value;
+- (RetrieveUsersForUserIdsRequestProto_Builder*) clearSender;
+
+- (NSArray*) requestedUserIdsList;
+- (int32_t) requestedUserIdsAtIndex:(int32_t) index;
+- (RetrieveUsersForUserIdsRequestProto_Builder*) replaceRequestedUserIdsAtIndex:(int32_t) index with:(int32_t) value;
+- (RetrieveUsersForUserIdsRequestProto_Builder*) addRequestedUserIds:(int32_t) value;
+- (RetrieveUsersForUserIdsRequestProto_Builder*) addAllRequestedUserIds:(NSArray*) values;
+- (RetrieveUsersForUserIdsRequestProto_Builder*) clearRequestedUserIdsList;
+@end
+
+@interface RetrieveUsersForUserIdsResponseProto : PBGeneratedMessage {
+@private
+  BOOL hasSender_:1;
+  MinimumUserProto* sender;
+  NSMutableArray* mutableRequestedUsersList;
+}
+- (BOOL) hasSender;
+@property (readonly, retain) MinimumUserProto* sender;
+- (NSArray*) requestedUsersList;
+- (FullUserProto*) requestedUsersAtIndex:(int32_t) index;
+
++ (RetrieveUsersForUserIdsResponseProto*) defaultInstance;
+- (RetrieveUsersForUserIdsResponseProto*) defaultInstance;
+
+- (BOOL) isInitialized;
+- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output;
+- (RetrieveUsersForUserIdsResponseProto_Builder*) builder;
++ (RetrieveUsersForUserIdsResponseProto_Builder*) builder;
++ (RetrieveUsersForUserIdsResponseProto_Builder*) builderWithPrototype:(RetrieveUsersForUserIdsResponseProto*) prototype;
+
++ (RetrieveUsersForUserIdsResponseProto*) parseFromData:(NSData*) data;
++ (RetrieveUsersForUserIdsResponseProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (RetrieveUsersForUserIdsResponseProto*) parseFromInputStream:(NSInputStream*) input;
++ (RetrieveUsersForUserIdsResponseProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (RetrieveUsersForUserIdsResponseProto*) parseFromCodedInputStream:(PBCodedInputStream*) input;
++ (RetrieveUsersForUserIdsResponseProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+@end
+
+@interface RetrieveUsersForUserIdsResponseProto_Builder : PBGeneratedMessage_Builder {
+@private
+  RetrieveUsersForUserIdsResponseProto* result;
+}
+
+- (RetrieveUsersForUserIdsResponseProto*) defaultInstance;
+
+- (RetrieveUsersForUserIdsResponseProto_Builder*) clear;
+- (RetrieveUsersForUserIdsResponseProto_Builder*) clone;
+
+- (RetrieveUsersForUserIdsResponseProto*) build;
+- (RetrieveUsersForUserIdsResponseProto*) buildPartial;
+
+- (RetrieveUsersForUserIdsResponseProto_Builder*) mergeFrom:(RetrieveUsersForUserIdsResponseProto*) other;
+- (RetrieveUsersForUserIdsResponseProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input;
+- (RetrieveUsersForUserIdsResponseProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+
+- (BOOL) hasSender;
+- (MinimumUserProto*) sender;
+- (RetrieveUsersForUserIdsResponseProto_Builder*) setSender:(MinimumUserProto*) value;
+- (RetrieveUsersForUserIdsResponseProto_Builder*) setSenderBuilder:(MinimumUserProto_Builder*) builderForValue;
+- (RetrieveUsersForUserIdsResponseProto_Builder*) mergeSender:(MinimumUserProto*) value;
+- (RetrieveUsersForUserIdsResponseProto_Builder*) clearSender;
+
+- (NSArray*) requestedUsersList;
+- (FullUserProto*) requestedUsersAtIndex:(int32_t) index;
+- (RetrieveUsersForUserIdsResponseProto_Builder*) replaceRequestedUsersAtIndex:(int32_t) index with:(FullUserProto*) value;
+- (RetrieveUsersForUserIdsResponseProto_Builder*) addRequestedUsers:(FullUserProto*) value;
+- (RetrieveUsersForUserIdsResponseProto_Builder*) addAllRequestedUsers:(NSArray*) values;
+- (RetrieveUsersForUserIdsResponseProto_Builder*) clearRequestedUsersList;
+@end
+
+@interface LogoutRequestProto : PBGeneratedMessage {
+@private
+  BOOL hasSender_:1;
+  MinimumUserProto* sender;
+}
+- (BOOL) hasSender;
+@property (readonly, retain) MinimumUserProto* sender;
+
++ (LogoutRequestProto*) defaultInstance;
+- (LogoutRequestProto*) defaultInstance;
+
+- (BOOL) isInitialized;
+- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output;
+- (LogoutRequestProto_Builder*) builder;
++ (LogoutRequestProto_Builder*) builder;
++ (LogoutRequestProto_Builder*) builderWithPrototype:(LogoutRequestProto*) prototype;
+
++ (LogoutRequestProto*) parseFromData:(NSData*) data;
++ (LogoutRequestProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (LogoutRequestProto*) parseFromInputStream:(NSInputStream*) input;
++ (LogoutRequestProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (LogoutRequestProto*) parseFromCodedInputStream:(PBCodedInputStream*) input;
++ (LogoutRequestProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+@end
+
+@interface LogoutRequestProto_Builder : PBGeneratedMessage_Builder {
+@private
+  LogoutRequestProto* result;
+}
+
+- (LogoutRequestProto*) defaultInstance;
+
+- (LogoutRequestProto_Builder*) clear;
+- (LogoutRequestProto_Builder*) clone;
+
+- (LogoutRequestProto*) build;
+- (LogoutRequestProto*) buildPartial;
+
+- (LogoutRequestProto_Builder*) mergeFrom:(LogoutRequestProto*) other;
+- (LogoutRequestProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input;
+- (LogoutRequestProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+
+- (BOOL) hasSender;
+- (MinimumUserProto*) sender;
+- (LogoutRequestProto_Builder*) setSender:(MinimumUserProto*) value;
+- (LogoutRequestProto_Builder*) setSenderBuilder:(MinimumUserProto_Builder*) builderForValue;
+- (LogoutRequestProto_Builder*) mergeSender:(MinimumUserProto*) value;
+- (LogoutRequestProto_Builder*) clearSender;
 @end
 
 @interface UpdateClientUserResponseProto : PBGeneratedMessage {

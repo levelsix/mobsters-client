@@ -7,14 +7,23 @@
 #import "Chat.pb.h"
 #import "City.pb.h"
 #import "Clan.pb.h"
-#import "Event.pb.h"
+#import "EventApns.pb.h"
+#import "EventBoosterPack.pb.h"
+#import "EventChat.pb.h"
 #import "EventCity.pb.h"
+#import "EventClan.pb.h"
+#import "EventDungeon.pb.h"
+#import "EventInAppPurchase.pb.h"
+#import "EventMonster.pb.h"
 #import "EventPvp.pb.h"
 #import "EventQuest.pb.h"
+#import "EventReferral.pb.h"
 #import "EventStartup.pb.h"
+#import "EventStaticData.pb.h"
 #import "EventStructure.pb.h"
+#import "EventTournament.pb.h"
 #import "EventUser.pb.h"
-#import "Info.pb.h"
+#import "InAppPurchase.pb.h"
 #import "Job.pb.h"
 #import "MonsterStuff.pb.h"
 #import "Quest.pb.h"
@@ -85,8 +94,6 @@
 @class FinishNormStructWaittimeWithDiamondsRequestProto_Builder;
 @class FinishNormStructWaittimeWithDiamondsResponseProto;
 @class FinishNormStructWaittimeWithDiamondsResponseProto_Builder;
-@class FullBossProto;
-@class FullBossProto_Builder;
 @class FullCityProto;
 @class FullCityProto_Builder;
 @class FullClanProto;
@@ -143,16 +150,14 @@
 @class MinimumClanProto_Builder;
 @class MinimumUserBuildStructJobProto;
 @class MinimumUserBuildStructJobProto_Builder;
-@class MinimumUserPossessEquipJobProto;
-@class MinimumUserPossessEquipJobProto_Builder;
 @class MinimumUserProto;
 @class MinimumUserProtoForClans;
 @class MinimumUserProtoForClans_Builder;
 @class MinimumUserProtoWithBattleHistory;
 @class MinimumUserProtoWithBattleHistory_Builder;
 @class MinimumUserProtoWithLevel;
-@class MinimumUserProtoWithLevelForLeaderboard;
-@class MinimumUserProtoWithLevelForLeaderboard_Builder;
+@class MinimumUserProtoWithLevelForTournament;
+@class MinimumUserProtoWithLevelForTournament_Builder;
 @class MinimumUserProtoWithLevel_Builder;
 @class MinimumUserProto_Builder;
 @class MinimumUserQuestTaskProto;
@@ -171,8 +176,6 @@
 @class NormStructWaitCompleteRequestProto_Builder;
 @class NormStructWaitCompleteResponseProto;
 @class NormStructWaitCompleteResponseProto_Builder;
-@class PossessEquipJobProto;
-@class PossessEquipJobProto_Builder;
 @class PrivateChatPostProto;
 @class PrivateChatPostProto_Builder;
 @class PrivateChatPostRequestProto;
@@ -237,10 +240,6 @@
 @class RetrieveCurrencyFromNormStructureRequestProto_StructRetrieval_Builder;
 @class RetrieveCurrencyFromNormStructureResponseProto;
 @class RetrieveCurrencyFromNormStructureResponseProto_Builder;
-@class RetrieveLeaderboardEventRankingsRequestProto;
-@class RetrieveLeaderboardEventRankingsRequestProto_Builder;
-@class RetrieveLeaderboardEventRankingsResponseProto;
-@class RetrieveLeaderboardEventRankingsResponseProto_Builder;
 @class RetrievePrivateChatPostsRequestProto;
 @class RetrievePrivateChatPostsRequestProto_Builder;
 @class RetrievePrivateChatPostsResponseProto;
@@ -249,6 +248,10 @@
 @class RetrieveStaticDataRequestProto_Builder;
 @class RetrieveStaticDataResponseProto;
 @class RetrieveStaticDataResponseProto_Builder;
+@class RetrieveTournamentRankingsRequestProto;
+@class RetrieveTournamentRankingsRequestProto_Builder;
+@class RetrieveTournamentRankingsResponseProto;
+@class RetrieveTournamentRankingsResponseProto_Builder;
 @class RetrieveUsersForUserIdsRequestProto;
 @class RetrieveUsersForUserIdsRequestProto_Builder;
 @class RetrieveUsersForUserIdsResponseProto;
@@ -293,20 +296,20 @@
 @class SubmitMonsterEnhancementResponseProto_Builder;
 @class TaskStageProto;
 @class TaskStageProto_Builder;
-@class TournamentProto;
-@class TournamentProto_Builder;
-@class TournamentRewardProto;
-@class TournamentRewardProto_Builder;
+@class TournamentEventProto;
+@class TournamentEventProto_Builder;
+@class TournamentEventRewardProto;
+@class TournamentEventRewardProto_Builder;
 @class TransferClanOwnershipRequestProto;
 @class TransferClanOwnershipRequestProto_Builder;
 @class TransferClanOwnershipResponseProto;
 @class TransferClanOwnershipResponseProto_Builder;
 @class UpdateClientUserResponseProto;
 @class UpdateClientUserResponseProto_Builder;
-@class UpdateMonsterDurabilityRequestProto;
-@class UpdateMonsterDurabilityRequestProto_Builder;
-@class UpdateMonsterDurabilityResponseProto;
-@class UpdateMonsterDurabilityResponseProto_Builder;
+@class UpdateMonsterHealthRequestProto;
+@class UpdateMonsterHealthRequestProto_Builder;
+@class UpdateMonsterHealthResponseProto;
+@class UpdateMonsterHealthResponseProto_Builder;
 @class UpgradeNormStructureRequestProto;
 @class UpgradeNormStructureRequestProto_Builder;
 @class UpgradeNormStructureResponseProto;
@@ -343,7 +346,7 @@ typedef enum {
   EventProtocolRequestCLevelUpEvent = 17,
   EventProtocolRequestCEnableApnsEvent = 18,
   EventProtocolRequestCUserCreateEvent = 19,
-  EventProtocolRequestCLoadNeutralCityEvent = 20,
+  EventProtocolRequestCLoadCityEvent = 20,
   EventProtocolRequestCRetrieveUsersForUserIdsEvent = 21,
   EventProtocolRequestCEarnFreeDiamondsEvent = 22,
   EventProtocolRequestCSendGroupChatEvent = 23,
@@ -357,8 +360,8 @@ typedef enum {
   EventProtocolRequestCChangeClanDescriptionEvent = 31,
   EventProtocolRequestCBootPlayerFromClanEvent = 32,
   EventProtocolRequestCPickLockBoxEvent = 33,
-  EventProtocolRequestCRetrieveLeaderboardRankingsEvent = 34,
-  EventProtocolRequestCSubmitEquipEnhancementEvent = 35,
+  EventProtocolRequestCRetrieveTournamentRankingsEvent = 34,
+  EventProtocolRequestCSubmitMonsterEnhancementEvent = 35,
   EventProtocolRequestCRetrieveBoosterPackEvent = 36,
   EventProtocolRequestCPurchaseBoosterPackEvent = 37,
   EventProtocolRequestCResetBoosterPackEvent = 38,
@@ -370,7 +373,7 @@ typedef enum {
   EventProtocolRequestCEndDungeonEvent = 44,
   EventProtocolRequestCReviveInDungeonEvent = 45,
   EventProtocolRequestCQueueUpEvent = 46,
-  EventProtocolRequestCUpdateEquipDurabilityEvent = 47,
+  EventProtocolRequestCUpdateMonsterHealthEvent = 47,
   EventProtocolRequestCLogoutEvent = 101,
 } EventProtocolRequest;
 
@@ -396,7 +399,7 @@ typedef enum {
   EventProtocolResponseSLevelUpEvent = 17,
   EventProtocolResponseSEnableApnsEvent = 18,
   EventProtocolResponseSUserCreateEvent = 19,
-  EventProtocolResponseSLoadNeutralCityEvent = 20,
+  EventProtocolResponseSLoadCityEvent = 20,
   EventProtocolResponseSRetrieveUsersForUserIdsEvent = 21,
   EventProtocolResponseSEarnFreeDiamondsEvent = 22,
   EventProtocolResponseSSendGroupChatEvent = 23,
@@ -410,8 +413,8 @@ typedef enum {
   EventProtocolResponseSChangeClanDescriptionEvent = 31,
   EventProtocolResponseSBootPlayerFromClanEvent = 32,
   EventProtocolResponseSPickLockBoxEvent = 33,
-  EventProtocolResponseSRetrieveLeaderboardRankingsEvent = 34,
-  EventProtocolResponseSSubmitEquipEnhancementEvent = 35,
+  EventProtocolResponseSRetrieveTournamentRankingsEvent = 34,
+  EventProtocolResponseSSubmitMonsterEnhancementEvent = 35,
   EventProtocolResponseSRetrieveBoosterPackEvent = 36,
   EventProtocolResponseSPurchaseBoosterPackEvent = 37,
   EventProtocolResponseSResetBoosterPackEvent = 38,
@@ -423,7 +426,7 @@ typedef enum {
   EventProtocolResponseSEndDungeonEvent = 44,
   EventProtocolResponseSReviveInDungeonEvent = 45,
   EventProtocolResponseSQueueUpEvent = 46,
-  EventProtocolResponseSUpdateEquipDurabilityEvent = 47,
+  EventProtocolResponseSUpdateMonsterHealthEvent = 47,
   EventProtocolResponseSUpdateClientUserEvent = 101,
   EventProtocolResponseSQuestCompleteEvent = 102,
   EventProtocolResponseSReferralCodeUsedEvent = 103,

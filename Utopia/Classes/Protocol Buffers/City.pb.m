@@ -612,7 +612,7 @@ static CityExpansionCostProto* defaultCityExpansionCostProtoInstance = nil;
 @property int32_t cityId;
 @property int32_t assetId;
 @property (retain) NSString* name;
-@property CityElementProto_NeutralCityElemType type;
+@property CityElementProto_CityElemType type;
 @property (retain) CoordinateProto* coords;
 @property int32_t xLength;
 @property int32_t yLength;
@@ -696,7 +696,7 @@ static CityExpansionCostProto* defaultCityExpansionCostProtoInstance = nil;
     self.cityId = 0;
     self.assetId = 0;
     self.name = @"";
-    self.type = CityElementProto_NeutralCityElemTypeBuilding;
+    self.type = CityElementProto_CityElemTypeBuilding;
     self.coords = [CoordinateProto defaultInstance];
     self.xLength = 0;
     self.yLength = 0;
@@ -817,12 +817,12 @@ static CityElementProto* defaultCityElementProtoInstance = nil;
 }
 @end
 
-BOOL CityElementProto_NeutralCityElemTypeIsValidValue(CityElementProto_NeutralCityElemType value) {
+BOOL CityElementProto_CityElemTypeIsValidValue(CityElementProto_CityElemType value) {
   switch (value) {
-    case CityElementProto_NeutralCityElemTypeBuilding:
-    case CityElementProto_NeutralCityElemTypeDecoration:
-    case CityElementProto_NeutralCityElemTypePersonNeutralEnemy:
-    case CityElementProto_NeutralCityElemTypeBoss:
+    case CityElementProto_CityElemTypeBuilding:
+    case CityElementProto_CityElemTypeDecoration:
+    case CityElementProto_CityElemTypePersonNeutralEnemy:
+    case CityElementProto_CityElemTypeBoss:
       return YES;
     default:
       return NO;
@@ -932,7 +932,7 @@ BOOL CityElementProto_NeutralCityElemTypeIsValidValue(CityElementProto_NeutralCi
       }
       case 32: {
         int32_t value = [input readEnum];
-        if (CityElementProto_NeutralCityElemTypeIsValidValue(value)) {
+        if (CityElementProto_CityElemTypeIsValidValue(value)) {
           [self setType:value];
         } else {
           [unknownFields mergeVarintField:4 value:value];
@@ -1023,17 +1023,17 @@ BOOL CityElementProto_NeutralCityElemTypeIsValidValue(CityElementProto_NeutralCi
 - (BOOL) hasType {
   return result.hasType;
 }
-- (CityElementProto_NeutralCityElemType) type {
+- (CityElementProto_CityElemType) type {
   return result.type;
 }
-- (CityElementProto_Builder*) setType:(CityElementProto_NeutralCityElemType) value {
+- (CityElementProto_Builder*) setType:(CityElementProto_CityElemType) value {
   result.hasType = YES;
   result.type = value;
   return self;
 }
 - (CityElementProto_Builder*) clearType {
   result.hasType = NO;
-  result.type = CityElementProto_NeutralCityElemTypeBuilding;
+  result.type = CityElementProto_CityElemTypeBuilding;
   return self;
 }
 - (BOOL) hasCoords {

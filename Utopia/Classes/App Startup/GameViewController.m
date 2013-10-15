@@ -16,25 +16,19 @@
 #import "GameViewController.h"
 #import "GameConfig.h"
 #import "GameLayer.h"
-#import "LNSynthesizeSingleton.h"
 #import "GameState.h"
-#import "ActivityFeedController.h"
 #import "GameState.h"
 #import "Globals.h"
 #import "GenericPopupController.h"
 #import "GameLayer.h"
 #import "HomeMap.h"
 #import "SoundEngine.h"
-#import "ClanViewController.h"
 #import "GameLayer.h"
 #import "NewBattleLayer.h"
-
-#define DOOR_CLOSE_DURATION 1.5f
-#define DOOR_OPEN_DURATION 1.f
-
-#define EYES_START_ALPHA 80.f
-#define EYES_END_ALPHA 180.f
-#define EYES_PULSATE_DURATION 2.f
+#import "LoadingViewController.h"
+#import "SocketCommunication.h"
+#import "OutgoingEventController.h"
+#import "TopBarViewController.h"
 
 #define DEFAULT_PNG_IMAGE_VIEW_TAG 103
 #define KINGDOM_PNG_IMAGE_VIEW_TAG 104
@@ -43,143 +37,22 @@
 #define PART_1_PERCENT 0.05f
 #define PART_2_PERCENT 0.85f
 #define PART_3_PERCENT 1.f
-#define SECONDS_PER_PART 10.f
-
-@implementation GameView
-
-@synthesize glView;
-
-- (void) didAddSubview:(UIView *)subview {
-  if ([subview isKindOfClass:[CCGLView class]]) {
-    self.glView = (CCGLView *)subview;
-  }
-}
-
-@end
 
 @implementation GameViewController
 
-SYNTHESIZE_SINGLETON_FOR_CLASS(GameViewController);
-- (void) removeAllSubviews {
-  NSMutableArray *toRemove = [NSMutableArray array];
-  for (UIView *view in sharedGameViewController.view.subviews) {
-    if (![view isKindOfClass:[CCGLView class]]) {
-      [toRemove addObject:view];
-    }
-  }
-  for (UIView *view in toRemove) {
-    [view removeFromSuperview];
-  }
-}
-
-- (void) fadeToLoadingScreen {
-  [[SoundEngine sharedSoundEngine] stopBackgroundMusic];
-  
-  UIView *v = [[UIView alloc] initWithFrame:self.view.bounds];
-  [self.view addSubview:v];
-  v.tag = KINGDOM_PNG_IMAGE_VIEW_TAG;
+- (void) loadView {
+  CGRect rect = [[UIScreen mainScreen] bounds];
+  CGSize size = rect.size;
+  rect.size = CGSizeMake(rect.size.height, rect.size.width);
+  rect.origin = CGPointMake((size.height-rect.size.width)/2, (size.width-rect.size.height)/2);
+  UIView *v = [[UIView alloc] initWithFrame:rect];
   v.backgroundColor = [UIColor blackColor];
   
-  NSString *splash = @"ageofchaos.png";
-  
-  UIImageView *imgView = [[UIImageView alloc] initWithImage:[Globals imageNamed:splash]];
-  imgView.center = CGPointMake(v.frame.size.width/2, v.frame.size.height/2);
-  imgView.userInteractionEnabled = YES;
-  [v addSubview:imgView];
-  
-  self.loadingBar = [[ProgressBar alloc] initWithImage:[Globals imageNamed:@"loadingbar.png"]];
-  [self.loadingBar awakeFromNib];
-  self.loadingBar.center = CGPointMake(imgView.frame.size.width/2, imgView.frame.size.height/2+87);
-  [imgView addSubview:self.loadingBar];
-  self.loadingBar.percentage = 0.f;
-  [self progressFrom:PART_0_PERCENT to:PART_1_PERCENT];
-  
-  self.loadingLabel = [[NiceFontLabel alloc] initWithFrame:CGRectZero];
-  [Globals adjustFontSizeForSize:12.f withUIView:self.loadingLabel];
-  [imgView addSubview:self.loadingLabel];
-  self.loadingLabel.text = @"Loading...";
-  self.loadingLabel.backgroundColor = [UIColor clearColor];
-  self.loadingLabel.textAlignment = NSTextAlignmentCenter;
-  self.loadingLabel.textColor = [UIColor whiteColor];
-  self.loadingLabel.shadowColor = [UIColor colorWithWhite:0.f alpha:0.3f];
-  self.loadingLabel.shadowOffset = CGSizeMake(0, 1);
-  
-  CGRect f = self.loadingLabel.frame;
-  f.origin = self.loadingBar.frame.origin;
-  f.origin.y -= 2.f;
-  f.size = self.loadingBar.image.size;
-  f.size.height += 4.f;
-  self.loadingLabel.frame = f;
-  [Globals adjustFontSizeForUILabel:self.loadingLabel];
-  
-  v.alpha = 0.f;
-  [UIView animateWithDuration:1.5f delay:1.f options:UIViewAnimationOptionTransitionNone animations:^{
-    v.alpha = 1.f;
-  } completion:^(BOOL finished) {
-    [self removeSplashImageView];
-  }];
-}
-
-- (void) progressFrom:(float)f to:(float)t {
-  [self.loadingBar.layer removeAllAnimations];
-  self.loadingBar.percentage = f;
-  [UIView animateWithDuration:SECONDS_PER_PART animations:^{
-    self.loadingBar.percentage = t;
-  }];
-}
-
-- (void) connectedToHost {
-  //  loadingLabel.string = @"Shining armor, so bright...";
-  [self progressFrom:PART_1_PERCENT to:PART_2_PERCENT];
-}
-
-- (void) startupComplete {
-  //  loadingLabel.string = @"A little gel in the hair...";
-  [self progressFrom:PART_2_PERCENT to:PART_3_PERCENT];
-}
-
-- (void) loadPlayerCityComplete {
-  //  loadingLabel.string = @"We're ready for warfare...";
-  [self progressFrom:PART_3_PERCENT to:1.f];
-}
-
-- (void) removeSplashImageView {
-  [[self.view viewWithTag:DEFAULT_PNG_IMAGE_VIEW_TAG] removeFromSuperview];
-}
-
-- (void) removeKingdomImageView {
-  UIView *v = [self.view viewWithTag:KINGDOM_PNG_IMAGE_VIEW_TAG];
-  [UIView animateWithDuration:1.f animations:^{
-    v.alpha = 0.f;
-  } completion:^(BOOL finished) {
-    [v removeFromSuperview];
-  }];
-}
-
-- (void) allowRestartOfGame {
-  _startedGame = NO;
-}
-
-- (void) startGame {
-  if (_startedGame) {
-    return;
-  }
-  _startedGame = YES;
-  
-  GameState *gs = [GameState sharedGameState];
-  
-  if (gs.isTutorial) {
-  } else {
-//    [[CCDirector sharedDirector] replaceScene:[NewBattleLayer scene]];
-//    [[TopBar sharedTopBar] start];
-  }
-  
-  [self removeSplashImageView];
-  [self removeKingdomImageView];
+  self.view = v;
 }
 
 - (void)setupCocos2D {
-//  CGRect frame = CGRectMake(0, 0, 480, 320);
+  CCDirector *director = [CCDirector sharedDirector];
   CCGLView *glView = [CCGLView viewWithFrame:self.view.bounds
                                  pixelFormat:kEAGLColorFormatRGB565
                                  depthFormat:0
@@ -188,83 +61,95 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(GameViewController);
                                multiSampling:NO
                              numberOfSamples:0];
   
-//  glView.center = CGPointMake(self.view.frame.size.width/2, self.view.frame.size.height/2);
-  
   // Display link director is causing problems with uiscrollview and table view.
-  [[CCDirector sharedDirector] setProjection:kCCDirectorProjection2D];
-  [[CCDirector sharedDirector] setView:glView];
+  [director setProjection:kCCDirectorProjection2D];
+  [director setView:glView];
   
 	// Enables High Res mode (Retina Display) on iPhone 4 and maintains low res on all other devices
-	if( ! [[CCDirector sharedDirector] enableRetinaDisplay:YES] )
+	if( ! [director enableRetinaDisplay:YES] )
 		CCLOG(@"Retina Display Not supported");
   
   [self.view insertSubview:glView atIndex:0];
   
-  CCScene *scene = [CCScene node];
-  [[CCDirector sharedDirector] runWithScene:scene];
+	[director setAnimationInterval:1.0/60];
   
-  [self fadeToLoadingScreen];
+#ifdef DEBUG
+	[director setDisplayStats:YES];
+#else
+	[director setDisplayStats:NO];
+#endif
+  
+	// Default texture format for PNG/BMP/TIFF/JPEG/GIF images
+	// It can be RGBA8888, RGBA4444, RGB5_A1, RGB565
+	// You can change anytime.
+	[CCTexture2D setDefaultAlphaPixelFormat:kCCTexture2DPixelFormat_RGBA8888];
+	
+	// Assume that PVR images have premultiplied alpha
+	[CCTexture2D PVRImagesHavePremultipliedAlpha:YES];
+  
+  [[CCFileUtils sharedFileUtils] setiPhoneRetinaDisplaySuffix:@"@2x"];
+  
+  [self addChildViewController:director];
+  [self.view addSubview:director.view];
 }
 
-- (void) preloadLayer {
-//  EAGLContext *k_context = [[[EAGLContext alloc] initWithAPI:kEAGLRenderingAPIOpenGLES1 sharegroup:[[[[CCDirector sharedDirector] openGLView] context] sharegroup]] autorelease];
-//  [EAGLContext setCurrentContext:k_context];
+- (void) setupTopBar {
+  self.topBarViewController = [[TopBarViewController alloc] init];
+  [self addChildViewController:self.topBarViewController];
+  self.topBarViewController.view.frame = self.view.bounds;
+  [self.view addSubview:self.topBarViewController.view];
+}
+
+- (void) viewDidLoad {
+  [self setupCocos2D];
+  [self setupTopBar];
+  [self fadeToLoadingScreen];
+  
+  [[SocketCommunication sharedSocketCommunication] initNetworkCommunication];
+  [[SocketCommunication sharedSocketCommunication] setDelegate:self forTag:CONNECTED_TO_HOST_DELEGATE_TAG];
+  
+  [self progressTo:PART_1_PERCENT];
+  
+  [self performSelector:@selector(handleLoadPlayerCityResponseProto:) withObject:nil afterDelay:3.f];
+}
+
+- (void) fadeToLoadingScreen {
+  LoadingViewController *lvc = [[LoadingViewController alloc] init];
+  [self presentViewController:lvc animated:NO completion:nil];
+}
+
+- (void) progressTo:(float)t {
+  LoadingViewController *lvc = (LoadingViewController *)self.presentedViewController;
+  [lvc progressToPercentage:t];
+}
+
+- (void) handleConnectedToHost {
+  [self progressTo:PART_2_PERCENT];
+  [[OutgoingEventController sharedOutgoingEventController] startupWithDelegate:self];
+}
+
+- (void) handleStartupResponseProto:(FullEvent *)fe {
+  [self progressTo:PART_3_PERCENT];
   
   GameState *gs = [GameState sharedGameState];
-  
-  if (!gs.isTutorial) {
-    CCLayer *layer = [GameLayer sharedGameLayer];
-    
-    layer.tag = 5;
-    
-    if (!layer.parent) {
-      [[[CCDirector sharedDirector] runningScene] addChild:layer];
-    }
-  } else {
-    [[CCDirector sharedDirector] replaceScene:[GameLayer scene]];
-    [self startGame];
-  }
+  [[OutgoingEventController sharedOutgoingEventController] loadPlayerCity:gs.userId withDelegate:self];
 }
 
-- (void) loadGame:(BOOL)isTutorial {
-  [[GameState sharedGameState] setIsTutorial:isTutorial];
+- (void) handleLoadPlayerCityResponseProto:(FullEvent *)fe {
+  [self progressTo:1.f];
   
-  [self preloadLayer];
+  [self dismissViewControllerAnimated:YES completion:nil];
+  
+  CCScene *scene = [CCScene node];
+  HomeMap *hm = [HomeMap node];
+  [hm refresh];
+  [scene addChild:hm];
+  [hm moveToCenterAnimated:NO];
+  [[CCDirector sharedDirector] pushScene:scene];
 }
 
-- (void) loadView {
-  CGRect rect = [[UIScreen mainScreen] bounds];
-  CGSize size = rect.size;
-  rect.size = CGSizeMake(rect.size.height, rect.size.width);
-  rect.origin = CGPointMake((size.height-rect.size.width)/2, (size.width-rect.size.height)/2);
-  GameView *v = [[GameView alloc] initWithFrame:rect];
-  v.backgroundColor = [UIColor blackColor];
-  
-  self.view = v;
-  
-  [self loadDefaultImage];
-  
-  [self setupCocos2D];
-}
-
-- (void) loadDefaultImage {
-  UIView *v = [[UIView alloc] initWithFrame:self.view.bounds];
-  [self.view addSubview:v];
-  v.tag = DEFAULT_PNG_IMAGE_VIEW_TAG;
-  v.backgroundColor = [UIColor blackColor];
-  
-  UIImageView *imgView = [[UIImageView alloc] initWithImage:[Globals imageNamed:@"Default.png"]];
-  imgView.transform = CGAffineTransformMakeRotation(M_PI/2);
-  imgView.center = CGPointMake(v.frame.size.width/2, v.frame.size.height/2);
-  [v addSubview:imgView];
-  
-  _startedGame = NO;
-}
-
-- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation {
-  BOOL should =  UIInterfaceOrientationIsLandscape(interfaceOrientation);
-	return should;
+- (BOOL) prefersStatusBarHidden {
+  return YES;
 }
 
 @end
-

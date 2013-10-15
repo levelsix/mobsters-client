@@ -12,6 +12,7 @@
 #import "Analytics.h"
 #import "GameMap.h"
 #import "FullEvent.h"
+#import "GenViewController.h"
 
 #define BUTTON_CLICKED_LEEWAY 30
 
@@ -204,21 +205,6 @@
 @end
 
 @interface RecursiveFadeTo : CCFadeTo
-
-@end
-
-@interface GenViewController : UIViewController
-
-@property (nonatomic, retain) IBOutlet UIView *menuBackButton;
-@property (nonatomic, retain) IBOutlet UILabel *menuBackLabel;
-@property (nonatomic, retain) IBOutlet UIView *menuSettingsButton;
-@property (nonatomic, retain) IBOutlet UIView *menuCloseButton;
-
-- (void)setUpSettingsAndCloseButtons;
-- (void)setUpImageBackButton;
-- (void)setUpCloseButton;
-- (IBAction)popCurrentViewController:(id)sender;
-- (IBAction)menuCloseClicked:(id)sender;
 
 @end
 

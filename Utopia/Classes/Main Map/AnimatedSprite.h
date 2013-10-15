@@ -86,23 +86,6 @@ typedef enum {
 
 @end
 
-@interface BossSprite : AnimatedSprite {
-  CCProgressTimer *_healthBar;
-  CCLabelTTF *_timeLabel;
-  CCSprite *_lock;
-  
-  int _curHp;
-}
-
-@property (nonatomic, retain) FullBossProto *fbp;
-@property (nonatomic, copy) NSString *name;
-
-@property (nonatomic, copy) CCSprite *bossMenu;
-
-@property (nonatomic, retain) NSInvocation *callback;
-
-@end
-
 @interface MoveToLocation : CCActionInterval <NSCopying> {
   CGRect startLocation_;
   CGRect endLocation_;

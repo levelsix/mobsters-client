@@ -6,7 +6,7 @@
 //  Copyright (c) 2012 LVL6. All rights reserved.
 //
 
-#import "Info.pb.h"
+#import "Protocols.pb.h"
 #import "UserData.h"
 #import <CoreLocation/CoreLocation.h>
 #import "FullUserUpdates.h"
@@ -50,7 +50,6 @@
 @property (nonatomic, retain) NSMutableDictionary *staticStructs;
 @property (nonatomic, retain) NSMutableDictionary *staticMonsters;
 @property (nonatomic, retain) NSMutableDictionary *staticTasks;
-@property (nonatomic, retain) NSMutableDictionary *staticBosses;
 @property (nonatomic, retain) NSMutableDictionary *staticQuests;
 @property (nonatomic, retain) NSMutableDictionary *staticCities;
 @property (nonatomic, retain) NSMutableDictionary *staticBuildStructJobs;
@@ -93,7 +92,6 @@
 - (FullStructureProto *) structWithId:(int)structId;
 - (FullCityProto *)cityWithId:(int)cityId;
 - (FullTaskProto *) taskWithId:(int)taskId;
-- (FullBossProto *) bossWithId:(int)taskId;
 - (FullQuestProto *) questForQuestId:(int)questId;
 - (BoosterPackProto *) boosterPackForId:(int)packId;
 
@@ -113,7 +111,6 @@
 - (void) addToStaticStructs:(NSArray *)arr;
 - (void) addToStaticMonsters:(NSArray *)arr;
 - (void) addToStaticTasks:(NSArray *)arr;
-- (void) addToStaticBosses:(NSArray *)arr;
 - (void) addToStaticQuests:(NSArray *)arr;
 - (void) addToStaticCities:(NSArray *)arr;
 - (void) addToStaticBuildStructJobs:(NSArray *)arr;

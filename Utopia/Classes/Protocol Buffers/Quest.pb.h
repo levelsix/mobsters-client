@@ -16,19 +16,15 @@
 @class FullUserQuestDataLargeProto_Builder;
 @class MinimumUserBuildStructJobProto;
 @class MinimumUserBuildStructJobProto_Builder;
-@class MinimumUserPossessEquipJobProto;
-@class MinimumUserPossessEquipJobProto_Builder;
 @class MinimumUserQuestTaskProto;
 @class MinimumUserQuestTaskProto_Builder;
 @class MinimumUserUpgradeStructJobProto;
 @class MinimumUserUpgradeStructJobProto_Builder;
-@class PossessEquipJobProto;
-@class PossessEquipJobProto_Builder;
 @class UpgradeStructJobProto;
 @class UpgradeStructJobProto_Builder;
 typedef enum {
   SpecialQuestActionRequestJoinClan = 1,
-  SpecialQuestActionSuccessfullyForgeAnItem = 2,
+  SpecialQuestActionEvolveAMonster = 2,
 } SpecialQuestAction;
 
 BOOL SpecialQuestActionIsValidValue(SpecialQuestAction value);
@@ -60,10 +56,10 @@ BOOL DialogueProto_SpeechSegmentProto_DialogueSpeakerIsValidValue(DialogueProto_
   BOOL hasMonsterId_:1;
   BOOL hasExpGained_:1;
   BOOL hasDiamondsGained_:1;
-  BOOL hasQuestId_:1;
-  BOOL hasCityId_:1;
-  BOOL hasAssetNumWithinCity_:1;
   BOOL hasCoinsGained_:1;
+  BOOL hasAssetNumWithinCity_:1;
+  BOOL hasCityId_:1;
+  BOOL hasQuestId_:1;
   BOOL hasDoneResponse_:1;
   BOOL hasDescription_:1;
   BOOL hasName_:1;
@@ -77,10 +73,10 @@ BOOL DialogueProto_SpeechSegmentProto_DialogueSpeakerIsValidValue(DialogueProto_
   int32_t monsterId;
   int32_t expGained;
   int32_t diamondsGained;
-  int32_t questId;
-  int32_t cityId;
-  int32_t assetNumWithinCity;
   int32_t coinsGained;
+  int32_t assetNumWithinCity;
+  int32_t cityId;
+  int32_t questId;
   NSString* doneResponse;
   NSString* description;
   NSString* name;
@@ -92,8 +88,6 @@ BOOL DialogueProto_SpeechSegmentProto_DialogueSpeakerIsValidValue(DialogueProto_
   NSMutableArray* mutableTaskReqsList;
   NSMutableArray* mutableUpgradeStructJobsReqsList;
   NSMutableArray* mutableBuildStructJobsReqsList;
-  NSMutableArray* mutableDefeatTypeReqsList;
-  NSMutableArray* mutablePossessEquipJobReqsList;
 }
 - (BOOL) hasQuestId;
 - (BOOL) hasCityId;
@@ -137,10 +131,6 @@ BOOL DialogueProto_SpeechSegmentProto_DialogueSpeakerIsValidValue(DialogueProto_
 - (int32_t) upgradeStructJobsReqsAtIndex:(int32_t) index;
 - (NSArray*) buildStructJobsReqsList;
 - (int32_t) buildStructJobsReqsAtIndex:(int32_t) index;
-- (NSArray*) defeatTypeReqsList;
-- (int32_t) defeatTypeReqsAtIndex:(int32_t) index;
-- (NSArray*) possessEquipJobReqsList;
-- (int32_t) possessEquipJobReqsAtIndex:(int32_t) index;
 
 + (FullQuestProto*) defaultInstance;
 - (FullQuestProto*) defaultInstance;
@@ -253,20 +243,6 @@ BOOL DialogueProto_SpeechSegmentProto_DialogueSpeakerIsValidValue(DialogueProto_
 - (FullQuestProto_Builder*) addBuildStructJobsReqs:(int32_t) value;
 - (FullQuestProto_Builder*) addAllBuildStructJobsReqs:(NSArray*) values;
 - (FullQuestProto_Builder*) clearBuildStructJobsReqsList;
-
-- (NSArray*) defeatTypeReqsList;
-- (int32_t) defeatTypeReqsAtIndex:(int32_t) index;
-- (FullQuestProto_Builder*) replaceDefeatTypeReqsAtIndex:(int32_t) index with:(int32_t) value;
-- (FullQuestProto_Builder*) addDefeatTypeReqs:(int32_t) value;
-- (FullQuestProto_Builder*) addAllDefeatTypeReqs:(NSArray*) values;
-- (FullQuestProto_Builder*) clearDefeatTypeReqsList;
-
-- (NSArray*) possessEquipJobReqsList;
-- (int32_t) possessEquipJobReqsAtIndex:(int32_t) index;
-- (FullQuestProto_Builder*) replacePossessEquipJobReqsAtIndex:(int32_t) index with:(int32_t) value;
-- (FullQuestProto_Builder*) addPossessEquipJobReqs:(int32_t) value;
-- (FullQuestProto_Builder*) addAllPossessEquipJobReqs:(NSArray*) values;
-- (FullQuestProto_Builder*) clearPossessEquipJobReqsList;
 
 - (BOOL) hasCoinRetrievalReq;
 - (int32_t) coinRetrievalReq;

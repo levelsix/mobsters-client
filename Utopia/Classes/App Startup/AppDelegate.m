@@ -45,8 +45,6 @@
 
 #define PA_INSTALL_KEY       @"PxlAddictInstallKey"
 
-#define SHOULD_VIDEO_USER    0
-
 @implementation AppDelegate
 
 @synthesize window;
@@ -59,31 +57,6 @@
                                openURL:url
                      sourceApplication:sourceApplication
                             annotation:annotation];
-}
-
--(void) setUpAlauMeRefferalTracking
-{
-  //  AMConnect *alaume = [AMConnect sharedInstance];
-  //
-  //  // Set to YES for debugging purposes. Trace info will be written to console.
-  //  alaume.isLoggingEnabled = NO;
-  //
-  //  // Set to YES for Lite SKU.
-  //  alaume.isFreeSKU = NO;
-  //
-  //  [alaume initializeWithAppId:ALAUME_APP_ID apiKey:ALAUME_API_KEY];
-}
-
--(void) setUpFlurryAnalytics
-{
-  //  [FlurryAnalytics startSession:FLURRY_API_KEY];
-  //  [FlurryAnalytics setUserID:[NSString stringWithFormat:@"%d",
-  //                              [GameState sharedGameState].userId]];
-}
-
--(void) setUpCrittercism
-{
-//  [Crittercism enableWithAppID:@"5029a2f0eeaf4125dd000001"];
 }
 
 - (void) setUpMobileAppTracker {
@@ -129,22 +102,12 @@
   [cb showInterstitial];
 }
 
--(void) setUpDelightio
-{
-#if SHOULD_VIDEO_USER
-#import <Delight/Delight.h>
-  [Delight startWithAppToken:@"6a7116a21a57eacaeaafd07c133"];
-#endif
-}
-
 - (BOOL) application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
-	// Init the window
-  //	window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
+  //Init the window
+	window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
   
   self.isActive = YES;
-	
-	CCDirector *director = [CCDirector sharedDirector];
   
 #ifndef DEBUG
   [self setUpCrittercism];
@@ -169,14 +132,12 @@
    // attach the openglView to the director
    [director setOpenGLView:glView];
    */
-	
-	[director setAnimationInterval:1.0/60];
   
-#ifdef DEBUG
-	[director setDisplayStats:YES];
-#else
-	[director setDisplayStats:NO];
-#endif
+  GameViewController *gvc = [[GameViewController alloc] init];
+  UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:gvc];
+  nav.navigationBarHidden = YES;
+  window.rootViewController = nav;
+  
 	/*
    // make the OpenGLView a child of the view controller
    [viewController setView:glView];
@@ -186,11 +147,6 @@
    */
   
 	[window makeKeyAndVisible];
-	
-	// Default texture format for PNG/BMP/TIFF/JPEG/GIF images
-	// It can be RGBA8888, RGBA4444, RGB5_A1, RGB565
-	// You can change anytime.
-	[CCTexture2D setDefaultAlphaPixelFormat:kCCTexture2DPixelFormat_RGBA8888];
   
   //  if (![[LocationManager alloc] initWithDelegate:self]) {
   //    // Inform of location services off
@@ -202,46 +158,11 @@
   [Analytics beganApp];
   [Analytics openedApp];
   
-  [[SocketCommunication sharedSocketCommunication] initNetworkCommunication];
-  
-  // Alau.Me
-  [self setUpAlauMeRefferalTracking];
-  
-  // Delight.io
-  [self setUpDelightio];
-  
-  // Mobile App Tracker
-#ifdef AGE_OF_CHAOS
-  [self setUpMobileAppTracker];
-#endif
-  
   // Publish install
   [FBSettings publishInstall:FACEBOOK_APP_ID];
   
-  // AdColony
-  //  adColonyDelegate = [[AdColonyDelegate createAdColonyDelegate] retain];
-  
-  // TapJoy
-  //  tapJoyDelegate = [[TapjoyDelegate createTapJoyDelegate] retain];
-  /*
-   * Disabled Sponsored offers:(Short Term)
-   
-   // FlurryClips
-   flurryClipsDelegate = [[FlurryClipsDelegate createFlurryClipsDelegate] retain];
-   
-   // FlurryAnalytics
-   [self setUpFlurryAnalytics];
-   *
-   */
-  
   // Facebook
   facebookDelegate = [FacebookDelegate createFacebookDelegate];
-  
-  // TestFlight SDK
-  //  [TestFlight takeOff:TEST_FLIGHT_API_KEY];
-  
-  // Kiip.me
-  //  kiipDelegate = [[KiipDelegate create] retain];
   
   [self removeLocalNotifications];
   
@@ -274,10 +195,6 @@
   LNLog(@"did receive mem warning");
 	[[CCDirector sharedDirector] purgeCachedData];
   [[[Globals sharedGlobals] imageCache] removeAllObjects];
-  
-  if (![[GameState sharedGameState] isTutorial]) {
-    [[GameState sharedGameState] purgeStaticData];
-  }
 }
 
 -(void) applicationDidEnterBackground:(UIApplication*)application {
@@ -317,7 +234,6 @@
     
     if (![[GameState sharedGameState] isTutorial]) {
       [[GameState sharedGameState] clearAllData];
-      [[GameViewController sharedGameViewController] fadeToLoadingScreen];
     }
   }
 }

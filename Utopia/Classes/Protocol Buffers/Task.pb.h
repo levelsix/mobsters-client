@@ -4,8 +4,6 @@
 
 #import "MonsterStuff.pb.h"
 
-@class FullBossProto;
-@class FullBossProto_Builder;
 @class FullTaskProto;
 @class FullTaskProto_Builder;
 @class FullUserMonsterProto;

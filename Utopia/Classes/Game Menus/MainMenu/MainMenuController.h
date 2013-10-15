@@ -11,6 +11,8 @@
 
 @interface MainMenuController : GenViewController
 
+@property (nonatomic, retain) IBOutlet UIView *menuSettingsButton;
+
 - (IBAction)fundsClicked:(id)sender;
 
 @end

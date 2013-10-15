@@ -113,9 +113,6 @@ static int sessionId;
 - (void) endConnection {
   @try {
     [self destroyClanMessageQueue];
-  } @catch (NSException *e) {
-    LNLog(@"%@", e);
-  } @finally {
     _chatConsumer = nil;
     _chatQueue = nil;
     _useridConsumer = nil;
@@ -125,6 +122,8 @@ static int sessionId;
     _directExchange = nil;
     _topicExchange = nil;
     _connection = nil;
+  } @catch (NSException *e) {
+    LNLog(@"%@", e);
   }
 }
 

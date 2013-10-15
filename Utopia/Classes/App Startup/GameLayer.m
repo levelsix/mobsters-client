@@ -176,7 +176,7 @@ static BOOL shake_once = NO;
 
 - (void) checkHomeMapExists {
   if (!_homeMap) {
-    _homeMap = [HomeMap sharedHomeMap];
+//    _homeMap = [HomeMap sharedHomeMap];
     [self addChild:_homeMap z:1 tag:2];
     [_homeMap moveToCenterAnimated:NO];
     _homeMap.visible = NO;
@@ -229,7 +229,7 @@ static BOOL shake_once = NO;
     
     [_homeMap removeFromParentAndCleanup:YES];
     [_homeMap invalidateAllTimers];
-    [HomeMap purgeSingleton];
+//    [HomeMap purgeSingleton];
     _homeMap = nil;
     
     [[SocketCommunication sharedSocketCommunication] flush];

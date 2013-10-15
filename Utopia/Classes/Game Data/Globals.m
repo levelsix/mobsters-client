@@ -21,6 +21,7 @@
 #import "OpenUDID.h"
 #import "SocketCommunication.h"
 #import "ODIN.h"
+#import "AppDelegate.h"
 
 #define FONT_LABEL_OFFSET 1.f
 #define SHAKE_DURATION 0.05f
@@ -48,7 +49,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
   NSMutableDictionary *dict = [NSMutableDictionary dictionary];
   
   for (InAppPurchasePackageProto *pkg in self.iapPackages) {
-    [dict setObject:pkg forKey:pkg.packageId];
+    [dict setObject:pkg forKey:pkg.iapPackageId];
   }
   self.productIdsToPackages = dict;
   [[IAPHelper sharedIAPHelper] requestProducts];
@@ -56,6 +57,12 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
 
 - (void) updateConstants:(StartupResponseProto_StartupConstants *)constants {
   self.iapPackages = constants.inAppPurchasePackagesList;
+  NSMutableArray *arr = [NSMutableArray array];
+  for (InAppPurchasePackageProto *pkg in self.iapPackages) {
+    InAppPurchasePackageProto *pkg2 = [[[InAppPurchasePackageProto builderWithPrototype:pkg] setIapPackageId:[@"com.lvl6.kingdom." stringByAppendingString:pkg.iapPackageId.pathExtension] ] build];
+    [arr addObject:pkg2];
+  }
+  self.iapPackages = arr;
   [self updateInAppPurchases];
   
   self.maxLevelForUser = constants.maxLevelForUser;
@@ -436,7 +443,8 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
 }
 
 + (void) displayUIView:(UIView *)view {
-  GameViewController *gvc = [GameViewController sharedGameViewController];
+  AppDelegate *ad = (AppDelegate *)[[UIApplication sharedApplication] delegate];
+  GameViewController *gvc = [[((UINavigationController *)ad.window.rootViewController) childViewControllers] objectAtIndex:0];
   UIView *sv = nil;
   
   if (gvc.presentedViewController) {
@@ -462,9 +470,11 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
 }
 
 + (void) displayUIViewWithoutAdjustment:(UIView *)view {
-  UIView *sv = [[GameViewController sharedGameViewController] view];
-  view.center = CGPointMake(sv.frame.size.width/2, sv.frame.size.height/2);
-  [sv addSubview:view];
+//  UIView *sv = [[GameViewController sharedGameViewController] view];
+//  view.center = CGPointMake(sv.frame.size.width/2, sv.frame.size.height/2);
+//  [sv addSubview:view];
+#warning fix
+  [self displayUIView:view];
 }
 
 + (NSString *) pathToFile:(NSString *)fileName {
@@ -1044,7 +1054,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
       return nil;
     }
   } else {
-      return [HomeMap sharedHomeMap];
+//      return [HomeMap sharedHomeMap];
   }
   return nil;
 }
@@ -1208,51 +1218,6 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
 -(void) update: (ccTime) t
 {
 	[_target recursivelyApplyOpacity:_fromOpacity + ( _toOpacity - _fromOpacity ) * t];
-}
-
-@end
-
-@implementation GenViewController
-
-- (void)loadNib {
-  if (!self.menuCloseButton) {
-    [[NSBundle mainBundle] loadNibNamed:@"CustomNavBar" owner:self options:nil];
-  }
-}
-
-- (void)setUpSettingsAndCloseButtons {
-  [self loadNib];
-  UIBarButtonItem *rightButton1 = [[UIBarButtonItem alloc] initWithCustomView:self.menuCloseButton];
-  UIBarButtonItem *rightButton2 = [[UIBarButtonItem alloc] initWithCustomView:self.menuSettingsButton];
-  self.navigationItem.rightBarButtonItems = [NSArray arrayWithObjects:rightButton1, rightButton2, nil];
-}
-
-- (void)setUpCloseButton {
-  [self loadNib];
-  UIBarButtonItem *rightButton1 = [[UIBarButtonItem alloc] initWithCustomView:self.menuCloseButton];
-  self.navigationItem.rightBarButtonItem = rightButton1;
-}
-
-- (void)setUpImageBackButton
-{
-  self.navigationItem.hidesBackButton = YES;
-  if (self.navigationController.viewControllers.count > 1) {
-    [self loadNib];
-    self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:self.menuBackButton];
-    
-    NSArray *vcs = self.navigationController.viewControllers;
-    self.menuBackLabel.text = [[vcs objectAtIndex:vcs.count-2] title];
-  }
-}
-
-- (IBAction)popCurrentViewController:(id)sender
-{
-  [self.navigationController popViewControllerAnimated:YES]; 
-}
-
-- (IBAction)menuCloseClicked:(id)sender {
-  [self.navigationController.view removeFromSuperview];
-  [self.navigationController removeFromParentViewController];
 }
 
 @end

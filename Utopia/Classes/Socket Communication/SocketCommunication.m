@@ -172,14 +172,16 @@ static NSString *udid = nil;
 - (void) connectedToHost {
   LNLog(@"Connected to host");
   
-  GameState *gs = [GameState sharedGameState];
-  if (!gs.connected) {
-    [[OutgoingEventController sharedOutgoingEventController] startup];
-    [[GameViewController sharedGameViewController] connectedToHost];
-    
-    _flushTimer = [NSTimer timerWithTimeInterval:10.f target:self selector:@selector(flush) userInfo:nil repeats:YES];
-    [[NSRunLoop mainRunLoop] addTimer:_flushTimer forMode:NSRunLoopCommonModes];
+  NSObject *delegate = [self.tagDelegates objectForKey:[NSNumber numberWithInt:CONNECTED_TO_HOST_DELEGATE_TAG]];
+  if (delegate) {
+    SEL selector = @selector(handleConnectedToHost);
+    if ([delegate respondsToSelector:selector]) {
+      [delegate performSelectorOnMainThread:selector withObject:nil waitUntilDone:NO];
+    }
   }
+  
+  _flushTimer = [NSTimer timerWithTimeInterval:10.f target:self selector:@selector(flush) userInfo:nil repeats:YES];
+  [[NSRunLoop mainRunLoop] addTimer:_flushTimer forMode:NSRunLoopCommonModes];
   
   _numDisconnects = 0;
 }
@@ -416,10 +418,10 @@ static NSString *udid = nil;
 
 - (int) sendFinishNormStructBuildWithDiamondsMessage:(int)userStructId time:(uint64_t)milliseconds {
   FinishNormStructWaittimeWithDiamondsRequestProto *req = [[[[[FinishNormStructWaittimeWithDiamondsRequestProto builder]
-       setSender:_sender]
-      setUserStructId:userStructId]
-     setTimeOfSpeedup:milliseconds]
-   build];
+                                                              setSender:_sender]
+                                                             setUserStructId:userStructId]
+                                                            setTimeOfSpeedup:milliseconds]
+                                                           build];
   
   return [self sendData:req withMessageType:EventProtocolRequestCFinishNormStructWaittimeWithDiamondsEvent];
 }
@@ -485,7 +487,7 @@ static NSString *udid = nil;
                                 setCityId:cityId]
                                build];
   
-  return [self sendData:req withMessageType:EventProtocolRequestCLoadNeutralCityEvent];
+  return [self sendData:req withMessageType:EventProtocolRequestCLoadCityEvent];
 }
 
 - (int) sendLevelUpMessage {
@@ -689,22 +691,22 @@ static NSString *udid = nil;
 
 - (int) sendSubmitMonsterEnhancementMessage:(int)enhancingId feeders:(NSArray *)feeders clientTime:(uint64_t)clientTime {
   SubmitMonsterEnhancementRequestProto *req = [[[[[[SubmitMonsterEnhancementRequestProto builder]
-                                                 setSender:_sender]
-                                                setEnhancingUserMonsterId:enhancingId]
-                                               setClientTime:clientTime]
-                                              addAllFeederUserMonsterIds:feeders]
-                                             build];
+                                                   setSender:_sender]
+                                                  setEnhancingUserMonsterId:enhancingId]
+                                                 setClientTime:clientTime]
+                                                addAllFeederUserMonsterIds:feeders]
+                                               build];
   
-  return [self sendData:req withMessageType:EventProtocolRequestCSubmitEquipEnhancementEvent];
+  return [self sendData:req withMessageType:EventProtocolRequestCSubmitMonsterEnhancementEvent];
 }
 
 - (int) sendRetrieveTournamentRankingsMessage:(int)eventId afterThisRank:(int)afterThisRank {
-  RetrieveLeaderboardEventRankingsRequestProto *req = [[[[[RetrieveLeaderboardEventRankingsRequestProto builder]
-                                                          setSender:_sender]
-                                                         setEventId:eventId]
-                                                        setAfterThisRank:afterThisRank]
-                                                       build];
-  return [self sendData:req withMessageType:EventProtocolRequestCRetrieveLeaderboardRankingsEvent];
+  RetrieveTournamentRankingsRequestProto *req = [[[[[RetrieveTournamentRankingsRequestProto builder]
+                                                         setSender:_sender]
+                                                        setEventId:eventId]
+                                                       setAfterThisRank:afterThisRank]
+                                                      build];
+  return [self sendData:req withMessageType:EventProtocolRequestCRetrieveTournamentRankingsEvent];
 }
 
 - (int) sendRetrieveBoosterPackMessage {

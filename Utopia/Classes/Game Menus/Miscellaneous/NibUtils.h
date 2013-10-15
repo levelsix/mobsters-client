@@ -202,6 +202,7 @@ typedef enum {
 
 @protocol TabBarDelegate <NSObject>
 
+@optional
 - (void) button1Clicked:(id)sender;
 - (void) button2Clicked:(id)sender;
 - (void) button3Clicked:(id)sender;

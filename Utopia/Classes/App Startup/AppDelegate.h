@@ -19,12 +19,8 @@
 #endif
 
 @interface AppDelegate : NSObject <UIApplicationDelegate, CLLocationManagerDelegate, MobileAppTrackerDelegate> {
-//  id<TJCVideoAdDelegate>     tapJoyDelegate; 
-//  id<AdColonyDelegate>       adColonyDelegate;
-//  id<FlurryAdDelegate>       flurryClipsDelegate;
   id<FacebookGlobalDelegate> facebookDelegate;
-//  id<KPManagerDelegate>      kiipDelegate;
-	UIWindow			*window;
+	UIWindow *window;
 }
 
 @property (nonatomic, retain) id<FacebookGlobalDelegate> facebookDelegate;

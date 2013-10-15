@@ -8,8 +8,6 @@
 @class MinimumClanProto_Builder;
 @class MinimumUserProto;
 @class MinimumUserProtoWithLevel;
-@class MinimumUserProtoWithLevelForLeaderboard;
-@class MinimumUserProtoWithLevelForLeaderboard_Builder;
 @class MinimumUserProtoWithLevel_Builder;
 @class MinimumUserProto_Builder;
 
@@ -281,7 +279,7 @@
   BOOL hasFlees_:1;
   BOOL hasNumReferrals_:1;
   BOOL hasNumCoinsRetrievedFromStructs_:1;
-  BOOL hasNumAdditionalForgeSlots_:1;
+  BOOL hasNumAdditionalMonsterSlots_:1;
   BOOL hasReferralCode_:1;
   BOOL hasUdid_:1;
   BOOL hasDeviceToken_:1;
@@ -320,7 +318,7 @@
   int32_t flees;
   int32_t numReferrals;
   int32_t numCoinsRetrievedFromStructs;
-  int32_t numAdditionalForgeSlots;
+  int32_t numAdditionalMonsterSlots;
   NSString* referralCode;
   NSString* udid;
   NSString* deviceToken;
@@ -348,7 +346,7 @@
 - (BOOL) hasNumCoinsRetrievedFromStructs;
 - (BOOL) hasClan;
 - (BOOL) hasHasReceivedfbReward;
-- (BOOL) hasNumAdditionalForgeSlots;
+- (BOOL) hasNumAdditionalMonsterSlots;
 - (BOOL) hasNumBeginnerSalesPurchased;
 - (BOOL) hasHasActiveShield;
 - (BOOL) hasShieldEndTime;
@@ -387,7 +385,7 @@
 @property (readonly) int32_t numCoinsRetrievedFromStructs;
 @property (readonly, retain) MinimumClanProto* clan;
 - (BOOL) hasReceivedfbReward;
-@property (readonly) int32_t numAdditionalForgeSlots;
+@property (readonly) int32_t numAdditionalMonsterSlots;
 @property (readonly) int32_t numBeginnerSalesPurchased;
 - (BOOL) hasActiveShield;
 @property (readonly) int64_t shieldEndTime;
@@ -539,10 +537,10 @@
 - (FullUserProto_Builder*) setHasReceivedfbReward:(BOOL) value;
 - (FullUserProto_Builder*) clearHasReceivedfbReward;
 
-- (BOOL) hasNumAdditionalForgeSlots;
-- (int32_t) numAdditionalForgeSlots;
-- (FullUserProto_Builder*) setNumAdditionalForgeSlots:(int32_t) value;
-- (FullUserProto_Builder*) clearNumAdditionalForgeSlots;
+- (BOOL) hasNumAdditionalMonsterSlots;
+- (int32_t) numAdditionalMonsterSlots;
+- (FullUserProto_Builder*) setNumAdditionalMonsterSlots:(int32_t) value;
+- (FullUserProto_Builder*) clearNumAdditionalMonsterSlots;
 
 - (BOOL) hasNumBeginnerSalesPurchased;
 - (int32_t) numBeginnerSalesPurchased;
@@ -638,82 +636,5 @@
 - (NSString*) kabamNaid;
 - (FullUserProto_Builder*) setKabamNaid:(NSString*) value;
 - (FullUserProto_Builder*) clearKabamNaid;
-@end
-
-@interface MinimumUserProtoWithLevelForLeaderboard : PBGeneratedMessage {
-@private
-  BOOL hasLeaderboardScore_:1;
-  BOOL hasLevel_:1;
-  BOOL hasLeaderboardRank_:1;
-  BOOL hasMinUserProto_:1;
-  Float64 leaderboardScore;
-  int32_t level;
-  int32_t leaderboardRank;
-  MinimumUserProto* minUserProto;
-}
-- (BOOL) hasMinUserProto;
-- (BOOL) hasLevel;
-- (BOOL) hasLeaderboardRank;
-- (BOOL) hasLeaderboardScore;
-@property (readonly, retain) MinimumUserProto* minUserProto;
-@property (readonly) int32_t level;
-@property (readonly) int32_t leaderboardRank;
-@property (readonly) Float64 leaderboardScore;
-
-+ (MinimumUserProtoWithLevelForLeaderboard*) defaultInstance;
-- (MinimumUserProtoWithLevelForLeaderboard*) defaultInstance;
-
-- (BOOL) isInitialized;
-- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output;
-- (MinimumUserProtoWithLevelForLeaderboard_Builder*) builder;
-+ (MinimumUserProtoWithLevelForLeaderboard_Builder*) builder;
-+ (MinimumUserProtoWithLevelForLeaderboard_Builder*) builderWithPrototype:(MinimumUserProtoWithLevelForLeaderboard*) prototype;
-
-+ (MinimumUserProtoWithLevelForLeaderboard*) parseFromData:(NSData*) data;
-+ (MinimumUserProtoWithLevelForLeaderboard*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
-+ (MinimumUserProtoWithLevelForLeaderboard*) parseFromInputStream:(NSInputStream*) input;
-+ (MinimumUserProtoWithLevelForLeaderboard*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
-+ (MinimumUserProtoWithLevelForLeaderboard*) parseFromCodedInputStream:(PBCodedInputStream*) input;
-+ (MinimumUserProtoWithLevelForLeaderboard*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
-@end
-
-@interface MinimumUserProtoWithLevelForLeaderboard_Builder : PBGeneratedMessage_Builder {
-@private
-  MinimumUserProtoWithLevelForLeaderboard* result;
-}
-
-- (MinimumUserProtoWithLevelForLeaderboard*) defaultInstance;
-
-- (MinimumUserProtoWithLevelForLeaderboard_Builder*) clear;
-- (MinimumUserProtoWithLevelForLeaderboard_Builder*) clone;
-
-- (MinimumUserProtoWithLevelForLeaderboard*) build;
-- (MinimumUserProtoWithLevelForLeaderboard*) buildPartial;
-
-- (MinimumUserProtoWithLevelForLeaderboard_Builder*) mergeFrom:(MinimumUserProtoWithLevelForLeaderboard*) other;
-- (MinimumUserProtoWithLevelForLeaderboard_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input;
-- (MinimumUserProtoWithLevelForLeaderboard_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
-
-- (BOOL) hasMinUserProto;
-- (MinimumUserProto*) minUserProto;
-- (MinimumUserProtoWithLevelForLeaderboard_Builder*) setMinUserProto:(MinimumUserProto*) value;
-- (MinimumUserProtoWithLevelForLeaderboard_Builder*) setMinUserProtoBuilder:(MinimumUserProto_Builder*) builderForValue;
-- (MinimumUserProtoWithLevelForLeaderboard_Builder*) mergeMinUserProto:(MinimumUserProto*) value;
-- (MinimumUserProtoWithLevelForLeaderboard_Builder*) clearMinUserProto;
-
-- (BOOL) hasLevel;
-- (int32_t) level;
-- (MinimumUserProtoWithLevelForLeaderboard_Builder*) setLevel:(int32_t) value;
-- (MinimumUserProtoWithLevelForLeaderboard_Builder*) clearLevel;
-
-- (BOOL) hasLeaderboardRank;
-- (int32_t) leaderboardRank;
-- (MinimumUserProtoWithLevelForLeaderboard_Builder*) setLeaderboardRank:(int32_t) value;
-- (MinimumUserProtoWithLevelForLeaderboard_Builder*) clearLeaderboardRank;
-
-- (BOOL) hasLeaderboardScore;
-- (Float64) leaderboardScore;
-- (MinimumUserProtoWithLevelForLeaderboard_Builder*) setLeaderboardScore:(Float64) value;
-- (MinimumUserProtoWithLevelForLeaderboard_Builder*) clearLeaderboardScore;
 @end
 

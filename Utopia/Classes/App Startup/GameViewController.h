@@ -8,30 +8,12 @@
 
 #import <UIKit/UIKit.h>
 #import "Globals.h"
+#import "TopBarViewController.h"
 
-@interface GameView : UIView
+@interface GameViewController : UIViewController
 
-@property (nonatomic, retain) CCGLView *glView;
+@property (nonatomic, strong) TopBarViewController *topBarViewController;
 
-@end
-
-@interface GameViewController : UIViewController {
-  BOOL _startedGame;
-}
-
-@property (nonatomic, retain) ProgressBar *loadingBar;
-@property (nonatomic, retain) UILabel *loadingLabel;
-
-- (void) fadeToLoadingScreen;
-- (void) connectedToHost;
-- (void) startupComplete;
-- (void) loadPlayerCityComplete;
-- (void) setupCocos2D;
-- (void) startGame;
-- (void) allowRestartOfGame;
-- (void) loadGame:(BOOL)isTutorial;
-
-+ (GameViewController *) sharedGameViewController;
-- (void) removeAllSubviews;
+- (void) handleConnectedToHost;
 
 @end

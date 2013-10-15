@@ -57,9 +57,10 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
 //  [gs addUnrespondedUpdate:[NoUpdate updateWithTag:tag]];
 }
 
-- (void) startup {
+- (void) startupWithDelegate:(id)delegate {
   int tag = [[SocketCommunication sharedSocketCommunication] sendStartupMessage:[self getCurrentMilliseconds]];
   [[GameState sharedGameState] addUnrespondedUpdate:[NoUpdate updateWithTag:tag]];
+  [[SocketCommunication sharedSocketCommunication] setDelegate:delegate forTag:tag];
 }
 
 - (void) logout {
@@ -315,8 +316,6 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
   NSDictionary *sTasks = [gs staticTasks];
   NSMutableSet *rBuildStructJobs = [NSMutableSet set];
   NSDictionary *sBuildStructJobs = [gs staticBuildStructJobs];
-  NSMutableSet *rDefeatTypeJobs = [NSMutableSet set];
-  NSDictionary *sDefeatTypeJobs = [gs staticDefeatTypeJobs];
   NSMutableSet *rUpgradeStructJobs = [NSMutableSet set];
   NSDictionary *sUpgradeStructJobs = [gs staticUpgradeStructJobs];
   
@@ -340,12 +339,6 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
           shouldSend = YES;
         }
       }
-      for (NSNumber *num in fqp.defeatTypeReqsList) {
-        if (![sDefeatTypeJobs objectForKey:num]) {
-          [rDefeatTypeJobs addObject:num];
-          shouldSend = YES;
-        }
-      }
     }
   }
   
@@ -357,7 +350,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
     }
   }
   
-  for (BuildStructJobProto *p in [gs.staticBuildStructJobs allValues]) {
+    for (BuildStructJobProto *p in [gs.staticBuildStructJobs allValues]) {
     NSNumber *n = [NSNumber numberWithInt:p.structId];
     if (![sStructs objectForKey:n]) {
       [rStructs addObject:n];
@@ -366,7 +359,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
   }
   
   if (shouldSend) {
-    int tag = [sc sendRetrieveStaticDataMessageWithStructIds:nil /*[rStructs allObjects]*/ taskIds:[rTasks allObjects] questIds:nil cityIds:nil buildStructJobIds:[rBuildStructJobs allObjects] defeatTypeJobIds:[rDefeatTypeJobs allObjects] possessEquipJobIds:nil upgradeStructJobIds:[rUpgradeStructJobs allObjects] events:YES bossIds:nil];
+    int tag = [sc sendRetrieveStaticDataMessageWithStructIds:nil /*[rStructs allObjects]*/ taskIds:[rTasks allObjects] questIds:nil cityIds:nil buildStructJobIds:[rBuildStructJobs allObjects] defeatTypeJobIds:nil possessEquipJobIds:nil upgradeStructJobIds:[rUpgradeStructJobs allObjects] events:YES bossIds:nil];
     [gs addUnrespondedUpdate:[NoUpdate updateWithTag:tag]];
   }
 }
@@ -377,11 +370,12 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
   [gs addUnrespondedUpdate:[NoUpdate updateWithTag:tag]];
 }
 
-- (void) loadPlayerCity:(int)userId {
+- (void) loadPlayerCity:(int)userId withDelegate:(id)delegate {
   GameState *gs = [GameState sharedGameState];
   
   int tag = [[SocketCommunication sharedSocketCommunication] sendLoadPlayerCityMessage:userId];
   [gs addUnrespondedUpdate:[NoUpdate updateWithTag:tag]];
+  [[SocketCommunication sharedSocketCommunication] setDelegate:delegate forTag:tag];
 }
 
 - (void) loadNeutralCity:(int)cityId {

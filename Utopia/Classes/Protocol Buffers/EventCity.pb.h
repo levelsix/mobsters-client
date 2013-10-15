@@ -3,39 +3,60 @@
 #import "ProtocolBuffers.h"
 
 #import "City.pb.h"
+#import "Quest.pb.h"
 #import "Structure.pb.h"
 #import "User.pb.h"
 
+@class BuildStructJobProto;
+@class BuildStructJobProto_Builder;
 @class CityElementProto;
 @class CityElementProto_Builder;
 @class CityExpansionCostProto;
 @class CityExpansionCostProto_Builder;
 @class CoordinateProto;
 @class CoordinateProto_Builder;
+@class DialogueProto;
+@class DialogueProto_Builder;
+@class DialogueProto_SpeechSegmentProto;
+@class DialogueProto_SpeechSegmentProto_Builder;
 @class FullCityProto;
 @class FullCityProto_Builder;
+@class FullQuestProto;
+@class FullQuestProto_Builder;
 @class FullStructureProto;
 @class FullStructureProto_Builder;
 @class FullUserProto;
 @class FullUserProto_Builder;
+@class FullUserQuestDataLargeProto;
+@class FullUserQuestDataLargeProto_Builder;
 @class FullUserStructureProto;
 @class FullUserStructureProto_Builder;
+@class LoadCityRequestProto;
+@class LoadCityRequestProto_Builder;
+@class LoadCityResponseProto;
+@class LoadCityResponseProto_Builder;
 @class LoadPlayerCityRequestProto;
 @class LoadPlayerCityRequestProto_Builder;
 @class LoadPlayerCityResponseProto;
 @class LoadPlayerCityResponseProto_Builder;
 @class MinimumClanProto;
 @class MinimumClanProto_Builder;
+@class MinimumUserBuildStructJobProto;
+@class MinimumUserBuildStructJobProto_Builder;
 @class MinimumUserProto;
 @class MinimumUserProtoWithLevel;
-@class MinimumUserProtoWithLevelForLeaderboard;
-@class MinimumUserProtoWithLevelForLeaderboard_Builder;
 @class MinimumUserProtoWithLevel_Builder;
 @class MinimumUserProto_Builder;
+@class MinimumUserQuestTaskProto;
+@class MinimumUserQuestTaskProto_Builder;
+@class MinimumUserUpgradeStructJobProto;
+@class MinimumUserUpgradeStructJobProto_Builder;
 @class PurchaseCityExpansionRequestProto;
 @class PurchaseCityExpansionRequestProto_Builder;
 @class PurchaseCityExpansionResponseProto;
 @class PurchaseCityExpansionResponseProto_Builder;
+@class UpgradeStructJobProto;
+@class UpgradeStructJobProto_Builder;
 @class UserCityExpansionDataProto;
 @class UserCityExpansionDataProto_Builder;
 typedef enum {
@@ -55,6 +76,14 @@ typedef enum {
 } PurchaseCityExpansionResponseProto_PurchaseCityExpansionStatus;
 
 BOOL PurchaseCityExpansionResponseProto_PurchaseCityExpansionStatusIsValidValue(PurchaseCityExpansionResponseProto_PurchaseCityExpansionStatus value);
+
+typedef enum {
+  LoadCityResponseProto_LoadCityStatusSuccess = 1,
+  LoadCityResponseProto_LoadCityStatusNotAccessibleToUser = 2,
+  LoadCityResponseProto_LoadCityStatusOtherFail = 3,
+} LoadCityResponseProto_LoadCityStatus;
+
+BOOL LoadCityResponseProto_LoadCityStatusIsValidValue(LoadCityResponseProto_LoadCityStatus value);
 
 
 @interface EventCityRoot : NSObject {
@@ -357,5 +386,152 @@ BOOL PurchaseCityExpansionResponseProto_PurchaseCityExpansionStatusIsValidValue(
 - (PurchaseCityExpansionResponseProto_Builder*) setUcedpBuilder:(UserCityExpansionDataProto_Builder*) builderForValue;
 - (PurchaseCityExpansionResponseProto_Builder*) mergeUcedp:(UserCityExpansionDataProto*) value;
 - (PurchaseCityExpansionResponseProto_Builder*) clearUcedp;
+@end
+
+@interface LoadCityRequestProto : PBGeneratedMessage {
+@private
+  BOOL hasCityId_:1;
+  BOOL hasSender_:1;
+  int32_t cityId;
+  MinimumUserProto* sender;
+}
+- (BOOL) hasSender;
+- (BOOL) hasCityId;
+@property (readonly, retain) MinimumUserProto* sender;
+@property (readonly) int32_t cityId;
+
++ (LoadCityRequestProto*) defaultInstance;
+- (LoadCityRequestProto*) defaultInstance;
+
+- (BOOL) isInitialized;
+- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output;
+- (LoadCityRequestProto_Builder*) builder;
++ (LoadCityRequestProto_Builder*) builder;
++ (LoadCityRequestProto_Builder*) builderWithPrototype:(LoadCityRequestProto*) prototype;
+
++ (LoadCityRequestProto*) parseFromData:(NSData*) data;
++ (LoadCityRequestProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (LoadCityRequestProto*) parseFromInputStream:(NSInputStream*) input;
++ (LoadCityRequestProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (LoadCityRequestProto*) parseFromCodedInputStream:(PBCodedInputStream*) input;
++ (LoadCityRequestProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+@end
+
+@interface LoadCityRequestProto_Builder : PBGeneratedMessage_Builder {
+@private
+  LoadCityRequestProto* result;
+}
+
+- (LoadCityRequestProto*) defaultInstance;
+
+- (LoadCityRequestProto_Builder*) clear;
+- (LoadCityRequestProto_Builder*) clone;
+
+- (LoadCityRequestProto*) build;
+- (LoadCityRequestProto*) buildPartial;
+
+- (LoadCityRequestProto_Builder*) mergeFrom:(LoadCityRequestProto*) other;
+- (LoadCityRequestProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input;
+- (LoadCityRequestProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+
+- (BOOL) hasSender;
+- (MinimumUserProto*) sender;
+- (LoadCityRequestProto_Builder*) setSender:(MinimumUserProto*) value;
+- (LoadCityRequestProto_Builder*) setSenderBuilder:(MinimumUserProto_Builder*) builderForValue;
+- (LoadCityRequestProto_Builder*) mergeSender:(MinimumUserProto*) value;
+- (LoadCityRequestProto_Builder*) clearSender;
+
+- (BOOL) hasCityId;
+- (int32_t) cityId;
+- (LoadCityRequestProto_Builder*) setCityId:(int32_t) value;
+- (LoadCityRequestProto_Builder*) clearCityId;
+@end
+
+@interface LoadCityResponseProto : PBGeneratedMessage {
+@private
+  BOOL hasCityId_:1;
+  BOOL hasSender_:1;
+  BOOL hasStatus_:1;
+  int32_t cityId;
+  MinimumUserProto* sender;
+  LoadCityResponseProto_LoadCityStatus status;
+  NSMutableArray* mutableCityElementsList;
+  NSMutableArray* mutableInProgressUserQuestDataInCityList;
+}
+- (BOOL) hasSender;
+- (BOOL) hasStatus;
+- (BOOL) hasCityId;
+@property (readonly, retain) MinimumUserProto* sender;
+@property (readonly) LoadCityResponseProto_LoadCityStatus status;
+@property (readonly) int32_t cityId;
+- (NSArray*) cityElementsList;
+- (CityElementProto*) cityElementsAtIndex:(int32_t) index;
+- (NSArray*) inProgressUserQuestDataInCityList;
+- (FullUserQuestDataLargeProto*) inProgressUserQuestDataInCityAtIndex:(int32_t) index;
+
++ (LoadCityResponseProto*) defaultInstance;
+- (LoadCityResponseProto*) defaultInstance;
+
+- (BOOL) isInitialized;
+- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output;
+- (LoadCityResponseProto_Builder*) builder;
++ (LoadCityResponseProto_Builder*) builder;
++ (LoadCityResponseProto_Builder*) builderWithPrototype:(LoadCityResponseProto*) prototype;
+
++ (LoadCityResponseProto*) parseFromData:(NSData*) data;
++ (LoadCityResponseProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (LoadCityResponseProto*) parseFromInputStream:(NSInputStream*) input;
++ (LoadCityResponseProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (LoadCityResponseProto*) parseFromCodedInputStream:(PBCodedInputStream*) input;
++ (LoadCityResponseProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+@end
+
+@interface LoadCityResponseProto_Builder : PBGeneratedMessage_Builder {
+@private
+  LoadCityResponseProto* result;
+}
+
+- (LoadCityResponseProto*) defaultInstance;
+
+- (LoadCityResponseProto_Builder*) clear;
+- (LoadCityResponseProto_Builder*) clone;
+
+- (LoadCityResponseProto*) build;
+- (LoadCityResponseProto*) buildPartial;
+
+- (LoadCityResponseProto_Builder*) mergeFrom:(LoadCityResponseProto*) other;
+- (LoadCityResponseProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input;
+- (LoadCityResponseProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+
+- (BOOL) hasSender;
+- (MinimumUserProto*) sender;
+- (LoadCityResponseProto_Builder*) setSender:(MinimumUserProto*) value;
+- (LoadCityResponseProto_Builder*) setSenderBuilder:(MinimumUserProto_Builder*) builderForValue;
+- (LoadCityResponseProto_Builder*) mergeSender:(MinimumUserProto*) value;
+- (LoadCityResponseProto_Builder*) clearSender;
+
+- (BOOL) hasStatus;
+- (LoadCityResponseProto_LoadCityStatus) status;
+- (LoadCityResponseProto_Builder*) setStatus:(LoadCityResponseProto_LoadCityStatus) value;
+- (LoadCityResponseProto_Builder*) clearStatus;
+
+- (NSArray*) cityElementsList;
+- (CityElementProto*) cityElementsAtIndex:(int32_t) index;
+- (LoadCityResponseProto_Builder*) replaceCityElementsAtIndex:(int32_t) index with:(CityElementProto*) value;
+- (LoadCityResponseProto_Builder*) addCityElements:(CityElementProto*) value;
+- (LoadCityResponseProto_Builder*) addAllCityElements:(NSArray*) values;
+- (LoadCityResponseProto_Builder*) clearCityElementsList;
+
+- (BOOL) hasCityId;
+- (int32_t) cityId;
+- (LoadCityResponseProto_Builder*) setCityId:(int32_t) value;
+- (LoadCityResponseProto_Builder*) clearCityId;
+
+- (NSArray*) inProgressUserQuestDataInCityList;
+- (FullUserQuestDataLargeProto*) inProgressUserQuestDataInCityAtIndex:(int32_t) index;
+- (LoadCityResponseProto_Builder*) replaceInProgressUserQuestDataInCityAtIndex:(int32_t) index with:(FullUserQuestDataLargeProto*) value;
+- (LoadCityResponseProto_Builder*) addInProgressUserQuestDataInCity:(FullUserQuestDataLargeProto*) value;
+- (LoadCityResponseProto_Builder*) addAllInProgressUserQuestDataInCity:(NSArray*) values;
+- (LoadCityResponseProto_Builder*) clearInProgressUserQuestDataInCityList;
 @end
 
