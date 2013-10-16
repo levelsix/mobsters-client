@@ -54,6 +54,7 @@ static float imgHeight = 40.f;
   self = [super initWithNavigationBarClass:[CustomNavBar class] toolbarClass:nil];
   if (self) {
     [self.view insertSubview:[[UIImageView alloc] initWithImage:[Globals imageNamed:@"mainmenubg.png"]] atIndex:0];
+    self.modalTransitionStyle = UIModalTransitionStyleCrossDissolve;
   }
   return self;
 }

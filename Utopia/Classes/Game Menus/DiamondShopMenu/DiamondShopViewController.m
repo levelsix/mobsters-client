@@ -114,8 +114,6 @@
 }
 
 - (void)viewWillDisappear:(BOOL)animated {
-  
-  NSLog(@"%@", NSStringFromCGRect(self.view.frame));
   [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 

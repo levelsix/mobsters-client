@@ -1,4 +1,4 @@
-  //
+//
 //  RootViewController.m
 //  Utopia
 //
@@ -22,6 +22,7 @@
 #import "GenericPopupController.h"
 #import "GameLayer.h"
 #import "HomeMap.h"
+#import "MissionMap.h"
 #import "SoundEngine.h"
 #import "GameLayer.h"
 #import "NewBattleLayer.h"
@@ -49,6 +50,12 @@
   v.backgroundColor = [UIColor blackColor];
   
   self.view = v;
+  
+  [self setupCocos2D];
+}
+
+- (BOOL) prefersStatusBarHidden {
+  return YES;
 }
 
 - (void)setupCocos2D {
@@ -101,7 +108,6 @@
 }
 
 - (void) viewDidLoad {
-  [self setupCocos2D];
   [self setupTopBar];
   [self fadeToLoadingScreen];
   
@@ -109,6 +115,8 @@
   [[SocketCommunication sharedSocketCommunication] setDelegate:self forTag:CONNECTED_TO_HOST_DELEGATE_TAG];
   
   [self progressTo:PART_1_PERCENT];
+  
+  [[NSBundle mainBundle] loadNibNamed:@"TravelingLoadingView" owner:self options:nil];
   
   [self performSelector:@selector(handleLoadPlayerCityResponseProto:) withObject:nil afterDelay:3.f];
 }
@@ -120,7 +128,9 @@
 
 - (void) progressTo:(float)t {
   LoadingViewController *lvc = (LoadingViewController *)self.presentedViewController;
-  [lvc progressToPercentage:t];
+  if ([lvc isKindOfClass:[LoadingViewController class]]) {
+    [lvc progressToPercentage:t];
+  }
 }
 
 - (void) handleConnectedToHost {
@@ -140,16 +150,76 @@
   
   [self dismissViewControllerAnimated:YES completion:nil];
   
-  CCScene *scene = [CCScene node];
-  HomeMap *hm = [HomeMap node];
-  [hm refresh];
-  [scene addChild:hm];
-  [hm moveToCenterAnimated:NO];
-  [[CCDirector sharedDirector] pushScene:scene];
+  // Load the home map
+  [self visitCityClicked:0];
 }
 
-- (BOOL) prefersStatusBarHidden {
-  return YES;
+- (void) setCurrentMap:(GameMap *)currentMap {
+  NSString *keyPath = @"bottomOptionView";
+  [self.currentMap removeObserver:self forKeyPath:keyPath];
+  _currentMap = currentMap;
+  [self.currentMap addObserver:self forKeyPath:keyPath options:NSKeyValueObservingOptionNew context:NULL];
+}
+
+- (void) observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context {
+  if (object == self.currentMap) {
+    if (self.currentMap.bottomOptionView) {
+      [self.topBarViewController replaceChatViewWithView:self.currentMap.bottomOptionView];
+    } else {
+      [self.topBarViewController removeViewOverChatView];
+    }
+  }
+}
+
+#pragma mark - Home Map Methods
+
+- (void) buildingPurchased:(int)structId {
+  if ([self.currentMap isKindOfClass:[HomeMap class]]) {
+    [(HomeMap *)self.currentMap preparePurchaseOfStruct:structId];
+    [self dismissViewControllerAnimated:YES completion:nil];
+  }
+}
+
+#pragma mark - Moving to other cities
+
+- (void) visitCityClicked:(int)cityId {
+  if (!self.currentMap || self.currentMap.cityId != cityId) {
+    if (cityId == 0) {
+      CCScene *scene = [CCScene node];
+      HomeMap *hm = [HomeMap node];
+      [hm refresh];
+      [scene addChild:hm];
+      [hm moveToCenterAnimated:NO];
+      self.currentMap = hm;
+      
+      CCDirector *dir = [CCDirector sharedDirector];
+      if (![dir runningScene]) {
+        [dir pushScene:scene];
+      } else {
+        [[CCDirector sharedDirector] replaceScene:scene];
+      }
+    } else {
+      [[OutgoingEventController sharedOutgoingEventController] loadNeutralCity:cityId withDelegate:self];
+      
+      GameState *gs = [GameState sharedGameState];
+      FullCityProto *city = [gs cityWithId:cityId];
+      self.loadingView.label.text = [NSString stringWithFormat:@"Traveling to %@", city.name];
+      [self.loadingView display:self.view];
+    }
+  }
+}
+
+- (void) handleLoadCityResponseProto:(FullEvent *)fe {
+  LoadCityResponseProto *proto = (LoadCityResponseProto *)fe.event;
+  
+  CCScene *scene = [CCScene node];
+  MissionMap *mm = [[MissionMap alloc] initWithProto:proto];
+  [scene addChild:mm];
+  [mm moveToCenterAnimated:NO];
+  self.currentMap = mm;
+  [[CCDirector sharedDirector] replaceScene:[CCTransitionCrossFade transitionWithDuration:0.2f scene:scene]];
+  
+  [self.loadingView stop];
 }
 
 @end

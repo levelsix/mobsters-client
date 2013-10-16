@@ -98,8 +98,8 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
 }
 
 + (void) asyncDownloadBundles {
-//  Globals *gl = [Globals sharedGlobals];
-//  StartupResponseProto_StartupConstants_DownloadableNibConstants *n = gl.downloadableNibConstants;
+  //  Globals *gl = [Globals sharedGlobals];
+  //  StartupResponseProto_StartupConstants_DownloadableNibConstants *n = gl.downloadableNibConstants;
   NSArray *bundleNames = [NSArray arrayWithObjects:nil];
   Downloader *dl = [Downloader sharedDownloader];
   
@@ -167,7 +167,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
     NSString *secsStr = secs == 0 ? @"" : [NSString stringWithFormat:@" %dS", secs];
     return [NSString stringWithFormat:@"%dM%@", mins, secsStr];
   }
-
+  
   return [NSString stringWithFormat:@"%dS", secs];
 }
 
@@ -444,35 +444,20 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
 
 + (void) displayUIView:(UIView *)view {
   AppDelegate *ad = (AppDelegate *)[[UIApplication sharedApplication] delegate];
-  GameViewController *gvc = [[((UINavigationController *)ad.window.rootViewController) childViewControllers] objectAtIndex:0];
-  UIView *sv = nil;
+  UINavigationController *nav = (UINavigationController *)ad.window.rootViewController;
+  UIViewController *vc = nav.visibleViewController;
+  UIView *sv = vc.view;
   
-  if (gvc.presentedViewController) {
-    // For menu being presented as a modal controller
-    sv = gvc.presentedViewController.view;
-    
-    CGRect r = view.frame;
-    r.size.width = MIN(r.size.width, sv.frame.size.height);
-    view.frame = r;
-    
-    view.center = CGPointMake(sv.frame.size.height/2, sv.frame.size.width/2);
-  } else {
-    sv = gvc.view;
-    
-    CGRect r = view.frame;
-    r.size.width = MIN(r.size.width, sv.frame.size.width);
-    view.frame = r;
-    
-    view.center = CGPointMake(sv.frame.size.width/2, sv.frame.size.height/2);
-  }
+  view.frame = sv.bounds;
+  view.center = CGPointMake(sv.frame.size.width/2, sv.frame.size.height/2);
   
   [sv addSubview:view];
 }
 
 + (void) displayUIViewWithoutAdjustment:(UIView *)view {
-//  UIView *sv = [[GameViewController sharedGameViewController] view];
-//  view.center = CGPointMake(sv.frame.size.width/2, sv.frame.size.height/2);
-//  [sv addSubview:view];
+  //  UIView *sv = [[GameViewController sharedGameViewController] view];
+  //  view.center = CGPointMake(sv.frame.size.width/2, sv.frame.size.height/2);
+  //  [sv addSubview:view];
 #warning fix
   [self displayUIView:view];
 }
@@ -855,12 +840,12 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
 }
 
 - (int) calculateStructSilverSellCost:(UserStruct *)us {
-//  FullStructureProto *fsp = [[GameState sharedGameState] structWithId:us.structId];
+  //  FullStructureProto *fsp = [[GameState sharedGameState] structWithId:us.structId];
   return 0;
 }
 
 - (int) calculateStructGoldSellCost:(UserStruct *)us {
-//  FullStructureProto *fsp = [[GameState sharedGameState] structWithId:us.structId];
+  //  FullStructureProto *fsp = [[GameState sharedGameState] structWithId:us.structId];
   return 0;
 }
 
@@ -912,40 +897,40 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
 }
 
 - (int) calculateEnhancementPercentageIncrease:(UserMonster *)enhancingMonster feeders:(NSArray *)feeders {
-//  int change = 0;
-//  for (UserEquip *f in feeders) {
-//    change += [self calculateEnhancementPercentageIncrease:enhancingEquip feeder:f];
-//  }
-//  
-//  int maxChange = ([self calculateEnhancementLevel:enhancingEquip.enhancementPercentage]+1)*self.enhancePercentPerLevel-enhancingEquip.enhancementPercentage;
-//  
-//  //  LNLog(@"totalChange=%d maxChange=%d", change, maxChange);
-//  return MIN(maxChange, change);
+  //  int change = 0;
+  //  for (UserEquip *f in feeders) {
+  //    change += [self calculateEnhancementPercentageIncrease:enhancingEquip feeder:f];
+  //  }
+  //
+  //  int maxChange = ([self calculateEnhancementLevel:enhancingEquip.enhancementPercentage]+1)*self.enhancePercentPerLevel-enhancingEquip.enhancementPercentage;
+  //
+  //  //  LNLog(@"totalChange=%d maxChange=%d", change, maxChange);
+  //  return MIN(maxChange, change);
   return 10;
 }
 
 - (int) calculateEnhancementPercentageIncrease:(UserMonster *)enhancingMonster feeder:(UserMonster *)feeder {
-//  int mainAttack = [self calculateAttackForEquip:enhancingEquip.equipId level:enhancingEquip.level enhancePercent:enhancingEquip.enhancementPercentage];
-//  int mainDefense = [self calculateDefenseForEquip:enhancingEquip.equipId level:enhancingEquip.level enhancePercent:enhancingEquip.enhancementPercentage];
-//  int feederAttack = [self calculateAttackForEquip:feeder.equipId level:feeder.level enhancePercent:feeder.enhancementPercentage];
-//  int feederDefense = [self calculateDefenseForEquip:feeder.equipId level:feeder.level enhancePercent:feeder.enhancementPercentage];
-//  
-//  int mainStats = mainAttack + mainDefense;
-//  int feederStats = feederAttack + feederDefense;
-//  
-//  int result = (int)((((float)feederStats)/mainStats)/(self.enhancePercentConstantA*powf(self.enhancePercentConstantB, [self calculateEnhancementLevel:enhancingEquip.enhancementPercentage]+1))*self.enhancePercentPerLevel);
-//  
-//  //  LNLog(@"percentage=%d", result);
-//  return MAX(result, 1);
+  //  int mainAttack = [self calculateAttackForEquip:enhancingEquip.equipId level:enhancingEquip.level enhancePercent:enhancingEquip.enhancementPercentage];
+  //  int mainDefense = [self calculateDefenseForEquip:enhancingEquip.equipId level:enhancingEquip.level enhancePercent:enhancingEquip.enhancementPercentage];
+  //  int feederAttack = [self calculateAttackForEquip:feeder.equipId level:feeder.level enhancePercent:feeder.enhancementPercentage];
+  //  int feederDefense = [self calculateDefenseForEquip:feeder.equipId level:feeder.level enhancePercent:feeder.enhancementPercentage];
+  //
+  //  int mainStats = mainAttack + mainDefense;
+  //  int feederStats = feederAttack + feederDefense;
+  //
+  //  int result = (int)((((float)feederStats)/mainStats)/(self.enhancePercentConstantA*powf(self.enhancePercentConstantB, [self calculateEnhancementLevel:enhancingEquip.enhancementPercentage]+1))*self.enhancePercentPerLevel);
+  //
+  //  //  LNLog(@"percentage=%d", result);
+  //  return MAX(result, 1);
   return 1;
 }
 
 - (int) calculateSilverCostForEnhancement:(UserMonster *)enhancingMonster feeders:(NSArray *)feeders {
-//  int stats = 0;
-//  for (UserEquip *f in feeders) {
-//    stats += [self calculateAttackForEquip:f.equipId level:f.level enhancePercent:f.enhancementPercentage];
-//    stats += [self calculateDefenseForEquip:f.equipId level:f.level enhancePercent:f.enhancementPercentage];
-//  }
+  //  int stats = 0;
+  //  for (UserEquip *f in feeders) {
+  //    stats += [self calculateAttackForEquip:f.equipId level:f.level enhancePercent:f.enhancementPercentage];
+  //    stats += [self calculateDefenseForEquip:f.equipId level:f.level enhancePercent:f.enhancementPercentage];
+  //  }
   
   return 5;
 }
@@ -1054,7 +1039,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
       return nil;
     }
   } else {
-//      return [HomeMap sharedHomeMap];
+    //      return [HomeMap sharedHomeMap];
   }
   return nil;
 }

@@ -380,6 +380,10 @@
 
 @end
 
+@implementation TravelingLoadingView
+
+@end
+
 @implementation SwitchButton
 
 @synthesize handle, darkHandle, isOn;
@@ -528,7 +532,7 @@
 
 - (void) remakeImage {
   if (self.baseImage.image) {
-    [self setImage:[Globals maskImage:self.baseImage.image withColor:[UIColor colorWithWhite:0.f alpha:0.2f]] forState:UIControlStateHighlighted];
+    [self setImage:[Globals maskImage:self.baseImage.image withColor:[UIColor colorWithWhite:0.f alpha:0.3f]] forState:UIControlStateHighlighted];
   } else {
     [self setImage:nil forState:UIControlStateNormal];
   }

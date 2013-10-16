@@ -75,6 +75,11 @@
 @property (nonatomic, assign) int silverOnMap;
 @property (nonatomic, assign) int goldOnMap;
 
+@property (nonatomic, assign) int cityId;
+
+// This will be used to replace the chat view in the top bar
+@property (nonatomic, assign) UIView *bottomOptionView;
+
 + (id) tiledMapWithTMXFile:(NSString*)tmxFile;
 - (id) initWithTMXFile:(NSString *)tmxFile;
 - (CGPoint)convertVectorToGL:(CGPoint)uiPoint;

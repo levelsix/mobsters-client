@@ -154,6 +154,12 @@ typedef enum {
 
 @end
 
+@interface TravelingLoadingView : LoadingView
+
+@property (nonatomic, retain) IBOutlet UILabel *label;
+
+@end
+
 @class SwitchButton;
 
 @protocol SwitchButtonDelegate <NSObject>

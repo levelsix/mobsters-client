@@ -225,7 +225,6 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
   if (proto.startupStatus == StartupResponseProto_StartupStatusUserInDb) {
     if (proto.sender.userId == 0) {
       LNLog(@"Received user id 0..");
-      return;
     }
     
     // Update user before creating map
@@ -238,7 +237,6 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
     
 //    [Globals asyncDownloadBundles];
     
-    [gs.myCities removeAllObjects];
     [gs.staticCities removeAllObjects];
     [gs addToStaticCities:proto.allCitiesList];
     [gs.inProgressCompleteQuests removeAllObjects];
@@ -250,6 +248,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
     [gs addToAvailableQuests:proto.availableQuestsList];
     [gs.staticStructs removeAllObjects];
     [gs addToStaticStructs:proto.staticStructsList];
+    gs.carpenterStructs = [proto.staticStructsList copy];
     
     [gs addToRequestedClans:proto.userClanInfoList];
     
@@ -587,14 +586,12 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
   
   GameState *gs = [GameState sharedGameState];
   if (proto.status == LoadCityResponseProto_LoadCityStatusSuccess) {
-    [[GameLayer sharedGameLayer] loadMissionMapWithProto:proto];//performSelectorInBackground:@selector(loadMissionMapWithProto:) withObject:proto];
-    [[OutgoingEventController sharedOutgoingEventController] retrieveAllStaticData];
     [gs removeNonFullUserUpdatesForTag:tag];
   } else if (proto.status == LoadCityResponseProto_LoadCityStatusNotAccessibleToUser) {
     [Globals popupMessage:@"Trying to reach inaccessible city.."];
     [gs removeAndUndoAllUpdatesForTag:tag];
   } else {
-    [Globals popupMessage:@"Server failed to send back static data."];
+    [Globals popupMessage:@"Server failed to load neutral city."];
     [gs removeAndUndoAllUpdatesForTag:tag];
   }
 }

@@ -10,10 +10,6 @@
 #import "SoundEngine.h"
 #import "GameState.h"
 
-
-#define FAQ_FILE_NAME @"FAQ.2.txt"
-#define PRESTIGE_FAQ_FILE_NAME @"PrestigeFAQ.txt"
-
 #define SECTION_IDENTIFIER @"Section"
 #define QUESTION_IDENTIFIER @"Question"
 #define TEXT_IDENTIFIER @"Text"
@@ -73,13 +69,11 @@
   }
 }
 
-- (void)loadFAQ {
+- (void) loadFAQ {
   Globals *gl = [Globals sharedGlobals];
   [self loadFile:gl.faqFileName ? gl.faqFileName : @"FAQ.3.txt"];
   self.settingsView.hidden = YES;
   self.faqView.hidden = NO;
-  
-  NSLog(@"%@ %@", NSStringFromCGRect(self.view.frame), NSStringFromCGRect(self.faqView.frame));
 }
 
 - (void)loadFile:(NSString *)file {

@@ -50,7 +50,10 @@ static int sessionId;
       [_delegate performSelectorOnMainThread:@selector(connectedToHost) withObject:nil waitUntilDone:NO];
     }
   } @catch (NSException *exception) {
-    _connection = nil;
+    @try {
+      _connection = nil;
+    } @catch (NSException *exception) {
+    }
     if ([_delegate respondsToSelector:@selector(unableToConnectToHost:)]) {
       [_delegate performSelectorOnMainThread:@selector(unableToConnectToHost:) withObject:exception.reason waitUntilDone:NO];
     }

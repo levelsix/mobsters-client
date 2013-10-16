@@ -38,7 +38,7 @@
   GameState *gs = [GameState sharedGameState];
   FullCityProto *fcp = [gs cityWithId:proto.cityId];
   if ((self = [super initWithTMXFile:fcp.mapImgName])) {
-    _cityId = proto.cityId;
+    self.cityId = proto.cityId;
     
     self.walkableData = [NSMutableArray arrayWithCapacity:[self mapSize].width];
     for (int i = 0; i < self.mapSize.width; i++) {
@@ -64,7 +64,7 @@
         }
       }
     }
-    //    [self removeChild:layer cleanup:YES];
+    [self removeChild:layer cleanup:YES];
     
     // Add all the buildings, can't add people till after aviary placed
     for (CityElementProto *ncep in proto.cityElementsList) {
@@ -119,16 +119,16 @@
       }
     }
     
-//    // Load up the minimum user task protos
-//    for (MinimumUserTaskProto *mutp in proto.userTasksInfoList) {
-//      FullTaskProto *ftp = [gs taskWithId:mutp.taskId];
-//      id<TaskElement> asset = (id<TaskElement>)[self assetWithId:ftp.assetNumWithinCity];
-//      if (asset) {
-//        asset.numTimesActedForTask = mutp.numTimesActed;
-//      } else {
-//        LNLog(@"Could not find asset number %d.", ftp.assetNumWithinCity);
-//      }
-//    }
+    //    // Load up the minimum user task protos
+    //    for (MinimumUserTaskProto *mutp in proto.userTasksInfoList) {
+    //      FullTaskProto *ftp = [gs taskWithId:mutp.taskId];
+    //      id<TaskElement> asset = (id<TaskElement>)[self assetWithId:ftp.assetNumWithinCity];
+    //      if (asset) {
+    //        asset.numTimesActedForTask = mutp.numTimesActed;
+    //      } else {
+    //        LNLog(@"Could not find asset number %d.", ftp.assetNumWithinCity);
+    //      }
+    //    }
     
     // Just use jobs for defeat type jobs, tasks are tracked on their own
     _jobs = [[NSMutableArray alloc] init];
@@ -222,10 +222,10 @@
       id<TaskElement> te = (id<TaskElement>)self.selected;
       
       self.missionNameLabel.text = te.name;
-//      [[[TopBar sharedTopBar] topBarView] replaceChatViewWithView:self.missionBotView];
+      self.bottomOptionView = self.missionBotView;
     }
   } else {
-//    [[[TopBar sharedTopBar] topBarView] removeViewOverChatView];
+    self.bottomOptionView = nil;
   }
 }
 

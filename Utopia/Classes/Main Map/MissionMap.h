@@ -15,8 +15,6 @@
 #define DRAGON_TAG 5456
 
 @interface MissionMap : GameMap {
-  int _cityId;
-  
   NSMutableArray *_jobs;
   
   BOOL _allowSelection;

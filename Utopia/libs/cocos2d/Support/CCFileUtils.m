@@ -30,6 +30,7 @@
 #import "../ccMacros.h"
 #import "../ccConfig.h"
 #import "../ccTypes.h"
+#import "Downloader.h"
 
 NSString *kCCFileUtilsDefault = @"default";
 
@@ -150,7 +151,9 @@ NSInteger ccLoadFileIntoMemory(const char *filename, unsigned char **out)
 		
 		_searchResolutionsOrder = [[NSMutableArray alloc] initWithCapacity:5];
 		
-		_searchPath = [[NSMutableArray alloc] initWithObjects:@"", nil];
+    NSArray *paths = NSSearchPathForDirectoriesInDomains (NSCachesDirectory, NSUserDomainMask, YES);
+    NSString *documentsPath = [paths objectAtIndex:0];
+		_searchPath = [[NSMutableArray alloc] initWithObjects:@"", documentsPath, nil];
 		
 		_filenameLookup = [[NSMutableDictionary alloc] initWithCapacity:10];
 								  
@@ -549,8 +552,10 @@ NSInteger ccLoadFileIntoMemory(const char *filename, unsigned char **out)
 	}
 	else
 	{
-		CCLOGWARN(@"cocos2d: Warning: File not found: %@", filename);
-		ret = nil;
+//		CCLOGWARN(@"cocos2d: Warning: File not found: %@", filename);
+//		ret = nil;
+    // LVL6 Addition
+    ret = [[Downloader sharedDownloader] syncDownloadFile:[CCFileUtils getDoubleResolutionImage:filename validate:NO]];
 	}
 	
 	

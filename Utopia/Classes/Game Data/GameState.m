@@ -39,7 +39,6 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
     _notifications = [[NSMutableArray alloc] init];
     _myStructs = [[NSMutableArray alloc] init];
     _myMonsters = [[NSMutableArray alloc] init];
-    _myCities = [[NSMutableDictionary alloc] init];
     _globalChatMessages = [[NSMutableArray alloc] init];
     _clanChatMessages = [[NSMutableArray alloc] init];
     _rareBoosterPurchases = [[NSMutableArray alloc] init];
@@ -174,7 +173,6 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
     // Need this in case game state gets deallocated while waiting for static data
     p = [dict objectForKey:num];
   }
-  // Retain and autorelease in case data gets purged
   return p;
 }
 
@@ -569,7 +567,6 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
   self.staticUpgradeStructJobs = [[NSMutableDictionary alloc] init];
   self.notifications = [[NSMutableArray alloc] init];
   self.myStructs = [[NSMutableArray alloc] init];
-  self.myCities = [[NSMutableDictionary alloc] init];
   self.clanChatMessages = [[NSMutableArray alloc] init];
   self.globalChatMessages = [[NSMutableArray alloc] init];
   self.rareBoosterPurchases = [[NSMutableArray alloc] init];

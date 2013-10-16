@@ -428,21 +428,12 @@
     <resources>
         <image name="2sidenav.png" width="187" height="26"/>
         <image name="diamond.png" width="33" height="33"/>
-        <image name="diamond.png" width="33" height="33"/>
         <image name="mainmenubg.png" width="568" height="320"/>
-        <image name="onoffswitch.png" width="123" height="27"/>
-        <image name="onoffswitch.png" width="123" height="27"/>
         <image name="onoffswitch.png" width="123" height="27"/>
         <image name="settingsbottombg.png" width="460" height="42"/>
         <image name="settingsbottombutton.png" width="107" height="31"/>
-        <image name="settingsbottombutton.png" width="107" height="31"/>
-        <image name="settingsbottombutton.png" width="107" height="31"/>
-        <image name="settingsbottombutton.png" width="107" height="31"/>
-        <image name="settingsdivider.png" width="1" height="2"/>
-        <image name="settingsdivider.png" width="1" height="2"/>
         <image name="settingsdivider.png" width="1" height="2"/>
         <image name="settingsmiddlebg.png" width="460" height="84"/>
-        <image name="settingspremium.png" width="55" height="31"/>
         <image name="settingspremium.png" width="55" height="31"/>
         <image name="settingstopbg.png" width="460" height="128"/>
     </resources>

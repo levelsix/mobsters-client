@@ -12,6 +12,7 @@
 #import "EnhanceViewController.h"
 #import "DiamondShopViewController.h"
 #import "SettingsViewController.h"
+#import "CarpenterViewController.h"
 
 @interface MainMenuController ()
 
@@ -46,11 +47,11 @@
 }
 
 - (IBAction)buildingsClicked:(id)sender {
-  
+  [self.navigationController pushViewController:[[CarpenterViewController alloc] init] animated:YES];
 }
 
 - (IBAction)labClicked:(id)sender {
-  [self.navigationController pushViewController:[[EnhanceViewController alloc] init] animated:YES];
+//  [self.navigationController pushViewController:[[EnhanceViewController alloc] init] animated:YES];
 }
 
 - (IBAction)clansClicked:(id)sender {

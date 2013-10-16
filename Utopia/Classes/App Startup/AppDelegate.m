@@ -208,8 +208,6 @@
   [[SocketCommunication sharedSocketCommunication] closeDownConnection];
   
   [[SoundEngine sharedSoundEngine] stopBackgroundMusic];
-  
-  [NSObject cancelPreviousPerformRequestsWithTarget:[Downloader sharedDownloader]];
 
   [Analytics suspendedApp];
 #ifndef DEBUG
@@ -231,10 +229,6 @@
   [[SocketCommunication sharedSocketCommunication] initNetworkCommunication];
   if ([[CCDirector sharedDirector] runningScene]) {
     [[CCDirector sharedDirector] startAnimation];
-    
-    if (![[GameState sharedGameState] isTutorial]) {
-      [[GameState sharedGameState] clearAllData];
-    }
   }
 }
 

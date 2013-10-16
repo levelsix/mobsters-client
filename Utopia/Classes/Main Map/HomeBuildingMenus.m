@@ -41,11 +41,13 @@
     [self addChild:_progressBar];
     _progressBar.position = ccp(self.contentSize.width/2, self.contentSize.height/2);
     _progressBar.type = kCCProgressTimerTypeBar;
+    _progressBar.midpoint = ccp(0,0.5);
+    _progressBar.barChangeRate = ccp(1, 0);
     
-    _timeLabel = [CCLabelFX labelWithString:@"" fontName:[Globals font] fontSize:12.f shadowOffset:CGSizeMake(0, -1) shadowBlur:0.f shadowColor:ccc4(0, 0, 0, 100) fillColor:ccc4(255, 255, 255, 255)];
+    _timeLabel = [CCLabelFX labelWithString:@"" fontName:[Globals font] fontSize:22.f shadowOffset:CGSizeMake(0, -1) shadowBlur:0.f shadowColor:ccc4(0, 0, 0, 100) fillColor:ccc4(255, 255, 255, 255)];
     [Globals adjustFontSizeForCCLabelTTF:_timeLabel size:12.f];
     [self addChild:_timeLabel];
-    _timeLabel.position = ccp(self.contentSize.width/2, self.contentSize.height/2-1);
+    _timeLabel.position = ccp(self.contentSize.width/2, self.contentSize.height/2+1);
   }
   return self;
 }

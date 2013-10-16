@@ -18,15 +18,6 @@
 @class HomeMap;
 @class MissionMap;
 
-
-@interface TravelingLoadingView : LoadingView
-
-@property (nonatomic, retain) IBOutlet UILabel *label;
-
-- (void) displayWithText:(NSString *)text;
-
-@end
-
 @interface WelcomeView : UIView
 
 @property (nonatomic, retain) IBOutlet UILabel *nameLabel;

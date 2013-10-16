@@ -26,7 +26,7 @@
 
 + (Downloader *) sharedDownloader;
 
-- (void) syncDownloadFile:(NSString *)fileName;
+- (NSString *) syncDownloadFile:(NSString *)fileName;
 - (void) asyncDownloadFile:(NSString *)imageName completion:(void (^)(void))completed;
 - (void) syncDownloadBundle:(NSString *)bundleName;
 - (void) asyncDownloadBundle:(NSString *)bundleName;

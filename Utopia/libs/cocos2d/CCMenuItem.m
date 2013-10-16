@@ -503,6 +503,12 @@ const NSInteger	kCCZoomActionTag = 0xc0c05002;
 	if ( (self = [super initWithBlock:block] ) ) {
 
 		self.normalImage = normalSprite;
+    //LVL6 Addition
+    if (!selectedSprite) {
+      selectedSprite = [CCSprite spriteWithTexture:((CCSprite *)normalSprite).texture];
+      int greyValue = 150;
+      selectedSprite.color = ccc3(greyValue, greyValue, greyValue);
+    }
 		self.selectedImage = selectedSprite;
 		self.disabledImage = disabledSprite;
 

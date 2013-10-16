@@ -36,25 +36,25 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
 }
 
 - (void) createUser {
-//  GameState *gs = [GameState sharedGameState];
-//  SocketCommunication *sc = [SocketCommunication sharedSocketCommunication];
-//  
-//  Globals *gl = [Globals sharedGlobals];
-//  int tag = [sc sendUserCreateMessageWithName:gs.name
-//                                         type:gs.type
-//                                          lat:gs.location.latitude
-//                                          lon:gs.location.longitude
-//                                 referralCode:tc.referralCode
-//                                  deviceToken:gs.deviceToken
-//                                       attack:gs.attack
-//                                      defense:gs.defense
-//                                       energy:tc.initEnergy+gl.skillPointsGainedOnLevelup
-//                                      stamina:tc.initStamina
-//                                      structX:tc.structCoords.x
-//                                      structY:tc.structCoords.y
-//                                 usedDiamonds:YES];
-//  
-//  [gs addUnrespondedUpdate:[NoUpdate updateWithTag:tag]];
+  //  GameState *gs = [GameState sharedGameState];
+  //  SocketCommunication *sc = [SocketCommunication sharedSocketCommunication];
+  //
+  //  Globals *gl = [Globals sharedGlobals];
+  //  int tag = [sc sendUserCreateMessageWithName:gs.name
+  //                                         type:gs.type
+  //                                          lat:gs.location.latitude
+  //                                          lon:gs.location.longitude
+  //                                 referralCode:tc.referralCode
+  //                                  deviceToken:gs.deviceToken
+  //                                       attack:gs.attack
+  //                                      defense:gs.defense
+  //                                       energy:tc.initEnergy+gl.skillPointsGainedOnLevelup
+  //                                      stamina:tc.initStamina
+  //                                      structX:tc.structCoords.x
+  //                                      structY:tc.structCoords.y
+  //                                 usedDiamonds:YES];
+  //
+  //  [gs addUnrespondedUpdate:[NoUpdate updateWithTag:tag]];
 }
 
 - (void) startupWithDelegate:(id)delegate {
@@ -350,7 +350,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
     }
   }
   
-    for (BuildStructJobProto *p in [gs.staticBuildStructJobs allValues]) {
+  for (BuildStructJobProto *p in [gs.staticBuildStructJobs allValues]) {
     NSNumber *n = [NSNumber numberWithInt:p.structId];
     if (![sStructs objectForKey:n]) {
       [rStructs addObject:n];
@@ -378,49 +378,24 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
   [[SocketCommunication sharedSocketCommunication] setDelegate:delegate forTag:tag];
 }
 
-- (void) loadNeutralCity:(int)cityId {
+- (void) loadNeutralCity:(int)cityId withDelegate:(id)delegate {
   GameState *gs = [GameState sharedGameState];
   FullCityProto *city = [gs cityWithId:cityId];
   
-  if (!city) {
-    [Globals popupMessage:@"Your level is not high enough for this city! Keep ranking up cities to level up."];
-    return;
+  int tag = [[SocketCommunication sharedSocketCommunication] sendLoadCityMessage:city.cityId];
+  [[SocketCommunication sharedSocketCommunication] setDelegate:delegate forTag:tag];
+  
+  // Load any tasks we don't have as well
+  NSDictionary *sTasks = [gs staticTasks];
+  NSMutableSet *rTasks = [NSMutableSet set];
+  for (NSNumber *taskId in city.taskIdsList) {
+    if (![sTasks objectForKey:taskId]) {
+      [rTasks addObject:taskId];
+    }
   }
   
-    int tag = [[SocketCommunication sharedSocketCommunication] sendLoadCityMessage:city.cityId];
-    
-      GameLayer *glay = [GameLayer sharedGameLayer];
-      [glay.currentMap pickUpAllDrops];
-      [glay.loadingView displayWithText:[NSString stringWithFormat:@"Traveling to %@", city.name]];
-    
-    // Load any tasks we don't have as well
-    NSDictionary *sTasks = [gs staticTasks];
-    NSMutableSet *rTasks = [NSMutableSet set];
-    for (NSNumber *taskId in city.taskIdsList) {
-      if (![sTasks objectForKey:taskId]) {
-        [rTasks addObject:taskId];
-      }
-    }
-    
-    if (rTasks.count > 0) {
-      [[SocketCommunication sharedSocketCommunication] sendRetrieveStaticDataMessageWithStructIds:nil taskIds:[rTasks allObjects] questIds:nil cityIds:nil buildStructJobIds:nil defeatTypeJobIds:nil possessEquipJobIds:nil upgradeStructJobIds:nil events:NO bossIds:nil];
-    }
-    
-    [gs addUnrespondedUpdate:[NoUpdate updateWithTag:tag]];
-}
-
-- (void) loadNeutralCity:(int)cityId asset:(int)assetId {
-  if (cityId == 0) {
-      [[GameLayer sharedGameLayer] loadHomeMap];
-  } else {
-    if ([[GameLayer sharedGameLayer] currentCity] == cityId) {
-      if (assetId != 0) {
-        [[[GameLayer sharedGameLayer] missionMap] moveToAssetId:assetId animated:YES];
-      }
-    } else {
-      [[GameLayer sharedGameLayer] setAssetId: assetId];
-      [self loadNeutralCity:cityId];
-    }
+  if (rTasks.count > 0) {
+    [[SocketCommunication sharedSocketCommunication] sendRetrieveStaticDataMessageWithStructIds:nil taskIds:[rTasks allObjects] questIds:nil cityIds:nil buildStructJobIds:nil defeatTypeJobIds:nil possessEquipJobIds:nil upgradeStructJobIds:nil events:NO bossIds:nil];
   }
 }
 
@@ -622,8 +597,8 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
   
   // Make sure clan controller checks member size and clan leader
   if (gs.clan) {
-      int tag = [[SocketCommunication sharedSocketCommunication] sendLeaveClanMessage];
-      [[SocketCommunication sharedSocketCommunication] setDelegate:delegate forTag:tag];
+    int tag = [[SocketCommunication sharedSocketCommunication] sendLeaveClanMessage];
+    [[SocketCommunication sharedSocketCommunication] setDelegate:delegate forTag:tag];
   } else {
     [Globals popupMessage:@"Attempting to leave clan without being in clan."];
   }
@@ -661,8 +636,8 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
   if (!gs.clan || gs.clan.ownerId != gs.userId) {
     [Globals popupMessage:@"Attempting to respond to clan request while not clan leader."];
   } else {
-      int tag = [[SocketCommunication sharedSocketCommunication] sendApproveOrRejectRequestToJoinClan:requesterId accept:accept];
-      [[SocketCommunication sharedSocketCommunication] setDelegate:delegate forTag:tag];
+    int tag = [[SocketCommunication sharedSocketCommunication] sendApproveOrRejectRequestToJoinClan:requesterId accept:accept];
+    [[SocketCommunication sharedSocketCommunication] setDelegate:delegate forTag:tag];
   }
 }
 
@@ -709,8 +684,8 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
     [Globals popupMessage:@"Attempting to boot player while not clan leader."];
   } else {
     // Make sure clan is not engaged in a clan tower war
-      int tag = [[SocketCommunication sharedSocketCommunication] sendBootPlayerFromClan:playerId];
-      [[SocketCommunication sharedSocketCommunication] setDelegate:delegate forTag:tag];
+    int tag = [[SocketCommunication sharedSocketCommunication] sendBootPlayerFromClan:playerId];
+    [[SocketCommunication sharedSocketCommunication] setDelegate:delegate forTag:tag];
   }
 }
 

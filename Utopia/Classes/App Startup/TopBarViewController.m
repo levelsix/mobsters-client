@@ -12,6 +12,8 @@
 #import "Globals.h"
 #import "GameViewController.h"
 #import "MenuNavigationController.h"
+#import "DiamondShopViewController.h"
+#import "AttackMapViewController.h"
 
 @implementation SplitImageProgressBar
 
@@ -66,12 +68,14 @@
 @implementation TopBarViewController
 
 - (void) replaceChatViewWithView:(UIView *)view {
-  if (self.curViewOverChatView) {
-    [self.curViewOverChatView removeFromSuperview];
+  if (self.curViewOverChatView != view) {
+    if (self.curViewOverChatView) {
+      [self.curViewOverChatView removeFromSuperview];
+    }
+    self.curViewOverChatView = view;
+    [self.view addSubview:self.curViewOverChatView];
+    self.curViewOverChatView.center = ccp(self.view.frame.size.width/2, self.view.frame.size.height-10-view.frame.size.height/2);
   }
-  self.curViewOverChatView = view;
-  [self.view addSubview:self.curViewOverChatView];
-  self.curViewOverChatView.center = ccp(self.view.frame.size.width/2, self.view.frame.size.height-10-view.frame.size.height/2);
 }
 
 - (void) removeViewOverChatView {
@@ -81,15 +85,25 @@
 
 - (IBAction)menuClicked:(id)sender {
   MenuNavigationController *m = [[MenuNavigationController alloc] init];
-  m.modalTransitionStyle = UIModalTransitionStyleCrossDissolve;
   GameViewController *gvc = (GameViewController *)self.parentViewController;
-  //  [gvc addChildViewController:m];
   [gvc presentViewController:m animated:YES completion:nil];
-  [m pushViewController:[[MainMenuController alloc] init] animated:NO];
+  [m pushViewController:[[MainMenuController alloc] init] animated:YES];
+}
+
+- (IBAction)attackClicked:(id)sender {
+  GameViewController *gvc = (GameViewController *)self.parentViewController;
+  AttackMapViewController *amvc = [[AttackMapViewController alloc] init];
+  [gvc addChildViewController:amvc];
+  amvc.view.frame = gvc.view.bounds;
+  amvc.delegate = gvc;
+  [gvc.view addSubview:amvc.view];
 }
 
 - (IBAction)plusClicked:(id)sender {
-  [Globals popupMessage:@"Not implemented."];
+  MenuNavigationController *m = [[MenuNavigationController alloc] init];
+  GameViewController *gvc = (GameViewController *)self.parentViewController;
+  [gvc presentViewController:m animated:YES completion:nil];
+  [m pushViewController:[[DiamondShopViewController alloc] init] animated:NO];
 }
 
 @end

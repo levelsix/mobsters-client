@@ -9,11 +9,18 @@
 #import <UIKit/UIKit.h>
 #import "Globals.h"
 #import "TopBarViewController.h"
+#import "GameMap.h"
+#import "AttackMapViewController.h"
 
-@interface GameViewController : UIViewController
+@interface GameViewController : UIViewController <AttackMapDelegate>
 
 @property (nonatomic, strong) TopBarViewController *topBarViewController;
+@property (nonatomic, strong) GameMap *currentMap;
+
+@property (nonatomic, strong) IBOutlet TravelingLoadingView *loadingView;
 
 - (void) handleConnectedToHost;
+
+- (void) buildingPurchased:(int)structId;
 
 @end

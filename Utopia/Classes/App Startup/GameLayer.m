@@ -21,21 +21,6 @@
 #import "SoundEngine.h"
 #import "SocketCommunication.h"
 
-@implementation TravelingLoadingView
-
-@synthesize label;
-
-- (void) awakeFromNib {
-  self.darkView.layer.cornerRadius = 10.f;
-}
-
-- (void) displayWithText:(NSString *)text {
-  [super display:[[[CCDirector sharedDirector] view] superview]];
-  self.label.text = text;
-}
-
-@end
-
 @implementation WelcomeView
 
 @synthesize nameLabel, rankLabel, middleLine;
@@ -117,7 +102,7 @@ static BOOL shake_once = NO;
     
     [self displayHomeMap];
     
-    [[OutgoingEventController sharedOutgoingEventController] loadNeutralCity:1];
+//    [[OutgoingEventController sharedOutgoingEventController] loadNeutralCity:1];
 //    [[OutgoingEventController sharedOutgoingEventController] beginDungeon:1];
   } else {
   }
@@ -186,8 +171,6 @@ static BOOL shake_once = NO;
 - (void) loadHomeMap {
   if (!_homeMap.visible) {
     [self.currentMap pickUpAllDrops];
-    
-    [self.loadingView displayWithText:@"Traveling\nHome"];
     _loading = YES;
     // Do move in load so that other classes can move it elsewhere
     [_homeMap moveToCenterAnimated:NO];

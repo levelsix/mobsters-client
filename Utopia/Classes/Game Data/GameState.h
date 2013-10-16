@@ -61,7 +61,6 @@
 
 @property (nonatomic, retain) NSMutableArray *myMonsters;
 @property (nonatomic, retain) NSMutableArray *myStructs;
-@property (nonatomic, retain) NSMutableDictionary *myCities;
 
 @property (nonatomic, retain) NSMutableDictionary *inProgressCompleteQuests;
 @property (nonatomic, retain) NSMutableDictionary *inProgressIncompleteQuests;

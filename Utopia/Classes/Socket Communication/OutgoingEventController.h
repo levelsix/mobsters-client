@@ -36,8 +36,7 @@
 - (void) retrieveBoosterPacks;
 
 - (void) loadPlayerCity:(int)userId withDelegate:(id)delegate;
-- (void) loadNeutralCity:(int)cityId;
-- (void) loadNeutralCity:(int)cityId asset:(int)assetId;
+- (void) loadNeutralCity:(int)cityId withDelegate:(id)delegate;
 
 - (void) levelUp;
 

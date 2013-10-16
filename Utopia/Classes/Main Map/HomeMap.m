@@ -436,10 +436,10 @@
       if (!ue.isExpanding) {
         [self displayExpandingView];
       } else {
-//        [[[TopBar sharedTopBar] topBarView] replaceChatViewWithView:self.expandingBotView];
+        self.bottomOptionView = self.expandingBotView;
       }
     } else {
-//      [[[TopBar sharedTopBar] topBarView] removeViewOverChatView];
+      self.bottomOptionView = nil;
       _canMove = NO;
       if (_purchasing) {
         _purchasing = NO;
@@ -458,7 +458,7 @@
     self.buildingNameLabel.text = [NSString stringWithFormat:@"%@ (lvl %d)", fsp.name, mb.userStruct.level];
     self.buildingIncomeLabel.text = [NSString stringWithFormat:@"%@ IN %@", [Globals cashStringForNumber:[gl calculateIncomeForUserStruct:mb.userStruct]], [Globals convertTimeToShortString:fsp.minutesToGain*60]];
     self.buildingUpgradeCostLabel.text = [Globals cashStringForNumber:[gl calculateUpgradeCost:mb.userStruct]];
-//    [[[TopBar sharedTopBar] topBarView] replaceChatViewWithView:self.buildBotView];
+    self.bottomOptionView = self.buildBotView;
   }
 }
 
@@ -468,7 +468,7 @@
     MoneyBuilding *mb = (MoneyBuilding *)self.selected;
     FullStructureProto *fsp = [gs structWithId:mb.userStruct.structId];
     self.upgradingNameLabel.text = [NSString stringWithFormat:@"%@ (lvl %d)", fsp.name, mb.userStruct.level];
-//    [[[TopBar sharedTopBar] topBarView] replaceChatViewWithView:self.upgradeBotView];
+    self.bottomOptionView = self.upgradeBotView;
   }
 }
 
@@ -476,7 +476,7 @@
   if ([self.selected isKindOfClass:[ExpansionBoard class]]) {
     Globals *gl = [Globals sharedGlobals];
     self.expandingCostLabel.text = [Globals cashStringForNumber:[gl calculateSilverCostForNewExpansion]];
-//    [[[TopBar sharedTopBar] topBarView] replaceChatViewWithView:self.expandBotView];
+    self.bottomOptionView = self.expandBotView;
   }
 }
 
@@ -555,7 +555,7 @@
   if (mb.userStruct.state == kWaitingForIncome) {
     mb.retrievable = NO;
     [self updateTimersForBuilding:mb];
-//    [self addSilverDrop:[[Globals sharedGlobals] calculateIncomeForUserStruct:mb.userStruct] fromSprite:mb toPosition:CGPointZero secondsToPickup:0];
+    //    [self addSilverDrop:[[Globals sharedGlobals] calculateIncomeForUserStruct:mb.userStruct] fromSprite:mb toPosition:CGPointZero secondsToPickup:0];
   }
 }
 
@@ -734,7 +734,7 @@
     BOOL isGoldBuilding = fsp.diamondPrice > 0;
     if (!isGoldBuilding) {
       if (cost > gs.silver) {
-//        [[RefillMenuController sharedRefillMenuController] displayBuySilverView:cost];
+        //        [[RefillMenuController sharedRefillMenuController] displayBuySilverView:cost];
         [Analytics notEnoughSilverForUpgrade:us.structId cost:cost];
         self.selected = nil;
       } else {
@@ -750,7 +750,7 @@
       }
     } else {
       if (cost > gs.gold) {
-//        [[RefillMenuController sharedRefillMenuController] displayBuyGoldView:cost];
+        //        [[RefillMenuController sharedRefillMenuController] displayBuyGoldView:cost];
         [Analytics notEnoughGoldForUpgrade:us.structId cost:cost];
         self.selected = nil;
       } else {
@@ -803,7 +803,7 @@
     int timeLeft = us.lastUpgradeTime.timeIntervalSinceNow + [gl calculateMinutesToUpgrade:us]*60;
     int goldCost = [gl calculateDiamondCostForInstaUpgrade:us timeLeft:timeLeft];
     if (gs.gold < goldCost) {
-//      [[RefillMenuController sharedRefillMenuController] displayBuyGoldView:goldCost];
+      //      [[RefillMenuController sharedRefillMenuController] displayBuyGoldView:goldCost];
       [Analytics notEnoughGoldForInstaUpgrade:us.structId level:us.level cost:goldCost];
     } else {
       _isSpeedingUp = YES;
@@ -823,7 +823,7 @@
     int timeLeft = us.purchaseTime.timeIntervalSinceNow + fsp.minutesToBuild*60;
     int goldCost = [gl calculateDiamondCostForInstaUpgrade:us timeLeft:timeLeft];
     if (gs.gold < goldCost) {
-//      [[RefillMenuController sharedRefillMenuController] displayBuyGoldView:goldCost];
+      //      [[RefillMenuController sharedRefillMenuController] displayBuyGoldView:goldCost];
     } else {
       _isSpeedingUp = YES;
       [mb instaFinishUpgradeWithCompletionBlock:^{
@@ -862,7 +862,7 @@
   
   int silverCost = [gl calculateSilverCostForNewExpansion];
   if (gs.silver < silverCost) {
-//    [[RefillMenuController sharedRefillMenuController] displayBuySilverView:silverCost];
+    //    [[RefillMenuController sharedRefillMenuController] displayBuySilverView:silverCost];
   } else {
     [[OutgoingEventController sharedOutgoingEventController] purchaseCityExpansionAtX:exp.expandSpot.x atY:exp.expandSpot.y];
     [self.expansionView closeClicked:nil];
@@ -888,7 +888,7 @@
   int timeLeft = exp.lastExpandTime.timeIntervalSinceNow + [gl calculateNumMinutesForNewExpansion]*60;
   int goldCost = [gl calculateGoldCostToSpeedUpExpansionTimeLeft:timeLeft];
   if (gs.gold < goldCost) {
-//    [[RefillMenuController sharedRefillMenuController] displayBuyGoldView:goldCost];
+    //    [[RefillMenuController sharedRefillMenuController] displayBuyGoldView:goldCost];
   } else {
     [[OutgoingEventController sharedOutgoingEventController] expansionWaitComplete:YES atX:exp.xPosition atY:exp.yPosition];
     
@@ -962,6 +962,11 @@
   SelectableSprite *n = self.selected;
   self.selected = nil;
   self.selected = n;
+}
+
+- (void) onEnterTransitionDidFinish {
+  [super onEnterTransitionDidFinish];
+  [self beginTimers];
 }
 
 - (void) onExit {
