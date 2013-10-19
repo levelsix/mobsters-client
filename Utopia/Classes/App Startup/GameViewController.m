@@ -30,6 +30,8 @@
 #import "SocketCommunication.h"
 #import "OutgoingEventController.h"
 #import "TopBarViewController.h"
+#import "AppDelegate.h"
+#import "DungeonBattleLayer.h"
 
 #define DEFAULT_PNG_IMAGE_VIEW_TAG 103
 #define KINGDOM_PNG_IMAGE_VIEW_TAG 104
@@ -40,6 +42,13 @@
 #define PART_3_PERCENT 1.f
 
 @implementation GameViewController
+
++ (id) baseController {
+  AppDelegate *ad = (AppDelegate *)[[UIApplication sharedApplication] delegate];
+  UINavigationController *nav = (UINavigationController *)ad.window.rootViewController;
+  UIViewController *vc = [nav.childViewControllers objectAtIndex:0];
+  return vc;
+}
 
 - (void) loadView {
   CGRect rect = [[UIScreen mainScreen] bounds];
@@ -92,7 +101,7 @@
 	[CCTexture2D setDefaultAlphaPixelFormat:kCCTexture2DPixelFormat_RGBA8888];
 	
 	// Assume that PVR images have premultiplied alpha
-	[CCTexture2D PVRImagesHavePremultipliedAlpha:YES];
+	[CCTexture2D PVRImagesHavePremultipliedAlpha:NO];
   
   [[CCFileUtils sharedFileUtils] setiPhoneRetinaDisplaySuffix:@"@2x"];
   
@@ -101,7 +110,7 @@
 }
 
 - (void) setupTopBar {
-  self.topBarViewController = [[TopBarViewController alloc] init];
+  self.topBarViewController = [[TopBarViewController alloc] initWithNibName:@"TopBarViewController" bundle:nil];
   [self addChildViewController:self.topBarViewController];
   self.topBarViewController.view.frame = self.view.bounds;
   [self.view addSubview:self.topBarViewController.view];
@@ -123,11 +132,13 @@
 
 - (void) fadeToLoadingScreen {
   LoadingViewController *lvc = [[LoadingViewController alloc] init];
-  [self presentViewController:lvc animated:NO completion:nil];
+  UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:lvc];
+  nav.navigationBarHidden = YES;
+  [self presentViewController:nav animated:NO completion:nil];
 }
 
 - (void) progressTo:(float)t {
-  LoadingViewController *lvc = (LoadingViewController *)self.presentedViewController;
+  LoadingViewController *lvc = (LoadingViewController *)[(UINavigationController *)self.presentedViewController visibleViewController];
   if ([lvc isKindOfClass:[LoadingViewController class]]) {
     [lvc progressToPercentage:t];
   }
@@ -141,8 +152,10 @@
 - (void) handleStartupResponseProto:(FullEvent *)fe {
   [self progressTo:PART_3_PERCENT];
   
-  GameState *gs = [GameState sharedGameState];
-  [[OutgoingEventController sharedOutgoingEventController] loadPlayerCity:gs.userId withDelegate:self];
+  if (self.presentedViewController) {
+    GameState *gs = [GameState sharedGameState];
+    [[OutgoingEventController sharedOutgoingEventController] loadPlayerCity:gs.userId withDelegate:self];
+  }
 }
 
 - (void) handleLoadPlayerCityResponseProto:(FullEvent *)fe {
@@ -154,11 +167,15 @@
   [self visitCityClicked:0];
 }
 
+#pragma mark - Observer methods to update top bar
+
+#define BOTTOM_VIEW_KEY_PATH @"bottomOptionView"
+
 - (void) setCurrentMap:(GameMap *)currentMap {
-  NSString *keyPath = @"bottomOptionView";
-  [self.currentMap removeObserver:self forKeyPath:keyPath];
+  [self.currentMap removeObserver:self forKeyPath:BOTTOM_VIEW_KEY_PATH];
   _currentMap = currentMap;
-  [self.currentMap addObserver:self forKeyPath:keyPath options:NSKeyValueObservingOptionNew context:NULL];
+  [self.topBarViewController removeViewOverChatView];
+  [self.currentMap addObserver:self forKeyPath:BOTTOM_VIEW_KEY_PATH options:NSKeyValueObservingOptionNew context:NULL];
 }
 
 - (void) observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context {
@@ -174,6 +191,9 @@
 #pragma mark - Home Map Methods
 
 - (void) buildingPurchased:(int)structId {
+  if (self.currentMap.cityId != 0) {
+    [self visitCityClicked:0];
+  }
   if ([self.currentMap isKindOfClass:[HomeMap class]]) {
     [(HomeMap *)self.currentMap preparePurchaseOfStruct:structId];
     [self dismissViewControllerAnimated:YES completion:nil];
@@ -206,6 +226,10 @@
       self.loadingView.label.text = [NSString stringWithFormat:@"Traveling to %@", city.name];
       [self.loadingView display:self.view];
     }
+  } else {
+    if (cityId == 0) {
+      [(HomeMap *)self.currentMap refresh];
+    }
   }
 }
 
@@ -220,6 +244,33 @@
   [[CCDirector sharedDirector] replaceScene:[CCTransitionCrossFade transitionWithDuration:0.2f scene:scene]];
   
   [self.loadingView stop];
+}
+
+- (void) handleBeginDungeonResponseProto:(FullEvent *)fe {
+  BeginDungeonResponseProto *proto = (BeginDungeonResponseProto *)fe.event;
+  float duration = 0.6;
+  
+  CCScene *bl = [DungeonBattleLayer sceneWithBeginDungeonResponseProto:proto delegate:self];
+  [[CCDirector sharedDirector] pushScene:[CCTransitionCrossFade transitionWithDuration:duration scene:bl]];
+  
+  [UIView animateWithDuration:duration/2.f+0.1 animations:^{
+    self.topBarViewController.view.alpha = 0.f;
+  } completion:^(BOOL finished) {
+    self.topBarViewController.view.hidden = YES;
+  }];
+}
+
+#pragma mark - BattleLayerDelegate methods
+
+- (void) battleComplete {
+  float duration = 0.6;
+  
+  [[CCDirector sharedDirector] popSceneWithTransition:[CCTransitionCrossFade class] duration:duration];
+  
+  self.topBarViewController.view.hidden = NO;
+  [UIView animateWithDuration:duration/2.f+0.1 animations:^{
+    self.topBarViewController.view.alpha = 1.f;
+  }];
 }
 
 @end

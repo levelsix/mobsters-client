@@ -28,6 +28,8 @@
 @class FullUserProto_Builder;
 @class FullUserStructureProto;
 @class FullUserStructureProto_Builder;
+@class LevelAndRequiredExpProto;
+@class LevelAndRequiredExpProto_Builder;
 @class MinimumClanProto;
 @class MinimumClanProto_Builder;
 @class MinimumUserProto;

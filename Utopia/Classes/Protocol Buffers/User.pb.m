@@ -2608,3 +2608,218 @@ static FullUserProto* defaultFullUserProtoInstance = nil;
 }
 @end
 
+@interface LevelAndRequiredExpProto ()
+@property int32_t level;
+@property int32_t requiredExperience;
+@end
+
+@implementation LevelAndRequiredExpProto
+
+- (BOOL) hasLevel {
+  return !!hasLevel_;
+}
+- (void) setHasLevel:(BOOL) value {
+  hasLevel_ = !!value;
+}
+@synthesize level;
+- (BOOL) hasRequiredExperience {
+  return !!hasRequiredExperience_;
+}
+- (void) setHasRequiredExperience:(BOOL) value {
+  hasRequiredExperience_ = !!value;
+}
+@synthesize requiredExperience;
+- (void) dealloc {
+  [super dealloc];
+}
+- (id) init {
+  if ((self = [super init])) {
+    self.level = 0;
+    self.requiredExperience = 0;
+  }
+  return self;
+}
+static LevelAndRequiredExpProto* defaultLevelAndRequiredExpProtoInstance = nil;
++ (void) initialize {
+  if (self == [LevelAndRequiredExpProto class]) {
+    defaultLevelAndRequiredExpProtoInstance = [[LevelAndRequiredExpProto alloc] init];
+  }
+}
++ (LevelAndRequiredExpProto*) defaultInstance {
+  return defaultLevelAndRequiredExpProtoInstance;
+}
+- (LevelAndRequiredExpProto*) defaultInstance {
+  return defaultLevelAndRequiredExpProtoInstance;
+}
+- (BOOL) isInitialized {
+  return YES;
+}
+- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output {
+  if (self.hasLevel) {
+    [output writeInt32:1 value:self.level];
+  }
+  if (self.hasRequiredExperience) {
+    [output writeInt32:2 value:self.requiredExperience];
+  }
+  [self.unknownFields writeToCodedOutputStream:output];
+}
+- (int32_t) serializedSize {
+  int32_t size = memoizedSerializedSize;
+  if (size != -1) {
+    return size;
+  }
+
+  size = 0;
+  if (self.hasLevel) {
+    size += computeInt32Size(1, self.level);
+  }
+  if (self.hasRequiredExperience) {
+    size += computeInt32Size(2, self.requiredExperience);
+  }
+  size += self.unknownFields.serializedSize;
+  memoizedSerializedSize = size;
+  return size;
+}
++ (LevelAndRequiredExpProto*) parseFromData:(NSData*) data {
+  return (LevelAndRequiredExpProto*)[[[LevelAndRequiredExpProto builder] mergeFromData:data] build];
+}
++ (LevelAndRequiredExpProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (LevelAndRequiredExpProto*)[[[LevelAndRequiredExpProto builder] mergeFromData:data extensionRegistry:extensionRegistry] build];
+}
++ (LevelAndRequiredExpProto*) parseFromInputStream:(NSInputStream*) input {
+  return (LevelAndRequiredExpProto*)[[[LevelAndRequiredExpProto builder] mergeFromInputStream:input] build];
+}
++ (LevelAndRequiredExpProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (LevelAndRequiredExpProto*)[[[LevelAndRequiredExpProto builder] mergeFromInputStream:input extensionRegistry:extensionRegistry] build];
+}
++ (LevelAndRequiredExpProto*) parseFromCodedInputStream:(PBCodedInputStream*) input {
+  return (LevelAndRequiredExpProto*)[[[LevelAndRequiredExpProto builder] mergeFromCodedInputStream:input] build];
+}
++ (LevelAndRequiredExpProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (LevelAndRequiredExpProto*)[[[LevelAndRequiredExpProto builder] mergeFromCodedInputStream:input extensionRegistry:extensionRegistry] build];
+}
++ (LevelAndRequiredExpProto_Builder*) builder {
+  return [[[LevelAndRequiredExpProto_Builder alloc] init] autorelease];
+}
++ (LevelAndRequiredExpProto_Builder*) builderWithPrototype:(LevelAndRequiredExpProto*) prototype {
+  return [[LevelAndRequiredExpProto builder] mergeFrom:prototype];
+}
+- (LevelAndRequiredExpProto_Builder*) builder {
+  return [LevelAndRequiredExpProto builder];
+}
+@end
+
+@interface LevelAndRequiredExpProto_Builder()
+@property (retain) LevelAndRequiredExpProto* result;
+@end
+
+@implementation LevelAndRequiredExpProto_Builder
+@synthesize result;
+- (void) dealloc {
+  self.result = nil;
+  [super dealloc];
+}
+- (id) init {
+  if ((self = [super init])) {
+    self.result = [[[LevelAndRequiredExpProto alloc] init] autorelease];
+  }
+  return self;
+}
+- (PBGeneratedMessage*) internalGetResult {
+  return result;
+}
+- (LevelAndRequiredExpProto_Builder*) clear {
+  self.result = [[[LevelAndRequiredExpProto alloc] init] autorelease];
+  return self;
+}
+- (LevelAndRequiredExpProto_Builder*) clone {
+  return [LevelAndRequiredExpProto builderWithPrototype:result];
+}
+- (LevelAndRequiredExpProto*) defaultInstance {
+  return [LevelAndRequiredExpProto defaultInstance];
+}
+- (LevelAndRequiredExpProto*) build {
+  [self checkInitialized];
+  return [self buildPartial];
+}
+- (LevelAndRequiredExpProto*) buildPartial {
+  LevelAndRequiredExpProto* returnMe = [[result retain] autorelease];
+  self.result = nil;
+  return returnMe;
+}
+- (LevelAndRequiredExpProto_Builder*) mergeFrom:(LevelAndRequiredExpProto*) other {
+  if (other == [LevelAndRequiredExpProto defaultInstance]) {
+    return self;
+  }
+  if (other.hasLevel) {
+    [self setLevel:other.level];
+  }
+  if (other.hasRequiredExperience) {
+    [self setRequiredExperience:other.requiredExperience];
+  }
+  [self mergeUnknownFields:other.unknownFields];
+  return self;
+}
+- (LevelAndRequiredExpProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input {
+  return [self mergeFromCodedInputStream:input extensionRegistry:[PBExtensionRegistry emptyRegistry]];
+}
+- (LevelAndRequiredExpProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  PBUnknownFieldSet_Builder* unknownFields = [PBUnknownFieldSet builderWithUnknownFields:self.unknownFields];
+  while (YES) {
+    int32_t tag = [input readTag];
+    switch (tag) {
+      case 0:
+        [self setUnknownFields:[unknownFields build]];
+        return self;
+      default: {
+        if (![self parseUnknownField:input unknownFields:unknownFields extensionRegistry:extensionRegistry tag:tag]) {
+          [self setUnknownFields:[unknownFields build]];
+          return self;
+        }
+        break;
+      }
+      case 8: {
+        [self setLevel:[input readInt32]];
+        break;
+      }
+      case 16: {
+        [self setRequiredExperience:[input readInt32]];
+        break;
+      }
+    }
+  }
+}
+- (BOOL) hasLevel {
+  return result.hasLevel;
+}
+- (int32_t) level {
+  return result.level;
+}
+- (LevelAndRequiredExpProto_Builder*) setLevel:(int32_t) value {
+  result.hasLevel = YES;
+  result.level = value;
+  return self;
+}
+- (LevelAndRequiredExpProto_Builder*) clearLevel {
+  result.hasLevel = NO;
+  result.level = 0;
+  return self;
+}
+- (BOOL) hasRequiredExperience {
+  return result.hasRequiredExperience;
+}
+- (int32_t) requiredExperience {
+  return result.requiredExperience;
+}
+- (LevelAndRequiredExpProto_Builder*) setRequiredExperience:(int32_t) value {
+  result.hasRequiredExperience = YES;
+  result.requiredExperience = value;
+  return self;
+}
+- (LevelAndRequiredExpProto_Builder*) clearRequiredExperience {
+  result.hasRequiredExperience = NO;
+  result.requiredExperience = 0;
+  return self;
+}
+@end
+

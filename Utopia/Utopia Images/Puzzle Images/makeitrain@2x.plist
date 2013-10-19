@@ -74,21 +74,8 @@
 		<string>Untitled</string>
 		<key>premultipliedAlpha</key>
 		<false/>
-		<key>target</key>
-		<dict>
-			<key>name</key>
-			<string>default</string>
-			<key>textureFileName</key>
-			<string>makeitrain@2x.pvr</string>
-			<key>textureFileExtension</key>
-			<string>.pvr.ccz</string>
-			<key>coordinatesFileName</key>
-			<string>makeitrain@2x</string>
-			<key>coordinatesFileExtension</key>
-			<string>.plist</string>
-			<key>premultipliedAlpha</key>
-			<false/>
-		</dict>
+		<key>textureFileName</key>
+		<string>makeitrain@2x.pvr.ccz</string>
 	</dict>
 </dict>
 </plist>

@@ -58,9 +58,9 @@ enum {
 {
 	va_list args;
 	va_start(args,item);
-
+  
 	id ret = [self menuWithItems:item vaList:args];
-
+  
 	va_end(args);
 	
 	return ret;
@@ -94,7 +94,7 @@ enum {
 		[self setTouchPriority:kCCMenuHandlerPriority];
 		[self setTouchMode:kCCTouchesOneByOne];
 		[self setTouchEnabled:YES];
-
+    
 #elif defined(__CC_PLATFORM_MAC)
 		[self setMousePriority:kCCMenuHandlerPriority+1];
 		[self setMouseEnabled:YES];
@@ -123,8 +123,8 @@ enum {
 			[self addChild: item z:z];
 			z++;
 		}
-
-//		[self alignItemsVertically];
+    
+    //		[self alignItemsVertically];
 		
 		_selectedItem = nil;
 		_state = kCCMenuStateWaiting;
@@ -169,7 +169,7 @@ enum {
 #ifdef __CC_PLATFORM_IOS
 	CCTouchDispatcher *dispatcher = [[CCDirector sharedDirector] touchDispatcher];
 	[dispatcher setPriority:newPriority forDelegate:self];
-
+  
 #elif defined(__CC_PLATFORM_MAC)
 	CCEventDispatcher *dispatcher = [[CCDirector sharedDirector] eventDispatcher];
 	[dispatcher removeMouseDelegate:self];
@@ -185,15 +185,23 @@ enum {
 {
 	CGPoint touchLocation = [touch locationInView: [touch view]];
 	touchLocation = [[CCDirector sharedDirector] convertToGL: touchLocation];
-
+  
 	CCMenuItem* item;
 	CCARRAY_FOREACH(_children, item){
 		// ignore invisible and disabled items: issue #779, #866
 		if ( [item visible] && [item isEnabled] ) {
-
+      
 			CGPoint local = [item convertToNodeSpace:touchLocation];
 			CGRect r = [item activeArea];
-
+      
+      // Changed by LVL6
+      if (item == _selectedItem) {
+        int inset = -75;
+        r = CGRectInset(r, inset, inset);
+      } else if (_selectedItem) {
+        continue;
+      }
+      
 			if( CGRectContainsPoint( r, local ) )
 				return item;
 		}
@@ -201,18 +209,26 @@ enum {
 	return nil;
 }
 
+- (BOOL) isPointInArea:(CGPoint)pt {
+  for (CCMenuItem *c in _children) {
+		if (c.visible && c.isEnabled && [c isPointInArea:pt])
+			return YES;
+  }
+  return NO;
+}
+
 -(BOOL) ccTouchBegan:(UITouch *)touch withEvent:(UIEvent *)event
 {
 	if( _state != kCCMenuStateWaiting || !_visible || ! _enabled)
 		return NO;
-
+  
 	for( CCNode *c = self.parent; c != nil; c = c.parent )
 		if( c.visible == NO )
 			return NO;
-
+  
 	_selectedItem = [self itemForTouch:touch];
 	[_selectedItem selected];
-
+  
 	if( _selectedItem ) {
 		_state = kCCMenuStateTrackingTouch;
 		return YES;
@@ -223,33 +239,36 @@ enum {
 -(void) ccTouchEnded:(UITouch *)touch withEvent:(UIEvent *)event
 {
 	NSAssert(_state == kCCMenuStateTrackingTouch, @"[Menu ccTouchEnded] -- invalid state");
-
+  
+  if ([_selectedItem isSelected]) {
+    [_selectedItem activate];
+  }
+  
 	[_selectedItem unselected];
-	[_selectedItem activate];
-
+  _selectedItem = nil;
+  
 	_state = kCCMenuStateWaiting;
 }
 
 -(void) ccTouchCancelled:(UITouch *)touch withEvent:(UIEvent *)event
 {
 	NSAssert(_state == kCCMenuStateTrackingTouch, @"[Menu ccTouchCancelled] -- invalid state");
-
 	[_selectedItem unselected];
-
+  
 	_state = kCCMenuStateWaiting;
 }
 
 -(void) ccTouchMoved:(UITouch *)touch withEvent:(UIEvent *)event
 {
 	NSAssert(_state == kCCMenuStateTrackingTouch, @"[Menu ccTouchMoved] -- invalid state");
-
+  
 	CCMenuItem *currentItem = [self itemForTouch:touch];
-
+	
 	if (currentItem != _selectedItem) {
 		[_selectedItem unselected];
-		_selectedItem = currentItem;
+	} else {
 		[_selectedItem selected];
-	}
+  }
 }
 
 #pragma mark Menu - Events Mouse
@@ -259,16 +278,16 @@ enum {
 -(CCMenuItem *) itemForMouseEvent: (NSEvent *) event
 {
 	CGPoint location = [[CCDirector sharedDirector] convertEventToGL:event];
-
+  
 	CCMenuItem* item;
 	CCARRAY_FOREACH(_children, item){
 		// ignore invisible and disabled items: issue #779, #866
 		if ( [item visible] && [item isEnabled] ) {
-
+      
 			CGPoint local = [item convertToNodeSpace:location];
-
+      
 			CGRect r = [item activeArea];
-
+      
 			if( CGRectContainsPoint( r, local ) )
 				return item;
 		}
@@ -280,14 +299,14 @@ enum {
 {
 	if( ! _visible || ! _enabled)
 		return NO;
-
+  
 	if(_state == kCCMenuStateTrackingTouch) {
 		if( _selectedItem ) {
 			[_selectedItem unselected];
 			[_selectedItem activate];
 		}
 		_state = kCCMenuStateWaiting;
-
+    
 		return YES;
 	}
 	return NO;
@@ -297,15 +316,15 @@ enum {
 {
 	if( ! _visible || ! _enabled)
 		return NO;
-
+  
 	_selectedItem = [self itemForMouseEvent:event];
 	[_selectedItem selected];
-
+  
 	if( _selectedItem ) {
 		_state = kCCMenuStateTrackingTouch;
 		return YES;
 	}
-
+  
 	return NO;
 }
 
@@ -313,16 +332,16 @@ enum {
 {
 	if( ! _visible || ! _enabled)
 		return NO;
-
+  
 	if(_state == kCCMenuStateTrackingTouch) {
 		CCMenuItem *currentItem = [self itemForMouseEvent:event];
-
+    
 		if (currentItem != _selectedItem) {
 			[_selectedItem unselected];
 			_selectedItem = currentItem;
 			[_selectedItem selected];
 		}
-
+    
 		return YES;
 	}
 	return NO;
@@ -338,17 +357,17 @@ enum {
 -(void) alignItemsVerticallyWithPadding:(float)padding
 {
 	float height = -padding;
-
+  
 	CCMenuItem *item;
 	CCARRAY_FOREACH(_children, item)
-	    height += item.contentSize.height * item.scaleY + padding;
-
+  height += item.contentSize.height * item.scaleY + padding;
+  
 	float y = height / 2.0f;
-
+  
 	CCARRAY_FOREACH(_children, item) {
 		CGSize itemSize = item.contentSize;
-	    [item setPosition:ccp(0, y - itemSize.height * item.scaleY / 2.0f)];
-	    y -= itemSize.height * item.scaleY + padding;
+    [item setPosition:ccp(0, y - itemSize.height * item.scaleY / 2.0f)];
+    y -= itemSize.height * item.scaleY + padding;
 	}
 }
 
@@ -359,14 +378,14 @@ enum {
 
 -(void) alignItemsHorizontallyWithPadding:(float)padding
 {
-
+  
 	float width = -padding;
 	CCMenuItem *item;
 	CCARRAY_FOREACH(_children, item)
-	    width += item.contentSize.width * item.scaleX + padding;
-
+  width += item.contentSize.width * item.scaleX + padding;
+  
 	float x = -width / 2.0f;
-
+  
 	CCARRAY_FOREACH(_children, item){
 		CGSize itemSize = item.contentSize;
 		[item setPosition:ccp(x + itemSize.width * item.scaleX / 2.0f, 0)];
@@ -378,9 +397,9 @@ enum {
 {
 	va_list args;
 	va_start(args, columns);
-
+  
 	[self alignItemsInColumns:columns vaList:args];
-
+  
 	va_end(args);
 }
 
@@ -389,19 +408,19 @@ enum {
 	NSMutableArray *rows = [[NSMutableArray alloc] initWithObjects:columns, nil];
 	columns = va_arg(args, NSNumber*);
 	while(columns) {
-        [rows addObject:columns];
+    [rows addObject:columns];
 		columns = va_arg(args, NSNumber*);
 	}
-
+  
 	[self alignItemsInColumnsWithArray:rows];
 	
 	[rows release];
 }
 
 -(void) alignItemsInColumnsWithArray:(NSArray*) rows
-{	
+{
 	int height = -5;
-    NSUInteger row = 0, rowHeight = 0, columnsOccupied = 0, rowColumns;
+  NSUInteger row = 0, rowHeight = 0, columnsOccupied = 0, rowColumns;
 	CCMenuItem *item;
 	CCARRAY_FOREACH(_children, item){
 		NSAssert( row < [rows count], @"Too many menu items for the amount of rows/columns.");
@@ -436,7 +455,7 @@ enum {
 		CGSize itemSize = item.contentSize;
 		rowHeight = fmaxf(rowHeight, itemSize.height);
 		[item setPosition:ccp(x - winSize.width / 2,
-							  y - itemSize.height / 2)];
+                          y - itemSize.height / 2)];
 		
 		x += w;
 		++columnsOccupied;
@@ -456,9 +475,9 @@ enum {
 {
 	va_list args;
 	va_start(args, rows);
-
+  
 	[self alignItemsInRows:rows vaList:args];
-
+  
 	va_end(args);
 }
 
@@ -470,7 +489,7 @@ enum {
 		[columns addObject:rows];
 		rows = va_arg(args, NSNumber*);
 	}
-
+  
 	[self alignItemsInRowsWithArray:columns];
 	
 	[columns release];
@@ -522,7 +541,7 @@ enum {
 		CGSize itemSize = item.contentSize;
 		columnWidth = fmaxf(columnWidth, itemSize.width);
 		[item setPosition:ccp(x + [(NSNumber *) [columnWidths objectAtIndex:column] unsignedIntegerValue] / 2,
-							  y - winSize.height / 2)];
+                          y - winSize.height / 2)];
 		
 		y -= itemSize.height + 10;
 		++rowsOccupied;
@@ -536,7 +555,7 @@ enum {
 			++column;
 		}
 	}
-
+  
 	[columnWidths release];
 	[columnHeights release];
 }

@@ -42,6 +42,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
     _globalChatMessages = [[NSMutableArray alloc] init];
     _clanChatMessages = [[NSMutableArray alloc] init];
     _rareBoosterPurchases = [[NSMutableArray alloc] init];
+    _monsterHealingQueue = [[NSMutableArray alloc] init];
     
     _availableQuests = [[NSMutableDictionary alloc] init];
     _inProgressCompleteQuests = [[NSMutableDictionary alloc] init];
@@ -100,6 +101,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
   self.numBeginnerSalesPurchased = user.numBeginnerSalesPurchased;
   self.hasActiveShield = user.hasActiveShield;
   self.createTime = [NSDate dateWithTimeIntervalSince1970:user.createTime/1000.0];
+  self.numAdditionalMonsterSlots = user.numAdditionalMonsterSlots;
   
   self.lastLogoutTime = [NSDate dateWithTimeIntervalSince1970:user.lastLogoutTime/1000.0];
   
@@ -300,6 +302,60 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
   [self.rareBoosterPurchases insertObject:bp atIndex:0];
 }
 
+- (void) addUserMonsterHealingItemToEndOfQueue:(UserMonsterHealingItem *)item {
+  if (self.monsterHealingQueue.count == 0) {
+    item.expectedStartTime = [NSDate date];
+  } else {
+    UserMonsterHealingItem *prevItem = [self.monsterHealingQueue lastObject];
+    item.expectedStartTime = prevItem.expectedEndTime;
+  }
+  
+  [self.monsterHealingQueue addObject:item];
+  
+  [self beginHealingTimer];
+}
+
+- (void) removeUserMonsterHealingItem:(UserMonsterHealingItem *)item {
+  int index = [self.monsterHealingQueue indexOfObject:item];
+  int total = self.monsterHealingQueue.count;
+  
+  if (index != NSNotFound) {
+    if (total > index+1) {
+      UserMonsterHealingItem *next = [self.monsterHealingQueue objectAtIndex:index+1];
+      if (index == 0) {
+        next.expectedStartTime = [NSDate date];
+      } else {
+        UserMonsterHealingItem *prev = [self.monsterHealingQueue objectAtIndex:index-1];
+        next.expectedStartTime = prev.expectedEndTime;
+      }
+      
+      for (int i = index+2; i < total; i++) {
+        UserMonsterHealingItem *next2 = [self.monsterHealingQueue objectAtIndex:i];
+        UserMonsterHealingItem *next1 = [self.monsterHealingQueue objectAtIndex:i-1];
+        next2.expectedStartTime = next1.expectedEndTime;
+        
+      }
+    }
+  }
+  [self.monsterHealingQueue removeObject:item];
+  
+  [self beginHealingTimer];
+}
+
+- (void) addAllMonsterHealingProtos:(NSArray *)items {
+  [self.monsterHealingQueue removeAllObjects];
+  
+  for (UserMonsterHealingProto *proto in items) {
+    [self.monsterHealingQueue addObject:[UserMonsterHealingItem userMonsterHealingItemWithProto:proto]];
+  }
+  
+  [self.monsterHealingQueue sortUsingComparator:^NSComparisonResult(UserMonsterHealingItem *obj1, UserMonsterHealingItem *obj2) {
+    return [obj1.expectedStartTime compare:obj2.expectedStartTime];
+  }];
+  
+  [self beginHealingTimer];
+}
+
 - (UserMonster *) myMonsterWithUserMonsterId:(int)userMonsterId {
   for (UserMonster *um in self.myMonsters) {
     if (userMonsterId == um.userMonsterId) {
@@ -307,6 +363,34 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
     }
   }
   return nil;
+}
+
+- (UserMonster *) myMonsterWithSlotNumber:(int)slotNum {
+  for (UserMonster *um in self.myMonsters) {
+    if (um.teamSlot == slotNum) {
+      return um;
+    }
+  }
+  return nil;
+}
+
+- (NSArray *) allMonstersOnMyTeam {
+  NSMutableArray *m = [NSMutableArray array];
+  for (UserMonster *um in self.myMonsters) {
+    if (um.teamSlot != 0) {
+      [m addObject:um];
+    }
+  }
+  
+  [m sortUsingComparator:^NSComparisonResult(UserMonster *obj1, UserMonster *obj2) {
+    if (obj1.teamSlot > obj2.teamSlot) {
+      return NSOrderedDescending;
+    } else {
+      return NSOrderedAscending;
+    }
+  }];
+  
+  return m;
 }
 
 - (UserStruct *) myStructWithId:(int)structId {
@@ -508,6 +592,42 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
   }
 }
 
+- (void) beginHealingTimer {
+  [self stopHealingTimer];
+  
+  if (self.monsterHealingQueue.count > 0) {
+    UserMonsterHealingItem *item = [self.monsterHealingQueue objectAtIndex:0];
+    if ([item.expectedEndTime timeIntervalSinceNow] <= 0) {
+      [self healingWaitTimeComplete];
+    } else {
+      _healingTimer = [NSTimer timerWithTimeInterval:item.expectedEndTime.timeIntervalSinceNow target:self selector:@selector(healingWaitTimeComplete) userInfo:nil repeats:NO];
+      [[NSRunLoop mainRunLoop] addTimer:_healingTimer forMode:NSRunLoopCommonModes];
+    }
+  }
+}
+
+- (void) healingWaitTimeComplete {
+  NSMutableArray *arr = [NSMutableArray array];
+  for (UserMonsterHealingItem *item in self.monsterHealingQueue) {
+    if ([item.expectedEndTime timeIntervalSinceNow] <= 0) {
+      [arr addObject:item];
+    }
+  }
+  
+  if (arr.count > 0) {
+    [[OutgoingEventController sharedOutgoingEventController] healQueueWaitTimeComplete:arr];
+    [[NSNotificationCenter defaultCenter] postNotificationName:HEAL_WAIT_COMPLETE_NOTIFICATION object:nil];
+    [self beginHealingTimer];
+  }
+}
+
+- (void) stopHealingTimer {
+  if (_healingTimer) {
+    [_healingTimer invalidate];
+    _healingTimer = nil;
+  }
+}
+
 - (void) addToRequestedClans:(NSArray *)arr {
   for (FullUserClanProto *uc in arr) {
     if (uc.status == UserClanStatusRequesting) {
@@ -570,6 +690,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
   self.clanChatMessages = [[NSMutableArray alloc] init];
   self.globalChatMessages = [[NSMutableArray alloc] init];
   self.rareBoosterPurchases = [[NSMutableArray alloc] init];
+  self.monsterHealingQueue = [[NSMutableArray alloc] init];
   
   self.availableQuests = [[NSMutableDictionary alloc] init];
   self.inProgressCompleteQuests = [[NSMutableDictionary alloc] init];
@@ -581,6 +702,9 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
   self.unrespondedUpdates = [[NSMutableArray alloc] init];
 
   self.requestedClans = [[NSMutableArray alloc] init];
+  
+  [self stopExpansionTimer];
+  [self stopHealingTimer];
   
   self.userExpansions = nil;
   

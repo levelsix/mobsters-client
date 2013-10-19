@@ -29,6 +29,12 @@
 
 @end
 
+@protocol BattleLayerDelegate <NSObject>
+
+- (void) battleComplete;
+
+@end
+
 @interface NewBattleLayer : CCLayer <OrbLayerDelegate, BattleBgdLayerDelegate> {
   int _orbCount;
   int _comboCount;
@@ -87,6 +93,8 @@
 
 @property (nonatomic, retain) IBOutlet BattleContinueView *continueView;
 @property (nonatomic, retain) IBOutlet BattleEndView *endView;
+
+@property (nonatomic, assign) id<BattleLayerDelegate> delegate;
 
 - (void) createNextEnemyObject;
 - (int) getCurrentEnemyLoot;

@@ -20,6 +20,8 @@
 @class FullUserMonsterProto_Builder;
 @class FullUserProto;
 @class FullUserProto_Builder;
+@class LevelAndRequiredExpProto;
+@class LevelAndRequiredExpProto_Builder;
 @class MinimumClanProto;
 @class MinimumClanProto_Builder;
 @class MinimumUserProto;
@@ -36,6 +38,8 @@
 @class ReviveInDungeonResponseProto_Builder;
 @class TaskStageProto;
 @class TaskStageProto_Builder;
+@class UserMonsterHealingProto;
+@class UserMonsterHealingProto_Builder;
 typedef enum {
   BeginDungeonResponseProto_BeginDungeonStatusSuccess = 1,
   BeginDungeonResponseProto_BeginDungeonStatusFailInsufficientStamergy = 2,
@@ -295,11 +299,14 @@ BOOL ReviveInDungeonResponseProto_ReviveInDungeonStatusIsValidValue(ReviveInDung
   BOOL hasStatus_:1;
   MinimumUserProto* sender;
   EndDungeonResponseProto_EndDungeonStatus status;
+  NSMutableArray* mutableNewOrUpdatedList;
 }
 - (BOOL) hasSender;
 - (BOOL) hasStatus;
 @property (readonly, retain) MinimumUserProto* sender;
 @property (readonly) EndDungeonResponseProto_EndDungeonStatus status;
+- (NSArray*) newOrUpdatedList;
+- (FullUserMonsterProto*) newOrUpdatedAtIndex:(int32_t) index;
 
 + (EndDungeonResponseProto*) defaultInstance;
 - (EndDungeonResponseProto*) defaultInstance;
@@ -346,6 +353,13 @@ BOOL ReviveInDungeonResponseProto_ReviveInDungeonStatusIsValidValue(ReviveInDung
 - (EndDungeonResponseProto_EndDungeonStatus) status;
 - (EndDungeonResponseProto_Builder*) setStatus:(EndDungeonResponseProto_EndDungeonStatus) value;
 - (EndDungeonResponseProto_Builder*) clearStatus;
+
+- (NSArray*) newOrUpdatedList;
+- (FullUserMonsterProto*) newOrUpdatedAtIndex:(int32_t) index;
+- (EndDungeonResponseProto_Builder*) replaceNewOrUpdatedAtIndex:(int32_t) index with:(FullUserMonsterProto*) value;
+- (EndDungeonResponseProto_Builder*) addNewOrUpdated:(FullUserMonsterProto*) value;
+- (EndDungeonResponseProto_Builder*) addAllNewOrUpdated:(NSArray*) values;
+- (EndDungeonResponseProto_Builder*) clearNewOrUpdatedList;
 @end
 
 @interface ReviveInDungeonRequestProto : PBGeneratedMessage {

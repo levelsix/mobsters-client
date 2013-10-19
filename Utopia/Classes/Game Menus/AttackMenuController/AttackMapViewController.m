@@ -150,4 +150,8 @@
   }];
 }
 
+- (void) touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event {
+  [self cityClicked:nil];
+}
+
 @end

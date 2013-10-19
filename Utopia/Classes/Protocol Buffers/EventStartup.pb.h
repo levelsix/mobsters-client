@@ -10,6 +10,7 @@
 #import "Quest.pb.h"
 #import "Structure.pb.h"
 #import "User.pb.h"
+#import "MonsterStuff.pb.h"
 
 @class BoosterItemProto;
 @class BoosterItemProto_Builder;
@@ -41,6 +42,8 @@
 @class FullStructureProto_Builder;
 @class FullUserClanProto;
 @class FullUserClanProto_Builder;
+@class FullUserMonsterProto;
+@class FullUserMonsterProto_Builder;
 @class FullUserProto;
 @class FullUserProto_Builder;
 @class FullUserQuestDataLargeProto;
@@ -53,6 +56,8 @@
 @class GroupChatMessageProto_Builder;
 @class InAppPurchasePackageProto;
 @class InAppPurchasePackageProto_Builder;
+@class LevelAndRequiredExpProto;
+@class LevelAndRequiredExpProto_Builder;
 @class MinimumClanProto;
 @class MinimumClanProto_Builder;
 @class MinimumUserBuildStructJobProto;
@@ -69,6 +74,10 @@
 @class MinimumUserQuestTaskProto_Builder;
 @class MinimumUserUpgradeStructJobProto;
 @class MinimumUserUpgradeStructJobProto_Builder;
+@class MonsterJobProto;
+@class MonsterJobProto_Builder;
+@class MonsterProto;
+@class MonsterProto_Builder;
 @class PrivateChatPostProto;
 @class PrivateChatPostProto_Builder;
 @class RareBoosterPurchaseProto;
@@ -93,10 +102,14 @@
 @class StartupResponseProto_StartupConstants_NormStructConstants_Builder;
 @class StartupResponseProto_StartupConstants_TournamentConstants;
 @class StartupResponseProto_StartupConstants_TournamentConstants_Builder;
+@class StartupResponseProto_StartupConstants_UserMonsterConstants;
+@class StartupResponseProto_StartupConstants_UserMonsterConstants_Builder;
 @class UpgradeStructJobProto;
 @class UpgradeStructJobProto_Builder;
 @class UserCityExpansionDataProto;
 @class UserCityExpansionDataProto_Builder;
+@class UserMonsterHealingProto;
+@class UserMonsterHealingProto_Builder;
 typedef enum {
   StartupResponseProto_UpdateStatusNoUpdate = 1,
   StartupResponseProto_UpdateStatusMinorUpdate = 2,
@@ -215,39 +228,46 @@ BOOL StartupResponseProto_StartupStatusIsValidValue(StartupResponseProto_Startup
 @interface StartupResponseProto : PBGeneratedMessage {
 @private
   BOOL hasPlayerHasBoughtInAppPurchase_:1;
+  BOOL hasServerTimeMillis_:1;
   BOOL hasKabamNaid_:1;
-  BOOL hasReviewPageConfirmationMessage_:1;
-  BOOL hasReviewPageUrl_:1;
   BOOL hasAppStoreUrl_:1;
+  BOOL hasReviewPageUrl_:1;
+  BOOL hasReviewPageConfirmationMessage_:1;
   BOOL hasSender_:1;
   BOOL hasStartupConstants_:1;
-  BOOL hasUpdateStatus_:1;
   BOOL hasStartupStatus_:1;
+  BOOL hasUpdateStatus_:1;
   BOOL playerHasBoughtInAppPurchase_:1;
+  int64_t serverTimeMillis;
   NSString* kabamNaid;
-  NSString* reviewPageConfirmationMessage;
-  NSString* reviewPageUrl;
   NSString* appStoreUrl;
+  NSString* reviewPageUrl;
+  NSString* reviewPageConfirmationMessage;
   FullUserProto* sender;
   StartupResponseProto_StartupConstants* startupConstants;
-  StartupResponseProto_UpdateStatus updateStatus;
   StartupResponseProto_StartupStatus startupStatus;
+  StartupResponseProto_UpdateStatus updateStatus;
   NSMutableArray* mutableNoticesToPlayersList;
-  NSMutableArray* mutableExpansionCostsList;
   NSMutableArray* mutablePcppList;
-  NSMutableArray* mutableRareBoosterPurchasesList;
   NSMutableArray* mutableStaticStructsList;
-  NSMutableArray* mutableGoldSalesList;
+  NSMutableArray* mutableExpansionCostsList;
+  NSMutableArray* mutableStaticMonstersList;
+  NSMutableArray* mutableUsersMonstersList;
+  NSMutableArray* mutableMonstersHealingList;
+  NSMutableArray* mutableRareBoosterPurchasesList;
+  NSMutableArray* mutableLarepList;
   NSMutableArray* mutableClanChatsList;
   NSMutableArray* mutableGlobalChatsList;
-  NSMutableArray* mutableAllCitiesList;
   NSMutableArray* mutableReferralNotificationsList;
   NSMutableArray* mutableAttackNotificationsList;
+  NSMutableArray* mutableGoldSalesList;
   NSMutableArray* mutableUserClanInfoList;
   NSMutableArray* mutableAvailableQuestsList;
   NSMutableArray* mutableInProgressCompleteQuestsList;
   NSMutableArray* mutableInProgressIncompleteQuestsList;
+  NSMutableArray* mutableAllCitiesList;
 }
+- (BOOL) hasServerTimeMillis;
 - (BOOL) hasSender;
 - (BOOL) hasStartupStatus;
 - (BOOL) hasUpdateStatus;
@@ -257,6 +277,7 @@ BOOL StartupResponseProto_StartupStatusIsValidValue(StartupResponseProto_Startup
 - (BOOL) hasReviewPageConfirmationMessage;
 - (BOOL) hasPlayerHasBoughtInAppPurchase;
 - (BOOL) hasKabamNaid;
+@property (readonly) int64_t serverTimeMillis;
 @property (readonly, retain) FullUserProto* sender;
 @property (readonly) StartupResponseProto_StartupStatus startupStatus;
 @property (readonly) StartupResponseProto_UpdateStatus updateStatus;
@@ -276,6 +297,8 @@ BOOL StartupResponseProto_StartupStatusIsValidValue(StartupResponseProto_Startup
 - (FullQuestProto*) availableQuestsAtIndex:(int32_t) index;
 - (NSArray*) userClanInfoList;
 - (FullUserClanProto*) userClanInfoAtIndex:(int32_t) index;
+- (NSArray*) goldSalesList;
+- (GoldSaleProto*) goldSalesAtIndex:(int32_t) index;
 - (NSArray*) attackNotificationsList;
 - (StartupResponseProto_AttackedNotificationProto*) attackNotificationsAtIndex:(int32_t) index;
 - (NSArray*) referralNotificationsList;
@@ -286,16 +309,22 @@ BOOL StartupResponseProto_StartupStatusIsValidValue(StartupResponseProto_Startup
 - (GroupChatMessageProto*) globalChatsAtIndex:(int32_t) index;
 - (NSArray*) clanChatsList;
 - (GroupChatMessageProto*) clanChatsAtIndex:(int32_t) index;
-- (NSArray*) goldSalesList;
-- (GoldSaleProto*) goldSalesAtIndex:(int32_t) index;
-- (NSArray*) staticStructsList;
-- (FullStructureProto*) staticStructsAtIndex:(int32_t) index;
-- (NSArray*) rareBoosterPurchasesList;
-- (RareBoosterPurchaseProto*) rareBoosterPurchasesAtIndex:(int32_t) index;
 - (NSArray*) pcppList;
 - (PrivateChatPostProto*) pcppAtIndex:(int32_t) index;
+- (NSArray*) staticStructsList;
+- (FullStructureProto*) staticStructsAtIndex:(int32_t) index;
 - (NSArray*) expansionCostsList;
 - (CityExpansionCostProto*) expansionCostsAtIndex:(int32_t) index;
+- (NSArray*) staticMonstersList;
+- (MonsterProto*) staticMonstersAtIndex:(int32_t) index;
+- (NSArray*) usersMonstersList;
+- (FullUserMonsterProto*) usersMonstersAtIndex:(int32_t) index;
+- (NSArray*) monstersHealingList;
+- (UserMonsterHealingProto*) monstersHealingAtIndex:(int32_t) index;
+- (NSArray*) rareBoosterPurchasesList;
+- (RareBoosterPurchaseProto*) rareBoosterPurchasesAtIndex:(int32_t) index;
+- (NSArray*) larepList;
+- (LevelAndRequiredExpProto*) larepAtIndex:(int32_t) index;
 
 + (StartupResponseProto*) defaultInstance;
 - (StartupResponseProto*) defaultInstance;
@@ -452,9 +481,9 @@ BOOL StartupResponseProto_StartupStatusIsValidValue(StartupResponseProto_Startup
 
 @interface StartupResponseProto_StartupConstants : PBGeneratedMessage {
 @private
-  BOOL hasNumBeginnerSalesAllowed_:1;
   BOOL hasMaxLevelForUser_:1;
   BOOL hasMaxNumOfSingleStruct_:1;
+  BOOL hasNumBeginnerSalesAllowed_:1;
   BOOL hasMinNameLength_:1;
   BOOL hasMaxNameLength_:1;
   BOOL hasMaxLengthOfChatString_:1;
@@ -462,14 +491,15 @@ BOOL StartupResponseProto_StartupStatusIsValidValue(StartupResponseProto_Startup
   BOOL hasNumHoursBeforeReshowingGoldSale_:1;
   BOOL hasLevelToShowRateUsPopup_:1;
   BOOL hasFaqFileName_:1;
+  BOOL hasUserMonsterConstants_:1;
   BOOL hasAdminChatUserProto_:1;
   BOOL hasTouramentConstants_:1;
   BOOL hasDownloadableNibConstants_:1;
   BOOL hasClanConstants_:1;
   BOOL hasNormStructConstants_:1;
-  int32_t numBeginnerSalesAllowed;
   int32_t maxLevelForUser;
   int32_t maxNumOfSingleStruct;
+  int32_t numBeginnerSalesAllowed;
   int32_t minNameLength;
   int32_t maxNameLength;
   int32_t maxLengthOfChatString;
@@ -477,6 +507,7 @@ BOOL StartupResponseProto_StartupStatusIsValidValue(StartupResponseProto_Startup
   int32_t numHoursBeforeReshowingGoldSale;
   int32_t levelToShowRateUsPopup;
   NSString* faqFileName;
+  StartupResponseProto_StartupConstants_UserMonsterConstants* userMonsterConstants;
   MinimumUserProto* adminChatUserProto;
   StartupResponseProto_StartupConstants_TournamentConstants* touramentConstants;
   StartupResponseProto_StartupConstants_DownloadableNibConstants* downloadableNibConstants;
@@ -500,6 +531,7 @@ BOOL StartupResponseProto_StartupStatusIsValidValue(StartupResponseProto_Startup
 - (BOOL) hasFaqFileName;
 - (BOOL) hasAdminChatUserProto;
 - (BOOL) hasNumBeginnerSalesAllowed;
+- (BOOL) hasUserMonsterConstants;
 @property (readonly) int32_t maxLevelForUser;
 @property (readonly) int32_t maxNumOfSingleStruct;
 @property (readonly, retain) StartupResponseProto_StartupConstants_NormStructConstants* normStructConstants;
@@ -515,6 +547,7 @@ BOOL StartupResponseProto_StartupStatusIsValidValue(StartupResponseProto_Startup
 @property (readonly, retain) NSString* faqFileName;
 @property (readonly, retain) MinimumUserProto* adminChatUserProto;
 @property (readonly) int32_t numBeginnerSalesAllowed;
+@property (readonly, retain) StartupResponseProto_StartupConstants_UserMonsterConstants* userMonsterConstants;
 - (NSArray*) inAppPurchasePackagesList;
 - (InAppPurchasePackageProto*) inAppPurchasePackagesAtIndex:(int32_t) index;
 - (NSArray*) animatedSpriteOffsetsList;
@@ -535,281 +568,6 @@ BOOL StartupResponseProto_StartupStatusIsValidValue(StartupResponseProto_Startup
 + (StartupResponseProto_StartupConstants*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
 + (StartupResponseProto_StartupConstants*) parseFromCodedInputStream:(PBCodedInputStream*) input;
 + (StartupResponseProto_StartupConstants*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
-@end
-
-@interface StartupResponseProto_StartupConstants_TournamentConstants : PBGeneratedMessage {
-@private
-  BOOL hasWinsWeight_:1;
-  BOOL hasLossesWeight_:1;
-  BOOL hasFleesWeight_:1;
-  BOOL hasNumHoursToShowAfterEventEnd_:1;
-  int32_t winsWeight;
-  int32_t lossesWeight;
-  int32_t fleesWeight;
-  int32_t numHoursToShowAfterEventEnd;
-}
-- (BOOL) hasWinsWeight;
-- (BOOL) hasLossesWeight;
-- (BOOL) hasFleesWeight;
-- (BOOL) hasNumHoursToShowAfterEventEnd;
-@property (readonly) int32_t winsWeight;
-@property (readonly) int32_t lossesWeight;
-@property (readonly) int32_t fleesWeight;
-@property (readonly) int32_t numHoursToShowAfterEventEnd;
-
-+ (StartupResponseProto_StartupConstants_TournamentConstants*) defaultInstance;
-- (StartupResponseProto_StartupConstants_TournamentConstants*) defaultInstance;
-
-- (BOOL) isInitialized;
-- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output;
-- (StartupResponseProto_StartupConstants_TournamentConstants_Builder*) builder;
-+ (StartupResponseProto_StartupConstants_TournamentConstants_Builder*) builder;
-+ (StartupResponseProto_StartupConstants_TournamentConstants_Builder*) builderWithPrototype:(StartupResponseProto_StartupConstants_TournamentConstants*) prototype;
-
-+ (StartupResponseProto_StartupConstants_TournamentConstants*) parseFromData:(NSData*) data;
-+ (StartupResponseProto_StartupConstants_TournamentConstants*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
-+ (StartupResponseProto_StartupConstants_TournamentConstants*) parseFromInputStream:(NSInputStream*) input;
-+ (StartupResponseProto_StartupConstants_TournamentConstants*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
-+ (StartupResponseProto_StartupConstants_TournamentConstants*) parseFromCodedInputStream:(PBCodedInputStream*) input;
-+ (StartupResponseProto_StartupConstants_TournamentConstants*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
-@end
-
-@interface StartupResponseProto_StartupConstants_TournamentConstants_Builder : PBGeneratedMessage_Builder {
-@private
-  StartupResponseProto_StartupConstants_TournamentConstants* result;
-}
-
-- (StartupResponseProto_StartupConstants_TournamentConstants*) defaultInstance;
-
-- (StartupResponseProto_StartupConstants_TournamentConstants_Builder*) clear;
-- (StartupResponseProto_StartupConstants_TournamentConstants_Builder*) clone;
-
-- (StartupResponseProto_StartupConstants_TournamentConstants*) build;
-- (StartupResponseProto_StartupConstants_TournamentConstants*) buildPartial;
-
-- (StartupResponseProto_StartupConstants_TournamentConstants_Builder*) mergeFrom:(StartupResponseProto_StartupConstants_TournamentConstants*) other;
-- (StartupResponseProto_StartupConstants_TournamentConstants_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input;
-- (StartupResponseProto_StartupConstants_TournamentConstants_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
-
-- (BOOL) hasWinsWeight;
-- (int32_t) winsWeight;
-- (StartupResponseProto_StartupConstants_TournamentConstants_Builder*) setWinsWeight:(int32_t) value;
-- (StartupResponseProto_StartupConstants_TournamentConstants_Builder*) clearWinsWeight;
-
-- (BOOL) hasLossesWeight;
-- (int32_t) lossesWeight;
-- (StartupResponseProto_StartupConstants_TournamentConstants_Builder*) setLossesWeight:(int32_t) value;
-- (StartupResponseProto_StartupConstants_TournamentConstants_Builder*) clearLossesWeight;
-
-- (BOOL) hasFleesWeight;
-- (int32_t) fleesWeight;
-- (StartupResponseProto_StartupConstants_TournamentConstants_Builder*) setFleesWeight:(int32_t) value;
-- (StartupResponseProto_StartupConstants_TournamentConstants_Builder*) clearFleesWeight;
-
-- (BOOL) hasNumHoursToShowAfterEventEnd;
-- (int32_t) numHoursToShowAfterEventEnd;
-- (StartupResponseProto_StartupConstants_TournamentConstants_Builder*) setNumHoursToShowAfterEventEnd:(int32_t) value;
-- (StartupResponseProto_StartupConstants_TournamentConstants_Builder*) clearNumHoursToShowAfterEventEnd;
-@end
-
-@interface StartupResponseProto_StartupConstants_DownloadableNibConstants : PBGeneratedMessage {
-@private
-  BOOL hasMapNibName_:1;
-  BOOL hasExpansionNibName_:1;
-  BOOL hasGoldShoppeNibName_:1;
-  NSString* mapNibName;
-  NSString* expansionNibName;
-  NSString* goldShoppeNibName;
-}
-- (BOOL) hasMapNibName;
-- (BOOL) hasExpansionNibName;
-- (BOOL) hasGoldShoppeNibName;
-@property (readonly, retain) NSString* mapNibName;
-@property (readonly, retain) NSString* expansionNibName;
-@property (readonly, retain) NSString* goldShoppeNibName;
-
-+ (StartupResponseProto_StartupConstants_DownloadableNibConstants*) defaultInstance;
-- (StartupResponseProto_StartupConstants_DownloadableNibConstants*) defaultInstance;
-
-- (BOOL) isInitialized;
-- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output;
-- (StartupResponseProto_StartupConstants_DownloadableNibConstants_Builder*) builder;
-+ (StartupResponseProto_StartupConstants_DownloadableNibConstants_Builder*) builder;
-+ (StartupResponseProto_StartupConstants_DownloadableNibConstants_Builder*) builderWithPrototype:(StartupResponseProto_StartupConstants_DownloadableNibConstants*) prototype;
-
-+ (StartupResponseProto_StartupConstants_DownloadableNibConstants*) parseFromData:(NSData*) data;
-+ (StartupResponseProto_StartupConstants_DownloadableNibConstants*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
-+ (StartupResponseProto_StartupConstants_DownloadableNibConstants*) parseFromInputStream:(NSInputStream*) input;
-+ (StartupResponseProto_StartupConstants_DownloadableNibConstants*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
-+ (StartupResponseProto_StartupConstants_DownloadableNibConstants*) parseFromCodedInputStream:(PBCodedInputStream*) input;
-+ (StartupResponseProto_StartupConstants_DownloadableNibConstants*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
-@end
-
-@interface StartupResponseProto_StartupConstants_DownloadableNibConstants_Builder : PBGeneratedMessage_Builder {
-@private
-  StartupResponseProto_StartupConstants_DownloadableNibConstants* result;
-}
-
-- (StartupResponseProto_StartupConstants_DownloadableNibConstants*) defaultInstance;
-
-- (StartupResponseProto_StartupConstants_DownloadableNibConstants_Builder*) clear;
-- (StartupResponseProto_StartupConstants_DownloadableNibConstants_Builder*) clone;
-
-- (StartupResponseProto_StartupConstants_DownloadableNibConstants*) build;
-- (StartupResponseProto_StartupConstants_DownloadableNibConstants*) buildPartial;
-
-- (StartupResponseProto_StartupConstants_DownloadableNibConstants_Builder*) mergeFrom:(StartupResponseProto_StartupConstants_DownloadableNibConstants*) other;
-- (StartupResponseProto_StartupConstants_DownloadableNibConstants_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input;
-- (StartupResponseProto_StartupConstants_DownloadableNibConstants_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
-
-- (BOOL) hasMapNibName;
-- (NSString*) mapNibName;
-- (StartupResponseProto_StartupConstants_DownloadableNibConstants_Builder*) setMapNibName:(NSString*) value;
-- (StartupResponseProto_StartupConstants_DownloadableNibConstants_Builder*) clearMapNibName;
-
-- (BOOL) hasExpansionNibName;
-- (NSString*) expansionNibName;
-- (StartupResponseProto_StartupConstants_DownloadableNibConstants_Builder*) setExpansionNibName:(NSString*) value;
-- (StartupResponseProto_StartupConstants_DownloadableNibConstants_Builder*) clearExpansionNibName;
-
-- (BOOL) hasGoldShoppeNibName;
-- (NSString*) goldShoppeNibName;
-- (StartupResponseProto_StartupConstants_DownloadableNibConstants_Builder*) setGoldShoppeNibName:(NSString*) value;
-- (StartupResponseProto_StartupConstants_DownloadableNibConstants_Builder*) clearGoldShoppeNibName;
-@end
-
-@interface StartupResponseProto_StartupConstants_ClanConstants : PBGeneratedMessage {
-@private
-  BOOL hasDiamondPriceToCreateClan_:1;
-  BOOL hasMaxCharLengthForClanName_:1;
-  BOOL hasMaxCharLengthForClanDescription_:1;
-  BOOL hasMaxCharLengthForClanTag_:1;
-  int32_t diamondPriceToCreateClan;
-  int32_t maxCharLengthForClanName;
-  int32_t maxCharLengthForClanDescription;
-  int32_t maxCharLengthForClanTag;
-}
-- (BOOL) hasDiamondPriceToCreateClan;
-- (BOOL) hasMaxCharLengthForClanName;
-- (BOOL) hasMaxCharLengthForClanDescription;
-- (BOOL) hasMaxCharLengthForClanTag;
-@property (readonly) int32_t diamondPriceToCreateClan;
-@property (readonly) int32_t maxCharLengthForClanName;
-@property (readonly) int32_t maxCharLengthForClanDescription;
-@property (readonly) int32_t maxCharLengthForClanTag;
-
-+ (StartupResponseProto_StartupConstants_ClanConstants*) defaultInstance;
-- (StartupResponseProto_StartupConstants_ClanConstants*) defaultInstance;
-
-- (BOOL) isInitialized;
-- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output;
-- (StartupResponseProto_StartupConstants_ClanConstants_Builder*) builder;
-+ (StartupResponseProto_StartupConstants_ClanConstants_Builder*) builder;
-+ (StartupResponseProto_StartupConstants_ClanConstants_Builder*) builderWithPrototype:(StartupResponseProto_StartupConstants_ClanConstants*) prototype;
-
-+ (StartupResponseProto_StartupConstants_ClanConstants*) parseFromData:(NSData*) data;
-+ (StartupResponseProto_StartupConstants_ClanConstants*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
-+ (StartupResponseProto_StartupConstants_ClanConstants*) parseFromInputStream:(NSInputStream*) input;
-+ (StartupResponseProto_StartupConstants_ClanConstants*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
-+ (StartupResponseProto_StartupConstants_ClanConstants*) parseFromCodedInputStream:(PBCodedInputStream*) input;
-+ (StartupResponseProto_StartupConstants_ClanConstants*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
-@end
-
-@interface StartupResponseProto_StartupConstants_ClanConstants_Builder : PBGeneratedMessage_Builder {
-@private
-  StartupResponseProto_StartupConstants_ClanConstants* result;
-}
-
-- (StartupResponseProto_StartupConstants_ClanConstants*) defaultInstance;
-
-- (StartupResponseProto_StartupConstants_ClanConstants_Builder*) clear;
-- (StartupResponseProto_StartupConstants_ClanConstants_Builder*) clone;
-
-- (StartupResponseProto_StartupConstants_ClanConstants*) build;
-- (StartupResponseProto_StartupConstants_ClanConstants*) buildPartial;
-
-- (StartupResponseProto_StartupConstants_ClanConstants_Builder*) mergeFrom:(StartupResponseProto_StartupConstants_ClanConstants*) other;
-- (StartupResponseProto_StartupConstants_ClanConstants_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input;
-- (StartupResponseProto_StartupConstants_ClanConstants_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
-
-- (BOOL) hasDiamondPriceToCreateClan;
-- (int32_t) diamondPriceToCreateClan;
-- (StartupResponseProto_StartupConstants_ClanConstants_Builder*) setDiamondPriceToCreateClan:(int32_t) value;
-- (StartupResponseProto_StartupConstants_ClanConstants_Builder*) clearDiamondPriceToCreateClan;
-
-- (BOOL) hasMaxCharLengthForClanName;
-- (int32_t) maxCharLengthForClanName;
-- (StartupResponseProto_StartupConstants_ClanConstants_Builder*) setMaxCharLengthForClanName:(int32_t) value;
-- (StartupResponseProto_StartupConstants_ClanConstants_Builder*) clearMaxCharLengthForClanName;
-
-- (BOOL) hasMaxCharLengthForClanDescription;
-- (int32_t) maxCharLengthForClanDescription;
-- (StartupResponseProto_StartupConstants_ClanConstants_Builder*) setMaxCharLengthForClanDescription:(int32_t) value;
-- (StartupResponseProto_StartupConstants_ClanConstants_Builder*) clearMaxCharLengthForClanDescription;
-
-- (BOOL) hasMaxCharLengthForClanTag;
-- (int32_t) maxCharLengthForClanTag;
-- (StartupResponseProto_StartupConstants_ClanConstants_Builder*) setMaxCharLengthForClanTag:(int32_t) value;
-- (StartupResponseProto_StartupConstants_ClanConstants_Builder*) clearMaxCharLengthForClanTag;
-@end
-
-@interface StartupResponseProto_StartupConstants_AnimatedSpriteOffsetProto : PBGeneratedMessage {
-@private
-  BOOL hasImageName_:1;
-  BOOL hasOffSet_:1;
-  NSString* imageName;
-  CoordinateProto* offSet;
-}
-- (BOOL) hasImageName;
-- (BOOL) hasOffSet;
-@property (readonly, retain) NSString* imageName;
-@property (readonly, retain) CoordinateProto* offSet;
-
-+ (StartupResponseProto_StartupConstants_AnimatedSpriteOffsetProto*) defaultInstance;
-- (StartupResponseProto_StartupConstants_AnimatedSpriteOffsetProto*) defaultInstance;
-
-- (BOOL) isInitialized;
-- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output;
-- (StartupResponseProto_StartupConstants_AnimatedSpriteOffsetProto_Builder*) builder;
-+ (StartupResponseProto_StartupConstants_AnimatedSpriteOffsetProto_Builder*) builder;
-+ (StartupResponseProto_StartupConstants_AnimatedSpriteOffsetProto_Builder*) builderWithPrototype:(StartupResponseProto_StartupConstants_AnimatedSpriteOffsetProto*) prototype;
-
-+ (StartupResponseProto_StartupConstants_AnimatedSpriteOffsetProto*) parseFromData:(NSData*) data;
-+ (StartupResponseProto_StartupConstants_AnimatedSpriteOffsetProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
-+ (StartupResponseProto_StartupConstants_AnimatedSpriteOffsetProto*) parseFromInputStream:(NSInputStream*) input;
-+ (StartupResponseProto_StartupConstants_AnimatedSpriteOffsetProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
-+ (StartupResponseProto_StartupConstants_AnimatedSpriteOffsetProto*) parseFromCodedInputStream:(PBCodedInputStream*) input;
-+ (StartupResponseProto_StartupConstants_AnimatedSpriteOffsetProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
-@end
-
-@interface StartupResponseProto_StartupConstants_AnimatedSpriteOffsetProto_Builder : PBGeneratedMessage_Builder {
-@private
-  StartupResponseProto_StartupConstants_AnimatedSpriteOffsetProto* result;
-}
-
-- (StartupResponseProto_StartupConstants_AnimatedSpriteOffsetProto*) defaultInstance;
-
-- (StartupResponseProto_StartupConstants_AnimatedSpriteOffsetProto_Builder*) clear;
-- (StartupResponseProto_StartupConstants_AnimatedSpriteOffsetProto_Builder*) clone;
-
-- (StartupResponseProto_StartupConstants_AnimatedSpriteOffsetProto*) build;
-- (StartupResponseProto_StartupConstants_AnimatedSpriteOffsetProto*) buildPartial;
-
-- (StartupResponseProto_StartupConstants_AnimatedSpriteOffsetProto_Builder*) mergeFrom:(StartupResponseProto_StartupConstants_AnimatedSpriteOffsetProto*) other;
-- (StartupResponseProto_StartupConstants_AnimatedSpriteOffsetProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input;
-- (StartupResponseProto_StartupConstants_AnimatedSpriteOffsetProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
-
-- (BOOL) hasImageName;
-- (NSString*) imageName;
-- (StartupResponseProto_StartupConstants_AnimatedSpriteOffsetProto_Builder*) setImageName:(NSString*) value;
-- (StartupResponseProto_StartupConstants_AnimatedSpriteOffsetProto_Builder*) clearImageName;
-
-- (BOOL) hasOffSet;
-- (CoordinateProto*) offSet;
-- (StartupResponseProto_StartupConstants_AnimatedSpriteOffsetProto_Builder*) setOffSet:(CoordinateProto*) value;
-- (StartupResponseProto_StartupConstants_AnimatedSpriteOffsetProto_Builder*) setOffSetBuilder:(CoordinateProto_Builder*) builderForValue;
-- (StartupResponseProto_StartupConstants_AnimatedSpriteOffsetProto_Builder*) mergeOffSet:(CoordinateProto*) value;
-- (StartupResponseProto_StartupConstants_AnimatedSpriteOffsetProto_Builder*) clearOffSet;
 @end
 
 @interface StartupResponseProto_StartupConstants_NormStructConstants : PBGeneratedMessage {
@@ -894,6 +652,338 @@ BOOL StartupResponseProto_StartupStatusIsValidValue(StartupResponseProto_Startup
 - (Float64) diamondCostForInstantUpgradeMultiplier;
 - (StartupResponseProto_StartupConstants_NormStructConstants_Builder*) setDiamondCostForInstantUpgradeMultiplier:(Float64) value;
 - (StartupResponseProto_StartupConstants_NormStructConstants_Builder*) clearDiamondCostForInstantUpgradeMultiplier;
+@end
+
+@interface StartupResponseProto_StartupConstants_AnimatedSpriteOffsetProto : PBGeneratedMessage {
+@private
+  BOOL hasImageName_:1;
+  BOOL hasOffSet_:1;
+  NSString* imageName;
+  CoordinateProto* offSet;
+}
+- (BOOL) hasImageName;
+- (BOOL) hasOffSet;
+@property (readonly, retain) NSString* imageName;
+@property (readonly, retain) CoordinateProto* offSet;
+
++ (StartupResponseProto_StartupConstants_AnimatedSpriteOffsetProto*) defaultInstance;
+- (StartupResponseProto_StartupConstants_AnimatedSpriteOffsetProto*) defaultInstance;
+
+- (BOOL) isInitialized;
+- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output;
+- (StartupResponseProto_StartupConstants_AnimatedSpriteOffsetProto_Builder*) builder;
++ (StartupResponseProto_StartupConstants_AnimatedSpriteOffsetProto_Builder*) builder;
++ (StartupResponseProto_StartupConstants_AnimatedSpriteOffsetProto_Builder*) builderWithPrototype:(StartupResponseProto_StartupConstants_AnimatedSpriteOffsetProto*) prototype;
+
++ (StartupResponseProto_StartupConstants_AnimatedSpriteOffsetProto*) parseFromData:(NSData*) data;
++ (StartupResponseProto_StartupConstants_AnimatedSpriteOffsetProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (StartupResponseProto_StartupConstants_AnimatedSpriteOffsetProto*) parseFromInputStream:(NSInputStream*) input;
++ (StartupResponseProto_StartupConstants_AnimatedSpriteOffsetProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (StartupResponseProto_StartupConstants_AnimatedSpriteOffsetProto*) parseFromCodedInputStream:(PBCodedInputStream*) input;
++ (StartupResponseProto_StartupConstants_AnimatedSpriteOffsetProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+@end
+
+@interface StartupResponseProto_StartupConstants_AnimatedSpriteOffsetProto_Builder : PBGeneratedMessage_Builder {
+@private
+  StartupResponseProto_StartupConstants_AnimatedSpriteOffsetProto* result;
+}
+
+- (StartupResponseProto_StartupConstants_AnimatedSpriteOffsetProto*) defaultInstance;
+
+- (StartupResponseProto_StartupConstants_AnimatedSpriteOffsetProto_Builder*) clear;
+- (StartupResponseProto_StartupConstants_AnimatedSpriteOffsetProto_Builder*) clone;
+
+- (StartupResponseProto_StartupConstants_AnimatedSpriteOffsetProto*) build;
+- (StartupResponseProto_StartupConstants_AnimatedSpriteOffsetProto*) buildPartial;
+
+- (StartupResponseProto_StartupConstants_AnimatedSpriteOffsetProto_Builder*) mergeFrom:(StartupResponseProto_StartupConstants_AnimatedSpriteOffsetProto*) other;
+- (StartupResponseProto_StartupConstants_AnimatedSpriteOffsetProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input;
+- (StartupResponseProto_StartupConstants_AnimatedSpriteOffsetProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+
+- (BOOL) hasImageName;
+- (NSString*) imageName;
+- (StartupResponseProto_StartupConstants_AnimatedSpriteOffsetProto_Builder*) setImageName:(NSString*) value;
+- (StartupResponseProto_StartupConstants_AnimatedSpriteOffsetProto_Builder*) clearImageName;
+
+- (BOOL) hasOffSet;
+- (CoordinateProto*) offSet;
+- (StartupResponseProto_StartupConstants_AnimatedSpriteOffsetProto_Builder*) setOffSet:(CoordinateProto*) value;
+- (StartupResponseProto_StartupConstants_AnimatedSpriteOffsetProto_Builder*) setOffSetBuilder:(CoordinateProto_Builder*) builderForValue;
+- (StartupResponseProto_StartupConstants_AnimatedSpriteOffsetProto_Builder*) mergeOffSet:(CoordinateProto*) value;
+- (StartupResponseProto_StartupConstants_AnimatedSpriteOffsetProto_Builder*) clearOffSet;
+@end
+
+@interface StartupResponseProto_StartupConstants_ClanConstants : PBGeneratedMessage {
+@private
+  BOOL hasDiamondPriceToCreateClan_:1;
+  BOOL hasMaxCharLengthForClanName_:1;
+  BOOL hasMaxCharLengthForClanDescription_:1;
+  BOOL hasMaxCharLengthForClanTag_:1;
+  int32_t diamondPriceToCreateClan;
+  int32_t maxCharLengthForClanName;
+  int32_t maxCharLengthForClanDescription;
+  int32_t maxCharLengthForClanTag;
+}
+- (BOOL) hasDiamondPriceToCreateClan;
+- (BOOL) hasMaxCharLengthForClanName;
+- (BOOL) hasMaxCharLengthForClanDescription;
+- (BOOL) hasMaxCharLengthForClanTag;
+@property (readonly) int32_t diamondPriceToCreateClan;
+@property (readonly) int32_t maxCharLengthForClanName;
+@property (readonly) int32_t maxCharLengthForClanDescription;
+@property (readonly) int32_t maxCharLengthForClanTag;
+
++ (StartupResponseProto_StartupConstants_ClanConstants*) defaultInstance;
+- (StartupResponseProto_StartupConstants_ClanConstants*) defaultInstance;
+
+- (BOOL) isInitialized;
+- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output;
+- (StartupResponseProto_StartupConstants_ClanConstants_Builder*) builder;
++ (StartupResponseProto_StartupConstants_ClanConstants_Builder*) builder;
++ (StartupResponseProto_StartupConstants_ClanConstants_Builder*) builderWithPrototype:(StartupResponseProto_StartupConstants_ClanConstants*) prototype;
+
++ (StartupResponseProto_StartupConstants_ClanConstants*) parseFromData:(NSData*) data;
++ (StartupResponseProto_StartupConstants_ClanConstants*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (StartupResponseProto_StartupConstants_ClanConstants*) parseFromInputStream:(NSInputStream*) input;
++ (StartupResponseProto_StartupConstants_ClanConstants*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (StartupResponseProto_StartupConstants_ClanConstants*) parseFromCodedInputStream:(PBCodedInputStream*) input;
++ (StartupResponseProto_StartupConstants_ClanConstants*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+@end
+
+@interface StartupResponseProto_StartupConstants_ClanConstants_Builder : PBGeneratedMessage_Builder {
+@private
+  StartupResponseProto_StartupConstants_ClanConstants* result;
+}
+
+- (StartupResponseProto_StartupConstants_ClanConstants*) defaultInstance;
+
+- (StartupResponseProto_StartupConstants_ClanConstants_Builder*) clear;
+- (StartupResponseProto_StartupConstants_ClanConstants_Builder*) clone;
+
+- (StartupResponseProto_StartupConstants_ClanConstants*) build;
+- (StartupResponseProto_StartupConstants_ClanConstants*) buildPartial;
+
+- (StartupResponseProto_StartupConstants_ClanConstants_Builder*) mergeFrom:(StartupResponseProto_StartupConstants_ClanConstants*) other;
+- (StartupResponseProto_StartupConstants_ClanConstants_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input;
+- (StartupResponseProto_StartupConstants_ClanConstants_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+
+- (BOOL) hasDiamondPriceToCreateClan;
+- (int32_t) diamondPriceToCreateClan;
+- (StartupResponseProto_StartupConstants_ClanConstants_Builder*) setDiamondPriceToCreateClan:(int32_t) value;
+- (StartupResponseProto_StartupConstants_ClanConstants_Builder*) clearDiamondPriceToCreateClan;
+
+- (BOOL) hasMaxCharLengthForClanName;
+- (int32_t) maxCharLengthForClanName;
+- (StartupResponseProto_StartupConstants_ClanConstants_Builder*) setMaxCharLengthForClanName:(int32_t) value;
+- (StartupResponseProto_StartupConstants_ClanConstants_Builder*) clearMaxCharLengthForClanName;
+
+- (BOOL) hasMaxCharLengthForClanDescription;
+- (int32_t) maxCharLengthForClanDescription;
+- (StartupResponseProto_StartupConstants_ClanConstants_Builder*) setMaxCharLengthForClanDescription:(int32_t) value;
+- (StartupResponseProto_StartupConstants_ClanConstants_Builder*) clearMaxCharLengthForClanDescription;
+
+- (BOOL) hasMaxCharLengthForClanTag;
+- (int32_t) maxCharLengthForClanTag;
+- (StartupResponseProto_StartupConstants_ClanConstants_Builder*) setMaxCharLengthForClanTag:(int32_t) value;
+- (StartupResponseProto_StartupConstants_ClanConstants_Builder*) clearMaxCharLengthForClanTag;
+@end
+
+@interface StartupResponseProto_StartupConstants_DownloadableNibConstants : PBGeneratedMessage {
+@private
+  BOOL hasMapNibName_:1;
+  BOOL hasExpansionNibName_:1;
+  BOOL hasGoldShoppeNibName_:1;
+  NSString* mapNibName;
+  NSString* expansionNibName;
+  NSString* goldShoppeNibName;
+}
+- (BOOL) hasMapNibName;
+- (BOOL) hasExpansionNibName;
+- (BOOL) hasGoldShoppeNibName;
+@property (readonly, retain) NSString* mapNibName;
+@property (readonly, retain) NSString* expansionNibName;
+@property (readonly, retain) NSString* goldShoppeNibName;
+
++ (StartupResponseProto_StartupConstants_DownloadableNibConstants*) defaultInstance;
+- (StartupResponseProto_StartupConstants_DownloadableNibConstants*) defaultInstance;
+
+- (BOOL) isInitialized;
+- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output;
+- (StartupResponseProto_StartupConstants_DownloadableNibConstants_Builder*) builder;
++ (StartupResponseProto_StartupConstants_DownloadableNibConstants_Builder*) builder;
++ (StartupResponseProto_StartupConstants_DownloadableNibConstants_Builder*) builderWithPrototype:(StartupResponseProto_StartupConstants_DownloadableNibConstants*) prototype;
+
++ (StartupResponseProto_StartupConstants_DownloadableNibConstants*) parseFromData:(NSData*) data;
++ (StartupResponseProto_StartupConstants_DownloadableNibConstants*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (StartupResponseProto_StartupConstants_DownloadableNibConstants*) parseFromInputStream:(NSInputStream*) input;
++ (StartupResponseProto_StartupConstants_DownloadableNibConstants*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (StartupResponseProto_StartupConstants_DownloadableNibConstants*) parseFromCodedInputStream:(PBCodedInputStream*) input;
++ (StartupResponseProto_StartupConstants_DownloadableNibConstants*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+@end
+
+@interface StartupResponseProto_StartupConstants_DownloadableNibConstants_Builder : PBGeneratedMessage_Builder {
+@private
+  StartupResponseProto_StartupConstants_DownloadableNibConstants* result;
+}
+
+- (StartupResponseProto_StartupConstants_DownloadableNibConstants*) defaultInstance;
+
+- (StartupResponseProto_StartupConstants_DownloadableNibConstants_Builder*) clear;
+- (StartupResponseProto_StartupConstants_DownloadableNibConstants_Builder*) clone;
+
+- (StartupResponseProto_StartupConstants_DownloadableNibConstants*) build;
+- (StartupResponseProto_StartupConstants_DownloadableNibConstants*) buildPartial;
+
+- (StartupResponseProto_StartupConstants_DownloadableNibConstants_Builder*) mergeFrom:(StartupResponseProto_StartupConstants_DownloadableNibConstants*) other;
+- (StartupResponseProto_StartupConstants_DownloadableNibConstants_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input;
+- (StartupResponseProto_StartupConstants_DownloadableNibConstants_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+
+- (BOOL) hasMapNibName;
+- (NSString*) mapNibName;
+- (StartupResponseProto_StartupConstants_DownloadableNibConstants_Builder*) setMapNibName:(NSString*) value;
+- (StartupResponseProto_StartupConstants_DownloadableNibConstants_Builder*) clearMapNibName;
+
+- (BOOL) hasExpansionNibName;
+- (NSString*) expansionNibName;
+- (StartupResponseProto_StartupConstants_DownloadableNibConstants_Builder*) setExpansionNibName:(NSString*) value;
+- (StartupResponseProto_StartupConstants_DownloadableNibConstants_Builder*) clearExpansionNibName;
+
+- (BOOL) hasGoldShoppeNibName;
+- (NSString*) goldShoppeNibName;
+- (StartupResponseProto_StartupConstants_DownloadableNibConstants_Builder*) setGoldShoppeNibName:(NSString*) value;
+- (StartupResponseProto_StartupConstants_DownloadableNibConstants_Builder*) clearGoldShoppeNibName;
+@end
+
+@interface StartupResponseProto_StartupConstants_TournamentConstants : PBGeneratedMessage {
+@private
+  BOOL hasWinsWeight_:1;
+  BOOL hasLossesWeight_:1;
+  BOOL hasFleesWeight_:1;
+  BOOL hasNumHoursToShowAfterEventEnd_:1;
+  int32_t winsWeight;
+  int32_t lossesWeight;
+  int32_t fleesWeight;
+  int32_t numHoursToShowAfterEventEnd;
+}
+- (BOOL) hasWinsWeight;
+- (BOOL) hasLossesWeight;
+- (BOOL) hasFleesWeight;
+- (BOOL) hasNumHoursToShowAfterEventEnd;
+@property (readonly) int32_t winsWeight;
+@property (readonly) int32_t lossesWeight;
+@property (readonly) int32_t fleesWeight;
+@property (readonly) int32_t numHoursToShowAfterEventEnd;
+
++ (StartupResponseProto_StartupConstants_TournamentConstants*) defaultInstance;
+- (StartupResponseProto_StartupConstants_TournamentConstants*) defaultInstance;
+
+- (BOOL) isInitialized;
+- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output;
+- (StartupResponseProto_StartupConstants_TournamentConstants_Builder*) builder;
++ (StartupResponseProto_StartupConstants_TournamentConstants_Builder*) builder;
++ (StartupResponseProto_StartupConstants_TournamentConstants_Builder*) builderWithPrototype:(StartupResponseProto_StartupConstants_TournamentConstants*) prototype;
+
++ (StartupResponseProto_StartupConstants_TournamentConstants*) parseFromData:(NSData*) data;
++ (StartupResponseProto_StartupConstants_TournamentConstants*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (StartupResponseProto_StartupConstants_TournamentConstants*) parseFromInputStream:(NSInputStream*) input;
++ (StartupResponseProto_StartupConstants_TournamentConstants*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (StartupResponseProto_StartupConstants_TournamentConstants*) parseFromCodedInputStream:(PBCodedInputStream*) input;
++ (StartupResponseProto_StartupConstants_TournamentConstants*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+@end
+
+@interface StartupResponseProto_StartupConstants_TournamentConstants_Builder : PBGeneratedMessage_Builder {
+@private
+  StartupResponseProto_StartupConstants_TournamentConstants* result;
+}
+
+- (StartupResponseProto_StartupConstants_TournamentConstants*) defaultInstance;
+
+- (StartupResponseProto_StartupConstants_TournamentConstants_Builder*) clear;
+- (StartupResponseProto_StartupConstants_TournamentConstants_Builder*) clone;
+
+- (StartupResponseProto_StartupConstants_TournamentConstants*) build;
+- (StartupResponseProto_StartupConstants_TournamentConstants*) buildPartial;
+
+- (StartupResponseProto_StartupConstants_TournamentConstants_Builder*) mergeFrom:(StartupResponseProto_StartupConstants_TournamentConstants*) other;
+- (StartupResponseProto_StartupConstants_TournamentConstants_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input;
+- (StartupResponseProto_StartupConstants_TournamentConstants_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+
+- (BOOL) hasWinsWeight;
+- (int32_t) winsWeight;
+- (StartupResponseProto_StartupConstants_TournamentConstants_Builder*) setWinsWeight:(int32_t) value;
+- (StartupResponseProto_StartupConstants_TournamentConstants_Builder*) clearWinsWeight;
+
+- (BOOL) hasLossesWeight;
+- (int32_t) lossesWeight;
+- (StartupResponseProto_StartupConstants_TournamentConstants_Builder*) setLossesWeight:(int32_t) value;
+- (StartupResponseProto_StartupConstants_TournamentConstants_Builder*) clearLossesWeight;
+
+- (BOOL) hasFleesWeight;
+- (int32_t) fleesWeight;
+- (StartupResponseProto_StartupConstants_TournamentConstants_Builder*) setFleesWeight:(int32_t) value;
+- (StartupResponseProto_StartupConstants_TournamentConstants_Builder*) clearFleesWeight;
+
+- (BOOL) hasNumHoursToShowAfterEventEnd;
+- (int32_t) numHoursToShowAfterEventEnd;
+- (StartupResponseProto_StartupConstants_TournamentConstants_Builder*) setNumHoursToShowAfterEventEnd:(int32_t) value;
+- (StartupResponseProto_StartupConstants_TournamentConstants_Builder*) clearNumHoursToShowAfterEventEnd;
+@end
+
+@interface StartupResponseProto_StartupConstants_UserMonsterConstants : PBGeneratedMessage {
+@private
+  BOOL hasMaxNumTeamSlots_:1;
+  BOOL hasInitialMaxNumMonsterLimit_:1;
+  int32_t maxNumTeamSlots;
+  int32_t initialMaxNumMonsterLimit;
+}
+- (BOOL) hasMaxNumTeamSlots;
+- (BOOL) hasInitialMaxNumMonsterLimit;
+@property (readonly) int32_t maxNumTeamSlots;
+@property (readonly) int32_t initialMaxNumMonsterLimit;
+
++ (StartupResponseProto_StartupConstants_UserMonsterConstants*) defaultInstance;
+- (StartupResponseProto_StartupConstants_UserMonsterConstants*) defaultInstance;
+
+- (BOOL) isInitialized;
+- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output;
+- (StartupResponseProto_StartupConstants_UserMonsterConstants_Builder*) builder;
++ (StartupResponseProto_StartupConstants_UserMonsterConstants_Builder*) builder;
++ (StartupResponseProto_StartupConstants_UserMonsterConstants_Builder*) builderWithPrototype:(StartupResponseProto_StartupConstants_UserMonsterConstants*) prototype;
+
++ (StartupResponseProto_StartupConstants_UserMonsterConstants*) parseFromData:(NSData*) data;
++ (StartupResponseProto_StartupConstants_UserMonsterConstants*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (StartupResponseProto_StartupConstants_UserMonsterConstants*) parseFromInputStream:(NSInputStream*) input;
++ (StartupResponseProto_StartupConstants_UserMonsterConstants*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (StartupResponseProto_StartupConstants_UserMonsterConstants*) parseFromCodedInputStream:(PBCodedInputStream*) input;
++ (StartupResponseProto_StartupConstants_UserMonsterConstants*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+@end
+
+@interface StartupResponseProto_StartupConstants_UserMonsterConstants_Builder : PBGeneratedMessage_Builder {
+@private
+  StartupResponseProto_StartupConstants_UserMonsterConstants* result;
+}
+
+- (StartupResponseProto_StartupConstants_UserMonsterConstants*) defaultInstance;
+
+- (StartupResponseProto_StartupConstants_UserMonsterConstants_Builder*) clear;
+- (StartupResponseProto_StartupConstants_UserMonsterConstants_Builder*) clone;
+
+- (StartupResponseProto_StartupConstants_UserMonsterConstants*) build;
+- (StartupResponseProto_StartupConstants_UserMonsterConstants*) buildPartial;
+
+- (StartupResponseProto_StartupConstants_UserMonsterConstants_Builder*) mergeFrom:(StartupResponseProto_StartupConstants_UserMonsterConstants*) other;
+- (StartupResponseProto_StartupConstants_UserMonsterConstants_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input;
+- (StartupResponseProto_StartupConstants_UserMonsterConstants_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+
+- (BOOL) hasMaxNumTeamSlots;
+- (int32_t) maxNumTeamSlots;
+- (StartupResponseProto_StartupConstants_UserMonsterConstants_Builder*) setMaxNumTeamSlots:(int32_t) value;
+- (StartupResponseProto_StartupConstants_UserMonsterConstants_Builder*) clearMaxNumTeamSlots;
+
+- (BOOL) hasInitialMaxNumMonsterLimit;
+- (int32_t) initialMaxNumMonsterLimit;
+- (StartupResponseProto_StartupConstants_UserMonsterConstants_Builder*) setInitialMaxNumMonsterLimit:(int32_t) value;
+- (StartupResponseProto_StartupConstants_UserMonsterConstants_Builder*) clearInitialMaxNumMonsterLimit;
 @end
 
 @interface StartupResponseProto_StartupConstants_Builder : PBGeneratedMessage_Builder {
@@ -1011,6 +1101,13 @@ BOOL StartupResponseProto_StartupStatusIsValidValue(StartupResponseProto_Startup
 - (int32_t) numBeginnerSalesAllowed;
 - (StartupResponseProto_StartupConstants_Builder*) setNumBeginnerSalesAllowed:(int32_t) value;
 - (StartupResponseProto_StartupConstants_Builder*) clearNumBeginnerSalesAllowed;
+
+- (BOOL) hasUserMonsterConstants;
+- (StartupResponseProto_StartupConstants_UserMonsterConstants*) userMonsterConstants;
+- (StartupResponseProto_StartupConstants_Builder*) setUserMonsterConstants:(StartupResponseProto_StartupConstants_UserMonsterConstants*) value;
+- (StartupResponseProto_StartupConstants_Builder*) setUserMonsterConstantsBuilder:(StartupResponseProto_StartupConstants_UserMonsterConstants_Builder*) builderForValue;
+- (StartupResponseProto_StartupConstants_Builder*) mergeUserMonsterConstants:(StartupResponseProto_StartupConstants_UserMonsterConstants*) value;
+- (StartupResponseProto_StartupConstants_Builder*) clearUserMonsterConstants;
 @end
 
 @interface StartupResponseProto_Builder : PBGeneratedMessage_Builder {
@@ -1029,6 +1126,11 @@ BOOL StartupResponseProto_StartupStatusIsValidValue(StartupResponseProto_Startup
 - (StartupResponseProto_Builder*) mergeFrom:(StartupResponseProto*) other;
 - (StartupResponseProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input;
 - (StartupResponseProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+
+- (BOOL) hasServerTimeMillis;
+- (int64_t) serverTimeMillis;
+- (StartupResponseProto_Builder*) setServerTimeMillis:(int64_t) value;
+- (StartupResponseProto_Builder*) clearServerTimeMillis;
 
 - (BOOL) hasSender;
 - (FullUserProto*) sender;
@@ -1089,20 +1191,6 @@ BOOL StartupResponseProto_StartupStatusIsValidValue(StartupResponseProto_Startup
 - (StartupResponseProto_Builder*) addAllUserClanInfo:(NSArray*) values;
 - (StartupResponseProto_Builder*) clearUserClanInfoList;
 
-- (NSArray*) attackNotificationsList;
-- (StartupResponseProto_AttackedNotificationProto*) attackNotificationsAtIndex:(int32_t) index;
-- (StartupResponseProto_Builder*) replaceAttackNotificationsAtIndex:(int32_t) index with:(StartupResponseProto_AttackedNotificationProto*) value;
-- (StartupResponseProto_Builder*) addAttackNotifications:(StartupResponseProto_AttackedNotificationProto*) value;
-- (StartupResponseProto_Builder*) addAllAttackNotifications:(NSArray*) values;
-- (StartupResponseProto_Builder*) clearAttackNotificationsList;
-
-- (NSArray*) referralNotificationsList;
-- (StartupResponseProto_ReferralNotificationProto*) referralNotificationsAtIndex:(int32_t) index;
-- (StartupResponseProto_Builder*) replaceReferralNotificationsAtIndex:(int32_t) index with:(StartupResponseProto_ReferralNotificationProto*) value;
-- (StartupResponseProto_Builder*) addReferralNotifications:(StartupResponseProto_ReferralNotificationProto*) value;
-- (StartupResponseProto_Builder*) addAllReferralNotifications:(NSArray*) values;
-- (StartupResponseProto_Builder*) clearReferralNotificationsList;
-
 - (BOOL) hasAppStoreUrl;
 - (NSString*) appStoreUrl;
 - (StartupResponseProto_Builder*) setAppStoreUrl:(NSString*) value;
@@ -1122,6 +1210,27 @@ BOOL StartupResponseProto_StartupStatusIsValidValue(StartupResponseProto_Startup
 - (BOOL) playerHasBoughtInAppPurchase;
 - (StartupResponseProto_Builder*) setPlayerHasBoughtInAppPurchase:(BOOL) value;
 - (StartupResponseProto_Builder*) clearPlayerHasBoughtInAppPurchase;
+
+- (NSArray*) goldSalesList;
+- (GoldSaleProto*) goldSalesAtIndex:(int32_t) index;
+- (StartupResponseProto_Builder*) replaceGoldSalesAtIndex:(int32_t) index with:(GoldSaleProto*) value;
+- (StartupResponseProto_Builder*) addGoldSales:(GoldSaleProto*) value;
+- (StartupResponseProto_Builder*) addAllGoldSales:(NSArray*) values;
+- (StartupResponseProto_Builder*) clearGoldSalesList;
+
+- (NSArray*) attackNotificationsList;
+- (StartupResponseProto_AttackedNotificationProto*) attackNotificationsAtIndex:(int32_t) index;
+- (StartupResponseProto_Builder*) replaceAttackNotificationsAtIndex:(int32_t) index with:(StartupResponseProto_AttackedNotificationProto*) value;
+- (StartupResponseProto_Builder*) addAttackNotifications:(StartupResponseProto_AttackedNotificationProto*) value;
+- (StartupResponseProto_Builder*) addAllAttackNotifications:(NSArray*) values;
+- (StartupResponseProto_Builder*) clearAttackNotificationsList;
+
+- (NSArray*) referralNotificationsList;
+- (StartupResponseProto_ReferralNotificationProto*) referralNotificationsAtIndex:(int32_t) index;
+- (StartupResponseProto_Builder*) replaceReferralNotificationsAtIndex:(int32_t) index with:(StartupResponseProto_ReferralNotificationProto*) value;
+- (StartupResponseProto_Builder*) addReferralNotifications:(StartupResponseProto_ReferralNotificationProto*) value;
+- (StartupResponseProto_Builder*) addAllReferralNotifications:(NSArray*) values;
+- (StartupResponseProto_Builder*) clearReferralNotificationsList;
 
 - (NSArray*) noticesToPlayersList;
 - (NSString*) noticesToPlayersAtIndex:(int32_t) index;
@@ -1144,12 +1253,12 @@ BOOL StartupResponseProto_StartupStatusIsValidValue(StartupResponseProto_Startup
 - (StartupResponseProto_Builder*) addAllClanChats:(NSArray*) values;
 - (StartupResponseProto_Builder*) clearClanChatsList;
 
-- (NSArray*) goldSalesList;
-- (GoldSaleProto*) goldSalesAtIndex:(int32_t) index;
-- (StartupResponseProto_Builder*) replaceGoldSalesAtIndex:(int32_t) index with:(GoldSaleProto*) value;
-- (StartupResponseProto_Builder*) addGoldSales:(GoldSaleProto*) value;
-- (StartupResponseProto_Builder*) addAllGoldSales:(NSArray*) values;
-- (StartupResponseProto_Builder*) clearGoldSalesList;
+- (NSArray*) pcppList;
+- (PrivateChatPostProto*) pcppAtIndex:(int32_t) index;
+- (StartupResponseProto_Builder*) replacePcppAtIndex:(int32_t) index with:(PrivateChatPostProto*) value;
+- (StartupResponseProto_Builder*) addPcpp:(PrivateChatPostProto*) value;
+- (StartupResponseProto_Builder*) addAllPcpp:(NSArray*) values;
+- (StartupResponseProto_Builder*) clearPcppList;
 
 - (NSArray*) staticStructsList;
 - (FullStructureProto*) staticStructsAtIndex:(int32_t) index;
@@ -1157,6 +1266,34 @@ BOOL StartupResponseProto_StartupStatusIsValidValue(StartupResponseProto_Startup
 - (StartupResponseProto_Builder*) addStaticStructs:(FullStructureProto*) value;
 - (StartupResponseProto_Builder*) addAllStaticStructs:(NSArray*) values;
 - (StartupResponseProto_Builder*) clearStaticStructsList;
+
+- (NSArray*) expansionCostsList;
+- (CityExpansionCostProto*) expansionCostsAtIndex:(int32_t) index;
+- (StartupResponseProto_Builder*) replaceExpansionCostsAtIndex:(int32_t) index with:(CityExpansionCostProto*) value;
+- (StartupResponseProto_Builder*) addExpansionCosts:(CityExpansionCostProto*) value;
+- (StartupResponseProto_Builder*) addAllExpansionCosts:(NSArray*) values;
+- (StartupResponseProto_Builder*) clearExpansionCostsList;
+
+- (NSArray*) staticMonstersList;
+- (MonsterProto*) staticMonstersAtIndex:(int32_t) index;
+- (StartupResponseProto_Builder*) replaceStaticMonstersAtIndex:(int32_t) index with:(MonsterProto*) value;
+- (StartupResponseProto_Builder*) addStaticMonsters:(MonsterProto*) value;
+- (StartupResponseProto_Builder*) addAllStaticMonsters:(NSArray*) values;
+- (StartupResponseProto_Builder*) clearStaticMonstersList;
+
+- (NSArray*) usersMonstersList;
+- (FullUserMonsterProto*) usersMonstersAtIndex:(int32_t) index;
+- (StartupResponseProto_Builder*) replaceUsersMonstersAtIndex:(int32_t) index with:(FullUserMonsterProto*) value;
+- (StartupResponseProto_Builder*) addUsersMonsters:(FullUserMonsterProto*) value;
+- (StartupResponseProto_Builder*) addAllUsersMonsters:(NSArray*) values;
+- (StartupResponseProto_Builder*) clearUsersMonstersList;
+
+- (NSArray*) monstersHealingList;
+- (UserMonsterHealingProto*) monstersHealingAtIndex:(int32_t) index;
+- (StartupResponseProto_Builder*) replaceMonstersHealingAtIndex:(int32_t) index with:(UserMonsterHealingProto*) value;
+- (StartupResponseProto_Builder*) addMonstersHealing:(UserMonsterHealingProto*) value;
+- (StartupResponseProto_Builder*) addAllMonstersHealing:(NSArray*) values;
+- (StartupResponseProto_Builder*) clearMonstersHealingList;
 
 - (NSArray*) rareBoosterPurchasesList;
 - (RareBoosterPurchaseProto*) rareBoosterPurchasesAtIndex:(int32_t) index;
@@ -1170,18 +1307,11 @@ BOOL StartupResponseProto_StartupStatusIsValidValue(StartupResponseProto_Startup
 - (StartupResponseProto_Builder*) setKabamNaid:(NSString*) value;
 - (StartupResponseProto_Builder*) clearKabamNaid;
 
-- (NSArray*) pcppList;
-- (PrivateChatPostProto*) pcppAtIndex:(int32_t) index;
-- (StartupResponseProto_Builder*) replacePcppAtIndex:(int32_t) index with:(PrivateChatPostProto*) value;
-- (StartupResponseProto_Builder*) addPcpp:(PrivateChatPostProto*) value;
-- (StartupResponseProto_Builder*) addAllPcpp:(NSArray*) values;
-- (StartupResponseProto_Builder*) clearPcppList;
-
-- (NSArray*) expansionCostsList;
-- (CityExpansionCostProto*) expansionCostsAtIndex:(int32_t) index;
-- (StartupResponseProto_Builder*) replaceExpansionCostsAtIndex:(int32_t) index with:(CityExpansionCostProto*) value;
-- (StartupResponseProto_Builder*) addExpansionCosts:(CityExpansionCostProto*) value;
-- (StartupResponseProto_Builder*) addAllExpansionCosts:(NSArray*) values;
-- (StartupResponseProto_Builder*) clearExpansionCostsList;
+- (NSArray*) larepList;
+- (LevelAndRequiredExpProto*) larepAtIndex:(int32_t) index;
+- (StartupResponseProto_Builder*) replaceLarepAtIndex:(int32_t) index with:(LevelAndRequiredExpProto*) value;
+- (StartupResponseProto_Builder*) addLarep:(LevelAndRequiredExpProto*) value;
+- (StartupResponseProto_Builder*) addAllLarep:(NSArray*) values;
+- (StartupResponseProto_Builder*) clearLarepList;
 @end
 

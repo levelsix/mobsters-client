@@ -13,6 +13,7 @@
 #import "GameState.h"
 #import "Globals.h"
 #import "HomeBuildingMenus.h"
+#import "CCAnimation+SpriteLoading.h"
 
 #define CONSTRUCTION_TAG 49
 
@@ -149,13 +150,13 @@
   }
 }
 
-- (CGSize) contentSize {
-  CCNode *spr = [self getChildByTag:CONSTRUCTION_TAG];
-  if (spr) {
-    return spr.contentSize;
-  }
-  return [super contentSize];
-}
+//- (CGSize) contentSize {
+//  CCNode *spr = [self getChildByTag:CONSTRUCTION_TAG];
+//  if (spr) {
+//    return spr.contentSize;
+//  }
+//  return [super contentSize];
+//}
 
 - (void) setIsConstructing:(BOOL)isConstructing {
   if (_isConstructing != isConstructing) {
@@ -163,10 +164,17 @@
       [self setOpacity:1];
       _isConstructing = isConstructing;
       
-      CCSprite *sprite = [CCSprite spriteWithFile:[Globals imageNameForConstructionWithSize:self.location.size]];
-      sprite.anchorPoint = ccp(0.5, 0.f);
-      sprite.position = ccp(self.contentSize.width/2, 0);
-      [self addChild:sprite z:1 tag:CONSTRUCTION_TAG];
+//      [[CCSpriteFrameCache sharedSpriteFrameCache] addSpriteFramesWithFile:@"Construction.plist"];
+//      CCSprite *sprite = [CCSprite spriteWithSpriteFrameName:@"Construction.png"];
+//      sprite.anchorPoint = ccp(0.462, 0.165);
+//      sprite.position = ccp(self.contentSize.width/2, -self.verticalOffset-2);
+//      [self addChild:sprite z:1 tag:CONSTRUCTION_TAG];
+//      
+//      CCAnimation *anim = [CCAnimation animationWithSpritePrefix:@"Construction" delay:1];
+//      CCSprite *spr = [CCSprite spriteWithSpriteFrame:[[anim.frames objectAtIndex:0] spriteFrame]];
+//      [spr runAction:[CCRepeatForever actionWithAction:[CCAnimate actionWithAnimation:anim]]];
+//      [sprite addChild:spr];
+//      spr.position = ccp(sprite.contentSize.width/2, sprite.contentSize.height/2);
     } else {
       _isConstructing = isConstructing;
       self.opacity = 255;
@@ -410,7 +418,7 @@
         break;
         
       case kBuilding:
-        totalTime = fsp.minutesToUpgradeBase*60;
+        totalTime = fsp.minutesToBuild*60;
         time = [[NSDate dateWithTimeInterval:totalTime sinceDate:self.userStruct.purchaseTime] timeIntervalSinceNow];
         break;
         
@@ -486,7 +494,7 @@
       break;
       
     case kBuilding:
-      time = [[NSDate dateWithTimeInterval:fsp.minutesToUpgradeBase*60 sinceDate:self.userStruct.purchaseTime] timeIntervalSinceNow];
+      time = [[NSDate dateWithTimeInterval:fsp.minutesToBuild*60 sinceDate:self.userStruct.purchaseTime] timeIntervalSinceNow];
       selector = @selector(buildComplete:);
       break;
       

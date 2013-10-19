@@ -248,7 +248,7 @@
 			if( ! [textureDir isEqualToString:dirname] )
 				textureName = [dirname stringByAppendingPathComponent:textureName];
 
-			CCTexture2D *tex = [[CCTextureCache sharedTextureCache] addImage:textureName];
+			CCTexture2D *tex = [[CCTextureCache sharedTextureCache] textureForKey:textureName];
 
 			if( tex )
 				[self setTexture:tex];

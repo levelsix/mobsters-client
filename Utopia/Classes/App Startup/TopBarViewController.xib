@@ -7,6 +7,10 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="TopBarViewController">
             <connections>
+                <outlet property="expBar" destination="ghD-zV-PDc" id="iw6-0a-dTr"/>
+                <outlet property="expLabel" destination="jBk-ZB-O11" id="8zs-ST-LMK"/>
+                <outlet property="goldLabel" destination="KKx-uR-59O" id="9CL-vF-EfO"/>
+                <outlet property="silverLabel" destination="RKP-GK-dXx" id="ePq-5L-ZLL"/>
                 <outlet property="view" destination="1" id="3"/>
             </connections>
         </placeholder>
@@ -210,14 +214,14 @@
     <resources>
         <image name="addfunds.png" width="32" height="32"/>
         <image name="attackbutton.png" width="110" height="38"/>
-        <image name="diamond.png" width="33" height="33"/>
+        <image name="diamond.png" width="29" height="28"/>
         <image name="diamondbarbg.png" width="77" height="23"/>
         <image name="expendcap.png" width="5" height="17"/>
         <image name="expmiddle.png" width="1" height="17"/>
         <image name="menubg.png" width="120" height="39"/>
         <image name="menuicon.png" width="110" height="38"/>
         <image name="mobstericon.png" width="32" height="32"/>
-        <image name="moneystack.png" width="45" height="32"/>
+        <image name="moneystack.png" width="43" height="34"/>
         <image name="topbarbg.png" width="117" height="23"/>
     </resources>
 </document>

@@ -34,14 +34,14 @@ BOOL StructOrientationIsValidValue(StructOrientation value) {
 @property int32_t income;
 @property int32_t minutesToGain;
 @property int32_t minutesToBuild;
-@property int32_t minutesToUpgradeBase;
 @property int32_t coinPrice;
 @property int32_t diamondPrice;
 @property int32_t minLevel;
 @property int32_t xLength;
 @property int32_t yLength;
-@property int32_t instaUpgradeDiamondCostBase;
+@property int32_t instaBuildDiamondCost;
 @property int32_t imgVerticalPixelOffset;
+@property int32_t successorStructId;
 @end
 
 @implementation FullStructureProto
@@ -81,13 +81,6 @@ BOOL StructOrientationIsValidValue(StructOrientation value) {
   hasMinutesToBuild_ = !!value;
 }
 @synthesize minutesToBuild;
-- (BOOL) hasMinutesToUpgradeBase {
-  return !!hasMinutesToUpgradeBase_;
-}
-- (void) setHasMinutesToUpgradeBase:(BOOL) value {
-  hasMinutesToUpgradeBase_ = !!value;
-}
-@synthesize minutesToUpgradeBase;
 - (BOOL) hasCoinPrice {
   return !!hasCoinPrice_;
 }
@@ -123,13 +116,13 @@ BOOL StructOrientationIsValidValue(StructOrientation value) {
   hasYLength_ = !!value;
 }
 @synthesize yLength;
-- (BOOL) hasInstaUpgradeDiamondCostBase {
-  return !!hasInstaUpgradeDiamondCostBase_;
+- (BOOL) hasInstaBuildDiamondCost {
+  return !!hasInstaBuildDiamondCost_;
 }
-- (void) setHasInstaUpgradeDiamondCostBase:(BOOL) value {
-  hasInstaUpgradeDiamondCostBase_ = !!value;
+- (void) setHasInstaBuildDiamondCost:(BOOL) value {
+  hasInstaBuildDiamondCost_ = !!value;
 }
-@synthesize instaUpgradeDiamondCostBase;
+@synthesize instaBuildDiamondCost;
 - (BOOL) hasImgVerticalPixelOffset {
   return !!hasImgVerticalPixelOffset_;
 }
@@ -137,6 +130,13 @@ BOOL StructOrientationIsValidValue(StructOrientation value) {
   hasImgVerticalPixelOffset_ = !!value;
 }
 @synthesize imgVerticalPixelOffset;
+- (BOOL) hasSuccessorStructId {
+  return !!hasSuccessorStructId_;
+}
+- (void) setHasSuccessorStructId:(BOOL) value {
+  hasSuccessorStructId_ = !!value;
+}
+@synthesize successorStructId;
 - (void) dealloc {
   self.name = nil;
   [super dealloc];
@@ -148,14 +148,14 @@ BOOL StructOrientationIsValidValue(StructOrientation value) {
     self.income = 0;
     self.minutesToGain = 0;
     self.minutesToBuild = 0;
-    self.minutesToUpgradeBase = 0;
     self.coinPrice = 0;
     self.diamondPrice = 0;
     self.minLevel = 0;
     self.xLength = 0;
     self.yLength = 0;
-    self.instaUpgradeDiamondCostBase = 0;
+    self.instaBuildDiamondCost = 0;
     self.imgVerticalPixelOffset = 0;
+    self.successorStructId = 0;
   }
   return self;
 }
@@ -190,9 +190,6 @@ static FullStructureProto* defaultFullStructureProtoInstance = nil;
   if (self.hasMinutesToBuild) {
     [output writeInt32:5 value:self.minutesToBuild];
   }
-  if (self.hasMinutesToUpgradeBase) {
-    [output writeInt32:6 value:self.minutesToUpgradeBase];
-  }
   if (self.hasCoinPrice) {
     [output writeInt32:7 value:self.coinPrice];
   }
@@ -208,11 +205,14 @@ static FullStructureProto* defaultFullStructureProtoInstance = nil;
   if (self.hasYLength) {
     [output writeInt32:11 value:self.yLength];
   }
-  if (self.hasInstaUpgradeDiamondCostBase) {
-    [output writeInt32:12 value:self.instaUpgradeDiamondCostBase];
+  if (self.hasInstaBuildDiamondCost) {
+    [output writeInt32:12 value:self.instaBuildDiamondCost];
   }
   if (self.hasImgVerticalPixelOffset) {
     [output writeInt32:13 value:self.imgVerticalPixelOffset];
+  }
+  if (self.hasSuccessorStructId) {
+    [output writeInt32:14 value:self.successorStructId];
   }
   [self.unknownFields writeToCodedOutputStream:output];
 }
@@ -238,9 +238,6 @@ static FullStructureProto* defaultFullStructureProtoInstance = nil;
   if (self.hasMinutesToBuild) {
     size += computeInt32Size(5, self.minutesToBuild);
   }
-  if (self.hasMinutesToUpgradeBase) {
-    size += computeInt32Size(6, self.minutesToUpgradeBase);
-  }
   if (self.hasCoinPrice) {
     size += computeInt32Size(7, self.coinPrice);
   }
@@ -256,11 +253,14 @@ static FullStructureProto* defaultFullStructureProtoInstance = nil;
   if (self.hasYLength) {
     size += computeInt32Size(11, self.yLength);
   }
-  if (self.hasInstaUpgradeDiamondCostBase) {
-    size += computeInt32Size(12, self.instaUpgradeDiamondCostBase);
+  if (self.hasInstaBuildDiamondCost) {
+    size += computeInt32Size(12, self.instaBuildDiamondCost);
   }
   if (self.hasImgVerticalPixelOffset) {
     size += computeInt32Size(13, self.imgVerticalPixelOffset);
+  }
+  if (self.hasSuccessorStructId) {
+    size += computeInt32Size(14, self.successorStructId);
   }
   size += self.unknownFields.serializedSize;
   memoizedSerializedSize = size;
@@ -352,9 +352,6 @@ static FullStructureProto* defaultFullStructureProtoInstance = nil;
   if (other.hasMinutesToBuild) {
     [self setMinutesToBuild:other.minutesToBuild];
   }
-  if (other.hasMinutesToUpgradeBase) {
-    [self setMinutesToUpgradeBase:other.minutesToUpgradeBase];
-  }
   if (other.hasCoinPrice) {
     [self setCoinPrice:other.coinPrice];
   }
@@ -370,11 +367,14 @@ static FullStructureProto* defaultFullStructureProtoInstance = nil;
   if (other.hasYLength) {
     [self setYLength:other.yLength];
   }
-  if (other.hasInstaUpgradeDiamondCostBase) {
-    [self setInstaUpgradeDiamondCostBase:other.instaUpgradeDiamondCostBase];
+  if (other.hasInstaBuildDiamondCost) {
+    [self setInstaBuildDiamondCost:other.instaBuildDiamondCost];
   }
   if (other.hasImgVerticalPixelOffset) {
     [self setImgVerticalPixelOffset:other.imgVerticalPixelOffset];
+  }
+  if (other.hasSuccessorStructId) {
+    [self setSuccessorStructId:other.successorStructId];
   }
   [self mergeUnknownFields:other.unknownFields];
   return self;
@@ -417,10 +417,6 @@ static FullStructureProto* defaultFullStructureProtoInstance = nil;
         [self setMinutesToBuild:[input readInt32]];
         break;
       }
-      case 48: {
-        [self setMinutesToUpgradeBase:[input readInt32]];
-        break;
-      }
       case 56: {
         [self setCoinPrice:[input readInt32]];
         break;
@@ -442,11 +438,15 @@ static FullStructureProto* defaultFullStructureProtoInstance = nil;
         break;
       }
       case 96: {
-        [self setInstaUpgradeDiamondCostBase:[input readInt32]];
+        [self setInstaBuildDiamondCost:[input readInt32]];
         break;
       }
       case 104: {
         [self setImgVerticalPixelOffset:[input readInt32]];
+        break;
+      }
+      case 112: {
+        [self setSuccessorStructId:[input readInt32]];
         break;
       }
     }
@@ -532,22 +532,6 @@ static FullStructureProto* defaultFullStructureProtoInstance = nil;
   result.minutesToBuild = 0;
   return self;
 }
-- (BOOL) hasMinutesToUpgradeBase {
-  return result.hasMinutesToUpgradeBase;
-}
-- (int32_t) minutesToUpgradeBase {
-  return result.minutesToUpgradeBase;
-}
-- (FullStructureProto_Builder*) setMinutesToUpgradeBase:(int32_t) value {
-  result.hasMinutesToUpgradeBase = YES;
-  result.minutesToUpgradeBase = value;
-  return self;
-}
-- (FullStructureProto_Builder*) clearMinutesToUpgradeBase {
-  result.hasMinutesToUpgradeBase = NO;
-  result.minutesToUpgradeBase = 0;
-  return self;
-}
 - (BOOL) hasCoinPrice {
   return result.hasCoinPrice;
 }
@@ -628,20 +612,20 @@ static FullStructureProto* defaultFullStructureProtoInstance = nil;
   result.yLength = 0;
   return self;
 }
-- (BOOL) hasInstaUpgradeDiamondCostBase {
-  return result.hasInstaUpgradeDiamondCostBase;
+- (BOOL) hasInstaBuildDiamondCost {
+  return result.hasInstaBuildDiamondCost;
 }
-- (int32_t) instaUpgradeDiamondCostBase {
-  return result.instaUpgradeDiamondCostBase;
+- (int32_t) instaBuildDiamondCost {
+  return result.instaBuildDiamondCost;
 }
-- (FullStructureProto_Builder*) setInstaUpgradeDiamondCostBase:(int32_t) value {
-  result.hasInstaUpgradeDiamondCostBase = YES;
-  result.instaUpgradeDiamondCostBase = value;
+- (FullStructureProto_Builder*) setInstaBuildDiamondCost:(int32_t) value {
+  result.hasInstaBuildDiamondCost = YES;
+  result.instaBuildDiamondCost = value;
   return self;
 }
-- (FullStructureProto_Builder*) clearInstaUpgradeDiamondCostBase {
-  result.hasInstaUpgradeDiamondCostBase = NO;
-  result.instaUpgradeDiamondCostBase = 0;
+- (FullStructureProto_Builder*) clearInstaBuildDiamondCost {
+  result.hasInstaBuildDiamondCost = NO;
+  result.instaBuildDiamondCost = 0;
   return self;
 }
 - (BOOL) hasImgVerticalPixelOffset {
@@ -658,6 +642,22 @@ static FullStructureProto* defaultFullStructureProtoInstance = nil;
 - (FullStructureProto_Builder*) clearImgVerticalPixelOffset {
   result.hasImgVerticalPixelOffset = NO;
   result.imgVerticalPixelOffset = 0;
+  return self;
+}
+- (BOOL) hasSuccessorStructId {
+  return result.hasSuccessorStructId;
+}
+- (int32_t) successorStructId {
+  return result.successorStructId;
+}
+- (FullStructureProto_Builder*) setSuccessorStructId:(int32_t) value {
+  result.hasSuccessorStructId = YES;
+  result.successorStructId = value;
+  return self;
+}
+- (FullStructureProto_Builder*) clearSuccessorStructId {
+  result.hasSuccessorStructId = NO;
+  result.successorStructId = 0;
   return self;
 }
 @end

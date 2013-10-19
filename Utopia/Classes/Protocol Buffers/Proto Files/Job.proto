@@ -34,3 +34,15 @@ message MinimumUserUpgradeStructJobProto {
 
 //------------------------------------------------------------------------------------------
 
+enum MonsterJobType {
+	COLLECT = 1;
+	DONATE = 2;
+	KILL = 3;
+}
+
+message MonsterJobProto {
+	optional int32 monsterJobId = 1;
+	optional int32 monsterId = 2;
+	optional int32 quanity = 3;
+	optional MonsterJobType monsterJobType = 4;
+}

@@ -12,67 +12,63 @@
 
 @implementation MonsterCardView
 
-static CGSize initSize;
 - (void) awakeFromNib {
-  self.noMonsterView.frame = self.mainView.frame;
   [self addSubview:self.noMonsterView];
-  initSize = self.frame.size;
-}
-
-- (void) setFrame:(CGRect)frame {
-  [super setFrame:frame];
-  float scale = MIN(frame.size.width/initSize.width, frame.size.height/initSize.height);
-//  self.mainView.frame = CGRectMake(0, 0, scale*initSize.width, scale*initSize.height);
-//  self.attackLabel.font = [UIFont fontWithName:self.attackLabel.font.fontName size:self.attackLabel.font.pointSize*scale];
-//  self.defenseLabel.font = [UIFont fontWithName:self.defenseLabel.font.fontName size:self.defenseLabel.font.pointSize*scale];
-//  self.nameLabel.font = [UIFont fontWithName:self.nameLabel.font.fontName size:self.nameLabel.font.pointSize*scale];
-  self.mainView.transform = CGAffineTransformMakeScale(scale, scale);
   
-  self.mainView.center = ccp(self.frame.size.width/2, self.frame.size.height/2);
+  self.qualityLabel.superview.transform = CGAffineTransformMakeRotation(M_PI_4);
 }
 
-- (void) updateForMonster:(UserMonster *)ue {
-  // This is for the browse cell
-  if (!ue) {
-    self.hidden = YES;
-    return;
+- (void) updateForMonster:(UserMonster *)um {
+  GameState *gs = [GameState sharedGameState];
+  Globals *gl = [Globals sharedGlobals];
+  MonsterProto *mp = [gs monsterWithId:um.monsterId];
+  
+//  [Globals loadImageForMonster:mp.monsterId toView:self.monsterIcon];
+  self.nameLabel.text = mp.displayName;
+  self.levelLabel.text = [NSString stringWithFormat:@"LVL %d", (int)um.enhancementPercentage];
+  self.qualityLabel.text = [Globals stringForRarity:mp.quality];
+  
+  NSString *bgdImgName = [Globals imageNameForElement:mp.element suffix:@"card.png"];
+  [Globals imageNamed:bgdImgName withView:self.cardBgdView maskedColor:nil indicator:UIActivityIndicatorViewStyleWhite clearImageDuringDownload:YES];
+  
+  NSString *borderName = [Globals imageNameForElement:mp.element suffix:@"border.png"];
+  [Globals imageNamed:borderName withView:self.borderView maskedColor:nil indicator:UIActivityIndicatorViewStyleWhite clearImageDuringDownload:YES];
+  
+  NSString *starsName = [Globals imageNameForElement:mp.element suffix:@"stars.png"];
+  [Globals imageNamed:starsName withView:self.levelBgdView maskedColor:nil indicator:UIActivityIndicatorViewStyleWhite clearImageDuringDownload:YES];
+  
+  if (mp.quality != MonsterProto_MonsterQualityCommon) {
+    NSString *tagName = [Globals imageNameForRarity:mp.quality suffix:@"tag.png"];
+    [Globals imageNamed:tagName withView:self.qualityBgdView maskedColor:nil indicator:UIActivityIndicatorViewStyleWhite clearImageDuringDownload:YES];
+    self.qualityBgdView.superview.hidden = NO;
   } else {
-    self.hidden = NO;
+    self.qualityBgdView.superview.hidden = YES;
   }
   
-//  Globals *gl = [Globals sharedGlobals];
-//  FullEquipProto *fep = [[GameState sharedGameState] equipWithId:ue.equipId];
-//  self.attackLabel.text = [Globals commafyNumber:[gl calculateAttackForEquip:ue.equipId level:ue.level enhancePercent:ue.enhancementPercentage]];
-//  self.defenseLabel.text = [Globals commafyNumber:[gl calculateDefenseForEquip:ue.equipId level:ue.level enhancePercent:ue.enhancementPercentage]];
-//  //  wallIcon.image = [Globals imageForEquip:fuep.equipId];
-//  [Globals loadImageForEquip:fep.equipId toView:self.equipIcon maskedView:nil];
-//  self.nameLabel.text = fep.name;
-//  self.nameLabel.textColor = [Globals colorForRarity:fep.rarity];
-//  self.levelIcon.level = ue.level;
-//  
-//  NSString *base = [[[Globals stringForRarity:fep.rarity] stringByReplacingOccurrencesOfString:@" " withString:@""] lowercaseString];
-//  NSString *bgdFile = [base stringByAppendingString:@"card.png"];
-//  [Globals imageNamed:bgdFile withView:self.bgd maskedColor:nil indicator:UIActivityIndicatorViewStyleWhite clearImageDuringDownload:YES];
-//  [self.darkOverlay remakeImage];
+  self.healthBar.percentage = ((float)um.curHealth)/[gl calculateMaxHealthForMonster:um];
   
-  self.monster = ue;
+  float width = [[self.starView.subviews objectAtIndex:1] frame].origin.x;
+  CGRect r = self.starView.frame;
+  r.size.width = width*mp.evolutionLevel;
+  self.starView.frame = r;
+  
+  [self.darkOverlay remakeImage];
+  
+  self.monster = um;
   
   self.mainView.hidden = NO;
   self.noMonsterView.hidden = YES;
-  
-  self.userInteractionEnabled = YES;
 }
 
-- (void) updateForNoMonster {
-  self.bgd.image = nil;
+- (void) updateForNoMonsterWithLabel:(NSString *)str {
   [self.darkOverlay remakeImage];
   
   self.monster = nil;
   
+  self.noMonsterLabel.text = str;
+  
   self.mainView.hidden = YES;
   self.noMonsterView.hidden = NO;
-  
-  self.userInteractionEnabled = NO;
 }
 
 @end
@@ -81,7 +77,7 @@ static CGSize initSize;
 @implementation MonsterCardContainerView
 
 - (void) awakeFromNib {
-  [[NSBundle mainBundle] loadNibNamed:@"EquipCardView" owner:self options:nil];
+  [[NSBundle mainBundle] loadNibNamed:@"MonsterCardView" owner:self options:nil];
   [self addSubview:self.monsterCardView];
   self.monsterCardView.frame = self.bounds;
   self.backgroundColor = [UIColor clearColor];

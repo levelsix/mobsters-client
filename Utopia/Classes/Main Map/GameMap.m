@@ -111,8 +111,8 @@
     [self createMyPlayer];
     
     // Add the decoration layer for clouds
-    decLayer = [[DecorationLayer alloc] initWithSize:self.contentSize];
-    [self addChild:self.decLayer z:2000];
+//    decLayer = [[DecorationLayer alloc] initWithSize:self.contentSize];
+//    [self addChild:self.decLayer z:2000];
     
     self.scale = DEFAULT_ZOOM;
   }

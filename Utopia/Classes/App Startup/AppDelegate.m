@@ -227,6 +227,8 @@
   [Analytics resumedApp];
   
   [[SocketCommunication sharedSocketCommunication] initNetworkCommunication];
+  GameViewController *gvc = [GameViewController baseController];
+  [[SocketCommunication sharedSocketCommunication] setDelegate:gvc forTag:CONNECTED_TO_HOST_DELEGATE_TAG];
   if ([[CCDirector sharedDirector] runningScene]) {
     [[CCDirector sharedDirector] startAnimation];
   }
@@ -301,7 +303,7 @@
     } else if (us.state == kBuilding) {
       FullStructureProto *fsp = [gs structWithId:us.structId];
       NSString *text = [NSString stringWithFormat:@"Your %@ has finished building!", fsp.name];
-      int minutes = fsp.minutesToUpgradeBase;
+      int minutes = fsp.minutesToBuild;
       [self scheduleNotificationWithText:text badge:1 date:[us.purchaseTime dateByAddingTimeInterval:minutes*60.f]];
     }
   }

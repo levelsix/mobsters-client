@@ -13,6 +13,7 @@
 #import "DiamondShopViewController.h"
 #import "SettingsViewController.h"
 #import "CarpenterViewController.h"
+#import "MyCroniesViewController.h"
 
 @interface MainMenuController ()
 
@@ -59,7 +60,7 @@
 }
 
 - (IBAction)profileClicked:(id)sender {
-  
+  [self.navigationController pushViewController:[[MyCroniesViewController alloc] init] animated:YES];
 }
 
 - (IBAction)settingsClicked:(id)sender {

@@ -19,6 +19,16 @@ static PBExtensionRegistry* extensionRegistry = nil;
 }
 @end
 
+BOOL MonsterJobTypeIsValidValue(MonsterJobType value) {
+  switch (value) {
+    case MonsterJobTypeCollect:
+    case MonsterJobTypeDonate:
+    case MonsterJobTypeKill:
+      return YES;
+    default:
+      return NO;
+  }
+}
 @interface BuildStructJobProto ()
 @property int32_t buildStructJobId;
 @property int32_t structId;
@@ -1103,6 +1113,302 @@ static MinimumUserUpgradeStructJobProto* defaultMinimumUserUpgradeStructJobProto
 - (MinimumUserUpgradeStructJobProto_Builder*) clearCurrentLevel {
   result.hasCurrentLevel = NO;
   result.currentLevel = 0;
+  return self;
+}
+@end
+
+@interface MonsterJobProto ()
+@property int32_t monsterJobId;
+@property int32_t monsterId;
+@property int32_t quanity;
+@property MonsterJobType monsterJobType;
+@end
+
+@implementation MonsterJobProto
+
+- (BOOL) hasMonsterJobId {
+  return !!hasMonsterJobId_;
+}
+- (void) setHasMonsterJobId:(BOOL) value {
+  hasMonsterJobId_ = !!value;
+}
+@synthesize monsterJobId;
+- (BOOL) hasMonsterId {
+  return !!hasMonsterId_;
+}
+- (void) setHasMonsterId:(BOOL) value {
+  hasMonsterId_ = !!value;
+}
+@synthesize monsterId;
+- (BOOL) hasQuanity {
+  return !!hasQuanity_;
+}
+- (void) setHasQuanity:(BOOL) value {
+  hasQuanity_ = !!value;
+}
+@synthesize quanity;
+- (BOOL) hasMonsterJobType {
+  return !!hasMonsterJobType_;
+}
+- (void) setHasMonsterJobType:(BOOL) value {
+  hasMonsterJobType_ = !!value;
+}
+@synthesize monsterJobType;
+- (void) dealloc {
+  [super dealloc];
+}
+- (id) init {
+  if ((self = [super init])) {
+    self.monsterJobId = 0;
+    self.monsterId = 0;
+    self.quanity = 0;
+    self.monsterJobType = MonsterJobTypeCollect;
+  }
+  return self;
+}
+static MonsterJobProto* defaultMonsterJobProtoInstance = nil;
++ (void) initialize {
+  if (self == [MonsterJobProto class]) {
+    defaultMonsterJobProtoInstance = [[MonsterJobProto alloc] init];
+  }
+}
++ (MonsterJobProto*) defaultInstance {
+  return defaultMonsterJobProtoInstance;
+}
+- (MonsterJobProto*) defaultInstance {
+  return defaultMonsterJobProtoInstance;
+}
+- (BOOL) isInitialized {
+  return YES;
+}
+- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output {
+  if (self.hasMonsterJobId) {
+    [output writeInt32:1 value:self.monsterJobId];
+  }
+  if (self.hasMonsterId) {
+    [output writeInt32:2 value:self.monsterId];
+  }
+  if (self.hasQuanity) {
+    [output writeInt32:3 value:self.quanity];
+  }
+  if (self.hasMonsterJobType) {
+    [output writeEnum:4 value:self.monsterJobType];
+  }
+  [self.unknownFields writeToCodedOutputStream:output];
+}
+- (int32_t) serializedSize {
+  int32_t size = memoizedSerializedSize;
+  if (size != -1) {
+    return size;
+  }
+
+  size = 0;
+  if (self.hasMonsterJobId) {
+    size += computeInt32Size(1, self.monsterJobId);
+  }
+  if (self.hasMonsterId) {
+    size += computeInt32Size(2, self.monsterId);
+  }
+  if (self.hasQuanity) {
+    size += computeInt32Size(3, self.quanity);
+  }
+  if (self.hasMonsterJobType) {
+    size += computeEnumSize(4, self.monsterJobType);
+  }
+  size += self.unknownFields.serializedSize;
+  memoizedSerializedSize = size;
+  return size;
+}
++ (MonsterJobProto*) parseFromData:(NSData*) data {
+  return (MonsterJobProto*)[[[MonsterJobProto builder] mergeFromData:data] build];
+}
++ (MonsterJobProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (MonsterJobProto*)[[[MonsterJobProto builder] mergeFromData:data extensionRegistry:extensionRegistry] build];
+}
++ (MonsterJobProto*) parseFromInputStream:(NSInputStream*) input {
+  return (MonsterJobProto*)[[[MonsterJobProto builder] mergeFromInputStream:input] build];
+}
++ (MonsterJobProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (MonsterJobProto*)[[[MonsterJobProto builder] mergeFromInputStream:input extensionRegistry:extensionRegistry] build];
+}
++ (MonsterJobProto*) parseFromCodedInputStream:(PBCodedInputStream*) input {
+  return (MonsterJobProto*)[[[MonsterJobProto builder] mergeFromCodedInputStream:input] build];
+}
++ (MonsterJobProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (MonsterJobProto*)[[[MonsterJobProto builder] mergeFromCodedInputStream:input extensionRegistry:extensionRegistry] build];
+}
++ (MonsterJobProto_Builder*) builder {
+  return [[[MonsterJobProto_Builder alloc] init] autorelease];
+}
++ (MonsterJobProto_Builder*) builderWithPrototype:(MonsterJobProto*) prototype {
+  return [[MonsterJobProto builder] mergeFrom:prototype];
+}
+- (MonsterJobProto_Builder*) builder {
+  return [MonsterJobProto builder];
+}
+@end
+
+@interface MonsterJobProto_Builder()
+@property (retain) MonsterJobProto* result;
+@end
+
+@implementation MonsterJobProto_Builder
+@synthesize result;
+- (void) dealloc {
+  self.result = nil;
+  [super dealloc];
+}
+- (id) init {
+  if ((self = [super init])) {
+    self.result = [[[MonsterJobProto alloc] init] autorelease];
+  }
+  return self;
+}
+- (PBGeneratedMessage*) internalGetResult {
+  return result;
+}
+- (MonsterJobProto_Builder*) clear {
+  self.result = [[[MonsterJobProto alloc] init] autorelease];
+  return self;
+}
+- (MonsterJobProto_Builder*) clone {
+  return [MonsterJobProto builderWithPrototype:result];
+}
+- (MonsterJobProto*) defaultInstance {
+  return [MonsterJobProto defaultInstance];
+}
+- (MonsterJobProto*) build {
+  [self checkInitialized];
+  return [self buildPartial];
+}
+- (MonsterJobProto*) buildPartial {
+  MonsterJobProto* returnMe = [[result retain] autorelease];
+  self.result = nil;
+  return returnMe;
+}
+- (MonsterJobProto_Builder*) mergeFrom:(MonsterJobProto*) other {
+  if (other == [MonsterJobProto defaultInstance]) {
+    return self;
+  }
+  if (other.hasMonsterJobId) {
+    [self setMonsterJobId:other.monsterJobId];
+  }
+  if (other.hasMonsterId) {
+    [self setMonsterId:other.monsterId];
+  }
+  if (other.hasQuanity) {
+    [self setQuanity:other.quanity];
+  }
+  if (other.hasMonsterJobType) {
+    [self setMonsterJobType:other.monsterJobType];
+  }
+  [self mergeUnknownFields:other.unknownFields];
+  return self;
+}
+- (MonsterJobProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input {
+  return [self mergeFromCodedInputStream:input extensionRegistry:[PBExtensionRegistry emptyRegistry]];
+}
+- (MonsterJobProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  PBUnknownFieldSet_Builder* unknownFields = [PBUnknownFieldSet builderWithUnknownFields:self.unknownFields];
+  while (YES) {
+    int32_t tag = [input readTag];
+    switch (tag) {
+      case 0:
+        [self setUnknownFields:[unknownFields build]];
+        return self;
+      default: {
+        if (![self parseUnknownField:input unknownFields:unknownFields extensionRegistry:extensionRegistry tag:tag]) {
+          [self setUnknownFields:[unknownFields build]];
+          return self;
+        }
+        break;
+      }
+      case 8: {
+        [self setMonsterJobId:[input readInt32]];
+        break;
+      }
+      case 16: {
+        [self setMonsterId:[input readInt32]];
+        break;
+      }
+      case 24: {
+        [self setQuanity:[input readInt32]];
+        break;
+      }
+      case 32: {
+        int32_t value = [input readEnum];
+        if (MonsterJobTypeIsValidValue(value)) {
+          [self setMonsterJobType:value];
+        } else {
+          [unknownFields mergeVarintField:4 value:value];
+        }
+        break;
+      }
+    }
+  }
+}
+- (BOOL) hasMonsterJobId {
+  return result.hasMonsterJobId;
+}
+- (int32_t) monsterJobId {
+  return result.monsterJobId;
+}
+- (MonsterJobProto_Builder*) setMonsterJobId:(int32_t) value {
+  result.hasMonsterJobId = YES;
+  result.monsterJobId = value;
+  return self;
+}
+- (MonsterJobProto_Builder*) clearMonsterJobId {
+  result.hasMonsterJobId = NO;
+  result.monsterJobId = 0;
+  return self;
+}
+- (BOOL) hasMonsterId {
+  return result.hasMonsterId;
+}
+- (int32_t) monsterId {
+  return result.monsterId;
+}
+- (MonsterJobProto_Builder*) setMonsterId:(int32_t) value {
+  result.hasMonsterId = YES;
+  result.monsterId = value;
+  return self;
+}
+- (MonsterJobProto_Builder*) clearMonsterId {
+  result.hasMonsterId = NO;
+  result.monsterId = 0;
+  return self;
+}
+- (BOOL) hasQuanity {
+  return result.hasQuanity;
+}
+- (int32_t) quanity {
+  return result.quanity;
+}
+- (MonsterJobProto_Builder*) setQuanity:(int32_t) value {
+  result.hasQuanity = YES;
+  result.quanity = value;
+  return self;
+}
+- (MonsterJobProto_Builder*) clearQuanity {
+  result.hasQuanity = NO;
+  result.quanity = 0;
+  return self;
+}
+- (BOOL) hasMonsterJobType {
+  return result.hasMonsterJobType;
+}
+- (MonsterJobType) monsterJobType {
+  return result.monsterJobType;
+}
+- (MonsterJobProto_Builder*) setMonsterJobType:(MonsterJobType) value {
+  result.hasMonsterJobType = YES;
+  result.monsterJobType = value;
+  return self;
+}
+- (MonsterJobProto_Builder*) clearMonsterJobType {
+  result.hasMonsterJobType = NO;
+  result.monsterJobType = MonsterJobTypeCollect;
   return self;
 }
 @end

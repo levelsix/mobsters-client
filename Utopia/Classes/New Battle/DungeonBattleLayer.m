@@ -11,11 +11,13 @@
 
 @implementation DungeonBattleLayer
 
-+ (CCScene *) sceneWithBeginDungeonResponseProto:(BeginDungeonResponseProto *)dungeonInfo {
++ (CCScene *) sceneWithBeginDungeonResponseProto:(BeginDungeonResponseProto *)dungeonInfo delegate:(id<BattleLayerDelegate>)delegate {
 	CCScene *scene = [CCScene node];
 	
 	NewBattleLayer *layer = [[DungeonBattleLayer alloc] initWithBeginDungeonResponseProto:dungeonInfo];
 	[scene addChild: layer];
+  
+  layer.delegate = delegate;
   
 	return scene;
 }
@@ -34,6 +36,7 @@
   MonsterProto *monster = [stage mpAtIndex:0];
   
   if (monster) {
+    self.enemyPlayerObject = [BattlePlayer playerWithHealth:monster.maxHp weapon:nil armor:nil amulet:nil];
 //    FullEquipProto *fep;
 //    BattleEquip *weapon = nil, *armor = nil, *amulet = nil;
 //    if (monster.weaponId) {

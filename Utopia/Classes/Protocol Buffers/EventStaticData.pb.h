@@ -37,6 +37,8 @@
 @class FullUserQuestDataLargeProto_Builder;
 @class FullUserStructureProto;
 @class FullUserStructureProto_Builder;
+@class LevelAndRequiredExpProto;
+@class LevelAndRequiredExpProto_Builder;
 @class MinimumClanProto;
 @class MinimumClanProto_Builder;
 @class MinimumUserBuildStructJobProto;
@@ -51,6 +53,8 @@
 @class MinimumUserTaskProto_Builder;
 @class MinimumUserUpgradeStructJobProto;
 @class MinimumUserUpgradeStructJobProto_Builder;
+@class MonsterJobProto;
+@class MonsterJobProto_Builder;
 @class MonsterProto;
 @class MonsterProto_Builder;
 @class PurgeClientStaticDataResponseProto;
@@ -65,6 +69,8 @@
 @class UpgradeStructJobProto_Builder;
 @class UserCityExpansionDataProto;
 @class UserCityExpansionDataProto_Builder;
+@class UserMonsterHealingProto;
+@class UserMonsterHealingProto_Builder;
 typedef enum {
   RetrieveStaticDataResponseProto_RetrieveStaticDataStatusSuccess = 1,
   RetrieveStaticDataResponseProto_RetrieveStaticDataStatusSomeFail = 2,

@@ -30,6 +30,8 @@
 @class FullUserQuestDataLargeProto_Builder;
 @class FullUserStructureProto;
 @class FullUserStructureProto_Builder;
+@class LevelAndRequiredExpProto;
+@class LevelAndRequiredExpProto_Builder;
 @class MinimumClanProto;
 @class MinimumClanProto_Builder;
 @class MinimumUserBuildStructJobProto;
@@ -42,6 +44,8 @@
 @class MinimumUserQuestTaskProto_Builder;
 @class MinimumUserUpgradeStructJobProto;
 @class MinimumUserUpgradeStructJobProto_Builder;
+@class MonsterJobProto;
+@class MonsterJobProto_Builder;
 @class QuestAcceptRequestProto;
 @class QuestAcceptRequestProto_Builder;
 @class QuestAcceptResponseProto;

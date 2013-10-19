@@ -74,6 +74,14 @@
 - (void) privateChatPost:(int)recipientId content:(NSString *)content;
 - (void) retrievePrivateChatPosts:(int)otherUserId;
 
-- (void) beginDungeon:(int)taskId;
+- (void) beginDungeon:(int)taskId withDelegate:(id)delegate;
+
+- (void) removeMonsterFromTeam:(int)userMonsterId;
+- (void) addMonsterToTeam:(int)userMonsterId;
+- (void) buyInventorySlots;
+- (void) addMonsterToHealingQueue:(int)userMonsterId;
+- (void) removeMonsterFromHealingQueue:(UserMonsterHealingItem *)item;
+- (void) speedupHealingQueue;
+- (void) healQueueWaitTimeComplete:(NSArray *)healingItems;
 
 @end

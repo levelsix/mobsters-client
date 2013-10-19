@@ -28,9 +28,13 @@
   NSTimer *_flushTimer;
   
   int _numDisconnects;
+  
+  BOOL _healingQueuePotentiallyChanged;
 }
 
 @property (nonatomic, retain) NSMutableArray *structRetrievals;
+
+@property (nonatomic, retain) NSArray *healingQueueSnapshot;
 
 @property (nonatomic, retain) NSMutableDictionary *tagDelegates;
 
@@ -110,6 +114,11 @@
 - (int) sendBeginDungeonMessage:(uint64_t)clientTime taskId:(int)taskId;
 
 - (int) retrieveCurrencyFromStruct:(int)userStructId time:(uint64_t)time;
+
+- (int) sendHealQueueWaitTimeComplete:(NSArray *)monsterIds;
+- (int) sendHealQueueSpeedup:(NSArray *)monsterIds goldCost:(int)goldCost;
+- (void) reloadHealQueueSnapshot;
+- (int) setHealQueueDirty;
 
 - (void) flush;
 - (void) flushWithInt:(int)val;

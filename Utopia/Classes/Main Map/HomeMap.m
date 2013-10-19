@@ -95,6 +95,7 @@
     
     [[NSBundle mainBundle] loadNibNamed:@"HomeBuildingMenu" owner:self options:nil];
     [[NSBundle mainBundle] loadNibNamed:@"UpgradeBuildingMenu" owner:self options:nil];
+    [[NSBundle mainBundle] loadNibNamed:@"ExpansionView" owner:self options:nil];
     
     _timers = [[NSMutableArray alloc] init];
     
@@ -251,6 +252,10 @@
   
   [self doReorder];
   _loading = NO;
+  
+  if (self.isRunning) {
+    [self beginTimers];
+  }
 }
 
 - (NSArray *) refreshForExpansion {

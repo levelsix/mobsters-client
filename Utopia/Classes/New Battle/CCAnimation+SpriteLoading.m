@@ -44,7 +44,8 @@
 }
 
 - (id) copy {
-  return [[CCAnimation alloc] initWithSpriteFrames:[self.frames.mutableCopy autorelease] delay:self.delayPerUnit];
+  CCAnimation *anim = [[CCAnimation alloc] initWithAnimationFrames:self.frames delayPerUnit:self.delayPerUnit loops:self.loops];
+  return anim;
 }
 
 @end

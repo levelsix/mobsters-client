@@ -14,6 +14,8 @@
 @class MonsterProto_Builder;
 @class TaskStageProto;
 @class TaskStageProto_Builder;
+@class UserMonsterHealingProto;
+@class UserMonsterHealingProto_Builder;
 
 @interface TaskRoot : NSObject {
 }

@@ -28,27 +28,27 @@ BOOL StructOrientationIsValidValue(StructOrientation value);
   BOOL hasIncome_:1;
   BOOL hasMinutesToGain_:1;
   BOOL hasMinutesToBuild_:1;
-  BOOL hasMinutesToUpgradeBase_:1;
   BOOL hasCoinPrice_:1;
   BOOL hasDiamondPrice_:1;
   BOOL hasMinLevel_:1;
   BOOL hasXLength_:1;
   BOOL hasYLength_:1;
-  BOOL hasInstaUpgradeDiamondCostBase_:1;
+  BOOL hasInstaBuildDiamondCost_:1;
   BOOL hasImgVerticalPixelOffset_:1;
+  BOOL hasSuccessorStructId_:1;
   BOOL hasName_:1;
   int32_t structId;
   int32_t income;
   int32_t minutesToGain;
   int32_t minutesToBuild;
-  int32_t minutesToUpgradeBase;
   int32_t coinPrice;
   int32_t diamondPrice;
   int32_t minLevel;
   int32_t xLength;
   int32_t yLength;
-  int32_t instaUpgradeDiamondCostBase;
+  int32_t instaBuildDiamondCost;
   int32_t imgVerticalPixelOffset;
+  int32_t successorStructId;
   NSString* name;
 }
 - (BOOL) hasStructId;
@@ -56,27 +56,27 @@ BOOL StructOrientationIsValidValue(StructOrientation value);
 - (BOOL) hasIncome;
 - (BOOL) hasMinutesToGain;
 - (BOOL) hasMinutesToBuild;
-- (BOOL) hasMinutesToUpgradeBase;
 - (BOOL) hasCoinPrice;
 - (BOOL) hasDiamondPrice;
 - (BOOL) hasMinLevel;
 - (BOOL) hasXLength;
 - (BOOL) hasYLength;
-- (BOOL) hasInstaUpgradeDiamondCostBase;
+- (BOOL) hasInstaBuildDiamondCost;
 - (BOOL) hasImgVerticalPixelOffset;
+- (BOOL) hasSuccessorStructId;
 @property (readonly) int32_t structId;
 @property (readonly, retain) NSString* name;
 @property (readonly) int32_t income;
 @property (readonly) int32_t minutesToGain;
 @property (readonly) int32_t minutesToBuild;
-@property (readonly) int32_t minutesToUpgradeBase;
 @property (readonly) int32_t coinPrice;
 @property (readonly) int32_t diamondPrice;
 @property (readonly) int32_t minLevel;
 @property (readonly) int32_t xLength;
 @property (readonly) int32_t yLength;
-@property (readonly) int32_t instaUpgradeDiamondCostBase;
+@property (readonly) int32_t instaBuildDiamondCost;
 @property (readonly) int32_t imgVerticalPixelOffset;
+@property (readonly) int32_t successorStructId;
 
 + (FullStructureProto*) defaultInstance;
 - (FullStructureProto*) defaultInstance;
@@ -137,11 +137,6 @@ BOOL StructOrientationIsValidValue(StructOrientation value);
 - (FullStructureProto_Builder*) setMinutesToBuild:(int32_t) value;
 - (FullStructureProto_Builder*) clearMinutesToBuild;
 
-- (BOOL) hasMinutesToUpgradeBase;
-- (int32_t) minutesToUpgradeBase;
-- (FullStructureProto_Builder*) setMinutesToUpgradeBase:(int32_t) value;
-- (FullStructureProto_Builder*) clearMinutesToUpgradeBase;
-
 - (BOOL) hasCoinPrice;
 - (int32_t) coinPrice;
 - (FullStructureProto_Builder*) setCoinPrice:(int32_t) value;
@@ -167,15 +162,20 @@ BOOL StructOrientationIsValidValue(StructOrientation value);
 - (FullStructureProto_Builder*) setYLength:(int32_t) value;
 - (FullStructureProto_Builder*) clearYLength;
 
-- (BOOL) hasInstaUpgradeDiamondCostBase;
-- (int32_t) instaUpgradeDiamondCostBase;
-- (FullStructureProto_Builder*) setInstaUpgradeDiamondCostBase:(int32_t) value;
-- (FullStructureProto_Builder*) clearInstaUpgradeDiamondCostBase;
+- (BOOL) hasInstaBuildDiamondCost;
+- (int32_t) instaBuildDiamondCost;
+- (FullStructureProto_Builder*) setInstaBuildDiamondCost:(int32_t) value;
+- (FullStructureProto_Builder*) clearInstaBuildDiamondCost;
 
 - (BOOL) hasImgVerticalPixelOffset;
 - (int32_t) imgVerticalPixelOffset;
 - (FullStructureProto_Builder*) setImgVerticalPixelOffset:(int32_t) value;
 - (FullStructureProto_Builder*) clearImgVerticalPixelOffset;
+
+- (BOOL) hasSuccessorStructId;
+- (int32_t) successorStructId;
+- (FullStructureProto_Builder*) setSuccessorStructId:(int32_t) value;
+- (FullStructureProto_Builder*) clearSuccessorStructId;
 @end
 
 @interface FullUserStructureProto : PBGeneratedMessage {

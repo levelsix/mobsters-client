@@ -959,6 +959,7 @@ static EndDungeonRequestProto* defaultEndDungeonRequestProtoInstance = nil;
 @interface EndDungeonResponseProto ()
 @property (retain) MinimumUserProto* sender;
 @property EndDungeonResponseProto_EndDungeonStatus status;
+@property (retain) NSMutableArray* mutableNewOrUpdatedList;
 @end
 
 @implementation EndDungeonResponseProto
@@ -977,8 +978,10 @@ static EndDungeonRequestProto* defaultEndDungeonRequestProtoInstance = nil;
   hasStatus_ = !!value;
 }
 @synthesize status;
+@synthesize mutableNewOrUpdatedList;
 - (void) dealloc {
   self.sender = nil;
+  self.mutableNewOrUpdatedList = nil;
   [super dealloc];
 }
 - (id) init {
@@ -1000,6 +1003,13 @@ static EndDungeonResponseProto* defaultEndDungeonResponseProtoInstance = nil;
 - (EndDungeonResponseProto*) defaultInstance {
   return defaultEndDungeonResponseProtoInstance;
 }
+- (NSArray*) newOrUpdatedList {
+  return mutableNewOrUpdatedList;
+}
+- (FullUserMonsterProto*) newOrUpdatedAtIndex:(int32_t) index {
+  id value = [mutableNewOrUpdatedList objectAtIndex:index];
+  return value;
+}
 - (BOOL) isInitialized {
   return YES;
 }
@@ -1009,6 +1019,9 @@ static EndDungeonResponseProto* defaultEndDungeonResponseProtoInstance = nil;
   }
   if (self.hasStatus) {
     [output writeEnum:2 value:self.status];
+  }
+  for (FullUserMonsterProto* element in self.newOrUpdatedList) {
+    [output writeMessage:3 value:element];
   }
   [self.unknownFields writeToCodedOutputStream:output];
 }
@@ -1024,6 +1037,9 @@ static EndDungeonResponseProto* defaultEndDungeonResponseProtoInstance = nil;
   }
   if (self.hasStatus) {
     size += computeEnumSize(2, self.status);
+  }
+  for (FullUserMonsterProto* element in self.newOrUpdatedList) {
+    size += computeMessageSize(3, element);
   }
   size += self.unknownFields.serializedSize;
   memoizedSerializedSize = size;
@@ -1115,6 +1131,12 @@ BOOL EndDungeonResponseProto_EndDungeonStatusIsValidValue(EndDungeonResponseProt
   if (other.hasStatus) {
     [self setStatus:other.status];
   }
+  if (other.mutableNewOrUpdatedList.count > 0) {
+    if (result.mutableNewOrUpdatedList == nil) {
+      result.mutableNewOrUpdatedList = [NSMutableArray array];
+    }
+    [result.mutableNewOrUpdatedList addObjectsFromArray:other.mutableNewOrUpdatedList];
+  }
   [self mergeUnknownFields:other.unknownFields];
   return self;
 }
@@ -1152,6 +1174,12 @@ BOOL EndDungeonResponseProto_EndDungeonStatusIsValidValue(EndDungeonResponseProt
         } else {
           [unknownFields mergeVarintField:2 value:value];
         }
+        break;
+      }
+      case 26: {
+        FullUserMonsterProto_Builder* subBuilder = [FullUserMonsterProto builder];
+        [input readMessage:subBuilder extensionRegistry:extensionRegistry];
+        [self addNewOrUpdated:[subBuilder buildPartial]];
         break;
       }
     }
@@ -1201,6 +1229,35 @@ BOOL EndDungeonResponseProto_EndDungeonStatusIsValidValue(EndDungeonResponseProt
 - (EndDungeonResponseProto_Builder*) clearStatus {
   result.hasStatus = NO;
   result.status = EndDungeonResponseProto_EndDungeonStatusSuccess;
+  return self;
+}
+- (NSArray*) newOrUpdatedList {
+  if (result.mutableNewOrUpdatedList == nil) { return [NSArray array]; }
+  return result.mutableNewOrUpdatedList;
+}
+- (FullUserMonsterProto*) newOrUpdatedAtIndex:(int32_t) index {
+  return [result newOrUpdatedAtIndex:index];
+}
+- (EndDungeonResponseProto_Builder*) replaceNewOrUpdatedAtIndex:(int32_t) index with:(FullUserMonsterProto*) value {
+  [result.mutableNewOrUpdatedList replaceObjectAtIndex:index withObject:value];
+  return self;
+}
+- (EndDungeonResponseProto_Builder*) addAllNewOrUpdated:(NSArray*) values {
+  if (result.mutableNewOrUpdatedList == nil) {
+    result.mutableNewOrUpdatedList = [NSMutableArray array];
+  }
+  [result.mutableNewOrUpdatedList addObjectsFromArray:values];
+  return self;
+}
+- (EndDungeonResponseProto_Builder*) clearNewOrUpdatedList {
+  result.mutableNewOrUpdatedList = nil;
+  return self;
+}
+- (EndDungeonResponseProto_Builder*) addNewOrUpdated:(FullUserMonsterProto*) value {
+  if (result.mutableNewOrUpdatedList == nil) {
+    result.mutableNewOrUpdatedList = [NSMutableArray array];
+  }
+  [result.mutableNewOrUpdatedList addObject:value];
   return self;
 }
 @end

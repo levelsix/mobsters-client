@@ -67,6 +67,10 @@
 
 @implementation TopBarViewController
 
+- (void) viewWillAppear:(BOOL)animated {
+  self.expBar.percentage = 0.35;
+}
+
 - (void) replaceChatViewWithView:(UIView *)view {
   if (self.curViewOverChatView != view) {
     if (self.curViewOverChatView) {

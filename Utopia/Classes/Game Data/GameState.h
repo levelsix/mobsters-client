@@ -14,7 +14,7 @@
 @interface GameState : NSObject {
   NSTimer *_enhanceTimer;
   NSTimer *_expansionTimer;
-  NSTimer *_goldmineTimer;
+  NSTimer *_healingTimer;
 }
 
 @property (nonatomic, assign) BOOL isTutorial;
@@ -38,6 +38,7 @@
 @property (nonatomic, retain) NSDate *createTime;
 @property (nonatomic, assign) BOOL hasReceivedfbReward;
 @property (nonatomic, assign) int numBeginnerSalesPurchased;
+@property (nonatomic, assign) int numAdditionalMonsterSlots;
 @property (nonatomic, assign) BOOL hasActiveShield;
 
 @property (nonatomic, retain) NSString *kabamNaid;
@@ -61,6 +62,8 @@
 
 @property (nonatomic, retain) NSMutableArray *myMonsters;
 @property (nonatomic, retain) NSMutableArray *myStructs;
+
+@property (nonatomic, retain) NSMutableArray *monsterHealingQueue;
 
 @property (nonatomic, retain) NSMutableDictionary *inProgressCompleteQuests;
 @property (nonatomic, retain) NSMutableDictionary *inProgressIncompleteQuests;
@@ -93,6 +96,7 @@
 - (FullTaskProto *) taskWithId:(int)taskId;
 - (FullQuestProto *) questForQuestId:(int)questId;
 - (BoosterPackProto *) boosterPackForId:(int)packId;
+- (MonsterProto *) monsterWithId:(int)monsterId;
 
 - (void) addToMyStructs:(NSArray *)myStructs;
 - (void) addToMyMonsters:(NSArray *)myMonsters;
@@ -104,7 +108,13 @@
 - (void) addChatMessage:(ChatMessage *)cm scope:(GroupChatScope) scope;
 - (void) addBoosterPurchase:(RareBoosterPurchaseProto *)bp;
 
+- (void) addUserMonsterHealingItemToEndOfQueue:(UserMonsterHealingItem *)item;
+- (void) removeUserMonsterHealingItem:(UserMonsterHealingItem *)item;
+- (void) addAllMonsterHealingProtos:(NSArray *)items;
+
 - (UserMonster *) myMonsterWithUserMonsterId:(int)userMonsterId;
+- (UserMonster *) myMonsterWithSlotNumber:(int)slotNum;
+- (NSArray *) allMonstersOnMyTeam;
 - (UserStruct *) myStructWithId:(int)structId;
 
 - (void) addToStaticStructs:(NSArray *)arr;

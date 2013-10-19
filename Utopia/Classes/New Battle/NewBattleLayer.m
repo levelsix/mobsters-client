@@ -119,7 +119,7 @@
     s.position = ccp(self.contentSize.width/2, s.contentSize.height/2);
     
     OrbLayer *ol = [[OrbLayer alloc] initWithContentSize:CGSizeMake(290, 180) gridSize:CGSizeMake(8, 5) numColors:4];
-    ol.position = ccp(self.contentSize.width/2-self.orbLayer.contentSize.width/2, 0);
+    ol.position = ccp(self.contentSize.width/2-ol.contentSize.width/2, 0);
     [self addChild:ol z:3];
     ol.delegate = self;
     self.orbLayer = ol;
@@ -138,6 +138,7 @@
     mp.isFacingNear = NO;
     self.myPlayer = mp;
     
+    // Different colors for the particle effect
     _numChargingColors = NUM_CHARGING_COLORS;
     _chargingColors = malloc(_numChargingColors*sizeof(ccColor3B));
     _chargingColors[0] = CHARGING_COLOR_1;
@@ -150,9 +151,6 @@
     
     _canPlayNextComboSound = YES;
     _canPlayNextGemPop = YES;
-    
-    [[NSBundle mainBundle] loadNibNamed:@"BattleEndView" owner:self options:nil];
-    [Globals displayUIView:self.endView];
   }
   return self;
 }
@@ -172,6 +170,8 @@
   [leftBgdBar addChild:_leftHealthBar];
   _leftHealthBar.position = ccp(leftBgdBar.contentSize.width/2, leftBgdBar.contentSize.height/2);
   _leftHealthBar.type = kCCProgressTimerTypeBar;
+  _leftHealthBar.midpoint = ccp(0, 0.5);
+  _leftHealthBar.barChangeRate = ccp(1,0);
   _leftHealthBar.percentage = 50;
   
   _leftHealthLabel = [CCLabelTTF labelWithString:@"31/100" fontName:@"Dirty Headline" fontSize:12];
@@ -197,6 +197,8 @@
   [rightBgdBar addChild:_rightHealthBar];
   _rightHealthBar.position = ccp(rightBgdBar.contentSize.width/2, rightBgdBar.contentSize.height/2);
   _rightHealthBar.type = kCCProgressTimerTypeBar;
+  _rightHealthBar.midpoint = ccp(1, 0.5);
+  _rightHealthBar.barChangeRate = ccp(1,0);
   _rightHealthBar.percentage = 90;
   
   _rightHealthLabel = [CCLabelTTF labelWithString:@"31/100" fontName:@"Dirty Headline" fontSize:12];
@@ -298,7 +300,7 @@
 }
 
 - (void) createMyPlayerObject {
-  
+  self.myPlayerObject = [BattlePlayer playerWithHealth:100 weapon:nil armor:nil amulet:nil];
 }
 
 - (void) moveToNextEnemy {
@@ -821,7 +823,7 @@
     [anim addSpriteFrame:[[CCSpriteFrameCache sharedSpriteFrameCache] spriteFrameByName:@"mir1.png"]];
     [anim addSpriteFrame:[[CCSpriteFrameCache sharedSpriteFrameCache] spriteFrameByName:@"mir2.png"]];
     [anim addSpriteFrame:[[CCSpriteFrameCache sharedSpriteFrameCache] spriteFrameByName:@"mir3.png"]];
-    phrase = [CCSprite spriteWithSpriteFrame:[anim.frames objectAtIndex:0]];
+    phrase = [CCSprite spriteWithSpriteFrameName:@"mir1.png"];
     [phrase runAction:[CCRepeatForever actionWithAction:[CCAnimate actionWithAnimation:anim]]];
   } else {
     if (phraseFile) {
@@ -912,6 +914,8 @@
   [Globals popOutView:self.continueView.mainView fadeOutBgdView:self.continueView.bgdView completion:^{
     [self.continueView removeFromSuperview];
   }];
+  
+  [self.delegate battleComplete];
 }
 
 - (IBAction)refillClicked:(id)sender {

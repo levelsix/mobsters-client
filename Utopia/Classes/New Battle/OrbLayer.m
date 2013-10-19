@@ -153,17 +153,9 @@
       int idx = x+(y*gs.width);
       Gem * container = _gems[idx];
       CGPoint startPos = ccp(startX, startY);
-      [container.sprite setPosition:ccpAdd(startPos, ccp(0, 250))];
+      [container.sprite setPosition:ccpAdd(startPos, ccp(0, 0))];
       [self addChild:container.sprite z:9];
       startX += squareSize.width;
-      
-      container.sprite.opacity = 0;
-      [container.sprite runAction:[CCSequence actions:
-                                   [CCDelayTime actionWithDuration:0.4f/*+(y*self.gridSize.width+x)*0.03+y*0.2*/],
-                                   [CCSpawn actions:
-                                    [CCFadeIn actionWithDuration:0.2],
-                                    [CCEaseBounceOut actionWithAction:[CCMoveTo actionWithDuration:0.8 position:startPos]],
-                                    nil], nil]];
     }
     startY += squareSize.height;
     startX = squareSize.width/2;
@@ -1075,7 +1067,7 @@
       {
         _gemsBouncing++;
         int numSquares = (container.sprite.position.y - startY) / squareSize.height;
-//        [container.sprite stopAllActions];
+        //        [container.sprite stopAllActions];
         CCMoveTo * moveTo = [CCMoveTo actionWithDuration:0.4+0.1*numSquares position:CGPointMake(startX, startY)];
         [container.sprite runAction:[CCSequence actions:
                                      [CCEaseBounceOut actionWithAction:moveTo],

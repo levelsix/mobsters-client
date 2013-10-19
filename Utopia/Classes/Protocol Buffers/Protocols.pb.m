@@ -97,6 +97,11 @@ BOOL EventProtocolRequestIsValidValue(EventProtocolRequest value) {
     case EventProtocolRequestCReviveInDungeonEvent:
     case EventProtocolRequestCQueueUpEvent:
     case EventProtocolRequestCUpdateMonsterHealthEvent:
+    case EventProtocolRequestCHealMonsterEvent:
+    case EventProtocolRequestCHealMonsterWaitTimeCompleteEvent:
+    case EventProtocolRequestCAddMonsterToBattleTeamEvent:
+    case EventProtocolRequestCRemoveMonsterFromBattleTeamEvent:
+    case EventProtocolRequestCBuyMonsterInventorySlotEvent:
     case EventProtocolRequestCLogoutEvent:
       return YES;
     default:
@@ -152,6 +157,11 @@ BOOL EventProtocolResponseIsValidValue(EventProtocolResponse value) {
     case EventProtocolResponseSReviveInDungeonEvent:
     case EventProtocolResponseSQueueUpEvent:
     case EventProtocolResponseSUpdateMonsterHealthEvent:
+    case EventProtocolResponseSHealMonsterEvent:
+    case EventProtocolResponseSHealMonsterWaitTimeCompleteEvent:
+    case EventProtocolResponseSAddMonsterToBattleTeamEvent:
+    case EventProtocolResponseSRemoveMonsterFromBattleTeamEvent:
+    case EventProtocolResponseSBuyMonsterInventorySlotEvent:
     case EventProtocolResponseSUpdateClientUserEvent:
     case EventProtocolResponseSQuestCompleteEvent:
     case EventProtocolResponseSReferralCodeUsedEvent:

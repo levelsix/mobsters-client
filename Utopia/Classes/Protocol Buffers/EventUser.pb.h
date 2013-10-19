@@ -13,6 +13,8 @@
 @class FullUserProto_Builder;
 @class FullUserStructureProto;
 @class FullUserStructureProto_Builder;
+@class LevelAndRequiredExpProto;
+@class LevelAndRequiredExpProto_Builder;
 @class LevelUpRequestProto;
 @class LevelUpRequestProto_Builder;
 @class LevelUpResponseProto;

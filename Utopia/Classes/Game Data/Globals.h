@@ -28,6 +28,7 @@
 #define SHAKE_DEFAULTS_KEY @"ShakeDefaultsKey"
 
 #define IAP_SUCCESS_NOTIFICATION @"IapSuccessNotification"
+#define HEAL_WAIT_COMPLETE_NOTIFICATION @"HealWaitCompleteNotification"
 
 #ifdef LEGENDS_OF_CHAOS
 #define GAME_NAME @"Legends of Chaos"
@@ -43,6 +44,9 @@
 
 @property (nonatomic, assign) int minNameLength;
 @property (nonatomic, assign) int maxNameLength;
+
+@property (nonatomic, assign) int maxTeamSize;
+@property (nonatomic, assign) int baseInventorySize;
 
 @property (nonatomic, assign) float maxLevelForUser;
 
@@ -105,11 +109,14 @@
 
 + (UIImage *) imageNamed:(NSString *)path;
 + (NSString *) imageNameForConstructionWithSize:(CGSize)size;
++ (UIImage *) imageForMonster:(int)monId;
 + (UIImage *) imageForStruct:(int)structId;
++ (NSString *) imageNameForMonster:(int)monId;
 + (NSString *) imageNameForStruct:(int)structId;
 + (NSString *) pathToFile:(NSString *)fileName;
 + (NSBundle *) bundleNamed:(NSString *)bundleName;
 + (void) asyncDownloadBundles;
++ (void) loadImageForMonster:(int)monId toView:(UIImageView *)view;
 + (void) loadImageForStruct:(int)structId toView:(UIImageView *)view masked:(BOOL)mask indicator:(UIActivityIndicatorViewStyle)indicator;
 + (void) imageNamed:(NSString *)imageName withView:(UIView *)view maskedColor:(UIColor *)color indicator:(UIActivityIndicatorViewStyle)indicatorStyle clearImageDuringDownload:(BOOL)clear;
 + (void) imageNamed:(NSString *)imageName toReplaceSprite:(CCSprite *)s;
@@ -117,6 +124,9 @@
 + (UIColor *) colorForRarity:(MonsterProto_MonsterQuality)rarity;
 + (NSString *) stringForRarity:(MonsterProto_MonsterQuality)rarity;
 + (NSString *) shortenedStringForRarity:(MonsterProto_MonsterQuality)rarity;
++ (NSString *) imageNameForRarity:(MonsterProto_MonsterQuality)rarity suffix:(NSString *)str;
++ (NSString *) stringForElement:(MonsterProto_MonsterElement)element;
++ (NSString *) imageNameForElement:(MonsterProto_MonsterElement)element suffix:(NSString *)str;
 
 + (NSString *) stringForTimeSinceNow:(NSDate *)date shortened:(BOOL)shortened ;
 
@@ -184,6 +194,12 @@
 - (int) calculateGoldCostToSpeedUpExpansionTimeLeft:(int)seconds;
 - (int) calculateSilverCostForNewExpansion;
 
+- (int) calculateMaxHealthForMonster:(UserMonster *)um;
+- (int) calculateCostToHealMonster:(UserMonster *)um;
+- (int) calculateSecondsToHealMonster:(UserMonster *)um;
+- (int) calculateTimeLeftToHealAllMonstersInQueue;
+- (int) calculateCostToSpeedupHealingQueue;
+
 // Enhancement formulas
 - (float) calculatePercentOfLevel:(int)percentage;
 - (int) calculateEnhancementLevel:(int)percentage;
@@ -208,8 +224,9 @@
 
 @end
 
-@interface NSMutableArray (Shuffling)
+@interface NSMutableArray (ShufflingAndCloning)
 
-- (void)shuffle;
+- (void) shuffle;
+- (id) clone;
 
 @end

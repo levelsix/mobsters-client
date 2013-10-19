@@ -32,6 +32,10 @@
 #import "TournamentStuff.pb.h"
 #import "User.pb.h"
 
+@class AddMonsterToBattleTeamRequestProto;
+@class AddMonsterToBattleTeamRequestProto_Builder;
+@class AddMonsterToBattleTeamResponseProto;
+@class AddMonsterToBattleTeamResponseProto_Builder;
 @class ApproveOrRejectRequestToJoinClanRequestProto;
 @class ApproveOrRejectRequestToJoinClanRequestProto_Builder;
 @class ApproveOrRejectRequestToJoinClanResponseProto;
@@ -50,6 +54,10 @@
 @class BootPlayerFromClanResponseProto_Builder;
 @class BuildStructJobProto;
 @class BuildStructJobProto_Builder;
+@class BuyMonsterInventorySlotRequestProto;
+@class BuyMonsterInventorySlotRequestProto_Builder;
+@class BuyMonsterInventorySlotResponseProto;
+@class BuyMonsterInventorySlotResponseProto_Builder;
 @class ChangeClanDescriptionRequestProto;
 @class ChangeClanDescriptionRequestProto_Builder;
 @class ChangeClanDescriptionResponseProto;
@@ -122,6 +130,14 @@
 @class GoldSaleProto_Builder;
 @class GroupChatMessageProto;
 @class GroupChatMessageProto_Builder;
+@class HealMonsterRequestProto;
+@class HealMonsterRequestProto_Builder;
+@class HealMonsterResponseProto;
+@class HealMonsterResponseProto_Builder;
+@class HealMonsterWaitTimeCompleteRequestProto;
+@class HealMonsterWaitTimeCompleteRequestProto_Builder;
+@class HealMonsterWaitTimeCompleteResponseProto;
+@class HealMonsterWaitTimeCompleteResponseProto_Builder;
 @class InAppPurchasePackageProto;
 @class InAppPurchasePackageProto_Builder;
 @class InAppPurchaseRequestProto;
@@ -132,6 +148,8 @@
 @class LeaveClanRequestProto_Builder;
 @class LeaveClanResponseProto;
 @class LeaveClanResponseProto_Builder;
+@class LevelAndRequiredExpProto;
+@class LevelAndRequiredExpProto_Builder;
 @class LevelUpRequestProto;
 @class LevelUpRequestProto_Builder;
 @class LevelUpResponseProto;
@@ -166,6 +184,8 @@
 @class MinimumUserTaskProto_Builder;
 @class MinimumUserUpgradeStructJobProto;
 @class MinimumUserUpgradeStructJobProto_Builder;
+@class MonsterJobProto;
+@class MonsterJobProto_Builder;
 @class MonsterProto;
 @class MonsterProto_Builder;
 @class MoveOrRotateNormStructureRequestProto;
@@ -218,6 +238,10 @@
 @class ReceivedRareBoosterPurchaseResponseProto_Builder;
 @class ReferralCodeUsedResponseProto;
 @class ReferralCodeUsedResponseProto_Builder;
+@class RemoveMonsterFromBattleTeamRequestProto;
+@class RemoveMonsterFromBattleTeamRequestProto_Builder;
+@class RemoveMonsterFromBattleTeamResponseProto;
+@class RemoveMonsterFromBattleTeamResponseProto_Builder;
 @class RequestJoinClanRequestProto;
 @class RequestJoinClanRequestProto_Builder;
 @class RequestJoinClanResponseProto;
@@ -290,6 +314,8 @@
 @class StartupResponseProto_StartupConstants_NormStructConstants_Builder;
 @class StartupResponseProto_StartupConstants_TournamentConstants;
 @class StartupResponseProto_StartupConstants_TournamentConstants_Builder;
+@class StartupResponseProto_StartupConstants_UserMonsterConstants;
+@class StartupResponseProto_StartupConstants_UserMonsterConstants_Builder;
 @class SubmitMonsterEnhancementRequestProto;
 @class SubmitMonsterEnhancementRequestProto_Builder;
 @class SubmitMonsterEnhancementResponseProto;
@@ -322,6 +348,8 @@
 @class UserCreateRequestProto_Builder;
 @class UserCreateResponseProto;
 @class UserCreateResponseProto_Builder;
+@class UserMonsterHealingProto;
+@class UserMonsterHealingProto_Builder;
 @class UserQuestDetailsRequestProto;
 @class UserQuestDetailsRequestProto_Builder;
 @class UserQuestDetailsResponseProto;
@@ -374,6 +402,11 @@ typedef enum {
   EventProtocolRequestCReviveInDungeonEvent = 45,
   EventProtocolRequestCQueueUpEvent = 46,
   EventProtocolRequestCUpdateMonsterHealthEvent = 47,
+  EventProtocolRequestCHealMonsterEvent = 48,
+  EventProtocolRequestCHealMonsterWaitTimeCompleteEvent = 49,
+  EventProtocolRequestCAddMonsterToBattleTeamEvent = 50,
+  EventProtocolRequestCRemoveMonsterFromBattleTeamEvent = 51,
+  EventProtocolRequestCBuyMonsterInventorySlotEvent = 52,
   EventProtocolRequestCLogoutEvent = 101,
 } EventProtocolRequest;
 
@@ -427,6 +460,11 @@ typedef enum {
   EventProtocolResponseSReviveInDungeonEvent = 45,
   EventProtocolResponseSQueueUpEvent = 46,
   EventProtocolResponseSUpdateMonsterHealthEvent = 47,
+  EventProtocolResponseSHealMonsterEvent = 48,
+  EventProtocolResponseSHealMonsterWaitTimeCompleteEvent = 49,
+  EventProtocolResponseSAddMonsterToBattleTeamEvent = 50,
+  EventProtocolResponseSRemoveMonsterFromBattleTeamEvent = 51,
+  EventProtocolResponseSBuyMonsterInventorySlotEvent = 52,
   EventProtocolResponseSUpdateClientUserEvent = 101,
   EventProtocolResponseSQuestCompleteEvent = 102,
   EventProtocolResponseSReferralCodeUsedEvent = 103,

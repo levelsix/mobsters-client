@@ -183,7 +183,13 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
       responseClass = [ReviveInDungeonResponseProto class];
       break;
     case EventProtocolResponseSEndDungeonEvent:
-      responseClass = [EndDungeonRequestProto class];
+      responseClass = [EndDungeonResponseProto class];
+      break;
+    case EventProtocolResponseSHealMonsterEvent:
+      responseClass = [HealMonsterResponseProto class];
+      break;
+    case EventProtocolResponseSHealMonsterWaitTimeCompleteEvent:
+      responseClass = [HealMonsterWaitTimeCompleteResponseProto class];
       break;
       
     default:
@@ -236,6 +242,12 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
     [gs setPlayerHasBoughtInAppPurchase:proto.playerHasBoughtInAppPurchase];
     
 //    [Globals asyncDownloadBundles];
+    
+    [gs.staticMonsters removeAllObjects];
+    [gs addToStaticMonsters:proto.staticMonstersList];
+    [gs addToMyMonsters:proto.usersMonstersList];
+    [gs addAllMonsterHealingProtos:proto.monstersHealingList];
+    [[SocketCommunication sharedSocketCommunication] reloadHealQueueSnapshot];
     
     [gs.staticCities removeAllObjects];
     [gs addToStaticCities:proto.allCitiesList];
@@ -539,8 +551,6 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
   
   if (proto.status == LoadPlayerCityResponseProto_LoadPlayerCityStatusSuccess) {
     if (proto.cityOwner.userId == gs.userId) {
-      gs.connected = YES;
-      
       [gs.myStructs removeAllObjects];
       [gs addToMyStructs:proto.ownerNormStructsList];
       
@@ -1140,9 +1150,28 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
   LNLog(@"Begin dungeon response received with status %d.", proto.status);
   
   if (proto.status == BeginDungeonResponseProto_BeginDungeonStatusSuccess) {
-    [[CCDirector sharedDirector] pushScene:[CCTransitionFade transitionWithDuration:0.5 scene:[DungeonBattleLayer sceneWithBeginDungeonResponseProto:proto] withColor:ccBLACK]];
   } else {
     [Globals popupMessage:@"Server failed to enter dungeon."];
+  }
+}
+
+- (void) handleHealMonsterResponseProto:(FullEvent *)fe {
+  HealMonsterResponseProto *proto = (HealMonsterResponseProto *)fe.event;
+  LNLog(@"Heal monster response received with status %d.", proto.status);
+  
+  if (proto.status == HealMonsterResponseProto_HealMonsterStatusSuccess) {
+  } else {
+    [Globals popupMessage:@"Server failed to submit heal queue."];
+  }
+}
+
+- (void) handleHealMonsterWaitTimeCompleteResponseProto:(FullEvent *)fe {
+  HealMonsterWaitTimeCompleteResponseProto *proto = (HealMonsterWaitTimeCompleteResponseProto *)fe.event;
+  LNLog(@"Heal wait complete response received with status %d.", proto.status);
+  
+  if (proto.status == HealMonsterWaitTimeCompleteResponseProto_HealMonsterWaitTimeCompleteStatusSuccess) {
+  } else {
+    [Globals popupMessage:@"Server failed to complete heal wait time."];
   }
 }
 

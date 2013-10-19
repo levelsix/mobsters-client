@@ -8,8 +8,18 @@
 @class MinimumUserBuildStructJobProto_Builder;
 @class MinimumUserUpgradeStructJobProto;
 @class MinimumUserUpgradeStructJobProto_Builder;
+@class MonsterJobProto;
+@class MonsterJobProto_Builder;
 @class UpgradeStructJobProto;
 @class UpgradeStructJobProto_Builder;
+typedef enum {
+  MonsterJobTypeCollect = 1,
+  MonsterJobTypeDonate = 2,
+  MonsterJobTypeKill = 3,
+} MonsterJobType;
+
+BOOL MonsterJobTypeIsValidValue(MonsterJobType value);
+
 
 @interface JobRoot : NSObject {
 }
@@ -297,5 +307,80 @@
 - (int32_t) currentLevel;
 - (MinimumUserUpgradeStructJobProto_Builder*) setCurrentLevel:(int32_t) value;
 - (MinimumUserUpgradeStructJobProto_Builder*) clearCurrentLevel;
+@end
+
+@interface MonsterJobProto : PBGeneratedMessage {
+@private
+  BOOL hasMonsterJobId_:1;
+  BOOL hasMonsterId_:1;
+  BOOL hasQuanity_:1;
+  BOOL hasMonsterJobType_:1;
+  int32_t monsterJobId;
+  int32_t monsterId;
+  int32_t quanity;
+  MonsterJobType monsterJobType;
+}
+- (BOOL) hasMonsterJobId;
+- (BOOL) hasMonsterId;
+- (BOOL) hasQuanity;
+- (BOOL) hasMonsterJobType;
+@property (readonly) int32_t monsterJobId;
+@property (readonly) int32_t monsterId;
+@property (readonly) int32_t quanity;
+@property (readonly) MonsterJobType monsterJobType;
+
++ (MonsterJobProto*) defaultInstance;
+- (MonsterJobProto*) defaultInstance;
+
+- (BOOL) isInitialized;
+- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output;
+- (MonsterJobProto_Builder*) builder;
++ (MonsterJobProto_Builder*) builder;
++ (MonsterJobProto_Builder*) builderWithPrototype:(MonsterJobProto*) prototype;
+
++ (MonsterJobProto*) parseFromData:(NSData*) data;
++ (MonsterJobProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (MonsterJobProto*) parseFromInputStream:(NSInputStream*) input;
++ (MonsterJobProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (MonsterJobProto*) parseFromCodedInputStream:(PBCodedInputStream*) input;
++ (MonsterJobProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+@end
+
+@interface MonsterJobProto_Builder : PBGeneratedMessage_Builder {
+@private
+  MonsterJobProto* result;
+}
+
+- (MonsterJobProto*) defaultInstance;
+
+- (MonsterJobProto_Builder*) clear;
+- (MonsterJobProto_Builder*) clone;
+
+- (MonsterJobProto*) build;
+- (MonsterJobProto*) buildPartial;
+
+- (MonsterJobProto_Builder*) mergeFrom:(MonsterJobProto*) other;
+- (MonsterJobProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input;
+- (MonsterJobProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+
+- (BOOL) hasMonsterJobId;
+- (int32_t) monsterJobId;
+- (MonsterJobProto_Builder*) setMonsterJobId:(int32_t) value;
+- (MonsterJobProto_Builder*) clearMonsterJobId;
+
+- (BOOL) hasMonsterId;
+- (int32_t) monsterId;
+- (MonsterJobProto_Builder*) setMonsterId:(int32_t) value;
+- (MonsterJobProto_Builder*) clearMonsterId;
+
+- (BOOL) hasQuanity;
+- (int32_t) quanity;
+- (MonsterJobProto_Builder*) setQuanity:(int32_t) value;
+- (MonsterJobProto_Builder*) clearQuanity;
+
+- (BOOL) hasMonsterJobType;
+- (MonsterJobType) monsterJobType;
+- (MonsterJobProto_Builder*) setMonsterJobType:(MonsterJobType) value;
+- (MonsterJobProto_Builder*) clearMonsterJobType;
 @end
 

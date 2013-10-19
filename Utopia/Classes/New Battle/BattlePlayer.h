@@ -7,30 +7,19 @@
 //
 
 #import <Foundation/Foundation.h>
-
-@interface BattleEquip : NSObject
-
-@property (nonatomic, assign) int equipId;
-@property (nonatomic, assign) int enhancePercent;
-@property (nonatomic, assign) int durability;
-
-+ (id) equipWithEquipId:(int)equipId enhancePercent:(int)enhancePercent durability:(int)durability;
-- (id) initWithEquipId:(int)equipId enhancePercent:(int)enhancePercent durability:(int)durability;
-
-@end
+#import "Protocols.pb.h"
 
 @interface BattlePlayer : NSObject
 
 @property (nonatomic, assign) int curHealth;
 @property (nonatomic, assign) int maxHealth;
 
-@property (nonatomic, retain) BattleEquip *weapon;
-@property (nonatomic, retain) BattleEquip *armor;
-@property (nonatomic, retain) BattleEquip *amulet;
+@property (nonatomic, assign) int fireDamage;
+@property (nonatomic, assign) int waterDamage;
+@property (nonatomic, assign) int earthDamage;
+@property (nonatomic, assign) int lightDamage;
+@property (nonatomic, assign) int nightDamage;
 
-+ (id) playerWithHealth:(int)health weapon:(BattleEquip *)weapon armor:(BattleEquip *)armor amulet:(BattleEquip *)amulet;
-- (id) initWithHealth:(int)health weapon:(BattleEquip *)weapon armor:(BattleEquip *)armor amulet:(BattleEquip *)amulet;
-
-- (int) attackPower;
+- (id) initWithMonster:(MonsterProto *)monster level:(int)level;
 
 @end

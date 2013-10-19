@@ -21,12 +21,18 @@
 @interface MonsterCardView : UIView
 
 @property (nonatomic, assign) IBOutlet UIImageView *monsterIcon;
-@property (nonatomic, assign) IBOutlet UIImageView *bgd;
+@property (nonatomic, assign) IBOutlet UIImageView *cardBgdView;
+@property (nonatomic, assign) IBOutlet UIImageView *borderView;
 @property (nonatomic, assign) IBOutlet UILabel *nameLabel;
-@property (nonatomic, assign) IBOutlet UILabel *attackLabel;
-@property (nonatomic, assign) IBOutlet UILabel *defenseLabel;
 @property (nonatomic, assign) IBOutlet UILabel *levelLabel;
+@property (nonatomic, assign) IBOutlet UIImageView *levelBgdView;
+@property (nonatomic, assign) IBOutlet UILabel *qualityLabel;
+@property (nonatomic, assign) IBOutlet UIImageView *qualityBgdView;
+@property (nonatomic, assign) IBOutlet ProgressBar *healthBar;
+@property (nonatomic, assign) IBOutlet UIView *starView;
 @property (nonatomic, assign) IBOutlet MaskedButton *darkOverlay;
+
+@property (nonatomic, assign) IBOutlet UILabel *noMonsterLabel;
 
 @property (nonatomic, retain) IBOutlet UIView *mainView;
 @property (nonatomic, retain) IBOutlet UIView *noMonsterView;
@@ -35,7 +41,7 @@
 @property (nonatomic, assign) id<MonsterCardViewDelegate> delegate;
 
 - (void) updateForMonster:(UserMonster *)um;
-- (void) updateForNoMonster;
+- (void) updateForNoMonsterWithLabel:(NSString *)str;
 
 @end
 

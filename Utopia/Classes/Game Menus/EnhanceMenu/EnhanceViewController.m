@@ -221,11 +221,11 @@
     } completion:^(BOOL finished) {
       MonsterCardView *card = [self.feederCards objectAtIndex:0];
       
-      UIImageView *bgdImgView = [[UIImageView alloc] initWithImage:[Globals maskImage:card.bgd.image withColor:[UIColor colorWithWhite:0.f alpha:0.3f]]];
-      [card.mainView addSubview:bgdImgView];
-      bgdImgView.alpha = 0.f;
-      bgdImgView.tag = 1;
-      bgdImgView.frame = card.bgd.frame;
+//      UIImageView *bgdImgView = [[UIImageView alloc] initWithImage:[Globals maskImage:card.bgd.image withColor:[UIColor colorWithWhite:0.f alpha:0.3f]]];
+//      [card.mainView addSubview:bgdImgView];
+//      bgdImgView.alpha = 0.f;
+//      bgdImgView.tag = 1;
+//      bgdImgView.frame = card.bgd.frame;
       
       UIImageView *check = [[UIImageView alloc] initWithImage:[Globals imageNamed:@"3dcheckmark.png"]];
       [card addSubview:check];
@@ -233,11 +233,11 @@
       check.alpha = 0.f;
       check.tag = 2;
       
-      [Globals bounceView:check fadeInBgdView:bgdImgView completion:^(BOOL finished) {
-        [self animateCardRemoval:card duration:0.6f withCompletionBlock:^(BOOL finished) {
-          [self animateEnhancement];
-        }];
-      }];
+//      [Globals bounceView:check fadeInBgdView:bgdImgView completion:^(BOOL finished) {
+//        [self animateCardRemoval:card duration:0.6f withCompletionBlock:^(BOOL finished) {
+//          [self animateEnhancement];
+//        }];
+//      }];
     }];
   } else {
     [self.feeders removeAllObjects];
@@ -329,7 +329,7 @@
       [card updateForMonster:ue];
       card.alpha = [self monsterIsInUse:ue] ? CLICKED_CARD_ALPHA : 1.f;
     } else {
-      [card updateForNoMonster];
+//      [card updateForNoMonster];
     }
     [card.darkOverlay addTarget:self action:@selector(cardClicked:) forControlEvents:UIControlEventTouchUpInside];
   }

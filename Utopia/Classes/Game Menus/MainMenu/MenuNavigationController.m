@@ -59,14 +59,4 @@ static float imgHeight = 40.f;
   return self;
 }
 
-- (void) pushViewController:(UIViewController *)viewController animated:(BOOL)animated {
-  [super pushViewController:viewController animated:animated];
-  self.navigationBar.frame = CGRectMake(0, 0, self.navigationBar.frame.size.width, imgHeight);
-}
-
-- (void) didRotateFromInterfaceOrientation:(UIInterfaceOrientation)fromInterfaceOrientation {
-  [super didRotateFromInterfaceOrientation:fromInterfaceOrientation];
-  self.navigationBar.frame = CGRectMake(0, 0, self.navigationBar.frame.size.width, imgHeight);
-}
-
 @end

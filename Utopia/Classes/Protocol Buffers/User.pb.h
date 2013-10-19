@@ -4,6 +4,8 @@
 
 @class FullUserProto;
 @class FullUserProto_Builder;
+@class LevelAndRequiredExpProto;
+@class LevelAndRequiredExpProto_Builder;
 @class MinimumClanProto;
 @class MinimumClanProto_Builder;
 @class MinimumUserProto;
@@ -636,5 +638,62 @@
 - (NSString*) kabamNaid;
 - (FullUserProto_Builder*) setKabamNaid:(NSString*) value;
 - (FullUserProto_Builder*) clearKabamNaid;
+@end
+
+@interface LevelAndRequiredExpProto : PBGeneratedMessage {
+@private
+  BOOL hasLevel_:1;
+  BOOL hasRequiredExperience_:1;
+  int32_t level;
+  int32_t requiredExperience;
+}
+- (BOOL) hasLevel;
+- (BOOL) hasRequiredExperience;
+@property (readonly) int32_t level;
+@property (readonly) int32_t requiredExperience;
+
++ (LevelAndRequiredExpProto*) defaultInstance;
+- (LevelAndRequiredExpProto*) defaultInstance;
+
+- (BOOL) isInitialized;
+- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output;
+- (LevelAndRequiredExpProto_Builder*) builder;
++ (LevelAndRequiredExpProto_Builder*) builder;
++ (LevelAndRequiredExpProto_Builder*) builderWithPrototype:(LevelAndRequiredExpProto*) prototype;
+
++ (LevelAndRequiredExpProto*) parseFromData:(NSData*) data;
++ (LevelAndRequiredExpProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (LevelAndRequiredExpProto*) parseFromInputStream:(NSInputStream*) input;
++ (LevelAndRequiredExpProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (LevelAndRequiredExpProto*) parseFromCodedInputStream:(PBCodedInputStream*) input;
++ (LevelAndRequiredExpProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+@end
+
+@interface LevelAndRequiredExpProto_Builder : PBGeneratedMessage_Builder {
+@private
+  LevelAndRequiredExpProto* result;
+}
+
+- (LevelAndRequiredExpProto*) defaultInstance;
+
+- (LevelAndRequiredExpProto_Builder*) clear;
+- (LevelAndRequiredExpProto_Builder*) clone;
+
+- (LevelAndRequiredExpProto*) build;
+- (LevelAndRequiredExpProto*) buildPartial;
+
+- (LevelAndRequiredExpProto_Builder*) mergeFrom:(LevelAndRequiredExpProto*) other;
+- (LevelAndRequiredExpProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input;
+- (LevelAndRequiredExpProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+
+- (BOOL) hasLevel;
+- (int32_t) level;
+- (LevelAndRequiredExpProto_Builder*) setLevel:(int32_t) value;
+- (LevelAndRequiredExpProto_Builder*) clearLevel;
+
+- (BOOL) hasRequiredExperience;
+- (int32_t) requiredExperience;
+- (LevelAndRequiredExpProto_Builder*) setRequiredExperience:(int32_t) value;
+- (LevelAndRequiredExpProto_Builder*) clearRequiredExperience;
 @end
 

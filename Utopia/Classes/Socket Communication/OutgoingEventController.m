@@ -211,7 +211,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
   } else if (!userStruct.isComplete) {
     NSDate *date;
     if (userStruct.state == kBuilding) {
-      date = [NSDate dateWithTimeInterval:fsp.minutesToUpgradeBase*60 sinceDate:userStruct.purchaseTime];
+      date = [NSDate dateWithTimeInterval:fsp.minutesToBuild*60 sinceDate:userStruct.purchaseTime];
     } else if (userStruct.state == kUpgrading) {
       date = [NSDate dateWithTimeInterval:[gl calculateMinutesToUpgrade:userStruct]*60 sinceDate:userStruct.lastUpgradeTime];
     } else {
@@ -818,8 +818,137 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
   [[SocketCommunication sharedSocketCommunication] sendRetrievePrivateChatPostsMessage:otherUserId];
 }
 
-- (void) beginDungeon:(int)taskId {
-  [[SocketCommunication sharedSocketCommunication] sendBeginDungeonMessage:[self getCurrentMilliseconds] taskId:taskId];
+- (void) beginDungeon:(int)taskId withDelegate:(id)delegate {
+  int tag = [[SocketCommunication sharedSocketCommunication] sendBeginDungeonMessage:[self getCurrentMilliseconds] taskId:taskId];
+  [[SocketCommunication sharedSocketCommunication] setDelegate:delegate forTag:tag];
+}
+
+- (void) removeMonsterFromTeam:(int)userMonsterId {
+  GameState *gs = [GameState sharedGameState];
+  UserMonster *um = [gs myMonsterWithUserMonsterId:userMonsterId];
+  
+  if (!um || !um.teamSlot) {
+    [Globals popupMessage:@"Trying to remove invalid monster."];
+  } else {
+    um.teamSlot = 0;
+  }
+}
+
+- (void) addMonsterToTeam:(int)userMonsterId {
+  Globals *gl = [Globals sharedGlobals];
+  GameState *gs = [GameState sharedGameState];
+  UserMonster *um = [gs myMonsterWithUserMonsterId:userMonsterId];
+  NSArray *curMembers = [gs allMonstersOnMyTeam];
+  
+  if (!um || um.teamSlot) {
+    [Globals popupMessage:@"Trying to add invalid monster."];
+  } else if (curMembers.count >= gl.maxTeamSize) {
+    [Globals popupMessage:@"Team is already at max size."];
+  } else {
+    int teamSlot = 1;
+    while (true) {
+      BOOL found = NO;
+      for (UserMonster *m in curMembers)
+        if (m.teamSlot == teamSlot)
+          found = YES;
+      
+      if (!found) {
+        break;
+      }
+      teamSlot++;
+    }
+    um.teamSlot = teamSlot;
+  }
+}
+
+- (void) buyInventorySlots {
+  GameState *gs = [GameState sharedGameState];
+  gs.numAdditionalMonsterSlots += 5;
+}
+
+- (void) addMonsterToHealingQueue:(int)userMonsterId {
+  Globals *gl = [Globals sharedGlobals];
+  GameState *gs = [GameState sharedGameState];
+  UserMonster *um = [gs myMonsterWithUserMonsterId:userMonsterId];
+  
+  int maxHealth = [gl calculateMaxHealthForMonster:um];
+  int silverCost = [gl calculateCostToHealMonster:um];
+  if (um.curHealth >= maxHealth) {
+    [Globals popupMessage:@"This monster is already at full health."];
+  } else if (gs.silver < silverCost) {
+    [Globals popupMessage:@"Trying to heal item without enough cash."];
+  } else {
+    UserMonsterHealingItem *item = [[UserMonsterHealingItem alloc] init];
+    item.userMonsterId = userMonsterId;
+    item.userId = gs.userId;
+    [gs addUserMonsterHealingItemToEndOfQueue:item];
+    
+    um.teamSlot = 0;
+    
+    int tag = [[SocketCommunication sharedSocketCommunication] setHealQueueDirty];
+    [gs addUnrespondedUpdate:[SilverUpdate updateWithTag:tag change:-silverCost]];
+  }
+}
+
+- (void) removeMonsterFromHealingQueue:(UserMonsterHealingItem *)item {
+  GameState *gs = [GameState sharedGameState];
+  Globals *gl = [Globals sharedGlobals];
+  UserMonster *um = [gs myMonsterWithUserMonsterId:item.userMonsterId];
+  
+  int silverCost = [gl calculateCostToHealMonster:um];
+  if (![gs.monsterHealingQueue containsObject:item]) {
+    [Globals popupMessage:@"This item is not in the healing queue."];
+  } else {
+    [gs removeUserMonsterHealingItem:item];
+    
+    int tag = [[SocketCommunication sharedSocketCommunication] setHealQueueDirty];
+    [gs addUnrespondedUpdate:[SilverUpdate updateWithTag:tag change:silverCost]];
+  }
+}
+
+- (void) speedupHealingQueue {
+  GameState *gs = [GameState sharedGameState];
+  Globals *gl = [Globals sharedGlobals];
+  
+  [[SocketCommunication sharedSocketCommunication] flush];
+  
+  int goldCost = [gl calculateCostToSpeedupHealingQueue];
+  
+  if (gs.gold < goldCost) {
+    [Globals popupMessage:@"Trying to speedup heal queue without enough gold"];
+  } else {
+    NSMutableArray *arr = [NSMutableArray array];
+    for (UserMonsterHealingItem *item in gs.monsterHealingQueue) {
+      UserMonster *um = [gs myMonsterWithUserMonsterId:item.userMonsterId];
+      um.curHealth = [gl calculateMaxHealthForMonster:um];
+      [arr addObject:[NSNumber numberWithInt:um.userMonsterId]];
+    }
+    [gs.monsterHealingQueue removeAllObjects];
+    
+    int tag = [[SocketCommunication sharedSocketCommunication] sendHealQueueSpeedup:arr goldCost:goldCost];
+    [gs addUnrespondedUpdate:[GoldUpdate updateWithTag:tag change:-goldCost]];
+  }
+}
+
+- (void) healQueueWaitTimeComplete:(NSArray *)healingItems {
+  GameState *gs = [GameState sharedGameState];
+  Globals *gl = [Globals sharedGlobals];
+  
+  [[SocketCommunication sharedSocketCommunication] flush];
+  
+  NSMutableArray *arr = [NSMutableArray array];
+  for (UserMonsterHealingItem *item in healingItems) {
+    if ([item.expectedEndTime timeIntervalSinceNow] > 0) {
+      [Globals popupMessage:@"Trying to finish healing item before time."];
+    } else {
+      UserMonster *um = [gs myMonsterWithUserMonsterId:item.userMonsterId];
+      um.curHealth = [gl calculateMaxHealthForMonster:um];
+      [arr addObject:[NSNumber numberWithInt:um.userMonsterId]];
+    }
+  }
+  [gs.monsterHealingQueue removeObjectsInArray:healingItems];
+  
+  [[SocketCommunication sharedSocketCommunication] sendHealQueueWaitTimeComplete:arr];
 }
 
 @end

@@ -224,7 +224,7 @@ static NSString *udid = nil;
   if (_sender.userId == 0) {
     if (type != EventProtocolRequestCStartupEvent&& type != EventProtocolRequestCUserCreateEvent) {
       LNLog(@"User id is 0!!!");
-      LNLog(@"Did not send event.");
+      LNLog(@"Did not send event of type %@.", NSStringFromClass(msg.class));
       return 0;
     }
   }
@@ -288,13 +288,17 @@ static NSString *udid = nil;
   SEL handleMethod = NSSelectorFromString(selectorStr);
   if ([iec respondsToSelector:handleMethod]) {
     FullEvent *fe = [FullEvent createWithEvent:(PBGeneratedMessage *)[typeClass parseFromData:data] tag:tag];
-    [iec performSelectorOnMainThread:handleMethod withObject:fe waitUntilDone:NO];
+    
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Warc-performSelector-leaks"
+    [iec performSelector:handleMethod withObject:fe];
     
     NSNumber *num = [NSNumber numberWithInt:tag];
     NSObject *delegate = [self.tagDelegates objectForKey:num];
     if (delegate) {
       if ([delegate respondsToSelector:handleMethod]) {
-        [delegate performSelectorOnMainThread:handleMethod withObject:fe waitUntilDone:NO];
+        [delegate performSelector:handleMethod withObject:fe];
+#pragma clang diagnostic pop
       } else {
         LNLog(@"Unable to find %@ in %@", selectorStr, NSStringFromClass(delegate.class));
       }
@@ -702,10 +706,10 @@ static NSString *udid = nil;
 
 - (int) sendRetrieveTournamentRankingsMessage:(int)eventId afterThisRank:(int)afterThisRank {
   RetrieveTournamentRankingsRequestProto *req = [[[[[RetrieveTournamentRankingsRequestProto builder]
-                                                         setSender:_sender]
-                                                        setEventId:eventId]
-                                                       setAfterThisRank:afterThisRank]
-                                                      build];
+                                                    setSender:_sender]
+                                                   setEventId:eventId]
+                                                  setAfterThisRank:afterThisRank]
+                                                 build];
   return [self sendData:req withMessageType:EventProtocolRequestCRetrieveTournamentRankingsEvent];
 }
 
@@ -755,6 +759,34 @@ static NSString *udid = nil;
   return [self sendData:req withMessageType:EventProtocolRequestCBeginDungeonEvent];
 }
 
+- (int) sendHealQueueWaitTimeComplete:(NSArray *)monsterIds {
+  HealMonsterWaitTimeCompleteRequestProto *req = [[[[HealMonsterWaitTimeCompleteRequestProto builder]
+                                                    setSender:_sender]
+                                                   addAllUserMonsterIds:monsterIds]
+                                                  build];
+  
+  int tag = [self sendData:req withMessageType:EventProtocolRequestCHealMonsterWaitTimeCompleteEvent];
+  
+  [self reloadHealQueueSnapshot];
+  
+  return tag;
+}
+
+- (int) sendHealQueueSpeedup:(NSArray *)monsterIds goldCost:(int)goldCost {
+  HealMonsterWaitTimeCompleteRequestProto *req = [[[[[[HealMonsterWaitTimeCompleteRequestProto builder]
+                                                      setSender:_sender]
+                                                     setIsSpeedup:YES]
+                                                    setGemsForSpeedup:goldCost]
+                                                   addAllUserMonsterIds:monsterIds]
+                                                  build];
+  
+  int tag = [self sendData:req withMessageType:EventProtocolRequestCHealMonsterWaitTimeCompleteEvent];
+  
+  [self reloadHealQueueSnapshot];
+  
+  return tag;
+}
+
 - (int) retrieveCurrencyFromStruct:(int)userStructId time:(uint64_t)time {
   [self flushWithInt:EventProtocolRequestCRetrieveCurrencyFromNormStructureEvent];
   RetrieveCurrencyFromNormStructureRequestProto_StructRetrieval *sr = [[[[RetrieveCurrencyFromNormStructureRequestProto_StructRetrieval builder]
@@ -776,6 +808,65 @@ static NSString *udid = nil;
   return [self sendData:req withMessageType:EventProtocolRequestCRetrieveCurrencyFromNormStructureEvent flush:NO];
 }
 
+- (int) setHealQueueDirty {
+  [self flushWithInt:EventProtocolRequestCHealMonsterEvent];
+  _healingQueuePotentiallyChanged = YES;
+  return _currentTagNum;
+}
+
+- (void) reloadHealQueueSnapshot {
+  GameState *gs = [GameState sharedGameState];
+  self.healingQueueSnapshot = [gs.monsterHealingQueue clone];
+}
+
+- (int) sendHealMonsterMessage {
+  GameState *gs = [GameState sharedGameState];
+  NSMutableSet *old = [NSMutableSet setWithArray:self.healingQueueSnapshot];
+  NSMutableSet *cur = [NSMutableSet setWithArray:gs.monsterHealingQueue];
+  
+  NSMutableSet *added = cur.mutableCopy;
+  [added minusSet:old];
+  
+  NSMutableSet *removed = old.mutableCopy;
+  [removed minusSet:cur];
+  
+  NSMutableSet *modifiedOld = old.mutableCopy;
+  [modifiedOld intersectSet:cur];
+  
+  NSMutableSet *modifiedCur = cur.mutableCopy;
+  [modifiedCur intersectSet:old];
+  
+  NSMutableSet *changed = [NSMutableSet set];
+  for (UserMonsterHealingItem *itemOld in modifiedOld) {
+    UserMonsterHealingItem *itemNew = [modifiedCur member:itemOld];
+    if ([itemOld.expectedStartTime compare:itemNew.expectedStartTime] != NSOrderedSame) {
+      [changed addObject:itemNew];
+    }
+  }
+  
+  if (added.count || removed.count || changed.count) {
+    HealMonsterRequestProto_Builder *bldr = [[HealMonsterRequestProto builder] setSender:_sender];
+    
+    for (UserMonsterHealingItem *item in added) {
+      [bldr addUmhNew:[item convertToProto]];
+    }
+    
+    for (UserMonsterHealingItem *item in removed) {
+      [bldr addUmhDelete:[item convertToProto]];
+    }
+    
+    for (UserMonsterHealingItem *item in changed) {
+      [bldr addUmhUpdate:[item convertToProto]];
+    }
+    
+    NSLog(@"Sending healing queue update with %d adds, %d removals, and %d updates.", added.count, removed.count, changed.count);
+    
+    return [self sendData:bldr.build withMessageType:EventProtocolRequestCHealMonsterEvent flush:NO];
+  } else {
+    return 0;
+  }
+}
+
 - (void) flush {
   [self flushWithInt:-1];
 }
@@ -790,6 +881,14 @@ static NSString *udid = nil;
     if (self.structRetrievals.count > 0) {
       [self sendRetrieveCurrencyFromNormStructureMessage];
       [self.structRetrievals removeAllObjects];
+    }
+  }
+  
+  if (type != EventProtocolRequestCHealMonsterEvent) {
+    if (_healingQueuePotentiallyChanged) {
+      [self sendHealMonsterMessage];
+      [self reloadHealQueueSnapshot];
+      _healingQueuePotentiallyChanged = NO;
     }
   }
 }

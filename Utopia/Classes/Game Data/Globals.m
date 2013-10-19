@@ -76,6 +76,9 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
   self.adminChatUser = constants.adminChatUserProto;
   self.numBeginnerSalesAllowed = constants.numBeginnerSalesAllowed;
   
+  self.maxTeamSize = constants.userMonsterConstants.maxNumTeamSlots;
+  self.baseInventorySize = constants.userMonsterConstants.initialMaxNumMonsterLimit;
+  
   self.diamondPriceToCreateClan = constants.clanConstants.diamondPriceToCreateClan;
   self.maxCharLengthForClanName = constants.clanConstants.maxCharLengthForClanName;
   self.maxCharLengthForClanDescription = constants.clanConstants.maxCharLengthForClanDescription;
@@ -184,8 +187,21 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
   return file;
 }
 
++ (NSString *) imageNameForMonster:(int)monId {
+  MonsterProto *mon = [[GameState sharedGameState] monsterWithId:monId];
+  NSString *str = [mon.name.capitalizedString stringByReplacingOccurrencesOfString:@" " withString:@""];
+  str = [str stringByReplacingOccurrencesOfString:@"'" withString:@""];
+  str = [str stringByReplacingOccurrencesOfString:@"-" withString:@""];
+  NSString *file = [str stringByAppendingString:@".png"];
+  return file;
+}
+
 + (UIImage *) imageForStruct:(int)structId {
   return structId == 0 ? nil : [self imageNamed:[self imageNameForStruct:structId]];
+}
+
++ (UIImage *) imageForMonster:(int)monId {
+  return monId == 0 ? nil : [self imageNamed:[self imageNameForMonster:monId]];
 }
 
 + (void) loadImageForStruct:(int)structId toView:(UIImageView *)view masked:(BOOL)mask indicator:(UIActivityIndicatorViewStyle)indicator {
@@ -193,13 +209,18 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
   [self imageNamed:[self imageNameForStruct:structId] withView:view maskedColor:mask ? [UIColor colorWithWhite:0.f alpha:0.7f] : nil indicator:indicator clearImageDuringDownload:YES];
 }
 
++ (void) loadImageForMonster:(int)monId toView:(UIImageView *)view {
+  if (!monId || !view) {
+    view.image = nil;
+    return;
+  }
+  [self imageNamed:[self imageNameForMonster:monId] withView:view maskedColor:nil indicator:UIActivityIndicatorViewStyleWhite clearImageDuringDownload:YES];
+}
+
 + (UIColor *) colorForRarity:(MonsterProto_MonsterQuality)rarity {
   switch (rarity) {
     case MonsterProto_MonsterQualityCommon:
       return [self creamColor];
-      
-    case MonsterProto_MonsterQualityUncommon:
-      return [self greenColor];
       
     case MonsterProto_MonsterQualityRare:
       return [self blueColor];
@@ -223,9 +244,6 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
     case MonsterProto_MonsterQualityCommon:
       return @"Common";
       
-    case MonsterProto_MonsterQualityUncommon:
-      return @"Uncommon";
-      
     case MonsterProto_MonsterQualityRare:
       return @"Rare";
       
@@ -243,6 +261,11 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
   }
 }
 
++ (NSString *) imageNameForRarity:(MonsterProto_MonsterQuality)rarity suffix:(NSString *)str {
+  NSString *base = [[[self stringForRarity:rarity] stringByReplacingOccurrencesOfString:@" " withString:@""] lowercaseString];
+  return [base stringByAppendingString:str];
+}
+
 + (NSString *) shortenedStringForRarity:(MonsterProto_MonsterQuality)rarity {
   NSString *str = [self stringForRarity:rarity];
   
@@ -254,6 +277,33 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
     str = [str stringByReplacingCharactersInRange:NSMakeRange(3, str.length-3) withString:@"."];
   }
   return [str uppercaseString];
+}
+
++ (NSString *) stringForElement:(MonsterProto_MonsterElement)element {
+  switch (element) {
+    case MonsterProto_MonsterElementDarkness:
+      return @"Night";
+      
+    case MonsterProto_MonsterElementFire:
+      return @"Fire";
+      
+    case MonsterProto_MonsterElementGrass:
+      return @"Earth";
+      
+    case MonsterProto_MonsterElementLightning:
+      return @"Light";
+      
+    case MonsterProto_MonsterElementWater:
+      return @"Water";
+      
+    default:
+      break;
+  }
+}
+
++ (NSString *) imageNameForElement:(MonsterProto_MonsterElement)element suffix:(NSString *)str {
+  NSString *base = [[self stringForElement:element] lowercaseString];
+  return [base stringByAppendingString:str];
 }
 
 + (NSString *) stringForTimeSinceNow:(NSDate *)date shortened:(BOOL)shortened {
@@ -860,14 +910,14 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
 
 - (int) calculateDiamondCostForInstaUpgrade:(UserStruct *)us timeLeft:(int)timeLeft {
   FullStructureProto *fsp = [[GameState sharedGameState] structWithId:us.structId];
-  int baseCost = MAX(1,fsp.instaUpgradeDiamondCostBase * us.level * self.diamondCostForInstantUpgradeMultiplier);
+  int baseCost = MAX(1,fsp.instaBuildDiamondCost * us.level * self.diamondCostForInstantUpgradeMultiplier);
   int mins = [self calculateMinutesToUpgrade:us];
   return [self calculateDiamondCostForSpeedupWithBaseCost:baseCost timeRemaining:timeLeft totalTime:mins*60];
 }
 
 - (int) calculateMinutesToUpgrade:(UserStruct *)us {
   FullStructureProto *fsp = [[GameState sharedGameState] structWithId:us.structId];
-  return MAX(1, (int)(fsp.minutesToUpgradeBase * (us.level+1) * self.minutesToUpgradeForNormStructMultiplier));
+  return MAX(1, (int)(fsp.minutesToBuild * (us.level+1) * self.minutesToUpgradeForNormStructMultiplier));
 }
 
 - (int) calculateNumMinutesForNewExpansion {
@@ -882,6 +932,43 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
 
 - (int) calculateSilverCostForNewExpansion {
   return 5;
+}
+
+- (int) calculateMaxHealthForMonster:(UserMonster *)um {
+  GameState *gs = [GameState sharedGameState];
+  MonsterProto *mp = [gs monsterWithId:um.monsterId];
+  return mp.maxHp;
+}
+
+- (int) calculateCostToHealMonster:(UserMonster *)um {
+  GameState *gs = [GameState sharedGameState];
+  MonsterProto *mp = [gs monsterWithId:um.monsterId];
+  return (mp.maxHp-um.curHealth)*10;
+}
+
+- (int) calculateSecondsToHealMonster:(UserMonster *)um {
+  GameState *gs = [GameState sharedGameState];
+  MonsterProto *mp = [gs monsterWithId:um.monsterId];
+  return (mp.maxHp-um.curHealth)*3;
+}
+
+- (int) calculateTimeLeftToHealAllMonstersInQueue {
+  GameState *gs = [GameState sharedGameState];
+  int timeLeft = 0;
+  for (int i = 0; i < gs.monsterHealingQueue.count; i++) {
+    UserMonsterHealingItem *item = [gs.monsterHealingQueue objectAtIndex:i];
+    if (i == 0) {
+      timeLeft += [item.expectedEndTime timeIntervalSinceNow];
+    } else {
+      timeLeft += [item secondsForCompletion];
+    }
+  }
+  return timeLeft;
+}
+
+- (int) calculateCostToSpeedupHealingQueue {
+  int timeLeft = [self calculateTimeLeftToHealAllMonstersInQueue];
+  return timeLeft/60+1;
 }
 
 - (float) calculatePercentOfLevel:(int)percentage {
@@ -1207,9 +1294,9 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
 
 @end
 
-@implementation NSMutableArray (Shuffling)
+@implementation NSMutableArray (ShufflingAndCloning)
 
-- (void)shuffle
+- (void) shuffle
 {
   NSUInteger count = [self count];
   for (NSUInteger i = 0; i < count; ++i) {
@@ -1218,6 +1305,14 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
     NSInteger n = (arc4random() % nElements) + i;
     [self exchangeObjectAtIndex:i withObjectAtIndex:n];
   }
+}
+
+- (id) clone {
+  NSMutableArray *arr = [NSMutableArray array];
+  for (id object in self) {
+    [arr addObject:[object copy]];
+  }
+  return arr;
 }
 
 @end

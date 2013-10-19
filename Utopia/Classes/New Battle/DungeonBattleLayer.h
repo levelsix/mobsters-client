@@ -13,7 +13,7 @@
 
 @property (nonatomic, retain) BeginDungeonResponseProto *dungeonInfo;
 
-+ (CCScene *) sceneWithBeginDungeonResponseProto:(BeginDungeonResponseProto *)dungeonInfo;
++ (CCScene *) sceneWithBeginDungeonResponseProto:(BeginDungeonResponseProto *)dungeonInfo delegate:(id<BattleLayerDelegate>)delegate;
 - (id) initWithBeginDungeonResponseProto:(BeginDungeonResponseProto *)dungeonInfo;
 
 @end

@@ -1,0 +1,197 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="4510" systemVersion="12F45" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none">
+    <dependencies>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="3742"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="MyCroniesViewController">
+            <connections>
+                <outlet property="monsterCardCell" destination="9fd-sp-Dwx" id="WVi-um-DPM"/>
+            </connections>
+        </placeholder>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view contentMode="scaleToFill" id="9fd-sp-Dwx" customClass="MyCroniesCardCell">
+            <rect key="frame" x="0.0" y="0.0" width="123" height="207"/>
+            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+            <subviews>
+                <view contentMode="scaleToFill" id="p6p-JM-bCJ">
+                    <rect key="frame" x="0.0" y="24" width="123" height="183"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
+                    <subviews>
+                        <view contentMode="scaleToFill" id="lf5-Yk-icT" customClass="MonsterCardContainerView">
+                            <rect key="frame" x="8" y="18" width="107" height="130"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <color key="backgroundColor" white="0.75387474799999998" alpha="1" colorSpace="calibratedWhite"/>
+                        </view>
+                        <view contentMode="scaleToFill" id="Wm9-ww-UVt">
+                            <rect key="frame" x="26" y="152" width="73" height="26"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <subviews>
+                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="fau-3w-s9y">
+                                    <rect key="frame" x="0.0" y="0.0" width="73" height="26"/>
+                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                    <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
+                                    <state key="normal" image="heal.png">
+                                        <color key="titleColor" red="0.19607843459999999" green="0.30980393290000002" blue="0.52156865600000002" alpha="1" colorSpace="calibratedRGB"/>
+                                        <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                    </state>
+                                    <state key="highlighted">
+                                        <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                    </state>
+                                    <connections>
+                                        <action selector="healClicked:" destination="9fd-sp-Dwx" eventType="touchUpInside" id="n3v-GB-4E2"/>
+                                    </connections>
+                                </button>
+                                <view userInteractionEnabled="NO" contentMode="scaleToFill" id="OKt-w9-6Wl">
+                                    <rect key="frame" x="7" y="2" width="59" height="21"/>
+                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                    <subviews>
+                                        <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" image="healingheart.png" id="fX3-Cb-UO4">
+                                            <rect key="frame" x="0.0" y="3" width="17" height="16"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                        </imageView>
+                                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="$500" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="8" id="zGJ-gE-pds" customClass="NiceFontLabel">
+                                            <rect key="frame" x="20" y="-1" width="42" height="21"/>
+                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                            <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                            <color key="textColor" red="0.9450981021" green="0.40392160420000001" blue="0.35686275360000003" alpha="1" colorSpace="deviceRGB"/>
+                                            <nil key="highlightedColor"/>
+                                            <size key="shadowOffset" width="0.0" height="1"/>
+                                        </label>
+                                    </subviews>
+                                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                </view>
+                            </subviews>
+                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                            <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
+                        </view>
+                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="ypZ-pO-MBF">
+                            <rect key="frame" x="97" y="4" width="29" height="30"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                            <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
+                            <state key="normal" title="Button" image="addteam.png">
+                                <color key="titleColor" red="0.19607843459999999" green="0.30980393290000002" blue="0.52156865600000002" alpha="1" colorSpace="calibratedRGB"/>
+                                <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                            </state>
+                            <state key="highlighted">
+                                <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                            </state>
+                            <connections>
+                                <action selector="plusClicked:" destination="9fd-sp-Dwx" eventType="touchUpInside" id="9D2-za-pyJ"/>
+                            </connections>
+                        </button>
+                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="AEJ-cB-Bwm">
+                            <rect key="frame" x="97" y="7" width="29" height="30"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                            <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
+                            <state key="normal" title="Button" image="removeteam.png">
+                                <color key="titleColor" red="0.19607843459999999" green="0.30980393290000002" blue="0.52156865600000002" alpha="1" colorSpace="calibratedRGB"/>
+                                <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                            </state>
+                            <state key="highlighted">
+                                <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                            </state>
+                            <connections>
+                                <action selector="minusClicked:" destination="9fd-sp-Dwx" eventType="touchUpInside" id="mxS-lJ-P7p"/>
+                            </connections>
+                        </button>
+                    </subviews>
+                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                </view>
+            </subviews>
+            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+            <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
+            <connections>
+                <outlet property="buySlotsCostLabel" destination="mBr-YE-xw7" id="4zW-YE-gIt"/>
+                <outlet property="buySlotsNumLabel" destination="EWr-aG-r5E" id="IWV-us-gkg"/>
+                <outlet property="buySlotsView" destination="CXM-wn-sG4" id="brY-Ry-bpV"/>
+                <outlet property="cardContainer" destination="lf5-Yk-icT" id="22e-M3-8yn"/>
+                <outlet property="delegate" destination="-1" id="z7A-cO-iDf"/>
+                <outlet property="healButtonLabel" destination="zGJ-gE-pds" id="Nq9-72-dnt"/>
+                <outlet property="healButtonView" destination="Wm9-ww-UVt" id="Qx5-fF-ciA"/>
+                <outlet property="healingLabel" destination="Xt8-hf-poh" id="MCr-ZP-sSq"/>
+                <outlet property="healingMask" destination="8iv-vR-9OI" id="alL-o8-73h"/>
+                <outlet property="healingView" destination="K72-8S-D2o" id="FAa-0o-fWD"/>
+                <outlet property="mainView" destination="p6p-JM-bCJ" id="Rma-VH-QBO"/>
+                <outlet property="minusButton" destination="AEJ-cB-Bwm" id="eeg-QM-1cg"/>
+                <outlet property="plusButton" destination="ypZ-pO-MBF" id="nRt-rE-eNq"/>
+            </connections>
+        </view>
+        <view userInteractionEnabled="NO" contentMode="scaleToFill" id="K72-8S-D2o">
+            <rect key="frame" x="0.0" y="0.0" width="107" height="130"/>
+            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+            <subviews>
+                <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="healingoverlay.png" id="8iv-vR-9OI">
+                    <rect key="frame" x="0.0" y="0.0" width="107" height="130"/>
+                    <autoresizingMask key="autoresizingMask"/>
+                </imageView>
+                <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="healingheart.png" id="yIC-WC-cTJ">
+                    <rect key="frame" x="41" y="44" width="24" height="21"/>
+                    <autoresizingMask key="autoresizingMask"/>
+                </imageView>
+                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Healing..." textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="9" id="Xt8-hf-poh" customClass="NiceFontLabel">
+                    <rect key="frame" x="9" y="73" width="88" height="21"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                    <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="calibratedRGB"/>
+                    <nil key="highlightedColor"/>
+                </label>
+            </subviews>
+            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+            <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
+        </view>
+        <view contentMode="scaleToFill" id="CXM-wn-sG4">
+            <rect key="frame" x="0.0" y="0.0" width="107" height="130"/>
+            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+            <subviews>
+                <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="emptyslot.png" id="2Ke-88-Fbv">
+                    <rect key="frame" x="0.0" y="0.0" width="107" height="130"/>
+                    <autoresizingMask key="autoresizingMask"/>
+                </imageView>
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="VpH-5R-is7">
+                    <rect key="frame" x="0.0" y="0.0" width="107" height="130"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                    <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                    <state key="normal">
+                        <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                    </state>
+                    <connections>
+                        <action selector="buySlotsClicked:" destination="9fd-sp-Dwx" eventType="touchUpInside" id="dhi-Lj-HlU"/>
+                    </connections>
+                </button>
+                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Buy 5 Slots" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="9" id="EWr-aG-r5E" customClass="NiceFontLabel">
+                    <rect key="frame" x="0.0" y="24" width="107" height="36"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                    <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="calibratedRGB"/>
+                    <nil key="highlightedColor"/>
+                </label>
+                <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" userInteractionEnabled="NO" contentMode="scaleToFill" image="diamond.png" id="uep-us-QrX">
+                    <rect key="frame" x="20" y="64" width="31" height="27"/>
+                    <autoresizingMask key="autoresizingMask"/>
+                </imageView>
+                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="25" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="mBr-YE-xw7" customClass="NiceFontLabel">
+                    <rect key="frame" x="54" y="65" width="42" height="21"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                    <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="calibratedRGB"/>
+                    <nil key="highlightedColor"/>
+                </label>
+            </subviews>
+            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+            <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
+        </view>
+    </objects>
+    <resources>
+        <image name="addteam.png" width="29" height="29"/>
+        <image name="diamond.png" width="29" height="28"/>
+        <image name="emptyslot.png" width="107" height="130"/>
+        <image name="heal.png" width="73" height="25"/>
+        <image name="healingheart.png" width="24" height="21"/>
+        <image name="healingoverlay.png" width="107" height="130"/>
+        <image name="removeteam.png" width="29" height="29"/>
+    </resources>
+</document>

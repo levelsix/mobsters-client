@@ -25,14 +25,14 @@
 
 @implementation CCSoundAnimate
 
-- (id) initWithAnimation:(CCAnimation *)a restoreOriginalFrame:(BOOL)b {
+- (id) initWithAnimation:(CCAnimation *)a {
   // Extract sounds out
   CCAnimation *anim = [[a copy] autorelease];
   NSMutableDictionary *dict = [NSMutableDictionary dictionary];
   int i = 0;
   while (i < anim.frames.count) {
     id obj = [anim.frames objectAtIndex:i];
-    if ([obj isKindOfClass:[CCSpriteFrame class]]) {
+    if ([obj isKindOfClass:[CCAnimationFrame class]]) {
       i++;
     } else {
       [dict setObject:obj forKey:[NSNumber numberWithInt:i]];
@@ -40,7 +40,7 @@
     }
   }
   
-  if ((self = [super initWithAnimation:anim restoreOriginalFrame:b])) {
+  if ((self = [super initWithAnimation:anim])) {
     self.soundDictionary = dict;
     self.playedSounds = [NSMutableSet set];
   }

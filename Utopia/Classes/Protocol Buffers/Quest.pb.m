@@ -35,6 +35,7 @@ BOOL SpecialQuestActionIsValidValue(SpecialQuestAction value) {
 @property (retain) NSString* name;
 @property (retain) NSString* description;
 @property (retain) NSString* doneResponse;
+@property (retain) DialogueProto* acceptDialogue;
 @property int32_t assetNumWithinCity;
 @property int32_t coinsGained;
 @property int32_t diamondsGained;
@@ -44,10 +45,10 @@ BOOL SpecialQuestActionIsValidValue(SpecialQuestAction value) {
 @property (retain) NSMutableArray* mutableTaskReqsList;
 @property (retain) NSMutableArray* mutableUpgradeStructJobsReqsList;
 @property (retain) NSMutableArray* mutableBuildStructJobsReqsList;
+@property (retain) NSMutableArray* mutableMonsterJobsReqsList;
 @property int32_t coinRetrievalReq;
 @property SpecialQuestAction specialQuestActionReq;
 @property int32_t numComponentsForGood;
-@property (retain) DialogueProto* acceptDialogue;
 @property (retain) NSString* questGiverName;
 @property (retain) NSString* questGiverImageSuffix;
 @property int32_t priority;
@@ -90,6 +91,13 @@ BOOL SpecialQuestActionIsValidValue(SpecialQuestAction value) {
   hasDoneResponse_ = !!value;
 }
 @synthesize doneResponse;
+- (BOOL) hasAcceptDialogue {
+  return !!hasAcceptDialogue_;
+}
+- (void) setHasAcceptDialogue:(BOOL) value {
+  hasAcceptDialogue_ = !!value;
+}
+@synthesize acceptDialogue;
 - (BOOL) hasAssetNumWithinCity {
   return !!hasAssetNumWithinCity_;
 }
@@ -129,6 +137,7 @@ BOOL SpecialQuestActionIsValidValue(SpecialQuestAction value) {
 @synthesize mutableTaskReqsList;
 @synthesize mutableUpgradeStructJobsReqsList;
 @synthesize mutableBuildStructJobsReqsList;
+@synthesize mutableMonsterJobsReqsList;
 - (BOOL) hasCoinRetrievalReq {
   return !!hasCoinRetrievalReq_;
 }
@@ -150,13 +159,6 @@ BOOL SpecialQuestActionIsValidValue(SpecialQuestAction value) {
   hasNumComponentsForGood_ = !!value;
 }
 @synthesize numComponentsForGood;
-- (BOOL) hasAcceptDialogue {
-  return !!hasAcceptDialogue_;
-}
-- (void) setHasAcceptDialogue:(BOOL) value {
-  hasAcceptDialogue_ = !!value;
-}
-@synthesize acceptDialogue;
 - (BOOL) hasQuestGiverName {
   return !!hasQuestGiverName_;
 }
@@ -182,11 +184,12 @@ BOOL SpecialQuestActionIsValidValue(SpecialQuestAction value) {
   self.name = nil;
   self.description = nil;
   self.doneResponse = nil;
+  self.acceptDialogue = nil;
   self.mutableQuestsRequiredForThisList = nil;
   self.mutableTaskReqsList = nil;
   self.mutableUpgradeStructJobsReqsList = nil;
   self.mutableBuildStructJobsReqsList = nil;
-  self.acceptDialogue = nil;
+  self.mutableMonsterJobsReqsList = nil;
   self.questGiverName = nil;
   self.questGiverImageSuffix = nil;
   [super dealloc];
@@ -198,6 +201,7 @@ BOOL SpecialQuestActionIsValidValue(SpecialQuestAction value) {
     self.name = @"";
     self.description = @"";
     self.doneResponse = @"";
+    self.acceptDialogue = [DialogueProto defaultInstance];
     self.assetNumWithinCity = 0;
     self.coinsGained = 0;
     self.diamondsGained = 0;
@@ -206,7 +210,6 @@ BOOL SpecialQuestActionIsValidValue(SpecialQuestAction value) {
     self.coinRetrievalReq = 0;
     self.specialQuestActionReq = SpecialQuestActionRequestJoinClan;
     self.numComponentsForGood = 0;
-    self.acceptDialogue = [DialogueProto defaultInstance];
     self.questGiverName = @"";
     self.questGiverImageSuffix = @"";
     self.priority = 0;
@@ -253,6 +256,13 @@ static FullQuestProto* defaultFullQuestProtoInstance = nil;
   id value = [mutableBuildStructJobsReqsList objectAtIndex:index];
   return [value intValue];
 }
+- (NSArray*) monsterJobsReqsList {
+  return mutableMonsterJobsReqsList;
+}
+- (int32_t) monsterJobsReqsAtIndex:(int32_t) index {
+  id value = [mutableMonsterJobsReqsList objectAtIndex:index];
+  return [value intValue];
+}
 - (BOOL) isInitialized {
   return YES;
 }
@@ -272,53 +282,56 @@ static FullQuestProto* defaultFullQuestProtoInstance = nil;
   if (self.hasDoneResponse) {
     [output writeString:5 value:self.doneResponse];
   }
+  if (self.hasAcceptDialogue) {
+    [output writeMessage:6 value:self.acceptDialogue];
+  }
   if (self.hasAssetNumWithinCity) {
-    [output writeInt32:6 value:self.assetNumWithinCity];
+    [output writeInt32:7 value:self.assetNumWithinCity];
   }
   if (self.hasCoinsGained) {
-    [output writeInt32:7 value:self.coinsGained];
+    [output writeInt32:8 value:self.coinsGained];
   }
   if (self.hasDiamondsGained) {
-    [output writeInt32:8 value:self.diamondsGained];
+    [output writeInt32:9 value:self.diamondsGained];
   }
   if (self.hasExpGained) {
-    [output writeInt32:9 value:self.expGained];
+    [output writeInt32:10 value:self.expGained];
   }
   if (self.hasMonsterId) {
-    [output writeInt32:10 value:self.monsterId];
+    [output writeInt32:11 value:self.monsterId];
   }
   for (NSNumber* value in self.mutableQuestsRequiredForThisList) {
-    [output writeInt32:11 value:[value intValue]];
-  }
-  for (NSNumber* value in self.mutableTaskReqsList) {
     [output writeInt32:12 value:[value intValue]];
   }
-  for (NSNumber* value in self.mutableUpgradeStructJobsReqsList) {
+  for (NSNumber* value in self.mutableTaskReqsList) {
     [output writeInt32:13 value:[value intValue]];
   }
-  for (NSNumber* value in self.mutableBuildStructJobsReqsList) {
+  for (NSNumber* value in self.mutableUpgradeStructJobsReqsList) {
     [output writeInt32:14 value:[value intValue]];
   }
+  for (NSNumber* value in self.mutableBuildStructJobsReqsList) {
+    [output writeInt32:15 value:[value intValue]];
+  }
+  for (NSNumber* value in self.mutableMonsterJobsReqsList) {
+    [output writeInt32:16 value:[value intValue]];
+  }
   if (self.hasCoinRetrievalReq) {
-    [output writeInt32:15 value:self.coinRetrievalReq];
+    [output writeInt32:17 value:self.coinRetrievalReq];
   }
   if (self.hasSpecialQuestActionReq) {
-    [output writeEnum:16 value:self.specialQuestActionReq];
+    [output writeEnum:18 value:self.specialQuestActionReq];
   }
   if (self.hasNumComponentsForGood) {
-    [output writeInt32:17 value:self.numComponentsForGood];
-  }
-  if (self.hasAcceptDialogue) {
-    [output writeMessage:18 value:self.acceptDialogue];
+    [output writeInt32:19 value:self.numComponentsForGood];
   }
   if (self.hasQuestGiverName) {
-    [output writeString:19 value:self.questGiverName];
+    [output writeString:20 value:self.questGiverName];
   }
   if (self.hasQuestGiverImageSuffix) {
-    [output writeString:20 value:self.questGiverImageSuffix];
+    [output writeString:21 value:self.questGiverImageSuffix];
   }
   if (self.hasPriority) {
-    [output writeInt32:21 value:self.priority];
+    [output writeInt32:22 value:self.priority];
   }
   [self.unknownFields writeToCodedOutputStream:output];
 }
@@ -344,20 +357,23 @@ static FullQuestProto* defaultFullQuestProtoInstance = nil;
   if (self.hasDoneResponse) {
     size += computeStringSize(5, self.doneResponse);
   }
+  if (self.hasAcceptDialogue) {
+    size += computeMessageSize(6, self.acceptDialogue);
+  }
   if (self.hasAssetNumWithinCity) {
-    size += computeInt32Size(6, self.assetNumWithinCity);
+    size += computeInt32Size(7, self.assetNumWithinCity);
   }
   if (self.hasCoinsGained) {
-    size += computeInt32Size(7, self.coinsGained);
+    size += computeInt32Size(8, self.coinsGained);
   }
   if (self.hasDiamondsGained) {
-    size += computeInt32Size(8, self.diamondsGained);
+    size += computeInt32Size(9, self.diamondsGained);
   }
   if (self.hasExpGained) {
-    size += computeInt32Size(9, self.expGained);
+    size += computeInt32Size(10, self.expGained);
   }
   if (self.hasMonsterId) {
-    size += computeInt32Size(10, self.monsterId);
+    size += computeInt32Size(11, self.monsterId);
   }
   {
     int32_t dataSize = 0;
@@ -391,26 +407,31 @@ static FullQuestProto* defaultFullQuestProtoInstance = nil;
     size += dataSize;
     size += 1 * self.mutableBuildStructJobsReqsList.count;
   }
+  {
+    int32_t dataSize = 0;
+    for (NSNumber* value in self.mutableMonsterJobsReqsList) {
+      dataSize += computeInt32SizeNoTag([value intValue]);
+    }
+    size += dataSize;
+    size += 2 * self.mutableMonsterJobsReqsList.count;
+  }
   if (self.hasCoinRetrievalReq) {
-    size += computeInt32Size(15, self.coinRetrievalReq);
+    size += computeInt32Size(17, self.coinRetrievalReq);
   }
   if (self.hasSpecialQuestActionReq) {
-    size += computeEnumSize(16, self.specialQuestActionReq);
+    size += computeEnumSize(18, self.specialQuestActionReq);
   }
   if (self.hasNumComponentsForGood) {
-    size += computeInt32Size(17, self.numComponentsForGood);
-  }
-  if (self.hasAcceptDialogue) {
-    size += computeMessageSize(18, self.acceptDialogue);
+    size += computeInt32Size(19, self.numComponentsForGood);
   }
   if (self.hasQuestGiverName) {
-    size += computeStringSize(19, self.questGiverName);
+    size += computeStringSize(20, self.questGiverName);
   }
   if (self.hasQuestGiverImageSuffix) {
-    size += computeStringSize(20, self.questGiverImageSuffix);
+    size += computeStringSize(21, self.questGiverImageSuffix);
   }
   if (self.hasPriority) {
-    size += computeInt32Size(21, self.priority);
+    size += computeInt32Size(22, self.priority);
   }
   size += self.unknownFields.serializedSize;
   memoizedSerializedSize = size;
@@ -502,6 +523,9 @@ static FullQuestProto* defaultFullQuestProtoInstance = nil;
   if (other.hasDoneResponse) {
     [self setDoneResponse:other.doneResponse];
   }
+  if (other.hasAcceptDialogue) {
+    [self mergeAcceptDialogue:other.acceptDialogue];
+  }
   if (other.hasAssetNumWithinCity) {
     [self setAssetNumWithinCity:other.assetNumWithinCity];
   }
@@ -541,6 +565,12 @@ static FullQuestProto* defaultFullQuestProtoInstance = nil;
     }
     [result.mutableBuildStructJobsReqsList addObjectsFromArray:other.mutableBuildStructJobsReqsList];
   }
+  if (other.mutableMonsterJobsReqsList.count > 0) {
+    if (result.mutableMonsterJobsReqsList == nil) {
+      result.mutableMonsterJobsReqsList = [NSMutableArray array];
+    }
+    [result.mutableMonsterJobsReqsList addObjectsFromArray:other.mutableMonsterJobsReqsList];
+  }
   if (other.hasCoinRetrievalReq) {
     [self setCoinRetrievalReq:other.coinRetrievalReq];
   }
@@ -549,9 +579,6 @@ static FullQuestProto* defaultFullQuestProtoInstance = nil;
   }
   if (other.hasNumComponentsForGood) {
     [self setNumComponentsForGood:other.numComponentsForGood];
-  }
-  if (other.hasAcceptDialogue) {
-    [self mergeAcceptDialogue:other.acceptDialogue];
   }
   if (other.hasQuestGiverName) {
     [self setQuestGiverName:other.questGiverName];
@@ -603,60 +630,7 @@ static FullQuestProto* defaultFullQuestProtoInstance = nil;
         [self setDoneResponse:[input readString]];
         break;
       }
-      case 48: {
-        [self setAssetNumWithinCity:[input readInt32]];
-        break;
-      }
-      case 56: {
-        [self setCoinsGained:[input readInt32]];
-        break;
-      }
-      case 64: {
-        [self setDiamondsGained:[input readInt32]];
-        break;
-      }
-      case 72: {
-        [self setExpGained:[input readInt32]];
-        break;
-      }
-      case 80: {
-        [self setMonsterId:[input readInt32]];
-        break;
-      }
-      case 88: {
-        [self addQuestsRequiredForThis:[input readInt32]];
-        break;
-      }
-      case 96: {
-        [self addTaskReqs:[input readInt32]];
-        break;
-      }
-      case 104: {
-        [self addUpgradeStructJobsReqs:[input readInt32]];
-        break;
-      }
-      case 112: {
-        [self addBuildStructJobsReqs:[input readInt32]];
-        break;
-      }
-      case 120: {
-        [self setCoinRetrievalReq:[input readInt32]];
-        break;
-      }
-      case 128: {
-        int32_t value = [input readEnum];
-        if (SpecialQuestActionIsValidValue(value)) {
-          [self setSpecialQuestActionReq:value];
-        } else {
-          [unknownFields mergeVarintField:16 value:value];
-        }
-        break;
-      }
-      case 136: {
-        [self setNumComponentsForGood:[input readInt32]];
-        break;
-      }
-      case 146: {
+      case 50: {
         DialogueProto_Builder* subBuilder = [DialogueProto builder];
         if (self.hasAcceptDialogue) {
           [subBuilder mergeFrom:self.acceptDialogue];
@@ -665,15 +639,72 @@ static FullQuestProto* defaultFullQuestProtoInstance = nil;
         [self setAcceptDialogue:[subBuilder buildPartial]];
         break;
       }
-      case 154: {
-        [self setQuestGiverName:[input readString]];
+      case 56: {
+        [self setAssetNumWithinCity:[input readInt32]];
+        break;
+      }
+      case 64: {
+        [self setCoinsGained:[input readInt32]];
+        break;
+      }
+      case 72: {
+        [self setDiamondsGained:[input readInt32]];
+        break;
+      }
+      case 80: {
+        [self setExpGained:[input readInt32]];
+        break;
+      }
+      case 88: {
+        [self setMonsterId:[input readInt32]];
+        break;
+      }
+      case 96: {
+        [self addQuestsRequiredForThis:[input readInt32]];
+        break;
+      }
+      case 104: {
+        [self addTaskReqs:[input readInt32]];
+        break;
+      }
+      case 112: {
+        [self addUpgradeStructJobsReqs:[input readInt32]];
+        break;
+      }
+      case 120: {
+        [self addBuildStructJobsReqs:[input readInt32]];
+        break;
+      }
+      case 128: {
+        [self addMonsterJobsReqs:[input readInt32]];
+        break;
+      }
+      case 136: {
+        [self setCoinRetrievalReq:[input readInt32]];
+        break;
+      }
+      case 144: {
+        int32_t value = [input readEnum];
+        if (SpecialQuestActionIsValidValue(value)) {
+          [self setSpecialQuestActionReq:value];
+        } else {
+          [unknownFields mergeVarintField:18 value:value];
+        }
+        break;
+      }
+      case 152: {
+        [self setNumComponentsForGood:[input readInt32]];
         break;
       }
       case 162: {
+        [self setQuestGiverName:[input readString]];
+        break;
+      }
+      case 170: {
         [self setQuestGiverImageSuffix:[input readString]];
         break;
       }
-      case 168: {
+      case 176: {
         [self setPriority:[input readInt32]];
         break;
       }
@@ -758,6 +789,36 @@ static FullQuestProto* defaultFullQuestProtoInstance = nil;
 - (FullQuestProto_Builder*) clearDoneResponse {
   result.hasDoneResponse = NO;
   result.doneResponse = @"";
+  return self;
+}
+- (BOOL) hasAcceptDialogue {
+  return result.hasAcceptDialogue;
+}
+- (DialogueProto*) acceptDialogue {
+  return result.acceptDialogue;
+}
+- (FullQuestProto_Builder*) setAcceptDialogue:(DialogueProto*) value {
+  result.hasAcceptDialogue = YES;
+  result.acceptDialogue = value;
+  return self;
+}
+- (FullQuestProto_Builder*) setAcceptDialogueBuilder:(DialogueProto_Builder*) builderForValue {
+  return [self setAcceptDialogue:[builderForValue build]];
+}
+- (FullQuestProto_Builder*) mergeAcceptDialogue:(DialogueProto*) value {
+  if (result.hasAcceptDialogue &&
+      result.acceptDialogue != [DialogueProto defaultInstance]) {
+    result.acceptDialogue =
+      [[[DialogueProto builderWithPrototype:result.acceptDialogue] mergeFrom:value] buildPartial];
+  } else {
+    result.acceptDialogue = value;
+  }
+  result.hasAcceptDialogue = YES;
+  return self;
+}
+- (FullQuestProto_Builder*) clearAcceptDialogue {
+  result.hasAcceptDialogue = NO;
+  result.acceptDialogue = [DialogueProto defaultInstance];
   return self;
 }
 - (BOOL) hasAssetNumWithinCity {
@@ -964,6 +1025,37 @@ static FullQuestProto* defaultFullQuestProtoInstance = nil;
   result.mutableBuildStructJobsReqsList = nil;
   return self;
 }
+- (NSArray*) monsterJobsReqsList {
+  if (result.mutableMonsterJobsReqsList == nil) {
+    return [NSArray array];
+  }
+  return result.mutableMonsterJobsReqsList;
+}
+- (int32_t) monsterJobsReqsAtIndex:(int32_t) index {
+  return [result monsterJobsReqsAtIndex:index];
+}
+- (FullQuestProto_Builder*) replaceMonsterJobsReqsAtIndex:(int32_t) index with:(int32_t) value {
+  [result.mutableMonsterJobsReqsList replaceObjectAtIndex:index withObject:[NSNumber numberWithInt:value]];
+  return self;
+}
+- (FullQuestProto_Builder*) addMonsterJobsReqs:(int32_t) value {
+  if (result.mutableMonsterJobsReqsList == nil) {
+    result.mutableMonsterJobsReqsList = [NSMutableArray array];
+  }
+  [result.mutableMonsterJobsReqsList addObject:[NSNumber numberWithInt:value]];
+  return self;
+}
+- (FullQuestProto_Builder*) addAllMonsterJobsReqs:(NSArray*) values {
+  if (result.mutableMonsterJobsReqsList == nil) {
+    result.mutableMonsterJobsReqsList = [NSMutableArray array];
+  }
+  [result.mutableMonsterJobsReqsList addObjectsFromArray:values];
+  return self;
+}
+- (FullQuestProto_Builder*) clearMonsterJobsReqsList {
+  result.mutableMonsterJobsReqsList = nil;
+  return self;
+}
 - (BOOL) hasCoinRetrievalReq {
   return result.hasCoinRetrievalReq;
 }
@@ -1010,36 +1102,6 @@ static FullQuestProto* defaultFullQuestProtoInstance = nil;
 - (FullQuestProto_Builder*) clearNumComponentsForGood {
   result.hasNumComponentsForGood = NO;
   result.numComponentsForGood = 0;
-  return self;
-}
-- (BOOL) hasAcceptDialogue {
-  return result.hasAcceptDialogue;
-}
-- (DialogueProto*) acceptDialogue {
-  return result.acceptDialogue;
-}
-- (FullQuestProto_Builder*) setAcceptDialogue:(DialogueProto*) value {
-  result.hasAcceptDialogue = YES;
-  result.acceptDialogue = value;
-  return self;
-}
-- (FullQuestProto_Builder*) setAcceptDialogueBuilder:(DialogueProto_Builder*) builderForValue {
-  return [self setAcceptDialogue:[builderForValue build]];
-}
-- (FullQuestProto_Builder*) mergeAcceptDialogue:(DialogueProto*) value {
-  if (result.hasAcceptDialogue &&
-      result.acceptDialogue != [DialogueProto defaultInstance]) {
-    result.acceptDialogue =
-      [[[DialogueProto builderWithPrototype:result.acceptDialogue] mergeFrom:value] buildPartial];
-  } else {
-    result.acceptDialogue = value;
-  }
-  result.hasAcceptDialogue = YES;
-  return self;
-}
-- (FullQuestProto_Builder*) clearAcceptDialogue {
-  result.hasAcceptDialogue = NO;
-  result.acceptDialogue = [DialogueProto defaultInstance];
   return self;
 }
 - (BOOL) hasQuestGiverName {

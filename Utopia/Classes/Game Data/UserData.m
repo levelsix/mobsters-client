@@ -19,7 +19,7 @@
     self.monsterId = proto.monsterId;
     self.userMonsterId = proto.userMonsterId;
     self.enhancementPercentage = proto.enhancementPercentage;
-    self.durability = proto.currentDurability;
+    self.curHealth = proto.currentHealth;
   }
   return self;
 }
@@ -28,11 +28,91 @@
   return [[self alloc] initWithMonsterProto:proto];
 }
 
+- (BOOL) isHealing {
+  GameState *gs = [GameState sharedGameState];
+  for (UserMonsterHealingItem *item in gs.monsterHealingQueue) {
+    if (item.userMonsterId == self.userMonsterId) {
+      return YES;
+    }
+  }
+  return NO;
+}
+
 - (BOOL) isEqual:(UserMonster *)object {
   if (![object respondsToSelector:@selector(userMonsterId)]) {
     return NO;
   }
   return object.userMonsterId == self.userMonsterId;
+}
+
+@end
+
+@implementation UserMonsterHealingItem
+
+- (id) initWithHealingProto:(UserMonsterHealingProto *)proto {
+  if ((self = [super init])){
+    self.userId = proto.userId;
+    self.userMonsterId = proto.userMonsterId;
+    self.expectedStartTime = proto.hasExpectedStartTimeMillis ? [NSDate dateWithTimeIntervalSince1970:proto.expectedStartTimeMillis/1000.0] : nil;
+  }
+  return self;
+}
+
++ (id) userMonsterHealingItemWithProto:(UserMonsterHealingProto *)proto {
+  return [[self alloc] initWithHealingProto:proto];
+}
+
+- (float) currentPercentageOfHealth {
+  Globals *gl = [Globals sharedGlobals];
+  GameState *gs = [GameState sharedGameState];
+  UserMonster *um = [gs myMonsterWithUserMonsterId:self.userMonsterId];
+  int totalTime = self.secondsForCompletion;
+  int timeCompleted = totalTime - [self.expectedEndTime timeIntervalSinceNow];
+  int totalHealth = [gl calculateMaxHealthForMonster:um];
+  float basePerc = um.curHealth/((float)totalHealth);
+  return basePerc+(1.f-basePerc)*timeCompleted/totalTime;
+}
+
+- (int) secondsForCompletion {
+  Globals *gl = [Globals sharedGlobals];
+  GameState *gs = [GameState sharedGameState];
+  UserMonster *um = [gs myMonsterWithUserMonsterId:self.userMonsterId];
+  return [gl calculateSecondsToHealMonster:um];
+}
+
+- (NSDate *) expectedEndTime {
+  return [self.expectedStartTime dateByAddingTimeInterval:self.secondsForCompletion];
+}
+
+- (UserMonsterHealingProto *) convertToProto {
+  return [[[[[UserMonsterHealingProto builder]
+             setUserId:self.userId]
+            setUserMonsterId:self.userMonsterId]
+           setExpectedStartTimeMillis:self.expectedStartTime.timeIntervalSince1970*1000]
+          build];
+}
+
+- (id) copy {
+  UserMonsterHealingItem *item = [[UserMonsterHealingItem alloc] init];
+  item.userId = self.userId;
+  item.userMonsterId = self.userMonsterId;
+  item.expectedStartTime = [self.expectedStartTime copy];
+  return item;
+}
+
+- (BOOL) isEqual:(UserMonsterHealingItem *)object {
+  if (![object respondsToSelector:@selector(userMonsterId)]) {
+    return NO;
+  }
+  return object.userMonsterId == self.userMonsterId;
+}
+
+- (NSUInteger) hash {
+  return self.userMonsterId;
+}
+
+- (NSString *) description {
+  return [NSString stringWithFormat:@"%p: %d, %@", self, self.userMonsterId, self.expectedStartTime];
 }
 
 @end

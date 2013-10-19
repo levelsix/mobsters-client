@@ -11,13 +11,16 @@
 #import "TopBarViewController.h"
 #import "GameMap.h"
 #import "AttackMapViewController.h"
+#import "DungeonBattleLayer.h"
 
-@interface GameViewController : UIViewController <AttackMapDelegate>
+@interface GameViewController : UIViewController <AttackMapDelegate, BattleLayerDelegate>
 
 @property (nonatomic, strong) TopBarViewController *topBarViewController;
 @property (nonatomic, strong) GameMap *currentMap;
 
 @property (nonatomic, strong) IBOutlet TravelingLoadingView *loadingView;
+
++ (id) baseController;
 
 - (void) handleConnectedToHost;
 

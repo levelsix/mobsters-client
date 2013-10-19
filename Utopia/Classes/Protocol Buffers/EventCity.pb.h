@@ -31,6 +31,8 @@
 @class FullUserQuestDataLargeProto_Builder;
 @class FullUserStructureProto;
 @class FullUserStructureProto_Builder;
+@class LevelAndRequiredExpProto;
+@class LevelAndRequiredExpProto_Builder;
 @class LoadCityRequestProto;
 @class LoadCityRequestProto_Builder;
 @class LoadCityResponseProto;
@@ -51,6 +53,8 @@
 @class MinimumUserQuestTaskProto_Builder;
 @class MinimumUserUpgradeStructJobProto;
 @class MinimumUserUpgradeStructJobProto_Builder;
+@class MonsterJobProto;
+@class MonsterJobProto_Builder;
 @class PurchaseCityExpansionRequestProto;
 @class PurchaseCityExpansionRequestProto_Builder;
 @class PurchaseCityExpansionResponseProto;

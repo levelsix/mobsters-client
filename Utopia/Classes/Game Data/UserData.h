@@ -16,10 +16,27 @@
 @property (nonatomic, assign) int userMonsterId;
 @property (nonatomic, assign) int userId;
 @property (nonatomic, assign) int monsterId;
-@property (nonatomic, assign) int durability;
-@property (nonatomic, assign) int enhancementPercentage;
+@property (nonatomic, assign) int curHealth;
+@property (nonatomic, assign) double enhancementPercentage;
+@property (nonatomic, assign) int teamSlot;
 
 + (id) userMonsterWithProto:(FullUserMonsterProto *)proto;
+- (BOOL) isHealing;
+
+@end
+
+@interface UserMonsterHealingItem : NSObject
+
+@property (nonatomic, assign) int userMonsterId;
+@property (nonatomic, assign) int userId;
+@property (nonatomic, retain) NSDate *expectedStartTime;
+
++ (id) userMonsterHealingItemWithProto:(UserMonsterHealingProto *)proto;
+
+- (float) currentPercentageOfHealth;
+- (int) secondsForCompletion;
+- (NSDate *) expectedEndTime;
+- (UserMonsterHealingProto *) convertToProto;
 
 @end
 

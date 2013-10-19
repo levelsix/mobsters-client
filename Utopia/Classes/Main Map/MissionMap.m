@@ -15,6 +15,7 @@
 #import "CCLabelFX.h"
 #import <AudioToolbox/AudioServices.h>
 #import "Drops.h"
+#import "GameViewController.h"
 
 #define LAST_BOSS_RESET_STAMINA_TIME_KEY @"Last boss reset stamina time key"
 
@@ -206,7 +207,10 @@
 - (IBAction) performCurrentTask:(id)sender {
   if ([self.selected conformsToProtocol:@protocol(TaskElement)]) {
     id<TaskElement> te = (id<TaskElement>)self.selected;
-    [[OutgoingEventController sharedOutgoingEventController] beginDungeon:te.ftp.taskId];
+    
+    // Set the gvc as the delegate of this
+    UIViewController *vc = [GameViewController baseController];
+    [[OutgoingEventController sharedOutgoingEventController] beginDungeon:te.ftp.taskId withDelegate:vc];
   }
 }
 

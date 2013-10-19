@@ -20,6 +20,8 @@
 @class MinimumUserQuestTaskProto_Builder;
 @class MinimumUserUpgradeStructJobProto;
 @class MinimumUserUpgradeStructJobProto_Builder;
+@class MonsterJobProto;
+@class MonsterJobProto_Builder;
 @class UpgradeStructJobProto;
 @class UpgradeStructJobProto_Builder;
 typedef enum {
@@ -88,12 +90,14 @@ BOOL DialogueProto_SpeechSegmentProto_DialogueSpeakerIsValidValue(DialogueProto_
   NSMutableArray* mutableTaskReqsList;
   NSMutableArray* mutableUpgradeStructJobsReqsList;
   NSMutableArray* mutableBuildStructJobsReqsList;
+  NSMutableArray* mutableMonsterJobsReqsList;
 }
 - (BOOL) hasQuestId;
 - (BOOL) hasCityId;
 - (BOOL) hasName;
 - (BOOL) hasDescription;
 - (BOOL) hasDoneResponse;
+- (BOOL) hasAcceptDialogue;
 - (BOOL) hasAssetNumWithinCity;
 - (BOOL) hasCoinsGained;
 - (BOOL) hasDiamondsGained;
@@ -102,7 +106,6 @@ BOOL DialogueProto_SpeechSegmentProto_DialogueSpeakerIsValidValue(DialogueProto_
 - (BOOL) hasCoinRetrievalReq;
 - (BOOL) hasSpecialQuestActionReq;
 - (BOOL) hasNumComponentsForGood;
-- (BOOL) hasAcceptDialogue;
 - (BOOL) hasQuestGiverName;
 - (BOOL) hasQuestGiverImageSuffix;
 - (BOOL) hasPriority;
@@ -111,6 +114,7 @@ BOOL DialogueProto_SpeechSegmentProto_DialogueSpeakerIsValidValue(DialogueProto_
 @property (readonly, retain) NSString* name;
 @property (readonly, retain) NSString* description;
 @property (readonly, retain) NSString* doneResponse;
+@property (readonly, retain) DialogueProto* acceptDialogue;
 @property (readonly) int32_t assetNumWithinCity;
 @property (readonly) int32_t coinsGained;
 @property (readonly) int32_t diamondsGained;
@@ -119,7 +123,6 @@ BOOL DialogueProto_SpeechSegmentProto_DialogueSpeakerIsValidValue(DialogueProto_
 @property (readonly) int32_t coinRetrievalReq;
 @property (readonly) SpecialQuestAction specialQuestActionReq;
 @property (readonly) int32_t numComponentsForGood;
-@property (readonly, retain) DialogueProto* acceptDialogue;
 @property (readonly, retain) NSString* questGiverName;
 @property (readonly, retain) NSString* questGiverImageSuffix;
 @property (readonly) int32_t priority;
@@ -131,6 +134,8 @@ BOOL DialogueProto_SpeechSegmentProto_DialogueSpeakerIsValidValue(DialogueProto_
 - (int32_t) upgradeStructJobsReqsAtIndex:(int32_t) index;
 - (NSArray*) buildStructJobsReqsList;
 - (int32_t) buildStructJobsReqsAtIndex:(int32_t) index;
+- (NSArray*) monsterJobsReqsList;
+- (int32_t) monsterJobsReqsAtIndex:(int32_t) index;
 
 + (FullQuestProto*) defaultInstance;
 - (FullQuestProto*) defaultInstance;
@@ -191,6 +196,13 @@ BOOL DialogueProto_SpeechSegmentProto_DialogueSpeakerIsValidValue(DialogueProto_
 - (FullQuestProto_Builder*) setDoneResponse:(NSString*) value;
 - (FullQuestProto_Builder*) clearDoneResponse;
 
+- (BOOL) hasAcceptDialogue;
+- (DialogueProto*) acceptDialogue;
+- (FullQuestProto_Builder*) setAcceptDialogue:(DialogueProto*) value;
+- (FullQuestProto_Builder*) setAcceptDialogueBuilder:(DialogueProto_Builder*) builderForValue;
+- (FullQuestProto_Builder*) mergeAcceptDialogue:(DialogueProto*) value;
+- (FullQuestProto_Builder*) clearAcceptDialogue;
+
 - (BOOL) hasAssetNumWithinCity;
 - (int32_t) assetNumWithinCity;
 - (FullQuestProto_Builder*) setAssetNumWithinCity:(int32_t) value;
@@ -244,6 +256,13 @@ BOOL DialogueProto_SpeechSegmentProto_DialogueSpeakerIsValidValue(DialogueProto_
 - (FullQuestProto_Builder*) addAllBuildStructJobsReqs:(NSArray*) values;
 - (FullQuestProto_Builder*) clearBuildStructJobsReqsList;
 
+- (NSArray*) monsterJobsReqsList;
+- (int32_t) monsterJobsReqsAtIndex:(int32_t) index;
+- (FullQuestProto_Builder*) replaceMonsterJobsReqsAtIndex:(int32_t) index with:(int32_t) value;
+- (FullQuestProto_Builder*) addMonsterJobsReqs:(int32_t) value;
+- (FullQuestProto_Builder*) addAllMonsterJobsReqs:(NSArray*) values;
+- (FullQuestProto_Builder*) clearMonsterJobsReqsList;
+
 - (BOOL) hasCoinRetrievalReq;
 - (int32_t) coinRetrievalReq;
 - (FullQuestProto_Builder*) setCoinRetrievalReq:(int32_t) value;
@@ -258,13 +277,6 @@ BOOL DialogueProto_SpeechSegmentProto_DialogueSpeakerIsValidValue(DialogueProto_
 - (int32_t) numComponentsForGood;
 - (FullQuestProto_Builder*) setNumComponentsForGood:(int32_t) value;
 - (FullQuestProto_Builder*) clearNumComponentsForGood;
-
-- (BOOL) hasAcceptDialogue;
-- (DialogueProto*) acceptDialogue;
-- (FullQuestProto_Builder*) setAcceptDialogue:(DialogueProto*) value;
-- (FullQuestProto_Builder*) setAcceptDialogueBuilder:(DialogueProto_Builder*) builderForValue;
-- (FullQuestProto_Builder*) mergeAcceptDialogue:(DialogueProto*) value;
-- (FullQuestProto_Builder*) clearAcceptDialogue;
 
 - (BOOL) hasQuestGiverName;
 - (NSString*) questGiverName;
