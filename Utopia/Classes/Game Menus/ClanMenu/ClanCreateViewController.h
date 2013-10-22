@@ -24,7 +24,9 @@
 @property (nonatomic, assign) IBOutlet UIButton *typeButton;
 @property (nonatomic, assign) IBOutlet UILabel *typeLabel;
 
-@property (nonatomic, assign) IBOutlet UILabel *createClanGoldLabel;
+@property (nonatomic, assign) IBOutlet UIView *saveButtonView;
+@property (nonatomic, assign) IBOutlet UIView *createButtonView;
+@property (nonatomic, assign) IBOutlet UILabel *costLabel;
 
 @property (nonatomic, retain) IBOutlet FullClanProtoWithClanSize *clan;
 

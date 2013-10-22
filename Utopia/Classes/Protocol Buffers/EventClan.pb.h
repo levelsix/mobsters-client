@@ -68,7 +68,7 @@
 typedef enum {
   CreateClanResponseProto_CreateClanStatusSuccess = 1,
   CreateClanResponseProto_CreateClanStatusOtherFail = 2,
-  CreateClanResponseProto_CreateClanStatusNotEnoughDiamonds = 3,
+  CreateClanResponseProto_CreateClanStatusNotEnoughCoins = 3,
   CreateClanResponseProto_CreateClanStatusNameTaken = 4,
   CreateClanResponseProto_CreateClanStatusAlreadyInClan = 5,
   CreateClanResponseProto_CreateClanStatusInvalidTagLength = 6,

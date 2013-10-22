@@ -31,9 +31,9 @@
 @property (nonatomic, strong) IBOutlet UIView *healButtonView;
 @property (nonatomic, strong) IBOutlet UILabel *healButtonLabel;
 
-@property (nonatomic, strong) IBOutlet UIView *healingView;
-@property (nonatomic, strong) IBOutlet UILabel *healingLabel;
-@property (nonatomic, strong) IBOutlet UIImageView *healingMask;
+@property (nonatomic, strong) IBOutlet UIView *overlayView;
+@property (nonatomic, strong) IBOutlet UILabel *overlayLabel;
+@property (nonatomic, strong) IBOutlet UIImageView *overlayMask;
 
 @property (nonatomic, strong) IBOutlet UIView *buySlotsView;
 @property (nonatomic, strong) IBOutlet UILabel *buySlotsNumLabel;
@@ -45,7 +45,7 @@
 
 @property (nonatomic, weak) id<MyCroniesCardDelegate> delegate;
 
-- (void) updateForUserMonster:(UserMonster *)monster isOnMyTeam:(BOOL)isOnMyTeam isHealing:(BOOL)isHealing;
+- (void) updateForUserMonster:(UserMonster *)monster isOnMyTeam:(BOOL)isOnMyTeam;
 - (void) updateForNoMonsterIsOnMyTeam:(BOOL)isOnMyTeam;
 - (void) updateForBuySlots;
 

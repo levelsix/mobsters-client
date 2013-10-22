@@ -10,6 +10,7 @@
 
 #import "Protocols.pb.h"
 #import "StoreKit/StoreKit.h"
+#import "UserData.h"
 
 #import "AMQPWrapper.h"
 #import "AMQPConnectionThread.h"
@@ -30,11 +31,13 @@
   int _numDisconnects;
   
   BOOL _healingQueuePotentiallyChanged;
+  BOOL _enhancementPotentiallyChanged;
 }
 
 @property (nonatomic, retain) NSMutableArray *structRetrievals;
 
 @property (nonatomic, retain) NSArray *healingQueueSnapshot;
+@property (nonatomic, retain) UserEnhancement *enhancementSnapshot;
 
 @property (nonatomic, retain) NSMutableDictionary *tagDelegates;
 
@@ -103,8 +106,6 @@
 
 - (int) sendRetrieveTournamentRankingsMessage:(int)eventId afterThisRank:(int)afterThisRank;
 
-- (int) sendSubmitMonsterEnhancementMessage:(int)enhancingId feeders:(NSArray *)feeders clientTime:(uint64_t)clientTime;
-
 - (int) sendRetrieveBoosterPackMessage;
 - (int) sendPurchaseBoosterPackMessage:(int)boosterPackId clientTime:(uint64_t)clientTime;
 
@@ -115,10 +116,15 @@
 
 - (int) retrieveCurrencyFromStruct:(int)userStructId time:(uint64_t)time;
 
-- (int) sendHealQueueWaitTimeComplete:(NSArray *)monsterIds;
-- (int) sendHealQueueSpeedup:(NSArray *)monsterIds goldCost:(int)goldCost;
+- (int) sendHealQueueWaitTimeComplete:(NSArray *)monsterHealths;
+- (int) sendHealQueueSpeedup:(NSArray *)monsterHealths goldCost:(int)goldCost;
 - (void) reloadHealQueueSnapshot;
 - (int) setHealQueueDirty;
+
+- (int) sendEnhanceQueueWaitTimeComplete:(UserMonsterCurrentExpProto *)monsterExp userMonsterIds:(NSArray *)userMonsterIds;
+- (int) sendEnhanceQueueSpeedup:(UserMonsterCurrentExpProto *)monsterExp userMonsterIds:(NSArray *)userMonsterIds goldCost:(int)goldCost;
+- (int) setEnhanceQueueDirty;
+- (void) reloadEnhancementSnapshot;
 
 - (void) flush;
 - (void) flushWithInt:(int)val;

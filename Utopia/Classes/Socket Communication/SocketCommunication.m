@@ -693,17 +693,6 @@ static NSString *udid = nil;
   return [self sendData:req withMessageType:EventProtocolRequestCExpansionWaitCompleteEvent];
 }
 
-- (int) sendSubmitMonsterEnhancementMessage:(int)enhancingId feeders:(NSArray *)feeders clientTime:(uint64_t)clientTime {
-  SubmitMonsterEnhancementRequestProto *req = [[[[[[SubmitMonsterEnhancementRequestProto builder]
-                                                   setSender:_sender]
-                                                  setEnhancingUserMonsterId:enhancingId]
-                                                 setClientTime:clientTime]
-                                                addAllFeederUserMonsterIds:feeders]
-                                               build];
-  
-  return [self sendData:req withMessageType:EventProtocolRequestCSubmitMonsterEnhancementEvent];
-}
-
 - (int) sendRetrieveTournamentRankingsMessage:(int)eventId afterThisRank:(int)afterThisRank {
   RetrieveTournamentRankingsRequestProto *req = [[[[[RetrieveTournamentRankingsRequestProto builder]
                                                     setSender:_sender]
@@ -759,10 +748,10 @@ static NSString *udid = nil;
   return [self sendData:req withMessageType:EventProtocolRequestCBeginDungeonEvent];
 }
 
-- (int) sendHealQueueWaitTimeComplete:(NSArray *)monsterIds {
+- (int) sendHealQueueWaitTimeComplete:(NSArray *)monsterHealths {
   HealMonsterWaitTimeCompleteRequestProto *req = [[[[HealMonsterWaitTimeCompleteRequestProto builder]
                                                     setSender:_sender]
-                                                   addAllUserMonsterIds:monsterIds]
+                                                   addAllUmchp:monsterHealths]
                                                   build];
   
   int tag = [self sendData:req withMessageType:EventProtocolRequestCHealMonsterWaitTimeCompleteEvent];
@@ -772,17 +761,47 @@ static NSString *udid = nil;
   return tag;
 }
 
-- (int) sendHealQueueSpeedup:(NSArray *)monsterIds goldCost:(int)goldCost {
+- (int) sendHealQueueSpeedup:(NSArray *)monsterHealths goldCost:(int)goldCost {
   HealMonsterWaitTimeCompleteRequestProto *req = [[[[[[HealMonsterWaitTimeCompleteRequestProto builder]
                                                       setSender:_sender]
                                                      setIsSpeedup:YES]
                                                     setGemsForSpeedup:goldCost]
-                                                   addAllUserMonsterIds:monsterIds]
+                                                   addAllUmchp:monsterHealths]
                                                   build];
   
   int tag = [self sendData:req withMessageType:EventProtocolRequestCHealMonsterWaitTimeCompleteEvent];
   
   [self reloadHealQueueSnapshot];
+  
+  return tag;
+}
+
+- (int) sendEnhanceQueueWaitTimeComplete:(UserMonsterCurrentExpProto *)monsterExp userMonsterIds:(NSArray *)userMonsterIds {
+  EnhancementWaitTimeCompleteRequestProto *req = [[[[[EnhancementWaitTimeCompleteRequestProto builder]
+                                                    setSender:_sender]
+                                                    setUmcep:monsterExp]
+                                                   addAllUserMonsterIds:userMonsterIds]
+                                                  build];
+  
+  int tag = [self sendData:req withMessageType:EventProtocolRequestCHealMonsterWaitTimeCompleteEvent];
+  
+  [self reloadEnhancementSnapshot];
+  
+  return tag;
+}
+
+- (int) sendEnhanceQueueSpeedup:(UserMonsterCurrentExpProto *)monsterExp userMonsterIds:(NSArray *)userMonsterIds goldCost:(int)goldCost {
+  EnhancementWaitTimeCompleteRequestProto *req = [[[[[[[EnhancementWaitTimeCompleteRequestProto builder]
+                                                     setSender:_sender]
+                                                    setUmcep:monsterExp]
+                                                     setIsSpeedup:YES]
+                                                    setGemsForSpeedup:goldCost]
+                                                   addAllUserMonsterIds:userMonsterIds]
+                                                  build];
+  
+  int tag = [self sendData:req withMessageType:EventProtocolRequestCHealMonsterWaitTimeCompleteEvent];
+  
+  [self reloadEnhancementSnapshot];
   
   return tag;
 }
@@ -867,6 +886,71 @@ static NSString *udid = nil;
   }
 }
 
+- (int) setEnhanceQueueDirty {
+  [self flushWithInt:EventProtocolRequestCSubmitMonsterEnhancementEvent];
+  _enhancementPotentiallyChanged = YES;
+  return _currentTagNum;
+}
+
+- (void) reloadEnhancementSnapshot {
+  GameState *gs = [GameState sharedGameState];
+  self.enhancementSnapshot = [gs.userEnhancement copy];
+}
+
+- (int) sendEnhanceMonsterMessage {
+  GameState *gs = [GameState sharedGameState];
+  NSMutableSet *old = [NSMutableSet setWithArray:self.enhancementSnapshot.feeders];
+  if (self.enhancementSnapshot.baseMonster) [old addObject:self.enhancementSnapshot.baseMonster];
+  NSMutableSet *cur = [NSMutableSet setWithArray:gs.userEnhancement.feeders];
+  if (gs.userEnhancement.baseMonster) [cur addObject:gs.userEnhancement.baseMonster];
+  
+  NSMutableSet *added = cur.mutableCopy;
+  [added minusSet:old];
+  
+  NSMutableSet *removed = old.mutableCopy;
+  [removed minusSet:cur];
+  
+  NSMutableSet *modifiedOld = old.mutableCopy;
+  [modifiedOld intersectSet:cur];
+  
+  NSMutableSet *modifiedCur = cur.mutableCopy;
+  [modifiedCur intersectSet:old];
+  
+  NSMutableSet *changed = [NSMutableSet set];
+  for (UserMonsterHealingItem *itemOld in modifiedOld) {
+    UserMonsterHealingItem *itemNew = [modifiedCur member:itemOld];
+    if ([itemOld.expectedStartTime compare:itemNew.expectedStartTime] != NSOrderedSame) {
+      [changed addObject:itemNew];
+    }
+  }
+  
+  NSLog(@"Added: %@", added);
+  NSLog(@"Removed: %@", removed);
+  NSLog(@"Changed: %@", changed);
+  
+  if (added.count || removed.count || changed.count) {
+    SubmitMonsterEnhancementRequestProto_Builder *bldr = [[SubmitMonsterEnhancementRequestProto builder] setSender:_sender];
+    
+    for (EnhancementItem *item in added) {
+      [bldr addUeipNew:[item convertToProto]];
+    }
+    
+    for (EnhancementItem *item in removed) {
+      [bldr addUeipDelete:[item convertToProto]];
+    }
+    
+    for (EnhancementItem *item in changed) {
+      [bldr addUeipUpdate:[item convertToProto]];
+    }
+    
+    NSLog(@"Sending enhancement update with %d adds, %d removals, and %d updates.", added.count, removed.count, changed.count);
+    
+    return [self sendData:bldr.build withMessageType:EventProtocolRequestCSubmitMonsterEnhancementEvent flush:NO];
+  } else {
+    return 0;
+  }
+}
+
 - (void) flush {
   [self flushWithInt:-1];
 }
@@ -889,6 +973,14 @@ static NSString *udid = nil;
       [self sendHealMonsterMessage];
       [self reloadHealQueueSnapshot];
       _healingQueuePotentiallyChanged = NO;
+    }
+  }
+  
+  if (type != EventProtocolRequestCSubmitMonsterEnhancementEvent) {
+    if (_enhancementPotentiallyChanged) {
+      [self sendEnhanceMonsterMessage];
+      [self reloadEnhancementSnapshot];
+      _enhancementPotentiallyChanged = NO;
     }
   }
 }

@@ -10,28 +10,21 @@ message MonsterProto {
 	optional int32 evolutionLevel = 4;
 	optional string displayName = 5;
 	optional MonsterElement element = 6;
-	optional int32 maxHp = 7;
+	optional int32 baseHp = 7;
 	optional string imageName = 8;
-	optional MonsterType monsterType = 9;
-	optional int32 expReward = 10;
-	optional int32 silverReward = 11;
-	optional int32 monsterIdSuccessor = 12;
-	optional bool puzzlePieceDropped = 13; 
-	optional string carrotDefeated = 14;
-	optional string carrotRecruited = 15;
-	optional string carrotEvolved = 16;
-	optional int32 elementOneDmg = 18;
-	optional int32 elementTwoDmg = 19;
-	optional int32 elementThreeDmg = 20;
-	optional int32 elementFourDmg = 21;
-	optional int32 elementFiveDmg = 22;
-	
-	
-	enum MonsterType {
-		REGULAR = 1;
-		MINI_BOSS = 2;
-		BOSS = 3;
-	}
+	optional int32 numPuzzlePieces = 9;
+	optional int32 elementOneDmg = 10;
+	optional int32 elementTwoDmg = 11;
+	optional int32 elementThreeDmg = 12;
+	optional int32 elementFourDmg = 13;
+	optional int32 elementFiveDmg = 14;
+	optional float hpLevelMultiplier = 15;
+	optional float attackLevelMultiplier = 16;
+	optional int32 maxLevel = 17;
+	optional int32 evolutionMonsterId = 18;
+	optional string carrotRecruited = 19;
+	optional string carrotDefeated = 20;
+	optional string carrotEvolved = 21;
 	
 	enum MonsterQuality {
 		COMMON = 1;
@@ -69,6 +62,36 @@ message UserMonsterHealingProto {
 	optional int64 userMonsterId = 2;
 	optional int64 expectedStartTimeMillis = 3;
 	//optional int64 queuedTimeMillis = 4;
+}
+
+//------------------------------------------------------------------------------------------
+
+message UserMonsterCurrentHealthProto {
+	optional int64 userMonsterId = 1;
+	optional int32 currentHealth = 2; //what the health should be
+}
+
+//------------------------------------------------------------------------------------------
+
+message UserEnhancementProto {
+	optional int32 userId = 1;
+	optional UserEnhancementItemProto baseMonster = 2;
+	repeated UserEnhancementItemProto feeders = 3;
+}
+
+message UserEnhancementItemProto {
+	optional int64 userMonsterId = 1;
+	optional int64 expectedStartTimeMillis = 2;
+}
+
+//------------------------------------------------------------------------------------------
+
+//when user enhances a monster, it gains "experience" 
+//(before it was termed enhancement or enhancement percentage)
+message UserMonsterCurrentExpProto {
+	optional int64 userMonsterId = 1;
+	optional int32 expectedExperience = 2;
+	optional int32 expectedLevel = 3;
 }
 
 //------------------------------------------------------------------------------------------

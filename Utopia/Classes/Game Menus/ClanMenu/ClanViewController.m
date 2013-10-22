@@ -37,6 +37,10 @@
   [self updateConfiguration];
 }
 
+- (void) viewDidAppear:(BOOL)animated {
+  
+}
+
 - (void) updateConfiguration {
   GameState *gs = [GameState sharedGameState];
   if (gs.clan) {
@@ -69,7 +73,7 @@
   [self.clanInfoViewController.view removeFromSuperview];
   
   [self.view addSubview:_controller1.view];
-  _controller1.view.frame = CGRectMake(0, 8, self.view.bounds.size.width, self.view.bounds.size.height-8);
+  _controller1.view.frame = self.view.bounds;
   
   [self.menuTopBar clickButton:kButton1];
   [self.menuTopBar unclickButton:kButton2];
@@ -81,7 +85,7 @@
   [self.clanInfoViewController.view removeFromSuperview];
   
   [self.view addSubview:_controller2.view];
-  _controller2.view.frame = CGRectMake(0, 8, self.view.bounds.size.width, self.view.bounds.size.height-8);
+  _controller2.view.frame = self.view.bounds;
   
   [self.menuTopBar clickButton:kButton2];
   [self.menuTopBar unclickButton:kButton1];

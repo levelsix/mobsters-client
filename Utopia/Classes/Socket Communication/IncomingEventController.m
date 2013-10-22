@@ -232,6 +232,8 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
     if (proto.sender.userId == 0) {
       LNLog(@"Received user id 0..");
     }
+    // Add these before updating user or else UI will update incorrectly
+    [gs addAllLevelRequiredExps:proto.larepList];
     
     // Update user before creating map
     [gs updateUser:proto.sender timestamp:0];
@@ -245,9 +247,13 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
     
     [gs.staticMonsters removeAllObjects];
     [gs addToStaticMonsters:proto.staticMonstersList];
+    [gs.myMonsters removeAllObjects];
     [gs addToMyMonsters:proto.usersMonstersList];
     [gs addAllMonsterHealingProtos:proto.monstersHealingList];
-    [[SocketCommunication sharedSocketCommunication] reloadHealQueueSnapshot];
+    
+    if (proto.hasEnhancements) {
+      [gs addEnhancementProto:proto.enhancements];
+    }
     
     [gs.staticCities removeAllObjects];
     [gs addToStaticCities:proto.allCitiesList];
@@ -320,7 +326,6 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
     // Need to create new player
     
     gs.connected = YES;
-    gs.expRequiredForCurrentLevel = 0;
   }
   
   [gs removeNonFullUserUpdatesForTag:tag];
@@ -1094,10 +1099,10 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
   LNLog(@"Submit monster enhancement received with status %d.", proto.status);
   
   GameState *gs = [GameState sharedGameState];
-  if (proto.status == SubmitMonsterEnhancementResponseProto_EnhanceMonsterStatusSuccess) {
+  if (proto.status == SubmitMonsterEnhancementResponseProto_SubmitMonsterEnhancementStatusSuccess) {
     [gs removeNonFullUserUpdatesForTag:tag];
   } else {
-    if (proto.status == SubmitMonsterEnhancementResponseProto_EnhanceMonsterStatusClientTooApartFromServerTime) {
+    if (proto.status == SubmitMonsterEnhancementResponseProto_SubmitMonsterEnhancementStatusClientTooApartFromServerTime) {
       [self handleTimeOutOfSync];
     } else {
       [Globals popupMessage:@"Server failed to submit monster enhancement."];

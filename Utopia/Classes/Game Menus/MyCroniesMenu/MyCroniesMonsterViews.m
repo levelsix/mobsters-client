@@ -15,28 +15,26 @@
 @implementation MyCroniesCardCell
 
 - (void) awakeFromNib {
-  self.healingView.center = self.cardContainer.center;
-  [self.cardContainer.superview addSubview:self.healingView];
+  self.overlayView.center = self.cardContainer.center;
+  [self.cardContainer.superview addSubview:self.overlayView];
   
   self.buySlotsView.center = self.cardContainer.center;
   [self.cardContainer.superview addSubview:self.buySlotsView];
-  
-  self.cardContainer.monsterCardView.delegate = self;
 }
 
-- (void) loadHealingMask {
+- (void) loadOverlayMask {
   UIView *view = self.cardContainer.monsterCardView.mainView;
-  UIGraphicsBeginImageContext(view.bounds.size);
+  UIGraphicsBeginImageContextWithOptions(view.bounds.size, view.opaque, 0.0);
   [view.layer renderInContext:UIGraphicsGetCurrentContext()];
   UIImage *image = UIGraphicsGetImageFromCurrentImageContext();
   UIGraphicsEndImageContext();
   
-  self.healingMask.image = [Globals maskImage:image withColor:[UIColor colorWithWhite:0.f alpha:0.3f]];
+  self.overlayMask.image = [Globals maskImage:image withColor:[UIColor colorWithWhite:0.f alpha:0.5f]];
   
-  self.healingMask.frame = [self.healingView convertRect:self.cardContainer.monsterCardView.mainView.frame fromView:self.cardContainer.monsterCardView];
+  self.overlayMask.frame = [self.overlayView convertRect:self.cardContainer.monsterCardView.mainView.frame fromView:self.cardContainer.monsterCardView];
 }
 
-- (void) updateForUserMonster:(UserMonster *)monster isOnMyTeam:(BOOL)isOnMyTeam isHealing:(BOOL)isHealing {
+- (void) updateForUserMonster:(UserMonster *)monster isOnMyTeam:(BOOL)isOnMyTeam {
   if (!monster) {
     [self updateForNoMonsterIsOnMyTeam:isOnMyTeam];
   } else {
@@ -47,14 +45,15 @@
     self.buySlotsView.hidden = YES;
     self.cardContainer.hidden = NO;
     
-    if (isHealing) {
-      [self loadHealingMask];
-      self.healingView.hidden = NO;
+    if ([monster isHealing] || [monster isEnhancing] || [monster isSacrificing]) {
+      [self loadOverlayMask];
+      self.overlayView.hidden = NO;
+      self.overlayLabel.text = [monster isHealing] ? @"Healing" : @"Enhancing";
       self.plusButton.hidden = YES;
       self.minusButton.hidden = YES;
       self.healButtonView.hidden = YES;
     } else {
-      self.healingView.hidden = YES;
+      self.overlayView.hidden = YES;
       self.plusButton.hidden = isOnMyTeam;
       self.minusButton.hidden = !isOnMyTeam;
       
@@ -68,6 +67,8 @@
       }
     }
   }
+  
+  self.cardContainer.monsterCardView.delegate = self;
 }
 
 - (void) updateForNoMonsterIsOnMyTeam:(BOOL)isOnMyTeam {
@@ -76,13 +77,13 @@
   self.plusButton.hidden = YES;
   self.minusButton.hidden = YES;
   self.healButtonView.hidden = YES;
-  self.healingView.hidden = YES;
+  self.overlayView.hidden = YES;
   self.buySlotsView.hidden = YES;
   self.cardContainer.hidden = NO;
   if (isOnMyTeam) {
     [self.cardContainer.monsterCardView updateForNoMonsterWithLabel:@"Team Slot Empty"];
   } else {
-    [self.cardContainer.monsterCardView updateForNoMonsterWithLabel:@"Reserve Slot Empty"];
+    [self.cardContainer.monsterCardView updateForNoMonsterWithLabel:@"Empty Slot"];
   }
 }
 
@@ -93,7 +94,7 @@
   self.plusButton.hidden = YES;
   self.minusButton.hidden = YES;
   self.healButtonView.hidden = YES;
-  self.healingView.hidden = YES;
+  self.overlayView.hidden = YES;
   self.cardContainer.hidden = YES;
 }
 
@@ -124,10 +125,10 @@
 @implementation MyCroniesQueueCell
 
 - (void) updateForHealingItem:(UserMonsterHealingItem *)item {
-  GameState *gs = [GameState sharedGameState];
-  UserMonster *um = [gs myMonsterWithUserMonsterId:item.userMonsterId];
+//  GameState *gs = [GameState sharedGameState];
+//  UserMonster *um = [gs myMonsterWithUserMonsterId:item.userMonsterId];
 //  [Globals loadImageForMonster:um.monsterId toView:self.monsterIcon];
-//  self.timerView.hidden = YES;
+  self.timerView.hidden = YES;
   
   self.healingItem = item;
 }

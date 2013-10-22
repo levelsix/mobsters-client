@@ -164,17 +164,17 @@
       [self setOpacity:1];
       _isConstructing = isConstructing;
       
-//      [[CCSpriteFrameCache sharedSpriteFrameCache] addSpriteFramesWithFile:@"Construction.plist"];
-//      CCSprite *sprite = [CCSprite spriteWithSpriteFrameName:@"Construction.png"];
-//      sprite.anchorPoint = ccp(0.462, 0.165);
-//      sprite.position = ccp(self.contentSize.width/2, -self.verticalOffset-2);
-//      [self addChild:sprite z:1 tag:CONSTRUCTION_TAG];
-//      
-//      CCAnimation *anim = [CCAnimation animationWithSpritePrefix:@"Construction" delay:1];
-//      CCSprite *spr = [CCSprite spriteWithSpriteFrame:[[anim.frames objectAtIndex:0] spriteFrame]];
-//      [spr runAction:[CCRepeatForever actionWithAction:[CCAnimate actionWithAnimation:anim]]];
-//      [sprite addChild:spr];
-//      spr.position = ccp(sprite.contentSize.width/2, sprite.contentSize.height/2);
+      [[CCSpriteFrameCache sharedSpriteFrameCache] addSpriteFramesWithFile:@"Construction.plist"];
+      CCSprite *sprite = [CCSprite spriteWithSpriteFrameName:@"Construction.png"];
+      sprite.anchorPoint = ccp(0.462, 0.165);
+      sprite.position = ccp(self.contentSize.width/2, -self.verticalOffset-2);
+      [self addChild:sprite z:1 tag:CONSTRUCTION_TAG];
+      
+      CCAnimation *anim = [CCAnimation animationWithSpritePrefix:@"Construction" delay:1];
+      CCSprite *spr = [CCSprite spriteWithSpriteFrame:[[anim.frames objectAtIndex:0] spriteFrame]];
+      [spr runAction:[CCRepeatForever actionWithAction:[CCAnimate actionWithAnimation:anim]]];
+      [sprite addChild:spr];
+      spr.position = ccp(sprite.contentSize.width/2, sprite.contentSize.height/2);
     } else {
       _isConstructing = isConstructing;
       self.opacity = 255;

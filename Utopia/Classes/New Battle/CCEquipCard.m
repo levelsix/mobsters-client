@@ -51,7 +51,7 @@
 //    }
 //    
 //    NSString *str = [Globals shortenedStringForEquipType:fep.equipType];
-//    CCLabelTTF *label = [CCLabelTTF labelWithString:str fontName:@"Dirty Headline" fontSize:6.f];
+//    CCLabelTTF *label = [CCLabelTTF labelWithString:str fontName:[Globals font] fontSize:6.f];
 //    [self addChild:label];
 //    label.color = ccc3(0, 0, 0);
 //    label.opacity = 180;

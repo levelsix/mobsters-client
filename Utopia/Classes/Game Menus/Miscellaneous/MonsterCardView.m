@@ -71,6 +71,10 @@
   self.noMonsterView.hidden = NO;
 }
 
+- (IBAction)darkOverlayClicked:(id)sender {
+  [self.delegate equipViewSelected:self];
+}
+
 @end
 
 

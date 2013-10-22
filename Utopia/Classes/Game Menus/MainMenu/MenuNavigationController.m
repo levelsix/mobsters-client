@@ -17,6 +17,7 @@ static float imgHeight = 40.f;
 - (id) init {
   if ((self = [super init])) {
     self.clipsToBounds = NO;
+    self.alpha = 0.5;
   }
   return self;
 }

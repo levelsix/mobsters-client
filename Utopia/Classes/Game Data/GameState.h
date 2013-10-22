@@ -45,9 +45,6 @@
 
 @property (nonatomic, retain) NSString *deviceToken;
 
-@property (nonatomic, assign) int expRequiredForCurrentLevel;
-@property (nonatomic, assign) int expRequiredForNextLevel;
-
 @property (nonatomic, retain) NSMutableDictionary *staticStructs;
 @property (nonatomic, retain) NSMutableDictionary *staticMonsters;
 @property (nonatomic, retain) NSMutableDictionary *staticTasks;
@@ -84,10 +81,15 @@
 
 @property (nonatomic, retain) NSMutableArray *userExpansions;
 
+@property (nonatomic, retain) UserEnhancement *userEnhancement;
+
+@property (nonatomic, retain) NSMutableDictionary *levelRequiredExps;
+
 + (GameState *) sharedGameState;
 + (void) purgeSingleton;
 
 - (MinimumUserProto *) minUser;
+- (FullUserProto *) convertToFullUserProto;
 - (void) updateUser:(FullUserProto *)user timestamp:(uint64_t)time;
 
 - (id) getStaticDataFrom:(NSDictionary *)dict withId:(int)itemId;
@@ -107,10 +109,15 @@
 - (void) addChatMessage:(MinimumUserProto *)sender message:(NSString *)msg scope:(GroupChatScope)scope isAdmin:(BOOL)isAdmin;
 - (void) addChatMessage:(ChatMessage *)cm scope:(GroupChatScope) scope;
 - (void) addBoosterPurchase:(RareBoosterPurchaseProto *)bp;
+- (void) addAllLevelRequiredExps:(NSArray *)lurep;
 
 - (void) addUserMonsterHealingItemToEndOfQueue:(UserMonsterHealingItem *)item;
 - (void) removeUserMonsterHealingItem:(UserMonsterHealingItem *)item;
 - (void) addAllMonsterHealingProtos:(NSArray *)items;
+
+- (void) addEnhancingItemToEndOfQueue:(EnhancementItem *)item;
+- (void) removeEnhancingItem:(EnhancementItem *)item;
+- (void) addEnhancementProto:(UserEnhancementProto *)proto;
 
 - (UserMonster *) myMonsterWithUserMonsterId:(int)userMonsterId;
 - (UserMonster *) myMonsterWithSlotNumber:(int)slotNum;
@@ -131,6 +138,16 @@
 - (void) removeAndUndoAllUpdatesForTag:(int)tag;
 - (void) removeFullUserUpdatesForTag:(int)tag;
 - (void) removeNonFullUserUpdatesForTag:(int)tag;
+
+- (int) expNeededForLevel:(int)level;
+- (int) currentExpForLevel;
+- (int) expDeltaNeededForNextLevel;
+
+- (void) beginHealingTimer;
+- (void) stopHealingTimer;
+
+- (void) beginEnhanceTimer;
+- (void) stopEnhanceTimer;
 
 - (UserExpansion *) getExpansionForX:(int)x y:(int)y;
 - (int) numCompletedExpansions;

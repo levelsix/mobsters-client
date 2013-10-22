@@ -500,7 +500,7 @@ BOOL CreateClanResponseProto_CreateClanStatusIsValidValue(CreateClanResponseProt
   switch (value) {
     case CreateClanResponseProto_CreateClanStatusSuccess:
     case CreateClanResponseProto_CreateClanStatusOtherFail:
-    case CreateClanResponseProto_CreateClanStatusNotEnoughDiamonds:
+    case CreateClanResponseProto_CreateClanStatusNotEnoughCoins:
     case CreateClanResponseProto_CreateClanStatusNameTaken:
     case CreateClanResponseProto_CreateClanStatusAlreadyInClan:
     case CreateClanResponseProto_CreateClanStatusInvalidTagLength:

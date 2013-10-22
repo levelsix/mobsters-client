@@ -67,8 +67,6 @@
 - (void) purchaseCityExpansionAtX:(int)x atY:(int)y;
 - (void) expansionWaitComplete:(BOOL)speedUp atX:(int)x atY:(int)y;
 
-- (void) submitMonsterEnhancement:(int)enhancingId feeders:(NSArray *)feeders;
-
 - (void) purchaseBoosterPack:(int)boosterPackId;
 
 - (void) privateChatPost:(int)recipientId content:(NSString *)content;
@@ -83,5 +81,12 @@
 - (void) removeMonsterFromHealingQueue:(UserMonsterHealingItem *)item;
 - (void) speedupHealingQueue;
 - (void) healQueueWaitTimeComplete:(NSArray *)healingItems;
+
+- (void) setBaseEnhanceMonster:(int)userMonsterId;
+- (void) removeBaseEnhanceMonster;
+- (void) addMonsterToEnhancingQueue:(int)userMonsterId;
+- (void) removeMonsterFromEnhancingQueue:(EnhancementItem *)item;
+- (void) speedupEnhancingQueue;
+- (void) enhanceQueueWaitTimeComplete:(NSArray *)enhancingItems;
 
 @end

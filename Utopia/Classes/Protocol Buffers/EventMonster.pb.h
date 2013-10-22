@@ -13,6 +13,10 @@
 @class BuyMonsterInventorySlotRequestProto_Builder;
 @class BuyMonsterInventorySlotResponseProto;
 @class BuyMonsterInventorySlotResponseProto_Builder;
+@class EnhancementWaitTimeCompleteRequestProto;
+@class EnhancementWaitTimeCompleteRequestProto_Builder;
+@class EnhancementWaitTimeCompleteResponseProto;
+@class EnhancementWaitTimeCompleteResponseProto_Builder;
 @class FullUserMonsterProto;
 @class FullUserMonsterProto_Builder;
 @class FullUserProto;
@@ -47,18 +51,35 @@
 @class UpdateMonsterHealthRequestProto_Builder;
 @class UpdateMonsterHealthResponseProto;
 @class UpdateMonsterHealthResponseProto_Builder;
+@class UserEnhancementItemProto;
+@class UserEnhancementItemProto_Builder;
+@class UserEnhancementProto;
+@class UserEnhancementProto_Builder;
+@class UserMonsterCurrentExpProto;
+@class UserMonsterCurrentExpProto_Builder;
+@class UserMonsterCurrentHealthProto;
+@class UserMonsterCurrentHealthProto_Builder;
 @class UserMonsterHealingProto;
 @class UserMonsterHealingProto_Builder;
 typedef enum {
-  SubmitMonsterEnhancementResponseProto_EnhanceMonsterStatusSuccess = 1,
-  SubmitMonsterEnhancementResponseProto_EnhanceMonsterStatusOtherFail = 2,
-  SubmitMonsterEnhancementResponseProto_EnhanceMonsterStatusClientTooApartFromServerTime = 3,
-  SubmitMonsterEnhancementResponseProto_EnhanceMonsterStatusMainOrFeederOrEquipsNonexistent = 4,
-  SubmitMonsterEnhancementResponseProto_EnhanceMonsterStatusTryingToSurpassMaxLevel = 5,
-  SubmitMonsterEnhancementResponseProto_EnhanceMonsterStatusNotEnoughSilver = 6,
-} SubmitMonsterEnhancementResponseProto_EnhanceMonsterStatus;
+  SubmitMonsterEnhancementResponseProto_SubmitMonsterEnhancementStatusSuccess = 1,
+  SubmitMonsterEnhancementResponseProto_SubmitMonsterEnhancementStatusOtherFail = 2,
+  SubmitMonsterEnhancementResponseProto_SubmitMonsterEnhancementStatusClientTooApartFromServerTime = 3,
+  SubmitMonsterEnhancementResponseProto_SubmitMonsterEnhancementStatusMainOrFeederOrEquipsNonexistent = 4,
+  SubmitMonsterEnhancementResponseProto_SubmitMonsterEnhancementStatusTryingToSurpassMaxLevel = 5,
+  SubmitMonsterEnhancementResponseProto_SubmitMonsterEnhancementStatusNotEnoughSilver = 6,
+} SubmitMonsterEnhancementResponseProto_SubmitMonsterEnhancementStatus;
 
-BOOL SubmitMonsterEnhancementResponseProto_EnhanceMonsterStatusIsValidValue(SubmitMonsterEnhancementResponseProto_EnhanceMonsterStatus value);
+BOOL SubmitMonsterEnhancementResponseProto_SubmitMonsterEnhancementStatusIsValidValue(SubmitMonsterEnhancementResponseProto_SubmitMonsterEnhancementStatus value);
+
+typedef enum {
+  EnhancementWaitTimeCompleteResponseProto_EnhancementWaitTimeCompleteStatusSuccess = 1,
+  EnhancementWaitTimeCompleteResponseProto_EnhancementWaitTimeCompleteStatusFailHealingNotComplete = 2,
+  EnhancementWaitTimeCompleteResponseProto_EnhancementWaitTimeCompleteStatusFailInsufficientFunds = 3,
+  EnhancementWaitTimeCompleteResponseProto_EnhancementWaitTimeCompleteStatusFailOther = 4,
+} EnhancementWaitTimeCompleteResponseProto_EnhancementWaitTimeCompleteStatus;
+
+BOOL EnhancementWaitTimeCompleteResponseProto_EnhancementWaitTimeCompleteStatusIsValidValue(EnhancementWaitTimeCompleteResponseProto_EnhancementWaitTimeCompleteStatus value);
 
 typedef enum {
   UpdateMonsterHealthResponseProto_UpdateMonsterHealthStatusSuccess = 1,
@@ -118,22 +139,20 @@ BOOL BuyMonsterInventorySlotResponseProto_BuyMonsterInventorySlotStatusIsValidVa
 
 @interface SubmitMonsterEnhancementRequestProto : PBGeneratedMessage {
 @private
-  BOOL hasEnhancingUserMonsterId_:1;
-  BOOL hasClientTime_:1;
   BOOL hasSender_:1;
-  int64_t enhancingUserMonsterId;
-  int64_t clientTime;
   MinimumUserProto* sender;
-  NSMutableArray* mutableFeederUserMonsterIdsList;
+  NSMutableArray* mutableUeipDeleteList;
+  NSMutableArray* mutableUeipUpdateList;
+  NSMutableArray* mutableUeipNewList;
 }
 - (BOOL) hasSender;
-- (BOOL) hasEnhancingUserMonsterId;
-- (BOOL) hasClientTime;
 @property (readonly, retain) MinimumUserProto* sender;
-@property (readonly) int64_t enhancingUserMonsterId;
-@property (readonly) int64_t clientTime;
-- (NSArray*) feederUserMonsterIdsList;
-- (int64_t) feederUserMonsterIdsAtIndex:(int32_t) index;
+- (NSArray*) ueipDeleteList;
+- (UserEnhancementItemProto*) ueipDeleteAtIndex:(int32_t) index;
+- (NSArray*) ueipUpdateList;
+- (UserEnhancementItemProto*) ueipUpdateAtIndex:(int32_t) index;
+- (NSArray*) ueipNewList;
+- (UserEnhancementItemProto*) ueipNewAtIndex:(int32_t) index;
 
 + (SubmitMonsterEnhancementRequestProto*) defaultInstance;
 - (SubmitMonsterEnhancementRequestProto*) defaultInstance;
@@ -176,22 +195,26 @@ BOOL BuyMonsterInventorySlotResponseProto_BuyMonsterInventorySlotStatusIsValidVa
 - (SubmitMonsterEnhancementRequestProto_Builder*) mergeSender:(MinimumUserProto*) value;
 - (SubmitMonsterEnhancementRequestProto_Builder*) clearSender;
 
-- (BOOL) hasEnhancingUserMonsterId;
-- (int64_t) enhancingUserMonsterId;
-- (SubmitMonsterEnhancementRequestProto_Builder*) setEnhancingUserMonsterId:(int64_t) value;
-- (SubmitMonsterEnhancementRequestProto_Builder*) clearEnhancingUserMonsterId;
+- (NSArray*) ueipDeleteList;
+- (UserEnhancementItemProto*) ueipDeleteAtIndex:(int32_t) index;
+- (SubmitMonsterEnhancementRequestProto_Builder*) replaceUeipDeleteAtIndex:(int32_t) index with:(UserEnhancementItemProto*) value;
+- (SubmitMonsterEnhancementRequestProto_Builder*) addUeipDelete:(UserEnhancementItemProto*) value;
+- (SubmitMonsterEnhancementRequestProto_Builder*) addAllUeipDelete:(NSArray*) values;
+- (SubmitMonsterEnhancementRequestProto_Builder*) clearUeipDeleteList;
 
-- (NSArray*) feederUserMonsterIdsList;
-- (int64_t) feederUserMonsterIdsAtIndex:(int32_t) index;
-- (SubmitMonsterEnhancementRequestProto_Builder*) replaceFeederUserMonsterIdsAtIndex:(int32_t) index with:(int64_t) value;
-- (SubmitMonsterEnhancementRequestProto_Builder*) addFeederUserMonsterIds:(int64_t) value;
-- (SubmitMonsterEnhancementRequestProto_Builder*) addAllFeederUserMonsterIds:(NSArray*) values;
-- (SubmitMonsterEnhancementRequestProto_Builder*) clearFeederUserMonsterIdsList;
+- (NSArray*) ueipUpdateList;
+- (UserEnhancementItemProto*) ueipUpdateAtIndex:(int32_t) index;
+- (SubmitMonsterEnhancementRequestProto_Builder*) replaceUeipUpdateAtIndex:(int32_t) index with:(UserEnhancementItemProto*) value;
+- (SubmitMonsterEnhancementRequestProto_Builder*) addUeipUpdate:(UserEnhancementItemProto*) value;
+- (SubmitMonsterEnhancementRequestProto_Builder*) addAllUeipUpdate:(NSArray*) values;
+- (SubmitMonsterEnhancementRequestProto_Builder*) clearUeipUpdateList;
 
-- (BOOL) hasClientTime;
-- (int64_t) clientTime;
-- (SubmitMonsterEnhancementRequestProto_Builder*) setClientTime:(int64_t) value;
-- (SubmitMonsterEnhancementRequestProto_Builder*) clearClientTime;
+- (NSArray*) ueipNewList;
+- (UserEnhancementItemProto*) ueipNewAtIndex:(int32_t) index;
+- (SubmitMonsterEnhancementRequestProto_Builder*) replaceUeipNewAtIndex:(int32_t) index with:(UserEnhancementItemProto*) value;
+- (SubmitMonsterEnhancementRequestProto_Builder*) addUeipNew:(UserEnhancementItemProto*) value;
+- (SubmitMonsterEnhancementRequestProto_Builder*) addAllUeipNew:(NSArray*) values;
+- (SubmitMonsterEnhancementRequestProto_Builder*) clearUeipNewList;
 @end
 
 @interface SubmitMonsterEnhancementResponseProto : PBGeneratedMessage {
@@ -199,12 +222,12 @@ BOOL BuyMonsterInventorySlotResponseProto_BuyMonsterInventorySlotStatusIsValidVa
   BOOL hasSender_:1;
   BOOL hasStatus_:1;
   MinimumUserProto* sender;
-  SubmitMonsterEnhancementResponseProto_EnhanceMonsterStatus status;
+  SubmitMonsterEnhancementResponseProto_SubmitMonsterEnhancementStatus status;
 }
 - (BOOL) hasSender;
 - (BOOL) hasStatus;
 @property (readonly, retain) MinimumUserProto* sender;
-@property (readonly) SubmitMonsterEnhancementResponseProto_EnhanceMonsterStatus status;
+@property (readonly) SubmitMonsterEnhancementResponseProto_SubmitMonsterEnhancementStatus status;
 
 + (SubmitMonsterEnhancementResponseProto*) defaultInstance;
 - (SubmitMonsterEnhancementResponseProto*) defaultInstance;
@@ -248,9 +271,157 @@ BOOL BuyMonsterInventorySlotResponseProto_BuyMonsterInventorySlotStatusIsValidVa
 - (SubmitMonsterEnhancementResponseProto_Builder*) clearSender;
 
 - (BOOL) hasStatus;
-- (SubmitMonsterEnhancementResponseProto_EnhanceMonsterStatus) status;
-- (SubmitMonsterEnhancementResponseProto_Builder*) setStatus:(SubmitMonsterEnhancementResponseProto_EnhanceMonsterStatus) value;
+- (SubmitMonsterEnhancementResponseProto_SubmitMonsterEnhancementStatus) status;
+- (SubmitMonsterEnhancementResponseProto_Builder*) setStatus:(SubmitMonsterEnhancementResponseProto_SubmitMonsterEnhancementStatus) value;
 - (SubmitMonsterEnhancementResponseProto_Builder*) clearStatus;
+@end
+
+@interface EnhancementWaitTimeCompleteRequestProto : PBGeneratedMessage {
+@private
+  BOOL hasIsSpeedup_:1;
+  BOOL hasGemsForSpeedup_:1;
+  BOOL hasSender_:1;
+  BOOL hasUmcep_:1;
+  BOOL isSpeedup_:1;
+  int32_t gemsForSpeedup;
+  MinimumUserProto* sender;
+  UserMonsterCurrentExpProto* umcep;
+  NSMutableArray* mutableUserMonsterIdsList;
+}
+- (BOOL) hasSender;
+- (BOOL) hasIsSpeedup;
+- (BOOL) hasGemsForSpeedup;
+- (BOOL) hasUmcep;
+@property (readonly, retain) MinimumUserProto* sender;
+- (BOOL) isSpeedup;
+@property (readonly) int32_t gemsForSpeedup;
+@property (readonly, retain) UserMonsterCurrentExpProto* umcep;
+- (NSArray*) userMonsterIdsList;
+- (int64_t) userMonsterIdsAtIndex:(int32_t) index;
+
++ (EnhancementWaitTimeCompleteRequestProto*) defaultInstance;
+- (EnhancementWaitTimeCompleteRequestProto*) defaultInstance;
+
+- (BOOL) isInitialized;
+- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output;
+- (EnhancementWaitTimeCompleteRequestProto_Builder*) builder;
++ (EnhancementWaitTimeCompleteRequestProto_Builder*) builder;
++ (EnhancementWaitTimeCompleteRequestProto_Builder*) builderWithPrototype:(EnhancementWaitTimeCompleteRequestProto*) prototype;
+
++ (EnhancementWaitTimeCompleteRequestProto*) parseFromData:(NSData*) data;
++ (EnhancementWaitTimeCompleteRequestProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (EnhancementWaitTimeCompleteRequestProto*) parseFromInputStream:(NSInputStream*) input;
++ (EnhancementWaitTimeCompleteRequestProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (EnhancementWaitTimeCompleteRequestProto*) parseFromCodedInputStream:(PBCodedInputStream*) input;
++ (EnhancementWaitTimeCompleteRequestProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+@end
+
+@interface EnhancementWaitTimeCompleteRequestProto_Builder : PBGeneratedMessage_Builder {
+@private
+  EnhancementWaitTimeCompleteRequestProto* result;
+}
+
+- (EnhancementWaitTimeCompleteRequestProto*) defaultInstance;
+
+- (EnhancementWaitTimeCompleteRequestProto_Builder*) clear;
+- (EnhancementWaitTimeCompleteRequestProto_Builder*) clone;
+
+- (EnhancementWaitTimeCompleteRequestProto*) build;
+- (EnhancementWaitTimeCompleteRequestProto*) buildPartial;
+
+- (EnhancementWaitTimeCompleteRequestProto_Builder*) mergeFrom:(EnhancementWaitTimeCompleteRequestProto*) other;
+- (EnhancementWaitTimeCompleteRequestProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input;
+- (EnhancementWaitTimeCompleteRequestProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+
+- (BOOL) hasSender;
+- (MinimumUserProto*) sender;
+- (EnhancementWaitTimeCompleteRequestProto_Builder*) setSender:(MinimumUserProto*) value;
+- (EnhancementWaitTimeCompleteRequestProto_Builder*) setSenderBuilder:(MinimumUserProto_Builder*) builderForValue;
+- (EnhancementWaitTimeCompleteRequestProto_Builder*) mergeSender:(MinimumUserProto*) value;
+- (EnhancementWaitTimeCompleteRequestProto_Builder*) clearSender;
+
+- (BOOL) hasIsSpeedup;
+- (BOOL) isSpeedup;
+- (EnhancementWaitTimeCompleteRequestProto_Builder*) setIsSpeedup:(BOOL) value;
+- (EnhancementWaitTimeCompleteRequestProto_Builder*) clearIsSpeedup;
+
+- (BOOL) hasGemsForSpeedup;
+- (int32_t) gemsForSpeedup;
+- (EnhancementWaitTimeCompleteRequestProto_Builder*) setGemsForSpeedup:(int32_t) value;
+- (EnhancementWaitTimeCompleteRequestProto_Builder*) clearGemsForSpeedup;
+
+- (BOOL) hasUmcep;
+- (UserMonsterCurrentExpProto*) umcep;
+- (EnhancementWaitTimeCompleteRequestProto_Builder*) setUmcep:(UserMonsterCurrentExpProto*) value;
+- (EnhancementWaitTimeCompleteRequestProto_Builder*) setUmcepBuilder:(UserMonsterCurrentExpProto_Builder*) builderForValue;
+- (EnhancementWaitTimeCompleteRequestProto_Builder*) mergeUmcep:(UserMonsterCurrentExpProto*) value;
+- (EnhancementWaitTimeCompleteRequestProto_Builder*) clearUmcep;
+
+- (NSArray*) userMonsterIdsList;
+- (int64_t) userMonsterIdsAtIndex:(int32_t) index;
+- (EnhancementWaitTimeCompleteRequestProto_Builder*) replaceUserMonsterIdsAtIndex:(int32_t) index with:(int64_t) value;
+- (EnhancementWaitTimeCompleteRequestProto_Builder*) addUserMonsterIds:(int64_t) value;
+- (EnhancementWaitTimeCompleteRequestProto_Builder*) addAllUserMonsterIds:(NSArray*) values;
+- (EnhancementWaitTimeCompleteRequestProto_Builder*) clearUserMonsterIdsList;
+@end
+
+@interface EnhancementWaitTimeCompleteResponseProto : PBGeneratedMessage {
+@private
+  BOOL hasSender_:1;
+  BOOL hasStatus_:1;
+  MinimumUserProto* sender;
+  EnhancementWaitTimeCompleteResponseProto_EnhancementWaitTimeCompleteStatus status;
+}
+- (BOOL) hasSender;
+- (BOOL) hasStatus;
+@property (readonly, retain) MinimumUserProto* sender;
+@property (readonly) EnhancementWaitTimeCompleteResponseProto_EnhancementWaitTimeCompleteStatus status;
+
++ (EnhancementWaitTimeCompleteResponseProto*) defaultInstance;
+- (EnhancementWaitTimeCompleteResponseProto*) defaultInstance;
+
+- (BOOL) isInitialized;
+- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output;
+- (EnhancementWaitTimeCompleteResponseProto_Builder*) builder;
++ (EnhancementWaitTimeCompleteResponseProto_Builder*) builder;
++ (EnhancementWaitTimeCompleteResponseProto_Builder*) builderWithPrototype:(EnhancementWaitTimeCompleteResponseProto*) prototype;
+
++ (EnhancementWaitTimeCompleteResponseProto*) parseFromData:(NSData*) data;
++ (EnhancementWaitTimeCompleteResponseProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (EnhancementWaitTimeCompleteResponseProto*) parseFromInputStream:(NSInputStream*) input;
++ (EnhancementWaitTimeCompleteResponseProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (EnhancementWaitTimeCompleteResponseProto*) parseFromCodedInputStream:(PBCodedInputStream*) input;
++ (EnhancementWaitTimeCompleteResponseProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+@end
+
+@interface EnhancementWaitTimeCompleteResponseProto_Builder : PBGeneratedMessage_Builder {
+@private
+  EnhancementWaitTimeCompleteResponseProto* result;
+}
+
+- (EnhancementWaitTimeCompleteResponseProto*) defaultInstance;
+
+- (EnhancementWaitTimeCompleteResponseProto_Builder*) clear;
+- (EnhancementWaitTimeCompleteResponseProto_Builder*) clone;
+
+- (EnhancementWaitTimeCompleteResponseProto*) build;
+- (EnhancementWaitTimeCompleteResponseProto*) buildPartial;
+
+- (EnhancementWaitTimeCompleteResponseProto_Builder*) mergeFrom:(EnhancementWaitTimeCompleteResponseProto*) other;
+- (EnhancementWaitTimeCompleteResponseProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input;
+- (EnhancementWaitTimeCompleteResponseProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+
+- (BOOL) hasSender;
+- (MinimumUserProto*) sender;
+- (EnhancementWaitTimeCompleteResponseProto_Builder*) setSender:(MinimumUserProto*) value;
+- (EnhancementWaitTimeCompleteResponseProto_Builder*) setSenderBuilder:(MinimumUserProto_Builder*) builderForValue;
+- (EnhancementWaitTimeCompleteResponseProto_Builder*) mergeSender:(MinimumUserProto*) value;
+- (EnhancementWaitTimeCompleteResponseProto_Builder*) clearSender;
+
+- (BOOL) hasStatus;
+- (EnhancementWaitTimeCompleteResponseProto_EnhancementWaitTimeCompleteStatus) status;
+- (EnhancementWaitTimeCompleteResponseProto_Builder*) setStatus:(EnhancementWaitTimeCompleteResponseProto_EnhancementWaitTimeCompleteStatus) value;
+- (EnhancementWaitTimeCompleteResponseProto_Builder*) clearStatus;
 @end
 
 @interface UpdateMonsterHealthRequestProto : PBGeneratedMessage {
@@ -259,14 +430,14 @@ BOOL BuyMonsterInventorySlotResponseProto_BuyMonsterInventorySlotStatusIsValidVa
   BOOL hasSender_:1;
   int64_t clientTime;
   MinimumUserProto* sender;
-  NSMutableArray* mutableFumpsList;
+  NSMutableArray* mutableUmchpList;
 }
 - (BOOL) hasSender;
 - (BOOL) hasClientTime;
 @property (readonly, retain) MinimumUserProto* sender;
 @property (readonly) int64_t clientTime;
-- (NSArray*) fumpsList;
-- (FullUserMonsterProto*) fumpsAtIndex:(int32_t) index;
+- (NSArray*) umchpList;
+- (UserMonsterCurrentHealthProto*) umchpAtIndex:(int32_t) index;
 
 + (UpdateMonsterHealthRequestProto*) defaultInstance;
 - (UpdateMonsterHealthRequestProto*) defaultInstance;
@@ -309,12 +480,12 @@ BOOL BuyMonsterInventorySlotResponseProto_BuyMonsterInventorySlotStatusIsValidVa
 - (UpdateMonsterHealthRequestProto_Builder*) mergeSender:(MinimumUserProto*) value;
 - (UpdateMonsterHealthRequestProto_Builder*) clearSender;
 
-- (NSArray*) fumpsList;
-- (FullUserMonsterProto*) fumpsAtIndex:(int32_t) index;
-- (UpdateMonsterHealthRequestProto_Builder*) replaceFumpsAtIndex:(int32_t) index with:(FullUserMonsterProto*) value;
-- (UpdateMonsterHealthRequestProto_Builder*) addFumps:(FullUserMonsterProto*) value;
-- (UpdateMonsterHealthRequestProto_Builder*) addAllFumps:(NSArray*) values;
-- (UpdateMonsterHealthRequestProto_Builder*) clearFumpsList;
+- (NSArray*) umchpList;
+- (UserMonsterCurrentHealthProto*) umchpAtIndex:(int32_t) index;
+- (UpdateMonsterHealthRequestProto_Builder*) replaceUmchpAtIndex:(int32_t) index with:(UserMonsterCurrentHealthProto*) value;
+- (UpdateMonsterHealthRequestProto_Builder*) addUmchp:(UserMonsterCurrentHealthProto*) value;
+- (UpdateMonsterHealthRequestProto_Builder*) addAllUmchp:(NSArray*) values;
+- (UpdateMonsterHealthRequestProto_Builder*) clearUmchpList;
 
 - (BOOL) hasClientTime;
 - (int64_t) clientTime;
@@ -328,14 +499,14 @@ BOOL BuyMonsterInventorySlotResponseProto_BuyMonsterInventorySlotStatusIsValidVa
   BOOL hasStatus_:1;
   MinimumUserProto* sender;
   UpdateMonsterHealthResponseProto_UpdateMonsterHealthStatus status;
-  NSMutableArray* mutableFumpsList;
+  NSMutableArray* mutableUmchpList;
 }
 - (BOOL) hasSender;
 - (BOOL) hasStatus;
 @property (readonly, retain) MinimumUserProto* sender;
 @property (readonly) UpdateMonsterHealthResponseProto_UpdateMonsterHealthStatus status;
-- (NSArray*) fumpsList;
-- (FullUserMonsterProto*) fumpsAtIndex:(int32_t) index;
+- (NSArray*) umchpList;
+- (UserMonsterCurrentHealthProto*) umchpAtIndex:(int32_t) index;
 
 + (UpdateMonsterHealthResponseProto*) defaultInstance;
 - (UpdateMonsterHealthResponseProto*) defaultInstance;
@@ -378,12 +549,12 @@ BOOL BuyMonsterInventorySlotResponseProto_BuyMonsterInventorySlotStatusIsValidVa
 - (UpdateMonsterHealthResponseProto_Builder*) mergeSender:(MinimumUserProto*) value;
 - (UpdateMonsterHealthResponseProto_Builder*) clearSender;
 
-- (NSArray*) fumpsList;
-- (FullUserMonsterProto*) fumpsAtIndex:(int32_t) index;
-- (UpdateMonsterHealthResponseProto_Builder*) replaceFumpsAtIndex:(int32_t) index with:(FullUserMonsterProto*) value;
-- (UpdateMonsterHealthResponseProto_Builder*) addFumps:(FullUserMonsterProto*) value;
-- (UpdateMonsterHealthResponseProto_Builder*) addAllFumps:(NSArray*) values;
-- (UpdateMonsterHealthResponseProto_Builder*) clearFumpsList;
+- (NSArray*) umchpList;
+- (UserMonsterCurrentHealthProto*) umchpAtIndex:(int32_t) index;
+- (UpdateMonsterHealthResponseProto_Builder*) replaceUmchpAtIndex:(int32_t) index with:(UserMonsterCurrentHealthProto*) value;
+- (UpdateMonsterHealthResponseProto_Builder*) addUmchp:(UserMonsterCurrentHealthProto*) value;
+- (UpdateMonsterHealthResponseProto_Builder*) addAllUmchp:(NSArray*) values;
+- (UpdateMonsterHealthResponseProto_Builder*) clearUmchpList;
 
 - (BOOL) hasStatus;
 - (UpdateMonsterHealthResponseProto_UpdateMonsterHealthStatus) status;
@@ -557,7 +728,7 @@ BOOL BuyMonsterInventorySlotResponseProto_BuyMonsterInventorySlotStatusIsValidVa
   BOOL isSpeedup_:1;
   int32_t gemsForSpeedup;
   MinimumUserProto* sender;
-  NSMutableArray* mutableUserMonsterIdsList;
+  NSMutableArray* mutableUmchpList;
 }
 - (BOOL) hasSender;
 - (BOOL) hasIsSpeedup;
@@ -565,8 +736,8 @@ BOOL BuyMonsterInventorySlotResponseProto_BuyMonsterInventorySlotStatusIsValidVa
 @property (readonly, retain) MinimumUserProto* sender;
 - (BOOL) isSpeedup;
 @property (readonly) int32_t gemsForSpeedup;
-- (NSArray*) userMonsterIdsList;
-- (int64_t) userMonsterIdsAtIndex:(int32_t) index;
+- (NSArray*) umchpList;
+- (UserMonsterCurrentHealthProto*) umchpAtIndex:(int32_t) index;
 
 + (HealMonsterWaitTimeCompleteRequestProto*) defaultInstance;
 - (HealMonsterWaitTimeCompleteRequestProto*) defaultInstance;
@@ -619,12 +790,12 @@ BOOL BuyMonsterInventorySlotResponseProto_BuyMonsterInventorySlotStatusIsValidVa
 - (HealMonsterWaitTimeCompleteRequestProto_Builder*) setGemsForSpeedup:(int32_t) value;
 - (HealMonsterWaitTimeCompleteRequestProto_Builder*) clearGemsForSpeedup;
 
-- (NSArray*) userMonsterIdsList;
-- (int64_t) userMonsterIdsAtIndex:(int32_t) index;
-- (HealMonsterWaitTimeCompleteRequestProto_Builder*) replaceUserMonsterIdsAtIndex:(int32_t) index with:(int64_t) value;
-- (HealMonsterWaitTimeCompleteRequestProto_Builder*) addUserMonsterIds:(int64_t) value;
-- (HealMonsterWaitTimeCompleteRequestProto_Builder*) addAllUserMonsterIds:(NSArray*) values;
-- (HealMonsterWaitTimeCompleteRequestProto_Builder*) clearUserMonsterIdsList;
+- (NSArray*) umchpList;
+- (UserMonsterCurrentHealthProto*) umchpAtIndex:(int32_t) index;
+- (HealMonsterWaitTimeCompleteRequestProto_Builder*) replaceUmchpAtIndex:(int32_t) index with:(UserMonsterCurrentHealthProto*) value;
+- (HealMonsterWaitTimeCompleteRequestProto_Builder*) addUmchp:(UserMonsterCurrentHealthProto*) value;
+- (HealMonsterWaitTimeCompleteRequestProto_Builder*) addAllUmchp:(NSArray*) values;
+- (HealMonsterWaitTimeCompleteRequestProto_Builder*) clearUmchpList;
 @end
 
 @interface HealMonsterWaitTimeCompleteResponseProto : PBGeneratedMessage {

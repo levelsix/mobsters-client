@@ -405,12 +405,11 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
   
   if (gs.level >= gl.maxLevelForUser) {
     [Globals popupMessage:@"Trying to level up when already at maximum level."];
-  } else if (gs.experience >= gs.expRequiredForNextLevel) {
+  } else if (gs.experience >= [gs expNeededForLevel:gs.level+1]) {
     int tag = [[SocketCommunication sharedSocketCommunication] sendLevelUpMessage];
     
     LevelUpdate *lu = [LevelUpdate updateWithTag:tag change:1];
-    ExpForNextLevelUpdate *efnlu = [ExpForNextLevelUpdate updateWithTag:tag prevLevel:gs.expRequiredForCurrentLevel curLevel:gs.expRequiredForNextLevel nextLevel:10000000];
-    [gs addUnrespondedUpdates:lu, efnlu, nil];
+    [gs addUnrespondedUpdate:lu];
   } else {
     [Globals popupMessage:@"Trying to level up without enough experience"];
   }
@@ -583,11 +582,11 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
     [Globals popupMessage:@"Attempting to create clan with inappropriate clan name length."];
   } else if (clanTag.length <= 0 || clanTag.length > gl.maxCharLengthForClanTag) {
     [Globals popupMessage:@"Attempting to create clan with inappropriate clan tag length."];
-  } else if (gs.gold < gl.diamondPriceToCreateClan) {
+  } else if (gs.gold < gl.coinPriceToCreateClan) {
     [Globals popupMessage:@"Attempting to create clan without enough gold."];
   } else {
     int tag = [[SocketCommunication sharedSocketCommunication] sendCreateClanMessage:clanName tag:clanTag description:description requestOnly:requestOnly];
-    [gs addUnrespondedUpdate:[GoldUpdate updateWithTag:tag change:-gl.diamondPriceToCreateClan]];
+    [gs addUnrespondedUpdate:[SilverUpdate updateWithTag:tag change:-gl.coinPriceToCreateClan]];
     [[SocketCommunication sharedSocketCommunication] setDelegate:delegate forTag:tag];
   }
 }
@@ -747,49 +746,6 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
   }
 }
 
-- (void) submitMonsterEnhancement:(int)enhancingId feeders:(NSArray *)feeders {
-  GameState *gs = [GameState sharedGameState];
-  NSMutableArray *userMonsters = [NSMutableArray array];
-  Globals *gl = [Globals sharedGlobals];
-  UserMonster *um = [gs myMonsterWithUserMonsterId:enhancingId];
-  int silverCost = 0;
-  
-  if (feeders.count <= 0) {
-    [Globals popupMessage:@"Attempting to submit enhancement without any feeder monsters."];
-  } else {
-    if (um) {
-      for (NSNumber *n in feeders) {
-        UserMonster *m = nil;//[gs myEquipWithUserEquipId:n.intValue];
-        if (m) {
-          [userMonsters addObject:m];
-        } else {
-          [Globals popupMessage:@"One or more monsters cannot be found."];
-          return;
-        }
-      }
-      
-      silverCost = [gl calculateSilverCostForEnhancement:um feeders:userMonsters];
-      if (gs.silver < silverCost) {
-        [Globals popupMessage:@"Attempting to submit monster enhancement without enough silver"];
-        return;
-      }
-      
-      [userMonsters addObject:um];
-      
-      if (userMonsters.count != feeders.count+1) {
-        [Globals popupMessage:@"Attempting to enhance with a repeated equip."];
-        return;
-      }
-    } else {
-      [Globals popupMessage:@"One or more equips cannot be found."];
-      return;
-    }
-    
-    int tag = [[SocketCommunication sharedSocketCommunication] sendSubmitMonsterEnhancementMessage:enhancingId feeders:feeders clientTime:[self getCurrentMilliseconds]];
-    [gs addUnrespondedUpdate:[SilverUpdate updateWithTag:tag change:-silverCost]];
-  }
-}
-
 - (void) purchaseBoosterPack:(int)boosterPackId {
   GameState *gs = [GameState sharedGameState];
   BoosterPackProto *bpp = [gs boosterPackForId:boosterPackId];
@@ -910,8 +866,6 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
   GameState *gs = [GameState sharedGameState];
   Globals *gl = [Globals sharedGlobals];
   
-  [[SocketCommunication sharedSocketCommunication] flush];
-  
   int goldCost = [gl calculateCostToSpeedupHealingQueue];
   
   if (gs.gold < goldCost) {
@@ -923,18 +877,19 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
       um.curHealth = [gl calculateMaxHealthForMonster:um];
       [arr addObject:[NSNumber numberWithInt:um.userMonsterId]];
     }
-    [gs.monsterHealingQueue removeAllObjects];
     
     int tag = [[SocketCommunication sharedSocketCommunication] sendHealQueueSpeedup:arr goldCost:goldCost];
     [gs addUnrespondedUpdate:[GoldUpdate updateWithTag:tag change:-goldCost]];
+    
+    // Remove after to let the queue update to not be affected
+    [gs.monsterHealingQueue removeAllObjects];
+    [gs stopHealingTimer];
   }
 }
 
 - (void) healQueueWaitTimeComplete:(NSArray *)healingItems {
   GameState *gs = [GameState sharedGameState];
   Globals *gl = [Globals sharedGlobals];
-  
-  [[SocketCommunication sharedSocketCommunication] flush];
   
   NSMutableArray *arr = [NSMutableArray array];
   for (UserMonsterHealingItem *item in healingItems) {
@@ -943,12 +898,159 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
     } else {
       UserMonster *um = [gs myMonsterWithUserMonsterId:item.userMonsterId];
       um.curHealth = [gl calculateMaxHealthForMonster:um];
-      [arr addObject:[NSNumber numberWithInt:um.userMonsterId]];
+      
+      UserMonsterCurrentHealthProto_Builder *monsterHealth = [UserMonsterCurrentHealthProto builder];
+      monsterHealth.userMonsterId = um.userMonsterId;
+      monsterHealth.currentHealth = um.curHealth;
+      [arr addObject:monsterHealth.build];
     }
   }
-  [gs.monsterHealingQueue removeObjectsInArray:healingItems];
   
   [[SocketCommunication sharedSocketCommunication] sendHealQueueWaitTimeComplete:arr];
+  
+  // Remove after to let the queue update to not be affected
+  [gs.monsterHealingQueue removeObjectsInArray:healingItems];
+  [gs beginHealingTimer];
+}
+
+- (void) setBaseEnhanceMonster:(int)userMonsterId {
+  GameState *gs = [GameState sharedGameState];
+  UserMonster *um = [gs myMonsterWithUserMonsterId:userMonsterId];
+  
+  if (gs.userEnhancement) {
+    [Globals popupMessage:@"Trying to set base monster while already enhancing."];
+  } else if ([um isHealing]) {
+    [Globals popupMessage:@"Trying to enhance item that is healing."];
+  } else {
+    EnhancementItem *ei = [[EnhancementItem alloc] init];
+    ei.userMonsterId = userMonsterId;
+    
+    UserEnhancement *ue = [[UserEnhancement alloc] init];
+    ue.baseMonster = ei;
+    ue.feeders = [NSMutableArray array];
+    gs.userEnhancement = ue;
+    
+    um.teamSlot = 0;
+  }
+}
+
+- (void) removeBaseEnhanceMonster {
+  GameState *gs = [GameState sharedGameState];
+  
+  if (!gs.userEnhancement) {
+    [Globals popupMessage:@"Trying to remove base monster without one."];
+  }  else {
+    gs.userEnhancement = nil;
+    
+    [[SocketCommunication sharedSocketCommunication] setEnhanceQueueDirty];
+  }
+}
+
+- (void) addMonsterToEnhancingQueue:(int)userMonsterId {
+  Globals *gl = [Globals sharedGlobals];
+  GameState *gs = [GameState sharedGameState];
+  UserMonster *um = [gs myMonsterWithUserMonsterId:userMonsterId];
+  UserEnhancement *ue = gs.userEnhancement;
+  
+  EnhancementItem *newItem = [[EnhancementItem alloc] init];
+  newItem.userMonsterId = userMonsterId;
+  
+  int silverCost = [gl calculateSilverCostForEnhancement:ue.baseMonster feeder:newItem];
+  if (!ue) {
+    [Globals popupMessage:@"Trying to add feeder without base monster."];
+  } else if ([um isHealing]) {
+    [Globals popupMessage:@"Trying to sacrifice item that is healing."];
+  } else if (gs.silver < silverCost) {
+    [Globals popupMessage:@"Trying to enhance item without enough cash."];
+  } else {
+    [gs addEnhancingItemToEndOfQueue:newItem];
+    
+    um.teamSlot = 0;
+    
+    int tag = [[SocketCommunication sharedSocketCommunication] setEnhanceQueueDirty];
+    [gs addUnrespondedUpdate:[SilverUpdate updateWithTag:tag change:-silverCost]];
+  }
+}
+
+- (void) removeMonsterFromEnhancingQueue:(EnhancementItem *)item {
+  GameState *gs = [GameState sharedGameState];
+  Globals *gl = [Globals sharedGlobals];
+  UserMonster *um = [gs myMonsterWithUserMonsterId:item.userMonsterId];
+  
+  int silverCost = [gl calculateCostToHealMonster:um];
+  if (![gs.userEnhancement.feeders containsObject:item]) {
+    [Globals popupMessage:@"This item is not in the enhancing queue."];
+  } else {
+    [gs removeEnhancingItem:item];
+    
+    int tag = [[SocketCommunication sharedSocketCommunication] setEnhanceQueueDirty];
+    [gs addUnrespondedUpdate:[SilverUpdate updateWithTag:tag change:silverCost]];
+  }
+}
+
+- (void) speedupEnhancingQueue {
+  GameState *gs = [GameState sharedGameState];
+  Globals *gl = [Globals sharedGlobals];
+  
+  int goldCost = [gl calculateCostToSpeedupEnhancement:gs.userEnhancement];
+  
+  if (gs.gold < goldCost) {
+    [Globals popupMessage:@"Trying to speedup enhance queue without enough gold"];
+  } else {
+    NSMutableArray *arr = [NSMutableArray array];
+    EnhancementItem *base = gs.userEnhancement.baseMonster;
+    for (EnhancementItem *item in gs.userEnhancement.feeders) {
+      UserMonster *um = [gs myMonsterWithUserMonsterId:item.userMonsterId];
+      base.userMonster.enhancementPercentage += [gl calculateEnhancementPercentageIncrease:base feeder:item];
+      [arr addObject:[NSNumber numberWithInt:um.userMonsterId]];
+      [gs.myMonsters removeObject:um];
+    }
+    
+    UserMonsterCurrentExpProto_Builder *bldr = [UserMonsterCurrentExpProto builder];
+    bldr.userMonsterId = base.userMonsterId;
+    //      bldr.expectedExperien
+    
+    int tag = [[SocketCommunication sharedSocketCommunication] sendEnhanceQueueSpeedup:bldr.build userMonsterIds:arr goldCost:goldCost];
+    [gs addUnrespondedUpdate:[GoldUpdate updateWithTag:tag change:-goldCost]];
+    
+    // Remove after to let the queue update to not be affected
+    gs.userEnhancement = nil;
+    [gs stopEnhanceTimer];
+  }
+}
+
+- (void) enhanceQueueWaitTimeComplete:(NSArray *)enhancingItems {
+  GameState *gs = [GameState sharedGameState];
+  Globals *gl = [Globals sharedGlobals];
+  
+  NSMutableArray *arr = [NSMutableArray array];
+  EnhancementItem *base = gs.userEnhancement.baseMonster;
+  for (EnhancementItem *item in enhancingItems) {
+    if ([item.expectedEndTime timeIntervalSinceNow] > 0) {
+      [Globals popupMessage:@"Trying to finish enhancing item before time."];
+    } else {
+      UserMonster *um = [gs myMonsterWithUserMonsterId:item.userMonsterId];
+      base.userMonster.enhancementPercentage += [gl calculateEnhancementPercentageIncrease:base feeder:item];
+      [arr addObject:[NSNumber numberWithInt:um.userMonsterId]];
+      [gs.myMonsters removeObject:um];
+    }
+  }
+  
+  UserMonsterCurrentExpProto_Builder *bldr = [UserMonsterCurrentExpProto builder];
+  bldr.userMonsterId = base.userMonsterId;
+  //      bldr.expectedExperien
+  
+  [[SocketCommunication sharedSocketCommunication] sendEnhanceQueueWaitTimeComplete:bldr.build userMonsterIds:arr];
+  
+  // Remove after to let the queue update to not be affected
+  [gs.userEnhancement.feeders removeObjectsInArray:enhancingItems];
+  
+  if (gs.userEnhancement.feeders.count == 0) {
+    gs.userEnhancement = nil;
+    [gs stopEnhanceTimer];
+  } else {
+    [gs beginEnhanceTimer];
+  }
 }
 
 @end

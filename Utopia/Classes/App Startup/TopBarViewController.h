@@ -23,12 +23,12 @@
 
 @end
 
-@interface TopBarViewController : UIViewController
+@interface TopBarViewController : UIViewController <NumTransitionLabelDelegate>
 
 @property (nonatomic, assign) IBOutlet SplitImageProgressBar *expBar;
-@property (nonatomic, assign) IBOutlet UILabel *expLabel;
-@property (nonatomic, assign) IBOutlet UILabel *silverLabel;
-@property (nonatomic, assign) IBOutlet UILabel *goldLabel;
+@property (nonatomic, assign) IBOutlet NumTransitionLabel *expLabel;
+@property (nonatomic, assign) IBOutlet NumTransitionLabel *silverLabel;
+@property (nonatomic, assign) IBOutlet NumTransitionLabel *goldLabel;
 
 @property (nonatomic, assign) UIView *curViewOverChatView;
 

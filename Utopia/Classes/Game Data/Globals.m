@@ -31,7 +31,7 @@
 
 @implementation Globals
 
-static NSString *fontName = @"Dirty Headline";
+static NSString *fontName = @"AxeHandel";
 static int fontSize = 12;
 
 SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
@@ -79,7 +79,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
   self.maxTeamSize = constants.userMonsterConstants.maxNumTeamSlots;
   self.baseInventorySize = constants.userMonsterConstants.initialMaxNumMonsterLimit;
   
-  self.diamondPriceToCreateClan = constants.clanConstants.diamondPriceToCreateClan;
+  self.coinPriceToCreateClan = constants.clanConstants.hasCoinPriceToCreateClan;
   self.maxCharLengthForClanName = constants.clanConstants.maxCharLengthForClanName;
   self.maxCharLengthForClanDescription = constants.clanConstants.maxCharLengthForClanDescription;
   self.maxCharLengthForClanTag = constants.clanConstants.maxCharLengthForClanTag;
@@ -257,6 +257,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
       return @"Legendary";
       
     default:
+      return nil;
       break;
   }
 }
@@ -934,22 +935,53 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
   return 5;
 }
 
+- (int) calculateTotalDamageForMonster:(UserMonster *)um {
+  int fire = [self calculateElementalDamageForMonster:um element:MonsterProto_MonsterElementFire];
+  int water = [self calculateElementalDamageForMonster:um element:MonsterProto_MonsterElementWater];
+  int earth = [self calculateElementalDamageForMonster:um element:MonsterProto_MonsterElementGrass];
+  int light = [self calculateElementalDamageForMonster:um element:MonsterProto_MonsterElementLightning];
+  int night = [self calculateElementalDamageForMonster:um element:MonsterProto_MonsterElementDarkness];
+  
+  return fire+water+earth+light+night;
+}
+
+- (int) calculateElementalDamageForMonster:(UserMonster *)um element:(MonsterProto_MonsterElement)element {
+  GameState *gs = [GameState sharedGameState];
+  MonsterProto *mp = [gs monsterWithId:um.monsterId];
+  
+  int base = 0;
+  switch (element) {
+    case MonsterProto_MonsterElementFire:
+      base = mp.elementOneDmg;
+      break;
+    case MonsterProto_MonsterElementWater:
+      base = mp.elementTwoDmg;
+      break;
+    case MonsterProto_MonsterElementGrass:
+      base = mp.elementThreeDmg;
+      break;
+    case MonsterProto_MonsterElementLightning:
+      base = mp.elementFourDmg;
+      break;
+    case MonsterProto_MonsterElementDarkness:
+      base = mp.elementFiveDmg;
+      break;
+  }
+  return base*pow(mp.attackLevelMultiplier, (int)um.enhancementPercentage-1);
+}
+
 - (int) calculateMaxHealthForMonster:(UserMonster *)um {
   GameState *gs = [GameState sharedGameState];
   MonsterProto *mp = [gs monsterWithId:um.monsterId];
-  return mp.maxHp;
+  return mp.baseHp*pow(mp.hpLevelMultiplier, (int)um.enhancementPercentage-1);
 }
 
 - (int) calculateCostToHealMonster:(UserMonster *)um {
-  GameState *gs = [GameState sharedGameState];
-  MonsterProto *mp = [gs monsterWithId:um.monsterId];
-  return (mp.maxHp-um.curHealth)*10;
+  return ([self calculateMaxHealthForMonster:um]-um.curHealth)*10;
 }
 
 - (int) calculateSecondsToHealMonster:(UserMonster *)um {
-  GameState *gs = [GameState sharedGameState];
-  MonsterProto *mp = [gs monsterWithId:um.monsterId];
-  return (mp.maxHp-um.curHealth)*3;
+  return ([self calculateMaxHealthForMonster:um]-um.curHealth)*3;
 }
 
 - (int) calculateTimeLeftToHealAllMonstersInQueue {
@@ -971,55 +1003,43 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
   return timeLeft/60+1;
 }
 
-- (float) calculatePercentOfLevel:(int)percentage {
-  return 0;
-}
-
-- (int) calculateEnhancementLevel:(int)percentage {
-  return 0;
-}
-
-- (int) calculateEnhancementPercentageToNextLevel:(int)percentage {
-  return 10000;
-}
-
-- (int) calculateEnhancementPercentageIncrease:(UserMonster *)enhancingMonster feeders:(NSArray *)feeders {
-  //  int change = 0;
-  //  for (UserEquip *f in feeders) {
-  //    change += [self calculateEnhancementPercentageIncrease:enhancingEquip feeder:f];
-  //  }
-  //
-  //  int maxChange = ([self calculateEnhancementLevel:enhancingEquip.enhancementPercentage]+1)*self.enhancePercentPerLevel-enhancingEquip.enhancementPercentage;
-  //
-  //  //  LNLog(@"totalChange=%d maxChange=%d", change, maxChange);
-  //  return MIN(maxChange, change);
-  return 10;
-}
-
-- (int) calculateEnhancementPercentageIncrease:(UserMonster *)enhancingMonster feeder:(UserMonster *)feeder {
-  //  int mainAttack = [self calculateAttackForEquip:enhancingEquip.equipId level:enhancingEquip.level enhancePercent:enhancingEquip.enhancementPercentage];
-  //  int mainDefense = [self calculateDefenseForEquip:enhancingEquip.equipId level:enhancingEquip.level enhancePercent:enhancingEquip.enhancementPercentage];
-  //  int feederAttack = [self calculateAttackForEquip:feeder.equipId level:feeder.level enhancePercent:feeder.enhancementPercentage];
-  //  int feederDefense = [self calculateDefenseForEquip:feeder.equipId level:feeder.level enhancePercent:feeder.enhancementPercentage];
-  //
-  //  int mainStats = mainAttack + mainDefense;
-  //  int feederStats = feederAttack + feederDefense;
-  //
-  //  int result = (int)((((float)feederStats)/mainStats)/(self.enhancePercentConstantA*powf(self.enhancePercentConstantB, [self calculateEnhancementLevel:enhancingEquip.enhancementPercentage]+1))*self.enhancePercentPerLevel);
-  //
-  //  //  LNLog(@"percentage=%d", result);
-  //  return MAX(result, 1);
-  return 1;
-}
-
-- (int) calculateSilverCostForEnhancement:(UserMonster *)enhancingMonster feeders:(NSArray *)feeders {
-  //  int stats = 0;
-  //  for (UserEquip *f in feeders) {
-  //    stats += [self calculateAttackForEquip:f.equipId level:f.level enhancePercent:f.enhancementPercentage];
-  //    stats += [self calculateDefenseForEquip:f.equipId level:f.level enhancePercent:f.enhancementPercentage];
-  //  }
+- (float) calculateEnhancementPercentageIncrease:(UserEnhancement *)ue {
+  float change = 0;
+  for (EnhancementItem *f in ue.feeders) {
+    change += [self calculateEnhancementPercentageIncrease:ue.baseMonster feeder:f];
+  }
   
-  return 5;
+  return change;
+}
+
+- (float) calculateEnhancementPercentageIncrease:(EnhancementItem *)baseMonster feeder:(EnhancementItem *)feeder {
+  return 0.05;
+}
+
+- (int) calculateSilverCostForEnhancement:(EnhancementItem *)baseMonster feeder:(EnhancementItem *)feeder {
+  return 100;
+}
+
+- (int) calculateSecondsForEnhancement:(EnhancementItem *)baseMonster feeder:(EnhancementItem *)feeder {
+  return 30;
+}
+
+- (int) calculateTimeLeftForEnhancement:(UserEnhancement *)ue {
+  int timeLeft = 0;
+  for (int i = 0; i < ue.feeders.count; i++) {
+    EnhancementItem *item = [ue.feeders objectAtIndex:i];
+    if (i == 0) {
+      timeLeft += [item.expectedEndTime timeIntervalSinceNow];
+    } else {
+      timeLeft += [item secondsForCompletion];
+    }
+  }
+  return timeLeft;
+}
+
+- (int) calculateCostToSpeedupEnhancement:(UserEnhancement *)ue {
+  int timeLeft = [self calculateTimeLeftForEnhancement:ue];
+  return timeLeft/60+1;
 }
 
 + (void) popupMessage:(NSString *)msg {

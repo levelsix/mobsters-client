@@ -20,6 +20,7 @@
     self.userMonsterId = proto.userMonsterId;
     self.enhancementPercentage = proto.enhancementPercentage;
     self.curHealth = proto.currentHealth;
+    self.teamSlot = proto.teamSlotNum;
   }
   return self;
 }
@@ -32,6 +33,21 @@
   GameState *gs = [GameState sharedGameState];
   for (UserMonsterHealingItem *item in gs.monsterHealingQueue) {
     if (item.userMonsterId == self.userMonsterId) {
+      return YES;
+    }
+  }
+  return NO;
+}
+
+- (BOOL) isEnhancing {
+  GameState *gs = [GameState sharedGameState];
+  return self.userMonsterId == gs.userEnhancement.baseMonster.userMonsterId;
+}
+
+- (BOOL) isSacrificing {
+  GameState *gs = [GameState sharedGameState];
+  for (EnhancementItem *ei in gs.userEnhancement.feeders) {
+    if (self.userMonsterId == ei.userMonsterId) {
       return YES;
     }
   }
@@ -113,6 +129,130 @@
 
 - (NSString *) description {
   return [NSString stringWithFormat:@"%p: %d, %@", self, self.userMonsterId, self.expectedStartTime];
+}
+
+@end
+
+@implementation UserEnhancement
+
++(id) enhancementWithUserEnhancementProto:(UserEnhancementProto *)proto {
+  return [[self alloc] initWithUserEnhancementProto:proto];
+}
+
+- (id) initWithUserEnhancementProto:(UserEnhancementProto *)proto {
+  if ((self = [super init])) {
+    if (proto.hasBaseMonster) {
+      self.baseMonster = [EnhancementItem itemWithUserEnhancementItemProto:proto.baseMonster];
+    }
+    self.feeders = [NSMutableArray array];
+    
+    for (UserEnhancementItemProto *item in proto.feedersList) {
+      [self.feeders addObject:[EnhancementItem itemWithUserEnhancementItemProto:item]];
+    }
+    
+    [self.feeders sortUsingComparator:^NSComparisonResult(EnhancementItem *obj1, EnhancementItem *obj2) {
+      return [obj1.expectedStartTime compare:obj2.expectedStartTime];
+    }];
+  }
+  
+  return self;
+}
+
+- (float) currentPercentageOfLevel {
+  Globals *gl = [Globals sharedGlobals];
+  UserMonster *base = self.baseMonster.userMonster;
+  float curPerc = base.enhancementPercentage-(int)base.enhancementPercentage;
+  
+  if (self.feeders.count == 0) {
+    return curPerc;
+  }
+  
+  EnhancementItem *feeder = [self.feeders objectAtIndex:0];
+  float addedPerc = [gl calculateEnhancementPercentageIncrease:self.baseMonster feeder:feeder];
+  return curPerc+feeder.currentPercentage*addedPerc;
+}
+
+- (float) finalPercentageFromCurrentLevel {
+  Globals *gl = [Globals sharedGlobals];
+  UserMonster *base = self.baseMonster.userMonster;
+  float curPerc = base.enhancementPercentage-(int)base.enhancementPercentage;
+  float addedPerc = [gl calculateEnhancementPercentageIncrease:self];
+  return curPerc+addedPerc;
+}
+
+- (id) copy {
+  UserEnhancement *ue = [[UserEnhancement alloc] init];
+  ue.baseMonster = [self.baseMonster copy];
+  ue.feeders = [self.feeders clone];
+  return ue;
+}
+
+@end
+
+@implementation EnhancementItem
+
++ (id) itemWithUserEnhancementItemProto:(UserEnhancementItemProto *)proto {
+  return [[self alloc] initWithUserEnhancementItemProto:proto];
+}
+
+- (id) initWithUserEnhancementItemProto:(UserEnhancementItemProto *)proto {
+  if ((self = [super init])) {
+    self.userMonsterId = proto.userMonsterId;
+    self.expectedStartTime = proto.hasExpectedStartTimeMillis ? [NSDate dateWithTimeIntervalSince1970:proto.expectedStartTimeMillis/1000.] : nil;
+  }
+  return self;
+}
+
+- (float) currentPercentage {
+  int totalTime = self.secondsForCompletion;
+  float timeCompleted = totalTime - [self.expectedEndTime timeIntervalSinceNow];
+  return timeCompleted/totalTime;
+}
+
+- (int) secondsForCompletion {
+  GameState *gs = [GameState sharedGameState];
+  Globals *gl = [Globals sharedGlobals];
+  return [gl calculateSecondsForEnhancement:gs.userEnhancement.baseMonster feeder:self];
+}
+
+- (NSDate *) expectedEndTime {
+  return [self.expectedStartTime dateByAddingTimeInterval:self.secondsForCompletion];
+}
+
+- (UserMonster *) userMonster {
+  GameState *gs = [GameState sharedGameState];
+  return [gs myMonsterWithUserMonsterId:self.userMonsterId];
+}
+
+- (UserEnhancementItemProto *) convertToProto {
+  UserEnhancementItemProto_Builder *bldr = [UserEnhancementItemProto builder];
+  bldr.userMonsterId = self.userMonsterId;
+  if (self.expectedStartTime) {
+    bldr.expectedStartTimeMillis = self.expectedStartTime.timeIntervalSince1970*1000;
+  }
+  return bldr.build;
+}
+
+- (id) copy {
+  EnhancementItem *item = [[EnhancementItem alloc] init];
+  item.userMonsterId = self.userMonsterId;
+  item.expectedStartTime = [self.expectedStartTime copy];
+  return item;
+}
+
+- (BOOL) isEqual:(UserMonsterHealingItem *)object {
+  if (![object respondsToSelector:@selector(userMonsterId)]) {
+    return NO;
+  }
+  return object.userMonsterId == self.userMonsterId;
+}
+
+- (NSUInteger) hash {
+  return self.userMonsterId;
+}
+
+- (NSString *) description {
+  return [NSString stringWithFormat:@"Id %d: %@", self.userMonsterId, self.expectedStartTime];
 }
 
 @end

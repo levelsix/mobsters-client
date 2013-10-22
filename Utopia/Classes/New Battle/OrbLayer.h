@@ -8,16 +8,17 @@
 
 #import <Foundation/Foundation.h>
 #import "cocos2d.h"
+#import "Protocols.pb.h"
 
 #define NUM_COLORS 3
 #define TIME_LIMIT 100
 
 typedef enum {
-  color_purple = 1,
-  color_green,
-  color_blue,
-  color_red,
-  color_white,
+  color_red = MonsterProto_MonsterElementFire,
+  color_blue = MonsterProto_MonsterElementWater,
+  color_green = MonsterProto_MonsterElementGrass,
+  color_white = MonsterProto_MonsterElementLightning,
+  color_purple = MonsterProto_MonsterElementDarkness,
   color_all = 10
 } GemColorId;
 

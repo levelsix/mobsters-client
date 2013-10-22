@@ -66,7 +66,7 @@
                             <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
                         </view>
                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="ypZ-pO-MBF">
-                            <rect key="frame" x="97" y="4" width="29" height="30"/>
+                            <rect key="frame" x="97" y="7" width="29" height="30"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                             <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
@@ -111,36 +111,13 @@
                 <outlet property="delegate" destination="-1" id="z7A-cO-iDf"/>
                 <outlet property="healButtonLabel" destination="zGJ-gE-pds" id="Nq9-72-dnt"/>
                 <outlet property="healButtonView" destination="Wm9-ww-UVt" id="Qx5-fF-ciA"/>
-                <outlet property="healingLabel" destination="Xt8-hf-poh" id="MCr-ZP-sSq"/>
-                <outlet property="healingMask" destination="8iv-vR-9OI" id="alL-o8-73h"/>
-                <outlet property="healingView" destination="K72-8S-D2o" id="FAa-0o-fWD"/>
                 <outlet property="mainView" destination="p6p-JM-bCJ" id="Rma-VH-QBO"/>
                 <outlet property="minusButton" destination="AEJ-cB-Bwm" id="eeg-QM-1cg"/>
+                <outlet property="overlayLabel" destination="g5d-rb-swq" id="a0E-kZ-VJA"/>
+                <outlet property="overlayMask" destination="BLx-gL-DWQ" id="5Zw-9Z-CpA"/>
+                <outlet property="overlayView" destination="riF-Ia-GOZ" id="JM6-1q-3pP"/>
                 <outlet property="plusButton" destination="ypZ-pO-MBF" id="nRt-rE-eNq"/>
             </connections>
-        </view>
-        <view userInteractionEnabled="NO" contentMode="scaleToFill" id="K72-8S-D2o">
-            <rect key="frame" x="0.0" y="0.0" width="107" height="130"/>
-            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-            <subviews>
-                <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="healingoverlay.png" id="8iv-vR-9OI">
-                    <rect key="frame" x="0.0" y="0.0" width="107" height="130"/>
-                    <autoresizingMask key="autoresizingMask"/>
-                </imageView>
-                <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="healingheart.png" id="yIC-WC-cTJ">
-                    <rect key="frame" x="41" y="44" width="24" height="21"/>
-                    <autoresizingMask key="autoresizingMask"/>
-                </imageView>
-                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Healing..." textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="9" id="Xt8-hf-poh" customClass="NiceFontLabel">
-                    <rect key="frame" x="9" y="73" width="88" height="21"/>
-                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                    <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="calibratedRGB"/>
-                    <nil key="highlightedColor"/>
-                </label>
-            </subviews>
-            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-            <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
         </view>
         <view contentMode="scaleToFill" id="CXM-wn-sG4">
             <rect key="frame" x="0.0" y="0.0" width="107" height="130"/>
@@ -175,6 +152,25 @@
                 </imageView>
                 <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="25" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="mBr-YE-xw7" customClass="NiceFontLabel">
                     <rect key="frame" x="54" y="65" width="42" height="21"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                    <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="calibratedRGB"/>
+                    <nil key="highlightedColor"/>
+                </label>
+            </subviews>
+            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+            <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
+        </view>
+        <view userInteractionEnabled="NO" contentMode="scaleToFill" id="riF-Ia-GOZ">
+            <rect key="frame" x="0.0" y="0.0" width="107" height="130"/>
+            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+            <subviews>
+                <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="healingoverlay.png" id="BLx-gL-DWQ">
+                    <rect key="frame" x="0.0" y="0.0" width="107" height="130"/>
+                    <autoresizingMask key="autoresizingMask"/>
+                </imageView>
+                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Enhancing" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="9" id="g5d-rb-swq" customClass="NiceFontLabel">
+                    <rect key="frame" x="9" y="53" width="88" height="21"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                     <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="calibratedRGB"/>

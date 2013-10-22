@@ -426,14 +426,15 @@ static StartupRequestProto* defaultStartupRequestProtoInstance = nil;
 @property (retain) NSMutableArray* mutableGlobalChatsList;
 @property (retain) NSMutableArray* mutableClanChatsList;
 @property (retain) NSMutableArray* mutablePcppList;
+@property (retain) NSMutableArray* mutableLarepList;
 @property (retain) NSMutableArray* mutableStaticStructsList;
 @property (retain) NSMutableArray* mutableExpansionCostsList;
 @property (retain) NSMutableArray* mutableStaticMonstersList;
 @property (retain) NSMutableArray* mutableUsersMonstersList;
 @property (retain) NSMutableArray* mutableMonstersHealingList;
+@property (retain) UserEnhancementProto* enhancements;
 @property (retain) NSMutableArray* mutableRareBoosterPurchasesList;
 @property (retain) NSString* kabamNaid;
-@property (retain) NSMutableArray* mutableLarepList;
 @end
 
 @implementation StartupResponseProto
@@ -518,11 +519,19 @@ static StartupRequestProto* defaultStartupRequestProtoInstance = nil;
 @synthesize mutableGlobalChatsList;
 @synthesize mutableClanChatsList;
 @synthesize mutablePcppList;
+@synthesize mutableLarepList;
 @synthesize mutableStaticStructsList;
 @synthesize mutableExpansionCostsList;
 @synthesize mutableStaticMonstersList;
 @synthesize mutableUsersMonstersList;
 @synthesize mutableMonstersHealingList;
+- (BOOL) hasEnhancements {
+  return !!hasEnhancements_;
+}
+- (void) setHasEnhancements:(BOOL) value {
+  hasEnhancements_ = !!value;
+}
+@synthesize enhancements;
 @synthesize mutableRareBoosterPurchasesList;
 - (BOOL) hasKabamNaid {
   return !!hasKabamNaid_;
@@ -531,7 +540,6 @@ static StartupRequestProto* defaultStartupRequestProtoInstance = nil;
   hasKabamNaid_ = !!value;
 }
 @synthesize kabamNaid;
-@synthesize mutableLarepList;
 - (void) dealloc {
   self.sender = nil;
   self.startupConstants = nil;
@@ -550,14 +558,15 @@ static StartupRequestProto* defaultStartupRequestProtoInstance = nil;
   self.mutableGlobalChatsList = nil;
   self.mutableClanChatsList = nil;
   self.mutablePcppList = nil;
+  self.mutableLarepList = nil;
   self.mutableStaticStructsList = nil;
   self.mutableExpansionCostsList = nil;
   self.mutableStaticMonstersList = nil;
   self.mutableUsersMonstersList = nil;
   self.mutableMonstersHealingList = nil;
+  self.enhancements = nil;
   self.mutableRareBoosterPurchasesList = nil;
   self.kabamNaid = nil;
-  self.mutableLarepList = nil;
   [super dealloc];
 }
 - (id) init {
@@ -571,6 +580,7 @@ static StartupRequestProto* defaultStartupRequestProtoInstance = nil;
     self.reviewPageUrl = @"";
     self.reviewPageConfirmationMessage = @"";
     self.playerHasBoughtInAppPurchase = NO;
+    self.enhancements = [UserEnhancementProto defaultInstance];
     self.kabamNaid = @"";
   }
   return self;
@@ -671,6 +681,13 @@ static StartupResponseProto* defaultStartupResponseProtoInstance = nil;
   id value = [mutablePcppList objectAtIndex:index];
   return value;
 }
+- (NSArray*) larepList {
+  return mutableLarepList;
+}
+- (LevelAndRequiredExpProto*) larepAtIndex:(int32_t) index {
+  id value = [mutableLarepList objectAtIndex:index];
+  return value;
+}
 - (NSArray*) staticStructsList {
   return mutableStaticStructsList;
 }
@@ -711,13 +728,6 @@ static StartupResponseProto* defaultStartupResponseProtoInstance = nil;
 }
 - (RareBoosterPurchaseProto*) rareBoosterPurchasesAtIndex:(int32_t) index {
   id value = [mutableRareBoosterPurchasesList objectAtIndex:index];
-  return value;
-}
-- (NSArray*) larepList {
-  return mutableLarepList;
-}
-- (LevelAndRequiredExpProto*) larepAtIndex:(int32_t) index {
-  id value = [mutableLarepList objectAtIndex:index];
   return value;
 }
 - (BOOL) isInitialized {
@@ -787,29 +797,32 @@ static StartupResponseProto* defaultStartupResponseProtoInstance = nil;
   for (PrivateChatPostProto* element in self.pcppList) {
     [output writeMessage:21 value:element];
   }
-  for (FullStructureProto* element in self.staticStructsList) {
+  for (LevelAndRequiredExpProto* element in self.larepList) {
     [output writeMessage:22 value:element];
   }
-  for (CityExpansionCostProto* element in self.expansionCostsList) {
+  for (FullStructureProto* element in self.staticStructsList) {
     [output writeMessage:23 value:element];
   }
-  for (MonsterProto* element in self.staticMonstersList) {
+  for (CityExpansionCostProto* element in self.expansionCostsList) {
     [output writeMessage:24 value:element];
   }
-  for (FullUserMonsterProto* element in self.usersMonstersList) {
+  for (MonsterProto* element in self.staticMonstersList) {
     [output writeMessage:25 value:element];
   }
-  for (UserMonsterHealingProto* element in self.monstersHealingList) {
+  for (FullUserMonsterProto* element in self.usersMonstersList) {
     [output writeMessage:26 value:element];
   }
-  for (RareBoosterPurchaseProto* element in self.rareBoosterPurchasesList) {
+  for (UserMonsterHealingProto* element in self.monstersHealingList) {
     [output writeMessage:27 value:element];
   }
-  if (self.hasKabamNaid) {
-    [output writeString:28 value:self.kabamNaid];
+  if (self.hasEnhancements) {
+    [output writeMessage:28 value:self.enhancements];
   }
-  for (LevelAndRequiredExpProto* element in self.larepList) {
+  for (RareBoosterPurchaseProto* element in self.rareBoosterPurchasesList) {
     [output writeMessage:29 value:element];
+  }
+  if (self.hasKabamNaid) {
+    [output writeString:30 value:self.kabamNaid];
   }
   [self.unknownFields writeToCodedOutputStream:output];
 }
@@ -888,29 +901,32 @@ static StartupResponseProto* defaultStartupResponseProtoInstance = nil;
   for (PrivateChatPostProto* element in self.pcppList) {
     size += computeMessageSize(21, element);
   }
-  for (FullStructureProto* element in self.staticStructsList) {
+  for (LevelAndRequiredExpProto* element in self.larepList) {
     size += computeMessageSize(22, element);
   }
-  for (CityExpansionCostProto* element in self.expansionCostsList) {
+  for (FullStructureProto* element in self.staticStructsList) {
     size += computeMessageSize(23, element);
   }
-  for (MonsterProto* element in self.staticMonstersList) {
+  for (CityExpansionCostProto* element in self.expansionCostsList) {
     size += computeMessageSize(24, element);
   }
-  for (FullUserMonsterProto* element in self.usersMonstersList) {
+  for (MonsterProto* element in self.staticMonstersList) {
     size += computeMessageSize(25, element);
   }
-  for (UserMonsterHealingProto* element in self.monstersHealingList) {
+  for (FullUserMonsterProto* element in self.usersMonstersList) {
     size += computeMessageSize(26, element);
   }
-  for (RareBoosterPurchaseProto* element in self.rareBoosterPurchasesList) {
+  for (UserMonsterHealingProto* element in self.monstersHealingList) {
     size += computeMessageSize(27, element);
   }
-  if (self.hasKabamNaid) {
-    size += computeStringSize(28, self.kabamNaid);
+  if (self.hasEnhancements) {
+    size += computeMessageSize(28, self.enhancements);
   }
-  for (LevelAndRequiredExpProto* element in self.larepList) {
+  for (RareBoosterPurchaseProto* element in self.rareBoosterPurchasesList) {
     size += computeMessageSize(29, element);
+  }
+  if (self.hasKabamNaid) {
+    size += computeStringSize(30, self.kabamNaid);
   }
   size += self.unknownFields.serializedSize;
   memoizedSerializedSize = size;
@@ -2426,7 +2442,7 @@ static StartupResponseProto_StartupConstants_AnimatedSpriteOffsetProto* defaultS
 @end
 
 @interface StartupResponseProto_StartupConstants_ClanConstants ()
-@property int32_t diamondPriceToCreateClan;
+@property int32_t coinPriceToCreateClan;
 @property int32_t maxCharLengthForClanName;
 @property int32_t maxCharLengthForClanDescription;
 @property int32_t maxCharLengthForClanTag;
@@ -2434,13 +2450,13 @@ static StartupResponseProto_StartupConstants_AnimatedSpriteOffsetProto* defaultS
 
 @implementation StartupResponseProto_StartupConstants_ClanConstants
 
-- (BOOL) hasDiamondPriceToCreateClan {
-  return !!hasDiamondPriceToCreateClan_;
+- (BOOL) hasCoinPriceToCreateClan {
+  return !!hasCoinPriceToCreateClan_;
 }
-- (void) setHasDiamondPriceToCreateClan:(BOOL) value {
-  hasDiamondPriceToCreateClan_ = !!value;
+- (void) setHasCoinPriceToCreateClan:(BOOL) value {
+  hasCoinPriceToCreateClan_ = !!value;
 }
-@synthesize diamondPriceToCreateClan;
+@synthesize coinPriceToCreateClan;
 - (BOOL) hasMaxCharLengthForClanName {
   return !!hasMaxCharLengthForClanName_;
 }
@@ -2467,7 +2483,7 @@ static StartupResponseProto_StartupConstants_AnimatedSpriteOffsetProto* defaultS
 }
 - (id) init {
   if ((self = [super init])) {
-    self.diamondPriceToCreateClan = 0;
+    self.coinPriceToCreateClan = 0;
     self.maxCharLengthForClanName = 0;
     self.maxCharLengthForClanDescription = 0;
     self.maxCharLengthForClanTag = 0;
@@ -2490,8 +2506,8 @@ static StartupResponseProto_StartupConstants_ClanConstants* defaultStartupRespon
   return YES;
 }
 - (void) writeToCodedOutputStream:(PBCodedOutputStream*) output {
-  if (self.hasDiamondPriceToCreateClan) {
-    [output writeInt32:1 value:self.diamondPriceToCreateClan];
+  if (self.hasCoinPriceToCreateClan) {
+    [output writeInt32:1 value:self.coinPriceToCreateClan];
   }
   if (self.hasMaxCharLengthForClanName) {
     [output writeInt32:2 value:self.maxCharLengthForClanName];
@@ -2511,8 +2527,8 @@ static StartupResponseProto_StartupConstants_ClanConstants* defaultStartupRespon
   }
 
   size = 0;
-  if (self.hasDiamondPriceToCreateClan) {
-    size += computeInt32Size(1, self.diamondPriceToCreateClan);
+  if (self.hasCoinPriceToCreateClan) {
+    size += computeInt32Size(1, self.coinPriceToCreateClan);
   }
   if (self.hasMaxCharLengthForClanName) {
     size += computeInt32Size(2, self.maxCharLengthForClanName);
@@ -2598,8 +2614,8 @@ static StartupResponseProto_StartupConstants_ClanConstants* defaultStartupRespon
   if (other == [StartupResponseProto_StartupConstants_ClanConstants defaultInstance]) {
     return self;
   }
-  if (other.hasDiamondPriceToCreateClan) {
-    [self setDiamondPriceToCreateClan:other.diamondPriceToCreateClan];
+  if (other.hasCoinPriceToCreateClan) {
+    [self setCoinPriceToCreateClan:other.coinPriceToCreateClan];
   }
   if (other.hasMaxCharLengthForClanName) {
     [self setMaxCharLengthForClanName:other.maxCharLengthForClanName];
@@ -2632,7 +2648,7 @@ static StartupResponseProto_StartupConstants_ClanConstants* defaultStartupRespon
         break;
       }
       case 8: {
-        [self setDiamondPriceToCreateClan:[input readInt32]];
+        [self setCoinPriceToCreateClan:[input readInt32]];
         break;
       }
       case 16: {
@@ -2650,20 +2666,20 @@ static StartupResponseProto_StartupConstants_ClanConstants* defaultStartupRespon
     }
   }
 }
-- (BOOL) hasDiamondPriceToCreateClan {
-  return result.hasDiamondPriceToCreateClan;
+- (BOOL) hasCoinPriceToCreateClan {
+  return result.hasCoinPriceToCreateClan;
 }
-- (int32_t) diamondPriceToCreateClan {
-  return result.diamondPriceToCreateClan;
+- (int32_t) coinPriceToCreateClan {
+  return result.coinPriceToCreateClan;
 }
-- (StartupResponseProto_StartupConstants_ClanConstants_Builder*) setDiamondPriceToCreateClan:(int32_t) value {
-  result.hasDiamondPriceToCreateClan = YES;
-  result.diamondPriceToCreateClan = value;
+- (StartupResponseProto_StartupConstants_ClanConstants_Builder*) setCoinPriceToCreateClan:(int32_t) value {
+  result.hasCoinPriceToCreateClan = YES;
+  result.coinPriceToCreateClan = value;
   return self;
 }
-- (StartupResponseProto_StartupConstants_ClanConstants_Builder*) clearDiamondPriceToCreateClan {
-  result.hasDiamondPriceToCreateClan = NO;
-  result.diamondPriceToCreateClan = 0;
+- (StartupResponseProto_StartupConstants_ClanConstants_Builder*) clearCoinPriceToCreateClan {
+  result.hasCoinPriceToCreateClan = NO;
+  result.coinPriceToCreateClan = 0;
   return self;
 }
 - (BOOL) hasMaxCharLengthForClanName {
@@ -4251,6 +4267,12 @@ static StartupResponseProto_StartupConstants_UserMonsterConstants* defaultStartu
     }
     [result.mutablePcppList addObjectsFromArray:other.mutablePcppList];
   }
+  if (other.mutableLarepList.count > 0) {
+    if (result.mutableLarepList == nil) {
+      result.mutableLarepList = [NSMutableArray array];
+    }
+    [result.mutableLarepList addObjectsFromArray:other.mutableLarepList];
+  }
   if (other.mutableStaticStructsList.count > 0) {
     if (result.mutableStaticStructsList == nil) {
       result.mutableStaticStructsList = [NSMutableArray array];
@@ -4281,6 +4303,9 @@ static StartupResponseProto_StartupConstants_UserMonsterConstants* defaultStartu
     }
     [result.mutableMonstersHealingList addObjectsFromArray:other.mutableMonstersHealingList];
   }
+  if (other.hasEnhancements) {
+    [self mergeEnhancements:other.enhancements];
+  }
   if (other.mutableRareBoosterPurchasesList.count > 0) {
     if (result.mutableRareBoosterPurchasesList == nil) {
       result.mutableRareBoosterPurchasesList = [NSMutableArray array];
@@ -4289,12 +4314,6 @@ static StartupResponseProto_StartupConstants_UserMonsterConstants* defaultStartu
   }
   if (other.hasKabamNaid) {
     [self setKabamNaid:other.kabamNaid];
-  }
-  if (other.mutableLarepList.count > 0) {
-    if (result.mutableLarepList == nil) {
-      result.mutableLarepList = [NSMutableArray array];
-    }
-    [result.mutableLarepList addObjectsFromArray:other.mutableLarepList];
   }
   [self mergeUnknownFields:other.unknownFields];
   return self;
@@ -4444,49 +4463,58 @@ static StartupResponseProto_StartupConstants_UserMonsterConstants* defaultStartu
         break;
       }
       case 178: {
+        LevelAndRequiredExpProto_Builder* subBuilder = [LevelAndRequiredExpProto builder];
+        [input readMessage:subBuilder extensionRegistry:extensionRegistry];
+        [self addLarep:[subBuilder buildPartial]];
+        break;
+      }
+      case 186: {
         FullStructureProto_Builder* subBuilder = [FullStructureProto builder];
         [input readMessage:subBuilder extensionRegistry:extensionRegistry];
         [self addStaticStructs:[subBuilder buildPartial]];
         break;
       }
-      case 186: {
+      case 194: {
         CityExpansionCostProto_Builder* subBuilder = [CityExpansionCostProto builder];
         [input readMessage:subBuilder extensionRegistry:extensionRegistry];
         [self addExpansionCosts:[subBuilder buildPartial]];
         break;
       }
-      case 194: {
+      case 202: {
         MonsterProto_Builder* subBuilder = [MonsterProto builder];
         [input readMessage:subBuilder extensionRegistry:extensionRegistry];
         [self addStaticMonsters:[subBuilder buildPartial]];
         break;
       }
-      case 202: {
+      case 210: {
         FullUserMonsterProto_Builder* subBuilder = [FullUserMonsterProto builder];
         [input readMessage:subBuilder extensionRegistry:extensionRegistry];
         [self addUsersMonsters:[subBuilder buildPartial]];
         break;
       }
-      case 210: {
+      case 218: {
         UserMonsterHealingProto_Builder* subBuilder = [UserMonsterHealingProto builder];
         [input readMessage:subBuilder extensionRegistry:extensionRegistry];
         [self addMonstersHealing:[subBuilder buildPartial]];
         break;
       }
-      case 218: {
+      case 226: {
+        UserEnhancementProto_Builder* subBuilder = [UserEnhancementProto builder];
+        if (self.hasEnhancements) {
+          [subBuilder mergeFrom:self.enhancements];
+        }
+        [input readMessage:subBuilder extensionRegistry:extensionRegistry];
+        [self setEnhancements:[subBuilder buildPartial]];
+        break;
+      }
+      case 234: {
         RareBoosterPurchaseProto_Builder* subBuilder = [RareBoosterPurchaseProto builder];
         [input readMessage:subBuilder extensionRegistry:extensionRegistry];
         [self addRareBoosterPurchases:[subBuilder buildPartial]];
         break;
       }
-      case 226: {
+      case 242: {
         [self setKabamNaid:[input readString]];
-        break;
-      }
-      case 234: {
-        LevelAndRequiredExpProto_Builder* subBuilder = [LevelAndRequiredExpProto builder];
-        [input readMessage:subBuilder extensionRegistry:extensionRegistry];
-        [self addLarep:[subBuilder buildPartial]];
         break;
       }
     }
@@ -5014,6 +5042,35 @@ static StartupResponseProto_StartupConstants_UserMonsterConstants* defaultStartu
   [result.mutablePcppList addObject:value];
   return self;
 }
+- (NSArray*) larepList {
+  if (result.mutableLarepList == nil) { return [NSArray array]; }
+  return result.mutableLarepList;
+}
+- (LevelAndRequiredExpProto*) larepAtIndex:(int32_t) index {
+  return [result larepAtIndex:index];
+}
+- (StartupResponseProto_Builder*) replaceLarepAtIndex:(int32_t) index with:(LevelAndRequiredExpProto*) value {
+  [result.mutableLarepList replaceObjectAtIndex:index withObject:value];
+  return self;
+}
+- (StartupResponseProto_Builder*) addAllLarep:(NSArray*) values {
+  if (result.mutableLarepList == nil) {
+    result.mutableLarepList = [NSMutableArray array];
+  }
+  [result.mutableLarepList addObjectsFromArray:values];
+  return self;
+}
+- (StartupResponseProto_Builder*) clearLarepList {
+  result.mutableLarepList = nil;
+  return self;
+}
+- (StartupResponseProto_Builder*) addLarep:(LevelAndRequiredExpProto*) value {
+  if (result.mutableLarepList == nil) {
+    result.mutableLarepList = [NSMutableArray array];
+  }
+  [result.mutableLarepList addObject:value];
+  return self;
+}
 - (NSArray*) staticStructsList {
   if (result.mutableStaticStructsList == nil) { return [NSArray array]; }
   return result.mutableStaticStructsList;
@@ -5159,6 +5216,36 @@ static StartupResponseProto_StartupConstants_UserMonsterConstants* defaultStartu
   [result.mutableMonstersHealingList addObject:value];
   return self;
 }
+- (BOOL) hasEnhancements {
+  return result.hasEnhancements;
+}
+- (UserEnhancementProto*) enhancements {
+  return result.enhancements;
+}
+- (StartupResponseProto_Builder*) setEnhancements:(UserEnhancementProto*) value {
+  result.hasEnhancements = YES;
+  result.enhancements = value;
+  return self;
+}
+- (StartupResponseProto_Builder*) setEnhancementsBuilder:(UserEnhancementProto_Builder*) builderForValue {
+  return [self setEnhancements:[builderForValue build]];
+}
+- (StartupResponseProto_Builder*) mergeEnhancements:(UserEnhancementProto*) value {
+  if (result.hasEnhancements &&
+      result.enhancements != [UserEnhancementProto defaultInstance]) {
+    result.enhancements =
+      [[[UserEnhancementProto builderWithPrototype:result.enhancements] mergeFrom:value] buildPartial];
+  } else {
+    result.enhancements = value;
+  }
+  result.hasEnhancements = YES;
+  return self;
+}
+- (StartupResponseProto_Builder*) clearEnhancements {
+  result.hasEnhancements = NO;
+  result.enhancements = [UserEnhancementProto defaultInstance];
+  return self;
+}
 - (NSArray*) rareBoosterPurchasesList {
   if (result.mutableRareBoosterPurchasesList == nil) { return [NSArray array]; }
   return result.mutableRareBoosterPurchasesList;
@@ -5202,35 +5289,6 @@ static StartupResponseProto_StartupConstants_UserMonsterConstants* defaultStartu
 - (StartupResponseProto_Builder*) clearKabamNaid {
   result.hasKabamNaid = NO;
   result.kabamNaid = @"";
-  return self;
-}
-- (NSArray*) larepList {
-  if (result.mutableLarepList == nil) { return [NSArray array]; }
-  return result.mutableLarepList;
-}
-- (LevelAndRequiredExpProto*) larepAtIndex:(int32_t) index {
-  return [result larepAtIndex:index];
-}
-- (StartupResponseProto_Builder*) replaceLarepAtIndex:(int32_t) index with:(LevelAndRequiredExpProto*) value {
-  [result.mutableLarepList replaceObjectAtIndex:index withObject:value];
-  return self;
-}
-- (StartupResponseProto_Builder*) addAllLarep:(NSArray*) values {
-  if (result.mutableLarepList == nil) {
-    result.mutableLarepList = [NSMutableArray array];
-  }
-  [result.mutableLarepList addObjectsFromArray:values];
-  return self;
-}
-- (StartupResponseProto_Builder*) clearLarepList {
-  result.mutableLarepList = nil;
-  return self;
-}
-- (StartupResponseProto_Builder*) addLarep:(LevelAndRequiredExpProto*) value {
-  if (result.mutableLarepList == nil) {
-    result.mutableLarepList = [NSMutableArray array];
-  }
-  [result.mutableLarepList addObject:value];
   return self;
 }
 @end

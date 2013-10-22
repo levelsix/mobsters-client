@@ -16,6 +16,7 @@
 #import "ClanViewController.h"
 #import "Downloader.h"
 #import "GameLayer.h"
+#import "SocketCommunication.h"
 
 #define TagLog(...) //LNLog(__VA_ARGS__)
 
@@ -53,12 +54,6 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
     _unrespondedUpdates = [[NSMutableArray alloc] init];
     
     _requestedClans = [[NSMutableArray alloc] init];
-    
-    _silver = 10000;
-    _gold = 50;
-    _level = 12;
-    _experience = 30;
-    _expRequiredForNextLevel = 40;
   }
   return self;
 }
@@ -110,6 +105,34 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
       [gsu update];
     }
   }
+  
+  [[NSNotificationCenter defaultCenter] postNotificationName:GAMESTATE_UPDATE_NOTIFICATION object:nil];
+}
+
+- (FullUserProto *) convertToFullUserProto {
+  FullUserProto_Builder *fup = [FullUserProto builder];
+  fup.userId = self.userId;
+  fup.name = self.name;
+  if (self.clan) fup.clan = self.clan;
+  fup.level = self.level;
+  fup.diamonds = self.gold;
+  fup.coins = self.silver;
+  fup.experience = self.experience;
+  fup.tasksCompleted = self.tasksCompleted;
+  fup.battlesWon = self.battlesWon;
+  fup.battlesLost = self.battlesLost;
+  fup.flees = self.flees;
+  fup.referralCode = self.referralCode;
+  fup.numReferrals = self.numReferrals;
+  fup.isAdmin = self.isAdmin;
+  fup.hasReceivedfbReward = self.hasReceivedfbReward;
+  fup.numBeginnerSalesPurchased = self.numBeginnerSalesPurchased;
+  fup.hasActiveShield = self.hasActiveShield;
+  fup.createTime = self.createTime.timeIntervalSince1970*1000.;
+  fup.numAdditionalMonsterSlots = self.numAdditionalMonsterSlots;
+  fup.lastLogoutTime = self.lastLogoutTime.timeIntervalSince1970*1000.;
+  
+  return [fup build];
 }
 
 - (MinimumUserProto *) minUser {
@@ -269,6 +292,15 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
   }
 }
 
+- (void) addAllLevelRequiredExps:(NSArray *)lurep {
+  self.levelRequiredExps = [NSMutableDictionary dictionary];
+  for (LevelAndRequiredExpProto *exp in lurep) {
+    NSNumber *level = [NSNumber numberWithInt:exp.level];
+    NSNumber *expVal = [NSNumber numberWithInt:exp.requiredExperience];
+    [self.levelRequiredExps setObject:expVal forKey:level];
+  }
+}
+
 - (void) addNotification:(UserNotification *)un {
   [self.notifications addObject:un];
   [self.notifications sortUsingComparator:^NSComparisonResult(UserNotification *obj1, UserNotification *obj2) {
@@ -353,7 +385,64 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
     return [obj1.expectedStartTime compare:obj2.expectedStartTime];
   }];
   
+  [[SocketCommunication sharedSocketCommunication] reloadHealQueueSnapshot];
+  
   [self beginHealingTimer];
+}
+
+- (void) addEnhancingItemToEndOfQueue:(EnhancementItem *)item {
+  if (self.userEnhancement.feeders.count == 0) {
+    item.expectedStartTime = [NSDate date];
+  } else {
+    EnhancementItem *prevItem = [self.userEnhancement.feeders lastObject];
+    item.expectedStartTime = prevItem.expectedEndTime;
+  }
+  
+  [self.userEnhancement.feeders addObject:item];
+  
+  [self beginEnhanceTimer];
+}
+
+- (void) removeEnhancingItem:(EnhancementItem *)item {
+  NSMutableArray *feeders = self.userEnhancement.feeders;
+  int index = [feeders indexOfObject:item];
+  int total = feeders.count;
+  
+  if (index != NSNotFound) {
+    if (total > index+1) {
+      EnhancementItem *next = [feeders objectAtIndex:index+1];
+      if (index == 0) {
+        next.expectedStartTime = [NSDate date];
+      } else {
+        EnhancementItem *prev = [feeders objectAtIndex:index-1];
+        next.expectedStartTime = prev.expectedEndTime;
+      }
+      
+      for (int i = index+2; i < total; i++) {
+        EnhancementItem *next2 = [feeders objectAtIndex:i];
+        EnhancementItem *next1 = [feeders objectAtIndex:i-1];
+        next2.expectedStartTime = next1.expectedEndTime;
+        
+      }
+    }
+  }
+  [feeders removeObject:item];
+  
+  [self beginEnhanceTimer];
+}
+
+- (void) addEnhancementProto:(UserEnhancementProto *)proto {
+  if (proto) {
+    self.userEnhancement = [UserEnhancement enhancementWithUserEnhancementProto:proto];
+    [[SocketCommunication sharedSocketCommunication] reloadEnhancementSnapshot];
+    
+    if (self.userEnhancement.feeders.count == 0) {
+      self.userEnhancement = nil;
+      [[SocketCommunication sharedSocketCommunication] setEnhanceQueueDirty];
+    }
+    
+    [self beginEnhanceTimer];
+  }
 }
 
 - (UserMonster *) myMonsterWithUserMonsterId:(int)userMonsterId {
@@ -523,6 +612,21 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
   }
 }
 
+- (int) expNeededForLevel:(int)level {
+  return [[self.levelRequiredExps objectForKey:[NSNumber numberWithInt:level]] intValue];
+}
+
+- (int) currentExpForLevel {
+  int thisLevel = [[self.levelRequiredExps objectForKey:[NSNumber numberWithInt:self.level]] intValue];
+  return self.experience-thisLevel;
+}
+
+- (int) expDeltaNeededForNextLevel {
+  int thisLevel = [self expNeededForLevel:self.level];
+  int nextLevel = [self expNeededForLevel:self.level+1];
+  return MAX(1, nextLevel-thisLevel);
+}
+
 - (UserExpansion *) getExpansionForX:(int)x y:(int)y {
   for (UserExpansion *e in self.userExpansions) {
     if (e.xPosition == x && e.yPosition == y) {
@@ -625,6 +729,47 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
   if (_healingTimer) {
     [_healingTimer invalidate];
     _healingTimer = nil;
+  }
+}
+
+- (void) beginEnhanceTimer {
+  [self stopEnhanceTimer];
+  
+  if (self.userEnhancement.feeders.count > 0) {
+    EnhancementItem *item = [self.userEnhancement.feeders objectAtIndex:0];
+    if ([item.expectedEndTime timeIntervalSinceNow] <= 0) {
+      [self enhancingWaitTimeComplete];
+    } else {
+      _enhanceTimer = [NSTimer timerWithTimeInterval:item.expectedEndTime.timeIntervalSinceNow target:self selector:@selector(enhancingWaitTimeComplete) userInfo:nil repeats:NO];
+      [[NSRunLoop mainRunLoop] addTimer:_enhanceTimer forMode:NSRunLoopCommonModes];
+      
+      NSLog(@"Began timer for %d secs", (int)item.expectedEndTime.timeIntervalSinceNow);
+    }
+  }
+}
+
+- (void) enhancingWaitTimeComplete {
+  NSMutableArray *arr = [NSMutableArray array];
+  for (EnhancementItem *item in self.userEnhancement.feeders) {
+    if ([item.expectedEndTime timeIntervalSinceNow] <= 0) {
+      [arr addObject:item];
+    }
+  }
+  
+  if (arr.count > 0) {
+    NSLog(@"Firing wait time complete for %d items", arr.count);
+    
+    [[OutgoingEventController sharedOutgoingEventController] enhanceQueueWaitTimeComplete:arr];
+    [[NSNotificationCenter defaultCenter] postNotificationName:ENHANCE_WAIT_COMPLETE_NOTIFICATION object:nil];
+    [self beginEnhanceTimer];
+  }
+}
+
+- (void) stopEnhanceTimer {
+  if (_enhanceTimer) {
+    NSLog(@"Stopping timer..");
+    [_enhanceTimer invalidate];
+    _enhanceTimer = nil;
   }
 }
 

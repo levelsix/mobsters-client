@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="4510" systemVersion="12F45" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none">
+    <dependencies>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="3742"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="QuestListViewController">
+            <connections>
+                <outlet property="questListCell" destination="zhC-k2-ZJd" id="KXs-1o-s2d"/>
+            </connections>
+        </placeholder>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <tableViewCell contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" reuseIdentifier="QuestListCell" rowHeight="65" id="zhC-k2-ZJd" customClass="QuestListCell">
+            <rect key="frame" x="0.0" y="0.0" width="356" height="64"/>
+            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+            <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="zhC-k2-ZJd" id="o9l-gn-5aR">
+                <rect key="frame" x="0.0" y="0.0" width="356" height="63"/>
+                <autoresizingMask key="autoresizingMask"/>
+                <subviews>
+                    <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="questbg.png" id="qEQ-tK-MUG">
+                        <rect key="frame" x="10" y="6" width="336" height="51"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </imageView>
+                    <imageView opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" image="luchadoretest.png" id="ojf-AA-Qk0">
+                        <rect key="frame" x="20" y="9" width="39" height="41"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </imageView>
+                    <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Launder Cash" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="9" id="SU5-MW-GES" customClass="NiceFontLabel">
+                        <rect key="frame" x="67" y="13" width="153" height="34"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                        <fontDescription key="fontDescription" type="system" pointSize="20"/>
+                        <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <color key="highlightedColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <color key="shadowColor" red="0.0" green="0.0" blue="0.0" alpha="0.29999999999999999" colorSpace="calibratedRGB"/>
+                        <size key="shadowOffset" width="0.0" height="1"/>
+                    </label>
+                    <view userInteractionEnabled="NO" contentMode="scaleToFill" id="9gQ-Uv-BsG">
+                        <rect key="frame" x="219" y="16" width="30" height="31"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                        <subviews>
+                            <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="newbg.png" id="4hB-ZR-t35">
+                                <rect key="frame" x="0.0" y="0.0" width="30" height="31"/>
+                                <autoresizingMask key="autoresizingMask"/>
+                            </imageView>
+                        </subviews>
+                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                    </view>
+                    <view userInteractionEnabled="NO" contentMode="scaleToFill" id="q7b-3z-wgo">
+                        <rect key="frame" x="260" y="15" width="76" height="29"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                        <subviews>
+                            <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="questnumberbg.png" id="CKR-QW-osy">
+                                <rect key="frame" x="0.0" y="1" width="57" height="30"/>
+                                <autoresizingMask key="autoresizingMask"/>
+                            </imageView>
+                            <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="questarrow.png" id="hx0-uQ-oah">
+                                <rect key="frame" x="64" y="5" width="12" height="19"/>
+                                <autoresizingMask key="autoresizingMask"/>
+                            </imageView>
+                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="0/1" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="10" adjustsFontSizeToFit="NO" id="9X9-Tx-n5t" customClass="NiceFontLabel">
+                                <rect key="frame" x="3" y="-3" width="51" height="35"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="18"/>
+                                <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <nil key="highlightedColor"/>
+                                <color key="shadowColor" red="0.0" green="0.0" blue="0.0" alpha="0.29999999999999999" colorSpace="calibratedRGB"/>
+                                <size key="shadowOffset" width="0.0" height="1"/>
+                            </label>
+                            <activityIndicatorView opaque="NO" contentMode="scaleToFill" animating="YES" style="white" id="kwx-2P-VZR">
+                                <rect key="frame" x="18" y="5" width="20" height="20"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            </activityIndicatorView>
+                        </subviews>
+                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                    </view>
+                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="vjp-9s-tuZ" customClass="MaskedButton">
+                        <rect key="frame" x="10" y="6" width="336" height="51"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                        <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                        <state key="normal">
+                            <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                        </state>
+                        <connections>
+                            <action selector="darkOverlayClicked:" destination="zhC-k2-ZJd" eventType="touchUpInside" id="MFV-ac-IlA"/>
+                            <outlet property="baseImage" destination="qEQ-tK-MUG" id="Ls5-xO-IyR"/>
+                        </connections>
+                    </button>
+                </subviews>
+            </tableViewCellContentView>
+            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+            <connections>
+                <outlet property="nameLabel" destination="SU5-MW-GES" id="8Ec-8h-1yw"/>
+                <outlet property="progressLabel" destination="9X9-Tx-n5t" id="ZPj-L3-P97"/>
+                <outlet property="questGiverImageView" destination="ojf-AA-Qk0" id="rSy-tc-rv0"/>
+                <outlet property="spinner" destination="kwx-2P-VZR" id="JPQ-BT-j6M"/>
+            </connections>
+        </tableViewCell>
+    </objects>
+    <resources>
+        <image name="luchadoretest.png" width="39" height="46"/>
+        <image name="newbg.png" width="30" height="31"/>
+        <image name="questarrow.png" width="11" height="18"/>
+        <image name="questbg.png" width="336" height="51"/>
+        <image name="questnumberbg.png" width="57" height="30"/>
+    </resources>
+</document>

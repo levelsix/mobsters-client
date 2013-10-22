@@ -12,10 +12,28 @@
 @class MinimumUserTaskProto_Builder;
 @class MonsterProto;
 @class MonsterProto_Builder;
+@class TaskStageMonsterProto;
+@class TaskStageMonsterProto_Builder;
 @class TaskStageProto;
 @class TaskStageProto_Builder;
+@class UserEnhancementItemProto;
+@class UserEnhancementItemProto_Builder;
+@class UserEnhancementProto;
+@class UserEnhancementProto_Builder;
+@class UserMonsterCurrentExpProto;
+@class UserMonsterCurrentExpProto_Builder;
+@class UserMonsterCurrentHealthProto;
+@class UserMonsterCurrentHealthProto_Builder;
 @class UserMonsterHealingProto;
 @class UserMonsterHealingProto_Builder;
+typedef enum {
+  TaskStageMonsterProto_MonsterTypeRegular = 1,
+  TaskStageMonsterProto_MonsterTypeMiniBoss = 2,
+  TaskStageMonsterProto_MonsterTypeBoss = 3,
+} TaskStageMonsterProto_MonsterType;
+
+BOOL TaskStageMonsterProto_MonsterTypeIsValidValue(TaskStageMonsterProto_MonsterType value);
+
 
 @interface TaskRoot : NSObject {
 }
@@ -27,12 +45,12 @@
 @private
   BOOL hasStageId_:1;
   int32_t stageId;
-  NSMutableArray* mutableMpList;
+  NSMutableArray* mutableStageMonstersList;
 }
 - (BOOL) hasStageId;
 @property (readonly) int32_t stageId;
-- (NSArray*) mpList;
-- (MonsterProto*) mpAtIndex:(int32_t) index;
+- (NSArray*) stageMonstersList;
+- (TaskStageMonsterProto*) stageMonstersAtIndex:(int32_t) index;
 
 + (TaskStageProto*) defaultInstance;
 - (TaskStageProto*) defaultInstance;
@@ -73,12 +91,12 @@
 - (TaskStageProto_Builder*) setStageId:(int32_t) value;
 - (TaskStageProto_Builder*) clearStageId;
 
-- (NSArray*) mpList;
-- (MonsterProto*) mpAtIndex:(int32_t) index;
-- (TaskStageProto_Builder*) replaceMpAtIndex:(int32_t) index with:(MonsterProto*) value;
-- (TaskStageProto_Builder*) addMp:(MonsterProto*) value;
-- (TaskStageProto_Builder*) addAllMp:(NSArray*) values;
-- (TaskStageProto_Builder*) clearMpList;
+- (NSArray*) stageMonstersList;
+- (TaskStageMonsterProto*) stageMonstersAtIndex:(int32_t) index;
+- (TaskStageProto_Builder*) replaceStageMonstersAtIndex:(int32_t) index with:(TaskStageMonsterProto*) value;
+- (TaskStageProto_Builder*) addStageMonsters:(TaskStageMonsterProto*) value;
+- (TaskStageProto_Builder*) addAllStageMonsters:(NSArray*) values;
+- (TaskStageProto_Builder*) clearStageMonstersList;
 @end
 
 @interface FullTaskProto : PBGeneratedMessage {
@@ -220,5 +238,98 @@
 - (int32_t) numTimesActed;
 - (MinimumUserTaskProto_Builder*) setNumTimesActed:(int32_t) value;
 - (MinimumUserTaskProto_Builder*) clearNumTimesActed;
+@end
+
+@interface TaskStageMonsterProto : PBGeneratedMessage {
+@private
+  BOOL hasPuzzlePieceDropped_:1;
+  BOOL hasMonsterId_:1;
+  BOOL hasExpReward_:1;
+  BOOL hasSilverReward_:1;
+  BOOL hasLevel_:1;
+  BOOL hasMonsterType_:1;
+  BOOL puzzlePieceDropped_:1;
+  int32_t monsterId;
+  int32_t expReward;
+  int32_t silverReward;
+  int32_t level;
+  TaskStageMonsterProto_MonsterType monsterType;
+}
+- (BOOL) hasMonsterId;
+- (BOOL) hasMonsterType;
+- (BOOL) hasExpReward;
+- (BOOL) hasSilverReward;
+- (BOOL) hasPuzzlePieceDropped;
+- (BOOL) hasLevel;
+@property (readonly) int32_t monsterId;
+@property (readonly) TaskStageMonsterProto_MonsterType monsterType;
+@property (readonly) int32_t expReward;
+@property (readonly) int32_t silverReward;
+- (BOOL) puzzlePieceDropped;
+@property (readonly) int32_t level;
+
++ (TaskStageMonsterProto*) defaultInstance;
+- (TaskStageMonsterProto*) defaultInstance;
+
+- (BOOL) isInitialized;
+- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output;
+- (TaskStageMonsterProto_Builder*) builder;
++ (TaskStageMonsterProto_Builder*) builder;
++ (TaskStageMonsterProto_Builder*) builderWithPrototype:(TaskStageMonsterProto*) prototype;
+
++ (TaskStageMonsterProto*) parseFromData:(NSData*) data;
++ (TaskStageMonsterProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (TaskStageMonsterProto*) parseFromInputStream:(NSInputStream*) input;
++ (TaskStageMonsterProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (TaskStageMonsterProto*) parseFromCodedInputStream:(PBCodedInputStream*) input;
++ (TaskStageMonsterProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+@end
+
+@interface TaskStageMonsterProto_Builder : PBGeneratedMessage_Builder {
+@private
+  TaskStageMonsterProto* result;
+}
+
+- (TaskStageMonsterProto*) defaultInstance;
+
+- (TaskStageMonsterProto_Builder*) clear;
+- (TaskStageMonsterProto_Builder*) clone;
+
+- (TaskStageMonsterProto*) build;
+- (TaskStageMonsterProto*) buildPartial;
+
+- (TaskStageMonsterProto_Builder*) mergeFrom:(TaskStageMonsterProto*) other;
+- (TaskStageMonsterProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input;
+- (TaskStageMonsterProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+
+- (BOOL) hasMonsterId;
+- (int32_t) monsterId;
+- (TaskStageMonsterProto_Builder*) setMonsterId:(int32_t) value;
+- (TaskStageMonsterProto_Builder*) clearMonsterId;
+
+- (BOOL) hasMonsterType;
+- (TaskStageMonsterProto_MonsterType) monsterType;
+- (TaskStageMonsterProto_Builder*) setMonsterType:(TaskStageMonsterProto_MonsterType) value;
+- (TaskStageMonsterProto_Builder*) clearMonsterType;
+
+- (BOOL) hasExpReward;
+- (int32_t) expReward;
+- (TaskStageMonsterProto_Builder*) setExpReward:(int32_t) value;
+- (TaskStageMonsterProto_Builder*) clearExpReward;
+
+- (BOOL) hasSilverReward;
+- (int32_t) silverReward;
+- (TaskStageMonsterProto_Builder*) setSilverReward:(int32_t) value;
+- (TaskStageMonsterProto_Builder*) clearSilverReward;
+
+- (BOOL) hasPuzzlePieceDropped;
+- (BOOL) puzzlePieceDropped;
+- (TaskStageMonsterProto_Builder*) setPuzzlePieceDropped:(BOOL) value;
+- (TaskStageMonsterProto_Builder*) clearPuzzlePieceDropped;
+
+- (BOOL) hasLevel;
+- (int32_t) level;
+- (TaskStageMonsterProto_Builder*) setLevel:(int32_t) value;
+- (TaskStageMonsterProto_Builder*) clearLevel;
 @end
 

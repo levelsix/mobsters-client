@@ -52,7 +52,7 @@
 }
 
 - (IBAction)labClicked:(id)sender {
-//  [self.navigationController pushViewController:[[EnhanceViewController alloc] init] animated:YES];
+  [self.navigationController pushViewController:[[EnhanceViewController alloc] init] animated:YES];
 }
 
 - (IBAction)clansClicked:(id)sender {

@@ -14,77 +14,7 @@
 
 - (void) awakeFromNib {
   [Globals adjustFontSizeForUILabel:self];
-  self.font = [UIFont fontWithName:[Globals font] size:self.font.pointSize];
-}
-
-@end
-
-@implementation NiceFontLabel2
-
-- (void) awakeFromNib {
-//  [Globals adjustFontSizeForUILabel:self];
-  self.font = [UIFont fontWithName:@"DIN-Bold" size:self.font.pointSize];
-}
-
-@end
-
-@implementation NiceFontLabel3
-
-- (void) awakeFromNib {
-  [Globals adjustFontSizeForUILabel:self];
-  self.font = [UIFont fontWithName:@"Trajan Pro" size:self.font.pointSize];
-}
-
-@end
-
-@implementation NiceFontLabel4
-
-- (void) awakeFromNib {
-  [Globals adjustFontSizeForUILabel:self];
-  self.font = [UIFont fontWithName:@"AJensonPro-SemiboldDisp" size:self.font.pointSize];
-}
-
-@end
-
-@implementation NiceFontLabel5
-
-- (void) awakeFromNib {
-  self.font = [UIFont fontWithName:@"Requiem Text-HTF-SmallCaps" size:self.font.pointSize];
-}
-
-@end
-
-@implementation NiceFontLabel6
-
-- (void) awakeFromNib {
-  self.font = [UIFont fontWithName:@"DINCond-Black" size:self.font.pointSize];
-}
-
-@end
-
-@implementation NiceFontLabel7
-
-- (void) awakeFromNib {
-  [Globals adjustFontSizeForUILabel:self];
-  self.font = [UIFont fontWithName:@"SanvitoPro-Semibold" size:self.font.pointSize];
-}
-
-@end
-
-@implementation NiceFontLabel8
-
-- (void) awakeFromNib {
-  [Globals adjustFontSizeForUILabel:self];
-  self.font = [UIFont fontWithName:@"Archer-BoldItalic" size:self.font.pointSize];
-}
-
-@end
-
-@implementation NiceFontLabel9
-
-- (void) awakeFromNib {
-//  [Globals adjustFontSizeForUILabel:self];
-  self.font = [UIFont fontWithName:@"UnZialish" size:self.font.pointSize];
+  self.font = [UIFont fontWithName:[Globals font] size:self.font.pointSize+2];
 }
 
 @end
@@ -146,62 +76,20 @@
 
 @end
 
-@implementation NiceFontTextFieldDelegate
-@synthesize otherDelegate;
-
-- (BOOL) textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string {
-  NSString *str = [textField.text stringByReplacingCharactersInRange:range withString:string];
-  NiceFontTextField *nftf = (NiceFontTextField *)textField;
-  [nftf.label setText:str];
-  [nftf.label sizeToFit];
-  
-  if ([otherDelegate respondsToSelector:@selector(textField:shouldChangeCharactersInRange:replacementString:)]) {
-    return [otherDelegate textField:textField shouldChangeCharactersInRange:range replacementString:string];
-  }
-  return YES;
-}
-
-- (void) textFieldDidEndEditing:(UITextField *)textField {
-  if ([otherDelegate respondsToSelector:@selector(textFieldDidEndEditing:)]) {
-    [otherDelegate textFieldDidEndEditing:textField];
-  }
-}
-
-- (void) textFieldDidBeginEditing:(UITextField *)textField {
-  if ([otherDelegate respondsToSelector:@selector(textFieldDidBeginEditing:)]) {
-    [otherDelegate textFieldDidBeginEditing:textField];
-  }
-}
-
-- (BOOL) textFieldShouldReturn:(UITextField *)textField {
-  if ([otherDelegate respondsToSelector:@selector(textFieldShouldReturn:)]) {
-    return [otherDelegate textFieldShouldReturn:textField];
-  }
-  return NO;
-}
-
-@end
-
 @implementation NiceFontTextField
 
-@synthesize label, nfDelegate;
-
 - (void) awakeFromNib {
-  label = [[UILabel alloc] initWithFrame:self.bounds];
-  
   self.font =  [UIFont fontWithName:[Globals font] size:self.font.pointSize];
-  label.font = self.font;
-  label.backgroundColor = [UIColor clearColor];
-  [Globals adjustFontSizeForUILabel:label];
-  
-  nfDelegate = [[NiceFontTextFieldDelegate alloc] init];
-  nfDelegate.otherDelegate = self.delegate;
-  self.delegate = nfDelegate;
 }
 
-- (void) setText:(NSString *)text {
-  [super setText:text];
-  label.text = self.text;
+- (void) drawPlaceholderInRect:(CGRect)rect {
+  CGSize size = [self.placeholder sizeWithFont:self.font constrainedToSize:rect.size];
+  rect.origin.y = rect.size.height/2-size.height/2;
+  rect.size = size;
+  
+  UIColor *c = [UIColor colorWithWhite:0.5f alpha:1.f];
+  NSDictionary *dict = [NSDictionary dictionaryWithObjectsAndKeys:self.font, UITextAttributeFont, c, UITextAttributeTextColor, nil];
+  [[self placeholder] drawInRect:rect withAttributes:dict];
 }
 
 @end
@@ -652,6 +540,97 @@
   [self unclickButton:kButton2];
   _trackingButton1 = NO;
   _trackingButton2 = NO;
+}
+
+@end
+
+@implementation NumTransitionLabel
+
+- (void) instaMoveToNum:(int)num {
+  _currentNum = num;
+  _goalNum = num;
+  [self.transitionDelegate updateLabel:self forNumber:_currentNum];
+}
+
+- (void) transitionToNum:(int)num {
+  if (num != _currentNum) {
+    _goalNum = num;
+    if (!self.timer) {
+      self.timer = [NSTimer timerWithTimeInterval:0.04 target:self selector:@selector(moveToNextNum) userInfo:nil repeats:YES];
+      [[NSRunLoop mainRunLoop] addTimer:self.timer forMode:NSRunLoopCommonModes];
+    }
+    [self moveToNextNum];
+  } else {
+    [self.transitionDelegate updateLabel:self forNumber:_currentNum];
+    if ([self.transitionDelegate respondsToSelector:@selector(labelReachedGoalNum:)]) {
+      [self.transitionDelegate labelReachedGoalNum:self];
+    }
+  }
+}
+
+- (void) moveToNextNum {
+  if (_currentNum != _goalNum) {
+    int diff = _goalNum - _currentNum;
+    int change = 0;
+    if (diff > 0) {
+      change = MAX((int)(0.1*diff), 1);
+    } else if (diff < 0) {
+      change = MIN((int)(0.1*diff), -1);
+    }
+    
+    _currentNum += change;
+    [self.transitionDelegate updateLabel:self forNumber:_currentNum];
+  } else {
+    if ([self.transitionDelegate respondsToSelector:@selector(labelReachedGoalNum:)]) {
+      [self.transitionDelegate labelReachedGoalNum:self];
+    }
+    [self.timer invalidate];
+    self.timer = nil;
+  }
+}
+
+@end
+
+@implementation UnderlinedLabelView
+
+- (void) awakeFromNib {
+  self.underlineView = [[UIView alloc] initWithFrame:CGRectZero];
+  [self addSubview:self.underlineView];
+  
+  self.button = [[UIButton alloc] initWithFrame:self.bounds];
+  [self addSubview:self.button];
+  [self.button addTarget:self action:@selector(buttonClicked:) forControlEvents:UIControlEventTouchUpInside];
+}
+
+- (void)setString:(NSString *)string isEnabled:(BOOL)isEnabled {
+  CGSize size = [string sizeWithFont:self.label.font constrainedToSize:self.label.frame.size];
+  self.label.text = string;
+  self.underlineView.frame = CGRectMake(0, 0, size.width, 1);
+  // Have to use size.height/3 because half seems too much
+  self.underlineView.center = CGPointMake(self.label.center.x, self.label.center.y+size.height/3+1);
+  self.underlineView.backgroundColor = self.label.textColor;
+  
+  self.button.hidden = YES;
+  self.label.hidden = NO;
+  self.underlineView.hidden = !isEnabled;
+  
+  UIView *view = self;
+  UIGraphicsBeginImageContextWithOptions(view.bounds.size, NO, 0.0);
+  [view.layer renderInContext:UIGraphicsGetCurrentContext()];
+  UIImage *image = UIGraphicsGetImageFromCurrentImageContext();
+  UIGraphicsEndImageContext();
+  
+  self.button.hidden = NO;
+  self.label.hidden = YES;
+//  self.underlineView.hidden = YES;
+  
+  [self.button setImage:image forState:UIControlStateNormal];
+  
+  self.button.userInteractionEnabled = isEnabled;
+}
+
+- (IBAction)buttonClicked:(id)sender {
+  [self.delegate labelClicked:self];
 }
 
 @end

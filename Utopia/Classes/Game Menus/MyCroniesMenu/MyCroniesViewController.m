@@ -10,6 +10,8 @@
 #import "Globals.h"
 #import "GameState.h"
 #import "OutgoingEventController.h"
+#import "SocketCommunication.h"
+#import "MonsterPopUpViewController.h"
 
 #define TABLE_CELL_WIDTH 123
 #define HEADER_OFFSET 8
@@ -38,18 +40,13 @@
   [self.updateTimer invalidate];
   self.updateTimer = nil;
   
+  [[SocketCommunication sharedSocketCommunication] flush];
+  
   [[NSNotificationCenter defaultCenter] removeObserver:self.inventoryTable name:HEAL_WAIT_COMPLETE_NOTIFICATION object:nil];
 }
 
 - (void) updateLabels {
   [self.queueView updateTimes];
-  
-  NSString *str = [[NSString stringWithFormat:@"Healing..."] stringByReplacingCharactersInRange:NSMakeRange(7, 3-_numHealingDots) withString:@""];
-  for (MyCroniesCardCell *cell in self.inventoryTable.visibleViews) {
-    cell.healingLabel.text = str;
-  }
-  _numHealingDots++;
-  _numHealingDots %= 4;
 }
 
 - (void) initHeaders {
@@ -151,12 +148,12 @@
   GameState *gs = [GameState sharedGameState];
   if (indexPath.section == 0) {
     UserMonster *um = [gs myMonsterWithSlotNumber:indexPath.row+1];
-    [view updateForUserMonster:um isOnMyTeam:YES isHealing:[um isHealing]];
+    [view updateForUserMonster:um isOnMyTeam:YES];
   } else if (indexPath.section == 2) {
     int numCells = [self numberOfCellsForEasyTableView:easyTableView inSection:indexPath.section];
     if (indexPath.row < numCells-1) {
       UserMonster *um = indexPath.row < self.monstersNotOnTeam.count ? [self.monstersNotOnTeam objectAtIndex:indexPath.row] : nil;
-      [view updateForUserMonster:um isOnMyTeam:NO isHealing:[um isHealing]];
+      [view updateForUserMonster:um isOnMyTeam:NO];
     } else {
       // Buy slots cell
       [view updateForBuySlots];
@@ -190,7 +187,13 @@
 }
 
 - (void) cardClicked:(MyCroniesCardCell *)cell {
-  
+  if (cell.monster) {
+    MonsterPopUpViewController *mpvc = [[MonsterPopUpViewController alloc] initWithMonsterProto:cell.monster];
+    UIViewController *parent = self.navigationController;
+    mpvc.view.frame = parent.view.bounds;
+    [parent.view addSubview:mpvc.view];
+    [parent addChildViewController:mpvc];
+  }
 }
 
 #pragma mark - MyCroniesQueueDelegate methods

@@ -102,6 +102,7 @@ BOOL EventProtocolRequestIsValidValue(EventProtocolRequest value) {
     case EventProtocolRequestCAddMonsterToBattleTeamEvent:
     case EventProtocolRequestCRemoveMonsterFromBattleTeamEvent:
     case EventProtocolRequestCBuyMonsterInventorySlotEvent:
+    case EventProtocolRequestCEnhancementWaitTimeCompleteEvent:
     case EventProtocolRequestCLogoutEvent:
       return YES;
     default:
@@ -162,6 +163,7 @@ BOOL EventProtocolResponseIsValidValue(EventProtocolResponse value) {
     case EventProtocolResponseSAddMonsterToBattleTeamEvent:
     case EventProtocolResponseSRemoveMonsterFromBattleTeamEvent:
     case EventProtocolResponseSBuyMonsterInventorySlotEvent:
+    case EventProtocolResponseSEnhancementWaitTimeCompleteEvent:
     case EventProtocolResponseSUpdateClientUserEvent:
     case EventProtocolResponseSQuestCompleteEvent:
     case EventProtocolResponseSReferralCodeUsedEvent:

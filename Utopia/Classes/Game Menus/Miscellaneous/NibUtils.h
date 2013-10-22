@@ -19,30 +19,6 @@ typedef enum {
 @interface NiceFontLabel : UILabel 
 @end
 
-@interface NiceFontLabel2 : UILabel 
-@end
-
-@interface NiceFontLabel3 : UILabel 
-@end
-
-@interface NiceFontLabel4 : UILabel 
-@end
-
-@interface NiceFontLabel5 : UILabel 
-@end
-
-@interface NiceFontLabel6 : UILabel 
-@end
-
-@interface NiceFontLabel7 : UILabel
-@end
-
-@interface NiceFontLabel8 : UILabel
-@end
-
-@interface NiceFontLabel9 : UILabel
-@end
-
 @interface NiceFontButton : UIButton
 @end
 
@@ -66,9 +42,6 @@ typedef enum {
 @end
 
 @interface NiceFontTextField : UITextField
-
-@property (nonatomic, retain) UILabel *label;
-@property (nonatomic, retain) NiceFontTextFieldDelegate *nfDelegate;
 
 @end
 
@@ -233,5 +206,48 @@ typedef enum {
 
 - (void) clickButton:(BarButton)button;
 - (void) unclickButton:(BarButton)button;
+
+@end
+
+@class NumTransitionLabel;
+
+@protocol NumTransitionLabelDelegate <NSObject>
+
+- (void) updateLabel:(NumTransitionLabel *)label forNumber:(int)number;
+
+@optional
+- (void) labelReachedGoalNum:(UILabel *)label;
+
+@end
+
+@interface NumTransitionLabel : NiceFontLabel
+
+@property (nonatomic, weak) IBOutlet id<NumTransitionLabelDelegate> transitionDelegate;
+@property (nonatomic, strong) NSTimer *timer;
+
+@property (nonatomic, readonly) int currentNum;
+@property (nonatomic, readonly) int goalNum;
+
+- (void) instaMoveToNum:(int)num;
+- (void) transitionToNum:(int)num;
+
+@end
+
+@class UnderlinedLabelView;
+
+@protocol UnderlinedLabelDelegate <NSObject>
+
+- (void) labelClicked:(UnderlinedLabelView *)label;
+
+@end
+
+@interface UnderlinedLabelView : UIView
+
+@property (nonatomic, assign) IBOutlet UILabel *label;
+@property (nonatomic, strong) UIView *underlineView;
+@property (nonatomic, strong) UIButton *button;
+@property (nonatomic, assign) IBOutlet id<UnderlinedLabelDelegate> delegate;
+
+- (void)setString:(NSString *)string isEnabled:(BOOL)isEnabled;
 
 @end

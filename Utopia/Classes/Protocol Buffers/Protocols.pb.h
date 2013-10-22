@@ -94,6 +94,10 @@
 @class EndDungeonRequestProto_Builder;
 @class EndDungeonResponseProto;
 @class EndDungeonResponseProto_Builder;
+@class EnhancementWaitTimeCompleteRequestProto;
+@class EnhancementWaitTimeCompleteRequestProto_Builder;
+@class EnhancementWaitTimeCompleteResponseProto;
+@class EnhancementWaitTimeCompleteResponseProto_Builder;
 @class ExpansionWaitCompleteRequestProto;
 @class ExpansionWaitCompleteRequestProto_Builder;
 @class ExpansionWaitCompleteResponseProto;
@@ -320,6 +324,8 @@
 @class SubmitMonsterEnhancementRequestProto_Builder;
 @class SubmitMonsterEnhancementResponseProto;
 @class SubmitMonsterEnhancementResponseProto_Builder;
+@class TaskStageMonsterProto;
+@class TaskStageMonsterProto_Builder;
 @class TaskStageProto;
 @class TaskStageProto_Builder;
 @class TournamentEventProto;
@@ -348,6 +354,14 @@
 @class UserCreateRequestProto_Builder;
 @class UserCreateResponseProto;
 @class UserCreateResponseProto_Builder;
+@class UserEnhancementItemProto;
+@class UserEnhancementItemProto_Builder;
+@class UserEnhancementProto;
+@class UserEnhancementProto_Builder;
+@class UserMonsterCurrentExpProto;
+@class UserMonsterCurrentExpProto_Builder;
+@class UserMonsterCurrentHealthProto;
+@class UserMonsterCurrentHealthProto_Builder;
 @class UserMonsterHealingProto;
 @class UserMonsterHealingProto_Builder;
 @class UserQuestDetailsRequestProto;
@@ -407,6 +421,7 @@ typedef enum {
   EventProtocolRequestCAddMonsterToBattleTeamEvent = 50,
   EventProtocolRequestCRemoveMonsterFromBattleTeamEvent = 51,
   EventProtocolRequestCBuyMonsterInventorySlotEvent = 52,
+  EventProtocolRequestCEnhancementWaitTimeCompleteEvent = 53,
   EventProtocolRequestCLogoutEvent = 101,
 } EventProtocolRequest;
 
@@ -465,6 +480,7 @@ typedef enum {
   EventProtocolResponseSAddMonsterToBattleTeamEvent = 50,
   EventProtocolResponseSRemoveMonsterFromBattleTeamEvent = 51,
   EventProtocolResponseSBuyMonsterInventorySlotEvent = 52,
+  EventProtocolResponseSEnhancementWaitTimeCompleteEvent = 53,
   EventProtocolResponseSUpdateClientUserEvent = 101,
   EventProtocolResponseSQuestCompleteEvent = 102,
   EventProtocolResponseSReferralCodeUsedEvent = 103,

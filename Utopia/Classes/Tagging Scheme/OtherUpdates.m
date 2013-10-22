@@ -79,33 +79,3 @@
 }
 
 @end
-
-@implementation ExpForNextLevelUpdate
-
-@synthesize tag;
-
-+ (id) updateWithTag:(int)tag prevLevel:(int)prevLevel curLevel:(int)curLevel nextLevel:(int)nextLevel {
-  return [[self alloc] initWithTag:tag prevLevel:prevLevel curLevel:curLevel nextLevel:nextLevel];
-}
-
-- (id) initWithTag:(int)t prevLevel:(int)prevLevel curLevel:(int)curLevel nextLevel:(int)nextLevel {
-  if ((self = [super init])) {
-    self.tag = t;
-    _prevLevel = prevLevel;
-    _curLevel = curLevel;
-    _nextLevel = nextLevel;
-    
-    GameState *gs = [GameState sharedGameState];
-    gs.expRequiredForCurrentLevel = _curLevel;
-    gs.expRequiredForNextLevel = _nextLevel;
-  }
-  return self;
-}
-
-- (void) undo {
-  GameState *gs = [GameState sharedGameState];
-  gs.expRequiredForCurrentLevel = _prevLevel;
-  gs.expRequiredForNextLevel = _curLevel;
-}
-
-@end

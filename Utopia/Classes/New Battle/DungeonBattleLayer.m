@@ -33,10 +33,10 @@
 - (void) createNextEnemyObject {
 //  GameState *gs = [GameState sharedGameState];
   TaskStageProto *stage = [self.dungeonInfo.tspList objectAtIndex:_curStage];
-  MonsterProto *monster = [stage mpAtIndex:0];
-  
+  TaskStageMonsterProto *monster = [stage stageMonstersAtIndex:0];
+//  
   if (monster) {
-    self.enemyPlayerObject = [BattlePlayer playerWithHealth:monster.maxHp weapon:nil armor:nil amulet:nil];
+    self.enemyPlayerObject = [BattlePlayer playerWithHealth:50 weapon:nil armor:nil amulet:nil];
 //    FullEquipProto *fep;
 //    BattleEquip *weapon = nil, *armor = nil, *amulet = nil;
 //    if (monster.weaponId) {

@@ -14,17 +14,16 @@
 #import "MenuNavigationController.h"
 #import "DiamondShopViewController.h"
 #import "AttackMapViewController.h"
+#import "GameState.h"
+#import "ProfileViewController.h"
+#import "QuestLogViewController.h"
 
 @implementation SplitImageProgressBar
-
-- (void) awakeFromNib {
-  self.leftCap.transform = CGAffineTransformMakeScale(-1, 1);
-}
 
 - (void) setPercentage:(float)percentage {
   _percentage = clampf(percentage, 0.f, 1.f);
   
-  float totalWidth = percentage*self.frame.size.width;
+  float totalWidth = _percentage*self.frame.size.width;
   
   CGRect r = self.leftCap.frame;
   r.size.width = MIN(ceilf(totalWidth/2), self.leftCap.image.size.width);
@@ -69,6 +68,13 @@
 
 - (void) viewWillAppear:(BOOL)animated {
   self.expBar.percentage = 0.35;
+  
+  [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(gameStateUpdated) name:GAMESTATE_UPDATE_NOTIFICATION object:nil];
+  [self gameStateUpdated];
+}
+
+- (void) viewDidDisappear:(BOOL)animated {
+  [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
 - (void) replaceChatViewWithView:(UIView *)view {
@@ -108,6 +114,44 @@
   GameViewController *gvc = (GameViewController *)self.parentViewController;
   [gvc presentViewController:m animated:YES completion:nil];
   [m pushViewController:[[DiamondShopViewController alloc] init] animated:NO];
+}
+
+- (IBAction)profileClicked:(id)sender {
+  GameState *gs = [GameState sharedGameState];
+  GameViewController *gvc = (GameViewController *)self.parentViewController;
+//  ProfileViewController *pvc = [[ProfileViewController alloc] initWithFullUserProto:[gs convertToFullUserProto] andCurrentTeam:[gs allMonstersOnMyTeam]];
+  QuestLogViewController *pvc = [[QuestLogViewController alloc] init];
+  [gvc addChildViewController:pvc];
+  pvc.view.frame = gvc.view.bounds;
+  [gvc.view addSubview:pvc.view];
+}
+
+#pragma mark - Updating HUD Stuff
+
+- (void) gameStateUpdated {
+  GameState *gs = [GameState sharedGameState];
+  [self.silverLabel transitionToNum:gs.silver];
+  [self.goldLabel transitionToNum:gs.gold];
+  
+  if (self.expLabel.currentNum <= gs.currentExpForLevel) {
+    [self.expLabel transitionToNum:gs.currentExpForLevel];
+  } else {
+    [self.expLabel instaMoveToNum:gs.currentExpForLevel];
+  }
+}
+
+#pragma mark NumTransitionLabelDelegate methods
+
+- (void) updateLabel:(NumTransitionLabel *)label forNumber:(int)number {
+  GameState *gs = [GameState sharedGameState];
+  if (label == self.expLabel) {
+    label.text = [NSString stringWithFormat:@"%d/%d", number, gs.expDeltaNeededForNextLevel];
+    self.expBar.percentage = ((float)number)/gs.expDeltaNeededForNextLevel;
+  } else if (label == self.silverLabel) {
+    label.text = [Globals cashStringForNumber:number];
+  } else if (label == self.goldLabel) {
+    label.text = [Globals commafyNumber:number];
+  }
 }
 
 @end

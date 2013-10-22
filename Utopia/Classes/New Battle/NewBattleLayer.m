@@ -174,12 +174,12 @@
   _leftHealthBar.barChangeRate = ccp(1,0);
   _leftHealthBar.percentage = 50;
   
-  _leftHealthLabel = [CCLabelTTF labelWithString:@"31/100" fontName:@"Dirty Headline" fontSize:12];
+  _leftHealthLabel = [CCLabelTTF labelWithString:@"31/100" fontName:[Globals font] fontSize:12];
   [leftBgdBar addChild:_leftHealthLabel];
   _leftHealthLabel.anchorPoint = ccp(1,0.5);
   _leftHealthLabel.position = ccp(leftBgdBar.contentSize.width-5, leftBgdBar.contentSize.height/2);
   
-  CCLabelTTF *leftNameLabel = [CCLabelTTF labelWithString:@"TheMeepsta" fontName:@"Dirty Headline" fontSize:12];
+  CCLabelTTF *leftNameLabel = [CCLabelTTF labelWithString:@"TheMeepsta" fontName:[Globals font] fontSize:12];
   [leftBgdBar addChild:leftNameLabel];
   leftNameLabel.anchorPoint = ccp(0,0.5);
   leftNameLabel.position = ccp(8, leftBgdBar.contentSize.height/2);
@@ -201,12 +201,12 @@
   _rightHealthBar.barChangeRate = ccp(1,0);
   _rightHealthBar.percentage = 90;
   
-  _rightHealthLabel = [CCLabelTTF labelWithString:@"31/100" fontName:@"Dirty Headline" fontSize:12];
+  _rightHealthLabel = [CCLabelTTF labelWithString:@"31/100" fontName:[Globals font] fontSize:12];
   [rightBgdBar addChild:_rightHealthLabel];
   _rightHealthLabel.anchorPoint = ccp(0,0.5);
   _rightHealthLabel.position = ccp(5, rightBgdBar.contentSize.height/2);
   
-  CCLabelTTF *rightNameLabel = [CCLabelTTF labelWithString:@"TheMeepsta" fontName:@"Dirty Headline" fontSize:12];
+  CCLabelTTF *rightNameLabel = [CCLabelTTF labelWithString:@"TheMeepsta" fontName:[Globals font] fontSize:12];
   [rightBgdBar addChild:rightNameLabel];
   rightNameLabel.anchorPoint = ccp(1,0.5);
   rightNameLabel.position = ccp(rightBgdBar.contentSize.width-8, rightBgdBar.contentSize.height/2);
@@ -220,12 +220,12 @@
   [self addChild:movesLeftBgd];
   movesLeftBgd.position = ccp(puzzleBg.position.x-self.orbLayer.contentSize.width/2+movesLeftBgd.contentSize.width/2, puzzleBg.position.y+puzzleBg.contentSize.height/2+movesLeftBgd.contentSize.height/2-17);
   
-  CCLabelTTF *movesLabel = [CCLabelTTF labelWithString:@"MOVES:" fontName:@"Dirty Headline" fontSize:11];
+  CCLabelTTF *movesLabel = [CCLabelTTF labelWithString:@"MOVES:" fontName:[Globals font] fontSize:11];
   [movesLeftBgd addChild:movesLabel];
   movesLabel.position = ccp(22, 20);
   movesLabel.color = ccc3(150, 150, 150);
   
-  _movesLeftLabel = [CCLabelTTF labelWithString:@"5" fontName:@"Dirty Headline" fontSize:21];
+  _movesLeftLabel = [CCLabelTTF labelWithString:@"5" fontName:[Globals font] fontSize:21];
   [movesLeftBgd addChild:_movesLeftLabel];
   _movesLeftLabel.position = ccp(movesLeftBgd.contentSize.width-14, 24);
   _movesLeftLabel.color = ccc3(176, 223, 33);
@@ -278,11 +278,11 @@
   lootBgd.position = ccp(puzzleBg.position.x-puzzleBg.contentSize.width/2+lootBgd.contentSize.width/2+10,
                          puzzleBg.position.y+puzzleBg.contentSize.height/2+lootBgd.contentSize.height/2-5);
   
-  _lootLabel = [CCLabelTTF labelWithString:@"0" fontName:@"Dirty Headline" fontSize:13];
+  _lootLabel = [CCLabelTTF labelWithString:@"0" fontName:[Globals font] fontSize:13];
   [lootBgd addChild:_lootLabel];
   _lootLabel.position = ccp(lootBgd.contentSize.width-12, lootBgd.contentSize.height/2);
   
-  _orbCountLabel = [CCLabelTTF labelWithString:@"1" fontName:@"Dirty Headline" fontSize:13];
+  _orbCountLabel = [CCLabelTTF labelWithString:@"1" fontName:[Globals font] fontSize:13];
   [self addChild:_orbCountLabel];
   _orbCountLabel.position = ccp(self.contentSize.width/2, self.contentSize.height-10);
   
@@ -586,7 +586,7 @@
   f.tag = 1015;
   [healthLabel runAction:f];
   
-  CCLabelTTF *damageLabel = [CCLabelTTF labelWithString:[NSString stringWithFormat:@"%+d", -damageDone] fontName:@"Dirty Headline" fontSize:25];
+  CCLabelTTF *damageLabel = [CCLabelTTF labelWithString:[NSString stringWithFormat:@"%+d", -damageDone] fontName:[Globals font] fontSize:25];
   [self addChild:damageLabel z:defSpr.zOrder];
   damageLabel.position = ccpAdd(defSpr.position, ccp(0, defSpr.contentSize.height-15));
   damageLabel.color = ccc3(255, 0, 0);

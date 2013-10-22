@@ -12,15 +12,13 @@
 #import "MyCroniesMonsterViews.h"
 
 @interface MyCroniesViewController : GenViewController <EasyTableViewDelegate, MyCroniesCardDelegate, MyCroniesQueueDelegate> {
-  int _numHealingDots;
-  
   float _baseMyReservesHeaderX;
 }
 
 @property (nonatomic, strong) IBOutlet UIView *tableContainerView;
 @property (nonatomic, strong) IBOutlet UIView *tableSeperatorView;
 
-@property (nonatomic, strong) IBOutlet UIView *headerContainerView;
+@property (nonatomic, strong) UIView *headerContainerView;
 @property (nonatomic, strong) IBOutlet MyCroniesHeaderView *myTeamHeaderView;
 @property (nonatomic, strong) IBOutlet MyCroniesHeaderView *myReservesHeaderView;
 

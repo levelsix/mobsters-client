@@ -108,6 +108,14 @@
 @class UpgradeStructJobProto_Builder;
 @class UserCityExpansionDataProto;
 @class UserCityExpansionDataProto_Builder;
+@class UserEnhancementItemProto;
+@class UserEnhancementItemProto_Builder;
+@class UserEnhancementProto;
+@class UserEnhancementProto_Builder;
+@class UserMonsterCurrentExpProto;
+@class UserMonsterCurrentExpProto_Builder;
+@class UserMonsterCurrentHealthProto;
+@class UserMonsterCurrentHealthProto_Builder;
 @class UserMonsterHealingProto;
 @class UserMonsterHealingProto_Builder;
 typedef enum {
@@ -230,42 +238,44 @@ BOOL StartupResponseProto_StartupStatusIsValidValue(StartupResponseProto_Startup
   BOOL hasPlayerHasBoughtInAppPurchase_:1;
   BOOL hasServerTimeMillis_:1;
   BOOL hasKabamNaid_:1;
-  BOOL hasAppStoreUrl_:1;
-  BOOL hasReviewPageUrl_:1;
   BOOL hasReviewPageConfirmationMessage_:1;
+  BOOL hasReviewPageUrl_:1;
+  BOOL hasAppStoreUrl_:1;
   BOOL hasSender_:1;
+  BOOL hasEnhancements_:1;
   BOOL hasStartupConstants_:1;
-  BOOL hasStartupStatus_:1;
   BOOL hasUpdateStatus_:1;
+  BOOL hasStartupStatus_:1;
   BOOL playerHasBoughtInAppPurchase_:1;
   int64_t serverTimeMillis;
   NSString* kabamNaid;
-  NSString* appStoreUrl;
-  NSString* reviewPageUrl;
   NSString* reviewPageConfirmationMessage;
+  NSString* reviewPageUrl;
+  NSString* appStoreUrl;
   FullUserProto* sender;
+  UserEnhancementProto* enhancements;
   StartupResponseProto_StartupConstants* startupConstants;
-  StartupResponseProto_StartupStatus startupStatus;
   StartupResponseProto_UpdateStatus updateStatus;
+  StartupResponseProto_StartupStatus startupStatus;
   NSMutableArray* mutableNoticesToPlayersList;
-  NSMutableArray* mutablePcppList;
-  NSMutableArray* mutableStaticStructsList;
-  NSMutableArray* mutableExpansionCostsList;
-  NSMutableArray* mutableStaticMonstersList;
-  NSMutableArray* mutableUsersMonstersList;
-  NSMutableArray* mutableMonstersHealingList;
   NSMutableArray* mutableRareBoosterPurchasesList;
+  NSMutableArray* mutableMonstersHealingList;
+  NSMutableArray* mutableUsersMonstersList;
+  NSMutableArray* mutableStaticMonstersList;
+  NSMutableArray* mutableExpansionCostsList;
+  NSMutableArray* mutableStaticStructsList;
   NSMutableArray* mutableLarepList;
+  NSMutableArray* mutablePcppList;
   NSMutableArray* mutableClanChatsList;
   NSMutableArray* mutableGlobalChatsList;
   NSMutableArray* mutableReferralNotificationsList;
   NSMutableArray* mutableAttackNotificationsList;
   NSMutableArray* mutableGoldSalesList;
+  NSMutableArray* mutableAllCitiesList;
   NSMutableArray* mutableUserClanInfoList;
   NSMutableArray* mutableAvailableQuestsList;
   NSMutableArray* mutableInProgressCompleteQuestsList;
   NSMutableArray* mutableInProgressIncompleteQuestsList;
-  NSMutableArray* mutableAllCitiesList;
 }
 - (BOOL) hasServerTimeMillis;
 - (BOOL) hasSender;
@@ -276,6 +286,7 @@ BOOL StartupResponseProto_StartupStatusIsValidValue(StartupResponseProto_Startup
 - (BOOL) hasReviewPageUrl;
 - (BOOL) hasReviewPageConfirmationMessage;
 - (BOOL) hasPlayerHasBoughtInAppPurchase;
+- (BOOL) hasEnhancements;
 - (BOOL) hasKabamNaid;
 @property (readonly) int64_t serverTimeMillis;
 @property (readonly, retain) FullUserProto* sender;
@@ -286,6 +297,7 @@ BOOL StartupResponseProto_StartupStatusIsValidValue(StartupResponseProto_Startup
 @property (readonly, retain) NSString* reviewPageUrl;
 @property (readonly, retain) NSString* reviewPageConfirmationMessage;
 - (BOOL) playerHasBoughtInAppPurchase;
+@property (readonly, retain) UserEnhancementProto* enhancements;
 @property (readonly, retain) NSString* kabamNaid;
 - (NSArray*) allCitiesList;
 - (FullCityProto*) allCitiesAtIndex:(int32_t) index;
@@ -311,6 +323,8 @@ BOOL StartupResponseProto_StartupStatusIsValidValue(StartupResponseProto_Startup
 - (GroupChatMessageProto*) clanChatsAtIndex:(int32_t) index;
 - (NSArray*) pcppList;
 - (PrivateChatPostProto*) pcppAtIndex:(int32_t) index;
+- (NSArray*) larepList;
+- (LevelAndRequiredExpProto*) larepAtIndex:(int32_t) index;
 - (NSArray*) staticStructsList;
 - (FullStructureProto*) staticStructsAtIndex:(int32_t) index;
 - (NSArray*) expansionCostsList;
@@ -323,8 +337,6 @@ BOOL StartupResponseProto_StartupStatusIsValidValue(StartupResponseProto_Startup
 - (UserMonsterHealingProto*) monstersHealingAtIndex:(int32_t) index;
 - (NSArray*) rareBoosterPurchasesList;
 - (RareBoosterPurchaseProto*) rareBoosterPurchasesAtIndex:(int32_t) index;
-- (NSArray*) larepList;
-- (LevelAndRequiredExpProto*) larepAtIndex:(int32_t) index;
 
 + (StartupResponseProto*) defaultInstance;
 - (StartupResponseProto*) defaultInstance;
@@ -715,20 +727,20 @@ BOOL StartupResponseProto_StartupStatusIsValidValue(StartupResponseProto_Startup
 
 @interface StartupResponseProto_StartupConstants_ClanConstants : PBGeneratedMessage {
 @private
-  BOOL hasDiamondPriceToCreateClan_:1;
+  BOOL hasCoinPriceToCreateClan_:1;
   BOOL hasMaxCharLengthForClanName_:1;
   BOOL hasMaxCharLengthForClanDescription_:1;
   BOOL hasMaxCharLengthForClanTag_:1;
-  int32_t diamondPriceToCreateClan;
+  int32_t coinPriceToCreateClan;
   int32_t maxCharLengthForClanName;
   int32_t maxCharLengthForClanDescription;
   int32_t maxCharLengthForClanTag;
 }
-- (BOOL) hasDiamondPriceToCreateClan;
+- (BOOL) hasCoinPriceToCreateClan;
 - (BOOL) hasMaxCharLengthForClanName;
 - (BOOL) hasMaxCharLengthForClanDescription;
 - (BOOL) hasMaxCharLengthForClanTag;
-@property (readonly) int32_t diamondPriceToCreateClan;
+@property (readonly) int32_t coinPriceToCreateClan;
 @property (readonly) int32_t maxCharLengthForClanName;
 @property (readonly) int32_t maxCharLengthForClanDescription;
 @property (readonly) int32_t maxCharLengthForClanTag;
@@ -767,10 +779,10 @@ BOOL StartupResponseProto_StartupStatusIsValidValue(StartupResponseProto_Startup
 - (StartupResponseProto_StartupConstants_ClanConstants_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input;
 - (StartupResponseProto_StartupConstants_ClanConstants_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
 
-- (BOOL) hasDiamondPriceToCreateClan;
-- (int32_t) diamondPriceToCreateClan;
-- (StartupResponseProto_StartupConstants_ClanConstants_Builder*) setDiamondPriceToCreateClan:(int32_t) value;
-- (StartupResponseProto_StartupConstants_ClanConstants_Builder*) clearDiamondPriceToCreateClan;
+- (BOOL) hasCoinPriceToCreateClan;
+- (int32_t) coinPriceToCreateClan;
+- (StartupResponseProto_StartupConstants_ClanConstants_Builder*) setCoinPriceToCreateClan:(int32_t) value;
+- (StartupResponseProto_StartupConstants_ClanConstants_Builder*) clearCoinPriceToCreateClan;
 
 - (BOOL) hasMaxCharLengthForClanName;
 - (int32_t) maxCharLengthForClanName;
@@ -1260,6 +1272,13 @@ BOOL StartupResponseProto_StartupStatusIsValidValue(StartupResponseProto_Startup
 - (StartupResponseProto_Builder*) addAllPcpp:(NSArray*) values;
 - (StartupResponseProto_Builder*) clearPcppList;
 
+- (NSArray*) larepList;
+- (LevelAndRequiredExpProto*) larepAtIndex:(int32_t) index;
+- (StartupResponseProto_Builder*) replaceLarepAtIndex:(int32_t) index with:(LevelAndRequiredExpProto*) value;
+- (StartupResponseProto_Builder*) addLarep:(LevelAndRequiredExpProto*) value;
+- (StartupResponseProto_Builder*) addAllLarep:(NSArray*) values;
+- (StartupResponseProto_Builder*) clearLarepList;
+
 - (NSArray*) staticStructsList;
 - (FullStructureProto*) staticStructsAtIndex:(int32_t) index;
 - (StartupResponseProto_Builder*) replaceStaticStructsAtIndex:(int32_t) index with:(FullStructureProto*) value;
@@ -1295,6 +1314,13 @@ BOOL StartupResponseProto_StartupStatusIsValidValue(StartupResponseProto_Startup
 - (StartupResponseProto_Builder*) addAllMonstersHealing:(NSArray*) values;
 - (StartupResponseProto_Builder*) clearMonstersHealingList;
 
+- (BOOL) hasEnhancements;
+- (UserEnhancementProto*) enhancements;
+- (StartupResponseProto_Builder*) setEnhancements:(UserEnhancementProto*) value;
+- (StartupResponseProto_Builder*) setEnhancementsBuilder:(UserEnhancementProto_Builder*) builderForValue;
+- (StartupResponseProto_Builder*) mergeEnhancements:(UserEnhancementProto*) value;
+- (StartupResponseProto_Builder*) clearEnhancements;
+
 - (NSArray*) rareBoosterPurchasesList;
 - (RareBoosterPurchaseProto*) rareBoosterPurchasesAtIndex:(int32_t) index;
 - (StartupResponseProto_Builder*) replaceRareBoosterPurchasesAtIndex:(int32_t) index with:(RareBoosterPurchaseProto*) value;
@@ -1306,12 +1332,5 @@ BOOL StartupResponseProto_StartupStatusIsValidValue(StartupResponseProto_Startup
 - (NSString*) kabamNaid;
 - (StartupResponseProto_Builder*) setKabamNaid:(NSString*) value;
 - (StartupResponseProto_Builder*) clearKabamNaid;
-
-- (NSArray*) larepList;
-- (LevelAndRequiredExpProto*) larepAtIndex:(int32_t) index;
-- (StartupResponseProto_Builder*) replaceLarepAtIndex:(int32_t) index with:(LevelAndRequiredExpProto*) value;
-- (StartupResponseProto_Builder*) addLarep:(LevelAndRequiredExpProto*) value;
-- (StartupResponseProto_Builder*) addAllLarep:(NSArray*) values;
-- (StartupResponseProto_Builder*) clearLarepList;
 @end
 

@@ -63,6 +63,7 @@
                                 <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                             </state>
                             <connections>
+                                <action selector="darkOverlayClicked:" destination="3" eventType="touchUpInside" id="SZ4-a3-BfJ"/>
                                 <outlet property="baseImage" destination="qgc-sy-EWw" id="BRM-Hi-0bi"/>
                             </connections>
                         </button>
@@ -95,6 +96,8 @@
                             <fontDescription key="fontDescription" type="system" pointSize="17"/>
                             <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                             <nil key="highlightedColor"/>
+                            <color key="shadowColor" red="0.0" green="0.0" blue="0.0" alpha="0.29999999999999999" colorSpace="calibratedRGB"/>
+                            <size key="shadowOffset" width="0.0" height="1"/>
                         </label>
                         <view contentMode="scaleToFill" id="0Jg-6D-dUL">
                             <rect key="frame" x="63" y="4" width="47" height="47"/>
@@ -164,7 +167,7 @@
                     <autoresizingMask key="autoresizingMask"/>
                 </imageView>
                 <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Team Slot Empty" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" minimumFontSize="9" id="QIU-S9-kw9" customClass="NiceFontLabel">
-                    <rect key="frame" x="0.0" y="16" width="107" height="99"/>
+                    <rect key="frame" x="7" y="16" width="92" height="99"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                     <fontDescription key="fontDescription" type="system" pointSize="19"/>
                     <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="calibratedRGB"/>

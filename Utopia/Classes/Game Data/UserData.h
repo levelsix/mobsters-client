@@ -22,6 +22,8 @@
 
 + (id) userMonsterWithProto:(FullUserMonsterProto *)proto;
 - (BOOL) isHealing;
+- (BOOL) isEnhancing;
+- (BOOL) isSacrificing;
 
 @end
 
@@ -37,6 +39,33 @@
 - (int) secondsForCompletion;
 - (NSDate *) expectedEndTime;
 - (UserMonsterHealingProto *) convertToProto;
+
+@end
+
+@interface EnhancementItem : NSObject
+
++ (id) itemWithUserEnhancementItemProto:(UserEnhancementItemProto *)proto;
+
+@property (nonatomic, assign) int userMonsterId;
+@property (nonatomic, retain) NSDate *expectedStartTime;
+
+- (float) currentPercentage;
+- (int) secondsForCompletion;
+- (NSDate *) expectedEndTime;
+- (UserMonster *)userMonster;
+- (UserEnhancementItemProto *) convertToProto;
+
+@end
+
+@interface UserEnhancement : NSObject
+
+@property (nonatomic, retain) EnhancementItem *baseMonster;
+@property (nonatomic, retain) NSMutableArray *feeders;
+
++(id) enhancementWithUserEnhancementProto:(UserEnhancementProto *)proto;
+
+- (float) currentPercentageOfLevel;
+- (float) finalPercentageFromCurrentLevel;
 
 @end
 

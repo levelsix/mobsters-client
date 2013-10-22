@@ -88,11 +88,11 @@
         </view>
     </objects>
     <resources>
-        <image name="diamond.png" width="33" height="33"/>
+        <image name="diamond.png" width="29" height="28"/>
         <image name="diamondbarbg.png" width="77" height="23"/>
         <image name="mainmenubg.png" width="568" height="320"/>
         <image name="moneybottombar.png" width="568" height="40"/>
-        <image name="moneystack.png" width="45" height="32"/>
+        <image name="moneystack.png" width="43" height="34"/>
         <image name="topbarbg.png" width="117" height="23"/>
     </resources>
 </document>

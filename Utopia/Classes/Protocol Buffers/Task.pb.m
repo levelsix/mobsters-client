@@ -22,7 +22,7 @@ static PBExtensionRegistry* extensionRegistry = nil;
 
 @interface TaskStageProto ()
 @property int32_t stageId;
-@property (retain) NSMutableArray* mutableMpList;
+@property (retain) NSMutableArray* mutableStageMonstersList;
 @end
 
 @implementation TaskStageProto
@@ -34,9 +34,9 @@ static PBExtensionRegistry* extensionRegistry = nil;
   hasStageId_ = !!value;
 }
 @synthesize stageId;
-@synthesize mutableMpList;
+@synthesize mutableStageMonstersList;
 - (void) dealloc {
-  self.mutableMpList = nil;
+  self.mutableStageMonstersList = nil;
   [super dealloc];
 }
 - (id) init {
@@ -57,11 +57,11 @@ static TaskStageProto* defaultTaskStageProtoInstance = nil;
 - (TaskStageProto*) defaultInstance {
   return defaultTaskStageProtoInstance;
 }
-- (NSArray*) mpList {
-  return mutableMpList;
+- (NSArray*) stageMonstersList {
+  return mutableStageMonstersList;
 }
-- (MonsterProto*) mpAtIndex:(int32_t) index {
-  id value = [mutableMpList objectAtIndex:index];
+- (TaskStageMonsterProto*) stageMonstersAtIndex:(int32_t) index {
+  id value = [mutableStageMonstersList objectAtIndex:index];
   return value;
 }
 - (BOOL) isInitialized {
@@ -71,7 +71,7 @@ static TaskStageProto* defaultTaskStageProtoInstance = nil;
   if (self.hasStageId) {
     [output writeInt32:1 value:self.stageId];
   }
-  for (MonsterProto* element in self.mpList) {
+  for (TaskStageMonsterProto* element in self.stageMonstersList) {
     [output writeMessage:2 value:element];
   }
   [self.unknownFields writeToCodedOutputStream:output];
@@ -86,7 +86,7 @@ static TaskStageProto* defaultTaskStageProtoInstance = nil;
   if (self.hasStageId) {
     size += computeInt32Size(1, self.stageId);
   }
-  for (MonsterProto* element in self.mpList) {
+  for (TaskStageMonsterProto* element in self.stageMonstersList) {
     size += computeMessageSize(2, element);
   }
   size += self.unknownFields.serializedSize;
@@ -167,11 +167,11 @@ static TaskStageProto* defaultTaskStageProtoInstance = nil;
   if (other.hasStageId) {
     [self setStageId:other.stageId];
   }
-  if (other.mutableMpList.count > 0) {
-    if (result.mutableMpList == nil) {
-      result.mutableMpList = [NSMutableArray array];
+  if (other.mutableStageMonstersList.count > 0) {
+    if (result.mutableStageMonstersList == nil) {
+      result.mutableStageMonstersList = [NSMutableArray array];
     }
-    [result.mutableMpList addObjectsFromArray:other.mutableMpList];
+    [result.mutableStageMonstersList addObjectsFromArray:other.mutableStageMonstersList];
   }
   [self mergeUnknownFields:other.unknownFields];
   return self;
@@ -199,9 +199,9 @@ static TaskStageProto* defaultTaskStageProtoInstance = nil;
         break;
       }
       case 18: {
-        MonsterProto_Builder* subBuilder = [MonsterProto builder];
+        TaskStageMonsterProto_Builder* subBuilder = [TaskStageMonsterProto builder];
         [input readMessage:subBuilder extensionRegistry:extensionRegistry];
-        [self addMp:[subBuilder buildPartial]];
+        [self addStageMonsters:[subBuilder buildPartial]];
         break;
       }
     }
@@ -223,33 +223,33 @@ static TaskStageProto* defaultTaskStageProtoInstance = nil;
   result.stageId = 0;
   return self;
 }
-- (NSArray*) mpList {
-  if (result.mutableMpList == nil) { return [NSArray array]; }
-  return result.mutableMpList;
+- (NSArray*) stageMonstersList {
+  if (result.mutableStageMonstersList == nil) { return [NSArray array]; }
+  return result.mutableStageMonstersList;
 }
-- (MonsterProto*) mpAtIndex:(int32_t) index {
-  return [result mpAtIndex:index];
+- (TaskStageMonsterProto*) stageMonstersAtIndex:(int32_t) index {
+  return [result stageMonstersAtIndex:index];
 }
-- (TaskStageProto_Builder*) replaceMpAtIndex:(int32_t) index with:(MonsterProto*) value {
-  [result.mutableMpList replaceObjectAtIndex:index withObject:value];
+- (TaskStageProto_Builder*) replaceStageMonstersAtIndex:(int32_t) index with:(TaskStageMonsterProto*) value {
+  [result.mutableStageMonstersList replaceObjectAtIndex:index withObject:value];
   return self;
 }
-- (TaskStageProto_Builder*) addAllMp:(NSArray*) values {
-  if (result.mutableMpList == nil) {
-    result.mutableMpList = [NSMutableArray array];
+- (TaskStageProto_Builder*) addAllStageMonsters:(NSArray*) values {
+  if (result.mutableStageMonstersList == nil) {
+    result.mutableStageMonstersList = [NSMutableArray array];
   }
-  [result.mutableMpList addObjectsFromArray:values];
+  [result.mutableStageMonstersList addObjectsFromArray:values];
   return self;
 }
-- (TaskStageProto_Builder*) clearMpList {
-  result.mutableMpList = nil;
+- (TaskStageProto_Builder*) clearStageMonstersList {
+  result.mutableStageMonstersList = nil;
   return self;
 }
-- (TaskStageProto_Builder*) addMp:(MonsterProto*) value {
-  if (result.mutableMpList == nil) {
-    result.mutableMpList = [NSMutableArray array];
+- (TaskStageProto_Builder*) addStageMonsters:(TaskStageMonsterProto*) value {
+  if (result.mutableStageMonstersList == nil) {
+    result.mutableStageMonstersList = [NSMutableArray array];
   }
-  [result.mutableMpList addObject:value];
+  [result.mutableStageMonstersList addObject:value];
   return self;
 }
 @end
@@ -795,6 +795,393 @@ static MinimumUserTaskProto* defaultMinimumUserTaskProtoInstance = nil;
 - (MinimumUserTaskProto_Builder*) clearNumTimesActed {
   result.hasNumTimesActed = NO;
   result.numTimesActed = 0;
+  return self;
+}
+@end
+
+@interface TaskStageMonsterProto ()
+@property int32_t monsterId;
+@property TaskStageMonsterProto_MonsterType monsterType;
+@property int32_t expReward;
+@property int32_t silverReward;
+@property BOOL puzzlePieceDropped;
+@property int32_t level;
+@end
+
+@implementation TaskStageMonsterProto
+
+- (BOOL) hasMonsterId {
+  return !!hasMonsterId_;
+}
+- (void) setHasMonsterId:(BOOL) value {
+  hasMonsterId_ = !!value;
+}
+@synthesize monsterId;
+- (BOOL) hasMonsterType {
+  return !!hasMonsterType_;
+}
+- (void) setHasMonsterType:(BOOL) value {
+  hasMonsterType_ = !!value;
+}
+@synthesize monsterType;
+- (BOOL) hasExpReward {
+  return !!hasExpReward_;
+}
+- (void) setHasExpReward:(BOOL) value {
+  hasExpReward_ = !!value;
+}
+@synthesize expReward;
+- (BOOL) hasSilverReward {
+  return !!hasSilverReward_;
+}
+- (void) setHasSilverReward:(BOOL) value {
+  hasSilverReward_ = !!value;
+}
+@synthesize silverReward;
+- (BOOL) hasPuzzlePieceDropped {
+  return !!hasPuzzlePieceDropped_;
+}
+- (void) setHasPuzzlePieceDropped:(BOOL) value {
+  hasPuzzlePieceDropped_ = !!value;
+}
+- (BOOL) puzzlePieceDropped {
+  return !!puzzlePieceDropped_;
+}
+- (void) setPuzzlePieceDropped:(BOOL) value {
+  puzzlePieceDropped_ = !!value;
+}
+- (BOOL) hasLevel {
+  return !!hasLevel_;
+}
+- (void) setHasLevel:(BOOL) value {
+  hasLevel_ = !!value;
+}
+@synthesize level;
+- (void) dealloc {
+  [super dealloc];
+}
+- (id) init {
+  if ((self = [super init])) {
+    self.monsterId = 0;
+    self.monsterType = TaskStageMonsterProto_MonsterTypeRegular;
+    self.expReward = 0;
+    self.silverReward = 0;
+    self.puzzlePieceDropped = NO;
+    self.level = 0;
+  }
+  return self;
+}
+static TaskStageMonsterProto* defaultTaskStageMonsterProtoInstance = nil;
++ (void) initialize {
+  if (self == [TaskStageMonsterProto class]) {
+    defaultTaskStageMonsterProtoInstance = [[TaskStageMonsterProto alloc] init];
+  }
+}
++ (TaskStageMonsterProto*) defaultInstance {
+  return defaultTaskStageMonsterProtoInstance;
+}
+- (TaskStageMonsterProto*) defaultInstance {
+  return defaultTaskStageMonsterProtoInstance;
+}
+- (BOOL) isInitialized {
+  return YES;
+}
+- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output {
+  if (self.hasMonsterId) {
+    [output writeInt32:1 value:self.monsterId];
+  }
+  if (self.hasMonsterType) {
+    [output writeEnum:2 value:self.monsterType];
+  }
+  if (self.hasExpReward) {
+    [output writeInt32:3 value:self.expReward];
+  }
+  if (self.hasSilverReward) {
+    [output writeInt32:4 value:self.silverReward];
+  }
+  if (self.hasPuzzlePieceDropped) {
+    [output writeBool:5 value:self.puzzlePieceDropped];
+  }
+  if (self.hasLevel) {
+    [output writeInt32:6 value:self.level];
+  }
+  [self.unknownFields writeToCodedOutputStream:output];
+}
+- (int32_t) serializedSize {
+  int32_t size = memoizedSerializedSize;
+  if (size != -1) {
+    return size;
+  }
+
+  size = 0;
+  if (self.hasMonsterId) {
+    size += computeInt32Size(1, self.monsterId);
+  }
+  if (self.hasMonsterType) {
+    size += computeEnumSize(2, self.monsterType);
+  }
+  if (self.hasExpReward) {
+    size += computeInt32Size(3, self.expReward);
+  }
+  if (self.hasSilverReward) {
+    size += computeInt32Size(4, self.silverReward);
+  }
+  if (self.hasPuzzlePieceDropped) {
+    size += computeBoolSize(5, self.puzzlePieceDropped);
+  }
+  if (self.hasLevel) {
+    size += computeInt32Size(6, self.level);
+  }
+  size += self.unknownFields.serializedSize;
+  memoizedSerializedSize = size;
+  return size;
+}
++ (TaskStageMonsterProto*) parseFromData:(NSData*) data {
+  return (TaskStageMonsterProto*)[[[TaskStageMonsterProto builder] mergeFromData:data] build];
+}
++ (TaskStageMonsterProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (TaskStageMonsterProto*)[[[TaskStageMonsterProto builder] mergeFromData:data extensionRegistry:extensionRegistry] build];
+}
++ (TaskStageMonsterProto*) parseFromInputStream:(NSInputStream*) input {
+  return (TaskStageMonsterProto*)[[[TaskStageMonsterProto builder] mergeFromInputStream:input] build];
+}
++ (TaskStageMonsterProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (TaskStageMonsterProto*)[[[TaskStageMonsterProto builder] mergeFromInputStream:input extensionRegistry:extensionRegistry] build];
+}
++ (TaskStageMonsterProto*) parseFromCodedInputStream:(PBCodedInputStream*) input {
+  return (TaskStageMonsterProto*)[[[TaskStageMonsterProto builder] mergeFromCodedInputStream:input] build];
+}
++ (TaskStageMonsterProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (TaskStageMonsterProto*)[[[TaskStageMonsterProto builder] mergeFromCodedInputStream:input extensionRegistry:extensionRegistry] build];
+}
++ (TaskStageMonsterProto_Builder*) builder {
+  return [[[TaskStageMonsterProto_Builder alloc] init] autorelease];
+}
++ (TaskStageMonsterProto_Builder*) builderWithPrototype:(TaskStageMonsterProto*) prototype {
+  return [[TaskStageMonsterProto builder] mergeFrom:prototype];
+}
+- (TaskStageMonsterProto_Builder*) builder {
+  return [TaskStageMonsterProto builder];
+}
+@end
+
+BOOL TaskStageMonsterProto_MonsterTypeIsValidValue(TaskStageMonsterProto_MonsterType value) {
+  switch (value) {
+    case TaskStageMonsterProto_MonsterTypeRegular:
+    case TaskStageMonsterProto_MonsterTypeMiniBoss:
+    case TaskStageMonsterProto_MonsterTypeBoss:
+      return YES;
+    default:
+      return NO;
+  }
+}
+@interface TaskStageMonsterProto_Builder()
+@property (retain) TaskStageMonsterProto* result;
+@end
+
+@implementation TaskStageMonsterProto_Builder
+@synthesize result;
+- (void) dealloc {
+  self.result = nil;
+  [super dealloc];
+}
+- (id) init {
+  if ((self = [super init])) {
+    self.result = [[[TaskStageMonsterProto alloc] init] autorelease];
+  }
+  return self;
+}
+- (PBGeneratedMessage*) internalGetResult {
+  return result;
+}
+- (TaskStageMonsterProto_Builder*) clear {
+  self.result = [[[TaskStageMonsterProto alloc] init] autorelease];
+  return self;
+}
+- (TaskStageMonsterProto_Builder*) clone {
+  return [TaskStageMonsterProto builderWithPrototype:result];
+}
+- (TaskStageMonsterProto*) defaultInstance {
+  return [TaskStageMonsterProto defaultInstance];
+}
+- (TaskStageMonsterProto*) build {
+  [self checkInitialized];
+  return [self buildPartial];
+}
+- (TaskStageMonsterProto*) buildPartial {
+  TaskStageMonsterProto* returnMe = [[result retain] autorelease];
+  self.result = nil;
+  return returnMe;
+}
+- (TaskStageMonsterProto_Builder*) mergeFrom:(TaskStageMonsterProto*) other {
+  if (other == [TaskStageMonsterProto defaultInstance]) {
+    return self;
+  }
+  if (other.hasMonsterId) {
+    [self setMonsterId:other.monsterId];
+  }
+  if (other.hasMonsterType) {
+    [self setMonsterType:other.monsterType];
+  }
+  if (other.hasExpReward) {
+    [self setExpReward:other.expReward];
+  }
+  if (other.hasSilverReward) {
+    [self setSilverReward:other.silverReward];
+  }
+  if (other.hasPuzzlePieceDropped) {
+    [self setPuzzlePieceDropped:other.puzzlePieceDropped];
+  }
+  if (other.hasLevel) {
+    [self setLevel:other.level];
+  }
+  [self mergeUnknownFields:other.unknownFields];
+  return self;
+}
+- (TaskStageMonsterProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input {
+  return [self mergeFromCodedInputStream:input extensionRegistry:[PBExtensionRegistry emptyRegistry]];
+}
+- (TaskStageMonsterProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  PBUnknownFieldSet_Builder* unknownFields = [PBUnknownFieldSet builderWithUnknownFields:self.unknownFields];
+  while (YES) {
+    int32_t tag = [input readTag];
+    switch (tag) {
+      case 0:
+        [self setUnknownFields:[unknownFields build]];
+        return self;
+      default: {
+        if (![self parseUnknownField:input unknownFields:unknownFields extensionRegistry:extensionRegistry tag:tag]) {
+          [self setUnknownFields:[unknownFields build]];
+          return self;
+        }
+        break;
+      }
+      case 8: {
+        [self setMonsterId:[input readInt32]];
+        break;
+      }
+      case 16: {
+        int32_t value = [input readEnum];
+        if (TaskStageMonsterProto_MonsterTypeIsValidValue(value)) {
+          [self setMonsterType:value];
+        } else {
+          [unknownFields mergeVarintField:2 value:value];
+        }
+        break;
+      }
+      case 24: {
+        [self setExpReward:[input readInt32]];
+        break;
+      }
+      case 32: {
+        [self setSilverReward:[input readInt32]];
+        break;
+      }
+      case 40: {
+        [self setPuzzlePieceDropped:[input readBool]];
+        break;
+      }
+      case 48: {
+        [self setLevel:[input readInt32]];
+        break;
+      }
+    }
+  }
+}
+- (BOOL) hasMonsterId {
+  return result.hasMonsterId;
+}
+- (int32_t) monsterId {
+  return result.monsterId;
+}
+- (TaskStageMonsterProto_Builder*) setMonsterId:(int32_t) value {
+  result.hasMonsterId = YES;
+  result.monsterId = value;
+  return self;
+}
+- (TaskStageMonsterProto_Builder*) clearMonsterId {
+  result.hasMonsterId = NO;
+  result.monsterId = 0;
+  return self;
+}
+- (BOOL) hasMonsterType {
+  return result.hasMonsterType;
+}
+- (TaskStageMonsterProto_MonsterType) monsterType {
+  return result.monsterType;
+}
+- (TaskStageMonsterProto_Builder*) setMonsterType:(TaskStageMonsterProto_MonsterType) value {
+  result.hasMonsterType = YES;
+  result.monsterType = value;
+  return self;
+}
+- (TaskStageMonsterProto_Builder*) clearMonsterType {
+  result.hasMonsterType = NO;
+  result.monsterType = TaskStageMonsterProto_MonsterTypeRegular;
+  return self;
+}
+- (BOOL) hasExpReward {
+  return result.hasExpReward;
+}
+- (int32_t) expReward {
+  return result.expReward;
+}
+- (TaskStageMonsterProto_Builder*) setExpReward:(int32_t) value {
+  result.hasExpReward = YES;
+  result.expReward = value;
+  return self;
+}
+- (TaskStageMonsterProto_Builder*) clearExpReward {
+  result.hasExpReward = NO;
+  result.expReward = 0;
+  return self;
+}
+- (BOOL) hasSilverReward {
+  return result.hasSilverReward;
+}
+- (int32_t) silverReward {
+  return result.silverReward;
+}
+- (TaskStageMonsterProto_Builder*) setSilverReward:(int32_t) value {
+  result.hasSilverReward = YES;
+  result.silverReward = value;
+  return self;
+}
+- (TaskStageMonsterProto_Builder*) clearSilverReward {
+  result.hasSilverReward = NO;
+  result.silverReward = 0;
+  return self;
+}
+- (BOOL) hasPuzzlePieceDropped {
+  return result.hasPuzzlePieceDropped;
+}
+- (BOOL) puzzlePieceDropped {
+  return result.puzzlePieceDropped;
+}
+- (TaskStageMonsterProto_Builder*) setPuzzlePieceDropped:(BOOL) value {
+  result.hasPuzzlePieceDropped = YES;
+  result.puzzlePieceDropped = value;
+  return self;
+}
+- (TaskStageMonsterProto_Builder*) clearPuzzlePieceDropped {
+  result.hasPuzzlePieceDropped = NO;
+  result.puzzlePieceDropped = NO;
+  return self;
+}
+- (BOOL) hasLevel {
+  return result.hasLevel;
+}
+- (int32_t) level {
+  return result.level;
+}
+- (TaskStageMonsterProto_Builder*) setLevel:(int32_t) value {
+  result.hasLevel = YES;
+  result.level = value;
+  return self;
+}
+- (TaskStageMonsterProto_Builder*) clearLevel {
+  result.hasLevel = NO;
+  result.level = 0;
   return self;
 }
 @end

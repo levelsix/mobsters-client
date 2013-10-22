@@ -206,6 +206,8 @@
   }
 }
 
+#pragma mark - UITextFieldDelegate methods
+
 - (BOOL) textFieldShouldReturn:(UITextField *)textField {
   [textField resignFirstResponder];
   return YES;
@@ -228,6 +230,8 @@
     [self.browseClansTable reloadData];
   }
 }
+
+#pragma mark - 
 
 - (IBAction)rightButtonClicked:(id)sender {
   while (![sender isKindOfClass:[UITableViewCell class]]) {

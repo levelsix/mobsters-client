@@ -152,19 +152,21 @@
 - (void) handleStartupResponseProto:(FullEvent *)fe {
   [self progressTo:PART_3_PERCENT];
   
-  if (self.presentedViewController) {
-    GameState *gs = [GameState sharedGameState];
-    [[OutgoingEventController sharedOutgoingEventController] loadPlayerCity:gs.userId withDelegate:self];
-  }
+  GameState *gs = [GameState sharedGameState];
+  [[OutgoingEventController sharedOutgoingEventController] loadPlayerCity:gs.userId withDelegate:self];
 }
 
 - (void) handleLoadPlayerCityResponseProto:(FullEvent *)fe {
-  [self progressTo:1.f];
-  
-  [self dismissViewControllerAnimated:YES completion:nil];
-  
-  // Load the home map
-  [self visitCityClicked:0];
+  if ([self.navigationController.visibleViewController isKindOfClass:[LoadingViewController class]]) {
+    [self progressTo:1.f];
+    
+    [self dismissViewControllerAnimated:YES completion:nil];
+    
+    // Load the home map
+    [self visitCityClicked:0];
+  } else if ([self.currentMap isKindOfClass:[HomeMap class]]) {
+    [(HomeMap *)self.currentMap refresh];
+  }
 }
 
 #pragma mark - Observer methods to update top bar

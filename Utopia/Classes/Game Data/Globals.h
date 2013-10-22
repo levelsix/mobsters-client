@@ -29,6 +29,8 @@
 
 #define IAP_SUCCESS_NOTIFICATION @"IapSuccessNotification"
 #define HEAL_WAIT_COMPLETE_NOTIFICATION @"HealWaitCompleteNotification"
+#define ENHANCE_WAIT_COMPLETE_NOTIFICATION @"EnhanceWaitCompleteNotification"
+#define GAMESTATE_UPDATE_NOTIFICATION @"GameStateUpdateNotification"
 
 #ifdef LEGENDS_OF_CHAOS
 #define GAME_NAME @"Legends of Chaos"
@@ -74,7 +76,7 @@
 @property (nonatomic, assign) float diamondCostForInstantUpgradeMultiplier;
 
 // Clan constants
-@property (nonatomic, assign) int diamondPriceToCreateClan;
+@property (nonatomic, assign) int coinPriceToCreateClan;
 @property (nonatomic, assign) int maxCharLengthForClanName;
 @property (nonatomic, assign) int maxCharLengthForClanDescription;
 @property (nonatomic, assign) int maxCharLengthForClanTag;
@@ -194,6 +196,9 @@
 - (int) calculateGoldCostToSpeedUpExpansionTimeLeft:(int)seconds;
 - (int) calculateSilverCostForNewExpansion;
 
+// Monster formulas
+- (int) calculateTotalDamageForMonster:(UserMonster *)um;
+- (int) calculateElementalDamageForMonster:(UserMonster *)um element:(MonsterProto_MonsterElement)element;
 - (int) calculateMaxHealthForMonster:(UserMonster *)um;
 - (int) calculateCostToHealMonster:(UserMonster *)um;
 - (int) calculateSecondsToHealMonster:(UserMonster *)um;
@@ -201,12 +206,12 @@
 - (int) calculateCostToSpeedupHealingQueue;
 
 // Enhancement formulas
-- (float) calculatePercentOfLevel:(int)percentage;
-- (int) calculateEnhancementLevel:(int)percentage;
-- (int) calculateEnhancementPercentageToNextLevel:(int)percentage;
-- (int) calculateEnhancementPercentageIncrease:(UserMonster *)enhancingMonster feeders:(NSArray *)feeders;
-- (int) calculateEnhancementPercentageIncrease:(UserMonster *)enhancingMonster feeder:(UserMonster *)feeder;
-- (int) calculateSilverCostForEnhancement:(UserMonster *)enhancingMonster feeders:(NSArray *)feeders;
+- (float) calculateEnhancementPercentageIncrease:(UserEnhancement *)ue;
+- (float) calculateEnhancementPercentageIncrease:(EnhancementItem *)baseMonster feeder:(EnhancementItem *)feeder;
+- (int) calculateSilverCostForEnhancement:(EnhancementItem *)baseMonster feeder:(EnhancementItem *)feeder;
+- (int) calculateSecondsForEnhancement:(EnhancementItem *)baseMonster feeder:(EnhancementItem *)feeder;
+- (int) calculateTimeLeftForEnhancement:(UserEnhancement *)ue;
+- (int) calculateCostToSpeedupEnhancement:(UserEnhancement *)ue;
 
 + (void) adjustViewForCentering:(UIView *)view withLabel:(UILabel *)label;
 
