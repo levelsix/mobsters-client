@@ -150,10 +150,11 @@ static NSString *udid = nil;
 }
 
 - (void) initNetworkCommunication {
-  _connectionThread = [[AMQPConnectionThread alloc] init];
-  [_connectionThread start];
-  _connectionThread.delegate = self;
-  [_connectionThread connect:udid];
+  [self.connectionThread end];
+  self.connectionThread = [[AMQPConnectionThread alloc] init];
+  [self.connectionThread start];
+  self.connectionThread.delegate = self;
+  [self.connectionThread connect:udid];
   
   [self rebuildSender];
   _currentTagNum = 1;
@@ -166,7 +167,7 @@ static NSString *udid = nil;
 }
 
 - (void) reloadClanMessageQueue {
-  [_connectionThread reloadClanMessageQueue];
+  [self.connectionThread reloadClanMessageQueue];
 }
 
 - (void) connectedToHost {
@@ -187,13 +188,13 @@ static NSString *udid = nil;
 }
 
 - (void) initUserIdMessageQueue {
-  [_connectionThread startUserIdQueue];
+  [self.connectionThread startUserIdQueue];
   
   LNLog(@"Created user id queue");
 }
 
 - (void) tryReconnect {
-  [_connectionThread connect:udid];
+  [self.connectionThread connect:udid];
 }
 
 - (void) unableToConnectToHost:(NSString *)error
@@ -250,7 +251,7 @@ static NSString *udid = nil;
   [messageWithHeader appendBytes:header length:sizeof(header)];
   [messageWithHeader appendData:data];
   
-  [_connectionThread sendData:messageWithHeader];
+  [self.connectionThread sendData:messageWithHeader];
   
   int tag = _currentTagNum;
   _currentTagNum++;
@@ -511,6 +512,18 @@ static NSString *udid = nil;
   return [self sendData:req withMessageType:EventProtocolRequestCQuestAcceptEvent];
 }
 
+- (int) sendQuestProgressMessage:(int)questId progress:(int)progress isComplete:(BOOL)isComplete userMonsterIds:(NSArray *)userMonsterIds {
+  QuestProgressRequestProto *req = [[[[[[[QuestProgressRequestProto builder]
+                                       setSender:_sender]
+                                      setQuestId:questId]
+                                     setCurrentProgress:progress]
+                                      setIsComplete:isComplete]
+                                     addAllDeleteUserMonsterIds:userMonsterIds]
+                                    build];
+  
+  return [self sendData:req withMessageType:EventProtocolRequestCQuestProgressEvent];
+}
+
 - (int) sendQuestRedeemMessage:(int)questId {
   QuestRedeemRequestProto *req = [[[[QuestRedeemRequestProto builder]
                                     setSender:_sender]
@@ -518,18 +531,6 @@ static NSString *udid = nil;
                                   build];
   
   return [self sendData:req withMessageType:EventProtocolRequestCQuestRedeemEvent];
-}
-
-- (int) sendUserQuestDetailsMessage:(int)questId {
-  UserQuestDetailsRequestProto_Builder *builder = [[UserQuestDetailsRequestProto builder]
-                                                   setSender:_sender];
-  
-  if (questId != 0) {
-    [builder setQuestId:questId];
-  }
-  UserQuestDetailsRequestProto *req = [builder build];
-  
-  return [self sendData:req withMessageType:EventProtocolRequestCUserQuestDetailsEvent];
 }
 
 - (int) sendRetrieveUsersForUserIds:(NSArray *)userIds {
@@ -748,6 +749,27 @@ static NSString *udid = nil;
   return [self sendData:req withMessageType:EventProtocolRequestCBeginDungeonEvent];
 }
 
+- (int) sendUpdateMonsterHealthMessage:(uint64_t)clientTime monsterHealth:(UserMonsterCurrentHealthProto *)monsterHealth {
+  UpdateMonsterHealthRequestProto *req = [[[[[UpdateMonsterHealthRequestProto builder]
+                                             setSender:_sender]
+                                            setClientTime:clientTime]
+                                           addUmchp:monsterHealth]
+                                          build];
+  
+  return [self sendData:req withMessageType:EventProtocolRequestCUpdateMonsterHealthEvent];
+}
+
+- (int) sendEndDungeonMessage:(uint64_t)userTaskId userWon:(BOOL)userWon time:(uint64_t)time {
+  EndDungeonRequestProto *req = [[[[[[EndDungeonRequestProto builder]
+                                     setSender:_sender]
+                                    setUserTaskId:userTaskId]
+                                   setUserWon:userWon]
+                                  setClientTime:time]
+                                 build];
+  
+  return [self sendData:req withMessageType:EventProtocolRequestCEndDungeonEvent];
+}
+
 - (int) sendHealQueueWaitTimeComplete:(NSArray *)monsterHealths {
   HealMonsterWaitTimeCompleteRequestProto *req = [[[[HealMonsterWaitTimeCompleteRequestProto builder]
                                                     setSender:_sender]
@@ -776,14 +798,33 @@ static NSString *udid = nil;
   return tag;
 }
 
+- (int) sendAddMonsterToTeam:(int)userMonsterId teamSlot:(int)teamSlot {
+  AddMonsterToBattleTeamRequestProto *req = [[[[[AddMonsterToBattleTeamRequestProto builder]
+                                                setSender:_sender]
+                                               setUserMonsterId:userMonsterId]
+                                              setTeamSlotNum:teamSlot]
+                                             build];
+  
+  return [self sendData:req withMessageType:EventProtocolRequestCAddMonsterToBattleTeamEvent];
+}
+
+- (int) sendRemoveMonsterFromTeam:(int)userMonsterId {
+  RemoveMonsterFromBattleTeamRequestProto *req = [[[[RemoveMonsterFromBattleTeamRequestProto builder]
+                                                    setSender:_sender]
+                                                   setUserMonsterId:userMonsterId]
+                                                  build];
+  
+  return [self sendData:req withMessageType:EventProtocolRequestCRemoveMonsterFromBattleTeamEvent];
+}
+
 - (int) sendEnhanceQueueWaitTimeComplete:(UserMonsterCurrentExpProto *)monsterExp userMonsterIds:(NSArray *)userMonsterIds {
   EnhancementWaitTimeCompleteRequestProto *req = [[[[[EnhancementWaitTimeCompleteRequestProto builder]
-                                                    setSender:_sender]
+                                                     setSender:_sender]
                                                     setUmcep:monsterExp]
                                                    addAllUserMonsterIds:userMonsterIds]
                                                   build];
   
-  int tag = [self sendData:req withMessageType:EventProtocolRequestCHealMonsterWaitTimeCompleteEvent];
+  int tag = [self sendData:req withMessageType:EventProtocolRequestCEnhancementWaitTimeCompleteEvent];
   
   [self reloadEnhancementSnapshot];
   
@@ -792,14 +833,14 @@ static NSString *udid = nil;
 
 - (int) sendEnhanceQueueSpeedup:(UserMonsterCurrentExpProto *)monsterExp userMonsterIds:(NSArray *)userMonsterIds goldCost:(int)goldCost {
   EnhancementWaitTimeCompleteRequestProto *req = [[[[[[[EnhancementWaitTimeCompleteRequestProto builder]
-                                                     setSender:_sender]
-                                                    setUmcep:monsterExp]
+                                                       setSender:_sender]
+                                                      setUmcep:monsterExp]
                                                      setIsSpeedup:YES]
                                                     setGemsForSpeedup:goldCost]
                                                    addAllUserMonsterIds:userMonsterIds]
                                                   build];
   
-  int tag = [self sendData:req withMessageType:EventProtocolRequestCHealMonsterWaitTimeCompleteEvent];
+  int tag = [self sendData:req withMessageType:EventProtocolRequestCEnhancementWaitTimeCompleteEvent];
   
   [self reloadEnhancementSnapshot];
   
@@ -807,7 +848,7 @@ static NSString *udid = nil;
 }
 
 - (int) retrieveCurrencyFromStruct:(int)userStructId time:(uint64_t)time {
-  [self flushWithInt:EventProtocolRequestCRetrieveCurrencyFromNormStructureEvent];
+  [self flushAllExceptEventType:EventProtocolRequestCRetrieveCurrencyFromNormStructureEvent];
   RetrieveCurrencyFromNormStructureRequestProto_StructRetrieval *sr = [[[[RetrieveCurrencyFromNormStructureRequestProto_StructRetrieval builder]
                                                                          setUserStructId:userStructId]
                                                                         setTimeOfRetrieval:time]
@@ -827,8 +868,25 @@ static NSString *udid = nil;
   return [self sendData:req withMessageType:EventProtocolRequestCRetrieveCurrencyFromNormStructureEvent flush:NO];
 }
 
-- (int) setHealQueueDirty {
-  [self flushWithInt:EventProtocolRequestCHealMonsterEvent];
+- (int) buyInventorySlots {
+  [self flushAllExceptEventType:EventProtocolResponseSIncreaseMonsterInventorySlotEvent];
+  _numBuyInventorySlots++;
+  return _currentTagNum;
+}
+
+- (int) sendBuyInventorySlotsMessage {
+  IncreaseMonsterInventorySlotRequestProto *req = [[[[IncreaseMonsterInventorySlotRequestProto builder]
+                                                setSender:_sender]
+                                               setNumPurchases:_numBuyInventorySlots]
+                                              build];
+  
+  return [self sendData:req withMessageType:EventProtocolResponseSIncreaseMonsterInventorySlotEvent flush:NO];
+}
+
+- (int) setHealQueueDirtyWithCoinChange:(int)coinChange gemCost:(int)gemCost {
+  [self flushAllExceptEventType:EventProtocolRequestCHealMonsterEvent];
+  _healingQueueCashChange += coinChange;
+  _healingQueueGemCost += gemCost;
   _healingQueuePotentiallyChanged = YES;
   return _currentTagNum;
 }
@@ -863,7 +921,7 @@ static NSString *udid = nil;
     }
   }
   
-  if (added.count || removed.count || changed.count) {
+  if (added.count || removed.count || changed.count || _healingQueueCashChange || _healingQueueGemCost) {
     HealMonsterRequestProto_Builder *bldr = [[HealMonsterRequestProto builder] setSender:_sender];
     
     for (UserMonsterHealingItem *item in added) {
@@ -878,7 +936,11 @@ static NSString *udid = nil;
       [bldr addUmhUpdate:[item convertToProto]];
     }
     
+    [bldr setCashChange:_healingQueueCashChange];
+    [bldr setGemCost:_healingQueueGemCost];
+    
     NSLog(@"Sending healing queue update with %d adds, %d removals, and %d updates.", added.count, removed.count, changed.count);
+    NSLog(@"Cash change: %@, gemCost: %d", [Globals commafyNumber:_healingQueueCashChange], _healingQueueGemCost);
     
     return [self sendData:bldr.build withMessageType:EventProtocolRequestCHealMonsterEvent flush:NO];
   } else {
@@ -887,7 +949,7 @@ static NSString *udid = nil;
 }
 
 - (int) setEnhanceQueueDirty {
-  [self flushWithInt:EventProtocolRequestCSubmitMonsterEnhancementEvent];
+  [self flushAllExceptEventType:EventProtocolRequestCSubmitMonsterEnhancementEvent];
   _enhancementPotentiallyChanged = YES;
   return _currentTagNum;
 }
@@ -924,10 +986,6 @@ static NSString *udid = nil;
     }
   }
   
-  NSLog(@"Added: %@", added);
-  NSLog(@"Removed: %@", removed);
-  NSLog(@"Changed: %@", changed);
-  
   if (added.count || removed.count || changed.count) {
     SubmitMonsterEnhancementRequestProto_Builder *bldr = [[SubmitMonsterEnhancementRequestProto builder] setSender:_sender];
     
@@ -952,14 +1010,14 @@ static NSString *udid = nil;
 }
 
 - (void) flush {
-  [self flushWithInt:-1];
+  [self flushAllExceptEventType:-1];
 }
 
-- (void) flushWithInt:(int)val {
-  [self flush:[NSNumber numberWithInt:val]];
+- (void) flushAllExceptEventType:(int)val {
+  [self flushAllExcept:[NSNumber numberWithInt:val]];
 }
 
-- (void) flush:(NSNumber *)num {
+- (void) flushAllExcept:(NSNumber *)num {
   int type = num.intValue;
   if (type != EventProtocolRequestCRetrieveCurrencyFromNormStructureEvent) {
     if (self.structRetrievals.count > 0) {
@@ -973,6 +1031,8 @@ static NSString *udid = nil;
       [self sendHealMonsterMessage];
       [self reloadHealQueueSnapshot];
       _healingQueuePotentiallyChanged = NO;
+      _healingQueueGemCost = 0;
+      _healingQueueCashChange = 0;
     }
   }
   
@@ -983,17 +1043,20 @@ static NSString *udid = nil;
       _enhancementPotentiallyChanged = NO;
     }
   }
+  
+  if (type != EventProtocolRequestCIncreaseMonsterInventorySlotEvent) {
+    if (_numBuyInventorySlots > 0) {
+      [self sendBuyInventorySlotsMessage];
+      _numBuyInventorySlots = 0;
+    }
+  }
 }
 
 - (void) closeDownConnection {
   [_flushTimer invalidate];
   _flushTimer = nil;
   [self flush];
-  [_connectionThread end];
-  _connectionThread = nil;
   _sender = nil;
-  
-  LNLog(@"Disconnected from host..");
 }
 
 - (void) dealloc {

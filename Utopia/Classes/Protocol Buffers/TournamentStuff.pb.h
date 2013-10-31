@@ -11,8 +11,6 @@
 @class FullUserProto_Builder;
 @class GroupChatMessageProto;
 @class GroupChatMessageProto_Builder;
-@class LevelAndRequiredExpProto;
-@class LevelAndRequiredExpProto_Builder;
 @class MinimumClanProto;
 @class MinimumClanProto_Builder;
 @class MinimumUserProto;
@@ -23,6 +21,8 @@
 @class MinimumUserProto_Builder;
 @class PrivateChatPostProto;
 @class PrivateChatPostProto_Builder;
+@class StaticLevelInfoProto;
+@class StaticLevelInfoProto_Builder;
 @class TournamentEventProto;
 @class TournamentEventProto_Builder;
 @class TournamentEventRewardProto;

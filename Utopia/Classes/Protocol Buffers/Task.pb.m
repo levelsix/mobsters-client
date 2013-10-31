@@ -257,6 +257,7 @@ static TaskStageProto* defaultTaskStageProtoInstance = nil;
 @interface FullTaskProto ()
 @property int32_t taskId;
 @property (retain) NSString* name;
+@property (retain) NSString* description;
 @property int32_t cityId;
 @property int32_t assetNumWithinCity;
 @end
@@ -277,6 +278,13 @@ static TaskStageProto* defaultTaskStageProtoInstance = nil;
   hasName_ = !!value;
 }
 @synthesize name;
+- (BOOL) hasDescription {
+  return !!hasDescription_;
+}
+- (void) setHasDescription:(BOOL) value {
+  hasDescription_ = !!value;
+}
+@synthesize description;
 - (BOOL) hasCityId {
   return !!hasCityId_;
 }
@@ -293,12 +301,14 @@ static TaskStageProto* defaultTaskStageProtoInstance = nil;
 @synthesize assetNumWithinCity;
 - (void) dealloc {
   self.name = nil;
+  self.description = nil;
   [super dealloc];
 }
 - (id) init {
   if ((self = [super init])) {
     self.taskId = 0;
     self.name = @"";
+    self.description = @"";
     self.cityId = 0;
     self.assetNumWithinCity = 0;
   }
@@ -326,11 +336,14 @@ static FullTaskProto* defaultFullTaskProtoInstance = nil;
   if (self.hasName) {
     [output writeString:2 value:self.name];
   }
+  if (self.hasDescription) {
+    [output writeString:3 value:self.description];
+  }
   if (self.hasCityId) {
-    [output writeInt32:3 value:self.cityId];
+    [output writeInt32:4 value:self.cityId];
   }
   if (self.hasAssetNumWithinCity) {
-    [output writeInt32:4 value:self.assetNumWithinCity];
+    [output writeInt32:5 value:self.assetNumWithinCity];
   }
   [self.unknownFields writeToCodedOutputStream:output];
 }
@@ -347,11 +360,14 @@ static FullTaskProto* defaultFullTaskProtoInstance = nil;
   if (self.hasName) {
     size += computeStringSize(2, self.name);
   }
+  if (self.hasDescription) {
+    size += computeStringSize(3, self.description);
+  }
   if (self.hasCityId) {
-    size += computeInt32Size(3, self.cityId);
+    size += computeInt32Size(4, self.cityId);
   }
   if (self.hasAssetNumWithinCity) {
-    size += computeInt32Size(4, self.assetNumWithinCity);
+    size += computeInt32Size(5, self.assetNumWithinCity);
   }
   size += self.unknownFields.serializedSize;
   memoizedSerializedSize = size;
@@ -434,6 +450,9 @@ static FullTaskProto* defaultFullTaskProtoInstance = nil;
   if (other.hasName) {
     [self setName:other.name];
   }
+  if (other.hasDescription) {
+    [self setDescription:other.description];
+  }
   if (other.hasCityId) {
     [self setCityId:other.cityId];
   }
@@ -469,11 +488,15 @@ static FullTaskProto* defaultFullTaskProtoInstance = nil;
         [self setName:[input readString]];
         break;
       }
-      case 24: {
-        [self setCityId:[input readInt32]];
+      case 26: {
+        [self setDescription:[input readString]];
         break;
       }
       case 32: {
+        [self setCityId:[input readInt32]];
+        break;
+      }
+      case 40: {
         [self setAssetNumWithinCity:[input readInt32]];
         break;
       }
@@ -510,6 +533,22 @@ static FullTaskProto* defaultFullTaskProtoInstance = nil;
 - (FullTaskProto_Builder*) clearName {
   result.hasName = NO;
   result.name = @"";
+  return self;
+}
+- (BOOL) hasDescription {
+  return result.hasDescription;
+}
+- (NSString*) description {
+  return result.description;
+}
+- (FullTaskProto_Builder*) setDescription:(NSString*) value {
+  result.hasDescription = YES;
+  result.description = value;
+  return self;
+}
+- (FullTaskProto_Builder*) clearDescription {
+  result.hasDescription = NO;
+  result.description = @"";
   return self;
 }
 - (BOOL) hasCityId {

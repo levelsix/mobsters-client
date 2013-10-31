@@ -945,8 +945,8 @@ static MinimumUserProtoWithLevel* defaultMinimumUserProtoWithLevelInstance = nil
 @property int32_t userId;
 @property (retain) NSString* name;
 @property int32_t level;
-@property int32_t diamonds;
-@property int32_t coins;
+@property int32_t gems;
+@property int32_t cash;
 @property int32_t experience;
 @property int32_t tasksCompleted;
 @property int32_t battlesWon;
@@ -1006,20 +1006,20 @@ static MinimumUserProtoWithLevel* defaultMinimumUserProtoWithLevelInstance = nil
   hasLevel_ = !!value;
 }
 @synthesize level;
-- (BOOL) hasDiamonds {
-  return !!hasDiamonds_;
+- (BOOL) hasGems {
+  return !!hasGems_;
 }
-- (void) setHasDiamonds:(BOOL) value {
-  hasDiamonds_ = !!value;
+- (void) setHasGems:(BOOL) value {
+  hasGems_ = !!value;
 }
-@synthesize diamonds;
-- (BOOL) hasCoins {
-  return !!hasCoins_;
+@synthesize gems;
+- (BOOL) hasCash {
+  return !!hasCash_;
 }
-- (void) setHasCoins:(BOOL) value {
-  hasCoins_ = !!value;
+- (void) setHasCash:(BOOL) value {
+  hasCash_ = !!value;
 }
-@synthesize coins;
+@synthesize cash;
 - (BOOL) hasExperience {
   return !!hasExperience_;
 }
@@ -1293,8 +1293,8 @@ static MinimumUserProtoWithLevel* defaultMinimumUserProtoWithLevelInstance = nil
     self.userId = 0;
     self.name = @"";
     self.level = 0;
-    self.diamonds = 0;
-    self.coins = 0;
+    self.gems = 0;
+    self.cash = 0;
     self.experience = 0;
     self.tasksCompleted = 0;
     self.battlesWon = 0;
@@ -1357,11 +1357,11 @@ static FullUserProto* defaultFullUserProtoInstance = nil;
   if (self.hasLevel) {
     [output writeInt32:3 value:self.level];
   }
-  if (self.hasDiamonds) {
-    [output writeInt32:4 value:self.diamonds];
+  if (self.hasGems) {
+    [output writeInt32:4 value:self.gems];
   }
-  if (self.hasCoins) {
-    [output writeInt32:5 value:self.coins];
+  if (self.hasCash) {
+    [output writeInt32:5 value:self.cash];
   }
   if (self.hasExperience) {
     [output writeInt32:6 value:self.experience];
@@ -1483,11 +1483,11 @@ static FullUserProto* defaultFullUserProtoInstance = nil;
   if (self.hasLevel) {
     size += computeInt32Size(3, self.level);
   }
-  if (self.hasDiamonds) {
-    size += computeInt32Size(4, self.diamonds);
+  if (self.hasGems) {
+    size += computeInt32Size(4, self.gems);
   }
-  if (self.hasCoins) {
-    size += computeInt32Size(5, self.coins);
+  if (self.hasCash) {
+    size += computeInt32Size(5, self.cash);
   }
   if (self.hasExperience) {
     size += computeInt32Size(6, self.experience);
@@ -1675,11 +1675,11 @@ static FullUserProto* defaultFullUserProtoInstance = nil;
   if (other.hasLevel) {
     [self setLevel:other.level];
   }
-  if (other.hasDiamonds) {
-    [self setDiamonds:other.diamonds];
+  if (other.hasGems) {
+    [self setGems:other.gems];
   }
-  if (other.hasCoins) {
-    [self setCoins:other.coins];
+  if (other.hasCash) {
+    [self setCash:other.cash];
   }
   if (other.hasExperience) {
     [self setExperience:other.experience];
@@ -1817,11 +1817,11 @@ static FullUserProto* defaultFullUserProtoInstance = nil;
         break;
       }
       case 32: {
-        [self setDiamonds:[input readInt32]];
+        [self setGems:[input readInt32]];
         break;
       }
       case 40: {
-        [self setCoins:[input readInt32]];
+        [self setCash:[input readInt32]];
         break;
       }
       case 48: {
@@ -2016,36 +2016,36 @@ static FullUserProto* defaultFullUserProtoInstance = nil;
   result.level = 0;
   return self;
 }
-- (BOOL) hasDiamonds {
-  return result.hasDiamonds;
+- (BOOL) hasGems {
+  return result.hasGems;
 }
-- (int32_t) diamonds {
-  return result.diamonds;
+- (int32_t) gems {
+  return result.gems;
 }
-- (FullUserProto_Builder*) setDiamonds:(int32_t) value {
-  result.hasDiamonds = YES;
-  result.diamonds = value;
+- (FullUserProto_Builder*) setGems:(int32_t) value {
+  result.hasGems = YES;
+  result.gems = value;
   return self;
 }
-- (FullUserProto_Builder*) clearDiamonds {
-  result.hasDiamonds = NO;
-  result.diamonds = 0;
+- (FullUserProto_Builder*) clearGems {
+  result.hasGems = NO;
+  result.gems = 0;
   return self;
 }
-- (BOOL) hasCoins {
-  return result.hasCoins;
+- (BOOL) hasCash {
+  return result.hasCash;
 }
-- (int32_t) coins {
-  return result.coins;
+- (int32_t) cash {
+  return result.cash;
 }
-- (FullUserProto_Builder*) setCoins:(int32_t) value {
-  result.hasCoins = YES;
-  result.coins = value;
+- (FullUserProto_Builder*) setCash:(int32_t) value {
+  result.hasCash = YES;
+  result.cash = value;
   return self;
 }
-- (FullUserProto_Builder*) clearCoins {
-  result.hasCoins = NO;
-  result.coins = 0;
+- (FullUserProto_Builder*) clearCash {
+  result.hasCash = NO;
+  result.cash = 0;
   return self;
 }
 - (BOOL) hasExperience {
@@ -2608,12 +2608,13 @@ static FullUserProto* defaultFullUserProtoInstance = nil;
 }
 @end
 
-@interface LevelAndRequiredExpProto ()
+@interface StaticLevelInfoProto ()
 @property int32_t level;
 @property int32_t requiredExperience;
+@property int32_t maxCash;
 @end
 
-@implementation LevelAndRequiredExpProto
+@implementation StaticLevelInfoProto
 
 - (BOOL) hasLevel {
   return !!hasLevel_;
@@ -2629,6 +2630,13 @@ static FullUserProto* defaultFullUserProtoInstance = nil;
   hasRequiredExperience_ = !!value;
 }
 @synthesize requiredExperience;
+- (BOOL) hasMaxCash {
+  return !!hasMaxCash_;
+}
+- (void) setHasMaxCash:(BOOL) value {
+  hasMaxCash_ = !!value;
+}
+@synthesize maxCash;
 - (void) dealloc {
   [super dealloc];
 }
@@ -2636,20 +2644,21 @@ static FullUserProto* defaultFullUserProtoInstance = nil;
   if ((self = [super init])) {
     self.level = 0;
     self.requiredExperience = 0;
+    self.maxCash = 0;
   }
   return self;
 }
-static LevelAndRequiredExpProto* defaultLevelAndRequiredExpProtoInstance = nil;
+static StaticLevelInfoProto* defaultStaticLevelInfoProtoInstance = nil;
 + (void) initialize {
-  if (self == [LevelAndRequiredExpProto class]) {
-    defaultLevelAndRequiredExpProtoInstance = [[LevelAndRequiredExpProto alloc] init];
+  if (self == [StaticLevelInfoProto class]) {
+    defaultStaticLevelInfoProtoInstance = [[StaticLevelInfoProto alloc] init];
   }
 }
-+ (LevelAndRequiredExpProto*) defaultInstance {
-  return defaultLevelAndRequiredExpProtoInstance;
++ (StaticLevelInfoProto*) defaultInstance {
+  return defaultStaticLevelInfoProtoInstance;
 }
-- (LevelAndRequiredExpProto*) defaultInstance {
-  return defaultLevelAndRequiredExpProtoInstance;
+- (StaticLevelInfoProto*) defaultInstance {
+  return defaultStaticLevelInfoProtoInstance;
 }
 - (BOOL) isInitialized {
   return YES;
@@ -2660,6 +2669,9 @@ static LevelAndRequiredExpProto* defaultLevelAndRequiredExpProtoInstance = nil;
   }
   if (self.hasRequiredExperience) {
     [output writeInt32:2 value:self.requiredExperience];
+  }
+  if (self.hasMaxCash) {
+    [output writeInt32:3 value:self.maxCash];
   }
   [self.unknownFields writeToCodedOutputStream:output];
 }
@@ -2676,44 +2688,47 @@ static LevelAndRequiredExpProto* defaultLevelAndRequiredExpProtoInstance = nil;
   if (self.hasRequiredExperience) {
     size += computeInt32Size(2, self.requiredExperience);
   }
+  if (self.hasMaxCash) {
+    size += computeInt32Size(3, self.maxCash);
+  }
   size += self.unknownFields.serializedSize;
   memoizedSerializedSize = size;
   return size;
 }
-+ (LevelAndRequiredExpProto*) parseFromData:(NSData*) data {
-  return (LevelAndRequiredExpProto*)[[[LevelAndRequiredExpProto builder] mergeFromData:data] build];
++ (StaticLevelInfoProto*) parseFromData:(NSData*) data {
+  return (StaticLevelInfoProto*)[[[StaticLevelInfoProto builder] mergeFromData:data] build];
 }
-+ (LevelAndRequiredExpProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
-  return (LevelAndRequiredExpProto*)[[[LevelAndRequiredExpProto builder] mergeFromData:data extensionRegistry:extensionRegistry] build];
++ (StaticLevelInfoProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (StaticLevelInfoProto*)[[[StaticLevelInfoProto builder] mergeFromData:data extensionRegistry:extensionRegistry] build];
 }
-+ (LevelAndRequiredExpProto*) parseFromInputStream:(NSInputStream*) input {
-  return (LevelAndRequiredExpProto*)[[[LevelAndRequiredExpProto builder] mergeFromInputStream:input] build];
++ (StaticLevelInfoProto*) parseFromInputStream:(NSInputStream*) input {
+  return (StaticLevelInfoProto*)[[[StaticLevelInfoProto builder] mergeFromInputStream:input] build];
 }
-+ (LevelAndRequiredExpProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
-  return (LevelAndRequiredExpProto*)[[[LevelAndRequiredExpProto builder] mergeFromInputStream:input extensionRegistry:extensionRegistry] build];
++ (StaticLevelInfoProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (StaticLevelInfoProto*)[[[StaticLevelInfoProto builder] mergeFromInputStream:input extensionRegistry:extensionRegistry] build];
 }
-+ (LevelAndRequiredExpProto*) parseFromCodedInputStream:(PBCodedInputStream*) input {
-  return (LevelAndRequiredExpProto*)[[[LevelAndRequiredExpProto builder] mergeFromCodedInputStream:input] build];
++ (StaticLevelInfoProto*) parseFromCodedInputStream:(PBCodedInputStream*) input {
+  return (StaticLevelInfoProto*)[[[StaticLevelInfoProto builder] mergeFromCodedInputStream:input] build];
 }
-+ (LevelAndRequiredExpProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
-  return (LevelAndRequiredExpProto*)[[[LevelAndRequiredExpProto builder] mergeFromCodedInputStream:input extensionRegistry:extensionRegistry] build];
++ (StaticLevelInfoProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (StaticLevelInfoProto*)[[[StaticLevelInfoProto builder] mergeFromCodedInputStream:input extensionRegistry:extensionRegistry] build];
 }
-+ (LevelAndRequiredExpProto_Builder*) builder {
-  return [[[LevelAndRequiredExpProto_Builder alloc] init] autorelease];
++ (StaticLevelInfoProto_Builder*) builder {
+  return [[[StaticLevelInfoProto_Builder alloc] init] autorelease];
 }
-+ (LevelAndRequiredExpProto_Builder*) builderWithPrototype:(LevelAndRequiredExpProto*) prototype {
-  return [[LevelAndRequiredExpProto builder] mergeFrom:prototype];
++ (StaticLevelInfoProto_Builder*) builderWithPrototype:(StaticLevelInfoProto*) prototype {
+  return [[StaticLevelInfoProto builder] mergeFrom:prototype];
 }
-- (LevelAndRequiredExpProto_Builder*) builder {
-  return [LevelAndRequiredExpProto builder];
+- (StaticLevelInfoProto_Builder*) builder {
+  return [StaticLevelInfoProto builder];
 }
 @end
 
-@interface LevelAndRequiredExpProto_Builder()
-@property (retain) LevelAndRequiredExpProto* result;
+@interface StaticLevelInfoProto_Builder()
+@property (retain) StaticLevelInfoProto* result;
 @end
 
-@implementation LevelAndRequiredExpProto_Builder
+@implementation StaticLevelInfoProto_Builder
 @synthesize result;
 - (void) dealloc {
   self.result = nil;
@@ -2721,34 +2736,34 @@ static LevelAndRequiredExpProto* defaultLevelAndRequiredExpProtoInstance = nil;
 }
 - (id) init {
   if ((self = [super init])) {
-    self.result = [[[LevelAndRequiredExpProto alloc] init] autorelease];
+    self.result = [[[StaticLevelInfoProto alloc] init] autorelease];
   }
   return self;
 }
 - (PBGeneratedMessage*) internalGetResult {
   return result;
 }
-- (LevelAndRequiredExpProto_Builder*) clear {
-  self.result = [[[LevelAndRequiredExpProto alloc] init] autorelease];
+- (StaticLevelInfoProto_Builder*) clear {
+  self.result = [[[StaticLevelInfoProto alloc] init] autorelease];
   return self;
 }
-- (LevelAndRequiredExpProto_Builder*) clone {
-  return [LevelAndRequiredExpProto builderWithPrototype:result];
+- (StaticLevelInfoProto_Builder*) clone {
+  return [StaticLevelInfoProto builderWithPrototype:result];
 }
-- (LevelAndRequiredExpProto*) defaultInstance {
-  return [LevelAndRequiredExpProto defaultInstance];
+- (StaticLevelInfoProto*) defaultInstance {
+  return [StaticLevelInfoProto defaultInstance];
 }
-- (LevelAndRequiredExpProto*) build {
+- (StaticLevelInfoProto*) build {
   [self checkInitialized];
   return [self buildPartial];
 }
-- (LevelAndRequiredExpProto*) buildPartial {
-  LevelAndRequiredExpProto* returnMe = [[result retain] autorelease];
+- (StaticLevelInfoProto*) buildPartial {
+  StaticLevelInfoProto* returnMe = [[result retain] autorelease];
   self.result = nil;
   return returnMe;
 }
-- (LevelAndRequiredExpProto_Builder*) mergeFrom:(LevelAndRequiredExpProto*) other {
-  if (other == [LevelAndRequiredExpProto defaultInstance]) {
+- (StaticLevelInfoProto_Builder*) mergeFrom:(StaticLevelInfoProto*) other {
+  if (other == [StaticLevelInfoProto defaultInstance]) {
     return self;
   }
   if (other.hasLevel) {
@@ -2757,13 +2772,16 @@ static LevelAndRequiredExpProto* defaultLevelAndRequiredExpProtoInstance = nil;
   if (other.hasRequiredExperience) {
     [self setRequiredExperience:other.requiredExperience];
   }
+  if (other.hasMaxCash) {
+    [self setMaxCash:other.maxCash];
+  }
   [self mergeUnknownFields:other.unknownFields];
   return self;
 }
-- (LevelAndRequiredExpProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input {
+- (StaticLevelInfoProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input {
   return [self mergeFromCodedInputStream:input extensionRegistry:[PBExtensionRegistry emptyRegistry]];
 }
-- (LevelAndRequiredExpProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+- (StaticLevelInfoProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
   PBUnknownFieldSet_Builder* unknownFields = [PBUnknownFieldSet builderWithUnknownFields:self.unknownFields];
   while (YES) {
     int32_t tag = [input readTag];
@@ -2786,6 +2804,10 @@ static LevelAndRequiredExpProto* defaultLevelAndRequiredExpProtoInstance = nil;
         [self setRequiredExperience:[input readInt32]];
         break;
       }
+      case 24: {
+        [self setMaxCash:[input readInt32]];
+        break;
+      }
     }
   }
 }
@@ -2795,12 +2817,12 @@ static LevelAndRequiredExpProto* defaultLevelAndRequiredExpProtoInstance = nil;
 - (int32_t) level {
   return result.level;
 }
-- (LevelAndRequiredExpProto_Builder*) setLevel:(int32_t) value {
+- (StaticLevelInfoProto_Builder*) setLevel:(int32_t) value {
   result.hasLevel = YES;
   result.level = value;
   return self;
 }
-- (LevelAndRequiredExpProto_Builder*) clearLevel {
+- (StaticLevelInfoProto_Builder*) clearLevel {
   result.hasLevel = NO;
   result.level = 0;
   return self;
@@ -2811,14 +2833,30 @@ static LevelAndRequiredExpProto* defaultLevelAndRequiredExpProtoInstance = nil;
 - (int32_t) requiredExperience {
   return result.requiredExperience;
 }
-- (LevelAndRequiredExpProto_Builder*) setRequiredExperience:(int32_t) value {
+- (StaticLevelInfoProto_Builder*) setRequiredExperience:(int32_t) value {
   result.hasRequiredExperience = YES;
   result.requiredExperience = value;
   return self;
 }
-- (LevelAndRequiredExpProto_Builder*) clearRequiredExperience {
+- (StaticLevelInfoProto_Builder*) clearRequiredExperience {
   result.hasRequiredExperience = NO;
   result.requiredExperience = 0;
+  return self;
+}
+- (BOOL) hasMaxCash {
+  return result.hasMaxCash;
+}
+- (int32_t) maxCash {
+  return result.maxCash;
+}
+- (StaticLevelInfoProto_Builder*) setMaxCash:(int32_t) value {
+  result.hasMaxCash = YES;
+  result.maxCash = value;
+  return self;
+}
+- (StaticLevelInfoProto_Builder*) clearMaxCash {
+  result.hasMaxCash = NO;
+  result.maxCash = 0;
   return self;
 }
 @end

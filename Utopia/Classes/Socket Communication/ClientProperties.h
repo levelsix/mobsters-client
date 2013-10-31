@@ -18,7 +18,7 @@
 
 //#define USE_PROD
 
-#define UDID @"3caedd2a04924e965aca815d0b221d533caee970"//[OpenUDID value]
+#define UDID [OpenUDID value]
 //#define FORCE_TUTORIAL
 
 #endif

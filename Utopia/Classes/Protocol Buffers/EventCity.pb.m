@@ -1605,7 +1605,7 @@ static LoadCityResponseProto* defaultLoadCityResponseProtoInstance = nil;
 - (NSArray*) inProgressUserQuestDataInCityList {
   return mutableInProgressUserQuestDataInCityList;
 }
-- (FullUserQuestDataLargeProto*) inProgressUserQuestDataInCityAtIndex:(int32_t) index {
+- (FullUserQuestProto*) inProgressUserQuestDataInCityAtIndex:(int32_t) index {
   id value = [mutableInProgressUserQuestDataInCityList objectAtIndex:index];
   return value;
 }
@@ -1625,7 +1625,7 @@ static LoadCityResponseProto* defaultLoadCityResponseProtoInstance = nil;
   if (self.hasCityId) {
     [output writeInt32:4 value:self.cityId];
   }
-  for (FullUserQuestDataLargeProto* element in self.inProgressUserQuestDataInCityList) {
+  for (FullUserQuestProto* element in self.inProgressUserQuestDataInCityList) {
     [output writeMessage:5 value:element];
   }
   [self.unknownFields writeToCodedOutputStream:output];
@@ -1649,7 +1649,7 @@ static LoadCityResponseProto* defaultLoadCityResponseProtoInstance = nil;
   if (self.hasCityId) {
     size += computeInt32Size(4, self.cityId);
   }
-  for (FullUserQuestDataLargeProto* element in self.inProgressUserQuestDataInCityList) {
+  for (FullUserQuestProto* element in self.inProgressUserQuestDataInCityList) {
     size += computeMessageSize(5, element);
   }
   size += self.unknownFields.serializedSize;
@@ -1808,7 +1808,7 @@ BOOL LoadCityResponseProto_LoadCityStatusIsValidValue(LoadCityResponseProto_Load
         break;
       }
       case 42: {
-        FullUserQuestDataLargeProto_Builder* subBuilder = [FullUserQuestDataLargeProto builder];
+        FullUserQuestProto_Builder* subBuilder = [FullUserQuestProto builder];
         [input readMessage:subBuilder extensionRegistry:extensionRegistry];
         [self addInProgressUserQuestDataInCity:[subBuilder buildPartial]];
         break;
@@ -1911,10 +1911,10 @@ BOOL LoadCityResponseProto_LoadCityStatusIsValidValue(LoadCityResponseProto_Load
   if (result.mutableInProgressUserQuestDataInCityList == nil) { return [NSArray array]; }
   return result.mutableInProgressUserQuestDataInCityList;
 }
-- (FullUserQuestDataLargeProto*) inProgressUserQuestDataInCityAtIndex:(int32_t) index {
+- (FullUserQuestProto*) inProgressUserQuestDataInCityAtIndex:(int32_t) index {
   return [result inProgressUserQuestDataInCityAtIndex:index];
 }
-- (LoadCityResponseProto_Builder*) replaceInProgressUserQuestDataInCityAtIndex:(int32_t) index with:(FullUserQuestDataLargeProto*) value {
+- (LoadCityResponseProto_Builder*) replaceInProgressUserQuestDataInCityAtIndex:(int32_t) index with:(FullUserQuestProto*) value {
   [result.mutableInProgressUserQuestDataInCityList replaceObjectAtIndex:index withObject:value];
   return self;
 }
@@ -1929,7 +1929,7 @@ BOOL LoadCityResponseProto_LoadCityStatusIsValidValue(LoadCityResponseProto_Load
   result.mutableInProgressUserQuestDataInCityList = nil;
   return self;
 }
-- (LoadCityResponseProto_Builder*) addInProgressUserQuestDataInCity:(FullUserQuestDataLargeProto*) value {
+- (LoadCityResponseProto_Builder*) addInProgressUserQuestDataInCity:(FullUserQuestProto*) value {
   if (result.mutableInProgressUserQuestDataInCityList == nil) {
     result.mutableInProgressUserQuestDataInCityList = [NSMutableArray array];
   }

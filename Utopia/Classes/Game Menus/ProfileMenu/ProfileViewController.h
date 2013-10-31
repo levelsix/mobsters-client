@@ -11,7 +11,7 @@
 #import "NibUtils.h"
 #import "MonsterCardView.h"
 
-@interface ProfileViewController : UIViewController <UnderlinedLabelDelegate>
+@interface ProfileViewController : UIViewController <UnderlinedLabelDelegate, MonsterCardViewDelegate>
 
 @property (nonatomic, strong) IBOutlet UIView *mainView;
 @property (nonatomic, strong) IBOutlet UIImageView *bgdView;

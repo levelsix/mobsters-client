@@ -12,11 +12,14 @@
 
 @interface QuestLogViewController : UIViewController <QuestListCellDelegate, QuestDetailsViewControllerDelegate>
 
+@property (nonatomic, strong) NSArray *userMonsterIds;
+
 @property (nonatomic, strong) QuestListViewController *questListViewController;
 @property (nonatomic, strong) QuestDetailsViewController *questDetailsViewController;
 
 @property (nonatomic, strong) IBOutlet UILabel *titleLabel;
-@property (nonatomic, strong) IBOutlet UIView *containerView;
+@property (nonatomic, strong) IBOutlet UIView *listContainerView;
+@property (nonatomic, strong) IBOutlet UIView *detailsContainerView;
 @property (nonatomic, strong) IBOutlet UIView *backView;
 @property (nonatomic, strong) IBOutlet UIImageView *questGiverImageView;
 

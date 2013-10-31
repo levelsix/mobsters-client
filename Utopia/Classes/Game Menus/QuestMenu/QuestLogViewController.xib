@@ -1,14 +1,15 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="4510" systemVersion="12F45" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="4514" systemVersion="12F45" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none">
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="3742"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="3746"/>
     </dependencies>
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="QuestLogViewController">
             <connections>
                 <outlet property="backView" destination="Ytp-1u-aeh" id="M1T-T1-Sre"/>
                 <outlet property="bgdView" destination="Frx-1v-PHW" id="6s4-NA-gVd"/>
-                <outlet property="containerView" destination="AOV-Ck-1vZ" id="h01-eP-0c0"/>
+                <outlet property="detailsContainerView" destination="Vwc-lL-Ycx" id="Svd-lN-fQo"/>
+                <outlet property="listContainerView" destination="AOV-Ck-1vZ" id="5fm-YO-UUD"/>
                 <outlet property="mainView" destination="KEj-6n-KKN" id="GhC-g1-3qJ"/>
                 <outlet property="titleLabel" destination="mnu-xd-ccU" id="YIt-ye-xfM"/>
                 <outlet property="view" destination="1" id="3"/>
@@ -37,9 +38,9 @@
                             <rect key="frame" x="105" y="19" width="271" height="31"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             <fontDescription key="fontDescription" type="system" pointSize="22"/>
-                            <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
+                            <color key="textColor" white="0.0" alpha="0.80000000000000004" colorSpace="calibratedWhite"/>
                             <nil key="highlightedColor"/>
-                            <color key="shadowColor" red="0.0" green="0.0" blue="0.0" alpha="0.29999999999999999" colorSpace="calibratedRGB"/>
+                            <color key="shadowColor" white="1" alpha="0.5" colorSpace="calibratedWhite"/>
                             <size key="shadowOffset" width="0.0" height="1"/>
                         </label>
                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="ZqV-Me-mhg">
@@ -55,6 +56,11 @@
                         </button>
                         <view clipsSubviews="YES" contentMode="scaleToFill" id="AOV-Ck-1vZ">
                             <rect key="frame" x="62" y="59" width="356" height="243"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                        </view>
+                        <view clipsSubviews="YES" contentMode="scaleToFill" id="Vwc-lL-Ycx">
+                            <rect key="frame" x="52" y="59" width="366" height="243"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                         </view>

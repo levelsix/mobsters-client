@@ -959,7 +959,7 @@ static EndDungeonRequestProto* defaultEndDungeonRequestProtoInstance = nil;
 @interface EndDungeonResponseProto ()
 @property (retain) MinimumUserProto* sender;
 @property EndDungeonResponseProto_EndDungeonStatus status;
-@property (retain) NSMutableArray* mutableNewOrUpdatedList;
+@property (retain) NSMutableArray* mutableUpdatedOrNewList;
 @end
 
 @implementation EndDungeonResponseProto
@@ -978,10 +978,10 @@ static EndDungeonRequestProto* defaultEndDungeonRequestProtoInstance = nil;
   hasStatus_ = !!value;
 }
 @synthesize status;
-@synthesize mutableNewOrUpdatedList;
+@synthesize mutableUpdatedOrNewList;
 - (void) dealloc {
   self.sender = nil;
-  self.mutableNewOrUpdatedList = nil;
+  self.mutableUpdatedOrNewList = nil;
   [super dealloc];
 }
 - (id) init {
@@ -1003,11 +1003,11 @@ static EndDungeonResponseProto* defaultEndDungeonResponseProtoInstance = nil;
 - (EndDungeonResponseProto*) defaultInstance {
   return defaultEndDungeonResponseProtoInstance;
 }
-- (NSArray*) newOrUpdatedList {
-  return mutableNewOrUpdatedList;
+- (NSArray*) updatedOrNewList {
+  return mutableUpdatedOrNewList;
 }
-- (FullUserMonsterProto*) newOrUpdatedAtIndex:(int32_t) index {
-  id value = [mutableNewOrUpdatedList objectAtIndex:index];
+- (FullUserMonsterProto*) updatedOrNewAtIndex:(int32_t) index {
+  id value = [mutableUpdatedOrNewList objectAtIndex:index];
   return value;
 }
 - (BOOL) isInitialized {
@@ -1020,7 +1020,7 @@ static EndDungeonResponseProto* defaultEndDungeonResponseProtoInstance = nil;
   if (self.hasStatus) {
     [output writeEnum:2 value:self.status];
   }
-  for (FullUserMonsterProto* element in self.newOrUpdatedList) {
+  for (FullUserMonsterProto* element in self.updatedOrNewList) {
     [output writeMessage:3 value:element];
   }
   [self.unknownFields writeToCodedOutputStream:output];
@@ -1038,7 +1038,7 @@ static EndDungeonResponseProto* defaultEndDungeonResponseProtoInstance = nil;
   if (self.hasStatus) {
     size += computeEnumSize(2, self.status);
   }
-  for (FullUserMonsterProto* element in self.newOrUpdatedList) {
+  for (FullUserMonsterProto* element in self.updatedOrNewList) {
     size += computeMessageSize(3, element);
   }
   size += self.unknownFields.serializedSize;
@@ -1131,11 +1131,11 @@ BOOL EndDungeonResponseProto_EndDungeonStatusIsValidValue(EndDungeonResponseProt
   if (other.hasStatus) {
     [self setStatus:other.status];
   }
-  if (other.mutableNewOrUpdatedList.count > 0) {
-    if (result.mutableNewOrUpdatedList == nil) {
-      result.mutableNewOrUpdatedList = [NSMutableArray array];
+  if (other.mutableUpdatedOrNewList.count > 0) {
+    if (result.mutableUpdatedOrNewList == nil) {
+      result.mutableUpdatedOrNewList = [NSMutableArray array];
     }
-    [result.mutableNewOrUpdatedList addObjectsFromArray:other.mutableNewOrUpdatedList];
+    [result.mutableUpdatedOrNewList addObjectsFromArray:other.mutableUpdatedOrNewList];
   }
   [self mergeUnknownFields:other.unknownFields];
   return self;
@@ -1179,7 +1179,7 @@ BOOL EndDungeonResponseProto_EndDungeonStatusIsValidValue(EndDungeonResponseProt
       case 26: {
         FullUserMonsterProto_Builder* subBuilder = [FullUserMonsterProto builder];
         [input readMessage:subBuilder extensionRegistry:extensionRegistry];
-        [self addNewOrUpdated:[subBuilder buildPartial]];
+        [self addUpdatedOrNew:[subBuilder buildPartial]];
         break;
       }
     }
@@ -1231,33 +1231,33 @@ BOOL EndDungeonResponseProto_EndDungeonStatusIsValidValue(EndDungeonResponseProt
   result.status = EndDungeonResponseProto_EndDungeonStatusSuccess;
   return self;
 }
-- (NSArray*) newOrUpdatedList {
-  if (result.mutableNewOrUpdatedList == nil) { return [NSArray array]; }
-  return result.mutableNewOrUpdatedList;
+- (NSArray*) updatedOrNewList {
+  if (result.mutableUpdatedOrNewList == nil) { return [NSArray array]; }
+  return result.mutableUpdatedOrNewList;
 }
-- (FullUserMonsterProto*) newOrUpdatedAtIndex:(int32_t) index {
-  return [result newOrUpdatedAtIndex:index];
+- (FullUserMonsterProto*) updatedOrNewAtIndex:(int32_t) index {
+  return [result updatedOrNewAtIndex:index];
 }
-- (EndDungeonResponseProto_Builder*) replaceNewOrUpdatedAtIndex:(int32_t) index with:(FullUserMonsterProto*) value {
-  [result.mutableNewOrUpdatedList replaceObjectAtIndex:index withObject:value];
+- (EndDungeonResponseProto_Builder*) replaceUpdatedOrNewAtIndex:(int32_t) index with:(FullUserMonsterProto*) value {
+  [result.mutableUpdatedOrNewList replaceObjectAtIndex:index withObject:value];
   return self;
 }
-- (EndDungeonResponseProto_Builder*) addAllNewOrUpdated:(NSArray*) values {
-  if (result.mutableNewOrUpdatedList == nil) {
-    result.mutableNewOrUpdatedList = [NSMutableArray array];
+- (EndDungeonResponseProto_Builder*) addAllUpdatedOrNew:(NSArray*) values {
+  if (result.mutableUpdatedOrNewList == nil) {
+    result.mutableUpdatedOrNewList = [NSMutableArray array];
   }
-  [result.mutableNewOrUpdatedList addObjectsFromArray:values];
+  [result.mutableUpdatedOrNewList addObjectsFromArray:values];
   return self;
 }
-- (EndDungeonResponseProto_Builder*) clearNewOrUpdatedList {
-  result.mutableNewOrUpdatedList = nil;
+- (EndDungeonResponseProto_Builder*) clearUpdatedOrNewList {
+  result.mutableUpdatedOrNewList = nil;
   return self;
 }
-- (EndDungeonResponseProto_Builder*) addNewOrUpdated:(FullUserMonsterProto*) value {
-  if (result.mutableNewOrUpdatedList == nil) {
-    result.mutableNewOrUpdatedList = [NSMutableArray array];
+- (EndDungeonResponseProto_Builder*) addUpdatedOrNew:(FullUserMonsterProto*) value {
+  if (result.mutableUpdatedOrNewList == nil) {
+    result.mutableUpdatedOrNewList = [NSMutableArray array];
   }
-  [result.mutableNewOrUpdatedList addObject:value];
+  [result.mutableUpdatedOrNewList addObject:value];
   return self;
 }
 @end

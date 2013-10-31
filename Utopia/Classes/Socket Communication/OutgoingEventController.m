@@ -83,7 +83,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
     }
   }
   
-  if (gs.silver >= fsp.coinPrice && gs.gold >= fsp.diamondPrice) {
+  if (gs.silver >= fsp.cashPrice && gs.gold >= fsp.gemPrice) {
     int tag = [[SocketCommunication sharedSocketCommunication] sendPurchaseNormStructureMessage:structId x:x y:y time:[self getCurrentMilliseconds]];
     us = [[UserStruct alloc] init];
     
@@ -98,8 +98,8 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
     us.lastRetrieved = nil;
     
     AddStructUpdate *asu = [AddStructUpdate updateWithTag:tag userStruct:us];
-    SilverUpdate *su = [SilverUpdate updateWithTag:tag change:-fsp.coinPrice];
-    GoldUpdate *gu = [GoldUpdate updateWithTag:tag change:-fsp.diamondPrice];
+    SilverUpdate *su = [SilverUpdate updateWithTag:tag change:-fsp.cashPrice];
+    GoldUpdate *gu = [GoldUpdate updateWithTag:tag change:-fsp.gemPrice];
     [gs addUnrespondedUpdates:asu, su, gu, nil];
     
     [Analytics normStructPurchase:structId];
@@ -259,7 +259,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
     [Globals popupMessage:@"This is not your building!"];
   } else if (userStruct.isComplete) {
     int cost = [[Globals sharedGlobals] calculateUpgradeCost:userStruct];
-    BOOL isGoldBuilding = fsp.diamondPrice > 0;
+    BOOL isGoldBuilding = fsp.gemPrice > 0;
     if (isGoldBuilding) {
       if (cost > gs.gold) {
         [Globals popupMessage:@"Trying to upgrade without enough gold"];
@@ -312,35 +312,8 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
     }
   }
   
-  NSMutableSet *rTasks = [NSMutableSet set];
-  NSDictionary *sTasks = [gs staticTasks];
   NSMutableSet *rBuildStructJobs = [NSMutableSet set];
-  NSDictionary *sBuildStructJobs = [gs staticBuildStructJobs];
   NSMutableSet *rUpgradeStructJobs = [NSMutableSet set];
-  NSDictionary *sUpgradeStructJobs = [gs staticUpgradeStructJobs];
-  
-  NSArray *questDictionaries = [NSArray arrayWithObjects:gs.availableQuests, gs.inProgressCompleteQuests, gs.inProgressIncompleteQuests, nil];
-  for (NSDictionary *dict in questDictionaries) {
-    for (FullQuestProto *fqp in [dict allValues]) {
-      for (NSNumber *num in fqp.taskReqsList) {
-        if (![sTasks objectForKey:num]) {
-          [rTasks addObject:num];
-        }
-      }
-      for (NSNumber *num in fqp.buildStructJobsReqsList) {
-        if (![sBuildStructJobs objectForKey:num]) {
-          [rBuildStructJobs addObject:num];
-          shouldSend = YES;
-        }
-      }
-      for (NSNumber *num in fqp.upgradeStructJobsReqsList) {
-        if (![sUpgradeStructJobs objectForKey:num]) {
-          [rUpgradeStructJobs addObject:num];
-          shouldSend = YES;
-        }
-      }
-    }
-  }
   
   for (UpgradeStructJobProto *p in [gs.staticUpgradeStructJobs allValues]) {
     NSNumber *n = [NSNumber numberWithInt:p.structId];
@@ -359,7 +332,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
   }
   
   if (shouldSend) {
-    int tag = [sc sendRetrieveStaticDataMessageWithStructIds:nil /*[rStructs allObjects]*/ taskIds:[rTasks allObjects] questIds:nil cityIds:nil buildStructJobIds:[rBuildStructJobs allObjects] defeatTypeJobIds:nil possessEquipJobIds:nil upgradeStructJobIds:[rUpgradeStructJobs allObjects] events:YES bossIds:nil];
+    int tag = [sc sendRetrieveStaticDataMessageWithStructIds:nil /*[rStructs allObjects]*/ taskIds:nil questIds:nil cityIds:nil buildStructJobIds:[rBuildStructJobs allObjects] defeatTypeJobIds:nil possessEquipJobIds:nil upgradeStructJobIds:[rUpgradeStructJobs allObjects] events:YES bossIds:nil];
     [gs addUnrespondedUpdate:[NoUpdate updateWithTag:tag]];
   }
 }
@@ -415,7 +388,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
   }
 }
 
-- (void) acceptQuest:(int)questId {
+- (UserQuest *) acceptQuest:(int)questId {
   GameState *gs = [GameState sharedGameState];
   NSNumber *questIdNum = [NSNumber numberWithInt:questId];
   FullQuestProto *fqp = [gs.availableQuests objectForKey:questIdNum];
@@ -427,50 +400,97 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
     [gs.availableQuests removeObjectForKey:questIdNum];
     [gs.inProgressIncompleteQuests setObject:fqp forKey:questIdNum];
     
+    UserQuest *uq = [[UserQuest alloc] init];
+    uq.userId = gs.userId;
+    uq.questId = questId;
+    uq.progress = 0;
+    [gs addToMyQuests:[NSArray arrayWithObject:uq]];
+    
     [Analytics questAccept:questId];
+    
+    return uq;
   } else {
     [Globals popupMessage:@"Attempting to accept unavailable quest"];
   }
+  return nil;
 }
 
-- (void) redeemQuest:(int)questId {
+- (void) questProgress:(int)questId {
+  GameState *gs = [GameState sharedGameState];
+  UserQuest *uq = [gs myQuestWithId:questId];
+  
+  if (uq) {
+    [[SocketCommunication sharedSocketCommunication] sendQuestProgressMessage:questId progress:uq.progress isComplete:uq.isComplete userMonsterIds:nil];
+    
+    if (uq.isComplete) {
+      NSNumber *questIdNum = [NSNumber numberWithInt:questId];
+      FullQuestProto *fqp = [gs.inProgressIncompleteQuests objectForKey:questIdNum];
+      if (fqp) {
+        [gs.inProgressIncompleteQuests removeObjectForKey:questIdNum];
+        [gs.inProgressCompleteQuests setObject:fqp forKey:questIdNum];
+      }
+    }
+  } else {
+    [Globals popupMessage:@"Attempting to progress nonexistant quest"];
+  }
+}
+
+- (UserQuest *) donateForQuest:(int)questId monsterIds:(NSArray *)monsterIds {
+  GameState *gs = [GameState sharedGameState];
+  UserQuest *uq = [gs myQuestWithId:questId];
+  FullQuestProto *fqp = [gs questForId:uq.questId];
+  
+  if (monsterIds.count < fqp.quantity) {
+    [Globals popupMessage:@"Attempting to donate without enough of monster."];
+  }
+  if (uq) {
+    for (NSNumber *num in monsterIds) {
+      UserMonster *um = [gs myMonsterWithUserMonsterId:num.intValue];
+      if (um && um.isComplete) {
+        [gs.myMonsters removeObject:um];
+      } else {
+        [Globals popupMessage:@"One of the monsters can not be found."];
+        return nil;
+      }
+    }
+    
+    uq.isComplete = YES;
+    
+    NSNumber *questIdNum = [NSNumber numberWithInt:questId];
+    FullQuestProto *fqp = [gs.inProgressIncompleteQuests objectForKey:questIdNum];
+    if (fqp) {
+      [gs.inProgressIncompleteQuests removeObjectForKey:questIdNum];
+      [gs.inProgressCompleteQuests setObject:fqp forKey:questIdNum];
+    }
+    
+    [[SocketCommunication sharedSocketCommunication] sendQuestProgressMessage:questId progress:uq.progress isComplete:uq.isComplete userMonsterIds:monsterIds];
+    return uq;
+  } else {
+    [Globals popupMessage:@"Attempting to donate for quest"];
+  }
+  
+  return nil;
+}
+
+- (void) redeemQuest:(int)questId delegate:(id)delegate {
   GameState *gs = [GameState sharedGameState];
   NSNumber *questIdNum = [NSNumber numberWithInt:questId];
   FullQuestProto *fqp = [gs.inProgressCompleteQuests objectForKey:questIdNum];
   
   if (fqp) {
     int tag = [[SocketCommunication sharedSocketCommunication] sendQuestRedeemMessage:questId];
+    [[SocketCommunication sharedSocketCommunication] setDelegate:delegate forTag:tag];
     
     [gs.inProgressCompleteQuests removeObjectForKey:questIdNum];
-    SilverUpdate *su = [SilverUpdate updateWithTag:tag change:fqp.coinsGained];
-    ExperienceUpdate *eu = [ExperienceUpdate updateWithTag:tag change:fqp.expGained];
+    SilverUpdate *su = [SilverUpdate updateWithTag:tag change:fqp.coinReward];
+    GoldUpdate *gu = [GoldUpdate updateWithTag:tag change:fqp.diamondReward];
+    ExperienceUpdate *eu = [ExperienceUpdate updateWithTag:tag change:fqp.expReward];
     
-    [gs addUnrespondedUpdates:su, eu, nil];
+    [gs addUnrespondedUpdates:su, gu, eu, nil];
     
     [Analytics questRedeem:questId];
   } else {
     [Globals popupMessage:@"Attempting to redeem quest that is not in progress"];
-  }
-}
-
-- (void) retrieveQuestLog {
-  GameState *gs = [GameState sharedGameState];
-  int tag = [[SocketCommunication sharedSocketCommunication] sendUserQuestDetailsMessage:0];
-  [gs addUnrespondedUpdate:[NoUpdate updateWithTag:tag]];
-}
-
-- (void) retrieveQuestDetails:(int)questId {
-  if (questId == 0) {
-    [Globals popupMessage:@"Attempting to retrieve information about quest 0"];
-    return;
-  }
-  NSNumber *num = [NSNumber numberWithInt:questId];
-  GameState *gs = [GameState sharedGameState];
-  if ([gs.inProgressCompleteQuests.allKeys containsObject:num] || [gs.inProgressIncompleteQuests.allKeys containsObject:num]) {
-    int tag = [[SocketCommunication sharedSocketCommunication] sendUserQuestDetailsMessage:questId];
-    [gs addUnrespondedUpdate:[NoUpdate updateWithTag:tag]];
-  } else {
-    [Globals popupMessage:@"Attempting to retrieve information about un-accepted quest"];
   }
 }
 
@@ -779,6 +799,43 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
   [[SocketCommunication sharedSocketCommunication] setDelegate:delegate forTag:tag];
 }
 
+- (void) updateMonsterHealth:(int)userMonsterId curHealth:(int)curHealth {
+  if (userMonsterId <= 0) {
+    [Globals popupMessage:@"Trying to update invalid user monster"];
+  } else if (curHealth < 0) {
+    [Globals popupMessage:@"Trying to set health less than 0"];
+  } else {
+    GameState *gs = [GameState sharedGameState];
+    UserMonster *userMonster = [gs myMonsterWithUserMonsterId:userMonsterId];
+    userMonster.curHealth = curHealth;
+    UserMonsterCurrentHealthProto *m = [[[[UserMonsterCurrentHealthProto builder]
+                                          setCurrentHealth:userMonster.curHealth]
+                                         setUserMonsterId:userMonster.userMonsterId]
+                                        build];
+    [[SocketCommunication sharedSocketCommunication] sendUpdateMonsterHealthMessage:[self getCurrentMilliseconds] monsterHealth:m];
+  }
+}
+
+- (void) endDungeon:(BeginDungeonResponseProto *)dungeonInfo userWon:(BOOL)userWon delegate:(id)delegate {
+  GameState *gs = [GameState sharedGameState];
+  int tag = [[SocketCommunication sharedSocketCommunication] sendEndDungeonMessage:dungeonInfo.userTaskId userWon:userWon time:[self getCurrentMilliseconds]];
+  [[SocketCommunication sharedSocketCommunication] setDelegate:delegate forTag:tag];
+  
+  if (userWon) {
+    int silverAmount = 0, expAmount = 0;
+    for (TaskStageProto *tsp in dungeonInfo.tspList) {
+      for (TaskStageMonsterProto *tsm in tsp.stageMonstersList) {
+        silverAmount += tsm.silverReward;
+        expAmount += tsm.expReward;
+      }
+    }
+    
+    SilverUpdate *su = [SilverUpdate updateWithTag:tag change:silverAmount];
+    ExperienceUpdate *eu = [ExperienceUpdate updateWithTag:tag change:expAmount];
+    [gs addUnrespondedUpdates: su, eu, nil];
+  }
+}
+
 - (void) removeMonsterFromTeam:(int)userMonsterId {
   GameState *gs = [GameState sharedGameState];
   UserMonster *um = [gs myMonsterWithUserMonsterId:userMonsterId];
@@ -787,6 +844,8 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
     [Globals popupMessage:@"Trying to remove invalid monster."];
   } else {
     um.teamSlot = 0;
+    
+    [[SocketCommunication sharedSocketCommunication] sendRemoveMonsterFromTeam:userMonsterId];
   }
 }
 
@@ -814,12 +873,16 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
       teamSlot++;
     }
     um.teamSlot = teamSlot;
+    
+    [[SocketCommunication sharedSocketCommunication] sendAddMonsterToTeam:userMonsterId teamSlot:teamSlot];
   }
 }
 
 - (void) buyInventorySlots {
   GameState *gs = [GameState sharedGameState];
   gs.numAdditionalMonsterSlots += 5;
+  [[SocketCommunication sharedSocketCommunication] buyInventorySlots];
+#warning implement updates
 }
 
 - (void) addMonsterToHealingQueue:(int)userMonsterId {
@@ -841,7 +904,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
     
     um.teamSlot = 0;
     
-    int tag = [[SocketCommunication sharedSocketCommunication] setHealQueueDirty];
+    int tag = [[SocketCommunication sharedSocketCommunication] setHealQueueDirtyWithCoinChange:-silverCost gemCost:0];
     [gs addUnrespondedUpdate:[SilverUpdate updateWithTag:tag change:-silverCost]];
   }
 }
@@ -857,7 +920,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
   } else {
     [gs removeUserMonsterHealingItem:item];
     
-    int tag = [[SocketCommunication sharedSocketCommunication] setHealQueueDirty];
+    int tag = [[SocketCommunication sharedSocketCommunication] setHealQueueDirtyWithCoinChange:silverCost gemCost:0];
     [gs addUnrespondedUpdate:[SilverUpdate updateWithTag:tag change:silverCost]];
   }
 }
@@ -875,7 +938,11 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
     for (UserMonsterHealingItem *item in gs.monsterHealingQueue) {
       UserMonster *um = [gs myMonsterWithUserMonsterId:item.userMonsterId];
       um.curHealth = [gl calculateMaxHealthForMonster:um];
-      [arr addObject:[NSNumber numberWithInt:um.userMonsterId]];
+      
+      UserMonsterCurrentHealthProto_Builder *monsterHealth = [UserMonsterCurrentHealthProto builder];
+      monsterHealth.userMonsterId = um.userMonsterId;
+      monsterHealth.currentHealth = um.curHealth;
+      [arr addObject:monsterHealth.build];
     }
     
     int tag = [[SocketCommunication sharedSocketCommunication] sendHealQueueSpeedup:arr goldCost:goldCost];
@@ -941,6 +1008,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
     [Globals popupMessage:@"Trying to remove base monster without one."];
   }  else {
     gs.userEnhancement = nil;
+    [gs stopEnhanceTimer];
     
     [[SocketCommunication sharedSocketCommunication] setEnhanceQueueDirty];
   }
@@ -1001,21 +1069,22 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
     EnhancementItem *base = gs.userEnhancement.baseMonster;
     for (EnhancementItem *item in gs.userEnhancement.feeders) {
       UserMonster *um = [gs myMonsterWithUserMonsterId:item.userMonsterId];
-      base.userMonster.enhancementPercentage += [gl calculateEnhancementPercentageIncrease:base feeder:item];
+      base.userMonster.experience += [gl calculateExperienceIncrease:base feeder:item];
       [arr addObject:[NSNumber numberWithInt:um.userMonsterId]];
       [gs.myMonsters removeObject:um];
     }
     
+    UserMonster *baseMonster = base.userMonster;
     UserMonsterCurrentExpProto_Builder *bldr = [UserMonsterCurrentExpProto builder];
-    bldr.userMonsterId = base.userMonsterId;
-    //      bldr.expectedExperien
+    bldr.userMonsterId = baseMonster.userMonsterId;
+    bldr.expectedExperience = baseMonster.experience;
+    bldr.expectedLevel = baseMonster.level;
     
     int tag = [[SocketCommunication sharedSocketCommunication] sendEnhanceQueueSpeedup:bldr.build userMonsterIds:arr goldCost:goldCost];
     [gs addUnrespondedUpdate:[GoldUpdate updateWithTag:tag change:-goldCost]];
     
     // Remove after to let the queue update to not be affected
-    gs.userEnhancement = nil;
-    [gs stopEnhanceTimer];
+    [self removeBaseEnhanceMonster];
   }
 }
 
@@ -1030,15 +1099,17 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
       [Globals popupMessage:@"Trying to finish enhancing item before time."];
     } else {
       UserMonster *um = [gs myMonsterWithUserMonsterId:item.userMonsterId];
-      base.userMonster.enhancementPercentage += [gl calculateEnhancementPercentageIncrease:base feeder:item];
+      base.userMonster.experience += [gl calculateExperienceIncrease:base feeder:item];
       [arr addObject:[NSNumber numberWithInt:um.userMonsterId]];
       [gs.myMonsters removeObject:um];
     }
   }
   
+  UserMonster *baseMonster = base.userMonster;
   UserMonsterCurrentExpProto_Builder *bldr = [UserMonsterCurrentExpProto builder];
-  bldr.userMonsterId = base.userMonsterId;
-  //      bldr.expectedExperien
+  bldr.userMonsterId = baseMonster.userMonsterId;
+  bldr.expectedExperience = baseMonster.experience;
+  bldr.expectedLevel = baseMonster.level;
   
   [[SocketCommunication sharedSocketCommunication] sendEnhanceQueueWaitTimeComplete:bldr.build userMonsterIds:arr];
   
@@ -1046,8 +1117,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
   [gs.userEnhancement.feeders removeObjectsInArray:enhancingItems];
   
   if (gs.userEnhancement.feeders.count == 0) {
-    gs.userEnhancement = nil;
-    [gs stopEnhanceTimer];
+    [self removeBaseEnhanceMonster];
   } else {
     [gs beginEnhanceTimer];
   }

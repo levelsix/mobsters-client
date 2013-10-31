@@ -10,14 +10,14 @@
 @class EnableAPNSResponseProto_Builder;
 @class FullUserProto;
 @class FullUserProto_Builder;
-@class LevelAndRequiredExpProto;
-@class LevelAndRequiredExpProto_Builder;
 @class MinimumClanProto;
 @class MinimumClanProto_Builder;
 @class MinimumUserProto;
 @class MinimumUserProtoWithLevel;
 @class MinimumUserProtoWithLevel_Builder;
 @class MinimumUserProto_Builder;
+@class StaticLevelInfoProto;
+@class StaticLevelInfoProto_Builder;
 typedef enum {
   EnableAPNSResponseProto_EnableAPNSStatusSuccess = 1,
   EnableAPNSResponseProto_EnableAPNSStatusNotEnabled = 2,

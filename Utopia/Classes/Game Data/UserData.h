@@ -17,10 +17,14 @@
 @property (nonatomic, assign) int userId;
 @property (nonatomic, assign) int monsterId;
 @property (nonatomic, assign) int curHealth;
-@property (nonatomic, assign) double enhancementPercentage;
+@property (nonatomic, assign) int level;
+@property (nonatomic, assign) int experience;
 @property (nonatomic, assign) int teamSlot;
+@property (nonatomic, assign) int isComplete;
+@property (nonatomic, assign) int numPieces;
 
 + (id) userMonsterWithProto:(FullUserMonsterProto *)proto;
++ (id) userMonsterWithTaskStageMonsterProto:(TaskStageMonsterProto *)proto;
 - (BOOL) isHealing;
 - (BOOL) isEnhancing;
 - (BOOL) isSacrificing;
@@ -123,40 +127,6 @@ typedef enum {
 
 @end
 
-
-typedef enum {
-  kTask = 1,
-  kDefeatTypeJob,
-  kBuildStructJob,
-  kUpgradeStructJob,
-  kPossessEquipJob,
-  kCoinRetrievalJob,
-  kSpecialJob
-} JobItemType;
-
-typedef enum {
-  WARRIOR_T,
-  ARCHER_T,
-  MAGE_T
-} PlayerClassType;
-
-@interface UserJob : NSObject
-
-@property (nonatomic, retain) NSString *title;
-@property (nonatomic, retain) NSString *subtitle;
-@property (nonatomic, assign) int numCompleted;
-@property (nonatomic, assign) int total;
-@property (nonatomic, assign) JobItemType jobType;
-@property (nonatomic, assign) int jobId;
-
-- (id) initWithTask:(FullTaskProto *)p;
-- (id) initWithBuildStructJob:(BuildStructJobProto *)p;
-- (id) initWithUpgradeStructJob:(UpgradeStructJobProto *)p;
-- (id) initWithCoinRetrieval:(int)amount questId:(int)questId;
-+ (NSArray *)jobsForQuest:(FullQuestProto *)fqp;
-
-@end
-
 @interface ChatMessage : NSObject
 
 @property (nonatomic, retain) MinimumUserProto *sender;
@@ -177,5 +147,44 @@ typedef enum {
 @property (nonatomic, retain) NSDate *lastExpandTime;
 
 + (id) userExpansionWithUserCityExpansionDataProto:(UserCityExpansionDataProto *)proto;
+
+@end
+
+typedef enum {
+  RewardTypeMonster = 1,
+  RewardTypeSilver,
+  RewardTypeGold,
+  RewardTypeExperience
+} RewardType;
+
+@interface Reward : NSObject
+
+@property (nonatomic, assign) int monsterId;
+@property (nonatomic, assign) BOOL isPuzzlePiece;
+@property (nonatomic, assign) int silverAmount;
+@property (nonatomic, assign) int goldAmount;
+@property (nonatomic, assign) int expAmount;
+@property (nonatomic, assign) RewardType type;
+
++ (NSArray *) createRewardsForDungeon:(BeginDungeonResponseProto *)proto;
++ (NSArray *) createRewardsForQuest:(FullQuestProto *)quest;
+
+- (id) initWithMonsterId:(int)monsterId isPuzzlePiece:(BOOL)isPuzzlePiece;
+- (id) initWithSilverAmount:(int)silverAmount;
+- (id) initWithGoldAmount:(int)goldAmount;
+- (id) initWithExpAmount:(int)expAmount;
+
+@end
+
+@interface UserQuest : NSObject
+
+@property (nonatomic, assign) int userId;
+@property (nonatomic, assign) int questId;
+@property (nonatomic, assign) BOOL isRedeemed;
+@property (nonatomic, assign) BOOL isComplete;
+@property (nonatomic, assign) int progress;
+
++ (id) questWithProto:(FullUserQuestProto *)proto;
+- (id) initWithProto:(FullUserQuestProto *)proto;
 
 @end

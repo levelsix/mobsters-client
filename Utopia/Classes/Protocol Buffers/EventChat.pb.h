@@ -13,8 +13,6 @@
 @class GeneralNotificationResponseProto_Builder;
 @class GroupChatMessageProto;
 @class GroupChatMessageProto_Builder;
-@class LevelAndRequiredExpProto;
-@class LevelAndRequiredExpProto_Builder;
 @class MinimumClanProto;
 @class MinimumClanProto_Builder;
 @class MinimumUserProto;
@@ -39,6 +37,8 @@
 @class SendGroupChatRequestProto_Builder;
 @class SendGroupChatResponseProto;
 @class SendGroupChatResponseProto_Builder;
+@class StaticLevelInfoProto;
+@class StaticLevelInfoProto_Builder;
 typedef enum {
   SendGroupChatResponseProto_SendGroupChatStatusSuccess = 1,
   SendGroupChatResponseProto_SendGroupChatStatusTooLong = 2,

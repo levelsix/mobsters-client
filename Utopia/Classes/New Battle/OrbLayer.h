@@ -49,7 +49,7 @@ typedef enum {
 @protocol OrbLayerDelegate <NSObject>
 
 - (void) newComboFound;
-- (void) orbKilled;
+- (void) orbKilled:(GemColorId)color;
 - (void) turnComplete;
 
 @end
@@ -83,5 +83,6 @@ typedef enum {
 - (id) initWithGridSize:(CGSize)gridSize numColors:(int)numColors;
 - (id) initWithContentSize:(CGSize)size gridSize:(CGSize)gridSize numColors:(int)numColors;
 - (void) allowInput;
+- (void) disallowInput;
 
 @end

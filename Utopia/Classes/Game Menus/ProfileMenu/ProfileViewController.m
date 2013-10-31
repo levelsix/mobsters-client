@@ -10,6 +10,7 @@
 #import "GameState.h"
 #import "Globals.h"
 #import "GameViewController.h"
+#import "MonsterPopUpViewController.h"
 
 @implementation ProfileViewController
 
@@ -27,6 +28,10 @@
   [self loadProfile];
   
   [Globals bounceView:self.mainView fadeInBgdView:self.bgdView];
+  
+  self.monsterSlotOne.monsterCardView.delegate = self;
+  self.monsterSlotTwo.monsterCardView.delegate = self;
+  self.monsterSlotThree.monsterCardView.delegate = self;
 }
 
 - (void)loadProfile {
@@ -59,6 +64,12 @@
       [self.monsterSlotThree.monsterCardView updateForMonster:um];
     }
   }
+}
+
+- (void) monsterCardSelected:(MonsterCardView *)view {
+  MonsterPopUpViewController *mpvc = [[MonsterPopUpViewController alloc] initWithMonsterProto:view.monster];
+  [self addChildViewController:mpvc];
+  [self.view addSubview:mpvc.view];
 }
 
 - (void) labelClicked:(UnderlinedLabelView *)label {

@@ -9,11 +9,9 @@
 #import <Foundation/Foundation.h>
 #import "cocos2d.h"
 #import "OrbLayer.h"
-#import "MyPlayer.h"
 #import "BattleSprite.h"
 #import "BattlePlayer.h"
-#import "BattleContinueView.h"
-#import "BattleEndView.h"
+#import "BattleViews.h"
 
 @protocol BattleBgdLayerDelegate <NSObject>
 
@@ -27,6 +25,8 @@
 
 @property (nonatomic, assign) id<BattleBgdLayerDelegate> delegate;
 
+- (void) scrollToNewScene;
+
 @end
 
 @protocol BattleLayerDelegate <NSObject>
@@ -38,7 +38,7 @@
 @interface NewBattleLayer : CCLayer <OrbLayerDelegate, BattleBgdLayerDelegate> {
   int _orbCount;
   int _comboCount;
-  int _currentScore;
+  float _currentScore;
   int _labelScore;
   int _movesLeft;
   int _numStages;
@@ -69,7 +69,11 @@
 @property (nonatomic, assign) CCLabelTTF *lootLabel;
 
 @property (nonatomic, assign) CCLabelTTF *leftHealthLabel;
+@property (nonatomic, assign) CCLabelTTF *leftNameLabel;
+@property (nonatomic, assign) CCSprite *leftUserIcon;
 @property (nonatomic, assign) CCLabelTTF *rightHealthLabel;
+@property (nonatomic, assign) CCLabelTTF *rightNameLabel;
+@property (nonatomic, assign) CCSprite *rightUserIcon;
 @property (nonatomic, assign) CCProgressTimer *leftHealthBar;
 @property (nonatomic, assign) CCProgressTimer *rightHealthBar;
 
@@ -86,17 +90,26 @@
 
 @property (nonatomic, assign) CCSprite *bloodSplatter;
 
-@property (nonatomic, retain) NSMutableArray *myEquipCards;
-@property (nonatomic, retain) NSMutableArray *enemyEquipCards;
-
 @property (nonatomic, assign) CCParticleSystemQuad *chargingEffect;
 
-@property (nonatomic, retain) IBOutlet BattleContinueView *continueView;
-@property (nonatomic, retain) IBOutlet BattleEndView *endView;
+@property (nonatomic, retain) NSArray *myTeam;
+@property (nonatomic, retain) NSArray *enemyTeam;
 
 @property (nonatomic, assign) id<BattleLayerDelegate> delegate;
 
+- (id) initWithMyUserMonsters:(NSArray *)monsters;
+
+- (void) beginMyTurn;
+- (void) beginEnemyTurn;
+- (void) currentMyPlayerDied;
+- (void) createNextMyPlayerSprite;
+- (void) makeMyPlayerWalkOut;
+- (void) makeMyPlayerWalkInFromEntranceWithSelector:(SEL)selector;
+
 - (void) createNextEnemyObject;
 - (int) getCurrentEnemyLoot;
+- (void) moveToNextEnemy;
+- (void) youWon;
+- (void) youLost;
 
 @end

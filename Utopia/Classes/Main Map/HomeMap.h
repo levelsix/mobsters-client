@@ -24,7 +24,7 @@
 
 @class HomeBuildingMenu;
 
-@interface HomeMap : GameMap {
+@interface HomeMap : GameMap <MapBotViewDelegate> {
   NSMutableArray *_buildableData;
   BOOL _isMoving;
   BOOL _canMove;
@@ -44,16 +44,24 @@
 
 @property (nonatomic, retain) IBOutlet UpgradeBuildingMenu *upgradeMenu;
 @property (nonatomic, retain) IBOutlet ExpansionView *expansionView;
-@property (nonatomic, retain) IBOutlet UIView *buildBotView;
-@property (nonatomic, retain) IBOutlet UIView *upgradeBotView;
-@property (nonatomic, retain) IBOutlet UIView *expandBotView;
-@property (nonatomic, retain) IBOutlet UIView *expandingBotView;
+@property (nonatomic, retain) IBOutlet MapBotView *buildBotView;
+@property (nonatomic, retain) IBOutlet MapBotView *upgradeBotView;
+@property (nonatomic, retain) IBOutlet MapBotView *expandBotView;
+@property (nonatomic, retain) IBOutlet MapBotView *expandingBotView;
 
 @property (nonatomic, assign) IBOutlet UILabel *buildingNameLabel;
 @property (nonatomic, assign) IBOutlet UILabel *buildingIncomeLabel;
 @property (nonatomic, assign) IBOutlet UILabel *buildingUpgradeCostLabel;
+
 @property (nonatomic, assign) IBOutlet UILabel *upgradingNameLabel;
-@property (nonatomic, assign) IBOutlet UILabel *expandingCostLabel;
+@property (nonatomic, assign) IBOutlet UILabel *upgradingIncomeLabel;
+@property (nonatomic, assign) IBOutlet UILabel *upgradingSpeedupCostLabel;
+
+@property (nonatomic, assign) IBOutlet UILabel *expandSubtitleLabel;
+@property (nonatomic, assign) IBOutlet UILabel *expandCostLabel;
+
+@property (nonatomic, assign) IBOutlet UILabel *expandingSubtitleLabel;
+@property (nonatomic, assign) IBOutlet UILabel *expandingSpeedupCostLabel;
 
 @property (nonatomic, assign, readonly) BOOL loading;
 @property (nonatomic, assign) int redGid;

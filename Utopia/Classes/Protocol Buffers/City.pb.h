@@ -19,14 +19,14 @@
 @class FullUserProto_Builder;
 @class FullUserStructureProto;
 @class FullUserStructureProto_Builder;
-@class LevelAndRequiredExpProto;
-@class LevelAndRequiredExpProto_Builder;
 @class MinimumClanProto;
 @class MinimumClanProto_Builder;
 @class MinimumUserProto;
 @class MinimumUserProtoWithLevel;
 @class MinimumUserProtoWithLevel_Builder;
 @class MinimumUserProto_Builder;
+@class StaticLevelInfoProto;
+@class StaticLevelInfoProto_Builder;
 @class UserCityExpansionDataProto;
 @class UserCityExpansionDataProto_Builder;
 typedef enum {
@@ -201,39 +201,39 @@ BOOL CityElementProto_CityElemTypeIsValidValue(CityElementProto_CityElemType val
   BOOL hasAssetId_:1;
   BOOL hasXLength_:1;
   BOOL hasYLength_:1;
-  BOOL hasName_:1;
   BOOL hasImgId_:1;
   BOOL hasCoords_:1;
+  BOOL hasSpriteCoords_:1;
   BOOL hasType_:1;
   BOOL hasOrientation_:1;
   int32_t cityId;
   int32_t assetId;
   int32_t xLength;
   int32_t yLength;
-  NSString* name;
   NSString* imgId;
   CoordinateProto* coords;
+  CoordinateProto* spriteCoords;
   CityElementProto_CityElemType type;
   StructOrientation orientation;
 }
 - (BOOL) hasCityId;
 - (BOOL) hasAssetId;
-- (BOOL) hasName;
 - (BOOL) hasType;
 - (BOOL) hasCoords;
 - (BOOL) hasXLength;
 - (BOOL) hasYLength;
 - (BOOL) hasImgId;
 - (BOOL) hasOrientation;
+- (BOOL) hasSpriteCoords;
 @property (readonly) int32_t cityId;
 @property (readonly) int32_t assetId;
-@property (readonly, retain) NSString* name;
 @property (readonly) CityElementProto_CityElemType type;
 @property (readonly, retain) CoordinateProto* coords;
 @property (readonly) int32_t xLength;
 @property (readonly) int32_t yLength;
 @property (readonly, retain) NSString* imgId;
 @property (readonly) StructOrientation orientation;
+@property (readonly, retain) CoordinateProto* spriteCoords;
 
 + (CityElementProto*) defaultInstance;
 - (CityElementProto*) defaultInstance;
@@ -279,11 +279,6 @@ BOOL CityElementProto_CityElemTypeIsValidValue(CityElementProto_CityElemType val
 - (CityElementProto_Builder*) setAssetId:(int32_t) value;
 - (CityElementProto_Builder*) clearAssetId;
 
-- (BOOL) hasName;
-- (NSString*) name;
-- (CityElementProto_Builder*) setName:(NSString*) value;
-- (CityElementProto_Builder*) clearName;
-
 - (BOOL) hasType;
 - (CityElementProto_CityElemType) type;
 - (CityElementProto_Builder*) setType:(CityElementProto_CityElemType) value;
@@ -315,6 +310,13 @@ BOOL CityElementProto_CityElemTypeIsValidValue(CityElementProto_CityElemType val
 - (StructOrientation) orientation;
 - (CityElementProto_Builder*) setOrientation:(StructOrientation) value;
 - (CityElementProto_Builder*) clearOrientation;
+
+- (BOOL) hasSpriteCoords;
+- (CoordinateProto*) spriteCoords;
+- (CityElementProto_Builder*) setSpriteCoords:(CoordinateProto*) value;
+- (CityElementProto_Builder*) setSpriteCoordsBuilder:(CoordinateProto_Builder*) builderForValue;
+- (CityElementProto_Builder*) mergeSpriteCoords:(CoordinateProto*) value;
+- (CityElementProto_Builder*) clearSpriteCoords;
 @end
 
 @interface FullCityProto : PBGeneratedMessage {

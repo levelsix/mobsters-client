@@ -24,15 +24,20 @@
   int _currentTagNum;
   int _nextMsgType;
   
-  AMQPConnectionThread *_connectionThread;
-  
   NSTimer *_flushTimer;
   
   int _numDisconnects;
   
+  int _numBuyInventorySlots;
+  
   BOOL _healingQueuePotentiallyChanged;
+  int _healingQueueCashChange;
+  int _healingQueueGemCost;
+  
   BOOL _enhancementPotentiallyChanged;
 }
+
+@property (nonatomic, retain) AMQPConnectionThread *connectionThread;
 
 @property (nonatomic, retain) NSMutableArray *structRetrievals;
 
@@ -79,8 +84,8 @@
 - (int) sendLevelUpMessage;
 
 - (int) sendQuestAcceptMessage:(int)questId;
+- (int) sendQuestProgressMessage:(int)questId progress:(int)progress isComplete:(BOOL)isComplete userMonsterIds:(NSArray *)userMonsterIds;
 - (int) sendQuestRedeemMessage:(int)questId;
-- (int) sendUserQuestDetailsMessage:(int)questId;
 
 - (int) sendRetrieveUsersForUserIds:(NSArray *)userIds;
 
@@ -113,13 +118,18 @@
 - (int) sendRetrievePrivateChatPostsMessage:(int)otherUserId;
 
 - (int) sendBeginDungeonMessage:(uint64_t)clientTime taskId:(int)taskId;
+- (int) sendUpdateMonsterHealthMessage:(uint64_t)clientTime monsterHealth:(UserMonsterCurrentHealthProto *)monsterHealth;
+- (int) sendEndDungeonMessage:(uint64_t)userTaskId userWon:(BOOL)userWon time:(uint64_t)time;
 
 - (int) retrieveCurrencyFromStruct:(int)userStructId time:(uint64_t)time;
 
 - (int) sendHealQueueWaitTimeComplete:(NSArray *)monsterHealths;
 - (int) sendHealQueueSpeedup:(NSArray *)monsterHealths goldCost:(int)goldCost;
+- (int) sendAddMonsterToTeam:(int)userMonsterId teamSlot:(int)teamSlot;
+- (int) sendRemoveMonsterFromTeam:(int)userMonsterId;
+- (int) buyInventorySlots;
 - (void) reloadHealQueueSnapshot;
-- (int) setHealQueueDirty;
+- (int) setHealQueueDirtyWithCoinChange:(int)coinChange gemCost:(int)gemCost;
 
 - (int) sendEnhanceQueueWaitTimeComplete:(UserMonsterCurrentExpProto *)monsterExp userMonsterIds:(NSArray *)userMonsterIds;
 - (int) sendEnhanceQueueSpeedup:(UserMonsterCurrentExpProto *)monsterExp userMonsterIds:(NSArray *)userMonsterIds goldCost:(int)goldCost;
@@ -127,7 +137,7 @@
 - (void) reloadEnhancementSnapshot;
 
 - (void) flush;
-- (void) flushWithInt:(int)val;
-- (void) flush:(NSNumber *)type;
+- (void) flushAllExceptEventType:(int)val;
+- (void) flushAllExcept:(NSNumber *)type;
 
 @end

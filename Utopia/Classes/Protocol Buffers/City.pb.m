@@ -611,13 +611,13 @@ static CityExpansionCostProto* defaultCityExpansionCostProtoInstance = nil;
 @interface CityElementProto ()
 @property int32_t cityId;
 @property int32_t assetId;
-@property (retain) NSString* name;
 @property CityElementProto_CityElemType type;
 @property (retain) CoordinateProto* coords;
 @property int32_t xLength;
 @property int32_t yLength;
 @property (retain) NSString* imgId;
 @property StructOrientation orientation;
+@property (retain) CoordinateProto* spriteCoords;
 @end
 
 @implementation CityElementProto
@@ -636,13 +636,6 @@ static CityExpansionCostProto* defaultCityExpansionCostProtoInstance = nil;
   hasAssetId_ = !!value;
 }
 @synthesize assetId;
-- (BOOL) hasName {
-  return !!hasName_;
-}
-- (void) setHasName:(BOOL) value {
-  hasName_ = !!value;
-}
-@synthesize name;
 - (BOOL) hasType {
   return !!hasType_;
 }
@@ -685,23 +678,30 @@ static CityExpansionCostProto* defaultCityExpansionCostProtoInstance = nil;
   hasOrientation_ = !!value;
 }
 @synthesize orientation;
+- (BOOL) hasSpriteCoords {
+  return !!hasSpriteCoords_;
+}
+- (void) setHasSpriteCoords:(BOOL) value {
+  hasSpriteCoords_ = !!value;
+}
+@synthesize spriteCoords;
 - (void) dealloc {
-  self.name = nil;
   self.coords = nil;
   self.imgId = nil;
+  self.spriteCoords = nil;
   [super dealloc];
 }
 - (id) init {
   if ((self = [super init])) {
     self.cityId = 0;
     self.assetId = 0;
-    self.name = @"";
     self.type = CityElementProto_CityElemTypeBuilding;
     self.coords = [CoordinateProto defaultInstance];
     self.xLength = 0;
     self.yLength = 0;
     self.imgId = @"";
     self.orientation = StructOrientationPosition1;
+    self.spriteCoords = [CoordinateProto defaultInstance];
   }
   return self;
 }
@@ -727,9 +727,6 @@ static CityElementProto* defaultCityElementProtoInstance = nil;
   if (self.hasAssetId) {
     [output writeInt32:2 value:self.assetId];
   }
-  if (self.hasName) {
-    [output writeString:3 value:self.name];
-  }
   if (self.hasType) {
     [output writeEnum:4 value:self.type];
   }
@@ -748,6 +745,9 @@ static CityElementProto* defaultCityElementProtoInstance = nil;
   if (self.hasOrientation) {
     [output writeEnum:9 value:self.orientation];
   }
+  if (self.hasSpriteCoords) {
+    [output writeMessage:10 value:self.spriteCoords];
+  }
   [self.unknownFields writeToCodedOutputStream:output];
 }
 - (int32_t) serializedSize {
@@ -762,9 +762,6 @@ static CityElementProto* defaultCityElementProtoInstance = nil;
   }
   if (self.hasAssetId) {
     size += computeInt32Size(2, self.assetId);
-  }
-  if (self.hasName) {
-    size += computeStringSize(3, self.name);
   }
   if (self.hasType) {
     size += computeEnumSize(4, self.type);
@@ -783,6 +780,9 @@ static CityElementProto* defaultCityElementProtoInstance = nil;
   }
   if (self.hasOrientation) {
     size += computeEnumSize(9, self.orientation);
+  }
+  if (self.hasSpriteCoords) {
+    size += computeMessageSize(10, self.spriteCoords);
   }
   size += self.unknownFields.serializedSize;
   memoizedSerializedSize = size;
@@ -876,9 +876,6 @@ BOOL CityElementProto_CityElemTypeIsValidValue(CityElementProto_CityElemType val
   if (other.hasAssetId) {
     [self setAssetId:other.assetId];
   }
-  if (other.hasName) {
-    [self setName:other.name];
-  }
   if (other.hasType) {
     [self setType:other.type];
   }
@@ -896,6 +893,9 @@ BOOL CityElementProto_CityElemTypeIsValidValue(CityElementProto_CityElemType val
   }
   if (other.hasOrientation) {
     [self setOrientation:other.orientation];
+  }
+  if (other.hasSpriteCoords) {
+    [self mergeSpriteCoords:other.spriteCoords];
   }
   [self mergeUnknownFields:other.unknownFields];
   return self;
@@ -924,10 +924,6 @@ BOOL CityElementProto_CityElemTypeIsValidValue(CityElementProto_CityElemType val
       }
       case 16: {
         [self setAssetId:[input readInt32]];
-        break;
-      }
-      case 26: {
-        [self setName:[input readString]];
         break;
       }
       case 32: {
@@ -969,6 +965,15 @@ BOOL CityElementProto_CityElemTypeIsValidValue(CityElementProto_CityElemType val
         }
         break;
       }
+      case 82: {
+        CoordinateProto_Builder* subBuilder = [CoordinateProto builder];
+        if (self.hasSpriteCoords) {
+          [subBuilder mergeFrom:self.spriteCoords];
+        }
+        [input readMessage:subBuilder extensionRegistry:extensionRegistry];
+        [self setSpriteCoords:[subBuilder buildPartial]];
+        break;
+      }
     }
   }
 }
@@ -1002,22 +1007,6 @@ BOOL CityElementProto_CityElemTypeIsValidValue(CityElementProto_CityElemType val
 - (CityElementProto_Builder*) clearAssetId {
   result.hasAssetId = NO;
   result.assetId = 0;
-  return self;
-}
-- (BOOL) hasName {
-  return result.hasName;
-}
-- (NSString*) name {
-  return result.name;
-}
-- (CityElementProto_Builder*) setName:(NSString*) value {
-  result.hasName = YES;
-  result.name = value;
-  return self;
-}
-- (CityElementProto_Builder*) clearName {
-  result.hasName = NO;
-  result.name = @"";
   return self;
 }
 - (BOOL) hasType {
@@ -1128,6 +1117,36 @@ BOOL CityElementProto_CityElemTypeIsValidValue(CityElementProto_CityElemType val
 - (CityElementProto_Builder*) clearOrientation {
   result.hasOrientation = NO;
   result.orientation = StructOrientationPosition1;
+  return self;
+}
+- (BOOL) hasSpriteCoords {
+  return result.hasSpriteCoords;
+}
+- (CoordinateProto*) spriteCoords {
+  return result.spriteCoords;
+}
+- (CityElementProto_Builder*) setSpriteCoords:(CoordinateProto*) value {
+  result.hasSpriteCoords = YES;
+  result.spriteCoords = value;
+  return self;
+}
+- (CityElementProto_Builder*) setSpriteCoordsBuilder:(CoordinateProto_Builder*) builderForValue {
+  return [self setSpriteCoords:[builderForValue build]];
+}
+- (CityElementProto_Builder*) mergeSpriteCoords:(CoordinateProto*) value {
+  if (result.hasSpriteCoords &&
+      result.spriteCoords != [CoordinateProto defaultInstance]) {
+    result.spriteCoords =
+      [[[CoordinateProto builderWithPrototype:result.spriteCoords] mergeFrom:value] buildPartial];
+  } else {
+    result.spriteCoords = value;
+  }
+  result.hasSpriteCoords = YES;
+  return self;
+}
+- (CityElementProto_Builder*) clearSpriteCoords {
+  result.hasSpriteCoords = NO;
+  result.spriteCoords = [CoordinateProto defaultInstance];
   return self;
 }
 @end

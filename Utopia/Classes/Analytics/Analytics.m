@@ -175,7 +175,7 @@
   NSDictionary *args = [NSDictionary dictionaryWithObjectsAndKeys:
                         [NSNumber numberWithInt:structId], @"struct id",
                         [NSNumber numberWithInt:gs.silver], @"current silver",
-                        [NSNumber numberWithInt:fsp.coinPrice], @"silver needed",
+                        [NSNumber numberWithInt:fsp.cashPrice], @"silver needed",
                         nil];
   
   [Analytics event:NOT_ENOUGH_SILVER_ARMORY withArgs:args];
@@ -187,7 +187,7 @@
   NSDictionary *args = [NSDictionary dictionaryWithObjectsAndKeys:
                         [NSNumber numberWithInt:structId], @"struct id",
                         [NSNumber numberWithInt:gs.gold], @"current gold",
-                        [NSNumber numberWithInt:fsp.diamondPrice], @"gold needed",
+                        [NSNumber numberWithInt:fsp.gemPrice], @"gold needed",
                         nil];
   
   [Analytics event:NOT_ENOUGH_GOLD_ARMORY withArgs:args];

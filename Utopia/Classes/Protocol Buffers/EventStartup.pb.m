@@ -411,9 +411,10 @@ static StartupRequestProto* defaultStartupRequestProtoInstance = nil;
 @property StartupResponseProto_UpdateStatus updateStatus;
 @property (retain) StartupResponseProto_StartupConstants* startupConstants;
 @property (retain) NSMutableArray* mutableAllCitiesList;
-@property (retain) NSMutableArray* mutableInProgressIncompleteQuestsList;
-@property (retain) NSMutableArray* mutableInProgressCompleteQuestsList;
+@property (retain) NSMutableArray* mutableInProgressQuestsList;
+@property (retain) NSMutableArray* mutableUnredeemedQuestsList;
 @property (retain) NSMutableArray* mutableAvailableQuestsList;
+@property (retain) NSMutableArray* mutableUserQuestsList;
 @property (retain) NSMutableArray* mutableUserClanInfoList;
 @property (retain) NSString* appStoreUrl;
 @property (retain) NSString* reviewPageUrl;
@@ -426,7 +427,7 @@ static StartupRequestProto* defaultStartupRequestProtoInstance = nil;
 @property (retain) NSMutableArray* mutableGlobalChatsList;
 @property (retain) NSMutableArray* mutableClanChatsList;
 @property (retain) NSMutableArray* mutablePcppList;
-@property (retain) NSMutableArray* mutableLarepList;
+@property (retain) NSMutableArray* mutableSlipList;
 @property (retain) NSMutableArray* mutableStaticStructsList;
 @property (retain) NSMutableArray* mutableExpansionCostsList;
 @property (retain) NSMutableArray* mutableStaticMonstersList;
@@ -475,9 +476,10 @@ static StartupRequestProto* defaultStartupRequestProtoInstance = nil;
 }
 @synthesize startupConstants;
 @synthesize mutableAllCitiesList;
-@synthesize mutableInProgressIncompleteQuestsList;
-@synthesize mutableInProgressCompleteQuestsList;
+@synthesize mutableInProgressQuestsList;
+@synthesize mutableUnredeemedQuestsList;
 @synthesize mutableAvailableQuestsList;
+@synthesize mutableUserQuestsList;
 @synthesize mutableUserClanInfoList;
 - (BOOL) hasAppStoreUrl {
   return !!hasAppStoreUrl_;
@@ -519,7 +521,7 @@ static StartupRequestProto* defaultStartupRequestProtoInstance = nil;
 @synthesize mutableGlobalChatsList;
 @synthesize mutableClanChatsList;
 @synthesize mutablePcppList;
-@synthesize mutableLarepList;
+@synthesize mutableSlipList;
 @synthesize mutableStaticStructsList;
 @synthesize mutableExpansionCostsList;
 @synthesize mutableStaticMonstersList;
@@ -544,9 +546,10 @@ static StartupRequestProto* defaultStartupRequestProtoInstance = nil;
   self.sender = nil;
   self.startupConstants = nil;
   self.mutableAllCitiesList = nil;
-  self.mutableInProgressIncompleteQuestsList = nil;
-  self.mutableInProgressCompleteQuestsList = nil;
+  self.mutableInProgressQuestsList = nil;
+  self.mutableUnredeemedQuestsList = nil;
   self.mutableAvailableQuestsList = nil;
+  self.mutableUserQuestsList = nil;
   self.mutableUserClanInfoList = nil;
   self.appStoreUrl = nil;
   self.reviewPageUrl = nil;
@@ -558,7 +561,7 @@ static StartupRequestProto* defaultStartupRequestProtoInstance = nil;
   self.mutableGlobalChatsList = nil;
   self.mutableClanChatsList = nil;
   self.mutablePcppList = nil;
-  self.mutableLarepList = nil;
+  self.mutableSlipList = nil;
   self.mutableStaticStructsList = nil;
   self.mutableExpansionCostsList = nil;
   self.mutableStaticMonstersList = nil;
@@ -604,18 +607,18 @@ static StartupResponseProto* defaultStartupResponseProtoInstance = nil;
   id value = [mutableAllCitiesList objectAtIndex:index];
   return value;
 }
-- (NSArray*) inProgressIncompleteQuestsList {
-  return mutableInProgressIncompleteQuestsList;
+- (NSArray*) inProgressQuestsList {
+  return mutableInProgressQuestsList;
 }
-- (FullQuestProto*) inProgressIncompleteQuestsAtIndex:(int32_t) index {
-  id value = [mutableInProgressIncompleteQuestsList objectAtIndex:index];
+- (FullQuestProto*) inProgressQuestsAtIndex:(int32_t) index {
+  id value = [mutableInProgressQuestsList objectAtIndex:index];
   return value;
 }
-- (NSArray*) inProgressCompleteQuestsList {
-  return mutableInProgressCompleteQuestsList;
+- (NSArray*) unredeemedQuestsList {
+  return mutableUnredeemedQuestsList;
 }
-- (FullQuestProto*) inProgressCompleteQuestsAtIndex:(int32_t) index {
-  id value = [mutableInProgressCompleteQuestsList objectAtIndex:index];
+- (FullQuestProto*) unredeemedQuestsAtIndex:(int32_t) index {
+  id value = [mutableUnredeemedQuestsList objectAtIndex:index];
   return value;
 }
 - (NSArray*) availableQuestsList {
@@ -623,6 +626,13 @@ static StartupResponseProto* defaultStartupResponseProtoInstance = nil;
 }
 - (FullQuestProto*) availableQuestsAtIndex:(int32_t) index {
   id value = [mutableAvailableQuestsList objectAtIndex:index];
+  return value;
+}
+- (NSArray*) userQuestsList {
+  return mutableUserQuestsList;
+}
+- (FullUserQuestProto*) userQuestsAtIndex:(int32_t) index {
+  id value = [mutableUserQuestsList objectAtIndex:index];
   return value;
 }
 - (NSArray*) userClanInfoList {
@@ -681,11 +691,11 @@ static StartupResponseProto* defaultStartupResponseProtoInstance = nil;
   id value = [mutablePcppList objectAtIndex:index];
   return value;
 }
-- (NSArray*) larepList {
-  return mutableLarepList;
+- (NSArray*) slipList {
+  return mutableSlipList;
 }
-- (LevelAndRequiredExpProto*) larepAtIndex:(int32_t) index {
-  id value = [mutableLarepList objectAtIndex:index];
+- (StaticLevelInfoProto*) slipAtIndex:(int32_t) index {
+  id value = [mutableSlipList objectAtIndex:index];
   return value;
 }
 - (NSArray*) staticStructsList {
@@ -752,77 +762,80 @@ static StartupResponseProto* defaultStartupResponseProtoInstance = nil;
   for (FullCityProto* element in self.allCitiesList) {
     [output writeMessage:6 value:element];
   }
-  for (FullQuestProto* element in self.inProgressIncompleteQuestsList) {
+  for (FullQuestProto* element in self.inProgressQuestsList) {
     [output writeMessage:7 value:element];
   }
-  for (FullQuestProto* element in self.inProgressCompleteQuestsList) {
+  for (FullQuestProto* element in self.unredeemedQuestsList) {
     [output writeMessage:8 value:element];
   }
   for (FullQuestProto* element in self.availableQuestsList) {
     [output writeMessage:9 value:element];
   }
-  for (FullUserClanProto* element in self.userClanInfoList) {
+  for (FullUserQuestProto* element in self.userQuestsList) {
     [output writeMessage:10 value:element];
   }
+  for (FullUserClanProto* element in self.userClanInfoList) {
+    [output writeMessage:11 value:element];
+  }
   if (self.hasAppStoreUrl) {
-    [output writeString:11 value:self.appStoreUrl];
+    [output writeString:12 value:self.appStoreUrl];
   }
   if (self.hasReviewPageUrl) {
-    [output writeString:12 value:self.reviewPageUrl];
+    [output writeString:13 value:self.reviewPageUrl];
   }
   if (self.hasReviewPageConfirmationMessage) {
-    [output writeString:13 value:self.reviewPageConfirmationMessage];
+    [output writeString:14 value:self.reviewPageConfirmationMessage];
   }
   if (self.hasPlayerHasBoughtInAppPurchase) {
-    [output writeBool:14 value:self.playerHasBoughtInAppPurchase];
+    [output writeBool:15 value:self.playerHasBoughtInAppPurchase];
   }
   for (GoldSaleProto* element in self.goldSalesList) {
-    [output writeMessage:15 value:element];
-  }
-  for (StartupResponseProto_AttackedNotificationProto* element in self.attackNotificationsList) {
     [output writeMessage:16 value:element];
   }
-  for (StartupResponseProto_ReferralNotificationProto* element in self.referralNotificationsList) {
+  for (StartupResponseProto_AttackedNotificationProto* element in self.attackNotificationsList) {
     [output writeMessage:17 value:element];
   }
+  for (StartupResponseProto_ReferralNotificationProto* element in self.referralNotificationsList) {
+    [output writeMessage:18 value:element];
+  }
   for (NSString* element in self.mutableNoticesToPlayersList) {
-    [output writeString:18 value:element];
+    [output writeString:19 value:element];
   }
   for (GroupChatMessageProto* element in self.globalChatsList) {
-    [output writeMessage:19 value:element];
-  }
-  for (GroupChatMessageProto* element in self.clanChatsList) {
     [output writeMessage:20 value:element];
   }
-  for (PrivateChatPostProto* element in self.pcppList) {
+  for (GroupChatMessageProto* element in self.clanChatsList) {
     [output writeMessage:21 value:element];
   }
-  for (LevelAndRequiredExpProto* element in self.larepList) {
+  for (PrivateChatPostProto* element in self.pcppList) {
     [output writeMessage:22 value:element];
   }
-  for (FullStructureProto* element in self.staticStructsList) {
+  for (StaticLevelInfoProto* element in self.slipList) {
     [output writeMessage:23 value:element];
   }
-  for (CityExpansionCostProto* element in self.expansionCostsList) {
+  for (FullStructureProto* element in self.staticStructsList) {
     [output writeMessage:24 value:element];
   }
-  for (MonsterProto* element in self.staticMonstersList) {
+  for (CityExpansionCostProto* element in self.expansionCostsList) {
     [output writeMessage:25 value:element];
   }
-  for (FullUserMonsterProto* element in self.usersMonstersList) {
+  for (MonsterProto* element in self.staticMonstersList) {
     [output writeMessage:26 value:element];
   }
-  for (UserMonsterHealingProto* element in self.monstersHealingList) {
+  for (FullUserMonsterProto* element in self.usersMonstersList) {
     [output writeMessage:27 value:element];
   }
+  for (UserMonsterHealingProto* element in self.monstersHealingList) {
+    [output writeMessage:28 value:element];
+  }
   if (self.hasEnhancements) {
-    [output writeMessage:28 value:self.enhancements];
+    [output writeMessage:29 value:self.enhancements];
   }
   for (RareBoosterPurchaseProto* element in self.rareBoosterPurchasesList) {
-    [output writeMessage:29 value:element];
+    [output writeMessage:30 value:element];
   }
   if (self.hasKabamNaid) {
-    [output writeString:30 value:self.kabamNaid];
+    [output writeString:31 value:self.kabamNaid];
   }
   [self.unknownFields writeToCodedOutputStream:output];
 }
@@ -851,38 +864,41 @@ static StartupResponseProto* defaultStartupResponseProtoInstance = nil;
   for (FullCityProto* element in self.allCitiesList) {
     size += computeMessageSize(6, element);
   }
-  for (FullQuestProto* element in self.inProgressIncompleteQuestsList) {
+  for (FullQuestProto* element in self.inProgressQuestsList) {
     size += computeMessageSize(7, element);
   }
-  for (FullQuestProto* element in self.inProgressCompleteQuestsList) {
+  for (FullQuestProto* element in self.unredeemedQuestsList) {
     size += computeMessageSize(8, element);
   }
   for (FullQuestProto* element in self.availableQuestsList) {
     size += computeMessageSize(9, element);
   }
-  for (FullUserClanProto* element in self.userClanInfoList) {
+  for (FullUserQuestProto* element in self.userQuestsList) {
     size += computeMessageSize(10, element);
   }
+  for (FullUserClanProto* element in self.userClanInfoList) {
+    size += computeMessageSize(11, element);
+  }
   if (self.hasAppStoreUrl) {
-    size += computeStringSize(11, self.appStoreUrl);
+    size += computeStringSize(12, self.appStoreUrl);
   }
   if (self.hasReviewPageUrl) {
-    size += computeStringSize(12, self.reviewPageUrl);
+    size += computeStringSize(13, self.reviewPageUrl);
   }
   if (self.hasReviewPageConfirmationMessage) {
-    size += computeStringSize(13, self.reviewPageConfirmationMessage);
+    size += computeStringSize(14, self.reviewPageConfirmationMessage);
   }
   if (self.hasPlayerHasBoughtInAppPurchase) {
-    size += computeBoolSize(14, self.playerHasBoughtInAppPurchase);
+    size += computeBoolSize(15, self.playerHasBoughtInAppPurchase);
   }
   for (GoldSaleProto* element in self.goldSalesList) {
-    size += computeMessageSize(15, element);
-  }
-  for (StartupResponseProto_AttackedNotificationProto* element in self.attackNotificationsList) {
     size += computeMessageSize(16, element);
   }
-  for (StartupResponseProto_ReferralNotificationProto* element in self.referralNotificationsList) {
+  for (StartupResponseProto_AttackedNotificationProto* element in self.attackNotificationsList) {
     size += computeMessageSize(17, element);
+  }
+  for (StartupResponseProto_ReferralNotificationProto* element in self.referralNotificationsList) {
+    size += computeMessageSize(18, element);
   }
   {
     int32_t dataSize = 0;
@@ -893,40 +909,40 @@ static StartupResponseProto* defaultStartupResponseProtoInstance = nil;
     size += 2 * self.mutableNoticesToPlayersList.count;
   }
   for (GroupChatMessageProto* element in self.globalChatsList) {
-    size += computeMessageSize(19, element);
-  }
-  for (GroupChatMessageProto* element in self.clanChatsList) {
     size += computeMessageSize(20, element);
   }
-  for (PrivateChatPostProto* element in self.pcppList) {
+  for (GroupChatMessageProto* element in self.clanChatsList) {
     size += computeMessageSize(21, element);
   }
-  for (LevelAndRequiredExpProto* element in self.larepList) {
+  for (PrivateChatPostProto* element in self.pcppList) {
     size += computeMessageSize(22, element);
   }
-  for (FullStructureProto* element in self.staticStructsList) {
+  for (StaticLevelInfoProto* element in self.slipList) {
     size += computeMessageSize(23, element);
   }
-  for (CityExpansionCostProto* element in self.expansionCostsList) {
+  for (FullStructureProto* element in self.staticStructsList) {
     size += computeMessageSize(24, element);
   }
-  for (MonsterProto* element in self.staticMonstersList) {
+  for (CityExpansionCostProto* element in self.expansionCostsList) {
     size += computeMessageSize(25, element);
   }
-  for (FullUserMonsterProto* element in self.usersMonstersList) {
+  for (MonsterProto* element in self.staticMonstersList) {
     size += computeMessageSize(26, element);
   }
-  for (UserMonsterHealingProto* element in self.monstersHealingList) {
+  for (FullUserMonsterProto* element in self.usersMonstersList) {
     size += computeMessageSize(27, element);
   }
+  for (UserMonsterHealingProto* element in self.monstersHealingList) {
+    size += computeMessageSize(28, element);
+  }
   if (self.hasEnhancements) {
-    size += computeMessageSize(28, self.enhancements);
+    size += computeMessageSize(29, self.enhancements);
   }
   for (RareBoosterPurchaseProto* element in self.rareBoosterPurchasesList) {
-    size += computeMessageSize(29, element);
+    size += computeMessageSize(30, element);
   }
   if (self.hasKabamNaid) {
-    size += computeStringSize(30, self.kabamNaid);
+    size += computeStringSize(31, self.kabamNaid);
   }
   size += self.unknownFields.serializedSize;
   memoizedSerializedSize = size;
@@ -3282,6 +3298,9 @@ static StartupResponseProto_StartupConstants_TournamentConstants* defaultStartup
 @interface StartupResponseProto_StartupConstants_UserMonsterConstants ()
 @property int32_t maxNumTeamSlots;
 @property int32_t initialMaxNumMonsterLimit;
+@property int32_t monsterInventoryIncrementAmount;
+@property int32_t gemPricePerSlot;
+@property int32_t numFriendsToRecruitToIncreaseInventory;
 @end
 
 @implementation StartupResponseProto_StartupConstants_UserMonsterConstants
@@ -3300,6 +3319,27 @@ static StartupResponseProto_StartupConstants_TournamentConstants* defaultStartup
   hasInitialMaxNumMonsterLimit_ = !!value;
 }
 @synthesize initialMaxNumMonsterLimit;
+- (BOOL) hasMonsterInventoryIncrementAmount {
+  return !!hasMonsterInventoryIncrementAmount_;
+}
+- (void) setHasMonsterInventoryIncrementAmount:(BOOL) value {
+  hasMonsterInventoryIncrementAmount_ = !!value;
+}
+@synthesize monsterInventoryIncrementAmount;
+- (BOOL) hasGemPricePerSlot {
+  return !!hasGemPricePerSlot_;
+}
+- (void) setHasGemPricePerSlot:(BOOL) value {
+  hasGemPricePerSlot_ = !!value;
+}
+@synthesize gemPricePerSlot;
+- (BOOL) hasNumFriendsToRecruitToIncreaseInventory {
+  return !!hasNumFriendsToRecruitToIncreaseInventory_;
+}
+- (void) setHasNumFriendsToRecruitToIncreaseInventory:(BOOL) value {
+  hasNumFriendsToRecruitToIncreaseInventory_ = !!value;
+}
+@synthesize numFriendsToRecruitToIncreaseInventory;
 - (void) dealloc {
   [super dealloc];
 }
@@ -3307,6 +3347,9 @@ static StartupResponseProto_StartupConstants_TournamentConstants* defaultStartup
   if ((self = [super init])) {
     self.maxNumTeamSlots = 0;
     self.initialMaxNumMonsterLimit = 0;
+    self.monsterInventoryIncrementAmount = 0;
+    self.gemPricePerSlot = 0;
+    self.numFriendsToRecruitToIncreaseInventory = 0;
   }
   return self;
 }
@@ -3332,6 +3375,15 @@ static StartupResponseProto_StartupConstants_UserMonsterConstants* defaultStartu
   if (self.hasInitialMaxNumMonsterLimit) {
     [output writeInt32:2 value:self.initialMaxNumMonsterLimit];
   }
+  if (self.hasMonsterInventoryIncrementAmount) {
+    [output writeInt32:3 value:self.monsterInventoryIncrementAmount];
+  }
+  if (self.hasGemPricePerSlot) {
+    [output writeInt32:4 value:self.gemPricePerSlot];
+  }
+  if (self.hasNumFriendsToRecruitToIncreaseInventory) {
+    [output writeInt32:5 value:self.numFriendsToRecruitToIncreaseInventory];
+  }
   [self.unknownFields writeToCodedOutputStream:output];
 }
 - (int32_t) serializedSize {
@@ -3346,6 +3398,15 @@ static StartupResponseProto_StartupConstants_UserMonsterConstants* defaultStartu
   }
   if (self.hasInitialMaxNumMonsterLimit) {
     size += computeInt32Size(2, self.initialMaxNumMonsterLimit);
+  }
+  if (self.hasMonsterInventoryIncrementAmount) {
+    size += computeInt32Size(3, self.monsterInventoryIncrementAmount);
+  }
+  if (self.hasGemPricePerSlot) {
+    size += computeInt32Size(4, self.gemPricePerSlot);
+  }
+  if (self.hasNumFriendsToRecruitToIncreaseInventory) {
+    size += computeInt32Size(5, self.numFriendsToRecruitToIncreaseInventory);
   }
   size += self.unknownFields.serializedSize;
   memoizedSerializedSize = size;
@@ -3428,6 +3489,15 @@ static StartupResponseProto_StartupConstants_UserMonsterConstants* defaultStartu
   if (other.hasInitialMaxNumMonsterLimit) {
     [self setInitialMaxNumMonsterLimit:other.initialMaxNumMonsterLimit];
   }
+  if (other.hasMonsterInventoryIncrementAmount) {
+    [self setMonsterInventoryIncrementAmount:other.monsterInventoryIncrementAmount];
+  }
+  if (other.hasGemPricePerSlot) {
+    [self setGemPricePerSlot:other.gemPricePerSlot];
+  }
+  if (other.hasNumFriendsToRecruitToIncreaseInventory) {
+    [self setNumFriendsToRecruitToIncreaseInventory:other.numFriendsToRecruitToIncreaseInventory];
+  }
   [self mergeUnknownFields:other.unknownFields];
   return self;
 }
@@ -3455,6 +3525,18 @@ static StartupResponseProto_StartupConstants_UserMonsterConstants* defaultStartu
       }
       case 16: {
         [self setInitialMaxNumMonsterLimit:[input readInt32]];
+        break;
+      }
+      case 24: {
+        [self setMonsterInventoryIncrementAmount:[input readInt32]];
+        break;
+      }
+      case 32: {
+        [self setGemPricePerSlot:[input readInt32]];
+        break;
+      }
+      case 40: {
+        [self setNumFriendsToRecruitToIncreaseInventory:[input readInt32]];
         break;
       }
     }
@@ -3490,6 +3572,54 @@ static StartupResponseProto_StartupConstants_UserMonsterConstants* defaultStartu
 - (StartupResponseProto_StartupConstants_UserMonsterConstants_Builder*) clearInitialMaxNumMonsterLimit {
   result.hasInitialMaxNumMonsterLimit = NO;
   result.initialMaxNumMonsterLimit = 0;
+  return self;
+}
+- (BOOL) hasMonsterInventoryIncrementAmount {
+  return result.hasMonsterInventoryIncrementAmount;
+}
+- (int32_t) monsterInventoryIncrementAmount {
+  return result.monsterInventoryIncrementAmount;
+}
+- (StartupResponseProto_StartupConstants_UserMonsterConstants_Builder*) setMonsterInventoryIncrementAmount:(int32_t) value {
+  result.hasMonsterInventoryIncrementAmount = YES;
+  result.monsterInventoryIncrementAmount = value;
+  return self;
+}
+- (StartupResponseProto_StartupConstants_UserMonsterConstants_Builder*) clearMonsterInventoryIncrementAmount {
+  result.hasMonsterInventoryIncrementAmount = NO;
+  result.monsterInventoryIncrementAmount = 0;
+  return self;
+}
+- (BOOL) hasGemPricePerSlot {
+  return result.hasGemPricePerSlot;
+}
+- (int32_t) gemPricePerSlot {
+  return result.gemPricePerSlot;
+}
+- (StartupResponseProto_StartupConstants_UserMonsterConstants_Builder*) setGemPricePerSlot:(int32_t) value {
+  result.hasGemPricePerSlot = YES;
+  result.gemPricePerSlot = value;
+  return self;
+}
+- (StartupResponseProto_StartupConstants_UserMonsterConstants_Builder*) clearGemPricePerSlot {
+  result.hasGemPricePerSlot = NO;
+  result.gemPricePerSlot = 0;
+  return self;
+}
+- (BOOL) hasNumFriendsToRecruitToIncreaseInventory {
+  return result.hasNumFriendsToRecruitToIncreaseInventory;
+}
+- (int32_t) numFriendsToRecruitToIncreaseInventory {
+  return result.numFriendsToRecruitToIncreaseInventory;
+}
+- (StartupResponseProto_StartupConstants_UserMonsterConstants_Builder*) setNumFriendsToRecruitToIncreaseInventory:(int32_t) value {
+  result.hasNumFriendsToRecruitToIncreaseInventory = YES;
+  result.numFriendsToRecruitToIncreaseInventory = value;
+  return self;
+}
+- (StartupResponseProto_StartupConstants_UserMonsterConstants_Builder*) clearNumFriendsToRecruitToIncreaseInventory {
+  result.hasNumFriendsToRecruitToIncreaseInventory = NO;
+  result.numFriendsToRecruitToIncreaseInventory = 0;
   return self;
 }
 @end
@@ -4189,23 +4319,29 @@ static StartupResponseProto_StartupConstants_UserMonsterConstants* defaultStartu
     }
     [result.mutableAllCitiesList addObjectsFromArray:other.mutableAllCitiesList];
   }
-  if (other.mutableInProgressIncompleteQuestsList.count > 0) {
-    if (result.mutableInProgressIncompleteQuestsList == nil) {
-      result.mutableInProgressIncompleteQuestsList = [NSMutableArray array];
+  if (other.mutableInProgressQuestsList.count > 0) {
+    if (result.mutableInProgressQuestsList == nil) {
+      result.mutableInProgressQuestsList = [NSMutableArray array];
     }
-    [result.mutableInProgressIncompleteQuestsList addObjectsFromArray:other.mutableInProgressIncompleteQuestsList];
+    [result.mutableInProgressQuestsList addObjectsFromArray:other.mutableInProgressQuestsList];
   }
-  if (other.mutableInProgressCompleteQuestsList.count > 0) {
-    if (result.mutableInProgressCompleteQuestsList == nil) {
-      result.mutableInProgressCompleteQuestsList = [NSMutableArray array];
+  if (other.mutableUnredeemedQuestsList.count > 0) {
+    if (result.mutableUnredeemedQuestsList == nil) {
+      result.mutableUnredeemedQuestsList = [NSMutableArray array];
     }
-    [result.mutableInProgressCompleteQuestsList addObjectsFromArray:other.mutableInProgressCompleteQuestsList];
+    [result.mutableUnredeemedQuestsList addObjectsFromArray:other.mutableUnredeemedQuestsList];
   }
   if (other.mutableAvailableQuestsList.count > 0) {
     if (result.mutableAvailableQuestsList == nil) {
       result.mutableAvailableQuestsList = [NSMutableArray array];
     }
     [result.mutableAvailableQuestsList addObjectsFromArray:other.mutableAvailableQuestsList];
+  }
+  if (other.mutableUserQuestsList.count > 0) {
+    if (result.mutableUserQuestsList == nil) {
+      result.mutableUserQuestsList = [NSMutableArray array];
+    }
+    [result.mutableUserQuestsList addObjectsFromArray:other.mutableUserQuestsList];
   }
   if (other.mutableUserClanInfoList.count > 0) {
     if (result.mutableUserClanInfoList == nil) {
@@ -4267,11 +4403,11 @@ static StartupResponseProto_StartupConstants_UserMonsterConstants* defaultStartu
     }
     [result.mutablePcppList addObjectsFromArray:other.mutablePcppList];
   }
-  if (other.mutableLarepList.count > 0) {
-    if (result.mutableLarepList == nil) {
-      result.mutableLarepList = [NSMutableArray array];
+  if (other.mutableSlipList.count > 0) {
+    if (result.mutableSlipList == nil) {
+      result.mutableSlipList = [NSMutableArray array];
     }
-    [result.mutableLarepList addObjectsFromArray:other.mutableLarepList];
+    [result.mutableSlipList addObjectsFromArray:other.mutableSlipList];
   }
   if (other.mutableStaticStructsList.count > 0) {
     if (result.mutableStaticStructsList == nil) {
@@ -4385,13 +4521,13 @@ static StartupResponseProto_StartupConstants_UserMonsterConstants* defaultStartu
       case 58: {
         FullQuestProto_Builder* subBuilder = [FullQuestProto builder];
         [input readMessage:subBuilder extensionRegistry:extensionRegistry];
-        [self addInProgressIncompleteQuests:[subBuilder buildPartial]];
+        [self addInProgressQuests:[subBuilder buildPartial]];
         break;
       }
       case 66: {
         FullQuestProto_Builder* subBuilder = [FullQuestProto builder];
         [input readMessage:subBuilder extensionRegistry:extensionRegistry];
-        [self addInProgressCompleteQuests:[subBuilder buildPartial]];
+        [self addUnredeemedQuests:[subBuilder buildPartial]];
         break;
       }
       case 74: {
@@ -4401,104 +4537,110 @@ static StartupResponseProto_StartupConstants_UserMonsterConstants* defaultStartu
         break;
       }
       case 82: {
+        FullUserQuestProto_Builder* subBuilder = [FullUserQuestProto builder];
+        [input readMessage:subBuilder extensionRegistry:extensionRegistry];
+        [self addUserQuests:[subBuilder buildPartial]];
+        break;
+      }
+      case 90: {
         FullUserClanProto_Builder* subBuilder = [FullUserClanProto builder];
         [input readMessage:subBuilder extensionRegistry:extensionRegistry];
         [self addUserClanInfo:[subBuilder buildPartial]];
         break;
       }
-      case 90: {
+      case 98: {
         [self setAppStoreUrl:[input readString]];
         break;
       }
-      case 98: {
+      case 106: {
         [self setReviewPageUrl:[input readString]];
         break;
       }
-      case 106: {
+      case 114: {
         [self setReviewPageConfirmationMessage:[input readString]];
         break;
       }
-      case 112: {
+      case 120: {
         [self setPlayerHasBoughtInAppPurchase:[input readBool]];
         break;
       }
-      case 122: {
+      case 130: {
         GoldSaleProto_Builder* subBuilder = [GoldSaleProto builder];
         [input readMessage:subBuilder extensionRegistry:extensionRegistry];
         [self addGoldSales:[subBuilder buildPartial]];
         break;
       }
-      case 130: {
+      case 138: {
         StartupResponseProto_AttackedNotificationProto_Builder* subBuilder = [StartupResponseProto_AttackedNotificationProto builder];
         [input readMessage:subBuilder extensionRegistry:extensionRegistry];
         [self addAttackNotifications:[subBuilder buildPartial]];
         break;
       }
-      case 138: {
+      case 146: {
         StartupResponseProto_ReferralNotificationProto_Builder* subBuilder = [StartupResponseProto_ReferralNotificationProto builder];
         [input readMessage:subBuilder extensionRegistry:extensionRegistry];
         [self addReferralNotifications:[subBuilder buildPartial]];
         break;
       }
-      case 146: {
-        [self addNoticesToPlayers:[input readString]];
-        break;
-      }
       case 154: {
-        GroupChatMessageProto_Builder* subBuilder = [GroupChatMessageProto builder];
-        [input readMessage:subBuilder extensionRegistry:extensionRegistry];
-        [self addGlobalChats:[subBuilder buildPartial]];
+        [self addNoticesToPlayers:[input readString]];
         break;
       }
       case 162: {
         GroupChatMessageProto_Builder* subBuilder = [GroupChatMessageProto builder];
         [input readMessage:subBuilder extensionRegistry:extensionRegistry];
-        [self addClanChats:[subBuilder buildPartial]];
+        [self addGlobalChats:[subBuilder buildPartial]];
         break;
       }
       case 170: {
+        GroupChatMessageProto_Builder* subBuilder = [GroupChatMessageProto builder];
+        [input readMessage:subBuilder extensionRegistry:extensionRegistry];
+        [self addClanChats:[subBuilder buildPartial]];
+        break;
+      }
+      case 178: {
         PrivateChatPostProto_Builder* subBuilder = [PrivateChatPostProto builder];
         [input readMessage:subBuilder extensionRegistry:extensionRegistry];
         [self addPcpp:[subBuilder buildPartial]];
         break;
       }
-      case 178: {
-        LevelAndRequiredExpProto_Builder* subBuilder = [LevelAndRequiredExpProto builder];
+      case 186: {
+        StaticLevelInfoProto_Builder* subBuilder = [StaticLevelInfoProto builder];
         [input readMessage:subBuilder extensionRegistry:extensionRegistry];
-        [self addLarep:[subBuilder buildPartial]];
+        [self addSlip:[subBuilder buildPartial]];
         break;
       }
-      case 186: {
+      case 194: {
         FullStructureProto_Builder* subBuilder = [FullStructureProto builder];
         [input readMessage:subBuilder extensionRegistry:extensionRegistry];
         [self addStaticStructs:[subBuilder buildPartial]];
         break;
       }
-      case 194: {
+      case 202: {
         CityExpansionCostProto_Builder* subBuilder = [CityExpansionCostProto builder];
         [input readMessage:subBuilder extensionRegistry:extensionRegistry];
         [self addExpansionCosts:[subBuilder buildPartial]];
         break;
       }
-      case 202: {
+      case 210: {
         MonsterProto_Builder* subBuilder = [MonsterProto builder];
         [input readMessage:subBuilder extensionRegistry:extensionRegistry];
         [self addStaticMonsters:[subBuilder buildPartial]];
         break;
       }
-      case 210: {
+      case 218: {
         FullUserMonsterProto_Builder* subBuilder = [FullUserMonsterProto builder];
         [input readMessage:subBuilder extensionRegistry:extensionRegistry];
         [self addUsersMonsters:[subBuilder buildPartial]];
         break;
       }
-      case 218: {
+      case 226: {
         UserMonsterHealingProto_Builder* subBuilder = [UserMonsterHealingProto builder];
         [input readMessage:subBuilder extensionRegistry:extensionRegistry];
         [self addMonstersHealing:[subBuilder buildPartial]];
         break;
       }
-      case 226: {
+      case 234: {
         UserEnhancementProto_Builder* subBuilder = [UserEnhancementProto builder];
         if (self.hasEnhancements) {
           [subBuilder mergeFrom:self.enhancements];
@@ -4507,13 +4649,13 @@ static StartupResponseProto_StartupConstants_UserMonsterConstants* defaultStartu
         [self setEnhancements:[subBuilder buildPartial]];
         break;
       }
-      case 234: {
+      case 242: {
         RareBoosterPurchaseProto_Builder* subBuilder = [RareBoosterPurchaseProto builder];
         [input readMessage:subBuilder extensionRegistry:extensionRegistry];
         [self addRareBoosterPurchases:[subBuilder buildPartial]];
         break;
       }
-      case 242: {
+      case 250: {
         [self setKabamNaid:[input readString]];
         break;
       }
@@ -4657,62 +4799,62 @@ static StartupResponseProto_StartupConstants_UserMonsterConstants* defaultStartu
   [result.mutableAllCitiesList addObject:value];
   return self;
 }
-- (NSArray*) inProgressIncompleteQuestsList {
-  if (result.mutableInProgressIncompleteQuestsList == nil) { return [NSArray array]; }
-  return result.mutableInProgressIncompleteQuestsList;
+- (NSArray*) inProgressQuestsList {
+  if (result.mutableInProgressQuestsList == nil) { return [NSArray array]; }
+  return result.mutableInProgressQuestsList;
 }
-- (FullQuestProto*) inProgressIncompleteQuestsAtIndex:(int32_t) index {
-  return [result inProgressIncompleteQuestsAtIndex:index];
+- (FullQuestProto*) inProgressQuestsAtIndex:(int32_t) index {
+  return [result inProgressQuestsAtIndex:index];
 }
-- (StartupResponseProto_Builder*) replaceInProgressIncompleteQuestsAtIndex:(int32_t) index with:(FullQuestProto*) value {
-  [result.mutableInProgressIncompleteQuestsList replaceObjectAtIndex:index withObject:value];
+- (StartupResponseProto_Builder*) replaceInProgressQuestsAtIndex:(int32_t) index with:(FullQuestProto*) value {
+  [result.mutableInProgressQuestsList replaceObjectAtIndex:index withObject:value];
   return self;
 }
-- (StartupResponseProto_Builder*) addAllInProgressIncompleteQuests:(NSArray*) values {
-  if (result.mutableInProgressIncompleteQuestsList == nil) {
-    result.mutableInProgressIncompleteQuestsList = [NSMutableArray array];
+- (StartupResponseProto_Builder*) addAllInProgressQuests:(NSArray*) values {
+  if (result.mutableInProgressQuestsList == nil) {
+    result.mutableInProgressQuestsList = [NSMutableArray array];
   }
-  [result.mutableInProgressIncompleteQuestsList addObjectsFromArray:values];
+  [result.mutableInProgressQuestsList addObjectsFromArray:values];
   return self;
 }
-- (StartupResponseProto_Builder*) clearInProgressIncompleteQuestsList {
-  result.mutableInProgressIncompleteQuestsList = nil;
+- (StartupResponseProto_Builder*) clearInProgressQuestsList {
+  result.mutableInProgressQuestsList = nil;
   return self;
 }
-- (StartupResponseProto_Builder*) addInProgressIncompleteQuests:(FullQuestProto*) value {
-  if (result.mutableInProgressIncompleteQuestsList == nil) {
-    result.mutableInProgressIncompleteQuestsList = [NSMutableArray array];
+- (StartupResponseProto_Builder*) addInProgressQuests:(FullQuestProto*) value {
+  if (result.mutableInProgressQuestsList == nil) {
+    result.mutableInProgressQuestsList = [NSMutableArray array];
   }
-  [result.mutableInProgressIncompleteQuestsList addObject:value];
+  [result.mutableInProgressQuestsList addObject:value];
   return self;
 }
-- (NSArray*) inProgressCompleteQuestsList {
-  if (result.mutableInProgressCompleteQuestsList == nil) { return [NSArray array]; }
-  return result.mutableInProgressCompleteQuestsList;
+- (NSArray*) unredeemedQuestsList {
+  if (result.mutableUnredeemedQuestsList == nil) { return [NSArray array]; }
+  return result.mutableUnredeemedQuestsList;
 }
-- (FullQuestProto*) inProgressCompleteQuestsAtIndex:(int32_t) index {
-  return [result inProgressCompleteQuestsAtIndex:index];
+- (FullQuestProto*) unredeemedQuestsAtIndex:(int32_t) index {
+  return [result unredeemedQuestsAtIndex:index];
 }
-- (StartupResponseProto_Builder*) replaceInProgressCompleteQuestsAtIndex:(int32_t) index with:(FullQuestProto*) value {
-  [result.mutableInProgressCompleteQuestsList replaceObjectAtIndex:index withObject:value];
+- (StartupResponseProto_Builder*) replaceUnredeemedQuestsAtIndex:(int32_t) index with:(FullQuestProto*) value {
+  [result.mutableUnredeemedQuestsList replaceObjectAtIndex:index withObject:value];
   return self;
 }
-- (StartupResponseProto_Builder*) addAllInProgressCompleteQuests:(NSArray*) values {
-  if (result.mutableInProgressCompleteQuestsList == nil) {
-    result.mutableInProgressCompleteQuestsList = [NSMutableArray array];
+- (StartupResponseProto_Builder*) addAllUnredeemedQuests:(NSArray*) values {
+  if (result.mutableUnredeemedQuestsList == nil) {
+    result.mutableUnredeemedQuestsList = [NSMutableArray array];
   }
-  [result.mutableInProgressCompleteQuestsList addObjectsFromArray:values];
+  [result.mutableUnredeemedQuestsList addObjectsFromArray:values];
   return self;
 }
-- (StartupResponseProto_Builder*) clearInProgressCompleteQuestsList {
-  result.mutableInProgressCompleteQuestsList = nil;
+- (StartupResponseProto_Builder*) clearUnredeemedQuestsList {
+  result.mutableUnredeemedQuestsList = nil;
   return self;
 }
-- (StartupResponseProto_Builder*) addInProgressCompleteQuests:(FullQuestProto*) value {
-  if (result.mutableInProgressCompleteQuestsList == nil) {
-    result.mutableInProgressCompleteQuestsList = [NSMutableArray array];
+- (StartupResponseProto_Builder*) addUnredeemedQuests:(FullQuestProto*) value {
+  if (result.mutableUnredeemedQuestsList == nil) {
+    result.mutableUnredeemedQuestsList = [NSMutableArray array];
   }
-  [result.mutableInProgressCompleteQuestsList addObject:value];
+  [result.mutableUnredeemedQuestsList addObject:value];
   return self;
 }
 - (NSArray*) availableQuestsList {
@@ -4742,6 +4884,35 @@ static StartupResponseProto_StartupConstants_UserMonsterConstants* defaultStartu
     result.mutableAvailableQuestsList = [NSMutableArray array];
   }
   [result.mutableAvailableQuestsList addObject:value];
+  return self;
+}
+- (NSArray*) userQuestsList {
+  if (result.mutableUserQuestsList == nil) { return [NSArray array]; }
+  return result.mutableUserQuestsList;
+}
+- (FullUserQuestProto*) userQuestsAtIndex:(int32_t) index {
+  return [result userQuestsAtIndex:index];
+}
+- (StartupResponseProto_Builder*) replaceUserQuestsAtIndex:(int32_t) index with:(FullUserQuestProto*) value {
+  [result.mutableUserQuestsList replaceObjectAtIndex:index withObject:value];
+  return self;
+}
+- (StartupResponseProto_Builder*) addAllUserQuests:(NSArray*) values {
+  if (result.mutableUserQuestsList == nil) {
+    result.mutableUserQuestsList = [NSMutableArray array];
+  }
+  [result.mutableUserQuestsList addObjectsFromArray:values];
+  return self;
+}
+- (StartupResponseProto_Builder*) clearUserQuestsList {
+  result.mutableUserQuestsList = nil;
+  return self;
+}
+- (StartupResponseProto_Builder*) addUserQuests:(FullUserQuestProto*) value {
+  if (result.mutableUserQuestsList == nil) {
+    result.mutableUserQuestsList = [NSMutableArray array];
+  }
+  [result.mutableUserQuestsList addObject:value];
   return self;
 }
 - (NSArray*) userClanInfoList {
@@ -5042,33 +5213,33 @@ static StartupResponseProto_StartupConstants_UserMonsterConstants* defaultStartu
   [result.mutablePcppList addObject:value];
   return self;
 }
-- (NSArray*) larepList {
-  if (result.mutableLarepList == nil) { return [NSArray array]; }
-  return result.mutableLarepList;
+- (NSArray*) slipList {
+  if (result.mutableSlipList == nil) { return [NSArray array]; }
+  return result.mutableSlipList;
 }
-- (LevelAndRequiredExpProto*) larepAtIndex:(int32_t) index {
-  return [result larepAtIndex:index];
+- (StaticLevelInfoProto*) slipAtIndex:(int32_t) index {
+  return [result slipAtIndex:index];
 }
-- (StartupResponseProto_Builder*) replaceLarepAtIndex:(int32_t) index with:(LevelAndRequiredExpProto*) value {
-  [result.mutableLarepList replaceObjectAtIndex:index withObject:value];
+- (StartupResponseProto_Builder*) replaceSlipAtIndex:(int32_t) index with:(StaticLevelInfoProto*) value {
+  [result.mutableSlipList replaceObjectAtIndex:index withObject:value];
   return self;
 }
-- (StartupResponseProto_Builder*) addAllLarep:(NSArray*) values {
-  if (result.mutableLarepList == nil) {
-    result.mutableLarepList = [NSMutableArray array];
+- (StartupResponseProto_Builder*) addAllSlip:(NSArray*) values {
+  if (result.mutableSlipList == nil) {
+    result.mutableSlipList = [NSMutableArray array];
   }
-  [result.mutableLarepList addObjectsFromArray:values];
+  [result.mutableSlipList addObjectsFromArray:values];
   return self;
 }
-- (StartupResponseProto_Builder*) clearLarepList {
-  result.mutableLarepList = nil;
+- (StartupResponseProto_Builder*) clearSlipList {
+  result.mutableSlipList = nil;
   return self;
 }
-- (StartupResponseProto_Builder*) addLarep:(LevelAndRequiredExpProto*) value {
-  if (result.mutableLarepList == nil) {
-    result.mutableLarepList = [NSMutableArray array];
+- (StartupResponseProto_Builder*) addSlip:(StaticLevelInfoProto*) value {
+  if (result.mutableSlipList == nil) {
+    result.mutableSlipList = [NSMutableArray array];
   }
-  [result.mutableLarepList addObject:value];
+  [result.mutableSlipList addObject:value];
   return self;
 }
 - (NSArray*) staticStructsList {

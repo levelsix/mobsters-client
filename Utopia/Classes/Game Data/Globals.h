@@ -31,6 +31,7 @@
 #define HEAL_WAIT_COMPLETE_NOTIFICATION @"HealWaitCompleteNotification"
 #define ENHANCE_WAIT_COMPLETE_NOTIFICATION @"EnhanceWaitCompleteNotification"
 #define GAMESTATE_UPDATE_NOTIFICATION @"GameStateUpdateNotification"
+#define MY_TEAM_CHANGED_NOTIFICATION @"MyTeamChangedNotification"
 
 #ifdef LEGENDS_OF_CHAOS
 #define GAME_NAME @"Legends of Chaos"
@@ -54,6 +55,7 @@
 
 @property (nonatomic, assign) int maxLengthOfChatString;
 
+@property (nonatomic, copy) NSString *appStoreLink;
 @property (nonatomic, copy) NSString *reviewPageURL;
 @property (nonatomic, assign) int levelToShowRateUsPopup;
 @property (nonatomic, copy) NSString *reviewPageConfirmationMessage;
@@ -108,6 +110,9 @@
 
 + (NSString *)convertTimeToString:(int)secs withDays:(BOOL)withDays;
 + (NSString *) convertTimeToShortString:(int)secs;
++ (NSString *) convertTimeToLongString:(int)secs;
+
++ (void) downloadAllFilesForSpritePrefixes:(NSArray *)spritePrefixes completion:(void (^)(void))completed;
 
 + (UIImage *) imageNamed:(NSString *)path;
 + (NSString *) imageNameForConstructionWithSize:(CGSize)size;
@@ -121,6 +126,7 @@
 + (void) loadImageForMonster:(int)monId toView:(UIImageView *)view;
 + (void) loadImageForStruct:(int)structId toView:(UIImageView *)view masked:(BOOL)mask indicator:(UIActivityIndicatorViewStyle)indicator;
 + (void) imageNamed:(NSString *)imageName withView:(UIView *)view maskedColor:(UIColor *)color indicator:(UIActivityIndicatorViewStyle)indicatorStyle clearImageDuringDownload:(BOOL)clear;
++ (void) imageNamed:(NSString *)imageName withView:(UIView *)view greyscale:(BOOL)greyscale indicator: (UIActivityIndicatorViewStyle)indicatorStyle clearImageDuringDownload:(BOOL)clear;
 + (void) imageNamed:(NSString *)imageName toReplaceSprite:(CCSprite *)s;
 
 + (UIColor *) colorForRarity:(MonsterProto_MonsterQuality)rarity;
@@ -154,6 +160,7 @@
 + (void) bounceView:(UIView *)view fadeInBgdView:(UIView *)bgdView completion:(void (^)(BOOL))completed;
 + (void) popOutView:(UIView *)view fadeOutBgdView:(UIView *)bgdView completion:(void (^)(void))completed;
 + (UIImage*) maskImage:(UIImage *)image withColor:(UIColor *)color;
++ (UIImage *) greyScaleImageWithBaseImage:(UIImage *)image;
 + (void) shakeView:(UIView *)view duration:(float)duration offset:(int)offset;
 + (void) displayUIView:(UIView *)view;
 + (void) displayUIViewWithoutAdjustment:(UIView *)view;
@@ -177,6 +184,7 @@
 
 + (NSString *) fullNameWithName:(NSString *)name clanTag:(NSString *)tag;
 
+- (void) openAppStoreLink;
 + (void) checkRateUsPopup;
 
 + (UIColor *) colorForColorProto:(ColorProto *)cp;
@@ -195,6 +203,7 @@
 - (int) calculateNumMinutesForNewExpansion;
 - (int) calculateGoldCostToSpeedUpExpansionTimeLeft:(int)seconds;
 - (int) calculateSilverCostForNewExpansion;
+- (NSString *) expansionPhraseForExpandSpot:(CGPoint)pt;
 
 // Monster formulas
 - (int) calculateTotalDamageForMonster:(UserMonster *)um;
@@ -206,12 +215,13 @@
 - (int) calculateCostToSpeedupHealingQueue;
 
 // Enhancement formulas
-- (float) calculateEnhancementPercentageIncrease:(UserEnhancement *)ue;
-- (float) calculateEnhancementPercentageIncrease:(EnhancementItem *)baseMonster feeder:(EnhancementItem *)feeder;
 - (int) calculateSilverCostForEnhancement:(EnhancementItem *)baseMonster feeder:(EnhancementItem *)feeder;
 - (int) calculateSecondsForEnhancement:(EnhancementItem *)baseMonster feeder:(EnhancementItem *)feeder;
 - (int) calculateTimeLeftForEnhancement:(UserEnhancement *)ue;
 - (int) calculateCostToSpeedupEnhancement:(UserEnhancement *)ue;
+- (int) calculateExperienceIncrease:(UserEnhancement *)ue;
+- (int) calculateExperienceIncrease:(EnhancementItem *)baseMonster feeder:(EnhancementItem *)feeder;
+- (float) calculateLevelForMonster:(int)monsterId experience:(int)experience;
 
 + (void) adjustViewForCentering:(UIView *)view withLabel:(UILabel *)label;
 

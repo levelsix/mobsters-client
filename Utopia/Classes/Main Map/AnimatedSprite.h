@@ -16,8 +16,7 @@
 #define ANIMATATION_DELAY 0.07f
 #define MOVE_DISTANCE 6.0f
 
-#define MY_WALKING_SPEED 75.f
-#define WALKING_SPEED 25.f
+#define WALKING_SPEED 75.f
 
 #define VERTICAL_OFFSET 10.f
 
@@ -33,18 +32,11 @@
 
 @interface AnimatedSprite : CharacterSprite
 {
-  CCSpriteBatchNode *_spritesheet;
-  CCSprite *_sprite;
   CCAction *_curAction;
-  CCAction *_walkActionN;
-  CCAction *_walkActionF;
   
   CGPoint _spriteOffset;
   CGPoint _oldMapPos;
   BOOL _moving;
-  
-//  BOOL _loading;
-  int _curNum;
 }
 
 @property (nonatomic, retain) CCSprite *sprite;
@@ -54,31 +46,8 @@
 @property (nonatomic, retain) NSString *prefix;
 
 - (void) walk;
-
-@end
-
-typedef enum {
-  kNoQuest = 1,
-  kAvailable,
-  kInProgress,
-  kCompleted
-} QuestGiverState;
-
-@interface QuestGiver : AnimatedSprite {
-  CCNode *_aboveHeadMark;
-}
-
-@property (nonatomic, retain) FullQuestProto *quest;
-@property (nonatomic, assign) QuestGiverState questGiverState;
-@property (nonatomic, copy) NSString *name;
-
-- (id) initWithQuest:(FullQuestProto *)fqp questGiverState:(QuestGiverState)qgs file:(NSString *)file map:(GameMap *)map location:(CGRect)location;
-
-@end
-
-@interface TutorialGirl : QuestGiver
-
-- (id) initWithLocation:(CGRect)loc map:(GameMap *)map;
+- (void) stopWalking;
+- (void) walkToTileCoord:(CGPoint)tileCoord withSelector:(SEL)completion speedMultiplier:(float)speedMultiplier;
 
 @end
 

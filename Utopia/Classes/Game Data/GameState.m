@@ -31,7 +31,6 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
     _connected = NO;
     _staticTasks = [[NSMutableDictionary alloc] init];
     _staticCities = [[NSMutableDictionary alloc] init];
-    _staticQuests = [[NSMutableDictionary alloc] init];
     _staticStructs = [[NSMutableDictionary alloc] init];
     _staticMonsters = [[NSMutableDictionary alloc] init];
     _staticDefeatTypeJobs = [[NSMutableDictionary alloc] init];
@@ -40,6 +39,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
     _notifications = [[NSMutableArray alloc] init];
     _myStructs = [[NSMutableArray alloc] init];
     _myMonsters = [[NSMutableArray alloc] init];
+    _myQuests = [[NSMutableDictionary alloc] init];
     _globalChatMessages = [[NSMutableArray alloc] init];
     _clanChatMessages = [[NSMutableArray alloc] init];
     _rareBoosterPurchases = [[NSMutableArray alloc] init];
@@ -82,8 +82,8 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
     [[SocketCommunication sharedSocketCommunication] rebuildSender];
   }
   self.level = user.level;
-  self.gold = user.diamonds;
-  self.silver = user.coins;
+  self.gold = user.gems;
+  self.silver = user.cash;
   self.experience = user.experience;
   self.tasksCompleted = user.tasksCompleted;
   self.battlesWon = user.battlesWon;
@@ -115,8 +115,8 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
   fup.name = self.name;
   if (self.clan) fup.clan = self.clan;
   fup.level = self.level;
-  fup.diamonds = self.gold;
-  fup.coins = self.silver;
+  fup.gems = self.gold;
+  fup.cash = self.silver;
   fup.experience = self.experience;
   fup.tasksCompleted = self.tasksCompleted;
   fup.battlesWon = self.battlesWon;
@@ -173,9 +173,6 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
       } else if (dict == _staticTasks) {
         [sc sendRetrieveStaticDataMessageWithStructIds:nil taskIds:arr questIds:nil cityIds:nil buildStructJobIds:nil defeatTypeJobIds:nil possessEquipJobIds:nil upgradeStructJobIds:nil events:NO bossIds:nil];
         LNLog(@"Tasks");
-      } else if (dict == _staticQuests) {
-        [sc sendRetrieveStaticDataMessageWithStructIds:nil taskIds:nil questIds:arr cityIds:nil buildStructJobIds:nil defeatTypeJobIds:nil possessEquipJobIds:nil upgradeStructJobIds:nil events:NO bossIds:nil];
-        LNLog(@"Quests");
       } else if (dict == _staticCities) {
         [sc sendRetrieveStaticDataMessageWithStructIds:nil taskIds:nil questIds:nil cityIds:arr buildStructJobIds:nil defeatTypeJobIds:nil possessEquipJobIds:nil upgradeStructJobIds:nil events:NO bossIds:nil];
         LNLog(@"Cities");
@@ -235,39 +232,26 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
 
 - (void) addToMyMonsters:(NSArray *)monsters {
   for (FullUserMonsterProto *mon in monsters) {
-    [self.myMonsters addObject:[UserMonster userMonsterWithProto:mon]];
+    UserMonster *um = [UserMonster userMonsterWithProto:mon];
+    int index = [self.myMonsters indexOfObject:um];
+    if (index != NSNotFound) {
+      [self.myMonsters replaceObjectAtIndex:index withObject:um];
+    } else {
+      [self.myMonsters addObject:um];
+    }
   }
+  [[NSNotificationCenter defaultCenter] postNotificationName:MY_TEAM_CHANGED_NOTIFICATION object:nil];
 }
 
 - (void) addToMyStructs:(NSArray *)structs {
   for (FullUserStructureProto *st in structs) {
     [self.myStructs addObject:[UserStruct userStructWithProto:st]];
   }
-  
-  int x = -6, y = 5;
-  for (UserStruct *us in self.myStructs) {
-    if (us.coordinates.x == CENTER_TILE_X && us.coordinates.y == CENTER_TILE_Y) {
-      [[OutgoingEventController sharedOutgoingEventController] moveNormStruct:us atX:CENTER_TILE_X+x atY:CENTER_TILE_Y+y];
-      
-      switch (x) {
-        case -6:
-          x = -3;
-          break;
-        case -3:
-          x = 2;
-          break;
-        case 2:
-          x = 5;
-          break;
-        case 5:
-          x = -6;
-          y -= 3;
-          if (y == -1) y -= 2;
-          
-        default:
-          break;
-      }
-    }
+}
+
+- (void) addToMyQuests:(NSArray *)quests {
+  for (FullUserQuestProto *uq in quests) {
+    [self.myQuests setObject:[UserQuest questWithProto:uq] forKey:[NSNumber numberWithInt:uq.questId]];
   }
 }
 
@@ -275,7 +259,6 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
   if (quests.count > 0) {
     for (FullQuestProto *fqp in quests) {
       [self.availableQuests setObject:fqp forKey:[NSNumber numberWithInt:fqp.questId]];
-      [[OutgoingEventController sharedOutgoingEventController] acceptQuest:fqp.questId];
     }
   }
 }
@@ -292,12 +275,11 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
   }
 }
 
-- (void) addAllLevelRequiredExps:(NSArray *)lurep {
-  self.levelRequiredExps = [NSMutableDictionary dictionary];
-  for (LevelAndRequiredExpProto *exp in lurep) {
+- (void) addToStaticLevelInfos:(NSArray *)lurep {
+  self.staticLevelInfos = [NSMutableDictionary dictionary];
+  for (StaticLevelInfoProto *exp in lurep) {
     NSNumber *level = [NSNumber numberWithInt:exp.level];
-    NSNumber *expVal = [NSNumber numberWithInt:exp.requiredExperience];
-    [self.levelRequiredExps setObject:expVal forKey:level];
+    [self.staticLevelInfos setObject:exp forKey:level];
   }
 }
 
@@ -437,8 +419,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
     [[SocketCommunication sharedSocketCommunication] reloadEnhancementSnapshot];
     
     if (self.userEnhancement.feeders.count == 0) {
-      self.userEnhancement = nil;
-      [[SocketCommunication sharedSocketCommunication] setEnhanceQueueDirty];
+      [[OutgoingEventController sharedOutgoingEventController] removeBaseEnhanceMonster];
     }
     
     [self beginEnhanceTimer];
@@ -491,6 +472,37 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
   return nil;
 }
 
+- (UserQuest *) myQuestWithId:(int)questId {
+  for (UserQuest *uq in self.myQuests.allValues) {
+    if (uq.questId == questId) {
+      return uq;
+    }
+  }
+  return nil;
+}
+
+- (NSArray *) allCurrentQuests {
+  NSMutableArray *arr = [NSMutableArray arrayWithArray:self.availableQuests.allValues];
+  [arr addObjectsFromArray:self.inProgressCompleteQuests.allValues];
+  [arr addObjectsFromArray:self.inProgressIncompleteQuests.allValues];
+  
+  [arr sortUsingComparator:^NSComparisonResult(FullQuestProto *obj1, FullQuestProto *obj2) {
+    int32_t p1 = obj1.priority == 0 ? INT32_MAX : obj1.priority;
+    int32_t p2 = obj2.priority == 0 ? INT32_MAX : obj2.priority;
+    if (p1 < p2) {
+      return NSOrderedAscending;
+    } else if (p1 > p2) {
+      return NSOrderedDescending;
+    } else {
+      if (obj1.questId < obj2.questId) {
+        return NSOrderedAscending;
+      }
+      return NSOrderedDescending;
+    }
+  }];
+  return arr;
+}
+
 - (void) addToStaticMonsters:(NSArray *)arr {
   for (MonsterProto *p in arr) {
     [self.staticMonsters setObject:p forKey:[NSNumber numberWithInt:p.monsterId]];
@@ -506,12 +518,6 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
 - (void) addToStaticTasks:(NSArray *)arr {
   for (FullTaskProto *p in arr) {
     [self.staticTasks setObject:p forKey:[NSNumber numberWithInt:p.taskId]];
-  }
-}
-
-- (void) addToStaticQuests:(NSArray *)arr {
-  for (FullQuestProto *p in arr) {
-    [self.staticQuests setObject:p forKey:[NSNumber numberWithInt:p.questId]];
   }
 }
 
@@ -533,7 +539,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
   }
 }
 
-- (FullQuestProto *) questForQuestId:(int)questId {
+- (FullQuestProto *) questForId:(int)questId {
   NSNumber *num = [NSNumber numberWithInt:questId];
   FullQuestProto *fqp = [_availableQuests objectForKey:num];
   fqp = fqp ? fqp : [_inProgressCompleteQuests objectForKey:num];
@@ -612,12 +618,18 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
   }
 }
 
+- (int) maxCashForLevel:(int)level {
+  StaticLevelInfoProto *slip = [self.staticLevelInfos objectForKey:[NSNumber numberWithInt:level]];
+  return slip.maxCash;
+}
+
 - (int) expNeededForLevel:(int)level {
-  return [[self.levelRequiredExps objectForKey:[NSNumber numberWithInt:level]] intValue];
+  StaticLevelInfoProto *slip = [self.staticLevelInfos objectForKey:[NSNumber numberWithInt:level]];
+  return slip.requiredExperience;
 }
 
 - (int) currentExpForLevel {
-  int thisLevel = [[self.levelRequiredExps objectForKey:[NSNumber numberWithInt:self.level]] intValue];
+  int thisLevel = [self expNeededForLevel:self.level];
   return self.experience-thisLevel;
 }
 
@@ -799,7 +811,6 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
 }
 
 - (void) purgeStaticData {
-  [_staticQuests removeAllObjects];
   [_staticBuildStructJobs removeAllObjects];
   [_staticDefeatTypeJobs removeAllObjects];
   [_staticUpgradeStructJobs removeAllObjects];
@@ -809,11 +820,10 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
 }
 
 - (void) reretrieveStaticData {
-  [[SocketCommunication sharedSocketCommunication] sendRetrieveStaticDataMessageWithStructIds:_staticStructs.allKeys taskIds:_staticTasks.allKeys questIds:_staticQuests.allKeys cityIds:_staticCities.allKeys buildStructJobIds:_staticBuildStructJobs.allKeys defeatTypeJobIds:_staticDefeatTypeJobs.allKeys possessEquipJobIds:nil upgradeStructJobIds:_staticUpgradeStructJobs.allKeys events:YES bossIds:nil];
+  [[SocketCommunication sharedSocketCommunication] sendRetrieveStaticDataMessageWithStructIds:_staticStructs.allKeys taskIds:_staticTasks.allKeys questIds:nil cityIds:_staticCities.allKeys buildStructJobIds:_staticBuildStructJobs.allKeys defeatTypeJobIds:_staticDefeatTypeJobs.allKeys possessEquipJobIds:nil upgradeStructJobIds:_staticUpgradeStructJobs.allKeys events:YES bossIds:nil];
   
   self.staticTasks = [[NSMutableDictionary alloc] init];
   self.staticCities = [[NSMutableDictionary alloc] init];
-  self.staticQuests = [[NSMutableDictionary alloc] init];
   self.staticStructs = [[NSMutableDictionary alloc] init];
   self.staticDefeatTypeJobs = [[NSMutableDictionary alloc] init];
   self.staticBuildStructJobs = [[NSMutableDictionary alloc] init];
@@ -825,7 +835,6 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
   _connected = NO;
   self.staticTasks = [[NSMutableDictionary alloc] init];
   self.staticCities = [[NSMutableDictionary alloc] init];
-  self.staticQuests = [[NSMutableDictionary alloc] init];
   self.staticStructs = [[NSMutableDictionary alloc] init];
   self.staticDefeatTypeJobs = [[NSMutableDictionary alloc] init];
   self.staticBuildStructJobs = [[NSMutableDictionary alloc] init];

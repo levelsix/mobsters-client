@@ -1,72 +1,81 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="4510" systemVersion="12F45" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="4514" systemVersion="12F45" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none">
     <dependencies>
         <deployment defaultVersion="1536" identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="3742"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="3746"/>
     </dependencies>
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="HomeMap">
             <connections>
-                <outlet property="buildBotView" destination="89" id="175"/>
-                <outlet property="buildingIncomeLabel" destination="130" id="133"/>
-                <outlet property="buildingNameLabel" destination="128" id="132"/>
+                <outlet property="buildBotView" destination="Ri3-6y-626" id="nrF-jI-1bv"/>
+                <outlet property="buildingIncomeLabel" destination="HkO-DO-0Xu" id="RWX-l2-9xc"/>
+                <outlet property="buildingNameLabel" destination="f8a-kT-QFn" id="ASZ-PF-LAt"/>
                 <outlet property="buildingUpgradeCostLabel" destination="95" id="134"/>
-                <outlet property="expandBotView" destination="160" id="172"/>
-                <outlet property="expandingBotView" destination="183" id="189"/>
-                <outlet property="expandingCostLabel" destination="165" id="173"/>
-                <outlet property="upgradeBotView" destination="102" id="174"/>
-                <outlet property="upgradingNameLabel" destination="131" id="136"/>
+                <outlet property="expandBotView" destination="rBI-qQ-j6P" id="1nl-0F-Wjx"/>
+                <outlet property="expandCostLabel" destination="NAz-92-yz5" id="mfr-uj-5yu"/>
+                <outlet property="expandSubtitleLabel" destination="aq0-aW-rB5" id="kTh-dz-ho2"/>
+                <outlet property="expandingBotView" destination="GWN-65-ohU" id="vd3-Me-ef8"/>
+                <outlet property="expandingSpeedupCostLabel" destination="B8s-hn-kfs" id="EbW-xx-c38"/>
+                <outlet property="expandingSubtitleLabel" destination="D7n-Tv-yFg" id="Rer-53-MYk"/>
+                <outlet property="upgradeBotView" destination="bZw-HN-uKE" id="VKM-Tu-rsE"/>
+                <outlet property="upgradingIncomeLabel" destination="lyh-r1-yqx" id="vdn-rt-exR"/>
+                <outlet property="upgradingNameLabel" destination="3dO-aY-w49" id="u7L-oU-D7N"/>
+                <outlet property="upgradingSpeedupCostLabel" destination="PiB-gc-ZgS" id="CjI-Iv-UIk"/>
             </connections>
         </placeholder>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
-        <view contentMode="scaleToFill" id="89">
-            <rect key="frame" x="0.0" y="0.0" width="258" height="92"/>
+        <view contentMode="scaleToFill" id="Ri3-6y-626" customClass="MapBotView">
+            <rect key="frame" x="0.0" y="0.0" width="347" height="60"/>
             <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
             <subviews>
-                <view contentMode="scaleToFill" id="90">
-                    <rect key="frame" x="69" y="36" width="56" height="56"/>
-                    <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
+                <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" alpha="0.89999997615814209" contentMode="scaleToFill" image="taskgradient.png" id="52n-Ax-gFO">
+                    <rect key="frame" x="-100" y="10" width="547" height="50"/>
+                    <autoresizingMask key="autoresizingMask"/>
+                </imageView>
+                <view contentMode="scaleToFill" id="r63-Kl-H49">
+                    <rect key="frame" x="0.0" y="0.0" width="218" height="60"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                     <subviews>
-                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="97">
-                            <rect key="frame" x="0.0" y="0.0" width="56" height="56"/>
-                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                            <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
-                            <state key="normal" backgroundImage="buildingubutton.png">
-                                <color key="titleColor" red="0.19607843459999999" green="0.30980393290000002" blue="0.52156865600000002" alpha="1" colorSpace="calibratedRGB"/>
-                                <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                            </state>
-                            <state key="highlighted">
-                                <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                            </state>
-                            <connections>
-                                <action selector="sellClicked:" destination="-1" eventType="touchUpInside" id="99"/>
-                            </connections>
-                        </button>
-                        <imageView opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="center" image="sellicon.png" id="98">
-                            <rect key="frame" x="14" y="10" width="27" height="29"/>
-                            <autoresizingMask key="autoresizingMask"/>
-                        </imageView>
-                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="SELL" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" id="96" customClass="NiceFontLabel">
-                            <rect key="frame" x="-1" y="34" width="58" height="21"/>
-                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                            <fontDescription key="fontDescription" type="system" pointSize="12"/>
-                            <color key="textColor" red="0.23137254900000001" green="0.2274509804" blue="0.20000000000000001" alpha="0.90000000000000002" colorSpace="calibratedRGB"/>
+                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="The Inn (Lvl 3)" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="8" id="f8a-kT-QFn" customClass="NiceFontLabel">
+                            <rect key="frame" x="15" y="-3" width="196" height="33"/>
+                            <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
+                            <fontDescription key="fontDescription" type="system" pointSize="26"/>
+                            <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                             <nil key="highlightedColor"/>
-                            <color key="shadowColor" white="1" alpha="0.5" colorSpace="calibratedWhite"/>
-                            <size key="shadowOffset" width="0.0" height="1"/>
+                            <color key="shadowColor" red="0.0" green="0.0" blue="0.0" alpha="0.90000000000000002" colorSpace="calibratedRGB"/>
+                            <size key="shadowOffset" width="1" height="1"/>
                         </label>
+                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="5$ in 2 Hours" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="8" id="HkO-DO-0Xu" customClass="NiceFontLabel">
+                            <rect key="frame" x="15" y="32" width="196" height="22"/>
+                            <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
+                            <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                            <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                            <nil key="highlightedColor"/>
+                            <color key="shadowColor" red="0.0" green="0.0" blue="0.0" alpha="0.90000000000000002" colorSpace="calibratedRGB"/>
+                            <size key="shadowOffset" width="1" height="1"/>
+                        </label>
+                        <view contentMode="scaleToFill" id="UGJ-lE-qnC">
+                            <rect key="frame" x="15" y="29" width="196" height="1"/>
+                            <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
+                            <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.5" colorSpace="calibratedRGB"/>
+                        </view>
+                        <view contentMode="scaleToFill" id="f0N-eK-0Bt">
+                            <rect key="frame" x="15" y="30" width="196" height="1"/>
+                            <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
+                            <color key="backgroundColor" red="1" green="1" blue="1" alpha="0.25" colorSpace="calibratedRGB"/>
+                        </view>
                     </subviews>
                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                 </view>
-                <view contentMode="scaleToFill" id="91">
-                    <rect key="frame" x="133" y="36" width="56" height="56"/>
-                    <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
+                <view contentMode="scaleToFill" id="Ma4-as-21m">
+                    <rect key="frame" x="217" y="0.0" width="40" height="60"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                     <subviews>
-                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="92">
-                            <rect key="frame" x="0.0" y="0.0" width="56" height="56"/>
+                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="Pwi-AT-RLM">
+                            <rect key="frame" x="0.0" y="10" width="40" height="40"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                             <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
-                            <state key="normal" backgroundImage="buildingubutton.png">
+                            <state key="normal" backgroundImage="sell.png">
                                 <color key="titleColor" red="0.19607843459999999" green="0.30980393290000002" blue="0.52156865600000002" alpha="1" colorSpace="calibratedRGB"/>
                                 <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                             </state>
@@ -74,68 +83,198 @@
                                 <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                             </state>
                             <connections>
-                                <action selector="littleUpgradeClicked:" destination="-1" eventType="touchUpInside" id="100"/>
+                                <action selector="sellClicked:" destination="-1" eventType="touchUpInside" id="diu-pa-MLw"/>
                             </connections>
                         </button>
-                        <imageView opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="center" image="upgradeicon.png" id="93">
-                            <rect key="frame" x="18" y="14" width="20" height="25"/>
-                            <autoresizingMask key="autoresizingMask"/>
-                        </imageView>
-                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="UPGRADE" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" id="94" customClass="NiceFontLabel">
-                            <rect key="frame" x="-2" y="34" width="60" height="21"/>
-                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                            <fontDescription key="fontDescription" type="system" pointSize="12"/>
-                            <color key="textColor" red="0.23137254900000001" green="0.2274509804" blue="0.20000000000000001" alpha="0.90000000000000002" colorSpace="calibratedRGB"/>
+                    </subviews>
+                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                </view>
+                <view contentMode="scaleToFill" id="cTb-Mb-5eM">
+                    <rect key="frame" x="260" y="0.0" width="87" height="60"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                    <subviews>
+                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="6Ut-Og-8OW">
+                            <rect key="frame" x="0.0" y="9" width="84" height="40"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxY="YES"/>
+                            <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                            <state key="normal" backgroundImage="confirm.png">
+                                <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                            </state>
+                            <connections>
+                                <action selector="littleUpgradeClicked:" destination="-1" eventType="touchUpInside" id="Dbd-vB-flF"/>
+                            </connections>
+                        </button>
+                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Upgrade" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="8" id="lki-6O-TLo" customClass="NiceFontLabel">
+                            <rect key="frame" x="9" y="10" width="67" height="22"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxY="YES"/>
+                            <fontDescription key="fontDescription" type="system" pointSize="11"/>
+                            <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                             <nil key="highlightedColor"/>
-                            <color key="shadowColor" white="1" alpha="0.5" colorSpace="calibratedWhite"/>
+                            <color key="shadowColor" red="0.23529411764705882" green="0.39215686274509803" blue="0.0" alpha="0.75" colorSpace="calibratedRGB"/>
                             <size key="shadowOffset" width="0.0" height="1"/>
                         </label>
                         <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="$32,000" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" id="95" customClass="NiceFontLabel">
-                            <rect key="frame" x="-2" y="-1" width="60" height="17"/>
+                            <rect key="frame" x="12" y="27" width="60" height="17"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                            <fontDescription key="fontDescription" type="system" pointSize="8"/>
-                            <color key="textColor" red="0.23137254900000001" green="0.2274509804" blue="0.20000000000000001" alpha="0.90000000000000002" colorSpace="calibratedRGB"/>
+                            <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                            <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                             <nil key="highlightedColor"/>
-                            <color key="shadowColor" white="1" alpha="0.5" colorSpace="calibratedWhite"/>
+                            <color key="shadowColor" red="0.23529411759999999" green="0.3921568627" blue="0.0" alpha="0.75" colorSpace="calibratedRGB"/>
                             <size key="shadowOffset" width="0.0" height="1"/>
                         </label>
                     </subviews>
                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                 </view>
-                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Apartment Complex (lvl 3)" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="8" id="128" customClass="NiceFontLabel">
-                    <rect key="frame" x="8" y="0.0" width="243" height="21"/>
-                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                    <fontDescription key="fontDescription" type="system" pointSize="15"/>
-                    <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                    <nil key="highlightedColor"/>
-                    <color key="shadowColor" red="0.0" green="0.0" blue="0.0" alpha="0.29999999999999999" colorSpace="calibratedRGB"/>
-                    <size key="shadowOffset" width="0.0" height="1"/>
-                </label>
-                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="$30 IN 50H" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="8" id="130" customClass="NiceFontLabel">
-                    <rect key="frame" x="61" y="17" width="136" height="21"/>
-                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                    <fontDescription key="fontDescription" type="system" pointSize="12"/>
-                    <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                    <nil key="highlightedColor"/>
-                    <color key="shadowColor" red="0.0" green="0.0" blue="0.0" alpha="0.29999999999999999" colorSpace="calibratedRGB"/>
-                    <size key="shadowOffset" width="0.0" height="1"/>
-                </label>
             </subviews>
             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+            <connections>
+                <outlet property="bgdView" destination="52n-Ax-gFO" id="INr-ch-1Ko"/>
+                <outlet property="delegate" destination="-1" id="UsB-uT-UDc"/>
+                <outletCollection property="animateViews" destination="r63-Kl-H49" id="TsQ-he-lqb"/>
+                <outletCollection property="animateViews" destination="Ma4-as-21m" id="r8t-d8-pye"/>
+                <outletCollection property="animateViews" destination="cTb-Mb-5eM" id="NeS-Sc-6df"/>
+            </connections>
         </view>
-        <view contentMode="scaleToFill" id="102">
-            <rect key="frame" x="0.0" y="0.0" width="258" height="92"/>
+        <view contentMode="scaleToFill" id="rBI-qQ-j6P" customClass="MapBotView">
+            <rect key="frame" x="0.0" y="0.0" width="347" height="60"/>
             <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
             <subviews>
-                <view contentMode="scaleToFill" id="104">
-                    <rect key="frame" x="133" y="36" width="56" height="56"/>
-                    <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
+                <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" alpha="0.89999997615814209" contentMode="scaleToFill" image="taskgradient.png" id="cxl-1n-ija">
+                    <rect key="frame" x="-100" y="10" width="547" height="50"/>
+                    <autoresizingMask key="autoresizingMask"/>
+                </imageView>
+                <view contentMode="scaleToFill" id="8N8-0F-WnZ">
+                    <rect key="frame" x="0.0" y="0.0" width="218" height="60"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                     <subviews>
-                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="106">
-                            <rect key="frame" x="0.0" y="0.0" width="56" height="56"/>
+                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Parcel of Land" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="8" id="t4i-VM-Wp2" customClass="NiceFontLabel">
+                            <rect key="frame" x="15" y="-3" width="196" height="33"/>
+                            <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
+                            <fontDescription key="fontDescription" type="system" pointSize="26"/>
+                            <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                            <nil key="highlightedColor"/>
+                            <color key="shadowColor" red="0.0" green="0.0" blue="0.0" alpha="0.90000000000000002" colorSpace="calibratedRGB"/>
+                            <size key="shadowOffset" width="1" height="1"/>
+                        </label>
+                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="A silly parcel of land." lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="8" id="aq0-aW-rB5" customClass="NiceFontLabel">
+                            <rect key="frame" x="15" y="32" width="196" height="22"/>
+                            <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
+                            <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                            <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                            <nil key="highlightedColor"/>
+                            <color key="shadowColor" red="0.0" green="0.0" blue="0.0" alpha="0.90000000000000002" colorSpace="calibratedRGB"/>
+                            <size key="shadowOffset" width="1" height="1"/>
+                        </label>
+                        <view contentMode="scaleToFill" id="K9z-Bf-Fpg">
+                            <rect key="frame" x="15" y="29" width="196" height="1"/>
+                            <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
+                            <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.5" colorSpace="calibratedRGB"/>
+                        </view>
+                        <view contentMode="scaleToFill" id="r41-1H-jas">
+                            <rect key="frame" x="15" y="30" width="196" height="1"/>
+                            <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
+                            <color key="backgroundColor" red="1" green="1" blue="1" alpha="0.25" colorSpace="calibratedRGB"/>
+                        </view>
+                    </subviews>
+                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                </view>
+                <view contentMode="scaleToFill" id="lEF-8H-RgF">
+                    <rect key="frame" x="249" y="0.0" width="87" height="60"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                    <subviews>
+                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="h98-lg-hEc">
+                            <rect key="frame" x="0.0" y="9" width="84" height="40"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxY="YES"/>
+                            <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                            <state key="normal" backgroundImage="confirm.png">
+                                <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                            </state>
+                            <connections>
+                                <action selector="expandClicked:" destination="-1" eventType="touchUpInside" id="cMX-6n-Cn0"/>
+                            </connections>
+                        </button>
+                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Expand" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="8" id="x1i-OH-9fz" customClass="NiceFontLabel">
+                            <rect key="frame" x="9" y="10" width="67" height="22"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxY="YES"/>
+                            <fontDescription key="fontDescription" type="system" pointSize="11"/>
+                            <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                            <nil key="highlightedColor"/>
+                            <color key="shadowColor" red="0.23529411759999999" green="0.3921568627" blue="0.0" alpha="0.75" colorSpace="calibratedRGB"/>
+                            <size key="shadowOffset" width="0.0" height="1"/>
+                        </label>
+                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="$32,000" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" id="NAz-92-yz5" customClass="NiceFontLabel">
+                            <rect key="frame" x="12" y="27" width="60" height="17"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                            <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                            <nil key="highlightedColor"/>
+                            <color key="shadowColor" red="0.23529411759999999" green="0.3921568627" blue="0.0" alpha="0.75" colorSpace="calibratedRGB"/>
+                            <size key="shadowOffset" width="0.0" height="1"/>
+                        </label>
+                    </subviews>
+                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                </view>
+            </subviews>
+            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+            <connections>
+                <outlet property="bgdView" destination="cxl-1n-ija" id="h8t-ci-QA9"/>
+                <outlet property="delegate" destination="-1" id="OkJ-7a-VXB"/>
+                <outletCollection property="animateViews" destination="8N8-0F-WnZ" id="QUf-L6-2Wg"/>
+                <outletCollection property="animateViews" destination="lEF-8H-RgF" id="e0G-Ss-37V"/>
+            </connections>
+        </view>
+        <view contentMode="scaleToFill" id="bZw-HN-uKE" customClass="MapBotView">
+            <rect key="frame" x="0.0" y="0.0" width="347" height="60"/>
+            <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
+            <subviews>
+                <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" alpha="0.89999997615814209" contentMode="scaleToFill" image="taskgradient.png" id="Vvf-7A-iR6">
+                    <rect key="frame" x="-100" y="10" width="547" height="50"/>
+                    <autoresizingMask key="autoresizingMask"/>
+                </imageView>
+                <view contentMode="scaleToFill" id="O6y-Rp-wnD">
+                    <rect key="frame" x="0.0" y="0.0" width="218" height="60"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                    <subviews>
+                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="The Inn (Lvl 3)" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="8" id="3dO-aY-w49" customClass="NiceFontLabel">
+                            <rect key="frame" x="15" y="-3" width="196" height="33"/>
+                            <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
+                            <fontDescription key="fontDescription" type="system" pointSize="26"/>
+                            <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                            <nil key="highlightedColor"/>
+                            <color key="shadowColor" red="0.0" green="0.0" blue="0.0" alpha="0.90000000000000002" colorSpace="calibratedRGB"/>
+                            <size key="shadowOffset" width="1" height="1"/>
+                        </label>
+                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="5$ in 2 Hours" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="8" id="lyh-r1-yqx" customClass="NiceFontLabel">
+                            <rect key="frame" x="15" y="32" width="196" height="22"/>
+                            <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
+                            <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                            <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                            <nil key="highlightedColor"/>
+                            <color key="shadowColor" red="0.0" green="0.0" blue="0.0" alpha="0.90000000000000002" colorSpace="calibratedRGB"/>
+                            <size key="shadowOffset" width="1" height="1"/>
+                        </label>
+                        <view contentMode="scaleToFill" id="41T-bn-VH5">
+                            <rect key="frame" x="15" y="29" width="196" height="1"/>
+                            <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
+                            <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.5" colorSpace="calibratedRGB"/>
+                        </view>
+                        <view contentMode="scaleToFill" id="4WT-fb-Z9g">
+                            <rect key="frame" x="15" y="30" width="196" height="1"/>
+                            <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
+                            <color key="backgroundColor" red="1" green="1" blue="1" alpha="0.25" colorSpace="calibratedRGB"/>
+                        </view>
+                    </subviews>
+                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                </view>
+                <view contentMode="scaleToFill" id="U2p-Jb-aqJ">
+                    <rect key="frame" x="217" y="0.0" width="40" height="60"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                    <subviews>
+                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="oev-om-6Pm">
+                            <rect key="frame" x="0.0" y="10" width="40" height="40"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                             <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
-                            <state key="normal" backgroundImage="buildingubutton.png">
+                            <state key="normal" backgroundImage="sell.png">
                                 <color key="titleColor" red="0.19607843459999999" green="0.30980393290000002" blue="0.52156865600000002" alpha="1" colorSpace="calibratedRGB"/>
                                 <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                             </state>
@@ -143,150 +282,160 @@
                                 <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                             </state>
                             <connections>
-                                <action selector="finishNowClicked:" destination="-1" eventType="touchUpInside" id="115"/>
+                                <action selector="sellClicked:" destination="-1" eventType="touchUpInside" id="374-P1-e8R"/>
                             </connections>
                         </button>
-                        <imageView opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" image="diamond.png" id="toR-vq-bO0">
-                            <rect key="frame" x="15" y="11" width="27" height="29"/>
-                            <autoresizingMask key="autoresizingMask"/>
-                        </imageView>
-                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="FINISH" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" id="107" customClass="NiceFontLabel">
-                            <rect key="frame" x="-1" y="35" width="58" height="21"/>
-                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                            <fontDescription key="fontDescription" type="system" pointSize="12"/>
-                            <color key="textColor" red="0.23137254900000001" green="0.2274509804" blue="0.20000000000000001" alpha="0.90000000000000002" colorSpace="calibratedRGB"/>
-                            <nil key="highlightedColor"/>
-                            <color key="shadowColor" white="1" alpha="0.5" colorSpace="calibratedWhite"/>
-                            <size key="shadowOffset" width="0.0" height="1"/>
-                        </label>
                     </subviews>
                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                 </view>
-                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="124">
-                    <rect key="frame" x="70" y="36" width="56" height="56"/>
-                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                    <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
-                    <state key="normal" backgroundImage="buildingubutton.png">
-                        <color key="titleColor" red="0.19607843459999999" green="0.30980393290000002" blue="0.52156865600000002" alpha="1" colorSpace="calibratedRGB"/>
-                        <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                    </state>
-                    <state key="highlighted">
-                        <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                    </state>
-                    <connections>
-                        <action selector="sellClicked:" destination="-1" eventType="touchUpInside" id="127"/>
-                    </connections>
-                </button>
-                <imageView opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="center" image="sellicon.png" id="125">
-                    <rect key="frame" x="84" y="46" width="27" height="29"/>
-                    <autoresizingMask key="autoresizingMask"/>
-                </imageView>
-                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="SELL" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" id="126" customClass="NiceFontLabel">
-                    <rect key="frame" x="69" y="70" width="58" height="21"/>
+                <view contentMode="scaleToFill" id="hQf-VR-8vB">
+                    <rect key="frame" x="260" y="0.0" width="87" height="60"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                    <fontDescription key="fontDescription" type="system" pointSize="12"/>
-                    <color key="textColor" red="0.23137254900000001" green="0.2274509804" blue="0.20000000000000001" alpha="0.90000000000000002" colorSpace="calibratedRGB"/>
-                    <nil key="highlightedColor"/>
-                    <color key="shadowColor" white="1" alpha="0.5" colorSpace="calibratedWhite"/>
-                    <size key="shadowOffset" width="0.0" height="1"/>
-                </label>
-                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Apartment Complex (lvl 3)" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="8" id="131" customClass="NiceFontLabel">
-                    <rect key="frame" x="8" y="0.0" width="243" height="21"/>
-                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                    <fontDescription key="fontDescription" type="system" pointSize="15"/>
-                    <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                    <nil key="highlightedColor"/>
-                    <color key="shadowColor" red="0.0" green="0.0" blue="0.0" alpha="0.29999999999999999" colorSpace="calibratedRGB"/>
-                    <size key="shadowOffset" width="0.0" height="1"/>
-                </label>
+                    <subviews>
+                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="b8N-ck-Uwb">
+                            <rect key="frame" x="0.0" y="9" width="84" height="40"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxY="YES"/>
+                            <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                            <state key="normal" backgroundImage="finishbuild.png">
+                                <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                            </state>
+                            <connections>
+                                <action selector="finishNowClicked:" destination="-1" eventType="touchUpInside" id="Vcf-dM-6QO"/>
+                            </connections>
+                        </button>
+                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Finish" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="8" id="p3F-kI-0XO" customClass="NiceFontLabel">
+                            <rect key="frame" x="33" y="9" width="43" height="22"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxY="YES"/>
+                            <fontDescription key="fontDescription" type="system" pointSize="11"/>
+                            <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                            <nil key="highlightedColor"/>
+                            <color key="shadowColor" red="0.15686274509803921" green="0.0" blue="0.39215686274509803" alpha="0.75" colorSpace="calibratedRGB"/>
+                            <size key="shadowOffset" width="0.0" height="1"/>
+                        </label>
+                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="250" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" id="PiB-gc-ZgS" customClass="NiceFontLabel">
+                            <rect key="frame" x="31" y="27" width="47" height="17"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                            <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                            <nil key="highlightedColor"/>
+                            <color key="shadowColor" red="0.15686274509803921" green="0.0" blue="0.39215686274509803" alpha="0.75" colorSpace="calibratedRGB"/>
+                            <size key="shadowOffset" width="0.0" height="1"/>
+                        </label>
+                        <imageView opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" image="diamond.png" id="Pyv-nJ-ZPe">
+                            <rect key="frame" x="9" y="18" width="24" height="24"/>
+                            <autoresizingMask key="autoresizingMask"/>
+                        </imageView>
+                    </subviews>
+                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                </view>
             </subviews>
             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+            <connections>
+                <outlet property="bgdView" destination="Vvf-7A-iR6" id="MT1-iN-jY0"/>
+                <outlet property="delegate" destination="-1" id="4F8-8U-17w"/>
+                <outletCollection property="animateViews" destination="O6y-Rp-wnD" id="Owu-nt-c5b"/>
+                <outletCollection property="animateViews" destination="U2p-Jb-aqJ" id="D7H-m0-9AQ"/>
+                <outletCollection property="animateViews" destination="hQf-VR-8vB" id="jta-gj-Oug"/>
+            </connections>
         </view>
-        <view contentMode="scaleToFill" id="160">
-            <rect key="frame" x="0.0" y="0.0" width="56" height="56"/>
+        <view contentMode="scaleToFill" id="GWN-65-ohU" customClass="MapBotView">
+            <rect key="frame" x="0.0" y="0.0" width="347" height="60"/>
             <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
             <subviews>
-                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="168">
-                    <rect key="frame" x="0.0" y="0.0" width="56" height="56"/>
-                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                    <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
-                    <state key="normal" backgroundImage="buildingubutton.png">
-                        <color key="titleColor" red="0.19607843459999999" green="0.30980393290000002" blue="0.52156865600000002" alpha="1" colorSpace="calibratedRGB"/>
-                        <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                    </state>
-                    <state key="highlighted">
-                        <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                    </state>
-                    <connections>
-                        <action selector="expandClicked:" destination="-1" eventType="touchUpInside" id="176"/>
-                    </connections>
-                </button>
-                <imageView opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" image="expand.png" id="167">
-                    <rect key="frame" x="14" y="14" width="20" height="25"/>
+                <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" alpha="0.89999997615814209" contentMode="scaleToFill" image="taskgradient.png" id="gZU-hR-KSa">
+                    <rect key="frame" x="-100" y="10" width="547" height="50"/>
                     <autoresizingMask key="autoresizingMask"/>
                 </imageView>
-                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="EXPAND" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" id="166" customClass="NiceFontLabel">
-                    <rect key="frame" x="-2" y="34" width="60" height="21"/>
+                <view contentMode="scaleToFill" id="fNz-7p-uOD">
+                    <rect key="frame" x="0.0" y="0.0" width="218" height="60"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                    <fontDescription key="fontDescription" type="system" pointSize="12"/>
-                    <color key="textColor" red="0.23137254900000001" green="0.2274509804" blue="0.20000000000000001" alpha="0.90000000000000002" colorSpace="calibratedRGB"/>
-                    <nil key="highlightedColor"/>
-                    <color key="shadowColor" white="1" alpha="0.5" colorSpace="calibratedWhite"/>
-                    <size key="shadowOffset" width="0.0" height="1"/>
-                </label>
-                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="$32,000" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" id="165" customClass="NiceFontLabel">
-                    <rect key="frame" x="-2" y="0.0" width="60" height="17"/>
+                    <subviews>
+                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Parcel of Land" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="8" id="6aZ-jW-zxS" customClass="NiceFontLabel">
+                            <rect key="frame" x="15" y="-3" width="196" height="33"/>
+                            <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
+                            <fontDescription key="fontDescription" type="system" pointSize="26"/>
+                            <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                            <nil key="highlightedColor"/>
+                            <color key="shadowColor" red="0.0" green="0.0" blue="0.0" alpha="0.90000000000000002" colorSpace="calibratedRGB"/>
+                            <size key="shadowOffset" width="1" height="1"/>
+                        </label>
+                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="A silly parcel of land." lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="8" id="D7n-Tv-yFg" customClass="NiceFontLabel">
+                            <rect key="frame" x="15" y="32" width="196" height="22"/>
+                            <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
+                            <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                            <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                            <nil key="highlightedColor"/>
+                            <color key="shadowColor" red="0.0" green="0.0" blue="0.0" alpha="0.90000000000000002" colorSpace="calibratedRGB"/>
+                            <size key="shadowOffset" width="1" height="1"/>
+                        </label>
+                        <view contentMode="scaleToFill" id="4Qi-aF-Fie">
+                            <rect key="frame" x="15" y="29" width="196" height="1"/>
+                            <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
+                            <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.5" colorSpace="calibratedRGB"/>
+                        </view>
+                        <view contentMode="scaleToFill" id="YIj-SE-Gbo">
+                            <rect key="frame" x="15" y="30" width="196" height="1"/>
+                            <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
+                            <color key="backgroundColor" red="1" green="1" blue="1" alpha="0.25" colorSpace="calibratedRGB"/>
+                        </view>
+                    </subviews>
+                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                </view>
+                <view contentMode="scaleToFill" id="EEN-NQ-qqP">
+                    <rect key="frame" x="249" y="0.0" width="87" height="60"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                    <fontDescription key="fontDescription" type="system" pointSize="8"/>
-                    <color key="textColor" red="0.23137254900000001" green="0.2274509804" blue="0.20000000000000001" alpha="0.90000000000000002" colorSpace="calibratedRGB"/>
-                    <nil key="highlightedColor"/>
-                    <color key="shadowColor" white="1" alpha="0.5" colorSpace="calibratedWhite"/>
-                    <size key="shadowOffset" width="0.0" height="1"/>
-                </label>
+                    <subviews>
+                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="QXi-bd-Zrj">
+                            <rect key="frame" x="0.0" y="9" width="84" height="40"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxY="YES"/>
+                            <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                            <state key="normal" backgroundImage="finishbuild.png">
+                                <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                            </state>
+                            <connections>
+                                <action selector="finishExpansionClicked:" destination="-1" eventType="touchUpInside" id="jXb-d4-omK"/>
+                            </connections>
+                        </button>
+                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Finish" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="8" id="Dqt-9D-fFk" customClass="NiceFontLabel">
+                            <rect key="frame" x="33" y="9" width="43" height="22"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxY="YES"/>
+                            <fontDescription key="fontDescription" type="system" pointSize="11"/>
+                            <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                            <nil key="highlightedColor"/>
+                            <color key="shadowColor" red="0.15686274510000001" green="0.0" blue="0.3921568627" alpha="0.75" colorSpace="calibratedRGB"/>
+                            <size key="shadowOffset" width="0.0" height="1"/>
+                        </label>
+                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="250" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" id="B8s-hn-kfs" customClass="NiceFontLabel">
+                            <rect key="frame" x="31" y="27" width="47" height="17"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                            <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                            <nil key="highlightedColor"/>
+                            <color key="shadowColor" red="0.15686274510000001" green="0.0" blue="0.3921568627" alpha="0.75" colorSpace="calibratedRGB"/>
+                            <size key="shadowOffset" width="0.0" height="1"/>
+                        </label>
+                        <imageView opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" image="diamond.png" id="VPJ-WH-iWr">
+                            <rect key="frame" x="9" y="18" width="24" height="24"/>
+                            <autoresizingMask key="autoresizingMask"/>
+                        </imageView>
+                    </subviews>
+                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                </view>
             </subviews>
             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-        </view>
-        <view contentMode="scaleToFill" id="183">
-            <rect key="frame" x="0.0" y="0.0" width="56" height="56"/>
-            <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
-            <subviews>
-                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="186">
-                    <rect key="frame" x="0.0" y="0.0" width="56" height="56"/>
-                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                    <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
-                    <state key="normal" backgroundImage="buildingubutton.png">
-                        <color key="titleColor" red="0.19607843459999999" green="0.30980393290000002" blue="0.52156865600000002" alpha="1" colorSpace="calibratedRGB"/>
-                        <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                    </state>
-                    <state key="highlighted">
-                        <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                    </state>
-                    <connections>
-                        <action selector="finishExpansionClicked:" destination="-1" eventType="touchUpInside" id="191"/>
-                    </connections>
-                </button>
-                <imageView opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" image="diamond.png" id="Pyv-nJ-ZPe">
-                    <rect key="frame" x="15" y="11" width="27" height="29"/>
-                    <autoresizingMask key="autoresizingMask"/>
-                </imageView>
-                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="FINISH" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" id="184" customClass="NiceFontLabel">
-                    <rect key="frame" x="-2" y="34" width="60" height="21"/>
-                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                    <fontDescription key="fontDescription" type="system" pointSize="12"/>
-                    <color key="textColor" red="0.23137254900000001" green="0.2274509804" blue="0.20000000000000001" alpha="0.90000000000000002" colorSpace="calibratedRGB"/>
-                    <nil key="highlightedColor"/>
-                    <color key="shadowColor" white="1" alpha="0.5" colorSpace="calibratedWhite"/>
-                    <size key="shadowOffset" width="0.0" height="1"/>
-                </label>
-            </subviews>
-            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+            <connections>
+                <outlet property="bgdView" destination="gZU-hR-KSa" id="dU7-cZ-urP"/>
+                <outlet property="delegate" destination="-1" id="zqP-ch-pS0"/>
+                <outletCollection property="animateViews" destination="fNz-7p-uOD" id="j4Z-tc-Ndk"/>
+                <outletCollection property="animateViews" destination="EEN-NQ-qqP" id="mJx-xH-Lh8"/>
+            </connections>
         </view>
     </objects>
     <resources>
-        <image name="buildingubutton.png" width="54" height="54"/>
-        <image name="diamond.png" width="33" height="33"/>
-        <image name="expand.png" width="74" height="83"/>
-        <image name="sellicon.png" width="24" height="26"/>
-        <image name="upgradeicon.png" width="17" height="22"/>
+        <image name="confirm.png" width="84" height="40"/>
+        <image name="diamond.png" width="29" height="28"/>
+        <image name="finishbuild.png" width="84" height="40"/>
+        <image name="sell.png" width="40" height="40"/>
+        <image name="taskgradient.png" width="1" height="50"/>
     </resources>
 </document>

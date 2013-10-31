@@ -23,7 +23,9 @@
 
 @end
 
-@interface MyCroniesCardCell : UIView <MonsterCardViewDelegate>
+@interface MyCroniesCardCell : UIView <MonsterCardViewDelegate> {
+  int _overlayMaskStatus;
+}
 
 @property (nonatomic, strong) IBOutlet UIButton *plusButton;
 @property (nonatomic, strong) IBOutlet UIButton *minusButton;

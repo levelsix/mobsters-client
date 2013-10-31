@@ -62,7 +62,7 @@ BOOL EventProtocolRequestIsValidValue(EventProtocolRequest value) {
     case EventProtocolRequestCLoadPlayerCityEvent:
     case EventProtocolRequestCRetrieveStaticDataEvent:
     case EventProtocolRequestCQuestAcceptEvent:
-    case EventProtocolRequestCUserQuestDetailsEvent:
+    case EventProtocolRequestCQuestProgressEvent:
     case EventProtocolRequestCQuestRedeemEvent:
     case EventProtocolRequestCPurchaseCityExpansionEvent:
     case EventProtocolRequestCExpansionWaitCompleteEvent:
@@ -101,8 +101,10 @@ BOOL EventProtocolRequestIsValidValue(EventProtocolRequest value) {
     case EventProtocolRequestCHealMonsterWaitTimeCompleteEvent:
     case EventProtocolRequestCAddMonsterToBattleTeamEvent:
     case EventProtocolRequestCRemoveMonsterFromBattleTeamEvent:
-    case EventProtocolRequestCBuyMonsterInventorySlotEvent:
+    case EventProtocolRequestCIncreaseMonsterInventorySlotEvent:
     case EventProtocolRequestCEnhancementWaitTimeCompleteEvent:
+    case EventProtocolRequestCCombineUserMonsterPiecesEvent:
+    case EventProtocolRequestCSellUserMonsterEvent:
     case EventProtocolRequestCLogoutEvent:
       return YES;
     default:
@@ -123,7 +125,7 @@ BOOL EventProtocolResponseIsValidValue(EventProtocolResponse value) {
     case EventProtocolResponseSLoadPlayerCityEvent:
     case EventProtocolResponseSRetrieveStaticDataEvent:
     case EventProtocolResponseSQuestAcceptEvent:
-    case EventProtocolResponseSUserQuestDetailsEvent:
+    case EventProtocolResponseSQuestProgressEvent:
     case EventProtocolResponseSQuestRedeemEvent:
     case EventProtocolResponseSPurchaseCityExpansionEvent:
     case EventProtocolResponseSExpansionWaitCompleteEvent:
@@ -162,10 +164,11 @@ BOOL EventProtocolResponseIsValidValue(EventProtocolResponse value) {
     case EventProtocolResponseSHealMonsterWaitTimeCompleteEvent:
     case EventProtocolResponseSAddMonsterToBattleTeamEvent:
     case EventProtocolResponseSRemoveMonsterFromBattleTeamEvent:
-    case EventProtocolResponseSBuyMonsterInventorySlotEvent:
+    case EventProtocolResponseSIncreaseMonsterInventorySlotEvent:
     case EventProtocolResponseSEnhancementWaitTimeCompleteEvent:
+    case EventProtocolResponseSCombineUserMonsterPiecesEvent:
+    case EventProtocolResponseSSellUserMonsterEvent:
     case EventProtocolResponseSUpdateClientUserEvent:
-    case EventProtocolResponseSQuestCompleteEvent:
     case EventProtocolResponseSReferralCodeUsedEvent:
     case EventProtocolResponseSPurgeStaticDataEvent:
     case EventProtocolResponseSReceivedGroupChatEvent:

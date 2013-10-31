@@ -9,10 +9,10 @@
 @class AddMonsterToBattleTeamRequestProto_Builder;
 @class AddMonsterToBattleTeamResponseProto;
 @class AddMonsterToBattleTeamResponseProto_Builder;
-@class BuyMonsterInventorySlotRequestProto;
-@class BuyMonsterInventorySlotRequestProto_Builder;
-@class BuyMonsterInventorySlotResponseProto;
-@class BuyMonsterInventorySlotResponseProto_Builder;
+@class CombineUserMonsterPiecesRequestProto;
+@class CombineUserMonsterPiecesRequestProto_Builder;
+@class CombineUserMonsterPiecesResponseProto;
+@class CombineUserMonsterPiecesResponseProto_Builder;
 @class EnhancementWaitTimeCompleteRequestProto;
 @class EnhancementWaitTimeCompleteRequestProto_Builder;
 @class EnhancementWaitTimeCompleteResponseProto;
@@ -29,10 +29,14 @@
 @class HealMonsterWaitTimeCompleteRequestProto_Builder;
 @class HealMonsterWaitTimeCompleteResponseProto;
 @class HealMonsterWaitTimeCompleteResponseProto_Builder;
-@class LevelAndRequiredExpProto;
-@class LevelAndRequiredExpProto_Builder;
+@class IncreaseMonsterInventorySlotRequestProto;
+@class IncreaseMonsterInventorySlotRequestProto_Builder;
+@class IncreaseMonsterInventorySlotResponseProto;
+@class IncreaseMonsterInventorySlotResponseProto_Builder;
 @class MinimumClanProto;
 @class MinimumClanProto_Builder;
+@class MinimumUserMonsterSellProto;
+@class MinimumUserMonsterSellProto_Builder;
 @class MinimumUserProto;
 @class MinimumUserProtoWithLevel;
 @class MinimumUserProtoWithLevel_Builder;
@@ -43,6 +47,12 @@
 @class RemoveMonsterFromBattleTeamRequestProto_Builder;
 @class RemoveMonsterFromBattleTeamResponseProto;
 @class RemoveMonsterFromBattleTeamResponseProto_Builder;
+@class SellUserMonsterRequestProto;
+@class SellUserMonsterRequestProto_Builder;
+@class SellUserMonsterResponseProto;
+@class SellUserMonsterResponseProto_Builder;
+@class StaticLevelInfoProto;
+@class StaticLevelInfoProto_Builder;
 @class SubmitMonsterEnhancementRequestProto;
 @class SubmitMonsterEnhancementRequestProto_Builder;
 @class SubmitMonsterEnhancementResponseProto;
@@ -63,11 +73,9 @@
 @class UserMonsterHealingProto_Builder;
 typedef enum {
   SubmitMonsterEnhancementResponseProto_SubmitMonsterEnhancementStatusSuccess = 1,
-  SubmitMonsterEnhancementResponseProto_SubmitMonsterEnhancementStatusOtherFail = 2,
-  SubmitMonsterEnhancementResponseProto_SubmitMonsterEnhancementStatusClientTooApartFromServerTime = 3,
-  SubmitMonsterEnhancementResponseProto_SubmitMonsterEnhancementStatusMainOrFeederOrEquipsNonexistent = 4,
-  SubmitMonsterEnhancementResponseProto_SubmitMonsterEnhancementStatusTryingToSurpassMaxLevel = 5,
-  SubmitMonsterEnhancementResponseProto_SubmitMonsterEnhancementStatusNotEnoughSilver = 6,
+  SubmitMonsterEnhancementResponseProto_SubmitMonsterEnhancementStatusFailInsufficientGems = 2,
+  SubmitMonsterEnhancementResponseProto_SubmitMonsterEnhancementStatusFailInsufficientCash = 3,
+  SubmitMonsterEnhancementResponseProto_SubmitMonsterEnhancementStatusFailOther = 4,
 } SubmitMonsterEnhancementResponseProto_SubmitMonsterEnhancementStatus;
 
 BOOL SubmitMonsterEnhancementResponseProto_SubmitMonsterEnhancementStatusIsValidValue(SubmitMonsterEnhancementResponseProto_SubmitMonsterEnhancementStatus value);
@@ -116,19 +124,33 @@ typedef enum {
 BOOL AddMonsterToBattleTeamResponseProto_AddMonsterToBattleTeamStatusIsValidValue(AddMonsterToBattleTeamResponseProto_AddMonsterToBattleTeamStatus value);
 
 typedef enum {
-  RemoveMonsterFromBattleTeamResponseProto_AddMonsterToBattleTeamStatusSuccess = 1,
-  RemoveMonsterFromBattleTeamResponseProto_AddMonsterToBattleTeamStatusFailOther = 2,
-} RemoveMonsterFromBattleTeamResponseProto_AddMonsterToBattleTeamStatus;
+  RemoveMonsterFromBattleTeamResponseProto_RemoveMonsterFromBattleTeamStatusSuccess = 1,
+  RemoveMonsterFromBattleTeamResponseProto_RemoveMonsterFromBattleTeamStatusFailOther = 2,
+} RemoveMonsterFromBattleTeamResponseProto_RemoveMonsterFromBattleTeamStatus;
 
-BOOL RemoveMonsterFromBattleTeamResponseProto_AddMonsterToBattleTeamStatusIsValidValue(RemoveMonsterFromBattleTeamResponseProto_AddMonsterToBattleTeamStatus value);
+BOOL RemoveMonsterFromBattleTeamResponseProto_RemoveMonsterFromBattleTeamStatusIsValidValue(RemoveMonsterFromBattleTeamResponseProto_RemoveMonsterFromBattleTeamStatus value);
 
 typedef enum {
-  BuyMonsterInventorySlotResponseProto_BuyMonsterInventorySlotStatusSuccess = 1,
-  BuyMonsterInventorySlotResponseProto_BuyMonsterInventorySlotStatusFailInsufficientFunds = 2,
-  BuyMonsterInventorySlotResponseProto_BuyMonsterInventorySlotStatusFailOther = 3,
-} BuyMonsterInventorySlotResponseProto_BuyMonsterInventorySlotStatus;
+  IncreaseMonsterInventorySlotResponseProto_IncreaseMonsterInventorySlotStatusSuccess = 1,
+  IncreaseMonsterInventorySlotResponseProto_IncreaseMonsterInventorySlotStatusFailInsufficientFunds = 2,
+  IncreaseMonsterInventorySlotResponseProto_IncreaseMonsterInventorySlotStatusFailOther = 3,
+} IncreaseMonsterInventorySlotResponseProto_IncreaseMonsterInventorySlotStatus;
 
-BOOL BuyMonsterInventorySlotResponseProto_BuyMonsterInventorySlotStatusIsValidValue(BuyMonsterInventorySlotResponseProto_BuyMonsterInventorySlotStatus value);
+BOOL IncreaseMonsterInventorySlotResponseProto_IncreaseMonsterInventorySlotStatusIsValidValue(IncreaseMonsterInventorySlotResponseProto_IncreaseMonsterInventorySlotStatus value);
+
+typedef enum {
+  CombineUserMonsterPiecesResponseProto_CombineUserMonsterPiecesStatusSuccess = 1,
+  CombineUserMonsterPiecesResponseProto_CombineUserMonsterPiecesStatusFailOther = 2,
+} CombineUserMonsterPiecesResponseProto_CombineUserMonsterPiecesStatus;
+
+BOOL CombineUserMonsterPiecesResponseProto_CombineUserMonsterPiecesStatusIsValidValue(CombineUserMonsterPiecesResponseProto_CombineUserMonsterPiecesStatus value);
+
+typedef enum {
+  SellUserMonsterResponseProto_SellUserMonsterStatusSuccess = 1,
+  SellUserMonsterResponseProto_SellUserMonsterStatusFailOther = 2,
+} SellUserMonsterResponseProto_SellUserMonsterStatus;
+
+BOOL SellUserMonsterResponseProto_SellUserMonsterStatusIsValidValue(SellUserMonsterResponseProto_SellUserMonsterStatus value);
 
 
 @interface EventMonsterRoot : NSObject {
@@ -139,14 +161,22 @@ BOOL BuyMonsterInventorySlotResponseProto_BuyMonsterInventorySlotStatusIsValidVa
 
 @interface SubmitMonsterEnhancementRequestProto : PBGeneratedMessage {
 @private
+  BOOL hasGemsSpent_:1;
   BOOL hasSender_:1;
+  BOOL hasCashChange_:1;
+  int32_t gemsSpent;
   MinimumUserProto* sender;
+  int32_t cashChange;
   NSMutableArray* mutableUeipDeleteList;
   NSMutableArray* mutableUeipUpdateList;
   NSMutableArray* mutableUeipNewList;
 }
 - (BOOL) hasSender;
+- (BOOL) hasGemsSpent;
+- (BOOL) hasCashChange;
 @property (readonly, retain) MinimumUserProto* sender;
+@property (readonly) int32_t gemsSpent;
+@property (readonly) int32_t cashChange;
 - (NSArray*) ueipDeleteList;
 - (UserEnhancementItemProto*) ueipDeleteAtIndex:(int32_t) index;
 - (NSArray*) ueipUpdateList;
@@ -215,6 +245,16 @@ BOOL BuyMonsterInventorySlotResponseProto_BuyMonsterInventorySlotStatusIsValidVa
 - (SubmitMonsterEnhancementRequestProto_Builder*) addUeipNew:(UserEnhancementItemProto*) value;
 - (SubmitMonsterEnhancementRequestProto_Builder*) addAllUeipNew:(NSArray*) values;
 - (SubmitMonsterEnhancementRequestProto_Builder*) clearUeipNewList;
+
+- (BOOL) hasGemsSpent;
+- (int32_t) gemsSpent;
+- (SubmitMonsterEnhancementRequestProto_Builder*) setGemsSpent:(int32_t) value;
+- (SubmitMonsterEnhancementRequestProto_Builder*) clearGemsSpent;
+
+- (BOOL) hasCashChange;
+- (int32_t) cashChange;
+- (SubmitMonsterEnhancementRequestProto_Builder*) setCashChange:(int32_t) value;
+- (SubmitMonsterEnhancementRequestProto_Builder*) clearCashChange;
 @end
 
 @interface SubmitMonsterEnhancementResponseProto : PBGeneratedMessage {
@@ -499,14 +539,11 @@ BOOL BuyMonsterInventorySlotResponseProto_BuyMonsterInventorySlotStatusIsValidVa
   BOOL hasStatus_:1;
   MinimumUserProto* sender;
   UpdateMonsterHealthResponseProto_UpdateMonsterHealthStatus status;
-  NSMutableArray* mutableUmchpList;
 }
 - (BOOL) hasSender;
 - (BOOL) hasStatus;
 @property (readonly, retain) MinimumUserProto* sender;
 @property (readonly) UpdateMonsterHealthResponseProto_UpdateMonsterHealthStatus status;
-- (NSArray*) umchpList;
-- (UserMonsterCurrentHealthProto*) umchpAtIndex:(int32_t) index;
 
 + (UpdateMonsterHealthResponseProto*) defaultInstance;
 - (UpdateMonsterHealthResponseProto*) defaultInstance;
@@ -549,13 +586,6 @@ BOOL BuyMonsterInventorySlotResponseProto_BuyMonsterInventorySlotStatusIsValidVa
 - (UpdateMonsterHealthResponseProto_Builder*) mergeSender:(MinimumUserProto*) value;
 - (UpdateMonsterHealthResponseProto_Builder*) clearSender;
 
-- (NSArray*) umchpList;
-- (UserMonsterCurrentHealthProto*) umchpAtIndex:(int32_t) index;
-- (UpdateMonsterHealthResponseProto_Builder*) replaceUmchpAtIndex:(int32_t) index with:(UserMonsterCurrentHealthProto*) value;
-- (UpdateMonsterHealthResponseProto_Builder*) addUmchp:(UserMonsterCurrentHealthProto*) value;
-- (UpdateMonsterHealthResponseProto_Builder*) addAllUmchp:(NSArray*) values;
-- (UpdateMonsterHealthResponseProto_Builder*) clearUmchpList;
-
 - (BOOL) hasStatus;
 - (UpdateMonsterHealthResponseProto_UpdateMonsterHealthStatus) status;
 - (UpdateMonsterHealthResponseProto_Builder*) setStatus:(UpdateMonsterHealthResponseProto_UpdateMonsterHealthStatus) value;
@@ -566,15 +596,19 @@ BOOL BuyMonsterInventorySlotResponseProto_BuyMonsterInventorySlotStatusIsValidVa
 @private
   BOOL hasGemCost_:1;
   BOOL hasSender_:1;
+  BOOL hasCashChange_:1;
   int32_t gemCost;
   MinimumUserProto* sender;
+  int32_t cashChange;
   NSMutableArray* mutableUmhDeleteList;
   NSMutableArray* mutableUmhUpdateList;
   NSMutableArray* mutableUmhNewList;
 }
 - (BOOL) hasSender;
+- (BOOL) hasCashChange;
 - (BOOL) hasGemCost;
 @property (readonly, retain) MinimumUserProto* sender;
+@property (readonly) int32_t cashChange;
 @property (readonly) int32_t gemCost;
 - (NSArray*) umhDeleteList;
 - (UserMonsterHealingProto*) umhDeleteAtIndex:(int32_t) index;
@@ -645,6 +679,11 @@ BOOL BuyMonsterInventorySlotResponseProto_BuyMonsterInventorySlotStatusIsValidVa
 - (HealMonsterRequestProto_Builder*) addAllUmhNew:(NSArray*) values;
 - (HealMonsterRequestProto_Builder*) clearUmhNewList;
 
+- (BOOL) hasCashChange;
+- (int32_t) cashChange;
+- (HealMonsterRequestProto_Builder*) setCashChange:(int32_t) value;
+- (HealMonsterRequestProto_Builder*) clearCashChange;
+
 - (BOOL) hasGemCost;
 - (int32_t) gemCost;
 - (HealMonsterRequestProto_Builder*) setGemCost:(int32_t) value;
@@ -657,14 +696,11 @@ BOOL BuyMonsterInventorySlotResponseProto_BuyMonsterInventorySlotStatusIsValidVa
   BOOL hasStatus_:1;
   MinimumUserProto* sender;
   HealMonsterResponseProto_HealMonsterStatus status;
-  NSMutableArray* mutableUmhpList;
 }
 - (BOOL) hasSender;
 - (BOOL) hasStatus;
 @property (readonly, retain) MinimumUserProto* sender;
 @property (readonly) HealMonsterResponseProto_HealMonsterStatus status;
-- (NSArray*) umhpList;
-- (UserMonsterHealingProto*) umhpAtIndex:(int32_t) index;
 
 + (HealMonsterResponseProto*) defaultInstance;
 - (HealMonsterResponseProto*) defaultInstance;
@@ -711,13 +747,6 @@ BOOL BuyMonsterInventorySlotResponseProto_BuyMonsterInventorySlotStatusIsValidVa
 - (HealMonsterResponseProto_HealMonsterStatus) status;
 - (HealMonsterResponseProto_Builder*) setStatus:(HealMonsterResponseProto_HealMonsterStatus) value;
 - (HealMonsterResponseProto_Builder*) clearStatus;
-
-- (NSArray*) umhpList;
-- (UserMonsterHealingProto*) umhpAtIndex:(int32_t) index;
-- (HealMonsterResponseProto_Builder*) replaceUmhpAtIndex:(int32_t) index with:(UserMonsterHealingProto*) value;
-- (HealMonsterResponseProto_Builder*) addUmhp:(UserMonsterHealingProto*) value;
-- (HealMonsterResponseProto_Builder*) addAllUmhp:(NSArray*) values;
-- (HealMonsterResponseProto_Builder*) clearUmhpList;
 @end
 
 @interface HealMonsterWaitTimeCompleteRequestProto : PBGeneratedMessage {
@@ -1048,12 +1077,12 @@ BOOL BuyMonsterInventorySlotResponseProto_BuyMonsterInventorySlotStatusIsValidVa
   BOOL hasSender_:1;
   BOOL hasStatus_:1;
   MinimumUserProto* sender;
-  RemoveMonsterFromBattleTeamResponseProto_AddMonsterToBattleTeamStatus status;
+  RemoveMonsterFromBattleTeamResponseProto_RemoveMonsterFromBattleTeamStatus status;
 }
 - (BOOL) hasSender;
 - (BOOL) hasStatus;
 @property (readonly, retain) MinimumUserProto* sender;
-@property (readonly) RemoveMonsterFromBattleTeamResponseProto_AddMonsterToBattleTeamStatus status;
+@property (readonly) RemoveMonsterFromBattleTeamResponseProto_RemoveMonsterFromBattleTeamStatus status;
 
 + (RemoveMonsterFromBattleTeamResponseProto*) defaultInstance;
 - (RemoveMonsterFromBattleTeamResponseProto*) defaultInstance;
@@ -1097,12 +1126,12 @@ BOOL BuyMonsterInventorySlotResponseProto_BuyMonsterInventorySlotStatusIsValidVa
 - (RemoveMonsterFromBattleTeamResponseProto_Builder*) clearSender;
 
 - (BOOL) hasStatus;
-- (RemoveMonsterFromBattleTeamResponseProto_AddMonsterToBattleTeamStatus) status;
-- (RemoveMonsterFromBattleTeamResponseProto_Builder*) setStatus:(RemoveMonsterFromBattleTeamResponseProto_AddMonsterToBattleTeamStatus) value;
+- (RemoveMonsterFromBattleTeamResponseProto_RemoveMonsterFromBattleTeamStatus) status;
+- (RemoveMonsterFromBattleTeamResponseProto_Builder*) setStatus:(RemoveMonsterFromBattleTeamResponseProto_RemoveMonsterFromBattleTeamStatus) value;
 - (RemoveMonsterFromBattleTeamResponseProto_Builder*) clearStatus;
 @end
 
-@interface BuyMonsterInventorySlotRequestProto : PBGeneratedMessage {
+@interface IncreaseMonsterInventorySlotRequestProto : PBGeneratedMessage {
 @private
   BOOL hasNumPurchases_:1;
   BOOL hasSender_:1;
@@ -1114,109 +1143,347 @@ BOOL BuyMonsterInventorySlotResponseProto_BuyMonsterInventorySlotStatusIsValidVa
 @property (readonly, retain) MinimumUserProto* sender;
 @property (readonly) int32_t numPurchases;
 
-+ (BuyMonsterInventorySlotRequestProto*) defaultInstance;
-- (BuyMonsterInventorySlotRequestProto*) defaultInstance;
++ (IncreaseMonsterInventorySlotRequestProto*) defaultInstance;
+- (IncreaseMonsterInventorySlotRequestProto*) defaultInstance;
 
 - (BOOL) isInitialized;
 - (void) writeToCodedOutputStream:(PBCodedOutputStream*) output;
-- (BuyMonsterInventorySlotRequestProto_Builder*) builder;
-+ (BuyMonsterInventorySlotRequestProto_Builder*) builder;
-+ (BuyMonsterInventorySlotRequestProto_Builder*) builderWithPrototype:(BuyMonsterInventorySlotRequestProto*) prototype;
+- (IncreaseMonsterInventorySlotRequestProto_Builder*) builder;
++ (IncreaseMonsterInventorySlotRequestProto_Builder*) builder;
++ (IncreaseMonsterInventorySlotRequestProto_Builder*) builderWithPrototype:(IncreaseMonsterInventorySlotRequestProto*) prototype;
 
-+ (BuyMonsterInventorySlotRequestProto*) parseFromData:(NSData*) data;
-+ (BuyMonsterInventorySlotRequestProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
-+ (BuyMonsterInventorySlotRequestProto*) parseFromInputStream:(NSInputStream*) input;
-+ (BuyMonsterInventorySlotRequestProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
-+ (BuyMonsterInventorySlotRequestProto*) parseFromCodedInputStream:(PBCodedInputStream*) input;
-+ (BuyMonsterInventorySlotRequestProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (IncreaseMonsterInventorySlotRequestProto*) parseFromData:(NSData*) data;
++ (IncreaseMonsterInventorySlotRequestProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (IncreaseMonsterInventorySlotRequestProto*) parseFromInputStream:(NSInputStream*) input;
++ (IncreaseMonsterInventorySlotRequestProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (IncreaseMonsterInventorySlotRequestProto*) parseFromCodedInputStream:(PBCodedInputStream*) input;
++ (IncreaseMonsterInventorySlotRequestProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
 @end
 
-@interface BuyMonsterInventorySlotRequestProto_Builder : PBGeneratedMessage_Builder {
+@interface IncreaseMonsterInventorySlotRequestProto_Builder : PBGeneratedMessage_Builder {
 @private
-  BuyMonsterInventorySlotRequestProto* result;
+  IncreaseMonsterInventorySlotRequestProto* result;
 }
 
-- (BuyMonsterInventorySlotRequestProto*) defaultInstance;
+- (IncreaseMonsterInventorySlotRequestProto*) defaultInstance;
 
-- (BuyMonsterInventorySlotRequestProto_Builder*) clear;
-- (BuyMonsterInventorySlotRequestProto_Builder*) clone;
+- (IncreaseMonsterInventorySlotRequestProto_Builder*) clear;
+- (IncreaseMonsterInventorySlotRequestProto_Builder*) clone;
 
-- (BuyMonsterInventorySlotRequestProto*) build;
-- (BuyMonsterInventorySlotRequestProto*) buildPartial;
+- (IncreaseMonsterInventorySlotRequestProto*) build;
+- (IncreaseMonsterInventorySlotRequestProto*) buildPartial;
 
-- (BuyMonsterInventorySlotRequestProto_Builder*) mergeFrom:(BuyMonsterInventorySlotRequestProto*) other;
-- (BuyMonsterInventorySlotRequestProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input;
-- (BuyMonsterInventorySlotRequestProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+- (IncreaseMonsterInventorySlotRequestProto_Builder*) mergeFrom:(IncreaseMonsterInventorySlotRequestProto*) other;
+- (IncreaseMonsterInventorySlotRequestProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input;
+- (IncreaseMonsterInventorySlotRequestProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
 
 - (BOOL) hasSender;
 - (MinimumUserProto*) sender;
-- (BuyMonsterInventorySlotRequestProto_Builder*) setSender:(MinimumUserProto*) value;
-- (BuyMonsterInventorySlotRequestProto_Builder*) setSenderBuilder:(MinimumUserProto_Builder*) builderForValue;
-- (BuyMonsterInventorySlotRequestProto_Builder*) mergeSender:(MinimumUserProto*) value;
-- (BuyMonsterInventorySlotRequestProto_Builder*) clearSender;
+- (IncreaseMonsterInventorySlotRequestProto_Builder*) setSender:(MinimumUserProto*) value;
+- (IncreaseMonsterInventorySlotRequestProto_Builder*) setSenderBuilder:(MinimumUserProto_Builder*) builderForValue;
+- (IncreaseMonsterInventorySlotRequestProto_Builder*) mergeSender:(MinimumUserProto*) value;
+- (IncreaseMonsterInventorySlotRequestProto_Builder*) clearSender;
 
 - (BOOL) hasNumPurchases;
 - (int32_t) numPurchases;
-- (BuyMonsterInventorySlotRequestProto_Builder*) setNumPurchases:(int32_t) value;
-- (BuyMonsterInventorySlotRequestProto_Builder*) clearNumPurchases;
+- (IncreaseMonsterInventorySlotRequestProto_Builder*) setNumPurchases:(int32_t) value;
+- (IncreaseMonsterInventorySlotRequestProto_Builder*) clearNumPurchases;
 @end
 
-@interface BuyMonsterInventorySlotResponseProto : PBGeneratedMessage {
+@interface IncreaseMonsterInventorySlotResponseProto : PBGeneratedMessage {
 @private
   BOOL hasSender_:1;
   BOOL hasStatus_:1;
   MinimumUserProto* sender;
-  BuyMonsterInventorySlotResponseProto_BuyMonsterInventorySlotStatus status;
+  IncreaseMonsterInventorySlotResponseProto_IncreaseMonsterInventorySlotStatus status;
 }
 - (BOOL) hasSender;
 - (BOOL) hasStatus;
 @property (readonly, retain) MinimumUserProto* sender;
-@property (readonly) BuyMonsterInventorySlotResponseProto_BuyMonsterInventorySlotStatus status;
+@property (readonly) IncreaseMonsterInventorySlotResponseProto_IncreaseMonsterInventorySlotStatus status;
 
-+ (BuyMonsterInventorySlotResponseProto*) defaultInstance;
-- (BuyMonsterInventorySlotResponseProto*) defaultInstance;
++ (IncreaseMonsterInventorySlotResponseProto*) defaultInstance;
+- (IncreaseMonsterInventorySlotResponseProto*) defaultInstance;
 
 - (BOOL) isInitialized;
 - (void) writeToCodedOutputStream:(PBCodedOutputStream*) output;
-- (BuyMonsterInventorySlotResponseProto_Builder*) builder;
-+ (BuyMonsterInventorySlotResponseProto_Builder*) builder;
-+ (BuyMonsterInventorySlotResponseProto_Builder*) builderWithPrototype:(BuyMonsterInventorySlotResponseProto*) prototype;
+- (IncreaseMonsterInventorySlotResponseProto_Builder*) builder;
++ (IncreaseMonsterInventorySlotResponseProto_Builder*) builder;
++ (IncreaseMonsterInventorySlotResponseProto_Builder*) builderWithPrototype:(IncreaseMonsterInventorySlotResponseProto*) prototype;
 
-+ (BuyMonsterInventorySlotResponseProto*) parseFromData:(NSData*) data;
-+ (BuyMonsterInventorySlotResponseProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
-+ (BuyMonsterInventorySlotResponseProto*) parseFromInputStream:(NSInputStream*) input;
-+ (BuyMonsterInventorySlotResponseProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
-+ (BuyMonsterInventorySlotResponseProto*) parseFromCodedInputStream:(PBCodedInputStream*) input;
-+ (BuyMonsterInventorySlotResponseProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (IncreaseMonsterInventorySlotResponseProto*) parseFromData:(NSData*) data;
++ (IncreaseMonsterInventorySlotResponseProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (IncreaseMonsterInventorySlotResponseProto*) parseFromInputStream:(NSInputStream*) input;
++ (IncreaseMonsterInventorySlotResponseProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (IncreaseMonsterInventorySlotResponseProto*) parseFromCodedInputStream:(PBCodedInputStream*) input;
++ (IncreaseMonsterInventorySlotResponseProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
 @end
 
-@interface BuyMonsterInventorySlotResponseProto_Builder : PBGeneratedMessage_Builder {
+@interface IncreaseMonsterInventorySlotResponseProto_Builder : PBGeneratedMessage_Builder {
 @private
-  BuyMonsterInventorySlotResponseProto* result;
+  IncreaseMonsterInventorySlotResponseProto* result;
 }
 
-- (BuyMonsterInventorySlotResponseProto*) defaultInstance;
+- (IncreaseMonsterInventorySlotResponseProto*) defaultInstance;
 
-- (BuyMonsterInventorySlotResponseProto_Builder*) clear;
-- (BuyMonsterInventorySlotResponseProto_Builder*) clone;
+- (IncreaseMonsterInventorySlotResponseProto_Builder*) clear;
+- (IncreaseMonsterInventorySlotResponseProto_Builder*) clone;
 
-- (BuyMonsterInventorySlotResponseProto*) build;
-- (BuyMonsterInventorySlotResponseProto*) buildPartial;
+- (IncreaseMonsterInventorySlotResponseProto*) build;
+- (IncreaseMonsterInventorySlotResponseProto*) buildPartial;
 
-- (BuyMonsterInventorySlotResponseProto_Builder*) mergeFrom:(BuyMonsterInventorySlotResponseProto*) other;
-- (BuyMonsterInventorySlotResponseProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input;
-- (BuyMonsterInventorySlotResponseProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+- (IncreaseMonsterInventorySlotResponseProto_Builder*) mergeFrom:(IncreaseMonsterInventorySlotResponseProto*) other;
+- (IncreaseMonsterInventorySlotResponseProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input;
+- (IncreaseMonsterInventorySlotResponseProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
 
 - (BOOL) hasSender;
 - (MinimumUserProto*) sender;
-- (BuyMonsterInventorySlotResponseProto_Builder*) setSender:(MinimumUserProto*) value;
-- (BuyMonsterInventorySlotResponseProto_Builder*) setSenderBuilder:(MinimumUserProto_Builder*) builderForValue;
-- (BuyMonsterInventorySlotResponseProto_Builder*) mergeSender:(MinimumUserProto*) value;
-- (BuyMonsterInventorySlotResponseProto_Builder*) clearSender;
+- (IncreaseMonsterInventorySlotResponseProto_Builder*) setSender:(MinimumUserProto*) value;
+- (IncreaseMonsterInventorySlotResponseProto_Builder*) setSenderBuilder:(MinimumUserProto_Builder*) builderForValue;
+- (IncreaseMonsterInventorySlotResponseProto_Builder*) mergeSender:(MinimumUserProto*) value;
+- (IncreaseMonsterInventorySlotResponseProto_Builder*) clearSender;
 
 - (BOOL) hasStatus;
-- (BuyMonsterInventorySlotResponseProto_BuyMonsterInventorySlotStatus) status;
-- (BuyMonsterInventorySlotResponseProto_Builder*) setStatus:(BuyMonsterInventorySlotResponseProto_BuyMonsterInventorySlotStatus) value;
-- (BuyMonsterInventorySlotResponseProto_Builder*) clearStatus;
+- (IncreaseMonsterInventorySlotResponseProto_IncreaseMonsterInventorySlotStatus) status;
+- (IncreaseMonsterInventorySlotResponseProto_Builder*) setStatus:(IncreaseMonsterInventorySlotResponseProto_IncreaseMonsterInventorySlotStatus) value;
+- (IncreaseMonsterInventorySlotResponseProto_Builder*) clearStatus;
+@end
+
+@interface CombineUserMonsterPiecesRequestProto : PBGeneratedMessage {
+@private
+  BOOL hasSender_:1;
+  MinimumUserProto* sender;
+  NSMutableArray* mutableUserMonsterIdsList;
+}
+- (BOOL) hasSender;
+@property (readonly, retain) MinimumUserProto* sender;
+- (NSArray*) userMonsterIdsList;
+- (int64_t) userMonsterIdsAtIndex:(int32_t) index;
+
++ (CombineUserMonsterPiecesRequestProto*) defaultInstance;
+- (CombineUserMonsterPiecesRequestProto*) defaultInstance;
+
+- (BOOL) isInitialized;
+- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output;
+- (CombineUserMonsterPiecesRequestProto_Builder*) builder;
++ (CombineUserMonsterPiecesRequestProto_Builder*) builder;
++ (CombineUserMonsterPiecesRequestProto_Builder*) builderWithPrototype:(CombineUserMonsterPiecesRequestProto*) prototype;
+
++ (CombineUserMonsterPiecesRequestProto*) parseFromData:(NSData*) data;
++ (CombineUserMonsterPiecesRequestProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (CombineUserMonsterPiecesRequestProto*) parseFromInputStream:(NSInputStream*) input;
++ (CombineUserMonsterPiecesRequestProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (CombineUserMonsterPiecesRequestProto*) parseFromCodedInputStream:(PBCodedInputStream*) input;
++ (CombineUserMonsterPiecesRequestProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+@end
+
+@interface CombineUserMonsterPiecesRequestProto_Builder : PBGeneratedMessage_Builder {
+@private
+  CombineUserMonsterPiecesRequestProto* result;
+}
+
+- (CombineUserMonsterPiecesRequestProto*) defaultInstance;
+
+- (CombineUserMonsterPiecesRequestProto_Builder*) clear;
+- (CombineUserMonsterPiecesRequestProto_Builder*) clone;
+
+- (CombineUserMonsterPiecesRequestProto*) build;
+- (CombineUserMonsterPiecesRequestProto*) buildPartial;
+
+- (CombineUserMonsterPiecesRequestProto_Builder*) mergeFrom:(CombineUserMonsterPiecesRequestProto*) other;
+- (CombineUserMonsterPiecesRequestProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input;
+- (CombineUserMonsterPiecesRequestProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+
+- (BOOL) hasSender;
+- (MinimumUserProto*) sender;
+- (CombineUserMonsterPiecesRequestProto_Builder*) setSender:(MinimumUserProto*) value;
+- (CombineUserMonsterPiecesRequestProto_Builder*) setSenderBuilder:(MinimumUserProto_Builder*) builderForValue;
+- (CombineUserMonsterPiecesRequestProto_Builder*) mergeSender:(MinimumUserProto*) value;
+- (CombineUserMonsterPiecesRequestProto_Builder*) clearSender;
+
+- (NSArray*) userMonsterIdsList;
+- (int64_t) userMonsterIdsAtIndex:(int32_t) index;
+- (CombineUserMonsterPiecesRequestProto_Builder*) replaceUserMonsterIdsAtIndex:(int32_t) index with:(int64_t) value;
+- (CombineUserMonsterPiecesRequestProto_Builder*) addUserMonsterIds:(int64_t) value;
+- (CombineUserMonsterPiecesRequestProto_Builder*) addAllUserMonsterIds:(NSArray*) values;
+- (CombineUserMonsterPiecesRequestProto_Builder*) clearUserMonsterIdsList;
+@end
+
+@interface CombineUserMonsterPiecesResponseProto : PBGeneratedMessage {
+@private
+  BOOL hasSender_:1;
+  BOOL hasStatus_:1;
+  MinimumUserProto* sender;
+  CombineUserMonsterPiecesResponseProto_CombineUserMonsterPiecesStatus status;
+}
+- (BOOL) hasSender;
+- (BOOL) hasStatus;
+@property (readonly, retain) MinimumUserProto* sender;
+@property (readonly) CombineUserMonsterPiecesResponseProto_CombineUserMonsterPiecesStatus status;
+
++ (CombineUserMonsterPiecesResponseProto*) defaultInstance;
+- (CombineUserMonsterPiecesResponseProto*) defaultInstance;
+
+- (BOOL) isInitialized;
+- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output;
+- (CombineUserMonsterPiecesResponseProto_Builder*) builder;
++ (CombineUserMonsterPiecesResponseProto_Builder*) builder;
++ (CombineUserMonsterPiecesResponseProto_Builder*) builderWithPrototype:(CombineUserMonsterPiecesResponseProto*) prototype;
+
++ (CombineUserMonsterPiecesResponseProto*) parseFromData:(NSData*) data;
++ (CombineUserMonsterPiecesResponseProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (CombineUserMonsterPiecesResponseProto*) parseFromInputStream:(NSInputStream*) input;
++ (CombineUserMonsterPiecesResponseProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (CombineUserMonsterPiecesResponseProto*) parseFromCodedInputStream:(PBCodedInputStream*) input;
++ (CombineUserMonsterPiecesResponseProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+@end
+
+@interface CombineUserMonsterPiecesResponseProto_Builder : PBGeneratedMessage_Builder {
+@private
+  CombineUserMonsterPiecesResponseProto* result;
+}
+
+- (CombineUserMonsterPiecesResponseProto*) defaultInstance;
+
+- (CombineUserMonsterPiecesResponseProto_Builder*) clear;
+- (CombineUserMonsterPiecesResponseProto_Builder*) clone;
+
+- (CombineUserMonsterPiecesResponseProto*) build;
+- (CombineUserMonsterPiecesResponseProto*) buildPartial;
+
+- (CombineUserMonsterPiecesResponseProto_Builder*) mergeFrom:(CombineUserMonsterPiecesResponseProto*) other;
+- (CombineUserMonsterPiecesResponseProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input;
+- (CombineUserMonsterPiecesResponseProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+
+- (BOOL) hasSender;
+- (MinimumUserProto*) sender;
+- (CombineUserMonsterPiecesResponseProto_Builder*) setSender:(MinimumUserProto*) value;
+- (CombineUserMonsterPiecesResponseProto_Builder*) setSenderBuilder:(MinimumUserProto_Builder*) builderForValue;
+- (CombineUserMonsterPiecesResponseProto_Builder*) mergeSender:(MinimumUserProto*) value;
+- (CombineUserMonsterPiecesResponseProto_Builder*) clearSender;
+
+- (BOOL) hasStatus;
+- (CombineUserMonsterPiecesResponseProto_CombineUserMonsterPiecesStatus) status;
+- (CombineUserMonsterPiecesResponseProto_Builder*) setStatus:(CombineUserMonsterPiecesResponseProto_CombineUserMonsterPiecesStatus) value;
+- (CombineUserMonsterPiecesResponseProto_Builder*) clearStatus;
+@end
+
+@interface SellUserMonsterRequestProto : PBGeneratedMessage {
+@private
+  BOOL hasSender_:1;
+  MinimumUserProto* sender;
+  NSMutableArray* mutableSalesList;
+}
+- (BOOL) hasSender;
+@property (readonly, retain) MinimumUserProto* sender;
+- (NSArray*) salesList;
+- (MinimumUserMonsterSellProto*) salesAtIndex:(int32_t) index;
+
++ (SellUserMonsterRequestProto*) defaultInstance;
+- (SellUserMonsterRequestProto*) defaultInstance;
+
+- (BOOL) isInitialized;
+- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output;
+- (SellUserMonsterRequestProto_Builder*) builder;
++ (SellUserMonsterRequestProto_Builder*) builder;
++ (SellUserMonsterRequestProto_Builder*) builderWithPrototype:(SellUserMonsterRequestProto*) prototype;
+
++ (SellUserMonsterRequestProto*) parseFromData:(NSData*) data;
++ (SellUserMonsterRequestProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (SellUserMonsterRequestProto*) parseFromInputStream:(NSInputStream*) input;
++ (SellUserMonsterRequestProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (SellUserMonsterRequestProto*) parseFromCodedInputStream:(PBCodedInputStream*) input;
++ (SellUserMonsterRequestProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+@end
+
+@interface SellUserMonsterRequestProto_Builder : PBGeneratedMessage_Builder {
+@private
+  SellUserMonsterRequestProto* result;
+}
+
+- (SellUserMonsterRequestProto*) defaultInstance;
+
+- (SellUserMonsterRequestProto_Builder*) clear;
+- (SellUserMonsterRequestProto_Builder*) clone;
+
+- (SellUserMonsterRequestProto*) build;
+- (SellUserMonsterRequestProto*) buildPartial;
+
+- (SellUserMonsterRequestProto_Builder*) mergeFrom:(SellUserMonsterRequestProto*) other;
+- (SellUserMonsterRequestProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input;
+- (SellUserMonsterRequestProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+
+- (BOOL) hasSender;
+- (MinimumUserProto*) sender;
+- (SellUserMonsterRequestProto_Builder*) setSender:(MinimumUserProto*) value;
+- (SellUserMonsterRequestProto_Builder*) setSenderBuilder:(MinimumUserProto_Builder*) builderForValue;
+- (SellUserMonsterRequestProto_Builder*) mergeSender:(MinimumUserProto*) value;
+- (SellUserMonsterRequestProto_Builder*) clearSender;
+
+- (NSArray*) salesList;
+- (MinimumUserMonsterSellProto*) salesAtIndex:(int32_t) index;
+- (SellUserMonsterRequestProto_Builder*) replaceSalesAtIndex:(int32_t) index with:(MinimumUserMonsterSellProto*) value;
+- (SellUserMonsterRequestProto_Builder*) addSales:(MinimumUserMonsterSellProto*) value;
+- (SellUserMonsterRequestProto_Builder*) addAllSales:(NSArray*) values;
+- (SellUserMonsterRequestProto_Builder*) clearSalesList;
+@end
+
+@interface SellUserMonsterResponseProto : PBGeneratedMessage {
+@private
+  BOOL hasSender_:1;
+  BOOL hasStatus_:1;
+  MinimumUserProto* sender;
+  SellUserMonsterResponseProto_SellUserMonsterStatus status;
+}
+- (BOOL) hasSender;
+- (BOOL) hasStatus;
+@property (readonly, retain) MinimumUserProto* sender;
+@property (readonly) SellUserMonsterResponseProto_SellUserMonsterStatus status;
+
++ (SellUserMonsterResponseProto*) defaultInstance;
+- (SellUserMonsterResponseProto*) defaultInstance;
+
+- (BOOL) isInitialized;
+- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output;
+- (SellUserMonsterResponseProto_Builder*) builder;
++ (SellUserMonsterResponseProto_Builder*) builder;
++ (SellUserMonsterResponseProto_Builder*) builderWithPrototype:(SellUserMonsterResponseProto*) prototype;
+
++ (SellUserMonsterResponseProto*) parseFromData:(NSData*) data;
++ (SellUserMonsterResponseProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (SellUserMonsterResponseProto*) parseFromInputStream:(NSInputStream*) input;
++ (SellUserMonsterResponseProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (SellUserMonsterResponseProto*) parseFromCodedInputStream:(PBCodedInputStream*) input;
++ (SellUserMonsterResponseProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+@end
+
+@interface SellUserMonsterResponseProto_Builder : PBGeneratedMessage_Builder {
+@private
+  SellUserMonsterResponseProto* result;
+}
+
+- (SellUserMonsterResponseProto*) defaultInstance;
+
+- (SellUserMonsterResponseProto_Builder*) clear;
+- (SellUserMonsterResponseProto_Builder*) clone;
+
+- (SellUserMonsterResponseProto*) build;
+- (SellUserMonsterResponseProto*) buildPartial;
+
+- (SellUserMonsterResponseProto_Builder*) mergeFrom:(SellUserMonsterResponseProto*) other;
+- (SellUserMonsterResponseProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input;
+- (SellUserMonsterResponseProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+
+- (BOOL) hasSender;
+- (MinimumUserProto*) sender;
+- (SellUserMonsterResponseProto_Builder*) setSender:(MinimumUserProto*) value;
+- (SellUserMonsterResponseProto_Builder*) setSenderBuilder:(MinimumUserProto_Builder*) builderForValue;
+- (SellUserMonsterResponseProto_Builder*) mergeSender:(MinimumUserProto*) value;
+- (SellUserMonsterResponseProto_Builder*) clearSender;
+
+- (BOOL) hasStatus;
+- (SellUserMonsterResponseProto_SellUserMonsterStatus) status;
+- (SellUserMonsterResponseProto_Builder*) setStatus:(SellUserMonsterResponseProto_SellUserMonsterStatus) value;
+- (SellUserMonsterResponseProto_Builder*) clearStatus;
 @end
 

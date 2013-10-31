@@ -17,6 +17,21 @@
 
 @implementation CarpenterListing
 
+- (void) awakeFromNib {
+  self.grayscaleView = [[UIImageView alloc] initWithFrame:self.mainView.frame];
+  [self insertSubview:self.grayscaleView atIndex:0];
+}
+
+- (void) createMask {
+  UIView *view = self.mainView;
+  UIGraphicsBeginImageContextWithOptions(view.bounds.size, NO, 0.f);
+  [view.layer renderInContext:UIGraphicsGetCurrentContext()];
+  UIImage *image = UIGraphicsGetImageFromCurrentImageContext();
+  UIGraphicsEndImageContext();
+  
+  self.grayscaleView.image = [Globals greyScaleImageWithBaseImage:image];
+}
+
 - (void) setFsp:(FullStructureProto *)f {
   _fsp = f;
   
@@ -34,21 +49,29 @@
   GameState *gs = [GameState sharedGameState];
   self.rateLabel.text = [NSString stringWithFormat:@"%@ in %@", [Globals cashStringForNumber:_fsp.income], [Globals convertTimeToShortString:_fsp.minutesToGain*60]];
   
-  if (_fsp.coinPrice > 0) {
+  if (_fsp.cashPrice > 0) {
     // Highlighted image is the gold icon.
     self.moneyIcon.highlighted = NO;
-    self.costLabel.text = [Globals cashStringForNumber:_fsp.coinPrice];
+    self.costLabel.text = [Globals cashStringForNumber:_fsp.cashPrice];
   } else {
     self.moneyIcon.highlighted = YES;
-    self.costLabel.text = [Globals commafyNumber:_fsp.diamondPrice];
+    self.costLabel.text = [Globals commafyNumber:_fsp.gemPrice];
   }
   
   if (gs.level >= _fsp.minLevel) {
     [Globals loadImageForStruct:_fsp.structId toView:self.buildingImageView masked:NO indicator:UIActivityIndicatorViewStyleGray];
-    _canClick = YES;
+    self.button.userInteractionEnabled = YES;
+    self.mainView.hidden = NO;
+    self.grayscaleView.hidden = YES;
   } else {
     [Globals loadImageForStruct:_fsp.structId toView:self.buildingImageView masked:YES indicator:UIActivityIndicatorViewStyleGray];
-    _canClick = NO;
+    self.button.userInteractionEnabled = NO;
+    
+    // Unhide main view before creating mask
+    self.mainView.hidden = NO;
+    [self createMask];
+    self.mainView.hidden = YES;
+    self.grayscaleView.hidden = NO;
   }
 }
 
@@ -172,6 +195,10 @@
   if (cell == nil) {
     [[NSBundle mainBundle] loadNibNamed:@"CarpenterRow" owner:self options:nil];
     cell = self.carpRow;
+    
+    [cell.listing1.carpenterListing.button addTarget:self action:@selector(buildingClicked:) forControlEvents:UIControlEventTouchUpInside];
+    [cell.listing2.carpenterListing.button addTarget:self action:@selector(buildingClicked:) forControlEvents:UIControlEventTouchUpInside];
+    [cell.listing3.carpenterListing.button addTarget:self action:@selector(buildingClicked:) forControlEvents:UIControlEventTouchUpInside];
   }
   
   int baseIndex = NUM_ENTRIES_PER_ROW*indexPath.row;
@@ -184,10 +211,6 @@
   cell.listing1.carpenterListing.fsp = fsp1;
   cell.listing2.carpenterListing.fsp = fsp2;
   cell.listing3.carpenterListing.fsp = fsp3;
-  
-  [cell.listing1.carpenterListing.button addTarget:self action:@selector(buildingClicked:) forControlEvents:UIControlEventTouchUpInside];
-  [cell.listing2.carpenterListing.button addTarget:self action:@selector(buildingClicked:) forControlEvents:UIControlEventTouchUpInside];
-  [cell.listing3.carpenterListing.button addTarget:self action:@selector(buildingClicked:) forControlEvents:UIControlEventTouchUpInside];
   
   // Hide the bottom ropes if this is the last cell
   UIView *r1 = [cell.contentView viewWithTag:133];

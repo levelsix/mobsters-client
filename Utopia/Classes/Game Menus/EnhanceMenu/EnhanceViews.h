@@ -20,7 +20,9 @@
 
 @end
 
-@interface EnhanceCardCell : UIView <MonsterCardViewDelegate>
+@interface EnhanceCardCell : UIView <MonsterCardViewDelegate> {
+  int _overlayMaskStatus;
+}
 
 @property (nonatomic, strong) IBOutlet MonsterCardContainerView *cardContainer;
 @property (nonatomic, strong) IBOutlet UIView *cashButtonView;

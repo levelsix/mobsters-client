@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="4510" systemVersion="12F45" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="4514" systemVersion="12F45" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none">
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="3742"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="3746"/>
     </dependencies>
     <objects>
-        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="NewBattleLayer">
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="DungeonBattleLayer">
             <connections>
                 <outlet property="endView" destination="3" id="86"/>
             </connections>
@@ -18,46 +18,62 @@
                     <rect key="frame" x="0.0" y="0.0" width="568" height="320"/>
                     <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
                 </imageView>
-                <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="splatspinner.png" id="82">
-                    <rect key="frame" x="-988" y="1005" width="0.0" height="0.0"/>
-                    <autoresizingMask key="autoresizingMask"/>
-                </imageView>
-                <view hidden="YES" contentMode="scaleToFill" id="4">
+                <view contentMode="scaleToFill" id="BTu-r2-MCs">
                     <rect key="frame" x="44" y="0.0" width="480" height="320"/>
                     <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
                     <subviews>
-                        <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="itemsbg.png" id="73">
-                            <rect key="frame" x="167" y="132" width="147" height="114"/>
+                        <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="wonbg.png" id="3Gh-S4-bQe">
+                            <rect key="frame" x="139" y="58" width="203" height="203"/>
                             <autoresizingMask key="autoresizingMask"/>
                         </imageView>
-                        <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="itembg.png" id="74">
-                            <rect key="frame" x="180" y="143" width="120" height="25"/>
+                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="SLS-fm-jMT">
+                            <rect key="frame" x="198" y="205" width="85" height="35"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
+                            <state key="normal" backgroundImage="donebtn.png">
+                                <color key="titleColor" red="0.19607843459999999" green="0.30980393290000002" blue="0.52156865600000002" alpha="1" colorSpace="calibratedRGB"/>
+                                <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                            </state>
+                            <state key="highlighted">
+                                <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                            </state>
+                            <connections>
+                                <action selector="winExitClicked:" destination="-1" eventType="touchUpInside" id="llt-Eu-tTm"/>
+                            </connections>
+                        </button>
+                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="DONE" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" id="cJW-xr-aTv" customClass="NiceFontLabel">
+                            <rect key="frame" x="200" y="212" width="83" height="21"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <fontDescription key="fontDescription" type="system" pointSize="13"/>
+                            <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                            <nil key="highlightedColor"/>
+                            <color key="shadowColor" red="0.0" green="0.0" blue="0.0" alpha="0.29999999999999999" colorSpace="calibratedRGB"/>
+                            <size key="shadowOffset" width="0.0" height="1"/>
+                        </label>
+                        <activityIndicatorView hidden="YES" opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" animating="YES" style="white" id="IEd-aX-nqV">
+                            <rect key="frame" x="231" y="213" width="20" height="20"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                        </activityIndicatorView>
+                        <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="youwonbg.png" id="Xob-wb-NXz">
+                            <rect key="frame" x="159" y="8" width="162" height="101"/>
                             <autoresizingMask key="autoresizingMask"/>
                         </imageView>
-                        <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="itembg.png" id="75">
-                            <rect key="frame" x="180" y="176" width="120" height="25"/>
+                        <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="youwon.png" id="LCi-og-ZoL">
+                            <rect key="frame" x="159" y="31" width="159" height="55"/>
                             <autoresizingMask key="autoresizingMask"/>
                         </imageView>
-                        <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="itembg.png" id="76">
-                            <rect key="frame" x="180" y="209" width="120" height="25"/>
-                            <autoresizingMask key="autoresizingMask"/>
-                        </imageView>
-                        <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="moneystack.png" id="77">
-                            <rect key="frame" x="177" y="139" width="45" height="32"/>
-                            <autoresizingMask key="autoresizingMask"/>
-                        </imageView>
-                        <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleAspectFit" image="itemcrate.png" id="78">
-                            <rect key="frame" x="174" y="171" width="36" height="32"/>
-                            <autoresizingMask key="autoresizingMask"/>
-                        </imageView>
-                        <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="xp.png" id="79">
-                            <rect key="frame" x="178" y="206" width="31" height="31"/>
-                            <autoresizingMask key="autoresizingMask"/>
-                        </imageView>
-                        <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="youwon.png" highlightedImage="youlost.png" id="80">
-                            <rect key="frame" x="136" y="13" width="208" height="53"/>
-                            <autoresizingMask key="autoresizingMask"/>
-                        </imageView>
+                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="You Found:" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="bHH-4v-MeS" customClass="NiceFontLabel">
+                            <rect key="frame" x="178" y="108" width="125" height="21"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                            <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
+                            <nil key="highlightedColor"/>
+                        </label>
+                        <view contentMode="scaleToFill" id="FbO-b6-2yH" customClass="RewardsViewContainer">
+                            <rect key="frame" x="152" y="132" width="176" height="65"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <color key="backgroundColor" red="0.0" green="0.7843137255" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                        </view>
                     </subviews>
                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                     <simulatedOrientationMetrics key="simulatedOrientationMetrics" orientation="landscapeRight"/>
@@ -68,19 +84,18 @@
             <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina4"/>
             <connections>
                 <outlet property="bgdView" destination="5" id="20"/>
-                <outlet property="spinner" destination="82" id="83"/>
+                <outlet property="doneLabel" destination="cJW-xr-aTv" id="COP-mW-6cg"/>
+                <outlet property="mainView" destination="BTu-r2-MCs" id="NYx-tq-nh4"/>
+                <outlet property="rewardsViewContainer" destination="FbO-b6-2yH" id="Zxl-HP-0MP"/>
+                <outlet property="spinner" destination="IEd-aX-nqV" id="lvK-Re-A0A"/>
             </connections>
         </view>
     </objects>
     <resources>
-        <image name="itembg.png" width="170" height="145"/>
-        <image name="itemcrate.png" width="48" height="45"/>
-        <image name="itemsbg.png" width="147" height="114"/>
-        <image name="moneystack.png" width="45" height="32"/>
+        <image name="donebtn.png" width="85" height="35"/>
         <image name="popupglow.png" width="480" height="320"/>
-        <image name="splatspinner.png" width="673" height="677"/>
-        <image name="xp.png" width="31" height="31"/>
-        <image name="youlost.png" width="163" height="56"/>
+        <image name="wonbg.png" width="203" height="203"/>
         <image name="youwon.png" width="159" height="55"/>
+        <image name="youwonbg.png" width="162" height="101"/>
     </resources>
 </document>

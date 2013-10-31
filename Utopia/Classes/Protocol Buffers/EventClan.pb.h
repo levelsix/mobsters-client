@@ -37,8 +37,6 @@
 @class LeaveClanRequestProto_Builder;
 @class LeaveClanResponseProto;
 @class LeaveClanResponseProto_Builder;
-@class LevelAndRequiredExpProto;
-@class LevelAndRequiredExpProto_Builder;
 @class MinimumClanProto;
 @class MinimumClanProto_Builder;
 @class MinimumUserProto;
@@ -61,6 +59,8 @@
 @class RetrieveClanInfoRequestProto_Builder;
 @class RetrieveClanInfoResponseProto;
 @class RetrieveClanInfoResponseProto_Builder;
+@class StaticLevelInfoProto;
+@class StaticLevelInfoProto_Builder;
 @class TransferClanOwnershipRequestProto;
 @class TransferClanOwnershipRequestProto_Builder;
 @class TransferClanOwnershipResponseProto;

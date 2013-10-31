@@ -13,7 +13,7 @@
 #import "SocketCommunication.h"
 #import "MonsterPopUpViewController.h"
 
-#define TABLE_CELL_WIDTH 123
+#define TABLE_CELL_WIDTH 118
 #define HEADER_OFFSET 8
 #define LEFT_SIDE_OFFSET 18
 
@@ -22,7 +22,7 @@
 - (void)viewDidLoad
 {
   [super viewDidLoad];
-  self.title = @"My Cronies";
+  self.title = @"My Mobsters";
   [self setUpCloseButton];
   [self setUpImageBackButton];
   
@@ -169,11 +169,13 @@
 - (void) minusClicked:(MyCroniesCardCell *)cell {
   [[OutgoingEventController sharedOutgoingEventController] removeMonsterFromTeam:cell.monster.userMonsterId];
   [self.inventoryTable reloadData];
+  [[NSNotificationCenter defaultCenter] postNotificationName:MY_TEAM_CHANGED_NOTIFICATION object:nil];
 }
 
 - (void) plusClicked:(MyCroniesCardCell *)cell {
   [[OutgoingEventController sharedOutgoingEventController] addMonsterToTeam:cell.monster.userMonsterId];
   [self.inventoryTable reloadData];
+  [[NSNotificationCenter defaultCenter] postNotificationName:MY_TEAM_CHANGED_NOTIFICATION object:nil];
 }
 
 - (void) buySlotsClicked:(MyCroniesCardCell *)cell {
@@ -182,8 +184,16 @@
 }
 
 - (void) healClicked:(MyCroniesCardCell *)cell {
+  BOOL unequipped = NO;
+  if (cell.monster.teamSlot > 0) {
+    unequipped = YES;
+  }
   [[OutgoingEventController sharedOutgoingEventController] addMonsterToHealingQueue:cell.monster.userMonsterId];
   [self.inventoryTable reloadData];
+  
+  if (unequipped) {
+    [[NSNotificationCenter defaultCenter] postNotificationName:MY_TEAM_CHANGED_NOTIFICATION object:nil];
+  }
 }
 
 - (void) cardClicked:(MyCroniesCardCell *)cell {

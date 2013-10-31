@@ -61,7 +61,7 @@ static int sessionId;
 }
 
 - (void) startUserIdQueue {
-  [self performSelector:@selector(initUserIdMessageQueue) onThread:self withObject:nil waitUntilDone:YES];
+  [self performSelector:@selector(initUserIdMessageQueue) onThread:self withObject:nil waitUntilDone:NO];
 }
 
 - (void) initUserIdMessageQueue {
@@ -110,7 +110,7 @@ static int sessionId;
 }
 
 - (void) closeDownConnection {
-  [self performSelector:@selector(endConnection) onThread:self withObject:nil waitUntilDone:NO];
+  [self performSelector:@selector(endAndDestroyThread) onThread:self withObject:nil waitUntilDone:NO];
 }
 
 - (void) endConnection {
@@ -130,9 +130,13 @@ static int sessionId;
   }
 }
 
+- (void) endAndDestroyThread {
+  [self endConnection];
+  [self cancel];
+}
+
 - (void) end {
   [self closeDownConnection];
-  [self cancel];
 }
 
 - (void)main

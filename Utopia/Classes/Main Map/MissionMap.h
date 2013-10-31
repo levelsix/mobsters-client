@@ -14,15 +14,16 @@
 
 #define DRAGON_TAG 5456
 
-@interface MissionMap : GameMap {
+@interface MissionMap : GameMap <MapBotViewDelegate> {
   NSMutableArray *_jobs;
   
   BOOL _allowSelection;
+  BOOL _enteringDungeon;
 }
 
-@property (nonatomic, retain) IBOutlet UIView *missionBotView;
-
+@property (nonatomic, retain) IBOutlet MapBotView *missionBotView;
 @property (nonatomic, assign) IBOutlet UILabel *missionNameLabel;
+@property (nonatomic, assign) IBOutlet UILabel *missionDescriptionLabel;
 
 - (id) initWithProto:(LoadCityResponseProto *)proto;
 - (id) assetWithId:(int)assetId;

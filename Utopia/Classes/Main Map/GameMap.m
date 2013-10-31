@@ -15,6 +15,7 @@
 #import "SoundEngine.h"
 #import "GameState.h"
 #import "CCLabelFX.h"
+#import "MyTeamSprite.h"
 
 #define REORDER_START_Z 150
 
@@ -44,17 +45,6 @@
 		[_target setPosition: ccp( (_startPos.x + _positionDelta.x * t ), (_startPos.y + _positionDelta.y * t ) )];
 	}
 }
-@end
-
-@implementation EnemyPopupView
-
-@synthesize nameLabel, levelLabel, imageIcon, enemyView, allyView;
-
-- (void) awakeFromNib {
-  [self addSubview:allyView];
-  allyView.frame = enemyView.frame;
-}
-
 @end
 
 @implementation GameMap
@@ -108,63 +98,20 @@
       tileSizeInPoints = _tileSize;
     }
     
-    [self createMyPlayer];
-    
     // Add the decoration layer for clouds
-//    decLayer = [[DecorationLayer alloc] initWithSize:self.contentSize];
-//    [self addChild:self.decLayer z:2000];
+    //    decLayer = [[DecorationLayer alloc] initWithSize:self.contentSize];
+    //    [self addChild:self.decLayer z:2000];
     
     self.scale = DEFAULT_ZOOM;
   }
   return self;
 }
 
-- (void) createMyPlayer {
-  // Do this so that tutorial classes can override
-  _myPlayer = [[MyPlayer alloc] initWithLocation:CGRectMake(_mapSize.width/2, _mapSize.height/2, 1, 1) map:self];
-  [self addChild:_myPlayer];
-}
+
 
 - (void) setVisible:(BOOL)visible {
   [super setVisible:visible];
   self.selected = nil;
-}
-
-- (BOOL) mapSprite:(MapSprite *)front isInFrontOfMapSprite: (MapSprite *)back {
-  if (front == back) {
-    return YES;
-  }
-  
-  // Prioritize flying
-  if (front.isFlying && back.isFlying) {
-    // Do nothing
-  } else if (front.isFlying) {
-    return YES;
-  } else if (back.isFlying) {
-    return NO;
-  }
-  
-  CGRect frontLoc = front.location;
-  CGRect backLoc = back.location;
-  
-  BOOL leftX = frontLoc.origin.x < backLoc.origin.x && frontLoc.origin.x+frontLoc.size.width <= backLoc.origin.x;
-  BOOL rightX = frontLoc.origin.x >= backLoc.origin.x+backLoc.size.width && frontLoc.origin.x+frontLoc.size.width > backLoc.origin.x+backLoc.size.width;
-  
-  if (leftX || rightX) {
-    return frontLoc.origin.x <= backLoc.origin.x;
-  }
-  
-  BOOL leftY = frontLoc.origin.y < backLoc.origin.y && frontLoc.origin.y+frontLoc.size.height <= backLoc.origin.y;
-  BOOL rightY = frontLoc.origin.y >= backLoc.origin.y+backLoc.size.height && frontLoc.origin.y+frontLoc.size.height > backLoc.origin.y+backLoc.size.height;
-  
-  if (leftY || rightY) {
-    return frontLoc.origin.y <= backLoc.origin.y;
-  }
-  return front.position.y <= back.position.y;
-}
-
-- (void) pickUpAllDrops {
-  
 }
 
 - (void) setSelected:(SelectableSprite *)selected {
@@ -175,23 +122,89 @@
   }
 }
 
-- (void) doReorder {
-  for (int i = 1; i < [_mapSprites count]; i++) {
-    MapSprite *toSort = [_mapSprites objectAtIndex:i];
-    MapSprite *sorted = [_mapSprites objectAtIndex:i-1];
-    if (![self mapSprite:toSort isInFrontOfMapSprite:sorted]) {
-      int j;
-      for (j = i-2; j >= 0; j--) {
-        sorted = [_mapSprites objectAtIndex:j];
-        if ([self mapSprite:toSort isInFrontOfMapSprite:sorted]) {
-          break;
-        }
+- (void) setupTeamSprites {
+  GameState *gs = [GameState sharedGameState];
+  for (MyTeamSprite *ts in self.myTeamSprites) {
+    [ts removeFromParent];
+  }
+  self.myTeamSprites = [NSMutableArray array];
+  for (UserMonster *um in gs.allMonstersOnMyTeam) {
+    MonsterProto *mp = [gs monsterWithId:um.monsterId];
+    CGRect r = CGRectMake(0, 0, 1, 1);
+    r.origin = [self randomWalkablePosition];
+    NSString *prefix = mp.imagePrefix;
+    MyTeamSprite *ts = [[MyTeamSprite alloc] initWithFile:prefix location:r map:self];
+    [self addChild:ts];
+    [self.myTeamSprites addObject:ts];
+  }
+}
+
+- (void) pickUpAllDrops {
+  
+}
+
+#pragma mark - Reordering sprites
+
+- (NSComparisonResult) compareMapSprite1:(MapSprite *)obj1 toMapSprite2:(MapSprite *)obj2 {
+  // winner = sprite that is in front
+  MapSprite *winner = nil;
+  CGSize ms = [self mapSize];
+  CGRect loc1 = obj1.location;
+  CGRect loc2 = obj2.location;
+  
+  CGRect rx1 = loc1; rx1.origin.y = 0; rx1.size.height = ms.height;
+  CGRect rx2 = loc2; rx2.origin.y = 0; rx2.size.height = ms.height;
+  CGRect ry1 = loc1; ry1.origin.x = 0; ry1.size.width = ms.width;
+  CGRect ry2 = loc2; ry2.origin.x = 0; ry2.size.width = ms.width;
+  
+  BOOL xIntersects = CGRectIntersectsRect(rx1, rx2);
+  BOOL yIntersects = CGRectIntersectsRect(ry1, ry2);
+  
+  // If neither intersect, use sum of x and y
+  // If one side intersects, use the other side to calculate
+  // If both sides intersect, just choose side with shorter intesection and calculate
+  if (!xIntersects && !yIntersects) {
+    float sum1 = loc1.origin.x+loc1.origin.y;
+    float sum2 = loc2.origin.x+loc2.origin.y;
+    
+    if (sum1 != sum2) {
+      winner = sum1 < sum2 ? obj1 : obj2;
+    }
+  } else if (!xIntersects) {
+    if (loc1.origin.x != loc2.origin.x) {
+      winner = loc1.origin.x < loc2.origin.x ? obj1 : obj2;
+    }
+  } else if (!yIntersects) {
+    if (loc1.origin.y != loc2.origin.y) {
+      winner = loc1.origin.y < loc2.origin.y ? obj1 : obj2;
+    }
+  } else {
+    // Choose smaller intersection
+    CGRect intersection = CGRectIntersection(loc1, loc2);
+    if (intersection.size.width > intersection.size.height) {
+      if (loc1.origin.y != loc2.origin.y) {
+        winner = loc1.origin.y < loc2.origin.y ? obj1 : obj2;
       }
-      
-      [_mapSprites removeObjectAtIndex:i];
-      [_mapSprites insertObject:toSort atIndex:j+1];
+    } else {
+      if (loc1.origin.x != loc2.origin.x) {
+        winner = loc1.origin.x < loc2.origin.x ? obj1 : obj2;
+      }
     }
   }
+  
+  if (winner == obj1) {
+    return NSOrderedDescending;
+  } else if (winner == obj2) {
+    return NSOrderedAscending;
+  } else {
+    return NSOrderedSame;
+  }
+}
+
+- (void) doReorder {
+  [_mapSprites sortUsingComparator:^NSComparisonResult(MapSprite *obj1, MapSprite *obj2) {
+    return [self compareMapSprite1:obj1 toMapSprite2:obj2];
+  }];
   
   for (int i = 0; i < [_mapSprites count]; i++) {
     MapSprite *child = [_mapSprites objectAtIndex:i];
@@ -223,14 +236,12 @@
   return toRet;
 }
 
+#pragma mark - Gesture Recognizers
+
 - (void) tap:(UIGestureRecognizer*)recognizer node:(CCNode*)node
 {
   CGPoint pt = [recognizer locationInView:recognizer.view];
   pt = [[CCDirector sharedDirector] convertToGL:pt];
-  
-  if (_selected && ![_selected isPointInArea:pt]) {
-    self.selected = nil;
-  }
   
   SelectableSprite *ss = [self selectableForPt:pt];
   self.selected = ss;
@@ -238,9 +249,11 @@
   if (ss == nil) {
     pt = [self convertToNodeSpace:pt];
     pt = [self convertCCPointToTilePoint:pt];
-    CGRect loc = CGRectMake(pt.x, pt.y, 1, 1);
+    CGPoint loc = CGPointMake(roundf(pt.x), roundf(pt.y));
     
-    [_myPlayer moveToLocation:loc];
+    if (_myTeamSprites.count > 0) {
+      [[_myTeamSprites objectAtIndex:0] moveToward:loc withCompletionSelector:@selector(walk)];
+    }
   }
 }
 
@@ -332,13 +345,23 @@
   return YES;
 }
 
-- (void) layerWillDisappear {
-  self.selected = nil;
-}
-
--(CGPoint)convertVectorToGL:(CGPoint)uiPoint
+- (CGPoint) convertVectorToGL:(CGPoint)uiPoint
 {
   return ccp(uiPoint.x, -uiPoint.y);
+}
+
+#pragma mark - Walkable methods
+
+- (BOOL) isTileCoordWalkable:(CGPoint)pt {
+  pt.x = floorf(pt.x); pt.y = floorf(pt.y);
+  if (pt.x < _walkableData.count && pt.x > 0) {
+    NSArray *row = [_walkableData objectAtIndex:pt.x];
+    if (pt.y < row.count && pt.y > 0) {
+      NSNumber *val = [row objectAtIndex:pt.y];
+      return val.boolValue == YES;
+    }
+  }
+  return NO;
 }
 
 - (CGPoint) randomWalkablePosition {
@@ -405,7 +428,7 @@
     
     CGPoint pt = pts[x];
     if (pt.x >= 0 && pt.x < width && pt.y >= 0 && pt.y < height) {
-      if ([[[_walkableData objectAtIndex:pt.x] objectAtIndex:pt.y] boolValue] == YES) {
+      if ([self isTileCoordWalkable:pt]) {
         return ccp((int)pt.x, (int)pt.y);
       }
     }
@@ -413,6 +436,63 @@
   }
   return point;
 }
+
+- (NSArray *) walkableAdjacentTilesCoordForTileCoord:(CGPoint)tileCoord
+{
+	NSMutableArray *tmp = [NSMutableArray arrayWithCapacity:4];
+  
+	// Top
+	CGPoint p = CGPointMake(tileCoord.x, tileCoord.y - 1);
+	if ([self isTileCoordWalkable:p]) {
+		[tmp addObject:[NSValue valueWithCGPoint:p]];
+	}
+  
+	// Left
+	p = CGPointMake(tileCoord.x - 1, tileCoord.y);
+	if ([self isTileCoordWalkable:p]) {
+		[tmp addObject:[NSValue valueWithCGPoint:p]];
+	}
+  
+	// Bottom
+	p = CGPointMake(tileCoord.x, tileCoord.y + 1);
+	if ([self isTileCoordWalkable:p]) {
+		[tmp addObject:[NSValue valueWithCGPoint:p]];
+	}
+  
+	// Right
+	p = CGPointMake(tileCoord.x + 1, tileCoord.y);
+	if ([self isTileCoordWalkable:p]) {
+		[tmp addObject:[NSValue valueWithCGPoint:p]];
+	}
+  
+  // Top Left
+	p = CGPointMake(tileCoord.x - 1, tileCoord.y - 1);
+	if ([self isTileCoordWalkable:p]) {
+		[tmp addObject:[NSValue valueWithCGPoint:p]];
+	}
+  
+	// Bottom Left
+	p = CGPointMake(tileCoord.x - 1, tileCoord.y + 1);
+	if ([self isTileCoordWalkable:p]) {
+		[tmp addObject:[NSValue valueWithCGPoint:p]];
+	}
+  
+	// Top Right
+	p = CGPointMake(tileCoord.x + 1, tileCoord.y - 1);
+	if ([self isTileCoordWalkable:p]) {
+		[tmp addObject:[NSValue valueWithCGPoint:p]];
+	}
+  
+	// Bottom Right
+	p = CGPointMake(tileCoord.x + 1, tileCoord.y + 1);
+	if ([self isTileCoordWalkable:p]) {
+		[tmp addObject:[NSValue valueWithCGPoint:p]];
+	}
+  
+	return [NSArray arrayWithArray:tmp];
+}
+
+#pragma mark - Move to sprite methods
 
 - (void) moveToCenterAnimated:(BOOL)animated {
   // move map to the center of the screen
@@ -454,6 +534,8 @@
   [self moveToSprite:spr animated:animated withOffset:ccp(0,0)];
 }
 
+#pragma mark - Converting points
+
 - (CGPoint) convertTilePointToCCPoint:(CGPoint)pt {
   CGSize ms = _mapSize;
   CGSize ts = tileSizeInPoints;
@@ -471,9 +553,16 @@
   return ccp(x,y);
 }
 
+- (void) onEnter {
+  [super onEnter];
+  [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(setupTeamSprites) name:MY_TEAM_CHANGED_NOTIFICATION object:nil];
+  [self setupTeamSprites];
+}
+
 - (void) onExit {
   [super onExit];
   self.selected = nil;
+  [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
 @end

@@ -28,8 +28,6 @@
 @class FullUserProto_Builder;
 @class FullUserStructureProto;
 @class FullUserStructureProto_Builder;
-@class LevelAndRequiredExpProto;
-@class LevelAndRequiredExpProto_Builder;
 @class MinimumClanProto;
 @class MinimumClanProto_Builder;
 @class MinimumUserProto;
@@ -58,6 +56,8 @@
 @class SellNormStructureRequestProto_Builder;
 @class SellNormStructureResponseProto;
 @class SellNormStructureResponseProto_Builder;
+@class StaticLevelInfoProto;
+@class StaticLevelInfoProto_Builder;
 @class UpgradeNormStructureRequestProto;
 @class UpgradeNormStructureRequestProto_Builder;
 @class UpgradeNormStructureResponseProto;
@@ -66,12 +66,12 @@
 @class UserCityExpansionDataProto_Builder;
 typedef enum {
   PurchaseNormStructureResponseProto_PurchaseNormStructureStatusSuccess = 1,
-  PurchaseNormStructureResponseProto_PurchaseNormStructureStatusNotEnoughMaterials = 2,
-  PurchaseNormStructureResponseProto_PurchaseNormStructureStatusLevelTooLow = 3,
-  PurchaseNormStructureResponseProto_PurchaseNormStructureStatusAnotherStructStillBuilding = 4,
-  PurchaseNormStructureResponseProto_PurchaseNormStructureStatusAlreadyHaveMaxOfThisStruct = 5,
-  PurchaseNormStructureResponseProto_PurchaseNormStructureStatusOtherFail = 6,
-  PurchaseNormStructureResponseProto_PurchaseNormStructureStatusClientTooApartFromServerTime = 7,
+  PurchaseNormStructureResponseProto_PurchaseNormStructureStatusFailInsufficientCash = 2,
+  PurchaseNormStructureResponseProto_PurchaseNormStructureStatusFailInsufficientGems = 3,
+  PurchaseNormStructureResponseProto_PurchaseNormStructureStatusFailLevelTooLow = 4,
+  PurchaseNormStructureResponseProto_PurchaseNormStructureStatusFailAnotherStructStillBuilding = 5,
+  PurchaseNormStructureResponseProto_PurchaseNormStructureStatusFailAlreadyHaveMaxOfThisStruct = 6,
+  PurchaseNormStructureResponseProto_PurchaseNormStructureStatusFailOther = 7,
 } PurchaseNormStructureResponseProto_PurchaseNormStructureStatus;
 
 BOOL PurchaseNormStructureResponseProto_PurchaseNormStructureStatusIsValidValue(PurchaseNormStructureResponseProto_PurchaseNormStructureStatus value);
@@ -121,9 +121,8 @@ BOOL RetrieveCurrencyFromNormStructureResponseProto_RetrieveCurrencyFromNormStru
 
 typedef enum {
   FinishNormStructWaittimeWithDiamondsResponseProto_FinishNormStructWaittimeStatusSuccess = 1,
-  FinishNormStructWaittimeWithDiamondsResponseProto_FinishNormStructWaittimeStatusNotEnoughDiamonds = 2,
-  FinishNormStructWaittimeWithDiamondsResponseProto_FinishNormStructWaittimeStatusOtherFail = 3,
-  FinishNormStructWaittimeWithDiamondsResponseProto_FinishNormStructWaittimeStatusClientTooApartFromServerTime = 4,
+  FinishNormStructWaittimeWithDiamondsResponseProto_FinishNormStructWaittimeStatusFailNotEnoughGems = 2,
+  FinishNormStructWaittimeWithDiamondsResponseProto_FinishNormStructWaittimeStatusFailOther = 3,
 } FinishNormStructWaittimeWithDiamondsResponseProto_FinishNormStructWaittimeStatus;
 
 BOOL FinishNormStructWaittimeWithDiamondsResponseProto_FinishNormStructWaittimeStatusIsValidValue(FinishNormStructWaittimeWithDiamondsResponseProto_FinishNormStructWaittimeStatus value);

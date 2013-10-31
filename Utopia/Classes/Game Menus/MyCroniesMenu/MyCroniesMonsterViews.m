@@ -10,7 +10,7 @@
 #import "Globals.h"
 #import "GameState.h"
 
-#define TABLE_CELL_WIDTH 72
+#define TABLE_CELL_WIDTH 68
 
 @implementation MyCroniesCardCell
 
@@ -23,15 +23,21 @@
 }
 
 - (void) loadOverlayMask {
-  UIView *view = self.cardContainer.monsterCardView.mainView;
-  UIGraphicsBeginImageContextWithOptions(view.bounds.size, view.opaque, 0.0);
-  [view.layer renderInContext:UIGraphicsGetCurrentContext()];
-  UIImage *image = UIGraphicsGetImageFromCurrentImageContext();
-  UIGraphicsEndImageContext();
-  
-  self.overlayMask.image = [Globals maskImage:image withColor:[UIColor colorWithWhite:0.f alpha:0.5f]];
-  
-  self.overlayMask.frame = [self.overlayView convertRect:self.cardContainer.monsterCardView.mainView.frame fromView:self.cardContainer.monsterCardView];
+  // _overlayMaskStatus: 0 = unloaded, 1 = no rarity tag, 2 = rarity tag
+  int curStatus = self.cardContainer.monsterCardView.qualityBgdView.hidden ? 1 : 2;
+  if (curStatus != _overlayMaskStatus) {
+    UIView *view = self.cardContainer.monsterCardView.mainView;
+    UIGraphicsBeginImageContext(view.bounds.size);
+    [view.layer renderInContext:UIGraphicsGetCurrentContext()];
+    UIImage *image = UIGraphicsGetImageFromCurrentImageContext();
+    UIGraphicsEndImageContext();
+    
+    self.overlayMask.image = [Globals maskImage:image withColor:[UIColor colorWithWhite:0.f alpha:0.5f]];
+    
+    self.overlayMask.frame = [self.overlayView convertRect:self.cardContainer.monsterCardView.mainView.frame fromView:self.cardContainer.monsterCardView];
+    
+    _overlayMaskStatus = curStatus;
+  }
 }
 
 - (void) updateForUserMonster:(UserMonster *)monster isOnMyTeam:(BOOL)isOnMyTeam {
@@ -63,7 +69,6 @@
       } else {
         self.healButtonView.hidden = NO;
         self.healButtonLabel.text = [Globals cashStringForNumber:[gl calculateCostToHealMonster:monster]];
-        [Globals adjustViewForCentering:self.healButtonLabel.superview withLabel:self.healButtonLabel];
       }
     }
   }
@@ -83,7 +88,7 @@
   if (isOnMyTeam) {
     [self.cardContainer.monsterCardView updateForNoMonsterWithLabel:@"Team Slot Empty"];
   } else {
-    [self.cardContainer.monsterCardView updateForNoMonsterWithLabel:@"Empty Slot"];
+    [self.cardContainer.monsterCardView updateForNoMonsterWithLabel:@"Backup Slot Empty"];
   }
 }
 
@@ -116,7 +121,7 @@
   [self.delegate buySlotsClicked:self];
 }
 
-- (void) equipViewSelected:(MonsterCardView *)view {
+- (void) monsterCardSelected:(MonsterCardView *)view {
   [self.delegate cardClicked:self];
 }
 
@@ -125,9 +130,9 @@
 @implementation MyCroniesQueueCell
 
 - (void) updateForHealingItem:(UserMonsterHealingItem *)item {
-//  GameState *gs = [GameState sharedGameState];
-//  UserMonster *um = [gs myMonsterWithUserMonsterId:item.userMonsterId];
-//  [Globals loadImageForMonster:um.monsterId toView:self.monsterIcon];
+  //  GameState *gs = [GameState sharedGameState];
+  //  UserMonster *um = [gs myMonsterWithUserMonsterId:item.userMonsterId];
+  //  [Globals loadImageForMonster:um.monsterId toView:self.monsterIcon];
   self.timerView.hidden = YES;
   
   self.healingItem = item;
@@ -171,9 +176,6 @@
   
   MyCroniesQueueCell *cell = (MyCroniesQueueCell *)[self.queueTable viewAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:0]];
   [cell updateForTime];
-  for (MyCroniesQueueCell *cell in self.queueTable.visibleViews) {
-    [cell updateForTime];
-  }
 }
 
 - (IBAction)minusClicked:(id)sender {
@@ -194,6 +196,7 @@
 
 - (void)setupInventoryTable {
   self.queueTable = [[EasyTableView alloc] initWithFrame:self.tableContainerView.bounds numberOfColumns:0 ofWidth:TABLE_CELL_WIDTH];
+  self.queueTable.autoresizingMask = UIViewAutoresizingFlexibleWidth;
   self.queueTable.delegate = self;
   self.queueTable.tableView.separatorColor = [UIColor clearColor];
   self.queueTable.transform = CGAffineTransformMakeScale(-1, 1);

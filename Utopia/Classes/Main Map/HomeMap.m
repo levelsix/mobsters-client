@@ -147,6 +147,7 @@
 
 - (void) refresh {
   if (_loading) return;
+  self.selected = nil;
   _constrBuilding = nil;
   _upgrBuilding = nil;
   _loading = YES;
@@ -157,6 +158,9 @@
   Globals *gl = [Globals sharedGlobals];
   GameState *gs = [GameState sharedGameState];
   [arr addObjectsFromArray:[self refreshForExpansion]];
+  
+  [self setupTeamSprites];
+  [arr addObjectsFromArray:self.myTeamSprites];
   
   for (UserStruct *s in [gs myStructs]) {
     int tag = [self baseTagForStructId:s.structId];
@@ -216,8 +220,6 @@
     [arr addObject:moneyBuilding];
     [moneyBuilding placeBlock];
   }
-  
-  [arr addObject:_myPlayer];
   
   CCNode *c;
   NSMutableArray *toRemove = [NSMutableArray array];
@@ -361,13 +363,6 @@
   }
 }
 
-- (void) moveToCenterAnimated:(BOOL)animated {
-  // When this is called we want to move the player's sprite to the center too.
-  // Also, center of home map should show gate
-  _myPlayer.location = CGRectMake(CENTER_TILE_X, CENTER_TILE_Y, 1, 1);
-  [self moveToSprite:_myPlayer animated:animated];
-}
-
 - (void) preparePurchaseOfStruct:(int)structId {
   if (_purchasing || _constrBuilding) {
     [Globals popupMessage:[NSString stringWithFormat:@"Already %@ a building.", _purchasing ? @"purchasing" : @"constructing"]];
@@ -418,7 +413,7 @@
       if (_purchasing) {
         // Do nothing
       } else if (us.state == kUpgrading || us.state == kBuilding) {
-        [self displayUpgradingView];
+        self.bottomOptionView = self.upgradeBotView;
         [mb removeArrowAnimated:YES];
         
         [self beginMoveClicked:nil];
@@ -427,7 +422,7 @@
         [self retrieveFromBuilding:((MoneyBuilding *) selected)];
         self.selected = nil;
       } else {
-        [self displayBuildingView];
+        self.bottomOptionView = self.buildBotView;
         
         [mb removeArrowAnimated:YES];
         
@@ -439,7 +434,7 @@
       UserExpansion *ue = [gs getExpansionForX:exp.expandSpot.x y:exp.expandSpot.y];
       
       if (!ue.isExpanding) {
-        [self displayExpandingView];
+        self.bottomOptionView = self.expandBotView;
       } else {
         self.bottomOptionView = self.expandingBotView;
       }
@@ -454,34 +449,46 @@
   }
 }
 
-- (void) displayBuildingView {
-  if ([self.selected isKindOfClass:[MoneyBuilding class]]) {
-    GameState *gs = [GameState sharedGameState];
-    Globals *gl = [Globals sharedGlobals];
-    MoneyBuilding *mb = (MoneyBuilding *)self.selected;
-    FullStructureProto *fsp = [gs structWithId:mb.userStruct.structId];
-    self.buildingNameLabel.text = [NSString stringWithFormat:@"%@ (lvl %d)", fsp.name, mb.userStruct.level];
-    self.buildingIncomeLabel.text = [NSString stringWithFormat:@"%@ IN %@", [Globals cashStringForNumber:[gl calculateIncomeForUserStruct:mb.userStruct]], [Globals convertTimeToShortString:fsp.minutesToGain*60]];
-    self.buildingUpgradeCostLabel.text = [Globals cashStringForNumber:[gl calculateUpgradeCost:mb.userStruct]];
-    self.bottomOptionView = self.buildBotView;
-  }
-}
-
-- (void) displayUpgradingView {
-  if ([self.selected isKindOfClass:[MoneyBuilding class]]) {
-    GameState *gs = [GameState sharedGameState];
-    MoneyBuilding *mb = (MoneyBuilding *)self.selected;
-    FullStructureProto *fsp = [gs structWithId:mb.userStruct.structId];
-    self.upgradingNameLabel.text = [NSString stringWithFormat:@"%@ (lvl %d)", fsp.name, mb.userStruct.level];
-    self.bottomOptionView = self.upgradeBotView;
-  }
-}
-
-- (void) displayExpandingView {
-  if ([self.selected isKindOfClass:[ExpansionBoard class]]) {
-    Globals *gl = [Globals sharedGlobals];
-    self.expandingCostLabel.text = [Globals cashStringForNumber:[gl calculateSilverCostForNewExpansion]];
-    self.bottomOptionView = self.expandBotView;
+- (void) updateMapBotView:(MapBotView *)botView {
+  if (botView == self.buildBotView) {
+    if ([self.selected isKindOfClass:[MoneyBuilding class]]) {
+      GameState *gs = [GameState sharedGameState];
+      Globals *gl = [Globals sharedGlobals];
+      MoneyBuilding *mb = (MoneyBuilding *)self.selected;
+      FullStructureProto *fsp = [gs structWithId:mb.userStruct.structId];
+      self.buildingNameLabel.text = [NSString stringWithFormat:@"%@ (lvl %d)", fsp.name, mb.userStruct.level];
+      self.buildingIncomeLabel.text = [NSString stringWithFormat:@"%@ EVERY %@", [Globals cashStringForNumber:[gl calculateIncomeForUserStruct:mb.userStruct]], [Globals convertTimeToLongString:fsp.minutesToGain*60]];
+      self.buildingUpgradeCostLabel.text = [Globals cashStringForNumber:[gl calculateUpgradeCost:mb.userStruct]];
+    }
+  } else if (botView == self.upgradeBotView) {
+    if ([self.selected isKindOfClass:[MoneyBuilding class]]) {
+      GameState *gs = [GameState sharedGameState];
+      Globals *gl = [Globals sharedGlobals];
+      MoneyBuilding *mb = (MoneyBuilding *)self.selected;
+      UserStruct *us = mb.userStruct;
+      FullStructureProto *fsp = [gs structWithId:mb.userStruct.structId];
+      self.upgradingNameLabel.text = [NSString stringWithFormat:@"%@ (lvl %d)", fsp.name, mb.userStruct.level];
+      self.upgradingIncomeLabel.text = [NSString stringWithFormat:@"%@ EVERY %@", [Globals cashStringForNumber:[gl calculateIncomeForUserStruct:mb.userStruct]], [Globals convertTimeToLongString:fsp.minutesToGain*60]];
+      int timeLeft = us.lastUpgradeTime.timeIntervalSinceNow + [gl calculateMinutesToUpgrade:us]*60;
+      self.upgradingSpeedupCostLabel.text = [Globals commafyNumber:[gl calculateDiamondCostForInstaUpgrade:us timeLeft:timeLeft]];
+    }
+  } else if (botView == self.expandBotView) {
+    if ([self.selected isKindOfClass:[ExpansionBoard class]]) {
+      Globals *gl = [Globals sharedGlobals];
+      ExpansionBoard *ep = (ExpansionBoard *)self.selected;
+      self.expandSubtitleLabel.text = [gl expansionPhraseForExpandSpot:ep.expandSpot];
+      self.expandCostLabel.text = [Globals cashStringForNumber:[gl calculateSilverCostForNewExpansion]];
+    }
+  } else if (botView == self.expandingBotView) {
+    if ([self.selected isKindOfClass:[ExpansionBoard class]]) {
+      GameState *gs = [GameState sharedGameState];
+      Globals *gl = [Globals sharedGlobals];
+      ExpansionBoard *ep = (ExpansionBoard *)self.selected;
+      UserExpansion *exp = [gs currentExpansion];
+      int timeLeft = exp.lastExpandTime.timeIntervalSinceNow + [gl calculateNumMinutesForNewExpansion]*60;
+      self.expandingSubtitleLabel.text = [gl expansionPhraseForExpandSpot:ep.expandSpot];
+      self.expandingSpeedupCostLabel.text = [Globals commafyNumber:[gl calculateGoldCostToSpeedUpExpansionTimeLeft:timeLeft]];
+    }
   }
 }
 
@@ -736,7 +743,7 @@
     [Globals popupMessage:@"The carpenter is already upgrading a building!"];
   } else if (us.level < maxLevel) {
     int cost = [gl calculateUpgradeCost:us];
-    BOOL isGoldBuilding = fsp.diamondPrice > 0;
+    BOOL isGoldBuilding = fsp.gemPrice > 0;
     if (!isGoldBuilding) {
       if (cost > gs.silver) {
         //        [[RefillMenuController sharedRefillMenuController] displayBuySilverView:cost];

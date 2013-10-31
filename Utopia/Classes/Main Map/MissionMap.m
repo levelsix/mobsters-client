@@ -16,21 +16,9 @@
 #import <AudioToolbox/AudioServices.h>
 #import "Drops.h"
 #import "GameViewController.h"
-
-#define LAST_BOSS_RESET_STAMINA_TIME_KEY @"Last boss reset stamina time key"
-
-#define OVER_HOME_BUILDING_MENU_OFFSET 5.f
-
-#define SUMMARY_MENU_ANIMATION_DURATION 0.3f
-
-#define TASK_BAR_DURATION 2.f
-#define EXP_LABEL_DURATION 3.f
-
-#define DROP_SPACE 40.f
-
-#define SHAKE_SCREEN_ACTION_TAG 50
-
-#define DRAGON_TAG 5456
+#import "GenericPopupController.h"
+#import "MenuNavigationController.h"
+#import "MyCroniesViewController.h"
 
 @implementation MissionMap
 
@@ -77,7 +65,6 @@
           LNLog(@"Unable to find %@", ncep.imgId);
           continue;
         }
-        mb.name = ncep.name;
         mb.orientation = ncep.orientation;
         [self addChild:mb z:1 tag:ncep.assetId+ASSET_TAG_BASE];
         
@@ -92,7 +79,8 @@
         }
         [self addChild:s z:1 tag:ncep.assetId+ASSET_TAG_BASE];
         
-        [self changeTiles:s.location canWalk:NO];
+        // Don't take it off for decs
+        //[self changeTiles:s.location canWalk:NO];
       } else if (ncep.type == CityElementProto_CityElemTypePersonNeutralEnemy) {
         CGRect r = CGRectZero;
         r.origin = [self randomWalkablePosition];
@@ -103,7 +91,6 @@
           continue;
         }
         [self addChild:ne z:1 tag:ncep.assetId+ASSET_TAG_BASE];
-        ne.name = ncep.name;
       }
     }
     
@@ -134,39 +121,15 @@
     // Just use jobs for defeat type jobs, tasks are tracked on their own
     _jobs = [[NSMutableArray alloc] init];
     
-    for (FullUserQuestDataLargeProto *questData in proto.inProgressUserQuestDataInCityList) {
+    for (FullUserQuestProto *questData in proto.inProgressUserQuestDataInCityList) {
       FullQuestProto *fqp = [gs.inProgressIncompleteQuests objectForKey:[NSNumber numberWithInt:questData.questId]];
       fqp = fqp ? fqp : [gs.inProgressCompleteQuests objectForKey:[NSNumber numberWithInt:questData.questId]];
       if (fqp.cityId != proto.cityId) {
         continue;
       }
-      
-      for (NSNumber *taskNum in fqp.taskReqsList) {
-        int taskId = taskNum.intValue;
-        FullTaskProto *ftp = [gs taskWithId:taskId];
-        id<TaskElement> te = (id<TaskElement>)[self assetWithId:ftp.assetNumWithinCity];
-        
-        te.partOfQuest = YES;
-        
-        if (questData.isComplete) {
-          te.numTimesActedForQuest = 1;
-        } else {
-          for (MinimumUserQuestTaskProto *taskData in questData.requiredTasksProgressList) {
-            if (taskData.taskId == taskId) {
-              te.numTimesActedForQuest = taskData.numTimesActed;
-              if (te.numTimesActedForQuest < 1) {
-                [te displayArrow];
-              }
-            }
-          }
-        }
-      }
     }
     
     [[NSBundle mainBundle] loadNibNamed:@"MissionBuildingMenu" owner:self options:nil];
-    
-    _myPlayer.location = CGRectMake(fcp.center.x, fcp.center.y, 1, 1);
-    [self moveToSprite:_myPlayer animated:NO];
     
     _allowSelection = YES;
     
@@ -204,14 +167,103 @@
   [self moveToSprite:[self assetWithId:a] animated:animated];
 }
 
+- (BOOL) checkEnteringDungeon {
+  if (_enteringDungeon) {
+    return NO;
+  }
+  
+  // Check that team is valid
+  GameState *gs = [GameState sharedGameState];
+  Globals *gl = [Globals sharedGlobals];
+  NSArray *team = [gs allMonstersOnMyTeam];
+  BOOL hasValidTeam = NO;
+  for (UserMonster *um in team) {
+    if (um.curHealth > 0) {
+      hasValidTeam = YES;
+    }
+  }
+  
+  if (!hasValidTeam) {
+    NSString *description = @"";
+    if (team.count == 0) {
+      description = @"Uh oh, you have no mobsters on your team. Manage your team?";
+    } else {
+      description = @"Uh oh, your mobsters are out of health. Manage your team?";
+    }
+    [GenericPopupController displayConfirmationWithDescription:description title:@"Can't Begin" okayButton:@"Manage" cancelButton:@"Later" target:self selector:@selector(visitTeamPage)];
+    
+    return NO;
+  }
+  
+  // Check that inventory is not full
+  int curInvSize = gs.myMonsters.count-team.count;
+  if (curInvSize > gl.baseInventorySize+gs.numAdditionalMonsterSlots) {
+    NSString *description = @"Uh oh, you have recruited too many mobsters. Manage your team?";
+    [GenericPopupController displayConfirmationWithDescription:description title:@"Can't Begin" okayButton:@"Manage" cancelButton:@"Later" target:self selector:@selector(visitTeamPage)];
+    return NO;
+  }
+  
+  return YES;
+}
+
+#define SPRITE_DELAY 0.6f
+
+- (void) teamSpritesEnterBuilding:(id<TaskElement>)mp {
+  CGPoint start = ccp(mp.location.origin.x-3, floorf(CGRectGetMidY(mp.location)));
+  CGPoint end = ccp(mp.location.origin.x-0.5, floorf(CGRectGetMidY(mp.location)));
+  float delay = 0;
+  for (MyTeamSprite *ts in self.myTeamSprites) {
+    [ts runAction:
+     [CCSequence actions:
+      [CCDelayTime actionWithDuration:delay],
+      [CCCallBlock actionWithBlock:
+       ^{
+         CGRect r = ts.location;
+         r.origin = start;
+         ts.location = r;
+         [ts walkToTileCoord:end withSelector:@selector(stopWalking) speedMultiplier:1.5f];
+       }],
+      [CCDelayTime actionWithDuration:0.2f],
+      [RecursiveFadeTo actionWithDuration:0.3f opacity:0],
+      nil]];
+    delay += SPRITE_DELAY;
+  }
+  
+}
+
 - (IBAction) performCurrentTask:(id)sender {
   if ([self.selected conformsToProtocol:@protocol(TaskElement)]) {
     id<TaskElement> te = (id<TaskElement>)self.selected;
     
-    // Set the gvc as the delegate of this
-    UIViewController *vc = [GameViewController baseController];
-    [[OutgoingEventController sharedOutgoingEventController] beginDungeon:te.ftp.taskId withDelegate:vc];
+    if ([self checkEnteringDungeon]) {
+      [self teamSpritesEnterBuilding:te];
+      // Set the gvc as the delegate of this
+      GameViewController *vc = [GameViewController baseController];
+      [vc enterDungeon:te.ftp.taskId withDelay:SPRITE_DELAY*(self.myTeamSprites.count-1)+0.7f];
+      _enteringDungeon = YES;
+    }
   }
+}
+
+- (void) visitTeamPage {
+  MenuNavigationController *m = [[MenuNavigationController alloc] init];
+  GameViewController *gvc = [GameViewController baseController];
+  [gvc presentViewController:m animated:YES completion:nil];
+  [m pushViewController:[[MyCroniesViewController alloc] init] animated:NO];
+}
+
+- (void) onEnter {
+  [super onEnter];
+  _enteringDungeon = NO;
+}
+
+- (void) tap:(UIGestureRecognizer *)recognizer node:(CCNode *)node {
+  [super tap:recognizer node:node];
+  CGPoint pt = [recognizer locationInView:recognizer.view];
+  pt = [[CCDirector sharedDirector] convertToGL:pt];
+  
+  pt = [self convertToNodeSpace:pt];
+  pt = [self convertCCPointToTilePoint:pt];
 }
 
 - (void) setSelected:(SelectableSprite *)selected {
@@ -223,13 +275,21 @@
   
   if (self.selected) {
     if ([self.selected conformsToProtocol:@protocol(TaskElement)]) {
-      id<TaskElement> te = (id<TaskElement>)self.selected;
-      
-      self.missionNameLabel.text = te.name;
       self.bottomOptionView = self.missionBotView;
     }
   } else {
     self.bottomOptionView = nil;
+  }
+}
+
+#pragma mark - MapBotViewDelegate methods
+
+- (void) updateMapBotView:(MapBotView *)botView {
+  if ([self.selected conformsToProtocol:@protocol(TaskElement)]) {
+    id<TaskElement> te = (id<TaskElement>)self.selected;
+    FullTaskProto *ftp = te.ftp;
+    self.missionNameLabel.text = ftp.name;
+    self.missionDescriptionLabel.text = ftp.description;
   }
 }
 

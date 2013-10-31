@@ -6,8 +6,6 @@
 
 @class FullUserProto;
 @class FullUserProto_Builder;
-@class LevelAndRequiredExpProto;
-@class LevelAndRequiredExpProto_Builder;
 @class MinimumClanProto;
 @class MinimumClanProto_Builder;
 @class MinimumUserProto;
@@ -16,6 +14,8 @@
 @class MinimumUserProto_Builder;
 @class ReferralCodeUsedResponseProto;
 @class ReferralCodeUsedResponseProto_Builder;
+@class StaticLevelInfoProto;
+@class StaticLevelInfoProto_Builder;
 
 @interface EventReferralRoot : NSObject {
 }

@@ -79,6 +79,12 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
   self.maxTeamSize = constants.userMonsterConstants.maxNumTeamSlots;
   self.baseInventorySize = constants.userMonsterConstants.initialMaxNumMonsterLimit;
   
+  self.minutesToUpgradeForNormStructMultiplier = constants.normStructConstants.minutesToUpgradeForNormStructMultiplier;
+  self.incomeFromNormStructMultiplier = constants.normStructConstants.incomeFromNormStructMultiplier;
+  self.upgradeStructCoinCostExponentBase = constants.normStructConstants.upgradeStructCoinCostExponentBase;
+  self.upgradeStructDiamondCostExponentBase = constants.normStructConstants.upgradeStructDiamondCostExponentBase;
+  self.diamondCostForInstantUpgradeMultiplier = constants.normStructConstants.diamondCostForInstantUpgradeMultiplier;
+  
   self.coinPriceToCreateClan = constants.clanConstants.hasCoinPriceToCreateClan;
   self.maxCharLengthForClanName = constants.clanConstants.maxCharLengthForClanName;
   self.maxCharLengthForClanDescription = constants.clanConstants.maxCharLengthForClanDescription;
@@ -112,6 +118,28 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
       [dl performSelector:@selector(asyncDownloadBundle:) withObject:name afterDelay:i];
       LNLog(@"Scheduled download of bundle %@ in %d seconds", name, i);
       i += BUNDLE_SCHEDULE_INTERVAL;
+    }
+  }
+}
+
++ (void) downloadAllFilesForSpritePrefixes:(NSArray *)spritePrefixes completion:(void (^)(void))completed {
+  __block int i = 0;
+  for (NSString *spritePrefix in spritePrefixes) {
+    for (NSString *str in @[@"%@RunNF.plist", @"%@AttackNF.plist", @"%@Card.png"]) {
+      i++;
+      NSString *fileName = [NSString stringWithFormat:str, spritePrefix];
+      fileName = [CCFileUtils getDoubleResolutionImage:fileName validate:NO];
+      [[Downloader sharedDownloader] asyncDownloadFile:fileName completion:^{
+        NSDictionary *dict = [NSDictionary dictionaryWithContentsOfFile:[Globals pathToFile:fileName]];
+        NSDictionary *metadataDict = [dict objectForKey:@"metadata"];
+        NSString *texturePath = [metadataDict objectForKey:@"textureFileName"];
+        [[Downloader sharedDownloader] asyncDownloadFile:texturePath completion:^{
+          i--;
+          if (i == 0) {
+            completed();
+          }
+        }];
+      }];
     }
   }
 }
@@ -174,6 +202,36 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
   return [NSString stringWithFormat:@"%dS", secs];
 }
 
++ (NSString *) convertTimeToLongString:(int)secs {
+  if (secs <= 0) {
+    return @"0 Seconds";
+  }
+  
+  int days = secs / 86400;
+  secs %= 86400;
+  int hrs = secs / 3600;
+  secs %= 3600;
+  int mins = secs / 60;
+  secs %= 60;
+  
+  if (days > 0) {
+    NSString *hrsStr = hrs == 0 ? @"" : [NSString stringWithFormat:@" %d Hour%@", hrs,  hrs != 1 ? @"s" : @""];
+    return [NSString stringWithFormat:@"%d Day%@%@", days, days != 1 ? @"s" : @"", hrsStr];
+  }
+  
+  if (hrs > 0) {
+    NSString *minsStr = mins == 0 ? @"" : [NSString stringWithFormat:@" %d Minute%@", mins, mins != 1 ? @"s" : @""];
+    return [NSString stringWithFormat:@"%d Hour%@%@", hrs,  hrs != 1 ? @"s" : @"", minsStr];
+  }
+  
+  if (mins > 0) {
+    NSString *secsStr = secs == 0 ? @"" : [NSString stringWithFormat:@" %d Second%@", secs, secs != 1 ? @"s" : @""];
+    return [NSString stringWithFormat:@"%d Minute%@%@", mins, mins != 1 ? @"s" : @"", secsStr];
+  }
+  
+  return [NSString stringWithFormat:@"%d Second%@", secs, secs != 1 ? @"s" : @""];
+}
+
 + (NSString *) imageNameForConstructionWithSize:(CGSize)size {
   return [NSString stringWithFormat:@"ConstructionSite%dx%d.png", (int)size.width, (int)size.height];
 }
@@ -206,7 +264,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
 
 + (void) loadImageForStruct:(int)structId toView:(UIImageView *)view masked:(BOOL)mask indicator:(UIActivityIndicatorViewStyle)indicator {
   if (!structId || !view) return;
-  [self imageNamed:[self imageNameForStruct:structId] withView:view maskedColor:mask ? [UIColor colorWithWhite:0.f alpha:0.7f] : nil indicator:indicator clearImageDuringDownload:YES];
+  [self imageNamed:[self imageNameForStruct:structId] withView:view greyscale:mask indicator:indicator clearImageDuringDownload:YES];
 }
 
 + (void) loadImageForMonster:(int)monId toView:(UIImageView *)view {
@@ -248,13 +306,13 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
       return @"Rare";
       
     case MonsterProto_MonsterQualityUltra:
-      return @"Super Rare";
+      return @"Ultra";
       
     case MonsterProto_MonsterQualityEpic:
       return @"Epic";
       
     case MonsterProto_MonsterQualityLegendary:
-      return @"Legendary";
+      return @"Legend";
       
     default:
       return nil;
@@ -269,10 +327,6 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
 
 + (NSString *) shortenedStringForRarity:(MonsterProto_MonsterQuality)rarity {
   NSString *str = [self stringForRarity:rarity];
-  
-  if (rarity == MonsterProto_MonsterQualityUltra) {
-    return @"S. RA";
-  }
   
   if (str.length > 4) {
     str = [str stringByReplacingCharactersInRange:NSMakeRange(3, str.length-3) withString:@"."];
@@ -298,6 +352,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
       return @"Water";
       
     default:
+      return nil;
       break;
   }
 }
@@ -444,6 +499,66 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
   return s.length > 0 ? [pre stringByAppendingString:s] : @"0";
 }
 
++ (UIImage *) greyScaleImageWithBaseImage:(UIImage *)inputImage {
+  
+  const int RED = 1;
+  const int GREEN = 2;
+  const int BLUE = 3;
+  
+  // Create image rectangle with current image width/height
+  CGRect imageRect = CGRectMake(0, 0, inputImage.size.width * inputImage.scale, inputImage.size.height * inputImage.scale);
+  
+  int width = imageRect.size.width;
+  int height = imageRect.size.height;
+  
+  // the pixels will be painted to this array
+  uint32_t *pixels = (uint32_t *) malloc(width * height * sizeof(uint32_t));
+  
+  // clear the pixels so any transparency is preserved
+  memset(pixels, 0, width * height * sizeof(uint32_t));
+  
+  CGColorSpaceRef colorSpace = CGColorSpaceCreateDeviceRGB();
+  
+  // create a context with RGBA pixels
+  CGContextRef context = CGBitmapContextCreate(pixels, width, height, 8, width * sizeof(uint32_t), colorSpace,
+                                               kCGBitmapByteOrder32Little | kCGImageAlphaPremultipliedLast);
+  
+  // paint the bitmap to our context which will fill in the pixels array
+  CGContextDrawImage(context, CGRectMake(0, 0, width, height), [inputImage CGImage]);
+  
+  for(int y = 0; y < height; y++) {
+    for(int x = 0; x < width; x++) {
+      uint8_t *rgbaPixel = (uint8_t *) &pixels[y * width + x];
+      
+      // convert to grayscale using recommended method: http://en.wikipedia.org/wiki/Grayscale#Converting_color_to_grayscale
+      uint8_t gray = (uint8_t) ((29 * rgbaPixel[RED] + 29 * rgbaPixel[GREEN] + 29 * rgbaPixel[BLUE]) / 100);
+      
+      // set the pixels to gray
+      rgbaPixel[RED] = gray;
+      rgbaPixel[GREEN] = gray;
+      rgbaPixel[BLUE] = gray;
+    }
+  }
+  
+  // create a new CGImageRef from our context with the modified pixels
+  CGImageRef image = CGBitmapContextCreateImage(context);
+  
+  // we're done with the context, color space, and pixels
+  CGContextRelease(context);
+  CGColorSpaceRelease(colorSpace);
+  free(pixels);
+  
+  // make a new UIImage to return
+  UIImage *resultUIImage = [UIImage imageWithCGImage:image
+                                               scale:inputImage.scale
+                                         orientation:UIImageOrientationUp];
+  
+  // we're done with image now too
+  CGImageRelease(image);
+  
+  return resultUIImage;
+}
+
 + (UIImage*) maskImage:(UIImage *)image withColor:(UIColor *)color {
   
   CGImageRef alphaImage = CGImageRetain(image.CGImage);
@@ -499,7 +614,10 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
   UIViewController *vc = nav.visibleViewController;
   UIView *sv = vc.view;
   
-  view.frame = sv.bounds;
+  CGRect r = view.frame;
+  r.size.width = MIN(r.size.width, sv.frame.size.width);
+  view.frame = r;
+  
   view.center = CGPointMake(sv.frame.size.width/2, sv.frame.size.height/2);
   
   [sv addSubview:view];
@@ -605,6 +723,14 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
 }
 
 + (void) imageNamed:(NSString *)imageName withView:(UIView *)view maskedColor:(UIColor *)color indicator: (UIActivityIndicatorViewStyle)indicatorStyle clearImageDuringDownload:(BOOL)clear {
+  [self imageNamed:imageName withView:view maskedColor:color greyscale:NO indicator:indicatorStyle clearImageDuringDownload:clear];
+}
+
++ (void) imageNamed:(NSString *)imageName withView:(UIView *)view greyscale:(BOOL)greyscale indicator: (UIActivityIndicatorViewStyle)indicatorStyle clearImageDuringDownload:(BOOL)clear {
+  [self imageNamed:imageName withView:view maskedColor:nil greyscale:greyscale indicator:indicatorStyle clearImageDuringDownload:clear];
+}
+
++ (void) imageNamed:(NSString *)imageName withView:(UIView *)view maskedColor:(UIColor *)color greyscale:(BOOL)greyscale indicator: (UIActivityIndicatorViewStyle)indicatorStyle clearImageDuringDownload:(BOOL)clear {
   // If imageName is null, it will clear the view's pre-downloading stuff
   // If view is null, it will download image without worrying about the view
   Globals *gl = [Globals sharedGlobals];
@@ -628,6 +754,8 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
   if (cachedImage) {
     if (color) {
       cachedImage = [self maskImage:cachedImage withColor:color];
+    } else if (greyscale) {
+      cachedImage = [self greyScaleImageWithBaseImage:cachedImage];
     }
     if ([view isKindOfClass:[UIImageView class]]) {
       [(UIImageView *)view setImage:cachedImage];
@@ -690,6 +818,8 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
           }
           if (color) {
             img = [self maskImage:img withColor:color];
+          } else if (greyscale) {
+            img = [self greyScaleImageWithBaseImage:img];
           }
           
           if ([view isKindOfClass:[UIImageView class]]) {
@@ -725,6 +855,8 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
     
     if (color) {
       image = [self maskImage:image withColor:color];
+    } else if (greyscale) {
+      image = [self greyScaleImageWithBaseImage:image];
     }
     
     if ([view isKindOfClass:[UIImageView class]]) {
@@ -902,23 +1034,24 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
 
 - (int) calculateUpgradeCost:(UserStruct *)us {
   FullStructureProto *fsp = [[GameState sharedGameState] structWithId:us.structId];
-  if (fsp.coinPrice > 0) {
-    return MAX(0, (int)(fsp.coinPrice * powf(self.upgradeStructCoinCostExponentBase, us.level)));
+  if (fsp.cashPrice > 0) {
+    return MAX(0, (int)(fsp.cashPrice * powf(self.upgradeStructCoinCostExponentBase, us.level)));
   } else {
-    return MAX(0, (int)(fsp.diamondPrice * powf(self.upgradeStructDiamondCostExponentBase, us.level)));
+    return MAX(0, (int)(fsp.gemPrice * powf(self.upgradeStructDiamondCostExponentBase, us.level)));
   }
 }
 
 - (int) calculateDiamondCostForInstaUpgrade:(UserStruct *)us timeLeft:(int)timeLeft {
   FullStructureProto *fsp = [[GameState sharedGameState] structWithId:us.structId];
-  int baseCost = MAX(1,fsp.instaBuildDiamondCost * us.level * self.diamondCostForInstantUpgradeMultiplier);
+  int baseCost = MAX(1,fsp.instaBuildGemCost * us.level * self.diamondCostForInstantUpgradeMultiplier);
   int mins = [self calculateMinutesToUpgrade:us];
   return [self calculateDiamondCostForSpeedupWithBaseCost:baseCost timeRemaining:timeLeft totalTime:mins*60];
 }
 
 - (int) calculateMinutesToUpgrade:(UserStruct *)us {
   FullStructureProto *fsp = [[GameState sharedGameState] structWithId:us.structId];
-  return MAX(1, (int)(fsp.minutesToBuild * (us.level+1) * self.minutesToUpgradeForNormStructMultiplier));
+  int levelBase = us.state == kBuilding ? 1 : us.level+1;
+  return MAX(1, (int)(fsp.minutesToBuild * levelBase * self.minutesToUpgradeForNormStructMultiplier));
 }
 
 - (int) calculateNumMinutesForNewExpansion {
@@ -933,6 +1066,22 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
 
 - (int) calculateSilverCostForNewExpansion {
   return 5;
+}
+
+- (NSString *) expansionPhraseForExpandSpot:(CGPoint)pt {
+  int index = pt.x+1+(pt.y+1)*3;
+  NSArray *phrases = [NSArray arrayWithObjects:
+                      @"A magnificent parcel of land.",
+                      @"A fresh parcel of land.",
+                      @"A perfect parcel of land.",
+                      @"A boring parcel of land.",
+                      @""
+                      @"A cool parcel of land.",
+                      @"A supa-fresh parcel of land.",
+                      @"A ridiculous parcel of land.",
+                      @"A normal parcel of land.",
+                      nil];
+  return index < phrases.count && index >= 0 ? [phrases objectAtIndex:index] : @"";
 }
 
 - (int) calculateTotalDamageForMonster:(UserMonster *)um {
@@ -954,10 +1103,10 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
     case MonsterProto_MonsterElementFire:
       base = mp.elementOneDmg;
       break;
-    case MonsterProto_MonsterElementWater:
+    case MonsterProto_MonsterElementGrass:
       base = mp.elementTwoDmg;
       break;
-    case MonsterProto_MonsterElementGrass:
+    case MonsterProto_MonsterElementWater:
       base = mp.elementThreeDmg;
       break;
     case MonsterProto_MonsterElementLightning:
@@ -967,13 +1116,13 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
       base = mp.elementFiveDmg;
       break;
   }
-  return base*pow(mp.attackLevelMultiplier, (int)um.enhancementPercentage-1);
+  return roundf(base*pow(mp.attackLevelMultiplier, um.level-1));
 }
 
 - (int) calculateMaxHealthForMonster:(UserMonster *)um {
   GameState *gs = [GameState sharedGameState];
   MonsterProto *mp = [gs monsterWithId:um.monsterId];
-  return mp.baseHp*pow(mp.hpLevelMultiplier, (int)um.enhancementPercentage-1);
+  return mp.baseHp*pow(mp.hpLevelMultiplier, um.level-1);
 }
 
 - (int) calculateCostToHealMonster:(UserMonster *)um {
@@ -1003,19 +1152,6 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
   return timeLeft/60+1;
 }
 
-- (float) calculateEnhancementPercentageIncrease:(UserEnhancement *)ue {
-  float change = 0;
-  for (EnhancementItem *f in ue.feeders) {
-    change += [self calculateEnhancementPercentageIncrease:ue.baseMonster feeder:f];
-  }
-  
-  return change;
-}
-
-- (float) calculateEnhancementPercentageIncrease:(EnhancementItem *)baseMonster feeder:(EnhancementItem *)feeder {
-  return 0.05;
-}
-
 - (int) calculateSilverCostForEnhancement:(EnhancementItem *)baseMonster feeder:(EnhancementItem *)feeder {
   return 100;
 }
@@ -1040,6 +1176,24 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
 - (int) calculateCostToSpeedupEnhancement:(UserEnhancement *)ue {
   int timeLeft = [self calculateTimeLeftForEnhancement:ue];
   return timeLeft/60+1;
+}
+
+- (int) calculateExperienceIncrease:(UserEnhancement *)ue {
+  float change = 0;
+  for (EnhancementItem *f in ue.feeders) {
+    change += [self calculateExperienceIncrease:ue.baseMonster feeder:f];
+  }
+  
+  return change;
+}
+
+- (int) calculateExperienceIncrease:(EnhancementItem *)baseMonster feeder:(EnhancementItem *)feeder {
+  return 100;
+}
+
+- (float) calculateLevelForMonster:(int)monsterId experience:(int)experience {
+  // Remember to cap it at monster's max level
+  return experience/15.f+1;
 }
 
 + (void) popupMessage:(NSString *)msg {
@@ -1218,6 +1372,10 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
   } else {
     return name;
   }
+}
+
+- (void) openAppStoreLink {
+  [[UIApplication sharedApplication] openURL:[NSURL URLWithString:self.appStoreLink]];
 }
 
 #define RATE_US_POPUP_DEFAULT_KEY @"RateUsLastPopupTimeKey"

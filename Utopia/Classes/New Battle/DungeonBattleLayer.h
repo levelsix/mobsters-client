@@ -9,11 +9,20 @@
 #import "NewBattleLayer.h"
 #import "Protocols.pb.h"
 
-@interface DungeonBattleLayer : NewBattleLayer
+@interface DungeonBattleLayer : NewBattleLayer {
+  BOOL _wonBattle;
+  BOOL _receivedEndDungeonResponse;
+  BOOL _waitingForEndDungeonResponse;
+}
 
 @property (nonatomic, retain) BeginDungeonResponseProto *dungeonInfo;
 
-+ (CCScene *) sceneWithBeginDungeonResponseProto:(BeginDungeonResponseProto *)dungeonInfo delegate:(id<BattleLayerDelegate>)delegate;
-- (id) initWithBeginDungeonResponseProto:(BeginDungeonResponseProto *)dungeonInfo;
+- (void) receivedDungeonInfo:(BeginDungeonResponseProto *)di;
+
+@property (nonatomic, retain) IBOutlet BattleContinueView *continueView;
+@property (nonatomic, retain) IBOutlet BattleEndView *endView;
+
+@property (nonatomic, retain) IBOutlet UIView *swapView;
+@property (nonatomic, retain) IBOutlet BattleDeployView *deployView;
 
 @end

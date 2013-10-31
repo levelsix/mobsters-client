@@ -10,100 +10,48 @@
 #import "LNSynthesizeSingleton.h"
 #import "cocos2d.h"
 #import "Globals.h"
+#import "AppDelegate.h"
+#import "GameViewController.h"
 
 #define DISAPPEAR_ROTATION_ANGLE M_PI/3
 
-@implementation GenericPopup
-
-@synthesize titleLabel, descriptionLabel;
-@synthesize notificationView, confirmationView;
-@synthesize mainView, bgdColorView;
-@synthesize greenButtonLabel, blackButtonLabel, redButtonLabel;
-@synthesize okInvocation, cancelInvocation;
-@synthesize toAppStore;
-
-- (void) awakeFromNib {
-  confirmationView.frame = notificationView.frame;
-  [mainView addSubview:confirmationView];
-}
-
-- (void) close {
-  [UIView animateWithDuration:0.7f delay:0.f options:UIViewAnimationOptionCurveEaseInOut animations:^{
-    CGAffineTransform t = CGAffineTransformIdentity;
-    t = CGAffineTransformScale(t, 0.75f, 0.75f);
-    t = CGAffineTransformRotate(t, DISAPPEAR_ROTATION_ANGLE);
-    self.mainView.transform = t;
-    self.mainView.center = CGPointMake(self.mainView.center.x-70, self.mainView.center.y+350);
-    self.bgdColorView.alpha = 0.f;
-  } completion:^(BOOL finished) {
-    [self removeFromSuperview];
-  }];
-}
-
-- (IBAction)redOkayClicked:(id)sender {
-  if (toAppStore) {
-    GenericPopupController *gpc = [GenericPopupController sharedGenericPopupController];
-    [gpc openAppStoreLink];
-  } else {
-    [self.okInvocation invoke];
-  }
-  [self close];
-}
-
-- (IBAction)greenOkayClicked:(id)sender {
-  [self.okInvocation invoke];
-  [self close];
-}
-
-- (IBAction)cancelClicked:(id)sender {
-  [self.cancelInvocation invoke];
-  [self close];
-}
-
-- (void) touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event {
-  [self endEditing:YES];
-}
-
-@end
-
 @implementation GenericPopupController
-@synthesize appStoreLink;
-@synthesize genPopup;
 
-SYNTHESIZE_SINGLETON_FOR_CONTROLLER(GenericPopupController);
+- (void) viewDidLoad {
+  self.confirmationView.frame = self.notificationView.frame;
+  [self.mainView addSubview:self.confirmationView];
+}
 
 - (void) displayPopup {
-  [Globals displayUIView:self.genPopup];
-  [Globals bounceView:self.genPopup.mainView fadeInBgdView:self.genPopup.bgdColorView];
-//  self.view = nil;
-  self.genPopup = nil;
+  [[[UIApplication sharedApplication] keyWindow] addSubview:self.view];
+  [[GameViewController baseController] addChildViewController:self];
+  
+  [Globals bounceView:self.mainView fadeInBgdView:self.bgdView];
 }
 
-+ (GenericPopup *) displayNotificationViewWithText:(NSString *)string title:(NSString *)title {
-  GenericPopupController *gpc = [GenericPopupController sharedGenericPopupController];
-  [[NSBundle mainBundle] loadNibNamed:@"GenericPopupController" owner:gpc options:nil];
-  GenericPopup *gp = [gpc genPopup];
+- (BOOL) prefersStatusBarHidden {
+  return YES;
+}
+
++ (GenericPopupController *) displayNotificationViewWithText:(NSString *)string title:(NSString *)title {
+  GenericPopupController *gp = [[GenericPopupController alloc] init];
+  [gp displayPopup];
   gp.notificationView.hidden = NO;
   gp.confirmationView.hidden = YES;
   gp.descriptionLabel.text = string;
   gp.titleLabel.text = title ? title : @"Notification!";
-  [gpc displayPopup];
-  gp.toAppStore = NO;
   
   return gp;
 }
 
-+ (GenericPopup *) displayNotificationViewWithText:(NSString *)string title:(NSString *)title okayButton:(NSString *)okay target:(id)target selector:(SEL)selector {
-  GenericPopupController *gpc = [GenericPopupController sharedGenericPopupController];
-  [[NSBundle mainBundle] loadNibNamed:@"GenericPopupController" owner:gpc options:nil];
-  GenericPopup *gp = [gpc genPopup];
++ (GenericPopupController *) displayNotificationViewWithText:(NSString *)string title:(NSString *)title okayButton:(NSString *)okay target:(id)target selector:(SEL)selector {
+  GenericPopupController *gp = [[GenericPopupController alloc] init];
+  [gp displayPopup];
   gp.notificationView.hidden = NO;
   gp.confirmationView.hidden = YES;
   gp.descriptionLabel.text = string;
   gp.titleLabel.text = title ? title : @"Notification!";
   gp.redButtonLabel.text = okay ? okay : @"Okay";
-  [gpc displayPopup];
-  gp.toAppStore = NO;
   
 	NSMethodSignature* sig = [[target class]
                             instanceMethodSignatureForSelector:selector];
@@ -116,10 +64,9 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(GenericPopupController);
   return gp;
 }
 
-+ (GenericPopup *) displayNotificationViewWithMiddleView:(UIView *)view title:(NSString *)title okayButton:(NSString *)okay target:(id)target selector:(SEL)selector {
-  GenericPopupController *gpc = [GenericPopupController sharedGenericPopupController];
-  [[NSBundle mainBundle] loadNibNamed:@"GenericPopupController" owner:gpc options:nil];
-  GenericPopup *gp = [gpc genPopup];
++ (GenericPopupController *) displayNotificationViewWithMiddleView:(UIView *)view title:(NSString *)title okayButton:(NSString *)okay target:(id)target selector:(SEL)selector {
+  GenericPopupController *gp = [[GenericPopupController alloc] init];
+  [gp displayPopup];
   gp.notificationView.hidden = NO;
   gp.confirmationView.hidden = YES;
   gp.descriptionLabel.hidden = YES;
@@ -127,8 +74,6 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(GenericPopupController);
   view.center = gp.descriptionLabel.center;
   gp.titleLabel.text = title ? title : @"Notification!";
   gp.redButtonLabel.text = okay ? okay : @"Okay";
-  [gpc displayPopup];
-  gp.toAppStore = NO;
   
 	NSMethodSignature* sig = [[target class]
                             instanceMethodSignatureForSelector:selector];
@@ -141,26 +86,10 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(GenericPopupController);
   return gp;
 }
 
-+ (GenericPopup *) displayMajorUpdatePopup:(NSString *)appStoreLink {
-  GenericPopupController *gpc = [GenericPopupController sharedGenericPopupController];
-  [[NSBundle mainBundle] loadNibNamed:@"GenericPopupController" owner:gpc options:nil];
-  GenericPopup *gp = [gpc genPopup];
-  gp.notificationView.hidden = NO;
-  gp.confirmationView.hidden = YES;
-  gp.descriptionLabel.text = @"We've added a slew of new features! Update now to check them out.";
-  gp.redButtonLabel.text = @"Update";
-  gp.titleLabel.text = @"Update Now";
-  [gpc displayPopup];
-  gp.toAppStore = YES;
-  gpc.appStoreLink = appStoreLink;
++ (GenericPopupController *) displayConfirmationWithDescription:(NSString *)description title:(NSString *)title okayButton:(NSString *)okay cancelButton:(NSString *)cancel target:(id)target selector:(SEL)selector {
+  GenericPopupController *gp = [[GenericPopupController alloc] init];
+  [gp displayPopup];
   
-  return gp;
-}
-
-+ (GenericPopup *) displayConfirmationWithDescription:(NSString *)description title:(NSString *)title okayButton:(NSString *)okay cancelButton:(NSString *)cancel target:(id)target selector:(SEL)selector {
-  GenericPopupController *gpc = [GenericPopupController sharedGenericPopupController];
-  [[NSBundle mainBundle] loadNibNamed:@"GenericPopupController" owner:gpc options:nil];
-  GenericPopup *gp = [gpc genPopup];
   gp.notificationView.hidden = YES;
   gp.confirmationView.hidden = NO;
   
@@ -177,15 +106,13 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(GenericPopupController);
 	[invocation setSelector:selector];
   gp.okInvocation = invocation;
   
-  [gpc displayPopup];
-  
   return gp;
 }
 
-+ (GenericPopup *) displayConfirmationWithDescription:(NSString *)description title:(NSString *)title okayButton:(NSString *)okay cancelButton:(NSString *)cancel okTarget:(id)okTarget okSelector:(SEL)okSelector cancelTarget:(id)cancelTarget cancelSelector:(SEL)cancelSelector {
-  GenericPopupController *gpc = [GenericPopupController sharedGenericPopupController];
-  [[NSBundle mainBundle] loadNibNamed:@"GenericPopupController" owner:gpc options:nil];
-  GenericPopup *gp = [gpc genPopup];
++ (GenericPopupController *) displayConfirmationWithDescription:(NSString *)description title:(NSString *)title okayButton:(NSString *)okay cancelButton:(NSString *)cancel okTarget:(id)okTarget okSelector:(SEL)okSelector cancelTarget:(id)cancelTarget cancelSelector:(SEL)cancelSelector {
+  GenericPopupController *gp = [[GenericPopupController alloc] init];
+  [gp displayPopup];
+  
   gp.notificationView.hidden = YES;
   gp.confirmationView.hidden = NO;
   
@@ -210,13 +137,139 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(GenericPopupController);
 	[invocation setSelector:cancelSelector];
   gp.cancelInvocation = invocation;
   
-  [gpc displayPopup];
-  
   return gp;
 }
 
-- (void) openAppStoreLink {
-  [[UIApplication sharedApplication] openURL:[NSURL URLWithString:self.appStoreLink]];
+- (void) close {
+  [UIView animateWithDuration:0.7f delay:0.f options:UIViewAnimationOptionCurveEaseInOut animations:^{
+    CGAffineTransform t = CGAffineTransformIdentity;
+    t = CGAffineTransformScale(t, 0.75f, 0.75f);
+    t = CGAffineTransformRotate(t, DISAPPEAR_ROTATION_ANGLE);
+    self.mainView.transform = t;
+    self.mainView.center = CGPointMake(self.mainView.center.x-70, self.mainView.center.y+350);
+    self.bgdView.alpha = 0.f;
+  } completion:^(BOOL finished) {
+    [self removeFromParentViewController];
+    [self.view removeFromSuperview];
+  }];
+}
+
+- (IBAction)redOkayClicked:(id)sender {
+  [self.okInvocation invoke];
+  [self close];
+}
+
+- (IBAction)greenOkayClicked:(id)sender {
+  [self.okInvocation invoke];
+  [self close];
+}
+
+- (IBAction)cancelClicked:(id)sender {
+  [self.cancelInvocation invoke];
+  [self close];
+}
+
+- (void) touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event {
+  [self.view endEditing:YES];
+}
+
+#pragma mark -
+
+- (void) viewWillAppear:(BOOL)animated {
+  [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(statusBarFrameOrOrientationChanged:) name:UIApplicationDidChangeStatusBarOrientationNotification object:nil];
+  [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(statusBarFrameOrOrientationChanged:) name:UIApplicationDidChangeStatusBarFrameNotification object:nil];
+}
+
+- (void) viewDidAppear:(BOOL)animated {
+  [self rotateAccordingToStatusBarOrientationAndSupportedOrientations];
+}
+
+- (void) viewDidDisappear:(BOOL)animated {
+  [[NSNotificationCenter defaultCenter] removeObserver:self];
+}
+
+- (void)statusBarFrameOrOrientationChanged:(NSNotification *)notification
+{
+  /*
+   This notification is most likely triggered inside an animation block,
+   therefore no animation is needed to perform this nice transition.
+   */
+  [self rotateAccordingToStatusBarOrientationAndSupportedOrientations];
+}
+
+- (void)rotateAccordingToStatusBarOrientationAndSupportedOrientations
+{
+  UIInterfaceOrientation statusBarOrientation = [UIApplication sharedApplication].statusBarOrientation;
+  CGFloat angle = UIInterfaceOrientationAngleOfOrientation(statusBarOrientation);
+  CGFloat statusBarHeight = [[self class] getStatusBarHeight];
+  
+  CGAffineTransform transform = CGAffineTransformMakeRotation(angle);
+  CGRect frame = [[self class] rectInWindowBounds:self.view.window.bounds statusBarOrientation:statusBarOrientation statusBarHeight:statusBarHeight];
+  
+  [self setIfNotEqualTransform:transform frame:frame];
+}
+
+- (void)setIfNotEqualTransform:(CGAffineTransform)transform frame:(CGRect)frame
+{
+  if(!CGAffineTransformEqualToTransform(self.view.transform, transform))
+  {
+    self.view.transform = transform;
+  }
+  if(!CGRectEqualToRect(self.view.frame, frame))
+  {
+    self.view.frame = frame;
+  }
+}
+
++ (CGFloat)getStatusBarHeight
+{
+  UIInterfaceOrientation orientation = [UIApplication sharedApplication].statusBarOrientation;
+  if(UIInterfaceOrientationIsLandscape(orientation))
+  {
+    return [UIApplication sharedApplication].statusBarFrame.size.width;
+  }
+  else
+  {
+    return [UIApplication sharedApplication].statusBarFrame.size.height;
+  }
+}
+
++ (CGRect)rectInWindowBounds:(CGRect)windowBounds statusBarOrientation:(UIInterfaceOrientation)statusBarOrientation statusBarHeight:(CGFloat)statusBarHeight
+{
+  CGRect frame = windowBounds;
+  frame.origin.x += statusBarOrientation == UIInterfaceOrientationLandscapeLeft ? statusBarHeight : 0;
+  frame.origin.y += statusBarOrientation == UIInterfaceOrientationPortrait ? statusBarHeight : 0;
+  frame.size.width -= UIInterfaceOrientationIsLandscape(statusBarOrientation) ? statusBarHeight : 0;
+  frame.size.height -= UIInterfaceOrientationIsPortrait(statusBarOrientation) ? statusBarHeight : 0;
+  return frame;
+}
+
+CGFloat UIInterfaceOrientationAngleOfOrientation(UIInterfaceOrientation orientation)
+{
+  CGFloat angle;
+  
+  switch (orientation)
+  {
+    case UIInterfaceOrientationPortraitUpsideDown:
+      angle = M_PI;
+      break;
+    case UIInterfaceOrientationLandscapeLeft:
+      angle = -M_PI_2;
+      break;
+    case UIInterfaceOrientationLandscapeRight:
+      angle = M_PI_2;
+      break;
+    default:
+      angle = 0.0;
+      break;
+  }
+  
+  return angle;
+}
+
+UIInterfaceOrientationMask UIInterfaceOrientationMaskFromOrientation(UIInterfaceOrientation orientation)
+{
+  return 1 << orientation;
 }
 
 @end

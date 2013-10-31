@@ -20,15 +20,21 @@
 }
 
 - (void) loadOverlayMask {
-  UIView *view = self.cardContainer.monsterCardView.mainView;
-  UIGraphicsBeginImageContextWithOptions(view.bounds.size, view.opaque, 0.0);
-  [view.layer renderInContext:UIGraphicsGetCurrentContext()];
-  UIImage *image = UIGraphicsGetImageFromCurrentImageContext();
-  UIGraphicsEndImageContext();
-  
-  self.overlayMask.image = [Globals maskImage:image withColor:[UIColor colorWithWhite:0.f alpha:0.5f]];
-  
-  self.overlayMask.frame = [self.overlayView convertRect:self.cardContainer.monsterCardView.mainView.frame fromView:self.cardContainer.monsterCardView];
+  // _overlayMaskStatus: 0 = unloaded, 1 = no rarity tag, 2 = rarity tag
+  int curStatus = self.cardContainer.monsterCardView.qualityBgdView.hidden ? 1 : 2;
+  if (curStatus != _overlayMaskStatus) {
+    UIView *view = self.cardContainer.monsterCardView.mainView;
+    UIGraphicsBeginImageContext(view.bounds.size);
+    [view.layer renderInContext:UIGraphicsGetCurrentContext()];
+    UIImage *image = UIGraphicsGetImageFromCurrentImageContext();
+    UIGraphicsEndImageContext();
+    
+    self.overlayMask.image = [Globals maskImage:image withColor:[UIColor colorWithWhite:0.f alpha:0.5f]];
+    
+    self.overlayMask.frame = [self.overlayView convertRect:self.cardContainer.monsterCardView.mainView.frame fromView:self.cardContainer.monsterCardView];
+    
+    _overlayMaskStatus = curStatus;
+  }
 }
 
 - (void) updateForUserMonster:(UserMonster *)monster withBaseMonster:(EnhancementItem *)base {
@@ -77,7 +83,7 @@
   [self.delegate enhanceClicked:self];
 }
 
-- (void) equipViewSelected:(MonsterCardView *)view {
+- (void) monsterCardSelected:(MonsterCardView *)view {
   [self.delegate cardClicked:self];
 }
 
@@ -159,7 +165,7 @@
   self.queueTable.delegate = self;
   self.queueTable.tableView.separatorColor = [UIColor clearColor];
   self.queueTable.transform = CGAffineTransformMakeScale(-1, 1);
-  self.queueTable.tableView.bounces = NO;
+//  self.queueTable.tableView.bounces = NO;
   [self.tableContainerView addSubview:self.queueTable];
 }
 
@@ -202,16 +208,20 @@
     UserMonster *um = [gs myMonsterWithUserMonsterId:ue.baseMonster.userMonsterId];
     MonsterProto *mp = [gs monsterWithId:um.monsterId];
     
-    self.nameLabel.text = mp.displayName;
-    self.levelLabel.text = [NSString stringWithFormat:@"Lvl %d", (int)um.enhancementPercentage];
-    
     float curPerc = [ue currentPercentageOfLevel];
     float newPerc = [ue finalPercentageFromCurrentLevel];
     float delta = newPerc-curPerc;
     
+    int additionalLevel = (int)curPerc;
+    curPerc = curPerc-additionalLevel;
+    newPerc = newPerc-additionalLevel;
+    
+    self.nameLabel.text = mp.displayName;
+    self.levelLabel.text = [NSString stringWithFormat:@"Lvl %d", um.level+additionalLevel];
+    
     self.orangeBar.percentage = curPerc;
     self.yellowBar.percentage = newPerc;
-    NSString *deltaString = delta > 0 ? [NSString stringWithFormat:@" + %d%%", (int)ceilf(delta*100)] : @"";
+    NSString *deltaString = delta > 0 ? [NSString stringWithFormat:@" + %@%%", [Globals commafyNumber:(int)ceilf(delta*100)]] : @"";
     self.percentLabel.text = [NSString stringWithFormat:@"%d%%%@", (int)floorf(curPerc*100), deltaString];
     
     self.mainView.hidden = NO;

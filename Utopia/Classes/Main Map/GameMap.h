@@ -12,7 +12,8 @@
 #import "AnimatedSprite.h"
 #import "Drops.h"
 #import "DecorationLayer.h"
-#import "MyPlayer.h"
+#import "MyTeamSprite.h"
+#import "MapBotView.h"
 
 #define OVER_HOME_BUILDING_MENU_OFFSET 5.f
 
@@ -43,24 +44,12 @@
 
 @end
 
-@interface EnemyPopupView : UIView
-
-@property (nonatomic, retain) IBOutlet UILabel *nameLabel;
-@property (nonatomic, retain) IBOutlet UILabel *levelLabel;
-@property (nonatomic, retain) IBOutlet UIImageView *imageIcon;
-@property (nonatomic, retain) IBOutlet UIView *enemyView;
-@property (nonatomic, retain) IBOutlet UIView *allyView;
-
-@end
-
 @interface GameMap : CCTMXTiledMap {
   NSMutableArray *_mapSprites;
   NSMutableArray *_walkableData;
   
   CGPoint bottomLeftCorner;
   CGPoint topRightCorner;
-  
-  MyPlayer *_myPlayer;
 }
 
 @property (nonatomic, assign) SelectableSprite *selected;
@@ -77,15 +66,18 @@
 
 @property (nonatomic, assign) int cityId;
 
+@property (nonatomic, retain) NSMutableArray *myTeamSprites;
+
 // This will be used to replace the chat view in the top bar
-@property (nonatomic, assign) UIView *bottomOptionView;
+@property (nonatomic, assign) MapBotView *bottomOptionView;
 
 + (id) tiledMapWithTMXFile:(NSString*)tmxFile;
 - (id) initWithTMXFile:(NSString *)tmxFile;
 - (CGPoint)convertVectorToGL:(CGPoint)uiPoint;
 - (void) doReorder;
 - (SelectableSprite *) selectableForPt:(CGPoint)pt;
-- (void) layerWillDisappear;
+
+- (void) setupTeamSprites;
 
 - (void) pickUpAllDrops;
 
@@ -93,8 +85,10 @@
 - (void) moveToSprite:(CCSprite *)spr animated:(BOOL)animated;
 - (float) moveToSprite:(CCSprite *)spr animated:(BOOL)animated withOffset:(CGPoint)offset;
 
+- (BOOL) isTileCoordWalkable:(CGPoint)pt;
 - (CGPoint) randomWalkablePosition;
 - (CGPoint) nextWalkablePositionFromPoint:(CGPoint)point prevPoint:(CGPoint)prevPt;
+- (NSArray *) walkableAdjacentTilesCoordForTileCoord:(CGPoint)tileCoord;
 
 - (void) drag:(UIGestureRecognizer*)recognizer node:(CCNode*)node;
 - (void) tap:(UIGestureRecognizer*)recognizer node:(CCNode*)node;

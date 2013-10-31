@@ -31,16 +31,27 @@
 {
 	if(self = [super init])
 	{
-		consumer = theConsumer;
+		consumer = [theConsumer retain];
 	}
 	
 	return self;
 }
+- (void)dealloc
+{
+	[consumer release];
+	
+	[super dealloc];
+}
 
 - (void)main
 {
+	NSAutoreleasePool *localPool;
+	
 	while(![self isCancelled])
 	{
+		localPool = [[NSAutoreleasePool alloc] init];
+//    NSLog(@"Next");
+		
     amqp_connection_state_t conn = consumer.channel.connection.internalConnection;
     if (amqp_data_in_buffer(conn) || amqp_frames_enqueued(conn)) {
       AMQPMessage *message = [consumer pop];
@@ -49,6 +60,8 @@
         [delegate performSelectorOnMainThread:@selector(amqpConsumerThreadReceivedNewMessage:) withObject:message waitUntilDone:NO];
       }
     }
+		
+		[localPool drain];
 	}
 }
 

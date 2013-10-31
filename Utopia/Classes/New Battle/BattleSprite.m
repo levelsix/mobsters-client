@@ -12,6 +12,8 @@
 #import "Globals.h"
 #import "CCSoundAnimation.h"
 #import "SoundEngine.h"
+#import "Downloader.h"
+#import "CCFileUtils.h"
 
 #define ANIMATATION_DELAY 0.07f
 #define MAX_SHOTS 5
@@ -25,7 +27,7 @@
     
     self.sprite = [CCSprite node];
     [self addChild:_sprite z:5 tag:9999];
-    self.sprite.position = ccp(self.contentSize.width/2, self.contentSize.height/2);
+    self.sprite.position = ccp(self.contentSize.width/2, self.contentSize.height/2-10);
     
     CCSprite *s = [CCSprite spriteWithFile:@"shadow.png"];
     [self addChild:s];
@@ -34,6 +36,22 @@
     self.anchorPoint = ccp(0.5, 0);
     
     self.isFacingNear = YES;
+    
+    self.healthBgd = [CCSprite spriteWithFile:@"minitimebg.png"];
+    [self addChild:self.healthBgd z:2];
+    self.healthBgd.position = ccp(self.contentSize.width/2+140, 290);
+    
+    self.healthBar = [CCProgressTimer progressWithSprite:[CCSprite spriteWithFile:@"minitimebar.png"]];
+    [self.healthBgd addChild:self.healthBar];
+    self.healthBar.position = ccp(self.healthBgd.contentSize.width/2, self.healthBgd.contentSize.height/2);
+    self.healthBar.type = kCCProgressTimerTypeBar;
+    self.healthBar.midpoint = ccp(1, 0.5);
+    self.healthBar.barChangeRate = ccp(1,0);
+    self.healthBar.percentage = 90;
+    
+    self.healthLabel = [CCLabelTTF labelWithString:@"31/100" fontName:[Globals font] fontSize:10];
+    [self.healthBgd addChild:self.healthLabel];
+    self.healthLabel.position = ccp(self.healthBgd.contentSize.width/2, self.healthBgd.contentSize.height);
   }
   return self;
 }
@@ -65,7 +83,7 @@
 
 - (CCAnimation *) attackAnimationN {
   if (!_attackAnimationN) {
-    [[CCSpriteFrameCache sharedSpriteFrameCache] addSpriteFramesWithFile:[NSString stringWithFormat:@"%@Attack.plist", self.prefix]];
+    [[CCSpriteFrameCache sharedSpriteFrameCache] addSpriteFramesWithFile:[NSString stringWithFormat:@"%@AttackNF.plist", self.prefix]];
     NSString *p = [NSString stringWithFormat:@"%@AttackN", self.prefix];
     self.attackAnimationN = [CCAnimation animationWithSpritePrefix:p delay:ANIMATATION_DELAY];
   }
@@ -74,7 +92,7 @@
 
 - (CCAnimation *) attackAnimationF {
   if (!_attackAnimationF) {
-    [[CCSpriteFrameCache sharedSpriteFrameCache] addSpriteFramesWithFile:[NSString stringWithFormat:@"%@Attack.plist", self.prefix]];
+    [[CCSpriteFrameCache sharedSpriteFrameCache] addSpriteFramesWithFile:[NSString stringWithFormat:@"%@AttackNF.plist", self.prefix]];
     NSString *p = [NSString stringWithFormat:@"%@AttackF", self.prefix];
     self.attackAnimationF = [CCAnimation animationWithSpritePrefix:p delay:ANIMATATION_DELAY];
   }
@@ -83,7 +101,7 @@
 
 - (CCAnimation *) flinchAnimationN {
   if (!_flinchAnimationN) {
-    [[CCSpriteFrameCache sharedSpriteFrameCache] addSpriteFramesWithFile:[NSString stringWithFormat:@"%@Attack.plist", self.prefix]];
+    [[CCSpriteFrameCache sharedSpriteFrameCache] addSpriteFramesWithFile:[NSString stringWithFormat:@"%@AttackNF.plist", self.prefix]];
     NSString *p = [NSString stringWithFormat:@"%@FlinchN", self.prefix];
     self.flinchAnimationN = [CCAnimation animationWithSpritePrefix:p delay:ANIMATATION_DELAY];
   }
@@ -99,19 +117,21 @@
 }
 
 - (void) beginWalking {
-  self.sprite.flipX = YES;
-  [self.sprite runAction:self.walkActionF];
-  self.isWalking = YES;
-  
-  CCSequence *seq = [CCSequence actions:
-                     [CCCallBlock actionWithBlock:
-                      ^{
-                        [[SoundEngine sharedSoundEngine] puzzleWalking];
-                      }],
-                     [CCDelayTime actionWithDuration:0.9], nil];
-  CCRepeatForever *r = [CCRepeatForever actionWithAction:seq];
-  r.tag = 7654;
-  [self runAction:r];
+  if (!self.isWalking) {
+    self.sprite.flipX = !self.isFacingNear;
+    [self.sprite runAction:self.isFacingNear ? self.walkActionN : self.walkActionF];
+    self.isWalking = YES;
+    
+    CCSequence *seq = [CCSequence actions:
+                       [CCCallBlock actionWithBlock:
+                        ^{
+                          [[SoundEngine sharedSoundEngine] puzzleWalking];
+                        }],
+                       [CCDelayTime actionWithDuration:0.9], nil];
+    CCRepeatForever *r = [CCRepeatForever actionWithAction:seq];
+    r.tag = 7654;
+    [self runAction:r];
+  }
 }
 
 - (void) stopWalking {

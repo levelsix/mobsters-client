@@ -112,6 +112,7 @@ typedef enum {
 @interface ProgressBar : UIImageView
 
 @property (nonatomic, assign) float percentage;
+@property (nonatomic, assign) BOOL isReverse;
 
 @end
 
@@ -249,5 +250,12 @@ typedef enum {
 @property (nonatomic, assign) IBOutlet id<UnderlinedLabelDelegate> delegate;
 
 - (void)setString:(NSString *)string isEnabled:(BOOL)isEnabled;
+
+@end
+
+@interface CheckboxView : UIView
+
+@property (nonatomic, retain) IBOutlet UIImageView *checkmark;
+@property (nonatomic, assign) int isChecked;
 
 @end

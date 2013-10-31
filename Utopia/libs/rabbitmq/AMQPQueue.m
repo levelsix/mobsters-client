@@ -60,7 +60,7 @@
     LNLog(@"AMQP: Began queue %@", theName);
 		
 		queueName = amqp_bytes_malloc_dup(declaration->queue);
-		channel = theChannel;
+		channel = [theChannel retain];
 	}
 	
 	return self;
@@ -69,6 +69,9 @@
 - (void)dealloc
 {
 	amqp_bytes_free(queueName);
+	[channel release];
+	
+	[super dealloc];
 }
 
 - (void)bindToExchange:(AMQPExchange*)theExchange withKey:(NSString*)bindingKey
@@ -88,7 +91,7 @@
 {
 	AMQPConsumer *consumer = [[AMQPConsumer alloc] initForQueue:self onChannel:channel useAcknowledgements:ack isExclusive:exclusive receiveLocalMessages:local];
 	
-	return consumer;
+	return [consumer autorelease];
 }
 
 @end

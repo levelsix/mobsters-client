@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="4510" systemVersion="12F45" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="4514" systemVersion="12F45" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none">
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="3742"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="3746"/>
     </dependencies>
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="MonsterPopUpViewController">
@@ -14,12 +14,13 @@
                 <outlet property="earthView" destination="AyA-5F-Xhg" id="OZs-EV-gro"/>
                 <outlet property="elementType" destination="6jd-pB-Bp7" id="zmL-yR-7fD"/>
                 <outlet property="elementView" destination="SEv-1p-KQq" id="UFf-5g-XHt"/>
+                <outlet property="enhanceLabel" destination="feH-Ia-E0C" id="Gcl-Bt-lEv"/>
                 <outlet property="fireView" destination="26B-fs-soA" id="qwG-Ns-2Ye"/>
                 <outlet property="hpLabel" destination="ARF-RD-0va" id="ZHz-nM-CJL"/>
                 <outlet property="infoButton" destination="FSt-Pc-7ID" id="R3J-F0-aKF"/>
                 <outlet property="lightView" destination="h07-Ut-0in" id="LH7-21-I47"/>
                 <outlet property="mainView" destination="5" id="69"/>
-                <outlet property="monsterDescription" destination="9" id="Ixh-pf-xAO"/>
+                <outlet property="monsterDescription" destination="9" id="zKd-ee-OtT"/>
                 <outlet property="monsterImageView" destination="12" id="pEj-nn-5r0"/>
                 <outlet property="monsterNameLabel" destination="7" id="qmE-Ci-BCX"/>
                 <outlet property="nightView" destination="Kz1-fl-bVb" id="Ogc-x8-5LH"/>
@@ -50,8 +51,10 @@
                             <rect key="frame" x="136" y="20" width="212" height="32"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             <fontDescription key="fontDescription" type="system" pointSize="21"/>
-                            <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
+                            <color key="textColor" white="0.0" alpha="0.80000000000000004" colorSpace="calibratedWhite"/>
                             <nil key="highlightedColor"/>
+                            <color key="shadowColor" white="1" alpha="0.5" colorSpace="calibratedWhite"/>
+                            <size key="shadowOffset" width="0.0" height="1"/>
                         </label>
                         <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" minimumFontSize="7" id="9" customClass="NiceFontLabel">
                             <rect key="frame" x="82" y="252" width="321" height="42"/>

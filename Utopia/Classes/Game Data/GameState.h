@@ -48,7 +48,6 @@
 @property (nonatomic, retain) NSMutableDictionary *staticStructs;
 @property (nonatomic, retain) NSMutableDictionary *staticMonsters;
 @property (nonatomic, retain) NSMutableDictionary *staticTasks;
-@property (nonatomic, retain) NSMutableDictionary *staticQuests;
 @property (nonatomic, retain) NSMutableDictionary *staticCities;
 @property (nonatomic, retain) NSMutableDictionary *staticBuildStructJobs;
 @property (nonatomic, retain) NSMutableDictionary *staticDefeatTypeJobs;
@@ -59,6 +58,7 @@
 
 @property (nonatomic, retain) NSMutableArray *myMonsters;
 @property (nonatomic, retain) NSMutableArray *myStructs;
+@property (nonatomic, retain) NSMutableDictionary *myQuests;
 
 @property (nonatomic, retain) NSMutableArray *monsterHealingQueue;
 
@@ -83,7 +83,7 @@
 
 @property (nonatomic, retain) UserEnhancement *userEnhancement;
 
-@property (nonatomic, retain) NSMutableDictionary *levelRequiredExps;
+@property (nonatomic, retain) NSMutableDictionary *staticLevelInfos;
 
 + (GameState *) sharedGameState;
 + (void) purgeSingleton;
@@ -96,12 +96,13 @@
 - (FullStructureProto *) structWithId:(int)structId;
 - (FullCityProto *)cityWithId:(int)cityId;
 - (FullTaskProto *) taskWithId:(int)taskId;
-- (FullQuestProto *) questForQuestId:(int)questId;
+- (FullQuestProto *) questForId:(int)questId;
 - (BoosterPackProto *) boosterPackForId:(int)packId;
 - (MonsterProto *) monsterWithId:(int)monsterId;
 
 - (void) addToMyStructs:(NSArray *)myStructs;
 - (void) addToMyMonsters:(NSArray *)myMonsters;
+- (void) addToMyQuests:(NSArray *)quests;
 - (void) addToAvailableQuests:(NSArray *)quests;
 - (void) addToInProgressCompleteQuests:(NSArray *)quests;
 - (void) addToInProgressIncompleteQuests:(NSArray *)quests;
@@ -109,7 +110,7 @@
 - (void) addChatMessage:(MinimumUserProto *)sender message:(NSString *)msg scope:(GroupChatScope)scope isAdmin:(BOOL)isAdmin;
 - (void) addChatMessage:(ChatMessage *)cm scope:(GroupChatScope) scope;
 - (void) addBoosterPurchase:(RareBoosterPurchaseProto *)bp;
-- (void) addAllLevelRequiredExps:(NSArray *)lurep;
+- (void) addToStaticLevelInfos:(NSArray *)lurep;
 
 - (void) addUserMonsterHealingItemToEndOfQueue:(UserMonsterHealingItem *)item;
 - (void) removeUserMonsterHealingItem:(UserMonsterHealingItem *)item;
@@ -123,11 +124,12 @@
 - (UserMonster *) myMonsterWithSlotNumber:(int)slotNum;
 - (NSArray *) allMonstersOnMyTeam;
 - (UserStruct *) myStructWithId:(int)structId;
+- (UserQuest *) myQuestWithId:(int)questId;
+- (NSArray *) allCurrentQuests;
 
 - (void) addToStaticStructs:(NSArray *)arr;
 - (void) addToStaticMonsters:(NSArray *)arr;
 - (void) addToStaticTasks:(NSArray *)arr;
-- (void) addToStaticQuests:(NSArray *)arr;
 - (void) addToStaticCities:(NSArray *)arr;
 - (void) addToStaticBuildStructJobs:(NSArray *)arr;
 - (void) addToStaticUpgradeStructJobs:(NSArray *)arr;
@@ -139,6 +141,7 @@
 - (void) removeFullUserUpdatesForTag:(int)tag;
 - (void) removeNonFullUserUpdatesForTag:(int)tag;
 
+- (int) maxCashForLevel:(int)level;
 - (int) expNeededForLevel:(int)level;
 - (int) currentExpForLevel;
 - (int) expDeltaNeededForNextLevel;

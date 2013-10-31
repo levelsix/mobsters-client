@@ -11,8 +11,6 @@
 @class BoosterPackProto_Builder;
 @class FullUserProto;
 @class FullUserProto_Builder;
-@class LevelAndRequiredExpProto;
-@class LevelAndRequiredExpProto_Builder;
 @class MinimumClanProto;
 @class MinimumClanProto_Builder;
 @class MinimumUserProto;
@@ -31,6 +29,8 @@
 @class RetrieveBoosterPackRequestProto_Builder;
 @class RetrieveBoosterPackResponseProto;
 @class RetrieveBoosterPackResponseProto_Builder;
+@class StaticLevelInfoProto;
+@class StaticLevelInfoProto_Builder;
 typedef enum {
   RetrieveBoosterPackResponseProto_RetrieveBoosterPackStatusSuccess = 1,
   RetrieveBoosterPackResponseProto_RetrieveBoosterPackStatusSomeFail = 2,

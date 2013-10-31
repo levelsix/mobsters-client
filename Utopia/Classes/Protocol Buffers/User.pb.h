@@ -4,14 +4,14 @@
 
 @class FullUserProto;
 @class FullUserProto_Builder;
-@class LevelAndRequiredExpProto;
-@class LevelAndRequiredExpProto_Builder;
 @class MinimumClanProto;
 @class MinimumClanProto_Builder;
 @class MinimumUserProto;
 @class MinimumUserProtoWithLevel;
 @class MinimumUserProtoWithLevel_Builder;
 @class MinimumUserProto_Builder;
+@class StaticLevelInfoProto;
+@class StaticLevelInfoProto_Builder;
 
 @interface UserRoot : NSObject {
 }
@@ -272,8 +272,8 @@
   BOOL hasNumBeginnerSalesPurchased_:1;
   BOOL hasUserId_:1;
   BOOL hasLevel_:1;
-  BOOL hasDiamonds_:1;
-  BOOL hasCoins_:1;
+  BOOL hasGems_:1;
+  BOOL hasCash_:1;
   BOOL hasExperience_:1;
   BOOL hasTasksCompleted_:1;
   BOOL hasBattlesWon_:1;
@@ -311,8 +311,8 @@
   int32_t numBeginnerSalesPurchased;
   int32_t userId;
   int32_t level;
-  int32_t diamonds;
-  int32_t coins;
+  int32_t gems;
+  int32_t cash;
   int32_t experience;
   int32_t tasksCompleted;
   int32_t battlesWon;
@@ -332,8 +332,8 @@
 - (BOOL) hasUserId;
 - (BOOL) hasName;
 - (BOOL) hasLevel;
-- (BOOL) hasDiamonds;
-- (BOOL) hasCoins;
+- (BOOL) hasGems;
+- (BOOL) hasCash;
 - (BOOL) hasExperience;
 - (BOOL) hasTasksCompleted;
 - (BOOL) hasBattlesWon;
@@ -371,8 +371,8 @@
 @property (readonly) int32_t userId;
 @property (readonly, retain) NSString* name;
 @property (readonly) int32_t level;
-@property (readonly) int32_t diamonds;
-@property (readonly) int32_t coins;
+@property (readonly) int32_t gems;
+@property (readonly) int32_t cash;
 @property (readonly) int32_t experience;
 @property (readonly) int32_t tasksCompleted;
 @property (readonly) int32_t battlesWon;
@@ -457,15 +457,15 @@
 - (FullUserProto_Builder*) setLevel:(int32_t) value;
 - (FullUserProto_Builder*) clearLevel;
 
-- (BOOL) hasDiamonds;
-- (int32_t) diamonds;
-- (FullUserProto_Builder*) setDiamonds:(int32_t) value;
-- (FullUserProto_Builder*) clearDiamonds;
+- (BOOL) hasGems;
+- (int32_t) gems;
+- (FullUserProto_Builder*) setGems:(int32_t) value;
+- (FullUserProto_Builder*) clearGems;
 
-- (BOOL) hasCoins;
-- (int32_t) coins;
-- (FullUserProto_Builder*) setCoins:(int32_t) value;
-- (FullUserProto_Builder*) clearCoins;
+- (BOOL) hasCash;
+- (int32_t) cash;
+- (FullUserProto_Builder*) setCash:(int32_t) value;
+- (FullUserProto_Builder*) clearCash;
 
 - (BOOL) hasExperience;
 - (int32_t) experience;
@@ -640,60 +640,69 @@
 - (FullUserProto_Builder*) clearKabamNaid;
 @end
 
-@interface LevelAndRequiredExpProto : PBGeneratedMessage {
+@interface StaticLevelInfoProto : PBGeneratedMessage {
 @private
   BOOL hasLevel_:1;
   BOOL hasRequiredExperience_:1;
+  BOOL hasMaxCash_:1;
   int32_t level;
   int32_t requiredExperience;
+  int32_t maxCash;
 }
 - (BOOL) hasLevel;
 - (BOOL) hasRequiredExperience;
+- (BOOL) hasMaxCash;
 @property (readonly) int32_t level;
 @property (readonly) int32_t requiredExperience;
+@property (readonly) int32_t maxCash;
 
-+ (LevelAndRequiredExpProto*) defaultInstance;
-- (LevelAndRequiredExpProto*) defaultInstance;
++ (StaticLevelInfoProto*) defaultInstance;
+- (StaticLevelInfoProto*) defaultInstance;
 
 - (BOOL) isInitialized;
 - (void) writeToCodedOutputStream:(PBCodedOutputStream*) output;
-- (LevelAndRequiredExpProto_Builder*) builder;
-+ (LevelAndRequiredExpProto_Builder*) builder;
-+ (LevelAndRequiredExpProto_Builder*) builderWithPrototype:(LevelAndRequiredExpProto*) prototype;
+- (StaticLevelInfoProto_Builder*) builder;
++ (StaticLevelInfoProto_Builder*) builder;
++ (StaticLevelInfoProto_Builder*) builderWithPrototype:(StaticLevelInfoProto*) prototype;
 
-+ (LevelAndRequiredExpProto*) parseFromData:(NSData*) data;
-+ (LevelAndRequiredExpProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
-+ (LevelAndRequiredExpProto*) parseFromInputStream:(NSInputStream*) input;
-+ (LevelAndRequiredExpProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
-+ (LevelAndRequiredExpProto*) parseFromCodedInputStream:(PBCodedInputStream*) input;
-+ (LevelAndRequiredExpProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (StaticLevelInfoProto*) parseFromData:(NSData*) data;
++ (StaticLevelInfoProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (StaticLevelInfoProto*) parseFromInputStream:(NSInputStream*) input;
++ (StaticLevelInfoProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (StaticLevelInfoProto*) parseFromCodedInputStream:(PBCodedInputStream*) input;
++ (StaticLevelInfoProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
 @end
 
-@interface LevelAndRequiredExpProto_Builder : PBGeneratedMessage_Builder {
+@interface StaticLevelInfoProto_Builder : PBGeneratedMessage_Builder {
 @private
-  LevelAndRequiredExpProto* result;
+  StaticLevelInfoProto* result;
 }
 
-- (LevelAndRequiredExpProto*) defaultInstance;
+- (StaticLevelInfoProto*) defaultInstance;
 
-- (LevelAndRequiredExpProto_Builder*) clear;
-- (LevelAndRequiredExpProto_Builder*) clone;
+- (StaticLevelInfoProto_Builder*) clear;
+- (StaticLevelInfoProto_Builder*) clone;
 
-- (LevelAndRequiredExpProto*) build;
-- (LevelAndRequiredExpProto*) buildPartial;
+- (StaticLevelInfoProto*) build;
+- (StaticLevelInfoProto*) buildPartial;
 
-- (LevelAndRequiredExpProto_Builder*) mergeFrom:(LevelAndRequiredExpProto*) other;
-- (LevelAndRequiredExpProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input;
-- (LevelAndRequiredExpProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+- (StaticLevelInfoProto_Builder*) mergeFrom:(StaticLevelInfoProto*) other;
+- (StaticLevelInfoProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input;
+- (StaticLevelInfoProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
 
 - (BOOL) hasLevel;
 - (int32_t) level;
-- (LevelAndRequiredExpProto_Builder*) setLevel:(int32_t) value;
-- (LevelAndRequiredExpProto_Builder*) clearLevel;
+- (StaticLevelInfoProto_Builder*) setLevel:(int32_t) value;
+- (StaticLevelInfoProto_Builder*) clearLevel;
 
 - (BOOL) hasRequiredExperience;
 - (int32_t) requiredExperience;
-- (LevelAndRequiredExpProto_Builder*) setRequiredExperience:(int32_t) value;
-- (LevelAndRequiredExpProto_Builder*) clearRequiredExperience;
+- (StaticLevelInfoProto_Builder*) setRequiredExperience:(int32_t) value;
+- (StaticLevelInfoProto_Builder*) clearRequiredExperience;
+
+- (BOOL) hasMaxCash;
+- (int32_t) maxCash;
+- (StaticLevelInfoProto_Builder*) setMaxCash:(int32_t) value;
+- (StaticLevelInfoProto_Builder*) clearMaxCash;
 @end
 

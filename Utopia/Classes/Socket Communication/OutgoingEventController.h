@@ -40,10 +40,10 @@
 
 - (void) levelUp;
 
-- (void) acceptQuest:(int)questId;
-- (void) redeemQuest:(int)questId;
-- (void) retrieveQuestLog;
-- (void) retrieveQuestDetails:(int)questId;
+- (UserQuest *) acceptQuest:(int)questId;
+- (void) redeemQuest:(int)questId delegate:(id)delegate;
+- (void) questProgress:(int)questId;
+- (UserQuest *) donateForQuest:(int)questId monsterIds:(NSArray *)monsterIds;
 
 - (void) retrieveUsersForUserIds:(NSArray *)userIds;
 
@@ -73,6 +73,8 @@
 - (void) retrievePrivateChatPosts:(int)otherUserId;
 
 - (void) beginDungeon:(int)taskId withDelegate:(id)delegate;
+- (void) updateMonsterHealth:(int)userMonsterId curHealth:(int)curHealth;
+- (void) endDungeon:(BeginDungeonResponseProto *)dungeonInfo userWon:(BOOL)userWon delegate:(id)delegate;
 
 - (void) removeMonsterFromTeam:(int)userMonsterId;
 - (void) addMonsterToTeam:(int)userMonsterId;

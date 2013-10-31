@@ -34,12 +34,12 @@ BOOL StructOrientationIsValidValue(StructOrientation value) {
 @property int32_t income;
 @property int32_t minutesToGain;
 @property int32_t minutesToBuild;
-@property int32_t coinPrice;
-@property int32_t diamondPrice;
+@property int32_t cashPrice;
+@property int32_t gemPrice;
 @property int32_t minLevel;
 @property int32_t xLength;
 @property int32_t yLength;
-@property int32_t instaBuildDiamondCost;
+@property int32_t instaBuildGemCost;
 @property int32_t imgVerticalPixelOffset;
 @property int32_t successorStructId;
 @end
@@ -81,20 +81,20 @@ BOOL StructOrientationIsValidValue(StructOrientation value) {
   hasMinutesToBuild_ = !!value;
 }
 @synthesize minutesToBuild;
-- (BOOL) hasCoinPrice {
-  return !!hasCoinPrice_;
+- (BOOL) hasCashPrice {
+  return !!hasCashPrice_;
 }
-- (void) setHasCoinPrice:(BOOL) value {
-  hasCoinPrice_ = !!value;
+- (void) setHasCashPrice:(BOOL) value {
+  hasCashPrice_ = !!value;
 }
-@synthesize coinPrice;
-- (BOOL) hasDiamondPrice {
-  return !!hasDiamondPrice_;
+@synthesize cashPrice;
+- (BOOL) hasGemPrice {
+  return !!hasGemPrice_;
 }
-- (void) setHasDiamondPrice:(BOOL) value {
-  hasDiamondPrice_ = !!value;
+- (void) setHasGemPrice:(BOOL) value {
+  hasGemPrice_ = !!value;
 }
-@synthesize diamondPrice;
+@synthesize gemPrice;
 - (BOOL) hasMinLevel {
   return !!hasMinLevel_;
 }
@@ -116,13 +116,13 @@ BOOL StructOrientationIsValidValue(StructOrientation value) {
   hasYLength_ = !!value;
 }
 @synthesize yLength;
-- (BOOL) hasInstaBuildDiamondCost {
-  return !!hasInstaBuildDiamondCost_;
+- (BOOL) hasInstaBuildGemCost {
+  return !!hasInstaBuildGemCost_;
 }
-- (void) setHasInstaBuildDiamondCost:(BOOL) value {
-  hasInstaBuildDiamondCost_ = !!value;
+- (void) setHasInstaBuildGemCost:(BOOL) value {
+  hasInstaBuildGemCost_ = !!value;
 }
-@synthesize instaBuildDiamondCost;
+@synthesize instaBuildGemCost;
 - (BOOL) hasImgVerticalPixelOffset {
   return !!hasImgVerticalPixelOffset_;
 }
@@ -148,12 +148,12 @@ BOOL StructOrientationIsValidValue(StructOrientation value) {
     self.income = 0;
     self.minutesToGain = 0;
     self.minutesToBuild = 0;
-    self.coinPrice = 0;
-    self.diamondPrice = 0;
+    self.cashPrice = 0;
+    self.gemPrice = 0;
     self.minLevel = 0;
     self.xLength = 0;
     self.yLength = 0;
-    self.instaBuildDiamondCost = 0;
+    self.instaBuildGemCost = 0;
     self.imgVerticalPixelOffset = 0;
     self.successorStructId = 0;
   }
@@ -190,11 +190,11 @@ static FullStructureProto* defaultFullStructureProtoInstance = nil;
   if (self.hasMinutesToBuild) {
     [output writeInt32:5 value:self.minutesToBuild];
   }
-  if (self.hasCoinPrice) {
-    [output writeInt32:7 value:self.coinPrice];
+  if (self.hasCashPrice) {
+    [output writeInt32:7 value:self.cashPrice];
   }
-  if (self.hasDiamondPrice) {
-    [output writeInt32:8 value:self.diamondPrice];
+  if (self.hasGemPrice) {
+    [output writeInt32:8 value:self.gemPrice];
   }
   if (self.hasMinLevel) {
     [output writeInt32:9 value:self.minLevel];
@@ -205,8 +205,8 @@ static FullStructureProto* defaultFullStructureProtoInstance = nil;
   if (self.hasYLength) {
     [output writeInt32:11 value:self.yLength];
   }
-  if (self.hasInstaBuildDiamondCost) {
-    [output writeInt32:12 value:self.instaBuildDiamondCost];
+  if (self.hasInstaBuildGemCost) {
+    [output writeInt32:12 value:self.instaBuildGemCost];
   }
   if (self.hasImgVerticalPixelOffset) {
     [output writeInt32:13 value:self.imgVerticalPixelOffset];
@@ -238,11 +238,11 @@ static FullStructureProto* defaultFullStructureProtoInstance = nil;
   if (self.hasMinutesToBuild) {
     size += computeInt32Size(5, self.minutesToBuild);
   }
-  if (self.hasCoinPrice) {
-    size += computeInt32Size(7, self.coinPrice);
+  if (self.hasCashPrice) {
+    size += computeInt32Size(7, self.cashPrice);
   }
-  if (self.hasDiamondPrice) {
-    size += computeInt32Size(8, self.diamondPrice);
+  if (self.hasGemPrice) {
+    size += computeInt32Size(8, self.gemPrice);
   }
   if (self.hasMinLevel) {
     size += computeInt32Size(9, self.minLevel);
@@ -253,8 +253,8 @@ static FullStructureProto* defaultFullStructureProtoInstance = nil;
   if (self.hasYLength) {
     size += computeInt32Size(11, self.yLength);
   }
-  if (self.hasInstaBuildDiamondCost) {
-    size += computeInt32Size(12, self.instaBuildDiamondCost);
+  if (self.hasInstaBuildGemCost) {
+    size += computeInt32Size(12, self.instaBuildGemCost);
   }
   if (self.hasImgVerticalPixelOffset) {
     size += computeInt32Size(13, self.imgVerticalPixelOffset);
@@ -352,11 +352,11 @@ static FullStructureProto* defaultFullStructureProtoInstance = nil;
   if (other.hasMinutesToBuild) {
     [self setMinutesToBuild:other.minutesToBuild];
   }
-  if (other.hasCoinPrice) {
-    [self setCoinPrice:other.coinPrice];
+  if (other.hasCashPrice) {
+    [self setCashPrice:other.cashPrice];
   }
-  if (other.hasDiamondPrice) {
-    [self setDiamondPrice:other.diamondPrice];
+  if (other.hasGemPrice) {
+    [self setGemPrice:other.gemPrice];
   }
   if (other.hasMinLevel) {
     [self setMinLevel:other.minLevel];
@@ -367,8 +367,8 @@ static FullStructureProto* defaultFullStructureProtoInstance = nil;
   if (other.hasYLength) {
     [self setYLength:other.yLength];
   }
-  if (other.hasInstaBuildDiamondCost) {
-    [self setInstaBuildDiamondCost:other.instaBuildDiamondCost];
+  if (other.hasInstaBuildGemCost) {
+    [self setInstaBuildGemCost:other.instaBuildGemCost];
   }
   if (other.hasImgVerticalPixelOffset) {
     [self setImgVerticalPixelOffset:other.imgVerticalPixelOffset];
@@ -418,11 +418,11 @@ static FullStructureProto* defaultFullStructureProtoInstance = nil;
         break;
       }
       case 56: {
-        [self setCoinPrice:[input readInt32]];
+        [self setCashPrice:[input readInt32]];
         break;
       }
       case 64: {
-        [self setDiamondPrice:[input readInt32]];
+        [self setGemPrice:[input readInt32]];
         break;
       }
       case 72: {
@@ -438,7 +438,7 @@ static FullStructureProto* defaultFullStructureProtoInstance = nil;
         break;
       }
       case 96: {
-        [self setInstaBuildDiamondCost:[input readInt32]];
+        [self setInstaBuildGemCost:[input readInt32]];
         break;
       }
       case 104: {
@@ -532,36 +532,36 @@ static FullStructureProto* defaultFullStructureProtoInstance = nil;
   result.minutesToBuild = 0;
   return self;
 }
-- (BOOL) hasCoinPrice {
-  return result.hasCoinPrice;
+- (BOOL) hasCashPrice {
+  return result.hasCashPrice;
 }
-- (int32_t) coinPrice {
-  return result.coinPrice;
+- (int32_t) cashPrice {
+  return result.cashPrice;
 }
-- (FullStructureProto_Builder*) setCoinPrice:(int32_t) value {
-  result.hasCoinPrice = YES;
-  result.coinPrice = value;
+- (FullStructureProto_Builder*) setCashPrice:(int32_t) value {
+  result.hasCashPrice = YES;
+  result.cashPrice = value;
   return self;
 }
-- (FullStructureProto_Builder*) clearCoinPrice {
-  result.hasCoinPrice = NO;
-  result.coinPrice = 0;
+- (FullStructureProto_Builder*) clearCashPrice {
+  result.hasCashPrice = NO;
+  result.cashPrice = 0;
   return self;
 }
-- (BOOL) hasDiamondPrice {
-  return result.hasDiamondPrice;
+- (BOOL) hasGemPrice {
+  return result.hasGemPrice;
 }
-- (int32_t) diamondPrice {
-  return result.diamondPrice;
+- (int32_t) gemPrice {
+  return result.gemPrice;
 }
-- (FullStructureProto_Builder*) setDiamondPrice:(int32_t) value {
-  result.hasDiamondPrice = YES;
-  result.diamondPrice = value;
+- (FullStructureProto_Builder*) setGemPrice:(int32_t) value {
+  result.hasGemPrice = YES;
+  result.gemPrice = value;
   return self;
 }
-- (FullStructureProto_Builder*) clearDiamondPrice {
-  result.hasDiamondPrice = NO;
-  result.diamondPrice = 0;
+- (FullStructureProto_Builder*) clearGemPrice {
+  result.hasGemPrice = NO;
+  result.gemPrice = 0;
   return self;
 }
 - (BOOL) hasMinLevel {
@@ -612,20 +612,20 @@ static FullStructureProto* defaultFullStructureProtoInstance = nil;
   result.yLength = 0;
   return self;
 }
-- (BOOL) hasInstaBuildDiamondCost {
-  return result.hasInstaBuildDiamondCost;
+- (BOOL) hasInstaBuildGemCost {
+  return result.hasInstaBuildGemCost;
 }
-- (int32_t) instaBuildDiamondCost {
-  return result.instaBuildDiamondCost;
+- (int32_t) instaBuildGemCost {
+  return result.instaBuildGemCost;
 }
-- (FullStructureProto_Builder*) setInstaBuildDiamondCost:(int32_t) value {
-  result.hasInstaBuildDiamondCost = YES;
-  result.instaBuildDiamondCost = value;
+- (FullStructureProto_Builder*) setInstaBuildGemCost:(int32_t) value {
+  result.hasInstaBuildGemCost = YES;
+  result.instaBuildGemCost = value;
   return self;
 }
-- (FullStructureProto_Builder*) clearInstaBuildDiamondCost {
-  result.hasInstaBuildDiamondCost = NO;
-  result.instaBuildDiamondCost = 0;
+- (FullStructureProto_Builder*) clearInstaBuildGemCost {
+  result.hasInstaBuildGemCost = NO;
+  result.instaBuildGemCost = 0;
   return self;
 }
 - (BOOL) hasImgVerticalPixelOffset {

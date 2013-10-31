@@ -20,10 +20,10 @@
 @class FullUserMonsterProto_Builder;
 @class FullUserProto;
 @class FullUserProto_Builder;
-@class LevelAndRequiredExpProto;
-@class LevelAndRequiredExpProto_Builder;
 @class MinimumClanProto;
 @class MinimumClanProto_Builder;
+@class MinimumUserMonsterSellProto;
+@class MinimumUserMonsterSellProto_Builder;
 @class MinimumUserProto;
 @class MinimumUserProtoWithLevel;
 @class MinimumUserProtoWithLevel_Builder;
@@ -36,6 +36,8 @@
 @class ReviveInDungeonRequestProto_Builder;
 @class ReviveInDungeonResponseProto;
 @class ReviveInDungeonResponseProto_Builder;
+@class StaticLevelInfoProto;
+@class StaticLevelInfoProto_Builder;
 @class TaskStageMonsterProto;
 @class TaskStageMonsterProto_Builder;
 @class TaskStageProto;
@@ -309,14 +311,14 @@ BOOL ReviveInDungeonResponseProto_ReviveInDungeonStatusIsValidValue(ReviveInDung
   BOOL hasStatus_:1;
   MinimumUserProto* sender;
   EndDungeonResponseProto_EndDungeonStatus status;
-  NSMutableArray* mutableNewOrUpdatedList;
+  NSMutableArray* mutableUpdatedOrNewList;
 }
 - (BOOL) hasSender;
 - (BOOL) hasStatus;
 @property (readonly, retain) MinimumUserProto* sender;
 @property (readonly) EndDungeonResponseProto_EndDungeonStatus status;
-- (NSArray*) newOrUpdatedList;
-- (FullUserMonsterProto*) newOrUpdatedAtIndex:(int32_t) index;
+- (NSArray*) updatedOrNewList;
+- (FullUserMonsterProto*) updatedOrNewAtIndex:(int32_t) index;
 
 + (EndDungeonResponseProto*) defaultInstance;
 - (EndDungeonResponseProto*) defaultInstance;
@@ -364,12 +366,12 @@ BOOL ReviveInDungeonResponseProto_ReviveInDungeonStatusIsValidValue(ReviveInDung
 - (EndDungeonResponseProto_Builder*) setStatus:(EndDungeonResponseProto_EndDungeonStatus) value;
 - (EndDungeonResponseProto_Builder*) clearStatus;
 
-- (NSArray*) newOrUpdatedList;
-- (FullUserMonsterProto*) newOrUpdatedAtIndex:(int32_t) index;
-- (EndDungeonResponseProto_Builder*) replaceNewOrUpdatedAtIndex:(int32_t) index with:(FullUserMonsterProto*) value;
-- (EndDungeonResponseProto_Builder*) addNewOrUpdated:(FullUserMonsterProto*) value;
-- (EndDungeonResponseProto_Builder*) addAllNewOrUpdated:(NSArray*) values;
-- (EndDungeonResponseProto_Builder*) clearNewOrUpdatedList;
+- (NSArray*) updatedOrNewList;
+- (FullUserMonsterProto*) updatedOrNewAtIndex:(int32_t) index;
+- (EndDungeonResponseProto_Builder*) replaceUpdatedOrNewAtIndex:(int32_t) index with:(FullUserMonsterProto*) value;
+- (EndDungeonResponseProto_Builder*) addUpdatedOrNew:(FullUserMonsterProto*) value;
+- (EndDungeonResponseProto_Builder*) addAllUpdatedOrNew:(NSArray*) values;
+- (EndDungeonResponseProto_Builder*) clearUpdatedOrNewList;
 @end
 
 @interface ReviveInDungeonRequestProto : PBGeneratedMessage {

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="4510" systemVersion="12F45" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="4514" systemVersion="12F45" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none">
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="3742"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="3746"/>
     </dependencies>
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="EnhanceViewController">
@@ -84,7 +84,7 @@
                                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                 </view>
                                 <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="healingarrow.png" id="yzI-4a-v1Z">
-                                    <rect key="frame" x="74" y="22" width="183" height="37"/>
+                                    <rect key="frame" x="74" y="17" width="187" height="47"/>
                                     <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMinY="YES"/>
                                 </imageView>
                                 <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="enhancediver.png" id="Duh-5X-I1o">
@@ -92,7 +92,7 @@
                                     <autoresizingMask key="autoresizingMask"/>
                                 </imageView>
                                 <view contentMode="scaleToFill" id="dNI-AQ-a1C">
-                                    <rect key="frame" x="2.0000000000000151" y="0.0" width="234" height="81"/>
+                                    <rect key="frame" x="2" y="0.0" width="234" height="81"/>
                                     <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMinY="YES"/>
                                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                 </view>
@@ -231,10 +231,10 @@
         <image name="enhancediver.png" width="2" height="71"/>
         <image name="enhancepercentbg.png" width="94" height="16"/>
         <image name="enhanceslot.png" width="59" height="59"/>
-        <image name="finishheal.png" width="81" height="32"/>
+        <image name="finishheal.png" width="71" height="28"/>
         <image name="gm_1.png" width="1200" height="1200"/>
         <image name="healbar.png" width="1" height="81"/>
-        <image name="healingarrow.png" width="183" height="37"/>
+        <image name="healingarrow.png" width="187" height="47"/>
         <image name="healingminibox.png" width="59" height="59"/>
         <image name="mainmenubg.png" width="568" height="320"/>
         <image name="orangebar.png" width="90" height="12"/>

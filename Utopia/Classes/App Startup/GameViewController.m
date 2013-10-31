@@ -32,6 +32,7 @@
 #import "TopBarViewController.h"
 #import "AppDelegate.h"
 #import "DungeonBattleLayer.h"
+#import "Downloader.h"
 
 #define DEFAULT_PNG_IMAGE_VIEW_TAG 103
 #define KINGDOM_PNG_IMAGE_VIEW_TAG 104
@@ -131,6 +132,7 @@
 }
 
 - (void) fadeToLoadingScreen {
+  [[Downloader sharedDownloader] purgeAllDownloadedData];
   LoadingViewController *lvc = [[LoadingViewController alloc] init];
   UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:lvc];
   nav.navigationBarHidden = YES;
@@ -214,18 +216,20 @@
       [hm moveToCenterAnimated:NO];
       self.currentMap = hm;
       
+      [self.topBarViewController showMenuView];
+      
       CCDirector *dir = [CCDirector sharedDirector];
       if (![dir runningScene]) {
         [dir pushScene:scene];
       } else {
-        [[CCDirector sharedDirector] replaceScene:scene];
+        [[CCDirector sharedDirector] replaceScene:[CCTransitionCrossFade transitionWithDuration:0.4f scene:scene]];
       }
     } else {
       [[OutgoingEventController sharedOutgoingEventController] loadNeutralCity:cityId withDelegate:self];
       
       GameState *gs = [GameState sharedGameState];
       FullCityProto *city = [gs cityWithId:cityId];
-      self.loadingView.label.text = [NSString stringWithFormat:@"Traveling to %@", city.name];
+      self.loadingView.label.text = [NSString stringWithFormat:@"Traveling to\n%@", city.name];
       [self.loadingView display:self.view];
     }
   } else {
@@ -243,19 +247,29 @@
   [scene addChild:mm];
   [mm moveToCenterAnimated:NO];
   self.currentMap = mm;
-  [[CCDirector sharedDirector] replaceScene:[CCTransitionCrossFade transitionWithDuration:0.2f scene:scene]];
+  [[CCDirector sharedDirector] replaceScene:[CCTransitionCrossFade transitionWithDuration:0.4f scene:scene]];
+  
+  [self.topBarViewController performSelector:@selector(showMyCityView) withObject:nil afterDelay:0.4];
   
   [self.loadingView stop];
 }
 
-- (void) handleBeginDungeonResponseProto:(FullEvent *)fe {
-  BeginDungeonResponseProto *proto = (BeginDungeonResponseProto *)fe.event;
+- (void) enterDungeon:(int)taskId withDelay:(float)delay {
+  GameState *gs = [GameState sharedGameState];
+  DungeonBattleLayer *bl = [[DungeonBattleLayer alloc] initWithMyUserMonsters:[gs allMonstersOnMyTeam]];
+  bl.delegate = self;
+  [self performSelector:@selector(loadBattleScene:) withObject:bl afterDelay:delay];
+  [[OutgoingEventController sharedOutgoingEventController] beginDungeon:taskId withDelegate:bl];
+}
+
+- (void) loadBattleScene:(DungeonBattleLayer *)bl {
   float duration = 0.6;
   
-  CCScene *bl = [DungeonBattleLayer sceneWithBeginDungeonResponseProto:proto delegate:self];
-  [[CCDirector sharedDirector] pushScene:[CCTransitionCrossFade transitionWithDuration:duration scene:bl]];
+  CCScene *scene = [CCScene node];
+  [scene addChild:bl];
+  [[CCDirector sharedDirector] pushScene:[CCTransitionCrossFade transitionWithDuration:duration scene:scene]];
   
-  [UIView animateWithDuration:duration/2.f+0.1 animations:^{
+  [UIView animateWithDuration:duration animations:^{
     self.topBarViewController.view.alpha = 0.f;
   } completion:^(BOOL finished) {
     self.topBarViewController.view.hidden = YES;
@@ -270,7 +284,7 @@
   [[CCDirector sharedDirector] popSceneWithTransition:[CCTransitionCrossFade class] duration:duration];
   
   self.topBarViewController.view.hidden = NO;
-  [UIView animateWithDuration:duration/2.f+0.1 animations:^{
+  [UIView animateWithDuration:duration animations:^{
     self.topBarViewController.view.alpha = 1.f;
   }];
 }

@@ -19,14 +19,14 @@
 @class InAppPurchaseRequestProto_Builder;
 @class InAppPurchaseResponseProto;
 @class InAppPurchaseResponseProto_Builder;
-@class LevelAndRequiredExpProto;
-@class LevelAndRequiredExpProto_Builder;
 @class MinimumClanProto;
 @class MinimumClanProto_Builder;
 @class MinimumUserProto;
 @class MinimumUserProtoWithLevel;
 @class MinimumUserProtoWithLevel_Builder;
 @class MinimumUserProto_Builder;
+@class StaticLevelInfoProto;
+@class StaticLevelInfoProto_Builder;
 typedef enum {
   InAppPurchaseResponseProto_InAppPurchaseStatusSuccess = 1,
   InAppPurchaseResponseProto_InAppPurchaseStatusFail = 2,

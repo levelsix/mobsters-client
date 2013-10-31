@@ -14,7 +14,7 @@
 
 @protocol MonsterCardViewDelegate <NSObject>
 
-- (void) equipViewSelected:(MonsterCardView *)view;
+- (void) monsterCardSelected:(MonsterCardView *)view;
 
 @end
 

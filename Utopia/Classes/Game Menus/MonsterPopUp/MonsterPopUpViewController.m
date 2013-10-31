@@ -46,15 +46,15 @@
   self.monsterNameLabel.text = proto.displayName;
   self.rarityLabel.text = [Globals stringForRarity:proto.quality];
   self.rarityLabel.textColor = [Globals colorForRarity:proto.quality];
-  self.enhanceLabel.text = [NSString stringWithFormat:@"%d", (int)self.monster.enhancementPercentage];
-  //self.monsterDescription.text = proto.monsterDescription;
+  self.enhanceLabel.text = [NSString stringWithFormat:@"%d", self.monster.level];
+  self.monsterDescription.text = proto.description;
   
-  self.attackLabel.text = [NSString stringWithFormat:@"%d", [gl calculateTotalDamageForMonster:self.monster]];
+  self.attackLabel.text = [Globals commafyNumber:[gl calculateTotalDamageForMonster:self.monster]];
   CGSize size = [self.attackLabel.text sizeWithFont:self.attackLabel.font];
   self.infoButton.center = CGPointMake(self.attackLabel.frame.origin.x+size.width+self.infoButton.frame.size.width/2, self.infoButton.center.y);
   
   int maxHealth = [gl calculateMaxHealthForMonster:self.monster];
-  self.hpLabel.text = [NSString stringWithFormat:@"%d/%d", self.monster.curHealth, maxHealth];
+  self.hpLabel.text = [NSString stringWithFormat:@"%@/%@", [Globals commafyNumber:self.monster.curHealth], [Globals commafyNumber:maxHealth]];
   self.progressBar.percentage = ((float)self.monster.curHealth)/maxHealth;
   
   MonsterProto_MonsterElement elem = MonsterProto_MonsterElementFire;

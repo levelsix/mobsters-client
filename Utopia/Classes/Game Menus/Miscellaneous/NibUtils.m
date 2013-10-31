@@ -201,7 +201,6 @@
   if (level != l) {
     level = l;
     
-//    Globals *gl = [Globals sharedGlobals];
     if (level > 0 && level <= 3) {
       [Globals imageNamed:[NSString stringWithFormat:@"enhancelvl%d.png", l] withView:self maskedColor:nil indicator:UIActivityIndicatorViewStyleWhite clearImageDuringDownload:YES];
     } else {
@@ -217,8 +216,13 @@
 @synthesize percentage;
 
 - (void) awakeFromNib {
-  self.contentMode = UIViewContentModeLeft;
+  self.isReverse = NO;
   self.clipsToBounds = YES;
+}
+
+- (void) setIsReverse:(BOOL)isReverse {
+  _isReverse = isReverse;
+  self.contentMode = isReverse ? UIViewContentModeRight : UIViewContentModeLeft;
 }
 
 - (void) setPercentage:(float)p {
@@ -227,6 +231,11 @@
   
   CGRect rect = self.frame;
   rect.size.width = imgSize.width * percentage;
+  
+  if (_isReverse) {
+    rect.origin.x = CGRectGetMaxX(rect)-rect.size.width;
+  }
+  
   self.frame = rect;
 }
 
@@ -631,6 +640,23 @@
 
 - (IBAction)buttonClicked:(id)sender {
   [self.delegate labelClicked:self];
+}
+
+@end
+
+@implementation CheckboxView
+
+- (void) awakeFromNib {
+  _isChecked = !self.checkmark.hidden;
+}
+
+- (void) setIsChecked:(int)isChecked {
+  _isChecked = isChecked;
+  self.checkmark.hidden = !isChecked;
+}
+
+- (IBAction)boxClicked:(id)sender {
+  self.isChecked = !self.isChecked;
 }
 
 @end

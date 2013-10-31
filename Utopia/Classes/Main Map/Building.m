@@ -23,7 +23,7 @@
 @synthesize verticalOffset;
 
 - (void) setOrientation:(StructOrientation)o {
-  orientation = o % 2;
+  orientation = o;
   switch (orientation) {
     case StructOrientationPosition1:
       self.flipX = NO;
@@ -418,7 +418,7 @@
         break;
         
       case kBuilding:
-        totalTime = fsp.minutesToBuild*60;
+        totalTime = [gl calculateMinutesToUpgrade:self.userStruct]*60;
         time = [[NSDate dateWithTimeInterval:totalTime sinceDate:self.userStruct.purchaseTime] timeIntervalSinceNow];
         break;
         

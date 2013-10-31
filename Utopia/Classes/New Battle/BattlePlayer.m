@@ -10,42 +10,63 @@
 #import "GameState.h"
 #import "Globals.h"
 
-@implementation BattleEquip
-
-+ (id) equipWithEquipId:(int)equipId enhancePercent:(int)enhancePercent durability:(int)durability {
-  return [[self alloc] initWithEquipId:equipId enhancePercent:enhancePercent durability:durability];
-}
-
-- (id) initWithEquipId:(int)equipId enhancePercent:(int)enhancePercent durability:(int)durability {
-  if ((self = [super init])) {
-    self.equipId = equipId;
-    self.enhancePercent = enhancePercent;
-    self.durability = durability;
-  }
-  return self;
-}
-
-@end
-
 @implementation BattlePlayer
 
-+ (id) playerWithHealth:(int)health weapon:(BattleEquip *)weapon armor:(BattleEquip *)armor amulet:(BattleEquip *)amulet {
-  return [[self alloc] initWithHealth:health weapon:weapon armor:armor amulet:amulet];
++ (id) playerWithMonster:(UserMonster *)monster {
+  return [[self alloc] initWithMonster:monster];
 }
 
-- (id) initWithHealth:(int)health weapon:(BattleEquip *)weapon armor:(BattleEquip *)armor amulet:(BattleEquip *)amulet {
+- (id) initWithMonster:(UserMonster *)monster {
   if ((self = [super init])) {
-    self.curHealth = health;
-    self.maxHealth = health;
-    self.weapon = weapon;
-    self.armor = armor;
-    self.amulet = amulet;
+    GameState *gs = [GameState sharedGameState];
+    Globals *gl = [Globals sharedGlobals];
+    MonsterProto *mp = [gs monsterWithId:monster.monsterId];
+    self.maxHealth = [gl calculateMaxHealthForMonster:monster];
+    self.curHealth = MIN(self.maxHealth, monster.curHealth);
+    self.element = mp.element;
+    self.fireDamage = [gl calculateElementalDamageForMonster:monster element:MonsterProto_MonsterElementFire];
+    self.waterDamage = [gl calculateElementalDamageForMonster:monster element:MonsterProto_MonsterElementWater];
+    self.earthDamage = [gl calculateElementalDamageForMonster:monster element:MonsterProto_MonsterElementGrass];
+    self.lightDamage = [gl calculateElementalDamageForMonster:monster element:MonsterProto_MonsterElementLightning];
+    self.nightDamage = [gl calculateElementalDamageForMonster:monster element:MonsterProto_MonsterElementDarkness];
+    self.name = mp.displayName;
+    self.spritePrefix = mp.imagePrefix;
+    self.userMonsterId = monster.userMonsterId;
+    self.slotNum = monster.teamSlot;
   }
   return self;
 }
 
-- (int) attackPower {
-  return 50;
+- (int) damageForColor:(GemColorId)color {
+  switch (color) {
+    case color_red:
+      return self.fireDamage;
+      break;
+      
+    case color_blue:
+      return self.waterDamage;
+      break;
+      
+    case color_green:
+      return self.earthDamage;
+      break;
+      
+    case color_white:
+      return self.lightDamage;
+      break;
+      
+    case color_purple:
+      return self.nightDamage;
+      break;
+      
+    default:
+      return 0;
+      break;
+  }
+}
+
+- (int) totalAttackPower {
+  return self.fireDamage+self.waterDamage+self.earthDamage+self.lightDamage+self.nightDamage;
 }
 
 @end

@@ -11,32 +11,46 @@
 
 @implementation QuestListCell
 
-- (void) updateQuest:(FullQuestProto *)fqp {
-  self.nameLabel.text = fqp.name;
-  self.quest = fqp;
+- (void) awakeFromNib {
+  self.completeView.frame = self.inProgressView.frame;
+  [self.inProgressView.superview addSubview:self.completeView];
   
-  if (fqp.questGiverImageSuffix) {
-    NSString *file = [@"dialogue" stringByAppendingString:fqp.questGiverImageSuffix];
-    [Globals imageNamed:file withView:self.questGiverImageView maskedColor:nil indicator:UIActivityIndicatorViewStyleWhiteLarge clearImageDuringDownload:YES];
-  }
 }
 
-- (void) loadingForQuest:(FullQuestProto *)quest {
-  [self updateQuest:quest];
-  self.userQuest = nil;
-  
-  self.spinner.hidden = NO;
-  self.progressLabel.hidden = YES;
-}
-
-- (void) updateForQuest:(FullQuestProto *)quest withUserQuestData:(FullUserQuestDataLargeProto *)userQuest {
-  [self updateQuest:quest];
+- (void) updateForQuest:(FullQuestProto *)quest withUserQuestData:(UserQuest *)userQuest {
+  self.quest = quest;
   self.userQuest = userQuest;
   
-  self.spinner.hidden = YES;
-  self.progressLabel.hidden = NO;
+  self.nameLabel.text = quest.name;
   
-  self.progressLabel.text = [NSString stringWithFormat:@"%d/%d", userQuest.numComponentsComplete, quest.numComponentsForGood];
+  if (quest.questGiverImageSuffix) {
+    //    NSString *file = [@"dialogue" stringByAppendingString:fqp.questGiverImageSuffix];
+    //    [Globals imageNamed:file withView:self.questGiverImageView maskedColor:nil indicator:UIActivityIndicatorViewStyleWhiteLarge clearImageDuringDownload:YES];
+  }
+  
+  if (quest.quantity < 100) {
+    self.progressLabel.text = [NSString stringWithFormat:@"%d/%d", userQuest.progress, quest.quantity];
+  } else {
+    self.progressLabel.text = [NSString stringWithFormat:@"%@", [Globals commafyNumber:userQuest.progress]];
+  }
+  
+  self.badgeView.hidden = self.userQuest != nil;
+  
+  if (!userQuest.isComplete) {
+    self.inProgressView.hidden = NO;
+    self.completeView.hidden = YES;
+  } else {
+    self.completeView.hidden = NO;
+    self.inProgressView.hidden = YES;
+  }
+  
+  // For some reason if we screw with the rotation imediately, it screws up
+  [self performSelector:@selector(rotate) withObject:nil afterDelay:0.01];
+}
+
+- (void) rotate {
+  self.completeView.transform = CGAffineTransformMakeRotation(-M_PI/18);
+  self.badgeView.transform = CGAffineTransformMakeRotation(-M_PI/18);
 }
 
 - (IBAction)darkOverlayClicked:(id)sender {
@@ -54,7 +68,7 @@
   return self;
 }
 
-- (void) reloadWithQuests:(NSArray *)quests userQuests:(NSArray *)userQuests {
+- (void) reloadWithQuests:(NSArray *)quests userQuests:(NSDictionary *)userQuests {
   self.quests = quests;
   self.userQuests = userQuests;
   [self.questListTable reloadData];
@@ -79,18 +93,9 @@
   }
   
   FullQuestProto *quest = [self.quests objectAtIndex:indexPath.row];
-  FullUserQuestDataLargeProto *userQuest = nil;
-  for (FullUserQuestDataLargeProto *uq in self.userQuests) {
-    if (uq.questId == quest.questId) {
-      userQuest = uq;
-    }
-  }
+  UserQuest *userQuest = [self.userQuests objectForKey:[NSNumber numberWithInt:quest.questId]];
   
-  if (userQuest) {
-    [cell updateForQuest:quest withUserQuestData:userQuest];
-  } else {
-    [cell loadingForQuest:quest];
-  }
+  [cell updateForQuest:quest withUserQuestData:userQuest];
   
   return cell;
 }

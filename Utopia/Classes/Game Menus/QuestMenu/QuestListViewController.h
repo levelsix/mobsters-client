@@ -8,6 +8,7 @@
 
 #import <UIKit/UIKit.h>
 #import "Protocols.pb.h"
+#import "UserData.h"
 
 @class QuestListCell;
 
@@ -21,28 +22,31 @@
 
 @property (nonatomic, strong) IBOutlet UILabel *nameLabel;
 @property (nonatomic, strong) IBOutlet UILabel *progressLabel;
-@property (nonatomic, strong) IBOutlet UIActivityIndicatorView *spinner;
 @property (nonatomic, strong) IBOutlet UIImageView *questGiverImageView;
 
 @property (nonatomic, strong) IBOutlet UIView *badgeView;
-@property (nonatomic, strong) IBOutlet UILabel *badgeLabel;
+
+@property (nonatomic, strong) IBOutlet UIView *completeView;
+@property (nonatomic, strong) IBOutlet UIView *inProgressView;
 
 @property (nonatomic, strong) FullQuestProto *quest;
-@property (nonatomic, strong) FullUserQuestDataLargeProto *userQuest;
+@property (nonatomic, strong) UserQuest *userQuest;
 
 @property (nonatomic, weak) id<QuestListCellDelegate> delegate;
+
+- (void) updateForQuest:(FullQuestProto *)quest withUserQuestData:(UserQuest *)userQuest;
 
 @end
 
 @interface QuestListViewController : UIViewController <UITableViewDataSource, UITableViewDelegate>
 
 @property (nonatomic, strong) NSArray *quests;
-@property (nonatomic, strong) NSArray *userQuests;
+@property (nonatomic, strong) NSDictionary *userQuests;
 
 @property (nonatomic, strong) IBOutlet UITableView *questListTable;
 
 @property (nonatomic, strong) IBOutlet QuestListCell *questListCell;
 
-- (void) reloadWithQuests:(NSArray *)quests userQuests:(NSArray *)userQuests;
+- (void) reloadWithQuests:(NSArray *)quests userQuests:(NSDictionary *)userQuests;
 
 @end

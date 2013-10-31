@@ -4,6 +4,8 @@
 
 @class FullUserMonsterProto;
 @class FullUserMonsterProto_Builder;
+@class MinimumUserMonsterSellProto;
+@class MinimumUserMonsterSellProto_Builder;
 @class MonsterProto;
 @class MonsterProto_Builder;
 @class UserEnhancementItemProto;
@@ -54,16 +56,19 @@ BOOL MonsterProto_MonsterElementIsValidValue(MonsterProto_MonsterElement value);
   BOOL hasElementThreeDmg_:1;
   BOOL hasElementTwoDmg_:1;
   BOOL hasElementOneDmg_:1;
+  BOOL hasMinutesToCombinePieces_:1;
   BOOL hasNumPuzzlePieces_:1;
   BOOL hasBaseHp_:1;
   BOOL hasEvolutionLevel_:1;
   BOOL hasMonsterId_:1;
-  BOOL hasImageName_:1;
+  BOOL hasImagePrefix_:1;
   BOOL hasDisplayName_:1;
+  BOOL hasMonsterGroup_:1;
   BOOL hasName_:1;
   BOOL hasCarrotRecruited_:1;
   BOOL hasCarrotDefeated_:1;
   BOOL hasCarrotEvolved_:1;
+  BOOL hasDescription_:1;
   BOOL hasElement_:1;
   BOOL hasQuality_:1;
   Float32 attackLevelMultiplier;
@@ -75,28 +80,33 @@ BOOL MonsterProto_MonsterElementIsValidValue(MonsterProto_MonsterElement value);
   int32_t elementThreeDmg;
   int32_t elementTwoDmg;
   int32_t elementOneDmg;
+  int32_t minutesToCombinePieces;
   int32_t numPuzzlePieces;
   int32_t baseHp;
   int32_t evolutionLevel;
   int32_t monsterId;
-  NSString* imageName;
+  NSString* imagePrefix;
   NSString* displayName;
+  NSString* monsterGroup;
   NSString* name;
   NSString* carrotRecruited;
   NSString* carrotDefeated;
   NSString* carrotEvolved;
+  NSString* description;
   MonsterProto_MonsterElement element;
   MonsterProto_MonsterQuality quality;
 }
 - (BOOL) hasMonsterId;
 - (BOOL) hasName;
+- (BOOL) hasMonsterGroup;
 - (BOOL) hasQuality;
 - (BOOL) hasEvolutionLevel;
 - (BOOL) hasDisplayName;
 - (BOOL) hasElement;
 - (BOOL) hasBaseHp;
-- (BOOL) hasImageName;
+- (BOOL) hasImagePrefix;
 - (BOOL) hasNumPuzzlePieces;
+- (BOOL) hasMinutesToCombinePieces;
 - (BOOL) hasElementOneDmg;
 - (BOOL) hasElementTwoDmg;
 - (BOOL) hasElementThreeDmg;
@@ -109,15 +119,18 @@ BOOL MonsterProto_MonsterElementIsValidValue(MonsterProto_MonsterElement value);
 - (BOOL) hasCarrotRecruited;
 - (BOOL) hasCarrotDefeated;
 - (BOOL) hasCarrotEvolved;
+- (BOOL) hasDescription;
 @property (readonly) int32_t monsterId;
 @property (readonly, retain) NSString* name;
+@property (readonly, retain) NSString* monsterGroup;
 @property (readonly) MonsterProto_MonsterQuality quality;
 @property (readonly) int32_t evolutionLevel;
 @property (readonly, retain) NSString* displayName;
 @property (readonly) MonsterProto_MonsterElement element;
 @property (readonly) int32_t baseHp;
-@property (readonly, retain) NSString* imageName;
+@property (readonly, retain) NSString* imagePrefix;
 @property (readonly) int32_t numPuzzlePieces;
+@property (readonly) int32_t minutesToCombinePieces;
 @property (readonly) int32_t elementOneDmg;
 @property (readonly) int32_t elementTwoDmg;
 @property (readonly) int32_t elementThreeDmg;
@@ -130,6 +143,7 @@ BOOL MonsterProto_MonsterElementIsValidValue(MonsterProto_MonsterElement value);
 @property (readonly, retain) NSString* carrotRecruited;
 @property (readonly, retain) NSString* carrotDefeated;
 @property (readonly, retain) NSString* carrotEvolved;
+@property (readonly, retain) NSString* description;
 
 + (MonsterProto*) defaultInstance;
 - (MonsterProto*) defaultInstance;
@@ -175,6 +189,11 @@ BOOL MonsterProto_MonsterElementIsValidValue(MonsterProto_MonsterElement value);
 - (MonsterProto_Builder*) setName:(NSString*) value;
 - (MonsterProto_Builder*) clearName;
 
+- (BOOL) hasMonsterGroup;
+- (NSString*) monsterGroup;
+- (MonsterProto_Builder*) setMonsterGroup:(NSString*) value;
+- (MonsterProto_Builder*) clearMonsterGroup;
+
 - (BOOL) hasQuality;
 - (MonsterProto_MonsterQuality) quality;
 - (MonsterProto_Builder*) setQuality:(MonsterProto_MonsterQuality) value;
@@ -200,15 +219,20 @@ BOOL MonsterProto_MonsterElementIsValidValue(MonsterProto_MonsterElement value);
 - (MonsterProto_Builder*) setBaseHp:(int32_t) value;
 - (MonsterProto_Builder*) clearBaseHp;
 
-- (BOOL) hasImageName;
-- (NSString*) imageName;
-- (MonsterProto_Builder*) setImageName:(NSString*) value;
-- (MonsterProto_Builder*) clearImageName;
+- (BOOL) hasImagePrefix;
+- (NSString*) imagePrefix;
+- (MonsterProto_Builder*) setImagePrefix:(NSString*) value;
+- (MonsterProto_Builder*) clearImagePrefix;
 
 - (BOOL) hasNumPuzzlePieces;
 - (int32_t) numPuzzlePieces;
 - (MonsterProto_Builder*) setNumPuzzlePieces:(int32_t) value;
 - (MonsterProto_Builder*) clearNumPuzzlePieces;
+
+- (BOOL) hasMinutesToCombinePieces;
+- (int32_t) minutesToCombinePieces;
+- (MonsterProto_Builder*) setMinutesToCombinePieces:(int32_t) value;
+- (MonsterProto_Builder*) clearMinutesToCombinePieces;
 
 - (BOOL) hasElementOneDmg;
 - (int32_t) elementOneDmg;
@@ -269,6 +293,11 @@ BOOL MonsterProto_MonsterElementIsValidValue(MonsterProto_MonsterElement value);
 - (NSString*) carrotEvolved;
 - (MonsterProto_Builder*) setCarrotEvolved:(NSString*) value;
 - (MonsterProto_Builder*) clearCarrotEvolved;
+
+- (BOOL) hasDescription;
+- (NSString*) description;
+- (MonsterProto_Builder*) setDescription:(NSString*) value;
+- (MonsterProto_Builder*) clearDescription;
 @end
 
 @interface FullUserMonsterProto : PBGeneratedMessage {
@@ -277,7 +306,8 @@ BOOL MonsterProto_MonsterElementIsValidValue(MonsterProto_MonsterElement value);
   BOOL hasUserMonsterId_:1;
   BOOL hasUserId_:1;
   BOOL hasMonsterId_:1;
-  BOOL hasEnhancementPercentage_:1;
+  BOOL hasCurrentExp_:1;
+  BOOL hasCurrentLvl_:1;
   BOOL hasCurrentHealth_:1;
   BOOL hasNumPieces_:1;
   BOOL hasTeamSlotNum_:1;
@@ -285,7 +315,8 @@ BOOL MonsterProto_MonsterElementIsValidValue(MonsterProto_MonsterElement value);
   int64_t userMonsterId;
   int32_t userId;
   int32_t monsterId;
-  int32_t enhancementPercentage;
+  int32_t currentExp;
+  int32_t currentLvl;
   int32_t currentHealth;
   int32_t numPieces;
   int32_t teamSlotNum;
@@ -293,7 +324,8 @@ BOOL MonsterProto_MonsterElementIsValidValue(MonsterProto_MonsterElement value);
 - (BOOL) hasUserMonsterId;
 - (BOOL) hasUserId;
 - (BOOL) hasMonsterId;
-- (BOOL) hasEnhancementPercentage;
+- (BOOL) hasCurrentExp;
+- (BOOL) hasCurrentLvl;
 - (BOOL) hasCurrentHealth;
 - (BOOL) hasNumPieces;
 - (BOOL) hasIsComplete;
@@ -301,7 +333,8 @@ BOOL MonsterProto_MonsterElementIsValidValue(MonsterProto_MonsterElement value);
 @property (readonly) int64_t userMonsterId;
 @property (readonly) int32_t userId;
 @property (readonly) int32_t monsterId;
-@property (readonly) int32_t enhancementPercentage;
+@property (readonly) int32_t currentExp;
+@property (readonly) int32_t currentLvl;
 @property (readonly) int32_t currentHealth;
 @property (readonly) int32_t numPieces;
 - (BOOL) isComplete;
@@ -356,10 +389,15 @@ BOOL MonsterProto_MonsterElementIsValidValue(MonsterProto_MonsterElement value);
 - (FullUserMonsterProto_Builder*) setMonsterId:(int32_t) value;
 - (FullUserMonsterProto_Builder*) clearMonsterId;
 
-- (BOOL) hasEnhancementPercentage;
-- (int32_t) enhancementPercentage;
-- (FullUserMonsterProto_Builder*) setEnhancementPercentage:(int32_t) value;
-- (FullUserMonsterProto_Builder*) clearEnhancementPercentage;
+- (BOOL) hasCurrentExp;
+- (int32_t) currentExp;
+- (FullUserMonsterProto_Builder*) setCurrentExp:(int32_t) value;
+- (FullUserMonsterProto_Builder*) clearCurrentExp;
+
+- (BOOL) hasCurrentLvl;
+- (int32_t) currentLvl;
+- (FullUserMonsterProto_Builder*) setCurrentLvl:(int32_t) value;
+- (FullUserMonsterProto_Builder*) clearCurrentLvl;
 
 - (BOOL) hasCurrentHealth;
 - (int32_t) currentHealth;
@@ -695,5 +733,62 @@ BOOL MonsterProto_MonsterElementIsValidValue(MonsterProto_MonsterElement value);
 - (int32_t) expectedLevel;
 - (UserMonsterCurrentExpProto_Builder*) setExpectedLevel:(int32_t) value;
 - (UserMonsterCurrentExpProto_Builder*) clearExpectedLevel;
+@end
+
+@interface MinimumUserMonsterSellProto : PBGeneratedMessage {
+@private
+  BOOL hasUserMonsterId_:1;
+  BOOL hasCashAmount_:1;
+  int64_t userMonsterId;
+  int32_t cashAmount;
+}
+- (BOOL) hasUserMonsterId;
+- (BOOL) hasCashAmount;
+@property (readonly) int64_t userMonsterId;
+@property (readonly) int32_t cashAmount;
+
++ (MinimumUserMonsterSellProto*) defaultInstance;
+- (MinimumUserMonsterSellProto*) defaultInstance;
+
+- (BOOL) isInitialized;
+- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output;
+- (MinimumUserMonsterSellProto_Builder*) builder;
++ (MinimumUserMonsterSellProto_Builder*) builder;
++ (MinimumUserMonsterSellProto_Builder*) builderWithPrototype:(MinimumUserMonsterSellProto*) prototype;
+
++ (MinimumUserMonsterSellProto*) parseFromData:(NSData*) data;
++ (MinimumUserMonsterSellProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (MinimumUserMonsterSellProto*) parseFromInputStream:(NSInputStream*) input;
++ (MinimumUserMonsterSellProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (MinimumUserMonsterSellProto*) parseFromCodedInputStream:(PBCodedInputStream*) input;
++ (MinimumUserMonsterSellProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+@end
+
+@interface MinimumUserMonsterSellProto_Builder : PBGeneratedMessage_Builder {
+@private
+  MinimumUserMonsterSellProto* result;
+}
+
+- (MinimumUserMonsterSellProto*) defaultInstance;
+
+- (MinimumUserMonsterSellProto_Builder*) clear;
+- (MinimumUserMonsterSellProto_Builder*) clone;
+
+- (MinimumUserMonsterSellProto*) build;
+- (MinimumUserMonsterSellProto*) buildPartial;
+
+- (MinimumUserMonsterSellProto_Builder*) mergeFrom:(MinimumUserMonsterSellProto*) other;
+- (MinimumUserMonsterSellProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input;
+- (MinimumUserMonsterSellProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+
+- (BOOL) hasUserMonsterId;
+- (int64_t) userMonsterId;
+- (MinimumUserMonsterSellProto_Builder*) setUserMonsterId:(int64_t) value;
+- (MinimumUserMonsterSellProto_Builder*) clearUserMonsterId;
+
+- (BOOL) hasCashAmount;
+- (int32_t) cashAmount;
+- (MinimumUserMonsterSellProto_Builder*) setCashAmount:(int32_t) value;
+- (MinimumUserMonsterSellProto_Builder*) clearCashAmount;
 @end
 

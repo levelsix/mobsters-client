@@ -7,6 +7,7 @@
 //
 
 #import "CCSprite.h"
+#import "cocos2d.h"
 
 @interface BattleSprite : CCSprite
 
@@ -22,9 +23,13 @@
 @property (nonatomic, retain) CCAnimation *flinchAnimationF;
 
 @property (nonatomic, retain) CCSprite *sprite;
-  
-  @property (nonatomic, assign) BOOL isFacingNear;
-  @property (nonatomic, assign) BOOL isWalking;
+
+@property (nonatomic, assign) CCLabelTTF *healthLabel;
+@property (nonatomic, assign) CCProgressTimer *healthBar;
+@property (nonatomic, assign) CCSprite *healthBgd;
+
+@property (nonatomic, assign) BOOL isFacingNear;
+@property (nonatomic, assign) BOOL isWalking;
 
 - (void) beginWalking;
 - (void) stopWalking;

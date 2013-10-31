@@ -17,6 +17,7 @@
 #import "GameState.h"
 #import "ProfileViewController.h"
 #import "QuestLogViewController.h"
+#import "MyCroniesViewController.h"
 
 @implementation SplitImageProgressBar
 
@@ -39,13 +40,44 @@
   self.rightCap.frame = r;
   
   r = self.middleBar.frame;
-  r.origin.x = CGRectGetMaxX(self.leftCap.frame);
+  r.origin.x = CGRectGetMaxX(self.leftCap.frame)-1;
   if (totalWidth >= self.leftCap.image.size.width*2) {
-    r.size.width = self.rightCap.frame.origin.x-r.origin.x+1;
+    r.size.width = self.rightCap.frame.origin.x-r.origin.x+2;
   } else {
     r.size.width = 0;
   }
   self.middleBar.frame = r;
+}
+
+@end
+
+@implementation TopBarMonsterView
+
+- (void) awakeFromNib {
+  self.emptyView.frame = self.monsterView.frame;
+  [self addSubview:self.emptyView];
+}
+
+- (void) updateForUserMonster:(UserMonster *)um {
+  if (!um) {
+    self.emptyView.hidden = NO;
+    self.monsterView.hidden = YES;
+  } else {
+    GameState *gs = [GameState sharedGameState];
+    Globals *gl = [Globals sharedGlobals];
+    MonsterProto *mp = [gs monsterWithId:um.monsterId];
+    self.healthBar.leftCap.image = [Globals imageNamed:[Globals imageNameForElement:mp.element suffix:@"cap.png"]];
+    self.healthBar.rightCap.image = [Globals imageNamed:[Globals imageNameForElement:mp.element suffix:@"cap.png"]];
+    self.healthBar.middleBar.image = [Globals imageNamed:[Globals imageNameForElement:mp.element suffix:@"middle.png"]];
+    self.healthBar.percentage = ((float)um.curHealth)/[gl calculateMaxHealthForMonster:um];
+    self.healthLabel.text = [NSString stringWithFormat:@"%d/%d", um.curHealth, [gl calculateMaxHealthForMonster:um]];
+    
+    NSString *file = [mp.imagePrefix stringByAppendingString:@"Icon.png"];
+    [Globals imageNamed:file withView:self.monsterIcon maskedColor:nil indicator:UIActivityIndicatorViewStyleWhite clearImageDuringDownload:YES];
+    
+    self.emptyView.hidden = YES;
+    self.monsterView.hidden = NO;
+  }
 }
 
 @end
@@ -66,32 +98,73 @@
 
 @implementation TopBarViewController
 
+- (void) viewDidLoad {
+  for (UIView *container in self.topBarMonsterViewContainers) {
+    container.backgroundColor = [UIColor clearColor];
+    
+    [[NSBundle mainBundle] loadNibNamed:@"TopBarMonsterView" owner:self options:nil];
+    [container addSubview:self.topBarMonsterView];
+  }
+  
+  self.myCityView.center = self.menuView.center;
+  self.myCityView.hidden = YES;
+}
+
 - (void) viewWillAppear:(BOOL)animated {
   self.expBar.percentage = 0.35;
   
   [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(gameStateUpdated) name:GAMESTATE_UPDATE_NOTIFICATION object:nil];
   [self gameStateUpdated];
+  
+  [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(updateMonsterViews) name:MY_TEAM_CHANGED_NOTIFICATION object:nil];
+  [self updateMonsterViews];
 }
 
 - (void) viewDidDisappear:(BOOL)animated {
   [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
-- (void) replaceChatViewWithView:(UIView *)view {
-  if (self.curViewOverChatView != view) {
-    if (self.curViewOverChatView) {
-      [self.curViewOverChatView removeFromSuperview];
-    }
-    self.curViewOverChatView = view;
-    [self.view addSubview:self.curViewOverChatView];
-    self.curViewOverChatView.center = ccp(self.view.frame.size.width/2, self.view.frame.size.height-10-view.frame.size.height/2);
+- (void) showMyCityView {
+  self.myCityView.hidden = NO;
+  self.menuView.hidden = YES;
+}
+
+- (void) showMenuView {
+  self.myCityView.hidden = YES;
+  self.menuView.hidden = NO;
+}
+
+#pragma mark - Bottom view methods
+
+- (void) replaceChatViewWithView:(MapBotView *)view {
+  if (self.curViewOverChatView) {
+    MapBotView *v = self.curViewOverChatView;
+    [v animateOut:^{
+      [v removeFromSuperview];
+      [self addNewView:view];
+    }];
+    self.curViewOverChatView = nil;
+  } else {
+    [self addNewView:view];
   }
 }
 
+- (void) addNewView:(MapBotView *)view {
+  self.curViewOverChatView = view;
+  [self.view insertSubview:self.curViewOverChatView atIndex:0];
+  self.curViewOverChatView.center = ccp(self.view.frame.size.width/2, self.view.frame.size.height-view.frame.size.height/2);
+  [view animateIn:nil];
+}
+
 - (void) removeViewOverChatView {
-  [self.curViewOverChatView removeFromSuperview];
+  MapBotView *v = self.curViewOverChatView;
+  [v animateOut:^{
+    [v removeFromSuperview];
+  }];
   self.curViewOverChatView = nil;
 }
+
+#pragma mark - IBActions
 
 - (IBAction)menuClicked:(id)sender {
   MenuNavigationController *m = [[MenuNavigationController alloc] init];
@@ -119,11 +192,30 @@
 - (IBAction)profileClicked:(id)sender {
   GameState *gs = [GameState sharedGameState];
   GameViewController *gvc = (GameViewController *)self.parentViewController;
-//  ProfileViewController *pvc = [[ProfileViewController alloc] initWithFullUserProto:[gs convertToFullUserProto] andCurrentTeam:[gs allMonstersOnMyTeam]];
-  QuestLogViewController *pvc = [[QuestLogViewController alloc] init];
+  ProfileViewController *pvc = [[ProfileViewController alloc] initWithFullUserProto:[gs convertToFullUserProto] andCurrentTeam:[gs allMonstersOnMyTeam]];
   [gvc addChildViewController:pvc];
   pvc.view.frame = gvc.view.bounds;
   [gvc.view addSubview:pvc.view];
+}
+
+- (IBAction)questsClicked:(id)sender {
+  GameViewController *gvc = (GameViewController *)self.parentViewController;
+  QuestLogViewController *qvc = [[QuestLogViewController alloc] init];
+  [gvc addChildViewController:qvc];
+  qvc.view.frame = gvc.view.bounds;
+  [gvc.view addSubview:qvc.view];
+}
+
+- (IBAction)myCityClicked:(id)sender {
+  GameViewController *gvc = (GameViewController *)self.parentViewController;
+  [gvc visitCityClicked:0];
+}
+
+- (IBAction)monsterViewsClicked:(id)sender {
+  MenuNavigationController *m = [[MenuNavigationController alloc] init];
+  GameViewController *gvc = (GameViewController *)self.parentViewController;
+  [gvc presentViewController:m animated:YES completion:nil];
+  [m pushViewController:[[MyCroniesViewController alloc] init] animated:NO];
 }
 
 #pragma mark - Updating HUD Stuff
@@ -138,6 +230,18 @@
   } else {
     [self.expLabel instaMoveToNum:gs.currentExpForLevel];
   }
+  
+  self.levelLabel.text = [Globals commafyNumber:gs.level];
+}
+
+- (void) updateMonsterViews {
+  GameState *gs = [GameState sharedGameState];
+  for (int i = 0; i < self.topBarMonsterViewContainers.count; i++) {
+    UserMonster *um = [gs myMonsterWithSlotNumber:i+1];
+    UIView *container = [self.topBarMonsterViewContainers objectAtIndex:i];
+    TopBarMonsterView *mv = (TopBarMonsterView *)[[container subviews] lastObject];
+    [mv updateForUserMonster:um];
+  }
 }
 
 #pragma mark NumTransitionLabelDelegate methods
@@ -145,7 +249,7 @@
 - (void) updateLabel:(NumTransitionLabel *)label forNumber:(int)number {
   GameState *gs = [GameState sharedGameState];
   if (label == self.expLabel) {
-    label.text = [NSString stringWithFormat:@"%d/%d", number, gs.expDeltaNeededForNextLevel];
+    label.text = [NSString stringWithFormat:@"%@/%@", [Globals commafyNumber:number], [Globals commafyNumber:gs.expDeltaNeededForNextLevel]];
     self.expBar.percentage = ((float)number)/gs.expDeltaNeededForNextLevel;
   } else if (label == self.silverLabel) {
     label.text = [Globals cashStringForNumber:number];

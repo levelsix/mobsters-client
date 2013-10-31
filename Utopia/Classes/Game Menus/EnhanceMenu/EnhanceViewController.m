@@ -12,6 +12,7 @@
 #import "OutgoingEventController.h"
 #import "SocketCommunication.h"
 #import "MonsterPopUpViewController.h"
+#import "GenericPopupController.h"
 
 #define TABLE_CELL_WIDTH 123
 #define HEADER_OFFSET 8
@@ -30,7 +31,7 @@
 }
 
 - (void) viewWillAppear:(BOOL)animated {
-  self.updateTimer = [NSTimer timerWithTimeInterval:1.f target:self selector:@selector(updateLabels) userInfo:nil repeats:YES];
+  self.updateTimer = [NSTimer timerWithTimeInterval:0.05f target:self selector:@selector(updateLabels) userInfo:nil repeats:YES];
   [[NSRunLoop mainRunLoop] addTimer:self.updateTimer forMode:NSRunLoopCommonModes];
   
   [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(reloadMonstersArray) name:ENHANCE_WAIT_COMPLETE_NOTIFICATION object:nil];
@@ -105,21 +106,53 @@
 #pragma mark - EnhanceCellDelegate methods
 
 - (void) enhanceClicked:(EnhanceCardCell *)cell {
-  [[OutgoingEventController sharedOutgoingEventController] addMonsterToEnhancingQueue:cell.monster.userMonsterId];
-  [self reloadMonstersArray];
+  _confirmUserMonsterId = cell.monster.userMonsterId;
+  [self checkUserMonsterOnTeam];
 }
 
 - (void) cardClicked:(EnhanceCardCell *)cell {
   GameState *gs = [GameState sharedGameState];
   if (!gs.userEnhancement) {
-    [[OutgoingEventController sharedOutgoingEventController] setBaseEnhanceMonster:cell.monster.userMonsterId];
-    [self reloadMonstersArray];
+    _confirmUserMonsterId = cell.monster.userMonsterId;
+    [self checkUserMonsterOnTeam];
   } else if (cell.monster) {
     MonsterPopUpViewController *mpvc = [[MonsterPopUpViewController alloc] initWithMonsterProto:cell.monster];
     UIViewController *parent = self.navigationController;
     mpvc.view.frame = parent.view.bounds;
     [parent.view addSubview:mpvc.view];
     [parent addChildViewController:mpvc];
+  }
+}
+
+- (void) checkUserMonsterOnTeam {
+  GameState *gs = [GameState sharedGameState];
+  UserMonster *um = [gs myMonsterWithUserMonsterId:_confirmUserMonsterId];
+  if (um.teamSlot > 0) {
+    NSString *description = @"Enhancing mobsters removes them from your squad. Continue?";
+    [GenericPopupController displayConfirmationWithDescription:description title:@"Continue?" okayButton:@"Continue" cancelButton:@"Cancel" target:self selector:@selector(confirmationAccepted)];
+  } else {
+    [self confirmationAccepted];
+  }
+}
+
+- (void) confirmationAccepted {
+  GameState *gs = [GameState sharedGameState];
+  UserMonster *um = [gs myMonsterWithUserMonsterId:_confirmUserMonsterId];
+  
+  BOOL unequipped = NO;
+  if (um.teamSlot > 0) {
+    unequipped = YES;
+  }
+  
+  if (!gs.userEnhancement.baseMonster) {
+    [[OutgoingEventController sharedOutgoingEventController] setBaseEnhanceMonster:_confirmUserMonsterId];
+  } else {
+    [[OutgoingEventController sharedOutgoingEventController] addMonsterToEnhancingQueue:_confirmUserMonsterId];
+  }
+  [self reloadMonstersArray];
+  
+  if (unequipped) {
+    [[NSNotificationCenter defaultCenter] postNotificationName:MY_TEAM_CHANGED_NOTIFICATION object:nil];
   }
 }
 

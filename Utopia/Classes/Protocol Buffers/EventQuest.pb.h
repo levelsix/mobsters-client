@@ -3,6 +3,7 @@
 #import "ProtocolBuffers.h"
 
 #import "City.pb.h"
+#import "MonsterStuff.pb.h"
 #import "Quest.pb.h"
 #import "User.pb.h"
 
@@ -24,69 +25,85 @@
 @class FullQuestProto_Builder;
 @class FullStructureProto;
 @class FullStructureProto_Builder;
+@class FullUserMonsterProto;
+@class FullUserMonsterProto_Builder;
 @class FullUserProto;
 @class FullUserProto_Builder;
-@class FullUserQuestDataLargeProto;
-@class FullUserQuestDataLargeProto_Builder;
+@class FullUserQuestProto;
+@class FullUserQuestProto_Builder;
 @class FullUserStructureProto;
 @class FullUserStructureProto_Builder;
-@class LevelAndRequiredExpProto;
-@class LevelAndRequiredExpProto_Builder;
 @class MinimumClanProto;
 @class MinimumClanProto_Builder;
 @class MinimumUserBuildStructJobProto;
 @class MinimumUserBuildStructJobProto_Builder;
+@class MinimumUserMonsterSellProto;
+@class MinimumUserMonsterSellProto_Builder;
 @class MinimumUserProto;
 @class MinimumUserProtoWithLevel;
 @class MinimumUserProtoWithLevel_Builder;
 @class MinimumUserProto_Builder;
-@class MinimumUserQuestTaskProto;
-@class MinimumUserQuestTaskProto_Builder;
 @class MinimumUserUpgradeStructJobProto;
 @class MinimumUserUpgradeStructJobProto_Builder;
 @class MonsterJobProto;
 @class MonsterJobProto_Builder;
+@class MonsterProto;
+@class MonsterProto_Builder;
 @class QuestAcceptRequestProto;
 @class QuestAcceptRequestProto_Builder;
 @class QuestAcceptResponseProto;
 @class QuestAcceptResponseProto_Builder;
-@class QuestCompleteResponseProto;
-@class QuestCompleteResponseProto_Builder;
+@class QuestProgressRequestProto;
+@class QuestProgressRequestProto_Builder;
+@class QuestProgressResponseProto;
+@class QuestProgressResponseProto_Builder;
 @class QuestRedeemRequestProto;
 @class QuestRedeemRequestProto_Builder;
 @class QuestRedeemResponseProto;
 @class QuestRedeemResponseProto_Builder;
+@class StaticLevelInfoProto;
+@class StaticLevelInfoProto_Builder;
 @class UpgradeStructJobProto;
 @class UpgradeStructJobProto_Builder;
 @class UserCityExpansionDataProto;
 @class UserCityExpansionDataProto_Builder;
-@class UserQuestDetailsRequestProto;
-@class UserQuestDetailsRequestProto_Builder;
-@class UserQuestDetailsResponseProto;
-@class UserQuestDetailsResponseProto_Builder;
+@class UserEnhancementItemProto;
+@class UserEnhancementItemProto_Builder;
+@class UserEnhancementProto;
+@class UserEnhancementProto_Builder;
+@class UserMonsterCurrentExpProto;
+@class UserMonsterCurrentExpProto_Builder;
+@class UserMonsterCurrentHealthProto;
+@class UserMonsterCurrentHealthProto_Builder;
+@class UserMonsterHealingProto;
+@class UserMonsterHealingProto_Builder;
 typedef enum {
   QuestAcceptResponseProto_QuestAcceptStatusSuccess = 1,
-  QuestAcceptResponseProto_QuestAcceptStatusNotAvailToUser = 2,
-  QuestAcceptResponseProto_QuestAcceptStatusOtherFail = 3,
+  QuestAcceptResponseProto_QuestAcceptStatusFailNotAvailToUser = 2,
+  QuestAcceptResponseProto_QuestAcceptStatusFailAlreadyAccepted = 3,
+  QuestAcceptResponseProto_QuestAcceptStatusFailOther = 4,
 } QuestAcceptResponseProto_QuestAcceptStatus;
 
 BOOL QuestAcceptResponseProto_QuestAcceptStatusIsValidValue(QuestAcceptResponseProto_QuestAcceptStatus value);
 
 typedef enum {
+  QuestProgressResponseProto_QuestProgressStatusSuccess = 1,
+  QuestProgressResponseProto_QuestProgressStatusFailNoQuestExists = 2,
+  QuestProgressResponseProto_QuestProgressStatusFailDeleteAmountDoesNotMatchQuest = 3,
+  QuestProgressResponseProto_QuestProgressStatusFailNonexistentUserMonsters = 4,
+  QuestProgressResponseProto_QuestProgressStatusFailIncompleteUserMonsters = 5,
+  QuestProgressResponseProto_QuestProgressStatusFailOther = 6,
+} QuestProgressResponseProto_QuestProgressStatus;
+
+BOOL QuestProgressResponseProto_QuestProgressStatusIsValidValue(QuestProgressResponseProto_QuestProgressStatus value);
+
+typedef enum {
   QuestRedeemResponseProto_QuestRedeemStatusSuccess = 1,
-  QuestRedeemResponseProto_QuestRedeemStatusNotComplete = 2,
-  QuestRedeemResponseProto_QuestRedeemStatusOtherFail = 3,
+  QuestRedeemResponseProto_QuestRedeemStatusFailNotComplete = 2,
+  QuestRedeemResponseProto_QuestRedeemStatusFailOther = 3,
 } QuestRedeemResponseProto_QuestRedeemStatus;
 
 BOOL QuestRedeemResponseProto_QuestRedeemStatusIsValidValue(QuestRedeemResponseProto_QuestRedeemStatus value);
-
-typedef enum {
-  UserQuestDetailsResponseProto_UserQuestDetailsStatusSuccess = 1,
-  UserQuestDetailsResponseProto_UserQuestDetailsStatusSuppliedQuestidCurrentlyNotInProgress = 2,
-  UserQuestDetailsResponseProto_UserQuestDetailsStatusSomeFail = 3,
-} UserQuestDetailsResponseProto_UserQuestDetailsStatus;
-
-BOOL UserQuestDetailsResponseProto_UserQuestDetailsStatusIsValidValue(UserQuestDetailsResponseProto_UserQuestDetailsStatus value);
 
 
 @interface EventQuestRoot : NSObject {
@@ -222,74 +239,150 @@ BOOL UserQuestDetailsResponseProto_UserQuestDetailsStatusIsValidValue(UserQuestD
 - (QuestAcceptResponseProto_Builder*) clearCityIdOfAcceptedQuest;
 @end
 
-@interface QuestCompleteResponseProto : PBGeneratedMessage {
+@interface QuestProgressRequestProto : PBGeneratedMessage {
 @private
+  BOOL hasIsComplete_:1;
   BOOL hasQuestId_:1;
+  BOOL hasCurrentProgress_:1;
   BOOL hasSender_:1;
-  BOOL hasCityElement_:1;
+  BOOL isComplete_:1;
   int32_t questId;
+  int32_t currentProgress;
   MinimumUserProto* sender;
-  CityElementProto* cityElement;
+  NSMutableArray* mutableDeleteUserMonsterIdsList;
 }
 - (BOOL) hasSender;
 - (BOOL) hasQuestId;
-- (BOOL) hasCityElement;
+- (BOOL) hasCurrentProgress;
+- (BOOL) hasIsComplete;
 @property (readonly, retain) MinimumUserProto* sender;
 @property (readonly) int32_t questId;
-@property (readonly, retain) CityElementProto* cityElement;
+@property (readonly) int32_t currentProgress;
+- (BOOL) isComplete;
+- (NSArray*) deleteUserMonsterIdsList;
+- (int64_t) deleteUserMonsterIdsAtIndex:(int32_t) index;
 
-+ (QuestCompleteResponseProto*) defaultInstance;
-- (QuestCompleteResponseProto*) defaultInstance;
++ (QuestProgressRequestProto*) defaultInstance;
+- (QuestProgressRequestProto*) defaultInstance;
 
 - (BOOL) isInitialized;
 - (void) writeToCodedOutputStream:(PBCodedOutputStream*) output;
-- (QuestCompleteResponseProto_Builder*) builder;
-+ (QuestCompleteResponseProto_Builder*) builder;
-+ (QuestCompleteResponseProto_Builder*) builderWithPrototype:(QuestCompleteResponseProto*) prototype;
+- (QuestProgressRequestProto_Builder*) builder;
++ (QuestProgressRequestProto_Builder*) builder;
++ (QuestProgressRequestProto_Builder*) builderWithPrototype:(QuestProgressRequestProto*) prototype;
 
-+ (QuestCompleteResponseProto*) parseFromData:(NSData*) data;
-+ (QuestCompleteResponseProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
-+ (QuestCompleteResponseProto*) parseFromInputStream:(NSInputStream*) input;
-+ (QuestCompleteResponseProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
-+ (QuestCompleteResponseProto*) parseFromCodedInputStream:(PBCodedInputStream*) input;
-+ (QuestCompleteResponseProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (QuestProgressRequestProto*) parseFromData:(NSData*) data;
++ (QuestProgressRequestProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (QuestProgressRequestProto*) parseFromInputStream:(NSInputStream*) input;
++ (QuestProgressRequestProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (QuestProgressRequestProto*) parseFromCodedInputStream:(PBCodedInputStream*) input;
++ (QuestProgressRequestProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
 @end
 
-@interface QuestCompleteResponseProto_Builder : PBGeneratedMessage_Builder {
+@interface QuestProgressRequestProto_Builder : PBGeneratedMessage_Builder {
 @private
-  QuestCompleteResponseProto* result;
+  QuestProgressRequestProto* result;
 }
 
-- (QuestCompleteResponseProto*) defaultInstance;
+- (QuestProgressRequestProto*) defaultInstance;
 
-- (QuestCompleteResponseProto_Builder*) clear;
-- (QuestCompleteResponseProto_Builder*) clone;
+- (QuestProgressRequestProto_Builder*) clear;
+- (QuestProgressRequestProto_Builder*) clone;
 
-- (QuestCompleteResponseProto*) build;
-- (QuestCompleteResponseProto*) buildPartial;
+- (QuestProgressRequestProto*) build;
+- (QuestProgressRequestProto*) buildPartial;
 
-- (QuestCompleteResponseProto_Builder*) mergeFrom:(QuestCompleteResponseProto*) other;
-- (QuestCompleteResponseProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input;
-- (QuestCompleteResponseProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+- (QuestProgressRequestProto_Builder*) mergeFrom:(QuestProgressRequestProto*) other;
+- (QuestProgressRequestProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input;
+- (QuestProgressRequestProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
 
 - (BOOL) hasSender;
 - (MinimumUserProto*) sender;
-- (QuestCompleteResponseProto_Builder*) setSender:(MinimumUserProto*) value;
-- (QuestCompleteResponseProto_Builder*) setSenderBuilder:(MinimumUserProto_Builder*) builderForValue;
-- (QuestCompleteResponseProto_Builder*) mergeSender:(MinimumUserProto*) value;
-- (QuestCompleteResponseProto_Builder*) clearSender;
+- (QuestProgressRequestProto_Builder*) setSender:(MinimumUserProto*) value;
+- (QuestProgressRequestProto_Builder*) setSenderBuilder:(MinimumUserProto_Builder*) builderForValue;
+- (QuestProgressRequestProto_Builder*) mergeSender:(MinimumUserProto*) value;
+- (QuestProgressRequestProto_Builder*) clearSender;
 
 - (BOOL) hasQuestId;
 - (int32_t) questId;
-- (QuestCompleteResponseProto_Builder*) setQuestId:(int32_t) value;
-- (QuestCompleteResponseProto_Builder*) clearQuestId;
+- (QuestProgressRequestProto_Builder*) setQuestId:(int32_t) value;
+- (QuestProgressRequestProto_Builder*) clearQuestId;
 
-- (BOOL) hasCityElement;
-- (CityElementProto*) cityElement;
-- (QuestCompleteResponseProto_Builder*) setCityElement:(CityElementProto*) value;
-- (QuestCompleteResponseProto_Builder*) setCityElementBuilder:(CityElementProto_Builder*) builderForValue;
-- (QuestCompleteResponseProto_Builder*) mergeCityElement:(CityElementProto*) value;
-- (QuestCompleteResponseProto_Builder*) clearCityElement;
+- (BOOL) hasCurrentProgress;
+- (int32_t) currentProgress;
+- (QuestProgressRequestProto_Builder*) setCurrentProgress:(int32_t) value;
+- (QuestProgressRequestProto_Builder*) clearCurrentProgress;
+
+- (BOOL) hasIsComplete;
+- (BOOL) isComplete;
+- (QuestProgressRequestProto_Builder*) setIsComplete:(BOOL) value;
+- (QuestProgressRequestProto_Builder*) clearIsComplete;
+
+- (NSArray*) deleteUserMonsterIdsList;
+- (int64_t) deleteUserMonsterIdsAtIndex:(int32_t) index;
+- (QuestProgressRequestProto_Builder*) replaceDeleteUserMonsterIdsAtIndex:(int32_t) index with:(int64_t) value;
+- (QuestProgressRequestProto_Builder*) addDeleteUserMonsterIds:(int64_t) value;
+- (QuestProgressRequestProto_Builder*) addAllDeleteUserMonsterIds:(NSArray*) values;
+- (QuestProgressRequestProto_Builder*) clearDeleteUserMonsterIdsList;
+@end
+
+@interface QuestProgressResponseProto : PBGeneratedMessage {
+@private
+  BOOL hasSender_:1;
+  BOOL hasStatus_:1;
+  MinimumUserProto* sender;
+  QuestProgressResponseProto_QuestProgressStatus status;
+}
+- (BOOL) hasSender;
+- (BOOL) hasStatus;
+@property (readonly, retain) MinimumUserProto* sender;
+@property (readonly) QuestProgressResponseProto_QuestProgressStatus status;
+
++ (QuestProgressResponseProto*) defaultInstance;
+- (QuestProgressResponseProto*) defaultInstance;
+
+- (BOOL) isInitialized;
+- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output;
+- (QuestProgressResponseProto_Builder*) builder;
++ (QuestProgressResponseProto_Builder*) builder;
++ (QuestProgressResponseProto_Builder*) builderWithPrototype:(QuestProgressResponseProto*) prototype;
+
++ (QuestProgressResponseProto*) parseFromData:(NSData*) data;
++ (QuestProgressResponseProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (QuestProgressResponseProto*) parseFromInputStream:(NSInputStream*) input;
++ (QuestProgressResponseProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (QuestProgressResponseProto*) parseFromCodedInputStream:(PBCodedInputStream*) input;
++ (QuestProgressResponseProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+@end
+
+@interface QuestProgressResponseProto_Builder : PBGeneratedMessage_Builder {
+@private
+  QuestProgressResponseProto* result;
+}
+
+- (QuestProgressResponseProto*) defaultInstance;
+
+- (QuestProgressResponseProto_Builder*) clear;
+- (QuestProgressResponseProto_Builder*) clone;
+
+- (QuestProgressResponseProto*) build;
+- (QuestProgressResponseProto*) buildPartial;
+
+- (QuestProgressResponseProto_Builder*) mergeFrom:(QuestProgressResponseProto*) other;
+- (QuestProgressResponseProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input;
+- (QuestProgressResponseProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+
+- (BOOL) hasSender;
+- (MinimumUserProto*) sender;
+- (QuestProgressResponseProto_Builder*) setSender:(MinimumUserProto*) value;
+- (QuestProgressResponseProto_Builder*) setSenderBuilder:(MinimumUserProto_Builder*) builderForValue;
+- (QuestProgressResponseProto_Builder*) mergeSender:(MinimumUserProto*) value;
+- (QuestProgressResponseProto_Builder*) clearSender;
+
+- (BOOL) hasStatus;
+- (QuestProgressResponseProto_QuestProgressStatus) status;
+- (QuestProgressResponseProto_Builder*) setStatus:(QuestProgressResponseProto_QuestProgressStatus) value;
+- (QuestProgressResponseProto_Builder*) clearStatus;
 @end
 
 @interface QuestRedeemRequestProto : PBGeneratedMessage {
@@ -353,20 +446,24 @@ BOOL UserQuestDetailsResponseProto_UserQuestDetailsStatusIsValidValue(UserQuestD
 
 @interface QuestRedeemResponseProto : PBGeneratedMessage {
 @private
-  BOOL hasMonsterId_:1;
+  BOOL hasQuestId_:1;
   BOOL hasSender_:1;
+  BOOL hasFump_:1;
   BOOL hasStatus_:1;
-  int32_t monsterId;
+  int32_t questId;
   MinimumUserProto* sender;
+  FullUserMonsterProto* fump;
   QuestRedeemResponseProto_QuestRedeemStatus status;
   NSMutableArray* mutableNewlyAvailableQuestsList;
 }
 - (BOOL) hasSender;
 - (BOOL) hasStatus;
-- (BOOL) hasMonsterId;
+- (BOOL) hasFump;
+- (BOOL) hasQuestId;
 @property (readonly, retain) MinimumUserProto* sender;
 @property (readonly) QuestRedeemResponseProto_QuestRedeemStatus status;
-@property (readonly) int32_t monsterId;
+@property (readonly, retain) FullUserMonsterProto* fump;
+@property (readonly) int32_t questId;
 - (NSArray*) newlyAvailableQuestsList;
 - (FullQuestProto*) newlyAvailableQuestsAtIndex:(int32_t) index;
 
@@ -423,137 +520,16 @@ BOOL UserQuestDetailsResponseProto_UserQuestDetailsStatusIsValidValue(UserQuestD
 - (QuestRedeemResponseProto_Builder*) setStatus:(QuestRedeemResponseProto_QuestRedeemStatus) value;
 - (QuestRedeemResponseProto_Builder*) clearStatus;
 
-- (BOOL) hasMonsterId;
-- (int32_t) monsterId;
-- (QuestRedeemResponseProto_Builder*) setMonsterId:(int32_t) value;
-- (QuestRedeemResponseProto_Builder*) clearMonsterId;
-@end
-
-@interface UserQuestDetailsRequestProto : PBGeneratedMessage {
-@private
-  BOOL hasQuestId_:1;
-  BOOL hasSender_:1;
-  int32_t questId;
-  MinimumUserProto* sender;
-}
-- (BOOL) hasSender;
-- (BOOL) hasQuestId;
-@property (readonly, retain) MinimumUserProto* sender;
-@property (readonly) int32_t questId;
-
-+ (UserQuestDetailsRequestProto*) defaultInstance;
-- (UserQuestDetailsRequestProto*) defaultInstance;
-
-- (BOOL) isInitialized;
-- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output;
-- (UserQuestDetailsRequestProto_Builder*) builder;
-+ (UserQuestDetailsRequestProto_Builder*) builder;
-+ (UserQuestDetailsRequestProto_Builder*) builderWithPrototype:(UserQuestDetailsRequestProto*) prototype;
-
-+ (UserQuestDetailsRequestProto*) parseFromData:(NSData*) data;
-+ (UserQuestDetailsRequestProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
-+ (UserQuestDetailsRequestProto*) parseFromInputStream:(NSInputStream*) input;
-+ (UserQuestDetailsRequestProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
-+ (UserQuestDetailsRequestProto*) parseFromCodedInputStream:(PBCodedInputStream*) input;
-+ (UserQuestDetailsRequestProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
-@end
-
-@interface UserQuestDetailsRequestProto_Builder : PBGeneratedMessage_Builder {
-@private
-  UserQuestDetailsRequestProto* result;
-}
-
-- (UserQuestDetailsRequestProto*) defaultInstance;
-
-- (UserQuestDetailsRequestProto_Builder*) clear;
-- (UserQuestDetailsRequestProto_Builder*) clone;
-
-- (UserQuestDetailsRequestProto*) build;
-- (UserQuestDetailsRequestProto*) buildPartial;
-
-- (UserQuestDetailsRequestProto_Builder*) mergeFrom:(UserQuestDetailsRequestProto*) other;
-- (UserQuestDetailsRequestProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input;
-- (UserQuestDetailsRequestProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
-
-- (BOOL) hasSender;
-- (MinimumUserProto*) sender;
-- (UserQuestDetailsRequestProto_Builder*) setSender:(MinimumUserProto*) value;
-- (UserQuestDetailsRequestProto_Builder*) setSenderBuilder:(MinimumUserProto_Builder*) builderForValue;
-- (UserQuestDetailsRequestProto_Builder*) mergeSender:(MinimumUserProto*) value;
-- (UserQuestDetailsRequestProto_Builder*) clearSender;
+- (BOOL) hasFump;
+- (FullUserMonsterProto*) fump;
+- (QuestRedeemResponseProto_Builder*) setFump:(FullUserMonsterProto*) value;
+- (QuestRedeemResponseProto_Builder*) setFumpBuilder:(FullUserMonsterProto_Builder*) builderForValue;
+- (QuestRedeemResponseProto_Builder*) mergeFump:(FullUserMonsterProto*) value;
+- (QuestRedeemResponseProto_Builder*) clearFump;
 
 - (BOOL) hasQuestId;
 - (int32_t) questId;
-- (UserQuestDetailsRequestProto_Builder*) setQuestId:(int32_t) value;
-- (UserQuestDetailsRequestProto_Builder*) clearQuestId;
-@end
-
-@interface UserQuestDetailsResponseProto : PBGeneratedMessage {
-@private
-  BOOL hasSender_:1;
-  BOOL hasStatus_:1;
-  MinimumUserProto* sender;
-  UserQuestDetailsResponseProto_UserQuestDetailsStatus status;
-  NSMutableArray* mutableInProgressUserQuestDataList;
-}
-- (BOOL) hasSender;
-- (BOOL) hasStatus;
-@property (readonly, retain) MinimumUserProto* sender;
-@property (readonly) UserQuestDetailsResponseProto_UserQuestDetailsStatus status;
-- (NSArray*) inProgressUserQuestDataList;
-- (FullUserQuestDataLargeProto*) inProgressUserQuestDataAtIndex:(int32_t) index;
-
-+ (UserQuestDetailsResponseProto*) defaultInstance;
-- (UserQuestDetailsResponseProto*) defaultInstance;
-
-- (BOOL) isInitialized;
-- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output;
-- (UserQuestDetailsResponseProto_Builder*) builder;
-+ (UserQuestDetailsResponseProto_Builder*) builder;
-+ (UserQuestDetailsResponseProto_Builder*) builderWithPrototype:(UserQuestDetailsResponseProto*) prototype;
-
-+ (UserQuestDetailsResponseProto*) parseFromData:(NSData*) data;
-+ (UserQuestDetailsResponseProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
-+ (UserQuestDetailsResponseProto*) parseFromInputStream:(NSInputStream*) input;
-+ (UserQuestDetailsResponseProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
-+ (UserQuestDetailsResponseProto*) parseFromCodedInputStream:(PBCodedInputStream*) input;
-+ (UserQuestDetailsResponseProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
-@end
-
-@interface UserQuestDetailsResponseProto_Builder : PBGeneratedMessage_Builder {
-@private
-  UserQuestDetailsResponseProto* result;
-}
-
-- (UserQuestDetailsResponseProto*) defaultInstance;
-
-- (UserQuestDetailsResponseProto_Builder*) clear;
-- (UserQuestDetailsResponseProto_Builder*) clone;
-
-- (UserQuestDetailsResponseProto*) build;
-- (UserQuestDetailsResponseProto*) buildPartial;
-
-- (UserQuestDetailsResponseProto_Builder*) mergeFrom:(UserQuestDetailsResponseProto*) other;
-- (UserQuestDetailsResponseProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input;
-- (UserQuestDetailsResponseProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
-
-- (BOOL) hasSender;
-- (MinimumUserProto*) sender;
-- (UserQuestDetailsResponseProto_Builder*) setSender:(MinimumUserProto*) value;
-- (UserQuestDetailsResponseProto_Builder*) setSenderBuilder:(MinimumUserProto_Builder*) builderForValue;
-- (UserQuestDetailsResponseProto_Builder*) mergeSender:(MinimumUserProto*) value;
-- (UserQuestDetailsResponseProto_Builder*) clearSender;
-
-- (NSArray*) inProgressUserQuestDataList;
-- (FullUserQuestDataLargeProto*) inProgressUserQuestDataAtIndex:(int32_t) index;
-- (UserQuestDetailsResponseProto_Builder*) replaceInProgressUserQuestDataAtIndex:(int32_t) index with:(FullUserQuestDataLargeProto*) value;
-- (UserQuestDetailsResponseProto_Builder*) addInProgressUserQuestData:(FullUserQuestDataLargeProto*) value;
-- (UserQuestDetailsResponseProto_Builder*) addAllInProgressUserQuestData:(NSArray*) values;
-- (UserQuestDetailsResponseProto_Builder*) clearInProgressUserQuestDataList;
-
-- (BOOL) hasStatus;
-- (UserQuestDetailsResponseProto_UserQuestDetailsStatus) status;
-- (UserQuestDetailsResponseProto_Builder*) setStatus:(UserQuestDetailsResponseProto_UserQuestDetailsStatus) value;
-- (UserQuestDetailsResponseProto_Builder*) clearStatus;
+- (QuestRedeemResponseProto_Builder*) setQuestId:(int32_t) value;
+- (QuestRedeemResponseProto_Builder*) clearQuestId;
 @end
 

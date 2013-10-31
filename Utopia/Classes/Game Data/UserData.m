@@ -18,15 +18,32 @@
     self.userId = proto.userId;
     self.monsterId = proto.monsterId;
     self.userMonsterId = proto.userMonsterId;
-    self.enhancementPercentage = proto.enhancementPercentage;
+    self.level = proto.currentLvl;
+    self.experience = proto.currentExp;
     self.curHealth = proto.currentHealth;
     self.teamSlot = proto.teamSlotNum;
+    self.numPieces = proto.numPieces;
+    self.isComplete = proto.isComplete;
   }
   return self;
 }
 
 + (id) userMonsterWithProto:(FullUserMonsterProto *)proto {
   return [[self alloc] initWithMonsterProto:proto];
+}
+
+- (id) initWithTaskStageMonsterProto:(TaskStageMonsterProto *)proto {
+  if ((self = [super init])){
+    Globals *gl = [Globals sharedGlobals];
+    self.monsterId = proto.monsterId;
+    self.level = proto.level;
+    self.curHealth = [gl calculateMaxHealthForMonster:self];
+  }
+  return self;
+}
+
++ (id) userMonsterWithTaskStageMonsterProto:(TaskStageMonsterProto *)proto {
+  return [[self alloc] initWithTaskStageMonsterProto:proto];
 }
 
 - (BOOL) isHealing {
@@ -52,6 +69,14 @@
     }
   }
   return NO;
+}
+
+- (void) setExperience:(int)experience {
+  _experience = experience;
+  
+  Globals *gl = [Globals sharedGlobals];
+  float newLevel = [gl calculateLevelForMonster:self.monsterId experience:experience];
+  self.level = MAX(self.level, newLevel);
 }
 
 - (BOOL) isEqual:(UserMonster *)object {
@@ -161,23 +186,25 @@
 - (float) currentPercentageOfLevel {
   Globals *gl = [Globals sharedGlobals];
   UserMonster *base = self.baseMonster.userMonster;
-  float curPerc = base.enhancementPercentage-(int)base.enhancementPercentage;
+  float baseLevel = [gl calculateLevelForMonster:base.monsterId experience:base.experience];
+  float curPerc = baseLevel-(int)baseLevel;
   
   if (self.feeders.count == 0) {
     return curPerc;
   }
   
   EnhancementItem *feeder = [self.feeders objectAtIndex:0];
-  float addedPerc = [gl calculateEnhancementPercentageIncrease:self.baseMonster feeder:feeder];
-  return curPerc+feeder.currentPercentage*addedPerc;
+  int expGained = [gl calculateExperienceIncrease:self.baseMonster feeder:feeder];
+  float newLevel = [gl calculateLevelForMonster:base.monsterId experience:base.experience+expGained];
+  return curPerc+feeder.currentPercentage*(newLevel-baseLevel);
 }
 
 - (float) finalPercentageFromCurrentLevel {
   Globals *gl = [Globals sharedGlobals];
   UserMonster *base = self.baseMonster.userMonster;
-  float curPerc = base.enhancementPercentage-(int)base.enhancementPercentage;
-  float addedPerc = [gl calculateEnhancementPercentageIncrease:self];
-  return curPerc+addedPerc;
+  int expGained = [gl calculateExperienceIncrease:self];
+  float newLevel = [gl calculateLevelForMonster:base.monsterId experience:base.experience+expGained];
+  return newLevel-base.level;
 }
 
 - (id) copy {
@@ -358,111 +385,6 @@
 
 @end
 
-@implementation UserJob
-
-@synthesize jobId, jobType;
-@synthesize title, subtitle;
-@synthesize numCompleted, total;
-
-- (id) initWithTask:(FullTaskProto *)p {
-  if ((self = [super init])) {
-    self.jobId = p.taskId;
-    self.jobType = kTask;
-    self.title = p.name;
-  }
-  return self;
-}
-
-- (id) initWithBuildStructJob:(BuildStructJobProto *)p {
-  if ((self = [super init])) {
-    GameState *gs = [GameState sharedGameState];
-    FullStructureProto *s = [gs structWithId:p.structId];
-    self.jobId = p.buildStructJobId;
-    self.jobType = kBuildStructJob;
-    self.title = [NSString stringWithFormat:@"Build %@%@", s.name, p.quantityRequired == 1 ? @"" : [NSString stringWithFormat:@" (%d)", p.quantityRequired]];
-    self.total = p.quantityRequired;
-  }
-  return self;
-}
-
-- (id) initWithUpgradeStructJob:(UpgradeStructJobProto *)p {
-  if ((self = [super init])) {
-    GameState *gs = [GameState sharedGameState];
-    FullStructureProto *s = [gs structWithId:p.structId];
-    self.jobId = p.upgradeStructJobId;
-    self.jobType = kUpgradeStructJob;
-    self.title = [NSString stringWithFormat:@"Upgrade %@ to Level %d", s.name, p.levelReq];
-    self.total = p.levelReq;
-  }
-  return self;
-}
-
-- (id) initWithCoinRetrieval:(int)amount questId:(int)questId {
-  if ((self = [super init])) {
-    self.jobId = questId;
-    self.jobType = kCoinRetrievalJob;
-    self.title = [NSString stringWithFormat:@"Collect %d silver from your income buildings", amount];
-    self.total = amount;
-  }
-  return self;
-}
-
-- (id) initWithSpecialQuestAction:(SpecialQuestAction)sqa questId:(int)questId {
-  if ((self = [super init])) {
-    self.jobId = questId;
-    self.jobType = kSpecialJob;
-    
-    NSString *desc = nil;
-    switch (sqa) {
-      case SpecialQuestActionRequestJoinClan:
-        desc = @"Request to Join 1 Clan";
-        break;
-        
-      default:
-        break;
-    }
-    self.title = desc;
-    
-    self.total = 1;
-  }
-  return self;
-}
-
-+ (NSArray *)jobsForQuest:(FullQuestProto *)fqp {
-  GameState *gs = [GameState sharedGameState];
-  NSMutableArray *jobs = [NSMutableArray array];
-  UserJob *job = nil;
-  
-  for (NSNumber *n in fqp.taskReqsList) {
-    job = [[UserJob alloc] initWithTask:[gs taskWithId:n.intValue]];
-    [jobs addObject:job];
-  }
-  
-  for (NSNumber *n in fqp.buildStructJobsReqsList) {
-    job = [[UserJob alloc] initWithBuildStructJob:[gs.staticBuildStructJobs objectForKey:n]];
-    [jobs addObject:job];
-  }
-  
-  for (NSNumber *n in fqp.upgradeStructJobsReqsList) {
-    job = [[UserJob alloc] initWithUpgradeStructJob:[gs.staticUpgradeStructJobs objectForKey:n]];
-    [jobs addObject:job];
-  }
-  
-  if (fqp.coinRetrievalReq > 0) {
-    job = [[UserJob alloc] initWithCoinRetrieval:fqp.coinRetrievalReq questId:fqp.questId];
-    [jobs addObject:job];
-  }
-  
-  if (fqp.hasSpecialQuestActionReq) {
-    job = [[UserJob alloc] initWithSpecialQuestAction:fqp.specialQuestActionReq questId:fqp.questId];
-    [jobs addObject:job];
-  }
-  
-  return jobs;
-}
-
-@end
-
 @implementation ChatMessage
 
 @synthesize message, sender, date, isAdmin;
@@ -494,6 +416,122 @@
 
 + (id) userExpansionWithUserCityExpansionDataProto:(UserCityExpansionDataProto *)proto {
   return [[self alloc] initWithUserCityExpansionDataProto:proto];
+}
+
+@end
+
+@implementation Reward
+
++ (NSArray *) createRewardsForDungeon:(BeginDungeonResponseProto *)proto {
+  NSMutableArray *rewards = [NSMutableArray array];
+  
+  int silverAmount = 0, expAmount = 0;
+  for (TaskStageProto *tsp in proto.tspList) {
+    for (TaskStageMonsterProto *tsm in tsp.stageMonstersList) {
+      silverAmount += tsm.silverReward;
+      expAmount += tsm.expReward;
+      
+      if (tsm.puzzlePieceDropped) {
+        Reward *r = [[Reward alloc] initWithMonsterId:tsm.monsterId isPuzzlePiece:YES];
+        [rewards addObject:r];
+      }
+    }
+  }
+  
+  if (silverAmount) {
+    Reward *r = [[Reward alloc] initWithSilverAmount:silverAmount];
+    [rewards addObject:r];
+  }
+  
+  if (expAmount) {
+    Reward *r = [[Reward alloc] initWithExpAmount:expAmount];
+    [rewards addObject:r];
+  }
+  
+  return rewards;
+}
+
++ (NSArray *) createRewardsForQuest:(FullQuestProto *)quest {
+  NSMutableArray *rewards = [NSMutableArray array];
+  
+  if (quest.diamondReward) {
+    Reward *r = [[Reward alloc] initWithGoldAmount:quest.diamondReward];
+    [rewards addObject:r];
+  }
+  
+  if (quest.monsterIdReward) {
+    Reward *r = [[Reward alloc] initWithMonsterId:quest.monsterIdReward isPuzzlePiece:!quest.isCompleteMonster];
+    [rewards addObject:r];
+  }
+  
+  if (quest.coinReward) {
+    Reward *r = [[Reward alloc] initWithSilverAmount:quest.coinReward];
+    [rewards addObject:r];
+  }
+  
+  if (quest.expReward) {
+    Reward *r = [[Reward alloc] initWithExpAmount:quest.expReward];
+    [rewards addObject:r];
+  }
+  
+  return rewards;
+}
+
+- (id) initWithMonsterId:(int)monsterId isPuzzlePiece:(BOOL)isPuzzlePiece {
+  if ((self = [super init])) {
+    self.type = RewardTypeMonster;
+    self.monsterId = monsterId;
+    self.isPuzzlePiece = isPuzzlePiece;
+  }
+  return self;
+}
+
+- (id) initWithSilverAmount:(int)silverAmount {
+  if ((self = [super init])) {
+    self.type = RewardTypeSilver;
+    self.silverAmount = silverAmount;
+  }
+  return self;
+}
+
+- (id) initWithGoldAmount:(int)goldAmount {
+  if ((self = [super init])) {
+    self.type = RewardTypeGold;
+    self.goldAmount = goldAmount;
+  }
+  return self;
+}
+
+- (id) initWithExpAmount:(int)expAmount {
+  if ((self = [super init])) {
+    self.type = RewardTypeExperience;
+    self.expAmount = expAmount;
+  }
+  return self;
+}
+
+@end
+
+@implementation UserQuest
+
+- (id) initWithProto:(FullUserQuestProto *)proto {
+  if ((self = [super init])) {
+    self.userId = proto.userId;
+    self.questId = proto.questId;
+    self.isRedeemed = proto.isRedeemed;
+    self.isComplete = proto.isComplete;
+    self.progress = proto.progress;
+  }
+  return self;
+}
+
++ (id) questWithProto:(FullUserQuestProto *)proto {
+  return [[UserQuest alloc] initWithProto:proto];
+}
+
+- (FullQuestProto *) quest {
+  GameState *gs = [GameState sharedGameState];
+  return [gs questForId:self.questId];
 }
 
 @end

@@ -86,11 +86,8 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
     case EventProtocolResponseSQuestRedeemEvent:
       responseClass = [QuestRedeemResponseProto class];
       break;
-    case EventProtocolResponseSUserQuestDetailsEvent:
-      responseClass = [UserQuestDetailsResponseProto class];
-      break;
-    case EventProtocolResponseSQuestCompleteEvent:
-      responseClass = [QuestCompleteResponseProto class];
+    case EventProtocolResponseSQuestProgressEvent:
+      responseClass = [QuestProgressResponseProto class];
       break;
     case EventProtocolResponseSRetrieveUsersForUserIdsEvent:
       responseClass = [RetrieveUsersForUserIdsResponseProto class];
@@ -191,6 +188,20 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
     case EventProtocolResponseSHealMonsterWaitTimeCompleteEvent:
       responseClass = [HealMonsterWaitTimeCompleteResponseProto class];
       break;
+    case EventProtocolResponseSAddMonsterToBattleTeamEvent:
+      responseClass = [AddMonsterToBattleTeamResponseProto class];
+      break;
+    case EventProtocolResponseSIncreaseMonsterInventorySlotEvent:
+      responseClass = [IncreaseMonsterInventorySlotResponseProto class];
+      break;
+    case EventProtocolResponseSEnhancementWaitTimeCompleteEvent:
+      responseClass = [EnhancementWaitTimeCompleteResponseProto class];
+      break;
+    case EventProtocolResponseSRemoveMonsterFromBattleTeamEvent:
+      responseClass = [RemoveMonsterFromBattleTeamResponseProto class];
+      break;
+    case EventProtocolResponseSUpdateMonsterHealthEvent:
+      responseClass = [UpdateMonsterHealthResponseProto class];
       
     default:
       responseClass = nil;
@@ -216,14 +227,13 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
   GameState *gs = [GameState sharedGameState];
   
   if (proto.updateStatus == StartupResponseProto_UpdateStatusMajorUpdate) {
-    [GenericPopupController displayMajorUpdatePopup:proto.appStoreUrl];
+    [GenericPopupController displayNotificationViewWithText:@"We've added a slew of new features! Update now to check them out." title:@"Update Now" okayButton:@"Update" target:gl selector:@selector(openAppStoreLink)];
     return;
   } else if (proto.updateStatus == StartupResponseProto_UpdateStatusMinorUpdate) {
-    GenericPopupController *gpc = [GenericPopupController sharedGenericPopupController];
-    gpc.appStoreLink = proto.appStoreUrl;
-    [GenericPopupController displayConfirmationWithDescription:@"An update is available. Head over to the App Store to download it now!" title:@"Update Available" okayButton:@"Update" cancelButton:@"Later" target:gpc selector:@selector(openAppStoreLink)];
+    [GenericPopupController displayConfirmationWithDescription:@"An update is available. Head over to the App Store to download it now!" title:@"Update Available" okayButton:@"Update" cancelButton:@"Later" target:gl selector:@selector(openAppStoreLink)];
   }
   
+  gl.appStoreLink = proto.appStoreUrl;
   gl.reviewPageURL = proto.reviewPageUrl;
   gl.reviewPageConfirmationMessage = proto.reviewPageConfirmationMessage;
   
@@ -233,7 +243,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
       LNLog(@"Received user id 0..");
     }
     // Add these before updating user or else UI will update incorrectly
-    [gs addAllLevelRequiredExps:proto.larepList];
+    [gs addToStaticLevelInfos:proto.slipList];
     
     // Update user before creating map
     [gs updateUser:proto.sender timestamp:0];
@@ -243,7 +253,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
     
     [gs setPlayerHasBoughtInAppPurchase:proto.playerHasBoughtInAppPurchase];
     
-//    [Globals asyncDownloadBundles];
+    //    [Globals asyncDownloadBundles];
     
     [gs.staticMonsters removeAllObjects];
     [gs addToStaticMonsters:proto.staticMonstersList];
@@ -258,12 +268,14 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
     [gs.staticCities removeAllObjects];
     [gs addToStaticCities:proto.allCitiesList];
     [gs.inProgressCompleteQuests removeAllObjects];
-    [gs addToInProgressCompleteQuests:proto.inProgressCompleteQuestsList];
+    [gs addToInProgressCompleteQuests:proto.unredeemedQuestsList];
     [gs.inProgressIncompleteQuests removeAllObjects];
-    [gs addToInProgressIncompleteQuests:proto.inProgressIncompleteQuestsList];
+    [gs addToInProgressIncompleteQuests:proto.inProgressQuestsList];
     // Put this after inprogress complete because available quests will be autoaccepted
     [gs.availableQuests removeAllObjects];
     [gs addToAvailableQuests:proto.availableQuestsList];
+    [gs.myQuests removeAllObjects];
+    [gs addToMyQuests:proto.userQuestsList];
     [gs.staticStructs removeAllObjects];
     [gs addToStaticStructs:proto.staticStructsList];
     gs.carpenterStructs = [proto.staticStructsList copy];
@@ -291,8 +303,8 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
     }
     
     for (RareBoosterPurchaseProto *rbp in proto.rareBoosterPurchasesList) {
-//      NSLog(@"%@ got %@ from %@.", rbp.user.name, rbp.equip.name, rbp.booster.name);
-//      [gs addBoosterPurchase:rbp];
+      //      NSLog(@"%@ got %@ from %@.", rbp.user.name, rbp.equip.name, rbp.booster.name);
+      //      [gs addBoosterPurchase:rbp];
     }
     
     [(AppDelegate *)[[UIApplication sharedApplication] delegate] registerForPushNotifications];
@@ -414,7 +426,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
       }
     }
     
-    if (proto.status == PurchaseCityExpansionResponseProto_PurchaseCityExpansionStatusSuccess) {
+    if (proto.status == PurchaseNormStructureResponseProto_PurchaseNormStructureStatusSuccess) {
       if (proto.hasUserStructId) {
         us.userStructId = proto.userStructId;
       } else {
@@ -427,11 +439,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
     }
     [gs removeNonFullUserUpdatesForTag:tag];
   } else {
-    if (proto.status == PurchaseNormStructureResponseProto_PurchaseNormStructureStatusClientTooApartFromServerTime) {
-      [self handleTimeOutOfSync];
-    } else {
-      [Globals popupMessage:@"Server failed to purchase building."];
-    }
+    [Globals popupMessage:@"Server failed to purchase building."];
     [gs removeAndUndoAllUpdatesForTag:tag];
   }
 }
@@ -500,11 +508,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
     [Globals popupMessage:@"Server failed to speed up normal structure wait time."];
     [gs removeAndUndoAllUpdatesForTag:tag];
   } else {
-    if (proto.status == FinishNormStructWaittimeWithDiamondsResponseProto_FinishNormStructWaittimeStatusClientTooApartFromServerTime) {
-      [self handleTimeOutOfSync];
-    } else {
       [gs removeNonFullUserUpdatesForTag:tag];
-    }
   }
 }
 
@@ -621,7 +625,6 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
   if (proto.status == RetrieveStaticDataResponseProto_RetrieveStaticDataStatusSuccess) {
     [gs addToStaticBuildStructJobs:proto.buildStructJobsList];
     [gs addToStaticCities:proto.citiesList];
-    [gs addToStaticQuests:proto.questsList];
     [gs addToStaticStructs:proto.structsList];
     [gs addToStaticTasks:proto.tasksList];
     [gs addToStaticUpgradeStructJobs:proto.upgradeStructJobsList];
@@ -661,8 +664,6 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
     [Globals popupMessage:@"Server failed to accept quest"];
     [gs removeAndUndoAllUpdatesForTag:tag];
   } else {
-    [[OutgoingEventController sharedOutgoingEventController] retrieveQuestLog];
-    
     [gs removeNonFullUserUpdatesForTag:tag];
   }
 }
@@ -685,38 +686,12 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
   }
 }
 
-- (void) handleUserQuestDetailsResponseProto:(FullEvent *)fe {
-  UserQuestDetailsResponseProto *proto = (UserQuestDetailsResponseProto *)fe.event;
-  int tag = fe.tag;
+- (void) handleQuestProgressResponseProto:(FullEvent *)fe {
+  QuestProgressResponseProto *proto = (QuestProgressResponseProto *)fe.event;
   
-  LNLog(@"Quest log details response received with status %d", proto.status);
-  GameState *gs = [GameState sharedGameState];
-  if (proto.status == UserQuestDetailsResponseProto_UserQuestDetailsStatusSuccess) {
-    [[OutgoingEventController sharedOutgoingEventController] retrieveAllStaticData];
-    [gs removeNonFullUserUpdatesForTag:tag];
-  } else {
-    [Globals popupMessage:@"Server failed to send quest log details"];
-    [gs removeAndUndoAllUpdatesForTag:tag];
-  }
-}
-
-- (void) handleQuestCompleteResponseProto:(FullEvent *)fe {
-  QuestCompleteResponseProto *proto = (QuestCompleteResponseProto *)fe.event;
+  LNLog(@"Received quest progress response with status %d.", proto.status);
   
-  LNLog(@"Received quest complete response for quest %d.", proto.questId);
-  
-  GameState *gs = [GameState sharedGameState];
-  NSNumber *questNum = [NSNumber numberWithInt:proto.questId];
-  FullQuestProto *fqp = [gs.inProgressIncompleteQuests objectForKey:questNum];
-  
-  if (fqp) {
-    [gs.inProgressCompleteQuests setObject:fqp forKey:questNum];
-    [gs.inProgressIncompleteQuests removeObjectForKey:questNum];
-    
-    //GameMap *map = [Globals mapForQuest:fqp];
-    //[map reloadQuestGivers];
-    
-    [Analytics questComplete:proto.questId];
+  if (proto.status == QuestProgressResponseProto_QuestProgressStatusSuccess) {
   } else {
     [Globals popupMessage:@"Server sent quest complete for invalid quest"];
   }
@@ -1071,11 +1046,11 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
   
   LNLog(@"General notification received with title \"%@\".", proto.title);
   
-//  TopBar *tb = [TopBar sharedTopBar];
-//  UIColor *c = [Globals colorForColorProto:proto.rgb];
-//  UserNotification *un = [[UserNotification alloc] initWithTitle:proto.title subtitle:proto.subtitle color:c];
-//  [tb addNotificationToDisplayQueue:un];
-//  [un release];
+  //  TopBar *tb = [TopBar sharedTopBar];
+  //  UIColor *c = [Globals colorForColorProto:proto.rgb];
+  //  UserNotification *un = [[UserNotification alloc] initWithTitle:proto.title subtitle:proto.subtitle color:c];
+  //  [tb addNotificationToDisplayQueue:un];
+  //  [un release];
 }
 
 - (void) handleRetrieveLeaderboardRankingsResponseProto:(FullEvent *)fe {
@@ -1102,11 +1077,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
   if (proto.status == SubmitMonsterEnhancementResponseProto_SubmitMonsterEnhancementStatusSuccess) {
     [gs removeNonFullUserUpdatesForTag:tag];
   } else {
-    if (proto.status == SubmitMonsterEnhancementResponseProto_SubmitMonsterEnhancementStatusClientTooApartFromServerTime) {
-      [self handleTimeOutOfSync];
-    } else {
-      [Globals popupMessage:@"Server failed to submit monster enhancement."];
-    }
+    [Globals popupMessage:@"Server failed to submit monster enhancement."];
     
     [gs removeAndUndoAllUpdatesForTag:tag];
   }
@@ -1122,11 +1093,11 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
     
     [gs removeNonFullUserUpdatesForTag:tag];
   } else {
-      if (proto.status == PurchaseBoosterPackResponseProto_PurchaseBoosterPackStatusClientTooApartFromServerTime) {
-        [self handleTimeOutOfSync];
-      } else {
-        [Globals popupMessage:@"Server failed to purchase booster pack."];
-      }
+    if (proto.status == PurchaseBoosterPackResponseProto_PurchaseBoosterPackStatusClientTooApartFromServerTime) {
+      [self handleTimeOutOfSync];
+    } else {
+      [Globals popupMessage:@"Server failed to purchase booster pack."];
+    }
     
     [gs removeAndUndoAllUpdatesForTag:tag];
   }
@@ -1142,7 +1113,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
   PrivateChatPostResponseProto *proto = (PrivateChatPostResponseProto *)fe.event;
   LNLog(@"Private chat post response received with status %d.", proto.status);
   
-//  [[ChatMenuController sharedChatMenuController] receivedPrivateChatPost:proto];
+  //  [[ChatMenuController sharedChatMenuController] receivedPrivateChatPost:proto];
 }
 
 - (void) handleRetrievePrivateChatPostsResponseProto:(FullEvent *)fe {
@@ -1160,23 +1131,125 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
   }
 }
 
+
+- (void) handleEndDungeonResponseProto:(FullEvent *)fe {
+  EndDungeonResponseProto *proto = (EndDungeonResponseProto *)fe.event;
+  int tag = fe.tag;
+  LNLog(@"End dungeon response received with status %d.", proto.status);
+  
+  GameState *gs = [GameState sharedGameState];
+  if (proto.status == EndDungeonResponseProto_EndDungeonStatusSuccess) {
+    [gs addToMyMonsters:proto.updatedOrNewList];
+    
+    [gs removeNonFullUserUpdatesForTag:tag];
+  } else {
+    [Globals popupMessage:@"Server failed to end dungeon."];
+    [gs removeAndUndoAllUpdatesForTag:tag];
+  }
+}
+
 - (void) handleHealMonsterResponseProto:(FullEvent *)fe {
   HealMonsterResponseProto *proto = (HealMonsterResponseProto *)fe.event;
+  int tag = fe.tag;
+  
   LNLog(@"Heal monster response received with status %d.", proto.status);
   
+  GameState *gs = [GameState sharedGameState];
   if (proto.status == HealMonsterResponseProto_HealMonsterStatusSuccess) {
+    [gs removeNonFullUserUpdatesForTag:tag];
   } else {
-    [Globals popupMessage:@"Server failed to submit heal queue."];
+    [Globals popupMessage:@"Server failed to handle heal monster."];
+    [gs removeAndUndoAllUpdatesForTag:tag];
   }
 }
 
 - (void) handleHealMonsterWaitTimeCompleteResponseProto:(FullEvent *)fe {
   HealMonsterWaitTimeCompleteResponseProto *proto = (HealMonsterWaitTimeCompleteResponseProto *)fe.event;
-  LNLog(@"Heal wait complete response received with status %d.", proto.status);
+  int tag = fe.tag;
   
+  LNLog(@"Heal wait time complete response received with status %d.", proto.status);
+  
+  GameState *gs = [GameState sharedGameState];
   if (proto.status == HealMonsterWaitTimeCompleteResponseProto_HealMonsterWaitTimeCompleteStatusSuccess) {
+    [gs removeNonFullUserUpdatesForTag:tag];
   } else {
-    [Globals popupMessage:@"Server failed to complete heal wait time."];
+    [Globals popupMessage:@"Server failed to handle heal complete."];
+    [gs removeAndUndoAllUpdatesForTag:tag];
+  }
+}
+
+- (void) handleAddMonsterToBattleTeamResponseProto:(FullEvent *)fe {
+  AddMonsterToBattleTeamResponseProto *proto = (AddMonsterToBattleTeamResponseProto *)fe.event;
+  int tag = fe.tag;
+  
+  LNLog(@"Add monster to squad response received with status %d.", proto.status);
+  
+  GameState *gs = [GameState sharedGameState];
+  if (proto.status == AddMonsterToBattleTeamResponseProto_AddMonsterToBattleTeamStatusSuccess) {
+    [gs removeNonFullUserUpdatesForTag:tag];
+  } else {
+    [Globals popupMessage:@"Server failed to handle add monster."];
+    [gs removeAndUndoAllUpdatesForTag:tag];
+  }
+}
+
+- (void) handleRemoveMonsterFromBattleTeamResponseProto:(FullEvent *)fe {
+  RemoveMonsterFromBattleTeamResponseProto *proto = (RemoveMonsterFromBattleTeamResponseProto *)fe.event;
+  int tag = fe.tag;
+  
+  LNLog(@"Remove monster from squad response received with status %d.", proto.status);
+  
+  GameState *gs = [GameState sharedGameState];
+  if (proto.status == RemoveMonsterFromBattleTeamResponseProto_RemoveMonsterFromBattleTeamStatusSuccess) {
+    [gs removeNonFullUserUpdatesForTag:tag];
+  } else {
+    [Globals popupMessage:@"Server failed to handle remove monster."];
+    [gs removeAndUndoAllUpdatesForTag:tag];
+  }
+}
+
+- (void) handleBuyMonsterInventorySlotResponseProto:(FullEvent *)fe {
+  IncreaseMonsterInventorySlotResponseProto *proto = (IncreaseMonsterInventorySlotResponseProto *)fe.event;
+  int tag = fe.tag;
+  
+  LNLog(@"Remove monster from squad response received with status %d.", proto.status);
+  
+  GameState *gs = [GameState sharedGameState];
+  if (proto.status == IncreaseMonsterInventorySlotResponseProto_IncreaseMonsterInventorySlotStatusSuccess) {
+    [gs removeNonFullUserUpdatesForTag:tag];
+  } else {
+    [Globals popupMessage:@"Server failed to handle buying inventory slots."];
+    [gs removeAndUndoAllUpdatesForTag:tag];
+  }
+}
+
+- (void) handleEnhancementWaitTimeCompleteResponseProto:(FullEvent *)fe {
+  IncreaseMonsterInventorySlotResponseProto *proto = (IncreaseMonsterInventorySlotResponseProto *)fe.event;
+  int tag = fe.tag;
+  
+  LNLog(@"Remove monster from squad response received with status %d.", proto.status);
+  
+  GameState *gs = [GameState sharedGameState];
+  if (proto.status == IncreaseMonsterInventorySlotResponseProto_IncreaseMonsterInventorySlotStatusSuccess) {
+    [gs removeNonFullUserUpdatesForTag:tag];
+  } else {
+    [Globals popupMessage:@"Server failed to handle buying inventory slots."];
+    [gs removeAndUndoAllUpdatesForTag:tag];
+  }
+}
+
+- (void) handleUpdateMonsterHealthResponseProto:(FullEvent *)fe {
+  UpdateMonsterHealthResponseProto *proto = (UpdateMonsterHealthResponseProto *)fe.event;
+  int tag = fe.tag;
+  
+  LNLog(@"Remove monster from squad response received with status %d.", proto.status);
+  
+  GameState *gs = [GameState sharedGameState];
+  if (proto.status == IncreaseMonsterInventorySlotResponseProto_IncreaseMonsterInventorySlotStatusSuccess) {
+    [gs removeNonFullUserUpdatesForTag:tag];
+  } else {
+    [Globals popupMessage:@"Server failed to handle buying inventory slots."];
+    [gs removeAndUndoAllUpdatesForTag:tag];
   }
 }
 

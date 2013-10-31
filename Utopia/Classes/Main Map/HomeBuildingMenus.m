@@ -168,7 +168,7 @@
     self.upgradedTimeLabel.frame = r;
   }
   self.upgradeTimeLabel.text = [Globals convertTimeToShortString:[gl calculateMinutesToUpgrade:us]*60];
-  self.upgradePriceLabel.text = [Globals commafyNumber:[gl calculateUpgradeCost:us]];
+  self.upgradePriceLabel.text = [Globals cashStringForNumber:[gl calculateUpgradeCost:us]];
   
   [Globals loadImageForStruct:fsp.structId toView:self.structIcon masked:NO indicator:UIActivityIndicatorViewStyleWhiteLarge];
   

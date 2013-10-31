@@ -557,7 +557,7 @@ static GeneralNotificationResponseProto* defaultGeneralNotificationResponseProto
 - (id) init {
   if ((self = [super init])) {
     self.sender = [MinimumUserProto defaultInstance];
-    self.scope = GroupChatScopeGlobal;
+    self.scope = GroupChatScopeClan;
     self.chatMessage = @"";
     self.clientTime = 0L;
   }
@@ -792,7 +792,7 @@ static SendGroupChatRequestProto* defaultSendGroupChatRequestProtoInstance = nil
 }
 - (SendGroupChatRequestProto_Builder*) clearScope {
   result.hasScope = NO;
-  result.scope = GroupChatScopeGlobal;
+  result.scope = GroupChatScopeClan;
   return self;
 }
 - (BOOL) hasChatMessage {
@@ -1131,7 +1131,7 @@ BOOL SendGroupChatResponseProto_SendGroupChatStatusIsValidValue(SendGroupChatRes
   if ((self = [super init])) {
     self.sender = [MinimumUserProto defaultInstance];
     self.chatMessage = @"";
-    self.scope = GroupChatScopeGlobal;
+    self.scope = GroupChatScopeClan;
     self.isAdmin = NO;
   }
   return self;
@@ -1381,7 +1381,7 @@ static ReceivedGroupChatResponseProto* defaultReceivedGroupChatResponseProtoInst
 }
 - (ReceivedGroupChatResponseProto_Builder*) clearScope {
   result.hasScope = NO;
-  result.scope = GroupChatScopeGlobal;
+  result.scope = GroupChatScopeClan;
   return self;
 }
 - (BOOL) hasIsAdmin {

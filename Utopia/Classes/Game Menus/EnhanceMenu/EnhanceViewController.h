@@ -11,7 +11,9 @@
 #import "EasyTableView.h"
 #import "EnhanceViews.h"
 
-@interface EnhanceViewController : GenViewController <EasyTableViewDelegate>
+@interface EnhanceViewController : GenViewController <EasyTableViewDelegate> {
+  int _confirmUserMonsterId;
+}
 
 @property (nonatomic, strong) IBOutlet EnhanceQueueView *queueView;
 @property (nonatomic, strong) IBOutlet EnhanceBaseView *baseView;

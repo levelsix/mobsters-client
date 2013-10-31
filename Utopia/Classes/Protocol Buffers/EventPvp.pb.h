@@ -6,8 +6,6 @@
 
 @class FullUserProto;
 @class FullUserProto_Builder;
-@class LevelAndRequiredExpProto;
-@class LevelAndRequiredExpProto_Builder;
 @class MinimumClanProto;
 @class MinimumClanProto_Builder;
 @class MinimumUserProto;
@@ -18,6 +16,8 @@
 @class QueueUpRequestProto_Builder;
 @class QueueUpResponseProto;
 @class QueueUpResponseProto_Builder;
+@class StaticLevelInfoProto;
+@class StaticLevelInfoProto_Builder;
 typedef enum {
   QueueUpResponseProto_QueueUpStatusSuccess = 1,
   QueueUpResponseProto_QueueUpStatusOtherFail = 2,

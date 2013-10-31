@@ -13,8 +13,6 @@
 @class FullUserProto_Builder;
 @class FullUserStructureProto;
 @class FullUserStructureProto_Builder;
-@class LevelAndRequiredExpProto;
-@class LevelAndRequiredExpProto_Builder;
 @class LevelUpRequestProto;
 @class LevelUpRequestProto_Builder;
 @class LevelUpResponseProto;
@@ -31,6 +29,8 @@
 @class RetrieveUsersForUserIdsRequestProto_Builder;
 @class RetrieveUsersForUserIdsResponseProto;
 @class RetrieveUsersForUserIdsResponseProto_Builder;
+@class StaticLevelInfoProto;
+@class StaticLevelInfoProto_Builder;
 @class UpdateClientUserResponseProto;
 @class UpdateClientUserResponseProto_Builder;
 @class UserCreateRequestProto;

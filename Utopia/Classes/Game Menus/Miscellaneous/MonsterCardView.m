@@ -23,10 +23,11 @@
   Globals *gl = [Globals sharedGlobals];
   MonsterProto *mp = [gs monsterWithId:um.monsterId];
   
-//  [Globals loadImageForMonster:mp.monsterId toView:self.monsterIcon];
+  NSString *fileName = [mp.imagePrefix stringByAppendingString:@"Card.png"];
+  [Globals imageNamed:fileName withView:self.monsterIcon maskedColor:nil indicator:UIActivityIndicatorViewStyleWhite clearImageDuringDownload:YES];
   self.nameLabel.text = mp.displayName;
-  self.levelLabel.text = [NSString stringWithFormat:@"LVL %d", (int)um.enhancementPercentage];
-  self.qualityLabel.text = [Globals stringForRarity:mp.quality];
+  self.levelLabel.text = [NSString stringWithFormat:@"LVL %d", um.level];
+  self.qualityLabel.text = [[Globals stringForRarity:mp.quality] lowercaseString];
   
   NSString *bgdImgName = [Globals imageNameForElement:mp.element suffix:@"card.png"];
   [Globals imageNamed:bgdImgName withView:self.cardBgdView maskedColor:nil indicator:UIActivityIndicatorViewStyleWhite clearImageDuringDownload:YES];
@@ -72,7 +73,7 @@
 }
 
 - (IBAction)darkOverlayClicked:(id)sender {
-  [self.delegate equipViewSelected:self];
+  [self.delegate monsterCardSelected:self];
 }
 
 @end

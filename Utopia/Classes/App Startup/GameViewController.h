@@ -25,5 +25,6 @@
 - (void) handleConnectedToHost;
 
 - (void) buildingPurchased:(int)structId;
+- (void) enterDungeon:(int)taskId withDelay:(float)delay;
 
 @end

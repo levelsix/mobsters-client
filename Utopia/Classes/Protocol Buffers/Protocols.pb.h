@@ -54,10 +54,6 @@
 @class BootPlayerFromClanResponseProto_Builder;
 @class BuildStructJobProto;
 @class BuildStructJobProto_Builder;
-@class BuyMonsterInventorySlotRequestProto;
-@class BuyMonsterInventorySlotRequestProto_Builder;
-@class BuyMonsterInventorySlotResponseProto;
-@class BuyMonsterInventorySlotResponseProto_Builder;
 @class ChangeClanDescriptionRequestProto;
 @class ChangeClanDescriptionRequestProto_Builder;
 @class ChangeClanDescriptionResponseProto;
@@ -72,6 +68,10 @@
 @class CityExpansionCostProto_Builder;
 @class ColorProto;
 @class ColorProto_Builder;
+@class CombineUserMonsterPiecesRequestProto;
+@class CombineUserMonsterPiecesRequestProto_Builder;
+@class CombineUserMonsterPiecesResponseProto;
+@class CombineUserMonsterPiecesResponseProto_Builder;
 @class CoordinateProto;
 @class CoordinateProto_Builder;
 @class CreateClanRequestProto;
@@ -124,8 +124,8 @@
 @class FullUserMonsterProto_Builder;
 @class FullUserProto;
 @class FullUserProto_Builder;
-@class FullUserQuestDataLargeProto;
-@class FullUserQuestDataLargeProto_Builder;
+@class FullUserQuestProto;
+@class FullUserQuestProto_Builder;
 @class FullUserStructureProto;
 @class FullUserStructureProto_Builder;
 @class GeneralNotificationResponseProto;
@@ -148,12 +148,14 @@
 @class InAppPurchaseRequestProto_Builder;
 @class InAppPurchaseResponseProto;
 @class InAppPurchaseResponseProto_Builder;
+@class IncreaseMonsterInventorySlotRequestProto;
+@class IncreaseMonsterInventorySlotRequestProto_Builder;
+@class IncreaseMonsterInventorySlotResponseProto;
+@class IncreaseMonsterInventorySlotResponseProto_Builder;
 @class LeaveClanRequestProto;
 @class LeaveClanRequestProto_Builder;
 @class LeaveClanResponseProto;
 @class LeaveClanResponseProto_Builder;
-@class LevelAndRequiredExpProto;
-@class LevelAndRequiredExpProto_Builder;
 @class LevelUpRequestProto;
 @class LevelUpRequestProto_Builder;
 @class LevelUpResponseProto;
@@ -172,6 +174,8 @@
 @class MinimumClanProto_Builder;
 @class MinimumUserBuildStructJobProto;
 @class MinimumUserBuildStructJobProto_Builder;
+@class MinimumUserMonsterSellProto;
+@class MinimumUserMonsterSellProto_Builder;
 @class MinimumUserProto;
 @class MinimumUserProtoForClans;
 @class MinimumUserProtoForClans_Builder;
@@ -182,8 +186,6 @@
 @class MinimumUserProtoWithLevelForTournament_Builder;
 @class MinimumUserProtoWithLevel_Builder;
 @class MinimumUserProto_Builder;
-@class MinimumUserQuestTaskProto;
-@class MinimumUserQuestTaskProto_Builder;
 @class MinimumUserTaskProto;
 @class MinimumUserTaskProto_Builder;
 @class MinimumUserUpgradeStructJobProto;
@@ -224,8 +226,10 @@
 @class QuestAcceptRequestProto_Builder;
 @class QuestAcceptResponseProto;
 @class QuestAcceptResponseProto_Builder;
-@class QuestCompleteResponseProto;
-@class QuestCompleteResponseProto_Builder;
+@class QuestProgressRequestProto;
+@class QuestProgressRequestProto_Builder;
+@class QuestProgressResponseProto;
+@class QuestProgressResponseProto_Builder;
 @class QuestRedeemRequestProto;
 @class QuestRedeemRequestProto_Builder;
 @class QuestRedeemResponseProto;
@@ -292,6 +296,10 @@
 @class SellNormStructureRequestProto_Builder;
 @class SellNormStructureResponseProto;
 @class SellNormStructureResponseProto_Builder;
+@class SellUserMonsterRequestProto;
+@class SellUserMonsterRequestProto_Builder;
+@class SellUserMonsterResponseProto;
+@class SellUserMonsterResponseProto_Builder;
 @class SendAdminMessageResponseProto;
 @class SendAdminMessageResponseProto_Builder;
 @class SendGroupChatRequestProto;
@@ -320,6 +328,8 @@
 @class StartupResponseProto_StartupConstants_TournamentConstants_Builder;
 @class StartupResponseProto_StartupConstants_UserMonsterConstants;
 @class StartupResponseProto_StartupConstants_UserMonsterConstants_Builder;
+@class StaticLevelInfoProto;
+@class StaticLevelInfoProto_Builder;
 @class SubmitMonsterEnhancementRequestProto;
 @class SubmitMonsterEnhancementRequestProto_Builder;
 @class SubmitMonsterEnhancementResponseProto;
@@ -364,10 +374,6 @@
 @class UserMonsterCurrentHealthProto_Builder;
 @class UserMonsterHealingProto;
 @class UserMonsterHealingProto_Builder;
-@class UserQuestDetailsRequestProto;
-@class UserQuestDetailsRequestProto_Builder;
-@class UserQuestDetailsResponseProto;
-@class UserQuestDetailsResponseProto_Builder;
 typedef enum {
   EventProtocolRequestCStartupEvent = 1,
   EventProtocolRequestCInAppPurchaseEvent = 2,
@@ -381,7 +387,7 @@ typedef enum {
   EventProtocolRequestCLoadPlayerCityEvent = 10,
   EventProtocolRequestCRetrieveStaticDataEvent = 11,
   EventProtocolRequestCQuestAcceptEvent = 12,
-  EventProtocolRequestCUserQuestDetailsEvent = 13,
+  EventProtocolRequestCQuestProgressEvent = 13,
   EventProtocolRequestCQuestRedeemEvent = 14,
   EventProtocolRequestCPurchaseCityExpansionEvent = 15,
   EventProtocolRequestCExpansionWaitCompleteEvent = 16,
@@ -420,8 +426,10 @@ typedef enum {
   EventProtocolRequestCHealMonsterWaitTimeCompleteEvent = 49,
   EventProtocolRequestCAddMonsterToBattleTeamEvent = 50,
   EventProtocolRequestCRemoveMonsterFromBattleTeamEvent = 51,
-  EventProtocolRequestCBuyMonsterInventorySlotEvent = 52,
+  EventProtocolRequestCIncreaseMonsterInventorySlotEvent = 52,
   EventProtocolRequestCEnhancementWaitTimeCompleteEvent = 53,
+  EventProtocolRequestCCombineUserMonsterPiecesEvent = 54,
+  EventProtocolRequestCSellUserMonsterEvent = 55,
   EventProtocolRequestCLogoutEvent = 101,
 } EventProtocolRequest;
 
@@ -440,7 +448,7 @@ typedef enum {
   EventProtocolResponseSLoadPlayerCityEvent = 10,
   EventProtocolResponseSRetrieveStaticDataEvent = 11,
   EventProtocolResponseSQuestAcceptEvent = 12,
-  EventProtocolResponseSUserQuestDetailsEvent = 13,
+  EventProtocolResponseSQuestProgressEvent = 13,
   EventProtocolResponseSQuestRedeemEvent = 14,
   EventProtocolResponseSPurchaseCityExpansionEvent = 15,
   EventProtocolResponseSExpansionWaitCompleteEvent = 16,
@@ -479,16 +487,17 @@ typedef enum {
   EventProtocolResponseSHealMonsterWaitTimeCompleteEvent = 49,
   EventProtocolResponseSAddMonsterToBattleTeamEvent = 50,
   EventProtocolResponseSRemoveMonsterFromBattleTeamEvent = 51,
-  EventProtocolResponseSBuyMonsterInventorySlotEvent = 52,
+  EventProtocolResponseSIncreaseMonsterInventorySlotEvent = 52,
   EventProtocolResponseSEnhancementWaitTimeCompleteEvent = 53,
+  EventProtocolResponseSCombineUserMonsterPiecesEvent = 54,
+  EventProtocolResponseSSellUserMonsterEvent = 55,
   EventProtocolResponseSUpdateClientUserEvent = 101,
-  EventProtocolResponseSQuestCompleteEvent = 102,
-  EventProtocolResponseSReferralCodeUsedEvent = 103,
-  EventProtocolResponseSPurgeStaticDataEvent = 104,
-  EventProtocolResponseSReceivedGroupChatEvent = 105,
-  EventProtocolResponseSSendAdminMessageEvent = 106,
-  EventProtocolResponseSGeneralNotificationEvent = 107,
-  EventProtocolResponseSReceivedRareBoosterPurchaseEvent = 108,
+  EventProtocolResponseSReferralCodeUsedEvent = 102,
+  EventProtocolResponseSPurgeStaticDataEvent = 103,
+  EventProtocolResponseSReceivedGroupChatEvent = 104,
+  EventProtocolResponseSSendAdminMessageEvent = 105,
+  EventProtocolResponseSGeneralNotificationEvent = 106,
+  EventProtocolResponseSReceivedRareBoosterPurchaseEvent = 107,
 } EventProtocolResponse;
 
 BOOL EventProtocolResponseIsValidValue(EventProtocolResponse value);

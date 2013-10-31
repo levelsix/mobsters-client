@@ -753,8 +753,6 @@ NSInteger ccLoadFileIntoMemory(const char *filename, unsigned char **out)
 		
 		// check if path already has the suffix.
 		if( [name rangeOfString:@"@2x"].location != NSNotFound ) {
-      
-			CCLOG(@"cocos2d: WARNING Filename(%@) already has the suffix @2x. Using it.", name);
 			return path;
 		}
     

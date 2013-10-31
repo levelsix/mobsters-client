@@ -20,15 +20,6 @@ static PBExtensionRegistry* extensionRegistry = nil;
 }
 @end
 
-BOOL SpecialQuestActionIsValidValue(SpecialQuestAction value) {
-  switch (value) {
-    case SpecialQuestActionRequestJoinClan:
-    case SpecialQuestActionEvolveAMonster:
-      return YES;
-    default:
-      return NO;
-  }
-}
 @interface FullQuestProto ()
 @property int32_t questId;
 @property int32_t cityId;
@@ -36,22 +27,19 @@ BOOL SpecialQuestActionIsValidValue(SpecialQuestAction value) {
 @property (retain) NSString* description;
 @property (retain) NSString* doneResponse;
 @property (retain) DialogueProto* acceptDialogue;
-@property int32_t assetNumWithinCity;
-@property int32_t coinsGained;
-@property int32_t diamondsGained;
-@property int32_t expGained;
-@property int32_t monsterId;
+@property FullQuestProto_QuestType questType;
+@property (retain) NSString* jobDescription;
+@property int32_t staticDataId;
+@property int32_t quantity;
+@property int32_t coinReward;
+@property int32_t diamondReward;
+@property int32_t expReward;
+@property int32_t monsterIdReward;
+@property BOOL isCompleteMonster;
 @property (retain) NSMutableArray* mutableQuestsRequiredForThisList;
-@property (retain) NSMutableArray* mutableTaskReqsList;
-@property (retain) NSMutableArray* mutableUpgradeStructJobsReqsList;
-@property (retain) NSMutableArray* mutableBuildStructJobsReqsList;
-@property (retain) NSMutableArray* mutableMonsterJobsReqsList;
-@property int32_t coinRetrievalReq;
-@property SpecialQuestAction specialQuestActionReq;
-@property int32_t numComponentsForGood;
-@property (retain) NSString* questGiverName;
 @property (retain) NSString* questGiverImageSuffix;
 @property int32_t priority;
+@property (retain) NSString* carrotId;
 @end
 
 @implementation FullQuestProto
@@ -98,74 +86,75 @@ BOOL SpecialQuestActionIsValidValue(SpecialQuestAction value) {
   hasAcceptDialogue_ = !!value;
 }
 @synthesize acceptDialogue;
-- (BOOL) hasAssetNumWithinCity {
-  return !!hasAssetNumWithinCity_;
+- (BOOL) hasQuestType {
+  return !!hasQuestType_;
 }
-- (void) setHasAssetNumWithinCity:(BOOL) value {
-  hasAssetNumWithinCity_ = !!value;
+- (void) setHasQuestType:(BOOL) value {
+  hasQuestType_ = !!value;
 }
-@synthesize assetNumWithinCity;
-- (BOOL) hasCoinsGained {
-  return !!hasCoinsGained_;
+@synthesize questType;
+- (BOOL) hasJobDescription {
+  return !!hasJobDescription_;
 }
-- (void) setHasCoinsGained:(BOOL) value {
-  hasCoinsGained_ = !!value;
+- (void) setHasJobDescription:(BOOL) value {
+  hasJobDescription_ = !!value;
 }
-@synthesize coinsGained;
-- (BOOL) hasDiamondsGained {
-  return !!hasDiamondsGained_;
+@synthesize jobDescription;
+- (BOOL) hasStaticDataId {
+  return !!hasStaticDataId_;
 }
-- (void) setHasDiamondsGained:(BOOL) value {
-  hasDiamondsGained_ = !!value;
+- (void) setHasStaticDataId:(BOOL) value {
+  hasStaticDataId_ = !!value;
 }
-@synthesize diamondsGained;
-- (BOOL) hasExpGained {
-  return !!hasExpGained_;
+@synthesize staticDataId;
+- (BOOL) hasQuantity {
+  return !!hasQuantity_;
 }
-- (void) setHasExpGained:(BOOL) value {
-  hasExpGained_ = !!value;
+- (void) setHasQuantity:(BOOL) value {
+  hasQuantity_ = !!value;
 }
-@synthesize expGained;
-- (BOOL) hasMonsterId {
-  return !!hasMonsterId_;
+@synthesize quantity;
+- (BOOL) hasCoinReward {
+  return !!hasCoinReward_;
 }
-- (void) setHasMonsterId:(BOOL) value {
-  hasMonsterId_ = !!value;
+- (void) setHasCoinReward:(BOOL) value {
+  hasCoinReward_ = !!value;
 }
-@synthesize monsterId;
+@synthesize coinReward;
+- (BOOL) hasDiamondReward {
+  return !!hasDiamondReward_;
+}
+- (void) setHasDiamondReward:(BOOL) value {
+  hasDiamondReward_ = !!value;
+}
+@synthesize diamondReward;
+- (BOOL) hasExpReward {
+  return !!hasExpReward_;
+}
+- (void) setHasExpReward:(BOOL) value {
+  hasExpReward_ = !!value;
+}
+@synthesize expReward;
+- (BOOL) hasMonsterIdReward {
+  return !!hasMonsterIdReward_;
+}
+- (void) setHasMonsterIdReward:(BOOL) value {
+  hasMonsterIdReward_ = !!value;
+}
+@synthesize monsterIdReward;
+- (BOOL) hasIsCompleteMonster {
+  return !!hasIsCompleteMonster_;
+}
+- (void) setHasIsCompleteMonster:(BOOL) value {
+  hasIsCompleteMonster_ = !!value;
+}
+- (BOOL) isCompleteMonster {
+  return !!isCompleteMonster_;
+}
+- (void) setIsCompleteMonster:(BOOL) value {
+  isCompleteMonster_ = !!value;
+}
 @synthesize mutableQuestsRequiredForThisList;
-@synthesize mutableTaskReqsList;
-@synthesize mutableUpgradeStructJobsReqsList;
-@synthesize mutableBuildStructJobsReqsList;
-@synthesize mutableMonsterJobsReqsList;
-- (BOOL) hasCoinRetrievalReq {
-  return !!hasCoinRetrievalReq_;
-}
-- (void) setHasCoinRetrievalReq:(BOOL) value {
-  hasCoinRetrievalReq_ = !!value;
-}
-@synthesize coinRetrievalReq;
-- (BOOL) hasSpecialQuestActionReq {
-  return !!hasSpecialQuestActionReq_;
-}
-- (void) setHasSpecialQuestActionReq:(BOOL) value {
-  hasSpecialQuestActionReq_ = !!value;
-}
-@synthesize specialQuestActionReq;
-- (BOOL) hasNumComponentsForGood {
-  return !!hasNumComponentsForGood_;
-}
-- (void) setHasNumComponentsForGood:(BOOL) value {
-  hasNumComponentsForGood_ = !!value;
-}
-@synthesize numComponentsForGood;
-- (BOOL) hasQuestGiverName {
-  return !!hasQuestGiverName_;
-}
-- (void) setHasQuestGiverName:(BOOL) value {
-  hasQuestGiverName_ = !!value;
-}
-@synthesize questGiverName;
 - (BOOL) hasQuestGiverImageSuffix {
   return !!hasQuestGiverImageSuffix_;
 }
@@ -180,18 +169,22 @@ BOOL SpecialQuestActionIsValidValue(SpecialQuestAction value) {
   hasPriority_ = !!value;
 }
 @synthesize priority;
+- (BOOL) hasCarrotId {
+  return !!hasCarrotId_;
+}
+- (void) setHasCarrotId:(BOOL) value {
+  hasCarrotId_ = !!value;
+}
+@synthesize carrotId;
 - (void) dealloc {
   self.name = nil;
   self.description = nil;
   self.doneResponse = nil;
   self.acceptDialogue = nil;
+  self.jobDescription = nil;
   self.mutableQuestsRequiredForThisList = nil;
-  self.mutableTaskReqsList = nil;
-  self.mutableUpgradeStructJobsReqsList = nil;
-  self.mutableBuildStructJobsReqsList = nil;
-  self.mutableMonsterJobsReqsList = nil;
-  self.questGiverName = nil;
   self.questGiverImageSuffix = nil;
+  self.carrotId = nil;
   [super dealloc];
 }
 - (id) init {
@@ -202,17 +195,18 @@ BOOL SpecialQuestActionIsValidValue(SpecialQuestAction value) {
     self.description = @"";
     self.doneResponse = @"";
     self.acceptDialogue = [DialogueProto defaultInstance];
-    self.assetNumWithinCity = 0;
-    self.coinsGained = 0;
-    self.diamondsGained = 0;
-    self.expGained = 0;
-    self.monsterId = 0;
-    self.coinRetrievalReq = 0;
-    self.specialQuestActionReq = SpecialQuestActionRequestJoinClan;
-    self.numComponentsForGood = 0;
-    self.questGiverName = @"";
+    self.questType = FullQuestProto_QuestTypeKillMonster;
+    self.jobDescription = @"";
+    self.staticDataId = 0;
+    self.quantity = 0;
+    self.coinReward = 0;
+    self.diamondReward = 0;
+    self.expReward = 0;
+    self.monsterIdReward = 0;
+    self.isCompleteMonster = NO;
     self.questGiverImageSuffix = @"";
     self.priority = 0;
+    self.carrotId = @"";
   }
   return self;
 }
@@ -233,34 +227,6 @@ static FullQuestProto* defaultFullQuestProtoInstance = nil;
 }
 - (int32_t) questsRequiredForThisAtIndex:(int32_t) index {
   id value = [mutableQuestsRequiredForThisList objectAtIndex:index];
-  return [value intValue];
-}
-- (NSArray*) taskReqsList {
-  return mutableTaskReqsList;
-}
-- (int32_t) taskReqsAtIndex:(int32_t) index {
-  id value = [mutableTaskReqsList objectAtIndex:index];
-  return [value intValue];
-}
-- (NSArray*) upgradeStructJobsReqsList {
-  return mutableUpgradeStructJobsReqsList;
-}
-- (int32_t) upgradeStructJobsReqsAtIndex:(int32_t) index {
-  id value = [mutableUpgradeStructJobsReqsList objectAtIndex:index];
-  return [value intValue];
-}
-- (NSArray*) buildStructJobsReqsList {
-  return mutableBuildStructJobsReqsList;
-}
-- (int32_t) buildStructJobsReqsAtIndex:(int32_t) index {
-  id value = [mutableBuildStructJobsReqsList objectAtIndex:index];
-  return [value intValue];
-}
-- (NSArray*) monsterJobsReqsList {
-  return mutableMonsterJobsReqsList;
-}
-- (int32_t) monsterJobsReqsAtIndex:(int32_t) index {
-  id value = [mutableMonsterJobsReqsList objectAtIndex:index];
   return [value intValue];
 }
 - (BOOL) isInitialized {
@@ -285,53 +251,44 @@ static FullQuestProto* defaultFullQuestProtoInstance = nil;
   if (self.hasAcceptDialogue) {
     [output writeMessage:6 value:self.acceptDialogue];
   }
-  if (self.hasAssetNumWithinCity) {
-    [output writeInt32:7 value:self.assetNumWithinCity];
+  if (self.hasQuestType) {
+    [output writeEnum:7 value:self.questType];
   }
-  if (self.hasCoinsGained) {
-    [output writeInt32:8 value:self.coinsGained];
+  if (self.hasJobDescription) {
+    [output writeString:8 value:self.jobDescription];
   }
-  if (self.hasDiamondsGained) {
-    [output writeInt32:9 value:self.diamondsGained];
+  if (self.hasStaticDataId) {
+    [output writeInt32:9 value:self.staticDataId];
   }
-  if (self.hasExpGained) {
-    [output writeInt32:10 value:self.expGained];
+  if (self.hasQuantity) {
+    [output writeInt32:10 value:self.quantity];
   }
-  if (self.hasMonsterId) {
-    [output writeInt32:11 value:self.monsterId];
+  if (self.hasCoinReward) {
+    [output writeInt32:11 value:self.coinReward];
+  }
+  if (self.hasDiamondReward) {
+    [output writeInt32:12 value:self.diamondReward];
+  }
+  if (self.hasExpReward) {
+    [output writeInt32:13 value:self.expReward];
+  }
+  if (self.hasMonsterIdReward) {
+    [output writeInt32:14 value:self.monsterIdReward];
+  }
+  if (self.hasIsCompleteMonster) {
+    [output writeBool:15 value:self.isCompleteMonster];
   }
   for (NSNumber* value in self.mutableQuestsRequiredForThisList) {
-    [output writeInt32:12 value:[value intValue]];
-  }
-  for (NSNumber* value in self.mutableTaskReqsList) {
-    [output writeInt32:13 value:[value intValue]];
-  }
-  for (NSNumber* value in self.mutableUpgradeStructJobsReqsList) {
-    [output writeInt32:14 value:[value intValue]];
-  }
-  for (NSNumber* value in self.mutableBuildStructJobsReqsList) {
-    [output writeInt32:15 value:[value intValue]];
-  }
-  for (NSNumber* value in self.mutableMonsterJobsReqsList) {
     [output writeInt32:16 value:[value intValue]];
   }
-  if (self.hasCoinRetrievalReq) {
-    [output writeInt32:17 value:self.coinRetrievalReq];
-  }
-  if (self.hasSpecialQuestActionReq) {
-    [output writeEnum:18 value:self.specialQuestActionReq];
-  }
-  if (self.hasNumComponentsForGood) {
-    [output writeInt32:19 value:self.numComponentsForGood];
-  }
-  if (self.hasQuestGiverName) {
-    [output writeString:20 value:self.questGiverName];
-  }
   if (self.hasQuestGiverImageSuffix) {
-    [output writeString:21 value:self.questGiverImageSuffix];
+    [output writeString:17 value:self.questGiverImageSuffix];
   }
   if (self.hasPriority) {
-    [output writeInt32:22 value:self.priority];
+    [output writeInt32:18 value:self.priority];
+  }
+  if (self.hasCarrotId) {
+    [output writeString:19 value:self.carrotId];
   }
   [self.unknownFields writeToCodedOutputStream:output];
 }
@@ -360,20 +317,32 @@ static FullQuestProto* defaultFullQuestProtoInstance = nil;
   if (self.hasAcceptDialogue) {
     size += computeMessageSize(6, self.acceptDialogue);
   }
-  if (self.hasAssetNumWithinCity) {
-    size += computeInt32Size(7, self.assetNumWithinCity);
+  if (self.hasQuestType) {
+    size += computeEnumSize(7, self.questType);
   }
-  if (self.hasCoinsGained) {
-    size += computeInt32Size(8, self.coinsGained);
+  if (self.hasJobDescription) {
+    size += computeStringSize(8, self.jobDescription);
   }
-  if (self.hasDiamondsGained) {
-    size += computeInt32Size(9, self.diamondsGained);
+  if (self.hasStaticDataId) {
+    size += computeInt32Size(9, self.staticDataId);
   }
-  if (self.hasExpGained) {
-    size += computeInt32Size(10, self.expGained);
+  if (self.hasQuantity) {
+    size += computeInt32Size(10, self.quantity);
   }
-  if (self.hasMonsterId) {
-    size += computeInt32Size(11, self.monsterId);
+  if (self.hasCoinReward) {
+    size += computeInt32Size(11, self.coinReward);
+  }
+  if (self.hasDiamondReward) {
+    size += computeInt32Size(12, self.diamondReward);
+  }
+  if (self.hasExpReward) {
+    size += computeInt32Size(13, self.expReward);
+  }
+  if (self.hasMonsterIdReward) {
+    size += computeInt32Size(14, self.monsterIdReward);
+  }
+  if (self.hasIsCompleteMonster) {
+    size += computeBoolSize(15, self.isCompleteMonster);
   }
   {
     int32_t dataSize = 0;
@@ -381,57 +350,16 @@ static FullQuestProto* defaultFullQuestProtoInstance = nil;
       dataSize += computeInt32SizeNoTag([value intValue]);
     }
     size += dataSize;
-    size += 1 * self.mutableQuestsRequiredForThisList.count;
-  }
-  {
-    int32_t dataSize = 0;
-    for (NSNumber* value in self.mutableTaskReqsList) {
-      dataSize += computeInt32SizeNoTag([value intValue]);
-    }
-    size += dataSize;
-    size += 1 * self.mutableTaskReqsList.count;
-  }
-  {
-    int32_t dataSize = 0;
-    for (NSNumber* value in self.mutableUpgradeStructJobsReqsList) {
-      dataSize += computeInt32SizeNoTag([value intValue]);
-    }
-    size += dataSize;
-    size += 1 * self.mutableUpgradeStructJobsReqsList.count;
-  }
-  {
-    int32_t dataSize = 0;
-    for (NSNumber* value in self.mutableBuildStructJobsReqsList) {
-      dataSize += computeInt32SizeNoTag([value intValue]);
-    }
-    size += dataSize;
-    size += 1 * self.mutableBuildStructJobsReqsList.count;
-  }
-  {
-    int32_t dataSize = 0;
-    for (NSNumber* value in self.mutableMonsterJobsReqsList) {
-      dataSize += computeInt32SizeNoTag([value intValue]);
-    }
-    size += dataSize;
-    size += 2 * self.mutableMonsterJobsReqsList.count;
-  }
-  if (self.hasCoinRetrievalReq) {
-    size += computeInt32Size(17, self.coinRetrievalReq);
-  }
-  if (self.hasSpecialQuestActionReq) {
-    size += computeEnumSize(18, self.specialQuestActionReq);
-  }
-  if (self.hasNumComponentsForGood) {
-    size += computeInt32Size(19, self.numComponentsForGood);
-  }
-  if (self.hasQuestGiverName) {
-    size += computeStringSize(20, self.questGiverName);
+    size += 2 * self.mutableQuestsRequiredForThisList.count;
   }
   if (self.hasQuestGiverImageSuffix) {
-    size += computeStringSize(21, self.questGiverImageSuffix);
+    size += computeStringSize(17, self.questGiverImageSuffix);
   }
   if (self.hasPriority) {
-    size += computeInt32Size(22, self.priority);
+    size += computeInt32Size(18, self.priority);
+  }
+  if (self.hasCarrotId) {
+    size += computeStringSize(19, self.carrotId);
   }
   size += self.unknownFields.serializedSize;
   memoizedSerializedSize = size;
@@ -466,6 +394,19 @@ static FullQuestProto* defaultFullQuestProtoInstance = nil;
 }
 @end
 
+BOOL FullQuestProto_QuestTypeIsValidValue(FullQuestProto_QuestType value) {
+  switch (value) {
+    case FullQuestProto_QuestTypeKillMonster:
+    case FullQuestProto_QuestTypeDonateMonster:
+    case FullQuestProto_QuestTypeCompleteTask:
+    case FullQuestProto_QuestTypeCollectCoinsFromHome:
+    case FullQuestProto_QuestTypeBuildStruct:
+    case FullQuestProto_QuestTypeUpgradeStruct:
+      return YES;
+    default:
+      return NO;
+  }
+}
 @interface FullQuestProto_Builder()
 @property (retain) FullQuestProto* result;
 @end
@@ -526,20 +467,32 @@ static FullQuestProto* defaultFullQuestProtoInstance = nil;
   if (other.hasAcceptDialogue) {
     [self mergeAcceptDialogue:other.acceptDialogue];
   }
-  if (other.hasAssetNumWithinCity) {
-    [self setAssetNumWithinCity:other.assetNumWithinCity];
+  if (other.hasQuestType) {
+    [self setQuestType:other.questType];
   }
-  if (other.hasCoinsGained) {
-    [self setCoinsGained:other.coinsGained];
+  if (other.hasJobDescription) {
+    [self setJobDescription:other.jobDescription];
   }
-  if (other.hasDiamondsGained) {
-    [self setDiamondsGained:other.diamondsGained];
+  if (other.hasStaticDataId) {
+    [self setStaticDataId:other.staticDataId];
   }
-  if (other.hasExpGained) {
-    [self setExpGained:other.expGained];
+  if (other.hasQuantity) {
+    [self setQuantity:other.quantity];
   }
-  if (other.hasMonsterId) {
-    [self setMonsterId:other.monsterId];
+  if (other.hasCoinReward) {
+    [self setCoinReward:other.coinReward];
+  }
+  if (other.hasDiamondReward) {
+    [self setDiamondReward:other.diamondReward];
+  }
+  if (other.hasExpReward) {
+    [self setExpReward:other.expReward];
+  }
+  if (other.hasMonsterIdReward) {
+    [self setMonsterIdReward:other.monsterIdReward];
+  }
+  if (other.hasIsCompleteMonster) {
+    [self setIsCompleteMonster:other.isCompleteMonster];
   }
   if (other.mutableQuestsRequiredForThisList.count > 0) {
     if (result.mutableQuestsRequiredForThisList == nil) {
@@ -547,47 +500,14 @@ static FullQuestProto* defaultFullQuestProtoInstance = nil;
     }
     [result.mutableQuestsRequiredForThisList addObjectsFromArray:other.mutableQuestsRequiredForThisList];
   }
-  if (other.mutableTaskReqsList.count > 0) {
-    if (result.mutableTaskReqsList == nil) {
-      result.mutableTaskReqsList = [NSMutableArray array];
-    }
-    [result.mutableTaskReqsList addObjectsFromArray:other.mutableTaskReqsList];
-  }
-  if (other.mutableUpgradeStructJobsReqsList.count > 0) {
-    if (result.mutableUpgradeStructJobsReqsList == nil) {
-      result.mutableUpgradeStructJobsReqsList = [NSMutableArray array];
-    }
-    [result.mutableUpgradeStructJobsReqsList addObjectsFromArray:other.mutableUpgradeStructJobsReqsList];
-  }
-  if (other.mutableBuildStructJobsReqsList.count > 0) {
-    if (result.mutableBuildStructJobsReqsList == nil) {
-      result.mutableBuildStructJobsReqsList = [NSMutableArray array];
-    }
-    [result.mutableBuildStructJobsReqsList addObjectsFromArray:other.mutableBuildStructJobsReqsList];
-  }
-  if (other.mutableMonsterJobsReqsList.count > 0) {
-    if (result.mutableMonsterJobsReqsList == nil) {
-      result.mutableMonsterJobsReqsList = [NSMutableArray array];
-    }
-    [result.mutableMonsterJobsReqsList addObjectsFromArray:other.mutableMonsterJobsReqsList];
-  }
-  if (other.hasCoinRetrievalReq) {
-    [self setCoinRetrievalReq:other.coinRetrievalReq];
-  }
-  if (other.hasSpecialQuestActionReq) {
-    [self setSpecialQuestActionReq:other.specialQuestActionReq];
-  }
-  if (other.hasNumComponentsForGood) {
-    [self setNumComponentsForGood:other.numComponentsForGood];
-  }
-  if (other.hasQuestGiverName) {
-    [self setQuestGiverName:other.questGiverName];
-  }
   if (other.hasQuestGiverImageSuffix) {
     [self setQuestGiverImageSuffix:other.questGiverImageSuffix];
   }
   if (other.hasPriority) {
     [self setPriority:other.priority];
+  }
+  if (other.hasCarrotId) {
+    [self setCarrotId:other.carrotId];
   }
   [self mergeUnknownFields:other.unknownFields];
   return self;
@@ -640,72 +560,60 @@ static FullQuestProto* defaultFullQuestProtoInstance = nil;
         break;
       }
       case 56: {
-        [self setAssetNumWithinCity:[input readInt32]];
-        break;
-      }
-      case 64: {
-        [self setCoinsGained:[input readInt32]];
-        break;
-      }
-      case 72: {
-        [self setDiamondsGained:[input readInt32]];
-        break;
-      }
-      case 80: {
-        [self setExpGained:[input readInt32]];
-        break;
-      }
-      case 88: {
-        [self setMonsterId:[input readInt32]];
-        break;
-      }
-      case 96: {
-        [self addQuestsRequiredForThis:[input readInt32]];
-        break;
-      }
-      case 104: {
-        [self addTaskReqs:[input readInt32]];
-        break;
-      }
-      case 112: {
-        [self addUpgradeStructJobsReqs:[input readInt32]];
-        break;
-      }
-      case 120: {
-        [self addBuildStructJobsReqs:[input readInt32]];
-        break;
-      }
-      case 128: {
-        [self addMonsterJobsReqs:[input readInt32]];
-        break;
-      }
-      case 136: {
-        [self setCoinRetrievalReq:[input readInt32]];
-        break;
-      }
-      case 144: {
         int32_t value = [input readEnum];
-        if (SpecialQuestActionIsValidValue(value)) {
-          [self setSpecialQuestActionReq:value];
+        if (FullQuestProto_QuestTypeIsValidValue(value)) {
+          [self setQuestType:value];
         } else {
-          [unknownFields mergeVarintField:18 value:value];
+          [unknownFields mergeVarintField:7 value:value];
         }
         break;
       }
-      case 152: {
-        [self setNumComponentsForGood:[input readInt32]];
+      case 66: {
+        [self setJobDescription:[input readString]];
         break;
       }
-      case 162: {
-        [self setQuestGiverName:[input readString]];
+      case 72: {
+        [self setStaticDataId:[input readInt32]];
         break;
       }
-      case 170: {
+      case 80: {
+        [self setQuantity:[input readInt32]];
+        break;
+      }
+      case 88: {
+        [self setCoinReward:[input readInt32]];
+        break;
+      }
+      case 96: {
+        [self setDiamondReward:[input readInt32]];
+        break;
+      }
+      case 104: {
+        [self setExpReward:[input readInt32]];
+        break;
+      }
+      case 112: {
+        [self setMonsterIdReward:[input readInt32]];
+        break;
+      }
+      case 120: {
+        [self setIsCompleteMonster:[input readBool]];
+        break;
+      }
+      case 128: {
+        [self addQuestsRequiredForThis:[input readInt32]];
+        break;
+      }
+      case 138: {
         [self setQuestGiverImageSuffix:[input readString]];
         break;
       }
-      case 176: {
+      case 144: {
         [self setPriority:[input readInt32]];
+        break;
+      }
+      case 154: {
+        [self setCarrotId:[input readString]];
         break;
       }
     }
@@ -821,84 +729,148 @@ static FullQuestProto* defaultFullQuestProtoInstance = nil;
   result.acceptDialogue = [DialogueProto defaultInstance];
   return self;
 }
-- (BOOL) hasAssetNumWithinCity {
-  return result.hasAssetNumWithinCity;
+- (BOOL) hasQuestType {
+  return result.hasQuestType;
 }
-- (int32_t) assetNumWithinCity {
-  return result.assetNumWithinCity;
+- (FullQuestProto_QuestType) questType {
+  return result.questType;
 }
-- (FullQuestProto_Builder*) setAssetNumWithinCity:(int32_t) value {
-  result.hasAssetNumWithinCity = YES;
-  result.assetNumWithinCity = value;
+- (FullQuestProto_Builder*) setQuestType:(FullQuestProto_QuestType) value {
+  result.hasQuestType = YES;
+  result.questType = value;
   return self;
 }
-- (FullQuestProto_Builder*) clearAssetNumWithinCity {
-  result.hasAssetNumWithinCity = NO;
-  result.assetNumWithinCity = 0;
+- (FullQuestProto_Builder*) clearQuestType {
+  result.hasQuestType = NO;
+  result.questType = FullQuestProto_QuestTypeKillMonster;
   return self;
 }
-- (BOOL) hasCoinsGained {
-  return result.hasCoinsGained;
+- (BOOL) hasJobDescription {
+  return result.hasJobDescription;
 }
-- (int32_t) coinsGained {
-  return result.coinsGained;
+- (NSString*) jobDescription {
+  return result.jobDescription;
 }
-- (FullQuestProto_Builder*) setCoinsGained:(int32_t) value {
-  result.hasCoinsGained = YES;
-  result.coinsGained = value;
+- (FullQuestProto_Builder*) setJobDescription:(NSString*) value {
+  result.hasJobDescription = YES;
+  result.jobDescription = value;
   return self;
 }
-- (FullQuestProto_Builder*) clearCoinsGained {
-  result.hasCoinsGained = NO;
-  result.coinsGained = 0;
+- (FullQuestProto_Builder*) clearJobDescription {
+  result.hasJobDescription = NO;
+  result.jobDescription = @"";
   return self;
 }
-- (BOOL) hasDiamondsGained {
-  return result.hasDiamondsGained;
+- (BOOL) hasStaticDataId {
+  return result.hasStaticDataId;
 }
-- (int32_t) diamondsGained {
-  return result.diamondsGained;
+- (int32_t) staticDataId {
+  return result.staticDataId;
 }
-- (FullQuestProto_Builder*) setDiamondsGained:(int32_t) value {
-  result.hasDiamondsGained = YES;
-  result.diamondsGained = value;
+- (FullQuestProto_Builder*) setStaticDataId:(int32_t) value {
+  result.hasStaticDataId = YES;
+  result.staticDataId = value;
   return self;
 }
-- (FullQuestProto_Builder*) clearDiamondsGained {
-  result.hasDiamondsGained = NO;
-  result.diamondsGained = 0;
+- (FullQuestProto_Builder*) clearStaticDataId {
+  result.hasStaticDataId = NO;
+  result.staticDataId = 0;
   return self;
 }
-- (BOOL) hasExpGained {
-  return result.hasExpGained;
+- (BOOL) hasQuantity {
+  return result.hasQuantity;
 }
-- (int32_t) expGained {
-  return result.expGained;
+- (int32_t) quantity {
+  return result.quantity;
 }
-- (FullQuestProto_Builder*) setExpGained:(int32_t) value {
-  result.hasExpGained = YES;
-  result.expGained = value;
+- (FullQuestProto_Builder*) setQuantity:(int32_t) value {
+  result.hasQuantity = YES;
+  result.quantity = value;
   return self;
 }
-- (FullQuestProto_Builder*) clearExpGained {
-  result.hasExpGained = NO;
-  result.expGained = 0;
+- (FullQuestProto_Builder*) clearQuantity {
+  result.hasQuantity = NO;
+  result.quantity = 0;
   return self;
 }
-- (BOOL) hasMonsterId {
-  return result.hasMonsterId;
+- (BOOL) hasCoinReward {
+  return result.hasCoinReward;
 }
-- (int32_t) monsterId {
-  return result.monsterId;
+- (int32_t) coinReward {
+  return result.coinReward;
 }
-- (FullQuestProto_Builder*) setMonsterId:(int32_t) value {
-  result.hasMonsterId = YES;
-  result.monsterId = value;
+- (FullQuestProto_Builder*) setCoinReward:(int32_t) value {
+  result.hasCoinReward = YES;
+  result.coinReward = value;
   return self;
 }
-- (FullQuestProto_Builder*) clearMonsterId {
-  result.hasMonsterId = NO;
-  result.monsterId = 0;
+- (FullQuestProto_Builder*) clearCoinReward {
+  result.hasCoinReward = NO;
+  result.coinReward = 0;
+  return self;
+}
+- (BOOL) hasDiamondReward {
+  return result.hasDiamondReward;
+}
+- (int32_t) diamondReward {
+  return result.diamondReward;
+}
+- (FullQuestProto_Builder*) setDiamondReward:(int32_t) value {
+  result.hasDiamondReward = YES;
+  result.diamondReward = value;
+  return self;
+}
+- (FullQuestProto_Builder*) clearDiamondReward {
+  result.hasDiamondReward = NO;
+  result.diamondReward = 0;
+  return self;
+}
+- (BOOL) hasExpReward {
+  return result.hasExpReward;
+}
+- (int32_t) expReward {
+  return result.expReward;
+}
+- (FullQuestProto_Builder*) setExpReward:(int32_t) value {
+  result.hasExpReward = YES;
+  result.expReward = value;
+  return self;
+}
+- (FullQuestProto_Builder*) clearExpReward {
+  result.hasExpReward = NO;
+  result.expReward = 0;
+  return self;
+}
+- (BOOL) hasMonsterIdReward {
+  return result.hasMonsterIdReward;
+}
+- (int32_t) monsterIdReward {
+  return result.monsterIdReward;
+}
+- (FullQuestProto_Builder*) setMonsterIdReward:(int32_t) value {
+  result.hasMonsterIdReward = YES;
+  result.monsterIdReward = value;
+  return self;
+}
+- (FullQuestProto_Builder*) clearMonsterIdReward {
+  result.hasMonsterIdReward = NO;
+  result.monsterIdReward = 0;
+  return self;
+}
+- (BOOL) hasIsCompleteMonster {
+  return result.hasIsCompleteMonster;
+}
+- (BOOL) isCompleteMonster {
+  return result.isCompleteMonster;
+}
+- (FullQuestProto_Builder*) setIsCompleteMonster:(BOOL) value {
+  result.hasIsCompleteMonster = YES;
+  result.isCompleteMonster = value;
+  return self;
+}
+- (FullQuestProto_Builder*) clearIsCompleteMonster {
+  result.hasIsCompleteMonster = NO;
+  result.isCompleteMonster = NO;
   return self;
 }
 - (NSArray*) questsRequiredForThisList {
@@ -932,194 +904,6 @@ static FullQuestProto* defaultFullQuestProtoInstance = nil;
   result.mutableQuestsRequiredForThisList = nil;
   return self;
 }
-- (NSArray*) taskReqsList {
-  if (result.mutableTaskReqsList == nil) {
-    return [NSArray array];
-  }
-  return result.mutableTaskReqsList;
-}
-- (int32_t) taskReqsAtIndex:(int32_t) index {
-  return [result taskReqsAtIndex:index];
-}
-- (FullQuestProto_Builder*) replaceTaskReqsAtIndex:(int32_t) index with:(int32_t) value {
-  [result.mutableTaskReqsList replaceObjectAtIndex:index withObject:[NSNumber numberWithInt:value]];
-  return self;
-}
-- (FullQuestProto_Builder*) addTaskReqs:(int32_t) value {
-  if (result.mutableTaskReqsList == nil) {
-    result.mutableTaskReqsList = [NSMutableArray array];
-  }
-  [result.mutableTaskReqsList addObject:[NSNumber numberWithInt:value]];
-  return self;
-}
-- (FullQuestProto_Builder*) addAllTaskReqs:(NSArray*) values {
-  if (result.mutableTaskReqsList == nil) {
-    result.mutableTaskReqsList = [NSMutableArray array];
-  }
-  [result.mutableTaskReqsList addObjectsFromArray:values];
-  return self;
-}
-- (FullQuestProto_Builder*) clearTaskReqsList {
-  result.mutableTaskReqsList = nil;
-  return self;
-}
-- (NSArray*) upgradeStructJobsReqsList {
-  if (result.mutableUpgradeStructJobsReqsList == nil) {
-    return [NSArray array];
-  }
-  return result.mutableUpgradeStructJobsReqsList;
-}
-- (int32_t) upgradeStructJobsReqsAtIndex:(int32_t) index {
-  return [result upgradeStructJobsReqsAtIndex:index];
-}
-- (FullQuestProto_Builder*) replaceUpgradeStructJobsReqsAtIndex:(int32_t) index with:(int32_t) value {
-  [result.mutableUpgradeStructJobsReqsList replaceObjectAtIndex:index withObject:[NSNumber numberWithInt:value]];
-  return self;
-}
-- (FullQuestProto_Builder*) addUpgradeStructJobsReqs:(int32_t) value {
-  if (result.mutableUpgradeStructJobsReqsList == nil) {
-    result.mutableUpgradeStructJobsReqsList = [NSMutableArray array];
-  }
-  [result.mutableUpgradeStructJobsReqsList addObject:[NSNumber numberWithInt:value]];
-  return self;
-}
-- (FullQuestProto_Builder*) addAllUpgradeStructJobsReqs:(NSArray*) values {
-  if (result.mutableUpgradeStructJobsReqsList == nil) {
-    result.mutableUpgradeStructJobsReqsList = [NSMutableArray array];
-  }
-  [result.mutableUpgradeStructJobsReqsList addObjectsFromArray:values];
-  return self;
-}
-- (FullQuestProto_Builder*) clearUpgradeStructJobsReqsList {
-  result.mutableUpgradeStructJobsReqsList = nil;
-  return self;
-}
-- (NSArray*) buildStructJobsReqsList {
-  if (result.mutableBuildStructJobsReqsList == nil) {
-    return [NSArray array];
-  }
-  return result.mutableBuildStructJobsReqsList;
-}
-- (int32_t) buildStructJobsReqsAtIndex:(int32_t) index {
-  return [result buildStructJobsReqsAtIndex:index];
-}
-- (FullQuestProto_Builder*) replaceBuildStructJobsReqsAtIndex:(int32_t) index with:(int32_t) value {
-  [result.mutableBuildStructJobsReqsList replaceObjectAtIndex:index withObject:[NSNumber numberWithInt:value]];
-  return self;
-}
-- (FullQuestProto_Builder*) addBuildStructJobsReqs:(int32_t) value {
-  if (result.mutableBuildStructJobsReqsList == nil) {
-    result.mutableBuildStructJobsReqsList = [NSMutableArray array];
-  }
-  [result.mutableBuildStructJobsReqsList addObject:[NSNumber numberWithInt:value]];
-  return self;
-}
-- (FullQuestProto_Builder*) addAllBuildStructJobsReqs:(NSArray*) values {
-  if (result.mutableBuildStructJobsReqsList == nil) {
-    result.mutableBuildStructJobsReqsList = [NSMutableArray array];
-  }
-  [result.mutableBuildStructJobsReqsList addObjectsFromArray:values];
-  return self;
-}
-- (FullQuestProto_Builder*) clearBuildStructJobsReqsList {
-  result.mutableBuildStructJobsReqsList = nil;
-  return self;
-}
-- (NSArray*) monsterJobsReqsList {
-  if (result.mutableMonsterJobsReqsList == nil) {
-    return [NSArray array];
-  }
-  return result.mutableMonsterJobsReqsList;
-}
-- (int32_t) monsterJobsReqsAtIndex:(int32_t) index {
-  return [result monsterJobsReqsAtIndex:index];
-}
-- (FullQuestProto_Builder*) replaceMonsterJobsReqsAtIndex:(int32_t) index with:(int32_t) value {
-  [result.mutableMonsterJobsReqsList replaceObjectAtIndex:index withObject:[NSNumber numberWithInt:value]];
-  return self;
-}
-- (FullQuestProto_Builder*) addMonsterJobsReqs:(int32_t) value {
-  if (result.mutableMonsterJobsReqsList == nil) {
-    result.mutableMonsterJobsReqsList = [NSMutableArray array];
-  }
-  [result.mutableMonsterJobsReqsList addObject:[NSNumber numberWithInt:value]];
-  return self;
-}
-- (FullQuestProto_Builder*) addAllMonsterJobsReqs:(NSArray*) values {
-  if (result.mutableMonsterJobsReqsList == nil) {
-    result.mutableMonsterJobsReqsList = [NSMutableArray array];
-  }
-  [result.mutableMonsterJobsReqsList addObjectsFromArray:values];
-  return self;
-}
-- (FullQuestProto_Builder*) clearMonsterJobsReqsList {
-  result.mutableMonsterJobsReqsList = nil;
-  return self;
-}
-- (BOOL) hasCoinRetrievalReq {
-  return result.hasCoinRetrievalReq;
-}
-- (int32_t) coinRetrievalReq {
-  return result.coinRetrievalReq;
-}
-- (FullQuestProto_Builder*) setCoinRetrievalReq:(int32_t) value {
-  result.hasCoinRetrievalReq = YES;
-  result.coinRetrievalReq = value;
-  return self;
-}
-- (FullQuestProto_Builder*) clearCoinRetrievalReq {
-  result.hasCoinRetrievalReq = NO;
-  result.coinRetrievalReq = 0;
-  return self;
-}
-- (BOOL) hasSpecialQuestActionReq {
-  return result.hasSpecialQuestActionReq;
-}
-- (SpecialQuestAction) specialQuestActionReq {
-  return result.specialQuestActionReq;
-}
-- (FullQuestProto_Builder*) setSpecialQuestActionReq:(SpecialQuestAction) value {
-  result.hasSpecialQuestActionReq = YES;
-  result.specialQuestActionReq = value;
-  return self;
-}
-- (FullQuestProto_Builder*) clearSpecialQuestActionReq {
-  result.hasSpecialQuestActionReq = NO;
-  result.specialQuestActionReq = SpecialQuestActionRequestJoinClan;
-  return self;
-}
-- (BOOL) hasNumComponentsForGood {
-  return result.hasNumComponentsForGood;
-}
-- (int32_t) numComponentsForGood {
-  return result.numComponentsForGood;
-}
-- (FullQuestProto_Builder*) setNumComponentsForGood:(int32_t) value {
-  result.hasNumComponentsForGood = YES;
-  result.numComponentsForGood = value;
-  return self;
-}
-- (FullQuestProto_Builder*) clearNumComponentsForGood {
-  result.hasNumComponentsForGood = NO;
-  result.numComponentsForGood = 0;
-  return self;
-}
-- (BOOL) hasQuestGiverName {
-  return result.hasQuestGiverName;
-}
-- (NSString*) questGiverName {
-  return result.questGiverName;
-}
-- (FullQuestProto_Builder*) setQuestGiverName:(NSString*) value {
-  result.hasQuestGiverName = YES;
-  result.questGiverName = value;
-  return self;
-}
-- (FullQuestProto_Builder*) clearQuestGiverName {
-  result.hasQuestGiverName = NO;
-  result.questGiverName = @"";
-  return self;
-}
 - (BOOL) hasQuestGiverImageSuffix {
   return result.hasQuestGiverImageSuffix;
 }
@@ -1150,6 +934,22 @@ static FullQuestProto* defaultFullQuestProtoInstance = nil;
 - (FullQuestProto_Builder*) clearPriority {
   result.hasPriority = NO;
   result.priority = 0;
+  return self;
+}
+- (BOOL) hasCarrotId {
+  return result.hasCarrotId;
+}
+- (NSString*) carrotId {
+  return result.carrotId;
+}
+- (FullQuestProto_Builder*) setCarrotId:(NSString*) value {
+  result.hasCarrotId = YES;
+  result.carrotId = value;
+  return self;
+}
+- (FullQuestProto_Builder*) clearCarrotId {
+  result.hasCarrotId = NO;
+  result.carrotId = @"";
   return self;
 }
 @end
@@ -1585,19 +1385,15 @@ BOOL DialogueProto_SpeechSegmentProto_DialogueSpeakerIsValidValue(DialogueProto_
 }
 @end
 
-@interface FullUserQuestDataLargeProto ()
+@interface FullUserQuestProto ()
 @property int32_t userId;
 @property int32_t questId;
 @property BOOL isRedeemed;
 @property BOOL isComplete;
-@property (retain) NSMutableArray* mutableRequiredBuildStructJobProgressList;
-@property (retain) NSMutableArray* mutableRequiredUpgradeStructJobProgressList;
-@property (retain) NSMutableArray* mutableRequiredTasksProgressList;
-@property int32_t coinsRetrievedForReq;
-@property int32_t numComponentsComplete;
+@property int32_t progress;
 @end
 
-@implementation FullUserQuestDataLargeProto
+@implementation FullUserQuestProto
 
 - (BOOL) hasUserId {
   return !!hasUserId_;
@@ -1637,27 +1433,14 @@ BOOL DialogueProto_SpeechSegmentProto_DialogueSpeakerIsValidValue(DialogueProto_
 - (void) setIsComplete:(BOOL) value {
   isComplete_ = !!value;
 }
-@synthesize mutableRequiredBuildStructJobProgressList;
-@synthesize mutableRequiredUpgradeStructJobProgressList;
-@synthesize mutableRequiredTasksProgressList;
-- (BOOL) hasCoinsRetrievedForReq {
-  return !!hasCoinsRetrievedForReq_;
+- (BOOL) hasProgress {
+  return !!hasProgress_;
 }
-- (void) setHasCoinsRetrievedForReq:(BOOL) value {
-  hasCoinsRetrievedForReq_ = !!value;
+- (void) setHasProgress:(BOOL) value {
+  hasProgress_ = !!value;
 }
-@synthesize coinsRetrievedForReq;
-- (BOOL) hasNumComponentsComplete {
-  return !!hasNumComponentsComplete_;
-}
-- (void) setHasNumComponentsComplete:(BOOL) value {
-  hasNumComponentsComplete_ = !!value;
-}
-@synthesize numComponentsComplete;
+@synthesize progress;
 - (void) dealloc {
-  self.mutableRequiredBuildStructJobProgressList = nil;
-  self.mutableRequiredUpgradeStructJobProgressList = nil;
-  self.mutableRequiredTasksProgressList = nil;
   [super dealloc];
 }
 - (id) init {
@@ -1666,43 +1449,21 @@ BOOL DialogueProto_SpeechSegmentProto_DialogueSpeakerIsValidValue(DialogueProto_
     self.questId = 0;
     self.isRedeemed = NO;
     self.isComplete = NO;
-    self.coinsRetrievedForReq = 0;
-    self.numComponentsComplete = 0;
+    self.progress = 0;
   }
   return self;
 }
-static FullUserQuestDataLargeProto* defaultFullUserQuestDataLargeProtoInstance = nil;
+static FullUserQuestProto* defaultFullUserQuestProtoInstance = nil;
 + (void) initialize {
-  if (self == [FullUserQuestDataLargeProto class]) {
-    defaultFullUserQuestDataLargeProtoInstance = [[FullUserQuestDataLargeProto alloc] init];
+  if (self == [FullUserQuestProto class]) {
+    defaultFullUserQuestProtoInstance = [[FullUserQuestProto alloc] init];
   }
 }
-+ (FullUserQuestDataLargeProto*) defaultInstance {
-  return defaultFullUserQuestDataLargeProtoInstance;
++ (FullUserQuestProto*) defaultInstance {
+  return defaultFullUserQuestProtoInstance;
 }
-- (FullUserQuestDataLargeProto*) defaultInstance {
-  return defaultFullUserQuestDataLargeProtoInstance;
-}
-- (NSArray*) requiredBuildStructJobProgressList {
-  return mutableRequiredBuildStructJobProgressList;
-}
-- (MinimumUserBuildStructJobProto*) requiredBuildStructJobProgressAtIndex:(int32_t) index {
-  id value = [mutableRequiredBuildStructJobProgressList objectAtIndex:index];
-  return value;
-}
-- (NSArray*) requiredUpgradeStructJobProgressList {
-  return mutableRequiredUpgradeStructJobProgressList;
-}
-- (MinimumUserUpgradeStructJobProto*) requiredUpgradeStructJobProgressAtIndex:(int32_t) index {
-  id value = [mutableRequiredUpgradeStructJobProgressList objectAtIndex:index];
-  return value;
-}
-- (NSArray*) requiredTasksProgressList {
-  return mutableRequiredTasksProgressList;
-}
-- (MinimumUserQuestTaskProto*) requiredTasksProgressAtIndex:(int32_t) index {
-  id value = [mutableRequiredTasksProgressList objectAtIndex:index];
-  return value;
+- (FullUserQuestProto*) defaultInstance {
+  return defaultFullUserQuestProtoInstance;
 }
 - (BOOL) isInitialized {
   return YES;
@@ -1720,20 +1481,8 @@ static FullUserQuestDataLargeProto* defaultFullUserQuestDataLargeProtoInstance =
   if (self.hasIsComplete) {
     [output writeBool:4 value:self.isComplete];
   }
-  for (MinimumUserBuildStructJobProto* element in self.requiredBuildStructJobProgressList) {
-    [output writeMessage:5 value:element];
-  }
-  for (MinimumUserUpgradeStructJobProto* element in self.requiredUpgradeStructJobProgressList) {
-    [output writeMessage:6 value:element];
-  }
-  for (MinimumUserQuestTaskProto* element in self.requiredTasksProgressList) {
-    [output writeMessage:7 value:element];
-  }
-  if (self.hasCoinsRetrievedForReq) {
-    [output writeInt32:8 value:self.coinsRetrievedForReq];
-  }
-  if (self.hasNumComponentsComplete) {
-    [output writeInt32:9 value:self.numComponentsComplete];
+  if (self.hasProgress) {
+    [output writeInt32:5 value:self.progress];
   }
   [self.unknownFields writeToCodedOutputStream:output];
 }
@@ -1756,59 +1505,47 @@ static FullUserQuestDataLargeProto* defaultFullUserQuestDataLargeProtoInstance =
   if (self.hasIsComplete) {
     size += computeBoolSize(4, self.isComplete);
   }
-  for (MinimumUserBuildStructJobProto* element in self.requiredBuildStructJobProgressList) {
-    size += computeMessageSize(5, element);
-  }
-  for (MinimumUserUpgradeStructJobProto* element in self.requiredUpgradeStructJobProgressList) {
-    size += computeMessageSize(6, element);
-  }
-  for (MinimumUserQuestTaskProto* element in self.requiredTasksProgressList) {
-    size += computeMessageSize(7, element);
-  }
-  if (self.hasCoinsRetrievedForReq) {
-    size += computeInt32Size(8, self.coinsRetrievedForReq);
-  }
-  if (self.hasNumComponentsComplete) {
-    size += computeInt32Size(9, self.numComponentsComplete);
+  if (self.hasProgress) {
+    size += computeInt32Size(5, self.progress);
   }
   size += self.unknownFields.serializedSize;
   memoizedSerializedSize = size;
   return size;
 }
-+ (FullUserQuestDataLargeProto*) parseFromData:(NSData*) data {
-  return (FullUserQuestDataLargeProto*)[[[FullUserQuestDataLargeProto builder] mergeFromData:data] build];
++ (FullUserQuestProto*) parseFromData:(NSData*) data {
+  return (FullUserQuestProto*)[[[FullUserQuestProto builder] mergeFromData:data] build];
 }
-+ (FullUserQuestDataLargeProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
-  return (FullUserQuestDataLargeProto*)[[[FullUserQuestDataLargeProto builder] mergeFromData:data extensionRegistry:extensionRegistry] build];
++ (FullUserQuestProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (FullUserQuestProto*)[[[FullUserQuestProto builder] mergeFromData:data extensionRegistry:extensionRegistry] build];
 }
-+ (FullUserQuestDataLargeProto*) parseFromInputStream:(NSInputStream*) input {
-  return (FullUserQuestDataLargeProto*)[[[FullUserQuestDataLargeProto builder] mergeFromInputStream:input] build];
++ (FullUserQuestProto*) parseFromInputStream:(NSInputStream*) input {
+  return (FullUserQuestProto*)[[[FullUserQuestProto builder] mergeFromInputStream:input] build];
 }
-+ (FullUserQuestDataLargeProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
-  return (FullUserQuestDataLargeProto*)[[[FullUserQuestDataLargeProto builder] mergeFromInputStream:input extensionRegistry:extensionRegistry] build];
++ (FullUserQuestProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (FullUserQuestProto*)[[[FullUserQuestProto builder] mergeFromInputStream:input extensionRegistry:extensionRegistry] build];
 }
-+ (FullUserQuestDataLargeProto*) parseFromCodedInputStream:(PBCodedInputStream*) input {
-  return (FullUserQuestDataLargeProto*)[[[FullUserQuestDataLargeProto builder] mergeFromCodedInputStream:input] build];
++ (FullUserQuestProto*) parseFromCodedInputStream:(PBCodedInputStream*) input {
+  return (FullUserQuestProto*)[[[FullUserQuestProto builder] mergeFromCodedInputStream:input] build];
 }
-+ (FullUserQuestDataLargeProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
-  return (FullUserQuestDataLargeProto*)[[[FullUserQuestDataLargeProto builder] mergeFromCodedInputStream:input extensionRegistry:extensionRegistry] build];
++ (FullUserQuestProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (FullUserQuestProto*)[[[FullUserQuestProto builder] mergeFromCodedInputStream:input extensionRegistry:extensionRegistry] build];
 }
-+ (FullUserQuestDataLargeProto_Builder*) builder {
-  return [[[FullUserQuestDataLargeProto_Builder alloc] init] autorelease];
++ (FullUserQuestProto_Builder*) builder {
+  return [[[FullUserQuestProto_Builder alloc] init] autorelease];
 }
-+ (FullUserQuestDataLargeProto_Builder*) builderWithPrototype:(FullUserQuestDataLargeProto*) prototype {
-  return [[FullUserQuestDataLargeProto builder] mergeFrom:prototype];
++ (FullUserQuestProto_Builder*) builderWithPrototype:(FullUserQuestProto*) prototype {
+  return [[FullUserQuestProto builder] mergeFrom:prototype];
 }
-- (FullUserQuestDataLargeProto_Builder*) builder {
-  return [FullUserQuestDataLargeProto builder];
+- (FullUserQuestProto_Builder*) builder {
+  return [FullUserQuestProto builder];
 }
 @end
 
-@interface FullUserQuestDataLargeProto_Builder()
-@property (retain) FullUserQuestDataLargeProto* result;
+@interface FullUserQuestProto_Builder()
+@property (retain) FullUserQuestProto* result;
 @end
 
-@implementation FullUserQuestDataLargeProto_Builder
+@implementation FullUserQuestProto_Builder
 @synthesize result;
 - (void) dealloc {
   self.result = nil;
@@ -1816,34 +1553,34 @@ static FullUserQuestDataLargeProto* defaultFullUserQuestDataLargeProtoInstance =
 }
 - (id) init {
   if ((self = [super init])) {
-    self.result = [[[FullUserQuestDataLargeProto alloc] init] autorelease];
+    self.result = [[[FullUserQuestProto alloc] init] autorelease];
   }
   return self;
 }
 - (PBGeneratedMessage*) internalGetResult {
   return result;
 }
-- (FullUserQuestDataLargeProto_Builder*) clear {
-  self.result = [[[FullUserQuestDataLargeProto alloc] init] autorelease];
+- (FullUserQuestProto_Builder*) clear {
+  self.result = [[[FullUserQuestProto alloc] init] autorelease];
   return self;
 }
-- (FullUserQuestDataLargeProto_Builder*) clone {
-  return [FullUserQuestDataLargeProto builderWithPrototype:result];
+- (FullUserQuestProto_Builder*) clone {
+  return [FullUserQuestProto builderWithPrototype:result];
 }
-- (FullUserQuestDataLargeProto*) defaultInstance {
-  return [FullUserQuestDataLargeProto defaultInstance];
+- (FullUserQuestProto*) defaultInstance {
+  return [FullUserQuestProto defaultInstance];
 }
-- (FullUserQuestDataLargeProto*) build {
+- (FullUserQuestProto*) build {
   [self checkInitialized];
   return [self buildPartial];
 }
-- (FullUserQuestDataLargeProto*) buildPartial {
-  FullUserQuestDataLargeProto* returnMe = [[result retain] autorelease];
+- (FullUserQuestProto*) buildPartial {
+  FullUserQuestProto* returnMe = [[result retain] autorelease];
   self.result = nil;
   return returnMe;
 }
-- (FullUserQuestDataLargeProto_Builder*) mergeFrom:(FullUserQuestDataLargeProto*) other {
-  if (other == [FullUserQuestDataLargeProto defaultInstance]) {
+- (FullUserQuestProto_Builder*) mergeFrom:(FullUserQuestProto*) other {
+  if (other == [FullUserQuestProto defaultInstance]) {
     return self;
   }
   if (other.hasUserId) {
@@ -1858,37 +1595,16 @@ static FullUserQuestDataLargeProto* defaultFullUserQuestDataLargeProtoInstance =
   if (other.hasIsComplete) {
     [self setIsComplete:other.isComplete];
   }
-  if (other.mutableRequiredBuildStructJobProgressList.count > 0) {
-    if (result.mutableRequiredBuildStructJobProgressList == nil) {
-      result.mutableRequiredBuildStructJobProgressList = [NSMutableArray array];
-    }
-    [result.mutableRequiredBuildStructJobProgressList addObjectsFromArray:other.mutableRequiredBuildStructJobProgressList];
-  }
-  if (other.mutableRequiredUpgradeStructJobProgressList.count > 0) {
-    if (result.mutableRequiredUpgradeStructJobProgressList == nil) {
-      result.mutableRequiredUpgradeStructJobProgressList = [NSMutableArray array];
-    }
-    [result.mutableRequiredUpgradeStructJobProgressList addObjectsFromArray:other.mutableRequiredUpgradeStructJobProgressList];
-  }
-  if (other.mutableRequiredTasksProgressList.count > 0) {
-    if (result.mutableRequiredTasksProgressList == nil) {
-      result.mutableRequiredTasksProgressList = [NSMutableArray array];
-    }
-    [result.mutableRequiredTasksProgressList addObjectsFromArray:other.mutableRequiredTasksProgressList];
-  }
-  if (other.hasCoinsRetrievedForReq) {
-    [self setCoinsRetrievedForReq:other.coinsRetrievedForReq];
-  }
-  if (other.hasNumComponentsComplete) {
-    [self setNumComponentsComplete:other.numComponentsComplete];
+  if (other.hasProgress) {
+    [self setProgress:other.progress];
   }
   [self mergeUnknownFields:other.unknownFields];
   return self;
 }
-- (FullUserQuestDataLargeProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input {
+- (FullUserQuestProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input {
   return [self mergeFromCodedInputStream:input extensionRegistry:[PBExtensionRegistry emptyRegistry]];
 }
-- (FullUserQuestDataLargeProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+- (FullUserQuestProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
   PBUnknownFieldSet_Builder* unknownFields = [PBUnknownFieldSet builderWithUnknownFields:self.unknownFields];
   while (YES) {
     int32_t tag = [input readTag];
@@ -1919,30 +1635,8 @@ static FullUserQuestDataLargeProto* defaultFullUserQuestDataLargeProtoInstance =
         [self setIsComplete:[input readBool]];
         break;
       }
-      case 42: {
-        MinimumUserBuildStructJobProto_Builder* subBuilder = [MinimumUserBuildStructJobProto builder];
-        [input readMessage:subBuilder extensionRegistry:extensionRegistry];
-        [self addRequiredBuildStructJobProgress:[subBuilder buildPartial]];
-        break;
-      }
-      case 50: {
-        MinimumUserUpgradeStructJobProto_Builder* subBuilder = [MinimumUserUpgradeStructJobProto builder];
-        [input readMessage:subBuilder extensionRegistry:extensionRegistry];
-        [self addRequiredUpgradeStructJobProgress:[subBuilder buildPartial]];
-        break;
-      }
-      case 58: {
-        MinimumUserQuestTaskProto_Builder* subBuilder = [MinimumUserQuestTaskProto builder];
-        [input readMessage:subBuilder extensionRegistry:extensionRegistry];
-        [self addRequiredTasksProgress:[subBuilder buildPartial]];
-        break;
-      }
-      case 64: {
-        [self setCoinsRetrievedForReq:[input readInt32]];
-        break;
-      }
-      case 72: {
-        [self setNumComponentsComplete:[input readInt32]];
+      case 40: {
+        [self setProgress:[input readInt32]];
         break;
       }
     }
@@ -1954,12 +1648,12 @@ static FullUserQuestDataLargeProto* defaultFullUserQuestDataLargeProtoInstance =
 - (int32_t) userId {
   return result.userId;
 }
-- (FullUserQuestDataLargeProto_Builder*) setUserId:(int32_t) value {
+- (FullUserQuestProto_Builder*) setUserId:(int32_t) value {
   result.hasUserId = YES;
   result.userId = value;
   return self;
 }
-- (FullUserQuestDataLargeProto_Builder*) clearUserId {
+- (FullUserQuestProto_Builder*) clearUserId {
   result.hasUserId = NO;
   result.userId = 0;
   return self;
@@ -1970,12 +1664,12 @@ static FullUserQuestDataLargeProto* defaultFullUserQuestDataLargeProtoInstance =
 - (int32_t) questId {
   return result.questId;
 }
-- (FullUserQuestDataLargeProto_Builder*) setQuestId:(int32_t) value {
+- (FullUserQuestProto_Builder*) setQuestId:(int32_t) value {
   result.hasQuestId = YES;
   result.questId = value;
   return self;
 }
-- (FullUserQuestDataLargeProto_Builder*) clearQuestId {
+- (FullUserQuestProto_Builder*) clearQuestId {
   result.hasQuestId = NO;
   result.questId = 0;
   return self;
@@ -1986,12 +1680,12 @@ static FullUserQuestDataLargeProto* defaultFullUserQuestDataLargeProtoInstance =
 - (BOOL) isRedeemed {
   return result.isRedeemed;
 }
-- (FullUserQuestDataLargeProto_Builder*) setIsRedeemed:(BOOL) value {
+- (FullUserQuestProto_Builder*) setIsRedeemed:(BOOL) value {
   result.hasIsRedeemed = YES;
   result.isRedeemed = value;
   return self;
 }
-- (FullUserQuestDataLargeProto_Builder*) clearIsRedeemed {
+- (FullUserQuestProto_Builder*) clearIsRedeemed {
   result.hasIsRedeemed = NO;
   result.isRedeemed = NO;
   return self;
@@ -2002,424 +1696,30 @@ static FullUserQuestDataLargeProto* defaultFullUserQuestDataLargeProtoInstance =
 - (BOOL) isComplete {
   return result.isComplete;
 }
-- (FullUserQuestDataLargeProto_Builder*) setIsComplete:(BOOL) value {
+- (FullUserQuestProto_Builder*) setIsComplete:(BOOL) value {
   result.hasIsComplete = YES;
   result.isComplete = value;
   return self;
 }
-- (FullUserQuestDataLargeProto_Builder*) clearIsComplete {
+- (FullUserQuestProto_Builder*) clearIsComplete {
   result.hasIsComplete = NO;
   result.isComplete = NO;
   return self;
 }
-- (NSArray*) requiredBuildStructJobProgressList {
-  if (result.mutableRequiredBuildStructJobProgressList == nil) { return [NSArray array]; }
-  return result.mutableRequiredBuildStructJobProgressList;
+- (BOOL) hasProgress {
+  return result.hasProgress;
 }
-- (MinimumUserBuildStructJobProto*) requiredBuildStructJobProgressAtIndex:(int32_t) index {
-  return [result requiredBuildStructJobProgressAtIndex:index];
+- (int32_t) progress {
+  return result.progress;
 }
-- (FullUserQuestDataLargeProto_Builder*) replaceRequiredBuildStructJobProgressAtIndex:(int32_t) index with:(MinimumUserBuildStructJobProto*) value {
-  [result.mutableRequiredBuildStructJobProgressList replaceObjectAtIndex:index withObject:value];
+- (FullUserQuestProto_Builder*) setProgress:(int32_t) value {
+  result.hasProgress = YES;
+  result.progress = value;
   return self;
 }
-- (FullUserQuestDataLargeProto_Builder*) addAllRequiredBuildStructJobProgress:(NSArray*) values {
-  if (result.mutableRequiredBuildStructJobProgressList == nil) {
-    result.mutableRequiredBuildStructJobProgressList = [NSMutableArray array];
-  }
-  [result.mutableRequiredBuildStructJobProgressList addObjectsFromArray:values];
-  return self;
-}
-- (FullUserQuestDataLargeProto_Builder*) clearRequiredBuildStructJobProgressList {
-  result.mutableRequiredBuildStructJobProgressList = nil;
-  return self;
-}
-- (FullUserQuestDataLargeProto_Builder*) addRequiredBuildStructJobProgress:(MinimumUserBuildStructJobProto*) value {
-  if (result.mutableRequiredBuildStructJobProgressList == nil) {
-    result.mutableRequiredBuildStructJobProgressList = [NSMutableArray array];
-  }
-  [result.mutableRequiredBuildStructJobProgressList addObject:value];
-  return self;
-}
-- (NSArray*) requiredUpgradeStructJobProgressList {
-  if (result.mutableRequiredUpgradeStructJobProgressList == nil) { return [NSArray array]; }
-  return result.mutableRequiredUpgradeStructJobProgressList;
-}
-- (MinimumUserUpgradeStructJobProto*) requiredUpgradeStructJobProgressAtIndex:(int32_t) index {
-  return [result requiredUpgradeStructJobProgressAtIndex:index];
-}
-- (FullUserQuestDataLargeProto_Builder*) replaceRequiredUpgradeStructJobProgressAtIndex:(int32_t) index with:(MinimumUserUpgradeStructJobProto*) value {
-  [result.mutableRequiredUpgradeStructJobProgressList replaceObjectAtIndex:index withObject:value];
-  return self;
-}
-- (FullUserQuestDataLargeProto_Builder*) addAllRequiredUpgradeStructJobProgress:(NSArray*) values {
-  if (result.mutableRequiredUpgradeStructJobProgressList == nil) {
-    result.mutableRequiredUpgradeStructJobProgressList = [NSMutableArray array];
-  }
-  [result.mutableRequiredUpgradeStructJobProgressList addObjectsFromArray:values];
-  return self;
-}
-- (FullUserQuestDataLargeProto_Builder*) clearRequiredUpgradeStructJobProgressList {
-  result.mutableRequiredUpgradeStructJobProgressList = nil;
-  return self;
-}
-- (FullUserQuestDataLargeProto_Builder*) addRequiredUpgradeStructJobProgress:(MinimumUserUpgradeStructJobProto*) value {
-  if (result.mutableRequiredUpgradeStructJobProgressList == nil) {
-    result.mutableRequiredUpgradeStructJobProgressList = [NSMutableArray array];
-  }
-  [result.mutableRequiredUpgradeStructJobProgressList addObject:value];
-  return self;
-}
-- (NSArray*) requiredTasksProgressList {
-  if (result.mutableRequiredTasksProgressList == nil) { return [NSArray array]; }
-  return result.mutableRequiredTasksProgressList;
-}
-- (MinimumUserQuestTaskProto*) requiredTasksProgressAtIndex:(int32_t) index {
-  return [result requiredTasksProgressAtIndex:index];
-}
-- (FullUserQuestDataLargeProto_Builder*) replaceRequiredTasksProgressAtIndex:(int32_t) index with:(MinimumUserQuestTaskProto*) value {
-  [result.mutableRequiredTasksProgressList replaceObjectAtIndex:index withObject:value];
-  return self;
-}
-- (FullUserQuestDataLargeProto_Builder*) addAllRequiredTasksProgress:(NSArray*) values {
-  if (result.mutableRequiredTasksProgressList == nil) {
-    result.mutableRequiredTasksProgressList = [NSMutableArray array];
-  }
-  [result.mutableRequiredTasksProgressList addObjectsFromArray:values];
-  return self;
-}
-- (FullUserQuestDataLargeProto_Builder*) clearRequiredTasksProgressList {
-  result.mutableRequiredTasksProgressList = nil;
-  return self;
-}
-- (FullUserQuestDataLargeProto_Builder*) addRequiredTasksProgress:(MinimumUserQuestTaskProto*) value {
-  if (result.mutableRequiredTasksProgressList == nil) {
-    result.mutableRequiredTasksProgressList = [NSMutableArray array];
-  }
-  [result.mutableRequiredTasksProgressList addObject:value];
-  return self;
-}
-- (BOOL) hasCoinsRetrievedForReq {
-  return result.hasCoinsRetrievedForReq;
-}
-- (int32_t) coinsRetrievedForReq {
-  return result.coinsRetrievedForReq;
-}
-- (FullUserQuestDataLargeProto_Builder*) setCoinsRetrievedForReq:(int32_t) value {
-  result.hasCoinsRetrievedForReq = YES;
-  result.coinsRetrievedForReq = value;
-  return self;
-}
-- (FullUserQuestDataLargeProto_Builder*) clearCoinsRetrievedForReq {
-  result.hasCoinsRetrievedForReq = NO;
-  result.coinsRetrievedForReq = 0;
-  return self;
-}
-- (BOOL) hasNumComponentsComplete {
-  return result.hasNumComponentsComplete;
-}
-- (int32_t) numComponentsComplete {
-  return result.numComponentsComplete;
-}
-- (FullUserQuestDataLargeProto_Builder*) setNumComponentsComplete:(int32_t) value {
-  result.hasNumComponentsComplete = YES;
-  result.numComponentsComplete = value;
-  return self;
-}
-- (FullUserQuestDataLargeProto_Builder*) clearNumComponentsComplete {
-  result.hasNumComponentsComplete = NO;
-  result.numComponentsComplete = 0;
-  return self;
-}
-@end
-
-@interface MinimumUserQuestTaskProto ()
-@property int32_t userId;
-@property int32_t questId;
-@property int32_t taskId;
-@property int32_t numTimesActed;
-@end
-
-@implementation MinimumUserQuestTaskProto
-
-- (BOOL) hasUserId {
-  return !!hasUserId_;
-}
-- (void) setHasUserId:(BOOL) value {
-  hasUserId_ = !!value;
-}
-@synthesize userId;
-- (BOOL) hasQuestId {
-  return !!hasQuestId_;
-}
-- (void) setHasQuestId:(BOOL) value {
-  hasQuestId_ = !!value;
-}
-@synthesize questId;
-- (BOOL) hasTaskId {
-  return !!hasTaskId_;
-}
-- (void) setHasTaskId:(BOOL) value {
-  hasTaskId_ = !!value;
-}
-@synthesize taskId;
-- (BOOL) hasNumTimesActed {
-  return !!hasNumTimesActed_;
-}
-- (void) setHasNumTimesActed:(BOOL) value {
-  hasNumTimesActed_ = !!value;
-}
-@synthesize numTimesActed;
-- (void) dealloc {
-  [super dealloc];
-}
-- (id) init {
-  if ((self = [super init])) {
-    self.userId = 0;
-    self.questId = 0;
-    self.taskId = 0;
-    self.numTimesActed = 0;
-  }
-  return self;
-}
-static MinimumUserQuestTaskProto* defaultMinimumUserQuestTaskProtoInstance = nil;
-+ (void) initialize {
-  if (self == [MinimumUserQuestTaskProto class]) {
-    defaultMinimumUserQuestTaskProtoInstance = [[MinimumUserQuestTaskProto alloc] init];
-  }
-}
-+ (MinimumUserQuestTaskProto*) defaultInstance {
-  return defaultMinimumUserQuestTaskProtoInstance;
-}
-- (MinimumUserQuestTaskProto*) defaultInstance {
-  return defaultMinimumUserQuestTaskProtoInstance;
-}
-- (BOOL) isInitialized {
-  return YES;
-}
-- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output {
-  if (self.hasUserId) {
-    [output writeInt32:1 value:self.userId];
-  }
-  if (self.hasQuestId) {
-    [output writeInt32:2 value:self.questId];
-  }
-  if (self.hasTaskId) {
-    [output writeInt32:3 value:self.taskId];
-  }
-  if (self.hasNumTimesActed) {
-    [output writeInt32:4 value:self.numTimesActed];
-  }
-  [self.unknownFields writeToCodedOutputStream:output];
-}
-- (int32_t) serializedSize {
-  int32_t size = memoizedSerializedSize;
-  if (size != -1) {
-    return size;
-  }
-
-  size = 0;
-  if (self.hasUserId) {
-    size += computeInt32Size(1, self.userId);
-  }
-  if (self.hasQuestId) {
-    size += computeInt32Size(2, self.questId);
-  }
-  if (self.hasTaskId) {
-    size += computeInt32Size(3, self.taskId);
-  }
-  if (self.hasNumTimesActed) {
-    size += computeInt32Size(4, self.numTimesActed);
-  }
-  size += self.unknownFields.serializedSize;
-  memoizedSerializedSize = size;
-  return size;
-}
-+ (MinimumUserQuestTaskProto*) parseFromData:(NSData*) data {
-  return (MinimumUserQuestTaskProto*)[[[MinimumUserQuestTaskProto builder] mergeFromData:data] build];
-}
-+ (MinimumUserQuestTaskProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
-  return (MinimumUserQuestTaskProto*)[[[MinimumUserQuestTaskProto builder] mergeFromData:data extensionRegistry:extensionRegistry] build];
-}
-+ (MinimumUserQuestTaskProto*) parseFromInputStream:(NSInputStream*) input {
-  return (MinimumUserQuestTaskProto*)[[[MinimumUserQuestTaskProto builder] mergeFromInputStream:input] build];
-}
-+ (MinimumUserQuestTaskProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
-  return (MinimumUserQuestTaskProto*)[[[MinimumUserQuestTaskProto builder] mergeFromInputStream:input extensionRegistry:extensionRegistry] build];
-}
-+ (MinimumUserQuestTaskProto*) parseFromCodedInputStream:(PBCodedInputStream*) input {
-  return (MinimumUserQuestTaskProto*)[[[MinimumUserQuestTaskProto builder] mergeFromCodedInputStream:input] build];
-}
-+ (MinimumUserQuestTaskProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
-  return (MinimumUserQuestTaskProto*)[[[MinimumUserQuestTaskProto builder] mergeFromCodedInputStream:input extensionRegistry:extensionRegistry] build];
-}
-+ (MinimumUserQuestTaskProto_Builder*) builder {
-  return [[[MinimumUserQuestTaskProto_Builder alloc] init] autorelease];
-}
-+ (MinimumUserQuestTaskProto_Builder*) builderWithPrototype:(MinimumUserQuestTaskProto*) prototype {
-  return [[MinimumUserQuestTaskProto builder] mergeFrom:prototype];
-}
-- (MinimumUserQuestTaskProto_Builder*) builder {
-  return [MinimumUserQuestTaskProto builder];
-}
-@end
-
-@interface MinimumUserQuestTaskProto_Builder()
-@property (retain) MinimumUserQuestTaskProto* result;
-@end
-
-@implementation MinimumUserQuestTaskProto_Builder
-@synthesize result;
-- (void) dealloc {
-  self.result = nil;
-  [super dealloc];
-}
-- (id) init {
-  if ((self = [super init])) {
-    self.result = [[[MinimumUserQuestTaskProto alloc] init] autorelease];
-  }
-  return self;
-}
-- (PBGeneratedMessage*) internalGetResult {
-  return result;
-}
-- (MinimumUserQuestTaskProto_Builder*) clear {
-  self.result = [[[MinimumUserQuestTaskProto alloc] init] autorelease];
-  return self;
-}
-- (MinimumUserQuestTaskProto_Builder*) clone {
-  return [MinimumUserQuestTaskProto builderWithPrototype:result];
-}
-- (MinimumUserQuestTaskProto*) defaultInstance {
-  return [MinimumUserQuestTaskProto defaultInstance];
-}
-- (MinimumUserQuestTaskProto*) build {
-  [self checkInitialized];
-  return [self buildPartial];
-}
-- (MinimumUserQuestTaskProto*) buildPartial {
-  MinimumUserQuestTaskProto* returnMe = [[result retain] autorelease];
-  self.result = nil;
-  return returnMe;
-}
-- (MinimumUserQuestTaskProto_Builder*) mergeFrom:(MinimumUserQuestTaskProto*) other {
-  if (other == [MinimumUserQuestTaskProto defaultInstance]) {
-    return self;
-  }
-  if (other.hasUserId) {
-    [self setUserId:other.userId];
-  }
-  if (other.hasQuestId) {
-    [self setQuestId:other.questId];
-  }
-  if (other.hasTaskId) {
-    [self setTaskId:other.taskId];
-  }
-  if (other.hasNumTimesActed) {
-    [self setNumTimesActed:other.numTimesActed];
-  }
-  [self mergeUnknownFields:other.unknownFields];
-  return self;
-}
-- (MinimumUserQuestTaskProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input {
-  return [self mergeFromCodedInputStream:input extensionRegistry:[PBExtensionRegistry emptyRegistry]];
-}
-- (MinimumUserQuestTaskProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
-  PBUnknownFieldSet_Builder* unknownFields = [PBUnknownFieldSet builderWithUnknownFields:self.unknownFields];
-  while (YES) {
-    int32_t tag = [input readTag];
-    switch (tag) {
-      case 0:
-        [self setUnknownFields:[unknownFields build]];
-        return self;
-      default: {
-        if (![self parseUnknownField:input unknownFields:unknownFields extensionRegistry:extensionRegistry tag:tag]) {
-          [self setUnknownFields:[unknownFields build]];
-          return self;
-        }
-        break;
-      }
-      case 8: {
-        [self setUserId:[input readInt32]];
-        break;
-      }
-      case 16: {
-        [self setQuestId:[input readInt32]];
-        break;
-      }
-      case 24: {
-        [self setTaskId:[input readInt32]];
-        break;
-      }
-      case 32: {
-        [self setNumTimesActed:[input readInt32]];
-        break;
-      }
-    }
-  }
-}
-- (BOOL) hasUserId {
-  return result.hasUserId;
-}
-- (int32_t) userId {
-  return result.userId;
-}
-- (MinimumUserQuestTaskProto_Builder*) setUserId:(int32_t) value {
-  result.hasUserId = YES;
-  result.userId = value;
-  return self;
-}
-- (MinimumUserQuestTaskProto_Builder*) clearUserId {
-  result.hasUserId = NO;
-  result.userId = 0;
-  return self;
-}
-- (BOOL) hasQuestId {
-  return result.hasQuestId;
-}
-- (int32_t) questId {
-  return result.questId;
-}
-- (MinimumUserQuestTaskProto_Builder*) setQuestId:(int32_t) value {
-  result.hasQuestId = YES;
-  result.questId = value;
-  return self;
-}
-- (MinimumUserQuestTaskProto_Builder*) clearQuestId {
-  result.hasQuestId = NO;
-  result.questId = 0;
-  return self;
-}
-- (BOOL) hasTaskId {
-  return result.hasTaskId;
-}
-- (int32_t) taskId {
-  return result.taskId;
-}
-- (MinimumUserQuestTaskProto_Builder*) setTaskId:(int32_t) value {
-  result.hasTaskId = YES;
-  result.taskId = value;
-  return self;
-}
-- (MinimumUserQuestTaskProto_Builder*) clearTaskId {
-  result.hasTaskId = NO;
-  result.taskId = 0;
-  return self;
-}
-- (BOOL) hasNumTimesActed {
-  return result.hasNumTimesActed;
-}
-- (int32_t) numTimesActed {
-  return result.numTimesActed;
-}
-- (MinimumUserQuestTaskProto_Builder*) setNumTimesActed:(int32_t) value {
-  result.hasNumTimesActed = YES;
-  result.numTimesActed = value;
-  return self;
-}
-- (MinimumUserQuestTaskProto_Builder*) clearNumTimesActed {
-  result.hasNumTimesActed = NO;
-  result.numTimesActed = 0;
+- (FullUserQuestProto_Builder*) clearProgress {
+  result.hasProgress = NO;
+  result.progress = 0;
   return self;
 }
 @end

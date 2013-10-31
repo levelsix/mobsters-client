@@ -22,8 +22,8 @@ static PBExtensionRegistry* extensionRegistry = nil;
 
 BOOL GroupChatScopeIsValidValue(GroupChatScope value) {
   switch (value) {
-    case GroupChatScopeGlobal:
     case GroupChatScopeClan:
+    case GroupChatScopeGlobal:
       return YES;
     default:
       return NO;

@@ -13,6 +13,7 @@ static PBExtensionRegistry* extensionRegistry = nil;
     PBMutableExtensionRegistry* registry = [PBMutableExtensionRegistry registry];
     [self registerAllExtensions:registry];
     [CityRoot registerAllExtensions:registry];
+    [MonsterStuffRoot registerAllExtensions:registry];
     [QuestRoot registerAllExtensions:registry];
     [UserRoot registerAllExtensions:registry];
     extensionRegistry = [registry retain];
@@ -377,8 +378,9 @@ static QuestAcceptResponseProto* defaultQuestAcceptResponseProtoInstance = nil;
 BOOL QuestAcceptResponseProto_QuestAcceptStatusIsValidValue(QuestAcceptResponseProto_QuestAcceptStatus value) {
   switch (value) {
     case QuestAcceptResponseProto_QuestAcceptStatusSuccess:
-    case QuestAcceptResponseProto_QuestAcceptStatusNotAvailToUser:
-    case QuestAcceptResponseProto_QuestAcceptStatusOtherFail:
+    case QuestAcceptResponseProto_QuestAcceptStatusFailNotAvailToUser:
+    case QuestAcceptResponseProto_QuestAcceptStatusFailAlreadyAccepted:
+    case QuestAcceptResponseProto_QuestAcceptStatusFailOther:
       return YES;
     default:
       return NO;
@@ -545,13 +547,15 @@ BOOL QuestAcceptResponseProto_QuestAcceptStatusIsValidValue(QuestAcceptResponseP
 }
 @end
 
-@interface QuestCompleteResponseProto ()
+@interface QuestProgressRequestProto ()
 @property (retain) MinimumUserProto* sender;
 @property int32_t questId;
-@property (retain) CityElementProto* cityElement;
+@property int32_t currentProgress;
+@property BOOL isComplete;
+@property (retain) NSMutableArray* mutableDeleteUserMonsterIdsList;
 @end
 
-@implementation QuestCompleteResponseProto
+@implementation QuestProgressRequestProto
 
 - (BOOL) hasSender {
   return !!hasSender_;
@@ -567,37 +571,58 @@ BOOL QuestAcceptResponseProto_QuestAcceptStatusIsValidValue(QuestAcceptResponseP
   hasQuestId_ = !!value;
 }
 @synthesize questId;
-- (BOOL) hasCityElement {
-  return !!hasCityElement_;
+- (BOOL) hasCurrentProgress {
+  return !!hasCurrentProgress_;
 }
-- (void) setHasCityElement:(BOOL) value {
-  hasCityElement_ = !!value;
+- (void) setHasCurrentProgress:(BOOL) value {
+  hasCurrentProgress_ = !!value;
 }
-@synthesize cityElement;
+@synthesize currentProgress;
+- (BOOL) hasIsComplete {
+  return !!hasIsComplete_;
+}
+- (void) setHasIsComplete:(BOOL) value {
+  hasIsComplete_ = !!value;
+}
+- (BOOL) isComplete {
+  return !!isComplete_;
+}
+- (void) setIsComplete:(BOOL) value {
+  isComplete_ = !!value;
+}
+@synthesize mutableDeleteUserMonsterIdsList;
 - (void) dealloc {
   self.sender = nil;
-  self.cityElement = nil;
+  self.mutableDeleteUserMonsterIdsList = nil;
   [super dealloc];
 }
 - (id) init {
   if ((self = [super init])) {
     self.sender = [MinimumUserProto defaultInstance];
     self.questId = 0;
-    self.cityElement = [CityElementProto defaultInstance];
+    self.currentProgress = 0;
+    self.isComplete = NO;
   }
   return self;
 }
-static QuestCompleteResponseProto* defaultQuestCompleteResponseProtoInstance = nil;
+static QuestProgressRequestProto* defaultQuestProgressRequestProtoInstance = nil;
 + (void) initialize {
-  if (self == [QuestCompleteResponseProto class]) {
-    defaultQuestCompleteResponseProtoInstance = [[QuestCompleteResponseProto alloc] init];
+  if (self == [QuestProgressRequestProto class]) {
+    defaultQuestProgressRequestProtoInstance = [[QuestProgressRequestProto alloc] init];
   }
 }
-+ (QuestCompleteResponseProto*) defaultInstance {
-  return defaultQuestCompleteResponseProtoInstance;
++ (QuestProgressRequestProto*) defaultInstance {
+  return defaultQuestProgressRequestProtoInstance;
 }
-- (QuestCompleteResponseProto*) defaultInstance {
-  return defaultQuestCompleteResponseProtoInstance;
+- (QuestProgressRequestProto*) defaultInstance {
+  return defaultQuestProgressRequestProtoInstance;
+}
+- (NSArray*) deleteUserMonsterIdsList {
+  return mutableDeleteUserMonsterIdsList;
+}
+- (int64_t) deleteUserMonsterIdsAtIndex:(int32_t) index {
+  id value = [mutableDeleteUserMonsterIdsList objectAtIndex:index];
+  return [value longLongValue];
 }
 - (BOOL) isInitialized {
   return YES;
@@ -609,8 +634,14 @@ static QuestCompleteResponseProto* defaultQuestCompleteResponseProtoInstance = n
   if (self.hasQuestId) {
     [output writeInt32:2 value:self.questId];
   }
-  if (self.hasCityElement) {
-    [output writeMessage:3 value:self.cityElement];
+  if (self.hasCurrentProgress) {
+    [output writeInt32:3 value:self.currentProgress];
+  }
+  if (self.hasIsComplete) {
+    [output writeBool:4 value:self.isComplete];
+  }
+  for (NSNumber* value in self.mutableDeleteUserMonsterIdsList) {
+    [output writeInt64:5 value:[value longLongValue]];
   }
   [self.unknownFields writeToCodedOutputStream:output];
 }
@@ -627,47 +658,58 @@ static QuestCompleteResponseProto* defaultQuestCompleteResponseProtoInstance = n
   if (self.hasQuestId) {
     size += computeInt32Size(2, self.questId);
   }
-  if (self.hasCityElement) {
-    size += computeMessageSize(3, self.cityElement);
+  if (self.hasCurrentProgress) {
+    size += computeInt32Size(3, self.currentProgress);
+  }
+  if (self.hasIsComplete) {
+    size += computeBoolSize(4, self.isComplete);
+  }
+  {
+    int32_t dataSize = 0;
+    for (NSNumber* value in self.mutableDeleteUserMonsterIdsList) {
+      dataSize += computeInt64SizeNoTag([value longLongValue]);
+    }
+    size += dataSize;
+    size += 1 * self.mutableDeleteUserMonsterIdsList.count;
   }
   size += self.unknownFields.serializedSize;
   memoizedSerializedSize = size;
   return size;
 }
-+ (QuestCompleteResponseProto*) parseFromData:(NSData*) data {
-  return (QuestCompleteResponseProto*)[[[QuestCompleteResponseProto builder] mergeFromData:data] build];
++ (QuestProgressRequestProto*) parseFromData:(NSData*) data {
+  return (QuestProgressRequestProto*)[[[QuestProgressRequestProto builder] mergeFromData:data] build];
 }
-+ (QuestCompleteResponseProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
-  return (QuestCompleteResponseProto*)[[[QuestCompleteResponseProto builder] mergeFromData:data extensionRegistry:extensionRegistry] build];
++ (QuestProgressRequestProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (QuestProgressRequestProto*)[[[QuestProgressRequestProto builder] mergeFromData:data extensionRegistry:extensionRegistry] build];
 }
-+ (QuestCompleteResponseProto*) parseFromInputStream:(NSInputStream*) input {
-  return (QuestCompleteResponseProto*)[[[QuestCompleteResponseProto builder] mergeFromInputStream:input] build];
++ (QuestProgressRequestProto*) parseFromInputStream:(NSInputStream*) input {
+  return (QuestProgressRequestProto*)[[[QuestProgressRequestProto builder] mergeFromInputStream:input] build];
 }
-+ (QuestCompleteResponseProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
-  return (QuestCompleteResponseProto*)[[[QuestCompleteResponseProto builder] mergeFromInputStream:input extensionRegistry:extensionRegistry] build];
++ (QuestProgressRequestProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (QuestProgressRequestProto*)[[[QuestProgressRequestProto builder] mergeFromInputStream:input extensionRegistry:extensionRegistry] build];
 }
-+ (QuestCompleteResponseProto*) parseFromCodedInputStream:(PBCodedInputStream*) input {
-  return (QuestCompleteResponseProto*)[[[QuestCompleteResponseProto builder] mergeFromCodedInputStream:input] build];
++ (QuestProgressRequestProto*) parseFromCodedInputStream:(PBCodedInputStream*) input {
+  return (QuestProgressRequestProto*)[[[QuestProgressRequestProto builder] mergeFromCodedInputStream:input] build];
 }
-+ (QuestCompleteResponseProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
-  return (QuestCompleteResponseProto*)[[[QuestCompleteResponseProto builder] mergeFromCodedInputStream:input extensionRegistry:extensionRegistry] build];
++ (QuestProgressRequestProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (QuestProgressRequestProto*)[[[QuestProgressRequestProto builder] mergeFromCodedInputStream:input extensionRegistry:extensionRegistry] build];
 }
-+ (QuestCompleteResponseProto_Builder*) builder {
-  return [[[QuestCompleteResponseProto_Builder alloc] init] autorelease];
++ (QuestProgressRequestProto_Builder*) builder {
+  return [[[QuestProgressRequestProto_Builder alloc] init] autorelease];
 }
-+ (QuestCompleteResponseProto_Builder*) builderWithPrototype:(QuestCompleteResponseProto*) prototype {
-  return [[QuestCompleteResponseProto builder] mergeFrom:prototype];
++ (QuestProgressRequestProto_Builder*) builderWithPrototype:(QuestProgressRequestProto*) prototype {
+  return [[QuestProgressRequestProto builder] mergeFrom:prototype];
 }
-- (QuestCompleteResponseProto_Builder*) builder {
-  return [QuestCompleteResponseProto builder];
+- (QuestProgressRequestProto_Builder*) builder {
+  return [QuestProgressRequestProto builder];
 }
 @end
 
-@interface QuestCompleteResponseProto_Builder()
-@property (retain) QuestCompleteResponseProto* result;
+@interface QuestProgressRequestProto_Builder()
+@property (retain) QuestProgressRequestProto* result;
 @end
 
-@implementation QuestCompleteResponseProto_Builder
+@implementation QuestProgressRequestProto_Builder
 @synthesize result;
 - (void) dealloc {
   self.result = nil;
@@ -675,34 +717,34 @@ static QuestCompleteResponseProto* defaultQuestCompleteResponseProtoInstance = n
 }
 - (id) init {
   if ((self = [super init])) {
-    self.result = [[[QuestCompleteResponseProto alloc] init] autorelease];
+    self.result = [[[QuestProgressRequestProto alloc] init] autorelease];
   }
   return self;
 }
 - (PBGeneratedMessage*) internalGetResult {
   return result;
 }
-- (QuestCompleteResponseProto_Builder*) clear {
-  self.result = [[[QuestCompleteResponseProto alloc] init] autorelease];
+- (QuestProgressRequestProto_Builder*) clear {
+  self.result = [[[QuestProgressRequestProto alloc] init] autorelease];
   return self;
 }
-- (QuestCompleteResponseProto_Builder*) clone {
-  return [QuestCompleteResponseProto builderWithPrototype:result];
+- (QuestProgressRequestProto_Builder*) clone {
+  return [QuestProgressRequestProto builderWithPrototype:result];
 }
-- (QuestCompleteResponseProto*) defaultInstance {
-  return [QuestCompleteResponseProto defaultInstance];
+- (QuestProgressRequestProto*) defaultInstance {
+  return [QuestProgressRequestProto defaultInstance];
 }
-- (QuestCompleteResponseProto*) build {
+- (QuestProgressRequestProto*) build {
   [self checkInitialized];
   return [self buildPartial];
 }
-- (QuestCompleteResponseProto*) buildPartial {
-  QuestCompleteResponseProto* returnMe = [[result retain] autorelease];
+- (QuestProgressRequestProto*) buildPartial {
+  QuestProgressRequestProto* returnMe = [[result retain] autorelease];
   self.result = nil;
   return returnMe;
 }
-- (QuestCompleteResponseProto_Builder*) mergeFrom:(QuestCompleteResponseProto*) other {
-  if (other == [QuestCompleteResponseProto defaultInstance]) {
+- (QuestProgressRequestProto_Builder*) mergeFrom:(QuestProgressRequestProto*) other {
+  if (other == [QuestProgressRequestProto defaultInstance]) {
     return self;
   }
   if (other.hasSender) {
@@ -711,16 +753,25 @@ static QuestCompleteResponseProto* defaultQuestCompleteResponseProtoInstance = n
   if (other.hasQuestId) {
     [self setQuestId:other.questId];
   }
-  if (other.hasCityElement) {
-    [self mergeCityElement:other.cityElement];
+  if (other.hasCurrentProgress) {
+    [self setCurrentProgress:other.currentProgress];
+  }
+  if (other.hasIsComplete) {
+    [self setIsComplete:other.isComplete];
+  }
+  if (other.mutableDeleteUserMonsterIdsList.count > 0) {
+    if (result.mutableDeleteUserMonsterIdsList == nil) {
+      result.mutableDeleteUserMonsterIdsList = [NSMutableArray array];
+    }
+    [result.mutableDeleteUserMonsterIdsList addObjectsFromArray:other.mutableDeleteUserMonsterIdsList];
   }
   [self mergeUnknownFields:other.unknownFields];
   return self;
 }
-- (QuestCompleteResponseProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input {
+- (QuestProgressRequestProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input {
   return [self mergeFromCodedInputStream:input extensionRegistry:[PBExtensionRegistry emptyRegistry]];
 }
-- (QuestCompleteResponseProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+- (QuestProgressRequestProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
   PBUnknownFieldSet_Builder* unknownFields = [PBUnknownFieldSet builderWithUnknownFields:self.unknownFields];
   while (YES) {
     int32_t tag = [input readTag];
@@ -748,13 +799,16 @@ static QuestCompleteResponseProto* defaultQuestCompleteResponseProtoInstance = n
         [self setQuestId:[input readInt32]];
         break;
       }
-      case 26: {
-        CityElementProto_Builder* subBuilder = [CityElementProto builder];
-        if (self.hasCityElement) {
-          [subBuilder mergeFrom:self.cityElement];
-        }
-        [input readMessage:subBuilder extensionRegistry:extensionRegistry];
-        [self setCityElement:[subBuilder buildPartial]];
+      case 24: {
+        [self setCurrentProgress:[input readInt32]];
+        break;
+      }
+      case 32: {
+        [self setIsComplete:[input readBool]];
+        break;
+      }
+      case 40: {
+        [self addDeleteUserMonsterIds:[input readInt64]];
         break;
       }
     }
@@ -766,15 +820,15 @@ static QuestCompleteResponseProto* defaultQuestCompleteResponseProtoInstance = n
 - (MinimumUserProto*) sender {
   return result.sender;
 }
-- (QuestCompleteResponseProto_Builder*) setSender:(MinimumUserProto*) value {
+- (QuestProgressRequestProto_Builder*) setSender:(MinimumUserProto*) value {
   result.hasSender = YES;
   result.sender = value;
   return self;
 }
-- (QuestCompleteResponseProto_Builder*) setSenderBuilder:(MinimumUserProto_Builder*) builderForValue {
+- (QuestProgressRequestProto_Builder*) setSenderBuilder:(MinimumUserProto_Builder*) builderForValue {
   return [self setSender:[builderForValue build]];
 }
-- (QuestCompleteResponseProto_Builder*) mergeSender:(MinimumUserProto*) value {
+- (QuestProgressRequestProto_Builder*) mergeSender:(MinimumUserProto*) value {
   if (result.hasSender &&
       result.sender != [MinimumUserProto defaultInstance]) {
     result.sender =
@@ -785,7 +839,7 @@ static QuestCompleteResponseProto* defaultQuestCompleteResponseProtoInstance = n
   result.hasSender = YES;
   return self;
 }
-- (QuestCompleteResponseProto_Builder*) clearSender {
+- (QuestProgressRequestProto_Builder*) clearSender {
   result.hasSender = NO;
   result.sender = [MinimumUserProto defaultInstance];
   return self;
@@ -796,44 +850,330 @@ static QuestCompleteResponseProto* defaultQuestCompleteResponseProtoInstance = n
 - (int32_t) questId {
   return result.questId;
 }
-- (QuestCompleteResponseProto_Builder*) setQuestId:(int32_t) value {
+- (QuestProgressRequestProto_Builder*) setQuestId:(int32_t) value {
   result.hasQuestId = YES;
   result.questId = value;
   return self;
 }
-- (QuestCompleteResponseProto_Builder*) clearQuestId {
+- (QuestProgressRequestProto_Builder*) clearQuestId {
   result.hasQuestId = NO;
   result.questId = 0;
   return self;
 }
-- (BOOL) hasCityElement {
-  return result.hasCityElement;
+- (BOOL) hasCurrentProgress {
+  return result.hasCurrentProgress;
 }
-- (CityElementProto*) cityElement {
-  return result.cityElement;
+- (int32_t) currentProgress {
+  return result.currentProgress;
 }
-- (QuestCompleteResponseProto_Builder*) setCityElement:(CityElementProto*) value {
-  result.hasCityElement = YES;
-  result.cityElement = value;
+- (QuestProgressRequestProto_Builder*) setCurrentProgress:(int32_t) value {
+  result.hasCurrentProgress = YES;
+  result.currentProgress = value;
   return self;
 }
-- (QuestCompleteResponseProto_Builder*) setCityElementBuilder:(CityElementProto_Builder*) builderForValue {
-  return [self setCityElement:[builderForValue build]];
+- (QuestProgressRequestProto_Builder*) clearCurrentProgress {
+  result.hasCurrentProgress = NO;
+  result.currentProgress = 0;
+  return self;
 }
-- (QuestCompleteResponseProto_Builder*) mergeCityElement:(CityElementProto*) value {
-  if (result.hasCityElement &&
-      result.cityElement != [CityElementProto defaultInstance]) {
-    result.cityElement =
-      [[[CityElementProto builderWithPrototype:result.cityElement] mergeFrom:value] buildPartial];
-  } else {
-    result.cityElement = value;
+- (BOOL) hasIsComplete {
+  return result.hasIsComplete;
+}
+- (BOOL) isComplete {
+  return result.isComplete;
+}
+- (QuestProgressRequestProto_Builder*) setIsComplete:(BOOL) value {
+  result.hasIsComplete = YES;
+  result.isComplete = value;
+  return self;
+}
+- (QuestProgressRequestProto_Builder*) clearIsComplete {
+  result.hasIsComplete = NO;
+  result.isComplete = NO;
+  return self;
+}
+- (NSArray*) deleteUserMonsterIdsList {
+  if (result.mutableDeleteUserMonsterIdsList == nil) {
+    return [NSArray array];
   }
-  result.hasCityElement = YES;
+  return result.mutableDeleteUserMonsterIdsList;
+}
+- (int64_t) deleteUserMonsterIdsAtIndex:(int32_t) index {
+  return [result deleteUserMonsterIdsAtIndex:index];
+}
+- (QuestProgressRequestProto_Builder*) replaceDeleteUserMonsterIdsAtIndex:(int32_t) index with:(int64_t) value {
+  [result.mutableDeleteUserMonsterIdsList replaceObjectAtIndex:index withObject:[NSNumber numberWithLongLong:value]];
   return self;
 }
-- (QuestCompleteResponseProto_Builder*) clearCityElement {
-  result.hasCityElement = NO;
-  result.cityElement = [CityElementProto defaultInstance];
+- (QuestProgressRequestProto_Builder*) addDeleteUserMonsterIds:(int64_t) value {
+  if (result.mutableDeleteUserMonsterIdsList == nil) {
+    result.mutableDeleteUserMonsterIdsList = [NSMutableArray array];
+  }
+  [result.mutableDeleteUserMonsterIdsList addObject:[NSNumber numberWithLongLong:value]];
+  return self;
+}
+- (QuestProgressRequestProto_Builder*) addAllDeleteUserMonsterIds:(NSArray*) values {
+  if (result.mutableDeleteUserMonsterIdsList == nil) {
+    result.mutableDeleteUserMonsterIdsList = [NSMutableArray array];
+  }
+  [result.mutableDeleteUserMonsterIdsList addObjectsFromArray:values];
+  return self;
+}
+- (QuestProgressRequestProto_Builder*) clearDeleteUserMonsterIdsList {
+  result.mutableDeleteUserMonsterIdsList = nil;
+  return self;
+}
+@end
+
+@interface QuestProgressResponseProto ()
+@property (retain) MinimumUserProto* sender;
+@property QuestProgressResponseProto_QuestProgressStatus status;
+@end
+
+@implementation QuestProgressResponseProto
+
+- (BOOL) hasSender {
+  return !!hasSender_;
+}
+- (void) setHasSender:(BOOL) value {
+  hasSender_ = !!value;
+}
+@synthesize sender;
+- (BOOL) hasStatus {
+  return !!hasStatus_;
+}
+- (void) setHasStatus:(BOOL) value {
+  hasStatus_ = !!value;
+}
+@synthesize status;
+- (void) dealloc {
+  self.sender = nil;
+  [super dealloc];
+}
+- (id) init {
+  if ((self = [super init])) {
+    self.sender = [MinimumUserProto defaultInstance];
+    self.status = QuestProgressResponseProto_QuestProgressStatusSuccess;
+  }
+  return self;
+}
+static QuestProgressResponseProto* defaultQuestProgressResponseProtoInstance = nil;
++ (void) initialize {
+  if (self == [QuestProgressResponseProto class]) {
+    defaultQuestProgressResponseProtoInstance = [[QuestProgressResponseProto alloc] init];
+  }
+}
++ (QuestProgressResponseProto*) defaultInstance {
+  return defaultQuestProgressResponseProtoInstance;
+}
+- (QuestProgressResponseProto*) defaultInstance {
+  return defaultQuestProgressResponseProtoInstance;
+}
+- (BOOL) isInitialized {
+  return YES;
+}
+- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output {
+  if (self.hasSender) {
+    [output writeMessage:1 value:self.sender];
+  }
+  if (self.hasStatus) {
+    [output writeEnum:2 value:self.status];
+  }
+  [self.unknownFields writeToCodedOutputStream:output];
+}
+- (int32_t) serializedSize {
+  int32_t size = memoizedSerializedSize;
+  if (size != -1) {
+    return size;
+  }
+
+  size = 0;
+  if (self.hasSender) {
+    size += computeMessageSize(1, self.sender);
+  }
+  if (self.hasStatus) {
+    size += computeEnumSize(2, self.status);
+  }
+  size += self.unknownFields.serializedSize;
+  memoizedSerializedSize = size;
+  return size;
+}
++ (QuestProgressResponseProto*) parseFromData:(NSData*) data {
+  return (QuestProgressResponseProto*)[[[QuestProgressResponseProto builder] mergeFromData:data] build];
+}
++ (QuestProgressResponseProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (QuestProgressResponseProto*)[[[QuestProgressResponseProto builder] mergeFromData:data extensionRegistry:extensionRegistry] build];
+}
++ (QuestProgressResponseProto*) parseFromInputStream:(NSInputStream*) input {
+  return (QuestProgressResponseProto*)[[[QuestProgressResponseProto builder] mergeFromInputStream:input] build];
+}
++ (QuestProgressResponseProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (QuestProgressResponseProto*)[[[QuestProgressResponseProto builder] mergeFromInputStream:input extensionRegistry:extensionRegistry] build];
+}
++ (QuestProgressResponseProto*) parseFromCodedInputStream:(PBCodedInputStream*) input {
+  return (QuestProgressResponseProto*)[[[QuestProgressResponseProto builder] mergeFromCodedInputStream:input] build];
+}
++ (QuestProgressResponseProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (QuestProgressResponseProto*)[[[QuestProgressResponseProto builder] mergeFromCodedInputStream:input extensionRegistry:extensionRegistry] build];
+}
++ (QuestProgressResponseProto_Builder*) builder {
+  return [[[QuestProgressResponseProto_Builder alloc] init] autorelease];
+}
++ (QuestProgressResponseProto_Builder*) builderWithPrototype:(QuestProgressResponseProto*) prototype {
+  return [[QuestProgressResponseProto builder] mergeFrom:prototype];
+}
+- (QuestProgressResponseProto_Builder*) builder {
+  return [QuestProgressResponseProto builder];
+}
+@end
+
+BOOL QuestProgressResponseProto_QuestProgressStatusIsValidValue(QuestProgressResponseProto_QuestProgressStatus value) {
+  switch (value) {
+    case QuestProgressResponseProto_QuestProgressStatusSuccess:
+    case QuestProgressResponseProto_QuestProgressStatusFailNoQuestExists:
+    case QuestProgressResponseProto_QuestProgressStatusFailDeleteAmountDoesNotMatchQuest:
+    case QuestProgressResponseProto_QuestProgressStatusFailNonexistentUserMonsters:
+    case QuestProgressResponseProto_QuestProgressStatusFailIncompleteUserMonsters:
+    case QuestProgressResponseProto_QuestProgressStatusFailOther:
+      return YES;
+    default:
+      return NO;
+  }
+}
+@interface QuestProgressResponseProto_Builder()
+@property (retain) QuestProgressResponseProto* result;
+@end
+
+@implementation QuestProgressResponseProto_Builder
+@synthesize result;
+- (void) dealloc {
+  self.result = nil;
+  [super dealloc];
+}
+- (id) init {
+  if ((self = [super init])) {
+    self.result = [[[QuestProgressResponseProto alloc] init] autorelease];
+  }
+  return self;
+}
+- (PBGeneratedMessage*) internalGetResult {
+  return result;
+}
+- (QuestProgressResponseProto_Builder*) clear {
+  self.result = [[[QuestProgressResponseProto alloc] init] autorelease];
+  return self;
+}
+- (QuestProgressResponseProto_Builder*) clone {
+  return [QuestProgressResponseProto builderWithPrototype:result];
+}
+- (QuestProgressResponseProto*) defaultInstance {
+  return [QuestProgressResponseProto defaultInstance];
+}
+- (QuestProgressResponseProto*) build {
+  [self checkInitialized];
+  return [self buildPartial];
+}
+- (QuestProgressResponseProto*) buildPartial {
+  QuestProgressResponseProto* returnMe = [[result retain] autorelease];
+  self.result = nil;
+  return returnMe;
+}
+- (QuestProgressResponseProto_Builder*) mergeFrom:(QuestProgressResponseProto*) other {
+  if (other == [QuestProgressResponseProto defaultInstance]) {
+    return self;
+  }
+  if (other.hasSender) {
+    [self mergeSender:other.sender];
+  }
+  if (other.hasStatus) {
+    [self setStatus:other.status];
+  }
+  [self mergeUnknownFields:other.unknownFields];
+  return self;
+}
+- (QuestProgressResponseProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input {
+  return [self mergeFromCodedInputStream:input extensionRegistry:[PBExtensionRegistry emptyRegistry]];
+}
+- (QuestProgressResponseProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  PBUnknownFieldSet_Builder* unknownFields = [PBUnknownFieldSet builderWithUnknownFields:self.unknownFields];
+  while (YES) {
+    int32_t tag = [input readTag];
+    switch (tag) {
+      case 0:
+        [self setUnknownFields:[unknownFields build]];
+        return self;
+      default: {
+        if (![self parseUnknownField:input unknownFields:unknownFields extensionRegistry:extensionRegistry tag:tag]) {
+          [self setUnknownFields:[unknownFields build]];
+          return self;
+        }
+        break;
+      }
+      case 10: {
+        MinimumUserProto_Builder* subBuilder = [MinimumUserProto builder];
+        if (self.hasSender) {
+          [subBuilder mergeFrom:self.sender];
+        }
+        [input readMessage:subBuilder extensionRegistry:extensionRegistry];
+        [self setSender:[subBuilder buildPartial]];
+        break;
+      }
+      case 16: {
+        int32_t value = [input readEnum];
+        if (QuestProgressResponseProto_QuestProgressStatusIsValidValue(value)) {
+          [self setStatus:value];
+        } else {
+          [unknownFields mergeVarintField:2 value:value];
+        }
+        break;
+      }
+    }
+  }
+}
+- (BOOL) hasSender {
+  return result.hasSender;
+}
+- (MinimumUserProto*) sender {
+  return result.sender;
+}
+- (QuestProgressResponseProto_Builder*) setSender:(MinimumUserProto*) value {
+  result.hasSender = YES;
+  result.sender = value;
+  return self;
+}
+- (QuestProgressResponseProto_Builder*) setSenderBuilder:(MinimumUserProto_Builder*) builderForValue {
+  return [self setSender:[builderForValue build]];
+}
+- (QuestProgressResponseProto_Builder*) mergeSender:(MinimumUserProto*) value {
+  if (result.hasSender &&
+      result.sender != [MinimumUserProto defaultInstance]) {
+    result.sender =
+      [[[MinimumUserProto builderWithPrototype:result.sender] mergeFrom:value] buildPartial];
+  } else {
+    result.sender = value;
+  }
+  result.hasSender = YES;
+  return self;
+}
+- (QuestProgressResponseProto_Builder*) clearSender {
+  result.hasSender = NO;
+  result.sender = [MinimumUserProto defaultInstance];
+  return self;
+}
+- (BOOL) hasStatus {
+  return result.hasStatus;
+}
+- (QuestProgressResponseProto_QuestProgressStatus) status {
+  return result.status;
+}
+- (QuestProgressResponseProto_Builder*) setStatus:(QuestProgressResponseProto_QuestProgressStatus) value {
+  result.hasStatus = YES;
+  result.status = value;
+  return self;
+}
+- (QuestProgressResponseProto_Builder*) clearStatus {
+  result.hasStatus = NO;
+  result.status = QuestProgressResponseProto_QuestProgressStatusSuccess;
   return self;
 }
 @end
@@ -1077,7 +1417,8 @@ static QuestRedeemRequestProto* defaultQuestRedeemRequestProtoInstance = nil;
 @property (retain) MinimumUserProto* sender;
 @property (retain) NSMutableArray* mutableNewlyAvailableQuestsList;
 @property QuestRedeemResponseProto_QuestRedeemStatus status;
-@property int32_t monsterId;
+@property (retain) FullUserMonsterProto* fump;
+@property int32_t questId;
 @end
 
 @implementation QuestRedeemResponseProto
@@ -1097,23 +1438,32 @@ static QuestRedeemRequestProto* defaultQuestRedeemRequestProtoInstance = nil;
   hasStatus_ = !!value;
 }
 @synthesize status;
-- (BOOL) hasMonsterId {
-  return !!hasMonsterId_;
+- (BOOL) hasFump {
+  return !!hasFump_;
 }
-- (void) setHasMonsterId:(BOOL) value {
-  hasMonsterId_ = !!value;
+- (void) setHasFump:(BOOL) value {
+  hasFump_ = !!value;
 }
-@synthesize monsterId;
+@synthesize fump;
+- (BOOL) hasQuestId {
+  return !!hasQuestId_;
+}
+- (void) setHasQuestId:(BOOL) value {
+  hasQuestId_ = !!value;
+}
+@synthesize questId;
 - (void) dealloc {
   self.sender = nil;
   self.mutableNewlyAvailableQuestsList = nil;
+  self.fump = nil;
   [super dealloc];
 }
 - (id) init {
   if ((self = [super init])) {
     self.sender = [MinimumUserProto defaultInstance];
     self.status = QuestRedeemResponseProto_QuestRedeemStatusSuccess;
-    self.monsterId = 0;
+    self.fump = [FullUserMonsterProto defaultInstance];
+    self.questId = 0;
   }
   return self;
 }
@@ -1149,8 +1499,11 @@ static QuestRedeemResponseProto* defaultQuestRedeemResponseProtoInstance = nil;
   if (self.hasStatus) {
     [output writeEnum:3 value:self.status];
   }
-  if (self.hasMonsterId) {
-    [output writeInt32:4 value:self.monsterId];
+  if (self.hasFump) {
+    [output writeMessage:4 value:self.fump];
+  }
+  if (self.hasQuestId) {
+    [output writeInt32:5 value:self.questId];
   }
   [self.unknownFields writeToCodedOutputStream:output];
 }
@@ -1170,8 +1523,11 @@ static QuestRedeemResponseProto* defaultQuestRedeemResponseProtoInstance = nil;
   if (self.hasStatus) {
     size += computeEnumSize(3, self.status);
   }
-  if (self.hasMonsterId) {
-    size += computeInt32Size(4, self.monsterId);
+  if (self.hasFump) {
+    size += computeMessageSize(4, self.fump);
+  }
+  if (self.hasQuestId) {
+    size += computeInt32Size(5, self.questId);
   }
   size += self.unknownFields.serializedSize;
   memoizedSerializedSize = size;
@@ -1209,8 +1565,8 @@ static QuestRedeemResponseProto* defaultQuestRedeemResponseProtoInstance = nil;
 BOOL QuestRedeemResponseProto_QuestRedeemStatusIsValidValue(QuestRedeemResponseProto_QuestRedeemStatus value) {
   switch (value) {
     case QuestRedeemResponseProto_QuestRedeemStatusSuccess:
-    case QuestRedeemResponseProto_QuestRedeemStatusNotComplete:
-    case QuestRedeemResponseProto_QuestRedeemStatusOtherFail:
+    case QuestRedeemResponseProto_QuestRedeemStatusFailNotComplete:
+    case QuestRedeemResponseProto_QuestRedeemStatusFailOther:
       return YES;
     default:
       return NO;
@@ -1270,8 +1626,11 @@ BOOL QuestRedeemResponseProto_QuestRedeemStatusIsValidValue(QuestRedeemResponseP
   if (other.hasStatus) {
     [self setStatus:other.status];
   }
-  if (other.hasMonsterId) {
-    [self setMonsterId:other.monsterId];
+  if (other.hasFump) {
+    [self mergeFump:other.fump];
+  }
+  if (other.hasQuestId) {
+    [self setQuestId:other.questId];
   }
   [self mergeUnknownFields:other.unknownFields];
   return self;
@@ -1318,8 +1677,17 @@ BOOL QuestRedeemResponseProto_QuestRedeemStatusIsValidValue(QuestRedeemResponseP
         }
         break;
       }
-      case 32: {
-        [self setMonsterId:[input readInt32]];
+      case 34: {
+        FullUserMonsterProto_Builder* subBuilder = [FullUserMonsterProto builder];
+        if (self.hasFump) {
+          [subBuilder mergeFrom:self.fump];
+        }
+        [input readMessage:subBuilder extensionRegistry:extensionRegistry];
+        [self setFump:[subBuilder buildPartial]];
+        break;
+      }
+      case 40: {
+        [self setQuestId:[input readInt32]];
         break;
       }
     }
@@ -1400,239 +1768,34 @@ BOOL QuestRedeemResponseProto_QuestRedeemStatusIsValidValue(QuestRedeemResponseP
   result.status = QuestRedeemResponseProto_QuestRedeemStatusSuccess;
   return self;
 }
-- (BOOL) hasMonsterId {
-  return result.hasMonsterId;
+- (BOOL) hasFump {
+  return result.hasFump;
 }
-- (int32_t) monsterId {
-  return result.monsterId;
+- (FullUserMonsterProto*) fump {
+  return result.fump;
 }
-- (QuestRedeemResponseProto_Builder*) setMonsterId:(int32_t) value {
-  result.hasMonsterId = YES;
-  result.monsterId = value;
+- (QuestRedeemResponseProto_Builder*) setFump:(FullUserMonsterProto*) value {
+  result.hasFump = YES;
+  result.fump = value;
   return self;
 }
-- (QuestRedeemResponseProto_Builder*) clearMonsterId {
-  result.hasMonsterId = NO;
-  result.monsterId = 0;
-  return self;
+- (QuestRedeemResponseProto_Builder*) setFumpBuilder:(FullUserMonsterProto_Builder*) builderForValue {
+  return [self setFump:[builderForValue build]];
 }
-@end
-
-@interface UserQuestDetailsRequestProto ()
-@property (retain) MinimumUserProto* sender;
-@property int32_t questId;
-@end
-
-@implementation UserQuestDetailsRequestProto
-
-- (BOOL) hasSender {
-  return !!hasSender_;
-}
-- (void) setHasSender:(BOOL) value {
-  hasSender_ = !!value;
-}
-@synthesize sender;
-- (BOOL) hasQuestId {
-  return !!hasQuestId_;
-}
-- (void) setHasQuestId:(BOOL) value {
-  hasQuestId_ = !!value;
-}
-@synthesize questId;
-- (void) dealloc {
-  self.sender = nil;
-  [super dealloc];
-}
-- (id) init {
-  if ((self = [super init])) {
-    self.sender = [MinimumUserProto defaultInstance];
-    self.questId = 0;
-  }
-  return self;
-}
-static UserQuestDetailsRequestProto* defaultUserQuestDetailsRequestProtoInstance = nil;
-+ (void) initialize {
-  if (self == [UserQuestDetailsRequestProto class]) {
-    defaultUserQuestDetailsRequestProtoInstance = [[UserQuestDetailsRequestProto alloc] init];
-  }
-}
-+ (UserQuestDetailsRequestProto*) defaultInstance {
-  return defaultUserQuestDetailsRequestProtoInstance;
-}
-- (UserQuestDetailsRequestProto*) defaultInstance {
-  return defaultUserQuestDetailsRequestProtoInstance;
-}
-- (BOOL) isInitialized {
-  return YES;
-}
-- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output {
-  if (self.hasSender) {
-    [output writeMessage:1 value:self.sender];
-  }
-  if (self.hasQuestId) {
-    [output writeInt32:2 value:self.questId];
-  }
-  [self.unknownFields writeToCodedOutputStream:output];
-}
-- (int32_t) serializedSize {
-  int32_t size = memoizedSerializedSize;
-  if (size != -1) {
-    return size;
-  }
-
-  size = 0;
-  if (self.hasSender) {
-    size += computeMessageSize(1, self.sender);
-  }
-  if (self.hasQuestId) {
-    size += computeInt32Size(2, self.questId);
-  }
-  size += self.unknownFields.serializedSize;
-  memoizedSerializedSize = size;
-  return size;
-}
-+ (UserQuestDetailsRequestProto*) parseFromData:(NSData*) data {
-  return (UserQuestDetailsRequestProto*)[[[UserQuestDetailsRequestProto builder] mergeFromData:data] build];
-}
-+ (UserQuestDetailsRequestProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
-  return (UserQuestDetailsRequestProto*)[[[UserQuestDetailsRequestProto builder] mergeFromData:data extensionRegistry:extensionRegistry] build];
-}
-+ (UserQuestDetailsRequestProto*) parseFromInputStream:(NSInputStream*) input {
-  return (UserQuestDetailsRequestProto*)[[[UserQuestDetailsRequestProto builder] mergeFromInputStream:input] build];
-}
-+ (UserQuestDetailsRequestProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
-  return (UserQuestDetailsRequestProto*)[[[UserQuestDetailsRequestProto builder] mergeFromInputStream:input extensionRegistry:extensionRegistry] build];
-}
-+ (UserQuestDetailsRequestProto*) parseFromCodedInputStream:(PBCodedInputStream*) input {
-  return (UserQuestDetailsRequestProto*)[[[UserQuestDetailsRequestProto builder] mergeFromCodedInputStream:input] build];
-}
-+ (UserQuestDetailsRequestProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
-  return (UserQuestDetailsRequestProto*)[[[UserQuestDetailsRequestProto builder] mergeFromCodedInputStream:input extensionRegistry:extensionRegistry] build];
-}
-+ (UserQuestDetailsRequestProto_Builder*) builder {
-  return [[[UserQuestDetailsRequestProto_Builder alloc] init] autorelease];
-}
-+ (UserQuestDetailsRequestProto_Builder*) builderWithPrototype:(UserQuestDetailsRequestProto*) prototype {
-  return [[UserQuestDetailsRequestProto builder] mergeFrom:prototype];
-}
-- (UserQuestDetailsRequestProto_Builder*) builder {
-  return [UserQuestDetailsRequestProto builder];
-}
-@end
-
-@interface UserQuestDetailsRequestProto_Builder()
-@property (retain) UserQuestDetailsRequestProto* result;
-@end
-
-@implementation UserQuestDetailsRequestProto_Builder
-@synthesize result;
-- (void) dealloc {
-  self.result = nil;
-  [super dealloc];
-}
-- (id) init {
-  if ((self = [super init])) {
-    self.result = [[[UserQuestDetailsRequestProto alloc] init] autorelease];
-  }
-  return self;
-}
-- (PBGeneratedMessage*) internalGetResult {
-  return result;
-}
-- (UserQuestDetailsRequestProto_Builder*) clear {
-  self.result = [[[UserQuestDetailsRequestProto alloc] init] autorelease];
-  return self;
-}
-- (UserQuestDetailsRequestProto_Builder*) clone {
-  return [UserQuestDetailsRequestProto builderWithPrototype:result];
-}
-- (UserQuestDetailsRequestProto*) defaultInstance {
-  return [UserQuestDetailsRequestProto defaultInstance];
-}
-- (UserQuestDetailsRequestProto*) build {
-  [self checkInitialized];
-  return [self buildPartial];
-}
-- (UserQuestDetailsRequestProto*) buildPartial {
-  UserQuestDetailsRequestProto* returnMe = [[result retain] autorelease];
-  self.result = nil;
-  return returnMe;
-}
-- (UserQuestDetailsRequestProto_Builder*) mergeFrom:(UserQuestDetailsRequestProto*) other {
-  if (other == [UserQuestDetailsRequestProto defaultInstance]) {
-    return self;
-  }
-  if (other.hasSender) {
-    [self mergeSender:other.sender];
-  }
-  if (other.hasQuestId) {
-    [self setQuestId:other.questId];
-  }
-  [self mergeUnknownFields:other.unknownFields];
-  return self;
-}
-- (UserQuestDetailsRequestProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input {
-  return [self mergeFromCodedInputStream:input extensionRegistry:[PBExtensionRegistry emptyRegistry]];
-}
-- (UserQuestDetailsRequestProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
-  PBUnknownFieldSet_Builder* unknownFields = [PBUnknownFieldSet builderWithUnknownFields:self.unknownFields];
-  while (YES) {
-    int32_t tag = [input readTag];
-    switch (tag) {
-      case 0:
-        [self setUnknownFields:[unknownFields build]];
-        return self;
-      default: {
-        if (![self parseUnknownField:input unknownFields:unknownFields extensionRegistry:extensionRegistry tag:tag]) {
-          [self setUnknownFields:[unknownFields build]];
-          return self;
-        }
-        break;
-      }
-      case 10: {
-        MinimumUserProto_Builder* subBuilder = [MinimumUserProto builder];
-        if (self.hasSender) {
-          [subBuilder mergeFrom:self.sender];
-        }
-        [input readMessage:subBuilder extensionRegistry:extensionRegistry];
-        [self setSender:[subBuilder buildPartial]];
-        break;
-      }
-      case 16: {
-        [self setQuestId:[input readInt32]];
-        break;
-      }
-    }
-  }
-}
-- (BOOL) hasSender {
-  return result.hasSender;
-}
-- (MinimumUserProto*) sender {
-  return result.sender;
-}
-- (UserQuestDetailsRequestProto_Builder*) setSender:(MinimumUserProto*) value {
-  result.hasSender = YES;
-  result.sender = value;
-  return self;
-}
-- (UserQuestDetailsRequestProto_Builder*) setSenderBuilder:(MinimumUserProto_Builder*) builderForValue {
-  return [self setSender:[builderForValue build]];
-}
-- (UserQuestDetailsRequestProto_Builder*) mergeSender:(MinimumUserProto*) value {
-  if (result.hasSender &&
-      result.sender != [MinimumUserProto defaultInstance]) {
-    result.sender =
-      [[[MinimumUserProto builderWithPrototype:result.sender] mergeFrom:value] buildPartial];
+- (QuestRedeemResponseProto_Builder*) mergeFump:(FullUserMonsterProto*) value {
+  if (result.hasFump &&
+      result.fump != [FullUserMonsterProto defaultInstance]) {
+    result.fump =
+      [[[FullUserMonsterProto builderWithPrototype:result.fump] mergeFrom:value] buildPartial];
   } else {
-    result.sender = value;
+    result.fump = value;
   }
-  result.hasSender = YES;
+  result.hasFump = YES;
   return self;
 }
-- (UserQuestDetailsRequestProto_Builder*) clearSender {
-  result.hasSender = NO;
-  result.sender = [MinimumUserProto defaultInstance];
+- (QuestRedeemResponseProto_Builder*) clearFump {
+  result.hasFump = NO;
+  result.fump = [FullUserMonsterProto defaultInstance];
   return self;
 }
 - (BOOL) hasQuestId {
@@ -1641,321 +1804,14 @@ static UserQuestDetailsRequestProto* defaultUserQuestDetailsRequestProtoInstance
 - (int32_t) questId {
   return result.questId;
 }
-- (UserQuestDetailsRequestProto_Builder*) setQuestId:(int32_t) value {
+- (QuestRedeemResponseProto_Builder*) setQuestId:(int32_t) value {
   result.hasQuestId = YES;
   result.questId = value;
   return self;
 }
-- (UserQuestDetailsRequestProto_Builder*) clearQuestId {
+- (QuestRedeemResponseProto_Builder*) clearQuestId {
   result.hasQuestId = NO;
   result.questId = 0;
-  return self;
-}
-@end
-
-@interface UserQuestDetailsResponseProto ()
-@property (retain) MinimumUserProto* sender;
-@property (retain) NSMutableArray* mutableInProgressUserQuestDataList;
-@property UserQuestDetailsResponseProto_UserQuestDetailsStatus status;
-@end
-
-@implementation UserQuestDetailsResponseProto
-
-- (BOOL) hasSender {
-  return !!hasSender_;
-}
-- (void) setHasSender:(BOOL) value {
-  hasSender_ = !!value;
-}
-@synthesize sender;
-@synthesize mutableInProgressUserQuestDataList;
-- (BOOL) hasStatus {
-  return !!hasStatus_;
-}
-- (void) setHasStatus:(BOOL) value {
-  hasStatus_ = !!value;
-}
-@synthesize status;
-- (void) dealloc {
-  self.sender = nil;
-  self.mutableInProgressUserQuestDataList = nil;
-  [super dealloc];
-}
-- (id) init {
-  if ((self = [super init])) {
-    self.sender = [MinimumUserProto defaultInstance];
-    self.status = UserQuestDetailsResponseProto_UserQuestDetailsStatusSuccess;
-  }
-  return self;
-}
-static UserQuestDetailsResponseProto* defaultUserQuestDetailsResponseProtoInstance = nil;
-+ (void) initialize {
-  if (self == [UserQuestDetailsResponseProto class]) {
-    defaultUserQuestDetailsResponseProtoInstance = [[UserQuestDetailsResponseProto alloc] init];
-  }
-}
-+ (UserQuestDetailsResponseProto*) defaultInstance {
-  return defaultUserQuestDetailsResponseProtoInstance;
-}
-- (UserQuestDetailsResponseProto*) defaultInstance {
-  return defaultUserQuestDetailsResponseProtoInstance;
-}
-- (NSArray*) inProgressUserQuestDataList {
-  return mutableInProgressUserQuestDataList;
-}
-- (FullUserQuestDataLargeProto*) inProgressUserQuestDataAtIndex:(int32_t) index {
-  id value = [mutableInProgressUserQuestDataList objectAtIndex:index];
-  return value;
-}
-- (BOOL) isInitialized {
-  return YES;
-}
-- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output {
-  if (self.hasSender) {
-    [output writeMessage:1 value:self.sender];
-  }
-  for (FullUserQuestDataLargeProto* element in self.inProgressUserQuestDataList) {
-    [output writeMessage:2 value:element];
-  }
-  if (self.hasStatus) {
-    [output writeEnum:3 value:self.status];
-  }
-  [self.unknownFields writeToCodedOutputStream:output];
-}
-- (int32_t) serializedSize {
-  int32_t size = memoizedSerializedSize;
-  if (size != -1) {
-    return size;
-  }
-
-  size = 0;
-  if (self.hasSender) {
-    size += computeMessageSize(1, self.sender);
-  }
-  for (FullUserQuestDataLargeProto* element in self.inProgressUserQuestDataList) {
-    size += computeMessageSize(2, element);
-  }
-  if (self.hasStatus) {
-    size += computeEnumSize(3, self.status);
-  }
-  size += self.unknownFields.serializedSize;
-  memoizedSerializedSize = size;
-  return size;
-}
-+ (UserQuestDetailsResponseProto*) parseFromData:(NSData*) data {
-  return (UserQuestDetailsResponseProto*)[[[UserQuestDetailsResponseProto builder] mergeFromData:data] build];
-}
-+ (UserQuestDetailsResponseProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
-  return (UserQuestDetailsResponseProto*)[[[UserQuestDetailsResponseProto builder] mergeFromData:data extensionRegistry:extensionRegistry] build];
-}
-+ (UserQuestDetailsResponseProto*) parseFromInputStream:(NSInputStream*) input {
-  return (UserQuestDetailsResponseProto*)[[[UserQuestDetailsResponseProto builder] mergeFromInputStream:input] build];
-}
-+ (UserQuestDetailsResponseProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
-  return (UserQuestDetailsResponseProto*)[[[UserQuestDetailsResponseProto builder] mergeFromInputStream:input extensionRegistry:extensionRegistry] build];
-}
-+ (UserQuestDetailsResponseProto*) parseFromCodedInputStream:(PBCodedInputStream*) input {
-  return (UserQuestDetailsResponseProto*)[[[UserQuestDetailsResponseProto builder] mergeFromCodedInputStream:input] build];
-}
-+ (UserQuestDetailsResponseProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
-  return (UserQuestDetailsResponseProto*)[[[UserQuestDetailsResponseProto builder] mergeFromCodedInputStream:input extensionRegistry:extensionRegistry] build];
-}
-+ (UserQuestDetailsResponseProto_Builder*) builder {
-  return [[[UserQuestDetailsResponseProto_Builder alloc] init] autorelease];
-}
-+ (UserQuestDetailsResponseProto_Builder*) builderWithPrototype:(UserQuestDetailsResponseProto*) prototype {
-  return [[UserQuestDetailsResponseProto builder] mergeFrom:prototype];
-}
-- (UserQuestDetailsResponseProto_Builder*) builder {
-  return [UserQuestDetailsResponseProto builder];
-}
-@end
-
-BOOL UserQuestDetailsResponseProto_UserQuestDetailsStatusIsValidValue(UserQuestDetailsResponseProto_UserQuestDetailsStatus value) {
-  switch (value) {
-    case UserQuestDetailsResponseProto_UserQuestDetailsStatusSuccess:
-    case UserQuestDetailsResponseProto_UserQuestDetailsStatusSuppliedQuestidCurrentlyNotInProgress:
-    case UserQuestDetailsResponseProto_UserQuestDetailsStatusSomeFail:
-      return YES;
-    default:
-      return NO;
-  }
-}
-@interface UserQuestDetailsResponseProto_Builder()
-@property (retain) UserQuestDetailsResponseProto* result;
-@end
-
-@implementation UserQuestDetailsResponseProto_Builder
-@synthesize result;
-- (void) dealloc {
-  self.result = nil;
-  [super dealloc];
-}
-- (id) init {
-  if ((self = [super init])) {
-    self.result = [[[UserQuestDetailsResponseProto alloc] init] autorelease];
-  }
-  return self;
-}
-- (PBGeneratedMessage*) internalGetResult {
-  return result;
-}
-- (UserQuestDetailsResponseProto_Builder*) clear {
-  self.result = [[[UserQuestDetailsResponseProto alloc] init] autorelease];
-  return self;
-}
-- (UserQuestDetailsResponseProto_Builder*) clone {
-  return [UserQuestDetailsResponseProto builderWithPrototype:result];
-}
-- (UserQuestDetailsResponseProto*) defaultInstance {
-  return [UserQuestDetailsResponseProto defaultInstance];
-}
-- (UserQuestDetailsResponseProto*) build {
-  [self checkInitialized];
-  return [self buildPartial];
-}
-- (UserQuestDetailsResponseProto*) buildPartial {
-  UserQuestDetailsResponseProto* returnMe = [[result retain] autorelease];
-  self.result = nil;
-  return returnMe;
-}
-- (UserQuestDetailsResponseProto_Builder*) mergeFrom:(UserQuestDetailsResponseProto*) other {
-  if (other == [UserQuestDetailsResponseProto defaultInstance]) {
-    return self;
-  }
-  if (other.hasSender) {
-    [self mergeSender:other.sender];
-  }
-  if (other.mutableInProgressUserQuestDataList.count > 0) {
-    if (result.mutableInProgressUserQuestDataList == nil) {
-      result.mutableInProgressUserQuestDataList = [NSMutableArray array];
-    }
-    [result.mutableInProgressUserQuestDataList addObjectsFromArray:other.mutableInProgressUserQuestDataList];
-  }
-  if (other.hasStatus) {
-    [self setStatus:other.status];
-  }
-  [self mergeUnknownFields:other.unknownFields];
-  return self;
-}
-- (UserQuestDetailsResponseProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input {
-  return [self mergeFromCodedInputStream:input extensionRegistry:[PBExtensionRegistry emptyRegistry]];
-}
-- (UserQuestDetailsResponseProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
-  PBUnknownFieldSet_Builder* unknownFields = [PBUnknownFieldSet builderWithUnknownFields:self.unknownFields];
-  while (YES) {
-    int32_t tag = [input readTag];
-    switch (tag) {
-      case 0:
-        [self setUnknownFields:[unknownFields build]];
-        return self;
-      default: {
-        if (![self parseUnknownField:input unknownFields:unknownFields extensionRegistry:extensionRegistry tag:tag]) {
-          [self setUnknownFields:[unknownFields build]];
-          return self;
-        }
-        break;
-      }
-      case 10: {
-        MinimumUserProto_Builder* subBuilder = [MinimumUserProto builder];
-        if (self.hasSender) {
-          [subBuilder mergeFrom:self.sender];
-        }
-        [input readMessage:subBuilder extensionRegistry:extensionRegistry];
-        [self setSender:[subBuilder buildPartial]];
-        break;
-      }
-      case 18: {
-        FullUserQuestDataLargeProto_Builder* subBuilder = [FullUserQuestDataLargeProto builder];
-        [input readMessage:subBuilder extensionRegistry:extensionRegistry];
-        [self addInProgressUserQuestData:[subBuilder buildPartial]];
-        break;
-      }
-      case 24: {
-        int32_t value = [input readEnum];
-        if (UserQuestDetailsResponseProto_UserQuestDetailsStatusIsValidValue(value)) {
-          [self setStatus:value];
-        } else {
-          [unknownFields mergeVarintField:3 value:value];
-        }
-        break;
-      }
-    }
-  }
-}
-- (BOOL) hasSender {
-  return result.hasSender;
-}
-- (MinimumUserProto*) sender {
-  return result.sender;
-}
-- (UserQuestDetailsResponseProto_Builder*) setSender:(MinimumUserProto*) value {
-  result.hasSender = YES;
-  result.sender = value;
-  return self;
-}
-- (UserQuestDetailsResponseProto_Builder*) setSenderBuilder:(MinimumUserProto_Builder*) builderForValue {
-  return [self setSender:[builderForValue build]];
-}
-- (UserQuestDetailsResponseProto_Builder*) mergeSender:(MinimumUserProto*) value {
-  if (result.hasSender &&
-      result.sender != [MinimumUserProto defaultInstance]) {
-    result.sender =
-      [[[MinimumUserProto builderWithPrototype:result.sender] mergeFrom:value] buildPartial];
-  } else {
-    result.sender = value;
-  }
-  result.hasSender = YES;
-  return self;
-}
-- (UserQuestDetailsResponseProto_Builder*) clearSender {
-  result.hasSender = NO;
-  result.sender = [MinimumUserProto defaultInstance];
-  return self;
-}
-- (NSArray*) inProgressUserQuestDataList {
-  if (result.mutableInProgressUserQuestDataList == nil) { return [NSArray array]; }
-  return result.mutableInProgressUserQuestDataList;
-}
-- (FullUserQuestDataLargeProto*) inProgressUserQuestDataAtIndex:(int32_t) index {
-  return [result inProgressUserQuestDataAtIndex:index];
-}
-- (UserQuestDetailsResponseProto_Builder*) replaceInProgressUserQuestDataAtIndex:(int32_t) index with:(FullUserQuestDataLargeProto*) value {
-  [result.mutableInProgressUserQuestDataList replaceObjectAtIndex:index withObject:value];
-  return self;
-}
-- (UserQuestDetailsResponseProto_Builder*) addAllInProgressUserQuestData:(NSArray*) values {
-  if (result.mutableInProgressUserQuestDataList == nil) {
-    result.mutableInProgressUserQuestDataList = [NSMutableArray array];
-  }
-  [result.mutableInProgressUserQuestDataList addObjectsFromArray:values];
-  return self;
-}
-- (UserQuestDetailsResponseProto_Builder*) clearInProgressUserQuestDataList {
-  result.mutableInProgressUserQuestDataList = nil;
-  return self;
-}
-- (UserQuestDetailsResponseProto_Builder*) addInProgressUserQuestData:(FullUserQuestDataLargeProto*) value {
-  if (result.mutableInProgressUserQuestDataList == nil) {
-    result.mutableInProgressUserQuestDataList = [NSMutableArray array];
-  }
-  [result.mutableInProgressUserQuestDataList addObject:value];
-  return self;
-}
-- (BOOL) hasStatus {
-  return result.hasStatus;
-}
-- (UserQuestDetailsResponseProto_UserQuestDetailsStatus) status {
-  return result.status;
-}
-- (UserQuestDetailsResponseProto_Builder*) setStatus:(UserQuestDetailsResponseProto_UserQuestDetailsStatus) value {
-  result.hasStatus = YES;
-  result.status = value;
-  return self;
-}
-- (UserQuestDetailsResponseProto_Builder*) clearStatus {
-  result.hasStatus = NO;
-  result.status = UserQuestDetailsResponseProto_UserQuestDetailsStatusSuccess;
   return self;
 }
 @end

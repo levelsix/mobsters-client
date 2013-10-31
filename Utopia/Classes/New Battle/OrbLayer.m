@@ -412,7 +412,9 @@
   CCSequence *sequence = [CCSequence actionWithArray:arr];
   [gem.sprite runAction:sequence];
   
-  [self.delegate orbKilled];
+  GemColorId colorId = gem.color;
+  if (color_all) colorId = color;
+  [self.delegate orbKilled:colorId];
 }
 
 - (Gem *) getPowerupGemForBatch:(NSArray *)batch {
@@ -1135,6 +1137,10 @@
 
 - (void) allowInput {
   _allowInput = YES;
+}
+
+- (void) disallowInput {
+  _allowInput = NO;
 }
 
 #pragma mark touch handling

@@ -32,6 +32,10 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(Downloader);
 }
 
 - (NSString *) downloadFile:(NSString *)imageName {
+  if (!imageName) {
+    return nil;
+  }
+  
   // LNLogs here are NOT thread safe, be careful
   NSString *urlBase = URL_BASE;
   NSURL *url = [[NSURL alloc] initWithString:[urlBase stringByAppendingString:imageName]];
@@ -42,6 +46,14 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(Downloader);
     NSData *data = [[NSData alloc] initWithContentsOfURL:url];
     if (data) {
       success = [data writeToFile:filePath atomically:YES];
+      
+      dispatch_async(dispatch_get_main_queue(), ^(void) {
+        if (success) {
+          LNLog(@"Download of %@ complete.", imageName);
+        } else {
+          LNLog(@"Failed to download %@.", imageName);
+        }
+      });
     }
   }
   
@@ -50,26 +62,23 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(Downloader);
 
 - (void) asyncDownloadFile:(NSString *)imageName completion:(void (^)(void))completed {
   // Get an image from the URL below
-  LNLog(@"Beginning async download of %@", imageName);
   dispatch_async(_asyncQueue, ^{
     [self downloadFile:imageName];
     dispatch_async(dispatch_get_main_queue(), ^(void) {
       if (completed) {
         completed();
       }
-      LNLog(@"Download of %@ complete", imageName);
     });
   });
 }
-  
+
 - (NSString *) syncDownloadFile:(NSString *)fileName {
   LNLog(@"Beginning sync download of file %@", fileName);
-//  [self performSelectorOnMainThread:@selector(beginLoading:) withObject:fileName waitUntilDone:YES];
+  //  [self performSelectorOnMainThread:@selector(beginLoading:) withObject:fileName waitUntilDone:YES];
   [self beginLoading:fileName];
   [[NSRunLoop mainRunLoop] runUntilDate:[NSDate dateWithTimeIntervalSinceNow:0.01f]];
   NSString *path = [self downloadFile:fileName];
   [self stopLoading];
-  LNLog(@"Download of %@ complete", fileName);
   return path;
 }
 

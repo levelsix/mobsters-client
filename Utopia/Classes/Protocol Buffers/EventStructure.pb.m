@@ -473,12 +473,12 @@ static PurchaseNormStructureResponseProto* defaultPurchaseNormStructureResponseP
 BOOL PurchaseNormStructureResponseProto_PurchaseNormStructureStatusIsValidValue(PurchaseNormStructureResponseProto_PurchaseNormStructureStatus value) {
   switch (value) {
     case PurchaseNormStructureResponseProto_PurchaseNormStructureStatusSuccess:
-    case PurchaseNormStructureResponseProto_PurchaseNormStructureStatusNotEnoughMaterials:
-    case PurchaseNormStructureResponseProto_PurchaseNormStructureStatusLevelTooLow:
-    case PurchaseNormStructureResponseProto_PurchaseNormStructureStatusAnotherStructStillBuilding:
-    case PurchaseNormStructureResponseProto_PurchaseNormStructureStatusAlreadyHaveMaxOfThisStruct:
-    case PurchaseNormStructureResponseProto_PurchaseNormStructureStatusOtherFail:
-    case PurchaseNormStructureResponseProto_PurchaseNormStructureStatusClientTooApartFromServerTime:
+    case PurchaseNormStructureResponseProto_PurchaseNormStructureStatusFailInsufficientCash:
+    case PurchaseNormStructureResponseProto_PurchaseNormStructureStatusFailInsufficientGems:
+    case PurchaseNormStructureResponseProto_PurchaseNormStructureStatusFailLevelTooLow:
+    case PurchaseNormStructureResponseProto_PurchaseNormStructureStatusFailAnotherStructStillBuilding:
+    case PurchaseNormStructureResponseProto_PurchaseNormStructureStatusFailAlreadyHaveMaxOfThisStruct:
+    case PurchaseNormStructureResponseProto_PurchaseNormStructureStatusFailOther:
       return YES;
     default:
       return NO;
@@ -3392,9 +3392,8 @@ static FinishNormStructWaittimeWithDiamondsResponseProto* defaultFinishNormStruc
 BOOL FinishNormStructWaittimeWithDiamondsResponseProto_FinishNormStructWaittimeStatusIsValidValue(FinishNormStructWaittimeWithDiamondsResponseProto_FinishNormStructWaittimeStatus value) {
   switch (value) {
     case FinishNormStructWaittimeWithDiamondsResponseProto_FinishNormStructWaittimeStatusSuccess:
-    case FinishNormStructWaittimeWithDiamondsResponseProto_FinishNormStructWaittimeStatusNotEnoughDiamonds:
-    case FinishNormStructWaittimeWithDiamondsResponseProto_FinishNormStructWaittimeStatusOtherFail:
-    case FinishNormStructWaittimeWithDiamondsResponseProto_FinishNormStructWaittimeStatusClientTooApartFromServerTime:
+    case FinishNormStructWaittimeWithDiamondsResponseProto_FinishNormStructWaittimeStatusFailNotEnoughGems:
+    case FinishNormStructWaittimeWithDiamondsResponseProto_FinishNormStructWaittimeStatusFailOther:
       return YES;
     default:
       return NO;

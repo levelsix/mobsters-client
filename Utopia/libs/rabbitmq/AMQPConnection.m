@@ -44,6 +44,8 @@
 	[self disconnect];
 	
 	amqp_destroy_connection(connection);
+	
+	[super dealloc];
 }
 
 - (void)connectToHost:(NSString*)host onPort:(int)port
@@ -72,7 +74,7 @@
 	
 	if(reply.reply_type != AMQP_RESPONSE_NORMAL)
 	{
-		NSLog(@"Unable to disconnect from host: %@", [self errorDescriptionForReply:reply]);
+		[NSException raise:@"AMQPConnectionException" format:@"Unable to disconnect from host: %@", [self errorDescriptionForReply:reply]];
 	}
 	
 	close(socketFD);
@@ -95,7 +97,7 @@
 	
 	nextChannel++;
 
-	return channel;
+	return [channel autorelease];
 }
 
 @end

@@ -27,12 +27,10 @@
 @class FullStructureProto_Builder;
 @class FullUserProto;
 @class FullUserProto_Builder;
-@class FullUserQuestDataLargeProto;
-@class FullUserQuestDataLargeProto_Builder;
+@class FullUserQuestProto;
+@class FullUserQuestProto_Builder;
 @class FullUserStructureProto;
 @class FullUserStructureProto_Builder;
-@class LevelAndRequiredExpProto;
-@class LevelAndRequiredExpProto_Builder;
 @class LoadCityRequestProto;
 @class LoadCityRequestProto_Builder;
 @class LoadCityResponseProto;
@@ -49,8 +47,6 @@
 @class MinimumUserProtoWithLevel;
 @class MinimumUserProtoWithLevel_Builder;
 @class MinimumUserProto_Builder;
-@class MinimumUserQuestTaskProto;
-@class MinimumUserQuestTaskProto_Builder;
 @class MinimumUserUpgradeStructJobProto;
 @class MinimumUserUpgradeStructJobProto_Builder;
 @class MonsterJobProto;
@@ -59,6 +55,8 @@
 @class PurchaseCityExpansionRequestProto_Builder;
 @class PurchaseCityExpansionResponseProto;
 @class PurchaseCityExpansionResponseProto_Builder;
+@class StaticLevelInfoProto;
+@class StaticLevelInfoProto_Builder;
 @class UpgradeStructJobProto;
 @class UpgradeStructJobProto_Builder;
 @class UserCityExpansionDataProto;
@@ -471,7 +469,7 @@ BOOL LoadCityResponseProto_LoadCityStatusIsValidValue(LoadCityResponseProto_Load
 - (NSArray*) cityElementsList;
 - (CityElementProto*) cityElementsAtIndex:(int32_t) index;
 - (NSArray*) inProgressUserQuestDataInCityList;
-- (FullUserQuestDataLargeProto*) inProgressUserQuestDataInCityAtIndex:(int32_t) index;
+- (FullUserQuestProto*) inProgressUserQuestDataInCityAtIndex:(int32_t) index;
 
 + (LoadCityResponseProto*) defaultInstance;
 - (LoadCityResponseProto*) defaultInstance;
@@ -532,9 +530,9 @@ BOOL LoadCityResponseProto_LoadCityStatusIsValidValue(LoadCityResponseProto_Load
 - (LoadCityResponseProto_Builder*) clearCityId;
 
 - (NSArray*) inProgressUserQuestDataInCityList;
-- (FullUserQuestDataLargeProto*) inProgressUserQuestDataInCityAtIndex:(int32_t) index;
-- (LoadCityResponseProto_Builder*) replaceInProgressUserQuestDataInCityAtIndex:(int32_t) index with:(FullUserQuestDataLargeProto*) value;
-- (LoadCityResponseProto_Builder*) addInProgressUserQuestDataInCity:(FullUserQuestDataLargeProto*) value;
+- (FullUserQuestProto*) inProgressUserQuestDataInCityAtIndex:(int32_t) index;
+- (LoadCityResponseProto_Builder*) replaceInProgressUserQuestDataInCityAtIndex:(int32_t) index with:(FullUserQuestProto*) value;
+- (LoadCityResponseProto_Builder*) addInProgressUserQuestDataInCity:(FullUserQuestProto*) value;
 - (LoadCityResponseProto_Builder*) addAllInProgressUserQuestDataInCity:(NSArray*) values;
 - (LoadCityResponseProto_Builder*) clearInProgressUserQuestDataInCityList;
 @end

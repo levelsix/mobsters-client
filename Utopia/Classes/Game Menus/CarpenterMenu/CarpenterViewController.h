@@ -20,6 +20,9 @@
 @property (nonatomic, strong) IBOutlet UIImageView *moneyIcon;
 @property (nonatomic, strong) IBOutlet UIButton *button;
 
+@property (nonatomic, strong) IBOutlet UIView *mainView;
+@property (nonatomic, strong) IBOutlet UIImageView *grayscaleView;
+
 @property (nonatomic, strong) FullStructureProto *fsp;
 
 @end

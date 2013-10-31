@@ -35,30 +35,34 @@
                         <size key="shadowOffset" width="0.0" height="1"/>
                     </label>
                     <view userInteractionEnabled="NO" contentMode="scaleToFill" id="9gQ-Uv-BsG">
-                        <rect key="frame" x="219" y="16" width="30" height="31"/>
+                        <rect key="frame" x="219" y="14" width="30" height="31"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
                             <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="newbg.png" id="4hB-ZR-t35">
                                 <rect key="frame" x="0.0" y="0.0" width="30" height="31"/>
                                 <autoresizingMask key="autoresizingMask"/>
                             </imageView>
+                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="NEW!" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" id="PCR-b5-rC8" customClass="NiceFontLabel">
+                                <rect key="frame" x="-1" y="8" width="32" height="13"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="8"/>
+                                <color key="textColor" red="1" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                <color key="highlightedColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <size key="shadowOffset" width="0.0" height="1"/>
+                            </label>
                         </subviews>
                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                     </view>
                     <view userInteractionEnabled="NO" contentMode="scaleToFill" id="q7b-3z-wgo">
-                        <rect key="frame" x="260" y="15" width="76" height="29"/>
+                        <rect key="frame" x="247" y="15" width="70" height="29"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
                             <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="questnumberbg.png" id="CKR-QW-osy">
-                                <rect key="frame" x="0.0" y="1" width="57" height="30"/>
-                                <autoresizingMask key="autoresizingMask"/>
-                            </imageView>
-                            <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="questarrow.png" id="hx0-uQ-oah">
-                                <rect key="frame" x="64" y="5" width="12" height="19"/>
+                                <rect key="frame" x="12" y="1" width="57" height="30"/>
                                 <autoresizingMask key="autoresizingMask"/>
                             </imageView>
                             <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="0/1" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="10" adjustsFontSizeToFit="NO" id="9X9-Tx-n5t" customClass="NiceFontLabel">
-                                <rect key="frame" x="3" y="-3" width="51" height="35"/>
+                                <rect key="frame" x="15" y="-3" width="51" height="35"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="18"/>
                                 <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -66,13 +70,13 @@
                                 <color key="shadowColor" red="0.0" green="0.0" blue="0.0" alpha="0.29999999999999999" colorSpace="calibratedRGB"/>
                                 <size key="shadowOffset" width="0.0" height="1"/>
                             </label>
-                            <activityIndicatorView opaque="NO" contentMode="scaleToFill" animating="YES" style="white" id="kwx-2P-VZR">
-                                <rect key="frame" x="18" y="5" width="20" height="20"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                            </activityIndicatorView>
                         </subviews>
                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                     </view>
+                    <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="questarrow.png" id="hx0-uQ-oah">
+                        <rect key="frame" x="325" y="22" width="12" height="19"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </imageView>
                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="vjp-9s-tuZ" customClass="MaskedButton">
                         <rect key="frame" x="10" y="6" width="336" height="51"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
@@ -89,14 +93,36 @@
             </tableViewCellContentView>
             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
             <connections>
+                <outlet property="badgeView" destination="9gQ-Uv-BsG" id="COw-8p-zzt"/>
+                <outlet property="completeView" destination="YGt-iz-0eB" id="cWe-Lu-Pg5"/>
+                <outlet property="inProgressView" destination="q7b-3z-wgo" id="BXA-PL-byg"/>
                 <outlet property="nameLabel" destination="SU5-MW-GES" id="8Ec-8h-1yw"/>
                 <outlet property="progressLabel" destination="9X9-Tx-n5t" id="ZPj-L3-P97"/>
                 <outlet property="questGiverImageView" destination="ojf-AA-Qk0" id="rSy-tc-rv0"/>
-                <outlet property="spinner" destination="kwx-2P-VZR" id="JPQ-BT-j6M"/>
             </connections>
         </tableViewCell>
+        <view userInteractionEnabled="NO" contentMode="scaleToFill" id="YGt-iz-0eB">
+            <rect key="frame" x="0.0" y="0.0" width="70" height="29"/>
+            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+            <subviews>
+                <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="complete.png" id="PjA-Om-eHW">
+                    <rect key="frame" x="0.0" y="2" width="70" height="26"/>
+                    <autoresizingMask key="autoresizingMask"/>
+                </imageView>
+                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="COMPLETE" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" id="l2P-Jo-61l" customClass="NiceFontLabel">
+                    <rect key="frame" x="-22" y="-2" width="115" height="33"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                    <fontDescription key="fontDescription" type="system" pointSize="11"/>
+                    <color key="textColor" red="0.61176470589999998" green="0.79215686269999996" blue="0.062745098040000002" alpha="1" colorSpace="calibratedRGB"/>
+                    <color key="highlightedColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    <size key="shadowOffset" width="0.0" height="1"/>
+                </label>
+            </subviews>
+            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+        </view>
     </objects>
     <resources>
+        <image name="complete.png" width="70" height="26"/>
         <image name="luchadoretest.png" width="39" height="46"/>
         <image name="newbg.png" width="30" height="31"/>
         <image name="questarrow.png" width="11" height="18"/>

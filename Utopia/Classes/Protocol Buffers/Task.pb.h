@@ -8,6 +8,8 @@
 @class FullTaskProto_Builder;
 @class FullUserMonsterProto;
 @class FullUserMonsterProto_Builder;
+@class MinimumUserMonsterSellProto;
+@class MinimumUserMonsterSellProto_Builder;
 @class MinimumUserTaskProto;
 @class MinimumUserTaskProto_Builder;
 @class MonsterProto;
@@ -105,17 +107,21 @@ BOOL TaskStageMonsterProto_MonsterTypeIsValidValue(TaskStageMonsterProto_Monster
   BOOL hasCityId_:1;
   BOOL hasAssetNumWithinCity_:1;
   BOOL hasName_:1;
+  BOOL hasDescription_:1;
   int32_t taskId;
   int32_t cityId;
   int32_t assetNumWithinCity;
   NSString* name;
+  NSString* description;
 }
 - (BOOL) hasTaskId;
 - (BOOL) hasName;
+- (BOOL) hasDescription;
 - (BOOL) hasCityId;
 - (BOOL) hasAssetNumWithinCity;
 @property (readonly) int32_t taskId;
 @property (readonly, retain) NSString* name;
+@property (readonly, retain) NSString* description;
 @property (readonly) int32_t cityId;
 @property (readonly) int32_t assetNumWithinCity;
 
@@ -162,6 +168,11 @@ BOOL TaskStageMonsterProto_MonsterTypeIsValidValue(TaskStageMonsterProto_Monster
 - (NSString*) name;
 - (FullTaskProto_Builder*) setName:(NSString*) value;
 - (FullTaskProto_Builder*) clearName;
+
+- (BOOL) hasDescription;
+- (NSString*) description;
+- (FullTaskProto_Builder*) setDescription:(NSString*) value;
+- (FullTaskProto_Builder*) clearDescription;
 
 - (BOOL) hasCityId;
 - (int32_t) cityId;
