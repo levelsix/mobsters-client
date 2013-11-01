@@ -28,10 +28,6 @@
 @property (nonatomic, strong) IBOutlet UIView *cashButtonView;
 @property (nonatomic, strong) IBOutlet UILabel *cashButtonLabel;
 
-@property (nonatomic, strong) IBOutlet UIView *overlayView;
-@property (nonatomic, strong) IBOutlet UILabel *overlayLabel;
-@property (nonatomic, strong) IBOutlet UIImageView *overlayMask;
-
 @property (nonatomic, strong) UserMonster *monster;
 
 @property (nonatomic, weak) IBOutlet id<EnhanceCardDelegate> delegate;

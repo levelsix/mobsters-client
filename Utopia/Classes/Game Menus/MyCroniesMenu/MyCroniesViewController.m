@@ -206,6 +206,10 @@
   }
 }
 
+- (void) speedupCombineClicked:(MyCroniesCardCell *)cell {
+  [self.inventoryTable reloadData];
+}
+
 #pragma mark - MyCroniesQueueDelegate methods
 
 - (void) cellRequestsRemovalFromHealQueue:(MyCroniesQueueCell *)cell {

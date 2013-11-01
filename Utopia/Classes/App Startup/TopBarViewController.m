@@ -66,14 +66,12 @@
     GameState *gs = [GameState sharedGameState];
     Globals *gl = [Globals sharedGlobals];
     MonsterProto *mp = [gs monsterWithId:um.monsterId];
-    self.healthBar.leftCap.image = [Globals imageNamed:[Globals imageNameForElement:mp.element suffix:@"cap.png"]];
-    self.healthBar.rightCap.image = [Globals imageNamed:[Globals imageNameForElement:mp.element suffix:@"cap.png"]];
-    self.healthBar.middleBar.image = [Globals imageNamed:[Globals imageNameForElement:mp.element suffix:@"middle.png"]];
+    self.healthBar.image = [Globals imageNamed:[Globals imageNameForElement:mp.element suffix:@"ring.png"]];
     self.healthBar.percentage = ((float)um.curHealth)/[gl calculateMaxHealthForMonster:um];
     self.healthLabel.text = [NSString stringWithFormat:@"%d/%d", um.curHealth, [gl calculateMaxHealthForMonster:um]];
     
     NSString *file = [mp.imagePrefix stringByAppendingString:@"Icon.png"];
-    [Globals imageNamed:file withView:self.monsterIcon maskedColor:nil indicator:UIActivityIndicatorViewStyleWhite clearImageDuringDownload:YES];
+    [Globals imageNamed:file withView:self.monsterIcon greyscale:(um.curHealth <= 0) indicator:UIActivityIndicatorViewStyleWhite clearImageDuringDownload:YES];
     
     self.emptyView.hidden = YES;
     self.monsterView.hidden = NO;

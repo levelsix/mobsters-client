@@ -68,7 +68,8 @@
   elem = MonsterProto_MonsterElementDarkness;
   [self.nightView updateStatsWithElementType:elem andDamage:[gl calculateElementalDamageForMonster:self.monster element:elem]];
 
-  //[Globals imageNamed:proto.imageName withView:self.monsterImageView maskedColor:Nil indicator:UIActivityIndicatorViewStyleWhite clearImageDuringDownload:YES];
+  NSString *fileName = [proto.imagePrefix stringByAppendingString:@"Big.png"];
+  [Globals imageNamed:fileName withView:self.monsterImageView maskedColor:nil indicator:UIActivityIndicatorViewStyleWhite clearImageDuringDownload:YES];
   //[Globals imageNamed:[self getElementImageName:proto.element] withView:self.elementType maskedColor:nil indicator:UIActivityIndicatorViewStyleWhite clearImageDuringDownload:YES];
 }
 

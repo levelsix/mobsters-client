@@ -112,9 +112,6 @@
                 <outlet property="healButtonView" destination="Wm9-ww-UVt" id="Qx5-fF-ciA"/>
                 <outlet property="mainView" destination="p6p-JM-bCJ" id="Rma-VH-QBO"/>
                 <outlet property="minusButton" destination="AEJ-cB-Bwm" id="eeg-QM-1cg"/>
-                <outlet property="overlayLabel" destination="g5d-rb-swq" id="a0E-kZ-VJA"/>
-                <outlet property="overlayMask" destination="BLx-gL-DWQ" id="5Zw-9Z-CpA"/>
-                <outlet property="overlayView" destination="riF-Ia-GOZ" id="JM6-1q-3pP"/>
                 <outlet property="plusButton" destination="ypZ-pO-MBF" id="nRt-rE-eNq"/>
             </connections>
         </view>
@@ -126,7 +123,25 @@
                     <rect key="frame" x="0.0" y="0.0" width="107" height="130"/>
                     <autoresizingMask key="autoresizingMask"/>
                 </imageView>
-                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="VpH-5R-is7">
+                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Buy 5 Slots" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="9" id="EWr-aG-r5E" customClass="NiceFontLabel">
+                    <rect key="frame" x="0.0" y="24" width="107" height="36"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                    <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="calibratedRGB"/>
+                    <nil key="highlightedColor"/>
+                </label>
+                <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" userInteractionEnabled="NO" contentMode="scaleToFill" image="diamond.png" id="uep-us-QrX">
+                    <rect key="frame" x="24" y="64" width="31" height="27"/>
+                    <autoresizingMask key="autoresizingMask"/>
+                </imageView>
+                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="25" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="mBr-YE-xw7" customClass="NiceFontLabel">
+                    <rect key="frame" x="58" y="65" width="42" height="21"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                    <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="calibratedRGB"/>
+                    <nil key="highlightedColor"/>
+                </label>
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="VpH-5R-is7" customClass="MaskedButton">
                     <rect key="frame" x="0.0" y="0.0" width="107" height="130"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
@@ -136,45 +151,9 @@
                     </state>
                     <connections>
                         <action selector="buySlotsClicked:" destination="9fd-sp-Dwx" eventType="touchUpInside" id="dhi-Lj-HlU"/>
+                        <outlet property="baseImage" destination="2Ke-88-Fbv" id="69y-4E-eAy"/>
                     </connections>
                 </button>
-                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Buy 5 Slots" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="9" id="EWr-aG-r5E" customClass="NiceFontLabel">
-                    <rect key="frame" x="0.0" y="24" width="107" height="36"/>
-                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                    <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="calibratedRGB"/>
-                    <nil key="highlightedColor"/>
-                </label>
-                <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" userInteractionEnabled="NO" contentMode="scaleToFill" image="diamond.png" id="uep-us-QrX">
-                    <rect key="frame" x="20" y="64" width="31" height="27"/>
-                    <autoresizingMask key="autoresizingMask"/>
-                </imageView>
-                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="25" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="mBr-YE-xw7" customClass="NiceFontLabel">
-                    <rect key="frame" x="54" y="65" width="42" height="21"/>
-                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                    <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="calibratedRGB"/>
-                    <nil key="highlightedColor"/>
-                </label>
-            </subviews>
-            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-            <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
-        </view>
-        <view userInteractionEnabled="NO" contentMode="scaleToFill" id="riF-Ia-GOZ">
-            <rect key="frame" x="0.0" y="0.0" width="107" height="130"/>
-            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-            <subviews>
-                <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="healingoverlay.png" id="BLx-gL-DWQ">
-                    <rect key="frame" x="0.0" y="0.0" width="107" height="130"/>
-                    <autoresizingMask key="autoresizingMask"/>
-                </imageView>
-                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Enhancing" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="9" id="g5d-rb-swq" customClass="NiceFontLabel">
-                    <rect key="frame" x="9" y="53" width="88" height="21"/>
-                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                    <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="calibratedRGB"/>
-                    <nil key="highlightedColor"/>
-                </label>
             </subviews>
             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
             <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
@@ -182,10 +161,9 @@
     </objects>
     <resources>
         <image name="addteam.png" width="29" height="29"/>
-        <image name="diamond.png" width="29" height="28"/>
+        <image name="diamond.png" width="44" height="41"/>
         <image name="emptyslot.png" width="107" height="130"/>
         <image name="heal.png" width="71" height="28"/>
-        <image name="healingoverlay.png" width="107" height="130"/>
         <image name="removeteam.png" width="29" height="29"/>
     </resources>
 </document>

@@ -132,7 +132,6 @@
 }
 
 - (void) fadeToLoadingScreen {
-  [[Downloader sharedDownloader] purgeAllDownloadedData];
   LoadingViewController *lvc = [[LoadingViewController alloc] init];
   UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:lvc];
   nav.navigationBarHidden = YES;

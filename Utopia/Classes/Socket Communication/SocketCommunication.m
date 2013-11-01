@@ -514,9 +514,9 @@ static NSString *udid = nil;
 
 - (int) sendQuestProgressMessage:(int)questId progress:(int)progress isComplete:(BOOL)isComplete userMonsterIds:(NSArray *)userMonsterIds {
   QuestProgressRequestProto *req = [[[[[[[QuestProgressRequestProto builder]
-                                       setSender:_sender]
-                                      setQuestId:questId]
-                                     setCurrentProgress:progress]
+                                         setSender:_sender]
+                                        setQuestId:questId]
+                                       setCurrentProgress:progress]
                                       setIsComplete:isComplete]
                                      addAllDeleteUserMonsterIds:userMonsterIds]
                                     build];
@@ -770,6 +770,18 @@ static NSString *udid = nil;
   return [self sendData:req withMessageType:EventProtocolRequestCEndDungeonEvent];
 }
 
+- (int) sendCombineUserMonsterPiecesMessage:(NSArray *)userMonsterIds gemCost:(int)gemCost {
+  CombineUserMonsterPiecesRequestProto *req = [[[[[CombineUserMonsterPiecesRequestProto builder]
+                                                  setSender:_sender]
+                                                 addAllUserMonsterIds:userMonsterIds]
+                                                setGemCost:gemCost]
+                                               build];
+  
+  return [self sendData:req withMessageType:EventProtocolRequestCCombineUserMonsterPiecesEvent];
+}
+
+#pragma mark - Batch/Flush events
+
 - (int) sendHealQueueWaitTimeComplete:(NSArray *)monsterHealths {
   HealMonsterWaitTimeCompleteRequestProto *req = [[[[HealMonsterWaitTimeCompleteRequestProto builder]
                                                     setSender:_sender]
@@ -876,9 +888,9 @@ static NSString *udid = nil;
 
 - (int) sendBuyInventorySlotsMessage {
   IncreaseMonsterInventorySlotRequestProto *req = [[[[IncreaseMonsterInventorySlotRequestProto builder]
-                                                setSender:_sender]
-                                               setNumPurchases:_numBuyInventorySlots]
-                                              build];
+                                                     setSender:_sender]
+                                                    setNumPurchases:_numBuyInventorySlots]
+                                                   build];
   
   return [self sendData:req withMessageType:EventProtocolResponseSIncreaseMonsterInventorySlotEvent flush:NO];
 }

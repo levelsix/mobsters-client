@@ -24,6 +24,7 @@
     self.teamSlot = proto.teamSlotNum;
     self.numPieces = proto.numPieces;
     self.isComplete = proto.isComplete;
+    self.combineStartTime = [NSDate dateWithTimeIntervalSince1970:proto.combineStartTime/1000.];
   }
   return self;
 }
@@ -428,7 +429,7 @@
   int silverAmount = 0, expAmount = 0;
   for (TaskStageProto *tsp in proto.tspList) {
     for (TaskStageMonsterProto *tsm in tsp.stageMonstersList) {
-      silverAmount += tsm.silverReward;
+      silverAmount += tsm.cashReward;
       expAmount += tsm.expReward;
       
       if (tsm.puzzlePieceDropped) {

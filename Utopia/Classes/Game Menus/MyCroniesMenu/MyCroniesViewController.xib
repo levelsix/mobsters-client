@@ -223,7 +223,7 @@
         </view>
     </objects>
     <resources>
-        <image name="diamond.png" width="29" height="28"/>
+        <image name="diamond.png" width="44" height="41"/>
         <image name="finishheal.png" width="71" height="28"/>
         <image name="healbar.png" width="1" height="81"/>
         <image name="healingarrow.png" width="187" height="47"/>

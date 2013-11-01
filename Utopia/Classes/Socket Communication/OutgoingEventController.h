@@ -78,7 +78,8 @@
 
 - (void) removeMonsterFromTeam:(int)userMonsterId;
 - (void) addMonsterToTeam:(int)userMonsterId;
-- (void) buyInventorySlots;
+- (void) buyInventorySlots;- (void) combineMonsters:(NSArray *)userMonsterIds;
+- (void) combineMonsterWithSpeedup:(int)userMonsterId;
 - (void) addMonsterToHealingQueue:(int)userMonsterId;
 - (void) removeMonsterFromHealingQueue:(UserMonsterHealingItem *)item;
 - (void) speedupHealingQueue;

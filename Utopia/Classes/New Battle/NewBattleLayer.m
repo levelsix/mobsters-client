@@ -46,6 +46,8 @@
 
 #define PUZZLE_BGD_TAG 1456
 
+#define NO_INPUT_LAYER_OPACITY 150
+
 @implementation BattleBgdLayer
 
 - (id) init {
@@ -129,6 +131,10 @@
     ol.delegate = self;
     self.orbLayer = ol;
     
+    self.noInputLayer = [CCLayerColor layerWithColor:ccc4(0, 0, 0, NO_INPUT_LAYER_OPACITY) width:self.orbLayer.contentSize.width height:self.orbLayer.contentSize.height];
+    [self addChild:self.noInputLayer z:self.orbLayer.zOrder];
+    self.noInputLayer.position = self.orbLayer.position;
+    
     self.bgdLayer = [BattleBgdLayer node];
     [self addChild:self.bgdLayer z:-100];
     self.bgdLayer.position = ccp(-733+self.contentSize.width/2, 0);
@@ -169,60 +175,6 @@
 }
 
 - (void) setupHealthBars {
-  // Left
-  CCSprite *leftBgdBar = [CCSprite spriteWithFile:@"puzztopbarbg.png"];
-  [self addChild:leftBgdBar z:2];
-  leftBgdBar.position = ccp(self.contentSize.width/2-140, 290);
-  
-  _leftHealthBar = [CCProgressTimer progressWithSprite:[CCSprite spriteWithFile:@"puzzredbar.png"]];
-  [leftBgdBar addChild:_leftHealthBar];
-  _leftHealthBar.position = ccp(leftBgdBar.contentSize.width/2, leftBgdBar.contentSize.height/2);
-  _leftHealthBar.type = kCCProgressTimerTypeBar;
-  _leftHealthBar.midpoint = ccp(0, 0.5);
-  _leftHealthBar.barChangeRate = ccp(1,0);
-  _leftHealthBar.percentage = 50;
-  
-  _leftHealthLabel = [CCLabelTTF labelWithString:@"31/100" fontName:[Globals font] fontSize:12];
-  [leftBgdBar addChild:_leftHealthLabel];
-  _leftHealthLabel.anchorPoint = ccp(1,0.5);
-  _leftHealthLabel.position = ccp(leftBgdBar.contentSize.width-5, leftBgdBar.contentSize.height/2);
-  
-  _leftNameLabel = [CCLabelTTF labelWithString:@"TheMeepsta" fontName:[Globals font] fontSize:12];
-  [leftBgdBar addChild:_leftNameLabel];
-  _leftNameLabel.anchorPoint = ccp(0,0.5);
-  _leftNameLabel.position = ccp(8, leftBgdBar.contentSize.height/2);
-  
-  _leftUserIcon = [CCSprite spriteWithFile:@"redheadtest.png"];
-  _leftUserIcon.position = ccp(-14, leftBgdBar.contentSize.height/2-3);
-  [leftBgdBar addChild:_leftUserIcon];
-  
-  // Right
-  CCSprite *rightBgdBar = [CCSprite spriteWithFile:@"puzztopbarbg.png"];
-  [self addChild:rightBgdBar z:2];
-  rightBgdBar.position = ccp(self.contentSize.width/2+140, 290);
-  
-  _rightHealthBar = [CCProgressTimer progressWithSprite:[CCSprite spriteWithFile:@"puzzredbar.png"]];
-  [rightBgdBar addChild:_rightHealthBar];
-  _rightHealthBar.position = ccp(rightBgdBar.contentSize.width/2, rightBgdBar.contentSize.height/2);
-  _rightHealthBar.type = kCCProgressTimerTypeBar;
-  _rightHealthBar.midpoint = ccp(1, 0.5);
-  _rightHealthBar.barChangeRate = ccp(1,0);
-  _rightHealthBar.percentage = 90;
-  
-  _rightHealthLabel = [CCLabelTTF labelWithString:@"31/100" fontName:[Globals font] fontSize:12];
-  [rightBgdBar addChild:_rightHealthLabel];
-  _rightHealthLabel.anchorPoint = ccp(0,0.5);
-  _rightHealthLabel.position = ccp(5, rightBgdBar.contentSize.height/2);
-  
-  _rightNameLabel = [CCLabelTTF labelWithString:@"TheMeepsta" fontName:[Globals font] fontSize:12];
-  [rightBgdBar addChild:_rightNameLabel];
-  _rightNameLabel.anchorPoint = ccp(1,0.5);
-  _rightNameLabel.position = ccp(rightBgdBar.contentSize.width-8, rightBgdBar.contentSize.height/2);
-  
-  _rightUserIcon = [CCSprite spriteWithFile:@"redheadtest.png"];
-  _rightUserIcon.position = ccp(rightBgdBar.contentSize.width+14, rightBgdBar.contentSize.height/2-3);
-  [rightBgdBar addChild:_rightUserIcon];
-  
   CCSprite *movesLeftBgd = [CCSprite spriteWithFile:@"movesleft.png"];
   CCSprite *puzzleBg = (CCSprite *)[self getChildByTag:PUZZLE_BGD_TAG];
   [self addChild:movesLeftBgd];
@@ -290,10 +242,6 @@
   [lootBgd addChild:_lootLabel];
   _lootLabel.position = ccp(lootBgd.contentSize.width-12, lootBgd.contentSize.height/2);
   
-  _orbCountLabel = [CCLabelTTF labelWithString:@"1" fontName:[Globals font] fontSize:13];
-  [self addChild:_orbCountLabel];
-  _orbCountLabel.position = ccp(self.contentSize.width/2, self.contentSize.height-10);
-  
   [self schedule:@selector(updateLabels) interval:0.05];
   _comboCount = 1;
   _currentScore = 0;
@@ -309,7 +257,7 @@
   mp.position = ccp(self.contentSize.width/2-15,191);
   mp.isFacingNear = NO;
   self.myPlayer = mp;
-  
+  [self updateHealthBars];
 }
 
 - (void) makeMyPlayerWalkOut {
@@ -368,15 +316,15 @@
   [self createNextEnemyObject];
   [self createNextEnemySprite];
   
-  CGPoint finalPos = ccp(self.contentSize.width/2+50,238);
+  CGPoint finalPos = ccp(self.contentSize.width/2+65,245);
   CGPoint offsetPerScene = POINT_OFFSET_PER_SCENE;
   CGPoint newPos = ccpAdd(finalPos, ccp(Y_MOVEMENT_FOR_NEW_SCENE*offsetPerScene.x/offsetPerScene.y, Y_MOVEMENT_FOR_NEW_SCENE));
   
   self.currentEnemy.position = newPos;
   [self.currentEnemy runAction:[CCMoveTo actionWithDuration:TIME_TO_SCROLL_PER_SCENE position:finalPos]];
   
-  [self.rightHealthLabel stopActionByTag:RED_TINT_TAG];
-  self.rightHealthLabel.color = ccc3(255,255,255);
+  [self.currentEnemy.healthLabel stopActionByTag:RED_TINT_TAG];
+  self.currentEnemy.healthLabel.color = ccc3(255,255,255);
 }
 
 - (void) createNextEnemySprite {
@@ -384,6 +332,7 @@
   [self addChild:bs];
   self.currentEnemy = bs;
   self.currentEnemy.isFacingNear = YES;
+  [self updateHealthBars];
 }
 
 - (void) createNextEnemyObject {
@@ -398,23 +347,21 @@
 
 - (void) updateHealthBars {
   if (self.enemyPlayerObject) {
-    self.rightHealthBar.percentage = ((float)self.enemyPlayerObject.curHealth)/self.enemyPlayerObject.maxHealth*100;
-    self.rightHealthLabel.string = [NSString stringWithFormat:@"%@/%@", [Globals commafyNumber:self.enemyPlayerObject.curHealth], [Globals commafyNumber:self.enemyPlayerObject.maxHealth]];
-    self.rightNameLabel.string = self.enemyPlayerObject.name;
+    self.currentEnemy.healthBar.percentage = ((float)self.enemyPlayerObject.curHealth)/self.enemyPlayerObject.maxHealth*100;
+    self.currentEnemy.healthLabel.string = [NSString stringWithFormat:@"%@/%@", [Globals commafyNumber:self.enemyPlayerObject.curHealth], [Globals commafyNumber:self.enemyPlayerObject.maxHealth]];
     
-    self.rightHealthBar.parent.visible = YES;
+    self.currentEnemy.healthBar.parent.visible = YES;
   } else {
-    self.rightHealthBar.parent.visible = NO;
+    self.currentEnemy.healthBar.parent.visible = NO;
   }
   
   if (self.myPlayerObject) {
-    self.leftHealthBar.percentage = ((float)self.myPlayerObject.curHealth)/self.myPlayerObject.maxHealth*100;
-    self.leftHealthLabel.string = [NSString stringWithFormat:@"%@/%@", [Globals commafyNumber:self.myPlayerObject.curHealth], [Globals commafyNumber:self.myPlayerObject.maxHealth]];
-    self.leftNameLabel.string = self.myPlayerObject.name;
+    self.myPlayer.healthBar.percentage = ((float)self.myPlayerObject.curHealth)/self.myPlayerObject.maxHealth*100;
+    self.myPlayer.healthLabel.string = [NSString stringWithFormat:@"%@/%@", [Globals commafyNumber:self.myPlayerObject.curHealth], [Globals commafyNumber:self.myPlayerObject.maxHealth]];
     
-    self.leftHealthBar.parent.visible = YES;
+    self.myPlayer.healthBar.parent.visible = YES;
   } else {
-    self.leftHealthBar.parent.visible = NO;
+    self.myPlayer.healthBar.parent.visible = NO;
   }}
 
 - (void) updateLabels {
@@ -441,7 +388,6 @@
   }
   
   _movesLeftLabel.string = [NSString stringWithFormat:@"%d", _movesLeft];
-  _orbCountLabel.string = [Globals commafyNumber:_orbCount];
 }
 
 - (void) pulseLabel:(CCNode *)label {
@@ -472,6 +418,7 @@
   [self.rightDamageBgd runAction:[RecursiveFadeTo actionWithDuration:0.3 opacity:0]];
   
   [self.orbLayer allowInput];
+  [self removeNoInputLayer];
 }
 
 - (void) beginEnemyTurn {
@@ -502,6 +449,7 @@
 - (void) checkIfAnyMovesLeft {
   if (_movesLeft == 0) {
     [self beginChargingUpForEnemy:NO withTarget:self selector:@selector(showHighScoreWord)];
+    [self displayNoInputLayer];
   } else {
     [self.orbLayer allowInput];
     _scoreForThisTurn = 0;
@@ -515,17 +463,18 @@
 - (void) doMyAttackAnimation {
   if (_currentScore > MAKEITRAIN_SCORE) {
     [self.myPlayer restoreStandingFrame];
-    [self spawnPlaneWithTarget:nil selector:@selector(dealMyDamage)];
+    [self spawnPlaneWithTarget:nil selector:nil];
   }
   
   float strength = MIN(1, (_currentScore-100)/(STRENGTH_FOR_MAX_SHOTS-100.f));
-  [self.myPlayer performFarAttackAnimationWithStrength:strength target:self selector:@selector(dealMyDamage)];
-  [self runAction:[CCSequence actions:[CCDelayTime actionWithDuration:0.3],[CCCallFunc actionWithTarget:self selector:@selector(doEnemyFlinch)], nil]];
-}
-
-- (void) doEnemyFlinch {
-  float strength = MIN(1, (_currentScore-100)/(STRENGTH_FOR_MAX_SHOTS-100.f));
-  [self.currentEnemy performNearFlinchAnimationWithStrength:strength target:nil selector:@selector(dealMyDamage)];
+  [self.myPlayer performFarAttackAnimationWithStrength:strength target:nil selector:nil];
+  [self runAction:[CCSequence actions:
+                   [CCDelayTime actionWithDuration:0.3],
+                   [CCCallBlock actionWithBlock:
+                    ^{
+                      [self.currentEnemy performNearFlinchAnimationWithStrength:strength target:self selector:@selector(dealMyDamage)];
+                    }],
+                   nil]];
 }
 
 - (void) dealMyDamage {
@@ -535,8 +484,8 @@
   if (perc < PULSE_CONT_THRESH) {
     [self pulseHealthLabel:YES];
   } else {
-    [self.rightHealthLabel stopActionByTag:RED_TINT_TAG];
-    self.rightHealthLabel.color = ccc3(255, 255, 255);
+    [self.currentEnemy.healthLabel stopActionByTag:RED_TINT_TAG];
+    self.currentEnemy.healthLabel.color = ccc3(255, 255, 255);
   }
 }
 
@@ -564,11 +513,11 @@
   if (enemyIsAttacker) {
     att = self.enemyPlayerObject; def = self.myPlayerObject;
     attSpr = self.currentEnemy; defSpr = self.myPlayer;
-    healthLabel = _leftHealthLabel; healthBar = _leftHealthBar;
+    healthLabel = self.myPlayer.healthLabel; healthBar = self.myPlayer.healthBar;
   } else {
     def = self.enemyPlayerObject; att = self.myPlayerObject;
     defSpr = self.currentEnemy; attSpr = self.myPlayer;
-    healthLabel = _rightHealthLabel; healthBar = _rightHealthBar;
+    healthLabel = self.currentEnemy.healthLabel; healthBar = self.currentEnemy.healthBar;
   }
   
   int curHealth = def.curHealth;
@@ -826,7 +775,8 @@
   CCSequence *seq = [CCSequence actions:move, move.reverse, move.reverse, move, nil];
   CCRepeat *repeat = [CCRepeat actionWithAction:seq times:5+(intensity*3)];
   
-  NSArray *arr = [NSArray arrayWithObjects:self.bgdLayer, self.currentEnemy, self.myPlayer, nil];
+  // Dont shake curEnemy because it messes with it coming back after flinch
+  NSArray *arr = [NSArray arrayWithObjects:self.bgdLayer, self.myPlayer, nil];
   for (CCNode *n in arr) {
     CGPoint curPos = n.position;
     [n runAction:[CCSequence actions:repeat.copy, [CCCallBlock actionWithBlock:^{
@@ -932,7 +882,7 @@
 }
 
 - (void) pulseHealthLabel:(BOOL)isEnemy {
-  CCLabelTTF *label = isEnemy ? self.rightHealthLabel : self.leftHealthLabel;
+  CCLabelTTF *label = isEnemy ? self.currentEnemy.healthLabel : self.myPlayer.healthLabel;
   
   if (![label getActionByTag:RED_TINT_TAG]) {
     CCFadeTo *tintRed = [CCTintTo actionWithDuration:1.f red:255 green:0 blue:0];
@@ -947,11 +897,15 @@
 - (void) stopPulsing {
   [_bloodSplatter stopAllActions];
   _bloodSplatter.opacity = 0;
-  [self.leftHealthLabel stopActionByTag:RED_TINT_TAG];
-  self.leftHealthLabel.color = ccc3(255, 255, 255);
+  [self.myPlayer.healthLabel stopActionByTag:RED_TINT_TAG];
+  self.myPlayer.healthLabel.color = ccc3(255, 255, 255);
 }
 
 #pragma mark - Delegate Methods
+
+- (void) turnBegan {
+  
+}
 
 - (void) newComboFound {
   _comboCount++;
@@ -1080,6 +1034,16 @@
   self.chargingEffect.life = MAX(0.15, 0.7-0.2*val/100.f);
   self.chargingEffect.lifeVar = MAX(0.2, 0.5-0.05*val/100.f);
   self.chargingEffect.totalParticles = MIN(200, 30+5*val/100.f);
+}
+
+#pragma mark - No Input Layer Methods
+
+- (void) displayNoInputLayer {
+  [self.noInputLayer runAction:[CCFadeTo actionWithDuration:0.3 opacity:NO_INPUT_LAYER_OPACITY]];
+}
+
+- (void) removeNoInputLayer {
+  [self.noInputLayer runAction:[CCFadeTo actionWithDuration:0.3 opacity:0]];
 }
 
 - (void) dealloc {

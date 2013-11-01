@@ -96,6 +96,8 @@
 @class StartupResponseProto_StartupConstants_ClanConstants_Builder;
 @class StartupResponseProto_StartupConstants_DownloadableNibConstants;
 @class StartupResponseProto_StartupConstants_DownloadableNibConstants_Builder;
+@class StartupResponseProto_StartupConstants_MonsterConstants;
+@class StartupResponseProto_StartupConstants_MonsterConstants_Builder;
 @class StartupResponseProto_StartupConstants_NormStructConstants;
 @class StartupResponseProto_StartupConstants_NormStructConstants_Builder;
 @class StartupResponseProto_StartupConstants_TournamentConstants;
@@ -502,10 +504,11 @@ BOOL StartupResponseProto_StartupStatusIsValidValue(StartupResponseProto_Startup
   BOOL hasMinNameLength_:1;
   BOOL hasMaxNameLength_:1;
   BOOL hasMaxLengthOfChatString_:1;
-  BOOL hasFbConnectRewardDiamonds_:1;
   BOOL hasNumHoursBeforeReshowingGoldSale_:1;
   BOOL hasLevelToShowRateUsPopup_:1;
+  BOOL hasFbConnectRewardDiamonds_:1;
   BOOL hasFaqFileName_:1;
+  BOOL hasMonsterConstants_:1;
   BOOL hasUserMonsterConstants_:1;
   BOOL hasAdminChatUserProto_:1;
   BOOL hasTouramentConstants_:1;
@@ -518,10 +521,11 @@ BOOL StartupResponseProto_StartupStatusIsValidValue(StartupResponseProto_Startup
   int32_t minNameLength;
   int32_t maxNameLength;
   int32_t maxLengthOfChatString;
-  int32_t fbConnectRewardDiamonds;
   int32_t numHoursBeforeReshowingGoldSale;
   int32_t levelToShowRateUsPopup;
+  int32_t fbConnectRewardDiamonds;
   NSString* faqFileName;
+  StartupResponseProto_StartupConstants_MonsterConstants* monsterConstants;
   StartupResponseProto_StartupConstants_UserMonsterConstants* userMonsterConstants;
   MinimumUserProto* adminChatUserProto;
   StartupResponseProto_StartupConstants_TournamentConstants* touramentConstants;
@@ -547,6 +551,7 @@ BOOL StartupResponseProto_StartupStatusIsValidValue(StartupResponseProto_Startup
 - (BOOL) hasAdminChatUserProto;
 - (BOOL) hasNumBeginnerSalesAllowed;
 - (BOOL) hasUserMonsterConstants;
+- (BOOL) hasMonsterConstants;
 @property (readonly) int32_t maxLevelForUser;
 @property (readonly) int32_t maxNumOfSingleStruct;
 @property (readonly, retain) StartupResponseProto_StartupConstants_NormStructConstants* normStructConstants;
@@ -563,6 +568,7 @@ BOOL StartupResponseProto_StartupStatusIsValidValue(StartupResponseProto_Startup
 @property (readonly, retain) MinimumUserProto* adminChatUserProto;
 @property (readonly) int32_t numBeginnerSalesAllowed;
 @property (readonly, retain) StartupResponseProto_StartupConstants_UserMonsterConstants* userMonsterConstants;
+@property (readonly, retain) StartupResponseProto_StartupConstants_MonsterConstants* monsterConstants;
 - (NSArray*) inAppPurchasePackagesList;
 - (InAppPurchasePackageProto*) inAppPurchasePackagesAtIndex:(int32_t) index;
 - (NSArray*) animatedSpriteOffsetsList;
@@ -1028,6 +1034,63 @@ BOOL StartupResponseProto_StartupStatusIsValidValue(StartupResponseProto_Startup
 - (StartupResponseProto_StartupConstants_UserMonsterConstants_Builder*) clearNumFriendsToRecruitToIncreaseInventory;
 @end
 
+@interface StartupResponseProto_StartupConstants_MonsterConstants : PBGeneratedMessage {
+@private
+  BOOL hasCashPerHealthPoint_:1;
+  BOOL hasSecondsToHealPerHealthPoint_:1;
+  int32_t cashPerHealthPoint;
+  int32_t secondsToHealPerHealthPoint;
+}
+- (BOOL) hasCashPerHealthPoint;
+- (BOOL) hasSecondsToHealPerHealthPoint;
+@property (readonly) int32_t cashPerHealthPoint;
+@property (readonly) int32_t secondsToHealPerHealthPoint;
+
++ (StartupResponseProto_StartupConstants_MonsterConstants*) defaultInstance;
+- (StartupResponseProto_StartupConstants_MonsterConstants*) defaultInstance;
+
+- (BOOL) isInitialized;
+- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output;
+- (StartupResponseProto_StartupConstants_MonsterConstants_Builder*) builder;
++ (StartupResponseProto_StartupConstants_MonsterConstants_Builder*) builder;
++ (StartupResponseProto_StartupConstants_MonsterConstants_Builder*) builderWithPrototype:(StartupResponseProto_StartupConstants_MonsterConstants*) prototype;
+
++ (StartupResponseProto_StartupConstants_MonsterConstants*) parseFromData:(NSData*) data;
++ (StartupResponseProto_StartupConstants_MonsterConstants*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (StartupResponseProto_StartupConstants_MonsterConstants*) parseFromInputStream:(NSInputStream*) input;
++ (StartupResponseProto_StartupConstants_MonsterConstants*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (StartupResponseProto_StartupConstants_MonsterConstants*) parseFromCodedInputStream:(PBCodedInputStream*) input;
++ (StartupResponseProto_StartupConstants_MonsterConstants*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+@end
+
+@interface StartupResponseProto_StartupConstants_MonsterConstants_Builder : PBGeneratedMessage_Builder {
+@private
+  StartupResponseProto_StartupConstants_MonsterConstants* result;
+}
+
+- (StartupResponseProto_StartupConstants_MonsterConstants*) defaultInstance;
+
+- (StartupResponseProto_StartupConstants_MonsterConstants_Builder*) clear;
+- (StartupResponseProto_StartupConstants_MonsterConstants_Builder*) clone;
+
+- (StartupResponseProto_StartupConstants_MonsterConstants*) build;
+- (StartupResponseProto_StartupConstants_MonsterConstants*) buildPartial;
+
+- (StartupResponseProto_StartupConstants_MonsterConstants_Builder*) mergeFrom:(StartupResponseProto_StartupConstants_MonsterConstants*) other;
+- (StartupResponseProto_StartupConstants_MonsterConstants_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input;
+- (StartupResponseProto_StartupConstants_MonsterConstants_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+
+- (BOOL) hasCashPerHealthPoint;
+- (int32_t) cashPerHealthPoint;
+- (StartupResponseProto_StartupConstants_MonsterConstants_Builder*) setCashPerHealthPoint:(int32_t) value;
+- (StartupResponseProto_StartupConstants_MonsterConstants_Builder*) clearCashPerHealthPoint;
+
+- (BOOL) hasSecondsToHealPerHealthPoint;
+- (int32_t) secondsToHealPerHealthPoint;
+- (StartupResponseProto_StartupConstants_MonsterConstants_Builder*) setSecondsToHealPerHealthPoint:(int32_t) value;
+- (StartupResponseProto_StartupConstants_MonsterConstants_Builder*) clearSecondsToHealPerHealthPoint;
+@end
+
 @interface StartupResponseProto_StartupConstants_Builder : PBGeneratedMessage_Builder {
 @private
   StartupResponseProto_StartupConstants* result;
@@ -1150,6 +1213,13 @@ BOOL StartupResponseProto_StartupStatusIsValidValue(StartupResponseProto_Startup
 - (StartupResponseProto_StartupConstants_Builder*) setUserMonsterConstantsBuilder:(StartupResponseProto_StartupConstants_UserMonsterConstants_Builder*) builderForValue;
 - (StartupResponseProto_StartupConstants_Builder*) mergeUserMonsterConstants:(StartupResponseProto_StartupConstants_UserMonsterConstants*) value;
 - (StartupResponseProto_StartupConstants_Builder*) clearUserMonsterConstants;
+
+- (BOOL) hasMonsterConstants;
+- (StartupResponseProto_StartupConstants_MonsterConstants*) monsterConstants;
+- (StartupResponseProto_StartupConstants_Builder*) setMonsterConstants:(StartupResponseProto_StartupConstants_MonsterConstants*) value;
+- (StartupResponseProto_StartupConstants_Builder*) setMonsterConstantsBuilder:(StartupResponseProto_StartupConstants_MonsterConstants_Builder*) builderForValue;
+- (StartupResponseProto_StartupConstants_Builder*) mergeMonsterConstants:(StartupResponseProto_StartupConstants_MonsterConstants*) value;
+- (StartupResponseProto_StartupConstants_Builder*) clearMonsterConstants;
 @end
 
 @interface StartupResponseProto_Builder : PBGeneratedMessage_Builder {

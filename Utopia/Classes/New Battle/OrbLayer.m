@@ -979,6 +979,9 @@
   _allowInput = NO;
   [_run removeAllObjects];
   
+  // Delegate method refers to orbs beginning to combo
+  [self.delegate turnBegan];
+  
   BOOL foundPowerup = [self checkForPowerupMatch];
   
   if (!foundPowerup) {

@@ -140,7 +140,9 @@ BOOL IncreaseMonsterInventorySlotResponseProto_IncreaseMonsterInventorySlotStatu
 
 typedef enum {
   CombineUserMonsterPiecesResponseProto_CombineUserMonsterPiecesStatusSuccess = 1,
-  CombineUserMonsterPiecesResponseProto_CombineUserMonsterPiecesStatusFailOther = 2,
+  CombineUserMonsterPiecesResponseProto_CombineUserMonsterPiecesStatusFailInsuffucientGems = 2,
+  CombineUserMonsterPiecesResponseProto_CombineUserMonsterPiecesStatusFailMoreThanOneMonsterForSpeedup = 3,
+  CombineUserMonsterPiecesResponseProto_CombineUserMonsterPiecesStatusFailOther = 4,
 } CombineUserMonsterPiecesResponseProto_CombineUserMonsterPiecesStatus;
 
 BOOL CombineUserMonsterPiecesResponseProto_CombineUserMonsterPiecesStatusIsValidValue(CombineUserMonsterPiecesResponseProto_CombineUserMonsterPiecesStatus value);
@@ -1251,12 +1253,16 @@ BOOL SellUserMonsterResponseProto_SellUserMonsterStatusIsValidValue(SellUserMons
 
 @interface CombineUserMonsterPiecesRequestProto : PBGeneratedMessage {
 @private
+  BOOL hasGemCost_:1;
   BOOL hasSender_:1;
+  int32_t gemCost;
   MinimumUserProto* sender;
   NSMutableArray* mutableUserMonsterIdsList;
 }
 - (BOOL) hasSender;
+- (BOOL) hasGemCost;
 @property (readonly, retain) MinimumUserProto* sender;
+@property (readonly) int32_t gemCost;
 - (NSArray*) userMonsterIdsList;
 - (int64_t) userMonsterIdsAtIndex:(int32_t) index;
 
@@ -1307,6 +1313,11 @@ BOOL SellUserMonsterResponseProto_SellUserMonsterStatusIsValidValue(SellUserMons
 - (CombineUserMonsterPiecesRequestProto_Builder*) addUserMonsterIds:(int64_t) value;
 - (CombineUserMonsterPiecesRequestProto_Builder*) addAllUserMonsterIds:(NSArray*) values;
 - (CombineUserMonsterPiecesRequestProto_Builder*) clearUserMonsterIdsList;
+
+- (BOOL) hasGemCost;
+- (int32_t) gemCost;
+- (CombineUserMonsterPiecesRequestProto_Builder*) setGemCost:(int32_t) value;
+- (CombineUserMonsterPiecesRequestProto_Builder*) clearGemCost;
 @end
 
 @interface CombineUserMonsterPiecesResponseProto : PBGeneratedMessage {

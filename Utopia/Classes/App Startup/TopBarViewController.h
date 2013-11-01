@@ -23,7 +23,7 @@
 @interface TopBarMonsterView : UIView
 
 @property (nonatomic, retain) IBOutlet UIImageView *monsterIcon;
-@property (nonatomic, retain) IBOutlet SplitImageProgressBar *healthBar;
+@property (nonatomic, retain) IBOutlet CircularProgressBar *healthBar;
 @property (nonatomic, retain) IBOutlet UILabel *healthLabel;
 
 @property (nonatomic, retain) IBOutlet UIView *monsterView;

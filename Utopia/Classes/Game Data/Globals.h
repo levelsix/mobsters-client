@@ -48,9 +48,6 @@
 @property (nonatomic, assign) int minNameLength;
 @property (nonatomic, assign) int maxNameLength;
 
-@property (nonatomic, assign) int maxTeamSize;
-@property (nonatomic, assign) int baseInventorySize;
-
 @property (nonatomic, assign) float maxLevelForUser;
 
 @property (nonatomic, assign) int maxLengthOfChatString;
@@ -68,6 +65,12 @@
 
 @property (nonatomic, assign) int numBeginnerSalesAllowed;
 @property (nonatomic, assign) int defaultDaysBattleShieldIsActive;
+
+// Monster Constants
+@property (nonatomic, assign) int maxTeamSize;
+@property (nonatomic, assign) int baseInventorySize;
+@property (nonatomic, assign) int inventoryIncreaseSizeAmount;
+@property (nonatomic, assign) int inventoryIncreaseSizeCost;
 
 // Norm struct constants
 @property (nonatomic, assign) int maxRepeatedNormStructs;
@@ -108,7 +111,7 @@
 + (NSString *) font;
 + (int) fontSize;
 
-+ (NSString *)convertTimeToString:(int)secs withDays:(BOOL)withDays;
++ (NSString *) convertTimeToString:(int)secs withDays:(BOOL)withDays;
 + (NSString *) convertTimeToShortString:(int)secs;
 + (NSString *) convertTimeToLongString:(int)secs;
 
@@ -159,7 +162,8 @@
 + (void) bounceView:(UIView *)view fadeInBgdView: (UIView *)bgdView;
 + (void) bounceView:(UIView *)view fadeInBgdView:(UIView *)bgdView completion:(void (^)(BOOL))completed;
 + (void) popOutView:(UIView *)view fadeOutBgdView:(UIView *)bgdView completion:(void (^)(void))completed;
-+ (UIImage*) maskImage:(UIImage *)image withColor:(UIColor *)color;
++ (UIImage *) snapShotView:(UIView *)view;
++ (UIImage *) maskImage:(UIImage *)image withColor:(UIColor *)color;
 + (UIImage *) greyScaleImageWithBaseImage:(UIImage *)image;
 + (void) shakeView:(UIView *)view duration:(float)duration offset:(int)offset;
 + (void) displayUIView:(UIView *)view;
@@ -192,16 +196,16 @@
 + (BOOL) userHasBeginnerShield:(uint64_t)createTime hasActiveShield:(BOOL)hasActiveShield;
 
 // Formulas
+- (int) calculateGemSpeedupCostForTimeLeft:(int)timeLeft;
+
 - (int) calculateIncomeForUserStruct:(UserStruct *)us;
 - (int) calculateIncomeForUserStructAfterLevelUp:(UserStruct *)us;
 - (int) calculateStructSilverSellCost:(UserStruct *)us;
 - (int) calculateStructGoldSellCost:(UserStruct *)us;
 - (int) calculateUpgradeCost:(UserStruct *)us;
-- (int) calculateDiamondCostForInstaUpgrade:(UserStruct *)us timeLeft:(int)timeLeft;
 - (int) calculateMinutesToUpgrade:(UserStruct *)us;
 
 - (int) calculateNumMinutesForNewExpansion;
-- (int) calculateGoldCostToSpeedUpExpansionTimeLeft:(int)seconds;
 - (int) calculateSilverCostForNewExpansion;
 - (NSString *) expansionPhraseForExpandSpot:(CGPoint)pt;
 
@@ -212,13 +216,11 @@
 - (int) calculateCostToHealMonster:(UserMonster *)um;
 - (int) calculateSecondsToHealMonster:(UserMonster *)um;
 - (int) calculateTimeLeftToHealAllMonstersInQueue;
-- (int) calculateCostToSpeedupHealingQueue;
 
 // Enhancement formulas
 - (int) calculateSilverCostForEnhancement:(EnhancementItem *)baseMonster feeder:(EnhancementItem *)feeder;
 - (int) calculateSecondsForEnhancement:(EnhancementItem *)baseMonster feeder:(EnhancementItem *)feeder;
 - (int) calculateTimeLeftForEnhancement:(UserEnhancement *)ue;
-- (int) calculateCostToSpeedupEnhancement:(UserEnhancement *)ue;
 - (int) calculateExperienceIncrease:(UserEnhancement *)ue;
 - (int) calculateExperienceIncrease:(EnhancementItem *)baseMonster feeder:(EnhancementItem *)feeder;
 - (float) calculateLevelForMonster:(int)monsterId experience:(int)experience;

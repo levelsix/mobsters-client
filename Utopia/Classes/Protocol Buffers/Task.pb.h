@@ -256,26 +256,26 @@ BOOL TaskStageMonsterProto_MonsterTypeIsValidValue(TaskStageMonsterProto_Monster
   BOOL hasPuzzlePieceDropped_:1;
   BOOL hasMonsterId_:1;
   BOOL hasExpReward_:1;
-  BOOL hasSilverReward_:1;
+  BOOL hasCashReward_:1;
   BOOL hasLevel_:1;
   BOOL hasMonsterType_:1;
   BOOL puzzlePieceDropped_:1;
   int32_t monsterId;
   int32_t expReward;
-  int32_t silverReward;
+  int32_t cashReward;
   int32_t level;
   TaskStageMonsterProto_MonsterType monsterType;
 }
 - (BOOL) hasMonsterId;
 - (BOOL) hasMonsterType;
 - (BOOL) hasExpReward;
-- (BOOL) hasSilverReward;
+- (BOOL) hasCashReward;
 - (BOOL) hasPuzzlePieceDropped;
 - (BOOL) hasLevel;
 @property (readonly) int32_t monsterId;
 @property (readonly) TaskStageMonsterProto_MonsterType monsterType;
 @property (readonly) int32_t expReward;
-@property (readonly) int32_t silverReward;
+@property (readonly) int32_t cashReward;
 - (BOOL) puzzlePieceDropped;
 @property (readonly) int32_t level;
 
@@ -328,10 +328,10 @@ BOOL TaskStageMonsterProto_MonsterTypeIsValidValue(TaskStageMonsterProto_Monster
 - (TaskStageMonsterProto_Builder*) setExpReward:(int32_t) value;
 - (TaskStageMonsterProto_Builder*) clearExpReward;
 
-- (BOOL) hasSilverReward;
-- (int32_t) silverReward;
-- (TaskStageMonsterProto_Builder*) setSilverReward:(int32_t) value;
-- (TaskStageMonsterProto_Builder*) clearSilverReward;
+- (BOOL) hasCashReward;
+- (int32_t) cashReward;
+- (TaskStageMonsterProto_Builder*) setCashReward:(int32_t) value;
+- (TaskStageMonsterProto_Builder*) clearCashReward;
 
 - (BOOL) hasPuzzlePieceDropped;
 - (BOOL) puzzlePieceDropped;

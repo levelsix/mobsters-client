@@ -433,7 +433,7 @@
     </objects>
     <resources>
         <image name="confirm.png" width="84" height="40"/>
-        <image name="diamond.png" width="29" height="28"/>
+        <image name="diamond.png" width="44" height="41"/>
         <image name="finishbuild.png" width="84" height="40"/>
         <image name="sell.png" width="40" height="40"/>
         <image name="taskgradient.png" width="1" height="50"/>

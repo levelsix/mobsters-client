@@ -212,6 +212,10 @@ message IncreaseMonsterInventorySlotResponseProto {
 message CombineUserMonsterPiecesRequestProto {
 	optional MinimumUserProto sender = 1;
 	repeated int64 userMonsterIds = 2;
+	
+	//(positive amount) if user wants to speed up the process
+	//if this is set, there should only be one userMonsterId
+	optional int32 gemCost = 3;
 }
 
 message CombineUserMonsterPiecesResponseProto {
@@ -220,7 +224,10 @@ message CombineUserMonsterPiecesResponseProto {
 	
 	enum CombineUserMonsterPiecesStatus {
 		SUCCESS = 1;
-		FAIL_OTHER = 2;
+		FAIL_INSUFFUCIENT_GEMS = 2;
+		//user can only speed up combining the pieces of ONE monster
+		FAIL_MORE_THAN_ONE_MONSTER_FOR_SPEEDUP = 3;
+		FAIL_OTHER = 4;
 	}
 }
 

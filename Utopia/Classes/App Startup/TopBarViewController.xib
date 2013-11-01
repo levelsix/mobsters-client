@@ -210,7 +210,7 @@
                             <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxY="YES"/>
                         </imageView>
                         <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="10,000" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" id="KKx-uR-59O" customClass="NumTransitionLabel">
-                            <rect key="frame" x="32" y="4" width="34" height="21"/>
+                            <rect key="frame" x="33" y="4" width="34" height="21"/>
                             <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxY="YES"/>
                             <fontDescription key="fontDescription" type="system" pointSize="14"/>
                             <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -234,8 +234,8 @@
                                 <action selector="plusClicked:" destination="-1" eventType="touchUpInside" id="9VA-Ej-Ssq"/>
                             </connections>
                         </button>
-                        <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="diamond.png" id="Vfk-rd-TDM">
-                            <rect key="frame" x="65" y="-1" width="33" height="33"/>
+                        <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleAspectFit" image="diamond.png" id="Vfk-rd-TDM">
+                            <rect key="frame" x="69" y="2" width="28" height="28"/>
                             <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxY="YES"/>
                         </imageView>
                     </subviews>
@@ -265,33 +265,33 @@
                     <size key="shadowOffset" width="0.0" height="1"/>
                 </label>
                 <view contentMode="scaleToFill" id="Snb-Pw-AEW">
-                    <rect key="frame" x="188" y="5" width="211" height="31"/>
+                    <rect key="frame" x="212" y="0.0" width="144" height="48"/>
                     <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMaxY="YES"/>
                     <subviews>
-                        <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="myteambar.png" id="jb5-9a-lf7">
-                            <rect key="frame" x="0.0" y="0.0" width="211" height="31"/>
+                        <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="teambarbg.png" id="S0e-ZO-xcr">
+                            <rect key="frame" x="0.0" y="0.0" width="144" height="48"/>
                             <autoresizingMask key="autoresizingMask"/>
                         </imageView>
                         <view contentMode="scaleToFill" id="6tb-41-kWt">
-                            <rect key="frame" x="5" y="1" width="63" height="29"/>
+                            <rect key="frame" x="1" y="-7" width="50" height="50"/>
                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                             <color key="backgroundColor" red="0.0" green="0.7843137255" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                             <simulatedOrientationMetrics key="simulatedOrientationMetrics" orientation="landscapeRight"/>
                         </view>
                         <view contentMode="scaleToFill" id="vvF-yb-Rl2">
-                            <rect key="frame" x="74" y="1" width="63" height="29"/>
+                            <rect key="frame" x="47" y="-7" width="50" height="50"/>
                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                             <color key="backgroundColor" red="0.0" green="0.7843137255" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                             <simulatedOrientationMetrics key="simulatedOrientationMetrics" orientation="landscapeRight"/>
                         </view>
                         <view contentMode="scaleToFill" id="kuF-eb-pw3">
-                            <rect key="frame" x="143" y="1" width="63" height="29"/>
+                            <rect key="frame" x="93" y="-7" width="50" height="50"/>
                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                             <color key="backgroundColor" red="0.0" green="0.7843137255" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                             <simulatedOrientationMetrics key="simulatedOrientationMetrics" orientation="landscapeRight"/>
                         </view>
                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="nXP-Rm-Xf1" customClass="MaskedButton">
-                            <rect key="frame" x="0.0" y="0.0" width="211" height="31"/>
+                            <rect key="frame" x="0.0" y="0.0" width="144" height="48"/>
                             <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES" heightSizable="YES" flexibleMaxY="YES"/>
                             <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
                             <state key="normal">
@@ -303,7 +303,7 @@
                             </state>
                             <connections>
                                 <action selector="monsterViewsClicked:" destination="-1" eventType="touchUpInside" id="bEy-LR-1wB"/>
-                                <outlet property="baseImage" destination="jb5-9a-lf7" id="Vmt-Sw-S6a"/>
+                                <outlet property="baseImage" destination="S0e-ZO-xcr" id="H2X-hu-vIu"/>
                             </connections>
                         </button>
                     </subviews>
@@ -320,7 +320,7 @@
         <image name="attackbutton.png" width="104" height="33"/>
         <image name="bomb.png" width="64" height="64"/>
         <image name="cashbar.png" width="90" height="15"/>
-        <image name="diamond.png" width="29" height="28"/>
+        <image name="diamond.png" width="44" height="41"/>
         <image name="expbar.png" width="90" height="15"/>
         <image name="homebutton.png" width="104" height="33"/>
         <image name="levelnumber.png" width="30" height="30"/>
@@ -328,8 +328,8 @@
         <image name="menubutton.png" width="104" height="33"/>
         <image name="minitopbarbg.png" width="71" height="21"/>
         <image name="moneystack.png" width="43" height="34"/>
-        <image name="myteambar.png" width="211" height="31"/>
         <image name="questbutton.png" width="53" height="65"/>
+        <image name="teambarbg.png" width="144" height="48"/>
         <image name="topbarbg.png" width="96" height="21"/>
     </resources>
 </document>

@@ -52,8 +52,8 @@
   return monster.puzzlePieceDropped ? monster.monsterId : 0;
 }
 
-- (void) orbKilled:(GemColorId)color {
-  [super orbKilled:color];
+- (void) turnBegan {
+  [super turnBegan];
   [self removeSwapButton];
 }
 
@@ -145,23 +145,34 @@
 - (IBAction)swapClicked:(id)sender {
   if (_orbCount == 0) {
     [self removeSwapButton];
-    [self displayDeployView];
+    [self displayDeployViewAndIsCancellable:YES];
   }
 }
 
-- (void) displayDeployView {
+- (void) displayDeployViewAndIsCancellable:(BOOL)cancel {
+  [self displayNoInputLayer];
+  
   [self.deployView updateWithBattlePlayers:self.myTeam];
   
   self.deployView.hidden = NO;
   self.deployView.center = ccp(self.deployView.superview.frame.size.width/2, -self.deployView.frame.size.height/2);
   [UIView animateWithDuration:0.3f animations:^{
     self.deployView.center = ccp(self.deployView.center.x, (self.deployView.superview.frame.size.height-self.orbLayer.contentSize.height)/2);
+  } completion:^(BOOL finished) {
+    if (finished && cancel) {
+      self.deployButton = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, self.contentSize.width, self.contentSize.height)];
+      [Globals displayUIView:self.deployButton];
+      [self.deployButton addTarget:self action:@selector(cancelDeploy:) forControlEvents:UIControlEventTouchUpInside];
+      [self.deployView.superview bringSubviewToFront:self.deployView];
+    }
   }];
   
   [self.orbLayer disallowInput];
 }
 
 - (void) removeDeployView {
+  [self.deployButton removeFromSuperview];
+  self.deployButton = nil;
   [UIView animateWithDuration:0.3f animations:^{
     self.deployView.center = ccp(self.deployView.center.x, -self.deployView.frame.size.height/2);
   } completion:^(BOOL finished) {
@@ -169,9 +180,11 @@
   }];
 }
 
+- (IBAction)cancelDeploy:(id)sender {
+  [self deployBattleSprite:nil];
+}
+
 - (IBAction)deployCardClicked:(id)sender {
-  [self removeDeployView];
-  
   while (![sender isKindOfClass:[BattleDeployCardView class]]) {
     sender = [sender superview];
   }
@@ -188,10 +201,11 @@
 }
 
 - (void) deployBattleSprite:(BattlePlayer *)bp {
+  [self removeDeployView];
+  BOOL isSwap = self.myPlayer != nil;
   if (bp && bp.userMonsterId != self.myPlayerObject.userMonsterId) {
     self.myPlayerObject = bp;
     
-    BOOL isSwap = self.myPlayer != nil;
     if (isSwap) {
       [self makeMyPlayerWalkOut];
     }
@@ -200,11 +214,12 @@
     // If it is swap, enemy should attack
     // If it is game start, wait till battle response has arrived
     // Otherwise, it is coming back from player just dying
-    SEL selector = isSwap ? @selector(beginEnemyTurn) : _curStage < 0 ? @selector(reachedNextScene) : @selector(beginMyTurn);
+    SEL selector = isSwap ? @selector(beginMyTurn) : _curStage < 0 ? @selector(reachedNextScene) : @selector(beginMyTurn);
     [self makeMyPlayerWalkInFromEntranceWithSelector:selector];
-  } else {
+  } else if (isSwap) {
     [self displaySwapButton];
     [self.orbLayer allowInput];
+    [self removeNoInputLayer];
   }
 }
 
@@ -253,7 +268,7 @@
   }
   
   if (someoneIsAlive) {
-    [self displayDeployView];
+    [self displayDeployViewAndIsCancellable:NO];
   } else {
     [self youLost];
   }
@@ -275,6 +290,7 @@
 - (void) dealloc {
   [self.swapView removeFromSuperview];
   [self.deployView removeFromSuperview];
+  [self.deployButton removeFromSuperview];
 }
 
 @end

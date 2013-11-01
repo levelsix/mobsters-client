@@ -19,6 +19,8 @@
 
 #define REORDER_START_Z 150
 
+#define MY_TEAM_TAG_BASE 194239
+
 @implementation CCMoveByCustom
 - (void) update: (ccTime) t {
 	//Here we neglect to change something with a zero delta.
@@ -124,19 +126,31 @@
 
 - (void) setupTeamSprites {
   GameState *gs = [GameState sharedGameState];
+  
+  NSMutableArray *newArr = [NSMutableArray array];
+  for (UserMonster *um in gs.allMonstersOnMyTeam) {
+    int tag = MY_TEAM_TAG_BASE+um.userMonsterId;
+    MyTeamSprite *ts = (MyTeamSprite *)[self getChildByTag:tag];
+    
+    if (!ts) {
+      MonsterProto *mp = [gs monsterWithId:um.monsterId];
+      CGRect r = CGRectMake(0, 0, 1, 1);
+      r.origin = [self randomWalkablePosition];
+      ts = [[MyTeamSprite alloc] initWithFile:mp.imagePrefix location:r map:self];
+      ts.tag = tag;
+      [self addChild:ts];
+    } else {
+      [self.myTeamSprites removeObject:ts];
+    }
+    
+    [newArr addObject:ts];
+  }
+  
+  // All reuses will be removed by this point
   for (MyTeamSprite *ts in self.myTeamSprites) {
     [ts removeFromParent];
   }
-  self.myTeamSprites = [NSMutableArray array];
-  for (UserMonster *um in gs.allMonstersOnMyTeam) {
-    MonsterProto *mp = [gs monsterWithId:um.monsterId];
-    CGRect r = CGRectMake(0, 0, 1, 1);
-    r.origin = [self randomWalkablePosition];
-    NSString *prefix = mp.imagePrefix;
-    MyTeamSprite *ts = [[MyTeamSprite alloc] initWithFile:prefix location:r map:self];
-    [self addChild:ts];
-    [self.myTeamSprites addObject:ts];
-  }
+  self.myTeamSprites = newArr;
 }
 
 - (void) pickUpAllDrops {
@@ -518,7 +532,7 @@
     
     // Since all sprites have anchor point ccp(0.5,0) adjust accordingly
     float x = -pt.x*_scaleX+size.width/2;
-    float y = (-pt.y-spr.contentSize.height*3/4)*_scaleY+size.height/2;
+    float y = (-pt.y-spr.contentSize.height*0.5)*_scaleY+size.height/2;
     CGPoint newPos = ccpAdd(offset,ccp(x,y));
     if (animated) {
       dur = ccpDistance(newPos, self.position)/1000.f;

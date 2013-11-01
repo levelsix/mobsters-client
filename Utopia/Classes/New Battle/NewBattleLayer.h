@@ -68,17 +68,6 @@
 @property (nonatomic, assign) CCLabelTTF *movesLeftLabel;
 @property (nonatomic, assign) CCLabelTTF *lootLabel;
 
-@property (nonatomic, assign) CCLabelTTF *leftHealthLabel;
-@property (nonatomic, assign) CCLabelTTF *leftNameLabel;
-@property (nonatomic, assign) CCSprite *leftUserIcon;
-@property (nonatomic, assign) CCLabelTTF *rightHealthLabel;
-@property (nonatomic, assign) CCLabelTTF *rightNameLabel;
-@property (nonatomic, assign) CCSprite *rightUserIcon;
-@property (nonatomic, assign) CCProgressTimer *leftHealthBar;
-@property (nonatomic, assign) CCProgressTimer *rightHealthBar;
-
-@property (nonatomic, assign) CCLabelTTF *orbCountLabel;
-
 @property (nonatomic, assign) BattleBgdLayer *bgdLayer;
 @property (nonatomic, assign) OrbLayer *orbLayer;
 
@@ -91,6 +80,8 @@
 @property (nonatomic, assign) CCSprite *bloodSplatter;
 
 @property (nonatomic, assign) CCParticleSystemQuad *chargingEffect;
+
+@property (nonatomic, assign) CCLayerColor *noInputLayer;
 
 @property (nonatomic, retain) NSArray *myTeam;
 @property (nonatomic, retain) NSArray *enemyTeam;
@@ -111,5 +102,8 @@
 - (void) moveToNextEnemy;
 - (void) youWon;
 - (void) youLost;
+
+- (void) displayNoInputLayer;
+- (void) removeNoInputLayer;
 
 @end

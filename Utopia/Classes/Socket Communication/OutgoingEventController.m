@@ -180,7 +180,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
     [Globals popupMessage:@"Waiting for confirmation of purchase!"];
   } else if (userStruct.userId != gs.userId) {
     [Globals popupMessage:@"This is not your building!"];
-  } else if (gs.gold < [gl calculateDiamondCostForInstaUpgrade:userStruct timeLeft:timeLeft]) {
+  } else if (gs.gold < [gl calculateGemSpeedupCostForTimeLeft:timeLeft]) {
     [Globals popupMessage:@"Not enough diamonds to speed up upgrade"];
   } else if (!userStruct.isComplete && userStruct.lastUpgradeTime) {
     int64_t ms = [self getCurrentMilliseconds];
@@ -190,7 +190,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
     userStruct.level++;
     
     // Update game state
-    [gs addUnrespondedUpdate:[GoldUpdate updateWithTag:tag change:-[gl calculateDiamondCostForInstaUpgrade:userStruct timeLeft:timeLeft]]];
+    [gs addUnrespondedUpdate:[GoldUpdate updateWithTag:tag change:-[gl calculateGemSpeedupCostForTimeLeft:timeLeft]]];
     
     [Analytics normStructInstaUpgrade:userStruct.structId level:userStruct.level];
   } else {
@@ -748,7 +748,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
   UserExpansion *ue = [gs getExpansionForX:x y:y];
   
   int timeLeft = ue.lastExpandTime.timeIntervalSinceNow + [gl calculateNumMinutesForNewExpansion]*60;
-  int goldCost = speedUp ? [gl calculateGoldCostToSpeedUpExpansionTimeLeft:timeLeft] : 0;
+  int goldCost = speedUp ? [gl calculateGemSpeedupCostForTimeLeft:timeLeft] : 0;
   if (gs.gold < goldCost) {
     [Globals popupMessage:@"Attempting to speedup without enough gold"];
   } else if (!ue.isExpanding) {
@@ -825,7 +825,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
     int silverAmount = 0, expAmount = 0;
     for (TaskStageProto *tsp in dungeonInfo.tspList) {
       for (TaskStageMonsterProto *tsm in tsp.stageMonstersList) {
-        silverAmount += tsm.silverReward;
+        silverAmount += tsm.cashReward;
         expAmount += tsm.expReward;
       }
     }
@@ -855,7 +855,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
   UserMonster *um = [gs myMonsterWithUserMonsterId:userMonsterId];
   NSArray *curMembers = [gs allMonstersOnMyTeam];
   
-  if (!um || um.teamSlot) {
+  if (!um || um.teamSlot || !um.isComplete) {
     [Globals popupMessage:@"Trying to add invalid monster."];
   } else if (curMembers.count >= gl.maxTeamSize) {
     [Globals popupMessage:@"Team is already at max size."];
@@ -880,9 +880,43 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
 
 - (void) buyInventorySlots {
   GameState *gs = [GameState sharedGameState];
-  gs.numAdditionalMonsterSlots += 5;
-  [[SocketCommunication sharedSocketCommunication] buyInventorySlots];
-#warning implement updates
+  Globals *gl = [Globals sharedGlobals];
+  
+  if (gs.gold < gl.inventoryIncreaseSizeCost) {
+    [Globals popupMessage:@"Trying to increase inventory without enough gold"];
+  } else {
+    gs.numAdditionalMonsterSlots += gl.inventoryIncreaseSizeAmount;
+    int tag = [[SocketCommunication sharedSocketCommunication] buyInventorySlots];
+    [gs addUnrespondedUpdate:[GoldUpdate updateWithTag:tag change:-gl.inventoryIncreaseSizeCost]];
+  }
+}
+
+- (void) combineMonsters:(NSArray *)userMonsterIds {
+  GameState *gs = [GameState sharedGameState];
+  for (NSNumber *umId in userMonsterIds) {
+    UserMonster *um = [gs myMonsterWithUserMonsterId:umId.intValue];
+    um.isComplete = YES;
+  }
+  [[SocketCommunication sharedSocketCommunication] sendCombineUserMonsterPiecesMessage:userMonsterIds gemCost:0];
+}
+
+- (void) combineMonsterWithSpeedup:(int)userMonsterId {
+  GameState *gs = [GameState sharedGameState];
+  Globals *gl = [Globals sharedGlobals];
+  UserMonster *um = [gs myMonsterWithUserMonsterId:userMonsterId];
+  MonsterProto *mp = [gs monsterWithId:um.monsterId];
+  int timeLeft = um.combineStartTime.timeIntervalSinceNow + mp.minutesToCombinePieces*60;
+  int goldCost = [gl calculateGemSpeedupCostForTimeLeft:timeLeft];
+  
+  if (gs.gold < goldCost) {
+    [Globals popupMessage:@"Trying to speedup combine monster without enough gems"];
+  } else {
+    um.isComplete = YES;
+    
+    int tag = [[SocketCommunication sharedSocketCommunication] sendCombineUserMonsterPiecesMessage:[NSArray arrayWithObject:[NSNumber numberWithInt:userMonsterId]] gemCost:goldCost];
+    [gs addUnrespondedUpdate:[GoldUpdate updateWithTag:tag change:-goldCost]];
+  }
+#warning restart timers
 }
 
 - (void) addMonsterToHealingQueue:(int)userMonsterId {
@@ -929,7 +963,8 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
   GameState *gs = [GameState sharedGameState];
   Globals *gl = [Globals sharedGlobals];
   
-  int goldCost = [gl calculateCostToSpeedupHealingQueue];
+  int timeLeft = [gl calculateTimeLeftToHealAllMonstersInQueue];
+  int goldCost = [gl calculateGemSpeedupCostForTimeLeft:timeLeft];
   
   if (gs.gold < goldCost) {
     [Globals popupMessage:@"Trying to speedup heal queue without enough gold"];
@@ -1060,7 +1095,8 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
   GameState *gs = [GameState sharedGameState];
   Globals *gl = [Globals sharedGlobals];
   
-  int goldCost = [gl calculateCostToSpeedupEnhancement:gs.userEnhancement];
+  int timeLeft = [gl calculateTimeLeftForEnhancement:gs.userEnhancement];
+  int goldCost = [gl calculateGemSpeedupCostForTimeLeft:timeLeft];
   
   if (gs.gold < goldCost) {
     [Globals popupMessage:@"Trying to speedup enhance queue without enough gold"];

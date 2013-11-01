@@ -237,6 +237,7 @@
     
     if ([self checkEnteringDungeon]) {
       [self teamSpritesEnterBuilding:te];
+      [self moveToSprite:(CCSprite *)te animated:YES];
       // Set the gvc as the delegate of this
       GameViewController *vc = [GameViewController baseController];
       [vc enterDungeon:te.ftp.taskId withDelay:SPRITE_DELAY*(self.myTeamSprites.count-1)+0.7f];

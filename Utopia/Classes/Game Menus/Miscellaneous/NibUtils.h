@@ -116,6 +116,13 @@ typedef enum {
 
 @end
 
+@interface CircularProgressBar : UIView
+
+@property (nonatomic, assign) UIImage *image;
+@property (nonatomic, assign) float percentage;
+
+@end
+
 @interface LoadingView : UIView {
   BOOL _isDisplayingLoadingView;
 }
@@ -174,7 +181,8 @@ typedef enum {
 
 @interface MaskedButton : UIButton
 
-@property (nonatomic, assign) IBOutlet UIImageView *baseImage;
+// Will take snapshot of view if it is not a uiimageView
+@property (nonatomic, assign) IBOutlet UIView *baseImage;
 
 - (void) remakeImage;
 

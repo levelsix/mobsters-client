@@ -78,6 +78,8 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
   
   self.maxTeamSize = constants.userMonsterConstants.maxNumTeamSlots;
   self.baseInventorySize = constants.userMonsterConstants.initialMaxNumMonsterLimit;
+  self.inventoryIncreaseSizeAmount = constants.userMonsterConstants.monsterInventoryIncrementAmount;
+  self.inventoryIncreaseSizeCost = constants.userMonsterConstants.monsterInventoryIncrementAmount;
   
   self.minutesToUpgradeForNormStructMultiplier = constants.normStructConstants.minutesToUpgradeForNormStructMultiplier;
   self.incomeFromNormStructMultiplier = constants.normStructConstants.incomeFromNormStructMultiplier;
@@ -185,21 +187,21 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
   secs %= 60;
   
   if (days > 0) {
-    NSString *hrsStr = hrs == 0 ? @"" : [NSString stringWithFormat:@" %dH", hrs];
-    return [NSString stringWithFormat:@"%dD%@", days, hrsStr];
+    NSString *hrsStr = hrs == 0 ? @"" : [NSString stringWithFormat:@" %dh", hrs];
+    return [NSString stringWithFormat:@"%dd%@", days, hrsStr];
   }
   
   if (hrs > 0) {
-    NSString *minsStr = mins == 0 ? @"" : [NSString stringWithFormat:@" %dM", mins];
-    return [NSString stringWithFormat:@"%dH%@", hrs, minsStr];
+    NSString *minsStr = mins == 0 ? @"" : [NSString stringWithFormat:@" %dm", mins];
+    return [NSString stringWithFormat:@"%dh%@", hrs, minsStr];
   }
   
   if (mins > 0) {
-    NSString *secsStr = secs == 0 ? @"" : [NSString stringWithFormat:@" %dS", secs];
-    return [NSString stringWithFormat:@"%dM%@", mins, secsStr];
+    NSString *secsStr = secs == 0 ? @"" : [NSString stringWithFormat:@" %ds", secs];
+    return [NSString stringWithFormat:@"%dm%@", mins, secsStr];
   }
   
-  return [NSString stringWithFormat:@"%dS", secs];
+  return [NSString stringWithFormat:@"%ds", secs];
 }
 
 + (NSString *) convertTimeToLongString:(int)secs {
@@ -497,6 +499,15 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
   s = [s substringFromIndex:x];
   NSString *pre = neg ? @"-" : @"";
   return s.length > 0 ? [pre stringByAppendingString:s] : @"0";
+}
+
++ (UIImage *) snapShotView:(UIView *)view {
+  UIGraphicsBeginImageContext(view.bounds.size);
+  [view.layer renderInContext:UIGraphicsGetCurrentContext()];
+  UIImage *image = UIGraphicsGetImageFromCurrentImageContext();
+  UIGraphicsEndImageContext();
+  
+  return image;
 }
 
 + (UIImage *) greyScaleImageWithBaseImage:(UIImage *)inputImage {
@@ -1001,11 +1012,8 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
 
 // Formulas
 
-- (int) calculateDiamondCostForSpeedupWithBaseCost:(int)baseCost timeRemaining:(int)timeRemaining totalTime:(int)totalTime {
-  float speedupMultiplierConstant = 1.5;
-  float percentRemaining = timeRemaining/(float)totalTime;
-  float speedupConstant = 1 + speedupMultiplierConstant*(1-percentRemaining);
-  return (int)ceilf(baseCost*percentRemaining*speedupConstant);
+- (int) calculateGemSpeedupCostForTimeLeft:(int)timeLeft {
+  return MAX(0.f, ceilf(timeLeft/60.f));
 }
 
 - (int) calculateIncome:(int)income level:(int)level {
@@ -1041,13 +1049,6 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
   }
 }
 
-- (int) calculateDiamondCostForInstaUpgrade:(UserStruct *)us timeLeft:(int)timeLeft {
-  FullStructureProto *fsp = [[GameState sharedGameState] structWithId:us.structId];
-  int baseCost = MAX(1,fsp.instaBuildGemCost * us.level * self.diamondCostForInstantUpgradeMultiplier);
-  int mins = [self calculateMinutesToUpgrade:us];
-  return [self calculateDiamondCostForSpeedupWithBaseCost:baseCost timeRemaining:timeLeft totalTime:mins*60];
-}
-
 - (int) calculateMinutesToUpgrade:(UserStruct *)us {
   FullStructureProto *fsp = [[GameState sharedGameState] structWithId:us.structId];
   int levelBase = us.state == kBuilding ? 1 : us.level+1;
@@ -1056,12 +1057,6 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
 
 - (int) calculateNumMinutesForNewExpansion {
   return 5;
-}
-
-- (int) calculateGoldCostToSpeedUpExpansionTimeLeft:(int)seconds {
-  int mins = [self calculateNumMinutesForNewExpansion];
-  int base = 100;
-  return [self calculateDiamondCostForSpeedupWithBaseCost:base timeRemaining:seconds totalTime:mins*60];
 }
 
 - (int) calculateSilverCostForNewExpansion {
@@ -1147,11 +1142,6 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
   return timeLeft;
 }
 
-- (int) calculateCostToSpeedupHealingQueue {
-  int timeLeft = [self calculateTimeLeftToHealAllMonstersInQueue];
-  return timeLeft/60+1;
-}
-
 - (int) calculateSilverCostForEnhancement:(EnhancementItem *)baseMonster feeder:(EnhancementItem *)feeder {
   return 100;
 }
@@ -1171,11 +1161,6 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
     }
   }
   return timeLeft;
-}
-
-- (int) calculateCostToSpeedupEnhancement:(UserEnhancement *)ue {
-  int timeLeft = [self calculateTimeLeftForEnhancement:ue];
-  return timeLeft/60+1;
 }
 
 - (int) calculateExperienceIncrease:(UserEnhancement *)ue {

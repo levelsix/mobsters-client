@@ -1121,6 +1121,7 @@ BOOL MonsterProto_MonsterElementIsValidValue(MonsterProto_MonsterElement value) 
 @property int32_t currentHealth;
 @property int32_t numPieces;
 @property BOOL isComplete;
+@property int64_t combineStartTime;
 @property int32_t teamSlotNum;
 @end
 
@@ -1187,6 +1188,13 @@ BOOL MonsterProto_MonsterElementIsValidValue(MonsterProto_MonsterElement value) 
 - (void) setIsComplete:(BOOL) value {
   isComplete_ = !!value;
 }
+- (BOOL) hasCombineStartTime {
+  return !!hasCombineStartTime_;
+}
+- (void) setHasCombineStartTime:(BOOL) value {
+  hasCombineStartTime_ = !!value;
+}
+@synthesize combineStartTime;
 - (BOOL) hasTeamSlotNum {
   return !!hasTeamSlotNum_;
 }
@@ -1207,6 +1215,7 @@ BOOL MonsterProto_MonsterElementIsValidValue(MonsterProto_MonsterElement value) 
     self.currentHealth = 0;
     self.numPieces = 0;
     self.isComplete = NO;
+    self.combineStartTime = 0L;
     self.teamSlotNum = 0;
   }
   return self;
@@ -1251,8 +1260,11 @@ static FullUserMonsterProto* defaultFullUserMonsterProtoInstance = nil;
   if (self.hasIsComplete) {
     [output writeBool:8 value:self.isComplete];
   }
+  if (self.hasCombineStartTime) {
+    [output writeInt64:9 value:self.combineStartTime];
+  }
   if (self.hasTeamSlotNum) {
-    [output writeInt32:9 value:self.teamSlotNum];
+    [output writeInt32:10 value:self.teamSlotNum];
   }
   [self.unknownFields writeToCodedOutputStream:output];
 }
@@ -1287,8 +1299,11 @@ static FullUserMonsterProto* defaultFullUserMonsterProtoInstance = nil;
   if (self.hasIsComplete) {
     size += computeBoolSize(8, self.isComplete);
   }
+  if (self.hasCombineStartTime) {
+    size += computeInt64Size(9, self.combineStartTime);
+  }
   if (self.hasTeamSlotNum) {
-    size += computeInt32Size(9, self.teamSlotNum);
+    size += computeInt32Size(10, self.teamSlotNum);
   }
   size += self.unknownFields.serializedSize;
   memoizedSerializedSize = size;
@@ -1389,6 +1404,9 @@ static FullUserMonsterProto* defaultFullUserMonsterProtoInstance = nil;
   if (other.hasIsComplete) {
     [self setIsComplete:other.isComplete];
   }
+  if (other.hasCombineStartTime) {
+    [self setCombineStartTime:other.combineStartTime];
+  }
   if (other.hasTeamSlotNum) {
     [self setTeamSlotNum:other.teamSlotNum];
   }
@@ -1446,6 +1464,10 @@ static FullUserMonsterProto* defaultFullUserMonsterProtoInstance = nil;
         break;
       }
       case 72: {
+        [self setCombineStartTime:[input readInt64]];
+        break;
+      }
+      case 80: {
         [self setTeamSlotNum:[input readInt32]];
         break;
       }
@@ -1578,6 +1600,22 @@ static FullUserMonsterProto* defaultFullUserMonsterProtoInstance = nil;
 - (FullUserMonsterProto_Builder*) clearIsComplete {
   result.hasIsComplete = NO;
   result.isComplete = NO;
+  return self;
+}
+- (BOOL) hasCombineStartTime {
+  return result.hasCombineStartTime;
+}
+- (int64_t) combineStartTime {
+  return result.combineStartTime;
+}
+- (FullUserMonsterProto_Builder*) setCombineStartTime:(int64_t) value {
+  result.hasCombineStartTime = YES;
+  result.combineStartTime = value;
+  return self;
+}
+- (FullUserMonsterProto_Builder*) clearCombineStartTime {
+  result.hasCombineStartTime = NO;
+  result.combineStartTime = 0L;
   return self;
 }
 - (BOOL) hasTeamSlotNum {

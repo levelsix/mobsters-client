@@ -18,10 +18,6 @@
                     <rect key="frame" x="0.0" y="10" width="59" height="59"/>
                     <autoresizingMask key="autoresizingMask"/>
                 </imageView>
-                <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" image="gm_1.png" id="ynV-ev-77g">
-                    <rect key="frame" x="0.0" y="10" width="59" height="59"/>
-                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                </imageView>
                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="cQp-IT-jrn">
                     <rect key="frame" x="40" y="0.0" width="29" height="30"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
@@ -37,6 +33,10 @@
                         <action selector="minusClicked:" destination="-1" eventType="touchUpInside" id="HzZ-Q5-QCf"/>
                     </connections>
                 </button>
+                <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="Cheerleader2BazookaThumbnail.png" id="C1t-Jq-cnA">
+                    <rect key="frame" x="0.0" y="10" width="58" height="56"/>
+                    <autoresizingMask key="autoresizingMask"/>
+                </imageView>
                 <view contentMode="scaleToFill" id="3EI-1v-avG">
                     <rect key="frame" x="8" y="55" width="44" height="16"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
@@ -64,7 +64,7 @@
             </subviews>
             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
             <connections>
-                <outlet property="monsterIcon" destination="ynV-ev-77g" id="2uj-6g-Afj"/>
+                <outlet property="monsterIcon" destination="C1t-Jq-cnA" id="mn1-Tj-6aB"/>
                 <outlet property="progressBar" destination="JsQ-Rc-daE" id="H0F-cY-mxd"/>
                 <outlet property="timeLabel" destination="1P9-es-CWG" id="iwW-Nf-ONF"/>
                 <outlet property="timerView" destination="3EI-1v-avG" id="2EL-IC-NDC"/>
@@ -72,7 +72,7 @@
         </view>
     </objects>
     <resources>
-        <image name="gm_1.png" width="1200" height="1200"/>
+        <image name="Cheerleader2BazookaThumbnail.png" width="59" height="56"/>
         <image name="healingminibox.png" width="59" height="59"/>
         <image name="minitimebar.png" width="40" height="7"/>
         <image name="minitimebg.png" width="44" height="11"/>

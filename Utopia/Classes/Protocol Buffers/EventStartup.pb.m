@@ -1561,6 +1561,7 @@ static StartupResponseProto_ReferralNotificationProto* defaultStartupResponsePro
 @property (retain) MinimumUserProto* adminChatUserProto;
 @property int32_t numBeginnerSalesAllowed;
 @property (retain) StartupResponseProto_StartupConstants_UserMonsterConstants* userMonsterConstants;
+@property (retain) StartupResponseProto_StartupConstants_MonsterConstants* monsterConstants;
 @end
 
 @implementation StartupResponseProto_StartupConstants
@@ -1679,6 +1680,13 @@ static StartupResponseProto_ReferralNotificationProto* defaultStartupResponsePro
   hasUserMonsterConstants_ = !!value;
 }
 @synthesize userMonsterConstants;
+- (BOOL) hasMonsterConstants {
+  return !!hasMonsterConstants_;
+}
+- (void) setHasMonsterConstants:(BOOL) value {
+  hasMonsterConstants_ = !!value;
+}
+@synthesize monsterConstants;
 - (void) dealloc {
   self.mutableInAppPurchasePackagesList = nil;
   self.normStructConstants = nil;
@@ -1689,6 +1697,7 @@ static StartupResponseProto_ReferralNotificationProto* defaultStartupResponsePro
   self.faqFileName = nil;
   self.adminChatUserProto = nil;
   self.userMonsterConstants = nil;
+  self.monsterConstants = nil;
   [super dealloc];
 }
 - (id) init {
@@ -1709,6 +1718,7 @@ static StartupResponseProto_ReferralNotificationProto* defaultStartupResponsePro
     self.adminChatUserProto = [MinimumUserProto defaultInstance];
     self.numBeginnerSalesAllowed = 0;
     self.userMonsterConstants = [StartupResponseProto_StartupConstants_UserMonsterConstants defaultInstance];
+    self.monsterConstants = [StartupResponseProto_StartupConstants_MonsterConstants defaultInstance];
   }
   return self;
 }
@@ -1796,6 +1806,9 @@ static StartupResponseProto_StartupConstants* defaultStartupResponseProto_Startu
   if (self.hasUserMonsterConstants) {
     [output writeMessage:18 value:self.userMonsterConstants];
   }
+  if (self.hasMonsterConstants) {
+    [output writeMessage:19 value:self.monsterConstants];
+  }
   [self.unknownFields writeToCodedOutputStream:output];
 }
 - (int32_t) serializedSize {
@@ -1858,6 +1871,9 @@ static StartupResponseProto_StartupConstants* defaultStartupResponseProto_Startu
   }
   if (self.hasUserMonsterConstants) {
     size += computeMessageSize(18, self.userMonsterConstants);
+  }
+  if (self.hasMonsterConstants) {
+    size += computeMessageSize(19, self.monsterConstants);
   }
   size += self.unknownFields.serializedSize;
   memoizedSerializedSize = size;
@@ -3624,6 +3640,221 @@ static StartupResponseProto_StartupConstants_UserMonsterConstants* defaultStartu
 }
 @end
 
+@interface StartupResponseProto_StartupConstants_MonsterConstants ()
+@property int32_t cashPerHealthPoint;
+@property int32_t secondsToHealPerHealthPoint;
+@end
+
+@implementation StartupResponseProto_StartupConstants_MonsterConstants
+
+- (BOOL) hasCashPerHealthPoint {
+  return !!hasCashPerHealthPoint_;
+}
+- (void) setHasCashPerHealthPoint:(BOOL) value {
+  hasCashPerHealthPoint_ = !!value;
+}
+@synthesize cashPerHealthPoint;
+- (BOOL) hasSecondsToHealPerHealthPoint {
+  return !!hasSecondsToHealPerHealthPoint_;
+}
+- (void) setHasSecondsToHealPerHealthPoint:(BOOL) value {
+  hasSecondsToHealPerHealthPoint_ = !!value;
+}
+@synthesize secondsToHealPerHealthPoint;
+- (void) dealloc {
+  [super dealloc];
+}
+- (id) init {
+  if ((self = [super init])) {
+    self.cashPerHealthPoint = 0;
+    self.secondsToHealPerHealthPoint = 0;
+  }
+  return self;
+}
+static StartupResponseProto_StartupConstants_MonsterConstants* defaultStartupResponseProto_StartupConstants_MonsterConstantsInstance = nil;
++ (void) initialize {
+  if (self == [StartupResponseProto_StartupConstants_MonsterConstants class]) {
+    defaultStartupResponseProto_StartupConstants_MonsterConstantsInstance = [[StartupResponseProto_StartupConstants_MonsterConstants alloc] init];
+  }
+}
++ (StartupResponseProto_StartupConstants_MonsterConstants*) defaultInstance {
+  return defaultStartupResponseProto_StartupConstants_MonsterConstantsInstance;
+}
+- (StartupResponseProto_StartupConstants_MonsterConstants*) defaultInstance {
+  return defaultStartupResponseProto_StartupConstants_MonsterConstantsInstance;
+}
+- (BOOL) isInitialized {
+  return YES;
+}
+- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output {
+  if (self.hasCashPerHealthPoint) {
+    [output writeInt32:1 value:self.cashPerHealthPoint];
+  }
+  if (self.hasSecondsToHealPerHealthPoint) {
+    [output writeInt32:2 value:self.secondsToHealPerHealthPoint];
+  }
+  [self.unknownFields writeToCodedOutputStream:output];
+}
+- (int32_t) serializedSize {
+  int32_t size = memoizedSerializedSize;
+  if (size != -1) {
+    return size;
+  }
+
+  size = 0;
+  if (self.hasCashPerHealthPoint) {
+    size += computeInt32Size(1, self.cashPerHealthPoint);
+  }
+  if (self.hasSecondsToHealPerHealthPoint) {
+    size += computeInt32Size(2, self.secondsToHealPerHealthPoint);
+  }
+  size += self.unknownFields.serializedSize;
+  memoizedSerializedSize = size;
+  return size;
+}
++ (StartupResponseProto_StartupConstants_MonsterConstants*) parseFromData:(NSData*) data {
+  return (StartupResponseProto_StartupConstants_MonsterConstants*)[[[StartupResponseProto_StartupConstants_MonsterConstants builder] mergeFromData:data] build];
+}
++ (StartupResponseProto_StartupConstants_MonsterConstants*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (StartupResponseProto_StartupConstants_MonsterConstants*)[[[StartupResponseProto_StartupConstants_MonsterConstants builder] mergeFromData:data extensionRegistry:extensionRegistry] build];
+}
++ (StartupResponseProto_StartupConstants_MonsterConstants*) parseFromInputStream:(NSInputStream*) input {
+  return (StartupResponseProto_StartupConstants_MonsterConstants*)[[[StartupResponseProto_StartupConstants_MonsterConstants builder] mergeFromInputStream:input] build];
+}
++ (StartupResponseProto_StartupConstants_MonsterConstants*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (StartupResponseProto_StartupConstants_MonsterConstants*)[[[StartupResponseProto_StartupConstants_MonsterConstants builder] mergeFromInputStream:input extensionRegistry:extensionRegistry] build];
+}
++ (StartupResponseProto_StartupConstants_MonsterConstants*) parseFromCodedInputStream:(PBCodedInputStream*) input {
+  return (StartupResponseProto_StartupConstants_MonsterConstants*)[[[StartupResponseProto_StartupConstants_MonsterConstants builder] mergeFromCodedInputStream:input] build];
+}
++ (StartupResponseProto_StartupConstants_MonsterConstants*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (StartupResponseProto_StartupConstants_MonsterConstants*)[[[StartupResponseProto_StartupConstants_MonsterConstants builder] mergeFromCodedInputStream:input extensionRegistry:extensionRegistry] build];
+}
++ (StartupResponseProto_StartupConstants_MonsterConstants_Builder*) builder {
+  return [[[StartupResponseProto_StartupConstants_MonsterConstants_Builder alloc] init] autorelease];
+}
++ (StartupResponseProto_StartupConstants_MonsterConstants_Builder*) builderWithPrototype:(StartupResponseProto_StartupConstants_MonsterConstants*) prototype {
+  return [[StartupResponseProto_StartupConstants_MonsterConstants builder] mergeFrom:prototype];
+}
+- (StartupResponseProto_StartupConstants_MonsterConstants_Builder*) builder {
+  return [StartupResponseProto_StartupConstants_MonsterConstants builder];
+}
+@end
+
+@interface StartupResponseProto_StartupConstants_MonsterConstants_Builder()
+@property (retain) StartupResponseProto_StartupConstants_MonsterConstants* result;
+@end
+
+@implementation StartupResponseProto_StartupConstants_MonsterConstants_Builder
+@synthesize result;
+- (void) dealloc {
+  self.result = nil;
+  [super dealloc];
+}
+- (id) init {
+  if ((self = [super init])) {
+    self.result = [[[StartupResponseProto_StartupConstants_MonsterConstants alloc] init] autorelease];
+  }
+  return self;
+}
+- (PBGeneratedMessage*) internalGetResult {
+  return result;
+}
+- (StartupResponseProto_StartupConstants_MonsterConstants_Builder*) clear {
+  self.result = [[[StartupResponseProto_StartupConstants_MonsterConstants alloc] init] autorelease];
+  return self;
+}
+- (StartupResponseProto_StartupConstants_MonsterConstants_Builder*) clone {
+  return [StartupResponseProto_StartupConstants_MonsterConstants builderWithPrototype:result];
+}
+- (StartupResponseProto_StartupConstants_MonsterConstants*) defaultInstance {
+  return [StartupResponseProto_StartupConstants_MonsterConstants defaultInstance];
+}
+- (StartupResponseProto_StartupConstants_MonsterConstants*) build {
+  [self checkInitialized];
+  return [self buildPartial];
+}
+- (StartupResponseProto_StartupConstants_MonsterConstants*) buildPartial {
+  StartupResponseProto_StartupConstants_MonsterConstants* returnMe = [[result retain] autorelease];
+  self.result = nil;
+  return returnMe;
+}
+- (StartupResponseProto_StartupConstants_MonsterConstants_Builder*) mergeFrom:(StartupResponseProto_StartupConstants_MonsterConstants*) other {
+  if (other == [StartupResponseProto_StartupConstants_MonsterConstants defaultInstance]) {
+    return self;
+  }
+  if (other.hasCashPerHealthPoint) {
+    [self setCashPerHealthPoint:other.cashPerHealthPoint];
+  }
+  if (other.hasSecondsToHealPerHealthPoint) {
+    [self setSecondsToHealPerHealthPoint:other.secondsToHealPerHealthPoint];
+  }
+  [self mergeUnknownFields:other.unknownFields];
+  return self;
+}
+- (StartupResponseProto_StartupConstants_MonsterConstants_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input {
+  return [self mergeFromCodedInputStream:input extensionRegistry:[PBExtensionRegistry emptyRegistry]];
+}
+- (StartupResponseProto_StartupConstants_MonsterConstants_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  PBUnknownFieldSet_Builder* unknownFields = [PBUnknownFieldSet builderWithUnknownFields:self.unknownFields];
+  while (YES) {
+    int32_t tag = [input readTag];
+    switch (tag) {
+      case 0:
+        [self setUnknownFields:[unknownFields build]];
+        return self;
+      default: {
+        if (![self parseUnknownField:input unknownFields:unknownFields extensionRegistry:extensionRegistry tag:tag]) {
+          [self setUnknownFields:[unknownFields build]];
+          return self;
+        }
+        break;
+      }
+      case 8: {
+        [self setCashPerHealthPoint:[input readInt32]];
+        break;
+      }
+      case 16: {
+        [self setSecondsToHealPerHealthPoint:[input readInt32]];
+        break;
+      }
+    }
+  }
+}
+- (BOOL) hasCashPerHealthPoint {
+  return result.hasCashPerHealthPoint;
+}
+- (int32_t) cashPerHealthPoint {
+  return result.cashPerHealthPoint;
+}
+- (StartupResponseProto_StartupConstants_MonsterConstants_Builder*) setCashPerHealthPoint:(int32_t) value {
+  result.hasCashPerHealthPoint = YES;
+  result.cashPerHealthPoint = value;
+  return self;
+}
+- (StartupResponseProto_StartupConstants_MonsterConstants_Builder*) clearCashPerHealthPoint {
+  result.hasCashPerHealthPoint = NO;
+  result.cashPerHealthPoint = 0;
+  return self;
+}
+- (BOOL) hasSecondsToHealPerHealthPoint {
+  return result.hasSecondsToHealPerHealthPoint;
+}
+- (int32_t) secondsToHealPerHealthPoint {
+  return result.secondsToHealPerHealthPoint;
+}
+- (StartupResponseProto_StartupConstants_MonsterConstants_Builder*) setSecondsToHealPerHealthPoint:(int32_t) value {
+  result.hasSecondsToHealPerHealthPoint = YES;
+  result.secondsToHealPerHealthPoint = value;
+  return self;
+}
+- (StartupResponseProto_StartupConstants_MonsterConstants_Builder*) clearSecondsToHealPerHealthPoint {
+  result.hasSecondsToHealPerHealthPoint = NO;
+  result.secondsToHealPerHealthPoint = 0;
+  return self;
+}
+@end
+
 @interface StartupResponseProto_StartupConstants_Builder()
 @property (retain) StartupResponseProto_StartupConstants* result;
 @end
@@ -3725,6 +3956,9 @@ static StartupResponseProto_StartupConstants_UserMonsterConstants* defaultStartu
   }
   if (other.hasUserMonsterConstants) {
     [self mergeUserMonsterConstants:other.userMonsterConstants];
+  }
+  if (other.hasMonsterConstants) {
+    [self mergeMonsterConstants:other.monsterConstants];
   }
   [self mergeUnknownFields:other.unknownFields];
   return self;
@@ -3851,6 +4085,15 @@ static StartupResponseProto_StartupConstants_UserMonsterConstants* defaultStartu
         }
         [input readMessage:subBuilder extensionRegistry:extensionRegistry];
         [self setUserMonsterConstants:[subBuilder buildPartial]];
+        break;
+      }
+      case 154: {
+        StartupResponseProto_StartupConstants_MonsterConstants_Builder* subBuilder = [StartupResponseProto_StartupConstants_MonsterConstants builder];
+        if (self.hasMonsterConstants) {
+          [subBuilder mergeFrom:self.monsterConstants];
+        }
+        [input readMessage:subBuilder extensionRegistry:extensionRegistry];
+        [self setMonsterConstants:[subBuilder buildPartial]];
         break;
       }
     }
@@ -4252,6 +4495,36 @@ static StartupResponseProto_StartupConstants_UserMonsterConstants* defaultStartu
 - (StartupResponseProto_StartupConstants_Builder*) clearUserMonsterConstants {
   result.hasUserMonsterConstants = NO;
   result.userMonsterConstants = [StartupResponseProto_StartupConstants_UserMonsterConstants defaultInstance];
+  return self;
+}
+- (BOOL) hasMonsterConstants {
+  return result.hasMonsterConstants;
+}
+- (StartupResponseProto_StartupConstants_MonsterConstants*) monsterConstants {
+  return result.monsterConstants;
+}
+- (StartupResponseProto_StartupConstants_Builder*) setMonsterConstants:(StartupResponseProto_StartupConstants_MonsterConstants*) value {
+  result.hasMonsterConstants = YES;
+  result.monsterConstants = value;
+  return self;
+}
+- (StartupResponseProto_StartupConstants_Builder*) setMonsterConstantsBuilder:(StartupResponseProto_StartupConstants_MonsterConstants_Builder*) builderForValue {
+  return [self setMonsterConstants:[builderForValue build]];
+}
+- (StartupResponseProto_StartupConstants_Builder*) mergeMonsterConstants:(StartupResponseProto_StartupConstants_MonsterConstants*) value {
+  if (result.hasMonsterConstants &&
+      result.monsterConstants != [StartupResponseProto_StartupConstants_MonsterConstants defaultInstance]) {
+    result.monsterConstants =
+      [[[StartupResponseProto_StartupConstants_MonsterConstants builderWithPrototype:result.monsterConstants] mergeFrom:value] buildPartial];
+  } else {
+    result.monsterConstants = value;
+  }
+  result.hasMonsterConstants = YES;
+  return self;
+}
+- (StartupResponseProto_StartupConstants_Builder*) clearMonsterConstants {
+  result.hasMonsterConstants = NO;
+  result.monsterConstants = [StartupResponseProto_StartupConstants_MonsterConstants defaultInstance];
   return self;
 }
 @end

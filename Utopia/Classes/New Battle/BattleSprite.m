@@ -14,6 +14,7 @@
 #import "SoundEngine.h"
 #import "Downloader.h"
 #import "CCFileUtils.h"
+#import "CCLabelFX.h"
 
 #define ANIMATATION_DELAY 0.07f
 #define MAX_SHOTS 5
@@ -23,11 +24,11 @@
 - (id) initWithPrefix:(NSString *)prefix {
   if ((self = [super init])) {
     self.prefix = prefix;
-    self.contentSize = CGSizeMake(40, 70);
+    self.contentSize = CGSizeMake(40, 55);
     
     self.sprite = [CCSprite node];
     [self addChild:_sprite z:5 tag:9999];
-    self.sprite.position = ccp(self.contentSize.width/2, self.contentSize.height/2-10);
+    self.sprite.position = ccp(self.contentSize.width/2, self.contentSize.height/2-3);
     
     CCSprite *s = [CCSprite spriteWithFile:@"shadow.png"];
     [self addChild:s];
@@ -38,20 +39,22 @@
     self.isFacingNear = YES;
     
     self.healthBgd = [CCSprite spriteWithFile:@"minitimebg.png"];
-    [self addChild:self.healthBgd z:2];
-    self.healthBgd.position = ccp(self.contentSize.width/2+140, 290);
+    [self addChild:self.healthBgd z:6];
+    self.healthBgd.position = ccp(self.contentSize.width/2, self.contentSize.height+3);
     
     self.healthBar = [CCProgressTimer progressWithSprite:[CCSprite spriteWithFile:@"minitimebar.png"]];
     [self.healthBgd addChild:self.healthBar];
     self.healthBar.position = ccp(self.healthBgd.contentSize.width/2, self.healthBgd.contentSize.height/2);
     self.healthBar.type = kCCProgressTimerTypeBar;
-    self.healthBar.midpoint = ccp(1, 0.5);
+    self.healthBar.midpoint = ccp(0, 0.5);
     self.healthBar.barChangeRate = ccp(1,0);
     self.healthBar.percentage = 90;
     
-    self.healthLabel = [CCLabelTTF labelWithString:@"31/100" fontName:[Globals font] fontSize:10];
+    self.healthLabel = [CCLabelTTF labelWithString:@"31/100" fontName:[Globals font] fontSize:12];
     [self.healthBgd addChild:self.healthLabel];
     self.healthLabel.position = ccp(self.healthBgd.contentSize.width/2, self.healthBgd.contentSize.height);
+    [self.healthLabel enableShadowWithOffset:CGSizeMake(0, -1) opacity:0.3f blur:1.f updateImage:YES];
+    [self.healthLabel setFontFillColor:ccc3(255, 255, 255) updateImage:YES];
   }
   return self;
 }
@@ -63,7 +66,7 @@
 
 - (CCAction *) walkActionN {
   if (!_walkActionN) {
-    [[CCSpriteFrameCache sharedSpriteFrameCache] addSpriteFramesWithFile:[NSString stringWithFormat:@"%@Run.plist", self.prefix]];
+    [[CCSpriteFrameCache sharedSpriteFrameCache] addSpriteFramesWithFile:[NSString stringWithFormat:@"%@RunNF.plist", self.prefix]];
     NSString *p = [NSString stringWithFormat:@"%@RunN", self.prefix];
     CCAnimation *anim = [CCAnimation animationWithSpritePrefix:p delay:ANIMATATION_DELAY];
     self.walkActionN = [CCRepeatForever actionWithAction:[CCAnimate actionWithAnimation:anim]];
@@ -73,7 +76,7 @@
 
 - (CCAction *) walkActionF {
   if (!_walkActionF) {
-    [[CCSpriteFrameCache sharedSpriteFrameCache] addSpriteFramesWithFile:[NSString stringWithFormat:@"%@Run.plist", self.prefix]];
+    [[CCSpriteFrameCache sharedSpriteFrameCache] addSpriteFramesWithFile:[NSString stringWithFormat:@"%@RunNF.plist", self.prefix]];
     NSString *p = [NSString stringWithFormat:@"%@RunF", self.prefix];
     CCAnimation *anim = [CCAnimation animationWithSpritePrefix:p delay:ANIMATATION_DELAY];
     self.walkActionF = [CCRepeatForever actionWithAction:[CCAnimate actionWithAnimation:anim]];
@@ -214,12 +217,8 @@
        }],
       [CCMoveBy actionWithDuration:moveTime position:ccpMult(pointOffset, moveAmount)],
       [CCDelayTime actionWithDuration:delayTime], nil] times:numTimes],
-    [CCMoveBy actionWithDuration:0.1f position:ccpMult(pointOffset, -moveAmount*3)],
-    [CCCallBlock actionWithBlock:
-     ^{
-       self.position = startPos;
-       [self restoreStandingFrame];
-     }],
+    [CCMoveTo actionWithDuration:0.1f position:startPos],
+    [CCCallFunc actionWithTarget:self selector:@selector(restoreStandingFrame)],
     [CCCallFunc actionWithTarget:target selector:selector],
     nil]];
 }

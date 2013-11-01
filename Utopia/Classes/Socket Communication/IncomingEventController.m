@@ -202,6 +202,13 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
       break;
     case EventProtocolResponseSUpdateMonsterHealthEvent:
       responseClass = [UpdateMonsterHealthResponseProto class];
+      break;
+    case EventProtocolResponseSCombineUserMonsterPiecesEvent:
+      responseClass = [CombineUserMonsterPiecesResponseProto class];
+      break;
+    case EventProtocolResponseSSellUserMonsterEvent:
+      responseClass = [SellUserMonsterResponseProto class];
+      break;
       
     default:
       responseClass = nil;
@@ -1208,7 +1215,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
   }
 }
 
-- (void) handleBuyMonsterInventorySlotResponseProto:(FullEvent *)fe {
+- (void) handleIncreaseMonsterInventorySlotResponseProto:(FullEvent *)fe {
   IncreaseMonsterInventorySlotResponseProto *proto = (IncreaseMonsterInventorySlotResponseProto *)fe.event;
   int tag = fe.tag;
   
@@ -1249,6 +1256,36 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
     [gs removeNonFullUserUpdatesForTag:tag];
   } else {
     [Globals popupMessage:@"Server failed to handle buying inventory slots."];
+    [gs removeAndUndoAllUpdatesForTag:tag];
+  }
+}
+
+- (void) handleCombineUserMonsterPiecesResponseProto:(FullEvent *)fe {
+  CombineUserMonsterPiecesResponseProto *proto = (CombineUserMonsterPiecesResponseProto *)fe.event;
+  int tag = fe.tag;
+  
+  LNLog(@"Combine user monster response received with status %d.", proto.status);
+  
+  GameState *gs = [GameState sharedGameState];
+  if (proto.status == CombineUserMonsterPiecesResponseProto_CombineUserMonsterPiecesStatusSuccess) {
+    [gs removeNonFullUserUpdatesForTag:tag];
+  } else {
+    [Globals popupMessage:@"Server failed to combine user monster."];
+    [gs removeAndUndoAllUpdatesForTag:tag];
+  }
+}
+
+- (void) handleSellUserMonsterResponseProto:(FullEvent *)fe {
+  SellUserMonsterResponseProto *proto = (SellUserMonsterResponseProto *)fe.event;
+  int tag = fe.tag;
+  
+  LNLog(@"Sell user monster response received with status %d.", proto.status);
+  
+  GameState *gs = [GameState sharedGameState];
+  if (proto.status == SellUserMonsterResponseProto_SellUserMonsterStatusSuccess) {
+    [gs removeNonFullUserUpdatesForTag:tag];
+  } else {
+    [Globals popupMessage:@"Server failed to sell user monster."];
     [gs removeAndUndoAllUpdatesForTag:tag];
   }
 }

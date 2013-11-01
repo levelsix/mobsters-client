@@ -470,7 +470,7 @@
       self.upgradingNameLabel.text = [NSString stringWithFormat:@"%@ (lvl %d)", fsp.name, mb.userStruct.level];
       self.upgradingIncomeLabel.text = [NSString stringWithFormat:@"%@ EVERY %@", [Globals cashStringForNumber:[gl calculateIncomeForUserStruct:mb.userStruct]], [Globals convertTimeToLongString:fsp.minutesToGain*60]];
       int timeLeft = us.lastUpgradeTime.timeIntervalSinceNow + [gl calculateMinutesToUpgrade:us]*60;
-      self.upgradingSpeedupCostLabel.text = [Globals commafyNumber:[gl calculateDiamondCostForInstaUpgrade:us timeLeft:timeLeft]];
+      self.upgradingSpeedupCostLabel.text = [Globals commafyNumber:[gl calculateGemSpeedupCostForTimeLeft:timeLeft]];
     }
   } else if (botView == self.expandBotView) {
     if ([self.selected isKindOfClass:[ExpansionBoard class]]) {
@@ -487,7 +487,7 @@
       UserExpansion *exp = [gs currentExpansion];
       int timeLeft = exp.lastExpandTime.timeIntervalSinceNow + [gl calculateNumMinutesForNewExpansion]*60;
       self.expandingSubtitleLabel.text = [gl expansionPhraseForExpandSpot:ep.expandSpot];
-      self.expandingSpeedupCostLabel.text = [Globals commafyNumber:[gl calculateGoldCostToSpeedUpExpansionTimeLeft:timeLeft]];
+      self.expandingSpeedupCostLabel.text = [Globals commafyNumber:[gl calculateGemSpeedupCostForTimeLeft:timeLeft]];
     }
   }
 }
@@ -794,10 +794,10 @@
   
   if (state == kUpgrading) {
     int timeLeft = us.lastUpgradeTime.timeIntervalSinceNow + [gl calculateMinutesToUpgrade:us]*60;
-    goldCost = [gl calculateDiamondCostForInstaUpgrade:us timeLeft:timeLeft];
+    goldCost = [gl calculateGemSpeedupCostForTimeLeft:timeLeft];
   } else if (state == kBuilding) {
     int timeLeft = us.purchaseTime.timeIntervalSinceNow + fsp.minutesToBuild*60;
-    goldCost = [gl calculateDiamondCostForInstaUpgrade:us timeLeft:timeLeft];
+    goldCost = [gl calculateGemSpeedupCostForTimeLeft:timeLeft];
   }
   NSString *desc = [NSString stringWithFormat:@"Finish instantly for %d gold?", goldCost];
   [GenericPopupController displayConfirmationWithDescription:desc title:@"Speed Up!" okayButton:@"Yes" cancelButton:@"No" target:self selector:@selector(speedUpBuilding)];
@@ -813,7 +813,7 @@
   
   if (state == kUpgrading) {
     int timeLeft = us.lastUpgradeTime.timeIntervalSinceNow + [gl calculateMinutesToUpgrade:us]*60;
-    int goldCost = [gl calculateDiamondCostForInstaUpgrade:us timeLeft:timeLeft];
+    int goldCost = [gl calculateGemSpeedupCostForTimeLeft:timeLeft];
     if (gs.gold < goldCost) {
       //      [[RefillMenuController sharedRefillMenuController] displayBuyGoldView:goldCost];
       [Analytics notEnoughGoldForInstaUpgrade:us.structId level:us.level cost:goldCost];
@@ -833,7 +833,7 @@
     }
   } else if (state == kBuilding) {
     int timeLeft = us.purchaseTime.timeIntervalSinceNow + fsp.minutesToBuild*60;
-    int goldCost = [gl calculateDiamondCostForInstaUpgrade:us timeLeft:timeLeft];
+    int goldCost = [gl calculateGemSpeedupCostForTimeLeft:timeLeft];
     if (gs.gold < goldCost) {
       //      [[RefillMenuController sharedRefillMenuController] displayBuyGoldView:goldCost];
     } else {
@@ -860,7 +860,7 @@
   if (gs.isExpanding) {
     UserExpansion *exp = [gs currentExpansion];
     int timeLeft = exp.lastExpandTime.timeIntervalSinceNow + [gl calculateNumMinutesForNewExpansion]*60;
-    NSString *desc = [NSString stringWithFormat:@"A block is already expanding. Speed it up for %d gold?", [gl calculateGoldCostToSpeedUpExpansionTimeLeft:timeLeft]];
+    NSString *desc = [NSString stringWithFormat:@"A block is already expanding. Speed it up for %d gold?", [gl calculateGemSpeedupCostForTimeLeft:timeLeft]];
     [GenericPopupController displayConfirmationWithDescription:desc title:@"Already Expanding" okayButton:@"Speed Up" cancelButton:@"Cancel" target:self selector:@selector(speedupExpansion)];
   } else {
     [self.expansionView display];
@@ -888,7 +888,7 @@
   Globals *gl = [Globals sharedGlobals];
   UserExpansion *exp = [gs currentExpansion];
   int timeLeft = exp.lastExpandTime.timeIntervalSinceNow + [gl calculateNumMinutesForNewExpansion]*60;
-  NSString *desc = [NSString stringWithFormat:@"Would you like to speed up this expansion for %d gold?", [gl calculateGoldCostToSpeedUpExpansionTimeLeft:timeLeft]];
+  NSString *desc = [NSString stringWithFormat:@"Would you like to speed up this expansion for %d gold?", [gl calculateGemSpeedupCostForTimeLeft:timeLeft]];
   [GenericPopupController displayConfirmationWithDescription:desc title:@"Speed Up?" okayButton:@"Speed Up" cancelButton:@"Cancel" target:self selector:@selector(speedupExpansion)];
 }
 
@@ -898,7 +898,7 @@
   UserExpansion *exp = [gs currentExpansion];
   
   int timeLeft = exp.lastExpandTime.timeIntervalSinceNow + [gl calculateNumMinutesForNewExpansion]*60;
-  int goldCost = [gl calculateGoldCostToSpeedUpExpansionTimeLeft:timeLeft];
+  int goldCost = [gl calculateGemSpeedupCostForTimeLeft:timeLeft];
   if (gs.gold < goldCost) {
     //    [[RefillMenuController sharedRefillMenuController] displayBuyGoldView:goldCost];
   } else {

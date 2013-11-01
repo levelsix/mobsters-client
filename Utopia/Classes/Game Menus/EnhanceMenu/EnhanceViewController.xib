@@ -227,7 +227,7 @@
         </view>
     </objects>
     <resources>
-        <image name="diamond.png" width="29" height="28"/>
+        <image name="diamond.png" width="44" height="41"/>
         <image name="enhancediver.png" width="2" height="71"/>
         <image name="enhancepercentbg.png" width="94" height="16"/>
         <image name="enhanceslot.png" width="59" height="59"/>

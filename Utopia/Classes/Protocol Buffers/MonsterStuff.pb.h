@@ -304,6 +304,7 @@ BOOL MonsterProto_MonsterElementIsValidValue(MonsterProto_MonsterElement value);
 @private
   BOOL hasIsComplete_:1;
   BOOL hasUserMonsterId_:1;
+  BOOL hasCombineStartTime_:1;
   BOOL hasUserId_:1;
   BOOL hasMonsterId_:1;
   BOOL hasCurrentExp_:1;
@@ -313,6 +314,7 @@ BOOL MonsterProto_MonsterElementIsValidValue(MonsterProto_MonsterElement value);
   BOOL hasTeamSlotNum_:1;
   BOOL isComplete_:1;
   int64_t userMonsterId;
+  int64_t combineStartTime;
   int32_t userId;
   int32_t monsterId;
   int32_t currentExp;
@@ -329,6 +331,7 @@ BOOL MonsterProto_MonsterElementIsValidValue(MonsterProto_MonsterElement value);
 - (BOOL) hasCurrentHealth;
 - (BOOL) hasNumPieces;
 - (BOOL) hasIsComplete;
+- (BOOL) hasCombineStartTime;
 - (BOOL) hasTeamSlotNum;
 @property (readonly) int64_t userMonsterId;
 @property (readonly) int32_t userId;
@@ -338,6 +341,7 @@ BOOL MonsterProto_MonsterElementIsValidValue(MonsterProto_MonsterElement value);
 @property (readonly) int32_t currentHealth;
 @property (readonly) int32_t numPieces;
 - (BOOL) isComplete;
+@property (readonly) int64_t combineStartTime;
 @property (readonly) int32_t teamSlotNum;
 
 + (FullUserMonsterProto*) defaultInstance;
@@ -413,6 +417,11 @@ BOOL MonsterProto_MonsterElementIsValidValue(MonsterProto_MonsterElement value);
 - (BOOL) isComplete;
 - (FullUserMonsterProto_Builder*) setIsComplete:(BOOL) value;
 - (FullUserMonsterProto_Builder*) clearIsComplete;
+
+- (BOOL) hasCombineStartTime;
+- (int64_t) combineStartTime;
+- (FullUserMonsterProto_Builder*) setCombineStartTime:(int64_t) value;
+- (FullUserMonsterProto_Builder*) clearCombineStartTime;
 
 - (BOOL) hasTeamSlotNum;
 - (int32_t) teamSlotNum;

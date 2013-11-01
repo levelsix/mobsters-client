@@ -68,8 +68,8 @@
                             <rect key="frame" x="63" y="50" width="134" height="209"/>
                             <autoresizingMask key="autoresizingMask"/>
                         </imageView>
-                        <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleAspectFill" image="gg_1.png" id="12">
-                            <rect key="frame" x="72" y="83" width="146" height="152"/>
+                        <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleAspectFit" image="Clown4PistolBig.png" id="12">
+                            <rect key="frame" x="89" y="84" width="82" height="151"/>
                             <autoresizingMask key="autoresizingMask"/>
                         </imageView>
                         <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="detailbg.png" id="TVQ-pK-hTM">
@@ -409,11 +409,11 @@
         </view>
     </objects>
     <resources>
+        <image name="Clown4PistolBig.png" width="144" height="377"/>
         <image name="close1.png" width="30" height="29"/>
         <image name="detailbg.png" width="206" height="163"/>
         <image name="detaildivider.png" width="1" height="2"/>
         <image name="detailhp.png" width="96" height="10"/>
-        <image name="gg_1.png" width="1200" height="1200"/>
         <image name="hpbg.png" width="102" height="16"/>
         <image name="infoi.png" width="12" height="12"/>
         <image name="menuback.png" width="71" height="32"/>

@@ -4683,6 +4683,7 @@ BOOL IncreaseMonsterInventorySlotResponseProto_IncreaseMonsterInventorySlotStatu
 @interface CombineUserMonsterPiecesRequestProto ()
 @property (retain) MinimumUserProto* sender;
 @property (retain) NSMutableArray* mutableUserMonsterIdsList;
+@property int32_t gemCost;
 @end
 
 @implementation CombineUserMonsterPiecesRequestProto
@@ -4695,6 +4696,13 @@ BOOL IncreaseMonsterInventorySlotResponseProto_IncreaseMonsterInventorySlotStatu
 }
 @synthesize sender;
 @synthesize mutableUserMonsterIdsList;
+- (BOOL) hasGemCost {
+  return !!hasGemCost_;
+}
+- (void) setHasGemCost:(BOOL) value {
+  hasGemCost_ = !!value;
+}
+@synthesize gemCost;
 - (void) dealloc {
   self.sender = nil;
   self.mutableUserMonsterIdsList = nil;
@@ -4703,6 +4711,7 @@ BOOL IncreaseMonsterInventorySlotResponseProto_IncreaseMonsterInventorySlotStatu
 - (id) init {
   if ((self = [super init])) {
     self.sender = [MinimumUserProto defaultInstance];
+    self.gemCost = 0;
   }
   return self;
 }
@@ -4735,6 +4744,9 @@ static CombineUserMonsterPiecesRequestProto* defaultCombineUserMonsterPiecesRequ
   for (NSNumber* value in self.mutableUserMonsterIdsList) {
     [output writeInt64:2 value:[value longLongValue]];
   }
+  if (self.hasGemCost) {
+    [output writeInt32:3 value:self.gemCost];
+  }
   [self.unknownFields writeToCodedOutputStream:output];
 }
 - (int32_t) serializedSize {
@@ -4754,6 +4766,9 @@ static CombineUserMonsterPiecesRequestProto* defaultCombineUserMonsterPiecesRequ
     }
     size += dataSize;
     size += 1 * self.mutableUserMonsterIdsList.count;
+  }
+  if (self.hasGemCost) {
+    size += computeInt32Size(3, self.gemCost);
   }
   size += self.unknownFields.serializedSize;
   memoizedSerializedSize = size;
@@ -4839,6 +4854,9 @@ static CombineUserMonsterPiecesRequestProto* defaultCombineUserMonsterPiecesRequ
     }
     [result.mutableUserMonsterIdsList addObjectsFromArray:other.mutableUserMonsterIdsList];
   }
+  if (other.hasGemCost) {
+    [self setGemCost:other.gemCost];
+  }
   [self mergeUnknownFields:other.unknownFields];
   return self;
 }
@@ -4871,6 +4889,10 @@ static CombineUserMonsterPiecesRequestProto* defaultCombineUserMonsterPiecesRequ
       }
       case 16: {
         [self addUserMonsterIds:[input readInt64]];
+        break;
+      }
+      case 24: {
+        [self setGemCost:[input readInt32]];
         break;
       }
     }
@@ -4935,6 +4957,22 @@ static CombineUserMonsterPiecesRequestProto* defaultCombineUserMonsterPiecesRequ
 }
 - (CombineUserMonsterPiecesRequestProto_Builder*) clearUserMonsterIdsList {
   result.mutableUserMonsterIdsList = nil;
+  return self;
+}
+- (BOOL) hasGemCost {
+  return result.hasGemCost;
+}
+- (int32_t) gemCost {
+  return result.gemCost;
+}
+- (CombineUserMonsterPiecesRequestProto_Builder*) setGemCost:(int32_t) value {
+  result.hasGemCost = YES;
+  result.gemCost = value;
+  return self;
+}
+- (CombineUserMonsterPiecesRequestProto_Builder*) clearGemCost {
+  result.hasGemCost = NO;
+  result.gemCost = 0;
   return self;
 }
 @end
@@ -5044,6 +5082,8 @@ static CombineUserMonsterPiecesResponseProto* defaultCombineUserMonsterPiecesRes
 BOOL CombineUserMonsterPiecesResponseProto_CombineUserMonsterPiecesStatusIsValidValue(CombineUserMonsterPiecesResponseProto_CombineUserMonsterPiecesStatus value) {
   switch (value) {
     case CombineUserMonsterPiecesResponseProto_CombineUserMonsterPiecesStatusSuccess:
+    case CombineUserMonsterPiecesResponseProto_CombineUserMonsterPiecesStatusFailInsuffucientGems:
+    case CombineUserMonsterPiecesResponseProto_CombineUserMonsterPiecesStatusFailMoreThanOneMonsterForSpeedup:
     case CombineUserMonsterPiecesResponseProto_CombineUserMonsterPiecesStatusFailOther:
       return YES;
     default:

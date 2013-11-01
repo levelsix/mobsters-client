@@ -9,33 +9,11 @@
 #import "EnhanceViews.h"
 #import "Globals.h"
 #import "GameState.h"
+#import "OutgoingEventController.h"
 
 #define TABLE_CELL_WIDTH 72
 
 @implementation EnhanceCardCell
-
-- (void) awakeFromNib {
-  self.overlayView.center = self.cardContainer.center;
-  [self.cardContainer.superview addSubview:self.overlayView];
-}
-
-- (void) loadOverlayMask {
-  // _overlayMaskStatus: 0 = unloaded, 1 = no rarity tag, 2 = rarity tag
-  int curStatus = self.cardContainer.monsterCardView.qualityBgdView.hidden ? 1 : 2;
-  if (curStatus != _overlayMaskStatus) {
-    UIView *view = self.cardContainer.monsterCardView.mainView;
-    UIGraphicsBeginImageContext(view.bounds.size);
-    [view.layer renderInContext:UIGraphicsGetCurrentContext()];
-    UIImage *image = UIGraphicsGetImageFromCurrentImageContext();
-    UIGraphicsEndImageContext();
-    
-    self.overlayMask.image = [Globals maskImage:image withColor:[UIColor colorWithWhite:0.f alpha:0.5f]];
-    
-    self.overlayMask.frame = [self.overlayView convertRect:self.cardContainer.monsterCardView.mainView.frame fromView:self.cardContainer.monsterCardView];
-    
-    _overlayMaskStatus = curStatus;
-  }
-}
 
 - (void) updateForUserMonster:(UserMonster *)monster withBaseMonster:(EnhancementItem *)base {
   Globals *gl = [Globals sharedGlobals];
@@ -47,22 +25,14 @@
   }
   
   if ([monster isHealing]) {
-    [self loadOverlayMask];
-    self.overlayLabel.text = @"Healing";
-    self.overlayView.hidden = NO;
     self.cashButtonView.hidden = YES;
   } else {
     if ([monster isEnhancing] || [monster isSacrificing]) {
-      [self loadOverlayMask];
-      self.overlayLabel.text = @"Enhancing";
-      self.overlayView.hidden = NO;
       self.cashButtonView.hidden = YES;
     } else {
       if (!base) {
-        self.overlayView.hidden = YES;
         self.cashButtonView.hidden = YES;
       } else {
-        self.overlayView.hidden = YES;
         self.cashButtonView.hidden = NO;
         
         EnhancementItem *ei = [[EnhancementItem alloc] init];
@@ -92,9 +62,12 @@
 @implementation EnhanceQueueCell
 
 - (void) updateForEnhanceItem:(EnhancementItem *)item {
-  //  GameState *gs = [GameState sharedGameState];
-  //  UserMonster *um = [gs myMonsterWithUserMonsterId:item.userMonsterId];
-  //  [Globals loadImageForMonster:um.monsterId toView:self.monsterIcon];
+  GameState *gs = [GameState sharedGameState];
+  UserMonster *um = item.userMonster;
+  MonsterProto *mp = [gs monsterWithId:um.monsterId];
+  
+  NSString *fileName = [mp.imagePrefix stringByAppendingString:@"Thumbnail.png"];
+  [Globals imageNamed:fileName withView:self.monsterIcon maskedColor:nil indicator:UIActivityIndicatorViewStyleWhite clearImageDuringDownload:YES];
   self.timerView.hidden = YES;
   
   self.enhanceItem = item;
@@ -132,7 +105,7 @@
   GameState *gs = [GameState sharedGameState];
   Globals *gl = [Globals sharedGlobals];
   int timeLeft = [gl calculateTimeLeftForEnhancement:gs.userEnhancement];
-  int speedupCost = [gl calculateCostToSpeedupEnhancement:gs.userEnhancement];
+  int speedupCost = [gl calculateGemSpeedupCostForTimeLeft:timeLeft];
   
   self.totalTimeLabel.text = [Globals convertTimeToShortString:timeLeft];
   self.speedupCostLabel.text = [Globals commafyNumber:speedupCost];

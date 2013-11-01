@@ -15,29 +15,8 @@
 @implementation MyCroniesCardCell
 
 - (void) awakeFromNib {
-  self.overlayView.center = self.cardContainer.center;
-  [self.cardContainer.superview addSubview:self.overlayView];
-  
   self.buySlotsView.center = self.cardContainer.center;
   [self.cardContainer.superview addSubview:self.buySlotsView];
-}
-
-- (void) loadOverlayMask {
-  // _overlayMaskStatus: 0 = unloaded, 1 = no rarity tag, 2 = rarity tag
-  int curStatus = self.cardContainer.monsterCardView.qualityBgdView.hidden ? 1 : 2;
-  if (curStatus != _overlayMaskStatus) {
-    UIView *view = self.cardContainer.monsterCardView.mainView;
-    UIGraphicsBeginImageContext(view.bounds.size);
-    [view.layer renderInContext:UIGraphicsGetCurrentContext()];
-    UIImage *image = UIGraphicsGetImageFromCurrentImageContext();
-    UIGraphicsEndImageContext();
-    
-    self.overlayMask.image = [Globals maskImage:image withColor:[UIColor colorWithWhite:0.f alpha:0.5f]];
-    
-    self.overlayMask.frame = [self.overlayView convertRect:self.cardContainer.monsterCardView.mainView.frame fromView:self.cardContainer.monsterCardView];
-    
-    _overlayMaskStatus = curStatus;
-  }
 }
 
 - (void) updateForUserMonster:(UserMonster *)monster isOnMyTeam:(BOOL)isOnMyTeam {
@@ -51,15 +30,11 @@
     self.buySlotsView.hidden = YES;
     self.cardContainer.hidden = NO;
     
-    if ([monster isHealing] || [monster isEnhancing] || [monster isSacrificing]) {
-      [self loadOverlayMask];
-      self.overlayView.hidden = NO;
-      self.overlayLabel.text = [monster isHealing] ? @"Healing" : @"Enhancing";
+    if ([monster isHealing] || [monster isEnhancing] || [monster isSacrificing] || !monster.isComplete) {
       self.plusButton.hidden = YES;
       self.minusButton.hidden = YES;
       self.healButtonView.hidden = YES;
     } else {
-      self.overlayView.hidden = YES;
       self.plusButton.hidden = isOnMyTeam;
       self.minusButton.hidden = !isOnMyTeam;
       
@@ -82,7 +57,6 @@
   self.plusButton.hidden = YES;
   self.minusButton.hidden = YES;
   self.healButtonView.hidden = YES;
-  self.overlayView.hidden = YES;
   self.buySlotsView.hidden = YES;
   self.cardContainer.hidden = NO;
   if (isOnMyTeam) {
@@ -95,11 +69,14 @@
 - (void) updateForBuySlots {
   self.monster = nil;
   
+  Globals *gl = [Globals sharedGlobals];
+  self.buySlotsNumLabel.text = [NSString stringWithFormat:@"Buy %d Slots", gl.inventoryIncreaseSizeAmount];
+  self.buySlotsCostLabel.text = [Globals commafyNumber:gl.inventoryIncreaseSizeCost];
+  
   self.buySlotsView.hidden = NO;
   self.plusButton.hidden = YES;
   self.minusButton.hidden = YES;
   self.healButtonView.hidden = YES;
-  self.overlayView.hidden = YES;
   self.cardContainer.hidden = YES;
 }
 
@@ -125,14 +102,22 @@
   [self.delegate cardClicked:self];
 }
 
+- (void) combineClicked:(MonsterCardView *)view {
+  [self.delegate speedupCombineClicked:self];
+}
+
 @end
 
 @implementation MyCroniesQueueCell
 
 - (void) updateForHealingItem:(UserMonsterHealingItem *)item {
-  //  GameState *gs = [GameState sharedGameState];
-  //  UserMonster *um = [gs myMonsterWithUserMonsterId:item.userMonsterId];
-  //  [Globals loadImageForMonster:um.monsterId toView:self.monsterIcon];
+  GameState *gs = [GameState sharedGameState];
+  UserMonster *um = [gs myMonsterWithUserMonsterId:item.userMonsterId];
+  MonsterProto *mp = [gs monsterWithId:um.monsterId];
+  
+  NSString *fileName = [mp.imagePrefix stringByAppendingString:@"Thumbnail.png"];
+  [Globals imageNamed:fileName withView:self.monsterIcon maskedColor:nil indicator:UIActivityIndicatorViewStyleWhite clearImageDuringDownload:YES];
+  
   self.timerView.hidden = YES;
   
   self.healingItem = item;
@@ -169,7 +154,7 @@
 - (void) updateTimes {
   Globals *gl = [Globals sharedGlobals];
   int timeLeft = [gl calculateTimeLeftToHealAllMonstersInQueue];
-  int speedupCost = [gl calculateCostToSpeedupHealingQueue];
+  int speedupCost = [gl calculateGemSpeedupCostForTimeLeft:timeLeft];
   
   self.totalTimeLabel.text = [Globals convertTimeToShortString:timeLeft];
   self.speedupCostLabel.text = [Globals commafyNumber:speedupCost];

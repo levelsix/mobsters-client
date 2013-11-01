@@ -9,19 +9,42 @@
 #import "MonsterCardView.h"
 #import "Globals.h"
 #import "GameState.h"
+#import "OutgoingEventController.h"
 
 @implementation MonsterCardView
 
 - (void) awakeFromNib {
   [self addSubview:self.noMonsterView];
+  [self addSubview:self.overlayView];
+  [self addSubview:self.combineView];
+  [self.overlayView addSubview:self.piecesView];
   
   self.qualityLabel.superview.transform = CGAffineTransformMakeRotation(M_PI_4);
+}
+
+- (void) loadOverlayMask {
+  // _overlayMaskStatus: 0 = unloaded, 1 = no rarity tag, 2 = rarity tag
+  int curStatus = self.qualityBgdView.hidden ? 1 : 2;
+  if (curStatus != _overlayMaskStatus) {
+    UIView *view = self.mainView;
+    UIGraphicsBeginImageContext(view.bounds.size);
+    [view.layer renderInContext:UIGraphicsGetCurrentContext()];
+    UIImage *image = UIGraphicsGetImageFromCurrentImageContext();
+    UIGraphicsEndImageContext();
+    
+    self.overlayMask.image = [Globals maskImage:image withColor:[UIColor colorWithWhite:0.f alpha:0.7f]];
+    self.overlayMask.frame = [self.overlayView convertRect:self.mainView.frame fromView:self];
+    
+    _overlayMaskStatus = curStatus;
+  }
 }
 
 - (void) updateForMonster:(UserMonster *)um {
   GameState *gs = [GameState sharedGameState];
   Globals *gl = [Globals sharedGlobals];
   MonsterProto *mp = [gs monsterWithId:um.monsterId];
+  
+  self.monster = um;
   
   NSString *fileName = [mp.imagePrefix stringByAppendingString:@"Card.png"];
   [Globals imageNamed:fileName withView:self.monsterIcon maskedColor:nil indicator:UIActivityIndicatorViewStyleWhite clearImageDuringDownload:YES];
@@ -52,28 +75,79 @@
   CGRect r = self.starView.frame;
   r.size.width = width*mp.evolutionLevel;
   self.starView.frame = r;
+  self.starView.center = ccp(self.starView.superview.frame.size.width/2, self.starView.center.y);
   
-  [self.darkOverlay remakeImage];
+  if ([um isHealing] || [um isEnhancing] || [um isSacrificing]) {
+    self.overlayLabel.text = [um isHealing] ? @"Healing" : @"Enhancing";
+    
+    self.overlayView.hidden = NO;
+    self.overlayLabel.hidden = NO;
+    self.piecesView.hidden = YES;
+    self.combineView.hidden = YES;
+    [self loadOverlayMask];
+  } else if (!um.isComplete) {
+    if (um.numPieces < mp.numPuzzlePieces) {
+      self.piecesLabel.text = [NSString stringWithFormat:@"%d/%d", um.numPieces, mp.numPuzzlePieces];
+      
+      self.piecesView.hidden = NO;
+      self.combineView.hidden = YES;
+    } else {
+      [self updateTime];
+      
+      self.combineView.hidden = NO;
+      self.piecesView.hidden = YES;
+    }
+    
+    self.overlayView.hidden = NO;
+    self.overlayLabel.hidden = YES;
+    [self loadOverlayMask];
+  } else {
+    self.overlayView.hidden = YES;
+    self.combineView.hidden = YES;
+  }
   
-  self.monster = um;
+  if (self.qualityBgdView.superview.hidden) {
+    self.overlayButton.superview.frame = [self.mainView convertRect:self.cardBgdView.frame fromView:self.mainView];
+  } else {
+    self.overlayButton.superview.frame = self.mainView.bounds;
+  }
   
   self.mainView.hidden = NO;
   self.noMonsterView.hidden = YES;
 }
 
 - (void) updateForNoMonsterWithLabel:(NSString *)str {
-  [self.darkOverlay remakeImage];
-  
   self.monster = nil;
   
   self.noMonsterLabel.text = str;
   
   self.mainView.hidden = YES;
   self.noMonsterView.hidden = NO;
+  self.overlayView.hidden = YES;
+  self.combineView.hidden = YES;
+}
+
+- (void) updateTime {
+  GameState *gs = [GameState sharedGameState];
+  Globals *gl = [Globals sharedGlobals];
+  UserMonster *um = self.monster;
+  MonsterProto *mp = [gs monsterWithId:um.monsterId];
+  if (!um.isComplete && um.numPieces >= mp.numPuzzlePieces) {
+    int timeLeft = um.combineStartTime.timeIntervalSinceNow + mp.minutesToCombinePieces*60;
+    self.combineTimeLabel.text = [Globals convertTimeToShortString:timeLeft];
+    self.combineSpeedupLabel.text = [Globals commafyNumber:[gl calculateGemSpeedupCostForTimeLeft:timeLeft]];
+  }
 }
 
 - (IBAction)darkOverlayClicked:(id)sender {
   [self.delegate monsterCardSelected:self];
+}
+
+- (IBAction)speedupCombineClicked:(id)sender {
+  [[OutgoingEventController sharedOutgoingEventController] combineMonsterWithSpeedup:self.monster.userMonsterId];
+  if ([self.delegate respondsToSelector:@selector(combineClicked:)]) {
+    [self.delegate combineClicked:self];
+  }
 }
 
 @end

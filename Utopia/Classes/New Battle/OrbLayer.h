@@ -48,6 +48,7 @@ typedef enum {
 
 @protocol OrbLayerDelegate <NSObject>
 
+- (void) turnBegan;
 - (void) newComboFound;
 - (void) orbKilled:(GemColorId)color;
 - (void) turnComplete;

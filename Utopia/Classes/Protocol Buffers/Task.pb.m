@@ -842,7 +842,7 @@ static MinimumUserTaskProto* defaultMinimumUserTaskProtoInstance = nil;
 @property int32_t monsterId;
 @property TaskStageMonsterProto_MonsterType monsterType;
 @property int32_t expReward;
-@property int32_t silverReward;
+@property int32_t cashReward;
 @property BOOL puzzlePieceDropped;
 @property int32_t level;
 @end
@@ -870,13 +870,13 @@ static MinimumUserTaskProto* defaultMinimumUserTaskProtoInstance = nil;
   hasExpReward_ = !!value;
 }
 @synthesize expReward;
-- (BOOL) hasSilverReward {
-  return !!hasSilverReward_;
+- (BOOL) hasCashReward {
+  return !!hasCashReward_;
 }
-- (void) setHasSilverReward:(BOOL) value {
-  hasSilverReward_ = !!value;
+- (void) setHasCashReward:(BOOL) value {
+  hasCashReward_ = !!value;
 }
-@synthesize silverReward;
+@synthesize cashReward;
 - (BOOL) hasPuzzlePieceDropped {
   return !!hasPuzzlePieceDropped_;
 }
@@ -904,7 +904,7 @@ static MinimumUserTaskProto* defaultMinimumUserTaskProtoInstance = nil;
     self.monsterId = 0;
     self.monsterType = TaskStageMonsterProto_MonsterTypeRegular;
     self.expReward = 0;
-    self.silverReward = 0;
+    self.cashReward = 0;
     self.puzzlePieceDropped = NO;
     self.level = 0;
   }
@@ -935,8 +935,8 @@ static TaskStageMonsterProto* defaultTaskStageMonsterProtoInstance = nil;
   if (self.hasExpReward) {
     [output writeInt32:3 value:self.expReward];
   }
-  if (self.hasSilverReward) {
-    [output writeInt32:4 value:self.silverReward];
+  if (self.hasCashReward) {
+    [output writeInt32:4 value:self.cashReward];
   }
   if (self.hasPuzzlePieceDropped) {
     [output writeBool:5 value:self.puzzlePieceDropped];
@@ -962,8 +962,8 @@ static TaskStageMonsterProto* defaultTaskStageMonsterProtoInstance = nil;
   if (self.hasExpReward) {
     size += computeInt32Size(3, self.expReward);
   }
-  if (self.hasSilverReward) {
-    size += computeInt32Size(4, self.silverReward);
+  if (self.hasCashReward) {
+    size += computeInt32Size(4, self.cashReward);
   }
   if (self.hasPuzzlePieceDropped) {
     size += computeBoolSize(5, self.puzzlePieceDropped);
@@ -1065,8 +1065,8 @@ BOOL TaskStageMonsterProto_MonsterTypeIsValidValue(TaskStageMonsterProto_Monster
   if (other.hasExpReward) {
     [self setExpReward:other.expReward];
   }
-  if (other.hasSilverReward) {
-    [self setSilverReward:other.silverReward];
+  if (other.hasCashReward) {
+    [self setCashReward:other.cashReward];
   }
   if (other.hasPuzzlePieceDropped) {
     [self setPuzzlePieceDropped:other.puzzlePieceDropped];
@@ -1113,7 +1113,7 @@ BOOL TaskStageMonsterProto_MonsterTypeIsValidValue(TaskStageMonsterProto_Monster
         break;
       }
       case 32: {
-        [self setSilverReward:[input readInt32]];
+        [self setCashReward:[input readInt32]];
         break;
       }
       case 40: {
@@ -1175,20 +1175,20 @@ BOOL TaskStageMonsterProto_MonsterTypeIsValidValue(TaskStageMonsterProto_Monster
   result.expReward = 0;
   return self;
 }
-- (BOOL) hasSilverReward {
-  return result.hasSilverReward;
+- (BOOL) hasCashReward {
+  return result.hasCashReward;
 }
-- (int32_t) silverReward {
-  return result.silverReward;
+- (int32_t) cashReward {
+  return result.cashReward;
 }
-- (TaskStageMonsterProto_Builder*) setSilverReward:(int32_t) value {
-  result.hasSilverReward = YES;
-  result.silverReward = value;
+- (TaskStageMonsterProto_Builder*) setCashReward:(int32_t) value {
+  result.hasCashReward = YES;
+  result.cashReward = value;
   return self;
 }
-- (TaskStageMonsterProto_Builder*) clearSilverReward {
-  result.hasSilverReward = NO;
-  result.silverReward = 0;
+- (TaskStageMonsterProto_Builder*) clearCashReward {
+  result.hasCashReward = NO;
+  result.cashReward = 0;
   return self;
 }
 - (BOOL) hasPuzzlePieceDropped {

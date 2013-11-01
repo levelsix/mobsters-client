@@ -22,6 +22,7 @@
 @property (nonatomic, assign) int teamSlot;
 @property (nonatomic, assign) int isComplete;
 @property (nonatomic, assign) int numPieces;
+@property (nonatomic, retain) NSDate *combineStartTime;
 
 + (id) userMonsterWithProto:(FullUserMonsterProto *)proto;
 + (id) userMonsterWithTaskStageMonsterProto:(TaskStageMonsterProto *)proto;

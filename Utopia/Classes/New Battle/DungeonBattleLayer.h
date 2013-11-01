@@ -24,5 +24,6 @@
 
 @property (nonatomic, retain) IBOutlet UIView *swapView;
 @property (nonatomic, retain) IBOutlet BattleDeployView *deployView;
+@property (nonatomic, retain) IBOutlet UIButton *deployButton;
 
 @end

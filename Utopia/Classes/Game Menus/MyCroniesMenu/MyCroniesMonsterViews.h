@@ -19,23 +19,18 @@
 - (void) minusClicked:(MyCroniesCardCell *)cell;
 - (void) healClicked:(MyCroniesCardCell *)cell;
 - (void) cardClicked:(MyCroniesCardCell *)cell;
+- (void) speedupCombineClicked:(MyCroniesCardCell *)cell;
 - (void) buySlotsClicked:(MyCroniesCardCell *)cell;
 
 @end
 
-@interface MyCroniesCardCell : UIView <MonsterCardViewDelegate> {
-  int _overlayMaskStatus;
-}
+@interface MyCroniesCardCell : UIView <MonsterCardViewDelegate>
 
 @property (nonatomic, strong) IBOutlet UIButton *plusButton;
 @property (nonatomic, strong) IBOutlet UIButton *minusButton;
 @property (nonatomic, strong) IBOutlet MonsterCardContainerView *cardContainer;
 @property (nonatomic, strong) IBOutlet UIView *healButtonView;
 @property (nonatomic, strong) IBOutlet UILabel *healButtonLabel;
-
-@property (nonatomic, strong) IBOutlet UIView *overlayView;
-@property (nonatomic, strong) IBOutlet UILabel *overlayLabel;
-@property (nonatomic, strong) IBOutlet UIImageView *overlayMask;
 
 @property (nonatomic, strong) IBOutlet UIView *buySlotsView;
 @property (nonatomic, strong) IBOutlet UILabel *buySlotsNumLabel;

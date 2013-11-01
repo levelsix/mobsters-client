@@ -241,6 +241,41 @@
 
 @end
 
+@implementation CircularProgressBar
+
+- (void) setPercentage:(float)p {
+  _percentage = clampf(p, 0.f, 1.f);
+  [self setNeedsDisplay];
+}
+
+- (void)drawRect:(CGRect)rect
+{
+  CGContextRef ctx = UIGraphicsGetCurrentContext();
+  
+  CGFloat innerRadiusRatio = 0.f; //Adjust as needed
+  
+  //Construct the path:
+  CGMutablePathRef path = CGPathCreateMutable();
+  CGFloat startAngle = -M_PI_2;
+  CGFloat endAngle = -M_PI_2 - self.percentage * M_PI * 2;
+  CGFloat outerRadius = CGRectGetWidth(self.bounds) * 0.5f - 1.0f;
+  CGFloat innerRadius = outerRadius * innerRadiusRatio;
+  CGPoint center = CGPointMake(CGRectGetMidX(self.bounds), CGRectGetMidY(self.bounds));
+  CGPathAddArc(path, NULL, center.x, center.y, innerRadius, startAngle, endAngle, true);
+  CGPathAddArc(path, NULL, center.x, center.y, outerRadius, endAngle, startAngle, false);
+  CGPathCloseSubpath(path);
+  CGContextAddPath(ctx, path);
+  CGPathRelease(path);
+  
+  //Draw the image, clipped to the path:
+  CGContextSaveGState(ctx);
+  CGContextClip(ctx);
+  [self.image drawInRect:self.bounds];
+  CGContextRestoreGState(ctx);
+}
+
+@end
+
 @implementation LoadingView
 
 @synthesize darkView, actIndView;
@@ -428,8 +463,16 @@
 }
 
 - (void) remakeImage {
-  if (self.baseImage.image) {
-    [self setImage:[Globals maskImage:self.baseImage.image withColor:[UIColor colorWithWhite:0.f alpha:0.3f]] forState:UIControlStateHighlighted];
+  if (self.baseImage) {
+    UIImage *img = nil;
+    if ([self.baseImage isKindOfClass:[UIImageView class]]) {
+      img = [(UIImageView *)self.baseImage image];
+    } else {
+      self.hidden = YES;
+      img = [Globals snapShotView:self.baseImage];
+      self.hidden = NO;
+    }
+    [self setImage:[Globals maskImage:img withColor:[UIColor colorWithWhite:0.f alpha:0.4f]] forState:UIControlStateHighlighted];
   } else {
     [self setImage:nil forState:UIControlStateNormal];
   }
