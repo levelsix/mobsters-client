@@ -28,6 +28,8 @@
 @property (nonatomic, assign) IBOutlet UIView *createButtonView;
 @property (nonatomic, assign) IBOutlet UILabel *costLabel;
 
+@property (nonatomic, assign) IBOutlet UIActivityIndicatorView *spinner;
+
 @property (nonatomic, retain) IBOutlet FullClanProtoWithClanSize *clan;
 
 - (id) initInEditModeForClan:(FullClanProtoWithClanSize *)clan;

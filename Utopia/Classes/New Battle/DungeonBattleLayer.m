@@ -10,6 +10,7 @@
 #import "GameState.h"
 #import "OutgoingEventController.h"
 #import "QuestUtil.h"
+#import <Carrot/Carrot.h>
 
 @implementation DungeonBattleLayer
 
@@ -61,12 +62,26 @@
   [[OutgoingEventController sharedOutgoingEventController] endDungeon:self.dungeonInfo userWon:YES delegate:self];
   [self.endView displayWithDungeon:self.dungeonInfo];
   _wonBattle = YES;
+  
+  [self makeGoCarrotCalls];
 }
 
 - (void) youLost {
   [[OutgoingEventController sharedOutgoingEventController] endDungeon:self.dungeonInfo userWon:NO delegate:self];
   [self.continueView display];
   _wonBattle = NO;
+}
+
+- (void) makeGoCarrotCalls {
+  GameState *gs = [GameState sharedGameState];
+  for (TaskStageProto *tsp in self.dungeonInfo.tspList) {
+    for (TaskStageMonsterProto *tsm in tsp.stageMonstersList) {
+      if (tsm.puzzlePieceDropped) {
+        MonsterProto *mp = [gs monsterWithId:tsm.monsterId];
+        [[Carrot sharedInstance] postAction:@"recruit" forObjectInstance:mp.carrotRecruited];
+      }
+    }
+  }
 }
 
 - (void) handleEndDungeonResponseProto:(FullEvent *)fe {

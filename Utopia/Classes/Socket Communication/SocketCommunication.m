@@ -780,6 +780,27 @@ static NSString *udid = nil;
   return [self sendData:req withMessageType:EventProtocolRequestCCombineUserMonsterPiecesEvent];
 }
 
+- (int) sendInviteFbFriendsForSlotsMessage:(NSArray *)fbFriendIds {
+  GameState *gs = [GameState sharedGameState];
+  MinimumUserProtoWithFacebookId *mup = [[[[MinimumUserProtoWithFacebookId builder]
+                                           setMinUserProto:_sender]
+                                          setFacebookId:gs.facebookId]
+                                         build];
+  
+  InviteFbFriendsForSlotsRequestProto *req = [[[[InviteFbFriendsForSlotsRequestProto builder]
+                                                setSender:mup]
+                                               addAllFbFriendIds:fbFriendIds]
+                                              build];
+  
+  return [self sendData:req withMessageType:EventProtocolRequestCInviteFbFriendsForSlotsEvent];
+}
+
+- (int) sendAcceptAndRejectFbInviteForSlotsMessage {
+//  AcceptAndRejectFbInviteForSlotsRequestProto *req = [[[[AcceptAndRejectFbInviteForSlotsRequestProto builder]
+//                                                        setSender:_sender]
+//                                                       addA]]
+}
+
 #pragma mark - Batch/Flush events
 
 - (int) sendHealQueueWaitTimeComplete:(NSArray *)monsterHealths {

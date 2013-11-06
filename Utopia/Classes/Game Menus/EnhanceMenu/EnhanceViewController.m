@@ -72,6 +72,7 @@
 - (void) reloadMonstersArray {
   GameState *gs = [GameState sharedGameState];
   NSMutableArray *arr = [gs.myMonsters mutableCopy];
+  [arr removeObjectsInArray:gs.allMonstersOnMyTeam];
   self.monsterArray = arr;
   
   [self.queueView reloadTable];

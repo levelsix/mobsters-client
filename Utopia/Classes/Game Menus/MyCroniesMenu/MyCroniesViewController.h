@@ -10,8 +10,9 @@
 #import "GenViewController.h"
 #import "EasyTableView.h"
 #import "MyCroniesMonsterViews.h"
+#import "BuySlotsViewController.h"
 
-@interface MyCroniesViewController : GenViewController <EasyTableViewDelegate, MyCroniesCardDelegate, MyCroniesQueueDelegate> {
+@interface MyCroniesViewController : GenViewController <EasyTableViewDelegate, MyCroniesCardDelegate, MyCroniesQueueDelegate, BuySlotsViewControllerDelegate> {
   float _baseMyReservesHeaderX;
 }
 

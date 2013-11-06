@@ -92,4 +92,6 @@
 - (void) speedupEnhancingQueue;
 - (void) enhanceQueueWaitTimeComplete:(NSArray *)enhancingItems;
 
+- (void) inviteAllFacebookFriends:(NSArray *)fbFriends;
+
 @end

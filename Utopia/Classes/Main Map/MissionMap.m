@@ -151,6 +151,14 @@
   return self;
 }
 
+- (void) setupTeamSprites {
+  [super setupTeamSprites];
+  for (MyTeamSprite *ts in self.myTeamSprites) {
+    [ts recursivelyApplyOpacity:255];
+    [ts walk];
+  }
+}
+
 -(void) changeTiles: (CGRect) buildBlock canWalk:(BOOL)canWalk {
   for (float i = floorf(buildBlock.origin.x); i < ceilf(buildBlock.size.width+buildBlock.origin.x); i++) {
     for (float j = floorf(buildBlock.origin.y); j < ceilf(buildBlock.size.height+buildBlock.origin.y); j++) {

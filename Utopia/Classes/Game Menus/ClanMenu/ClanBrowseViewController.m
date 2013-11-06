@@ -34,16 +34,16 @@
   
   self.clan = c;
   self.topLabel.text = [NSString stringWithFormat:@"[%@] %@", c.clan.tag, c.clan.name];
-  self.membersLabel.text = [NSString stringWithFormat:@"%d members", c.clanSize];
+  self.membersLabel.text = [NSString stringWithFormat:@"%d/%d", c.clanSize, 5];
   
   if (c.clan.requestToJoinRequired) {
     self.typeLabel.text = @"By Request Only";
-    self.typeLabel.textColor = [Globals orangeColor];
-    [self.redButton setImage:[Globals imageNamed:@"smallred.png"] forState:UIControlStateNormal];
+    self.typeLabel.textColor = [Globals redColor];
+    [self.redButton setImage:[Globals imageNamed:@"heal.png"] forState:UIControlStateNormal];
   } else {
     self.typeLabel.text = @"Anyone Can Join";
     self.typeLabel.textColor = [Globals greenColor];
-    [self.redButton setImage:[Globals imageNamed:@"smallgreen.png"] forState:UIControlStateNormal];
+    [self.redButton setImage:[Globals imageNamed:@"confirm.png"] forState:UIControlStateNormal];
   }
   
   if (!gs.clan) {
@@ -70,7 +70,7 @@
 @synthesize state;
 @synthesize clanList;
 @synthesize browseClansTable, spinner;
-@synthesize clanCell, searchCell;
+@synthesize clanCell, searchView;
 @synthesize searchString;
 @synthesize shouldReload;
 @synthesize loadingCell;
@@ -80,11 +80,7 @@
   
   self.browseClansTable.tableFooterView = [[UIView alloc] init];
   
-  [(UIActivityIndicatorView *)[self.loadingCell viewWithTag:31] startAnimating];
-  
-  loadingCell.selectionStyle = UITableViewCellSelectionStyleNone;
-  
-  [[OutgoingEventController sharedOutgoingEventController] retrieveClanInfo:nil clanId:0 grabType:RetrieveClanInfoRequestProto_ClanInfoGrabTypeClanInfo isForBrowsingList:YES beforeClanId:0 delegate:self];
+  [self reload];
 }
 
 - (void) viewWillAppear:(BOOL)animated {
@@ -97,6 +93,11 @@
   [browseClansTable setContentOffset:ccp(0,0) animated:YES];
 }
 
+- (void) reload {
+  [self.clanList removeAllObjects];
+  [[OutgoingEventController sharedOutgoingEventController] retrieveClanInfo:nil clanId:0 grabType:RetrieveClanInfoRequestProto_ClanInfoGrabTypeClanInfo isForBrowsingList:YES beforeClanId:0 delegate:self];
+}
+
 - (void) handleRetrieveClanInfoResponseProto:(FullEvent *)e {
   RetrieveClanInfoResponseProto *proto = (RetrieveClanInfoResponseProto *)e.event;
   
@@ -107,7 +108,7 @@
 
 - (void) loadClans:(NSArray *)clans isForSearch:(BOOL)search {
   if (search) {self.shouldReload = NO; isSearching = NO; _reachedEnd = YES;}
-  else if (clans.count == 0) {self.shouldReload = NO; _reachedEnd = YES;}
+  else if (clans.count < 10) {self.shouldReload = NO; _reachedEnd = YES;}
   else self.shouldReload = YES;
   
   for (FullClanProtoWithClanSize *fcp in clans) {
@@ -131,68 +132,48 @@
   return self.clanList;
 }
 
+#pragma mark - UITableViewDelegate methods
+
 - (int) numberOfSectionsInTableView:(UITableView *)tableView {
-  return 2;
+  return 1;
 }
 
 - (int) tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-  if (section == 0) {
-    return 1;
-  } else if (section == 1) {
-    int ct = [self arrayForCurrentState].count;
-    
-    if (ct > 0 || (state == kBrowseSearch && !isSearching) || (state != kBrowseSearch && _reachedEnd)) {
-      self.spinner.hidden = YES;
-      [self.spinner stopAnimating];
-    } else {
-      self.spinner.hidden = NO;
-      [self.spinner startAnimating];
-    }
-    
-    return ct == 0 ? 0 : ct+(state != kBrowseSearch && !_reachedEnd);
+  int ct = [self arrayForCurrentState].count;
+  
+  if (ct > 0 || (state == kBrowseSearch && !isSearching) || (state != kBrowseSearch && _reachedEnd)) {
+    self.spinner.hidden = YES;
+  } else {
+    self.spinner.hidden = NO;
   }
-  return 0;
+  
+  return ct == 0 ? 0 : ct+(state != kBrowseSearch && !_reachedEnd);
 }
 
 - (UITableViewCell *) tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-  if (indexPath.section == 0) {
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"BrowseSearchCell"];
-    
-    if (!cell) {
-      [[NSBundle mainBundle] loadNibNamed:@"BrowseSearchCell" owner:self options:nil];
-      searchCell.selectionStyle = UITableViewCellSelectionStyleNone;
-      cell = self.searchCell;
-    }
-    
-    return cell;
-  } else if (indexPath.section == 1) {
-    BrowseClanCell *cell = [tableView dequeueReusableCellWithIdentifier:@"BrowseClanCell"];
-    
-    NSArray *arr = [self arrayForCurrentState];
-    if (indexPath.row >= arr.count) {
-      return self.loadingCell;
-    }
-    
-    if (!cell) {
-      [[NSBundle mainBundle] loadNibNamed:@"BrowseClanCell" owner:self options:nil];
-      cell = self.clanCell;
-    }
-    
-    [cell loadForClan:[arr objectAtIndex:indexPath.row]];
-    
-    return cell;
-  }
-  return nil;
-}
-
-- (void) tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-  [tableView deselectRowAtIndexPath:indexPath animated:NO];
+  BrowseClanCell *cell = [tableView dequeueReusableCellWithIdentifier:@"BrowseClanCell"];
   
   NSArray *arr = [self arrayForCurrentState];
-  if (indexPath.section == 1 && indexPath.row < arr.count) {
-    BrowseClanCell *cell = (BrowseClanCell *)[tableView cellForRowAtIndexPath:indexPath];
-    [self.parentViewController.navigationController pushViewController:[[ClanInfoViewController alloc] initWithClan:cell.clan] animated:YES];
+  if (indexPath.row >= arr.count) {
+    return self.loadingCell;
   }
+  
+  if (!cell) {
+    [[NSBundle mainBundle] loadNibNamed:@"BrowseClanCell" owner:self options:nil];
+    cell = self.clanCell;
+  }
+  
+  [cell loadForClan:[arr objectAtIndex:indexPath.row]];
+  
+  return cell;
+}
+
+- (IBAction) cellClicked:(id)sender {
+  while (![sender isKindOfClass:[BrowseClanCell class]]) {
+    sender = [sender superview];
+  }
+  BrowseClanCell *cell = (BrowseClanCell *)sender;
+  [self.parentViewController.navigationController pushViewController:[[ClanInfoViewController alloc] initWithClan:cell.clan] animated:YES];
 }
 
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView {
@@ -207,6 +188,10 @@
 }
 
 #pragma mark - UITextFieldDelegate methods
+
+- (IBAction)searchClicked:(id)sender {
+  [self.searchField resignFirstResponder];
+}
 
 - (BOOL) textFieldShouldReturn:(UITextField *)textField {
   [textField resignFirstResponder];
@@ -231,7 +216,7 @@
   }
 }
 
-#pragma mark - 
+#pragma mark -
 
 - (IBAction)rightButtonClicked:(id)sender {
   while (![sender isKindOfClass:[UITableViewCell class]]) {

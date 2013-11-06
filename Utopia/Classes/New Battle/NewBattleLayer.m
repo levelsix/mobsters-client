@@ -125,7 +125,7 @@
     [self addChild:s z:2 tag:PUZZLE_BGD_TAG];
     s.position = ccp(self.contentSize.width/2, s.contentSize.height/2);
     
-    OrbLayer *ol = [[OrbLayer alloc] initWithContentSize:CGSizeMake(290, 180) gridSize:CGSizeMake(8, 5) numColors:5];
+    OrbLayer *ol = [[OrbLayer alloc] initWithContentSize:CGSizeMake(324, 180) gridSize:CGSizeMake(9, 5) numColors:5];
     ol.position = ccp(self.contentSize.width/2-ol.contentSize.width/2, 0);
     [self addChild:ol z:3];
     ol.delegate = self;

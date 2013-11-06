@@ -19,6 +19,33 @@
 
 @end
 
+@implementation NiceFontLabel2
+
+- (void) awakeFromNib {
+  [Globals adjustFontSizeForUILabel:self];
+  self.font = [UIFont fontWithName:@"Gotham-Medium" size:self.font.pointSize+2];
+}
+
+@end
+
+@implementation NiceFontLabel3
+
+- (void) awakeFromNib {
+  [Globals adjustFontSizeForUILabel:self];
+  self.font = [UIFont fontWithName:@"Gotham-Book" size:self.font.pointSize+2];
+}
+
+@end
+
+@implementation NiceFontLabel4
+
+- (void) awakeFromNib {
+  [Globals adjustFontSizeForUILabel:self];
+  self.font = [UIFont fontWithName:@"Akko-Bold" size:self.font.pointSize+2];
+}
+
+@end
+
 @implementation NiceFontButton
 
 - (void) awakeFromNib {
@@ -32,7 +59,7 @@
 
 - (void) awakeFromNib {
   [Globals adjustFontSizeForSize:self.titleLabel.font.pointSize withUIView:self];
-  self.titleLabel.font = [UIFont fontWithName:@"Trajan Pro" size:self.titleLabel.font.pointSize];
+  self.titleLabel.font = [UIFont fontWithName:@"Gotham-Book" size:self.titleLabel.font.pointSize];
 }
 
 @end

@@ -75,11 +75,15 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
   self.faqFileName = constants.faqFileName;
   self.adminChatUser = constants.adminChatUserProto;
   self.numBeginnerSalesAllowed = constants.numBeginnerSalesAllowed;
+  self.minutesPerGem = constants.minutesPerGem;
   
   self.maxTeamSize = constants.userMonsterConstants.maxNumTeamSlots;
   self.baseInventorySize = constants.userMonsterConstants.initialMaxNumMonsterLimit;
   self.inventoryIncreaseSizeAmount = constants.userMonsterConstants.monsterInventoryIncrementAmount;
   self.inventoryIncreaseSizeCost = constants.userMonsterConstants.monsterInventoryIncrementAmount;
+  
+  self.cashPerHealthPoint = constants.monsterConstants.cashPerHealthPoint;
+  self.secondsToHealPerHealthPoint = constants.monsterConstants.secondsToHealPerHealthPoint;
   
   self.minutesToUpgradeForNormStructMultiplier = constants.normStructConstants.minutesToUpgradeForNormStructMultiplier;
   self.incomeFromNormStructMultiplier = constants.normStructConstants.incomeFromNormStructMultiplier;
@@ -280,13 +284,13 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
 + (UIColor *) colorForRarity:(MonsterProto_MonsterQuality)rarity {
   switch (rarity) {
     case MonsterProto_MonsterQualityCommon:
-      return [self creamColor];
+      return [self greyishTanColor];
       
     case MonsterProto_MonsterQualityRare:
       return [self blueColor];
       
     case MonsterProto_MonsterQualityUltra:
-      return [self goldColor];
+      return [self yellowColor];
       
     case MonsterProto_MonsterQualityEpic:
       return [self purpleColor];
@@ -783,7 +787,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
     return;
   }
   
-  NSString *resName = [CCFileUtils getDoubleResolutionImage:imageName validate:NO];
+  NSString *resName =  [imageName rangeOfString:@"http"].location != NSNotFound ? imageName : [CCFileUtils getDoubleResolutionImage:imageName validate:NO];
   NSString *fullpath = [[NSBundle mainBundle] pathForResource:resName ofType:nil];
   
   if (!fullpath) {
@@ -791,7 +795,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
     NSArray *paths = NSSearchPathForDirectoriesInDomains (NSCachesDirectory, NSUserDomainMask, YES);
     NSString *documentsPath = [paths objectAtIndex:0];
     
-    fullpath = [documentsPath stringByAppendingPathComponent:resName];
+    fullpath = [documentsPath stringByAppendingPathComponent:resName.lastPathComponent];
     if (![[NSFileManager defaultManager] fileExistsAtPath:fullpath]) {
       if (indicatorStyle >= 0 && ![view viewWithTag:150]) {
         UIActivityIndicatorView *loadingView = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:indicatorStyle];
@@ -815,13 +819,9 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
       
       [[gl imageViewsWaitingForDownloading] setObject:imageName forKey:key];
       
-      [[Downloader sharedDownloader] asyncDownloadFile:fullpath.lastPathComponent completion:^{
+      [[Downloader sharedDownloader] asyncDownloadFile:resName completion:^{
         NSString *str = [[gl imageViewsWaitingForDownloading] objectForKey:key];
         if ([str isEqualToString:imageName]) {
-          NSString *resName = [CCFileUtils getDoubleResolutionImage:imageName validate:NO];
-          NSArray *paths = NSSearchPathForDirectoriesInDomains (NSCachesDirectory, NSUserDomainMask, YES);
-          NSString *documentsPath = [paths objectAtIndex:0];
-          NSString *fullpath = [documentsPath stringByAppendingPathComponent:resName];
           UIImage *img = [UIImage imageWithContentsOfFile:fullpath];
           
           if (img) {
@@ -1013,7 +1013,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
 // Formulas
 
 - (int) calculateGemSpeedupCostForTimeLeft:(int)timeLeft {
-  return MAX(0.f, ceilf(timeLeft/60.f));
+  return MAX(0.f, ceilf(timeLeft/60.f/self.minutesPerGem));
 }
 
 - (int) calculateIncome:(int)income level:(int)level {
@@ -1121,11 +1121,11 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
 }
 
 - (int) calculateCostToHealMonster:(UserMonster *)um {
-  return ([self calculateMaxHealthForMonster:um]-um.curHealth)*10;
+  return ceilf(([self calculateMaxHealthForMonster:um]-um.curHealth)*self.cashPerHealthPoint);
 }
 
 - (int) calculateSecondsToHealMonster:(UserMonster *)um {
-  return ([self calculateMaxHealthForMonster:um]-um.curHealth)*3;
+  return ceilf(([self calculateMaxHealthForMonster:um]-um.curHealth)*self.secondsToHealPerHealthPoint);
 }
 
 - (int) calculateTimeLeftToHealAllMonstersInQueue {
@@ -1247,6 +1247,10 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
   }];
 }
 
++ (NSString *) urlStringForFacebookId:(NSString *)uid {
+  return [NSString stringWithFormat:@"https://graph.facebook.com/%@/picture?width=200&height=200&pic=/%@.png", uid, uid];
+}
+
 #pragma mark Colors
 + (UIColor *)creamColor {
   return [UIColor colorWithRed:240/255.f green:237/255.f blue:213/255.f alpha:1.f];
@@ -1257,7 +1261,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
 }
 
 + (UIColor *)greenColor {
-  return [UIColor colorWithRed:176/255.f green:223/255.f blue:33/255.f alpha:1.f];
+  return [UIColor colorWithRed:89/255.f green:145/255.f blue:17/255.f alpha:1.f];
 }
 
 + (UIColor *)orangeColor {
@@ -1265,15 +1269,27 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
 }
 
 + (UIColor *)redColor {
-  return [UIColor colorWithRed:217/255.f green:0/255.f blue:0/255.f alpha:1.f];
+  return [UIColor colorWithRed:185/255.f green:13/255.f blue:13/255.f alpha:1.f];
 }
 
 + (UIColor *)blueColor {
-  return [UIColor colorWithRed:92/255.f green:228/255.f blue:255/255.f alpha:1.f];
+  return [UIColor colorWithRed:4/255.f green:161/255.f blue:206/255.f alpha:1.f];
 }
 
 + (UIColor *)purpleColor {
-  return [UIColor colorWithRed:156/255.f green:0/255.f blue:255/255.f alpha:1.f];
+  return [UIColor colorWithRed:111/255.f green:16/255.f blue:178/255.f alpha:1.f];
+}
+
++ (UIColor *)purplishPinkColor {
+  return [UIColor colorWithRed:157/255.f green:9/255.f blue:170/255.f alpha:1.f];
+}
+
++ (UIColor *)yellowColor {
+  return [UIColor colorWithRed:217/255.f green:158/255.f blue:0/255.f alpha:1.f];
+}
+
++ (UIColor *)greyishTanColor {
+  return [UIColor colorWithRed:120/255.f green:117/255.f blue:98/255.f alpha:1.f];
 }
 
 + (GameMap *)mapForQuest:(FullQuestProto *)fqp {

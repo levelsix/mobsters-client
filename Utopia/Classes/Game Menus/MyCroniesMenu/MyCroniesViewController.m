@@ -12,6 +12,7 @@
 #import "OutgoingEventController.h"
 #import "SocketCommunication.h"
 #import "MonsterPopUpViewController.h"
+#import "BuySlotsViewController.h"
 
 #define TABLE_CELL_WIDTH 118
 #define HEADER_OFFSET 8
@@ -179,7 +180,15 @@
 }
 
 - (void) buySlotsClicked:(MyCroniesCardCell *)cell {
-  [[OutgoingEventController sharedOutgoingEventController] buyInventorySlots];
+  BuySlotsViewController *mpvc = [[BuySlotsViewController alloc] init];
+  mpvc.delegate = self;
+  UIViewController *parent = self.navigationController;
+  mpvc.view.frame = parent.view.bounds;
+  [parent.view addSubview:mpvc.view];
+  [parent addChildViewController:mpvc];
+}
+
+- (void) slotsPurchased {
   [self.inventoryTable reloadData];
 }
 

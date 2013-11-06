@@ -25,6 +25,7 @@ BOOL StructOrientationIsValidValue(StructOrientation value);
 @interface FullStructureProto : PBGeneratedMessage {
 @private
   BOOL hasStructId_:1;
+  BOOL hasLevel_:1;
   BOOL hasIncome_:1;
   BOOL hasMinutesToGain_:1;
   BOOL hasMinutesToBuild_:1;
@@ -38,6 +39,7 @@ BOOL StructOrientationIsValidValue(StructOrientation value);
   BOOL hasSuccessorStructId_:1;
   BOOL hasName_:1;
   int32_t structId;
+  int32_t level;
   int32_t income;
   int32_t minutesToGain;
   int32_t minutesToBuild;
@@ -53,6 +55,7 @@ BOOL StructOrientationIsValidValue(StructOrientation value);
 }
 - (BOOL) hasStructId;
 - (BOOL) hasName;
+- (BOOL) hasLevel;
 - (BOOL) hasIncome;
 - (BOOL) hasMinutesToGain;
 - (BOOL) hasMinutesToBuild;
@@ -66,6 +69,7 @@ BOOL StructOrientationIsValidValue(StructOrientation value);
 - (BOOL) hasSuccessorStructId;
 @property (readonly) int32_t structId;
 @property (readonly, retain) NSString* name;
+@property (readonly) int32_t level;
 @property (readonly) int32_t income;
 @property (readonly) int32_t minutesToGain;
 @property (readonly) int32_t minutesToBuild;
@@ -121,6 +125,11 @@ BOOL StructOrientationIsValidValue(StructOrientation value);
 - (NSString*) name;
 - (FullStructureProto_Builder*) setName:(NSString*) value;
 - (FullStructureProto_Builder*) clearName;
+
+- (BOOL) hasLevel;
+- (int32_t) level;
+- (FullStructureProto_Builder*) setLevel:(int32_t) value;
+- (FullStructureProto_Builder*) clearLevel;
 
 - (BOOL) hasIncome;
 - (int32_t) income;
@@ -183,21 +192,17 @@ BOOL StructOrientationIsValidValue(StructOrientation value);
   BOOL hasIsComplete_:1;
   BOOL hasLastRetrieved_:1;
   BOOL hasPurchaseTime_:1;
-  BOOL hasLastUpgradeTime_:1;
   BOOL hasUserStructId_:1;
   BOOL hasUserId_:1;
   BOOL hasStructId_:1;
-  BOOL hasLevel_:1;
   BOOL hasCoordinates_:1;
   BOOL hasOrientation_:1;
   BOOL isComplete_:1;
   int64_t lastRetrieved;
   int64_t purchaseTime;
-  int64_t lastUpgradeTime;
   int32_t userStructId;
   int32_t userId;
   int32_t structId;
-  int32_t level;
   CoordinateProto* coordinates;
   StructOrientation orientation;
 }
@@ -206,9 +211,7 @@ BOOL StructOrientationIsValidValue(StructOrientation value);
 - (BOOL) hasStructId;
 - (BOOL) hasLastRetrieved;
 - (BOOL) hasCoordinates;
-- (BOOL) hasLevel;
 - (BOOL) hasPurchaseTime;
-- (BOOL) hasLastUpgradeTime;
 - (BOOL) hasIsComplete;
 - (BOOL) hasOrientation;
 @property (readonly) int32_t userStructId;
@@ -216,9 +219,7 @@ BOOL StructOrientationIsValidValue(StructOrientation value);
 @property (readonly) int32_t structId;
 @property (readonly) int64_t lastRetrieved;
 @property (readonly, retain) CoordinateProto* coordinates;
-@property (readonly) int32_t level;
 @property (readonly) int64_t purchaseTime;
-@property (readonly) int64_t lastUpgradeTime;
 - (BOOL) isComplete;
 @property (readonly) StructOrientation orientation;
 
@@ -283,20 +284,10 @@ BOOL StructOrientationIsValidValue(StructOrientation value);
 - (FullUserStructureProto_Builder*) mergeCoordinates:(CoordinateProto*) value;
 - (FullUserStructureProto_Builder*) clearCoordinates;
 
-- (BOOL) hasLevel;
-- (int32_t) level;
-- (FullUserStructureProto_Builder*) setLevel:(int32_t) value;
-- (FullUserStructureProto_Builder*) clearLevel;
-
 - (BOOL) hasPurchaseTime;
 - (int64_t) purchaseTime;
 - (FullUserStructureProto_Builder*) setPurchaseTime:(int64_t) value;
 - (FullUserStructureProto_Builder*) clearPurchaseTime;
-
-- (BOOL) hasLastUpgradeTime;
-- (int64_t) lastUpgradeTime;
-- (FullUserStructureProto_Builder*) setLastUpgradeTime:(int64_t) value;
-- (FullUserStructureProto_Builder*) clearLastUpgradeTime;
 
 - (BOOL) hasIsComplete;
 - (BOOL) isComplete;

@@ -67,6 +67,8 @@
 @class MinimumUserProtoForClans_Builder;
 @class MinimumUserProtoWithBattleHistory;
 @class MinimumUserProtoWithBattleHistory_Builder;
+@class MinimumUserProtoWithFacebookId;
+@class MinimumUserProtoWithFacebookId_Builder;
 @class MinimumUserProtoWithLevel;
 @class MinimumUserProtoWithLevel_Builder;
 @class MinimumUserProto_Builder;
@@ -240,44 +242,46 @@ BOOL StartupResponseProto_StartupStatusIsValidValue(StartupResponseProto_Startup
   BOOL hasPlayerHasBoughtInAppPurchase_:1;
   BOOL hasServerTimeMillis_:1;
   BOOL hasKabamNaid_:1;
-  BOOL hasReviewPageConfirmationMessage_:1;
-  BOOL hasReviewPageUrl_:1;
   BOOL hasAppStoreUrl_:1;
+  BOOL hasReviewPageUrl_:1;
+  BOOL hasReviewPageConfirmationMessage_:1;
   BOOL hasSender_:1;
-  BOOL hasEnhancements_:1;
   BOOL hasStartupConstants_:1;
+  BOOL hasEnhancements_:1;
   BOOL hasStartupStatus_:1;
   BOOL hasUpdateStatus_:1;
   BOOL playerHasBoughtInAppPurchase_:1;
   int64_t serverTimeMillis;
   NSString* kabamNaid;
-  NSString* reviewPageConfirmationMessage;
-  NSString* reviewPageUrl;
   NSString* appStoreUrl;
+  NSString* reviewPageUrl;
+  NSString* reviewPageConfirmationMessage;
   FullUserProto* sender;
-  UserEnhancementProto* enhancements;
   StartupResponseProto_StartupConstants* startupConstants;
+  UserEnhancementProto* enhancements;
   StartupResponseProto_StartupStatus startupStatus;
   StartupResponseProto_UpdateStatus updateStatus;
   NSMutableArray* mutableNoticesToPlayersList;
-  NSMutableArray* mutableInProgressQuestsList;
-  NSMutableArray* mutableRareBoosterPurchasesList;
-  NSMutableArray* mutableUnredeemedQuestsList;
-  NSMutableArray* mutableMonstersHealingList;
-  NSMutableArray* mutableUsersMonstersList;
-  NSMutableArray* mutableStaticMonstersList;
-  NSMutableArray* mutableExpansionCostsList;
-  NSMutableArray* mutableStaticStructsList;
   NSMutableArray* mutableSlipList;
+  NSMutableArray* mutableStaticStructsList;
+  NSMutableArray* mutableExpansionCostsList;
+  NSMutableArray* mutableStaticMonstersList;
+  NSMutableArray* mutableUsersMonstersList;
+  NSMutableArray* mutableMonstersHealingList;
+  NSMutableArray* mutableRareBoosterPurchasesList;
+  NSMutableArray* mutableUsersUsedForExtraSlotsList;
+  NSMutableArray* mutableUsersInvitingMeForExtraSlotsList;
   NSMutableArray* mutablePcppList;
   NSMutableArray* mutableClanChatsList;
   NSMutableArray* mutableGlobalChatsList;
-  NSMutableArray* mutableAvailableQuestsList;
   NSMutableArray* mutableReferralNotificationsList;
   NSMutableArray* mutableAttackNotificationsList;
   NSMutableArray* mutableGoldSalesList;
-  NSMutableArray* mutableUserQuestsList;
   NSMutableArray* mutableUserClanInfoList;
+  NSMutableArray* mutableUserQuestsList;
+  NSMutableArray* mutableAvailableQuestsList;
+  NSMutableArray* mutableUnredeemedQuestsList;
+  NSMutableArray* mutableInProgressQuestsList;
   NSMutableArray* mutableAllCitiesList;
 }
 - (BOOL) hasServerTimeMillis;
@@ -342,6 +346,10 @@ BOOL StartupResponseProto_StartupStatusIsValidValue(StartupResponseProto_Startup
 - (UserMonsterHealingProto*) monstersHealingAtIndex:(int32_t) index;
 - (NSArray*) rareBoosterPurchasesList;
 - (RareBoosterPurchaseProto*) rareBoosterPurchasesAtIndex:(int32_t) index;
+- (NSArray*) usersUsedForExtraSlotsList;
+- (MinimumUserProtoWithFacebookId*) usersUsedForExtraSlotsAtIndex:(int32_t) index;
+- (NSArray*) usersInvitingMeForExtraSlotsList;
+- (MinimumUserProtoWithFacebookId*) usersInvitingMeForExtraSlotsAtIndex:(int32_t) index;
 
 + (StartupResponseProto*) defaultInstance;
 - (StartupResponseProto*) defaultInstance;
@@ -498,40 +506,42 @@ BOOL StartupResponseProto_StartupStatusIsValidValue(StartupResponseProto_Startup
 
 @interface StartupResponseProto_StartupConstants : PBGeneratedMessage {
 @private
-  BOOL hasMaxLevelForUser_:1;
-  BOOL hasMaxNumOfSingleStruct_:1;
+  BOOL hasMinutesPerGem_:1;
   BOOL hasNumBeginnerSalesAllowed_:1;
-  BOOL hasMinNameLength_:1;
-  BOOL hasMaxNameLength_:1;
-  BOOL hasMaxLengthOfChatString_:1;
-  BOOL hasNumHoursBeforeReshowingGoldSale_:1;
-  BOOL hasLevelToShowRateUsPopup_:1;
   BOOL hasFbConnectRewardDiamonds_:1;
+  BOOL hasLevelToShowRateUsPopup_:1;
+  BOOL hasNumHoursBeforeReshowingGoldSale_:1;
+  BOOL hasMaxLengthOfChatString_:1;
+  BOOL hasMaxNameLength_:1;
+  BOOL hasMinNameLength_:1;
+  BOOL hasMaxNumOfSingleStruct_:1;
+  BOOL hasMaxLevelForUser_:1;
   BOOL hasFaqFileName_:1;
-  BOOL hasMonsterConstants_:1;
-  BOOL hasUserMonsterConstants_:1;
-  BOOL hasAdminChatUserProto_:1;
-  BOOL hasTouramentConstants_:1;
-  BOOL hasDownloadableNibConstants_:1;
   BOOL hasClanConstants_:1;
+  BOOL hasDownloadableNibConstants_:1;
   BOOL hasNormStructConstants_:1;
-  int32_t maxLevelForUser;
-  int32_t maxNumOfSingleStruct;
+  BOOL hasTouramentConstants_:1;
+  BOOL hasAdminChatUserProto_:1;
+  BOOL hasUserMonsterConstants_:1;
+  BOOL hasMonsterConstants_:1;
+  Float32 minutesPerGem;
   int32_t numBeginnerSalesAllowed;
-  int32_t minNameLength;
-  int32_t maxNameLength;
-  int32_t maxLengthOfChatString;
-  int32_t numHoursBeforeReshowingGoldSale;
-  int32_t levelToShowRateUsPopup;
   int32_t fbConnectRewardDiamonds;
+  int32_t levelToShowRateUsPopup;
+  int32_t numHoursBeforeReshowingGoldSale;
+  int32_t maxLengthOfChatString;
+  int32_t maxNameLength;
+  int32_t minNameLength;
+  int32_t maxNumOfSingleStruct;
+  int32_t maxLevelForUser;
   NSString* faqFileName;
-  StartupResponseProto_StartupConstants_MonsterConstants* monsterConstants;
-  StartupResponseProto_StartupConstants_UserMonsterConstants* userMonsterConstants;
-  MinimumUserProto* adminChatUserProto;
-  StartupResponseProto_StartupConstants_TournamentConstants* touramentConstants;
-  StartupResponseProto_StartupConstants_DownloadableNibConstants* downloadableNibConstants;
   StartupResponseProto_StartupConstants_ClanConstants* clanConstants;
+  StartupResponseProto_StartupConstants_DownloadableNibConstants* downloadableNibConstants;
   StartupResponseProto_StartupConstants_NormStructConstants* normStructConstants;
+  StartupResponseProto_StartupConstants_TournamentConstants* touramentConstants;
+  MinimumUserProto* adminChatUserProto;
+  StartupResponseProto_StartupConstants_UserMonsterConstants* userMonsterConstants;
+  StartupResponseProto_StartupConstants_MonsterConstants* monsterConstants;
   NSMutableArray* mutableAnimatedSpriteOffsetsList;
   NSMutableArray* mutableInAppPurchasePackagesList;
 }
@@ -552,6 +562,7 @@ BOOL StartupResponseProto_StartupStatusIsValidValue(StartupResponseProto_Startup
 - (BOOL) hasNumBeginnerSalesAllowed;
 - (BOOL) hasUserMonsterConstants;
 - (BOOL) hasMonsterConstants;
+- (BOOL) hasMinutesPerGem;
 @property (readonly) int32_t maxLevelForUser;
 @property (readonly) int32_t maxNumOfSingleStruct;
 @property (readonly, retain) StartupResponseProto_StartupConstants_NormStructConstants* normStructConstants;
@@ -569,6 +580,7 @@ BOOL StartupResponseProto_StartupStatusIsValidValue(StartupResponseProto_Startup
 @property (readonly) int32_t numBeginnerSalesAllowed;
 @property (readonly, retain) StartupResponseProto_StartupConstants_UserMonsterConstants* userMonsterConstants;
 @property (readonly, retain) StartupResponseProto_StartupConstants_MonsterConstants* monsterConstants;
+@property (readonly) Float32 minutesPerGem;
 - (NSArray*) inAppPurchasePackagesList;
 - (InAppPurchasePackageProto*) inAppPurchasePackagesAtIndex:(int32_t) index;
 - (NSArray*) animatedSpriteOffsetsList;
@@ -1038,13 +1050,13 @@ BOOL StartupResponseProto_StartupStatusIsValidValue(StartupResponseProto_Startup
 @private
   BOOL hasCashPerHealthPoint_:1;
   BOOL hasSecondsToHealPerHealthPoint_:1;
-  int32_t cashPerHealthPoint;
-  int32_t secondsToHealPerHealthPoint;
+  Float32 cashPerHealthPoint;
+  Float32 secondsToHealPerHealthPoint;
 }
 - (BOOL) hasCashPerHealthPoint;
 - (BOOL) hasSecondsToHealPerHealthPoint;
-@property (readonly) int32_t cashPerHealthPoint;
-@property (readonly) int32_t secondsToHealPerHealthPoint;
+@property (readonly) Float32 cashPerHealthPoint;
+@property (readonly) Float32 secondsToHealPerHealthPoint;
 
 + (StartupResponseProto_StartupConstants_MonsterConstants*) defaultInstance;
 - (StartupResponseProto_StartupConstants_MonsterConstants*) defaultInstance;
@@ -1081,13 +1093,13 @@ BOOL StartupResponseProto_StartupStatusIsValidValue(StartupResponseProto_Startup
 - (StartupResponseProto_StartupConstants_MonsterConstants_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
 
 - (BOOL) hasCashPerHealthPoint;
-- (int32_t) cashPerHealthPoint;
-- (StartupResponseProto_StartupConstants_MonsterConstants_Builder*) setCashPerHealthPoint:(int32_t) value;
+- (Float32) cashPerHealthPoint;
+- (StartupResponseProto_StartupConstants_MonsterConstants_Builder*) setCashPerHealthPoint:(Float32) value;
 - (StartupResponseProto_StartupConstants_MonsterConstants_Builder*) clearCashPerHealthPoint;
 
 - (BOOL) hasSecondsToHealPerHealthPoint;
-- (int32_t) secondsToHealPerHealthPoint;
-- (StartupResponseProto_StartupConstants_MonsterConstants_Builder*) setSecondsToHealPerHealthPoint:(int32_t) value;
+- (Float32) secondsToHealPerHealthPoint;
+- (StartupResponseProto_StartupConstants_MonsterConstants_Builder*) setSecondsToHealPerHealthPoint:(Float32) value;
 - (StartupResponseProto_StartupConstants_MonsterConstants_Builder*) clearSecondsToHealPerHealthPoint;
 @end
 
@@ -1220,6 +1232,11 @@ BOOL StartupResponseProto_StartupStatusIsValidValue(StartupResponseProto_Startup
 - (StartupResponseProto_StartupConstants_Builder*) setMonsterConstantsBuilder:(StartupResponseProto_StartupConstants_MonsterConstants_Builder*) builderForValue;
 - (StartupResponseProto_StartupConstants_Builder*) mergeMonsterConstants:(StartupResponseProto_StartupConstants_MonsterConstants*) value;
 - (StartupResponseProto_StartupConstants_Builder*) clearMonsterConstants;
+
+- (BOOL) hasMinutesPerGem;
+- (Float32) minutesPerGem;
+- (StartupResponseProto_StartupConstants_Builder*) setMinutesPerGem:(Float32) value;
+- (StartupResponseProto_StartupConstants_Builder*) clearMinutesPerGem;
 @end
 
 @interface StartupResponseProto_Builder : PBGeneratedMessage_Builder {
@@ -1439,5 +1456,19 @@ BOOL StartupResponseProto_StartupStatusIsValidValue(StartupResponseProto_Startup
 - (NSString*) kabamNaid;
 - (StartupResponseProto_Builder*) setKabamNaid:(NSString*) value;
 - (StartupResponseProto_Builder*) clearKabamNaid;
+
+- (NSArray*) usersUsedForExtraSlotsList;
+- (MinimumUserProtoWithFacebookId*) usersUsedForExtraSlotsAtIndex:(int32_t) index;
+- (StartupResponseProto_Builder*) replaceUsersUsedForExtraSlotsAtIndex:(int32_t) index with:(MinimumUserProtoWithFacebookId*) value;
+- (StartupResponseProto_Builder*) addUsersUsedForExtraSlots:(MinimumUserProtoWithFacebookId*) value;
+- (StartupResponseProto_Builder*) addAllUsersUsedForExtraSlots:(NSArray*) values;
+- (StartupResponseProto_Builder*) clearUsersUsedForExtraSlotsList;
+
+- (NSArray*) usersInvitingMeForExtraSlotsList;
+- (MinimumUserProtoWithFacebookId*) usersInvitingMeForExtraSlotsAtIndex:(int32_t) index;
+- (StartupResponseProto_Builder*) replaceUsersInvitingMeForExtraSlotsAtIndex:(int32_t) index with:(MinimumUserProtoWithFacebookId*) value;
+- (StartupResponseProto_Builder*) addUsersInvitingMeForExtraSlots:(MinimumUserProtoWithFacebookId*) value;
+- (StartupResponseProto_Builder*) addAllUsersInvitingMeForExtraSlots:(NSArray*) values;
+- (StartupResponseProto_Builder*) clearUsersInvitingMeForExtraSlotsList;
 @end
 

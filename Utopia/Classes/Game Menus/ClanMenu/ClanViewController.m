@@ -24,9 +24,6 @@
   [self addChildViewController:self.clanInfoViewController];
   [self addChildViewController:self.clanCreateViewController];
   
-  [self updateConfiguration];
-  [self button1Clicked:nil];
-  
   self.title = @"Clans";
   self.navigationItem.titleView = self.menuTopBar;
   [self setUpCloseButton];
@@ -34,11 +31,15 @@
 }
 
 - (void) viewWillAppear:(BOOL)animated {
+  BOOL _firstTime = !_controller1;
   [self updateConfiguration];
-}
-
-- (void) viewDidAppear:(BOOL)animated {
   
+  if (_firstTime) {
+    [self button1Clicked:nil];
+  }
+  
+  // Do this so it reloads the list when it comes back from other view
+  [self.clanBrowseViewController reload];
 }
 
 - (void) updateConfiguration {

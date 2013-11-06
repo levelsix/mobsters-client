@@ -18,6 +18,7 @@
 #import "ProfileViewController.h"
 #import "QuestLogViewController.h"
 #import "MyCroniesViewController.h"
+#import "RequestsViewController.h"
 
 @implementation SplitImageProgressBar
 
@@ -214,6 +215,14 @@
   GameViewController *gvc = (GameViewController *)self.parentViewController;
   [gvc presentViewController:m animated:YES completion:nil];
   [m pushViewController:[[MyCroniesViewController alloc] init] animated:NO];
+}
+
+- (IBAction)mailClicked:(id)sender {
+  GameViewController *gvc = (GameViewController *)self.parentViewController;
+  RequestsViewController *rvc = [[RequestsViewController alloc] init];
+  [gvc addChildViewController:rvc];
+  rvc.view.frame = gvc.view.bounds;
+  [gvc.view addSubview:rvc.view];
 }
 
 #pragma mark - Updating HUD Stuff

@@ -24,9 +24,13 @@
 
 - (void) loadOverlayMask {
   // _overlayMaskStatus: 0 = unloaded, 1 = no rarity tag, 2 = rarity tag
-  int curStatus = self.qualityBgdView.hidden ? 1 : 2;
+  int curStatus = self.qualityBgdView.superview.hidden ? 1 : 2;
   if (curStatus != _overlayMaskStatus) {
     UIView *view = self.mainView;
+    
+    self.overlayView.hidden = YES;
+    view.hidden = NO;
+    
     UIGraphicsBeginImageContext(view.bounds.size);
     [view.layer renderInContext:UIGraphicsGetCurrentContext()];
     UIImage *image = UIGraphicsGetImageFromCurrentImageContext();
@@ -80,11 +84,12 @@
   if ([um isHealing] || [um isEnhancing] || [um isSacrificing]) {
     self.overlayLabel.text = [um isHealing] ? @"Healing" : @"Enhancing";
     
-    self.overlayView.hidden = NO;
     self.overlayLabel.hidden = NO;
     self.piecesView.hidden = YES;
     self.combineView.hidden = YES;
+    
     [self loadOverlayMask];
+    self.overlayView.hidden = NO;
   } else if (!um.isComplete) {
     if (um.numPieces < mp.numPuzzlePieces) {
       self.piecesLabel.text = [NSString stringWithFormat:@"%d/%d", um.numPieces, mp.numPuzzlePieces];
@@ -98,9 +103,11 @@
       self.piecesView.hidden = YES;
     }
     
-    self.overlayView.hidden = NO;
     self.overlayLabel.hidden = YES;
+    
+    self.overlayView.hidden = YES;
     [self loadOverlayMask];
+    self.overlayView.hidden = NO;
   } else {
     self.overlayView.hidden = YES;
     self.combineView.hidden = YES;

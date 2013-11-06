@@ -63,9 +63,7 @@
     [self addChild:s z:-1];
     s.position = ccp(self.contentSize.width/2, 0);
     
-    [Globals downloadAllFilesForSpritePrefixes:[NSArray arrayWithObject:self.prefix] completion:^{
-      [self walk];
-    }];
+    [self walk];
   }
   return self;
 }
@@ -117,6 +115,12 @@
 }
 
 - (void) walk {
+  [Globals downloadAllFilesForSpritePrefixes:[NSArray arrayWithObject:self.prefix] completion:^{
+    [self walkAfterCheck];
+  }];
+}
+
+- (void) walkAfterCheck {
   MissionMap *missionMap = (MissionMap *)_map;
   CGPoint pt = [missionMap nextWalkablePositionFromPoint:self.location.origin prevPoint:_oldMapPos];
   if (CGPointEqualToPoint(self.location.origin, pt)) {
@@ -124,9 +128,9 @@
     r.origin = [missionMap randomWalkablePosition];
     self.location = r;
     _oldMapPos = r.origin;
-    [self walk];
+    [self walkAfterCheck];
   } else {
-    [self walkToTileCoord:pt withSelector:@selector(walk) speedMultiplier:1.f];
+    [self walkToTileCoord:pt withSelector:@selector(walkAfterCheck) speedMultiplier:1.f];
   }
 }
 

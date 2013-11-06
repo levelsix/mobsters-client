@@ -8,6 +8,7 @@
 
 #import <UIKit/UIKit.h>
 #import "GenViewController.h"
+#import "TimingFunctionTableView.h"
 
 @interface GachaponItemCell : UITableViewCell
 
@@ -17,11 +18,15 @@
 
 @end
 
-@interface GachaponViewController : GenViewController <UITableViewDataSource, UITableViewDelegate>
+@interface GachaponViewController : GenViewController <UITableViewDataSource, UITableViewDelegate> {
+  BOOL _isSpinning;
+}
 
 @property (nonatomic, retain) NSArray *items;
 
-@property (nonatomic, retain) IBOutlet UITableView *gachaTable;
+@property (nonatomic, retain) IBOutlet TimingFunctionTableView *gachaTable;
+@property (nonatomic, retain) IBOutlet UIImageView *machineIcon;
+@property (nonatomic, retain) IBOutlet UIImageView *spinner;
 
 @property (nonatomic, retain) IBOutlet GachaponItemCell *itemCell;
 

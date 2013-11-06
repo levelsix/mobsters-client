@@ -189,3 +189,17 @@ typedef enum {
 - (id) initWithProto:(FullUserQuestProto *)proto;
 
 @end
+
+typedef enum {
+  RequestFromFriendInventorySlots = 1,
+
+} RequestFromFriendType;
+
+@interface RequestFromFriend : NSObject
+
+@property (nonatomic, retain) MinimumUserProtoWithFacebookId *user;
+@property (nonatomic, assign) RequestFromFriendType type;
+
++ (id) requestForInventorySlotsWithUser:(MinimumUserProtoWithFacebookId *)user;
+
+@end

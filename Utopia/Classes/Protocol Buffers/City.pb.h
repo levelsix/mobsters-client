@@ -22,6 +22,8 @@
 @class MinimumClanProto;
 @class MinimumClanProto_Builder;
 @class MinimumUserProto;
+@class MinimumUserProtoWithFacebookId;
+@class MinimumUserProtoWithFacebookId_Builder;
 @class MinimumUserProtoWithLevel;
 @class MinimumUserProtoWithLevel_Builder;
 @class MinimumUserProto_Builder;
@@ -132,18 +134,22 @@ BOOL CityElementProto_CityElemTypeIsValidValue(CityElementProto_CityElemType val
 @interface CityExpansionCostProto : PBGeneratedMessage {
 @private
   BOOL hasExpansionNum_:1;
-  BOOL hasExpansionCost_:1;
+  BOOL hasExpansionCostCash_:1;
   BOOL hasNumMinutesToExpand_:1;
+  BOOL hasSpeedupExpansionGemCost_:1;
   int32_t expansionNum;
-  int32_t expansionCost;
+  int32_t expansionCostCash;
   int32_t numMinutesToExpand;
+  int32_t speedupExpansionGemCost;
 }
 - (BOOL) hasExpansionNum;
-- (BOOL) hasExpansionCost;
+- (BOOL) hasExpansionCostCash;
 - (BOOL) hasNumMinutesToExpand;
+- (BOOL) hasSpeedupExpansionGemCost;
 @property (readonly) int32_t expansionNum;
-@property (readonly) int32_t expansionCost;
+@property (readonly) int32_t expansionCostCash;
 @property (readonly) int32_t numMinutesToExpand;
+@property (readonly) int32_t speedupExpansionGemCost;
 
 + (CityExpansionCostProto*) defaultInstance;
 - (CityExpansionCostProto*) defaultInstance;
@@ -184,15 +190,20 @@ BOOL CityElementProto_CityElemTypeIsValidValue(CityElementProto_CityElemType val
 - (CityExpansionCostProto_Builder*) setExpansionNum:(int32_t) value;
 - (CityExpansionCostProto_Builder*) clearExpansionNum;
 
-- (BOOL) hasExpansionCost;
-- (int32_t) expansionCost;
-- (CityExpansionCostProto_Builder*) setExpansionCost:(int32_t) value;
-- (CityExpansionCostProto_Builder*) clearExpansionCost;
+- (BOOL) hasExpansionCostCash;
+- (int32_t) expansionCostCash;
+- (CityExpansionCostProto_Builder*) setExpansionCostCash:(int32_t) value;
+- (CityExpansionCostProto_Builder*) clearExpansionCostCash;
 
 - (BOOL) hasNumMinutesToExpand;
 - (int32_t) numMinutesToExpand;
 - (CityExpansionCostProto_Builder*) setNumMinutesToExpand:(int32_t) value;
 - (CityExpansionCostProto_Builder*) clearNumMinutesToExpand;
+
+- (BOOL) hasSpeedupExpansionGemCost;
+- (int32_t) speedupExpansionGemCost;
+- (CityExpansionCostProto_Builder*) setSpeedupExpansionGemCost:(int32_t) value;
+- (CityExpansionCostProto_Builder*) clearSpeedupExpansionGemCost;
 @end
 
 @interface CityElementProto : PBGeneratedMessage {

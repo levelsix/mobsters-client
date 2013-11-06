@@ -37,9 +37,14 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(Downloader);
   }
   
   // LNLogs here are NOT thread safe, be careful
-  NSString *urlBase = URL_BASE;
-  NSURL *url = [[NSURL alloc] initWithString:[urlBase stringByAppendingString:imageName]];
-  NSString *filePath = [NSString stringWithFormat:@"%@/%@",_cacheDir, [[url pathComponents] lastObject]];
+  NSURL *url = nil;
+  if ([imageName rangeOfString:@"http"].location == NSNotFound) {
+    NSString *urlBase = URL_BASE;
+    url = [[NSURL alloc] initWithString:[urlBase stringByAppendingString:imageName]];
+  } else {
+    url = [[NSURL alloc] initWithString:imageName];
+  }
+  NSString *filePath = [NSString stringWithFormat:@"%@/%@",_cacheDir, imageName.lastPathComponent];
   BOOL success = YES;
   
   if (![[NSFileManager defaultManager] fileExistsAtPath:filePath]) {

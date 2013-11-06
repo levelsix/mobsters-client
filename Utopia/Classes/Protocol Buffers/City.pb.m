@@ -357,8 +357,9 @@ static UserCityExpansionDataProto* defaultUserCityExpansionDataProtoInstance = n
 
 @interface CityExpansionCostProto ()
 @property int32_t expansionNum;
-@property int32_t expansionCost;
+@property int32_t expansionCostCash;
 @property int32_t numMinutesToExpand;
+@property int32_t speedupExpansionGemCost;
 @end
 
 @implementation CityExpansionCostProto
@@ -370,13 +371,13 @@ static UserCityExpansionDataProto* defaultUserCityExpansionDataProtoInstance = n
   hasExpansionNum_ = !!value;
 }
 @synthesize expansionNum;
-- (BOOL) hasExpansionCost {
-  return !!hasExpansionCost_;
+- (BOOL) hasExpansionCostCash {
+  return !!hasExpansionCostCash_;
 }
-- (void) setHasExpansionCost:(BOOL) value {
-  hasExpansionCost_ = !!value;
+- (void) setHasExpansionCostCash:(BOOL) value {
+  hasExpansionCostCash_ = !!value;
 }
-@synthesize expansionCost;
+@synthesize expansionCostCash;
 - (BOOL) hasNumMinutesToExpand {
   return !!hasNumMinutesToExpand_;
 }
@@ -384,14 +385,22 @@ static UserCityExpansionDataProto* defaultUserCityExpansionDataProtoInstance = n
   hasNumMinutesToExpand_ = !!value;
 }
 @synthesize numMinutesToExpand;
+- (BOOL) hasSpeedupExpansionGemCost {
+  return !!hasSpeedupExpansionGemCost_;
+}
+- (void) setHasSpeedupExpansionGemCost:(BOOL) value {
+  hasSpeedupExpansionGemCost_ = !!value;
+}
+@synthesize speedupExpansionGemCost;
 - (void) dealloc {
   [super dealloc];
 }
 - (id) init {
   if ((self = [super init])) {
     self.expansionNum = 0;
-    self.expansionCost = 0;
+    self.expansionCostCash = 0;
     self.numMinutesToExpand = 0;
+    self.speedupExpansionGemCost = 0;
   }
   return self;
 }
@@ -414,11 +423,14 @@ static CityExpansionCostProto* defaultCityExpansionCostProtoInstance = nil;
   if (self.hasExpansionNum) {
     [output writeInt32:1 value:self.expansionNum];
   }
-  if (self.hasExpansionCost) {
-    [output writeInt32:2 value:self.expansionCost];
+  if (self.hasExpansionCostCash) {
+    [output writeInt32:2 value:self.expansionCostCash];
   }
   if (self.hasNumMinutesToExpand) {
     [output writeInt32:3 value:self.numMinutesToExpand];
+  }
+  if (self.hasSpeedupExpansionGemCost) {
+    [output writeInt32:4 value:self.speedupExpansionGemCost];
   }
   [self.unknownFields writeToCodedOutputStream:output];
 }
@@ -432,11 +444,14 @@ static CityExpansionCostProto* defaultCityExpansionCostProtoInstance = nil;
   if (self.hasExpansionNum) {
     size += computeInt32Size(1, self.expansionNum);
   }
-  if (self.hasExpansionCost) {
-    size += computeInt32Size(2, self.expansionCost);
+  if (self.hasExpansionCostCash) {
+    size += computeInt32Size(2, self.expansionCostCash);
   }
   if (self.hasNumMinutesToExpand) {
     size += computeInt32Size(3, self.numMinutesToExpand);
+  }
+  if (self.hasSpeedupExpansionGemCost) {
+    size += computeInt32Size(4, self.speedupExpansionGemCost);
   }
   size += self.unknownFields.serializedSize;
   memoizedSerializedSize = size;
@@ -516,11 +531,14 @@ static CityExpansionCostProto* defaultCityExpansionCostProtoInstance = nil;
   if (other.hasExpansionNum) {
     [self setExpansionNum:other.expansionNum];
   }
-  if (other.hasExpansionCost) {
-    [self setExpansionCost:other.expansionCost];
+  if (other.hasExpansionCostCash) {
+    [self setExpansionCostCash:other.expansionCostCash];
   }
   if (other.hasNumMinutesToExpand) {
     [self setNumMinutesToExpand:other.numMinutesToExpand];
+  }
+  if (other.hasSpeedupExpansionGemCost) {
+    [self setSpeedupExpansionGemCost:other.speedupExpansionGemCost];
   }
   [self mergeUnknownFields:other.unknownFields];
   return self;
@@ -548,11 +566,15 @@ static CityExpansionCostProto* defaultCityExpansionCostProtoInstance = nil;
         break;
       }
       case 16: {
-        [self setExpansionCost:[input readInt32]];
+        [self setExpansionCostCash:[input readInt32]];
         break;
       }
       case 24: {
         [self setNumMinutesToExpand:[input readInt32]];
+        break;
+      }
+      case 32: {
+        [self setSpeedupExpansionGemCost:[input readInt32]];
         break;
       }
     }
@@ -574,20 +596,20 @@ static CityExpansionCostProto* defaultCityExpansionCostProtoInstance = nil;
   result.expansionNum = 0;
   return self;
 }
-- (BOOL) hasExpansionCost {
-  return result.hasExpansionCost;
+- (BOOL) hasExpansionCostCash {
+  return result.hasExpansionCostCash;
 }
-- (int32_t) expansionCost {
-  return result.expansionCost;
+- (int32_t) expansionCostCash {
+  return result.expansionCostCash;
 }
-- (CityExpansionCostProto_Builder*) setExpansionCost:(int32_t) value {
-  result.hasExpansionCost = YES;
-  result.expansionCost = value;
+- (CityExpansionCostProto_Builder*) setExpansionCostCash:(int32_t) value {
+  result.hasExpansionCostCash = YES;
+  result.expansionCostCash = value;
   return self;
 }
-- (CityExpansionCostProto_Builder*) clearExpansionCost {
-  result.hasExpansionCost = NO;
-  result.expansionCost = 0;
+- (CityExpansionCostProto_Builder*) clearExpansionCostCash {
+  result.hasExpansionCostCash = NO;
+  result.expansionCostCash = 0;
   return self;
 }
 - (BOOL) hasNumMinutesToExpand {
@@ -604,6 +626,22 @@ static CityExpansionCostProto* defaultCityExpansionCostProtoInstance = nil;
 - (CityExpansionCostProto_Builder*) clearNumMinutesToExpand {
   result.hasNumMinutesToExpand = NO;
   result.numMinutesToExpand = 0;
+  return self;
+}
+- (BOOL) hasSpeedupExpansionGemCost {
+  return result.hasSpeedupExpansionGemCost;
+}
+- (int32_t) speedupExpansionGemCost {
+  return result.speedupExpansionGemCost;
+}
+- (CityExpansionCostProto_Builder*) setSpeedupExpansionGemCost:(int32_t) value {
+  result.hasSpeedupExpansionGemCost = YES;
+  result.speedupExpansionGemCost = value;
+  return self;
+}
+- (CityExpansionCostProto_Builder*) clearSpeedupExpansionGemCost {
+  result.hasSpeedupExpansionGemCost = NO;
+  result.speedupExpansionGemCost = 0;
   return self;
 }
 @end

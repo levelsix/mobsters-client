@@ -18,7 +18,7 @@
                     <rect key="frame" x="0.0" y="10" width="59" height="59"/>
                     <autoresizingMask key="autoresizingMask"/>
                 </imageView>
-                <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" image="gm_1.png" id="hTg-n3-Phd">
+                <imageView userInteractionEnabled="NO" contentMode="center" image="Cheerleader2BazookaThumbnail.png" id="hTg-n3-Phd">
                     <rect key="frame" x="0.0" y="10" width="59" height="59"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                 </imageView>
@@ -72,7 +72,7 @@
         </view>
     </objects>
     <resources>
-        <image name="gm_1.png" width="1200" height="1200"/>
+        <image name="Cheerleader2BazookaThumbnail.png" width="59" height="56"/>
         <image name="healingminibox.png" width="59" height="59"/>
         <image name="minitimebar.png" width="40" height="7"/>
         <image name="minitimebg.png" width="44" height="11"/>

@@ -32,6 +32,10 @@
 #import "TournamentStuff.pb.h"
 #import "User.pb.h"
 
+@class AcceptAndRejectFbInviteForSlotsRequestProto;
+@class AcceptAndRejectFbInviteForSlotsRequestProto_Builder;
+@class AcceptAndRejectFbInviteForSlotsResponseProto;
+@class AcceptAndRejectFbInviteForSlotsResponseProto_Builder;
 @class AddMonsterToBattleTeamRequestProto;
 @class AddMonsterToBattleTeamRequestProto_Builder;
 @class AddMonsterToBattleTeamResponseProto;
@@ -152,6 +156,10 @@
 @class IncreaseMonsterInventorySlotRequestProto_Builder;
 @class IncreaseMonsterInventorySlotResponseProto;
 @class IncreaseMonsterInventorySlotResponseProto_Builder;
+@class InviteFbFriendsForSlotsRequestProto;
+@class InviteFbFriendsForSlotsRequestProto_Builder;
+@class InviteFbFriendsForSlotsResponseProto;
+@class InviteFbFriendsForSlotsResponseProto_Builder;
 @class LeaveClanRequestProto;
 @class LeaveClanRequestProto_Builder;
 @class LeaveClanResponseProto;
@@ -181,6 +189,8 @@
 @class MinimumUserProtoForClans_Builder;
 @class MinimumUserProtoWithBattleHistory;
 @class MinimumUserProtoWithBattleHistory_Builder;
+@class MinimumUserProtoWithFacebookId;
+@class MinimumUserProtoWithFacebookId_Builder;
 @class MinimumUserProtoWithLevel;
 @class MinimumUserProtoWithLevelForTournament;
 @class MinimumUserProtoWithLevelForTournament_Builder;
@@ -432,6 +442,8 @@ typedef enum {
   EventProtocolRequestCEnhancementWaitTimeCompleteEvent = 53,
   EventProtocolRequestCCombineUserMonsterPiecesEvent = 54,
   EventProtocolRequestCSellUserMonsterEvent = 55,
+  EventProtocolRequestCInviteFbFriendsForSlotsEvent = 56,
+  EventProtocolRequestCAcceptAndRejectFbInviteForSlotsEvent = 57,
   EventProtocolRequestCLogoutEvent = 101,
 } EventProtocolRequest;
 
@@ -493,6 +505,8 @@ typedef enum {
   EventProtocolResponseSEnhancementWaitTimeCompleteEvent = 53,
   EventProtocolResponseSCombineUserMonsterPiecesEvent = 54,
   EventProtocolResponseSSellUserMonsterEvent = 55,
+  EventProtocolResponseSInviteFbFriendsForSlotsEvent = 56,
+  EventProtocolResponseSAcceptAndRejectFbInviteForSlotsEvent = 57,
   EventProtocolResponseSUpdateClientUserEvent = 101,
   EventProtocolResponseSReferralCodeUsedEvent = 102,
   EventProtocolResponseSPurgeStaticDataEvent = 103,

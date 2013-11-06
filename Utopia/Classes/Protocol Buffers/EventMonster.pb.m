@@ -4680,6 +4680,1086 @@ BOOL IncreaseMonsterInventorySlotResponseProto_IncreaseMonsterInventorySlotStatu
 }
 @end
 
+@interface InviteFbFriendsForSlotsRequestProto ()
+@property (retain) MinimumUserProtoWithFacebookId* sender;
+@property (retain) NSMutableArray* mutableFbFriendIdsList;
+@end
+
+@implementation InviteFbFriendsForSlotsRequestProto
+
+- (BOOL) hasSender {
+  return !!hasSender_;
+}
+- (void) setHasSender:(BOOL) value {
+  hasSender_ = !!value;
+}
+@synthesize sender;
+@synthesize mutableFbFriendIdsList;
+- (void) dealloc {
+  self.sender = nil;
+  self.mutableFbFriendIdsList = nil;
+  [super dealloc];
+}
+- (id) init {
+  if ((self = [super init])) {
+    self.sender = [MinimumUserProtoWithFacebookId defaultInstance];
+  }
+  return self;
+}
+static InviteFbFriendsForSlotsRequestProto* defaultInviteFbFriendsForSlotsRequestProtoInstance = nil;
++ (void) initialize {
+  if (self == [InviteFbFriendsForSlotsRequestProto class]) {
+    defaultInviteFbFriendsForSlotsRequestProtoInstance = [[InviteFbFriendsForSlotsRequestProto alloc] init];
+  }
+}
++ (InviteFbFriendsForSlotsRequestProto*) defaultInstance {
+  return defaultInviteFbFriendsForSlotsRequestProtoInstance;
+}
+- (InviteFbFriendsForSlotsRequestProto*) defaultInstance {
+  return defaultInviteFbFriendsForSlotsRequestProtoInstance;
+}
+- (NSArray*) fbFriendIdsList {
+  return mutableFbFriendIdsList;
+}
+- (NSString*) fbFriendIdsAtIndex:(int32_t) index {
+  id value = [mutableFbFriendIdsList objectAtIndex:index];
+  return value;
+}
+- (BOOL) isInitialized {
+  return YES;
+}
+- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output {
+  if (self.hasSender) {
+    [output writeMessage:1 value:self.sender];
+  }
+  for (NSString* element in self.mutableFbFriendIdsList) {
+    [output writeString:2 value:element];
+  }
+  [self.unknownFields writeToCodedOutputStream:output];
+}
+- (int32_t) serializedSize {
+  int32_t size = memoizedSerializedSize;
+  if (size != -1) {
+    return size;
+  }
+
+  size = 0;
+  if (self.hasSender) {
+    size += computeMessageSize(1, self.sender);
+  }
+  {
+    int32_t dataSize = 0;
+    for (NSString* element in self.mutableFbFriendIdsList) {
+      dataSize += computeStringSizeNoTag(element);
+    }
+    size += dataSize;
+    size += 1 * self.mutableFbFriendIdsList.count;
+  }
+  size += self.unknownFields.serializedSize;
+  memoizedSerializedSize = size;
+  return size;
+}
++ (InviteFbFriendsForSlotsRequestProto*) parseFromData:(NSData*) data {
+  return (InviteFbFriendsForSlotsRequestProto*)[[[InviteFbFriendsForSlotsRequestProto builder] mergeFromData:data] build];
+}
++ (InviteFbFriendsForSlotsRequestProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (InviteFbFriendsForSlotsRequestProto*)[[[InviteFbFriendsForSlotsRequestProto builder] mergeFromData:data extensionRegistry:extensionRegistry] build];
+}
++ (InviteFbFriendsForSlotsRequestProto*) parseFromInputStream:(NSInputStream*) input {
+  return (InviteFbFriendsForSlotsRequestProto*)[[[InviteFbFriendsForSlotsRequestProto builder] mergeFromInputStream:input] build];
+}
++ (InviteFbFriendsForSlotsRequestProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (InviteFbFriendsForSlotsRequestProto*)[[[InviteFbFriendsForSlotsRequestProto builder] mergeFromInputStream:input extensionRegistry:extensionRegistry] build];
+}
++ (InviteFbFriendsForSlotsRequestProto*) parseFromCodedInputStream:(PBCodedInputStream*) input {
+  return (InviteFbFriendsForSlotsRequestProto*)[[[InviteFbFriendsForSlotsRequestProto builder] mergeFromCodedInputStream:input] build];
+}
++ (InviteFbFriendsForSlotsRequestProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (InviteFbFriendsForSlotsRequestProto*)[[[InviteFbFriendsForSlotsRequestProto builder] mergeFromCodedInputStream:input extensionRegistry:extensionRegistry] build];
+}
++ (InviteFbFriendsForSlotsRequestProto_Builder*) builder {
+  return [[[InviteFbFriendsForSlotsRequestProto_Builder alloc] init] autorelease];
+}
++ (InviteFbFriendsForSlotsRequestProto_Builder*) builderWithPrototype:(InviteFbFriendsForSlotsRequestProto*) prototype {
+  return [[InviteFbFriendsForSlotsRequestProto builder] mergeFrom:prototype];
+}
+- (InviteFbFriendsForSlotsRequestProto_Builder*) builder {
+  return [InviteFbFriendsForSlotsRequestProto builder];
+}
+@end
+
+@interface InviteFbFriendsForSlotsRequestProto_Builder()
+@property (retain) InviteFbFriendsForSlotsRequestProto* result;
+@end
+
+@implementation InviteFbFriendsForSlotsRequestProto_Builder
+@synthesize result;
+- (void) dealloc {
+  self.result = nil;
+  [super dealloc];
+}
+- (id) init {
+  if ((self = [super init])) {
+    self.result = [[[InviteFbFriendsForSlotsRequestProto alloc] init] autorelease];
+  }
+  return self;
+}
+- (PBGeneratedMessage*) internalGetResult {
+  return result;
+}
+- (InviteFbFriendsForSlotsRequestProto_Builder*) clear {
+  self.result = [[[InviteFbFriendsForSlotsRequestProto alloc] init] autorelease];
+  return self;
+}
+- (InviteFbFriendsForSlotsRequestProto_Builder*) clone {
+  return [InviteFbFriendsForSlotsRequestProto builderWithPrototype:result];
+}
+- (InviteFbFriendsForSlotsRequestProto*) defaultInstance {
+  return [InviteFbFriendsForSlotsRequestProto defaultInstance];
+}
+- (InviteFbFriendsForSlotsRequestProto*) build {
+  [self checkInitialized];
+  return [self buildPartial];
+}
+- (InviteFbFriendsForSlotsRequestProto*) buildPartial {
+  InviteFbFriendsForSlotsRequestProto* returnMe = [[result retain] autorelease];
+  self.result = nil;
+  return returnMe;
+}
+- (InviteFbFriendsForSlotsRequestProto_Builder*) mergeFrom:(InviteFbFriendsForSlotsRequestProto*) other {
+  if (other == [InviteFbFriendsForSlotsRequestProto defaultInstance]) {
+    return self;
+  }
+  if (other.hasSender) {
+    [self mergeSender:other.sender];
+  }
+  if (other.mutableFbFriendIdsList.count > 0) {
+    if (result.mutableFbFriendIdsList == nil) {
+      result.mutableFbFriendIdsList = [NSMutableArray array];
+    }
+    [result.mutableFbFriendIdsList addObjectsFromArray:other.mutableFbFriendIdsList];
+  }
+  [self mergeUnknownFields:other.unknownFields];
+  return self;
+}
+- (InviteFbFriendsForSlotsRequestProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input {
+  return [self mergeFromCodedInputStream:input extensionRegistry:[PBExtensionRegistry emptyRegistry]];
+}
+- (InviteFbFriendsForSlotsRequestProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  PBUnknownFieldSet_Builder* unknownFields = [PBUnknownFieldSet builderWithUnknownFields:self.unknownFields];
+  while (YES) {
+    int32_t tag = [input readTag];
+    switch (tag) {
+      case 0:
+        [self setUnknownFields:[unknownFields build]];
+        return self;
+      default: {
+        if (![self parseUnknownField:input unknownFields:unknownFields extensionRegistry:extensionRegistry tag:tag]) {
+          [self setUnknownFields:[unknownFields build]];
+          return self;
+        }
+        break;
+      }
+      case 10: {
+        MinimumUserProtoWithFacebookId_Builder* subBuilder = [MinimumUserProtoWithFacebookId builder];
+        if (self.hasSender) {
+          [subBuilder mergeFrom:self.sender];
+        }
+        [input readMessage:subBuilder extensionRegistry:extensionRegistry];
+        [self setSender:[subBuilder buildPartial]];
+        break;
+      }
+      case 18: {
+        [self addFbFriendIds:[input readString]];
+        break;
+      }
+    }
+  }
+}
+- (BOOL) hasSender {
+  return result.hasSender;
+}
+- (MinimumUserProtoWithFacebookId*) sender {
+  return result.sender;
+}
+- (InviteFbFriendsForSlotsRequestProto_Builder*) setSender:(MinimumUserProtoWithFacebookId*) value {
+  result.hasSender = YES;
+  result.sender = value;
+  return self;
+}
+- (InviteFbFriendsForSlotsRequestProto_Builder*) setSenderBuilder:(MinimumUserProtoWithFacebookId_Builder*) builderForValue {
+  return [self setSender:[builderForValue build]];
+}
+- (InviteFbFriendsForSlotsRequestProto_Builder*) mergeSender:(MinimumUserProtoWithFacebookId*) value {
+  if (result.hasSender &&
+      result.sender != [MinimumUserProtoWithFacebookId defaultInstance]) {
+    result.sender =
+      [[[MinimumUserProtoWithFacebookId builderWithPrototype:result.sender] mergeFrom:value] buildPartial];
+  } else {
+    result.sender = value;
+  }
+  result.hasSender = YES;
+  return self;
+}
+- (InviteFbFriendsForSlotsRequestProto_Builder*) clearSender {
+  result.hasSender = NO;
+  result.sender = [MinimumUserProtoWithFacebookId defaultInstance];
+  return self;
+}
+- (NSArray*) fbFriendIdsList {
+  if (result.mutableFbFriendIdsList == nil) {
+    return [NSArray array];
+  }
+  return result.mutableFbFriendIdsList;
+}
+- (NSString*) fbFriendIdsAtIndex:(int32_t) index {
+  return [result fbFriendIdsAtIndex:index];
+}
+- (InviteFbFriendsForSlotsRequestProto_Builder*) replaceFbFriendIdsAtIndex:(int32_t) index with:(NSString*) value {
+  [result.mutableFbFriendIdsList replaceObjectAtIndex:index withObject:value];
+  return self;
+}
+- (InviteFbFriendsForSlotsRequestProto_Builder*) addFbFriendIds:(NSString*) value {
+  if (result.mutableFbFriendIdsList == nil) {
+    result.mutableFbFriendIdsList = [NSMutableArray array];
+  }
+  [result.mutableFbFriendIdsList addObject:value];
+  return self;
+}
+- (InviteFbFriendsForSlotsRequestProto_Builder*) addAllFbFriendIds:(NSArray*) values {
+  if (result.mutableFbFriendIdsList == nil) {
+    result.mutableFbFriendIdsList = [NSMutableArray array];
+  }
+  [result.mutableFbFriendIdsList addObjectsFromArray:values];
+  return self;
+}
+- (InviteFbFriendsForSlotsRequestProto_Builder*) clearFbFriendIdsList {
+  result.mutableFbFriendIdsList = nil;
+  return self;
+}
+@end
+
+@interface InviteFbFriendsForSlotsResponseProto ()
+@property (retain) MinimumUserProtoWithFacebookId* sender;
+@property InviteFbFriendsForSlotsResponseProto_InviteFbFriendsForSlotsStatus status;
+@end
+
+@implementation InviteFbFriendsForSlotsResponseProto
+
+- (BOOL) hasSender {
+  return !!hasSender_;
+}
+- (void) setHasSender:(BOOL) value {
+  hasSender_ = !!value;
+}
+@synthesize sender;
+- (BOOL) hasStatus {
+  return !!hasStatus_;
+}
+- (void) setHasStatus:(BOOL) value {
+  hasStatus_ = !!value;
+}
+@synthesize status;
+- (void) dealloc {
+  self.sender = nil;
+  [super dealloc];
+}
+- (id) init {
+  if ((self = [super init])) {
+    self.sender = [MinimumUserProtoWithFacebookId defaultInstance];
+    self.status = InviteFbFriendsForSlotsResponseProto_InviteFbFriendsForSlotsStatusSuccess;
+  }
+  return self;
+}
+static InviteFbFriendsForSlotsResponseProto* defaultInviteFbFriendsForSlotsResponseProtoInstance = nil;
++ (void) initialize {
+  if (self == [InviteFbFriendsForSlotsResponseProto class]) {
+    defaultInviteFbFriendsForSlotsResponseProtoInstance = [[InviteFbFriendsForSlotsResponseProto alloc] init];
+  }
+}
++ (InviteFbFriendsForSlotsResponseProto*) defaultInstance {
+  return defaultInviteFbFriendsForSlotsResponseProtoInstance;
+}
+- (InviteFbFriendsForSlotsResponseProto*) defaultInstance {
+  return defaultInviteFbFriendsForSlotsResponseProtoInstance;
+}
+- (BOOL) isInitialized {
+  return YES;
+}
+- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output {
+  if (self.hasSender) {
+    [output writeMessage:1 value:self.sender];
+  }
+  if (self.hasStatus) {
+    [output writeEnum:2 value:self.status];
+  }
+  [self.unknownFields writeToCodedOutputStream:output];
+}
+- (int32_t) serializedSize {
+  int32_t size = memoizedSerializedSize;
+  if (size != -1) {
+    return size;
+  }
+
+  size = 0;
+  if (self.hasSender) {
+    size += computeMessageSize(1, self.sender);
+  }
+  if (self.hasStatus) {
+    size += computeEnumSize(2, self.status);
+  }
+  size += self.unknownFields.serializedSize;
+  memoizedSerializedSize = size;
+  return size;
+}
++ (InviteFbFriendsForSlotsResponseProto*) parseFromData:(NSData*) data {
+  return (InviteFbFriendsForSlotsResponseProto*)[[[InviteFbFriendsForSlotsResponseProto builder] mergeFromData:data] build];
+}
++ (InviteFbFriendsForSlotsResponseProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (InviteFbFriendsForSlotsResponseProto*)[[[InviteFbFriendsForSlotsResponseProto builder] mergeFromData:data extensionRegistry:extensionRegistry] build];
+}
++ (InviteFbFriendsForSlotsResponseProto*) parseFromInputStream:(NSInputStream*) input {
+  return (InviteFbFriendsForSlotsResponseProto*)[[[InviteFbFriendsForSlotsResponseProto builder] mergeFromInputStream:input] build];
+}
++ (InviteFbFriendsForSlotsResponseProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (InviteFbFriendsForSlotsResponseProto*)[[[InviteFbFriendsForSlotsResponseProto builder] mergeFromInputStream:input extensionRegistry:extensionRegistry] build];
+}
++ (InviteFbFriendsForSlotsResponseProto*) parseFromCodedInputStream:(PBCodedInputStream*) input {
+  return (InviteFbFriendsForSlotsResponseProto*)[[[InviteFbFriendsForSlotsResponseProto builder] mergeFromCodedInputStream:input] build];
+}
++ (InviteFbFriendsForSlotsResponseProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (InviteFbFriendsForSlotsResponseProto*)[[[InviteFbFriendsForSlotsResponseProto builder] mergeFromCodedInputStream:input extensionRegistry:extensionRegistry] build];
+}
++ (InviteFbFriendsForSlotsResponseProto_Builder*) builder {
+  return [[[InviteFbFriendsForSlotsResponseProto_Builder alloc] init] autorelease];
+}
++ (InviteFbFriendsForSlotsResponseProto_Builder*) builderWithPrototype:(InviteFbFriendsForSlotsResponseProto*) prototype {
+  return [[InviteFbFriendsForSlotsResponseProto builder] mergeFrom:prototype];
+}
+- (InviteFbFriendsForSlotsResponseProto_Builder*) builder {
+  return [InviteFbFriendsForSlotsResponseProto builder];
+}
+@end
+
+BOOL InviteFbFriendsForSlotsResponseProto_InviteFbFriendsForSlotsStatusIsValidValue(InviteFbFriendsForSlotsResponseProto_InviteFbFriendsForSlotsStatus value) {
+  switch (value) {
+    case InviteFbFriendsForSlotsResponseProto_InviteFbFriendsForSlotsStatusSuccess:
+    case InviteFbFriendsForSlotsResponseProto_InviteFbFriendsForSlotsStatusFailOther:
+      return YES;
+    default:
+      return NO;
+  }
+}
+@interface InviteFbFriendsForSlotsResponseProto_Builder()
+@property (retain) InviteFbFriendsForSlotsResponseProto* result;
+@end
+
+@implementation InviteFbFriendsForSlotsResponseProto_Builder
+@synthesize result;
+- (void) dealloc {
+  self.result = nil;
+  [super dealloc];
+}
+- (id) init {
+  if ((self = [super init])) {
+    self.result = [[[InviteFbFriendsForSlotsResponseProto alloc] init] autorelease];
+  }
+  return self;
+}
+- (PBGeneratedMessage*) internalGetResult {
+  return result;
+}
+- (InviteFbFriendsForSlotsResponseProto_Builder*) clear {
+  self.result = [[[InviteFbFriendsForSlotsResponseProto alloc] init] autorelease];
+  return self;
+}
+- (InviteFbFriendsForSlotsResponseProto_Builder*) clone {
+  return [InviteFbFriendsForSlotsResponseProto builderWithPrototype:result];
+}
+- (InviteFbFriendsForSlotsResponseProto*) defaultInstance {
+  return [InviteFbFriendsForSlotsResponseProto defaultInstance];
+}
+- (InviteFbFriendsForSlotsResponseProto*) build {
+  [self checkInitialized];
+  return [self buildPartial];
+}
+- (InviteFbFriendsForSlotsResponseProto*) buildPartial {
+  InviteFbFriendsForSlotsResponseProto* returnMe = [[result retain] autorelease];
+  self.result = nil;
+  return returnMe;
+}
+- (InviteFbFriendsForSlotsResponseProto_Builder*) mergeFrom:(InviteFbFriendsForSlotsResponseProto*) other {
+  if (other == [InviteFbFriendsForSlotsResponseProto defaultInstance]) {
+    return self;
+  }
+  if (other.hasSender) {
+    [self mergeSender:other.sender];
+  }
+  if (other.hasStatus) {
+    [self setStatus:other.status];
+  }
+  [self mergeUnknownFields:other.unknownFields];
+  return self;
+}
+- (InviteFbFriendsForSlotsResponseProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input {
+  return [self mergeFromCodedInputStream:input extensionRegistry:[PBExtensionRegistry emptyRegistry]];
+}
+- (InviteFbFriendsForSlotsResponseProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  PBUnknownFieldSet_Builder* unknownFields = [PBUnknownFieldSet builderWithUnknownFields:self.unknownFields];
+  while (YES) {
+    int32_t tag = [input readTag];
+    switch (tag) {
+      case 0:
+        [self setUnknownFields:[unknownFields build]];
+        return self;
+      default: {
+        if (![self parseUnknownField:input unknownFields:unknownFields extensionRegistry:extensionRegistry tag:tag]) {
+          [self setUnknownFields:[unknownFields build]];
+          return self;
+        }
+        break;
+      }
+      case 10: {
+        MinimumUserProtoWithFacebookId_Builder* subBuilder = [MinimumUserProtoWithFacebookId builder];
+        if (self.hasSender) {
+          [subBuilder mergeFrom:self.sender];
+        }
+        [input readMessage:subBuilder extensionRegistry:extensionRegistry];
+        [self setSender:[subBuilder buildPartial]];
+        break;
+      }
+      case 16: {
+        int32_t value = [input readEnum];
+        if (InviteFbFriendsForSlotsResponseProto_InviteFbFriendsForSlotsStatusIsValidValue(value)) {
+          [self setStatus:value];
+        } else {
+          [unknownFields mergeVarintField:2 value:value];
+        }
+        break;
+      }
+    }
+  }
+}
+- (BOOL) hasSender {
+  return result.hasSender;
+}
+- (MinimumUserProtoWithFacebookId*) sender {
+  return result.sender;
+}
+- (InviteFbFriendsForSlotsResponseProto_Builder*) setSender:(MinimumUserProtoWithFacebookId*) value {
+  result.hasSender = YES;
+  result.sender = value;
+  return self;
+}
+- (InviteFbFriendsForSlotsResponseProto_Builder*) setSenderBuilder:(MinimumUserProtoWithFacebookId_Builder*) builderForValue {
+  return [self setSender:[builderForValue build]];
+}
+- (InviteFbFriendsForSlotsResponseProto_Builder*) mergeSender:(MinimumUserProtoWithFacebookId*) value {
+  if (result.hasSender &&
+      result.sender != [MinimumUserProtoWithFacebookId defaultInstance]) {
+    result.sender =
+      [[[MinimumUserProtoWithFacebookId builderWithPrototype:result.sender] mergeFrom:value] buildPartial];
+  } else {
+    result.sender = value;
+  }
+  result.hasSender = YES;
+  return self;
+}
+- (InviteFbFriendsForSlotsResponseProto_Builder*) clearSender {
+  result.hasSender = NO;
+  result.sender = [MinimumUserProtoWithFacebookId defaultInstance];
+  return self;
+}
+- (BOOL) hasStatus {
+  return result.hasStatus;
+}
+- (InviteFbFriendsForSlotsResponseProto_InviteFbFriendsForSlotsStatus) status {
+  return result.status;
+}
+- (InviteFbFriendsForSlotsResponseProto_Builder*) setStatus:(InviteFbFriendsForSlotsResponseProto_InviteFbFriendsForSlotsStatus) value {
+  result.hasStatus = YES;
+  result.status = value;
+  return self;
+}
+- (InviteFbFriendsForSlotsResponseProto_Builder*) clearStatus {
+  result.hasStatus = NO;
+  result.status = InviteFbFriendsForSlotsResponseProto_InviteFbFriendsForSlotsStatusSuccess;
+  return self;
+}
+@end
+
+@interface AcceptAndRejectFbInviteForSlotsRequestProto ()
+@property (retain) MinimumUserProto* sender;
+@property (retain) NSMutableArray* mutableAcceptedInviteIdsList;
+@property (retain) NSMutableArray* mutableRejectedInviteIdsList;
+@end
+
+@implementation AcceptAndRejectFbInviteForSlotsRequestProto
+
+- (BOOL) hasSender {
+  return !!hasSender_;
+}
+- (void) setHasSender:(BOOL) value {
+  hasSender_ = !!value;
+}
+@synthesize sender;
+@synthesize mutableAcceptedInviteIdsList;
+@synthesize mutableRejectedInviteIdsList;
+- (void) dealloc {
+  self.sender = nil;
+  self.mutableAcceptedInviteIdsList = nil;
+  self.mutableRejectedInviteIdsList = nil;
+  [super dealloc];
+}
+- (id) init {
+  if ((self = [super init])) {
+    self.sender = [MinimumUserProto defaultInstance];
+  }
+  return self;
+}
+static AcceptAndRejectFbInviteForSlotsRequestProto* defaultAcceptAndRejectFbInviteForSlotsRequestProtoInstance = nil;
++ (void) initialize {
+  if (self == [AcceptAndRejectFbInviteForSlotsRequestProto class]) {
+    defaultAcceptAndRejectFbInviteForSlotsRequestProtoInstance = [[AcceptAndRejectFbInviteForSlotsRequestProto alloc] init];
+  }
+}
++ (AcceptAndRejectFbInviteForSlotsRequestProto*) defaultInstance {
+  return defaultAcceptAndRejectFbInviteForSlotsRequestProtoInstance;
+}
+- (AcceptAndRejectFbInviteForSlotsRequestProto*) defaultInstance {
+  return defaultAcceptAndRejectFbInviteForSlotsRequestProtoInstance;
+}
+- (NSArray*) acceptedInviteIdsList {
+  return mutableAcceptedInviteIdsList;
+}
+- (int32_t) acceptedInviteIdsAtIndex:(int32_t) index {
+  id value = [mutableAcceptedInviteIdsList objectAtIndex:index];
+  return [value intValue];
+}
+- (NSArray*) rejectedInviteIdsList {
+  return mutableRejectedInviteIdsList;
+}
+- (int32_t) rejectedInviteIdsAtIndex:(int32_t) index {
+  id value = [mutableRejectedInviteIdsList objectAtIndex:index];
+  return [value intValue];
+}
+- (BOOL) isInitialized {
+  return YES;
+}
+- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output {
+  if (self.hasSender) {
+    [output writeMessage:1 value:self.sender];
+  }
+  for (NSNumber* value in self.mutableAcceptedInviteIdsList) {
+    [output writeInt32:2 value:[value intValue]];
+  }
+  for (NSNumber* value in self.mutableRejectedInviteIdsList) {
+    [output writeInt32:3 value:[value intValue]];
+  }
+  [self.unknownFields writeToCodedOutputStream:output];
+}
+- (int32_t) serializedSize {
+  int32_t size = memoizedSerializedSize;
+  if (size != -1) {
+    return size;
+  }
+
+  size = 0;
+  if (self.hasSender) {
+    size += computeMessageSize(1, self.sender);
+  }
+  {
+    int32_t dataSize = 0;
+    for (NSNumber* value in self.mutableAcceptedInviteIdsList) {
+      dataSize += computeInt32SizeNoTag([value intValue]);
+    }
+    size += dataSize;
+    size += 1 * self.mutableAcceptedInviteIdsList.count;
+  }
+  {
+    int32_t dataSize = 0;
+    for (NSNumber* value in self.mutableRejectedInviteIdsList) {
+      dataSize += computeInt32SizeNoTag([value intValue]);
+    }
+    size += dataSize;
+    size += 1 * self.mutableRejectedInviteIdsList.count;
+  }
+  size += self.unknownFields.serializedSize;
+  memoizedSerializedSize = size;
+  return size;
+}
++ (AcceptAndRejectFbInviteForSlotsRequestProto*) parseFromData:(NSData*) data {
+  return (AcceptAndRejectFbInviteForSlotsRequestProto*)[[[AcceptAndRejectFbInviteForSlotsRequestProto builder] mergeFromData:data] build];
+}
++ (AcceptAndRejectFbInviteForSlotsRequestProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (AcceptAndRejectFbInviteForSlotsRequestProto*)[[[AcceptAndRejectFbInviteForSlotsRequestProto builder] mergeFromData:data extensionRegistry:extensionRegistry] build];
+}
++ (AcceptAndRejectFbInviteForSlotsRequestProto*) parseFromInputStream:(NSInputStream*) input {
+  return (AcceptAndRejectFbInviteForSlotsRequestProto*)[[[AcceptAndRejectFbInviteForSlotsRequestProto builder] mergeFromInputStream:input] build];
+}
++ (AcceptAndRejectFbInviteForSlotsRequestProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (AcceptAndRejectFbInviteForSlotsRequestProto*)[[[AcceptAndRejectFbInviteForSlotsRequestProto builder] mergeFromInputStream:input extensionRegistry:extensionRegistry] build];
+}
++ (AcceptAndRejectFbInviteForSlotsRequestProto*) parseFromCodedInputStream:(PBCodedInputStream*) input {
+  return (AcceptAndRejectFbInviteForSlotsRequestProto*)[[[AcceptAndRejectFbInviteForSlotsRequestProto builder] mergeFromCodedInputStream:input] build];
+}
++ (AcceptAndRejectFbInviteForSlotsRequestProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (AcceptAndRejectFbInviteForSlotsRequestProto*)[[[AcceptAndRejectFbInviteForSlotsRequestProto builder] mergeFromCodedInputStream:input extensionRegistry:extensionRegistry] build];
+}
++ (AcceptAndRejectFbInviteForSlotsRequestProto_Builder*) builder {
+  return [[[AcceptAndRejectFbInviteForSlotsRequestProto_Builder alloc] init] autorelease];
+}
++ (AcceptAndRejectFbInviteForSlotsRequestProto_Builder*) builderWithPrototype:(AcceptAndRejectFbInviteForSlotsRequestProto*) prototype {
+  return [[AcceptAndRejectFbInviteForSlotsRequestProto builder] mergeFrom:prototype];
+}
+- (AcceptAndRejectFbInviteForSlotsRequestProto_Builder*) builder {
+  return [AcceptAndRejectFbInviteForSlotsRequestProto builder];
+}
+@end
+
+@interface AcceptAndRejectFbInviteForSlotsRequestProto_Builder()
+@property (retain) AcceptAndRejectFbInviteForSlotsRequestProto* result;
+@end
+
+@implementation AcceptAndRejectFbInviteForSlotsRequestProto_Builder
+@synthesize result;
+- (void) dealloc {
+  self.result = nil;
+  [super dealloc];
+}
+- (id) init {
+  if ((self = [super init])) {
+    self.result = [[[AcceptAndRejectFbInviteForSlotsRequestProto alloc] init] autorelease];
+  }
+  return self;
+}
+- (PBGeneratedMessage*) internalGetResult {
+  return result;
+}
+- (AcceptAndRejectFbInviteForSlotsRequestProto_Builder*) clear {
+  self.result = [[[AcceptAndRejectFbInviteForSlotsRequestProto alloc] init] autorelease];
+  return self;
+}
+- (AcceptAndRejectFbInviteForSlotsRequestProto_Builder*) clone {
+  return [AcceptAndRejectFbInviteForSlotsRequestProto builderWithPrototype:result];
+}
+- (AcceptAndRejectFbInviteForSlotsRequestProto*) defaultInstance {
+  return [AcceptAndRejectFbInviteForSlotsRequestProto defaultInstance];
+}
+- (AcceptAndRejectFbInviteForSlotsRequestProto*) build {
+  [self checkInitialized];
+  return [self buildPartial];
+}
+- (AcceptAndRejectFbInviteForSlotsRequestProto*) buildPartial {
+  AcceptAndRejectFbInviteForSlotsRequestProto* returnMe = [[result retain] autorelease];
+  self.result = nil;
+  return returnMe;
+}
+- (AcceptAndRejectFbInviteForSlotsRequestProto_Builder*) mergeFrom:(AcceptAndRejectFbInviteForSlotsRequestProto*) other {
+  if (other == [AcceptAndRejectFbInviteForSlotsRequestProto defaultInstance]) {
+    return self;
+  }
+  if (other.hasSender) {
+    [self mergeSender:other.sender];
+  }
+  if (other.mutableAcceptedInviteIdsList.count > 0) {
+    if (result.mutableAcceptedInviteIdsList == nil) {
+      result.mutableAcceptedInviteIdsList = [NSMutableArray array];
+    }
+    [result.mutableAcceptedInviteIdsList addObjectsFromArray:other.mutableAcceptedInviteIdsList];
+  }
+  if (other.mutableRejectedInviteIdsList.count > 0) {
+    if (result.mutableRejectedInviteIdsList == nil) {
+      result.mutableRejectedInviteIdsList = [NSMutableArray array];
+    }
+    [result.mutableRejectedInviteIdsList addObjectsFromArray:other.mutableRejectedInviteIdsList];
+  }
+  [self mergeUnknownFields:other.unknownFields];
+  return self;
+}
+- (AcceptAndRejectFbInviteForSlotsRequestProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input {
+  return [self mergeFromCodedInputStream:input extensionRegistry:[PBExtensionRegistry emptyRegistry]];
+}
+- (AcceptAndRejectFbInviteForSlotsRequestProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  PBUnknownFieldSet_Builder* unknownFields = [PBUnknownFieldSet builderWithUnknownFields:self.unknownFields];
+  while (YES) {
+    int32_t tag = [input readTag];
+    switch (tag) {
+      case 0:
+        [self setUnknownFields:[unknownFields build]];
+        return self;
+      default: {
+        if (![self parseUnknownField:input unknownFields:unknownFields extensionRegistry:extensionRegistry tag:tag]) {
+          [self setUnknownFields:[unknownFields build]];
+          return self;
+        }
+        break;
+      }
+      case 10: {
+        MinimumUserProto_Builder* subBuilder = [MinimumUserProto builder];
+        if (self.hasSender) {
+          [subBuilder mergeFrom:self.sender];
+        }
+        [input readMessage:subBuilder extensionRegistry:extensionRegistry];
+        [self setSender:[subBuilder buildPartial]];
+        break;
+      }
+      case 16: {
+        [self addAcceptedInviteIds:[input readInt32]];
+        break;
+      }
+      case 24: {
+        [self addRejectedInviteIds:[input readInt32]];
+        break;
+      }
+    }
+  }
+}
+- (BOOL) hasSender {
+  return result.hasSender;
+}
+- (MinimumUserProto*) sender {
+  return result.sender;
+}
+- (AcceptAndRejectFbInviteForSlotsRequestProto_Builder*) setSender:(MinimumUserProto*) value {
+  result.hasSender = YES;
+  result.sender = value;
+  return self;
+}
+- (AcceptAndRejectFbInviteForSlotsRequestProto_Builder*) setSenderBuilder:(MinimumUserProto_Builder*) builderForValue {
+  return [self setSender:[builderForValue build]];
+}
+- (AcceptAndRejectFbInviteForSlotsRequestProto_Builder*) mergeSender:(MinimumUserProto*) value {
+  if (result.hasSender &&
+      result.sender != [MinimumUserProto defaultInstance]) {
+    result.sender =
+      [[[MinimumUserProto builderWithPrototype:result.sender] mergeFrom:value] buildPartial];
+  } else {
+    result.sender = value;
+  }
+  result.hasSender = YES;
+  return self;
+}
+- (AcceptAndRejectFbInviteForSlotsRequestProto_Builder*) clearSender {
+  result.hasSender = NO;
+  result.sender = [MinimumUserProto defaultInstance];
+  return self;
+}
+- (NSArray*) acceptedInviteIdsList {
+  if (result.mutableAcceptedInviteIdsList == nil) {
+    return [NSArray array];
+  }
+  return result.mutableAcceptedInviteIdsList;
+}
+- (int32_t) acceptedInviteIdsAtIndex:(int32_t) index {
+  return [result acceptedInviteIdsAtIndex:index];
+}
+- (AcceptAndRejectFbInviteForSlotsRequestProto_Builder*) replaceAcceptedInviteIdsAtIndex:(int32_t) index with:(int32_t) value {
+  [result.mutableAcceptedInviteIdsList replaceObjectAtIndex:index withObject:[NSNumber numberWithInt:value]];
+  return self;
+}
+- (AcceptAndRejectFbInviteForSlotsRequestProto_Builder*) addAcceptedInviteIds:(int32_t) value {
+  if (result.mutableAcceptedInviteIdsList == nil) {
+    result.mutableAcceptedInviteIdsList = [NSMutableArray array];
+  }
+  [result.mutableAcceptedInviteIdsList addObject:[NSNumber numberWithInt:value]];
+  return self;
+}
+- (AcceptAndRejectFbInviteForSlotsRequestProto_Builder*) addAllAcceptedInviteIds:(NSArray*) values {
+  if (result.mutableAcceptedInviteIdsList == nil) {
+    result.mutableAcceptedInviteIdsList = [NSMutableArray array];
+  }
+  [result.mutableAcceptedInviteIdsList addObjectsFromArray:values];
+  return self;
+}
+- (AcceptAndRejectFbInviteForSlotsRequestProto_Builder*) clearAcceptedInviteIdsList {
+  result.mutableAcceptedInviteIdsList = nil;
+  return self;
+}
+- (NSArray*) rejectedInviteIdsList {
+  if (result.mutableRejectedInviteIdsList == nil) {
+    return [NSArray array];
+  }
+  return result.mutableRejectedInviteIdsList;
+}
+- (int32_t) rejectedInviteIdsAtIndex:(int32_t) index {
+  return [result rejectedInviteIdsAtIndex:index];
+}
+- (AcceptAndRejectFbInviteForSlotsRequestProto_Builder*) replaceRejectedInviteIdsAtIndex:(int32_t) index with:(int32_t) value {
+  [result.mutableRejectedInviteIdsList replaceObjectAtIndex:index withObject:[NSNumber numberWithInt:value]];
+  return self;
+}
+- (AcceptAndRejectFbInviteForSlotsRequestProto_Builder*) addRejectedInviteIds:(int32_t) value {
+  if (result.mutableRejectedInviteIdsList == nil) {
+    result.mutableRejectedInviteIdsList = [NSMutableArray array];
+  }
+  [result.mutableRejectedInviteIdsList addObject:[NSNumber numberWithInt:value]];
+  return self;
+}
+- (AcceptAndRejectFbInviteForSlotsRequestProto_Builder*) addAllRejectedInviteIds:(NSArray*) values {
+  if (result.mutableRejectedInviteIdsList == nil) {
+    result.mutableRejectedInviteIdsList = [NSMutableArray array];
+  }
+  [result.mutableRejectedInviteIdsList addObjectsFromArray:values];
+  return self;
+}
+- (AcceptAndRejectFbInviteForSlotsRequestProto_Builder*) clearRejectedInviteIdsList {
+  result.mutableRejectedInviteIdsList = nil;
+  return self;
+}
+@end
+
+@interface AcceptAndRejectFbInviteForSlotsResponseProto ()
+@property (retain) MinimumUserProto* sender;
+@property AcceptAndRejectFbInviteForSlotsResponseProto_AcceptAndRejectFbInviteForSlotsStatus status;
+@end
+
+@implementation AcceptAndRejectFbInviteForSlotsResponseProto
+
+- (BOOL) hasSender {
+  return !!hasSender_;
+}
+- (void) setHasSender:(BOOL) value {
+  hasSender_ = !!value;
+}
+@synthesize sender;
+- (BOOL) hasStatus {
+  return !!hasStatus_;
+}
+- (void) setHasStatus:(BOOL) value {
+  hasStatus_ = !!value;
+}
+@synthesize status;
+- (void) dealloc {
+  self.sender = nil;
+  [super dealloc];
+}
+- (id) init {
+  if ((self = [super init])) {
+    self.sender = [MinimumUserProto defaultInstance];
+    self.status = AcceptAndRejectFbInviteForSlotsResponseProto_AcceptAndRejectFbInviteForSlotsStatusSuccess;
+  }
+  return self;
+}
+static AcceptAndRejectFbInviteForSlotsResponseProto* defaultAcceptAndRejectFbInviteForSlotsResponseProtoInstance = nil;
++ (void) initialize {
+  if (self == [AcceptAndRejectFbInviteForSlotsResponseProto class]) {
+    defaultAcceptAndRejectFbInviteForSlotsResponseProtoInstance = [[AcceptAndRejectFbInviteForSlotsResponseProto alloc] init];
+  }
+}
++ (AcceptAndRejectFbInviteForSlotsResponseProto*) defaultInstance {
+  return defaultAcceptAndRejectFbInviteForSlotsResponseProtoInstance;
+}
+- (AcceptAndRejectFbInviteForSlotsResponseProto*) defaultInstance {
+  return defaultAcceptAndRejectFbInviteForSlotsResponseProtoInstance;
+}
+- (BOOL) isInitialized {
+  return YES;
+}
+- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output {
+  if (self.hasSender) {
+    [output writeMessage:1 value:self.sender];
+  }
+  if (self.hasStatus) {
+    [output writeEnum:2 value:self.status];
+  }
+  [self.unknownFields writeToCodedOutputStream:output];
+}
+- (int32_t) serializedSize {
+  int32_t size = memoizedSerializedSize;
+  if (size != -1) {
+    return size;
+  }
+
+  size = 0;
+  if (self.hasSender) {
+    size += computeMessageSize(1, self.sender);
+  }
+  if (self.hasStatus) {
+    size += computeEnumSize(2, self.status);
+  }
+  size += self.unknownFields.serializedSize;
+  memoizedSerializedSize = size;
+  return size;
+}
++ (AcceptAndRejectFbInviteForSlotsResponseProto*) parseFromData:(NSData*) data {
+  return (AcceptAndRejectFbInviteForSlotsResponseProto*)[[[AcceptAndRejectFbInviteForSlotsResponseProto builder] mergeFromData:data] build];
+}
++ (AcceptAndRejectFbInviteForSlotsResponseProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (AcceptAndRejectFbInviteForSlotsResponseProto*)[[[AcceptAndRejectFbInviteForSlotsResponseProto builder] mergeFromData:data extensionRegistry:extensionRegistry] build];
+}
++ (AcceptAndRejectFbInviteForSlotsResponseProto*) parseFromInputStream:(NSInputStream*) input {
+  return (AcceptAndRejectFbInviteForSlotsResponseProto*)[[[AcceptAndRejectFbInviteForSlotsResponseProto builder] mergeFromInputStream:input] build];
+}
++ (AcceptAndRejectFbInviteForSlotsResponseProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (AcceptAndRejectFbInviteForSlotsResponseProto*)[[[AcceptAndRejectFbInviteForSlotsResponseProto builder] mergeFromInputStream:input extensionRegistry:extensionRegistry] build];
+}
++ (AcceptAndRejectFbInviteForSlotsResponseProto*) parseFromCodedInputStream:(PBCodedInputStream*) input {
+  return (AcceptAndRejectFbInviteForSlotsResponseProto*)[[[AcceptAndRejectFbInviteForSlotsResponseProto builder] mergeFromCodedInputStream:input] build];
+}
++ (AcceptAndRejectFbInviteForSlotsResponseProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (AcceptAndRejectFbInviteForSlotsResponseProto*)[[[AcceptAndRejectFbInviteForSlotsResponseProto builder] mergeFromCodedInputStream:input extensionRegistry:extensionRegistry] build];
+}
++ (AcceptAndRejectFbInviteForSlotsResponseProto_Builder*) builder {
+  return [[[AcceptAndRejectFbInviteForSlotsResponseProto_Builder alloc] init] autorelease];
+}
++ (AcceptAndRejectFbInviteForSlotsResponseProto_Builder*) builderWithPrototype:(AcceptAndRejectFbInviteForSlotsResponseProto*) prototype {
+  return [[AcceptAndRejectFbInviteForSlotsResponseProto builder] mergeFrom:prototype];
+}
+- (AcceptAndRejectFbInviteForSlotsResponseProto_Builder*) builder {
+  return [AcceptAndRejectFbInviteForSlotsResponseProto builder];
+}
+@end
+
+BOOL AcceptAndRejectFbInviteForSlotsResponseProto_AcceptAndRejectFbInviteForSlotsStatusIsValidValue(AcceptAndRejectFbInviteForSlotsResponseProto_AcceptAndRejectFbInviteForSlotsStatus value) {
+  switch (value) {
+    case AcceptAndRejectFbInviteForSlotsResponseProto_AcceptAndRejectFbInviteForSlotsStatusSuccess:
+    case AcceptAndRejectFbInviteForSlotsResponseProto_AcceptAndRejectFbInviteForSlotsStatusFailExpired:
+    case AcceptAndRejectFbInviteForSlotsResponseProto_AcceptAndRejectFbInviteForSlotsStatusFailAlreadyBeenUsed:
+    case AcceptAndRejectFbInviteForSlotsResponseProto_AcceptAndRejectFbInviteForSlotsStatusFailOther:
+      return YES;
+    default:
+      return NO;
+  }
+}
+@interface AcceptAndRejectFbInviteForSlotsResponseProto_Builder()
+@property (retain) AcceptAndRejectFbInviteForSlotsResponseProto* result;
+@end
+
+@implementation AcceptAndRejectFbInviteForSlotsResponseProto_Builder
+@synthesize result;
+- (void) dealloc {
+  self.result = nil;
+  [super dealloc];
+}
+- (id) init {
+  if ((self = [super init])) {
+    self.result = [[[AcceptAndRejectFbInviteForSlotsResponseProto alloc] init] autorelease];
+  }
+  return self;
+}
+- (PBGeneratedMessage*) internalGetResult {
+  return result;
+}
+- (AcceptAndRejectFbInviteForSlotsResponseProto_Builder*) clear {
+  self.result = [[[AcceptAndRejectFbInviteForSlotsResponseProto alloc] init] autorelease];
+  return self;
+}
+- (AcceptAndRejectFbInviteForSlotsResponseProto_Builder*) clone {
+  return [AcceptAndRejectFbInviteForSlotsResponseProto builderWithPrototype:result];
+}
+- (AcceptAndRejectFbInviteForSlotsResponseProto*) defaultInstance {
+  return [AcceptAndRejectFbInviteForSlotsResponseProto defaultInstance];
+}
+- (AcceptAndRejectFbInviteForSlotsResponseProto*) build {
+  [self checkInitialized];
+  return [self buildPartial];
+}
+- (AcceptAndRejectFbInviteForSlotsResponseProto*) buildPartial {
+  AcceptAndRejectFbInviteForSlotsResponseProto* returnMe = [[result retain] autorelease];
+  self.result = nil;
+  return returnMe;
+}
+- (AcceptAndRejectFbInviteForSlotsResponseProto_Builder*) mergeFrom:(AcceptAndRejectFbInviteForSlotsResponseProto*) other {
+  if (other == [AcceptAndRejectFbInviteForSlotsResponseProto defaultInstance]) {
+    return self;
+  }
+  if (other.hasSender) {
+    [self mergeSender:other.sender];
+  }
+  if (other.hasStatus) {
+    [self setStatus:other.status];
+  }
+  [self mergeUnknownFields:other.unknownFields];
+  return self;
+}
+- (AcceptAndRejectFbInviteForSlotsResponseProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input {
+  return [self mergeFromCodedInputStream:input extensionRegistry:[PBExtensionRegistry emptyRegistry]];
+}
+- (AcceptAndRejectFbInviteForSlotsResponseProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  PBUnknownFieldSet_Builder* unknownFields = [PBUnknownFieldSet builderWithUnknownFields:self.unknownFields];
+  while (YES) {
+    int32_t tag = [input readTag];
+    switch (tag) {
+      case 0:
+        [self setUnknownFields:[unknownFields build]];
+        return self;
+      default: {
+        if (![self parseUnknownField:input unknownFields:unknownFields extensionRegistry:extensionRegistry tag:tag]) {
+          [self setUnknownFields:[unknownFields build]];
+          return self;
+        }
+        break;
+      }
+      case 10: {
+        MinimumUserProto_Builder* subBuilder = [MinimumUserProto builder];
+        if (self.hasSender) {
+          [subBuilder mergeFrom:self.sender];
+        }
+        [input readMessage:subBuilder extensionRegistry:extensionRegistry];
+        [self setSender:[subBuilder buildPartial]];
+        break;
+      }
+      case 16: {
+        int32_t value = [input readEnum];
+        if (AcceptAndRejectFbInviteForSlotsResponseProto_AcceptAndRejectFbInviteForSlotsStatusIsValidValue(value)) {
+          [self setStatus:value];
+        } else {
+          [unknownFields mergeVarintField:2 value:value];
+        }
+        break;
+      }
+    }
+  }
+}
+- (BOOL) hasSender {
+  return result.hasSender;
+}
+- (MinimumUserProto*) sender {
+  return result.sender;
+}
+- (AcceptAndRejectFbInviteForSlotsResponseProto_Builder*) setSender:(MinimumUserProto*) value {
+  result.hasSender = YES;
+  result.sender = value;
+  return self;
+}
+- (AcceptAndRejectFbInviteForSlotsResponseProto_Builder*) setSenderBuilder:(MinimumUserProto_Builder*) builderForValue {
+  return [self setSender:[builderForValue build]];
+}
+- (AcceptAndRejectFbInviteForSlotsResponseProto_Builder*) mergeSender:(MinimumUserProto*) value {
+  if (result.hasSender &&
+      result.sender != [MinimumUserProto defaultInstance]) {
+    result.sender =
+      [[[MinimumUserProto builderWithPrototype:result.sender] mergeFrom:value] buildPartial];
+  } else {
+    result.sender = value;
+  }
+  result.hasSender = YES;
+  return self;
+}
+- (AcceptAndRejectFbInviteForSlotsResponseProto_Builder*) clearSender {
+  result.hasSender = NO;
+  result.sender = [MinimumUserProto defaultInstance];
+  return self;
+}
+- (BOOL) hasStatus {
+  return result.hasStatus;
+}
+- (AcceptAndRejectFbInviteForSlotsResponseProto_AcceptAndRejectFbInviteForSlotsStatus) status {
+  return result.status;
+}
+- (AcceptAndRejectFbInviteForSlotsResponseProto_Builder*) setStatus:(AcceptAndRejectFbInviteForSlotsResponseProto_AcceptAndRejectFbInviteForSlotsStatus) value {
+  result.hasStatus = YES;
+  result.status = value;
+  return self;
+}
+- (AcceptAndRejectFbInviteForSlotsResponseProto_Builder*) clearStatus {
+  result.hasStatus = NO;
+  result.status = AcceptAndRejectFbInviteForSlotsResponseProto_AcceptAndRejectFbInviteForSlotsStatusSuccess;
+  return self;
+}
+@end
+
 @interface CombineUserMonsterPiecesRequestProto ()
 @property (retain) MinimumUserProto* sender;
 @property (retain) NSMutableArray* mutableUserMonsterIdsList;

@@ -105,6 +105,8 @@ BOOL EventProtocolRequestIsValidValue(EventProtocolRequest value) {
     case EventProtocolRequestCEnhancementWaitTimeCompleteEvent:
     case EventProtocolRequestCCombineUserMonsterPiecesEvent:
     case EventProtocolRequestCSellUserMonsterEvent:
+    case EventProtocolRequestCInviteFbFriendsForSlotsEvent:
+    case EventProtocolRequestCAcceptAndRejectFbInviteForSlotsEvent:
     case EventProtocolRequestCLogoutEvent:
       return YES;
     default:
@@ -168,6 +170,8 @@ BOOL EventProtocolResponseIsValidValue(EventProtocolResponse value) {
     case EventProtocolResponseSEnhancementWaitTimeCompleteEvent:
     case EventProtocolResponseSCombineUserMonsterPiecesEvent:
     case EventProtocolResponseSSellUserMonsterEvent:
+    case EventProtocolResponseSInviteFbFriendsForSlotsEvent:
+    case EventProtocolResponseSAcceptAndRejectFbInviteForSlotsEvent:
     case EventProtocolResponseSUpdateClientUserEvent:
     case EventProtocolResponseSReferralCodeUsedEvent:
     case EventProtocolResponseSPurgeStaticDataEvent:

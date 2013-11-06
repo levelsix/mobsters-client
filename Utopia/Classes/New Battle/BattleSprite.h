@@ -8,6 +8,7 @@
 
 #import "CCSprite.h"
 #import "cocos2d.h"
+#import "BattleSpeechBubble.h"
 
 @interface BattleSprite : CCSprite
 

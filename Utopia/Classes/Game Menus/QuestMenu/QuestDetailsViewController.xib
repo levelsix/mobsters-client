@@ -101,22 +101,22 @@
                 <view contentMode="scaleToFill" id="glq-da-Jx6">
                     <rect key="frame" x="27" y="150" width="115" height="1"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                    <color key="backgroundColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
+                    <color key="backgroundColor" red="1" green="1" blue="1" alpha="0.25" colorSpace="calibratedRGB"/>
                 </view>
                 <view contentMode="scaleToFill" id="uPa-do-by6">
-                    <rect key="frame" x="27" y="151" width="115" height="1"/>
+                    <rect key="frame" x="27" y="152" width="115" height="1"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                    <color key="backgroundColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
+                    <color key="backgroundColor" red="1" green="1" blue="1" alpha="0.25" colorSpace="calibratedRGB"/>
                 </view>
                 <view contentMode="scaleToFill" id="Kvg-OY-Vs3">
                     <rect key="frame" x="238" y="150" width="115" height="1"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                    <color key="backgroundColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
+                    <color key="backgroundColor" red="1" green="1" blue="1" alpha="0.25" colorSpace="calibratedRGB"/>
                 </view>
                 <view contentMode="scaleToFill" id="lFH-rc-8y6">
-                    <rect key="frame" x="238" y="151" width="115" height="1"/>
+                    <rect key="frame" x="238" y="152" width="115" height="1"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                    <color key="backgroundColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
+                    <color key="backgroundColor" red="1" green="1" blue="1" alpha="0.25" colorSpace="calibratedRGB"/>
                 </view>
                 <view contentMode="scaleToFill" id="3O4-Y5-s9u" customClass="RewardsViewContainer">
                     <rect key="frame" x="25" y="170" width="329" height="63"/>

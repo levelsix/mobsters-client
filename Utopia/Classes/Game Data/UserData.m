@@ -294,13 +294,11 @@
     self.userStructId = proto.userStructId;
     self.userId = proto.userId;
     self.structId = proto.structId;
-    self.level = proto.level;
     self.isComplete = proto.isComplete;
     self.coordinates = CGPointMake(proto.coordinates.x, proto.coordinates.y);
     self.orientation = proto.orientation;
     self.purchaseTime = proto.hasPurchaseTime ? [NSDate dateWithTimeIntervalSince1970:proto.purchaseTime/1000.0] : nil;
     self.lastRetrieved = proto.hasLastRetrieved ? [NSDate dateWithTimeIntervalSince1970:proto.lastRetrieved/1000.0] : nil;
-    self.lastUpgradeTime = proto.hasLastUpgradeTime ? [NSDate dateWithTimeIntervalSince1970:proto.lastUpgradeTime/1000.0] : nil;
   }
   return self;
 }
@@ -533,6 +531,22 @@
 - (FullQuestProto *) quest {
   GameState *gs = [GameState sharedGameState];
   return [gs questForId:self.questId];
+}
+
+@end
+
+@implementation RequestFromFriend
+
++ (id) requestForInventorySlotsWithUser:(MinimumUserProtoWithFacebookId *)user {
+  return [[self alloc] initInventorySlotsRequestWithUser:user];
+}
+
+- (id) initInventorySlotsRequestWithUser:(MinimumUserProtoWithFacebookId *)user {
+  if ((self = [super init])) {
+    self.user = user;
+    self.type = RequestFromFriendInventorySlots;
+  }
+  return self;
 }
 
 @end

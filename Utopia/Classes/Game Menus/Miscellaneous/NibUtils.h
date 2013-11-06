@@ -16,7 +16,16 @@ typedef enum {
   kButton5 = 1 << 4
 } BarButton;
 
-@interface NiceFontLabel : UILabel 
+@interface NiceFontLabel : UILabel
+@end
+
+@interface NiceFontLabel2 : UILabel
+@end
+
+@interface NiceFontLabel3 : UILabel
+@end
+
+@interface NiceFontLabel4 : UILabel
 @end
 
 @interface NiceFontButton : UIButton

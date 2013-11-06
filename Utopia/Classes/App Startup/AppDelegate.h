@@ -8,8 +8,6 @@
 
 #import <UIKit/UIKit.h>
 #import <CoreLocation/CoreLocation.h>
-//#import "KiipDelegate.h"
-#import "FacebookDelegate.h"
 #import <MobileAppTracker/MobileAppTracker.h>
 
 #ifdef LEGENDS_OF_CHAOS
@@ -19,11 +17,8 @@
 #endif
 
 @interface AppDelegate : NSObject <UIApplicationDelegate, CLLocationManagerDelegate, MobileAppTrackerDelegate> {
-  id<FacebookGlobalDelegate> facebookDelegate;
 	UIWindow *window;
 }
-
-@property (nonatomic, retain) id<FacebookGlobalDelegate> facebookDelegate;
 
 @property (nonatomic, assign) int isActive;
 

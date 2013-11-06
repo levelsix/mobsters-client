@@ -31,6 +31,8 @@
 @class MinimumClanProto;
 @class MinimumClanProto_Builder;
 @class MinimumUserProto;
+@class MinimumUserProtoWithFacebookId;
+@class MinimumUserProtoWithFacebookId_Builder;
 @class MinimumUserProtoWithLevel;
 @class MinimumUserProtoWithLevel_Builder;
 @class MinimumUserProto_Builder;
@@ -111,15 +113,6 @@ typedef enum {
 BOOL UpgradeNormStructureResponseProto_UpgradeNormStructureStatusIsValidValue(UpgradeNormStructureResponseProto_UpgradeNormStructureStatus value);
 
 typedef enum {
-  RetrieveCurrencyFromNormStructureResponseProto_RetrieveCurrencyFromNormStructureStatusOtherFail = 1,
-  RetrieveCurrencyFromNormStructureResponseProto_RetrieveCurrencyFromNormStructureStatusSuccess = 2,
-  RetrieveCurrencyFromNormStructureResponseProto_RetrieveCurrencyFromNormStructureStatusClientTooApartFromServerTime = 3,
-  RetrieveCurrencyFromNormStructureResponseProto_RetrieveCurrencyFromNormStructureStatusNotLongEnough = 4,
-} RetrieveCurrencyFromNormStructureResponseProto_RetrieveCurrencyFromNormStructureStatus;
-
-BOOL RetrieveCurrencyFromNormStructureResponseProto_RetrieveCurrencyFromNormStructureStatusIsValidValue(RetrieveCurrencyFromNormStructureResponseProto_RetrieveCurrencyFromNormStructureStatus value);
-
-typedef enum {
   FinishNormStructWaittimeWithDiamondsResponseProto_FinishNormStructWaittimeStatusSuccess = 1,
   FinishNormStructWaittimeWithDiamondsResponseProto_FinishNormStructWaittimeStatusFailNotEnoughGems = 2,
   FinishNormStructWaittimeWithDiamondsResponseProto_FinishNormStructWaittimeStatusFailOther = 3,
@@ -129,19 +122,27 @@ BOOL FinishNormStructWaittimeWithDiamondsResponseProto_FinishNormStructWaittimeS
 
 typedef enum {
   NormStructWaitCompleteResponseProto_NormStructWaitCompleteStatusSuccess = 1,
-  NormStructWaitCompleteResponseProto_NormStructWaitCompleteStatusNotDoneYet = 2,
-  NormStructWaitCompleteResponseProto_NormStructWaitCompleteStatusOtherFail = 3,
-  NormStructWaitCompleteResponseProto_NormStructWaitCompleteStatusClientTooApartFromServerTime = 4,
+  NormStructWaitCompleteResponseProto_NormStructWaitCompleteStatusFailNotDoneYet = 2,
+  NormStructWaitCompleteResponseProto_NormStructWaitCompleteStatusFailOther = 3,
 } NormStructWaitCompleteResponseProto_NormStructWaitCompleteStatus;
 
 BOOL NormStructWaitCompleteResponseProto_NormStructWaitCompleteStatusIsValidValue(NormStructWaitCompleteResponseProto_NormStructWaitCompleteStatus value);
 
 typedef enum {
+  RetrieveCurrencyFromNormStructureResponseProto_RetrieveCurrencyFromNormStructureStatusOtherFail = 1,
+  RetrieveCurrencyFromNormStructureResponseProto_RetrieveCurrencyFromNormStructureStatusSuccess = 2,
+  RetrieveCurrencyFromNormStructureResponseProto_RetrieveCurrencyFromNormStructureStatusClientTooApartFromServerTime = 3,
+  RetrieveCurrencyFromNormStructureResponseProto_RetrieveCurrencyFromNormStructureStatusNotLongEnough = 4,
+} RetrieveCurrencyFromNormStructureResponseProto_RetrieveCurrencyFromNormStructureStatus;
+
+BOOL RetrieveCurrencyFromNormStructureResponseProto_RetrieveCurrencyFromNormStructureStatusIsValidValue(RetrieveCurrencyFromNormStructureResponseProto_RetrieveCurrencyFromNormStructureStatus value);
+
+typedef enum {
   ExpansionWaitCompleteResponseProto_ExpansionWaitCompleteStatusSuccess = 1,
-  ExpansionWaitCompleteResponseProto_ExpansionWaitCompleteStatusWasNotExpanding = 2,
-  ExpansionWaitCompleteResponseProto_ExpansionWaitCompleteStatusNotDoneYet = 3,
-  ExpansionWaitCompleteResponseProto_ExpansionWaitCompleteStatusOtherFail = 4,
-  ExpansionWaitCompleteResponseProto_ExpansionWaitCompleteStatusClientTooApartFromServerTime = 5,
+  ExpansionWaitCompleteResponseProto_ExpansionWaitCompleteStatusFailWasNotExpanding = 2,
+  ExpansionWaitCompleteResponseProto_ExpansionWaitCompleteStatusFailNotDoneYet = 3,
+  ExpansionWaitCompleteResponseProto_ExpansionWaitCompleteStatusFailInsufficientGems = 4,
+  ExpansionWaitCompleteResponseProto_ExpansionWaitCompleteStatusFailOther = 5,
 } ExpansionWaitCompleteResponseProto_ExpansionWaitCompleteStatus;
 
 BOOL ExpansionWaitCompleteResponseProto_ExpansionWaitCompleteStatusIsValidValue(ExpansionWaitCompleteResponseProto_ExpansionWaitCompleteStatus value);
@@ -692,182 +693,6 @@ BOOL ExpansionWaitCompleteResponseProto_ExpansionWaitCompleteStatusIsValidValue(
 - (UpgradeNormStructureResponseProto_Builder*) clearStatus;
 @end
 
-@interface RetrieveCurrencyFromNormStructureRequestProto : PBGeneratedMessage {
-@private
-  BOOL hasSender_:1;
-  MinimumUserProto* sender;
-  NSMutableArray* mutableStructRetrievalsList;
-}
-- (BOOL) hasSender;
-@property (readonly, retain) MinimumUserProto* sender;
-- (NSArray*) structRetrievalsList;
-- (RetrieveCurrencyFromNormStructureRequestProto_StructRetrieval*) structRetrievalsAtIndex:(int32_t) index;
-
-+ (RetrieveCurrencyFromNormStructureRequestProto*) defaultInstance;
-- (RetrieveCurrencyFromNormStructureRequestProto*) defaultInstance;
-
-- (BOOL) isInitialized;
-- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output;
-- (RetrieveCurrencyFromNormStructureRequestProto_Builder*) builder;
-+ (RetrieveCurrencyFromNormStructureRequestProto_Builder*) builder;
-+ (RetrieveCurrencyFromNormStructureRequestProto_Builder*) builderWithPrototype:(RetrieveCurrencyFromNormStructureRequestProto*) prototype;
-
-+ (RetrieveCurrencyFromNormStructureRequestProto*) parseFromData:(NSData*) data;
-+ (RetrieveCurrencyFromNormStructureRequestProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
-+ (RetrieveCurrencyFromNormStructureRequestProto*) parseFromInputStream:(NSInputStream*) input;
-+ (RetrieveCurrencyFromNormStructureRequestProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
-+ (RetrieveCurrencyFromNormStructureRequestProto*) parseFromCodedInputStream:(PBCodedInputStream*) input;
-+ (RetrieveCurrencyFromNormStructureRequestProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
-@end
-
-@interface RetrieveCurrencyFromNormStructureRequestProto_StructRetrieval : PBGeneratedMessage {
-@private
-  BOOL hasTimeOfRetrieval_:1;
-  BOOL hasUserStructId_:1;
-  int64_t timeOfRetrieval;
-  int32_t userStructId;
-}
-- (BOOL) hasUserStructId;
-- (BOOL) hasTimeOfRetrieval;
-@property (readonly) int32_t userStructId;
-@property (readonly) int64_t timeOfRetrieval;
-
-+ (RetrieveCurrencyFromNormStructureRequestProto_StructRetrieval*) defaultInstance;
-- (RetrieveCurrencyFromNormStructureRequestProto_StructRetrieval*) defaultInstance;
-
-- (BOOL) isInitialized;
-- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output;
-- (RetrieveCurrencyFromNormStructureRequestProto_StructRetrieval_Builder*) builder;
-+ (RetrieveCurrencyFromNormStructureRequestProto_StructRetrieval_Builder*) builder;
-+ (RetrieveCurrencyFromNormStructureRequestProto_StructRetrieval_Builder*) builderWithPrototype:(RetrieveCurrencyFromNormStructureRequestProto_StructRetrieval*) prototype;
-
-+ (RetrieveCurrencyFromNormStructureRequestProto_StructRetrieval*) parseFromData:(NSData*) data;
-+ (RetrieveCurrencyFromNormStructureRequestProto_StructRetrieval*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
-+ (RetrieveCurrencyFromNormStructureRequestProto_StructRetrieval*) parseFromInputStream:(NSInputStream*) input;
-+ (RetrieveCurrencyFromNormStructureRequestProto_StructRetrieval*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
-+ (RetrieveCurrencyFromNormStructureRequestProto_StructRetrieval*) parseFromCodedInputStream:(PBCodedInputStream*) input;
-+ (RetrieveCurrencyFromNormStructureRequestProto_StructRetrieval*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
-@end
-
-@interface RetrieveCurrencyFromNormStructureRequestProto_StructRetrieval_Builder : PBGeneratedMessage_Builder {
-@private
-  RetrieveCurrencyFromNormStructureRequestProto_StructRetrieval* result;
-}
-
-- (RetrieveCurrencyFromNormStructureRequestProto_StructRetrieval*) defaultInstance;
-
-- (RetrieveCurrencyFromNormStructureRequestProto_StructRetrieval_Builder*) clear;
-- (RetrieveCurrencyFromNormStructureRequestProto_StructRetrieval_Builder*) clone;
-
-- (RetrieveCurrencyFromNormStructureRequestProto_StructRetrieval*) build;
-- (RetrieveCurrencyFromNormStructureRequestProto_StructRetrieval*) buildPartial;
-
-- (RetrieveCurrencyFromNormStructureRequestProto_StructRetrieval_Builder*) mergeFrom:(RetrieveCurrencyFromNormStructureRequestProto_StructRetrieval*) other;
-- (RetrieveCurrencyFromNormStructureRequestProto_StructRetrieval_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input;
-- (RetrieveCurrencyFromNormStructureRequestProto_StructRetrieval_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
-
-- (BOOL) hasUserStructId;
-- (int32_t) userStructId;
-- (RetrieveCurrencyFromNormStructureRequestProto_StructRetrieval_Builder*) setUserStructId:(int32_t) value;
-- (RetrieveCurrencyFromNormStructureRequestProto_StructRetrieval_Builder*) clearUserStructId;
-
-- (BOOL) hasTimeOfRetrieval;
-- (int64_t) timeOfRetrieval;
-- (RetrieveCurrencyFromNormStructureRequestProto_StructRetrieval_Builder*) setTimeOfRetrieval:(int64_t) value;
-- (RetrieveCurrencyFromNormStructureRequestProto_StructRetrieval_Builder*) clearTimeOfRetrieval;
-@end
-
-@interface RetrieveCurrencyFromNormStructureRequestProto_Builder : PBGeneratedMessage_Builder {
-@private
-  RetrieveCurrencyFromNormStructureRequestProto* result;
-}
-
-- (RetrieveCurrencyFromNormStructureRequestProto*) defaultInstance;
-
-- (RetrieveCurrencyFromNormStructureRequestProto_Builder*) clear;
-- (RetrieveCurrencyFromNormStructureRequestProto_Builder*) clone;
-
-- (RetrieveCurrencyFromNormStructureRequestProto*) build;
-- (RetrieveCurrencyFromNormStructureRequestProto*) buildPartial;
-
-- (RetrieveCurrencyFromNormStructureRequestProto_Builder*) mergeFrom:(RetrieveCurrencyFromNormStructureRequestProto*) other;
-- (RetrieveCurrencyFromNormStructureRequestProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input;
-- (RetrieveCurrencyFromNormStructureRequestProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
-
-- (BOOL) hasSender;
-- (MinimumUserProto*) sender;
-- (RetrieveCurrencyFromNormStructureRequestProto_Builder*) setSender:(MinimumUserProto*) value;
-- (RetrieveCurrencyFromNormStructureRequestProto_Builder*) setSenderBuilder:(MinimumUserProto_Builder*) builderForValue;
-- (RetrieveCurrencyFromNormStructureRequestProto_Builder*) mergeSender:(MinimumUserProto*) value;
-- (RetrieveCurrencyFromNormStructureRequestProto_Builder*) clearSender;
-
-- (NSArray*) structRetrievalsList;
-- (RetrieveCurrencyFromNormStructureRequestProto_StructRetrieval*) structRetrievalsAtIndex:(int32_t) index;
-- (RetrieveCurrencyFromNormStructureRequestProto_Builder*) replaceStructRetrievalsAtIndex:(int32_t) index with:(RetrieveCurrencyFromNormStructureRequestProto_StructRetrieval*) value;
-- (RetrieveCurrencyFromNormStructureRequestProto_Builder*) addStructRetrievals:(RetrieveCurrencyFromNormStructureRequestProto_StructRetrieval*) value;
-- (RetrieveCurrencyFromNormStructureRequestProto_Builder*) addAllStructRetrievals:(NSArray*) values;
-- (RetrieveCurrencyFromNormStructureRequestProto_Builder*) clearStructRetrievalsList;
-@end
-
-@interface RetrieveCurrencyFromNormStructureResponseProto : PBGeneratedMessage {
-@private
-  BOOL hasSender_:1;
-  BOOL hasStatus_:1;
-  MinimumUserProto* sender;
-  RetrieveCurrencyFromNormStructureResponseProto_RetrieveCurrencyFromNormStructureStatus status;
-}
-- (BOOL) hasSender;
-- (BOOL) hasStatus;
-@property (readonly, retain) MinimumUserProto* sender;
-@property (readonly) RetrieveCurrencyFromNormStructureResponseProto_RetrieveCurrencyFromNormStructureStatus status;
-
-+ (RetrieveCurrencyFromNormStructureResponseProto*) defaultInstance;
-- (RetrieveCurrencyFromNormStructureResponseProto*) defaultInstance;
-
-- (BOOL) isInitialized;
-- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output;
-- (RetrieveCurrencyFromNormStructureResponseProto_Builder*) builder;
-+ (RetrieveCurrencyFromNormStructureResponseProto_Builder*) builder;
-+ (RetrieveCurrencyFromNormStructureResponseProto_Builder*) builderWithPrototype:(RetrieveCurrencyFromNormStructureResponseProto*) prototype;
-
-+ (RetrieveCurrencyFromNormStructureResponseProto*) parseFromData:(NSData*) data;
-+ (RetrieveCurrencyFromNormStructureResponseProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
-+ (RetrieveCurrencyFromNormStructureResponseProto*) parseFromInputStream:(NSInputStream*) input;
-+ (RetrieveCurrencyFromNormStructureResponseProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
-+ (RetrieveCurrencyFromNormStructureResponseProto*) parseFromCodedInputStream:(PBCodedInputStream*) input;
-+ (RetrieveCurrencyFromNormStructureResponseProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
-@end
-
-@interface RetrieveCurrencyFromNormStructureResponseProto_Builder : PBGeneratedMessage_Builder {
-@private
-  RetrieveCurrencyFromNormStructureResponseProto* result;
-}
-
-- (RetrieveCurrencyFromNormStructureResponseProto*) defaultInstance;
-
-- (RetrieveCurrencyFromNormStructureResponseProto_Builder*) clear;
-- (RetrieveCurrencyFromNormStructureResponseProto_Builder*) clone;
-
-- (RetrieveCurrencyFromNormStructureResponseProto*) build;
-- (RetrieveCurrencyFromNormStructureResponseProto*) buildPartial;
-
-- (RetrieveCurrencyFromNormStructureResponseProto_Builder*) mergeFrom:(RetrieveCurrencyFromNormStructureResponseProto*) other;
-- (RetrieveCurrencyFromNormStructureResponseProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input;
-- (RetrieveCurrencyFromNormStructureResponseProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
-
-- (BOOL) hasSender;
-- (MinimumUserProto*) sender;
-- (RetrieveCurrencyFromNormStructureResponseProto_Builder*) setSender:(MinimumUserProto*) value;
-- (RetrieveCurrencyFromNormStructureResponseProto_Builder*) setSenderBuilder:(MinimumUserProto_Builder*) builderForValue;
-- (RetrieveCurrencyFromNormStructureResponseProto_Builder*) mergeSender:(MinimumUserProto*) value;
-- (RetrieveCurrencyFromNormStructureResponseProto_Builder*) clearSender;
-
-- (BOOL) hasStatus;
-- (RetrieveCurrencyFromNormStructureResponseProto_RetrieveCurrencyFromNormStructureStatus) status;
-- (RetrieveCurrencyFromNormStructureResponseProto_Builder*) setStatus:(RetrieveCurrencyFromNormStructureResponseProto_RetrieveCurrencyFromNormStructureStatus) value;
-- (RetrieveCurrencyFromNormStructureResponseProto_Builder*) clearStatus;
-@end
-
 @interface FinishNormStructWaittimeWithDiamondsRequestProto : PBGeneratedMessage {
 @private
   BOOL hasTimeOfSpeedup_:1;
@@ -1131,6 +956,182 @@ BOOL ExpansionWaitCompleteResponseProto_ExpansionWaitCompleteStatusIsValidValue(
 - (NormStructWaitCompleteResponseProto_Builder*) addUserStruct:(FullUserStructureProto*) value;
 - (NormStructWaitCompleteResponseProto_Builder*) addAllUserStruct:(NSArray*) values;
 - (NormStructWaitCompleteResponseProto_Builder*) clearUserStructList;
+@end
+
+@interface RetrieveCurrencyFromNormStructureRequestProto : PBGeneratedMessage {
+@private
+  BOOL hasSender_:1;
+  MinimumUserProto* sender;
+  NSMutableArray* mutableStructRetrievalsList;
+}
+- (BOOL) hasSender;
+@property (readonly, retain) MinimumUserProto* sender;
+- (NSArray*) structRetrievalsList;
+- (RetrieveCurrencyFromNormStructureRequestProto_StructRetrieval*) structRetrievalsAtIndex:(int32_t) index;
+
++ (RetrieveCurrencyFromNormStructureRequestProto*) defaultInstance;
+- (RetrieveCurrencyFromNormStructureRequestProto*) defaultInstance;
+
+- (BOOL) isInitialized;
+- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output;
+- (RetrieveCurrencyFromNormStructureRequestProto_Builder*) builder;
++ (RetrieveCurrencyFromNormStructureRequestProto_Builder*) builder;
++ (RetrieveCurrencyFromNormStructureRequestProto_Builder*) builderWithPrototype:(RetrieveCurrencyFromNormStructureRequestProto*) prototype;
+
++ (RetrieveCurrencyFromNormStructureRequestProto*) parseFromData:(NSData*) data;
++ (RetrieveCurrencyFromNormStructureRequestProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (RetrieveCurrencyFromNormStructureRequestProto*) parseFromInputStream:(NSInputStream*) input;
++ (RetrieveCurrencyFromNormStructureRequestProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (RetrieveCurrencyFromNormStructureRequestProto*) parseFromCodedInputStream:(PBCodedInputStream*) input;
++ (RetrieveCurrencyFromNormStructureRequestProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+@end
+
+@interface RetrieveCurrencyFromNormStructureRequestProto_StructRetrieval : PBGeneratedMessage {
+@private
+  BOOL hasTimeOfRetrieval_:1;
+  BOOL hasUserStructId_:1;
+  int64_t timeOfRetrieval;
+  int32_t userStructId;
+}
+- (BOOL) hasUserStructId;
+- (BOOL) hasTimeOfRetrieval;
+@property (readonly) int32_t userStructId;
+@property (readonly) int64_t timeOfRetrieval;
+
++ (RetrieveCurrencyFromNormStructureRequestProto_StructRetrieval*) defaultInstance;
+- (RetrieveCurrencyFromNormStructureRequestProto_StructRetrieval*) defaultInstance;
+
+- (BOOL) isInitialized;
+- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output;
+- (RetrieveCurrencyFromNormStructureRequestProto_StructRetrieval_Builder*) builder;
++ (RetrieveCurrencyFromNormStructureRequestProto_StructRetrieval_Builder*) builder;
++ (RetrieveCurrencyFromNormStructureRequestProto_StructRetrieval_Builder*) builderWithPrototype:(RetrieveCurrencyFromNormStructureRequestProto_StructRetrieval*) prototype;
+
++ (RetrieveCurrencyFromNormStructureRequestProto_StructRetrieval*) parseFromData:(NSData*) data;
++ (RetrieveCurrencyFromNormStructureRequestProto_StructRetrieval*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (RetrieveCurrencyFromNormStructureRequestProto_StructRetrieval*) parseFromInputStream:(NSInputStream*) input;
++ (RetrieveCurrencyFromNormStructureRequestProto_StructRetrieval*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (RetrieveCurrencyFromNormStructureRequestProto_StructRetrieval*) parseFromCodedInputStream:(PBCodedInputStream*) input;
++ (RetrieveCurrencyFromNormStructureRequestProto_StructRetrieval*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+@end
+
+@interface RetrieveCurrencyFromNormStructureRequestProto_StructRetrieval_Builder : PBGeneratedMessage_Builder {
+@private
+  RetrieveCurrencyFromNormStructureRequestProto_StructRetrieval* result;
+}
+
+- (RetrieveCurrencyFromNormStructureRequestProto_StructRetrieval*) defaultInstance;
+
+- (RetrieveCurrencyFromNormStructureRequestProto_StructRetrieval_Builder*) clear;
+- (RetrieveCurrencyFromNormStructureRequestProto_StructRetrieval_Builder*) clone;
+
+- (RetrieveCurrencyFromNormStructureRequestProto_StructRetrieval*) build;
+- (RetrieveCurrencyFromNormStructureRequestProto_StructRetrieval*) buildPartial;
+
+- (RetrieveCurrencyFromNormStructureRequestProto_StructRetrieval_Builder*) mergeFrom:(RetrieveCurrencyFromNormStructureRequestProto_StructRetrieval*) other;
+- (RetrieveCurrencyFromNormStructureRequestProto_StructRetrieval_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input;
+- (RetrieveCurrencyFromNormStructureRequestProto_StructRetrieval_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+
+- (BOOL) hasUserStructId;
+- (int32_t) userStructId;
+- (RetrieveCurrencyFromNormStructureRequestProto_StructRetrieval_Builder*) setUserStructId:(int32_t) value;
+- (RetrieveCurrencyFromNormStructureRequestProto_StructRetrieval_Builder*) clearUserStructId;
+
+- (BOOL) hasTimeOfRetrieval;
+- (int64_t) timeOfRetrieval;
+- (RetrieveCurrencyFromNormStructureRequestProto_StructRetrieval_Builder*) setTimeOfRetrieval:(int64_t) value;
+- (RetrieveCurrencyFromNormStructureRequestProto_StructRetrieval_Builder*) clearTimeOfRetrieval;
+@end
+
+@interface RetrieveCurrencyFromNormStructureRequestProto_Builder : PBGeneratedMessage_Builder {
+@private
+  RetrieveCurrencyFromNormStructureRequestProto* result;
+}
+
+- (RetrieveCurrencyFromNormStructureRequestProto*) defaultInstance;
+
+- (RetrieveCurrencyFromNormStructureRequestProto_Builder*) clear;
+- (RetrieveCurrencyFromNormStructureRequestProto_Builder*) clone;
+
+- (RetrieveCurrencyFromNormStructureRequestProto*) build;
+- (RetrieveCurrencyFromNormStructureRequestProto*) buildPartial;
+
+- (RetrieveCurrencyFromNormStructureRequestProto_Builder*) mergeFrom:(RetrieveCurrencyFromNormStructureRequestProto*) other;
+- (RetrieveCurrencyFromNormStructureRequestProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input;
+- (RetrieveCurrencyFromNormStructureRequestProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+
+- (BOOL) hasSender;
+- (MinimumUserProto*) sender;
+- (RetrieveCurrencyFromNormStructureRequestProto_Builder*) setSender:(MinimumUserProto*) value;
+- (RetrieveCurrencyFromNormStructureRequestProto_Builder*) setSenderBuilder:(MinimumUserProto_Builder*) builderForValue;
+- (RetrieveCurrencyFromNormStructureRequestProto_Builder*) mergeSender:(MinimumUserProto*) value;
+- (RetrieveCurrencyFromNormStructureRequestProto_Builder*) clearSender;
+
+- (NSArray*) structRetrievalsList;
+- (RetrieveCurrencyFromNormStructureRequestProto_StructRetrieval*) structRetrievalsAtIndex:(int32_t) index;
+- (RetrieveCurrencyFromNormStructureRequestProto_Builder*) replaceStructRetrievalsAtIndex:(int32_t) index with:(RetrieveCurrencyFromNormStructureRequestProto_StructRetrieval*) value;
+- (RetrieveCurrencyFromNormStructureRequestProto_Builder*) addStructRetrievals:(RetrieveCurrencyFromNormStructureRequestProto_StructRetrieval*) value;
+- (RetrieveCurrencyFromNormStructureRequestProto_Builder*) addAllStructRetrievals:(NSArray*) values;
+- (RetrieveCurrencyFromNormStructureRequestProto_Builder*) clearStructRetrievalsList;
+@end
+
+@interface RetrieveCurrencyFromNormStructureResponseProto : PBGeneratedMessage {
+@private
+  BOOL hasSender_:1;
+  BOOL hasStatus_:1;
+  MinimumUserProto* sender;
+  RetrieveCurrencyFromNormStructureResponseProto_RetrieveCurrencyFromNormStructureStatus status;
+}
+- (BOOL) hasSender;
+- (BOOL) hasStatus;
+@property (readonly, retain) MinimumUserProto* sender;
+@property (readonly) RetrieveCurrencyFromNormStructureResponseProto_RetrieveCurrencyFromNormStructureStatus status;
+
++ (RetrieveCurrencyFromNormStructureResponseProto*) defaultInstance;
+- (RetrieveCurrencyFromNormStructureResponseProto*) defaultInstance;
+
+- (BOOL) isInitialized;
+- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output;
+- (RetrieveCurrencyFromNormStructureResponseProto_Builder*) builder;
++ (RetrieveCurrencyFromNormStructureResponseProto_Builder*) builder;
++ (RetrieveCurrencyFromNormStructureResponseProto_Builder*) builderWithPrototype:(RetrieveCurrencyFromNormStructureResponseProto*) prototype;
+
++ (RetrieveCurrencyFromNormStructureResponseProto*) parseFromData:(NSData*) data;
++ (RetrieveCurrencyFromNormStructureResponseProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (RetrieveCurrencyFromNormStructureResponseProto*) parseFromInputStream:(NSInputStream*) input;
++ (RetrieveCurrencyFromNormStructureResponseProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (RetrieveCurrencyFromNormStructureResponseProto*) parseFromCodedInputStream:(PBCodedInputStream*) input;
++ (RetrieveCurrencyFromNormStructureResponseProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+@end
+
+@interface RetrieveCurrencyFromNormStructureResponseProto_Builder : PBGeneratedMessage_Builder {
+@private
+  RetrieveCurrencyFromNormStructureResponseProto* result;
+}
+
+- (RetrieveCurrencyFromNormStructureResponseProto*) defaultInstance;
+
+- (RetrieveCurrencyFromNormStructureResponseProto_Builder*) clear;
+- (RetrieveCurrencyFromNormStructureResponseProto_Builder*) clone;
+
+- (RetrieveCurrencyFromNormStructureResponseProto*) build;
+- (RetrieveCurrencyFromNormStructureResponseProto*) buildPartial;
+
+- (RetrieveCurrencyFromNormStructureResponseProto_Builder*) mergeFrom:(RetrieveCurrencyFromNormStructureResponseProto*) other;
+- (RetrieveCurrencyFromNormStructureResponseProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input;
+- (RetrieveCurrencyFromNormStructureResponseProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+
+- (BOOL) hasSender;
+- (MinimumUserProto*) sender;
+- (RetrieveCurrencyFromNormStructureResponseProto_Builder*) setSender:(MinimumUserProto*) value;
+- (RetrieveCurrencyFromNormStructureResponseProto_Builder*) setSenderBuilder:(MinimumUserProto_Builder*) builderForValue;
+- (RetrieveCurrencyFromNormStructureResponseProto_Builder*) mergeSender:(MinimumUserProto*) value;
+- (RetrieveCurrencyFromNormStructureResponseProto_Builder*) clearSender;
+
+- (BOOL) hasStatus;
+- (RetrieveCurrencyFromNormStructureResponseProto_RetrieveCurrencyFromNormStructureStatus) status;
+- (RetrieveCurrencyFromNormStructureResponseProto_Builder*) setStatus:(RetrieveCurrencyFromNormStructureResponseProto_RetrieveCurrencyFromNormStructureStatus) value;
+- (RetrieveCurrencyFromNormStructureResponseProto_Builder*) clearStatus;
 @end
 
 @interface ExpansionWaitCompleteRequestProto : PBGeneratedMessage {

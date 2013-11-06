@@ -790,16 +790,15 @@
   Globals *gl = [Globals sharedGlobals];
   GameState *gs = [GameState sharedGameState];
   FullStructureProto *fsp = [gs structWithId:us.structId];
-  int goldCost = 0;
+  int goldCost = 0, timeLeft = 0;
   
   if (state == kUpgrading) {
-    int timeLeft = us.lastUpgradeTime.timeIntervalSinceNow + [gl calculateMinutesToUpgrade:us]*60;
-    goldCost = [gl calculateGemSpeedupCostForTimeLeft:timeLeft];
+    timeLeft = us.lastUpgradeTime.timeIntervalSinceNow + [gl calculateMinutesToUpgrade:us]*60;
   } else if (state == kBuilding) {
-    int timeLeft = us.purchaseTime.timeIntervalSinceNow + fsp.minutesToBuild*60;
-    goldCost = [gl calculateGemSpeedupCostForTimeLeft:timeLeft];
+    timeLeft = us.purchaseTime.timeIntervalSinceNow + fsp.minutesToBuild*60;
   }
-  NSString *desc = [NSString stringWithFormat:@"Finish instantly for %d gold?", goldCost];
+  goldCost = [gl calculateGemSpeedupCostForTimeLeft:timeLeft];
+  NSString *desc = [NSString stringWithFormat:@"Finish instantly for %@ gold?", [Globals commafyNumber:goldCost]];
   [GenericPopupController displayConfirmationWithDescription:desc title:@"Speed Up!" okayButton:@"Yes" cancelButton:@"No" target:self selector:@selector(speedUpBuilding)];
 }
 

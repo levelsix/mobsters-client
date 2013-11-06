@@ -9,6 +9,8 @@
 @class MinimumClanProto;
 @class MinimumClanProto_Builder;
 @class MinimumUserProto;
+@class MinimumUserProtoWithFacebookId;
+@class MinimumUserProtoWithFacebookId_Builder;
 @class MinimumUserProtoWithLevel;
 @class MinimumUserProtoWithLevel_Builder;
 @class MinimumUserProto_Builder;

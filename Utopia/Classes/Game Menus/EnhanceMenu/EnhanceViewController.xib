@@ -92,7 +92,7 @@
                                     <autoresizingMask key="autoresizingMask"/>
                                 </imageView>
                                 <view contentMode="scaleToFill" id="dNI-AQ-a1C">
-                                    <rect key="frame" x="2" y="0.0" width="234" height="81"/>
+                                    <rect key="frame" x="2.0000000000000155" y="0.0" width="234" height="81"/>
                                     <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMinY="YES"/>
                                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                 </view>
@@ -136,6 +136,29 @@
                                             <rect key="frame" x="12" y="10" width="59" height="59"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         </imageView>
+                                        <view clipsSubviews="YES" contentMode="scaleToFill" id="YUK-Om-yPc" userLabel="Star View">
+                                            <rect key="frame" x="17" y="51" width="48" height="12"/>
+                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                            <subviews>
+                                                <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="star.png" id="b9E-uj-HLS">
+                                                    <rect key="frame" x="0.0" y="0.0" width="12" height="12"/>
+                                                    <autoresizingMask key="autoresizingMask"/>
+                                                </imageView>
+                                                <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="star.png" id="Epv-Kt-nk3">
+                                                    <rect key="frame" x="11" y="0.0" width="12" height="12"/>
+                                                    <autoresizingMask key="autoresizingMask"/>
+                                                </imageView>
+                                                <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="star.png" id="tVu-XO-UBv">
+                                                    <rect key="frame" x="22" y="0.0" width="12" height="12"/>
+                                                    <autoresizingMask key="autoresizingMask"/>
+                                                </imageView>
+                                                <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="star.png" id="xuZ-NY-eMy">
+                                                    <rect key="frame" x="33" y="0.0" width="12" height="12"/>
+                                                    <autoresizingMask key="autoresizingMask"/>
+                                                </imageView>
+                                            </subviews>
+                                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                        </view>
                                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="JyA-F0-M3N">
                                             <rect key="frame" x="52" y="0.0" width="29" height="30"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
@@ -203,6 +226,7 @@
                                 <outlet property="noMonsterView" destination="XBx-ua-zEG" id="MPz-XC-grF"/>
                                 <outlet property="orangeBar" destination="Q1D-in-A8l" id="h1V-NE-hRq"/>
                                 <outlet property="percentLabel" destination="zCP-nU-RNH" id="OXD-I1-UpC"/>
+                                <outlet property="starView" destination="YUK-Om-yPc" id="1H8-1v-MQi"/>
                                 <outlet property="yellowBar" destination="yhi-70-X0s" id="xlr-Si-9C4"/>
                             </connections>
                         </view>
@@ -240,6 +264,7 @@
         <image name="orangebar.png" width="90" height="12"/>
         <image name="removeteam.png" width="29" height="29"/>
         <image name="shelf.png" width="568" height="47"/>
+        <image name="star.png" width="12" height="12"/>
         <image name="yellowbar.png" width="90" height="12"/>
     </resources>
 </document>

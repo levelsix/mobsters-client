@@ -5,6 +5,10 @@
 #import "MonsterStuff.pb.h"
 #import "User.pb.h"
 
+@class AcceptAndRejectFbInviteForSlotsRequestProto;
+@class AcceptAndRejectFbInviteForSlotsRequestProto_Builder;
+@class AcceptAndRejectFbInviteForSlotsResponseProto;
+@class AcceptAndRejectFbInviteForSlotsResponseProto_Builder;
 @class AddMonsterToBattleTeamRequestProto;
 @class AddMonsterToBattleTeamRequestProto_Builder;
 @class AddMonsterToBattleTeamResponseProto;
@@ -33,11 +37,17 @@
 @class IncreaseMonsterInventorySlotRequestProto_Builder;
 @class IncreaseMonsterInventorySlotResponseProto;
 @class IncreaseMonsterInventorySlotResponseProto_Builder;
+@class InviteFbFriendsForSlotsRequestProto;
+@class InviteFbFriendsForSlotsRequestProto_Builder;
+@class InviteFbFriendsForSlotsResponseProto;
+@class InviteFbFriendsForSlotsResponseProto_Builder;
 @class MinimumClanProto;
 @class MinimumClanProto_Builder;
 @class MinimumUserMonsterSellProto;
 @class MinimumUserMonsterSellProto_Builder;
 @class MinimumUserProto;
+@class MinimumUserProtoWithFacebookId;
+@class MinimumUserProtoWithFacebookId_Builder;
 @class MinimumUserProtoWithLevel;
 @class MinimumUserProtoWithLevel_Builder;
 @class MinimumUserProto_Builder;
@@ -137,6 +147,22 @@ typedef enum {
 } IncreaseMonsterInventorySlotResponseProto_IncreaseMonsterInventorySlotStatus;
 
 BOOL IncreaseMonsterInventorySlotResponseProto_IncreaseMonsterInventorySlotStatusIsValidValue(IncreaseMonsterInventorySlotResponseProto_IncreaseMonsterInventorySlotStatus value);
+
+typedef enum {
+  InviteFbFriendsForSlotsResponseProto_InviteFbFriendsForSlotsStatusSuccess = 1,
+  InviteFbFriendsForSlotsResponseProto_InviteFbFriendsForSlotsStatusFailOther = 2,
+} InviteFbFriendsForSlotsResponseProto_InviteFbFriendsForSlotsStatus;
+
+BOOL InviteFbFriendsForSlotsResponseProto_InviteFbFriendsForSlotsStatusIsValidValue(InviteFbFriendsForSlotsResponseProto_InviteFbFriendsForSlotsStatus value);
+
+typedef enum {
+  AcceptAndRejectFbInviteForSlotsResponseProto_AcceptAndRejectFbInviteForSlotsStatusSuccess = 1,
+  AcceptAndRejectFbInviteForSlotsResponseProto_AcceptAndRejectFbInviteForSlotsStatusFailExpired = 2,
+  AcceptAndRejectFbInviteForSlotsResponseProto_AcceptAndRejectFbInviteForSlotsStatusFailAlreadyBeenUsed = 3,
+  AcceptAndRejectFbInviteForSlotsResponseProto_AcceptAndRejectFbInviteForSlotsStatusFailOther = 4,
+} AcceptAndRejectFbInviteForSlotsResponseProto_AcceptAndRejectFbInviteForSlotsStatus;
+
+BOOL AcceptAndRejectFbInviteForSlotsResponseProto_AcceptAndRejectFbInviteForSlotsStatusIsValidValue(AcceptAndRejectFbInviteForSlotsResponseProto_AcceptAndRejectFbInviteForSlotsStatus value);
 
 typedef enum {
   CombineUserMonsterPiecesResponseProto_CombineUserMonsterPiecesStatusSuccess = 1,
@@ -1249,6 +1275,254 @@ BOOL SellUserMonsterResponseProto_SellUserMonsterStatusIsValidValue(SellUserMons
 - (IncreaseMonsterInventorySlotResponseProto_IncreaseMonsterInventorySlotStatus) status;
 - (IncreaseMonsterInventorySlotResponseProto_Builder*) setStatus:(IncreaseMonsterInventorySlotResponseProto_IncreaseMonsterInventorySlotStatus) value;
 - (IncreaseMonsterInventorySlotResponseProto_Builder*) clearStatus;
+@end
+
+@interface InviteFbFriendsForSlotsRequestProto : PBGeneratedMessage {
+@private
+  BOOL hasSender_:1;
+  MinimumUserProtoWithFacebookId* sender;
+  NSMutableArray* mutableFbFriendIdsList;
+}
+- (BOOL) hasSender;
+@property (readonly, retain) MinimumUserProtoWithFacebookId* sender;
+- (NSArray*) fbFriendIdsList;
+- (NSString*) fbFriendIdsAtIndex:(int32_t) index;
+
++ (InviteFbFriendsForSlotsRequestProto*) defaultInstance;
+- (InviteFbFriendsForSlotsRequestProto*) defaultInstance;
+
+- (BOOL) isInitialized;
+- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output;
+- (InviteFbFriendsForSlotsRequestProto_Builder*) builder;
++ (InviteFbFriendsForSlotsRequestProto_Builder*) builder;
++ (InviteFbFriendsForSlotsRequestProto_Builder*) builderWithPrototype:(InviteFbFriendsForSlotsRequestProto*) prototype;
+
++ (InviteFbFriendsForSlotsRequestProto*) parseFromData:(NSData*) data;
++ (InviteFbFriendsForSlotsRequestProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (InviteFbFriendsForSlotsRequestProto*) parseFromInputStream:(NSInputStream*) input;
++ (InviteFbFriendsForSlotsRequestProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (InviteFbFriendsForSlotsRequestProto*) parseFromCodedInputStream:(PBCodedInputStream*) input;
++ (InviteFbFriendsForSlotsRequestProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+@end
+
+@interface InviteFbFriendsForSlotsRequestProto_Builder : PBGeneratedMessage_Builder {
+@private
+  InviteFbFriendsForSlotsRequestProto* result;
+}
+
+- (InviteFbFriendsForSlotsRequestProto*) defaultInstance;
+
+- (InviteFbFriendsForSlotsRequestProto_Builder*) clear;
+- (InviteFbFriendsForSlotsRequestProto_Builder*) clone;
+
+- (InviteFbFriendsForSlotsRequestProto*) build;
+- (InviteFbFriendsForSlotsRequestProto*) buildPartial;
+
+- (InviteFbFriendsForSlotsRequestProto_Builder*) mergeFrom:(InviteFbFriendsForSlotsRequestProto*) other;
+- (InviteFbFriendsForSlotsRequestProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input;
+- (InviteFbFriendsForSlotsRequestProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+
+- (BOOL) hasSender;
+- (MinimumUserProtoWithFacebookId*) sender;
+- (InviteFbFriendsForSlotsRequestProto_Builder*) setSender:(MinimumUserProtoWithFacebookId*) value;
+- (InviteFbFriendsForSlotsRequestProto_Builder*) setSenderBuilder:(MinimumUserProtoWithFacebookId_Builder*) builderForValue;
+- (InviteFbFriendsForSlotsRequestProto_Builder*) mergeSender:(MinimumUserProtoWithFacebookId*) value;
+- (InviteFbFriendsForSlotsRequestProto_Builder*) clearSender;
+
+- (NSArray*) fbFriendIdsList;
+- (NSString*) fbFriendIdsAtIndex:(int32_t) index;
+- (InviteFbFriendsForSlotsRequestProto_Builder*) replaceFbFriendIdsAtIndex:(int32_t) index with:(NSString*) value;
+- (InviteFbFriendsForSlotsRequestProto_Builder*) addFbFriendIds:(NSString*) value;
+- (InviteFbFriendsForSlotsRequestProto_Builder*) addAllFbFriendIds:(NSArray*) values;
+- (InviteFbFriendsForSlotsRequestProto_Builder*) clearFbFriendIdsList;
+@end
+
+@interface InviteFbFriendsForSlotsResponseProto : PBGeneratedMessage {
+@private
+  BOOL hasSender_:1;
+  BOOL hasStatus_:1;
+  MinimumUserProtoWithFacebookId* sender;
+  InviteFbFriendsForSlotsResponseProto_InviteFbFriendsForSlotsStatus status;
+}
+- (BOOL) hasSender;
+- (BOOL) hasStatus;
+@property (readonly, retain) MinimumUserProtoWithFacebookId* sender;
+@property (readonly) InviteFbFriendsForSlotsResponseProto_InviteFbFriendsForSlotsStatus status;
+
++ (InviteFbFriendsForSlotsResponseProto*) defaultInstance;
+- (InviteFbFriendsForSlotsResponseProto*) defaultInstance;
+
+- (BOOL) isInitialized;
+- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output;
+- (InviteFbFriendsForSlotsResponseProto_Builder*) builder;
++ (InviteFbFriendsForSlotsResponseProto_Builder*) builder;
++ (InviteFbFriendsForSlotsResponseProto_Builder*) builderWithPrototype:(InviteFbFriendsForSlotsResponseProto*) prototype;
+
++ (InviteFbFriendsForSlotsResponseProto*) parseFromData:(NSData*) data;
++ (InviteFbFriendsForSlotsResponseProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (InviteFbFriendsForSlotsResponseProto*) parseFromInputStream:(NSInputStream*) input;
++ (InviteFbFriendsForSlotsResponseProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (InviteFbFriendsForSlotsResponseProto*) parseFromCodedInputStream:(PBCodedInputStream*) input;
++ (InviteFbFriendsForSlotsResponseProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+@end
+
+@interface InviteFbFriendsForSlotsResponseProto_Builder : PBGeneratedMessage_Builder {
+@private
+  InviteFbFriendsForSlotsResponseProto* result;
+}
+
+- (InviteFbFriendsForSlotsResponseProto*) defaultInstance;
+
+- (InviteFbFriendsForSlotsResponseProto_Builder*) clear;
+- (InviteFbFriendsForSlotsResponseProto_Builder*) clone;
+
+- (InviteFbFriendsForSlotsResponseProto*) build;
+- (InviteFbFriendsForSlotsResponseProto*) buildPartial;
+
+- (InviteFbFriendsForSlotsResponseProto_Builder*) mergeFrom:(InviteFbFriendsForSlotsResponseProto*) other;
+- (InviteFbFriendsForSlotsResponseProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input;
+- (InviteFbFriendsForSlotsResponseProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+
+- (BOOL) hasSender;
+- (MinimumUserProtoWithFacebookId*) sender;
+- (InviteFbFriendsForSlotsResponseProto_Builder*) setSender:(MinimumUserProtoWithFacebookId*) value;
+- (InviteFbFriendsForSlotsResponseProto_Builder*) setSenderBuilder:(MinimumUserProtoWithFacebookId_Builder*) builderForValue;
+- (InviteFbFriendsForSlotsResponseProto_Builder*) mergeSender:(MinimumUserProtoWithFacebookId*) value;
+- (InviteFbFriendsForSlotsResponseProto_Builder*) clearSender;
+
+- (BOOL) hasStatus;
+- (InviteFbFriendsForSlotsResponseProto_InviteFbFriendsForSlotsStatus) status;
+- (InviteFbFriendsForSlotsResponseProto_Builder*) setStatus:(InviteFbFriendsForSlotsResponseProto_InviteFbFriendsForSlotsStatus) value;
+- (InviteFbFriendsForSlotsResponseProto_Builder*) clearStatus;
+@end
+
+@interface AcceptAndRejectFbInviteForSlotsRequestProto : PBGeneratedMessage {
+@private
+  BOOL hasSender_:1;
+  MinimumUserProto* sender;
+  NSMutableArray* mutableAcceptedInviteIdsList;
+  NSMutableArray* mutableRejectedInviteIdsList;
+}
+- (BOOL) hasSender;
+@property (readonly, retain) MinimumUserProto* sender;
+- (NSArray*) acceptedInviteIdsList;
+- (int32_t) acceptedInviteIdsAtIndex:(int32_t) index;
+- (NSArray*) rejectedInviteIdsList;
+- (int32_t) rejectedInviteIdsAtIndex:(int32_t) index;
+
++ (AcceptAndRejectFbInviteForSlotsRequestProto*) defaultInstance;
+- (AcceptAndRejectFbInviteForSlotsRequestProto*) defaultInstance;
+
+- (BOOL) isInitialized;
+- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output;
+- (AcceptAndRejectFbInviteForSlotsRequestProto_Builder*) builder;
++ (AcceptAndRejectFbInviteForSlotsRequestProto_Builder*) builder;
++ (AcceptAndRejectFbInviteForSlotsRequestProto_Builder*) builderWithPrototype:(AcceptAndRejectFbInviteForSlotsRequestProto*) prototype;
+
++ (AcceptAndRejectFbInviteForSlotsRequestProto*) parseFromData:(NSData*) data;
++ (AcceptAndRejectFbInviteForSlotsRequestProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (AcceptAndRejectFbInviteForSlotsRequestProto*) parseFromInputStream:(NSInputStream*) input;
++ (AcceptAndRejectFbInviteForSlotsRequestProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (AcceptAndRejectFbInviteForSlotsRequestProto*) parseFromCodedInputStream:(PBCodedInputStream*) input;
++ (AcceptAndRejectFbInviteForSlotsRequestProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+@end
+
+@interface AcceptAndRejectFbInviteForSlotsRequestProto_Builder : PBGeneratedMessage_Builder {
+@private
+  AcceptAndRejectFbInviteForSlotsRequestProto* result;
+}
+
+- (AcceptAndRejectFbInviteForSlotsRequestProto*) defaultInstance;
+
+- (AcceptAndRejectFbInviteForSlotsRequestProto_Builder*) clear;
+- (AcceptAndRejectFbInviteForSlotsRequestProto_Builder*) clone;
+
+- (AcceptAndRejectFbInviteForSlotsRequestProto*) build;
+- (AcceptAndRejectFbInviteForSlotsRequestProto*) buildPartial;
+
+- (AcceptAndRejectFbInviteForSlotsRequestProto_Builder*) mergeFrom:(AcceptAndRejectFbInviteForSlotsRequestProto*) other;
+- (AcceptAndRejectFbInviteForSlotsRequestProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input;
+- (AcceptAndRejectFbInviteForSlotsRequestProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+
+- (BOOL) hasSender;
+- (MinimumUserProto*) sender;
+- (AcceptAndRejectFbInviteForSlotsRequestProto_Builder*) setSender:(MinimumUserProto*) value;
+- (AcceptAndRejectFbInviteForSlotsRequestProto_Builder*) setSenderBuilder:(MinimumUserProto_Builder*) builderForValue;
+- (AcceptAndRejectFbInviteForSlotsRequestProto_Builder*) mergeSender:(MinimumUserProto*) value;
+- (AcceptAndRejectFbInviteForSlotsRequestProto_Builder*) clearSender;
+
+- (NSArray*) acceptedInviteIdsList;
+- (int32_t) acceptedInviteIdsAtIndex:(int32_t) index;
+- (AcceptAndRejectFbInviteForSlotsRequestProto_Builder*) replaceAcceptedInviteIdsAtIndex:(int32_t) index with:(int32_t) value;
+- (AcceptAndRejectFbInviteForSlotsRequestProto_Builder*) addAcceptedInviteIds:(int32_t) value;
+- (AcceptAndRejectFbInviteForSlotsRequestProto_Builder*) addAllAcceptedInviteIds:(NSArray*) values;
+- (AcceptAndRejectFbInviteForSlotsRequestProto_Builder*) clearAcceptedInviteIdsList;
+
+- (NSArray*) rejectedInviteIdsList;
+- (int32_t) rejectedInviteIdsAtIndex:(int32_t) index;
+- (AcceptAndRejectFbInviteForSlotsRequestProto_Builder*) replaceRejectedInviteIdsAtIndex:(int32_t) index with:(int32_t) value;
+- (AcceptAndRejectFbInviteForSlotsRequestProto_Builder*) addRejectedInviteIds:(int32_t) value;
+- (AcceptAndRejectFbInviteForSlotsRequestProto_Builder*) addAllRejectedInviteIds:(NSArray*) values;
+- (AcceptAndRejectFbInviteForSlotsRequestProto_Builder*) clearRejectedInviteIdsList;
+@end
+
+@interface AcceptAndRejectFbInviteForSlotsResponseProto : PBGeneratedMessage {
+@private
+  BOOL hasSender_:1;
+  BOOL hasStatus_:1;
+  MinimumUserProto* sender;
+  AcceptAndRejectFbInviteForSlotsResponseProto_AcceptAndRejectFbInviteForSlotsStatus status;
+}
+- (BOOL) hasSender;
+- (BOOL) hasStatus;
+@property (readonly, retain) MinimumUserProto* sender;
+@property (readonly) AcceptAndRejectFbInviteForSlotsResponseProto_AcceptAndRejectFbInviteForSlotsStatus status;
+
++ (AcceptAndRejectFbInviteForSlotsResponseProto*) defaultInstance;
+- (AcceptAndRejectFbInviteForSlotsResponseProto*) defaultInstance;
+
+- (BOOL) isInitialized;
+- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output;
+- (AcceptAndRejectFbInviteForSlotsResponseProto_Builder*) builder;
++ (AcceptAndRejectFbInviteForSlotsResponseProto_Builder*) builder;
++ (AcceptAndRejectFbInviteForSlotsResponseProto_Builder*) builderWithPrototype:(AcceptAndRejectFbInviteForSlotsResponseProto*) prototype;
+
++ (AcceptAndRejectFbInviteForSlotsResponseProto*) parseFromData:(NSData*) data;
++ (AcceptAndRejectFbInviteForSlotsResponseProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (AcceptAndRejectFbInviteForSlotsResponseProto*) parseFromInputStream:(NSInputStream*) input;
++ (AcceptAndRejectFbInviteForSlotsResponseProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (AcceptAndRejectFbInviteForSlotsResponseProto*) parseFromCodedInputStream:(PBCodedInputStream*) input;
++ (AcceptAndRejectFbInviteForSlotsResponseProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+@end
+
+@interface AcceptAndRejectFbInviteForSlotsResponseProto_Builder : PBGeneratedMessage_Builder {
+@private
+  AcceptAndRejectFbInviteForSlotsResponseProto* result;
+}
+
+- (AcceptAndRejectFbInviteForSlotsResponseProto*) defaultInstance;
+
+- (AcceptAndRejectFbInviteForSlotsResponseProto_Builder*) clear;
+- (AcceptAndRejectFbInviteForSlotsResponseProto_Builder*) clone;
+
+- (AcceptAndRejectFbInviteForSlotsResponseProto*) build;
+- (AcceptAndRejectFbInviteForSlotsResponseProto*) buildPartial;
+
+- (AcceptAndRejectFbInviteForSlotsResponseProto_Builder*) mergeFrom:(AcceptAndRejectFbInviteForSlotsResponseProto*) other;
+- (AcceptAndRejectFbInviteForSlotsResponseProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input;
+- (AcceptAndRejectFbInviteForSlotsResponseProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+
+- (BOOL) hasSender;
+- (MinimumUserProto*) sender;
+- (AcceptAndRejectFbInviteForSlotsResponseProto_Builder*) setSender:(MinimumUserProto*) value;
+- (AcceptAndRejectFbInviteForSlotsResponseProto_Builder*) setSenderBuilder:(MinimumUserProto_Builder*) builderForValue;
+- (AcceptAndRejectFbInviteForSlotsResponseProto_Builder*) mergeSender:(MinimumUserProto*) value;
+- (AcceptAndRejectFbInviteForSlotsResponseProto_Builder*) clearSender;
+
+- (BOOL) hasStatus;
+- (AcceptAndRejectFbInviteForSlotsResponseProto_AcceptAndRejectFbInviteForSlotsStatus) status;
+- (AcceptAndRejectFbInviteForSlotsResponseProto_Builder*) setStatus:(AcceptAndRejectFbInviteForSlotsResponseProto_AcceptAndRejectFbInviteForSlotsStatus) value;
+- (AcceptAndRejectFbInviteForSlotsResponseProto_Builder*) clearStatus;
 @end
 
 @interface CombineUserMonsterPiecesRequestProto : PBGeneratedMessage {

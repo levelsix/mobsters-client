@@ -28,7 +28,7 @@
   } else if (reward.type == RewardTypeGold) {
     imgName = @"diamond.png";
     labelName = [Globals commafyNumber:reward.goldAmount];
-    color = [Globals purpleColor];
+    color = [Globals purplishPinkColor];
   } else if (reward.type == RewardTypeExperience) {
     imgName = @"levelnumber.png";
     labelName = [NSString stringWithFormat:@"+%@", [Globals commafyNumber:reward.expAmount]];

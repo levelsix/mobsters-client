@@ -15,6 +15,7 @@
 @property (nonatomic, assign) IBOutlet UIImageView *userIcon;
 @property (nonatomic, assign) IBOutlet UILabel *nameLabel;
 @property (nonatomic, assign) IBOutlet UILabel *typeLabel;
+@property (nonatomic, assign) IBOutlet UILabel *levelLabel;
 @property (nonatomic, assign) IBOutlet UIView *editMemberView;
 @property (nonatomic, assign) IBOutlet UIView *respondInviteView;
 
@@ -22,7 +23,7 @@
 
 @end
 
-@interface ClanInfoCell : UITableViewCell
+@interface ClanInfoView : UIView
 
 @property (nonatomic, assign) IBOutlet UILabel *nameLabel;
 @property (nonatomic, assign) IBOutlet UILabel *membersLabel;
@@ -42,7 +43,7 @@
 
 @interface ClanInfoViewController : GenViewController <UITableViewDataSource, UITableViewDelegate>
 
-@property (nonatomic, assign) IBOutlet ClanInfoCell *infoCell;
+@property (nonatomic, assign) IBOutlet ClanInfoView *infoView;
 @property (nonatomic, assign) IBOutlet ClanMemberCell *memberCell;
 @property (nonatomic, assign) IBOutlet UITableView *infoTable;
 @property (nonatomic, assign) IBOutlet UIView *loadingMembersView;

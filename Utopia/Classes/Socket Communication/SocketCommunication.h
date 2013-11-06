@@ -129,6 +129,7 @@
 - (int) sendRemoveMonsterFromTeam:(int)userMonsterId;
 - (int) buyInventorySlots;
 - (int) sendCombineUserMonsterPiecesMessage:(NSArray *)userMonsterIds gemCost:(int)gemCost;
+- (int) sendInviteFbFriendsForSlotsMessage:(NSArray *)fbFriendIds;
 - (void) reloadHealQueueSnapshot;
 - (int) setHealQueueDirtyWithCoinChange:(int)coinChange gemCost:(int)gemCost;
 

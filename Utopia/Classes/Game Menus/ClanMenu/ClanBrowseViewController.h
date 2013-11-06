@@ -44,13 +44,15 @@ typedef enum {
 @property (nonatomic, retain) IBOutlet UIActivityIndicatorView *spinner;
 
 @property (nonatomic, retain) IBOutlet BrowseClanCell *clanCell;
-@property (nonatomic, retain) IBOutlet UITableViewCell *searchCell;
+@property (nonatomic, retain) IBOutlet UIView *searchView;
+@property (nonatomic, retain) IBOutlet UITextField *searchField;
 @property (nonatomic, retain) IBOutlet UITableViewCell *loadingCell;
 
 @property (nonatomic, copy) NSString *searchString;
 
 @property (nonatomic, assign) BOOL shouldReload;
 
+- (void) reload;
 - (void) loadClans:(NSArray *)clans isForSearch:(BOOL)search;
 
 - (IBAction)rightButtonClicked:(id)sender;

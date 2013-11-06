@@ -21,7 +21,7 @@
                 <outlet property="lightView" destination="h07-Ut-0in" id="LH7-21-I47"/>
                 <outlet property="mainView" destination="5" id="69"/>
                 <outlet property="monsterDescription" destination="9" id="zKd-ee-OtT"/>
-                <outlet property="monsterImageView" destination="12" id="pEj-nn-5r0"/>
+                <outlet property="monsterImageView" destination="0Yx-qy-ndC" id="bD4-zX-KO2"/>
                 <outlet property="monsterNameLabel" destination="7" id="qmE-Ci-BCX"/>
                 <outlet property="nightView" destination="Kz1-fl-bVb" id="Ogc-x8-5LH"/>
                 <outlet property="progressBar" destination="vbz-mG-5Bf" id="bLz-JT-77x"/>
@@ -68,8 +68,8 @@
                             <rect key="frame" x="63" y="50" width="134" height="209"/>
                             <autoresizingMask key="autoresizingMask"/>
                         </imageView>
-                        <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleAspectFit" image="Clown4PistolBig.png" id="12">
-                            <rect key="frame" x="89" y="84" width="82" height="151"/>
+                        <imageView opaque="NO" multipleTouchEnabled="YES" contentMode="bottomLeft" image="Cheerleader1SMGCharacter.png" id="0Yx-qy-ndC">
+                            <rect key="frame" x="61" y="60" width="136" height="193"/>
                             <autoresizingMask key="autoresizingMask"/>
                         </imageView>
                         <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="detailbg.png" id="TVQ-pK-hTM">
@@ -409,7 +409,7 @@
         </view>
     </objects>
     <resources>
-        <image name="Clown4PistolBig.png" width="144" height="377"/>
+        <image name="Cheerleader1SMGCharacter.png" width="82" height="161"/>
         <image name="close1.png" width="30" height="29"/>
         <image name="detailbg.png" width="206" height="163"/>
         <image name="detaildivider.png" width="1" height="2"/>

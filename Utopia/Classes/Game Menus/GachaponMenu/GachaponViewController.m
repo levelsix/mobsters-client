@@ -7,6 +7,8 @@
 //
 
 #import "GachaponViewController.h"
+#import "cocos2d.h"
+#import "Globals.h"
 
 @interface GachaponViewController ()
 
@@ -18,15 +20,16 @@
   self.containerView.layer.cornerRadius = 5.f;
 }
 
-- (void) update {
-  
+- (void) update:(int)val {
+  self.icon.image = [UIImage imageNamed:[NSString stringWithFormat:@"fakepiece%d.png", val%3+1]];
+//  self.label.text = [Globals commafyNumber:val];
 }
 
 @end
 
 @implementation GachaponViewController
 
-#define NUM_ROWS INT_MAX/100000
+#define NUM_ROWS INT_MAX/10000
 
 - (void)viewDidLoad
 {
@@ -37,6 +40,50 @@
   [self setUpImageBackButton];
   
   [self.gachaTable scrollToRowAtIndexPath:[NSIndexPath indexPathForRow:NUM_ROWS/2 inSection:0] atScrollPosition:UITableViewScrollPositionMiddle animated:NO];
+}
+
+- (CGPoint) nearestCellMiddleFromPoint:(CGPoint)pt {
+  // Input and output will be relative to contentOffset
+  float nearest = roundf((pt.y+self.gachaTable.frame.size.height/2)/self.gachaTable.rowHeight+0.5)-0.5;
+  pt.y = nearest*self.gachaTable.rowHeight-self.gachaTable.frame.size.height/2;
+  return pt;
+}
+
+- (IBAction)spinClicked:(id)sender {
+  if (self.gachaTable.isDragging || _isSpinning) {
+    return;
+  }
+  
+  CGPoint pt = self.gachaTable.contentOffset;
+  pt = [self nearestCellMiddleFromPoint:ccp(pt.x, pt.y+5000)];
+  [self.gachaTable setContentOffset:pt withTimingFunction:[CAMediaTimingFunction functionWithControlPoints:0 :.51 :0 :.99] duration:5.f];
+  
+  self.gachaTable.userInteractionEnabled = NO;
+  _isSpinning = YES;
+  
+  // Doesn't matter which bool you send in
+  [self beginMachineIconPulsing:YES];
+}
+
+- (void) beginMachineIconPulsing:(BOOL)isFatter {
+  // Basically using a formula similar to y = mx+b but using (1,1) as origin
+  float x = isFatter ? 0.15 : -0.03;
+  float m = 0.8f;
+  CGAffineTransform t1 = CGAffineTransformMakeScale(1+x, 1-m*x);
+  
+#define ANIMATION_TIME 3.f
+  
+  [UIView animateWithDuration:ABS(x)*ANIMATION_TIME delay:0.f options:UIViewAnimationOptionCurveLinear animations:^{
+    self.machineIcon.transform = t1;
+  } completion:^(BOOL finished) {
+    [UIView animateWithDuration:ABS(x)*ANIMATION_TIME delay:0.f options:UIViewAnimationOptionCurveLinear animations:^{
+      self.machineIcon.transform = CGAffineTransformIdentity;
+    } completion:^(BOOL finished) {
+      if (_isSpinning) {
+        [self beginMachineIconPulsing:!isFatter];
+      }
+    }];
+  }];
 }
 
 #pragma mark - UITableViewDelegate/DataSource methods
@@ -56,17 +103,20 @@
     cell = self.itemCell;
   }
   
-  [cell update];
+  [cell update:indexPath.row];
   
   return cell;
 }
 
 - (void) scrollViewWillEndDragging:(UIScrollView *)scrollView withVelocity:(CGPoint)velocity targetContentOffset:(inout CGPoint *)targetContentOffset {
   CGPoint pt = *targetContentOffset;
-  
-  float nearest = roundf((pt.y+self.gachaTable.frame.size.height/2)/self.gachaTable.rowHeight+0.5)-0.5;
-  pt.y = nearest*self.gachaTable.rowHeight-self.gachaTable.frame.size.height/2;
+  pt = [self nearestCellMiddleFromPoint:pt];
   targetContentOffset->y = pt.y;
+}
+
+- (void) scrollViewDidEndScrollingAnimation:(UIScrollView *)scrollView {
+  self.gachaTable.userInteractionEnabled = YES;
+  _isSpinning = NO;
 }
 
 @end

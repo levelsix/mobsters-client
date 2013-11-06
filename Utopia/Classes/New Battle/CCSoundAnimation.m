@@ -12,13 +12,17 @@
 @implementation CCAnimation (SoundAnimation)
 
 - (void) repeatFrames:(NSRange)range {
-  NSArray *arr = [self.frames subarrayWithRange:range];
-  NSIndexSet *indexes = [NSIndexSet indexSetWithIndexesInRange:range];
-  [self.frames insertObjects:arr atIndexes:indexes];
+  if (range.location+range.length <= self.frames.count) {
+    NSArray *arr = [self.frames subarrayWithRange:range];
+    NSIndexSet *indexes = [NSIndexSet indexSetWithIndexesInRange:range];
+    [self.frames insertObjects:arr atIndexes:indexes];
+  }
 }
 
 - (void) addSoundEffect:(NSString *)effectName atIndex:(int)index {
-  [self.frames insertObject:effectName atIndex:index];
+  if (index < self.frames.count) {
+    [self.frames insertObject:effectName atIndex:index];
+  }
 }
 
 @end

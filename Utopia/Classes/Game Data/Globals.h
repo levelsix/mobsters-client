@@ -66,11 +66,15 @@
 @property (nonatomic, assign) int numBeginnerSalesAllowed;
 @property (nonatomic, assign) int defaultDaysBattleShieldIsActive;
 
+@property (nonatomic, assign) float minutesPerGem;
+
 // Monster Constants
 @property (nonatomic, assign) int maxTeamSize;
 @property (nonatomic, assign) int baseInventorySize;
 @property (nonatomic, assign) int inventoryIncreaseSizeAmount;
 @property (nonatomic, assign) int inventoryIncreaseSizeCost;
+@property (nonatomic, assign) float cashPerHealthPoint;
+@property (nonatomic, assign) float secondsToHealPerHealthPoint;
 
 // Norm struct constants
 @property (nonatomic, assign) int maxRepeatedNormStructs;
@@ -169,6 +173,8 @@
 + (void) displayUIView:(UIView *)view;
 + (void) displayUIViewWithoutAdjustment:(UIView *)view;
 
++ (NSString *) urlStringForFacebookId:(NSString *)uid;
+
 + (UIColor *)creamColor;
 + (UIColor *)goldColor;
 + (UIColor *)greenColor;
@@ -176,6 +182,9 @@
 + (UIColor *)redColor;
 + (UIColor *)blueColor;
 + (UIColor *)purpleColor;
++ (UIColor *)purplishPinkColor;
++ (UIColor *)yellowColor;
++ (UIColor *)greyishTanColor;
 
 + (GameMap *) mapForQuest:(FullQuestProto *)fqp;
 + (NSString *) bazaarQuestGiverName;

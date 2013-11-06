@@ -7,6 +7,8 @@
 @class MinimumClanProto;
 @class MinimumClanProto_Builder;
 @class MinimumUserProto;
+@class MinimumUserProtoWithFacebookId;
+@class MinimumUserProtoWithFacebookId_Builder;
 @class MinimumUserProtoWithLevel;
 @class MinimumUserProtoWithLevel_Builder;
 @class MinimumUserProto_Builder;
@@ -248,28 +250,87 @@
 - (MinimumUserProtoWithLevel_Builder*) clearLevel;
 @end
 
+@interface MinimumUserProtoWithFacebookId : PBGeneratedMessage {
+@private
+  BOOL hasFacebookId_:1;
+  BOOL hasMinUserProto_:1;
+  NSString* facebookId;
+  MinimumUserProto* minUserProto;
+}
+- (BOOL) hasMinUserProto;
+- (BOOL) hasFacebookId;
+@property (readonly, retain) MinimumUserProto* minUserProto;
+@property (readonly, retain) NSString* facebookId;
+
++ (MinimumUserProtoWithFacebookId*) defaultInstance;
+- (MinimumUserProtoWithFacebookId*) defaultInstance;
+
+- (BOOL) isInitialized;
+- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output;
+- (MinimumUserProtoWithFacebookId_Builder*) builder;
++ (MinimumUserProtoWithFacebookId_Builder*) builder;
++ (MinimumUserProtoWithFacebookId_Builder*) builderWithPrototype:(MinimumUserProtoWithFacebookId*) prototype;
+
++ (MinimumUserProtoWithFacebookId*) parseFromData:(NSData*) data;
++ (MinimumUserProtoWithFacebookId*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (MinimumUserProtoWithFacebookId*) parseFromInputStream:(NSInputStream*) input;
++ (MinimumUserProtoWithFacebookId*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (MinimumUserProtoWithFacebookId*) parseFromCodedInputStream:(PBCodedInputStream*) input;
++ (MinimumUserProtoWithFacebookId*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+@end
+
+@interface MinimumUserProtoWithFacebookId_Builder : PBGeneratedMessage_Builder {
+@private
+  MinimumUserProtoWithFacebookId* result;
+}
+
+- (MinimumUserProtoWithFacebookId*) defaultInstance;
+
+- (MinimumUserProtoWithFacebookId_Builder*) clear;
+- (MinimumUserProtoWithFacebookId_Builder*) clone;
+
+- (MinimumUserProtoWithFacebookId*) build;
+- (MinimumUserProtoWithFacebookId*) buildPartial;
+
+- (MinimumUserProtoWithFacebookId_Builder*) mergeFrom:(MinimumUserProtoWithFacebookId*) other;
+- (MinimumUserProtoWithFacebookId_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input;
+- (MinimumUserProtoWithFacebookId_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+
+- (BOOL) hasMinUserProto;
+- (MinimumUserProto*) minUserProto;
+- (MinimumUserProtoWithFacebookId_Builder*) setMinUserProto:(MinimumUserProto*) value;
+- (MinimumUserProtoWithFacebookId_Builder*) setMinUserProtoBuilder:(MinimumUserProto_Builder*) builderForValue;
+- (MinimumUserProtoWithFacebookId_Builder*) mergeMinUserProto:(MinimumUserProto*) value;
+- (MinimumUserProtoWithFacebookId_Builder*) clearMinUserProto;
+
+- (BOOL) hasFacebookId;
+- (NSString*) facebookId;
+- (MinimumUserProtoWithFacebookId_Builder*) setFacebookId:(NSString*) value;
+- (MinimumUserProtoWithFacebookId_Builder*) clearFacebookId;
+@end
+
 @interface FullUserProto : PBGeneratedMessage {
 @private
-  BOOL hasHasReceivedfbReward_:1;
   BOOL hasHasActiveShield_:1;
+  BOOL hasHasReceivedfbReward_:1;
   BOOL hasIsAdmin_:1;
   BOOL hasIsFake_:1;
+  BOOL hasLastWallPostNotificationTime_:1;
   BOOL hasShieldEndTime_:1;
+  BOOL hasCreateTime_:1;
+  BOOL hasLastBattleNotificationTime_:1;
   BOOL hasLastLogoutTime_:1;
   BOOL hasLastLoginTime_:1;
   BOOL hasLastTimeQueued_:1;
-  BOOL hasLastBattleNotificationTime_:1;
-  BOOL hasCreateTime_:1;
-  BOOL hasLastWallPostNotificationTime_:1;
-  BOOL hasDefensesWon_:1;
-  BOOL hasAttacksWon_:1;
-  BOOL hasAttacksLost_:1;
   BOOL hasElo_:1;
+  BOOL hasAttacksWon_:1;
+  BOOL hasDefensesWon_:1;
+  BOOL hasAttacksLost_:1;
   BOOL hasDefensesLost_:1;
   BOOL hasNumBadges_:1;
   BOOL hasApsalarId_:1;
   BOOL hasNumConsecutiveDaysPlayed_:1;
-  BOOL hasNumBeginnerSalesPurchased_:1;
+  BOOL hasNthExtraSlotsViaFb_:1;
   BOOL hasUserId_:1;
   BOOL hasLevel_:1;
   BOOL hasGems_:1;
@@ -282,33 +343,35 @@
   BOOL hasNumReferrals_:1;
   BOOL hasNumCoinsRetrievedFromStructs_:1;
   BOOL hasNumAdditionalMonsterSlots_:1;
+  BOOL hasNumBeginnerSalesPurchased_:1;
   BOOL hasReferralCode_:1;
+  BOOL hasFacebookId_:1;
   BOOL hasUdid_:1;
   BOOL hasDeviceToken_:1;
   BOOL hasRank_:1;
   BOOL hasName_:1;
   BOOL hasKabamNaid_:1;
   BOOL hasClan_:1;
-  BOOL hasReceivedfbReward_:1;
   BOOL hasActiveShield_:1;
+  BOOL hasReceivedfbReward_:1;
   BOOL isAdmin_:1;
   BOOL isFake_:1;
+  int64_t lastWallPostNotificationTime;
   int64_t shieldEndTime;
+  int64_t createTime;
+  int64_t lastBattleNotificationTime;
   int64_t lastLogoutTime;
   int64_t lastLoginTime;
   int64_t lastTimeQueued;
-  int64_t lastBattleNotificationTime;
-  int64_t createTime;
-  int64_t lastWallPostNotificationTime;
-  int32_t defensesWon;
-  int32_t attacksWon;
-  int32_t attacksLost;
   int32_t elo;
+  int32_t attacksWon;
+  int32_t defensesWon;
+  int32_t attacksLost;
   int32_t defensesLost;
   int32_t numBadges;
   int32_t apsalarId;
   int32_t numConsecutiveDaysPlayed;
-  int32_t numBeginnerSalesPurchased;
+  int32_t nthExtraSlotsViaFb;
   int32_t userId;
   int32_t level;
   int32_t gems;
@@ -321,7 +384,9 @@
   int32_t numReferrals;
   int32_t numCoinsRetrievedFromStructs;
   int32_t numAdditionalMonsterSlots;
+  int32_t numBeginnerSalesPurchased;
   NSString* referralCode;
+  NSString* facebookId;
   NSString* udid;
   NSString* deviceToken;
   NSString* rank;
@@ -359,6 +424,7 @@
 - (BOOL) hasDefensesWon;
 - (BOOL) hasAttacksLost;
 - (BOOL) hasDefensesLost;
+- (BOOL) hasFacebookId;
 - (BOOL) hasUdid;
 - (BOOL) hasDeviceToken;
 - (BOOL) hasLastBattleNotificationTime;
@@ -368,6 +434,7 @@
 - (BOOL) hasNumConsecutiveDaysPlayed;
 - (BOOL) hasLastWallPostNotificationTime;
 - (BOOL) hasKabamNaid;
+- (BOOL) hasNthExtraSlotsViaFb;
 @property (readonly) int32_t userId;
 @property (readonly, retain) NSString* name;
 @property (readonly) int32_t level;
@@ -398,6 +465,7 @@
 @property (readonly) int32_t defensesWon;
 @property (readonly) int32_t attacksLost;
 @property (readonly) int32_t defensesLost;
+@property (readonly, retain) NSString* facebookId;
 @property (readonly, retain) NSString* udid;
 @property (readonly, retain) NSString* deviceToken;
 @property (readonly) int64_t lastBattleNotificationTime;
@@ -407,6 +475,7 @@
 @property (readonly) int32_t numConsecutiveDaysPlayed;
 @property (readonly) int64_t lastWallPostNotificationTime;
 @property (readonly, retain) NSString* kabamNaid;
+@property (readonly) int32_t nthExtraSlotsViaFb;
 
 + (FullUserProto*) defaultInstance;
 - (FullUserProto*) defaultInstance;
@@ -594,6 +663,11 @@
 - (FullUserProto_Builder*) setDefensesLost:(int32_t) value;
 - (FullUserProto_Builder*) clearDefensesLost;
 
+- (BOOL) hasFacebookId;
+- (NSString*) facebookId;
+- (FullUserProto_Builder*) setFacebookId:(NSString*) value;
+- (FullUserProto_Builder*) clearFacebookId;
+
 - (BOOL) hasUdid;
 - (NSString*) udid;
 - (FullUserProto_Builder*) setUdid:(NSString*) value;
@@ -638,6 +712,11 @@
 - (NSString*) kabamNaid;
 - (FullUserProto_Builder*) setKabamNaid:(NSString*) value;
 - (FullUserProto_Builder*) clearKabamNaid;
+
+- (BOOL) hasNthExtraSlotsViaFb;
+- (int32_t) nthExtraSlotsViaFb;
+- (FullUserProto_Builder*) setNthExtraSlotsViaFb:(int32_t) value;
+- (FullUserProto_Builder*) clearNthExtraSlotsViaFb;
 @end
 
 @interface StaticLevelInfoProto : PBGeneratedMessage {

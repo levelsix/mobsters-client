@@ -436,6 +436,8 @@ static StartupRequestProto* defaultStartupRequestProtoInstance = nil;
 @property (retain) UserEnhancementProto* enhancements;
 @property (retain) NSMutableArray* mutableRareBoosterPurchasesList;
 @property (retain) NSString* kabamNaid;
+@property (retain) NSMutableArray* mutableUsersUsedForExtraSlotsList;
+@property (retain) NSMutableArray* mutableUsersInvitingMeForExtraSlotsList;
 @end
 
 @implementation StartupResponseProto
@@ -542,6 +544,8 @@ static StartupRequestProto* defaultStartupRequestProtoInstance = nil;
   hasKabamNaid_ = !!value;
 }
 @synthesize kabamNaid;
+@synthesize mutableUsersUsedForExtraSlotsList;
+@synthesize mutableUsersInvitingMeForExtraSlotsList;
 - (void) dealloc {
   self.sender = nil;
   self.startupConstants = nil;
@@ -570,6 +574,8 @@ static StartupRequestProto* defaultStartupRequestProtoInstance = nil;
   self.enhancements = nil;
   self.mutableRareBoosterPurchasesList = nil;
   self.kabamNaid = nil;
+  self.mutableUsersUsedForExtraSlotsList = nil;
+  self.mutableUsersInvitingMeForExtraSlotsList = nil;
   [super dealloc];
 }
 - (id) init {
@@ -740,6 +746,20 @@ static StartupResponseProto* defaultStartupResponseProtoInstance = nil;
   id value = [mutableRareBoosterPurchasesList objectAtIndex:index];
   return value;
 }
+- (NSArray*) usersUsedForExtraSlotsList {
+  return mutableUsersUsedForExtraSlotsList;
+}
+- (MinimumUserProtoWithFacebookId*) usersUsedForExtraSlotsAtIndex:(int32_t) index {
+  id value = [mutableUsersUsedForExtraSlotsList objectAtIndex:index];
+  return value;
+}
+- (NSArray*) usersInvitingMeForExtraSlotsList {
+  return mutableUsersInvitingMeForExtraSlotsList;
+}
+- (MinimumUserProtoWithFacebookId*) usersInvitingMeForExtraSlotsAtIndex:(int32_t) index {
+  id value = [mutableUsersInvitingMeForExtraSlotsList objectAtIndex:index];
+  return value;
+}
 - (BOOL) isInitialized {
   return YES;
 }
@@ -836,6 +856,12 @@ static StartupResponseProto* defaultStartupResponseProtoInstance = nil;
   }
   if (self.hasKabamNaid) {
     [output writeString:31 value:self.kabamNaid];
+  }
+  for (MinimumUserProtoWithFacebookId* element in self.usersUsedForExtraSlotsList) {
+    [output writeMessage:32 value:element];
+  }
+  for (MinimumUserProtoWithFacebookId* element in self.usersInvitingMeForExtraSlotsList) {
+    [output writeMessage:33 value:element];
   }
   [self.unknownFields writeToCodedOutputStream:output];
 }
@@ -943,6 +969,12 @@ static StartupResponseProto* defaultStartupResponseProtoInstance = nil;
   }
   if (self.hasKabamNaid) {
     size += computeStringSize(31, self.kabamNaid);
+  }
+  for (MinimumUserProtoWithFacebookId* element in self.usersUsedForExtraSlotsList) {
+    size += computeMessageSize(32, element);
+  }
+  for (MinimumUserProtoWithFacebookId* element in self.usersInvitingMeForExtraSlotsList) {
+    size += computeMessageSize(33, element);
   }
   size += self.unknownFields.serializedSize;
   memoizedSerializedSize = size;
@@ -1562,6 +1594,7 @@ static StartupResponseProto_ReferralNotificationProto* defaultStartupResponsePro
 @property int32_t numBeginnerSalesAllowed;
 @property (retain) StartupResponseProto_StartupConstants_UserMonsterConstants* userMonsterConstants;
 @property (retain) StartupResponseProto_StartupConstants_MonsterConstants* monsterConstants;
+@property Float32 minutesPerGem;
 @end
 
 @implementation StartupResponseProto_StartupConstants
@@ -1687,6 +1720,13 @@ static StartupResponseProto_ReferralNotificationProto* defaultStartupResponsePro
   hasMonsterConstants_ = !!value;
 }
 @synthesize monsterConstants;
+- (BOOL) hasMinutesPerGem {
+  return !!hasMinutesPerGem_;
+}
+- (void) setHasMinutesPerGem:(BOOL) value {
+  hasMinutesPerGem_ = !!value;
+}
+@synthesize minutesPerGem;
 - (void) dealloc {
   self.mutableInAppPurchasePackagesList = nil;
   self.normStructConstants = nil;
@@ -1719,6 +1759,7 @@ static StartupResponseProto_ReferralNotificationProto* defaultStartupResponsePro
     self.numBeginnerSalesAllowed = 0;
     self.userMonsterConstants = [StartupResponseProto_StartupConstants_UserMonsterConstants defaultInstance];
     self.monsterConstants = [StartupResponseProto_StartupConstants_MonsterConstants defaultInstance];
+    self.minutesPerGem = 0;
   }
   return self;
 }
@@ -1809,6 +1850,9 @@ static StartupResponseProto_StartupConstants* defaultStartupResponseProto_Startu
   if (self.hasMonsterConstants) {
     [output writeMessage:19 value:self.monsterConstants];
   }
+  if (self.hasMinutesPerGem) {
+    [output writeFloat:20 value:self.minutesPerGem];
+  }
   [self.unknownFields writeToCodedOutputStream:output];
 }
 - (int32_t) serializedSize {
@@ -1874,6 +1918,9 @@ static StartupResponseProto_StartupConstants* defaultStartupResponseProto_Startu
   }
   if (self.hasMonsterConstants) {
     size += computeMessageSize(19, self.monsterConstants);
+  }
+  if (self.hasMinutesPerGem) {
+    size += computeFloatSize(20, self.minutesPerGem);
   }
   size += self.unknownFields.serializedSize;
   memoizedSerializedSize = size;
@@ -3641,8 +3688,8 @@ static StartupResponseProto_StartupConstants_UserMonsterConstants* defaultStartu
 @end
 
 @interface StartupResponseProto_StartupConstants_MonsterConstants ()
-@property int32_t cashPerHealthPoint;
-@property int32_t secondsToHealPerHealthPoint;
+@property Float32 cashPerHealthPoint;
+@property Float32 secondsToHealPerHealthPoint;
 @end
 
 @implementation StartupResponseProto_StartupConstants_MonsterConstants
@@ -3688,10 +3735,10 @@ static StartupResponseProto_StartupConstants_MonsterConstants* defaultStartupRes
 }
 - (void) writeToCodedOutputStream:(PBCodedOutputStream*) output {
   if (self.hasCashPerHealthPoint) {
-    [output writeInt32:1 value:self.cashPerHealthPoint];
+    [output writeFloat:1 value:self.cashPerHealthPoint];
   }
   if (self.hasSecondsToHealPerHealthPoint) {
-    [output writeInt32:2 value:self.secondsToHealPerHealthPoint];
+    [output writeFloat:2 value:self.secondsToHealPerHealthPoint];
   }
   [self.unknownFields writeToCodedOutputStream:output];
 }
@@ -3703,10 +3750,10 @@ static StartupResponseProto_StartupConstants_MonsterConstants* defaultStartupRes
 
   size = 0;
   if (self.hasCashPerHealthPoint) {
-    size += computeInt32Size(1, self.cashPerHealthPoint);
+    size += computeFloatSize(1, self.cashPerHealthPoint);
   }
   if (self.hasSecondsToHealPerHealthPoint) {
-    size += computeInt32Size(2, self.secondsToHealPerHealthPoint);
+    size += computeFloatSize(2, self.secondsToHealPerHealthPoint);
   }
   size += self.unknownFields.serializedSize;
   memoizedSerializedSize = size;
@@ -3810,12 +3857,12 @@ static StartupResponseProto_StartupConstants_MonsterConstants* defaultStartupRes
         }
         break;
       }
-      case 8: {
-        [self setCashPerHealthPoint:[input readInt32]];
+      case 13: {
+        [self setCashPerHealthPoint:[input readFloat]];
         break;
       }
-      case 16: {
-        [self setSecondsToHealPerHealthPoint:[input readInt32]];
+      case 21: {
+        [self setSecondsToHealPerHealthPoint:[input readFloat]];
         break;
       }
     }
@@ -3824,10 +3871,10 @@ static StartupResponseProto_StartupConstants_MonsterConstants* defaultStartupRes
 - (BOOL) hasCashPerHealthPoint {
   return result.hasCashPerHealthPoint;
 }
-- (int32_t) cashPerHealthPoint {
+- (Float32) cashPerHealthPoint {
   return result.cashPerHealthPoint;
 }
-- (StartupResponseProto_StartupConstants_MonsterConstants_Builder*) setCashPerHealthPoint:(int32_t) value {
+- (StartupResponseProto_StartupConstants_MonsterConstants_Builder*) setCashPerHealthPoint:(Float32) value {
   result.hasCashPerHealthPoint = YES;
   result.cashPerHealthPoint = value;
   return self;
@@ -3840,10 +3887,10 @@ static StartupResponseProto_StartupConstants_MonsterConstants* defaultStartupRes
 - (BOOL) hasSecondsToHealPerHealthPoint {
   return result.hasSecondsToHealPerHealthPoint;
 }
-- (int32_t) secondsToHealPerHealthPoint {
+- (Float32) secondsToHealPerHealthPoint {
   return result.secondsToHealPerHealthPoint;
 }
-- (StartupResponseProto_StartupConstants_MonsterConstants_Builder*) setSecondsToHealPerHealthPoint:(int32_t) value {
+- (StartupResponseProto_StartupConstants_MonsterConstants_Builder*) setSecondsToHealPerHealthPoint:(Float32) value {
   result.hasSecondsToHealPerHealthPoint = YES;
   result.secondsToHealPerHealthPoint = value;
   return self;
@@ -3959,6 +4006,9 @@ static StartupResponseProto_StartupConstants_MonsterConstants* defaultStartupRes
   }
   if (other.hasMonsterConstants) {
     [self mergeMonsterConstants:other.monsterConstants];
+  }
+  if (other.hasMinutesPerGem) {
+    [self setMinutesPerGem:other.minutesPerGem];
   }
   [self mergeUnknownFields:other.unknownFields];
   return self;
@@ -4094,6 +4144,10 @@ static StartupResponseProto_StartupConstants_MonsterConstants* defaultStartupRes
         }
         [input readMessage:subBuilder extensionRegistry:extensionRegistry];
         [self setMonsterConstants:[subBuilder buildPartial]];
+        break;
+      }
+      case 165: {
+        [self setMinutesPerGem:[input readFloat]];
         break;
       }
     }
@@ -4527,6 +4581,22 @@ static StartupResponseProto_StartupConstants_MonsterConstants* defaultStartupRes
   result.monsterConstants = [StartupResponseProto_StartupConstants_MonsterConstants defaultInstance];
   return self;
 }
+- (BOOL) hasMinutesPerGem {
+  return result.hasMinutesPerGem;
+}
+- (Float32) minutesPerGem {
+  return result.minutesPerGem;
+}
+- (StartupResponseProto_StartupConstants_Builder*) setMinutesPerGem:(Float32) value {
+  result.hasMinutesPerGem = YES;
+  result.minutesPerGem = value;
+  return self;
+}
+- (StartupResponseProto_StartupConstants_Builder*) clearMinutesPerGem {
+  result.hasMinutesPerGem = NO;
+  result.minutesPerGem = 0;
+  return self;
+}
 @end
 
 @interface StartupResponseProto_Builder()
@@ -4723,6 +4793,18 @@ static StartupResponseProto_StartupConstants_MonsterConstants* defaultStartupRes
   }
   if (other.hasKabamNaid) {
     [self setKabamNaid:other.kabamNaid];
+  }
+  if (other.mutableUsersUsedForExtraSlotsList.count > 0) {
+    if (result.mutableUsersUsedForExtraSlotsList == nil) {
+      result.mutableUsersUsedForExtraSlotsList = [NSMutableArray array];
+    }
+    [result.mutableUsersUsedForExtraSlotsList addObjectsFromArray:other.mutableUsersUsedForExtraSlotsList];
+  }
+  if (other.mutableUsersInvitingMeForExtraSlotsList.count > 0) {
+    if (result.mutableUsersInvitingMeForExtraSlotsList == nil) {
+      result.mutableUsersInvitingMeForExtraSlotsList = [NSMutableArray array];
+    }
+    [result.mutableUsersInvitingMeForExtraSlotsList addObjectsFromArray:other.mutableUsersInvitingMeForExtraSlotsList];
   }
   [self mergeUnknownFields:other.unknownFields];
   return self;
@@ -4930,6 +5012,18 @@ static StartupResponseProto_StartupConstants_MonsterConstants* defaultStartupRes
       }
       case 250: {
         [self setKabamNaid:[input readString]];
+        break;
+      }
+      case 258: {
+        MinimumUserProtoWithFacebookId_Builder* subBuilder = [MinimumUserProtoWithFacebookId builder];
+        [input readMessage:subBuilder extensionRegistry:extensionRegistry];
+        [self addUsersUsedForExtraSlots:[subBuilder buildPartial]];
+        break;
+      }
+      case 266: {
+        MinimumUserProtoWithFacebookId_Builder* subBuilder = [MinimumUserProtoWithFacebookId builder];
+        [input readMessage:subBuilder extensionRegistry:extensionRegistry];
+        [self addUsersInvitingMeForExtraSlots:[subBuilder buildPartial]];
         break;
       }
     }
@@ -5733,6 +5827,64 @@ static StartupResponseProto_StartupConstants_MonsterConstants* defaultStartupRes
 - (StartupResponseProto_Builder*) clearKabamNaid {
   result.hasKabamNaid = NO;
   result.kabamNaid = @"";
+  return self;
+}
+- (NSArray*) usersUsedForExtraSlotsList {
+  if (result.mutableUsersUsedForExtraSlotsList == nil) { return [NSArray array]; }
+  return result.mutableUsersUsedForExtraSlotsList;
+}
+- (MinimumUserProtoWithFacebookId*) usersUsedForExtraSlotsAtIndex:(int32_t) index {
+  return [result usersUsedForExtraSlotsAtIndex:index];
+}
+- (StartupResponseProto_Builder*) replaceUsersUsedForExtraSlotsAtIndex:(int32_t) index with:(MinimumUserProtoWithFacebookId*) value {
+  [result.mutableUsersUsedForExtraSlotsList replaceObjectAtIndex:index withObject:value];
+  return self;
+}
+- (StartupResponseProto_Builder*) addAllUsersUsedForExtraSlots:(NSArray*) values {
+  if (result.mutableUsersUsedForExtraSlotsList == nil) {
+    result.mutableUsersUsedForExtraSlotsList = [NSMutableArray array];
+  }
+  [result.mutableUsersUsedForExtraSlotsList addObjectsFromArray:values];
+  return self;
+}
+- (StartupResponseProto_Builder*) clearUsersUsedForExtraSlotsList {
+  result.mutableUsersUsedForExtraSlotsList = nil;
+  return self;
+}
+- (StartupResponseProto_Builder*) addUsersUsedForExtraSlots:(MinimumUserProtoWithFacebookId*) value {
+  if (result.mutableUsersUsedForExtraSlotsList == nil) {
+    result.mutableUsersUsedForExtraSlotsList = [NSMutableArray array];
+  }
+  [result.mutableUsersUsedForExtraSlotsList addObject:value];
+  return self;
+}
+- (NSArray*) usersInvitingMeForExtraSlotsList {
+  if (result.mutableUsersInvitingMeForExtraSlotsList == nil) { return [NSArray array]; }
+  return result.mutableUsersInvitingMeForExtraSlotsList;
+}
+- (MinimumUserProtoWithFacebookId*) usersInvitingMeForExtraSlotsAtIndex:(int32_t) index {
+  return [result usersInvitingMeForExtraSlotsAtIndex:index];
+}
+- (StartupResponseProto_Builder*) replaceUsersInvitingMeForExtraSlotsAtIndex:(int32_t) index with:(MinimumUserProtoWithFacebookId*) value {
+  [result.mutableUsersInvitingMeForExtraSlotsList replaceObjectAtIndex:index withObject:value];
+  return self;
+}
+- (StartupResponseProto_Builder*) addAllUsersInvitingMeForExtraSlots:(NSArray*) values {
+  if (result.mutableUsersInvitingMeForExtraSlotsList == nil) {
+    result.mutableUsersInvitingMeForExtraSlotsList = [NSMutableArray array];
+  }
+  [result.mutableUsersInvitingMeForExtraSlotsList addObjectsFromArray:values];
+  return self;
+}
+- (StartupResponseProto_Builder*) clearUsersInvitingMeForExtraSlotsList {
+  result.mutableUsersInvitingMeForExtraSlotsList = nil;
+  return self;
+}
+- (StartupResponseProto_Builder*) addUsersInvitingMeForExtraSlots:(MinimumUserProtoWithFacebookId*) value {
+  if (result.mutableUsersInvitingMeForExtraSlotsList == nil) {
+    result.mutableUsersInvitingMeForExtraSlotsList = [NSMutableArray array];
+  }
+  [result.mutableUsersInvitingMeForExtraSlotsList addObject:value];
   return self;
 }
 @end

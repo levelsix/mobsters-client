@@ -49,15 +49,6 @@
 
 @synthesize window;
 @synthesize isActive;
-@synthesize facebookDelegate;
-
-- (BOOL)application:(UIApplication *)application openURL:(NSURL *)url
-  sourceApplication:(NSString *)sourceApplication annotation:(id)annotation {
-  return [facebookDelegate application:application
-                               openURL:url
-                     sourceApplication:sourceApplication
-                            annotation:annotation];
-}
 
 - (void) setUpMobileAppTracker {
   [[MobileAppTracker sharedManager] setDebugMode:NO];
@@ -160,9 +151,6 @@
   
   // Publish install
   [FBSettings publishInstall:FACEBOOK_APP_ID];
-  
-  // Facebook
-  facebookDelegate = [FacebookDelegate createFacebookDelegate];
   
   [self removeLocalNotifications];
   

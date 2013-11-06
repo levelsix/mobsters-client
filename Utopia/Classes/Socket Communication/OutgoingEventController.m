@@ -891,6 +891,11 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
   }
 }
 
+- (void) inviteAllFacebookFriends:(NSArray *)fbFriends {
+  NSLog(@"%@", fbFriends);
+  [[SocketCommunication sharedSocketCommunication] sendInviteFbFriendsForSlotsMessage:fbFriends];
+}
+
 - (void) combineMonsters:(NSArray *)userMonsterIds {
   GameState *gs = [GameState sharedGameState];
   for (NSNumber *umId in userMonsterIds) {

@@ -941,6 +941,242 @@ static MinimumUserProtoWithLevel* defaultMinimumUserProtoWithLevelInstance = nil
 }
 @end
 
+@interface MinimumUserProtoWithFacebookId ()
+@property (retain) MinimumUserProto* minUserProto;
+@property (retain) NSString* facebookId;
+@end
+
+@implementation MinimumUserProtoWithFacebookId
+
+- (BOOL) hasMinUserProto {
+  return !!hasMinUserProto_;
+}
+- (void) setHasMinUserProto:(BOOL) value {
+  hasMinUserProto_ = !!value;
+}
+@synthesize minUserProto;
+- (BOOL) hasFacebookId {
+  return !!hasFacebookId_;
+}
+- (void) setHasFacebookId:(BOOL) value {
+  hasFacebookId_ = !!value;
+}
+@synthesize facebookId;
+- (void) dealloc {
+  self.minUserProto = nil;
+  self.facebookId = nil;
+  [super dealloc];
+}
+- (id) init {
+  if ((self = [super init])) {
+    self.minUserProto = [MinimumUserProto defaultInstance];
+    self.facebookId = @"";
+  }
+  return self;
+}
+static MinimumUserProtoWithFacebookId* defaultMinimumUserProtoWithFacebookIdInstance = nil;
++ (void) initialize {
+  if (self == [MinimumUserProtoWithFacebookId class]) {
+    defaultMinimumUserProtoWithFacebookIdInstance = [[MinimumUserProtoWithFacebookId alloc] init];
+  }
+}
++ (MinimumUserProtoWithFacebookId*) defaultInstance {
+  return defaultMinimumUserProtoWithFacebookIdInstance;
+}
+- (MinimumUserProtoWithFacebookId*) defaultInstance {
+  return defaultMinimumUserProtoWithFacebookIdInstance;
+}
+- (BOOL) isInitialized {
+  return YES;
+}
+- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output {
+  if (self.hasMinUserProto) {
+    [output writeMessage:1 value:self.minUserProto];
+  }
+  if (self.hasFacebookId) {
+    [output writeString:2 value:self.facebookId];
+  }
+  [self.unknownFields writeToCodedOutputStream:output];
+}
+- (int32_t) serializedSize {
+  int32_t size = memoizedSerializedSize;
+  if (size != -1) {
+    return size;
+  }
+
+  size = 0;
+  if (self.hasMinUserProto) {
+    size += computeMessageSize(1, self.minUserProto);
+  }
+  if (self.hasFacebookId) {
+    size += computeStringSize(2, self.facebookId);
+  }
+  size += self.unknownFields.serializedSize;
+  memoizedSerializedSize = size;
+  return size;
+}
++ (MinimumUserProtoWithFacebookId*) parseFromData:(NSData*) data {
+  return (MinimumUserProtoWithFacebookId*)[[[MinimumUserProtoWithFacebookId builder] mergeFromData:data] build];
+}
++ (MinimumUserProtoWithFacebookId*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (MinimumUserProtoWithFacebookId*)[[[MinimumUserProtoWithFacebookId builder] mergeFromData:data extensionRegistry:extensionRegistry] build];
+}
++ (MinimumUserProtoWithFacebookId*) parseFromInputStream:(NSInputStream*) input {
+  return (MinimumUserProtoWithFacebookId*)[[[MinimumUserProtoWithFacebookId builder] mergeFromInputStream:input] build];
+}
++ (MinimumUserProtoWithFacebookId*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (MinimumUserProtoWithFacebookId*)[[[MinimumUserProtoWithFacebookId builder] mergeFromInputStream:input extensionRegistry:extensionRegistry] build];
+}
++ (MinimumUserProtoWithFacebookId*) parseFromCodedInputStream:(PBCodedInputStream*) input {
+  return (MinimumUserProtoWithFacebookId*)[[[MinimumUserProtoWithFacebookId builder] mergeFromCodedInputStream:input] build];
+}
++ (MinimumUserProtoWithFacebookId*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (MinimumUserProtoWithFacebookId*)[[[MinimumUserProtoWithFacebookId builder] mergeFromCodedInputStream:input extensionRegistry:extensionRegistry] build];
+}
++ (MinimumUserProtoWithFacebookId_Builder*) builder {
+  return [[[MinimumUserProtoWithFacebookId_Builder alloc] init] autorelease];
+}
++ (MinimumUserProtoWithFacebookId_Builder*) builderWithPrototype:(MinimumUserProtoWithFacebookId*) prototype {
+  return [[MinimumUserProtoWithFacebookId builder] mergeFrom:prototype];
+}
+- (MinimumUserProtoWithFacebookId_Builder*) builder {
+  return [MinimumUserProtoWithFacebookId builder];
+}
+@end
+
+@interface MinimumUserProtoWithFacebookId_Builder()
+@property (retain) MinimumUserProtoWithFacebookId* result;
+@end
+
+@implementation MinimumUserProtoWithFacebookId_Builder
+@synthesize result;
+- (void) dealloc {
+  self.result = nil;
+  [super dealloc];
+}
+- (id) init {
+  if ((self = [super init])) {
+    self.result = [[[MinimumUserProtoWithFacebookId alloc] init] autorelease];
+  }
+  return self;
+}
+- (PBGeneratedMessage*) internalGetResult {
+  return result;
+}
+- (MinimumUserProtoWithFacebookId_Builder*) clear {
+  self.result = [[[MinimumUserProtoWithFacebookId alloc] init] autorelease];
+  return self;
+}
+- (MinimumUserProtoWithFacebookId_Builder*) clone {
+  return [MinimumUserProtoWithFacebookId builderWithPrototype:result];
+}
+- (MinimumUserProtoWithFacebookId*) defaultInstance {
+  return [MinimumUserProtoWithFacebookId defaultInstance];
+}
+- (MinimumUserProtoWithFacebookId*) build {
+  [self checkInitialized];
+  return [self buildPartial];
+}
+- (MinimumUserProtoWithFacebookId*) buildPartial {
+  MinimumUserProtoWithFacebookId* returnMe = [[result retain] autorelease];
+  self.result = nil;
+  return returnMe;
+}
+- (MinimumUserProtoWithFacebookId_Builder*) mergeFrom:(MinimumUserProtoWithFacebookId*) other {
+  if (other == [MinimumUserProtoWithFacebookId defaultInstance]) {
+    return self;
+  }
+  if (other.hasMinUserProto) {
+    [self mergeMinUserProto:other.minUserProto];
+  }
+  if (other.hasFacebookId) {
+    [self setFacebookId:other.facebookId];
+  }
+  [self mergeUnknownFields:other.unknownFields];
+  return self;
+}
+- (MinimumUserProtoWithFacebookId_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input {
+  return [self mergeFromCodedInputStream:input extensionRegistry:[PBExtensionRegistry emptyRegistry]];
+}
+- (MinimumUserProtoWithFacebookId_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  PBUnknownFieldSet_Builder* unknownFields = [PBUnknownFieldSet builderWithUnknownFields:self.unknownFields];
+  while (YES) {
+    int32_t tag = [input readTag];
+    switch (tag) {
+      case 0:
+        [self setUnknownFields:[unknownFields build]];
+        return self;
+      default: {
+        if (![self parseUnknownField:input unknownFields:unknownFields extensionRegistry:extensionRegistry tag:tag]) {
+          [self setUnknownFields:[unknownFields build]];
+          return self;
+        }
+        break;
+      }
+      case 10: {
+        MinimumUserProto_Builder* subBuilder = [MinimumUserProto builder];
+        if (self.hasMinUserProto) {
+          [subBuilder mergeFrom:self.minUserProto];
+        }
+        [input readMessage:subBuilder extensionRegistry:extensionRegistry];
+        [self setMinUserProto:[subBuilder buildPartial]];
+        break;
+      }
+      case 18: {
+        [self setFacebookId:[input readString]];
+        break;
+      }
+    }
+  }
+}
+- (BOOL) hasMinUserProto {
+  return result.hasMinUserProto;
+}
+- (MinimumUserProto*) minUserProto {
+  return result.minUserProto;
+}
+- (MinimumUserProtoWithFacebookId_Builder*) setMinUserProto:(MinimumUserProto*) value {
+  result.hasMinUserProto = YES;
+  result.minUserProto = value;
+  return self;
+}
+- (MinimumUserProtoWithFacebookId_Builder*) setMinUserProtoBuilder:(MinimumUserProto_Builder*) builderForValue {
+  return [self setMinUserProto:[builderForValue build]];
+}
+- (MinimumUserProtoWithFacebookId_Builder*) mergeMinUserProto:(MinimumUserProto*) value {
+  if (result.hasMinUserProto &&
+      result.minUserProto != [MinimumUserProto defaultInstance]) {
+    result.minUserProto =
+      [[[MinimumUserProto builderWithPrototype:result.minUserProto] mergeFrom:value] buildPartial];
+  } else {
+    result.minUserProto = value;
+  }
+  result.hasMinUserProto = YES;
+  return self;
+}
+- (MinimumUserProtoWithFacebookId_Builder*) clearMinUserProto {
+  result.hasMinUserProto = NO;
+  result.minUserProto = [MinimumUserProto defaultInstance];
+  return self;
+}
+- (BOOL) hasFacebookId {
+  return result.hasFacebookId;
+}
+- (NSString*) facebookId {
+  return result.facebookId;
+}
+- (MinimumUserProtoWithFacebookId_Builder*) setFacebookId:(NSString*) value {
+  result.hasFacebookId = YES;
+  result.facebookId = value;
+  return self;
+}
+- (MinimumUserProtoWithFacebookId_Builder*) clearFacebookId {
+  result.hasFacebookId = NO;
+  result.facebookId = @"";
+  return self;
+}
+@end
+
 @interface FullUserProto ()
 @property int32_t userId;
 @property (retain) NSString* name;
@@ -972,6 +1208,7 @@ static MinimumUserProtoWithLevel* defaultMinimumUserProtoWithLevelInstance = nil
 @property int32_t defensesWon;
 @property int32_t attacksLost;
 @property int32_t defensesLost;
+@property (retain) NSString* facebookId;
 @property (retain) NSString* udid;
 @property (retain) NSString* deviceToken;
 @property int64_t lastBattleNotificationTime;
@@ -981,6 +1218,7 @@ static MinimumUserProtoWithLevel* defaultMinimumUserProtoWithLevelInstance = nil
 @property int32_t numConsecutiveDaysPlayed;
 @property int64_t lastWallPostNotificationTime;
 @property (retain) NSString* kabamNaid;
+@property int32_t nthExtraSlotsViaFb;
 @end
 
 @implementation FullUserProto
@@ -1215,6 +1453,13 @@ static MinimumUserProtoWithLevel* defaultMinimumUserProtoWithLevelInstance = nil
   hasDefensesLost_ = !!value;
 }
 @synthesize defensesLost;
+- (BOOL) hasFacebookId {
+  return !!hasFacebookId_;
+}
+- (void) setHasFacebookId:(BOOL) value {
+  hasFacebookId_ = !!value;
+}
+@synthesize facebookId;
 - (BOOL) hasUdid {
   return !!hasUdid_;
 }
@@ -1278,11 +1523,19 @@ static MinimumUserProtoWithLevel* defaultMinimumUserProtoWithLevelInstance = nil
   hasKabamNaid_ = !!value;
 }
 @synthesize kabamNaid;
+- (BOOL) hasNthExtraSlotsViaFb {
+  return !!hasNthExtraSlotsViaFb_;
+}
+- (void) setHasNthExtraSlotsViaFb:(BOOL) value {
+  hasNthExtraSlotsViaFb_ = !!value;
+}
+@synthesize nthExtraSlotsViaFb;
 - (void) dealloc {
   self.name = nil;
   self.referralCode = nil;
   self.clan = nil;
   self.rank = nil;
+  self.facebookId = nil;
   self.udid = nil;
   self.deviceToken = nil;
   self.kabamNaid = nil;
@@ -1320,6 +1573,7 @@ static MinimumUserProtoWithLevel* defaultMinimumUserProtoWithLevelInstance = nil
     self.defensesWon = 0;
     self.attacksLost = 0;
     self.defensesLost = 0;
+    self.facebookId = @"";
     self.udid = @"";
     self.deviceToken = @"";
     self.lastBattleNotificationTime = 0L;
@@ -1329,6 +1583,7 @@ static MinimumUserProtoWithLevel* defaultMinimumUserProtoWithLevelInstance = nil
     self.numConsecutiveDaysPlayed = 0;
     self.lastWallPostNotificationTime = 0L;
     self.kabamNaid = @"";
+    self.nthExtraSlotsViaFb = 0;
   }
   return self;
 }
@@ -1465,6 +1720,12 @@ static FullUserProto* defaultFullUserProtoInstance = nil;
   if (self.hasDefensesLost) {
     [output writeInt32:39 value:self.defensesLost];
   }
+  if (self.hasFacebookId) {
+    [output writeString:40 value:self.facebookId];
+  }
+  if (self.hasNthExtraSlotsViaFb) {
+    [output writeInt32:41 value:self.nthExtraSlotsViaFb];
+  }
   [self.unknownFields writeToCodedOutputStream:output];
 }
 - (int32_t) serializedSize {
@@ -1590,6 +1851,12 @@ static FullUserProto* defaultFullUserProtoInstance = nil;
   }
   if (self.hasDefensesLost) {
     size += computeInt32Size(39, self.defensesLost);
+  }
+  if (self.hasFacebookId) {
+    size += computeStringSize(40, self.facebookId);
+  }
+  if (self.hasNthExtraSlotsViaFb) {
+    size += computeInt32Size(41, self.nthExtraSlotsViaFb);
   }
   size += self.unknownFields.serializedSize;
   memoizedSerializedSize = size;
@@ -1756,6 +2023,9 @@ static FullUserProto* defaultFullUserProtoInstance = nil;
   if (other.hasDefensesLost) {
     [self setDefensesLost:other.defensesLost];
   }
+  if (other.hasFacebookId) {
+    [self setFacebookId:other.facebookId];
+  }
   if (other.hasUdid) {
     [self setUdid:other.udid];
   }
@@ -1782,6 +2052,9 @@ static FullUserProto* defaultFullUserProtoInstance = nil;
   }
   if (other.hasKabamNaid) {
     [self setKabamNaid:other.kabamNaid];
+  }
+  if (other.hasNthExtraSlotsViaFb) {
+    [self setNthExtraSlotsViaFb:other.nthExtraSlotsViaFb];
   }
   [self mergeUnknownFields:other.unknownFields];
   return self;
@@ -1963,6 +2236,14 @@ static FullUserProto* defaultFullUserProtoInstance = nil;
       }
       case 312: {
         [self setDefensesLost:[input readInt32]];
+        break;
+      }
+      case 322: {
+        [self setFacebookId:[input readString]];
+        break;
+      }
+      case 328: {
+        [self setNthExtraSlotsViaFb:[input readInt32]];
         break;
       }
     }
@@ -2462,6 +2743,22 @@ static FullUserProto* defaultFullUserProtoInstance = nil;
   result.defensesLost = 0;
   return self;
 }
+- (BOOL) hasFacebookId {
+  return result.hasFacebookId;
+}
+- (NSString*) facebookId {
+  return result.facebookId;
+}
+- (FullUserProto_Builder*) setFacebookId:(NSString*) value {
+  result.hasFacebookId = YES;
+  result.facebookId = value;
+  return self;
+}
+- (FullUserProto_Builder*) clearFacebookId {
+  result.hasFacebookId = NO;
+  result.facebookId = @"";
+  return self;
+}
 - (BOOL) hasUdid {
   return result.hasUdid;
 }
@@ -2604,6 +2901,22 @@ static FullUserProto* defaultFullUserProtoInstance = nil;
 - (FullUserProto_Builder*) clearKabamNaid {
   result.hasKabamNaid = NO;
   result.kabamNaid = @"";
+  return self;
+}
+- (BOOL) hasNthExtraSlotsViaFb {
+  return result.hasNthExtraSlotsViaFb;
+}
+- (int32_t) nthExtraSlotsViaFb {
+  return result.nthExtraSlotsViaFb;
+}
+- (FullUserProto_Builder*) setNthExtraSlotsViaFb:(int32_t) value {
+  result.hasNthExtraSlotsViaFb = YES;
+  result.nthExtraSlotsViaFb = value;
+  return self;
+}
+- (FullUserProto_Builder*) clearNthExtraSlotsViaFb {
+  result.hasNthExtraSlotsViaFb = NO;
+  result.nthExtraSlotsViaFb = 0;
   return self;
 }
 @end

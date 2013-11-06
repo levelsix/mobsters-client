@@ -31,6 +31,7 @@ BOOL StructOrientationIsValidValue(StructOrientation value) {
 @interface FullStructureProto ()
 @property int32_t structId;
 @property (retain) NSString* name;
+@property int32_t level;
 @property int32_t income;
 @property int32_t minutesToGain;
 @property int32_t minutesToBuild;
@@ -60,6 +61,13 @@ BOOL StructOrientationIsValidValue(StructOrientation value) {
   hasName_ = !!value;
 }
 @synthesize name;
+- (BOOL) hasLevel {
+  return !!hasLevel_;
+}
+- (void) setHasLevel:(BOOL) value {
+  hasLevel_ = !!value;
+}
+@synthesize level;
 - (BOOL) hasIncome {
   return !!hasIncome_;
 }
@@ -145,6 +153,7 @@ BOOL StructOrientationIsValidValue(StructOrientation value) {
   if ((self = [super init])) {
     self.structId = 0;
     self.name = @"";
+    self.level = 0;
     self.income = 0;
     self.minutesToGain = 0;
     self.minutesToBuild = 0;
@@ -181,14 +190,17 @@ static FullStructureProto* defaultFullStructureProtoInstance = nil;
   if (self.hasName) {
     [output writeString:2 value:self.name];
   }
+  if (self.hasLevel) {
+    [output writeInt32:3 value:self.level];
+  }
   if (self.hasIncome) {
-    [output writeInt32:3 value:self.income];
+    [output writeInt32:4 value:self.income];
   }
   if (self.hasMinutesToGain) {
-    [output writeInt32:4 value:self.minutesToGain];
+    [output writeInt32:5 value:self.minutesToGain];
   }
   if (self.hasMinutesToBuild) {
-    [output writeInt32:5 value:self.minutesToBuild];
+    [output writeInt32:6 value:self.minutesToBuild];
   }
   if (self.hasCashPrice) {
     [output writeInt32:7 value:self.cashPrice];
@@ -229,14 +241,17 @@ static FullStructureProto* defaultFullStructureProtoInstance = nil;
   if (self.hasName) {
     size += computeStringSize(2, self.name);
   }
+  if (self.hasLevel) {
+    size += computeInt32Size(3, self.level);
+  }
   if (self.hasIncome) {
-    size += computeInt32Size(3, self.income);
+    size += computeInt32Size(4, self.income);
   }
   if (self.hasMinutesToGain) {
-    size += computeInt32Size(4, self.minutesToGain);
+    size += computeInt32Size(5, self.minutesToGain);
   }
   if (self.hasMinutesToBuild) {
-    size += computeInt32Size(5, self.minutesToBuild);
+    size += computeInt32Size(6, self.minutesToBuild);
   }
   if (self.hasCashPrice) {
     size += computeInt32Size(7, self.cashPrice);
@@ -343,6 +358,9 @@ static FullStructureProto* defaultFullStructureProtoInstance = nil;
   if (other.hasName) {
     [self setName:other.name];
   }
+  if (other.hasLevel) {
+    [self setLevel:other.level];
+  }
   if (other.hasIncome) {
     [self setIncome:other.income];
   }
@@ -406,14 +424,18 @@ static FullStructureProto* defaultFullStructureProtoInstance = nil;
         break;
       }
       case 24: {
-        [self setIncome:[input readInt32]];
+        [self setLevel:[input readInt32]];
         break;
       }
       case 32: {
-        [self setMinutesToGain:[input readInt32]];
+        [self setIncome:[input readInt32]];
         break;
       }
       case 40: {
+        [self setMinutesToGain:[input readInt32]];
+        break;
+      }
+      case 48: {
         [self setMinutesToBuild:[input readInt32]];
         break;
       }
@@ -482,6 +504,22 @@ static FullStructureProto* defaultFullStructureProtoInstance = nil;
 - (FullStructureProto_Builder*) clearName {
   result.hasName = NO;
   result.name = @"";
+  return self;
+}
+- (BOOL) hasLevel {
+  return result.hasLevel;
+}
+- (int32_t) level {
+  return result.level;
+}
+- (FullStructureProto_Builder*) setLevel:(int32_t) value {
+  result.hasLevel = YES;
+  result.level = value;
+  return self;
+}
+- (FullStructureProto_Builder*) clearLevel {
+  result.hasLevel = NO;
+  result.level = 0;
   return self;
 }
 - (BOOL) hasIncome {
@@ -668,9 +706,7 @@ static FullStructureProto* defaultFullStructureProtoInstance = nil;
 @property int32_t structId;
 @property int64_t lastRetrieved;
 @property (retain) CoordinateProto* coordinates;
-@property int32_t level;
 @property int64_t purchaseTime;
-@property int64_t lastUpgradeTime;
 @property BOOL isComplete;
 @property StructOrientation orientation;
 @end
@@ -712,13 +748,6 @@ static FullStructureProto* defaultFullStructureProtoInstance = nil;
   hasCoordinates_ = !!value;
 }
 @synthesize coordinates;
-- (BOOL) hasLevel {
-  return !!hasLevel_;
-}
-- (void) setHasLevel:(BOOL) value {
-  hasLevel_ = !!value;
-}
-@synthesize level;
 - (BOOL) hasPurchaseTime {
   return !!hasPurchaseTime_;
 }
@@ -726,13 +755,6 @@ static FullStructureProto* defaultFullStructureProtoInstance = nil;
   hasPurchaseTime_ = !!value;
 }
 @synthesize purchaseTime;
-- (BOOL) hasLastUpgradeTime {
-  return !!hasLastUpgradeTime_;
-}
-- (void) setHasLastUpgradeTime:(BOOL) value {
-  hasLastUpgradeTime_ = !!value;
-}
-@synthesize lastUpgradeTime;
 - (BOOL) hasIsComplete {
   return !!hasIsComplete_;
 }
@@ -763,9 +785,7 @@ static FullStructureProto* defaultFullStructureProtoInstance = nil;
     self.structId = 0;
     self.lastRetrieved = 0L;
     self.coordinates = [CoordinateProto defaultInstance];
-    self.level = 0;
     self.purchaseTime = 0L;
-    self.lastUpgradeTime = 0L;
     self.isComplete = NO;
     self.orientation = StructOrientationPosition1;
   }
@@ -802,14 +822,8 @@ static FullUserStructureProto* defaultFullUserStructureProtoInstance = nil;
   if (self.hasCoordinates) {
     [output writeMessage:5 value:self.coordinates];
   }
-  if (self.hasLevel) {
-    [output writeInt32:6 value:self.level];
-  }
   if (self.hasPurchaseTime) {
     [output writeInt64:7 value:self.purchaseTime];
-  }
-  if (self.hasLastUpgradeTime) {
-    [output writeInt64:8 value:self.lastUpgradeTime];
   }
   if (self.hasIsComplete) {
     [output writeBool:9 value:self.isComplete];
@@ -841,14 +855,8 @@ static FullUserStructureProto* defaultFullUserStructureProtoInstance = nil;
   if (self.hasCoordinates) {
     size += computeMessageSize(5, self.coordinates);
   }
-  if (self.hasLevel) {
-    size += computeInt32Size(6, self.level);
-  }
   if (self.hasPurchaseTime) {
     size += computeInt64Size(7, self.purchaseTime);
-  }
-  if (self.hasLastUpgradeTime) {
-    size += computeInt64Size(8, self.lastUpgradeTime);
   }
   if (self.hasIsComplete) {
     size += computeBoolSize(9, self.isComplete);
@@ -946,14 +954,8 @@ static FullUserStructureProto* defaultFullUserStructureProtoInstance = nil;
   if (other.hasCoordinates) {
     [self mergeCoordinates:other.coordinates];
   }
-  if (other.hasLevel) {
-    [self setLevel:other.level];
-  }
   if (other.hasPurchaseTime) {
     [self setPurchaseTime:other.purchaseTime];
-  }
-  if (other.hasLastUpgradeTime) {
-    [self setLastUpgradeTime:other.lastUpgradeTime];
   }
   if (other.hasIsComplete) {
     [self setIsComplete:other.isComplete];
@@ -1007,16 +1009,8 @@ static FullUserStructureProto* defaultFullUserStructureProtoInstance = nil;
         [self setCoordinates:[subBuilder buildPartial]];
         break;
       }
-      case 48: {
-        [self setLevel:[input readInt32]];
-        break;
-      }
       case 56: {
         [self setPurchaseTime:[input readInt64]];
-        break;
-      }
-      case 64: {
-        [self setLastUpgradeTime:[input readInt64]];
         break;
       }
       case 72: {
@@ -1129,22 +1123,6 @@ static FullUserStructureProto* defaultFullUserStructureProtoInstance = nil;
   result.coordinates = [CoordinateProto defaultInstance];
   return self;
 }
-- (BOOL) hasLevel {
-  return result.hasLevel;
-}
-- (int32_t) level {
-  return result.level;
-}
-- (FullUserStructureProto_Builder*) setLevel:(int32_t) value {
-  result.hasLevel = YES;
-  result.level = value;
-  return self;
-}
-- (FullUserStructureProto_Builder*) clearLevel {
-  result.hasLevel = NO;
-  result.level = 0;
-  return self;
-}
 - (BOOL) hasPurchaseTime {
   return result.hasPurchaseTime;
 }
@@ -1159,22 +1137,6 @@ static FullUserStructureProto* defaultFullUserStructureProtoInstance = nil;
 - (FullUserStructureProto_Builder*) clearPurchaseTime {
   result.hasPurchaseTime = NO;
   result.purchaseTime = 0L;
-  return self;
-}
-- (BOOL) hasLastUpgradeTime {
-  return result.hasLastUpgradeTime;
-}
-- (int64_t) lastUpgradeTime {
-  return result.lastUpgradeTime;
-}
-- (FullUserStructureProto_Builder*) setLastUpgradeTime:(int64_t) value {
-  result.hasLastUpgradeTime = YES;
-  result.lastUpgradeTime = value;
-  return self;
-}
-- (FullUserStructureProto_Builder*) clearLastUpgradeTime {
-  result.hasLastUpgradeTime = NO;
-  result.lastUpgradeTime = 0L;
   return self;
 }
 - (BOOL) hasIsComplete {

@@ -209,6 +209,12 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
     case EventProtocolResponseSSellUserMonsterEvent:
       responseClass = [SellUserMonsterResponseProto class];
       break;
+    case EventProtocolResponseSInviteFbFriendsForSlotsEvent:
+      responseClass = [InviteFbFriendsForSlotsResponseProto class];
+      break;
+    case EventProtocolResponseSAcceptAndRejectFbInviteForSlotsEvent:
+      responseClass = [AcceptAndRejectFbInviteForSlotsResponseProto class];
+      break;
       
     default:
       responseClass = nil;
@@ -286,6 +292,11 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
     [gs.staticStructs removeAllObjects];
     [gs addToStaticStructs:proto.staticStructsList];
     gs.carpenterStructs = [proto.staticStructsList copy];
+    
+    [gs.requestsFromFriends removeAllObjects];
+    [gs addInventorySlotsRequests:proto.usersInvitingMeForExtraSlotsList];
+    [gs.usersUsedForExtraSlots removeAllObjects];
+    [gs addUsersUsedForExtraSlots:proto.usersUsedForExtraSlotsList];
     
     [gs addToRequestedClans:proto.userClanInfoList];
     
@@ -496,11 +507,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
     [Globals popupMessage:@"Server failed to complete normal structure wait time."];
     [gs removeAndUndoAllUpdatesForTag:tag];
   } else {
-    if (proto.status == NormStructWaitCompleteResponseProto_NormStructWaitCompleteStatusClientTooApartFromServerTime) {
-      [self handleTimeOutOfSync];
-    } else {
-      [gs removeNonFullUserUpdatesForTag:tag];
-    }
+    [gs removeNonFullUserUpdatesForTag:tag];
   }
 }
 
@@ -515,7 +522,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
     [Globals popupMessage:@"Server failed to speed up normal structure wait time."];
     [gs removeAndUndoAllUpdatesForTag:tag];
   } else {
-      [gs removeNonFullUserUpdatesForTag:tag];
+    [gs removeNonFullUserUpdatesForTag:tag];
   }
 }
 
@@ -1011,11 +1018,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
   if (proto.status == ExpansionWaitCompleteResponseProto_ExpansionWaitCompleteStatusSuccess) {
     [gs removeNonFullUserUpdatesForTag:tag];
   } else {
-    if (proto.status == ExpansionWaitCompleteResponseProto_ExpansionWaitCompleteStatusClientTooApartFromServerTime) {
-      [self handleTimeOutOfSync];
-    } else {
-      [Globals popupMessage:@"Server failed to complete expansion wait time."];
-    }
+    [Globals popupMessage:@"Server failed to complete expansion wait time."];
     
     [gs removeAndUndoAllUpdatesForTag:tag];
   }
@@ -1219,7 +1222,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
   IncreaseMonsterInventorySlotResponseProto *proto = (IncreaseMonsterInventorySlotResponseProto *)fe.event;
   int tag = fe.tag;
   
-  LNLog(@"Remove monster from squad response received with status %d.", proto.status);
+  LNLog(@"Increase monster inventory slots response received with status %d.", proto.status);
   
   GameState *gs = [GameState sharedGameState];
   if (proto.status == IncreaseMonsterInventorySlotResponseProto_IncreaseMonsterInventorySlotStatusSuccess) {
@@ -1234,7 +1237,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
   IncreaseMonsterInventorySlotResponseProto *proto = (IncreaseMonsterInventorySlotResponseProto *)fe.event;
   int tag = fe.tag;
   
-  LNLog(@"Remove monster from squad response received with status %d.", proto.status);
+  LNLog(@"Enhancement wait complete response received with status %d.", proto.status);
   
   GameState *gs = [GameState sharedGameState];
   if (proto.status == IncreaseMonsterInventorySlotResponseProto_IncreaseMonsterInventorySlotStatusSuccess) {
@@ -1249,7 +1252,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
   UpdateMonsterHealthResponseProto *proto = (UpdateMonsterHealthResponseProto *)fe.event;
   int tag = fe.tag;
   
-  LNLog(@"Remove monster from squad response received with status %d.", proto.status);
+  LNLog(@"Update monster health response received with status %d.", proto.status);
   
   GameState *gs = [GameState sharedGameState];
   if (proto.status == IncreaseMonsterInventorySlotResponseProto_IncreaseMonsterInventorySlotStatusSuccess) {
@@ -1286,6 +1289,41 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
     [gs removeNonFullUserUpdatesForTag:tag];
   } else {
     [Globals popupMessage:@"Server failed to sell user monster."];
+    [gs removeAndUndoAllUpdatesForTag:tag];
+  }
+}
+
+- (void) handleInviteFbFriendsForSlotsResponseProto:(FullEvent *)fe {
+  InviteFbFriendsForSlotsResponseProto *proto = (InviteFbFriendsForSlotsResponseProto *)fe.event;
+  int tag = fe.tag;
+  
+  LNLog(@"Invite fb friends for slots response received with status %d.", proto.status);
+  
+  GameState *gs = [GameState sharedGameState];
+  if (proto.status == InviteFbFriendsForSlotsResponseProto_InviteFbFriendsForSlotsStatusSuccess) {
+    [gs removeNonFullUserUpdatesForTag:tag];
+  } else {
+    [Globals popupMessage:@"Server failed to invite fb friends for slots."];
+    [gs removeAndUndoAllUpdatesForTag:tag];
+  }
+}
+
+- (void) handleAcceptAndRejectFbInviteForSlotsResponseProto:(FullEvent *)fe {
+  AcceptAndRejectFbInviteForSlotsResponseProto *proto = (AcceptAndRejectFbInviteForSlotsResponseProto *)fe.event;
+  int tag = fe.tag;
+  
+  LNLog(@"Accept and reject fb invite for slots response received with status %d.", proto.status);
+  
+  GameState *gs = [GameState sharedGameState];
+  if (proto.status == AcceptAndRejectFbInviteForSlotsResponseProto_AcceptAndRejectFbInviteForSlotsStatusSuccess) {
+    [gs removeNonFullUserUpdatesForTag:tag];
+  } else {
+    if (proto.status == AcceptAndRejectFbInviteForSlotsResponseProto_AcceptAndRejectFbInviteForSlotsStatusFailAlreadyBeenUsed ||
+        proto.status == AcceptAndRejectFbInviteForSlotsResponseProto_AcceptAndRejectFbInviteForSlotsStatusFailExpired) {
+      // Silently fail
+    } else {
+      [Globals popupMessage:@"Server failed to accept/reject slot invites."];
+    }
     [gs removeAndUndoAllUpdatesForTag:tag];
   }
 }

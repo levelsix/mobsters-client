@@ -44,6 +44,8 @@
 @class MinimumUserProtoForClans_Builder;
 @class MinimumUserProtoWithBattleHistory;
 @class MinimumUserProtoWithBattleHistory_Builder;
+@class MinimumUserProtoWithFacebookId;
+@class MinimumUserProtoWithFacebookId_Builder;
 @class MinimumUserProtoWithLevel;
 @class MinimumUserProtoWithLevel_Builder;
 @class MinimumUserProto_Builder;

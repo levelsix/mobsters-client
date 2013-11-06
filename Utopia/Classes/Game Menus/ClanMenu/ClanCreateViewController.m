@@ -93,11 +93,21 @@
 }
 
 - (void) updateClan {
+  BOOL somethingChanged = NO;
   if (self.descriptionField.text.length > 0 && ![self.descriptionField.text isEqualToString:self.clan.clan.description]) {
     [[OutgoingEventController sharedOutgoingEventController] changeClanDescription:self.descriptionField.text delegate:self];
+    somethingChanged = YES;
   }
   if (_isRequestType != self.clan.clan.requestToJoinRequired) {
     [[OutgoingEventController sharedOutgoingEventController] changeClanJoinType:_isRequestType delegate:self];
+    somethingChanged = YES;
+  }
+  
+  if (somethingChanged) {
+    self.saveButtonView.hidden = YES;
+    self.spinner.hidden = NO;
+  } else {
+    [self.navigationController popViewControllerAnimated:YES];
   }
 }
 
@@ -120,16 +130,19 @@
 //    [[RefillMenuController sharedRefillMenuController] displayBuyGoldView:gl.diamondPriceToCreateClan];
   } else {
     [[OutgoingEventController sharedOutgoingEventController] createClan:name tag:tag description:description requestOnly:_isRequestType delegate:self.parentViewController];
+    
+    self.createButtonView.hidden = YES;
+    self.spinner.hidden = NO;
   }
 }
 
 - (IBAction)typeButtonClicked:(id)sender {
   if (_isRequestType) {
-    [self.typeButton setImage:[Globals imageNamed:@"mediumgreenbtn.png"] forState:UIControlStateNormal];
+    [self.typeButton setImage:[Globals imageNamed:@"enhancebutton.png"] forState:UIControlStateNormal];
     self.typeLabel.text = @"OPEN";
   } else {
-    [self.typeButton setImage:[Globals imageNamed:@"mediumred.png"] forState:UIControlStateNormal];
-    self.typeLabel.text = @"REQUEST ONLY";
+    [self.typeButton setImage:[Globals imageNamed:@"heal.png"] forState:UIControlStateNormal];
+    self.typeLabel.text = @"REQUEST";
   }
   
   _isRequestType = !_isRequestType;

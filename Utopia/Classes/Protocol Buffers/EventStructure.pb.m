@@ -2294,726 +2294,6 @@ BOOL UpgradeNormStructureResponseProto_UpgradeNormStructureStatusIsValidValue(Up
 }
 @end
 
-@interface RetrieveCurrencyFromNormStructureRequestProto ()
-@property (retain) MinimumUserProto* sender;
-@property (retain) NSMutableArray* mutableStructRetrievalsList;
-@end
-
-@implementation RetrieveCurrencyFromNormStructureRequestProto
-
-- (BOOL) hasSender {
-  return !!hasSender_;
-}
-- (void) setHasSender:(BOOL) value {
-  hasSender_ = !!value;
-}
-@synthesize sender;
-@synthesize mutableStructRetrievalsList;
-- (void) dealloc {
-  self.sender = nil;
-  self.mutableStructRetrievalsList = nil;
-  [super dealloc];
-}
-- (id) init {
-  if ((self = [super init])) {
-    self.sender = [MinimumUserProto defaultInstance];
-  }
-  return self;
-}
-static RetrieveCurrencyFromNormStructureRequestProto* defaultRetrieveCurrencyFromNormStructureRequestProtoInstance = nil;
-+ (void) initialize {
-  if (self == [RetrieveCurrencyFromNormStructureRequestProto class]) {
-    defaultRetrieveCurrencyFromNormStructureRequestProtoInstance = [[RetrieveCurrencyFromNormStructureRequestProto alloc] init];
-  }
-}
-+ (RetrieveCurrencyFromNormStructureRequestProto*) defaultInstance {
-  return defaultRetrieveCurrencyFromNormStructureRequestProtoInstance;
-}
-- (RetrieveCurrencyFromNormStructureRequestProto*) defaultInstance {
-  return defaultRetrieveCurrencyFromNormStructureRequestProtoInstance;
-}
-- (NSArray*) structRetrievalsList {
-  return mutableStructRetrievalsList;
-}
-- (RetrieveCurrencyFromNormStructureRequestProto_StructRetrieval*) structRetrievalsAtIndex:(int32_t) index {
-  id value = [mutableStructRetrievalsList objectAtIndex:index];
-  return value;
-}
-- (BOOL) isInitialized {
-  return YES;
-}
-- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output {
-  if (self.hasSender) {
-    [output writeMessage:1 value:self.sender];
-  }
-  for (RetrieveCurrencyFromNormStructureRequestProto_StructRetrieval* element in self.structRetrievalsList) {
-    [output writeMessage:2 value:element];
-  }
-  [self.unknownFields writeToCodedOutputStream:output];
-}
-- (int32_t) serializedSize {
-  int32_t size = memoizedSerializedSize;
-  if (size != -1) {
-    return size;
-  }
-
-  size = 0;
-  if (self.hasSender) {
-    size += computeMessageSize(1, self.sender);
-  }
-  for (RetrieveCurrencyFromNormStructureRequestProto_StructRetrieval* element in self.structRetrievalsList) {
-    size += computeMessageSize(2, element);
-  }
-  size += self.unknownFields.serializedSize;
-  memoizedSerializedSize = size;
-  return size;
-}
-+ (RetrieveCurrencyFromNormStructureRequestProto*) parseFromData:(NSData*) data {
-  return (RetrieveCurrencyFromNormStructureRequestProto*)[[[RetrieveCurrencyFromNormStructureRequestProto builder] mergeFromData:data] build];
-}
-+ (RetrieveCurrencyFromNormStructureRequestProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
-  return (RetrieveCurrencyFromNormStructureRequestProto*)[[[RetrieveCurrencyFromNormStructureRequestProto builder] mergeFromData:data extensionRegistry:extensionRegistry] build];
-}
-+ (RetrieveCurrencyFromNormStructureRequestProto*) parseFromInputStream:(NSInputStream*) input {
-  return (RetrieveCurrencyFromNormStructureRequestProto*)[[[RetrieveCurrencyFromNormStructureRequestProto builder] mergeFromInputStream:input] build];
-}
-+ (RetrieveCurrencyFromNormStructureRequestProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
-  return (RetrieveCurrencyFromNormStructureRequestProto*)[[[RetrieveCurrencyFromNormStructureRequestProto builder] mergeFromInputStream:input extensionRegistry:extensionRegistry] build];
-}
-+ (RetrieveCurrencyFromNormStructureRequestProto*) parseFromCodedInputStream:(PBCodedInputStream*) input {
-  return (RetrieveCurrencyFromNormStructureRequestProto*)[[[RetrieveCurrencyFromNormStructureRequestProto builder] mergeFromCodedInputStream:input] build];
-}
-+ (RetrieveCurrencyFromNormStructureRequestProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
-  return (RetrieveCurrencyFromNormStructureRequestProto*)[[[RetrieveCurrencyFromNormStructureRequestProto builder] mergeFromCodedInputStream:input extensionRegistry:extensionRegistry] build];
-}
-+ (RetrieveCurrencyFromNormStructureRequestProto_Builder*) builder {
-  return [[[RetrieveCurrencyFromNormStructureRequestProto_Builder alloc] init] autorelease];
-}
-+ (RetrieveCurrencyFromNormStructureRequestProto_Builder*) builderWithPrototype:(RetrieveCurrencyFromNormStructureRequestProto*) prototype {
-  return [[RetrieveCurrencyFromNormStructureRequestProto builder] mergeFrom:prototype];
-}
-- (RetrieveCurrencyFromNormStructureRequestProto_Builder*) builder {
-  return [RetrieveCurrencyFromNormStructureRequestProto builder];
-}
-@end
-
-@interface RetrieveCurrencyFromNormStructureRequestProto_StructRetrieval ()
-@property int32_t userStructId;
-@property int64_t timeOfRetrieval;
-@end
-
-@implementation RetrieveCurrencyFromNormStructureRequestProto_StructRetrieval
-
-- (BOOL) hasUserStructId {
-  return !!hasUserStructId_;
-}
-- (void) setHasUserStructId:(BOOL) value {
-  hasUserStructId_ = !!value;
-}
-@synthesize userStructId;
-- (BOOL) hasTimeOfRetrieval {
-  return !!hasTimeOfRetrieval_;
-}
-- (void) setHasTimeOfRetrieval:(BOOL) value {
-  hasTimeOfRetrieval_ = !!value;
-}
-@synthesize timeOfRetrieval;
-- (void) dealloc {
-  [super dealloc];
-}
-- (id) init {
-  if ((self = [super init])) {
-    self.userStructId = 0;
-    self.timeOfRetrieval = 0L;
-  }
-  return self;
-}
-static RetrieveCurrencyFromNormStructureRequestProto_StructRetrieval* defaultRetrieveCurrencyFromNormStructureRequestProto_StructRetrievalInstance = nil;
-+ (void) initialize {
-  if (self == [RetrieveCurrencyFromNormStructureRequestProto_StructRetrieval class]) {
-    defaultRetrieveCurrencyFromNormStructureRequestProto_StructRetrievalInstance = [[RetrieveCurrencyFromNormStructureRequestProto_StructRetrieval alloc] init];
-  }
-}
-+ (RetrieveCurrencyFromNormStructureRequestProto_StructRetrieval*) defaultInstance {
-  return defaultRetrieveCurrencyFromNormStructureRequestProto_StructRetrievalInstance;
-}
-- (RetrieveCurrencyFromNormStructureRequestProto_StructRetrieval*) defaultInstance {
-  return defaultRetrieveCurrencyFromNormStructureRequestProto_StructRetrievalInstance;
-}
-- (BOOL) isInitialized {
-  return YES;
-}
-- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output {
-  if (self.hasUserStructId) {
-    [output writeInt32:1 value:self.userStructId];
-  }
-  if (self.hasTimeOfRetrieval) {
-    [output writeInt64:2 value:self.timeOfRetrieval];
-  }
-  [self.unknownFields writeToCodedOutputStream:output];
-}
-- (int32_t) serializedSize {
-  int32_t size = memoizedSerializedSize;
-  if (size != -1) {
-    return size;
-  }
-
-  size = 0;
-  if (self.hasUserStructId) {
-    size += computeInt32Size(1, self.userStructId);
-  }
-  if (self.hasTimeOfRetrieval) {
-    size += computeInt64Size(2, self.timeOfRetrieval);
-  }
-  size += self.unknownFields.serializedSize;
-  memoizedSerializedSize = size;
-  return size;
-}
-+ (RetrieveCurrencyFromNormStructureRequestProto_StructRetrieval*) parseFromData:(NSData*) data {
-  return (RetrieveCurrencyFromNormStructureRequestProto_StructRetrieval*)[[[RetrieveCurrencyFromNormStructureRequestProto_StructRetrieval builder] mergeFromData:data] build];
-}
-+ (RetrieveCurrencyFromNormStructureRequestProto_StructRetrieval*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
-  return (RetrieveCurrencyFromNormStructureRequestProto_StructRetrieval*)[[[RetrieveCurrencyFromNormStructureRequestProto_StructRetrieval builder] mergeFromData:data extensionRegistry:extensionRegistry] build];
-}
-+ (RetrieveCurrencyFromNormStructureRequestProto_StructRetrieval*) parseFromInputStream:(NSInputStream*) input {
-  return (RetrieveCurrencyFromNormStructureRequestProto_StructRetrieval*)[[[RetrieveCurrencyFromNormStructureRequestProto_StructRetrieval builder] mergeFromInputStream:input] build];
-}
-+ (RetrieveCurrencyFromNormStructureRequestProto_StructRetrieval*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
-  return (RetrieveCurrencyFromNormStructureRequestProto_StructRetrieval*)[[[RetrieveCurrencyFromNormStructureRequestProto_StructRetrieval builder] mergeFromInputStream:input extensionRegistry:extensionRegistry] build];
-}
-+ (RetrieveCurrencyFromNormStructureRequestProto_StructRetrieval*) parseFromCodedInputStream:(PBCodedInputStream*) input {
-  return (RetrieveCurrencyFromNormStructureRequestProto_StructRetrieval*)[[[RetrieveCurrencyFromNormStructureRequestProto_StructRetrieval builder] mergeFromCodedInputStream:input] build];
-}
-+ (RetrieveCurrencyFromNormStructureRequestProto_StructRetrieval*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
-  return (RetrieveCurrencyFromNormStructureRequestProto_StructRetrieval*)[[[RetrieveCurrencyFromNormStructureRequestProto_StructRetrieval builder] mergeFromCodedInputStream:input extensionRegistry:extensionRegistry] build];
-}
-+ (RetrieveCurrencyFromNormStructureRequestProto_StructRetrieval_Builder*) builder {
-  return [[[RetrieveCurrencyFromNormStructureRequestProto_StructRetrieval_Builder alloc] init] autorelease];
-}
-+ (RetrieveCurrencyFromNormStructureRequestProto_StructRetrieval_Builder*) builderWithPrototype:(RetrieveCurrencyFromNormStructureRequestProto_StructRetrieval*) prototype {
-  return [[RetrieveCurrencyFromNormStructureRequestProto_StructRetrieval builder] mergeFrom:prototype];
-}
-- (RetrieveCurrencyFromNormStructureRequestProto_StructRetrieval_Builder*) builder {
-  return [RetrieveCurrencyFromNormStructureRequestProto_StructRetrieval builder];
-}
-@end
-
-@interface RetrieveCurrencyFromNormStructureRequestProto_StructRetrieval_Builder()
-@property (retain) RetrieveCurrencyFromNormStructureRequestProto_StructRetrieval* result;
-@end
-
-@implementation RetrieveCurrencyFromNormStructureRequestProto_StructRetrieval_Builder
-@synthesize result;
-- (void) dealloc {
-  self.result = nil;
-  [super dealloc];
-}
-- (id) init {
-  if ((self = [super init])) {
-    self.result = [[[RetrieveCurrencyFromNormStructureRequestProto_StructRetrieval alloc] init] autorelease];
-  }
-  return self;
-}
-- (PBGeneratedMessage*) internalGetResult {
-  return result;
-}
-- (RetrieveCurrencyFromNormStructureRequestProto_StructRetrieval_Builder*) clear {
-  self.result = [[[RetrieveCurrencyFromNormStructureRequestProto_StructRetrieval alloc] init] autorelease];
-  return self;
-}
-- (RetrieveCurrencyFromNormStructureRequestProto_StructRetrieval_Builder*) clone {
-  return [RetrieveCurrencyFromNormStructureRequestProto_StructRetrieval builderWithPrototype:result];
-}
-- (RetrieveCurrencyFromNormStructureRequestProto_StructRetrieval*) defaultInstance {
-  return [RetrieveCurrencyFromNormStructureRequestProto_StructRetrieval defaultInstance];
-}
-- (RetrieveCurrencyFromNormStructureRequestProto_StructRetrieval*) build {
-  [self checkInitialized];
-  return [self buildPartial];
-}
-- (RetrieveCurrencyFromNormStructureRequestProto_StructRetrieval*) buildPartial {
-  RetrieveCurrencyFromNormStructureRequestProto_StructRetrieval* returnMe = [[result retain] autorelease];
-  self.result = nil;
-  return returnMe;
-}
-- (RetrieveCurrencyFromNormStructureRequestProto_StructRetrieval_Builder*) mergeFrom:(RetrieveCurrencyFromNormStructureRequestProto_StructRetrieval*) other {
-  if (other == [RetrieveCurrencyFromNormStructureRequestProto_StructRetrieval defaultInstance]) {
-    return self;
-  }
-  if (other.hasUserStructId) {
-    [self setUserStructId:other.userStructId];
-  }
-  if (other.hasTimeOfRetrieval) {
-    [self setTimeOfRetrieval:other.timeOfRetrieval];
-  }
-  [self mergeUnknownFields:other.unknownFields];
-  return self;
-}
-- (RetrieveCurrencyFromNormStructureRequestProto_StructRetrieval_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input {
-  return [self mergeFromCodedInputStream:input extensionRegistry:[PBExtensionRegistry emptyRegistry]];
-}
-- (RetrieveCurrencyFromNormStructureRequestProto_StructRetrieval_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
-  PBUnknownFieldSet_Builder* unknownFields = [PBUnknownFieldSet builderWithUnknownFields:self.unknownFields];
-  while (YES) {
-    int32_t tag = [input readTag];
-    switch (tag) {
-      case 0:
-        [self setUnknownFields:[unknownFields build]];
-        return self;
-      default: {
-        if (![self parseUnknownField:input unknownFields:unknownFields extensionRegistry:extensionRegistry tag:tag]) {
-          [self setUnknownFields:[unknownFields build]];
-          return self;
-        }
-        break;
-      }
-      case 8: {
-        [self setUserStructId:[input readInt32]];
-        break;
-      }
-      case 16: {
-        [self setTimeOfRetrieval:[input readInt64]];
-        break;
-      }
-    }
-  }
-}
-- (BOOL) hasUserStructId {
-  return result.hasUserStructId;
-}
-- (int32_t) userStructId {
-  return result.userStructId;
-}
-- (RetrieveCurrencyFromNormStructureRequestProto_StructRetrieval_Builder*) setUserStructId:(int32_t) value {
-  result.hasUserStructId = YES;
-  result.userStructId = value;
-  return self;
-}
-- (RetrieveCurrencyFromNormStructureRequestProto_StructRetrieval_Builder*) clearUserStructId {
-  result.hasUserStructId = NO;
-  result.userStructId = 0;
-  return self;
-}
-- (BOOL) hasTimeOfRetrieval {
-  return result.hasTimeOfRetrieval;
-}
-- (int64_t) timeOfRetrieval {
-  return result.timeOfRetrieval;
-}
-- (RetrieveCurrencyFromNormStructureRequestProto_StructRetrieval_Builder*) setTimeOfRetrieval:(int64_t) value {
-  result.hasTimeOfRetrieval = YES;
-  result.timeOfRetrieval = value;
-  return self;
-}
-- (RetrieveCurrencyFromNormStructureRequestProto_StructRetrieval_Builder*) clearTimeOfRetrieval {
-  result.hasTimeOfRetrieval = NO;
-  result.timeOfRetrieval = 0L;
-  return self;
-}
-@end
-
-@interface RetrieveCurrencyFromNormStructureRequestProto_Builder()
-@property (retain) RetrieveCurrencyFromNormStructureRequestProto* result;
-@end
-
-@implementation RetrieveCurrencyFromNormStructureRequestProto_Builder
-@synthesize result;
-- (void) dealloc {
-  self.result = nil;
-  [super dealloc];
-}
-- (id) init {
-  if ((self = [super init])) {
-    self.result = [[[RetrieveCurrencyFromNormStructureRequestProto alloc] init] autorelease];
-  }
-  return self;
-}
-- (PBGeneratedMessage*) internalGetResult {
-  return result;
-}
-- (RetrieveCurrencyFromNormStructureRequestProto_Builder*) clear {
-  self.result = [[[RetrieveCurrencyFromNormStructureRequestProto alloc] init] autorelease];
-  return self;
-}
-- (RetrieveCurrencyFromNormStructureRequestProto_Builder*) clone {
-  return [RetrieveCurrencyFromNormStructureRequestProto builderWithPrototype:result];
-}
-- (RetrieveCurrencyFromNormStructureRequestProto*) defaultInstance {
-  return [RetrieveCurrencyFromNormStructureRequestProto defaultInstance];
-}
-- (RetrieveCurrencyFromNormStructureRequestProto*) build {
-  [self checkInitialized];
-  return [self buildPartial];
-}
-- (RetrieveCurrencyFromNormStructureRequestProto*) buildPartial {
-  RetrieveCurrencyFromNormStructureRequestProto* returnMe = [[result retain] autorelease];
-  self.result = nil;
-  return returnMe;
-}
-- (RetrieveCurrencyFromNormStructureRequestProto_Builder*) mergeFrom:(RetrieveCurrencyFromNormStructureRequestProto*) other {
-  if (other == [RetrieveCurrencyFromNormStructureRequestProto defaultInstance]) {
-    return self;
-  }
-  if (other.hasSender) {
-    [self mergeSender:other.sender];
-  }
-  if (other.mutableStructRetrievalsList.count > 0) {
-    if (result.mutableStructRetrievalsList == nil) {
-      result.mutableStructRetrievalsList = [NSMutableArray array];
-    }
-    [result.mutableStructRetrievalsList addObjectsFromArray:other.mutableStructRetrievalsList];
-  }
-  [self mergeUnknownFields:other.unknownFields];
-  return self;
-}
-- (RetrieveCurrencyFromNormStructureRequestProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input {
-  return [self mergeFromCodedInputStream:input extensionRegistry:[PBExtensionRegistry emptyRegistry]];
-}
-- (RetrieveCurrencyFromNormStructureRequestProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
-  PBUnknownFieldSet_Builder* unknownFields = [PBUnknownFieldSet builderWithUnknownFields:self.unknownFields];
-  while (YES) {
-    int32_t tag = [input readTag];
-    switch (tag) {
-      case 0:
-        [self setUnknownFields:[unknownFields build]];
-        return self;
-      default: {
-        if (![self parseUnknownField:input unknownFields:unknownFields extensionRegistry:extensionRegistry tag:tag]) {
-          [self setUnknownFields:[unknownFields build]];
-          return self;
-        }
-        break;
-      }
-      case 10: {
-        MinimumUserProto_Builder* subBuilder = [MinimumUserProto builder];
-        if (self.hasSender) {
-          [subBuilder mergeFrom:self.sender];
-        }
-        [input readMessage:subBuilder extensionRegistry:extensionRegistry];
-        [self setSender:[subBuilder buildPartial]];
-        break;
-      }
-      case 18: {
-        RetrieveCurrencyFromNormStructureRequestProto_StructRetrieval_Builder* subBuilder = [RetrieveCurrencyFromNormStructureRequestProto_StructRetrieval builder];
-        [input readMessage:subBuilder extensionRegistry:extensionRegistry];
-        [self addStructRetrievals:[subBuilder buildPartial]];
-        break;
-      }
-    }
-  }
-}
-- (BOOL) hasSender {
-  return result.hasSender;
-}
-- (MinimumUserProto*) sender {
-  return result.sender;
-}
-- (RetrieveCurrencyFromNormStructureRequestProto_Builder*) setSender:(MinimumUserProto*) value {
-  result.hasSender = YES;
-  result.sender = value;
-  return self;
-}
-- (RetrieveCurrencyFromNormStructureRequestProto_Builder*) setSenderBuilder:(MinimumUserProto_Builder*) builderForValue {
-  return [self setSender:[builderForValue build]];
-}
-- (RetrieveCurrencyFromNormStructureRequestProto_Builder*) mergeSender:(MinimumUserProto*) value {
-  if (result.hasSender &&
-      result.sender != [MinimumUserProto defaultInstance]) {
-    result.sender =
-      [[[MinimumUserProto builderWithPrototype:result.sender] mergeFrom:value] buildPartial];
-  } else {
-    result.sender = value;
-  }
-  result.hasSender = YES;
-  return self;
-}
-- (RetrieveCurrencyFromNormStructureRequestProto_Builder*) clearSender {
-  result.hasSender = NO;
-  result.sender = [MinimumUserProto defaultInstance];
-  return self;
-}
-- (NSArray*) structRetrievalsList {
-  if (result.mutableStructRetrievalsList == nil) { return [NSArray array]; }
-  return result.mutableStructRetrievalsList;
-}
-- (RetrieveCurrencyFromNormStructureRequestProto_StructRetrieval*) structRetrievalsAtIndex:(int32_t) index {
-  return [result structRetrievalsAtIndex:index];
-}
-- (RetrieveCurrencyFromNormStructureRequestProto_Builder*) replaceStructRetrievalsAtIndex:(int32_t) index with:(RetrieveCurrencyFromNormStructureRequestProto_StructRetrieval*) value {
-  [result.mutableStructRetrievalsList replaceObjectAtIndex:index withObject:value];
-  return self;
-}
-- (RetrieveCurrencyFromNormStructureRequestProto_Builder*) addAllStructRetrievals:(NSArray*) values {
-  if (result.mutableStructRetrievalsList == nil) {
-    result.mutableStructRetrievalsList = [NSMutableArray array];
-  }
-  [result.mutableStructRetrievalsList addObjectsFromArray:values];
-  return self;
-}
-- (RetrieveCurrencyFromNormStructureRequestProto_Builder*) clearStructRetrievalsList {
-  result.mutableStructRetrievalsList = nil;
-  return self;
-}
-- (RetrieveCurrencyFromNormStructureRequestProto_Builder*) addStructRetrievals:(RetrieveCurrencyFromNormStructureRequestProto_StructRetrieval*) value {
-  if (result.mutableStructRetrievalsList == nil) {
-    result.mutableStructRetrievalsList = [NSMutableArray array];
-  }
-  [result.mutableStructRetrievalsList addObject:value];
-  return self;
-}
-@end
-
-@interface RetrieveCurrencyFromNormStructureResponseProto ()
-@property (retain) MinimumUserProto* sender;
-@property RetrieveCurrencyFromNormStructureResponseProto_RetrieveCurrencyFromNormStructureStatus status;
-@end
-
-@implementation RetrieveCurrencyFromNormStructureResponseProto
-
-- (BOOL) hasSender {
-  return !!hasSender_;
-}
-- (void) setHasSender:(BOOL) value {
-  hasSender_ = !!value;
-}
-@synthesize sender;
-- (BOOL) hasStatus {
-  return !!hasStatus_;
-}
-- (void) setHasStatus:(BOOL) value {
-  hasStatus_ = !!value;
-}
-@synthesize status;
-- (void) dealloc {
-  self.sender = nil;
-  [super dealloc];
-}
-- (id) init {
-  if ((self = [super init])) {
-    self.sender = [MinimumUserProto defaultInstance];
-    self.status = RetrieveCurrencyFromNormStructureResponseProto_RetrieveCurrencyFromNormStructureStatusOtherFail;
-  }
-  return self;
-}
-static RetrieveCurrencyFromNormStructureResponseProto* defaultRetrieveCurrencyFromNormStructureResponseProtoInstance = nil;
-+ (void) initialize {
-  if (self == [RetrieveCurrencyFromNormStructureResponseProto class]) {
-    defaultRetrieveCurrencyFromNormStructureResponseProtoInstance = [[RetrieveCurrencyFromNormStructureResponseProto alloc] init];
-  }
-}
-+ (RetrieveCurrencyFromNormStructureResponseProto*) defaultInstance {
-  return defaultRetrieveCurrencyFromNormStructureResponseProtoInstance;
-}
-- (RetrieveCurrencyFromNormStructureResponseProto*) defaultInstance {
-  return defaultRetrieveCurrencyFromNormStructureResponseProtoInstance;
-}
-- (BOOL) isInitialized {
-  return YES;
-}
-- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output {
-  if (self.hasSender) {
-    [output writeMessage:1 value:self.sender];
-  }
-  if (self.hasStatus) {
-    [output writeEnum:2 value:self.status];
-  }
-  [self.unknownFields writeToCodedOutputStream:output];
-}
-- (int32_t) serializedSize {
-  int32_t size = memoizedSerializedSize;
-  if (size != -1) {
-    return size;
-  }
-
-  size = 0;
-  if (self.hasSender) {
-    size += computeMessageSize(1, self.sender);
-  }
-  if (self.hasStatus) {
-    size += computeEnumSize(2, self.status);
-  }
-  size += self.unknownFields.serializedSize;
-  memoizedSerializedSize = size;
-  return size;
-}
-+ (RetrieveCurrencyFromNormStructureResponseProto*) parseFromData:(NSData*) data {
-  return (RetrieveCurrencyFromNormStructureResponseProto*)[[[RetrieveCurrencyFromNormStructureResponseProto builder] mergeFromData:data] build];
-}
-+ (RetrieveCurrencyFromNormStructureResponseProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
-  return (RetrieveCurrencyFromNormStructureResponseProto*)[[[RetrieveCurrencyFromNormStructureResponseProto builder] mergeFromData:data extensionRegistry:extensionRegistry] build];
-}
-+ (RetrieveCurrencyFromNormStructureResponseProto*) parseFromInputStream:(NSInputStream*) input {
-  return (RetrieveCurrencyFromNormStructureResponseProto*)[[[RetrieveCurrencyFromNormStructureResponseProto builder] mergeFromInputStream:input] build];
-}
-+ (RetrieveCurrencyFromNormStructureResponseProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
-  return (RetrieveCurrencyFromNormStructureResponseProto*)[[[RetrieveCurrencyFromNormStructureResponseProto builder] mergeFromInputStream:input extensionRegistry:extensionRegistry] build];
-}
-+ (RetrieveCurrencyFromNormStructureResponseProto*) parseFromCodedInputStream:(PBCodedInputStream*) input {
-  return (RetrieveCurrencyFromNormStructureResponseProto*)[[[RetrieveCurrencyFromNormStructureResponseProto builder] mergeFromCodedInputStream:input] build];
-}
-+ (RetrieveCurrencyFromNormStructureResponseProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
-  return (RetrieveCurrencyFromNormStructureResponseProto*)[[[RetrieveCurrencyFromNormStructureResponseProto builder] mergeFromCodedInputStream:input extensionRegistry:extensionRegistry] build];
-}
-+ (RetrieveCurrencyFromNormStructureResponseProto_Builder*) builder {
-  return [[[RetrieveCurrencyFromNormStructureResponseProto_Builder alloc] init] autorelease];
-}
-+ (RetrieveCurrencyFromNormStructureResponseProto_Builder*) builderWithPrototype:(RetrieveCurrencyFromNormStructureResponseProto*) prototype {
-  return [[RetrieveCurrencyFromNormStructureResponseProto builder] mergeFrom:prototype];
-}
-- (RetrieveCurrencyFromNormStructureResponseProto_Builder*) builder {
-  return [RetrieveCurrencyFromNormStructureResponseProto builder];
-}
-@end
-
-BOOL RetrieveCurrencyFromNormStructureResponseProto_RetrieveCurrencyFromNormStructureStatusIsValidValue(RetrieveCurrencyFromNormStructureResponseProto_RetrieveCurrencyFromNormStructureStatus value) {
-  switch (value) {
-    case RetrieveCurrencyFromNormStructureResponseProto_RetrieveCurrencyFromNormStructureStatusOtherFail:
-    case RetrieveCurrencyFromNormStructureResponseProto_RetrieveCurrencyFromNormStructureStatusSuccess:
-    case RetrieveCurrencyFromNormStructureResponseProto_RetrieveCurrencyFromNormStructureStatusClientTooApartFromServerTime:
-    case RetrieveCurrencyFromNormStructureResponseProto_RetrieveCurrencyFromNormStructureStatusNotLongEnough:
-      return YES;
-    default:
-      return NO;
-  }
-}
-@interface RetrieveCurrencyFromNormStructureResponseProto_Builder()
-@property (retain) RetrieveCurrencyFromNormStructureResponseProto* result;
-@end
-
-@implementation RetrieveCurrencyFromNormStructureResponseProto_Builder
-@synthesize result;
-- (void) dealloc {
-  self.result = nil;
-  [super dealloc];
-}
-- (id) init {
-  if ((self = [super init])) {
-    self.result = [[[RetrieveCurrencyFromNormStructureResponseProto alloc] init] autorelease];
-  }
-  return self;
-}
-- (PBGeneratedMessage*) internalGetResult {
-  return result;
-}
-- (RetrieveCurrencyFromNormStructureResponseProto_Builder*) clear {
-  self.result = [[[RetrieveCurrencyFromNormStructureResponseProto alloc] init] autorelease];
-  return self;
-}
-- (RetrieveCurrencyFromNormStructureResponseProto_Builder*) clone {
-  return [RetrieveCurrencyFromNormStructureResponseProto builderWithPrototype:result];
-}
-- (RetrieveCurrencyFromNormStructureResponseProto*) defaultInstance {
-  return [RetrieveCurrencyFromNormStructureResponseProto defaultInstance];
-}
-- (RetrieveCurrencyFromNormStructureResponseProto*) build {
-  [self checkInitialized];
-  return [self buildPartial];
-}
-- (RetrieveCurrencyFromNormStructureResponseProto*) buildPartial {
-  RetrieveCurrencyFromNormStructureResponseProto* returnMe = [[result retain] autorelease];
-  self.result = nil;
-  return returnMe;
-}
-- (RetrieveCurrencyFromNormStructureResponseProto_Builder*) mergeFrom:(RetrieveCurrencyFromNormStructureResponseProto*) other {
-  if (other == [RetrieveCurrencyFromNormStructureResponseProto defaultInstance]) {
-    return self;
-  }
-  if (other.hasSender) {
-    [self mergeSender:other.sender];
-  }
-  if (other.hasStatus) {
-    [self setStatus:other.status];
-  }
-  [self mergeUnknownFields:other.unknownFields];
-  return self;
-}
-- (RetrieveCurrencyFromNormStructureResponseProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input {
-  return [self mergeFromCodedInputStream:input extensionRegistry:[PBExtensionRegistry emptyRegistry]];
-}
-- (RetrieveCurrencyFromNormStructureResponseProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
-  PBUnknownFieldSet_Builder* unknownFields = [PBUnknownFieldSet builderWithUnknownFields:self.unknownFields];
-  while (YES) {
-    int32_t tag = [input readTag];
-    switch (tag) {
-      case 0:
-        [self setUnknownFields:[unknownFields build]];
-        return self;
-      default: {
-        if (![self parseUnknownField:input unknownFields:unknownFields extensionRegistry:extensionRegistry tag:tag]) {
-          [self setUnknownFields:[unknownFields build]];
-          return self;
-        }
-        break;
-      }
-      case 10: {
-        MinimumUserProto_Builder* subBuilder = [MinimumUserProto builder];
-        if (self.hasSender) {
-          [subBuilder mergeFrom:self.sender];
-        }
-        [input readMessage:subBuilder extensionRegistry:extensionRegistry];
-        [self setSender:[subBuilder buildPartial]];
-        break;
-      }
-      case 16: {
-        int32_t value = [input readEnum];
-        if (RetrieveCurrencyFromNormStructureResponseProto_RetrieveCurrencyFromNormStructureStatusIsValidValue(value)) {
-          [self setStatus:value];
-        } else {
-          [unknownFields mergeVarintField:2 value:value];
-        }
-        break;
-      }
-    }
-  }
-}
-- (BOOL) hasSender {
-  return result.hasSender;
-}
-- (MinimumUserProto*) sender {
-  return result.sender;
-}
-- (RetrieveCurrencyFromNormStructureResponseProto_Builder*) setSender:(MinimumUserProto*) value {
-  result.hasSender = YES;
-  result.sender = value;
-  return self;
-}
-- (RetrieveCurrencyFromNormStructureResponseProto_Builder*) setSenderBuilder:(MinimumUserProto_Builder*) builderForValue {
-  return [self setSender:[builderForValue build]];
-}
-- (RetrieveCurrencyFromNormStructureResponseProto_Builder*) mergeSender:(MinimumUserProto*) value {
-  if (result.hasSender &&
-      result.sender != [MinimumUserProto defaultInstance]) {
-    result.sender =
-      [[[MinimumUserProto builderWithPrototype:result.sender] mergeFrom:value] buildPartial];
-  } else {
-    result.sender = value;
-  }
-  result.hasSender = YES;
-  return self;
-}
-- (RetrieveCurrencyFromNormStructureResponseProto_Builder*) clearSender {
-  result.hasSender = NO;
-  result.sender = [MinimumUserProto defaultInstance];
-  return self;
-}
-- (BOOL) hasStatus {
-  return result.hasStatus;
-}
-- (RetrieveCurrencyFromNormStructureResponseProto_RetrieveCurrencyFromNormStructureStatus) status {
-  return result.status;
-}
-- (RetrieveCurrencyFromNormStructureResponseProto_Builder*) setStatus:(RetrieveCurrencyFromNormStructureResponseProto_RetrieveCurrencyFromNormStructureStatus) value {
-  result.hasStatus = YES;
-  result.status = value;
-  return self;
-}
-- (RetrieveCurrencyFromNormStructureResponseProto_Builder*) clearStatus {
-  result.hasStatus = NO;
-  result.status = RetrieveCurrencyFromNormStructureResponseProto_RetrieveCurrencyFromNormStructureStatusOtherFail;
-  return self;
-}
-@end
-
 @interface FinishNormStructWaittimeWithDiamondsRequestProto ()
 @property (retain) MinimumUserProto* sender;
 @property int32_t userStructId;
@@ -3955,9 +3235,8 @@ static NormStructWaitCompleteResponseProto* defaultNormStructWaitCompleteRespons
 BOOL NormStructWaitCompleteResponseProto_NormStructWaitCompleteStatusIsValidValue(NormStructWaitCompleteResponseProto_NormStructWaitCompleteStatus value) {
   switch (value) {
     case NormStructWaitCompleteResponseProto_NormStructWaitCompleteStatusSuccess:
-    case NormStructWaitCompleteResponseProto_NormStructWaitCompleteStatusNotDoneYet:
-    case NormStructWaitCompleteResponseProto_NormStructWaitCompleteStatusOtherFail:
-    case NormStructWaitCompleteResponseProto_NormStructWaitCompleteStatusClientTooApartFromServerTime:
+    case NormStructWaitCompleteResponseProto_NormStructWaitCompleteStatusFailNotDoneYet:
+    case NormStructWaitCompleteResponseProto_NormStructWaitCompleteStatusFailOther:
       return YES;
     default:
       return NO;
@@ -4138,6 +3417,726 @@ BOOL NormStructWaitCompleteResponseProto_NormStructWaitCompleteStatusIsValidValu
     result.mutableUserStructList = [NSMutableArray array];
   }
   [result.mutableUserStructList addObject:value];
+  return self;
+}
+@end
+
+@interface RetrieveCurrencyFromNormStructureRequestProto ()
+@property (retain) MinimumUserProto* sender;
+@property (retain) NSMutableArray* mutableStructRetrievalsList;
+@end
+
+@implementation RetrieveCurrencyFromNormStructureRequestProto
+
+- (BOOL) hasSender {
+  return !!hasSender_;
+}
+- (void) setHasSender:(BOOL) value {
+  hasSender_ = !!value;
+}
+@synthesize sender;
+@synthesize mutableStructRetrievalsList;
+- (void) dealloc {
+  self.sender = nil;
+  self.mutableStructRetrievalsList = nil;
+  [super dealloc];
+}
+- (id) init {
+  if ((self = [super init])) {
+    self.sender = [MinimumUserProto defaultInstance];
+  }
+  return self;
+}
+static RetrieveCurrencyFromNormStructureRequestProto* defaultRetrieveCurrencyFromNormStructureRequestProtoInstance = nil;
++ (void) initialize {
+  if (self == [RetrieveCurrencyFromNormStructureRequestProto class]) {
+    defaultRetrieveCurrencyFromNormStructureRequestProtoInstance = [[RetrieveCurrencyFromNormStructureRequestProto alloc] init];
+  }
+}
++ (RetrieveCurrencyFromNormStructureRequestProto*) defaultInstance {
+  return defaultRetrieveCurrencyFromNormStructureRequestProtoInstance;
+}
+- (RetrieveCurrencyFromNormStructureRequestProto*) defaultInstance {
+  return defaultRetrieveCurrencyFromNormStructureRequestProtoInstance;
+}
+- (NSArray*) structRetrievalsList {
+  return mutableStructRetrievalsList;
+}
+- (RetrieveCurrencyFromNormStructureRequestProto_StructRetrieval*) structRetrievalsAtIndex:(int32_t) index {
+  id value = [mutableStructRetrievalsList objectAtIndex:index];
+  return value;
+}
+- (BOOL) isInitialized {
+  return YES;
+}
+- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output {
+  if (self.hasSender) {
+    [output writeMessage:1 value:self.sender];
+  }
+  for (RetrieveCurrencyFromNormStructureRequestProto_StructRetrieval* element in self.structRetrievalsList) {
+    [output writeMessage:2 value:element];
+  }
+  [self.unknownFields writeToCodedOutputStream:output];
+}
+- (int32_t) serializedSize {
+  int32_t size = memoizedSerializedSize;
+  if (size != -1) {
+    return size;
+  }
+
+  size = 0;
+  if (self.hasSender) {
+    size += computeMessageSize(1, self.sender);
+  }
+  for (RetrieveCurrencyFromNormStructureRequestProto_StructRetrieval* element in self.structRetrievalsList) {
+    size += computeMessageSize(2, element);
+  }
+  size += self.unknownFields.serializedSize;
+  memoizedSerializedSize = size;
+  return size;
+}
++ (RetrieveCurrencyFromNormStructureRequestProto*) parseFromData:(NSData*) data {
+  return (RetrieveCurrencyFromNormStructureRequestProto*)[[[RetrieveCurrencyFromNormStructureRequestProto builder] mergeFromData:data] build];
+}
++ (RetrieveCurrencyFromNormStructureRequestProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (RetrieveCurrencyFromNormStructureRequestProto*)[[[RetrieveCurrencyFromNormStructureRequestProto builder] mergeFromData:data extensionRegistry:extensionRegistry] build];
+}
++ (RetrieveCurrencyFromNormStructureRequestProto*) parseFromInputStream:(NSInputStream*) input {
+  return (RetrieveCurrencyFromNormStructureRequestProto*)[[[RetrieveCurrencyFromNormStructureRequestProto builder] mergeFromInputStream:input] build];
+}
++ (RetrieveCurrencyFromNormStructureRequestProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (RetrieveCurrencyFromNormStructureRequestProto*)[[[RetrieveCurrencyFromNormStructureRequestProto builder] mergeFromInputStream:input extensionRegistry:extensionRegistry] build];
+}
++ (RetrieveCurrencyFromNormStructureRequestProto*) parseFromCodedInputStream:(PBCodedInputStream*) input {
+  return (RetrieveCurrencyFromNormStructureRequestProto*)[[[RetrieveCurrencyFromNormStructureRequestProto builder] mergeFromCodedInputStream:input] build];
+}
++ (RetrieveCurrencyFromNormStructureRequestProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (RetrieveCurrencyFromNormStructureRequestProto*)[[[RetrieveCurrencyFromNormStructureRequestProto builder] mergeFromCodedInputStream:input extensionRegistry:extensionRegistry] build];
+}
++ (RetrieveCurrencyFromNormStructureRequestProto_Builder*) builder {
+  return [[[RetrieveCurrencyFromNormStructureRequestProto_Builder alloc] init] autorelease];
+}
++ (RetrieveCurrencyFromNormStructureRequestProto_Builder*) builderWithPrototype:(RetrieveCurrencyFromNormStructureRequestProto*) prototype {
+  return [[RetrieveCurrencyFromNormStructureRequestProto builder] mergeFrom:prototype];
+}
+- (RetrieveCurrencyFromNormStructureRequestProto_Builder*) builder {
+  return [RetrieveCurrencyFromNormStructureRequestProto builder];
+}
+@end
+
+@interface RetrieveCurrencyFromNormStructureRequestProto_StructRetrieval ()
+@property int32_t userStructId;
+@property int64_t timeOfRetrieval;
+@end
+
+@implementation RetrieveCurrencyFromNormStructureRequestProto_StructRetrieval
+
+- (BOOL) hasUserStructId {
+  return !!hasUserStructId_;
+}
+- (void) setHasUserStructId:(BOOL) value {
+  hasUserStructId_ = !!value;
+}
+@synthesize userStructId;
+- (BOOL) hasTimeOfRetrieval {
+  return !!hasTimeOfRetrieval_;
+}
+- (void) setHasTimeOfRetrieval:(BOOL) value {
+  hasTimeOfRetrieval_ = !!value;
+}
+@synthesize timeOfRetrieval;
+- (void) dealloc {
+  [super dealloc];
+}
+- (id) init {
+  if ((self = [super init])) {
+    self.userStructId = 0;
+    self.timeOfRetrieval = 0L;
+  }
+  return self;
+}
+static RetrieveCurrencyFromNormStructureRequestProto_StructRetrieval* defaultRetrieveCurrencyFromNormStructureRequestProto_StructRetrievalInstance = nil;
++ (void) initialize {
+  if (self == [RetrieveCurrencyFromNormStructureRequestProto_StructRetrieval class]) {
+    defaultRetrieveCurrencyFromNormStructureRequestProto_StructRetrievalInstance = [[RetrieveCurrencyFromNormStructureRequestProto_StructRetrieval alloc] init];
+  }
+}
++ (RetrieveCurrencyFromNormStructureRequestProto_StructRetrieval*) defaultInstance {
+  return defaultRetrieveCurrencyFromNormStructureRequestProto_StructRetrievalInstance;
+}
+- (RetrieveCurrencyFromNormStructureRequestProto_StructRetrieval*) defaultInstance {
+  return defaultRetrieveCurrencyFromNormStructureRequestProto_StructRetrievalInstance;
+}
+- (BOOL) isInitialized {
+  return YES;
+}
+- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output {
+  if (self.hasUserStructId) {
+    [output writeInt32:1 value:self.userStructId];
+  }
+  if (self.hasTimeOfRetrieval) {
+    [output writeInt64:2 value:self.timeOfRetrieval];
+  }
+  [self.unknownFields writeToCodedOutputStream:output];
+}
+- (int32_t) serializedSize {
+  int32_t size = memoizedSerializedSize;
+  if (size != -1) {
+    return size;
+  }
+
+  size = 0;
+  if (self.hasUserStructId) {
+    size += computeInt32Size(1, self.userStructId);
+  }
+  if (self.hasTimeOfRetrieval) {
+    size += computeInt64Size(2, self.timeOfRetrieval);
+  }
+  size += self.unknownFields.serializedSize;
+  memoizedSerializedSize = size;
+  return size;
+}
++ (RetrieveCurrencyFromNormStructureRequestProto_StructRetrieval*) parseFromData:(NSData*) data {
+  return (RetrieveCurrencyFromNormStructureRequestProto_StructRetrieval*)[[[RetrieveCurrencyFromNormStructureRequestProto_StructRetrieval builder] mergeFromData:data] build];
+}
++ (RetrieveCurrencyFromNormStructureRequestProto_StructRetrieval*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (RetrieveCurrencyFromNormStructureRequestProto_StructRetrieval*)[[[RetrieveCurrencyFromNormStructureRequestProto_StructRetrieval builder] mergeFromData:data extensionRegistry:extensionRegistry] build];
+}
++ (RetrieveCurrencyFromNormStructureRequestProto_StructRetrieval*) parseFromInputStream:(NSInputStream*) input {
+  return (RetrieveCurrencyFromNormStructureRequestProto_StructRetrieval*)[[[RetrieveCurrencyFromNormStructureRequestProto_StructRetrieval builder] mergeFromInputStream:input] build];
+}
++ (RetrieveCurrencyFromNormStructureRequestProto_StructRetrieval*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (RetrieveCurrencyFromNormStructureRequestProto_StructRetrieval*)[[[RetrieveCurrencyFromNormStructureRequestProto_StructRetrieval builder] mergeFromInputStream:input extensionRegistry:extensionRegistry] build];
+}
++ (RetrieveCurrencyFromNormStructureRequestProto_StructRetrieval*) parseFromCodedInputStream:(PBCodedInputStream*) input {
+  return (RetrieveCurrencyFromNormStructureRequestProto_StructRetrieval*)[[[RetrieveCurrencyFromNormStructureRequestProto_StructRetrieval builder] mergeFromCodedInputStream:input] build];
+}
++ (RetrieveCurrencyFromNormStructureRequestProto_StructRetrieval*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (RetrieveCurrencyFromNormStructureRequestProto_StructRetrieval*)[[[RetrieveCurrencyFromNormStructureRequestProto_StructRetrieval builder] mergeFromCodedInputStream:input extensionRegistry:extensionRegistry] build];
+}
++ (RetrieveCurrencyFromNormStructureRequestProto_StructRetrieval_Builder*) builder {
+  return [[[RetrieveCurrencyFromNormStructureRequestProto_StructRetrieval_Builder alloc] init] autorelease];
+}
++ (RetrieveCurrencyFromNormStructureRequestProto_StructRetrieval_Builder*) builderWithPrototype:(RetrieveCurrencyFromNormStructureRequestProto_StructRetrieval*) prototype {
+  return [[RetrieveCurrencyFromNormStructureRequestProto_StructRetrieval builder] mergeFrom:prototype];
+}
+- (RetrieveCurrencyFromNormStructureRequestProto_StructRetrieval_Builder*) builder {
+  return [RetrieveCurrencyFromNormStructureRequestProto_StructRetrieval builder];
+}
+@end
+
+@interface RetrieveCurrencyFromNormStructureRequestProto_StructRetrieval_Builder()
+@property (retain) RetrieveCurrencyFromNormStructureRequestProto_StructRetrieval* result;
+@end
+
+@implementation RetrieveCurrencyFromNormStructureRequestProto_StructRetrieval_Builder
+@synthesize result;
+- (void) dealloc {
+  self.result = nil;
+  [super dealloc];
+}
+- (id) init {
+  if ((self = [super init])) {
+    self.result = [[[RetrieveCurrencyFromNormStructureRequestProto_StructRetrieval alloc] init] autorelease];
+  }
+  return self;
+}
+- (PBGeneratedMessage*) internalGetResult {
+  return result;
+}
+- (RetrieveCurrencyFromNormStructureRequestProto_StructRetrieval_Builder*) clear {
+  self.result = [[[RetrieveCurrencyFromNormStructureRequestProto_StructRetrieval alloc] init] autorelease];
+  return self;
+}
+- (RetrieveCurrencyFromNormStructureRequestProto_StructRetrieval_Builder*) clone {
+  return [RetrieveCurrencyFromNormStructureRequestProto_StructRetrieval builderWithPrototype:result];
+}
+- (RetrieveCurrencyFromNormStructureRequestProto_StructRetrieval*) defaultInstance {
+  return [RetrieveCurrencyFromNormStructureRequestProto_StructRetrieval defaultInstance];
+}
+- (RetrieveCurrencyFromNormStructureRequestProto_StructRetrieval*) build {
+  [self checkInitialized];
+  return [self buildPartial];
+}
+- (RetrieveCurrencyFromNormStructureRequestProto_StructRetrieval*) buildPartial {
+  RetrieveCurrencyFromNormStructureRequestProto_StructRetrieval* returnMe = [[result retain] autorelease];
+  self.result = nil;
+  return returnMe;
+}
+- (RetrieveCurrencyFromNormStructureRequestProto_StructRetrieval_Builder*) mergeFrom:(RetrieveCurrencyFromNormStructureRequestProto_StructRetrieval*) other {
+  if (other == [RetrieveCurrencyFromNormStructureRequestProto_StructRetrieval defaultInstance]) {
+    return self;
+  }
+  if (other.hasUserStructId) {
+    [self setUserStructId:other.userStructId];
+  }
+  if (other.hasTimeOfRetrieval) {
+    [self setTimeOfRetrieval:other.timeOfRetrieval];
+  }
+  [self mergeUnknownFields:other.unknownFields];
+  return self;
+}
+- (RetrieveCurrencyFromNormStructureRequestProto_StructRetrieval_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input {
+  return [self mergeFromCodedInputStream:input extensionRegistry:[PBExtensionRegistry emptyRegistry]];
+}
+- (RetrieveCurrencyFromNormStructureRequestProto_StructRetrieval_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  PBUnknownFieldSet_Builder* unknownFields = [PBUnknownFieldSet builderWithUnknownFields:self.unknownFields];
+  while (YES) {
+    int32_t tag = [input readTag];
+    switch (tag) {
+      case 0:
+        [self setUnknownFields:[unknownFields build]];
+        return self;
+      default: {
+        if (![self parseUnknownField:input unknownFields:unknownFields extensionRegistry:extensionRegistry tag:tag]) {
+          [self setUnknownFields:[unknownFields build]];
+          return self;
+        }
+        break;
+      }
+      case 8: {
+        [self setUserStructId:[input readInt32]];
+        break;
+      }
+      case 16: {
+        [self setTimeOfRetrieval:[input readInt64]];
+        break;
+      }
+    }
+  }
+}
+- (BOOL) hasUserStructId {
+  return result.hasUserStructId;
+}
+- (int32_t) userStructId {
+  return result.userStructId;
+}
+- (RetrieveCurrencyFromNormStructureRequestProto_StructRetrieval_Builder*) setUserStructId:(int32_t) value {
+  result.hasUserStructId = YES;
+  result.userStructId = value;
+  return self;
+}
+- (RetrieveCurrencyFromNormStructureRequestProto_StructRetrieval_Builder*) clearUserStructId {
+  result.hasUserStructId = NO;
+  result.userStructId = 0;
+  return self;
+}
+- (BOOL) hasTimeOfRetrieval {
+  return result.hasTimeOfRetrieval;
+}
+- (int64_t) timeOfRetrieval {
+  return result.timeOfRetrieval;
+}
+- (RetrieveCurrencyFromNormStructureRequestProto_StructRetrieval_Builder*) setTimeOfRetrieval:(int64_t) value {
+  result.hasTimeOfRetrieval = YES;
+  result.timeOfRetrieval = value;
+  return self;
+}
+- (RetrieveCurrencyFromNormStructureRequestProto_StructRetrieval_Builder*) clearTimeOfRetrieval {
+  result.hasTimeOfRetrieval = NO;
+  result.timeOfRetrieval = 0L;
+  return self;
+}
+@end
+
+@interface RetrieveCurrencyFromNormStructureRequestProto_Builder()
+@property (retain) RetrieveCurrencyFromNormStructureRequestProto* result;
+@end
+
+@implementation RetrieveCurrencyFromNormStructureRequestProto_Builder
+@synthesize result;
+- (void) dealloc {
+  self.result = nil;
+  [super dealloc];
+}
+- (id) init {
+  if ((self = [super init])) {
+    self.result = [[[RetrieveCurrencyFromNormStructureRequestProto alloc] init] autorelease];
+  }
+  return self;
+}
+- (PBGeneratedMessage*) internalGetResult {
+  return result;
+}
+- (RetrieveCurrencyFromNormStructureRequestProto_Builder*) clear {
+  self.result = [[[RetrieveCurrencyFromNormStructureRequestProto alloc] init] autorelease];
+  return self;
+}
+- (RetrieveCurrencyFromNormStructureRequestProto_Builder*) clone {
+  return [RetrieveCurrencyFromNormStructureRequestProto builderWithPrototype:result];
+}
+- (RetrieveCurrencyFromNormStructureRequestProto*) defaultInstance {
+  return [RetrieveCurrencyFromNormStructureRequestProto defaultInstance];
+}
+- (RetrieveCurrencyFromNormStructureRequestProto*) build {
+  [self checkInitialized];
+  return [self buildPartial];
+}
+- (RetrieveCurrencyFromNormStructureRequestProto*) buildPartial {
+  RetrieveCurrencyFromNormStructureRequestProto* returnMe = [[result retain] autorelease];
+  self.result = nil;
+  return returnMe;
+}
+- (RetrieveCurrencyFromNormStructureRequestProto_Builder*) mergeFrom:(RetrieveCurrencyFromNormStructureRequestProto*) other {
+  if (other == [RetrieveCurrencyFromNormStructureRequestProto defaultInstance]) {
+    return self;
+  }
+  if (other.hasSender) {
+    [self mergeSender:other.sender];
+  }
+  if (other.mutableStructRetrievalsList.count > 0) {
+    if (result.mutableStructRetrievalsList == nil) {
+      result.mutableStructRetrievalsList = [NSMutableArray array];
+    }
+    [result.mutableStructRetrievalsList addObjectsFromArray:other.mutableStructRetrievalsList];
+  }
+  [self mergeUnknownFields:other.unknownFields];
+  return self;
+}
+- (RetrieveCurrencyFromNormStructureRequestProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input {
+  return [self mergeFromCodedInputStream:input extensionRegistry:[PBExtensionRegistry emptyRegistry]];
+}
+- (RetrieveCurrencyFromNormStructureRequestProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  PBUnknownFieldSet_Builder* unknownFields = [PBUnknownFieldSet builderWithUnknownFields:self.unknownFields];
+  while (YES) {
+    int32_t tag = [input readTag];
+    switch (tag) {
+      case 0:
+        [self setUnknownFields:[unknownFields build]];
+        return self;
+      default: {
+        if (![self parseUnknownField:input unknownFields:unknownFields extensionRegistry:extensionRegistry tag:tag]) {
+          [self setUnknownFields:[unknownFields build]];
+          return self;
+        }
+        break;
+      }
+      case 10: {
+        MinimumUserProto_Builder* subBuilder = [MinimumUserProto builder];
+        if (self.hasSender) {
+          [subBuilder mergeFrom:self.sender];
+        }
+        [input readMessage:subBuilder extensionRegistry:extensionRegistry];
+        [self setSender:[subBuilder buildPartial]];
+        break;
+      }
+      case 18: {
+        RetrieveCurrencyFromNormStructureRequestProto_StructRetrieval_Builder* subBuilder = [RetrieveCurrencyFromNormStructureRequestProto_StructRetrieval builder];
+        [input readMessage:subBuilder extensionRegistry:extensionRegistry];
+        [self addStructRetrievals:[subBuilder buildPartial]];
+        break;
+      }
+    }
+  }
+}
+- (BOOL) hasSender {
+  return result.hasSender;
+}
+- (MinimumUserProto*) sender {
+  return result.sender;
+}
+- (RetrieveCurrencyFromNormStructureRequestProto_Builder*) setSender:(MinimumUserProto*) value {
+  result.hasSender = YES;
+  result.sender = value;
+  return self;
+}
+- (RetrieveCurrencyFromNormStructureRequestProto_Builder*) setSenderBuilder:(MinimumUserProto_Builder*) builderForValue {
+  return [self setSender:[builderForValue build]];
+}
+- (RetrieveCurrencyFromNormStructureRequestProto_Builder*) mergeSender:(MinimumUserProto*) value {
+  if (result.hasSender &&
+      result.sender != [MinimumUserProto defaultInstance]) {
+    result.sender =
+      [[[MinimumUserProto builderWithPrototype:result.sender] mergeFrom:value] buildPartial];
+  } else {
+    result.sender = value;
+  }
+  result.hasSender = YES;
+  return self;
+}
+- (RetrieveCurrencyFromNormStructureRequestProto_Builder*) clearSender {
+  result.hasSender = NO;
+  result.sender = [MinimumUserProto defaultInstance];
+  return self;
+}
+- (NSArray*) structRetrievalsList {
+  if (result.mutableStructRetrievalsList == nil) { return [NSArray array]; }
+  return result.mutableStructRetrievalsList;
+}
+- (RetrieveCurrencyFromNormStructureRequestProto_StructRetrieval*) structRetrievalsAtIndex:(int32_t) index {
+  return [result structRetrievalsAtIndex:index];
+}
+- (RetrieveCurrencyFromNormStructureRequestProto_Builder*) replaceStructRetrievalsAtIndex:(int32_t) index with:(RetrieveCurrencyFromNormStructureRequestProto_StructRetrieval*) value {
+  [result.mutableStructRetrievalsList replaceObjectAtIndex:index withObject:value];
+  return self;
+}
+- (RetrieveCurrencyFromNormStructureRequestProto_Builder*) addAllStructRetrievals:(NSArray*) values {
+  if (result.mutableStructRetrievalsList == nil) {
+    result.mutableStructRetrievalsList = [NSMutableArray array];
+  }
+  [result.mutableStructRetrievalsList addObjectsFromArray:values];
+  return self;
+}
+- (RetrieveCurrencyFromNormStructureRequestProto_Builder*) clearStructRetrievalsList {
+  result.mutableStructRetrievalsList = nil;
+  return self;
+}
+- (RetrieveCurrencyFromNormStructureRequestProto_Builder*) addStructRetrievals:(RetrieveCurrencyFromNormStructureRequestProto_StructRetrieval*) value {
+  if (result.mutableStructRetrievalsList == nil) {
+    result.mutableStructRetrievalsList = [NSMutableArray array];
+  }
+  [result.mutableStructRetrievalsList addObject:value];
+  return self;
+}
+@end
+
+@interface RetrieveCurrencyFromNormStructureResponseProto ()
+@property (retain) MinimumUserProto* sender;
+@property RetrieveCurrencyFromNormStructureResponseProto_RetrieveCurrencyFromNormStructureStatus status;
+@end
+
+@implementation RetrieveCurrencyFromNormStructureResponseProto
+
+- (BOOL) hasSender {
+  return !!hasSender_;
+}
+- (void) setHasSender:(BOOL) value {
+  hasSender_ = !!value;
+}
+@synthesize sender;
+- (BOOL) hasStatus {
+  return !!hasStatus_;
+}
+- (void) setHasStatus:(BOOL) value {
+  hasStatus_ = !!value;
+}
+@synthesize status;
+- (void) dealloc {
+  self.sender = nil;
+  [super dealloc];
+}
+- (id) init {
+  if ((self = [super init])) {
+    self.sender = [MinimumUserProto defaultInstance];
+    self.status = RetrieveCurrencyFromNormStructureResponseProto_RetrieveCurrencyFromNormStructureStatusOtherFail;
+  }
+  return self;
+}
+static RetrieveCurrencyFromNormStructureResponseProto* defaultRetrieveCurrencyFromNormStructureResponseProtoInstance = nil;
++ (void) initialize {
+  if (self == [RetrieveCurrencyFromNormStructureResponseProto class]) {
+    defaultRetrieveCurrencyFromNormStructureResponseProtoInstance = [[RetrieveCurrencyFromNormStructureResponseProto alloc] init];
+  }
+}
++ (RetrieveCurrencyFromNormStructureResponseProto*) defaultInstance {
+  return defaultRetrieveCurrencyFromNormStructureResponseProtoInstance;
+}
+- (RetrieveCurrencyFromNormStructureResponseProto*) defaultInstance {
+  return defaultRetrieveCurrencyFromNormStructureResponseProtoInstance;
+}
+- (BOOL) isInitialized {
+  return YES;
+}
+- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output {
+  if (self.hasSender) {
+    [output writeMessage:1 value:self.sender];
+  }
+  if (self.hasStatus) {
+    [output writeEnum:2 value:self.status];
+  }
+  [self.unknownFields writeToCodedOutputStream:output];
+}
+- (int32_t) serializedSize {
+  int32_t size = memoizedSerializedSize;
+  if (size != -1) {
+    return size;
+  }
+
+  size = 0;
+  if (self.hasSender) {
+    size += computeMessageSize(1, self.sender);
+  }
+  if (self.hasStatus) {
+    size += computeEnumSize(2, self.status);
+  }
+  size += self.unknownFields.serializedSize;
+  memoizedSerializedSize = size;
+  return size;
+}
++ (RetrieveCurrencyFromNormStructureResponseProto*) parseFromData:(NSData*) data {
+  return (RetrieveCurrencyFromNormStructureResponseProto*)[[[RetrieveCurrencyFromNormStructureResponseProto builder] mergeFromData:data] build];
+}
++ (RetrieveCurrencyFromNormStructureResponseProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (RetrieveCurrencyFromNormStructureResponseProto*)[[[RetrieveCurrencyFromNormStructureResponseProto builder] mergeFromData:data extensionRegistry:extensionRegistry] build];
+}
++ (RetrieveCurrencyFromNormStructureResponseProto*) parseFromInputStream:(NSInputStream*) input {
+  return (RetrieveCurrencyFromNormStructureResponseProto*)[[[RetrieveCurrencyFromNormStructureResponseProto builder] mergeFromInputStream:input] build];
+}
++ (RetrieveCurrencyFromNormStructureResponseProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (RetrieveCurrencyFromNormStructureResponseProto*)[[[RetrieveCurrencyFromNormStructureResponseProto builder] mergeFromInputStream:input extensionRegistry:extensionRegistry] build];
+}
++ (RetrieveCurrencyFromNormStructureResponseProto*) parseFromCodedInputStream:(PBCodedInputStream*) input {
+  return (RetrieveCurrencyFromNormStructureResponseProto*)[[[RetrieveCurrencyFromNormStructureResponseProto builder] mergeFromCodedInputStream:input] build];
+}
++ (RetrieveCurrencyFromNormStructureResponseProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (RetrieveCurrencyFromNormStructureResponseProto*)[[[RetrieveCurrencyFromNormStructureResponseProto builder] mergeFromCodedInputStream:input extensionRegistry:extensionRegistry] build];
+}
++ (RetrieveCurrencyFromNormStructureResponseProto_Builder*) builder {
+  return [[[RetrieveCurrencyFromNormStructureResponseProto_Builder alloc] init] autorelease];
+}
++ (RetrieveCurrencyFromNormStructureResponseProto_Builder*) builderWithPrototype:(RetrieveCurrencyFromNormStructureResponseProto*) prototype {
+  return [[RetrieveCurrencyFromNormStructureResponseProto builder] mergeFrom:prototype];
+}
+- (RetrieveCurrencyFromNormStructureResponseProto_Builder*) builder {
+  return [RetrieveCurrencyFromNormStructureResponseProto builder];
+}
+@end
+
+BOOL RetrieveCurrencyFromNormStructureResponseProto_RetrieveCurrencyFromNormStructureStatusIsValidValue(RetrieveCurrencyFromNormStructureResponseProto_RetrieveCurrencyFromNormStructureStatus value) {
+  switch (value) {
+    case RetrieveCurrencyFromNormStructureResponseProto_RetrieveCurrencyFromNormStructureStatusOtherFail:
+    case RetrieveCurrencyFromNormStructureResponseProto_RetrieveCurrencyFromNormStructureStatusSuccess:
+    case RetrieveCurrencyFromNormStructureResponseProto_RetrieveCurrencyFromNormStructureStatusClientTooApartFromServerTime:
+    case RetrieveCurrencyFromNormStructureResponseProto_RetrieveCurrencyFromNormStructureStatusNotLongEnough:
+      return YES;
+    default:
+      return NO;
+  }
+}
+@interface RetrieveCurrencyFromNormStructureResponseProto_Builder()
+@property (retain) RetrieveCurrencyFromNormStructureResponseProto* result;
+@end
+
+@implementation RetrieveCurrencyFromNormStructureResponseProto_Builder
+@synthesize result;
+- (void) dealloc {
+  self.result = nil;
+  [super dealloc];
+}
+- (id) init {
+  if ((self = [super init])) {
+    self.result = [[[RetrieveCurrencyFromNormStructureResponseProto alloc] init] autorelease];
+  }
+  return self;
+}
+- (PBGeneratedMessage*) internalGetResult {
+  return result;
+}
+- (RetrieveCurrencyFromNormStructureResponseProto_Builder*) clear {
+  self.result = [[[RetrieveCurrencyFromNormStructureResponseProto alloc] init] autorelease];
+  return self;
+}
+- (RetrieveCurrencyFromNormStructureResponseProto_Builder*) clone {
+  return [RetrieveCurrencyFromNormStructureResponseProto builderWithPrototype:result];
+}
+- (RetrieveCurrencyFromNormStructureResponseProto*) defaultInstance {
+  return [RetrieveCurrencyFromNormStructureResponseProto defaultInstance];
+}
+- (RetrieveCurrencyFromNormStructureResponseProto*) build {
+  [self checkInitialized];
+  return [self buildPartial];
+}
+- (RetrieveCurrencyFromNormStructureResponseProto*) buildPartial {
+  RetrieveCurrencyFromNormStructureResponseProto* returnMe = [[result retain] autorelease];
+  self.result = nil;
+  return returnMe;
+}
+- (RetrieveCurrencyFromNormStructureResponseProto_Builder*) mergeFrom:(RetrieveCurrencyFromNormStructureResponseProto*) other {
+  if (other == [RetrieveCurrencyFromNormStructureResponseProto defaultInstance]) {
+    return self;
+  }
+  if (other.hasSender) {
+    [self mergeSender:other.sender];
+  }
+  if (other.hasStatus) {
+    [self setStatus:other.status];
+  }
+  [self mergeUnknownFields:other.unknownFields];
+  return self;
+}
+- (RetrieveCurrencyFromNormStructureResponseProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input {
+  return [self mergeFromCodedInputStream:input extensionRegistry:[PBExtensionRegistry emptyRegistry]];
+}
+- (RetrieveCurrencyFromNormStructureResponseProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  PBUnknownFieldSet_Builder* unknownFields = [PBUnknownFieldSet builderWithUnknownFields:self.unknownFields];
+  while (YES) {
+    int32_t tag = [input readTag];
+    switch (tag) {
+      case 0:
+        [self setUnknownFields:[unknownFields build]];
+        return self;
+      default: {
+        if (![self parseUnknownField:input unknownFields:unknownFields extensionRegistry:extensionRegistry tag:tag]) {
+          [self setUnknownFields:[unknownFields build]];
+          return self;
+        }
+        break;
+      }
+      case 10: {
+        MinimumUserProto_Builder* subBuilder = [MinimumUserProto builder];
+        if (self.hasSender) {
+          [subBuilder mergeFrom:self.sender];
+        }
+        [input readMessage:subBuilder extensionRegistry:extensionRegistry];
+        [self setSender:[subBuilder buildPartial]];
+        break;
+      }
+      case 16: {
+        int32_t value = [input readEnum];
+        if (RetrieveCurrencyFromNormStructureResponseProto_RetrieveCurrencyFromNormStructureStatusIsValidValue(value)) {
+          [self setStatus:value];
+        } else {
+          [unknownFields mergeVarintField:2 value:value];
+        }
+        break;
+      }
+    }
+  }
+}
+- (BOOL) hasSender {
+  return result.hasSender;
+}
+- (MinimumUserProto*) sender {
+  return result.sender;
+}
+- (RetrieveCurrencyFromNormStructureResponseProto_Builder*) setSender:(MinimumUserProto*) value {
+  result.hasSender = YES;
+  result.sender = value;
+  return self;
+}
+- (RetrieveCurrencyFromNormStructureResponseProto_Builder*) setSenderBuilder:(MinimumUserProto_Builder*) builderForValue {
+  return [self setSender:[builderForValue build]];
+}
+- (RetrieveCurrencyFromNormStructureResponseProto_Builder*) mergeSender:(MinimumUserProto*) value {
+  if (result.hasSender &&
+      result.sender != [MinimumUserProto defaultInstance]) {
+    result.sender =
+      [[[MinimumUserProto builderWithPrototype:result.sender] mergeFrom:value] buildPartial];
+  } else {
+    result.sender = value;
+  }
+  result.hasSender = YES;
+  return self;
+}
+- (RetrieveCurrencyFromNormStructureResponseProto_Builder*) clearSender {
+  result.hasSender = NO;
+  result.sender = [MinimumUserProto defaultInstance];
+  return self;
+}
+- (BOOL) hasStatus {
+  return result.hasStatus;
+}
+- (RetrieveCurrencyFromNormStructureResponseProto_RetrieveCurrencyFromNormStructureStatus) status {
+  return result.status;
+}
+- (RetrieveCurrencyFromNormStructureResponseProto_Builder*) setStatus:(RetrieveCurrencyFromNormStructureResponseProto_RetrieveCurrencyFromNormStructureStatus) value {
+  result.hasStatus = YES;
+  result.status = value;
+  return self;
+}
+- (RetrieveCurrencyFromNormStructureResponseProto_Builder*) clearStatus {
+  result.hasStatus = NO;
+  result.status = RetrieveCurrencyFromNormStructureResponseProto_RetrieveCurrencyFromNormStructureStatusOtherFail;
   return self;
 }
 @end
@@ -4617,10 +4616,10 @@ static ExpansionWaitCompleteResponseProto* defaultExpansionWaitCompleteResponseP
 BOOL ExpansionWaitCompleteResponseProto_ExpansionWaitCompleteStatusIsValidValue(ExpansionWaitCompleteResponseProto_ExpansionWaitCompleteStatus value) {
   switch (value) {
     case ExpansionWaitCompleteResponseProto_ExpansionWaitCompleteStatusSuccess:
-    case ExpansionWaitCompleteResponseProto_ExpansionWaitCompleteStatusWasNotExpanding:
-    case ExpansionWaitCompleteResponseProto_ExpansionWaitCompleteStatusNotDoneYet:
-    case ExpansionWaitCompleteResponseProto_ExpansionWaitCompleteStatusOtherFail:
-    case ExpansionWaitCompleteResponseProto_ExpansionWaitCompleteStatusClientTooApartFromServerTime:
+    case ExpansionWaitCompleteResponseProto_ExpansionWaitCompleteStatusFailWasNotExpanding:
+    case ExpansionWaitCompleteResponseProto_ExpansionWaitCompleteStatusFailNotDoneYet:
+    case ExpansionWaitCompleteResponseProto_ExpansionWaitCompleteStatusFailInsufficientGems:
+    case ExpansionWaitCompleteResponseProto_ExpansionWaitCompleteStatusFailOther:
       return YES;
     default:
       return NO;

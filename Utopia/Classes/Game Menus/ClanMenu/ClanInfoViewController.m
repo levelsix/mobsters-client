@@ -12,6 +12,7 @@
 #import "OutgoingEventController.h"
 #import "GenericPopupController.h"
 #import "ClanCreateViewController.h"
+#import "ProfileViewController.h"
 
 @implementation ClanMemberCell
 
@@ -29,6 +30,7 @@
   
   self.nameLabel.text = mupl.minUserProto.name;
   self.typeLabel.text = isLeader ? @"Clan Leader" : mup.clanStatus == UserClanStatusMember ? @"Clan Member" : @"Requestee";
+  self.levelLabel.text = [Globals commafyNumber:mupl.level];
 }
 
 - (void) editMemberConfiguration {
@@ -48,7 +50,7 @@
 
 @end
 
-@implementation ClanInfoCell
+@implementation ClanInfoView
 
 - (void) awakeFromNib {
   UITextView *text = self.descriptionView;
@@ -87,13 +89,13 @@
     GameState *gs = [GameState sharedGameState];
     
     self.nameLabel.text = c.clan.name;
-    self.membersLabel.text = [NSString stringWithFormat:@"%d/%d", c.clanSize, 5];
+    self.membersLabel.text = [NSString stringWithFormat:@"Members: %d/%d", c.clanSize, 5];
     self.descriptionView.text = c.clan.description;
     
     NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
     [dateFormatter setDateStyle:NSDateFormatterShortStyle];
     NSDate *date = [NSDate dateWithTimeIntervalSince1970:c.clan.createTime/1000.0];
-    self.foundedLabel.text = [NSString stringWithFormat:@"%@", [dateFormatter stringFromDate:date]];
+    self.foundedLabel.text = [NSString stringWithFormat:@"Founded: %@", [dateFormatter stringFromDate:date]];
     
     if (c.clan.requestToJoinRequired) {
       self.typeLabel.text = @"By Request Only";
@@ -162,6 +164,8 @@
   self.requesters = nil;
   [[OutgoingEventController sharedOutgoingEventController] retrieveClanInfo:nil clanId:gs.clan.clanId grabType:RetrieveClanInfoRequestProto_ClanInfoGrabTypeAll isForBrowsingList:NO beforeClanId:0 delegate:self];
   [self.infoTable reloadData];
+  
+  [self.infoView loadForClan:nil];
 }
 
 - (void) viewDidLoad {
@@ -169,56 +173,31 @@
   [self setUpImageBackButton];
   
   [self.infoTable addSubview:self.loadingMembersView];
+  [self.infoView loadForClan:self.clan];
 }
 
 - (int) numberOfSectionsInTableView:(UITableView *)tableView {
-  return 3;
+  return 1;
 }
 
 - (int) tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-  if (section == 0) {
-    return 1;
-  } else if (section == 2){
-    int count = self.members.count;
-    self.loadingMembersView.hidden = count > 0;
-    return count;
-  }
-  return 0;
+  int count = self.members.count;
+  self.loadingMembersView.hidden = count > 0;
+  return count;
 }
 
 - (UITableViewCell *) tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-  if (indexPath.section == 0) {
-    ClanInfoCell *cell = [tableView dequeueReusableCellWithIdentifier:@"ClanInfoCell"];
-    
-    if (!cell) {
-      [[NSBundle mainBundle] loadNibNamed:@"ClanInfoCell" owner:self options:nil];
-      cell = self.infoCell;
-    }
-    
-    [cell loadForClan:self.clan];
-    return cell;
-  } else if (indexPath.section == 2) {
-    ClanMemberCell *cell = [tableView dequeueReusableCellWithIdentifier:@"ClanMemberCell"];
-    
-    if (!cell) {
-      [[NSBundle mainBundle] loadNibNamed:@"ClanMemberCell" owner:self options:nil];
-      cell = self.memberCell;
-    }
-    
-    MinimumUserProtoForClans *user = [self.members objectAtIndex:indexPath.row];
-    BOOL isLeader = user.minUserProto.minUserProtoWithLevel.minUserProto.userId == self.clan.clan.owner.userId;
-    [cell loadForUser:user isLeader:isLeader];
-    return cell;
+  ClanMemberCell *cell = [tableView dequeueReusableCellWithIdentifier:@"ClanMemberCell"];
+  
+  if (!cell) {
+    [[NSBundle mainBundle] loadNibNamed:@"ClanMemberCell" owner:self options:nil];
+    cell = self.memberCell;
   }
-  return nil;
-}
-
-- (CGFloat) tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
-  if (indexPath.section == 0) {
-    return 94.f;
-  } else {
-    return 47.f;
-  }
+  
+  MinimumUserProtoForClans *user = [self.members objectAtIndex:indexPath.row];
+  BOOL isLeader = user.minUserProto.minUserProtoWithLevel.minUserProto.userId == self.clan.clan.owner.userId;
+  [cell loadForUser:user isLeader:isLeader];
+  return cell;
 }
 
 #pragma mark - IBActions for green buttons
@@ -257,6 +236,10 @@
   [[OutgoingEventController sharedOutgoingEventController] retractRequestToJoinClan:self.clan.clan.clanId delegate:self];
 }
 
+- (IBAction)profileClicked:(id)sender {
+  NSLog(@"meep");
+}
+
 #pragma mark - Response handlers
 
 - (void) handleRetrieveClanInfoResponseProto:(FullEvent *)e {
@@ -268,6 +251,8 @@
   
   self.members = proto.membersList;
   [self.infoTable reloadData];
+  
+  [self.infoView loadForClan:self.clan];
 }
 
 - (void) handleRequestJoinClanResponseProto:(FullEvent *)e {

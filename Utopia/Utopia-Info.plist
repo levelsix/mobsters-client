@@ -51,6 +51,10 @@
 		<string>AxeHandel.ttf</string>
 		<string>FF_DIN_Bold.otf</string>
 		<string>FF_DIN_Regular.otf</string>
+		<string>Gotham-Book.otf</string>
+		<string>Gotham-Medium.otf</string>
+		<string>m7</string>
+		<string>Akko-Bold.ttf</string>
 	</array>
 	<key>UIPrerenderedIcon</key>
 	<true/>

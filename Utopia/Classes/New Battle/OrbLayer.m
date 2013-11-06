@@ -33,7 +33,7 @@
 -(id) initWithGridSize:(CGSize)gridSize numColors:(int)numColors
 {
   if((self=[super init])) {
-		_gridSize = CGSizeMake(8, 5);
+		_gridSize = gridSize;
     _numColors = numColors;
     
     _run = [[NSMutableSet alloc] init];
@@ -72,12 +72,16 @@
 {
   NSString *colorPrefix = @"";
   switch (gemColor) {
-    case color_purple: colorPrefix = @"purple"; break;
-    case color_white: colorPrefix = @"white"; break;
-    case color_red: colorPrefix = @"red"; break;
-    case color_green: colorPrefix = @"green"; break;
-    case color_blue: colorPrefix = @"blue"; break;
-    case color_all: colorPrefix = @"all"; break;
+    case color_purple:
+    case color_white:
+    case color_red:
+    case color_green:
+    case color_blue:
+      colorPrefix = [Globals imageNameForElement:(MonsterProto_MonsterElement)gemColor suffix:@""];
+      break;
+    case color_all:
+      colorPrefix = @"all";
+      break;
     default: colorPrefix = @""; break;
   }
   
@@ -96,7 +100,7 @@
 
 - (Gem *) createRandomGem
 {
-  int gemColor = (arc4random() % _numColors) + 1;
+  int gemColor = (arc4random() % _numColors) + color_red;
   CCSprite * gem = [self createGemSpriteWithColor:gemColor powerup:powerup_none];
   Gem *container = [[Gem alloc] init];
   container.sprite = gem;
@@ -112,10 +116,6 @@
   container.color = gemColor;
   container.powerup = powerupId;
   return container;
-}
-
-- (void) doInitBoardAnimation {
-  
 }
 
 - (void) initBoard
@@ -322,6 +322,35 @@
   [self updateGemPositionsAfterSwap];
 }
 
+- (ccColor3B) colorForSparkle:(GemColorId)color {
+  ccColor3B c = ccc3(255, 255, 255);
+  switch (color) {
+    case color_purple:
+      c = ccc3(129, 7, 181);
+      break;
+      
+    case color_blue:
+      c = ccc3(10, 220, 210);
+      break;
+      
+    case color_red:
+      c = ccc3(220, 40, 0);
+      break;
+      
+    case color_white:
+      c = ccc3(225, 200, 0);
+      break;
+      
+    case color_green:
+      c = ccc3(100, 220, 20);
+      break;
+      
+    default:
+      break;
+  }
+  return c;
+}
+
 // Color of gem that destroyed this gem
 - (void) destroyGem:(Gem *)gem fromColor:(GemColorId)color fromPowerup:(PowerupId)powerup {
   if (![self.gems containsObject:gem] || [self.destroyedGems containsObject:gem]) {
@@ -331,15 +360,6 @@
   [gem.sprite addChild:s];
   s.position = ccp(s.contentSize.width/2, s.contentSize.height/2);
   s.visible = NO;
-  
-  //  CCSprite *c = nil;
-  //  if (gem.color == color_red) {
-  //    c = [CCSprite spriteWithFile:@"redcracked.png"];
-  //    [gem.sprite addChild:c];
-  //    c.position = ccp(c.contentSize.width/2, c.contentSize.height/2);
-  //    c.opacity = 100;
-  //    c.visible = NO;
-  //  }
   
   _gemsToProcess++;
   CGPoint pt = [self coordinateOfGem:gem];
@@ -351,22 +371,7 @@
     [self initiatePowerup:gem.powerup atLocation:pt withColor:color];
   }
   
-  NSMutableArray *arr = [NSMutableArray array];
-  for (int i = 0; i < 0; i++) {
-    [arr addObject:[CCCallBlock actionWithBlock:^{
-      s.visible = YES;
-    }]];
-    [arr addObject:[CCDelayTime actionWithDuration:0.04]];
-    [arr addObject:[CCCallBlock actionWithBlock:^{
-      s.visible = NO;
-    }]];
-    [arr addObject:[CCDelayTime actionWithDuration:0.04]];
-  }
-  
   CCCallBlock *crack = [CCCallBlock actionWithBlock:^{
-    //    c.visible = YES;
-    //    [c runAction:[CCFadeTo actionWithDuration:0.05 opacity:0]];
-    
     if (powerup == powerup_horizontal_line || powerup == powerup_vertical_line) {
       CCParticleSystemQuad *q = [CCParticleSystemQuad particleWithFile:@"molotov.plist"];
       [self addChild:q z:100];
@@ -397,6 +402,7 @@
       [self addChild:x z:12];
       x.position = gem.sprite.position;
       x.autoRemoveOnFinish = YES;
+      x.startColor = ccc4FFromccc3B([self colorForSparkle:gem.color]);
     }
   }];
   CCScaleTo *scale = [CCScaleTo actionWithDuration:0.2 scale:0];
@@ -405,11 +411,8 @@
     [self checkAllGemsAndPowerupsDone];
     [gem.sprite removeFromParentAndCleanup:YES];
   }];
-  [arr addObject:crack];
-  [arr addObject:scale];
-  [arr addObject:completion];
   
-  CCSequence *sequence = [CCSequence actionWithArray:arr];
+  CCSequence *sequence = [CCSequence actions:crack, scale, completion, nil];
   [gem.sprite runAction:sequence];
   
   GemColorId colorId = gem.color;

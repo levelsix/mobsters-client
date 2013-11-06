@@ -44,6 +44,8 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
     _clanChatMessages = [[NSMutableArray alloc] init];
     _rareBoosterPurchases = [[NSMutableArray alloc] init];
     _monsterHealingQueue = [[NSMutableArray alloc] init];
+    _requestsFromFriends = [[NSMutableArray alloc] init];
+    _usersUsedForExtraSlots = [[NSMutableArray alloc] init];
     
     _availableQuests = [[NSMutableDictionary alloc] init];
     _inProgressCompleteQuests = [[NSMutableDictionary alloc] init];
@@ -97,6 +99,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
   self.hasActiveShield = user.hasActiveShield;
   self.createTime = [NSDate dateWithTimeIntervalSince1970:user.createTime/1000.0];
   self.numAdditionalMonsterSlots = user.numAdditionalMonsterSlots;
+  self.facebookId = user.facebookId;
   
   self.lastLogoutTime = [NSDate dateWithTimeIntervalSince1970:user.lastLogoutTime/1000.0];
   
@@ -131,6 +134,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
   fup.createTime = self.createTime.timeIntervalSince1970*1000.;
   fup.numAdditionalMonsterSlots = self.numAdditionalMonsterSlots;
   fup.lastLogoutTime = self.lastLogoutTime.timeIntervalSince1970*1000.;
+  fup.facebookId = self.facebookId;
   
   return [fup build];
 }
@@ -280,6 +284,19 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
   for (StaticLevelInfoProto *exp in lurep) {
     NSNumber *level = [NSNumber numberWithInt:exp.level];
     [self.staticLevelInfos setObject:exp forKey:level];
+  }
+}
+
+- (void) addInventorySlotsRequests:(NSArray *)users {
+  for (MinimumUserProtoWithFacebookId *user in users) {
+    RequestFromFriend *req = [RequestFromFriend requestForInventorySlotsWithUser:user];
+    [self.requestsFromFriends addObject:req];
+  }
+}
+
+- (void) addUsersUsedForExtraSlots:(NSArray *)users {
+  for (MinimumUserProtoWithFacebookId *user in users) {
+    [self.usersUsedForExtraSlots addObject:user.facebookId];
   }
 }
 
@@ -845,6 +862,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
   self.globalChatMessages = [[NSMutableArray alloc] init];
   self.rareBoosterPurchases = [[NSMutableArray alloc] init];
   self.monsterHealingQueue = [[NSMutableArray alloc] init];
+  self.requestsFromFriends = [[NSMutableArray alloc] init];
   
   self.availableQuests = [[NSMutableDictionary alloc] init];
   self.inProgressCompleteQuests = [[NSMutableDictionary alloc] init];

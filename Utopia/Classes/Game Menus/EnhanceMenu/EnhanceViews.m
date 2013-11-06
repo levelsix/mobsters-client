@@ -39,7 +39,6 @@
         ei.userMonsterId = monster.userMonsterId;
         
         self.cashButtonLabel.text = [Globals cashStringForNumber:[gl calculateSilverCostForEnhancement:base feeder:ei]];
-        [Globals adjustViewForCentering:self.cashButtonLabel.superview withLabel:self.cashButtonLabel];
       }
     }
   }
@@ -112,9 +111,6 @@
   
   EnhanceQueueCell *cell = (EnhanceQueueCell *)[self.queueTable viewAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:0]];
   [cell updateForTime];
-  for (EnhanceQueueCell *cell in self.queueTable.visibleViews) {
-    [cell updateForTime];
-  }
 }
 
 - (IBAction)minusClicked:(id)sender {
@@ -138,7 +134,6 @@
   self.queueTable.delegate = self;
   self.queueTable.tableView.separatorColor = [UIColor clearColor];
   self.queueTable.transform = CGAffineTransformMakeScale(-1, 1);
-//  self.queueTable.tableView.bounces = NO;
   [self.tableContainerView addSubview:self.queueTable];
 }
 
@@ -196,6 +191,16 @@
     self.yellowBar.percentage = newPerc;
     NSString *deltaString = delta > 0 ? [NSString stringWithFormat:@" + %@%%", [Globals commafyNumber:(int)ceilf(delta*100)]] : @"";
     self.percentLabel.text = [NSString stringWithFormat:@"%d%%%@", (int)floorf(curPerc*100), deltaString];
+    
+    NSString *fileName = [mp.imagePrefix stringByAppendingString:@"Thumbnail.png"];
+    [Globals imageNamed:fileName withView:self.monsterIcon maskedColor:nil indicator:UIActivityIndicatorViewStyleWhite clearImageDuringDownload:YES];
+    
+    CGPoint oldCenter = self.starView.center;
+    float width = [[self.starView.subviews objectAtIndex:1] frame].origin.x;
+    CGRect r = self.starView.frame;
+    r.size.width = width*mp.evolutionLevel;
+    self.starView.frame = r;
+    self.starView.center = oldCenter;
     
     self.mainView.hidden = NO;
     self.noMonsterView.hidden = YES;

@@ -42,6 +42,7 @@
 @property (nonatomic, assign) BOOL hasActiveShield;
 
 @property (nonatomic, retain) NSString *kabamNaid;
+@property (nonatomic, retain) NSString *facebookId;
 
 @property (nonatomic, retain) NSString *deviceToken;
 
@@ -71,6 +72,9 @@
 @property (nonatomic, retain) NSMutableArray *clanChatMessages;
 @property (nonatomic, retain) NSMutableArray *rareBoosterPurchases;
 @property (nonatomic, retain) NSMutableArray *privateChats;
+
+@property (nonatomic, retain) NSMutableArray *requestsFromFriends;
+@property (nonatomic, retain) NSMutableArray *usersUsedForExtraSlots;
 
 @property (nonatomic, retain) NSMutableArray *unrespondedUpdates;
 
@@ -111,6 +115,9 @@
 - (void) addChatMessage:(ChatMessage *)cm scope:(GroupChatScope) scope;
 - (void) addBoosterPurchase:(RareBoosterPurchaseProto *)bp;
 - (void) addToStaticLevelInfos:(NSArray *)lurep;
+
+- (void) addInventorySlotsRequests:(NSArray *)users;
+- (void) addUsersUsedForExtraSlots:(NSArray *)users;
 
 - (void) addUserMonsterHealingItemToEndOfQueue:(UserMonsterHealingItem *)item;
 - (void) removeUserMonsterHealingItem:(UserMonsterHealingItem *)item;

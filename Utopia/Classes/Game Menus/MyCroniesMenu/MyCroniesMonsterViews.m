@@ -185,7 +185,6 @@
   self.queueTable.delegate = self;
   self.queueTable.tableView.separatorColor = [UIColor clearColor];
   self.queueTable.transform = CGAffineTransformMakeScale(-1, 1);
-  self.queueTable.tableView.bounces = NO;
   [self.tableContainerView addSubview:self.queueTable];
 }
 
