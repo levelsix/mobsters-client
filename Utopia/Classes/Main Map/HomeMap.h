@@ -34,7 +34,6 @@
   int _purchStructId;
   
   MoneyBuilding *_constrBuilding;
-  MoneyBuilding *_upgrBuilding;
   HomeBuilding *_purchBuilding;
   
   NSMutableArray *_timers;
@@ -85,8 +84,7 @@
 
 - (IBAction)finishExpansionClicked:(id)sender;
 
-- (void) buildComplete:(NSTimer *)timer;
-- (void) upgradeComplete:(NSTimer *)timer;
+- (void) constructionComplete:(NSTimer *)timer;
 - (void) waitForIncomeComplete:(NSTimer *)timer;
 
 @end

@@ -483,7 +483,7 @@
   switch (st) {
     case kBuilding:
       time = [[NSDate dateWithTimeInterval:fsp.minutesToBuild*60 sinceDate:self.userStruct.purchaseTime] timeIntervalSinceNow];
-      selector = @selector(buildComplete:);
+      selector = @selector(constructionComplete:);
       break;
       
     case kWaitingForIncome:

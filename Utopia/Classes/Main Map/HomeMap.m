@@ -148,7 +148,6 @@
   if (_loading) return;
   self.selected = nil;
   _constrBuilding = nil;
-  _upgrBuilding = nil;
   _loading = YES;
   
   [self invalidateAllTimers];
@@ -197,11 +196,7 @@
         moneyBuilding.retrievable = NO;
         
         moneyBuilding.isConstructing = YES;
-        if (s.fsp.level == 1) {
-          _constrBuilding = moneyBuilding;
-        } else {
-          _upgrBuilding = moneyBuilding;
-        }
+        _constrBuilding = moneyBuilding;
         break;
         
       case kWaitingForIncome:
@@ -241,10 +236,6 @@
     if ([node isKindOfClass:[HomeBuilding class]]) {
       [(HomeBuilding *)node placeBlock];
     }
-  }
-  
-  if (_upgrBuilding) {
-    [_upgrBuilding displayProgressBar];
   }
   
   if (_constrBuilding) {
@@ -569,7 +560,7 @@
   }
 }
 
-- (void) buildComplete:(NSTimer *)timer {
+- (void) constructionComplete:(NSTimer *)timer {
   MoneyBuilding *mb = [timer userInfo];
   [[OutgoingEventController sharedOutgoingEventController] normStructWaitComplete:mb.userStruct];
   [self updateTimersForBuilding:mb];
@@ -581,19 +572,6 @@
     [self reselectCurrentSelection];
   }
   _constrBuilding = nil;
-}
-
-- (void) upgradeComplete:(NSTimer *)timer {
-  MoneyBuilding *mb = [timer userInfo];
-  [[OutgoingEventController sharedOutgoingEventController] normStructWaitComplete:mb.userStruct];
-  [self updateTimersForBuilding:mb];
-  [mb removeProgressBar];
-  [mb displayUpgradeComplete];
-  if (mb == self.selected) {
-    [mb cancelMove];
-    [self reselectCurrentSelection];
-  }
-  _upgrBuilding = nil;
 }
 
 - (void) waitForIncomeComplete:(NSTimer *)timer {
@@ -710,9 +688,6 @@
     if (_constrBuilding == spr) {
       _constrBuilding = nil;
     }
-    if (_upgrBuilding == spr) {
-      _upgrBuilding = nil;
-    }
   }
 }
 
@@ -731,44 +706,29 @@
   GameState *gs = [GameState sharedGameState];
   FullStructureProto *nextFsp = us.fspForNextLevel;
   
-  if (_upgrBuilding) {
-    [Globals popupMessage:@"The carpenter is already upgrading a building!"];
+  if (_constrBuilding) {
+    [Globals popupMessage:@"The carpenter is already constructing a building!"];
   } else if (nextFsp) {
     int cost = nextFsp.buildPrice;
     BOOL isGoldBuilding = nextFsp.isPremiumCurrency;
-    if (!isGoldBuilding) {
-      if (cost > gs.silver) {
-        //        [[RefillMenuController sharedRefillMenuController] displayBuySilverView:cost];
-        [Analytics notEnoughSilverForUpgrade:us.structId cost:cost];
-        self.selected = nil;
-      } else {
-        [[OutgoingEventController sharedOutgoingEventController] upgradeNormStruct:us];
-        _upgrBuilding = (MoneyBuilding *)self.selected;
-        [self updateTimersForBuilding:_upgrBuilding];
-        [self.upgradeMenu closeClicked:nil];
-        [_upgrBuilding displayProgressBar];
-        _upgrBuilding.isConstructing = YES;
-        
-        [[SoundEngine sharedSoundEngine] carpenterPurchase];
-        
-        [self reselectCurrentSelection];
-      }
+    if (!isGoldBuilding && cost > gs.silver) {
+      //        [[RefillMenuController sharedRefillMenuController] displayBuySilverView:cost];
+      [Analytics notEnoughSilverForUpgrade:us.structId cost:cost];
+      self.selected = nil;
+    } else if (cost > gs.gold) {
+      //        [[RefillMenuController sharedRefillMenuController] displayBuyGoldView:cost];
+      [Analytics notEnoughGoldForUpgrade:us.structId cost:cost];
+      self.selected = nil;
     } else {
-      if (cost > gs.gold) {
-        //        [[RefillMenuController sharedRefillMenuController] displayBuyGoldView:cost];
-        [Analytics notEnoughGoldForUpgrade:us.structId cost:cost];
-        self.selected = nil;
-      } else {
-        [[OutgoingEventController sharedOutgoingEventController] upgradeNormStruct:us];
-        _upgrBuilding = (MoneyBuilding *)self.selected;
-        [self updateTimersForBuilding:_upgrBuilding];
-        [self.upgradeMenu closeClicked:nil];
-        [_upgrBuilding displayProgressBar];
-        
-        [[SoundEngine sharedSoundEngine] carpenterPurchase];
-        
-        [self reselectCurrentSelection];
-      }
+      [[OutgoingEventController sharedOutgoingEventController] upgradeNormStruct:us];
+      _constrBuilding = (MoneyBuilding *)self.selected;
+      [self updateTimersForBuilding:_constrBuilding];
+      [self.upgradeMenu closeClicked:nil];
+      [_constrBuilding displayProgressBar];
+      
+      [[SoundEngine sharedSoundEngine] carpenterPurchase];
+      
+      [self reselectCurrentSelection];
     }
   }
 }
@@ -808,8 +768,6 @@
         if (mb.userStruct.state == kWaitingForIncome) {
           if (_constrBuilding == mb) {
             _constrBuilding = nil;
-          } else if (_upgrBuilding == mb) {
-            _upgrBuilding = nil;
           }
           [self updateTimersForBuilding:mb];
         }
