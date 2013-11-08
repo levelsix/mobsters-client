@@ -14,7 +14,6 @@
 #import "GameLayer.h"
 #import "SoundEngine.h"
 #import "GameState.h"
-#import "CCLabelFX.h"
 #import "MyTeamSprite.h"
 
 #define REORDER_START_Z 150

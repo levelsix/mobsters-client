@@ -13,7 +13,6 @@
 #import "SoundEngine.h"
 #import "OutgoingEventController.h"
 #import "GenericPopupController.h"
-#import "CCLabelFX.h"
 
 @implementation PurchaseConfirmMenu
 
@@ -36,15 +35,17 @@
 @implementation UpgradeProgressBar
 
 - (id) initBar {
-  if ((self = [super initWithFile:@"overbuildingbackground.png"])) {
-    _progressBar = [CCProgressTimer progressWithSprite:[CCSprite spriteWithFile:@"overbuildingyellow.png"]];
+  if ((self = [super initWithFile:@"buildingbarbg.png"])) {
+    _progressBar = [CCProgressTimer progressWithSprite:[CCSprite spriteWithFile:@"buildingbar.png"]];
     [self addChild:_progressBar];
     _progressBar.position = ccp(self.contentSize.width/2, self.contentSize.height/2);
     _progressBar.type = kCCProgressTimerTypeBar;
     _progressBar.midpoint = ccp(0,0.5);
     _progressBar.barChangeRate = ccp(1, 0);
     
-    _timeLabel = [CCLabelFX labelWithString:@"" fontName:[Globals font] fontSize:22.f shadowOffset:CGSizeMake(0, -1) shadowBlur:0.f shadowColor:ccc4(0, 0, 0, 100) fillColor:ccc4(255, 255, 255, 255)];
+    _timeLabel = [CCLabelTTF labelWithString:@"" fontName:[Globals font] fontSize:14.f dimensions:_progressBar.contentSize hAlignment:kCCTextAlignmentCenter];
+    [_timeLabel setFontFillColor:ccc3(255, 255, 255) updateImage:NO];
+    [_timeLabel enableShadowWithOffset:CGSizeMake(0, -1) opacity:1.f blur:0.f updateImage:YES];
     [Globals adjustFontSizeForCCLabelTTF:_timeLabel size:12.f];
     [self addChild:_timeLabel];
     _timeLabel.position = ccp(self.contentSize.width/2, self.contentSize.height/2);
@@ -59,82 +60,6 @@
 
 @end
 
-@implementation HomeBuildingMenu
-
-@synthesize titleLabel, incomeLabel, rankLabel;
-
-- (void) updateForUserStruct:(UserStruct *)us {
-  if (us == nil) {
-    return;
-  }
-  
-  GameState *gs = [GameState sharedGameState];
-  Globals *gl = [Globals sharedGlobals];
-  FullStructureProto *fsp = [gs structWithId:us.structId];
-  
-  titleLabel.text = fsp.name;
-  incomeLabel.text = [NSString stringWithFormat:@"%d in %@", [gl calculateIncomeForUserStruct:us], [Globals convertTimeToString:fsp.minutesToGain*60 withDays:YES]];
-  rankLabel.text = [NSString stringWithFormat:@"%d", us.level];
-}
-
-@end
-
-@implementation HomeBuildingCollectMenu
-
-@synthesize coinsLabel, timeLabel, progressBar;
-@synthesize timer, userStruct;
-
-- (void) updateForUserStruct:(UserStruct *)us {
-  if (us == nil) {
-    return;
-  }
-  
-  GameState *gs = [GameState sharedGameState];
-  Globals *gl = [Globals sharedGlobals];
-  FullStructureProto *fsp = [gs structWithId:us.structId];
-  coinsLabel.text = [NSString stringWithFormat:@"%d", [gl calculateIncomeForUserStruct:us]];
-  
-  self.userStruct = us;
-  
-  [self updateMenu];
-  
-  NSDate *retrieveDate = [us.lastRetrieved dateByAddingTimeInterval:fsp.minutesToGain*60];
-  progressBar.percentage = 1.f - retrieveDate.timeIntervalSinceNow/(fsp.minutesToGain*60);
-  [UIView animateWithDuration:retrieveDate.timeIntervalSinceNow animations:^{
-    progressBar.percentage = 1.f;
-  }];
-  
-  self.timer = [NSTimer timerWithTimeInterval:1.f target:self selector:@selector(updateMenu) userInfo:nil repeats:YES];
-  [[NSRunLoop mainRunLoop] addTimer:self.timer forMode:NSRunLoopCommonModes];
-}
-
-- (void) updateMenu {
-  GameState *gs = [GameState sharedGameState];
-  UserStruct *us = self.userStruct;
-  FullStructureProto *fsp = [gs structWithId:us.structId];
-  
-  NSDate *retrieveDate = [us.lastRetrieved dateByAddingTimeInterval:fsp.minutesToGain*60];
-  timeLabel.text = [Globals convertTimeToString:retrieveDate.timeIntervalSinceNow withDays:YES];
-}
-
-- (void) setTimer:(NSTimer *)t {
-  if (timer != t) {
-    [timer invalidate];
-    timer = t;
-  }
-}
-
-- (void) setAlpha:(CGFloat)alpha {
-  [super setAlpha:alpha];
-  if (alpha == 0.f) {
-    [self.progressBar.layer removeAllAnimations];
-    self.timer = nil;
-    self.userStruct = nil;
-  }
-}
-
-@end
-
 @implementation UpgradeBuildingMenu
 
 - (void) displayForUserStruct:(UserStruct *)us {
@@ -142,33 +67,28 @@
     return;
   }
   
-  GameState *gs = [GameState sharedGameState];
-  Globals *gl = [Globals sharedGlobals];
-  FullStructureProto *fsp = [gs structWithId:us.structId];
+  FullStructureProto *fsp = us.fsp;
+  FullStructureProto *nextFsp = us.fspForNextLevel;
   
-  self.titleLabel.text = [NSString stringWithFormat:@"Upgrade To Level %d?", us.level+1];
+  self.titleLabel.text = [NSString stringWithFormat:@"Upgrade To Level %d?", nextFsp.level];
   self.nameLabel.text = fsp.name;
   
-  if (us.state == kBuilding) {
-    self.currentIncomeLabel.text = @"No Current Income";
-    self.upgradedIncomeLabel.text = [NSString stringWithFormat:@"%d in %@", [gl calculateIncomeForUserStruct:us], [Globals convertTimeToString:fsp.minutesToGain*60 withDays:YES]];
-  } else {
-    self.currentIncomeLabel.text = [NSString stringWithFormat:@"%@", [Globals cashStringForNumber:[gl calculateIncomeForUserStruct:us]]];
-    self.upgradedIncomeLabel.text = [NSString stringWithFormat:@"%@", [Globals cashStringForNumber:[gl calculateIncomeForUserStructAfterLevelUp:us]]];
-    
-    self.currentTimeLabel.text = [NSString stringWithFormat:@" EVERY %@", [Globals convertTimeToShortString:fsp.minutesToGain*60]];
-    self.upgradedTimeLabel.text = [NSString stringWithFormat:@" EVERY %@", [Globals convertTimeToShortString:fsp.minutesToGain*60]];
-    
-    CGRect r = self.currentTimeLabel.frame;
-    r.origin.x = [self.currentIncomeLabel.text sizeWithFont:self.currentIncomeLabel.font].width;
-    self.currentTimeLabel.frame = r;
-    
-    r = self.upgradedTimeLabel.frame;
-    r.origin.x = [self.upgradedIncomeLabel.text sizeWithFont:self.upgradedIncomeLabel.font].width;
-    self.upgradedTimeLabel.frame = r;
-  }
-  self.upgradeTimeLabel.text = [Globals convertTimeToShortString:[gl calculateMinutesToUpgrade:us]*60];
-  self.upgradePriceLabel.text = [Globals cashStringForNumber:[gl calculateUpgradeCost:us]];
+  self.currentIncomeLabel.text = [NSString stringWithFormat:@"%@", [Globals cashStringForNumber:fsp.income]];
+  self.upgradedIncomeLabel.text = [NSString stringWithFormat:@"%@", [Globals cashStringForNumber:nextFsp.income]];
+  
+  self.currentTimeLabel.text = [NSString stringWithFormat:@" EVERY %@", [Globals convertTimeToShortString:fsp.minutesToGain*60]];
+  self.upgradedTimeLabel.text = [NSString stringWithFormat:@" EVERY %@", [Globals convertTimeToShortString:fsp.minutesToGain*60]];
+  
+  CGRect r = self.currentTimeLabel.frame;
+  r.origin.x = [self.currentIncomeLabel.text sizeWithFont:self.currentIncomeLabel.font].width;
+  self.currentTimeLabel.frame = r;
+  
+  r = self.upgradedTimeLabel.frame;
+  r.origin.x = [self.upgradedIncomeLabel.text sizeWithFont:self.upgradedIncomeLabel.font].width;
+  self.upgradedTimeLabel.frame = r;
+  
+  self.upgradeTimeLabel.text = [Globals convertTimeToShortString:nextFsp.minutesToBuild*60];
+  self.upgradePriceLabel.text = nextFsp.isPremiumCurrency ? [Globals commafyNumber:nextFsp.buildPrice] : [Globals cashStringForNumber:nextFsp.buildPrice];
   
   [Globals loadImageForStruct:fsp.structId toView:self.structIcon masked:NO indicator:UIActivityIndicatorViewStyleWhiteLarge];
   

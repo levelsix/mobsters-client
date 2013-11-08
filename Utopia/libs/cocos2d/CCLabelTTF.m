@@ -572,7 +572,7 @@
     // take care of shadow
     if ([fontDef shadowEnabled])
     {
-        [self enableShadowWithOffset:[fontDef shadowOffset] opacity:0.5 blur:[fontDef shadowBlur] updateImage: false];
+        [self enableShadowWithOffset:[fontDef shadowOffset] opacity:_shadowOpacity blur:[fontDef shadowBlur] updateImage: false];
     }
     else
     {

@@ -35,14 +35,15 @@ BOOL StructOrientationIsValidValue(StructOrientation value) {
 @property int32_t income;
 @property int32_t minutesToGain;
 @property int32_t minutesToBuild;
-@property int32_t cashPrice;
-@property int32_t gemPrice;
+@property int32_t buildPrice;
+@property BOOL isPremiumCurrency;
+@property int32_t sellPrice;
 @property int32_t minLevel;
 @property int32_t xLength;
 @property int32_t yLength;
-@property int32_t instaBuildGemCost;
 @property int32_t imgVerticalPixelOffset;
 @property int32_t successorStructId;
+@property int32_t predecessorStructId;
 @end
 
 @implementation FullStructureProto
@@ -89,20 +90,32 @@ BOOL StructOrientationIsValidValue(StructOrientation value) {
   hasMinutesToBuild_ = !!value;
 }
 @synthesize minutesToBuild;
-- (BOOL) hasCashPrice {
-  return !!hasCashPrice_;
+- (BOOL) hasBuildPrice {
+  return !!hasBuildPrice_;
 }
-- (void) setHasCashPrice:(BOOL) value {
-  hasCashPrice_ = !!value;
+- (void) setHasBuildPrice:(BOOL) value {
+  hasBuildPrice_ = !!value;
 }
-@synthesize cashPrice;
-- (BOOL) hasGemPrice {
-  return !!hasGemPrice_;
+@synthesize buildPrice;
+- (BOOL) hasIsPremiumCurrency {
+  return !!hasIsPremiumCurrency_;
 }
-- (void) setHasGemPrice:(BOOL) value {
-  hasGemPrice_ = !!value;
+- (void) setHasIsPremiumCurrency:(BOOL) value {
+  hasIsPremiumCurrency_ = !!value;
 }
-@synthesize gemPrice;
+- (BOOL) isPremiumCurrency {
+  return !!isPremiumCurrency_;
+}
+- (void) setIsPremiumCurrency:(BOOL) value {
+  isPremiumCurrency_ = !!value;
+}
+- (BOOL) hasSellPrice {
+  return !!hasSellPrice_;
+}
+- (void) setHasSellPrice:(BOOL) value {
+  hasSellPrice_ = !!value;
+}
+@synthesize sellPrice;
 - (BOOL) hasMinLevel {
   return !!hasMinLevel_;
 }
@@ -124,13 +137,6 @@ BOOL StructOrientationIsValidValue(StructOrientation value) {
   hasYLength_ = !!value;
 }
 @synthesize yLength;
-- (BOOL) hasInstaBuildGemCost {
-  return !!hasInstaBuildGemCost_;
-}
-- (void) setHasInstaBuildGemCost:(BOOL) value {
-  hasInstaBuildGemCost_ = !!value;
-}
-@synthesize instaBuildGemCost;
 - (BOOL) hasImgVerticalPixelOffset {
   return !!hasImgVerticalPixelOffset_;
 }
@@ -145,6 +151,13 @@ BOOL StructOrientationIsValidValue(StructOrientation value) {
   hasSuccessorStructId_ = !!value;
 }
 @synthesize successorStructId;
+- (BOOL) hasPredecessorStructId {
+  return !!hasPredecessorStructId_;
+}
+- (void) setHasPredecessorStructId:(BOOL) value {
+  hasPredecessorStructId_ = !!value;
+}
+@synthesize predecessorStructId;
 - (void) dealloc {
   self.name = nil;
   [super dealloc];
@@ -157,14 +170,15 @@ BOOL StructOrientationIsValidValue(StructOrientation value) {
     self.income = 0;
     self.minutesToGain = 0;
     self.minutesToBuild = 0;
-    self.cashPrice = 0;
-    self.gemPrice = 0;
+    self.buildPrice = 0;
+    self.isPremiumCurrency = NO;
+    self.sellPrice = 0;
     self.minLevel = 0;
     self.xLength = 0;
     self.yLength = 0;
-    self.instaBuildGemCost = 0;
     self.imgVerticalPixelOffset = 0;
     self.successorStructId = 0;
+    self.predecessorStructId = 0;
   }
   return self;
 }
@@ -202,29 +216,32 @@ static FullStructureProto* defaultFullStructureProtoInstance = nil;
   if (self.hasMinutesToBuild) {
     [output writeInt32:6 value:self.minutesToBuild];
   }
-  if (self.hasCashPrice) {
-    [output writeInt32:7 value:self.cashPrice];
+  if (self.hasBuildPrice) {
+    [output writeInt32:7 value:self.buildPrice];
   }
-  if (self.hasGemPrice) {
-    [output writeInt32:8 value:self.gemPrice];
+  if (self.hasIsPremiumCurrency) {
+    [output writeBool:8 value:self.isPremiumCurrency];
+  }
+  if (self.hasSellPrice) {
+    [output writeInt32:9 value:self.sellPrice];
   }
   if (self.hasMinLevel) {
-    [output writeInt32:9 value:self.minLevel];
+    [output writeInt32:10 value:self.minLevel];
   }
   if (self.hasXLength) {
-    [output writeInt32:10 value:self.xLength];
+    [output writeInt32:11 value:self.xLength];
   }
   if (self.hasYLength) {
-    [output writeInt32:11 value:self.yLength];
-  }
-  if (self.hasInstaBuildGemCost) {
-    [output writeInt32:12 value:self.instaBuildGemCost];
+    [output writeInt32:12 value:self.yLength];
   }
   if (self.hasImgVerticalPixelOffset) {
     [output writeInt32:13 value:self.imgVerticalPixelOffset];
   }
   if (self.hasSuccessorStructId) {
     [output writeInt32:14 value:self.successorStructId];
+  }
+  if (self.hasPredecessorStructId) {
+    [output writeInt32:15 value:self.predecessorStructId];
   }
   [self.unknownFields writeToCodedOutputStream:output];
 }
@@ -253,29 +270,32 @@ static FullStructureProto* defaultFullStructureProtoInstance = nil;
   if (self.hasMinutesToBuild) {
     size += computeInt32Size(6, self.minutesToBuild);
   }
-  if (self.hasCashPrice) {
-    size += computeInt32Size(7, self.cashPrice);
+  if (self.hasBuildPrice) {
+    size += computeInt32Size(7, self.buildPrice);
   }
-  if (self.hasGemPrice) {
-    size += computeInt32Size(8, self.gemPrice);
+  if (self.hasIsPremiumCurrency) {
+    size += computeBoolSize(8, self.isPremiumCurrency);
+  }
+  if (self.hasSellPrice) {
+    size += computeInt32Size(9, self.sellPrice);
   }
   if (self.hasMinLevel) {
-    size += computeInt32Size(9, self.minLevel);
+    size += computeInt32Size(10, self.minLevel);
   }
   if (self.hasXLength) {
-    size += computeInt32Size(10, self.xLength);
+    size += computeInt32Size(11, self.xLength);
   }
   if (self.hasYLength) {
-    size += computeInt32Size(11, self.yLength);
-  }
-  if (self.hasInstaBuildGemCost) {
-    size += computeInt32Size(12, self.instaBuildGemCost);
+    size += computeInt32Size(12, self.yLength);
   }
   if (self.hasImgVerticalPixelOffset) {
     size += computeInt32Size(13, self.imgVerticalPixelOffset);
   }
   if (self.hasSuccessorStructId) {
     size += computeInt32Size(14, self.successorStructId);
+  }
+  if (self.hasPredecessorStructId) {
+    size += computeInt32Size(15, self.predecessorStructId);
   }
   size += self.unknownFields.serializedSize;
   memoizedSerializedSize = size;
@@ -370,11 +390,14 @@ static FullStructureProto* defaultFullStructureProtoInstance = nil;
   if (other.hasMinutesToBuild) {
     [self setMinutesToBuild:other.minutesToBuild];
   }
-  if (other.hasCashPrice) {
-    [self setCashPrice:other.cashPrice];
+  if (other.hasBuildPrice) {
+    [self setBuildPrice:other.buildPrice];
   }
-  if (other.hasGemPrice) {
-    [self setGemPrice:other.gemPrice];
+  if (other.hasIsPremiumCurrency) {
+    [self setIsPremiumCurrency:other.isPremiumCurrency];
+  }
+  if (other.hasSellPrice) {
+    [self setSellPrice:other.sellPrice];
   }
   if (other.hasMinLevel) {
     [self setMinLevel:other.minLevel];
@@ -385,14 +408,14 @@ static FullStructureProto* defaultFullStructureProtoInstance = nil;
   if (other.hasYLength) {
     [self setYLength:other.yLength];
   }
-  if (other.hasInstaBuildGemCost) {
-    [self setInstaBuildGemCost:other.instaBuildGemCost];
-  }
   if (other.hasImgVerticalPixelOffset) {
     [self setImgVerticalPixelOffset:other.imgVerticalPixelOffset];
   }
   if (other.hasSuccessorStructId) {
     [self setSuccessorStructId:other.successorStructId];
+  }
+  if (other.hasPredecessorStructId) {
+    [self setPredecessorStructId:other.predecessorStructId];
   }
   [self mergeUnknownFields:other.unknownFields];
   return self;
@@ -440,27 +463,27 @@ static FullStructureProto* defaultFullStructureProtoInstance = nil;
         break;
       }
       case 56: {
-        [self setCashPrice:[input readInt32]];
+        [self setBuildPrice:[input readInt32]];
         break;
       }
       case 64: {
-        [self setGemPrice:[input readInt32]];
+        [self setIsPremiumCurrency:[input readBool]];
         break;
       }
       case 72: {
-        [self setMinLevel:[input readInt32]];
+        [self setSellPrice:[input readInt32]];
         break;
       }
       case 80: {
-        [self setXLength:[input readInt32]];
+        [self setMinLevel:[input readInt32]];
         break;
       }
       case 88: {
-        [self setYLength:[input readInt32]];
+        [self setXLength:[input readInt32]];
         break;
       }
       case 96: {
-        [self setInstaBuildGemCost:[input readInt32]];
+        [self setYLength:[input readInt32]];
         break;
       }
       case 104: {
@@ -469,6 +492,10 @@ static FullStructureProto* defaultFullStructureProtoInstance = nil;
       }
       case 112: {
         [self setSuccessorStructId:[input readInt32]];
+        break;
+      }
+      case 120: {
+        [self setPredecessorStructId:[input readInt32]];
         break;
       }
     }
@@ -570,36 +597,52 @@ static FullStructureProto* defaultFullStructureProtoInstance = nil;
   result.minutesToBuild = 0;
   return self;
 }
-- (BOOL) hasCashPrice {
-  return result.hasCashPrice;
+- (BOOL) hasBuildPrice {
+  return result.hasBuildPrice;
 }
-- (int32_t) cashPrice {
-  return result.cashPrice;
+- (int32_t) buildPrice {
+  return result.buildPrice;
 }
-- (FullStructureProto_Builder*) setCashPrice:(int32_t) value {
-  result.hasCashPrice = YES;
-  result.cashPrice = value;
+- (FullStructureProto_Builder*) setBuildPrice:(int32_t) value {
+  result.hasBuildPrice = YES;
+  result.buildPrice = value;
   return self;
 }
-- (FullStructureProto_Builder*) clearCashPrice {
-  result.hasCashPrice = NO;
-  result.cashPrice = 0;
+- (FullStructureProto_Builder*) clearBuildPrice {
+  result.hasBuildPrice = NO;
+  result.buildPrice = 0;
   return self;
 }
-- (BOOL) hasGemPrice {
-  return result.hasGemPrice;
+- (BOOL) hasIsPremiumCurrency {
+  return result.hasIsPremiumCurrency;
 }
-- (int32_t) gemPrice {
-  return result.gemPrice;
+- (BOOL) isPremiumCurrency {
+  return result.isPremiumCurrency;
 }
-- (FullStructureProto_Builder*) setGemPrice:(int32_t) value {
-  result.hasGemPrice = YES;
-  result.gemPrice = value;
+- (FullStructureProto_Builder*) setIsPremiumCurrency:(BOOL) value {
+  result.hasIsPremiumCurrency = YES;
+  result.isPremiumCurrency = value;
   return self;
 }
-- (FullStructureProto_Builder*) clearGemPrice {
-  result.hasGemPrice = NO;
-  result.gemPrice = 0;
+- (FullStructureProto_Builder*) clearIsPremiumCurrency {
+  result.hasIsPremiumCurrency = NO;
+  result.isPremiumCurrency = NO;
+  return self;
+}
+- (BOOL) hasSellPrice {
+  return result.hasSellPrice;
+}
+- (int32_t) sellPrice {
+  return result.sellPrice;
+}
+- (FullStructureProto_Builder*) setSellPrice:(int32_t) value {
+  result.hasSellPrice = YES;
+  result.sellPrice = value;
+  return self;
+}
+- (FullStructureProto_Builder*) clearSellPrice {
+  result.hasSellPrice = NO;
+  result.sellPrice = 0;
   return self;
 }
 - (BOOL) hasMinLevel {
@@ -650,22 +693,6 @@ static FullStructureProto* defaultFullStructureProtoInstance = nil;
   result.yLength = 0;
   return self;
 }
-- (BOOL) hasInstaBuildGemCost {
-  return result.hasInstaBuildGemCost;
-}
-- (int32_t) instaBuildGemCost {
-  return result.instaBuildGemCost;
-}
-- (FullStructureProto_Builder*) setInstaBuildGemCost:(int32_t) value {
-  result.hasInstaBuildGemCost = YES;
-  result.instaBuildGemCost = value;
-  return self;
-}
-- (FullStructureProto_Builder*) clearInstaBuildGemCost {
-  result.hasInstaBuildGemCost = NO;
-  result.instaBuildGemCost = 0;
-  return self;
-}
 - (BOOL) hasImgVerticalPixelOffset {
   return result.hasImgVerticalPixelOffset;
 }
@@ -696,6 +723,22 @@ static FullStructureProto* defaultFullStructureProtoInstance = nil;
 - (FullStructureProto_Builder*) clearSuccessorStructId {
   result.hasSuccessorStructId = NO;
   result.successorStructId = 0;
+  return self;
+}
+- (BOOL) hasPredecessorStructId {
+  return result.hasPredecessorStructId;
+}
+- (int32_t) predecessorStructId {
+  return result.predecessorStructId;
+}
+- (FullStructureProto_Builder*) setPredecessorStructId:(int32_t) value {
+  result.hasPredecessorStructId = YES;
+  result.predecessorStructId = value;
+  return self;
+}
+- (FullStructureProto_Builder*) clearPredecessorStructId {
+  result.hasPredecessorStructId = NO;
+  result.predecessorStructId = 0;
   return self;
 }
 @end

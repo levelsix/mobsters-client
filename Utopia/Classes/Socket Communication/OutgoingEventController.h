@@ -93,5 +93,6 @@
 - (void) enhanceQueueWaitTimeComplete:(NSArray *)enhancingItems;
 
 - (void) inviteAllFacebookFriends:(NSArray *)fbFriends;
+- (void) acceptAndRejectInvitesWithAcceptIds:(NSArray *)acceptIds rejectIds:(NSArray *)rejectIds;
 
 @end

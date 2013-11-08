@@ -2144,13 +2144,13 @@ static UpgradeNormStructureResponseProto* defaultUpgradeNormStructureResponsePro
 BOOL UpgradeNormStructureResponseProto_UpgradeNormStructureStatusIsValidValue(UpgradeNormStructureResponseProto_UpgradeNormStructureStatus value) {
   switch (value) {
     case UpgradeNormStructureResponseProto_UpgradeNormStructureStatusSuccess:
-    case UpgradeNormStructureResponseProto_UpgradeNormStructureStatusNotEnoughMaterials:
-    case UpgradeNormStructureResponseProto_UpgradeNormStructureStatusNotBuiltYet:
-    case UpgradeNormStructureResponseProto_UpgradeNormStructureStatusNotUsersStruct:
-    case UpgradeNormStructureResponseProto_UpgradeNormStructureStatusAnotherStructStillUpgrading:
-    case UpgradeNormStructureResponseProto_UpgradeNormStructureStatusOtherFail:
-    case UpgradeNormStructureResponseProto_UpgradeNormStructureStatusClientTooApartFromServerTime:
-    case UpgradeNormStructureResponseProto_UpgradeNormStructureStatusAtMaxLevelAlready:
+    case UpgradeNormStructureResponseProto_UpgradeNormStructureStatusFailNotEnoughCash:
+    case UpgradeNormStructureResponseProto_UpgradeNormStructureStatusFailNotEnoughGems:
+    case UpgradeNormStructureResponseProto_UpgradeNormStructureStatusFailNotBuiltYet:
+    case UpgradeNormStructureResponseProto_UpgradeNormStructureStatusFailNotUsersStruct:
+    case UpgradeNormStructureResponseProto_UpgradeNormStructureStatusFailAnotherStructStillUpgrading:
+    case UpgradeNormStructureResponseProto_UpgradeNormStructureStatusFailAtMaxLevelAlready:
+    case UpgradeNormStructureResponseProto_UpgradeNormStructureStatusFailOther:
       return YES;
     default:
       return NO;
@@ -2298,6 +2298,7 @@ BOOL UpgradeNormStructureResponseProto_UpgradeNormStructureStatusIsValidValue(Up
 @property (retain) MinimumUserProto* sender;
 @property int32_t userStructId;
 @property int64_t timeOfSpeedup;
+@property int32_t gemCostToSpeedup;
 @end
 
 @implementation FinishNormStructWaittimeWithDiamondsRequestProto
@@ -2323,6 +2324,13 @@ BOOL UpgradeNormStructureResponseProto_UpgradeNormStructureStatusIsValidValue(Up
   hasTimeOfSpeedup_ = !!value;
 }
 @synthesize timeOfSpeedup;
+- (BOOL) hasGemCostToSpeedup {
+  return !!hasGemCostToSpeedup_;
+}
+- (void) setHasGemCostToSpeedup:(BOOL) value {
+  hasGemCostToSpeedup_ = !!value;
+}
+@synthesize gemCostToSpeedup;
 - (void) dealloc {
   self.sender = nil;
   [super dealloc];
@@ -2332,6 +2340,7 @@ BOOL UpgradeNormStructureResponseProto_UpgradeNormStructureStatusIsValidValue(Up
     self.sender = [MinimumUserProto defaultInstance];
     self.userStructId = 0;
     self.timeOfSpeedup = 0L;
+    self.gemCostToSpeedup = 0;
   }
   return self;
 }
@@ -2360,6 +2369,9 @@ static FinishNormStructWaittimeWithDiamondsRequestProto* defaultFinishNormStruct
   if (self.hasTimeOfSpeedup) {
     [output writeInt64:3 value:self.timeOfSpeedup];
   }
+  if (self.hasGemCostToSpeedup) {
+    [output writeInt32:4 value:self.gemCostToSpeedup];
+  }
   [self.unknownFields writeToCodedOutputStream:output];
 }
 - (int32_t) serializedSize {
@@ -2377,6 +2389,9 @@ static FinishNormStructWaittimeWithDiamondsRequestProto* defaultFinishNormStruct
   }
   if (self.hasTimeOfSpeedup) {
     size += computeInt64Size(3, self.timeOfSpeedup);
+  }
+  if (self.hasGemCostToSpeedup) {
+    size += computeInt32Size(4, self.gemCostToSpeedup);
   }
   size += self.unknownFields.serializedSize;
   memoizedSerializedSize = size;
@@ -2462,6 +2477,9 @@ static FinishNormStructWaittimeWithDiamondsRequestProto* defaultFinishNormStruct
   if (other.hasTimeOfSpeedup) {
     [self setTimeOfSpeedup:other.timeOfSpeedup];
   }
+  if (other.hasGemCostToSpeedup) {
+    [self setGemCostToSpeedup:other.gemCostToSpeedup];
+  }
   [self mergeUnknownFields:other.unknownFields];
   return self;
 }
@@ -2498,6 +2516,10 @@ static FinishNormStructWaittimeWithDiamondsRequestProto* defaultFinishNormStruct
       }
       case 24: {
         [self setTimeOfSpeedup:[input readInt64]];
+        break;
+      }
+      case 32: {
+        [self setGemCostToSpeedup:[input readInt32]];
         break;
       }
     }
@@ -2563,6 +2585,22 @@ static FinishNormStructWaittimeWithDiamondsRequestProto* defaultFinishNormStruct
 - (FinishNormStructWaittimeWithDiamondsRequestProto_Builder*) clearTimeOfSpeedup {
   result.hasTimeOfSpeedup = NO;
   result.timeOfSpeedup = 0L;
+  return self;
+}
+- (BOOL) hasGemCostToSpeedup {
+  return result.hasGemCostToSpeedup;
+}
+- (int32_t) gemCostToSpeedup {
+  return result.gemCostToSpeedup;
+}
+- (FinishNormStructWaittimeWithDiamondsRequestProto_Builder*) setGemCostToSpeedup:(int32_t) value {
+  result.hasGemCostToSpeedup = YES;
+  result.gemCostToSpeedup = value;
+  return self;
+}
+- (FinishNormStructWaittimeWithDiamondsRequestProto_Builder*) clearGemCostToSpeedup {
+  result.hasGemCostToSpeedup = NO;
+  result.gemCostToSpeedup = 0;
   return self;
 }
 @end

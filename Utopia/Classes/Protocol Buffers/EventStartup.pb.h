@@ -100,8 +100,6 @@
 @class StartupResponseProto_StartupConstants_DownloadableNibConstants_Builder;
 @class StartupResponseProto_StartupConstants_MonsterConstants;
 @class StartupResponseProto_StartupConstants_MonsterConstants_Builder;
-@class StartupResponseProto_StartupConstants_NormStructConstants;
-@class StartupResponseProto_StartupConstants_NormStructConstants_Builder;
 @class StartupResponseProto_StartupConstants_TournamentConstants;
 @class StartupResponseProto_StartupConstants_TournamentConstants_Builder;
 @class StartupResponseProto_StartupConstants_UserMonsterConstants;
@@ -116,6 +114,8 @@
 @class UserEnhancementItemProto_Builder;
 @class UserEnhancementProto;
 @class UserEnhancementProto_Builder;
+@class UserFacebookInviteForSlotProto;
+@class UserFacebookInviteForSlotProto_Builder;
 @class UserMonsterCurrentExpProto;
 @class UserMonsterCurrentExpProto_Builder;
 @class UserMonsterCurrentHealthProto;
@@ -270,7 +270,7 @@ BOOL StartupResponseProto_StartupStatusIsValidValue(StartupResponseProto_Startup
   NSMutableArray* mutableMonstersHealingList;
   NSMutableArray* mutableRareBoosterPurchasesList;
   NSMutableArray* mutableUsersUsedForExtraSlotsList;
-  NSMutableArray* mutableUsersInvitingMeForExtraSlotsList;
+  NSMutableArray* mutableInvitesToMeForSlotsList;
   NSMutableArray* mutablePcppList;
   NSMutableArray* mutableClanChatsList;
   NSMutableArray* mutableGlobalChatsList;
@@ -348,8 +348,8 @@ BOOL StartupResponseProto_StartupStatusIsValidValue(StartupResponseProto_Startup
 - (RareBoosterPurchaseProto*) rareBoosterPurchasesAtIndex:(int32_t) index;
 - (NSArray*) usersUsedForExtraSlotsList;
 - (MinimumUserProtoWithFacebookId*) usersUsedForExtraSlotsAtIndex:(int32_t) index;
-- (NSArray*) usersInvitingMeForExtraSlotsList;
-- (MinimumUserProtoWithFacebookId*) usersInvitingMeForExtraSlotsAtIndex:(int32_t) index;
+- (NSArray*) invitesToMeForSlotsList;
+- (UserFacebookInviteForSlotProto*) invitesToMeForSlotsAtIndex:(int32_t) index;
 
 + (StartupResponseProto*) defaultInstance;
 - (StartupResponseProto*) defaultInstance;
@@ -519,7 +519,6 @@ BOOL StartupResponseProto_StartupStatusIsValidValue(StartupResponseProto_Startup
   BOOL hasFaqFileName_:1;
   BOOL hasClanConstants_:1;
   BOOL hasDownloadableNibConstants_:1;
-  BOOL hasNormStructConstants_:1;
   BOOL hasTouramentConstants_:1;
   BOOL hasAdminChatUserProto_:1;
   BOOL hasUserMonsterConstants_:1;
@@ -537,7 +536,6 @@ BOOL StartupResponseProto_StartupStatusIsValidValue(StartupResponseProto_Startup
   NSString* faqFileName;
   StartupResponseProto_StartupConstants_ClanConstants* clanConstants;
   StartupResponseProto_StartupConstants_DownloadableNibConstants* downloadableNibConstants;
-  StartupResponseProto_StartupConstants_NormStructConstants* normStructConstants;
   StartupResponseProto_StartupConstants_TournamentConstants* touramentConstants;
   MinimumUserProto* adminChatUserProto;
   StartupResponseProto_StartupConstants_UserMonsterConstants* userMonsterConstants;
@@ -547,7 +545,6 @@ BOOL StartupResponseProto_StartupStatusIsValidValue(StartupResponseProto_Startup
 }
 - (BOOL) hasMaxLevelForUser;
 - (BOOL) hasMaxNumOfSingleStruct;
-- (BOOL) hasNormStructConstants;
 - (BOOL) hasMinNameLength;
 - (BOOL) hasMaxNameLength;
 - (BOOL) hasMaxLengthOfChatString;
@@ -565,7 +562,6 @@ BOOL StartupResponseProto_StartupStatusIsValidValue(StartupResponseProto_Startup
 - (BOOL) hasMinutesPerGem;
 @property (readonly) int32_t maxLevelForUser;
 @property (readonly) int32_t maxNumOfSingleStruct;
-@property (readonly, retain) StartupResponseProto_StartupConstants_NormStructConstants* normStructConstants;
 @property (readonly) int32_t minNameLength;
 @property (readonly) int32_t maxNameLength;
 @property (readonly) int32_t maxLengthOfChatString;
@@ -601,90 +597,6 @@ BOOL StartupResponseProto_StartupStatusIsValidValue(StartupResponseProto_Startup
 + (StartupResponseProto_StartupConstants*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
 + (StartupResponseProto_StartupConstants*) parseFromCodedInputStream:(PBCodedInputStream*) input;
 + (StartupResponseProto_StartupConstants*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
-@end
-
-@interface StartupResponseProto_StartupConstants_NormStructConstants : PBGeneratedMessage {
-@private
-  BOOL hasMinutesToUpgradeForNormStructMultiplier_:1;
-  BOOL hasIncomeFromNormStructMultiplier_:1;
-  BOOL hasUpgradeStructCoinCostExponentBase_:1;
-  BOOL hasUpgradeStructDiamondCostExponentBase_:1;
-  BOOL hasDiamondCostForInstantUpgradeMultiplier_:1;
-  Float64 minutesToUpgradeForNormStructMultiplier;
-  Float64 incomeFromNormStructMultiplier;
-  Float64 upgradeStructCoinCostExponentBase;
-  Float64 upgradeStructDiamondCostExponentBase;
-  Float64 diamondCostForInstantUpgradeMultiplier;
-}
-- (BOOL) hasMinutesToUpgradeForNormStructMultiplier;
-- (BOOL) hasIncomeFromNormStructMultiplier;
-- (BOOL) hasUpgradeStructCoinCostExponentBase;
-- (BOOL) hasUpgradeStructDiamondCostExponentBase;
-- (BOOL) hasDiamondCostForInstantUpgradeMultiplier;
-@property (readonly) Float64 minutesToUpgradeForNormStructMultiplier;
-@property (readonly) Float64 incomeFromNormStructMultiplier;
-@property (readonly) Float64 upgradeStructCoinCostExponentBase;
-@property (readonly) Float64 upgradeStructDiamondCostExponentBase;
-@property (readonly) Float64 diamondCostForInstantUpgradeMultiplier;
-
-+ (StartupResponseProto_StartupConstants_NormStructConstants*) defaultInstance;
-- (StartupResponseProto_StartupConstants_NormStructConstants*) defaultInstance;
-
-- (BOOL) isInitialized;
-- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output;
-- (StartupResponseProto_StartupConstants_NormStructConstants_Builder*) builder;
-+ (StartupResponseProto_StartupConstants_NormStructConstants_Builder*) builder;
-+ (StartupResponseProto_StartupConstants_NormStructConstants_Builder*) builderWithPrototype:(StartupResponseProto_StartupConstants_NormStructConstants*) prototype;
-
-+ (StartupResponseProto_StartupConstants_NormStructConstants*) parseFromData:(NSData*) data;
-+ (StartupResponseProto_StartupConstants_NormStructConstants*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
-+ (StartupResponseProto_StartupConstants_NormStructConstants*) parseFromInputStream:(NSInputStream*) input;
-+ (StartupResponseProto_StartupConstants_NormStructConstants*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
-+ (StartupResponseProto_StartupConstants_NormStructConstants*) parseFromCodedInputStream:(PBCodedInputStream*) input;
-+ (StartupResponseProto_StartupConstants_NormStructConstants*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
-@end
-
-@interface StartupResponseProto_StartupConstants_NormStructConstants_Builder : PBGeneratedMessage_Builder {
-@private
-  StartupResponseProto_StartupConstants_NormStructConstants* result;
-}
-
-- (StartupResponseProto_StartupConstants_NormStructConstants*) defaultInstance;
-
-- (StartupResponseProto_StartupConstants_NormStructConstants_Builder*) clear;
-- (StartupResponseProto_StartupConstants_NormStructConstants_Builder*) clone;
-
-- (StartupResponseProto_StartupConstants_NormStructConstants*) build;
-- (StartupResponseProto_StartupConstants_NormStructConstants*) buildPartial;
-
-- (StartupResponseProto_StartupConstants_NormStructConstants_Builder*) mergeFrom:(StartupResponseProto_StartupConstants_NormStructConstants*) other;
-- (StartupResponseProto_StartupConstants_NormStructConstants_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input;
-- (StartupResponseProto_StartupConstants_NormStructConstants_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
-
-- (BOOL) hasMinutesToUpgradeForNormStructMultiplier;
-- (Float64) minutesToUpgradeForNormStructMultiplier;
-- (StartupResponseProto_StartupConstants_NormStructConstants_Builder*) setMinutesToUpgradeForNormStructMultiplier:(Float64) value;
-- (StartupResponseProto_StartupConstants_NormStructConstants_Builder*) clearMinutesToUpgradeForNormStructMultiplier;
-
-- (BOOL) hasIncomeFromNormStructMultiplier;
-- (Float64) incomeFromNormStructMultiplier;
-- (StartupResponseProto_StartupConstants_NormStructConstants_Builder*) setIncomeFromNormStructMultiplier:(Float64) value;
-- (StartupResponseProto_StartupConstants_NormStructConstants_Builder*) clearIncomeFromNormStructMultiplier;
-
-- (BOOL) hasUpgradeStructCoinCostExponentBase;
-- (Float64) upgradeStructCoinCostExponentBase;
-- (StartupResponseProto_StartupConstants_NormStructConstants_Builder*) setUpgradeStructCoinCostExponentBase:(Float64) value;
-- (StartupResponseProto_StartupConstants_NormStructConstants_Builder*) clearUpgradeStructCoinCostExponentBase;
-
-- (BOOL) hasUpgradeStructDiamondCostExponentBase;
-- (Float64) upgradeStructDiamondCostExponentBase;
-- (StartupResponseProto_StartupConstants_NormStructConstants_Builder*) setUpgradeStructDiamondCostExponentBase:(Float64) value;
-- (StartupResponseProto_StartupConstants_NormStructConstants_Builder*) clearUpgradeStructDiamondCostExponentBase;
-
-- (BOOL) hasDiamondCostForInstantUpgradeMultiplier;
-- (Float64) diamondCostForInstantUpgradeMultiplier;
-- (StartupResponseProto_StartupConstants_NormStructConstants_Builder*) setDiamondCostForInstantUpgradeMultiplier:(Float64) value;
-- (StartupResponseProto_StartupConstants_NormStructConstants_Builder*) clearDiamondCostForInstantUpgradeMultiplier;
 @end
 
 @interface StartupResponseProto_StartupConstants_AnimatedSpriteOffsetProto : PBGeneratedMessage {
@@ -1137,13 +1049,6 @@ BOOL StartupResponseProto_StartupStatusIsValidValue(StartupResponseProto_Startup
 - (StartupResponseProto_StartupConstants_Builder*) setMaxNumOfSingleStruct:(int32_t) value;
 - (StartupResponseProto_StartupConstants_Builder*) clearMaxNumOfSingleStruct;
 
-- (BOOL) hasNormStructConstants;
-- (StartupResponseProto_StartupConstants_NormStructConstants*) normStructConstants;
-- (StartupResponseProto_StartupConstants_Builder*) setNormStructConstants:(StartupResponseProto_StartupConstants_NormStructConstants*) value;
-- (StartupResponseProto_StartupConstants_Builder*) setNormStructConstantsBuilder:(StartupResponseProto_StartupConstants_NormStructConstants_Builder*) builderForValue;
-- (StartupResponseProto_StartupConstants_Builder*) mergeNormStructConstants:(StartupResponseProto_StartupConstants_NormStructConstants*) value;
-- (StartupResponseProto_StartupConstants_Builder*) clearNormStructConstants;
-
 - (NSArray*) animatedSpriteOffsetsList;
 - (StartupResponseProto_StartupConstants_AnimatedSpriteOffsetProto*) animatedSpriteOffsetsAtIndex:(int32_t) index;
 - (StartupResponseProto_StartupConstants_Builder*) replaceAnimatedSpriteOffsetsAtIndex:(int32_t) index with:(StartupResponseProto_StartupConstants_AnimatedSpriteOffsetProto*) value;
@@ -1464,11 +1369,11 @@ BOOL StartupResponseProto_StartupStatusIsValidValue(StartupResponseProto_Startup
 - (StartupResponseProto_Builder*) addAllUsersUsedForExtraSlots:(NSArray*) values;
 - (StartupResponseProto_Builder*) clearUsersUsedForExtraSlotsList;
 
-- (NSArray*) usersInvitingMeForExtraSlotsList;
-- (MinimumUserProtoWithFacebookId*) usersInvitingMeForExtraSlotsAtIndex:(int32_t) index;
-- (StartupResponseProto_Builder*) replaceUsersInvitingMeForExtraSlotsAtIndex:(int32_t) index with:(MinimumUserProtoWithFacebookId*) value;
-- (StartupResponseProto_Builder*) addUsersInvitingMeForExtraSlots:(MinimumUserProtoWithFacebookId*) value;
-- (StartupResponseProto_Builder*) addAllUsersInvitingMeForExtraSlots:(NSArray*) values;
-- (StartupResponseProto_Builder*) clearUsersInvitingMeForExtraSlotsList;
+- (NSArray*) invitesToMeForSlotsList;
+- (UserFacebookInviteForSlotProto*) invitesToMeForSlotsAtIndex:(int32_t) index;
+- (StartupResponseProto_Builder*) replaceInvitesToMeForSlotsAtIndex:(int32_t) index with:(UserFacebookInviteForSlotProto*) value;
+- (StartupResponseProto_Builder*) addInvitesToMeForSlots:(UserFacebookInviteForSlotProto*) value;
+- (StartupResponseProto_Builder*) addAllInvitesToMeForSlots:(NSArray*) values;
+- (StartupResponseProto_Builder*) clearInvitesToMeForSlotsList;
 @end
 

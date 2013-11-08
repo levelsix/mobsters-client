@@ -24,33 +24,35 @@ BOOL StructOrientationIsValidValue(StructOrientation value);
 
 @interface FullStructureProto : PBGeneratedMessage {
 @private
+  BOOL hasIsPremiumCurrency_:1;
   BOOL hasStructId_:1;
   BOOL hasLevel_:1;
   BOOL hasIncome_:1;
   BOOL hasMinutesToGain_:1;
   BOOL hasMinutesToBuild_:1;
-  BOOL hasCashPrice_:1;
-  BOOL hasGemPrice_:1;
+  BOOL hasBuildPrice_:1;
+  BOOL hasSellPrice_:1;
   BOOL hasMinLevel_:1;
   BOOL hasXLength_:1;
   BOOL hasYLength_:1;
-  BOOL hasInstaBuildGemCost_:1;
   BOOL hasImgVerticalPixelOffset_:1;
   BOOL hasSuccessorStructId_:1;
+  BOOL hasPredecessorStructId_:1;
   BOOL hasName_:1;
+  BOOL isPremiumCurrency_:1;
   int32_t structId;
   int32_t level;
   int32_t income;
   int32_t minutesToGain;
   int32_t minutesToBuild;
-  int32_t cashPrice;
-  int32_t gemPrice;
+  int32_t buildPrice;
+  int32_t sellPrice;
   int32_t minLevel;
   int32_t xLength;
   int32_t yLength;
-  int32_t instaBuildGemCost;
   int32_t imgVerticalPixelOffset;
   int32_t successorStructId;
+  int32_t predecessorStructId;
   NSString* name;
 }
 - (BOOL) hasStructId;
@@ -59,28 +61,30 @@ BOOL StructOrientationIsValidValue(StructOrientation value);
 - (BOOL) hasIncome;
 - (BOOL) hasMinutesToGain;
 - (BOOL) hasMinutesToBuild;
-- (BOOL) hasCashPrice;
-- (BOOL) hasGemPrice;
+- (BOOL) hasBuildPrice;
+- (BOOL) hasIsPremiumCurrency;
+- (BOOL) hasSellPrice;
 - (BOOL) hasMinLevel;
 - (BOOL) hasXLength;
 - (BOOL) hasYLength;
-- (BOOL) hasInstaBuildGemCost;
 - (BOOL) hasImgVerticalPixelOffset;
 - (BOOL) hasSuccessorStructId;
+- (BOOL) hasPredecessorStructId;
 @property (readonly) int32_t structId;
 @property (readonly, retain) NSString* name;
 @property (readonly) int32_t level;
 @property (readonly) int32_t income;
 @property (readonly) int32_t minutesToGain;
 @property (readonly) int32_t minutesToBuild;
-@property (readonly) int32_t cashPrice;
-@property (readonly) int32_t gemPrice;
+@property (readonly) int32_t buildPrice;
+- (BOOL) isPremiumCurrency;
+@property (readonly) int32_t sellPrice;
 @property (readonly) int32_t minLevel;
 @property (readonly) int32_t xLength;
 @property (readonly) int32_t yLength;
-@property (readonly) int32_t instaBuildGemCost;
 @property (readonly) int32_t imgVerticalPixelOffset;
 @property (readonly) int32_t successorStructId;
+@property (readonly) int32_t predecessorStructId;
 
 + (FullStructureProto*) defaultInstance;
 - (FullStructureProto*) defaultInstance;
@@ -146,15 +150,20 @@ BOOL StructOrientationIsValidValue(StructOrientation value);
 - (FullStructureProto_Builder*) setMinutesToBuild:(int32_t) value;
 - (FullStructureProto_Builder*) clearMinutesToBuild;
 
-- (BOOL) hasCashPrice;
-- (int32_t) cashPrice;
-- (FullStructureProto_Builder*) setCashPrice:(int32_t) value;
-- (FullStructureProto_Builder*) clearCashPrice;
+- (BOOL) hasBuildPrice;
+- (int32_t) buildPrice;
+- (FullStructureProto_Builder*) setBuildPrice:(int32_t) value;
+- (FullStructureProto_Builder*) clearBuildPrice;
 
-- (BOOL) hasGemPrice;
-- (int32_t) gemPrice;
-- (FullStructureProto_Builder*) setGemPrice:(int32_t) value;
-- (FullStructureProto_Builder*) clearGemPrice;
+- (BOOL) hasIsPremiumCurrency;
+- (BOOL) isPremiumCurrency;
+- (FullStructureProto_Builder*) setIsPremiumCurrency:(BOOL) value;
+- (FullStructureProto_Builder*) clearIsPremiumCurrency;
+
+- (BOOL) hasSellPrice;
+- (int32_t) sellPrice;
+- (FullStructureProto_Builder*) setSellPrice:(int32_t) value;
+- (FullStructureProto_Builder*) clearSellPrice;
 
 - (BOOL) hasMinLevel;
 - (int32_t) minLevel;
@@ -171,11 +180,6 @@ BOOL StructOrientationIsValidValue(StructOrientation value);
 - (FullStructureProto_Builder*) setYLength:(int32_t) value;
 - (FullStructureProto_Builder*) clearYLength;
 
-- (BOOL) hasInstaBuildGemCost;
-- (int32_t) instaBuildGemCost;
-- (FullStructureProto_Builder*) setInstaBuildGemCost:(int32_t) value;
-- (FullStructureProto_Builder*) clearInstaBuildGemCost;
-
 - (BOOL) hasImgVerticalPixelOffset;
 - (int32_t) imgVerticalPixelOffset;
 - (FullStructureProto_Builder*) setImgVerticalPixelOffset:(int32_t) value;
@@ -185,6 +189,11 @@ BOOL StructOrientationIsValidValue(StructOrientation value);
 - (int32_t) successorStructId;
 - (FullStructureProto_Builder*) setSuccessorStructId:(int32_t) value;
 - (FullStructureProto_Builder*) clearSuccessorStructId;
+
+- (BOOL) hasPredecessorStructId;
+- (int32_t) predecessorStructId;
+- (FullStructureProto_Builder*) setPredecessorStructId:(int32_t) value;
+- (FullStructureProto_Builder*) clearPredecessorStructId;
 @end
 
 @interface FullUserStructureProto : PBGeneratedMessage {

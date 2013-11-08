@@ -13,7 +13,7 @@
 int main(int argc, char *argv[]) {
   int retVal = -1;
   @try {
-//    [Carrot plantInApplication:[AppDelegate class] withSecret:@"e245245bcaa1df6fd12d313abf118434"];
+    [Carrot plantInApplication:[AppDelegate class] withSecret:@"e245245bcaa1df6fd12d313abf118434"];
     retVal = UIApplicationMain(argc, argv, nil, NSStringFromClass([AppDelegate class]));
   }
   @catch (NSException* exception) {

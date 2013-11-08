@@ -283,12 +283,7 @@
   }
   
   for (UserStruct *us in gs.myStructs) {
-    if (us.state == kUpgrading) {
-      FullStructureProto *fsp = [gs structWithId:us.structId];
-      NSString *text = [NSString stringWithFormat:@"Your %@ has finished upgrading to Level %d!", fsp.name, us.level+1];
-      int minutes = [gl calculateMinutesToUpgrade:us];
-      [self scheduleNotificationWithText:text badge:1 date:[us.lastUpgradeTime dateByAddingTimeInterval:minutes*60.f]];
-    } else if (us.state == kBuilding) {
+    if (us.state == kBuilding) {
       FullStructureProto *fsp = [gs structWithId:us.structId];
       NSString *text = [NSString stringWithFormat:@"Your %@ has finished building!", fsp.name];
       int minutes = fsp.minutesToBuild;

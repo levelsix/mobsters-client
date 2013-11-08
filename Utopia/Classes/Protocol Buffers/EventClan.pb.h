@@ -67,6 +67,8 @@
 @class TransferClanOwnershipRequestProto_Builder;
 @class TransferClanOwnershipResponseProto;
 @class TransferClanOwnershipResponseProto_Builder;
+@class UserFacebookInviteForSlotProto;
+@class UserFacebookInviteForSlotProto_Builder;
 typedef enum {
   CreateClanResponseProto_CreateClanStatusSuccess = 1,
   CreateClanResponseProto_CreateClanStatusOtherFail = 2,

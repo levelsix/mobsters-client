@@ -28,9 +28,41 @@
 
 @end
 
+@implementation DestroyedGem
+
+- (id) initWithColor:(ccColor3B)color {
+  if ((self = [super initWithFile:@"orbball.png"])) {
+    self.color = color;
+    
+    self.streak = [CCMotionStreak streakWithFade:0.5 minSeg:0.1f width:8 color:ccWHITE textureFilename:@"streak.png"];
+    self.streak.color = color;
+    
+    // schedule an update on each frame so we can syncronize the streak with the target
+    [self schedule:@selector(onUpdate:)];
+  }
+  return self;
+}
+
+- (void) setParent:(CCNode *)parent {
+  [super setParent:parent];
+  if (parent && !self.streak.parent) {
+    [self.parent addChild:self.streak z:self.zOrder];
+  }
+}
+
+- (void) onUpdate:(ccTime)delta {
+	[self.streak setPosition:self.position];
+}
+
+- (void) dealloc {
+  [self.streak removeFromParent];
+}
+
+@end
+
 @implementation OrbLayer
 
--(id) initWithGridSize:(CGSize)gridSize numColors:(int)numColors
+- (id) initWithContentSize:(CGSize)size gridSize:(CGSize)gridSize numColors:(int)numColors
 {
   if((self=[super init])) {
 		_gridSize = gridSize;
@@ -43,10 +75,11 @@
     self.comboLabels = [NSMutableArray array];
     self.destroyedGems = [NSMutableSet set];
     self.reservedGems = [NSMutableSet set];
-    
-    [self initBoard];
+    self.contentSize = size;
     
     self.isTouchEnabled = YES;
+    
+    [self initBoard];
 	}
 	
 	return self;
@@ -54,14 +87,6 @@
 
 - (void)registerWithTouchDispatcher {
   [[[CCDirector sharedDirector] touchDispatcher] addTargetedDelegate:self priority:0 swallowsTouches:YES];
-}
-
-- (id) initWithContentSize:(CGSize)size gridSize:(CGSize)gridSize numColors:(int)numColors {
-  if ((self = [self initWithGridSize:gridSize numColors:numColors])) {
-    self.contentSize = size;
-    [self initBoard];
-  }
-  return self;
 }
 
 - (CGSize) squareSize {
@@ -82,7 +107,7 @@
     case color_all:
       colorPrefix = @"all";
       break;
-    default: colorPrefix = @""; break;
+    default: return nil; break;
   }
   
   NSString *powerupSuffix = @"";
@@ -92,7 +117,7 @@
     case powerup_vertical_line: powerupSuffix = @"updown"; break;
     case powerup_explosion: powerupSuffix = @"grenade"; break;
     case powerup_all_of_one_color: powerupSuffix = @"cocktail"; break;
-    default: powerupSuffix = @""; break;
+    default: return nil; break;
   }
   
   return [CCSprite spriteWithFile:[NSString stringWithFormat:@"%@%@.png", colorPrefix, powerupSuffix]];
@@ -101,16 +126,15 @@
 - (Gem *) createRandomGem
 {
   int gemColor = (arc4random() % _numColors) + color_red;
-  CCSprite * gem = [self createGemSpriteWithColor:gemColor powerup:powerup_none];
-  Gem *container = [[Gem alloc] init];
-  container.sprite = gem;
-  container.color = gemColor;
-  container.powerup = powerup_none;
-  return container;
+  return [self createGemWithColor:gemColor powerup:powerup_none];
 }
 
 - (Gem *) createGemWithColor:(GemColorId)gemColor powerup:(PowerupId)powerupId {
   CCSprite * gem = [self createGemSpriteWithColor:gemColor powerup:powerupId];
+  if (!gem) {
+    NSString *s = [NSString stringWithFormat:@"%d%@", gemColor, powerupId == powerup_explosion ? @"g" : powerupId != powerup_none ? @"r" : @""];
+    gem = [CCLabelTTF labelWithString:s fontName:[Globals font] fontSize:20.f];
+  }
   Gem *container = [[Gem alloc] init];
   container.sprite = gem;
   container.color = gemColor;
@@ -121,7 +145,6 @@
 - (void) initBoard
 {
   CGSize gs = [self gridSize];
-  [self removeAllChildrenWithCleanup:YES];
   self.gems = [[NSMutableArray alloc] init];
   for (int i = 0; i < gs.width*gs.height; i++) {
     BOOL gemOkay = NO;
@@ -140,26 +163,92 @@
     }
   }
   
-  CGSize squareSize = [self squareSize];
-  
-  float startY = squareSize.height/2;
-  float startX = squareSize.width/2;
-  
-  for (int y = 0; y < gs.height; y++)
-  {
-    for (int x = 0; x < gs.width; x++)
-    {
-      
-      int idx = x+(y*gs.width);
-      Gem * container = _gems[idx];
-      CGPoint startPos = ccp(startX, startY);
-      [container.sprite setPosition:ccpAdd(startPos, ccp(0, 0))];
-      [self addChild:container.sprite z:9];
-      startX += squareSize.width;
-    }
-    startY += squareSize.height;
-    startX = squareSize.width/2;
+  // Make sure there is atleast one move
+  if (![self validMoveExists]) {
+    [self initBoard];
+    return;
   }
+  
+  for (Gem *gem in self.gems) {
+    [self addChild:gem.sprite z:9];
+    gem.sprite.position = [self pointForGridPosition:[self coordinateOfGem:gem]];
+  }
+}
+
+- (BOOL) validMoveExists {
+  for (int x = 0; x < self.gridSize.width; x++) {
+    for (int y = 0; y < self.gridSize.height; y++) {
+      int idx = x+(y*self.gridSize.width);
+      Gem *gem = self.gems[idx];
+      NSMutableArray *toCheck = [NSMutableArray array];
+      
+      // If it is a molotov, return true
+      if (gem.powerup == powerup_all_of_one_color) {
+        return YES;
+      }
+      
+      // Check right gem and up gem if they exist
+      if (x < self.gridSize.width-1) {
+        Gem *rightGem = self.gems[idx+1];
+        [toCheck addObject:rightGem];
+      }
+      if (y < self.gridSize.height-1) {
+        Gem *rightGem = self.gems[idx+(int)self.gridSize.width];
+        [toCheck addObject:rightGem];
+      }
+      
+      for (Gem *checkGem in toCheck) {
+        // Check if both are powerups
+        if (gem.powerup != powerup_none && checkGem.powerup != powerup_none) {
+          return YES;
+        }
+        
+        // Swap and see if run exists
+        CGPoint checkCoord = [self coordinateOfGem:checkGem];
+        int checkIndex = checkCoord.x+(checkCoord.y*self.gridSize.width);
+        [self.gems replaceObjectAtIndex:checkIndex withObject:gem];
+        [self.gems replaceObjectAtIndex:idx withObject:checkGem];
+        
+        [self createRunForCurrentBoard];
+        
+        // Swap them back
+        [self.gems replaceObjectAtIndex:idx withObject:gem];
+        [self.gems replaceObjectAtIndex:checkIndex withObject:checkGem];
+        
+        if (_run.count > 0) {
+          return YES;
+        }
+      }
+    }
+  }
+  
+  return NO;
+}
+
+- (int) createRunForCurrentBoard {
+  [_run removeAllObjects];
+  for (int i = 0; i < self.gems.count; i++) {
+    Gem *gem = _gems[i];
+    if (gem.color != color_all) {
+      [self findRunFromGem:_gems[i] index:i];
+    }
+  }
+  return _run.count;
+}
+
+- (void) reshuffle {
+  LNLog(@"Reshuffling...");
+  
+  [self.gems shuffle];
+  while (![self validMoveExists] || [self createRunForCurrentBoard] > 0) {
+    [self.gems shuffle];
+  }
+  
+  for (Gem *gem in self.gems) {
+    [gem.sprite runAction:[CCMoveTo actionWithDuration:0.3 position:[self pointForGridPosition:[self coordinateOfGem:gem]]]];
+  }
+  
+  [self.delegate reshuffle];
 }
 
 #pragma mark gameplay
@@ -214,7 +303,7 @@
       Gem * newGem = _gems[newIndex];
       if (newGem.color == gem.color)
       {
-        [_tempRun addObject:gem];
+        [_tempRun addObject:newGem];
         [self findMatchesLeftGem:newGem index:newIndex];
       }
     }
@@ -240,12 +329,12 @@
   }
 }
 
--(void)addRun:(NSMutableSet*)newRun
+- (void) addRun:(NSMutableSet*)newRun
 {
   [_run addObjectsFromArray:newRun.allObjects];
 }
 
--(void)findRunFromGem:(Gem*)gem index:(int)index
+- (void) findRunFromGem:(Gem*)gem index:(int)index
 {
   [_tempRun removeAllObjects];
   
@@ -265,7 +354,7 @@
   if (_tempRun.count > NUMBER_OF_ORBS_FOR_MATCH-1) [self addRun:_tempRun];
 }
 
--(void)clearAndFillBoard
+- (void) clearAndFillBoard
 {
   self.oldGems = [self.gems mutableCopy];
   
@@ -356,10 +445,6 @@
   if (![self.gems containsObject:gem] || [self.destroyedGems containsObject:gem]) {
     return;
   }
-  CCSprite *s = [CCSprite spriteWithFile:@"white.png"];
-  [gem.sprite addChild:s];
-  s.position = ccp(s.contentSize.width/2, s.contentSize.height/2);
-  s.visible = NO;
   
   _gemsToProcess++;
   CGPoint pt = [self coordinateOfGem:gem];
@@ -405,6 +490,7 @@
       x.startColor = ccc4FFromccc3B([self colorForSparkle:gem.color]);
     }
   }];
+  
   CCScaleTo *scale = [CCScaleTo actionWithDuration:0.2 scale:0];
   CCCallBlock *completion = [CCCallBlock actionWithBlock:^{
     _gemsToProcess--;
@@ -415,9 +501,37 @@
   CCSequence *sequence = [CCSequence actions:crack, scale, completion, nil];
   [gem.sprite runAction:sequence];
   
-  GemColorId colorId = gem.color;
-  if (color_all) colorId = color;
-  [self.delegate orbKilled:colorId];
+  // Create random bezier
+  if (gem.color != color_all) {
+    ccBezierConfig bez;
+    bez.endPosition = self.orbFlyToLocation;
+    CGPoint initPoint = gem.sprite.position;
+    
+    // basePt1 is chosen with any y and x is between some neg num and approx .5
+    // basePt2 is chosen with any y and x is anywhere between basePt1's x and .85
+    BOOL chooseRight = arc4random()%2;
+    CGPoint basePt1 = ccp(drand48()-0.8, drand48());
+    CGPoint basePt2 = ccp(basePt1.x+drand48()*(0.7-basePt1.x), drand48());
+    
+    // outward potential increases based on distance between orbs
+    float xScale = ccpDistance(gem.sprite.position, bez.endPosition);
+    float yScale = (50+xScale/5)*(chooseRight?-1:1);
+    float angle = ccpToAngle(ccpSub(bez.endPosition, initPoint));
+    
+    // Transforms are applied in reverse order!! So rotate, then scale
+    CGAffineTransform t = CGAffineTransformScale(CGAffineTransformMakeRotation(angle), xScale, yScale);
+    bez.controlPoint_1 = ccpAdd(initPoint, CGPointApplyAffineTransform(basePt1, t));
+    bez.controlPoint_2 = ccpAdd(initPoint, CGPointApplyAffineTransform(basePt2, t));
+    
+    CCBezierTo *move = [CCBezierTo actionWithDuration:0.2f+xScale/400.f bezier:bez];
+    DestroyedGem *dg = [[DestroyedGem alloc] initWithColor:[self colorForSparkle:gem.color]];
+    [self addChild:dg z:10];
+    dg.position = gem.sprite.position;
+    [dg runAction:[CCSequence actions:move, [CCFadeOut actionWithDuration:0.2f], [CCDelayTime actionWithDuration:1.f], [CCCallFunc actionWithTarget:dg selector:@selector(removeFromParent)], nil]];
+  }
+  
+  // Send to delegate
+  [self.delegate gemKilled:gem];
 }
 
 - (Gem *) getPowerupGemForBatch:(NSArray *)batch {
@@ -970,6 +1084,7 @@
       colorGem = _realDragGem;
     }
     
+    powerupGem.color = colorGem.color;
     [self destroyGem:powerupGem fromColor:colorGem.color fromPowerup:powerup_none];
     _foundMatch = YES;
     return YES;
@@ -980,7 +1095,6 @@
 - (void) turnEnd
 {
   _allowInput = NO;
-  [_run removeAllObjects];
   
   // Delegate method refers to orbs beginning to combo
   [self.delegate turnBegan];
@@ -988,13 +1102,7 @@
   BOOL foundPowerup = [self checkForPowerupMatch];
   
   if (!foundPowerup) {
-    for (int i = self.gridSize.width*self.gridSize.height-1; i >= 0; i--) {
-      Gem *gem = _gems[i];
-      if (gem.color != color_all) {
-        [self findRunFromGem:_gems[i] index:i];
-      }
-    }
-    
+    [self createRunForCurrentBoard];
     if ( _run.count > 0) {
       _foundMatch = YES;
       
@@ -1045,13 +1153,14 @@
         [_gems replaceObjectAtIndex:idxB withObject:swapGem];
         
         [[SoundEngine sharedSoundEngine] puzzleWrongMove];
+        
+        dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, ORB_ANIMATION_TIME * NSEC_PER_SEC);
+        dispatch_after(popTime, dispatch_get_main_queue(), ^(void){
+          [self.delegate turnComplete];
+        });
+      } else {
+        [self.delegate turnComplete];
       }
-      
-      [self.comboLabels enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
-        [obj removeFromParentAndCleanup:YES];
-      }];
-      [self.comboLabels removeAllObjects];
-      [self.delegate turnComplete];
     }
   } else {
     [self checkAllGemsAndPowerupsDone];
@@ -1142,6 +1251,10 @@
 }
 
 - (void) allowInput {
+  if (![self validMoveExists]) {
+    [self reshuffle];
+  }
+  
   _allowInput = YES;
 }
 
@@ -1169,9 +1282,11 @@
     
     if (!_dragGem) {
       _dragGem = [self createGemWithColor:container.color powerup:container.powerup];
-      _dragGem.sprite.opacity = 0;
-      [_dragGem.sprite setPosition:location];
-      [self addChild:_dragGem.sprite z:10];
+      if (_dragGem.sprite) {
+        _dragGem.sprite.opacity = 0;
+        [_dragGem.sprite setPosition:location];
+        [self addChild:_dragGem.sprite z:10];
+      }
       
       _realDragGem = container;
       container.sprite.opacity = 128;
@@ -1232,10 +1347,10 @@
       [_gems replaceObjectAtIndex:idxA withObject:_realDragGem];
       [_gems replaceObjectAtIndex:idxB withObject:_swapGem];
       
-      if (!_beganTimer) {
-        _beganTimer = YES;
-        [self schedule:@selector(timedOut) interval:TIME_LIMIT];
-      }
+//      if (!_beganTimer) {
+//        _beganTimer = YES;
+//        [self schedule:@selector(timedOut) interval:TIME_LIMIT];
+//      }
       
       [self timedOut];
     }

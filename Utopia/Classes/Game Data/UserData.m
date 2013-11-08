@@ -287,8 +287,6 @@
 
 @implementation UserStruct
 
-@synthesize userStructId, userId, structId, level, isComplete, coordinates, orientation, purchaseTime, lastRetrieved, lastUpgradeTime;
-
 - (id) initWithStructProto:(FullUserStructureProto *)proto {
   if ((self = [super init])) {
     self.userStructId = proto.userStructId;
@@ -308,32 +306,53 @@
 }
 
 - (FullStructureProto *) fsp {
-  return [[GameState sharedGameState] structWithId:structId];
+  return [[GameState sharedGameState] structWithId:self.structId];
+}
+
+- (FullStructureProto *) fspForNextLevel {
+  if (self.fsp.successorStructId) {
+    return [[GameState sharedGameState] structWithId:self.fsp.successorStructId];
+  } else {
+    return nil;
+  }
+}
+
+- (int) maxLevel {
+  GameState *gs = [GameState sharedGameState];
+  FullStructureProto *fsp = self.fsp;
+  while (fsp.successorStructId) {
+    fsp = [gs structWithId:fsp.successorStructId];
+  }
+  return fsp.level;
 }
 
 - (UserStructState) state {
   NSDate *now = [NSDate date];
-  NSDate *done;
   FullStructureProto *fsp = self.fsp;
   
-  if (!isComplete) {
-    if (lastUpgradeTime) {
-      return kUpgrading;
-    } else {
-      return kBuilding;
-    }
+  if (!self.isComplete) {
+    return kBuilding;
   }
   
-  done = [NSDate dateWithTimeInterval:fsp.minutesToGain*60 sinceDate:lastRetrieved];
+  NSDate *done = [NSDate dateWithTimeInterval:fsp.minutesToGain*60 sinceDate:self.lastRetrieved];
   if ([now compare:done] == NSOrderedDescending) {
     return kRetrieving;
   }
   return kWaitingForIncome;
 }
 
+- (NSDate *) buildCompleteDate {
+  int minutes = self.fsp.minutesToBuild;
+  return [self.purchaseTime dateByAddingTimeInterval:minutes*60.f];
+}
+
+- (NSTimeInterval) timeLeftForBuildComplete {
+  return [self.buildCompleteDate timeIntervalSinceNow];
+}
+
 - (NSString *) description {
   FullStructureProto *fsp = [[GameState sharedGameState] structWithId:self.structId];
-  return [NSString stringWithFormat:@"%p: %@, %@", self, fsp.name, NSStringFromCGPoint(coordinates)];
+  return [NSString stringWithFormat:@"%p: %@, %@", self, fsp.name, NSStringFromCGPoint(self.coordinates)];
 }
 
 @end
@@ -537,13 +556,13 @@
 
 @implementation RequestFromFriend
 
-+ (id) requestForInventorySlotsWithUser:(MinimumUserProtoWithFacebookId *)user {
-  return [[self alloc] initInventorySlotsRequestWithUser:user];
++ (id) requestForInventorySlotsWithInvite:(UserFacebookInviteForSlotProto *)invite {
+  return [[self alloc] initInventorySlotsRequestWithInvite:invite];
 }
 
-- (id) initInventorySlotsRequestWithUser:(MinimumUserProtoWithFacebookId *)user {
+- (id) initInventorySlotsRequestWithInvite:(UserFacebookInviteForSlotProto *)invite {
   if ((self = [super init])) {
-    self.user = user;
+    self.invite = invite;
     self.type = RequestFromFriendInventorySlots;
   }
   return self;

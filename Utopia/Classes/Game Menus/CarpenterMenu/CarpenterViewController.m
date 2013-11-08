@@ -49,13 +49,13 @@
   GameState *gs = [GameState sharedGameState];
   self.rateLabel.text = [NSString stringWithFormat:@"%@ in %@", [Globals cashStringForNumber:_fsp.income], [Globals convertTimeToShortString:_fsp.minutesToGain*60]];
   
-  if (_fsp.cashPrice > 0) {
+  if (!_fsp.isPremiumCurrency) {
     // Highlighted image is the gold icon.
     self.moneyIcon.highlighted = NO;
-    self.costLabel.text = [Globals cashStringForNumber:_fsp.cashPrice];
+    self.costLabel.text = [Globals cashStringForNumber:_fsp.buildPrice];
   } else {
     self.moneyIcon.highlighted = YES;
-    self.costLabel.text = [Globals commafyNumber:_fsp.gemPrice];
+    self.costLabel.text = [Globals commafyNumber:_fsp.buildPrice];
   }
   
   if (gs.level >= _fsp.minLevel) {
@@ -135,6 +135,10 @@
   int max = [gl maxRepeatedNormStructs];
   
   for (FullStructureProto *fsp in structs) {
+    if (fsp.predecessorStructId) {
+      continue;
+    }
+    
     int count = 0;
     for (FullUserStructureProto *fusp in [gs myStructs]) {
       if (fusp.structId == fsp.structId) {

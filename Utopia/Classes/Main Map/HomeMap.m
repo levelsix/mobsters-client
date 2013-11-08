@@ -14,7 +14,6 @@
 #import "LNSynthesizeSingleton.h"
 #import "OutgoingEventController.h"
 #import "GameLayer.h"
-#import "BuildUpgradePopupController.h"
 #import "GenericPopupController.h"
 #import "SoundEngine.h"
 #import "GameViewController.h"
@@ -194,15 +193,15 @@
     
     UserStructState st = s.state;
     switch (st) {
-      case kUpgrading:
-        moneyBuilding.retrievable = NO;
-        _upgrBuilding = moneyBuilding;
-        break;
-        
       case kBuilding:
         moneyBuilding.retrievable = NO;
-        _constrBuilding = moneyBuilding;
+        
         moneyBuilding.isConstructing = YES;
+        if (s.fsp.level == 1) {
+          _constrBuilding = moneyBuilding;
+        } else {
+          _upgrBuilding = moneyBuilding;
+        }
         break;
         
       case kWaitingForIncome:
@@ -334,12 +333,13 @@
 }
 
 - (void) moveToStruct:(int)structId showArrow:(BOOL)showArrow animated:(BOOL)animated {
+  Globals *gl = [Globals sharedGlobals];
   int baseTag = [self baseTagForStructId:structId];
   MoneyBuilding *mb = nil;
-  for (int tag = baseTag; tag < baseTag+[[Globals sharedGlobals] maxRepeatedNormStructs]; tag++) {
+  for (int tag = baseTag; tag < baseTag+gl.maxRepeatedNormStructs; tag++) {
     MoneyBuilding *check;
     if ((check = (MoneyBuilding *)[self getChildByTag:tag])) {
-      if (!mb || check.userStruct.level > mb.userStruct.level) {
+      if (!mb || check.userStruct.fsp.level > mb.userStruct.fsp.level) {
         mb = check;
       }
     } else {
@@ -412,7 +412,7 @@
       UserStruct *us = mb.userStruct;
       if (_purchasing) {
         // Do nothing
-      } else if (us.state == kUpgrading || us.state == kBuilding) {
+      } else if (us.state == kBuilding) {
         self.bottomOptionView = self.upgradeBotView;
         [mb removeArrowAnimated:YES];
         
@@ -452,24 +452,22 @@
 - (void) updateMapBotView:(MapBotView *)botView {
   if (botView == self.buildBotView) {
     if ([self.selected isKindOfClass:[MoneyBuilding class]]) {
-      GameState *gs = [GameState sharedGameState];
-      Globals *gl = [Globals sharedGlobals];
       MoneyBuilding *mb = (MoneyBuilding *)self.selected;
-      FullStructureProto *fsp = [gs structWithId:mb.userStruct.structId];
-      self.buildingNameLabel.text = [NSString stringWithFormat:@"%@ (lvl %d)", fsp.name, mb.userStruct.level];
-      self.buildingIncomeLabel.text = [NSString stringWithFormat:@"%@ EVERY %@", [Globals cashStringForNumber:[gl calculateIncomeForUserStruct:mb.userStruct]], [Globals convertTimeToLongString:fsp.minutesToGain*60]];
-      self.buildingUpgradeCostLabel.text = [Globals cashStringForNumber:[gl calculateUpgradeCost:mb.userStruct]];
+      FullStructureProto *fsp = mb.userStruct.fsp;
+      FullStructureProto *nextFsp = mb.userStruct.fspForNextLevel;
+      self.buildingNameLabel.text = [NSString stringWithFormat:@"%@ (lvl %d)", fsp.name, fsp.level];
+      self.buildingIncomeLabel.text = [NSString stringWithFormat:@"%@ EVERY %@", [Globals cashStringForNumber:fsp.income], [Globals convertTimeToLongString:fsp.minutesToGain*60]];
+      self.buildingUpgradeCostLabel.text = nextFsp.isPremiumCurrency ? [Globals commafyNumber:nextFsp.buildPrice] : [Globals cashStringForNumber:nextFsp.buildPrice];
     }
   } else if (botView == self.upgradeBotView) {
     if ([self.selected isKindOfClass:[MoneyBuilding class]]) {
-      GameState *gs = [GameState sharedGameState];
       Globals *gl = [Globals sharedGlobals];
       MoneyBuilding *mb = (MoneyBuilding *)self.selected;
       UserStruct *us = mb.userStruct;
-      FullStructureProto *fsp = [gs structWithId:mb.userStruct.structId];
-      self.upgradingNameLabel.text = [NSString stringWithFormat:@"%@ (lvl %d)", fsp.name, mb.userStruct.level];
-      self.upgradingIncomeLabel.text = [NSString stringWithFormat:@"%@ EVERY %@", [Globals cashStringForNumber:[gl calculateIncomeForUserStruct:mb.userStruct]], [Globals convertTimeToLongString:fsp.minutesToGain*60]];
-      int timeLeft = us.lastUpgradeTime.timeIntervalSinceNow + [gl calculateMinutesToUpgrade:us]*60;
+      FullStructureProto *fsp = us.fsp;
+      self.upgradingNameLabel.text = [NSString stringWithFormat:@"%@ (lvl %d)", fsp.name, fsp.level];
+      self.upgradingIncomeLabel.text = [NSString stringWithFormat:@"%@ EVERY %@", [Globals cashStringForNumber:fsp.income], [Globals convertTimeToLongString:fsp.minutesToGain*60]];
+      int timeLeft = us.timeLeftForBuildComplete;
       self.upgradingSpeedupCostLabel.text = [Globals commafyNumber:[gl calculateGemSpeedupCostForTimeLeft:timeLeft]];
     }
   } else if (botView == self.expandBotView) {
@@ -674,14 +672,10 @@
 }
 
 - (IBAction)sellClicked:(id)sender {
-  GameState *gs = [GameState sharedGameState];
   UserStruct *us = ((MoneyBuilding *)self.selected).userStruct;
-  Globals *gl = [Globals sharedGlobals];
-  FullStructureProto *fsp = [gs structWithId:us.structId];
-  int silver = [gl calculateStructSilverSellCost:us];
-  int gold = [gl calculateStructGoldSellCost:us];
+  FullStructureProto *fsp = us.fsp;
   
-  NSString *desc = [NSString stringWithFormat:@"Are you sure you would like to sell your %@ for %@?", fsp.name, silver > 0 ? [NSString stringWithFormat:@"%d silver", silver] : [NSString stringWithFormat:@"%d gold", gold]];
+  NSString *desc = [NSString stringWithFormat:@"Are you sure you would like to sell your %@ for %@?", fsp.name, fsp.isPremiumCurrency ? [NSString stringWithFormat:@"%@ gems", [Globals commafyNumber:fsp.sellPrice]] : [Globals cashStringForNumber:fsp.sellPrice]];
   [GenericPopupController displayConfirmationWithDescription:desc title:@"Sell Building?" okayButton:@"Sell" cancelButton:@"Cancel" target:self selector:@selector(sellSelected)];
 }
 
@@ -724,26 +718,24 @@
 
 - (IBAction)littleUpgradeClicked:(id)sender {
   UserStruct *us = ((MoneyBuilding *)self.selected).userStruct;
-  int maxLevel = 2;
-  if (us.level < maxLevel) {
+  int maxLevel = us.maxLevel;
+  if (us.fsp.level < maxLevel) {
     [self.upgradeMenu displayForUserStruct:us];
   } else {
-    [Globals popupMessage:[NSString stringWithFormat:@"The maximum level for buildings is level %d.", maxLevel]];
+    [Globals popupMessage:[NSString stringWithFormat:@"The maximum level for this building is %d.", maxLevel]];
   }
 }
 
 - (IBAction)bigUpgradeClicked:(id)sender {
   UserStruct *us = ((MoneyBuilding *)self.selected).userStruct;
-  Globals *gl = [Globals sharedGlobals];
   GameState *gs = [GameState sharedGameState];
-  FullStructureProto *fsp = [gs structWithId:us.structId];
+  FullStructureProto *nextFsp = us.fspForNextLevel;
   
-  int maxLevel = 2;
   if (_upgrBuilding) {
     [Globals popupMessage:@"The carpenter is already upgrading a building!"];
-  } else if (us.level < maxLevel) {
-    int cost = [gl calculateUpgradeCost:us];
-    BOOL isGoldBuilding = fsp.gemPrice > 0;
+  } else if (nextFsp) {
+    int cost = nextFsp.buildPrice;
+    BOOL isGoldBuilding = nextFsp.isPremiumCurrency;
     if (!isGoldBuilding) {
       if (cost > gs.silver) {
         //        [[RefillMenuController sharedRefillMenuController] displayBuySilverView:cost];
@@ -755,6 +747,7 @@
         [self updateTimersForBuilding:_upgrBuilding];
         [self.upgradeMenu closeClicked:nil];
         [_upgrBuilding displayProgressBar];
+        _upgrBuilding.isConstructing = YES;
         
         [[SoundEngine sharedSoundEngine] carpenterPurchase];
         
@@ -777,8 +770,6 @@
         [self reselectCurrentSelection];
       }
     }
-  } else {
-    [Globals popupMessage:@"This building is at the maximum level."];
   }
 }
 
@@ -786,18 +777,10 @@
   if (_isSpeedingUp) return;
   MoneyBuilding *mb = (MoneyBuilding *)self.selected;
   UserStruct *us = mb.userStruct;
-  UserStructState state = us.state;
   Globals *gl = [Globals sharedGlobals];
-  GameState *gs = [GameState sharedGameState];
-  FullStructureProto *fsp = [gs structWithId:us.structId];
-  int goldCost = 0, timeLeft = 0;
+  int timeLeft = us.timeLeftForBuildComplete;
+  int goldCost = [gl calculateGemSpeedupCostForTimeLeft:timeLeft];
   
-  if (state == kUpgrading) {
-    timeLeft = us.lastUpgradeTime.timeIntervalSinceNow + [gl calculateMinutesToUpgrade:us]*60;
-  } else if (state == kBuilding) {
-    timeLeft = us.purchaseTime.timeIntervalSinceNow + fsp.minutesToBuild*60;
-  }
-  goldCost = [gl calculateGemSpeedupCostForTimeLeft:timeLeft];
   NSString *desc = [NSString stringWithFormat:@"Finish instantly for %@ gold?", [Globals commafyNumber:goldCost]];
   [GenericPopupController displayConfirmationWithDescription:desc title:@"Speed Up!" okayButton:@"Yes" cancelButton:@"No" target:self selector:@selector(speedUpBuilding)];
 }
@@ -808,30 +791,9 @@
   UserStructState state = us.state;
   Globals *gl = [Globals sharedGlobals];
   GameState *gs = [GameState sharedGameState];
-  FullStructureProto *fsp = [gs structWithId:us.structId];
   
-  if (state == kUpgrading) {
-    int timeLeft = us.lastUpgradeTime.timeIntervalSinceNow + [gl calculateMinutesToUpgrade:us]*60;
-    int goldCost = [gl calculateGemSpeedupCostForTimeLeft:timeLeft];
-    if (gs.gold < goldCost) {
-      //      [[RefillMenuController sharedRefillMenuController] displayBuyGoldView:goldCost];
-      [Analytics notEnoughGoldForInstaUpgrade:us.structId level:us.level cost:goldCost];
-    } else {
-      _isSpeedingUp = YES;
-      [mb instaFinishUpgradeWithCompletionBlock:^{
-        [[OutgoingEventController sharedOutgoingEventController] instaUpgrade:mb.userStruct];
-        [mb displayUpgradeComplete];
-        [self reselectCurrentSelection];
-        
-        if (mb.userStruct.state == kWaitingForIncome) {
-          _upgrBuilding = nil;
-          [self updateTimersForBuilding:mb];
-        }
-        _isSpeedingUp = NO;
-      }];
-    }
-  } else if (state == kBuilding) {
-    int timeLeft = us.purchaseTime.timeIntervalSinceNow + fsp.minutesToBuild*60;
+  if (state == kBuilding) {
+    int timeLeft = us.timeLeftForBuildComplete;
     int goldCost = [gl calculateGemSpeedupCostForTimeLeft:timeLeft];
     if (gs.gold < goldCost) {
       //      [[RefillMenuController sharedRefillMenuController] displayBuyGoldView:goldCost];
@@ -839,12 +801,16 @@
       _isSpeedingUp = YES;
       [mb instaFinishUpgradeWithCompletionBlock:^{
         mb.isConstructing = NO;
-        [[OutgoingEventController sharedOutgoingEventController] instaUpgrade:_constrBuilding.userStruct];
+        [[OutgoingEventController sharedOutgoingEventController] instaUpgrade:mb.userStruct];
         [mb displayUpgradeComplete];
         [self reselectCurrentSelection];
         
         if (mb.userStruct.state == kWaitingForIncome) {
-          _constrBuilding = nil;
+          if (_constrBuilding == mb) {
+            _constrBuilding = nil;
+          } else if (_upgrBuilding == mb) {
+            _upgrBuilding = nil;
+          }
           [self updateTimersForBuilding:mb];
         }
         _isSpeedingUp = NO;
@@ -946,12 +912,6 @@
     }
   }
   return YES;
-}
-
-- (void) displayUpgradeBuildPopupForUserStruct:(UserStruct *)us {
-  // This will be released after the view closes
-  BuildUpgradePopupController *vc = [[BuildUpgradePopupController alloc] initWithUserStruct:us];
-  [Globals displayUIView:vc.view];
 }
 
 - (void) collectAllIncome {

@@ -18,6 +18,8 @@
 @class ReferralCodeUsedResponseProto_Builder;
 @class StaticLevelInfoProto;
 @class StaticLevelInfoProto_Builder;
+@class UserFacebookInviteForSlotProto;
+@class UserFacebookInviteForSlotProto_Builder;
 
 @interface EventReferralRoot : NSObject {
 }

@@ -29,29 +29,6 @@
 
 @end
 
-@interface HomeBuildingMenu : UIView
-
-@property (nonatomic, retain) IBOutlet UILabel *titleLabel;
-@property (nonatomic, retain) IBOutlet UILabel *incomeLabel;
-@property (nonatomic, retain) IBOutlet UILabel *rankLabel;
-
-- (void) updateForUserStruct:(UserStruct *)us;
-
-@end
-
-@interface HomeBuildingCollectMenu : UIView
-
-@property (nonatomic, retain) IBOutlet UILabel *coinsLabel;
-@property (nonatomic, retain) IBOutlet UILabel *timeLabel;
-@property (nonatomic, retain) IBOutlet ProgressBar *progressBar;
-
-@property (nonatomic, retain) UserStruct *userStruct;
-@property (nonatomic, retain) NSTimer *timer;
-
-- (void) updateForUserStruct:(UserStruct *)us;
-
-@end
-
 @interface UpgradeBuildingMenu : UIView
 
 @property (nonatomic, assign) IBOutlet UILabel *titleLabel;

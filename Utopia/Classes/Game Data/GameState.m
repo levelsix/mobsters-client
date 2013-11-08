@@ -46,6 +46,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
     _monsterHealingQueue = [[NSMutableArray alloc] init];
     _requestsFromFriends = [[NSMutableArray alloc] init];
     _usersUsedForExtraSlots = [[NSMutableArray alloc] init];
+    _acceptedSlotsRequests = [[NSMutableArray alloc] init];
     
     _availableQuests = [[NSMutableDictionary alloc] init];
     _inProgressCompleteQuests = [[NSMutableDictionary alloc] init];
@@ -287,10 +288,14 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
   }
 }
 
-- (void) addInventorySlotsRequests:(NSArray *)users {
-  for (MinimumUserProtoWithFacebookId *user in users) {
-    RequestFromFriend *req = [RequestFromFriend requestForInventorySlotsWithUser:user];
-    [self.requestsFromFriends addObject:req];
+- (void) addInventorySlotsRequests:(NSArray *)invites {
+  for (UserFacebookInviteForSlotProto *invite in invites) {
+    RequestFromFriend *req = [RequestFromFriend requestForInventorySlotsWithInvite:invite];
+    if (!invite.timeAccepted) {
+      [self.requestsFromFriends addObject:req];
+    } else {
+      [self.acceptedSlotsRequests addObject:req];
+    }
   }
 }
 
@@ -863,6 +868,8 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
   self.rareBoosterPurchases = [[NSMutableArray alloc] init];
   self.monsterHealingQueue = [[NSMutableArray alloc] init];
   self.requestsFromFriends = [[NSMutableArray alloc] init];
+  self.usersUsedForExtraSlots = [[NSMutableArray alloc] init];
+  self.acceptedSlotsRequests = [[NSMutableArray alloc] init];
   
   self.availableQuests = [[NSMutableDictionary alloc] init];
   self.inProgressCompleteQuests = [[NSMutableDictionary alloc] init];

@@ -14,7 +14,6 @@
 #import "SoundEngine.h"
 #import "Downloader.h"
 #import "CCFileUtils.h"
-#import "CCLabelFX.h"
 
 #define ANIMATATION_DELAY 0.07f
 #define MAX_SHOTS 5

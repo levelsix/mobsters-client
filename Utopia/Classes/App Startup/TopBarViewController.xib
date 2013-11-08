@@ -96,7 +96,7 @@
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                 </imageView>
                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="3ef-TM-6z9">
-                    <rect key="frame" x="2" y="286" width="104" height="33"/>
+                    <rect key="frame" x="2" y="285" width="104" height="33"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                     <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
                     <state key="normal" backgroundImage="attackbutton.png">
@@ -111,7 +111,7 @@
                     </connections>
                 </button>
                 <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="ATTACK" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" id="pav-jB-5KB" customClass="NiceFontLabel">
-                    <rect key="frame" x="15" y="291" width="88" height="21"/>
+                    <rect key="frame" x="15" y="290" width="88" height="21"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                     <fontDescription key="fontDescription" type="system" pointSize="14"/>
                     <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -242,7 +242,7 @@
                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                 </view>
                 <imageView opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" image="bomb.png" id="KeE-Z3-StI">
-                    <rect key="frame" x="8" y="289" width="28" height="26"/>
+                    <rect key="frame" x="8" y="288" width="28" height="26"/>
                     <autoresizingMask key="autoresizingMask"/>
                 </imageView>
                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="8Kk-oa-rxb">
@@ -322,7 +322,6 @@
                     </state>
                     <connections>
                         <action selector="mailClicked:" destination="-1" eventType="touchUpInside" id="f0j-lx-Hnt"/>
-                        <action selector="myCityClicked:" destination="-1" eventType="touchUpInside" id="epo-qs-bFs"/>
                     </connections>
                 </button>
             </subviews>

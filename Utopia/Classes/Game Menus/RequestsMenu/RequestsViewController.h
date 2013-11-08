@@ -28,11 +28,15 @@
 @property (nonatomic, retain) IBOutlet UIView *bgdView;
 
 @property (nonatomic, retain) IBOutlet UITableView *requestsTable;
+@property (nonatomic, retain) IBOutlet UIActivityIndicatorView *spinner;
 @property (nonatomic, retain) IBOutlet UIButton *unselectButton;
 
 @property (nonatomic, retain) NSMutableArray *requests;
 @property (nonatomic, retain) NSMutableSet *unselectedRequests;
+@property (nonatomic, retain) NSDictionary *fbInfo;
 
 @property (nonatomic, retain) IBOutlet RequestTableCell *requestCell;
+
+- (IBAction)acceptClicked:(id)sender;
 
 @end

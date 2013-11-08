@@ -13,7 +13,7 @@
 
 @property (nonatomic, retain) IBOutlet UIImageView *bgdView;
 @property (nonatomic, retain) IBOutlet UILabel *slotNumLabel;
-@property (nonatomic, retain) IBOutlet UIImageView *profPicView;
+@property (nonatomic, retain) IBOutlet FBProfilePictureView *profPicView;
 
 @end
 

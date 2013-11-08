@@ -77,7 +77,6 @@
 typedef enum {
   kRetrieving = 1,
   kWaitingForIncome,
-  kUpgrading,
   kBuilding
 } UserStructState;
 
@@ -88,15 +87,18 @@ typedef enum {
 @property (nonatomic, assign) int structId;
 @property (nonatomic, retain) NSDate *lastRetrieved;
 @property (nonatomic, assign) CGPoint coordinates;
-@property (nonatomic, assign) int level;
 @property (nonatomic, retain) NSDate *purchaseTime;
-@property (nonatomic, retain) NSDate *lastUpgradeTime;
 @property (nonatomic, assign) BOOL isComplete;
 @property (nonatomic, assign) StructOrientation orientation;
 
 + (id) userStructWithProto:(FullUserStructureProto *)proto;
 - (UserStructState) state;
 - (FullStructureProto *) fsp;
+- (FullStructureProto *) fspForNextLevel;
+- (int) maxLevel;
+
+- (NSDate *) buildCompleteDate;
+- (NSTimeInterval) timeLeftForBuildComplete;
 
 @end
 
@@ -197,9 +199,9 @@ typedef enum {
 
 @interface RequestFromFriend : NSObject
 
-@property (nonatomic, retain) MinimumUserProtoWithFacebookId *user;
+@property (nonatomic, retain) UserFacebookInviteForSlotProto *invite;
 @property (nonatomic, assign) RequestFromFriendType type;
 
-+ (id) requestForInventorySlotsWithUser:(MinimumUserProtoWithFacebookId *)user;
++ (id) requestForInventorySlotsWithInvite:(UserFacebookInviteForSlotProto *)invite;
 
 @end

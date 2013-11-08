@@ -27,20 +27,20 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(SoundEngine);
 }
 
 - (int) playEffect:(NSString *)effect {
-//#ifndef DEBUG
+#ifndef DEBUG
   NSUserDefaults *ud = [NSUserDefaults standardUserDefaults];
   BOOL play = ![ud boolForKey:SOUND_EFFECTS_DEFAULTS_KEY];
   if (play) {
     return [[SimpleAudioEngine sharedEngine] playEffect:effect];
   }
-//#endif
+#endif
   return 0;
 }
 
 - (void) stopEffect:(int)effect {
-//#ifndef DEBUG
+#ifndef DEBUG
   [[SimpleAudioEngine sharedEngine] stopEffect:effect];
-//#endif
+#endif
 }
 
 - (void) playHomeMapMusic {

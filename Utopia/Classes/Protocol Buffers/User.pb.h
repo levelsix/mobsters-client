@@ -14,6 +14,8 @@
 @class MinimumUserProto_Builder;
 @class StaticLevelInfoProto;
 @class StaticLevelInfoProto_Builder;
+@class UserFacebookInviteForSlotProto;
+@class UserFacebookInviteForSlotProto_Builder;
 
 @interface UserRoot : NSObject {
 }
@@ -307,6 +309,92 @@
 - (NSString*) facebookId;
 - (MinimumUserProtoWithFacebookId_Builder*) setFacebookId:(NSString*) value;
 - (MinimumUserProtoWithFacebookId_Builder*) clearFacebookId;
+@end
+
+@interface UserFacebookInviteForSlotProto : PBGeneratedMessage {
+@private
+  BOOL hasTimeOfInvite_:1;
+  BOOL hasTimeAccepted_:1;
+  BOOL hasInviteId_:1;
+  BOOL hasRecipientFacebookId_:1;
+  BOOL hasInviter_:1;
+  int64_t timeOfInvite;
+  int64_t timeAccepted;
+  int32_t inviteId;
+  NSString* recipientFacebookId;
+  MinimumUserProtoWithFacebookId* inviter;
+}
+- (BOOL) hasInviteId;
+- (BOOL) hasInviter;
+- (BOOL) hasRecipientFacebookId;
+- (BOOL) hasTimeOfInvite;
+- (BOOL) hasTimeAccepted;
+@property (readonly) int32_t inviteId;
+@property (readonly, retain) MinimumUserProtoWithFacebookId* inviter;
+@property (readonly, retain) NSString* recipientFacebookId;
+@property (readonly) int64_t timeOfInvite;
+@property (readonly) int64_t timeAccepted;
+
++ (UserFacebookInviteForSlotProto*) defaultInstance;
+- (UserFacebookInviteForSlotProto*) defaultInstance;
+
+- (BOOL) isInitialized;
+- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output;
+- (UserFacebookInviteForSlotProto_Builder*) builder;
++ (UserFacebookInviteForSlotProto_Builder*) builder;
++ (UserFacebookInviteForSlotProto_Builder*) builderWithPrototype:(UserFacebookInviteForSlotProto*) prototype;
+
++ (UserFacebookInviteForSlotProto*) parseFromData:(NSData*) data;
++ (UserFacebookInviteForSlotProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (UserFacebookInviteForSlotProto*) parseFromInputStream:(NSInputStream*) input;
++ (UserFacebookInviteForSlotProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (UserFacebookInviteForSlotProto*) parseFromCodedInputStream:(PBCodedInputStream*) input;
++ (UserFacebookInviteForSlotProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+@end
+
+@interface UserFacebookInviteForSlotProto_Builder : PBGeneratedMessage_Builder {
+@private
+  UserFacebookInviteForSlotProto* result;
+}
+
+- (UserFacebookInviteForSlotProto*) defaultInstance;
+
+- (UserFacebookInviteForSlotProto_Builder*) clear;
+- (UserFacebookInviteForSlotProto_Builder*) clone;
+
+- (UserFacebookInviteForSlotProto*) build;
+- (UserFacebookInviteForSlotProto*) buildPartial;
+
+- (UserFacebookInviteForSlotProto_Builder*) mergeFrom:(UserFacebookInviteForSlotProto*) other;
+- (UserFacebookInviteForSlotProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input;
+- (UserFacebookInviteForSlotProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+
+- (BOOL) hasInviteId;
+- (int32_t) inviteId;
+- (UserFacebookInviteForSlotProto_Builder*) setInviteId:(int32_t) value;
+- (UserFacebookInviteForSlotProto_Builder*) clearInviteId;
+
+- (BOOL) hasInviter;
+- (MinimumUserProtoWithFacebookId*) inviter;
+- (UserFacebookInviteForSlotProto_Builder*) setInviter:(MinimumUserProtoWithFacebookId*) value;
+- (UserFacebookInviteForSlotProto_Builder*) setInviterBuilder:(MinimumUserProtoWithFacebookId_Builder*) builderForValue;
+- (UserFacebookInviteForSlotProto_Builder*) mergeInviter:(MinimumUserProtoWithFacebookId*) value;
+- (UserFacebookInviteForSlotProto_Builder*) clearInviter;
+
+- (BOOL) hasRecipientFacebookId;
+- (NSString*) recipientFacebookId;
+- (UserFacebookInviteForSlotProto_Builder*) setRecipientFacebookId:(NSString*) value;
+- (UserFacebookInviteForSlotProto_Builder*) clearRecipientFacebookId;
+
+- (BOOL) hasTimeOfInvite;
+- (int64_t) timeOfInvite;
+- (UserFacebookInviteForSlotProto_Builder*) setTimeOfInvite:(int64_t) value;
+- (UserFacebookInviteForSlotProto_Builder*) clearTimeOfInvite;
+
+- (BOOL) hasTimeAccepted;
+- (int64_t) timeAccepted;
+- (UserFacebookInviteForSlotProto_Builder*) setTimeAccepted:(int64_t) value;
+- (UserFacebookInviteForSlotProto_Builder*) clearTimeAccepted;
 @end
 
 @interface FullUserProto : PBGeneratedMessage {

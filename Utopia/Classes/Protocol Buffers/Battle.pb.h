@@ -18,6 +18,8 @@
 @class MinimumUserProto_Builder;
 @class StaticLevelInfoProto;
 @class StaticLevelInfoProto_Builder;
+@class UserFacebookInviteForSlotProto;
+@class UserFacebookInviteForSlotProto_Builder;
 typedef enum {
   BattleResultAttackerWin = 1,
   BattleResultDefenderWin = 2,

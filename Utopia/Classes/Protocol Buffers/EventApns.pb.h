@@ -20,6 +20,8 @@
 @class MinimumUserProto_Builder;
 @class StaticLevelInfoProto;
 @class StaticLevelInfoProto_Builder;
+@class UserFacebookInviteForSlotProto;
+@class UserFacebookInviteForSlotProto_Builder;
 typedef enum {
   EnableAPNSResponseProto_EnableAPNSStatusSuccess = 1,
   EnableAPNSResponseProto_EnableAPNSStatusNotEnabled = 2,

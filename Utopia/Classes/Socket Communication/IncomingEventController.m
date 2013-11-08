@@ -294,7 +294,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
     gs.carpenterStructs = [proto.staticStructsList copy];
     
     [gs.requestsFromFriends removeAllObjects];
-    [gs addInventorySlotsRequests:proto.usersInvitingMeForExtraSlotsList];
+    [gs addInventorySlotsRequests:proto.invitesToMeForSlotsList];
     [gs.usersUsedForExtraSlots removeAllObjects];
     [gs addUsersUsedForExtraSlots:proto.usersUsedForExtraSlotsList];
     
@@ -488,11 +488,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
     [Globals popupMessage:@"Server failed to upgrade building."];
     [gs removeAndUndoAllUpdatesForTag:tag];
   } else {
-    if (proto.status == UpgradeNormStructureResponseProto_UpgradeNormStructureStatusClientTooApartFromServerTime) {
-      [self handleTimeOutOfSync];
-    } else {
       [gs removeNonFullUserUpdatesForTag:tag];
-    }
   }
 }
 
@@ -1122,8 +1118,6 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
 - (void) handlePrivateChatPostResponseProto:(FullEvent *)fe {
   PrivateChatPostResponseProto *proto = (PrivateChatPostResponseProto *)fe.event;
   LNLog(@"Private chat post response received with status %d.", proto.status);
-  
-  //  [[ChatMenuController sharedChatMenuController] receivedPrivateChatPost:proto];
 }
 
 - (void) handleRetrievePrivateChatPostsResponseProto:(FullEvent *)fe {
@@ -1243,7 +1237,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
   if (proto.status == IncreaseMonsterInventorySlotResponseProto_IncreaseMonsterInventorySlotStatusSuccess) {
     [gs removeNonFullUserUpdatesForTag:tag];
   } else {
-    [Globals popupMessage:@"Server failed to handle buying inventory slots."];
+    [Globals popupMessage:@"Server failed to handle enhancement wait time."];
     [gs removeAndUndoAllUpdatesForTag:tag];
   }
 }
@@ -1258,7 +1252,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
   if (proto.status == IncreaseMonsterInventorySlotResponseProto_IncreaseMonsterInventorySlotStatusSuccess) {
     [gs removeNonFullUserUpdatesForTag:tag];
   } else {
-    [Globals popupMessage:@"Server failed to handle buying inventory slots."];
+    [Globals popupMessage:@"Server failed to handle update monster health."];
     [gs removeAndUndoAllUpdatesForTag:tag];
   }
 }

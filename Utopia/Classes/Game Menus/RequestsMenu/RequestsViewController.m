@@ -10,6 +10,7 @@
 #import "Globals.h"
 #import "GameState.h"
 #import "UserData.h"
+#import "OutgoingEventController.h"
 
 @implementation RequestTableCell
 
@@ -21,9 +22,12 @@
   self.pfPic.layer.mask = mask;
 }
 
-- (void) updateForRequest:(RequestFromFriend *)request {
+- (void) updateForRequest:(RequestFromFriend *)request andFbInfo:(NSDictionary *)fbInfo {
+  self.hidden = !fbInfo;
   if (request.type == RequestFromFriendInventorySlots) {
-    self.pfPic.profileID = request.user.facebookId;
+    self.pfPic.profileID = request.invite.inviter.facebookId;
+    self.titleLabel.text = [NSString stringWithFormat:@"%@ needs your help!", fbInfo[@"first_name"]];
+    self.subtitleLabel.text = [NSString stringWithFormat:@"Your friend %@ needs help unlocking more mobster slots", fbInfo[@"first_name"]];
   }
   
   self.request = request;
@@ -49,9 +53,27 @@
   }];
 }
 
+- (IBAction)acceptClicked:(id)sender {
+  NSMutableArray *accept = [NSMutableArray array];
+  NSMutableArray *reject = [NSMutableArray array];
+  
+  for (RequestFromFriend *req in self.requests) {
+    if ([self.unselectedRequests containsObject:req]) {
+      [reject addObject:[NSNumber numberWithInt:req.invite.inviteId]];
+    } else {
+      [accept addObject:[NSNumber numberWithInt:req.invite.inviteId]];
+    }
+  }
+  
+  [[OutgoingEventController sharedOutgoingEventController] acceptAndRejectInvitesWithAcceptIds:accept rejectIds:reject];
+}
+
 - (IBAction)unselectAllClicked:(id)sender {
   [self.unselectedRequests addObjectsFromArray:self.requests];
-  [self.requestsTable reloadData];
+  
+  for (RequestTableCell *cell in self.requestsTable.visibleCells) {
+    cell.checkmark.hidden = YES;
+  }
 }
 
 - (IBAction)rowClicked:(id)sender {
@@ -74,6 +96,32 @@
   self.requests = gs.requestsFromFriends.mutableCopy;
   
   [self.requestsTable reloadData];
+  [self getFacebookInfo];
+}
+
+- (void) getFacebookInfo {
+  if (self.requests.count == 0) {
+    return;
+  }
+  
+  FBRequestConnection *conn = [[FBRequestConnection alloc] init];
+  
+  NSMutableString *ids = [NSMutableString stringWithFormat:@"%@", [(RequestFromFriend *)self.requests[0] invite].inviter.facebookId];
+  for (int i = 1; i < self.requests.count; i++) {
+    RequestFromFriend *req = self.requests[i];
+    [ids appendFormat:@",%@", req.invite.inviter.facebookId];
+  }
+  
+  self.spinner.hidden = NO;
+  NSDictionary *params = [NSDictionary dictionaryWithObjectsAndKeys:ids, @"ids", nil];
+  FBRequest *req = [[FBRequest alloc] initWithSession:nil graphPath:@"" parameters:params HTTPMethod:nil];
+  [conn addRequest:req completionHandler:^(FBRequestConnection *connection, NSDictionary *result, NSError *error) {
+    self.fbInfo = result;
+    
+    [self.requestsTable reloadData];
+    self.spinner.hidden = YES;
+  }];
+  [conn start];
 }
 
 #pragma mark - UITableViewDelegate/DataSource methods
@@ -94,7 +142,7 @@
   }
   
   RequestFromFriend *req = self.requests[indexPath.row];
-  [cell updateForRequest:req];
+  [cell updateForRequest:req andFbInfo:self.fbInfo[req.invite.inviter.facebookId]];
   cell.checkmark.hidden = [self.unselectedRequests containsObject:req];
   
   return cell;

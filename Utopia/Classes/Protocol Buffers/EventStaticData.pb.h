@@ -77,6 +77,8 @@
 @class UserEnhancementItemProto_Builder;
 @class UserEnhancementProto;
 @class UserEnhancementProto_Builder;
+@class UserFacebookInviteForSlotProto;
+@class UserFacebookInviteForSlotProto_Builder;
 @class UserMonsterCurrentExpProto;
 @class UserMonsterCurrentExpProto_Builder;
 @class UserMonsterCurrentHealthProto;

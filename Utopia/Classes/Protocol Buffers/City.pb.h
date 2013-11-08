@@ -31,6 +31,8 @@
 @class StaticLevelInfoProto_Builder;
 @class UserCityExpansionDataProto;
 @class UserCityExpansionDataProto_Builder;
+@class UserFacebookInviteForSlotProto;
+@class UserFacebookInviteForSlotProto_Builder;
 typedef enum {
   CityElementProto_CityElemTypeBuilding = 1,
   CityElementProto_CityElemTypeDecoration = 2,
@@ -335,21 +337,33 @@ BOOL CityElementProto_CityElemTypeIsValidValue(CityElementProto_CityElemType val
   BOOL hasCityId_:1;
   BOOL hasName_:1;
   BOOL hasMapImgName_:1;
+  BOOL hasRoadImgName_:1;
+  BOOL hasMapTmxName_:1;
   BOOL hasCenter_:1;
+  BOOL hasRoadImgCoords_:1;
   int32_t cityId;
   NSString* name;
   NSString* mapImgName;
+  NSString* roadImgName;
+  NSString* mapTmxName;
   CoordinateProto* center;
+  CoordinateProto* roadImgCoords;
   NSMutableArray* mutableTaskIdsList;
 }
 - (BOOL) hasCityId;
 - (BOOL) hasName;
 - (BOOL) hasMapImgName;
 - (BOOL) hasCenter;
+- (BOOL) hasRoadImgName;
+- (BOOL) hasMapTmxName;
+- (BOOL) hasRoadImgCoords;
 @property (readonly) int32_t cityId;
 @property (readonly, retain) NSString* name;
 @property (readonly, retain) NSString* mapImgName;
 @property (readonly, retain) CoordinateProto* center;
+@property (readonly, retain) NSString* roadImgName;
+@property (readonly, retain) NSString* mapTmxName;
+@property (readonly, retain) CoordinateProto* roadImgCoords;
 - (NSArray*) taskIdsList;
 - (int32_t) taskIdsAtIndex:(int32_t) index;
 
@@ -408,6 +422,23 @@ BOOL CityElementProto_CityElemTypeIsValidValue(CityElementProto_CityElemType val
 - (FullCityProto_Builder*) setCenterBuilder:(CoordinateProto_Builder*) builderForValue;
 - (FullCityProto_Builder*) mergeCenter:(CoordinateProto*) value;
 - (FullCityProto_Builder*) clearCenter;
+
+- (BOOL) hasRoadImgName;
+- (NSString*) roadImgName;
+- (FullCityProto_Builder*) setRoadImgName:(NSString*) value;
+- (FullCityProto_Builder*) clearRoadImgName;
+
+- (BOOL) hasMapTmxName;
+- (NSString*) mapTmxName;
+- (FullCityProto_Builder*) setMapTmxName:(NSString*) value;
+- (FullCityProto_Builder*) clearMapTmxName;
+
+- (BOOL) hasRoadImgCoords;
+- (CoordinateProto*) roadImgCoords;
+- (FullCityProto_Builder*) setRoadImgCoords:(CoordinateProto*) value;
+- (FullCityProto_Builder*) setRoadImgCoordsBuilder:(CoordinateProto_Builder*) builderForValue;
+- (FullCityProto_Builder*) mergeRoadImgCoords:(CoordinateProto*) value;
+- (FullCityProto_Builder*) clearRoadImgCoords;
 
 - (NSArray*) taskIdsList;
 - (int32_t) taskIdsAtIndex:(int32_t) index;

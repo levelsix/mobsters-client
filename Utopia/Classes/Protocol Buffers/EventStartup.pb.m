@@ -437,7 +437,7 @@ static StartupRequestProto* defaultStartupRequestProtoInstance = nil;
 @property (retain) NSMutableArray* mutableRareBoosterPurchasesList;
 @property (retain) NSString* kabamNaid;
 @property (retain) NSMutableArray* mutableUsersUsedForExtraSlotsList;
-@property (retain) NSMutableArray* mutableUsersInvitingMeForExtraSlotsList;
+@property (retain) NSMutableArray* mutableInvitesToMeForSlotsList;
 @end
 
 @implementation StartupResponseProto
@@ -545,7 +545,7 @@ static StartupRequestProto* defaultStartupRequestProtoInstance = nil;
 }
 @synthesize kabamNaid;
 @synthesize mutableUsersUsedForExtraSlotsList;
-@synthesize mutableUsersInvitingMeForExtraSlotsList;
+@synthesize mutableInvitesToMeForSlotsList;
 - (void) dealloc {
   self.sender = nil;
   self.startupConstants = nil;
@@ -575,7 +575,7 @@ static StartupRequestProto* defaultStartupRequestProtoInstance = nil;
   self.mutableRareBoosterPurchasesList = nil;
   self.kabamNaid = nil;
   self.mutableUsersUsedForExtraSlotsList = nil;
-  self.mutableUsersInvitingMeForExtraSlotsList = nil;
+  self.mutableInvitesToMeForSlotsList = nil;
   [super dealloc];
 }
 - (id) init {
@@ -753,11 +753,11 @@ static StartupResponseProto* defaultStartupResponseProtoInstance = nil;
   id value = [mutableUsersUsedForExtraSlotsList objectAtIndex:index];
   return value;
 }
-- (NSArray*) usersInvitingMeForExtraSlotsList {
-  return mutableUsersInvitingMeForExtraSlotsList;
+- (NSArray*) invitesToMeForSlotsList {
+  return mutableInvitesToMeForSlotsList;
 }
-- (MinimumUserProtoWithFacebookId*) usersInvitingMeForExtraSlotsAtIndex:(int32_t) index {
-  id value = [mutableUsersInvitingMeForExtraSlotsList objectAtIndex:index];
+- (UserFacebookInviteForSlotProto*) invitesToMeForSlotsAtIndex:(int32_t) index {
+  id value = [mutableInvitesToMeForSlotsList objectAtIndex:index];
   return value;
 }
 - (BOOL) isInitialized {
@@ -860,7 +860,7 @@ static StartupResponseProto* defaultStartupResponseProtoInstance = nil;
   for (MinimumUserProtoWithFacebookId* element in self.usersUsedForExtraSlotsList) {
     [output writeMessage:32 value:element];
   }
-  for (MinimumUserProtoWithFacebookId* element in self.usersInvitingMeForExtraSlotsList) {
+  for (UserFacebookInviteForSlotProto* element in self.invitesToMeForSlotsList) {
     [output writeMessage:33 value:element];
   }
   [self.unknownFields writeToCodedOutputStream:output];
@@ -973,7 +973,7 @@ static StartupResponseProto* defaultStartupResponseProtoInstance = nil;
   for (MinimumUserProtoWithFacebookId* element in self.usersUsedForExtraSlotsList) {
     size += computeMessageSize(32, element);
   }
-  for (MinimumUserProtoWithFacebookId* element in self.usersInvitingMeForExtraSlotsList) {
+  for (UserFacebookInviteForSlotProto* element in self.invitesToMeForSlotsList) {
     size += computeMessageSize(33, element);
   }
   size += self.unknownFields.serializedSize;
@@ -1578,7 +1578,6 @@ static StartupResponseProto_ReferralNotificationProto* defaultStartupResponsePro
 @property (retain) NSMutableArray* mutableInAppPurchasePackagesList;
 @property int32_t maxLevelForUser;
 @property int32_t maxNumOfSingleStruct;
-@property (retain) StartupResponseProto_StartupConstants_NormStructConstants* normStructConstants;
 @property (retain) NSMutableArray* mutableAnimatedSpriteOffsetsList;
 @property int32_t minNameLength;
 @property int32_t maxNameLength;
@@ -1614,13 +1613,6 @@ static StartupResponseProto_ReferralNotificationProto* defaultStartupResponsePro
   hasMaxNumOfSingleStruct_ = !!value;
 }
 @synthesize maxNumOfSingleStruct;
-- (BOOL) hasNormStructConstants {
-  return !!hasNormStructConstants_;
-}
-- (void) setHasNormStructConstants:(BOOL) value {
-  hasNormStructConstants_ = !!value;
-}
-@synthesize normStructConstants;
 @synthesize mutableAnimatedSpriteOffsetsList;
 - (BOOL) hasMinNameLength {
   return !!hasMinNameLength_;
@@ -1729,7 +1721,6 @@ static StartupResponseProto_ReferralNotificationProto* defaultStartupResponsePro
 @synthesize minutesPerGem;
 - (void) dealloc {
   self.mutableInAppPurchasePackagesList = nil;
-  self.normStructConstants = nil;
   self.mutableAnimatedSpriteOffsetsList = nil;
   self.clanConstants = nil;
   self.downloadableNibConstants = nil;
@@ -1744,7 +1735,6 @@ static StartupResponseProto_ReferralNotificationProto* defaultStartupResponsePro
   if ((self = [super init])) {
     self.maxLevelForUser = 0;
     self.maxNumOfSingleStruct = 0;
-    self.normStructConstants = [StartupResponseProto_StartupConstants_NormStructConstants defaultInstance];
     self.minNameLength = 0;
     self.maxNameLength = 0;
     self.maxLengthOfChatString = 0;
@@ -1802,56 +1792,53 @@ static StartupResponseProto_StartupConstants* defaultStartupResponseProto_Startu
   if (self.hasMaxNumOfSingleStruct) {
     [output writeInt32:3 value:self.maxNumOfSingleStruct];
   }
-  if (self.hasNormStructConstants) {
-    [output writeMessage:4 value:self.normStructConstants];
-  }
   for (StartupResponseProto_StartupConstants_AnimatedSpriteOffsetProto* element in self.animatedSpriteOffsetsList) {
-    [output writeMessage:5 value:element];
+    [output writeMessage:4 value:element];
   }
   if (self.hasMinNameLength) {
-    [output writeInt32:6 value:self.minNameLength];
+    [output writeInt32:5 value:self.minNameLength];
   }
   if (self.hasMaxNameLength) {
-    [output writeInt32:7 value:self.maxNameLength];
+    [output writeInt32:6 value:self.maxNameLength];
   }
   if (self.hasMaxLengthOfChatString) {
-    [output writeInt32:8 value:self.maxLengthOfChatString];
+    [output writeInt32:7 value:self.maxLengthOfChatString];
   }
   if (self.hasClanConstants) {
-    [output writeMessage:9 value:self.clanConstants];
+    [output writeMessage:8 value:self.clanConstants];
   }
   if (self.hasDownloadableNibConstants) {
-    [output writeMessage:10 value:self.downloadableNibConstants];
+    [output writeMessage:9 value:self.downloadableNibConstants];
   }
   if (self.hasNumHoursBeforeReshowingGoldSale) {
-    [output writeInt32:11 value:self.numHoursBeforeReshowingGoldSale];
+    [output writeInt32:10 value:self.numHoursBeforeReshowingGoldSale];
   }
   if (self.hasLevelToShowRateUsPopup) {
-    [output writeInt32:12 value:self.levelToShowRateUsPopup];
+    [output writeInt32:11 value:self.levelToShowRateUsPopup];
   }
   if (self.hasTouramentConstants) {
-    [output writeMessage:13 value:self.touramentConstants];
+    [output writeMessage:12 value:self.touramentConstants];
   }
   if (self.hasFbConnectRewardDiamonds) {
-    [output writeInt32:14 value:self.fbConnectRewardDiamonds];
+    [output writeInt32:13 value:self.fbConnectRewardDiamonds];
   }
   if (self.hasFaqFileName) {
-    [output writeString:15 value:self.faqFileName];
+    [output writeString:14 value:self.faqFileName];
   }
   if (self.hasAdminChatUserProto) {
-    [output writeMessage:16 value:self.adminChatUserProto];
+    [output writeMessage:15 value:self.adminChatUserProto];
   }
   if (self.hasNumBeginnerSalesAllowed) {
-    [output writeInt32:17 value:self.numBeginnerSalesAllowed];
+    [output writeInt32:16 value:self.numBeginnerSalesAllowed];
   }
   if (self.hasUserMonsterConstants) {
-    [output writeMessage:18 value:self.userMonsterConstants];
+    [output writeMessage:17 value:self.userMonsterConstants];
   }
   if (self.hasMonsterConstants) {
-    [output writeMessage:19 value:self.monsterConstants];
+    [output writeMessage:18 value:self.monsterConstants];
   }
   if (self.hasMinutesPerGem) {
-    [output writeFloat:20 value:self.minutesPerGem];
+    [output writeFloat:19 value:self.minutesPerGem];
   }
   [self.unknownFields writeToCodedOutputStream:output];
 }
@@ -1871,56 +1858,53 @@ static StartupResponseProto_StartupConstants* defaultStartupResponseProto_Startu
   if (self.hasMaxNumOfSingleStruct) {
     size += computeInt32Size(3, self.maxNumOfSingleStruct);
   }
-  if (self.hasNormStructConstants) {
-    size += computeMessageSize(4, self.normStructConstants);
-  }
   for (StartupResponseProto_StartupConstants_AnimatedSpriteOffsetProto* element in self.animatedSpriteOffsetsList) {
-    size += computeMessageSize(5, element);
+    size += computeMessageSize(4, element);
   }
   if (self.hasMinNameLength) {
-    size += computeInt32Size(6, self.minNameLength);
+    size += computeInt32Size(5, self.minNameLength);
   }
   if (self.hasMaxNameLength) {
-    size += computeInt32Size(7, self.maxNameLength);
+    size += computeInt32Size(6, self.maxNameLength);
   }
   if (self.hasMaxLengthOfChatString) {
-    size += computeInt32Size(8, self.maxLengthOfChatString);
+    size += computeInt32Size(7, self.maxLengthOfChatString);
   }
   if (self.hasClanConstants) {
-    size += computeMessageSize(9, self.clanConstants);
+    size += computeMessageSize(8, self.clanConstants);
   }
   if (self.hasDownloadableNibConstants) {
-    size += computeMessageSize(10, self.downloadableNibConstants);
+    size += computeMessageSize(9, self.downloadableNibConstants);
   }
   if (self.hasNumHoursBeforeReshowingGoldSale) {
-    size += computeInt32Size(11, self.numHoursBeforeReshowingGoldSale);
+    size += computeInt32Size(10, self.numHoursBeforeReshowingGoldSale);
   }
   if (self.hasLevelToShowRateUsPopup) {
-    size += computeInt32Size(12, self.levelToShowRateUsPopup);
+    size += computeInt32Size(11, self.levelToShowRateUsPopup);
   }
   if (self.hasTouramentConstants) {
-    size += computeMessageSize(13, self.touramentConstants);
+    size += computeMessageSize(12, self.touramentConstants);
   }
   if (self.hasFbConnectRewardDiamonds) {
-    size += computeInt32Size(14, self.fbConnectRewardDiamonds);
+    size += computeInt32Size(13, self.fbConnectRewardDiamonds);
   }
   if (self.hasFaqFileName) {
-    size += computeStringSize(15, self.faqFileName);
+    size += computeStringSize(14, self.faqFileName);
   }
   if (self.hasAdminChatUserProto) {
-    size += computeMessageSize(16, self.adminChatUserProto);
+    size += computeMessageSize(15, self.adminChatUserProto);
   }
   if (self.hasNumBeginnerSalesAllowed) {
-    size += computeInt32Size(17, self.numBeginnerSalesAllowed);
+    size += computeInt32Size(16, self.numBeginnerSalesAllowed);
   }
   if (self.hasUserMonsterConstants) {
-    size += computeMessageSize(18, self.userMonsterConstants);
+    size += computeMessageSize(17, self.userMonsterConstants);
   }
   if (self.hasMonsterConstants) {
-    size += computeMessageSize(19, self.monsterConstants);
+    size += computeMessageSize(18, self.monsterConstants);
   }
   if (self.hasMinutesPerGem) {
-    size += computeFloatSize(20, self.minutesPerGem);
+    size += computeFloatSize(19, self.minutesPerGem);
   }
   size += self.unknownFields.serializedSize;
   memoizedSerializedSize = size;
@@ -1952,335 +1936,6 @@ static StartupResponseProto_StartupConstants* defaultStartupResponseProto_Startu
 }
 - (StartupResponseProto_StartupConstants_Builder*) builder {
   return [StartupResponseProto_StartupConstants builder];
-}
-@end
-
-@interface StartupResponseProto_StartupConstants_NormStructConstants ()
-@property Float64 minutesToUpgradeForNormStructMultiplier;
-@property Float64 incomeFromNormStructMultiplier;
-@property Float64 upgradeStructCoinCostExponentBase;
-@property Float64 upgradeStructDiamondCostExponentBase;
-@property Float64 diamondCostForInstantUpgradeMultiplier;
-@end
-
-@implementation StartupResponseProto_StartupConstants_NormStructConstants
-
-- (BOOL) hasMinutesToUpgradeForNormStructMultiplier {
-  return !!hasMinutesToUpgradeForNormStructMultiplier_;
-}
-- (void) setHasMinutesToUpgradeForNormStructMultiplier:(BOOL) value {
-  hasMinutesToUpgradeForNormStructMultiplier_ = !!value;
-}
-@synthesize minutesToUpgradeForNormStructMultiplier;
-- (BOOL) hasIncomeFromNormStructMultiplier {
-  return !!hasIncomeFromNormStructMultiplier_;
-}
-- (void) setHasIncomeFromNormStructMultiplier:(BOOL) value {
-  hasIncomeFromNormStructMultiplier_ = !!value;
-}
-@synthesize incomeFromNormStructMultiplier;
-- (BOOL) hasUpgradeStructCoinCostExponentBase {
-  return !!hasUpgradeStructCoinCostExponentBase_;
-}
-- (void) setHasUpgradeStructCoinCostExponentBase:(BOOL) value {
-  hasUpgradeStructCoinCostExponentBase_ = !!value;
-}
-@synthesize upgradeStructCoinCostExponentBase;
-- (BOOL) hasUpgradeStructDiamondCostExponentBase {
-  return !!hasUpgradeStructDiamondCostExponentBase_;
-}
-- (void) setHasUpgradeStructDiamondCostExponentBase:(BOOL) value {
-  hasUpgradeStructDiamondCostExponentBase_ = !!value;
-}
-@synthesize upgradeStructDiamondCostExponentBase;
-- (BOOL) hasDiamondCostForInstantUpgradeMultiplier {
-  return !!hasDiamondCostForInstantUpgradeMultiplier_;
-}
-- (void) setHasDiamondCostForInstantUpgradeMultiplier:(BOOL) value {
-  hasDiamondCostForInstantUpgradeMultiplier_ = !!value;
-}
-@synthesize diamondCostForInstantUpgradeMultiplier;
-- (void) dealloc {
-  [super dealloc];
-}
-- (id) init {
-  if ((self = [super init])) {
-    self.minutesToUpgradeForNormStructMultiplier = 0;
-    self.incomeFromNormStructMultiplier = 0;
-    self.upgradeStructCoinCostExponentBase = 0;
-    self.upgradeStructDiamondCostExponentBase = 0;
-    self.diamondCostForInstantUpgradeMultiplier = 0;
-  }
-  return self;
-}
-static StartupResponseProto_StartupConstants_NormStructConstants* defaultStartupResponseProto_StartupConstants_NormStructConstantsInstance = nil;
-+ (void) initialize {
-  if (self == [StartupResponseProto_StartupConstants_NormStructConstants class]) {
-    defaultStartupResponseProto_StartupConstants_NormStructConstantsInstance = [[StartupResponseProto_StartupConstants_NormStructConstants alloc] init];
-  }
-}
-+ (StartupResponseProto_StartupConstants_NormStructConstants*) defaultInstance {
-  return defaultStartupResponseProto_StartupConstants_NormStructConstantsInstance;
-}
-- (StartupResponseProto_StartupConstants_NormStructConstants*) defaultInstance {
-  return defaultStartupResponseProto_StartupConstants_NormStructConstantsInstance;
-}
-- (BOOL) isInitialized {
-  return YES;
-}
-- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output {
-  if (self.hasMinutesToUpgradeForNormStructMultiplier) {
-    [output writeDouble:1 value:self.minutesToUpgradeForNormStructMultiplier];
-  }
-  if (self.hasIncomeFromNormStructMultiplier) {
-    [output writeDouble:2 value:self.incomeFromNormStructMultiplier];
-  }
-  if (self.hasUpgradeStructCoinCostExponentBase) {
-    [output writeDouble:3 value:self.upgradeStructCoinCostExponentBase];
-  }
-  if (self.hasUpgradeStructDiamondCostExponentBase) {
-    [output writeDouble:4 value:self.upgradeStructDiamondCostExponentBase];
-  }
-  if (self.hasDiamondCostForInstantUpgradeMultiplier) {
-    [output writeDouble:5 value:self.diamondCostForInstantUpgradeMultiplier];
-  }
-  [self.unknownFields writeToCodedOutputStream:output];
-}
-- (int32_t) serializedSize {
-  int32_t size = memoizedSerializedSize;
-  if (size != -1) {
-    return size;
-  }
-
-  size = 0;
-  if (self.hasMinutesToUpgradeForNormStructMultiplier) {
-    size += computeDoubleSize(1, self.minutesToUpgradeForNormStructMultiplier);
-  }
-  if (self.hasIncomeFromNormStructMultiplier) {
-    size += computeDoubleSize(2, self.incomeFromNormStructMultiplier);
-  }
-  if (self.hasUpgradeStructCoinCostExponentBase) {
-    size += computeDoubleSize(3, self.upgradeStructCoinCostExponentBase);
-  }
-  if (self.hasUpgradeStructDiamondCostExponentBase) {
-    size += computeDoubleSize(4, self.upgradeStructDiamondCostExponentBase);
-  }
-  if (self.hasDiamondCostForInstantUpgradeMultiplier) {
-    size += computeDoubleSize(5, self.diamondCostForInstantUpgradeMultiplier);
-  }
-  size += self.unknownFields.serializedSize;
-  memoizedSerializedSize = size;
-  return size;
-}
-+ (StartupResponseProto_StartupConstants_NormStructConstants*) parseFromData:(NSData*) data {
-  return (StartupResponseProto_StartupConstants_NormStructConstants*)[[[StartupResponseProto_StartupConstants_NormStructConstants builder] mergeFromData:data] build];
-}
-+ (StartupResponseProto_StartupConstants_NormStructConstants*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
-  return (StartupResponseProto_StartupConstants_NormStructConstants*)[[[StartupResponseProto_StartupConstants_NormStructConstants builder] mergeFromData:data extensionRegistry:extensionRegistry] build];
-}
-+ (StartupResponseProto_StartupConstants_NormStructConstants*) parseFromInputStream:(NSInputStream*) input {
-  return (StartupResponseProto_StartupConstants_NormStructConstants*)[[[StartupResponseProto_StartupConstants_NormStructConstants builder] mergeFromInputStream:input] build];
-}
-+ (StartupResponseProto_StartupConstants_NormStructConstants*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
-  return (StartupResponseProto_StartupConstants_NormStructConstants*)[[[StartupResponseProto_StartupConstants_NormStructConstants builder] mergeFromInputStream:input extensionRegistry:extensionRegistry] build];
-}
-+ (StartupResponseProto_StartupConstants_NormStructConstants*) parseFromCodedInputStream:(PBCodedInputStream*) input {
-  return (StartupResponseProto_StartupConstants_NormStructConstants*)[[[StartupResponseProto_StartupConstants_NormStructConstants builder] mergeFromCodedInputStream:input] build];
-}
-+ (StartupResponseProto_StartupConstants_NormStructConstants*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
-  return (StartupResponseProto_StartupConstants_NormStructConstants*)[[[StartupResponseProto_StartupConstants_NormStructConstants builder] mergeFromCodedInputStream:input extensionRegistry:extensionRegistry] build];
-}
-+ (StartupResponseProto_StartupConstants_NormStructConstants_Builder*) builder {
-  return [[[StartupResponseProto_StartupConstants_NormStructConstants_Builder alloc] init] autorelease];
-}
-+ (StartupResponseProto_StartupConstants_NormStructConstants_Builder*) builderWithPrototype:(StartupResponseProto_StartupConstants_NormStructConstants*) prototype {
-  return [[StartupResponseProto_StartupConstants_NormStructConstants builder] mergeFrom:prototype];
-}
-- (StartupResponseProto_StartupConstants_NormStructConstants_Builder*) builder {
-  return [StartupResponseProto_StartupConstants_NormStructConstants builder];
-}
-@end
-
-@interface StartupResponseProto_StartupConstants_NormStructConstants_Builder()
-@property (retain) StartupResponseProto_StartupConstants_NormStructConstants* result;
-@end
-
-@implementation StartupResponseProto_StartupConstants_NormStructConstants_Builder
-@synthesize result;
-- (void) dealloc {
-  self.result = nil;
-  [super dealloc];
-}
-- (id) init {
-  if ((self = [super init])) {
-    self.result = [[[StartupResponseProto_StartupConstants_NormStructConstants alloc] init] autorelease];
-  }
-  return self;
-}
-- (PBGeneratedMessage*) internalGetResult {
-  return result;
-}
-- (StartupResponseProto_StartupConstants_NormStructConstants_Builder*) clear {
-  self.result = [[[StartupResponseProto_StartupConstants_NormStructConstants alloc] init] autorelease];
-  return self;
-}
-- (StartupResponseProto_StartupConstants_NormStructConstants_Builder*) clone {
-  return [StartupResponseProto_StartupConstants_NormStructConstants builderWithPrototype:result];
-}
-- (StartupResponseProto_StartupConstants_NormStructConstants*) defaultInstance {
-  return [StartupResponseProto_StartupConstants_NormStructConstants defaultInstance];
-}
-- (StartupResponseProto_StartupConstants_NormStructConstants*) build {
-  [self checkInitialized];
-  return [self buildPartial];
-}
-- (StartupResponseProto_StartupConstants_NormStructConstants*) buildPartial {
-  StartupResponseProto_StartupConstants_NormStructConstants* returnMe = [[result retain] autorelease];
-  self.result = nil;
-  return returnMe;
-}
-- (StartupResponseProto_StartupConstants_NormStructConstants_Builder*) mergeFrom:(StartupResponseProto_StartupConstants_NormStructConstants*) other {
-  if (other == [StartupResponseProto_StartupConstants_NormStructConstants defaultInstance]) {
-    return self;
-  }
-  if (other.hasMinutesToUpgradeForNormStructMultiplier) {
-    [self setMinutesToUpgradeForNormStructMultiplier:other.minutesToUpgradeForNormStructMultiplier];
-  }
-  if (other.hasIncomeFromNormStructMultiplier) {
-    [self setIncomeFromNormStructMultiplier:other.incomeFromNormStructMultiplier];
-  }
-  if (other.hasUpgradeStructCoinCostExponentBase) {
-    [self setUpgradeStructCoinCostExponentBase:other.upgradeStructCoinCostExponentBase];
-  }
-  if (other.hasUpgradeStructDiamondCostExponentBase) {
-    [self setUpgradeStructDiamondCostExponentBase:other.upgradeStructDiamondCostExponentBase];
-  }
-  if (other.hasDiamondCostForInstantUpgradeMultiplier) {
-    [self setDiamondCostForInstantUpgradeMultiplier:other.diamondCostForInstantUpgradeMultiplier];
-  }
-  [self mergeUnknownFields:other.unknownFields];
-  return self;
-}
-- (StartupResponseProto_StartupConstants_NormStructConstants_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input {
-  return [self mergeFromCodedInputStream:input extensionRegistry:[PBExtensionRegistry emptyRegistry]];
-}
-- (StartupResponseProto_StartupConstants_NormStructConstants_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
-  PBUnknownFieldSet_Builder* unknownFields = [PBUnknownFieldSet builderWithUnknownFields:self.unknownFields];
-  while (YES) {
-    int32_t tag = [input readTag];
-    switch (tag) {
-      case 0:
-        [self setUnknownFields:[unknownFields build]];
-        return self;
-      default: {
-        if (![self parseUnknownField:input unknownFields:unknownFields extensionRegistry:extensionRegistry tag:tag]) {
-          [self setUnknownFields:[unknownFields build]];
-          return self;
-        }
-        break;
-      }
-      case 9: {
-        [self setMinutesToUpgradeForNormStructMultiplier:[input readDouble]];
-        break;
-      }
-      case 17: {
-        [self setIncomeFromNormStructMultiplier:[input readDouble]];
-        break;
-      }
-      case 25: {
-        [self setUpgradeStructCoinCostExponentBase:[input readDouble]];
-        break;
-      }
-      case 33: {
-        [self setUpgradeStructDiamondCostExponentBase:[input readDouble]];
-        break;
-      }
-      case 41: {
-        [self setDiamondCostForInstantUpgradeMultiplier:[input readDouble]];
-        break;
-      }
-    }
-  }
-}
-- (BOOL) hasMinutesToUpgradeForNormStructMultiplier {
-  return result.hasMinutesToUpgradeForNormStructMultiplier;
-}
-- (Float64) minutesToUpgradeForNormStructMultiplier {
-  return result.minutesToUpgradeForNormStructMultiplier;
-}
-- (StartupResponseProto_StartupConstants_NormStructConstants_Builder*) setMinutesToUpgradeForNormStructMultiplier:(Float64) value {
-  result.hasMinutesToUpgradeForNormStructMultiplier = YES;
-  result.minutesToUpgradeForNormStructMultiplier = value;
-  return self;
-}
-- (StartupResponseProto_StartupConstants_NormStructConstants_Builder*) clearMinutesToUpgradeForNormStructMultiplier {
-  result.hasMinutesToUpgradeForNormStructMultiplier = NO;
-  result.minutesToUpgradeForNormStructMultiplier = 0;
-  return self;
-}
-- (BOOL) hasIncomeFromNormStructMultiplier {
-  return result.hasIncomeFromNormStructMultiplier;
-}
-- (Float64) incomeFromNormStructMultiplier {
-  return result.incomeFromNormStructMultiplier;
-}
-- (StartupResponseProto_StartupConstants_NormStructConstants_Builder*) setIncomeFromNormStructMultiplier:(Float64) value {
-  result.hasIncomeFromNormStructMultiplier = YES;
-  result.incomeFromNormStructMultiplier = value;
-  return self;
-}
-- (StartupResponseProto_StartupConstants_NormStructConstants_Builder*) clearIncomeFromNormStructMultiplier {
-  result.hasIncomeFromNormStructMultiplier = NO;
-  result.incomeFromNormStructMultiplier = 0;
-  return self;
-}
-- (BOOL) hasUpgradeStructCoinCostExponentBase {
-  return result.hasUpgradeStructCoinCostExponentBase;
-}
-- (Float64) upgradeStructCoinCostExponentBase {
-  return result.upgradeStructCoinCostExponentBase;
-}
-- (StartupResponseProto_StartupConstants_NormStructConstants_Builder*) setUpgradeStructCoinCostExponentBase:(Float64) value {
-  result.hasUpgradeStructCoinCostExponentBase = YES;
-  result.upgradeStructCoinCostExponentBase = value;
-  return self;
-}
-- (StartupResponseProto_StartupConstants_NormStructConstants_Builder*) clearUpgradeStructCoinCostExponentBase {
-  result.hasUpgradeStructCoinCostExponentBase = NO;
-  result.upgradeStructCoinCostExponentBase = 0;
-  return self;
-}
-- (BOOL) hasUpgradeStructDiamondCostExponentBase {
-  return result.hasUpgradeStructDiamondCostExponentBase;
-}
-- (Float64) upgradeStructDiamondCostExponentBase {
-  return result.upgradeStructDiamondCostExponentBase;
-}
-- (StartupResponseProto_StartupConstants_NormStructConstants_Builder*) setUpgradeStructDiamondCostExponentBase:(Float64) value {
-  result.hasUpgradeStructDiamondCostExponentBase = YES;
-  result.upgradeStructDiamondCostExponentBase = value;
-  return self;
-}
-- (StartupResponseProto_StartupConstants_NormStructConstants_Builder*) clearUpgradeStructDiamondCostExponentBase {
-  result.hasUpgradeStructDiamondCostExponentBase = NO;
-  result.upgradeStructDiamondCostExponentBase = 0;
-  return self;
-}
-- (BOOL) hasDiamondCostForInstantUpgradeMultiplier {
-  return result.hasDiamondCostForInstantUpgradeMultiplier;
-}
-- (Float64) diamondCostForInstantUpgradeMultiplier {
-  return result.diamondCostForInstantUpgradeMultiplier;
-}
-- (StartupResponseProto_StartupConstants_NormStructConstants_Builder*) setDiamondCostForInstantUpgradeMultiplier:(Float64) value {
-  result.hasDiamondCostForInstantUpgradeMultiplier = YES;
-  result.diamondCostForInstantUpgradeMultiplier = value;
-  return self;
-}
-- (StartupResponseProto_StartupConstants_NormStructConstants_Builder*) clearDiamondCostForInstantUpgradeMultiplier {
-  result.hasDiamondCostForInstantUpgradeMultiplier = NO;
-  result.diamondCostForInstantUpgradeMultiplier = 0;
-  return self;
 }
 @end
 
@@ -3956,9 +3611,6 @@ static StartupResponseProto_StartupConstants_MonsterConstants* defaultStartupRes
   if (other.hasMaxNumOfSingleStruct) {
     [self setMaxNumOfSingleStruct:other.maxNumOfSingleStruct];
   }
-  if (other.hasNormStructConstants) {
-    [self mergeNormStructConstants:other.normStructConstants];
-  }
   if (other.mutableAnimatedSpriteOffsetsList.count > 0) {
     if (result.mutableAnimatedSpriteOffsetsList == nil) {
       result.mutableAnimatedSpriteOffsetsList = [NSMutableArray array];
@@ -4046,33 +3698,24 @@ static StartupResponseProto_StartupConstants_MonsterConstants* defaultStartupRes
         break;
       }
       case 34: {
-        StartupResponseProto_StartupConstants_NormStructConstants_Builder* subBuilder = [StartupResponseProto_StartupConstants_NormStructConstants builder];
-        if (self.hasNormStructConstants) {
-          [subBuilder mergeFrom:self.normStructConstants];
-        }
-        [input readMessage:subBuilder extensionRegistry:extensionRegistry];
-        [self setNormStructConstants:[subBuilder buildPartial]];
-        break;
-      }
-      case 42: {
         StartupResponseProto_StartupConstants_AnimatedSpriteOffsetProto_Builder* subBuilder = [StartupResponseProto_StartupConstants_AnimatedSpriteOffsetProto builder];
         [input readMessage:subBuilder extensionRegistry:extensionRegistry];
         [self addAnimatedSpriteOffsets:[subBuilder buildPartial]];
         break;
       }
-      case 48: {
+      case 40: {
         [self setMinNameLength:[input readInt32]];
         break;
       }
-      case 56: {
+      case 48: {
         [self setMaxNameLength:[input readInt32]];
         break;
       }
-      case 64: {
+      case 56: {
         [self setMaxLengthOfChatString:[input readInt32]];
         break;
       }
-      case 74: {
+      case 66: {
         StartupResponseProto_StartupConstants_ClanConstants_Builder* subBuilder = [StartupResponseProto_StartupConstants_ClanConstants builder];
         if (self.hasClanConstants) {
           [subBuilder mergeFrom:self.clanConstants];
@@ -4081,7 +3724,7 @@ static StartupResponseProto_StartupConstants_MonsterConstants* defaultStartupRes
         [self setClanConstants:[subBuilder buildPartial]];
         break;
       }
-      case 82: {
+      case 74: {
         StartupResponseProto_StartupConstants_DownloadableNibConstants_Builder* subBuilder = [StartupResponseProto_StartupConstants_DownloadableNibConstants builder];
         if (self.hasDownloadableNibConstants) {
           [subBuilder mergeFrom:self.downloadableNibConstants];
@@ -4090,15 +3733,15 @@ static StartupResponseProto_StartupConstants_MonsterConstants* defaultStartupRes
         [self setDownloadableNibConstants:[subBuilder buildPartial]];
         break;
       }
-      case 88: {
+      case 80: {
         [self setNumHoursBeforeReshowingGoldSale:[input readInt32]];
         break;
       }
-      case 96: {
+      case 88: {
         [self setLevelToShowRateUsPopup:[input readInt32]];
         break;
       }
-      case 106: {
+      case 98: {
         StartupResponseProto_StartupConstants_TournamentConstants_Builder* subBuilder = [StartupResponseProto_StartupConstants_TournamentConstants builder];
         if (self.hasTouramentConstants) {
           [subBuilder mergeFrom:self.touramentConstants];
@@ -4107,15 +3750,15 @@ static StartupResponseProto_StartupConstants_MonsterConstants* defaultStartupRes
         [self setTouramentConstants:[subBuilder buildPartial]];
         break;
       }
-      case 112: {
+      case 104: {
         [self setFbConnectRewardDiamonds:[input readInt32]];
         break;
       }
-      case 122: {
+      case 114: {
         [self setFaqFileName:[input readString]];
         break;
       }
-      case 130: {
+      case 122: {
         MinimumUserProto_Builder* subBuilder = [MinimumUserProto builder];
         if (self.hasAdminChatUserProto) {
           [subBuilder mergeFrom:self.adminChatUserProto];
@@ -4124,11 +3767,11 @@ static StartupResponseProto_StartupConstants_MonsterConstants* defaultStartupRes
         [self setAdminChatUserProto:[subBuilder buildPartial]];
         break;
       }
-      case 136: {
+      case 128: {
         [self setNumBeginnerSalesAllowed:[input readInt32]];
         break;
       }
-      case 146: {
+      case 138: {
         StartupResponseProto_StartupConstants_UserMonsterConstants_Builder* subBuilder = [StartupResponseProto_StartupConstants_UserMonsterConstants builder];
         if (self.hasUserMonsterConstants) {
           [subBuilder mergeFrom:self.userMonsterConstants];
@@ -4137,7 +3780,7 @@ static StartupResponseProto_StartupConstants_MonsterConstants* defaultStartupRes
         [self setUserMonsterConstants:[subBuilder buildPartial]];
         break;
       }
-      case 154: {
+      case 146: {
         StartupResponseProto_StartupConstants_MonsterConstants_Builder* subBuilder = [StartupResponseProto_StartupConstants_MonsterConstants builder];
         if (self.hasMonsterConstants) {
           [subBuilder mergeFrom:self.monsterConstants];
@@ -4146,7 +3789,7 @@ static StartupResponseProto_StartupConstants_MonsterConstants* defaultStartupRes
         [self setMonsterConstants:[subBuilder buildPartial]];
         break;
       }
-      case 165: {
+      case 157: {
         [self setMinutesPerGem:[input readFloat]];
         break;
       }
@@ -4212,36 +3855,6 @@ static StartupResponseProto_StartupConstants_MonsterConstants* defaultStartupRes
 - (StartupResponseProto_StartupConstants_Builder*) clearMaxNumOfSingleStruct {
   result.hasMaxNumOfSingleStruct = NO;
   result.maxNumOfSingleStruct = 0;
-  return self;
-}
-- (BOOL) hasNormStructConstants {
-  return result.hasNormStructConstants;
-}
-- (StartupResponseProto_StartupConstants_NormStructConstants*) normStructConstants {
-  return result.normStructConstants;
-}
-- (StartupResponseProto_StartupConstants_Builder*) setNormStructConstants:(StartupResponseProto_StartupConstants_NormStructConstants*) value {
-  result.hasNormStructConstants = YES;
-  result.normStructConstants = value;
-  return self;
-}
-- (StartupResponseProto_StartupConstants_Builder*) setNormStructConstantsBuilder:(StartupResponseProto_StartupConstants_NormStructConstants_Builder*) builderForValue {
-  return [self setNormStructConstants:[builderForValue build]];
-}
-- (StartupResponseProto_StartupConstants_Builder*) mergeNormStructConstants:(StartupResponseProto_StartupConstants_NormStructConstants*) value {
-  if (result.hasNormStructConstants &&
-      result.normStructConstants != [StartupResponseProto_StartupConstants_NormStructConstants defaultInstance]) {
-    result.normStructConstants =
-      [[[StartupResponseProto_StartupConstants_NormStructConstants builderWithPrototype:result.normStructConstants] mergeFrom:value] buildPartial];
-  } else {
-    result.normStructConstants = value;
-  }
-  result.hasNormStructConstants = YES;
-  return self;
-}
-- (StartupResponseProto_StartupConstants_Builder*) clearNormStructConstants {
-  result.hasNormStructConstants = NO;
-  result.normStructConstants = [StartupResponseProto_StartupConstants_NormStructConstants defaultInstance];
   return self;
 }
 - (NSArray*) animatedSpriteOffsetsList {
@@ -4800,11 +4413,11 @@ static StartupResponseProto_StartupConstants_MonsterConstants* defaultStartupRes
     }
     [result.mutableUsersUsedForExtraSlotsList addObjectsFromArray:other.mutableUsersUsedForExtraSlotsList];
   }
-  if (other.mutableUsersInvitingMeForExtraSlotsList.count > 0) {
-    if (result.mutableUsersInvitingMeForExtraSlotsList == nil) {
-      result.mutableUsersInvitingMeForExtraSlotsList = [NSMutableArray array];
+  if (other.mutableInvitesToMeForSlotsList.count > 0) {
+    if (result.mutableInvitesToMeForSlotsList == nil) {
+      result.mutableInvitesToMeForSlotsList = [NSMutableArray array];
     }
-    [result.mutableUsersInvitingMeForExtraSlotsList addObjectsFromArray:other.mutableUsersInvitingMeForExtraSlotsList];
+    [result.mutableInvitesToMeForSlotsList addObjectsFromArray:other.mutableInvitesToMeForSlotsList];
   }
   [self mergeUnknownFields:other.unknownFields];
   return self;
@@ -5021,9 +4634,9 @@ static StartupResponseProto_StartupConstants_MonsterConstants* defaultStartupRes
         break;
       }
       case 266: {
-        MinimumUserProtoWithFacebookId_Builder* subBuilder = [MinimumUserProtoWithFacebookId builder];
+        UserFacebookInviteForSlotProto_Builder* subBuilder = [UserFacebookInviteForSlotProto builder];
         [input readMessage:subBuilder extensionRegistry:extensionRegistry];
-        [self addUsersInvitingMeForExtraSlots:[subBuilder buildPartial]];
+        [self addInvitesToMeForSlots:[subBuilder buildPartial]];
         break;
       }
     }
@@ -5858,33 +5471,33 @@ static StartupResponseProto_StartupConstants_MonsterConstants* defaultStartupRes
   [result.mutableUsersUsedForExtraSlotsList addObject:value];
   return self;
 }
-- (NSArray*) usersInvitingMeForExtraSlotsList {
-  if (result.mutableUsersInvitingMeForExtraSlotsList == nil) { return [NSArray array]; }
-  return result.mutableUsersInvitingMeForExtraSlotsList;
+- (NSArray*) invitesToMeForSlotsList {
+  if (result.mutableInvitesToMeForSlotsList == nil) { return [NSArray array]; }
+  return result.mutableInvitesToMeForSlotsList;
 }
-- (MinimumUserProtoWithFacebookId*) usersInvitingMeForExtraSlotsAtIndex:(int32_t) index {
-  return [result usersInvitingMeForExtraSlotsAtIndex:index];
+- (UserFacebookInviteForSlotProto*) invitesToMeForSlotsAtIndex:(int32_t) index {
+  return [result invitesToMeForSlotsAtIndex:index];
 }
-- (StartupResponseProto_Builder*) replaceUsersInvitingMeForExtraSlotsAtIndex:(int32_t) index with:(MinimumUserProtoWithFacebookId*) value {
-  [result.mutableUsersInvitingMeForExtraSlotsList replaceObjectAtIndex:index withObject:value];
+- (StartupResponseProto_Builder*) replaceInvitesToMeForSlotsAtIndex:(int32_t) index with:(UserFacebookInviteForSlotProto*) value {
+  [result.mutableInvitesToMeForSlotsList replaceObjectAtIndex:index withObject:value];
   return self;
 }
-- (StartupResponseProto_Builder*) addAllUsersInvitingMeForExtraSlots:(NSArray*) values {
-  if (result.mutableUsersInvitingMeForExtraSlotsList == nil) {
-    result.mutableUsersInvitingMeForExtraSlotsList = [NSMutableArray array];
+- (StartupResponseProto_Builder*) addAllInvitesToMeForSlots:(NSArray*) values {
+  if (result.mutableInvitesToMeForSlotsList == nil) {
+    result.mutableInvitesToMeForSlotsList = [NSMutableArray array];
   }
-  [result.mutableUsersInvitingMeForExtraSlotsList addObjectsFromArray:values];
+  [result.mutableInvitesToMeForSlotsList addObjectsFromArray:values];
   return self;
 }
-- (StartupResponseProto_Builder*) clearUsersInvitingMeForExtraSlotsList {
-  result.mutableUsersInvitingMeForExtraSlotsList = nil;
+- (StartupResponseProto_Builder*) clearInvitesToMeForSlotsList {
+  result.mutableInvitesToMeForSlotsList = nil;
   return self;
 }
-- (StartupResponseProto_Builder*) addUsersInvitingMeForExtraSlots:(MinimumUserProtoWithFacebookId*) value {
-  if (result.mutableUsersInvitingMeForExtraSlotsList == nil) {
-    result.mutableUsersInvitingMeForExtraSlotsList = [NSMutableArray array];
+- (StartupResponseProto_Builder*) addInvitesToMeForSlots:(UserFacebookInviteForSlotProto*) value {
+  if (result.mutableInvitesToMeForSlotsList == nil) {
+    result.mutableInvitesToMeForSlotsList = [NSMutableArray array];
   }
-  [result.mutableUsersInvitingMeForExtraSlotsList addObject:value];
+  [result.mutableInvitesToMeForSlotsList addObject:value];
   return self;
 }
 @end

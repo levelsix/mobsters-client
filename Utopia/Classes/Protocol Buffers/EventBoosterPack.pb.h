@@ -33,6 +33,8 @@
 @class RetrieveBoosterPackResponseProto_Builder;
 @class StaticLevelInfoProto;
 @class StaticLevelInfoProto_Builder;
+@class UserFacebookInviteForSlotProto;
+@class UserFacebookInviteForSlotProto_Builder;
 typedef enum {
   RetrieveBoosterPackResponseProto_RetrieveBoosterPackStatusSuccess = 1,
   RetrieveBoosterPackResponseProto_RetrieveBoosterPackStatusSomeFail = 2,

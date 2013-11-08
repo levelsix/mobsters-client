@@ -85,12 +85,6 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
   self.cashPerHealthPoint = constants.monsterConstants.cashPerHealthPoint;
   self.secondsToHealPerHealthPoint = constants.monsterConstants.secondsToHealPerHealthPoint;
   
-  self.minutesToUpgradeForNormStructMultiplier = constants.normStructConstants.minutesToUpgradeForNormStructMultiplier;
-  self.incomeFromNormStructMultiplier = constants.normStructConstants.incomeFromNormStructMultiplier;
-  self.upgradeStructCoinCostExponentBase = constants.normStructConstants.upgradeStructCoinCostExponentBase;
-  self.upgradeStructDiamondCostExponentBase = constants.normStructConstants.upgradeStructDiamondCostExponentBase;
-  self.diamondCostForInstantUpgradeMultiplier = constants.normStructConstants.diamondCostForInstantUpgradeMultiplier;
-  
   self.coinPriceToCreateClan = constants.clanConstants.hasCoinPriceToCreateClan;
   self.maxCharLengthForClanName = constants.clanConstants.maxCharLengthForClanName;
   self.maxCharLengthForClanDescription = constants.clanConstants.maxCharLengthForClanDescription;
@@ -1014,45 +1008,6 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
 
 - (int) calculateGemSpeedupCostForTimeLeft:(int)timeLeft {
   return MAX(0.f, ceilf(timeLeft/60.f/self.minutesPerGem));
-}
-
-- (int) calculateIncome:(int)income level:(int)level {
-  return MAX(1, income * level * self.incomeFromNormStructMultiplier);
-}
-
-- (int) calculateIncomeForUserStruct:(UserStruct *)us {
-  FullStructureProto *fsp = [[GameState sharedGameState] structWithId:us.structId];
-  return [self calculateIncome:fsp.income level:us.level];
-}
-
-- (int) calculateIncomeForUserStructAfterLevelUp:(UserStruct *)us {
-  FullStructureProto *fsp = [[GameState sharedGameState] structWithId:us.structId];
-  return [self calculateIncome:fsp.income level:us.level+1];
-}
-
-- (int) calculateStructSilverSellCost:(UserStruct *)us {
-  //  FullStructureProto *fsp = [[GameState sharedGameState] structWithId:us.structId];
-  return 0;
-}
-
-- (int) calculateStructGoldSellCost:(UserStruct *)us {
-  //  FullStructureProto *fsp = [[GameState sharedGameState] structWithId:us.structId];
-  return 0;
-}
-
-- (int) calculateUpgradeCost:(UserStruct *)us {
-  FullStructureProto *fsp = [[GameState sharedGameState] structWithId:us.structId];
-  if (fsp.cashPrice > 0) {
-    return MAX(0, (int)(fsp.cashPrice * powf(self.upgradeStructCoinCostExponentBase, us.level)));
-  } else {
-    return MAX(0, (int)(fsp.gemPrice * powf(self.upgradeStructDiamondCostExponentBase, us.level)));
-  }
-}
-
-- (int) calculateMinutesToUpgrade:(UserStruct *)us {
-  FullStructureProto *fsp = [[GameState sharedGameState] structWithId:us.structId];
-  int levelBase = us.state == kBuilding ? 1 : us.level+1;
-  return MAX(1, (int)(fsp.minutesToBuild * levelBase * self.minutesToUpgradeForNormStructMultiplier));
 }
 
 - (int) calculateNumMinutesForNewExpansion {

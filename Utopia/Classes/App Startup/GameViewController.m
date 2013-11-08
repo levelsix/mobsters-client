@@ -33,6 +33,8 @@
 #import "AppDelegate.h"
 #import "DungeonBattleLayer.h"
 #import "Downloader.h"
+#import <Carrot/Carrot.h>
+#import <FacebookSDK/FacebookSDK.h>
 
 #define DEFAULT_PNG_IMAGE_VIEW_TAG 103
 #define KINGDOM_PNG_IMAGE_VIEW_TAG 104
@@ -72,7 +74,7 @@
   CCDirector *director = [CCDirector sharedDirector];
   CCGLView *glView = [CCGLView viewWithFrame:self.view.bounds
                                  pixelFormat:kEAGLColorFormatRGB565
-                                 depthFormat:0
+                                 depthFormat:GL_DEPTH24_STENCIL8_OES
                           preserveBackbuffer:NO
                                   sharegroup:nil
                                multiSampling:NO
@@ -136,6 +138,12 @@
   UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:lvc];
   nav.navigationBarHidden = YES;
   [self presentViewController:nav animated:NO completion:nil];
+  
+//  [FBSession openActiveSessionWithReadPermissions:nil allowLoginUI:YES
+//                                   completionHandler:^(FBSession *session, FBSessionState status, NSError *error) {
+//                                     [[Carrot sharedInstance] postAction:@"recruit" forObjectInstance:@"cheer0_1"];
+//                                     [[Carrot sharedInstance] postAction:@"recruit" forObjectInstance:@"clown1_2"];
+//                                   }];
 }
 
 - (void) progressTo:(float)t {

@@ -29,8 +29,7 @@
     self.profPicView.hidden = NO;
     
     // add the stuff at the end so it knows where to save it
-    NSString *str = [Globals urlStringForFacebookId:uid];
-    [Globals imageNamed:str withView:self.profPicView greyscale:NO indicator:UIActivityIndicatorViewStyleWhite clearImageDuringDownload:YES];
+    self.profPicView.profileID = uid;
   } else {
     self.bgdView.highlighted = NO;
     self.slotNumLabel.hidden = NO;
@@ -57,6 +56,18 @@
   self.chooserView.blacklistFriendIds = gs.usersUsedForExtraSlots;
   
   [self transitionToAddSlotsView:NO];
+  
+  [self updateAcceptedSlots];
+}
+
+- (void) updateAcceptedSlots {
+  GameState *gs = [GameState sharedGameState];
+  for (int i = 0; i < gs.acceptedSlotsRequests.count && i < self.acceptViews.count; i++) {
+    FriendAcceptView *accept = self.acceptViews[i];
+    RequestFromFriend *req = gs.acceptedSlotsRequests[i];
+    
+    [accept updateForFacebookId:req.invite.inviter.facebookId];
+  }
 }
 
 #pragma mark - Swapping Views

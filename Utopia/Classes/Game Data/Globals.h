@@ -78,11 +78,6 @@
 
 // Norm struct constants
 @property (nonatomic, assign) int maxRepeatedNormStructs;
-@property (nonatomic, assign) float minutesToUpgradeForNormStructMultiplier;
-@property (nonatomic, assign) float incomeFromNormStructMultiplier;
-@property (nonatomic, assign) float upgradeStructCoinCostExponentBase;
-@property (nonatomic, assign) float upgradeStructDiamondCostExponentBase;
-@property (nonatomic, assign) float diamondCostForInstantUpgradeMultiplier;
 
 // Clan constants
 @property (nonatomic, assign) int coinPriceToCreateClan;
@@ -206,13 +201,6 @@
 
 // Formulas
 - (int) calculateGemSpeedupCostForTimeLeft:(int)timeLeft;
-
-- (int) calculateIncomeForUserStruct:(UserStruct *)us;
-- (int) calculateIncomeForUserStructAfterLevelUp:(UserStruct *)us;
-- (int) calculateStructSilverSellCost:(UserStruct *)us;
-- (int) calculateStructGoldSellCost:(UserStruct *)us;
-- (int) calculateUpgradeCost:(UserStruct *)us;
-- (int) calculateMinutesToUpgrade:(UserStruct *)us;
 
 - (int) calculateNumMinutesForNewExpansion;
 - (int) calculateSilverCostForNewExpansion;

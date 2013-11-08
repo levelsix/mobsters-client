@@ -359,7 +359,7 @@
     // Make sure to cleanup just in case
     [self removeChild:_retrieveBubble cleanup:YES];
   }
-  _retrieveBubble = [CCSprite spriteWithFile:@"silverover.png"];
+  _retrieveBubble = [CCSprite spriteWithFile:@"cashready.png"];
   [self addChild:_retrieveBubble];
   _retrieveBubble.position = ccp(self.contentSize.width/2,self.contentSize.height-OVER_HOME_BUILDING_MENU_OFFSET);
 }
@@ -406,19 +406,13 @@
   CCNode *n = [self getChildByTag:UPGRADING_TAG];
   if (n && [n isKindOfClass:[UpgradeProgressBar class]]) {
     UpgradeProgressBar *bar = (UpgradeProgressBar *)n;
-    Globals *gl = [Globals sharedGlobals];
     FullStructureProto *fsp = [[GameState sharedGameState] structWithId:self.userStruct.structId];
     
     NSTimeInterval time = 0.f;
     int totalTime = 1;
     switch (self.userStruct.state) {
-      case kUpgrading:
-        totalTime = [gl calculateMinutesToUpgrade:self.userStruct]*60;
-        time = [[NSDate dateWithTimeInterval:totalTime sinceDate:self.userStruct.lastUpgradeTime] timeIntervalSinceNow];
-        break;
-        
       case kBuilding:
-        totalTime = [gl calculateMinutesToUpgrade:self.userStruct]*60;
+        totalTime = fsp.minutesToBuild*60;
         time = [[NSDate dateWithTimeInterval:totalTime sinceDate:self.userStruct.purchaseTime] timeIntervalSinceNow];
         break;
         
@@ -482,17 +476,11 @@
 
 - (void) createTimerForCurrentState {
   FullStructureProto *fsp = [[GameState sharedGameState] structWithId:self.userStruct.structId];
-  Globals *gl = [Globals sharedGlobals];
   
   UserStructState st = self.userStruct.state;
   NSTimeInterval time;
   SEL selector = nil;
   switch (st) {
-    case kUpgrading:
-      time = [[NSDate dateWithTimeInterval:[gl calculateMinutesToUpgrade:self.userStruct]*60 sinceDate:self.userStruct.lastUpgradeTime] timeIntervalSinceNow];
-      selector = @selector(upgradeComplete:);
-      break;
-      
     case kBuilding:
       time = [[NSDate dateWithTimeInterval:fsp.minutesToBuild*60 sinceDate:self.userStruct.purchaseTime] timeIntervalSinceNow];
       selector = @selector(buildComplete:);

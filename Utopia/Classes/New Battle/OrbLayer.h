@@ -10,7 +10,6 @@
 #import "cocos2d.h"
 #import "Protocols.pb.h"
 
-#define NUM_COLORS 3
 #define TIME_LIMIT 100
 
 typedef enum {
@@ -19,7 +18,7 @@ typedef enum {
   color_green = MonsterProto_MonsterElementGrass,
   color_white = MonsterProto_MonsterElementLightning,
   color_purple = MonsterProto_MonsterElementDarkness,
-  color_all = 10
+  color_all = 100
 } GemColorId;
 
 typedef enum {
@@ -38,6 +37,13 @@ typedef enum {
 
 @end
 
+@interface DestroyedGem : CCSprite
+
+@property (nonatomic, retain) CCMotionStreak *streak;
+@property (nonatomic, assign) int scoreValue;
+
+@end
+
 @interface Gem : NSObject
 
 @property (nonatomic, retain) CCSprite * sprite;
@@ -50,8 +56,9 @@ typedef enum {
 
 - (void) turnBegan;
 - (void) newComboFound;
-- (void) orbKilled:(GemColorId)color;
+- (void) gemKilled:(Gem *)gem;
 - (void) turnComplete;
+- (void) reshuffle;
 
 @end
 
@@ -79,11 +86,19 @@ typedef enum {
 @property (nonatomic, retain) NSMutableArray *comboLabels;
 @property (nonatomic, retain) NSMutableArray *powerups;
 
+@property (nonatomic, assign) CGPoint orbFlyToLocation;
+
 @property (nonatomic, assign) id<OrbLayerDelegate> delegate;
 
-- (id) initWithGridSize:(CGSize)gridSize numColors:(int)numColors;
 - (id) initWithContentSize:(CGSize)size gridSize:(CGSize)gridSize numColors:(int)numColors;
 - (void) allowInput;
 - (void) disallowInput;
+- (ccColor3B) colorForSparkle:(GemColorId)color;
+
+- (CGPoint) pointForGridPosition:(CGPoint)pt;
+- (CGPoint) coordinateOfGem:(Gem *)gem;
+
+- (BOOL) validMoveExists;
+- (void) reshuffle;
 
 @end

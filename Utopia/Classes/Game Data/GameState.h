@@ -75,6 +75,7 @@
 
 @property (nonatomic, retain) NSMutableArray *requestsFromFriends;
 @property (nonatomic, retain) NSMutableArray *usersUsedForExtraSlots;
+@property (nonatomic, retain) NSMutableArray *acceptedSlotsRequests;
 
 @property (nonatomic, retain) NSMutableArray *unrespondedUpdates;
 
@@ -116,7 +117,7 @@
 - (void) addBoosterPurchase:(RareBoosterPurchaseProto *)bp;
 - (void) addToStaticLevelInfos:(NSArray *)lurep;
 
-- (void) addInventorySlotsRequests:(NSArray *)users;
+- (void) addInventorySlotsRequests:(NSArray *)invites;
 - (void) addUsersUsedForExtraSlots:(NSArray *)users;
 
 - (void) addUserMonsterHealingItemToEndOfQueue:(UserMonsterHealingItem *)item;

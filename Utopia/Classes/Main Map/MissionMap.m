@@ -12,7 +12,6 @@
 #import "UserData.h"
 #import "OutgoingEventController.h"
 #import "AnimatedSprite.h"
-#import "CCLabelFX.h"
 #import <AudioToolbox/AudioServices.h>
 #import "Drops.h"
 #import "GameViewController.h"
@@ -26,7 +25,7 @@
   //  NSString *tmxFile = @"villa_montalvo.tmx";
   GameState *gs = [GameState sharedGameState];
   FullCityProto *fcp = [gs cityWithId:proto.cityId];
-  if ((self = [super initWithTMXFile:fcp.mapImgName])) {
+  if ((self = [super initWithTMXFile:fcp.mapTmxName])) {
     self.cityId = proto.cityId;
     
     self.walkableData = [NSMutableArray arrayWithCapacity:[self mapSize].width];
@@ -133,15 +132,14 @@
     
     _allowSelection = YES;
     
-    
-    CCSprite *s1 = [CCSprite spriteWithFile:@"missionmap.png"];
+    CCSprite *s1 = [CCSprite spriteWithFile:fcp.mapImgName];
     [self addChild:s1 z:-1000];
     
     s1.position = ccp(s1.contentSize.width/2-33, s1.contentSize.height/2-50);
     
-    CCSprite *road = [CCSprite spriteWithFile:@"missionroad.png"];
+    CCSprite *road = [CCSprite spriteWithFile:fcp.roadImgName];
     [self addChild:road z:-998];
-    road.position = ccpAdd(s1.position, ccp(23,21.5));
+    road.position = ccpAdd(s1.position, ccp(fcp.roadImgCoords.x, fcp.roadImgCoords.y));
     
     self.scale = 1;
     

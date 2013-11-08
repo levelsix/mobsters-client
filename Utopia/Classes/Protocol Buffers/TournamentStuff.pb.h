@@ -29,6 +29,8 @@
 @class TournamentEventProto_Builder;
 @class TournamentEventRewardProto;
 @class TournamentEventRewardProto_Builder;
+@class UserFacebookInviteForSlotProto;
+@class UserFacebookInviteForSlotProto_Builder;
 
 @interface TournamentStuffRoot : NSObject {
 }

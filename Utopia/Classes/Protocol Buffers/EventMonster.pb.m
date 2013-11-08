@@ -4197,6 +4197,7 @@ BOOL RemoveMonsterFromBattleTeamResponseProto_RemoveMonsterFromBattleTeamStatusI
 
 @interface IncreaseMonsterInventorySlotRequestProto ()
 @property (retain) MinimumUserProto* sender;
+@property IncreaseMonsterInventorySlotRequestProto_IncreaseSlotType increaseSlotType;
 @property int32_t numPurchases;
 @end
 
@@ -4209,6 +4210,13 @@ BOOL RemoveMonsterFromBattleTeamResponseProto_RemoveMonsterFromBattleTeamStatusI
   hasSender_ = !!value;
 }
 @synthesize sender;
+- (BOOL) hasIncreaseSlotType {
+  return !!hasIncreaseSlotType_;
+}
+- (void) setHasIncreaseSlotType:(BOOL) value {
+  hasIncreaseSlotType_ = !!value;
+}
+@synthesize increaseSlotType;
 - (BOOL) hasNumPurchases {
   return !!hasNumPurchases_;
 }
@@ -4223,6 +4231,7 @@ BOOL RemoveMonsterFromBattleTeamResponseProto_RemoveMonsterFromBattleTeamStatusI
 - (id) init {
   if ((self = [super init])) {
     self.sender = [MinimumUserProto defaultInstance];
+    self.increaseSlotType = IncreaseMonsterInventorySlotRequestProto_IncreaseSlotTypePurchase;
     self.numPurchases = 0;
   }
   return self;
@@ -4246,8 +4255,11 @@ static IncreaseMonsterInventorySlotRequestProto* defaultIncreaseMonsterInventory
   if (self.hasSender) {
     [output writeMessage:1 value:self.sender];
   }
+  if (self.hasIncreaseSlotType) {
+    [output writeEnum:2 value:self.increaseSlotType];
+  }
   if (self.hasNumPurchases) {
-    [output writeInt32:2 value:self.numPurchases];
+    [output writeInt32:3 value:self.numPurchases];
   }
   [self.unknownFields writeToCodedOutputStream:output];
 }
@@ -4261,8 +4273,11 @@ static IncreaseMonsterInventorySlotRequestProto* defaultIncreaseMonsterInventory
   if (self.hasSender) {
     size += computeMessageSize(1, self.sender);
   }
+  if (self.hasIncreaseSlotType) {
+    size += computeEnumSize(2, self.increaseSlotType);
+  }
   if (self.hasNumPurchases) {
-    size += computeInt32Size(2, self.numPurchases);
+    size += computeInt32Size(3, self.numPurchases);
   }
   size += self.unknownFields.serializedSize;
   memoizedSerializedSize = size;
@@ -4297,6 +4312,15 @@ static IncreaseMonsterInventorySlotRequestProto* defaultIncreaseMonsterInventory
 }
 @end
 
+BOOL IncreaseMonsterInventorySlotRequestProto_IncreaseSlotTypeIsValidValue(IncreaseMonsterInventorySlotRequestProto_IncreaseSlotType value) {
+  switch (value) {
+    case IncreaseMonsterInventorySlotRequestProto_IncreaseSlotTypePurchase:
+    case IncreaseMonsterInventorySlotRequestProto_IncreaseSlotTypeRedeemFacebookInvites:
+      return YES;
+    default:
+      return NO;
+  }
+}
 @interface IncreaseMonsterInventorySlotRequestProto_Builder()
 @property (retain) IncreaseMonsterInventorySlotRequestProto* result;
 @end
@@ -4342,6 +4366,9 @@ static IncreaseMonsterInventorySlotRequestProto* defaultIncreaseMonsterInventory
   if (other.hasSender) {
     [self mergeSender:other.sender];
   }
+  if (other.hasIncreaseSlotType) {
+    [self setIncreaseSlotType:other.increaseSlotType];
+  }
   if (other.hasNumPurchases) {
     [self setNumPurchases:other.numPurchases];
   }
@@ -4376,6 +4403,15 @@ static IncreaseMonsterInventorySlotRequestProto* defaultIncreaseMonsterInventory
         break;
       }
       case 16: {
+        int32_t value = [input readEnum];
+        if (IncreaseMonsterInventorySlotRequestProto_IncreaseSlotTypeIsValidValue(value)) {
+          [self setIncreaseSlotType:value];
+        } else {
+          [unknownFields mergeVarintField:2 value:value];
+        }
+        break;
+      }
+      case 24: {
         [self setNumPurchases:[input readInt32]];
         break;
       }
@@ -4410,6 +4446,22 @@ static IncreaseMonsterInventorySlotRequestProto* defaultIncreaseMonsterInventory
 - (IncreaseMonsterInventorySlotRequestProto_Builder*) clearSender {
   result.hasSender = NO;
   result.sender = [MinimumUserProto defaultInstance];
+  return self;
+}
+- (BOOL) hasIncreaseSlotType {
+  return result.hasIncreaseSlotType;
+}
+- (IncreaseMonsterInventorySlotRequestProto_IncreaseSlotType) increaseSlotType {
+  return result.increaseSlotType;
+}
+- (IncreaseMonsterInventorySlotRequestProto_Builder*) setIncreaseSlotType:(IncreaseMonsterInventorySlotRequestProto_IncreaseSlotType) value {
+  result.hasIncreaseSlotType = YES;
+  result.increaseSlotType = value;
+  return self;
+}
+- (IncreaseMonsterInventorySlotRequestProto_Builder*) clearIncreaseSlotType {
+  result.hasIncreaseSlotType = NO;
+  result.increaseSlotType = IncreaseMonsterInventorySlotRequestProto_IncreaseSlotTypePurchase;
   return self;
 }
 - (BOOL) hasNumPurchases {
@@ -4536,6 +4588,7 @@ BOOL IncreaseMonsterInventorySlotResponseProto_IncreaseMonsterInventorySlotStatu
   switch (value) {
     case IncreaseMonsterInventorySlotResponseProto_IncreaseMonsterInventorySlotStatusSuccess:
     case IncreaseMonsterInventorySlotResponseProto_IncreaseMonsterInventorySlotStatusFailInsufficientFunds:
+    case IncreaseMonsterInventorySlotResponseProto_IncreaseMonsterInventorySlotStatusFailInsufficientFacebookInvites:
     case IncreaseMonsterInventorySlotResponseProto_IncreaseMonsterInventorySlotStatusFailOther:
       return YES;
     default:
@@ -5189,7 +5242,7 @@ BOOL InviteFbFriendsForSlotsResponseProto_InviteFbFriendsForSlotsStatusIsValidVa
 @end
 
 @interface AcceptAndRejectFbInviteForSlotsRequestProto ()
-@property (retain) MinimumUserProto* sender;
+@property (retain) MinimumUserProtoWithFacebookId* sender;
 @property (retain) NSMutableArray* mutableAcceptedInviteIdsList;
 @property (retain) NSMutableArray* mutableRejectedInviteIdsList;
 @end
@@ -5213,7 +5266,7 @@ BOOL InviteFbFriendsForSlotsResponseProto_InviteFbFriendsForSlotsStatusIsValidVa
 }
 - (id) init {
   if ((self = [super init])) {
-    self.sender = [MinimumUserProto defaultInstance];
+    self.sender = [MinimumUserProtoWithFacebookId defaultInstance];
   }
   return self;
 }
@@ -5396,7 +5449,7 @@ static AcceptAndRejectFbInviteForSlotsRequestProto* defaultAcceptAndRejectFbInvi
         break;
       }
       case 10: {
-        MinimumUserProto_Builder* subBuilder = [MinimumUserProto builder];
+        MinimumUserProtoWithFacebookId_Builder* subBuilder = [MinimumUserProtoWithFacebookId builder];
         if (self.hasSender) {
           [subBuilder mergeFrom:self.sender];
         }
@@ -5418,22 +5471,22 @@ static AcceptAndRejectFbInviteForSlotsRequestProto* defaultAcceptAndRejectFbInvi
 - (BOOL) hasSender {
   return result.hasSender;
 }
-- (MinimumUserProto*) sender {
+- (MinimumUserProtoWithFacebookId*) sender {
   return result.sender;
 }
-- (AcceptAndRejectFbInviteForSlotsRequestProto_Builder*) setSender:(MinimumUserProto*) value {
+- (AcceptAndRejectFbInviteForSlotsRequestProto_Builder*) setSender:(MinimumUserProtoWithFacebookId*) value {
   result.hasSender = YES;
   result.sender = value;
   return self;
 }
-- (AcceptAndRejectFbInviteForSlotsRequestProto_Builder*) setSenderBuilder:(MinimumUserProto_Builder*) builderForValue {
+- (AcceptAndRejectFbInviteForSlotsRequestProto_Builder*) setSenderBuilder:(MinimumUserProtoWithFacebookId_Builder*) builderForValue {
   return [self setSender:[builderForValue build]];
 }
-- (AcceptAndRejectFbInviteForSlotsRequestProto_Builder*) mergeSender:(MinimumUserProto*) value {
+- (AcceptAndRejectFbInviteForSlotsRequestProto_Builder*) mergeSender:(MinimumUserProtoWithFacebookId*) value {
   if (result.hasSender &&
-      result.sender != [MinimumUserProto defaultInstance]) {
+      result.sender != [MinimumUserProtoWithFacebookId defaultInstance]) {
     result.sender =
-      [[[MinimumUserProto builderWithPrototype:result.sender] mergeFrom:value] buildPartial];
+      [[[MinimumUserProtoWithFacebookId builderWithPrototype:result.sender] mergeFrom:value] buildPartial];
   } else {
     result.sender = value;
   }
@@ -5442,7 +5495,7 @@ static AcceptAndRejectFbInviteForSlotsRequestProto* defaultAcceptAndRejectFbInvi
 }
 - (AcceptAndRejectFbInviteForSlotsRequestProto_Builder*) clearSender {
   result.hasSender = NO;
-  result.sender = [MinimumUserProto defaultInstance];
+  result.sender = [MinimumUserProtoWithFacebookId defaultInstance];
   return self;
 }
 - (NSArray*) acceptedInviteIdsList {
@@ -5510,7 +5563,7 @@ static AcceptAndRejectFbInviteForSlotsRequestProto* defaultAcceptAndRejectFbInvi
 @end
 
 @interface AcceptAndRejectFbInviteForSlotsResponseProto ()
-@property (retain) MinimumUserProto* sender;
+@property (retain) MinimumUserProtoWithFacebookId* sender;
 @property AcceptAndRejectFbInviteForSlotsResponseProto_AcceptAndRejectFbInviteForSlotsStatus status;
 @end
 
@@ -5536,7 +5589,7 @@ static AcceptAndRejectFbInviteForSlotsRequestProto* defaultAcceptAndRejectFbInvi
 }
 - (id) init {
   if ((self = [super init])) {
-    self.sender = [MinimumUserProto defaultInstance];
+    self.sender = [MinimumUserProtoWithFacebookId defaultInstance];
     self.status = AcceptAndRejectFbInviteForSlotsResponseProto_AcceptAndRejectFbInviteForSlotsStatusSuccess;
   }
   return self;
@@ -5692,7 +5745,7 @@ BOOL AcceptAndRejectFbInviteForSlotsResponseProto_AcceptAndRejectFbInviteForSlot
         break;
       }
       case 10: {
-        MinimumUserProto_Builder* subBuilder = [MinimumUserProto builder];
+        MinimumUserProtoWithFacebookId_Builder* subBuilder = [MinimumUserProtoWithFacebookId builder];
         if (self.hasSender) {
           [subBuilder mergeFrom:self.sender];
         }
@@ -5715,22 +5768,22 @@ BOOL AcceptAndRejectFbInviteForSlotsResponseProto_AcceptAndRejectFbInviteForSlot
 - (BOOL) hasSender {
   return result.hasSender;
 }
-- (MinimumUserProto*) sender {
+- (MinimumUserProtoWithFacebookId*) sender {
   return result.sender;
 }
-- (AcceptAndRejectFbInviteForSlotsResponseProto_Builder*) setSender:(MinimumUserProto*) value {
+- (AcceptAndRejectFbInviteForSlotsResponseProto_Builder*) setSender:(MinimumUserProtoWithFacebookId*) value {
   result.hasSender = YES;
   result.sender = value;
   return self;
 }
-- (AcceptAndRejectFbInviteForSlotsResponseProto_Builder*) setSenderBuilder:(MinimumUserProto_Builder*) builderForValue {
+- (AcceptAndRejectFbInviteForSlotsResponseProto_Builder*) setSenderBuilder:(MinimumUserProtoWithFacebookId_Builder*) builderForValue {
   return [self setSender:[builderForValue build]];
 }
-- (AcceptAndRejectFbInviteForSlotsResponseProto_Builder*) mergeSender:(MinimumUserProto*) value {
+- (AcceptAndRejectFbInviteForSlotsResponseProto_Builder*) mergeSender:(MinimumUserProtoWithFacebookId*) value {
   if (result.hasSender &&
-      result.sender != [MinimumUserProto defaultInstance]) {
+      result.sender != [MinimumUserProtoWithFacebookId defaultInstance]) {
     result.sender =
-      [[[MinimumUserProto builderWithPrototype:result.sender] mergeFrom:value] buildPartial];
+      [[[MinimumUserProtoWithFacebookId builderWithPrototype:result.sender] mergeFrom:value] buildPartial];
   } else {
     result.sender = value;
   }
@@ -5739,7 +5792,7 @@ BOOL AcceptAndRejectFbInviteForSlotsResponseProto_AcceptAndRejectFbInviteForSlot
 }
 - (AcceptAndRejectFbInviteForSlotsResponseProto_Builder*) clearSender {
   result.hasSender = NO;
-  result.sender = [MinimumUserProto defaultInstance];
+  result.sender = [MinimumUserProtoWithFacebookId defaultInstance];
   return self;
 }
 - (BOOL) hasStatus {

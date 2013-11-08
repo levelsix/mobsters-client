@@ -66,6 +66,8 @@
 @class UpgradeNormStructureResponseProto_Builder;
 @class UserCityExpansionDataProto;
 @class UserCityExpansionDataProto_Builder;
+@class UserFacebookInviteForSlotProto;
+@class UserFacebookInviteForSlotProto_Builder;
 typedef enum {
   PurchaseNormStructureResponseProto_PurchaseNormStructureStatusSuccess = 1,
   PurchaseNormStructureResponseProto_PurchaseNormStructureStatusFailInsufficientCash = 2,
@@ -101,13 +103,13 @@ BOOL SellNormStructureResponseProto_SellNormStructureStatusIsValidValue(SellNorm
 
 typedef enum {
   UpgradeNormStructureResponseProto_UpgradeNormStructureStatusSuccess = 1,
-  UpgradeNormStructureResponseProto_UpgradeNormStructureStatusNotEnoughMaterials = 2,
-  UpgradeNormStructureResponseProto_UpgradeNormStructureStatusNotBuiltYet = 3,
-  UpgradeNormStructureResponseProto_UpgradeNormStructureStatusNotUsersStruct = 4,
-  UpgradeNormStructureResponseProto_UpgradeNormStructureStatusAnotherStructStillUpgrading = 5,
-  UpgradeNormStructureResponseProto_UpgradeNormStructureStatusOtherFail = 6,
-  UpgradeNormStructureResponseProto_UpgradeNormStructureStatusClientTooApartFromServerTime = 7,
-  UpgradeNormStructureResponseProto_UpgradeNormStructureStatusAtMaxLevelAlready = 8,
+  UpgradeNormStructureResponseProto_UpgradeNormStructureStatusFailNotEnoughCash = 2,
+  UpgradeNormStructureResponseProto_UpgradeNormStructureStatusFailNotEnoughGems = 3,
+  UpgradeNormStructureResponseProto_UpgradeNormStructureStatusFailNotBuiltYet = 4,
+  UpgradeNormStructureResponseProto_UpgradeNormStructureStatusFailNotUsersStruct = 5,
+  UpgradeNormStructureResponseProto_UpgradeNormStructureStatusFailAnotherStructStillUpgrading = 6,
+  UpgradeNormStructureResponseProto_UpgradeNormStructureStatusFailAtMaxLevelAlready = 7,
+  UpgradeNormStructureResponseProto_UpgradeNormStructureStatusFailOther = 8,
 } UpgradeNormStructureResponseProto_UpgradeNormStructureStatus;
 
 BOOL UpgradeNormStructureResponseProto_UpgradeNormStructureStatusIsValidValue(UpgradeNormStructureResponseProto_UpgradeNormStructureStatus value);
@@ -697,17 +699,21 @@ BOOL ExpansionWaitCompleteResponseProto_ExpansionWaitCompleteStatusIsValidValue(
 @private
   BOOL hasTimeOfSpeedup_:1;
   BOOL hasUserStructId_:1;
+  BOOL hasGemCostToSpeedup_:1;
   BOOL hasSender_:1;
   int64_t timeOfSpeedup;
   int32_t userStructId;
+  int32_t gemCostToSpeedup;
   MinimumUserProto* sender;
 }
 - (BOOL) hasSender;
 - (BOOL) hasUserStructId;
 - (BOOL) hasTimeOfSpeedup;
+- (BOOL) hasGemCostToSpeedup;
 @property (readonly, retain) MinimumUserProto* sender;
 @property (readonly) int32_t userStructId;
 @property (readonly) int64_t timeOfSpeedup;
+@property (readonly) int32_t gemCostToSpeedup;
 
 + (FinishNormStructWaittimeWithDiamondsRequestProto*) defaultInstance;
 - (FinishNormStructWaittimeWithDiamondsRequestProto*) defaultInstance;
@@ -759,6 +765,11 @@ BOOL ExpansionWaitCompleteResponseProto_ExpansionWaitCompleteStatusIsValidValue(
 - (int64_t) timeOfSpeedup;
 - (FinishNormStructWaittimeWithDiamondsRequestProto_Builder*) setTimeOfSpeedup:(int64_t) value;
 - (FinishNormStructWaittimeWithDiamondsRequestProto_Builder*) clearTimeOfSpeedup;
+
+- (BOOL) hasGemCostToSpeedup;
+- (int32_t) gemCostToSpeedup;
+- (FinishNormStructWaittimeWithDiamondsRequestProto_Builder*) setGemCostToSpeedup:(int32_t) value;
+- (FinishNormStructWaittimeWithDiamondsRequestProto_Builder*) clearGemCostToSpeedup;
 @end
 
 @interface FinishNormStructWaittimeWithDiamondsResponseProto : PBGeneratedMessage {

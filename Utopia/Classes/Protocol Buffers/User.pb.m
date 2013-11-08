@@ -1177,6 +1177,356 @@ static MinimumUserProtoWithFacebookId* defaultMinimumUserProtoWithFacebookIdInst
 }
 @end
 
+@interface UserFacebookInviteForSlotProto ()
+@property int32_t inviteId;
+@property (retain) MinimumUserProtoWithFacebookId* inviter;
+@property (retain) NSString* recipientFacebookId;
+@property int64_t timeOfInvite;
+@property int64_t timeAccepted;
+@end
+
+@implementation UserFacebookInviteForSlotProto
+
+- (BOOL) hasInviteId {
+  return !!hasInviteId_;
+}
+- (void) setHasInviteId:(BOOL) value {
+  hasInviteId_ = !!value;
+}
+@synthesize inviteId;
+- (BOOL) hasInviter {
+  return !!hasInviter_;
+}
+- (void) setHasInviter:(BOOL) value {
+  hasInviter_ = !!value;
+}
+@synthesize inviter;
+- (BOOL) hasRecipientFacebookId {
+  return !!hasRecipientFacebookId_;
+}
+- (void) setHasRecipientFacebookId:(BOOL) value {
+  hasRecipientFacebookId_ = !!value;
+}
+@synthesize recipientFacebookId;
+- (BOOL) hasTimeOfInvite {
+  return !!hasTimeOfInvite_;
+}
+- (void) setHasTimeOfInvite:(BOOL) value {
+  hasTimeOfInvite_ = !!value;
+}
+@synthesize timeOfInvite;
+- (BOOL) hasTimeAccepted {
+  return !!hasTimeAccepted_;
+}
+- (void) setHasTimeAccepted:(BOOL) value {
+  hasTimeAccepted_ = !!value;
+}
+@synthesize timeAccepted;
+- (void) dealloc {
+  self.inviter = nil;
+  self.recipientFacebookId = nil;
+  [super dealloc];
+}
+- (id) init {
+  if ((self = [super init])) {
+    self.inviteId = 0;
+    self.inviter = [MinimumUserProtoWithFacebookId defaultInstance];
+    self.recipientFacebookId = @"";
+    self.timeOfInvite = 0L;
+    self.timeAccepted = 0L;
+  }
+  return self;
+}
+static UserFacebookInviteForSlotProto* defaultUserFacebookInviteForSlotProtoInstance = nil;
++ (void) initialize {
+  if (self == [UserFacebookInviteForSlotProto class]) {
+    defaultUserFacebookInviteForSlotProtoInstance = [[UserFacebookInviteForSlotProto alloc] init];
+  }
+}
++ (UserFacebookInviteForSlotProto*) defaultInstance {
+  return defaultUserFacebookInviteForSlotProtoInstance;
+}
+- (UserFacebookInviteForSlotProto*) defaultInstance {
+  return defaultUserFacebookInviteForSlotProtoInstance;
+}
+- (BOOL) isInitialized {
+  return YES;
+}
+- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output {
+  if (self.hasInviteId) {
+    [output writeInt32:1 value:self.inviteId];
+  }
+  if (self.hasInviter) {
+    [output writeMessage:2 value:self.inviter];
+  }
+  if (self.hasRecipientFacebookId) {
+    [output writeString:3 value:self.recipientFacebookId];
+  }
+  if (self.hasTimeOfInvite) {
+    [output writeInt64:4 value:self.timeOfInvite];
+  }
+  if (self.hasTimeAccepted) {
+    [output writeInt64:5 value:self.timeAccepted];
+  }
+  [self.unknownFields writeToCodedOutputStream:output];
+}
+- (int32_t) serializedSize {
+  int32_t size = memoizedSerializedSize;
+  if (size != -1) {
+    return size;
+  }
+
+  size = 0;
+  if (self.hasInviteId) {
+    size += computeInt32Size(1, self.inviteId);
+  }
+  if (self.hasInviter) {
+    size += computeMessageSize(2, self.inviter);
+  }
+  if (self.hasRecipientFacebookId) {
+    size += computeStringSize(3, self.recipientFacebookId);
+  }
+  if (self.hasTimeOfInvite) {
+    size += computeInt64Size(4, self.timeOfInvite);
+  }
+  if (self.hasTimeAccepted) {
+    size += computeInt64Size(5, self.timeAccepted);
+  }
+  size += self.unknownFields.serializedSize;
+  memoizedSerializedSize = size;
+  return size;
+}
++ (UserFacebookInviteForSlotProto*) parseFromData:(NSData*) data {
+  return (UserFacebookInviteForSlotProto*)[[[UserFacebookInviteForSlotProto builder] mergeFromData:data] build];
+}
++ (UserFacebookInviteForSlotProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (UserFacebookInviteForSlotProto*)[[[UserFacebookInviteForSlotProto builder] mergeFromData:data extensionRegistry:extensionRegistry] build];
+}
++ (UserFacebookInviteForSlotProto*) parseFromInputStream:(NSInputStream*) input {
+  return (UserFacebookInviteForSlotProto*)[[[UserFacebookInviteForSlotProto builder] mergeFromInputStream:input] build];
+}
++ (UserFacebookInviteForSlotProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (UserFacebookInviteForSlotProto*)[[[UserFacebookInviteForSlotProto builder] mergeFromInputStream:input extensionRegistry:extensionRegistry] build];
+}
++ (UserFacebookInviteForSlotProto*) parseFromCodedInputStream:(PBCodedInputStream*) input {
+  return (UserFacebookInviteForSlotProto*)[[[UserFacebookInviteForSlotProto builder] mergeFromCodedInputStream:input] build];
+}
++ (UserFacebookInviteForSlotProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (UserFacebookInviteForSlotProto*)[[[UserFacebookInviteForSlotProto builder] mergeFromCodedInputStream:input extensionRegistry:extensionRegistry] build];
+}
++ (UserFacebookInviteForSlotProto_Builder*) builder {
+  return [[[UserFacebookInviteForSlotProto_Builder alloc] init] autorelease];
+}
++ (UserFacebookInviteForSlotProto_Builder*) builderWithPrototype:(UserFacebookInviteForSlotProto*) prototype {
+  return [[UserFacebookInviteForSlotProto builder] mergeFrom:prototype];
+}
+- (UserFacebookInviteForSlotProto_Builder*) builder {
+  return [UserFacebookInviteForSlotProto builder];
+}
+@end
+
+@interface UserFacebookInviteForSlotProto_Builder()
+@property (retain) UserFacebookInviteForSlotProto* result;
+@end
+
+@implementation UserFacebookInviteForSlotProto_Builder
+@synthesize result;
+- (void) dealloc {
+  self.result = nil;
+  [super dealloc];
+}
+- (id) init {
+  if ((self = [super init])) {
+    self.result = [[[UserFacebookInviteForSlotProto alloc] init] autorelease];
+  }
+  return self;
+}
+- (PBGeneratedMessage*) internalGetResult {
+  return result;
+}
+- (UserFacebookInviteForSlotProto_Builder*) clear {
+  self.result = [[[UserFacebookInviteForSlotProto alloc] init] autorelease];
+  return self;
+}
+- (UserFacebookInviteForSlotProto_Builder*) clone {
+  return [UserFacebookInviteForSlotProto builderWithPrototype:result];
+}
+- (UserFacebookInviteForSlotProto*) defaultInstance {
+  return [UserFacebookInviteForSlotProto defaultInstance];
+}
+- (UserFacebookInviteForSlotProto*) build {
+  [self checkInitialized];
+  return [self buildPartial];
+}
+- (UserFacebookInviteForSlotProto*) buildPartial {
+  UserFacebookInviteForSlotProto* returnMe = [[result retain] autorelease];
+  self.result = nil;
+  return returnMe;
+}
+- (UserFacebookInviteForSlotProto_Builder*) mergeFrom:(UserFacebookInviteForSlotProto*) other {
+  if (other == [UserFacebookInviteForSlotProto defaultInstance]) {
+    return self;
+  }
+  if (other.hasInviteId) {
+    [self setInviteId:other.inviteId];
+  }
+  if (other.hasInviter) {
+    [self mergeInviter:other.inviter];
+  }
+  if (other.hasRecipientFacebookId) {
+    [self setRecipientFacebookId:other.recipientFacebookId];
+  }
+  if (other.hasTimeOfInvite) {
+    [self setTimeOfInvite:other.timeOfInvite];
+  }
+  if (other.hasTimeAccepted) {
+    [self setTimeAccepted:other.timeAccepted];
+  }
+  [self mergeUnknownFields:other.unknownFields];
+  return self;
+}
+- (UserFacebookInviteForSlotProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input {
+  return [self mergeFromCodedInputStream:input extensionRegistry:[PBExtensionRegistry emptyRegistry]];
+}
+- (UserFacebookInviteForSlotProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  PBUnknownFieldSet_Builder* unknownFields = [PBUnknownFieldSet builderWithUnknownFields:self.unknownFields];
+  while (YES) {
+    int32_t tag = [input readTag];
+    switch (tag) {
+      case 0:
+        [self setUnknownFields:[unknownFields build]];
+        return self;
+      default: {
+        if (![self parseUnknownField:input unknownFields:unknownFields extensionRegistry:extensionRegistry tag:tag]) {
+          [self setUnknownFields:[unknownFields build]];
+          return self;
+        }
+        break;
+      }
+      case 8: {
+        [self setInviteId:[input readInt32]];
+        break;
+      }
+      case 18: {
+        MinimumUserProtoWithFacebookId_Builder* subBuilder = [MinimumUserProtoWithFacebookId builder];
+        if (self.hasInviter) {
+          [subBuilder mergeFrom:self.inviter];
+        }
+        [input readMessage:subBuilder extensionRegistry:extensionRegistry];
+        [self setInviter:[subBuilder buildPartial]];
+        break;
+      }
+      case 26: {
+        [self setRecipientFacebookId:[input readString]];
+        break;
+      }
+      case 32: {
+        [self setTimeOfInvite:[input readInt64]];
+        break;
+      }
+      case 40: {
+        [self setTimeAccepted:[input readInt64]];
+        break;
+      }
+    }
+  }
+}
+- (BOOL) hasInviteId {
+  return result.hasInviteId;
+}
+- (int32_t) inviteId {
+  return result.inviteId;
+}
+- (UserFacebookInviteForSlotProto_Builder*) setInviteId:(int32_t) value {
+  result.hasInviteId = YES;
+  result.inviteId = value;
+  return self;
+}
+- (UserFacebookInviteForSlotProto_Builder*) clearInviteId {
+  result.hasInviteId = NO;
+  result.inviteId = 0;
+  return self;
+}
+- (BOOL) hasInviter {
+  return result.hasInviter;
+}
+- (MinimumUserProtoWithFacebookId*) inviter {
+  return result.inviter;
+}
+- (UserFacebookInviteForSlotProto_Builder*) setInviter:(MinimumUserProtoWithFacebookId*) value {
+  result.hasInviter = YES;
+  result.inviter = value;
+  return self;
+}
+- (UserFacebookInviteForSlotProto_Builder*) setInviterBuilder:(MinimumUserProtoWithFacebookId_Builder*) builderForValue {
+  return [self setInviter:[builderForValue build]];
+}
+- (UserFacebookInviteForSlotProto_Builder*) mergeInviter:(MinimumUserProtoWithFacebookId*) value {
+  if (result.hasInviter &&
+      result.inviter != [MinimumUserProtoWithFacebookId defaultInstance]) {
+    result.inviter =
+      [[[MinimumUserProtoWithFacebookId builderWithPrototype:result.inviter] mergeFrom:value] buildPartial];
+  } else {
+    result.inviter = value;
+  }
+  result.hasInviter = YES;
+  return self;
+}
+- (UserFacebookInviteForSlotProto_Builder*) clearInviter {
+  result.hasInviter = NO;
+  result.inviter = [MinimumUserProtoWithFacebookId defaultInstance];
+  return self;
+}
+- (BOOL) hasRecipientFacebookId {
+  return result.hasRecipientFacebookId;
+}
+- (NSString*) recipientFacebookId {
+  return result.recipientFacebookId;
+}
+- (UserFacebookInviteForSlotProto_Builder*) setRecipientFacebookId:(NSString*) value {
+  result.hasRecipientFacebookId = YES;
+  result.recipientFacebookId = value;
+  return self;
+}
+- (UserFacebookInviteForSlotProto_Builder*) clearRecipientFacebookId {
+  result.hasRecipientFacebookId = NO;
+  result.recipientFacebookId = @"";
+  return self;
+}
+- (BOOL) hasTimeOfInvite {
+  return result.hasTimeOfInvite;
+}
+- (int64_t) timeOfInvite {
+  return result.timeOfInvite;
+}
+- (UserFacebookInviteForSlotProto_Builder*) setTimeOfInvite:(int64_t) value {
+  result.hasTimeOfInvite = YES;
+  result.timeOfInvite = value;
+  return self;
+}
+- (UserFacebookInviteForSlotProto_Builder*) clearTimeOfInvite {
+  result.hasTimeOfInvite = NO;
+  result.timeOfInvite = 0L;
+  return self;
+}
+- (BOOL) hasTimeAccepted {
+  return result.hasTimeAccepted;
+}
+- (int64_t) timeAccepted {
+  return result.timeAccepted;
+}
+- (UserFacebookInviteForSlotProto_Builder*) setTimeAccepted:(int64_t) value {
+  result.hasTimeAccepted = YES;
+  result.timeAccepted = value;
+  return self;
+}
+- (UserFacebookInviteForSlotProto_Builder*) clearTimeAccepted {
+  result.hasTimeAccepted = NO;
+  result.timeAccepted = 0L;
+  return self;
+}
+@end
+
 @interface FullUserProto ()
 @property int32_t userId;
 @property (retain) NSString* name;

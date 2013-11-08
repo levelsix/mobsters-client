@@ -41,6 +41,8 @@
 @class SendGroupChatResponseProto_Builder;
 @class StaticLevelInfoProto;
 @class StaticLevelInfoProto_Builder;
+@class UserFacebookInviteForSlotProto;
+@class UserFacebookInviteForSlotProto_Builder;
 typedef enum {
   SendGroupChatResponseProto_SendGroupChatStatusSuccess = 1,
   SendGroupChatResponseProto_SendGroupChatStatusTooLong = 2,

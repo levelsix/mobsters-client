@@ -75,6 +75,8 @@
 @class UserEnhancementItemProto_Builder;
 @class UserEnhancementProto;
 @class UserEnhancementProto_Builder;
+@class UserFacebookInviteForSlotProto;
+@class UserFacebookInviteForSlotProto_Builder;
 @class UserMonsterCurrentExpProto;
 @class UserMonsterCurrentExpProto_Builder;
 @class UserMonsterCurrentHealthProto;
@@ -141,9 +143,17 @@ typedef enum {
 BOOL RemoveMonsterFromBattleTeamResponseProto_RemoveMonsterFromBattleTeamStatusIsValidValue(RemoveMonsterFromBattleTeamResponseProto_RemoveMonsterFromBattleTeamStatus value);
 
 typedef enum {
+  IncreaseMonsterInventorySlotRequestProto_IncreaseSlotTypePurchase = 1,
+  IncreaseMonsterInventorySlotRequestProto_IncreaseSlotTypeRedeemFacebookInvites = 2,
+} IncreaseMonsterInventorySlotRequestProto_IncreaseSlotType;
+
+BOOL IncreaseMonsterInventorySlotRequestProto_IncreaseSlotTypeIsValidValue(IncreaseMonsterInventorySlotRequestProto_IncreaseSlotType value);
+
+typedef enum {
   IncreaseMonsterInventorySlotResponseProto_IncreaseMonsterInventorySlotStatusSuccess = 1,
   IncreaseMonsterInventorySlotResponseProto_IncreaseMonsterInventorySlotStatusFailInsufficientFunds = 2,
-  IncreaseMonsterInventorySlotResponseProto_IncreaseMonsterInventorySlotStatusFailOther = 3,
+  IncreaseMonsterInventorySlotResponseProto_IncreaseMonsterInventorySlotStatusFailInsufficientFacebookInvites = 3,
+  IncreaseMonsterInventorySlotResponseProto_IncreaseMonsterInventorySlotStatusFailOther = 4,
 } IncreaseMonsterInventorySlotResponseProto_IncreaseMonsterInventorySlotStatus;
 
 BOOL IncreaseMonsterInventorySlotResponseProto_IncreaseMonsterInventorySlotStatusIsValidValue(IncreaseMonsterInventorySlotResponseProto_IncreaseMonsterInventorySlotStatus value);
@@ -1163,12 +1173,16 @@ BOOL SellUserMonsterResponseProto_SellUserMonsterStatusIsValidValue(SellUserMons
 @private
   BOOL hasNumPurchases_:1;
   BOOL hasSender_:1;
+  BOOL hasIncreaseSlotType_:1;
   int32_t numPurchases;
   MinimumUserProto* sender;
+  IncreaseMonsterInventorySlotRequestProto_IncreaseSlotType increaseSlotType;
 }
 - (BOOL) hasSender;
+- (BOOL) hasIncreaseSlotType;
 - (BOOL) hasNumPurchases;
 @property (readonly, retain) MinimumUserProto* sender;
+@property (readonly) IncreaseMonsterInventorySlotRequestProto_IncreaseSlotType increaseSlotType;
 @property (readonly) int32_t numPurchases;
 
 + (IncreaseMonsterInventorySlotRequestProto*) defaultInstance;
@@ -1211,6 +1225,11 @@ BOOL SellUserMonsterResponseProto_SellUserMonsterStatusIsValidValue(SellUserMons
 - (IncreaseMonsterInventorySlotRequestProto_Builder*) setSenderBuilder:(MinimumUserProto_Builder*) builderForValue;
 - (IncreaseMonsterInventorySlotRequestProto_Builder*) mergeSender:(MinimumUserProto*) value;
 - (IncreaseMonsterInventorySlotRequestProto_Builder*) clearSender;
+
+- (BOOL) hasIncreaseSlotType;
+- (IncreaseMonsterInventorySlotRequestProto_IncreaseSlotType) increaseSlotType;
+- (IncreaseMonsterInventorySlotRequestProto_Builder*) setIncreaseSlotType:(IncreaseMonsterInventorySlotRequestProto_IncreaseSlotType) value;
+- (IncreaseMonsterInventorySlotRequestProto_Builder*) clearIncreaseSlotType;
 
 - (BOOL) hasNumPurchases;
 - (int32_t) numPurchases;
@@ -1399,12 +1418,12 @@ BOOL SellUserMonsterResponseProto_SellUserMonsterStatusIsValidValue(SellUserMons
 @interface AcceptAndRejectFbInviteForSlotsRequestProto : PBGeneratedMessage {
 @private
   BOOL hasSender_:1;
-  MinimumUserProto* sender;
+  MinimumUserProtoWithFacebookId* sender;
   NSMutableArray* mutableAcceptedInviteIdsList;
   NSMutableArray* mutableRejectedInviteIdsList;
 }
 - (BOOL) hasSender;
-@property (readonly, retain) MinimumUserProto* sender;
+@property (readonly, retain) MinimumUserProtoWithFacebookId* sender;
 - (NSArray*) acceptedInviteIdsList;
 - (int32_t) acceptedInviteIdsAtIndex:(int32_t) index;
 - (NSArray*) rejectedInviteIdsList;
@@ -1445,10 +1464,10 @@ BOOL SellUserMonsterResponseProto_SellUserMonsterStatusIsValidValue(SellUserMons
 - (AcceptAndRejectFbInviteForSlotsRequestProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
 
 - (BOOL) hasSender;
-- (MinimumUserProto*) sender;
-- (AcceptAndRejectFbInviteForSlotsRequestProto_Builder*) setSender:(MinimumUserProto*) value;
-- (AcceptAndRejectFbInviteForSlotsRequestProto_Builder*) setSenderBuilder:(MinimumUserProto_Builder*) builderForValue;
-- (AcceptAndRejectFbInviteForSlotsRequestProto_Builder*) mergeSender:(MinimumUserProto*) value;
+- (MinimumUserProtoWithFacebookId*) sender;
+- (AcceptAndRejectFbInviteForSlotsRequestProto_Builder*) setSender:(MinimumUserProtoWithFacebookId*) value;
+- (AcceptAndRejectFbInviteForSlotsRequestProto_Builder*) setSenderBuilder:(MinimumUserProtoWithFacebookId_Builder*) builderForValue;
+- (AcceptAndRejectFbInviteForSlotsRequestProto_Builder*) mergeSender:(MinimumUserProtoWithFacebookId*) value;
 - (AcceptAndRejectFbInviteForSlotsRequestProto_Builder*) clearSender;
 
 - (NSArray*) acceptedInviteIdsList;
@@ -1470,12 +1489,12 @@ BOOL SellUserMonsterResponseProto_SellUserMonsterStatusIsValidValue(SellUserMons
 @private
   BOOL hasSender_:1;
   BOOL hasStatus_:1;
-  MinimumUserProto* sender;
+  MinimumUserProtoWithFacebookId* sender;
   AcceptAndRejectFbInviteForSlotsResponseProto_AcceptAndRejectFbInviteForSlotsStatus status;
 }
 - (BOOL) hasSender;
 - (BOOL) hasStatus;
-@property (readonly, retain) MinimumUserProto* sender;
+@property (readonly, retain) MinimumUserProtoWithFacebookId* sender;
 @property (readonly) AcceptAndRejectFbInviteForSlotsResponseProto_AcceptAndRejectFbInviteForSlotsStatus status;
 
 + (AcceptAndRejectFbInviteForSlotsResponseProto*) defaultInstance;
@@ -1513,10 +1532,10 @@ BOOL SellUserMonsterResponseProto_SellUserMonsterStatusIsValidValue(SellUserMons
 - (AcceptAndRejectFbInviteForSlotsResponseProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
 
 - (BOOL) hasSender;
-- (MinimumUserProto*) sender;
-- (AcceptAndRejectFbInviteForSlotsResponseProto_Builder*) setSender:(MinimumUserProto*) value;
-- (AcceptAndRejectFbInviteForSlotsResponseProto_Builder*) setSenderBuilder:(MinimumUserProto_Builder*) builderForValue;
-- (AcceptAndRejectFbInviteForSlotsResponseProto_Builder*) mergeSender:(MinimumUserProto*) value;
+- (MinimumUserProtoWithFacebookId*) sender;
+- (AcceptAndRejectFbInviteForSlotsResponseProto_Builder*) setSender:(MinimumUserProtoWithFacebookId*) value;
+- (AcceptAndRejectFbInviteForSlotsResponseProto_Builder*) setSenderBuilder:(MinimumUserProtoWithFacebookId_Builder*) builderForValue;
+- (AcceptAndRejectFbInviteForSlotsResponseProto_Builder*) mergeSender:(MinimumUserProtoWithFacebookId*) value;
 - (AcceptAndRejectFbInviteForSlotsResponseProto_Builder*) clearSender;
 
 - (BOOL) hasStatus;

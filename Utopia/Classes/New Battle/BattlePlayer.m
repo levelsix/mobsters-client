@@ -60,7 +60,7 @@
       break;
       
     default:
-      return 0;
+      return 1;
       break;
   }
 }

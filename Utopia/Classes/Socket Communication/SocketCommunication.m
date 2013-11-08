@@ -795,10 +795,20 @@ static NSString *udid = nil;
   return [self sendData:req withMessageType:EventProtocolRequestCInviteFbFriendsForSlotsEvent];
 }
 
-- (int) sendAcceptAndRejectFbInviteForSlotsMessage {
-//  AcceptAndRejectFbInviteForSlotsRequestProto *req = [[[[AcceptAndRejectFbInviteForSlotsRequestProto builder]
-//                                                        setSender:_sender]
-//                                                       addA]]
+- (int) sendAcceptAndRejectFbInviteForSlotsMessageAndAcceptIds:(NSArray *)acceptIds rejectIds:(NSArray *)rejectIds {
+  GameState *gs = [GameState sharedGameState];
+  MinimumUserProtoWithFacebookId *mup = [[[[MinimumUserProtoWithFacebookId builder]
+                                           setMinUserProto:_sender]
+                                          setFacebookId:gs.facebookId]
+                                         build];
+  
+  AcceptAndRejectFbInviteForSlotsRequestProto *req = [[[[[AcceptAndRejectFbInviteForSlotsRequestProto builder]
+                                                         setSender:mup]
+                                                        addAllAcceptedInviteIds:acceptIds]
+                                                       addAllRejectedInviteIds:rejectIds]
+                                                      build];
+  
+  return [self sendData:req withMessageType:EventProtocolRequestCAcceptAndRejectFbInviteForSlotsEvent];
 }
 
 #pragma mark - Batch/Flush events

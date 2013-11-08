@@ -339,10 +339,11 @@
                     <rect key="frame" x="108" y="12" width="38" height="38"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                     <subviews>
-                        <imageView opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" id="fmQ-eJ-5vB">
-                            <rect key="frame" x="1" y="1" width="36" height="36"/>
+                        <view contentMode="scaleToFill" id="phN-MO-1Hv" customClass="DBFBProfilePictureView">
+                            <rect key="frame" x="0.0" y="0.0" width="38" height="38"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                        </imageView>
+                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                        </view>
                         <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="emptyfriendslot.png" highlightedImage="fullfriendborder.png" id="yzI-Fq-mjC">
                             <rect key="frame" x="0.0" y="0.0" width="38" height="38"/>
                             <autoresizingMask key="autoresizingMask"/>
@@ -358,7 +359,7 @@
                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                     <connections>
                         <outlet property="bgdView" destination="yzI-Fq-mjC" id="EEP-OJ-2bh"/>
-                        <outlet property="profPicView" destination="fmQ-eJ-5vB" id="4bS-gt-ydV"/>
+                        <outlet property="profPicView" destination="phN-MO-1Hv" id="LdS-nF-fwG"/>
                         <outlet property="slotNumLabel" destination="ioI-WG-8wo" id="HML-BA-5gi"/>
                     </connections>
                 </view>
@@ -366,10 +367,11 @@
                     <rect key="frame" x="160" y="12" width="38" height="38"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                     <subviews>
-                        <imageView opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" id="b3K-fN-BAo">
-                            <rect key="frame" x="1" y="1" width="36" height="36"/>
+                        <view contentMode="scaleToFill" id="VhW-F7-HOD" customClass="DBFBProfilePictureView">
+                            <rect key="frame" x="0.0" y="0.0" width="38" height="38"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                        </imageView>
+                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                        </view>
                         <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="emptyfriendslot.png" highlightedImage="fullfriendborder.png" id="nKo-Th-d5h">
                             <rect key="frame" x="0.0" y="0.0" width="38" height="38"/>
                             <autoresizingMask key="autoresizingMask"/>
@@ -385,7 +387,7 @@
                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                     <connections>
                         <outlet property="bgdView" destination="nKo-Th-d5h" id="nff-rF-QJJ"/>
-                        <outlet property="profPicView" destination="b3K-fN-BAo" id="pN4-TC-TwY"/>
+                        <outlet property="profPicView" destination="VhW-F7-HOD" id="ogK-ub-UaY"/>
                         <outlet property="slotNumLabel" destination="2CT-ga-xDL" id="l0t-hw-f7J"/>
                     </connections>
                 </view>
@@ -393,10 +395,11 @@
                     <rect key="frame" x="213" y="12" width="38" height="38"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                     <subviews>
-                        <imageView opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" id="DSX-KC-Rij">
-                            <rect key="frame" x="1" y="1" width="36" height="36"/>
+                        <view contentMode="scaleToFill" id="KRh-nL-RS1" customClass="DBFBProfilePictureView">
+                            <rect key="frame" x="0.0" y="0.0" width="38" height="38"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                        </imageView>
+                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                        </view>
                         <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="emptyfriendslot.png" highlightedImage="fullfriendborder.png" id="6cX-cg-JdP">
                             <rect key="frame" x="0.0" y="0.0" width="38" height="38"/>
                             <autoresizingMask key="autoresizingMask"/>
@@ -412,7 +415,7 @@
                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                     <connections>
                         <outlet property="bgdView" destination="6cX-cg-JdP" id="2mb-qy-Tyr"/>
-                        <outlet property="profPicView" destination="DSX-KC-Rij" id="Zpo-nb-Gpb"/>
+                        <outlet property="profPicView" destination="KRh-nL-RS1" id="55P-tl-0Yn"/>
                         <outlet property="slotNumLabel" destination="qpr-Xv-ki9" id="m7u-7M-0hs"/>
                     </connections>
                 </view>

@@ -1194,6 +1194,9 @@ BOOL CityElementProto_CityElemTypeIsValidValue(CityElementProto_CityElemType val
 @property (retain) NSString* name;
 @property (retain) NSString* mapImgName;
 @property (retain) CoordinateProto* center;
+@property (retain) NSString* roadImgName;
+@property (retain) NSString* mapTmxName;
+@property (retain) CoordinateProto* roadImgCoords;
 @property (retain) NSMutableArray* mutableTaskIdsList;
 @end
 
@@ -1227,11 +1230,35 @@ BOOL CityElementProto_CityElemTypeIsValidValue(CityElementProto_CityElemType val
   hasCenter_ = !!value;
 }
 @synthesize center;
+- (BOOL) hasRoadImgName {
+  return !!hasRoadImgName_;
+}
+- (void) setHasRoadImgName:(BOOL) value {
+  hasRoadImgName_ = !!value;
+}
+@synthesize roadImgName;
+- (BOOL) hasMapTmxName {
+  return !!hasMapTmxName_;
+}
+- (void) setHasMapTmxName:(BOOL) value {
+  hasMapTmxName_ = !!value;
+}
+@synthesize mapTmxName;
+- (BOOL) hasRoadImgCoords {
+  return !!hasRoadImgCoords_;
+}
+- (void) setHasRoadImgCoords:(BOOL) value {
+  hasRoadImgCoords_ = !!value;
+}
+@synthesize roadImgCoords;
 @synthesize mutableTaskIdsList;
 - (void) dealloc {
   self.name = nil;
   self.mapImgName = nil;
   self.center = nil;
+  self.roadImgName = nil;
+  self.mapTmxName = nil;
+  self.roadImgCoords = nil;
   self.mutableTaskIdsList = nil;
   [super dealloc];
 }
@@ -1241,6 +1268,9 @@ BOOL CityElementProto_CityElemTypeIsValidValue(CityElementProto_CityElemType val
     self.name = @"";
     self.mapImgName = @"";
     self.center = [CoordinateProto defaultInstance];
+    self.roadImgName = @"";
+    self.mapTmxName = @"";
+    self.roadImgCoords = [CoordinateProto defaultInstance];
   }
   return self;
 }
@@ -1279,8 +1309,17 @@ static FullCityProto* defaultFullCityProtoInstance = nil;
   if (self.hasCenter) {
     [output writeMessage:4 value:self.center];
   }
+  if (self.hasRoadImgName) {
+    [output writeString:5 value:self.roadImgName];
+  }
+  if (self.hasMapTmxName) {
+    [output writeString:6 value:self.mapTmxName];
+  }
+  if (self.hasRoadImgCoords) {
+    [output writeMessage:7 value:self.roadImgCoords];
+  }
   for (NSNumber* value in self.mutableTaskIdsList) {
-    [output writeInt32:5 value:[value intValue]];
+    [output writeInt32:8 value:[value intValue]];
   }
   [self.unknownFields writeToCodedOutputStream:output];
 }
@@ -1302,6 +1341,15 @@ static FullCityProto* defaultFullCityProtoInstance = nil;
   }
   if (self.hasCenter) {
     size += computeMessageSize(4, self.center);
+  }
+  if (self.hasRoadImgName) {
+    size += computeStringSize(5, self.roadImgName);
+  }
+  if (self.hasMapTmxName) {
+    size += computeStringSize(6, self.mapTmxName);
+  }
+  if (self.hasRoadImgCoords) {
+    size += computeMessageSize(7, self.roadImgCoords);
   }
   {
     int32_t dataSize = 0;
@@ -1398,6 +1446,15 @@ static FullCityProto* defaultFullCityProtoInstance = nil;
   if (other.hasCenter) {
     [self mergeCenter:other.center];
   }
+  if (other.hasRoadImgName) {
+    [self setRoadImgName:other.roadImgName];
+  }
+  if (other.hasMapTmxName) {
+    [self setMapTmxName:other.mapTmxName];
+  }
+  if (other.hasRoadImgCoords) {
+    [self mergeRoadImgCoords:other.roadImgCoords];
+  }
   if (other.mutableTaskIdsList.count > 0) {
     if (result.mutableTaskIdsList == nil) {
       result.mutableTaskIdsList = [NSMutableArray array];
@@ -1446,7 +1503,24 @@ static FullCityProto* defaultFullCityProtoInstance = nil;
         [self setCenter:[subBuilder buildPartial]];
         break;
       }
-      case 40: {
+      case 42: {
+        [self setRoadImgName:[input readString]];
+        break;
+      }
+      case 50: {
+        [self setMapTmxName:[input readString]];
+        break;
+      }
+      case 58: {
+        CoordinateProto_Builder* subBuilder = [CoordinateProto builder];
+        if (self.hasRoadImgCoords) {
+          [subBuilder mergeFrom:self.roadImgCoords];
+        }
+        [input readMessage:subBuilder extensionRegistry:extensionRegistry];
+        [self setRoadImgCoords:[subBuilder buildPartial]];
+        break;
+      }
+      case 64: {
         [self addTaskIds:[input readInt32]];
         break;
       }
@@ -1529,6 +1603,68 @@ static FullCityProto* defaultFullCityProtoInstance = nil;
 - (FullCityProto_Builder*) clearCenter {
   result.hasCenter = NO;
   result.center = [CoordinateProto defaultInstance];
+  return self;
+}
+- (BOOL) hasRoadImgName {
+  return result.hasRoadImgName;
+}
+- (NSString*) roadImgName {
+  return result.roadImgName;
+}
+- (FullCityProto_Builder*) setRoadImgName:(NSString*) value {
+  result.hasRoadImgName = YES;
+  result.roadImgName = value;
+  return self;
+}
+- (FullCityProto_Builder*) clearRoadImgName {
+  result.hasRoadImgName = NO;
+  result.roadImgName = @"";
+  return self;
+}
+- (BOOL) hasMapTmxName {
+  return result.hasMapTmxName;
+}
+- (NSString*) mapTmxName {
+  return result.mapTmxName;
+}
+- (FullCityProto_Builder*) setMapTmxName:(NSString*) value {
+  result.hasMapTmxName = YES;
+  result.mapTmxName = value;
+  return self;
+}
+- (FullCityProto_Builder*) clearMapTmxName {
+  result.hasMapTmxName = NO;
+  result.mapTmxName = @"";
+  return self;
+}
+- (BOOL) hasRoadImgCoords {
+  return result.hasRoadImgCoords;
+}
+- (CoordinateProto*) roadImgCoords {
+  return result.roadImgCoords;
+}
+- (FullCityProto_Builder*) setRoadImgCoords:(CoordinateProto*) value {
+  result.hasRoadImgCoords = YES;
+  result.roadImgCoords = value;
+  return self;
+}
+- (FullCityProto_Builder*) setRoadImgCoordsBuilder:(CoordinateProto_Builder*) builderForValue {
+  return [self setRoadImgCoords:[builderForValue build]];
+}
+- (FullCityProto_Builder*) mergeRoadImgCoords:(CoordinateProto*) value {
+  if (result.hasRoadImgCoords &&
+      result.roadImgCoords != [CoordinateProto defaultInstance]) {
+    result.roadImgCoords =
+      [[[CoordinateProto builderWithPrototype:result.roadImgCoords] mergeFrom:value] buildPartial];
+  } else {
+    result.roadImgCoords = value;
+  }
+  result.hasRoadImgCoords = YES;
+  return self;
+}
+- (FullCityProto_Builder*) clearRoadImgCoords {
+  result.hasRoadImgCoords = NO;
+  result.roadImgCoords = [CoordinateProto defaultInstance];
   return self;
 }
 - (NSArray*) taskIdsList {

@@ -8,7 +8,6 @@
 
 #import "GameMap.h"
 #import "Protocols.pb.h"
-#import "CCLabelFX.h"
 
 #define ASSET_TAG_BASE 2555
 

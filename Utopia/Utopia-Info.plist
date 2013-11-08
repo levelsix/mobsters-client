@@ -5,7 +5,7 @@
 	<key>CFBundleDevelopmentRegion</key>
 	<string>English</string>
 	<key>CFBundleDisplayName</key>
-	<string>Age of Chaos</string>
+	<string>Mob Squad</string>
 	<key>CFBundleExecutable</key>
 	<string>${EXECUTABLE_NAME}</string>
 	<key>CFBundleIconFile</key>
@@ -20,7 +20,7 @@
 		<string>Icon-Small@2x.png</string>
 	</array>
 	<key>CFBundleIdentifier</key>
-	<string>com.lvl6.kingdom</string>
+	<string>com.lvl6.mobsters</string>
 	<key>CFBundleInfoDictionaryVersion</key>
 	<string>6.0</string>
 	<key>CFBundleName</key>
@@ -36,25 +36,26 @@
 		<dict>
 			<key>CFBundleURLSchemes</key>
 			<array>
-				<string>fb308804055902016</string>
+				<string>fb626969100686621</string>
 			</array>
 		</dict>
 	</array>
 	<key>CFBundleVersion</key>
 	<string>3.5</string>
 	<key>FacebookAppID</key>
-	<string>308804055902016</string>
+	<string>626969100686621</string>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
 	<key>UIAppFonts</key>
 	<array>
 		<string>AxeHandel.ttf</string>
-		<string>FF_DIN_Bold.otf</string>
-		<string>FF_DIN_Regular.otf</string>
+		<string>Gotham-Ultra.otf</string>
+		<string>Gotham-UltraItalic.otf</string>
 		<string>Gotham-Book.otf</string>
 		<string>Gotham-Medium.otf</string>
 		<string>m7</string>
 		<string>Akko-Bold.ttf</string>
+		<string></string>
 	</array>
 	<key>UIPrerenderedIcon</key>
 	<true/>

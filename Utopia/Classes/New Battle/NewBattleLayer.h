@@ -39,20 +39,15 @@
   int _orbCount;
   int _comboCount;
   float _currentScore;
-  int _labelScore;
   int _movesLeft;
   int _numStages;
   
-  int _scoreForThisTurn;
+  float _scoreForThisTurn;
   
   int _enemyDamagePercent;
   
   int _curStage;
   int _lootCount;
-  
-  ccColor3B *_chargingColors;
-  int _numChargingColors;
-  BOOL _isChargingUp;
   
   int _soundComboCount;
   BOOL _canPlayNextComboSound;
@@ -61,12 +56,12 @@
   BOOL _isLoading;
 }
 
-@property (nonatomic, assign) CCSprite *rightDamageBgd;
-@property (nonatomic, assign) CCLabelTTF *rightDamageLabel;
-@property (nonatomic, assign) CCSprite *leftDamageBgd;
-@property (nonatomic, assign) CCLabelTTF *leftDamageLabel;
+@property (nonatomic, assign) CCProgressTimer *powerBar;
+@property (nonatomic, assign) CCSprite *movesBgd;
 @property (nonatomic, assign) CCLabelTTF *movesLeftLabel;
 @property (nonatomic, assign) CCLabelTTF *lootLabel;
+@property (nonatomic, assign) CCSprite *comboBgd;
+@property (nonatomic, assign) CCLabelTTF *comboLabel;
 
 @property (nonatomic, assign) BattleBgdLayer *bgdLayer;
 @property (nonatomic, assign) OrbLayer *orbLayer;
@@ -78,8 +73,6 @@
 @property (nonatomic, retain) BattlePlayer *enemyPlayerObject;
 
 @property (nonatomic, assign) CCSprite *bloodSplatter;
-
-@property (nonatomic, assign) CCParticleSystemQuad *chargingEffect;
 
 @property (nonatomic, assign) CCLayerColor *noInputLayer;
 

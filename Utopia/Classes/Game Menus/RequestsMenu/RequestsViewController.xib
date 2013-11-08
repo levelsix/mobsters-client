@@ -8,6 +8,8 @@
             <connections>
                 <outlet property="bgdView" destination="KjH-iu-hi9" id="CAY-2h-4i8"/>
                 <outlet property="mainView" destination="Yd0-kl-6tk" id="lRO-n3-7cS"/>
+                <outlet property="requestsTable" destination="R02-6V-bQT" id="3Nl-0t-vcE"/>
+                <outlet property="spinner" destination="It5-uw-1pp" id="aGl-pX-7pQ"/>
                 <outlet property="unselectButton" destination="9lc-lK-vec" id="Igf-eb-T8Z"/>
                 <outlet property="view" destination="oQa-NW-Nhw" id="rcH-bv-EGW"/>
             </connections>
@@ -82,6 +84,9 @@
                                             <state key="normal" backgroundImage="confirm.png">
                                                 <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                             </state>
+                                            <connections>
+                                                <action selector="acceptClicked:" destination="-1" eventType="touchUpInside" id="b4r-Ji-Qy9"/>
+                                            </connections>
                                         </button>
                                         <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="ACCEPT!" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="8GD-Qr-xHC" customClass="NiceFontLabel">
                                             <rect key="frame" x="269" y="204" width="72" height="22"/>
@@ -92,7 +97,7 @@
                                             <color key="shadowColor" red="0.0" green="0.0" blue="0.0" alpha="0.20000000000000001" colorSpace="calibratedRGB"/>
                                             <size key="shadowOffset" width="0.0" height="1"/>
                                         </label>
-                                        <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" style="plain" separatorStyle="none" rowHeight="70" sectionHeaderHeight="14" sectionFooterHeight="22" id="R02-6V-bQT">
+                                        <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" style="plain" separatorStyle="none" rowHeight="66" sectionHeaderHeight="14" sectionFooterHeight="22" id="R02-6V-bQT">
                                             <rect key="frame" x="1" y="2" width="354" height="182"/>
                                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
@@ -103,6 +108,10 @@
                                                 <outlet property="delegate" destination="-1" id="hzL-oI-F83"/>
                                             </connections>
                                         </tableView>
+                                        <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" animating="YES" style="whiteLarge" id="It5-uw-1pp">
+                                            <rect key="frame" x="160" y="74" width="37" height="37"/>
+                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        </activityIndicatorView>
                                     </subviews>
                                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                 </view>

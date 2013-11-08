@@ -83,14 +83,15 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
     }
   }
   
-  if (gs.silver >= fsp.cashPrice && gs.gold >= fsp.gemPrice) {
+  int goldPrice = fsp.isPremiumCurrency ? fsp.buildPrice : 0;
+  int silverPrice = fsp.isPremiumCurrency ? 0 : fsp.buildPrice;
+  if (gs.silver >= silverPrice && gs.gold >= goldPrice) {
     int tag = [[SocketCommunication sharedSocketCommunication] sendPurchaseNormStructureMessage:structId x:x y:y time:[self getCurrentMilliseconds]];
     us = [[UserStruct alloc] init];
     
     // UserStructId will come in the response
     us.userId = [[GameState sharedGameState] userId];
     us.structId = structId;
-    us.level = 1;
     us.isComplete = NO;
     us.coordinates = CGPointMake(x, y);
     us.orientation = 0;
@@ -98,8 +99,8 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
     us.lastRetrieved = nil;
     
     AddStructUpdate *asu = [AddStructUpdate updateWithTag:tag userStruct:us];
-    SilverUpdate *su = [SilverUpdate updateWithTag:tag change:-fsp.cashPrice];
-    GoldUpdate *gu = [GoldUpdate updateWithTag:tag change:-fsp.gemPrice];
+    SilverUpdate *su = [SilverUpdate updateWithTag:tag change:-silverPrice];
+    GoldUpdate *gu = [GoldUpdate updateWithTag:tag change:-goldPrice];
     [gs addUnrespondedUpdates:asu, su, gu, nil];
     
     [Analytics normStructPurchase:structId];
@@ -129,7 +130,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
 - (void) sellNormStruct:(UserStruct *)userStruct {
   GameState *gs = [GameState sharedGameState];
   SocketCommunication *sc = [SocketCommunication sharedSocketCommunication];
-  Globals *gl = [Globals sharedGlobals];
+  FullStructureProto *fsp = userStruct.fsp;
   
   if (userStruct.userStructId == 0) {
     [Globals popupMessage:@"Waiting for confirmation of purchase!"];
@@ -139,19 +140,18 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
     int tag = [sc sendSellNormStructureMessage:userStruct.userStructId];
     
     SellStructUpdate *ssu = [SellStructUpdate updateWithTag:tag userStruct:userStruct];
-    SilverUpdate *su = [SilverUpdate updateWithTag:tag change:[gl calculateStructSilverSellCost:userStruct]];
-    GoldUpdate *gu = [GoldUpdate updateWithTag:tag change:[gl calculateStructGoldSellCost:userStruct]];
+    SilverUpdate *su = [SilverUpdate updateWithTag:tag change:fsp.isPremiumCurrency ? 0 : fsp.sellPrice];
+    GoldUpdate *gu = [GoldUpdate updateWithTag:tag change:fsp.isPremiumCurrency ? fsp.sellPrice : 0];
     
     [gs addUnrespondedUpdates:ssu, su, gu, nil];
     
-    [Analytics normStructSell:userStruct.structId level:userStruct.level];
+    [Analytics normStructSell:userStruct.structId level:fsp.level];
   }
 }
 
 - (void) retrieveFromNormStructure:(UserStruct *)userStruct {
   GameState *gs = [GameState sharedGameState];
   SocketCommunication *sc = [SocketCommunication sharedSocketCommunication];
-  Globals *gl = [Globals sharedGlobals];
   
   if (userStruct.userStructId == 0) {
     [Globals popupMessage:@"Waiting for confirmation of purchase!"];
@@ -163,7 +163,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
     userStruct.lastRetrieved = [NSDate dateWithTimeIntervalSince1970:ms/1000.0];
     
     // Update game state
-    [gs addUnrespondedUpdate:[SilverUpdate updateWithTag:tag change:[gl calculateIncomeForUserStruct:userStruct]]];
+    [gs addUnrespondedUpdate:[SilverUpdate updateWithTag:tag change:userStruct.fsp.income]];
   } else {
     [Globals popupMessage:[NSString stringWithFormat:@"Building %d is not ready to be retrieved", userStruct.userStructId]];
   }
@@ -174,7 +174,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
   SocketCommunication *sc = [SocketCommunication sharedSocketCommunication];
   Globals *gl = [Globals sharedGlobals];
   
-  int timeLeft = userStruct.lastUpgradeTime.timeIntervalSinceNow + [gl calculateMinutesToUpgrade:userStruct]*60;
+  int timeLeft = userStruct.timeLeftForBuildComplete;
   
   if (userStruct.userStructId == 0) {
     [Globals popupMessage:@"Waiting for confirmation of purchase!"];
@@ -182,17 +182,16 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
     [Globals popupMessage:@"This is not your building!"];
   } else if (gs.gold < [gl calculateGemSpeedupCostForTimeLeft:timeLeft]) {
     [Globals popupMessage:@"Not enough diamonds to speed up upgrade"];
-  } else if (!userStruct.isComplete && userStruct.lastUpgradeTime) {
+  } else if (!userStruct.isComplete) {
     int64_t ms = [self getCurrentMilliseconds];
     int tag = [sc sendFinishNormStructBuildWithDiamondsMessage:userStruct.userStructId time:[self getCurrentMilliseconds]];
     userStruct.isComplete = YES;
     userStruct.lastRetrieved = [NSDate dateWithTimeIntervalSince1970:ms/1000.0];
-    userStruct.level++;
     
     // Update game state
     [gs addUnrespondedUpdate:[GoldUpdate updateWithTag:tag change:-[gl calculateGemSpeedupCostForTimeLeft:timeLeft]]];
     
-    [Analytics normStructInstaUpgrade:userStruct.structId level:userStruct.level];
+    [Analytics normStructInstaUpgrade:userStruct.structId level:userStruct.fsp.level];
   } else {
     [Globals popupMessage:[NSString stringWithFormat:@"Building %d is not upgrading", userStruct.userStructId]];
   }
@@ -200,24 +199,14 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
 
 - (void) normStructWaitComplete:(UserStruct *)userStruct {
   GameState *gs = [GameState sharedGameState];
-  Globals *gl = [Globals sharedGlobals];
   SocketCommunication *sc = [SocketCommunication sharedSocketCommunication];
-  FullStructureProto *fsp = [[GameState sharedGameState] structWithId:userStruct.structId];
   
   if (userStruct.userStructId == 0) {
     [Globals popupMessage:@"Waiting for confirmation of purchase!"];
   } else if (userStruct.userId != gs.userId) {
     [Globals popupMessage:@"This is not your building!"];
   } else if (!userStruct.isComplete) {
-    NSDate *date;
-    if (userStruct.state == kBuilding) {
-      date = [NSDate dateWithTimeInterval:fsp.minutesToBuild*60 sinceDate:userStruct.purchaseTime];
-    } else if (userStruct.state == kUpgrading) {
-      date = [NSDate dateWithTimeInterval:[gl calculateMinutesToUpgrade:userStruct]*60 sinceDate:userStruct.lastUpgradeTime];
-    } else {
-      [Globals popupMessage:@"Something went wrong, building should still be waiting"];
-      return;
-    }
+    NSDate *date = userStruct.buildCompleteDate;
     
     if ([date compare:[NSDate date]] == NSOrderedDescending) {
       [Globals popupMessage:@"Something went wrong, building should still be waiting"];
@@ -229,11 +218,6 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
     int64_t ms = [self getCurrentMilliseconds];
     int tag = [sc sendNormStructBuildsCompleteMessage:[NSArray arrayWithObject:[NSNumber numberWithInt:userStruct.userStructId]] time:ms];
     
-    if (userStruct.lastUpgradeTime) {
-      // Building was upgraded, not constructed
-      userStruct.level++;
-    }
-    
     [gs addUnrespondedUpdate:[NoUpdate updateWithTag:tag]];
   } else {
     [Globals popupMessage:[NSString stringWithFormat:@"Building %d is not upgrading or constructing", userStruct.userStructId]];
@@ -243,12 +227,12 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
 - (void) upgradeNormStruct:(UserStruct *)userStruct {
   GameState *gs = [GameState sharedGameState];
   SocketCommunication *sc = [SocketCommunication sharedSocketCommunication];
-  FullStructureProto *fsp = [gs structWithId:userStruct.structId];
+  FullStructureProto *nextFsp = userStruct.fspForNextLevel;
   
   // Check that no other building is being upgraded
   for (UserStruct *us in gs.myStructs) {
-    if (us.state == kUpgrading) {
-      [Globals popupMessage:@"You can only upgrade one building at a time!"];
+    if (us.state == kBuilding) {
+      [Globals popupMessage:@"You can only construct one building at a time!"];
       return;
     }
   }
@@ -257,39 +241,23 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
     [Globals popupMessage:@"Waiting for confirmation of purchase!"];
   } else if (userStruct.userId != gs.userId) {
     [Globals popupMessage:@"This is not your building!"];
-  } else if (userStruct.isComplete) {
-    int cost = [[Globals sharedGlobals] calculateUpgradeCost:userStruct];
-    BOOL isGoldBuilding = fsp.gemPrice > 0;
-    if (isGoldBuilding) {
-      if (cost > gs.gold) {
-        [Globals popupMessage:@"Trying to upgrade without enough gold"];
-      } else {
-        int64_t ms = [self getCurrentMilliseconds];
-        int tag = [sc sendUpgradeNormStructureMessage:userStruct.userStructId time:ms];
-        userStruct.isComplete = NO;
-        userStruct.lastUpgradeTime = [NSDate dateWithTimeIntervalSince1970:ms/1000.0];\
-        
-        // Update game state
-        [gs addUnrespondedUpdate:[GoldUpdate updateWithTag:tag change:-cost]];
-        
-        [Analytics normStructInstaUpgrade:userStruct.structId level:userStruct.level+1];
-      }
+  } else if (!nextFsp) {
+    int goldCost = nextFsp.isPremiumCurrency ? nextFsp.buildPrice : 0;
+    int silverCost = nextFsp.isPremiumCurrency ? 0 : nextFsp.buildPrice;
+    if (goldCost > gs.gold || silverCost > gs.silver) {
+      [Globals popupMessage:@"Trying to upgrade without enough resources."];
     } else {
-      if (cost > gs.silver) {
-        [Globals popupMessage:@"Trying to upgrade without enough silver"];
-      } else {
-        int64_t ms = [self getCurrentMilliseconds];
-        int tag = [sc sendUpgradeNormStructureMessage:userStruct.userStructId time:ms];
-        userStruct.isComplete = NO;
-        userStruct.lastUpgradeTime = [NSDate dateWithTimeIntervalSince1970:ms/1000.0];\
-        
-        // Update game state
-        [gs addUnrespondedUpdate:[SilverUpdate updateWithTag:tag change:-cost]];
-        
-        [Analytics normStructInstaUpgrade:userStruct.structId level:userStruct.level+1];
-      }
+      int64_t ms = [self getCurrentMilliseconds];
+      int tag = [sc sendUpgradeNormStructureMessage:userStruct.userStructId time:ms];
+      userStruct.isComplete = NO;
+      userStruct.purchaseTime = [NSDate dateWithTimeIntervalSince1970:ms/1000.0];
+      userStruct.structId = nextFsp.structId;
+      
+      // Update game state
+      SilverUpdate *su = [SilverUpdate updateWithTag:tag change:-silverCost];
+      GoldUpdate *gu = [GoldUpdate updateWithTag:tag change:-goldCost];
+      [gs addUnrespondedUpdates:su, gu, nil];
     }
-    
   } else {
     [Globals popupMessage:@"This building is not upgradable"];
   }
@@ -892,8 +860,11 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
 }
 
 - (void) inviteAllFacebookFriends:(NSArray *)fbFriends {
-  NSLog(@"%@", fbFriends);
   [[SocketCommunication sharedSocketCommunication] sendInviteFbFriendsForSlotsMessage:fbFriends];
+}
+
+- (void) acceptAndRejectInvitesWithAcceptIds:(NSArray *)acceptIds rejectIds:(NSArray *)rejectIds {
+  [[SocketCommunication sharedSocketCommunication] sendAcceptAndRejectFbInviteForSlotsMessageAndAcceptIds:acceptIds rejectIds:rejectIds];
 }
 
 - (void) combineMonsters:(NSArray *)userMonsterIds {
