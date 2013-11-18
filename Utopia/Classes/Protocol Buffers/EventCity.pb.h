@@ -7,8 +7,6 @@
 #import "Structure.pb.h"
 #import "User.pb.h"
 
-@class BuildStructJobProto;
-@class BuildStructJobProto_Builder;
 @class CityElementProto;
 @class CityElementProto_Builder;
 @class CityExpansionCostProto;
@@ -41,26 +39,18 @@
 @class LoadPlayerCityResponseProto_Builder;
 @class MinimumClanProto;
 @class MinimumClanProto_Builder;
-@class MinimumUserBuildStructJobProto;
-@class MinimumUserBuildStructJobProto_Builder;
 @class MinimumUserProto;
 @class MinimumUserProtoWithFacebookId;
 @class MinimumUserProtoWithFacebookId_Builder;
 @class MinimumUserProtoWithLevel;
 @class MinimumUserProtoWithLevel_Builder;
 @class MinimumUserProto_Builder;
-@class MinimumUserUpgradeStructJobProto;
-@class MinimumUserUpgradeStructJobProto_Builder;
-@class MonsterJobProto;
-@class MonsterJobProto_Builder;
 @class PurchaseCityExpansionRequestProto;
 @class PurchaseCityExpansionRequestProto_Builder;
 @class PurchaseCityExpansionResponseProto;
 @class PurchaseCityExpansionResponseProto_Builder;
-@class StaticLevelInfoProto;
-@class StaticLevelInfoProto_Builder;
-@class UpgradeStructJobProto;
-@class UpgradeStructJobProto_Builder;
+@class StaticUserLevelInfoProto;
+@class StaticUserLevelInfoProto_Builder;
 @class UserCityExpansionDataProto;
 @class UserCityExpansionDataProto_Builder;
 @class UserFacebookInviteForSlotProto;

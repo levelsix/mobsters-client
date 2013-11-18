@@ -131,7 +131,11 @@
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
   Globals *gl = [Globals sharedGlobals];
-  return (gl.iapPackages.count-1)/3 + 1;
+  if (gl.iapPackages.count) {
+    return (gl.iapPackages.count-1)/3 + 1;
+  } else {
+    return 0;
+  }
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {

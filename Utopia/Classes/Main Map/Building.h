@@ -74,7 +74,11 @@
 
 @end
 
-@interface MissionBuilding : Building <TaskElement>
+@interface MissionBuilding : Building <TaskElement> {
+  CCSprite *_lockedBubble;
+}
+
+@property (nonatomic, assign) BOOL isLocked;
 
 @end
 

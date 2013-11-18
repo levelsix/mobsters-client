@@ -61,14 +61,14 @@
                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                 </view>
                 <view contentMode="scaleToFill" id="El6-L4-OGg">
-                    <rect key="frame" x="459" y="244" width="104" height="33"/>
+                    <rect key="frame" x="508" y="213" width="53" height="64"/>
                     <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMinY="YES"/>
                     <subviews>
                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="59Z-cS-Cz1">
-                            <rect key="frame" x="0.0" y="0.0" width="104" height="33"/>
+                            <rect key="frame" x="0.0" y="0.0" width="53" height="64"/>
                             <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMinY="YES"/>
                             <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
-                            <state key="normal" backgroundImage="homebutton.png">
+                            <state key="normal" backgroundImage="mycity.png">
                                 <color key="titleColor" red="0.19607843459999999" green="0.30980393290000002" blue="0.52156865600000002" alpha="1" colorSpace="calibratedRGB"/>
                                 <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                             </state>
@@ -79,10 +79,10 @@
                                 <action selector="myCityClicked:" destination="-1" eventType="touchUpInside" id="6BU-6C-FaQ"/>
                             </connections>
                         </button>
-                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="MY CITY" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" id="1Yz-iS-eRB" customClass="NiceFontLabel">
-                            <rect key="frame" x="17" y="5" width="88" height="21"/>
+                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="My City" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" id="1Yz-iS-eRB" customClass="NiceFontLabel">
+                            <rect key="frame" x="-16" y="41" width="85" height="26"/>
                             <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxY="YES"/>
-                            <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                            <fontDescription key="fontDescription" type="system" pointSize="11"/>
                             <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                             <nil key="highlightedColor"/>
                             <color key="shadowColor" red="0.0" green="0.0" blue="0.0" alpha="0.29999999999999999" colorSpace="calibratedRGB"/>
@@ -337,13 +337,13 @@
         <image name="cashbar.png" width="90" height="15"/>
         <image name="diamond.png" width="44" height="41"/>
         <image name="expbar.png" width="90" height="15"/>
-        <image name="homebutton.png" width="104" height="33"/>
         <image name="levelnumber.png" width="30" height="30"/>
         <image name="mail.png" width="32" height="32"/>
         <image name="menubg.png" width="120" height="39"/>
         <image name="menubutton.png" width="104" height="33"/>
         <image name="minitopbarbg.png" width="71" height="21"/>
         <image name="moneystack.png" width="43" height="34"/>
+        <image name="mycity.png" width="53" height="64"/>
         <image name="questbutton.png" width="53" height="65"/>
         <image name="teambarbg.png" width="144" height="48"/>
         <image name="topbarbg.png" width="96" height="21"/>

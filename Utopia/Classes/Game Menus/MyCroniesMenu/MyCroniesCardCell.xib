@@ -11,65 +11,24 @@
         </placeholder>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
         <view contentMode="scaleToFill" id="9fd-sp-Dwx" customClass="MyCroniesCardCell">
-            <rect key="frame" x="0.0" y="0.0" width="123" height="207"/>
+            <rect key="frame" x="0.0" y="0.0" width="108" height="160"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
                 <view contentMode="scaleToFill" id="p6p-JM-bCJ">
-                    <rect key="frame" x="0.0" y="24" width="123" height="183"/>
+                    <rect key="frame" x="0.0" y="0.0" width="108" height="160"/>
                     <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
                     <subviews>
                         <view contentMode="scaleToFill" id="lf5-Yk-icT" customClass="MonsterCardContainerView">
-                            <rect key="frame" x="8" y="12" width="107" height="130"/>
+                            <rect key="frame" x="7" y="9" width="95" height="120"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             <color key="backgroundColor" white="0.75387474799999998" alpha="1" colorSpace="calibratedWhite"/>
                         </view>
-                        <view contentMode="scaleToFill" id="Wm9-ww-UVt">
-                            <rect key="frame" x="26" y="149" width="71" height="28"/>
-                            <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                            <subviews>
-                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="fau-3w-s9y">
-                                    <rect key="frame" x="0.0" y="0.0" width="71" height="28"/>
-                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                    <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
-                                    <state key="normal" image="heal.png">
-                                        <color key="titleColor" red="0.19607843459999999" green="0.30980393290000002" blue="0.52156865600000002" alpha="1" colorSpace="calibratedRGB"/>
-                                        <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                                    </state>
-                                    <state key="highlighted">
-                                        <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                    </state>
-                                    <connections>
-                                        <action selector="healClicked:" destination="9fd-sp-Dwx" eventType="touchUpInside" id="n3v-GB-4E2"/>
-                                    </connections>
-                                </button>
-                                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="$500" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="8" id="zGJ-gE-pds" customClass="NiceFontLabel">
-                                    <rect key="frame" x="2" y="7" width="66" height="21"/>
-                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                    <fontDescription key="fontDescription" type="system" pointSize="12"/>
-                                    <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                    <nil key="highlightedColor"/>
-                                    <color key="shadowColor" red="0.37971297554347827" green="0.0" blue="0.026810234578792325" alpha="0.85999999999999999" colorSpace="calibratedRGB"/>
-                                    <size key="shadowOffset" width="0.0" height="1"/>
-                                </label>
-                                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="HEAL" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="8" id="Xxj-SJ-pRs" customClass="NiceFontLabel">
-                                    <rect key="frame" x="2" y="-4" width="66" height="21"/>
-                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                    <fontDescription key="fontDescription" type="system" pointSize="9"/>
-                                    <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                    <nil key="highlightedColor"/>
-                                    <color key="shadowColor" red="0.37971297554347827" green="0.0" blue="0.026810234578792325" alpha="0.85999999999999999" colorSpace="calibratedRGB"/>
-                                    <size key="shadowOffset" width="0.0" height="1"/>
-                                </label>
-                            </subviews>
-                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                            <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
-                        </view>
                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="ypZ-pO-MBF">
-                            <rect key="frame" x="-1" y="1" width="29" height="30"/>
+                            <rect key="frame" x="-5" y="-2" width="29" height="30"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                             <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
-                            <state key="normal" title="Button" image="addteam.png">
+                            <state key="normal" image="addteam.png">
                                 <color key="titleColor" red="0.19607843459999999" green="0.30980393290000002" blue="0.52156865600000002" alpha="1" colorSpace="calibratedRGB"/>
                                 <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                             </state>
@@ -80,22 +39,30 @@
                                 <action selector="plusClicked:" destination="9fd-sp-Dwx" eventType="touchUpInside" id="9D2-za-pyJ"/>
                             </connections>
                         </button>
-                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="AEJ-cB-Bwm">
-                            <rect key="frame" x="-1" y="1" width="29" height="30"/>
+                        <view userInteractionEnabled="NO" contentMode="scaleToFill" id="m34-Mb-4lN">
+                            <rect key="frame" x="7" y="95" width="95" height="34"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <subviews>
+                                <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="cardbottomoverlay.png" id="mSP-Eb-JzI">
+                                    <rect key="frame" x="0.0" y="12" width="95" height="22"/>
+                                    <autoresizingMask key="autoresizingMask"/>
+                                </imageView>
+                                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Pieces: 3/4" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" id="dvD-2x-hYS" customClass="NiceFontLabel">
+                                    <rect key="frame" x="3" y="12" width="88" height="21"/>
+                                    <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
+                                    <fontDescription key="fontDescription" type="system" pointSize="13"/>
+                                    <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="calibratedRGB"/>
+                                    <nil key="highlightedColor"/>
+                                    <color key="shadowColor" red="0.0" green="0.0" blue="0.0" alpha="0.29999999999999999" colorSpace="calibratedRGB"/>
+                                    <size key="shadowOffset" width="0.0" height="1"/>
+                                </label>
+                            </subviews>
                             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                            <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
-                            <state key="normal" title="Button" image="removeteam.png">
-                                <color key="titleColor" red="0.19607843459999999" green="0.30980393290000002" blue="0.52156865600000002" alpha="1" colorSpace="calibratedRGB"/>
-                                <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                            </state>
-                            <state key="highlighted">
-                                <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                            </state>
-                            <connections>
-                                <action selector="minusClicked:" destination="9fd-sp-Dwx" eventType="touchUpInside" id="mxS-lJ-P7p"/>
-                            </connections>
-                        </button>
+                        </view>
+                        <imageView opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="center" image="onteam.png" id="xOb-z9-q3p">
+                            <rect key="frame" x="1" y="4" width="17" height="17"/>
+                            <autoresizingMask key="autoresizingMask"/>
+                        </imageView>
                     </subviews>
                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                 </view>
@@ -107,11 +74,16 @@
                 <outlet property="buySlotsNumLabel" destination="EWr-aG-r5E" id="IWV-us-gkg"/>
                 <outlet property="buySlotsView" destination="CXM-wn-sG4" id="brY-Ry-bpV"/>
                 <outlet property="cardContainer" destination="lf5-Yk-icT" id="22e-M3-8yn"/>
+                <outlet property="combineCostLabel" destination="kme-SF-pOP" id="K3S-VA-oTi"/>
+                <outlet property="combineView" destination="LpT-WB-Iu9" id="egd-Va-ucw"/>
                 <outlet property="delegate" destination="-1" id="z7A-cO-iDf"/>
-                <outlet property="healButtonLabel" destination="zGJ-gE-pds" id="Nq9-72-dnt"/>
-                <outlet property="healButtonView" destination="Wm9-ww-UVt" id="Qx5-fF-ciA"/>
+                <outlet property="genLabel" destination="dvD-2x-hYS" id="GAz-LA-61n"/>
+                <outlet property="genLabelView" destination="m34-Mb-4lN" id="1Kh-XI-GJ4"/>
+                <outlet property="healCostLabel" destination="my5-2e-wUi" id="VDh-e4-bC9"/>
+                <outlet property="healthBar" destination="HMc-F6-9Rl" id="Bvl-fc-Lxz"/>
+                <outlet property="healthBarView" destination="s8F-t6-rch" id="Vnd-WP-gzQ"/>
                 <outlet property="mainView" destination="p6p-JM-bCJ" id="Rma-VH-QBO"/>
-                <outlet property="minusButton" destination="AEJ-cB-Bwm" id="eeg-QM-1cg"/>
+                <outlet property="onTeamIcon" destination="xOb-z9-q3p" id="RD4-zw-eS0"/>
                 <outlet property="plusButton" destination="ypZ-pO-MBF" id="nRt-rE-eNq"/>
             </connections>
         </view>
@@ -158,12 +130,82 @@
             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
             <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
         </view>
+        <view userInteractionEnabled="NO" contentMode="scaleToFill" id="s8F-t6-rch" userLabel="Health Bar View">
+            <rect key="frame" x="0.0" y="0.0" width="95" height="34"/>
+            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+            <subviews>
+                <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="cardbottomoverlay.png" id="pPf-z1-xhi">
+                    <rect key="frame" x="0.0" y="12" width="95" height="22"/>
+                    <autoresizingMask key="autoresizingMask"/>
+                </imageView>
+                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="$1,600" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" id="my5-2e-wUi" customClass="NiceFontLabel">
+                    <rect key="frame" x="55" y="13" width="39" height="21"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
+                    <fontDescription key="fontDescription" type="system" pointSize="10"/>
+                    <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="calibratedRGB"/>
+                    <nil key="highlightedColor"/>
+                    <color key="shadowColor" red="0.0" green="0.0" blue="0.0" alpha="0.29999999999999999" colorSpace="calibratedRGB"/>
+                    <size key="shadowOffset" width="0.0" height="1"/>
+                </label>
+                <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="cardhealthbg.png" id="lrB-D5-Gzr">
+                    <rect key="frame" x="6" y="19" width="46" height="9"/>
+                    <autoresizingMask key="autoresizingMask"/>
+                </imageView>
+                <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="earthcardhealthbar.png" id="HMc-F6-9Rl" customClass="ProgressBar">
+                    <rect key="frame" x="7" y="20" width="44" height="7"/>
+                    <autoresizingMask key="autoresizingMask"/>
+                </imageView>
+            </subviews>
+            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+        </view>
+        <view contentMode="scaleToFill" id="LpT-WB-Iu9">
+            <rect key="frame" x="0.0" y="0.0" width="87" height="60"/>
+            <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMinY="YES"/>
+            <subviews>
+                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Finish Now" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="YdV-8Z-OYh" customClass="NiceFontLabel">
+                    <rect key="frame" x="6" y="4" width="74" height="21"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                    <fontDescription key="fontDescription" type="system" pointSize="9"/>
+                    <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    <nil key="highlightedColor"/>
+                    <color key="shadowColor" red="0.0" green="0.0" blue="0.0" alpha="0.59999999999999998" colorSpace="calibratedRGB"/>
+                    <size key="shadowOffset" width="0.0" height="1"/>
+                </label>
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="H76-Gb-w6O">
+                    <rect key="frame" x="3" y="24" width="81" height="32"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                    <state key="normal" image="finishheal.png">
+                        <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                    </state>
+                    <connections>
+                        <action selector="speedupCombineClicked:" destination="9fd-sp-Dwx" eventType="touchUpInside" id="MjB-Zq-LHx"/>
+                    </connections>
+                </button>
+                <imageView opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" image="diamond.png" id="GKS-nM-UNz">
+                    <rect key="frame" x="15" y="29" width="18" height="21"/>
+                    <autoresizingMask key="autoresizingMask"/>
+                </imageView>
+                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="250" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="9" id="kme-SF-pOP" customClass="NiceFontLabel">
+                    <rect key="frame" x="34" y="27" width="37" height="24"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                    <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                    <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="calibratedRGB"/>
+                    <nil key="highlightedColor"/>
+                    <color key="shadowColor" white="0.0" alpha="0.29999999999999999" colorSpace="calibratedWhite"/>
+                    <size key="shadowOffset" width="0.0" height="1"/>
+                </label>
+            </subviews>
+            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+        </view>
     </objects>
     <resources>
-        <image name="addteam.png" width="29" height="29"/>
+        <image name="addteam.png" width="17" height="17"/>
+        <image name="cardbottomoverlay.png" width="95" height="22"/>
+        <image name="cardhealthbg.png" width="46" height="9"/>
         <image name="diamond.png" width="44" height="41"/>
-        <image name="emptyslot.png" width="107" height="130"/>
-        <image name="heal.png" width="71" height="28"/>
-        <image name="removeteam.png" width="29" height="29"/>
+        <image name="earthcardhealthbar.png" width="44" height="7"/>
+        <image name="emptyslot.png" width="95" height="120"/>
+        <image name="finishheal.png" width="71" height="28"/>
+        <image name="onteam.png" width="17" height="17"/>
     </resources>
 </document>

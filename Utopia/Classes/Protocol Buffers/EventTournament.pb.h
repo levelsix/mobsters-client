@@ -27,8 +27,8 @@
 @class RetrieveTournamentRankingsRequestProto_Builder;
 @class RetrieveTournamentRankingsResponseProto;
 @class RetrieveTournamentRankingsResponseProto_Builder;
-@class StaticLevelInfoProto;
-@class StaticLevelInfoProto_Builder;
+@class StaticUserLevelInfoProto;
+@class StaticUserLevelInfoProto_Builder;
 @class TournamentEventProto;
 @class TournamentEventProto_Builder;
 @class TournamentEventRewardProto;

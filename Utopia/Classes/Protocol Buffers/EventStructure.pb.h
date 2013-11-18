@@ -58,8 +58,8 @@
 @class SellNormStructureRequestProto_Builder;
 @class SellNormStructureResponseProto;
 @class SellNormStructureResponseProto_Builder;
-@class StaticLevelInfoProto;
-@class StaticLevelInfoProto_Builder;
+@class StaticUserLevelInfoProto;
+@class StaticUserLevelInfoProto_Builder;
 @class UpgradeNormStructureRequestProto;
 @class UpgradeNormStructureRequestProto_Builder;
 @class UpgradeNormStructureResponseProto;
@@ -1149,25 +1149,29 @@ BOOL ExpansionWaitCompleteResponseProto_ExpansionWaitCompleteStatusIsValidValue(
 @private
   BOOL hasSpeedUp_:1;
   BOOL hasCurTime_:1;
+  BOOL hasGemCostToSpeedup_:1;
   BOOL hasSender_:1;
   BOOL hasXPosition_:1;
   BOOL hasYPosition_:1;
   BOOL speedUp_:1;
   int64_t curTime;
+  int32_t gemCostToSpeedup;
   MinimumUserProto* sender;
   int32_t xPosition;
   int32_t yPosition;
 }
 - (BOOL) hasSender;
 - (BOOL) hasCurTime;
-- (BOOL) hasSpeedUp;
 - (BOOL) hasXPosition;
 - (BOOL) hasYPosition;
+- (BOOL) hasSpeedUp;
+- (BOOL) hasGemCostToSpeedup;
 @property (readonly, retain) MinimumUserProto* sender;
 @property (readonly) int64_t curTime;
-- (BOOL) speedUp;
 @property (readonly) int32_t xPosition;
 @property (readonly) int32_t yPosition;
+- (BOOL) speedUp;
+@property (readonly) int32_t gemCostToSpeedup;
 
 + (ExpansionWaitCompleteRequestProto*) defaultInstance;
 - (ExpansionWaitCompleteRequestProto*) defaultInstance;
@@ -1215,11 +1219,6 @@ BOOL ExpansionWaitCompleteResponseProto_ExpansionWaitCompleteStatusIsValidValue(
 - (ExpansionWaitCompleteRequestProto_Builder*) setCurTime:(int64_t) value;
 - (ExpansionWaitCompleteRequestProto_Builder*) clearCurTime;
 
-- (BOOL) hasSpeedUp;
-- (BOOL) speedUp;
-- (ExpansionWaitCompleteRequestProto_Builder*) setSpeedUp:(BOOL) value;
-- (ExpansionWaitCompleteRequestProto_Builder*) clearSpeedUp;
-
 - (BOOL) hasXPosition;
 - (int32_t) xPosition;
 - (ExpansionWaitCompleteRequestProto_Builder*) setXPosition:(int32_t) value;
@@ -1229,6 +1228,16 @@ BOOL ExpansionWaitCompleteResponseProto_ExpansionWaitCompleteStatusIsValidValue(
 - (int32_t) yPosition;
 - (ExpansionWaitCompleteRequestProto_Builder*) setYPosition:(int32_t) value;
 - (ExpansionWaitCompleteRequestProto_Builder*) clearYPosition;
+
+- (BOOL) hasSpeedUp;
+- (BOOL) speedUp;
+- (ExpansionWaitCompleteRequestProto_Builder*) setSpeedUp:(BOOL) value;
+- (ExpansionWaitCompleteRequestProto_Builder*) clearSpeedUp;
+
+- (BOOL) hasGemCostToSpeedup;
+- (int32_t) gemCostToSpeedup;
+- (ExpansionWaitCompleteRequestProto_Builder*) setGemCostToSpeedup:(int32_t) value;
+- (ExpansionWaitCompleteRequestProto_Builder*) clearGemCostToSpeedup;
 @end
 
 @interface ExpansionWaitCompleteResponseProto : PBGeneratedMessage {

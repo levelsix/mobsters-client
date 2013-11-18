@@ -51,7 +51,9 @@
 
 @end
 
-@interface NeutralEnemy : AnimatedSprite <TaskElement>
+@interface NeutralEnemy : AnimatedSprite <TaskElement> {
+  CCSprite *_lockedBubble;
+}
 
 @end
 

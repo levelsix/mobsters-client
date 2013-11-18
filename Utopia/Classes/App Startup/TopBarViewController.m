@@ -19,6 +19,7 @@
 #import "QuestLogViewController.h"
 #import "MyCroniesViewController.h"
 #import "RequestsViewController.h"
+#import "DialogueViewController.h"
 
 @implementation SplitImageProgressBar
 
@@ -105,7 +106,11 @@
     [container addSubview:self.topBarMonsterView];
   }
   
-  self.myCityView.center = self.menuView.center;
+  self.chatViewController = [[ChatViewController alloc] init];
+  [self addChildViewController:self.chatViewController];
+  [self.view addSubview:self.chatViewController.view];
+  [self.chatViewController closeAnimated:NO];
+  
   self.myCityView.hidden = YES;
 }
 
@@ -125,12 +130,10 @@
 
 - (void) showMyCityView {
   self.myCityView.hidden = NO;
-  self.menuView.hidden = YES;
 }
 
-- (void) showMenuView {
+- (void) removeMyCityView {
   self.myCityView.hidden = YES;
-  self.menuView.hidden = NO;
 }
 
 #pragma mark - Bottom view methods
@@ -140,9 +143,11 @@
     MapBotView *v = self.curViewOverChatView;
     [v animateOut:^{
       [v removeFromSuperview];
-      [self addNewView:view];
+      if (self.curViewOverChatView == v) {
+        self.curViewOverChatView = nil;
+        [self addNewView:view];
+      }
     }];
-    self.curViewOverChatView = nil;
   } else {
     [self addNewView:view];
   }
@@ -159,8 +164,10 @@
   MapBotView *v = self.curViewOverChatView;
   [v animateOut:^{
     [v removeFromSuperview];
+    if (self.curViewOverChatView == v) {
+      self.curViewOverChatView = nil;
+    }
   }];
-  self.curViewOverChatView = nil;
 }
 
 #pragma mark - IBActions
@@ -175,10 +182,11 @@
 - (IBAction)attackClicked:(id)sender {
   GameViewController *gvc = (GameViewController *)self.parentViewController;
   AttackMapViewController *amvc = [[AttackMapViewController alloc] init];
-  [gvc addChildViewController:amvc];
-  amvc.view.frame = gvc.view.bounds;
   amvc.delegate = gvc;
-  [gvc.view addSubview:amvc.view];
+  MenuNavigationController *nav = [[MenuNavigationController alloc] init];
+  nav.navigationBarHidden = YES;
+  [gvc presentViewController:nav animated:YES completion:nil];
+  [nav pushViewController:amvc animated:YES];
 }
 
 - (IBAction)plusClicked:(id)sender {

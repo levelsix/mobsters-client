@@ -15,29 +15,34 @@
 
 @protocol EnhanceCardDelegate <NSObject>
 
-- (void) enhanceClicked:(EnhanceCardCell *)cell;
+- (void) infoClicked:(EnhanceCardCell *)cell;
 - (void) cardClicked:(EnhanceCardCell *)cell;
 
 @end
 
-@interface EnhanceCardCell : UIView <MonsterCardViewDelegate> {
-  int _overlayMaskStatus;
-}
+@interface EnhanceCardCell : UIView <MonsterCardViewDelegate>
 
 @property (nonatomic, strong) IBOutlet MonsterCardContainerView *cardContainer;
-@property (nonatomic, strong) IBOutlet UIView *cashButtonView;
-@property (nonatomic, strong) IBOutlet UILabel *cashButtonLabel;
+@property (nonatomic, strong) IBOutlet UIImageView *onTeamIcon;
+
+@property (nonatomic, strong) IBOutlet UIView *feederLabelView;
+@property (nonatomic, strong) IBOutlet UILabel *feederLabel;
+
+@property (nonatomic, strong) IBOutlet UIView *enhanceBarView;
+@property (nonatomic, strong) IBOutlet UILabel *percentageLabel;
+@property (nonatomic, strong) IBOutlet ProgressBar *orangeBar;
 
 @property (nonatomic, strong) UserMonster *monster;
 
 @property (nonatomic, weak) IBOutlet id<EnhanceCardDelegate> delegate;
 
-- (void) updateForUserMonster:(UserMonster *)monster withBaseMonster:(EnhancementItem *)base;
+- (void) updateForUserMonster:(UserMonster *)monster withUserEnhancement:(UserEnhancement *)ue;
 
 @end
 
 @interface EnhanceQueueCell : UIView
 
+@property (nonatomic, strong) IBOutlet UIImageView *bgdIcon;
 @property (nonatomic, strong) IBOutlet UIImageView *monsterIcon;
 @property (nonatomic, strong) IBOutlet UIView *timerView;
 @property (nonatomic, strong) IBOutlet ProgressBar *progressBar;
@@ -62,10 +67,12 @@
 @property (nonatomic, strong) IBOutlet UIView *tableContainerView;
 @property (nonatomic, strong) IBOutlet UILabel *speedupCostLabel;
 @property (nonatomic, strong) IBOutlet UILabel *totalTimeLabel;
+@property (nonatomic, strong) IBOutlet UILabel *instructionLabel;
 
 @property (nonatomic, strong) IBOutlet EnhanceQueueCell *queueCell;
 
 @property (nonatomic, strong) EasyTableView *queueTable;
+@property (nonatomic, strong) NSArray *enhancingQueue;
 
 @property (nonatomic, weak) IBOutlet id<EnhanceQueueDelegate> delegate;
 
@@ -73,21 +80,13 @@
 - (void) reloadTable;
 
 - (IBAction)speedupClicked:(id)sender;
+- (IBAction)minusClicked:(id)sender;
 
 @end
 
-@interface EnhanceBaseView : UIView
+@interface EnhanceBaseView : EnhanceCardCell
 
-@property (nonatomic, strong) IBOutlet UIImageView *monsterIcon;
-@property (nonatomic, strong) IBOutlet UIView *starView;
-@property (nonatomic, strong) IBOutlet UILabel *nameLabel;
-@property (nonatomic, strong) IBOutlet UILabel *levelLabel;
-@property (nonatomic, strong) IBOutlet UILabel *percentLabel;
-@property (nonatomic, strong) IBOutlet ProgressBar *orangeBar;
 @property (nonatomic, strong) IBOutlet ProgressBar *yellowBar;
-
-@property (nonatomic, strong) IBOutlet UIView *mainView;
-@property (nonatomic, strong) IBOutlet UIView *noMonsterView;
 
 - (void) updateForUserEnhancement:(UserEnhancement *)ue;
 

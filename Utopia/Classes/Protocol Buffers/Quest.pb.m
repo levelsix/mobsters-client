@@ -12,7 +12,6 @@ static PBExtensionRegistry* extensionRegistry = nil;
   if (self == [QuestRoot class]) {
     PBMutableExtensionRegistry* registry = [PBMutableExtensionRegistry registry];
     [self registerAllExtensions:registry];
-    [JobRoot registerAllExtensions:registry];
     extensionRegistry = [registry retain];
   }
 }

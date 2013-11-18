@@ -10,7 +10,9 @@
                 <outlet property="buildBotView" destination="Ri3-6y-626" id="nrF-jI-1bv"/>
                 <outlet property="buildingIncomeLabel" destination="HkO-DO-0Xu" id="RWX-l2-9xc"/>
                 <outlet property="buildingNameLabel" destination="f8a-kT-QFn" id="ASZ-PF-LAt"/>
-                <outlet property="buildingUpgradeCostLabel" destination="95" id="134"/>
+                <outlet property="buildingUpgradeCashCostLabel" destination="95" id="Rvo-9k-Sh3"/>
+                <outlet property="buildingUpgradeGemCostLabel" destination="c7S-GY-DGE" id="fbE-eC-rcB"/>
+                <outlet property="buildingUpgradeGemView" destination="ywa-5V-yih" id="fGY-lr-e6g"/>
                 <outlet property="expandBotView" destination="rBI-qQ-j6P" id="1nl-0F-Wjx"/>
                 <outlet property="expandCostLabel" destination="NAz-92-yz5" id="mfr-uj-5yu"/>
                 <outlet property="expandSubtitleLabel" destination="aq0-aW-rB5" id="kTh-dz-ho2"/>
@@ -122,6 +124,46 @@
                             <color key="shadowColor" red="0.23529411759999999" green="0.3921568627" blue="0.0" alpha="0.75" colorSpace="calibratedRGB"/>
                             <size key="shadowOffset" width="0.0" height="1"/>
                         </label>
+                        <view contentMode="scaleToFill" id="ywa-5V-yih">
+                            <rect key="frame" x="0.0" y="0.0" width="87" height="60"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <subviews>
+                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="uRF-o3-0Qj">
+                                    <rect key="frame" x="0.0" y="9" width="84" height="40"/>
+                                    <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxY="YES"/>
+                                    <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                                    <state key="normal" backgroundImage="finishbuild.png">
+                                        <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                    </state>
+                                    <connections>
+                                        <action selector="littleUpgradeClicked:" destination="-1" eventType="touchUpInside" id="9ZN-hl-FL8"/>
+                                    </connections>
+                                </button>
+                                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Upgrade" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="8" id="vjV-L4-09N" customClass="NiceFontLabel">
+                                    <rect key="frame" x="32" y="9" width="45" height="22"/>
+                                    <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxY="YES"/>
+                                    <fontDescription key="fontDescription" type="system" pointSize="11"/>
+                                    <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                    <nil key="highlightedColor"/>
+                                    <color key="shadowColor" red="0.15686274510000001" green="0.0" blue="0.3921568627" alpha="0.75" colorSpace="calibratedRGB"/>
+                                    <size key="shadowOffset" width="0.0" height="1"/>
+                                </label>
+                                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="250" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" id="c7S-GY-DGE" customClass="NiceFontLabel">
+                                    <rect key="frame" x="31" y="27" width="47" height="17"/>
+                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                    <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                    <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                    <nil key="highlightedColor"/>
+                                    <color key="shadowColor" red="0.15686274510000001" green="0.0" blue="0.3921568627" alpha="0.75" colorSpace="calibratedRGB"/>
+                                    <size key="shadowOffset" width="0.0" height="1"/>
+                                </label>
+                                <imageView opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" image="diamond.png" id="4c3-U9-A7h">
+                                    <rect key="frame" x="9" y="18" width="24" height="24"/>
+                                    <autoresizingMask key="autoresizingMask"/>
+                                </imageView>
+                            </subviews>
+                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                        </view>
                     </subviews>
                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                 </view>

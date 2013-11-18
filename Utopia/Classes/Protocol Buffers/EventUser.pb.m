@@ -12,6 +12,7 @@ static PBExtensionRegistry* extensionRegistry = nil;
   if (self == [EventUserRoot class]) {
     PBMutableExtensionRegistry* registry = [PBMutableExtensionRegistry registry];
     [self registerAllExtensions:registry];
+    [MonsterStuffRoot registerAllExtensions:registry];
     [StructureRoot registerAllExtensions:registry];
     [UserRoot registerAllExtensions:registry];
     extensionRegistry = [registry retain];
@@ -1253,6 +1254,7 @@ BOOL LevelUpResponseProto_LevelUpStatusIsValidValue(LevelUpResponseProto_LevelUp
 @interface RetrieveUsersForUserIdsRequestProto ()
 @property (retain) MinimumUserProto* sender;
 @property (retain) NSMutableArray* mutableRequestedUserIdsList;
+@property BOOL includeCurMonsterTeam;
 @end
 
 @implementation RetrieveUsersForUserIdsRequestProto
@@ -1265,6 +1267,18 @@ BOOL LevelUpResponseProto_LevelUpStatusIsValidValue(LevelUpResponseProto_LevelUp
 }
 @synthesize sender;
 @synthesize mutableRequestedUserIdsList;
+- (BOOL) hasIncludeCurMonsterTeam {
+  return !!hasIncludeCurMonsterTeam_;
+}
+- (void) setHasIncludeCurMonsterTeam:(BOOL) value {
+  hasIncludeCurMonsterTeam_ = !!value;
+}
+- (BOOL) includeCurMonsterTeam {
+  return !!includeCurMonsterTeam_;
+}
+- (void) setIncludeCurMonsterTeam:(BOOL) value {
+  includeCurMonsterTeam_ = !!value;
+}
 - (void) dealloc {
   self.sender = nil;
   self.mutableRequestedUserIdsList = nil;
@@ -1273,6 +1287,7 @@ BOOL LevelUpResponseProto_LevelUpStatusIsValidValue(LevelUpResponseProto_LevelUp
 - (id) init {
   if ((self = [super init])) {
     self.sender = [MinimumUserProto defaultInstance];
+    self.includeCurMonsterTeam = NO;
   }
   return self;
 }
@@ -1305,6 +1320,9 @@ static RetrieveUsersForUserIdsRequestProto* defaultRetrieveUsersForUserIdsReques
   for (NSNumber* value in self.mutableRequestedUserIdsList) {
     [output writeInt32:2 value:[value intValue]];
   }
+  if (self.hasIncludeCurMonsterTeam) {
+    [output writeBool:3 value:self.includeCurMonsterTeam];
+  }
   [self.unknownFields writeToCodedOutputStream:output];
 }
 - (int32_t) serializedSize {
@@ -1324,6 +1342,9 @@ static RetrieveUsersForUserIdsRequestProto* defaultRetrieveUsersForUserIdsReques
     }
     size += dataSize;
     size += 1 * self.mutableRequestedUserIdsList.count;
+  }
+  if (self.hasIncludeCurMonsterTeam) {
+    size += computeBoolSize(3, self.includeCurMonsterTeam);
   }
   size += self.unknownFields.serializedSize;
   memoizedSerializedSize = size;
@@ -1409,6 +1430,9 @@ static RetrieveUsersForUserIdsRequestProto* defaultRetrieveUsersForUserIdsReques
     }
     [result.mutableRequestedUserIdsList addObjectsFromArray:other.mutableRequestedUserIdsList];
   }
+  if (other.hasIncludeCurMonsterTeam) {
+    [self setIncludeCurMonsterTeam:other.includeCurMonsterTeam];
+  }
   [self mergeUnknownFields:other.unknownFields];
   return self;
 }
@@ -1441,6 +1465,10 @@ static RetrieveUsersForUserIdsRequestProto* defaultRetrieveUsersForUserIdsReques
       }
       case 16: {
         [self addRequestedUserIds:[input readInt32]];
+        break;
+      }
+      case 24: {
+        [self setIncludeCurMonsterTeam:[input readBool]];
         break;
       }
     }
@@ -1507,11 +1535,28 @@ static RetrieveUsersForUserIdsRequestProto* defaultRetrieveUsersForUserIdsReques
   result.mutableRequestedUserIdsList = nil;
   return self;
 }
+- (BOOL) hasIncludeCurMonsterTeam {
+  return result.hasIncludeCurMonsterTeam;
+}
+- (BOOL) includeCurMonsterTeam {
+  return result.includeCurMonsterTeam;
+}
+- (RetrieveUsersForUserIdsRequestProto_Builder*) setIncludeCurMonsterTeam:(BOOL) value {
+  result.hasIncludeCurMonsterTeam = YES;
+  result.includeCurMonsterTeam = value;
+  return self;
+}
+- (RetrieveUsersForUserIdsRequestProto_Builder*) clearIncludeCurMonsterTeam {
+  result.hasIncludeCurMonsterTeam = NO;
+  result.includeCurMonsterTeam = NO;
+  return self;
+}
 @end
 
 @interface RetrieveUsersForUserIdsResponseProto ()
 @property (retain) MinimumUserProto* sender;
 @property (retain) NSMutableArray* mutableRequestedUsersList;
+@property (retain) NSMutableArray* mutableCurTeamList;
 @end
 
 @implementation RetrieveUsersForUserIdsResponseProto
@@ -1524,9 +1569,11 @@ static RetrieveUsersForUserIdsRequestProto* defaultRetrieveUsersForUserIdsReques
 }
 @synthesize sender;
 @synthesize mutableRequestedUsersList;
+@synthesize mutableCurTeamList;
 - (void) dealloc {
   self.sender = nil;
   self.mutableRequestedUsersList = nil;
+  self.mutableCurTeamList = nil;
   [super dealloc];
 }
 - (id) init {
@@ -1554,6 +1601,13 @@ static RetrieveUsersForUserIdsResponseProto* defaultRetrieveUsersForUserIdsRespo
   id value = [mutableRequestedUsersList objectAtIndex:index];
   return value;
 }
+- (NSArray*) curTeamList {
+  return mutableCurTeamList;
+}
+- (UserCurrentMonsterTeamProto*) curTeamAtIndex:(int32_t) index {
+  id value = [mutableCurTeamList objectAtIndex:index];
+  return value;
+}
 - (BOOL) isInitialized {
   return YES;
 }
@@ -1563,6 +1617,9 @@ static RetrieveUsersForUserIdsResponseProto* defaultRetrieveUsersForUserIdsRespo
   }
   for (FullUserProto* element in self.requestedUsersList) {
     [output writeMessage:2 value:element];
+  }
+  for (UserCurrentMonsterTeamProto* element in self.curTeamList) {
+    [output writeMessage:3 value:element];
   }
   [self.unknownFields writeToCodedOutputStream:output];
 }
@@ -1578,6 +1635,9 @@ static RetrieveUsersForUserIdsResponseProto* defaultRetrieveUsersForUserIdsRespo
   }
   for (FullUserProto* element in self.requestedUsersList) {
     size += computeMessageSize(2, element);
+  }
+  for (UserCurrentMonsterTeamProto* element in self.curTeamList) {
+    size += computeMessageSize(3, element);
   }
   size += self.unknownFields.serializedSize;
   memoizedSerializedSize = size;
@@ -1663,6 +1723,12 @@ static RetrieveUsersForUserIdsResponseProto* defaultRetrieveUsersForUserIdsRespo
     }
     [result.mutableRequestedUsersList addObjectsFromArray:other.mutableRequestedUsersList];
   }
+  if (other.mutableCurTeamList.count > 0) {
+    if (result.mutableCurTeamList == nil) {
+      result.mutableCurTeamList = [NSMutableArray array];
+    }
+    [result.mutableCurTeamList addObjectsFromArray:other.mutableCurTeamList];
+  }
   [self mergeUnknownFields:other.unknownFields];
   return self;
 }
@@ -1697,6 +1763,12 @@ static RetrieveUsersForUserIdsResponseProto* defaultRetrieveUsersForUserIdsRespo
         FullUserProto_Builder* subBuilder = [FullUserProto builder];
         [input readMessage:subBuilder extensionRegistry:extensionRegistry];
         [self addRequestedUsers:[subBuilder buildPartial]];
+        break;
+      }
+      case 26: {
+        UserCurrentMonsterTeamProto_Builder* subBuilder = [UserCurrentMonsterTeamProto builder];
+        [input readMessage:subBuilder extensionRegistry:extensionRegistry];
+        [self addCurTeam:[subBuilder buildPartial]];
         break;
       }
     }
@@ -1759,6 +1831,35 @@ static RetrieveUsersForUserIdsResponseProto* defaultRetrieveUsersForUserIdsRespo
     result.mutableRequestedUsersList = [NSMutableArray array];
   }
   [result.mutableRequestedUsersList addObject:value];
+  return self;
+}
+- (NSArray*) curTeamList {
+  if (result.mutableCurTeamList == nil) { return [NSArray array]; }
+  return result.mutableCurTeamList;
+}
+- (UserCurrentMonsterTeamProto*) curTeamAtIndex:(int32_t) index {
+  return [result curTeamAtIndex:index];
+}
+- (RetrieveUsersForUserIdsResponseProto_Builder*) replaceCurTeamAtIndex:(int32_t) index with:(UserCurrentMonsterTeamProto*) value {
+  [result.mutableCurTeamList replaceObjectAtIndex:index withObject:value];
+  return self;
+}
+- (RetrieveUsersForUserIdsResponseProto_Builder*) addAllCurTeam:(NSArray*) values {
+  if (result.mutableCurTeamList == nil) {
+    result.mutableCurTeamList = [NSMutableArray array];
+  }
+  [result.mutableCurTeamList addObjectsFromArray:values];
+  return self;
+}
+- (RetrieveUsersForUserIdsResponseProto_Builder*) clearCurTeamList {
+  result.mutableCurTeamList = nil;
+  return self;
+}
+- (RetrieveUsersForUserIdsResponseProto_Builder*) addCurTeam:(UserCurrentMonsterTeamProto*) value {
+  if (result.mutableCurTeamList == nil) {
+    result.mutableCurTeamList = [NSMutableArray array];
+  }
+  [result.mutableCurTeamList addObject:value];
   return self;
 }
 @end

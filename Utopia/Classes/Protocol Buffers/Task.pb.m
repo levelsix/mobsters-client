@@ -260,6 +260,8 @@ static TaskStageProto* defaultTaskStageProtoInstance = nil;
 @property (retain) NSString* description;
 @property int32_t cityId;
 @property int32_t assetNumWithinCity;
+@property int32_t prerequisiteTaskId;
+@property int32_t prerequisiteQuestId;
 @end
 
 @implementation FullTaskProto
@@ -299,6 +301,20 @@ static TaskStageProto* defaultTaskStageProtoInstance = nil;
   hasAssetNumWithinCity_ = !!value;
 }
 @synthesize assetNumWithinCity;
+- (BOOL) hasPrerequisiteTaskId {
+  return !!hasPrerequisiteTaskId_;
+}
+- (void) setHasPrerequisiteTaskId:(BOOL) value {
+  hasPrerequisiteTaskId_ = !!value;
+}
+@synthesize prerequisiteTaskId;
+- (BOOL) hasPrerequisiteQuestId {
+  return !!hasPrerequisiteQuestId_;
+}
+- (void) setHasPrerequisiteQuestId:(BOOL) value {
+  hasPrerequisiteQuestId_ = !!value;
+}
+@synthesize prerequisiteQuestId;
 - (void) dealloc {
   self.name = nil;
   self.description = nil;
@@ -311,6 +327,8 @@ static TaskStageProto* defaultTaskStageProtoInstance = nil;
     self.description = @"";
     self.cityId = 0;
     self.assetNumWithinCity = 0;
+    self.prerequisiteTaskId = 0;
+    self.prerequisiteQuestId = 0;
   }
   return self;
 }
@@ -345,6 +363,12 @@ static FullTaskProto* defaultFullTaskProtoInstance = nil;
   if (self.hasAssetNumWithinCity) {
     [output writeInt32:5 value:self.assetNumWithinCity];
   }
+  if (self.hasPrerequisiteTaskId) {
+    [output writeInt32:6 value:self.prerequisiteTaskId];
+  }
+  if (self.hasPrerequisiteQuestId) {
+    [output writeInt32:7 value:self.prerequisiteQuestId];
+  }
   [self.unknownFields writeToCodedOutputStream:output];
 }
 - (int32_t) serializedSize {
@@ -368,6 +392,12 @@ static FullTaskProto* defaultFullTaskProtoInstance = nil;
   }
   if (self.hasAssetNumWithinCity) {
     size += computeInt32Size(5, self.assetNumWithinCity);
+  }
+  if (self.hasPrerequisiteTaskId) {
+    size += computeInt32Size(6, self.prerequisiteTaskId);
+  }
+  if (self.hasPrerequisiteQuestId) {
+    size += computeInt32Size(7, self.prerequisiteQuestId);
   }
   size += self.unknownFields.serializedSize;
   memoizedSerializedSize = size;
@@ -459,6 +489,12 @@ static FullTaskProto* defaultFullTaskProtoInstance = nil;
   if (other.hasAssetNumWithinCity) {
     [self setAssetNumWithinCity:other.assetNumWithinCity];
   }
+  if (other.hasPrerequisiteTaskId) {
+    [self setPrerequisiteTaskId:other.prerequisiteTaskId];
+  }
+  if (other.hasPrerequisiteQuestId) {
+    [self setPrerequisiteQuestId:other.prerequisiteQuestId];
+  }
   [self mergeUnknownFields:other.unknownFields];
   return self;
 }
@@ -498,6 +534,14 @@ static FullTaskProto* defaultFullTaskProtoInstance = nil;
       }
       case 40: {
         [self setAssetNumWithinCity:[input readInt32]];
+        break;
+      }
+      case 48: {
+        [self setPrerequisiteTaskId:[input readInt32]];
+        break;
+      }
+      case 56: {
+        [self setPrerequisiteQuestId:[input readInt32]];
         break;
       }
     }
@@ -581,6 +625,38 @@ static FullTaskProto* defaultFullTaskProtoInstance = nil;
 - (FullTaskProto_Builder*) clearAssetNumWithinCity {
   result.hasAssetNumWithinCity = NO;
   result.assetNumWithinCity = 0;
+  return self;
+}
+- (BOOL) hasPrerequisiteTaskId {
+  return result.hasPrerequisiteTaskId;
+}
+- (int32_t) prerequisiteTaskId {
+  return result.prerequisiteTaskId;
+}
+- (FullTaskProto_Builder*) setPrerequisiteTaskId:(int32_t) value {
+  result.hasPrerequisiteTaskId = YES;
+  result.prerequisiteTaskId = value;
+  return self;
+}
+- (FullTaskProto_Builder*) clearPrerequisiteTaskId {
+  result.hasPrerequisiteTaskId = NO;
+  result.prerequisiteTaskId = 0;
+  return self;
+}
+- (BOOL) hasPrerequisiteQuestId {
+  return result.hasPrerequisiteQuestId;
+}
+- (int32_t) prerequisiteQuestId {
+  return result.prerequisiteQuestId;
+}
+- (FullTaskProto_Builder*) setPrerequisiteQuestId:(int32_t) value {
+  result.hasPrerequisiteQuestId = YES;
+  result.prerequisiteQuestId = value;
+  return self;
+}
+- (FullTaskProto_Builder*) clearPrerequisiteQuestId {
+  result.hasPrerequisiteQuestId = NO;
+  result.prerequisiteQuestId = 0;
   return self;
 }
 @end

@@ -4182,9 +4182,10 @@ BOOL RetrieveCurrencyFromNormStructureResponseProto_RetrieveCurrencyFromNormStru
 @interface ExpansionWaitCompleteRequestProto ()
 @property (retain) MinimumUserProto* sender;
 @property int64_t curTime;
-@property BOOL speedUp;
 @property int32_t xPosition;
 @property int32_t yPosition;
+@property BOOL speedUp;
+@property int32_t gemCostToSpeedup;
 @end
 
 @implementation ExpansionWaitCompleteRequestProto
@@ -4203,18 +4204,6 @@ BOOL RetrieveCurrencyFromNormStructureResponseProto_RetrieveCurrencyFromNormStru
   hasCurTime_ = !!value;
 }
 @synthesize curTime;
-- (BOOL) hasSpeedUp {
-  return !!hasSpeedUp_;
-}
-- (void) setHasSpeedUp:(BOOL) value {
-  hasSpeedUp_ = !!value;
-}
-- (BOOL) speedUp {
-  return !!speedUp_;
-}
-- (void) setSpeedUp:(BOOL) value {
-  speedUp_ = !!value;
-}
 - (BOOL) hasXPosition {
   return !!hasXPosition_;
 }
@@ -4229,6 +4218,25 @@ BOOL RetrieveCurrencyFromNormStructureResponseProto_RetrieveCurrencyFromNormStru
   hasYPosition_ = !!value;
 }
 @synthesize yPosition;
+- (BOOL) hasSpeedUp {
+  return !!hasSpeedUp_;
+}
+- (void) setHasSpeedUp:(BOOL) value {
+  hasSpeedUp_ = !!value;
+}
+- (BOOL) speedUp {
+  return !!speedUp_;
+}
+- (void) setSpeedUp:(BOOL) value {
+  speedUp_ = !!value;
+}
+- (BOOL) hasGemCostToSpeedup {
+  return !!hasGemCostToSpeedup_;
+}
+- (void) setHasGemCostToSpeedup:(BOOL) value {
+  hasGemCostToSpeedup_ = !!value;
+}
+@synthesize gemCostToSpeedup;
 - (void) dealloc {
   self.sender = nil;
   [super dealloc];
@@ -4237,9 +4245,10 @@ BOOL RetrieveCurrencyFromNormStructureResponseProto_RetrieveCurrencyFromNormStru
   if ((self = [super init])) {
     self.sender = [MinimumUserProto defaultInstance];
     self.curTime = 0L;
-    self.speedUp = NO;
     self.xPosition = 0;
     self.yPosition = 0;
+    self.speedUp = NO;
+    self.gemCostToSpeedup = 0;
   }
   return self;
 }
@@ -4265,14 +4274,17 @@ static ExpansionWaitCompleteRequestProto* defaultExpansionWaitCompleteRequestPro
   if (self.hasCurTime) {
     [output writeInt64:2 value:self.curTime];
   }
-  if (self.hasSpeedUp) {
-    [output writeBool:3 value:self.speedUp];
-  }
   if (self.hasXPosition) {
-    [output writeSInt32:4 value:self.xPosition];
+    [output writeSInt32:3 value:self.xPosition];
   }
   if (self.hasYPosition) {
-    [output writeSInt32:5 value:self.yPosition];
+    [output writeSInt32:4 value:self.yPosition];
+  }
+  if (self.hasSpeedUp) {
+    [output writeBool:5 value:self.speedUp];
+  }
+  if (self.hasGemCostToSpeedup) {
+    [output writeInt32:6 value:self.gemCostToSpeedup];
   }
   [self.unknownFields writeToCodedOutputStream:output];
 }
@@ -4289,14 +4301,17 @@ static ExpansionWaitCompleteRequestProto* defaultExpansionWaitCompleteRequestPro
   if (self.hasCurTime) {
     size += computeInt64Size(2, self.curTime);
   }
-  if (self.hasSpeedUp) {
-    size += computeBoolSize(3, self.speedUp);
-  }
   if (self.hasXPosition) {
-    size += computeSInt32Size(4, self.xPosition);
+    size += computeSInt32Size(3, self.xPosition);
   }
   if (self.hasYPosition) {
-    size += computeSInt32Size(5, self.yPosition);
+    size += computeSInt32Size(4, self.yPosition);
+  }
+  if (self.hasSpeedUp) {
+    size += computeBoolSize(5, self.speedUp);
+  }
+  if (self.hasGemCostToSpeedup) {
+    size += computeInt32Size(6, self.gemCostToSpeedup);
   }
   size += self.unknownFields.serializedSize;
   memoizedSerializedSize = size;
@@ -4379,14 +4394,17 @@ static ExpansionWaitCompleteRequestProto* defaultExpansionWaitCompleteRequestPro
   if (other.hasCurTime) {
     [self setCurTime:other.curTime];
   }
-  if (other.hasSpeedUp) {
-    [self setSpeedUp:other.speedUp];
-  }
   if (other.hasXPosition) {
     [self setXPosition:other.xPosition];
   }
   if (other.hasYPosition) {
     [self setYPosition:other.yPosition];
+  }
+  if (other.hasSpeedUp) {
+    [self setSpeedUp:other.speedUp];
+  }
+  if (other.hasGemCostToSpeedup) {
+    [self setGemCostToSpeedup:other.gemCostToSpeedup];
   }
   [self mergeUnknownFields:other.unknownFields];
   return self;
@@ -4423,15 +4441,19 @@ static ExpansionWaitCompleteRequestProto* defaultExpansionWaitCompleteRequestPro
         break;
       }
       case 24: {
-        [self setSpeedUp:[input readBool]];
-        break;
-      }
-      case 32: {
         [self setXPosition:[input readSInt32]];
         break;
       }
-      case 40: {
+      case 32: {
         [self setYPosition:[input readSInt32]];
+        break;
+      }
+      case 40: {
+        [self setSpeedUp:[input readBool]];
+        break;
+      }
+      case 48: {
+        [self setGemCostToSpeedup:[input readInt32]];
         break;
       }
     }
@@ -4483,22 +4505,6 @@ static ExpansionWaitCompleteRequestProto* defaultExpansionWaitCompleteRequestPro
   result.curTime = 0L;
   return self;
 }
-- (BOOL) hasSpeedUp {
-  return result.hasSpeedUp;
-}
-- (BOOL) speedUp {
-  return result.speedUp;
-}
-- (ExpansionWaitCompleteRequestProto_Builder*) setSpeedUp:(BOOL) value {
-  result.hasSpeedUp = YES;
-  result.speedUp = value;
-  return self;
-}
-- (ExpansionWaitCompleteRequestProto_Builder*) clearSpeedUp {
-  result.hasSpeedUp = NO;
-  result.speedUp = NO;
-  return self;
-}
 - (BOOL) hasXPosition {
   return result.hasXPosition;
 }
@@ -4529,6 +4535,38 @@ static ExpansionWaitCompleteRequestProto* defaultExpansionWaitCompleteRequestPro
 - (ExpansionWaitCompleteRequestProto_Builder*) clearYPosition {
   result.hasYPosition = NO;
   result.yPosition = 0;
+  return self;
+}
+- (BOOL) hasSpeedUp {
+  return result.hasSpeedUp;
+}
+- (BOOL) speedUp {
+  return result.speedUp;
+}
+- (ExpansionWaitCompleteRequestProto_Builder*) setSpeedUp:(BOOL) value {
+  result.hasSpeedUp = YES;
+  result.speedUp = value;
+  return self;
+}
+- (ExpansionWaitCompleteRequestProto_Builder*) clearSpeedUp {
+  result.hasSpeedUp = NO;
+  result.speedUp = NO;
+  return self;
+}
+- (BOOL) hasGemCostToSpeedup {
+  return result.hasGemCostToSpeedup;
+}
+- (int32_t) gemCostToSpeedup {
+  return result.gemCostToSpeedup;
+}
+- (ExpansionWaitCompleteRequestProto_Builder*) setGemCostToSpeedup:(int32_t) value {
+  result.hasGemCostToSpeedup = YES;
+  result.gemCostToSpeedup = value;
+  return self;
+}
+- (ExpansionWaitCompleteRequestProto_Builder*) clearGemCostToSpeedup {
+  result.hasGemCostToSpeedup = NO;
+  result.gemCostToSpeedup = 0;
   return self;
 }
 @end

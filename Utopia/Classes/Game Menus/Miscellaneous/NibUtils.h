@@ -28,6 +28,9 @@ typedef enum {
 @interface NiceFontLabel4 : UILabel
 @end
 
+@interface NiceFontLabel5 : UILabel
+@end
+
 @interface NiceFontButton : UIButton
 @end
 

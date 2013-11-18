@@ -46,6 +46,15 @@
 
 @end
 
+@implementation NiceFontLabel5
+
+- (void) awakeFromNib {
+  [Globals adjustFontSizeForUILabel:self];
+  self.font = [UIFont fontWithName:@"Aller-BoldItalic" size:self.font.pointSize+2];
+}
+
+@end
+
 @implementation NiceFontButton
 
 - (void) awakeFromNib {
@@ -116,7 +125,8 @@
   
   UIColor *c = [UIColor colorWithWhite:0.5f alpha:1.f];
   NSDictionary *dict = [NSDictionary dictionaryWithObjectsAndKeys:self.font, UITextAttributeFont, c, UITextAttributeTextColor, nil];
-  [[self placeholder] drawInRect:rect withAttributes:dict];
+  NSAttributedString *attr = [[NSAttributedString alloc] initWithString:self.placeholder attributes:dict];
+  [attr drawInRect:rect];
 }
 
 @end

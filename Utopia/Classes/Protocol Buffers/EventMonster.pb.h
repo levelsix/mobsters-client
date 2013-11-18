@@ -61,8 +61,8 @@
 @class SellUserMonsterRequestProto_Builder;
 @class SellUserMonsterResponseProto;
 @class SellUserMonsterResponseProto_Builder;
-@class StaticLevelInfoProto;
-@class StaticLevelInfoProto_Builder;
+@class StaticUserLevelInfoProto;
+@class StaticUserLevelInfoProto_Builder;
 @class SubmitMonsterEnhancementRequestProto;
 @class SubmitMonsterEnhancementRequestProto_Builder;
 @class SubmitMonsterEnhancementResponseProto;
@@ -71,6 +71,8 @@
 @class UpdateMonsterHealthRequestProto_Builder;
 @class UpdateMonsterHealthResponseProto;
 @class UpdateMonsterHealthResponseProto_Builder;
+@class UserCurrentMonsterTeamProto;
+@class UserCurrentMonsterTeamProto_Builder;
 @class UserEnhancementItemProto;
 @class UserEnhancementItemProto_Builder;
 @class UserEnhancementProto;

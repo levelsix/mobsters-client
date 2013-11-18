@@ -20,7 +20,7 @@
 
 @implementation BattleSprite
 
-- (id) initWithPrefix:(NSString *)prefix {
+- (id) initWithPrefix:(NSString *)prefix nameString:(NSString *)name {
   if ((self = [super init])) {
     self.prefix = prefix;
     self.contentSize = CGSizeMake(40, 55);
@@ -41,7 +41,7 @@
     [self addChild:self.healthBgd z:6];
     self.healthBgd.position = ccp(self.contentSize.width/2, self.contentSize.height+3);
     
-    self.healthBar = [CCProgressTimer progressWithSprite:[CCSprite spriteWithFile:@"minitimebar.png"]];
+    self.healthBar = [CCProgressTimer progressWithSprite:[CCSprite spriteWithFile:@"minihpbar.png"]];
     [self.healthBgd addChild:self.healthBar];
     self.healthBar.position = ccp(self.healthBgd.contentSize.width/2, self.healthBgd.contentSize.height/2);
     self.healthBar.type = kCCProgressTimerTypeBar;
@@ -52,8 +52,23 @@
     self.healthLabel = [CCLabelTTF labelWithString:@"31/100" fontName:[Globals font] fontSize:12];
     [self.healthBgd addChild:self.healthLabel];
     self.healthLabel.position = ccp(self.healthBgd.contentSize.width/2, self.healthBgd.contentSize.height);
-    [self.healthLabel enableShadowWithOffset:CGSizeMake(0, -1) opacity:0.3f blur:1.f updateImage:YES];
+    [self.healthLabel enableShadowWithOffset:CGSizeMake(0, -1) opacity:0.3f blur:1.f updateImage:NO];
     [self.healthLabel setFontFillColor:ccc3(255, 255, 255) updateImage:YES];
+    
+    CCSprite *ring = [CCSprite spriteWithFile:@"nightbattlering.png"];
+    [self addChild:ring];
+    ring.position = s.position;
+    
+    self.ringGlow = [CCSprite spriteWithFile:@"nightbattleringglow.png"];
+    [self addChild:self.ringGlow];
+    self.ringGlow.position = s.position;
+    self.ringGlow.opacity = 50;
+    
+//    self.nameLabel = [CCLabelTTF labelWithString:name fontName:[Globals font] fontSize:12];
+//    [self addChild:self.nameLabel];
+//    self.nameLabel.position = ccp(self.contentSize.width/2, self.healthBgd.position.y+self.healthBgd.contentSize.height+self.nameLabel.contentSize.height/2+5);
+//    [self.nameLabel enableShadowWithOffset:CGSizeMake(0, -1) opacity:0.3f blur:1.f updateImage:NO];
+//    [self.nameLabel setFontFillColor:ccc3(255, 255, 255) updateImage:YES];
   }
   return self;
 }
@@ -220,6 +235,14 @@
     [CCCallFunc actionWithTarget:self selector:@selector(restoreStandingFrame)],
     [CCCallFunc actionWithTarget:target selector:selector],
     nil]];
+}
+
+- (void) pulseRingGlow {
+  if (![self.ringGlow getActionByTag:49893]) {
+    CCAction *a = [CCSequence actions:[CCFadeTo actionWithDuration:0.4f opacity:255], [CCFadeTo actionWithDuration:0.4f opacity:self.ringGlow.opacity], nil];
+    a.tag = 49893;
+    [self.ringGlow runAction:a];
+  }
 }
 
 @end

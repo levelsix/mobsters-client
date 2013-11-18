@@ -15,41 +15,18 @@
 
 @implementation AttackMapIconView
 
-- (void)awakeFromNib {
-  self.isLocked = YES;
-  self.cityNameLabel.hidden = YES;
-  self.visitView.hidden = YES;
-  self.selected = NO;
-}
-
-
 - (void)setIsLocked:(BOOL)isLocked {
   _isLocked = isLocked;
   if (isLocked) {
-    [self.cityButton setImage:[UIImage imageNamed:@"lockedcity.png"] forState:UIControlStateNormal];
-    self.cityNumberLabel.hidden = YES;
+    [self.cityButton setImage:[UIImage imageNamed:@"closedcity.png"] forState:UIControlStateNormal];
   }
   else {
     [self.cityButton setImage:[UIImage imageNamed:@"opencity.png"] forState:UIControlStateNormal];
-    self.cityNumberLabel.hidden = NO;
   }
 }
 
-- (void)setCityNumber:(int)cityNumber {
-  _cityNumber = cityNumber;
-  self.cityNumberLabel.text = [NSString stringWithFormat:@"%d",cityNumber];
-}
-
-- (void) toggleVisitButton {
-  if (self.selected) {
-    self.selected = NO;
-    self.visitView.hidden = YES;
-    self.cityNameLabel.hidden = YES;
-  } else {
-    self.selected = YES;
-    self.visitView.hidden = NO;
-    self.cityNameLabel.hidden = NO;
-  }
+- (void) doShake {
+  [Globals shakeView:self.cityNameIcon duration:0.5f offset:5.f];
 }
 
 @end
@@ -66,8 +43,10 @@
 
 @implementation MultiplayerView
 
-- (IBAction)findMatch:(id)sender {
-  //do some matchmaking ui here
+- (void) awakeFromNib {
+  Globals *gl = [Globals sharedGlobals];
+  self.multiplayerUnlockLabel.superview.layer.cornerRadius = 5.f;
+  self.multiplayerUnlockLabel.text = [NSString stringWithFormat:@"Multiplayer play\n unlocks at level %d", gl.pvpRequiredMinLvl];
 }
 
 @end
@@ -78,10 +57,20 @@
 {
   [super viewDidLoad];
   [self loadCities];
-  [self setUpMultiplayerSettings];
+  self.mapScrollView.layer.cornerRadius = 5.f;
+  
+  [self.mapScrollView addSubview:self.mapView];
+  self.mapScrollView.contentSize = CGSizeMake(self.mapScrollView.frame.size.width, self.mapView.frame.size.height);
+  
+  if ([Globals isLongiPhone]) {
+    self.borderView.image = [Globals imageNamed:@"attackmapborderwide.png"];
+    self.mapView.center = ccp(self.mapView.frame.size.width/2, self.mapView.frame.size.height/2);
+  } else {
+    self.mapView.center = ccp(self.mapScrollView.frame.size.width/2-22.f, self.mapView.frame.size.height/2);
+  }
 }
 
-- (BOOL)prefersStatusBarHidden {
+- (BOOL) prefersStatusBarHidden {
   return YES;
 }
 
@@ -89,26 +78,13 @@
   GameState *gs = [GameState sharedGameState];
   for (int i = 1; i <= NUM_CITIES;i++) {
     FullCityProto *fcp = [gs cityWithId:i];
-    AttackMapIconViewContainer *amvc = (AttackMapIconViewContainer *)[self.view viewWithTag:i];
+    AttackMapIconViewContainer *amvc = (AttackMapIconViewContainer *)[self.mapView viewWithTag:i];
     amvc.iconView.fcp = fcp;
-    if (fcp == nil) {
-      amvc.iconView.isLocked = YES;
-    }
-    else {
-      amvc.iconView.isLocked = NO;
-    }
+    amvc.iconView.isLocked = ![gs isCityUnlocked:i];
     amvc.iconView.cityNumber = i;
-    amvc.iconView.cityNameLabel.text = [NSString stringWithFormat:@"%@",fcp.name];
+    [Globals imageNamed:fcp.attackMapLabelImgName withView:amvc.iconView.cityNameIcon greyscale:NO indicator:UIActivityIndicatorViewStyleWhite clearImageDuringDownload:YES];
     
-    [amvc.iconView.visitButton addTarget:self action:@selector(visitClicked:) forControlEvents:UIControlEventTouchUpInside];
     [amvc.iconView.cityButton addTarget:self action:@selector(cityClicked:) forControlEvents:UIControlEventTouchUpInside];
-  }
-}
-
-- (void)setUpMultiplayerSettings {
-  GameState *gs = [GameState sharedGameState];
-  if (gs.level < 30) {
-    self.multiplayerView.needToUnlockView.hidden = NO;
   }
 }
 
@@ -118,40 +94,16 @@
   }
   AttackMapIconView *icon = (AttackMapIconView *)sender;
   
-  if (!icon.isLocked) {
-    [icon toggleVisitButton];
+  if (icon.isLocked) {
+    [icon doShake];
+  } else {
+    [self.delegate visitCityClicked:icon.cityNumber];
+    [self close:nil];
   }
-  
-  for (int i = 1; i <= NUM_CITIES;i++) {
-    AttackMapIconViewContainer *amvc = (AttackMapIconViewContainer *)[self.view viewWithTag:i];
-    if (amvc.iconView != icon && amvc.iconView.selected) {
-      [amvc.iconView toggleVisitButton];
-    }
-  }
-}
-
-- (IBAction)visitClicked:(id)sender {
-  while (sender && ![sender isKindOfClass:[AttackMapIconView class]]) {
-    sender = [sender superview];
-  }
-  AttackMapIconView *icon = (AttackMapIconView *)sender;
-  [self.delegate visitCityClicked:icon.cityNumber];
-  [self close:nil];
-}
-
-- (void)viewWillAppear:(BOOL)animated {
-  [Globals bounceView:self.mainView fadeInBgdView:self.bgdView];
 }
 
 - (IBAction)close:(id)sender {
-  [Globals popOutView:self.mainView fadeOutBgdView:self.bgdView completion:^(void) {
-    [self.view removeFromSuperview];
-    [self removeFromParentViewController];
-  }];
-}
-
-- (void) touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event {
-  [self cityClicked:nil];
+  [self.presentingViewController dismissViewControllerAnimated:YES completion:nil];
 }
 
 @end

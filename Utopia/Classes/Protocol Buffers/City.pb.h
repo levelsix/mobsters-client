@@ -27,8 +27,8 @@
 @class MinimumUserProtoWithLevel;
 @class MinimumUserProtoWithLevel_Builder;
 @class MinimumUserProto_Builder;
-@class StaticLevelInfoProto;
-@class StaticLevelInfoProto_Builder;
+@class StaticUserLevelInfoProto;
+@class StaticUserLevelInfoProto_Builder;
 @class UserCityExpansionDataProto;
 @class UserCityExpansionDataProto_Builder;
 @class UserFacebookInviteForSlotProto;
@@ -138,20 +138,16 @@ BOOL CityElementProto_CityElemTypeIsValidValue(CityElementProto_CityElemType val
   BOOL hasExpansionNum_:1;
   BOOL hasExpansionCostCash_:1;
   BOOL hasNumMinutesToExpand_:1;
-  BOOL hasSpeedupExpansionGemCost_:1;
   int32_t expansionNum;
   int32_t expansionCostCash;
   int32_t numMinutesToExpand;
-  int32_t speedupExpansionGemCost;
 }
 - (BOOL) hasExpansionNum;
 - (BOOL) hasExpansionCostCash;
 - (BOOL) hasNumMinutesToExpand;
-- (BOOL) hasSpeedupExpansionGemCost;
 @property (readonly) int32_t expansionNum;
 @property (readonly) int32_t expansionCostCash;
 @property (readonly) int32_t numMinutesToExpand;
-@property (readonly) int32_t speedupExpansionGemCost;
 
 + (CityExpansionCostProto*) defaultInstance;
 - (CityExpansionCostProto*) defaultInstance;
@@ -201,28 +197,23 @@ BOOL CityElementProto_CityElemTypeIsValidValue(CityElementProto_CityElemType val
 - (int32_t) numMinutesToExpand;
 - (CityExpansionCostProto_Builder*) setNumMinutesToExpand:(int32_t) value;
 - (CityExpansionCostProto_Builder*) clearNumMinutesToExpand;
-
-- (BOOL) hasSpeedupExpansionGemCost;
-- (int32_t) speedupExpansionGemCost;
-- (CityExpansionCostProto_Builder*) setSpeedupExpansionGemCost:(int32_t) value;
-- (CityExpansionCostProto_Builder*) clearSpeedupExpansionGemCost;
 @end
 
 @interface CityElementProto : PBGeneratedMessage {
 @private
-  BOOL hasCityId_:1;
-  BOOL hasAssetId_:1;
   BOOL hasXLength_:1;
   BOOL hasYLength_:1;
+  BOOL hasCityId_:1;
+  BOOL hasAssetId_:1;
   BOOL hasImgId_:1;
   BOOL hasCoords_:1;
   BOOL hasSpriteCoords_:1;
   BOOL hasType_:1;
   BOOL hasOrientation_:1;
+  Float32 xLength;
+  Float32 yLength;
   int32_t cityId;
   int32_t assetId;
-  int32_t xLength;
-  int32_t yLength;
   NSString* imgId;
   CoordinateProto* coords;
   CoordinateProto* spriteCoords;
@@ -242,8 +233,8 @@ BOOL CityElementProto_CityElemTypeIsValidValue(CityElementProto_CityElemType val
 @property (readonly) int32_t assetId;
 @property (readonly) CityElementProto_CityElemType type;
 @property (readonly, retain) CoordinateProto* coords;
-@property (readonly) int32_t xLength;
-@property (readonly) int32_t yLength;
+@property (readonly) Float32 xLength;
+@property (readonly) Float32 yLength;
 @property (readonly, retain) NSString* imgId;
 @property (readonly) StructOrientation orientation;
 @property (readonly, retain) CoordinateProto* spriteCoords;
@@ -305,13 +296,13 @@ BOOL CityElementProto_CityElemTypeIsValidValue(CityElementProto_CityElemType val
 - (CityElementProto_Builder*) clearCoords;
 
 - (BOOL) hasXLength;
-- (int32_t) xLength;
-- (CityElementProto_Builder*) setXLength:(int32_t) value;
+- (Float32) xLength;
+- (CityElementProto_Builder*) setXLength:(Float32) value;
 - (CityElementProto_Builder*) clearXLength;
 
 - (BOOL) hasYLength;
-- (int32_t) yLength;
-- (CityElementProto_Builder*) setYLength:(int32_t) value;
+- (Float32) yLength;
+- (CityElementProto_Builder*) setYLength:(Float32) value;
 - (CityElementProto_Builder*) clearYLength;
 
 - (BOOL) hasImgId;
@@ -339,6 +330,7 @@ BOOL CityElementProto_CityElemTypeIsValidValue(CityElementProto_CityElemType val
   BOOL hasMapImgName_:1;
   BOOL hasRoadImgName_:1;
   BOOL hasMapTmxName_:1;
+  BOOL hasAttackMapLabelImgName_:1;
   BOOL hasCenter_:1;
   BOOL hasRoadImgCoords_:1;
   int32_t cityId;
@@ -346,6 +338,7 @@ BOOL CityElementProto_CityElemTypeIsValidValue(CityElementProto_CityElemType val
   NSString* mapImgName;
   NSString* roadImgName;
   NSString* mapTmxName;
+  NSString* attackMapLabelImgName;
   CoordinateProto* center;
   CoordinateProto* roadImgCoords;
   NSMutableArray* mutableTaskIdsList;
@@ -357,6 +350,7 @@ BOOL CityElementProto_CityElemTypeIsValidValue(CityElementProto_CityElemType val
 - (BOOL) hasRoadImgName;
 - (BOOL) hasMapTmxName;
 - (BOOL) hasRoadImgCoords;
+- (BOOL) hasAttackMapLabelImgName;
 @property (readonly) int32_t cityId;
 @property (readonly, retain) NSString* name;
 @property (readonly, retain) NSString* mapImgName;
@@ -364,6 +358,7 @@ BOOL CityElementProto_CityElemTypeIsValidValue(CityElementProto_CityElemType val
 @property (readonly, retain) NSString* roadImgName;
 @property (readonly, retain) NSString* mapTmxName;
 @property (readonly, retain) CoordinateProto* roadImgCoords;
+@property (readonly, retain) NSString* attackMapLabelImgName;
 - (NSArray*) taskIdsList;
 - (int32_t) taskIdsAtIndex:(int32_t) index;
 
@@ -446,5 +441,10 @@ BOOL CityElementProto_CityElemTypeIsValidValue(CityElementProto_CityElemType val
 - (FullCityProto_Builder*) addTaskIds:(int32_t) value;
 - (FullCityProto_Builder*) addAllTaskIds:(NSArray*) values;
 - (FullCityProto_Builder*) clearTaskIdsList;
+
+- (BOOL) hasAttackMapLabelImgName;
+- (NSString*) attackMapLabelImgName;
+- (FullCityProto_Builder*) setAttackMapLabelImgName:(NSString*) value;
+- (FullCityProto_Builder*) clearAttackMapLabelImgName;
 @end
 

@@ -13,7 +13,7 @@
 @implementation ElementDisplayView
 
 - (void) updateStatsWithElementType:(MonsterProto_MonsterElement)element andDamage:(int)damage {
-  NSString *name = [Globals imageNameForElement:element suffix:@"element.png"];
+  NSString *name = [Globals imageNameForElement:element suffix:@"orb.png"];
   [Globals imageNamed:name withView:self.elementIcon maskedColor:nil indicator:UIActivityIndicatorViewStyleWhite clearImageDuringDownload:YES];
   self.statLabel.text = [Globals commafyNumber:damage];
 }
@@ -46,7 +46,7 @@
   self.monsterNameLabel.text = proto.displayName;
   self.rarityLabel.text = [Globals stringForRarity:proto.quality];
   self.rarityLabel.textColor = [Globals colorForRarity:proto.quality];
-  self.enhanceLabel.text = [NSString stringWithFormat:@"%d", self.monster.level];
+  self.enhanceLabel.text = [NSString stringWithFormat:@"Lvl %d", self.monster.level];
   self.monsterDescription.text = proto.description;
   
   self.attackLabel.text = [Globals commafyNumber:[gl calculateTotalDamageForMonster:self.monster]];
@@ -70,7 +70,7 @@
 
   NSString *fileName = [proto.imagePrefix stringByAppendingString:@"Character.png"];
   [Globals imageNamed:fileName withView:self.monsterImageView maskedColor:nil indicator:UIActivityIndicatorViewStyleWhite clearImageDuringDownload:YES];
-  //[Globals imageNamed:[self getElementImageName:proto.element] withView:self.elementType maskedColor:nil indicator:UIActivityIndicatorViewStyleWhite clearImageDuringDownload:YES];
+  [Globals imageNamed:[Globals imageNameForElement:proto.element suffix:@"orb.png"] withView:self.elementType maskedColor:nil indicator:UIActivityIndicatorViewStyleWhite clearImageDuringDownload:YES];
 }
 
 - (IBAction)infoClicked:(id)sender {

@@ -30,8 +30,10 @@
 #define IAP_SUCCESS_NOTIFICATION @"IapSuccessNotification"
 #define HEAL_WAIT_COMPLETE_NOTIFICATION @"HealWaitCompleteNotification"
 #define ENHANCE_WAIT_COMPLETE_NOTIFICATION @"EnhanceWaitCompleteNotification"
+#define COMBINE_WAIT_COMPLETE_NOTIFICATION @"CombineWaitCompleteNotification"
 #define GAMESTATE_UPDATE_NOTIFICATION @"GameStateUpdateNotification"
 #define MY_TEAM_CHANGED_NOTIFICATION @"MyTeamChangedNotification"
+#define CHAT_RECEIVED_NOTIFICATION @"ChatReceivedNotification"
 
 #ifdef LEGENDS_OF_CHAOS
 #define GAME_NAME @"Legends of Chaos"
@@ -42,6 +44,7 @@
 #endif
 
 #define POINT_OFFSET_PER_SCENE ccp(512,360)
+#define SLOPE_OF_ROAD POINT_OFFSET_PER_SCENE.y/POINT_OFFSET_PER_SCENE.x
 
 @interface Globals : NSObject
 
@@ -67,6 +70,7 @@
 @property (nonatomic, assign) int defaultDaysBattleShieldIsActive;
 
 @property (nonatomic, assign) float minutesPerGem;
+@property (nonatomic, assign) int pvpRequiredMinLvl;
 
 // Monster Constants
 @property (nonatomic, assign) int maxTeamSize;
@@ -137,11 +141,14 @@
 + (NSString *) imageNameForRarity:(MonsterProto_MonsterQuality)rarity suffix:(NSString *)str;
 + (NSString *) stringForElement:(MonsterProto_MonsterElement)element;
 + (NSString *) imageNameForElement:(MonsterProto_MonsterElement)element suffix:(NSString *)str;
++ (UIColor *) colorForElement:(MonsterProto_MonsterElement)element;
 
 + (NSString *) stringForTimeSinceNow:(NSDate *)date shortened:(BOOL)shortened ;
 
 + (NSString *) nameForDialogueSpeaker:(DialogueProto_SpeechSegmentProto_DialogueSpeaker)speaker;
 + (NSString *) imageNameForDialogueSpeaker:(DialogueProto_SpeechSegmentProto_DialogueSpeaker)speaker;
+
++ (NSDictionary *) convertUserTeamArrayToDictionary:(NSArray *)array;
 
 + (void) adjustFontSizeForSize:(int)size withUIView:(UIView *)somethingWithText;
 + (void) adjustFontSizeForSize:(int)size withUIViews:(UIView *)field1, ... NS_REQUIRES_NIL_TERMINATION;
@@ -155,6 +162,8 @@
 + (NSString *) cashStringForNumber:(int)n;
 + (NSString *) commafyNumber:(int) n;
 
++ (void) calculateDifferencesBetweenOldArray:(NSArray *)oArr newArray:(NSArray *)nArr removalIps:(NSMutableArray *)removals additionIps:(NSMutableArray *)additions section:(int)section;
+
 + (void) setFrameForView:(UIView *)view forPoint:(CGPoint)pt;
 + (void) popupMessage: (NSString *)msg;
 + (void) bounceView:(UIView *)view;
@@ -166,9 +175,10 @@
 + (UIImage *) greyScaleImageWithBaseImage:(UIImage *)image;
 + (void) shakeView:(UIView *)view duration:(float)duration offset:(int)offset;
 + (void) displayUIView:(UIView *)view;
-+ (void) displayUIViewWithoutAdjustment:(UIView *)view;
 
 + (NSString *) urlStringForFacebookId:(NSString *)uid;
+
++ (BOOL)isLongiPhone;
 
 + (UIColor *)creamColor;
 + (UIColor *)goldColor;
@@ -223,6 +233,7 @@
 - (float) calculateLevelForMonster:(int)monsterId experience:(int)experience;
 
 + (void) adjustViewForCentering:(UIView *)view withLabel:(UILabel *)label;
++ (void) adjustView:(UIView *)view withLabel:(UILabel *)label forXAnchor:(float)xAnchor;
 
 - (InAppPurchasePackageProto *) packageForProductId:(NSString *)pid;
 
@@ -242,5 +253,6 @@
 
 - (void) shuffle;
 - (id) clone;
+- (NSArray *)reversedArray;
 
 @end

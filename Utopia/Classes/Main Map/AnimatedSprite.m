@@ -106,12 +106,15 @@
   [self.sprite setOpacity:opacity];
 }
 
-- (void) setIsSelected:(BOOL)isSelected {
+- (BOOL) select {
+  [super select];
+  [self walk];
+  return YES;
+}
+
+- (void) unselect {
   [self stopWalking];
-  if (!isSelected) {
-    [self walk];
-  }
-  [super setIsSelected:isSelected];
+  [super unselect];
 }
 
 - (void) walk {
@@ -190,21 +193,41 @@
 
 @implementation NeutralEnemy
 
-@synthesize ftp, numTimesActedForTask, numTimesActedForQuest, name, partOfQuest;
+@synthesize isLocked = _isLocked, name = _name, ftp = _ftp;
 
-- (void) setIsSelected:(BOOL)isSelected {
-  [super setIsSelected:isSelected];
-  if (isSelected) {
-    [Analytics taskViewed:ftp.taskId];
+- (BOOL) select {
+  if (self.isLocked) {
+    if (!_lockedBubble.numberOfRunningActions) {
+      CCActionInterval *mov = [CCRotateBy actionWithDuration:0.04f angle:15];
+      [_lockedBubble runAction:[CCRepeat actionWithAction:[CCSequence actions:mov.copy, mov.reverse, mov.reverse, mov.copy, nil]
+                                                    times:3]];
+    }
+    return NO;
   } else {
-    [Analytics taskClosed:ftp.taskId];
+    return [super select];
   }
 }
 
-- (void) setName:(NSString *)n {
-  if (name != n) {
-    name = n;
-    _nameLabel.string = name;
+- (void) setIsLocked:(BOOL)isLocked {
+  _isLocked = isLocked;
+  if (isLocked) {
+    if (_lockedBubble) {
+      // Make sure to cleanup just in case
+      [self removeChild:_lockedBubble cleanup:YES];
+    }
+    _lockedBubble = [CCSprite spriteWithFile:@"bosslock.png"];
+    [self addChild:_lockedBubble];
+    _lockedBubble.position = ccp(self.contentSize.width/2,self.contentSize.height-5);
+    _lockedBubble.anchorPoint = ccp(0.5, 0);
+    
+    int amt = 150;
+    self.color = ccc3(amt, amt, amt);
+  } else {
+    if (_lockedBubble) {
+      // Make sure to cleanup just in case
+      [self removeChild:_lockedBubble cleanup:YES];
+    }
+    self.color = ccc3(255, 255, 255);
   }
 }
 

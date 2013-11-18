@@ -37,6 +37,7 @@
     UILabel *l = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, 30, 10)];
     [self addSubview:l];
     l.textColor = [UIColor whiteColor];
+    l.backgroundColor = [UIColor clearColor];
     l.shadowColor = [UIColor colorWithWhite:0.f alpha:0.3f];
     l.font = [UIFont fontWithName:[Globals font] size:11.f];
     l.center = self.rewardIcon.center;

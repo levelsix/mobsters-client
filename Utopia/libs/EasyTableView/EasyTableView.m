@@ -80,10 +80,10 @@
 	if (orientation == EasyTableViewOrientationHorizontal) {
 		int xOrigin	= (self.bounds.size.width - self.bounds.size.height)/2;
 		int yOrigin	= (self.bounds.size.height - self.bounds.size.width)/2;
-		tableView	= [[UITableView alloc] initWithFrame:CGRectMake(xOrigin, yOrigin, self.bounds.size.height, self.bounds.size.width)];
+		tableView	= [[TimingFunctionTableView alloc] initWithFrame:CGRectMake(xOrigin, yOrigin, self.bounds.size.height, self.bounds.size.width)];
 	}
 	else
-		tableView	= [[UITableView alloc] initWithFrame:CGRectMake(0, 0, self.bounds.size.width, self.bounds.size.height)];
+		tableView	= [[TimingFunctionTableView alloc] initWithFrame:CGRectMake(0, 0, self.bounds.size.width, self.bounds.size.height)];
 	
 	tableView.tag				= TABLEVIEW_TAG;
 	tableView.delegate			= self;
@@ -104,8 +104,8 @@
 #pragma mark -
 #pragma mark Properties
 
-- (UITableView *)tableView {
-	return (UITableView *)[self viewWithTag:TABLEVIEW_TAG];
+- (TimingFunctionTableView *)tableView {
+	return (TimingFunctionTableView *)[self viewWithTag:TABLEVIEW_TAG];
 }
 
 
@@ -204,12 +204,14 @@
 #pragma mark Multiple Sections
 
 -(CGFloat)tableView:(UITableView*)tableView heightForHeaderInSection:(NSInteger)section {
-  if ([delegate respondsToSelector:@selector(easyTableView:viewForHeaderInSection:)]) {
-    UIView *headerView = [delegate easyTableView:self viewForHeaderInSection:section];
-		if (_orientation == EasyTableViewOrientationHorizontal)
-			return headerView.frame.size.width;
-		else
-			return headerView.frame.size.height;
+  if ([self tableView:tableView numberOfRowsInSection:section] > 0) {
+    if ([delegate respondsToSelector:@selector(easyTableView:viewForHeaderInSection:)]) {
+      UIView *headerView = [delegate easyTableView:self viewForHeaderInSection:section];
+      if (_orientation == EasyTableViewOrientationHorizontal)
+        return headerView.frame.size.width;
+      else
+        return headerView.frame.size.height;
+    }
   }
   return 0.0;
 }
@@ -245,9 +247,11 @@
 }
 
 -(UIView*)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section {
-  if ([delegate respondsToSelector:@selector(easyTableView:viewForHeaderInSection:)]) {
-		UIView *sectionView = [delegate easyTableView:self viewForHeaderInSection:section];
-		return [self viewToHoldSectionView:sectionView];
+  if ([self tableView:tableView numberOfRowsInSection:section] > 0) {
+    if ([delegate respondsToSelector:@selector(easyTableView:viewForHeaderInSection:)]) {
+      UIView *sectionView = [delegate easyTableView:self viewForHeaderInSection:section];
+      return [self viewToHoldSectionView:sectionView];
+    }
   }
   return nil;
 }
@@ -306,6 +310,10 @@
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
 	[tableView deselectRowAtIndexPath:indexPath animated:NO];
 	//[self setSelectedIndexPath:indexPath];
+}
+
+- (CGFloat) tableView:(UITableView *)tableView estimatedHeightForRowAtIndexPath:(NSIndexPath *)indexPath {
+  return _cellWidthOrHeight;
 }
 
 
@@ -406,13 +414,21 @@
 	
 	if ([delegate respondsToSelector:@selector(numberOfCellsForEasyTableView:inSection:)]) {
 		numOfItems = [delegate numberOfCellsForEasyTableView:self inSection:section];
-		
-		// Animate any changes in the number of items
-		[tableView beginUpdates];
-		[tableView endUpdates];
 	}
 	
   return numOfItems;
+}
+
+- (void) scrollViewWillEndDragging:(UIScrollView *)scrollView withVelocity:(CGPoint)velocity targetContentOffset:(inout CGPoint *)targetContentOffset {
+  if ([delegate respondsToSelector:@selector(easyTableViewWillEndDragging:withVelocity:targetContentOffset:)]) {
+    [delegate easyTableViewWillEndDragging:self withVelocity:velocity targetContentOffset:targetContentOffset];
+  }
+}
+
+- (void) scrollViewDidEndScrollingAnimation:(UIScrollView *)scrollView {
+  if ([delegate respondsToSelector:@selector(easyTableViewDidEndScrollingAnimation:)]) {
+    [delegate easyTableViewDidEndScrollingAnimation:self];
+  }
 }
 
 #pragma mark -

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="4510" systemVersion="12F45" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="4514" systemVersion="12F45" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none">
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="3742"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="3746"/>
     </dependencies>
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="SettingsViewController">
@@ -23,7 +23,7 @@
             <subviews>
                 <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="mainmenubg.png" id="MVS-gB-jhn">
                     <rect key="frame" x="0.0" y="-16" width="568" height="320"/>
-                    <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES"/>
                 </imageView>
                 <view contentMode="scaleToFill" id="42">
                     <rect key="frame" x="44" y="0.0" width="480" height="288"/>
@@ -361,25 +361,25 @@
             <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
         </view>
         <view contentMode="scaleToFill" id="4" customClass="FlipTabBar">
-            <rect key="frame" x="0.0" y="0.0" width="187" height="34"/>
+            <rect key="frame" x="0.0" y="0.0" width="187" height="26"/>
             <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
             <subviews>
                 <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="2sidenav.png" id="8">
-                    <rect key="frame" x="0.0" y="8" width="187" height="26"/>
+                    <rect key="frame" x="0.0" y="0.0" width="187" height="26"/>
                     <autoresizingMask key="autoresizingMask"/>
                 </imageView>
                 <view userInteractionEnabled="NO" contentMode="scaleToFill" id="5">
-                    <rect key="frame" x="0.0" y="8" width="94" height="27"/>
+                    <rect key="frame" x="0.0" y="0.0" width="94" height="27"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                 </view>
                 <view userInteractionEnabled="NO" contentMode="scaleToFill" id="6">
-                    <rect key="frame" x="89" y="8" width="90" height="27"/>
+                    <rect key="frame" x="89" y="0.0" width="90" height="27"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                 </view>
                 <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="SETTINGS" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="10" id="9" customClass="NiceFontLabel">
-                    <rect key="frame" x="8" y="10" width="79" height="21"/>
+                    <rect key="frame" x="8" y="2" width="79" height="21"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                     <fontDescription key="fontDescription" type="system" pointSize="12"/>
                     <color key="textColor" white="1" alpha="0.90000000000000002" colorSpace="calibratedWhite"/>
@@ -388,7 +388,7 @@
                     <size key="shadowOffset" width="0.0" height="1"/>
                 </label>
                 <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="HELP/FAQ" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="10" id="7" customClass="NiceFontLabel">
-                    <rect key="frame" x="95" y="10" width="92" height="21"/>
+                    <rect key="frame" x="95" y="2" width="92" height="21"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                     <fontDescription key="fontDescription" type="system" pointSize="12"/>
                     <color key="textColor" white="1" alpha="0.90000000000000002" colorSpace="calibratedWhite"/>
@@ -427,7 +427,7 @@
     </objects>
     <resources>
         <image name="2sidenav.png" width="187" height="26"/>
-        <image name="diamond.png" width="33" height="33"/>
+        <image name="diamond.png" width="44" height="41"/>
         <image name="mainmenubg.png" width="568" height="320"/>
         <image name="onoffswitch.png" width="123" height="27"/>
         <image name="settingsbottombg.png" width="460" height="42"/>

@@ -20,8 +20,8 @@
 @class MinimumUserProto_Builder;
 @class PrivateChatPostProto;
 @class PrivateChatPostProto_Builder;
-@class StaticLevelInfoProto;
-@class StaticLevelInfoProto_Builder;
+@class StaticUserLevelInfoProto;
+@class StaticUserLevelInfoProto_Builder;
 @class UserFacebookInviteForSlotProto;
 @class UserFacebookInviteForSlotProto_Builder;
 typedef enum {
@@ -48,8 +48,8 @@ BOOL GroupChatScopeIsValidValue(GroupChatScope value);
   int64_t timeOfPost;
   int32_t privateChatPostId;
   NSString* content;
-  MinimumUserProto* poster;
-  MinimumUserProto* recipient;
+  MinimumUserProtoWithLevel* poster;
+  MinimumUserProtoWithLevel* recipient;
 }
 - (BOOL) hasPrivateChatPostId;
 - (BOOL) hasPoster;
@@ -57,8 +57,8 @@ BOOL GroupChatScopeIsValidValue(GroupChatScope value);
 - (BOOL) hasTimeOfPost;
 - (BOOL) hasContent;
 @property (readonly) int32_t privateChatPostId;
-@property (readonly, retain) MinimumUserProto* poster;
-@property (readonly, retain) MinimumUserProto* recipient;
+@property (readonly, retain) MinimumUserProtoWithLevel* poster;
+@property (readonly, retain) MinimumUserProtoWithLevel* recipient;
 @property (readonly) int64_t timeOfPost;
 @property (readonly, retain) NSString* content;
 
@@ -102,17 +102,17 @@ BOOL GroupChatScopeIsValidValue(GroupChatScope value);
 - (PrivateChatPostProto_Builder*) clearPrivateChatPostId;
 
 - (BOOL) hasPoster;
-- (MinimumUserProto*) poster;
-- (PrivateChatPostProto_Builder*) setPoster:(MinimumUserProto*) value;
-- (PrivateChatPostProto_Builder*) setPosterBuilder:(MinimumUserProto_Builder*) builderForValue;
-- (PrivateChatPostProto_Builder*) mergePoster:(MinimumUserProto*) value;
+- (MinimumUserProtoWithLevel*) poster;
+- (PrivateChatPostProto_Builder*) setPoster:(MinimumUserProtoWithLevel*) value;
+- (PrivateChatPostProto_Builder*) setPosterBuilder:(MinimumUserProtoWithLevel_Builder*) builderForValue;
+- (PrivateChatPostProto_Builder*) mergePoster:(MinimumUserProtoWithLevel*) value;
 - (PrivateChatPostProto_Builder*) clearPoster;
 
 - (BOOL) hasRecipient;
-- (MinimumUserProto*) recipient;
-- (PrivateChatPostProto_Builder*) setRecipient:(MinimumUserProto*) value;
-- (PrivateChatPostProto_Builder*) setRecipientBuilder:(MinimumUserProto_Builder*) builderForValue;
-- (PrivateChatPostProto_Builder*) mergeRecipient:(MinimumUserProto*) value;
+- (MinimumUserProtoWithLevel*) recipient;
+- (PrivateChatPostProto_Builder*) setRecipient:(MinimumUserProtoWithLevel*) value;
+- (PrivateChatPostProto_Builder*) setRecipientBuilder:(MinimumUserProtoWithLevel_Builder*) builderForValue;
+- (PrivateChatPostProto_Builder*) mergeRecipient:(MinimumUserProtoWithLevel*) value;
 - (PrivateChatPostProto_Builder*) clearRecipient;
 
 - (BOOL) hasTimeOfPost;
@@ -203,14 +203,14 @@ BOOL GroupChatScopeIsValidValue(GroupChatScope value);
   int64_t timeOfChat;
   int32_t chatId;
   NSString* content;
-  MinimumUserProto* sender;
+  MinimumUserProtoWithLevel* sender;
 }
 - (BOOL) hasSender;
 - (BOOL) hasTimeOfChat;
 - (BOOL) hasContent;
 - (BOOL) hasIsAdmin;
 - (BOOL) hasChatId;
-@property (readonly, retain) MinimumUserProto* sender;
+@property (readonly, retain) MinimumUserProtoWithLevel* sender;
 @property (readonly) int64_t timeOfChat;
 @property (readonly, retain) NSString* content;
 - (BOOL) isAdmin;
@@ -251,10 +251,10 @@ BOOL GroupChatScopeIsValidValue(GroupChatScope value);
 - (GroupChatMessageProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
 
 - (BOOL) hasSender;
-- (MinimumUserProto*) sender;
-- (GroupChatMessageProto_Builder*) setSender:(MinimumUserProto*) value;
-- (GroupChatMessageProto_Builder*) setSenderBuilder:(MinimumUserProto_Builder*) builderForValue;
-- (GroupChatMessageProto_Builder*) mergeSender:(MinimumUserProto*) value;
+- (MinimumUserProtoWithLevel*) sender;
+- (GroupChatMessageProto_Builder*) setSender:(MinimumUserProtoWithLevel*) value;
+- (GroupChatMessageProto_Builder*) setSenderBuilder:(MinimumUserProtoWithLevel_Builder*) builderForValue;
+- (GroupChatMessageProto_Builder*) mergeSender:(MinimumUserProtoWithLevel*) value;
 - (GroupChatMessageProto_Builder*) clearSender;
 
 - (BOOL) hasTimeOfChat;

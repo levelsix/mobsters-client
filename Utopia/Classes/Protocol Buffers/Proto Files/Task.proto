@@ -19,6 +19,8 @@ message FullTaskProto {
 	optional string description = 3;
 	optional int32 cityId = 4;
 	optional int32 assetNumWithinCity = 5;
+	optional int32 prerequisiteTaskId = 6;
+	optional int32 prerequisiteQuestId = 7;
 }
 
 //------------------------------------------------------------------------------------------

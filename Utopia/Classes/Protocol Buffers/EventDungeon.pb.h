@@ -38,12 +38,14 @@
 @class ReviveInDungeonRequestProto_Builder;
 @class ReviveInDungeonResponseProto;
 @class ReviveInDungeonResponseProto_Builder;
-@class StaticLevelInfoProto;
-@class StaticLevelInfoProto_Builder;
+@class StaticUserLevelInfoProto;
+@class StaticUserLevelInfoProto_Builder;
 @class TaskStageMonsterProto;
 @class TaskStageMonsterProto_Builder;
 @class TaskStageProto;
 @class TaskStageProto_Builder;
+@class UserCurrentMonsterTeamProto;
+@class UserCurrentMonsterTeamProto_Builder;
 @class UserEnhancementItemProto;
 @class UserEnhancementItemProto_Builder;
 @class UserEnhancementProto;
@@ -157,18 +159,22 @@ BOOL ReviveInDungeonResponseProto_ReviveInDungeonStatusIsValidValue(ReviveInDung
 @interface BeginDungeonResponseProto : PBGeneratedMessage {
 @private
   BOOL hasUserTaskId_:1;
+  BOOL hasTaskId_:1;
   BOOL hasSender_:1;
   BOOL hasStatus_:1;
   int64_t userTaskId;
+  int32_t taskId;
   MinimumUserProto* sender;
   BeginDungeonResponseProto_BeginDungeonStatus status;
   NSMutableArray* mutableTspList;
 }
 - (BOOL) hasSender;
 - (BOOL) hasUserTaskId;
+- (BOOL) hasTaskId;
 - (BOOL) hasStatus;
 @property (readonly, retain) MinimumUserProto* sender;
 @property (readonly) int64_t userTaskId;
+@property (readonly) int32_t taskId;
 @property (readonly) BeginDungeonResponseProto_BeginDungeonStatus status;
 - (NSArray*) tspList;
 - (TaskStageProto*) tspAtIndex:(int32_t) index;
@@ -226,6 +232,11 @@ BOOL ReviveInDungeonResponseProto_ReviveInDungeonStatusIsValidValue(ReviveInDung
 - (BeginDungeonResponseProto_Builder*) setUserTaskId:(int64_t) value;
 - (BeginDungeonResponseProto_Builder*) clearUserTaskId;
 
+- (BOOL) hasTaskId;
+- (int32_t) taskId;
+- (BeginDungeonResponseProto_Builder*) setTaskId:(int32_t) value;
+- (BeginDungeonResponseProto_Builder*) clearTaskId;
+
 - (BOOL) hasStatus;
 - (BeginDungeonResponseProto_BeginDungeonStatus) status;
 - (BeginDungeonResponseProto_Builder*) setStatus:(BeginDungeonResponseProto_BeginDungeonStatus) value;
@@ -235,10 +246,12 @@ BOOL ReviveInDungeonResponseProto_ReviveInDungeonStatusIsValidValue(ReviveInDung
 @interface EndDungeonRequestProto : PBGeneratedMessage {
 @private
   BOOL hasUserWon_:1;
+  BOOL hasFirstTimeUserWonTask_:1;
   BOOL hasUserTaskId_:1;
   BOOL hasClientTime_:1;
   BOOL hasSender_:1;
   BOOL userWon_:1;
+  BOOL firstTimeUserWonTask_:1;
   int64_t userTaskId;
   int64_t clientTime;
   MinimumUserProto* sender;
@@ -247,10 +260,12 @@ BOOL ReviveInDungeonResponseProto_ReviveInDungeonStatusIsValidValue(ReviveInDung
 - (BOOL) hasUserTaskId;
 - (BOOL) hasUserWon;
 - (BOOL) hasClientTime;
+- (BOOL) hasFirstTimeUserWonTask;
 @property (readonly, retain) MinimumUserProto* sender;
 @property (readonly) int64_t userTaskId;
 - (BOOL) userWon;
 @property (readonly) int64_t clientTime;
+- (BOOL) firstTimeUserWonTask;
 
 + (EndDungeonRequestProto*) defaultInstance;
 - (EndDungeonRequestProto*) defaultInstance;
@@ -307,20 +322,33 @@ BOOL ReviveInDungeonResponseProto_ReviveInDungeonStatusIsValidValue(ReviveInDung
 - (int64_t) clientTime;
 - (EndDungeonRequestProto_Builder*) setClientTime:(int64_t) value;
 - (EndDungeonRequestProto_Builder*) clearClientTime;
+
+- (BOOL) hasFirstTimeUserWonTask;
+- (BOOL) firstTimeUserWonTask;
+- (EndDungeonRequestProto_Builder*) setFirstTimeUserWonTask:(BOOL) value;
+- (EndDungeonRequestProto_Builder*) clearFirstTimeUserWonTask;
 @end
 
 @interface EndDungeonResponseProto : PBGeneratedMessage {
 @private
+  BOOL hasUserWon_:1;
+  BOOL hasTaskId_:1;
   BOOL hasSender_:1;
   BOOL hasStatus_:1;
+  BOOL userWon_:1;
+  int32_t taskId;
   MinimumUserProto* sender;
   EndDungeonResponseProto_EndDungeonStatus status;
   NSMutableArray* mutableUpdatedOrNewList;
 }
 - (BOOL) hasSender;
 - (BOOL) hasStatus;
+- (BOOL) hasTaskId;
+- (BOOL) hasUserWon;
 @property (readonly, retain) MinimumUserProto* sender;
 @property (readonly) EndDungeonResponseProto_EndDungeonStatus status;
+@property (readonly) int32_t taskId;
+- (BOOL) userWon;
 - (NSArray*) updatedOrNewList;
 - (FullUserMonsterProto*) updatedOrNewAtIndex:(int32_t) index;
 
@@ -376,6 +404,16 @@ BOOL ReviveInDungeonResponseProto_ReviveInDungeonStatusIsValidValue(ReviveInDung
 - (EndDungeonResponseProto_Builder*) addUpdatedOrNew:(FullUserMonsterProto*) value;
 - (EndDungeonResponseProto_Builder*) addAllUpdatedOrNew:(NSArray*) values;
 - (EndDungeonResponseProto_Builder*) clearUpdatedOrNewList;
+
+- (BOOL) hasTaskId;
+- (int32_t) taskId;
+- (EndDungeonResponseProto_Builder*) setTaskId:(int32_t) value;
+- (EndDungeonResponseProto_Builder*) clearTaskId;
+
+- (BOOL) hasUserWon;
+- (BOOL) userWon;
+- (EndDungeonResponseProto_Builder*) setUserWon:(BOOL) value;
+- (EndDungeonResponseProto_Builder*) clearUserWon;
 @end
 
 @interface ReviveInDungeonRequestProto : PBGeneratedMessage {

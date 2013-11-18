@@ -11,8 +11,18 @@
 #import "Globals.h"
 #import "GameViewController.h"
 #import "MonsterPopUpViewController.h"
+#import "ClanViewController.h"
+#import "MenuNavigationController.h"
+#import "OutgoingEventController.h"
 
 @implementation ProfileViewController
+
+- (id)initWithUserId:(int)userId {
+  if ((self = [super init])) {
+    [[OutgoingEventController sharedOutgoingEventController] retrieveUsersForUserIds:[NSArray arrayWithObject:@(userId)] includeCurMonsterTeam:YES delegate:self];
+  }
+  return self;
+}
 
 - (id)initWithFullUserProto:(FullUserProto *)fup andCurrentTeam:(NSArray *)curTeam {
   if ((self = [super init])) {
@@ -20,6 +30,13 @@
     self.curTeam = curTeam;
   }
   return self;
+}
+
+- (void) handleRetrieveUsersForUserIdsResponseProto:(FullEvent *)fe {
+  RetrieveUsersForUserIdsResponseProto *proto = (RetrieveUsersForUserIdsResponseProto *)fe.event;
+  self.fup = [proto.requestedUsersList lastObject];
+  self.curTeam = [[Globals convertUserTeamArrayToDictionary:proto.curTeamList] objectForKey:@(self.fup.userId)];
+  [self loadProfile];
 }
 
 - (void)viewDidLoad
@@ -35,14 +52,9 @@
 }
 
 - (void)loadProfile {
-  GameState *gs = [GameState sharedGameState];
-  if (gs.userId == self.fup.userId) {
-    self.teamLabel.text = [NSString stringWithFormat:@"My Team"];
-  }
-  
-  self.winsLabel.text = [NSString stringWithFormat:@"%d wins",self.fup.battlesWon];
-  self.lossesLabel.text = [NSString stringWithFormat:@"%d wins",self.fup.battlesLost];
-  self.nameLabel.text = [NSString stringWithFormat:@"%@ (LVL %d)",self.fup.name,self.fup.level];
+  self.winsLabel.text = [NSString stringWithFormat:@"%d wins", self.fup.battlesWon];
+  self.lossesLabel.text = [NSString stringWithFormat:@"%d wins", self.fup.battlesLost];
+  self.nameLabel.text = self.fup ? [NSString stringWithFormat:@"%@ (LVL %d)", self.fup.name,self.fup.level] : @"Loading...";
   
   if (self.fup.hasClan) {
     self.clanView.label.textColor = [Globals goldColor];
@@ -66,7 +78,7 @@
   }
 }
 
-- (void) monsterCardSelected:(MonsterCardView *)view {
+- (void) infoClicked:(MonsterCardView *)view {
   MonsterPopUpViewController *mpvc = [[MonsterPopUpViewController alloc] initWithMonsterProto:view.monster];
   [self addChildViewController:mpvc];
   [self.view addSubview:mpvc.view];
@@ -74,15 +86,19 @@
 
 - (void) labelClicked:(UnderlinedLabelView *)label {
   // Go visit clan
+  MenuNavigationController *m = [[MenuNavigationController alloc] init];
+  GameViewController *gvc = (GameViewController *)self.parentViewController;
+  [gvc presentViewController:m animated:YES completion:nil];
+  [m pushViewController:[[ClanInfoViewController alloc] initWithClanId:self.fup.clan.clanId andName:self.fup.clan.name] animated:NO];
   
+  [self close:nil];
 }
 
 - (IBAction)message:(id)sender {
-  //  GameViewController *gvc = (GameViewController *)self.parentViewController;
-  //  ChatViewController *pvc = [[ChatViewController alloc] initWithPrivateChatWithUserId:self.fup.userId];
-  //  [gvc addChildViewController:pvc];
-  //  pvc.view.frame = gvc.view.frame;
-  //  [gvc.view addSubview:pvc.view];
+  GameViewController *gvc = [GameViewController baseController];
+  [gvc openPrivateChatWithUserId:self.fup.userId];
+  
+  [self close:nil];
 }
 
 - (IBAction)close:(id)sender {

@@ -14,7 +14,7 @@
 #import "SettingsViewController.h"
 #import "CarpenterViewController.h"
 #import "MyCroniesViewController.h"
-#import "GachaponViewController.h"
+#import "GachaponListViewController.h"
 
 @interface MainMenuController ()
 
@@ -45,7 +45,7 @@
 }
 
 - (IBAction)cratesClicked:(id)sender {
-  [self.navigationController pushViewController:[[GachaponViewController alloc] init] animated:YES];
+  [self.navigationController pushViewController:[[GachaponListViewController alloc] init] animated:YES];
 }
 
 - (IBAction)buildingsClicked:(id)sender {

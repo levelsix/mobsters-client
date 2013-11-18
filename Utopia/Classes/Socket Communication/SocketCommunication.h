@@ -35,6 +35,8 @@
   int _healingQueueGemCost;
   
   BOOL _enhancementPotentiallyChanged;
+  int _enhanceQueueCashChange;
+  int _enhanceQueueGemCost;
 }
 
 @property (nonatomic, retain) AMQPConnectionThread *connectionThread;
@@ -73,13 +75,11 @@
 - (int) sendRotateNormStructureMessage:(int)userStructId orientation:(StructOrientation)orientation;
 - (int) sendUpgradeNormStructureMessage:(int)userStructId time:(uint64_t)curTime;
 - (int) sendNormStructBuildsCompleteMessage:(NSArray *)userStructIds time:(uint64_t)curTime;
-- (int) sendFinishNormStructBuildWithDiamondsMessage:(int)userStructId time:(uint64_t)milliseconds;
+- (int) sendFinishNormStructBuildWithDiamondsMessage:(int)userStructId gemCost:(int)gemCost time:(uint64_t)milliseconds;
 - (int) sendSellNormStructureMessage:(int)userStructId;
 
 - (int) sendLoadPlayerCityMessage:(int)userId;
 - (int) sendLoadCityMessage:(int)cityId;
-
-- (int) sendRetrieveStaticDataMessageWithStructIds:(NSArray *)structIds taskIds:(NSArray *)taskIds questIds:(NSArray *)questIds cityIds:(NSArray *)cityIds buildStructJobIds:(NSArray *)buildStructJobIds defeatTypeJobIds:(NSArray *)defeatTypeJobIds possessEquipJobIds:(NSArray *)possessEquipJobIds upgradeStructJobIds:(NSArray *)upgradeStructJobIds events:(BOOL)events bossIds:(NSArray *)bossIds;
 
 - (int) sendLevelUpMessage;
 
@@ -87,7 +87,7 @@
 - (int) sendQuestProgressMessage:(int)questId progress:(int)progress isComplete:(BOOL)isComplete userMonsterIds:(NSArray *)userMonsterIds;
 - (int) sendQuestRedeemMessage:(int)questId;
 
-- (int) sendRetrieveUsersForUserIds:(NSArray *)userIds;
+- (int) sendRetrieveUsersForUserIds:(NSArray *)userIds includeCurMonsterTeam:(BOOL)includeCurMonsterTeam;
 
 - (int) sendAPNSMessage:(NSString *)deviceToken;
 
@@ -107,11 +107,10 @@
 - (int) sendBootPlayerFromClan:(int)playerId;
 
 - (int) sendPurchaseCityExpansionMessageAtX:(int)x atY:(int)y timeOfPurchase:(uint64_t)time;
-- (int) sendExpansionWaitCompleteMessage:(BOOL)speedUp curTime:(uint64_t)time atX:(int)x atY:(int)y;
+- (int) sendExpansionWaitCompleteMessage:(BOOL)speedUp gemCost:(int)gemCost curTime:(uint64_t)time atX:(int)x atY:(int)y;
 
 - (int) sendRetrieveTournamentRankingsMessage:(int)eventId afterThisRank:(int)afterThisRank;
 
-- (int) sendRetrieveBoosterPackMessage;
 - (int) sendPurchaseBoosterPackMessage:(int)boosterPackId clientTime:(uint64_t)clientTime;
 
 - (int) sendPrivateChatPostMessage:(int)recipientId content:(NSString *)content;
@@ -119,7 +118,7 @@
 
 - (int) sendBeginDungeonMessage:(uint64_t)clientTime taskId:(int)taskId;
 - (int) sendUpdateMonsterHealthMessage:(uint64_t)clientTime monsterHealth:(UserMonsterCurrentHealthProto *)monsterHealth;
-- (int) sendEndDungeonMessage:(uint64_t)userTaskId userWon:(BOOL)userWon time:(uint64_t)time;
+- (int) sendEndDungeonMessage:(uint64_t)userTaskId userWon:(BOOL)userWon isFirstTimeCompleted:(BOOL)isFirstTimeCompleted time:(uint64_t)time;
 
 - (int) retrieveCurrencyFromStruct:(int)userStructId time:(uint64_t)time;
 
@@ -136,7 +135,7 @@
 
 - (int) sendEnhanceQueueWaitTimeComplete:(UserMonsterCurrentExpProto *)monsterExp userMonsterIds:(NSArray *)userMonsterIds;
 - (int) sendEnhanceQueueSpeedup:(UserMonsterCurrentExpProto *)monsterExp userMonsterIds:(NSArray *)userMonsterIds goldCost:(int)goldCost;
-- (int) setEnhanceQueueDirty;
+- (int) setEnhanceQueueDirtyWithCoinChange:(int)coinChange gemCost:(int)gemCost;
 - (void) reloadEnhancementSnapshot;
 
 - (void) flush;

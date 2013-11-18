@@ -107,25 +107,3 @@
 }
 
 @end
-
-@implementation ExpansionView
-
-- (void) display {
-  Globals *gl = [Globals sharedGlobals];
-  
-  self.costLabel.text = [Globals commafyNumber:[gl calculateSilverCostForNewExpansion]];
-  self.totalTimeLabel.text = [Globals convertTimeToShortString:[gl calculateNumMinutesForNewExpansion]*60];
-  
-  if (!self.superview) {
-    [Globals displayUIView:self];
-    [Globals bounceView:self.mainView fadeInBgdView:self.bgdView];
-  }
-}
-
-- (IBAction)closeClicked:(id)sender {
-  [Globals popOutView:self.mainView fadeOutBgdView:self.bgdView completion:^{
-    [self removeFromSuperview];
-  }];
-}
-
-@end

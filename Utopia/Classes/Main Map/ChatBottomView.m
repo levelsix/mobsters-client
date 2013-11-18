@@ -16,7 +16,7 @@
 
 - (void) updateForChat:(ChatMessage *)chat {
   self.hasBeenUsed = YES;
-  self.textLabel.text = [NSString stringWithFormat:@"%@%@: %@", [Globals fullNameWithName:chat.sender.name clanTag:chat.sender.clan.tag], chat.isAdmin ? @" (A)" : @"", chat.message];
+  self.textLabel.text = [NSString stringWithFormat:@"%@%@: %@", [Globals fullNameWithName:chat.sender.minUserProto.name clanTag:chat.sender.minUserProto.clan.tag], chat.isAdmin ? @" (A)" : @"", chat.message];
 }
 
 - (void) updateForNotification:(NSString *)string {

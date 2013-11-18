@@ -16,25 +16,34 @@
 + (GenericPopupController *) displayConfirmationWithDescription:(NSString *)description title:(NSString *)title okayButton:(NSString *)okay cancelButton:(NSString *)cancel target:(id)target selector:(SEL)selector;
 + (GenericPopupController *) displayConfirmationWithDescription:(NSString *)description title:(NSString *)title okayButton:(NSString *)okay cancelButton:(NSString *)cancel okTarget:(id)okTarget okSelector:(SEL)okSelector cancelTarget:(id)cancelTarget cancelSelector:(SEL)cancelSelector;
 
+//+ (GenericPopupController *) displayNotEnoughGemsView;
+//+ (GenericPopupController *) displayGemConfirmViewWithDescription:(NSString *)description title:(NSString *)title gemCost:(int)gemCost target:(id)target selector:(SEL)selector;
+
 @property (nonatomic, retain) IBOutlet UILabel *titleLabel;
+
+@property (nonatomic, retain) IBOutlet UIView *descriptionView;
 @property (nonatomic, retain) IBOutlet UILabel *descriptionLabel;
 
-@property (nonatomic, retain) IBOutlet UILabel *greenButtonLabel;
-@property (nonatomic, retain) IBOutlet UILabel *blackButtonLabel;
-@property (nonatomic, retain) IBOutlet UILabel *redButtonLabel;
+@property (nonatomic, retain) IBOutlet UIView *notEnoughGemsView;
 
+// Button views
 @property (nonatomic, retain) IBOutlet UIView *notificationView;
+@property (nonatomic, retain) IBOutlet UILabel *notifButtonLabel;
+@property (nonatomic, retain) IBOutlet UIButton *notifButton;
+
 @property (nonatomic, retain) IBOutlet UIView *confirmationView;
+@property (nonatomic, retain) IBOutlet UILabel *confOkayButtonLabel;
+@property (nonatomic, retain) IBOutlet UILabel *confCancelButtonLabel;
+@property (nonatomic, retain) IBOutlet UIButton *confOkayButton;
+@property (nonatomic, retain) IBOutlet UIButton *confCancelButton;
+
+@property (nonatomic, retain) IBOutlet UIView *gemView;
+@property (nonatomic, retain) IBOutlet UILabel *gemButtonLabel;
+@property (nonatomic, retain) IBOutlet UIButton *gemButton;
 
 @property (nonatomic, retain) IBOutlet UIView *mainView;
 @property (nonatomic, retain) IBOutlet UIView *bgdView;
 
-@property (nonatomic, retain) NSInvocation *okInvocation;
-@property (nonatomic, retain) NSInvocation *cancelInvocation;
-
-- (void) close;
-- (IBAction)redOkayClicked:(id)sender;
-- (IBAction)greenOkayClicked:(id)sender;
-- (IBAction)cancelClicked:(id)sender;
+- (IBAction)close:(id)sender;
 
 @end

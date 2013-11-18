@@ -15,6 +15,7 @@
   NSTimer *_enhanceTimer;
   NSTimer *_expansionTimer;
   NSTimer *_healingTimer;
+  NSTimer *_combineTimer;
 }
 
 @property (nonatomic, assign) BOOL isTutorial;
@@ -50,11 +51,9 @@
 @property (nonatomic, retain) NSMutableDictionary *staticMonsters;
 @property (nonatomic, retain) NSMutableDictionary *staticTasks;
 @property (nonatomic, retain) NSMutableDictionary *staticCities;
-@property (nonatomic, retain) NSMutableDictionary *staticBuildStructJobs;
-@property (nonatomic, retain) NSMutableDictionary *staticDefeatTypeJobs;
-@property (nonatomic, retain) NSMutableDictionary *staticUpgradeStructJobs;
 
-@property (nonatomic, retain) NSArray *carpenterStructs;
+@property (nonatomic, retain) NSMutableSet *completedTasks;
+
 @property (nonatomic, retain) NSArray *boosterPacks;
 
 @property (nonatomic, retain) NSMutableArray *myMonsters;
@@ -62,6 +61,7 @@
 @property (nonatomic, retain) NSMutableDictionary *myQuests;
 
 @property (nonatomic, retain) NSMutableArray *monsterHealingQueue;
+@property (nonatomic, retain) NSMutableSet *recentlyHealedMonsterIds;
 
 @property (nonatomic, retain) NSMutableDictionary *inProgressCompleteQuests;
 @property (nonatomic, retain) NSMutableDictionary *inProgressIncompleteQuests;
@@ -85,15 +85,17 @@
 @property (nonatomic, retain) NSMutableArray *requestedClans;
 
 @property (nonatomic, retain) NSMutableArray *userExpansions;
-
-@property (nonatomic, retain) UserEnhancement *userEnhancement;
+@property (nonatomic, retain) NSMutableDictionary *expansionCosts;
 
 @property (nonatomic, retain) NSMutableDictionary *staticLevelInfos;
+
+@property (nonatomic, retain) UserEnhancement *userEnhancement;
 
 + (GameState *) sharedGameState;
 + (void) purgeSingleton;
 
 - (MinimumUserProto *) minUser;
+- (MinimumUserProtoWithLevel *) minUserWithLevel;
 - (FullUserProto *) convertToFullUserProto;
 - (void) updateUser:(FullUserProto *)user timestamp:(uint64_t)time;
 
@@ -105,6 +107,10 @@
 - (BoosterPackProto *) boosterPackForId:(int)packId;
 - (MonsterProto *) monsterWithId:(int)monsterId;
 
+- (BOOL) isTaskUnlocked:(int)taskId;
+- (BOOL) isCityUnlocked:(int)cityId;
+- (NSArray *) taskIdsToUnlockMoreTasks;
+
 - (void) addToMyStructs:(NSArray *)myStructs;
 - (void) addToMyMonsters:(NSArray *)myMonsters;
 - (void) addToMyQuests:(NSArray *)quests;
@@ -112,10 +118,12 @@
 - (void) addToInProgressCompleteQuests:(NSArray *)quests;
 - (void) addToInProgressIncompleteQuests:(NSArray *)quests;
 - (void) addNotification:(UserNotification *)un;
-- (void) addChatMessage:(MinimumUserProto *)sender message:(NSString *)msg scope:(GroupChatScope)scope isAdmin:(BOOL)isAdmin;
+- (void) addChatMessage:(MinimumUserProtoWithLevel *)sender message:(NSString *)msg scope:(GroupChatScope)scope isAdmin:(BOOL)isAdmin;
 - (void) addChatMessage:(ChatMessage *)cm scope:(GroupChatScope) scope;
+- (void) addPrivateChat:(PrivateChatPostProto *)post;
 - (void) addBoosterPurchase:(RareBoosterPurchaseProto *)bp;
 - (void) addToStaticLevelInfos:(NSArray *)lurep;
+- (void) addToExpansionCosts:(NSArray *)costs;
 
 - (void) addInventorySlotsRequests:(NSArray *)invites;
 - (void) addUsersUsedForExtraSlots:(NSArray *)users;
@@ -135,12 +143,11 @@
 - (UserQuest *) myQuestWithId:(int)questId;
 - (NSArray *) allCurrentQuests;
 
+- (void) updateStaticData:(StaticDataProto *)proto;
 - (void) addToStaticStructs:(NSArray *)arr;
 - (void) addToStaticMonsters:(NSArray *)arr;
 - (void) addToStaticTasks:(NSArray *)arr;
 - (void) addToStaticCities:(NSArray *)arr;
-- (void) addToStaticBuildStructJobs:(NSArray *)arr;
-- (void) addToStaticUpgradeStructJobs:(NSArray *)arr;
 - (void) addStaticBoosterPacks:(NSArray *)bpps;
 
 - (void) addUnrespondedUpdate:(id<GameStateUpdate>)up;
@@ -160,6 +167,9 @@
 - (void) beginEnhanceTimer;
 - (void) stopEnhanceTimer;
 
+- (void) beginCombineTimer;
+- (void) stopCombineTimer;
+
 - (UserExpansion *) getExpansionForX:(int)x y:(int)y;
 - (int) numCompletedExpansions;
 - (BOOL) isExpanding;
@@ -170,9 +180,5 @@
 - (void) addToRequestedClans:(NSArray *)arr;
 
 - (BOOL) hasBeginnerShield;
-
-- (void) purgeStaticData;
-- (void) reretrieveStaticData;
-- (void) clearAllData;
 
 @end

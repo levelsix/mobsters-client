@@ -22,6 +22,23 @@ static float imgHeight = 40.f;
   return self;
 }
 
+- (void) insertSubview:(UIView *)view atIndex:(NSInteger)index {
+  if (self.bgdView) {
+    int idx = [self.subviews indexOfObject:self.bgdView];
+    if (idx != NSNotFound) {
+      [super insertSubview:view atIndex:MAX(idx+1, index)];
+    } else {
+      [super insertSubview:view atIndex:index];
+    }
+  } else {
+    [super insertSubview:view atIndex:index];
+  }
+}
+
+- (void) layoutSubviews {
+  [super layoutSubviews];
+}
+
 - (void)drawRect:(CGRect)rect {
   UIImage *image = [UIImage imageNamed:@"menutopbar.png"];
   imgHeight = image.size.height;
@@ -54,7 +71,6 @@ static float imgHeight = 40.f;
 {
   self = [super initWithNavigationBarClass:[CustomNavBar class] toolbarClass:nil];
   if (self) {
-    [self.view insertSubview:[[UIImageView alloc] initWithImage:[Globals imageNamed:@"mainmenubg.png"]] atIndex:0];
     self.modalTransitionStyle = UIModalTransitionStyleCrossDissolve;
   }
   return self;

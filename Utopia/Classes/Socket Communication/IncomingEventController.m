@@ -77,9 +77,6 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
     case EventProtocolResponseSLoadCityEvent:
       responseClass = [LoadCityResponseProto class];
       break;
-    case EventProtocolResponseSRetrieveStaticDataEvent:
-      responseClass = [RetrieveStaticDataResponseProto class];
-      break;
     case EventProtocolResponseSQuestAcceptEvent:
       responseClass = [QuestAcceptResponseProto class];
       break;
@@ -154,9 +151,6 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
       break;
     case EventProtocolResponseSSubmitMonsterEnhancementEvent:
       responseClass = [SubmitMonsterEnhancementResponseProto class];
-      break;
-    case EventProtocolResponseSRetrieveBoosterPackEvent:
-      responseClass = [RetrieveBoosterPackResponseProto class];
       break;
     case EventProtocolResponseSPurchaseBoosterPackEvent:
       responseClass = [PurchaseBoosterPackResponseProto class];
@@ -255,8 +249,8 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
     if (proto.sender.userId == 0) {
       LNLog(@"Received user id 0..");
     }
-    // Add these before updating user or else UI will update incorrectly
-    [gs addToStaticLevelInfos:proto.slipList];
+    
+    [gs updateStaticData:proto.staticDataStuffProto];
     
     // Update user before creating map
     [gs updateUser:proto.sender timestamp:0];
@@ -267,9 +261,6 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
     [gs setPlayerHasBoughtInAppPurchase:proto.playerHasBoughtInAppPurchase];
     
     //    [Globals asyncDownloadBundles];
-    
-    [gs.staticMonsters removeAllObjects];
-    [gs addToStaticMonsters:proto.staticMonstersList];
     [gs.myMonsters removeAllObjects];
     [gs addToMyMonsters:proto.usersMonstersList];
     [gs addAllMonsterHealingProtos:proto.monstersHealingList];
@@ -278,20 +269,9 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
       [gs addEnhancementProto:proto.enhancements];
     }
     
-    [gs.staticCities removeAllObjects];
-    [gs addToStaticCities:proto.allCitiesList];
-    [gs.inProgressCompleteQuests removeAllObjects];
-    [gs addToInProgressCompleteQuests:proto.unredeemedQuestsList];
-    [gs.inProgressIncompleteQuests removeAllObjects];
-    [gs addToInProgressIncompleteQuests:proto.inProgressQuestsList];
-    // Put this after inprogress complete because available quests will be autoaccepted
-    [gs.availableQuests removeAllObjects];
-    [gs addToAvailableQuests:proto.availableQuestsList];
+    gs.completedTasks = [NSMutableSet setWithArray:proto.completedTaskIdsList];
     [gs.myQuests removeAllObjects];
     [gs addToMyQuests:proto.userQuestsList];
-    [gs.staticStructs removeAllObjects];
-    [gs addToStaticStructs:proto.staticStructsList];
-    gs.carpenterStructs = [proto.staticStructsList copy];
     
     [gs.requestsFromFriends removeAllObjects];
     [gs addInventorySlotsRequests:proto.invitesToMeForSlotsList];
@@ -300,17 +280,9 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
     
     [gs addToRequestedClans:proto.userClanInfoList];
     
-    gs.privateChats = proto.pcppList ? [proto.pcppList mutableCopy] : [NSMutableArray array];
-    [gs.privateChats sortUsingComparator:^NSComparisonResult(PrivateChatPostProto *obj1, PrivateChatPostProto *obj2) {
-      if (obj1.timeOfPost < obj2.timeOfPost) {
-        return NSOrderedDescending;
-      } else if (obj1.timeOfPost > obj2.timeOfPost) {
-        return NSOrderedAscending;
-      } else {
-        return NSOrderedSame;
-      }
-    }];
-    
+    [gs.globalChatMessages removeAllObjects];
+    [gs.clanChatMessages removeAllObjects];
+    [gs.privateChats removeAllObjects];
     for (GroupChatMessageProto *msg in proto.globalChatsList) {
       ChatMessage *cm = [[ChatMessage alloc] initWithProto:msg];
       [gs addChatMessage:cm scope:GroupChatScopeGlobal];
@@ -318,6 +290,9 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
     for (GroupChatMessageProto *msg in proto.clanChatsList) {
       ChatMessage *cm = [[ChatMessage alloc] initWithProto:msg];
       [gs addChatMessage:cm scope:GroupChatScopeClan];
+    }
+    for (PrivateChatPostProto *pcpp in proto.pcppList) {
+      [gs addPrivateChat:pcpp];
     }
     
     for (RareBoosterPurchaseProto *rbp in proto.rareBoosterPurchasesList) {
@@ -582,8 +557,6 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
       gs.userExpansions = exp;
       [gs beginExpansionTimer];
       
-      [[OutgoingEventController sharedOutgoingEventController] retrieveAllStaticData];
-      
       [gs removeNonFullUserUpdatesForTag:tag];
       
       //      [[GameLayer sharedGameLayer] performBattleLossTutorial];
@@ -625,44 +598,6 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
   }
 }
 
-- (void) handleRetrieveStaticDataResponseProto:(FullEvent *)fe {
-  RetrieveStaticDataResponseProto *proto = (RetrieveStaticDataResponseProto *)fe.event;
-  int tag = fe.tag;
-  
-  LNLog(@"Retrieve static data response received with status %d", proto.status);
-  GameState *gs = [GameState sharedGameState];
-  
-  if (proto.status == RetrieveStaticDataResponseProto_RetrieveStaticDataStatusSuccess) {
-    [gs addToStaticBuildStructJobs:proto.buildStructJobsList];
-    [gs addToStaticCities:proto.citiesList];
-    [gs addToStaticStructs:proto.structsList];
-    [gs addToStaticTasks:proto.tasksList];
-    [gs addToStaticUpgradeStructJobs:proto.upgradeStructJobsList];
-    
-    [[OutgoingEventController sharedOutgoingEventController] retrieveAllStaticData];
-    [gs removeNonFullUserUpdatesForTag:tag];
-  } else {
-    [Globals popupMessage:@"Server failed to send back static data."];
-    [gs removeAndUndoAllUpdatesForTag:tag];
-  }
-}
-
-- (void) handleRetrieveBoosterPackResponseProto:(FullEvent *)fe {
-  RetrieveBoosterPackResponseProto *proto = (RetrieveBoosterPackResponseProto *)fe.event;
-  int tag = fe.tag;
-  
-  LNLog(@"Retrieve booster pack response received with status %d.", proto.status);
-  
-  GameState *gs = [GameState sharedGameState];
-  if (proto.status == RetrieveBoosterPackResponseProto_RetrieveBoosterPackStatusSuccess) {
-    [gs addStaticBoosterPacks:proto.packsList];
-    [gs removeNonFullUserUpdatesForTag:tag];
-  } else {
-    [Globals popupMessage:@"Server failed to send back booster packs.."];
-    [gs removeAndUndoAllUpdatesForTag:tag];
-  }
-}
-
 - (void) handleQuestAcceptResponseProto:(FullEvent *)fe {
   QuestAcceptResponseProto *proto = (QuestAcceptResponseProto *)fe.event;
   int tag = fe.tag;
@@ -687,7 +622,6 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
   GameState *gs = [GameState sharedGameState];
   if (proto.status == QuestRedeemResponseProto_QuestRedeemStatusSuccess) {
     [[GameState sharedGameState] addToAvailableQuests:proto.newlyAvailableQuestsList];
-    [[OutgoingEventController sharedOutgoingEventController] retrieveAllStaticData];
     
     [gs removeNonFullUserUpdatesForTag:tag];
   } else {
@@ -767,7 +701,9 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
 - (void) handlePurgeClientStaticDataResponseProto:(FullEvent *)fe {
   LNLog(@"Purge static data response received.");
   
-  [[GameState sharedGameState] reretrieveStaticData];
+  PurgeClientStaticDataResponseProto *proto = (PurgeClientStaticDataResponseProto *)fe.event;
+  GameState *gs = [GameState sharedGameState];
+  [gs updateStaticData:proto.staticDataStuff];
 }
 
 - (void) handleSendGroupChatResponseProto:(FullEvent *)fe {
@@ -791,7 +727,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
   
   // Chats sent from this user will be faked.
   GameState *gs = [GameState sharedGameState];
-  if (proto.sender.userId != gs.userId) {
+  if (proto.sender.minUserProto.userId != gs.userId) {
     [gs addChatMessage:proto.sender message:proto.chatMessage scope:proto.scope isAdmin:proto.isAdmin];
   }
 }
@@ -845,6 +781,9 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
       if (proto.accept) {
         gs.clan = proto.minClan;
         [[SocketCommunication sharedSocketCommunication] rebuildSender];
+        
+        // Spur clan chat to reload
+        [[NSNotificationCenter defaultCenter] postNotificationName:CHAT_RECEIVED_NOTIFICATION object:nil];
       }
     }
     
@@ -867,6 +806,9 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
       [gs.requestedClans removeAllObjects];
       gs.clan = nil;
       [[SocketCommunication sharedSocketCommunication] rebuildSender];
+      
+      [gs.clanChatMessages removeAllObjects];
+      [[NSNotificationCenter defaultCenter] postNotificationName:CHAT_RECEIVED_NOTIFICATION object:nil];
     }
     
     [gs removeNonFullUserUpdatesForTag:tag];
@@ -894,6 +836,9 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
       [gs.requestedClans removeAllObjects];
       gs.clan = proto.minClan;
       [[SocketCommunication sharedSocketCommunication] rebuildSender];
+      
+      // Spur the clan chat to update
+      [[NSNotificationCenter defaultCenter] postNotificationName:CHAT_RECEIVED_NOTIFICATION object:nil];
     }
   } else {
     if (proto.status == RequestJoinClanResponseProto_RequestJoinClanStatusClanIsFull) {
@@ -995,6 +940,9 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
     if (proto.playerToBoot == gs.userId) {
       gs.clan = nil;
       [[SocketCommunication sharedSocketCommunication] rebuildSender];
+      
+      [gs.clanChatMessages removeAllObjects];
+      [[NSNotificationCenter defaultCenter] postNotificationName:CHAT_RECEIVED_NOTIFICATION object:nil];
     }
     
     [gs removeNonFullUserUpdatesForTag:tag];
@@ -1096,14 +1044,11 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
   
   GameState *gs = [GameState sharedGameState];
   if (proto.status == PurchaseBoosterPackResponseProto_PurchaseBoosterPackStatusSuccess) {
+    [gs addToMyMonsters:proto.updatedOrNewList];
     
     [gs removeNonFullUserUpdatesForTag:tag];
   } else {
-    if (proto.status == PurchaseBoosterPackResponseProto_PurchaseBoosterPackStatusClientTooApartFromServerTime) {
-      [self handleTimeOutOfSync];
-    } else {
       [Globals popupMessage:@"Server failed to purchase booster pack."];
-    }
     
     [gs removeAndUndoAllUpdatesForTag:tag];
   }
@@ -1118,6 +1063,11 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
 - (void) handlePrivateChatPostResponseProto:(FullEvent *)fe {
   PrivateChatPostResponseProto *proto = (PrivateChatPostResponseProto *)fe.event;
   LNLog(@"Private chat post response received with status %d.", proto.status);
+  
+  if (proto.status == PrivateChatPostResponseProto_PrivateChatPostStatusSuccess) {
+    GameState *gs = [GameState sharedGameState];
+    [gs addPrivateChat:proto.post];
+  }
 }
 
 - (void) handleRetrievePrivateChatPostsResponseProto:(FullEvent *)fe {
@@ -1144,6 +1094,10 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
   GameState *gs = [GameState sharedGameState];
   if (proto.status == EndDungeonResponseProto_EndDungeonStatusSuccess) {
     [gs addToMyMonsters:proto.updatedOrNewList];
+    
+    if (proto.userWon) {
+      [gs.completedTasks addObject:@(proto.taskId)];
+    }
     
     [gs removeNonFullUserUpdatesForTag:tag];
   } else {

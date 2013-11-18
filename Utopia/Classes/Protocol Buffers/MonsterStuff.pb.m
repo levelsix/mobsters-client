@@ -3079,3 +3079,237 @@ static MinimumUserMonsterSellProto* defaultMinimumUserMonsterSellProtoInstance =
 }
 @end
 
+@interface UserCurrentMonsterTeamProto ()
+@property int32_t userId;
+@property (retain) NSMutableArray* mutableCurrentTeamList;
+@end
+
+@implementation UserCurrentMonsterTeamProto
+
+- (BOOL) hasUserId {
+  return !!hasUserId_;
+}
+- (void) setHasUserId:(BOOL) value {
+  hasUserId_ = !!value;
+}
+@synthesize userId;
+@synthesize mutableCurrentTeamList;
+- (void) dealloc {
+  self.mutableCurrentTeamList = nil;
+  [super dealloc];
+}
+- (id) init {
+  if ((self = [super init])) {
+    self.userId = 0;
+  }
+  return self;
+}
+static UserCurrentMonsterTeamProto* defaultUserCurrentMonsterTeamProtoInstance = nil;
++ (void) initialize {
+  if (self == [UserCurrentMonsterTeamProto class]) {
+    defaultUserCurrentMonsterTeamProtoInstance = [[UserCurrentMonsterTeamProto alloc] init];
+  }
+}
++ (UserCurrentMonsterTeamProto*) defaultInstance {
+  return defaultUserCurrentMonsterTeamProtoInstance;
+}
+- (UserCurrentMonsterTeamProto*) defaultInstance {
+  return defaultUserCurrentMonsterTeamProtoInstance;
+}
+- (NSArray*) currentTeamList {
+  return mutableCurrentTeamList;
+}
+- (FullUserMonsterProto*) currentTeamAtIndex:(int32_t) index {
+  id value = [mutableCurrentTeamList objectAtIndex:index];
+  return value;
+}
+- (BOOL) isInitialized {
+  return YES;
+}
+- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output {
+  if (self.hasUserId) {
+    [output writeInt32:1 value:self.userId];
+  }
+  for (FullUserMonsterProto* element in self.currentTeamList) {
+    [output writeMessage:2 value:element];
+  }
+  [self.unknownFields writeToCodedOutputStream:output];
+}
+- (int32_t) serializedSize {
+  int32_t size = memoizedSerializedSize;
+  if (size != -1) {
+    return size;
+  }
+
+  size = 0;
+  if (self.hasUserId) {
+    size += computeInt32Size(1, self.userId);
+  }
+  for (FullUserMonsterProto* element in self.currentTeamList) {
+    size += computeMessageSize(2, element);
+  }
+  size += self.unknownFields.serializedSize;
+  memoizedSerializedSize = size;
+  return size;
+}
++ (UserCurrentMonsterTeamProto*) parseFromData:(NSData*) data {
+  return (UserCurrentMonsterTeamProto*)[[[UserCurrentMonsterTeamProto builder] mergeFromData:data] build];
+}
++ (UserCurrentMonsterTeamProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (UserCurrentMonsterTeamProto*)[[[UserCurrentMonsterTeamProto builder] mergeFromData:data extensionRegistry:extensionRegistry] build];
+}
++ (UserCurrentMonsterTeamProto*) parseFromInputStream:(NSInputStream*) input {
+  return (UserCurrentMonsterTeamProto*)[[[UserCurrentMonsterTeamProto builder] mergeFromInputStream:input] build];
+}
++ (UserCurrentMonsterTeamProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (UserCurrentMonsterTeamProto*)[[[UserCurrentMonsterTeamProto builder] mergeFromInputStream:input extensionRegistry:extensionRegistry] build];
+}
++ (UserCurrentMonsterTeamProto*) parseFromCodedInputStream:(PBCodedInputStream*) input {
+  return (UserCurrentMonsterTeamProto*)[[[UserCurrentMonsterTeamProto builder] mergeFromCodedInputStream:input] build];
+}
++ (UserCurrentMonsterTeamProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (UserCurrentMonsterTeamProto*)[[[UserCurrentMonsterTeamProto builder] mergeFromCodedInputStream:input extensionRegistry:extensionRegistry] build];
+}
++ (UserCurrentMonsterTeamProto_Builder*) builder {
+  return [[[UserCurrentMonsterTeamProto_Builder alloc] init] autorelease];
+}
++ (UserCurrentMonsterTeamProto_Builder*) builderWithPrototype:(UserCurrentMonsterTeamProto*) prototype {
+  return [[UserCurrentMonsterTeamProto builder] mergeFrom:prototype];
+}
+- (UserCurrentMonsterTeamProto_Builder*) builder {
+  return [UserCurrentMonsterTeamProto builder];
+}
+@end
+
+@interface UserCurrentMonsterTeamProto_Builder()
+@property (retain) UserCurrentMonsterTeamProto* result;
+@end
+
+@implementation UserCurrentMonsterTeamProto_Builder
+@synthesize result;
+- (void) dealloc {
+  self.result = nil;
+  [super dealloc];
+}
+- (id) init {
+  if ((self = [super init])) {
+    self.result = [[[UserCurrentMonsterTeamProto alloc] init] autorelease];
+  }
+  return self;
+}
+- (PBGeneratedMessage*) internalGetResult {
+  return result;
+}
+- (UserCurrentMonsterTeamProto_Builder*) clear {
+  self.result = [[[UserCurrentMonsterTeamProto alloc] init] autorelease];
+  return self;
+}
+- (UserCurrentMonsterTeamProto_Builder*) clone {
+  return [UserCurrentMonsterTeamProto builderWithPrototype:result];
+}
+- (UserCurrentMonsterTeamProto*) defaultInstance {
+  return [UserCurrentMonsterTeamProto defaultInstance];
+}
+- (UserCurrentMonsterTeamProto*) build {
+  [self checkInitialized];
+  return [self buildPartial];
+}
+- (UserCurrentMonsterTeamProto*) buildPartial {
+  UserCurrentMonsterTeamProto* returnMe = [[result retain] autorelease];
+  self.result = nil;
+  return returnMe;
+}
+- (UserCurrentMonsterTeamProto_Builder*) mergeFrom:(UserCurrentMonsterTeamProto*) other {
+  if (other == [UserCurrentMonsterTeamProto defaultInstance]) {
+    return self;
+  }
+  if (other.hasUserId) {
+    [self setUserId:other.userId];
+  }
+  if (other.mutableCurrentTeamList.count > 0) {
+    if (result.mutableCurrentTeamList == nil) {
+      result.mutableCurrentTeamList = [NSMutableArray array];
+    }
+    [result.mutableCurrentTeamList addObjectsFromArray:other.mutableCurrentTeamList];
+  }
+  [self mergeUnknownFields:other.unknownFields];
+  return self;
+}
+- (UserCurrentMonsterTeamProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input {
+  return [self mergeFromCodedInputStream:input extensionRegistry:[PBExtensionRegistry emptyRegistry]];
+}
+- (UserCurrentMonsterTeamProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  PBUnknownFieldSet_Builder* unknownFields = [PBUnknownFieldSet builderWithUnknownFields:self.unknownFields];
+  while (YES) {
+    int32_t tag = [input readTag];
+    switch (tag) {
+      case 0:
+        [self setUnknownFields:[unknownFields build]];
+        return self;
+      default: {
+        if (![self parseUnknownField:input unknownFields:unknownFields extensionRegistry:extensionRegistry tag:tag]) {
+          [self setUnknownFields:[unknownFields build]];
+          return self;
+        }
+        break;
+      }
+      case 8: {
+        [self setUserId:[input readInt32]];
+        break;
+      }
+      case 18: {
+        FullUserMonsterProto_Builder* subBuilder = [FullUserMonsterProto builder];
+        [input readMessage:subBuilder extensionRegistry:extensionRegistry];
+        [self addCurrentTeam:[subBuilder buildPartial]];
+        break;
+      }
+    }
+  }
+}
+- (BOOL) hasUserId {
+  return result.hasUserId;
+}
+- (int32_t) userId {
+  return result.userId;
+}
+- (UserCurrentMonsterTeamProto_Builder*) setUserId:(int32_t) value {
+  result.hasUserId = YES;
+  result.userId = value;
+  return self;
+}
+- (UserCurrentMonsterTeamProto_Builder*) clearUserId {
+  result.hasUserId = NO;
+  result.userId = 0;
+  return self;
+}
+- (NSArray*) currentTeamList {
+  if (result.mutableCurrentTeamList == nil) { return [NSArray array]; }
+  return result.mutableCurrentTeamList;
+}
+- (FullUserMonsterProto*) currentTeamAtIndex:(int32_t) index {
+  return [result currentTeamAtIndex:index];
+}
+- (UserCurrentMonsterTeamProto_Builder*) replaceCurrentTeamAtIndex:(int32_t) index with:(FullUserMonsterProto*) value {
+  [result.mutableCurrentTeamList replaceObjectAtIndex:index withObject:value];
+  return self;
+}
+- (UserCurrentMonsterTeamProto_Builder*) addAllCurrentTeam:(NSArray*) values {
+  if (result.mutableCurrentTeamList == nil) {
+    result.mutableCurrentTeamList = [NSMutableArray array];
+  }
+  [result.mutableCurrentTeamList addObjectsFromArray:values];
+  return self;
+}
+- (UserCurrentMonsterTeamProto_Builder*) clearCurrentTeamList {
+  result.mutableCurrentTeamList = nil;
+  return self;
+}
+- (UserCurrentMonsterTeamProto_Builder*) addCurrentTeam:(FullUserMonsterProto*) value {
+  if (result.mutableCurrentTeamList == nil) {
+    result.mutableCurrentTeamList = [NSMutableArray array];
+  }
+  [result.mutableCurrentTeamList addObject:value];
+  return self;
+}
+@end
+

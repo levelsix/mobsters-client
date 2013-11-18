@@ -11,26 +11,32 @@
 #import "EasyTableView.h"
 #import "MyCroniesMonsterViews.h"
 #import "BuySlotsViewController.h"
+#import "MonsterTeamSlotView.h"
 
-@interface MyCroniesViewController : GenViewController <EasyTableViewDelegate, MyCroniesCardDelegate, MyCroniesQueueDelegate, BuySlotsViewControllerDelegate> {
+@interface MyCroniesViewController : GenViewController <EasyTableViewDelegate, MyCroniesCardDelegate, MyCroniesQueueDelegate, BuySlotsViewControllerDelegate, MonsterTeamSlotDelegate> {
   float _baseMyReservesHeaderX;
 }
 
 @property (nonatomic, strong) IBOutlet UIView *tableContainerView;
-@property (nonatomic, strong) IBOutlet UIView *tableSeperatorView;
+@property (nonatomic, strong) IBOutlet UIImageView *leftHeaderUnderlay;
 
-@property (nonatomic, strong) UIView *headerContainerView;
-@property (nonatomic, strong) IBOutlet MyCroniesHeaderView *myTeamHeaderView;
-@property (nonatomic, strong) IBOutlet MyCroniesHeaderView *myReservesHeaderView;
+@property (nonatomic, strong) IBOutlet UIView *availMobstersHeaderView;
+@property (nonatomic, strong) IBOutlet UIView *unavailMobstersHeaderView;
+@property (nonatomic, strong) IBOutlet UIView *recentlyHealedHeaderView;
 
 @property (nonatomic, strong) IBOutlet MyCroniesQueueView *queueView;
+@property (nonatomic, strong) IBOutlet UIView *teamSlotsContainer;
 
 @property (nonatomic, strong) IBOutlet MyCroniesCardCell *monsterCardCell;
 
 @property (nonatomic, strong) EasyTableView *inventoryTable;
 
-@property (nonatomic, strong) NSArray *monstersNotOnTeam;
+@property (nonatomic, strong) NSArray *recentlyHealedMonsters;
+@property (nonatomic, strong) NSArray *availableMonsters;
+@property (nonatomic, strong) NSArray *unavailableMonsters;
 
 @property (nonatomic, strong) NSTimer *updateTimer;
+
+- (IBAction)headerClicked:(id)sender;
 
 @end

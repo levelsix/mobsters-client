@@ -359,7 +359,6 @@ static UserCityExpansionDataProto* defaultUserCityExpansionDataProtoInstance = n
 @property int32_t expansionNum;
 @property int32_t expansionCostCash;
 @property int32_t numMinutesToExpand;
-@property int32_t speedupExpansionGemCost;
 @end
 
 @implementation CityExpansionCostProto
@@ -385,13 +384,6 @@ static UserCityExpansionDataProto* defaultUserCityExpansionDataProtoInstance = n
   hasNumMinutesToExpand_ = !!value;
 }
 @synthesize numMinutesToExpand;
-- (BOOL) hasSpeedupExpansionGemCost {
-  return !!hasSpeedupExpansionGemCost_;
-}
-- (void) setHasSpeedupExpansionGemCost:(BOOL) value {
-  hasSpeedupExpansionGemCost_ = !!value;
-}
-@synthesize speedupExpansionGemCost;
 - (void) dealloc {
   [super dealloc];
 }
@@ -400,7 +392,6 @@ static UserCityExpansionDataProto* defaultUserCityExpansionDataProtoInstance = n
     self.expansionNum = 0;
     self.expansionCostCash = 0;
     self.numMinutesToExpand = 0;
-    self.speedupExpansionGemCost = 0;
   }
   return self;
 }
@@ -429,9 +420,6 @@ static CityExpansionCostProto* defaultCityExpansionCostProtoInstance = nil;
   if (self.hasNumMinutesToExpand) {
     [output writeInt32:3 value:self.numMinutesToExpand];
   }
-  if (self.hasSpeedupExpansionGemCost) {
-    [output writeInt32:4 value:self.speedupExpansionGemCost];
-  }
   [self.unknownFields writeToCodedOutputStream:output];
 }
 - (int32_t) serializedSize {
@@ -449,9 +437,6 @@ static CityExpansionCostProto* defaultCityExpansionCostProtoInstance = nil;
   }
   if (self.hasNumMinutesToExpand) {
     size += computeInt32Size(3, self.numMinutesToExpand);
-  }
-  if (self.hasSpeedupExpansionGemCost) {
-    size += computeInt32Size(4, self.speedupExpansionGemCost);
   }
   size += self.unknownFields.serializedSize;
   memoizedSerializedSize = size;
@@ -537,9 +522,6 @@ static CityExpansionCostProto* defaultCityExpansionCostProtoInstance = nil;
   if (other.hasNumMinutesToExpand) {
     [self setNumMinutesToExpand:other.numMinutesToExpand];
   }
-  if (other.hasSpeedupExpansionGemCost) {
-    [self setSpeedupExpansionGemCost:other.speedupExpansionGemCost];
-  }
   [self mergeUnknownFields:other.unknownFields];
   return self;
 }
@@ -571,10 +553,6 @@ static CityExpansionCostProto* defaultCityExpansionCostProtoInstance = nil;
       }
       case 24: {
         [self setNumMinutesToExpand:[input readInt32]];
-        break;
-      }
-      case 32: {
-        [self setSpeedupExpansionGemCost:[input readInt32]];
         break;
       }
     }
@@ -628,22 +606,6 @@ static CityExpansionCostProto* defaultCityExpansionCostProtoInstance = nil;
   result.numMinutesToExpand = 0;
   return self;
 }
-- (BOOL) hasSpeedupExpansionGemCost {
-  return result.hasSpeedupExpansionGemCost;
-}
-- (int32_t) speedupExpansionGemCost {
-  return result.speedupExpansionGemCost;
-}
-- (CityExpansionCostProto_Builder*) setSpeedupExpansionGemCost:(int32_t) value {
-  result.hasSpeedupExpansionGemCost = YES;
-  result.speedupExpansionGemCost = value;
-  return self;
-}
-- (CityExpansionCostProto_Builder*) clearSpeedupExpansionGemCost {
-  result.hasSpeedupExpansionGemCost = NO;
-  result.speedupExpansionGemCost = 0;
-  return self;
-}
 @end
 
 @interface CityElementProto ()
@@ -651,8 +613,8 @@ static CityExpansionCostProto* defaultCityExpansionCostProtoInstance = nil;
 @property int32_t assetId;
 @property CityElementProto_CityElemType type;
 @property (retain) CoordinateProto* coords;
-@property int32_t xLength;
-@property int32_t yLength;
+@property Float32 xLength;
+@property Float32 yLength;
 @property (retain) NSString* imgId;
 @property StructOrientation orientation;
 @property (retain) CoordinateProto* spriteCoords;
@@ -772,10 +734,10 @@ static CityElementProto* defaultCityElementProtoInstance = nil;
     [output writeMessage:5 value:self.coords];
   }
   if (self.hasXLength) {
-    [output writeInt32:6 value:self.xLength];
+    [output writeFloat:6 value:self.xLength];
   }
   if (self.hasYLength) {
-    [output writeInt32:7 value:self.yLength];
+    [output writeFloat:7 value:self.yLength];
   }
   if (self.hasImgId) {
     [output writeString:8 value:self.imgId];
@@ -808,10 +770,10 @@ static CityElementProto* defaultCityElementProtoInstance = nil;
     size += computeMessageSize(5, self.coords);
   }
   if (self.hasXLength) {
-    size += computeInt32Size(6, self.xLength);
+    size += computeFloatSize(6, self.xLength);
   }
   if (self.hasYLength) {
-    size += computeInt32Size(7, self.yLength);
+    size += computeFloatSize(7, self.yLength);
   }
   if (self.hasImgId) {
     size += computeStringSize(8, self.imgId);
@@ -982,12 +944,12 @@ BOOL CityElementProto_CityElemTypeIsValidValue(CityElementProto_CityElemType val
         [self setCoords:[subBuilder buildPartial]];
         break;
       }
-      case 48: {
-        [self setXLength:[input readInt32]];
+      case 53: {
+        [self setXLength:[input readFloat]];
         break;
       }
-      case 56: {
-        [self setYLength:[input readInt32]];
+      case 61: {
+        [self setYLength:[input readFloat]];
         break;
       }
       case 66: {
@@ -1096,10 +1058,10 @@ BOOL CityElementProto_CityElemTypeIsValidValue(CityElementProto_CityElemType val
 - (BOOL) hasXLength {
   return result.hasXLength;
 }
-- (int32_t) xLength {
+- (Float32) xLength {
   return result.xLength;
 }
-- (CityElementProto_Builder*) setXLength:(int32_t) value {
+- (CityElementProto_Builder*) setXLength:(Float32) value {
   result.hasXLength = YES;
   result.xLength = value;
   return self;
@@ -1112,10 +1074,10 @@ BOOL CityElementProto_CityElemTypeIsValidValue(CityElementProto_CityElemType val
 - (BOOL) hasYLength {
   return result.hasYLength;
 }
-- (int32_t) yLength {
+- (Float32) yLength {
   return result.yLength;
 }
-- (CityElementProto_Builder*) setYLength:(int32_t) value {
+- (CityElementProto_Builder*) setYLength:(Float32) value {
   result.hasYLength = YES;
   result.yLength = value;
   return self;
@@ -1198,6 +1160,7 @@ BOOL CityElementProto_CityElemTypeIsValidValue(CityElementProto_CityElemType val
 @property (retain) NSString* mapTmxName;
 @property (retain) CoordinateProto* roadImgCoords;
 @property (retain) NSMutableArray* mutableTaskIdsList;
+@property (retain) NSString* attackMapLabelImgName;
 @end
 
 @implementation FullCityProto
@@ -1252,6 +1215,13 @@ BOOL CityElementProto_CityElemTypeIsValidValue(CityElementProto_CityElemType val
 }
 @synthesize roadImgCoords;
 @synthesize mutableTaskIdsList;
+- (BOOL) hasAttackMapLabelImgName {
+  return !!hasAttackMapLabelImgName_;
+}
+- (void) setHasAttackMapLabelImgName:(BOOL) value {
+  hasAttackMapLabelImgName_ = !!value;
+}
+@synthesize attackMapLabelImgName;
 - (void) dealloc {
   self.name = nil;
   self.mapImgName = nil;
@@ -1260,6 +1230,7 @@ BOOL CityElementProto_CityElemTypeIsValidValue(CityElementProto_CityElemType val
   self.mapTmxName = nil;
   self.roadImgCoords = nil;
   self.mutableTaskIdsList = nil;
+  self.attackMapLabelImgName = nil;
   [super dealloc];
 }
 - (id) init {
@@ -1271,6 +1242,7 @@ BOOL CityElementProto_CityElemTypeIsValidValue(CityElementProto_CityElemType val
     self.roadImgName = @"";
     self.mapTmxName = @"";
     self.roadImgCoords = [CoordinateProto defaultInstance];
+    self.attackMapLabelImgName = @"";
   }
   return self;
 }
@@ -1321,6 +1293,9 @@ static FullCityProto* defaultFullCityProtoInstance = nil;
   for (NSNumber* value in self.mutableTaskIdsList) {
     [output writeInt32:8 value:[value intValue]];
   }
+  if (self.hasAttackMapLabelImgName) {
+    [output writeString:9 value:self.attackMapLabelImgName];
+  }
   [self.unknownFields writeToCodedOutputStream:output];
 }
 - (int32_t) serializedSize {
@@ -1358,6 +1333,9 @@ static FullCityProto* defaultFullCityProtoInstance = nil;
     }
     size += dataSize;
     size += 1 * self.mutableTaskIdsList.count;
+  }
+  if (self.hasAttackMapLabelImgName) {
+    size += computeStringSize(9, self.attackMapLabelImgName);
   }
   size += self.unknownFields.serializedSize;
   memoizedSerializedSize = size;
@@ -1461,6 +1439,9 @@ static FullCityProto* defaultFullCityProtoInstance = nil;
     }
     [result.mutableTaskIdsList addObjectsFromArray:other.mutableTaskIdsList];
   }
+  if (other.hasAttackMapLabelImgName) {
+    [self setAttackMapLabelImgName:other.attackMapLabelImgName];
+  }
   [self mergeUnknownFields:other.unknownFields];
   return self;
 }
@@ -1522,6 +1503,10 @@ static FullCityProto* defaultFullCityProtoInstance = nil;
       }
       case 64: {
         [self addTaskIds:[input readInt32]];
+        break;
+      }
+      case 74: {
+        [self setAttackMapLabelImgName:[input readString]];
         break;
       }
     }
@@ -1696,6 +1681,22 @@ static FullCityProto* defaultFullCityProtoInstance = nil;
 }
 - (FullCityProto_Builder*) clearTaskIdsList {
   result.mutableTaskIdsList = nil;
+  return self;
+}
+- (BOOL) hasAttackMapLabelImgName {
+  return result.hasAttackMapLabelImgName;
+}
+- (NSString*) attackMapLabelImgName {
+  return result.attackMapLabelImgName;
+}
+- (FullCityProto_Builder*) setAttackMapLabelImgName:(NSString*) value {
+  result.hasAttackMapLabelImgName = YES;
+  result.attackMapLabelImgName = value;
+  return self;
+}
+- (FullCityProto_Builder*) clearAttackMapLabelImgName {
+  result.hasAttackMapLabelImgName = NO;
+  result.attackMapLabelImgName = @"";
   return self;
 }
 @end

@@ -143,7 +143,7 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ActivityFeedController);
   [self.users removeAllObjects];
   
   [Globals bounceView:self.mainView fadeInBgdView:self.bgdView];
-  [[OutgoingEventController sharedOutgoingEventController] retrieveUsersForUserIds:userIds];
+  [[OutgoingEventController sharedOutgoingEventController] retrieveUsersForUserIds:userIds includeCurMonsterTeam:NO delegate:self];
   
   [self.activityTableView reloadData];
 }

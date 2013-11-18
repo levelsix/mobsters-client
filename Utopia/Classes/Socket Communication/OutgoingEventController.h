@@ -32,9 +32,6 @@
 - (void) normStructWaitComplete:(UserStruct *)userStruct;
 - (void) upgradeNormStruct:(UserStruct *)userStruct;
 
-- (void) retrieveAllStaticData;
-- (void) retrieveBoosterPacks;
-
 - (void) loadPlayerCity:(int)userId withDelegate:(id)delegate;
 - (void) loadNeutralCity:(int)cityId withDelegate:(id)delegate;
 
@@ -45,7 +42,7 @@
 - (void) questProgress:(int)questId;
 - (UserQuest *) donateForQuest:(int)questId monsterIds:(NSArray *)monsterIds;
 
-- (void) retrieveUsersForUserIds:(NSArray *)userIds;
+- (void) retrieveUsersForUserIds:(NSArray *)userIds includeCurMonsterTeam:(BOOL)includeCurMonsterTeam delegate:(id)delegate;
 
 - (void) enableApns:(NSData *)deviceToken;
 
@@ -67,29 +64,30 @@
 - (void) purchaseCityExpansionAtX:(int)x atY:(int)y;
 - (void) expansionWaitComplete:(BOOL)speedUp atX:(int)x atY:(int)y;
 
-- (void) purchaseBoosterPack:(int)boosterPackId;
+- (void) purchaseBoosterPack:(int)boosterPackId delegate:(id)delegate;
 
 - (void) privateChatPost:(int)recipientId content:(NSString *)content;
-- (void) retrievePrivateChatPosts:(int)otherUserId;
+- (void) retrievePrivateChatPosts:(int)otherUserId delegate:(id)delegate;
 
 - (void) beginDungeon:(int)taskId withDelegate:(id)delegate;
 - (void) updateMonsterHealth:(int)userMonsterId curHealth:(int)curHealth;
 - (void) endDungeon:(BeginDungeonResponseProto *)dungeonInfo userWon:(BOOL)userWon delegate:(id)delegate;
 
-- (void) removeMonsterFromTeam:(int)userMonsterId;
-- (void) addMonsterToTeam:(int)userMonsterId;
-- (void) buyInventorySlots;- (void) combineMonsters:(NSArray *)userMonsterIds;
-- (void) combineMonsterWithSpeedup:(int)userMonsterId;
-- (void) addMonsterToHealingQueue:(int)userMonsterId;
-- (void) removeMonsterFromHealingQueue:(UserMonsterHealingItem *)item;
-- (void) speedupHealingQueue;
+- (BOOL) removeMonsterFromTeam:(int)userMonsterId;
+- (BOOL) addMonsterToTeam:(int)userMonsterId;
+- (void) buyInventorySlots;
+- (void) combineMonsters:(NSArray *)userMonsterIds;
+- (BOOL) combineMonsterWithSpeedup:(int)userMonsterId;
+- (BOOL) addMonsterToHealingQueue:(int)userMonsterId;
+- (BOOL) removeMonsterFromHealingQueue:(UserMonsterHealingItem *)item;
+- (BOOL) speedupHealingQueue;
 - (void) healQueueWaitTimeComplete:(NSArray *)healingItems;
 
-- (void) setBaseEnhanceMonster:(int)userMonsterId;
-- (void) removeBaseEnhanceMonster;
-- (void) addMonsterToEnhancingQueue:(int)userMonsterId;
-- (void) removeMonsterFromEnhancingQueue:(EnhancementItem *)item;
-- (void) speedupEnhancingQueue;
+- (BOOL) setBaseEnhanceMonster:(int)userMonsterId;
+- (BOOL) removeBaseEnhanceMonster;
+- (BOOL) addMonsterToEnhancingQueue:(int)userMonsterId;
+- (BOOL) removeMonsterFromEnhancingQueue:(EnhancementItem *)item;
+- (BOOL) speedupEnhancingQueue;
 - (void) enhanceQueueWaitTimeComplete:(NSArray *)enhancingItems;
 
 - (void) inviteAllFacebookFriends:(NSArray *)fbFriends;

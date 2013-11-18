@@ -80,11 +80,75 @@
   self.level = MAX(self.level, newLevel);
 }
 
+- (MonsterProto *) staticMonster {
+  GameState *gs = [GameState sharedGameState];
+  return [gs monsterWithId:self.monsterId];
+}
+
+- (BOOL) isCombining {
+  return !self.isComplete && self.numPieces == self.staticMonster.numPuzzlePieces;
+}
+
+- (int) timeLeftForCombining {
+  return self.combineStartTime.timeIntervalSinceNow + self.staticMonster.minutesToCombinePieces*60;
+}
+
 - (BOOL) isEqual:(UserMonster *)object {
   if (![object respondsToSelector:@selector(userMonsterId)]) {
     return NO;
   }
   return object.userMonsterId == self.userMonsterId;
+}
+
+- (NSUInteger) hash {
+  return self.userMonsterId;
+}
+
+- (NSComparisonResult) compare:(UserMonster *)um {
+  if (self.isComplete != um.isComplete) {
+    return [@(!self.isComplete) compare:@(!um.isComplete)];
+  }
+  if (!self.isComplete) {
+    // Both are incomplete
+    if (self.isCombining != um.isCombining) {
+      // One is combining, other isn't
+      return [@(!self.isCombining) compare:@(!um.isCombining)];
+    } else if (self.isCombining) {
+      // Both are combining
+      return [@([self timeLeftForCombining]) compare:@([um timeLeftForCombining])];
+    } else {
+      // Both are not combining
+      return [@(self.staticMonster.numPuzzlePieces-self.numPieces) compare:@(um.staticMonster.numPuzzlePieces-um.numPieces)];
+    }
+  }
+  
+  // Both are complete; check if healing or enhancing, then compare stats
+  int selfScore = [self isHealing] ? 3 : [self isEnhancing] ? 2 : [self isSacrificing] ? 1 : 0;
+  int umScore = [um isHealing] ? 3 : [um isEnhancing] ? 2 : [um isSacrificing] ? 1 : 0;
+  
+  if (selfScore != umScore) {
+    return [@(umScore) compare:@(selfScore)];
+  } else {
+    // Compare hp
+    Globals *gl = [Globals sharedGlobals];
+    int selfHp = [gl calculateMaxHealthForMonster:self];
+    int umHp = [gl calculateMaxHealthForMonster:um];
+    
+    // Ordering now becomes maxHp, curHp, rarity
+    if (selfHp != umHp) {
+      return [@(umHp) compare:@(selfHp)];
+    } else {
+      if (self.curHealth != um.curHealth) {
+        return [@(um.curHealth) compare:@(self.curHealth)];
+      } else {
+        if (self.staticMonster.quality != um.staticMonster.quality) {
+          return [@(um.staticMonster.quality) compare:@(self.staticMonster.quality)];
+        } else {
+          return [@(self.userMonsterId) compare:@(um.userMonsterId)];
+        }
+      }
+    }
+  }
 }
 
 @end
@@ -209,6 +273,13 @@
 }
 
 - (id) copy {
+  UserEnhancement *ue = [[UserEnhancement alloc] init];
+  ue.baseMonster = self.baseMonster;
+  ue.feeders = [self.feeders copy];
+  return ue;
+}
+
+- (id) clone {
   UserEnhancement *ue = [[UserEnhancement alloc] init];
   ue.baseMonster = [self.baseMonster copy];
   ue.feeders = [self.feeders clone];
@@ -379,7 +450,7 @@
 
 - (id) initWithPrivateChatPost:(PrivateChatPostProto *)proto {
   if ((self = [super init])) {
-    self.otherPlayer = proto.poster;
+    self.otherPlayer = proto.poster.minUserProto;
     self.time = [NSDate dateWithTimeIntervalSince1970:proto.timeOfPost/1000.];
     self.type = kNotificationPrivateChat;
     self.wallPost = proto.content;

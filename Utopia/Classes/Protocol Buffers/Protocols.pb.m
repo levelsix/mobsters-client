@@ -34,9 +34,9 @@ static PBExtensionRegistry* extensionRegistry = nil;
     [EventTournamentRoot registerAllExtensions:registry];
     [EventUserRoot registerAllExtensions:registry];
     [InAppPurchaseRoot registerAllExtensions:registry];
-    [JobRoot registerAllExtensions:registry];
     [MonsterStuffRoot registerAllExtensions:registry];
     [QuestRoot registerAllExtensions:registry];
+    [StaticDataRoot registerAllExtensions:registry];
     [StructureRoot registerAllExtensions:registry];
     [TaskRoot registerAllExtensions:registry];
     [TournamentStuffRoot registerAllExtensions:registry];
@@ -60,7 +60,6 @@ BOOL EventProtocolRequestIsValidValue(EventProtocolRequest value) {
     case EventProtocolRequestCFinishNormStructWaittimeWithDiamondsEvent:
     case EventProtocolRequestCNormStructWaitCompleteEvent:
     case EventProtocolRequestCLoadPlayerCityEvent:
-    case EventProtocolRequestCRetrieveStaticDataEvent:
     case EventProtocolRequestCQuestAcceptEvent:
     case EventProtocolRequestCQuestProgressEvent:
     case EventProtocolRequestCQuestRedeemEvent:
@@ -85,9 +84,7 @@ BOOL EventProtocolRequestIsValidValue(EventProtocolRequest value) {
     case EventProtocolRequestCPickLockBoxEvent:
     case EventProtocolRequestCRetrieveTournamentRankingsEvent:
     case EventProtocolRequestCSubmitMonsterEnhancementEvent:
-    case EventProtocolRequestCRetrieveBoosterPackEvent:
     case EventProtocolRequestCPurchaseBoosterPackEvent:
-    case EventProtocolRequestCResetBoosterPackEvent:
     case EventProtocolRequestCChangeClanJoinTypeEvent:
     case EventProtocolRequestCPrivateChatPostEvent:
     case EventProtocolRequestCRetrievePrivateChatPostEvent:
@@ -125,7 +122,6 @@ BOOL EventProtocolResponseIsValidValue(EventProtocolResponse value) {
     case EventProtocolResponseSFinishNormStructWaittimeWithDiamondsEvent:
     case EventProtocolResponseSNormStructWaitCompleteEvent:
     case EventProtocolResponseSLoadPlayerCityEvent:
-    case EventProtocolResponseSRetrieveStaticDataEvent:
     case EventProtocolResponseSQuestAcceptEvent:
     case EventProtocolResponseSQuestProgressEvent:
     case EventProtocolResponseSQuestRedeemEvent:
@@ -150,9 +146,7 @@ BOOL EventProtocolResponseIsValidValue(EventProtocolResponse value) {
     case EventProtocolResponseSPickLockBoxEvent:
     case EventProtocolResponseSRetrieveTournamentRankingsEvent:
     case EventProtocolResponseSSubmitMonsterEnhancementEvent:
-    case EventProtocolResponseSRetrieveBoosterPackEvent:
     case EventProtocolResponseSPurchaseBoosterPackEvent:
-    case EventProtocolResponseSResetBoosterPackEvent:
     case EventProtocolResponseSChangeClanJoinTypeEvent:
     case EventProtocolResponseSPrivateChatPostEvent:
     case EventProtocolResponseSRetrievePrivateChatPostEvent:

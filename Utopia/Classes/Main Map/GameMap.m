@@ -117,9 +117,13 @@
 
 - (void) setSelected:(SelectableSprite *)selected {
   if (_selected != selected) {
-    _selected.isSelected = NO;
-    _selected = selected;
-    _selected.isSelected = YES;
+    [_selected unselect];
+    
+    if ([selected select]) {
+      _selected = selected;
+    } else {
+      _selected = nil;
+    }
   }
 }
 

@@ -2,28 +2,49 @@
 
 #import "ProtocolBuffers.h"
 
+#import "MonsterStuff.pb.h"
 #import "User.pb.h"
 
+@class BoosterDisplayItemProto;
+@class BoosterDisplayItemProto_Builder;
 @class BoosterItemProto;
 @class BoosterItemProto_Builder;
 @class BoosterPackProto;
 @class BoosterPackProto_Builder;
+@class FullUserMonsterProto;
+@class FullUserMonsterProto_Builder;
 @class FullUserProto;
 @class FullUserProto_Builder;
 @class MinimumClanProto;
 @class MinimumClanProto_Builder;
+@class MinimumUserMonsterSellProto;
+@class MinimumUserMonsterSellProto_Builder;
 @class MinimumUserProto;
 @class MinimumUserProtoWithFacebookId;
 @class MinimumUserProtoWithFacebookId_Builder;
 @class MinimumUserProtoWithLevel;
 @class MinimumUserProtoWithLevel_Builder;
 @class MinimumUserProto_Builder;
+@class MonsterProto;
+@class MonsterProto_Builder;
 @class RareBoosterPurchaseProto;
 @class RareBoosterPurchaseProto_Builder;
-@class StaticLevelInfoProto;
-@class StaticLevelInfoProto_Builder;
+@class StaticUserLevelInfoProto;
+@class StaticUserLevelInfoProto_Builder;
+@class UserCurrentMonsterTeamProto;
+@class UserCurrentMonsterTeamProto_Builder;
+@class UserEnhancementItemProto;
+@class UserEnhancementItemProto_Builder;
+@class UserEnhancementProto;
+@class UserEnhancementProto_Builder;
 @class UserFacebookInviteForSlotProto;
 @class UserFacebookInviteForSlotProto_Builder;
+@class UserMonsterCurrentExpProto;
+@class UserMonsterCurrentExpProto_Builder;
+@class UserMonsterCurrentHealthProto;
+@class UserMonsterCurrentHealthProto_Builder;
+@class UserMonsterHealingProto;
+@class UserMonsterHealingProto_Builder;
 
 @interface BoosterPackStuffRoot : NSObject {
 }
@@ -112,26 +133,45 @@
 
 @interface BoosterPackProto : PBGeneratedMessage {
 @private
-  BOOL hasCostsCoins_:1;
   BOOL hasBoosterPackId_:1;
-  BOOL hasPrice_:1;
-  BOOL hasName_:1;
-  BOOL costsCoins_:1;
+  BOOL hasGemPrice_:1;
+  BOOL hasBoosterPackName_:1;
+  BOOL hasListBackgroundImgName_:1;
+  BOOL hasListDescription_:1;
+  BOOL hasNavBarImgName_:1;
+  BOOL hasNavTitleImgName_:1;
+  BOOL hasMachineImgName_:1;
   int32_t boosterPackId;
-  int32_t price;
-  NSString* name;
-  NSMutableArray* mutableBoosterItemsList;
+  int32_t gemPrice;
+  NSString* boosterPackName;
+  NSString* listBackgroundImgName;
+  NSString* listDescription;
+  NSString* navBarImgName;
+  NSString* navTitleImgName;
+  NSString* machineImgName;
+  NSMutableArray* mutableSpecialItemsList;
+  NSMutableArray* mutableDisplayItemsList;
 }
 - (BOOL) hasBoosterPackId;
-- (BOOL) hasCostsCoins;
-- (BOOL) hasName;
-- (BOOL) hasPrice;
+- (BOOL) hasBoosterPackName;
+- (BOOL) hasGemPrice;
+- (BOOL) hasListBackgroundImgName;
+- (BOOL) hasListDescription;
+- (BOOL) hasNavBarImgName;
+- (BOOL) hasNavTitleImgName;
+- (BOOL) hasMachineImgName;
 @property (readonly) int32_t boosterPackId;
-- (BOOL) costsCoins;
-@property (readonly, retain) NSString* name;
-@property (readonly) int32_t price;
-- (NSArray*) boosterItemsList;
-- (BoosterItemProto*) boosterItemsAtIndex:(int32_t) index;
+@property (readonly, retain) NSString* boosterPackName;
+@property (readonly) int32_t gemPrice;
+@property (readonly, retain) NSString* listBackgroundImgName;
+@property (readonly, retain) NSString* listDescription;
+@property (readonly, retain) NSString* navBarImgName;
+@property (readonly, retain) NSString* navTitleImgName;
+@property (readonly, retain) NSString* machineImgName;
+- (NSArray*) specialItemsList;
+- (BoosterItemProto*) specialItemsAtIndex:(int32_t) index;
+- (NSArray*) displayItemsList;
+- (BoosterDisplayItemProto*) displayItemsAtIndex:(int32_t) index;
 
 + (BoosterPackProto*) defaultInstance;
 - (BoosterPackProto*) defaultInstance;
@@ -172,48 +212,95 @@
 - (BoosterPackProto_Builder*) setBoosterPackId:(int32_t) value;
 - (BoosterPackProto_Builder*) clearBoosterPackId;
 
-- (BOOL) hasCostsCoins;
-- (BOOL) costsCoins;
-- (BoosterPackProto_Builder*) setCostsCoins:(BOOL) value;
-- (BoosterPackProto_Builder*) clearCostsCoins;
+- (BOOL) hasBoosterPackName;
+- (NSString*) boosterPackName;
+- (BoosterPackProto_Builder*) setBoosterPackName:(NSString*) value;
+- (BoosterPackProto_Builder*) clearBoosterPackName;
 
-- (BOOL) hasName;
-- (NSString*) name;
-- (BoosterPackProto_Builder*) setName:(NSString*) value;
-- (BoosterPackProto_Builder*) clearName;
+- (BOOL) hasGemPrice;
+- (int32_t) gemPrice;
+- (BoosterPackProto_Builder*) setGemPrice:(int32_t) value;
+- (BoosterPackProto_Builder*) clearGemPrice;
 
-- (NSArray*) boosterItemsList;
-- (BoosterItemProto*) boosterItemsAtIndex:(int32_t) index;
-- (BoosterPackProto_Builder*) replaceBoosterItemsAtIndex:(int32_t) index with:(BoosterItemProto*) value;
-- (BoosterPackProto_Builder*) addBoosterItems:(BoosterItemProto*) value;
-- (BoosterPackProto_Builder*) addAllBoosterItems:(NSArray*) values;
-- (BoosterPackProto_Builder*) clearBoosterItemsList;
+- (NSArray*) specialItemsList;
+- (BoosterItemProto*) specialItemsAtIndex:(int32_t) index;
+- (BoosterPackProto_Builder*) replaceSpecialItemsAtIndex:(int32_t) index with:(BoosterItemProto*) value;
+- (BoosterPackProto_Builder*) addSpecialItems:(BoosterItemProto*) value;
+- (BoosterPackProto_Builder*) addAllSpecialItems:(NSArray*) values;
+- (BoosterPackProto_Builder*) clearSpecialItemsList;
 
-- (BOOL) hasPrice;
-- (int32_t) price;
-- (BoosterPackProto_Builder*) setPrice:(int32_t) value;
-- (BoosterPackProto_Builder*) clearPrice;
+- (BOOL) hasListBackgroundImgName;
+- (NSString*) listBackgroundImgName;
+- (BoosterPackProto_Builder*) setListBackgroundImgName:(NSString*) value;
+- (BoosterPackProto_Builder*) clearListBackgroundImgName;
+
+- (BOOL) hasListDescription;
+- (NSString*) listDescription;
+- (BoosterPackProto_Builder*) setListDescription:(NSString*) value;
+- (BoosterPackProto_Builder*) clearListDescription;
+
+- (BOOL) hasNavBarImgName;
+- (NSString*) navBarImgName;
+- (BoosterPackProto_Builder*) setNavBarImgName:(NSString*) value;
+- (BoosterPackProto_Builder*) clearNavBarImgName;
+
+- (BOOL) hasNavTitleImgName;
+- (NSString*) navTitleImgName;
+- (BoosterPackProto_Builder*) setNavTitleImgName:(NSString*) value;
+- (BoosterPackProto_Builder*) clearNavTitleImgName;
+
+- (BOOL) hasMachineImgName;
+- (NSString*) machineImgName;
+- (BoosterPackProto_Builder*) setMachineImgName:(NSString*) value;
+- (BoosterPackProto_Builder*) clearMachineImgName;
+
+- (NSArray*) displayItemsList;
+- (BoosterDisplayItemProto*) displayItemsAtIndex:(int32_t) index;
+- (BoosterPackProto_Builder*) replaceDisplayItemsAtIndex:(int32_t) index with:(BoosterDisplayItemProto*) value;
+- (BoosterPackProto_Builder*) addDisplayItems:(BoosterDisplayItemProto*) value;
+- (BoosterPackProto_Builder*) addAllDisplayItems:(NSArray*) values;
+- (BoosterPackProto_Builder*) clearDisplayItemsList;
 @end
 
 @interface BoosterItemProto : PBGeneratedMessage {
 @private
+  BOOL hasIsComplete_:1;
   BOOL hasIsSpecial_:1;
+  BOOL hasChanceToAppear_:1;
   BOOL hasBoosterItemId_:1;
-  BOOL hasEquipId_:1;
-  BOOL hasQuantity_:1;
+  BOOL hasBoosterPackId_:1;
+  BOOL hasMonsterId_:1;
+  BOOL hasNumPieces_:1;
+  BOOL hasGemReward_:1;
+  BOOL hasCashReward_:1;
+  BOOL isComplete_:1;
   BOOL isSpecial_:1;
+  Float32 chanceToAppear;
   int32_t boosterItemId;
-  int32_t equipId;
-  int32_t quantity;
+  int32_t boosterPackId;
+  int32_t monsterId;
+  int32_t numPieces;
+  int32_t gemReward;
+  int32_t cashReward;
 }
 - (BOOL) hasBoosterItemId;
-- (BOOL) hasEquipId;
-- (BOOL) hasQuantity;
+- (BOOL) hasBoosterPackId;
+- (BOOL) hasMonsterId;
+- (BOOL) hasNumPieces;
+- (BOOL) hasIsComplete;
 - (BOOL) hasIsSpecial;
+- (BOOL) hasGemReward;
+- (BOOL) hasCashReward;
+- (BOOL) hasChanceToAppear;
 @property (readonly) int32_t boosterItemId;
-@property (readonly) int32_t equipId;
-@property (readonly) int32_t quantity;
+@property (readonly) int32_t boosterPackId;
+@property (readonly) int32_t monsterId;
+@property (readonly) int32_t numPieces;
+- (BOOL) isComplete;
 - (BOOL) isSpecial;
+@property (readonly) int32_t gemReward;
+@property (readonly) int32_t cashReward;
+@property (readonly) Float32 chanceToAppear;
 
 + (BoosterItemProto*) defaultInstance;
 - (BoosterItemProto*) defaultInstance;
@@ -254,19 +341,137 @@
 - (BoosterItemProto_Builder*) setBoosterItemId:(int32_t) value;
 - (BoosterItemProto_Builder*) clearBoosterItemId;
 
-- (BOOL) hasEquipId;
-- (int32_t) equipId;
-- (BoosterItemProto_Builder*) setEquipId:(int32_t) value;
-- (BoosterItemProto_Builder*) clearEquipId;
+- (BOOL) hasBoosterPackId;
+- (int32_t) boosterPackId;
+- (BoosterItemProto_Builder*) setBoosterPackId:(int32_t) value;
+- (BoosterItemProto_Builder*) clearBoosterPackId;
 
-- (BOOL) hasQuantity;
-- (int32_t) quantity;
-- (BoosterItemProto_Builder*) setQuantity:(int32_t) value;
-- (BoosterItemProto_Builder*) clearQuantity;
+- (BOOL) hasMonsterId;
+- (int32_t) monsterId;
+- (BoosterItemProto_Builder*) setMonsterId:(int32_t) value;
+- (BoosterItemProto_Builder*) clearMonsterId;
+
+- (BOOL) hasNumPieces;
+- (int32_t) numPieces;
+- (BoosterItemProto_Builder*) setNumPieces:(int32_t) value;
+- (BoosterItemProto_Builder*) clearNumPieces;
+
+- (BOOL) hasIsComplete;
+- (BOOL) isComplete;
+- (BoosterItemProto_Builder*) setIsComplete:(BOOL) value;
+- (BoosterItemProto_Builder*) clearIsComplete;
 
 - (BOOL) hasIsSpecial;
 - (BOOL) isSpecial;
 - (BoosterItemProto_Builder*) setIsSpecial:(BOOL) value;
 - (BoosterItemProto_Builder*) clearIsSpecial;
+
+- (BOOL) hasGemReward;
+- (int32_t) gemReward;
+- (BoosterItemProto_Builder*) setGemReward:(int32_t) value;
+- (BoosterItemProto_Builder*) clearGemReward;
+
+- (BOOL) hasCashReward;
+- (int32_t) cashReward;
+- (BoosterItemProto_Builder*) setCashReward:(int32_t) value;
+- (BoosterItemProto_Builder*) clearCashReward;
+
+- (BOOL) hasChanceToAppear;
+- (Float32) chanceToAppear;
+- (BoosterItemProto_Builder*) setChanceToAppear:(Float32) value;
+- (BoosterItemProto_Builder*) clearChanceToAppear;
+@end
+
+@interface BoosterDisplayItemProto : PBGeneratedMessage {
+@private
+  BOOL hasIsMonster_:1;
+  BOOL hasIsComplete_:1;
+  BOOL hasBoosterPackId_:1;
+  BOOL hasGemReward_:1;
+  BOOL hasQuantity_:1;
+  BOOL hasQuality_:1;
+  BOOL isMonster_:1;
+  BOOL isComplete_:1;
+  int32_t boosterPackId;
+  int32_t gemReward;
+  int32_t quantity;
+  MonsterProto_MonsterQuality quality;
+}
+- (BOOL) hasBoosterPackId;
+- (BOOL) hasIsMonster;
+- (BOOL) hasIsComplete;
+- (BOOL) hasQuality;
+- (BOOL) hasGemReward;
+- (BOOL) hasQuantity;
+@property (readonly) int32_t boosterPackId;
+- (BOOL) isMonster;
+- (BOOL) isComplete;
+@property (readonly) MonsterProto_MonsterQuality quality;
+@property (readonly) int32_t gemReward;
+@property (readonly) int32_t quantity;
+
++ (BoosterDisplayItemProto*) defaultInstance;
+- (BoosterDisplayItemProto*) defaultInstance;
+
+- (BOOL) isInitialized;
+- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output;
+- (BoosterDisplayItemProto_Builder*) builder;
++ (BoosterDisplayItemProto_Builder*) builder;
++ (BoosterDisplayItemProto_Builder*) builderWithPrototype:(BoosterDisplayItemProto*) prototype;
+
++ (BoosterDisplayItemProto*) parseFromData:(NSData*) data;
++ (BoosterDisplayItemProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (BoosterDisplayItemProto*) parseFromInputStream:(NSInputStream*) input;
++ (BoosterDisplayItemProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (BoosterDisplayItemProto*) parseFromCodedInputStream:(PBCodedInputStream*) input;
++ (BoosterDisplayItemProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+@end
+
+@interface BoosterDisplayItemProto_Builder : PBGeneratedMessage_Builder {
+@private
+  BoosterDisplayItemProto* result;
+}
+
+- (BoosterDisplayItemProto*) defaultInstance;
+
+- (BoosterDisplayItemProto_Builder*) clear;
+- (BoosterDisplayItemProto_Builder*) clone;
+
+- (BoosterDisplayItemProto*) build;
+- (BoosterDisplayItemProto*) buildPartial;
+
+- (BoosterDisplayItemProto_Builder*) mergeFrom:(BoosterDisplayItemProto*) other;
+- (BoosterDisplayItemProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input;
+- (BoosterDisplayItemProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+
+- (BOOL) hasBoosterPackId;
+- (int32_t) boosterPackId;
+- (BoosterDisplayItemProto_Builder*) setBoosterPackId:(int32_t) value;
+- (BoosterDisplayItemProto_Builder*) clearBoosterPackId;
+
+- (BOOL) hasIsMonster;
+- (BOOL) isMonster;
+- (BoosterDisplayItemProto_Builder*) setIsMonster:(BOOL) value;
+- (BoosterDisplayItemProto_Builder*) clearIsMonster;
+
+- (BOOL) hasIsComplete;
+- (BOOL) isComplete;
+- (BoosterDisplayItemProto_Builder*) setIsComplete:(BOOL) value;
+- (BoosterDisplayItemProto_Builder*) clearIsComplete;
+
+- (BOOL) hasQuality;
+- (MonsterProto_MonsterQuality) quality;
+- (BoosterDisplayItemProto_Builder*) setQuality:(MonsterProto_MonsterQuality) value;
+- (BoosterDisplayItemProto_Builder*) clearQuality;
+
+- (BOOL) hasGemReward;
+- (int32_t) gemReward;
+- (BoosterDisplayItemProto_Builder*) setGemReward:(int32_t) value;
+- (BoosterDisplayItemProto_Builder*) clearGemReward;
+
+- (BOOL) hasQuantity;
+- (int32_t) quantity;
+- (BoosterDisplayItemProto_Builder*) setQuantity:(int32_t) value;
+- (BoosterDisplayItemProto_Builder*) clearQuantity;
 @end
 

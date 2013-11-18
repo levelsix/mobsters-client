@@ -14,7 +14,6 @@
                 <outlet property="monsterSlotThree" destination="eIs-zX-4TQ" id="nWy-SI-rBa"/>
                 <outlet property="monsterSlotTwo" destination="wxj-hw-rtM" id="uFl-YX-uTk"/>
                 <outlet property="nameLabel" destination="6Wh-dD-joo" id="D9p-Cr-SeP"/>
-                <outlet property="teamLabel" destination="VYP-8H-RRe" id="Ofz-wQ-cmr"/>
                 <outlet property="view" destination="1" id="3"/>
                 <outlet property="winsLabel" destination="nye-sM-eNZ" id="Ebe-pp-olg"/>
             </connections>
@@ -43,7 +42,7 @@
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             <subviews>
                                 <view contentMode="scaleToFill" id="rER-iL-Vll" customClass="MonsterCardContainerView">
-                                    <rect key="frame" x="7" y="31" width="107" height="130"/>
+                                    <rect key="frame" x="10" y="31" width="107" height="130"/>
                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                     <color key="backgroundColor" red="0.37254902719999999" green="0.9215686917" blue="1" alpha="1" colorSpace="deviceRGB"/>
                                     <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
@@ -55,7 +54,7 @@
                                     <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
                                 </view>
                                 <view contentMode="scaleToFill" id="eIs-zX-4TQ" customClass="MonsterCardContainerView">
-                                    <rect key="frame" x="243" y="31" width="107" height="130"/>
+                                    <rect key="frame" x="240" y="31" width="107" height="130"/>
                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                     <color key="backgroundColor" red="0.37254902719999999" green="0.9215686917" blue="1" alpha="1" colorSpace="deviceRGB"/>
                                     <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
@@ -69,27 +68,27 @@
                                     <color key="highlightedColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 </label>
                                 <view contentMode="scaleToFill" id="U6n-Vi-UIo">
-                                    <rect key="frame" x="5" y="11" width="120" height="1"/>
+                                    <rect key="frame" x="5" y="11" width="140" height="1"/>
                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                    <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
+                                    <color key="backgroundColor" red="1" green="1" blue="1" alpha="0.5" colorSpace="calibratedRGB"/>
                                     <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
                                 </view>
                                 <view contentMode="scaleToFill" id="Zyc-Vg-cah">
-                                    <rect key="frame" x="5" y="14" width="120" height="1"/>
+                                    <rect key="frame" x="5" y="14" width="140" height="1"/>
                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                    <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
+                                    <color key="backgroundColor" red="1" green="1" blue="1" alpha="0.5" colorSpace="calibratedRGB"/>
                                     <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
                                 </view>
                                 <view contentMode="scaleToFill" id="dhx-C7-WEa">
-                                    <rect key="frame" x="231" y="11" width="120" height="1"/>
+                                    <rect key="frame" x="211" y="11" width="140" height="1"/>
                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                    <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
+                                    <color key="backgroundColor" red="1" green="1" blue="1" alpha="0.5" colorSpace="calibratedRGB"/>
                                     <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
                                 </view>
                                 <view contentMode="scaleToFill" id="TJ2-Ma-ltJ">
-                                    <rect key="frame" x="231" y="14" width="120" height="1"/>
+                                    <rect key="frame" x="211" y="14" width="140" height="1"/>
                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                    <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
+                                    <color key="backgroundColor" red="1" green="1" blue="1" alpha="0.5" colorSpace="calibratedRGB"/>
                                     <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
                                 </view>
                             </subviews>

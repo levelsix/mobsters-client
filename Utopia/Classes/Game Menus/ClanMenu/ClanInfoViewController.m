@@ -146,6 +146,14 @@
 
 @implementation ClanInfoViewController
 
+- (id) initWithClanId:(int)clanId andName:(NSString *)name {
+  if ((self = [super initWithNibName:nil bundle:nil])) {
+    [[OutgoingEventController sharedOutgoingEventController] retrieveClanInfo:nil clanId:clanId grabType:RetrieveClanInfoRequestProto_ClanInfoGrabTypeAll isForBrowsingList:NO beforeClanId:0 delegate:self];
+    self.title = name ? name : @"Loading...";
+  }
+  return self;
+}
+
 - (id) initWithClan:(FullClanProtoWithClanSize *)clan {
   if ((self = [super initWithNibName:nil bundle:nil])) {
     self.clan = clan;
@@ -237,7 +245,19 @@
 }
 
 - (IBAction)profileClicked:(id)sender {
-  NSLog(@"meep");
+  while (sender && ![sender isKindOfClass:[ClanMemberCell class]]) {
+    sender = [sender superview];
+  }
+  
+  if (sender) {
+    ClanMemberCell *cell = (ClanMemberCell *)sender;
+    
+    ProfileViewController *mpvc = [[ProfileViewController alloc] initWithUserId:cell.user.minUserProto.minUserProtoWithLevel.minUserProto.userId];
+    UIViewController *parent = self.navigationController;
+    mpvc.view.frame = parent.view.bounds;
+    [parent.view addSubview:mpvc.view];
+    [parent addChildViewController:mpvc];
+  }
 }
 
 #pragma mark - Response handlers
@@ -248,6 +268,8 @@
   if (!self.clan && proto.clanInfoList.count == 1) {
     self.clan = [proto.clanInfoList lastObject];
   }
+  
+  self.title = self.clan.clan.name;
   
   self.members = proto.membersList;
   [self.infoTable reloadData];

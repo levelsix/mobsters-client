@@ -18,7 +18,6 @@
 
 @property (nonatomic, strong) IBOutlet UILabel *winsLabel;
 @property (nonatomic, strong) IBOutlet UILabel *lossesLabel;
-@property (nonatomic, strong) IBOutlet UILabel *teamLabel;
 @property (nonatomic, strong) IBOutlet UILabel *nameLabel;
 @property (nonatomic, strong) IBOutlet UnderlinedLabelView *clanView;
 @property (nonatomic, strong) IBOutlet MonsterCardContainerView *monsterSlotOne;
@@ -28,6 +27,7 @@
 @property (nonatomic, strong) FullUserProto *fup;
 @property (nonatomic, copy) NSArray *curTeam;
 
+- (id)initWithUserId:(int)userId;
 - (id)initWithFullUserProto:(FullUserProto *)fup andCurrentTeam:(NSArray *)curTeam;
 - (IBAction)message:(id)sender;
 - (IBAction)close:(id)sender;

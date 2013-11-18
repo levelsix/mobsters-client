@@ -421,9 +421,10 @@ static NSString *udid = nil;
   return [self sendData:req withMessageType:EventProtocolRequestCUpgradeNormStructureEvent];
 }
 
-- (int) sendFinishNormStructBuildWithDiamondsMessage:(int)userStructId time:(uint64_t)milliseconds {
-  FinishNormStructWaittimeWithDiamondsRequestProto *req = [[[[[FinishNormStructWaittimeWithDiamondsRequestProto builder]
-                                                              setSender:_sender]
+- (int) sendFinishNormStructBuildWithDiamondsMessage:(int)userStructId gemCost:(int)gemCost time:(uint64_t)milliseconds {
+  FinishNormStructWaittimeWithDiamondsRequestProto *req = [[[[[[FinishNormStructWaittimeWithDiamondsRequestProto builder]
+                                                               setSender:_sender]
+                                                              setGemCostToSpeedup:gemCost]
                                                              setUserStructId:userStructId]
                                                             setTimeOfSpeedup:milliseconds]
                                                            build];
@@ -457,33 +458,6 @@ static NSString *udid = nil;
                                      build];
   
   return [self sendData:req withMessageType:EventProtocolRequestCLoadPlayerCityEvent];
-}
-
-- (int) sendRetrieveStaticDataMessageWithStructIds:(NSArray *)structIds taskIds:(NSArray *)taskIds questIds:(NSArray *)questIds cityIds:(NSArray *)cityIds buildStructJobIds:(NSArray *)buildStructJobIds defeatTypeJobIds:(NSArray *)defeatTypeJobIds possessEquipJobIds:(NSArray *)possessEquipJobIds upgradeStructJobIds:(NSArray *)upgradeStructJobIds events:(BOOL)events bossIds:(NSArray *)bossIds {
-  RetrieveStaticDataRequestProto_Builder *blder = [RetrieveStaticDataRequestProto builder];
-  
-  if (structIds) {
-    [blder addAllStructIds:structIds];
-  }
-  if (taskIds) {
-    [blder addAllTaskIds:taskIds];
-  }
-  if (questIds) {
-    [blder addAllQuestIds:questIds];
-  }
-  if (cityIds) {
-    [blder addAllCityIds:cityIds];
-  }
-  if (buildStructJobIds) {
-    [blder addAllBuildStructJobIds:buildStructJobIds];
-  }
-  if (upgradeStructJobIds) {
-    [blder addAllUpgradeStructJobIds:upgradeStructJobIds];
-  }
-  
-  [blder setSender:_sender];
-  RetrieveStaticDataRequestProto *req = [blder build];
-  return [self sendData:req withMessageType:EventProtocolRequestCRetrieveStaticDataEvent];
 }
 
 - (int) sendLoadCityMessage:(int)cityId {
@@ -533,10 +507,11 @@ static NSString *udid = nil;
   return [self sendData:req withMessageType:EventProtocolRequestCQuestRedeemEvent];
 }
 
-- (int) sendRetrieveUsersForUserIds:(NSArray *)userIds {
-  RetrieveUsersForUserIdsRequestProto *req = [[[[RetrieveUsersForUserIdsRequestProto builder]
-                                                setSender:_sender]
-                                               addAllRequestedUserIds:userIds]
+- (int) sendRetrieveUsersForUserIds:(NSArray *)userIds includeCurMonsterTeam:(BOOL)includeCurMonsterTeam {
+  RetrieveUsersForUserIdsRequestProto *req = [[[[[RetrieveUsersForUserIdsRequestProto builder]
+                                                 setSender:_sender]
+                                                addAllRequestedUserIds:userIds]
+                                               setIncludeCurMonsterTeam:includeCurMonsterTeam]
                                               build];
   
   return [self sendData:req withMessageType:EventProtocolRequestCRetrieveUsersForUserIdsEvent];
@@ -682,12 +657,13 @@ static NSString *udid = nil;
   return [self sendData:req withMessageType:EventProtocolRequestCPurchaseCityExpansionEvent];
 }
 
-- (int) sendExpansionWaitCompleteMessage:(BOOL)speedUp curTime:(uint64_t)time atX:(int)x atY:(int)y {
-  ExpansionWaitCompleteRequestProto *req = [[[[[[[ExpansionWaitCompleteRequestProto builder]
-                                                 setSender:_sender]
-                                                setXPosition:x]
-                                               setYPosition:y]
-                                              setSpeedUp:speedUp]
+- (int) sendExpansionWaitCompleteMessage:(BOOL)speedUp gemCost:(int)gemCost curTime:(uint64_t)time atX:(int)x atY:(int)y {
+  ExpansionWaitCompleteRequestProto *req = [[[[[[[[ExpansionWaitCompleteRequestProto builder]
+                                                  setSender:_sender]
+                                                 setXPosition:x]
+                                                setYPosition:y]
+                                               setSpeedUp:speedUp]
+                                              setGemCostToSpeedup:gemCost]
                                              setCurTime:time]
                                             build];
   
@@ -701,14 +677,6 @@ static NSString *udid = nil;
                                                   setAfterThisRank:afterThisRank]
                                                  build];
   return [self sendData:req withMessageType:EventProtocolRequestCRetrieveTournamentRankingsEvent];
-}
-
-- (int) sendRetrieveBoosterPackMessage {
-  RetrieveBoosterPackRequestProto *req = [[[RetrieveBoosterPackRequestProto builder]
-                                           setSender:_sender]
-                                          build];
-  
-  return [self sendData:req withMessageType:EventProtocolRequestCRetrieveBoosterPackEvent];
 }
 
 - (int) sendPurchaseBoosterPackMessage:(int)boosterPackId clientTime:(uint64_t)clientTime {
@@ -759,11 +727,12 @@ static NSString *udid = nil;
   return [self sendData:req withMessageType:EventProtocolRequestCUpdateMonsterHealthEvent];
 }
 
-- (int) sendEndDungeonMessage:(uint64_t)userTaskId userWon:(BOOL)userWon time:(uint64_t)time {
-  EndDungeonRequestProto *req = [[[[[[EndDungeonRequestProto builder]
-                                     setSender:_sender]
-                                    setUserTaskId:userTaskId]
-                                   setUserWon:userWon]
+- (int) sendEndDungeonMessage:(uint64_t)userTaskId userWon:(BOOL)userWon isFirstTimeCompleted:(BOOL)isFirstTimeCompleted time:(uint64_t)time {
+  EndDungeonRequestProto *req = [[[[[[[EndDungeonRequestProto builder]
+                                      setSender:_sender]
+                                     setUserTaskId:userTaskId]
+                                    setUserWon:userWon]
+                                   setFirstTimeUserWonTask:isFirstTimeCompleted]
                                   setClientTime:time]
                                  build];
   
@@ -991,15 +960,17 @@ static NSString *udid = nil;
   }
 }
 
-- (int) setEnhanceQueueDirty {
+- (int) setEnhanceQueueDirtyWithCoinChange:(int)coinChange gemCost:(int)gemCost {
   [self flushAllExceptEventType:EventProtocolRequestCSubmitMonsterEnhancementEvent];
+  _enhanceQueueCashChange += coinChange;
+  _enhanceQueueGemCost += gemCost;
   _enhancementPotentiallyChanged = YES;
   return _currentTagNum;
 }
 
 - (void) reloadEnhancementSnapshot {
   GameState *gs = [GameState sharedGameState];
-  self.enhancementSnapshot = [gs.userEnhancement copy];
+  self.enhancementSnapshot = [gs.userEnhancement clone];
 }
 
 - (int) sendEnhanceMonsterMessage {
@@ -1044,6 +1015,9 @@ static NSString *udid = nil;
       [bldr addUeipUpdate:[item convertToProto]];
     }
     
+    [bldr setCashChange:_enhanceQueueCashChange];
+//    [bldr setGemCost:_enhanceQueueGemCost];
+    
     NSLog(@"Sending enhancement update with %d adds, %d removals, and %d updates.", added.count, removed.count, changed.count);
     
     return [self sendData:bldr.build withMessageType:EventProtocolRequestCSubmitMonsterEnhancementEvent flush:NO];
@@ -1084,6 +1058,8 @@ static NSString *udid = nil;
       [self sendEnhanceMonsterMessage];
       [self reloadEnhancementSnapshot];
       _enhancementPotentiallyChanged = NO;
+      _enhanceQueueGemCost = 0;
+      _enhanceQueueCashChange = 0;
     }
   }
   

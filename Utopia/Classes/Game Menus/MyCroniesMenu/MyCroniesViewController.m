@@ -14,7 +14,7 @@
 #import "MonsterPopUpViewController.h"
 #import "BuySlotsViewController.h"
 
-#define TABLE_CELL_WIDTH 118
+#define TABLE_CELL_WIDTH 108
 #define HEADER_OFFSET 8
 #define LEFT_SIDE_OFFSET 18
 
@@ -28,13 +28,23 @@
   [self setUpImageBackButton];
   
   [self setupInventoryTable];
+  
+  self.availMobstersHeaderView.transform = CGAffineTransformMakeRotation(-M_PI_2);
+  self.unavailMobstersHeaderView.transform = CGAffineTransformMakeRotation(-M_PI_2);
+  self.recentlyHealedHeaderView.transform = CGAffineTransformMakeRotation(-M_PI_2);
 }
 
 - (void) viewWillAppear:(BOOL)animated {
   self.updateTimer = [NSTimer timerWithTimeInterval:1.f target:self selector:@selector(updateLabels) userInfo:nil repeats:YES];
   [[NSRunLoop mainRunLoop] addTimer:self.updateTimer forMode:NSRunLoopCommonModes];
   
-  [[NSNotificationCenter defaultCenter] addObserver:self.inventoryTable selector:@selector(reloadData) name:HEAL_WAIT_COMPLETE_NOTIFICATION object:nil];
+  [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(healWaitTimeComplete) name:HEAL_WAIT_COMPLETE_NOTIFICATION object:nil];
+  [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(healWaitTimeComplete) name:COMBINE_WAIT_COMPLETE_NOTIFICATION object:nil];
+  [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(healWaitTimeComplete) name:ENHANCE_WAIT_COMPLETE_NOTIFICATION object:nil];
+  
+  [self reloadTableAnimated:NO];
+  [self.queueView reloadTable];
+  [self updateCurrentTeamAnimated:NO];
 }
 
 - (void) viewDidDisappear:(BOOL)animated {
@@ -43,33 +53,49 @@
   
   [[SocketCommunication sharedSocketCommunication] flush];
   
-  [[NSNotificationCenter defaultCenter] removeObserver:self.inventoryTable name:HEAL_WAIT_COMPLETE_NOTIFICATION object:nil];
+  [[NSNotificationCenter defaultCenter] removeObserver:self.inventoryTable];
+}
+
+- (void) didMoveToParentViewController:(UIViewController *)parent {
+  if (parent == nil) {
+    GameState *gs = [GameState sharedGameState];
+    [gs.recentlyHealedMonsterIds removeAllObjects];
+  }
+}
+
+- (void) healWaitTimeComplete {
+  [self reloadTableAnimated:YES];
+  [self updateCurrentTeamAnimated:YES];
+  
+  GameState *gs = [GameState sharedGameState];
+  NSMutableArray *remove = [NSMutableArray array];
+  [Globals calculateDifferencesBetweenOldArray:self.queueView.healingQueue newArray:gs.monsterHealingQueue removalIps:remove additionIps:nil section:0];
+  [self.queueView.queueTable.tableView deleteRowsAtIndexPaths:remove withRowAnimation:UITableViewRowAnimationTop];
 }
 
 - (void) updateLabels {
+  for (MyCroniesCardCell *cell in self.inventoryTable.visibleViews) {
+    [cell updateForTime];
+  }
+  
   [self.queueView updateTimes];
 }
 
-- (void) initHeaders {
-  int numCells = [self numberOfCellsForEasyTableView:self.inventoryTable inSection:0];
-  CGRect r = self.myTeamHeaderView.frame;
-  r.origin.x = LEFT_SIDE_OFFSET+HEADER_OFFSET;
-  r.size.width = numCells*TABLE_CELL_WIDTH-HEADER_OFFSET*2;
-  self.myTeamHeaderView.frame = r;
-  
-  [self.myTeamHeaderView moveLabelToXPosition:numCells*TABLE_CELL_WIDTH/2-HEADER_OFFSET];
-  
-  int baseOffset = LEFT_SIDE_OFFSET+numCells*TABLE_CELL_WIDTH;
-  baseOffset += [self easyTableView:self.inventoryTable heightOrWidthForCellAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:1]];
-  numCells = [self numberOfCellsForEasyTableView:self.inventoryTable inSection:2];
-  r = self.myReservesHeaderView.frame;
-  r.origin.x = baseOffset+HEADER_OFFSET;
-  r.size.width = numCells*TABLE_CELL_WIDTH-HEADER_OFFSET*2;
-  self.myReservesHeaderView.frame = r;
-  
-  _baseMyReservesHeaderX = 1.5*TABLE_CELL_WIDTH-HEADER_OFFSET;
-  
-  [self easyTableView:self.inventoryTable scrolledToOffset:self.inventoryTable.contentOffset];
+- (MonsterTeamSlotView *) teamSlotViewForSlotNum:(int)num {
+  MonsterTeamSlotContainerView *container = (MonsterTeamSlotContainerView *)[self.teamSlotsContainer viewWithTag:num];
+  return container.teamSlotView;
+}
+
+- (void) updateCurrentTeamAnimated:(BOOL)animated {
+  GameState *gs = [GameState sharedGameState];
+  for (MonsterTeamSlotContainerView *container in self.teamSlotsContainer.subviews) {
+    if (animated) {
+      [container.teamSlotView animateNewMonster:[gs myMonsterWithSlotNumber:container.tag]];
+    } else {
+      [container.teamSlotView updateForMyCroniesConfiguration:[gs myMonsterWithSlotNumber:container.tag]];
+    }
+    container.teamSlotView.delegate = self;
+  }
 }
 
 #pragma mark - EasyTableViewDelegate and Methods
@@ -78,53 +104,114 @@
   self.inventoryTable = [[EasyTableView alloc] initWithFrame:self.tableContainerView.bounds numberOfColumns:0 ofWidth:TABLE_CELL_WIDTH];
   self.inventoryTable.delegate = self;
   self.inventoryTable.tableView.separatorColor = [UIColor clearColor];
+  self.inventoryTable.autoresizingMask = UIViewAutoresizingFlexibleWidth;
   [self.tableContainerView addSubview:self.inventoryTable];
   
-  self.headerContainerView = [[UIView alloc] initWithFrame:CGRectZero];
-  [self.inventoryTable addSubview:self.headerContainerView];
-  [self.headerContainerView addSubview:self.myTeamHeaderView];
-  [self.headerContainerView addSubview:self.myReservesHeaderView];
+  [self.inventoryTable.tableView addSubview:self.leftHeaderUnderlay];
+  self.inventoryTable.tableView.headerUnderlay = self.leftHeaderUnderlay;
+  self.leftHeaderUnderlay.transform = CGAffineTransformMakeRotation(M_PI_2);
+  [self easyTableView:self.inventoryTable scrolledToOffset:CGPointZero];
+}
+
+- (void) easyTableView:(EasyTableView *)easyTableView scrolledToOffset:(CGPoint)contentOffset {
+  UITableView *table = easyTableView.tableView;
+  // Have to do weird adjustments for rotated view
+  self.leftHeaderUnderlay.center = ccp(table.frame.size.height/2, table.contentOffset.y+self.leftHeaderUnderlay.frame.size.height/2);
 }
 
 - (void) reloadMonstersArray {
   GameState *gs = [GameState sharedGameState];
-  NSMutableArray *arr = [gs.myMonsters mutableCopy];
-  [arr removeObjectsInArray:[gs allMonstersOnMyTeam]];
-  self.monstersNotOnTeam = arr;
+  NSMutableArray *recent = [NSMutableArray array];
+  NSMutableArray *reg = [NSMutableArray array];
+  NSMutableArray *unavail = [NSMutableArray array];
   
-  [self.queueView reloadTable];
+  for (UserMonster *um in gs.myMonsters) {
+    if (!um.isComplete || [um isHealing] || [um isEnhancing] || [um isSacrificing]) {
+      [unavail addObject:um];
+    } else {
+      if ([gs.recentlyHealedMonsterIds containsObject:@(um.userMonsterId)]) {
+        [recent addObject:um];
+      } else {
+        [reg addObject:um];
+      }
+    }
+  }
   
-  [self initHeaders];
+  NSComparator comp = ^NSComparisonResult(UserMonster *obj1, UserMonster *obj2) {
+    return [obj1 compare:obj2];
+  };
+  
+  [recent sortUsingComparator:comp];
+  [reg sortUsingComparator:comp];
+  [unavail sortUsingComparator:comp];
+  
+  self.recentlyHealedMonsters = recent;
+  self.availableMonsters = reg;
+  self.unavailableMonsters = unavail;
+}
+
+- (void) reloadTableAnimated:(BOOL)animated {
+  NSArray *rec = self.recentlyHealedMonsters, *avail = self.availableMonsters, *unavail = self.unavailableMonsters;
+  NSMutableArray *remove = [NSMutableArray array], *add = [NSMutableArray array];
+  [self reloadMonstersArray];
+  
+  if (animated) {
+    [Globals calculateDifferencesBetweenOldArray:rec newArray:self.recentlyHealedMonsters removalIps:remove additionIps:add section:0];
+    [Globals calculateDifferencesBetweenOldArray:avail newArray:self.availableMonsters removalIps:remove additionIps:add section:1];
+    [Globals calculateDifferencesBetweenOldArray:unavail newArray:self.unavailableMonsters removalIps:remove additionIps:add section:2];
+    
+    [self.inventoryTable.tableView beginUpdates];
+    if (remove.count) {
+      [self.inventoryTable.tableView deleteRowsAtIndexPaths:remove withRowAnimation:UITableViewRowAnimationFade];
+    }
+    if (add.count) {
+      [self.inventoryTable.tableView insertRowsAtIndexPaths:add withRowAnimation:UITableViewRowAnimationFade];
+    }
+    [self.inventoryTable.tableView endUpdates];
+    
+    for (MyCroniesCardCell *cell in self.inventoryTable.visibleViews) {
+      [self easyTableView:self.inventoryTable setDataForView:cell forIndexPath:[self.inventoryTable indexPathForView:cell]];
+    }
+  } else {
+    [self.inventoryTable reloadData];
+  }
 }
 
 - (UIView *) easyTableView:(EasyTableView *)easyTableView viewForHeaderInSection:(NSInteger)section {
   if (section == 0) {
-    return [[UIView alloc] initWithFrame:CGRectMake(0, 0, LEFT_SIDE_OFFSET, 0)];
+    return self.recentlyHealedHeaderView;
+  } else if (section == 1) {
+    return self.availMobstersHeaderView;
+  } else if (section == 2) {
+    return self.unavailMobstersHeaderView;
   }
   return nil;
 }
 
-- (void) easyTableView:(EasyTableView *)easyTableView scrolledToOffset:(CGPoint)contentOffset {
-  self.headerContainerView.frame = CGRectMake(-contentOffset.x, 0, 0, 0);
-  float mid = [self.view convertPoint:ccp(self.view.frame.size.width/2, 0) toView:self.myReservesHeaderView].x;
-  [self.myReservesHeaderView moveLabelToXPosition:MIN(MAX(mid, _baseMyReservesHeaderX), self.myReservesHeaderView.frame.size.width-_baseMyReservesHeaderX)];
+- (NSUInteger) numberOfSectionsInEasyTableView:(EasyTableView *)easyTableView {
+  return 4;
 }
 
-- (NSUInteger) numberOfSectionsInEasyTableView:(EasyTableView *)easyTableView {
-  [self reloadMonstersArray];
-  return 3;
+- (NSArray *)arrayForSection:(int)section {
+  if (section == 0) {
+    return self.recentlyHealedMonsters;
+  } else if (section == 1) {
+    return self.availableMonsters;
+  } else if (section == 2) {
+    return self.unavailableMonsters;
+  }
+  return nil;
 }
 
 - (NSUInteger) numberOfCellsForEasyTableView:(EasyTableView *)view inSection:(NSInteger)section {
   Globals *gl = [Globals sharedGlobals];
   GameState *gs = [GameState sharedGameState];
-  if (section == 0) {
-    return gl.maxTeamSize;
-  } else if (section == 2) {
-    return MAX(gl.baseInventorySize + gs.numAdditionalMonsterSlots, self.monstersNotOnTeam.count) + 1;
-  } else {
-    return 1;
+  if (section < 3) {
+    return [self arrayForSection:section].count;
+  } else if (section == 3) {
+    return (gl.baseInventorySize + gs.numAdditionalMonsterSlots > gs.myMonsters.count) + 1;
   }
+  return 0;
 }
 
 - (UIView *)easyTableView:(EasyTableView *)easyTableView viewForRect:(CGRect)rect withIndexPath:(NSIndexPath *)indexPath {
@@ -132,51 +219,49 @@
   return self.monsterCardCell;
 }
 
-- (float) easyTableView:(EasyTableView *)easyTableView heightOrWidthForCellAtIndexPath:(NSIndexPath *)indexPath {
-  if (indexPath.section != 1) {
-    return TABLE_CELL_WIDTH;
-  } else {
-    return self.tableSeperatorView.frame.size.width;
+- (void)easyTableView:(EasyTableView *)easyTableView setDataForView:(MyCroniesCardCell *)view forIndexPath:(NSIndexPath *)indexPath {
+  if (indexPath.section < 3) {
+    NSArray *arr = [self arrayForSection:indexPath.section];
+    UserMonster *um = indexPath.row < arr.count ? [arr objectAtIndex:indexPath.row] : nil;
+    [view updateForUserMonster:um];
+  } else if (indexPath.section == 3) {
+    Globals *gl = [Globals sharedGlobals];
+    GameState *gs = [GameState sharedGameState];
+    int numEmpty = gl.baseInventorySize + gs.numAdditionalMonsterSlots - gs.myMonsters.count;
+    
+    if (numEmpty > 0 && indexPath.row == 0) {
+      [view updateForEmptySlots:numEmpty];
+    } else {
+      [view updateForBuySlots];
+    }
   }
 }
 
-- (void)easyTableView:(EasyTableView *)easyTableView setDataForView:(MyCroniesCardCell *)view forIndexPath:(NSIndexPath *)indexPath {
-  if (self.tableSeperatorView.superview == view) {
-    [self.tableSeperatorView removeFromSuperview];
-    view.mainView.hidden = NO;
-  }
+- (IBAction)headerClicked:(id)sender {
+  int section = [(UIView *)sender tag];
+  [self.inventoryTable.tableView scrollToRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:section] atScrollPosition:UITableViewScrollPositionTop animated:YES];
+}
+
+#pragma mark - MonsterTeamSlotDelegate methods
+
+- (void) minusClickedForTeamSlotView:(MonsterTeamSlotView *)mv {
+  BOOL success = [[OutgoingEventController sharedOutgoingEventController] removeMonsterFromTeam:mv.monster.userMonsterId];
   
-  GameState *gs = [GameState sharedGameState];
-  if (indexPath.section == 0) {
-    UserMonster *um = [gs myMonsterWithSlotNumber:indexPath.row+1];
-    [view updateForUserMonster:um isOnMyTeam:YES];
-  } else if (indexPath.section == 2) {
-    int numCells = [self numberOfCellsForEasyTableView:easyTableView inSection:indexPath.section];
-    if (indexPath.row < numCells-1) {
-      UserMonster *um = indexPath.row < self.monstersNotOnTeam.count ? [self.monstersNotOnTeam objectAtIndex:indexPath.row] : nil;
-      [view updateForUserMonster:um isOnMyTeam:NO];
-    } else {
-      // Buy slots cell
-      [view updateForBuySlots];
-    }
-  } else {
-    view.mainView.hidden = YES;
-    [view addSubview:self.tableSeperatorView];
+  if (success) {
+    [self reloadTableAnimated:YES];
+    [self updateCurrentTeamAnimated:YES];
   }
 }
 
 #pragma mark - MyCroniesCellDelegate methods
 
-- (void) minusClicked:(MyCroniesCardCell *)cell {
-  [[OutgoingEventController sharedOutgoingEventController] removeMonsterFromTeam:cell.monster.userMonsterId];
-  [self.inventoryTable reloadData];
-  [[NSNotificationCenter defaultCenter] postNotificationName:MY_TEAM_CHANGED_NOTIFICATION object:nil];
-}
-
 - (void) plusClicked:(MyCroniesCardCell *)cell {
-  [[OutgoingEventController sharedOutgoingEventController] addMonsterToTeam:cell.monster.userMonsterId];
-  [self.inventoryTable reloadData];
-  [[NSNotificationCenter defaultCenter] postNotificationName:MY_TEAM_CHANGED_NOTIFICATION object:nil];
+  BOOL success = [[OutgoingEventController sharedOutgoingEventController] addMonsterToTeam:cell.monster.userMonsterId];
+  
+  if (success) {
+    [self reloadTableAnimated:YES];
+    [self updateCurrentTeamAnimated:YES];
+  }
 }
 
 - (void) buySlotsClicked:(MyCroniesCardCell *)cell {
@@ -189,23 +274,10 @@
 }
 
 - (void) slotsPurchased {
-  [self.inventoryTable reloadData];
+  [self reloadTableAnimated:NO];
 }
 
-- (void) healClicked:(MyCroniesCardCell *)cell {
-  BOOL unequipped = NO;
-  if (cell.monster.teamSlot > 0) {
-    unequipped = YES;
-  }
-  [[OutgoingEventController sharedOutgoingEventController] addMonsterToHealingQueue:cell.monster.userMonsterId];
-  [self.inventoryTable reloadData];
-  
-  if (unequipped) {
-    [[NSNotificationCenter defaultCenter] postNotificationName:MY_TEAM_CHANGED_NOTIFICATION object:nil];
-  }
-}
-
-- (void) cardClicked:(MyCroniesCardCell *)cell {
+- (void) infoClicked:(MyCroniesCardCell *)cell {
   if (cell.monster) {
     MonsterPopUpViewController *mpvc = [[MonsterPopUpViewController alloc] initWithMonsterProto:cell.monster];
     UIViewController *parent = self.navigationController;
@@ -216,19 +288,62 @@
 }
 
 - (void) speedupCombineClicked:(MyCroniesCardCell *)cell {
-  [self.inventoryTable reloadData];
+  BOOL success = [[OutgoingEventController sharedOutgoingEventController] combineMonsterWithSpeedup:cell.monster.userMonsterId];
+  if (success) {
+    [self reloadTableAnimated:YES];
+  }
+}
+
+- (void) cardClicked:(MyCroniesCardCell *)cell {
+  BOOL success = [[OutgoingEventController sharedOutgoingEventController] addMonsterToHealingQueue:cell.monster.userMonsterId];
+  if (success) {
+    [self reloadTableAnimated:YES];
+    
+    GameState *gs = [GameState sharedGameState];
+    NSArray *arr = [NSArray arrayWithObject:[NSIndexPath indexPathForRow:gs.monsterHealingQueue.count-1 inSection:0]];
+    [self.queueView.queueTable.tableView insertRowsAtIndexPaths:arr withRowAnimation:UITableViewRowAnimationLeft];
+    
+    [self.queueView updateTimes];
+    
+    if (cell.monster.teamSlot) {
+      [self updateCurrentTeamAnimated:YES];
+    }
+  }
 }
 
 #pragma mark - MyCroniesQueueDelegate methods
 
 - (void) cellRequestsRemovalFromHealQueue:(MyCroniesQueueCell *)cell {
-  [[OutgoingEventController sharedOutgoingEventController] removeMonsterFromHealingQueue:cell.healingItem];
-  [self.inventoryTable reloadData];
+  BOOL success = [[OutgoingEventController sharedOutgoingEventController] removeMonsterFromHealingQueue:cell.healingItem];
+  if (success) {
+    [self reloadTableAnimated:YES];
+    
+    NSArray *arr = [NSArray arrayWithObject:[self.queueView.queueTable indexPathForView:cell]];
+    [self.queueView.queueTable.tableView deleteRowsAtIndexPaths:arr withRowAnimation:UITableViewRowAnimationLeft];
+    
+    [self.queueView updateTimes];
+    
+    GameState *gs = [GameState sharedGameState];
+    UserMonster *um = [gs myMonsterWithUserMonsterId:cell.healingItem.userMonsterId];
+    if (um.teamSlot) {
+      [self updateCurrentTeamAnimated:YES];
+    }
+  }
 }
 
 - (void) speedupButtonClicked {
-  [[OutgoingEventController sharedOutgoingEventController] speedupHealingQueue];
-  [self.inventoryTable reloadData];
+  BOOL success = [[OutgoingEventController sharedOutgoingEventController] speedupHealingQueue];
+  if (success) {
+    [self reloadTableAnimated:YES];
+    
+    NSMutableArray *arr = [NSMutableArray array];
+    for (int i = 0; i < self.queueView.healingQueue.count; i++) {
+      [arr addObject:[NSIndexPath indexPathForRow:i inSection:0]];
+    }
+    [self.queueView.queueTable.tableView deleteRowsAtIndexPaths:arr withRowAnimation:UITableViewRowAnimationFade];
+    
+    [self updateCurrentTeamAnimated:YES];
+  }
 }
 
 @end

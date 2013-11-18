@@ -8,16 +8,18 @@
 #import "Clan.pb.h"
 #import "InAppPurchase.pb.h"
 #import "Quest.pb.h"
+#import "StaticData.pb.h"
 #import "Structure.pb.h"
+#import "Task.pb.h"
 #import "User.pb.h"
 #import "MonsterStuff.pb.h"
 
+@class BoosterDisplayItemProto;
+@class BoosterDisplayItemProto_Builder;
 @class BoosterItemProto;
 @class BoosterItemProto_Builder;
 @class BoosterPackProto;
 @class BoosterPackProto_Builder;
-@class BuildStructJobProto;
-@class BuildStructJobProto_Builder;
 @class CityElementProto;
 @class CityElementProto_Builder;
 @class CityExpansionCostProto;
@@ -40,6 +42,8 @@
 @class FullQuestProto_Builder;
 @class FullStructureProto;
 @class FullStructureProto_Builder;
+@class FullTaskProto;
+@class FullTaskProto_Builder;
 @class FullUserClanProto;
 @class FullUserClanProto_Builder;
 @class FullUserMonsterProto;
@@ -58,8 +62,6 @@
 @class InAppPurchasePackageProto_Builder;
 @class MinimumClanProto;
 @class MinimumClanProto_Builder;
-@class MinimumUserBuildStructJobProto;
-@class MinimumUserBuildStructJobProto_Builder;
 @class MinimumUserMonsterSellProto;
 @class MinimumUserMonsterSellProto_Builder;
 @class MinimumUserProto;
@@ -72,10 +74,8 @@
 @class MinimumUserProtoWithLevel;
 @class MinimumUserProtoWithLevel_Builder;
 @class MinimumUserProto_Builder;
-@class MinimumUserUpgradeStructJobProto;
-@class MinimumUserUpgradeStructJobProto_Builder;
-@class MonsterJobProto;
-@class MonsterJobProto_Builder;
+@class MinimumUserTaskProto;
+@class MinimumUserTaskProto_Builder;
 @class MonsterProto;
 @class MonsterProto_Builder;
 @class PrivateChatPostProto;
@@ -104,12 +104,18 @@
 @class StartupResponseProto_StartupConstants_TournamentConstants_Builder;
 @class StartupResponseProto_StartupConstants_UserMonsterConstants;
 @class StartupResponseProto_StartupConstants_UserMonsterConstants_Builder;
-@class StaticLevelInfoProto;
-@class StaticLevelInfoProto_Builder;
-@class UpgradeStructJobProto;
-@class UpgradeStructJobProto_Builder;
+@class StaticDataProto;
+@class StaticDataProto_Builder;
+@class StaticUserLevelInfoProto;
+@class StaticUserLevelInfoProto_Builder;
+@class TaskStageMonsterProto;
+@class TaskStageMonsterProto_Builder;
+@class TaskStageProto;
+@class TaskStageProto_Builder;
 @class UserCityExpansionDataProto;
 @class UserCityExpansionDataProto_Builder;
+@class UserCurrentMonsterTeamProto;
+@class UserCurrentMonsterTeamProto_Builder;
 @class UserEnhancementItemProto;
 @class UserEnhancementItemProto_Builder;
 @class UserEnhancementProto;
@@ -242,47 +248,42 @@ BOOL StartupResponseProto_StartupStatusIsValidValue(StartupResponseProto_Startup
   BOOL hasPlayerHasBoughtInAppPurchase_:1;
   BOOL hasServerTimeMillis_:1;
   BOOL hasKabamNaid_:1;
-  BOOL hasAppStoreUrl_:1;
-  BOOL hasReviewPageUrl_:1;
   BOOL hasReviewPageConfirmationMessage_:1;
+  BOOL hasReviewPageUrl_:1;
+  BOOL hasAppStoreUrl_:1;
+  BOOL hasStaticDataStuffProto_:1;
+  BOOL hasEnhancements_:1;
   BOOL hasSender_:1;
   BOOL hasStartupConstants_:1;
-  BOOL hasEnhancements_:1;
   BOOL hasStartupStatus_:1;
   BOOL hasUpdateStatus_:1;
   BOOL playerHasBoughtInAppPurchase_:1;
   int64_t serverTimeMillis;
   NSString* kabamNaid;
-  NSString* appStoreUrl;
-  NSString* reviewPageUrl;
   NSString* reviewPageConfirmationMessage;
+  NSString* reviewPageUrl;
+  NSString* appStoreUrl;
+  StaticDataProto* staticDataStuffProto;
+  UserEnhancementProto* enhancements;
   FullUserProto* sender;
   StartupResponseProto_StartupConstants* startupConstants;
-  UserEnhancementProto* enhancements;
   StartupResponseProto_StartupStatus startupStatus;
   StartupResponseProto_UpdateStatus updateStatus;
+  NSMutableArray* mutableRedeemedQuestIdsList;
+  NSMutableArray* mutableCompletedTaskIdsList;
   NSMutableArray* mutableNoticesToPlayersList;
-  NSMutableArray* mutableSlipList;
-  NSMutableArray* mutableStaticStructsList;
-  NSMutableArray* mutableExpansionCostsList;
-  NSMutableArray* mutableStaticMonstersList;
+  NSMutableArray* mutableUserQuestsList;
+  NSMutableArray* mutableAttackNotificationsList;
+  NSMutableArray* mutableReferralNotificationsList;
+  NSMutableArray* mutableGlobalChatsList;
+  NSMutableArray* mutableClanChatsList;
+  NSMutableArray* mutablePcppList;
   NSMutableArray* mutableUsersMonstersList;
   NSMutableArray* mutableMonstersHealingList;
   NSMutableArray* mutableRareBoosterPurchasesList;
+  NSMutableArray* mutableUserClanInfoList;
   NSMutableArray* mutableUsersUsedForExtraSlotsList;
   NSMutableArray* mutableInvitesToMeForSlotsList;
-  NSMutableArray* mutablePcppList;
-  NSMutableArray* mutableClanChatsList;
-  NSMutableArray* mutableGlobalChatsList;
-  NSMutableArray* mutableReferralNotificationsList;
-  NSMutableArray* mutableAttackNotificationsList;
-  NSMutableArray* mutableGoldSalesList;
-  NSMutableArray* mutableUserClanInfoList;
-  NSMutableArray* mutableUserQuestsList;
-  NSMutableArray* mutableAvailableQuestsList;
-  NSMutableArray* mutableUnredeemedQuestsList;
-  NSMutableArray* mutableInProgressQuestsList;
-  NSMutableArray* mutableAllCitiesList;
 }
 - (BOOL) hasServerTimeMillis;
 - (BOOL) hasSender;
@@ -295,6 +296,7 @@ BOOL StartupResponseProto_StartupStatusIsValidValue(StartupResponseProto_Startup
 - (BOOL) hasPlayerHasBoughtInAppPurchase;
 - (BOOL) hasEnhancements;
 - (BOOL) hasKabamNaid;
+- (BOOL) hasStaticDataStuffProto;
 @property (readonly) int64_t serverTimeMillis;
 @property (readonly, retain) FullUserProto* sender;
 @property (readonly) StartupResponseProto_StartupStatus startupStatus;
@@ -306,20 +308,15 @@ BOOL StartupResponseProto_StartupStatusIsValidValue(StartupResponseProto_Startup
 - (BOOL) playerHasBoughtInAppPurchase;
 @property (readonly, retain) UserEnhancementProto* enhancements;
 @property (readonly, retain) NSString* kabamNaid;
-- (NSArray*) allCitiesList;
-- (FullCityProto*) allCitiesAtIndex:(int32_t) index;
-- (NSArray*) inProgressQuestsList;
-- (FullQuestProto*) inProgressQuestsAtIndex:(int32_t) index;
-- (NSArray*) unredeemedQuestsList;
-- (FullQuestProto*) unredeemedQuestsAtIndex:(int32_t) index;
-- (NSArray*) availableQuestsList;
-- (FullQuestProto*) availableQuestsAtIndex:(int32_t) index;
+@property (readonly, retain) StaticDataProto* staticDataStuffProto;
 - (NSArray*) userQuestsList;
 - (FullUserQuestProto*) userQuestsAtIndex:(int32_t) index;
+- (NSArray*) redeemedQuestIdsList;
+- (int32_t) redeemedQuestIdsAtIndex:(int32_t) index;
 - (NSArray*) userClanInfoList;
 - (FullUserClanProto*) userClanInfoAtIndex:(int32_t) index;
-- (NSArray*) goldSalesList;
-- (GoldSaleProto*) goldSalesAtIndex:(int32_t) index;
+- (NSArray*) completedTaskIdsList;
+- (int32_t) completedTaskIdsAtIndex:(int32_t) index;
 - (NSArray*) attackNotificationsList;
 - (StartupResponseProto_AttackedNotificationProto*) attackNotificationsAtIndex:(int32_t) index;
 - (NSArray*) referralNotificationsList;
@@ -332,14 +329,6 @@ BOOL StartupResponseProto_StartupStatusIsValidValue(StartupResponseProto_Startup
 - (GroupChatMessageProto*) clanChatsAtIndex:(int32_t) index;
 - (NSArray*) pcppList;
 - (PrivateChatPostProto*) pcppAtIndex:(int32_t) index;
-- (NSArray*) slipList;
-- (StaticLevelInfoProto*) slipAtIndex:(int32_t) index;
-- (NSArray*) staticStructsList;
-- (FullStructureProto*) staticStructsAtIndex:(int32_t) index;
-- (NSArray*) expansionCostsList;
-- (CityExpansionCostProto*) expansionCostsAtIndex:(int32_t) index;
-- (NSArray*) staticMonstersList;
-- (MonsterProto*) staticMonstersAtIndex:(int32_t) index;
 - (NSArray*) usersMonstersList;
 - (FullUserMonsterProto*) usersMonstersAtIndex:(int32_t) index;
 - (NSArray*) monstersHealingList;
@@ -507,6 +496,7 @@ BOOL StartupResponseProto_StartupStatusIsValidValue(StartupResponseProto_Startup
 @interface StartupResponseProto_StartupConstants : PBGeneratedMessage {
 @private
   BOOL hasMinutesPerGem_:1;
+  BOOL hasPvpRequiredMinLvl_:1;
   BOOL hasNumBeginnerSalesAllowed_:1;
   BOOL hasFbConnectRewardDiamonds_:1;
   BOOL hasLevelToShowRateUsPopup_:1;
@@ -524,6 +514,7 @@ BOOL StartupResponseProto_StartupStatusIsValidValue(StartupResponseProto_Startup
   BOOL hasUserMonsterConstants_:1;
   BOOL hasMonsterConstants_:1;
   Float32 minutesPerGem;
+  int32_t pvpRequiredMinLvl;
   int32_t numBeginnerSalesAllowed;
   int32_t fbConnectRewardDiamonds;
   int32_t levelToShowRateUsPopup;
@@ -560,6 +551,7 @@ BOOL StartupResponseProto_StartupStatusIsValidValue(StartupResponseProto_Startup
 - (BOOL) hasUserMonsterConstants;
 - (BOOL) hasMonsterConstants;
 - (BOOL) hasMinutesPerGem;
+- (BOOL) hasPvpRequiredMinLvl;
 @property (readonly) int32_t maxLevelForUser;
 @property (readonly) int32_t maxNumOfSingleStruct;
 @property (readonly) int32_t minNameLength;
@@ -577,6 +569,7 @@ BOOL StartupResponseProto_StartupStatusIsValidValue(StartupResponseProto_Startup
 @property (readonly, retain) StartupResponseProto_StartupConstants_UserMonsterConstants* userMonsterConstants;
 @property (readonly, retain) StartupResponseProto_StartupConstants_MonsterConstants* monsterConstants;
 @property (readonly) Float32 minutesPerGem;
+@property (readonly) int32_t pvpRequiredMinLvl;
 - (NSArray*) inAppPurchasePackagesList;
 - (InAppPurchasePackageProto*) inAppPurchasePackagesAtIndex:(int32_t) index;
 - (NSArray*) animatedSpriteOffsetsList;
@@ -1142,6 +1135,11 @@ BOOL StartupResponseProto_StartupStatusIsValidValue(StartupResponseProto_Startup
 - (Float32) minutesPerGem;
 - (StartupResponseProto_StartupConstants_Builder*) setMinutesPerGem:(Float32) value;
 - (StartupResponseProto_StartupConstants_Builder*) clearMinutesPerGem;
+
+- (BOOL) hasPvpRequiredMinLvl;
+- (int32_t) pvpRequiredMinLvl;
+- (StartupResponseProto_StartupConstants_Builder*) setPvpRequiredMinLvl:(int32_t) value;
+- (StartupResponseProto_StartupConstants_Builder*) clearPvpRequiredMinLvl;
 @end
 
 @interface StartupResponseProto_Builder : PBGeneratedMessage_Builder {
@@ -1190,34 +1188,6 @@ BOOL StartupResponseProto_StartupStatusIsValidValue(StartupResponseProto_Startup
 - (StartupResponseProto_Builder*) mergeStartupConstants:(StartupResponseProto_StartupConstants*) value;
 - (StartupResponseProto_Builder*) clearStartupConstants;
 
-- (NSArray*) allCitiesList;
-- (FullCityProto*) allCitiesAtIndex:(int32_t) index;
-- (StartupResponseProto_Builder*) replaceAllCitiesAtIndex:(int32_t) index with:(FullCityProto*) value;
-- (StartupResponseProto_Builder*) addAllCities:(FullCityProto*) value;
-- (StartupResponseProto_Builder*) addAllAllCities:(NSArray*) values;
-- (StartupResponseProto_Builder*) clearAllCitiesList;
-
-- (NSArray*) inProgressQuestsList;
-- (FullQuestProto*) inProgressQuestsAtIndex:(int32_t) index;
-- (StartupResponseProto_Builder*) replaceInProgressQuestsAtIndex:(int32_t) index with:(FullQuestProto*) value;
-- (StartupResponseProto_Builder*) addInProgressQuests:(FullQuestProto*) value;
-- (StartupResponseProto_Builder*) addAllInProgressQuests:(NSArray*) values;
-- (StartupResponseProto_Builder*) clearInProgressQuestsList;
-
-- (NSArray*) unredeemedQuestsList;
-- (FullQuestProto*) unredeemedQuestsAtIndex:(int32_t) index;
-- (StartupResponseProto_Builder*) replaceUnredeemedQuestsAtIndex:(int32_t) index with:(FullQuestProto*) value;
-- (StartupResponseProto_Builder*) addUnredeemedQuests:(FullQuestProto*) value;
-- (StartupResponseProto_Builder*) addAllUnredeemedQuests:(NSArray*) values;
-- (StartupResponseProto_Builder*) clearUnredeemedQuestsList;
-
-- (NSArray*) availableQuestsList;
-- (FullQuestProto*) availableQuestsAtIndex:(int32_t) index;
-- (StartupResponseProto_Builder*) replaceAvailableQuestsAtIndex:(int32_t) index with:(FullQuestProto*) value;
-- (StartupResponseProto_Builder*) addAvailableQuests:(FullQuestProto*) value;
-- (StartupResponseProto_Builder*) addAllAvailableQuests:(NSArray*) values;
-- (StartupResponseProto_Builder*) clearAvailableQuestsList;
-
 - (NSArray*) userQuestsList;
 - (FullUserQuestProto*) userQuestsAtIndex:(int32_t) index;
 - (StartupResponseProto_Builder*) replaceUserQuestsAtIndex:(int32_t) index with:(FullUserQuestProto*) value;
@@ -1225,12 +1195,26 @@ BOOL StartupResponseProto_StartupStatusIsValidValue(StartupResponseProto_Startup
 - (StartupResponseProto_Builder*) addAllUserQuests:(NSArray*) values;
 - (StartupResponseProto_Builder*) clearUserQuestsList;
 
+- (NSArray*) redeemedQuestIdsList;
+- (int32_t) redeemedQuestIdsAtIndex:(int32_t) index;
+- (StartupResponseProto_Builder*) replaceRedeemedQuestIdsAtIndex:(int32_t) index with:(int32_t) value;
+- (StartupResponseProto_Builder*) addRedeemedQuestIds:(int32_t) value;
+- (StartupResponseProto_Builder*) addAllRedeemedQuestIds:(NSArray*) values;
+- (StartupResponseProto_Builder*) clearRedeemedQuestIdsList;
+
 - (NSArray*) userClanInfoList;
 - (FullUserClanProto*) userClanInfoAtIndex:(int32_t) index;
 - (StartupResponseProto_Builder*) replaceUserClanInfoAtIndex:(int32_t) index with:(FullUserClanProto*) value;
 - (StartupResponseProto_Builder*) addUserClanInfo:(FullUserClanProto*) value;
 - (StartupResponseProto_Builder*) addAllUserClanInfo:(NSArray*) values;
 - (StartupResponseProto_Builder*) clearUserClanInfoList;
+
+- (NSArray*) completedTaskIdsList;
+- (int32_t) completedTaskIdsAtIndex:(int32_t) index;
+- (StartupResponseProto_Builder*) replaceCompletedTaskIdsAtIndex:(int32_t) index with:(int32_t) value;
+- (StartupResponseProto_Builder*) addCompletedTaskIds:(int32_t) value;
+- (StartupResponseProto_Builder*) addAllCompletedTaskIds:(NSArray*) values;
+- (StartupResponseProto_Builder*) clearCompletedTaskIdsList;
 
 - (BOOL) hasAppStoreUrl;
 - (NSString*) appStoreUrl;
@@ -1251,13 +1235,6 @@ BOOL StartupResponseProto_StartupStatusIsValidValue(StartupResponseProto_Startup
 - (BOOL) playerHasBoughtInAppPurchase;
 - (StartupResponseProto_Builder*) setPlayerHasBoughtInAppPurchase:(BOOL) value;
 - (StartupResponseProto_Builder*) clearPlayerHasBoughtInAppPurchase;
-
-- (NSArray*) goldSalesList;
-- (GoldSaleProto*) goldSalesAtIndex:(int32_t) index;
-- (StartupResponseProto_Builder*) replaceGoldSalesAtIndex:(int32_t) index with:(GoldSaleProto*) value;
-- (StartupResponseProto_Builder*) addGoldSales:(GoldSaleProto*) value;
-- (StartupResponseProto_Builder*) addAllGoldSales:(NSArray*) values;
-- (StartupResponseProto_Builder*) clearGoldSalesList;
 
 - (NSArray*) attackNotificationsList;
 - (StartupResponseProto_AttackedNotificationProto*) attackNotificationsAtIndex:(int32_t) index;
@@ -1300,34 +1277,6 @@ BOOL StartupResponseProto_StartupStatusIsValidValue(StartupResponseProto_Startup
 - (StartupResponseProto_Builder*) addPcpp:(PrivateChatPostProto*) value;
 - (StartupResponseProto_Builder*) addAllPcpp:(NSArray*) values;
 - (StartupResponseProto_Builder*) clearPcppList;
-
-- (NSArray*) slipList;
-- (StaticLevelInfoProto*) slipAtIndex:(int32_t) index;
-- (StartupResponseProto_Builder*) replaceSlipAtIndex:(int32_t) index with:(StaticLevelInfoProto*) value;
-- (StartupResponseProto_Builder*) addSlip:(StaticLevelInfoProto*) value;
-- (StartupResponseProto_Builder*) addAllSlip:(NSArray*) values;
-- (StartupResponseProto_Builder*) clearSlipList;
-
-- (NSArray*) staticStructsList;
-- (FullStructureProto*) staticStructsAtIndex:(int32_t) index;
-- (StartupResponseProto_Builder*) replaceStaticStructsAtIndex:(int32_t) index with:(FullStructureProto*) value;
-- (StartupResponseProto_Builder*) addStaticStructs:(FullStructureProto*) value;
-- (StartupResponseProto_Builder*) addAllStaticStructs:(NSArray*) values;
-- (StartupResponseProto_Builder*) clearStaticStructsList;
-
-- (NSArray*) expansionCostsList;
-- (CityExpansionCostProto*) expansionCostsAtIndex:(int32_t) index;
-- (StartupResponseProto_Builder*) replaceExpansionCostsAtIndex:(int32_t) index with:(CityExpansionCostProto*) value;
-- (StartupResponseProto_Builder*) addExpansionCosts:(CityExpansionCostProto*) value;
-- (StartupResponseProto_Builder*) addAllExpansionCosts:(NSArray*) values;
-- (StartupResponseProto_Builder*) clearExpansionCostsList;
-
-- (NSArray*) staticMonstersList;
-- (MonsterProto*) staticMonstersAtIndex:(int32_t) index;
-- (StartupResponseProto_Builder*) replaceStaticMonstersAtIndex:(int32_t) index with:(MonsterProto*) value;
-- (StartupResponseProto_Builder*) addStaticMonsters:(MonsterProto*) value;
-- (StartupResponseProto_Builder*) addAllStaticMonsters:(NSArray*) values;
-- (StartupResponseProto_Builder*) clearStaticMonstersList;
 
 - (NSArray*) usersMonstersList;
 - (FullUserMonsterProto*) usersMonstersAtIndex:(int32_t) index;
@@ -1375,5 +1324,12 @@ BOOL StartupResponseProto_StartupStatusIsValidValue(StartupResponseProto_Startup
 - (StartupResponseProto_Builder*) addInvitesToMeForSlots:(UserFacebookInviteForSlotProto*) value;
 - (StartupResponseProto_Builder*) addAllInvitesToMeForSlots:(NSArray*) values;
 - (StartupResponseProto_Builder*) clearInvitesToMeForSlotsList;
+
+- (BOOL) hasStaticDataStuffProto;
+- (StaticDataProto*) staticDataStuffProto;
+- (StartupResponseProto_Builder*) setStaticDataStuffProto:(StaticDataProto*) value;
+- (StartupResponseProto_Builder*) setStaticDataStuffProtoBuilder:(StaticDataProto_Builder*) builderForValue;
+- (StartupResponseProto_Builder*) mergeStaticDataStuffProto:(StaticDataProto*) value;
+- (StartupResponseProto_Builder*) clearStaticDataStuffProto;
 @end
 

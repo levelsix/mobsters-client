@@ -49,16 +49,3 @@
 - (IBAction)closeClicked:(id)sender;
 
 @end
-
-@interface ExpansionView : UIView
-
-@property (nonatomic, assign) IBOutlet UILabel *totalTimeLabel;
-@property (nonatomic, assign) IBOutlet UILabel *costLabel;
-
-@property (nonatomic, assign) IBOutlet UIView *bgdView;
-@property (nonatomic, assign) IBOutlet UIView *mainView;
-
-- (void) display;
-- (IBAction)closeClicked:(id)sender;
-
-@end

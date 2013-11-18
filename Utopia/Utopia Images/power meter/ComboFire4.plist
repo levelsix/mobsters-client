@@ -13,7 +13,7 @@
 	<key>duration</key>
 	<real>-1</real>
 	<key>emitterType</key>
-	<real>1</real>
+	<integer>1</integer>
 	<key>finishColorAlpha</key>
 	<real>0</real>
 	<key>finishColorBlue</key>

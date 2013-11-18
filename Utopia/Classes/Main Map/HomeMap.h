@@ -42,7 +42,6 @@
 @property (nonatomic, retain) NSMutableArray *buildableData;
 
 @property (nonatomic, retain) IBOutlet UpgradeBuildingMenu *upgradeMenu;
-@property (nonatomic, retain) IBOutlet ExpansionView *expansionView;
 @property (nonatomic, retain) IBOutlet MapBotView *buildBotView;
 @property (nonatomic, retain) IBOutlet MapBotView *upgradeBotView;
 @property (nonatomic, retain) IBOutlet MapBotView *expandBotView;
@@ -50,7 +49,9 @@
 
 @property (nonatomic, assign) IBOutlet UILabel *buildingNameLabel;
 @property (nonatomic, assign) IBOutlet UILabel *buildingIncomeLabel;
-@property (nonatomic, assign) IBOutlet UILabel *buildingUpgradeCostLabel;
+@property (nonatomic, assign) IBOutlet UILabel *buildingUpgradeCashCostLabel;
+@property (nonatomic, assign) IBOutlet UILabel *buildingUpgradeGemCostLabel;
+@property (nonatomic, assign) IBOutlet UIView *buildingUpgradeGemView;
 
 @property (nonatomic, assign) IBOutlet UILabel *upgradingNameLabel;
 @property (nonatomic, assign) IBOutlet UILabel *upgradingIncomeLabel;

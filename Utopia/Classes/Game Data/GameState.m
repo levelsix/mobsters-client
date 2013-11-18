@@ -17,6 +17,7 @@
 #import "Downloader.h"
 #import "GameLayer.h"
 #import "SocketCommunication.h"
+#import "PrivateChatPostProto+UnreadStatus.h"
 
 #define TagLog(...) //LNLog(__VA_ARGS__)
 
@@ -33,9 +34,6 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
     _staticCities = [[NSMutableDictionary alloc] init];
     _staticStructs = [[NSMutableDictionary alloc] init];
     _staticMonsters = [[NSMutableDictionary alloc] init];
-    _staticDefeatTypeJobs = [[NSMutableDictionary alloc] init];
-    _staticBuildStructJobs = [[NSMutableDictionary alloc] init];
-    _staticUpgradeStructJobs = [[NSMutableDictionary alloc] init];
     _notifications = [[NSMutableArray alloc] init];
     _myStructs = [[NSMutableArray alloc] init];
     _myMonsters = [[NSMutableArray alloc] init];
@@ -44,6 +42,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
     _clanChatMessages = [[NSMutableArray alloc] init];
     _rareBoosterPurchases = [[NSMutableArray alloc] init];
     _monsterHealingQueue = [[NSMutableArray alloc] init];
+    _recentlyHealedMonsterIds = [[NSMutableSet alloc] init];
     _requestsFromFriends = [[NSMutableArray alloc] init];
     _usersUsedForExtraSlots = [[NSMutableArray alloc] init];
     _acceptedSlotsRequests = [[NSMutableArray alloc] init];
@@ -62,17 +61,6 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
 }
 
 - (void) updateUser:(FullUserProto *)user timestamp:(uint64_t)time {
-//  if (time == 0) {
-//    // Special case: if time is 0, let it go through automatically
-//    _lastUserUpdate = 0;
-//  } else if (time <= _lastUserUpdate) {
-//    LNLog(@"Did not update. This Update time = %lld, Last Update time = %lld.", time, _lastUserUpdate);
-//    return;
-//  } else {
-//    _lastUserUpdate = time;
-//    NSLog(@"Updated time to %lld.", time);
-//  }
-  
   // Copy over data from full user proto
   if (_userId != user.userId || ![_name isEqualToString:user.name] || (user.hasClan && ![self.clan.data isEqualToData:user.clan.data]) || (!user.hasClan && self.clan)) {
     self.userId = user.userId;
@@ -148,58 +136,22 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
   return mup.build;
 }
 
+- (MinimumUserProtoWithLevel *) minUserWithLevel {
+  MinimumUserProto_Builder *mup = [[[MinimumUserProto builder] setName:_name] setUserId:_userId];
+  if (_clan != nil) {
+    mup.clan = _clan;
+  }
+  MinimumUserProtoWithLevel *mupl = [[[[MinimumUserProtoWithLevel builder] setMinUserProto:mup.build] setLevel:_level] build];
+  return mupl;
+}
+
 - (id) getStaticDataFrom:(NSDictionary *)dict withId:(int)itemId {
-  AppDelegate *ad = (AppDelegate *)[[UIApplication sharedApplication] delegate];
   if (itemId == 0) {
     [Globals popupMessage:@"Attempted to access static item 0"];
     return nil;
   }
   NSNumber *num = [NSNumber numberWithInt:itemId];
   id p = [dict objectForKey:num];
-  int numTimes = 1;
-  while (!p) {
-    numTimes++;
-    if (numTimes == 50 || (numTimes %= 100) == 99) {
-      LNLog(@"Lotsa wait time for this. Re-retrieving.");
-      
-      LNLog(@"Re-retrieving item: %d. Current things:", itemId);
-      
-      NSString *s = @"(";
-      for (NSNumber *num in dict.allKeys) {
-        s = [s stringByAppendingFormat:@"%d,", num.intValue];
-      }
-      
-      // Lets try to retrieve the data by forcing a call
-      SocketCommunication *sc = [SocketCommunication sharedSocketCommunication];
-      NSArray *arr = [NSArray arrayWithObject:[NSNumber numberWithInt:itemId]];
-      if (dict == _staticStructs) {
-        [sc sendRetrieveStaticDataMessageWithStructIds:arr taskIds:nil questIds:nil cityIds:nil buildStructJobIds:nil defeatTypeJobIds:nil possessEquipJobIds:nil upgradeStructJobIds:nil events:NO bossIds:nil];
-        LNLog(@"Structures");
-      } else if (dict == _staticTasks) {
-        [sc sendRetrieveStaticDataMessageWithStructIds:nil taskIds:arr questIds:nil cityIds:nil buildStructJobIds:nil defeatTypeJobIds:nil possessEquipJobIds:nil upgradeStructJobIds:nil events:NO bossIds:nil];
-        LNLog(@"Tasks");
-      } else if (dict == _staticCities) {
-        [sc sendRetrieveStaticDataMessageWithStructIds:nil taskIds:nil questIds:nil cityIds:arr buildStructJobIds:nil defeatTypeJobIds:nil possessEquipJobIds:nil upgradeStructJobIds:nil events:NO bossIds:nil];
-        LNLog(@"Cities");
-      } else if (dict == _staticBuildStructJobs) {
-        [sc sendRetrieveStaticDataMessageWithStructIds:nil taskIds:nil questIds:nil cityIds:nil buildStructJobIds:arr defeatTypeJobIds:nil possessEquipJobIds:nil upgradeStructJobIds:nil events:NO bossIds:nil];
-        LNLog(@"Build Struct Jobs");
-      } else if (dict == _staticDefeatTypeJobs) {
-        [sc sendRetrieveStaticDataMessageWithStructIds:nil taskIds:nil questIds:nil cityIds:nil buildStructJobIds:nil defeatTypeJobIds:arr possessEquipJobIds:nil upgradeStructJobIds:nil events:NO bossIds:nil];
-        LNLog(@"Defeat Type Jobs");
-      } else if (dict == _staticUpgradeStructJobs) {
-        [sc sendRetrieveStaticDataMessageWithStructIds:nil taskIds:nil questIds:nil cityIds:nil buildStructJobIds:nil defeatTypeJobIds:nil possessEquipJobIds:nil upgradeStructJobIds:arr events:NO bossIds:nil];
-        LNLog(@"Upgrade Struct Jobs");
-      }
-      LNLog(@"%@)", s);
-    } else if (!ad.isActive || numTimes > 10000) {
-      return nil;
-    }
-    //    NSAssert(numTimes < 1000000, @"Waiting too long for static data.. Probably not retrieved!", itemId);
-    [[NSRunLoop currentRunLoop] runUntilDate:[NSDate dateWithTimeIntervalSinceNow:0.01]];
-    // Need this in case game state gets deallocated while waiting for static data
-    p = [dict objectForKey:num];
-  }
   return p;
 }
 
@@ -245,6 +197,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
       [self.myMonsters addObject:um];
     }
   }
+  [self beginCombineTimer];
   [[NSNotificationCenter defaultCenter] postNotificationName:MY_TEAM_CHANGED_NOTIFICATION object:nil];
 }
 
@@ -282,9 +235,16 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
 
 - (void) addToStaticLevelInfos:(NSArray *)lurep {
   self.staticLevelInfos = [NSMutableDictionary dictionary];
-  for (StaticLevelInfoProto *exp in lurep) {
+  for (StaticUserLevelInfoProto *exp in lurep) {
     NSNumber *level = [NSNumber numberWithInt:exp.level];
     [self.staticLevelInfos setObject:exp forKey:level];
+  }
+}
+
+- (void) addToExpansionCosts:(NSArray *)costs {
+  self.expansionCosts = [NSMutableDictionary dictionary];
+  for (CityExpansionCostProto *exp in costs) {
+    [self.expansionCosts setObject:exp forKey:@(exp.expansionNum)];
   }
 }
 
@@ -322,7 +282,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
   }
 }
 
-- (void) addChatMessage:(MinimumUserProto *)sender message:(NSString *)msg scope:(GroupChatScope)scope isAdmin:(BOOL)isAdmin {
+- (void) addChatMessage:(MinimumUserProtoWithLevel *)sender message:(NSString *)msg scope:(GroupChatScope)scope isAdmin:(BOOL)isAdmin {
   ChatMessage *cm = [[ChatMessage alloc] init];
   cm.sender = sender;
   cm.message = msg;
@@ -332,6 +292,28 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
 }
 
 - (void) addChatMessage:(ChatMessage *)cm scope:(GroupChatScope) scope {
+  if (scope == GroupChatScopeGlobal) {
+    [self.globalChatMessages addObject:cm];
+  } else {
+    [self.clanChatMessages addObject:cm];
+  }
+  [[NSNotificationCenter defaultCenter] postNotificationName:CHAT_RECEIVED_NOTIFICATION object:nil];
+}
+
+- (void) addPrivateChat:(PrivateChatPostProto *)post {
+  int userId = post.otherUserId;
+  PrivateChatPostProto *privChat = nil;
+  for (PrivateChatPostProto *pcpp in self.privateChats) {
+    int otherUserId = pcpp.otherUserId;
+    if (userId == otherUserId) {
+      privChat = pcpp;
+    }
+  }
+  [self.privateChats removeObject:privChat];
+  [self.privateChats insertObject:post atIndex:0];
+  
+  [[NSNotificationCenter defaultCenter] postNotificationName:CHAT_RECEIVED_NOTIFICATION object:nil userInfo:
+   [NSDictionary dictionaryWithObject:post forKey:[NSString stringWithFormat:PRIVATE_CHAT_DEFAULTS_KEY, userId]]];
 }
 
 - (void) addBoosterPurchase:(RareBoosterPurchaseProto *)bp {
@@ -525,6 +507,33 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
   return arr;
 }
 
+- (void) updateStaticData:(StaticDataProto *)proto {
+  // Add these before updating user or else UI will update incorrectly
+  [self addToStaticLevelInfos:proto.slipList];
+  
+  [self.staticCities removeAllObjects];
+  [self addToStaticCities:proto.allCitiesList];
+  [self.staticTasks removeAllObjects];
+  [self addToStaticTasks:proto.allTasksList];
+  
+  [self.inProgressCompleteQuests removeAllObjects];
+  [self addToInProgressCompleteQuests:proto.unredeemedQuestsList];
+  [self.inProgressIncompleteQuests removeAllObjects];
+  [self addToInProgressIncompleteQuests:proto.inProgressQuestsList];
+  // Put this after inprogress complete because available quests will be autoaccepted
+  [self.availableQuests removeAllObjects];
+  [self addToAvailableQuests:proto.availableQuestsList];
+  
+  [self addStaticBoosterPacks:proto.boosterPacksList];
+  
+  [self.staticStructs removeAllObjects];
+  [self addToStaticStructs:proto.allStructsList];
+  [self addToExpansionCosts:proto.expansionCostsList];
+  
+  [self.staticMonsters removeAllObjects];
+  [self addToStaticMonsters:proto.allMonstersList];
+}
+
 - (void) addToStaticMonsters:(NSArray *)arr {
   for (MonsterProto *p in arr) {
     [self.staticMonsters setObject:p forKey:[NSNumber numberWithInt:p.monsterId]];
@@ -549,24 +558,39 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
   }
 }
 
-- (void) addToStaticBuildStructJobs:(NSArray *)arr {
-  for (BuildStructJobProto *p in arr) {
-    [self.staticBuildStructJobs setObject:p forKey:[NSNumber numberWithInt:p.buildStructJobId]];
-  }
-}
-
-- (void) addToStaticUpgradeStructJobs:(NSArray *)arr {
-  for (UpgradeStructJobProto *p in arr) {
-    [self.staticUpgradeStructJobs setObject:p forKey:[NSNumber numberWithInt:p.upgradeStructJobId]];
-  }
-}
-
 - (FullQuestProto *) questForId:(int)questId {
   NSNumber *num = [NSNumber numberWithInt:questId];
   FullQuestProto *fqp = [_availableQuests objectForKey:num];
   fqp = fqp ? fqp : [_inProgressCompleteQuests objectForKey:num];
   fqp = fqp ? fqp : [_inProgressIncompleteQuests objectForKey:num];
   return fqp;
+}
+
+- (BOOL) isTaskUnlocked:(int)taskId {
+  if (!taskId) return NO;
+  FullTaskProto *task = [self taskWithId:taskId];
+  if (!task) return NO;
+  return !task.prerequisiteTaskId || [self.completedTasks containsObject:@(task.prerequisiteTaskId)];
+}
+
+- (BOOL) isCityUnlocked:(int)cityId {
+  FullCityProto *city = [self cityWithId:cityId];
+  for (NSNumber *taskId in city.taskIdsList) {
+    if ([self isTaskUnlocked:taskId.intValue]) {
+      return YES;
+    }
+  }
+  return NO;
+}
+
+- (NSArray *) taskIdsToUnlockMoreTasks {
+  NSMutableArray *taskIds = [NSMutableArray array];
+  for (FullTaskProto *task in self.staticTasks.allValues) {
+    if ([self isTaskUnlocked:task.taskId] && ![self.completedTasks containsObject:@(task.taskId)]) {
+      [taskIds addObject:@(task.taskId)];
+    }
+  }
+  return taskIds;
 }
 
 - (void) addUnrespondedUpdate:(id<GameStateUpdate>)up {
@@ -581,6 +605,10 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
   }
   
   TagLog(@"Added %@ for tag %d", NSStringFromClass([up class]), up.tag);
+  
+  if ([up isKindOfClass:[FullUserUpdate class]]) {
+    [[NSNotificationCenter defaultCenter] postNotificationName:GAMESTATE_UPDATE_NOTIFICATION object:nil];
+  }
 }
 
 - (void) addUnrespondedUpdates:(id<GameStateUpdate>)field1, ...
@@ -641,12 +669,12 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
 }
 
 - (int) maxCashForLevel:(int)level {
-  StaticLevelInfoProto *slip = [self.staticLevelInfos objectForKey:[NSNumber numberWithInt:level]];
+  StaticUserLevelInfoProto *slip = [self.staticLevelInfos objectForKey:[NSNumber numberWithInt:level]];
   return slip.maxCash;
 }
 
 - (int) expNeededForLevel:(int)level {
-  StaticLevelInfoProto *slip = [self.staticLevelInfos objectForKey:[NSNumber numberWithInt:level]];
+  StaticUserLevelInfoProto *slip = [self.staticLevelInfos objectForKey:[NSNumber numberWithInt:level]];
   return slip.requiredExperience;
 }
 
@@ -674,7 +702,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
   int count = 0;
   for (UserExpansion *e in self.userExpansions) {
     if (!e.isExpanding) {
-      count ++;
+      count++;
     }
   }
   return count;
@@ -697,6 +725,9 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
   }
   return nil;
 }
+
+#pragma mark -
+#pragma mark Expansion Timer
 
 - (void) beginExpansionTimer {
   [self stopExpansionTimer];
@@ -729,6 +760,8 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
     _expansionTimer = nil;
   }
 }
+
+#pragma mark Healing Timer
 
 - (void) beginHealingTimer {
   [self stopHealingTimer];
@@ -766,6 +799,8 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
   }
 }
 
+#pragma mark Enhance Timer
+
 - (void) beginEnhanceTimer {
   [self stopEnhanceTimer];
   
@@ -776,8 +811,6 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
     } else {
       _enhanceTimer = [NSTimer timerWithTimeInterval:item.expectedEndTime.timeIntervalSinceNow target:self selector:@selector(enhancingWaitTimeComplete) userInfo:nil repeats:NO];
       [[NSRunLoop mainRunLoop] addTimer:_enhanceTimer forMode:NSRunLoopCommonModes];
-      
-      NSLog(@"Began timer for %d secs", (int)item.expectedEndTime.timeIntervalSinceNow);
     }
   }
 }
@@ -791,8 +824,6 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
   }
   
   if (arr.count > 0) {
-    NSLog(@"Firing wait time complete for %d items", arr.count);
-    
     [[OutgoingEventController sharedOutgoingEventController] enhanceQueueWaitTimeComplete:arr];
     [[NSNotificationCenter defaultCenter] postNotificationName:ENHANCE_WAIT_COMPLETE_NOTIFICATION object:nil];
     [self beginEnhanceTimer];
@@ -801,9 +832,54 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
 
 - (void) stopEnhanceTimer {
   if (_enhanceTimer) {
-    NSLog(@"Stopping timer..");
     [_enhanceTimer invalidate];
     _enhanceTimer = nil;
+  }
+}
+
+#pragma mark Combine Timer
+
+- (void) beginCombineTimer {
+  [self stopCombineTimer];
+  
+  NSTimeInterval lowestTimeLeft = 0;
+  for (UserMonster *um in self.myMonsters) {
+    if ([um isCombining]) {
+      if (um.timeLeftForCombining <= 0) {
+        [self combiningWaitTimeComplete];
+        return;
+      } else {
+        if (lowestTimeLeft == 0) {
+          lowestTimeLeft = um.timeLeftForCombining;
+        } else {
+          lowestTimeLeft = MIN(um.timeLeftForCombining, lowestTimeLeft);
+        }
+      }
+    }
+  }
+  _combineTimer = [NSTimer timerWithTimeInterval:lowestTimeLeft target:self selector:@selector(combiningWaitTimeComplete) userInfo:nil repeats:NO];
+  [[NSRunLoop mainRunLoop] addTimer:_combineTimer forMode:NSRunLoopCommonModes];
+}
+
+- (void) combiningWaitTimeComplete {
+  NSMutableArray *arr = [NSMutableArray array];
+  for (UserMonster *um in self.myMonsters) {
+    if ([um isCombining] && um.timeLeftForCombining <= 0) {
+      [arr addObject:@(um.userMonsterId)];
+    }
+  }
+  
+  if (arr.count > 0) {
+    [[OutgoingEventController sharedOutgoingEventController] combineMonsters:arr];
+    [[NSNotificationCenter defaultCenter] postNotificationName:COMBINE_WAIT_COMPLETE_NOTIFICATION object:nil];
+    [self beginCombineTimer];
+  }
+}
+
+- (void) stopCombineTimer {
+  if (_combineTimer) {
+    [_combineTimer invalidate];
+    _combineTimer = nil;
   }
 }
 
@@ -832,35 +908,11 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
   return [Globals userHasBeginnerShield:self.createTime.timeIntervalSince1970*1000 hasActiveShield:self.hasActiveShield];
 }
 
-- (void) purgeStaticData {
-  [_staticBuildStructJobs removeAllObjects];
-  [_staticDefeatTypeJobs removeAllObjects];
-  [_staticUpgradeStructJobs removeAllObjects];
-  
-  // Reretrieve necessary data
-  [[OutgoingEventController sharedOutgoingEventController] retrieveAllStaticData];
-}
-
-- (void) reretrieveStaticData {
-  [[SocketCommunication sharedSocketCommunication] sendRetrieveStaticDataMessageWithStructIds:_staticStructs.allKeys taskIds:_staticTasks.allKeys questIds:nil cityIds:_staticCities.allKeys buildStructJobIds:_staticBuildStructJobs.allKeys defeatTypeJobIds:_staticDefeatTypeJobs.allKeys possessEquipJobIds:nil upgradeStructJobIds:_staticUpgradeStructJobs.allKeys events:YES bossIds:nil];
-  
-  self.staticTasks = [[NSMutableDictionary alloc] init];
-  self.staticCities = [[NSMutableDictionary alloc] init];
-  self.staticStructs = [[NSMutableDictionary alloc] init];
-  self.staticDefeatTypeJobs = [[NSMutableDictionary alloc] init];
-  self.staticBuildStructJobs = [[NSMutableDictionary alloc] init];
-  self.staticUpgradeStructJobs = [[NSMutableDictionary alloc] init];
-  self.boosterPacks = nil;
-}
-
 - (void) clearAllData {
   _connected = NO;
   self.staticTasks = [[NSMutableDictionary alloc] init];
   self.staticCities = [[NSMutableDictionary alloc] init];
   self.staticStructs = [[NSMutableDictionary alloc] init];
-  self.staticDefeatTypeJobs = [[NSMutableDictionary alloc] init];
-  self.staticBuildStructJobs = [[NSMutableDictionary alloc] init];
-  self.staticUpgradeStructJobs = [[NSMutableDictionary alloc] init];
   self.notifications = [[NSMutableArray alloc] init];
   self.myStructs = [[NSMutableArray alloc] init];
   self.clanChatMessages = [[NSMutableArray alloc] init];
@@ -875,11 +927,10 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
   self.inProgressCompleteQuests = [[NSMutableDictionary alloc] init];
   self.inProgressIncompleteQuests = [[NSMutableDictionary alloc] init];
   
-  self.carpenterStructs = nil;
   self.boosterPacks = nil;
   
   self.unrespondedUpdates = [[NSMutableArray alloc] init];
-
+  
   self.requestedClans = [[NSMutableArray alloc] init];
   
   [self stopExpansionTimer];

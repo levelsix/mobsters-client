@@ -39,8 +39,8 @@
 @class SendGroupChatRequestProto_Builder;
 @class SendGroupChatResponseProto;
 @class SendGroupChatResponseProto_Builder;
-@class StaticLevelInfoProto;
-@class StaticLevelInfoProto_Builder;
+@class StaticUserLevelInfoProto;
+@class StaticUserLevelInfoProto_Builder;
 @class UserFacebookInviteForSlotProto;
 @class UserFacebookInviteForSlotProto_Builder;
 typedef enum {
@@ -345,14 +345,14 @@ BOOL RetrievePrivateChatPostsResponseProto_RetrievePrivateChatPostsStatusIsValid
   BOOL hasScope_:1;
   BOOL isAdmin_:1;
   NSString* chatMessage;
-  MinimumUserProto* sender;
+  MinimumUserProtoWithLevel* sender;
   GroupChatScope scope;
 }
 - (BOOL) hasSender;
 - (BOOL) hasChatMessage;
 - (BOOL) hasScope;
 - (BOOL) hasIsAdmin;
-@property (readonly, retain) MinimumUserProto* sender;
+@property (readonly, retain) MinimumUserProtoWithLevel* sender;
 @property (readonly, retain) NSString* chatMessage;
 @property (readonly) GroupChatScope scope;
 - (BOOL) isAdmin;
@@ -392,10 +392,10 @@ BOOL RetrievePrivateChatPostsResponseProto_RetrievePrivateChatPostsStatusIsValid
 - (ReceivedGroupChatResponseProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
 
 - (BOOL) hasSender;
-- (MinimumUserProto*) sender;
-- (ReceivedGroupChatResponseProto_Builder*) setSender:(MinimumUserProto*) value;
-- (ReceivedGroupChatResponseProto_Builder*) setSenderBuilder:(MinimumUserProto_Builder*) builderForValue;
-- (ReceivedGroupChatResponseProto_Builder*) mergeSender:(MinimumUserProto*) value;
+- (MinimumUserProtoWithLevel*) sender;
+- (ReceivedGroupChatResponseProto_Builder*) setSender:(MinimumUserProtoWithLevel*) value;
+- (ReceivedGroupChatResponseProto_Builder*) setSenderBuilder:(MinimumUserProtoWithLevel_Builder*) builderForValue;
+- (ReceivedGroupChatResponseProto_Builder*) mergeSender:(MinimumUserProtoWithLevel*) value;
 - (ReceivedGroupChatResponseProto_Builder*) clearSender;
 
 - (BOOL) hasChatMessage;

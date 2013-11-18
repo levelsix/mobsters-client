@@ -16,8 +16,8 @@
 @class MinimumUserProto_Builder;
 @class ReferralCodeUsedResponseProto;
 @class ReferralCodeUsedResponseProto_Builder;
-@class StaticLevelInfoProto;
-@class StaticLevelInfoProto_Builder;
+@class StaticUserLevelInfoProto;
+@class StaticUserLevelInfoProto_Builder;
 @class UserFacebookInviteForSlotProto;
 @class UserFacebookInviteForSlotProto_Builder;
 

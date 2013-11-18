@@ -8,6 +8,8 @@
 @class MinimumUserMonsterSellProto_Builder;
 @class MonsterProto;
 @class MonsterProto_Builder;
+@class UserCurrentMonsterTeamProto;
+@class UserCurrentMonsterTeamProto_Builder;
 @class UserEnhancementItemProto;
 @class UserEnhancementItemProto_Builder;
 @class UserEnhancementProto;
@@ -799,5 +801,63 @@ BOOL MonsterProto_MonsterElementIsValidValue(MonsterProto_MonsterElement value);
 - (int32_t) cashAmount;
 - (MinimumUserMonsterSellProto_Builder*) setCashAmount:(int32_t) value;
 - (MinimumUserMonsterSellProto_Builder*) clearCashAmount;
+@end
+
+@interface UserCurrentMonsterTeamProto : PBGeneratedMessage {
+@private
+  BOOL hasUserId_:1;
+  int32_t userId;
+  NSMutableArray* mutableCurrentTeamList;
+}
+- (BOOL) hasUserId;
+@property (readonly) int32_t userId;
+- (NSArray*) currentTeamList;
+- (FullUserMonsterProto*) currentTeamAtIndex:(int32_t) index;
+
++ (UserCurrentMonsterTeamProto*) defaultInstance;
+- (UserCurrentMonsterTeamProto*) defaultInstance;
+
+- (BOOL) isInitialized;
+- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output;
+- (UserCurrentMonsterTeamProto_Builder*) builder;
++ (UserCurrentMonsterTeamProto_Builder*) builder;
++ (UserCurrentMonsterTeamProto_Builder*) builderWithPrototype:(UserCurrentMonsterTeamProto*) prototype;
+
++ (UserCurrentMonsterTeamProto*) parseFromData:(NSData*) data;
++ (UserCurrentMonsterTeamProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (UserCurrentMonsterTeamProto*) parseFromInputStream:(NSInputStream*) input;
++ (UserCurrentMonsterTeamProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (UserCurrentMonsterTeamProto*) parseFromCodedInputStream:(PBCodedInputStream*) input;
++ (UserCurrentMonsterTeamProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+@end
+
+@interface UserCurrentMonsterTeamProto_Builder : PBGeneratedMessage_Builder {
+@private
+  UserCurrentMonsterTeamProto* result;
+}
+
+- (UserCurrentMonsterTeamProto*) defaultInstance;
+
+- (UserCurrentMonsterTeamProto_Builder*) clear;
+- (UserCurrentMonsterTeamProto_Builder*) clone;
+
+- (UserCurrentMonsterTeamProto*) build;
+- (UserCurrentMonsterTeamProto*) buildPartial;
+
+- (UserCurrentMonsterTeamProto_Builder*) mergeFrom:(UserCurrentMonsterTeamProto*) other;
+- (UserCurrentMonsterTeamProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input;
+- (UserCurrentMonsterTeamProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+
+- (BOOL) hasUserId;
+- (int32_t) userId;
+- (UserCurrentMonsterTeamProto_Builder*) setUserId:(int32_t) value;
+- (UserCurrentMonsterTeamProto_Builder*) clearUserId;
+
+- (NSArray*) currentTeamList;
+- (FullUserMonsterProto*) currentTeamAtIndex:(int32_t) index;
+- (UserCurrentMonsterTeamProto_Builder*) replaceCurrentTeamAtIndex:(int32_t) index with:(FullUserMonsterProto*) value;
+- (UserCurrentMonsterTeamProto_Builder*) addCurrentTeam:(FullUserMonsterProto*) value;
+- (UserCurrentMonsterTeamProto_Builder*) addAllCurrentTeam:(NSArray*) values;
+- (UserCurrentMonsterTeamProto_Builder*) clearCurrentTeamList;
 @end
 

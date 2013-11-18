@@ -76,6 +76,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
   self.adminChatUser = constants.adminChatUserProto;
   self.numBeginnerSalesAllowed = constants.numBeginnerSalesAllowed;
   self.minutesPerGem = constants.minutesPerGem;
+  self.pvpRequiredMinLvl = constants.pvpRequiredMinLvl;
   
   self.maxTeamSize = constants.userMonsterConstants.maxNumTeamSlots;
   self.baseInventorySize = constants.userMonsterConstants.initialMaxNumMonsterLimit;
@@ -297,6 +298,35 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
   }
 }
 
++ (UIColor *) colorForElement:(MonsterProto_MonsterElement)element {
+  ccColor3B c = ccc3(255, 255, 255);
+  switch (element) {
+    case MonsterProto_MonsterElementDarkness:
+      c = ccc3(129, 7, 181);
+      break;
+      
+    case MonsterProto_MonsterElementWater:
+      c = ccc3(10, 220, 210);
+      break;
+      
+    case MonsterProto_MonsterElementFire:
+      c = ccc3(220, 40, 0);
+      break;
+      
+    case MonsterProto_MonsterElementLightning:
+      c = ccc3(255, 215, 0);
+      break;
+      
+    case MonsterProto_MonsterElementGrass:
+      c = ccc3(100, 220, 20);
+      break;
+      
+    default:
+      break;
+  }
+  return [UIColor colorWithRed:c.r/255.f green:c.g/255.f blue:c.b/255.f alpha:1.f];
+}
+
 + (NSString *) stringForRarity:(MonsterProto_MonsterQuality)rarity {
   switch (rarity) {
     case MonsterProto_MonsterQualityCommon:
@@ -499,6 +529,25 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
   return s.length > 0 ? [pre stringByAppendingString:s] : @"0";
 }
 
++ (void) calculateDifferencesBetweenOldArray:(NSArray *)oArr newArray:(NSArray *)nArr removalIps:(NSMutableArray *)removals additionIps:(NSMutableArray *)additions section:(int)section {
+  // Used for animatedly reloading a table
+  NSMutableSet *old = [NSMutableSet setWithArray:oArr];
+  NSMutableSet *cur = [NSMutableSet setWithArray:nArr];
+  
+  NSMutableSet *added = cur.mutableCopy;
+  [added minusSet:old];
+  
+  NSMutableSet *removed = old.mutableCopy;
+  [removed minusSet:cur];
+  
+  for (UserMonster *um in added) {
+    [additions addObject:[NSIndexPath indexPathForRow:[nArr indexOfObject:um] inSection:section]];
+  }
+  for (UserMonster *um in removed) {
+    [removals addObject:[NSIndexPath indexPathForRow:[oArr indexOfObject:um] inSection:section]];
+  }
+}
+
 + (UIImage *) snapShotView:(UIView *)view {
   UIGraphicsBeginImageContext(view.bounds.size);
   [view.layer renderInContext:UIGraphicsGetCurrentContext()];
@@ -630,14 +679,6 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
   view.center = CGPointMake(sv.frame.size.width/2, sv.frame.size.height/2);
   
   [sv addSubview:view];
-}
-
-+ (void) displayUIViewWithoutAdjustment:(UIView *)view {
-  //  UIView *sv = [[GameViewController sharedGameViewController] view];
-  //  view.center = CGPointMake(sv.frame.size.width/2, sv.frame.size.height/2);
-  //  [sv addSubview:view];
-#warning fix
-  [self displayUIView:view];
 }
 
 + (NSString *) pathToFile:(NSString *)fileName {
@@ -1004,6 +1045,18 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
   }
 }
 
++ (NSDictionary *) convertUserTeamArrayToDictionary:(NSArray *)array {
+  NSMutableDictionary *dict = [NSMutableDictionary dictionary];
+  for (UserCurrentMonsterTeamProto *team in array) {
+    NSMutableArray *arr = [NSMutableArray array];
+    for (FullUserMonsterProto *m in team.currentTeamList) {
+      [arr addObject:[UserMonster userMonsterWithProto:m]];
+    }
+    [dict setObject:arr forKey:@(team.userId)];
+  }
+  return dict;
+}
+
 // Formulas
 
 - (int) calculateGemSpeedupCostForTimeLeft:(int)timeLeft {
@@ -1011,11 +1064,17 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
 }
 
 - (int) calculateNumMinutesForNewExpansion {
-  return 5;
+  GameState *gs = [GameState sharedGameState];
+  int numExp = [gs numCompletedExpansions];
+  CityExpansionCostProto *exp = [gs.expansionCosts objectForKey:@(numExp+1)];
+  return exp.numMinutesToExpand;
 }
 
 - (int) calculateSilverCostForNewExpansion {
-  return 5;
+  GameState *gs = [GameState sharedGameState];
+  int numExp = [gs numCompletedExpansions];
+  CityExpansionCostProto *exp = [gs.expansionCosts objectForKey:@(numExp+1)];
+  return exp.expansionCostCash;
 }
 
 - (NSString *) expansionPhraseForExpandSpot:(CGPoint)pt {
@@ -1206,6 +1265,10 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
   return [NSString stringWithFormat:@"https://graph.facebook.com/%@/picture?width=200&height=200&pic=/%@.png", uid, uid];
 }
 
++ (BOOL)isLongiPhone {
+  return ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone && [UIScreen mainScreen].bounds.size.height == 568.0);
+}
+
 #pragma mark Colors
 + (UIColor *)creamColor {
   return [UIColor colorWithRed:240/255.f green:237/255.f blue:213/255.f alpha:1.f];
@@ -1269,7 +1332,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
   return @"Ruby";
 }
 
-#define ARROW_ANIMATION_DURATION 0.5f
+#define ARROW_ANIMATION_DURATION 0.25f
 #define ARROW_ANIMATION_DISTANCE 14
 + (void) animateUIArrow:(UIView *)arrow atAngle:(float)angle {
   [arrow.layer removeAllAnimations];
@@ -1372,14 +1435,17 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
 }
 
 + (void) adjustViewForCentering:(UIView *)view withLabel:(UILabel *)label {
+  [self adjustView:view withLabel:label forXAnchor:0.5];
+}
+
++ (void) adjustView:(UIView *)view withLabel:(UILabel *)label forXAnchor:(float)xAnchor {
   CGSize size = [label.text sizeWithFont:label.font constrainedToSize:label.frame.size lineBreakMode:label.lineBreakMode];
-  CGPoint oldCenter = view.center;
+  float oldX = view.frame.origin.x+xAnchor*view.frame.size.width;
   
   CGRect r = view.frame;
-  r.size.width = label.frame.origin.x + size.width;
+  r.size.width = [view convertPoint:label.frame.origin fromView:label.superview].x + size.width;
+  r.origin.x = oldX-r.size.width*xAnchor;
   view.frame = r;
-  
-  view.center = oldCenter;
 }
 
 + (UIColor *) colorForColorProto:(ColorProto *)cp {
@@ -1447,6 +1513,15 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
     [arr addObject:[object copy]];
   }
   return arr;
+}
+
+- (NSArray *)reversedArray {
+  NSMutableArray *array = [NSMutableArray arrayWithCapacity:[self count]];
+  NSEnumerator *enumerator = [self reverseObjectEnumerator];
+  for (id element in enumerator) {
+    [array addObject:element];
+  }
+  return array;
 }
 
 @end

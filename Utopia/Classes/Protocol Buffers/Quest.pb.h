@@ -2,10 +2,6 @@
 
 #import "ProtocolBuffers.h"
 
-#import "Job.pb.h"
-
-@class BuildStructJobProto;
-@class BuildStructJobProto_Builder;
 @class DialogueProto;
 @class DialogueProto_Builder;
 @class DialogueProto_SpeechSegmentProto;
@@ -14,14 +10,6 @@
 @class FullQuestProto_Builder;
 @class FullUserQuestProto;
 @class FullUserQuestProto_Builder;
-@class MinimumUserBuildStructJobProto;
-@class MinimumUserBuildStructJobProto_Builder;
-@class MinimumUserUpgradeStructJobProto;
-@class MinimumUserUpgradeStructJobProto_Builder;
-@class MonsterJobProto;
-@class MonsterJobProto_Builder;
-@class UpgradeStructJobProto;
-@class UpgradeStructJobProto_Builder;
 typedef enum {
   FullQuestProto_QuestTypeKillMonster = 1,
   FullQuestProto_QuestTypeDonateMonster = 2,

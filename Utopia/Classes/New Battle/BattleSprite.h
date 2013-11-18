@@ -28,6 +28,9 @@
 @property (nonatomic, assign) CCLabelTTF *healthLabel;
 @property (nonatomic, assign) CCProgressTimer *healthBar;
 @property (nonatomic, assign) CCSprite *healthBgd;
+@property (nonatomic, assign) CCLabelTTF *nameLabel;
+
+@property (nonatomic, retain) CCSprite *ringGlow;
 
 @property (nonatomic, assign) BOOL isFacingNear;
 @property (nonatomic, assign) BOOL isWalking;
@@ -43,6 +46,8 @@
 
 - (void) performNearFlinchAnimationWithStrength:(float)strength target:(id)target selector:(SEL)selector;
 
-- (id) initWithPrefix:(NSString *)prefix;
+- (id) initWithPrefix:(NSString *)prefix nameString:(NSString *)name;
+
+- (void) pulseRingGlow;
 
 @end

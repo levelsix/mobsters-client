@@ -2,15 +2,14 @@
 
 #import "ProtocolBuffers.h"
 
-#import "Job.pb.h"
-#import "City.pb.h"
-#import "Quest.pb.h"
-#import "Structure.pb.h"
-#import "Task.pb.h"
-#import "User.pb.h"
+#import "StaticData.pb.h"
 
-@class BuildStructJobProto;
-@class BuildStructJobProto_Builder;
+@class BoosterDisplayItemProto;
+@class BoosterDisplayItemProto_Builder;
+@class BoosterItemProto;
+@class BoosterItemProto_Builder;
+@class BoosterPackProto;
+@class BoosterPackProto_Builder;
 @class CityElementProto;
 @class CityElementProto_Builder;
 @class CityExpansionCostProto;
@@ -39,8 +38,6 @@
 @class FullUserStructureProto_Builder;
 @class MinimumClanProto;
 @class MinimumClanProto_Builder;
-@class MinimumUserBuildStructJobProto;
-@class MinimumUserBuildStructJobProto_Builder;
 @class MinimumUserMonsterSellProto;
 @class MinimumUserMonsterSellProto_Builder;
 @class MinimumUserProto;
@@ -51,28 +48,24 @@
 @class MinimumUserProto_Builder;
 @class MinimumUserTaskProto;
 @class MinimumUserTaskProto_Builder;
-@class MinimumUserUpgradeStructJobProto;
-@class MinimumUserUpgradeStructJobProto_Builder;
-@class MonsterJobProto;
-@class MonsterJobProto_Builder;
 @class MonsterProto;
 @class MonsterProto_Builder;
 @class PurgeClientStaticDataResponseProto;
 @class PurgeClientStaticDataResponseProto_Builder;
-@class RetrieveStaticDataRequestProto;
-@class RetrieveStaticDataRequestProto_Builder;
-@class RetrieveStaticDataResponseProto;
-@class RetrieveStaticDataResponseProto_Builder;
-@class StaticLevelInfoProto;
-@class StaticLevelInfoProto_Builder;
+@class RareBoosterPurchaseProto;
+@class RareBoosterPurchaseProto_Builder;
+@class StaticDataProto;
+@class StaticDataProto_Builder;
+@class StaticUserLevelInfoProto;
+@class StaticUserLevelInfoProto_Builder;
 @class TaskStageMonsterProto;
 @class TaskStageMonsterProto_Builder;
 @class TaskStageProto;
 @class TaskStageProto_Builder;
-@class UpgradeStructJobProto;
-@class UpgradeStructJobProto_Builder;
 @class UserCityExpansionDataProto;
 @class UserCityExpansionDataProto_Builder;
+@class UserCurrentMonsterTeamProto;
+@class UserCurrentMonsterTeamProto_Builder;
 @class UserEnhancementItemProto;
 @class UserEnhancementItemProto_Builder;
 @class UserEnhancementProto;
@@ -85,13 +78,6 @@
 @class UserMonsterCurrentHealthProto_Builder;
 @class UserMonsterHealingProto;
 @class UserMonsterHealingProto_Builder;
-typedef enum {
-  RetrieveStaticDataResponseProto_RetrieveStaticDataStatusSuccess = 1,
-  RetrieveStaticDataResponseProto_RetrieveStaticDataStatusSomeFail = 2,
-} RetrieveStaticDataResponseProto_RetrieveStaticDataStatus;
-
-BOOL RetrieveStaticDataResponseProto_RetrieveStaticDataStatusIsValidValue(RetrieveStaticDataResponseProto_RetrieveStaticDataStatus value);
-
 
 @interface EventStaticDataRoot : NSObject {
 }
@@ -99,252 +85,17 @@ BOOL RetrieveStaticDataResponseProto_RetrieveStaticDataStatusIsValidValue(Retrie
 + (void) registerAllExtensions:(PBMutableExtensionRegistry*) registry;
 @end
 
-@interface RetrieveStaticDataRequestProto : PBGeneratedMessage {
-@private
-  BOOL hasSender_:1;
-  MinimumUserProto* sender;
-  NSMutableArray* mutableStructIdsList;
-  NSMutableArray* mutableTaskIdsList;
-  NSMutableArray* mutableQuestIdsList;
-  NSMutableArray* mutableCityIdsList;
-  NSMutableArray* mutableMonsterIdsList;
-  NSMutableArray* mutableBuildStructJobIdsList;
-  NSMutableArray* mutableUpgradeStructJobIdsList;
-}
-- (BOOL) hasSender;
-@property (readonly, retain) MinimumUserProto* sender;
-- (NSArray*) structIdsList;
-- (int32_t) structIdsAtIndex:(int32_t) index;
-- (NSArray*) taskIdsList;
-- (int32_t) taskIdsAtIndex:(int32_t) index;
-- (NSArray*) questIdsList;
-- (int32_t) questIdsAtIndex:(int32_t) index;
-- (NSArray*) cityIdsList;
-- (int32_t) cityIdsAtIndex:(int32_t) index;
-- (NSArray*) monsterIdsList;
-- (int32_t) monsterIdsAtIndex:(int32_t) index;
-- (NSArray*) buildStructJobIdsList;
-- (int32_t) buildStructJobIdsAtIndex:(int32_t) index;
-- (NSArray*) upgradeStructJobIdsList;
-- (int32_t) upgradeStructJobIdsAtIndex:(int32_t) index;
-
-+ (RetrieveStaticDataRequestProto*) defaultInstance;
-- (RetrieveStaticDataRequestProto*) defaultInstance;
-
-- (BOOL) isInitialized;
-- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output;
-- (RetrieveStaticDataRequestProto_Builder*) builder;
-+ (RetrieveStaticDataRequestProto_Builder*) builder;
-+ (RetrieveStaticDataRequestProto_Builder*) builderWithPrototype:(RetrieveStaticDataRequestProto*) prototype;
-
-+ (RetrieveStaticDataRequestProto*) parseFromData:(NSData*) data;
-+ (RetrieveStaticDataRequestProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
-+ (RetrieveStaticDataRequestProto*) parseFromInputStream:(NSInputStream*) input;
-+ (RetrieveStaticDataRequestProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
-+ (RetrieveStaticDataRequestProto*) parseFromCodedInputStream:(PBCodedInputStream*) input;
-+ (RetrieveStaticDataRequestProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
-@end
-
-@interface RetrieveStaticDataRequestProto_Builder : PBGeneratedMessage_Builder {
-@private
-  RetrieveStaticDataRequestProto* result;
-}
-
-- (RetrieveStaticDataRequestProto*) defaultInstance;
-
-- (RetrieveStaticDataRequestProto_Builder*) clear;
-- (RetrieveStaticDataRequestProto_Builder*) clone;
-
-- (RetrieveStaticDataRequestProto*) build;
-- (RetrieveStaticDataRequestProto*) buildPartial;
-
-- (RetrieveStaticDataRequestProto_Builder*) mergeFrom:(RetrieveStaticDataRequestProto*) other;
-- (RetrieveStaticDataRequestProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input;
-- (RetrieveStaticDataRequestProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
-
-- (BOOL) hasSender;
-- (MinimumUserProto*) sender;
-- (RetrieveStaticDataRequestProto_Builder*) setSender:(MinimumUserProto*) value;
-- (RetrieveStaticDataRequestProto_Builder*) setSenderBuilder:(MinimumUserProto_Builder*) builderForValue;
-- (RetrieveStaticDataRequestProto_Builder*) mergeSender:(MinimumUserProto*) value;
-- (RetrieveStaticDataRequestProto_Builder*) clearSender;
-
-- (NSArray*) structIdsList;
-- (int32_t) structIdsAtIndex:(int32_t) index;
-- (RetrieveStaticDataRequestProto_Builder*) replaceStructIdsAtIndex:(int32_t) index with:(int32_t) value;
-- (RetrieveStaticDataRequestProto_Builder*) addStructIds:(int32_t) value;
-- (RetrieveStaticDataRequestProto_Builder*) addAllStructIds:(NSArray*) values;
-- (RetrieveStaticDataRequestProto_Builder*) clearStructIdsList;
-
-- (NSArray*) taskIdsList;
-- (int32_t) taskIdsAtIndex:(int32_t) index;
-- (RetrieveStaticDataRequestProto_Builder*) replaceTaskIdsAtIndex:(int32_t) index with:(int32_t) value;
-- (RetrieveStaticDataRequestProto_Builder*) addTaskIds:(int32_t) value;
-- (RetrieveStaticDataRequestProto_Builder*) addAllTaskIds:(NSArray*) values;
-- (RetrieveStaticDataRequestProto_Builder*) clearTaskIdsList;
-
-- (NSArray*) questIdsList;
-- (int32_t) questIdsAtIndex:(int32_t) index;
-- (RetrieveStaticDataRequestProto_Builder*) replaceQuestIdsAtIndex:(int32_t) index with:(int32_t) value;
-- (RetrieveStaticDataRequestProto_Builder*) addQuestIds:(int32_t) value;
-- (RetrieveStaticDataRequestProto_Builder*) addAllQuestIds:(NSArray*) values;
-- (RetrieveStaticDataRequestProto_Builder*) clearQuestIdsList;
-
-- (NSArray*) cityIdsList;
-- (int32_t) cityIdsAtIndex:(int32_t) index;
-- (RetrieveStaticDataRequestProto_Builder*) replaceCityIdsAtIndex:(int32_t) index with:(int32_t) value;
-- (RetrieveStaticDataRequestProto_Builder*) addCityIds:(int32_t) value;
-- (RetrieveStaticDataRequestProto_Builder*) addAllCityIds:(NSArray*) values;
-- (RetrieveStaticDataRequestProto_Builder*) clearCityIdsList;
-
-- (NSArray*) monsterIdsList;
-- (int32_t) monsterIdsAtIndex:(int32_t) index;
-- (RetrieveStaticDataRequestProto_Builder*) replaceMonsterIdsAtIndex:(int32_t) index with:(int32_t) value;
-- (RetrieveStaticDataRequestProto_Builder*) addMonsterIds:(int32_t) value;
-- (RetrieveStaticDataRequestProto_Builder*) addAllMonsterIds:(NSArray*) values;
-- (RetrieveStaticDataRequestProto_Builder*) clearMonsterIdsList;
-
-- (NSArray*) buildStructJobIdsList;
-- (int32_t) buildStructJobIdsAtIndex:(int32_t) index;
-- (RetrieveStaticDataRequestProto_Builder*) replaceBuildStructJobIdsAtIndex:(int32_t) index with:(int32_t) value;
-- (RetrieveStaticDataRequestProto_Builder*) addBuildStructJobIds:(int32_t) value;
-- (RetrieveStaticDataRequestProto_Builder*) addAllBuildStructJobIds:(NSArray*) values;
-- (RetrieveStaticDataRequestProto_Builder*) clearBuildStructJobIdsList;
-
-- (NSArray*) upgradeStructJobIdsList;
-- (int32_t) upgradeStructJobIdsAtIndex:(int32_t) index;
-- (RetrieveStaticDataRequestProto_Builder*) replaceUpgradeStructJobIdsAtIndex:(int32_t) index with:(int32_t) value;
-- (RetrieveStaticDataRequestProto_Builder*) addUpgradeStructJobIds:(int32_t) value;
-- (RetrieveStaticDataRequestProto_Builder*) addAllUpgradeStructJobIds:(NSArray*) values;
-- (RetrieveStaticDataRequestProto_Builder*) clearUpgradeStructJobIdsList;
-@end
-
-@interface RetrieveStaticDataResponseProto : PBGeneratedMessage {
-@private
-  BOOL hasSender_:1;
-  BOOL hasStatus_:1;
-  MinimumUserProto* sender;
-  RetrieveStaticDataResponseProto_RetrieveStaticDataStatus status;
-  NSMutableArray* mutableStructsList;
-  NSMutableArray* mutableTasksList;
-  NSMutableArray* mutableQuestsList;
-  NSMutableArray* mutableCitiesList;
-  NSMutableArray* mutableBuildStructJobsList;
-  NSMutableArray* mutableUpgradeStructJobsList;
-}
-- (BOOL) hasSender;
-- (BOOL) hasStatus;
-@property (readonly, retain) MinimumUserProto* sender;
-@property (readonly) RetrieveStaticDataResponseProto_RetrieveStaticDataStatus status;
-- (NSArray*) structsList;
-- (FullStructureProto*) structsAtIndex:(int32_t) index;
-- (NSArray*) tasksList;
-- (FullTaskProto*) tasksAtIndex:(int32_t) index;
-- (NSArray*) questsList;
-- (FullQuestProto*) questsAtIndex:(int32_t) index;
-- (NSArray*) citiesList;
-- (FullCityProto*) citiesAtIndex:(int32_t) index;
-- (NSArray*) buildStructJobsList;
-- (BuildStructJobProto*) buildStructJobsAtIndex:(int32_t) index;
-- (NSArray*) upgradeStructJobsList;
-- (UpgradeStructJobProto*) upgradeStructJobsAtIndex:(int32_t) index;
-
-+ (RetrieveStaticDataResponseProto*) defaultInstance;
-- (RetrieveStaticDataResponseProto*) defaultInstance;
-
-- (BOOL) isInitialized;
-- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output;
-- (RetrieveStaticDataResponseProto_Builder*) builder;
-+ (RetrieveStaticDataResponseProto_Builder*) builder;
-+ (RetrieveStaticDataResponseProto_Builder*) builderWithPrototype:(RetrieveStaticDataResponseProto*) prototype;
-
-+ (RetrieveStaticDataResponseProto*) parseFromData:(NSData*) data;
-+ (RetrieveStaticDataResponseProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
-+ (RetrieveStaticDataResponseProto*) parseFromInputStream:(NSInputStream*) input;
-+ (RetrieveStaticDataResponseProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
-+ (RetrieveStaticDataResponseProto*) parseFromCodedInputStream:(PBCodedInputStream*) input;
-+ (RetrieveStaticDataResponseProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
-@end
-
-@interface RetrieveStaticDataResponseProto_Builder : PBGeneratedMessage_Builder {
-@private
-  RetrieveStaticDataResponseProto* result;
-}
-
-- (RetrieveStaticDataResponseProto*) defaultInstance;
-
-- (RetrieveStaticDataResponseProto_Builder*) clear;
-- (RetrieveStaticDataResponseProto_Builder*) clone;
-
-- (RetrieveStaticDataResponseProto*) build;
-- (RetrieveStaticDataResponseProto*) buildPartial;
-
-- (RetrieveStaticDataResponseProto_Builder*) mergeFrom:(RetrieveStaticDataResponseProto*) other;
-- (RetrieveStaticDataResponseProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input;
-- (RetrieveStaticDataResponseProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
-
-- (BOOL) hasSender;
-- (MinimumUserProto*) sender;
-- (RetrieveStaticDataResponseProto_Builder*) setSender:(MinimumUserProto*) value;
-- (RetrieveStaticDataResponseProto_Builder*) setSenderBuilder:(MinimumUserProto_Builder*) builderForValue;
-- (RetrieveStaticDataResponseProto_Builder*) mergeSender:(MinimumUserProto*) value;
-- (RetrieveStaticDataResponseProto_Builder*) clearSender;
-
-- (NSArray*) structsList;
-- (FullStructureProto*) structsAtIndex:(int32_t) index;
-- (RetrieveStaticDataResponseProto_Builder*) replaceStructsAtIndex:(int32_t) index with:(FullStructureProto*) value;
-- (RetrieveStaticDataResponseProto_Builder*) addStructs:(FullStructureProto*) value;
-- (RetrieveStaticDataResponseProto_Builder*) addAllStructs:(NSArray*) values;
-- (RetrieveStaticDataResponseProto_Builder*) clearStructsList;
-
-- (NSArray*) tasksList;
-- (FullTaskProto*) tasksAtIndex:(int32_t) index;
-- (RetrieveStaticDataResponseProto_Builder*) replaceTasksAtIndex:(int32_t) index with:(FullTaskProto*) value;
-- (RetrieveStaticDataResponseProto_Builder*) addTasks:(FullTaskProto*) value;
-- (RetrieveStaticDataResponseProto_Builder*) addAllTasks:(NSArray*) values;
-- (RetrieveStaticDataResponseProto_Builder*) clearTasksList;
-
-- (NSArray*) questsList;
-- (FullQuestProto*) questsAtIndex:(int32_t) index;
-- (RetrieveStaticDataResponseProto_Builder*) replaceQuestsAtIndex:(int32_t) index with:(FullQuestProto*) value;
-- (RetrieveStaticDataResponseProto_Builder*) addQuests:(FullQuestProto*) value;
-- (RetrieveStaticDataResponseProto_Builder*) addAllQuests:(NSArray*) values;
-- (RetrieveStaticDataResponseProto_Builder*) clearQuestsList;
-
-- (NSArray*) citiesList;
-- (FullCityProto*) citiesAtIndex:(int32_t) index;
-- (RetrieveStaticDataResponseProto_Builder*) replaceCitiesAtIndex:(int32_t) index with:(FullCityProto*) value;
-- (RetrieveStaticDataResponseProto_Builder*) addCities:(FullCityProto*) value;
-- (RetrieveStaticDataResponseProto_Builder*) addAllCities:(NSArray*) values;
-- (RetrieveStaticDataResponseProto_Builder*) clearCitiesList;
-
-- (NSArray*) buildStructJobsList;
-- (BuildStructJobProto*) buildStructJobsAtIndex:(int32_t) index;
-- (RetrieveStaticDataResponseProto_Builder*) replaceBuildStructJobsAtIndex:(int32_t) index with:(BuildStructJobProto*) value;
-- (RetrieveStaticDataResponseProto_Builder*) addBuildStructJobs:(BuildStructJobProto*) value;
-- (RetrieveStaticDataResponseProto_Builder*) addAllBuildStructJobs:(NSArray*) values;
-- (RetrieveStaticDataResponseProto_Builder*) clearBuildStructJobsList;
-
-- (NSArray*) upgradeStructJobsList;
-- (UpgradeStructJobProto*) upgradeStructJobsAtIndex:(int32_t) index;
-- (RetrieveStaticDataResponseProto_Builder*) replaceUpgradeStructJobsAtIndex:(int32_t) index with:(UpgradeStructJobProto*) value;
-- (RetrieveStaticDataResponseProto_Builder*) addUpgradeStructJobs:(UpgradeStructJobProto*) value;
-- (RetrieveStaticDataResponseProto_Builder*) addAllUpgradeStructJobs:(NSArray*) values;
-- (RetrieveStaticDataResponseProto_Builder*) clearUpgradeStructJobsList;
-
-- (BOOL) hasStatus;
-- (RetrieveStaticDataResponseProto_RetrieveStaticDataStatus) status;
-- (RetrieveStaticDataResponseProto_Builder*) setStatus:(RetrieveStaticDataResponseProto_RetrieveStaticDataStatus) value;
-- (RetrieveStaticDataResponseProto_Builder*) clearStatus;
-@end
-
 @interface PurgeClientStaticDataResponseProto : PBGeneratedMessage {
 @private
   BOOL hasSenderId_:1;
+  BOOL hasStaticDataStuff_:1;
   int32_t senderId;
+  StaticDataProto* staticDataStuff;
 }
 - (BOOL) hasSenderId;
+- (BOOL) hasStaticDataStuff;
 @property (readonly) int32_t senderId;
+@property (readonly, retain) StaticDataProto* staticDataStuff;
 
 + (PurgeClientStaticDataResponseProto*) defaultInstance;
 - (PurgeClientStaticDataResponseProto*) defaultInstance;
@@ -384,5 +135,12 @@ BOOL RetrieveStaticDataResponseProto_RetrieveStaticDataStatusIsValidValue(Retrie
 - (int32_t) senderId;
 - (PurgeClientStaticDataResponseProto_Builder*) setSenderId:(int32_t) value;
 - (PurgeClientStaticDataResponseProto_Builder*) clearSenderId;
+
+- (BOOL) hasStaticDataStuff;
+- (StaticDataProto*) staticDataStuff;
+- (PurgeClientStaticDataResponseProto_Builder*) setStaticDataStuff:(StaticDataProto*) value;
+- (PurgeClientStaticDataResponseProto_Builder*) setStaticDataStuffBuilder:(StaticDataProto_Builder*) builderForValue;
+- (PurgeClientStaticDataResponseProto_Builder*) mergeStaticDataStuff:(StaticDataProto*) value;
+- (PurgeClientStaticDataResponseProto_Builder*) clearStaticDataStuff;
 @end
 

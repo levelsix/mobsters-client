@@ -412,32 +412,10 @@
 }
 
 - (ccColor3B) colorForSparkle:(GemColorId)color {
-  ccColor3B c = ccc3(255, 255, 255);
-  switch (color) {
-    case color_purple:
-      c = ccc3(129, 7, 181);
-      break;
-      
-    case color_blue:
-      c = ccc3(10, 220, 210);
-      break;
-      
-    case color_red:
-      c = ccc3(220, 40, 0);
-      break;
-      
-    case color_white:
-      c = ccc3(225, 200, 0);
-      break;
-      
-    case color_green:
-      c = ccc3(100, 220, 20);
-      break;
-      
-    default:
-      break;
-  }
-  return c;
+  UIColor *c = [Globals colorForElement:(MonsterProto_MonsterElement)color];
+  float r = 1.f, g = 1.f, b = 1.f, a = 1.f;
+  [c getRed:&r green:&g blue:&b alpha:&a];
+  return ccc3(r*255, g*255, b*255);
 }
 
 // Color of gem that destroyed this gem
@@ -453,6 +431,13 @@
   [self.destroyedGems addObject:gem];
   [self.reservedGems addObject:gem];
   if (gem.powerup != powerup_none) {
+    if (gem.powerup == powerup_horizontal_line || gem.powerup == powerup_vertical_line) {
+      if (powerup == powerup_horizontal_line) {
+        gem.powerup = powerup_vertical_line;
+      } else if (powerup == powerup_vertical_line) {
+        gem.powerup = powerup_horizontal_line;
+      }
+    }
     [self initiatePowerup:gem.powerup atLocation:pt withColor:color];
   }
   
@@ -523,14 +508,20 @@
     bez.controlPoint_1 = ccpAdd(initPoint, CGPointApplyAffineTransform(basePt1, t));
     bez.controlPoint_2 = ccpAdd(initPoint, CGPointApplyAffineTransform(basePt2, t));
     
-    CCBezierTo *move = [CCBezierTo actionWithDuration:0.2f+xScale/400.f bezier:bez];
+    CCBezierTo *move = [CCBezierTo actionWithDuration:0.25f+xScale/600.f bezier:bez];
     DestroyedGem *dg = [[DestroyedGem alloc] initWithColor:[self colorForSparkle:gem.color]];
     [self addChild:dg z:10];
     dg.position = gem.sprite.position;
-    [dg runAction:[CCSequence actions:move, [CCFadeOut actionWithDuration:0.2f], [CCDelayTime actionWithDuration:1.f], [CCCallFunc actionWithTarget:dg selector:@selector(removeFromParent)], nil]];
+    [dg runAction:[CCSequence actions:move,
+                   [CCCallBlock actionWithBlock:
+                    ^{
+                      [self.delegate gemReachedFlyLocation:gem];
+                    }],
+                   [CCFadeOut actionWithDuration:0.5f],
+                   [CCDelayTime actionWithDuration:0.7f],
+                   [CCCallFunc actionWithTarget:dg selector:@selector(removeFromParent)], nil]];
   }
   
-  // Send to delegate
   [self.delegate gemKilled:gem];
 }
 
@@ -1347,10 +1338,10 @@
       [_gems replaceObjectAtIndex:idxA withObject:_realDragGem];
       [_gems replaceObjectAtIndex:idxB withObject:_swapGem];
       
-//      if (!_beganTimer) {
-//        _beganTimer = YES;
-//        [self schedule:@selector(timedOut) interval:TIME_LIMIT];
-//      }
+      //      if (!_beganTimer) {
+      //        _beganTimer = YES;
+      //        [self schedule:@selector(timedOut) interval:TIME_LIMIT];
+      //      }
       
       [self timedOut];
     }

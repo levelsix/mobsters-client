@@ -7,13 +7,17 @@
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="GenericPopupController">
             <connections>
                 <outlet property="bgdView" destination="15" id="XbM-P9-7b3"/>
-                <outlet property="blackButtonLabel" destination="36" id="QRT-bo-Cee"/>
+                <outlet property="confCancelButton" destination="34" id="70q-LJ-TYN"/>
+                <outlet property="confCancelButtonLabel" destination="36" id="iEH-oj-fhN"/>
+                <outlet property="confOkayButton" destination="33" id="CK3-El-HKu"/>
+                <outlet property="confOkayButtonLabel" destination="35" id="iys-Mq-Mwo"/>
                 <outlet property="confirmationView" destination="24" id="NHz-HD-RtT"/>
                 <outlet property="descriptionLabel" destination="18" id="2qD-xD-sv2"/>
-                <outlet property="greenButtonLabel" destination="35" id="uS7-MO-DaY"/>
+                <outlet property="descriptionView" destination="KHf-hy-Bum" id="lfy-VD-BB7"/>
                 <outlet property="mainView" destination="11" id="DEJ-eO-Bbz"/>
+                <outlet property="notifButton" destination="20" id="piJ-DY-Za7"/>
+                <outlet property="notifButtonLabel" destination="21" id="zfz-3r-l74"/>
                 <outlet property="notificationView" destination="17" id="L9y-Tz-n8y"/>
-                <outlet property="redButtonLabel" destination="21" id="t7u-5h-mha"/>
                 <outlet property="titleLabel" destination="22" id="gmD-ce-Dpt"/>
                 <outlet property="view" destination="1" id="VeG-bS-fRh"/>
             </connections>
@@ -43,15 +47,22 @@
                             <nil key="highlightedColor"/>
                             <color key="shadowColor" white="1" alpha="0.5" colorSpace="calibratedWhite"/>
                         </label>
-                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Label" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" id="18" customClass="NiceFontLabel">
-                            <rect key="frame" x="20" y="47" width="184" height="61"/>
+                        <view contentMode="scaleToFill" id="KHf-hy-Bum">
+                            <rect key="frame" x="9" y="40" width="206" height="75"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                            <fontDescription key="fontDescription" type="system" pointSize="15"/>
-                            <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                            <nil key="highlightedColor"/>
-                            <color key="shadowColor" red="0.0" green="0.0" blue="0.0" alpha="0.70000000000000007" colorSpace="calibratedRGB"/>
-                            <size key="shadowOffset" width="0.0" height="1"/>
-                        </label>
+                            <subviews>
+                                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Label" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" id="18" customClass="NiceFontLabel">
+                                    <rect key="frame" x="11" y="7" width="184" height="61"/>
+                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                    <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                                    <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                    <nil key="highlightedColor"/>
+                                    <color key="shadowColor" red="0.0" green="0.0" blue="0.0" alpha="0.70000000000000007" colorSpace="calibratedRGB"/>
+                                    <size key="shadowOffset" width="0.0" height="1"/>
+                                </label>
+                            </subviews>
+                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                        </view>
                         <view contentMode="scaleToFill" id="17">
                             <rect key="frame" x="9" y="116" width="206" height="52"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
@@ -68,16 +79,16 @@
                                         <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                     </state>
                                     <connections>
-                                        <action selector="redOkayClicked:" destination="-1" eventType="touchUpInside" id="HDH-w2-uxM"/>
+                                        <action selector="close:" destination="-1" eventType="touchUpInside" id="sBV-jE-Hnx"/>
                                     </connections>
                                 </button>
-                                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Okay" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="10" id="21" customClass="NiceFontLabel">
-                                    <rect key="frame" x="41" y="13" width="125" height="24"/>
+                                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Okay" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" id="21" customClass="NiceFontLabel">
+                                    <rect key="frame" x="62" y="6" width="84" height="40"/>
                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                     <fontDescription key="fontDescription" type="system" pointSize="15"/>
                                     <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="calibratedRGB"/>
                                     <nil key="highlightedColor"/>
-                                    <color key="shadowColor" red="0.0" green="0.0" blue="0.0" alpha="0.29999999999999999" colorSpace="calibratedRGB"/>
+                                    <color key="shadowColor" white="0.0" alpha="0.40000000000000002" colorSpace="calibratedWhite"/>
                                     <size key="shadowOffset" width="0.0" height="1"/>
                                 </label>
                             </subviews>
@@ -107,7 +118,7 @@
                         <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     </state>
                     <connections>
-                        <action selector="greenOkayClicked:" destination="-1" eventType="touchUpInside" id="k6j-tz-6aP"/>
+                        <action selector="close:" destination="-1" eventType="touchUpInside" id="GBj-yG-vhc"/>
                     </connections>
                 </button>
                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="34">
@@ -122,25 +133,41 @@
                         <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     </state>
                     <connections>
-                        <action selector="cancelClicked:" destination="-1" eventType="touchUpInside" id="dkK-Tt-Bm9"/>
+                        <action selector="close:" destination="-1" eventType="touchUpInside" id="OdQ-mz-6on"/>
                     </connections>
                 </button>
                 <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Okay" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="10" id="35" customClass="NiceFontLabel">
-                    <rect key="frame" x="104" y="15" width="93" height="21"/>
+                    <rect key="frame" x="109" y="5" width="84" height="40"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                     <fontDescription key="fontDescription" type="system" pointSize="15"/>
                     <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="calibratedRGB"/>
                     <nil key="highlightedColor"/>
-                    <color key="shadowColor" white="0.0" alpha="0.20000000000000001" colorSpace="calibratedWhite"/>
+                    <color key="shadowColor" white="0.0" alpha="0.40000000000000002" colorSpace="calibratedWhite"/>
                     <size key="shadowOffset" width="0.0" height="1"/>
                 </label>
                 <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Cancel" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="10" id="36" customClass="NiceFontLabel">
-                    <rect key="frame" x="10" y="15" width="91" height="21"/>
+                    <rect key="frame" x="15" y="5" width="84" height="40"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                     <fontDescription key="fontDescription" type="system" pointSize="15"/>
                     <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="calibratedRGB"/>
                     <nil key="highlightedColor"/>
                     <color key="shadowColor" white="0.0" alpha="0.80000000000000004" colorSpace="calibratedWhite"/>
+                    <size key="shadowOffset" width="0.0" height="1"/>
+                </label>
+            </subviews>
+            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+        </view>
+        <view contentMode="scaleToFill" id="Bdk-Rd-xtd">
+            <rect key="frame" x="0.0" y="0.0" width="206" height="75"/>
+            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+            <subviews>
+                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Label" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" id="32Z-Fb-yhu" customClass="NiceFontLabel">
+                    <rect key="frame" x="94" y="7" width="101" height="61"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                    <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                    <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    <nil key="highlightedColor"/>
+                    <color key="shadowColor" red="0.0" green="0.0" blue="0.0" alpha="0.69999999999999996" colorSpace="calibratedRGB"/>
                     <size key="shadowOffset" width="0.0" height="1"/>
                 </label>
             </subviews>

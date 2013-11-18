@@ -48,8 +48,6 @@
 
 @implementation SelectableSprite
 
-@synthesize isSelected = _isSelected;
-
 -(id) initWithFile: (NSString *) file  location: (CGRect)loc map: (GameMap *) map{
   if ((self = [super initWithFile:file location:loc map:map])) {
     _isSelected = NO;
@@ -66,20 +64,21 @@
   //  [self addChild:_glow z:-1];
 }
 
--(void) setIsSelected:(BOOL)isSelected {
-  _isSelected = isSelected;
-  if (isSelected) {
-    //    _glow.visible = YES;
-    int amt = 120;
-    CCTintBy *tint = [CCTintBy actionWithDuration:GLOW_DURATION red:-amt green:-amt blue:-amt];
-    CCAction *action = [CCRepeatForever actionWithAction:[CCSequence actions:tint, tint.reverse, nil]];
-    action.tag = GLOW_ACTION_TAG;
-    [self runAction:action];
-  } else {
-    //    _glow.visible = NO;
-    [self stopActionByTag:GLOW_ACTION_TAG];
-    self.color = ccc3(255, 255, 255);
-  }
+- (BOOL) select {
+  [self unselect];
+  _isSelected = YES;
+  int amt = 120;
+  CCTintBy *tint = [CCTintBy actionWithDuration:GLOW_DURATION red:-amt green:-amt blue:-amt];
+  CCAction *action = [CCRepeatForever actionWithAction:[CCSequence actions:tint, tint.reverse, nil]];
+  action.tag = GLOW_ACTION_TAG;
+  [self runAction:action];
+  return YES;
+}
+
+- (void) unselect {
+  _isSelected = NO;
+  [self stopActionByTag:GLOW_ACTION_TAG];
+  self.color = ccc3(255, 255, 255);
 }
 
 - (void) displayArrow {
@@ -92,7 +91,7 @@
   
   CCSpawn *down = [CCSpawn actions:
                    [CCEaseSineInOut actionWithAction:[CCScaleBy actionWithDuration:0.7f scaleX:1.f scaleY:0.88f]],
-                   [CCEaseSineInOut actionWithAction:[CCMoveBy actionWithDuration:0.7f position:ccp(0.f, -5.f)]], 
+                   [CCEaseSineInOut actionWithAction:[CCMoveBy actionWithDuration:0.7f position:ccp(0.f, -5.f)]],
                    nil];
   CCActionInterval *up = [down reverse];
   [_arrow runAction:[CCRepeatForever actionWithAction:[CCSequence actions:down, up, nil]]];
@@ -123,7 +122,7 @@
                     [CCSpawn actions:
                      [CCMoveBy actionWithDuration:1.5f position:ccp(0, 20.f)],
                      [CCFadeOut actionWithDuration:1.5f],
-                     nil], 
+                     nil],
                     nil]];
   
   if (_arrow) {

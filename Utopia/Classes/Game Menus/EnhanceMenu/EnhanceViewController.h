@@ -10,23 +10,30 @@
 #import "GenViewController.h"
 #import "EasyTableView.h"
 #import "EnhanceViews.h"
+#import "MonsterTeamSlotView.h"
 
-@interface EnhanceViewController : GenViewController <EasyTableViewDelegate> {
+@interface EnhanceViewController : GenViewController <EasyTableViewDelegate, EnhanceCardDelegate> {
   int _confirmUserMonsterId;
 }
 
 @property (nonatomic, strong) IBOutlet EnhanceQueueView *queueView;
-@property (nonatomic, strong) IBOutlet EnhanceBaseView *baseView;
 
-@property (nonatomic, strong) IBOutlet UILabel *selectBaseLabel;
-@property (nonatomic, strong) IBOutlet UILabel *selectFeedersLabel;
+@property (nonatomic, strong) IBOutlet EnhanceBaseView *baseView;
+@property (nonatomic, strong) IBOutlet UIView *enhancingHeader;
+@property (nonatomic, strong) IBOutlet UIView *myMobstersHeader;
+@property (nonatomic, strong) IBOutlet UIView *baseViewContainer;
 
 @property (nonatomic, strong) IBOutlet EnhanceCardCell *monsterCardCell;
+@property (nonatomic, strong) IBOutlet UIView *teamSlotsContainer;
 
+@property (nonatomic, strong) IBOutlet UIView *tableContainerView;
 @property (nonatomic, strong) EasyTableView *inventoryTable;
 
 @property (nonatomic, strong) NSTimer *updateTimer;
 
 @property (nonatomic, strong) NSArray *monsterArray;
+
+- (IBAction) baseViewMinusClicked:(id)sender;
+- (IBAction) headerClicked:(id)sender;
 
 @end

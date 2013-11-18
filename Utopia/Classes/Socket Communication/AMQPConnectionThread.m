@@ -106,7 +106,11 @@ static int sessionId;
 }
 
 - (void) postDataToExchange:(NSData *)data {
-  [_directExchange publishMessageWithData:data usingRoutingKey:@"messagesFromPlayers"];
+  @try {
+    [_directExchange publishMessageWithData:data usingRoutingKey:@"messagesFromPlayers"];
+  } @catch (NSException *exception) {
+    NSLog(@"Failed to publish data");
+  }
 }
 
 - (void) closeDownConnection {

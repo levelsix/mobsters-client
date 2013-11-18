@@ -3271,13 +3271,13 @@ static FullUserProto* defaultFullUserProtoInstance = nil;
 }
 @end
 
-@interface StaticLevelInfoProto ()
+@interface StaticUserLevelInfoProto ()
 @property int32_t level;
 @property int32_t requiredExperience;
 @property int32_t maxCash;
 @end
 
-@implementation StaticLevelInfoProto
+@implementation StaticUserLevelInfoProto
 
 - (BOOL) hasLevel {
   return !!hasLevel_;
@@ -3311,17 +3311,17 @@ static FullUserProto* defaultFullUserProtoInstance = nil;
   }
   return self;
 }
-static StaticLevelInfoProto* defaultStaticLevelInfoProtoInstance = nil;
+static StaticUserLevelInfoProto* defaultStaticUserLevelInfoProtoInstance = nil;
 + (void) initialize {
-  if (self == [StaticLevelInfoProto class]) {
-    defaultStaticLevelInfoProtoInstance = [[StaticLevelInfoProto alloc] init];
+  if (self == [StaticUserLevelInfoProto class]) {
+    defaultStaticUserLevelInfoProtoInstance = [[StaticUserLevelInfoProto alloc] init];
   }
 }
-+ (StaticLevelInfoProto*) defaultInstance {
-  return defaultStaticLevelInfoProtoInstance;
++ (StaticUserLevelInfoProto*) defaultInstance {
+  return defaultStaticUserLevelInfoProtoInstance;
 }
-- (StaticLevelInfoProto*) defaultInstance {
-  return defaultStaticLevelInfoProtoInstance;
+- (StaticUserLevelInfoProto*) defaultInstance {
+  return defaultStaticUserLevelInfoProtoInstance;
 }
 - (BOOL) isInitialized {
   return YES;
@@ -3358,40 +3358,40 @@ static StaticLevelInfoProto* defaultStaticLevelInfoProtoInstance = nil;
   memoizedSerializedSize = size;
   return size;
 }
-+ (StaticLevelInfoProto*) parseFromData:(NSData*) data {
-  return (StaticLevelInfoProto*)[[[StaticLevelInfoProto builder] mergeFromData:data] build];
++ (StaticUserLevelInfoProto*) parseFromData:(NSData*) data {
+  return (StaticUserLevelInfoProto*)[[[StaticUserLevelInfoProto builder] mergeFromData:data] build];
 }
-+ (StaticLevelInfoProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
-  return (StaticLevelInfoProto*)[[[StaticLevelInfoProto builder] mergeFromData:data extensionRegistry:extensionRegistry] build];
++ (StaticUserLevelInfoProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (StaticUserLevelInfoProto*)[[[StaticUserLevelInfoProto builder] mergeFromData:data extensionRegistry:extensionRegistry] build];
 }
-+ (StaticLevelInfoProto*) parseFromInputStream:(NSInputStream*) input {
-  return (StaticLevelInfoProto*)[[[StaticLevelInfoProto builder] mergeFromInputStream:input] build];
++ (StaticUserLevelInfoProto*) parseFromInputStream:(NSInputStream*) input {
+  return (StaticUserLevelInfoProto*)[[[StaticUserLevelInfoProto builder] mergeFromInputStream:input] build];
 }
-+ (StaticLevelInfoProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
-  return (StaticLevelInfoProto*)[[[StaticLevelInfoProto builder] mergeFromInputStream:input extensionRegistry:extensionRegistry] build];
++ (StaticUserLevelInfoProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (StaticUserLevelInfoProto*)[[[StaticUserLevelInfoProto builder] mergeFromInputStream:input extensionRegistry:extensionRegistry] build];
 }
-+ (StaticLevelInfoProto*) parseFromCodedInputStream:(PBCodedInputStream*) input {
-  return (StaticLevelInfoProto*)[[[StaticLevelInfoProto builder] mergeFromCodedInputStream:input] build];
++ (StaticUserLevelInfoProto*) parseFromCodedInputStream:(PBCodedInputStream*) input {
+  return (StaticUserLevelInfoProto*)[[[StaticUserLevelInfoProto builder] mergeFromCodedInputStream:input] build];
 }
-+ (StaticLevelInfoProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
-  return (StaticLevelInfoProto*)[[[StaticLevelInfoProto builder] mergeFromCodedInputStream:input extensionRegistry:extensionRegistry] build];
++ (StaticUserLevelInfoProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (StaticUserLevelInfoProto*)[[[StaticUserLevelInfoProto builder] mergeFromCodedInputStream:input extensionRegistry:extensionRegistry] build];
 }
-+ (StaticLevelInfoProto_Builder*) builder {
-  return [[[StaticLevelInfoProto_Builder alloc] init] autorelease];
++ (StaticUserLevelInfoProto_Builder*) builder {
+  return [[[StaticUserLevelInfoProto_Builder alloc] init] autorelease];
 }
-+ (StaticLevelInfoProto_Builder*) builderWithPrototype:(StaticLevelInfoProto*) prototype {
-  return [[StaticLevelInfoProto builder] mergeFrom:prototype];
++ (StaticUserLevelInfoProto_Builder*) builderWithPrototype:(StaticUserLevelInfoProto*) prototype {
+  return [[StaticUserLevelInfoProto builder] mergeFrom:prototype];
 }
-- (StaticLevelInfoProto_Builder*) builder {
-  return [StaticLevelInfoProto builder];
+- (StaticUserLevelInfoProto_Builder*) builder {
+  return [StaticUserLevelInfoProto builder];
 }
 @end
 
-@interface StaticLevelInfoProto_Builder()
-@property (retain) StaticLevelInfoProto* result;
+@interface StaticUserLevelInfoProto_Builder()
+@property (retain) StaticUserLevelInfoProto* result;
 @end
 
-@implementation StaticLevelInfoProto_Builder
+@implementation StaticUserLevelInfoProto_Builder
 @synthesize result;
 - (void) dealloc {
   self.result = nil;
@@ -3399,34 +3399,34 @@ static StaticLevelInfoProto* defaultStaticLevelInfoProtoInstance = nil;
 }
 - (id) init {
   if ((self = [super init])) {
-    self.result = [[[StaticLevelInfoProto alloc] init] autorelease];
+    self.result = [[[StaticUserLevelInfoProto alloc] init] autorelease];
   }
   return self;
 }
 - (PBGeneratedMessage*) internalGetResult {
   return result;
 }
-- (StaticLevelInfoProto_Builder*) clear {
-  self.result = [[[StaticLevelInfoProto alloc] init] autorelease];
+- (StaticUserLevelInfoProto_Builder*) clear {
+  self.result = [[[StaticUserLevelInfoProto alloc] init] autorelease];
   return self;
 }
-- (StaticLevelInfoProto_Builder*) clone {
-  return [StaticLevelInfoProto builderWithPrototype:result];
+- (StaticUserLevelInfoProto_Builder*) clone {
+  return [StaticUserLevelInfoProto builderWithPrototype:result];
 }
-- (StaticLevelInfoProto*) defaultInstance {
-  return [StaticLevelInfoProto defaultInstance];
+- (StaticUserLevelInfoProto*) defaultInstance {
+  return [StaticUserLevelInfoProto defaultInstance];
 }
-- (StaticLevelInfoProto*) build {
+- (StaticUserLevelInfoProto*) build {
   [self checkInitialized];
   return [self buildPartial];
 }
-- (StaticLevelInfoProto*) buildPartial {
-  StaticLevelInfoProto* returnMe = [[result retain] autorelease];
+- (StaticUserLevelInfoProto*) buildPartial {
+  StaticUserLevelInfoProto* returnMe = [[result retain] autorelease];
   self.result = nil;
   return returnMe;
 }
-- (StaticLevelInfoProto_Builder*) mergeFrom:(StaticLevelInfoProto*) other {
-  if (other == [StaticLevelInfoProto defaultInstance]) {
+- (StaticUserLevelInfoProto_Builder*) mergeFrom:(StaticUserLevelInfoProto*) other {
+  if (other == [StaticUserLevelInfoProto defaultInstance]) {
     return self;
   }
   if (other.hasLevel) {
@@ -3441,10 +3441,10 @@ static StaticLevelInfoProto* defaultStaticLevelInfoProtoInstance = nil;
   [self mergeUnknownFields:other.unknownFields];
   return self;
 }
-- (StaticLevelInfoProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input {
+- (StaticUserLevelInfoProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input {
   return [self mergeFromCodedInputStream:input extensionRegistry:[PBExtensionRegistry emptyRegistry]];
 }
-- (StaticLevelInfoProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+- (StaticUserLevelInfoProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
   PBUnknownFieldSet_Builder* unknownFields = [PBUnknownFieldSet builderWithUnknownFields:self.unknownFields];
   while (YES) {
     int32_t tag = [input readTag];
@@ -3480,12 +3480,12 @@ static StaticLevelInfoProto* defaultStaticLevelInfoProtoInstance = nil;
 - (int32_t) level {
   return result.level;
 }
-- (StaticLevelInfoProto_Builder*) setLevel:(int32_t) value {
+- (StaticUserLevelInfoProto_Builder*) setLevel:(int32_t) value {
   result.hasLevel = YES;
   result.level = value;
   return self;
 }
-- (StaticLevelInfoProto_Builder*) clearLevel {
+- (StaticUserLevelInfoProto_Builder*) clearLevel {
   result.hasLevel = NO;
   result.level = 0;
   return self;
@@ -3496,12 +3496,12 @@ static StaticLevelInfoProto* defaultStaticLevelInfoProtoInstance = nil;
 - (int32_t) requiredExperience {
   return result.requiredExperience;
 }
-- (StaticLevelInfoProto_Builder*) setRequiredExperience:(int32_t) value {
+- (StaticUserLevelInfoProto_Builder*) setRequiredExperience:(int32_t) value {
   result.hasRequiredExperience = YES;
   result.requiredExperience = value;
   return self;
 }
-- (StaticLevelInfoProto_Builder*) clearRequiredExperience {
+- (StaticUserLevelInfoProto_Builder*) clearRequiredExperience {
   result.hasRequiredExperience = NO;
   result.requiredExperience = 0;
   return self;
@@ -3512,12 +3512,12 @@ static StaticLevelInfoProto* defaultStaticLevelInfoProtoInstance = nil;
 - (int32_t) maxCash {
   return result.maxCash;
 }
-- (StaticLevelInfoProto_Builder*) setMaxCash:(int32_t) value {
+- (StaticUserLevelInfoProto_Builder*) setMaxCash:(int32_t) value {
   result.hasMaxCash = YES;
   result.maxCash = value;
   return self;
 }
-- (StaticLevelInfoProto_Builder*) clearMaxCash {
+- (StaticUserLevelInfoProto_Builder*) clearMaxCash {
   result.hasMaxCash = NO;
   result.maxCash = 0;
   return self;

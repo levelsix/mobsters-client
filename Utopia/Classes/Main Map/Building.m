@@ -55,13 +55,12 @@
 - (void) displayProgressBar {
   if (![self getChildByTag:UPGRADING_TAG]) {
     UpgradeProgressBar *upgrIcon = [[UpgradeProgressBar alloc] initBar];
-    [self addChild:upgrIcon z:1 tag:UPGRADING_TAG];
+    [self addChild:upgrIcon z:5 tag:UPGRADING_TAG];
     upgrIcon.position = ccp(self.contentSize.width/2, self.contentSize.height);
     [self schedule:@selector(updateUpgradeBar) interval:1.f];
-    
-    _percentage = 0;
-    [self updateUpgradeBar];
   }
+  _percentage = 0;
+  [self updateUpgradeBar];
 }
 
 - (void) updateUpgradeBar {
@@ -69,8 +68,11 @@
 }
 
 - (void) removeProgressBar {
-  [self removeChildByTag:UPGRADING_TAG cleanup:YES];
-  [self unschedule:@selector(updateUpgradeBar)];
+  CCNode *n = [self getChildByTag:UPGRADING_TAG];
+  if (n) {
+    [n removeFromParent];
+    [self unschedule:@selector(updateUpgradeBar)];
+  }
 }
 
 - (void) instaFinishUpgradeWithCompletionBlock:(void(^)(void))completed {
@@ -127,18 +129,20 @@
   return self;
 }
 
-- (void) setIsSelected:(BOOL)isSelected {
-  [super setIsSelected:isSelected];
-  if (isSelected) {
-    _startMoveCoordinate = _location.origin;
-    _startOrientation = self.orientation;
-    [self displayMoveArrows];
-  } else {
-    if (!_isSetDown && !_isPurchasing) {
-      [self cancelMove];
-    }
-    [self removeMoveArrows];
+- (BOOL) select {
+  BOOL ret = [super select];
+  _startMoveCoordinate = _location.origin;
+  _startOrientation = self.orientation;
+  [self displayMoveArrows];
+  return ret;
+}
+
+- (void) unselect {
+  [super unselect];
+  if (!_isSetDown && !_isPurchasing) {
+    [self cancelMove];
   }
+  [self removeMoveArrows];
 }
 
 - (void) setOpacity:(GLubyte)opacity {
@@ -149,14 +153,6 @@
     [super setOpacity:opacity];
   }
 }
-
-//- (CGSize) contentSize {
-//  CCNode *spr = [self getChildByTag:CONSTRUCTION_TAG];
-//  if (spr) {
-//    return spr.contentSize;
-//  }
-//  return [super contentSize];
-//}
 
 - (void) setIsConstructing:(BOOL)isConstructing {
   if (_isConstructing != isConstructing) {
@@ -364,14 +360,18 @@
   _retrieveBubble.position = ccp(self.contentSize.width/2,self.contentSize.height-OVER_HOME_BUILDING_MENU_OFFSET);
 }
 
-- (void) setIsSelected:(BOOL)isSelected {
-  [super setIsSelected:isSelected];
+- (BOOL) select {
+  BOOL ret = [super select];
   if (self.userStruct.state == kWaitingForIncome || self.userStruct.state == kRetrieving) {
-    if (isSelected) {
-      [self displayProgressBar];
-    } else {
-      [self removeProgressBar];
-    }
+    [self displayProgressBar];
+  }
+  return ret;
+}
+
+- (void) unselect {
+  [super unselect];
+  if (self.userStruct.state == kWaitingForIncome || self.userStruct.state == kRetrieving) {
+    [self removeProgressBar];
   }
 }
 
@@ -434,15 +434,17 @@
 
 - (void) displayUpgradeComplete {
   CCSprite *spinner = [CCSprite spriteWithFile:@"buildingspinner.png"];
-  CCLabelTTF *label = [CCLabelTTF labelWithString:@"Building Upgraded!" fontName:[Globals font] fontSize:22.f];
+  
+  NSString *str = self.userStruct.fsp.level == 1 ? @"Building Complete!" : @"Building Upgraded!";
+  CCLabelTTF *label = [CCLabelTTF labelWithString:str fontName:[Globals font] fontSize:22.f];
+  [label setFontFillColor:ccc3(255, 200, 0) updateImage:NO];
+  [label enableShadowWithOffset:CGSizeMake(0, -1) opacity:0.7f blur:0.f updateImage:YES];
   
   [self addChild:spinner z:-1];
   [self addChild:label];
   
   spinner.position = ccp(self.contentSize.width/2, self.contentSize.height/2);
-  label.position = ccp(self.contentSize.width/2, self.contentSize.height + 10);
-  
-  label.color = ccc3(255, 200, 0);
+  label.position = ccp(self.contentSize.width/2, self.contentSize.height + 15);
   
   [spinner runAction:
    [CCSpawn actions:
@@ -514,14 +516,41 @@
 
 @implementation MissionBuilding
 
-@synthesize ftp, numTimesActedForTask, numTimesActedForQuest, name, partOfQuest;
+@synthesize isLocked = _isLocked, name = _name, ftp = _ftp;
 
-- (void) setIsSelected:(BOOL)isSelected {
-  [super setIsSelected:isSelected];
-  if (isSelected) {
-    [Analytics taskViewed:ftp.taskId];
+- (BOOL) select {
+  if (self.isLocked) {
+    if (!_lockedBubble.numberOfRunningActions) {
+      CCActionInterval *mov = [CCRotateBy actionWithDuration:0.04f angle:15];
+      [_lockedBubble runAction:[CCRepeat actionWithAction:[CCSequence actions:mov.copy, mov.reverse, mov.reverse, mov.copy, nil]
+                                                    times:3]];
+    }
+    return NO;
   } else {
-    [Analytics taskClosed:ftp.taskId];
+    return [super select];
+  }
+}
+
+- (void) setIsLocked:(BOOL)isLocked {
+  _isLocked = isLocked;
+  if (isLocked) {
+    if (_lockedBubble) {
+      // Make sure to cleanup just in case
+      [self removeChild:_lockedBubble cleanup:YES];
+    }
+    _lockedBubble = [CCSprite spriteWithFile:@"lockedup.png"];
+    [self addChild:_lockedBubble];
+    _lockedBubble.position = ccp(self.contentSize.width/2,self.contentSize.height-OVER_HOME_BUILDING_MENU_OFFSET-_lockedBubble.contentSize.height/2);
+    _lockedBubble.anchorPoint = ccp(0.5, 0);
+    
+    int amt = 150;
+    self.color = ccc3(amt, amt, amt);
+  } else {
+    if (_lockedBubble) {
+      // Make sure to cleanup just in case
+      [self removeChild:_lockedBubble cleanup:YES];
+    }
+    self.color = ccc3(255, 255, 255);
   }
 }
 

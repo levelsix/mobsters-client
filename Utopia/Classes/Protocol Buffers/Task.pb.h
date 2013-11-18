@@ -18,6 +18,8 @@
 @class TaskStageMonsterProto_Builder;
 @class TaskStageProto;
 @class TaskStageProto_Builder;
+@class UserCurrentMonsterTeamProto;
+@class UserCurrentMonsterTeamProto_Builder;
 @class UserEnhancementItemProto;
 @class UserEnhancementItemProto_Builder;
 @class UserEnhancementProto;
@@ -106,11 +108,15 @@ BOOL TaskStageMonsterProto_MonsterTypeIsValidValue(TaskStageMonsterProto_Monster
   BOOL hasTaskId_:1;
   BOOL hasCityId_:1;
   BOOL hasAssetNumWithinCity_:1;
+  BOOL hasPrerequisiteTaskId_:1;
+  BOOL hasPrerequisiteQuestId_:1;
   BOOL hasName_:1;
   BOOL hasDescription_:1;
   int32_t taskId;
   int32_t cityId;
   int32_t assetNumWithinCity;
+  int32_t prerequisiteTaskId;
+  int32_t prerequisiteQuestId;
   NSString* name;
   NSString* description;
 }
@@ -119,11 +125,15 @@ BOOL TaskStageMonsterProto_MonsterTypeIsValidValue(TaskStageMonsterProto_Monster
 - (BOOL) hasDescription;
 - (BOOL) hasCityId;
 - (BOOL) hasAssetNumWithinCity;
+- (BOOL) hasPrerequisiteTaskId;
+- (BOOL) hasPrerequisiteQuestId;
 @property (readonly) int32_t taskId;
 @property (readonly, retain) NSString* name;
 @property (readonly, retain) NSString* description;
 @property (readonly) int32_t cityId;
 @property (readonly) int32_t assetNumWithinCity;
+@property (readonly) int32_t prerequisiteTaskId;
+@property (readonly) int32_t prerequisiteQuestId;
 
 + (FullTaskProto*) defaultInstance;
 - (FullTaskProto*) defaultInstance;
@@ -183,6 +193,16 @@ BOOL TaskStageMonsterProto_MonsterTypeIsValidValue(TaskStageMonsterProto_Monster
 - (int32_t) assetNumWithinCity;
 - (FullTaskProto_Builder*) setAssetNumWithinCity:(int32_t) value;
 - (FullTaskProto_Builder*) clearAssetNumWithinCity;
+
+- (BOOL) hasPrerequisiteTaskId;
+- (int32_t) prerequisiteTaskId;
+- (FullTaskProto_Builder*) setPrerequisiteTaskId:(int32_t) value;
+- (FullTaskProto_Builder*) clearPrerequisiteTaskId;
+
+- (BOOL) hasPrerequisiteQuestId;
+- (int32_t) prerequisiteQuestId;
+- (FullTaskProto_Builder*) setPrerequisiteQuestId:(int32_t) value;
+- (FullTaskProto_Builder*) clearPrerequisiteQuestId;
 @end
 
 @interface MinimumUserTaskProto : PBGeneratedMessage {

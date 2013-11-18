@@ -45,8 +45,8 @@
 
 @implementation MyTeamSprite
 
-- (void) setIsSelected:(BOOL)isSelected {
-  return;
+- (BOOL) select {
+  return NO;
 }
 
 #pragma mark - A* algorithm stuff

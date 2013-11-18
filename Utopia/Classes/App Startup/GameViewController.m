@@ -139,11 +139,11 @@
   nav.navigationBarHidden = YES;
   [self presentViewController:nav animated:NO completion:nil];
   
-//  [FBSession openActiveSessionWithReadPermissions:nil allowLoginUI:YES
-//                                   completionHandler:^(FBSession *session, FBSessionState status, NSError *error) {
-//                                     [[Carrot sharedInstance] postAction:@"recruit" forObjectInstance:@"cheer0_1"];
-//                                     [[Carrot sharedInstance] postAction:@"recruit" forObjectInstance:@"clown1_2"];
-//                                   }];
+  //  [FBSession openActiveSessionWithReadPermissions:nil allowLoginUI:YES
+  //                                   completionHandler:^(FBSession *session, FBSessionState status, NSError *error) {
+  //                                     [[Carrot sharedInstance] postAction:@"recruit" forObjectInstance:@"cheer0_1"];
+  //                                     [[Carrot sharedInstance] postAction:@"recruit" forObjectInstance:@"clown1_2"];
+  //                                   }];
 }
 
 - (void) progressTo:(float)t {
@@ -163,6 +163,10 @@
   
   GameState *gs = [GameState sharedGameState];
   [[OutgoingEventController sharedOutgoingEventController] loadPlayerCity:gs.userId withDelegate:self];
+  
+  if (self.loadingView.superview) {
+    [self.loadingView stop];
+  }
 }
 
 - (void) handleLoadPlayerCityResponseProto:(FullEvent *)fe {
@@ -223,7 +227,7 @@
       [hm moveToCenterAnimated:NO];
       self.currentMap = hm;
       
-      [self.topBarViewController showMenuView];
+      [self.topBarViewController removeMyCityView];
       
       CCDirector *dir = [CCDirector sharedDirector];
       if (![dir runningScene]) {
@@ -263,7 +267,7 @@
 
 - (void) enterDungeon:(int)taskId withDelay:(float)delay {
   GameState *gs = [GameState sharedGameState];
-  DungeonBattleLayer *bl = [[DungeonBattleLayer alloc] initWithMyUserMonsters:[gs allMonstersOnMyTeam]];
+  DungeonBattleLayer *bl = [[DungeonBattleLayer alloc] initWithMyUserMonsters:[gs allMonstersOnMyTeam] puzzleIsOnLeft:NO];
   bl.delegate = self;
   [self performSelector:@selector(loadBattleScene:) withObject:bl afterDelay:delay];
   [[OutgoingEventController sharedOutgoingEventController] beginDungeon:taskId withDelegate:bl];
@@ -294,6 +298,19 @@
   [UIView animateWithDuration:duration animations:^{
     self.topBarViewController.view.alpha = 1.f;
   }];
+}
+
+#pragma mark - Chat access
+
+- (void) openPrivateChatWithUserId:(int)userId {
+  void (^openChat)(void) = ^{
+    [self.topBarViewController.chatViewController openWithConversationForUserId:userId];
+  };
+  if (self.presentedViewController) {
+    [self dismissViewControllerAnimated:YES completion:openChat];
+  } else {
+    openChat();
+  }
 }
 
 @end

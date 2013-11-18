@@ -30,6 +30,12 @@
 - (BOOL) isEnhancing;
 - (BOOL) isSacrificing;
 
+- (MonsterProto *) staticMonster;
+- (BOOL) isCombining;
+- (int) timeLeftForCombining;
+
+- (NSComparisonResult) compare:(UserMonster *)um;
+
 @end
 
 @interface UserMonsterHealingItem : NSObject
@@ -71,6 +77,8 @@
 
 - (float) currentPercentageOfLevel;
 - (float) finalPercentageFromCurrentLevel;
+
+- (id) clone;
 
 @end
 
@@ -132,7 +140,7 @@ typedef enum {
 
 @interface ChatMessage : NSObject
 
-@property (nonatomic, retain) MinimumUserProto *sender;
+@property (nonatomic, retain) MinimumUserProtoWithLevel *sender;
 @property (nonatomic, copy) NSString *message;
 @property (nonatomic, retain) NSDate *date;
 @property (nonatomic, assign) BOOL isAdmin;

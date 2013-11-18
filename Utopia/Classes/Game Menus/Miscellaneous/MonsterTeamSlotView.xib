@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="4514" systemVersion="12F45" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none">
+    <dependencies>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="3746"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="MonsterTeamSlotContainerView">
+            <connections>
+                <outlet property="teamSlotView" destination="1" id="UYx-Jf-soy"/>
+            </connections>
+        </placeholder>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view contentMode="scaleToFill" id="1" customClass="MonsterTeamSlotView">
+            <rect key="frame" x="0.0" y="0.0" width="157" height="49"/>
+            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+            <subviews>
+                <view clipsSubviews="YES" contentMode="scaleToFill" id="jyv-un-7wU">
+                    <rect key="frame" x="6" y="4" width="42" height="42"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                    <subviews>
+                        <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="fireteam.png" id="aSD-Fx-T4Z">
+                            <rect key="frame" x="0.0" y="0.0" width="42" height="42"/>
+                            <autoresizingMask key="autoresizingMask"/>
+                        </imageView>
+                        <imageView userInteractionEnabled="NO" contentMode="top" image="Cheerleader2BazookaThumbnail.png" id="7ea-TG-ExY">
+                            <rect key="frame" x="-8" y="4" width="59" height="59"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                        </imageView>
+                    </subviews>
+                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                </view>
+                <view contentMode="scaleToFill" id="RIg-Qr-6ep">
+                    <rect key="frame" x="48" y="0.0" width="109" height="49"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                    <subviews>
+                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Zark M. (Healing)" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" id="IsJ-sg-l0H" customClass="NiceFontLabel">
+                            <rect key="frame" x="6" y="4" width="97" height="24"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <fontDescription key="fontDescription" type="system" pointSize="12"/>
+                            <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="calibratedRGB"/>
+                            <nil key="highlightedColor"/>
+                            <color key="shadowColor" white="0.0" alpha="0.29999999999999999" colorSpace="calibratedWhite"/>
+                            <size key="shadowOffset" width="0.0" height="1"/>
+                        </label>
+                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Tap + to add" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" id="yaO-pr-y8n" customClass="NiceFontLabel">
+                            <rect key="frame" x="6" y="21" width="97" height="24"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <fontDescription key="fontDescription" type="system" pointSize="10"/>
+                            <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="calibratedRGB"/>
+                            <nil key="highlightedColor"/>
+                            <color key="shadowColor" white="0.0" alpha="0.29999999999999999" colorSpace="calibratedWhite"/>
+                            <size key="shadowOffset" width="0.0" height="1"/>
+                        </label>
+                        <view contentMode="scaleToFill" id="4Ua-UV-YKv">
+                            <rect key="frame" x="5" y="30" width="87" height="11"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <subviews>
+                                <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="teamhealthbg.png" id="kYD-rU-mqW">
+                                    <rect key="frame" x="0.0" y="0.0" width="87" height="11"/>
+                                    <autoresizingMask key="autoresizingMask"/>
+                                </imageView>
+                                <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="nightteamhealthbar.png" id="1D1-VX-RIZ" customClass="ProgressBar">
+                                    <rect key="frame" x="2" y="1" width="84" height="8"/>
+                                    <autoresizingMask key="autoresizingMask"/>
+                                </imageView>
+                            </subviews>
+                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                        </view>
+                    </subviews>
+                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                </view>
+                <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="teamempty.png" id="fRR-NR-H24">
+                    <rect key="frame" x="6" y="4" width="42" height="42"/>
+                    <autoresizingMask key="autoresizingMask"/>
+                </imageView>
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="O5K-s9-8Zj">
+                    <rect key="frame" x="-3" y="-4" width="29" height="30"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                    <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
+                    <state key="normal" image="minusteam.png">
+                        <color key="titleColor" red="0.19607843459999999" green="0.30980393290000002" blue="0.52156865600000002" alpha="1" colorSpace="calibratedRGB"/>
+                        <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                    </state>
+                    <state key="highlighted">
+                        <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    </state>
+                    <connections>
+                        <action selector="minusClicked:" destination="1" eventType="touchUpInside" id="htJ-SA-80T"/>
+                    </connections>
+                </button>
+            </subviews>
+            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+            <simulatedOrientationMetrics key="simulatedOrientationMetrics" orientation="landscapeRight"/>
+            <connections>
+                <outlet property="bgdIcon" destination="aSD-Fx-T4Z" id="A9U-MQ-Rra"/>
+                <outlet property="cardView" destination="jyv-un-7wU" id="2od-jy-04h"/>
+                <outlet property="emptyIcon" destination="fRR-NR-H24" id="qKv-9X-2Nk"/>
+                <outlet property="healthBar" destination="1D1-VX-RIZ" id="6OK-sh-7hN"/>
+                <outlet property="healthView" destination="4Ua-UV-YKv" id="jCK-ag-5JJ"/>
+                <outlet property="minusButton" destination="O5K-s9-8Zj" id="FEL-x4-Osw"/>
+                <outlet property="monsterIcon" destination="7ea-TG-ExY" id="JkD-H5-icI"/>
+                <outlet property="rightView" destination="RIg-Qr-6ep" id="prL-vD-eCH"/>
+                <outlet property="subtitleLabel" destination="yaO-pr-y8n" id="yBJ-cw-yGz"/>
+                <outlet property="titleLabel" destination="IsJ-sg-l0H" id="Eup-fh-Ccc"/>
+            </connections>
+        </view>
+    </objects>
+    <resources>
+        <image name="Cheerleader2BazookaThumbnail.png" width="59" height="56"/>
+        <image name="fireteam.png" width="42" height="42"/>
+        <image name="minusteam.png" width="17" height="17"/>
+        <image name="nightteamhealthbar.png" width="84" height="8"/>
+        <image name="teamempty.png" width="42" height="42"/>
+        <image name="teamhealthbg.png" width="87" height="11"/>
+    </resources>
+</document>

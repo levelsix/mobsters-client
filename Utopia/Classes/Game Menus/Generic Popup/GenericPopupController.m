@@ -17,9 +17,8 @@
 
 @implementation GenericPopupController
 
-- (void) viewDidLoad {
-  self.confirmationView.frame = self.notificationView.frame;
-  [self.mainView addSubview:self.confirmationView];
+- (BOOL) prefersStatusBarHidden {
+  return YES;
 }
 
 - (void) displayPopup {
@@ -29,59 +28,30 @@
   [Globals bounceView:self.mainView fadeInBgdView:self.bgdView];
 }
 
-- (BOOL) prefersStatusBarHidden {
-  return YES;
-}
-
 + (GenericPopupController *) displayNotificationViewWithText:(NSString *)string title:(NSString *)title {
   GenericPopupController *gp = [[GenericPopupController alloc] init];
   [gp displayPopup];
-  gp.notificationView.hidden = NO;
-  gp.confirmationView.hidden = YES;
   gp.descriptionLabel.text = string;
-  gp.titleLabel.text = title ? title : @"Notification!";
-  
+  gp.titleLabel.text = title;
   return gp;
 }
 
 + (GenericPopupController *) displayNotificationViewWithText:(NSString *)string title:(NSString *)title okayButton:(NSString *)okay target:(id)target selector:(SEL)selector {
-  GenericPopupController *gp = [[GenericPopupController alloc] init];
-  [gp displayPopup];
-  gp.notificationView.hidden = NO;
-  gp.confirmationView.hidden = YES;
-  gp.descriptionLabel.text = string;
-  gp.titleLabel.text = title ? title : @"Notification!";
-  gp.redButtonLabel.text = okay ? okay : @"Okay";
+  GenericPopupController *gp = [self displayNotificationViewWithText:nil title:title];
   
-	NSMethodSignature* sig = [[target class]
-                            instanceMethodSignatureForSelector:selector];
-	NSInvocation* invocation = [NSInvocation
-                              invocationWithMethodSignature:sig];
-	[invocation setTarget:target];
-	[invocation setSelector:selector];
-  gp.okInvocation = invocation;
+  gp.notifButtonLabel.text = okay;
+  
+	if (target) [gp.notifButton addTarget:target action:selector forControlEvents:UIControlEventTouchUpInside];
   
   return gp;
 }
 
 + (GenericPopupController *) displayNotificationViewWithMiddleView:(UIView *)view title:(NSString *)title okayButton:(NSString *)okay target:(id)target selector:(SEL)selector {
-  GenericPopupController *gp = [[GenericPopupController alloc] init];
-  [gp displayPopup];
-  gp.notificationView.hidden = NO;
-  gp.confirmationView.hidden = YES;
-  gp.descriptionLabel.hidden = YES;
-  [gp.mainView addSubview:view];
-  view.center = gp.descriptionLabel.center;
-  gp.titleLabel.text = title ? title : @"Notification!";
-  gp.redButtonLabel.text = okay ? okay : @"Okay";
+  GenericPopupController *gp = [self displayNotificationViewWithText:nil title:title okayButton:okay target:target selector:selector];
   
-	NSMethodSignature* sig = [[target class]
-                            instanceMethodSignatureForSelector:selector];
-	NSInvocation* invocation = [NSInvocation
-                              invocationWithMethodSignature:sig];
-	[invocation setTarget:target];
-	[invocation setSelector:selector];
-  gp.okInvocation = invocation;
+  [gp.mainView addSubview:view];
+  view.center = gp.descriptionView.center;
+  [gp.descriptionView removeFromSuperview];
   
   return gp;
 }
@@ -90,57 +60,29 @@
   GenericPopupController *gp = [[GenericPopupController alloc] init];
   [gp displayPopup];
   
-  gp.notificationView.hidden = YES;
-  gp.confirmationView.hidden = NO;
+  [gp.mainView addSubview:gp.confirmationView];
+  gp.confirmationView.center = gp.notificationView.center;
+  [gp.notificationView removeFromSuperview];
   
-  gp.titleLabel.text = title ? title : @"Confirmation!";
+  gp.titleLabel.text = title;
   gp.descriptionLabel.text = description;
-  gp.greenButtonLabel.text = okay ? okay : @"Okay";
-  gp.blackButtonLabel.text = cancel ? cancel : @"Cancel";
+  gp.confOkayButtonLabel.text = okay;
+  gp.confCancelButtonLabel.text = cancel;
   
-	NSMethodSignature* sig = [[target class]
-                            instanceMethodSignatureForSelector:selector];
-	NSInvocation* invocation = [NSInvocation
-                              invocationWithMethodSignature:sig];
-	[invocation setTarget:target];
-	[invocation setSelector:selector];
-  gp.okInvocation = invocation;
+  if (target) [gp.confOkayButton addTarget:target action:selector forControlEvents:UIControlEventTouchUpInside];
   
   return gp;
 }
 
 + (GenericPopupController *) displayConfirmationWithDescription:(NSString *)description title:(NSString *)title okayButton:(NSString *)okay cancelButton:(NSString *)cancel okTarget:(id)okTarget okSelector:(SEL)okSelector cancelTarget:(id)cancelTarget cancelSelector:(SEL)cancelSelector {
-  GenericPopupController *gp = [[GenericPopupController alloc] init];
-  [gp displayPopup];
+  GenericPopupController *gp = [GenericPopupController displayConfirmationWithDescription:description title:title okayButton:okay cancelButton:cancelTarget target:okTarget selector:okSelector];
   
-  gp.notificationView.hidden = YES;
-  gp.confirmationView.hidden = NO;
-  
-  gp.titleLabel.text = title ? title : @"Confirmation!";
-  gp.descriptionLabel.text = description;
-  gp.greenButtonLabel.text = okay ? okay : @"Okay";
-  gp.blackButtonLabel.text = cancel ? cancel : @"Cancel";
-  
-	NSMethodSignature* sig = [[okTarget class]
-                            instanceMethodSignatureForSelector:okSelector];
-	NSInvocation* invocation = [NSInvocation
-                              invocationWithMethodSignature:sig];
-	[invocation setTarget:okTarget];
-	[invocation setSelector:okSelector];
-  gp.okInvocation = invocation;
-  
-	sig = [[cancelTarget class]
-                            instanceMethodSignatureForSelector:cancelSelector];
-	invocation = [NSInvocation
-                              invocationWithMethodSignature:sig];
-	[invocation setTarget:cancelTarget];
-	[invocation setSelector:cancelSelector];
-  gp.cancelInvocation = invocation;
+  if (cancelTarget) [gp.confOkayButton addTarget:cancelTarget action:cancelSelector forControlEvents:UIControlEventTouchUpInside];
   
   return gp;
 }
 
-- (void) close {
+- (void) close:(id)sender {
   [UIView animateWithDuration:0.7f delay:0.f options:UIViewAnimationOptionCurveEaseInOut animations:^{
     CGAffineTransform t = CGAffineTransformIdentity;
     t = CGAffineTransformScale(t, 0.75f, 0.75f);
@@ -154,26 +96,14 @@
   }];
 }
 
-- (IBAction)redOkayClicked:(id)sender {
-  [self.okInvocation invoke];
-  [self close];
-}
-
-- (IBAction)greenOkayClicked:(id)sender {
-  [self.okInvocation invoke];
-  [self close];
-}
-
-- (IBAction)cancelClicked:(id)sender {
-  [self.cancelInvocation invoke];
-  [self close];
-}
-
 - (void) touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event {
   [self.view endEditing:YES];
 }
 
+
+
 #pragma mark -
+#pragma mark - Emulate UIAlertView behavior
 
 - (void) viewWillAppear:(BOOL)animated {
   [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(statusBarFrameOrOrientationChanged:) name:UIApplicationDidChangeStatusBarOrientationNotification object:nil];

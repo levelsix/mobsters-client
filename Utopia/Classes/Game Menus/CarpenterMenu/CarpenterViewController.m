@@ -130,7 +130,7 @@
   
   [self.structsList removeAllObjects];
   
-  NSArray *structs = [gs carpenterStructs];
+  NSArray *structs = [[gs staticStructs] allValues];
   
   int max = [gl maxRepeatedNormStructs];
   

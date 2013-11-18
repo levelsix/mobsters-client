@@ -52,6 +52,7 @@
 @property (nonatomic, retain) NSArray *members;
 @property (nonatomic, retain) NSArray *requesters;
 
+- (id) initWithClanId:(int)clanId andName:(NSString *)name;
 - (id) initWithClan:(FullClanProtoWithClanSize *)clan;
 - (void) loadForMyClan;
 

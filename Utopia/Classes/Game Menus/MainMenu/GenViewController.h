@@ -14,6 +14,8 @@
 @property (nonatomic, retain) IBOutlet UILabel *menuBackLabel;
 @property (nonatomic, retain) IBOutlet UIView *menuCloseButton;
 
+@property (nonatomic, retain) NSString *shortTitle;
+
 - (void)loadCustomNavBarButtons;
 - (void)setUpImageBackButton;
 - (void)setUpCloseButton;

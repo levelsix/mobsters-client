@@ -128,7 +128,11 @@
       }
     }
     
-    [[NSBundle mainBundle] loadNibNamed:@"MissionBuildingMenu" owner:self options:nil];
+    if ([Globals isLongiPhone]) {
+      [[NSBundle mainBundle] loadNibNamed:@"MissionBuildingMenu" owner:self options:nil];
+    } else {
+      [[NSBundle mainBundle] loadNibNamed:@"MissionBuildingMenuSmall" owner:self options:nil];
+    }
     
     _allowSelection = YES;
     
@@ -262,6 +266,22 @@
 - (void) onEnter {
   [super onEnter];
   _enteringDungeon = NO;
+  
+  GameState *gs = [GameState sharedGameState];
+  NSArray *taskIdsWithArrows = gs.taskIdsToUnlockMoreTasks;
+  for (CCNode *n in self.children) {
+    if ([n conformsToProtocol:@protocol(TaskElement)]) {
+      id<TaskElement> asset = (id<TaskElement>)n;
+      int taskId = asset.ftp.taskId;
+      asset.isLocked = ![gs isTaskUnlocked:taskId];
+      
+      if ([taskIdsWithArrows containsObject:@(taskId)]) {
+        [asset displayArrow];
+      } else {
+        [asset removeArrowAnimated:NO];
+      }
+    }
+  }
 }
 
 - (void) tap:(UIGestureRecognizer *)recognizer node:(CCNode *)node {
@@ -278,14 +298,17 @@
     return;
   }
   
+  SelectableSprite *oldSelected = self.selected;
   [super setSelected:selected];
   
-  if (self.selected) {
-    if ([self.selected conformsToProtocol:@protocol(TaskElement)]) {
-      self.bottomOptionView = self.missionBotView;
+  if (self.selected != oldSelected) {
+    if (self.selected) {
+      if ([self.selected conformsToProtocol:@protocol(TaskElement)]) {
+        self.bottomOptionView = self.missionBotView;
+      }
+    } else {
+      self.bottomOptionView = nil;
     }
-  } else {
-    self.bottomOptionView = nil;
   }
 }
 

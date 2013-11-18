@@ -12,6 +12,7 @@
 #import "BattleSprite.h"
 #import "BattlePlayer.h"
 #import "BattleViews.h"
+#import "OrbBgdLayer.h"
 
 @protocol BattleBgdLayerDelegate <NSObject>
 
@@ -53,6 +54,8 @@
   BOOL _canPlayNextComboSound;
   BOOL _canPlayNextGemPop;
   
+  BOOL _puzzleIsOnLeft;
+  
   BOOL _isLoading;
 }
 
@@ -63,9 +66,12 @@
 @property (nonatomic, assign) CCSprite *comboBgd;
 @property (nonatomic, assign) CCLabelTTF *comboLabel;
 
-@property (nonatomic, assign) BattleBgdLayer *bgdLayer;
 @property (nonatomic, assign) OrbLayer *orbLayer;
+@property (nonatomic, assign) OrbBgdLayer *orbBgdLayer;
 
+// bgdContainer holds the bgdLayer as well as battlesprites and all animations on the ground
+@property (nonatomic, assign) CCLayer *bgdContainer;
+@property (nonatomic, assign) BattleBgdLayer *bgdLayer;
 @property (nonatomic, assign) BattleSprite *myPlayer;
 @property (nonatomic, assign) BattleSprite *currentEnemy;
 
@@ -81,7 +87,7 @@
 
 @property (nonatomic, assign) id<BattleLayerDelegate> delegate;
 
-- (id) initWithMyUserMonsters:(NSArray *)monsters;
+- (id) initWithMyUserMonsters:(NSArray *)monsters puzzleIsOnLeft:(BOOL)puzzleIsOnLeft;
 
 - (void) beginMyTurn;
 - (void) beginEnemyTurn;

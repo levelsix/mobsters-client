@@ -20,7 +20,7 @@
             <subviews>
                 <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="mainmenubg.png" id="Jjn-Um-6aw">
                     <rect key="frame" x="-44" y="-16" width="568" height="320"/>
-                    <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES"/>
                 </imageView>
                 <view contentMode="scaleToFill" id="43">
                     <rect key="frame" x="0.0" y="0.0" width="480" height="288"/>
@@ -127,7 +127,7 @@
     </objects>
     <resources>
         <image name="addfunds.png" width="32" height="32"/>
-        <image name="diamond.png" width="29" height="28"/>
+        <image name="diamond.png" width="44" height="41"/>
         <image name="diamondbarbg.png" width="77" height="23"/>
         <image name="mainmenubg.png" width="568" height="320"/>
         <image name="moneybottombar.png" width="568" height="40"/>

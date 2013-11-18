@@ -9,6 +9,7 @@
 #import <UIKit/UIKit.h>
 #import "NibUtils.h"
 #import "GameMap.h"
+#import "ChatViewController.h"
 
 @interface SplitImageProgressBar : UIView
 
@@ -49,10 +50,12 @@
 @property (nonatomic, retain) IBOutletCollection(UIView) NSArray *topBarMonsterViewContainers;
 @property (nonatomic, retain) IBOutlet TopBarMonsterView *topBarMonsterView;
 
+@property (nonatomic, retain) IBOutlet ChatViewController *chatViewController;
+
 @property (nonatomic, assign) MapBotView *curViewOverChatView;
 
 - (void) showMyCityView;
-- (void) showMenuView;
+- (void) removeMyCityView;
 
 - (IBAction)menuClicked:(id)sender;
 - (void) replaceChatViewWithView:(MapBotView *)view;

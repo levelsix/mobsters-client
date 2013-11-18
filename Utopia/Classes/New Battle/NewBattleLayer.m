@@ -39,7 +39,15 @@
 
 #define NO_INPUT_LAYER_OPACITY 150
 
-#define MY_PLAYER_LOCATION ccp(self.contentSize.width/2-15,191)
+#define CENTER_OF_BATTLE ccp((self.contentSize.width-self.orbBgdLayer.contentSize.width-14)/2, self.contentSize.height/2-40)
+#define PLAYER_X_DISTANCE_FROM_CENTER (CENTER_OF_BATTLE.x*0.4+4)
+#define MY_PLAYER_LOCATION ccpAdd(CENTER_OF_BATTLE, ccp(-PLAYER_X_DISTANCE_FROM_CENTER, -PLAYER_X_DISTANCE_FROM_CENTER*SLOPE_OF_ROAD))
+#define ENEMY_PLAYER_LOCATION ccpAdd(CENTER_OF_BATTLE, ccp(PLAYER_X_DISTANCE_FROM_CENTER, PLAYER_X_DISTANCE_FROM_CENTER*SLOPE_OF_ROAD))
+#define BGD_LAYER_INIT_POSITION ccp(-530+(CENTER_OF_BATTLE.x-CENTER_OF_BATTLE.y*SLOPE_OF_ROAD), 0)
+
+#define BGD_SCALE ((self.contentSize.width-480)/88.f*0.3+1.f)
+
+#define PUZZLE_ON_LEFT_BGD_OFFSET (self.contentSize.width-2*CENTER_OF_BATTLE.x)
 
 #define COMBO_FIRE_TAG 9283
 
@@ -114,22 +122,47 @@
 
 #pragma mark - Setup
 
-- (id) initWithMyUserMonsters:(NSArray *)monsters {
+- (id) initWithMyUserMonsters:(NSArray *)monsters puzzleIsOnLeft:(BOOL)puzzleIsOnLeft {
   if ((self = [super init])) {
-    OrbLayer *ol = [[OrbLayer alloc] initWithContentSize:CGSizeMake(324, 180) gridSize:CGSizeMake(9, 5) numColors:5];
-    ol.position = ccp(self.contentSize.width/2-ol.contentSize.width/2, 0);
-    [self addChild:ol z:3];
+    _puzzleIsOnLeft = puzzleIsOnLeft;
+    
+    CGSize gridSize = CGSizeMake(8, 8);
+    
+    OrbBgdLayer *puzzleBg = [[OrbBgdLayer alloc] initWithGridSize:gridSize];
+    [self addChild:puzzleBg z:2];
+    puzzleBg.ignoreAnchorPointForPosition = NO;
+    float puzzX = puzzleIsOnLeft ? puzzleBg.contentSize.width/2+14 : self.contentSize.width-puzzleBg.contentSize.width/2-14;
+    puzzleBg.position = ccp(puzzX, self.contentSize.height/2);
+    self.orbBgdLayer = puzzleBg;
+    
+    OrbLayer *ol = [[OrbLayer alloc] initWithContentSize:puzzleBg.contentSize gridSize:gridSize numColors:5];
+    ol.ignoreAnchorPointForPosition = NO;
+    ol.position = ccp(puzzleBg.contentSize.width/2, puzzleBg.contentSize.height/2);
+    [self.orbBgdLayer addChild:ol z:2];
     ol.delegate = self;
     self.orbLayer = ol;
     
     self.noInputLayer = [CCLayerColor layerWithColor:ccc4(0, 0, 0, NO_INPUT_LAYER_OPACITY) width:self.orbLayer.contentSize.width height:self.orbLayer.contentSize.height];
-    [self addChild:self.noInputLayer z:self.orbLayer.zOrder];
-    self.noInputLayer.position = self.orbLayer.position;
+    [self.orbBgdLayer addChild:self.noInputLayer z:self.orbLayer.zOrder];
+    self.noInputLayer.ignoreAnchorPointForPosition = NO;
+    self.noInputLayer.position = ol.position;
+    
+    self.bgdContainer = [CCLayer node];
+    [self addChild:self.bgdContainer z:0];
     
     self.bgdLayer = [BattleBgdLayer node];
-    [self addChild:self.bgdLayer z:-100];
-    self.bgdLayer.position = ccp(-733+self.contentSize.width/2, 0);
+    [self.bgdContainer addChild:self.bgdLayer z:-100];
+    self.bgdLayer.position = BGD_LAYER_INIT_POSITION;
+    if (_puzzleIsOnLeft) self.bgdLayer.position = ccpAdd(BGD_LAYER_INIT_POSITION, ccp(PUZZLE_ON_LEFT_BGD_OFFSET, 0));
     self.bgdLayer.delegate = self;
+    
+    CGPoint basePt = CENTER_OF_BATTLE;
+    if (_puzzleIsOnLeft) basePt = ccpAdd(CENTER_OF_BATTLE, ccp(PUZZLE_ON_LEFT_BGD_OFFSET, 0));
+    CGPoint beforeScale = [self.bgdContainer convertToNodeSpace:basePt];
+    self.bgdContainer.scale = BGD_SCALE;
+    CGPoint afterScale = [self.bgdContainer convertToNodeSpace:basePt];
+    CGPoint diff = ccpSub(afterScale, beforeScale);
+    self.bgdContainer.position = ccpAdd(self.bgdContainer.position, ccpMult(diff, self.bgdContainer.scale));
     
     [self setupUI];
     
@@ -172,44 +205,57 @@
 }
 
 - (void) setupUI {
-  CCSprite *puzzleBg = [CCSprite spriteWithFile:@"puzzlebg.png"];
-  [self addChild:puzzleBg z:2];
-  puzzleBg.position = ccp(self.contentSize.width/2, puzzleBg.contentSize.height/2);
+  OrbBgdLayer *puzzleBg = self.orbBgdLayer;
   
-  CCSprite *powerBgd = [CCSprite spriteWithFile:@"powermeterbg.png"];
-  [puzzleBg addChild:powerBgd z:1];
-  powerBgd.position = ccpAdd(ccp(powerBgd.contentSize.width/2, -powerBgd.contentSize.height/2), ccp(15, puzzleBg.contentSize.height-3));
-  
-  _powerBar = [CCProgressTimer progressWithSprite:[CCSprite spriteWithFile:@"powermeter.png"]];
-  [powerBgd addChild:_powerBar];
-  _powerBar.position = ccp(powerBgd.contentSize.width/2-0.5, powerBgd.contentSize.height/2);
-  _powerBar.type = kCCProgressTimerTypeBar;
-  _powerBar.midpoint = ccp(0, 0.5);
-  _powerBar.barChangeRate = ccp(1,0);
-  _powerBar.percentage = 90;
-  
-  CCLayerColor *l = [CCLayerColor layerWithColor:ccc4(0, 0, 0, 150) width:1 height:powerBgd.contentSize.height];
-  [powerBgd addChild:l];
-  l.position = ccp(powerBgd.contentSize.width/3, 0);
-  l = [CCLayerColor layerWithColor:ccc4(0, 0, 0, 150) width:1 height:powerBgd.contentSize.height];
-  [powerBgd addChild:l];
-  l.position = ccp(powerBgd.contentSize.width*2/3, 0);
+//  CCSprite *powerBgd = [CCSprite spriteWithFile:@"powermeterbg.png"];
+//  [puzzleBg addChild:powerBgd z:1];
+//  powerBgd.position = ccpAdd(ccp(powerBgd.contentSize.width/2, -powerBgd.contentSize.height/2), ccp(15, puzzleBg.contentSize.height-3));
+//  
+//  _powerBar = [CCProgressTimer progressWithSprite:[CCSprite spriteWithFile:@"powermeter.png"]];
+//  [powerBgd addChild:_powerBar];
+//  _powerBar.position = ccp(powerBgd.contentSize.width/2-0.5, powerBgd.contentSize.height/2);
+//  _powerBar.type = kCCProgressTimerTypeBar;
+//  _powerBar.midpoint = ccp(0, 0.5);
+//  _powerBar.barChangeRate = ccp(1,0);
+//  _powerBar.percentage = 90;
+//  
+//  CCLayerColor *l = [CCLayerColor layerWithColor:ccc4(0, 0, 0, 150) width:1 height:powerBgd.contentSize.height];
+//  [powerBgd addChild:l];
+//  l.position = ccp(powerBgd.contentSize.width/3, 0);
+//  l = [CCLayerColor layerWithColor:ccc4(0, 0, 0, 150) width:1 height:powerBgd.contentSize.height];
+//  [powerBgd addChild:l];
+//  l.position = ccp(powerBgd.contentSize.width*2/3, 0);
   
   _movesBgd = [CCSprite spriteWithFile:@"movesbg.png"];
   [puzzleBg addChild:_movesBgd z:-1];
-  _movesBgd.position = ccp(powerBgd.position.x, puzzleBg.contentSize.height+_movesBgd.contentSize.height/2);
   
   CCLabelTTF *movesLabel = [CCLabelTTF labelWithString:@"MOVES:" fontName:[Globals font] fontSize:11];
   [_movesBgd addChild:movesLabel];
-  movesLabel.position = ccp(25, 6);
+  movesLabel.position = ccp(30, 10);
   [movesLabel setFontFillColor:ccc3(255, 255, 255) updateImage:YES];
   [movesLabel enableShadowWithOffset:CGSizeMake(0, -1) opacity:0.3f blur:1.f updateImage:YES];
   
   _movesLeftLabel = [CCLabelTTF labelWithString:@"5" fontName:[Globals font] fontSize:21];
   [_movesBgd addChild:_movesLeftLabel];
-  _movesLeftLabel.position = ccp(45, 8);
+  _movesLeftLabel.position = ccp(52, 12);
   [_movesLeftLabel setFontFillColor:ccc3(255,200,0) updateImage:YES];
   [_movesLeftLabel enableShadowWithOffset:CGSizeMake(0, -1) opacity:0.3f blur:1.f updateImage:YES];
+  
+  if (_puzzleIsOnLeft) {
+    _movesBgd.anchorPoint = ccp(0, 0.5);
+    _movesBgd.position = ccp(puzzleBg.contentSize.width, 18);
+    
+    movesLabel.position = ccp(18, 10);
+    _movesLeftLabel.position = ccp(40, 12);
+    
+    _movesBgd.flipX = YES;
+  } else {
+    _movesBgd.anchorPoint = ccp(1, 0.5);
+    _movesBgd.position = ccp(0, 18);
+    
+    movesLabel.position = ccp(30, 10);
+    _movesLeftLabel.position = ccp(52, 12);
+  }
   
   //  CCSprite *lootBgd = [CCSprite spriteWithFile:@"lootcollect.png"];
   //  [self addChild:lootBgd];
@@ -225,10 +271,11 @@
   _comboBgd.anchorPoint = ccp(1, 0.5);
   
   CCClippingNode *clip = [CCClippingNode clippingNode];
-  [self addChild:clip z:self.orbLayer.zOrder];
+  [self.orbBgdLayer addChild:clip z:self.orbLayer.zOrder];
   clip.contentSize = CGSizeMake(_comboBgd.contentSize.width*2, _comboBgd.contentSize.height*3);
   clip.anchorPoint = ccp(1, 0.5);
-  clip.position = ccp(self.orbLayer.position.x+self.orbLayer.contentSize.width-2, 54);
+  clip.position = ccp(self.orbLayer.position.x+self.orbLayer.contentSize.width/2, 54);
+  clip.scale = 1.5;
   
   [clip addChild:_comboBgd];
   _comboBgd.position = ccp(clip.contentSize.width+2*_comboBgd.contentSize.width, _comboBgd.parent.contentSize.height/2);
@@ -257,14 +304,16 @@
 }
 
 - (void) createNextMyPlayerSprite {
-  BattleSprite *mp = [[BattleSprite alloc] initWithPrefix:self.myPlayerObject.spritePrefix];
-  [self addChild:mp z:0];
+  BattleSprite *mp = [[BattleSprite alloc] initWithPrefix:self.myPlayerObject.spritePrefix nameString:self.myPlayerObject.name];
+  mp.healthBar.color = [self.orbLayer colorForSparkle:self.myPlayerObject.element];
+  [self.bgdContainer addChild:mp z:0];
   mp.position = MY_PLAYER_LOCATION;
+  if (_puzzleIsOnLeft) mp.position = ccpAdd(MY_PLAYER_LOCATION, ccp(PUZZLE_ON_LEFT_BGD_OFFSET, 0));
   mp.isFacingNear = NO;
   self.myPlayer = mp;
   [self updateHealthBars];
   
-  self.orbLayer.orbFlyToLocation = [self.orbLayer convertToNodeSpace:[self convertToWorldSpace:ccpAdd(mp.position, ccp(0, mp.contentSize.height/2))]];
+  self.orbLayer.orbFlyToLocation = [self.orbLayer convertToNodeSpace:[self.bgdContainer convertToWorldSpace:ccpAdd(mp.position, ccp(0, mp.contentSize.height/2))]];
 }
 
 - (void) makeMyPlayerWalkOut {
@@ -326,7 +375,8 @@
   [self createNextEnemyObject];
   [self createNextEnemySprite];
   
-  CGPoint finalPos = ccp(self.contentSize.width/2+65,245);
+  CGPoint finalPos = ENEMY_PLAYER_LOCATION;
+  if (_puzzleIsOnLeft) finalPos = ccpAdd(finalPos, ccp(PUZZLE_ON_LEFT_BGD_OFFSET, 0));
   CGPoint offsetPerScene = POINT_OFFSET_PER_SCENE;
   CGPoint newPos = ccpAdd(finalPos, ccp(Y_MOVEMENT_FOR_NEW_SCENE*offsetPerScene.x/offsetPerScene.y, Y_MOVEMENT_FOR_NEW_SCENE));
   
@@ -338,8 +388,9 @@
 }
 
 - (void) createNextEnemySprite {
-  BattleSprite *bs = [[BattleSprite alloc] initWithPrefix:self.enemyPlayerObject.spritePrefix];
-  [self addChild:bs];
+  BattleSprite *bs = [[BattleSprite alloc] initWithPrefix:self.enemyPlayerObject.spritePrefix nameString:self.enemyPlayerObject.name];
+  bs.healthBar.color = [self.orbLayer colorForSparkle:self.enemyPlayerObject.element];
+  [self.bgdContainer addChild:bs];
   self.currentEnemy = bs;
   self.currentEnemy.isFacingNear = YES;
   [self updateHealthBars];
@@ -429,7 +480,8 @@
 
 - (void) checkIfAnyMovesLeft {
   if (_movesLeft == 0) {
-    [self beginChargingUpForEnemy:NO withTarget:self selector:@selector(showHighScoreWord)];
+    //[self beginChargingUpForEnemy:NO withTarget:self selector:@selector(showHighScoreWord)];
+    [self showHighScoreWord];
     [self displayNoInputLayer];
   } else {
     [self.orbLayer allowInput];
@@ -533,7 +585,7 @@
   [healthLabel runAction:f];
   
   CCLabelTTF *damageLabel = [CCLabelTTF labelWithString:[NSString stringWithFormat:@"-%@", [Globals commafyNumber:damageDone]] fontName:[Globals font] fontSize:25];
-  [self addChild:damageLabel z:defSpr.zOrder];
+  [self.bgdContainer addChild:damageLabel z:defSpr.zOrder];
   damageLabel.position = ccpAdd(defSpr.position, ccp(0, defSpr.contentSize.height-15));
   damageLabel.color = ccc3(255, 0, 0);
   damageLabel.scale = 0.01;
@@ -560,7 +612,7 @@
   CCParticleSystemQuad *q = [CCParticleSystemQuad particleWithFile:@"characterdie.plist"];
   q.autoRemoveOnFinish = YES;
   q.position = ccpAdd(sprite.position, ccp(0, sprite.contentSize.height/2-5));
-  [self addChild:q z:0];
+  [self.bgdContainer addChild:q z:0];
 }
 
 - (void) checkEnemyHealth {
@@ -632,13 +684,13 @@
   
   CCLabelBMFont *label = [CCLabelBMFont labelWithString:[NSString stringWithFormat:@"Enemy %d/%d", _curStage+1, _numStages] fntFile:@"wavefont.fnt"];
   [self addChild:label];
-  label.position = ccp(self.contentSize.width/2, 140);
+  label.position = ccp(CENTER_OF_BATTLE.x, -label.contentSize.height/2);
   
   [label runAction:[CCSequence actions:
                     [CCDelayTime actionWithDuration:initDelay],
-                    [CCEaseSineOut actionWithAction:[CCMoveBy actionWithDuration:fadeTime position:ccp(0, 100)]],
+                    [CCEaseSineOut actionWithAction:[CCMoveTo actionWithDuration:fadeTime position:ccp(label.position.x, self.contentSize.height/2)]],
                     [CCDelayTime actionWithDuration:delayTime],
-                    [CCEaseSineIn actionWithAction:[CCMoveBy actionWithDuration:fadeTime position:ccp(0, 110)]],
+                    [CCEaseSineIn actionWithAction:[CCMoveTo actionWithDuration:fadeTime position:ccp(label.position.x, self.contentSize.height+label.contentSize.height)]],
                     [CCCallBlock actionWithBlock:
                      ^{
                        [label removeFromParentAndCleanup:YES];
@@ -647,7 +699,7 @@
 
 - (void) dropLoot:(int)equipId {
   CCSprite *ed = [CCSprite spriteWithFile:@"itemcrate.png"];
-  [self addChild:ed z:-1];
+  [self.bgdContainer addChild:ed z:-1];
   ed.position = ccpAdd(self.currentEnemy.position, ccp(0,self.currentEnemy.contentSize.height/2));
   ed.scale = 0.01;
   ed.opacity = 5;
@@ -693,7 +745,7 @@
   CGPoint pt = POINT_OFFSET_PER_SCENE;
   
   CCSprite *plane = [CCSprite spriteWithFile:@"airplane.png"];
-  [self addChild:plane];
+  [self.bgdContainer addChild:plane];
   plane.position = ccp(-plane.contentSize.width/2,
                        self.currentEnemy.position.y+5-(self.currentEnemy.position.x+plane.contentSize.width/2)*pt.y/pt.x);
   
@@ -711,7 +763,7 @@
   int end = 5;
   for (int i = 0; i <= end; i++) {
     CCSprite *bomb = [CCSprite spriteWithFile:@"bomb.png"];
-    [self addChild:bomb];
+    [self.bgdContainer addChild:bomb];
     bomb.scale = 0.3;
     
     CGPoint endPos = ccpAdd(self.currentEnemy.position, ccp(5,10));
@@ -721,7 +773,7 @@
     offset = ccp((i%2==0?-1:1)*offset.y,(i%2==1?-1:1)*offset.x);
     //    endPos = ccpAdd(endPos, offset);
     
-    bomb.position = ccp(endPos.x, endPos.y+120);
+    bomb.position = ccp(endPos.x, endPos.y+130);
     
     [bomb runAction:
      [CCSequence actions:
@@ -733,7 +785,7 @@
          CCParticleSystemQuad *q = [CCParticleSystemQuad particleWithFile:@"bombdrop.plist"];
          q.autoRemoveOnFinish = YES;
          q.position = bomb.position;
-         [self addChild:q];
+         [self.bgdContainer addChild:q];
          
          [bomb removeFromParentAndCleanup:YES];
          
@@ -758,7 +810,7 @@
   CCRepeat *repeat = [CCRepeat actionWithAction:seq times:5+(intensity*3)];
   
   // Dont shake curEnemy because it messes with it coming back after flinch
-  NSArray *arr = [NSArray arrayWithObjects:self.bgdLayer, self.myPlayer, nil];
+  NSArray *arr = [NSArray arrayWithObjects:self.bgdContainer, nil];
   for (CCNode *n in arr) {
     CGPoint curPos = n.position;
     [n runAction:[CCSequence actions:repeat.copy, [CCCallBlock actionWithBlock:^{
@@ -809,7 +861,7 @@
                    }], nil]];
     
     [self addChild:phrase z:3];
-    phrase.position = ccp(-phrase.contentSize.width/2, 260);
+    phrase.position = ccp(-phrase.contentSize.width/2, self.contentSize.height/2);
     CCSequence *seq =
     [CCSequence actions:
      [CCMoveBy actionWithDuration:0.15 position:ccp(phrase.contentSize.width+self.contentSize.width/5, 0)],
@@ -892,7 +944,20 @@
 - (void) newComboFound {
   _comboCount++;
   
-  _comboLabel.string = [NSString stringWithFormat:@"%dx", _comboCount];
+  // Update combo count label but do it somewhat slowly
+  __block int base = MAX(2, [_comboLabel.string intValue]);
+  if (base < _comboCount) {
+    CCCallBlock *block = [CCCallBlock actionWithBlock:^{
+      base += 1;
+      _comboLabel.string = [NSString stringWithFormat:@"%dx", base];
+    }];
+    CCRepeat *rep = [CCRepeat actionWithAction:[CCSequence actions:block, [CCDelayTime actionWithDuration:0.15f], nil] times:_comboCount-base];
+    rep.tag = 83239;
+    [_comboLabel stopActionByTag:rep.tag];
+    [_comboLabel runAction:rep];
+  } else {
+    _comboLabel.string = [NSString stringWithFormat:@"%dx", _comboCount];
+  }
   
   if (_comboCount == 2) {
     [_comboBgd stopAllActions];
@@ -902,7 +967,8 @@
     // Spawn fire
     CCParticleSystemQuad *q = [CCParticleSystemQuad particleWithFile:@"ComboFire4.plist"];
     q.autoRemoveOnFinish = YES;
-    q.position = ccp(_comboBgd.contentSize.width/2+15, _comboBgd.contentSize.height/2+10);
+    q.position = ccp(_comboBgd.contentSize.width/2+15, _comboBgd.contentSize.height/2+5);
+    q.positionType = kCCPositionTypeGrouped;
     [_comboBgd addChild:q z:0 tag:COMBO_FIRE_TAG];
   }
   
@@ -948,6 +1014,10 @@
     _canPlayNextGemPop = NO;
     [self schedule:@selector(allowGemPop) interval:0.02];
   }
+}
+
+- (void) gemReachedFlyLocation:(Gem *)gem {
+  [self.myPlayer pulseRingGlow];
 }
 
 - (void) allowGemPop {

@@ -3,22 +3,31 @@
 #import "ProtocolBuffers.h"
 
 #import "BoosterPackStuff.pb.h"
+#import "MonsterStuff.pb.h"
 #import "User.pb.h"
 
+@class BoosterDisplayItemProto;
+@class BoosterDisplayItemProto_Builder;
 @class BoosterItemProto;
 @class BoosterItemProto_Builder;
 @class BoosterPackProto;
 @class BoosterPackProto_Builder;
+@class FullUserMonsterProto;
+@class FullUserMonsterProto_Builder;
 @class FullUserProto;
 @class FullUserProto_Builder;
 @class MinimumClanProto;
 @class MinimumClanProto_Builder;
+@class MinimumUserMonsterSellProto;
+@class MinimumUserMonsterSellProto_Builder;
 @class MinimumUserProto;
 @class MinimumUserProtoWithFacebookId;
 @class MinimumUserProtoWithFacebookId_Builder;
 @class MinimumUserProtoWithLevel;
 @class MinimumUserProtoWithLevel_Builder;
 @class MinimumUserProto_Builder;
+@class MonsterProto;
+@class MonsterProto_Builder;
 @class PurchaseBoosterPackRequestProto;
 @class PurchaseBoosterPackRequestProto_Builder;
 @class PurchaseBoosterPackResponseProto;
@@ -27,27 +36,26 @@
 @class RareBoosterPurchaseProto_Builder;
 @class ReceivedRareBoosterPurchaseResponseProto;
 @class ReceivedRareBoosterPurchaseResponseProto_Builder;
-@class RetrieveBoosterPackRequestProto;
-@class RetrieveBoosterPackRequestProto_Builder;
-@class RetrieveBoosterPackResponseProto;
-@class RetrieveBoosterPackResponseProto_Builder;
-@class StaticLevelInfoProto;
-@class StaticLevelInfoProto_Builder;
+@class StaticUserLevelInfoProto;
+@class StaticUserLevelInfoProto_Builder;
+@class UserCurrentMonsterTeamProto;
+@class UserCurrentMonsterTeamProto_Builder;
+@class UserEnhancementItemProto;
+@class UserEnhancementItemProto_Builder;
+@class UserEnhancementProto;
+@class UserEnhancementProto_Builder;
 @class UserFacebookInviteForSlotProto;
 @class UserFacebookInviteForSlotProto_Builder;
-typedef enum {
-  RetrieveBoosterPackResponseProto_RetrieveBoosterPackStatusSuccess = 1,
-  RetrieveBoosterPackResponseProto_RetrieveBoosterPackStatusSomeFail = 2,
-} RetrieveBoosterPackResponseProto_RetrieveBoosterPackStatus;
-
-BOOL RetrieveBoosterPackResponseProto_RetrieveBoosterPackStatusIsValidValue(RetrieveBoosterPackResponseProto_RetrieveBoosterPackStatus value);
-
+@class UserMonsterCurrentExpProto;
+@class UserMonsterCurrentExpProto_Builder;
+@class UserMonsterCurrentHealthProto;
+@class UserMonsterCurrentHealthProto_Builder;
+@class UserMonsterHealingProto;
+@class UserMonsterHealingProto_Builder;
 typedef enum {
   PurchaseBoosterPackResponseProto_PurchaseBoosterPackStatusSuccess = 1,
-  PurchaseBoosterPackResponseProto_PurchaseBoosterPackStatusNotEnoughGold = 2,
-  PurchaseBoosterPackResponseProto_PurchaseBoosterPackStatusNotEnoughSilver = 3,
-  PurchaseBoosterPackResponseProto_PurchaseBoosterPackStatusOtherFail = 4,
-  PurchaseBoosterPackResponseProto_PurchaseBoosterPackStatusClientTooApartFromServerTime = 5,
+  PurchaseBoosterPackResponseProto_PurchaseBoosterPackStatusFailInsufficientGems = 2,
+  PurchaseBoosterPackResponseProto_PurchaseBoosterPackStatusFailOther = 3,
 } PurchaseBoosterPackResponseProto_PurchaseBoosterPackStatus;
 
 BOOL PurchaseBoosterPackResponseProto_PurchaseBoosterPackStatusIsValidValue(PurchaseBoosterPackResponseProto_PurchaseBoosterPackStatus value);
@@ -57,125 +65,6 @@ BOOL PurchaseBoosterPackResponseProto_PurchaseBoosterPackStatusIsValidValue(Purc
 }
 + (PBExtensionRegistry*) extensionRegistry;
 + (void) registerAllExtensions:(PBMutableExtensionRegistry*) registry;
-@end
-
-@interface RetrieveBoosterPackRequestProto : PBGeneratedMessage {
-@private
-  BOOL hasSender_:1;
-  MinimumUserProto* sender;
-}
-- (BOOL) hasSender;
-@property (readonly, retain) MinimumUserProto* sender;
-
-+ (RetrieveBoosterPackRequestProto*) defaultInstance;
-- (RetrieveBoosterPackRequestProto*) defaultInstance;
-
-- (BOOL) isInitialized;
-- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output;
-- (RetrieveBoosterPackRequestProto_Builder*) builder;
-+ (RetrieveBoosterPackRequestProto_Builder*) builder;
-+ (RetrieveBoosterPackRequestProto_Builder*) builderWithPrototype:(RetrieveBoosterPackRequestProto*) prototype;
-
-+ (RetrieveBoosterPackRequestProto*) parseFromData:(NSData*) data;
-+ (RetrieveBoosterPackRequestProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
-+ (RetrieveBoosterPackRequestProto*) parseFromInputStream:(NSInputStream*) input;
-+ (RetrieveBoosterPackRequestProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
-+ (RetrieveBoosterPackRequestProto*) parseFromCodedInputStream:(PBCodedInputStream*) input;
-+ (RetrieveBoosterPackRequestProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
-@end
-
-@interface RetrieveBoosterPackRequestProto_Builder : PBGeneratedMessage_Builder {
-@private
-  RetrieveBoosterPackRequestProto* result;
-}
-
-- (RetrieveBoosterPackRequestProto*) defaultInstance;
-
-- (RetrieveBoosterPackRequestProto_Builder*) clear;
-- (RetrieveBoosterPackRequestProto_Builder*) clone;
-
-- (RetrieveBoosterPackRequestProto*) build;
-- (RetrieveBoosterPackRequestProto*) buildPartial;
-
-- (RetrieveBoosterPackRequestProto_Builder*) mergeFrom:(RetrieveBoosterPackRequestProto*) other;
-- (RetrieveBoosterPackRequestProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input;
-- (RetrieveBoosterPackRequestProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
-
-- (BOOL) hasSender;
-- (MinimumUserProto*) sender;
-- (RetrieveBoosterPackRequestProto_Builder*) setSender:(MinimumUserProto*) value;
-- (RetrieveBoosterPackRequestProto_Builder*) setSenderBuilder:(MinimumUserProto_Builder*) builderForValue;
-- (RetrieveBoosterPackRequestProto_Builder*) mergeSender:(MinimumUserProto*) value;
-- (RetrieveBoosterPackRequestProto_Builder*) clearSender;
-@end
-
-@interface RetrieveBoosterPackResponseProto : PBGeneratedMessage {
-@private
-  BOOL hasSender_:1;
-  BOOL hasStatus_:1;
-  MinimumUserProto* sender;
-  RetrieveBoosterPackResponseProto_RetrieveBoosterPackStatus status;
-  NSMutableArray* mutablePacksList;
-}
-- (BOOL) hasSender;
-- (BOOL) hasStatus;
-@property (readonly, retain) MinimumUserProto* sender;
-@property (readonly) RetrieveBoosterPackResponseProto_RetrieveBoosterPackStatus status;
-- (NSArray*) packsList;
-- (BoosterPackProto*) packsAtIndex:(int32_t) index;
-
-+ (RetrieveBoosterPackResponseProto*) defaultInstance;
-- (RetrieveBoosterPackResponseProto*) defaultInstance;
-
-- (BOOL) isInitialized;
-- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output;
-- (RetrieveBoosterPackResponseProto_Builder*) builder;
-+ (RetrieveBoosterPackResponseProto_Builder*) builder;
-+ (RetrieveBoosterPackResponseProto_Builder*) builderWithPrototype:(RetrieveBoosterPackResponseProto*) prototype;
-
-+ (RetrieveBoosterPackResponseProto*) parseFromData:(NSData*) data;
-+ (RetrieveBoosterPackResponseProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
-+ (RetrieveBoosterPackResponseProto*) parseFromInputStream:(NSInputStream*) input;
-+ (RetrieveBoosterPackResponseProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
-+ (RetrieveBoosterPackResponseProto*) parseFromCodedInputStream:(PBCodedInputStream*) input;
-+ (RetrieveBoosterPackResponseProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
-@end
-
-@interface RetrieveBoosterPackResponseProto_Builder : PBGeneratedMessage_Builder {
-@private
-  RetrieveBoosterPackResponseProto* result;
-}
-
-- (RetrieveBoosterPackResponseProto*) defaultInstance;
-
-- (RetrieveBoosterPackResponseProto_Builder*) clear;
-- (RetrieveBoosterPackResponseProto_Builder*) clone;
-
-- (RetrieveBoosterPackResponseProto*) build;
-- (RetrieveBoosterPackResponseProto*) buildPartial;
-
-- (RetrieveBoosterPackResponseProto_Builder*) mergeFrom:(RetrieveBoosterPackResponseProto*) other;
-- (RetrieveBoosterPackResponseProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input;
-- (RetrieveBoosterPackResponseProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
-
-- (BOOL) hasSender;
-- (MinimumUserProto*) sender;
-- (RetrieveBoosterPackResponseProto_Builder*) setSender:(MinimumUserProto*) value;
-- (RetrieveBoosterPackResponseProto_Builder*) setSenderBuilder:(MinimumUserProto_Builder*) builderForValue;
-- (RetrieveBoosterPackResponseProto_Builder*) mergeSender:(MinimumUserProto*) value;
-- (RetrieveBoosterPackResponseProto_Builder*) clearSender;
-
-- (NSArray*) packsList;
-- (BoosterPackProto*) packsAtIndex:(int32_t) index;
-- (RetrieveBoosterPackResponseProto_Builder*) replacePacksAtIndex:(int32_t) index with:(BoosterPackProto*) value;
-- (RetrieveBoosterPackResponseProto_Builder*) addPacks:(BoosterPackProto*) value;
-- (RetrieveBoosterPackResponseProto_Builder*) addAllPacks:(NSArray*) values;
-- (RetrieveBoosterPackResponseProto_Builder*) clearPacksList;
-
-- (BOOL) hasStatus;
-- (RetrieveBoosterPackResponseProto_RetrieveBoosterPackStatus) status;
-- (RetrieveBoosterPackResponseProto_Builder*) setStatus:(RetrieveBoosterPackResponseProto_RetrieveBoosterPackStatus) value;
-- (RetrieveBoosterPackResponseProto_Builder*) clearStatus;
 @end
 
 @interface PurchaseBoosterPackRequestProto : PBGeneratedMessage {
@@ -249,14 +138,21 @@ BOOL PurchaseBoosterPackResponseProto_PurchaseBoosterPackStatusIsValidValue(Purc
 @interface PurchaseBoosterPackResponseProto : PBGeneratedMessage {
 @private
   BOOL hasSender_:1;
+  BOOL hasPrize_:1;
   BOOL hasStatus_:1;
   MinimumUserProto* sender;
+  BoosterItemProto* prize;
   PurchaseBoosterPackResponseProto_PurchaseBoosterPackStatus status;
+  NSMutableArray* mutableUpdatedOrNewList;
 }
 - (BOOL) hasSender;
 - (BOOL) hasStatus;
+- (BOOL) hasPrize;
 @property (readonly, retain) MinimumUserProto* sender;
 @property (readonly) PurchaseBoosterPackResponseProto_PurchaseBoosterPackStatus status;
+@property (readonly, retain) BoosterItemProto* prize;
+- (NSArray*) updatedOrNewList;
+- (FullUserMonsterProto*) updatedOrNewAtIndex:(int32_t) index;
 
 + (PurchaseBoosterPackResponseProto*) defaultInstance;
 - (PurchaseBoosterPackResponseProto*) defaultInstance;
@@ -303,6 +199,20 @@ BOOL PurchaseBoosterPackResponseProto_PurchaseBoosterPackStatusIsValidValue(Purc
 - (PurchaseBoosterPackResponseProto_PurchaseBoosterPackStatus) status;
 - (PurchaseBoosterPackResponseProto_Builder*) setStatus:(PurchaseBoosterPackResponseProto_PurchaseBoosterPackStatus) value;
 - (PurchaseBoosterPackResponseProto_Builder*) clearStatus;
+
+- (NSArray*) updatedOrNewList;
+- (FullUserMonsterProto*) updatedOrNewAtIndex:(int32_t) index;
+- (PurchaseBoosterPackResponseProto_Builder*) replaceUpdatedOrNewAtIndex:(int32_t) index with:(FullUserMonsterProto*) value;
+- (PurchaseBoosterPackResponseProto_Builder*) addUpdatedOrNew:(FullUserMonsterProto*) value;
+- (PurchaseBoosterPackResponseProto_Builder*) addAllUpdatedOrNew:(NSArray*) values;
+- (PurchaseBoosterPackResponseProto_Builder*) clearUpdatedOrNewList;
+
+- (BOOL) hasPrize;
+- (BoosterItemProto*) prize;
+- (PurchaseBoosterPackResponseProto_Builder*) setPrize:(BoosterItemProto*) value;
+- (PurchaseBoosterPackResponseProto_Builder*) setPrizeBuilder:(BoosterItemProto_Builder*) builderForValue;
+- (PurchaseBoosterPackResponseProto_Builder*) mergePrize:(BoosterItemProto*) value;
+- (PurchaseBoosterPackResponseProto_Builder*) clearPrize;
 @end
 
 @interface ReceivedRareBoosterPurchaseResponseProto : PBGeneratedMessage {

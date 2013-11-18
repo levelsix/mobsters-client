@@ -16,9 +16,8 @@
 @protocol MyCroniesCardDelegate <NSObject>
 
 - (void) plusClicked:(MyCroniesCardCell *)cell;
-- (void) minusClicked:(MyCroniesCardCell *)cell;
-- (void) healClicked:(MyCroniesCardCell *)cell;
 - (void) cardClicked:(MyCroniesCardCell *)cell;
+- (void) infoClicked:(MyCroniesCardCell *)cell;
 - (void) speedupCombineClicked:(MyCroniesCardCell *)cell;
 - (void) buySlotsClicked:(MyCroniesCardCell *)cell;
 
@@ -27,10 +26,18 @@
 @interface MyCroniesCardCell : UIView <MonsterCardViewDelegate>
 
 @property (nonatomic, strong) IBOutlet UIButton *plusButton;
-@property (nonatomic, strong) IBOutlet UIButton *minusButton;
+@property (nonatomic, strong) IBOutlet UIImageView *onTeamIcon;
 @property (nonatomic, strong) IBOutlet MonsterCardContainerView *cardContainer;
-@property (nonatomic, strong) IBOutlet UIView *healButtonView;
-@property (nonatomic, strong) IBOutlet UILabel *healButtonLabel;
+
+@property (nonatomic, strong) IBOutlet UIView *genLabelView;
+@property (nonatomic, strong) IBOutlet UILabel *genLabel;
+
+@property (nonatomic, strong) IBOutlet UIView *healthBarView;
+@property (nonatomic, strong) IBOutlet UILabel *healCostLabel;
+@property (nonatomic, strong) IBOutlet ProgressBar *healthBar;
+
+@property (nonatomic, strong) IBOutlet UIView *combineView;
+@property (nonatomic, strong) IBOutlet UILabel *combineCostLabel;
 
 @property (nonatomic, strong) IBOutlet UIView *buySlotsView;
 @property (nonatomic, strong) IBOutlet UILabel *buySlotsNumLabel;
@@ -40,16 +47,21 @@
 
 @property (nonatomic, strong) UserMonster *monster;
 
-@property (nonatomic, weak) id<MyCroniesCardDelegate> delegate;
+@property (nonatomic, weak) IBOutlet id<MyCroniesCardDelegate> delegate;
 
-- (void) updateForUserMonster:(UserMonster *)monster isOnMyTeam:(BOOL)isOnMyTeam;
-- (void) updateForNoMonsterIsOnMyTeam:(BOOL)isOnMyTeam;
+- (void) updateForUserMonster:(UserMonster *)monster;
+- (void) updateForEmptySlots:(int)numSlots;
 - (void) updateForBuySlots;
+
+- (void) updateForTime;
+
+- (IBAction) speedupCombineClicked:(id)sender;
 
 @end
 
 @interface MyCroniesQueueCell : UIView
 
+@property (nonatomic, strong) IBOutlet UIImageView *bgdIcon;
 @property (nonatomic, strong) IBOutlet UIImageView *monsterIcon;
 @property (nonatomic, strong) IBOutlet UIView *timerView;
 @property (nonatomic, strong) IBOutlet ProgressBar *healthBar;
@@ -59,6 +71,7 @@
 
 - (void) updateForHealingItem:(UserMonsterHealingItem *)item;
 - (void) updateForTime;
+
 
 @end
 
@@ -74,10 +87,12 @@
 @property (nonatomic, strong) IBOutlet UIView *tableContainerView;
 @property (nonatomic, strong) IBOutlet UILabel *speedupCostLabel;
 @property (nonatomic, strong) IBOutlet UILabel *totalTimeLabel;
+@property (nonatomic, strong) IBOutlet UILabel *instructionLabel;
 
 @property (nonatomic, strong) IBOutlet MyCroniesQueueCell *queueCell;
 
 @property (nonatomic, strong) EasyTableView *queueTable;
+@property (nonatomic, strong) NSArray *healingQueue;
 
 @property (nonatomic, weak) IBOutlet id<MyCroniesQueueDelegate> delegate;
 
@@ -85,17 +100,5 @@
 - (void) reloadTable;
 
 - (IBAction)speedupClicked:(id)sender;
-
-@end
-
-@interface MyCroniesHeaderView : UIView
-
-@property (nonatomic, strong) IBOutlet UILabel *label;
-@property (nonatomic, strong) IBOutlet UIView *leftView1;
-@property (nonatomic, strong) IBOutlet UIView *leftView2;
-@property (nonatomic, strong) IBOutlet UIView *rightView1;
-@property (nonatomic, strong) IBOutlet UIView *rightView2;
-
-- (void) moveLabelToXPosition:(float)x;
 
 @end

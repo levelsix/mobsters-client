@@ -2,6 +2,7 @@
 
 #import "ProtocolBuffers.h"
 
+#import "MonsterStuff.pb.h"
 #import "Structure.pb.h"
 #import "User.pb.h"
 
@@ -9,6 +10,8 @@
 @class CoordinateProto_Builder;
 @class FullStructureProto;
 @class FullStructureProto_Builder;
+@class FullUserMonsterProto;
+@class FullUserMonsterProto_Builder;
 @class FullUserProto;
 @class FullUserProto_Builder;
 @class FullUserStructureProto;
@@ -21,26 +24,42 @@
 @class LogoutRequestProto_Builder;
 @class MinimumClanProto;
 @class MinimumClanProto_Builder;
+@class MinimumUserMonsterSellProto;
+@class MinimumUserMonsterSellProto_Builder;
 @class MinimumUserProto;
 @class MinimumUserProtoWithFacebookId;
 @class MinimumUserProtoWithFacebookId_Builder;
 @class MinimumUserProtoWithLevel;
 @class MinimumUserProtoWithLevel_Builder;
 @class MinimumUserProto_Builder;
+@class MonsterProto;
+@class MonsterProto_Builder;
 @class RetrieveUsersForUserIdsRequestProto;
 @class RetrieveUsersForUserIdsRequestProto_Builder;
 @class RetrieveUsersForUserIdsResponseProto;
 @class RetrieveUsersForUserIdsResponseProto_Builder;
-@class StaticLevelInfoProto;
-@class StaticLevelInfoProto_Builder;
+@class StaticUserLevelInfoProto;
+@class StaticUserLevelInfoProto_Builder;
 @class UpdateClientUserResponseProto;
 @class UpdateClientUserResponseProto_Builder;
 @class UserCreateRequestProto;
 @class UserCreateRequestProto_Builder;
 @class UserCreateResponseProto;
 @class UserCreateResponseProto_Builder;
+@class UserCurrentMonsterTeamProto;
+@class UserCurrentMonsterTeamProto_Builder;
+@class UserEnhancementItemProto;
+@class UserEnhancementItemProto_Builder;
+@class UserEnhancementProto;
+@class UserEnhancementProto_Builder;
 @class UserFacebookInviteForSlotProto;
 @class UserFacebookInviteForSlotProto_Builder;
+@class UserMonsterCurrentExpProto;
+@class UserMonsterCurrentExpProto_Builder;
+@class UserMonsterCurrentHealthProto;
+@class UserMonsterCurrentHealthProto_Builder;
+@class UserMonsterHealingProto;
+@class UserMonsterHealingProto_Builder;
 typedef enum {
   UserCreateResponseProto_UserCreateStatusSuccess = 1,
   UserCreateResponseProto_UserCreateStatusInvalidName = 2,
@@ -360,12 +379,16 @@ BOOL LevelUpResponseProto_LevelUpStatusIsValidValue(LevelUpResponseProto_LevelUp
 
 @interface RetrieveUsersForUserIdsRequestProto : PBGeneratedMessage {
 @private
+  BOOL hasIncludeCurMonsterTeam_:1;
   BOOL hasSender_:1;
+  BOOL includeCurMonsterTeam_:1;
   MinimumUserProto* sender;
   NSMutableArray* mutableRequestedUserIdsList;
 }
 - (BOOL) hasSender;
+- (BOOL) hasIncludeCurMonsterTeam;
 @property (readonly, retain) MinimumUserProto* sender;
+- (BOOL) includeCurMonsterTeam;
 - (NSArray*) requestedUserIdsList;
 - (int32_t) requestedUserIdsAtIndex:(int32_t) index;
 
@@ -416,6 +439,11 @@ BOOL LevelUpResponseProto_LevelUpStatusIsValidValue(LevelUpResponseProto_LevelUp
 - (RetrieveUsersForUserIdsRequestProto_Builder*) addRequestedUserIds:(int32_t) value;
 - (RetrieveUsersForUserIdsRequestProto_Builder*) addAllRequestedUserIds:(NSArray*) values;
 - (RetrieveUsersForUserIdsRequestProto_Builder*) clearRequestedUserIdsList;
+
+- (BOOL) hasIncludeCurMonsterTeam;
+- (BOOL) includeCurMonsterTeam;
+- (RetrieveUsersForUserIdsRequestProto_Builder*) setIncludeCurMonsterTeam:(BOOL) value;
+- (RetrieveUsersForUserIdsRequestProto_Builder*) clearIncludeCurMonsterTeam;
 @end
 
 @interface RetrieveUsersForUserIdsResponseProto : PBGeneratedMessage {
@@ -423,11 +451,14 @@ BOOL LevelUpResponseProto_LevelUpStatusIsValidValue(LevelUpResponseProto_LevelUp
   BOOL hasSender_:1;
   MinimumUserProto* sender;
   NSMutableArray* mutableRequestedUsersList;
+  NSMutableArray* mutableCurTeamList;
 }
 - (BOOL) hasSender;
 @property (readonly, retain) MinimumUserProto* sender;
 - (NSArray*) requestedUsersList;
 - (FullUserProto*) requestedUsersAtIndex:(int32_t) index;
+- (NSArray*) curTeamList;
+- (UserCurrentMonsterTeamProto*) curTeamAtIndex:(int32_t) index;
 
 + (RetrieveUsersForUserIdsResponseProto*) defaultInstance;
 - (RetrieveUsersForUserIdsResponseProto*) defaultInstance;
@@ -476,6 +507,13 @@ BOOL LevelUpResponseProto_LevelUpStatusIsValidValue(LevelUpResponseProto_LevelUp
 - (RetrieveUsersForUserIdsResponseProto_Builder*) addRequestedUsers:(FullUserProto*) value;
 - (RetrieveUsersForUserIdsResponseProto_Builder*) addAllRequestedUsers:(NSArray*) values;
 - (RetrieveUsersForUserIdsResponseProto_Builder*) clearRequestedUsersList;
+
+- (NSArray*) curTeamList;
+- (UserCurrentMonsterTeamProto*) curTeamAtIndex:(int32_t) index;
+- (RetrieveUsersForUserIdsResponseProto_Builder*) replaceCurTeamAtIndex:(int32_t) index with:(UserCurrentMonsterTeamProto*) value;
+- (RetrieveUsersForUserIdsResponseProto_Builder*) addCurTeam:(UserCurrentMonsterTeamProto*) value;
+- (RetrieveUsersForUserIdsResponseProto_Builder*) addAllCurTeam:(NSArray*) values;
+- (RetrieveUsersForUserIdsResponseProto_Builder*) clearCurTeamList;
 @end
 
 @interface LogoutRequestProto : PBGeneratedMessage {

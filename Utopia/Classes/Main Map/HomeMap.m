@@ -92,9 +92,13 @@
     
     [self refreshForExpansion];
     
-    [[NSBundle mainBundle] loadNibNamed:@"HomeBuildingMenu" owner:self options:nil];
+    if ([Globals isLongiPhone]) {
+      [[NSBundle mainBundle] loadNibNamed:@"HomeBuildingMenu" owner:self options:nil];
+    } else {
+      [[NSBundle mainBundle] loadNibNamed:@"HomeBuildingMenuSmall" owner:self options:nil];
+    }
+    
     [[NSBundle mainBundle] loadNibNamed:@"UpgradeBuildingMenu" owner:self options:nil];
-    [[NSBundle mainBundle] loadNibNamed:@"ExpansionView" owner:self options:nil];
     
     _timers = [[NSMutableArray alloc] init];
     
@@ -138,7 +142,7 @@
 
 - (void) beginTimers {
   for (CCNode *node in _children) {
-    if ([node isKindOfClass:[MoneyBuilding class]]) {
+    if (node != _purchBuilding && [node isKindOfClass:[MoneyBuilding class]]) {
       [self updateTimersForBuilding:(MoneyBuilding *)node];
     }
   }
@@ -310,6 +314,7 @@
         for (int i = r.origin.x; i < r.origin.x+r.size.width; i++) {
           for (int j = r.origin.y; j < r.origin.y+r.size.height; j++) {
             [[self.buildableData objectAtIndex:i] replaceObjectAtIndex:j withObject:[NSNumber numberWithBool:NO]];
+            [[self.walkableData objectAtIndex:i] replaceObjectAtIndex:j withObject:[NSNumber numberWithBool:NO]];
           }
         }
         
@@ -356,7 +361,7 @@
 
 - (void) preparePurchaseOfStruct:(int)structId {
   if (_purchasing || _constrBuilding) {
-    [Globals popupMessage:[NSString stringWithFormat:@"Already %@ a building.", _purchasing ? @"purchasing" : @"constructing"]];
+    [Globals popupMessage:@"The carpenter is already constructing a building."];
     return;
   }
   
@@ -448,7 +453,17 @@
       FullStructureProto *nextFsp = mb.userStruct.fspForNextLevel;
       self.buildingNameLabel.text = [NSString stringWithFormat:@"%@ (lvl %d)", fsp.name, fsp.level];
       self.buildingIncomeLabel.text = [NSString stringWithFormat:@"%@ EVERY %@", [Globals cashStringForNumber:fsp.income], [Globals convertTimeToLongString:fsp.minutesToGain*60]];
-      self.buildingUpgradeCostLabel.text = nextFsp.isPremiumCurrency ? [Globals commafyNumber:nextFsp.buildPrice] : [Globals cashStringForNumber:nextFsp.buildPrice];
+      BOOL isPremium = nextFsp ? nextFsp.isPremiumCurrency : fsp.isPremiumCurrency;
+      
+      if (nextFsp) {
+        self.buildingUpgradeCashCostLabel.text = [Globals cashStringForNumber:nextFsp.buildPrice];
+        self.buildingUpgradeGemCostLabel.text = [Globals commafyNumber:nextFsp.buildPrice];
+        self.buildingUpgradeGemView.hidden = !isPremium;
+      } else {
+        self.buildingUpgradeCashCostLabel.text = @"N/A";
+        self.buildingUpgradeGemCostLabel.text = @"N/A";
+        self.buildingUpgradeGemView.hidden = !isPremium;
+      }
     }
   } else if (botView == self.upgradeBotView) {
     if ([self.selected isKindOfClass:[MoneyBuilding class]]) {
@@ -697,7 +712,7 @@
   if (us.fsp.level < maxLevel) {
     [self.upgradeMenu displayForUserStruct:us];
   } else {
-    [Globals popupMessage:[NSString stringWithFormat:@"The maximum level for this building is %d.", maxLevel]];
+    [Globals popupMessage:[NSString stringWithFormat:@"The maximum level for the %@ is %d.", us.fsp.name, maxLevel]];
   }
 }
 
@@ -721,14 +736,18 @@
       self.selected = nil;
     } else {
       [[OutgoingEventController sharedOutgoingEventController] upgradeNormStruct:us];
-      _constrBuilding = (MoneyBuilding *)self.selected;
-      [self updateTimersForBuilding:_constrBuilding];
-      [self.upgradeMenu closeClicked:nil];
-      [_constrBuilding displayProgressBar];
       
-      [[SoundEngine sharedSoundEngine] carpenterPurchase];
-      
-      [self reselectCurrentSelection];
+      if (us.state == kBuilding) {
+        _constrBuilding = (MoneyBuilding *)self.selected;
+        [self updateTimersForBuilding:_constrBuilding];
+        [self.upgradeMenu closeClicked:nil];
+        [_constrBuilding displayProgressBar];
+        _constrBuilding.isConstructing = YES;
+        
+        [[SoundEngine sharedSoundEngine] carpenterPurchase];
+        
+        [self reselectCurrentSelection];
+      }
     }
   }
 }
@@ -758,21 +777,22 @@
     if (gs.gold < goldCost) {
       //      [[RefillMenuController sharedRefillMenuController] displayBuyGoldView:goldCost];
     } else {
-      _isSpeedingUp = YES;
-      [mb instaFinishUpgradeWithCompletionBlock:^{
-        mb.isConstructing = NO;
-        [[OutgoingEventController sharedOutgoingEventController] instaUpgrade:mb.userStruct];
-        [mb displayUpgradeComplete];
-        [self reselectCurrentSelection];
-        
-        if (mb.userStruct.state == kWaitingForIncome) {
+      [[OutgoingEventController sharedOutgoingEventController] instaUpgrade:mb.userStruct];
+      if (mb.userStruct.state == kWaitingForIncome) {
+        _isSpeedingUp = YES;
+        [mb instaFinishUpgradeWithCompletionBlock:^{
+          mb.isConstructing = NO;
+          [mb displayUpgradeComplete];
+          [self reselectCurrentSelection];
+          
           if (_constrBuilding == mb) {
             _constrBuilding = nil;
           }
           [self updateTimersForBuilding:mb];
-        }
-        _isSpeedingUp = NO;
-      }];
+          
+          _isSpeedingUp = NO;
+        }];
+      }
     }
   }
 }
@@ -786,11 +806,12 @@
     NSString *desc = [NSString stringWithFormat:@"A block is already expanding. Speed it up for %d gold?", [gl calculateGemSpeedupCostForTimeLeft:timeLeft]];
     [GenericPopupController displayConfirmationWithDescription:desc title:@"Already Expanding" okayButton:@"Speed Up" cancelButton:@"Cancel" target:self selector:@selector(speedupExpansion)];
   } else {
-    [self.expansionView display];
+    NSString *desc = [NSString stringWithFormat:@"Would you like to expand to this block for %@?", [Globals cashStringForNumber:[gl calculateSilverCostForNewExpansion]]];
+    [GenericPopupController displayConfirmationWithDescription:desc title:@"Expand?" okayButton:@"Expand" cancelButton:@"Cancel" target:self selector:@selector(expandAccepted)];
   }
 }
 
-- (IBAction)expandMenuButtonClicked:(id)sender {
+- (void) expandAccepted {
   Globals *gl = [Globals sharedGlobals];
   GameState *gs = [GameState sharedGameState];
   ExpansionBoard *exp = (ExpansionBoard *)self.selected;
@@ -800,7 +821,6 @@
     //    [[RefillMenuController sharedRefillMenuController] displayBuySilverView:silverCost];
   } else {
     [[OutgoingEventController sharedOutgoingEventController] purchaseCityExpansionAtX:exp.expandSpot.x atY:exp.expandSpot.y];
-    [self.expansionView closeClicked:nil];
     [exp beginExpanding];
     [self reselectCurrentSelection];
   }
@@ -840,8 +860,8 @@
     }
     
     if (expBoard) {
+      self.selected = nil;
       [expBoard instaFinishUpgradeWithCompletionBlock:^{
-        self.selected = nil;
         [self refresh];
       }];
     } else {

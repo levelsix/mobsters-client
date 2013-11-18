@@ -10,6 +10,8 @@
 
 @interface CustomNavBar : UINavigationBar
 
+@property (nonatomic, retain) UIView *bgdView;
+
 @end
 
 @interface MenuNavigationController : UINavigationController

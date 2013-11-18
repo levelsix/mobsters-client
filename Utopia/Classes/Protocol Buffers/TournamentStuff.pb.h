@@ -23,8 +23,8 @@
 @class MinimumUserProto_Builder;
 @class PrivateChatPostProto;
 @class PrivateChatPostProto_Builder;
-@class StaticLevelInfoProto;
-@class StaticLevelInfoProto_Builder;
+@class StaticUserLevelInfoProto;
+@class StaticUserLevelInfoProto_Builder;
 @class TournamentEventProto;
 @class TournamentEventProto_Builder;
 @class TournamentEventRewardProto;

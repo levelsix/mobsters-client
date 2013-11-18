@@ -33,6 +33,7 @@
  */
 
 #import <UIKit/UIKit.h>
+#import "TimingFunctionTableView.h"
 
 #define TABLEVIEW_TAG			800
 #define ROTATED_CELL_VIEW_TAG	801
@@ -57,6 +58,8 @@ typedef enum {
 - (UIView*)easyTableView:(EasyTableView*)easyTableView viewForHeaderInSection:(NSInteger)section;
 - (UIView*)easyTableView:(EasyTableView*)easyTableView viewForFooterInSection:(NSInteger)section;
 - (CGFloat)easyTableView:(EasyTableView *)easyTableView heightOrWidthForCellAtIndexPath:(NSIndexPath *)indexPath;
+- (void) easyTableViewWillEndDragging:(EasyTableView *)easyTableView withVelocity:(CGPoint)velocity targetContentOffset:(inout CGPoint *)targetContentOffset;
+- (void) easyTableViewDidEndScrollingAnimation:(EasyTableView *)easyTableView;
 @end
 
 
@@ -67,7 +70,7 @@ typedef enum {
 }
 
 @property (nonatomic, unsafe_unretained) id<EasyTableViewDelegate> delegate;
-@property (nonatomic, readonly, unsafe_unretained) UITableView *tableView;
+@property (nonatomic, readonly, unsafe_unretained) TimingFunctionTableView *tableView;
 @property (nonatomic, readonly, unsafe_unretained) NSArray *visibleViews;
 @property (nonatomic, assign) NSIndexPath *selectedIndexPath;
 @property (nonatomic, assign) UIColor *cellBackgroundColor;

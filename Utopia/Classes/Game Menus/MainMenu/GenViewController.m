@@ -31,7 +31,8 @@
     self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:self.menuBackButton];
     
     NSArray *vcs = self.navigationController.viewControllers;
-    self.menuBackLabel.text = [[vcs objectAtIndex:vcs.count-2] title];
+    GenViewController *gvc = [vcs objectAtIndex:vcs.count-2];
+    self.menuBackLabel.text = gvc.shortTitle ? gvc.shortTitle : gvc.title;
   }
 }
 

@@ -57,6 +57,7 @@ typedef enum {
 - (void) turnBegan;
 - (void) newComboFound;
 - (void) gemKilled:(Gem *)gem;
+- (void) gemReachedFlyLocation:(Gem *)gem;
 - (void) turnComplete;
 - (void) reshuffle;
 
