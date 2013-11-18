@@ -27,6 +27,12 @@
 		CF0A8D7118385C9600B32CDC /* HomeBuildingMenuSmall.xib in Resources */ = {isa = PBXBuildFile; fileRef = CF0A8D6F18385C9600B32CDC /* HomeBuildingMenuSmall.xib */; };
 		CF0A8D7318385E1A00B32CDC /* MissionBuildingMenuSmall.xib in Resources */ = {isa = PBXBuildFile; fileRef = CF0A8D7218385E1A00B32CDC /* MissionBuildingMenuSmall.xib */; };
 		CF0A8D7418385E1A00B32CDC /* MissionBuildingMenuSmall.xib in Resources */ = {isa = PBXBuildFile; fileRef = CF0A8D7218385E1A00B32CDC /* MissionBuildingMenuSmall.xib */; };
+		CF0A8D77183ABC3200B32CDC /* 4x4shadow.png in Resources */ = {isa = PBXBuildFile; fileRef = CF0A8D75183ABC3100B32CDC /* 4x4shadow.png */; };
+		CF0A8D78183ABC3200B32CDC /* 4x4shadow.png in Resources */ = {isa = PBXBuildFile; fileRef = CF0A8D75183ABC3100B32CDC /* 4x4shadow.png */; };
+		CF0A8D79183ABC3200B32CDC /* 4x4shadow@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CF0A8D76183ABC3100B32CDC /* 4x4shadow@2x.png */; };
+		CF0A8D7A183ABC3200B32CDC /* 4x4shadow@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CF0A8D76183ABC3100B32CDC /* 4x4shadow@2x.png */; };
+		CF0A8D7D183ABDE600B32CDC /* FBChooserView.m in Sources */ = {isa = PBXBuildFile; fileRef = CF0A8D7B183ABDE600B32CDC /* FBChooserView.m */; };
+		CF0A8D7E183ABDE600B32CDC /* FBChooserView.m in Sources */ = {isa = PBXBuildFile; fileRef = CF0A8D7B183ABDE600B32CDC /* FBChooserView.m */; };
 		CF0C866F1804FC3B007D6E1A /* CCAction.m in Sources */ = {isa = PBXBuildFile; fileRef = CF0C856E1804FC39007D6E1A /* CCAction.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		CF0C86701804FC3B007D6E1A /* CCAction.m in Sources */ = {isa = PBXBuildFile; fileRef = CF0C856E1804FC39007D6E1A /* CCAction.m */; };
 		CF0C86711804FC3B007D6E1A /* CCActionCamera.m in Sources */ = {isa = PBXBuildFile; fileRef = CF0C85701804FC39007D6E1A /* CCActionCamera.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
@@ -3190,8 +3196,6 @@
 		CFE02D8E1825F8840016C1E2 /* 2sidenav@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CFE02D8B1825F8840016C1E2 /* 2sidenav@2x.png */; };
 		CFE02D8F1825F8840016C1E2 /* 2sidenav@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CFE02D8B1825F8840016C1E2 /* 2sidenav@2x.png */; };
 		CFE02D9718261F6F0016C1E2 /* libsqlite3.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = CFE02D9618261F6F0016C1E2 /* libsqlite3.dylib */; };
-		CFE02DC81826454E0016C1E2 /* FBChooserView.m in Sources */ = {isa = PBXBuildFile; fileRef = CFE02DC71826454E0016C1E2 /* FBChooserView.m */; };
-		CFE02DC91826454E0016C1E2 /* FBChooserView.m in Sources */ = {isa = PBXBuildFile; fileRef = CFE02DC71826454E0016C1E2 /* FBChooserView.m */; };
 		CFE02DCB18264D2A0016C1E2 /* FBFriendCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = CFE02DCA18264D290016C1E2 /* FBFriendCell.xib */; };
 		CFE02DCC18264D2B0016C1E2 /* FBFriendCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = CFE02DCA18264D290016C1E2 /* FBFriendCell.xib */; };
 		CFE02DD0182653120016C1E2 /* BuySlotsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CFE02DCE182653120016C1E2 /* BuySlotsViewController.m */; };
@@ -4235,6 +4239,10 @@
 		CF09725B15BA43EB00F8353B /* checkstatus@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "checkstatus@2x.png"; sourceTree = "<group>"; };
 		CF0A8D6F18385C9600B32CDC /* HomeBuildingMenuSmall.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = HomeBuildingMenuSmall.xib; sourceTree = "<group>"; };
 		CF0A8D7218385E1A00B32CDC /* MissionBuildingMenuSmall.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MissionBuildingMenuSmall.xib; sourceTree = "<group>"; };
+		CF0A8D75183ABC3100B32CDC /* 4x4shadow.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = 4x4shadow.png; sourceTree = "<group>"; };
+		CF0A8D76183ABC3100B32CDC /* 4x4shadow@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "4x4shadow@2x.png"; sourceTree = "<group>"; };
+		CF0A8D7B183ABDE600B32CDC /* FBChooserView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FBChooserView.m; sourceTree = "<group>"; };
+		CF0A8D7C183ABDE600B32CDC /* FBChooserView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FBChooserView.h; sourceTree = "<group>"; };
 		CF0C856D1804FC39007D6E1A /* CCAction.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CCAction.h; sourceTree = "<group>"; };
 		CF0C856E1804FC39007D6E1A /* CCAction.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CCAction.m; sourceTree = "<group>"; };
 		CF0C856F1804FC39007D6E1A /* CCActionCamera.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CCActionCamera.h; sourceTree = "<group>"; };
@@ -6204,8 +6212,6 @@
 		CFE02D8A1825F8840016C1E2 /* 2sidenav.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = 2sidenav.png; sourceTree = "<group>"; };
 		CFE02D8B1825F8840016C1E2 /* 2sidenav@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "2sidenav@2x.png"; sourceTree = "<group>"; };
 		CFE02D9618261F6F0016C1E2 /* libsqlite3.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libsqlite3.dylib; path = usr/lib/libsqlite3.dylib; sourceTree = SDKROOT; };
-		CFE02DC61826454E0016C1E2 /* FBChooserView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FBChooserView.h; path = "../../../../../Utopia/Utopia/Classes/Game Menus/FBChooserMenu/FBChooserView.h"; sourceTree = "<group>"; };
-		CFE02DC71826454E0016C1E2 /* FBChooserView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = FBChooserView.m; path = "../../../../../Utopia/Utopia/Classes/Game Menus/FBChooserMenu/FBChooserView.m"; sourceTree = "<group>"; };
 		CFE02DCA18264D290016C1E2 /* FBFriendCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = FBFriendCell.xib; sourceTree = "<group>"; };
 		CFE02DCD182653120016C1E2 /* BuySlotsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BuySlotsViewController.h; sourceTree = "<group>"; };
 		CFE02DCE182653120016C1E2 /* BuySlotsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BuySlotsViewController.m; sourceTree = "<group>"; };
@@ -9924,8 +9930,8 @@
 		CFE02DC1182644BF0016C1E2 /* FBChooserMenu */ = {
 			isa = PBXGroup;
 			children = (
-				CFE02DC61826454E0016C1E2 /* FBChooserView.h */,
-				CFE02DC71826454E0016C1E2 /* FBChooserView.m */,
+				CF0A8D7B183ABDE600B32CDC /* FBChooserView.m */,
+				CF0A8D7C183ABDE600B32CDC /* FBChooserView.h */,
 				CFE02DCA18264D290016C1E2 /* FBFriendCell.xib */,
 			);
 			path = FBChooserMenu;
@@ -9934,6 +9940,8 @@
 		CFE7CCA21819FC3300930847 /* Home screen */ = {
 			isa = PBXGroup;
 			children = (
+				CF0A8D75183ABC3100B32CDC /* 4x4shadow.png */,
+				CF0A8D76183ABC3100B32CDC /* 4x4shadow@2x.png */,
 				CF3764F2182DB8FF00D0A77E /* mycity.png */,
 				CF3764F3182DB8FF00D0A77E /* mycity@2x.png */,
 				CFE02AE81820A79B0016C1E2 /* cancelbuildbot.png */,
@@ -11145,6 +11153,7 @@
 				CF12710D1538ACCC00E0C1AD /* bskel@2x.png in Resources */,
 				CF4DB8F51807DA1F00062258 /* UpgradeBuildingMenu.xib in Resources */,
 				CF12710E1538ACCC00E0C1AD /* bwarrior.png in Resources */,
+				CF0A8D79183ABC3200B32CDC /* 4x4shadow@2x.png in Resources */,
 				CFE7CDC41819FC3300930847 /* waterbar.png in Resources */,
 				CF12710F1538ACCC00E0C1AD /* bwarrior@2x.png in Resources */,
 				CF1271101538ACCC00E0C1AD /* haarcher.png in Resources */,
@@ -11710,6 +11719,7 @@
 				CFF391251829D5F60010A3BE /* watergrenade.png in Resources */,
 				CF629303180D22F600C6C196 /* casegems@2x.png in Resources */,
 				CF2F40C915D5DC5900D0CC76 /* notification@2x.png in Resources */,
+				CF0A8D77183ABC3200B32CDC /* 4x4shadow.png in Resources */,
 				CFE7CD101819FC3300930847 /* arrowup@2x.png in Resources */,
 				CF48C67C15DB1C4E001AA587 /* ranknumberbg.png in Resources */,
 				CFE02B911821DC000016C1E2 /* miniborder@2x.png in Resources */,
@@ -13476,6 +13486,7 @@
 				CF1279A4181F5F1600211623 /* upgrade.png in Resources */,
 				CF69FB02174212ED001C96D0 /* navfire.png in Resources */,
 				CF69FB03174212ED001C96D0 /* navfire@2x.png in Resources */,
+				CF0A8D78183ABC3200B32CDC /* 4x4shadow.png in Resources */,
 				CFF740461817AF09009DE4A4 /* palmtree1@2x.png in Resources */,
 				CF69FB04174212ED001C96D0 /* navperson.png in Resources */,
 				CF69FB05174212ED001C96D0 /* navperson@2x.png in Resources */,
@@ -14361,6 +14372,7 @@
 				CFE0E6D717E7B886002ECA84 /* bombdrop.plist in Resources */,
 				CFE0E6D917E7B886002ECA84 /* bombdrop@2x.png in Resources */,
 				CFE0E6DB17E7B886002ECA84 /* lootcollect.png in Resources */,
+				CF0A8D7A183ABC3200B32CDC /* 4x4shadow@2x.png in Resources */,
 				CFE0E6DD17E7B886002ECA84 /* lootcollect@2x.png in Resources */,
 				CFFEB1571834539C007C4BA3 /* waterteamhealthbar@2x.png in Resources */,
 				CFFEB19218361531007C4BA3 /* enhancepercentbg@2x.png in Resources */,
@@ -14562,7 +14574,6 @@
 				CF0C866F1804FC3B007D6E1A /* CCAction.m in Sources */,
 				CF3764FC182DD6BD00D0A77E /* ChatViewController.m in Sources */,
 				CF126E201538ACCA00E0C1AD /* PullRefreshTableViewController.m in Sources */,
-				CFE02DC81826454E0016C1E2 /* FBChooserView.m in Sources */,
 				CF126E211538ACCA00E0C1AD /* SBDoubleSidedLayer.m in Sources */,
 				CF126E221538ACCA00E0C1AD /* SBGradientOverlayLayer.m in Sources */,
 				CF126E231538ACCA00E0C1AD /* SBTickerView.m in Sources */,
@@ -14593,6 +14604,7 @@
 				CF0C86BF1804FC3B007D6E1A /* CCParticleExamples.m in Sources */,
 				CF41D0F4158BDBBE00A4DBC3 /* SoundEngine.m in Sources */,
 				CF9AE6E418090C320013DD44 /* InAppPurchase.pb.m in Sources */,
+				CF0A8D7D183ABDE600B32CDC /* FBChooserView.m in Sources */,
 				CF41D195158BFAE900A4DBC3 /* OpenUDID.m in Sources */,
 				CF0C86A11804FC3B007D6E1A /* CCGLProgram.m in Sources */,
 				CF9AE70A18090C320013DD44 /* User.pb.m in Sources */,
@@ -14762,6 +14774,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				CF0A8D7E183ABDE600B32CDC /* FBChooserView.m in Sources */,
 				CF0C87401804FC3C007D6E1A /* plane.c in Sources */,
 				CF69F65E174212ED001C96D0 /* Analytics.m in Sources */,
 				CF69F65F174212ED001C96D0 /* AppDelegate.m in Sources */,
@@ -14810,7 +14823,6 @@
 				CF0C86FE1804FC3B007D6E1A /* CCTouchDispatcher.m in Sources */,
 				CF69F686174212ED001C96D0 /* IncomingEventController.m in Sources */,
 				CF69F687174212ED001C96D0 /* OutgoingEventController.m in Sources */,
-				CFE02DC91826454E0016C1E2 /* FBChooserView.m in Sources */,
 				CF69F688174212ED001C96D0 /* SocketCommunication.m in Sources */,
 				CF0C87301804FC3C007D6E1A /* aabb.c in Sources */,
 				CF0C87421804FC3C007D6E1A /* quaternion.c in Sources */,
@@ -15082,7 +15094,7 @@
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(SRCROOT)",
-					"/Users/Ashwin/mobsters-client/Utopia/libs",
+					"$(SRCROOT)/Utopia/libs",
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Utopia/Utopia-Prefix.pch";
@@ -15138,7 +15150,7 @@
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(SRCROOT)",
-					"/Users/Ashwin/mobsters-client/Utopia/libs",
+					"$(SRCROOT)/Utopia/libs",
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Utopia/Utopia-Prefix.pch";

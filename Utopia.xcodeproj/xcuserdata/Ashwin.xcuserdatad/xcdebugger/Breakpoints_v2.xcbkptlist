@@ -10,11 +10,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Utopia/Classes/Game Menus/EnhanceMenu/EnhanceViewController.m"
-            timestampString = "406352330.113663"
+            timestampString = "406500882.781545"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "418"
-            endingLineNumber = "418"
+            startingLineNumber = "420"
+            endingLineNumber = "420"
             landmarkName = "@implementation EnhanceViewController"
             landmarkType = "3">
          </BreakpointContent>
@@ -26,11 +26,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Utopia/Classes/Game Menus/EnhanceMenu/EnhanceViewController.m"
-            timestampString = "406352330.113663"
+            timestampString = "406500882.781545"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "419"
-            endingLineNumber = "419"
+            startingLineNumber = "421"
+            endingLineNumber = "421"
             landmarkName = "@implementation EnhanceViewController"
             landmarkType = "3">
          </BreakpointContent>
