@@ -16,11 +16,39 @@
 #import "CCAnimation+SpriteLoading.h"
 
 #define CONSTRUCTION_TAG 49
+#define SHADOW_TAG 50
+
+#define BOUNCE_ACTION_TAG 3022
+#define BOUNCE_DURATION 0.1f // 1-way
+#define BOUNCE_SCALE 1.1
 
 @implementation Building
 
 @synthesize orientation;
 @synthesize verticalOffset;
+
+- (id) initWithFile:(NSString *)file location:(CGRect)loc map:(GameMap *)map {
+  if ((self = [super initWithFile:file location:loc map:map])) {
+    CCSprite *shadow = [CCSprite spriteWithFile:@"4x4shadow.png"];
+    [self addChild:shadow z:-1 tag:SHADOW_TAG];
+    shadow.anchorPoint = ccp(0.5, 0);
+    shadow.position = ccp(self.contentSize.width/2-5, 0);
+  }
+  return self;
+}
+
+- (BOOL) select {
+  BOOL select = [super select];
+  
+  [self stopActionByTag:BOUNCE_ACTION_TAG];
+  CCScaleTo *scaleBig = [CCScaleTo actionWithDuration:BOUNCE_DURATION scale:BOUNCE_SCALE];
+  CCScaleTo *scaleBack = [CCScaleTo actionWithDuration:BOUNCE_DURATION scale:1.f];
+  CCAction *bounce = [CCEaseSineInOut actionWithAction:[CCSequence actions:scaleBig, scaleBack, nil]];
+  bounce.tag = BOUNCE_ACTION_TAG;
+  [self runAction:bounce];
+  
+  return select;
+}
 
 - (void) setOrientation:(StructOrientation)o {
   orientation = o;
@@ -361,11 +389,16 @@
 }
 
 - (BOOL) select {
-  BOOL ret = [super select];
-  if (self.userStruct.state == kWaitingForIncome || self.userStruct.state == kRetrieving) {
-    [self displayProgressBar];
+  if (self.userStruct.state == kRetrieving) {
+    [_homeMap retrieveFromBuilding:self];
+    return NO;
+  } else {
+    BOOL ret = [super select];
+    if (self.userStruct.state == kWaitingForIncome) {
+      [self displayProgressBar];
+    }
+    return ret;
   }
-  return ret;
 }
 
 - (void) unselect {
@@ -569,8 +602,18 @@
       self.color = ccc3(0, 0, 0);
     }
     self.expandSpot = block;
+    
+    [self removeChildByTag:SHADOW_TAG];
   }
   return self;
+}
+
+- (BOOL) select {
+  BOOL select = [super select];
+  
+  [self stopActionByTag:BOUNCE_ACTION_TAG];
+  
+  return select;
 }
 
 - (BOOL) isExemptFromReorder {

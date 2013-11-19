@@ -17,6 +17,10 @@
 
 @implementation GenericPopupController
 
+- (void) viewDidLoad {
+  self.mainView.layer.cornerRadius = 6.f;
+}
+
 - (BOOL) prefersStatusBarHidden {
   return YES;
 }
@@ -79,6 +83,20 @@
   
   if (cancelTarget) [gp.confOkayButton addTarget:cancelTarget action:cancelSelector forControlEvents:UIControlEventTouchUpInside];
   
+  return gp;
+}
+
++ (GenericPopupController *) displayNegativeConfirmationWithDescription:(NSString *)description title:(NSString *)title okayButton:(NSString *)okay cancelButton:(NSString *)cancel okTarget:(id)okTarget okSelector:(SEL)okSelector cancelTarget:(id)cancelTarget cancelSelector:(SEL)cancelSelector {
+  GenericPopupController *gp = [GenericPopupController displayConfirmationWithDescription:description title:title okayButton:okay cancelButton:cancel okTarget:okTarget okSelector:okSelector cancelTarget:cancelTarget cancelSelector:cancelSelector];
+  
+  [gp.confOkayButton setImage:[Globals imageNamed:@"orangebutton.png"] forState:UIControlStateNormal];
+  return gp;
+}
+
++ (GenericPopupController *) displayNotEnoughGemsView {
+  GenericPopupController *gp = [GenericPopupController displayNotificationViewWithText:@"You don't have enough gems. Want more?" title:@"Not Enough Gems" okayButton:@"Enter Shop" target:[GameViewController baseController] selector:@selector(openGemShop)];
+  
+  [gp.notifButton setImage:[Globals imageNamed:@"finishbuild.png"] forState:UIControlStateNormal];
   return gp;
 }
 

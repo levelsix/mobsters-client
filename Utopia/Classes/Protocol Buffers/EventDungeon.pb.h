@@ -60,8 +60,7 @@
 @class UserMonsterHealingProto_Builder;
 typedef enum {
   BeginDungeonResponseProto_BeginDungeonStatusSuccess = 1,
-  BeginDungeonResponseProto_BeginDungeonStatusFailInsufficientStamergy = 2,
-  BeginDungeonResponseProto_BeginDungeonStatusFailOther = 3,
+  BeginDungeonResponseProto_BeginDungeonStatusFailOther = 2,
 } BeginDungeonResponseProto_BeginDungeonStatus;
 
 BOOL BeginDungeonResponseProto_BeginDungeonStatusIsValidValue(BeginDungeonResponseProto_BeginDungeonStatus value);
@@ -90,9 +89,11 @@ BOOL ReviveInDungeonResponseProto_ReviveInDungeonStatusIsValidValue(ReviveInDung
 
 @interface BeginDungeonRequestProto : PBGeneratedMessage {
 @private
+  BOOL hasUserBeatAllCityTasks_:1;
   BOOL hasClientTime_:1;
   BOOL hasTaskId_:1;
   BOOL hasSender_:1;
+  BOOL userBeatAllCityTasks_:1;
   int64_t clientTime;
   int32_t taskId;
   MinimumUserProto* sender;
@@ -100,9 +101,11 @@ BOOL ReviveInDungeonResponseProto_ReviveInDungeonStatusIsValidValue(ReviveInDung
 - (BOOL) hasSender;
 - (BOOL) hasClientTime;
 - (BOOL) hasTaskId;
+- (BOOL) hasUserBeatAllCityTasks;
 @property (readonly, retain) MinimumUserProto* sender;
 @property (readonly) int64_t clientTime;
 @property (readonly) int32_t taskId;
+- (BOOL) userBeatAllCityTasks;
 
 + (BeginDungeonRequestProto*) defaultInstance;
 - (BeginDungeonRequestProto*) defaultInstance;
@@ -154,6 +157,11 @@ BOOL ReviveInDungeonResponseProto_ReviveInDungeonStatusIsValidValue(ReviveInDung
 - (int32_t) taskId;
 - (BeginDungeonRequestProto_Builder*) setTaskId:(int32_t) value;
 - (BeginDungeonRequestProto_Builder*) clearTaskId;
+
+- (BOOL) hasUserBeatAllCityTasks;
+- (BOOL) userBeatAllCityTasks;
+- (BeginDungeonRequestProto_Builder*) setUserBeatAllCityTasks:(BOOL) value;
+- (BeginDungeonRequestProto_Builder*) clearUserBeatAllCityTasks;
 @end
 
 @interface BeginDungeonResponseProto : PBGeneratedMessage {
@@ -247,11 +255,13 @@ BOOL ReviveInDungeonResponseProto_ReviveInDungeonStatusIsValidValue(ReviveInDung
 @private
   BOOL hasUserWon_:1;
   BOOL hasFirstTimeUserWonTask_:1;
+  BOOL hasUserBeatAllCityTasks_:1;
   BOOL hasUserTaskId_:1;
   BOOL hasClientTime_:1;
   BOOL hasSender_:1;
   BOOL userWon_:1;
   BOOL firstTimeUserWonTask_:1;
+  BOOL userBeatAllCityTasks_:1;
   int64_t userTaskId;
   int64_t clientTime;
   MinimumUserProto* sender;
@@ -261,11 +271,13 @@ BOOL ReviveInDungeonResponseProto_ReviveInDungeonStatusIsValidValue(ReviveInDung
 - (BOOL) hasUserWon;
 - (BOOL) hasClientTime;
 - (BOOL) hasFirstTimeUserWonTask;
+- (BOOL) hasUserBeatAllCityTasks;
 @property (readonly, retain) MinimumUserProto* sender;
 @property (readonly) int64_t userTaskId;
 - (BOOL) userWon;
 @property (readonly) int64_t clientTime;
 - (BOOL) firstTimeUserWonTask;
+- (BOOL) userBeatAllCityTasks;
 
 + (EndDungeonRequestProto*) defaultInstance;
 - (EndDungeonRequestProto*) defaultInstance;
@@ -327,6 +339,11 @@ BOOL ReviveInDungeonResponseProto_ReviveInDungeonStatusIsValidValue(ReviveInDung
 - (BOOL) firstTimeUserWonTask;
 - (EndDungeonRequestProto_Builder*) setFirstTimeUserWonTask:(BOOL) value;
 - (EndDungeonRequestProto_Builder*) clearFirstTimeUserWonTask;
+
+- (BOOL) hasUserBeatAllCityTasks;
+- (BOOL) userBeatAllCityTasks;
+- (EndDungeonRequestProto_Builder*) setUserBeatAllCityTasks:(BOOL) value;
+- (EndDungeonRequestProto_Builder*) clearUserBeatAllCityTasks;
 @end
 
 @interface EndDungeonResponseProto : PBGeneratedMessage {

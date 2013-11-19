@@ -248,31 +248,31 @@ BOOL StartupResponseProto_StartupStatusIsValidValue(StartupResponseProto_Startup
   BOOL hasPlayerHasBoughtInAppPurchase_:1;
   BOOL hasServerTimeMillis_:1;
   BOOL hasKabamNaid_:1;
-  BOOL hasReviewPageConfirmationMessage_:1;
-  BOOL hasReviewPageUrl_:1;
   BOOL hasAppStoreUrl_:1;
-  BOOL hasStaticDataStuffProto_:1;
-  BOOL hasEnhancements_:1;
+  BOOL hasReviewPageUrl_:1;
+  BOOL hasReviewPageConfirmationMessage_:1;
   BOOL hasSender_:1;
   BOOL hasStartupConstants_:1;
+  BOOL hasStaticDataStuffProto_:1;
+  BOOL hasEnhancements_:1;
   BOOL hasStartupStatus_:1;
   BOOL hasUpdateStatus_:1;
   BOOL playerHasBoughtInAppPurchase_:1;
   int64_t serverTimeMillis;
   NSString* kabamNaid;
-  NSString* reviewPageConfirmationMessage;
-  NSString* reviewPageUrl;
   NSString* appStoreUrl;
-  StaticDataProto* staticDataStuffProto;
-  UserEnhancementProto* enhancements;
+  NSString* reviewPageUrl;
+  NSString* reviewPageConfirmationMessage;
   FullUserProto* sender;
   StartupResponseProto_StartupConstants* startupConstants;
+  StaticDataProto* staticDataStuffProto;
+  UserEnhancementProto* enhancements;
   StartupResponseProto_StartupStatus startupStatus;
   StartupResponseProto_UpdateStatus updateStatus;
-  NSMutableArray* mutableRedeemedQuestIdsList;
+  NSMutableArray* mutableTaskIdForCurrentCityBossList;
   NSMutableArray* mutableCompletedTaskIdsList;
+  NSMutableArray* mutableRedeemedQuestIdsList;
   NSMutableArray* mutableNoticesToPlayersList;
-  NSMutableArray* mutableUserQuestsList;
   NSMutableArray* mutableAttackNotificationsList;
   NSMutableArray* mutableReferralNotificationsList;
   NSMutableArray* mutableGlobalChatsList;
@@ -284,6 +284,7 @@ BOOL StartupResponseProto_StartupStatusIsValidValue(StartupResponseProto_Startup
   NSMutableArray* mutableUserClanInfoList;
   NSMutableArray* mutableUsersUsedForExtraSlotsList;
   NSMutableArray* mutableInvitesToMeForSlotsList;
+  NSMutableArray* mutableUserQuestsList;
 }
 - (BOOL) hasServerTimeMillis;
 - (BOOL) hasSender;
@@ -339,6 +340,8 @@ BOOL StartupResponseProto_StartupStatusIsValidValue(StartupResponseProto_Startup
 - (MinimumUserProtoWithFacebookId*) usersUsedForExtraSlotsAtIndex:(int32_t) index;
 - (NSArray*) invitesToMeForSlotsList;
 - (UserFacebookInviteForSlotProto*) invitesToMeForSlotsAtIndex:(int32_t) index;
+- (NSArray*) taskIdForCurrentCityBossList;
+- (int32_t) taskIdForCurrentCityBossAtIndex:(int32_t) index;
 
 + (StartupResponseProto*) defaultInstance;
 - (StartupResponseProto*) defaultInstance;
@@ -955,13 +958,21 @@ BOOL StartupResponseProto_StartupStatusIsValidValue(StartupResponseProto_Startup
 @private
   BOOL hasCashPerHealthPoint_:1;
   BOOL hasSecondsToHealPerHealthPoint_:1;
+  BOOL hasElementalStrength_:1;
+  BOOL hasElementalWeakness_:1;
   Float32 cashPerHealthPoint;
   Float32 secondsToHealPerHealthPoint;
+  Float32 elementalStrength;
+  Float32 elementalWeakness;
 }
 - (BOOL) hasCashPerHealthPoint;
 - (BOOL) hasSecondsToHealPerHealthPoint;
+- (BOOL) hasElementalStrength;
+- (BOOL) hasElementalWeakness;
 @property (readonly) Float32 cashPerHealthPoint;
 @property (readonly) Float32 secondsToHealPerHealthPoint;
+@property (readonly) Float32 elementalStrength;
+@property (readonly) Float32 elementalWeakness;
 
 + (StartupResponseProto_StartupConstants_MonsterConstants*) defaultInstance;
 - (StartupResponseProto_StartupConstants_MonsterConstants*) defaultInstance;
@@ -1006,6 +1017,16 @@ BOOL StartupResponseProto_StartupStatusIsValidValue(StartupResponseProto_Startup
 - (Float32) secondsToHealPerHealthPoint;
 - (StartupResponseProto_StartupConstants_MonsterConstants_Builder*) setSecondsToHealPerHealthPoint:(Float32) value;
 - (StartupResponseProto_StartupConstants_MonsterConstants_Builder*) clearSecondsToHealPerHealthPoint;
+
+- (BOOL) hasElementalStrength;
+- (Float32) elementalStrength;
+- (StartupResponseProto_StartupConstants_MonsterConstants_Builder*) setElementalStrength:(Float32) value;
+- (StartupResponseProto_StartupConstants_MonsterConstants_Builder*) clearElementalStrength;
+
+- (BOOL) hasElementalWeakness;
+- (Float32) elementalWeakness;
+- (StartupResponseProto_StartupConstants_MonsterConstants_Builder*) setElementalWeakness:(Float32) value;
+- (StartupResponseProto_StartupConstants_MonsterConstants_Builder*) clearElementalWeakness;
 @end
 
 @interface StartupResponseProto_StartupConstants_Builder : PBGeneratedMessage_Builder {
@@ -1331,5 +1352,12 @@ BOOL StartupResponseProto_StartupStatusIsValidValue(StartupResponseProto_Startup
 - (StartupResponseProto_Builder*) setStaticDataStuffProtoBuilder:(StaticDataProto_Builder*) builderForValue;
 - (StartupResponseProto_Builder*) mergeStaticDataStuffProto:(StaticDataProto*) value;
 - (StartupResponseProto_Builder*) clearStaticDataStuffProto;
+
+- (NSArray*) taskIdForCurrentCityBossList;
+- (int32_t) taskIdForCurrentCityBossAtIndex:(int32_t) index;
+- (StartupResponseProto_Builder*) replaceTaskIdForCurrentCityBossAtIndex:(int32_t) index with:(int32_t) value;
+- (StartupResponseProto_Builder*) addTaskIdForCurrentCityBoss:(int32_t) value;
+- (StartupResponseProto_Builder*) addAllTaskIdForCurrentCityBoss:(NSArray*) values;
+- (StartupResponseProto_Builder*) clearTaskIdForCurrentCityBossList;
 @end
 

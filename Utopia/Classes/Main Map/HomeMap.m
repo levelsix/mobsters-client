@@ -403,44 +403,46 @@
 - (void) setSelected:(SelectableSprite *)selected {
   if (self.selected != selected) {
     [super setSelected:selected];
-    if ([selected isKindOfClass: [MoneyBuilding class]]) {
-      MoneyBuilding *mb = (MoneyBuilding *) selected;
-      UserStruct *us = mb.userStruct;
-      if (_purchasing) {
-        // Do nothing
-      } else if (us.state == kBuilding) {
-        self.bottomOptionView = self.upgradeBotView;
-        [mb removeArrowAnimated:YES];
-        
-        [self beginMoveClicked:nil];
-      } else if (us.state == kRetrieving) {
-        // Retrieve the cash!
-        [self retrieveFromBuilding:((MoneyBuilding *) selected)];
-        self.selected = nil;
-      } else {
-        self.bottomOptionView = self.buildBotView;
-        
-        [mb removeArrowAnimated:YES];
-        
-        [self beginMoveClicked:nil];
-      }
-    } else if ([selected isKindOfClass:[ExpansionBoard class]]) {
-      GameState *gs = [GameState sharedGameState];
-      ExpansionBoard *exp = (ExpansionBoard *)self.selected;
-      UserExpansion *ue = [gs getExpansionForX:exp.expandSpot.x y:exp.expandSpot.y];
+  }
+  
+  if ([self.selected isKindOfClass: [MoneyBuilding class]]) {
+    MoneyBuilding *mb = (MoneyBuilding *) self.selected;
+    UserStruct *us = mb.userStruct;
+    if (_purchasing) {
+      // Do nothing
+    } else if (us.state == kBuilding) {
+      self.bottomOptionView = self.upgradeBotView;
+      [mb removeArrowAnimated:YES];
       
-      if (!ue.isExpanding) {
-        self.bottomOptionView = self.expandBotView;
-      } else {
-        self.bottomOptionView = self.expandingBotView;
-      }
+      [self beginMoveClicked:nil];
+    } else if (us.state == kRetrieving) {
+      // Retrieve the cash!
+      // This will most likely never be called because building will auto do this
+      [self retrieveFromBuilding:((MoneyBuilding *) selected)];
+      self.selected = nil;
     } else {
-      self.bottomOptionView = nil;
-      _canMove = NO;
-      if (_purchasing) {
-        _purchasing = NO;
-        [self removeChild:_purchBuilding cleanup:YES];
-      }
+      self.bottomOptionView = self.buildBotView;
+      
+      [mb removeArrowAnimated:YES];
+      
+      [self beginMoveClicked:nil];
+    }
+  } else if ([self.selected isKindOfClass:[ExpansionBoard class]]) {
+    GameState *gs = [GameState sharedGameState];
+    ExpansionBoard *exp = (ExpansionBoard *)self.selected;
+    UserExpansion *ue = [gs getExpansionForX:exp.expandSpot.x y:exp.expandSpot.y];
+    
+    if (!ue.isExpanding) {
+      self.bottomOptionView = self.expandBotView;
+    } else {
+      self.bottomOptionView = self.expandingBotView;
+    }
+  } else {
+    self.bottomOptionView = nil;
+    _canMove = NO;
+    if (_purchasing) {
+      _purchasing = NO;
+      [self removeChild:_purchBuilding cleanup:YES];
     }
   }
 }
@@ -909,7 +911,7 @@
 
 - (void) reselectCurrentSelection {
   SelectableSprite *n = self.selected;
-  self.selected = nil;
+//  self.selected = nil;
   self.selected = n;
 }
 

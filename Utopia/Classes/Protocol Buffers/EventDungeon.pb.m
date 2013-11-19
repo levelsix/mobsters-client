@@ -26,6 +26,7 @@ static PBExtensionRegistry* extensionRegistry = nil;
 @property (retain) MinimumUserProto* sender;
 @property int64_t clientTime;
 @property int32_t taskId;
+@property BOOL userBeatAllCityTasks;
 @end
 
 @implementation BeginDungeonRequestProto
@@ -51,6 +52,18 @@ static PBExtensionRegistry* extensionRegistry = nil;
   hasTaskId_ = !!value;
 }
 @synthesize taskId;
+- (BOOL) hasUserBeatAllCityTasks {
+  return !!hasUserBeatAllCityTasks_;
+}
+- (void) setHasUserBeatAllCityTasks:(BOOL) value {
+  hasUserBeatAllCityTasks_ = !!value;
+}
+- (BOOL) userBeatAllCityTasks {
+  return !!userBeatAllCityTasks_;
+}
+- (void) setUserBeatAllCityTasks:(BOOL) value {
+  userBeatAllCityTasks_ = !!value;
+}
 - (void) dealloc {
   self.sender = nil;
   [super dealloc];
@@ -60,6 +73,7 @@ static PBExtensionRegistry* extensionRegistry = nil;
     self.sender = [MinimumUserProto defaultInstance];
     self.clientTime = 0L;
     self.taskId = 0;
+    self.userBeatAllCityTasks = NO;
   }
   return self;
 }
@@ -88,6 +102,9 @@ static BeginDungeonRequestProto* defaultBeginDungeonRequestProtoInstance = nil;
   if (self.hasTaskId) {
     [output writeInt32:3 value:self.taskId];
   }
+  if (self.hasUserBeatAllCityTasks) {
+    [output writeBool:4 value:self.userBeatAllCityTasks];
+  }
   [self.unknownFields writeToCodedOutputStream:output];
 }
 - (int32_t) serializedSize {
@@ -105,6 +122,9 @@ static BeginDungeonRequestProto* defaultBeginDungeonRequestProtoInstance = nil;
   }
   if (self.hasTaskId) {
     size += computeInt32Size(3, self.taskId);
+  }
+  if (self.hasUserBeatAllCityTasks) {
+    size += computeBoolSize(4, self.userBeatAllCityTasks);
   }
   size += self.unknownFields.serializedSize;
   memoizedSerializedSize = size;
@@ -190,6 +210,9 @@ static BeginDungeonRequestProto* defaultBeginDungeonRequestProtoInstance = nil;
   if (other.hasTaskId) {
     [self setTaskId:other.taskId];
   }
+  if (other.hasUserBeatAllCityTasks) {
+    [self setUserBeatAllCityTasks:other.userBeatAllCityTasks];
+  }
   [self mergeUnknownFields:other.unknownFields];
   return self;
 }
@@ -226,6 +249,10 @@ static BeginDungeonRequestProto* defaultBeginDungeonRequestProtoInstance = nil;
       }
       case 24: {
         [self setTaskId:[input readInt32]];
+        break;
+      }
+      case 32: {
+        [self setUserBeatAllCityTasks:[input readBool]];
         break;
       }
     }
@@ -291,6 +318,22 @@ static BeginDungeonRequestProto* defaultBeginDungeonRequestProtoInstance = nil;
 - (BeginDungeonRequestProto_Builder*) clearTaskId {
   result.hasTaskId = NO;
   result.taskId = 0;
+  return self;
+}
+- (BOOL) hasUserBeatAllCityTasks {
+  return result.hasUserBeatAllCityTasks;
+}
+- (BOOL) userBeatAllCityTasks {
+  return result.userBeatAllCityTasks;
+}
+- (BeginDungeonRequestProto_Builder*) setUserBeatAllCityTasks:(BOOL) value {
+  result.hasUserBeatAllCityTasks = YES;
+  result.userBeatAllCityTasks = value;
+  return self;
+}
+- (BeginDungeonRequestProto_Builder*) clearUserBeatAllCityTasks {
+  result.hasUserBeatAllCityTasks = NO;
+  result.userBeatAllCityTasks = NO;
   return self;
 }
 @end
@@ -446,7 +489,6 @@ static BeginDungeonResponseProto* defaultBeginDungeonResponseProtoInstance = nil
 BOOL BeginDungeonResponseProto_BeginDungeonStatusIsValidValue(BeginDungeonResponseProto_BeginDungeonStatus value) {
   switch (value) {
     case BeginDungeonResponseProto_BeginDungeonStatusSuccess:
-    case BeginDungeonResponseProto_BeginDungeonStatusFailInsufficientStamergy:
     case BeginDungeonResponseProto_BeginDungeonStatusFailOther:
       return YES;
     default:
@@ -684,6 +726,7 @@ BOOL BeginDungeonResponseProto_BeginDungeonStatusIsValidValue(BeginDungeonRespon
 @property BOOL userWon;
 @property int64_t clientTime;
 @property BOOL firstTimeUserWonTask;
+@property BOOL userBeatAllCityTasks;
 @end
 
 @implementation EndDungeonRequestProto
@@ -733,6 +776,18 @@ BOOL BeginDungeonResponseProto_BeginDungeonStatusIsValidValue(BeginDungeonRespon
 - (void) setFirstTimeUserWonTask:(BOOL) value {
   firstTimeUserWonTask_ = !!value;
 }
+- (BOOL) hasUserBeatAllCityTasks {
+  return !!hasUserBeatAllCityTasks_;
+}
+- (void) setHasUserBeatAllCityTasks:(BOOL) value {
+  hasUserBeatAllCityTasks_ = !!value;
+}
+- (BOOL) userBeatAllCityTasks {
+  return !!userBeatAllCityTasks_;
+}
+- (void) setUserBeatAllCityTasks:(BOOL) value {
+  userBeatAllCityTasks_ = !!value;
+}
 - (void) dealloc {
   self.sender = nil;
   [super dealloc];
@@ -744,6 +799,7 @@ BOOL BeginDungeonResponseProto_BeginDungeonStatusIsValidValue(BeginDungeonRespon
     self.userWon = NO;
     self.clientTime = 0L;
     self.firstTimeUserWonTask = NO;
+    self.userBeatAllCityTasks = NO;
   }
   return self;
 }
@@ -778,6 +834,9 @@ static EndDungeonRequestProto* defaultEndDungeonRequestProtoInstance = nil;
   if (self.hasFirstTimeUserWonTask) {
     [output writeBool:5 value:self.firstTimeUserWonTask];
   }
+  if (self.hasUserBeatAllCityTasks) {
+    [output writeBool:6 value:self.userBeatAllCityTasks];
+  }
   [self.unknownFields writeToCodedOutputStream:output];
 }
 - (int32_t) serializedSize {
@@ -801,6 +860,9 @@ static EndDungeonRequestProto* defaultEndDungeonRequestProtoInstance = nil;
   }
   if (self.hasFirstTimeUserWonTask) {
     size += computeBoolSize(5, self.firstTimeUserWonTask);
+  }
+  if (self.hasUserBeatAllCityTasks) {
+    size += computeBoolSize(6, self.userBeatAllCityTasks);
   }
   size += self.unknownFields.serializedSize;
   memoizedSerializedSize = size;
@@ -892,6 +954,9 @@ static EndDungeonRequestProto* defaultEndDungeonRequestProtoInstance = nil;
   if (other.hasFirstTimeUserWonTask) {
     [self setFirstTimeUserWonTask:other.firstTimeUserWonTask];
   }
+  if (other.hasUserBeatAllCityTasks) {
+    [self setUserBeatAllCityTasks:other.userBeatAllCityTasks];
+  }
   [self mergeUnknownFields:other.unknownFields];
   return self;
 }
@@ -936,6 +1001,10 @@ static EndDungeonRequestProto* defaultEndDungeonRequestProtoInstance = nil;
       }
       case 40: {
         [self setFirstTimeUserWonTask:[input readBool]];
+        break;
+      }
+      case 48: {
+        [self setUserBeatAllCityTasks:[input readBool]];
         break;
       }
     }
@@ -1033,6 +1102,22 @@ static EndDungeonRequestProto* defaultEndDungeonRequestProtoInstance = nil;
 - (EndDungeonRequestProto_Builder*) clearFirstTimeUserWonTask {
   result.hasFirstTimeUserWonTask = NO;
   result.firstTimeUserWonTask = NO;
+  return self;
+}
+- (BOOL) hasUserBeatAllCityTasks {
+  return result.hasUserBeatAllCityTasks;
+}
+- (BOOL) userBeatAllCityTasks {
+  return result.userBeatAllCityTasks;
+}
+- (EndDungeonRequestProto_Builder*) setUserBeatAllCityTasks:(BOOL) value {
+  result.hasUserBeatAllCityTasks = YES;
+  result.userBeatAllCityTasks = value;
+  return self;
+}
+- (EndDungeonRequestProto_Builder*) clearUserBeatAllCityTasks {
+  result.hasUserBeatAllCityTasks = NO;
+  result.userBeatAllCityTasks = NO;
   return self;
 }
 @end

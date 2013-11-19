@@ -539,6 +539,7 @@
 }
 
 - (void) dealDamageWithPercent:(int)percent enemyIsAttacker:(BOOL)enemyIsAttacker withSelector:(SEL)selector {
+  Globals *gl = [Globals sharedGlobals];
   BattlePlayer *att, *def;
   BattleSprite *attSpr, *defSpr;
   CCLabelTTF *healthLabel;
@@ -555,6 +556,7 @@
   
   int curHealth = def.curHealth;
   int damageDone = [att totalAttackPower]*percent/100.f;
+  damageDone = damageDone*[gl calculateDamageMultiplierForAttackElement:att.element defenseElement:def.element];
   int newHealth = MIN(def.maxHealth, MAX(0, curHealth-damageDone));
   float newPercent = ((float)newHealth)/def.maxHealth*100;
   float percChange = ABS(healthBar.percentage-newPercent);

@@ -23,7 +23,7 @@
 
 - (void) awakeFromNib {
   [Globals adjustFontSizeForUILabel:self];
-  self.font = [UIFont fontWithName:@"Gotham-Medium" size:self.font.pointSize+2];
+  self.font = [UIFont fontWithName:@"Gotham-Medium" size:self.font.pointSize];
 }
 
 @end
@@ -32,7 +32,7 @@
 
 - (void) awakeFromNib {
   [Globals adjustFontSizeForUILabel:self];
-  self.font = [UIFont fontWithName:@"Gotham-Book" size:self.font.pointSize+2];
+  self.font = [UIFont fontWithName:@"Gotham-Book" size:self.font.pointSize];
 }
 
 @end
@@ -41,7 +41,7 @@
 
 - (void) awakeFromNib {
   [Globals adjustFontSizeForUILabel:self];
-  self.font = [UIFont fontWithName:@"Akko-Bold" size:self.font.pointSize+2];
+  self.font = [UIFont fontWithName:@"Akko-Bold" size:self.font.pointSize];
 }
 
 @end
@@ -50,7 +50,7 @@
 
 - (void) awakeFromNib {
   [Globals adjustFontSizeForUILabel:self];
-  self.font = [UIFont fontWithName:@"Aller-BoldItalic" size:self.font.pointSize+2];
+  self.font = [UIFont fontWithName:@"Aller-BoldItalic" size:self.font.pointSize];
 }
 
 @end

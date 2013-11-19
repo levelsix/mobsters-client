@@ -29,4 +29,6 @@
 
 - (void) openPrivateChatWithUserId:(int)userId;
 
+- (void) openGemShop;
+
 @end

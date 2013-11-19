@@ -86,10 +86,15 @@
 
 - (void) labelClicked:(UnderlinedLabelView *)label {
   // Go visit clan
-  MenuNavigationController *m = [[MenuNavigationController alloc] init];
-  GameViewController *gvc = (GameViewController *)self.parentViewController;
-  [gvc presentViewController:m animated:YES completion:nil];
-  [m pushViewController:[[ClanInfoViewController alloc] initWithClanId:self.fup.clan.clanId andName:self.fup.clan.name] animated:NO];
+  UIViewController *gvc = (UIViewController *)self.parentViewController;
+  ClanInfoViewController *cvc = [[ClanInfoViewController alloc] initWithClanId:self.fup.clan.clanId andName:self.fup.clan.name];
+  if (!gvc.presentingViewController) {
+    MenuNavigationController *m = [[MenuNavigationController alloc] init];
+    [gvc presentViewController:m animated:YES completion:nil];
+    [m pushViewController:cvc animated:NO];
+  } else {
+    [self.navigationController pushViewController:cvc animated:YES];
+  }
   
   [self close:nil];
 }

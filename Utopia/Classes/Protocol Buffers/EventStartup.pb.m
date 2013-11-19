@@ -434,6 +434,7 @@ static StartupRequestProto* defaultStartupRequestProtoInstance = nil;
 @property (retain) NSMutableArray* mutableUsersUsedForExtraSlotsList;
 @property (retain) NSMutableArray* mutableInvitesToMeForSlotsList;
 @property (retain) StaticDataProto* staticDataStuffProto;
+@property (retain) NSMutableArray* mutableTaskIdForCurrentCityBossList;
 @end
 
 @implementation StartupResponseProto
@@ -542,6 +543,7 @@ static StartupRequestProto* defaultStartupRequestProtoInstance = nil;
   hasStaticDataStuffProto_ = !!value;
 }
 @synthesize staticDataStuffProto;
+@synthesize mutableTaskIdForCurrentCityBossList;
 - (void) dealloc {
   self.sender = nil;
   self.startupConstants = nil;
@@ -566,6 +568,7 @@ static StartupRequestProto* defaultStartupRequestProtoInstance = nil;
   self.mutableUsersUsedForExtraSlotsList = nil;
   self.mutableInvitesToMeForSlotsList = nil;
   self.staticDataStuffProto = nil;
+  self.mutableTaskIdForCurrentCityBossList = nil;
   [super dealloc];
 }
 - (id) init {
@@ -702,6 +705,13 @@ static StartupResponseProto* defaultStartupResponseProtoInstance = nil;
   id value = [mutableInvitesToMeForSlotsList objectAtIndex:index];
   return value;
 }
+- (NSArray*) taskIdForCurrentCityBossList {
+  return mutableTaskIdForCurrentCityBossList;
+}
+- (int32_t) taskIdForCurrentCityBossAtIndex:(int32_t) index {
+  id value = [mutableTaskIdForCurrentCityBossList objectAtIndex:index];
+  return [value intValue];
+}
 - (BOOL) isInitialized {
   return YES;
 }
@@ -786,6 +796,9 @@ static StartupResponseProto* defaultStartupResponseProtoInstance = nil;
   }
   for (NSNumber* value in self.mutableRedeemedQuestIdsList) {
     [output writeInt32:27 value:[value intValue]];
+  }
+  for (NSNumber* value in self.mutableTaskIdForCurrentCityBossList) {
+    [output writeInt32:28 value:[value intValue]];
   }
   [self.unknownFields writeToCodedOutputStream:output];
 }
@@ -891,6 +904,14 @@ static StartupResponseProto* defaultStartupResponseProtoInstance = nil;
     }
     size += dataSize;
     size += 2 * self.mutableRedeemedQuestIdsList.count;
+  }
+  {
+    int32_t dataSize = 0;
+    for (NSNumber* value in self.mutableTaskIdForCurrentCityBossList) {
+      dataSize += computeInt32SizeNoTag([value intValue]);
+    }
+    size += dataSize;
+    size += 2 * self.mutableTaskIdForCurrentCityBossList.count;
   }
   size += self.unknownFields.serializedSize;
   memoizedSerializedSize = size;
@@ -3276,6 +3297,8 @@ static StartupResponseProto_StartupConstants_UserMonsterConstants* defaultStartu
 @interface StartupResponseProto_StartupConstants_MonsterConstants ()
 @property Float32 cashPerHealthPoint;
 @property Float32 secondsToHealPerHealthPoint;
+@property Float32 elementalStrength;
+@property Float32 elementalWeakness;
 @end
 
 @implementation StartupResponseProto_StartupConstants_MonsterConstants
@@ -3294,6 +3317,20 @@ static StartupResponseProto_StartupConstants_UserMonsterConstants* defaultStartu
   hasSecondsToHealPerHealthPoint_ = !!value;
 }
 @synthesize secondsToHealPerHealthPoint;
+- (BOOL) hasElementalStrength {
+  return !!hasElementalStrength_;
+}
+- (void) setHasElementalStrength:(BOOL) value {
+  hasElementalStrength_ = !!value;
+}
+@synthesize elementalStrength;
+- (BOOL) hasElementalWeakness {
+  return !!hasElementalWeakness_;
+}
+- (void) setHasElementalWeakness:(BOOL) value {
+  hasElementalWeakness_ = !!value;
+}
+@synthesize elementalWeakness;
 - (void) dealloc {
   [super dealloc];
 }
@@ -3301,6 +3338,8 @@ static StartupResponseProto_StartupConstants_UserMonsterConstants* defaultStartu
   if ((self = [super init])) {
     self.cashPerHealthPoint = 0;
     self.secondsToHealPerHealthPoint = 0;
+    self.elementalStrength = 0;
+    self.elementalWeakness = 0;
   }
   return self;
 }
@@ -3326,6 +3365,12 @@ static StartupResponseProto_StartupConstants_MonsterConstants* defaultStartupRes
   if (self.hasSecondsToHealPerHealthPoint) {
     [output writeFloat:2 value:self.secondsToHealPerHealthPoint];
   }
+  if (self.hasElementalStrength) {
+    [output writeFloat:3 value:self.elementalStrength];
+  }
+  if (self.hasElementalWeakness) {
+    [output writeFloat:4 value:self.elementalWeakness];
+  }
   [self.unknownFields writeToCodedOutputStream:output];
 }
 - (int32_t) serializedSize {
@@ -3340,6 +3385,12 @@ static StartupResponseProto_StartupConstants_MonsterConstants* defaultStartupRes
   }
   if (self.hasSecondsToHealPerHealthPoint) {
     size += computeFloatSize(2, self.secondsToHealPerHealthPoint);
+  }
+  if (self.hasElementalStrength) {
+    size += computeFloatSize(3, self.elementalStrength);
+  }
+  if (self.hasElementalWeakness) {
+    size += computeFloatSize(4, self.elementalWeakness);
   }
   size += self.unknownFields.serializedSize;
   memoizedSerializedSize = size;
@@ -3422,6 +3473,12 @@ static StartupResponseProto_StartupConstants_MonsterConstants* defaultStartupRes
   if (other.hasSecondsToHealPerHealthPoint) {
     [self setSecondsToHealPerHealthPoint:other.secondsToHealPerHealthPoint];
   }
+  if (other.hasElementalStrength) {
+    [self setElementalStrength:other.elementalStrength];
+  }
+  if (other.hasElementalWeakness) {
+    [self setElementalWeakness:other.elementalWeakness];
+  }
   [self mergeUnknownFields:other.unknownFields];
   return self;
 }
@@ -3449,6 +3506,14 @@ static StartupResponseProto_StartupConstants_MonsterConstants* defaultStartupRes
       }
       case 21: {
         [self setSecondsToHealPerHealthPoint:[input readFloat]];
+        break;
+      }
+      case 29: {
+        [self setElementalStrength:[input readFloat]];
+        break;
+      }
+      case 37: {
+        [self setElementalWeakness:[input readFloat]];
         break;
       }
     }
@@ -3484,6 +3549,38 @@ static StartupResponseProto_StartupConstants_MonsterConstants* defaultStartupRes
 - (StartupResponseProto_StartupConstants_MonsterConstants_Builder*) clearSecondsToHealPerHealthPoint {
   result.hasSecondsToHealPerHealthPoint = NO;
   result.secondsToHealPerHealthPoint = 0;
+  return self;
+}
+- (BOOL) hasElementalStrength {
+  return result.hasElementalStrength;
+}
+- (Float32) elementalStrength {
+  return result.elementalStrength;
+}
+- (StartupResponseProto_StartupConstants_MonsterConstants_Builder*) setElementalStrength:(Float32) value {
+  result.hasElementalStrength = YES;
+  result.elementalStrength = value;
+  return self;
+}
+- (StartupResponseProto_StartupConstants_MonsterConstants_Builder*) clearElementalStrength {
+  result.hasElementalStrength = NO;
+  result.elementalStrength = 0;
+  return self;
+}
+- (BOOL) hasElementalWeakness {
+  return result.hasElementalWeakness;
+}
+- (Float32) elementalWeakness {
+  return result.elementalWeakness;
+}
+- (StartupResponseProto_StartupConstants_MonsterConstants_Builder*) setElementalWeakness:(Float32) value {
+  result.hasElementalWeakness = YES;
+  result.elementalWeakness = value;
+  return self;
+}
+- (StartupResponseProto_StartupConstants_MonsterConstants_Builder*) clearElementalWeakness {
+  result.hasElementalWeakness = NO;
+  result.elementalWeakness = 0;
   return self;
 }
 @end
@@ -4334,6 +4431,12 @@ static StartupResponseProto_StartupConstants_MonsterConstants* defaultStartupRes
   if (other.hasStaticDataStuffProto) {
     [self mergeStaticDataStuffProto:other.staticDataStuffProto];
   }
+  if (other.mutableTaskIdForCurrentCityBossList.count > 0) {
+    if (result.mutableTaskIdForCurrentCityBossList == nil) {
+      result.mutableTaskIdForCurrentCityBossList = [NSMutableArray array];
+    }
+    [result.mutableTaskIdForCurrentCityBossList addObjectsFromArray:other.mutableTaskIdForCurrentCityBossList];
+  }
   [self mergeUnknownFields:other.unknownFields];
   return self;
 }
@@ -4515,6 +4618,10 @@ static StartupResponseProto_StartupConstants_MonsterConstants* defaultStartupRes
       }
       case 216: {
         [self addRedeemedQuestIds:[input readInt32]];
+        break;
+      }
+      case 224: {
+        [self addTaskIdForCurrentCityBoss:[input readInt32]];
         break;
       }
     }
@@ -5207,6 +5314,37 @@ static StartupResponseProto_StartupConstants_MonsterConstants* defaultStartupRes
 - (StartupResponseProto_Builder*) clearStaticDataStuffProto {
   result.hasStaticDataStuffProto = NO;
   result.staticDataStuffProto = [StaticDataProto defaultInstance];
+  return self;
+}
+- (NSArray*) taskIdForCurrentCityBossList {
+  if (result.mutableTaskIdForCurrentCityBossList == nil) {
+    return [NSArray array];
+  }
+  return result.mutableTaskIdForCurrentCityBossList;
+}
+- (int32_t) taskIdForCurrentCityBossAtIndex:(int32_t) index {
+  return [result taskIdForCurrentCityBossAtIndex:index];
+}
+- (StartupResponseProto_Builder*) replaceTaskIdForCurrentCityBossAtIndex:(int32_t) index with:(int32_t) value {
+  [result.mutableTaskIdForCurrentCityBossList replaceObjectAtIndex:index withObject:[NSNumber numberWithInt:value]];
+  return self;
+}
+- (StartupResponseProto_Builder*) addTaskIdForCurrentCityBoss:(int32_t) value {
+  if (result.mutableTaskIdForCurrentCityBossList == nil) {
+    result.mutableTaskIdForCurrentCityBossList = [NSMutableArray array];
+  }
+  [result.mutableTaskIdForCurrentCityBossList addObject:[NSNumber numberWithInt:value]];
+  return self;
+}
+- (StartupResponseProto_Builder*) addAllTaskIdForCurrentCityBoss:(NSArray*) values {
+  if (result.mutableTaskIdForCurrentCityBossList == nil) {
+    result.mutableTaskIdForCurrentCityBossList = [NSMutableArray array];
+  }
+  [result.mutableTaskIdForCurrentCityBossList addObjectsFromArray:values];
+  return self;
+}
+- (StartupResponseProto_Builder*) clearTaskIdForCurrentCityBossList {
+  result.mutableTaskIdForCurrentCityBossList = nil;
   return self;
 }
 @end

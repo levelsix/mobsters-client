@@ -79,6 +79,8 @@
 @property (nonatomic, assign) int inventoryIncreaseSizeCost;
 @property (nonatomic, assign) float cashPerHealthPoint;
 @property (nonatomic, assign) float secondsToHealPerHealthPoint;
+@property (nonatomic, assign) float elementalStrength;
+@property (nonatomic, assign) float elementalWeakness;
 
 // Norm struct constants
 @property (nonatomic, assign) int maxRepeatedNormStructs;
@@ -223,6 +225,7 @@
 - (int) calculateCostToHealMonster:(UserMonster *)um;
 - (int) calculateSecondsToHealMonster:(UserMonster *)um;
 - (int) calculateTimeLeftToHealAllMonstersInQueue;
+- (float) calculateDamageMultiplierForAttackElement:(MonsterProto_MonsterElement)aElement defenseElement:(MonsterProto_MonsterElement)dElement;
 
 // Enhancement formulas
 - (int) calculateSilverCostForEnhancement:(EnhancementItem *)baseMonster feeder:(EnhancementItem *)feeder;

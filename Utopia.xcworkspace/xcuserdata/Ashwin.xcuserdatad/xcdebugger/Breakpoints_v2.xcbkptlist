@@ -42,11 +42,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Utopia/Classes/Main Map/Building.m"
-            timestampString = "405599496.664706"
+            timestampString = "406520515.763111"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "57"
-            endingLineNumber = "57"
+            startingLineNumber = "85"
+            endingLineNumber = "85"
             landmarkName = "-displayProgressBar"
             landmarkType = "5">
          </BreakpointContent>

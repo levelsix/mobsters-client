@@ -85,6 +85,8 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
   
   self.cashPerHealthPoint = constants.monsterConstants.cashPerHealthPoint;
   self.secondsToHealPerHealthPoint = constants.monsterConstants.secondsToHealPerHealthPoint;
+  self.elementalStrength = constants.monsterConstants.elementalStrength;
+  self.elementalWeakness = constants.monsterConstants.elementalWeakness;
   
   self.coinPriceToCreateClan = constants.clanConstants.hasCoinPriceToCreateClan;
   self.maxCharLengthForClanName = constants.clanConstants.maxCharLengthForClanName;
@@ -1193,6 +1195,37 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
 - (float) calculateLevelForMonster:(int)monsterId experience:(int)experience {
   // Remember to cap it at monster's max level
   return experience/15.f+1;
+}
+
+- (float) calculateDamageMultiplierForAttackElement:(MonsterProto_MonsterElement)aElement defenseElement:(MonsterProto_MonsterElement)dElement {
+  switch (aElement) {
+    case MonsterProto_MonsterElementFire:
+      if (dElement == MonsterProto_MonsterElementGrass) return self.elementalStrength;
+      if (dElement == MonsterProto_MonsterElementWater) return self.elementalWeakness;
+      break;
+      
+    case MonsterProto_MonsterElementWater:
+      if (dElement == MonsterProto_MonsterElementFire) return self.elementalStrength;
+      if (dElement == MonsterProto_MonsterElementGrass) return self.elementalWeakness;
+      break;
+      
+    case MonsterProto_MonsterElementGrass:
+      if (dElement == MonsterProto_MonsterElementWater) return self.elementalStrength;
+      if (dElement == MonsterProto_MonsterElementFire) return self.elementalWeakness;
+      break;
+      
+    case MonsterProto_MonsterElementLightning:
+      if (dElement == MonsterProto_MonsterElementDarkness) return self.elementalStrength;
+      break;
+      
+    case MonsterProto_MonsterElementDarkness:
+      if (dElement == MonsterProto_MonsterElementLightning) return self.elementalStrength;
+      break;
+      
+    default:
+      break;
+  }
+  return 1.f;
 }
 
 + (void) popupMessage:(NSString *)msg {

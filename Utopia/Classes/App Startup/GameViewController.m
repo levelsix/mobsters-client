@@ -35,6 +35,8 @@
 #import "Downloader.h"
 #import <Carrot/Carrot.h>
 #import <FacebookSDK/FacebookSDK.h>
+#import "DiamondShopViewController.h"
+#import "MenuNavigationController.h"
 
 #define DEFAULT_PNG_IMAGE_VIEW_TAG 103
 #define KINGDOM_PNG_IMAGE_VIEW_TAG 104
@@ -310,6 +312,19 @@
     [self dismissViewControllerAnimated:YES completion:openChat];
   } else {
     openChat();
+  }
+}
+
+#pragma mark - Gem Shop access
+
+- (void) openGemShop {
+  DiamondShopViewController *dvc = [[DiamondShopViewController alloc] init];
+  if (self.presentedViewController) {
+    [self.presentedViewController.navigationController pushViewController:dvc animated:YES];
+  } else {
+    MenuNavigationController *m = [[MenuNavigationController alloc] init];
+    [self presentViewController:m animated:YES completion:nil];
+    [m pushViewController:[[DiamondShopViewController alloc] init] animated:NO];
   }
 }
 
