@@ -22,6 +22,8 @@
   AMQPConsumer *_useridConsumer;
   AMQPConsumer *_chatConsumer;
   AMQPConsumer *_clanConsumer;
+  
+  BOOL _shouldStop;
 }
 
 @property (assign) NSObject<AMQPConnectionThreadDelegate> *delegate;

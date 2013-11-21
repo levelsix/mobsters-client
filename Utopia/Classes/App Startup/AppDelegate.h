@@ -20,8 +20,6 @@
 	UIWindow *window;
 }
 
-@property (nonatomic, assign) int isActive;
-
 @property (nonatomic, assign) BOOL hasTrackedVisit;
 
 @property (nonatomic, retain) UIWindow *window;

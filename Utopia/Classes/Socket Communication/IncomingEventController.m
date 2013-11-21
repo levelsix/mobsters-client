@@ -233,6 +233,8 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
   Globals *gl = [Globals sharedGlobals];
   GameState *gs = [GameState sharedGameState];
   
+  gs.connected = YES;
+  
   if (proto.updateStatus == StartupResponseProto_UpdateStatusMajorUpdate) {
     [GenericPopupController displayNotificationViewWithText:@"We've added a slew of new features! Update now to check them out." title:@"Update Now" okayButton:@"Update" target:gl selector:@selector(openAppStoreLink)];
     return;
@@ -329,8 +331,6 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
     [standardDefault synchronize];
   } else {
     // Need to create new player
-    
-    gs.connected = YES;
   }
   
   [gs removeNonFullUserUpdatesForTag:tag];

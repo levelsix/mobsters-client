@@ -53,7 +53,7 @@
   
   [[SocketCommunication sharedSocketCommunication] flush];
   
-  [[NSNotificationCenter defaultCenter] removeObserver:self.inventoryTable];
+  [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
 - (void) didMoveToParentViewController:(UIViewController *)parent {
@@ -70,7 +70,9 @@
   GameState *gs = [GameState sharedGameState];
   NSMutableArray *remove = [NSMutableArray array];
   [Globals calculateDifferencesBetweenOldArray:self.queueView.healingQueue newArray:gs.monsterHealingQueue removalIps:remove additionIps:nil section:0];
-  [self.queueView.queueTable.tableView deleteRowsAtIndexPaths:remove withRowAnimation:UITableViewRowAnimationTop];
+  if (remove.count > 0) {
+    [self.queueView.queueTable.tableView deleteRowsAtIndexPaths:remove withRowAnimation:UITableViewRowAnimationTop];
+  }
 }
 
 - (void) updateLabels {

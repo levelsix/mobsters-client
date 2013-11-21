@@ -11,6 +11,7 @@
 #import "OutgoingEventController.h"
 #import "QuestUtil.h"
 #import <Carrot/Carrot.h>
+#import "GenericPopupController.h"
 
 @implementation DungeonBattleLayer
 
@@ -292,8 +293,14 @@
 - (void) reachedNextScene {
   if (_curStage < 0) {
     if (!self.dungeonInfo) {
-      [self.myPlayer beginWalking];
-      [self.bgdLayer scrollToNewScene];
+      _numTimesNotResponded++;
+      if (_numTimesNotResponded < 5) {
+        [self.myPlayer beginWalking];
+        [self.bgdLayer scrollToNewScene];
+      } else {
+        [self.myPlayer stopWalking];
+        [GenericPopupController displayNotificationViewWithText:@"The enemies seem to have been scared off. Click okay to return outside." title:@"Something Went Wrong" okayButton:@"Okay" target:self selector:@selector(winExitFinal)];
+      }
     } else {
       [self moveToNextEnemy];
     }

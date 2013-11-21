@@ -48,7 +48,6 @@
 @implementation AppDelegate
 
 @synthesize window;
-@synthesize isActive;
 
 - (void) setUpMobileAppTracker {
   [[MobileAppTracker sharedManager] setDebugMode:NO];
@@ -97,8 +96,6 @@
 {
   //Init the window
 	window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
-  
-  self.isActive = YES;
   
 #ifndef DEBUG
   [self setUpCrittercism];
@@ -172,11 +169,11 @@
   LNLog(@"did become active");
 	[[CCDirector sharedDirector] resume];
   
-#ifdef AGE_OF_CHAOS
-  [self setUpChartboost];
-#else
-  [self registerPixelAddictsOpen];
-#endif
+  GameState *gs = [GameState sharedGameState];
+  if (!gs.connected) {
+    GameViewController *gvc = [GameViewController baseController];
+    [[SocketCommunication sharedSocketCommunication] initNetworkCommunicationWithDelegate:gvc];
+  }
 }
 
 - (void)applicationDidReceiveMemoryWarning:(UIApplication *)application {
@@ -190,10 +187,9 @@
 	[[CCDirector sharedDirector] stopAnimation];
   [self registerLocalNotifications];
   
-  self.isActive = NO;
-  
   [[OutgoingEventController sharedOutgoingEventController] logout];
   [[SocketCommunication sharedSocketCommunication] closeDownConnection];
+  [[GameState sharedGameState] setConnected:NO];
   
   [[SoundEngine sharedSoundEngine] stopBackgroundMusic];
 
@@ -205,7 +201,6 @@
 
 -(void) applicationWillEnterForeground:(UIApplication*)application {
   LNLog(@"will enter foreground");
-  self.isActive = YES;
   self.hasTrackedVisit = NO;
   
 #ifndef DEBUG
@@ -213,10 +208,6 @@
 #endif
   [Analytics beganApp];
   [Analytics resumedApp];
-  
-  [[SocketCommunication sharedSocketCommunication] initNetworkCommunication];
-  GameViewController *gvc = [GameViewController baseController];
-  [[SocketCommunication sharedSocketCommunication] setDelegate:gvc forTag:CONNECTED_TO_HOST_DELEGATE_TAG];
   if ([[CCDirector sharedDirector] runningScene]) {
     [[CCDirector sharedDirector] startAnimation];
   }

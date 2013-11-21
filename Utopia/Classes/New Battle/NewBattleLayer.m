@@ -771,9 +771,9 @@
     CGPoint endPos = ccpAdd(self.currentEnemy.position, ccp(5,10));
     endPos = ccpAdd(endPos, ccpMult(POINT_OFFSET_PER_SCENE, 0.02*(i-2)));
     
-    CGPoint offset = ccpMult(POINT_OFFSET_PER_SCENE, 0.02);
-    offset = ccp((i%2==0?-1:1)*offset.y,(i%2==1?-1:1)*offset.x);
-    //    endPos = ccpAdd(endPos, offset);
+    //CGPoint offset = ccpMult(POINT_OFFSET_PER_SCENE, 0.02);
+    //offset = ccp((i%2==0?-1:1)*offset.y,(i%2==1?-1:1)*offset.x);
+    //endPos = ccpAdd(endPos, offset);
     
     bomb.position = ccp(endPos.x, endPos.y+130);
     

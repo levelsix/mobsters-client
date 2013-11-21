@@ -27,7 +27,6 @@
 #import "GameLayer.h"
 #import "NewBattleLayer.h"
 #import "LoadingViewController.h"
-#import "SocketCommunication.h"
 #import "OutgoingEventController.h"
 #import "TopBarViewController.h"
 #import "AppDelegate.h"
@@ -124,9 +123,6 @@
 - (void) viewDidLoad {
   [self setupTopBar];
   [self fadeToLoadingScreen];
-  
-  [[SocketCommunication sharedSocketCommunication] initNetworkCommunication];
-  [[SocketCommunication sharedSocketCommunication] setDelegate:self forTag:CONNECTED_TO_HOST_DELEGATE_TAG];
   
   [self progressTo:PART_1_PERCENT];
   

@@ -284,15 +284,6 @@
   }
 }
 
-- (void) tap:(UIGestureRecognizer *)recognizer node:(CCNode *)node {
-  [super tap:recognizer node:node];
-  CGPoint pt = [recognizer locationInView:recognizer.view];
-  pt = [[CCDirector sharedDirector] convertToGL:pt];
-  
-  pt = [self convertToNodeSpace:pt];
-  pt = [self convertCCPointToTilePoint:pt];
-}
-
 - (void) setSelected:(SelectableSprite *)selected {
   if (!_allowSelection && selected) {
     return;

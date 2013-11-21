@@ -113,10 +113,6 @@ static int sessionId;
   }
 }
 
-- (void) closeDownConnection {
-  [self performSelector:@selector(endAndDestroyThread) onThread:self withObject:nil waitUntilDone:NO];
-}
-
 - (void) endConnection {
   @try {
     [self destroyClanMessageQueue];
@@ -130,35 +126,41 @@ static int sessionId;
     _topicExchange = nil;
     _connection = nil;
   } @catch (NSException *e) {
-    LNLog(@"%@", e);
+//    LNLog(@"%@", e);
   }
 }
 
 - (void) endAndDestroyThread {
   [self endConnection];
-  [self cancel];
+//  _shouldStop = YES;
+}
+
+- (void) closeDownConnection {
+  [self performSelector:@selector(endAndDestroyThread) onThread:self withObject:nil waitUntilDone:NO];
 }
 
 - (void) end {
   [self closeDownConnection];
 }
 
-- (void)main
-{
-	while(![self isCancelled])
-	{
-		NSDate *d = [[NSDate alloc] initWithTimeIntervalSinceNow:0.1];
-    [[NSRunLoop currentRunLoop] runUntilDate:d];
-    
-    if (_connection) {
-      if (amqp_data_available(_connection.internalConnection) || amqp_data_in_buffer(_connection.internalConnection)) {
-        AMQPMessage *message = [_udidConsumer pop];
-        if(message)
-        {
-          [_delegate performSelectorOnMainThread:@selector(amqpConsumerThreadReceivedNewMessage:) withObject:message waitUntilDone:NO];
-        }
+- (void) readData {
+  if (_connection) {
+    if (amqp_data_available(_connection.internalConnection) || amqp_data_in_buffer(_connection.internalConnection)) {
+      AMQPMessage *message = [_udidConsumer pop];
+      if(message)
+      {
+        [_delegate performSelectorOnMainThread:@selector(amqpConsumerThreadReceivedNewMessage:) withObject:message waitUntilDone:NO];
       }
     }
+  }
+}
+
+- (void)main
+{
+  [NSTimer scheduledTimerWithTimeInterval:0.1f target:self selector:@selector(readData) userInfo:nil repeats:YES];
+	while(!_shouldStop)
+	{
+    [[NSRunLoop currentRunLoop] runUntilDate:[NSDate dateWithTimeIntervalSinceNow:1.f]];
 	}
 }
 

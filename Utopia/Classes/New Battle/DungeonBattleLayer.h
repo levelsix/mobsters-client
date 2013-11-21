@@ -13,6 +13,8 @@
   BOOL _wonBattle;
   BOOL _receivedEndDungeonResponse;
   BOOL _waitingForEndDungeonResponse;
+  
+  int _numTimesNotResponded;
 }
 
 @property (nonatomic, retain) BeginDungeonResponseProto *dungeonInfo;

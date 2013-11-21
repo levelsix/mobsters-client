@@ -34,6 +34,8 @@
 #define RECONNECT_TIMEOUT 0.5f
 #define NUM_SILENT_RECONNECTS 1
 
+#define CONNECTED_TO_HOST_DELEGATE_TAG 9999
+
 @implementation SocketCommunication
 
 SYNTHESIZE_SINGLETON_FOR_CLASS(SocketCommunication);
@@ -134,6 +136,11 @@ static NSString *udid = nil;
 #else
     udid = UDID;
 #endif
+    
+    self.connectionThread = [[AMQPConnectionThread alloc] init];
+    [self.connectionThread start];
+    [self.connectionThread setName:@"AMQPConnectionThread"];
+    self.connectionThread.delegate = self;
   }
   return self;
 }
@@ -149,11 +156,7 @@ static NSString *udid = nil;
   }
 }
 
-- (void) initNetworkCommunication {
-  [self.connectionThread end];
-  self.connectionThread = [[AMQPConnectionThread alloc] init];
-  [self.connectionThread start];
-  self.connectionThread.delegate = self;
+- (void) initNetworkCommunicationWithDelegate:(id)delegate {
   [self.connectionThread connect:udid];
   
   [self rebuildSender];
@@ -164,6 +167,7 @@ static NSString *udid = nil;
   self.structRetrievals = [NSMutableArray array];
   
   self.tagDelegates = [NSMutableDictionary dictionary];
+  [self setDelegate:delegate forTag:CONNECTED_TO_HOST_DELEGATE_TAG];
 }
 
 - (void) reloadClanMessageQueue {
@@ -222,9 +226,10 @@ static NSString *udid = nil;
   NSMutableData *messageWithHeader = [NSMutableData data];
   NSData *data = [msg data];
   
-  if (_sender.userId == 0) {
+  GameState *gs = [GameState sharedGameState];
+  if (_sender.userId == 0 || !gs.connected) {
     if (type != EventProtocolRequestCStartupEvent&& type != EventProtocolRequestCUserCreateEvent) {
-      LNLog(@"User id is 0!!!");
+      LNLog(@"User id is 0 or GameState is not connected!!!");
       LNLog(@"Did not send event of type %@.", NSStringFromClass(msg.class));
       return 0;
     }
@@ -312,7 +317,7 @@ static NSString *udid = nil;
 
 - (void) setDelegate:(id)delegate forTag:(int)tag {
   if (delegate && tag) {
-    [self.tagDelegates setObject:delegate forKey:[NSNumber numberWithInt:tag]];
+    [self.tagDelegates setObject:delegate forKey:@(tag)];
   }
 }
 
@@ -1075,11 +1080,7 @@ static NSString *udid = nil;
   [_flushTimer invalidate];
   _flushTimer = nil;
   [self flush];
-  _sender = nil;
-}
-
-- (void) dealloc {
-  [self closeDownConnection];
+  [self.connectionThread end];
 }
 
 @end

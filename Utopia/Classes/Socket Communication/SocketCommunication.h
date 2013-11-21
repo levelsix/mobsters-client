@@ -16,8 +16,6 @@
 #import "AMQPConnectionThread.h"
 #import "AMQPConnectionThreadDelegate.h"
 
-#define CONNECTED_TO_HOST_DELEGATE_TAG 9999
-
 @interface SocketCommunication : NSObject <UIAlertViewDelegate, AMQPConnectionThreadDelegate> {
   BOOL _shouldReconnect;
   MinimumUserProto *_sender;
@@ -56,7 +54,7 @@
 - (void) rebuildSender;
 
 + (SocketCommunication *)sharedSocketCommunication;
-- (void) initNetworkCommunication;
+- (void) initNetworkCommunicationWithDelegate:(id)delegate;
 - (void) initUserIdMessageQueue;
 - (void) closeDownConnection;
 - (void) messageReceived:(NSData *)buffer withType:(EventProtocolResponse)eventType tag:(int)tag;

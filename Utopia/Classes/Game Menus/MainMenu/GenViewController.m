@@ -42,9 +42,6 @@
 }
 
 - (IBAction)menuCloseClicked:(id)sender {
-//  [self.navigationController.view removeFromSuperview];
-//  [self.navigationController removeFromParentViewController];
-  
   [self.navigationController.presentingViewController dismissViewControllerAnimated:YES completion:nil];
 }
 

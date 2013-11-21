@@ -88,15 +88,18 @@
   // Go visit clan
   UIViewController *gvc = (UIViewController *)self.parentViewController;
   ClanInfoViewController *cvc = [[ClanInfoViewController alloc] initWithClanId:self.fup.clan.clanId andName:self.fup.clan.name];
+  
+  // Call close first so that the block will retain this controller
+  [self close:nil];
   if (!gvc.presentingViewController) {
     MenuNavigationController *m = [[MenuNavigationController alloc] init];
     [gvc presentViewController:m animated:YES completion:nil];
     [m pushViewController:cvc animated:NO];
   } else {
-    [self.navigationController pushViewController:cvc animated:YES];
+    UINavigationController *nav = self.navigationController;
+    [self removeFromParentViewController];
+    [nav pushViewController:cvc animated:YES];
   }
-  
-  [self close:nil];
 }
 
 - (IBAction)message:(id)sender {

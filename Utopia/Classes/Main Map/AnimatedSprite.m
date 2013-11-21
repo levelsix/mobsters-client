@@ -107,13 +107,13 @@
 }
 
 - (BOOL) select {
-  [super select];
-  [self walk];
-  return YES;
+  BOOL select = [super select];
+  [self stopWalking];
+  return select;
 }
 
 - (void) unselect {
-  [self stopWalking];
+  [self walk];
   [super unselect];
 }
 

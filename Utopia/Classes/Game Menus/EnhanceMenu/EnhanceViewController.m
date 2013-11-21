@@ -59,7 +59,7 @@
   
   [[SocketCommunication sharedSocketCommunication] flush];
   
-  [[NSNotificationCenter defaultCenter] removeObserver:self.inventoryTable];
+  [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
 - (void) updateLabels {
@@ -82,7 +82,9 @@
   GameState *gs = [GameState sharedGameState];
   NSMutableArray *remove = [NSMutableArray array];
   [Globals calculateDifferencesBetweenOldArray:self.queueView.enhancingQueue newArray:gs.userEnhancement.feeders removalIps:remove additionIps:nil section:0];
-  [self.queueView.queueTable.tableView deleteRowsAtIndexPaths:remove withRowAnimation:UITableViewRowAnimationTop];
+  if (remove.count > 0) {
+    [self.queueView.queueTable.tableView deleteRowsAtIndexPaths:remove withRowAnimation:UITableViewRowAnimationTop];
+  }
 }
 
 #pragma mark - EasyTableViewDelegate and Methods

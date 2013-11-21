@@ -684,7 +684,12 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
 }
 
 - (void) privateChatPost:(int)recipientId content:(NSString *)content {
-  [[SocketCommunication sharedSocketCommunication] sendPrivateChatPostMessage:recipientId content:content];
+  GameState *gs = [GameState sharedGameState];
+  if (recipientId == gs.userId) {
+    [Globals popupMessage:@"You are not allowed to send private chats to yourself."];
+  } else {
+    [[SocketCommunication sharedSocketCommunication] sendPrivateChatPostMessage:recipientId content:content];
+  }
 }
 
 - (void) retrievePrivateChatPosts:(int)otherUserId delegate:(id)delegate {

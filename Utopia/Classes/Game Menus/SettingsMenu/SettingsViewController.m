@@ -145,13 +145,13 @@
     // Replace delimited strings with their proper constants..
     NSString *line2 = [self replaceDelimitersInString:line];
     
-    if ([line hasSuffix:HEADER_SUFFIX]) {
+    if ([line2 hasSuffix:HEADER_SUFFIX]) {
       curArr = [NSMutableArray array];
       [text addObject:curArr];
-      line2 = [line stringByReplacingOccurrencesOfString:HEADER_SUFFIX withString:@""];
-      [curArr addObject:line];
+      line2 = [line2 stringByReplacingOccurrencesOfString:HEADER_SUFFIX withString:@""];
+      [curArr addObject:line2];
     } else {
-      [curArr addObject:line];
+      [curArr addObject:line2];
     }
   }
   self.textStrings = text;

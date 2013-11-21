@@ -41,7 +41,7 @@
 }
 
 + (GenericPopupController *) displayNotificationViewWithText:(NSString *)string title:(NSString *)title okayButton:(NSString *)okay target:(id)target selector:(SEL)selector {
-  GenericPopupController *gp = [self displayNotificationViewWithText:nil title:title];
+  GenericPopupController *gp = [self displayNotificationViewWithText:string title:title];
   
   gp.notifButtonLabel.text = okay;
   

@@ -373,6 +373,8 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
   
   [[SocketCommunication sharedSocketCommunication] reloadHealQueueSnapshot];
   
+  [[NSNotificationCenter defaultCenter] postNotificationName:HEAL_WAIT_COMPLETE_NOTIFICATION object:nil];
+  
   [self beginHealingTimer];
 }
 
@@ -425,6 +427,8 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
     if (self.userEnhancement.feeders.count == 0) {
       [[OutgoingEventController sharedOutgoingEventController] removeBaseEnhanceMonster];
     }
+    
+    [[NSNotificationCenter defaultCenter] postNotificationName:ENHANCE_WAIT_COMPLETE_NOTIFICATION object:nil];
     
     [self beginEnhanceTimer];
   }

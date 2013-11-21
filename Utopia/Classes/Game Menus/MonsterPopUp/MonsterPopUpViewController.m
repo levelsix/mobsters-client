@@ -23,7 +23,7 @@
 @implementation MonsterPopUpViewController
 
 - (id)initWithMonsterProto:(UserMonster *)monster {
-  if (self == [super init]) {
+  if ((self = [super init])) {
     self.monster = monster;
   }
   return self;

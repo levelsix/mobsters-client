@@ -74,7 +74,7 @@
 	
 	if(reply.reply_type != AMQP_RESPONSE_NORMAL)
 	{
-		[NSException raise:@"AMQPConnectionException" format:@"Unable to disconnect from host: %@", [self errorDescriptionForReply:reply]];
+//		[NSException raise:@"AMQPConnectionException" format:@"Unable to disconnect from host: %@", [self errorDescriptionForReply:reply]];
 	}
 	
 	close(socketFD);
