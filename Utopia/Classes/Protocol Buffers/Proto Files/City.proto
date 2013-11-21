@@ -3,13 +3,14 @@
 import "Structure.proto";
 import "User.proto";
 
-package com.lvl6.proto;
+package proto;
 
+option java_package = "com.lvl6.mobsters.noneventprotos";
 option java_outer_classname = "CityProto";
 //DO NOT USE ID AS THE NAME OF A PROPERTY IN ANY PROTO
 
 message UserCityExpansionDataProto {
-	optional int32 userId = 1;
+	optional string userUuid = 1;
 	optional sint32 xPosition = 2;
 	optional sint32 yPosition = 3;
 	optional bool isExpanding = 4;
@@ -29,7 +30,7 @@ message CityExpansionCostProto {
 message CityElementProto {
 	optional int32 cityId = 1;
 	optional int32 assetId = 2;
-	//optional string name = 3;
+	optional string name = 3;
 	optional CityElemType type = 4;
 	optional CoordinateProto coords = 5;
 	optional float xLength = 6;
@@ -59,5 +60,4 @@ message FullCityProto {
 	
 	repeated int32 taskIds = 8;
 	optional string attackMapLabelImgName = 9;
-	
-}
+}	

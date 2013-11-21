@@ -8,11 +8,11 @@
 
 #import "Chat.pb.h"
 
-#define PRIVATE_CHAT_DEFAULTS_KEY @"PrivateChat%d"
+#define PRIVATE_CHAT_DEFAULTS_KEY @"PrivateChat%@"
 
 @interface PrivateChatPostProto (UnreadStatus)
 
-- (int) otherUserId;
+- (NSString *) otherUserUuid;
 - (BOOL) isUnread;
 - (void) markAsRead;
 

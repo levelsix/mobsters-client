@@ -1,8 +1,9 @@
 //ALL REQUEST PROTOS SHOULD INCLUDE A MinimumUserProto AS optional that represents which client sent it/triggered it 
 //DO NO START PROPERTY METHODS WITH THE WORDS NEW OR COPY
 
-package com.lvl6.proto;
+package proto;
 
+option java_package = "com.lvl6.mobsters.noneventprotos";
 option java_outer_classname = "InAppPurchaseProto";
 //DO NOT USE ID AS THE NAME OF A PROPERTY IN ANY PROTO
 
@@ -16,7 +17,7 @@ message InAppPurchasePackageProto {
 //------------------------------------------------------------------------------------------
 
 message GoldSaleProto {
-	optional int32 saleId = 1;
+	optional string saleUuid = 1;
 	optional int64 startDate = 2;
 	optional int64 endDate = 3;
 	optional string package1SaleIdentifier = 4;
@@ -36,7 +37,7 @@ message GoldSaleProto {
 
 //------------------------------------------------------------------------------------------
 
-enum EarnFreeDiamondsType {
+enum EarnFreeGemsType {
 	FB_CONNECT = 1;
 	TAPJOY = 2;
 	FLURRY_VIDEO = 3;

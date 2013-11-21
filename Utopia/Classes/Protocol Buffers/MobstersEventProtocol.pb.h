@@ -25,7 +25,7 @@
 #import "EventUser.pb.h"
 #import "InAppPurchase.pb.h"
 #import "MonsterStuff.pb.h"
-#import "Quest.pb.h"
+#import "QuestStuff.pb.h"
 #import "StaticData.pb.h"
 #import "Structure.pb.h"
 #import "Task.pb.h"
@@ -86,10 +86,10 @@
 @class DialogueProto_Builder;
 @class DialogueProto_SpeechSegmentProto;
 @class DialogueProto_SpeechSegmentProto_Builder;
-@class EarnFreeDiamondsRequestProto;
-@class EarnFreeDiamondsRequestProto_Builder;
-@class EarnFreeDiamondsResponseProto;
-@class EarnFreeDiamondsResponseProto_Builder;
+@class EarnFreeGemsRequestProto;
+@class EarnFreeGemsRequestProto_Builder;
+@class EarnFreeGemsResponseProto;
+@class EarnFreeGemsResponseProto_Builder;
 @class EnableAPNSRequestProto;
 @class EnableAPNSRequestProto_Builder;
 @class EnableAPNSResponseProto;
@@ -116,8 +116,6 @@
 @class FullClanProtoWithClanSize;
 @class FullClanProtoWithClanSize_Builder;
 @class FullClanProto_Builder;
-@class FullQuestProto;
-@class FullQuestProto_Builder;
 @class FullStructureProto;
 @class FullStructureProto_Builder;
 @class FullTaskProto;
@@ -234,6 +232,8 @@
 @class QuestProgressRequestProto_Builder;
 @class QuestProgressResponseProto;
 @class QuestProgressResponseProto_Builder;
+@class QuestProto;
+@class QuestProto_Builder;
 @class QuestRedeemRequestProto;
 @class QuestRedeemRequestProto_Builder;
 @class QuestRedeemResponseProto;
@@ -375,133 +375,133 @@
 @class UserMonsterHealingProto;
 @class UserMonsterHealingProto_Builder;
 typedef enum {
-  EventProtocolRequestCStartupEvent = 1,
-  EventProtocolRequestCInAppPurchaseEvent = 2,
-  EventProtocolRequestCPurchaseNormStructureEvent = 3,
-  EventProtocolRequestCMoveOrRotateNormStructureEvent = 4,
-  EventProtocolRequestCSellNormStructureEvent = 5,
-  EventProtocolRequestCUpgradeNormStructureEvent = 6,
-  EventProtocolRequestCRetrieveCurrencyFromNormStructureEvent = 7,
-  EventProtocolRequestCFinishNormStructWaittimeWithDiamondsEvent = 8,
-  EventProtocolRequestCNormStructWaitCompleteEvent = 9,
-  EventProtocolRequestCLoadPlayerCityEvent = 10,
-  EventProtocolRequestCQuestAcceptEvent = 12,
-  EventProtocolRequestCQuestProgressEvent = 13,
-  EventProtocolRequestCQuestRedeemEvent = 14,
-  EventProtocolRequestCPurchaseCityExpansionEvent = 15,
-  EventProtocolRequestCExpansionWaitCompleteEvent = 16,
-  EventProtocolRequestCLevelUpEvent = 17,
-  EventProtocolRequestCEnableApnsEvent = 18,
-  EventProtocolRequestCUserCreateEvent = 19,
-  EventProtocolRequestCLoadCityEvent = 20,
-  EventProtocolRequestCRetrieveUsersForUserIdsEvent = 21,
-  EventProtocolRequestCEarnFreeDiamondsEvent = 22,
-  EventProtocolRequestCSendGroupChatEvent = 23,
-  EventProtocolRequestCCreateClanEvent = 24,
-  EventProtocolRequestCLeaveClanEvent = 25,
-  EventProtocolRequestCRequestJoinClanEvent = 26,
-  EventProtocolRequestCRetractRequestJoinClanEvent = 27,
-  EventProtocolRequestCApproveOrRejectRequestToJoinClanEvent = 28,
-  EventProtocolRequestCTransferClanOwnership = 29,
-  EventProtocolRequestCRetrieveClanInfoEvent = 30,
-  EventProtocolRequestCChangeClanDescriptionEvent = 31,
-  EventProtocolRequestCBootPlayerFromClanEvent = 32,
-  EventProtocolRequestCPickLockBoxEvent = 33,
-  EventProtocolRequestCRetrieveTournamentRankingsEvent = 34,
-  EventProtocolRequestCSubmitMonsterEnhancementEvent = 35,
-  EventProtocolRequestCPurchaseBoosterPackEvent = 37,
-  EventProtocolRequestCChangeClanJoinTypeEvent = 39,
-  EventProtocolRequestCPrivateChatPostEvent = 40,
-  EventProtocolRequestCRetrievePrivateChatPostEvent = 41,
-  EventProtocolRequestCRedeemUserLockBoxItemsEvent = 42,
-  EventProtocolRequestCBeginDungeonEvent = 43,
-  EventProtocolRequestCEndDungeonEvent = 44,
-  EventProtocolRequestCReviveInDungeonEvent = 45,
-  EventProtocolRequestCQueueUpEvent = 46,
-  EventProtocolRequestCUpdateMonsterHealthEvent = 47,
-  EventProtocolRequestCHealMonsterEvent = 48,
-  EventProtocolRequestCHealMonsterWaitTimeCompleteEvent = 49,
-  EventProtocolRequestCAddMonsterToBattleTeamEvent = 50,
-  EventProtocolRequestCRemoveMonsterFromBattleTeamEvent = 51,
-  EventProtocolRequestCIncreaseMonsterInventorySlotEvent = 52,
-  EventProtocolRequestCEnhancementWaitTimeCompleteEvent = 53,
-  EventProtocolRequestCCombineUserMonsterPiecesEvent = 54,
-  EventProtocolRequestCSellUserMonsterEvent = 55,
-  EventProtocolRequestCInviteFbFriendsForSlotsEvent = 56,
-  EventProtocolRequestCAcceptAndRejectFbInviteForSlotsEvent = 57,
-  EventProtocolRequestCLogoutEvent = 101,
-} EventProtocolRequest;
+  MobstersEventProtocolRequestCStartupEvent = 1,
+  MobstersEventProtocolRequestCInAppPurchaseEvent = 2,
+  MobstersEventProtocolRequestCPurchaseNormStructureEvent = 3,
+  MobstersEventProtocolRequestCMoveOrRotateNormStructureEvent = 4,
+  MobstersEventProtocolRequestCSellNormStructureEvent = 5,
+  MobstersEventProtocolRequestCUpgradeNormStructureEvent = 6,
+  MobstersEventProtocolRequestCRetrieveCurrencyFromNormStructureEvent = 7,
+  MobstersEventProtocolRequestCFinishNormStructWaittimeWithDiamondsEvent = 8,
+  MobstersEventProtocolRequestCNormStructWaitCompleteEvent = 9,
+  MobstersEventProtocolRequestCLoadPlayerCityEvent = 10,
+  MobstersEventProtocolRequestCQuestAcceptEvent = 11,
+  MobstersEventProtocolRequestCQuestProgressEvent = 12,
+  MobstersEventProtocolRequestCQuestRedeemEvent = 13,
+  MobstersEventProtocolRequestCPurchaseCityExpansionEvent = 14,
+  MobstersEventProtocolRequestCExpansionWaitCompleteEvent = 15,
+  MobstersEventProtocolRequestCLevelUpEvent = 16,
+  MobstersEventProtocolRequestCEnableApnsEvent = 17,
+  MobstersEventProtocolRequestCUserCreateEvent = 18,
+  MobstersEventProtocolRequestCLoadCityEvent = 19,
+  MobstersEventProtocolRequestCRetrieveUsersForUserIdsEvent = 20,
+  MobstersEventProtocolRequestCEarnFreeDiamondsEvent = 21,
+  MobstersEventProtocolRequestCSendGroupChatEvent = 22,
+  MobstersEventProtocolRequestCCreateClanEvent = 23,
+  MobstersEventProtocolRequestCLeaveClanEvent = 24,
+  MobstersEventProtocolRequestCRequestJoinClanEvent = 25,
+  MobstersEventProtocolRequestCRetractRequestJoinClanEvent = 26,
+  MobstersEventProtocolRequestCApproveOrRejectRequestToJoinClanEvent = 27,
+  MobstersEventProtocolRequestCTransferClanOwnership = 28,
+  MobstersEventProtocolRequestCRetrieveClanInfoEvent = 29,
+  MobstersEventProtocolRequestCChangeClanDescriptionEvent = 30,
+  MobstersEventProtocolRequestCBootPlayerFromClanEvent = 31,
+  MobstersEventProtocolRequestCPickLockBoxEvent = 32,
+  MobstersEventProtocolRequestCRetrieveTournamentRankingsEvent = 33,
+  MobstersEventProtocolRequestCSubmitMonsterEnhancementEvent = 34,
+  MobstersEventProtocolRequestCPurchaseBoosterPackEvent = 35,
+  MobstersEventProtocolRequestCChangeClanJoinTypeEvent = 36,
+  MobstersEventProtocolRequestCPrivateChatPostEvent = 37,
+  MobstersEventProtocolRequestCRetrievePrivateChatPostEvent = 38,
+  MobstersEventProtocolRequestCRedeemUserLockBoxItemsEvent = 39,
+  MobstersEventProtocolRequestCBeginDungeonEvent = 40,
+  MobstersEventProtocolRequestCEndDungeonEvent = 41,
+  MobstersEventProtocolRequestCReviveInDungeonEvent = 42,
+  MobstersEventProtocolRequestCQueueUpEvent = 43,
+  MobstersEventProtocolRequestCUpdateMonsterHealthEvent = 44,
+  MobstersEventProtocolRequestCHealMonsterEvent = 45,
+  MobstersEventProtocolRequestCHealMonsterWaitTimeCompleteEvent = 46,
+  MobstersEventProtocolRequestCAddMonsterToBattleTeamEvent = 47,
+  MobstersEventProtocolRequestCRemoveMonsterFromBattleTeamEvent = 48,
+  MobstersEventProtocolRequestCIncreaseMonsterInventorySlotEvent = 49,
+  MobstersEventProtocolRequestCEnhancementWaitTimeCompleteEvent = 50,
+  MobstersEventProtocolRequestCCombineUserMonsterPiecesEvent = 51,
+  MobstersEventProtocolRequestCSellUserMonsterEvent = 52,
+  MobstersEventProtocolRequestCInviteFbFriendsForSlotsEvent = 53,
+  MobstersEventProtocolRequestCAcceptAndRejectFbInviteForSlotsEvent = 54,
+  MobstersEventProtocolRequestCLogoutEvent = 100,
+} MobstersEventProtocolRequest;
 
-BOOL EventProtocolRequestIsValidValue(EventProtocolRequest value);
+BOOL MobstersEventProtocolRequestIsValidValue(MobstersEventProtocolRequest value);
 
 typedef enum {
-  EventProtocolResponseSStartupEvent = 1,
-  EventProtocolResponseSInAppPurchaseEvent = 2,
-  EventProtocolResponseSPurchaseNormStructureEvent = 3,
-  EventProtocolResponseSMoveOrRotateNormStructureEvent = 4,
-  EventProtocolResponseSSellNormStructureEvent = 5,
-  EventProtocolResponseSUpgradeNormStructureEvent = 6,
-  EventProtocolResponseSRetrieveCurrencyFromNormStructureEvent = 7,
-  EventProtocolResponseSFinishNormStructWaittimeWithDiamondsEvent = 8,
-  EventProtocolResponseSNormStructWaitCompleteEvent = 9,
-  EventProtocolResponseSLoadPlayerCityEvent = 10,
-  EventProtocolResponseSQuestAcceptEvent = 12,
-  EventProtocolResponseSQuestProgressEvent = 13,
-  EventProtocolResponseSQuestRedeemEvent = 14,
-  EventProtocolResponseSPurchaseCityExpansionEvent = 15,
-  EventProtocolResponseSExpansionWaitCompleteEvent = 16,
-  EventProtocolResponseSLevelUpEvent = 17,
-  EventProtocolResponseSEnableApnsEvent = 18,
-  EventProtocolResponseSUserCreateEvent = 19,
-  EventProtocolResponseSLoadCityEvent = 20,
-  EventProtocolResponseSRetrieveUsersForUserIdsEvent = 21,
-  EventProtocolResponseSEarnFreeDiamondsEvent = 22,
-  EventProtocolResponseSSendGroupChatEvent = 23,
-  EventProtocolResponseSCreateClanEvent = 24,
-  EventProtocolResponseSLeaveClanEvent = 25,
-  EventProtocolResponseSRequestJoinClanEvent = 26,
-  EventProtocolResponseSRetractRequestJoinClanEvent = 27,
-  EventProtocolResponseSApproveOrRejectRequestToJoinClanEvent = 28,
-  EventProtocolResponseSTransferClanOwnership = 29,
-  EventProtocolResponseSRetrieveClanInfoEvent = 30,
-  EventProtocolResponseSChangeClanDescriptionEvent = 31,
-  EventProtocolResponseSBootPlayerFromClanEvent = 32,
-  EventProtocolResponseSPickLockBoxEvent = 33,
-  EventProtocolResponseSRetrieveTournamentRankingsEvent = 34,
-  EventProtocolResponseSSubmitMonsterEnhancementEvent = 35,
-  EventProtocolResponseSPurchaseBoosterPackEvent = 37,
-  EventProtocolResponseSChangeClanJoinTypeEvent = 39,
-  EventProtocolResponseSPrivateChatPostEvent = 40,
-  EventProtocolResponseSRetrievePrivateChatPostEvent = 41,
-  EventProtocolResponseSRedeemUserLockBoxItemsEvent = 42,
-  EventProtocolResponseSBeginDungeonEvent = 43,
-  EventProtocolResponseSEndDungeonEvent = 44,
-  EventProtocolResponseSReviveInDungeonEvent = 45,
-  EventProtocolResponseSQueueUpEvent = 46,
-  EventProtocolResponseSUpdateMonsterHealthEvent = 47,
-  EventProtocolResponseSHealMonsterEvent = 48,
-  EventProtocolResponseSHealMonsterWaitTimeCompleteEvent = 49,
-  EventProtocolResponseSAddMonsterToBattleTeamEvent = 50,
-  EventProtocolResponseSRemoveMonsterFromBattleTeamEvent = 51,
-  EventProtocolResponseSIncreaseMonsterInventorySlotEvent = 52,
-  EventProtocolResponseSEnhancementWaitTimeCompleteEvent = 53,
-  EventProtocolResponseSCombineUserMonsterPiecesEvent = 54,
-  EventProtocolResponseSSellUserMonsterEvent = 55,
-  EventProtocolResponseSInviteFbFriendsForSlotsEvent = 56,
-  EventProtocolResponseSAcceptAndRejectFbInviteForSlotsEvent = 57,
-  EventProtocolResponseSUpdateClientUserEvent = 101,
-  EventProtocolResponseSReferralCodeUsedEvent = 102,
-  EventProtocolResponseSPurgeStaticDataEvent = 103,
-  EventProtocolResponseSReceivedGroupChatEvent = 104,
-  EventProtocolResponseSSendAdminMessageEvent = 105,
-  EventProtocolResponseSGeneralNotificationEvent = 106,
-  EventProtocolResponseSReceivedRareBoosterPurchaseEvent = 107,
-} EventProtocolResponse;
+  MobstersEventProtocolResponseSStartupEvent = 1,
+  MobstersEventProtocolResponseSInAppPurchaseEvent = 2,
+  MobstersEventProtocolResponseSPurchaseNormStructureEvent = 3,
+  MobstersEventProtocolResponseSMoveOrRotateNormStructureEvent = 4,
+  MobstersEventProtocolResponseSSellNormStructureEvent = 5,
+  MobstersEventProtocolResponseSUpgradeNormStructureEvent = 6,
+  MobstersEventProtocolResponseSRetrieveCurrencyFromNormStructureEvent = 7,
+  MobstersEventProtocolResponseSFinishNormStructWaittimeWithDiamondsEvent = 8,
+  MobstersEventProtocolResponseSNormStructWaitCompleteEvent = 9,
+  MobstersEventProtocolResponseSLoadPlayerCityEvent = 10,
+  MobstersEventProtocolResponseSQuestAcceptEvent = 11,
+  MobstersEventProtocolResponseSQuestProgressEvent = 12,
+  MobstersEventProtocolResponseSQuestRedeemEvent = 13,
+  MobstersEventProtocolResponseSPurchaseCityExpansionEvent = 14,
+  MobstersEventProtocolResponseSExpansionWaitCompleteEvent = 15,
+  MobstersEventProtocolResponseSLevelUpEvent = 16,
+  MobstersEventProtocolResponseSEnableApnsEvent = 17,
+  MobstersEventProtocolResponseSUserCreateEvent = 18,
+  MobstersEventProtocolResponseSLoadCityEvent = 19,
+  MobstersEventProtocolResponseSRetrieveUsersForUserIdsEvent = 20,
+  MobstersEventProtocolResponseSEarnFreeDiamondsEvent = 21,
+  MobstersEventProtocolResponseSSendGroupChatEvent = 22,
+  MobstersEventProtocolResponseSCreateClanEvent = 23,
+  MobstersEventProtocolResponseSLeaveClanEvent = 24,
+  MobstersEventProtocolResponseSRequestJoinClanEvent = 25,
+  MobstersEventProtocolResponseSRetractRequestJoinClanEvent = 26,
+  MobstersEventProtocolResponseSApproveOrRejectRequestToJoinClanEvent = 27,
+  MobstersEventProtocolResponseSTransferClanOwnership = 28,
+  MobstersEventProtocolResponseSRetrieveClanInfoEvent = 29,
+  MobstersEventProtocolResponseSChangeClanDescriptionEvent = 30,
+  MobstersEventProtocolResponseSBootPlayerFromClanEvent = 31,
+  MobstersEventProtocolResponseSPickLockBoxEvent = 32,
+  MobstersEventProtocolResponseSRetrieveTournamentRankingsEvent = 33,
+  MobstersEventProtocolResponseSSubmitMonsterEnhancementEvent = 34,
+  MobstersEventProtocolResponseSPurchaseBoosterPackEvent = 35,
+  MobstersEventProtocolResponseSChangeClanJoinTypeEvent = 36,
+  MobstersEventProtocolResponseSPrivateChatPostEvent = 37,
+  MobstersEventProtocolResponseSRetrievePrivateChatPostEvent = 38,
+  MobstersEventProtocolResponseSRedeemUserLockBoxItemsEvent = 39,
+  MobstersEventProtocolResponseSBeginDungeonEvent = 40,
+  MobstersEventProtocolResponseSEndDungeonEvent = 41,
+  MobstersEventProtocolResponseSReviveInDungeonEvent = 42,
+  MobstersEventProtocolResponseSQueueUpEvent = 43,
+  MobstersEventProtocolResponseSUpdateMonsterHealthEvent = 44,
+  MobstersEventProtocolResponseSHealMonsterEvent = 45,
+  MobstersEventProtocolResponseSHealMonsterWaitTimeCompleteEvent = 46,
+  MobstersEventProtocolResponseSAddMonsterToBattleTeamEvent = 47,
+  MobstersEventProtocolResponseSRemoveMonsterFromBattleTeamEvent = 48,
+  MobstersEventProtocolResponseSIncreaseMonsterInventorySlotEvent = 49,
+  MobstersEventProtocolResponseSEnhancementWaitTimeCompleteEvent = 50,
+  MobstersEventProtocolResponseSCombineUserMonsterPiecesEvent = 51,
+  MobstersEventProtocolResponseSSellUserMonsterEvent = 52,
+  MobstersEventProtocolResponseSInviteFbFriendsForSlotsEvent = 53,
+  MobstersEventProtocolResponseSAcceptAndRejectFbInviteForSlotsEvent = 54,
+  MobstersEventProtocolResponseSUpdateClientUserEvent = 101,
+  MobstersEventProtocolResponseSReferralCodeUsedEvent = 102,
+  MobstersEventProtocolResponseSPurgeStaticDataEvent = 103,
+  MobstersEventProtocolResponseSReceivedGroupChatEvent = 104,
+  MobstersEventProtocolResponseSSendAdminMessageEvent = 105,
+  MobstersEventProtocolResponseSGeneralNotificationEvent = 106,
+  MobstersEventProtocolResponseSReceivedRareBoosterPurchaseEvent = 107,
+} MobstersEventProtocolResponse;
 
-BOOL EventProtocolResponseIsValidValue(EventProtocolResponse value);
+BOOL MobstersEventProtocolResponseIsValidValue(MobstersEventProtocolResponse value);
 
 
-@interface ProtocolsRoot : NSObject {
+@interface MobstersEventProtocolRoot : NSObject {
 }
 + (PBExtensionRegistry*) extensionRegistry;
 + (void) registerAllExtensions:(PBMutableExtensionRegistry*) registry;

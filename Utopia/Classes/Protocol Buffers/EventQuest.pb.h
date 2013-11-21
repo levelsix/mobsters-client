@@ -4,7 +4,7 @@
 
 #import "City.pb.h"
 #import "MonsterStuff.pb.h"
-#import "Quest.pb.h"
+#import "QuestStuff.pb.h"
 #import "User.pb.h"
 
 @class CityElementProto;
@@ -19,8 +19,6 @@
 @class DialogueProto_SpeechSegmentProto_Builder;
 @class FullCityProto;
 @class FullCityProto_Builder;
-@class FullQuestProto;
-@class FullQuestProto_Builder;
 @class FullStructureProto;
 @class FullStructureProto_Builder;
 @class FullUserMonsterProto;
@@ -51,6 +49,8 @@
 @class QuestProgressRequestProto_Builder;
 @class QuestProgressResponseProto;
 @class QuestProgressResponseProto_Builder;
+@class QuestProto;
+@class QuestProto_Builder;
 @class QuestRedeemRequestProto;
 @class QuestRedeemRequestProto_Builder;
 @class QuestRedeemResponseProto;
@@ -245,7 +245,7 @@ BOOL QuestRedeemResponseProto_QuestRedeemStatusIsValidValue(QuestRedeemResponseP
   int32_t questId;
   int32_t currentProgress;
   MinimumUserProto* sender;
-  NSMutableArray* mutableDeleteUserMonsterIdsList;
+  NSMutableArray* mutableDeleteUserMonsterUuidsList;
 }
 - (BOOL) hasSender;
 - (BOOL) hasQuestId;
@@ -255,8 +255,8 @@ BOOL QuestRedeemResponseProto_QuestRedeemStatusIsValidValue(QuestRedeemResponseP
 @property (readonly) int32_t questId;
 @property (readonly) int32_t currentProgress;
 - (BOOL) isComplete;
-- (NSArray*) deleteUserMonsterIdsList;
-- (int64_t) deleteUserMonsterIdsAtIndex:(int32_t) index;
+- (NSArray*) deleteUserMonsterUuidsList;
+- (NSString*) deleteUserMonsterUuidsAtIndex:(int32_t) index;
 
 + (QuestProgressRequestProto*) defaultInstance;
 - (QuestProgressRequestProto*) defaultInstance;
@@ -314,12 +314,12 @@ BOOL QuestRedeemResponseProto_QuestRedeemStatusIsValidValue(QuestRedeemResponseP
 - (QuestProgressRequestProto_Builder*) setIsComplete:(BOOL) value;
 - (QuestProgressRequestProto_Builder*) clearIsComplete;
 
-- (NSArray*) deleteUserMonsterIdsList;
-- (int64_t) deleteUserMonsterIdsAtIndex:(int32_t) index;
-- (QuestProgressRequestProto_Builder*) replaceDeleteUserMonsterIdsAtIndex:(int32_t) index with:(int64_t) value;
-- (QuestProgressRequestProto_Builder*) addDeleteUserMonsterIds:(int64_t) value;
-- (QuestProgressRequestProto_Builder*) addAllDeleteUserMonsterIds:(NSArray*) values;
-- (QuestProgressRequestProto_Builder*) clearDeleteUserMonsterIdsList;
+- (NSArray*) deleteUserMonsterUuidsList;
+- (NSString*) deleteUserMonsterUuidsAtIndex:(int32_t) index;
+- (QuestProgressRequestProto_Builder*) replaceDeleteUserMonsterUuidsAtIndex:(int32_t) index with:(NSString*) value;
+- (QuestProgressRequestProto_Builder*) addDeleteUserMonsterUuids:(NSString*) value;
+- (QuestProgressRequestProto_Builder*) addAllDeleteUserMonsterUuids:(NSArray*) values;
+- (QuestProgressRequestProto_Builder*) clearDeleteUserMonsterUuidsList;
 @end
 
 @interface QuestProgressResponseProto : PBGeneratedMessage {
@@ -461,7 +461,7 @@ BOOL QuestRedeemResponseProto_QuestRedeemStatusIsValidValue(QuestRedeemResponseP
 @property (readonly, retain) FullUserMonsterProto* fump;
 @property (readonly) int32_t questId;
 - (NSArray*) newlyAvailableQuestsList;
-- (FullQuestProto*) newlyAvailableQuestsAtIndex:(int32_t) index;
+- (QuestProto*) newlyAvailableQuestsAtIndex:(int32_t) index;
 
 + (QuestRedeemResponseProto*) defaultInstance;
 - (QuestRedeemResponseProto*) defaultInstance;
@@ -505,9 +505,9 @@ BOOL QuestRedeemResponseProto_QuestRedeemStatusIsValidValue(QuestRedeemResponseP
 - (QuestRedeemResponseProto_Builder*) clearSender;
 
 - (NSArray*) newlyAvailableQuestsList;
-- (FullQuestProto*) newlyAvailableQuestsAtIndex:(int32_t) index;
-- (QuestRedeemResponseProto_Builder*) replaceNewlyAvailableQuestsAtIndex:(int32_t) index with:(FullQuestProto*) value;
-- (QuestRedeemResponseProto_Builder*) addNewlyAvailableQuests:(FullQuestProto*) value;
+- (QuestProto*) newlyAvailableQuestsAtIndex:(int32_t) index;
+- (QuestRedeemResponseProto_Builder*) replaceNewlyAvailableQuestsAtIndex:(int32_t) index with:(QuestProto*) value;
+- (QuestRedeemResponseProto_Builder*) addNewlyAvailableQuests:(QuestProto*) value;
 - (QuestRedeemResponseProto_Builder*) addAllNewlyAvailableQuests:(NSArray*) values;
 - (QuestRedeemResponseProto_Builder*) clearNewlyAvailableQuestsList;
 

@@ -10,7 +10,6 @@
 #import "SocketCommunication.h"
 #import "Globals.h"
 #import "OutgoingEventController.h"
-#import "ActivityFeedController.h"
 #import "AppDelegate.h"
 #import "HomeMap.h"
 #import "ClanViewController.h"
@@ -42,7 +41,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
     _clanChatMessages = [[NSMutableArray alloc] init];
     _rareBoosterPurchases = [[NSMutableArray alloc] init];
     _monsterHealingQueue = [[NSMutableArray alloc] init];
-    _recentlyHealedMonsterIds = [[NSMutableSet alloc] init];
+    _recentlyHealedMonsterUuids = [[NSMutableSet alloc] init];
     _requestsFromFriends = [[NSMutableArray alloc] init];
     _usersUsedForExtraSlots = [[NSMutableArray alloc] init];
     _acceptedSlotsRequests = [[NSMutableArray alloc] init];
@@ -61,9 +60,13 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
 }
 
 - (void) updateUser:(FullUserProto *)user timestamp:(uint64_t)time {
+  if (!user.hasUserUuid) {
+    return;
+  }
+  
   // Copy over data from full user proto
-  if (_userId != user.userId || ![_name isEqualToString:user.name] || (user.hasClan && ![self.clan.data isEqualToData:user.clan.data]) || (!user.hasClan && self.clan)) {
-    self.userId = user.userId;
+  if (![self.userUuid isEqualToString:user.userUuid] || ![_name isEqualToString:user.name] || (user.hasClan && ![self.clan.data isEqualToData:user.clan.data]) || (!user.hasClan && self.clan)) {
+    self.userUuid = user.userUuid;
     self.name = user.name;
     if (user.hasClan) {
       self.clan = user.clan;
@@ -73,8 +76,8 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
     [[SocketCommunication sharedSocketCommunication] rebuildSender];
   }
   self.level = user.level;
-  self.gold = user.gems;
-  self.silver = user.cash;
+  self.gems = user.gems;
+  self.cash = user.cash;
   self.experience = user.experience;
   self.tasksCompleted = user.tasksCompleted;
   self.battlesWon = user.battlesWon;
@@ -103,12 +106,12 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
 
 - (FullUserProto *) convertToFullUserProto {
   FullUserProto_Builder *fup = [FullUserProto builder];
-  fup.userId = self.userId;
+  fup.userUuid = self.userUuid;
   fup.name = self.name;
   if (self.clan) fup.clan = self.clan;
   fup.level = self.level;
-  fup.gems = self.gold;
-  fup.cash = self.silver;
+  fup.gems = self.gems;
+  fup.cash = self.cash;
   fup.experience = self.experience;
   fup.tasksCompleted = self.tasksCompleted;
   fup.battlesWon = self.battlesWon;
@@ -129,7 +132,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
 }
 
 - (MinimumUserProto *) minUser {
-  MinimumUserProto_Builder *mup = [[[MinimumUserProto builder] setName:_name] setUserId:_userId];
+  MinimumUserProto_Builder *mup = [[[MinimumUserProto builder] setName:_name] setUserUuid:_userUuid];
   if (_clan != nil) {
     mup.clan = _clan;
   }
@@ -137,11 +140,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
 }
 
 - (MinimumUserProtoWithLevel *) minUserWithLevel {
-  MinimumUserProto_Builder *mup = [[[MinimumUserProto builder] setName:_name] setUserId:_userId];
-  if (_clan != nil) {
-    mup.clan = _clan;
-  }
-  MinimumUserProtoWithLevel *mupl = [[[[MinimumUserProtoWithLevel builder] setMinUserProto:mup.build] setLevel:_level] build];
+  MinimumUserProtoWithLevel *mupl = [[[[MinimumUserProtoWithLevel builder] setMinUserProto:[self minUser]] setLevel:_level] build];
   return mupl;
 }
 
@@ -215,20 +214,20 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
 
 - (void) addToAvailableQuests:(NSArray *)quests {
   if (quests.count > 0) {
-    for (FullQuestProto *fqp in quests) {
+    for (QuestProto *fqp in quests) {
       [self.availableQuests setObject:fqp forKey:[NSNumber numberWithInt:fqp.questId]];
     }
   }
 }
 
 - (void) addToInProgressCompleteQuests:(NSArray *)quests {
-  for (FullQuestProto *fqp in quests) {
+  for (QuestProto *fqp in quests) {
     [self.inProgressCompleteQuests setObject:fqp forKey:[NSNumber numberWithInt:fqp.questId]];
   }
 }
 
 - (void) addToInProgressIncompleteQuests:(NSArray *)quests {
-  for (FullQuestProto *fqp in quests) {
+  for (QuestProto *fqp in quests) {
     [self.inProgressIncompleteQuests setObject:fqp forKey:[NSNumber numberWithInt:fqp.questId]];
   }
 }
@@ -276,10 +275,6 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
   } else {
     un.hasBeenViewed = YES;
   }
-  
-  if ([ActivityFeedController isInitialized]) {
-    [[[ActivityFeedController sharedActivityFeedController] activityTableView] reloadData];
-  }
 }
 
 - (void) addChatMessage:(MinimumUserProtoWithLevel *)sender message:(NSString *)msg scope:(GroupChatScope)scope isAdmin:(BOOL)isAdmin {
@@ -301,11 +296,11 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
 }
 
 - (void) addPrivateChat:(PrivateChatPostProto *)post {
-  int userId = post.otherUserId;
+  NSString *userUuid = post.otherUserUuid;
   PrivateChatPostProto *privChat = nil;
   for (PrivateChatPostProto *pcpp in self.privateChats) {
-    int otherUserId = pcpp.otherUserId;
-    if (userId == otherUserId) {
+    NSString *otherUserUuid = pcpp.otherUserUuid;
+    if ([userUuid isEqualToString:otherUserUuid]) {
       privChat = pcpp;
     }
   }
@@ -313,7 +308,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
   [self.privateChats insertObject:post atIndex:0];
   
   [[NSNotificationCenter defaultCenter] postNotificationName:CHAT_RECEIVED_NOTIFICATION object:nil userInfo:
-   [NSDictionary dictionaryWithObject:post forKey:[NSString stringWithFormat:PRIVATE_CHAT_DEFAULTS_KEY, userId]]];
+   [NSDictionary dictionaryWithObject:post forKey:[NSString stringWithFormat:PRIVATE_CHAT_DEFAULTS_KEY, userUuid]]];
 }
 
 - (void) addBoosterPurchase:(RareBoosterPurchaseProto *)bp {
@@ -434,9 +429,9 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
   }
 }
 
-- (UserMonster *) myMonsterWithUserMonsterId:(int)userMonsterId {
+- (UserMonster *) myMonsterWithUserMonsterUuid:(NSString *)userMonsterUuid {
   for (UserMonster *um in self.myMonsters) {
-    if (userMonsterId == um.userMonsterId) {
+    if ([userMonsterUuid isEqualToString:um.userMonsterUuid]) {
       return um;
     }
   }
@@ -494,7 +489,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
   [arr addObjectsFromArray:self.inProgressCompleteQuests.allValues];
   [arr addObjectsFromArray:self.inProgressIncompleteQuests.allValues];
   
-  [arr sortUsingComparator:^NSComparisonResult(FullQuestProto *obj1, FullQuestProto *obj2) {
+  [arr sortUsingComparator:^NSComparisonResult(QuestProto *obj1, QuestProto *obj2) {
     int32_t p1 = obj1.priority == 0 ? INT32_MAX : obj1.priority;
     int32_t p2 = obj2.priority == 0 ? INT32_MAX : obj2.priority;
     if (p1 < p2) {
@@ -562,9 +557,9 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
   }
 }
 
-- (FullQuestProto *) questForId:(int)questId {
+- (QuestProto *) questForId:(int)questId {
   NSNumber *num = [NSNumber numberWithInt:questId];
-  FullQuestProto *fqp = [_availableQuests objectForKey:num];
+  QuestProto *fqp = [_availableQuests objectForKey:num];
   fqp = fqp ? fqp : [_inProgressCompleteQuests objectForKey:num];
   fqp = fqp ? fqp : [_inProgressIncompleteQuests objectForKey:num];
   return fqp;
@@ -869,7 +864,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
   NSMutableArray *arr = [NSMutableArray array];
   for (UserMonster *um in self.myMonsters) {
     if ([um isCombining] && um.timeLeftForCombining <= 0) {
-      [arr addObject:@(um.userMonsterId)];
+      [arr addObject:um.userMonsterUuid];
     }
   }
   
@@ -890,7 +885,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
 - (void) addToRequestedClans:(NSArray *)arr {
   for (FullUserClanProto *uc in arr) {
     if (uc.status == UserClanStatusRequesting) {
-      [self.requestedClans addObject:[NSNumber numberWithInt:uc.clanId]];
+      [self.requestedClans addObject:uc.clanUuid];
     }
   }
 }
@@ -943,7 +938,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
   self.userExpansions = nil;
   
   self.clan = nil;
-  self.userId = 0;
+  self.userUuid = nil;
 }
 
 @end

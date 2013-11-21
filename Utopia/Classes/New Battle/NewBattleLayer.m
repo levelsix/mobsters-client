@@ -601,7 +601,7 @@
   def.curHealth = newHealth;
   
   if (enemyIsAttacker) {
-    [[OutgoingEventController sharedOutgoingEventController] updateMonsterHealth:def.userMonsterId curHealth:def.curHealth];
+    [[OutgoingEventController sharedOutgoingEventController] updateMonsterHealth:def.userMonsterUuid curHealth:def.curHealth];
   }
 }
 
@@ -718,11 +718,11 @@
   [ed runAction:[CCSpawn actions:
                  [CCFadeIn actionWithDuration:0.1],
                  [CCScaleTo actionWithDuration:0.1 scale:scale],
-                 [CCRotateBy actionWithDuration:SILVER_STACK_BOUNCE_DURATION angle:DROP_ROTATION],
+                 [CCRotateBy actionWithDuration:LOOT_BOUNCE_DURATION angle:DROP_ROTATION],
                  [CCSequence actions:
-                  [CCMoveByCustom actionWithDuration:SILVER_STACK_BOUNCE_DURATION*0.2 position:ccp(0,20)],
+                  [CCMoveByCustom actionWithDuration:LOOT_BOUNCE_DURATION*0.2 position:ccp(0,20)],
                   [CCEaseBounceOut actionWithAction:
-                   [CCMoveByCustom actionWithDuration:SILVER_STACK_BOUNCE_DURATION*0.8 position:ccp(0,-5-self.currentEnemy.contentSize.height/2)]],
+                   [CCMoveByCustom actionWithDuration:LOOT_BOUNCE_DURATION*0.8 position:ccp(0,-5-self.currentEnemy.contentSize.height/2)]],
                   [CCMoveBy actionWithDuration:TIME_TO_SCROLL_PER_SCENE*distScale*POINT_OFFSET_PER_SCENE.y/Y_MOVEMENT_FOR_NEW_SCENE
                                       position:ccpMult(POINT_OFFSET_PER_SCENE, -distScale)],
                   [CCSpawn actions:bezierForward,

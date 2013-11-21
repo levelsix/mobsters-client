@@ -104,8 +104,8 @@
   [self.privateChatView updateForPrivateChatList:gs.privateChats];
   
   // Only add a private chat if it is from the other user
-  PrivateChatPostProto *pcpp = [notification.userInfo objectForKey:[NSString stringWithFormat:PRIVATE_CHAT_DEFAULTS_KEY, self.privateChatView.curUserId]];
-  if (pcpp.recipient.minUserProto.userId == gs.userId && pcpp.poster.minUserProto.userId == self.privateChatView.curUserId) {
+  PrivateChatPostProto *pcpp = [notification.userInfo objectForKey:[NSString stringWithFormat:PRIVATE_CHAT_DEFAULTS_KEY, self.privateChatView.curUserUuid]];
+  if (pcpp && [pcpp.recipient.minUserProto.userUuid isEqualToString:gs.userUuid] && [pcpp.poster.minUserProto.userUuid isEqualToString:self.privateChatView.curUserUuid]) {
     [self.privateChatView addPrivateChat:pcpp];
   }
 }
@@ -184,9 +184,9 @@
   self.isOpen = NO;
 }
 
-- (void) openWithConversationForUserId:(int)userId {
+- (void) openWithConversationForUserUuid:(NSString *)userUuid {
   [self button3Clicked];
-  [self.privateChatView openConversationWithUserId:userId animated:NO];
+  [self.privateChatView openConversationWithUserUuid:userUuid animated:NO];
   [self open];
 }
 
@@ -225,14 +225,14 @@
   MenuNavigationController *m = [[MenuNavigationController alloc] init];
   UIViewController *gvc = (UIViewController *)self.parentViewController;
   [gvc presentViewController:m animated:YES completion:nil];
-  [m pushViewController:[[ClanInfoViewController alloc] initWithClanId:clan.clanId andName:clan.name] animated:NO];
+  [m pushViewController:[[ClanInfoViewController alloc] initWithClanUuid:clan.clanUuid andName:clan.name] animated:NO];
   
   [self closeAnimated:YES];
 }
 
-- (void) profileClicked:(int)userId {
+- (void) profileClicked:(NSString *)userUuid {
   UIViewController *gvc = (UIViewController *)self.parentViewController;
-  ProfileViewController *pvc = [[ProfileViewController alloc] initWithUserId:userId];
+  ProfileViewController *pvc = [[ProfileViewController alloc] initWithUserUuid:userUuid];
   [gvc addChildViewController:pvc];
   pvc.view.frame = gvc.view.bounds;
   [gvc.view addSubview:pvc.view];

@@ -49,7 +49,7 @@
   } else {
     self.saveButtonView.hidden = YES;
     self.createButtonView.hidden = NO;
-    self.costLabel.text = [Globals cashStringForNumber:gl.coinPriceToCreateClan];
+    self.costLabel.text = [Globals cashStringForNumber:gl.cashPriceToCreateClan];
   }
 }
 
@@ -126,7 +126,7 @@
     [Globals popupMessage:@"You must enter a description."];
   } else if (name.length > gl.maxCharLengthForClanName || tag.length > gl.maxCharLengthForClanTag) {
     [Globals popupMessage:@"Name or tag is too long."];
-  } else if (gs.silver < gl.coinPriceToCreateClan) {
+  } else if (gs.cash < gl.cashPriceToCreateClan) {
 //    [[RefillMenuController sharedRefillMenuController] displayBuyGoldView:gl.diamondPriceToCreateClan];
   } else {
     [[OutgoingEventController sharedOutgoingEventController] createClan:name tag:tag description:description requestOnly:_isRequestType delegate:self.parentViewController];

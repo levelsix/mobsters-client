@@ -6,13 +6,13 @@
 //  Copyright (c) 2012 LVL6. All rights reserved.
 //
 
-#import "Protocols.pb.h"
+#import "MobstersEventProtocol.pb.h"
 #import "FullEvent.h"
 
 @interface IncomingEventController : NSObject
 
 + (IncomingEventController *) sharedIncomingEventController;
-- (Class) getClassForType: (EventProtocolResponse) type;
+- (Class) getClassForType: (MobstersEventProtocolResponse) type;
 
 - (void) handleStartupResponseProto:(FullEvent *)fe;
 

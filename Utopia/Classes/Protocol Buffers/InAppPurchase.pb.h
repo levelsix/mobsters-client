@@ -7,13 +7,13 @@
 @class InAppPurchasePackageProto;
 @class InAppPurchasePackageProto_Builder;
 typedef enum {
-  EarnFreeDiamondsTypeFbConnect = 1,
-  EarnFreeDiamondsTypeTapjoy = 2,
-  EarnFreeDiamondsTypeFlurryVideo = 3,
-  EarnFreeDiamondsTypeTwitter = 4,
-} EarnFreeDiamondsType;
+  EarnFreeGemsTypeFbConnect = 1,
+  EarnFreeGemsTypeTapjoy = 2,
+  EarnFreeGemsTypeFlurryVideo = 3,
+  EarnFreeGemsTypeTwitter = 4,
+} EarnFreeGemsType;
 
-BOOL EarnFreeDiamondsTypeIsValidValue(EarnFreeDiamondsType value);
+BOOL EarnFreeGemsTypeIsValidValue(EarnFreeGemsType value);
 
 
 @interface InAppPurchaseRoot : NSObject {
@@ -102,7 +102,7 @@ BOOL EarnFreeDiamondsTypeIsValidValue(EarnFreeDiamondsType value);
   BOOL hasIsBeginnerSale_:1;
   BOOL hasStartDate_:1;
   BOOL hasEndDate_:1;
-  BOOL hasSaleId_:1;
+  BOOL hasSaleUuid_:1;
   BOOL hasPackage1SaleIdentifier_:1;
   BOOL hasPackage2SaleIdentifier_:1;
   BOOL hasPackage3SaleIdentifier_:1;
@@ -118,7 +118,7 @@ BOOL EarnFreeDiamondsTypeIsValidValue(EarnFreeDiamondsType value);
   BOOL isBeginnerSale_:1;
   int64_t startDate;
   int64_t endDate;
-  int32_t saleId;
+  NSString* saleUuid;
   NSString* package1SaleIdentifier;
   NSString* package2SaleIdentifier;
   NSString* package3SaleIdentifier;
@@ -132,7 +132,7 @@ BOOL EarnFreeDiamondsTypeIsValidValue(EarnFreeDiamondsType value);
   NSString* packageS4SaleIdentifier;
   NSString* packageS5SaleIdentifier;
 }
-- (BOOL) hasSaleId;
+- (BOOL) hasSaleUuid;
 - (BOOL) hasStartDate;
 - (BOOL) hasEndDate;
 - (BOOL) hasPackage1SaleIdentifier;
@@ -148,7 +148,7 @@ BOOL EarnFreeDiamondsTypeIsValidValue(EarnFreeDiamondsType value);
 - (BOOL) hasPackageS4SaleIdentifier;
 - (BOOL) hasPackageS5SaleIdentifier;
 - (BOOL) hasIsBeginnerSale;
-@property (readonly) int32_t saleId;
+@property (readonly, retain) NSString* saleUuid;
 @property (readonly) int64_t startDate;
 @property (readonly) int64_t endDate;
 @property (readonly, retain) NSString* package1SaleIdentifier;
@@ -199,10 +199,10 @@ BOOL EarnFreeDiamondsTypeIsValidValue(EarnFreeDiamondsType value);
 - (GoldSaleProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input;
 - (GoldSaleProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
 
-- (BOOL) hasSaleId;
-- (int32_t) saleId;
-- (GoldSaleProto_Builder*) setSaleId:(int32_t) value;
-- (GoldSaleProto_Builder*) clearSaleId;
+- (BOOL) hasSaleUuid;
+- (NSString*) saleUuid;
+- (GoldSaleProto_Builder*) setSaleUuid:(NSString*) value;
+- (GoldSaleProto_Builder*) clearSaleUuid;
 
 - (BOOL) hasStartDate;
 - (int64_t) startDate;

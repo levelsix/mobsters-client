@@ -44,14 +44,14 @@ BOOL QueueUpResponseProto_QueueUpStatusIsValidValue(QueueUpResponseProto_QueueUp
   BOOL hasAttacker_:1;
   int64_t clientTime;
   MinimumUserProto* attacker;
-  NSMutableArray* mutableSeenUserIdsList;
+  NSMutableArray* mutableSeenUserUuidsList;
 }
 - (BOOL) hasAttacker;
 - (BOOL) hasClientTime;
 @property (readonly, retain) MinimumUserProto* attacker;
 @property (readonly) int64_t clientTime;
-- (NSArray*) seenUserIdsList;
-- (int32_t) seenUserIdsAtIndex:(int32_t) index;
+- (NSArray*) seenUserUuidsList;
+- (NSString*) seenUserUuidsAtIndex:(int32_t) index;
 
 + (QueueUpRequestProto*) defaultInstance;
 - (QueueUpRequestProto*) defaultInstance;
@@ -94,12 +94,12 @@ BOOL QueueUpResponseProto_QueueUpStatusIsValidValue(QueueUpResponseProto_QueueUp
 - (QueueUpRequestProto_Builder*) mergeAttacker:(MinimumUserProto*) value;
 - (QueueUpRequestProto_Builder*) clearAttacker;
 
-- (NSArray*) seenUserIdsList;
-- (int32_t) seenUserIdsAtIndex:(int32_t) index;
-- (QueueUpRequestProto_Builder*) replaceSeenUserIdsAtIndex:(int32_t) index with:(int32_t) value;
-- (QueueUpRequestProto_Builder*) addSeenUserIds:(int32_t) value;
-- (QueueUpRequestProto_Builder*) addAllSeenUserIds:(NSArray*) values;
-- (QueueUpRequestProto_Builder*) clearSeenUserIdsList;
+- (NSArray*) seenUserUuidsList;
+- (NSString*) seenUserUuidsAtIndex:(int32_t) index;
+- (QueueUpRequestProto_Builder*) replaceSeenUserUuidsAtIndex:(int32_t) index with:(NSString*) value;
+- (QueueUpRequestProto_Builder*) addSeenUserUuids:(NSString*) value;
+- (QueueUpRequestProto_Builder*) addAllSeenUserUuids:(NSArray*) values;
+- (QueueUpRequestProto_Builder*) clearSeenUserUuidsList;
 
 - (BOOL) hasClientTime;
 - (int64_t) clientTime;

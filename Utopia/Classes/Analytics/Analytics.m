@@ -26,14 +26,14 @@
 #define TOP_BAR_SHOP @"Viewed gold shop from top bar"
 
 #define GET_MORE_GOLD @"Clicked \"Get more gold\""
-#define GET_MORE_SILVER @"Clicked \"Go to Aviary\""
-#define NOT_ENOUGH_SILVER_ARMORY @"Armory: Not enough silver"
+#define GET_MORE_CASH @"Clicked \"Go to Aviary\""
+#define NOT_ENOUGH_CASH_ARMORY @"Armory: Not enough cash"
 #define NOT_ENOUGH_GOLD_ARMORY @"Armory: Not enough gold"
-#define NOT_ENOUGH_SILVER_UPGRADE @"Upgrade: Not enough silver"
+#define NOT_ENOUGH_CASH_UPGRADE @"Upgrade: Not enough cash"
 #define NOT_ENOUGH_GOLD_UPGRADE @"Upgrade: Not enough gold"
 #define NOT_ENOUGH_GOLD_TO_REFILL_STAMINA_POPUP @"Stamina Popup: Not enough gold"
 #define NOT_ENOUGH_GOLD_TO_REFILL_ENERGY_POPUP @"Energy Popup: Not enough gold"
-#define NOT_ENOUGH_SILVER_CARPENTER @"Carpenter: Not enough silver"
+#define NOT_ENOUGH_CASH_CARPENTER @"Carpenter: Not enough cash"
 #define NOT_ENOUGH_GOLD_CARPENTER @"Carpenter: Not enough gold"
 #define NOT_ENOUGH_GOLD_INSTA_BUILD @"Insta Build: Not enough gold"
 #define NOT_ENOUGH_GOLD_INSTA_UPGRADE @"Insta Upgrade: Not enough gold"
@@ -153,32 +153,32 @@
 + (void) clickedGetMoreGold:(int)goldAmt {
   GameState *gs = [GameState sharedGameState];
   NSDictionary *args = [NSDictionary dictionaryWithObjectsAndKeys:
-                        [NSNumber numberWithInt:goldAmt], @"gold needed",
-                        [NSNumber numberWithInt:gs.gold], @"current gold",
+                        [NSNumber numberWithInt:goldAmt], @"gems needed",
+                        [NSNumber numberWithInt:gs.gems], @"current gems",
                         nil];
   
   [Analytics event:GET_MORE_GOLD withArgs:args];
 }
 
-+ (void) clickedGetMoreSilver {
++ (void) clickedGetMoreCash {
   GameState *gs = [GameState sharedGameState];
   NSDictionary *args = [NSDictionary dictionaryWithObjectsAndKeys:
-                        [NSNumber numberWithInt:gs.silver], @"current silver",
+                        [NSNumber numberWithInt:gs.cash], @"current cash",
                         nil];
   
-  [Analytics event:GET_MORE_SILVER withArgs:args];
+  [Analytics event:GET_MORE_CASH withArgs:args];
 }
 
-+ (void) notEnoughSilverInCarpenter:(int)structId {
++ (void) notEnoughCashInCarpenter:(int)structId {
   GameState *gs = [GameState sharedGameState];
   FullStructureProto *fsp = [gs structWithId:structId];
   NSDictionary *args = [NSDictionary dictionaryWithObjectsAndKeys:
                         [NSNumber numberWithInt:structId], @"struct id",
-                        [NSNumber numberWithInt:gs.silver], @"current silver",
-                        [NSNumber numberWithInt:fsp.buildPrice], @"silver needed",
+                        [NSNumber numberWithInt:gs.cash], @"current cash",
+                        [NSNumber numberWithInt:fsp.buildPrice], @"cash needed",
                         nil];
   
-  [Analytics event:NOT_ENOUGH_SILVER_ARMORY withArgs:args];
+  [Analytics event:NOT_ENOUGH_CASH_ARMORY withArgs:args];
 }
 
 + (void) notEnoughGoldInCarpenter:(int)structId {
@@ -186,29 +186,29 @@
   FullStructureProto *fsp = [gs structWithId:structId];
   NSDictionary *args = [NSDictionary dictionaryWithObjectsAndKeys:
                         [NSNumber numberWithInt:structId], @"struct id",
-                        [NSNumber numberWithInt:gs.gold], @"current gold",
-                        [NSNumber numberWithInt:fsp.buildPrice], @"gold needed",
+                        [NSNumber numberWithInt:gs.gems], @"current gold",
+                        [NSNumber numberWithInt:fsp.buildPrice], @"gems needed",
                         nil];
   
   [Analytics event:NOT_ENOUGH_GOLD_ARMORY withArgs:args];
 }
 
-+ (void) notEnoughSilverForUpgrade:(int)structId cost:(int)cost {
++ (void) notEnoughCashForUpgrade:(int)structId cost:(int)cost {
   GameState *gs = [GameState sharedGameState];
   NSDictionary *args = [NSDictionary dictionaryWithObjectsAndKeys:
                         [NSNumber numberWithInt:structId], @"struct id",
-                        [NSNumber numberWithInt:gs.silver], @"current silver",
-                        [NSNumber numberWithInt:cost], @"silver needed",
+                        [NSNumber numberWithInt:gs.cash], @"current cash",
+                        [NSNumber numberWithInt:cost], @"cash needed",
                         nil];
   
-  [Analytics event:NOT_ENOUGH_SILVER_UPGRADE withArgs:args];
+  [Analytics event:NOT_ENOUGH_CASH_UPGRADE withArgs:args];
 }
 
 + (void) notEnoughGoldForUpgrade:(int)structId cost:(int)cost {
   GameState *gs = [GameState sharedGameState];
   NSDictionary *args = [NSDictionary dictionaryWithObjectsAndKeys:
                         [NSNumber numberWithInt:structId], @"struct id",
-                        [NSNumber numberWithInt:gs.gold], @"current gold",
+                        [NSNumber numberWithInt:gs.gems], @"current gold",
                         [NSNumber numberWithInt:cost], @"gold needed",
                         nil];
   
@@ -220,7 +220,7 @@
   NSDictionary *args = [NSDictionary dictionaryWithObjectsAndKeys:
                         [NSNumber numberWithInt:structId], @"struct id",
                         [NSNumber numberWithInt:level], @"current level",
-                        [NSNumber numberWithInt:gs.gold], @"current gold",
+                        [NSNumber numberWithInt:gs.gems], @"current gold",
                         [NSNumber numberWithInt:cost], @"gold needed",
                         nil];
   

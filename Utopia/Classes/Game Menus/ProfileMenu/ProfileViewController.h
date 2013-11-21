@@ -7,7 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "Protocols.pb.h"
+#import "MobstersEventProtocol.pb.h"
 #import "NibUtils.h"
 #import "MonsterCardView.h"
 
@@ -27,7 +27,7 @@
 @property (nonatomic, strong) FullUserProto *fup;
 @property (nonatomic, copy) NSArray *curTeam;
 
-- (id)initWithUserId:(int)userId;
+- (id)initWithUserUuid:(NSString *)userUuid;
 - (id)initWithFullUserProto:(FullUserProto *)fup andCurrentTeam:(NSArray *)curTeam;
 - (IBAction)message:(id)sender;
 - (IBAction)close:(id)sender;

@@ -11,7 +11,7 @@
 
 @protocol ChatViewDelegate <NSObject>
 
-- (void) profileClicked:(int)userId;
+- (void) profileClicked:(NSString *)userUuid;
 - (void) clanClicked:(MinimumClanProto *)clan;
 
 @end
@@ -60,7 +60,7 @@
   BOOL _isLoading;
 }
 
-@property (nonatomic, assign) int curUserId;
+@property (nonatomic, copy) NSString *curUserUuid;
 
 @property (nonatomic, retain) IBOutlet UITableView *listTable;
 @property (nonatomic, retain) IBOutlet PrivateChatListCell *listCell;
@@ -75,7 +75,7 @@
 - (void) updateForPrivateChatList:(NSArray *)privateChats;
 - (void) loadListViewAnimated:(BOOL)animated;
 - (void) loadConversationViewAnimated:(BOOL)animated;
-- (void) openConversationWithUserId:(int)userId animated:(BOOL)animated;
+- (void) openConversationWithUserUuid:(NSString *)userUuid animated:(BOOL)animated;
 - (IBAction)backClicked:(id)sender;
 
 @end

@@ -7,7 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "Protocols.pb.h"
+#import "MobstersEventProtocol.pb.h"
 #import "RewardsView.h"
 #import "NibUtils.h"
 #import "UserData.h"

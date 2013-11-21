@@ -8,7 +8,7 @@
 
 #import "cocos2d.h"
 #import "MapSprite.h"
-#import "Protocols.pb.h"
+#import "MobstersEventProtocol.pb.h"
 #import "UserData.h"
 
 #define ABOVE_HEAD_FADE_DURATION 1.5f

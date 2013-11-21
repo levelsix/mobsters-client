@@ -5,7 +5,7 @@
 #import "BoosterPackStuff.pb.h"
 #import "City.pb.h"
 #import "MonsterStuff.pb.h"
-#import "Quest.pb.h"
+#import "QuestStuff.pb.h"
 #import "Structure.pb.h"
 #import "Task.pb.h"
 #import "User.pb.h"
@@ -28,8 +28,6 @@
 @class DialogueProto_SpeechSegmentProto_Builder;
 @class FullCityProto;
 @class FullCityProto_Builder;
-@class FullQuestProto;
-@class FullQuestProto_Builder;
 @class FullStructureProto;
 @class FullStructureProto_Builder;
 @class FullTaskProto;
@@ -56,6 +54,8 @@
 @class MinimumUserTaskProto_Builder;
 @class MonsterProto;
 @class MonsterProto_Builder;
+@class QuestProto;
+@class QuestProto_Builder;
 @class RareBoosterPurchaseProto;
 @class RareBoosterPurchaseProto_Builder;
 @class StaticDataProto;
@@ -130,11 +130,11 @@ BOOL StaticDataProto_RetrieveStaticDataStatusIsValidValue(StaticDataProto_Retrie
 - (NSArray*) slipList;
 - (StaticUserLevelInfoProto*) slipAtIndex:(int32_t) index;
 - (NSArray*) inProgressQuestsList;
-- (FullQuestProto*) inProgressQuestsAtIndex:(int32_t) index;
+- (QuestProto*) inProgressQuestsAtIndex:(int32_t) index;
 - (NSArray*) unredeemedQuestsList;
-- (FullQuestProto*) unredeemedQuestsAtIndex:(int32_t) index;
+- (QuestProto*) unredeemedQuestsAtIndex:(int32_t) index;
 - (NSArray*) availableQuestsList;
-- (FullQuestProto*) availableQuestsAtIndex:(int32_t) index;
+- (QuestProto*) availableQuestsAtIndex:(int32_t) index;
 - (NSArray*) boosterPacksList;
 - (BoosterPackProto*) boosterPacksAtIndex:(int32_t) index;
 
@@ -222,23 +222,23 @@ BOOL StaticDataProto_RetrieveStaticDataStatusIsValidValue(StaticDataProto_Retrie
 - (StaticDataProto_Builder*) clearSlipList;
 
 - (NSArray*) inProgressQuestsList;
-- (FullQuestProto*) inProgressQuestsAtIndex:(int32_t) index;
-- (StaticDataProto_Builder*) replaceInProgressQuestsAtIndex:(int32_t) index with:(FullQuestProto*) value;
-- (StaticDataProto_Builder*) addInProgressQuests:(FullQuestProto*) value;
+- (QuestProto*) inProgressQuestsAtIndex:(int32_t) index;
+- (StaticDataProto_Builder*) replaceInProgressQuestsAtIndex:(int32_t) index with:(QuestProto*) value;
+- (StaticDataProto_Builder*) addInProgressQuests:(QuestProto*) value;
 - (StaticDataProto_Builder*) addAllInProgressQuests:(NSArray*) values;
 - (StaticDataProto_Builder*) clearInProgressQuestsList;
 
 - (NSArray*) unredeemedQuestsList;
-- (FullQuestProto*) unredeemedQuestsAtIndex:(int32_t) index;
-- (StaticDataProto_Builder*) replaceUnredeemedQuestsAtIndex:(int32_t) index with:(FullQuestProto*) value;
-- (StaticDataProto_Builder*) addUnredeemedQuests:(FullQuestProto*) value;
+- (QuestProto*) unredeemedQuestsAtIndex:(int32_t) index;
+- (StaticDataProto_Builder*) replaceUnredeemedQuestsAtIndex:(int32_t) index with:(QuestProto*) value;
+- (StaticDataProto_Builder*) addUnredeemedQuests:(QuestProto*) value;
 - (StaticDataProto_Builder*) addAllUnredeemedQuests:(NSArray*) values;
 - (StaticDataProto_Builder*) clearUnredeemedQuestsList;
 
 - (NSArray*) availableQuestsList;
-- (FullQuestProto*) availableQuestsAtIndex:(int32_t) index;
-- (StaticDataProto_Builder*) replaceAvailableQuestsAtIndex:(int32_t) index with:(FullQuestProto*) value;
-- (StaticDataProto_Builder*) addAvailableQuests:(FullQuestProto*) value;
+- (QuestProto*) availableQuestsAtIndex:(int32_t) index;
+- (StaticDataProto_Builder*) replaceAvailableQuestsAtIndex:(int32_t) index with:(QuestProto*) value;
+- (StaticDataProto_Builder*) addAvailableQuests:(QuestProto*) value;
 - (StaticDataProto_Builder*) addAllAvailableQuests:(NSArray*) values;
 - (StaticDataProto_Builder*) clearAvailableQuestsList;
 

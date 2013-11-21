@@ -22,8 +22,6 @@
 @class DialogueProto_SpeechSegmentProto_Builder;
 @class FullCityProto;
 @class FullCityProto_Builder;
-@class FullQuestProto;
-@class FullQuestProto_Builder;
 @class FullStructureProto;
 @class FullStructureProto_Builder;
 @class FullTaskProto;
@@ -52,6 +50,8 @@
 @class MonsterProto_Builder;
 @class PurgeClientStaticDataResponseProto;
 @class PurgeClientStaticDataResponseProto_Builder;
+@class QuestProto;
+@class QuestProto_Builder;
 @class RareBoosterPurchaseProto;
 @class RareBoosterPurchaseProto_Builder;
 @class StaticDataProto;
@@ -87,14 +87,14 @@
 
 @interface PurgeClientStaticDataResponseProto : PBGeneratedMessage {
 @private
-  BOOL hasSenderId_:1;
+  BOOL hasSenderUuid_:1;
   BOOL hasStaticDataStuff_:1;
-  int32_t senderId;
+  NSString* senderUuid;
   StaticDataProto* staticDataStuff;
 }
-- (BOOL) hasSenderId;
+- (BOOL) hasSenderUuid;
 - (BOOL) hasStaticDataStuff;
-@property (readonly) int32_t senderId;
+@property (readonly, retain) NSString* senderUuid;
 @property (readonly, retain) StaticDataProto* staticDataStuff;
 
 + (PurgeClientStaticDataResponseProto*) defaultInstance;
@@ -131,10 +131,10 @@
 - (PurgeClientStaticDataResponseProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input;
 - (PurgeClientStaticDataResponseProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
 
-- (BOOL) hasSenderId;
-- (int32_t) senderId;
-- (PurgeClientStaticDataResponseProto_Builder*) setSenderId:(int32_t) value;
-- (PurgeClientStaticDataResponseProto_Builder*) clearSenderId;
+- (BOOL) hasSenderUuid;
+- (NSString*) senderUuid;
+- (PurgeClientStaticDataResponseProto_Builder*) setSenderUuid:(NSString*) value;
+- (PurgeClientStaticDataResponseProto_Builder*) clearSenderUuid;
 
 - (BOOL) hasStaticDataStuff;
 - (StaticDataProto*) staticDataStuff;

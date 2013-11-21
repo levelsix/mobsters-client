@@ -22,19 +22,19 @@ static PBExtensionRegistry* extensionRegistry = nil;
 @end
 
 @interface SendAdminMessageResponseProto ()
-@property int32_t senderId;
+@property (retain) NSString* senderUuid;
 @property (retain) NSString* message;
 @end
 
 @implementation SendAdminMessageResponseProto
 
-- (BOOL) hasSenderId {
-  return !!hasSenderId_;
+- (BOOL) hasSenderUuid {
+  return !!hasSenderUuid_;
 }
-- (void) setHasSenderId:(BOOL) value {
-  hasSenderId_ = !!value;
+- (void) setHasSenderUuid:(BOOL) value {
+  hasSenderUuid_ = !!value;
 }
-@synthesize senderId;
+@synthesize senderUuid;
 - (BOOL) hasMessage {
   return !!hasMessage_;
 }
@@ -43,12 +43,13 @@ static PBExtensionRegistry* extensionRegistry = nil;
 }
 @synthesize message;
 - (void) dealloc {
+  self.senderUuid = nil;
   self.message = nil;
   [super dealloc];
 }
 - (id) init {
   if ((self = [super init])) {
-    self.senderId = 0;
+    self.senderUuid = @"";
     self.message = @"";
   }
   return self;
@@ -69,8 +70,8 @@ static SendAdminMessageResponseProto* defaultSendAdminMessageResponseProtoInstan
   return YES;
 }
 - (void) writeToCodedOutputStream:(PBCodedOutputStream*) output {
-  if (self.hasSenderId) {
-    [output writeInt32:1 value:self.senderId];
+  if (self.hasSenderUuid) {
+    [output writeString:1 value:self.senderUuid];
   }
   if (self.hasMessage) {
     [output writeString:2 value:self.message];
@@ -84,8 +85,8 @@ static SendAdminMessageResponseProto* defaultSendAdminMessageResponseProtoInstan
   }
 
   size = 0;
-  if (self.hasSenderId) {
-    size += computeInt32Size(1, self.senderId);
+  if (self.hasSenderUuid) {
+    size += computeStringSize(1, self.senderUuid);
   }
   if (self.hasMessage) {
     size += computeStringSize(2, self.message);
@@ -165,8 +166,8 @@ static SendAdminMessageResponseProto* defaultSendAdminMessageResponseProtoInstan
   if (other == [SendAdminMessageResponseProto defaultInstance]) {
     return self;
   }
-  if (other.hasSenderId) {
-    [self setSenderId:other.senderId];
+  if (other.hasSenderUuid) {
+    [self setSenderUuid:other.senderUuid];
   }
   if (other.hasMessage) {
     [self setMessage:other.message];
@@ -192,8 +193,8 @@ static SendAdminMessageResponseProto* defaultSendAdminMessageResponseProtoInstan
         }
         break;
       }
-      case 8: {
-        [self setSenderId:[input readInt32]];
+      case 10: {
+        [self setSenderUuid:[input readString]];
         break;
       }
       case 18: {
@@ -203,20 +204,20 @@ static SendAdminMessageResponseProto* defaultSendAdminMessageResponseProtoInstan
     }
   }
 }
-- (BOOL) hasSenderId {
-  return result.hasSenderId;
+- (BOOL) hasSenderUuid {
+  return result.hasSenderUuid;
 }
-- (int32_t) senderId {
-  return result.senderId;
+- (NSString*) senderUuid {
+  return result.senderUuid;
 }
-- (SendAdminMessageResponseProto_Builder*) setSenderId:(int32_t) value {
-  result.hasSenderId = YES;
-  result.senderId = value;
+- (SendAdminMessageResponseProto_Builder*) setSenderUuid:(NSString*) value {
+  result.hasSenderUuid = YES;
+  result.senderUuid = value;
   return self;
 }
-- (SendAdminMessageResponseProto_Builder*) clearSenderId {
-  result.hasSenderId = NO;
-  result.senderId = 0;
+- (SendAdminMessageResponseProto_Builder*) clearSenderUuid {
+  result.hasSenderUuid = NO;
+  result.senderUuid = @"";
   return self;
 }
 - (BOOL) hasMessage {
@@ -1404,7 +1405,7 @@ static ReceivedGroupChatResponseProto* defaultReceivedGroupChatResponseProtoInst
 
 @interface PrivateChatPostRequestProto ()
 @property (retain) MinimumUserProto* sender;
-@property int32_t recipientId;
+@property (retain) NSString* recipientUuid;
 @property (retain) NSString* content;
 @end
 
@@ -1417,13 +1418,13 @@ static ReceivedGroupChatResponseProto* defaultReceivedGroupChatResponseProtoInst
   hasSender_ = !!value;
 }
 @synthesize sender;
-- (BOOL) hasRecipientId {
-  return !!hasRecipientId_;
+- (BOOL) hasRecipientUuid {
+  return !!hasRecipientUuid_;
 }
-- (void) setHasRecipientId:(BOOL) value {
-  hasRecipientId_ = !!value;
+- (void) setHasRecipientUuid:(BOOL) value {
+  hasRecipientUuid_ = !!value;
 }
-@synthesize recipientId;
+@synthesize recipientUuid;
 - (BOOL) hasContent {
   return !!hasContent_;
 }
@@ -1433,13 +1434,14 @@ static ReceivedGroupChatResponseProto* defaultReceivedGroupChatResponseProtoInst
 @synthesize content;
 - (void) dealloc {
   self.sender = nil;
+  self.recipientUuid = nil;
   self.content = nil;
   [super dealloc];
 }
 - (id) init {
   if ((self = [super init])) {
     self.sender = [MinimumUserProto defaultInstance];
-    self.recipientId = 0;
+    self.recipientUuid = @"";
     self.content = @"";
   }
   return self;
@@ -1463,8 +1465,8 @@ static PrivateChatPostRequestProto* defaultPrivateChatPostRequestProtoInstance =
   if (self.hasSender) {
     [output writeMessage:1 value:self.sender];
   }
-  if (self.hasRecipientId) {
-    [output writeInt32:2 value:self.recipientId];
+  if (self.hasRecipientUuid) {
+    [output writeString:2 value:self.recipientUuid];
   }
   if (self.hasContent) {
     [output writeString:3 value:self.content];
@@ -1481,8 +1483,8 @@ static PrivateChatPostRequestProto* defaultPrivateChatPostRequestProtoInstance =
   if (self.hasSender) {
     size += computeMessageSize(1, self.sender);
   }
-  if (self.hasRecipientId) {
-    size += computeInt32Size(2, self.recipientId);
+  if (self.hasRecipientUuid) {
+    size += computeStringSize(2, self.recipientUuid);
   }
   if (self.hasContent) {
     size += computeStringSize(3, self.content);
@@ -1565,8 +1567,8 @@ static PrivateChatPostRequestProto* defaultPrivateChatPostRequestProtoInstance =
   if (other.hasSender) {
     [self mergeSender:other.sender];
   }
-  if (other.hasRecipientId) {
-    [self setRecipientId:other.recipientId];
+  if (other.hasRecipientUuid) {
+    [self setRecipientUuid:other.recipientUuid];
   }
   if (other.hasContent) {
     [self setContent:other.content];
@@ -1601,8 +1603,8 @@ static PrivateChatPostRequestProto* defaultPrivateChatPostRequestProtoInstance =
         [self setSender:[subBuilder buildPartial]];
         break;
       }
-      case 16: {
-        [self setRecipientId:[input readInt32]];
+      case 18: {
+        [self setRecipientUuid:[input readString]];
         break;
       }
       case 26: {
@@ -1642,20 +1644,20 @@ static PrivateChatPostRequestProto* defaultPrivateChatPostRequestProtoInstance =
   result.sender = [MinimumUserProto defaultInstance];
   return self;
 }
-- (BOOL) hasRecipientId {
-  return result.hasRecipientId;
+- (BOOL) hasRecipientUuid {
+  return result.hasRecipientUuid;
 }
-- (int32_t) recipientId {
-  return result.recipientId;
+- (NSString*) recipientUuid {
+  return result.recipientUuid;
 }
-- (PrivateChatPostRequestProto_Builder*) setRecipientId:(int32_t) value {
-  result.hasRecipientId = YES;
-  result.recipientId = value;
+- (PrivateChatPostRequestProto_Builder*) setRecipientUuid:(NSString*) value {
+  result.hasRecipientUuid = YES;
+  result.recipientUuid = value;
   return self;
 }
-- (PrivateChatPostRequestProto_Builder*) clearRecipientId {
-  result.hasRecipientId = NO;
-  result.recipientId = 0;
+- (PrivateChatPostRequestProto_Builder*) clearRecipientUuid {
+  result.hasRecipientUuid = NO;
+  result.recipientUuid = @"";
   return self;
 }
 - (BOOL) hasContent {
@@ -1988,8 +1990,7 @@ BOOL PrivateChatPostResponseProto_PrivateChatPostStatusIsValidValue(PrivateChatP
 
 @interface RetrievePrivateChatPostsRequestProto ()
 @property (retain) MinimumUserProto* sender;
-@property int32_t otherUserId;
-@property int32_t beforePrivateChatId;
+@property (retain) NSString* otherUserUuid;
 @end
 
 @implementation RetrievePrivateChatPostsRequestProto
@@ -2001,29 +2002,22 @@ BOOL PrivateChatPostResponseProto_PrivateChatPostStatusIsValidValue(PrivateChatP
   hasSender_ = !!value;
 }
 @synthesize sender;
-- (BOOL) hasOtherUserId {
-  return !!hasOtherUserId_;
+- (BOOL) hasOtherUserUuid {
+  return !!hasOtherUserUuid_;
 }
-- (void) setHasOtherUserId:(BOOL) value {
-  hasOtherUserId_ = !!value;
+- (void) setHasOtherUserUuid:(BOOL) value {
+  hasOtherUserUuid_ = !!value;
 }
-@synthesize otherUserId;
-- (BOOL) hasBeforePrivateChatId {
-  return !!hasBeforePrivateChatId_;
-}
-- (void) setHasBeforePrivateChatId:(BOOL) value {
-  hasBeforePrivateChatId_ = !!value;
-}
-@synthesize beforePrivateChatId;
+@synthesize otherUserUuid;
 - (void) dealloc {
   self.sender = nil;
+  self.otherUserUuid = nil;
   [super dealloc];
 }
 - (id) init {
   if ((self = [super init])) {
     self.sender = [MinimumUserProto defaultInstance];
-    self.otherUserId = 0;
-    self.beforePrivateChatId = 0;
+    self.otherUserUuid = @"";
   }
   return self;
 }
@@ -2046,11 +2040,8 @@ static RetrievePrivateChatPostsRequestProto* defaultRetrievePrivateChatPostsRequ
   if (self.hasSender) {
     [output writeMessage:1 value:self.sender];
   }
-  if (self.hasOtherUserId) {
-    [output writeInt32:2 value:self.otherUserId];
-  }
-  if (self.hasBeforePrivateChatId) {
-    [output writeInt32:3 value:self.beforePrivateChatId];
+  if (self.hasOtherUserUuid) {
+    [output writeString:2 value:self.otherUserUuid];
   }
   [self.unknownFields writeToCodedOutputStream:output];
 }
@@ -2064,11 +2055,8 @@ static RetrievePrivateChatPostsRequestProto* defaultRetrievePrivateChatPostsRequ
   if (self.hasSender) {
     size += computeMessageSize(1, self.sender);
   }
-  if (self.hasOtherUserId) {
-    size += computeInt32Size(2, self.otherUserId);
-  }
-  if (self.hasBeforePrivateChatId) {
-    size += computeInt32Size(3, self.beforePrivateChatId);
+  if (self.hasOtherUserUuid) {
+    size += computeStringSize(2, self.otherUserUuid);
   }
   size += self.unknownFields.serializedSize;
   memoizedSerializedSize = size;
@@ -2148,11 +2136,8 @@ static RetrievePrivateChatPostsRequestProto* defaultRetrievePrivateChatPostsRequ
   if (other.hasSender) {
     [self mergeSender:other.sender];
   }
-  if (other.hasOtherUserId) {
-    [self setOtherUserId:other.otherUserId];
-  }
-  if (other.hasBeforePrivateChatId) {
-    [self setBeforePrivateChatId:other.beforePrivateChatId];
+  if (other.hasOtherUserUuid) {
+    [self setOtherUserUuid:other.otherUserUuid];
   }
   [self mergeUnknownFields:other.unknownFields];
   return self;
@@ -2184,12 +2169,8 @@ static RetrievePrivateChatPostsRequestProto* defaultRetrievePrivateChatPostsRequ
         [self setSender:[subBuilder buildPartial]];
         break;
       }
-      case 16: {
-        [self setOtherUserId:[input readInt32]];
-        break;
-      }
-      case 24: {
-        [self setBeforePrivateChatId:[input readInt32]];
+      case 18: {
+        [self setOtherUserUuid:[input readString]];
         break;
       }
     }
@@ -2225,36 +2206,20 @@ static RetrievePrivateChatPostsRequestProto* defaultRetrievePrivateChatPostsRequ
   result.sender = [MinimumUserProto defaultInstance];
   return self;
 }
-- (BOOL) hasOtherUserId {
-  return result.hasOtherUserId;
+- (BOOL) hasOtherUserUuid {
+  return result.hasOtherUserUuid;
 }
-- (int32_t) otherUserId {
-  return result.otherUserId;
+- (NSString*) otherUserUuid {
+  return result.otherUserUuid;
 }
-- (RetrievePrivateChatPostsRequestProto_Builder*) setOtherUserId:(int32_t) value {
-  result.hasOtherUserId = YES;
-  result.otherUserId = value;
+- (RetrievePrivateChatPostsRequestProto_Builder*) setOtherUserUuid:(NSString*) value {
+  result.hasOtherUserUuid = YES;
+  result.otherUserUuid = value;
   return self;
 }
-- (RetrievePrivateChatPostsRequestProto_Builder*) clearOtherUserId {
-  result.hasOtherUserId = NO;
-  result.otherUserId = 0;
-  return self;
-}
-- (BOOL) hasBeforePrivateChatId {
-  return result.hasBeforePrivateChatId;
-}
-- (int32_t) beforePrivateChatId {
-  return result.beforePrivateChatId;
-}
-- (RetrievePrivateChatPostsRequestProto_Builder*) setBeforePrivateChatId:(int32_t) value {
-  result.hasBeforePrivateChatId = YES;
-  result.beforePrivateChatId = value;
-  return self;
-}
-- (RetrievePrivateChatPostsRequestProto_Builder*) clearBeforePrivateChatId {
-  result.hasBeforePrivateChatId = NO;
-  result.beforePrivateChatId = 0;
+- (RetrievePrivateChatPostsRequestProto_Builder*) clearOtherUserUuid {
+  result.hasOtherUserUuid = NO;
+  result.otherUserUuid = @"";
   return self;
 }
 @end
@@ -2262,9 +2227,8 @@ static RetrievePrivateChatPostsRequestProto* defaultRetrievePrivateChatPostsRequ
 @interface RetrievePrivateChatPostsResponseProto ()
 @property (retain) MinimumUserProto* sender;
 @property (retain) NSMutableArray* mutablePostsList;
-@property int32_t beforePrivateChatId;
 @property RetrievePrivateChatPostsResponseProto_RetrievePrivateChatPostsStatus status;
-@property int32_t otherUserId;
+@property (retain) NSString* otherUserUuid;
 @end
 
 @implementation RetrievePrivateChatPostsResponseProto
@@ -2277,13 +2241,6 @@ static RetrievePrivateChatPostsRequestProto* defaultRetrievePrivateChatPostsRequ
 }
 @synthesize sender;
 @synthesize mutablePostsList;
-- (BOOL) hasBeforePrivateChatId {
-  return !!hasBeforePrivateChatId_;
-}
-- (void) setHasBeforePrivateChatId:(BOOL) value {
-  hasBeforePrivateChatId_ = !!value;
-}
-@synthesize beforePrivateChatId;
 - (BOOL) hasStatus {
   return !!hasStatus_;
 }
@@ -2291,24 +2248,24 @@ static RetrievePrivateChatPostsRequestProto* defaultRetrievePrivateChatPostsRequ
   hasStatus_ = !!value;
 }
 @synthesize status;
-- (BOOL) hasOtherUserId {
-  return !!hasOtherUserId_;
+- (BOOL) hasOtherUserUuid {
+  return !!hasOtherUserUuid_;
 }
-- (void) setHasOtherUserId:(BOOL) value {
-  hasOtherUserId_ = !!value;
+- (void) setHasOtherUserUuid:(BOOL) value {
+  hasOtherUserUuid_ = !!value;
 }
-@synthesize otherUserId;
+@synthesize otherUserUuid;
 - (void) dealloc {
   self.sender = nil;
   self.mutablePostsList = nil;
+  self.otherUserUuid = nil;
   [super dealloc];
 }
 - (id) init {
   if ((self = [super init])) {
     self.sender = [MinimumUserProto defaultInstance];
-    self.beforePrivateChatId = 0;
     self.status = RetrievePrivateChatPostsResponseProto_RetrievePrivateChatPostsStatusSuccess;
-    self.otherUserId = 0;
+    self.otherUserUuid = @"";
   }
   return self;
 }
@@ -2341,14 +2298,11 @@ static RetrievePrivateChatPostsResponseProto* defaultRetrievePrivateChatPostsRes
   for (GroupChatMessageProto* element in self.postsList) {
     [output writeMessage:2 value:element];
   }
-  if (self.hasBeforePrivateChatId) {
-    [output writeInt32:3 value:self.beforePrivateChatId];
-  }
   if (self.hasStatus) {
     [output writeEnum:4 value:self.status];
   }
-  if (self.hasOtherUserId) {
-    [output writeInt32:5 value:self.otherUserId];
+  if (self.hasOtherUserUuid) {
+    [output writeString:5 value:self.otherUserUuid];
   }
   [self.unknownFields writeToCodedOutputStream:output];
 }
@@ -2365,14 +2319,11 @@ static RetrievePrivateChatPostsResponseProto* defaultRetrievePrivateChatPostsRes
   for (GroupChatMessageProto* element in self.postsList) {
     size += computeMessageSize(2, element);
   }
-  if (self.hasBeforePrivateChatId) {
-    size += computeInt32Size(3, self.beforePrivateChatId);
-  }
   if (self.hasStatus) {
     size += computeEnumSize(4, self.status);
   }
-  if (self.hasOtherUserId) {
-    size += computeInt32Size(5, self.otherUserId);
+  if (self.hasOtherUserUuid) {
+    size += computeStringSize(5, self.otherUserUuid);
   }
   size += self.unknownFields.serializedSize;
   memoizedSerializedSize = size;
@@ -2467,14 +2418,11 @@ BOOL RetrievePrivateChatPostsResponseProto_RetrievePrivateChatPostsStatusIsValid
     }
     [result.mutablePostsList addObjectsFromArray:other.mutablePostsList];
   }
-  if (other.hasBeforePrivateChatId) {
-    [self setBeforePrivateChatId:other.beforePrivateChatId];
-  }
   if (other.hasStatus) {
     [self setStatus:other.status];
   }
-  if (other.hasOtherUserId) {
-    [self setOtherUserId:other.otherUserId];
+  if (other.hasOtherUserUuid) {
+    [self setOtherUserUuid:other.otherUserUuid];
   }
   [self mergeUnknownFields:other.unknownFields];
   return self;
@@ -2512,10 +2460,6 @@ BOOL RetrievePrivateChatPostsResponseProto_RetrievePrivateChatPostsStatusIsValid
         [self addPosts:[subBuilder buildPartial]];
         break;
       }
-      case 24: {
-        [self setBeforePrivateChatId:[input readInt32]];
-        break;
-      }
       case 32: {
         int32_t value = [input readEnum];
         if (RetrievePrivateChatPostsResponseProto_RetrievePrivateChatPostsStatusIsValidValue(value)) {
@@ -2525,8 +2469,8 @@ BOOL RetrievePrivateChatPostsResponseProto_RetrievePrivateChatPostsStatusIsValid
         }
         break;
       }
-      case 40: {
-        [self setOtherUserId:[input readInt32]];
+      case 42: {
+        [self setOtherUserUuid:[input readString]];
         break;
       }
     }
@@ -2591,22 +2535,6 @@ BOOL RetrievePrivateChatPostsResponseProto_RetrievePrivateChatPostsStatusIsValid
   [result.mutablePostsList addObject:value];
   return self;
 }
-- (BOOL) hasBeforePrivateChatId {
-  return result.hasBeforePrivateChatId;
-}
-- (int32_t) beforePrivateChatId {
-  return result.beforePrivateChatId;
-}
-- (RetrievePrivateChatPostsResponseProto_Builder*) setBeforePrivateChatId:(int32_t) value {
-  result.hasBeforePrivateChatId = YES;
-  result.beforePrivateChatId = value;
-  return self;
-}
-- (RetrievePrivateChatPostsResponseProto_Builder*) clearBeforePrivateChatId {
-  result.hasBeforePrivateChatId = NO;
-  result.beforePrivateChatId = 0;
-  return self;
-}
 - (BOOL) hasStatus {
   return result.hasStatus;
 }
@@ -2623,20 +2551,20 @@ BOOL RetrievePrivateChatPostsResponseProto_RetrievePrivateChatPostsStatusIsValid
   result.status = RetrievePrivateChatPostsResponseProto_RetrievePrivateChatPostsStatusSuccess;
   return self;
 }
-- (BOOL) hasOtherUserId {
-  return result.hasOtherUserId;
+- (BOOL) hasOtherUserUuid {
+  return result.hasOtherUserUuid;
 }
-- (int32_t) otherUserId {
-  return result.otherUserId;
+- (NSString*) otherUserUuid {
+  return result.otherUserUuid;
 }
-- (RetrievePrivateChatPostsResponseProto_Builder*) setOtherUserId:(int32_t) value {
-  result.hasOtherUserId = YES;
-  result.otherUserId = value;
+- (RetrievePrivateChatPostsResponseProto_Builder*) setOtherUserUuid:(NSString*) value {
+  result.hasOtherUserUuid = YES;
+  result.otherUserUuid = value;
   return self;
 }
-- (RetrievePrivateChatPostsResponseProto_Builder*) clearOtherUserId {
-  result.hasOtherUserId = NO;
-  result.otherUserId = 0;
+- (RetrievePrivateChatPostsResponseProto_Builder*) clearOtherUserUuid {
+  result.hasOtherUserUuid = NO;
+  result.otherUserUuid = @"";
   return self;
 }
 @end

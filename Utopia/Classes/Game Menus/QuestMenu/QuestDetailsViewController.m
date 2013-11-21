@@ -16,7 +16,7 @@
   [self.view addSubview:self.completeView];
 }
 
-- (void) loadWithQuest:(FullQuestProto *)quest userQuest:(UserQuest *)userQuest {
+- (void) loadWithQuest:(QuestProto *)quest userQuest:(UserQuest *)userQuest {
   self.quest = quest;
   self.userQuest = userQuest;
   
@@ -31,7 +31,7 @@
     self.progressLabel.text = [NSString stringWithFormat:@"%@", [Globals commafyNumber:userQuest.progress]];
   }
   
-  if (quest.questType == FullQuestProto_QuestTypeDonateMonster && userQuest.progress >= quest.quantity) {
+  if (quest.questType == QuestProto_QuestTypeDonateMonster && userQuest.progress >= quest.quantity) {
     self.visitLabel.text = @"Donate";
   } else {
     self.visitLabel.text = @"Visit";

@@ -483,7 +483,7 @@
       Globals *gl = [Globals sharedGlobals];
       ExpansionBoard *ep = (ExpansionBoard *)self.selected;
       self.expandSubtitleLabel.text = [gl expansionPhraseForExpandSpot:ep.expandSpot];
-      self.expandCostLabel.text = [Globals cashStringForNumber:[gl calculateSilverCostForNewExpansion]];
+      self.expandCostLabel.text = [Globals cashStringForNumber:[gl calculateCashCostForNewExpansion]];
     }
   } else if (botView == self.expandingBotView) {
     if ([self.selected isKindOfClass:[ExpansionBoard class]]) {
@@ -573,7 +573,7 @@
   if (mb.userStruct.state == kWaitingForIncome) {
     mb.retrievable = NO;
     [self updateTimersForBuilding:mb];
-    //    [self addSilverDrop:[[Globals sharedGlobals] calculateIncomeForUserStruct:mb.userStruct] fromSprite:mb toPosition:CGPointZero secondsToPickup:0];
+    //    [self addCashDrop:[[Globals sharedGlobals] calculateIncomeForUserStruct:mb.userStruct] fromSprite:mb toPosition:CGPointZero secondsToPickup:0];
   }
 }
 
@@ -728,13 +728,11 @@
   } else if (nextFsp) {
     int cost = nextFsp.buildPrice;
     BOOL isGoldBuilding = nextFsp.isPremiumCurrency;
-    if (!isGoldBuilding && cost > gs.silver) {
-      //        [[RefillMenuController sharedRefillMenuController] displayBuySilverView:cost];
-      [Analytics notEnoughSilverForUpgrade:us.structId cost:cost];
+    if (!isGoldBuilding && cost > gs.cash) {
+      //        [[RefillMenuController sharedRefillMenuController] displayBuyCashView:cost];
       self.selected = nil;
-    } else if (cost > gs.gold) {
+    } else if (cost > gs.gems) {
       //        [[RefillMenuController sharedRefillMenuController] displayBuyGoldView:cost];
-      [Analytics notEnoughGoldForUpgrade:us.structId cost:cost];
       self.selected = nil;
     } else {
       [[OutgoingEventController sharedOutgoingEventController] upgradeNormStruct:us];
@@ -775,8 +773,8 @@
   
   if (state == kBuilding) {
     int timeLeft = us.timeLeftForBuildComplete;
-    int goldCost = [gl calculateGemSpeedupCostForTimeLeft:timeLeft];
-    if (gs.gold < goldCost) {
+    int gemCost = [gl calculateGemSpeedupCostForTimeLeft:timeLeft];
+    if (gs.gems < gemCost) {
       //      [[RefillMenuController sharedRefillMenuController] displayBuyGoldView:goldCost];
     } else {
       [[OutgoingEventController sharedOutgoingEventController] instaUpgrade:mb.userStruct];
@@ -808,7 +806,7 @@
     NSString *desc = [NSString stringWithFormat:@"A block is already expanding. Speed it up for %d gold?", [gl calculateGemSpeedupCostForTimeLeft:timeLeft]];
     [GenericPopupController displayConfirmationWithDescription:desc title:@"Already Expanding" okayButton:@"Speed Up" cancelButton:@"Cancel" target:self selector:@selector(speedupExpansion)];
   } else {
-    NSString *desc = [NSString stringWithFormat:@"Would you like to expand to this block for %@?", [Globals cashStringForNumber:[gl calculateSilverCostForNewExpansion]]];
+    NSString *desc = [NSString stringWithFormat:@"Would you like to expand to this block for %@?", [Globals cashStringForNumber:[gl calculateCashCostForNewExpansion]]];
     [GenericPopupController displayConfirmationWithDescription:desc title:@"Expand?" okayButton:@"Expand" cancelButton:@"Cancel" target:self selector:@selector(expandAccepted)];
   }
 }
@@ -818,9 +816,9 @@
   GameState *gs = [GameState sharedGameState];
   ExpansionBoard *exp = (ExpansionBoard *)self.selected;
   
-  int silverCost = [gl calculateSilverCostForNewExpansion];
-  if (gs.silver < silverCost) {
-    //    [[RefillMenuController sharedRefillMenuController] displayBuySilverView:silverCost];
+  int cashCost = [gl calculateCashCostForNewExpansion];
+  if (gs.cash < cashCost) {
+    //    [[RefillMenuController sharedRefillMenuController] displayBuyCashView:cashCost];
   } else {
     [[OutgoingEventController sharedOutgoingEventController] purchaseCityExpansionAtX:exp.expandSpot.x atY:exp.expandSpot.y];
     [exp beginExpanding];
@@ -843,8 +841,8 @@
   UserExpansion *exp = [gs currentExpansion];
   
   int timeLeft = exp.lastExpandTime.timeIntervalSinceNow + [gl calculateNumMinutesForNewExpansion]*60;
-  int goldCost = [gl calculateGemSpeedupCostForTimeLeft:timeLeft];
-  if (gs.gold < goldCost) {
+  int gemCost = [gl calculateGemSpeedupCostForTimeLeft:timeLeft];
+  if (gs.gems < gemCost) {
     //    [[RefillMenuController sharedRefillMenuController] displayBuyGoldView:goldCost];
   } else {
     [[OutgoingEventController sharedOutgoingEventController] expansionWaitComplete:YES atX:exp.xPosition atY:exp.yPosition];

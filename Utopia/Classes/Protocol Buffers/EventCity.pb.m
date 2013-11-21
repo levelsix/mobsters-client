@@ -13,7 +13,7 @@ static PBExtensionRegistry* extensionRegistry = nil;
     PBMutableExtensionRegistry* registry = [PBMutableExtensionRegistry registry];
     [self registerAllExtensions:registry];
     [CityRoot registerAllExtensions:registry];
-    [QuestRoot registerAllExtensions:registry];
+    [QuestStuffRoot registerAllExtensions:registry];
     [StructureRoot registerAllExtensions:registry];
     [UserRoot registerAllExtensions:registry];
     extensionRegistry = [registry retain];
@@ -25,7 +25,7 @@ static PBExtensionRegistry* extensionRegistry = nil;
 
 @interface LoadPlayerCityRequestProto ()
 @property (retain) MinimumUserProto* sender;
-@property int32_t cityOwnerId;
+@property (retain) NSString* cityOwnerUuid;
 @end
 
 @implementation LoadPlayerCityRequestProto
@@ -37,21 +37,22 @@ static PBExtensionRegistry* extensionRegistry = nil;
   hasSender_ = !!value;
 }
 @synthesize sender;
-- (BOOL) hasCityOwnerId {
-  return !!hasCityOwnerId_;
+- (BOOL) hasCityOwnerUuid {
+  return !!hasCityOwnerUuid_;
 }
-- (void) setHasCityOwnerId:(BOOL) value {
-  hasCityOwnerId_ = !!value;
+- (void) setHasCityOwnerUuid:(BOOL) value {
+  hasCityOwnerUuid_ = !!value;
 }
-@synthesize cityOwnerId;
+@synthesize cityOwnerUuid;
 - (void) dealloc {
   self.sender = nil;
+  self.cityOwnerUuid = nil;
   [super dealloc];
 }
 - (id) init {
   if ((self = [super init])) {
     self.sender = [MinimumUserProto defaultInstance];
-    self.cityOwnerId = 0;
+    self.cityOwnerUuid = @"";
   }
   return self;
 }
@@ -74,8 +75,8 @@ static LoadPlayerCityRequestProto* defaultLoadPlayerCityRequestProtoInstance = n
   if (self.hasSender) {
     [output writeMessage:1 value:self.sender];
   }
-  if (self.hasCityOwnerId) {
-    [output writeInt32:2 value:self.cityOwnerId];
+  if (self.hasCityOwnerUuid) {
+    [output writeString:2 value:self.cityOwnerUuid];
   }
   [self.unknownFields writeToCodedOutputStream:output];
 }
@@ -89,8 +90,8 @@ static LoadPlayerCityRequestProto* defaultLoadPlayerCityRequestProtoInstance = n
   if (self.hasSender) {
     size += computeMessageSize(1, self.sender);
   }
-  if (self.hasCityOwnerId) {
-    size += computeInt32Size(2, self.cityOwnerId);
+  if (self.hasCityOwnerUuid) {
+    size += computeStringSize(2, self.cityOwnerUuid);
   }
   size += self.unknownFields.serializedSize;
   memoizedSerializedSize = size;
@@ -170,8 +171,8 @@ static LoadPlayerCityRequestProto* defaultLoadPlayerCityRequestProtoInstance = n
   if (other.hasSender) {
     [self mergeSender:other.sender];
   }
-  if (other.hasCityOwnerId) {
-    [self setCityOwnerId:other.cityOwnerId];
+  if (other.hasCityOwnerUuid) {
+    [self setCityOwnerUuid:other.cityOwnerUuid];
   }
   [self mergeUnknownFields:other.unknownFields];
   return self;
@@ -203,8 +204,8 @@ static LoadPlayerCityRequestProto* defaultLoadPlayerCityRequestProtoInstance = n
         [self setSender:[subBuilder buildPartial]];
         break;
       }
-      case 16: {
-        [self setCityOwnerId:[input readInt32]];
+      case 18: {
+        [self setCityOwnerUuid:[input readString]];
         break;
       }
     }
@@ -240,20 +241,20 @@ static LoadPlayerCityRequestProto* defaultLoadPlayerCityRequestProtoInstance = n
   result.sender = [MinimumUserProto defaultInstance];
   return self;
 }
-- (BOOL) hasCityOwnerId {
-  return result.hasCityOwnerId;
+- (BOOL) hasCityOwnerUuid {
+  return result.hasCityOwnerUuid;
 }
-- (int32_t) cityOwnerId {
-  return result.cityOwnerId;
+- (NSString*) cityOwnerUuid {
+  return result.cityOwnerUuid;
 }
-- (LoadPlayerCityRequestProto_Builder*) setCityOwnerId:(int32_t) value {
-  result.hasCityOwnerId = YES;
-  result.cityOwnerId = value;
+- (LoadPlayerCityRequestProto_Builder*) setCityOwnerUuid:(NSString*) value {
+  result.hasCityOwnerUuid = YES;
+  result.cityOwnerUuid = value;
   return self;
 }
-- (LoadPlayerCityRequestProto_Builder*) clearCityOwnerId {
-  result.hasCityOwnerId = NO;
-  result.cityOwnerId = 0;
+- (LoadPlayerCityRequestProto_Builder*) clearCityOwnerUuid {
+  result.hasCityOwnerUuid = NO;
+  result.cityOwnerUuid = @"";
   return self;
 }
 @end

@@ -14,7 +14,7 @@ static PBExtensionRegistry* extensionRegistry = nil;
     [self registerAllExtensions:registry];
     [CityRoot registerAllExtensions:registry];
     [MonsterStuffRoot registerAllExtensions:registry];
-    [QuestRoot registerAllExtensions:registry];
+    [QuestStuffRoot registerAllExtensions:registry];
     [UserRoot registerAllExtensions:registry];
     extensionRegistry = [registry retain];
   }
@@ -552,7 +552,7 @@ BOOL QuestAcceptResponseProto_QuestAcceptStatusIsValidValue(QuestAcceptResponseP
 @property int32_t questId;
 @property int32_t currentProgress;
 @property BOOL isComplete;
-@property (retain) NSMutableArray* mutableDeleteUserMonsterIdsList;
+@property (retain) NSMutableArray* mutableDeleteUserMonsterUuidsList;
 @end
 
 @implementation QuestProgressRequestProto
@@ -590,10 +590,10 @@ BOOL QuestAcceptResponseProto_QuestAcceptStatusIsValidValue(QuestAcceptResponseP
 - (void) setIsComplete:(BOOL) value {
   isComplete_ = !!value;
 }
-@synthesize mutableDeleteUserMonsterIdsList;
+@synthesize mutableDeleteUserMonsterUuidsList;
 - (void) dealloc {
   self.sender = nil;
-  self.mutableDeleteUserMonsterIdsList = nil;
+  self.mutableDeleteUserMonsterUuidsList = nil;
   [super dealloc];
 }
 - (id) init {
@@ -617,12 +617,12 @@ static QuestProgressRequestProto* defaultQuestProgressRequestProtoInstance = nil
 - (QuestProgressRequestProto*) defaultInstance {
   return defaultQuestProgressRequestProtoInstance;
 }
-- (NSArray*) deleteUserMonsterIdsList {
-  return mutableDeleteUserMonsterIdsList;
+- (NSArray*) deleteUserMonsterUuidsList {
+  return mutableDeleteUserMonsterUuidsList;
 }
-- (int64_t) deleteUserMonsterIdsAtIndex:(int32_t) index {
-  id value = [mutableDeleteUserMonsterIdsList objectAtIndex:index];
-  return [value longLongValue];
+- (NSString*) deleteUserMonsterUuidsAtIndex:(int32_t) index {
+  id value = [mutableDeleteUserMonsterUuidsList objectAtIndex:index];
+  return value;
 }
 - (BOOL) isInitialized {
   return YES;
@@ -640,8 +640,8 @@ static QuestProgressRequestProto* defaultQuestProgressRequestProtoInstance = nil
   if (self.hasIsComplete) {
     [output writeBool:4 value:self.isComplete];
   }
-  for (NSNumber* value in self.mutableDeleteUserMonsterIdsList) {
-    [output writeInt64:5 value:[value longLongValue]];
+  for (NSString* element in self.mutableDeleteUserMonsterUuidsList) {
+    [output writeString:5 value:element];
   }
   [self.unknownFields writeToCodedOutputStream:output];
 }
@@ -666,11 +666,11 @@ static QuestProgressRequestProto* defaultQuestProgressRequestProtoInstance = nil
   }
   {
     int32_t dataSize = 0;
-    for (NSNumber* value in self.mutableDeleteUserMonsterIdsList) {
-      dataSize += computeInt64SizeNoTag([value longLongValue]);
+    for (NSString* element in self.mutableDeleteUserMonsterUuidsList) {
+      dataSize += computeStringSizeNoTag(element);
     }
     size += dataSize;
-    size += 1 * self.mutableDeleteUserMonsterIdsList.count;
+    size += 1 * self.mutableDeleteUserMonsterUuidsList.count;
   }
   size += self.unknownFields.serializedSize;
   memoizedSerializedSize = size;
@@ -759,11 +759,11 @@ static QuestProgressRequestProto* defaultQuestProgressRequestProtoInstance = nil
   if (other.hasIsComplete) {
     [self setIsComplete:other.isComplete];
   }
-  if (other.mutableDeleteUserMonsterIdsList.count > 0) {
-    if (result.mutableDeleteUserMonsterIdsList == nil) {
-      result.mutableDeleteUserMonsterIdsList = [NSMutableArray array];
+  if (other.mutableDeleteUserMonsterUuidsList.count > 0) {
+    if (result.mutableDeleteUserMonsterUuidsList == nil) {
+      result.mutableDeleteUserMonsterUuidsList = [NSMutableArray array];
     }
-    [result.mutableDeleteUserMonsterIdsList addObjectsFromArray:other.mutableDeleteUserMonsterIdsList];
+    [result.mutableDeleteUserMonsterUuidsList addObjectsFromArray:other.mutableDeleteUserMonsterUuidsList];
   }
   [self mergeUnknownFields:other.unknownFields];
   return self;
@@ -807,8 +807,8 @@ static QuestProgressRequestProto* defaultQuestProgressRequestProtoInstance = nil
         [self setIsComplete:[input readBool]];
         break;
       }
-      case 40: {
-        [self addDeleteUserMonsterIds:[input readInt64]];
+      case 42: {
+        [self addDeleteUserMonsterUuids:[input readString]];
         break;
       }
     }
@@ -892,35 +892,35 @@ static QuestProgressRequestProto* defaultQuestProgressRequestProtoInstance = nil
   result.isComplete = NO;
   return self;
 }
-- (NSArray*) deleteUserMonsterIdsList {
-  if (result.mutableDeleteUserMonsterIdsList == nil) {
+- (NSArray*) deleteUserMonsterUuidsList {
+  if (result.mutableDeleteUserMonsterUuidsList == nil) {
     return [NSArray array];
   }
-  return result.mutableDeleteUserMonsterIdsList;
+  return result.mutableDeleteUserMonsterUuidsList;
 }
-- (int64_t) deleteUserMonsterIdsAtIndex:(int32_t) index {
-  return [result deleteUserMonsterIdsAtIndex:index];
+- (NSString*) deleteUserMonsterUuidsAtIndex:(int32_t) index {
+  return [result deleteUserMonsterUuidsAtIndex:index];
 }
-- (QuestProgressRequestProto_Builder*) replaceDeleteUserMonsterIdsAtIndex:(int32_t) index with:(int64_t) value {
-  [result.mutableDeleteUserMonsterIdsList replaceObjectAtIndex:index withObject:[NSNumber numberWithLongLong:value]];
+- (QuestProgressRequestProto_Builder*) replaceDeleteUserMonsterUuidsAtIndex:(int32_t) index with:(NSString*) value {
+  [result.mutableDeleteUserMonsterUuidsList replaceObjectAtIndex:index withObject:value];
   return self;
 }
-- (QuestProgressRequestProto_Builder*) addDeleteUserMonsterIds:(int64_t) value {
-  if (result.mutableDeleteUserMonsterIdsList == nil) {
-    result.mutableDeleteUserMonsterIdsList = [NSMutableArray array];
+- (QuestProgressRequestProto_Builder*) addDeleteUserMonsterUuids:(NSString*) value {
+  if (result.mutableDeleteUserMonsterUuidsList == nil) {
+    result.mutableDeleteUserMonsterUuidsList = [NSMutableArray array];
   }
-  [result.mutableDeleteUserMonsterIdsList addObject:[NSNumber numberWithLongLong:value]];
+  [result.mutableDeleteUserMonsterUuidsList addObject:value];
   return self;
 }
-- (QuestProgressRequestProto_Builder*) addAllDeleteUserMonsterIds:(NSArray*) values {
-  if (result.mutableDeleteUserMonsterIdsList == nil) {
-    result.mutableDeleteUserMonsterIdsList = [NSMutableArray array];
+- (QuestProgressRequestProto_Builder*) addAllDeleteUserMonsterUuids:(NSArray*) values {
+  if (result.mutableDeleteUserMonsterUuidsList == nil) {
+    result.mutableDeleteUserMonsterUuidsList = [NSMutableArray array];
   }
-  [result.mutableDeleteUserMonsterIdsList addObjectsFromArray:values];
+  [result.mutableDeleteUserMonsterUuidsList addObjectsFromArray:values];
   return self;
 }
-- (QuestProgressRequestProto_Builder*) clearDeleteUserMonsterIdsList {
-  result.mutableDeleteUserMonsterIdsList = nil;
+- (QuestProgressRequestProto_Builder*) clearDeleteUserMonsterUuidsList {
+  result.mutableDeleteUserMonsterUuidsList = nil;
   return self;
 }
 @end
@@ -1482,7 +1482,7 @@ static QuestRedeemResponseProto* defaultQuestRedeemResponseProtoInstance = nil;
 - (NSArray*) newlyAvailableQuestsList {
   return mutableNewlyAvailableQuestsList;
 }
-- (FullQuestProto*) newlyAvailableQuestsAtIndex:(int32_t) index {
+- (QuestProto*) newlyAvailableQuestsAtIndex:(int32_t) index {
   id value = [mutableNewlyAvailableQuestsList objectAtIndex:index];
   return value;
 }
@@ -1493,7 +1493,7 @@ static QuestRedeemResponseProto* defaultQuestRedeemResponseProtoInstance = nil;
   if (self.hasSender) {
     [output writeMessage:1 value:self.sender];
   }
-  for (FullQuestProto* element in self.newlyAvailableQuestsList) {
+  for (QuestProto* element in self.newlyAvailableQuestsList) {
     [output writeMessage:2 value:element];
   }
   if (self.hasStatus) {
@@ -1517,7 +1517,7 @@ static QuestRedeemResponseProto* defaultQuestRedeemResponseProtoInstance = nil;
   if (self.hasSender) {
     size += computeMessageSize(1, self.sender);
   }
-  for (FullQuestProto* element in self.newlyAvailableQuestsList) {
+  for (QuestProto* element in self.newlyAvailableQuestsList) {
     size += computeMessageSize(2, element);
   }
   if (self.hasStatus) {
@@ -1663,7 +1663,7 @@ BOOL QuestRedeemResponseProto_QuestRedeemStatusIsValidValue(QuestRedeemResponseP
         break;
       }
       case 18: {
-        FullQuestProto_Builder* subBuilder = [FullQuestProto builder];
+        QuestProto_Builder* subBuilder = [QuestProto builder];
         [input readMessage:subBuilder extensionRegistry:extensionRegistry];
         [self addNewlyAvailableQuests:[subBuilder buildPartial]];
         break;
@@ -1727,10 +1727,10 @@ BOOL QuestRedeemResponseProto_QuestRedeemStatusIsValidValue(QuestRedeemResponseP
   if (result.mutableNewlyAvailableQuestsList == nil) { return [NSArray array]; }
   return result.mutableNewlyAvailableQuestsList;
 }
-- (FullQuestProto*) newlyAvailableQuestsAtIndex:(int32_t) index {
+- (QuestProto*) newlyAvailableQuestsAtIndex:(int32_t) index {
   return [result newlyAvailableQuestsAtIndex:index];
 }
-- (QuestRedeemResponseProto_Builder*) replaceNewlyAvailableQuestsAtIndex:(int32_t) index with:(FullQuestProto*) value {
+- (QuestRedeemResponseProto_Builder*) replaceNewlyAvailableQuestsAtIndex:(int32_t) index with:(QuestProto*) value {
   [result.mutableNewlyAvailableQuestsList replaceObjectAtIndex:index withObject:value];
   return self;
 }
@@ -1745,7 +1745,7 @@ BOOL QuestRedeemResponseProto_QuestRedeemStatusIsValidValue(QuestRedeemResponseP
   result.mutableNewlyAvailableQuestsList = nil;
   return self;
 }
-- (QuestRedeemResponseProto_Builder*) addNewlyAvailableQuests:(FullQuestProto*) value {
+- (QuestRedeemResponseProto_Builder*) addNewlyAvailableQuests:(QuestProto*) value {
   if (result.mutableNewlyAvailableQuestsList == nil) {
     result.mutableNewlyAvailableQuestsList = [NSMutableArray array];
   }

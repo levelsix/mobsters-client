@@ -7,7 +7,7 @@
 //
 
 #import "cocos2d.h"
-#import "Protocols.pb.h"
+#import "MobstersEventProtocol.pb.h"
 #import "UserData.h"
 #import "Analytics.h"
 #import "GameMap.h"
@@ -60,7 +60,7 @@
 @property (nonatomic, assign) int levelToShowRateUsPopup;
 @property (nonatomic, copy) NSString *reviewPageConfirmationMessage;
 
-@property (nonatomic, assign) int fbConnectRewardDiamonds;
+@property (nonatomic, assign) int fbConnectRewardGems;
 
 @property (nonatomic, retain) NSString *faqFileName;
 
@@ -86,7 +86,7 @@
 @property (nonatomic, assign) int maxRepeatedNormStructs;
 
 // Clan constants
-@property (nonatomic, assign) int coinPriceToCreateClan;
+@property (nonatomic, assign) int cashPriceToCreateClan;
 @property (nonatomic, assign) int maxCharLengthForClanName;
 @property (nonatomic, assign) int maxCharLengthForClanDescription;
 @property (nonatomic, assign) int maxCharLengthForClanTag;
@@ -193,7 +193,7 @@
 + (UIColor *)yellowColor;
 + (UIColor *)greyishTanColor;
 
-+ (GameMap *) mapForQuest:(FullQuestProto *)fqp;
++ (GameMap *) mapForQuest:(QuestProto *)fqp;
 + (NSString *) bazaarQuestGiverName;
 + (NSString *) homeQuestGiverName;
 
@@ -215,7 +215,7 @@
 - (int) calculateGemSpeedupCostForTimeLeft:(int)timeLeft;
 
 - (int) calculateNumMinutesForNewExpansion;
-- (int) calculateSilverCostForNewExpansion;
+- (int) calculateCashCostForNewExpansion;
 - (NSString *) expansionPhraseForExpandSpot:(CGPoint)pt;
 
 // Monster formulas
@@ -228,7 +228,7 @@
 - (float) calculateDamageMultiplierForAttackElement:(MonsterProto_MonsterElement)aElement defenseElement:(MonsterProto_MonsterElement)dElement;
 
 // Enhancement formulas
-- (int) calculateSilverCostForEnhancement:(EnhancementItem *)baseMonster feeder:(EnhancementItem *)feeder;
+- (int) calculateCashCostForEnhancement:(EnhancementItem *)baseMonster feeder:(EnhancementItem *)feeder;
 - (int) calculateSecondsForEnhancement:(EnhancementItem *)baseMonster feeder:(EnhancementItem *)feeder;
 - (int) calculateTimeLeftForEnhancement:(UserEnhancement *)ue;
 - (int) calculateExperienceIncrease:(UserEnhancement *)ue;

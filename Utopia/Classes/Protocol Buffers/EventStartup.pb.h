@@ -7,7 +7,7 @@
 #import "City.pb.h"
 #import "Clan.pb.h"
 #import "InAppPurchase.pb.h"
-#import "Quest.pb.h"
+#import "QuestStuff.pb.h"
 #import "StaticData.pb.h"
 #import "Structure.pb.h"
 #import "Task.pb.h"
@@ -38,8 +38,6 @@
 @class FullClanProtoWithClanSize;
 @class FullClanProtoWithClanSize_Builder;
 @class FullClanProto_Builder;
-@class FullQuestProto;
-@class FullQuestProto_Builder;
 @class FullStructureProto;
 @class FullStructureProto_Builder;
 @class FullTaskProto;
@@ -80,6 +78,8 @@
 @class MonsterProto_Builder;
 @class PrivateChatPostProto;
 @class PrivateChatPostProto_Builder;
+@class QuestProto;
+@class QuestProto_Builder;
 @class RareBoosterPurchaseProto;
 @class RareBoosterPurchaseProto_Builder;
 @class StartupRequestProto;
@@ -363,18 +363,18 @@ BOOL StartupResponseProto_StartupStatusIsValidValue(StartupResponseProto_Startup
 @interface StartupResponseProto_AttackedNotificationProto : PBGeneratedMessage {
 @private
   BOOL hasBattleCompleteTime_:1;
-  BOOL hasCoinsStolen_:1;
+  BOOL hasCashStolen_:1;
   BOOL hasAttacker_:1;
   int64_t battleCompleteTime;
-  int32_t coinsStolen;
+  int32_t cashStolen;
   MinimumUserProto* attacker;
 }
 - (BOOL) hasAttacker;
 - (BOOL) hasBattleCompleteTime;
-- (BOOL) hasCoinsStolen;
+- (BOOL) hasCashStolen;
 @property (readonly, retain) MinimumUserProto* attacker;
 @property (readonly) int64_t battleCompleteTime;
-@property (readonly) int32_t coinsStolen;
+@property (readonly) int32_t cashStolen;
 
 + (StartupResponseProto_AttackedNotificationProto*) defaultInstance;
 - (StartupResponseProto_AttackedNotificationProto*) defaultInstance;
@@ -422,27 +422,27 @@ BOOL StartupResponseProto_StartupStatusIsValidValue(StartupResponseProto_Startup
 - (StartupResponseProto_AttackedNotificationProto_Builder*) setBattleCompleteTime:(int64_t) value;
 - (StartupResponseProto_AttackedNotificationProto_Builder*) clearBattleCompleteTime;
 
-- (BOOL) hasCoinsStolen;
-- (int32_t) coinsStolen;
-- (StartupResponseProto_AttackedNotificationProto_Builder*) setCoinsStolen:(int32_t) value;
-- (StartupResponseProto_AttackedNotificationProto_Builder*) clearCoinsStolen;
+- (BOOL) hasCashStolen;
+- (int32_t) cashStolen;
+- (StartupResponseProto_AttackedNotificationProto_Builder*) setCashStolen:(int32_t) value;
+- (StartupResponseProto_AttackedNotificationProto_Builder*) clearCashStolen;
 @end
 
 @interface StartupResponseProto_ReferralNotificationProto : PBGeneratedMessage {
 @private
   BOOL hasRecruitTime_:1;
-  BOOL hasCoinsGivenToReferrer_:1;
+  BOOL hasCashGivenToReferrer_:1;
   BOOL hasReferred_:1;
   int64_t recruitTime;
-  int32_t coinsGivenToReferrer;
+  int32_t cashGivenToReferrer;
   MinimumUserProto* referred;
 }
 - (BOOL) hasReferred;
 - (BOOL) hasRecruitTime;
-- (BOOL) hasCoinsGivenToReferrer;
+- (BOOL) hasCashGivenToReferrer;
 @property (readonly, retain) MinimumUserProto* referred;
 @property (readonly) int64_t recruitTime;
-@property (readonly) int32_t coinsGivenToReferrer;
+@property (readonly) int32_t cashGivenToReferrer;
 
 + (StartupResponseProto_ReferralNotificationProto*) defaultInstance;
 - (StartupResponseProto_ReferralNotificationProto*) defaultInstance;
@@ -490,10 +490,10 @@ BOOL StartupResponseProto_StartupStatusIsValidValue(StartupResponseProto_Startup
 - (StartupResponseProto_ReferralNotificationProto_Builder*) setRecruitTime:(int64_t) value;
 - (StartupResponseProto_ReferralNotificationProto_Builder*) clearRecruitTime;
 
-- (BOOL) hasCoinsGivenToReferrer;
-- (int32_t) coinsGivenToReferrer;
-- (StartupResponseProto_ReferralNotificationProto_Builder*) setCoinsGivenToReferrer:(int32_t) value;
-- (StartupResponseProto_ReferralNotificationProto_Builder*) clearCoinsGivenToReferrer;
+- (BOOL) hasCashGivenToReferrer;
+- (int32_t) cashGivenToReferrer;
+- (StartupResponseProto_ReferralNotificationProto_Builder*) setCashGivenToReferrer:(int32_t) value;
+- (StartupResponseProto_ReferralNotificationProto_Builder*) clearCashGivenToReferrer;
 @end
 
 @interface StartupResponseProto_StartupConstants : PBGeneratedMessage {

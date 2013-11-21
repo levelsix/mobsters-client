@@ -6,15 +6,16 @@ import "Chat.proto";
 import "City.proto";
 import "Clan.proto";
 import "InAppPurchase.proto";
-import "Quest.proto";
+import "QuestStuff.proto";
 import "StaticData.proto";
 import "Structure.proto";
 import "Task.proto";
 import "User.proto";
 import "MonsterStuff.proto";
 
-package com.lvl6.proto;
+package proto;
 
+option java_package = "com.lvl6.mobsters.eventprotos";
 option java_outer_classname = "EventStartupProto";
 //DO NOT USE ID AS THE NAME OF A PROPERTY IN ANY PROTO
 
@@ -71,7 +72,7 @@ message StartupResponseProto {
 	optional StaticDataProto staticDataStuffProto = 26;
 	//repeated int32 redeemedQuestIds = 27; //above, after "userQuests = 6"
 	
-	//for each city, the city's boss is hiding in the specified taskId
+	//for each city, the city's boss is hiding in the specified taskUuid
 	repeated int32 taskIdForCurrentCityBoss = 28;
 	
 	
@@ -83,13 +84,13 @@ message StartupResponseProto {
 	message AttackedNotificationProto {
 		optional MinimumUserProto attacker = 1;
 		optional int64 battleCompleteTime = 2;
-		optional int32 coinsStolen = 3;
+		optional int32 cashStolen = 3;
 	}
 	
 	message ReferralNotificationProto {
 		optional MinimumUserProto referred = 1;
 		optional int64 recruitTime = 2;
-		optional int32 coinsGivenToReferrer = 3;
+		optional int32 cashGivenToReferrer = 3;
 	}
 		  
 	message StartupConstants {

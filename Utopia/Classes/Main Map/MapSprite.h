@@ -7,7 +7,7 @@
 //
 
 #import "CCSprite.h"
-#import "Protocols.pb.h"
+#import "MobstersEventProtocol.pb.h"
 
 @class GameMap;
 

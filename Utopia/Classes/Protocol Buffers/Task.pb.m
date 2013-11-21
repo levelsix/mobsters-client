@@ -662,20 +662,20 @@ static FullTaskProto* defaultFullTaskProtoInstance = nil;
 @end
 
 @interface MinimumUserTaskProto ()
-@property int32_t userId;
+@property (retain) NSString* userUuid;
 @property int32_t taskId;
 @property int32_t numTimesActed;
 @end
 
 @implementation MinimumUserTaskProto
 
-- (BOOL) hasUserId {
-  return !!hasUserId_;
+- (BOOL) hasUserUuid {
+  return !!hasUserUuid_;
 }
-- (void) setHasUserId:(BOOL) value {
-  hasUserId_ = !!value;
+- (void) setHasUserUuid:(BOOL) value {
+  hasUserUuid_ = !!value;
 }
-@synthesize userId;
+@synthesize userUuid;
 - (BOOL) hasTaskId {
   return !!hasTaskId_;
 }
@@ -691,11 +691,12 @@ static FullTaskProto* defaultFullTaskProtoInstance = nil;
 }
 @synthesize numTimesActed;
 - (void) dealloc {
+  self.userUuid = nil;
   [super dealloc];
 }
 - (id) init {
   if ((self = [super init])) {
-    self.userId = 0;
+    self.userUuid = @"";
     self.taskId = 0;
     self.numTimesActed = 0;
   }
@@ -717,8 +718,8 @@ static MinimumUserTaskProto* defaultMinimumUserTaskProtoInstance = nil;
   return YES;
 }
 - (void) writeToCodedOutputStream:(PBCodedOutputStream*) output {
-  if (self.hasUserId) {
-    [output writeInt32:1 value:self.userId];
+  if (self.hasUserUuid) {
+    [output writeString:1 value:self.userUuid];
   }
   if (self.hasTaskId) {
     [output writeInt32:2 value:self.taskId];
@@ -735,8 +736,8 @@ static MinimumUserTaskProto* defaultMinimumUserTaskProtoInstance = nil;
   }
 
   size = 0;
-  if (self.hasUserId) {
-    size += computeInt32Size(1, self.userId);
+  if (self.hasUserUuid) {
+    size += computeStringSize(1, self.userUuid);
   }
   if (self.hasTaskId) {
     size += computeInt32Size(2, self.taskId);
@@ -819,8 +820,8 @@ static MinimumUserTaskProto* defaultMinimumUserTaskProtoInstance = nil;
   if (other == [MinimumUserTaskProto defaultInstance]) {
     return self;
   }
-  if (other.hasUserId) {
-    [self setUserId:other.userId];
+  if (other.hasUserUuid) {
+    [self setUserUuid:other.userUuid];
   }
   if (other.hasTaskId) {
     [self setTaskId:other.taskId];
@@ -849,8 +850,8 @@ static MinimumUserTaskProto* defaultMinimumUserTaskProtoInstance = nil;
         }
         break;
       }
-      case 8: {
-        [self setUserId:[input readInt32]];
+      case 10: {
+        [self setUserUuid:[input readString]];
         break;
       }
       case 16: {
@@ -864,20 +865,20 @@ static MinimumUserTaskProto* defaultMinimumUserTaskProtoInstance = nil;
     }
   }
 }
-- (BOOL) hasUserId {
-  return result.hasUserId;
+- (BOOL) hasUserUuid {
+  return result.hasUserUuid;
 }
-- (int32_t) userId {
-  return result.userId;
+- (NSString*) userUuid {
+  return result.userUuid;
 }
-- (MinimumUserTaskProto_Builder*) setUserId:(int32_t) value {
-  result.hasUserId = YES;
-  result.userId = value;
+- (MinimumUserTaskProto_Builder*) setUserUuid:(NSString*) value {
+  result.hasUserUuid = YES;
+  result.userUuid = value;
   return self;
 }
-- (MinimumUserTaskProto_Builder*) clearUserId {
-  result.hasUserId = NO;
-  result.userId = 0;
+- (MinimumUserTaskProto_Builder*) clearUserUuid {
+  result.hasUserUuid = NO;
+  result.userUuid = @"";
   return self;
 }
 - (BOOL) hasTaskId {

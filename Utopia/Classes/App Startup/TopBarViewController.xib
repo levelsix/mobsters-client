@@ -2,18 +2,18 @@
 <document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="4514" systemVersion="12F45" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none">
     <dependencies>
         <deployment defaultVersion="1536" identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="3746"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="3747"/>
     </dependencies>
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="TopBarViewController">
             <connections>
+                <outlet property="cashLabel" destination="RKP-GK-dXx" id="YaU-7U-pwC"/>
                 <outlet property="expBar" destination="ZXJ-kI-Nnq" id="rtB-WL-kbc"/>
                 <outlet property="expLabel" destination="jBk-ZB-O11" id="8zs-ST-LMK"/>
-                <outlet property="goldLabel" destination="KKx-uR-59O" id="9CL-vF-EfO"/>
+                <outlet property="gemsLabel" destination="KKx-uR-59O" id="Wob-Cm-2OO"/>
                 <outlet property="levelLabel" destination="z9g-Pu-hrw" id="YhS-Up-92A"/>
                 <outlet property="menuView" destination="kN1-Fi-KZq" id="Qix-Xp-tic"/>
                 <outlet property="myCityView" destination="El6-L4-OGg" id="kwO-xs-8yo"/>
-                <outlet property="silverLabel" destination="RKP-GK-dXx" id="ePq-5L-ZLL"/>
                 <outlet property="view" destination="1" id="3"/>
                 <outletCollection property="topBarMonsterViewContainers" destination="6tb-41-kWt" id="28O-jJ-GWg"/>
                 <outletCollection property="topBarMonsterViewContainers" destination="vvF-yb-Rl2" id="fbs-bV-lQi"/>

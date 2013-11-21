@@ -366,7 +366,7 @@ BOOL SellUserMonsterResponseProto_SellUserMonsterStatusIsValidValue(SellUserMons
   int32_t gemsForSpeedup;
   MinimumUserProto* sender;
   UserMonsterCurrentExpProto* umcep;
-  NSMutableArray* mutableUserMonsterIdsList;
+  NSMutableArray* mutableUserMonsterUuidsList;
 }
 - (BOOL) hasSender;
 - (BOOL) hasIsSpeedup;
@@ -376,8 +376,8 @@ BOOL SellUserMonsterResponseProto_SellUserMonsterStatusIsValidValue(SellUserMons
 - (BOOL) isSpeedup;
 @property (readonly) int32_t gemsForSpeedup;
 @property (readonly, retain) UserMonsterCurrentExpProto* umcep;
-- (NSArray*) userMonsterIdsList;
-- (int64_t) userMonsterIdsAtIndex:(int32_t) index;
+- (NSArray*) userMonsterUuidsList;
+- (NSString*) userMonsterUuidsAtIndex:(int32_t) index;
 
 + (EnhancementWaitTimeCompleteRequestProto*) defaultInstance;
 - (EnhancementWaitTimeCompleteRequestProto*) defaultInstance;
@@ -437,12 +437,12 @@ BOOL SellUserMonsterResponseProto_SellUserMonsterStatusIsValidValue(SellUserMons
 - (EnhancementWaitTimeCompleteRequestProto_Builder*) mergeUmcep:(UserMonsterCurrentExpProto*) value;
 - (EnhancementWaitTimeCompleteRequestProto_Builder*) clearUmcep;
 
-- (NSArray*) userMonsterIdsList;
-- (int64_t) userMonsterIdsAtIndex:(int32_t) index;
-- (EnhancementWaitTimeCompleteRequestProto_Builder*) replaceUserMonsterIdsAtIndex:(int32_t) index with:(int64_t) value;
-- (EnhancementWaitTimeCompleteRequestProto_Builder*) addUserMonsterIds:(int64_t) value;
-- (EnhancementWaitTimeCompleteRequestProto_Builder*) addAllUserMonsterIds:(NSArray*) values;
-- (EnhancementWaitTimeCompleteRequestProto_Builder*) clearUserMonsterIdsList;
+- (NSArray*) userMonsterUuidsList;
+- (NSString*) userMonsterUuidsAtIndex:(int32_t) index;
+- (EnhancementWaitTimeCompleteRequestProto_Builder*) replaceUserMonsterUuidsAtIndex:(int32_t) index with:(NSString*) value;
+- (EnhancementWaitTimeCompleteRequestProto_Builder*) addUserMonsterUuids:(NSString*) value;
+- (EnhancementWaitTimeCompleteRequestProto_Builder*) addAllUserMonsterUuids:(NSArray*) values;
+- (EnhancementWaitTimeCompleteRequestProto_Builder*) clearUserMonsterUuidsList;
 @end
 
 @interface EnhancementWaitTimeCompleteResponseProto : PBGeneratedMessage {
@@ -928,19 +928,19 @@ BOOL SellUserMonsterResponseProto_SellUserMonsterStatusIsValidValue(SellUserMons
 
 @interface AddMonsterToBattleTeamRequestProto : PBGeneratedMessage {
 @private
-  BOOL hasUserMonsterId_:1;
   BOOL hasTeamSlotNum_:1;
+  BOOL hasUserMonsterUuid_:1;
   BOOL hasSender_:1;
-  int64_t userMonsterId;
   int32_t teamSlotNum;
+  NSString* userMonsterUuid;
   MinimumUserProto* sender;
 }
 - (BOOL) hasSender;
 - (BOOL) hasTeamSlotNum;
-- (BOOL) hasUserMonsterId;
+- (BOOL) hasUserMonsterUuid;
 @property (readonly, retain) MinimumUserProto* sender;
 @property (readonly) int32_t teamSlotNum;
-@property (readonly) int64_t userMonsterId;
+@property (readonly, retain) NSString* userMonsterUuid;
 
 + (AddMonsterToBattleTeamRequestProto*) defaultInstance;
 - (AddMonsterToBattleTeamRequestProto*) defaultInstance;
@@ -988,10 +988,10 @@ BOOL SellUserMonsterResponseProto_SellUserMonsterStatusIsValidValue(SellUserMons
 - (AddMonsterToBattleTeamRequestProto_Builder*) setTeamSlotNum:(int32_t) value;
 - (AddMonsterToBattleTeamRequestProto_Builder*) clearTeamSlotNum;
 
-- (BOOL) hasUserMonsterId;
-- (int64_t) userMonsterId;
-- (AddMonsterToBattleTeamRequestProto_Builder*) setUserMonsterId:(int64_t) value;
-- (AddMonsterToBattleTeamRequestProto_Builder*) clearUserMonsterId;
+- (BOOL) hasUserMonsterUuid;
+- (NSString*) userMonsterUuid;
+- (AddMonsterToBattleTeamRequestProto_Builder*) setUserMonsterUuid:(NSString*) value;
+- (AddMonsterToBattleTeamRequestProto_Builder*) clearUserMonsterUuid;
 @end
 
 @interface AddMonsterToBattleTeamResponseProto : PBGeneratedMessage {
@@ -1055,15 +1055,15 @@ BOOL SellUserMonsterResponseProto_SellUserMonsterStatusIsValidValue(SellUserMons
 
 @interface RemoveMonsterFromBattleTeamRequestProto : PBGeneratedMessage {
 @private
-  BOOL hasUserMonsterId_:1;
+  BOOL hasUserMonsterUuid_:1;
   BOOL hasSender_:1;
-  int64_t userMonsterId;
+  NSString* userMonsterUuid;
   MinimumUserProto* sender;
 }
 - (BOOL) hasSender;
-- (BOOL) hasUserMonsterId;
+- (BOOL) hasUserMonsterUuid;
 @property (readonly, retain) MinimumUserProto* sender;
-@property (readonly) int64_t userMonsterId;
+@property (readonly, retain) NSString* userMonsterUuid;
 
 + (RemoveMonsterFromBattleTeamRequestProto*) defaultInstance;
 - (RemoveMonsterFromBattleTeamRequestProto*) defaultInstance;
@@ -1106,10 +1106,10 @@ BOOL SellUserMonsterResponseProto_SellUserMonsterStatusIsValidValue(SellUserMons
 - (RemoveMonsterFromBattleTeamRequestProto_Builder*) mergeSender:(MinimumUserProto*) value;
 - (RemoveMonsterFromBattleTeamRequestProto_Builder*) clearSender;
 
-- (BOOL) hasUserMonsterId;
-- (int64_t) userMonsterId;
-- (RemoveMonsterFromBattleTeamRequestProto_Builder*) setUserMonsterId:(int64_t) value;
-- (RemoveMonsterFromBattleTeamRequestProto_Builder*) clearUserMonsterId;
+- (BOOL) hasUserMonsterUuid;
+- (NSString*) userMonsterUuid;
+- (RemoveMonsterFromBattleTeamRequestProto_Builder*) setUserMonsterUuid:(NSString*) value;
+- (RemoveMonsterFromBattleTeamRequestProto_Builder*) clearUserMonsterUuid;
 @end
 
 @interface RemoveMonsterFromBattleTeamResponseProto : PBGeneratedMessage {
@@ -1421,15 +1421,15 @@ BOOL SellUserMonsterResponseProto_SellUserMonsterStatusIsValidValue(SellUserMons
 @private
   BOOL hasSender_:1;
   MinimumUserProtoWithFacebookId* sender;
-  NSMutableArray* mutableAcceptedInviteIdsList;
-  NSMutableArray* mutableRejectedInviteIdsList;
+  NSMutableArray* mutableAcceptedInviteUuidsList;
+  NSMutableArray* mutableRejectedInviteUuidsList;
 }
 - (BOOL) hasSender;
 @property (readonly, retain) MinimumUserProtoWithFacebookId* sender;
-- (NSArray*) acceptedInviteIdsList;
-- (int32_t) acceptedInviteIdsAtIndex:(int32_t) index;
-- (NSArray*) rejectedInviteIdsList;
-- (int32_t) rejectedInviteIdsAtIndex:(int32_t) index;
+- (NSArray*) acceptedInviteUuidsList;
+- (NSString*) acceptedInviteUuidsAtIndex:(int32_t) index;
+- (NSArray*) rejectedInviteUuidsList;
+- (NSString*) rejectedInviteUuidsAtIndex:(int32_t) index;
 
 + (AcceptAndRejectFbInviteForSlotsRequestProto*) defaultInstance;
 - (AcceptAndRejectFbInviteForSlotsRequestProto*) defaultInstance;
@@ -1472,19 +1472,19 @@ BOOL SellUserMonsterResponseProto_SellUserMonsterStatusIsValidValue(SellUserMons
 - (AcceptAndRejectFbInviteForSlotsRequestProto_Builder*) mergeSender:(MinimumUserProtoWithFacebookId*) value;
 - (AcceptAndRejectFbInviteForSlotsRequestProto_Builder*) clearSender;
 
-- (NSArray*) acceptedInviteIdsList;
-- (int32_t) acceptedInviteIdsAtIndex:(int32_t) index;
-- (AcceptAndRejectFbInviteForSlotsRequestProto_Builder*) replaceAcceptedInviteIdsAtIndex:(int32_t) index with:(int32_t) value;
-- (AcceptAndRejectFbInviteForSlotsRequestProto_Builder*) addAcceptedInviteIds:(int32_t) value;
-- (AcceptAndRejectFbInviteForSlotsRequestProto_Builder*) addAllAcceptedInviteIds:(NSArray*) values;
-- (AcceptAndRejectFbInviteForSlotsRequestProto_Builder*) clearAcceptedInviteIdsList;
+- (NSArray*) acceptedInviteUuidsList;
+- (NSString*) acceptedInviteUuidsAtIndex:(int32_t) index;
+- (AcceptAndRejectFbInviteForSlotsRequestProto_Builder*) replaceAcceptedInviteUuidsAtIndex:(int32_t) index with:(NSString*) value;
+- (AcceptAndRejectFbInviteForSlotsRequestProto_Builder*) addAcceptedInviteUuids:(NSString*) value;
+- (AcceptAndRejectFbInviteForSlotsRequestProto_Builder*) addAllAcceptedInviteUuids:(NSArray*) values;
+- (AcceptAndRejectFbInviteForSlotsRequestProto_Builder*) clearAcceptedInviteUuidsList;
 
-- (NSArray*) rejectedInviteIdsList;
-- (int32_t) rejectedInviteIdsAtIndex:(int32_t) index;
-- (AcceptAndRejectFbInviteForSlotsRequestProto_Builder*) replaceRejectedInviteIdsAtIndex:(int32_t) index with:(int32_t) value;
-- (AcceptAndRejectFbInviteForSlotsRequestProto_Builder*) addRejectedInviteIds:(int32_t) value;
-- (AcceptAndRejectFbInviteForSlotsRequestProto_Builder*) addAllRejectedInviteIds:(NSArray*) values;
-- (AcceptAndRejectFbInviteForSlotsRequestProto_Builder*) clearRejectedInviteIdsList;
+- (NSArray*) rejectedInviteUuidsList;
+- (NSString*) rejectedInviteUuidsAtIndex:(int32_t) index;
+- (AcceptAndRejectFbInviteForSlotsRequestProto_Builder*) replaceRejectedInviteUuidsAtIndex:(int32_t) index with:(NSString*) value;
+- (AcceptAndRejectFbInviteForSlotsRequestProto_Builder*) addRejectedInviteUuids:(NSString*) value;
+- (AcceptAndRejectFbInviteForSlotsRequestProto_Builder*) addAllRejectedInviteUuids:(NSArray*) values;
+- (AcceptAndRejectFbInviteForSlotsRequestProto_Builder*) clearRejectedInviteUuidsList;
 @end
 
 @interface AcceptAndRejectFbInviteForSlotsResponseProto : PBGeneratedMessage {
@@ -1552,14 +1552,14 @@ BOOL SellUserMonsterResponseProto_SellUserMonsterStatusIsValidValue(SellUserMons
   BOOL hasSender_:1;
   int32_t gemCost;
   MinimumUserProto* sender;
-  NSMutableArray* mutableUserMonsterIdsList;
+  NSMutableArray* mutableUserMonsterUuidsList;
 }
 - (BOOL) hasSender;
 - (BOOL) hasGemCost;
 @property (readonly, retain) MinimumUserProto* sender;
 @property (readonly) int32_t gemCost;
-- (NSArray*) userMonsterIdsList;
-- (int64_t) userMonsterIdsAtIndex:(int32_t) index;
+- (NSArray*) userMonsterUuidsList;
+- (NSString*) userMonsterUuidsAtIndex:(int32_t) index;
 
 + (CombineUserMonsterPiecesRequestProto*) defaultInstance;
 - (CombineUserMonsterPiecesRequestProto*) defaultInstance;
@@ -1602,12 +1602,12 @@ BOOL SellUserMonsterResponseProto_SellUserMonsterStatusIsValidValue(SellUserMons
 - (CombineUserMonsterPiecesRequestProto_Builder*) mergeSender:(MinimumUserProto*) value;
 - (CombineUserMonsterPiecesRequestProto_Builder*) clearSender;
 
-- (NSArray*) userMonsterIdsList;
-- (int64_t) userMonsterIdsAtIndex:(int32_t) index;
-- (CombineUserMonsterPiecesRequestProto_Builder*) replaceUserMonsterIdsAtIndex:(int32_t) index with:(int64_t) value;
-- (CombineUserMonsterPiecesRequestProto_Builder*) addUserMonsterIds:(int64_t) value;
-- (CombineUserMonsterPiecesRequestProto_Builder*) addAllUserMonsterIds:(NSArray*) values;
-- (CombineUserMonsterPiecesRequestProto_Builder*) clearUserMonsterIdsList;
+- (NSArray*) userMonsterUuidsList;
+- (NSString*) userMonsterUuidsAtIndex:(int32_t) index;
+- (CombineUserMonsterPiecesRequestProto_Builder*) replaceUserMonsterUuidsAtIndex:(int32_t) index with:(NSString*) value;
+- (CombineUserMonsterPiecesRequestProto_Builder*) addUserMonsterUuids:(NSString*) value;
+- (CombineUserMonsterPiecesRequestProto_Builder*) addAllUserMonsterUuids:(NSArray*) values;
+- (CombineUserMonsterPiecesRequestProto_Builder*) clearUserMonsterUuidsList;
 
 - (BOOL) hasGemCost;
 - (int32_t) gemCost;

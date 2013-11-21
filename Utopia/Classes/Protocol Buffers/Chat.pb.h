@@ -41,22 +41,22 @@ BOOL GroupChatScopeIsValidValue(GroupChatScope value);
 @interface PrivateChatPostProto : PBGeneratedMessage {
 @private
   BOOL hasTimeOfPost_:1;
-  BOOL hasPrivateChatPostId_:1;
+  BOOL hasPrivateChatPostUuid_:1;
   BOOL hasContent_:1;
   BOOL hasPoster_:1;
   BOOL hasRecipient_:1;
   int64_t timeOfPost;
-  int32_t privateChatPostId;
+  NSString* privateChatPostUuid;
   NSString* content;
   MinimumUserProtoWithLevel* poster;
   MinimumUserProtoWithLevel* recipient;
 }
-- (BOOL) hasPrivateChatPostId;
+- (BOOL) hasPrivateChatPostUuid;
 - (BOOL) hasPoster;
 - (BOOL) hasRecipient;
 - (BOOL) hasTimeOfPost;
 - (BOOL) hasContent;
-@property (readonly) int32_t privateChatPostId;
+@property (readonly, retain) NSString* privateChatPostUuid;
 @property (readonly, retain) MinimumUserProtoWithLevel* poster;
 @property (readonly, retain) MinimumUserProtoWithLevel* recipient;
 @property (readonly) int64_t timeOfPost;
@@ -96,10 +96,10 @@ BOOL GroupChatScopeIsValidValue(GroupChatScope value);
 - (PrivateChatPostProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input;
 - (PrivateChatPostProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
 
-- (BOOL) hasPrivateChatPostId;
-- (int32_t) privateChatPostId;
-- (PrivateChatPostProto_Builder*) setPrivateChatPostId:(int32_t) value;
-- (PrivateChatPostProto_Builder*) clearPrivateChatPostId;
+- (BOOL) hasPrivateChatPostUuid;
+- (NSString*) privateChatPostUuid;
+- (PrivateChatPostProto_Builder*) setPrivateChatPostUuid:(NSString*) value;
+- (PrivateChatPostProto_Builder*) clearPrivateChatPostUuid;
 
 - (BOOL) hasPoster;
 - (MinimumUserProtoWithLevel*) poster;
@@ -196,25 +196,25 @@ BOOL GroupChatScopeIsValidValue(GroupChatScope value);
 @private
   BOOL hasIsAdmin_:1;
   BOOL hasTimeOfChat_:1;
-  BOOL hasChatId_:1;
   BOOL hasContent_:1;
+  BOOL hasChatUuid_:1;
   BOOL hasSender_:1;
   BOOL isAdmin_:1;
   int64_t timeOfChat;
-  int32_t chatId;
   NSString* content;
+  NSString* chatUuid;
   MinimumUserProtoWithLevel* sender;
 }
 - (BOOL) hasSender;
 - (BOOL) hasTimeOfChat;
 - (BOOL) hasContent;
 - (BOOL) hasIsAdmin;
-- (BOOL) hasChatId;
+- (BOOL) hasChatUuid;
 @property (readonly, retain) MinimumUserProtoWithLevel* sender;
 @property (readonly) int64_t timeOfChat;
 @property (readonly, retain) NSString* content;
 - (BOOL) isAdmin;
-@property (readonly) int32_t chatId;
+@property (readonly, retain) NSString* chatUuid;
 
 + (GroupChatMessageProto*) defaultInstance;
 - (GroupChatMessageProto*) defaultInstance;
@@ -272,9 +272,9 @@ BOOL GroupChatScopeIsValidValue(GroupChatScope value);
 - (GroupChatMessageProto_Builder*) setIsAdmin:(BOOL) value;
 - (GroupChatMessageProto_Builder*) clearIsAdmin;
 
-- (BOOL) hasChatId;
-- (int32_t) chatId;
-- (GroupChatMessageProto_Builder*) setChatId:(int32_t) value;
-- (GroupChatMessageProto_Builder*) clearChatId;
+- (BOOL) hasChatUuid;
+- (NSString*) chatUuid;
+- (GroupChatMessageProto_Builder*) setChatUuid:(NSString*) value;
+- (GroupChatMessageProto_Builder*) clearChatUuid;
 @end
 

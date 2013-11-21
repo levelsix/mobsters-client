@@ -7,7 +7,7 @@
 //
 
 #import "ClanInfoViewController.h"
-#import "Protocols.pb.h"
+#import "MobstersEventProtocol.pb.h"
 #import "GameState.h"
 #import "OutgoingEventController.h"
 #import "GenericPopupController.h"
@@ -104,8 +104,8 @@
     }
     
     [self hideAllViews];
-    if (gs.clan.clanId == c.clan.clanId) {
-      if (gs.userId == c.clan.owner.userId) {
+    if ([gs.clan.clanUuid isEqualToString:c.clan.clanUuid]) {
+      if ([gs.userUuid isEqualToString:c.clan.owner.userUuid]) {
         self.leaderView.hidden = NO;
       } else {
         self.leaveView.hidden = NO;
@@ -114,7 +114,7 @@
       self.anotherClanView.hidden = NO;
     } else {
       
-      if ([gs.requestedClans containsObject:[NSNumber numberWithInt:c.clan.clanId]]) {
+      if ([gs.requestedClans containsObject:c.clan.clanUuid]) {
         self.cancelView.hidden = NO;
       } else {
         if (c.clan.requestToJoinRequired) {
@@ -146,9 +146,9 @@
 
 @implementation ClanInfoViewController
 
-- (id) initWithClanId:(int)clanId andName:(NSString *)name {
+- (id) initWithClanUuid:(NSString *)clanUuid andName:(NSString *)name {
   if ((self = [super initWithNibName:nil bundle:nil])) {
-    [[OutgoingEventController sharedOutgoingEventController] retrieveClanInfo:nil clanId:clanId grabType:RetrieveClanInfoRequestProto_ClanInfoGrabTypeAll isForBrowsingList:NO beforeClanId:0 delegate:self];
+    [[OutgoingEventController sharedOutgoingEventController] retrieveClanInfo:nil clanUuid:clanUuid grabType:RetrieveClanInfoRequestProto_ClanInfoGrabTypeAll isForBrowsingList:NO delegate:self];
     self.title = name ? name : @"Loading...";
   }
   return self;
@@ -159,7 +159,7 @@
     self.clan = clan;
     self.title = clan.clan.name;
     
-    [[OutgoingEventController sharedOutgoingEventController] retrieveClanInfo:nil clanId:clan.clan.clanId grabType:RetrieveClanInfoRequestProto_ClanInfoGrabTypeMembers isForBrowsingList:NO beforeClanId:0 delegate:self];
+    [[OutgoingEventController sharedOutgoingEventController] retrieveClanInfo:nil clanUuid:clan.clan.clanUuid grabType:RetrieveClanInfoRequestProto_ClanInfoGrabTypeMembers isForBrowsingList:NO delegate:self];
   }
   return self;
 }
@@ -170,7 +170,7 @@
   self.clan = nil;
   self.members = nil;
   self.requesters = nil;
-  [[OutgoingEventController sharedOutgoingEventController] retrieveClanInfo:nil clanId:gs.clan.clanId grabType:RetrieveClanInfoRequestProto_ClanInfoGrabTypeAll isForBrowsingList:NO beforeClanId:0 delegate:self];
+  [[OutgoingEventController sharedOutgoingEventController] retrieveClanInfo:nil clanUuid:gs.clan.clanUuid grabType:RetrieveClanInfoRequestProto_ClanInfoGrabTypeAll isForBrowsingList:NO delegate:self];
   [self.infoTable reloadData];
   
   [self.infoView loadForClan:nil];
@@ -203,7 +203,7 @@
   }
   
   MinimumUserProtoForClans *user = [self.members objectAtIndex:indexPath.row];
-  BOOL isLeader = user.minUserProto.minUserProtoWithLevel.minUserProto.userId == self.clan.clan.owner.userId;
+  BOOL isLeader = [user.minUserProto.minUserProtoWithLevel.minUserProto.userUuid isEqualToString:self.clan.clan.owner.userUuid];
   [cell loadForUser:user isLeader:isLeader];
   return cell;
 }
@@ -211,18 +211,18 @@
 #pragma mark - IBActions for green buttons
 
 - (IBAction)joinClicked:(id)sender {
-  [[OutgoingEventController sharedOutgoingEventController] requestJoinClan:self.clan.clan.clanId delegate:self];
+  [[OutgoingEventController sharedOutgoingEventController] requestJoinClan:self.clan.clan.clanUuid delegate:self];
 }
 
 - (IBAction)requestClicked:(id)sender {
-  [[OutgoingEventController sharedOutgoingEventController] requestJoinClan:self.clan.clan.clanId delegate:self];
+  [[OutgoingEventController sharedOutgoingEventController] requestJoinClan:self.clan.clan.clanUuid delegate:self];
 }
 
 - (IBAction)leaveClicked:(id)sender {
   GameState *gs = [GameState sharedGameState];
-  if (self.clan.clanSize == 1 && gs.clan.ownerId == gs.userId) {
+  if (self.clan.clanSize == 1 && [gs.clan.ownerUuid isEqualToString:gs.userUuid]) {
     [GenericPopupController displayConfirmationWithDescription:@"Are you sure you would like to delete this clan?" title:@"Delete?" okayButton:@"Delete" cancelButton:@"Cancel" target:self selector:@selector(leaveClan)];
-  } else if (gs.clan.ownerId == gs.userId) {
+  } else if ([gs.clan.ownerUuid isEqualToString:gs.userUuid]) {
     [Globals popupMessage:@"You must transfer ownership before leaving this clan."];
   } else {
     [GenericPopupController displayConfirmationWithDescription:@"Are you sure you would like to leave this clan?" title:@"Leave?" okayButton:@"Leave" cancelButton:@"Cancel" target:self selector:@selector(leaveClan)];
@@ -241,7 +241,7 @@
 }
 
 - (IBAction)cancelClicked:(id)sender {
-  [[OutgoingEventController sharedOutgoingEventController] retractRequestToJoinClan:self.clan.clan.clanId delegate:self];
+  [[OutgoingEventController sharedOutgoingEventController] retractRequestToJoinClan:self.clan.clan.clanUuid delegate:self];
 }
 
 - (IBAction)profileClicked:(id)sender {
@@ -252,7 +252,7 @@
   if (sender) {
     ClanMemberCell *cell = (ClanMemberCell *)sender;
     
-    ProfileViewController *mpvc = [[ProfileViewController alloc] initWithUserId:cell.user.minUserProto.minUserProtoWithLevel.minUserProto.userId];
+    ProfileViewController *mpvc = [[ProfileViewController alloc] initWithUserUuid:cell.user.minUserProto.minUserProtoWithLevel.minUserProto.userUuid];
     UIViewController *parent = self.navigationController;
     mpvc.view.frame = parent.view.bounds;
     [parent.view addSubview:mpvc.view];

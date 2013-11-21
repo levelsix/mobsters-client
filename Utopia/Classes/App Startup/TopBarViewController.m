@@ -237,8 +237,8 @@
 
 - (void) gameStateUpdated {
   GameState *gs = [GameState sharedGameState];
-  [self.silverLabel transitionToNum:gs.silver];
-  [self.goldLabel transitionToNum:gs.gold];
+  [self.cashLabel transitionToNum:gs.cash];
+  [self.gemsLabel transitionToNum:gs.gems];
   
   if (self.expLabel.currentNum <= gs.currentExpForLevel) {
     [self.expLabel transitionToNum:gs.currentExpForLevel];
@@ -266,9 +266,9 @@
   if (label == self.expLabel) {
     label.text = [NSString stringWithFormat:@"%@/%@", [Globals commafyNumber:number], [Globals commafyNumber:gs.expDeltaNeededForNextLevel]];
     self.expBar.percentage = ((float)number)/gs.expDeltaNeededForNextLevel;
-  } else if (label == self.silverLabel) {
+  } else if (label == self.cashLabel) {
     label.text = [Globals cashStringForNumber:number];
-  } else if (label == self.goldLabel) {
+  } else if (label == self.gemsLabel) {
     label.text = [Globals commafyNumber:number];
   }
 }

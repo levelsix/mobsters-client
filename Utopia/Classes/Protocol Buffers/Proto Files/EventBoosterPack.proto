@@ -4,8 +4,9 @@ import "BoosterPackStuff.proto";
 import "MonsterStuff.proto";
 import "User.proto";
 
-package com.lvl6.proto;
+package proto;
 
+option java_package = "com.lvl6.mobsters.eventprotos";
 option java_outer_classname = "EventBoosterPackProto";
 //DO NOT USE ID AS THE NAME OF A PROPERTY IN ANY PROTO
 

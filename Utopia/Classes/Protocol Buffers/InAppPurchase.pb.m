@@ -19,12 +19,12 @@ static PBExtensionRegistry* extensionRegistry = nil;
 }
 @end
 
-BOOL EarnFreeDiamondsTypeIsValidValue(EarnFreeDiamondsType value) {
+BOOL EarnFreeGemsTypeIsValidValue(EarnFreeGemsType value) {
   switch (value) {
-    case EarnFreeDiamondsTypeFbConnect:
-    case EarnFreeDiamondsTypeTapjoy:
-    case EarnFreeDiamondsTypeFlurryVideo:
-    case EarnFreeDiamondsTypeTwitter:
+    case EarnFreeGemsTypeFbConnect:
+    case EarnFreeGemsTypeTapjoy:
+    case EarnFreeGemsTypeFlurryVideo:
+    case EarnFreeGemsTypeTwitter:
       return YES;
     default:
       return NO;
@@ -329,7 +329,7 @@ static InAppPurchasePackageProto* defaultInAppPurchasePackageProtoInstance = nil
 @end
 
 @interface GoldSaleProto ()
-@property int32_t saleId;
+@property (retain) NSString* saleUuid;
 @property int64_t startDate;
 @property int64_t endDate;
 @property (retain) NSString* package1SaleIdentifier;
@@ -349,13 +349,13 @@ static InAppPurchasePackageProto* defaultInAppPurchasePackageProtoInstance = nil
 
 @implementation GoldSaleProto
 
-- (BOOL) hasSaleId {
-  return !!hasSaleId_;
+- (BOOL) hasSaleUuid {
+  return !!hasSaleUuid_;
 }
-- (void) setHasSaleId:(BOOL) value {
-  hasSaleId_ = !!value;
+- (void) setHasSaleUuid:(BOOL) value {
+  hasSaleUuid_ = !!value;
 }
-@synthesize saleId;
+@synthesize saleUuid;
 - (BOOL) hasStartDate {
   return !!hasStartDate_;
 }
@@ -467,6 +467,7 @@ static InAppPurchasePackageProto* defaultInAppPurchasePackageProtoInstance = nil
   isBeginnerSale_ = !!value;
 }
 - (void) dealloc {
+  self.saleUuid = nil;
   self.package1SaleIdentifier = nil;
   self.package2SaleIdentifier = nil;
   self.package3SaleIdentifier = nil;
@@ -483,7 +484,7 @@ static InAppPurchasePackageProto* defaultInAppPurchasePackageProtoInstance = nil
 }
 - (id) init {
   if ((self = [super init])) {
-    self.saleId = 0;
+    self.saleUuid = @"";
     self.startDate = 0L;
     self.endDate = 0L;
     self.package1SaleIdentifier = @"";
@@ -518,8 +519,8 @@ static GoldSaleProto* defaultGoldSaleProtoInstance = nil;
   return YES;
 }
 - (void) writeToCodedOutputStream:(PBCodedOutputStream*) output {
-  if (self.hasSaleId) {
-    [output writeInt32:1 value:self.saleId];
+  if (self.hasSaleUuid) {
+    [output writeString:1 value:self.saleUuid];
   }
   if (self.hasStartDate) {
     [output writeInt64:2 value:self.startDate];
@@ -575,8 +576,8 @@ static GoldSaleProto* defaultGoldSaleProtoInstance = nil;
   }
 
   size = 0;
-  if (self.hasSaleId) {
-    size += computeInt32Size(1, self.saleId);
+  if (self.hasSaleUuid) {
+    size += computeStringSize(1, self.saleUuid);
   }
   if (self.hasStartDate) {
     size += computeInt64Size(2, self.startDate);
@@ -698,8 +699,8 @@ static GoldSaleProto* defaultGoldSaleProtoInstance = nil;
   if (other == [GoldSaleProto defaultInstance]) {
     return self;
   }
-  if (other.hasSaleId) {
-    [self setSaleId:other.saleId];
+  if (other.hasSaleUuid) {
+    [self setSaleUuid:other.saleUuid];
   }
   if (other.hasStartDate) {
     [self setStartDate:other.startDate];
@@ -767,8 +768,8 @@ static GoldSaleProto* defaultGoldSaleProtoInstance = nil;
         }
         break;
       }
-      case 8: {
-        [self setSaleId:[input readInt32]];
+      case 10: {
+        [self setSaleUuid:[input readString]];
         break;
       }
       case 16: {
@@ -834,20 +835,20 @@ static GoldSaleProto* defaultGoldSaleProtoInstance = nil;
     }
   }
 }
-- (BOOL) hasSaleId {
-  return result.hasSaleId;
+- (BOOL) hasSaleUuid {
+  return result.hasSaleUuid;
 }
-- (int32_t) saleId {
-  return result.saleId;
+- (NSString*) saleUuid {
+  return result.saleUuid;
 }
-- (GoldSaleProto_Builder*) setSaleId:(int32_t) value {
-  result.hasSaleId = YES;
-  result.saleId = value;
+- (GoldSaleProto_Builder*) setSaleUuid:(NSString*) value {
+  result.hasSaleUuid = YES;
+  result.saleUuid = value;
   return self;
 }
-- (GoldSaleProto_Builder*) clearSaleId {
-  result.hasSaleId = NO;
-  result.saleId = 0;
+- (GoldSaleProto_Builder*) clearSaleUuid {
+  result.hasSaleUuid = NO;
+  result.saleUuid = @"";
   return self;
 }
 - (BOOL) hasStartDate {

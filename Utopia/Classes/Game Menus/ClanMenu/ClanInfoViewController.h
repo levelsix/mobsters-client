@@ -7,7 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "Protocols.pb.h"
+#import "MobstersEventProtocol.pb.h"
 #import "Globals.h"
 
 @interface ClanMemberCell : UITableViewCell
@@ -52,7 +52,7 @@
 @property (nonatomic, retain) NSArray *members;
 @property (nonatomic, retain) NSArray *requesters;
 
-- (id) initWithClanId:(int)clanId andName:(NSString *)name;
+- (id) initWithClanUuid:(NSString *)clanUuid andName:(NSString *)name;
 - (id) initWithClan:(FullClanProtoWithClanSize *)clan;
 - (void) loadForMyClan;
 

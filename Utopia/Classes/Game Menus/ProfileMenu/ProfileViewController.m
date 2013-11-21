@@ -17,9 +17,9 @@
 
 @implementation ProfileViewController
 
-- (id)initWithUserId:(int)userId {
+- (id)initWithUserUuid:(NSString *)userUuid {
   if ((self = [super init])) {
-    [[OutgoingEventController sharedOutgoingEventController] retrieveUsersForUserIds:[NSArray arrayWithObject:@(userId)] includeCurMonsterTeam:YES delegate:self];
+    [[OutgoingEventController sharedOutgoingEventController] retrieveUsersForUserUuids:[NSArray arrayWithObject:userUuid] includeCurMonsterTeam:YES delegate:self];
   }
   return self;
 }
@@ -35,7 +35,7 @@
 - (void) handleRetrieveUsersForUserIdsResponseProto:(FullEvent *)fe {
   RetrieveUsersForUserIdsResponseProto *proto = (RetrieveUsersForUserIdsResponseProto *)fe.event;
   self.fup = [proto.requestedUsersList lastObject];
-  self.curTeam = [[Globals convertUserTeamArrayToDictionary:proto.curTeamList] objectForKey:@(self.fup.userId)];
+  self.curTeam = [[Globals convertUserTeamArrayToDictionary:proto.curTeamList] objectForKey:self.fup.userUuid];
   [self loadProfile];
 }
 
@@ -87,7 +87,7 @@
 - (void) labelClicked:(UnderlinedLabelView *)label {
   // Go visit clan
   UIViewController *gvc = (UIViewController *)self.parentViewController;
-  ClanInfoViewController *cvc = [[ClanInfoViewController alloc] initWithClanId:self.fup.clan.clanId andName:self.fup.clan.name];
+  ClanInfoViewController *cvc = [[ClanInfoViewController alloc] initWithClanUuid:self.fup.clan.clanUuid andName:self.fup.clan.name];
   
   // Call close first so that the block will retain this controller
   [self close:nil];
@@ -104,7 +104,7 @@
 
 - (IBAction)message:(id)sender {
   GameViewController *gvc = [GameViewController baseController];
-  [gvc openPrivateChatWithUserId:self.fup.userId];
+  [gvc openPrivateChatWithUserUuid:self.fup.userUuid];
   
   [self close:nil];
 }

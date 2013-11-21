@@ -26,7 +26,7 @@ static PBExtensionRegistry* extensionRegistry = nil;
 @property (retain) MinimumUserProto* sender;
 @property int64_t clientTime;
 @property int32_t taskId;
-@property BOOL userBeatAllCityTasks;
+@property BOOL spawnBoss;
 @end
 
 @implementation BeginDungeonRequestProto
@@ -52,17 +52,17 @@ static PBExtensionRegistry* extensionRegistry = nil;
   hasTaskId_ = !!value;
 }
 @synthesize taskId;
-- (BOOL) hasUserBeatAllCityTasks {
-  return !!hasUserBeatAllCityTasks_;
+- (BOOL) hasSpawnBoss {
+  return !!hasSpawnBoss_;
 }
-- (void) setHasUserBeatAllCityTasks:(BOOL) value {
-  hasUserBeatAllCityTasks_ = !!value;
+- (void) setHasSpawnBoss:(BOOL) value {
+  hasSpawnBoss_ = !!value;
 }
-- (BOOL) userBeatAllCityTasks {
-  return !!userBeatAllCityTasks_;
+- (BOOL) spawnBoss {
+  return !!spawnBoss_;
 }
-- (void) setUserBeatAllCityTasks:(BOOL) value {
-  userBeatAllCityTasks_ = !!value;
+- (void) setSpawnBoss:(BOOL) value {
+  spawnBoss_ = !!value;
 }
 - (void) dealloc {
   self.sender = nil;
@@ -73,7 +73,7 @@ static PBExtensionRegistry* extensionRegistry = nil;
     self.sender = [MinimumUserProto defaultInstance];
     self.clientTime = 0L;
     self.taskId = 0;
-    self.userBeatAllCityTasks = NO;
+    self.spawnBoss = NO;
   }
   return self;
 }
@@ -102,8 +102,8 @@ static BeginDungeonRequestProto* defaultBeginDungeonRequestProtoInstance = nil;
   if (self.hasTaskId) {
     [output writeInt32:3 value:self.taskId];
   }
-  if (self.hasUserBeatAllCityTasks) {
-    [output writeBool:4 value:self.userBeatAllCityTasks];
+  if (self.hasSpawnBoss) {
+    [output writeBool:4 value:self.spawnBoss];
   }
   [self.unknownFields writeToCodedOutputStream:output];
 }
@@ -123,8 +123,8 @@ static BeginDungeonRequestProto* defaultBeginDungeonRequestProtoInstance = nil;
   if (self.hasTaskId) {
     size += computeInt32Size(3, self.taskId);
   }
-  if (self.hasUserBeatAllCityTasks) {
-    size += computeBoolSize(4, self.userBeatAllCityTasks);
+  if (self.hasSpawnBoss) {
+    size += computeBoolSize(4, self.spawnBoss);
   }
   size += self.unknownFields.serializedSize;
   memoizedSerializedSize = size;
@@ -210,8 +210,8 @@ static BeginDungeonRequestProto* defaultBeginDungeonRequestProtoInstance = nil;
   if (other.hasTaskId) {
     [self setTaskId:other.taskId];
   }
-  if (other.hasUserBeatAllCityTasks) {
-    [self setUserBeatAllCityTasks:other.userBeatAllCityTasks];
+  if (other.hasSpawnBoss) {
+    [self setSpawnBoss:other.spawnBoss];
   }
   [self mergeUnknownFields:other.unknownFields];
   return self;
@@ -252,7 +252,7 @@ static BeginDungeonRequestProto* defaultBeginDungeonRequestProtoInstance = nil;
         break;
       }
       case 32: {
-        [self setUserBeatAllCityTasks:[input readBool]];
+        [self setSpawnBoss:[input readBool]];
         break;
       }
     }
@@ -320,20 +320,20 @@ static BeginDungeonRequestProto* defaultBeginDungeonRequestProtoInstance = nil;
   result.taskId = 0;
   return self;
 }
-- (BOOL) hasUserBeatAllCityTasks {
-  return result.hasUserBeatAllCityTasks;
+- (BOOL) hasSpawnBoss {
+  return result.hasSpawnBoss;
 }
-- (BOOL) userBeatAllCityTasks {
-  return result.userBeatAllCityTasks;
+- (BOOL) spawnBoss {
+  return result.spawnBoss;
 }
-- (BeginDungeonRequestProto_Builder*) setUserBeatAllCityTasks:(BOOL) value {
-  result.hasUserBeatAllCityTasks = YES;
-  result.userBeatAllCityTasks = value;
+- (BeginDungeonRequestProto_Builder*) setSpawnBoss:(BOOL) value {
+  result.hasSpawnBoss = YES;
+  result.spawnBoss = value;
   return self;
 }
-- (BeginDungeonRequestProto_Builder*) clearUserBeatAllCityTasks {
-  result.hasUserBeatAllCityTasks = NO;
-  result.userBeatAllCityTasks = NO;
+- (BeginDungeonRequestProto_Builder*) clearSpawnBoss {
+  result.hasSpawnBoss = NO;
+  result.spawnBoss = NO;
   return self;
 }
 @end
@@ -341,9 +341,10 @@ static BeginDungeonRequestProto* defaultBeginDungeonRequestProtoInstance = nil;
 @interface BeginDungeonResponseProto ()
 @property (retain) MinimumUserProto* sender;
 @property (retain) NSMutableArray* mutableTspList;
-@property int64_t userTaskId;
+@property (retain) NSString* userTaskUuid;
 @property int32_t taskId;
 @property BeginDungeonResponseProto_BeginDungeonStatus status;
+@property int32_t nextTaskIdForBoss;
 @end
 
 @implementation BeginDungeonResponseProto
@@ -356,13 +357,13 @@ static BeginDungeonRequestProto* defaultBeginDungeonRequestProtoInstance = nil;
 }
 @synthesize sender;
 @synthesize mutableTspList;
-- (BOOL) hasUserTaskId {
-  return !!hasUserTaskId_;
+- (BOOL) hasUserTaskUuid {
+  return !!hasUserTaskUuid_;
 }
-- (void) setHasUserTaskId:(BOOL) value {
-  hasUserTaskId_ = !!value;
+- (void) setHasUserTaskUuid:(BOOL) value {
+  hasUserTaskUuid_ = !!value;
 }
-@synthesize userTaskId;
+@synthesize userTaskUuid;
 - (BOOL) hasTaskId {
   return !!hasTaskId_;
 }
@@ -377,17 +378,26 @@ static BeginDungeonRequestProto* defaultBeginDungeonRequestProtoInstance = nil;
   hasStatus_ = !!value;
 }
 @synthesize status;
+- (BOOL) hasNextTaskIdForBoss {
+  return !!hasNextTaskIdForBoss_;
+}
+- (void) setHasNextTaskIdForBoss:(BOOL) value {
+  hasNextTaskIdForBoss_ = !!value;
+}
+@synthesize nextTaskIdForBoss;
 - (void) dealloc {
   self.sender = nil;
   self.mutableTspList = nil;
+  self.userTaskUuid = nil;
   [super dealloc];
 }
 - (id) init {
   if ((self = [super init])) {
     self.sender = [MinimumUserProto defaultInstance];
-    self.userTaskId = 0L;
+    self.userTaskUuid = @"";
     self.taskId = 0;
     self.status = BeginDungeonResponseProto_BeginDungeonStatusSuccess;
+    self.nextTaskIdForBoss = 0;
   }
   return self;
 }
@@ -420,14 +430,17 @@ static BeginDungeonResponseProto* defaultBeginDungeonResponseProtoInstance = nil
   for (TaskStageProto* element in self.tspList) {
     [output writeMessage:2 value:element];
   }
-  if (self.hasUserTaskId) {
-    [output writeInt64:3 value:self.userTaskId];
+  if (self.hasUserTaskUuid) {
+    [output writeString:3 value:self.userTaskUuid];
   }
   if (self.hasTaskId) {
     [output writeInt32:4 value:self.taskId];
   }
   if (self.hasStatus) {
     [output writeEnum:5 value:self.status];
+  }
+  if (self.hasNextTaskIdForBoss) {
+    [output writeInt32:6 value:self.nextTaskIdForBoss];
   }
   [self.unknownFields writeToCodedOutputStream:output];
 }
@@ -444,14 +457,17 @@ static BeginDungeonResponseProto* defaultBeginDungeonResponseProtoInstance = nil
   for (TaskStageProto* element in self.tspList) {
     size += computeMessageSize(2, element);
   }
-  if (self.hasUserTaskId) {
-    size += computeInt64Size(3, self.userTaskId);
+  if (self.hasUserTaskUuid) {
+    size += computeStringSize(3, self.userTaskUuid);
   }
   if (self.hasTaskId) {
     size += computeInt32Size(4, self.taskId);
   }
   if (self.hasStatus) {
     size += computeEnumSize(5, self.status);
+  }
+  if (self.hasNextTaskIdForBoss) {
+    size += computeInt32Size(6, self.nextTaskIdForBoss);
   }
   size += self.unknownFields.serializedSize;
   memoizedSerializedSize = size;
@@ -546,14 +562,17 @@ BOOL BeginDungeonResponseProto_BeginDungeonStatusIsValidValue(BeginDungeonRespon
     }
     [result.mutableTspList addObjectsFromArray:other.mutableTspList];
   }
-  if (other.hasUserTaskId) {
-    [self setUserTaskId:other.userTaskId];
+  if (other.hasUserTaskUuid) {
+    [self setUserTaskUuid:other.userTaskUuid];
   }
   if (other.hasTaskId) {
     [self setTaskId:other.taskId];
   }
   if (other.hasStatus) {
     [self setStatus:other.status];
+  }
+  if (other.hasNextTaskIdForBoss) {
+    [self setNextTaskIdForBoss:other.nextTaskIdForBoss];
   }
   [self mergeUnknownFields:other.unknownFields];
   return self;
@@ -591,8 +610,8 @@ BOOL BeginDungeonResponseProto_BeginDungeonStatusIsValidValue(BeginDungeonRespon
         [self addTsp:[subBuilder buildPartial]];
         break;
       }
-      case 24: {
-        [self setUserTaskId:[input readInt64]];
+      case 26: {
+        [self setUserTaskUuid:[input readString]];
         break;
       }
       case 32: {
@@ -606,6 +625,10 @@ BOOL BeginDungeonResponseProto_BeginDungeonStatusIsValidValue(BeginDungeonRespon
         } else {
           [unknownFields mergeVarintField:5 value:value];
         }
+        break;
+      }
+      case 48: {
+        [self setNextTaskIdForBoss:[input readInt32]];
         break;
       }
     }
@@ -670,20 +693,20 @@ BOOL BeginDungeonResponseProto_BeginDungeonStatusIsValidValue(BeginDungeonRespon
   [result.mutableTspList addObject:value];
   return self;
 }
-- (BOOL) hasUserTaskId {
-  return result.hasUserTaskId;
+- (BOOL) hasUserTaskUuid {
+  return result.hasUserTaskUuid;
 }
-- (int64_t) userTaskId {
-  return result.userTaskId;
+- (NSString*) userTaskUuid {
+  return result.userTaskUuid;
 }
-- (BeginDungeonResponseProto_Builder*) setUserTaskId:(int64_t) value {
-  result.hasUserTaskId = YES;
-  result.userTaskId = value;
+- (BeginDungeonResponseProto_Builder*) setUserTaskUuid:(NSString*) value {
+  result.hasUserTaskUuid = YES;
+  result.userTaskUuid = value;
   return self;
 }
-- (BeginDungeonResponseProto_Builder*) clearUserTaskId {
-  result.hasUserTaskId = NO;
-  result.userTaskId = 0L;
+- (BeginDungeonResponseProto_Builder*) clearUserTaskUuid {
+  result.hasUserTaskUuid = NO;
+  result.userTaskUuid = @"";
   return self;
 }
 - (BOOL) hasTaskId {
@@ -718,15 +741,32 @@ BOOL BeginDungeonResponseProto_BeginDungeonStatusIsValidValue(BeginDungeonRespon
   result.status = BeginDungeonResponseProto_BeginDungeonStatusSuccess;
   return self;
 }
+- (BOOL) hasNextTaskIdForBoss {
+  return result.hasNextTaskIdForBoss;
+}
+- (int32_t) nextTaskIdForBoss {
+  return result.nextTaskIdForBoss;
+}
+- (BeginDungeonResponseProto_Builder*) setNextTaskIdForBoss:(int32_t) value {
+  result.hasNextTaskIdForBoss = YES;
+  result.nextTaskIdForBoss = value;
+  return self;
+}
+- (BeginDungeonResponseProto_Builder*) clearNextTaskIdForBoss {
+  result.hasNextTaskIdForBoss = NO;
+  result.nextTaskIdForBoss = 0;
+  return self;
+}
 @end
 
 @interface EndDungeonRequestProto ()
 @property (retain) MinimumUserProto* sender;
-@property int64_t userTaskId;
+@property (retain) NSString* userTaskUuid;
 @property BOOL userWon;
 @property int64_t clientTime;
 @property BOOL firstTimeUserWonTask;
-@property BOOL userBeatAllCityTasks;
+@property BOOL generateFirstBoss;
+@property BOOL respawnBoss;
 @end
 
 @implementation EndDungeonRequestProto
@@ -738,13 +778,13 @@ BOOL BeginDungeonResponseProto_BeginDungeonStatusIsValidValue(BeginDungeonRespon
   hasSender_ = !!value;
 }
 @synthesize sender;
-- (BOOL) hasUserTaskId {
-  return !!hasUserTaskId_;
+- (BOOL) hasUserTaskUuid {
+  return !!hasUserTaskUuid_;
 }
-- (void) setHasUserTaskId:(BOOL) value {
-  hasUserTaskId_ = !!value;
+- (void) setHasUserTaskUuid:(BOOL) value {
+  hasUserTaskUuid_ = !!value;
 }
-@synthesize userTaskId;
+@synthesize userTaskUuid;
 - (BOOL) hasUserWon {
   return !!hasUserWon_;
 }
@@ -776,30 +816,44 @@ BOOL BeginDungeonResponseProto_BeginDungeonStatusIsValidValue(BeginDungeonRespon
 - (void) setFirstTimeUserWonTask:(BOOL) value {
   firstTimeUserWonTask_ = !!value;
 }
-- (BOOL) hasUserBeatAllCityTasks {
-  return !!hasUserBeatAllCityTasks_;
+- (BOOL) hasGenerateFirstBoss {
+  return !!hasGenerateFirstBoss_;
 }
-- (void) setHasUserBeatAllCityTasks:(BOOL) value {
-  hasUserBeatAllCityTasks_ = !!value;
+- (void) setHasGenerateFirstBoss:(BOOL) value {
+  hasGenerateFirstBoss_ = !!value;
 }
-- (BOOL) userBeatAllCityTasks {
-  return !!userBeatAllCityTasks_;
+- (BOOL) generateFirstBoss {
+  return !!generateFirstBoss_;
 }
-- (void) setUserBeatAllCityTasks:(BOOL) value {
-  userBeatAllCityTasks_ = !!value;
+- (void) setGenerateFirstBoss:(BOOL) value {
+  generateFirstBoss_ = !!value;
+}
+- (BOOL) hasRespawnBoss {
+  return !!hasRespawnBoss_;
+}
+- (void) setHasRespawnBoss:(BOOL) value {
+  hasRespawnBoss_ = !!value;
+}
+- (BOOL) respawnBoss {
+  return !!respawnBoss_;
+}
+- (void) setRespawnBoss:(BOOL) value {
+  respawnBoss_ = !!value;
 }
 - (void) dealloc {
   self.sender = nil;
+  self.userTaskUuid = nil;
   [super dealloc];
 }
 - (id) init {
   if ((self = [super init])) {
     self.sender = [MinimumUserProto defaultInstance];
-    self.userTaskId = 0L;
+    self.userTaskUuid = @"";
     self.userWon = NO;
     self.clientTime = 0L;
     self.firstTimeUserWonTask = NO;
-    self.userBeatAllCityTasks = NO;
+    self.generateFirstBoss = NO;
+    self.respawnBoss = NO;
   }
   return self;
 }
@@ -822,8 +876,8 @@ static EndDungeonRequestProto* defaultEndDungeonRequestProtoInstance = nil;
   if (self.hasSender) {
     [output writeMessage:1 value:self.sender];
   }
-  if (self.hasUserTaskId) {
-    [output writeInt64:2 value:self.userTaskId];
+  if (self.hasUserTaskUuid) {
+    [output writeString:2 value:self.userTaskUuid];
   }
   if (self.hasUserWon) {
     [output writeBool:3 value:self.userWon];
@@ -834,8 +888,11 @@ static EndDungeonRequestProto* defaultEndDungeonRequestProtoInstance = nil;
   if (self.hasFirstTimeUserWonTask) {
     [output writeBool:5 value:self.firstTimeUserWonTask];
   }
-  if (self.hasUserBeatAllCityTasks) {
-    [output writeBool:6 value:self.userBeatAllCityTasks];
+  if (self.hasGenerateFirstBoss) {
+    [output writeBool:6 value:self.generateFirstBoss];
+  }
+  if (self.hasRespawnBoss) {
+    [output writeBool:7 value:self.respawnBoss];
   }
   [self.unknownFields writeToCodedOutputStream:output];
 }
@@ -849,8 +906,8 @@ static EndDungeonRequestProto* defaultEndDungeonRequestProtoInstance = nil;
   if (self.hasSender) {
     size += computeMessageSize(1, self.sender);
   }
-  if (self.hasUserTaskId) {
-    size += computeInt64Size(2, self.userTaskId);
+  if (self.hasUserTaskUuid) {
+    size += computeStringSize(2, self.userTaskUuid);
   }
   if (self.hasUserWon) {
     size += computeBoolSize(3, self.userWon);
@@ -861,8 +918,11 @@ static EndDungeonRequestProto* defaultEndDungeonRequestProtoInstance = nil;
   if (self.hasFirstTimeUserWonTask) {
     size += computeBoolSize(5, self.firstTimeUserWonTask);
   }
-  if (self.hasUserBeatAllCityTasks) {
-    size += computeBoolSize(6, self.userBeatAllCityTasks);
+  if (self.hasGenerateFirstBoss) {
+    size += computeBoolSize(6, self.generateFirstBoss);
+  }
+  if (self.hasRespawnBoss) {
+    size += computeBoolSize(7, self.respawnBoss);
   }
   size += self.unknownFields.serializedSize;
   memoizedSerializedSize = size;
@@ -942,8 +1002,8 @@ static EndDungeonRequestProto* defaultEndDungeonRequestProtoInstance = nil;
   if (other.hasSender) {
     [self mergeSender:other.sender];
   }
-  if (other.hasUserTaskId) {
-    [self setUserTaskId:other.userTaskId];
+  if (other.hasUserTaskUuid) {
+    [self setUserTaskUuid:other.userTaskUuid];
   }
   if (other.hasUserWon) {
     [self setUserWon:other.userWon];
@@ -954,8 +1014,11 @@ static EndDungeonRequestProto* defaultEndDungeonRequestProtoInstance = nil;
   if (other.hasFirstTimeUserWonTask) {
     [self setFirstTimeUserWonTask:other.firstTimeUserWonTask];
   }
-  if (other.hasUserBeatAllCityTasks) {
-    [self setUserBeatAllCityTasks:other.userBeatAllCityTasks];
+  if (other.hasGenerateFirstBoss) {
+    [self setGenerateFirstBoss:other.generateFirstBoss];
+  }
+  if (other.hasRespawnBoss) {
+    [self setRespawnBoss:other.respawnBoss];
   }
   [self mergeUnknownFields:other.unknownFields];
   return self;
@@ -987,8 +1050,8 @@ static EndDungeonRequestProto* defaultEndDungeonRequestProtoInstance = nil;
         [self setSender:[subBuilder buildPartial]];
         break;
       }
-      case 16: {
-        [self setUserTaskId:[input readInt64]];
+      case 18: {
+        [self setUserTaskUuid:[input readString]];
         break;
       }
       case 24: {
@@ -1004,7 +1067,11 @@ static EndDungeonRequestProto* defaultEndDungeonRequestProtoInstance = nil;
         break;
       }
       case 48: {
-        [self setUserBeatAllCityTasks:[input readBool]];
+        [self setGenerateFirstBoss:[input readBool]];
+        break;
+      }
+      case 56: {
+        [self setRespawnBoss:[input readBool]];
         break;
       }
     }
@@ -1040,20 +1107,20 @@ static EndDungeonRequestProto* defaultEndDungeonRequestProtoInstance = nil;
   result.sender = [MinimumUserProto defaultInstance];
   return self;
 }
-- (BOOL) hasUserTaskId {
-  return result.hasUserTaskId;
+- (BOOL) hasUserTaskUuid {
+  return result.hasUserTaskUuid;
 }
-- (int64_t) userTaskId {
-  return result.userTaskId;
+- (NSString*) userTaskUuid {
+  return result.userTaskUuid;
 }
-- (EndDungeonRequestProto_Builder*) setUserTaskId:(int64_t) value {
-  result.hasUserTaskId = YES;
-  result.userTaskId = value;
+- (EndDungeonRequestProto_Builder*) setUserTaskUuid:(NSString*) value {
+  result.hasUserTaskUuid = YES;
+  result.userTaskUuid = value;
   return self;
 }
-- (EndDungeonRequestProto_Builder*) clearUserTaskId {
-  result.hasUserTaskId = NO;
-  result.userTaskId = 0L;
+- (EndDungeonRequestProto_Builder*) clearUserTaskUuid {
+  result.hasUserTaskUuid = NO;
+  result.userTaskUuid = @"";
   return self;
 }
 - (BOOL) hasUserWon {
@@ -1104,20 +1171,36 @@ static EndDungeonRequestProto* defaultEndDungeonRequestProtoInstance = nil;
   result.firstTimeUserWonTask = NO;
   return self;
 }
-- (BOOL) hasUserBeatAllCityTasks {
-  return result.hasUserBeatAllCityTasks;
+- (BOOL) hasGenerateFirstBoss {
+  return result.hasGenerateFirstBoss;
 }
-- (BOOL) userBeatAllCityTasks {
-  return result.userBeatAllCityTasks;
+- (BOOL) generateFirstBoss {
+  return result.generateFirstBoss;
 }
-- (EndDungeonRequestProto_Builder*) setUserBeatAllCityTasks:(BOOL) value {
-  result.hasUserBeatAllCityTasks = YES;
-  result.userBeatAllCityTasks = value;
+- (EndDungeonRequestProto_Builder*) setGenerateFirstBoss:(BOOL) value {
+  result.hasGenerateFirstBoss = YES;
+  result.generateFirstBoss = value;
   return self;
 }
-- (EndDungeonRequestProto_Builder*) clearUserBeatAllCityTasks {
-  result.hasUserBeatAllCityTasks = NO;
-  result.userBeatAllCityTasks = NO;
+- (EndDungeonRequestProto_Builder*) clearGenerateFirstBoss {
+  result.hasGenerateFirstBoss = NO;
+  result.generateFirstBoss = NO;
+  return self;
+}
+- (BOOL) hasRespawnBoss {
+  return result.hasRespawnBoss;
+}
+- (BOOL) respawnBoss {
+  return result.respawnBoss;
+}
+- (EndDungeonRequestProto_Builder*) setRespawnBoss:(BOOL) value {
+  result.hasRespawnBoss = YES;
+  result.respawnBoss = value;
+  return self;
+}
+- (EndDungeonRequestProto_Builder*) clearRespawnBoss {
+  result.hasRespawnBoss = NO;
+  result.respawnBoss = NO;
   return self;
 }
 @end
@@ -1128,6 +1211,7 @@ static EndDungeonRequestProto* defaultEndDungeonRequestProtoInstance = nil;
 @property (retain) NSMutableArray* mutableUpdatedOrNewList;
 @property int32_t taskId;
 @property BOOL userWon;
+@property int32_t nextTaskIdForBoss;
 @end
 
 @implementation EndDungeonResponseProto
@@ -1166,6 +1250,13 @@ static EndDungeonRequestProto* defaultEndDungeonRequestProtoInstance = nil;
 - (void) setUserWon:(BOOL) value {
   userWon_ = !!value;
 }
+- (BOOL) hasNextTaskIdForBoss {
+  return !!hasNextTaskIdForBoss_;
+}
+- (void) setHasNextTaskIdForBoss:(BOOL) value {
+  hasNextTaskIdForBoss_ = !!value;
+}
+@synthesize nextTaskIdForBoss;
 - (void) dealloc {
   self.sender = nil;
   self.mutableUpdatedOrNewList = nil;
@@ -1177,6 +1268,7 @@ static EndDungeonRequestProto* defaultEndDungeonRequestProtoInstance = nil;
     self.status = EndDungeonResponseProto_EndDungeonStatusSuccess;
     self.taskId = 0;
     self.userWon = NO;
+    self.nextTaskIdForBoss = 0;
   }
   return self;
 }
@@ -1218,6 +1310,9 @@ static EndDungeonResponseProto* defaultEndDungeonResponseProtoInstance = nil;
   if (self.hasUserWon) {
     [output writeBool:5 value:self.userWon];
   }
+  if (self.hasNextTaskIdForBoss) {
+    [output writeInt32:6 value:self.nextTaskIdForBoss];
+  }
   [self.unknownFields writeToCodedOutputStream:output];
 }
 - (int32_t) serializedSize {
@@ -1241,6 +1336,9 @@ static EndDungeonResponseProto* defaultEndDungeonResponseProtoInstance = nil;
   }
   if (self.hasUserWon) {
     size += computeBoolSize(5, self.userWon);
+  }
+  if (self.hasNextTaskIdForBoss) {
+    size += computeInt32Size(6, self.nextTaskIdForBoss);
   }
   size += self.unknownFields.serializedSize;
   memoizedSerializedSize = size;
@@ -1344,6 +1442,9 @@ BOOL EndDungeonResponseProto_EndDungeonStatusIsValidValue(EndDungeonResponseProt
   if (other.hasUserWon) {
     [self setUserWon:other.userWon];
   }
+  if (other.hasNextTaskIdForBoss) {
+    [self setNextTaskIdForBoss:other.nextTaskIdForBoss];
+  }
   [self mergeUnknownFields:other.unknownFields];
   return self;
 }
@@ -1395,6 +1496,10 @@ BOOL EndDungeonResponseProto_EndDungeonStatusIsValidValue(EndDungeonResponseProt
       }
       case 40: {
         [self setUserWon:[input readBool]];
+        break;
+      }
+      case 48: {
+        [self setNextTaskIdForBoss:[input readInt32]];
         break;
       }
     }
@@ -1507,11 +1612,27 @@ BOOL EndDungeonResponseProto_EndDungeonStatusIsValidValue(EndDungeonResponseProt
   result.userWon = NO;
   return self;
 }
+- (BOOL) hasNextTaskIdForBoss {
+  return result.hasNextTaskIdForBoss;
+}
+- (int32_t) nextTaskIdForBoss {
+  return result.nextTaskIdForBoss;
+}
+- (EndDungeonResponseProto_Builder*) setNextTaskIdForBoss:(int32_t) value {
+  result.hasNextTaskIdForBoss = YES;
+  result.nextTaskIdForBoss = value;
+  return self;
+}
+- (EndDungeonResponseProto_Builder*) clearNextTaskIdForBoss {
+  result.hasNextTaskIdForBoss = NO;
+  result.nextTaskIdForBoss = 0;
+  return self;
+}
 @end
 
 @interface ReviveInDungeonRequestProto ()
 @property (retain) MinimumUserProto* sender;
-@property int64_t userTaskId;
+@property (retain) NSString* userTaskUuid;
 @property int64_t clientTime;
 @end
 
@@ -1524,13 +1645,13 @@ BOOL EndDungeonResponseProto_EndDungeonStatusIsValidValue(EndDungeonResponseProt
   hasSender_ = !!value;
 }
 @synthesize sender;
-- (BOOL) hasUserTaskId {
-  return !!hasUserTaskId_;
+- (BOOL) hasUserTaskUuid {
+  return !!hasUserTaskUuid_;
 }
-- (void) setHasUserTaskId:(BOOL) value {
-  hasUserTaskId_ = !!value;
+- (void) setHasUserTaskUuid:(BOOL) value {
+  hasUserTaskUuid_ = !!value;
 }
-@synthesize userTaskId;
+@synthesize userTaskUuid;
 - (BOOL) hasClientTime {
   return !!hasClientTime_;
 }
@@ -1540,12 +1661,13 @@ BOOL EndDungeonResponseProto_EndDungeonStatusIsValidValue(EndDungeonResponseProt
 @synthesize clientTime;
 - (void) dealloc {
   self.sender = nil;
+  self.userTaskUuid = nil;
   [super dealloc];
 }
 - (id) init {
   if ((self = [super init])) {
     self.sender = [MinimumUserProto defaultInstance];
-    self.userTaskId = 0L;
+    self.userTaskUuid = @"";
     self.clientTime = 0L;
   }
   return self;
@@ -1569,8 +1691,8 @@ static ReviveInDungeonRequestProto* defaultReviveInDungeonRequestProtoInstance =
   if (self.hasSender) {
     [output writeMessage:1 value:self.sender];
   }
-  if (self.hasUserTaskId) {
-    [output writeInt64:2 value:self.userTaskId];
+  if (self.hasUserTaskUuid) {
+    [output writeString:2 value:self.userTaskUuid];
   }
   if (self.hasClientTime) {
     [output writeInt64:3 value:self.clientTime];
@@ -1587,8 +1709,8 @@ static ReviveInDungeonRequestProto* defaultReviveInDungeonRequestProtoInstance =
   if (self.hasSender) {
     size += computeMessageSize(1, self.sender);
   }
-  if (self.hasUserTaskId) {
-    size += computeInt64Size(2, self.userTaskId);
+  if (self.hasUserTaskUuid) {
+    size += computeStringSize(2, self.userTaskUuid);
   }
   if (self.hasClientTime) {
     size += computeInt64Size(3, self.clientTime);
@@ -1671,8 +1793,8 @@ static ReviveInDungeonRequestProto* defaultReviveInDungeonRequestProtoInstance =
   if (other.hasSender) {
     [self mergeSender:other.sender];
   }
-  if (other.hasUserTaskId) {
-    [self setUserTaskId:other.userTaskId];
+  if (other.hasUserTaskUuid) {
+    [self setUserTaskUuid:other.userTaskUuid];
   }
   if (other.hasClientTime) {
     [self setClientTime:other.clientTime];
@@ -1707,8 +1829,8 @@ static ReviveInDungeonRequestProto* defaultReviveInDungeonRequestProtoInstance =
         [self setSender:[subBuilder buildPartial]];
         break;
       }
-      case 16: {
-        [self setUserTaskId:[input readInt64]];
+      case 18: {
+        [self setUserTaskUuid:[input readString]];
         break;
       }
       case 24: {
@@ -1748,20 +1870,20 @@ static ReviveInDungeonRequestProto* defaultReviveInDungeonRequestProtoInstance =
   result.sender = [MinimumUserProto defaultInstance];
   return self;
 }
-- (BOOL) hasUserTaskId {
-  return result.hasUserTaskId;
+- (BOOL) hasUserTaskUuid {
+  return result.hasUserTaskUuid;
 }
-- (int64_t) userTaskId {
-  return result.userTaskId;
+- (NSString*) userTaskUuid {
+  return result.userTaskUuid;
 }
-- (ReviveInDungeonRequestProto_Builder*) setUserTaskId:(int64_t) value {
-  result.hasUserTaskId = YES;
-  result.userTaskId = value;
+- (ReviveInDungeonRequestProto_Builder*) setUserTaskUuid:(NSString*) value {
+  result.hasUserTaskUuid = YES;
+  result.userTaskUuid = value;
   return self;
 }
-- (ReviveInDungeonRequestProto_Builder*) clearUserTaskId {
-  result.hasUserTaskId = NO;
-  result.userTaskId = 0L;
+- (ReviveInDungeonRequestProto_Builder*) clearUserTaskUuid {
+  result.hasUserTaskUuid = NO;
+  result.userTaskUuid = @"";
   return self;
 }
 - (BOOL) hasClientTime {

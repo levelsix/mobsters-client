@@ -6,20 +6,20 @@
 @class DialogueProto_Builder;
 @class DialogueProto_SpeechSegmentProto;
 @class DialogueProto_SpeechSegmentProto_Builder;
-@class FullQuestProto;
-@class FullQuestProto_Builder;
 @class FullUserQuestProto;
 @class FullUserQuestProto_Builder;
+@class QuestProto;
+@class QuestProto_Builder;
 typedef enum {
-  FullQuestProto_QuestTypeKillMonster = 1,
-  FullQuestProto_QuestTypeDonateMonster = 2,
-  FullQuestProto_QuestTypeCompleteTask = 3,
-  FullQuestProto_QuestTypeCollectCoinsFromHome = 4,
-  FullQuestProto_QuestTypeBuildStruct = 5,
-  FullQuestProto_QuestTypeUpgradeStruct = 6,
-} FullQuestProto_QuestType;
+  QuestProto_QuestTypeKillMonster = 1,
+  QuestProto_QuestTypeDonateMonster = 2,
+  QuestProto_QuestTypeCompleteTask = 3,
+  QuestProto_QuestTypeCollectCoinsFromHome = 4,
+  QuestProto_QuestTypeBuildStruct = 5,
+  QuestProto_QuestTypeUpgradeStruct = 6,
+} QuestProto_QuestType;
 
-BOOL FullQuestProto_QuestTypeIsValidValue(FullQuestProto_QuestType value);
+BOOL QuestProto_QuestTypeIsValidValue(QuestProto_QuestType value);
 
 typedef enum {
   DialogueProto_SpeechSegmentProto_DialogueSpeakerPlayerType = 1,
@@ -34,20 +34,20 @@ typedef enum {
 BOOL DialogueProto_SpeechSegmentProto_DialogueSpeakerIsValidValue(DialogueProto_SpeechSegmentProto_DialogueSpeaker value);
 
 
-@interface QuestRoot : NSObject {
+@interface QuestStuffRoot : NSObject {
 }
 + (PBExtensionRegistry*) extensionRegistry;
 + (void) registerAllExtensions:(PBMutableExtensionRegistry*) registry;
 @end
 
-@interface FullQuestProto : PBGeneratedMessage {
+@interface QuestProto : PBGeneratedMessage {
 @private
   BOOL hasIsCompleteMonster_:1;
   BOOL hasPriority_:1;
   BOOL hasMonsterIdReward_:1;
   BOOL hasExpReward_:1;
-  BOOL hasDiamondReward_:1;
-  BOOL hasCoinReward_:1;
+  BOOL hasGemReward_:1;
+  BOOL hasCashReward_:1;
   BOOL hasQuantity_:1;
   BOOL hasStaticDataId_:1;
   BOOL hasCityId_:1;
@@ -64,8 +64,8 @@ BOOL DialogueProto_SpeechSegmentProto_DialogueSpeakerIsValidValue(DialogueProto_
   int32_t priority;
   int32_t monsterIdReward;
   int32_t expReward;
-  int32_t diamondReward;
-  int32_t coinReward;
+  int32_t gemReward;
+  int32_t cashReward;
   int32_t quantity;
   int32_t staticDataId;
   int32_t cityId;
@@ -77,8 +77,8 @@ BOOL DialogueProto_SpeechSegmentProto_DialogueSpeakerIsValidValue(DialogueProto_
   NSString* questGiverImageSuffix;
   NSString* carrotId;
   DialogueProto* acceptDialogue;
-  FullQuestProto_QuestType questType;
-  NSMutableArray* mutableQuestsRequiredForThisList;
+  QuestProto_QuestType questType;
+  NSMutableArray* mutableQuestIdsRequiredForThisList;
 }
 - (BOOL) hasQuestId;
 - (BOOL) hasCityId;
@@ -90,8 +90,8 @@ BOOL DialogueProto_SpeechSegmentProto_DialogueSpeakerIsValidValue(DialogueProto_
 - (BOOL) hasJobDescription;
 - (BOOL) hasStaticDataId;
 - (BOOL) hasQuantity;
-- (BOOL) hasCoinReward;
-- (BOOL) hasDiamondReward;
+- (BOOL) hasCashReward;
+- (BOOL) hasGemReward;
 - (BOOL) hasExpReward;
 - (BOOL) hasMonsterIdReward;
 - (BOOL) hasIsCompleteMonster;
@@ -104,153 +104,153 @@ BOOL DialogueProto_SpeechSegmentProto_DialogueSpeakerIsValidValue(DialogueProto_
 @property (readonly, retain) NSString* description;
 @property (readonly, retain) NSString* doneResponse;
 @property (readonly, retain) DialogueProto* acceptDialogue;
-@property (readonly) FullQuestProto_QuestType questType;
+@property (readonly) QuestProto_QuestType questType;
 @property (readonly, retain) NSString* jobDescription;
 @property (readonly) int32_t staticDataId;
 @property (readonly) int32_t quantity;
-@property (readonly) int32_t coinReward;
-@property (readonly) int32_t diamondReward;
+@property (readonly) int32_t cashReward;
+@property (readonly) int32_t gemReward;
 @property (readonly) int32_t expReward;
 @property (readonly) int32_t monsterIdReward;
 - (BOOL) isCompleteMonster;
 @property (readonly, retain) NSString* questGiverImageSuffix;
 @property (readonly) int32_t priority;
 @property (readonly, retain) NSString* carrotId;
-- (NSArray*) questsRequiredForThisList;
-- (int32_t) questsRequiredForThisAtIndex:(int32_t) index;
+- (NSArray*) questIdsRequiredForThisList;
+- (int32_t) questIdsRequiredForThisAtIndex:(int32_t) index;
 
-+ (FullQuestProto*) defaultInstance;
-- (FullQuestProto*) defaultInstance;
++ (QuestProto*) defaultInstance;
+- (QuestProto*) defaultInstance;
 
 - (BOOL) isInitialized;
 - (void) writeToCodedOutputStream:(PBCodedOutputStream*) output;
-- (FullQuestProto_Builder*) builder;
-+ (FullQuestProto_Builder*) builder;
-+ (FullQuestProto_Builder*) builderWithPrototype:(FullQuestProto*) prototype;
+- (QuestProto_Builder*) builder;
++ (QuestProto_Builder*) builder;
++ (QuestProto_Builder*) builderWithPrototype:(QuestProto*) prototype;
 
-+ (FullQuestProto*) parseFromData:(NSData*) data;
-+ (FullQuestProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
-+ (FullQuestProto*) parseFromInputStream:(NSInputStream*) input;
-+ (FullQuestProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
-+ (FullQuestProto*) parseFromCodedInputStream:(PBCodedInputStream*) input;
-+ (FullQuestProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (QuestProto*) parseFromData:(NSData*) data;
++ (QuestProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (QuestProto*) parseFromInputStream:(NSInputStream*) input;
++ (QuestProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (QuestProto*) parseFromCodedInputStream:(PBCodedInputStream*) input;
++ (QuestProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
 @end
 
-@interface FullQuestProto_Builder : PBGeneratedMessage_Builder {
+@interface QuestProto_Builder : PBGeneratedMessage_Builder {
 @private
-  FullQuestProto* result;
+  QuestProto* result;
 }
 
-- (FullQuestProto*) defaultInstance;
+- (QuestProto*) defaultInstance;
 
-- (FullQuestProto_Builder*) clear;
-- (FullQuestProto_Builder*) clone;
+- (QuestProto_Builder*) clear;
+- (QuestProto_Builder*) clone;
 
-- (FullQuestProto*) build;
-- (FullQuestProto*) buildPartial;
+- (QuestProto*) build;
+- (QuestProto*) buildPartial;
 
-- (FullQuestProto_Builder*) mergeFrom:(FullQuestProto*) other;
-- (FullQuestProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input;
-- (FullQuestProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+- (QuestProto_Builder*) mergeFrom:(QuestProto*) other;
+- (QuestProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input;
+- (QuestProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
 
 - (BOOL) hasQuestId;
 - (int32_t) questId;
-- (FullQuestProto_Builder*) setQuestId:(int32_t) value;
-- (FullQuestProto_Builder*) clearQuestId;
+- (QuestProto_Builder*) setQuestId:(int32_t) value;
+- (QuestProto_Builder*) clearQuestId;
 
 - (BOOL) hasCityId;
 - (int32_t) cityId;
-- (FullQuestProto_Builder*) setCityId:(int32_t) value;
-- (FullQuestProto_Builder*) clearCityId;
+- (QuestProto_Builder*) setCityId:(int32_t) value;
+- (QuestProto_Builder*) clearCityId;
 
 - (BOOL) hasName;
 - (NSString*) name;
-- (FullQuestProto_Builder*) setName:(NSString*) value;
-- (FullQuestProto_Builder*) clearName;
+- (QuestProto_Builder*) setName:(NSString*) value;
+- (QuestProto_Builder*) clearName;
 
 - (BOOL) hasDescription;
 - (NSString*) description;
-- (FullQuestProto_Builder*) setDescription:(NSString*) value;
-- (FullQuestProto_Builder*) clearDescription;
+- (QuestProto_Builder*) setDescription:(NSString*) value;
+- (QuestProto_Builder*) clearDescription;
 
 - (BOOL) hasDoneResponse;
 - (NSString*) doneResponse;
-- (FullQuestProto_Builder*) setDoneResponse:(NSString*) value;
-- (FullQuestProto_Builder*) clearDoneResponse;
+- (QuestProto_Builder*) setDoneResponse:(NSString*) value;
+- (QuestProto_Builder*) clearDoneResponse;
 
 - (BOOL) hasAcceptDialogue;
 - (DialogueProto*) acceptDialogue;
-- (FullQuestProto_Builder*) setAcceptDialogue:(DialogueProto*) value;
-- (FullQuestProto_Builder*) setAcceptDialogueBuilder:(DialogueProto_Builder*) builderForValue;
-- (FullQuestProto_Builder*) mergeAcceptDialogue:(DialogueProto*) value;
-- (FullQuestProto_Builder*) clearAcceptDialogue;
+- (QuestProto_Builder*) setAcceptDialogue:(DialogueProto*) value;
+- (QuestProto_Builder*) setAcceptDialogueBuilder:(DialogueProto_Builder*) builderForValue;
+- (QuestProto_Builder*) mergeAcceptDialogue:(DialogueProto*) value;
+- (QuestProto_Builder*) clearAcceptDialogue;
 
 - (BOOL) hasQuestType;
-- (FullQuestProto_QuestType) questType;
-- (FullQuestProto_Builder*) setQuestType:(FullQuestProto_QuestType) value;
-- (FullQuestProto_Builder*) clearQuestType;
+- (QuestProto_QuestType) questType;
+- (QuestProto_Builder*) setQuestType:(QuestProto_QuestType) value;
+- (QuestProto_Builder*) clearQuestType;
 
 - (BOOL) hasJobDescription;
 - (NSString*) jobDescription;
-- (FullQuestProto_Builder*) setJobDescription:(NSString*) value;
-- (FullQuestProto_Builder*) clearJobDescription;
+- (QuestProto_Builder*) setJobDescription:(NSString*) value;
+- (QuestProto_Builder*) clearJobDescription;
 
 - (BOOL) hasStaticDataId;
 - (int32_t) staticDataId;
-- (FullQuestProto_Builder*) setStaticDataId:(int32_t) value;
-- (FullQuestProto_Builder*) clearStaticDataId;
+- (QuestProto_Builder*) setStaticDataId:(int32_t) value;
+- (QuestProto_Builder*) clearStaticDataId;
 
 - (BOOL) hasQuantity;
 - (int32_t) quantity;
-- (FullQuestProto_Builder*) setQuantity:(int32_t) value;
-- (FullQuestProto_Builder*) clearQuantity;
+- (QuestProto_Builder*) setQuantity:(int32_t) value;
+- (QuestProto_Builder*) clearQuantity;
 
-- (BOOL) hasCoinReward;
-- (int32_t) coinReward;
-- (FullQuestProto_Builder*) setCoinReward:(int32_t) value;
-- (FullQuestProto_Builder*) clearCoinReward;
+- (BOOL) hasCashReward;
+- (int32_t) cashReward;
+- (QuestProto_Builder*) setCashReward:(int32_t) value;
+- (QuestProto_Builder*) clearCashReward;
 
-- (BOOL) hasDiamondReward;
-- (int32_t) diamondReward;
-- (FullQuestProto_Builder*) setDiamondReward:(int32_t) value;
-- (FullQuestProto_Builder*) clearDiamondReward;
+- (BOOL) hasGemReward;
+- (int32_t) gemReward;
+- (QuestProto_Builder*) setGemReward:(int32_t) value;
+- (QuestProto_Builder*) clearGemReward;
 
 - (BOOL) hasExpReward;
 - (int32_t) expReward;
-- (FullQuestProto_Builder*) setExpReward:(int32_t) value;
-- (FullQuestProto_Builder*) clearExpReward;
+- (QuestProto_Builder*) setExpReward:(int32_t) value;
+- (QuestProto_Builder*) clearExpReward;
 
 - (BOOL) hasMonsterIdReward;
 - (int32_t) monsterIdReward;
-- (FullQuestProto_Builder*) setMonsterIdReward:(int32_t) value;
-- (FullQuestProto_Builder*) clearMonsterIdReward;
+- (QuestProto_Builder*) setMonsterIdReward:(int32_t) value;
+- (QuestProto_Builder*) clearMonsterIdReward;
 
 - (BOOL) hasIsCompleteMonster;
 - (BOOL) isCompleteMonster;
-- (FullQuestProto_Builder*) setIsCompleteMonster:(BOOL) value;
-- (FullQuestProto_Builder*) clearIsCompleteMonster;
+- (QuestProto_Builder*) setIsCompleteMonster:(BOOL) value;
+- (QuestProto_Builder*) clearIsCompleteMonster;
 
-- (NSArray*) questsRequiredForThisList;
-- (int32_t) questsRequiredForThisAtIndex:(int32_t) index;
-- (FullQuestProto_Builder*) replaceQuestsRequiredForThisAtIndex:(int32_t) index with:(int32_t) value;
-- (FullQuestProto_Builder*) addQuestsRequiredForThis:(int32_t) value;
-- (FullQuestProto_Builder*) addAllQuestsRequiredForThis:(NSArray*) values;
-- (FullQuestProto_Builder*) clearQuestsRequiredForThisList;
+- (NSArray*) questIdsRequiredForThisList;
+- (int32_t) questIdsRequiredForThisAtIndex:(int32_t) index;
+- (QuestProto_Builder*) replaceQuestIdsRequiredForThisAtIndex:(int32_t) index with:(int32_t) value;
+- (QuestProto_Builder*) addQuestIdsRequiredForThis:(int32_t) value;
+- (QuestProto_Builder*) addAllQuestIdsRequiredForThis:(NSArray*) values;
+- (QuestProto_Builder*) clearQuestIdsRequiredForThisList;
 
 - (BOOL) hasQuestGiverImageSuffix;
 - (NSString*) questGiverImageSuffix;
-- (FullQuestProto_Builder*) setQuestGiverImageSuffix:(NSString*) value;
-- (FullQuestProto_Builder*) clearQuestGiverImageSuffix;
+- (QuestProto_Builder*) setQuestGiverImageSuffix:(NSString*) value;
+- (QuestProto_Builder*) clearQuestGiverImageSuffix;
 
 - (BOOL) hasPriority;
 - (int32_t) priority;
-- (FullQuestProto_Builder*) setPriority:(int32_t) value;
-- (FullQuestProto_Builder*) clearPriority;
+- (QuestProto_Builder*) setPriority:(int32_t) value;
+- (QuestProto_Builder*) clearPriority;
 
 - (BOOL) hasCarrotId;
 - (NSString*) carrotId;
-- (FullQuestProto_Builder*) setCarrotId:(NSString*) value;
-- (FullQuestProto_Builder*) clearCarrotId;
+- (QuestProto_Builder*) setCarrotId:(NSString*) value;
+- (QuestProto_Builder*) clearCarrotId;
 @end
 
 @interface DialogueProto : PBGeneratedMessage {
@@ -363,21 +363,21 @@ BOOL DialogueProto_SpeechSegmentProto_DialogueSpeakerIsValidValue(DialogueProto_
 @private
   BOOL hasIsRedeemed_:1;
   BOOL hasIsComplete_:1;
-  BOOL hasUserId_:1;
   BOOL hasQuestId_:1;
   BOOL hasProgress_:1;
+  BOOL hasUserUuid_:1;
   BOOL isRedeemed_:1;
   BOOL isComplete_:1;
-  int32_t userId;
   int32_t questId;
   int32_t progress;
+  NSString* userUuid;
 }
-- (BOOL) hasUserId;
+- (BOOL) hasUserUuid;
 - (BOOL) hasQuestId;
 - (BOOL) hasIsRedeemed;
 - (BOOL) hasIsComplete;
 - (BOOL) hasProgress;
-@property (readonly) int32_t userId;
+@property (readonly, retain) NSString* userUuid;
 @property (readonly) int32_t questId;
 - (BOOL) isRedeemed;
 - (BOOL) isComplete;
@@ -417,10 +417,10 @@ BOOL DialogueProto_SpeechSegmentProto_DialogueSpeakerIsValidValue(DialogueProto_
 - (FullUserQuestProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input;
 - (FullUserQuestProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
 
-- (BOOL) hasUserId;
-- (int32_t) userId;
-- (FullUserQuestProto_Builder*) setUserId:(int32_t) value;
-- (FullUserQuestProto_Builder*) clearUserId;
+- (BOOL) hasUserUuid;
+- (NSString*) userUuid;
+- (FullUserQuestProto_Builder*) setUserUuid:(NSString*) value;
+- (FullUserQuestProto_Builder*) clearUserUuid;
 
 - (BOOL) hasQuestId;
 - (int32_t) questId;

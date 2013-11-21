@@ -744,8 +744,8 @@ static FullStructureProto* defaultFullStructureProtoInstance = nil;
 @end
 
 @interface FullUserStructureProto ()
-@property int32_t userStructId;
-@property int32_t userId;
+@property (retain) NSString* userStructUuid;
+@property (retain) NSString* userUuid;
 @property int32_t structId;
 @property int64_t lastRetrieved;
 @property (retain) CoordinateProto* coordinates;
@@ -756,20 +756,20 @@ static FullStructureProto* defaultFullStructureProtoInstance = nil;
 
 @implementation FullUserStructureProto
 
-- (BOOL) hasUserStructId {
-  return !!hasUserStructId_;
+- (BOOL) hasUserStructUuid {
+  return !!hasUserStructUuid_;
 }
-- (void) setHasUserStructId:(BOOL) value {
-  hasUserStructId_ = !!value;
+- (void) setHasUserStructUuid:(BOOL) value {
+  hasUserStructUuid_ = !!value;
 }
-@synthesize userStructId;
-- (BOOL) hasUserId {
-  return !!hasUserId_;
+@synthesize userStructUuid;
+- (BOOL) hasUserUuid {
+  return !!hasUserUuid_;
 }
-- (void) setHasUserId:(BOOL) value {
-  hasUserId_ = !!value;
+- (void) setHasUserUuid:(BOOL) value {
+  hasUserUuid_ = !!value;
 }
-@synthesize userId;
+@synthesize userUuid;
 - (BOOL) hasStructId {
   return !!hasStructId_;
 }
@@ -818,13 +818,15 @@ static FullStructureProto* defaultFullStructureProtoInstance = nil;
 }
 @synthesize orientation;
 - (void) dealloc {
+  self.userStructUuid = nil;
+  self.userUuid = nil;
   self.coordinates = nil;
   [super dealloc];
 }
 - (id) init {
   if ((self = [super init])) {
-    self.userStructId = 0;
-    self.userId = 0;
+    self.userStructUuid = @"";
+    self.userUuid = @"";
     self.structId = 0;
     self.lastRetrieved = 0L;
     self.coordinates = [CoordinateProto defaultInstance];
@@ -850,11 +852,11 @@ static FullUserStructureProto* defaultFullUserStructureProtoInstance = nil;
   return YES;
 }
 - (void) writeToCodedOutputStream:(PBCodedOutputStream*) output {
-  if (self.hasUserStructId) {
-    [output writeInt32:1 value:self.userStructId];
+  if (self.hasUserStructUuid) {
+    [output writeString:1 value:self.userStructUuid];
   }
-  if (self.hasUserId) {
-    [output writeInt32:2 value:self.userId];
+  if (self.hasUserUuid) {
+    [output writeString:2 value:self.userUuid];
   }
   if (self.hasStructId) {
     [output writeInt32:3 value:self.structId];
@@ -883,11 +885,11 @@ static FullUserStructureProto* defaultFullUserStructureProtoInstance = nil;
   }
 
   size = 0;
-  if (self.hasUserStructId) {
-    size += computeInt32Size(1, self.userStructId);
+  if (self.hasUserStructUuid) {
+    size += computeStringSize(1, self.userStructUuid);
   }
-  if (self.hasUserId) {
-    size += computeInt32Size(2, self.userId);
+  if (self.hasUserUuid) {
+    size += computeStringSize(2, self.userUuid);
   }
   if (self.hasStructId) {
     size += computeInt32Size(3, self.structId);
@@ -982,11 +984,11 @@ static FullUserStructureProto* defaultFullUserStructureProtoInstance = nil;
   if (other == [FullUserStructureProto defaultInstance]) {
     return self;
   }
-  if (other.hasUserStructId) {
-    [self setUserStructId:other.userStructId];
+  if (other.hasUserStructUuid) {
+    [self setUserStructUuid:other.userStructUuid];
   }
-  if (other.hasUserId) {
-    [self setUserId:other.userId];
+  if (other.hasUserUuid) {
+    [self setUserUuid:other.userUuid];
   }
   if (other.hasStructId) {
     [self setStructId:other.structId];
@@ -1027,12 +1029,12 @@ static FullUserStructureProto* defaultFullUserStructureProtoInstance = nil;
         }
         break;
       }
-      case 8: {
-        [self setUserStructId:[input readInt32]];
+      case 10: {
+        [self setUserStructUuid:[input readString]];
         break;
       }
-      case 16: {
-        [self setUserId:[input readInt32]];
+      case 18: {
+        [self setUserUuid:[input readString]];
         break;
       }
       case 24: {
@@ -1072,36 +1074,36 @@ static FullUserStructureProto* defaultFullUserStructureProtoInstance = nil;
     }
   }
 }
-- (BOOL) hasUserStructId {
-  return result.hasUserStructId;
+- (BOOL) hasUserStructUuid {
+  return result.hasUserStructUuid;
 }
-- (int32_t) userStructId {
-  return result.userStructId;
+- (NSString*) userStructUuid {
+  return result.userStructUuid;
 }
-- (FullUserStructureProto_Builder*) setUserStructId:(int32_t) value {
-  result.hasUserStructId = YES;
-  result.userStructId = value;
+- (FullUserStructureProto_Builder*) setUserStructUuid:(NSString*) value {
+  result.hasUserStructUuid = YES;
+  result.userStructUuid = value;
   return self;
 }
-- (FullUserStructureProto_Builder*) clearUserStructId {
-  result.hasUserStructId = NO;
-  result.userStructId = 0;
+- (FullUserStructureProto_Builder*) clearUserStructUuid {
+  result.hasUserStructUuid = NO;
+  result.userStructUuid = @"";
   return self;
 }
-- (BOOL) hasUserId {
-  return result.hasUserId;
+- (BOOL) hasUserUuid {
+  return result.hasUserUuid;
 }
-- (int32_t) userId {
-  return result.userId;
+- (NSString*) userUuid {
+  return result.userUuid;
 }
-- (FullUserStructureProto_Builder*) setUserId:(int32_t) value {
-  result.hasUserId = YES;
-  result.userId = value;
+- (FullUserStructureProto_Builder*) setUserUuid:(NSString*) value {
+  result.hasUserUuid = YES;
+  result.userUuid = value;
   return self;
 }
-- (FullUserStructureProto_Builder*) clearUserId {
-  result.hasUserId = NO;
-  result.userId = 0;
+- (FullUserStructureProto_Builder*) clearUserUuid {
+  result.hasUserUuid = NO;
+  result.userUuid = @"";
   return self;
 }
 - (BOOL) hasStructId {

@@ -27,7 +27,7 @@
 
 /*
  * Elastic, Back and Bounce actions based on code from:
- * http://github.com/NikhilK/silverlightfx/
+ * http://github.com/NikhilK/cashlightfx/
  *
  * by http://github.com/NikhilK
  */

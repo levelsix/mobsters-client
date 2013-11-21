@@ -149,7 +149,7 @@
 
 - (void) updateForHealingItem:(UserMonsterHealingItem *)item {
   GameState *gs = [GameState sharedGameState];
-  UserMonster *um = [gs myMonsterWithUserMonsterId:item.userMonsterId];
+  UserMonster *um = [gs myMonsterWithUserMonsterUuid:item.userMonsterUuid];
   MonsterProto *mp = [gs monsterWithId:um.monsterId];
   
   NSString *fileName = [mp.imagePrefix stringByAppendingString:@"Thumbnail.png"];

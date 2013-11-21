@@ -7,7 +7,7 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "Protocols.pb.h"
+#import "MobstersEventProtocol.pb.h"
 
 @interface FullEvent : NSObject
 

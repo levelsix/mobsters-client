@@ -3,8 +3,9 @@
 import "Clan.proto";
 import "User.proto";
 
-package com.lvl6.proto;
+package proto; 
 
+option java_package = "com.lvl6.mobsters.eventprotos";
 option java_outer_classname = "EventClanProto";
 //DO NOT USE ID AS THE NAME OF A PROPERTY IN ANY PROTO
 
@@ -56,7 +57,7 @@ message LeaveClanResponseProto {
 
 message RequestJoinClanRequestProto {
 	optional MinimumUserProto sender = 1;
-	optional int32 clanId = 2;
+	optional string clanUuid = 2;
 }
 
 //since clanless user can directly join open clan,
@@ -64,7 +65,7 @@ message RequestJoinClanRequestProto {
 message RequestJoinClanResponseProto {
 	optional MinimumUserProto sender = 1;
 	optional RequestJoinClanStatus status = 2;
-	optional int32 clanId = 3;
+	optional string clanUuid = 3;
 	optional MinimumUserProtoForClans requester = 4;
 	optional MinimumClanProto minClan = 5;
 	optional FullClanProtoWithClanSize fullClan = 6;
@@ -83,13 +84,13 @@ message RequestJoinClanResponseProto {
 
 message RetractRequestJoinClanRequestProto {
 	optional MinimumUserProto sender = 1;
-	optional int32 clanId = 2;
+	optional string clanUuid = 2;
 }
 
 message RetractRequestJoinClanResponseProto {
 	optional MinimumUserProto sender = 1;
 	optional RetractRequestJoinClanStatus status = 2;
-	optional int32 clanId = 3;
+	optional string clanUuid = 3;
 	
 	enum RetractRequestJoinClanStatus {
 		SUCCESS = 1;
@@ -104,14 +105,14 @@ message RetractRequestJoinClanResponseProto {
 //can request as many as you like. wipe out other ones
 message ApproveOrRejectRequestToJoinClanRequestProto {
 	optional MinimumUserProto sender = 1;
-	optional int32 requesterId = 2;
+	optional string requesterUuid = 2;
 	optional bool accept = 3;
 }
 
 message ApproveOrRejectRequestToJoinClanResponseProto {
 	optional MinimumUserProto sender = 1;
 	optional ApproveOrRejectRequestToJoinClanStatus status = 2;
-	optional int32 requesterId = 3;
+	optional string requesterUuid = 3;
 	optional bool accept = 4;
 	optional MinimumClanProto minClan = 5;
 	optional FullClanProtoWithClanSize fullClan = 6;
@@ -128,11 +129,17 @@ message ApproveOrRejectRequestToJoinClanResponseProto {
 //------------------------------------------------------------------------------------------
 
 message RetrieveClanInfoRequestProto {
+	//to retrieve info for clans other than sender's clan:
+	//grab type needs to be set to clan info
+	//is for browsing list should be set to true or 1
+	//clan id should be null, or not set
+	
 	optional MinimumUserProto sender = 1;
-	optional int32 clanId = 2;
+	optional string clanUuid = 2;
 	optional string clanName = 3;
 	optional ClanInfoGrabType grabType = 4;
-	optional int32 beforeThisClanId = 5;
+	//optional int32 beforeThisClanId = 5;
+	repeated string excludingTheseClanUuids = 5;
 	optional bool isForBrowsingList = 6;
 	
 	enum ClanInfoGrabType {
@@ -150,9 +157,9 @@ message RetrieveClanInfoResponseProto {
 	optional RetrieveClanInfoStatus status = 4;
 	optional bool isForSearch = 5;
 	optional bool isForBrowsingList = 6;
-	optional int32 clanId = 7;
+	optional string clanUuiId = 7;
 	optional string clanName = 8;
-	optional int32 beforeThisClanId = 9;
+	optional string excludingThisClanUuid = 9;
 	
 	
 	enum RetrieveClanInfoStatus {
@@ -165,7 +172,7 @@ message RetrieveClanInfoResponseProto {
 
 message TransferClanOwnershipRequestProto {
 	optional MinimumUserProto sender = 1;
-	optional int32 newClanOwnerId = 2;
+	optional string clanOwnerUuidNew = 2;
 }
 
 message TransferClanOwnershipResponseProto {
@@ -209,12 +216,12 @@ message ChangeClanDescriptionResponseProto {
 
 message BootPlayerFromClanRequestProto {
 	optional MinimumUserProto sender = 1;
-	optional int32 playerToBoot = 2;
+	optional string playerUuidToBoot = 2;
 }
 
 message BootPlayerFromClanResponseProto {
      optional MinimumUserProto sender = 1;
-	 optional int32 playerToBoot = 2;
+	 optional string playerUuidToBoot = 2;
 	 optional BootPlayerFromClanStatus status = 3;
      
      enum BootPlayerFromClanStatus {

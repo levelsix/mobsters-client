@@ -48,7 +48,7 @@
   
   if (!gs.clan) {
     self.buttonView.hidden = NO;
-    if ([gs.requestedClans containsObject:[NSNumber numberWithInt:c.clan.clanId]]) {
+    if ([gs.requestedClans containsObject:c.clan.clanUuid]) {
       self.buttonLabel.text = @"CANCEL";
     } else {
       if (c.clan.requestToJoinRequired) {
@@ -95,7 +95,7 @@
 
 - (void) reload {
   [self.clanList removeAllObjects];
-  [[OutgoingEventController sharedOutgoingEventController] retrieveClanInfo:nil clanId:0 grabType:RetrieveClanInfoRequestProto_ClanInfoGrabTypeClanInfo isForBrowsingList:YES beforeClanId:0 delegate:self];
+  [[OutgoingEventController sharedOutgoingEventController] retrieveClanInfo:nil clanUuid:nil grabType:RetrieveClanInfoRequestProto_ClanInfoGrabTypeClanInfo isForBrowsingList:YES delegate:self];
 }
 
 - (void) handleRetrieveClanInfoResponseProto:(FullEvent *)e {
@@ -116,7 +116,7 @@
     
     BOOL canAdd = YES;
     for (FullClanProtoWithClanSize *c in arr) {
-      if (c.clan.clanId == fcp.clan.clanId) {
+      if ([c.clan.clanUuid isEqualToString:fcp.clan.clanUuid]) {
         canAdd = NO;
       }
     }
@@ -176,16 +176,17 @@
   [self.parentViewController.navigationController pushViewController:[[ClanInfoViewController alloc] initWithClan:cell.clan] animated:YES];
 }
 
-- (void)scrollViewDidScroll:(UIScrollView *)scrollView {
-  // Load more rows when we get low enough
-  if (scrollView.contentOffset.y > -REFRESH_ROWS*self.browseClansTable.rowHeight) {
-    if (shouldReload) {
-      int min = [[self.clanList lastObject] clan].clanId;
-      [[OutgoingEventController sharedOutgoingEventController] retrieveClanInfo:nil clanId:0 grabType:RetrieveClanInfoRequestProto_ClanInfoGrabTypeClanInfo isForBrowsingList:YES beforeClanId:min delegate:self];
-      self.shouldReload = NO;
-    }
-  }
-}
+// Cassandra db no longer supports this..
+//- (void)scrollViewDidScroll:(UIScrollView *)scrollView {
+//  // Load more rows when we get low enough
+//  if (scrollView.contentOffset.y > -REFRESH_ROWS*self.browseClansTable.rowHeight) {
+//    if (shouldReload) {
+//      int min = [[self.clanList lastObject] clan].clanId;
+//      [[OutgoingEventController sharedOutgoingEventController] retrieveClanInfo:nil clanId:0 grabType:RetrieveClanInfoRequestProto_ClanInfoGrabTypeClanInfo isForBrowsingList:YES beforeClanId:min delegate:self];
+//      self.shouldReload = NO;
+//    }
+//  }
+//}
 
 #pragma mark - UITextFieldDelegate methods
 
@@ -200,14 +201,14 @@
 
 - (void) textFieldDidEndEditing:(UITextField *)textField {
   if (textField.text.length > 0) {
-    [[OutgoingEventController sharedOutgoingEventController] retrieveClanInfo:textField.text clanId:0 grabType:RetrieveClanInfoRequestProto_ClanInfoGrabTypeClanInfo isForBrowsingList:YES beforeClanId:0 delegate:self];
+    [[OutgoingEventController sharedOutgoingEventController] retrieveClanInfo:textField.text clanUuid:nil grabType:RetrieveClanInfoRequestProto_ClanInfoGrabTypeClanInfo isForBrowsingList:YES delegate:self];
     [self.clanList removeAllObjects];
     isSearching = YES;
     self.searchString = textField.text;
     _reachedEnd = NO;
     [self.browseClansTable reloadData];
   } else {
-    [[OutgoingEventController sharedOutgoingEventController] retrieveClanInfo:nil clanId:0 grabType:RetrieveClanInfoRequestProto_ClanInfoGrabTypeClanInfo isForBrowsingList:YES beforeClanId:0 delegate:self];
+    [[OutgoingEventController sharedOutgoingEventController] retrieveClanInfo:nil clanUuid:nil grabType:RetrieveClanInfoRequestProto_ClanInfoGrabTypeClanInfo isForBrowsingList:YES delegate:self];
     [self.clanList removeAllObjects];
     isSearching = NO;
     self.searchString = nil;
@@ -225,11 +226,11 @@
   BrowseClanCell *cell = (BrowseClanCell *)sender;
   
   GameState *gs = [GameState sharedGameState];
-  int clanId = cell.clan.clan.clanId;
-  if ([gs.requestedClans containsObject:[NSNumber numberWithInt:clanId]]) {
-    [[OutgoingEventController sharedOutgoingEventController] retractRequestToJoinClan:clanId delegate:self.parentViewController];
+  NSString *clanUuid = cell.clan.clan.clanUuid;
+  if ([gs.requestedClans containsObject:clanUuid]) {
+    [[OutgoingEventController sharedOutgoingEventController] retractRequestToJoinClan:clanUuid delegate:self.parentViewController];
   } else {
-    [[OutgoingEventController sharedOutgoingEventController] requestJoinClan:clanId delegate:self.parentViewController];
+    [[OutgoingEventController sharedOutgoingEventController] requestJoinClan:clanUuid delegate:self.parentViewController];
   }
 }
 

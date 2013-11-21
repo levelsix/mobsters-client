@@ -4,8 +4,9 @@
 import "Chat.proto";
 import "User.proto";
 
-package com.lvl6.proto;
+package proto;
 
+option java_package = "com.lvl6.mobsters.noneventprotos";
 option java_outer_classname = "TournamentStuffProto";
 //DO NOT USE ID AS THE NAME OF A PROPERTY IN ANY PROTO
 

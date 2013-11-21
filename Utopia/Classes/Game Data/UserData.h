@@ -7,14 +7,14 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "Protocols.pb.h"
+#import "MobstersEventProtocol.pb.h"
 
 @class ForgeAttempt;
 
 @interface UserMonster : NSObject
 
-@property (nonatomic, assign) int userMonsterId;
-@property (nonatomic, assign) int userId;
+@property (nonatomic, copy) NSString *userMonsterUuid;
+@property (nonatomic, copy) NSString *userUuid;
 @property (nonatomic, assign) int monsterId;
 @property (nonatomic, assign) int curHealth;
 @property (nonatomic, assign) int level;
@@ -40,8 +40,8 @@
 
 @interface UserMonsterHealingItem : NSObject
 
-@property (nonatomic, assign) int userMonsterId;
-@property (nonatomic, assign) int userId;
+@property (nonatomic, copy) NSString *userMonsterUuid;
+@property (nonatomic, copy) NSString *userUuid;
 @property (nonatomic, retain) NSDate *expectedStartTime;
 
 + (id) userMonsterHealingItemWithProto:(UserMonsterHealingProto *)proto;
@@ -57,7 +57,7 @@
 
 + (id) itemWithUserEnhancementItemProto:(UserEnhancementItemProto *)proto;
 
-@property (nonatomic, assign) int userMonsterId;
+@property (nonatomic, copy) NSString *userMonsterUuid;
 @property (nonatomic, retain) NSDate *expectedStartTime;
 
 - (float) currentPercentage;
@@ -90,8 +90,8 @@ typedef enum {
 
 @interface UserStruct : NSObject 
 
-@property (nonatomic, assign) int userStructId;
-@property (nonatomic, assign) int userId;
+@property (nonatomic, copy) NSString *userStructUuid;
+@property (nonatomic, copy) NSString *userUuid;
 @property (nonatomic, assign) int structId;
 @property (nonatomic, retain) NSDate *lastRetrieved;
 @property (nonatomic, assign) CGPoint coordinates;
@@ -124,7 +124,7 @@ typedef enum {
 @property (nonatomic, retain) NSDate *time;
 @property (nonatomic, assign) BOOL sellerHadLicense;
 @property (nonatomic, assign) BattleResult battleResult;
-@property (nonatomic, assign) int coinsStolen;
+@property (nonatomic, assign) int cashStolen;
 @property (nonatomic, assign) BOOL hasBeenViewed;
 @property (nonatomic, retain) NSString *wallPost;
 
@@ -151,7 +151,7 @@ typedef enum {
 
 @interface UserExpansion : NSObject
 
-@property (nonatomic, assign) int userId;
+@property (nonatomic, copy) NSString *userUuid;
 @property (nonatomic, assign) int xPosition;
 @property (nonatomic, assign) int yPosition;
 @property (nonatomic, assign) BOOL isExpanding;
@@ -163,7 +163,7 @@ typedef enum {
 
 typedef enum {
   RewardTypeMonster = 1,
-  RewardTypeSilver,
+  RewardTypeCash,
   RewardTypeGold,
   RewardTypeExperience
 } RewardType;
@@ -172,16 +172,16 @@ typedef enum {
 
 @property (nonatomic, assign) int monsterId;
 @property (nonatomic, assign) BOOL isPuzzlePiece;
-@property (nonatomic, assign) int silverAmount;
+@property (nonatomic, assign) int cashAmount;
 @property (nonatomic, assign) int goldAmount;
 @property (nonatomic, assign) int expAmount;
 @property (nonatomic, assign) RewardType type;
 
 + (NSArray *) createRewardsForDungeon:(BeginDungeonResponseProto *)proto;
-+ (NSArray *) createRewardsForQuest:(FullQuestProto *)quest;
++ (NSArray *) createRewardsForQuest:(QuestProto *)quest;
 
 - (id) initWithMonsterId:(int)monsterId isPuzzlePiece:(BOOL)isPuzzlePiece;
-- (id) initWithSilverAmount:(int)silverAmount;
+- (id) initWithCashAmount:(int)cashAmount;
 - (id) initWithGoldAmount:(int)goldAmount;
 - (id) initWithExpAmount:(int)expAmount;
 
@@ -189,7 +189,7 @@ typedef enum {
 
 @interface UserQuest : NSObject
 
-@property (nonatomic, assign) int userId;
+@property (nonatomic, copy) NSString *userUuid;
 @property (nonatomic, assign) int questId;
 @property (nonatomic, assign) BOOL isRedeemed;
 @property (nonatomic, assign) BOOL isComplete;

@@ -59,13 +59,13 @@
   
   for (RequestFromFriend *req in self.requests) {
     if ([self.unselectedRequests containsObject:req]) {
-      [reject addObject:[NSNumber numberWithInt:req.invite.inviteId]];
+      [reject addObject:req.invite.inviteUuid];
     } else {
-      [accept addObject:[NSNumber numberWithInt:req.invite.inviteId]];
+      [accept addObject:req.invite.inviteUuid];
     }
   }
   
-  [[OutgoingEventController sharedOutgoingEventController] acceptAndRejectInvitesWithAcceptIds:accept rejectIds:reject];
+  [[OutgoingEventController sharedOutgoingEventController] acceptAndRejectInvitesWithAcceptUuids:accept rejectUuids:reject];
 }
 
 - (IBAction)unselectAllClicked:(id)sender {

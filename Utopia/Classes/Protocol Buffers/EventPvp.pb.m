@@ -22,7 +22,7 @@ static PBExtensionRegistry* extensionRegistry = nil;
 
 @interface QueueUpRequestProto ()
 @property (retain) MinimumUserProto* attacker;
-@property (retain) NSMutableArray* mutableSeenUserIdsList;
+@property (retain) NSMutableArray* mutableSeenUserUuidsList;
 @property int64_t clientTime;
 @end
 
@@ -35,7 +35,7 @@ static PBExtensionRegistry* extensionRegistry = nil;
   hasAttacker_ = !!value;
 }
 @synthesize attacker;
-@synthesize mutableSeenUserIdsList;
+@synthesize mutableSeenUserUuidsList;
 - (BOOL) hasClientTime {
   return !!hasClientTime_;
 }
@@ -45,7 +45,7 @@ static PBExtensionRegistry* extensionRegistry = nil;
 @synthesize clientTime;
 - (void) dealloc {
   self.attacker = nil;
-  self.mutableSeenUserIdsList = nil;
+  self.mutableSeenUserUuidsList = nil;
   [super dealloc];
 }
 - (id) init {
@@ -67,12 +67,12 @@ static QueueUpRequestProto* defaultQueueUpRequestProtoInstance = nil;
 - (QueueUpRequestProto*) defaultInstance {
   return defaultQueueUpRequestProtoInstance;
 }
-- (NSArray*) seenUserIdsList {
-  return mutableSeenUserIdsList;
+- (NSArray*) seenUserUuidsList {
+  return mutableSeenUserUuidsList;
 }
-- (int32_t) seenUserIdsAtIndex:(int32_t) index {
-  id value = [mutableSeenUserIdsList objectAtIndex:index];
-  return [value intValue];
+- (NSString*) seenUserUuidsAtIndex:(int32_t) index {
+  id value = [mutableSeenUserUuidsList objectAtIndex:index];
+  return value;
 }
 - (BOOL) isInitialized {
   return YES;
@@ -81,8 +81,8 @@ static QueueUpRequestProto* defaultQueueUpRequestProtoInstance = nil;
   if (self.hasAttacker) {
     [output writeMessage:1 value:self.attacker];
   }
-  for (NSNumber* value in self.mutableSeenUserIdsList) {
-    [output writeInt32:2 value:[value intValue]];
+  for (NSString* element in self.mutableSeenUserUuidsList) {
+    [output writeString:2 value:element];
   }
   if (self.hasClientTime) {
     [output writeInt64:3 value:self.clientTime];
@@ -101,11 +101,11 @@ static QueueUpRequestProto* defaultQueueUpRequestProtoInstance = nil;
   }
   {
     int32_t dataSize = 0;
-    for (NSNumber* value in self.mutableSeenUserIdsList) {
-      dataSize += computeInt32SizeNoTag([value intValue]);
+    for (NSString* element in self.mutableSeenUserUuidsList) {
+      dataSize += computeStringSizeNoTag(element);
     }
     size += dataSize;
-    size += 1 * self.mutableSeenUserIdsList.count;
+    size += 1 * self.mutableSeenUserUuidsList.count;
   }
   if (self.hasClientTime) {
     size += computeInt64Size(3, self.clientTime);
@@ -188,11 +188,11 @@ static QueueUpRequestProto* defaultQueueUpRequestProtoInstance = nil;
   if (other.hasAttacker) {
     [self mergeAttacker:other.attacker];
   }
-  if (other.mutableSeenUserIdsList.count > 0) {
-    if (result.mutableSeenUserIdsList == nil) {
-      result.mutableSeenUserIdsList = [NSMutableArray array];
+  if (other.mutableSeenUserUuidsList.count > 0) {
+    if (result.mutableSeenUserUuidsList == nil) {
+      result.mutableSeenUserUuidsList = [NSMutableArray array];
     }
-    [result.mutableSeenUserIdsList addObjectsFromArray:other.mutableSeenUserIdsList];
+    [result.mutableSeenUserUuidsList addObjectsFromArray:other.mutableSeenUserUuidsList];
   }
   if (other.hasClientTime) {
     [self setClientTime:other.clientTime];
@@ -227,8 +227,8 @@ static QueueUpRequestProto* defaultQueueUpRequestProtoInstance = nil;
         [self setAttacker:[subBuilder buildPartial]];
         break;
       }
-      case 16: {
-        [self addSeenUserIds:[input readInt32]];
+      case 18: {
+        [self addSeenUserUuids:[input readString]];
         break;
       }
       case 24: {
@@ -268,35 +268,35 @@ static QueueUpRequestProto* defaultQueueUpRequestProtoInstance = nil;
   result.attacker = [MinimumUserProto defaultInstance];
   return self;
 }
-- (NSArray*) seenUserIdsList {
-  if (result.mutableSeenUserIdsList == nil) {
+- (NSArray*) seenUserUuidsList {
+  if (result.mutableSeenUserUuidsList == nil) {
     return [NSArray array];
   }
-  return result.mutableSeenUserIdsList;
+  return result.mutableSeenUserUuidsList;
 }
-- (int32_t) seenUserIdsAtIndex:(int32_t) index {
-  return [result seenUserIdsAtIndex:index];
+- (NSString*) seenUserUuidsAtIndex:(int32_t) index {
+  return [result seenUserUuidsAtIndex:index];
 }
-- (QueueUpRequestProto_Builder*) replaceSeenUserIdsAtIndex:(int32_t) index with:(int32_t) value {
-  [result.mutableSeenUserIdsList replaceObjectAtIndex:index withObject:[NSNumber numberWithInt:value]];
+- (QueueUpRequestProto_Builder*) replaceSeenUserUuidsAtIndex:(int32_t) index with:(NSString*) value {
+  [result.mutableSeenUserUuidsList replaceObjectAtIndex:index withObject:value];
   return self;
 }
-- (QueueUpRequestProto_Builder*) addSeenUserIds:(int32_t) value {
-  if (result.mutableSeenUserIdsList == nil) {
-    result.mutableSeenUserIdsList = [NSMutableArray array];
+- (QueueUpRequestProto_Builder*) addSeenUserUuids:(NSString*) value {
+  if (result.mutableSeenUserUuidsList == nil) {
+    result.mutableSeenUserUuidsList = [NSMutableArray array];
   }
-  [result.mutableSeenUserIdsList addObject:[NSNumber numberWithInt:value]];
+  [result.mutableSeenUserUuidsList addObject:value];
   return self;
 }
-- (QueueUpRequestProto_Builder*) addAllSeenUserIds:(NSArray*) values {
-  if (result.mutableSeenUserIdsList == nil) {
-    result.mutableSeenUserIdsList = [NSMutableArray array];
+- (QueueUpRequestProto_Builder*) addAllSeenUserUuids:(NSArray*) values {
+  if (result.mutableSeenUserUuidsList == nil) {
+    result.mutableSeenUserUuidsList = [NSMutableArray array];
   }
-  [result.mutableSeenUserIdsList addObjectsFromArray:values];
+  [result.mutableSeenUserUuidsList addObjectsFromArray:values];
   return self;
 }
-- (QueueUpRequestProto_Builder*) clearSeenUserIdsList {
-  result.mutableSeenUserIdsList = nil;
+- (QueueUpRequestProto_Builder*) clearSeenUserUuidsList {
+  result.mutableSeenUserUuidsList = nil;
   return self;
 }
 - (BOOL) hasClientTime {

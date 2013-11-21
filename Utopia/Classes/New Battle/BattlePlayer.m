@@ -31,7 +31,7 @@
     self.nightDamage = [gl calculateElementalDamageForMonster:monster element:MonsterProto_MonsterElementDarkness];
     self.name = [NSString stringWithFormat:@"%@ (lvl %d)", mp.displayName, monster.level];
     self.spritePrefix = mp.imagePrefix;
-    self.userMonsterId = monster.userMonsterId;
+    self.userMonsterUuid = monster.userMonsterUuid;
     self.slotNum = monster.teamSlot;
   }
   return self;

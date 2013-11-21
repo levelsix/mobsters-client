@@ -1,5 +1,5 @@
 //
-//  SilverStack.h
+//  CashStack.h
 //  Utopia
 //
 //  Created by Ashwin Kamath on 3/31/12.
@@ -14,7 +14,7 @@
 
 @end
 
-@interface SilverStack : Drop
+@interface CashStack : Drop
 
 @property (nonatomic, assign) int amount;
 

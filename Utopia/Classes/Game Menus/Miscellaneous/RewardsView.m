@@ -21,9 +21,9 @@
     MonsterProto *mp = [gs monsterWithId:reward.monsterId];
     labelName = [Globals shortenedStringForRarity:mp.quality];
     color = [Globals colorForRarity:mp.quality];
-  } else if (reward.type == RewardTypeSilver) {
+  } else if (reward.type == RewardTypeCash) {
     imgName = @"moneystack.png";
-    labelName = [Globals cashStringForNumber:reward.silverAmount];
+    labelName = [Globals cashStringForNumber:reward.cashAmount];
     color = [Globals greenColor];
   } else if (reward.type == RewardTypeGold) {
     imgName = @"diamond.png";

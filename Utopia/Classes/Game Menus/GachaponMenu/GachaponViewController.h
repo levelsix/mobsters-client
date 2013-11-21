@@ -9,7 +9,7 @@
 #import <UIKit/UIKit.h>
 #import "GenViewController.h"
 #import "EasyTableView.h"
-#import "Protocols.pb.h"
+#import "MobstersEventProtocol.pb.h"
 
 @interface GachaponPrizeView : UIView
 

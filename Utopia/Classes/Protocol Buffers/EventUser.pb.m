@@ -1253,7 +1253,7 @@ BOOL LevelUpResponseProto_LevelUpStatusIsValidValue(LevelUpResponseProto_LevelUp
 
 @interface RetrieveUsersForUserIdsRequestProto ()
 @property (retain) MinimumUserProto* sender;
-@property (retain) NSMutableArray* mutableRequestedUserIdsList;
+@property (retain) NSMutableArray* mutableRequestedUserUuidsList;
 @property BOOL includeCurMonsterTeam;
 @end
 
@@ -1266,7 +1266,7 @@ BOOL LevelUpResponseProto_LevelUpStatusIsValidValue(LevelUpResponseProto_LevelUp
   hasSender_ = !!value;
 }
 @synthesize sender;
-@synthesize mutableRequestedUserIdsList;
+@synthesize mutableRequestedUserUuidsList;
 - (BOOL) hasIncludeCurMonsterTeam {
   return !!hasIncludeCurMonsterTeam_;
 }
@@ -1281,7 +1281,7 @@ BOOL LevelUpResponseProto_LevelUpStatusIsValidValue(LevelUpResponseProto_LevelUp
 }
 - (void) dealloc {
   self.sender = nil;
-  self.mutableRequestedUserIdsList = nil;
+  self.mutableRequestedUserUuidsList = nil;
   [super dealloc];
 }
 - (id) init {
@@ -1303,12 +1303,12 @@ static RetrieveUsersForUserIdsRequestProto* defaultRetrieveUsersForUserIdsReques
 - (RetrieveUsersForUserIdsRequestProto*) defaultInstance {
   return defaultRetrieveUsersForUserIdsRequestProtoInstance;
 }
-- (NSArray*) requestedUserIdsList {
-  return mutableRequestedUserIdsList;
+- (NSArray*) requestedUserUuidsList {
+  return mutableRequestedUserUuidsList;
 }
-- (int32_t) requestedUserIdsAtIndex:(int32_t) index {
-  id value = [mutableRequestedUserIdsList objectAtIndex:index];
-  return [value intValue];
+- (NSString*) requestedUserUuidsAtIndex:(int32_t) index {
+  id value = [mutableRequestedUserUuidsList objectAtIndex:index];
+  return value;
 }
 - (BOOL) isInitialized {
   return YES;
@@ -1317,8 +1317,8 @@ static RetrieveUsersForUserIdsRequestProto* defaultRetrieveUsersForUserIdsReques
   if (self.hasSender) {
     [output writeMessage:1 value:self.sender];
   }
-  for (NSNumber* value in self.mutableRequestedUserIdsList) {
-    [output writeInt32:2 value:[value intValue]];
+  for (NSString* element in self.mutableRequestedUserUuidsList) {
+    [output writeString:2 value:element];
   }
   if (self.hasIncludeCurMonsterTeam) {
     [output writeBool:3 value:self.includeCurMonsterTeam];
@@ -1337,11 +1337,11 @@ static RetrieveUsersForUserIdsRequestProto* defaultRetrieveUsersForUserIdsReques
   }
   {
     int32_t dataSize = 0;
-    for (NSNumber* value in self.mutableRequestedUserIdsList) {
-      dataSize += computeInt32SizeNoTag([value intValue]);
+    for (NSString* element in self.mutableRequestedUserUuidsList) {
+      dataSize += computeStringSizeNoTag(element);
     }
     size += dataSize;
-    size += 1 * self.mutableRequestedUserIdsList.count;
+    size += 1 * self.mutableRequestedUserUuidsList.count;
   }
   if (self.hasIncludeCurMonsterTeam) {
     size += computeBoolSize(3, self.includeCurMonsterTeam);
@@ -1424,11 +1424,11 @@ static RetrieveUsersForUserIdsRequestProto* defaultRetrieveUsersForUserIdsReques
   if (other.hasSender) {
     [self mergeSender:other.sender];
   }
-  if (other.mutableRequestedUserIdsList.count > 0) {
-    if (result.mutableRequestedUserIdsList == nil) {
-      result.mutableRequestedUserIdsList = [NSMutableArray array];
+  if (other.mutableRequestedUserUuidsList.count > 0) {
+    if (result.mutableRequestedUserUuidsList == nil) {
+      result.mutableRequestedUserUuidsList = [NSMutableArray array];
     }
-    [result.mutableRequestedUserIdsList addObjectsFromArray:other.mutableRequestedUserIdsList];
+    [result.mutableRequestedUserUuidsList addObjectsFromArray:other.mutableRequestedUserUuidsList];
   }
   if (other.hasIncludeCurMonsterTeam) {
     [self setIncludeCurMonsterTeam:other.includeCurMonsterTeam];
@@ -1463,8 +1463,8 @@ static RetrieveUsersForUserIdsRequestProto* defaultRetrieveUsersForUserIdsReques
         [self setSender:[subBuilder buildPartial]];
         break;
       }
-      case 16: {
-        [self addRequestedUserIds:[input readInt32]];
+      case 18: {
+        [self addRequestedUserUuids:[input readString]];
         break;
       }
       case 24: {
@@ -1504,35 +1504,35 @@ static RetrieveUsersForUserIdsRequestProto* defaultRetrieveUsersForUserIdsReques
   result.sender = [MinimumUserProto defaultInstance];
   return self;
 }
-- (NSArray*) requestedUserIdsList {
-  if (result.mutableRequestedUserIdsList == nil) {
+- (NSArray*) requestedUserUuidsList {
+  if (result.mutableRequestedUserUuidsList == nil) {
     return [NSArray array];
   }
-  return result.mutableRequestedUserIdsList;
+  return result.mutableRequestedUserUuidsList;
 }
-- (int32_t) requestedUserIdsAtIndex:(int32_t) index {
-  return [result requestedUserIdsAtIndex:index];
+- (NSString*) requestedUserUuidsAtIndex:(int32_t) index {
+  return [result requestedUserUuidsAtIndex:index];
 }
-- (RetrieveUsersForUserIdsRequestProto_Builder*) replaceRequestedUserIdsAtIndex:(int32_t) index with:(int32_t) value {
-  [result.mutableRequestedUserIdsList replaceObjectAtIndex:index withObject:[NSNumber numberWithInt:value]];
+- (RetrieveUsersForUserIdsRequestProto_Builder*) replaceRequestedUserUuidsAtIndex:(int32_t) index with:(NSString*) value {
+  [result.mutableRequestedUserUuidsList replaceObjectAtIndex:index withObject:value];
   return self;
 }
-- (RetrieveUsersForUserIdsRequestProto_Builder*) addRequestedUserIds:(int32_t) value {
-  if (result.mutableRequestedUserIdsList == nil) {
-    result.mutableRequestedUserIdsList = [NSMutableArray array];
+- (RetrieveUsersForUserIdsRequestProto_Builder*) addRequestedUserUuids:(NSString*) value {
+  if (result.mutableRequestedUserUuidsList == nil) {
+    result.mutableRequestedUserUuidsList = [NSMutableArray array];
   }
-  [result.mutableRequestedUserIdsList addObject:[NSNumber numberWithInt:value]];
+  [result.mutableRequestedUserUuidsList addObject:value];
   return self;
 }
-- (RetrieveUsersForUserIdsRequestProto_Builder*) addAllRequestedUserIds:(NSArray*) values {
-  if (result.mutableRequestedUserIdsList == nil) {
-    result.mutableRequestedUserIdsList = [NSMutableArray array];
+- (RetrieveUsersForUserIdsRequestProto_Builder*) addAllRequestedUserUuids:(NSArray*) values {
+  if (result.mutableRequestedUserUuidsList == nil) {
+    result.mutableRequestedUserUuidsList = [NSMutableArray array];
   }
-  [result.mutableRequestedUserIdsList addObjectsFromArray:values];
+  [result.mutableRequestedUserUuidsList addObjectsFromArray:values];
   return self;
 }
-- (RetrieveUsersForUserIdsRequestProto_Builder*) clearRequestedUserIdsList {
-  result.mutableRequestedUserIdsList = nil;
+- (RetrieveUsersForUserIdsRequestProto_Builder*) clearRequestedUserUuidsList {
+  result.mutableRequestedUserUuidsList = nil;
   return self;
 }
 - (BOOL) hasIncludeCurMonsterTeam {

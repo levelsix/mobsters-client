@@ -41,8 +41,8 @@
 @property (nonatomic, assign) IBOutlet ProgressBar *expBar;
 @property (nonatomic, assign) IBOutlet UILabel *levelLabel;
 @property (nonatomic, assign) IBOutlet NumTransitionLabel *expLabel;
-@property (nonatomic, assign) IBOutlet NumTransitionLabel *silverLabel;
-@property (nonatomic, assign) IBOutlet NumTransitionLabel *goldLabel;
+@property (nonatomic, assign) IBOutlet NumTransitionLabel *cashLabel;
+@property (nonatomic, assign) IBOutlet NumTransitionLabel *gemsLabel;
 
 @property (nonatomic, retain) IBOutlet UIView *myCityView;
 @property (nonatomic, retain) IBOutlet UIView *menuView;

@@ -3,15 +3,16 @@
 
 import "User.proto";
 
-package com.lvl6.proto;
+package proto;
 
+option java_package = "com.lvl6.mobsters.eventprotos";
 option java_outer_classname = "EventReferralProto";
 //DO NOT USE ID AS THE NAME OF A PROPERTY IN ANY PROTO
 
 message ReferralCodeUsedResponseProto {
 	optional MinimumUserProto sender = 1;
 	optional MinimumUserProto referredPlayer = 2;
-	optional int32 coinsGivenToReferrer = 3;
+	optional int32 cashGivenToReferrer = 3;
 }
 
 //------------------------------------------------------------------------------------------

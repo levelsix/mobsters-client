@@ -10,7 +10,7 @@
 #import "LNSynthesizeSingleton.h"
 #import "IAPHelper.h"
 #import "GameState.h"
-#import "Protocols.pb.h"
+#import "MobstersEventProtocol.pb.h"
 #import "Downloader.h"
 #import "GenericPopupController.h"
 #import "SoundEngine.h"
@@ -71,7 +71,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
   self.maxNameLength = constants.maxNameLength;
   self.maxLengthOfChatString = constants.maxLengthOfChatString;
   self.levelToShowRateUsPopup = constants.levelToShowRateUsPopup;
-  self.fbConnectRewardDiamonds = constants.fbConnectRewardDiamonds;
+  self.fbConnectRewardGems = constants.fbConnectRewardDiamonds;
   self.faqFileName = constants.faqFileName;
   self.adminChatUser = constants.adminChatUserProto;
   self.numBeginnerSalesAllowed = constants.numBeginnerSalesAllowed;
@@ -88,7 +88,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
   self.elementalStrength = constants.monsterConstants.elementalStrength;
   self.elementalWeakness = constants.monsterConstants.elementalWeakness;
   
-  self.coinPriceToCreateClan = constants.clanConstants.hasCoinPriceToCreateClan;
+  self.cashPriceToCreateClan = constants.clanConstants.hasCoinPriceToCreateClan;
   self.maxCharLengthForClanName = constants.clanConstants.maxCharLengthForClanName;
   self.maxCharLengthForClanDescription = constants.clanConstants.maxCharLengthForClanDescription;
   self.maxCharLengthForClanTag = constants.clanConstants.maxCharLengthForClanTag;
@@ -1054,7 +1054,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
     for (FullUserMonsterProto *m in team.currentTeamList) {
       [arr addObject:[UserMonster userMonsterWithProto:m]];
     }
-    [dict setObject:arr forKey:@(team.userId)];
+    [dict setObject:arr forKey:team.userUuid];
   }
   return dict;
 }
@@ -1072,7 +1072,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
   return exp.numMinutesToExpand;
 }
 
-- (int) calculateSilverCostForNewExpansion {
+- (int) calculateCashCostForNewExpansion {
   GameState *gs = [GameState sharedGameState];
   int numExp = [gs numCompletedExpansions];
   CityExpansionCostProto *exp = [gs.expansionCosts objectForKey:@(numExp+1)];
@@ -1158,7 +1158,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
   return timeLeft;
 }
 
-- (int) calculateSilverCostForEnhancement:(EnhancementItem *)baseMonster feeder:(EnhancementItem *)feeder {
+- (int) calculateCashCostForEnhancement:(EnhancementItem *)baseMonster feeder:(EnhancementItem *)feeder {
   return 100;
 }
 
@@ -1343,7 +1343,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
   return [UIColor colorWithRed:120/255.f green:117/255.f blue:98/255.f alpha:1.f];
 }
 
-+ (GameMap *)mapForQuest:(FullQuestProto *)fqp {
++ (GameMap *)mapForQuest:(QuestProto *)fqp {
   if (fqp.cityId > 0) {
     GameLayer *gLay = [GameLayer sharedGameLayer];
     if (gLay.currentCity == fqp.cityId) {

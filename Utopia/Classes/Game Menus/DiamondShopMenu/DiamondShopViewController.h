@@ -51,6 +51,6 @@
 @property (nonatomic, strong) IBOutlet UITableView *diamondTable;
 @property (nonatomic, strong) IBOutlet UIActivityIndicatorView *spinner;
 @property (nonatomic, strong) IBOutlet UILabel *cashLabel;
-@property (nonatomic, strong) IBOutlet UILabel *diamondLabel;
+@property (nonatomic, strong) IBOutlet UILabel *gemLabel;
 
 @end

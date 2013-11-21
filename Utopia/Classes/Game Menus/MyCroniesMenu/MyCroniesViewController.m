@@ -59,7 +59,7 @@
 - (void) didMoveToParentViewController:(UIViewController *)parent {
   if (parent == nil) {
     GameState *gs = [GameState sharedGameState];
-    [gs.recentlyHealedMonsterIds removeAllObjects];
+    [gs.recentlyHealedMonsterUuids removeAllObjects];
   }
 }
 
@@ -131,7 +131,7 @@
     if (!um.isComplete || [um isHealing] || [um isEnhancing] || [um isSacrificing]) {
       [unavail addObject:um];
     } else {
-      if ([gs.recentlyHealedMonsterIds containsObject:@(um.userMonsterId)]) {
+      if ([gs.recentlyHealedMonsterUuids containsObject:um.userMonsterUuid]) {
         [recent addObject:um];
       } else {
         [reg addObject:um];
@@ -247,7 +247,7 @@
 #pragma mark - MonsterTeamSlotDelegate methods
 
 - (void) minusClickedForTeamSlotView:(MonsterTeamSlotView *)mv {
-  BOOL success = [[OutgoingEventController sharedOutgoingEventController] removeMonsterFromTeam:mv.monster.userMonsterId];
+  BOOL success = [[OutgoingEventController sharedOutgoingEventController] removeMonsterFromTeam:mv.monster.userMonsterUuid];
   
   if (success) {
     [self reloadTableAnimated:YES];
@@ -258,7 +258,7 @@
 #pragma mark - MyCroniesCellDelegate methods
 
 - (void) plusClicked:(MyCroniesCardCell *)cell {
-  BOOL success = [[OutgoingEventController sharedOutgoingEventController] addMonsterToTeam:cell.monster.userMonsterId];
+  BOOL success = [[OutgoingEventController sharedOutgoingEventController] addMonsterToTeam:cell.monster.userMonsterUuid];
   
   if (success) {
     [self reloadTableAnimated:YES];
@@ -290,14 +290,14 @@
 }
 
 - (void) speedupCombineClicked:(MyCroniesCardCell *)cell {
-  BOOL success = [[OutgoingEventController sharedOutgoingEventController] combineMonsterWithSpeedup:cell.monster.userMonsterId];
+  BOOL success = [[OutgoingEventController sharedOutgoingEventController] combineMonsterWithSpeedup:cell.monster.userMonsterUuid];
   if (success) {
     [self reloadTableAnimated:YES];
   }
 }
 
 - (void) cardClicked:(MyCroniesCardCell *)cell {
-  BOOL success = [[OutgoingEventController sharedOutgoingEventController] addMonsterToHealingQueue:cell.monster.userMonsterId];
+  BOOL success = [[OutgoingEventController sharedOutgoingEventController] addMonsterToHealingQueue:cell.monster.userMonsterUuid];
   if (success) {
     [self reloadTableAnimated:YES];
     
@@ -326,7 +326,7 @@
     [self.queueView updateTimes];
     
     GameState *gs = [GameState sharedGameState];
-    UserMonster *um = [gs myMonsterWithUserMonsterId:cell.healingItem.userMonsterId];
+    UserMonster *um = [gs myMonsterWithUserMonsterUuid:cell.healingItem.userMonsterUuid];
     if (um.teamSlot) {
       [self updateCurrentTeamAnimated:YES];
     }

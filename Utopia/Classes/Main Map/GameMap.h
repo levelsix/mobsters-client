@@ -21,7 +21,7 @@
 #define MIN_ZOOM 0.3f
 #define DEFAULT_ZOOM 0.8f
 
-#define SILVER_STACK_BOUNCE_DURATION 1.f
+#define LOOT_BOUNCE_DURATION 1.f
 #define DROP_LABEL_DURATION 3.f
 #define PICK_UP_WAIT_TIME 2
 #define DROP_ROTATION 0
@@ -61,7 +61,7 @@
 
 @property (nonatomic, assign) CGSize tileSizeInPoints;
 
-@property (nonatomic, assign) int silverOnMap;
+@property (nonatomic, assign) int cashOnMap;
 @property (nonatomic, assign) int goldOnMap;
 
 @property (nonatomic, assign) int cityId;

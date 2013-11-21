@@ -3,11 +3,12 @@
 
 import "City.proto";
 import "MonsterStuff.proto";
-import "Quest.proto";
+import "QuestStuff.proto";
 import "User.proto";
 
-package com.lvl6.proto;
+package proto;
 
+option java_package = "com.lvl6.mobsters.eventprotos";
 option java_outer_classname = "EventQuestProto";
 //DO NOT USE ID AS THE NAME OF A PROPERTY IN ANY PROTO
 
@@ -40,7 +41,7 @@ message QuestProgressRequestProto {
 	optional bool isComplete = 4;
 	
 	//if set, delete these user monster ids 
-	repeated int64 deleteUserMonsterIds = 5;
+	repeated string deleteUserMonsterUuids = 5;
 }
 
 																						//DONE
@@ -69,7 +70,7 @@ message QuestRedeemRequestProto {
 																						//DONE
 message QuestRedeemResponseProto {
      optional MinimumUserProto sender = 1;
-     repeated FullQuestProto newlyAvailableQuests = 2;
+     repeated QuestProto newlyAvailableQuests = 2;
      optional QuestRedeemStatus status = 3;    
      optional FullUserMonsterProto fump = 4;
      optional int32 questId = 5;

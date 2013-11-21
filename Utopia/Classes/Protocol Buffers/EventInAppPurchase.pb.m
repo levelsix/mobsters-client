@@ -416,8 +416,8 @@ static InAppPurchaseRequestProto* defaultInAppPurchaseRequestProtoInstance = nil
 @interface InAppPurchaseResponseProto ()
 @property (retain) MinimumUserProto* sender;
 @property InAppPurchaseResponseProto_InAppPurchaseStatus status;
-@property int32_t diamondsGained;
-@property int32_t coinsGained;
+@property int32_t gemsGained;
+@property int32_t cashGained;
 @property (retain) NSString* packageName;
 @property Float64 packagePrice;
 @property (retain) NSString* receipt;
@@ -439,20 +439,20 @@ static InAppPurchaseRequestProto* defaultInAppPurchaseRequestProtoInstance = nil
   hasStatus_ = !!value;
 }
 @synthesize status;
-- (BOOL) hasDiamondsGained {
-  return !!hasDiamondsGained_;
+- (BOOL) hasGemsGained {
+  return !!hasGemsGained_;
 }
-- (void) setHasDiamondsGained:(BOOL) value {
-  hasDiamondsGained_ = !!value;
+- (void) setHasGemsGained:(BOOL) value {
+  hasGemsGained_ = !!value;
 }
-@synthesize diamondsGained;
-- (BOOL) hasCoinsGained {
-  return !!hasCoinsGained_;
+@synthesize gemsGained;
+- (BOOL) hasCashGained {
+  return !!hasCashGained_;
 }
-- (void) setHasCoinsGained:(BOOL) value {
-  hasCoinsGained_ = !!value;
+- (void) setHasCashGained:(BOOL) value {
+  hasCashGained_ = !!value;
 }
-@synthesize coinsGained;
+@synthesize cashGained;
 - (BOOL) hasPackageName {
   return !!hasPackageName_;
 }
@@ -484,8 +484,8 @@ static InAppPurchaseRequestProto* defaultInAppPurchaseRequestProtoInstance = nil
   if ((self = [super init])) {
     self.sender = [MinimumUserProto defaultInstance];
     self.status = InAppPurchaseResponseProto_InAppPurchaseStatusSuccess;
-    self.diamondsGained = 0;
-    self.coinsGained = 0;
+    self.gemsGained = 0;
+    self.cashGained = 0;
     self.packageName = @"";
     self.packagePrice = 0;
     self.receipt = @"";
@@ -514,11 +514,11 @@ static InAppPurchaseResponseProto* defaultInAppPurchaseResponseProtoInstance = n
   if (self.hasStatus) {
     [output writeEnum:2 value:self.status];
   }
-  if (self.hasDiamondsGained) {
-    [output writeInt32:3 value:self.diamondsGained];
+  if (self.hasGemsGained) {
+    [output writeInt32:3 value:self.gemsGained];
   }
-  if (self.hasCoinsGained) {
-    [output writeInt32:4 value:self.coinsGained];
+  if (self.hasCashGained) {
+    [output writeInt32:4 value:self.cashGained];
   }
   if (self.hasPackageName) {
     [output writeString:5 value:self.packageName];
@@ -544,11 +544,11 @@ static InAppPurchaseResponseProto* defaultInAppPurchaseResponseProtoInstance = n
   if (self.hasStatus) {
     size += computeEnumSize(2, self.status);
   }
-  if (self.hasDiamondsGained) {
-    size += computeInt32Size(3, self.diamondsGained);
+  if (self.hasGemsGained) {
+    size += computeInt32Size(3, self.gemsGained);
   }
-  if (self.hasCoinsGained) {
-    size += computeInt32Size(4, self.coinsGained);
+  if (self.hasCashGained) {
+    size += computeInt32Size(4, self.cashGained);
   }
   if (self.hasPackageName) {
     size += computeStringSize(5, self.packageName);
@@ -650,11 +650,11 @@ BOOL InAppPurchaseResponseProto_InAppPurchaseStatusIsValidValue(InAppPurchaseRes
   if (other.hasStatus) {
     [self setStatus:other.status];
   }
-  if (other.hasDiamondsGained) {
-    [self setDiamondsGained:other.diamondsGained];
+  if (other.hasGemsGained) {
+    [self setGemsGained:other.gemsGained];
   }
-  if (other.hasCoinsGained) {
-    [self setCoinsGained:other.coinsGained];
+  if (other.hasCashGained) {
+    [self setCashGained:other.cashGained];
   }
   if (other.hasPackageName) {
     [self setPackageName:other.packageName];
@@ -705,11 +705,11 @@ BOOL InAppPurchaseResponseProto_InAppPurchaseStatusIsValidValue(InAppPurchaseRes
         break;
       }
       case 24: {
-        [self setDiamondsGained:[input readInt32]];
+        [self setGemsGained:[input readInt32]];
         break;
       }
       case 32: {
-        [self setCoinsGained:[input readInt32]];
+        [self setCashGained:[input readInt32]];
         break;
       }
       case 42: {
@@ -773,36 +773,36 @@ BOOL InAppPurchaseResponseProto_InAppPurchaseStatusIsValidValue(InAppPurchaseRes
   result.status = InAppPurchaseResponseProto_InAppPurchaseStatusSuccess;
   return self;
 }
-- (BOOL) hasDiamondsGained {
-  return result.hasDiamondsGained;
+- (BOOL) hasGemsGained {
+  return result.hasGemsGained;
 }
-- (int32_t) diamondsGained {
-  return result.diamondsGained;
+- (int32_t) gemsGained {
+  return result.gemsGained;
 }
-- (InAppPurchaseResponseProto_Builder*) setDiamondsGained:(int32_t) value {
-  result.hasDiamondsGained = YES;
-  result.diamondsGained = value;
+- (InAppPurchaseResponseProto_Builder*) setGemsGained:(int32_t) value {
+  result.hasGemsGained = YES;
+  result.gemsGained = value;
   return self;
 }
-- (InAppPurchaseResponseProto_Builder*) clearDiamondsGained {
-  result.hasDiamondsGained = NO;
-  result.diamondsGained = 0;
+- (InAppPurchaseResponseProto_Builder*) clearGemsGained {
+  result.hasGemsGained = NO;
+  result.gemsGained = 0;
   return self;
 }
-- (BOOL) hasCoinsGained {
-  return result.hasCoinsGained;
+- (BOOL) hasCashGained {
+  return result.hasCashGained;
 }
-- (int32_t) coinsGained {
-  return result.coinsGained;
+- (int32_t) cashGained {
+  return result.cashGained;
 }
-- (InAppPurchaseResponseProto_Builder*) setCoinsGained:(int32_t) value {
-  result.hasCoinsGained = YES;
-  result.coinsGained = value;
+- (InAppPurchaseResponseProto_Builder*) setCashGained:(int32_t) value {
+  result.hasCashGained = YES;
+  result.cashGained = value;
   return self;
 }
-- (InAppPurchaseResponseProto_Builder*) clearCoinsGained {
-  result.hasCoinsGained = NO;
-  result.coinsGained = 0;
+- (InAppPurchaseResponseProto_Builder*) clearCashGained {
+  result.hasCashGained = NO;
+  result.cashGained = 0;
   return self;
 }
 - (BOOL) hasPackageName {
@@ -855,13 +855,13 @@ BOOL InAppPurchaseResponseProto_InAppPurchaseStatusIsValidValue(InAppPurchaseRes
 }
 @end
 
-@interface EarnFreeDiamondsRequestProto ()
+@interface EarnFreeGemsRequestProto ()
 @property (retain) MinimumUserProto* sender;
-@property EarnFreeDiamondsType freeDiamondsType;
+@property EarnFreeGemsType freeGemsType;
 @property int64_t clientTime;
 @end
 
-@implementation EarnFreeDiamondsRequestProto
+@implementation EarnFreeGemsRequestProto
 
 - (BOOL) hasSender {
   return !!hasSender_;
@@ -870,13 +870,13 @@ BOOL InAppPurchaseResponseProto_InAppPurchaseStatusIsValidValue(InAppPurchaseRes
   hasSender_ = !!value;
 }
 @synthesize sender;
-- (BOOL) hasFreeDiamondsType {
-  return !!hasFreeDiamondsType_;
+- (BOOL) hasFreeGemsType {
+  return !!hasFreeGemsType_;
 }
-- (void) setHasFreeDiamondsType:(BOOL) value {
-  hasFreeDiamondsType_ = !!value;
+- (void) setHasFreeGemsType:(BOOL) value {
+  hasFreeGemsType_ = !!value;
 }
-@synthesize freeDiamondsType;
+@synthesize freeGemsType;
 - (BOOL) hasClientTime {
   return !!hasClientTime_;
 }
@@ -891,22 +891,22 @@ BOOL InAppPurchaseResponseProto_InAppPurchaseStatusIsValidValue(InAppPurchaseRes
 - (id) init {
   if ((self = [super init])) {
     self.sender = [MinimumUserProto defaultInstance];
-    self.freeDiamondsType = EarnFreeDiamondsTypeFbConnect;
+    self.freeGemsType = EarnFreeGemsTypeFbConnect;
     self.clientTime = 0L;
   }
   return self;
 }
-static EarnFreeDiamondsRequestProto* defaultEarnFreeDiamondsRequestProtoInstance = nil;
+static EarnFreeGemsRequestProto* defaultEarnFreeGemsRequestProtoInstance = nil;
 + (void) initialize {
-  if (self == [EarnFreeDiamondsRequestProto class]) {
-    defaultEarnFreeDiamondsRequestProtoInstance = [[EarnFreeDiamondsRequestProto alloc] init];
+  if (self == [EarnFreeGemsRequestProto class]) {
+    defaultEarnFreeGemsRequestProtoInstance = [[EarnFreeGemsRequestProto alloc] init];
   }
 }
-+ (EarnFreeDiamondsRequestProto*) defaultInstance {
-  return defaultEarnFreeDiamondsRequestProtoInstance;
++ (EarnFreeGemsRequestProto*) defaultInstance {
+  return defaultEarnFreeGemsRequestProtoInstance;
 }
-- (EarnFreeDiamondsRequestProto*) defaultInstance {
-  return defaultEarnFreeDiamondsRequestProtoInstance;
+- (EarnFreeGemsRequestProto*) defaultInstance {
+  return defaultEarnFreeGemsRequestProtoInstance;
 }
 - (BOOL) isInitialized {
   return YES;
@@ -915,8 +915,8 @@ static EarnFreeDiamondsRequestProto* defaultEarnFreeDiamondsRequestProtoInstance
   if (self.hasSender) {
     [output writeMessage:1 value:self.sender];
   }
-  if (self.hasFreeDiamondsType) {
-    [output writeEnum:2 value:self.freeDiamondsType];
+  if (self.hasFreeGemsType) {
+    [output writeEnum:2 value:self.freeGemsType];
   }
   if (self.hasClientTime) {
     [output writeInt64:3 value:self.clientTime];
@@ -933,8 +933,8 @@ static EarnFreeDiamondsRequestProto* defaultEarnFreeDiamondsRequestProtoInstance
   if (self.hasSender) {
     size += computeMessageSize(1, self.sender);
   }
-  if (self.hasFreeDiamondsType) {
-    size += computeEnumSize(2, self.freeDiamondsType);
+  if (self.hasFreeGemsType) {
+    size += computeEnumSize(2, self.freeGemsType);
   }
   if (self.hasClientTime) {
     size += computeInt64Size(3, self.clientTime);
@@ -943,40 +943,40 @@ static EarnFreeDiamondsRequestProto* defaultEarnFreeDiamondsRequestProtoInstance
   memoizedSerializedSize = size;
   return size;
 }
-+ (EarnFreeDiamondsRequestProto*) parseFromData:(NSData*) data {
-  return (EarnFreeDiamondsRequestProto*)[[[EarnFreeDiamondsRequestProto builder] mergeFromData:data] build];
++ (EarnFreeGemsRequestProto*) parseFromData:(NSData*) data {
+  return (EarnFreeGemsRequestProto*)[[[EarnFreeGemsRequestProto builder] mergeFromData:data] build];
 }
-+ (EarnFreeDiamondsRequestProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
-  return (EarnFreeDiamondsRequestProto*)[[[EarnFreeDiamondsRequestProto builder] mergeFromData:data extensionRegistry:extensionRegistry] build];
++ (EarnFreeGemsRequestProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (EarnFreeGemsRequestProto*)[[[EarnFreeGemsRequestProto builder] mergeFromData:data extensionRegistry:extensionRegistry] build];
 }
-+ (EarnFreeDiamondsRequestProto*) parseFromInputStream:(NSInputStream*) input {
-  return (EarnFreeDiamondsRequestProto*)[[[EarnFreeDiamondsRequestProto builder] mergeFromInputStream:input] build];
++ (EarnFreeGemsRequestProto*) parseFromInputStream:(NSInputStream*) input {
+  return (EarnFreeGemsRequestProto*)[[[EarnFreeGemsRequestProto builder] mergeFromInputStream:input] build];
 }
-+ (EarnFreeDiamondsRequestProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
-  return (EarnFreeDiamondsRequestProto*)[[[EarnFreeDiamondsRequestProto builder] mergeFromInputStream:input extensionRegistry:extensionRegistry] build];
++ (EarnFreeGemsRequestProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (EarnFreeGemsRequestProto*)[[[EarnFreeGemsRequestProto builder] mergeFromInputStream:input extensionRegistry:extensionRegistry] build];
 }
-+ (EarnFreeDiamondsRequestProto*) parseFromCodedInputStream:(PBCodedInputStream*) input {
-  return (EarnFreeDiamondsRequestProto*)[[[EarnFreeDiamondsRequestProto builder] mergeFromCodedInputStream:input] build];
++ (EarnFreeGemsRequestProto*) parseFromCodedInputStream:(PBCodedInputStream*) input {
+  return (EarnFreeGemsRequestProto*)[[[EarnFreeGemsRequestProto builder] mergeFromCodedInputStream:input] build];
 }
-+ (EarnFreeDiamondsRequestProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
-  return (EarnFreeDiamondsRequestProto*)[[[EarnFreeDiamondsRequestProto builder] mergeFromCodedInputStream:input extensionRegistry:extensionRegistry] build];
++ (EarnFreeGemsRequestProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (EarnFreeGemsRequestProto*)[[[EarnFreeGemsRequestProto builder] mergeFromCodedInputStream:input extensionRegistry:extensionRegistry] build];
 }
-+ (EarnFreeDiamondsRequestProto_Builder*) builder {
-  return [[[EarnFreeDiamondsRequestProto_Builder alloc] init] autorelease];
++ (EarnFreeGemsRequestProto_Builder*) builder {
+  return [[[EarnFreeGemsRequestProto_Builder alloc] init] autorelease];
 }
-+ (EarnFreeDiamondsRequestProto_Builder*) builderWithPrototype:(EarnFreeDiamondsRequestProto*) prototype {
-  return [[EarnFreeDiamondsRequestProto builder] mergeFrom:prototype];
++ (EarnFreeGemsRequestProto_Builder*) builderWithPrototype:(EarnFreeGemsRequestProto*) prototype {
+  return [[EarnFreeGemsRequestProto builder] mergeFrom:prototype];
 }
-- (EarnFreeDiamondsRequestProto_Builder*) builder {
-  return [EarnFreeDiamondsRequestProto builder];
+- (EarnFreeGemsRequestProto_Builder*) builder {
+  return [EarnFreeGemsRequestProto builder];
 }
 @end
 
-@interface EarnFreeDiamondsRequestProto_Builder()
-@property (retain) EarnFreeDiamondsRequestProto* result;
+@interface EarnFreeGemsRequestProto_Builder()
+@property (retain) EarnFreeGemsRequestProto* result;
 @end
 
-@implementation EarnFreeDiamondsRequestProto_Builder
+@implementation EarnFreeGemsRequestProto_Builder
 @synthesize result;
 - (void) dealloc {
   self.result = nil;
@@ -984,41 +984,41 @@ static EarnFreeDiamondsRequestProto* defaultEarnFreeDiamondsRequestProtoInstance
 }
 - (id) init {
   if ((self = [super init])) {
-    self.result = [[[EarnFreeDiamondsRequestProto alloc] init] autorelease];
+    self.result = [[[EarnFreeGemsRequestProto alloc] init] autorelease];
   }
   return self;
 }
 - (PBGeneratedMessage*) internalGetResult {
   return result;
 }
-- (EarnFreeDiamondsRequestProto_Builder*) clear {
-  self.result = [[[EarnFreeDiamondsRequestProto alloc] init] autorelease];
+- (EarnFreeGemsRequestProto_Builder*) clear {
+  self.result = [[[EarnFreeGemsRequestProto alloc] init] autorelease];
   return self;
 }
-- (EarnFreeDiamondsRequestProto_Builder*) clone {
-  return [EarnFreeDiamondsRequestProto builderWithPrototype:result];
+- (EarnFreeGemsRequestProto_Builder*) clone {
+  return [EarnFreeGemsRequestProto builderWithPrototype:result];
 }
-- (EarnFreeDiamondsRequestProto*) defaultInstance {
-  return [EarnFreeDiamondsRequestProto defaultInstance];
+- (EarnFreeGemsRequestProto*) defaultInstance {
+  return [EarnFreeGemsRequestProto defaultInstance];
 }
-- (EarnFreeDiamondsRequestProto*) build {
+- (EarnFreeGemsRequestProto*) build {
   [self checkInitialized];
   return [self buildPartial];
 }
-- (EarnFreeDiamondsRequestProto*) buildPartial {
-  EarnFreeDiamondsRequestProto* returnMe = [[result retain] autorelease];
+- (EarnFreeGemsRequestProto*) buildPartial {
+  EarnFreeGemsRequestProto* returnMe = [[result retain] autorelease];
   self.result = nil;
   return returnMe;
 }
-- (EarnFreeDiamondsRequestProto_Builder*) mergeFrom:(EarnFreeDiamondsRequestProto*) other {
-  if (other == [EarnFreeDiamondsRequestProto defaultInstance]) {
+- (EarnFreeGemsRequestProto_Builder*) mergeFrom:(EarnFreeGemsRequestProto*) other {
+  if (other == [EarnFreeGemsRequestProto defaultInstance]) {
     return self;
   }
   if (other.hasSender) {
     [self mergeSender:other.sender];
   }
-  if (other.hasFreeDiamondsType) {
-    [self setFreeDiamondsType:other.freeDiamondsType];
+  if (other.hasFreeGemsType) {
+    [self setFreeGemsType:other.freeGemsType];
   }
   if (other.hasClientTime) {
     [self setClientTime:other.clientTime];
@@ -1026,10 +1026,10 @@ static EarnFreeDiamondsRequestProto* defaultEarnFreeDiamondsRequestProtoInstance
   [self mergeUnknownFields:other.unknownFields];
   return self;
 }
-- (EarnFreeDiamondsRequestProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input {
+- (EarnFreeGemsRequestProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input {
   return [self mergeFromCodedInputStream:input extensionRegistry:[PBExtensionRegistry emptyRegistry]];
 }
-- (EarnFreeDiamondsRequestProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+- (EarnFreeGemsRequestProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
   PBUnknownFieldSet_Builder* unknownFields = [PBUnknownFieldSet builderWithUnknownFields:self.unknownFields];
   while (YES) {
     int32_t tag = [input readTag];
@@ -1055,8 +1055,8 @@ static EarnFreeDiamondsRequestProto* defaultEarnFreeDiamondsRequestProtoInstance
       }
       case 16: {
         int32_t value = [input readEnum];
-        if (EarnFreeDiamondsTypeIsValidValue(value)) {
-          [self setFreeDiamondsType:value];
+        if (EarnFreeGemsTypeIsValidValue(value)) {
+          [self setFreeGemsType:value];
         } else {
           [unknownFields mergeVarintField:2 value:value];
         }
@@ -1075,15 +1075,15 @@ static EarnFreeDiamondsRequestProto* defaultEarnFreeDiamondsRequestProtoInstance
 - (MinimumUserProto*) sender {
   return result.sender;
 }
-- (EarnFreeDiamondsRequestProto_Builder*) setSender:(MinimumUserProto*) value {
+- (EarnFreeGemsRequestProto_Builder*) setSender:(MinimumUserProto*) value {
   result.hasSender = YES;
   result.sender = value;
   return self;
 }
-- (EarnFreeDiamondsRequestProto_Builder*) setSenderBuilder:(MinimumUserProto_Builder*) builderForValue {
+- (EarnFreeGemsRequestProto_Builder*) setSenderBuilder:(MinimumUserProto_Builder*) builderForValue {
   return [self setSender:[builderForValue build]];
 }
-- (EarnFreeDiamondsRequestProto_Builder*) mergeSender:(MinimumUserProto*) value {
+- (EarnFreeGemsRequestProto_Builder*) mergeSender:(MinimumUserProto*) value {
   if (result.hasSender &&
       result.sender != [MinimumUserProto defaultInstance]) {
     result.sender =
@@ -1094,25 +1094,25 @@ static EarnFreeDiamondsRequestProto* defaultEarnFreeDiamondsRequestProtoInstance
   result.hasSender = YES;
   return self;
 }
-- (EarnFreeDiamondsRequestProto_Builder*) clearSender {
+- (EarnFreeGemsRequestProto_Builder*) clearSender {
   result.hasSender = NO;
   result.sender = [MinimumUserProto defaultInstance];
   return self;
 }
-- (BOOL) hasFreeDiamondsType {
-  return result.hasFreeDiamondsType;
+- (BOOL) hasFreeGemsType {
+  return result.hasFreeGemsType;
 }
-- (EarnFreeDiamondsType) freeDiamondsType {
-  return result.freeDiamondsType;
+- (EarnFreeGemsType) freeGemsType {
+  return result.freeGemsType;
 }
-- (EarnFreeDiamondsRequestProto_Builder*) setFreeDiamondsType:(EarnFreeDiamondsType) value {
-  result.hasFreeDiamondsType = YES;
-  result.freeDiamondsType = value;
+- (EarnFreeGemsRequestProto_Builder*) setFreeGemsType:(EarnFreeGemsType) value {
+  result.hasFreeGemsType = YES;
+  result.freeGemsType = value;
   return self;
 }
-- (EarnFreeDiamondsRequestProto_Builder*) clearFreeDiamondsType {
-  result.hasFreeDiamondsType = NO;
-  result.freeDiamondsType = EarnFreeDiamondsTypeFbConnect;
+- (EarnFreeGemsRequestProto_Builder*) clearFreeGemsType {
+  result.hasFreeGemsType = NO;
+  result.freeGemsType = EarnFreeGemsTypeFbConnect;
   return self;
 }
 - (BOOL) hasClientTime {
@@ -1121,25 +1121,25 @@ static EarnFreeDiamondsRequestProto* defaultEarnFreeDiamondsRequestProtoInstance
 - (int64_t) clientTime {
   return result.clientTime;
 }
-- (EarnFreeDiamondsRequestProto_Builder*) setClientTime:(int64_t) value {
+- (EarnFreeGemsRequestProto_Builder*) setClientTime:(int64_t) value {
   result.hasClientTime = YES;
   result.clientTime = value;
   return self;
 }
-- (EarnFreeDiamondsRequestProto_Builder*) clearClientTime {
+- (EarnFreeGemsRequestProto_Builder*) clearClientTime {
   result.hasClientTime = NO;
   result.clientTime = 0L;
   return self;
 }
 @end
 
-@interface EarnFreeDiamondsResponseProto ()
+@interface EarnFreeGemsResponseProto ()
 @property (retain) MinimumUserProto* sender;
-@property EarnFreeDiamondsResponseProto_EarnFreeDiamondsStatus status;
-@property EarnFreeDiamondsType freeDiamondsType;
+@property EarnFreeGemsResponseProto_EarnFreeGemsStatus status;
+@property EarnFreeGemsType freeGemsType;
 @end
 
-@implementation EarnFreeDiamondsResponseProto
+@implementation EarnFreeGemsResponseProto
 
 - (BOOL) hasSender {
   return !!hasSender_;
@@ -1155,13 +1155,13 @@ static EarnFreeDiamondsRequestProto* defaultEarnFreeDiamondsRequestProtoInstance
   hasStatus_ = !!value;
 }
 @synthesize status;
-- (BOOL) hasFreeDiamondsType {
-  return !!hasFreeDiamondsType_;
+- (BOOL) hasFreeGemsType {
+  return !!hasFreeGemsType_;
 }
-- (void) setHasFreeDiamondsType:(BOOL) value {
-  hasFreeDiamondsType_ = !!value;
+- (void) setHasFreeGemsType:(BOOL) value {
+  hasFreeGemsType_ = !!value;
 }
-@synthesize freeDiamondsType;
+@synthesize freeGemsType;
 - (void) dealloc {
   self.sender = nil;
   [super dealloc];
@@ -1169,22 +1169,22 @@ static EarnFreeDiamondsRequestProto* defaultEarnFreeDiamondsRequestProtoInstance
 - (id) init {
   if ((self = [super init])) {
     self.sender = [MinimumUserProto defaultInstance];
-    self.status = EarnFreeDiamondsResponseProto_EarnFreeDiamondsStatusSuccess;
-    self.freeDiamondsType = EarnFreeDiamondsTypeFbConnect;
+    self.status = EarnFreeGemsResponseProto_EarnFreeGemsStatusSuccess;
+    self.freeGemsType = EarnFreeGemsTypeFbConnect;
   }
   return self;
 }
-static EarnFreeDiamondsResponseProto* defaultEarnFreeDiamondsResponseProtoInstance = nil;
+static EarnFreeGemsResponseProto* defaultEarnFreeGemsResponseProtoInstance = nil;
 + (void) initialize {
-  if (self == [EarnFreeDiamondsResponseProto class]) {
-    defaultEarnFreeDiamondsResponseProtoInstance = [[EarnFreeDiamondsResponseProto alloc] init];
+  if (self == [EarnFreeGemsResponseProto class]) {
+    defaultEarnFreeGemsResponseProtoInstance = [[EarnFreeGemsResponseProto alloc] init];
   }
 }
-+ (EarnFreeDiamondsResponseProto*) defaultInstance {
-  return defaultEarnFreeDiamondsResponseProtoInstance;
++ (EarnFreeGemsResponseProto*) defaultInstance {
+  return defaultEarnFreeGemsResponseProtoInstance;
 }
-- (EarnFreeDiamondsResponseProto*) defaultInstance {
-  return defaultEarnFreeDiamondsResponseProtoInstance;
+- (EarnFreeGemsResponseProto*) defaultInstance {
+  return defaultEarnFreeGemsResponseProtoInstance;
 }
 - (BOOL) isInitialized {
   return YES;
@@ -1196,8 +1196,8 @@ static EarnFreeDiamondsResponseProto* defaultEarnFreeDiamondsResponseProtoInstan
   if (self.hasStatus) {
     [output writeEnum:2 value:self.status];
   }
-  if (self.hasFreeDiamondsType) {
-    [output writeEnum:3 value:self.freeDiamondsType];
+  if (self.hasFreeGemsType) {
+    [output writeEnum:3 value:self.freeGemsType];
   }
   [self.unknownFields writeToCodedOutputStream:output];
 }
@@ -1214,58 +1214,58 @@ static EarnFreeDiamondsResponseProto* defaultEarnFreeDiamondsResponseProtoInstan
   if (self.hasStatus) {
     size += computeEnumSize(2, self.status);
   }
-  if (self.hasFreeDiamondsType) {
-    size += computeEnumSize(3, self.freeDiamondsType);
+  if (self.hasFreeGemsType) {
+    size += computeEnumSize(3, self.freeGemsType);
   }
   size += self.unknownFields.serializedSize;
   memoizedSerializedSize = size;
   return size;
 }
-+ (EarnFreeDiamondsResponseProto*) parseFromData:(NSData*) data {
-  return (EarnFreeDiamondsResponseProto*)[[[EarnFreeDiamondsResponseProto builder] mergeFromData:data] build];
++ (EarnFreeGemsResponseProto*) parseFromData:(NSData*) data {
+  return (EarnFreeGemsResponseProto*)[[[EarnFreeGemsResponseProto builder] mergeFromData:data] build];
 }
-+ (EarnFreeDiamondsResponseProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
-  return (EarnFreeDiamondsResponseProto*)[[[EarnFreeDiamondsResponseProto builder] mergeFromData:data extensionRegistry:extensionRegistry] build];
++ (EarnFreeGemsResponseProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (EarnFreeGemsResponseProto*)[[[EarnFreeGemsResponseProto builder] mergeFromData:data extensionRegistry:extensionRegistry] build];
 }
-+ (EarnFreeDiamondsResponseProto*) parseFromInputStream:(NSInputStream*) input {
-  return (EarnFreeDiamondsResponseProto*)[[[EarnFreeDiamondsResponseProto builder] mergeFromInputStream:input] build];
++ (EarnFreeGemsResponseProto*) parseFromInputStream:(NSInputStream*) input {
+  return (EarnFreeGemsResponseProto*)[[[EarnFreeGemsResponseProto builder] mergeFromInputStream:input] build];
 }
-+ (EarnFreeDiamondsResponseProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
-  return (EarnFreeDiamondsResponseProto*)[[[EarnFreeDiamondsResponseProto builder] mergeFromInputStream:input extensionRegistry:extensionRegistry] build];
++ (EarnFreeGemsResponseProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (EarnFreeGemsResponseProto*)[[[EarnFreeGemsResponseProto builder] mergeFromInputStream:input extensionRegistry:extensionRegistry] build];
 }
-+ (EarnFreeDiamondsResponseProto*) parseFromCodedInputStream:(PBCodedInputStream*) input {
-  return (EarnFreeDiamondsResponseProto*)[[[EarnFreeDiamondsResponseProto builder] mergeFromCodedInputStream:input] build];
++ (EarnFreeGemsResponseProto*) parseFromCodedInputStream:(PBCodedInputStream*) input {
+  return (EarnFreeGemsResponseProto*)[[[EarnFreeGemsResponseProto builder] mergeFromCodedInputStream:input] build];
 }
-+ (EarnFreeDiamondsResponseProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
-  return (EarnFreeDiamondsResponseProto*)[[[EarnFreeDiamondsResponseProto builder] mergeFromCodedInputStream:input extensionRegistry:extensionRegistry] build];
++ (EarnFreeGemsResponseProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (EarnFreeGemsResponseProto*)[[[EarnFreeGemsResponseProto builder] mergeFromCodedInputStream:input extensionRegistry:extensionRegistry] build];
 }
-+ (EarnFreeDiamondsResponseProto_Builder*) builder {
-  return [[[EarnFreeDiamondsResponseProto_Builder alloc] init] autorelease];
++ (EarnFreeGemsResponseProto_Builder*) builder {
+  return [[[EarnFreeGemsResponseProto_Builder alloc] init] autorelease];
 }
-+ (EarnFreeDiamondsResponseProto_Builder*) builderWithPrototype:(EarnFreeDiamondsResponseProto*) prototype {
-  return [[EarnFreeDiamondsResponseProto builder] mergeFrom:prototype];
++ (EarnFreeGemsResponseProto_Builder*) builderWithPrototype:(EarnFreeGemsResponseProto*) prototype {
+  return [[EarnFreeGemsResponseProto builder] mergeFrom:prototype];
 }
-- (EarnFreeDiamondsResponseProto_Builder*) builder {
-  return [EarnFreeDiamondsResponseProto builder];
+- (EarnFreeGemsResponseProto_Builder*) builder {
+  return [EarnFreeGemsResponseProto builder];
 }
 @end
 
-BOOL EarnFreeDiamondsResponseProto_EarnFreeDiamondsStatusIsValidValue(EarnFreeDiamondsResponseProto_EarnFreeDiamondsStatus value) {
+BOOL EarnFreeGemsResponseProto_EarnFreeGemsStatusIsValidValue(EarnFreeGemsResponseProto_EarnFreeGemsStatus value) {
   switch (value) {
-    case EarnFreeDiamondsResponseProto_EarnFreeDiamondsStatusSuccess:
-    case EarnFreeDiamondsResponseProto_EarnFreeDiamondsStatusClientTooApartFromServerTime:
-    case EarnFreeDiamondsResponseProto_EarnFreeDiamondsStatusMethodNotSupported:
-    case EarnFreeDiamondsResponseProto_EarnFreeDiamondsStatusOtherFail:
+    case EarnFreeGemsResponseProto_EarnFreeGemsStatusSuccess:
+    case EarnFreeGemsResponseProto_EarnFreeGemsStatusClientTooApartFromServerTime:
+    case EarnFreeGemsResponseProto_EarnFreeGemsStatusMethodNotSupported:
+    case EarnFreeGemsResponseProto_EarnFreeGemsStatusOtherFail:
       return YES;
     default:
       return NO;
   }
 }
-@interface EarnFreeDiamondsResponseProto_Builder()
-@property (retain) EarnFreeDiamondsResponseProto* result;
+@interface EarnFreeGemsResponseProto_Builder()
+@property (retain) EarnFreeGemsResponseProto* result;
 @end
 
-@implementation EarnFreeDiamondsResponseProto_Builder
+@implementation EarnFreeGemsResponseProto_Builder
 @synthesize result;
 - (void) dealloc {
   self.result = nil;
@@ -1273,34 +1273,34 @@ BOOL EarnFreeDiamondsResponseProto_EarnFreeDiamondsStatusIsValidValue(EarnFreeDi
 }
 - (id) init {
   if ((self = [super init])) {
-    self.result = [[[EarnFreeDiamondsResponseProto alloc] init] autorelease];
+    self.result = [[[EarnFreeGemsResponseProto alloc] init] autorelease];
   }
   return self;
 }
 - (PBGeneratedMessage*) internalGetResult {
   return result;
 }
-- (EarnFreeDiamondsResponseProto_Builder*) clear {
-  self.result = [[[EarnFreeDiamondsResponseProto alloc] init] autorelease];
+- (EarnFreeGemsResponseProto_Builder*) clear {
+  self.result = [[[EarnFreeGemsResponseProto alloc] init] autorelease];
   return self;
 }
-- (EarnFreeDiamondsResponseProto_Builder*) clone {
-  return [EarnFreeDiamondsResponseProto builderWithPrototype:result];
+- (EarnFreeGemsResponseProto_Builder*) clone {
+  return [EarnFreeGemsResponseProto builderWithPrototype:result];
 }
-- (EarnFreeDiamondsResponseProto*) defaultInstance {
-  return [EarnFreeDiamondsResponseProto defaultInstance];
+- (EarnFreeGemsResponseProto*) defaultInstance {
+  return [EarnFreeGemsResponseProto defaultInstance];
 }
-- (EarnFreeDiamondsResponseProto*) build {
+- (EarnFreeGemsResponseProto*) build {
   [self checkInitialized];
   return [self buildPartial];
 }
-- (EarnFreeDiamondsResponseProto*) buildPartial {
-  EarnFreeDiamondsResponseProto* returnMe = [[result retain] autorelease];
+- (EarnFreeGemsResponseProto*) buildPartial {
+  EarnFreeGemsResponseProto* returnMe = [[result retain] autorelease];
   self.result = nil;
   return returnMe;
 }
-- (EarnFreeDiamondsResponseProto_Builder*) mergeFrom:(EarnFreeDiamondsResponseProto*) other {
-  if (other == [EarnFreeDiamondsResponseProto defaultInstance]) {
+- (EarnFreeGemsResponseProto_Builder*) mergeFrom:(EarnFreeGemsResponseProto*) other {
+  if (other == [EarnFreeGemsResponseProto defaultInstance]) {
     return self;
   }
   if (other.hasSender) {
@@ -1309,16 +1309,16 @@ BOOL EarnFreeDiamondsResponseProto_EarnFreeDiamondsStatusIsValidValue(EarnFreeDi
   if (other.hasStatus) {
     [self setStatus:other.status];
   }
-  if (other.hasFreeDiamondsType) {
-    [self setFreeDiamondsType:other.freeDiamondsType];
+  if (other.hasFreeGemsType) {
+    [self setFreeGemsType:other.freeGemsType];
   }
   [self mergeUnknownFields:other.unknownFields];
   return self;
 }
-- (EarnFreeDiamondsResponseProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input {
+- (EarnFreeGemsResponseProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input {
   return [self mergeFromCodedInputStream:input extensionRegistry:[PBExtensionRegistry emptyRegistry]];
 }
-- (EarnFreeDiamondsResponseProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+- (EarnFreeGemsResponseProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
   PBUnknownFieldSet_Builder* unknownFields = [PBUnknownFieldSet builderWithUnknownFields:self.unknownFields];
   while (YES) {
     int32_t tag = [input readTag];
@@ -1344,7 +1344,7 @@ BOOL EarnFreeDiamondsResponseProto_EarnFreeDiamondsStatusIsValidValue(EarnFreeDi
       }
       case 16: {
         int32_t value = [input readEnum];
-        if (EarnFreeDiamondsResponseProto_EarnFreeDiamondsStatusIsValidValue(value)) {
+        if (EarnFreeGemsResponseProto_EarnFreeGemsStatusIsValidValue(value)) {
           [self setStatus:value];
         } else {
           [unknownFields mergeVarintField:2 value:value];
@@ -1353,8 +1353,8 @@ BOOL EarnFreeDiamondsResponseProto_EarnFreeDiamondsStatusIsValidValue(EarnFreeDi
       }
       case 24: {
         int32_t value = [input readEnum];
-        if (EarnFreeDiamondsTypeIsValidValue(value)) {
-          [self setFreeDiamondsType:value];
+        if (EarnFreeGemsTypeIsValidValue(value)) {
+          [self setFreeGemsType:value];
         } else {
           [unknownFields mergeVarintField:3 value:value];
         }
@@ -1369,15 +1369,15 @@ BOOL EarnFreeDiamondsResponseProto_EarnFreeDiamondsStatusIsValidValue(EarnFreeDi
 - (MinimumUserProto*) sender {
   return result.sender;
 }
-- (EarnFreeDiamondsResponseProto_Builder*) setSender:(MinimumUserProto*) value {
+- (EarnFreeGemsResponseProto_Builder*) setSender:(MinimumUserProto*) value {
   result.hasSender = YES;
   result.sender = value;
   return self;
 }
-- (EarnFreeDiamondsResponseProto_Builder*) setSenderBuilder:(MinimumUserProto_Builder*) builderForValue {
+- (EarnFreeGemsResponseProto_Builder*) setSenderBuilder:(MinimumUserProto_Builder*) builderForValue {
   return [self setSender:[builderForValue build]];
 }
-- (EarnFreeDiamondsResponseProto_Builder*) mergeSender:(MinimumUserProto*) value {
+- (EarnFreeGemsResponseProto_Builder*) mergeSender:(MinimumUserProto*) value {
   if (result.hasSender &&
       result.sender != [MinimumUserProto defaultInstance]) {
     result.sender =
@@ -1388,7 +1388,7 @@ BOOL EarnFreeDiamondsResponseProto_EarnFreeDiamondsStatusIsValidValue(EarnFreeDi
   result.hasSender = YES;
   return self;
 }
-- (EarnFreeDiamondsResponseProto_Builder*) clearSender {
+- (EarnFreeGemsResponseProto_Builder*) clearSender {
   result.hasSender = NO;
   result.sender = [MinimumUserProto defaultInstance];
   return self;
@@ -1396,33 +1396,33 @@ BOOL EarnFreeDiamondsResponseProto_EarnFreeDiamondsStatusIsValidValue(EarnFreeDi
 - (BOOL) hasStatus {
   return result.hasStatus;
 }
-- (EarnFreeDiamondsResponseProto_EarnFreeDiamondsStatus) status {
+- (EarnFreeGemsResponseProto_EarnFreeGemsStatus) status {
   return result.status;
 }
-- (EarnFreeDiamondsResponseProto_Builder*) setStatus:(EarnFreeDiamondsResponseProto_EarnFreeDiamondsStatus) value {
+- (EarnFreeGemsResponseProto_Builder*) setStatus:(EarnFreeGemsResponseProto_EarnFreeGemsStatus) value {
   result.hasStatus = YES;
   result.status = value;
   return self;
 }
-- (EarnFreeDiamondsResponseProto_Builder*) clearStatus {
+- (EarnFreeGemsResponseProto_Builder*) clearStatus {
   result.hasStatus = NO;
-  result.status = EarnFreeDiamondsResponseProto_EarnFreeDiamondsStatusSuccess;
+  result.status = EarnFreeGemsResponseProto_EarnFreeGemsStatusSuccess;
   return self;
 }
-- (BOOL) hasFreeDiamondsType {
-  return result.hasFreeDiamondsType;
+- (BOOL) hasFreeGemsType {
+  return result.hasFreeGemsType;
 }
-- (EarnFreeDiamondsType) freeDiamondsType {
-  return result.freeDiamondsType;
+- (EarnFreeGemsType) freeGemsType {
+  return result.freeGemsType;
 }
-- (EarnFreeDiamondsResponseProto_Builder*) setFreeDiamondsType:(EarnFreeDiamondsType) value {
-  result.hasFreeDiamondsType = YES;
-  result.freeDiamondsType = value;
+- (EarnFreeGemsResponseProto_Builder*) setFreeGemsType:(EarnFreeGemsType) value {
+  result.hasFreeGemsType = YES;
+  result.freeGemsType = value;
   return self;
 }
-- (EarnFreeDiamondsResponseProto_Builder*) clearFreeDiamondsType {
-  result.hasFreeDiamondsType = NO;
-  result.freeDiamondsType = EarnFreeDiamondsTypeFbConnect;
+- (EarnFreeGemsResponseProto_Builder*) clearFreeGemsType {
+  result.hasFreeGemsType = NO;
+  result.freeGemsType = EarnFreeGemsTypeFbConnect;
   return self;
 }
 @end

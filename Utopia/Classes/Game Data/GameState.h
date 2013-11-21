@@ -6,7 +6,7 @@
 //  Copyright (c) 2012 LVL6. All rights reserved.
 //
 
-#import "Protocols.pb.h"
+#import "MobstersEventProtocol.pb.h"
 #import "UserData.h"
 #import <CoreLocation/CoreLocation.h>
 #import "FullUserUpdates.h"
@@ -20,11 +20,11 @@
 
 @property (nonatomic, assign) BOOL isTutorial;
 @property (nonatomic, assign) BOOL connected;
-@property (nonatomic, assign) int userId;
+@property (nonatomic, copy) NSString *userUuid;
 @property (nonatomic, retain) NSString *name;
 @property (nonatomic, assign) int level;
-@property (nonatomic, assign) int gold;
-@property (nonatomic, assign) int silver;
+@property (nonatomic, assign) int gems;
+@property (nonatomic, assign) int cash;
 @property (nonatomic, retain) NSString *referralCode;
 @property (nonatomic, assign) int battlesWon;
 @property (nonatomic, assign) int battlesLost;
@@ -61,7 +61,7 @@
 @property (nonatomic, retain) NSMutableDictionary *myQuests;
 
 @property (nonatomic, retain) NSMutableArray *monsterHealingQueue;
-@property (nonatomic, retain) NSMutableSet *recentlyHealedMonsterIds;
+@property (nonatomic, retain) NSMutableSet *recentlyHealedMonsterUuids;
 
 @property (nonatomic, retain) NSMutableDictionary *inProgressCompleteQuests;
 @property (nonatomic, retain) NSMutableDictionary *inProgressIncompleteQuests;
@@ -103,7 +103,7 @@
 - (FullStructureProto *) structWithId:(int)structId;
 - (FullCityProto *)cityWithId:(int)cityId;
 - (FullTaskProto *) taskWithId:(int)taskId;
-- (FullQuestProto *) questForId:(int)questId;
+- (QuestProto *) questForId:(int)questId;
 - (BoosterPackProto *) boosterPackForId:(int)packId;
 - (MonsterProto *) monsterWithId:(int)monsterId;
 
@@ -136,7 +136,7 @@
 - (void) removeEnhancingItem:(EnhancementItem *)item;
 - (void) addEnhancementProto:(UserEnhancementProto *)proto;
 
-- (UserMonster *) myMonsterWithUserMonsterId:(int)userMonsterId;
+- (UserMonster *) myMonsterWithUserMonsterUuid:(NSString *)userMonsterUuid;
 - (UserMonster *) myMonsterWithSlotNumber:(int)slotNum;
 - (NSArray *) allMonstersOnMyTeam;
 - (UserStruct *) myStructWithId:(int)structId;

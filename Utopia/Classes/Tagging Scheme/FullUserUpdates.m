@@ -26,30 +26,30 @@
 
 @end
 
-@implementation GoldUpdate
+@implementation GemUpdate
 
 - (void) update {
   GameState *gs = [GameState sharedGameState];
-  gs.gold += _change;
+  gs.gems += _change;
 }
 
 - (void) undo {
   GameState *gs = [GameState sharedGameState];
-  gs.gold -= _change;
+  gs.gems -= _change;
 }
 
 @end
 
-@implementation SilverUpdate
+@implementation CashUpdate
 
 - (void) update {
   GameState *gs = [GameState sharedGameState];
-  gs.silver += _change;
+  gs.cash += _change;
 }
 
 - (void) undo {
   GameState *gs = [GameState sharedGameState];
-  gs.silver -= _change;
+  gs.cash -= _change;
 }
 
 @end

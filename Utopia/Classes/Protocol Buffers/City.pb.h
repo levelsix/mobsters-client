@@ -53,21 +53,21 @@ BOOL CityElementProto_CityElemTypeIsValidValue(CityElementProto_CityElemType val
 @private
   BOOL hasIsExpanding_:1;
   BOOL hasExpandStartTime_:1;
-  BOOL hasUserId_:1;
+  BOOL hasUserUuid_:1;
   BOOL hasXPosition_:1;
   BOOL hasYPosition_:1;
   BOOL isExpanding_:1;
   int64_t expandStartTime;
-  int32_t userId;
+  NSString* userUuid;
   int32_t xPosition;
   int32_t yPosition;
 }
-- (BOOL) hasUserId;
+- (BOOL) hasUserUuid;
 - (BOOL) hasXPosition;
 - (BOOL) hasYPosition;
 - (BOOL) hasIsExpanding;
 - (BOOL) hasExpandStartTime;
-@property (readonly) int32_t userId;
+@property (readonly, retain) NSString* userUuid;
 @property (readonly) int32_t xPosition;
 @property (readonly) int32_t yPosition;
 - (BOOL) isExpanding;
@@ -107,10 +107,10 @@ BOOL CityElementProto_CityElemTypeIsValidValue(CityElementProto_CityElemType val
 - (UserCityExpansionDataProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input;
 - (UserCityExpansionDataProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
 
-- (BOOL) hasUserId;
-- (int32_t) userId;
-- (UserCityExpansionDataProto_Builder*) setUserId:(int32_t) value;
-- (UserCityExpansionDataProto_Builder*) clearUserId;
+- (BOOL) hasUserUuid;
+- (NSString*) userUuid;
+- (UserCityExpansionDataProto_Builder*) setUserUuid:(NSString*) value;
+- (UserCityExpansionDataProto_Builder*) clearUserUuid;
 
 - (BOOL) hasXPosition;
 - (int32_t) xPosition;
@@ -205,6 +205,7 @@ BOOL CityElementProto_CityElemTypeIsValidValue(CityElementProto_CityElemType val
   BOOL hasYLength_:1;
   BOOL hasCityId_:1;
   BOOL hasAssetId_:1;
+  BOOL hasName_:1;
   BOOL hasImgId_:1;
   BOOL hasCoords_:1;
   BOOL hasSpriteCoords_:1;
@@ -214,6 +215,7 @@ BOOL CityElementProto_CityElemTypeIsValidValue(CityElementProto_CityElemType val
   Float32 yLength;
   int32_t cityId;
   int32_t assetId;
+  NSString* name;
   NSString* imgId;
   CoordinateProto* coords;
   CoordinateProto* spriteCoords;
@@ -222,6 +224,7 @@ BOOL CityElementProto_CityElemTypeIsValidValue(CityElementProto_CityElemType val
 }
 - (BOOL) hasCityId;
 - (BOOL) hasAssetId;
+- (BOOL) hasName;
 - (BOOL) hasType;
 - (BOOL) hasCoords;
 - (BOOL) hasXLength;
@@ -231,6 +234,7 @@ BOOL CityElementProto_CityElemTypeIsValidValue(CityElementProto_CityElemType val
 - (BOOL) hasSpriteCoords;
 @property (readonly) int32_t cityId;
 @property (readonly) int32_t assetId;
+@property (readonly, retain) NSString* name;
 @property (readonly) CityElementProto_CityElemType type;
 @property (readonly, retain) CoordinateProto* coords;
 @property (readonly) Float32 xLength;
@@ -282,6 +286,11 @@ BOOL CityElementProto_CityElemTypeIsValidValue(CityElementProto_CityElemType val
 - (int32_t) assetId;
 - (CityElementProto_Builder*) setAssetId:(int32_t) value;
 - (CityElementProto_Builder*) clearAssetId;
+
+- (BOOL) hasName;
+- (NSString*) name;
+- (CityElementProto_Builder*) setName:(NSString*) value;
+- (CityElementProto_Builder*) clearName;
 
 - (BOOL) hasType;
 - (CityElementProto_CityElemType) type;

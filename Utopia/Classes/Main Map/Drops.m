@@ -1,5 +1,5 @@
 //
-//  SilverStack.m
+//  CashStack.m
 //  Utopia
 //
 //  Created by Ashwin Kamath on 3/31/12.
@@ -57,7 +57,7 @@
 
 @end
 
-@implementation SilverStack
+@implementation CashStack
 
 @synthesize amount;
 

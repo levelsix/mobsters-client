@@ -17,7 +17,7 @@ static PBExtensionRegistry* extensionRegistry = nil;
     [CityRoot registerAllExtensions:registry];
     [ClanRoot registerAllExtensions:registry];
     [InAppPurchaseRoot registerAllExtensions:registry];
-    [QuestRoot registerAllExtensions:registry];
+    [QuestStuffRoot registerAllExtensions:registry];
     [StaticDataRoot registerAllExtensions:registry];
     [StructureRoot registerAllExtensions:registry];
     [TaskRoot registerAllExtensions:registry];
@@ -968,7 +968,7 @@ BOOL StartupResponseProto_StartupStatusIsValidValue(StartupResponseProto_Startup
 @interface StartupResponseProto_AttackedNotificationProto ()
 @property (retain) MinimumUserProto* attacker;
 @property int64_t battleCompleteTime;
-@property int32_t coinsStolen;
+@property int32_t cashStolen;
 @end
 
 @implementation StartupResponseProto_AttackedNotificationProto
@@ -987,13 +987,13 @@ BOOL StartupResponseProto_StartupStatusIsValidValue(StartupResponseProto_Startup
   hasBattleCompleteTime_ = !!value;
 }
 @synthesize battleCompleteTime;
-- (BOOL) hasCoinsStolen {
-  return !!hasCoinsStolen_;
+- (BOOL) hasCashStolen {
+  return !!hasCashStolen_;
 }
-- (void) setHasCoinsStolen:(BOOL) value {
-  hasCoinsStolen_ = !!value;
+- (void) setHasCashStolen:(BOOL) value {
+  hasCashStolen_ = !!value;
 }
-@synthesize coinsStolen;
+@synthesize cashStolen;
 - (void) dealloc {
   self.attacker = nil;
   [super dealloc];
@@ -1002,7 +1002,7 @@ BOOL StartupResponseProto_StartupStatusIsValidValue(StartupResponseProto_Startup
   if ((self = [super init])) {
     self.attacker = [MinimumUserProto defaultInstance];
     self.battleCompleteTime = 0L;
-    self.coinsStolen = 0;
+    self.cashStolen = 0;
   }
   return self;
 }
@@ -1028,8 +1028,8 @@ static StartupResponseProto_AttackedNotificationProto* defaultStartupResponsePro
   if (self.hasBattleCompleteTime) {
     [output writeInt64:2 value:self.battleCompleteTime];
   }
-  if (self.hasCoinsStolen) {
-    [output writeInt32:3 value:self.coinsStolen];
+  if (self.hasCashStolen) {
+    [output writeInt32:3 value:self.cashStolen];
   }
   [self.unknownFields writeToCodedOutputStream:output];
 }
@@ -1046,8 +1046,8 @@ static StartupResponseProto_AttackedNotificationProto* defaultStartupResponsePro
   if (self.hasBattleCompleteTime) {
     size += computeInt64Size(2, self.battleCompleteTime);
   }
-  if (self.hasCoinsStolen) {
-    size += computeInt32Size(3, self.coinsStolen);
+  if (self.hasCashStolen) {
+    size += computeInt32Size(3, self.cashStolen);
   }
   size += self.unknownFields.serializedSize;
   memoizedSerializedSize = size;
@@ -1130,8 +1130,8 @@ static StartupResponseProto_AttackedNotificationProto* defaultStartupResponsePro
   if (other.hasBattleCompleteTime) {
     [self setBattleCompleteTime:other.battleCompleteTime];
   }
-  if (other.hasCoinsStolen) {
-    [self setCoinsStolen:other.coinsStolen];
+  if (other.hasCashStolen) {
+    [self setCashStolen:other.cashStolen];
   }
   [self mergeUnknownFields:other.unknownFields];
   return self;
@@ -1168,7 +1168,7 @@ static StartupResponseProto_AttackedNotificationProto* defaultStartupResponsePro
         break;
       }
       case 24: {
-        [self setCoinsStolen:[input readInt32]];
+        [self setCashStolen:[input readInt32]];
         break;
       }
     }
@@ -1220,20 +1220,20 @@ static StartupResponseProto_AttackedNotificationProto* defaultStartupResponsePro
   result.battleCompleteTime = 0L;
   return self;
 }
-- (BOOL) hasCoinsStolen {
-  return result.hasCoinsStolen;
+- (BOOL) hasCashStolen {
+  return result.hasCashStolen;
 }
-- (int32_t) coinsStolen {
-  return result.coinsStolen;
+- (int32_t) cashStolen {
+  return result.cashStolen;
 }
-- (StartupResponseProto_AttackedNotificationProto_Builder*) setCoinsStolen:(int32_t) value {
-  result.hasCoinsStolen = YES;
-  result.coinsStolen = value;
+- (StartupResponseProto_AttackedNotificationProto_Builder*) setCashStolen:(int32_t) value {
+  result.hasCashStolen = YES;
+  result.cashStolen = value;
   return self;
 }
-- (StartupResponseProto_AttackedNotificationProto_Builder*) clearCoinsStolen {
-  result.hasCoinsStolen = NO;
-  result.coinsStolen = 0;
+- (StartupResponseProto_AttackedNotificationProto_Builder*) clearCashStolen {
+  result.hasCashStolen = NO;
+  result.cashStolen = 0;
   return self;
 }
 @end
@@ -1241,7 +1241,7 @@ static StartupResponseProto_AttackedNotificationProto* defaultStartupResponsePro
 @interface StartupResponseProto_ReferralNotificationProto ()
 @property (retain) MinimumUserProto* referred;
 @property int64_t recruitTime;
-@property int32_t coinsGivenToReferrer;
+@property int32_t cashGivenToReferrer;
 @end
 
 @implementation StartupResponseProto_ReferralNotificationProto
@@ -1260,13 +1260,13 @@ static StartupResponseProto_AttackedNotificationProto* defaultStartupResponsePro
   hasRecruitTime_ = !!value;
 }
 @synthesize recruitTime;
-- (BOOL) hasCoinsGivenToReferrer {
-  return !!hasCoinsGivenToReferrer_;
+- (BOOL) hasCashGivenToReferrer {
+  return !!hasCashGivenToReferrer_;
 }
-- (void) setHasCoinsGivenToReferrer:(BOOL) value {
-  hasCoinsGivenToReferrer_ = !!value;
+- (void) setHasCashGivenToReferrer:(BOOL) value {
+  hasCashGivenToReferrer_ = !!value;
 }
-@synthesize coinsGivenToReferrer;
+@synthesize cashGivenToReferrer;
 - (void) dealloc {
   self.referred = nil;
   [super dealloc];
@@ -1275,7 +1275,7 @@ static StartupResponseProto_AttackedNotificationProto* defaultStartupResponsePro
   if ((self = [super init])) {
     self.referred = [MinimumUserProto defaultInstance];
     self.recruitTime = 0L;
-    self.coinsGivenToReferrer = 0;
+    self.cashGivenToReferrer = 0;
   }
   return self;
 }
@@ -1301,8 +1301,8 @@ static StartupResponseProto_ReferralNotificationProto* defaultStartupResponsePro
   if (self.hasRecruitTime) {
     [output writeInt64:2 value:self.recruitTime];
   }
-  if (self.hasCoinsGivenToReferrer) {
-    [output writeInt32:3 value:self.coinsGivenToReferrer];
+  if (self.hasCashGivenToReferrer) {
+    [output writeInt32:3 value:self.cashGivenToReferrer];
   }
   [self.unknownFields writeToCodedOutputStream:output];
 }
@@ -1319,8 +1319,8 @@ static StartupResponseProto_ReferralNotificationProto* defaultStartupResponsePro
   if (self.hasRecruitTime) {
     size += computeInt64Size(2, self.recruitTime);
   }
-  if (self.hasCoinsGivenToReferrer) {
-    size += computeInt32Size(3, self.coinsGivenToReferrer);
+  if (self.hasCashGivenToReferrer) {
+    size += computeInt32Size(3, self.cashGivenToReferrer);
   }
   size += self.unknownFields.serializedSize;
   memoizedSerializedSize = size;
@@ -1403,8 +1403,8 @@ static StartupResponseProto_ReferralNotificationProto* defaultStartupResponsePro
   if (other.hasRecruitTime) {
     [self setRecruitTime:other.recruitTime];
   }
-  if (other.hasCoinsGivenToReferrer) {
-    [self setCoinsGivenToReferrer:other.coinsGivenToReferrer];
+  if (other.hasCashGivenToReferrer) {
+    [self setCashGivenToReferrer:other.cashGivenToReferrer];
   }
   [self mergeUnknownFields:other.unknownFields];
   return self;
@@ -1441,7 +1441,7 @@ static StartupResponseProto_ReferralNotificationProto* defaultStartupResponsePro
         break;
       }
       case 24: {
-        [self setCoinsGivenToReferrer:[input readInt32]];
+        [self setCashGivenToReferrer:[input readInt32]];
         break;
       }
     }
@@ -1493,20 +1493,20 @@ static StartupResponseProto_ReferralNotificationProto* defaultStartupResponsePro
   result.recruitTime = 0L;
   return self;
 }
-- (BOOL) hasCoinsGivenToReferrer {
-  return result.hasCoinsGivenToReferrer;
+- (BOOL) hasCashGivenToReferrer {
+  return result.hasCashGivenToReferrer;
 }
-- (int32_t) coinsGivenToReferrer {
-  return result.coinsGivenToReferrer;
+- (int32_t) cashGivenToReferrer {
+  return result.cashGivenToReferrer;
 }
-- (StartupResponseProto_ReferralNotificationProto_Builder*) setCoinsGivenToReferrer:(int32_t) value {
-  result.hasCoinsGivenToReferrer = YES;
-  result.coinsGivenToReferrer = value;
+- (StartupResponseProto_ReferralNotificationProto_Builder*) setCashGivenToReferrer:(int32_t) value {
+  result.hasCashGivenToReferrer = YES;
+  result.cashGivenToReferrer = value;
   return self;
 }
-- (StartupResponseProto_ReferralNotificationProto_Builder*) clearCoinsGivenToReferrer {
-  result.hasCoinsGivenToReferrer = NO;
-  result.coinsGivenToReferrer = 0;
+- (StartupResponseProto_ReferralNotificationProto_Builder*) clearCashGivenToReferrer {
+  result.hasCashGivenToReferrer = NO;
+  result.cashGivenToReferrer = 0;
   return self;
 }
 @end

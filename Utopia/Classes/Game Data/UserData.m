@@ -15,9 +15,9 @@
 
 - (id) initWithMonsterProto:(FullUserMonsterProto *)proto {
   if ((self = [super init])){
-    self.userId = proto.userId;
+    self.userUuid = proto.userUuid;
     self.monsterId = proto.monsterId;
-    self.userMonsterId = proto.userMonsterId;
+    self.userMonsterUuid = proto.userMonsterUuid;
     self.level = proto.currentLvl;
     self.experience = proto.currentExp;
     self.curHealth = proto.currentHealth;
@@ -50,7 +50,7 @@
 - (BOOL) isHealing {
   GameState *gs = [GameState sharedGameState];
   for (UserMonsterHealingItem *item in gs.monsterHealingQueue) {
-    if (item.userMonsterId == self.userMonsterId) {
+    if ([item.userMonsterUuid isEqualToString:self.userMonsterUuid]) {
       return YES;
     }
   }
@@ -59,13 +59,13 @@
 
 - (BOOL) isEnhancing {
   GameState *gs = [GameState sharedGameState];
-  return self.userMonsterId == gs.userEnhancement.baseMonster.userMonsterId;
+  return [self.userMonsterUuid isEqualToString:gs.userEnhancement.baseMonster.userMonsterUuid];
 }
 
 - (BOOL) isSacrificing {
   GameState *gs = [GameState sharedGameState];
   for (EnhancementItem *ei in gs.userEnhancement.feeders) {
-    if (self.userMonsterId == ei.userMonsterId) {
+    if ([self.userMonsterUuid isEqualToString:ei.userMonsterUuid]) {
       return YES;
     }
   }
@@ -94,14 +94,14 @@
 }
 
 - (BOOL) isEqual:(UserMonster *)object {
-  if (![object respondsToSelector:@selector(userMonsterId)]) {
+  if (![object respondsToSelector:@selector(userMonsterUuid)]) {
     return NO;
   }
-  return object.userMonsterId == self.userMonsterId;
+  return [object.userMonsterUuid isEqualToString:self.userMonsterUuid];
 }
 
 - (NSUInteger) hash {
-  return self.userMonsterId;
+  return [self.userMonsterUuid hash];
 }
 
 - (NSComparisonResult) compare:(UserMonster *)um {
@@ -134,7 +134,7 @@
     int selfHp = [gl calculateMaxHealthForMonster:self];
     int umHp = [gl calculateMaxHealthForMonster:um];
     
-    // Ordering now becomes maxHp, curHp, rarity
+    // Ordering now becomes maxHp, curHp, rarity, and then just unique id..
     if (selfHp != umHp) {
       return [@(umHp) compare:@(selfHp)];
     } else {
@@ -144,7 +144,7 @@
         if (self.staticMonster.quality != um.staticMonster.quality) {
           return [@(um.staticMonster.quality) compare:@(self.staticMonster.quality)];
         } else {
-          return [@(self.userMonsterId) compare:@(um.userMonsterId)];
+          return [self.userMonsterUuid compare:um.userMonsterUuid];
         }
       }
     }
@@ -157,8 +157,8 @@
 
 - (id) initWithHealingProto:(UserMonsterHealingProto *)proto {
   if ((self = [super init])){
-    self.userId = proto.userId;
-    self.userMonsterId = proto.userMonsterId;
+    self.userUuid = proto.userUuid;
+    self.userMonsterUuid = proto.userMonsterUuid;
     self.expectedStartTime = proto.hasExpectedStartTimeMillis ? [NSDate dateWithTimeIntervalSince1970:proto.expectedStartTimeMillis/1000.0] : nil;
   }
   return self;
@@ -171,7 +171,7 @@
 - (float) currentPercentageOfHealth {
   Globals *gl = [Globals sharedGlobals];
   GameState *gs = [GameState sharedGameState];
-  UserMonster *um = [gs myMonsterWithUserMonsterId:self.userMonsterId];
+  UserMonster *um = [gs myMonsterWithUserMonsterUuid:self.userMonsterUuid];
   int totalTime = self.secondsForCompletion;
   int timeCompleted = totalTime - [self.expectedEndTime timeIntervalSinceNow];
   int totalHealth = [gl calculateMaxHealthForMonster:um];
@@ -182,7 +182,7 @@
 - (int) secondsForCompletion {
   Globals *gl = [Globals sharedGlobals];
   GameState *gs = [GameState sharedGameState];
-  UserMonster *um = [gs myMonsterWithUserMonsterId:self.userMonsterId];
+  UserMonster *um = [gs myMonsterWithUserMonsterUuid:self.userMonsterUuid];
   return [gl calculateSecondsToHealMonster:um];
 }
 
@@ -192,33 +192,33 @@
 
 - (UserMonsterHealingProto *) convertToProto {
   return [[[[[UserMonsterHealingProto builder]
-             setUserId:self.userId]
-            setUserMonsterId:self.userMonsterId]
+             setUserUuid:self.userUuid]
+            setUserMonsterUuid:self.userMonsterUuid]
            setExpectedStartTimeMillis:self.expectedStartTime.timeIntervalSince1970*1000]
           build];
 }
 
 - (id) copy {
   UserMonsterHealingItem *item = [[UserMonsterHealingItem alloc] init];
-  item.userId = self.userId;
-  item.userMonsterId = self.userMonsterId;
+  item.userUuid = self.userUuid;
+  item.userMonsterUuid = self.userMonsterUuid;
   item.expectedStartTime = [self.expectedStartTime copy];
   return item;
 }
 
 - (BOOL) isEqual:(UserMonsterHealingItem *)object {
-  if (![object respondsToSelector:@selector(userMonsterId)]) {
+  if (![object respondsToSelector:@selector(userMonsterUuid)]) {
     return NO;
   }
-  return object.userMonsterId == self.userMonsterId;
+  return [object.userMonsterUuid isEqualToString:self.userMonsterUuid];
 }
 
 - (NSUInteger) hash {
-  return self.userMonsterId;
+  return [self.userMonsterUuid hash];
 }
 
 - (NSString *) description {
-  return [NSString stringWithFormat:@"%p: %d, %@", self, self.userMonsterId, self.expectedStartTime];
+  return [NSString stringWithFormat:@"%p: %@, %@", self, self.userMonsterUuid, self.expectedStartTime];
 }
 
 @end
@@ -296,7 +296,7 @@
 
 - (id) initWithUserEnhancementItemProto:(UserEnhancementItemProto *)proto {
   if ((self = [super init])) {
-    self.userMonsterId = proto.userMonsterId;
+    self.userMonsterUuid = proto.userMonsterUuid;
     self.expectedStartTime = proto.hasExpectedStartTimeMillis ? [NSDate dateWithTimeIntervalSince1970:proto.expectedStartTimeMillis/1000.] : nil;
   }
   return self;
@@ -320,12 +320,12 @@
 
 - (UserMonster *) userMonster {
   GameState *gs = [GameState sharedGameState];
-  return [gs myMonsterWithUserMonsterId:self.userMonsterId];
+  return [gs myMonsterWithUserMonsterUuid:self.userMonsterUuid];
 }
 
 - (UserEnhancementItemProto *) convertToProto {
   UserEnhancementItemProto_Builder *bldr = [UserEnhancementItemProto builder];
-  bldr.userMonsterId = self.userMonsterId;
+  bldr.userMonsterUuid = self.userMonsterUuid;
   if (self.expectedStartTime) {
     bldr.expectedStartTimeMillis = self.expectedStartTime.timeIntervalSince1970*1000;
   }
@@ -334,24 +334,24 @@
 
 - (id) copy {
   EnhancementItem *item = [[EnhancementItem alloc] init];
-  item.userMonsterId = self.userMonsterId;
+  item.userMonsterUuid = self.userMonsterUuid;
   item.expectedStartTime = [self.expectedStartTime copy];
   return item;
 }
 
 - (BOOL) isEqual:(UserMonsterHealingItem *)object {
-  if (![object respondsToSelector:@selector(userMonsterId)]) {
+  if (![object respondsToSelector:@selector(userMonsterUuid)]) {
     return NO;
   }
-  return object.userMonsterId == self.userMonsterId;
+  return [object.userMonsterUuid isEqual:self.userMonsterUuid];
 }
 
 - (NSUInteger) hash {
-  return self.userMonsterId;
+  return [self.userMonsterUuid hash];
 }
 
 - (NSString *) description {
-  return [NSString stringWithFormat:@"Id %d: %@", self.userMonsterId, self.expectedStartTime];
+  return [NSString stringWithFormat:@"Uuid %@: %@", self.userMonsterUuid, self.expectedStartTime];
 }
 
 @end
@@ -360,8 +360,8 @@
 
 - (id) initWithStructProto:(FullUserStructureProto *)proto {
   if ((self = [super init])) {
-    self.userStructId = proto.userStructId;
-    self.userId = proto.userId;
+    self.userStructUuid = proto.userStructUuid;
+    self.userUuid = proto.userUuid;
     self.structId = proto.structId;
     self.isComplete = proto.isComplete;
     self.coordinates = CGPointMake(proto.coordinates.x, proto.coordinates.y);
@@ -494,7 +494,7 @@
 
 - (id) initWithUserCityExpansionDataProto:(UserCityExpansionDataProto *)proto {
   if ((self = [super init])) {
-    self.userId = proto.userId;
+    self.userUuid = proto.userUuid;
     self.xPosition = proto.xPosition;
     self.yPosition = proto.yPosition;
     self.lastExpandTime = proto.hasExpandStartTime ? [NSDate dateWithTimeIntervalSince1970:proto.expandStartTime/1000.0] : nil;
@@ -514,10 +514,10 @@
 + (NSArray *) createRewardsForDungeon:(BeginDungeonResponseProto *)proto {
   NSMutableArray *rewards = [NSMutableArray array];
   
-  int silverAmount = 0, expAmount = 0;
+  int cashAmount = 0, expAmount = 0;
   for (TaskStageProto *tsp in proto.tspList) {
     for (TaskStageMonsterProto *tsm in tsp.stageMonstersList) {
-      silverAmount += tsm.cashReward;
+      cashAmount += tsm.cashReward;
       expAmount += tsm.expReward;
       
       if (tsm.puzzlePieceDropped) {
@@ -527,8 +527,8 @@
     }
   }
   
-  if (silverAmount) {
-    Reward *r = [[Reward alloc] initWithSilverAmount:silverAmount];
+  if (cashAmount) {
+    Reward *r = [[Reward alloc] initWithCashAmount:cashAmount];
     [rewards addObject:r];
   }
   
@@ -540,11 +540,11 @@
   return rewards;
 }
 
-+ (NSArray *) createRewardsForQuest:(FullQuestProto *)quest {
++ (NSArray *) createRewardsForQuest:(QuestProto *)quest {
   NSMutableArray *rewards = [NSMutableArray array];
   
-  if (quest.diamondReward) {
-    Reward *r = [[Reward alloc] initWithGoldAmount:quest.diamondReward];
+  if (quest.gemReward) {
+    Reward *r = [[Reward alloc] initWithGoldAmount:quest.gemReward];
     [rewards addObject:r];
   }
   
@@ -553,8 +553,8 @@
     [rewards addObject:r];
   }
   
-  if (quest.coinReward) {
-    Reward *r = [[Reward alloc] initWithSilverAmount:quest.coinReward];
+  if (quest.cashReward) {
+    Reward *r = [[Reward alloc] initWithCashAmount:quest.cashReward];
     [rewards addObject:r];
   }
   
@@ -575,10 +575,10 @@
   return self;
 }
 
-- (id) initWithSilverAmount:(int)silverAmount {
+- (id) initWithCashAmount:(int)cashAmount {
   if ((self = [super init])) {
-    self.type = RewardTypeSilver;
-    self.silverAmount = silverAmount;
+    self.type = RewardTypeCash;
+    self.cashAmount = cashAmount;
   }
   return self;
 }
@@ -605,7 +605,7 @@
 
 - (id) initWithProto:(FullUserQuestProto *)proto {
   if ((self = [super init])) {
-    self.userId = proto.userId;
+    self.userUuid = proto.userUuid;
     self.questId = proto.questId;
     self.isRedeemed = proto.isRedeemed;
     self.isComplete = proto.isComplete;
@@ -618,7 +618,7 @@
   return [[UserQuest alloc] initWithProto:proto];
 }
 
-- (FullQuestProto *) quest {
+- (QuestProto *) quest {
   GameState *gs = [GameState sharedGameState];
   return [gs questForId:self.questId];
 }

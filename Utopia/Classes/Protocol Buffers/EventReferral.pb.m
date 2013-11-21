@@ -23,7 +23,7 @@ static PBExtensionRegistry* extensionRegistry = nil;
 @interface ReferralCodeUsedResponseProto ()
 @property (retain) MinimumUserProto* sender;
 @property (retain) MinimumUserProto* referredPlayer;
-@property int32_t coinsGivenToReferrer;
+@property int32_t cashGivenToReferrer;
 @end
 
 @implementation ReferralCodeUsedResponseProto
@@ -42,13 +42,13 @@ static PBExtensionRegistry* extensionRegistry = nil;
   hasReferredPlayer_ = !!value;
 }
 @synthesize referredPlayer;
-- (BOOL) hasCoinsGivenToReferrer {
-  return !!hasCoinsGivenToReferrer_;
+- (BOOL) hasCashGivenToReferrer {
+  return !!hasCashGivenToReferrer_;
 }
-- (void) setHasCoinsGivenToReferrer:(BOOL) value {
-  hasCoinsGivenToReferrer_ = !!value;
+- (void) setHasCashGivenToReferrer:(BOOL) value {
+  hasCashGivenToReferrer_ = !!value;
 }
-@synthesize coinsGivenToReferrer;
+@synthesize cashGivenToReferrer;
 - (void) dealloc {
   self.sender = nil;
   self.referredPlayer = nil;
@@ -58,7 +58,7 @@ static PBExtensionRegistry* extensionRegistry = nil;
   if ((self = [super init])) {
     self.sender = [MinimumUserProto defaultInstance];
     self.referredPlayer = [MinimumUserProto defaultInstance];
-    self.coinsGivenToReferrer = 0;
+    self.cashGivenToReferrer = 0;
   }
   return self;
 }
@@ -84,8 +84,8 @@ static ReferralCodeUsedResponseProto* defaultReferralCodeUsedResponseProtoInstan
   if (self.hasReferredPlayer) {
     [output writeMessage:2 value:self.referredPlayer];
   }
-  if (self.hasCoinsGivenToReferrer) {
-    [output writeInt32:3 value:self.coinsGivenToReferrer];
+  if (self.hasCashGivenToReferrer) {
+    [output writeInt32:3 value:self.cashGivenToReferrer];
   }
   [self.unknownFields writeToCodedOutputStream:output];
 }
@@ -102,8 +102,8 @@ static ReferralCodeUsedResponseProto* defaultReferralCodeUsedResponseProtoInstan
   if (self.hasReferredPlayer) {
     size += computeMessageSize(2, self.referredPlayer);
   }
-  if (self.hasCoinsGivenToReferrer) {
-    size += computeInt32Size(3, self.coinsGivenToReferrer);
+  if (self.hasCashGivenToReferrer) {
+    size += computeInt32Size(3, self.cashGivenToReferrer);
   }
   size += self.unknownFields.serializedSize;
   memoizedSerializedSize = size;
@@ -186,8 +186,8 @@ static ReferralCodeUsedResponseProto* defaultReferralCodeUsedResponseProtoInstan
   if (other.hasReferredPlayer) {
     [self mergeReferredPlayer:other.referredPlayer];
   }
-  if (other.hasCoinsGivenToReferrer) {
-    [self setCoinsGivenToReferrer:other.coinsGivenToReferrer];
+  if (other.hasCashGivenToReferrer) {
+    [self setCashGivenToReferrer:other.cashGivenToReferrer];
   }
   [self mergeUnknownFields:other.unknownFields];
   return self;
@@ -229,7 +229,7 @@ static ReferralCodeUsedResponseProto* defaultReferralCodeUsedResponseProtoInstan
         break;
       }
       case 24: {
-        [self setCoinsGivenToReferrer:[input readInt32]];
+        [self setCashGivenToReferrer:[input readInt32]];
         break;
       }
     }
@@ -295,20 +295,20 @@ static ReferralCodeUsedResponseProto* defaultReferralCodeUsedResponseProtoInstan
   result.referredPlayer = [MinimumUserProto defaultInstance];
   return self;
 }
-- (BOOL) hasCoinsGivenToReferrer {
-  return result.hasCoinsGivenToReferrer;
+- (BOOL) hasCashGivenToReferrer {
+  return result.hasCashGivenToReferrer;
 }
-- (int32_t) coinsGivenToReferrer {
-  return result.coinsGivenToReferrer;
+- (int32_t) cashGivenToReferrer {
+  return result.cashGivenToReferrer;
 }
-- (ReferralCodeUsedResponseProto_Builder*) setCoinsGivenToReferrer:(int32_t) value {
-  result.hasCoinsGivenToReferrer = YES;
-  result.coinsGivenToReferrer = value;
+- (ReferralCodeUsedResponseProto_Builder*) setCashGivenToReferrer:(int32_t) value {
+  result.hasCashGivenToReferrer = YES;
+  result.cashGivenToReferrer = value;
   return self;
 }
-- (ReferralCodeUsedResponseProto_Builder*) clearCoinsGivenToReferrer {
-  result.hasCoinsGivenToReferrer = NO;
-  result.coinsGivenToReferrer = 0;
+- (ReferralCodeUsedResponseProto_Builder*) clearCashGivenToReferrer {
+  result.hasCashGivenToReferrer = NO;
+  result.cashGivenToReferrer = 0;
   return self;
 }
 @end

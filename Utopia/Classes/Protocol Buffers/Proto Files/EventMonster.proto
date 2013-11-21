@@ -4,8 +4,9 @@
 import "MonsterStuff.proto";
 import "User.proto";
 
-package com.lvl6.proto;
+package proto;
 
+option java_package = "com.lvl6.mobsters.eventprotos";
 option java_outer_classname = "EventMonsterProto";
 //DO NOT USE ID AS THE NAME OF A PROPERTY IN ANY PROTO
 
@@ -57,7 +58,7 @@ message EnhancementWaitTimeCompleteRequestProto {
 	optional UserMonsterCurrentExpProto umcep = 4;
 	
 	//ids of monster_enhancing_for_user to delete, does not include main monster
-	repeated int64 userMonsterIds = 5; 
+	repeated string userMonsterUuids = 5; 
 }
 
 message EnhancementWaitTimeCompleteResponseProto {
@@ -161,7 +162,7 @@ message HealMonsterWaitTimeCompleteResponseProto {
 message AddMonsterToBattleTeamRequestProto {
 	optional MinimumUserProto sender = 1;
 	optional int32 teamSlotNum = 2;
-	optional int64 userMonsterId = 3;
+	optional string userMonsterUuid = 3;
 }
 
 message AddMonsterToBattleTeamResponseProto {
@@ -178,7 +179,7 @@ message AddMonsterToBattleTeamResponseProto {
 
 message RemoveMonsterFromBattleTeamRequestProto {
 	optional MinimumUserProto sender = 1;
-	optional int64 userMonsterId = 3;
+	optional string userMonsterUuid = 3;
 }
 
 message RemoveMonsterFromBattleTeamResponseProto {
@@ -245,8 +246,8 @@ message InviteFbFriendsForSlotsResponseProto {
 message AcceptAndRejectFbInviteForSlotsRequestProto {
 	optional MinimumUserProtoWithFacebookId sender = 1;
 	//server records all valid accepts, does not enforce max 3 accepts per inviter
-	repeated int32 acceptedInviteIds = 2;
-	repeated int32 rejectedInviteIds = 3;
+	repeated string acceptedInviteUuids = 2;
+	repeated string rejectedInviteUuids = 3;
 }
 
 //server sends this to all the inviters in acceptedInviteIds
@@ -266,7 +267,7 @@ message AcceptAndRejectFbInviteForSlotsResponseProto {
 
 message CombineUserMonsterPiecesRequestProto {
 	optional MinimumUserProto sender = 1;
-	repeated int64 userMonsterIds = 2;
+	repeated string userMonsterUuids = 2;
 	
 	//(positive amount) if user wants to speed up the process
 	//if this is set, there should only be one userMonsterId

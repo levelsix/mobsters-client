@@ -121,9 +121,9 @@
 
 - (void) visitOrDonateClickedWithDetailsVC:(QuestDetailsViewController *)detailsVC {
   GameViewController *gvc = (GameViewController *)self.parentViewController;
-  FullQuestProto *quest = detailsVC.quest;
+  QuestProto *quest = detailsVC.quest;
   UserQuest *uq = detailsVC.userQuest;
-  if (quest.questType == FullQuestProto_QuestTypeDonateMonster && quest.quantity == uq.progress) {
+  if (quest.questType == QuestProto_QuestTypeDonateMonster && quest.quantity == uq.progress) {
     // Donate monsters
     [self doDonateForQuest:quest.questId];
   } else {
@@ -134,7 +134,7 @@
 
 - (void) doDonateForQuest:(int)questId {
   GameState *gs = [GameState sharedGameState];
-  FullQuestProto *fqp = [gs questForId:questId];
+  QuestProto *fqp = [gs questForId:questId];
   NSMutableArray *potentials = [NSMutableArray array];
   for (UserMonster *um in gs.myMonsters) {
     if (um.monsterId == fqp.staticDataId && um.isComplete) {
@@ -166,7 +166,7 @@
       if (um.teamSlot > 0) {
         numOnTeam++;
       }
-      [arr addObject:[NSNumber numberWithInt:um.userMonsterId]];
+      [arr addObject:um.userMonsterUuid];
     }
     
     if (numOnTeam) {
@@ -176,14 +176,14 @@
       [self donateConfirmed];
     }
     
-    self.userMonsterIds = arr;
+    self.userMonsterUuids = arr;
   }
 }
 
 - (void) donateConfirmed {
   GameState *gs = [GameState sharedGameState];
-  FullQuestProto *quest = self.questDetailsViewController.quest;
-  UserQuest *uqNew = [[OutgoingEventController sharedOutgoingEventController] donateForQuest:quest.questId monsterIds:self.userMonsterIds];
+  QuestProto *quest = self.questDetailsViewController.quest;
+  UserQuest *uqNew = [[OutgoingEventController sharedOutgoingEventController] donateForQuest:quest.questId monsterUuids:self.userMonsterUuids];
   [self.questDetailsViewController loadWithQuest:quest userQuest:uqNew];
   [self.questListViewController reloadWithQuests:gs.allCurrentQuests userQuests:gs.myQuests];
 }

@@ -5,8 +5,9 @@ import "City.proto";
 import "Structure.proto";
 import "User.proto";
 
-package com.lvl6.proto;
+package proto;
 
+option java_package = "com.lvl6.mobsters.eventprotos";
 option java_outer_classname = "EventStructureProto";
 //DO NOT USE ID AS THE NAME OF A PROPERTY IN ANY PROTO
 
@@ -22,7 +23,7 @@ message PurchaseNormStructureRequestProto {
 message PurchaseNormStructureResponseProto {
 	optional MinimumUserProto sender = 1;
 	optional PurchaseNormStructureStatus status = 2;
-	optional int32 userStructId = 3;
+	optional string userStructUuid = 3;
 	
 	enum PurchaseNormStructureStatus {
 		SUCCESS = 1;
@@ -38,7 +39,7 @@ message PurchaseNormStructureResponseProto {
 //------------------------------------------------------------------------------------------
 message MoveOrRotateNormStructureRequestProto {
 	optional MinimumUserProto sender = 1;
-	optional int32 userStructId = 2;
+	optional string userStructUuid = 2;
 	optional MoveOrRotateNormStructType type = 3;
 	optional CoordinateProto curStructCoordinates = 4;
 	optional StructOrientation newOrientation = 5 [default = POSITION_1];
@@ -62,7 +63,7 @@ message MoveOrRotateNormStructureResponseProto {
 //------------------------------------------------------------------------------------------
 message SellNormStructureRequestProto {
 	optional MinimumUserProto sender = 1;
-	optional int32 userStructId = 2;
+	optional string userStructUuid = 2;
 }
 
 																						//DONE
@@ -80,7 +81,7 @@ message SellNormStructureResponseProto {
 //user initiating a structure upgrade
 message UpgradeNormStructureRequestProto {
 	optional MinimumUserProto sender = 1;
-	optional int32 userStructId = 2;
+	optional string userStructUuid = 2;
 	optional int64 timeOfUpgrade = 3;	
 }
 
@@ -105,7 +106,7 @@ message UpgradeNormStructureResponseProto {
 					//rename to speed up norm struct 
 message FinishNormStructWaittimeWithDiamondsRequestProto {
 	optional MinimumUserProto sender = 1;
-	optional int32 userStructId = 2;
+	optional string userStructUuid = 2;
 	optional int64 timeOfSpeedup = 3;			//lastRetrieved will start with this date
 	optional int32 gemCostToSpeedup = 4;
 }
@@ -133,7 +134,7 @@ message FinishNormStructWaittimeWithDiamondsResponseProto {
 //NOT VERY EFFICIENT..extra db call. and for every newly built building, new db call. but w/e for now.																						
 message NormStructWaitCompleteRequestProto {
 	optional MinimumUserProto sender = 1;
-	repeated int32 userStructId = 2;
+	repeated string userStructUuid = 2;
 	optional int64 curTime = 3;						//used for checking
 }
 
@@ -157,7 +158,7 @@ message RetrieveCurrencyFromNormStructureRequestProto {
 	repeated StructRetrieval structRetrievals = 2;
 	
 	message StructRetrieval {
-		optional int32 userStructId = 1;
+		optional string userStructUuid = 1;
 		optional int64 timeOfRetrieval = 2;
 	}
 }

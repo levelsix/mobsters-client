@@ -8,7 +8,7 @@
 
 //#import "GCDAsyncSocket.h"
 
-#import "Protocols.pb.h"
+#import "MobstersEventProtocol.pb.h"
 #import "StoreKit/StoreKit.h"
 #import "UserData.h"
 
@@ -57,7 +57,7 @@
 - (void) initNetworkCommunicationWithDelegate:(id)delegate;
 - (void) initUserIdMessageQueue;
 - (void) closeDownConnection;
-- (void) messageReceived:(NSData *)buffer withType:(EventProtocolResponse)eventType tag:(int)tag;
+- (void) messageReceived:(NSData *)buffer withType:(MobstersEventProtocolResponse)eventType tag:(int)tag;
 - (void) setDelegate:(id)delegate forTag:(int)tag;
 
 // Send different event messages
@@ -69,23 +69,23 @@
 
 // Norm Struct messages
 - (int) sendPurchaseNormStructureMessage:(int)structId x:(int)x y:(int)y time:(uint64_t)time;
-- (int) sendMoveNormStructureMessage:(int)userStructId x:(int)x y:(int)y;
-- (int) sendRotateNormStructureMessage:(int)userStructId orientation:(StructOrientation)orientation;
-- (int) sendUpgradeNormStructureMessage:(int)userStructId time:(uint64_t)curTime;
-- (int) sendNormStructBuildsCompleteMessage:(NSArray *)userStructIds time:(uint64_t)curTime;
-- (int) sendFinishNormStructBuildWithDiamondsMessage:(int)userStructId gemCost:(int)gemCost time:(uint64_t)milliseconds;
-- (int) sendSellNormStructureMessage:(int)userStructId;
+- (int) sendMoveNormStructureMessage:(NSString *)userStructUuid x:(int)x y:(int)y;
+- (int) sendRotateNormStructureMessage:(NSString *)userStructUuid orientation:(StructOrientation)orientation;
+- (int) sendUpgradeNormStructureMessage:(NSString *)userStructUuid time:(uint64_t)curTime;
+- (int) sendNormStructBuildsCompleteMessage:(NSArray *)userStructUuids time:(uint64_t)curTime;
+- (int) sendFinishNormStructBuildWithDiamondsMessage:(NSString *)userStructUuid gemCost:(int)gemCost time:(uint64_t)milliseconds;
+- (int) sendSellNormStructureMessage:(NSString *)userStructUuid;
 
-- (int) sendLoadPlayerCityMessage:(int)userId;
+- (int) sendLoadPlayerCityMessage:(NSString *)userUuid;
 - (int) sendLoadCityMessage:(int)cityId;
 
 - (int) sendLevelUpMessage;
 
 - (int) sendQuestAcceptMessage:(int)questId;
-- (int) sendQuestProgressMessage:(int)questId progress:(int)progress isComplete:(BOOL)isComplete userMonsterIds:(NSArray *)userMonsterIds;
+- (int) sendQuestProgressMessage:(int)questId progress:(int)progress isComplete:(BOOL)isComplete userMonsterUuids:(NSArray *)userMonsterUuids;
 - (int) sendQuestRedeemMessage:(int)questId;
 
-- (int) sendRetrieveUsersForUserIds:(NSArray *)userIds includeCurMonsterTeam:(BOOL)includeCurMonsterTeam;
+- (int) sendRetrieveUsersForUserUuids:(NSArray *)userUuids includeCurMonsterTeam:(BOOL)includeCurMonsterTeam;
 
 - (int) sendAPNSMessage:(NSString *)deviceToken;
 
@@ -95,14 +95,14 @@
 
 - (int) sendCreateClanMessage:(NSString *)clanName tag:(NSString *)tag description:(NSString *)description requestOnly:(BOOL)requestOnly;
 - (int) sendLeaveClanMessage;
-- (int) sendRequestJoinClanMessage:(int)clanId;
-- (int) sendRetractRequestJoinClanMessage:(int)clanId;
-- (int) sendApproveOrRejectRequestToJoinClan:(int)requesterId accept:(BOOL)accept;
-- (int) sendTransferClanOwnership:(int)newClanOwnerId;
+- (int) sendRequestJoinClanMessage:(NSString *)clanUuid;
+- (int) sendRetractRequestJoinClanMessage:(NSString *)clanUuid;
+- (int) sendApproveOrRejectRequestToJoinClan:(NSString *)requesterUuid accept:(BOOL)accept;
+- (int) sendTransferClanOwnership:(NSString *)ownerUuid;
 - (int) sendChangeClanDescription:(NSString *)description;
 - (int) sendChangeClanJoinType:(BOOL)requestToJoinRequired;
-- (int) sendRetrieveClanInfoMessage:(NSString *)clanName clanId:(int)clanId grabType:(RetrieveClanInfoRequestProto_ClanInfoGrabType)grabType isForBrowsingList:(BOOL)isForBrowsingList beforeClanId:(int)beforeClanId;
-- (int) sendBootPlayerFromClan:(int)playerId;
+- (int) sendRetrieveClanInfoMessage:(NSString *)clanName clanUuid:(NSString *)clanUuid grabType:(RetrieveClanInfoRequestProto_ClanInfoGrabType)grabType isForBrowsingList:(BOOL)isForBrowsingList;
+- (int) sendBootPlayerFromClan:(NSString *)playerUuid;
 
 - (int) sendPurchaseCityExpansionMessageAtX:(int)x atY:(int)y timeOfPurchase:(uint64_t)time;
 - (int) sendExpansionWaitCompleteMessage:(BOOL)speedUp gemCost:(int)gemCost curTime:(uint64_t)time atX:(int)x atY:(int)y;
@@ -111,28 +111,28 @@
 
 - (int) sendPurchaseBoosterPackMessage:(int)boosterPackId clientTime:(uint64_t)clientTime;
 
-- (int) sendPrivateChatPostMessage:(int)recipientId content:(NSString *)content;
-- (int) sendRetrievePrivateChatPostsMessage:(int)otherUserId;
+- (int) sendPrivateChatPostMessage:(NSString *)recipientUuid content:(NSString *)content;
+- (int) sendRetrievePrivateChatPostsMessage:(NSString *)otherUserUuid;
 
 - (int) sendBeginDungeonMessage:(uint64_t)clientTime taskId:(int)taskId;
 - (int) sendUpdateMonsterHealthMessage:(uint64_t)clientTime monsterHealth:(UserMonsterCurrentHealthProto *)monsterHealth;
-- (int) sendEndDungeonMessage:(uint64_t)userTaskId userWon:(BOOL)userWon isFirstTimeCompleted:(BOOL)isFirstTimeCompleted time:(uint64_t)time;
+- (int) sendEndDungeonMessage:(NSString *)userTaskUuid userWon:(BOOL)userWon isFirstTimeCompleted:(BOOL)isFirstTimeCompleted time:(uint64_t)time;
 
-- (int) retrieveCurrencyFromStruct:(int)userStructId time:(uint64_t)time;
+- (int) retrieveCurrencyFromStruct:(NSString *)userStructUuid time:(uint64_t)time;
 
 - (int) sendHealQueueWaitTimeComplete:(NSArray *)monsterHealths;
 - (int) sendHealQueueSpeedup:(NSArray *)monsterHealths goldCost:(int)goldCost;
-- (int) sendAddMonsterToTeam:(int)userMonsterId teamSlot:(int)teamSlot;
-- (int) sendRemoveMonsterFromTeam:(int)userMonsterId;
+- (int) sendAddMonsterToTeam:(NSString *)userMonsterUuid teamSlot:(int)teamSlot;
+- (int) sendRemoveMonsterFromTeam:(NSString *)userMonsterUuid;
 - (int) buyInventorySlots;
-- (int) sendCombineUserMonsterPiecesMessage:(NSArray *)userMonsterIds gemCost:(int)gemCost;
+- (int) sendCombineUserMonsterPiecesMessage:(NSArray *)userMonsterUuids gemCost:(int)gemCost;
 - (int) sendInviteFbFriendsForSlotsMessage:(NSArray *)fbFriendIds;
-- (int) sendAcceptAndRejectFbInviteForSlotsMessageAndAcceptIds:(NSArray *)acceptIds rejectIds:(NSArray *)rejectIds;
+- (int) sendAcceptAndRejectFbInviteForSlotsMessageAndAcceptUuids:(NSArray *)acceptUuids rejectUuids:(NSArray *)rejectUuids;
 - (void) reloadHealQueueSnapshot;
 - (int) setHealQueueDirtyWithCoinChange:(int)coinChange gemCost:(int)gemCost;
 
-- (int) sendEnhanceQueueWaitTimeComplete:(UserMonsterCurrentExpProto *)monsterExp userMonsterIds:(NSArray *)userMonsterIds;
-- (int) sendEnhanceQueueSpeedup:(UserMonsterCurrentExpProto *)monsterExp userMonsterIds:(NSArray *)userMonsterIds goldCost:(int)goldCost;
+- (int) sendEnhanceQueueWaitTimeComplete:(UserMonsterCurrentExpProto *)monsterExp userMonsterUuids:(NSArray *)userMonsterUuids;
+- (int) sendEnhanceQueueSpeedup:(UserMonsterCurrentExpProto *)monsterExp userMonsterUuids:(NSArray *)userMonsterUuids goldCost:(int)goldCost;
 - (int) setEnhanceQueueDirtyWithCoinChange:(int)coinChange gemCost:(int)gemCost;
 - (void) reloadEnhancementSnapshot;
 

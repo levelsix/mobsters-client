@@ -237,19 +237,19 @@ BOOL ExpansionWaitCompleteResponseProto_ExpansionWaitCompleteStatusIsValidValue(
 
 @interface PurchaseNormStructureResponseProto : PBGeneratedMessage {
 @private
-  BOOL hasUserStructId_:1;
+  BOOL hasUserStructUuid_:1;
   BOOL hasSender_:1;
   BOOL hasStatus_:1;
-  int32_t userStructId;
+  NSString* userStructUuid;
   MinimumUserProto* sender;
   PurchaseNormStructureResponseProto_PurchaseNormStructureStatus status;
 }
 - (BOOL) hasSender;
 - (BOOL) hasStatus;
-- (BOOL) hasUserStructId;
+- (BOOL) hasUserStructUuid;
 @property (readonly, retain) MinimumUserProto* sender;
 @property (readonly) PurchaseNormStructureResponseProto_PurchaseNormStructureStatus status;
-@property (readonly) int32_t userStructId;
+@property (readonly, retain) NSString* userStructUuid;
 
 + (PurchaseNormStructureResponseProto*) defaultInstance;
 - (PurchaseNormStructureResponseProto*) defaultInstance;
@@ -297,32 +297,32 @@ BOOL ExpansionWaitCompleteResponseProto_ExpansionWaitCompleteStatusIsValidValue(
 - (PurchaseNormStructureResponseProto_Builder*) setStatus:(PurchaseNormStructureResponseProto_PurchaseNormStructureStatus) value;
 - (PurchaseNormStructureResponseProto_Builder*) clearStatus;
 
-- (BOOL) hasUserStructId;
-- (int32_t) userStructId;
-- (PurchaseNormStructureResponseProto_Builder*) setUserStructId:(int32_t) value;
-- (PurchaseNormStructureResponseProto_Builder*) clearUserStructId;
+- (BOOL) hasUserStructUuid;
+- (NSString*) userStructUuid;
+- (PurchaseNormStructureResponseProto_Builder*) setUserStructUuid:(NSString*) value;
+- (PurchaseNormStructureResponseProto_Builder*) clearUserStructUuid;
 @end
 
 @interface MoveOrRotateNormStructureRequestProto : PBGeneratedMessage {
 @private
-  BOOL hasUserStructId_:1;
+  BOOL hasUserStructUuid_:1;
   BOOL hasSender_:1;
   BOOL hasCurStructCoordinates_:1;
   BOOL hasType_:1;
   BOOL hasNewOrientation_:1;
-  int32_t userStructId;
+  NSString* userStructUuid;
   MinimumUserProto* sender;
   CoordinateProto* curStructCoordinates;
   MoveOrRotateNormStructureRequestProto_MoveOrRotateNormStructType type;
   StructOrientation newOrientation;
 }
 - (BOOL) hasSender;
-- (BOOL) hasUserStructId;
+- (BOOL) hasUserStructUuid;
 - (BOOL) hasType;
 - (BOOL) hasCurStructCoordinates;
 - (BOOL) hasNewOrientation;
 @property (readonly, retain) MinimumUserProto* sender;
-@property (readonly) int32_t userStructId;
+@property (readonly, retain) NSString* userStructUuid;
 @property (readonly) MoveOrRotateNormStructureRequestProto_MoveOrRotateNormStructType type;
 @property (readonly, retain) CoordinateProto* curStructCoordinates;
 @property (readonly) StructOrientation newOrientation;
@@ -368,10 +368,10 @@ BOOL ExpansionWaitCompleteResponseProto_ExpansionWaitCompleteStatusIsValidValue(
 - (MoveOrRotateNormStructureRequestProto_Builder*) mergeSender:(MinimumUserProto*) value;
 - (MoveOrRotateNormStructureRequestProto_Builder*) clearSender;
 
-- (BOOL) hasUserStructId;
-- (int32_t) userStructId;
-- (MoveOrRotateNormStructureRequestProto_Builder*) setUserStructId:(int32_t) value;
-- (MoveOrRotateNormStructureRequestProto_Builder*) clearUserStructId;
+- (BOOL) hasUserStructUuid;
+- (NSString*) userStructUuid;
+- (MoveOrRotateNormStructureRequestProto_Builder*) setUserStructUuid:(NSString*) value;
+- (MoveOrRotateNormStructureRequestProto_Builder*) clearUserStructUuid;
 
 - (BOOL) hasType;
 - (MoveOrRotateNormStructureRequestProto_MoveOrRotateNormStructType) type;
@@ -452,15 +452,15 @@ BOOL ExpansionWaitCompleteResponseProto_ExpansionWaitCompleteStatusIsValidValue(
 
 @interface SellNormStructureRequestProto : PBGeneratedMessage {
 @private
-  BOOL hasUserStructId_:1;
+  BOOL hasUserStructUuid_:1;
   BOOL hasSender_:1;
-  int32_t userStructId;
+  NSString* userStructUuid;
   MinimumUserProto* sender;
 }
 - (BOOL) hasSender;
-- (BOOL) hasUserStructId;
+- (BOOL) hasUserStructUuid;
 @property (readonly, retain) MinimumUserProto* sender;
-@property (readonly) int32_t userStructId;
+@property (readonly, retain) NSString* userStructUuid;
 
 + (SellNormStructureRequestProto*) defaultInstance;
 - (SellNormStructureRequestProto*) defaultInstance;
@@ -503,10 +503,10 @@ BOOL ExpansionWaitCompleteResponseProto_ExpansionWaitCompleteStatusIsValidValue(
 - (SellNormStructureRequestProto_Builder*) mergeSender:(MinimumUserProto*) value;
 - (SellNormStructureRequestProto_Builder*) clearSender;
 
-- (BOOL) hasUserStructId;
-- (int32_t) userStructId;
-- (SellNormStructureRequestProto_Builder*) setUserStructId:(int32_t) value;
-- (SellNormStructureRequestProto_Builder*) clearUserStructId;
+- (BOOL) hasUserStructUuid;
+- (NSString*) userStructUuid;
+- (SellNormStructureRequestProto_Builder*) setUserStructUuid:(NSString*) value;
+- (SellNormStructureRequestProto_Builder*) clearUserStructUuid;
 @end
 
 @interface SellNormStructureResponseProto : PBGeneratedMessage {
@@ -571,17 +571,17 @@ BOOL ExpansionWaitCompleteResponseProto_ExpansionWaitCompleteStatusIsValidValue(
 @interface UpgradeNormStructureRequestProto : PBGeneratedMessage {
 @private
   BOOL hasTimeOfUpgrade_:1;
-  BOOL hasUserStructId_:1;
+  BOOL hasUserStructUuid_:1;
   BOOL hasSender_:1;
   int64_t timeOfUpgrade;
-  int32_t userStructId;
+  NSString* userStructUuid;
   MinimumUserProto* sender;
 }
 - (BOOL) hasSender;
-- (BOOL) hasUserStructId;
+- (BOOL) hasUserStructUuid;
 - (BOOL) hasTimeOfUpgrade;
 @property (readonly, retain) MinimumUserProto* sender;
-@property (readonly) int32_t userStructId;
+@property (readonly, retain) NSString* userStructUuid;
 @property (readonly) int64_t timeOfUpgrade;
 
 + (UpgradeNormStructureRequestProto*) defaultInstance;
@@ -625,10 +625,10 @@ BOOL ExpansionWaitCompleteResponseProto_ExpansionWaitCompleteStatusIsValidValue(
 - (UpgradeNormStructureRequestProto_Builder*) mergeSender:(MinimumUserProto*) value;
 - (UpgradeNormStructureRequestProto_Builder*) clearSender;
 
-- (BOOL) hasUserStructId;
-- (int32_t) userStructId;
-- (UpgradeNormStructureRequestProto_Builder*) setUserStructId:(int32_t) value;
-- (UpgradeNormStructureRequestProto_Builder*) clearUserStructId;
+- (BOOL) hasUserStructUuid;
+- (NSString*) userStructUuid;
+- (UpgradeNormStructureRequestProto_Builder*) setUserStructUuid:(NSString*) value;
+- (UpgradeNormStructureRequestProto_Builder*) clearUserStructUuid;
 
 - (BOOL) hasTimeOfUpgrade;
 - (int64_t) timeOfUpgrade;
@@ -698,20 +698,20 @@ BOOL ExpansionWaitCompleteResponseProto_ExpansionWaitCompleteStatusIsValidValue(
 @interface FinishNormStructWaittimeWithDiamondsRequestProto : PBGeneratedMessage {
 @private
   BOOL hasTimeOfSpeedup_:1;
-  BOOL hasUserStructId_:1;
   BOOL hasGemCostToSpeedup_:1;
+  BOOL hasUserStructUuid_:1;
   BOOL hasSender_:1;
   int64_t timeOfSpeedup;
-  int32_t userStructId;
   int32_t gemCostToSpeedup;
+  NSString* userStructUuid;
   MinimumUserProto* sender;
 }
 - (BOOL) hasSender;
-- (BOOL) hasUserStructId;
+- (BOOL) hasUserStructUuid;
 - (BOOL) hasTimeOfSpeedup;
 - (BOOL) hasGemCostToSpeedup;
 @property (readonly, retain) MinimumUserProto* sender;
-@property (readonly) int32_t userStructId;
+@property (readonly, retain) NSString* userStructUuid;
 @property (readonly) int64_t timeOfSpeedup;
 @property (readonly) int32_t gemCostToSpeedup;
 
@@ -756,10 +756,10 @@ BOOL ExpansionWaitCompleteResponseProto_ExpansionWaitCompleteStatusIsValidValue(
 - (FinishNormStructWaittimeWithDiamondsRequestProto_Builder*) mergeSender:(MinimumUserProto*) value;
 - (FinishNormStructWaittimeWithDiamondsRequestProto_Builder*) clearSender;
 
-- (BOOL) hasUserStructId;
-- (int32_t) userStructId;
-- (FinishNormStructWaittimeWithDiamondsRequestProto_Builder*) setUserStructId:(int32_t) value;
-- (FinishNormStructWaittimeWithDiamondsRequestProto_Builder*) clearUserStructId;
+- (BOOL) hasUserStructUuid;
+- (NSString*) userStructUuid;
+- (FinishNormStructWaittimeWithDiamondsRequestProto_Builder*) setUserStructUuid:(NSString*) value;
+- (FinishNormStructWaittimeWithDiamondsRequestProto_Builder*) clearUserStructUuid;
 
 - (BOOL) hasTimeOfSpeedup;
 - (int64_t) timeOfSpeedup;
@@ -837,14 +837,14 @@ BOOL ExpansionWaitCompleteResponseProto_ExpansionWaitCompleteStatusIsValidValue(
   BOOL hasSender_:1;
   int64_t curTime;
   MinimumUserProto* sender;
-  NSMutableArray* mutableUserStructIdList;
+  NSMutableArray* mutableUserStructUuidList;
 }
 - (BOOL) hasSender;
 - (BOOL) hasCurTime;
 @property (readonly, retain) MinimumUserProto* sender;
 @property (readonly) int64_t curTime;
-- (NSArray*) userStructIdList;
-- (int32_t) userStructIdAtIndex:(int32_t) index;
+- (NSArray*) userStructUuidList;
+- (NSString*) userStructUuidAtIndex:(int32_t) index;
 
 + (NormStructWaitCompleteRequestProto*) defaultInstance;
 - (NormStructWaitCompleteRequestProto*) defaultInstance;
@@ -887,12 +887,12 @@ BOOL ExpansionWaitCompleteResponseProto_ExpansionWaitCompleteStatusIsValidValue(
 - (NormStructWaitCompleteRequestProto_Builder*) mergeSender:(MinimumUserProto*) value;
 - (NormStructWaitCompleteRequestProto_Builder*) clearSender;
 
-- (NSArray*) userStructIdList;
-- (int32_t) userStructIdAtIndex:(int32_t) index;
-- (NormStructWaitCompleteRequestProto_Builder*) replaceUserStructIdAtIndex:(int32_t) index with:(int32_t) value;
-- (NormStructWaitCompleteRequestProto_Builder*) addUserStructId:(int32_t) value;
-- (NormStructWaitCompleteRequestProto_Builder*) addAllUserStructId:(NSArray*) values;
-- (NormStructWaitCompleteRequestProto_Builder*) clearUserStructIdList;
+- (NSArray*) userStructUuidList;
+- (NSString*) userStructUuidAtIndex:(int32_t) index;
+- (NormStructWaitCompleteRequestProto_Builder*) replaceUserStructUuidAtIndex:(int32_t) index with:(NSString*) value;
+- (NormStructWaitCompleteRequestProto_Builder*) addUserStructUuid:(NSString*) value;
+- (NormStructWaitCompleteRequestProto_Builder*) addAllUserStructUuid:(NSArray*) values;
+- (NormStructWaitCompleteRequestProto_Builder*) clearUserStructUuidList;
 
 - (BOOL) hasCurTime;
 - (int64_t) curTime;
@@ -1000,13 +1000,13 @@ BOOL ExpansionWaitCompleteResponseProto_ExpansionWaitCompleteStatusIsValidValue(
 @interface RetrieveCurrencyFromNormStructureRequestProto_StructRetrieval : PBGeneratedMessage {
 @private
   BOOL hasTimeOfRetrieval_:1;
-  BOOL hasUserStructId_:1;
+  BOOL hasUserStructUuid_:1;
   int64_t timeOfRetrieval;
-  int32_t userStructId;
+  NSString* userStructUuid;
 }
-- (BOOL) hasUserStructId;
+- (BOOL) hasUserStructUuid;
 - (BOOL) hasTimeOfRetrieval;
-@property (readonly) int32_t userStructId;
+@property (readonly, retain) NSString* userStructUuid;
 @property (readonly) int64_t timeOfRetrieval;
 
 + (RetrieveCurrencyFromNormStructureRequestProto_StructRetrieval*) defaultInstance;
@@ -1043,10 +1043,10 @@ BOOL ExpansionWaitCompleteResponseProto_ExpansionWaitCompleteStatusIsValidValue(
 - (RetrieveCurrencyFromNormStructureRequestProto_StructRetrieval_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input;
 - (RetrieveCurrencyFromNormStructureRequestProto_StructRetrieval_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
 
-- (BOOL) hasUserStructId;
-- (int32_t) userStructId;
-- (RetrieveCurrencyFromNormStructureRequestProto_StructRetrieval_Builder*) setUserStructId:(int32_t) value;
-- (RetrieveCurrencyFromNormStructureRequestProto_StructRetrieval_Builder*) clearUserStructId;
+- (BOOL) hasUserStructUuid;
+- (NSString*) userStructUuid;
+- (RetrieveCurrencyFromNormStructureRequestProto_StructRetrieval_Builder*) setUserStructUuid:(NSString*) value;
+- (RetrieveCurrencyFromNormStructureRequestProto_StructRetrieval_Builder*) clearUserStructUuid;
 
 - (BOOL) hasTimeOfRetrieval;
 - (int64_t) timeOfRetrieval;

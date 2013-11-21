@@ -12,7 +12,7 @@
 
 @interface QuestLogViewController : UIViewController <QuestListCellDelegate, QuestDetailsViewControllerDelegate>
 
-@property (nonatomic, strong) NSArray *userMonsterIds;
+@property (nonatomic, strong) NSArray *userMonsterUuids;
 
 @property (nonatomic, strong) QuestListViewController *questListViewController;
 @property (nonatomic, strong) QuestDetailsViewController *questDetailsViewController;

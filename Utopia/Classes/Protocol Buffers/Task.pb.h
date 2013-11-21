@@ -207,17 +207,17 @@ BOOL TaskStageMonsterProto_MonsterTypeIsValidValue(TaskStageMonsterProto_Monster
 
 @interface MinimumUserTaskProto : PBGeneratedMessage {
 @private
-  BOOL hasUserId_:1;
   BOOL hasTaskId_:1;
   BOOL hasNumTimesActed_:1;
-  int32_t userId;
+  BOOL hasUserUuid_:1;
   int32_t taskId;
   int32_t numTimesActed;
+  NSString* userUuid;
 }
-- (BOOL) hasUserId;
+- (BOOL) hasUserUuid;
 - (BOOL) hasTaskId;
 - (BOOL) hasNumTimesActed;
-@property (readonly) int32_t userId;
+@property (readonly, retain) NSString* userUuid;
 @property (readonly) int32_t taskId;
 @property (readonly) int32_t numTimesActed;
 
@@ -255,10 +255,10 @@ BOOL TaskStageMonsterProto_MonsterTypeIsValidValue(TaskStageMonsterProto_Monster
 - (MinimumUserTaskProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input;
 - (MinimumUserTaskProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
 
-- (BOOL) hasUserId;
-- (int32_t) userId;
-- (MinimumUserTaskProto_Builder*) setUserId:(int32_t) value;
-- (MinimumUserTaskProto_Builder*) clearUserId;
+- (BOOL) hasUserUuid;
+- (NSString*) userUuid;
+- (MinimumUserTaskProto_Builder*) setUserUuid:(NSString*) value;
+- (MinimumUserTaskProto_Builder*) clearUserUuid;
 
 - (BOOL) hasTaskId;
 - (int32_t) taskId;

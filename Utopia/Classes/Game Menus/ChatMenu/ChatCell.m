@@ -27,7 +27,7 @@ static float buttonInitialWidth = 159.f;
   self.levelLabel.text = [Globals commafyNumber:msg.sender.level];
   self.timeLabel.text = [Globals stringForTimeSinceNow:msg.date shortened:NO];
   
-  if (msg.sender.minUserProto.clan.clanId) {
+  if (msg.sender.minUserProto.clan.hasClanUuid) {
     [self.clanButton setTitle:msg.sender.minUserProto.clan.name forState:UIControlStateNormal];
     [Globals adjustView:self.clanButton.superview withLabel:self.clanButton.titleLabel forXAnchor:1.f];
     self.clanButton.superview.hidden = NO;

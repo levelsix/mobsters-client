@@ -143,8 +143,6 @@
   [Amplitude initializeApiKey:GIRAFFE_GRAPH_KEY trackCampaignSource:YES];
   //  [Apsalar startSession:APSALAR_API_KEY withKey:APSALAR_SECRET andLaunchOptions:launchOptions];
 #endif
-  [Analytics beganApp];
-  [Analytics openedApp];
   
   // Publish install
   [FBSettings publishInstall:FACEBOOK_APP_ID];
@@ -192,22 +190,12 @@
   [[GameState sharedGameState] setConnected:NO];
   
   [[SoundEngine sharedSoundEngine] stopBackgroundMusic];
-
-  [Analytics suspendedApp];
-#ifndef DEBUG
-  //  [Apsalar endSession];
-#endif
 }
 
 -(void) applicationWillEnterForeground:(UIApplication*)application {
   LNLog(@"will enter foreground");
   self.hasTrackedVisit = NO;
   
-#ifndef DEBUG
-  //  [Apsalar reStartSession:APSALAR_API_KEY withKey:APSALAR_SECRET];
-#endif
-  [Analytics beganApp];
-  [Analytics resumedApp];
   if ([[CCDirector sharedDirector] runningScene]) {
     [[CCDirector sharedDirector] startAnimation];
   }
@@ -224,11 +212,6 @@
   
   [[OutgoingEventController sharedOutgoingEventController] logout];
   [[SocketCommunication sharedSocketCommunication] closeDownConnection];
-  
-  [Analytics terminatedApp];
-#ifndef DEBUG
-  //  [Apsalar endSession];
-#endif
 }
 
 - (void)applicationSignificantTimeChange:(UIApplication *)application {

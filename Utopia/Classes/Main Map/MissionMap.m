@@ -121,7 +121,7 @@
     _jobs = [[NSMutableArray alloc] init];
     
     for (FullUserQuestProto *questData in proto.inProgressUserQuestDataInCityList) {
-      FullQuestProto *fqp = [gs.inProgressIncompleteQuests objectForKey:[NSNumber numberWithInt:questData.questId]];
+      QuestProto *fqp = [gs.inProgressIncompleteQuests objectForKey:[NSNumber numberWithInt:questData.questId]];
       fqp = fqp ? fqp : [gs.inProgressCompleteQuests objectForKey:[NSNumber numberWithInt:questData.questId]];
       if (fqp.cityId != proto.cityId) {
         continue;

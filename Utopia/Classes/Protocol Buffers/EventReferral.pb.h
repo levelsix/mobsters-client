@@ -29,19 +29,19 @@
 
 @interface ReferralCodeUsedResponseProto : PBGeneratedMessage {
 @private
-  BOOL hasCoinsGivenToReferrer_:1;
+  BOOL hasCashGivenToReferrer_:1;
   BOOL hasSender_:1;
   BOOL hasReferredPlayer_:1;
-  int32_t coinsGivenToReferrer;
+  int32_t cashGivenToReferrer;
   MinimumUserProto* sender;
   MinimumUserProto* referredPlayer;
 }
 - (BOOL) hasSender;
 - (BOOL) hasReferredPlayer;
-- (BOOL) hasCoinsGivenToReferrer;
+- (BOOL) hasCashGivenToReferrer;
 @property (readonly, retain) MinimumUserProto* sender;
 @property (readonly, retain) MinimumUserProto* referredPlayer;
-@property (readonly) int32_t coinsGivenToReferrer;
+@property (readonly) int32_t cashGivenToReferrer;
 
 + (ReferralCodeUsedResponseProto*) defaultInstance;
 - (ReferralCodeUsedResponseProto*) defaultInstance;
@@ -91,9 +91,9 @@
 - (ReferralCodeUsedResponseProto_Builder*) mergeReferredPlayer:(MinimumUserProto*) value;
 - (ReferralCodeUsedResponseProto_Builder*) clearReferredPlayer;
 
-- (BOOL) hasCoinsGivenToReferrer;
-- (int32_t) coinsGivenToReferrer;
-- (ReferralCodeUsedResponseProto_Builder*) setCoinsGivenToReferrer:(int32_t) value;
-- (ReferralCodeUsedResponseProto_Builder*) clearCoinsGivenToReferrer;
+- (BOOL) hasCashGivenToReferrer;
+- (int32_t) cashGivenToReferrer;
+- (ReferralCodeUsedResponseProto_Builder*) setCashGivenToReferrer:(int32_t) value;
+- (ReferralCodeUsedResponseProto_Builder*) clearCashGivenToReferrer;
 @end
 

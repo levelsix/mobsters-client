@@ -146,12 +146,12 @@ static NSString *udid = nil;
 }
 
 - (void) rebuildSender {
-  int oldClanId = _sender.clan.clanId;
+  NSString *oldClanUuid = _sender.clan.clanUuid;
   GameState *gs = [GameState sharedGameState];
   _sender = gs.minUser;
   
   // if clan changes, reload the queue
-  if (oldClanId != _sender.clan.clanId) {
+  if (![oldClanUuid isEqualToString:_sender.clan.clanUuid]) {
     [self reloadClanMessageQueue];
   }
 }
@@ -227,8 +227,8 @@ static NSString *udid = nil;
   NSData *data = [msg data];
   
   GameState *gs = [GameState sharedGameState];
-  if (_sender.userId == 0 || !gs.connected) {
-    if (type != EventProtocolRequestCStartupEvent&& type != EventProtocolRequestCUserCreateEvent) {
+  if (_sender.userUuid.length == 0 || !gs.connected) {
+    if (type != MobstersEventProtocolRequestCStartupEvent&& type != MobstersEventProtocolRequestCUserCreateEvent) {
       LNLog(@"User id is 0 or GameState is not connected!!!");
       LNLog(@"Did not send event of type %@.", NSStringFromClass(msg.class));
       return 0;
@@ -279,7 +279,7 @@ static NSString *udid = nil;
   [self messageReceived:payload withType:nextMsgType tag:tag];
 }
 
--(void) messageReceived:(NSData *)data withType:(EventProtocolResponse)eventType tag:(int)tag {
+-(void) messageReceived:(NSData *)data withType:(MobstersEventProtocolResponse)eventType tag:(int)tag {
   IncomingEventController *iec = [IncomingEventController sharedIncomingEventController];
   
   // Get the proto class for this event type
@@ -338,7 +338,7 @@ static NSString *udid = nil;
   bldr.usedDiamondsToBuilt = usedDiamondsToBuild;
   
   UserCreateRequestProto *req = [bldr build];
-  return [self sendData:req withMessageType:EventProtocolRequestCUserCreateEvent];
+  return [self sendData:req withMessageType:MobstersEventProtocolRequestCUserCreateEvent];
 }
 
 - (int) sendStartupMessage:(uint64_t)clientTime {
@@ -358,7 +358,7 @@ static NSString *udid = nil;
   LNLog(@"Sent over udid: %@", udid);
   LNLog(@"Mac Address: %@", mac);
   LNLog(@"Advertiser ID: %@", advertiserId);
-  return [self sendData:req withMessageType:EventProtocolRequestCStartupEvent];
+  return [self sendData:req withMessageType:MobstersEventProtocolRequestCStartupEvent];
 }
 
 - (int) sendLogoutMessage {
@@ -366,7 +366,7 @@ static NSString *udid = nil;
                               setSender:_sender]
                              build];
   
-  return [self sendData:req withMessageType:EventProtocolRequestCLogoutEvent];
+  return [self sendData:req withMessageType:MobstersEventProtocolRequestCLogoutEvent];
 }
 
 - (int) sendInAppPurchaseMessage:(NSString *)receipt product:(SKProduct *)product {
@@ -378,7 +378,7 @@ static NSString *udid = nil;
                                       setSender:_sender]
                                      setIpaddr:[self getIPAddress]]
                                     build];
-  return [self sendData:req withMessageType:EventProtocolRequestCInAppPurchaseEvent];
+  return [self sendData:req withMessageType:MobstersEventProtocolRequestCInAppPurchaseEvent];
 }
 
 - (int) sendPurchaseNormStructureMessage:(int)structId x:(int)x y:(int)y time:(uint64_t)time{
@@ -389,80 +389,80 @@ static NSString *udid = nil;
                                              setTimeOfPurchase:time]
                                             build];
   
-  return [self sendData:req withMessageType:EventProtocolRequestCPurchaseNormStructureEvent];
+  return [self sendData:req withMessageType:MobstersEventProtocolRequestCPurchaseNormStructureEvent];
 }
 
-- (int) sendMoveNormStructureMessage:(int)userStructId x:(int)x y:(int)y {
+- (int) sendMoveNormStructureMessage:(NSString *)userStructUuid x:(int)x y:(int)y {
   MoveOrRotateNormStructureRequestProto *req =
   [[[[[[MoveOrRotateNormStructureRequestProto builder]
        setSender:_sender]
-      setUserStructId:userStructId]
+      setUserStructUuid:userStructUuid]
      setType:MoveOrRotateNormStructureRequestProto_MoveOrRotateNormStructTypeMove]
     setCurStructCoordinates:[[[[CoordinateProto builder] setX:x] setY:y] build]]
    build];
   
-  return [self sendData:req withMessageType:EventProtocolRequestCMoveOrRotateNormStructureEvent];
+  return [self sendData:req withMessageType:MobstersEventProtocolRequestCMoveOrRotateNormStructureEvent];
 }
 
-- (int) sendRotateNormStructureMessage:(int)userStructId orientation:(StructOrientation)orientation {
+- (int) sendRotateNormStructureMessage:(NSString *)userStructUuid orientation:(StructOrientation)orientation {
   MoveOrRotateNormStructureRequestProto *req =
   [[[[[[MoveOrRotateNormStructureRequestProto builder]
        setSender:_sender]
-      setUserStructId:userStructId]
+      setUserStructUuid:userStructUuid]
      setType:MoveOrRotateNormStructureRequestProto_MoveOrRotateNormStructTypeRotate]
     setNewOrientation:orientation]
    build];
   
-  return [self sendData:req withMessageType:EventProtocolRequestCMoveOrRotateNormStructureEvent];
+  return [self sendData:req withMessageType:MobstersEventProtocolRequestCMoveOrRotateNormStructureEvent];
 }
 
-- (int) sendUpgradeNormStructureMessage:(int)userStructId time:(uint64_t)curTime {
+- (int) sendUpgradeNormStructureMessage:(NSString *)userStructUuid time:(uint64_t)curTime {
   UpgradeNormStructureRequestProto *req = [[[[[UpgradeNormStructureRequestProto builder]
                                               setSender:_sender]
-                                             setUserStructId:userStructId]
+                                             setUserStructUuid:userStructUuid]
                                             setTimeOfUpgrade:curTime]
                                            build];
   
-  return [self sendData:req withMessageType:EventProtocolRequestCUpgradeNormStructureEvent];
+  return [self sendData:req withMessageType:MobstersEventProtocolRequestCUpgradeNormStructureEvent];
 }
 
-- (int) sendFinishNormStructBuildWithDiamondsMessage:(int)userStructId gemCost:(int)gemCost time:(uint64_t)milliseconds {
+- (int) sendFinishNormStructBuildWithDiamondsMessage:(NSString *)userStructUuid gemCost:(int)gemCost time:(uint64_t)milliseconds {
   FinishNormStructWaittimeWithDiamondsRequestProto *req = [[[[[[FinishNormStructWaittimeWithDiamondsRequestProto builder]
                                                                setSender:_sender]
                                                               setGemCostToSpeedup:gemCost]
-                                                             setUserStructId:userStructId]
+                                                             setUserStructUuid:userStructUuid]
                                                             setTimeOfSpeedup:milliseconds]
                                                            build];
   
-  return [self sendData:req withMessageType:EventProtocolRequestCFinishNormStructWaittimeWithDiamondsEvent];
+  return [self sendData:req withMessageType:MobstersEventProtocolRequestCFinishNormStructWaittimeWithDiamondsEvent];
 }
 
-- (int) sendNormStructBuildsCompleteMessage:(NSArray *)userStructIds time:(uint64_t)curTime {
+- (int) sendNormStructBuildsCompleteMessage:(NSArray *)userStructUuids time:(uint64_t)curTime {
   NormStructWaitCompleteRequestProto *req = [[[[[NormStructWaitCompleteRequestProto builder]
                                                 setSender:_sender]
-                                               addAllUserStructId:userStructIds]
+                                               addAllUserStructUuid:userStructUuids]
                                               setCurTime:curTime]
                                              build];
   
-  return [self sendData:req withMessageType:EventProtocolRequestCNormStructWaitCompleteEvent];
+  return [self sendData:req withMessageType:MobstersEventProtocolRequestCNormStructWaitCompleteEvent];
 }
 
-- (int) sendSellNormStructureMessage:(int)userStructId {
+- (int) sendSellNormStructureMessage:(NSString *)userStructUuid {
   SellNormStructureRequestProto *req = [[[[SellNormStructureRequestProto builder]
                                           setSender:_sender]
-                                         setUserStructId:userStructId]
+                                         setUserStructUuid:userStructUuid]
                                         build];
   
-  return [self sendData:req withMessageType:EventProtocolRequestCSellNormStructureEvent];
+  return [self sendData:req withMessageType:MobstersEventProtocolRequestCSellNormStructureEvent];
 }
 
-- (int) sendLoadPlayerCityMessage:(int)userId {
+- (int) sendLoadPlayerCityMessage:(NSString *)userUuid {
   LoadPlayerCityRequestProto *req = [[[[LoadPlayerCityRequestProto builder]
                                        setSender:_sender]
-                                      setCityOwnerId:userId]
+                                      setCityOwnerUuid:userUuid]
                                      build];
   
-  return [self sendData:req withMessageType:EventProtocolRequestCLoadPlayerCityEvent];
+  return [self sendData:req withMessageType:MobstersEventProtocolRequestCLoadPlayerCityEvent];
 }
 
 - (int) sendLoadCityMessage:(int)cityId {
@@ -471,7 +471,7 @@ static NSString *udid = nil;
                                 setCityId:cityId]
                                build];
   
-  return [self sendData:req withMessageType:EventProtocolRequestCLoadCityEvent];
+  return [self sendData:req withMessageType:MobstersEventProtocolRequestCLoadCityEvent];
 }
 
 - (int) sendLevelUpMessage {
@@ -479,7 +479,7 @@ static NSString *udid = nil;
                                setSender:_sender]
                               build];
   
-  return [self sendData:req withMessageType:EventProtocolRequestCLevelUpEvent];
+  return [self sendData:req withMessageType:MobstersEventProtocolRequestCLevelUpEvent];
 }
 
 - (int) sendQuestAcceptMessage:(int)questId {
@@ -488,19 +488,19 @@ static NSString *udid = nil;
                                    setQuestId:questId]
                                   build];
   
-  return [self sendData:req withMessageType:EventProtocolRequestCQuestAcceptEvent];
+  return [self sendData:req withMessageType:MobstersEventProtocolRequestCQuestAcceptEvent];
 }
 
-- (int) sendQuestProgressMessage:(int)questId progress:(int)progress isComplete:(BOOL)isComplete userMonsterIds:(NSArray *)userMonsterIds {
+- (int) sendQuestProgressMessage:(int)questId progress:(int)progress isComplete:(BOOL)isComplete userMonsterUuids:(NSArray *)userMonsterUuids {
   QuestProgressRequestProto *req = [[[[[[[QuestProgressRequestProto builder]
                                          setSender:_sender]
                                         setQuestId:questId]
                                        setCurrentProgress:progress]
                                       setIsComplete:isComplete]
-                                     addAllDeleteUserMonsterIds:userMonsterIds]
+                                     addAllDeleteUserMonsterUuids:userMonsterUuids]
                                     build];
   
-  return [self sendData:req withMessageType:EventProtocolRequestCQuestProgressEvent];
+  return [self sendData:req withMessageType:MobstersEventProtocolRequestCQuestProgressEvent];
 }
 
 - (int) sendQuestRedeemMessage:(int)questId {
@@ -509,17 +509,17 @@ static NSString *udid = nil;
                                    setQuestId:questId]
                                   build];
   
-  return [self sendData:req withMessageType:EventProtocolRequestCQuestRedeemEvent];
+  return [self sendData:req withMessageType:MobstersEventProtocolRequestCQuestRedeemEvent];
 }
 
-- (int) sendRetrieveUsersForUserIds:(NSArray *)userIds includeCurMonsterTeam:(BOOL)includeCurMonsterTeam {
+- (int) sendRetrieveUsersForUserUuids:(NSArray *)userUuids includeCurMonsterTeam:(BOOL)includeCurMonsterTeam {
   RetrieveUsersForUserIdsRequestProto *req = [[[[[RetrieveUsersForUserIdsRequestProto builder]
                                                  setSender:_sender]
-                                                addAllRequestedUserIds:userIds]
+                                                addAllRequestedUserUuids:userUuids]
                                                setIncludeCurMonsterTeam:includeCurMonsterTeam]
                                               build];
   
-  return [self sendData:req withMessageType:EventProtocolRequestCRetrieveUsersForUserIdsEvent];
+  return [self sendData:req withMessageType:MobstersEventProtocolRequestCRetrieveUsersForUserIdsEvent];
 }
 
 - (int) sendAPNSMessage:(NSString *)deviceToken {
@@ -528,17 +528,17 @@ static NSString *udid = nil;
                                   setDeviceToken:deviceToken]
                                  build];
   
-  return [self sendData:req withMessageType:EventProtocolRequestCEnableApnsEvent];
+  return [self sendData:req withMessageType:MobstersEventProtocolRequestCEnableApnsEvent];
 }
 
 - (int) sendEarnFreeDiamondsFBConnectMessageClientTime:(uint64_t)time {
-  EarnFreeDiamondsRequestProto *req = [[[[[EarnFreeDiamondsRequestProto builder]
+  EarnFreeGemsRequestProto *req = [[[[[EarnFreeGemsRequestProto builder]
                                           setSender:_sender]
-                                         setFreeDiamondsType:EarnFreeDiamondsTypeFbConnect]
+                                         setFreeGemsType:EarnFreeGemsTypeFbConnect]
                                         setClientTime:time]
                                        build];
   
-  return [self sendData:req withMessageType:EventProtocolRequestCEarnFreeDiamondsEvent];
+  return [self sendData:req withMessageType:MobstersEventProtocolRequestCEarnFreeDiamondsEvent];
 }
 
 - (int) sendGroupChatMessage:(GroupChatScope)scope message:(NSString *)msg clientTime:(uint64_t)clientTime {
@@ -549,7 +549,7 @@ static NSString *udid = nil;
                                      setClientTime:clientTime]
                                     build];
   
-  return [self sendData:req withMessageType:EventProtocolRequestCSendGroupChatEvent];
+  return [self sendData:req withMessageType:MobstersEventProtocolRequestCSendGroupChatEvent];
 }
 
 - (int) sendCreateClanMessage:(NSString *)clanName tag:(NSString *)tag description:(NSString *)description requestOnly:(BOOL)requestOnly {
@@ -561,7 +561,7 @@ static NSString *udid = nil;
                                   setRequestToJoinClanRequired:requestOnly]
                                  build];
   
-  return [self sendData:req withMessageType:EventProtocolRequestCCreateClanEvent];
+  return [self sendData:req withMessageType:MobstersEventProtocolRequestCCreateClanEvent];
 }
 
 - (int) sendLeaveClanMessage {
@@ -569,44 +569,44 @@ static NSString *udid = nil;
                                  setSender:_sender]
                                 build];
   
-  return [self sendData:req withMessageType:EventProtocolRequestCLeaveClanEvent];
+  return [self sendData:req withMessageType:MobstersEventProtocolRequestCLeaveClanEvent];
 }
 
-- (int) sendRequestJoinClanMessage:(int)clanId {
+- (int) sendRequestJoinClanMessage:(NSString *)clanUuid {
   RequestJoinClanRequestProto *req = [[[[RequestJoinClanRequestProto builder]
                                         setSender:_sender]
-                                       setClanId:clanId]
+                                       setClanUuid:clanUuid]
                                       build];
   
-  return [self sendData:req withMessageType:EventProtocolRequestCRequestJoinClanEvent];
+  return [self sendData:req withMessageType:MobstersEventProtocolRequestCRequestJoinClanEvent];
 }
 
-- (int) sendRetractRequestJoinClanMessage:(int)clanId {
+- (int) sendRetractRequestJoinClanMessage:(NSString *)clanUuid {
   RetractRequestJoinClanRequestProto *req = [[[[RetractRequestJoinClanRequestProto builder]
                                                setSender:_sender]
-                                              setClanId:clanId]
+                                              setClanUuid:clanUuid]
                                              build];
   
-  return [self sendData:req withMessageType:EventProtocolRequestCRetractRequestJoinClanEvent];
+  return [self sendData:req withMessageType:MobstersEventProtocolRequestCRetractRequestJoinClanEvent];
 }
 
-- (int) sendApproveOrRejectRequestToJoinClan:(int)requesterId accept:(BOOL)accept {
+- (int) sendApproveOrRejectRequestToJoinClan:(NSString *)requesterUuid accept:(BOOL)accept {
   ApproveOrRejectRequestToJoinClanRequestProto *req = [[[[[ApproveOrRejectRequestToJoinClanRequestProto builder]
                                                           setSender:_sender]
-                                                         setRequesterId:requesterId]
+                                                         setRequesterUuid:requesterUuid]
                                                         setAccept:accept]
                                                        build];
   
-  return [self sendData:req withMessageType:EventProtocolRequestCApproveOrRejectRequestToJoinClanEvent];
+  return [self sendData:req withMessageType:MobstersEventProtocolRequestCApproveOrRejectRequestToJoinClanEvent];
 }
 
-- (int) sendTransferClanOwnership:(int)newClanOwnerId {
+- (int) sendTransferClanOwnership:(NSString *)ownerUuid {
   TransferClanOwnershipRequestProto *req = [[[[TransferClanOwnershipRequestProto builder]
                                               setSender:_sender]
-                                             setNewClanOwnerId:newClanOwnerId]
+                                             setClanOwnerUuidNew:ownerUuid]
                                             build];
   
-  return [self sendData:req withMessageType:EventProtocolRequestCTransferClanOwnership];
+  return [self sendData:req withMessageType:MobstersEventProtocolRequestCTransferClanOwnership];
 }
 
 - (int) sendChangeClanDescription:(NSString *)description {
@@ -615,7 +615,7 @@ static NSString *udid = nil;
                                              setDescription:description]
                                             build];
   
-  return [self sendData:req withMessageType:EventProtocolRequestCChangeClanDescriptionEvent];
+  return [self sendData:req withMessageType:MobstersEventProtocolRequestCChangeClanDescriptionEvent];
 }
 
 - (int) sendChangeClanJoinType:(BOOL)requestToJoinRequired {
@@ -624,31 +624,30 @@ static NSString *udid = nil;
                                           setRequestToJoinRequired:requestToJoinRequired]
                                          build];
   
-  return [self sendData:req withMessageType:EventProtocolRequestCChangeClanJoinTypeEvent];
+  return [self sendData:req withMessageType:MobstersEventProtocolRequestCChangeClanJoinTypeEvent];
 }
 
-- (int) sendRetrieveClanInfoMessage:(NSString *)clanName clanId:(int)clanId grabType:(RetrieveClanInfoRequestProto_ClanInfoGrabType)grabType isForBrowsingList:(BOOL)isForBrowsingList beforeClanId:(int)beforeClanId {
+- (int) sendRetrieveClanInfoMessage:(NSString *)clanName clanUuid:(NSString *)clanUuid grabType:(RetrieveClanInfoRequestProto_ClanInfoGrabType)grabType isForBrowsingList:(BOOL)isForBrowsingList {
   RetrieveClanInfoRequestProto_Builder *bldr = [[[[RetrieveClanInfoRequestProto builder]
                                                   setSender:_sender]
                                                  setGrabType:grabType]
                                                 setIsForBrowsingList:isForBrowsingList];
   
   if (clanName) bldr.clanName = clanName;
-  if (clanId) bldr.clanId = clanId;
-  if (beforeClanId) bldr.beforeThisClanId = beforeClanId;
+  if (clanUuid) bldr.clanUuid = clanUuid;
   
   RetrieveClanInfoRequestProto *req = [bldr build];
   
-  return [self sendData:req withMessageType:EventProtocolRequestCRetrieveClanInfoEvent];
+  return [self sendData:req withMessageType:MobstersEventProtocolRequestCRetrieveClanInfoEvent];
 }
 
-- (int) sendBootPlayerFromClan:(int)playerId {
+- (int) sendBootPlayerFromClan:(NSString *)playerUuid {
   BootPlayerFromClanRequestProto *req = [[[[BootPlayerFromClanRequestProto builder]
                                            setSender:_sender]
-                                          setPlayerToBoot:playerId]
+                                          setPlayerUuidToBoot:playerUuid]
                                          build];
   
-  return [self sendData:req withMessageType:EventProtocolRequestCBootPlayerFromClanEvent];
+  return [self sendData:req withMessageType:MobstersEventProtocolRequestCBootPlayerFromClanEvent];
 }
 
 - (int) sendPurchaseCityExpansionMessageAtX:(int)x atY:(int)y timeOfPurchase:(uint64_t)time {
@@ -659,7 +658,7 @@ static NSString *udid = nil;
                                              setTimeOfPurchase:time]
                                             build];
   
-  return [self sendData:req withMessageType:EventProtocolRequestCPurchaseCityExpansionEvent];
+  return [self sendData:req withMessageType:MobstersEventProtocolRequestCPurchaseCityExpansionEvent];
 }
 
 - (int) sendExpansionWaitCompleteMessage:(BOOL)speedUp gemCost:(int)gemCost curTime:(uint64_t)time atX:(int)x atY:(int)y {
@@ -672,7 +671,7 @@ static NSString *udid = nil;
                                              setCurTime:time]
                                             build];
   
-  return [self sendData:req withMessageType:EventProtocolRequestCExpansionWaitCompleteEvent];
+  return [self sendData:req withMessageType:MobstersEventProtocolRequestCExpansionWaitCompleteEvent];
 }
 
 - (int) sendRetrieveTournamentRankingsMessage:(int)eventId afterThisRank:(int)afterThisRank {
@@ -681,7 +680,7 @@ static NSString *udid = nil;
                                                    setEventId:eventId]
                                                   setAfterThisRank:afterThisRank]
                                                  build];
-  return [self sendData:req withMessageType:EventProtocolRequestCRetrieveTournamentRankingsEvent];
+  return [self sendData:req withMessageType:MobstersEventProtocolRequestCRetrieveTournamentRankingsEvent];
 }
 
 - (int) sendPurchaseBoosterPackMessage:(int)boosterPackId clientTime:(uint64_t)clientTime {
@@ -691,26 +690,26 @@ static NSString *udid = nil;
                                            setClientTime:clientTime]
                                           build];
   
-  return [self sendData:req withMessageType:EventProtocolRequestCPurchaseBoosterPackEvent];
+  return [self sendData:req withMessageType:MobstersEventProtocolRequestCPurchaseBoosterPackEvent];
 }
 
-- (int) sendPrivateChatPostMessage:(int)recipientId content:(NSString *)content {
+- (int) sendPrivateChatPostMessage:(NSString *)recipientUuid content:(NSString *)content {
   PrivateChatPostRequestProto *req = [[[[[PrivateChatPostRequestProto builder]
                                          setSender:_sender]
-                                        setRecipientId:recipientId]
+                                        setRecipientUuid:recipientUuid]
                                        setContent:content]
                                       build];
   
-  return [self sendData:req withMessageType:EventProtocolRequestCPrivateChatPostEvent];
+  return [self sendData:req withMessageType:MobstersEventProtocolRequestCPrivateChatPostEvent];
 }
 
-- (int) sendRetrievePrivateChatPostsMessage:(int)otherUserId {
+- (int) sendRetrievePrivateChatPostsMessage:(NSString *)otherUserUuid {
   RetrievePrivateChatPostsRequestProto *req = [[[[RetrievePrivateChatPostsRequestProto builder]
-                                                 setOtherUserId:otherUserId]
+                                                 setOtherUserUuid:otherUserUuid]
                                                 setSender:_sender]
                                                build];
   
-  return [self sendData:req withMessageType:EventProtocolRequestCRetrievePrivateChatPostEvent];
+  return [self sendData:req withMessageType:MobstersEventProtocolRequestCRetrievePrivateChatPostEvent];
 }
 
 - (int) sendBeginDungeonMessage:(uint64_t)clientTime taskId:(int)taskId {
@@ -719,7 +718,7 @@ static NSString *udid = nil;
                                      setClientTime:clientTime]
                                     setTaskId:taskId]
                                    build];
-  return [self sendData:req withMessageType:EventProtocolRequestCBeginDungeonEvent];
+  return [self sendData:req withMessageType:MobstersEventProtocolRequestCBeginDungeonEvent];
 }
 
 - (int) sendUpdateMonsterHealthMessage:(uint64_t)clientTime monsterHealth:(UserMonsterCurrentHealthProto *)monsterHealth {
@@ -729,29 +728,29 @@ static NSString *udid = nil;
                                            addUmchp:monsterHealth]
                                           build];
   
-  return [self sendData:req withMessageType:EventProtocolRequestCUpdateMonsterHealthEvent];
+  return [self sendData:req withMessageType:MobstersEventProtocolRequestCUpdateMonsterHealthEvent];
 }
 
-- (int) sendEndDungeonMessage:(uint64_t)userTaskId userWon:(BOOL)userWon isFirstTimeCompleted:(BOOL)isFirstTimeCompleted time:(uint64_t)time {
+- (int) sendEndDungeonMessage:(NSString *)userTaskUuid userWon:(BOOL)userWon isFirstTimeCompleted:(BOOL)isFirstTimeCompleted time:(uint64_t)time {
   EndDungeonRequestProto *req = [[[[[[[EndDungeonRequestProto builder]
                                       setSender:_sender]
-                                     setUserTaskId:userTaskId]
+                                     setUserTaskUuid:userTaskUuid]
                                     setUserWon:userWon]
                                    setFirstTimeUserWonTask:isFirstTimeCompleted]
                                   setClientTime:time]
                                  build];
   
-  return [self sendData:req withMessageType:EventProtocolRequestCEndDungeonEvent];
+  return [self sendData:req withMessageType:MobstersEventProtocolRequestCEndDungeonEvent];
 }
 
-- (int) sendCombineUserMonsterPiecesMessage:(NSArray *)userMonsterIds gemCost:(int)gemCost {
+- (int) sendCombineUserMonsterPiecesMessage:(NSArray *)userMonsterUuids gemCost:(int)gemCost {
   CombineUserMonsterPiecesRequestProto *req = [[[[[CombineUserMonsterPiecesRequestProto builder]
                                                   setSender:_sender]
-                                                 addAllUserMonsterIds:userMonsterIds]
+                                                 addAllUserMonsterUuids:userMonsterUuids]
                                                 setGemCost:gemCost]
                                                build];
   
-  return [self sendData:req withMessageType:EventProtocolRequestCCombineUserMonsterPiecesEvent];
+  return [self sendData:req withMessageType:MobstersEventProtocolRequestCCombineUserMonsterPiecesEvent];
 }
 
 - (int) sendInviteFbFriendsForSlotsMessage:(NSArray *)fbFriendIds {
@@ -766,10 +765,10 @@ static NSString *udid = nil;
                                                addAllFbFriendIds:fbFriendIds]
                                               build];
   
-  return [self sendData:req withMessageType:EventProtocolRequestCInviteFbFriendsForSlotsEvent];
+  return [self sendData:req withMessageType:MobstersEventProtocolRequestCInviteFbFriendsForSlotsEvent];
 }
 
-- (int) sendAcceptAndRejectFbInviteForSlotsMessageAndAcceptIds:(NSArray *)acceptIds rejectIds:(NSArray *)rejectIds {
+- (int) sendAcceptAndRejectFbInviteForSlotsMessageAndAcceptUuids:(NSArray *)acceptUuids rejectUuids:(NSArray *)rejectUuids {
   GameState *gs = [GameState sharedGameState];
   MinimumUserProtoWithFacebookId *mup = [[[[MinimumUserProtoWithFacebookId builder]
                                            setMinUserProto:_sender]
@@ -778,11 +777,11 @@ static NSString *udid = nil;
   
   AcceptAndRejectFbInviteForSlotsRequestProto *req = [[[[[AcceptAndRejectFbInviteForSlotsRequestProto builder]
                                                          setSender:mup]
-                                                        addAllAcceptedInviteIds:acceptIds]
-                                                       addAllRejectedInviteIds:rejectIds]
+                                                        addAllAcceptedInviteUuids:acceptUuids]
+                                                       addAllRejectedInviteUuids:rejectUuids]
                                                       build];
   
-  return [self sendData:req withMessageType:EventProtocolRequestCAcceptAndRejectFbInviteForSlotsEvent];
+  return [self sendData:req withMessageType:MobstersEventProtocolRequestCAcceptAndRejectFbInviteForSlotsEvent];
 }
 
 #pragma mark - Batch/Flush events
@@ -793,7 +792,7 @@ static NSString *udid = nil;
                                                    addAllUmchp:monsterHealths]
                                                   build];
   
-  int tag = [self sendData:req withMessageType:EventProtocolRequestCHealMonsterWaitTimeCompleteEvent];
+  int tag = [self sendData:req withMessageType:MobstersEventProtocolRequestCHealMonsterWaitTimeCompleteEvent];
   
   [self reloadHealQueueSnapshot];
   
@@ -808,66 +807,66 @@ static NSString *udid = nil;
                                                    addAllUmchp:monsterHealths]
                                                   build];
   
-  int tag = [self sendData:req withMessageType:EventProtocolRequestCHealMonsterWaitTimeCompleteEvent];
+  int tag = [self sendData:req withMessageType:MobstersEventProtocolRequestCHealMonsterWaitTimeCompleteEvent];
   
   [self reloadHealQueueSnapshot];
   
   return tag;
 }
 
-- (int) sendAddMonsterToTeam:(int)userMonsterId teamSlot:(int)teamSlot {
+- (int) sendAddMonsterToTeam:(NSString *)userMonsterUuid teamSlot:(int)teamSlot {
   AddMonsterToBattleTeamRequestProto *req = [[[[[AddMonsterToBattleTeamRequestProto builder]
                                                 setSender:_sender]
-                                               setUserMonsterId:userMonsterId]
+                                               setUserMonsterUuid:userMonsterUuid]
                                               setTeamSlotNum:teamSlot]
                                              build];
   
-  return [self sendData:req withMessageType:EventProtocolRequestCAddMonsterToBattleTeamEvent];
+  return [self sendData:req withMessageType:MobstersEventProtocolRequestCAddMonsterToBattleTeamEvent];
 }
 
-- (int) sendRemoveMonsterFromTeam:(int)userMonsterId {
+- (int) sendRemoveMonsterFromTeam:(NSString *)userMonsterUuid {
   RemoveMonsterFromBattleTeamRequestProto *req = [[[[RemoveMonsterFromBattleTeamRequestProto builder]
                                                     setSender:_sender]
-                                                   setUserMonsterId:userMonsterId]
+                                                   setUserMonsterUuid:userMonsterUuid]
                                                   build];
   
-  return [self sendData:req withMessageType:EventProtocolRequestCRemoveMonsterFromBattleTeamEvent];
+  return [self sendData:req withMessageType:MobstersEventProtocolRequestCRemoveMonsterFromBattleTeamEvent];
 }
 
-- (int) sendEnhanceQueueWaitTimeComplete:(UserMonsterCurrentExpProto *)monsterExp userMonsterIds:(NSArray *)userMonsterIds {
+- (int) sendEnhanceQueueWaitTimeComplete:(UserMonsterCurrentExpProto *)monsterExp userMonsterUuids:(NSArray *)userMonsterUuids {
   EnhancementWaitTimeCompleteRequestProto *req = [[[[[EnhancementWaitTimeCompleteRequestProto builder]
                                                      setSender:_sender]
                                                     setUmcep:monsterExp]
-                                                   addAllUserMonsterIds:userMonsterIds]
+                                                   addAllUserMonsterUuids:userMonsterUuids]
                                                   build];
   
-  int tag = [self sendData:req withMessageType:EventProtocolRequestCEnhancementWaitTimeCompleteEvent];
+  int tag = [self sendData:req withMessageType:MobstersEventProtocolRequestCEnhancementWaitTimeCompleteEvent];
   
   [self reloadEnhancementSnapshot];
   
   return tag;
 }
 
-- (int) sendEnhanceQueueSpeedup:(UserMonsterCurrentExpProto *)monsterExp userMonsterIds:(NSArray *)userMonsterIds goldCost:(int)goldCost {
+- (int) sendEnhanceQueueSpeedup:(UserMonsterCurrentExpProto *)monsterExp userMonsterUuids:(NSArray *)userMonsterUuids goldCost:(int)goldCost {
   EnhancementWaitTimeCompleteRequestProto *req = [[[[[[[EnhancementWaitTimeCompleteRequestProto builder]
                                                        setSender:_sender]
                                                       setUmcep:monsterExp]
                                                      setIsSpeedup:YES]
                                                     setGemsForSpeedup:goldCost]
-                                                   addAllUserMonsterIds:userMonsterIds]
+                                                   addAllUserMonsterUuids:userMonsterUuids]
                                                   build];
   
-  int tag = [self sendData:req withMessageType:EventProtocolRequestCEnhancementWaitTimeCompleteEvent];
+  int tag = [self sendData:req withMessageType:MobstersEventProtocolRequestCEnhancementWaitTimeCompleteEvent];
   
   [self reloadEnhancementSnapshot];
   
   return tag;
 }
 
-- (int) retrieveCurrencyFromStruct:(int)userStructId time:(uint64_t)time {
-  [self flushAllExceptEventType:EventProtocolRequestCRetrieveCurrencyFromNormStructureEvent];
+- (int) retrieveCurrencyFromStruct:(NSString *)userStructUuid time:(uint64_t)time {
+  [self flushAllExceptEventType:MobstersEventProtocolRequestCRetrieveCurrencyFromNormStructureEvent];
   RetrieveCurrencyFromNormStructureRequestProto_StructRetrieval *sr = [[[[RetrieveCurrencyFromNormStructureRequestProto_StructRetrieval builder]
-                                                                         setUserStructId:userStructId]
+                                                                         setUserStructUuid:userStructUuid]
                                                                         setTimeOfRetrieval:time]
                                                                        build];
   [self.structRetrievals addObject:sr];
@@ -882,11 +881,11 @@ static NSString *udid = nil;
   
   LNLog(@"Sending retrieve currency message with %d structs.", self.structRetrievals.count);
   
-  return [self sendData:req withMessageType:EventProtocolRequestCRetrieveCurrencyFromNormStructureEvent flush:NO];
+  return [self sendData:req withMessageType:MobstersEventProtocolRequestCRetrieveCurrencyFromNormStructureEvent flush:NO];
 }
 
 - (int) buyInventorySlots {
-  [self flushAllExceptEventType:EventProtocolResponseSIncreaseMonsterInventorySlotEvent];
+  [self flushAllExceptEventType:MobstersEventProtocolRequestCIncreaseMonsterInventorySlotEvent];
   _numBuyInventorySlots++;
   return _currentTagNum;
 }
@@ -897,11 +896,11 @@ static NSString *udid = nil;
                                                     setNumPurchases:_numBuyInventorySlots]
                                                    build];
   
-  return [self sendData:req withMessageType:EventProtocolResponseSIncreaseMonsterInventorySlotEvent flush:NO];
+  return [self sendData:req withMessageType:MobstersEventProtocolRequestCIncreaseMonsterInventorySlotEvent flush:NO];
 }
 
 - (int) setHealQueueDirtyWithCoinChange:(int)coinChange gemCost:(int)gemCost {
-  [self flushAllExceptEventType:EventProtocolRequestCHealMonsterEvent];
+  [self flushAllExceptEventType:MobstersEventProtocolRequestCHealMonsterEvent];
   _healingQueueCashChange += coinChange;
   _healingQueueGemCost += gemCost;
   _healingQueuePotentiallyChanged = YES;
@@ -959,14 +958,14 @@ static NSString *udid = nil;
     NSLog(@"Sending healing queue update with %d adds, %d removals, and %d updates.", added.count, removed.count, changed.count);
     NSLog(@"Cash change: %@, gemCost: %d", [Globals commafyNumber:_healingQueueCashChange], _healingQueueGemCost);
     
-    return [self sendData:bldr.build withMessageType:EventProtocolRequestCHealMonsterEvent flush:NO];
+    return [self sendData:bldr.build withMessageType:MobstersEventProtocolRequestCHealMonsterEvent flush:NO];
   } else {
     return 0;
   }
 }
 
 - (int) setEnhanceQueueDirtyWithCoinChange:(int)coinChange gemCost:(int)gemCost {
-  [self flushAllExceptEventType:EventProtocolRequestCSubmitMonsterEnhancementEvent];
+  [self flushAllExceptEventType:MobstersEventProtocolRequestCSubmitMonsterEnhancementEvent];
   _enhanceQueueCashChange += coinChange;
   _enhanceQueueGemCost += gemCost;
   _enhancementPotentiallyChanged = YES;
@@ -1025,7 +1024,7 @@ static NSString *udid = nil;
     
     NSLog(@"Sending enhancement update with %d adds, %d removals, and %d updates.", added.count, removed.count, changed.count);
     
-    return [self sendData:bldr.build withMessageType:EventProtocolRequestCSubmitMonsterEnhancementEvent flush:NO];
+    return [self sendData:bldr.build withMessageType:MobstersEventProtocolRequestCSubmitMonsterEnhancementEvent flush:NO];
   } else {
     return 0;
   }
@@ -1041,14 +1040,14 @@ static NSString *udid = nil;
 
 - (void) flushAllExcept:(NSNumber *)num {
   int type = num.intValue;
-  if (type != EventProtocolRequestCRetrieveCurrencyFromNormStructureEvent) {
+  if (type != MobstersEventProtocolRequestCRetrieveCurrencyFromNormStructureEvent) {
     if (self.structRetrievals.count > 0) {
       [self sendRetrieveCurrencyFromNormStructureMessage];
       [self.structRetrievals removeAllObjects];
     }
   }
   
-  if (type != EventProtocolRequestCHealMonsterEvent) {
+  if (type != MobstersEventProtocolRequestCHealMonsterEvent) {
     if (_healingQueuePotentiallyChanged) {
       [self sendHealMonsterMessage];
       [self reloadHealQueueSnapshot];
@@ -1058,7 +1057,7 @@ static NSString *udid = nil;
     }
   }
   
-  if (type != EventProtocolRequestCSubmitMonsterEnhancementEvent) {
+  if (type != MobstersEventProtocolRequestCSubmitMonsterEnhancementEvent) {
     if (_enhancementPotentiallyChanged) {
       [self sendEnhanceMonsterMessage];
       [self reloadEnhancementSnapshot];
@@ -1068,7 +1067,7 @@ static NSString *udid = nil;
     }
   }
   
-  if (type != EventProtocolRequestCIncreaseMonsterInventorySlotEvent) {
+  if (type != MobstersEventProtocolRequestCIncreaseMonsterInventorySlotEvent) {
     if (_numBuyInventorySlots > 0) {
       [self sendBuyInventorySlotsMessage];
       _numBuyInventorySlots = 0;

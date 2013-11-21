@@ -199,7 +199,7 @@
 - (void) cardClicked:(EnhanceCardCell *)cell {
   GameState *gs = [GameState sharedGameState];
   if (!gs.userEnhancement) {
-    BOOL success = [[OutgoingEventController sharedOutgoingEventController] setBaseEnhanceMonster:cell.monster.userMonsterId];
+    BOOL success = [[OutgoingEventController sharedOutgoingEventController] setBaseEnhanceMonster:cell.monster.userMonsterUuid];
     if (success) {
       [self reloadTableAnimated:YES];
       [self.queueView reloadTable];
@@ -210,14 +210,14 @@
       }
     }
   } else if (cell.monster) {
-    _confirmUserMonsterId = cell.monster.userMonsterId;
+    _confirmUserMonsterUuid = cell.monster.userMonsterUuid;
     [self checkUserMonsterOnTeam];
   }
 }
 
 - (void) checkUserMonsterOnTeam {
   GameState *gs = [GameState sharedGameState];
-  UserMonster *um = [gs myMonsterWithUserMonsterId:_confirmUserMonsterId];
+  UserMonster *um = [gs myMonsterWithUserMonsterUuid:_confirmUserMonsterUuid];
   if (um.teamSlot > 0) {
     NSString *description = @"Enhancing mobsters removes them from your squad. Continue?";
     [GenericPopupController displayConfirmationWithDescription:description title:@"Continue?" okayButton:@"Continue" cancelButton:@"Cancel" target:self selector:@selector(confirmationAccepted)];
@@ -231,7 +231,7 @@
   
   BOOL success = NO;
   if (gs.userEnhancement.baseMonster) {
-    success = [[OutgoingEventController sharedOutgoingEventController] addMonsterToEnhancingQueue:_confirmUserMonsterId];
+    success = [[OutgoingEventController sharedOutgoingEventController] addMonsterToEnhancingQueue:_confirmUserMonsterUuid];
   }
   
   if (success) {

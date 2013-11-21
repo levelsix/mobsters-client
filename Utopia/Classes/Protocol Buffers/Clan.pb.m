@@ -31,7 +31,7 @@ BOOL UserClanStatusIsValidValue(UserClanStatus value) {
   }
 }
 @interface FullClanProto ()
-@property int32_t clanId;
+@property (retain) NSString* clanUuid;
 @property (retain) NSString* name;
 @property (retain) MinimumUserProto* owner;
 @property int64_t createTime;
@@ -42,13 +42,13 @@ BOOL UserClanStatusIsValidValue(UserClanStatus value) {
 
 @implementation FullClanProto
 
-- (BOOL) hasClanId {
-  return !!hasClanId_;
+- (BOOL) hasClanUuid {
+  return !!hasClanUuid_;
 }
-- (void) setHasClanId:(BOOL) value {
-  hasClanId_ = !!value;
+- (void) setHasClanUuid:(BOOL) value {
+  hasClanUuid_ = !!value;
 }
-@synthesize clanId;
+@synthesize clanUuid;
 - (BOOL) hasName {
   return !!hasName_;
 }
@@ -97,6 +97,7 @@ BOOL UserClanStatusIsValidValue(UserClanStatus value) {
   requestToJoinRequired_ = !!value;
 }
 - (void) dealloc {
+  self.clanUuid = nil;
   self.name = nil;
   self.owner = nil;
   self.description = nil;
@@ -105,7 +106,7 @@ BOOL UserClanStatusIsValidValue(UserClanStatus value) {
 }
 - (id) init {
   if ((self = [super init])) {
-    self.clanId = 0;
+    self.clanUuid = @"";
     self.name = @"";
     self.owner = [MinimumUserProto defaultInstance];
     self.createTime = 0L;
@@ -131,8 +132,8 @@ static FullClanProto* defaultFullClanProtoInstance = nil;
   return YES;
 }
 - (void) writeToCodedOutputStream:(PBCodedOutputStream*) output {
-  if (self.hasClanId) {
-    [output writeInt32:1 value:self.clanId];
+  if (self.hasClanUuid) {
+    [output writeString:1 value:self.clanUuid];
   }
   if (self.hasName) {
     [output writeString:2 value:self.name];
@@ -161,8 +162,8 @@ static FullClanProto* defaultFullClanProtoInstance = nil;
   }
 
   size = 0;
-  if (self.hasClanId) {
-    size += computeInt32Size(1, self.clanId);
+  if (self.hasClanUuid) {
+    size += computeStringSize(1, self.clanUuid);
   }
   if (self.hasName) {
     size += computeStringSize(2, self.name);
@@ -257,8 +258,8 @@ static FullClanProto* defaultFullClanProtoInstance = nil;
   if (other == [FullClanProto defaultInstance]) {
     return self;
   }
-  if (other.hasClanId) {
-    [self setClanId:other.clanId];
+  if (other.hasClanUuid) {
+    [self setClanUuid:other.clanUuid];
   }
   if (other.hasName) {
     [self setName:other.name];
@@ -299,8 +300,8 @@ static FullClanProto* defaultFullClanProtoInstance = nil;
         }
         break;
       }
-      case 8: {
-        [self setClanId:[input readInt32]];
+      case 10: {
+        [self setClanUuid:[input readString]];
         break;
       }
       case 18: {
@@ -335,20 +336,20 @@ static FullClanProto* defaultFullClanProtoInstance = nil;
     }
   }
 }
-- (BOOL) hasClanId {
-  return result.hasClanId;
+- (BOOL) hasClanUuid {
+  return result.hasClanUuid;
 }
-- (int32_t) clanId {
-  return result.clanId;
+- (NSString*) clanUuid {
+  return result.clanUuid;
 }
-- (FullClanProto_Builder*) setClanId:(int32_t) value {
-  result.hasClanId = YES;
-  result.clanId = value;
+- (FullClanProto_Builder*) setClanUuid:(NSString*) value {
+  result.hasClanUuid = YES;
+  result.clanUuid = value;
   return self;
 }
-- (FullClanProto_Builder*) clearClanId {
-  result.hasClanId = NO;
-  result.clanId = 0;
+- (FullClanProto_Builder*) clearClanUuid {
+  result.hasClanUuid = NO;
+  result.clanUuid = @"";
   return self;
 }
 - (BOOL) hasName {
@@ -464,28 +465,28 @@ static FullClanProto* defaultFullClanProtoInstance = nil;
 @end
 
 @interface FullUserClanProto ()
-@property int32_t userId;
-@property int32_t clanId;
+@property (retain) NSString* userUuid;
+@property (retain) NSString* clanUuid;
 @property UserClanStatus status;
 @property int64_t requestTime;
 @end
 
 @implementation FullUserClanProto
 
-- (BOOL) hasUserId {
-  return !!hasUserId_;
+- (BOOL) hasUserUuid {
+  return !!hasUserUuid_;
 }
-- (void) setHasUserId:(BOOL) value {
-  hasUserId_ = !!value;
+- (void) setHasUserUuid:(BOOL) value {
+  hasUserUuid_ = !!value;
 }
-@synthesize userId;
-- (BOOL) hasClanId {
-  return !!hasClanId_;
+@synthesize userUuid;
+- (BOOL) hasClanUuid {
+  return !!hasClanUuid_;
 }
-- (void) setHasClanId:(BOOL) value {
-  hasClanId_ = !!value;
+- (void) setHasClanUuid:(BOOL) value {
+  hasClanUuid_ = !!value;
 }
-@synthesize clanId;
+@synthesize clanUuid;
 - (BOOL) hasStatus {
   return !!hasStatus_;
 }
@@ -501,12 +502,14 @@ static FullClanProto* defaultFullClanProtoInstance = nil;
 }
 @synthesize requestTime;
 - (void) dealloc {
+  self.userUuid = nil;
+  self.clanUuid = nil;
   [super dealloc];
 }
 - (id) init {
   if ((self = [super init])) {
-    self.userId = 0;
-    self.clanId = 0;
+    self.userUuid = @"";
+    self.clanUuid = @"";
     self.status = UserClanStatusMember;
     self.requestTime = 0L;
   }
@@ -528,11 +531,11 @@ static FullUserClanProto* defaultFullUserClanProtoInstance = nil;
   return YES;
 }
 - (void) writeToCodedOutputStream:(PBCodedOutputStream*) output {
-  if (self.hasUserId) {
-    [output writeInt32:1 value:self.userId];
+  if (self.hasUserUuid) {
+    [output writeString:1 value:self.userUuid];
   }
-  if (self.hasClanId) {
-    [output writeInt32:2 value:self.clanId];
+  if (self.hasClanUuid) {
+    [output writeString:2 value:self.clanUuid];
   }
   if (self.hasStatus) {
     [output writeEnum:3 value:self.status];
@@ -549,11 +552,11 @@ static FullUserClanProto* defaultFullUserClanProtoInstance = nil;
   }
 
   size = 0;
-  if (self.hasUserId) {
-    size += computeInt32Size(1, self.userId);
+  if (self.hasUserUuid) {
+    size += computeStringSize(1, self.userUuid);
   }
-  if (self.hasClanId) {
-    size += computeInt32Size(2, self.clanId);
+  if (self.hasClanUuid) {
+    size += computeStringSize(2, self.clanUuid);
   }
   if (self.hasStatus) {
     size += computeEnumSize(3, self.status);
@@ -636,11 +639,11 @@ static FullUserClanProto* defaultFullUserClanProtoInstance = nil;
   if (other == [FullUserClanProto defaultInstance]) {
     return self;
   }
-  if (other.hasUserId) {
-    [self setUserId:other.userId];
+  if (other.hasUserUuid) {
+    [self setUserUuid:other.userUuid];
   }
-  if (other.hasClanId) {
-    [self setClanId:other.clanId];
+  if (other.hasClanUuid) {
+    [self setClanUuid:other.clanUuid];
   }
   if (other.hasStatus) {
     [self setStatus:other.status];
@@ -669,12 +672,12 @@ static FullUserClanProto* defaultFullUserClanProtoInstance = nil;
         }
         break;
       }
-      case 8: {
-        [self setUserId:[input readInt32]];
+      case 10: {
+        [self setUserUuid:[input readString]];
         break;
       }
-      case 16: {
-        [self setClanId:[input readInt32]];
+      case 18: {
+        [self setClanUuid:[input readString]];
         break;
       }
       case 24: {
@@ -693,36 +696,36 @@ static FullUserClanProto* defaultFullUserClanProtoInstance = nil;
     }
   }
 }
-- (BOOL) hasUserId {
-  return result.hasUserId;
+- (BOOL) hasUserUuid {
+  return result.hasUserUuid;
 }
-- (int32_t) userId {
-  return result.userId;
+- (NSString*) userUuid {
+  return result.userUuid;
 }
-- (FullUserClanProto_Builder*) setUserId:(int32_t) value {
-  result.hasUserId = YES;
-  result.userId = value;
+- (FullUserClanProto_Builder*) setUserUuid:(NSString*) value {
+  result.hasUserUuid = YES;
+  result.userUuid = value;
   return self;
 }
-- (FullUserClanProto_Builder*) clearUserId {
-  result.hasUserId = NO;
-  result.userId = 0;
+- (FullUserClanProto_Builder*) clearUserUuid {
+  result.hasUserUuid = NO;
+  result.userUuid = @"";
   return self;
 }
-- (BOOL) hasClanId {
-  return result.hasClanId;
+- (BOOL) hasClanUuid {
+  return result.hasClanUuid;
 }
-- (int32_t) clanId {
-  return result.clanId;
+- (NSString*) clanUuid {
+  return result.clanUuid;
 }
-- (FullUserClanProto_Builder*) setClanId:(int32_t) value {
-  result.hasClanId = YES;
-  result.clanId = value;
+- (FullUserClanProto_Builder*) setClanUuid:(NSString*) value {
+  result.hasClanUuid = YES;
+  result.clanUuid = value;
   return self;
 }
-- (FullUserClanProto_Builder*) clearClanId {
-  result.hasClanId = NO;
-  result.clanId = 0;
+- (FullUserClanProto_Builder*) clearClanUuid {
+  result.hasClanUuid = NO;
+  result.clanUuid = @"";
   return self;
 }
 - (BOOL) hasStatus {

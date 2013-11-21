@@ -43,7 +43,7 @@
     
     // add this item to UserEnhancement
     EnhancementItem *item = [[EnhancementItem alloc] init];
-    item.userMonsterId = monster.userMonsterId;
+    item.userMonsterUuid = monster.userMonsterUuid;
     [ue.feeders addObject:item];
     
     float newPerc = [ue finalPercentageFromCurrentLevel];
@@ -51,7 +51,7 @@
     [ue.feeders removeObject:item];
     
     float percIncrease = newPerc-curPerc;
-    int cost = [gl calculateSilverCostForEnhancement:ue.baseMonster feeder:item];
+    int cost = [gl calculateCashCostForEnhancement:ue.baseMonster feeder:item];
     self.feederLabel.text = [NSString stringWithFormat:@"%@%% for %@", [Globals commafyNumber:(int)(percIncrease*100)], [Globals cashStringForNumber:cost]];
   }
   

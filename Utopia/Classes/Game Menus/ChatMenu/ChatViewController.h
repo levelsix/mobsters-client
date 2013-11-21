@@ -51,7 +51,7 @@
 @property (nonatomic, assign) BOOL isOpen;
 
 - (void) open;
-- (void) openWithConversationForUserId:(int)userId;
+- (void) openWithConversationForUserUuid:(NSString *)userUuid;
 - (void) closeAnimated:(BOOL)animated;
 
 @end

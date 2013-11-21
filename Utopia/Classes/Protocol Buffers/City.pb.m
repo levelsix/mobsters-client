@@ -22,7 +22,7 @@ static PBExtensionRegistry* extensionRegistry = nil;
 @end
 
 @interface UserCityExpansionDataProto ()
-@property int32_t userId;
+@property (retain) NSString* userUuid;
 @property int32_t xPosition;
 @property int32_t yPosition;
 @property BOOL isExpanding;
@@ -31,13 +31,13 @@ static PBExtensionRegistry* extensionRegistry = nil;
 
 @implementation UserCityExpansionDataProto
 
-- (BOOL) hasUserId {
-  return !!hasUserId_;
+- (BOOL) hasUserUuid {
+  return !!hasUserUuid_;
 }
-- (void) setHasUserId:(BOOL) value {
-  hasUserId_ = !!value;
+- (void) setHasUserUuid:(BOOL) value {
+  hasUserUuid_ = !!value;
 }
-@synthesize userId;
+@synthesize userUuid;
 - (BOOL) hasXPosition {
   return !!hasXPosition_;
 }
@@ -72,11 +72,12 @@ static PBExtensionRegistry* extensionRegistry = nil;
 }
 @synthesize expandStartTime;
 - (void) dealloc {
+  self.userUuid = nil;
   [super dealloc];
 }
 - (id) init {
   if ((self = [super init])) {
-    self.userId = 0;
+    self.userUuid = @"";
     self.xPosition = 0;
     self.yPosition = 0;
     self.isExpanding = NO;
@@ -100,8 +101,8 @@ static UserCityExpansionDataProto* defaultUserCityExpansionDataProtoInstance = n
   return YES;
 }
 - (void) writeToCodedOutputStream:(PBCodedOutputStream*) output {
-  if (self.hasUserId) {
-    [output writeInt32:1 value:self.userId];
+  if (self.hasUserUuid) {
+    [output writeString:1 value:self.userUuid];
   }
   if (self.hasXPosition) {
     [output writeSInt32:2 value:self.xPosition];
@@ -124,8 +125,8 @@ static UserCityExpansionDataProto* defaultUserCityExpansionDataProtoInstance = n
   }
 
   size = 0;
-  if (self.hasUserId) {
-    size += computeInt32Size(1, self.userId);
+  if (self.hasUserUuid) {
+    size += computeStringSize(1, self.userUuid);
   }
   if (self.hasXPosition) {
     size += computeSInt32Size(2, self.xPosition);
@@ -214,8 +215,8 @@ static UserCityExpansionDataProto* defaultUserCityExpansionDataProtoInstance = n
   if (other == [UserCityExpansionDataProto defaultInstance]) {
     return self;
   }
-  if (other.hasUserId) {
-    [self setUserId:other.userId];
+  if (other.hasUserUuid) {
+    [self setUserUuid:other.userUuid];
   }
   if (other.hasXPosition) {
     [self setXPosition:other.xPosition];
@@ -250,8 +251,8 @@ static UserCityExpansionDataProto* defaultUserCityExpansionDataProtoInstance = n
         }
         break;
       }
-      case 8: {
-        [self setUserId:[input readInt32]];
+      case 10: {
+        [self setUserUuid:[input readString]];
         break;
       }
       case 16: {
@@ -273,20 +274,20 @@ static UserCityExpansionDataProto* defaultUserCityExpansionDataProtoInstance = n
     }
   }
 }
-- (BOOL) hasUserId {
-  return result.hasUserId;
+- (BOOL) hasUserUuid {
+  return result.hasUserUuid;
 }
-- (int32_t) userId {
-  return result.userId;
+- (NSString*) userUuid {
+  return result.userUuid;
 }
-- (UserCityExpansionDataProto_Builder*) setUserId:(int32_t) value {
-  result.hasUserId = YES;
-  result.userId = value;
+- (UserCityExpansionDataProto_Builder*) setUserUuid:(NSString*) value {
+  result.hasUserUuid = YES;
+  result.userUuid = value;
   return self;
 }
-- (UserCityExpansionDataProto_Builder*) clearUserId {
-  result.hasUserId = NO;
-  result.userId = 0;
+- (UserCityExpansionDataProto_Builder*) clearUserUuid {
+  result.hasUserUuid = NO;
+  result.userUuid = @"";
   return self;
 }
 - (BOOL) hasXPosition {
@@ -611,6 +612,7 @@ static CityExpansionCostProto* defaultCityExpansionCostProtoInstance = nil;
 @interface CityElementProto ()
 @property int32_t cityId;
 @property int32_t assetId;
+@property (retain) NSString* name;
 @property CityElementProto_CityElemType type;
 @property (retain) CoordinateProto* coords;
 @property Float32 xLength;
@@ -636,6 +638,13 @@ static CityExpansionCostProto* defaultCityExpansionCostProtoInstance = nil;
   hasAssetId_ = !!value;
 }
 @synthesize assetId;
+- (BOOL) hasName {
+  return !!hasName_;
+}
+- (void) setHasName:(BOOL) value {
+  hasName_ = !!value;
+}
+@synthesize name;
 - (BOOL) hasType {
   return !!hasType_;
 }
@@ -686,6 +695,7 @@ static CityExpansionCostProto* defaultCityExpansionCostProtoInstance = nil;
 }
 @synthesize spriteCoords;
 - (void) dealloc {
+  self.name = nil;
   self.coords = nil;
   self.imgId = nil;
   self.spriteCoords = nil;
@@ -695,6 +705,7 @@ static CityExpansionCostProto* defaultCityExpansionCostProtoInstance = nil;
   if ((self = [super init])) {
     self.cityId = 0;
     self.assetId = 0;
+    self.name = @"";
     self.type = CityElementProto_CityElemTypeBuilding;
     self.coords = [CoordinateProto defaultInstance];
     self.xLength = 0;
@@ -726,6 +737,9 @@ static CityElementProto* defaultCityElementProtoInstance = nil;
   }
   if (self.hasAssetId) {
     [output writeInt32:2 value:self.assetId];
+  }
+  if (self.hasName) {
+    [output writeString:3 value:self.name];
   }
   if (self.hasType) {
     [output writeEnum:4 value:self.type];
@@ -762,6 +776,9 @@ static CityElementProto* defaultCityElementProtoInstance = nil;
   }
   if (self.hasAssetId) {
     size += computeInt32Size(2, self.assetId);
+  }
+  if (self.hasName) {
+    size += computeStringSize(3, self.name);
   }
   if (self.hasType) {
     size += computeEnumSize(4, self.type);
@@ -876,6 +893,9 @@ BOOL CityElementProto_CityElemTypeIsValidValue(CityElementProto_CityElemType val
   if (other.hasAssetId) {
     [self setAssetId:other.assetId];
   }
+  if (other.hasName) {
+    [self setName:other.name];
+  }
   if (other.hasType) {
     [self setType:other.type];
   }
@@ -924,6 +944,10 @@ BOOL CityElementProto_CityElemTypeIsValidValue(CityElementProto_CityElemType val
       }
       case 16: {
         [self setAssetId:[input readInt32]];
+        break;
+      }
+      case 26: {
+        [self setName:[input readString]];
         break;
       }
       case 32: {
@@ -1007,6 +1031,22 @@ BOOL CityElementProto_CityElemTypeIsValidValue(CityElementProto_CityElemType val
 - (CityElementProto_Builder*) clearAssetId {
   result.hasAssetId = NO;
   result.assetId = 0;
+  return self;
+}
+- (BOOL) hasName {
+  return result.hasName;
+}
+- (NSString*) name {
+  return result.name;
+}
+- (CityElementProto_Builder*) setName:(NSString*) value {
+  result.hasName = YES;
+  result.name = value;
+  return self;
+}
+- (CityElementProto_Builder*) clearName {
+  result.hasName = NO;
+  result.name = @"";
   return self;
 }
 - (BOOL) hasType {

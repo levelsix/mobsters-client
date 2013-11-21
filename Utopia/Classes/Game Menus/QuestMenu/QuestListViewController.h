@@ -7,7 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "Protocols.pb.h"
+#import "MobstersEventProtocol.pb.h"
 #import "UserData.h"
 
 @class QuestListCell;
@@ -29,12 +29,12 @@
 @property (nonatomic, strong) IBOutlet UIView *completeView;
 @property (nonatomic, strong) IBOutlet UIView *inProgressView;
 
-@property (nonatomic, strong) FullQuestProto *quest;
+@property (nonatomic, strong) QuestProto *quest;
 @property (nonatomic, strong) UserQuest *userQuest;
 
 @property (nonatomic, weak) id<QuestListCellDelegate> delegate;
 
-- (void) updateForQuest:(FullQuestProto *)quest withUserQuestData:(UserQuest *)userQuest;
+- (void) updateForQuest:(QuestProto *)quest withUserQuestData:(UserQuest *)userQuest;
 
 @end
 

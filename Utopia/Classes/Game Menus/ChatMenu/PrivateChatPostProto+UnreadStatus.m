@@ -11,19 +11,19 @@
 
 @implementation PrivateChatPostProto (UnreadStatus)
 
-- (int) otherUserId {
+- (NSString *) otherUserUuid {
   GameState *gs = [GameState sharedGameState];
-  return self.recipient.minUserProto.userId == gs.userId ? self.poster.minUserProto.userId : self.recipient.minUserProto.userId;
+  return [self.recipient.minUserProto.userUuid isEqualToString:gs.userUuid] ? self.poster.minUserProto.userUuid : self.recipient.minUserProto.userUuid;
 }
 
 - (BOOL) isUnread {
   GameState *gs = [GameState sharedGameState];
-  if (self.poster.minUserProto.userId != gs.userId) {
+  if (![self.poster.minUserProto.userUuid isEqualToString:gs.userUuid]) {
     NSUserDefaults *ud = [NSUserDefaults standardUserDefaults];
-    NSString *key = [NSString stringWithFormat:PRIVATE_CHAT_DEFAULTS_KEY, self.poster.minUserProto.userId];
-    int curId = [ud integerForKey:key];
-    int thisId = self.privateChatPostId;
-    return curId < thisId;
+    NSString *key = [NSString stringWithFormat:PRIVATE_CHAT_DEFAULTS_KEY, self.poster.minUserProto.userUuid];
+    uint64_t curTime = [[ud objectForKey:key] longLongValue];
+    uint64_t thisTime = self.timeOfPost;
+    return curTime < thisTime;
   } else {
     // This means you are the poster
     return NO;
@@ -31,16 +31,12 @@
 }
 
 - (void) markAsRead {
-  GameState *gs = [GameState sharedGameState];
-  // Only need to do this if you are not the poster
-  if (self.poster.minUserProto.userId != gs.userId) {
-    NSUserDefaults *ud = [NSUserDefaults standardUserDefaults];
-    NSString *key = [NSString stringWithFormat:PRIVATE_CHAT_DEFAULTS_KEY, self.poster.minUserProto.userId];
-    int curId = [ud integerForKey:key];
-    
-    if (curId < self.privateChatPostId) {
-      [ud setInteger:self.privateChatPostId forKey:key];
-    }
+  NSUserDefaults *ud = [NSUserDefaults standardUserDefaults];
+  NSString *key = [NSString stringWithFormat:PRIVATE_CHAT_DEFAULTS_KEY, [self otherUserUuid]];
+  uint64_t curTime = [[ud objectForKey:key] longLongValue];
+  
+  if (curTime < self.timeOfPost) {
+    [ud setObject:[NSNumber numberWithLongLong:self.timeOfPost] forKey:key];
   }
 }
 

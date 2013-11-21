@@ -7,7 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "Protocols.pb.h"
+#import "MobstersEventProtocol.pb.h"
 #import "RewardsView.h"
 
 @class QuestDetailsViewController;
@@ -21,7 +21,7 @@
 
 @interface QuestDetailsViewController : UIViewController
 
-@property (nonatomic, strong) FullQuestProto *quest;
+@property (nonatomic, strong) QuestProto *quest;
 @property (nonatomic, strong) UserQuest *userQuest;
 
 @property (nonatomic, strong) IBOutlet UILabel *descriptionLabel;
@@ -39,6 +39,6 @@
 
 @property (nonatomic, weak) id<QuestDetailsViewControllerDelegate> delegate;
 
-- (void) loadWithQuest:(FullQuestProto *)quest userQuest:(UserQuest *)userQuest;
+- (void) loadWithQuest:(QuestProto *)quest userQuest:(UserQuest *)userQuest;
 
 @end

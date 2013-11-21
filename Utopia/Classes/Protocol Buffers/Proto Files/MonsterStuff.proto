@@ -1,8 +1,9 @@
 //ALL REQUEST PROTOS SHOULD INCLUDE A MinimumUserProto AS optional that represents which client sent it/triggered it 
 //DO NO START PROPERTY METHODS WITH THE WORDS NEW OR COPY
 
-package com.lvl6.proto;
+package proto;
 
+option java_package = "com.lvl6.mobsters.noneventprotos";
 option java_outer_classname = "MonsterStuffProto";
 //DO NOT USE ID AS THE NAME OF A PROPERTY IN ANY PROTO
 
@@ -53,8 +54,8 @@ message MonsterProto {
 //------------------------------------------------------------------------------------------
 
 message FullUserMonsterProto {
-	optional int64 userMonsterId = 1;
-	optional int32 userId = 2;
+	optional string userMonsterUuid = 1;
+	optional string userUuid = 2;
 	optional int32 monsterId = 3;
 	optional int32 currentExp = 4;
 	optional int32 currentLvl = 5;
@@ -68,8 +69,8 @@ message FullUserMonsterProto {
 //------------------------------------------------------------------------------------------
 
 message UserMonsterHealingProto {
-	optional int32 userId = 1;
-	optional int64 userMonsterId = 2;
+	optional string userUuid = 1;
+	optional string userMonsterUuid = 2;
 	optional int64 expectedStartTimeMillis = 3;
 	//optional int64 queuedTimeMillis = 4;
 }
@@ -77,21 +78,20 @@ message UserMonsterHealingProto {
 //------------------------------------------------------------------------------------------
 
 message UserMonsterCurrentHealthProto {
-	optional int64 userMonsterId = 1;
+	optional string userMonsterUuid = 1;
 	optional int32 currentHealth = 2; //what the health should be
 }
 
 //------------------------------------------------------------------------------------------
 
 message UserEnhancementProto {
-	optional int32 userId = 1;
+	optional string userUuid = 1;
 	optional UserEnhancementItemProto baseMonster = 2;
 	repeated UserEnhancementItemProto feeders = 3;
 }
 
 message UserEnhancementItemProto {
-	//MONSTER BEING ENHANCED WILL HAVE NULL FOR expectedStartTime
-	optional int64 userMonsterId = 1;
+	optional string userMonsterUuid = 1;
 	optional int64 expectedStartTimeMillis = 2;
 }
 
@@ -100,7 +100,7 @@ message UserEnhancementItemProto {
 //when user enhances a monster, it gains "experience" 
 //(before it was termed enhancement or enhancement percentage)
 message UserMonsterCurrentExpProto {
-	optional int64 userMonsterId = 1;
+	optional string userMonsterUuid = 1;
 	optional int32 expectedExperience = 2;
 	optional int32 expectedLevel = 3;
 }
@@ -108,13 +108,13 @@ message UserMonsterCurrentExpProto {
 //------------------------------------------------------------------------------------------
 
 message MinimumUserMonsterSellProto {
-	optional int64 userMonsterId = 1;
+	optional string userMonsterUuid = 1;
 	optional int32 cashAmount = 2;
 }
 
 //------------------------------------------------------------------------------------------
 
 message UserCurrentMonsterTeamProto {
-	optional int32 userId = 1;
+	optional string userUuid = 1;
 	repeated FullUserMonsterProto currentTeam = 2;
 }

@@ -26,7 +26,7 @@
 @property (nonatomic, assign) int lightDamage;
 @property (nonatomic, assign) int nightDamage;
 
-@property (nonatomic, assign) int userMonsterId;
+@property (nonatomic, copy) NSString *userMonsterUuid;
 @property (nonatomic, assign) int slotNum;
 
 + (id) playerWithMonster:(UserMonster *)monster;

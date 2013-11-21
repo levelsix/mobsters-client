@@ -7,7 +7,7 @@
 //
 
 #import "NewBattleLayer.h"
-#import "Protocols.pb.h"
+#import "MobstersEventProtocol.pb.h"
 
 @interface DungeonBattleLayer : NewBattleLayer {
   BOOL _wonBattle;

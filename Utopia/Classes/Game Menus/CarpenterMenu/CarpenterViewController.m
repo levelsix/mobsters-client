@@ -9,7 +9,7 @@
 #import "CarpenterViewController.h"
 #import "GameState.h"
 #import "OutgoingEventController.h"
-#import "Protocols.pb.h"
+#import "MobstersEventProtocol.pb.h"
 #import "DiamondShopViewController.h"
 #import "GameViewController.h"
 
@@ -120,8 +120,8 @@
 
 - (void)updateLabels {
   GameState *gs = [GameState sharedGameState];
-  self.diamondLabel.text = [NSString stringWithFormat:@"%@",[Globals commafyNumber:gs.gold]];
-  self.cashLabel.text = [NSString stringWithFormat:@"$%@",[Globals commafyNumber:gs.silver]];
+  self.gemsLabel.text = [NSString stringWithFormat:@"%@",[Globals commafyNumber:gs.gems]];
+  self.cashLabel.text = [NSString stringWithFormat:@"$%@",[Globals commafyNumber:gs.cash]];
 }
 
 - (void) reloadCarpenterStructs {
@@ -230,7 +230,7 @@
   return cell;
 }
 
-- (IBAction) goToGoldShop:(id)sender {
+- (IBAction) goToShop:(id)sender {
   [self.navigationController pushViewController:[[DiamondShopViewController alloc] init] animated:YES];
 }
 

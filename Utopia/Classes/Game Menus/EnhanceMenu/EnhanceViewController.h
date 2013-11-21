@@ -12,9 +12,7 @@
 #import "EnhanceViews.h"
 #import "MonsterTeamSlotView.h"
 
-@interface EnhanceViewController : GenViewController <EasyTableViewDelegate, EnhanceCardDelegate> {
-  int _confirmUserMonsterId;
-}
+@interface EnhanceViewController : GenViewController <EasyTableViewDelegate, EnhanceCardDelegate>
 
 @property (nonatomic, strong) IBOutlet EnhanceQueueView *queueView;
 
@@ -32,6 +30,8 @@
 @property (nonatomic, strong) NSTimer *updateTimer;
 
 @property (nonatomic, strong) NSArray *monsterArray;
+
+@property (nonatomic, copy, readonly) NSString *confirmUserMonsterUuid;
 
 - (IBAction) baseViewMinusClicked:(id)sender;
 - (IBAction) headerClicked:(id)sender;

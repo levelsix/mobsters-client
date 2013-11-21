@@ -9,7 +9,7 @@
 
 // When you import this file, you import all the cocos2d classes
 #import "cocos2d.h"
-#import "Protocols.pb.h"
+#import "MobstersEventProtocol.pb.h"
 #import "NibUtils.h"
 
 @class MaskedBar;

@@ -446,15 +446,15 @@ BOOL ChangeClanJoinTypeResponseProto_ChangeClanJoinTypeStatusIsValidValue(Change
 
 @interface RequestJoinClanRequestProto : PBGeneratedMessage {
 @private
-  BOOL hasClanId_:1;
+  BOOL hasClanUuid_:1;
   BOOL hasSender_:1;
-  int32_t clanId;
+  NSString* clanUuid;
   MinimumUserProto* sender;
 }
 - (BOOL) hasSender;
-- (BOOL) hasClanId;
+- (BOOL) hasClanUuid;
 @property (readonly, retain) MinimumUserProto* sender;
-@property (readonly) int32_t clanId;
+@property (readonly, retain) NSString* clanUuid;
 
 + (RequestJoinClanRequestProto*) defaultInstance;
 - (RequestJoinClanRequestProto*) defaultInstance;
@@ -497,21 +497,21 @@ BOOL ChangeClanJoinTypeResponseProto_ChangeClanJoinTypeStatusIsValidValue(Change
 - (RequestJoinClanRequestProto_Builder*) mergeSender:(MinimumUserProto*) value;
 - (RequestJoinClanRequestProto_Builder*) clearSender;
 
-- (BOOL) hasClanId;
-- (int32_t) clanId;
-- (RequestJoinClanRequestProto_Builder*) setClanId:(int32_t) value;
-- (RequestJoinClanRequestProto_Builder*) clearClanId;
+- (BOOL) hasClanUuid;
+- (NSString*) clanUuid;
+- (RequestJoinClanRequestProto_Builder*) setClanUuid:(NSString*) value;
+- (RequestJoinClanRequestProto_Builder*) clearClanUuid;
 @end
 
 @interface RequestJoinClanResponseProto : PBGeneratedMessage {
 @private
-  BOOL hasClanId_:1;
+  BOOL hasClanUuid_:1;
   BOOL hasSender_:1;
   BOOL hasRequester_:1;
   BOOL hasMinClan_:1;
   BOOL hasFullClan_:1;
   BOOL hasStatus_:1;
-  int32_t clanId;
+  NSString* clanUuid;
   MinimumUserProto* sender;
   MinimumUserProtoForClans* requester;
   MinimumClanProto* minClan;
@@ -520,13 +520,13 @@ BOOL ChangeClanJoinTypeResponseProto_ChangeClanJoinTypeStatusIsValidValue(Change
 }
 - (BOOL) hasSender;
 - (BOOL) hasStatus;
-- (BOOL) hasClanId;
+- (BOOL) hasClanUuid;
 - (BOOL) hasRequester;
 - (BOOL) hasMinClan;
 - (BOOL) hasFullClan;
 @property (readonly, retain) MinimumUserProto* sender;
 @property (readonly) RequestJoinClanResponseProto_RequestJoinClanStatus status;
-@property (readonly) int32_t clanId;
+@property (readonly, retain) NSString* clanUuid;
 @property (readonly, retain) MinimumUserProtoForClans* requester;
 @property (readonly, retain) MinimumClanProto* minClan;
 @property (readonly, retain) FullClanProtoWithClanSize* fullClan;
@@ -577,10 +577,10 @@ BOOL ChangeClanJoinTypeResponseProto_ChangeClanJoinTypeStatusIsValidValue(Change
 - (RequestJoinClanResponseProto_Builder*) setStatus:(RequestJoinClanResponseProto_RequestJoinClanStatus) value;
 - (RequestJoinClanResponseProto_Builder*) clearStatus;
 
-- (BOOL) hasClanId;
-- (int32_t) clanId;
-- (RequestJoinClanResponseProto_Builder*) setClanId:(int32_t) value;
-- (RequestJoinClanResponseProto_Builder*) clearClanId;
+- (BOOL) hasClanUuid;
+- (NSString*) clanUuid;
+- (RequestJoinClanResponseProto_Builder*) setClanUuid:(NSString*) value;
+- (RequestJoinClanResponseProto_Builder*) clearClanUuid;
 
 - (BOOL) hasRequester;
 - (MinimumUserProtoForClans*) requester;
@@ -606,15 +606,15 @@ BOOL ChangeClanJoinTypeResponseProto_ChangeClanJoinTypeStatusIsValidValue(Change
 
 @interface RetractRequestJoinClanRequestProto : PBGeneratedMessage {
 @private
-  BOOL hasClanId_:1;
+  BOOL hasClanUuid_:1;
   BOOL hasSender_:1;
-  int32_t clanId;
+  NSString* clanUuid;
   MinimumUserProto* sender;
 }
 - (BOOL) hasSender;
-- (BOOL) hasClanId;
+- (BOOL) hasClanUuid;
 @property (readonly, retain) MinimumUserProto* sender;
-@property (readonly) int32_t clanId;
+@property (readonly, retain) NSString* clanUuid;
 
 + (RetractRequestJoinClanRequestProto*) defaultInstance;
 - (RetractRequestJoinClanRequestProto*) defaultInstance;
@@ -657,27 +657,27 @@ BOOL ChangeClanJoinTypeResponseProto_ChangeClanJoinTypeStatusIsValidValue(Change
 - (RetractRequestJoinClanRequestProto_Builder*) mergeSender:(MinimumUserProto*) value;
 - (RetractRequestJoinClanRequestProto_Builder*) clearSender;
 
-- (BOOL) hasClanId;
-- (int32_t) clanId;
-- (RetractRequestJoinClanRequestProto_Builder*) setClanId:(int32_t) value;
-- (RetractRequestJoinClanRequestProto_Builder*) clearClanId;
+- (BOOL) hasClanUuid;
+- (NSString*) clanUuid;
+- (RetractRequestJoinClanRequestProto_Builder*) setClanUuid:(NSString*) value;
+- (RetractRequestJoinClanRequestProto_Builder*) clearClanUuid;
 @end
 
 @interface RetractRequestJoinClanResponseProto : PBGeneratedMessage {
 @private
-  BOOL hasClanId_:1;
+  BOOL hasClanUuid_:1;
   BOOL hasSender_:1;
   BOOL hasStatus_:1;
-  int32_t clanId;
+  NSString* clanUuid;
   MinimumUserProto* sender;
   RetractRequestJoinClanResponseProto_RetractRequestJoinClanStatus status;
 }
 - (BOOL) hasSender;
 - (BOOL) hasStatus;
-- (BOOL) hasClanId;
+- (BOOL) hasClanUuid;
 @property (readonly, retain) MinimumUserProto* sender;
 @property (readonly) RetractRequestJoinClanResponseProto_RetractRequestJoinClanStatus status;
-@property (readonly) int32_t clanId;
+@property (readonly, retain) NSString* clanUuid;
 
 + (RetractRequestJoinClanResponseProto*) defaultInstance;
 - (RetractRequestJoinClanResponseProto*) defaultInstance;
@@ -725,26 +725,26 @@ BOOL ChangeClanJoinTypeResponseProto_ChangeClanJoinTypeStatusIsValidValue(Change
 - (RetractRequestJoinClanResponseProto_Builder*) setStatus:(RetractRequestJoinClanResponseProto_RetractRequestJoinClanStatus) value;
 - (RetractRequestJoinClanResponseProto_Builder*) clearStatus;
 
-- (BOOL) hasClanId;
-- (int32_t) clanId;
-- (RetractRequestJoinClanResponseProto_Builder*) setClanId:(int32_t) value;
-- (RetractRequestJoinClanResponseProto_Builder*) clearClanId;
+- (BOOL) hasClanUuid;
+- (NSString*) clanUuid;
+- (RetractRequestJoinClanResponseProto_Builder*) setClanUuid:(NSString*) value;
+- (RetractRequestJoinClanResponseProto_Builder*) clearClanUuid;
 @end
 
 @interface ApproveOrRejectRequestToJoinClanRequestProto : PBGeneratedMessage {
 @private
   BOOL hasAccept_:1;
-  BOOL hasRequesterId_:1;
+  BOOL hasRequesterUuid_:1;
   BOOL hasSender_:1;
   BOOL accept_:1;
-  int32_t requesterId;
+  NSString* requesterUuid;
   MinimumUserProto* sender;
 }
 - (BOOL) hasSender;
-- (BOOL) hasRequesterId;
+- (BOOL) hasRequesterUuid;
 - (BOOL) hasAccept;
 @property (readonly, retain) MinimumUserProto* sender;
-@property (readonly) int32_t requesterId;
+@property (readonly, retain) NSString* requesterUuid;
 - (BOOL) accept;
 
 + (ApproveOrRejectRequestToJoinClanRequestProto*) defaultInstance;
@@ -788,10 +788,10 @@ BOOL ChangeClanJoinTypeResponseProto_ChangeClanJoinTypeStatusIsValidValue(Change
 - (ApproveOrRejectRequestToJoinClanRequestProto_Builder*) mergeSender:(MinimumUserProto*) value;
 - (ApproveOrRejectRequestToJoinClanRequestProto_Builder*) clearSender;
 
-- (BOOL) hasRequesterId;
-- (int32_t) requesterId;
-- (ApproveOrRejectRequestToJoinClanRequestProto_Builder*) setRequesterId:(int32_t) value;
-- (ApproveOrRejectRequestToJoinClanRequestProto_Builder*) clearRequesterId;
+- (BOOL) hasRequesterUuid;
+- (NSString*) requesterUuid;
+- (ApproveOrRejectRequestToJoinClanRequestProto_Builder*) setRequesterUuid:(NSString*) value;
+- (ApproveOrRejectRequestToJoinClanRequestProto_Builder*) clearRequesterUuid;
 
 - (BOOL) hasAccept;
 - (BOOL) accept;
@@ -802,13 +802,13 @@ BOOL ChangeClanJoinTypeResponseProto_ChangeClanJoinTypeStatusIsValidValue(Change
 @interface ApproveOrRejectRequestToJoinClanResponseProto : PBGeneratedMessage {
 @private
   BOOL hasAccept_:1;
-  BOOL hasRequesterId_:1;
+  BOOL hasRequesterUuid_:1;
   BOOL hasSender_:1;
   BOOL hasMinClan_:1;
   BOOL hasFullClan_:1;
   BOOL hasStatus_:1;
   BOOL accept_:1;
-  int32_t requesterId;
+  NSString* requesterUuid;
   MinimumUserProto* sender;
   MinimumClanProto* minClan;
   FullClanProtoWithClanSize* fullClan;
@@ -816,13 +816,13 @@ BOOL ChangeClanJoinTypeResponseProto_ChangeClanJoinTypeStatusIsValidValue(Change
 }
 - (BOOL) hasSender;
 - (BOOL) hasStatus;
-- (BOOL) hasRequesterId;
+- (BOOL) hasRequesterUuid;
 - (BOOL) hasAccept;
 - (BOOL) hasMinClan;
 - (BOOL) hasFullClan;
 @property (readonly, retain) MinimumUserProto* sender;
 @property (readonly) ApproveOrRejectRequestToJoinClanResponseProto_ApproveOrRejectRequestToJoinClanStatus status;
-@property (readonly) int32_t requesterId;
+@property (readonly, retain) NSString* requesterUuid;
 - (BOOL) accept;
 @property (readonly, retain) MinimumClanProto* minClan;
 @property (readonly, retain) FullClanProtoWithClanSize* fullClan;
@@ -873,10 +873,10 @@ BOOL ChangeClanJoinTypeResponseProto_ChangeClanJoinTypeStatusIsValidValue(Change
 - (ApproveOrRejectRequestToJoinClanResponseProto_Builder*) setStatus:(ApproveOrRejectRequestToJoinClanResponseProto_ApproveOrRejectRequestToJoinClanStatus) value;
 - (ApproveOrRejectRequestToJoinClanResponseProto_Builder*) clearStatus;
 
-- (BOOL) hasRequesterId;
-- (int32_t) requesterId;
-- (ApproveOrRejectRequestToJoinClanResponseProto_Builder*) setRequesterId:(int32_t) value;
-- (ApproveOrRejectRequestToJoinClanResponseProto_Builder*) clearRequesterId;
+- (BOOL) hasRequesterUuid;
+- (NSString*) requesterUuid;
+- (ApproveOrRejectRequestToJoinClanResponseProto_Builder*) setRequesterUuid:(NSString*) value;
+- (ApproveOrRejectRequestToJoinClanResponseProto_Builder*) clearRequesterUuid;
 
 - (BOOL) hasAccept;
 - (BOOL) accept;
@@ -901,30 +901,29 @@ BOOL ChangeClanJoinTypeResponseProto_ChangeClanJoinTypeStatusIsValidValue(Change
 @interface RetrieveClanInfoRequestProto : PBGeneratedMessage {
 @private
   BOOL hasIsForBrowsingList_:1;
-  BOOL hasClanId_:1;
-  BOOL hasBeforeThisClanId_:1;
+  BOOL hasClanUuid_:1;
   BOOL hasClanName_:1;
   BOOL hasSender_:1;
   BOOL hasGrabType_:1;
   BOOL isForBrowsingList_:1;
-  int32_t clanId;
-  int32_t beforeThisClanId;
+  NSString* clanUuid;
   NSString* clanName;
   MinimumUserProto* sender;
   RetrieveClanInfoRequestProto_ClanInfoGrabType grabType;
+  NSMutableArray* mutableExcludingTheseClanUuidsList;
 }
 - (BOOL) hasSender;
-- (BOOL) hasClanId;
+- (BOOL) hasClanUuid;
 - (BOOL) hasClanName;
 - (BOOL) hasGrabType;
-- (BOOL) hasBeforeThisClanId;
 - (BOOL) hasIsForBrowsingList;
 @property (readonly, retain) MinimumUserProto* sender;
-@property (readonly) int32_t clanId;
+@property (readonly, retain) NSString* clanUuid;
 @property (readonly, retain) NSString* clanName;
 @property (readonly) RetrieveClanInfoRequestProto_ClanInfoGrabType grabType;
-@property (readonly) int32_t beforeThisClanId;
 - (BOOL) isForBrowsingList;
+- (NSArray*) excludingTheseClanUuidsList;
+- (NSString*) excludingTheseClanUuidsAtIndex:(int32_t) index;
 
 + (RetrieveClanInfoRequestProto*) defaultInstance;
 - (RetrieveClanInfoRequestProto*) defaultInstance;
@@ -967,10 +966,10 @@ BOOL ChangeClanJoinTypeResponseProto_ChangeClanJoinTypeStatusIsValidValue(Change
 - (RetrieveClanInfoRequestProto_Builder*) mergeSender:(MinimumUserProto*) value;
 - (RetrieveClanInfoRequestProto_Builder*) clearSender;
 
-- (BOOL) hasClanId;
-- (int32_t) clanId;
-- (RetrieveClanInfoRequestProto_Builder*) setClanId:(int32_t) value;
-- (RetrieveClanInfoRequestProto_Builder*) clearClanId;
+- (BOOL) hasClanUuid;
+- (NSString*) clanUuid;
+- (RetrieveClanInfoRequestProto_Builder*) setClanUuid:(NSString*) value;
+- (RetrieveClanInfoRequestProto_Builder*) clearClanUuid;
 
 - (BOOL) hasClanName;
 - (NSString*) clanName;
@@ -982,10 +981,12 @@ BOOL ChangeClanJoinTypeResponseProto_ChangeClanJoinTypeStatusIsValidValue(Change
 - (RetrieveClanInfoRequestProto_Builder*) setGrabType:(RetrieveClanInfoRequestProto_ClanInfoGrabType) value;
 - (RetrieveClanInfoRequestProto_Builder*) clearGrabType;
 
-- (BOOL) hasBeforeThisClanId;
-- (int32_t) beforeThisClanId;
-- (RetrieveClanInfoRequestProto_Builder*) setBeforeThisClanId:(int32_t) value;
-- (RetrieveClanInfoRequestProto_Builder*) clearBeforeThisClanId;
+- (NSArray*) excludingTheseClanUuidsList;
+- (NSString*) excludingTheseClanUuidsAtIndex:(int32_t) index;
+- (RetrieveClanInfoRequestProto_Builder*) replaceExcludingTheseClanUuidsAtIndex:(int32_t) index with:(NSString*) value;
+- (RetrieveClanInfoRequestProto_Builder*) addExcludingTheseClanUuids:(NSString*) value;
+- (RetrieveClanInfoRequestProto_Builder*) addAllExcludingTheseClanUuids:(NSArray*) values;
+- (RetrieveClanInfoRequestProto_Builder*) clearExcludingTheseClanUuidsList;
 
 - (BOOL) hasIsForBrowsingList;
 - (BOOL) isForBrowsingList;
@@ -997,16 +998,16 @@ BOOL ChangeClanJoinTypeResponseProto_ChangeClanJoinTypeStatusIsValidValue(Change
 @private
   BOOL hasIsForSearch_:1;
   BOOL hasIsForBrowsingList_:1;
-  BOOL hasClanId_:1;
-  BOOL hasBeforeThisClanId_:1;
+  BOOL hasClanUuiId_:1;
   BOOL hasClanName_:1;
+  BOOL hasExcludingThisClanUuid_:1;
   BOOL hasSender_:1;
   BOOL hasStatus_:1;
   BOOL isForSearch_:1;
   BOOL isForBrowsingList_:1;
-  int32_t clanId;
-  int32_t beforeThisClanId;
+  NSString* clanUuiId;
   NSString* clanName;
+  NSString* excludingThisClanUuid;
   MinimumUserProto* sender;
   RetrieveClanInfoResponseProto_RetrieveClanInfoStatus status;
   NSMutableArray* mutableMembersList;
@@ -1016,16 +1017,16 @@ BOOL ChangeClanJoinTypeResponseProto_ChangeClanJoinTypeStatusIsValidValue(Change
 - (BOOL) hasStatus;
 - (BOOL) hasIsForSearch;
 - (BOOL) hasIsForBrowsingList;
-- (BOOL) hasClanId;
+- (BOOL) hasClanUuiId;
 - (BOOL) hasClanName;
-- (BOOL) hasBeforeThisClanId;
+- (BOOL) hasExcludingThisClanUuid;
 @property (readonly, retain) MinimumUserProto* sender;
 @property (readonly) RetrieveClanInfoResponseProto_RetrieveClanInfoStatus status;
 - (BOOL) isForSearch;
 - (BOOL) isForBrowsingList;
-@property (readonly) int32_t clanId;
+@property (readonly, retain) NSString* clanUuiId;
 @property (readonly, retain) NSString* clanName;
-@property (readonly) int32_t beforeThisClanId;
+@property (readonly, retain) NSString* excludingThisClanUuid;
 - (NSArray*) membersList;
 - (MinimumUserProtoForClans*) membersAtIndex:(int32_t) index;
 - (NSArray*) clanInfoList;
@@ -1101,33 +1102,33 @@ BOOL ChangeClanJoinTypeResponseProto_ChangeClanJoinTypeStatusIsValidValue(Change
 - (RetrieveClanInfoResponseProto_Builder*) setIsForBrowsingList:(BOOL) value;
 - (RetrieveClanInfoResponseProto_Builder*) clearIsForBrowsingList;
 
-- (BOOL) hasClanId;
-- (int32_t) clanId;
-- (RetrieveClanInfoResponseProto_Builder*) setClanId:(int32_t) value;
-- (RetrieveClanInfoResponseProto_Builder*) clearClanId;
+- (BOOL) hasClanUuiId;
+- (NSString*) clanUuiId;
+- (RetrieveClanInfoResponseProto_Builder*) setClanUuiId:(NSString*) value;
+- (RetrieveClanInfoResponseProto_Builder*) clearClanUuiId;
 
 - (BOOL) hasClanName;
 - (NSString*) clanName;
 - (RetrieveClanInfoResponseProto_Builder*) setClanName:(NSString*) value;
 - (RetrieveClanInfoResponseProto_Builder*) clearClanName;
 
-- (BOOL) hasBeforeThisClanId;
-- (int32_t) beforeThisClanId;
-- (RetrieveClanInfoResponseProto_Builder*) setBeforeThisClanId:(int32_t) value;
-- (RetrieveClanInfoResponseProto_Builder*) clearBeforeThisClanId;
+- (BOOL) hasExcludingThisClanUuid;
+- (NSString*) excludingThisClanUuid;
+- (RetrieveClanInfoResponseProto_Builder*) setExcludingThisClanUuid:(NSString*) value;
+- (RetrieveClanInfoResponseProto_Builder*) clearExcludingThisClanUuid;
 @end
 
 @interface TransferClanOwnershipRequestProto : PBGeneratedMessage {
 @private
-  BOOL hasNewClanOwnerId_:1;
+  BOOL hasClanOwnerUuidNew_:1;
   BOOL hasSender_:1;
-  int32_t newClanOwnerId;
+  NSString* clanOwnerUuidNew;
   MinimumUserProto* sender;
 }
 - (BOOL) hasSender;
-- (BOOL) hasNewClanOwnerId;
+- (BOOL) hasClanOwnerUuidNew;
 @property (readonly, retain) MinimumUserProto* sender;
-@property (readonly) int32_t newClanOwnerId;
+@property (readonly, retain) NSString* clanOwnerUuidNew;
 
 + (TransferClanOwnershipRequestProto*) defaultInstance;
 - (TransferClanOwnershipRequestProto*) defaultInstance;
@@ -1170,10 +1171,10 @@ BOOL ChangeClanJoinTypeResponseProto_ChangeClanJoinTypeStatusIsValidValue(Change
 - (TransferClanOwnershipRequestProto_Builder*) mergeSender:(MinimumUserProto*) value;
 - (TransferClanOwnershipRequestProto_Builder*) clearSender;
 
-- (BOOL) hasNewClanOwnerId;
-- (int32_t) newClanOwnerId;
-- (TransferClanOwnershipRequestProto_Builder*) setNewClanOwnerId:(int32_t) value;
-- (TransferClanOwnershipRequestProto_Builder*) clearNewClanOwnerId;
+- (BOOL) hasClanOwnerUuidNew;
+- (NSString*) clanOwnerUuidNew;
+- (TransferClanOwnershipRequestProto_Builder*) setClanOwnerUuidNew:(NSString*) value;
+- (TransferClanOwnershipRequestProto_Builder*) clearClanOwnerUuidNew;
 @end
 
 @interface TransferClanOwnershipResponseProto : PBGeneratedMessage {
@@ -1399,15 +1400,15 @@ BOOL ChangeClanJoinTypeResponseProto_ChangeClanJoinTypeStatusIsValidValue(Change
 
 @interface BootPlayerFromClanRequestProto : PBGeneratedMessage {
 @private
-  BOOL hasPlayerToBoot_:1;
+  BOOL hasPlayerUuidToBoot_:1;
   BOOL hasSender_:1;
-  int32_t playerToBoot;
+  NSString* playerUuidToBoot;
   MinimumUserProto* sender;
 }
 - (BOOL) hasSender;
-- (BOOL) hasPlayerToBoot;
+- (BOOL) hasPlayerUuidToBoot;
 @property (readonly, retain) MinimumUserProto* sender;
-@property (readonly) int32_t playerToBoot;
+@property (readonly, retain) NSString* playerUuidToBoot;
 
 + (BootPlayerFromClanRequestProto*) defaultInstance;
 - (BootPlayerFromClanRequestProto*) defaultInstance;
@@ -1450,26 +1451,26 @@ BOOL ChangeClanJoinTypeResponseProto_ChangeClanJoinTypeStatusIsValidValue(Change
 - (BootPlayerFromClanRequestProto_Builder*) mergeSender:(MinimumUserProto*) value;
 - (BootPlayerFromClanRequestProto_Builder*) clearSender;
 
-- (BOOL) hasPlayerToBoot;
-- (int32_t) playerToBoot;
-- (BootPlayerFromClanRequestProto_Builder*) setPlayerToBoot:(int32_t) value;
-- (BootPlayerFromClanRequestProto_Builder*) clearPlayerToBoot;
+- (BOOL) hasPlayerUuidToBoot;
+- (NSString*) playerUuidToBoot;
+- (BootPlayerFromClanRequestProto_Builder*) setPlayerUuidToBoot:(NSString*) value;
+- (BootPlayerFromClanRequestProto_Builder*) clearPlayerUuidToBoot;
 @end
 
 @interface BootPlayerFromClanResponseProto : PBGeneratedMessage {
 @private
-  BOOL hasPlayerToBoot_:1;
+  BOOL hasPlayerUuidToBoot_:1;
   BOOL hasSender_:1;
   BOOL hasStatus_:1;
-  int32_t playerToBoot;
+  NSString* playerUuidToBoot;
   MinimumUserProto* sender;
   BootPlayerFromClanResponseProto_BootPlayerFromClanStatus status;
 }
 - (BOOL) hasSender;
-- (BOOL) hasPlayerToBoot;
+- (BOOL) hasPlayerUuidToBoot;
 - (BOOL) hasStatus;
 @property (readonly, retain) MinimumUserProto* sender;
-@property (readonly) int32_t playerToBoot;
+@property (readonly, retain) NSString* playerUuidToBoot;
 @property (readonly) BootPlayerFromClanResponseProto_BootPlayerFromClanStatus status;
 
 + (BootPlayerFromClanResponseProto*) defaultInstance;
@@ -1513,10 +1514,10 @@ BOOL ChangeClanJoinTypeResponseProto_ChangeClanJoinTypeStatusIsValidValue(Change
 - (BootPlayerFromClanResponseProto_Builder*) mergeSender:(MinimumUserProto*) value;
 - (BootPlayerFromClanResponseProto_Builder*) clearSender;
 
-- (BOOL) hasPlayerToBoot;
-- (int32_t) playerToBoot;
-- (BootPlayerFromClanResponseProto_Builder*) setPlayerToBoot:(int32_t) value;
-- (BootPlayerFromClanResponseProto_Builder*) clearPlayerToBoot;
+- (BOOL) hasPlayerUuidToBoot;
+- (NSString*) playerUuidToBoot;
+- (BootPlayerFromClanResponseProto_Builder*) setPlayerUuidToBoot:(NSString*) value;
+- (BootPlayerFromClanResponseProto_Builder*) clearPlayerUuidToBoot;
 
 - (BOOL) hasStatus;
 - (BootPlayerFromClanResponseProto_BootPlayerFromClanStatus) status;

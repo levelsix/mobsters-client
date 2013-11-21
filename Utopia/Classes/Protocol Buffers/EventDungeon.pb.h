@@ -89,11 +89,11 @@ BOOL ReviveInDungeonResponseProto_ReviveInDungeonStatusIsValidValue(ReviveInDung
 
 @interface BeginDungeonRequestProto : PBGeneratedMessage {
 @private
-  BOOL hasUserBeatAllCityTasks_:1;
+  BOOL hasSpawnBoss_:1;
   BOOL hasClientTime_:1;
   BOOL hasTaskId_:1;
   BOOL hasSender_:1;
-  BOOL userBeatAllCityTasks_:1;
+  BOOL spawnBoss_:1;
   int64_t clientTime;
   int32_t taskId;
   MinimumUserProto* sender;
@@ -101,11 +101,11 @@ BOOL ReviveInDungeonResponseProto_ReviveInDungeonStatusIsValidValue(ReviveInDung
 - (BOOL) hasSender;
 - (BOOL) hasClientTime;
 - (BOOL) hasTaskId;
-- (BOOL) hasUserBeatAllCityTasks;
+- (BOOL) hasSpawnBoss;
 @property (readonly, retain) MinimumUserProto* sender;
 @property (readonly) int64_t clientTime;
 @property (readonly) int32_t taskId;
-- (BOOL) userBeatAllCityTasks;
+- (BOOL) spawnBoss;
 
 + (BeginDungeonRequestProto*) defaultInstance;
 - (BeginDungeonRequestProto*) defaultInstance;
@@ -158,32 +158,36 @@ BOOL ReviveInDungeonResponseProto_ReviveInDungeonStatusIsValidValue(ReviveInDung
 - (BeginDungeonRequestProto_Builder*) setTaskId:(int32_t) value;
 - (BeginDungeonRequestProto_Builder*) clearTaskId;
 
-- (BOOL) hasUserBeatAllCityTasks;
-- (BOOL) userBeatAllCityTasks;
-- (BeginDungeonRequestProto_Builder*) setUserBeatAllCityTasks:(BOOL) value;
-- (BeginDungeonRequestProto_Builder*) clearUserBeatAllCityTasks;
+- (BOOL) hasSpawnBoss;
+- (BOOL) spawnBoss;
+- (BeginDungeonRequestProto_Builder*) setSpawnBoss:(BOOL) value;
+- (BeginDungeonRequestProto_Builder*) clearSpawnBoss;
 @end
 
 @interface BeginDungeonResponseProto : PBGeneratedMessage {
 @private
-  BOOL hasUserTaskId_:1;
   BOOL hasTaskId_:1;
+  BOOL hasNextTaskIdForBoss_:1;
+  BOOL hasUserTaskUuid_:1;
   BOOL hasSender_:1;
   BOOL hasStatus_:1;
-  int64_t userTaskId;
   int32_t taskId;
+  int32_t nextTaskIdForBoss;
+  NSString* userTaskUuid;
   MinimumUserProto* sender;
   BeginDungeonResponseProto_BeginDungeonStatus status;
   NSMutableArray* mutableTspList;
 }
 - (BOOL) hasSender;
-- (BOOL) hasUserTaskId;
+- (BOOL) hasUserTaskUuid;
 - (BOOL) hasTaskId;
 - (BOOL) hasStatus;
+- (BOOL) hasNextTaskIdForBoss;
 @property (readonly, retain) MinimumUserProto* sender;
-@property (readonly) int64_t userTaskId;
+@property (readonly, retain) NSString* userTaskUuid;
 @property (readonly) int32_t taskId;
 @property (readonly) BeginDungeonResponseProto_BeginDungeonStatus status;
+@property (readonly) int32_t nextTaskIdForBoss;
 - (NSArray*) tspList;
 - (TaskStageProto*) tspAtIndex:(int32_t) index;
 
@@ -235,10 +239,10 @@ BOOL ReviveInDungeonResponseProto_ReviveInDungeonStatusIsValidValue(ReviveInDung
 - (BeginDungeonResponseProto_Builder*) addAllTsp:(NSArray*) values;
 - (BeginDungeonResponseProto_Builder*) clearTspList;
 
-- (BOOL) hasUserTaskId;
-- (int64_t) userTaskId;
-- (BeginDungeonResponseProto_Builder*) setUserTaskId:(int64_t) value;
-- (BeginDungeonResponseProto_Builder*) clearUserTaskId;
+- (BOOL) hasUserTaskUuid;
+- (NSString*) userTaskUuid;
+- (BeginDungeonResponseProto_Builder*) setUserTaskUuid:(NSString*) value;
+- (BeginDungeonResponseProto_Builder*) clearUserTaskUuid;
 
 - (BOOL) hasTaskId;
 - (int32_t) taskId;
@@ -249,35 +253,44 @@ BOOL ReviveInDungeonResponseProto_ReviveInDungeonStatusIsValidValue(ReviveInDung
 - (BeginDungeonResponseProto_BeginDungeonStatus) status;
 - (BeginDungeonResponseProto_Builder*) setStatus:(BeginDungeonResponseProto_BeginDungeonStatus) value;
 - (BeginDungeonResponseProto_Builder*) clearStatus;
+
+- (BOOL) hasNextTaskIdForBoss;
+- (int32_t) nextTaskIdForBoss;
+- (BeginDungeonResponseProto_Builder*) setNextTaskIdForBoss:(int32_t) value;
+- (BeginDungeonResponseProto_Builder*) clearNextTaskIdForBoss;
 @end
 
 @interface EndDungeonRequestProto : PBGeneratedMessage {
 @private
   BOOL hasUserWon_:1;
   BOOL hasFirstTimeUserWonTask_:1;
-  BOOL hasUserBeatAllCityTasks_:1;
-  BOOL hasUserTaskId_:1;
+  BOOL hasGenerateFirstBoss_:1;
+  BOOL hasRespawnBoss_:1;
   BOOL hasClientTime_:1;
+  BOOL hasUserTaskUuid_:1;
   BOOL hasSender_:1;
   BOOL userWon_:1;
   BOOL firstTimeUserWonTask_:1;
-  BOOL userBeatAllCityTasks_:1;
-  int64_t userTaskId;
+  BOOL generateFirstBoss_:1;
+  BOOL respawnBoss_:1;
   int64_t clientTime;
+  NSString* userTaskUuid;
   MinimumUserProto* sender;
 }
 - (BOOL) hasSender;
-- (BOOL) hasUserTaskId;
+- (BOOL) hasUserTaskUuid;
 - (BOOL) hasUserWon;
 - (BOOL) hasClientTime;
 - (BOOL) hasFirstTimeUserWonTask;
-- (BOOL) hasUserBeatAllCityTasks;
+- (BOOL) hasGenerateFirstBoss;
+- (BOOL) hasRespawnBoss;
 @property (readonly, retain) MinimumUserProto* sender;
-@property (readonly) int64_t userTaskId;
+@property (readonly, retain) NSString* userTaskUuid;
 - (BOOL) userWon;
 @property (readonly) int64_t clientTime;
 - (BOOL) firstTimeUserWonTask;
-- (BOOL) userBeatAllCityTasks;
+- (BOOL) generateFirstBoss;
+- (BOOL) respawnBoss;
 
 + (EndDungeonRequestProto*) defaultInstance;
 - (EndDungeonRequestProto*) defaultInstance;
@@ -320,10 +333,10 @@ BOOL ReviveInDungeonResponseProto_ReviveInDungeonStatusIsValidValue(ReviveInDung
 - (EndDungeonRequestProto_Builder*) mergeSender:(MinimumUserProto*) value;
 - (EndDungeonRequestProto_Builder*) clearSender;
 
-- (BOOL) hasUserTaskId;
-- (int64_t) userTaskId;
-- (EndDungeonRequestProto_Builder*) setUserTaskId:(int64_t) value;
-- (EndDungeonRequestProto_Builder*) clearUserTaskId;
+- (BOOL) hasUserTaskUuid;
+- (NSString*) userTaskUuid;
+- (EndDungeonRequestProto_Builder*) setUserTaskUuid:(NSString*) value;
+- (EndDungeonRequestProto_Builder*) clearUserTaskUuid;
 
 - (BOOL) hasUserWon;
 - (BOOL) userWon;
@@ -340,20 +353,27 @@ BOOL ReviveInDungeonResponseProto_ReviveInDungeonStatusIsValidValue(ReviveInDung
 - (EndDungeonRequestProto_Builder*) setFirstTimeUserWonTask:(BOOL) value;
 - (EndDungeonRequestProto_Builder*) clearFirstTimeUserWonTask;
 
-- (BOOL) hasUserBeatAllCityTasks;
-- (BOOL) userBeatAllCityTasks;
-- (EndDungeonRequestProto_Builder*) setUserBeatAllCityTasks:(BOOL) value;
-- (EndDungeonRequestProto_Builder*) clearUserBeatAllCityTasks;
+- (BOOL) hasGenerateFirstBoss;
+- (BOOL) generateFirstBoss;
+- (EndDungeonRequestProto_Builder*) setGenerateFirstBoss:(BOOL) value;
+- (EndDungeonRequestProto_Builder*) clearGenerateFirstBoss;
+
+- (BOOL) hasRespawnBoss;
+- (BOOL) respawnBoss;
+- (EndDungeonRequestProto_Builder*) setRespawnBoss:(BOOL) value;
+- (EndDungeonRequestProto_Builder*) clearRespawnBoss;
 @end
 
 @interface EndDungeonResponseProto : PBGeneratedMessage {
 @private
   BOOL hasUserWon_:1;
   BOOL hasTaskId_:1;
+  BOOL hasNextTaskIdForBoss_:1;
   BOOL hasSender_:1;
   BOOL hasStatus_:1;
   BOOL userWon_:1;
   int32_t taskId;
+  int32_t nextTaskIdForBoss;
   MinimumUserProto* sender;
   EndDungeonResponseProto_EndDungeonStatus status;
   NSMutableArray* mutableUpdatedOrNewList;
@@ -362,10 +382,12 @@ BOOL ReviveInDungeonResponseProto_ReviveInDungeonStatusIsValidValue(ReviveInDung
 - (BOOL) hasStatus;
 - (BOOL) hasTaskId;
 - (BOOL) hasUserWon;
+- (BOOL) hasNextTaskIdForBoss;
 @property (readonly, retain) MinimumUserProto* sender;
 @property (readonly) EndDungeonResponseProto_EndDungeonStatus status;
 @property (readonly) int32_t taskId;
 - (BOOL) userWon;
+@property (readonly) int32_t nextTaskIdForBoss;
 - (NSArray*) updatedOrNewList;
 - (FullUserMonsterProto*) updatedOrNewAtIndex:(int32_t) index;
 
@@ -431,22 +453,27 @@ BOOL ReviveInDungeonResponseProto_ReviveInDungeonStatusIsValidValue(ReviveInDung
 - (BOOL) userWon;
 - (EndDungeonResponseProto_Builder*) setUserWon:(BOOL) value;
 - (EndDungeonResponseProto_Builder*) clearUserWon;
+
+- (BOOL) hasNextTaskIdForBoss;
+- (int32_t) nextTaskIdForBoss;
+- (EndDungeonResponseProto_Builder*) setNextTaskIdForBoss:(int32_t) value;
+- (EndDungeonResponseProto_Builder*) clearNextTaskIdForBoss;
 @end
 
 @interface ReviveInDungeonRequestProto : PBGeneratedMessage {
 @private
-  BOOL hasUserTaskId_:1;
   BOOL hasClientTime_:1;
+  BOOL hasUserTaskUuid_:1;
   BOOL hasSender_:1;
-  int64_t userTaskId;
   int64_t clientTime;
+  NSString* userTaskUuid;
   MinimumUserProto* sender;
 }
 - (BOOL) hasSender;
-- (BOOL) hasUserTaskId;
+- (BOOL) hasUserTaskUuid;
 - (BOOL) hasClientTime;
 @property (readonly, retain) MinimumUserProto* sender;
-@property (readonly) int64_t userTaskId;
+@property (readonly, retain) NSString* userTaskUuid;
 @property (readonly) int64_t clientTime;
 
 + (ReviveInDungeonRequestProto*) defaultInstance;
@@ -490,10 +517,10 @@ BOOL ReviveInDungeonResponseProto_ReviveInDungeonStatusIsValidValue(ReviveInDung
 - (ReviveInDungeonRequestProto_Builder*) mergeSender:(MinimumUserProto*) value;
 - (ReviveInDungeonRequestProto_Builder*) clearSender;
 
-- (BOOL) hasUserTaskId;
-- (int64_t) userTaskId;
-- (ReviveInDungeonRequestProto_Builder*) setUserTaskId:(int64_t) value;
-- (ReviveInDungeonRequestProto_Builder*) clearUserTaskId;
+- (BOOL) hasUserTaskUuid;
+- (NSString*) userTaskUuid;
+- (ReviveInDungeonRequestProto_Builder*) setUserTaskUuid:(NSString*) value;
+- (ReviveInDungeonRequestProto_Builder*) clearUserTaskUuid;
 
 - (BOOL) hasClientTime;
 - (int64_t) clientTime;

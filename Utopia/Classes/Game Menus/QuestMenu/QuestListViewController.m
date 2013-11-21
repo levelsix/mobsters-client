@@ -17,7 +17,7 @@
   
 }
 
-- (void) updateForQuest:(FullQuestProto *)quest withUserQuestData:(UserQuest *)userQuest {
+- (void) updateForQuest:(QuestProto *)quest withUserQuestData:(UserQuest *)userQuest {
   self.quest = quest;
   self.userQuest = userQuest;
   
@@ -92,7 +92,7 @@
     cell.delegate = (id<QuestListCellDelegate>)self.parentViewController;
   }
   
-  FullQuestProto *quest = [self.quests objectAtIndex:indexPath.row];
+  QuestProto *quest = [self.quests objectAtIndex:indexPath.row];
   UserQuest *userQuest = [self.userQuests objectForKey:[NSNumber numberWithInt:quest.questId]];
   
   [cell updateForQuest:quest withUserQuestData:userQuest];

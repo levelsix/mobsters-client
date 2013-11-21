@@ -119,8 +119,8 @@
 
 - (void)updateLabels {
   GameState *gs = [GameState sharedGameState];
-  self.diamondLabel.text = [Globals commafyNumber:gs.gold];
-  self.cashLabel.text = [Globals cashStringForNumber:gs.silver];
+  self.gemLabel.text = [Globals commafyNumber:gs.gems];
+  self.cashLabel.text = [Globals cashStringForNumber:gs.cash];
 }
 
 #pragma mark - UITableView delegate methods

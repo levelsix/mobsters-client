@@ -51,7 +51,7 @@
 @implementation GameMap
 
 @synthesize tileSizeInPoints;
-@synthesize silverOnMap, goldOnMap;
+@synthesize cashOnMap, goldOnMap;
 @synthesize decLayer;
 
 +(id) tiledMapWithTMXFile:(NSString*)tmxFile
@@ -132,7 +132,7 @@
   
   NSMutableArray *newArr = [NSMutableArray array];
   for (UserMonster *um in gs.allMonstersOnMyTeam) {
-    int tag = MY_TEAM_TAG_BASE+um.userMonsterId;
+    int tag = MY_TEAM_TAG_BASE+um.teamSlot;
     MyTeamSprite *ts = (MyTeamSprite *)[self getChildByTag:tag];
     
     if (!ts) {

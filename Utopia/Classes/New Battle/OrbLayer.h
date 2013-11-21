@@ -8,7 +8,7 @@
 
 #import <Foundation/Foundation.h>
 #import "cocos2d.h"
-#import "Protocols.pb.h"
+#import "MobstersEventProtocol.pb.h"
 
 #define TIME_LIMIT 100
 

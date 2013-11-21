@@ -7,7 +7,7 @@
 //
 
 #import "GameMap.h"
-#import "Protocols.pb.h"
+#import "MobstersEventProtocol.pb.h"
 
 #define ASSET_TAG_BASE 2555
 

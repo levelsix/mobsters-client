@@ -383,14 +383,14 @@ BOOL LevelUpResponseProto_LevelUpStatusIsValidValue(LevelUpResponseProto_LevelUp
   BOOL hasSender_:1;
   BOOL includeCurMonsterTeam_:1;
   MinimumUserProto* sender;
-  NSMutableArray* mutableRequestedUserIdsList;
+  NSMutableArray* mutableRequestedUserUuidsList;
 }
 - (BOOL) hasSender;
 - (BOOL) hasIncludeCurMonsterTeam;
 @property (readonly, retain) MinimumUserProto* sender;
 - (BOOL) includeCurMonsterTeam;
-- (NSArray*) requestedUserIdsList;
-- (int32_t) requestedUserIdsAtIndex:(int32_t) index;
+- (NSArray*) requestedUserUuidsList;
+- (NSString*) requestedUserUuidsAtIndex:(int32_t) index;
 
 + (RetrieveUsersForUserIdsRequestProto*) defaultInstance;
 - (RetrieveUsersForUserIdsRequestProto*) defaultInstance;
@@ -433,12 +433,12 @@ BOOL LevelUpResponseProto_LevelUpStatusIsValidValue(LevelUpResponseProto_LevelUp
 - (RetrieveUsersForUserIdsRequestProto_Builder*) mergeSender:(MinimumUserProto*) value;
 - (RetrieveUsersForUserIdsRequestProto_Builder*) clearSender;
 
-- (NSArray*) requestedUserIdsList;
-- (int32_t) requestedUserIdsAtIndex:(int32_t) index;
-- (RetrieveUsersForUserIdsRequestProto_Builder*) replaceRequestedUserIdsAtIndex:(int32_t) index with:(int32_t) value;
-- (RetrieveUsersForUserIdsRequestProto_Builder*) addRequestedUserIds:(int32_t) value;
-- (RetrieveUsersForUserIdsRequestProto_Builder*) addAllRequestedUserIds:(NSArray*) values;
-- (RetrieveUsersForUserIdsRequestProto_Builder*) clearRequestedUserIdsList;
+- (NSArray*) requestedUserUuidsList;
+- (NSString*) requestedUserUuidsAtIndex:(int32_t) index;
+- (RetrieveUsersForUserIdsRequestProto_Builder*) replaceRequestedUserUuidsAtIndex:(int32_t) index with:(NSString*) value;
+- (RetrieveUsersForUserIdsRequestProto_Builder*) addRequestedUserUuids:(NSString*) value;
+- (RetrieveUsersForUserIdsRequestProto_Builder*) addAllRequestedUserUuids:(NSArray*) values;
+- (RetrieveUsersForUserIdsRequestProto_Builder*) clearRequestedUserUuidsList;
 
 - (BOOL) hasIncludeCurMonsterTeam;
 - (BOOL) includeCurMonsterTeam;

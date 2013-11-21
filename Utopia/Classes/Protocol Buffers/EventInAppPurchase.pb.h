@@ -5,10 +5,10 @@
 #import "InAppPurchase.pb.h"
 #import "User.pb.h"
 
-@class EarnFreeDiamondsRequestProto;
-@class EarnFreeDiamondsRequestProto_Builder;
-@class EarnFreeDiamondsResponseProto;
-@class EarnFreeDiamondsResponseProto_Builder;
+@class EarnFreeGemsRequestProto;
+@class EarnFreeGemsRequestProto_Builder;
+@class EarnFreeGemsResponseProto;
+@class EarnFreeGemsResponseProto_Builder;
 @class FullUserProto;
 @class FullUserProto_Builder;
 @class GoldSaleProto;
@@ -40,13 +40,13 @@ typedef enum {
 BOOL InAppPurchaseResponseProto_InAppPurchaseStatusIsValidValue(InAppPurchaseResponseProto_InAppPurchaseStatus value);
 
 typedef enum {
-  EarnFreeDiamondsResponseProto_EarnFreeDiamondsStatusSuccess = 1,
-  EarnFreeDiamondsResponseProto_EarnFreeDiamondsStatusClientTooApartFromServerTime = 2,
-  EarnFreeDiamondsResponseProto_EarnFreeDiamondsStatusMethodNotSupported = 3,
-  EarnFreeDiamondsResponseProto_EarnFreeDiamondsStatusOtherFail = 4,
-} EarnFreeDiamondsResponseProto_EarnFreeDiamondsStatus;
+  EarnFreeGemsResponseProto_EarnFreeGemsStatusSuccess = 1,
+  EarnFreeGemsResponseProto_EarnFreeGemsStatusClientTooApartFromServerTime = 2,
+  EarnFreeGemsResponseProto_EarnFreeGemsStatusMethodNotSupported = 3,
+  EarnFreeGemsResponseProto_EarnFreeGemsStatusOtherFail = 4,
+} EarnFreeGemsResponseProto_EarnFreeGemsStatus;
 
-BOOL EarnFreeDiamondsResponseProto_EarnFreeDiamondsStatusIsValidValue(EarnFreeDiamondsResponseProto_EarnFreeDiamondsStatus value);
+BOOL EarnFreeGemsResponseProto_EarnFreeGemsStatusIsValidValue(EarnFreeGemsResponseProto_EarnFreeGemsStatus value);
 
 
 @interface EventInAppPurchaseRoot : NSObject {
@@ -153,15 +153,15 @@ BOOL EarnFreeDiamondsResponseProto_EarnFreeDiamondsStatusIsValidValue(EarnFreeDi
 @interface InAppPurchaseResponseProto : PBGeneratedMessage {
 @private
   BOOL hasPackagePrice_:1;
-  BOOL hasDiamondsGained_:1;
-  BOOL hasCoinsGained_:1;
+  BOOL hasGemsGained_:1;
+  BOOL hasCashGained_:1;
   BOOL hasPackageName_:1;
   BOOL hasReceipt_:1;
   BOOL hasSender_:1;
   BOOL hasStatus_:1;
   Float64 packagePrice;
-  int32_t diamondsGained;
-  int32_t coinsGained;
+  int32_t gemsGained;
+  int32_t cashGained;
   NSString* packageName;
   NSString* receipt;
   MinimumUserProto* sender;
@@ -169,15 +169,15 @@ BOOL EarnFreeDiamondsResponseProto_EarnFreeDiamondsStatusIsValidValue(EarnFreeDi
 }
 - (BOOL) hasSender;
 - (BOOL) hasStatus;
-- (BOOL) hasDiamondsGained;
-- (BOOL) hasCoinsGained;
+- (BOOL) hasGemsGained;
+- (BOOL) hasCashGained;
 - (BOOL) hasPackageName;
 - (BOOL) hasPackagePrice;
 - (BOOL) hasReceipt;
 @property (readonly, retain) MinimumUserProto* sender;
 @property (readonly) InAppPurchaseResponseProto_InAppPurchaseStatus status;
-@property (readonly) int32_t diamondsGained;
-@property (readonly) int32_t coinsGained;
+@property (readonly) int32_t gemsGained;
+@property (readonly) int32_t cashGained;
 @property (readonly, retain) NSString* packageName;
 @property (readonly) Float64 packagePrice;
 @property (readonly, retain) NSString* receipt;
@@ -228,15 +228,15 @@ BOOL EarnFreeDiamondsResponseProto_EarnFreeDiamondsStatusIsValidValue(EarnFreeDi
 - (InAppPurchaseResponseProto_Builder*) setStatus:(InAppPurchaseResponseProto_InAppPurchaseStatus) value;
 - (InAppPurchaseResponseProto_Builder*) clearStatus;
 
-- (BOOL) hasDiamondsGained;
-- (int32_t) diamondsGained;
-- (InAppPurchaseResponseProto_Builder*) setDiamondsGained:(int32_t) value;
-- (InAppPurchaseResponseProto_Builder*) clearDiamondsGained;
+- (BOOL) hasGemsGained;
+- (int32_t) gemsGained;
+- (InAppPurchaseResponseProto_Builder*) setGemsGained:(int32_t) value;
+- (InAppPurchaseResponseProto_Builder*) clearGemsGained;
 
-- (BOOL) hasCoinsGained;
-- (int32_t) coinsGained;
-- (InAppPurchaseResponseProto_Builder*) setCoinsGained:(int32_t) value;
-- (InAppPurchaseResponseProto_Builder*) clearCoinsGained;
+- (BOOL) hasCashGained;
+- (int32_t) cashGained;
+- (InAppPurchaseResponseProto_Builder*) setCashGained:(int32_t) value;
+- (InAppPurchaseResponseProto_Builder*) clearCashGained;
 
 - (BOOL) hasPackageName;
 - (NSString*) packageName;
@@ -254,139 +254,139 @@ BOOL EarnFreeDiamondsResponseProto_EarnFreeDiamondsStatusIsValidValue(EarnFreeDi
 - (InAppPurchaseResponseProto_Builder*) clearReceipt;
 @end
 
-@interface EarnFreeDiamondsRequestProto : PBGeneratedMessage {
+@interface EarnFreeGemsRequestProto : PBGeneratedMessage {
 @private
   BOOL hasClientTime_:1;
   BOOL hasSender_:1;
-  BOOL hasFreeDiamondsType_:1;
+  BOOL hasFreeGemsType_:1;
   int64_t clientTime;
   MinimumUserProto* sender;
-  EarnFreeDiamondsType freeDiamondsType;
+  EarnFreeGemsType freeGemsType;
 }
 - (BOOL) hasSender;
-- (BOOL) hasFreeDiamondsType;
+- (BOOL) hasFreeGemsType;
 - (BOOL) hasClientTime;
 @property (readonly, retain) MinimumUserProto* sender;
-@property (readonly) EarnFreeDiamondsType freeDiamondsType;
+@property (readonly) EarnFreeGemsType freeGemsType;
 @property (readonly) int64_t clientTime;
 
-+ (EarnFreeDiamondsRequestProto*) defaultInstance;
-- (EarnFreeDiamondsRequestProto*) defaultInstance;
++ (EarnFreeGemsRequestProto*) defaultInstance;
+- (EarnFreeGemsRequestProto*) defaultInstance;
 
 - (BOOL) isInitialized;
 - (void) writeToCodedOutputStream:(PBCodedOutputStream*) output;
-- (EarnFreeDiamondsRequestProto_Builder*) builder;
-+ (EarnFreeDiamondsRequestProto_Builder*) builder;
-+ (EarnFreeDiamondsRequestProto_Builder*) builderWithPrototype:(EarnFreeDiamondsRequestProto*) prototype;
+- (EarnFreeGemsRequestProto_Builder*) builder;
++ (EarnFreeGemsRequestProto_Builder*) builder;
++ (EarnFreeGemsRequestProto_Builder*) builderWithPrototype:(EarnFreeGemsRequestProto*) prototype;
 
-+ (EarnFreeDiamondsRequestProto*) parseFromData:(NSData*) data;
-+ (EarnFreeDiamondsRequestProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
-+ (EarnFreeDiamondsRequestProto*) parseFromInputStream:(NSInputStream*) input;
-+ (EarnFreeDiamondsRequestProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
-+ (EarnFreeDiamondsRequestProto*) parseFromCodedInputStream:(PBCodedInputStream*) input;
-+ (EarnFreeDiamondsRequestProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (EarnFreeGemsRequestProto*) parseFromData:(NSData*) data;
++ (EarnFreeGemsRequestProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (EarnFreeGemsRequestProto*) parseFromInputStream:(NSInputStream*) input;
++ (EarnFreeGemsRequestProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (EarnFreeGemsRequestProto*) parseFromCodedInputStream:(PBCodedInputStream*) input;
++ (EarnFreeGemsRequestProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
 @end
 
-@interface EarnFreeDiamondsRequestProto_Builder : PBGeneratedMessage_Builder {
+@interface EarnFreeGemsRequestProto_Builder : PBGeneratedMessage_Builder {
 @private
-  EarnFreeDiamondsRequestProto* result;
+  EarnFreeGemsRequestProto* result;
 }
 
-- (EarnFreeDiamondsRequestProto*) defaultInstance;
+- (EarnFreeGemsRequestProto*) defaultInstance;
 
-- (EarnFreeDiamondsRequestProto_Builder*) clear;
-- (EarnFreeDiamondsRequestProto_Builder*) clone;
+- (EarnFreeGemsRequestProto_Builder*) clear;
+- (EarnFreeGemsRequestProto_Builder*) clone;
 
-- (EarnFreeDiamondsRequestProto*) build;
-- (EarnFreeDiamondsRequestProto*) buildPartial;
+- (EarnFreeGemsRequestProto*) build;
+- (EarnFreeGemsRequestProto*) buildPartial;
 
-- (EarnFreeDiamondsRequestProto_Builder*) mergeFrom:(EarnFreeDiamondsRequestProto*) other;
-- (EarnFreeDiamondsRequestProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input;
-- (EarnFreeDiamondsRequestProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+- (EarnFreeGemsRequestProto_Builder*) mergeFrom:(EarnFreeGemsRequestProto*) other;
+- (EarnFreeGemsRequestProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input;
+- (EarnFreeGemsRequestProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
 
 - (BOOL) hasSender;
 - (MinimumUserProto*) sender;
-- (EarnFreeDiamondsRequestProto_Builder*) setSender:(MinimumUserProto*) value;
-- (EarnFreeDiamondsRequestProto_Builder*) setSenderBuilder:(MinimumUserProto_Builder*) builderForValue;
-- (EarnFreeDiamondsRequestProto_Builder*) mergeSender:(MinimumUserProto*) value;
-- (EarnFreeDiamondsRequestProto_Builder*) clearSender;
+- (EarnFreeGemsRequestProto_Builder*) setSender:(MinimumUserProto*) value;
+- (EarnFreeGemsRequestProto_Builder*) setSenderBuilder:(MinimumUserProto_Builder*) builderForValue;
+- (EarnFreeGemsRequestProto_Builder*) mergeSender:(MinimumUserProto*) value;
+- (EarnFreeGemsRequestProto_Builder*) clearSender;
 
-- (BOOL) hasFreeDiamondsType;
-- (EarnFreeDiamondsType) freeDiamondsType;
-- (EarnFreeDiamondsRequestProto_Builder*) setFreeDiamondsType:(EarnFreeDiamondsType) value;
-- (EarnFreeDiamondsRequestProto_Builder*) clearFreeDiamondsType;
+- (BOOL) hasFreeGemsType;
+- (EarnFreeGemsType) freeGemsType;
+- (EarnFreeGemsRequestProto_Builder*) setFreeGemsType:(EarnFreeGemsType) value;
+- (EarnFreeGemsRequestProto_Builder*) clearFreeGemsType;
 
 - (BOOL) hasClientTime;
 - (int64_t) clientTime;
-- (EarnFreeDiamondsRequestProto_Builder*) setClientTime:(int64_t) value;
-- (EarnFreeDiamondsRequestProto_Builder*) clearClientTime;
+- (EarnFreeGemsRequestProto_Builder*) setClientTime:(int64_t) value;
+- (EarnFreeGemsRequestProto_Builder*) clearClientTime;
 @end
 
-@interface EarnFreeDiamondsResponseProto : PBGeneratedMessage {
+@interface EarnFreeGemsResponseProto : PBGeneratedMessage {
 @private
   BOOL hasSender_:1;
   BOOL hasStatus_:1;
-  BOOL hasFreeDiamondsType_:1;
+  BOOL hasFreeGemsType_:1;
   MinimumUserProto* sender;
-  EarnFreeDiamondsResponseProto_EarnFreeDiamondsStatus status;
-  EarnFreeDiamondsType freeDiamondsType;
+  EarnFreeGemsResponseProto_EarnFreeGemsStatus status;
+  EarnFreeGemsType freeGemsType;
 }
 - (BOOL) hasSender;
 - (BOOL) hasStatus;
-- (BOOL) hasFreeDiamondsType;
+- (BOOL) hasFreeGemsType;
 @property (readonly, retain) MinimumUserProto* sender;
-@property (readonly) EarnFreeDiamondsResponseProto_EarnFreeDiamondsStatus status;
-@property (readonly) EarnFreeDiamondsType freeDiamondsType;
+@property (readonly) EarnFreeGemsResponseProto_EarnFreeGemsStatus status;
+@property (readonly) EarnFreeGemsType freeGemsType;
 
-+ (EarnFreeDiamondsResponseProto*) defaultInstance;
-- (EarnFreeDiamondsResponseProto*) defaultInstance;
++ (EarnFreeGemsResponseProto*) defaultInstance;
+- (EarnFreeGemsResponseProto*) defaultInstance;
 
 - (BOOL) isInitialized;
 - (void) writeToCodedOutputStream:(PBCodedOutputStream*) output;
-- (EarnFreeDiamondsResponseProto_Builder*) builder;
-+ (EarnFreeDiamondsResponseProto_Builder*) builder;
-+ (EarnFreeDiamondsResponseProto_Builder*) builderWithPrototype:(EarnFreeDiamondsResponseProto*) prototype;
+- (EarnFreeGemsResponseProto_Builder*) builder;
++ (EarnFreeGemsResponseProto_Builder*) builder;
++ (EarnFreeGemsResponseProto_Builder*) builderWithPrototype:(EarnFreeGemsResponseProto*) prototype;
 
-+ (EarnFreeDiamondsResponseProto*) parseFromData:(NSData*) data;
-+ (EarnFreeDiamondsResponseProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
-+ (EarnFreeDiamondsResponseProto*) parseFromInputStream:(NSInputStream*) input;
-+ (EarnFreeDiamondsResponseProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
-+ (EarnFreeDiamondsResponseProto*) parseFromCodedInputStream:(PBCodedInputStream*) input;
-+ (EarnFreeDiamondsResponseProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (EarnFreeGemsResponseProto*) parseFromData:(NSData*) data;
++ (EarnFreeGemsResponseProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (EarnFreeGemsResponseProto*) parseFromInputStream:(NSInputStream*) input;
++ (EarnFreeGemsResponseProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (EarnFreeGemsResponseProto*) parseFromCodedInputStream:(PBCodedInputStream*) input;
++ (EarnFreeGemsResponseProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
 @end
 
-@interface EarnFreeDiamondsResponseProto_Builder : PBGeneratedMessage_Builder {
+@interface EarnFreeGemsResponseProto_Builder : PBGeneratedMessage_Builder {
 @private
-  EarnFreeDiamondsResponseProto* result;
+  EarnFreeGemsResponseProto* result;
 }
 
-- (EarnFreeDiamondsResponseProto*) defaultInstance;
+- (EarnFreeGemsResponseProto*) defaultInstance;
 
-- (EarnFreeDiamondsResponseProto_Builder*) clear;
-- (EarnFreeDiamondsResponseProto_Builder*) clone;
+- (EarnFreeGemsResponseProto_Builder*) clear;
+- (EarnFreeGemsResponseProto_Builder*) clone;
 
-- (EarnFreeDiamondsResponseProto*) build;
-- (EarnFreeDiamondsResponseProto*) buildPartial;
+- (EarnFreeGemsResponseProto*) build;
+- (EarnFreeGemsResponseProto*) buildPartial;
 
-- (EarnFreeDiamondsResponseProto_Builder*) mergeFrom:(EarnFreeDiamondsResponseProto*) other;
-- (EarnFreeDiamondsResponseProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input;
-- (EarnFreeDiamondsResponseProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+- (EarnFreeGemsResponseProto_Builder*) mergeFrom:(EarnFreeGemsResponseProto*) other;
+- (EarnFreeGemsResponseProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input;
+- (EarnFreeGemsResponseProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
 
 - (BOOL) hasSender;
 - (MinimumUserProto*) sender;
-- (EarnFreeDiamondsResponseProto_Builder*) setSender:(MinimumUserProto*) value;
-- (EarnFreeDiamondsResponseProto_Builder*) setSenderBuilder:(MinimumUserProto_Builder*) builderForValue;
-- (EarnFreeDiamondsResponseProto_Builder*) mergeSender:(MinimumUserProto*) value;
-- (EarnFreeDiamondsResponseProto_Builder*) clearSender;
+- (EarnFreeGemsResponseProto_Builder*) setSender:(MinimumUserProto*) value;
+- (EarnFreeGemsResponseProto_Builder*) setSenderBuilder:(MinimumUserProto_Builder*) builderForValue;
+- (EarnFreeGemsResponseProto_Builder*) mergeSender:(MinimumUserProto*) value;
+- (EarnFreeGemsResponseProto_Builder*) clearSender;
 
 - (BOOL) hasStatus;
-- (EarnFreeDiamondsResponseProto_EarnFreeDiamondsStatus) status;
-- (EarnFreeDiamondsResponseProto_Builder*) setStatus:(EarnFreeDiamondsResponseProto_EarnFreeDiamondsStatus) value;
-- (EarnFreeDiamondsResponseProto_Builder*) clearStatus;
+- (EarnFreeGemsResponseProto_EarnFreeGemsStatus) status;
+- (EarnFreeGemsResponseProto_Builder*) setStatus:(EarnFreeGemsResponseProto_EarnFreeGemsStatus) value;
+- (EarnFreeGemsResponseProto_Builder*) clearStatus;
 
-- (BOOL) hasFreeDiamondsType;
-- (EarnFreeDiamondsType) freeDiamondsType;
-- (EarnFreeDiamondsResponseProto_Builder*) setFreeDiamondsType:(EarnFreeDiamondsType) value;
-- (EarnFreeDiamondsResponseProto_Builder*) clearFreeDiamondsType;
+- (BOOL) hasFreeGemsType;
+- (EarnFreeGemsType) freeGemsType;
+- (EarnFreeGemsResponseProto_Builder*) setFreeGemsType:(EarnFreeGemsType) value;
+- (EarnFreeGemsResponseProto_Builder*) clearFreeGemsType;
 @end
 

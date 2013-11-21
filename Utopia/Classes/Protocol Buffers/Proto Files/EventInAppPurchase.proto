@@ -4,8 +4,9 @@
 import "InAppPurchase.proto";
 import "User.proto";
 
-package com.lvl6.proto;
+package proto;
 
+option java_package = "com.lvl6.mobsters.eventprotos";
 option java_outer_classname = "EventInAppPurchaseProto";
 //DO NOT USE ID AS THE NAME OF A PROPERTY IN ANY PROTO
 
@@ -22,8 +23,8 @@ message InAppPurchaseRequestProto {
 message InAppPurchaseResponseProto {
 	optional MinimumUserProto sender = 1;
 	optional InAppPurchaseStatus status = 2;
-	optional int32 diamondsGained = 3;
-	optional int32 coinsGained = 4;
+	optional int32 gemsGained = 3;
+	optional int32 cashGained = 4;
 	optional string packageName = 5;
 	optional double packagePrice = 6;
 	optional string receipt = 7;
@@ -37,19 +38,19 @@ message InAppPurchaseResponseProto {
 
 //------------------------------------------------------------------------------------------
 
-message EarnFreeDiamondsRequestProto {
+message EarnFreeGemsRequestProto {
 	optional MinimumUserProto sender = 1;
-	optional EarnFreeDiamondsType freeDiamondsType = 2 [default = FB_CONNECT];
+	optional EarnFreeGemsType freeGemsType = 2 [default = FB_CONNECT];
 	optional int64 clientTime = 3;
 		
 }
 
-message EarnFreeDiamondsResponseProto {
+message EarnFreeGemsResponseProto {
 	optional MinimumUserProto sender = 1;
-	optional EarnFreeDiamondsStatus status = 2;
-	optional EarnFreeDiamondsType freeDiamondsType = 3 [default = FB_CONNECT];
+	optional EarnFreeGemsStatus status = 2;
+	optional EarnFreeGemsType freeGemsType = 3 [default = FB_CONNECT];
 	
-	enum EarnFreeDiamondsStatus {
+	enum EarnFreeGemsStatus {
 		SUCCESS = 1;
 		CLIENT_TOO_APART_FROM_SERVER_TIME = 2;
 		METHOD_NOT_SUPPORTED = 3;

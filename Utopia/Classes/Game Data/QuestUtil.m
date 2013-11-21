@@ -16,8 +16,8 @@
   GameState *gs = [GameState sharedGameState];
   NSMutableArray *changedQuests = [NSMutableArray array];
   
-  for (FullQuestProto *quest in gs.inProgressIncompleteQuests.allValues) {
-    if (quest.questType == FullQuestProto_QuestTypeDonateMonster) {
+  for (QuestProto *quest in gs.inProgressIncompleteQuests.allValues) {
+    if (quest.questType == QuestProto_QuestTypeDonateMonster) {
       int quantity = 0;
       for (UserMonster *um in gs.myMonsters) {
         if (um.monsterId == quest.staticDataId) {
@@ -33,7 +33,7 @@
     }
   }
   
-  for (FullQuestProto *fqp  in changedQuests) {
+  for (QuestProto *fqp  in changedQuests) {
     [[OutgoingEventController sharedOutgoingEventController] questProgress:fqp.questId];
   }
 }
@@ -44,8 +44,8 @@
   NSMutableArray *changedQuests = [NSMutableArray array];
   NSMutableArray *potentialQuests = [NSMutableArray array];
   
-  for (FullQuestProto *quest in gs.inProgressIncompleteQuests.allValues) {
-    if (quest.questType == FullQuestProto_QuestTypeKillMonster) {
+  for (QuestProto *quest in gs.inProgressIncompleteQuests.allValues) {
+    if (quest.questType == QuestProto_QuestTypeKillMonster) {
       [potentialQuests addObject:quest];
     }
   }
@@ -58,7 +58,7 @@
     for (TaskStageMonsterProto *tsm in tsp.stageMonstersList) {
       
       // Check the potential quests
-      for (FullQuestProto *quest in potentialQuests) {
+      for (QuestProto *quest in potentialQuests) {
         UserQuest *uq = [gs myQuestWithId:quest.questId];
         if (quest.staticDataId == tsm.monsterId) {
           uq.progress = MIN(uq.progress+1, quest.quantity);
@@ -69,7 +69,7 @@
     }
   }
   
-  for (FullQuestProto *fqp  in changedQuests) {
+  for (QuestProto *fqp  in changedQuests) {
     [[OutgoingEventController sharedOutgoingEventController] questProgress:fqp.questId];
   }
   

@@ -219,7 +219,7 @@
 - (void) deployBattleSprite:(BattlePlayer *)bp {
   [self removeDeployView];
   BOOL isSwap = self.myPlayer != nil;
-  if (bp && bp.userMonsterId != self.myPlayerObject.userMonsterId) {
+  if (bp && ![bp.userMonsterUuid isEqualToString:self.myPlayerObject.userMonsterUuid]) {
     self.myPlayerObject = bp;
     
     if (isSwap) {

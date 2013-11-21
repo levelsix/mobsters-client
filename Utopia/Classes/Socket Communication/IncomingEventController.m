@@ -7,7 +7,7 @@
 //
 
 #import "IncomingEventController.h"
-#import "Protocols.pb.h"
+#import "MobstersEventProtocol.pb.h"
 #import "LNSynthesizeSingleton.h"
 #import "GameState.h"
 #import "Globals.h"
@@ -16,12 +16,10 @@
 #import "GameLayer.h"
 #import "MissionMap.h"
 #import "GameViewController.h"
-#import "ActivityFeedController.h"
 #import "GenericPopupController.h"
 #import "FullEvent.h"
 #import "AppDelegate.h"
 #import "IAPHelper.h"
-#import "ClanViewController.h"
 #import "SocketCommunication.h"
 #import "DungeonBattleLayer.h"
 
@@ -31,182 +29,182 @@
 
 SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
 
-- (Class) getClassForType: (EventProtocolResponse) type {
+- (Class) getClassForType:(MobstersEventProtocolResponse)type {
   // This is very hacky but I suppose necessary.. :/
   Class responseClass;
   switch (type) {
-    case EventProtocolResponseSUserCreateEvent:
+    case MobstersEventProtocolResponseSUserCreateEvent:
       responseClass = [UserCreateResponseProto class];
       break;
-    case EventProtocolResponseSStartupEvent:
+    case MobstersEventProtocolResponseSStartupEvent:
       responseClass = [StartupResponseProto class];
       break;
-    case EventProtocolResponseSLevelUpEvent:
+    case MobstersEventProtocolResponseSLevelUpEvent:
       responseClass = [LevelUpResponseProto class];
       break;
-    case EventProtocolResponseSInAppPurchaseEvent:
+    case MobstersEventProtocolResponseSInAppPurchaseEvent:
       responseClass = [InAppPurchaseResponseProto class];
       break;
-    case EventProtocolResponseSUpdateClientUserEvent:
+    case MobstersEventProtocolResponseSUpdateClientUserEvent:
       responseClass = [UpdateClientUserResponseProto class];
       break;
-    case EventProtocolResponseSPurchaseNormStructureEvent:
+    case MobstersEventProtocolResponseSPurchaseNormStructureEvent:
       responseClass = [PurchaseNormStructureResponseProto class];
       break;
-    case EventProtocolResponseSMoveOrRotateNormStructureEvent:
+    case MobstersEventProtocolResponseSMoveOrRotateNormStructureEvent:
       responseClass = [MoveOrRotateNormStructureResponseProto class];
       break;
-    case EventProtocolResponseSUpgradeNormStructureEvent:
+    case MobstersEventProtocolResponseSUpgradeNormStructureEvent:
       responseClass = [UpgradeNormStructureResponseProto class];
       break;
-    case EventProtocolResponseSNormStructWaitCompleteEvent:
+    case MobstersEventProtocolResponseSNormStructWaitCompleteEvent:
       responseClass = [NormStructWaitCompleteResponseProto class];
       break;
-    case EventProtocolResponseSFinishNormStructWaittimeWithDiamondsEvent:
+    case MobstersEventProtocolResponseSFinishNormStructWaittimeWithDiamondsEvent:
       responseClass = [FinishNormStructWaittimeWithDiamondsResponseProto class];
       break;
-    case EventProtocolResponseSRetrieveCurrencyFromNormStructureEvent:
+    case MobstersEventProtocolResponseSRetrieveCurrencyFromNormStructureEvent:
       responseClass = [RetrieveCurrencyFromNormStructureResponseProto class];
       break;
-    case EventProtocolResponseSSellNormStructureEvent:
+    case MobstersEventProtocolResponseSSellNormStructureEvent:
       responseClass = [SellNormStructureResponseProto class];
       break;
-    case EventProtocolResponseSLoadPlayerCityEvent:
+    case MobstersEventProtocolResponseSLoadPlayerCityEvent:
       responseClass = [LoadPlayerCityResponseProto class];
       break;
-    case EventProtocolResponseSLoadCityEvent:
+    case MobstersEventProtocolResponseSLoadCityEvent:
       responseClass = [LoadCityResponseProto class];
       break;
-    case EventProtocolResponseSQuestAcceptEvent:
+    case MobstersEventProtocolResponseSQuestAcceptEvent:
       responseClass = [QuestAcceptResponseProto class];
       break;
-    case EventProtocolResponseSQuestRedeemEvent:
+    case MobstersEventProtocolResponseSQuestRedeemEvent:
       responseClass = [QuestRedeemResponseProto class];
       break;
-    case EventProtocolResponseSQuestProgressEvent:
+    case MobstersEventProtocolResponseSQuestProgressEvent:
       responseClass = [QuestProgressResponseProto class];
       break;
-    case EventProtocolResponseSRetrieveUsersForUserIdsEvent:
+    case MobstersEventProtocolResponseSRetrieveUsersForUserIdsEvent:
       responseClass = [RetrieveUsersForUserIdsResponseProto class];
       break;
-    case EventProtocolResponseSReferralCodeUsedEvent:
+    case MobstersEventProtocolResponseSReferralCodeUsedEvent:
       responseClass = [ReferralCodeUsedResponseProto class];
       break;
-    case EventProtocolResponseSEnableApnsEvent:
+    case MobstersEventProtocolResponseSEnableApnsEvent:
       responseClass = [EnableAPNSResponseProto class];
       break;
-    case EventProtocolResponseSEarnFreeDiamondsEvent:
-      responseClass = [EarnFreeDiamondsResponseProto class];
+    case MobstersEventProtocolResponseSEarnFreeDiamondsEvent:
+      responseClass = [EarnFreeGemsResponseProto class];
       break;
-    case EventProtocolResponseSPurgeStaticDataEvent:
+    case MobstersEventProtocolResponseSPurgeStaticDataEvent:
       responseClass = [PurgeClientStaticDataResponseProto class];
       break;
-    case EventProtocolResponseSSendGroupChatEvent:
+    case MobstersEventProtocolResponseSSendGroupChatEvent:
       responseClass = [SendGroupChatResponseProto class];
       break;
-    case EventProtocolResponseSReceivedGroupChatEvent:
+    case MobstersEventProtocolResponseSReceivedGroupChatEvent:
       responseClass = [ReceivedGroupChatResponseProto class];
       break;
-    case EventProtocolResponseSCreateClanEvent:
+    case MobstersEventProtocolResponseSCreateClanEvent:
       responseClass = [CreateClanResponseProto class];
       break;
-    case EventProtocolResponseSApproveOrRejectRequestToJoinClanEvent:
+    case MobstersEventProtocolResponseSApproveOrRejectRequestToJoinClanEvent:
       responseClass = [ApproveOrRejectRequestToJoinClanResponseProto class];
       break;
-    case EventProtocolResponseSLeaveClanEvent:
+    case MobstersEventProtocolResponseSLeaveClanEvent:
       responseClass = [LeaveClanResponseProto class];
       break;
-    case EventProtocolResponseSRequestJoinClanEvent:
+    case MobstersEventProtocolResponseSRequestJoinClanEvent:
       responseClass = [RequestJoinClanResponseProto class];
       break;
-    case EventProtocolResponseSRetractRequestJoinClanEvent:
+    case MobstersEventProtocolResponseSRetractRequestJoinClanEvent:
       responseClass = [RetractRequestJoinClanResponseProto class];
       break;
-    case EventProtocolResponseSRetrieveClanInfoEvent:
+    case MobstersEventProtocolResponseSRetrieveClanInfoEvent:
       responseClass = [RetrieveClanInfoResponseProto class];
       break;
-    case EventProtocolResponseSTransferClanOwnership:
+    case MobstersEventProtocolResponseSTransferClanOwnership:
       responseClass = [TransferClanOwnershipResponseProto class];
       break;
-    case EventProtocolResponseSChangeClanDescriptionEvent:
+    case MobstersEventProtocolResponseSChangeClanDescriptionEvent:
       responseClass = [ChangeClanDescriptionResponseProto class];
       break;
-    case EventProtocolResponseSBootPlayerFromClanEvent:
+    case MobstersEventProtocolResponseSBootPlayerFromClanEvent:
       responseClass = [BootPlayerFromClanResponseProto class];
       break;
-    case EventProtocolResponseSExpansionWaitCompleteEvent:
+    case MobstersEventProtocolResponseSExpansionWaitCompleteEvent:
       responseClass = [ExpansionWaitCompleteResponseProto class];
       break;
-    case EventProtocolResponseSPurchaseCityExpansionEvent:
+    case MobstersEventProtocolResponseSPurchaseCityExpansionEvent:
       responseClass = [PurchaseCityExpansionResponseProto class];
       break;
-    case EventProtocolResponseSSendAdminMessageEvent:
+    case MobstersEventProtocolResponseSSendAdminMessageEvent:
       responseClass = [SendAdminMessageResponseProto class];
       break;
-    case EventProtocolResponseSGeneralNotificationEvent:
+    case MobstersEventProtocolResponseSGeneralNotificationEvent:
       responseClass = [GeneralNotificationResponseProto class];
       break;
-    case EventProtocolResponseSRetrieveTournamentRankingsEvent:
+    case MobstersEventProtocolResponseSRetrieveTournamentRankingsEvent:
       responseClass = [RetrieveTournamentRankingsResponseProto class];
       break;
-    case EventProtocolResponseSSubmitMonsterEnhancementEvent:
+    case MobstersEventProtocolResponseSSubmitMonsterEnhancementEvent:
       responseClass = [SubmitMonsterEnhancementResponseProto class];
       break;
-    case EventProtocolResponseSPurchaseBoosterPackEvent:
+    case MobstersEventProtocolResponseSPurchaseBoosterPackEvent:
       responseClass = [PurchaseBoosterPackResponseProto class];
       break;
-    case EventProtocolResponseSChangeClanJoinTypeEvent:
+    case MobstersEventProtocolResponseSChangeClanJoinTypeEvent:
       responseClass = [ChangeClanJoinTypeResponseProto class];
       break;
-    case EventProtocolResponseSReceivedRareBoosterPurchaseEvent:
+    case MobstersEventProtocolResponseSReceivedRareBoosterPurchaseEvent:
       responseClass = [ReceivedRareBoosterPurchaseResponseProto class];
       break;
-    case EventProtocolResponseSPrivateChatPostEvent:
+    case MobstersEventProtocolResponseSPrivateChatPostEvent:
       responseClass = [PrivateChatPostResponseProto class];
       break;
-    case EventProtocolResponseSRetrievePrivateChatPostEvent:
+    case MobstersEventProtocolResponseSRetrievePrivateChatPostEvent:
       responseClass = [RetrievePrivateChatPostsResponseProto class];
       break;
-    case EventProtocolResponseSBeginDungeonEvent:
+    case MobstersEventProtocolResponseSBeginDungeonEvent:
       responseClass = [BeginDungeonResponseProto class];
       break;
-    case EventProtocolResponseSReviveInDungeonEvent:
+    case MobstersEventProtocolResponseSReviveInDungeonEvent:
       responseClass = [ReviveInDungeonResponseProto class];
       break;
-    case EventProtocolResponseSEndDungeonEvent:
+    case MobstersEventProtocolResponseSEndDungeonEvent:
       responseClass = [EndDungeonResponseProto class];
       break;
-    case EventProtocolResponseSHealMonsterEvent:
+    case MobstersEventProtocolResponseSHealMonsterEvent:
       responseClass = [HealMonsterResponseProto class];
       break;
-    case EventProtocolResponseSHealMonsterWaitTimeCompleteEvent:
+    case MobstersEventProtocolResponseSHealMonsterWaitTimeCompleteEvent:
       responseClass = [HealMonsterWaitTimeCompleteResponseProto class];
       break;
-    case EventProtocolResponseSAddMonsterToBattleTeamEvent:
+    case MobstersEventProtocolResponseSAddMonsterToBattleTeamEvent:
       responseClass = [AddMonsterToBattleTeamResponseProto class];
       break;
-    case EventProtocolResponseSIncreaseMonsterInventorySlotEvent:
+    case MobstersEventProtocolResponseSIncreaseMonsterInventorySlotEvent:
       responseClass = [IncreaseMonsterInventorySlotResponseProto class];
       break;
-    case EventProtocolResponseSEnhancementWaitTimeCompleteEvent:
+    case MobstersEventProtocolResponseSEnhancementWaitTimeCompleteEvent:
       responseClass = [EnhancementWaitTimeCompleteResponseProto class];
       break;
-    case EventProtocolResponseSRemoveMonsterFromBattleTeamEvent:
+    case MobstersEventProtocolResponseSRemoveMonsterFromBattleTeamEvent:
       responseClass = [RemoveMonsterFromBattleTeamResponseProto class];
       break;
-    case EventProtocolResponseSUpdateMonsterHealthEvent:
+    case MobstersEventProtocolResponseSUpdateMonsterHealthEvent:
       responseClass = [UpdateMonsterHealthResponseProto class];
       break;
-    case EventProtocolResponseSCombineUserMonsterPiecesEvent:
+    case MobstersEventProtocolResponseSCombineUserMonsterPiecesEvent:
       responseClass = [CombineUserMonsterPiecesResponseProto class];
       break;
-    case EventProtocolResponseSSellUserMonsterEvent:
+    case MobstersEventProtocolResponseSSellUserMonsterEvent:
       responseClass = [SellUserMonsterResponseProto class];
       break;
-    case EventProtocolResponseSInviteFbFriendsForSlotsEvent:
+    case MobstersEventProtocolResponseSInviteFbFriendsForSlotsEvent:
       responseClass = [InviteFbFriendsForSlotsResponseProto class];
       break;
-    case EventProtocolResponseSAcceptAndRejectFbInviteForSlotsEvent:
+    case MobstersEventProtocolResponseSAcceptAndRejectFbInviteForSlotsEvent:
       responseClass = [AcceptAndRejectFbInviteForSlotsResponseProto class];
       break;
       
@@ -248,8 +246,8 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
   
   [gl updateConstants:proto.startupConstants];
   if (proto.startupStatus == StartupResponseProto_StartupStatusUserInDb) {
-    if (proto.sender.userId == 0) {
-      LNLog(@"Received user id 0..");
+    if (!proto.sender.hasUserUuid) {
+      LNLog(@"Did not receive user uuid");
     }
     
     [gs updateStaticData:proto.staticDataStuffProto];
@@ -379,15 +377,14 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
   if (proto.status != InAppPurchaseResponseProto_InAppPurchaseStatusSuccess) {
     // Duplicate receipt might occur if you close app before response comes back
     if (proto.status != InAppPurchaseResponseProto_InAppPurchaseStatusDuplicateReceipt) {
-      [Globals popupMessage:@"Sorry! The In App Purchase failed! Please 	email at support@lvl6.com"];
-      [Analytics inAppPurchaseFailed];
+      [Globals popupMessage:@"Sorry! The In App Purchase failed! Please email at support@lvl6.com"];
     }
     [gs removeAndUndoAllUpdatesForTag:tag];
   } else {
     // Post notification so all UI with that bar can update
     [[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:IAP_SUCCESS_NOTIFICATION object:nil]];
     [gs removeNonFullUserUpdatesForTag:tag];
-    [Analytics purchasedGoldPackage:proto.packageName price:proto.packagePrice goldAmount:proto.diamondsGained];
+    [Analytics purchasedGoldPackage:proto.packageName price:proto.packagePrice goldAmount:proto.gemsGained];
   }
 }
 
@@ -413,15 +410,15 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
     // Get the userstruct without a userStructId
     UserStruct *us = nil;
     for (UserStruct *u in [[GameState sharedGameState] myStructs]) {
-      if (u.userStructId == 0) {
+      if (u.userStructUuid == 0) {
         us = u;
         break;
       }
     }
     
     if (proto.status == PurchaseNormStructureResponseProto_PurchaseNormStructureStatusSuccess) {
-      if (proto.hasUserStructId) {
-        us.userStructId = proto.userStructId;
+      if (proto.hasUserStructUuid) {
+        us.userStructUuid = proto.userStructUuid;
       } else {
         // This should never happen
         LNLog(@"Received success in purchase with no userStructId");
@@ -544,7 +541,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
   GameState *gs = [GameState sharedGameState];
   
   if (proto.status == LoadPlayerCityResponseProto_LoadPlayerCityStatusSuccess) {
-    if (proto.cityOwner.userId == gs.userId) {
+    if ([proto.cityOwner.userUuid isEqualToString:gs.userUuid]) {
       [gs.myStructs removeAllObjects];
       [gs addToMyStructs:proto.ownerNormStructsList];
       
@@ -568,7 +565,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
       [defaults removeObjectForKey:key];
       for (NSString *receipt in arr) {
         LNLog(@"Sending over unresponded receipt.");
-        [[OutgoingEventController sharedOutgoingEventController] inAppPurchase:receipt goldAmt:0 silverAmt:0 product:nil];
+        [[OutgoingEventController sharedOutgoingEventController] inAppPurchase:receipt goldAmt:0 cashAmt:0 product:nil];
       }
     }
   } else if (proto.status == LoadPlayerCityResponseProto_LoadPlayerCityStatusNoSuchPlayer) {
@@ -658,8 +655,6 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
   GameState *gs = [GameState sharedGameState];
   UserNotification *un = [[UserNotification alloc] initWithReferralResponse:proto];
   [gs addNotification:un];
-  
-  [Analytics receivedNotification];
 }
 
 - (void) handleEnableAPNSResponseProto:(FullEvent *)fe {
@@ -678,16 +673,16 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
 }
 
 - (void) handleEarnFreeDiamondsResponseProto:(FullEvent *)fe {
-  EarnFreeDiamondsResponseProto *proto = (EarnFreeDiamondsResponseProto *)fe.event;
+  EarnFreeGemsResponseProto *proto = (EarnFreeGemsResponseProto *)fe.event;
   int tag = fe.tag;
   
   LNLog(@"Earn free diamonds response received with status %d.", proto.status);
   
   GameState *gs = [GameState sharedGameState];
-  if (proto.status == EarnFreeDiamondsResponseProto_EarnFreeDiamondsStatusSuccess) {
-    if (proto.freeDiamondsType == EarnFreeDiamondsTypeFbConnect) {
+  if (proto.status == EarnFreeGemsResponseProto_EarnFreeGemsStatusSuccess) {
+    if (proto.freeGemsType == EarnFreeGemsTypeFbConnect) {
       Globals *gl = [Globals sharedGlobals];
-      [Globals popupMessage:[NSString stringWithFormat:@"Congrats! You have received %d gold for connecting to Facebook.", gl.fbConnectRewardDiamonds]];
+      [Globals popupMessage:[NSString stringWithFormat:@"Congrats! You have received %d gold for connecting to Facebook.", gl.fbConnectRewardGems]];
       gs.hasReceivedfbReward = YES;
     }
     
@@ -727,7 +722,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
   
   // Chats sent from this user will be faked.
   GameState *gs = [GameState sharedGameState];
-  if (proto.sender.minUserProto.userId != gs.userId) {
+  if (![proto.sender.minUserProto.userUuid isEqualToString:gs.userUuid]) {
     [gs addChatMessage:proto.sender message:proto.chatMessage scope:proto.scope isAdmin:proto.isAdmin];
   }
 }
@@ -776,7 +771,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
   
   GameState *gs = [GameState sharedGameState];
   if (proto.status == ApproveOrRejectRequestToJoinClanResponseProto_ApproveOrRejectRequestToJoinClanStatusSuccess) {
-    if (proto.requesterId == gs.userId) {
+    if ([proto.requesterUuid isEqualToString:gs.userUuid]) {
       [gs.requestedClans removeAllObjects];
       if (proto.accept) {
         gs.clan = proto.minClan;
@@ -802,7 +797,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
   
   GameState *gs = [GameState sharedGameState];
   if (proto.status == LeaveClanResponseProto_LeaveClanStatusSuccess) {
-    if (proto.sender.userId == gs.userId) {
+    if ([proto.sender.userUuid isEqualToString:gs.userUuid]) {
       [gs.requestedClans removeAllObjects];
       gs.clan = nil;
       [[SocketCommunication sharedSocketCommunication] rebuildSender];
@@ -826,13 +821,13 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
   
   GameState *gs = [GameState sharedGameState];
   if (proto.status == RequestJoinClanResponseProto_RequestJoinClanStatusRequestSuccess) {
-    if (proto.sender.userId == gs.userId) {
-      [gs.requestedClans addObject:[NSNumber numberWithInt:proto.clanId]];
+    if ([proto.sender.userUuid isEqualToString:gs.userUuid]) {
+      [gs.requestedClans addObject:proto.clanUuid];
     }
     
     [gs removeNonFullUserUpdatesForTag:tag];
   } else if (proto.status == RequestJoinClanResponseProto_RequestJoinClanStatusJoinSuccess) {
-    if (proto.sender.userId == gs.userId) {
+    if ([proto.sender.userUuid isEqualToString:gs.userUuid]) {
       [gs.requestedClans removeAllObjects];
       gs.clan = proto.minClan;
       [[SocketCommunication sharedSocketCommunication] rebuildSender];
@@ -858,8 +853,8 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
   
   GameState *gs = [GameState sharedGameState];
   if (proto.status == RetractRequestJoinClanResponseProto_RetractRequestJoinClanStatusSuccess) {
-    if (proto.sender.userId == gs.userId) {
-      [gs.requestedClans removeObject:[NSNumber numberWithInt:proto.clanId]];
+    if ([proto.sender.userUuid isEqualToString:gs.userUuid]) {
+      [gs.requestedClans removeObject:proto.clanUuid];
     }
     
     [gs removeNonFullUserUpdatesForTag:tag];
@@ -937,7 +932,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
   
   GameState *gs = [GameState sharedGameState];
   if (proto.status == BootPlayerFromClanResponseProto_BootPlayerFromClanStatusSuccess) {
-    if (proto.playerToBoot == gs.userId) {
+    if ([proto.playerUuidToBoot isEqualToString:gs.userUuid]) {
       gs.clan = nil;
       [[SocketCommunication sharedSocketCommunication] rebuildSender];
       

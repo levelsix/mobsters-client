@@ -7,7 +7,7 @@
 //
 
 #import "IAPHelper.h"
-#import "Protocols.pb.h"
+#import "MobstersEventProtocol.pb.h"
 #import "OutgoingEventController.h"
 #import "Globals.h"
 #import "LNSynthesizeSingleton.h"
@@ -103,10 +103,10 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IAPHelper);
   NSString *productId = transaction.payment.productIdentifier;
   InAppPurchasePackageProto *pkg = [gl packageForProductId:productId];
   int goldAmt = pkg.isGold ? pkg.currencyAmount : 0;
-  int silverAmt = !pkg.isGold ? pkg.currencyAmount : 0;
+  int cashAmt = !pkg.isGold ? pkg.currencyAmount : 0;
   SKProduct *prod = [self.products objectForKey:productId];
   
-  [[OutgoingEventController sharedOutgoingEventController] inAppPurchase:encodedReceipt goldAmt:goldAmt silverAmt:silverAmt product:prod];
+  [[OutgoingEventController sharedOutgoingEventController] inAppPurchase:encodedReceipt goldAmt:goldAmt cashAmt:cashAmt product:prod];
   [[SKPaymentQueue defaultQueue] finishTransaction: transaction];
 }
 
@@ -117,7 +117,6 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IAPHelper);
     [Globals popupMessage:[NSString stringWithFormat:@"Error: %@", transaction.error.localizedDescription]];
   } else {
     // Transaction was cancelled
-    [Analytics cancelledGoldPackage:transaction.payment.productIdentifier];
   }
   
   [[SKPaymentQueue defaultQueue] finishTransaction: transaction];

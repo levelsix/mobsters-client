@@ -15,7 +15,7 @@ static PBExtensionRegistry* extensionRegistry = nil;
     [BoosterPackStuffRoot registerAllExtensions:registry];
     [CityRoot registerAllExtensions:registry];
     [MonsterStuffRoot registerAllExtensions:registry];
-    [QuestRoot registerAllExtensions:registry];
+    [QuestStuffRoot registerAllExtensions:registry];
     [StructureRoot registerAllExtensions:registry];
     [TaskRoot registerAllExtensions:registry];
     [UserRoot registerAllExtensions:registry];
@@ -145,21 +145,21 @@ static StaticDataProto* defaultStaticDataProtoInstance = nil;
 - (NSArray*) inProgressQuestsList {
   return mutableInProgressQuestsList;
 }
-- (FullQuestProto*) inProgressQuestsAtIndex:(int32_t) index {
+- (QuestProto*) inProgressQuestsAtIndex:(int32_t) index {
   id value = [mutableInProgressQuestsList objectAtIndex:index];
   return value;
 }
 - (NSArray*) unredeemedQuestsList {
   return mutableUnredeemedQuestsList;
 }
-- (FullQuestProto*) unredeemedQuestsAtIndex:(int32_t) index {
+- (QuestProto*) unredeemedQuestsAtIndex:(int32_t) index {
   id value = [mutableUnredeemedQuestsList objectAtIndex:index];
   return value;
 }
 - (NSArray*) availableQuestsList {
   return mutableAvailableQuestsList;
 }
-- (FullQuestProto*) availableQuestsAtIndex:(int32_t) index {
+- (QuestProto*) availableQuestsAtIndex:(int32_t) index {
   id value = [mutableAvailableQuestsList objectAtIndex:index];
   return value;
 }
@@ -195,13 +195,13 @@ static StaticDataProto* defaultStaticDataProtoInstance = nil;
   for (StaticUserLevelInfoProto* element in self.slipList) {
     [output writeMessage:7 value:element];
   }
-  for (FullQuestProto* element in self.inProgressQuestsList) {
+  for (QuestProto* element in self.inProgressQuestsList) {
     [output writeMessage:8 value:element];
   }
-  for (FullQuestProto* element in self.unredeemedQuestsList) {
+  for (QuestProto* element in self.unredeemedQuestsList) {
     [output writeMessage:9 value:element];
   }
-  for (FullQuestProto* element in self.availableQuestsList) {
+  for (QuestProto* element in self.availableQuestsList) {
     [output writeMessage:10 value:element];
   }
   if (self.hasStatus) {
@@ -240,13 +240,13 @@ static StaticDataProto* defaultStaticDataProtoInstance = nil;
   for (StaticUserLevelInfoProto* element in self.slipList) {
     size += computeMessageSize(7, element);
   }
-  for (FullQuestProto* element in self.inProgressQuestsList) {
+  for (QuestProto* element in self.inProgressQuestsList) {
     size += computeMessageSize(8, element);
   }
-  for (FullQuestProto* element in self.unredeemedQuestsList) {
+  for (QuestProto* element in self.unredeemedQuestsList) {
     size += computeMessageSize(9, element);
   }
-  for (FullQuestProto* element in self.availableQuestsList) {
+  for (QuestProto* element in self.availableQuestsList) {
     size += computeMessageSize(10, element);
   }
   if (self.hasStatus) {
@@ -472,19 +472,19 @@ BOOL StaticDataProto_RetrieveStaticDataStatusIsValidValue(StaticDataProto_Retrie
         break;
       }
       case 66: {
-        FullQuestProto_Builder* subBuilder = [FullQuestProto builder];
+        QuestProto_Builder* subBuilder = [QuestProto builder];
         [input readMessage:subBuilder extensionRegistry:extensionRegistry];
         [self addInProgressQuests:[subBuilder buildPartial]];
         break;
       }
       case 74: {
-        FullQuestProto_Builder* subBuilder = [FullQuestProto builder];
+        QuestProto_Builder* subBuilder = [QuestProto builder];
         [input readMessage:subBuilder extensionRegistry:extensionRegistry];
         [self addUnredeemedQuests:[subBuilder buildPartial]];
         break;
       }
       case 82: {
-        FullQuestProto_Builder* subBuilder = [FullQuestProto builder];
+        QuestProto_Builder* subBuilder = [QuestProto builder];
         [input readMessage:subBuilder extensionRegistry:extensionRegistry];
         [self addAvailableQuests:[subBuilder buildPartial]];
         break;
@@ -715,10 +715,10 @@ BOOL StaticDataProto_RetrieveStaticDataStatusIsValidValue(StaticDataProto_Retrie
   if (result.mutableInProgressQuestsList == nil) { return [NSArray array]; }
   return result.mutableInProgressQuestsList;
 }
-- (FullQuestProto*) inProgressQuestsAtIndex:(int32_t) index {
+- (QuestProto*) inProgressQuestsAtIndex:(int32_t) index {
   return [result inProgressQuestsAtIndex:index];
 }
-- (StaticDataProto_Builder*) replaceInProgressQuestsAtIndex:(int32_t) index with:(FullQuestProto*) value {
+- (StaticDataProto_Builder*) replaceInProgressQuestsAtIndex:(int32_t) index with:(QuestProto*) value {
   [result.mutableInProgressQuestsList replaceObjectAtIndex:index withObject:value];
   return self;
 }
@@ -733,7 +733,7 @@ BOOL StaticDataProto_RetrieveStaticDataStatusIsValidValue(StaticDataProto_Retrie
   result.mutableInProgressQuestsList = nil;
   return self;
 }
-- (StaticDataProto_Builder*) addInProgressQuests:(FullQuestProto*) value {
+- (StaticDataProto_Builder*) addInProgressQuests:(QuestProto*) value {
   if (result.mutableInProgressQuestsList == nil) {
     result.mutableInProgressQuestsList = [NSMutableArray array];
   }
@@ -744,10 +744,10 @@ BOOL StaticDataProto_RetrieveStaticDataStatusIsValidValue(StaticDataProto_Retrie
   if (result.mutableUnredeemedQuestsList == nil) { return [NSArray array]; }
   return result.mutableUnredeemedQuestsList;
 }
-- (FullQuestProto*) unredeemedQuestsAtIndex:(int32_t) index {
+- (QuestProto*) unredeemedQuestsAtIndex:(int32_t) index {
   return [result unredeemedQuestsAtIndex:index];
 }
-- (StaticDataProto_Builder*) replaceUnredeemedQuestsAtIndex:(int32_t) index with:(FullQuestProto*) value {
+- (StaticDataProto_Builder*) replaceUnredeemedQuestsAtIndex:(int32_t) index with:(QuestProto*) value {
   [result.mutableUnredeemedQuestsList replaceObjectAtIndex:index withObject:value];
   return self;
 }
@@ -762,7 +762,7 @@ BOOL StaticDataProto_RetrieveStaticDataStatusIsValidValue(StaticDataProto_Retrie
   result.mutableUnredeemedQuestsList = nil;
   return self;
 }
-- (StaticDataProto_Builder*) addUnredeemedQuests:(FullQuestProto*) value {
+- (StaticDataProto_Builder*) addUnredeemedQuests:(QuestProto*) value {
   if (result.mutableUnredeemedQuestsList == nil) {
     result.mutableUnredeemedQuestsList = [NSMutableArray array];
   }
@@ -773,10 +773,10 @@ BOOL StaticDataProto_RetrieveStaticDataStatusIsValidValue(StaticDataProto_Retrie
   if (result.mutableAvailableQuestsList == nil) { return [NSArray array]; }
   return result.mutableAvailableQuestsList;
 }
-- (FullQuestProto*) availableQuestsAtIndex:(int32_t) index {
+- (QuestProto*) availableQuestsAtIndex:(int32_t) index {
   return [result availableQuestsAtIndex:index];
 }
-- (StaticDataProto_Builder*) replaceAvailableQuestsAtIndex:(int32_t) index with:(FullQuestProto*) value {
+- (StaticDataProto_Builder*) replaceAvailableQuestsAtIndex:(int32_t) index with:(QuestProto*) value {
   [result.mutableAvailableQuestsList replaceObjectAtIndex:index withObject:value];
   return self;
 }
@@ -791,7 +791,7 @@ BOOL StaticDataProto_RetrieveStaticDataStatusIsValidValue(StaticDataProto_Retrie
   result.mutableAvailableQuestsList = nil;
   return self;
 }
-- (StaticDataProto_Builder*) addAvailableQuests:(FullQuestProto*) value {
+- (StaticDataProto_Builder*) addAvailableQuests:(QuestProto*) value {
   if (result.mutableAvailableQuestsList == nil) {
     result.mutableAvailableQuestsList = [NSMutableArray array];
   }

@@ -49,9 +49,9 @@
 @property (nonatomic, strong) NSMutableArray *structsList;
 
 @property (nonatomic, strong) IBOutlet UILabel *cashLabel;
-@property (nonatomic, strong) IBOutlet UILabel *diamondLabel;
+@property (nonatomic, strong) IBOutlet UILabel *gemsLabel;
 
 - (void) reloadCarpenterStructs;
-- (IBAction)goToGoldShop:(id)sender;
+- (IBAction)goToShop:(id)sender;
 
 @end

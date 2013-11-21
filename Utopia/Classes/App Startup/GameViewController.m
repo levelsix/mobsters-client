@@ -160,7 +160,7 @@
   [self progressTo:PART_3_PERCENT];
   
   GameState *gs = [GameState sharedGameState];
-  [[OutgoingEventController sharedOutgoingEventController] loadPlayerCity:gs.userId withDelegate:self];
+  [[OutgoingEventController sharedOutgoingEventController] loadPlayerCity:gs.userUuid withDelegate:self];
   
   if (self.loadingView.superview) {
     [self.loadingView stop];
@@ -300,9 +300,9 @@
 
 #pragma mark - Chat access
 
-- (void) openPrivateChatWithUserId:(int)userId {
+- (void) openPrivateChatWithUserUuid:(NSString *)userUuid {
   void (^openChat)(void) = ^{
-    [self.topBarViewController.chatViewController openWithConversationForUserId:userId];
+    [self.topBarViewController.chatViewController openWithConversationForUserUuid:userUuid];
   };
   if (self.presentedViewController) {
     [self dismissViewControllerAnimated:YES completion:openChat];
