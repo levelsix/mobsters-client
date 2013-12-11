@@ -25,6 +25,9 @@
 @interface SilverUpdate : FullUserUpdate
 @end
 
+@interface OilUpdate : FullUserUpdate
+@end
+
 @interface LevelUpdate : FullUserUpdate
 @end
 

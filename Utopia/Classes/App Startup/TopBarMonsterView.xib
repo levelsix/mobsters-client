@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="4514" systemVersion="12F45" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none">
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="3746"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="3747"/>
     </dependencies>
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="TopBarViewController">
@@ -11,24 +11,52 @@
         </placeholder>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
         <view contentMode="scaleToFill" id="1" customClass="TopBarMonsterView">
-            <rect key="frame" x="0.0" y="0.0" width="50" height="50"/>
+            <rect key="frame" x="0.0" y="0.0" width="80" height="33"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
-                <view contentMode="scaleToFill" id="bRw-rA-cop">
-                    <rect key="frame" x="0.0" y="0.0" width="50" height="50"/>
+                <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleAspectFit" image="firemteam.png" id="cLo-x3-SvZ">
+                    <rect key="frame" x="5" y="6" width="21" height="21"/>
+                    <autoresizingMask key="autoresizingMask"/>
+                </imageView>
+                <view clipsSubviews="YES" contentMode="scaleToFill" id="PDn-2W-qLR">
+                    <rect key="frame" x="-6" y="-5" width="42" height="42"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                     <subviews>
-                        <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="memberbg.png" id="v7u-SB-v3e">
-                            <rect key="frame" x="0.0" y="0.0" width="50" height="50"/>
+                        <imageView userInteractionEnabled="NO" contentMode="top" image="Cheerleader2BazookaThumbnail.png" id="o7G-8v-8dq">
+                            <rect key="frame" x="-8" y="4" width="59" height="59"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                        </imageView>
+                    </subviews>
+                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                </view>
+                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Lil Kim" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" id="qg5-8p-Zuq" customClass="NiceFontLabel">
+                    <rect key="frame" x="30" y="-1" width="45" height="21"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxY="YES"/>
+                    <fontDescription key="fontDescription" type="system" pointSize="10"/>
+                    <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    <nil key="highlightedColor"/>
+                    <color key="shadowColor" white="0.0" alpha="0.29999999999999999" colorSpace="calibratedWhite"/>
+                    <size key="shadowOffset" width="0.0" height="1"/>
+                </label>
+                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Healing" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" id="laS-nS-0zD" customClass="NiceFontLabel">
+                    <rect key="frame" x="30" y="11" width="45" height="21"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxY="YES"/>
+                    <fontDescription key="fontDescription" type="system" pointSize="9"/>
+                    <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    <nil key="highlightedColor"/>
+                    <color key="shadowColor" white="0.0" alpha="0.29999999999999999" colorSpace="calibratedWhite"/>
+                    <size key="shadowOffset" width="0.0" height="1"/>
+                </label>
+                <view contentMode="scaleToFill" id="4NV-7V-bTf">
+                    <rect key="frame" x="29" y="18" width="47" height="8"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                    <subviews>
+                        <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="hteambarbg.png" id="TqI-H9-rdr">
+                            <rect key="frame" x="0.0" y="0.0" width="47" height="8"/>
                             <autoresizingMask key="autoresizingMask"/>
                         </imageView>
-                        <view contentMode="scaleToFill" id="cW7-9a-0KN" customClass="CircularProgressBar">
-                            <rect key="frame" x="0.0" y="0.0" width="50" height="50"/>
-                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                        </view>
-                        <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleAspectFit" image="Luchador2AKIcon.png" id="gRl-R6-KDi">
-                            <rect key="frame" x="5" y="5" width="40" height="40"/>
+                        <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="lighthteambar.png" id="hKY-uP-xbb" customClass="ProgressBar">
+                            <rect key="frame" x="1" y="1" width="45" height="6"/>
                             <autoresizingMask key="autoresizingMask"/>
                         </imageView>
                     </subviews>
@@ -38,28 +66,20 @@
             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
             <simulatedOrientationMetrics key="simulatedOrientationMetrics" orientation="landscapeRight"/>
             <connections>
-                <outlet property="emptyView" destination="49p-u8-l5B" id="gSQ-qP-iO8"/>
-                <outlet property="healthBar" destination="cW7-9a-0KN" id="EF1-XX-xYd"/>
-                <outlet property="monsterIcon" destination="gRl-R6-KDi" id="moT-61-ibe"/>
-                <outlet property="monsterView" destination="bRw-rA-cop" id="3sN-g3-fER"/>
+                <outlet property="bgdIcon" destination="cLo-x3-SvZ" id="RpO-Fg-puF"/>
+                <outlet property="botLabel" destination="laS-nS-0zD" id="jBt-Ls-tLY"/>
+                <outlet property="healthBar" destination="hKY-uP-xbb" id="2E0-tJ-RYU"/>
+                <outlet property="healthBarView" destination="4NV-7V-bTf" id="sFQ-e2-hhq"/>
+                <outlet property="iconView" destination="PDn-2W-qLR" id="7ZO-ED-yQq"/>
+                <outlet property="monsterIcon" destination="o7G-8v-8dq" id="W2c-LL-ebR"/>
+                <outlet property="topLabel" destination="qg5-8p-Zuq" id="c5C-lx-NQK"/>
             </connections>
-        </view>
-        <view contentMode="scaleToFill" id="49p-u8-l5B">
-            <rect key="frame" x="0.0" y="0.0" width="50" height="50"/>
-            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-            <subviews>
-                <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="emptyring.png" id="PSB-Q5-8dx">
-                    <rect key="frame" x="0.0" y="0.0" width="50" height="50"/>
-                    <autoresizingMask key="autoresizingMask"/>
-                </imageView>
-            </subviews>
-            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-            <simulatedOrientationMetrics key="simulatedOrientationMetrics" orientation="landscapeRight"/>
         </view>
     </objects>
     <resources>
-        <image name="Luchador2AKIcon.png" width="50" height="50"/>
-        <image name="emptyring.png" width="50" height="50"/>
-        <image name="memberbg.png" width="50" height="50"/>
+        <image name="Cheerleader2BazookaThumbnail.png" width="59" height="56"/>
+        <image name="firemteam.png" width="21" height="21"/>
+        <image name="hteambarbg.png" width="47" height="8"/>
+        <image name="lighthteambar.png" width="45" height="6"/>
     </resources>
 </document>

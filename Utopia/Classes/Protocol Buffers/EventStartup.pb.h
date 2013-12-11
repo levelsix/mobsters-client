@@ -40,8 +40,6 @@
 @class FullClanProto_Builder;
 @class FullQuestProto;
 @class FullQuestProto_Builder;
-@class FullStructureProto;
-@class FullStructureProto_Builder;
 @class FullTaskProto;
 @class FullTaskProto_Builder;
 @class FullUserClanProto;
@@ -58,8 +56,12 @@
 @class GoldSaleProto_Builder;
 @class GroupChatMessageProto;
 @class GroupChatMessageProto_Builder;
+@class HospitalProto;
+@class HospitalProto_Builder;
 @class InAppPurchasePackageProto;
 @class InAppPurchasePackageProto_Builder;
+@class LabProto;
+@class LabProto_Builder;
 @class MinimumClanProto;
 @class MinimumClanProto_Builder;
 @class MinimumUserMonsterSellProto;
@@ -82,6 +84,12 @@
 @class PrivateChatPostProto_Builder;
 @class RareBoosterPurchaseProto;
 @class RareBoosterPurchaseProto_Builder;
+@class ResidenceProto;
+@class ResidenceProto_Builder;
+@class ResourceGeneratorProto;
+@class ResourceGeneratorProto_Builder;
+@class ResourceStorageProto;
+@class ResourceStorageProto_Builder;
 @class StartupRequestProto;
 @class StartupRequestProto_Builder;
 @class StartupResponseProto;
@@ -108,10 +116,14 @@
 @class StaticDataProto_Builder;
 @class StaticUserLevelInfoProto;
 @class StaticUserLevelInfoProto_Builder;
+@class StructureInfoProto;
+@class StructureInfoProto_Builder;
 @class TaskStageMonsterProto;
 @class TaskStageMonsterProto_Builder;
 @class TaskStageProto;
 @class TaskStageProto_Builder;
+@class TownHallProto;
+@class TownHallProto_Builder;
 @class UserCityExpansionDataProto;
 @class UserCityExpansionDataProto_Builder;
 @class UserCurrentMonsterTeamProto;
@@ -158,12 +170,14 @@ BOOL StartupResponseProto_StartupStatusIsValidValue(StartupResponseProto_Startup
   BOOL hasApsalarId_:1;
   BOOL hasMacAddress_:1;
   BOOL hasAdvertiserId_:1;
+  BOOL hasFbId_:1;
   BOOL isForceTutorial_:1;
   Float32 versionNum;
   NSString* udid;
   NSString* apsalarId;
   NSString* macAddress;
   NSString* advertiserId;
+  NSString* fbId;
 }
 - (BOOL) hasUdid;
 - (BOOL) hasVersionNum;
@@ -171,12 +185,14 @@ BOOL StartupResponseProto_StartupStatusIsValidValue(StartupResponseProto_Startup
 - (BOOL) hasMacAddress;
 - (BOOL) hasAdvertiserId;
 - (BOOL) hasIsForceTutorial;
+- (BOOL) hasFbId;
 @property (readonly, retain) NSString* udid;
 @property (readonly) Float32 versionNum;
 @property (readonly, retain) NSString* apsalarId;
 @property (readonly, retain) NSString* macAddress;
 @property (readonly, retain) NSString* advertiserId;
 - (BOOL) isForceTutorial;
+@property (readonly, retain) NSString* fbId;
 
 + (StartupRequestProto*) defaultInstance;
 - (StartupRequestProto*) defaultInstance;
@@ -241,6 +257,11 @@ BOOL StartupResponseProto_StartupStatusIsValidValue(StartupResponseProto_Startup
 - (BOOL) isForceTutorial;
 - (StartupRequestProto_Builder*) setIsForceTutorial:(BOOL) value;
 - (StartupRequestProto_Builder*) clearIsForceTutorial;
+
+- (BOOL) hasFbId;
+- (NSString*) fbId;
+- (StartupRequestProto_Builder*) setFbId:(NSString*) value;
+- (StartupRequestProto_Builder*) clearFbId;
 @end
 
 @interface StartupResponseProto : PBGeneratedMessage {
@@ -282,8 +303,8 @@ BOOL StartupResponseProto_StartupStatusIsValidValue(StartupResponseProto_Startup
   NSMutableArray* mutableMonstersHealingList;
   NSMutableArray* mutableRareBoosterPurchasesList;
   NSMutableArray* mutableUserClanInfoList;
-  NSMutableArray* mutableUsersUsedForExtraSlotsList;
   NSMutableArray* mutableInvitesToMeForSlotsList;
+  NSMutableArray* mutableInvitesFromMeForSlotsList;
   NSMutableArray* mutableUserQuestsList;
 }
 - (BOOL) hasServerTimeMillis;
@@ -336,10 +357,10 @@ BOOL StartupResponseProto_StartupStatusIsValidValue(StartupResponseProto_Startup
 - (UserMonsterHealingProto*) monstersHealingAtIndex:(int32_t) index;
 - (NSArray*) rareBoosterPurchasesList;
 - (RareBoosterPurchaseProto*) rareBoosterPurchasesAtIndex:(int32_t) index;
-- (NSArray*) usersUsedForExtraSlotsList;
-- (MinimumUserProtoWithFacebookId*) usersUsedForExtraSlotsAtIndex:(int32_t) index;
 - (NSArray*) invitesToMeForSlotsList;
 - (UserFacebookInviteForSlotProto*) invitesToMeForSlotsAtIndex:(int32_t) index;
+- (NSArray*) invitesFromMeForSlotsList;
+- (UserFacebookInviteForSlotProto*) invitesFromMeForSlotsAtIndex:(int32_t) index;
 - (NSArray*) taskIdForCurrentCityBossList;
 - (int32_t) taskIdForCurrentCityBossAtIndex:(int32_t) index;
 
@@ -874,25 +895,13 @@ BOOL StartupResponseProto_StartupStatusIsValidValue(StartupResponseProto_Startup
 @private
   BOOL hasMaxNumTeamSlots_:1;
   BOOL hasInitialMaxNumMonsterLimit_:1;
-  BOOL hasMonsterInventoryIncrementAmount_:1;
-  BOOL hasGemPricePerSlot_:1;
-  BOOL hasNumFriendsToRecruitToIncreaseInventory_:1;
   int32_t maxNumTeamSlots;
   int32_t initialMaxNumMonsterLimit;
-  int32_t monsterInventoryIncrementAmount;
-  int32_t gemPricePerSlot;
-  int32_t numFriendsToRecruitToIncreaseInventory;
 }
 - (BOOL) hasMaxNumTeamSlots;
 - (BOOL) hasInitialMaxNumMonsterLimit;
-- (BOOL) hasMonsterInventoryIncrementAmount;
-- (BOOL) hasGemPricePerSlot;
-- (BOOL) hasNumFriendsToRecruitToIncreaseInventory;
 @property (readonly) int32_t maxNumTeamSlots;
 @property (readonly) int32_t initialMaxNumMonsterLimit;
-@property (readonly) int32_t monsterInventoryIncrementAmount;
-@property (readonly) int32_t gemPricePerSlot;
-@property (readonly) int32_t numFriendsToRecruitToIncreaseInventory;
 
 + (StartupResponseProto_StartupConstants_UserMonsterConstants*) defaultInstance;
 - (StartupResponseProto_StartupConstants_UserMonsterConstants*) defaultInstance;
@@ -937,21 +946,6 @@ BOOL StartupResponseProto_StartupStatusIsValidValue(StartupResponseProto_Startup
 - (int32_t) initialMaxNumMonsterLimit;
 - (StartupResponseProto_StartupConstants_UserMonsterConstants_Builder*) setInitialMaxNumMonsterLimit:(int32_t) value;
 - (StartupResponseProto_StartupConstants_UserMonsterConstants_Builder*) clearInitialMaxNumMonsterLimit;
-
-- (BOOL) hasMonsterInventoryIncrementAmount;
-- (int32_t) monsterInventoryIncrementAmount;
-- (StartupResponseProto_StartupConstants_UserMonsterConstants_Builder*) setMonsterInventoryIncrementAmount:(int32_t) value;
-- (StartupResponseProto_StartupConstants_UserMonsterConstants_Builder*) clearMonsterInventoryIncrementAmount;
-
-- (BOOL) hasGemPricePerSlot;
-- (int32_t) gemPricePerSlot;
-- (StartupResponseProto_StartupConstants_UserMonsterConstants_Builder*) setGemPricePerSlot:(int32_t) value;
-- (StartupResponseProto_StartupConstants_UserMonsterConstants_Builder*) clearGemPricePerSlot;
-
-- (BOOL) hasNumFriendsToRecruitToIncreaseInventory;
-- (int32_t) numFriendsToRecruitToIncreaseInventory;
-- (StartupResponseProto_StartupConstants_UserMonsterConstants_Builder*) setNumFriendsToRecruitToIncreaseInventory:(int32_t) value;
-- (StartupResponseProto_StartupConstants_UserMonsterConstants_Builder*) clearNumFriendsToRecruitToIncreaseInventory;
 @end
 
 @interface StartupResponseProto_StartupConstants_MonsterConstants : PBGeneratedMessage {
@@ -1332,19 +1326,19 @@ BOOL StartupResponseProto_StartupStatusIsValidValue(StartupResponseProto_Startup
 - (StartupResponseProto_Builder*) setKabamNaid:(NSString*) value;
 - (StartupResponseProto_Builder*) clearKabamNaid;
 
-- (NSArray*) usersUsedForExtraSlotsList;
-- (MinimumUserProtoWithFacebookId*) usersUsedForExtraSlotsAtIndex:(int32_t) index;
-- (StartupResponseProto_Builder*) replaceUsersUsedForExtraSlotsAtIndex:(int32_t) index with:(MinimumUserProtoWithFacebookId*) value;
-- (StartupResponseProto_Builder*) addUsersUsedForExtraSlots:(MinimumUserProtoWithFacebookId*) value;
-- (StartupResponseProto_Builder*) addAllUsersUsedForExtraSlots:(NSArray*) values;
-- (StartupResponseProto_Builder*) clearUsersUsedForExtraSlotsList;
-
 - (NSArray*) invitesToMeForSlotsList;
 - (UserFacebookInviteForSlotProto*) invitesToMeForSlotsAtIndex:(int32_t) index;
 - (StartupResponseProto_Builder*) replaceInvitesToMeForSlotsAtIndex:(int32_t) index with:(UserFacebookInviteForSlotProto*) value;
 - (StartupResponseProto_Builder*) addInvitesToMeForSlots:(UserFacebookInviteForSlotProto*) value;
 - (StartupResponseProto_Builder*) addAllInvitesToMeForSlots:(NSArray*) values;
 - (StartupResponseProto_Builder*) clearInvitesToMeForSlotsList;
+
+- (NSArray*) invitesFromMeForSlotsList;
+- (UserFacebookInviteForSlotProto*) invitesFromMeForSlotsAtIndex:(int32_t) index;
+- (StartupResponseProto_Builder*) replaceInvitesFromMeForSlotsAtIndex:(int32_t) index with:(UserFacebookInviteForSlotProto*) value;
+- (StartupResponseProto_Builder*) addInvitesFromMeForSlots:(UserFacebookInviteForSlotProto*) value;
+- (StartupResponseProto_Builder*) addAllInvitesFromMeForSlots:(NSArray*) values;
+- (StartupResponseProto_Builder*) clearInvitesFromMeForSlotsList;
 
 - (BOOL) hasStaticDataStuffProto;
 - (StaticDataProto*) staticDataStuffProto;

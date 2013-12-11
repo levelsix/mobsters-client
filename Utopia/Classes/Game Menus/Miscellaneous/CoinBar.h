@@ -10,10 +10,10 @@
 
 @interface CoinBar : UIView
 
-@property (nonatomic, retain) IBOutlet UILabel *silverLabel;
-@property (nonatomic, retain) IBOutlet UILabel *goldLabel;
+@property (nonatomic, retain) IBOutlet UILabel *cashLabel;
+@property (nonatomic, retain) IBOutlet UILabel *oilLabel;
+@property (nonatomic, retain) IBOutlet UILabel *gemsLabel;
 
 - (void) updateLabels;
-- (IBAction)barClicked:(id)sender;
 
 @end

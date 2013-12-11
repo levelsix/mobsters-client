@@ -10,15 +10,6 @@
 	<string>${EXECUTABLE_NAME}</string>
 	<key>CFBundleIconFile</key>
 	<string></string>
-	<key>CFBundleIconFiles</key>
-	<array>
-		<string>Icon.png</string>
-		<string>Icon@2x.png</string>
-		<string>Icon-72.png</string>
-		<string>Icon-Small-50.png</string>
-		<string>Icon-Small.png</string>
-		<string>Icon-Small@2x.png</string>
-	</array>
 	<key>CFBundleIdentifier</key>
 	<string>com.lvl6.mobsters</string>
 	<key>CFBundleInfoDictionaryVersion</key>
@@ -53,6 +44,7 @@
 		<string>Gotham-UltraItalic.otf</string>
 		<string>Gotham-Book.otf</string>
 		<string>Gotham-Medium.otf</string>
+		<string>GothamNarrow-UltraItalic.otf</string>
 		<string>m7</string>
 		<string>Akko-Bold.ttf</string>
 		<string>Aller_BdIt.ttf</string>

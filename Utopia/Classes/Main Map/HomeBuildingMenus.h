@@ -28,24 +28,3 @@
 - (void) updateForSecsLeft:(int)secs totalSecs:(int)totalSecs;
 
 @end
-
-@interface UpgradeBuildingMenu : UIView
-
-@property (nonatomic, assign) IBOutlet UILabel *titleLabel;
-@property (nonatomic, assign) IBOutlet UILabel *currentIncomeLabel;
-@property (nonatomic, assign) IBOutlet UILabel *currentTimeLabel;
-@property (nonatomic, assign) IBOutlet UILabel *upgradedIncomeLabel;
-@property (nonatomic, assign) IBOutlet UILabel *upgradedTimeLabel;
-@property (nonatomic, assign) IBOutlet UILabel *upgradeTimeLabel;
-@property (nonatomic, assign) IBOutlet UILabel *upgradePriceLabel;
-@property (nonatomic, assign) IBOutlet UILabel *nameLabel;
-@property (nonatomic, assign) IBOutlet UIImageView *structIcon;
-
-@property (nonatomic, assign) IBOutlet UIView *mainView;
-@property (nonatomic, assign) IBOutlet UIView *bgdView;
-
-- (void) displayForUserStruct:(UserStruct *)us;
-
-- (IBAction)closeClicked:(id)sender;
-
-@end

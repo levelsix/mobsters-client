@@ -8,14 +8,16 @@
 
 @class CoordinateProto;
 @class CoordinateProto_Builder;
-@class FullStructureProto;
-@class FullStructureProto_Builder;
 @class FullUserMonsterProto;
 @class FullUserMonsterProto_Builder;
 @class FullUserProto;
 @class FullUserProto_Builder;
 @class FullUserStructureProto;
 @class FullUserStructureProto_Builder;
+@class HospitalProto;
+@class HospitalProto_Builder;
+@class LabProto;
+@class LabProto_Builder;
 @class LevelUpRequestProto;
 @class LevelUpRequestProto_Builder;
 @class LevelUpResponseProto;
@@ -34,12 +36,26 @@
 @class MinimumUserProto_Builder;
 @class MonsterProto;
 @class MonsterProto_Builder;
+@class ResidenceProto;
+@class ResidenceProto_Builder;
+@class ResourceGeneratorProto;
+@class ResourceGeneratorProto_Builder;
+@class ResourceStorageProto;
+@class ResourceStorageProto_Builder;
 @class RetrieveUsersForUserIdsRequestProto;
 @class RetrieveUsersForUserIdsRequestProto_Builder;
 @class RetrieveUsersForUserIdsResponseProto;
 @class RetrieveUsersForUserIdsResponseProto_Builder;
+@class SetFacebookIdRequestProto;
+@class SetFacebookIdRequestProto_Builder;
+@class SetFacebookIdResponseProto;
+@class SetFacebookIdResponseProto_Builder;
 @class StaticUserLevelInfoProto;
 @class StaticUserLevelInfoProto_Builder;
+@class StructureInfoProto;
+@class StructureInfoProto_Builder;
+@class TownHallProto;
+@class TownHallProto_Builder;
 @class UpdateClientUserResponseProto;
 @class UpdateClientUserResponseProto_Builder;
 @class UserCreateRequestProto;
@@ -62,10 +78,11 @@
 @class UserMonsterHealingProto_Builder;
 typedef enum {
   UserCreateResponseProto_UserCreateStatusSuccess = 1,
-  UserCreateResponseProto_UserCreateStatusInvalidName = 2,
-  UserCreateResponseProto_UserCreateStatusUserWithUdidAlreadyExists = 3,
-  UserCreateResponseProto_UserCreateStatusInvalidReferCode = 4,
-  UserCreateResponseProto_UserCreateStatusOtherFail = 5,
+  UserCreateResponseProto_UserCreateStatusFailInvalidName = 2,
+  UserCreateResponseProto_UserCreateStatusFailUserWithUdidAlreadyExists = 3,
+  UserCreateResponseProto_UserCreateStatusFailInvalidReferCode = 4,
+  UserCreateResponseProto_UserCreateStatusFailUserWithFacebookIdExists = 5,
+  UserCreateResponseProto_UserCreateStatusFailOther = 6,
 } UserCreateResponseProto_UserCreateStatus;
 
 BOOL UserCreateResponseProto_UserCreateStatusIsValidValue(UserCreateResponseProto_UserCreateStatus value);
@@ -78,6 +95,13 @@ typedef enum {
 } LevelUpResponseProto_LevelUpStatus;
 
 BOOL LevelUpResponseProto_LevelUpStatusIsValidValue(LevelUpResponseProto_LevelUpStatus value);
+
+typedef enum {
+  SetFacebookIdResponseProto_SetFacebookIdStatusSuccess = 1,
+  SetFacebookIdResponseProto_SetFacebookIdStatusFailOther = 2,
+} SetFacebookIdResponseProto_SetFacebookIdStatus;
+
+BOOL SetFacebookIdResponseProto_SetFacebookIdStatusIsValidValue(SetFacebookIdResponseProto_SetFacebookIdStatus value);
 
 
 @interface EventUserRoot : NSObject {
@@ -95,6 +119,7 @@ BOOL LevelUpResponseProto_LevelUpStatusIsValidValue(LevelUpResponseProto_LevelUp
   BOOL hasName_:1;
   BOOL hasReferrerCode_:1;
   BOOL hasDeviceToken_:1;
+  BOOL hasFacebookId_:1;
   BOOL hasStructCoords_:1;
   BOOL usedDiamondsToBuilt_:1;
   int64_t timeOfStructPurchase;
@@ -103,6 +128,7 @@ BOOL LevelUpResponseProto_LevelUpStatusIsValidValue(LevelUpResponseProto_LevelUp
   NSString* name;
   NSString* referrerCode;
   NSString* deviceToken;
+  NSString* facebookId;
   CoordinateProto* structCoords;
 }
 - (BOOL) hasUdid;
@@ -113,6 +139,7 @@ BOOL LevelUpResponseProto_LevelUpStatusIsValidValue(LevelUpResponseProto_LevelUp
 - (BOOL) hasTimeOfStructBuild;
 - (BOOL) hasStructCoords;
 - (BOOL) hasUsedDiamondsToBuilt;
+- (BOOL) hasFacebookId;
 @property (readonly, retain) NSString* udid;
 @property (readonly, retain) NSString* name;
 @property (readonly, retain) NSString* referrerCode;
@@ -121,6 +148,7 @@ BOOL LevelUpResponseProto_LevelUpStatusIsValidValue(LevelUpResponseProto_LevelUp
 @property (readonly) int64_t timeOfStructBuild;
 @property (readonly, retain) CoordinateProto* structCoords;
 - (BOOL) usedDiamondsToBuilt;
+@property (readonly, retain) NSString* facebookId;
 
 + (UserCreateRequestProto*) defaultInstance;
 - (UserCreateRequestProto*) defaultInstance;
@@ -197,6 +225,11 @@ BOOL LevelUpResponseProto_LevelUpStatusIsValidValue(LevelUpResponseProto_LevelUp
 - (BOOL) usedDiamondsToBuilt;
 - (UserCreateRequestProto_Builder*) setUsedDiamondsToBuilt:(BOOL) value;
 - (UserCreateRequestProto_Builder*) clearUsedDiamondsToBuilt;
+
+- (BOOL) hasFacebookId;
+- (NSString*) facebookId;
+- (UserCreateRequestProto_Builder*) setFacebookId:(NSString*) value;
+- (UserCreateRequestProto_Builder*) clearFacebookId;
 @end
 
 @interface UserCreateResponseProto : PBGeneratedMessage {
@@ -314,14 +347,11 @@ BOOL LevelUpResponseProto_LevelUpStatusIsValidValue(LevelUpResponseProto_LevelUp
   BOOL hasStatus_:1;
   MinimumUserProto* sender;
   LevelUpResponseProto_LevelUpStatus status;
-  NSMutableArray* mutableNewlyAvailableStructsList;
 }
 - (BOOL) hasSender;
 - (BOOL) hasStatus;
 @property (readonly, retain) MinimumUserProto* sender;
 @property (readonly) LevelUpResponseProto_LevelUpStatus status;
-- (NSArray*) newlyAvailableStructsList;
-- (FullStructureProto*) newlyAvailableStructsAtIndex:(int32_t) index;
 
 + (LevelUpResponseProto*) defaultInstance;
 - (LevelUpResponseProto*) defaultInstance;
@@ -368,13 +398,6 @@ BOOL LevelUpResponseProto_LevelUpStatusIsValidValue(LevelUpResponseProto_LevelUp
 - (LevelUpResponseProto_LevelUpStatus) status;
 - (LevelUpResponseProto_Builder*) setStatus:(LevelUpResponseProto_LevelUpStatus) value;
 - (LevelUpResponseProto_Builder*) clearStatus;
-
-- (NSArray*) newlyAvailableStructsList;
-- (FullStructureProto*) newlyAvailableStructsAtIndex:(int32_t) index;
-- (LevelUpResponseProto_Builder*) replaceNewlyAvailableStructsAtIndex:(int32_t) index with:(FullStructureProto*) value;
-- (LevelUpResponseProto_Builder*) addNewlyAvailableStructs:(FullStructureProto*) value;
-- (LevelUpResponseProto_Builder*) addAllNewlyAvailableStructs:(NSArray*) values;
-- (LevelUpResponseProto_Builder*) clearNewlyAvailableStructsList;
 @end
 
 @interface RetrieveUsersForUserIdsRequestProto : PBGeneratedMessage {
@@ -623,5 +646,123 @@ BOOL LevelUpResponseProto_LevelUpStatusIsValidValue(LevelUpResponseProto_LevelUp
 - (int64_t) timeOfUserUpdate;
 - (UpdateClientUserResponseProto_Builder*) setTimeOfUserUpdate:(int64_t) value;
 - (UpdateClientUserResponseProto_Builder*) clearTimeOfUserUpdate;
+@end
+
+@interface SetFacebookIdRequestProto : PBGeneratedMessage {
+@private
+  BOOL hasFbId_:1;
+  BOOL hasSender_:1;
+  NSString* fbId;
+  MinimumUserProto* sender;
+}
+- (BOOL) hasSender;
+- (BOOL) hasFbId;
+@property (readonly, retain) MinimumUserProto* sender;
+@property (readonly, retain) NSString* fbId;
+
++ (SetFacebookIdRequestProto*) defaultInstance;
+- (SetFacebookIdRequestProto*) defaultInstance;
+
+- (BOOL) isInitialized;
+- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output;
+- (SetFacebookIdRequestProto_Builder*) builder;
++ (SetFacebookIdRequestProto_Builder*) builder;
++ (SetFacebookIdRequestProto_Builder*) builderWithPrototype:(SetFacebookIdRequestProto*) prototype;
+
++ (SetFacebookIdRequestProto*) parseFromData:(NSData*) data;
++ (SetFacebookIdRequestProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (SetFacebookIdRequestProto*) parseFromInputStream:(NSInputStream*) input;
++ (SetFacebookIdRequestProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (SetFacebookIdRequestProto*) parseFromCodedInputStream:(PBCodedInputStream*) input;
++ (SetFacebookIdRequestProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+@end
+
+@interface SetFacebookIdRequestProto_Builder : PBGeneratedMessage_Builder {
+@private
+  SetFacebookIdRequestProto* result;
+}
+
+- (SetFacebookIdRequestProto*) defaultInstance;
+
+- (SetFacebookIdRequestProto_Builder*) clear;
+- (SetFacebookIdRequestProto_Builder*) clone;
+
+- (SetFacebookIdRequestProto*) build;
+- (SetFacebookIdRequestProto*) buildPartial;
+
+- (SetFacebookIdRequestProto_Builder*) mergeFrom:(SetFacebookIdRequestProto*) other;
+- (SetFacebookIdRequestProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input;
+- (SetFacebookIdRequestProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+
+- (BOOL) hasSender;
+- (MinimumUserProto*) sender;
+- (SetFacebookIdRequestProto_Builder*) setSender:(MinimumUserProto*) value;
+- (SetFacebookIdRequestProto_Builder*) setSenderBuilder:(MinimumUserProto_Builder*) builderForValue;
+- (SetFacebookIdRequestProto_Builder*) mergeSender:(MinimumUserProto*) value;
+- (SetFacebookIdRequestProto_Builder*) clearSender;
+
+- (BOOL) hasFbId;
+- (NSString*) fbId;
+- (SetFacebookIdRequestProto_Builder*) setFbId:(NSString*) value;
+- (SetFacebookIdRequestProto_Builder*) clearFbId;
+@end
+
+@interface SetFacebookIdResponseProto : PBGeneratedMessage {
+@private
+  BOOL hasSender_:1;
+  BOOL hasStatus_:1;
+  MinimumUserProto* sender;
+  SetFacebookIdResponseProto_SetFacebookIdStatus status;
+}
+- (BOOL) hasSender;
+- (BOOL) hasStatus;
+@property (readonly, retain) MinimumUserProto* sender;
+@property (readonly) SetFacebookIdResponseProto_SetFacebookIdStatus status;
+
++ (SetFacebookIdResponseProto*) defaultInstance;
+- (SetFacebookIdResponseProto*) defaultInstance;
+
+- (BOOL) isInitialized;
+- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output;
+- (SetFacebookIdResponseProto_Builder*) builder;
++ (SetFacebookIdResponseProto_Builder*) builder;
++ (SetFacebookIdResponseProto_Builder*) builderWithPrototype:(SetFacebookIdResponseProto*) prototype;
+
++ (SetFacebookIdResponseProto*) parseFromData:(NSData*) data;
++ (SetFacebookIdResponseProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (SetFacebookIdResponseProto*) parseFromInputStream:(NSInputStream*) input;
++ (SetFacebookIdResponseProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (SetFacebookIdResponseProto*) parseFromCodedInputStream:(PBCodedInputStream*) input;
++ (SetFacebookIdResponseProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+@end
+
+@interface SetFacebookIdResponseProto_Builder : PBGeneratedMessage_Builder {
+@private
+  SetFacebookIdResponseProto* result;
+}
+
+- (SetFacebookIdResponseProto*) defaultInstance;
+
+- (SetFacebookIdResponseProto_Builder*) clear;
+- (SetFacebookIdResponseProto_Builder*) clone;
+
+- (SetFacebookIdResponseProto*) build;
+- (SetFacebookIdResponseProto*) buildPartial;
+
+- (SetFacebookIdResponseProto_Builder*) mergeFrom:(SetFacebookIdResponseProto*) other;
+- (SetFacebookIdResponseProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input;
+- (SetFacebookIdResponseProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+
+- (BOOL) hasSender;
+- (MinimumUserProto*) sender;
+- (SetFacebookIdResponseProto_Builder*) setSender:(MinimumUserProto*) value;
+- (SetFacebookIdResponseProto_Builder*) setSenderBuilder:(MinimumUserProto_Builder*) builderForValue;
+- (SetFacebookIdResponseProto_Builder*) mergeSender:(MinimumUserProto*) value;
+- (SetFacebookIdResponseProto_Builder*) clearSender;
+
+- (BOOL) hasStatus;
+- (SetFacebookIdResponseProto_SetFacebookIdStatus) status;
+- (SetFacebookIdResponseProto_Builder*) setStatus:(SetFacebookIdResponseProto_SetFacebookIdStatus) value;
+- (SetFacebookIdResponseProto_Builder*) clearStatus;
 @end
 

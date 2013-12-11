@@ -32,48 +32,22 @@
 
 @implementation BattleDeployCardView
 
-- (void) awakeFromNib {
-  self.grayscaleView = [[UIImageView alloc] initWithFrame:self.mainView.frame];
-  [self insertSubview:self.grayscaleView atIndex:0];
-}
-
-- (void) createMask {
-  UIView *view = self.mainView;
-  UIGraphicsBeginImageContextWithOptions(view.bounds.size, NO, 0.f);
-  [view.layer renderInContext:UIGraphicsGetCurrentContext()];
-  UIImage *image = UIGraphicsGetImageFromCurrentImageContext();
-  UIGraphicsEndImageContext();
-  
-  self.grayscaleView.image = [Globals greyScaleImageWithBaseImage:image];
-}
-
 - (void) updateForBattlePlayer:(BattlePlayer *)bp {
   if (!bp) {
     self.emptyView.hidden = NO;
     self.mainView.hidden = YES;
-    self.grayscaleView.hidden = YES;
   } else {
     self.healthbar.percentage = bp.curHealth/(float)bp.maxHealth;
-    
-    NSString *mini = [@"mini" stringByAppendingString:[Globals imageNameForElement:bp.element suffix:@".png"]];
-    [Globals imageNamed:mini withView:self.bgdView maskedColor:nil indicator:UIActivityIndicatorViewStyleWhite clearImageDuringDownload:YES];
-    
+    self.healthLabel.text = [NSString stringWithFormat:@"%@/%@", [Globals commafyNumber:bp.curHealth], [Globals commafyNumber:bp.maxHealth]];
     
     BOOL grayscale = bp.curHealth == 0;
-    NSString *monster = [bp.spritePrefix stringByAppendingString:@"Card.png"];
+    NSString *mini = [Globals imageNameForElement:bp.element suffix:@"team.png"];
+    [Globals imageNamed:mini withView:self.bgdIcon greyscale:grayscale indicator:UIActivityIndicatorViewStyleWhite clearImageDuringDownload:YES];
+    NSString *monster = [bp.spritePrefix stringByAppendingString:@"Thumbnail.png"];
     [Globals imageNamed:monster withView:self.monsterIcon greyscale:grayscale indicator:UIActivityIndicatorViewStyleWhite clearImageDuringDownload:YES];
     
-    if (grayscale) {
-      self.emptyView.hidden = YES;
-      self.mainView.hidden = NO;
-      [self createMask];
-      self.mainView.hidden = YES;
-      self.grayscaleView.hidden = NO;
-    } else {
-      self.emptyView.hidden = YES;
-      self.mainView.hidden = NO;
-      self.grayscaleView.hidden = YES;
-    }
+    self.emptyView.hidden = YES;
+    self.mainView.hidden = NO;
   }
 }
 

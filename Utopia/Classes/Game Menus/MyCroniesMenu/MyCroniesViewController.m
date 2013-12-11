@@ -12,7 +12,6 @@
 #import "OutgoingEventController.h"
 #import "SocketCommunication.h"
 #import "MonsterPopUpViewController.h"
-#import "BuySlotsViewController.h"
 
 #define TABLE_CELL_WIDTH 108
 #define HEADER_OFFSET 8
@@ -206,12 +205,11 @@
 }
 
 - (NSUInteger) numberOfCellsForEasyTableView:(EasyTableView *)view inSection:(NSInteger)section {
-  Globals *gl = [Globals sharedGlobals];
   GameState *gs = [GameState sharedGameState];
   if (section < 3) {
     return [self arrayForSection:section].count;
   } else if (section == 3) {
-    return (gl.baseInventorySize + gs.numAdditionalMonsterSlots > gs.myMonsters.count) + 1;
+    return gs.maxInventorySlots > gs.myMonsters.count;
   }
   return 0;
 }
@@ -227,15 +225,10 @@
     UserMonster *um = indexPath.row < arr.count ? [arr objectAtIndex:indexPath.row] : nil;
     [view updateForUserMonster:um];
   } else if (indexPath.section == 3) {
-    Globals *gl = [Globals sharedGlobals];
     GameState *gs = [GameState sharedGameState];
-    int numEmpty = gl.baseInventorySize + gs.numAdditionalMonsterSlots - gs.myMonsters.count;
+    int numEmpty = gs.maxInventorySlots - gs.myMonsters.count;
     
-    if (numEmpty > 0 && indexPath.row == 0) {
-      [view updateForEmptySlots:numEmpty];
-    } else {
-      [view updateForBuySlots];
-    }
+    [view updateForEmptySlots:numEmpty];
   }
 }
 
@@ -263,16 +256,18 @@
   if (success) {
     [self reloadTableAnimated:YES];
     [self updateCurrentTeamAnimated:YES];
+    
+    [[NSNotificationCenter defaultCenter] postNotificationName:MY_TEAM_CHANGED_NOTIFICATION object:nil];
   }
 }
 
 - (void) buySlotsClicked:(MyCroniesCardCell *)cell {
-  BuySlotsViewController *mpvc = [[BuySlotsViewController alloc] init];
-  mpvc.delegate = self;
-  UIViewController *parent = self.navigationController;
-  mpvc.view.frame = parent.view.bounds;
-  [parent.view addSubview:mpvc.view];
-  [parent addChildViewController:mpvc];
+  //  BuySlotsViewController *mpvc = [[BuySlotsViewController alloc] init];
+  //  mpvc.delegate = self;
+  //  UIViewController *parent = self.navigationController;
+  //  mpvc.view.frame = parent.view.bounds;
+  //  [parent.view addSubview:mpvc.view];
+  //  [parent addChildViewController:mpvc];
 }
 
 - (void) slotsPurchased {
@@ -297,18 +292,30 @@
 }
 
 - (void) cardClicked:(MyCroniesCardCell *)cell {
-  BOOL success = [[OutgoingEventController sharedOutgoingEventController] addMonsterToHealingQueue:cell.monster.userMonsterId];
-  if (success) {
-    [self reloadTableAnimated:YES];
-    
-    GameState *gs = [GameState sharedGameState];
-    NSArray *arr = [NSArray arrayWithObject:[NSIndexPath indexPathForRow:gs.monsterHealingQueue.count-1 inSection:0]];
-    [self.queueView.queueTable.tableView insertRowsAtIndexPaths:arr withRowAnimation:UITableViewRowAnimationLeft];
-    
-    [self.queueView updateTimes];
-    
-    if (cell.monster.teamSlot) {
-      [self updateCurrentTeamAnimated:YES];
+  UserMonster *um = cell.monster;
+  Globals *gl = [Globals sharedGlobals];
+  if ([um isHealing]) {
+    [Globals addAlertNotification:@"This mobster is already healing!"];
+  } else if ([um isEnhancing] || [um isSacrificing]) {
+    [Globals addAlertNotification:@"This mobster is currently enhancing!"];
+  } else if (!um.isComplete) {
+    [Globals addAlertNotification:@"This mobster is not yet complete!"];
+  } else if (um.curHealth >= [gl calculateMaxHealthForMonster:um]) {
+    [Globals addAlertNotification:@"This mobster is already healthy!"];
+  } else {
+    BOOL success = [[OutgoingEventController sharedOutgoingEventController] addMonsterToHealingQueue:um.userMonsterId];
+    if (success) {
+      [self reloadTableAnimated:YES];
+      
+      GameState *gs = [GameState sharedGameState];
+      NSArray *arr = [NSArray arrayWithObject:[NSIndexPath indexPathForRow:gs.monsterHealingQueue.count-1 inSection:0]];
+      [self.queueView.queueTable.tableView insertRowsAtIndexPaths:arr withRowAnimation:UITableViewRowAnimationLeft];
+      
+      [self.queueView updateTimes];
+      
+      if (cell.monster.teamSlot) {
+        [self updateCurrentTeamAnimated:YES];
+      }
     }
   }
 }

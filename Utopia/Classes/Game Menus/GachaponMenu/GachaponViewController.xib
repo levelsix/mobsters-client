@@ -1,11 +1,12 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="4514" systemVersion="12F45" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none">
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="3746"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="3747"/>
     </dependencies>
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="GachaponViewController">
             <connections>
+                <outlet property="diamondView" destination="Bz4-RX-IHB" id="G8R-yN-nUG"/>
                 <outlet property="featuredScrollView" destination="zP0-s2-kBX" id="BxT-kQ-01L"/>
                 <outlet property="gemCostLabel" destination="VDe-lu-wWD" id="sIT-Fv-NuP"/>
                 <outlet property="machineIcon" destination="9dS-qh-pNp" id="mFB-31-ZAN"/>
@@ -14,6 +15,8 @@
                 <outlet property="spinner" destination="5fh-Fc-BAS" id="VbR-fS-l1h"/>
                 <outlet property="spotlightContainer" destination="zxT-yz-8lx" id="Og4-88-KT8"/>
                 <outlet property="tableContainerView" destination="uZU-xc-fTc" id="Igz-wZ-Zl5"/>
+                <outlet property="topBar" destination="cUc-rB-fB8" id="i4R-Am-4C2"/>
+                <outlet property="topBarLabel" destination="xwO-MB-Esm" id="ft4-ga-Cyn"/>
                 <outlet property="view" destination="j7g-Uq-6OJ" id="g9N-Hq-tjF"/>
             </connections>
         </placeholder>
@@ -346,6 +349,74 @@
                 <outlet property="rarityLabel" destination="KuP-aq-pcm" id="48F-T7-Rav"/>
             </connections>
         </view>
+        <view contentMode="scaleToFill" id="cUc-rB-fB8" userLabel="Title View" customClass="CoinBar">
+            <rect key="frame" x="0.0" y="0.0" width="423" height="42"/>
+            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+            <subviews>
+                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Mob Drop" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" id="xwO-MB-Esm" customClass="NiceFontLabel">
+                    <rect key="frame" x="165" y="4" width="93" height="32"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                    <fontDescription key="fontDescription" type="system" pointSize="21"/>
+                    <color key="textColor" white="0.0" alpha="0.80000000000000004" colorSpace="calibratedWhite"/>
+                    <nil key="highlightedColor"/>
+                    <color key="shadowColor" white="1" alpha="0.5" colorSpace="calibratedWhite"/>
+                    <size key="shadowOffset" width="0.0" height="1"/>
+                </label>
+                <view contentMode="scaleToFill" id="Bz4-RX-IHB">
+                    <rect key="frame" x="315" y="7" width="88" height="29"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                    <subviews>
+                        <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="menuresourcebg.png" id="eVo-Nf-uZt">
+                            <rect key="frame" x="6" y="5" width="82" height="19"/>
+                            <autoresizingMask key="autoresizingMask"/>
+                        </imageView>
+                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="250" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" id="xNq-az-Oba" customClass="NiceFontLabel">
+                            <rect key="frame" x="30" y="1" width="52" height="24"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <fontDescription key="fontDescription" type="system" pointSize="13"/>
+                            <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="calibratedRGB"/>
+                            <nil key="highlightedColor"/>
+                            <color key="shadowColor" white="0.0" alpha="0.80000000000000004" colorSpace="calibratedWhite"/>
+                            <size key="shadowOffset" width="0.0" height="1"/>
+                        </label>
+                        <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleAspectFit" image="diamond.png" id="biD-EU-zHr">
+                            <rect key="frame" x="0.0" y="1" width="27" height="27"/>
+                            <autoresizingMask key="autoresizingMask"/>
+                        </imageView>
+                    </subviews>
+                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                </view>
+                <view contentMode="scaleToFill" id="0E9-jq-hhX">
+                    <rect key="frame" x="20" y="7" width="89" height="28"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                    <subviews>
+                        <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="menuresourcebg.png" id="mfO-AG-jVA">
+                            <rect key="frame" x="7" y="5" width="82" height="19"/>
+                            <autoresizingMask key="autoresizingMask"/>
+                        </imageView>
+                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="250" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" id="WXy-rh-jK8" customClass="NiceFontLabel">
+                            <rect key="frame" x="29" y="1" width="56" height="24"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <fontDescription key="fontDescription" type="system" pointSize="13"/>
+                            <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="calibratedRGB"/>
+                            <nil key="highlightedColor"/>
+                            <color key="shadowColor" white="0.0" alpha="0.80000000000000004" colorSpace="calibratedWhite"/>
+                            <size key="shadowOffset" width="0.0" height="1"/>
+                        </label>
+                        <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleAspectFit" image="moneystack.png" id="7fi-m9-mQd">
+                            <rect key="frame" x="0.0" y="0.0" width="29" height="28"/>
+                            <autoresizingMask key="autoresizingMask"/>
+                        </imageView>
+                    </subviews>
+                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                </view>
+            </subviews>
+            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+            <connections>
+                <outlet property="cashLabel" destination="WXy-rh-jK8" id="mEv-36-53r"/>
+                <outlet property="gemsLabel" destination="xNq-az-Oba" id="bNe-uI-mR3"/>
+            </connections>
+        </view>
     </objects>
     <resources>
         <image name="Cheerleader1SMGCharacter.png" width="169" height="193"/>
@@ -360,6 +431,8 @@
         <image name="gacharevealspinner.png" width="268" height="269"/>
         <image name="gooniegrabmachine.png" width="104" height="157"/>
         <image name="mainmenubg.png" width="568" height="320"/>
+        <image name="menuresourcebg.png" width="82" height="19"/>
+        <image name="moneystack.png" width="43" height="34"/>
         <image name="spinbutton.png" width="86" height="31"/>
         <image name="spotlight.png" width="134" height="209"/>
         <image name="ticker.png" width="21" height="29"/>

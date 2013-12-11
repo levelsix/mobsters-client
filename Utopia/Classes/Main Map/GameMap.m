@@ -78,9 +78,9 @@
     _mapSprites = [NSMutableArray array];
     
     // add UIPanGestureRecognizer
-    UIPanGestureRecognizer *uig = [[UIPanGestureRecognizer alloc] init];
-    uig.maximumNumberOfTouches = 1;
-    CCGestureRecognizer *recognizer = [CCGestureRecognizer CCRecognizerWithRecognizerTargetAction:uig target:self action:@selector(drag:node:)];
+    UIPanGestureRecognizer *pan = [[UIPanGestureRecognizer alloc] init];
+    pan.maximumNumberOfTouches = 1;
+    CCGestureRecognizer *recognizer = [CCGestureRecognizer CCRecognizerWithRecognizerTargetAction:pan target:self action:@selector(drag:node:)];
     [self addGestureRecognizer:recognizer];
     
     // add UIPinchGestureRecognizer
@@ -90,7 +90,9 @@
     self.isTouchEnabled = YES;
     
     // add UITapGestureRecognizer
-    recognizer = [CCGestureRecognizer CCRecognizerWithRecognizerTargetAction:[[UITapGestureRecognizer alloc]init] target:self action:@selector(tap:node:)];
+    UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc]init];
+    recognizer = [CCGestureRecognizer CCRecognizerWithRecognizerTargetAction:tap target:self action:@selector(tap:node:)];
+    [tap requireGestureRecognizerToFail:pan];
     [self addGestureRecognizer:recognizer];
     
     if (CC_CONTENT_SCALE_FACTOR() == 2) {
@@ -116,7 +118,6 @@
 }
 
 - (void) setSelected:(SelectableSprite *)selected {
-  if (_selected != selected) {
     [_selected unselect];
     
     if ([selected select]) {
@@ -124,7 +125,6 @@
     } else {
       _selected = nil;
     }
-  }
 }
 
 - (void) setupTeamSprites {

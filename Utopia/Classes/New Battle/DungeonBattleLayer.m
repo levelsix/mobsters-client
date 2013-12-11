@@ -19,8 +19,14 @@
   [[NSBundle mainBundle] loadNibNamed:@"BattleDeployView" owner:self options:nil];
   [Globals displayUIView:self.swapView];
   [Globals displayUIView:self.deployView];
+  [Globals displayUIView:self.forfeitButton];
   self.swapView.hidden = YES;
   self.deployView.hidden = YES;
+  self.forfeitButton.hidden = YES;
+  
+  self.forfeitButton.center = ccp(self.forfeitButton.frame.size.width/2+5, self.forfeitButton.frame.size.height/2+5);
+  self.forfeitButton.layer.cornerRadius = 3.f;
+  self.swapLabel.transform = CGAffineTransformMakeRotation(M_PI_2);
 }
 
 - (void) receivedDungeonInfo:(BeginDungeonResponseProto *)di {
@@ -45,6 +51,7 @@
 - (void) beginMyTurn {
   [super beginMyTurn];
   [self displaySwapButton];
+  self.forfeitButton.hidden = NO;
 }
 
 - (int) getCurrentEnemyLoot {
@@ -54,9 +61,14 @@
   return monster.puzzlePieceDropped ? monster.monsterId : 0;
 }
 
-- (void) turnBegan {
-  [super turnBegan];
+- (void) moveBegan {
+  [super moveBegan];
   [self removeSwapButton];
+}
+
+- (void) myTurnEnded {
+  [super myTurnEnded];
+  self.forfeitButton.hidden = YES;
 }
 
 - (void) youWon {
@@ -95,44 +107,69 @@
   }
   
   if (_waitingForEndDungeonResponse) {
-    [self winExitFinal];
+    [self exitFinal];
   }
 }
 
 #pragma mark - Continue View Actions
+
+- (IBAction)forfeitClicked:(id)sender {
+  [GenericPopupController displayNegativeConfirmationWithDescription:@"You will lose everything - are you sure you want to forfeit?"
+                                                               title:@"Forfeit Battle"
+                                                          okayButton:@"Forfeit"
+                                                        cancelButton:@"Cancel"
+                                                            okTarget:self
+                                                          okSelector:@selector(exitFinal)
+                                                        cancelTarget:nil
+                                                      cancelSelector:nil];
+}
 
 - (IBAction)loseExitClicked:(id)sender {
   [Globals popOutView:self.continueView.mainView fadeOutBgdView:self.continueView.bgdView completion:^{
     [self.continueView removeFromSuperview];
   }];
   
-  [self.delegate battleComplete];
+  [self.delegate battleComplete:nil];
 }
 
 - (IBAction)winExitClicked:(id)sender {
   if (!_receivedEndDungeonResponse) {
-    self.endView.spinner.hidden = NO;
+    self.endView.doneSpinner.hidden = NO;
     self.endView.doneLabel.hidden = YES;
-    self.endView.userInteractionEnabled = NO;
+    self.endView.buttonContainer.userInteractionEnabled = NO;
     _waitingForEndDungeonResponse = YES;
+    
+    _manageWasClicked = NO;
   } else {
-    [self winExitFinal];
+    [self exitFinal];
   }
 }
 
-- (void) winExitFinal {
+- (IBAction)manageClicked:(id)sender {
+  _manageWasClicked = YES;
+  if (!_receivedEndDungeonResponse) {
+    self.endView.manageSpinner.hidden = NO;
+    self.endView.manageLabel.hidden = YES;
+    self.endView.buttonContainer.userInteractionEnabled = NO;
+    _waitingForEndDungeonResponse = YES;
+  } else {
+    [self exitFinal];
+  }
+}
+
+- (void) exitFinal {
   [Globals popOutView:self.endView.mainView fadeOutBgdView:self.endView.bgdView completion:^{
     [self.endView removeFromSuperview];
   }];
   
-  [self.delegate battleComplete];
+  [self.delegate battleComplete:[NSDictionary dictionaryWithObjectsAndKeys:@(_manageWasClicked), BATTLE_MANAGE_CLICKED_KEY, nil]];
 }
 
 //- (IBAction)refillClicked:(id)sender {
 //  [Globals popOutView:self.continueView.mainView fadeOutBgdView:self.continueView.bgdView completion:^{
 //    [self.continueView removeFromSuperview];
 //  }];
-//  
+//
 //  [self dealDamageWithPercent:-1000000 enemyIsAttacker:YES withSelector:@selector(beginMyTurn)];
 //  [self.bloodSplatter stopAllActions];
 //  self.bloodSplatter.opacity = 0;
@@ -142,24 +179,26 @@
 
 #pragma BattleDeployView methods
 
+#define DEPLOY_CENTER_Y 260
+
 - (void) displaySwapButton {
   self.swapView.hidden = NO;
-  self.swapView.center = ccp(self.swapView.superview.frame.size.width/2, -self.swapView.frame.size.height/2);
+  self.swapView.center = ccp(-self.swapView.frame.size.width/2, DEPLOY_CENTER_Y);
   [UIView animateWithDuration:0.3f animations:^{
-    self.swapView.center = ccp(self.swapView.center.x, self.swapView.frame.size.height/2);
+    self.swapView.center = ccp(self.swapView.frame.size.width/2, DEPLOY_CENTER_Y);
   }];
 }
 
 - (void) removeSwapButton {
   [UIView animateWithDuration:0.3f animations:^{
-    self.swapView.center = ccp(self.swapView.center.x, -self.swapView.frame.size.height/2);
+    self.swapView.center = ccp(-self.swapView.frame.size.width/2, DEPLOY_CENTER_Y);
   } completion:^(BOOL finished) {
     self.swapView.hidden = YES;
   }];
 }
 
 - (IBAction)swapClicked:(id)sender {
-  if (_orbCount == 0) {
+  if (_orbCount == 0 && !self.orbLayer.isTrackingTouch) {
     [self removeSwapButton];
     [self displayDeployViewAndIsCancellable:YES];
   }
@@ -171,14 +210,14 @@
   [self.deployView updateWithBattlePlayers:self.myTeam];
   
   self.deployView.hidden = NO;
-  self.deployView.center = ccp(self.deployView.superview.frame.size.width/2, -self.deployView.frame.size.height/2);
+  self.deployView.center = ccp(-self.deployView.frame.size.width/2, DEPLOY_CENTER_Y);
   [UIView animateWithDuration:0.3f animations:^{
-    self.deployView.center = ccp(self.deployView.center.x, (self.deployView.superview.frame.size.height-self.orbLayer.contentSize.height)/2);
+    self.deployView.center = ccp((self.orbBgdLayer.position.x-self.orbBgdLayer.contentSize.width/2)/2, DEPLOY_CENTER_Y);
   } completion:^(BOOL finished) {
     if (finished && cancel) {
-      self.deployButton = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, self.contentSize.width, self.contentSize.height)];
-      [Globals displayUIView:self.deployButton];
-      [self.deployButton addTarget:self action:@selector(cancelDeploy:) forControlEvents:UIControlEventTouchUpInside];
+      self.deployCancelButton = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, self.contentSize.width, self.contentSize.height)];
+      [Globals displayUIView:self.deployCancelButton];
+      [self.deployCancelButton addTarget:self action:@selector(cancelDeploy:) forControlEvents:UIControlEventTouchUpInside];
       [self.deployView.superview bringSubviewToFront:self.deployView];
     }
   }];
@@ -187,10 +226,10 @@
 }
 
 - (void) removeDeployView {
-  [self.deployButton removeFromSuperview];
-  self.deployButton = nil;
+  [self.deployCancelButton removeFromSuperview];
+  self.deployCancelButton = nil;
   [UIView animateWithDuration:0.3f animations:^{
-    self.deployView.center = ccp(self.deployView.center.x, -self.deployView.frame.size.height/2);
+    self.deployView.center = ccp(-self.deployView.frame.size.width/2, DEPLOY_CENTER_Y);
   } completion:^(BOOL finished) {
     self.deployView.hidden = YES;
   }];
@@ -264,7 +303,7 @@
       [self receivedDungeonInfo:proto];
     }];
   } else {
-    [self performSelector:@selector(winExitFinal) withObject:nil afterDelay:2.f];
+    [self performSelector:@selector(exitFinal) withObject:nil afterDelay:2.f];
   }
 }
 
@@ -299,7 +338,7 @@
         [self.bgdLayer scrollToNewScene];
       } else {
         [self.myPlayer stopWalking];
-        [GenericPopupController displayNotificationViewWithText:@"The enemies seem to have been scared off. Click okay to return outside." title:@"Something Went Wrong" okayButton:@"Okay" target:self selector:@selector(winExitFinal)];
+        [GenericPopupController displayNotificationViewWithText:@"The enemies seem to have been scared off. Tap okay to return outside." title:@"Something Went Wrong" okayButton:@"Okay" target:self selector:@selector(exitFinal)];
       }
     } else {
       [self moveToNextEnemy];
@@ -310,9 +349,10 @@
 }
 
 - (void) dealloc {
+  [self.forfeitButton removeFromSuperview];
   [self.swapView removeFromSuperview];
   [self.deployView removeFromSuperview];
-  [self.deployButton removeFromSuperview];
+  [self.deployCancelButton removeFromSuperview];
 }
 
 @end

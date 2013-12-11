@@ -21,7 +21,8 @@
 
 - (BOOL) pointInside:(CGPoint)point withEvent:(UIEvent *)event {
   [self endEditing:YES];
-  return [super pointInside:point withEvent:event];
+  return [self.insideView pointInside:[self convertPoint:point toView:self.insideView] withEvent:event] ||
+         [self.openButton pointInside:[self convertPoint:point toView:self.openButton] withEvent:event];
 }
 
 @end

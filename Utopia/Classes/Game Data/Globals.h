@@ -13,6 +13,7 @@
 #import "GameMap.h"
 #import "FullEvent.h"
 #import "GenViewController.h"
+#import "StaticStructure.h"
 
 #define BUTTON_CLICKED_LEEWAY 30
 
@@ -34,6 +35,9 @@
 #define GAMESTATE_UPDATE_NOTIFICATION @"GameStateUpdateNotification"
 #define MY_TEAM_CHANGED_NOTIFICATION @"MyTeamChangedNotification"
 #define CHAT_RECEIVED_NOTIFICATION @"ChatReceivedNotification"
+#define NEW_FB_INVITE_NOTIFICATION @"NewFbInviteNotification"
+#define FB_INVITE_ACCEPTED_NOTIFICATION @"FbInviteAcceptedNotification"
+#define FB_INCREASE_SLOTS_NOTIFICATION @"FbIncreaseSlotsNotification"
 
 #ifdef LEGENDS_OF_CHAOS
 #define GAME_NAME @"Legends of Chaos"
@@ -75,8 +79,6 @@
 // Monster Constants
 @property (nonatomic, assign) int maxTeamSize;
 @property (nonatomic, assign) int baseInventorySize;
-@property (nonatomic, assign) int inventoryIncreaseSizeAmount;
-@property (nonatomic, assign) int inventoryIncreaseSizeCost;
 @property (nonatomic, assign) float cashPerHealthPoint;
 @property (nonatomic, assign) float secondsToHealPerHealthPoint;
 @property (nonatomic, assign) float elementalStrength;
@@ -124,14 +126,11 @@
 
 + (UIImage *) imageNamed:(NSString *)path;
 + (NSString *) imageNameForConstructionWithSize:(CGSize)size;
-+ (UIImage *) imageForMonster:(int)monId;
 + (UIImage *) imageForStruct:(int)structId;
-+ (NSString *) imageNameForMonster:(int)monId;
 + (NSString *) imageNameForStruct:(int)structId;
 + (NSString *) pathToFile:(NSString *)fileName;
 + (NSBundle *) bundleNamed:(NSString *)bundleName;
 + (void) asyncDownloadBundles;
-+ (void) loadImageForMonster:(int)monId toView:(UIImageView *)view;
 + (void) loadImageForStruct:(int)structId toView:(UIImageView *)view masked:(BOOL)mask indicator:(UIActivityIndicatorViewStyle)indicator;
 + (void) imageNamed:(NSString *)imageName withView:(UIView *)view maskedColor:(UIColor *)color indicator:(UIActivityIndicatorViewStyle)indicatorStyle clearImageDuringDownload:(BOOL)clear;
 + (void) imageNamed:(NSString *)imageName withView:(UIView *)view greyscale:(BOOL)greyscale indicator: (UIActivityIndicatorViewStyle)indicatorStyle clearImageDuringDownload:(BOOL)clear;
@@ -162,12 +161,14 @@
 + (void) adjustFontSizeForSize:(int)size CCLabelTTFs:(CCLabelTTF *)field1, ... NS_REQUIRES_NIL_TERMINATION;
 
 + (NSString *) cashStringForNumber:(int)n;
-+ (NSString *) commafyNumber:(int) n;
++ (NSString *) commafyNumber:(float) n;
 
 + (void) calculateDifferencesBetweenOldArray:(NSArray *)oArr newArray:(NSArray *)nArr removalIps:(NSMutableArray *)removals additionIps:(NSMutableArray *)additions section:(int)section;
 
 + (void) setFrameForView:(UIView *)view forPoint:(CGPoint)pt;
 + (void) popupMessage: (NSString *)msg;
++ (void) addAlertNotification:(NSString *)msg;
+
 + (void) bounceView:(UIView *)view;
 + (void) bounceView:(UIView *)view fadeInBgdView: (UIView *)bgdView;
 + (void) bounceView:(UIView *)view fadeInBgdView:(UIView *)bgdView completion:(void (^)(BOOL))completed;
@@ -187,6 +188,7 @@
 + (UIColor *)greenColor;
 + (UIColor *)orangeColor;
 + (UIColor *)redColor;
++ (UIColor *)lightRedColor;
 + (UIColor *)blueColor;
 + (UIColor *)purpleColor;
 + (UIColor *)purplishPinkColor;
@@ -213,6 +215,10 @@
 
 // Formulas
 - (int) calculateGemSpeedupCostForTimeLeft:(int)timeLeft;
+
+- (int) calculateMaxQuantityOfStructId:(int)structId;
+- (int) calculateNextTownHallLevelForQuantityIncreaseForStructId:(int)structId;
+- (int) calculateCurrentQuantityOfStructId:(int)structId;
 
 - (int) calculateNumMinutesForNewExpansion;
 - (int) calculateSilverCostForNewExpansion;

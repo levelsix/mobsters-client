@@ -18,8 +18,6 @@
 #import "SoundEngine.h"
 #import "GameViewController.h"
 
-#define HOME_BUILDING_TAG_OFFSET 123456
-
 #define FAR_LEFT_EXPANSION_START 58
 #define FAR_RIGHT_EXPANSION_START 58
 #define NEAR_LEFT_EXPANSION_START 45
@@ -39,7 +37,7 @@
 @synthesize redGid, greenGid;
 
 - (id) init {
-  self = [self initWithTMXFile:@"testtilemap.tmx"];
+  self = [self initWithTMXFile:@"home.tmx"];
   return self;
 }
 
@@ -90,15 +88,11 @@
     layer = [self layerNamed:WALKABLE_LAYER_NAME];
     layer.visible = NO;
     
-    [self refreshForExpansion];
-    
     if ([Globals isLongiPhone]) {
       [[NSBundle mainBundle] loadNibNamed:@"HomeBuildingMenu" owner:self options:nil];
     } else {
       [[NSBundle mainBundle] loadNibNamed:@"HomeBuildingMenuSmall" owner:self options:nil];
     }
-    
-    [[NSBundle mainBundle] loadNibNamed:@"UpgradeBuildingMenu" owner:self options:nil];
     
     _timers = [[NSMutableArray alloc] init];
     
@@ -107,28 +101,19 @@
     [self refresh];
     [self moveToCenterAnimated:NO];
     
-    CCSprite *s1 = [CCSprite spriteWithFile:@"backgroundleft.png"];
-    CCSprite *s2 = [CCSprite spriteWithFile:@"backgroundright.png"];
+    CCSprite *s1 = [CCSprite spriteWithFile:@"missionmap.png"];
     [self addChild:s1 z:-1000];
-    [self addChild:s2 z:-1000];
     
-    s1.position = ccp(s1.contentSize.width/2-29, s1.contentSize.height/2-52);
-    s2.position = ccp(s1.position.x+s1.contentSize.width/2+s2.contentSize.width/2, s1.position.y);
+    s1.position = ccp(s1.contentSize.width/2-33, s1.contentSize.height/2-50);
     
     CCSprite *road = [CCSprite spriteWithFile:@"homeroad.png"];
     [self addChild:road z:-998];
-    road.position = ccp(self.contentSize.width/2+0.5, self.contentSize.height/2+0.5);
-    
-    self.scale = 1;
+    road.position = ccp(self.contentSize.width/2-17, self.contentSize.height/2-7);
     
     bottomLeftCorner = ccp(s1.position.x-s1.contentSize.width/2, s1.position.y-s1.contentSize.height/2);
-    topRightCorner = ccp(s2.position.x+s2.contentSize.width/2, s2.position.y+s2.contentSize.height/2);//ccp(s2.position.x+s2.contentSize.width/2, s2.position.y+s2.contentSize.height/2);
+    topRightCorner = ccp(s1.position.x+s1.contentSize.width/2, s1.position.y+s1.contentSize.height/2);
   }
   return self;
-}
-
-- (int) baseTagForStructId:(int)structId {
-  return [[Globals sharedGlobals] maxRepeatedNormStructs]*structId+HOME_BUILDING_TAG_OFFSET;
 }
 
 - (void) invalidateAllTimers {
@@ -142,8 +127,8 @@
 
 - (void) beginTimers {
   for (CCNode *node in _children) {
-    if (node != _purchBuilding && [node isKindOfClass:[MoneyBuilding class]]) {
-      [self updateTimersForBuilding:(MoneyBuilding *)node];
+    if (node != _purchBuilding && [node isKindOfClass:[HomeBuilding class]]) {
+      [self updateTimersForBuilding:(HomeBuilding *)node];
     }
   }
 }
@@ -157,7 +142,6 @@
   [self invalidateAllTimers];
   
   NSMutableArray *arr = [NSMutableArray array];
-  Globals *gl = [Globals sharedGlobals];
   GameState *gs = [GameState sharedGameState];
   [arr addObjectsFromArray:[self refreshForExpansion]];
   
@@ -165,58 +149,21 @@
   [arr addObjectsFromArray:self.myTeamSprites];
   
   for (UserStruct *s in [gs myStructs]) {
-    int tag = [self baseTagForStructId:s.structId];
-    MoneyBuilding *moneyBuilding = (MoneyBuilding *)[self getChildByTag:tag];
-    
-    int offset = 0;
-    while (moneyBuilding && [arr containsObject:moneyBuilding]) {
-      offset++;
-      if (offset >= [gl maxRepeatedNormStructs]) {
-        moneyBuilding = nil;
-        break;
-      }
-      // Check if we already assigned this building and it is in arr.
-      moneyBuilding = (MoneyBuilding *)[self getChildByTag:tag+offset];
-    }
-    
-    FullStructureProto *fsp = [gs structWithId:s.structId];
+    StructureInfoProto *fsp = s.staticStruct.structInfo;
     if (!fsp) {return;}
-    CGRect loc = CGRectMake(s.coordinates.x, s.coordinates.y, fsp.xLength, fsp.yLength);
-    if (!moneyBuilding) {
-      NSString *imgName = [Globals imageNameForStruct:s.structId];
-      moneyBuilding = [[MoneyBuilding alloc] initWithFile:imgName location:loc map:self];
-      [self addChild:moneyBuilding z:0 tag:tag+offset];
-    } else {
-      [moneyBuilding liftBlock];
-      moneyBuilding.location = loc;
-    }
+    HomeBuilding *moneyBuilding = [HomeBuilding buildingWithUserStruct:s map:self];
+    [self addChild:moneyBuilding];
     
     moneyBuilding.orientation = s.orientation;
     moneyBuilding.userStruct = s;
     
-    UserStructState st = s.state;
-    switch (st) {
-      case kBuilding:
-        moneyBuilding.retrievable = NO;
-        
-        moneyBuilding.isConstructing = YES;
-        _constrBuilding = moneyBuilding;
-        break;
-        
-      case kWaitingForIncome:
-        moneyBuilding.retrievable = NO;
-        break;
-        
-      case kRetrieving:
-        moneyBuilding.retrievable = YES;
-        break;
-        
-      default:
-        break;
-    }
-    
     [arr addObject:moneyBuilding];
     [moneyBuilding placeBlock];
+    
+    if (!s.isComplete) {
+      moneyBuilding.isConstructing = YES;
+      _constrBuilding = moneyBuilding;
+    }
   }
   
   CCNode *c;
@@ -228,13 +175,8 @@
   }
   
   for (SelectableSprite *c in toRemove) {
-    if ([c isKindOfClass:[HomeBuilding class]]) {
-      [(HomeBuilding *)c liftBlock];
-    }
     [self removeChild:c cleanup:YES];
   }
-  
-  
   
   for (CCNode *node in arr) {
     if ([node isKindOfClass:[HomeBuilding class]]) {
@@ -255,10 +197,8 @@
 }
 
 - (NSArray *) refreshForExpansion {
-  //  Globals *gl = [Globals sharedGlobals];
   GameState *gs = [GameState sharedGameState];
   NSMutableArray *arr = [NSMutableArray array];
-  //  UserExpansion *ue = gs.userExpansion;
   
   CCTMXLayer *buildLayer = [self layerNamed:BUILDABLE_LAYER_NAME];
   CCTMXLayer *walkLayer = [self layerNamed:WALKABLE_LAYER_NAME];
@@ -287,7 +227,6 @@
     }
   }
   
-  CGPoint offsets[3][3] = EXPANSION_OVERLAY_OFFSETS;
   for (int i = -1; i <= 1; i++) {
     for (int j = -1; j <= 1; j++) {
       if (i == 0 && j == 0) {
@@ -297,7 +236,7 @@
       UserExpansion *ue = [gs getExpansionForX:i y:j];
       
       if (!ue || ue.isExpanding) {
-        CGPoint offset = offsets[i+1][j+1];
+        CGPoint offset = ccp(0,0);
         
         CGRect r = CGRectZero;
         r.size.width = i == 0 ? EXPANSION_MID_SQUARE_SIZE : EXPANSION_BLOCK_SIZE;
@@ -329,19 +268,18 @@
 }
 
 - (void) moveToStruct:(int)structId showArrow:(BOOL)showArrow animated:(BOOL)animated {
-  Globals *gl = [Globals sharedGlobals];
-  int baseTag = [self baseTagForStructId:structId];
-  MoneyBuilding *mb = nil;
-  for (int tag = baseTag; tag < baseTag+gl.maxRepeatedNormStructs; tag++) {
-    MoneyBuilding *check;
-    if ((check = (MoneyBuilding *)[self getChildByTag:tag])) {
-      if (!mb || check.userStruct.fsp.level > mb.userStruct.fsp.level) {
-        mb = check;
-      }
-    } else {
-      break;
-    }
-  }
+  //  Globals *gl = [Globals sharedGlobals];
+  HomeBuilding *mb = nil;
+  //  for (int tag = baseTag; tag < baseTag+gl.maxRepeatedNormStructs; tag++) {
+  //    MoneyBuilding *check;
+  //    if ((check = (MoneyBuilding *)[self getChildByTag:tag])) {
+  //      if (!mb || check.userStruct.staticStruct.structInfo.level > mb.userStruct.staticStruct.structInfo.level) {
+  //        mb = check;
+  //      }
+  //    } else {
+  //      break;
+  //    }
+  //  }
   
   if (mb) {
     [self moveToSprite:mb animated:animated];
@@ -360,30 +298,20 @@
 }
 
 - (void) preparePurchaseOfStruct:(int)structId {
-  if (_purchasing || _constrBuilding) {
-    [Globals popupMessage:@"The carpenter is already constructing a building."];
-    return;
+  if (_purchasing) {
+    self.selected = nil;
+    [_purchBuilding liftBlock];
+    [_purchBuilding removeFromParent];
   }
   
-  FullStructureProto *fsp = [[GameState sharedGameState] structWithId:structId];
-  CGRect loc = CGRectMake(CENTER_TILE_X, CENTER_TILE_Y, fsp.xLength, fsp.yLength);
-  _purchBuilding = [[MoneyBuilding alloc] initWithFile:[Globals imageNameForStruct:structId] location:loc map:self];
+  UserStruct *us = [[UserStruct alloc] init];
+  us.structId = structId;
+  us.coordinates = ccp(CENTER_TILE_X, CENTER_TILE_Y);
+  
+  _purchBuilding = [HomeBuilding buildingWithUserStruct:us map:self];
   _purchBuilding.isPurchasing = YES;
-  _purchBuilding.verticalOffset = fsp.imgVerticalPixelOffset;
   
-  int baseTag = [self baseTagForStructId:structId];
-  int tag;
-  for (tag = baseTag; tag < baseTag+[[Globals sharedGlobals] maxRepeatedNormStructs]; tag++) {
-    if (![self getChildByTag:tag]) {
-      break;
-    }
-  }
-  if (tag == baseTag+[[Globals sharedGlobals] maxRepeatedNormStructs]) {
-    [Globals popupMessage:@"Already have max of this building."];
-    return;
-  }
-  
-  [self addChild:_purchBuilding z:0 tag:tag];
+  [self addChild:_purchBuilding];
   
   _canMove = YES;
   _purchasing = YES;
@@ -397,40 +325,28 @@
   PurchaseConfirmMenu *m = [[PurchaseConfirmMenu alloc] initWithCheckTarget:self checkSelector:@selector(moveCheckClicked:) cancelTarget:self cancelSelector:@selector(cancelMoveClicked:)];
   m.tag = PURCHASE_CONFIRM_MENU_TAG;
   [_purchBuilding addChild:m];
-  m.position = ccp(_purchBuilding.contentSize.width/2, _purchBuilding.contentSize.height+10);
+  m.position = ccp(_purchBuilding.contentSize.width/2, (_purchBuilding.contentSize.height+10)*_purchBuilding.baseScale);
 }
 
 - (void) setSelected:(SelectableSprite *)selected {
-  if (self.selected != selected) {
-    [super setSelected:selected];
-  }
+  [super setSelected:selected];
   
-  if ([self.selected isKindOfClass: [MoneyBuilding class]]) {
-    MoneyBuilding *mb = (MoneyBuilding *) self.selected;
-    UserStruct *us = mb.userStruct;
+  if ([self.selected isKindOfClass: [HomeBuilding class]]) {
+    HomeBuilding *mb = (HomeBuilding *) self.selected;
     if (_purchasing) {
-      // Do nothing
-    } else if (us.state == kBuilding) {
-      self.bottomOptionView = self.upgradeBotView;
-      [mb removeArrowAnimated:YES];
-      
-      [self beginMoveClicked:nil];
-    } else if (us.state == kRetrieving) {
-      // Retrieve the cash!
-      // This will most likely never be called because building will auto do this
-      [self retrieveFromBuilding:((MoneyBuilding *) selected)];
-      self.selected = nil;
+      self.bottomOptionView = nil;
     } else {
-      self.bottomOptionView = self.buildBotView;
-      
+      self.bottomOptionView = mb.userStruct.isComplete ? self.buildBotView : self.upgradeBotView;
       [mb removeArrowAnimated:YES];
       
-      [self beginMoveClicked:nil];
+      _canMove = YES;
     }
   } else if ([self.selected isKindOfClass:[ExpansionBoard class]]) {
     GameState *gs = [GameState sharedGameState];
     ExpansionBoard *exp = (ExpansionBoard *)self.selected;
     UserExpansion *ue = [gs getExpansionForX:exp.expandSpot.x y:exp.expandSpot.y];
+    
+    _canMove = NO;
     
     if (!ue.isExpanding) {
       self.bottomOptionView = self.expandBotView;
@@ -449,32 +365,33 @@
 
 - (void) updateMapBotView:(MapBotView *)botView {
   if (botView == self.buildBotView) {
-    if ([self.selected isKindOfClass:[MoneyBuilding class]]) {
-      MoneyBuilding *mb = (MoneyBuilding *)self.selected;
-      FullStructureProto *fsp = mb.userStruct.fsp;
-      FullStructureProto *nextFsp = mb.userStruct.fspForNextLevel;
+    if ([self.selected isKindOfClass:[HomeBuilding class]]) {
+      HomeBuilding *mb = (HomeBuilding *)self.selected;
+      StructureInfoProto *fsp = mb.userStruct.staticStruct.structInfo;
+      StructureInfoProto *nextFsp = mb.userStruct.staticStructForNextLevel.structInfo;
       self.buildingNameLabel.text = [NSString stringWithFormat:@"%@ (lvl %d)", fsp.name, fsp.level];
-      self.buildingIncomeLabel.text = [NSString stringWithFormat:@"%@ EVERY %@", [Globals cashStringForNumber:fsp.income], [Globals convertTimeToLongString:fsp.minutesToGain*60]];
-      BOOL isPremium = nextFsp ? nextFsp.isPremiumCurrency : fsp.isPremiumCurrency;
+      self.buildingIncomeLabel.text = fsp.shortDescription;
+      BOOL isOil = nextFsp ? nextFsp.buildResourceType == ResourceTypeOil : fsp.buildResourceType == ResourceTypeOil;
       
       if (nextFsp) {
-        self.buildingUpgradeCashCostLabel.text = [Globals cashStringForNumber:nextFsp.buildPrice];
-        self.buildingUpgradeGemCostLabel.text = [Globals commafyNumber:nextFsp.buildPrice];
-        self.buildingUpgradeGemView.hidden = !isPremium;
+        self.buildingUpgradeCashCostLabel.text = [Globals cashStringForNumber:nextFsp.buildCost];
+        self.buildingUpgradeOilCostLabel.text = [Globals commafyNumber:nextFsp.buildCost];
       } else {
         self.buildingUpgradeCashCostLabel.text = @"N/A";
-        self.buildingUpgradeGemCostLabel.text = @"N/A";
-        self.buildingUpgradeGemView.hidden = !isPremium;
+        self.buildingUpgradeOilCostLabel.text = @"N/A";
       }
+      
+      self.buildingUpgradeOilView.hidden = !isOil;
+      [Globals adjustViewForCentering:self.buildingUpgradeOilCostLabel.superview withLabel:self.buildingUpgradeOilCostLabel];
     }
   } else if (botView == self.upgradeBotView) {
-    if ([self.selected isKindOfClass:[MoneyBuilding class]]) {
+    if ([self.selected isKindOfClass:[HomeBuilding class]]) {
       Globals *gl = [Globals sharedGlobals];
-      MoneyBuilding *mb = (MoneyBuilding *)self.selected;
+      HomeBuilding *mb = (HomeBuilding *)self.selected;
       UserStruct *us = mb.userStruct;
-      FullStructureProto *fsp = us.fsp;
+      StructureInfoProto *fsp = us.staticStruct.structInfo;
       self.upgradingNameLabel.text = [NSString stringWithFormat:@"%@ (lvl %d)", fsp.name, fsp.level];
-      self.upgradingIncomeLabel.text = [NSString stringWithFormat:@"%@ EVERY %@", [Globals cashStringForNumber:fsp.income], [Globals convertTimeToLongString:fsp.minutesToGain*60]];
+      self.buildingIncomeLabel.text = fsp.shortDescription;
       int timeLeft = us.timeLeftForBuildComplete;
       self.upgradingSpeedupCostLabel.text = [Globals commafyNumber:[gl calculateGemSpeedupCostForTimeLeft:timeLeft]];
     }
@@ -498,6 +415,8 @@
   }
 }
 
+#pragma mark - Gesture Recognizers
+
 - (void) drag:(UIGestureRecognizer*)recognizer node:(CCNode*)node
 {
   // First check if a sprite was clicked
@@ -505,7 +424,6 @@
   pt = [[CCDirector sharedDirector] convertToGL:pt];
   pt = [self convertToNodeSpace:pt];
   
-  // During drag, take out menus
   if (_canMove) {
     if ([self.selected isKindOfClass:[HomeBuilding class]]) {
       HomeBuilding *homeBuilding = (HomeBuilding *)self.selected;
@@ -525,29 +443,28 @@
         [homeBuilding locationAfterTouch:pt];
         [homeBuilding updateMeta];
         return;
-      } else if (_isMoving && [recognizer state] == UIGestureRecognizerStateEnded) {
+      } else if (_isMoving && ([recognizer state] == UIGestureRecognizerStateEnded || [recognizer state] == UIGestureRecognizerStateCancelled)) {
         [homeBuilding clearMeta];
         [homeBuilding placeBlock];
         _isMoving = NO;
         [self doReorder];
         
         if (homeBuilding.isSetDown && !_purchasing) {
-          MoneyBuilding *m = (MoneyBuilding *)homeBuilding;
+          HomeBuilding *m = (HomeBuilding *)homeBuilding;
           [[OutgoingEventController sharedOutgoingEventController] moveNormStruct:m.userStruct atX:m.location.origin.x atY:m.location.origin.y];
         }
         return;
       }
     }
-  } else {
-    self.selected = nil;
   }
   
   [super drag:recognizer node:node];
 }
 
 - (void) tap:(UIGestureRecognizer *)recognizer node:(CCNode *)node {
-  if (!_purchasing) {
+  if (!_purchasing && !_isMoving) {
     [super tap:recognizer node:node];
+    // Reorder in case something got deselected?
     [self doReorder];
   }
 }
@@ -558,27 +475,38 @@
   // As you get closer to edge, it scrolls faster
 }
 
-- (void) updateTimersForBuilding:(MoneyBuilding *)mb {
-  [_timers removeObject:mb.timer];
-  [mb createTimerForCurrentState];
+- (void) updateTimersForBuilding:(HomeBuilding *)mb {
+  NSTimer *oldTimer = nil;
+  for (NSTimer *t in _timers) {
+    if (t.userInfo == mb) {
+      oldTimer = t;
+      break;
+    }
+  }
   
-  if (mb.timer) {
-    [_timers addObject:mb.timer];
-    [[NSRunLoop mainRunLoop] addTimer:mb.timer forMode:NSRunLoopCommonModes];
+  if (oldTimer) {
+    [oldTimer invalidate];
+    [_timers removeObject:oldTimer];
+  }
+  
+  if (!mb.userStruct.isComplete) {
+    NSTimer *newTimer = [NSTimer timerWithTimeInterval:mb.userStruct.timeLeftForBuildComplete target:self selector:@selector(constructionComplete:) userInfo:mb repeats:NO];
+    [_timers addObject:newTimer];
+    [[NSRunLoop mainRunLoop] addTimer:newTimer forMode:NSRunLoopCommonModes];
   }
 }
 
-- (void) retrieveFromBuilding:(MoneyBuilding *)mb {
+- (void) retrieveFromBuilding:(ResourceGeneratorBuilding *)mb {
   [[OutgoingEventController sharedOutgoingEventController] retrieveFromNormStructure:mb.userStruct];
-  if (mb.userStruct.state == kWaitingForIncome) {
-    mb.retrievable = NO;
-    [self updateTimersForBuilding:mb];
-    //    [self addSilverDrop:[[Globals sharedGlobals] calculateIncomeForUserStruct:mb.userStruct] fromSprite:mb toPosition:CGPointZero secondsToPickup:0];
-  }
+  //  if (mb.userStruct.state == kWaitingForIncome) {
+  //    mb.retrievable = NO;
+  //    [self updateTimersForBuilding:mb];
+  //    [self addSilverDrop:[[Globals sharedGlobals] calculateIncomeForUserStruct:mb.userStruct] fromSprite:mb toPosition:CGPointZero secondsToPickup:0];
+  //  }
 }
 
 - (void) constructionComplete:(NSTimer *)timer {
-  MoneyBuilding *mb = [timer userInfo];
+  HomeBuilding *mb = [timer userInfo];
   [[OutgoingEventController sharedOutgoingEventController] normStructWaitComplete:mb.userStruct];
   [self updateTimersForBuilding:mb];
   mb.isConstructing = NO;
@@ -589,58 +517,61 @@
     [self reselectCurrentSelection];
   }
   _constrBuilding = nil;
+  
+  [[NSNotificationCenter defaultCenter] postNotificationName:GAMESTATE_UPDATE_NOTIFICATION object:nil];
 }
 
 - (void) waitForIncomeComplete:(NSTimer *)timer {
-  MoneyBuilding *mb = [timer userInfo];
-  mb.retrievable = YES;
-  
-  if (mb == self.selected) {
-    if (_canMove) {
-      [mb cancelMove];
-      _canMove = NO;
-    }
-    self.selected = nil;
-  }
-}
-
-- (IBAction)beginMoveClicked:(id)sender {
-  _canMove = YES;
+  //  HomeBuilding *mb = [timer userInfo];
+  //  mb.retrievable = YES;
+  //
+  //  if (mb == self.selected) {
+  //    if (_canMove) {
+  //      [mb cancelMove];
+  //      _canMove = NO;
+  //    }
+  //    self.selected = nil;
+  //  }
 }
 
 - (IBAction)moveCheckClicked:(id)sender {
+  Globals *gl = [Globals sharedGlobals];
   HomeBuilding *homeBuilding = (HomeBuilding *)self.selected;
   
-  if (homeBuilding.isSetDown) {
-    if (_purchasing) {
+  if (homeBuilding.isSetDown && _purchasing) {
+    if (_constrBuilding) {
+      UserStruct *cus = _constrBuilding.userStruct;
+      int timeLeft = cus.timeLeftForBuildComplete;
+      int gemCost = [gl calculateGemSpeedupCostForTimeLeft:timeLeft];
+      [GenericPopupController displayConfirmationWithDescription:[NSString stringWithFormat:@"A building is already constructing. Speed it up for %@ gems and purchase this building?", [Globals commafyNumber:gemCost]] title:@"Already Constructing" okayButton:@"Speed Up" cancelButton:@"Cancel" target:self selector:@selector(speedupBuildingAndUpgradeOrPurchase)];
+    } else {
       _purchasing = NO;
-      if ([homeBuilding isKindOfClass:[MoneyBuilding class]]) {
-        MoneyBuilding *moneyBuilding = (MoneyBuilding *)homeBuilding;
+      // Use return value as an indicator that purchase is accepted by client
+      UserStruct *us = [[OutgoingEventController sharedOutgoingEventController] purchaseNormStruct:_purchStructId atX:homeBuilding.location.origin.x atY:homeBuilding.location.origin.y];
+      if (us) {
+        homeBuilding.userStruct = us;
+        _constrBuilding = homeBuilding;
+        [self updateTimersForBuilding:_constrBuilding];
+        homeBuilding.isConstructing = YES;
+        homeBuilding.isPurchasing = NO;
         
-        // Use return value as an indicator that purchase is accepted by client
-        UserStruct *us = [[OutgoingEventController sharedOutgoingEventController] purchaseNormStruct:_purchStructId atX:moneyBuilding.location.origin.x atY:moneyBuilding.location.origin.y];
-        if (us) {
-          moneyBuilding.userStruct = us;
-          _constrBuilding = moneyBuilding;
-          [self updateTimersForBuilding:_constrBuilding];
-          moneyBuilding.isConstructing = YES;
-          moneyBuilding.isPurchasing = NO;
-          
-          [_constrBuilding displayProgressBar];
-          
-          [[SoundEngine sharedSoundEngine] carpenterPurchase];
-          
-          [moneyBuilding removeChildByTag:PURCHASE_CONFIRM_MENU_TAG cleanup:YES];
-        } else {
-          [moneyBuilding liftBlock];
-          [self removeChild:moneyBuilding cleanup:YES];
-        }
+        [_constrBuilding displayProgressBar];
+        
+        [[SoundEngine sharedSoundEngine] carpenterPurchase];
+        
+        [homeBuilding removeChildByTag:PURCHASE_CONFIRM_MENU_TAG cleanup:YES];
+        
+        _canMove = NO;
+        
+        [self reselectCurrentSelection];
+      } else {
+        [homeBuilding liftBlock];
+        [self removeChild:homeBuilding cleanup:YES];
+        
+        self.selected = nil;
       }
+      [self doReorder];
     }
-    _canMove = NO;
-    [self doReorder];
-    
-    [self reselectCurrentSelection];
   }
 }
 
@@ -666,87 +597,48 @@
   }
 }
 
-- (IBAction)sellClicked:(id)sender {
-  UserStruct *us = ((MoneyBuilding *)self.selected).userStruct;
-  FullStructureProto *fsp = us.fsp;
-  
-  NSString *desc = [NSString stringWithFormat:@"Are you sure you would like to sell your %@ for %@?", fsp.name, fsp.isPremiumCurrency ? [NSString stringWithFormat:@"%@ gems", [Globals commafyNumber:fsp.sellPrice]] : [Globals cashStringForNumber:fsp.sellPrice]];
-  [GenericPopupController displayConfirmationWithDescription:desc title:@"Sell Building?" okayButton:@"Sell" cancelButton:@"Cancel" target:self selector:@selector(sellSelected)];
-}
-
-- (void) sellSelected {
-  UserStruct *us = ((MoneyBuilding *)self.selected).userStruct;
-  int structId = us.structId;
-  [[OutgoingEventController sharedOutgoingEventController] sellNormStruct:us];
-  if (![[[GameState sharedGameState] myStructs] containsObject:us]) {
-    MoneyBuilding *spr = (MoneyBuilding *)self.selected;
-    self.selected = nil;
-    [_timers removeObject:spr.timer];
-    spr.timer = nil;
-    
-    [spr runAction:[CCSequence actions:[RecursiveFadeTo actionWithDuration:1.f opacity:0],
-                    [CCCallBlock actionWithBlock:
-                     ^{
-                       [spr liftBlock];
-                       [self removeChild:spr cleanup:YES];
-                       
-                       // Fix tag fragmentation
-                       int tag = [self baseTagForStructId:structId];
-                       int renameTag = tag;
-                       for (int i = tag; i < tag+[[Globals sharedGlobals] maxRepeatedNormStructs]; i++) {
-                         CCNode *c = [self getChildByTag:i];
-                         if (c) {
-                           [c setTag:renameTag];
-                           renameTag++;
-                         }
-                       }
-                     }], nil]];
-    
-    if (_constrBuilding == spr) {
-      _constrBuilding = nil;
-    }
-  }
-}
-
 - (IBAction)littleUpgradeClicked:(id)sender {
-  UserStruct *us = ((MoneyBuilding *)self.selected).userStruct;
+  UserStruct *us = ((HomeBuilding *)self.selected).userStruct;
   int maxLevel = us.maxLevel;
-  if (us.fsp.level < maxLevel) {
-    [self.upgradeMenu displayForUserStruct:us];
+  if (us.staticStruct.structInfo.level < maxLevel) {
+    GameViewController *gvc = [GameViewController baseController];
+    UpgradeViewController *uvc = [[UpgradeViewController alloc] initWithUserStruct:us];
+    uvc.delegate = self;
+    [gvc addChildViewController:uvc];
+    [Globals displayUIView:uvc.view];
   } else {
-    [Globals popupMessage:[NSString stringWithFormat:@"The maximum level for the %@ is %d.", us.fsp.name, maxLevel]];
+    [Globals popupMessage:[NSString stringWithFormat:@"The maximum level for the %@ is %d.", us.staticStruct.structInfo.name, maxLevel]];
   }
 }
 
-- (IBAction)bigUpgradeClicked:(id)sender {
-  UserStruct *us = ((MoneyBuilding *)self.selected).userStruct;
+- (void) bigUpgradeClicked {
+  UserStruct *us = ((HomeBuilding *)self.selected).userStruct;
   GameState *gs = [GameState sharedGameState];
-  FullStructureProto *nextFsp = us.fspForNextLevel;
+  Globals *gl = [Globals sharedGlobals];
+  StructureInfoProto *nextFsp = us.staticStructForNextLevel.structInfo;
   
   if (_constrBuilding) {
-    [Globals popupMessage:@"The carpenter is already constructing a building!"];
+    UserStruct *cus = _constrBuilding.userStruct;
+    int timeLeft = cus.timeLeftForBuildComplete;
+    int gemCost = [gl calculateGemSpeedupCostForTimeLeft:timeLeft];
+    [GenericPopupController displayConfirmationWithDescription:[NSString stringWithFormat:@"A building is already constructing. Speed it up for %@ gems and upgrade this building?", [Globals commafyNumber:gemCost]] title:@"Already Constructing" okayButton:@"Speed Up" cancelButton:@"Cancel" target:self selector:@selector(speedupBuildingAndUpgradeOrPurchase)];
   } else if (nextFsp) {
-    int cost = nextFsp.buildPrice;
-    BOOL isGoldBuilding = nextFsp.isPremiumCurrency;
-    if (!isGoldBuilding && cost > gs.silver) {
+    int cost = nextFsp.buildCost;
+    BOOL isOilBuilding = nextFsp.buildResourceType == ResourceTypeOil;
+    if (!isOilBuilding && cost > gs.silver) {
       //        [[RefillMenuController sharedRefillMenuController] displayBuySilverView:cost];
-      [Analytics notEnoughSilverForUpgrade:us.structId cost:cost];
       self.selected = nil;
-    } else if (cost > gs.gold) {
+    } else if (cost > gs.oil) {
       //        [[RefillMenuController sharedRefillMenuController] displayBuyGoldView:cost];
-      [Analytics notEnoughGoldForUpgrade:us.structId cost:cost];
       self.selected = nil;
     } else {
       [[OutgoingEventController sharedOutgoingEventController] upgradeNormStruct:us];
       
-      if (us.state == kBuilding) {
-        _constrBuilding = (MoneyBuilding *)self.selected;
+      if (!us.isComplete) {
+        _constrBuilding = (HomeBuilding *)self.selected;
         [self updateTimersForBuilding:_constrBuilding];
-        [self.upgradeMenu closeClicked:nil];
         [_constrBuilding displayProgressBar];
         _constrBuilding.isConstructing = YES;
-        
-        [[SoundEngine sharedSoundEngine] carpenterPurchase];
         
         [self reselectCurrentSelection];
       }
@@ -756,36 +648,42 @@
 
 - (IBAction)finishNowClicked:(id)sender {
   if (_isSpeedingUp) return;
-  MoneyBuilding *mb = (MoneyBuilding *)self.selected;
+  HomeBuilding *mb = (HomeBuilding *)self.selected;
   UserStruct *us = mb.userStruct;
   Globals *gl = [Globals sharedGlobals];
   int timeLeft = us.timeLeftForBuildComplete;
   int goldCost = [gl calculateGemSpeedupCostForTimeLeft:timeLeft];
   
-  NSString *desc = [NSString stringWithFormat:@"Finish instantly for %@ gold?", [Globals commafyNumber:goldCost]];
+  NSString *desc = [NSString stringWithFormat:@"Finish instantly for %@ gems?", [Globals commafyNumber:goldCost]];
   [GenericPopupController displayConfirmationWithDescription:desc title:@"Speed Up!" okayButton:@"Yes" cancelButton:@"No" target:self selector:@selector(speedUpBuilding)];
 }
 
-- (void) speedUpBuilding {
-  MoneyBuilding *mb = (MoneyBuilding *)self.selected;
+- (BOOL) speedUpBuilding {
+  if (_isSpeedingUp) return NO;
+  HomeBuilding *mb = (HomeBuilding *)_constrBuilding;
   UserStruct *us = mb.userStruct;
-  UserStructState state = us.state;
   Globals *gl = [Globals sharedGlobals];
   GameState *gs = [GameState sharedGameState];
   
-  if (state == kBuilding) {
+  if (!us.isComplete) {
     int timeLeft = us.timeLeftForBuildComplete;
-    int goldCost = [gl calculateGemSpeedupCostForTimeLeft:timeLeft];
-    if (gs.gold < goldCost) {
+    int gemCost = [gl calculateGemSpeedupCostForTimeLeft:timeLeft];
+    if (gs.gold < gemCost) {
       //      [[RefillMenuController sharedRefillMenuController] displayBuyGoldView:goldCost];
     } else {
       [[OutgoingEventController sharedOutgoingEventController] instaUpgrade:mb.userStruct];
-      if (mb.userStruct.state == kWaitingForIncome) {
+      if (us.isComplete) {
         _isSpeedingUp = YES;
-        [mb instaFinishUpgradeWithCompletionBlock:^{
+        
+        // Only animate it, if it is currently selected
+        // It might not be selected if trying to speed up by building a new building
+        void (^comp)(void) = ^{
           mb.isConstructing = NO;
           [mb displayUpgradeComplete];
-          [self reselectCurrentSelection];
+          
+          if (mb == self.selected) {
+            [self reselectCurrentSelection];
+          }
           
           if (_constrBuilding == mb) {
             _constrBuilding = nil;
@@ -793,8 +691,28 @@
           [self updateTimersForBuilding:mb];
           
           _isSpeedingUp = NO;
-        }];
+        };
+        
+        if (mb == self.selected) {
+          [mb instaFinishUpgradeWithCompletionBlock:comp];
+        } else {
+          comp();
+          [mb removeProgressBar];
+        }
+        
+        return YES;
       }
+    }
+  }
+  return NO;
+}
+
+- (void) speedupBuildingAndUpgradeOrPurchase {
+  if ([self speedUpBuilding]) {
+    if (_purchasing) {
+      [self moveCheckClicked:nil];
+    } else {
+      [self bigUpgradeClicked];
     }
   }
 }
@@ -805,8 +723,8 @@
   if (gs.isExpanding) {
     UserExpansion *exp = [gs currentExpansion];
     int timeLeft = exp.lastExpandTime.timeIntervalSinceNow + [gl calculateNumMinutesForNewExpansion]*60;
-    NSString *desc = [NSString stringWithFormat:@"A block is already expanding. Speed it up for %d gold?", [gl calculateGemSpeedupCostForTimeLeft:timeLeft]];
-    [GenericPopupController displayConfirmationWithDescription:desc title:@"Already Expanding" okayButton:@"Speed Up" cancelButton:@"Cancel" target:self selector:@selector(speedupExpansion)];
+    NSString *desc = [NSString stringWithFormat:@"A block is already expanding. Speed it up for %d gems and start new expansion?", [gl calculateGemSpeedupCostForTimeLeft:timeLeft]];
+    [GenericPopupController displayConfirmationWithDescription:desc title:@"Already Expanding" okayButton:@"Speed Up" cancelButton:@"Cancel" target:self selector:@selector(speedupExpansionAndStartNewOne)];
   } else {
     NSString *desc = [NSString stringWithFormat:@"Would you like to expand to this block for %@?", [Globals cashStringForNumber:[gl calculateSilverCostForNewExpansion]]];
     [GenericPopupController displayConfirmationWithDescription:desc title:@"Expand?" okayButton:@"Expand" cancelButton:@"Cancel" target:self selector:@selector(expandAccepted)];
@@ -829,6 +747,7 @@
 }
 
 - (IBAction)finishExpansionClicked:(id)sender {
+  if (_isSpeedingUp) return;
   GameState *gs = [GameState sharedGameState];
   Globals *gl = [Globals sharedGlobals];
   UserExpansion *exp = [gs currentExpansion];
@@ -838,6 +757,7 @@
 }
 
 - (void) speedupExpansion {
+  if (_isSpeedingUp) return;
   Globals *gl = [Globals sharedGlobals];
   GameState *gs = [GameState sharedGameState];
   UserExpansion *exp = [gs currentExpansion];
@@ -861,17 +781,35 @@
       }
     }
     
-    if (expBoard) {
-      self.selected = nil;
-      [expBoard instaFinishUpgradeWithCompletionBlock:^{
-        [self refresh];
-      }];
-    } else {
-      self.selected = nil;
-      [self refresh];
-    }
+    _isSpeedingUp = YES;
+    void (^comp)(void) = ^{
+      _isSpeedingUp = NO;
+      if (expBoard == self.selected) {
+        self.selected = nil;
+      }
+      
+      [expBoard removeFromParent];
+      
+      CGRect r = expBoard.location;
+      for (int i = r.origin.x; i < r.origin.x+r.size.width; i++) {
+        for (int j = r.origin.y; j < r.origin.y+r.size.height; j++) {
+          [[self.buildableData objectAtIndex:i] replaceObjectAtIndex:j withObject:[NSNumber numberWithBool:YES]];
+          [[self.walkableData objectAtIndex:i] replaceObjectAtIndex:j withObject:[NSNumber numberWithBool:YES]];
+        }
+      }
+    };
     
+    if (expBoard == self.selected) {
+      [expBoard instaFinishUpgradeWithCompletionBlock:comp];
+    } else {
+      comp();
+    }
   }
+}
+
+- (void) speedupExpansionAndStartNewOne {
+  [self speedupExpansion];
+  [self expandAccepted];
 }
 
 - (void) changeTiles: (CGRect) buildBlock toBuildable:(BOOL)canBuild {
@@ -897,21 +835,21 @@
 - (void) collectAllIncome {
   NSMutableArray *arr = [NSMutableArray array];
   for (CCNode *node in self.children) {
-    if ([node isKindOfClass:[MoneyBuilding class]]) {
+    if ([node isKindOfClass:[ResourceGeneratorBuilding class]]) {
       [arr addObject:node];
     }
   }
   
-  for (MoneyBuilding *mb in arr) {
-    if (mb.userStruct.state == kRetrieving) {
-      [self retrieveFromBuilding:mb];
-    }
-  }
+  //  for (MoneyBuilding *mb in arr) {
+  //    if (mb.userStruct.state == kRetrieving) {
+  //      [self retrieveFromBuilding:mb];
+  //    }
+  //  }
 }
 
 - (void) reselectCurrentSelection {
   SelectableSprite *n = self.selected;
-//  self.selected = nil;
+  //  self.selected = nil;
   self.selected = n;
 }
 

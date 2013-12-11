@@ -54,7 +54,7 @@ BOOL EventProtocolRequestIsValidValue(EventProtocolRequest value) {
     case EventProtocolRequestCInAppPurchaseEvent:
     case EventProtocolRequestCPurchaseNormStructureEvent:
     case EventProtocolRequestCMoveOrRotateNormStructureEvent:
-    case EventProtocolRequestCSellNormStructureEvent:
+    case EventProtocolRequestCSetFacebookIdEvent:
     case EventProtocolRequestCUpgradeNormStructureEvent:
     case EventProtocolRequestCRetrieveCurrencyFromNormStructureEvent:
     case EventProtocolRequestCFinishNormStructWaittimeWithDiamondsEvent:
@@ -116,7 +116,7 @@ BOOL EventProtocolResponseIsValidValue(EventProtocolResponse value) {
     case EventProtocolResponseSInAppPurchaseEvent:
     case EventProtocolResponseSPurchaseNormStructureEvent:
     case EventProtocolResponseSMoveOrRotateNormStructureEvent:
-    case EventProtocolResponseSSellNormStructureEvent:
+    case EventProtocolResponseSSetFacebookIdEvent:
     case EventProtocolResponseSUpgradeNormStructureEvent:
     case EventProtocolResponseSRetrieveCurrencyFromNormStructureEvent:
     case EventProtocolResponseSFinishNormStructWaittimeWithDiamondsEvent:

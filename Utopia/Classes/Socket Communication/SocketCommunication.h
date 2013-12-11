@@ -26,8 +26,6 @@
   
   int _numDisconnects;
   
-  int _numBuyInventorySlots;
-  
   BOOL _healingQueuePotentiallyChanged;
   int _healingQueueCashChange;
   int _healingQueueGemCost;
@@ -68,13 +66,11 @@
 - (int) sendInAppPurchaseMessage:(NSString *)receipt product:(SKProduct *)product;
 
 // Norm Struct messages
-- (int) sendPurchaseNormStructureMessage:(int)structId x:(int)x y:(int)y time:(uint64_t)time;
+- (int) sendPurchaseNormStructureMessage:(int)structId x:(int)x y:(int)y time:(uint64_t)time resourceType:(ResourceType)type resourceChange:(int)resourceChange gemCost:(int)gemCost;
 - (int) sendMoveNormStructureMessage:(int)userStructId x:(int)x y:(int)y;
-- (int) sendRotateNormStructureMessage:(int)userStructId orientation:(StructOrientation)orientation;
-- (int) sendUpgradeNormStructureMessage:(int)userStructId time:(uint64_t)curTime;
+- (int) sendUpgradeNormStructureMessage:(int)userStructId time:(uint64_t)curTime resourceType:(ResourceType)type resourceChange:(int)resourceChange gemCost:(int)gemCost;
 - (int) sendNormStructBuildsCompleteMessage:(NSArray *)userStructIds time:(uint64_t)curTime;
 - (int) sendFinishNormStructBuildWithDiamondsMessage:(int)userStructId gemCost:(int)gemCost time:(uint64_t)milliseconds;
-- (int) sendSellNormStructureMessage:(int)userStructId;
 
 - (int) sendLoadPlayerCityMessage:(int)userId;
 - (int) sendLoadCityMessage:(int)cityId;
@@ -124,7 +120,8 @@
 - (int) sendHealQueueSpeedup:(NSArray *)monsterHealths goldCost:(int)goldCost;
 - (int) sendAddMonsterToTeam:(int)userMonsterId teamSlot:(int)teamSlot;
 - (int) sendRemoveMonsterFromTeam:(int)userMonsterId;
-- (int) buyInventorySlots;
+- (int) sendBuyInventorySlotsWithGems:(int)userStructId;
+- (int) sendBuyInventorySlots:(int)userStructId withFriendInvites:(NSArray *)inviteIds;
 - (int) sendCombineUserMonsterPiecesMessage:(NSArray *)userMonsterIds gemCost:(int)gemCost;
 - (int) sendInviteFbFriendsForSlotsMessage:(NSArray *)fbFriendIds;
 - (int) sendAcceptAndRejectFbInviteForSlotsMessageAndAcceptIds:(NSArray *)acceptIds rejectIds:(NSArray *)rejectIds;

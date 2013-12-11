@@ -32,7 +32,7 @@
 
 @protocol BattleLayerDelegate <NSObject>
 
-- (void) battleComplete;
+- (void) battleComplete:(NSDictionary *)params;
 
 @end
 
@@ -65,6 +65,7 @@
 @property (nonatomic, assign) CCLabelTTF *lootLabel;
 @property (nonatomic, assign) CCSprite *comboBgd;
 @property (nonatomic, assign) CCLabelTTF *comboLabel;
+@property (nonatomic, assign) CCLabelTTF *comboBotLabel;
 
 @property (nonatomic, assign) OrbLayer *orbLayer;
 @property (nonatomic, assign) OrbBgdLayer *orbBgdLayer;
@@ -90,6 +91,7 @@
 - (id) initWithMyUserMonsters:(NSArray *)monsters puzzleIsOnLeft:(BOOL)puzzleIsOnLeft;
 
 - (void) beginMyTurn;
+- (void) myTurnEnded;
 - (void) beginEnemyTurn;
 - (void) currentMyPlayerDied;
 - (void) createNextMyPlayerSprite;

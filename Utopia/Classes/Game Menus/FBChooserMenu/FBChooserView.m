@@ -29,7 +29,7 @@
 - (void) awakeFromNib {
   self.friendCache = [[FBFrictionlessRecipientCache alloc] init];
   [self.friendCache prefetchAndCacheForSession:nil];
-  [self retrieveFacebookFriends];
+  [self retrieveFacebookFriends:NO];
   
   self.unselectAllButton.superview.layer.cornerRadius = 5.f;
   
@@ -38,22 +38,27 @@
   self.state = FBChooserStateAllFriends;
 }
 
-- (void) retrieveFacebookFriends {
+- (void) retrieveFacebookFriends:(BOOL)openLoginUI {
+  if (_retrievedFriends) return;
+  
+  self.spinner.hidden = NO;
   if (!FBSession.activeSession.isOpen) {
     // if the session is closed, then we open it here, and establish a handler for state changes
     [FBSession openActiveSessionWithReadPermissions:nil
-                                       allowLoginUI:YES
+                                       allowLoginUI:openLoginUI
                                   completionHandler:^(FBSession *session,
                                                       FBSessionState state,
                                                       NSError *error) {
                                     if (error) {
                                       [Globals popupMessage:error.localizedDescription];
                                     } else if (session.isOpen) {
-                                      [self retrieveFacebookFriends];
+                                      [self retrieveFacebookFriends:openLoginUI];
                                     }
                                   }];
     return;
   }
+  
+  _retrievedFriends = YES;
   
   NSString *query =
   @"SELECT uid, name, pic, is_app_user FROM user WHERE uid IN "
@@ -75,6 +80,7 @@
                             // Show the friend details display
                             [self.chooserTable reloadData];
                           }
+                          self.spinner.hidden = YES;
                         }];
 }
 
@@ -112,10 +118,6 @@
   NSMutableArray *arr2 = [NSMutableArray array];
   NSMutableArray *arr3 = [NSMutableArray array];
   for (NSDictionary *fbObj in arr) {
-    if ([self.blacklistFriendIds containsObject:fbObj[@"uid"]]) {
-      continue;
-    }
-    
     NSMutableArray *last = [arr2 lastObject];
     NSDictionary *obj = [last lastObject];
     if ([obj[@"name"] characterAtIndex:0] == [fbObj[@"name"] characterAtIndex:0]) {
@@ -142,7 +144,35 @@
   self.allFriendsData = arr2;
   self.gameFriendsData = arr3;
   
+  [self applyBlacklist];
+  
   self.state = self.state;
+}
+
+- (void) setBlacklistFriendIds:(NSSet *)blacklistFriendIds {
+  _blacklistFriendIds = blacklistFriendIds;
+  [self applyBlacklist];
+  self.state = self.state;
+}
+
+- (void) applyBlacklist {
+  for (NSMutableArray *data in [NSArray arrayWithObjects:self.allFriendsData, self.gameFriendsData, nil]) {
+    NSMutableArray *toRemoveOuter = [NSMutableArray array];
+    for (NSMutableArray *arr in data) {
+      NSMutableArray *toRemove = [NSMutableArray array];
+      for (NSDictionary *fbObj in arr) {
+        if ([self.blacklistFriendIds containsObject:fbObj[@"uid"]]) {
+          [toRemove addObject:fbObj];
+        }
+      }
+      [arr removeObjectsInArray:toRemove];
+      
+      if (arr.count == 0) {
+        [toRemoveOuter addObject:arr];
+      }
+    }
+    [data removeObjectsInArray:toRemoveOuter];
+  }
 }
 
 - (void) sendRequestWithString:(NSString *)requestString completionBlock:(void(^)(BOOL success, NSArray *friendIds))completion {
@@ -213,9 +243,7 @@
 #pragma mark - UITableView methods
 
 - (int) numberOfSectionsInTableView:(UITableView *)tableView {
-  int count = self.data.count;
-  self.spinner.hidden = count != 0;
-  return count;
+  return self.data.count;
 }
 
 - (int) tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {

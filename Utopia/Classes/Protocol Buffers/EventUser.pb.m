@@ -31,6 +31,7 @@ static PBExtensionRegistry* extensionRegistry = nil;
 @property int64_t timeOfStructBuild;
 @property (retain) CoordinateProto* structCoords;
 @property BOOL usedDiamondsToBuilt;
+@property (retain) NSString* facebookId;
 @end
 
 @implementation UserCreateRequestProto
@@ -96,12 +97,20 @@ static PBExtensionRegistry* extensionRegistry = nil;
 - (void) setUsedDiamondsToBuilt:(BOOL) value {
   usedDiamondsToBuilt_ = !!value;
 }
+- (BOOL) hasFacebookId {
+  return !!hasFacebookId_;
+}
+- (void) setHasFacebookId:(BOOL) value {
+  hasFacebookId_ = !!value;
+}
+@synthesize facebookId;
 - (void) dealloc {
   self.udid = nil;
   self.name = nil;
   self.referrerCode = nil;
   self.deviceToken = nil;
   self.structCoords = nil;
+  self.facebookId = nil;
   [super dealloc];
 }
 - (id) init {
@@ -114,6 +123,7 @@ static PBExtensionRegistry* extensionRegistry = nil;
     self.timeOfStructBuild = 0L;
     self.structCoords = [CoordinateProto defaultInstance];
     self.usedDiamondsToBuilt = NO;
+    self.facebookId = @"";
   }
   return self;
 }
@@ -157,6 +167,9 @@ static UserCreateRequestProto* defaultUserCreateRequestProtoInstance = nil;
   if (self.hasUsedDiamondsToBuilt) {
     [output writeBool:8 value:self.usedDiamondsToBuilt];
   }
+  if (self.hasFacebookId) {
+    [output writeString:9 value:self.facebookId];
+  }
   [self.unknownFields writeToCodedOutputStream:output];
 }
 - (int32_t) serializedSize {
@@ -189,6 +202,9 @@ static UserCreateRequestProto* defaultUserCreateRequestProtoInstance = nil;
   }
   if (self.hasUsedDiamondsToBuilt) {
     size += computeBoolSize(8, self.usedDiamondsToBuilt);
+  }
+  if (self.hasFacebookId) {
+    size += computeStringSize(9, self.facebookId);
   }
   size += self.unknownFields.serializedSize;
   memoizedSerializedSize = size;
@@ -289,6 +305,9 @@ static UserCreateRequestProto* defaultUserCreateRequestProtoInstance = nil;
   if (other.hasUsedDiamondsToBuilt) {
     [self setUsedDiamondsToBuilt:other.usedDiamondsToBuilt];
   }
+  if (other.hasFacebookId) {
+    [self setFacebookId:other.facebookId];
+  }
   [self mergeUnknownFields:other.unknownFields];
   return self;
 }
@@ -345,6 +364,10 @@ static UserCreateRequestProto* defaultUserCreateRequestProtoInstance = nil;
       }
       case 64: {
         [self setUsedDiamondsToBuilt:[input readBool]];
+        break;
+      }
+      case 74: {
+        [self setFacebookId:[input readString]];
         break;
       }
     }
@@ -492,6 +515,22 @@ static UserCreateRequestProto* defaultUserCreateRequestProtoInstance = nil;
   result.usedDiamondsToBuilt = NO;
   return self;
 }
+- (BOOL) hasFacebookId {
+  return result.hasFacebookId;
+}
+- (NSString*) facebookId {
+  return result.facebookId;
+}
+- (UserCreateRequestProto_Builder*) setFacebookId:(NSString*) value {
+  result.hasFacebookId = YES;
+  result.facebookId = value;
+  return self;
+}
+- (UserCreateRequestProto_Builder*) clearFacebookId {
+  result.hasFacebookId = NO;
+  result.facebookId = @"";
+  return self;
+}
 @end
 
 @interface UserCreateResponseProto ()
@@ -599,10 +638,11 @@ static UserCreateResponseProto* defaultUserCreateResponseProtoInstance = nil;
 BOOL UserCreateResponseProto_UserCreateStatusIsValidValue(UserCreateResponseProto_UserCreateStatus value) {
   switch (value) {
     case UserCreateResponseProto_UserCreateStatusSuccess:
-    case UserCreateResponseProto_UserCreateStatusInvalidName:
-    case UserCreateResponseProto_UserCreateStatusUserWithUdidAlreadyExists:
-    case UserCreateResponseProto_UserCreateStatusInvalidReferCode:
-    case UserCreateResponseProto_UserCreateStatusOtherFail:
+    case UserCreateResponseProto_UserCreateStatusFailInvalidName:
+    case UserCreateResponseProto_UserCreateStatusFailUserWithUdidAlreadyExists:
+    case UserCreateResponseProto_UserCreateStatusFailInvalidReferCode:
+    case UserCreateResponseProto_UserCreateStatusFailUserWithFacebookIdExists:
+    case UserCreateResponseProto_UserCreateStatusFailOther:
       return YES;
     default:
       return NO;
@@ -946,7 +986,6 @@ static LevelUpRequestProto* defaultLevelUpRequestProtoInstance = nil;
 @interface LevelUpResponseProto ()
 @property (retain) MinimumUserProto* sender;
 @property LevelUpResponseProto_LevelUpStatus status;
-@property (retain) NSMutableArray* mutableNewlyAvailableStructsList;
 @end
 
 @implementation LevelUpResponseProto
@@ -965,10 +1004,8 @@ static LevelUpRequestProto* defaultLevelUpRequestProtoInstance = nil;
   hasStatus_ = !!value;
 }
 @synthesize status;
-@synthesize mutableNewlyAvailableStructsList;
 - (void) dealloc {
   self.sender = nil;
-  self.mutableNewlyAvailableStructsList = nil;
   [super dealloc];
 }
 - (id) init {
@@ -990,13 +1027,6 @@ static LevelUpResponseProto* defaultLevelUpResponseProtoInstance = nil;
 - (LevelUpResponseProto*) defaultInstance {
   return defaultLevelUpResponseProtoInstance;
 }
-- (NSArray*) newlyAvailableStructsList {
-  return mutableNewlyAvailableStructsList;
-}
-- (FullStructureProto*) newlyAvailableStructsAtIndex:(int32_t) index {
-  id value = [mutableNewlyAvailableStructsList objectAtIndex:index];
-  return value;
-}
 - (BOOL) isInitialized {
   return YES;
 }
@@ -1006,9 +1036,6 @@ static LevelUpResponseProto* defaultLevelUpResponseProtoInstance = nil;
   }
   if (self.hasStatus) {
     [output writeEnum:2 value:self.status];
-  }
-  for (FullStructureProto* element in self.newlyAvailableStructsList) {
-    [output writeMessage:3 value:element];
   }
   [self.unknownFields writeToCodedOutputStream:output];
 }
@@ -1024,9 +1051,6 @@ static LevelUpResponseProto* defaultLevelUpResponseProtoInstance = nil;
   }
   if (self.hasStatus) {
     size += computeEnumSize(2, self.status);
-  }
-  for (FullStructureProto* element in self.newlyAvailableStructsList) {
-    size += computeMessageSize(3, element);
   }
   size += self.unknownFields.serializedSize;
   memoizedSerializedSize = size;
@@ -1120,12 +1144,6 @@ BOOL LevelUpResponseProto_LevelUpStatusIsValidValue(LevelUpResponseProto_LevelUp
   if (other.hasStatus) {
     [self setStatus:other.status];
   }
-  if (other.mutableNewlyAvailableStructsList.count > 0) {
-    if (result.mutableNewlyAvailableStructsList == nil) {
-      result.mutableNewlyAvailableStructsList = [NSMutableArray array];
-    }
-    [result.mutableNewlyAvailableStructsList addObjectsFromArray:other.mutableNewlyAvailableStructsList];
-  }
   [self mergeUnknownFields:other.unknownFields];
   return self;
 }
@@ -1163,12 +1181,6 @@ BOOL LevelUpResponseProto_LevelUpStatusIsValidValue(LevelUpResponseProto_LevelUp
         } else {
           [unknownFields mergeVarintField:2 value:value];
         }
-        break;
-      }
-      case 26: {
-        FullStructureProto_Builder* subBuilder = [FullStructureProto builder];
-        [input readMessage:subBuilder extensionRegistry:extensionRegistry];
-        [self addNewlyAvailableStructs:[subBuilder buildPartial]];
         break;
       }
     }
@@ -1218,35 +1230,6 @@ BOOL LevelUpResponseProto_LevelUpStatusIsValidValue(LevelUpResponseProto_LevelUp
 - (LevelUpResponseProto_Builder*) clearStatus {
   result.hasStatus = NO;
   result.status = LevelUpResponseProto_LevelUpStatusSuccess;
-  return self;
-}
-- (NSArray*) newlyAvailableStructsList {
-  if (result.mutableNewlyAvailableStructsList == nil) { return [NSArray array]; }
-  return result.mutableNewlyAvailableStructsList;
-}
-- (FullStructureProto*) newlyAvailableStructsAtIndex:(int32_t) index {
-  return [result newlyAvailableStructsAtIndex:index];
-}
-- (LevelUpResponseProto_Builder*) replaceNewlyAvailableStructsAtIndex:(int32_t) index with:(FullStructureProto*) value {
-  [result.mutableNewlyAvailableStructsList replaceObjectAtIndex:index withObject:value];
-  return self;
-}
-- (LevelUpResponseProto_Builder*) addAllNewlyAvailableStructs:(NSArray*) values {
-  if (result.mutableNewlyAvailableStructsList == nil) {
-    result.mutableNewlyAvailableStructsList = [NSMutableArray array];
-  }
-  [result.mutableNewlyAvailableStructsList addObjectsFromArray:values];
-  return self;
-}
-- (LevelUpResponseProto_Builder*) clearNewlyAvailableStructsList {
-  result.mutableNewlyAvailableStructsList = nil;
-  return self;
-}
-- (LevelUpResponseProto_Builder*) addNewlyAvailableStructs:(FullStructureProto*) value {
-  if (result.mutableNewlyAvailableStructsList == nil) {
-    result.mutableNewlyAvailableStructsList = [NSMutableArray array];
-  }
-  [result.mutableNewlyAvailableStructsList addObject:value];
   return self;
 }
 @end
@@ -2292,6 +2275,491 @@ static UpdateClientUserResponseProto* defaultUpdateClientUserResponseProtoInstan
 - (UpdateClientUserResponseProto_Builder*) clearTimeOfUserUpdate {
   result.hasTimeOfUserUpdate = NO;
   result.timeOfUserUpdate = 0L;
+  return self;
+}
+@end
+
+@interface SetFacebookIdRequestProto ()
+@property (retain) MinimumUserProto* sender;
+@property (retain) NSString* fbId;
+@end
+
+@implementation SetFacebookIdRequestProto
+
+- (BOOL) hasSender {
+  return !!hasSender_;
+}
+- (void) setHasSender:(BOOL) value {
+  hasSender_ = !!value;
+}
+@synthesize sender;
+- (BOOL) hasFbId {
+  return !!hasFbId_;
+}
+- (void) setHasFbId:(BOOL) value {
+  hasFbId_ = !!value;
+}
+@synthesize fbId;
+- (void) dealloc {
+  self.sender = nil;
+  self.fbId = nil;
+  [super dealloc];
+}
+- (id) init {
+  if ((self = [super init])) {
+    self.sender = [MinimumUserProto defaultInstance];
+    self.fbId = @"";
+  }
+  return self;
+}
+static SetFacebookIdRequestProto* defaultSetFacebookIdRequestProtoInstance = nil;
++ (void) initialize {
+  if (self == [SetFacebookIdRequestProto class]) {
+    defaultSetFacebookIdRequestProtoInstance = [[SetFacebookIdRequestProto alloc] init];
+  }
+}
++ (SetFacebookIdRequestProto*) defaultInstance {
+  return defaultSetFacebookIdRequestProtoInstance;
+}
+- (SetFacebookIdRequestProto*) defaultInstance {
+  return defaultSetFacebookIdRequestProtoInstance;
+}
+- (BOOL) isInitialized {
+  return YES;
+}
+- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output {
+  if (self.hasSender) {
+    [output writeMessage:1 value:self.sender];
+  }
+  if (self.hasFbId) {
+    [output writeString:2 value:self.fbId];
+  }
+  [self.unknownFields writeToCodedOutputStream:output];
+}
+- (int32_t) serializedSize {
+  int32_t size = memoizedSerializedSize;
+  if (size != -1) {
+    return size;
+  }
+
+  size = 0;
+  if (self.hasSender) {
+    size += computeMessageSize(1, self.sender);
+  }
+  if (self.hasFbId) {
+    size += computeStringSize(2, self.fbId);
+  }
+  size += self.unknownFields.serializedSize;
+  memoizedSerializedSize = size;
+  return size;
+}
++ (SetFacebookIdRequestProto*) parseFromData:(NSData*) data {
+  return (SetFacebookIdRequestProto*)[[[SetFacebookIdRequestProto builder] mergeFromData:data] build];
+}
++ (SetFacebookIdRequestProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (SetFacebookIdRequestProto*)[[[SetFacebookIdRequestProto builder] mergeFromData:data extensionRegistry:extensionRegistry] build];
+}
++ (SetFacebookIdRequestProto*) parseFromInputStream:(NSInputStream*) input {
+  return (SetFacebookIdRequestProto*)[[[SetFacebookIdRequestProto builder] mergeFromInputStream:input] build];
+}
++ (SetFacebookIdRequestProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (SetFacebookIdRequestProto*)[[[SetFacebookIdRequestProto builder] mergeFromInputStream:input extensionRegistry:extensionRegistry] build];
+}
++ (SetFacebookIdRequestProto*) parseFromCodedInputStream:(PBCodedInputStream*) input {
+  return (SetFacebookIdRequestProto*)[[[SetFacebookIdRequestProto builder] mergeFromCodedInputStream:input] build];
+}
++ (SetFacebookIdRequestProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (SetFacebookIdRequestProto*)[[[SetFacebookIdRequestProto builder] mergeFromCodedInputStream:input extensionRegistry:extensionRegistry] build];
+}
++ (SetFacebookIdRequestProto_Builder*) builder {
+  return [[[SetFacebookIdRequestProto_Builder alloc] init] autorelease];
+}
++ (SetFacebookIdRequestProto_Builder*) builderWithPrototype:(SetFacebookIdRequestProto*) prototype {
+  return [[SetFacebookIdRequestProto builder] mergeFrom:prototype];
+}
+- (SetFacebookIdRequestProto_Builder*) builder {
+  return [SetFacebookIdRequestProto builder];
+}
+@end
+
+@interface SetFacebookIdRequestProto_Builder()
+@property (retain) SetFacebookIdRequestProto* result;
+@end
+
+@implementation SetFacebookIdRequestProto_Builder
+@synthesize result;
+- (void) dealloc {
+  self.result = nil;
+  [super dealloc];
+}
+- (id) init {
+  if ((self = [super init])) {
+    self.result = [[[SetFacebookIdRequestProto alloc] init] autorelease];
+  }
+  return self;
+}
+- (PBGeneratedMessage*) internalGetResult {
+  return result;
+}
+- (SetFacebookIdRequestProto_Builder*) clear {
+  self.result = [[[SetFacebookIdRequestProto alloc] init] autorelease];
+  return self;
+}
+- (SetFacebookIdRequestProto_Builder*) clone {
+  return [SetFacebookIdRequestProto builderWithPrototype:result];
+}
+- (SetFacebookIdRequestProto*) defaultInstance {
+  return [SetFacebookIdRequestProto defaultInstance];
+}
+- (SetFacebookIdRequestProto*) build {
+  [self checkInitialized];
+  return [self buildPartial];
+}
+- (SetFacebookIdRequestProto*) buildPartial {
+  SetFacebookIdRequestProto* returnMe = [[result retain] autorelease];
+  self.result = nil;
+  return returnMe;
+}
+- (SetFacebookIdRequestProto_Builder*) mergeFrom:(SetFacebookIdRequestProto*) other {
+  if (other == [SetFacebookIdRequestProto defaultInstance]) {
+    return self;
+  }
+  if (other.hasSender) {
+    [self mergeSender:other.sender];
+  }
+  if (other.hasFbId) {
+    [self setFbId:other.fbId];
+  }
+  [self mergeUnknownFields:other.unknownFields];
+  return self;
+}
+- (SetFacebookIdRequestProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input {
+  return [self mergeFromCodedInputStream:input extensionRegistry:[PBExtensionRegistry emptyRegistry]];
+}
+- (SetFacebookIdRequestProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  PBUnknownFieldSet_Builder* unknownFields = [PBUnknownFieldSet builderWithUnknownFields:self.unknownFields];
+  while (YES) {
+    int32_t tag = [input readTag];
+    switch (tag) {
+      case 0:
+        [self setUnknownFields:[unknownFields build]];
+        return self;
+      default: {
+        if (![self parseUnknownField:input unknownFields:unknownFields extensionRegistry:extensionRegistry tag:tag]) {
+          [self setUnknownFields:[unknownFields build]];
+          return self;
+        }
+        break;
+      }
+      case 10: {
+        MinimumUserProto_Builder* subBuilder = [MinimumUserProto builder];
+        if (self.hasSender) {
+          [subBuilder mergeFrom:self.sender];
+        }
+        [input readMessage:subBuilder extensionRegistry:extensionRegistry];
+        [self setSender:[subBuilder buildPartial]];
+        break;
+      }
+      case 18: {
+        [self setFbId:[input readString]];
+        break;
+      }
+    }
+  }
+}
+- (BOOL) hasSender {
+  return result.hasSender;
+}
+- (MinimumUserProto*) sender {
+  return result.sender;
+}
+- (SetFacebookIdRequestProto_Builder*) setSender:(MinimumUserProto*) value {
+  result.hasSender = YES;
+  result.sender = value;
+  return self;
+}
+- (SetFacebookIdRequestProto_Builder*) setSenderBuilder:(MinimumUserProto_Builder*) builderForValue {
+  return [self setSender:[builderForValue build]];
+}
+- (SetFacebookIdRequestProto_Builder*) mergeSender:(MinimumUserProto*) value {
+  if (result.hasSender &&
+      result.sender != [MinimumUserProto defaultInstance]) {
+    result.sender =
+      [[[MinimumUserProto builderWithPrototype:result.sender] mergeFrom:value] buildPartial];
+  } else {
+    result.sender = value;
+  }
+  result.hasSender = YES;
+  return self;
+}
+- (SetFacebookIdRequestProto_Builder*) clearSender {
+  result.hasSender = NO;
+  result.sender = [MinimumUserProto defaultInstance];
+  return self;
+}
+- (BOOL) hasFbId {
+  return result.hasFbId;
+}
+- (NSString*) fbId {
+  return result.fbId;
+}
+- (SetFacebookIdRequestProto_Builder*) setFbId:(NSString*) value {
+  result.hasFbId = YES;
+  result.fbId = value;
+  return self;
+}
+- (SetFacebookIdRequestProto_Builder*) clearFbId {
+  result.hasFbId = NO;
+  result.fbId = @"";
+  return self;
+}
+@end
+
+@interface SetFacebookIdResponseProto ()
+@property (retain) MinimumUserProto* sender;
+@property SetFacebookIdResponseProto_SetFacebookIdStatus status;
+@end
+
+@implementation SetFacebookIdResponseProto
+
+- (BOOL) hasSender {
+  return !!hasSender_;
+}
+- (void) setHasSender:(BOOL) value {
+  hasSender_ = !!value;
+}
+@synthesize sender;
+- (BOOL) hasStatus {
+  return !!hasStatus_;
+}
+- (void) setHasStatus:(BOOL) value {
+  hasStatus_ = !!value;
+}
+@synthesize status;
+- (void) dealloc {
+  self.sender = nil;
+  [super dealloc];
+}
+- (id) init {
+  if ((self = [super init])) {
+    self.sender = [MinimumUserProto defaultInstance];
+    self.status = SetFacebookIdResponseProto_SetFacebookIdStatusSuccess;
+  }
+  return self;
+}
+static SetFacebookIdResponseProto* defaultSetFacebookIdResponseProtoInstance = nil;
++ (void) initialize {
+  if (self == [SetFacebookIdResponseProto class]) {
+    defaultSetFacebookIdResponseProtoInstance = [[SetFacebookIdResponseProto alloc] init];
+  }
+}
++ (SetFacebookIdResponseProto*) defaultInstance {
+  return defaultSetFacebookIdResponseProtoInstance;
+}
+- (SetFacebookIdResponseProto*) defaultInstance {
+  return defaultSetFacebookIdResponseProtoInstance;
+}
+- (BOOL) isInitialized {
+  return YES;
+}
+- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output {
+  if (self.hasSender) {
+    [output writeMessage:1 value:self.sender];
+  }
+  if (self.hasStatus) {
+    [output writeEnum:2 value:self.status];
+  }
+  [self.unknownFields writeToCodedOutputStream:output];
+}
+- (int32_t) serializedSize {
+  int32_t size = memoizedSerializedSize;
+  if (size != -1) {
+    return size;
+  }
+
+  size = 0;
+  if (self.hasSender) {
+    size += computeMessageSize(1, self.sender);
+  }
+  if (self.hasStatus) {
+    size += computeEnumSize(2, self.status);
+  }
+  size += self.unknownFields.serializedSize;
+  memoizedSerializedSize = size;
+  return size;
+}
++ (SetFacebookIdResponseProto*) parseFromData:(NSData*) data {
+  return (SetFacebookIdResponseProto*)[[[SetFacebookIdResponseProto builder] mergeFromData:data] build];
+}
++ (SetFacebookIdResponseProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (SetFacebookIdResponseProto*)[[[SetFacebookIdResponseProto builder] mergeFromData:data extensionRegistry:extensionRegistry] build];
+}
++ (SetFacebookIdResponseProto*) parseFromInputStream:(NSInputStream*) input {
+  return (SetFacebookIdResponseProto*)[[[SetFacebookIdResponseProto builder] mergeFromInputStream:input] build];
+}
++ (SetFacebookIdResponseProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (SetFacebookIdResponseProto*)[[[SetFacebookIdResponseProto builder] mergeFromInputStream:input extensionRegistry:extensionRegistry] build];
+}
++ (SetFacebookIdResponseProto*) parseFromCodedInputStream:(PBCodedInputStream*) input {
+  return (SetFacebookIdResponseProto*)[[[SetFacebookIdResponseProto builder] mergeFromCodedInputStream:input] build];
+}
++ (SetFacebookIdResponseProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (SetFacebookIdResponseProto*)[[[SetFacebookIdResponseProto builder] mergeFromCodedInputStream:input extensionRegistry:extensionRegistry] build];
+}
++ (SetFacebookIdResponseProto_Builder*) builder {
+  return [[[SetFacebookIdResponseProto_Builder alloc] init] autorelease];
+}
++ (SetFacebookIdResponseProto_Builder*) builderWithPrototype:(SetFacebookIdResponseProto*) prototype {
+  return [[SetFacebookIdResponseProto builder] mergeFrom:prototype];
+}
+- (SetFacebookIdResponseProto_Builder*) builder {
+  return [SetFacebookIdResponseProto builder];
+}
+@end
+
+BOOL SetFacebookIdResponseProto_SetFacebookIdStatusIsValidValue(SetFacebookIdResponseProto_SetFacebookIdStatus value) {
+  switch (value) {
+    case SetFacebookIdResponseProto_SetFacebookIdStatusSuccess:
+    case SetFacebookIdResponseProto_SetFacebookIdStatusFailOther:
+      return YES;
+    default:
+      return NO;
+  }
+}
+@interface SetFacebookIdResponseProto_Builder()
+@property (retain) SetFacebookIdResponseProto* result;
+@end
+
+@implementation SetFacebookIdResponseProto_Builder
+@synthesize result;
+- (void) dealloc {
+  self.result = nil;
+  [super dealloc];
+}
+- (id) init {
+  if ((self = [super init])) {
+    self.result = [[[SetFacebookIdResponseProto alloc] init] autorelease];
+  }
+  return self;
+}
+- (PBGeneratedMessage*) internalGetResult {
+  return result;
+}
+- (SetFacebookIdResponseProto_Builder*) clear {
+  self.result = [[[SetFacebookIdResponseProto alloc] init] autorelease];
+  return self;
+}
+- (SetFacebookIdResponseProto_Builder*) clone {
+  return [SetFacebookIdResponseProto builderWithPrototype:result];
+}
+- (SetFacebookIdResponseProto*) defaultInstance {
+  return [SetFacebookIdResponseProto defaultInstance];
+}
+- (SetFacebookIdResponseProto*) build {
+  [self checkInitialized];
+  return [self buildPartial];
+}
+- (SetFacebookIdResponseProto*) buildPartial {
+  SetFacebookIdResponseProto* returnMe = [[result retain] autorelease];
+  self.result = nil;
+  return returnMe;
+}
+- (SetFacebookIdResponseProto_Builder*) mergeFrom:(SetFacebookIdResponseProto*) other {
+  if (other == [SetFacebookIdResponseProto defaultInstance]) {
+    return self;
+  }
+  if (other.hasSender) {
+    [self mergeSender:other.sender];
+  }
+  if (other.hasStatus) {
+    [self setStatus:other.status];
+  }
+  [self mergeUnknownFields:other.unknownFields];
+  return self;
+}
+- (SetFacebookIdResponseProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input {
+  return [self mergeFromCodedInputStream:input extensionRegistry:[PBExtensionRegistry emptyRegistry]];
+}
+- (SetFacebookIdResponseProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  PBUnknownFieldSet_Builder* unknownFields = [PBUnknownFieldSet builderWithUnknownFields:self.unknownFields];
+  while (YES) {
+    int32_t tag = [input readTag];
+    switch (tag) {
+      case 0:
+        [self setUnknownFields:[unknownFields build]];
+        return self;
+      default: {
+        if (![self parseUnknownField:input unknownFields:unknownFields extensionRegistry:extensionRegistry tag:tag]) {
+          [self setUnknownFields:[unknownFields build]];
+          return self;
+        }
+        break;
+      }
+      case 10: {
+        MinimumUserProto_Builder* subBuilder = [MinimumUserProto builder];
+        if (self.hasSender) {
+          [subBuilder mergeFrom:self.sender];
+        }
+        [input readMessage:subBuilder extensionRegistry:extensionRegistry];
+        [self setSender:[subBuilder buildPartial]];
+        break;
+      }
+      case 16: {
+        int32_t value = [input readEnum];
+        if (SetFacebookIdResponseProto_SetFacebookIdStatusIsValidValue(value)) {
+          [self setStatus:value];
+        } else {
+          [unknownFields mergeVarintField:2 value:value];
+        }
+        break;
+      }
+    }
+  }
+}
+- (BOOL) hasSender {
+  return result.hasSender;
+}
+- (MinimumUserProto*) sender {
+  return result.sender;
+}
+- (SetFacebookIdResponseProto_Builder*) setSender:(MinimumUserProto*) value {
+  result.hasSender = YES;
+  result.sender = value;
+  return self;
+}
+- (SetFacebookIdResponseProto_Builder*) setSenderBuilder:(MinimumUserProto_Builder*) builderForValue {
+  return [self setSender:[builderForValue build]];
+}
+- (SetFacebookIdResponseProto_Builder*) mergeSender:(MinimumUserProto*) value {
+  if (result.hasSender &&
+      result.sender != [MinimumUserProto defaultInstance]) {
+    result.sender =
+      [[[MinimumUserProto builderWithPrototype:result.sender] mergeFrom:value] buildPartial];
+  } else {
+    result.sender = value;
+  }
+  result.hasSender = YES;
+  return self;
+}
+- (SetFacebookIdResponseProto_Builder*) clearSender {
+  result.hasSender = NO;
+  result.sender = [MinimumUserProto defaultInstance];
+  return self;
+}
+- (BOOL) hasStatus {
+  return result.hasStatus;
+}
+- (SetFacebookIdResponseProto_SetFacebookIdStatus) status {
+  return result.status;
+}
+- (SetFacebookIdResponseProto_Builder*) setStatus:(SetFacebookIdResponseProto_SetFacebookIdStatus) value {
+  result.hasStatus = YES;
+  result.status = value;
+  return self;
+}
+- (SetFacebookIdResponseProto_Builder*) clearStatus {
+  result.hasStatus = NO;
+  result.status = SetFacebookIdResponseProto_SetFacebookIdStatusSuccess;
   return self;
 }
 @end

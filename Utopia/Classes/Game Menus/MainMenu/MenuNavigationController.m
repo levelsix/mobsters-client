@@ -43,6 +43,7 @@ static float imgHeight = 40.f;
   UIImage *image = [UIImage imageNamed:@"menutopbar.png"];
   imgHeight = image.size.height;
   [image drawInRect:CGRectMake(0, 0, self.frame.size.width, imgHeight)];
+  
   [self setTitleVerticalPositionAdjustment:3.f forBarMetrics:UIBarMetricsDefault];
   
   UIFont *font = [UIFont fontWithName:[Globals font] size:24.f];

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="4514" systemVersion="12F45" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none">
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="3746"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="3747"/>
     </dependencies>
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="EnhanceViewController">
@@ -13,6 +13,7 @@
                 <outlet property="queueView" destination="xbb-ux-zrh" id="Hee-37-Vn1"/>
                 <outlet property="tableContainerView" destination="vQW-NR-xSR" id="HBx-y7-2US"/>
                 <outlet property="teamSlotsContainer" destination="x8u-eF-yG4" id="KhK-XB-aHK"/>
+                <outlet property="topBar" destination="MpX-N7-sMW" id="sbz-oN-2kP"/>
                 <outlet property="view" destination="RKa-1G-1RK" id="8bg-MH-0eR"/>
             </connections>
         </placeholder>
@@ -295,7 +296,7 @@
                                             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                         </view>
                                         <imageView opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="center" image="fixarrow.png" id="az5-xy-CD2">
-                                            <rect key="frame" x="225" y="10" width="185" height="39"/>
+                                            <rect key="frame" x="225.00000000000006" y="10" width="185" height="39"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
                                         </imageView>
                                     </subviews>
@@ -310,7 +311,7 @@
                                     </connections>
                                 </view>
                                 <view contentMode="scaleToFill" id="CzC-hh-Yqg">
-                                    <rect key="frame" x="0.0" y="0.0" width="386" height="60"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="386.00000000000011" height="60"/>
                                     <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMinY="YES"/>
                                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                 </view>
@@ -334,6 +335,74 @@
             <simulatedOrientationMetrics key="simulatedOrientationMetrics" orientation="landscapeRight"/>
             <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
         </view>
+        <view contentMode="scaleToFill" id="MpX-N7-sMW" userLabel="Title View" customClass="CoinBar">
+            <rect key="frame" x="0.0" y="0.0" width="345.00000000000006" height="42"/>
+            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+            <subviews>
+                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Laboratory" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" id="Rsi-cI-k8z" customClass="NiceFontLabel">
+                    <rect key="frame" x="109" y="4" width="130" height="32"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                    <fontDescription key="fontDescription" type="system" pointSize="21"/>
+                    <color key="textColor" white="0.0" alpha="0.80000000000000004" colorSpace="calibratedWhite"/>
+                    <nil key="highlightedColor"/>
+                    <color key="shadowColor" white="1" alpha="0.5" colorSpace="calibratedWhite"/>
+                    <size key="shadowOffset" width="0.0" height="1"/>
+                </label>
+                <view contentMode="scaleToFill" id="mOC-Va-Aa0">
+                    <rect key="frame" x="248" y="6" width="88" height="29"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                    <subviews>
+                        <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="menuresourcebg.png" id="lbk-bM-rx3">
+                            <rect key="frame" x="6" y="5" width="82" height="19"/>
+                            <autoresizingMask key="autoresizingMask"/>
+                        </imageView>
+                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="250" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" id="QEk-zM-qg8" customClass="NiceFontLabel">
+                            <rect key="frame" x="30" y="1" width="52" height="24"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <fontDescription key="fontDescription" type="system" pointSize="13"/>
+                            <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="calibratedRGB"/>
+                            <nil key="highlightedColor"/>
+                            <color key="shadowColor" white="0.0" alpha="0.80000000000000004" colorSpace="calibratedWhite"/>
+                            <size key="shadowOffset" width="0.0" height="1"/>
+                        </label>
+                        <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleAspectFit" image="diamond.png" id="qFf-aT-3Xe">
+                            <rect key="frame" x="0.0" y="1" width="27" height="27"/>
+                            <autoresizingMask key="autoresizingMask"/>
+                        </imageView>
+                    </subviews>
+                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                </view>
+                <view contentMode="scaleToFill" id="Ak0-hx-dda">
+                    <rect key="frame" x="8" y="7" width="89" height="28"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                    <subviews>
+                        <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="menuresourcebg.png" id="Kgo-LQ-e7c">
+                            <rect key="frame" x="7" y="5" width="82" height="19"/>
+                            <autoresizingMask key="autoresizingMask"/>
+                        </imageView>
+                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="250" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" id="IB0-KJ-aJN" customClass="NiceFontLabel">
+                            <rect key="frame" x="29" y="1" width="56" height="24"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <fontDescription key="fontDescription" type="system" pointSize="13"/>
+                            <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="calibratedRGB"/>
+                            <nil key="highlightedColor"/>
+                            <color key="shadowColor" white="0.0" alpha="0.80000000000000004" colorSpace="calibratedWhite"/>
+                            <size key="shadowOffset" width="0.0" height="1"/>
+                        </label>
+                        <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleAspectFit" image="oilicon.png" id="cBm-cP-Q6d">
+                            <rect key="frame" x="-1" y="0.0" width="29" height="28"/>
+                            <autoresizingMask key="autoresizingMask"/>
+                        </imageView>
+                    </subviews>
+                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                </view>
+            </subviews>
+            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+            <connections>
+                <outlet property="gemsLabel" destination="QEk-zM-qg8" id="u3z-j0-IPv"/>
+                <outlet property="oilLabel" destination="IB0-KJ-aJN" id="mpe-X9-M9S"/>
+            </connections>
+        </view>
     </objects>
     <resources>
         <image name="cardbottomoverlay.png" width="95" height="22"/>
@@ -344,7 +413,9 @@
         <image name="finishheal.png" width="71" height="28"/>
         <image name="fixarrow.png" width="185" height="39"/>
         <image name="mainmenubg.png" width="568" height="320"/>
+        <image name="menuresourcebg.png" width="82" height="19"/>
         <image name="minusteam.png" width="17" height="17"/>
+        <image name="oilicon.png" width="26" height="32"/>
         <image name="onteam.png" width="17" height="17"/>
     </resources>
 </document>

@@ -23,7 +23,7 @@
 #import "Downloader.h"
 #import "Amplitude.h"
 #import <MobileAppTracker/MobileAppTracker.h>
-#import "FBConnect.h"
+#import <FacebookSDK/FacebookSDK.h>
 #import "Chartboost.h"
 
 #define APSALAR_API_KEY      @"lvl6"
@@ -48,6 +48,10 @@
 @implementation AppDelegate
 
 @synthesize window;
+
+- (BOOL) application:(UIApplication *)application openURL:(NSURL *)url sourceApplication:(NSString *)sourceApplication annotation:(id)annotation {
+  return [FBAppCall handleOpenURL:url sourceApplication:sourceApplication];
+}
 
 - (void) setUpMobileAppTracker {
   [[MobileAppTracker sharedManager] setDebugMode:NO];
@@ -147,7 +151,7 @@
   [Analytics openedApp];
   
   // Publish install
-  [FBSettings publishInstall:FACEBOOK_APP_ID];
+  [FBAppEvents activateApp];
   
   [self removeLocalNotifications];
   
@@ -274,8 +278,8 @@
   }
   
   for (UserStruct *us in gs.myStructs) {
-    if (us.state == kBuilding) {
-      FullStructureProto *fsp = [gs structWithId:us.structId];
+    if (!us.isComplete) {
+      StructureInfoProto *fsp = [[gs structWithId:us.structId] structInfo];
       NSString *text = [NSString stringWithFormat:@"Your %@ has finished building!", fsp.name];
       int minutes = fsp.minutesToBuild;
       [self scheduleNotificationWithText:text badge:1 date:[us.purchaseTime dateByAddingTimeInterval:minutes*60.f]];

@@ -25,9 +25,7 @@
 
 - (UserStruct *) purchaseNormStruct:(int)structId atX:(int)x atY:(int)y;
 - (void) moveNormStruct:(UserStruct *)userStruct atX:(int)x atY:(int)y;
-- (void) rotateNormStruct:(UserStruct *)userStruct to:(StructOrientation)orientation;
 - (void) retrieveFromNormStructure:(UserStruct *)userStruct;
-- (void) sellNormStruct:(UserStruct *)userStruct;
 - (void) instaUpgrade:(UserStruct *)userStruct;
 - (void) normStructWaitComplete:(UserStruct *)userStruct;
 - (void) upgradeNormStruct:(UserStruct *)userStruct;
@@ -75,7 +73,7 @@
 
 - (BOOL) removeMonsterFromTeam:(int)userMonsterId;
 - (BOOL) addMonsterToTeam:(int)userMonsterId;
-- (void) buyInventorySlots;
+- (void) increaseInventorySlots:(UserStruct *)us withGems:(BOOL)gems;
 - (void) combineMonsters:(NSArray *)userMonsterIds;
 - (BOOL) combineMonsterWithSpeedup:(int)userMonsterId;
 - (BOOL) addMonsterToHealingQueue:(int)userMonsterId;
@@ -90,7 +88,7 @@
 - (BOOL) speedupEnhancingQueue;
 - (void) enhanceQueueWaitTimeComplete:(NSArray *)enhancingItems;
 
-- (void) inviteAllFacebookFriends:(NSArray *)fbFriends;
+- (void) inviteAllFacebookFriends:(NSArray *)fbFriends forStruct:(UserStruct *)us;
 - (void) acceptAndRejectInvitesWithAcceptIds:(NSArray *)acceptIds rejectIds:(NSArray *)rejectIds;
 
 @end

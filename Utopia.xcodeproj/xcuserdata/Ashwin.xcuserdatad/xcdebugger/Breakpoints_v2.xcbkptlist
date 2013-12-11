@@ -68,11 +68,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Utopia/Classes/Socket Communication/OutgoingEventController.m"
-            timestampString = "406105226.015849"
+            timestampString = "407229196.704633"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "275"
-            endingLineNumber = "275"
+            startingLineNumber = "270"
+            endingLineNumber = "270"
             landmarkName = "-loadNeutralCity:withDelegate:"
             landmarkType = "5">
          </BreakpointContent>
@@ -83,24 +83,8 @@
             shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "Utopia/Classes/Game Menus/Miscellaneous/NibUtils.m"
-            timestampString = "406635226.930159"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "645"
-            endingLineNumber = "645"
-            landmarkName = "-transitionToNum:"
-            landmarkType = "5">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
             filePath = "Utopia/Classes/Main Map/GameMap.m"
-            timestampString = "406349440.094666"
+            timestampString = "407715340.269018"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "182"

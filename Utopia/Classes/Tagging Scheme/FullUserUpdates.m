@@ -54,6 +54,20 @@
 
 @end
 
+@implementation OilUpdate
+
+- (void) update {
+  GameState *gs = [GameState sharedGameState];
+  gs.oil += _change;
+}
+
+- (void) undo {
+  GameState *gs = [GameState sharedGameState];
+  gs.oil -= _change;
+}
+
+@end
+
 @implementation LevelUpdate
 
 - (void) update {

@@ -52,6 +52,13 @@ message UserFacebookInviteForSlotProto {
 	optional string recipientFacebookId = 3;
 	optional int64 timeOfInvite = 4;
 	optional int64 timeAccepted = 5;
+	optional int32 userStructId = 6;
+	
+	//also represents the user struct lvl,
+	//most likely not the current struct lvl
+	optional int32 structFbLvl = 7;
+	
+	optional int64 redeemedTime = 8;
 }
 
 //------------------------------------------------------------------------------------------
@@ -62,6 +69,7 @@ message FullUserProto {
     optional int32 level = 3;
 	optional int32 gems = 4;
 	optional int32 cash = 5;
+	optional int32 oil = 42; 
 	optional int32 experience = 6;
 	optional int32 tasksCompleted = 7;
 	optional int32 battlesWon = 8;
@@ -80,12 +88,13 @@ message FullUserProto {
 	optional bool isAdmin = 21;
 	//optional int32 apsalarId = 22; //defined below
 	optional int32 numCoinsRetrievedFromStructs = 23;
+	optional int32 numOilRetrievedFromStructs = 43;
 	//optional int32 numConsecutiveDaysPlayed = 24; defined below
 	optional MinimumClanProto clan = 25;
 	//optional int64 lastWallPostNotificationTime lwpnt = 26;
 	//optional string kabamNaid = 27;
 	optional bool hasReceivedfbReward = 28;
-	optional int32 numAdditionalMonsterSlots = 29;
+	//optional int32 numAdditionalMonsterSlots = 29; //get rid of this
 	optional int32 numBeginnerSalesPurchased = 30;
 	optional bool hasActiveShield = 31; 
 	optional int64 shieldEndTime = 32;
@@ -98,6 +107,8 @@ message FullUserProto {
 	optional int32 defensesLost = 39;
 	optional string facebookId = 40;
 	//optional int32 nthExtraSlotsViaFb = 41; //defined below
+	//optional int32 oil = 42; //defined above
+	//optional int32 numOilRetrievedFromStructs = 43; //defined above
 
 	//CreateInfoProtoUtils.java doesn't set these (I can't think of a time the client would need this
 	//consider making other fields like this
@@ -110,7 +121,7 @@ message FullUserProto {
 	optional int32 numConsecutiveDaysPlayed = 24;
 	optional int64 lastWallPostNotificationTime = 26;
 	optional string kabamNaid = 27;
-	optional int32 nthExtraSlotsViaFb = 41;
+	//optional int32 nthExtraSlotsViaFb = 41; //get rid of this
 }
 
 //------------------------------------------------------------------------------------------
@@ -118,7 +129,6 @@ message FullUserProto {
 message StaticUserLevelInfoProto {
 	optional int32 level = 1;
 	optional int32 requiredExperience = 2; 
-	optional int32 maxCash = 3;
 }
 
 //------------------------------------------------------------------------------------------

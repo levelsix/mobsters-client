@@ -368,6 +368,7 @@
     self.orientation = proto.orientation;
     self.purchaseTime = proto.hasPurchaseTime ? [NSDate dateWithTimeIntervalSince1970:proto.purchaseTime/1000.0] : nil;
     self.lastRetrieved = proto.hasLastRetrieved ? [NSDate dateWithTimeIntervalSince1970:proto.lastRetrieved/1000.0] : nil;
+    self.fbInviteStructLvl = proto.fbInviteStructLvl;
   }
   return self;
 }
@@ -376,44 +377,103 @@
   return [[self alloc] initWithStructProto:proto];
 }
 
-- (FullStructureProto *) fsp {
-  return [[GameState sharedGameState] structWithId:self.structId];
-}
-
-- (FullStructureProto *) fspForNextLevel {
-  if (self.fsp.successorStructId) {
-    return [[GameState sharedGameState] structWithId:self.fsp.successorStructId];
+- (id<StaticStructure>) staticStructForPrevLevel {
+  int predecessorStructId = self.staticStruct.structInfo.predecessorStructId;
+  if (predecessorStructId) {
+    return [[GameState sharedGameState] structWithId:predecessorStructId];
   } else {
     return nil;
   }
 }
 
-- (int) maxLevel {
-  GameState *gs = [GameState sharedGameState];
-  FullStructureProto *fsp = self.fsp;
-  while (fsp.successorStructId) {
-    fsp = [gs structWithId:fsp.successorStructId];
-  }
-  return fsp.level;
+- (id<StaticStructure>) staticStruct {
+  return [[GameState sharedGameState] structWithId:self.structId];
 }
 
-- (UserStructState) state {
-  NSDate *now = [NSDate date];
-  FullStructureProto *fsp = self.fsp;
-  
-  if (!self.isComplete) {
-    return kBuilding;
+- (id<StaticStructure>) staticStructForNextLevel {
+  int successorId = self.staticStruct.structInfo.successorStructId;
+  if (successorId) {
+    return [[GameState sharedGameState] structWithId:successorId];
+  } else {
+    return nil;
   }
-  
-  NSDate *done = [NSDate dateWithTimeInterval:fsp.minutesToGain*60 sinceDate:self.lastRetrieved];
-  if ([now compare:done] == NSOrderedDescending) {
-    return kRetrieving;
+}
+
+- (id<StaticStructure>) maxStaticStruct {
+  GameState *gs = [GameState sharedGameState];
+  id<StaticStructure> ss = self.staticStruct;
+  while (ss.structInfo.successorStructId) {
+    ss = [gs structWithId:ss.structInfo.successorStructId];
   }
-  return kWaitingForIncome;
+  return ss;
+}
+
+- (NSArray *) allStaticStructs {
+  GameState *gs = [GameState sharedGameState];
+  NSMutableArray *arr = [NSMutableArray array];
+  int curId = self.baseStructId;
+  while (curId) {
+    id<StaticStructure> ss = [gs structWithId:curId];
+    [arr addObject:ss];
+    curId = ss.structInfo.successorStructId;
+  }
+  return arr;
+}
+
+- (id<StaticStructure>) staticStructForFbLevel {
+  NSArray *allSS = [self allStaticStructs];
+  for (id<StaticStructure> ss in allSS) {
+    if (ss.structInfo.level == self.fbInviteStructLvl) {
+      return ss;
+    }
+  }
+  return nil;
+}
+
+- (id<StaticStructure>) staticStructForNextFbLevel {
+  NSArray *allSS = [self allStaticStructs];
+  for (id<StaticStructure> ss in allSS) {
+    if (ss.structInfo.level == self.fbInviteStructLvl+1) {
+      return ss;
+    }
+  }
+  return nil;
+}
+
+- (int) maxLevel {
+  return self.maxStaticStruct.structInfo.level;
+}
+
+- (int) baseStructId {
+  GameState *gs = [GameState sharedGameState];
+  id<StaticStructure> ss = self.staticStruct;
+  while (ss.structInfo.predecessorStructId) {
+    ss = [gs structWithId:ss.structInfo.predecessorStructId];
+  }
+  return ss.structInfo.structId;
+}
+
+- (int) numBonusSlots {
+  int slots = 0;
+  GameState *gs = [GameState sharedGameState];
+  id<StaticStructure> ss = self.staticStructForFbLevel;
+  while (ss) {
+    if ([ss structInfo].structType == StructureInfoProto_StructTypeResidence) {
+      ResidenceProto *res = (ResidenceProto *)ss;
+      slots += res.numBonusMonsterSlots;
+    }
+    
+    if (ss.structInfo.predecessorStructId) {
+      ss = [gs structWithId:ss.structInfo.predecessorStructId];
+    } else {
+      ss = nil;
+    }
+  }
+  return slots;
 }
 
 - (NSDate *) buildCompleteDate {
-  int minutes = self.fsp.minutesToBuild;
+  int minutes = self.staticStruct.structInfo.minutesToBuild;
   return [self.purchaseTime dateByAddingTimeInterval:minutes*60.f];
 }
 
@@ -422,7 +482,7 @@
 }
 
 - (NSString *) description {
-  FullStructureProto *fsp = [[GameState sharedGameState] structWithId:self.structId];
+  StructureInfoProto *fsp = [[[GameState sharedGameState] structWithId:self.structId] structInfo];
   return [NSString stringWithFormat:@"%p: %@, %@", self, fsp.name, NSStringFromCGPoint(self.coordinates)];
 }
 
@@ -637,6 +697,14 @@
     self.type = RequestFromFriendInventorySlots;
   }
   return self;
+}
+
+- (BOOL) isEqual:(RequestFromFriend *)object {
+  return self.invite.inviteId == object.invite.inviteId;
+}
+
+- (NSUInteger) hash {
+  return self.invite.inviteId;
 }
 
 @end

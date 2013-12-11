@@ -118,8 +118,6 @@
 @class FullClanProto_Builder;
 @class FullQuestProto;
 @class FullQuestProto_Builder;
-@class FullStructureProto;
-@class FullStructureProto_Builder;
 @class FullTaskProto;
 @class FullTaskProto_Builder;
 @class FullUserClanProto;
@@ -146,6 +144,8 @@
 @class HealMonsterWaitTimeCompleteRequestProto_Builder;
 @class HealMonsterWaitTimeCompleteResponseProto;
 @class HealMonsterWaitTimeCompleteResponseProto_Builder;
+@class HospitalProto;
+@class HospitalProto_Builder;
 @class InAppPurchasePackageProto;
 @class InAppPurchasePackageProto_Builder;
 @class InAppPurchaseRequestProto;
@@ -158,8 +158,12 @@
 @class IncreaseMonsterInventorySlotResponseProto_Builder;
 @class InviteFbFriendsForSlotsRequestProto;
 @class InviteFbFriendsForSlotsRequestProto_Builder;
+@class InviteFbFriendsForSlotsRequestProto_FacebookInviteStructure;
+@class InviteFbFriendsForSlotsRequestProto_FacebookInviteStructure_Builder;
 @class InviteFbFriendsForSlotsResponseProto;
 @class InviteFbFriendsForSlotsResponseProto_Builder;
+@class LabProto;
+@class LabProto_Builder;
 @class LeaveClanRequestProto;
 @class LeaveClanRequestProto_Builder;
 @class LeaveClanResponseProto;
@@ -258,6 +262,12 @@
 @class RequestJoinClanRequestProto_Builder;
 @class RequestJoinClanResponseProto;
 @class RequestJoinClanResponseProto_Builder;
+@class ResidenceProto;
+@class ResidenceProto_Builder;
+@class ResourceGeneratorProto;
+@class ResourceGeneratorProto_Builder;
+@class ResourceStorageProto;
+@class ResourceStorageProto_Builder;
 @class RetractRequestJoinClanRequestProto;
 @class RetractRequestJoinClanRequestProto_Builder;
 @class RetractRequestJoinClanResponseProto;
@@ -288,10 +298,6 @@
 @class ReviveInDungeonRequestProto_Builder;
 @class ReviveInDungeonResponseProto;
 @class ReviveInDungeonResponseProto_Builder;
-@class SellNormStructureRequestProto;
-@class SellNormStructureRequestProto_Builder;
-@class SellNormStructureResponseProto;
-@class SellNormStructureResponseProto_Builder;
 @class SellUserMonsterRequestProto;
 @class SellUserMonsterRequestProto_Builder;
 @class SellUserMonsterResponseProto;
@@ -302,6 +308,10 @@
 @class SendGroupChatRequestProto_Builder;
 @class SendGroupChatResponseProto;
 @class SendGroupChatResponseProto_Builder;
+@class SetFacebookIdRequestProto;
+@class SetFacebookIdRequestProto_Builder;
+@class SetFacebookIdResponseProto;
+@class SetFacebookIdResponseProto_Builder;
 @class StartupRequestProto;
 @class StartupRequestProto_Builder;
 @class StartupResponseProto;
@@ -328,6 +338,8 @@
 @class StaticDataProto_Builder;
 @class StaticUserLevelInfoProto;
 @class StaticUserLevelInfoProto_Builder;
+@class StructureInfoProto;
+@class StructureInfoProto_Builder;
 @class SubmitMonsterEnhancementRequestProto;
 @class SubmitMonsterEnhancementRequestProto_Builder;
 @class SubmitMonsterEnhancementResponseProto;
@@ -340,6 +352,8 @@
 @class TournamentEventProto_Builder;
 @class TournamentEventRewardProto;
 @class TournamentEventRewardProto_Builder;
+@class TownHallProto;
+@class TownHallProto_Builder;
 @class TransferClanOwnershipRequestProto;
 @class TransferClanOwnershipRequestProto_Builder;
 @class TransferClanOwnershipResponseProto;
@@ -379,7 +393,7 @@ typedef enum {
   EventProtocolRequestCInAppPurchaseEvent = 2,
   EventProtocolRequestCPurchaseNormStructureEvent = 3,
   EventProtocolRequestCMoveOrRotateNormStructureEvent = 4,
-  EventProtocolRequestCSellNormStructureEvent = 5,
+  EventProtocolRequestCSetFacebookIdEvent = 5,
   EventProtocolRequestCUpgradeNormStructureEvent = 6,
   EventProtocolRequestCRetrieveCurrencyFromNormStructureEvent = 7,
   EventProtocolRequestCFinishNormStructWaittimeWithDiamondsEvent = 8,
@@ -439,7 +453,7 @@ typedef enum {
   EventProtocolResponseSInAppPurchaseEvent = 2,
   EventProtocolResponseSPurchaseNormStructureEvent = 3,
   EventProtocolResponseSMoveOrRotateNormStructureEvent = 4,
-  EventProtocolResponseSSellNormStructureEvent = 5,
+  EventProtocolResponseSSetFacebookIdEvent = 5,
   EventProtocolResponseSUpgradeNormStructureEvent = 6,
   EventProtocolResponseSRetrieveCurrencyFromNormStructureEvent = 7,
   EventProtocolResponseSFinishNormStructWaittimeWithDiamondsEvent = 8,

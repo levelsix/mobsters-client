@@ -12,10 +12,12 @@
 #import "GameMap.h"
 #import "AttackMapViewController.h"
 #import "DungeonBattleLayer.h"
+#import "OneLineNotificationViewController.h"
 
 @interface GameViewController : UIViewController <AttackMapDelegate, BattleLayerDelegate>
 
 @property (nonatomic, strong) TopBarViewController *topBarViewController;
+@property (nonatomic, strong) OneLineNotificationViewController *notifViewController;
 @property (nonatomic, strong) GameMap *currentMap;
 
 @property (nonatomic, strong) IBOutlet TravelingLoadingView *loadingView;

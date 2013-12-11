@@ -43,4 +43,6 @@
 
 @property (nonatomic, assign) id<BuySlotsViewControllerDelegate> delegate;
 
+- (IBAction)backClicked:(id)sender;
+
 @end

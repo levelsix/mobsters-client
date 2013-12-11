@@ -54,11 +54,11 @@ typedef enum {
 
 @protocol OrbLayerDelegate <NSObject>
 
-- (void) turnBegan;
+- (void) moveBegan;
 - (void) newComboFound;
 - (void) gemKilled:(Gem *)gem;
 - (void) gemReachedFlyLocation:(Gem *)gem;
-- (void) turnComplete;
+- (void) moveComplete;
 - (void) reshuffle;
 
 @end
@@ -88,6 +88,8 @@ typedef enum {
 @property (nonatomic, retain) NSMutableArray *powerups;
 
 @property (nonatomic, assign) CGPoint orbFlyToLocation;
+
+@property (nonatomic, assign) BOOL isTrackingTouch;
 
 @property (nonatomic, assign) id<OrbLayerDelegate> delegate;
 

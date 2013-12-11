@@ -315,12 +315,18 @@
 @private
   BOOL hasTimeOfInvite_:1;
   BOOL hasTimeAccepted_:1;
+  BOOL hasRedeemedTime_:1;
   BOOL hasInviteId_:1;
+  BOOL hasUserStructId_:1;
+  BOOL hasStructFbLvl_:1;
   BOOL hasRecipientFacebookId_:1;
   BOOL hasInviter_:1;
   int64_t timeOfInvite;
   int64_t timeAccepted;
+  int64_t redeemedTime;
   int32_t inviteId;
+  int32_t userStructId;
+  int32_t structFbLvl;
   NSString* recipientFacebookId;
   MinimumUserProtoWithFacebookId* inviter;
 }
@@ -329,11 +335,17 @@
 - (BOOL) hasRecipientFacebookId;
 - (BOOL) hasTimeOfInvite;
 - (BOOL) hasTimeAccepted;
+- (BOOL) hasUserStructId;
+- (BOOL) hasStructFbLvl;
+- (BOOL) hasRedeemedTime;
 @property (readonly) int32_t inviteId;
 @property (readonly, retain) MinimumUserProtoWithFacebookId* inviter;
 @property (readonly, retain) NSString* recipientFacebookId;
 @property (readonly) int64_t timeOfInvite;
 @property (readonly) int64_t timeAccepted;
+@property (readonly) int32_t userStructId;
+@property (readonly) int32_t structFbLvl;
+@property (readonly) int64_t redeemedTime;
 
 + (UserFacebookInviteForSlotProto*) defaultInstance;
 - (UserFacebookInviteForSlotProto*) defaultInstance;
@@ -395,91 +407,106 @@
 - (int64_t) timeAccepted;
 - (UserFacebookInviteForSlotProto_Builder*) setTimeAccepted:(int64_t) value;
 - (UserFacebookInviteForSlotProto_Builder*) clearTimeAccepted;
+
+- (BOOL) hasUserStructId;
+- (int32_t) userStructId;
+- (UserFacebookInviteForSlotProto_Builder*) setUserStructId:(int32_t) value;
+- (UserFacebookInviteForSlotProto_Builder*) clearUserStructId;
+
+- (BOOL) hasStructFbLvl;
+- (int32_t) structFbLvl;
+- (UserFacebookInviteForSlotProto_Builder*) setStructFbLvl:(int32_t) value;
+- (UserFacebookInviteForSlotProto_Builder*) clearStructFbLvl;
+
+- (BOOL) hasRedeemedTime;
+- (int64_t) redeemedTime;
+- (UserFacebookInviteForSlotProto_Builder*) setRedeemedTime:(int64_t) value;
+- (UserFacebookInviteForSlotProto_Builder*) clearRedeemedTime;
 @end
 
 @interface FullUserProto : PBGeneratedMessage {
 @private
-  BOOL hasHasActiveShield_:1;
   BOOL hasHasReceivedfbReward_:1;
+  BOOL hasHasActiveShield_:1;
   BOOL hasIsAdmin_:1;
   BOOL hasIsFake_:1;
-  BOOL hasLastWallPostNotificationTime_:1;
-  BOOL hasShieldEndTime_:1;
-  BOOL hasCreateTime_:1;
-  BOOL hasLastBattleNotificationTime_:1;
   BOOL hasLastLogoutTime_:1;
   BOOL hasLastLoginTime_:1;
+  BOOL hasShieldEndTime_:1;
   BOOL hasLastTimeQueued_:1;
-  BOOL hasElo_:1;
-  BOOL hasAttacksWon_:1;
+  BOOL hasLastBattleNotificationTime_:1;
+  BOOL hasCreateTime_:1;
+  BOOL hasLastWallPostNotificationTime_:1;
   BOOL hasDefensesWon_:1;
+  BOOL hasAttacksWon_:1;
   BOOL hasAttacksLost_:1;
+  BOOL hasElo_:1;
   BOOL hasDefensesLost_:1;
   BOOL hasNumBadges_:1;
   BOOL hasApsalarId_:1;
   BOOL hasNumConsecutiveDaysPlayed_:1;
-  BOOL hasNthExtraSlotsViaFb_:1;
+  BOOL hasNumBeginnerSalesPurchased_:1;
+  BOOL hasNumOilRetrievedFromStructs_:1;
+  BOOL hasNumCoinsRetrievedFromStructs_:1;
+  BOOL hasNumReferrals_:1;
   BOOL hasUserId_:1;
+  BOOL hasFlees_:1;
+  BOOL hasBattlesLost_:1;
+  BOOL hasBattlesWon_:1;
+  BOOL hasTasksCompleted_:1;
+  BOOL hasExperience_:1;
   BOOL hasLevel_:1;
   BOOL hasGems_:1;
   BOOL hasCash_:1;
-  BOOL hasExperience_:1;
-  BOOL hasTasksCompleted_:1;
-  BOOL hasBattlesWon_:1;
-  BOOL hasBattlesLost_:1;
-  BOOL hasFlees_:1;
-  BOOL hasNumReferrals_:1;
-  BOOL hasNumCoinsRetrievedFromStructs_:1;
-  BOOL hasNumAdditionalMonsterSlots_:1;
-  BOOL hasNumBeginnerSalesPurchased_:1;
-  BOOL hasReferralCode_:1;
-  BOOL hasFacebookId_:1;
-  BOOL hasUdid_:1;
-  BOOL hasDeviceToken_:1;
-  BOOL hasRank_:1;
-  BOOL hasName_:1;
+  BOOL hasOil_:1;
   BOOL hasKabamNaid_:1;
+  BOOL hasName_:1;
+  BOOL hasDeviceToken_:1;
+  BOOL hasUdid_:1;
+  BOOL hasFacebookId_:1;
+  BOOL hasRank_:1;
+  BOOL hasReferralCode_:1;
   BOOL hasClan_:1;
-  BOOL hasActiveShield_:1;
   BOOL hasReceivedfbReward_:1;
+  BOOL hasActiveShield_:1;
   BOOL isAdmin_:1;
   BOOL isFake_:1;
-  int64_t lastWallPostNotificationTime;
-  int64_t shieldEndTime;
-  int64_t createTime;
-  int64_t lastBattleNotificationTime;
   int64_t lastLogoutTime;
   int64_t lastLoginTime;
+  int64_t shieldEndTime;
   int64_t lastTimeQueued;
-  int32_t elo;
-  int32_t attacksWon;
+  int64_t lastBattleNotificationTime;
+  int64_t createTime;
+  int64_t lastWallPostNotificationTime;
   int32_t defensesWon;
+  int32_t attacksWon;
   int32_t attacksLost;
+  int32_t elo;
   int32_t defensesLost;
   int32_t numBadges;
   int32_t apsalarId;
   int32_t numConsecutiveDaysPlayed;
-  int32_t nthExtraSlotsViaFb;
+  int32_t numBeginnerSalesPurchased;
+  int32_t numOilRetrievedFromStructs;
+  int32_t numCoinsRetrievedFromStructs;
+  int32_t numReferrals;
   int32_t userId;
+  int32_t flees;
+  int32_t battlesLost;
+  int32_t battlesWon;
+  int32_t tasksCompleted;
+  int32_t experience;
   int32_t level;
   int32_t gems;
   int32_t cash;
-  int32_t experience;
-  int32_t tasksCompleted;
-  int32_t battlesWon;
-  int32_t battlesLost;
-  int32_t flees;
-  int32_t numReferrals;
-  int32_t numCoinsRetrievedFromStructs;
-  int32_t numAdditionalMonsterSlots;
-  int32_t numBeginnerSalesPurchased;
-  NSString* referralCode;
-  NSString* facebookId;
-  NSString* udid;
-  NSString* deviceToken;
-  NSString* rank;
-  NSString* name;
+  int32_t oil;
   NSString* kabamNaid;
+  NSString* name;
+  NSString* deviceToken;
+  NSString* udid;
+  NSString* facebookId;
+  NSString* rank;
+  NSString* referralCode;
   MinimumClanProto* clan;
 }
 - (BOOL) hasUserId;
@@ -487,6 +514,7 @@
 - (BOOL) hasLevel;
 - (BOOL) hasGems;
 - (BOOL) hasCash;
+- (BOOL) hasOil;
 - (BOOL) hasExperience;
 - (BOOL) hasTasksCompleted;
 - (BOOL) hasBattlesWon;
@@ -499,9 +527,9 @@
 - (BOOL) hasIsFake;
 - (BOOL) hasIsAdmin;
 - (BOOL) hasNumCoinsRetrievedFromStructs;
+- (BOOL) hasNumOilRetrievedFromStructs;
 - (BOOL) hasClan;
 - (BOOL) hasHasReceivedfbReward;
-- (BOOL) hasNumAdditionalMonsterSlots;
 - (BOOL) hasNumBeginnerSalesPurchased;
 - (BOOL) hasHasActiveShield;
 - (BOOL) hasShieldEndTime;
@@ -522,12 +550,12 @@
 - (BOOL) hasNumConsecutiveDaysPlayed;
 - (BOOL) hasLastWallPostNotificationTime;
 - (BOOL) hasKabamNaid;
-- (BOOL) hasNthExtraSlotsViaFb;
 @property (readonly) int32_t userId;
 @property (readonly, retain) NSString* name;
 @property (readonly) int32_t level;
 @property (readonly) int32_t gems;
 @property (readonly) int32_t cash;
+@property (readonly) int32_t oil;
 @property (readonly) int32_t experience;
 @property (readonly) int32_t tasksCompleted;
 @property (readonly) int32_t battlesWon;
@@ -540,9 +568,9 @@
 - (BOOL) isFake;
 - (BOOL) isAdmin;
 @property (readonly) int32_t numCoinsRetrievedFromStructs;
+@property (readonly) int32_t numOilRetrievedFromStructs;
 @property (readonly, retain) MinimumClanProto* clan;
 - (BOOL) hasReceivedfbReward;
-@property (readonly) int32_t numAdditionalMonsterSlots;
 @property (readonly) int32_t numBeginnerSalesPurchased;
 - (BOOL) hasActiveShield;
 @property (readonly) int64_t shieldEndTime;
@@ -563,7 +591,6 @@
 @property (readonly) int32_t numConsecutiveDaysPlayed;
 @property (readonly) int64_t lastWallPostNotificationTime;
 @property (readonly, retain) NSString* kabamNaid;
-@property (readonly) int32_t nthExtraSlotsViaFb;
 
 + (FullUserProto*) defaultInstance;
 - (FullUserProto*) defaultInstance;
@@ -623,6 +650,11 @@
 - (int32_t) cash;
 - (FullUserProto_Builder*) setCash:(int32_t) value;
 - (FullUserProto_Builder*) clearCash;
+
+- (BOOL) hasOil;
+- (int32_t) oil;
+- (FullUserProto_Builder*) setOil:(int32_t) value;
+- (FullUserProto_Builder*) clearOil;
 
 - (BOOL) hasExperience;
 - (int32_t) experience;
@@ -684,6 +716,11 @@
 - (FullUserProto_Builder*) setNumCoinsRetrievedFromStructs:(int32_t) value;
 - (FullUserProto_Builder*) clearNumCoinsRetrievedFromStructs;
 
+- (BOOL) hasNumOilRetrievedFromStructs;
+- (int32_t) numOilRetrievedFromStructs;
+- (FullUserProto_Builder*) setNumOilRetrievedFromStructs:(int32_t) value;
+- (FullUserProto_Builder*) clearNumOilRetrievedFromStructs;
+
 - (BOOL) hasClan;
 - (MinimumClanProto*) clan;
 - (FullUserProto_Builder*) setClan:(MinimumClanProto*) value;
@@ -695,11 +732,6 @@
 - (BOOL) hasReceivedfbReward;
 - (FullUserProto_Builder*) setHasReceivedfbReward:(BOOL) value;
 - (FullUserProto_Builder*) clearHasReceivedfbReward;
-
-- (BOOL) hasNumAdditionalMonsterSlots;
-- (int32_t) numAdditionalMonsterSlots;
-- (FullUserProto_Builder*) setNumAdditionalMonsterSlots:(int32_t) value;
-- (FullUserProto_Builder*) clearNumAdditionalMonsterSlots;
 
 - (BOOL) hasNumBeginnerSalesPurchased;
 - (int32_t) numBeginnerSalesPurchased;
@@ -800,28 +832,19 @@
 - (NSString*) kabamNaid;
 - (FullUserProto_Builder*) setKabamNaid:(NSString*) value;
 - (FullUserProto_Builder*) clearKabamNaid;
-
-- (BOOL) hasNthExtraSlotsViaFb;
-- (int32_t) nthExtraSlotsViaFb;
-- (FullUserProto_Builder*) setNthExtraSlotsViaFb:(int32_t) value;
-- (FullUserProto_Builder*) clearNthExtraSlotsViaFb;
 @end
 
 @interface StaticUserLevelInfoProto : PBGeneratedMessage {
 @private
   BOOL hasLevel_:1;
   BOOL hasRequiredExperience_:1;
-  BOOL hasMaxCash_:1;
   int32_t level;
   int32_t requiredExperience;
-  int32_t maxCash;
 }
 - (BOOL) hasLevel;
 - (BOOL) hasRequiredExperience;
-- (BOOL) hasMaxCash;
 @property (readonly) int32_t level;
 @property (readonly) int32_t requiredExperience;
-@property (readonly) int32_t maxCash;
 
 + (StaticUserLevelInfoProto*) defaultInstance;
 - (StaticUserLevelInfoProto*) defaultInstance;
@@ -866,10 +889,5 @@
 - (int32_t) requiredExperience;
 - (StaticUserLevelInfoProto_Builder*) setRequiredExperience:(int32_t) value;
 - (StaticUserLevelInfoProto_Builder*) clearRequiredExperience;
-
-- (BOOL) hasMaxCash;
-- (int32_t) maxCash;
-- (StaticUserLevelInfoProto_Builder*) setMaxCash:(int32_t) value;
-- (StaticUserLevelInfoProto_Builder*) clearMaxCash;
 @end
 

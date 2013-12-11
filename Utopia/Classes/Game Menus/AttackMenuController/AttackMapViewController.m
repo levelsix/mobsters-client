@@ -11,7 +11,7 @@
 #import "GameState.h"
 #import "GameViewController.h"
 
-#define NUM_CITIES 5
+#define NUM_CITIES 10
 
 @implementation AttackMapIconView
 

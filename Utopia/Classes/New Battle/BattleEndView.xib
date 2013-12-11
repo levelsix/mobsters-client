@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="4514" systemVersion="12F45" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none">
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="3746"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="3747"/>
     </dependencies>
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="DungeonBattleLayer">
@@ -26,34 +26,69 @@
                             <rect key="frame" x="139" y="58" width="203" height="203"/>
                             <autoresizingMask key="autoresizingMask"/>
                         </imageView>
-                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="SLS-fm-jMT">
-                            <rect key="frame" x="198" y="205" width="85" height="35"/>
+                        <view contentMode="scaleToFill" id="Pvj-Md-js7">
+                            <rect key="frame" x="152" y="205" width="176" height="40"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                            <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
-                            <state key="normal" backgroundImage="donebtn.png">
-                                <color key="titleColor" red="0.19607843459999999" green="0.30980393290000002" blue="0.52156865600000002" alpha="1" colorSpace="calibratedRGB"/>
-                                <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                            </state>
-                            <state key="highlighted">
-                                <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                            </state>
-                            <connections>
-                                <action selector="winExitClicked:" destination="-1" eventType="touchUpInside" id="llt-Eu-tTm"/>
-                            </connections>
-                        </button>
-                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="DONE" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" id="cJW-xr-aTv" customClass="NiceFontLabel">
-                            <rect key="frame" x="200" y="212" width="83" height="21"/>
-                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                            <fontDescription key="fontDescription" type="system" pointSize="13"/>
-                            <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                            <nil key="highlightedColor"/>
-                            <color key="shadowColor" red="0.0" green="0.0" blue="0.0" alpha="0.29999999999999999" colorSpace="calibratedRGB"/>
-                            <size key="shadowOffset" width="0.0" height="1"/>
-                        </label>
-                        <activityIndicatorView hidden="YES" opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" animating="YES" style="white" id="IEd-aX-nqV">
-                            <rect key="frame" x="231" y="213" width="20" height="20"/>
-                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                        </activityIndicatorView>
+                            <subviews>
+                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="tJk-gA-Zbu">
+                                    <rect key="frame" x="0.0" y="0.0" width="84" height="40"/>
+                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                    <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
+                                    <state key="normal" backgroundImage="cancel.png">
+                                        <color key="titleColor" red="0.19607843459999999" green="0.30980393290000002" blue="0.52156865600000002" alpha="1" colorSpace="calibratedRGB"/>
+                                        <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                    </state>
+                                    <state key="highlighted">
+                                        <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                    </state>
+                                    <connections>
+                                        <action selector="manageClicked:" destination="-1" eventType="touchUpInside" id="FNP-Do-AzI"/>
+                                    </connections>
+                                </button>
+                                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="MANAGE" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" id="dxN-vv-hDe" customClass="NiceFontLabel">
+                                    <rect key="frame" x="1" y="10" width="83" height="21"/>
+                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                    <fontDescription key="fontDescription" type="system" pointSize="13"/>
+                                    <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                    <nil key="highlightedColor"/>
+                                    <color key="shadowColor" red="0.0" green="0.0" blue="0.0" alpha="0.29999999999999999" colorSpace="calibratedRGB"/>
+                                    <size key="shadowOffset" width="0.0" height="1"/>
+                                </label>
+                                <activityIndicatorView hidden="YES" opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" animating="YES" style="white" id="1yo-zZ-oEd">
+                                    <rect key="frame" x="32" y="11" width="20" height="20"/>
+                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                </activityIndicatorView>
+                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="SLS-fm-jMT">
+                                    <rect key="frame" x="92" y="0.0" width="84" height="40"/>
+                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                    <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
+                                    <state key="normal" backgroundImage="confirm.png">
+                                        <color key="titleColor" red="0.19607843459999999" green="0.30980393290000002" blue="0.52156865600000002" alpha="1" colorSpace="calibratedRGB"/>
+                                        <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                    </state>
+                                    <state key="highlighted">
+                                        <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                    </state>
+                                    <connections>
+                                        <action selector="winExitClicked:" destination="-1" eventType="touchUpInside" id="llt-Eu-tTm"/>
+                                    </connections>
+                                </button>
+                                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="DONE" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" id="cJW-xr-aTv" customClass="NiceFontLabel">
+                                    <rect key="frame" x="93" y="10" width="83" height="21"/>
+                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                    <fontDescription key="fontDescription" type="system" pointSize="13"/>
+                                    <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                    <nil key="highlightedColor"/>
+                                    <color key="shadowColor" red="0.0" green="0.0" blue="0.0" alpha="0.29999999999999999" colorSpace="calibratedRGB"/>
+                                    <size key="shadowOffset" width="0.0" height="1"/>
+                                </label>
+                                <activityIndicatorView hidden="YES" opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" animating="YES" style="white" id="IEd-aX-nqV">
+                                    <rect key="frame" x="124" y="11" width="20" height="20"/>
+                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                </activityIndicatorView>
+                            </subviews>
+                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                        </view>
                         <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="youwonbg.png" id="Xob-wb-NXz">
                             <rect key="frame" x="159" y="8" width="162" height="101"/>
                             <autoresizingMask key="autoresizingMask"/>
@@ -84,15 +119,19 @@
             <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina4"/>
             <connections>
                 <outlet property="bgdView" destination="5" id="20"/>
+                <outlet property="buttonContainer" destination="Pvj-Md-js7" id="frI-Fy-cGg"/>
                 <outlet property="doneLabel" destination="cJW-xr-aTv" id="COP-mW-6cg"/>
+                <outlet property="doneSpinner" destination="IEd-aX-nqV" id="03g-Sb-0pF"/>
                 <outlet property="mainView" destination="BTu-r2-MCs" id="NYx-tq-nh4"/>
+                <outlet property="manageLabel" destination="dxN-vv-hDe" id="L9F-ta-aEW"/>
+                <outlet property="manageSpinner" destination="1yo-zZ-oEd" id="Umd-Qv-aBe"/>
                 <outlet property="rewardsViewContainer" destination="FbO-b6-2yH" id="Zxl-HP-0MP"/>
-                <outlet property="spinner" destination="IEd-aX-nqV" id="lvK-Re-A0A"/>
             </connections>
         </view>
     </objects>
     <resources>
-        <image name="donebtn.png" width="85" height="35"/>
+        <image name="cancel.png" width="84" height="40"/>
+        <image name="confirm.png" width="84" height="40"/>
         <image name="popupglow.png" width="480" height="320"/>
         <image name="wonbg.png" width="203" height="203"/>
         <image name="youwon.png" width="159" height="55"/>

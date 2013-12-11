@@ -9,22 +9,19 @@
 #import "GameMap.h"
 #import "HomeBuildingMenus.h"
 #import "AnimatedSprite.h"
+#import "HomeBuilding.h"
+#import "UpgradeViewController.h"
 
-#define CENTER_TILE_X 18
-#define CENTER_TILE_Y 18
-#define ROAD_SIZE 2
+#define CENTER_TILE_X 13
+#define CENTER_TILE_Y 13
 
-#define EXPANSION_BLOCK_SIZE 8
-#define EXPANSION_MID_SQUARE_SIZE 12
+#define EXPANSION_BLOCK_SIZE 6
+#define EXPANSION_MID_SQUARE_SIZE 6
 #define EXPANSION_ROAD_SIZE 2
-#define EXPANSION_OVERLAY_OFFSETS \
-{{ccp(0.2, 0.2), ccp(0,-0.1), ccp(0.1,-1.)}, \
-{ccp(0,0.1), ccp(0,0), ccp(-0.1,-0.3)}, \
-{ccp(-1.05,0.2), ccp(-0.3,0), ccp(-1,-1.05)}}
 
 @class HomeBuildingMenu;
 
-@interface HomeMap : GameMap <MapBotViewDelegate> {
+@interface HomeMap : GameMap <MapBotViewDelegate, UpgradeViewControllerDelegate> {
   NSMutableArray *_buildableData;
   BOOL _isMoving;
   BOOL _canMove;
@@ -33,7 +30,7 @@
   BOOL _isSpeedingUp;
   int _purchStructId;
   
-  MoneyBuilding *_constrBuilding;
+  HomeBuilding *_constrBuilding;
   HomeBuilding *_purchBuilding;
   
   NSMutableArray *_timers;
@@ -41,7 +38,6 @@
 
 @property (nonatomic, retain) NSMutableArray *buildableData;
 
-@property (nonatomic, retain) IBOutlet UpgradeBuildingMenu *upgradeMenu;
 @property (nonatomic, retain) IBOutlet MapBotView *buildBotView;
 @property (nonatomic, retain) IBOutlet MapBotView *upgradeBotView;
 @property (nonatomic, retain) IBOutlet MapBotView *expandBotView;
@@ -50,8 +46,8 @@
 @property (nonatomic, assign) IBOutlet UILabel *buildingNameLabel;
 @property (nonatomic, assign) IBOutlet UILabel *buildingIncomeLabel;
 @property (nonatomic, assign) IBOutlet UILabel *buildingUpgradeCashCostLabel;
-@property (nonatomic, assign) IBOutlet UILabel *buildingUpgradeGemCostLabel;
-@property (nonatomic, assign) IBOutlet UIView *buildingUpgradeGemView;
+@property (nonatomic, assign) IBOutlet UILabel *buildingUpgradeOilCostLabel;
+@property (nonatomic, assign) IBOutlet UIView *buildingUpgradeOilView;
 
 @property (nonatomic, assign) IBOutlet UILabel *upgradingNameLabel;
 @property (nonatomic, assign) IBOutlet UILabel *upgradingIncomeLabel;
@@ -70,7 +66,6 @@
 - (void) changeTiles: (CGRect) buildBlock toBuildable:(BOOL)canBuild;
 - (BOOL) isBlockBuildable: (CGRect) buildBlock;
 - (void) refresh;
-- (int) baseTagForStructId:(int)structId;
 - (void) preparePurchaseOfStruct:(int)structId;
 - (void) scrollScreenForTouch:(CGPoint)pt;
 - (void) retrieveFromBuilding:(HomeBuilding *)hb;
@@ -84,6 +79,7 @@
 - (void) collectAllIncome;
 
 - (IBAction)finishExpansionClicked:(id)sender;
+- (IBAction)littleUpgradeClicked:(id)sender;
 
 - (void) constructionComplete:(NSTimer *)timer;
 - (void) waitForIncomeComplete:(NSTimer *)timer;

@@ -118,9 +118,11 @@
 }
 
 - (void) walk {
-  [Globals downloadAllFilesForSpritePrefixes:[NSArray arrayWithObject:self.prefix] completion:^{
-    [self walkAfterCheck];
-  }];
+  if (self.prefix) {
+    [Globals downloadAllFilesForSpritePrefixes:[NSArray arrayWithObject:self.prefix] completion:^{
+      [self walkAfterCheck];
+    }];
+  }
 }
 
 - (void) walkAfterCheck {

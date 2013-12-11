@@ -4,16 +4,47 @@
 
 @class CoordinateProto;
 @class CoordinateProto_Builder;
-@class FullStructureProto;
-@class FullStructureProto_Builder;
 @class FullUserStructureProto;
 @class FullUserStructureProto_Builder;
+@class HospitalProto;
+@class HospitalProto_Builder;
+@class LabProto;
+@class LabProto_Builder;
+@class ResidenceProto;
+@class ResidenceProto_Builder;
+@class ResourceGeneratorProto;
+@class ResourceGeneratorProto_Builder;
+@class ResourceStorageProto;
+@class ResourceStorageProto_Builder;
+@class StructureInfoProto;
+@class StructureInfoProto_Builder;
+@class TownHallProto;
+@class TownHallProto_Builder;
+typedef enum {
+  ResourceTypeCash = 1,
+  ResourceTypeOil = 2,
+  ResourceTypeGems = 3,
+} ResourceType;
+
+BOOL ResourceTypeIsValidValue(ResourceType value);
+
 typedef enum {
   StructOrientationPosition1 = 1,
   StructOrientationPosition2 = 2,
 } StructOrientation;
 
 BOOL StructOrientationIsValidValue(StructOrientation value);
+
+typedef enum {
+  StructureInfoProto_StructTypeResourceGenerator = 1,
+  StructureInfoProto_StructTypeResourceStorage = 2,
+  StructureInfoProto_StructTypeHospital = 3,
+  StructureInfoProto_StructTypeResidence = 4,
+  StructureInfoProto_StructTypeTownHall = 5,
+  StructureInfoProto_StructTypeLab = 6,
+} StructureInfoProto_StructType;
+
+BOOL StructureInfoProto_StructTypeIsValidValue(StructureInfoProto_StructType value);
 
 
 @interface StructureRoot : NSObject {
@@ -22,178 +53,685 @@ BOOL StructOrientationIsValidValue(StructOrientation value);
 + (void) registerAllExtensions:(PBMutableExtensionRegistry*) registry;
 @end
 
-@interface FullStructureProto : PBGeneratedMessage {
+@interface StructureInfoProto : PBGeneratedMessage {
 @private
-  BOOL hasIsPremiumCurrency_:1;
+  BOOL hasImgVerticalPixelOffset_:1;
   BOOL hasStructId_:1;
   BOOL hasLevel_:1;
-  BOOL hasIncome_:1;
-  BOOL hasMinutesToGain_:1;
+  BOOL hasBuildCost_:1;
   BOOL hasMinutesToBuild_:1;
-  BOOL hasBuildPrice_:1;
-  BOOL hasSellPrice_:1;
-  BOOL hasMinLevel_:1;
-  BOOL hasXLength_:1;
-  BOOL hasYLength_:1;
-  BOOL hasImgVerticalPixelOffset_:1;
-  BOOL hasSuccessorStructId_:1;
+  BOOL hasPrerequisiteTownHallLvl_:1;
+  BOOL hasWidth_:1;
+  BOOL hasHeight_:1;
   BOOL hasPredecessorStructId_:1;
+  BOOL hasSuccessorStructId_:1;
   BOOL hasName_:1;
-  BOOL isPremiumCurrency_:1;
+  BOOL hasImgName_:1;
+  BOOL hasDescription_:1;
+  BOOL hasShortDescription_:1;
+  BOOL hasStructType_:1;
+  BOOL hasBuildResourceType_:1;
+  Float32 imgVerticalPixelOffset;
   int32_t structId;
   int32_t level;
-  int32_t income;
-  int32_t minutesToGain;
+  int32_t buildCost;
   int32_t minutesToBuild;
-  int32_t buildPrice;
-  int32_t sellPrice;
-  int32_t minLevel;
-  int32_t xLength;
-  int32_t yLength;
-  int32_t imgVerticalPixelOffset;
-  int32_t successorStructId;
+  int32_t prerequisiteTownHallLvl;
+  int32_t width;
+  int32_t height;
   int32_t predecessorStructId;
+  int32_t successorStructId;
   NSString* name;
+  NSString* imgName;
+  NSString* description;
+  NSString* shortDescription;
+  StructureInfoProto_StructType structType;
+  ResourceType buildResourceType;
 }
 - (BOOL) hasStructId;
 - (BOOL) hasName;
 - (BOOL) hasLevel;
-- (BOOL) hasIncome;
-- (BOOL) hasMinutesToGain;
+- (BOOL) hasStructType;
+- (BOOL) hasBuildResourceType;
+- (BOOL) hasBuildCost;
 - (BOOL) hasMinutesToBuild;
-- (BOOL) hasBuildPrice;
-- (BOOL) hasIsPremiumCurrency;
-- (BOOL) hasSellPrice;
-- (BOOL) hasMinLevel;
-- (BOOL) hasXLength;
-- (BOOL) hasYLength;
-- (BOOL) hasImgVerticalPixelOffset;
-- (BOOL) hasSuccessorStructId;
+- (BOOL) hasPrerequisiteTownHallLvl;
+- (BOOL) hasWidth;
+- (BOOL) hasHeight;
 - (BOOL) hasPredecessorStructId;
+- (BOOL) hasSuccessorStructId;
+- (BOOL) hasImgName;
+- (BOOL) hasImgVerticalPixelOffset;
+- (BOOL) hasDescription;
+- (BOOL) hasShortDescription;
 @property (readonly) int32_t structId;
 @property (readonly, retain) NSString* name;
 @property (readonly) int32_t level;
-@property (readonly) int32_t income;
-@property (readonly) int32_t minutesToGain;
+@property (readonly) StructureInfoProto_StructType structType;
+@property (readonly) ResourceType buildResourceType;
+@property (readonly) int32_t buildCost;
 @property (readonly) int32_t minutesToBuild;
-@property (readonly) int32_t buildPrice;
-- (BOOL) isPremiumCurrency;
-@property (readonly) int32_t sellPrice;
-@property (readonly) int32_t minLevel;
-@property (readonly) int32_t xLength;
-@property (readonly) int32_t yLength;
-@property (readonly) int32_t imgVerticalPixelOffset;
-@property (readonly) int32_t successorStructId;
+@property (readonly) int32_t prerequisiteTownHallLvl;
+@property (readonly) int32_t width;
+@property (readonly) int32_t height;
 @property (readonly) int32_t predecessorStructId;
+@property (readonly) int32_t successorStructId;
+@property (readonly, retain) NSString* imgName;
+@property (readonly) Float32 imgVerticalPixelOffset;
+@property (readonly, retain) NSString* description;
+@property (readonly, retain) NSString* shortDescription;
 
-+ (FullStructureProto*) defaultInstance;
-- (FullStructureProto*) defaultInstance;
++ (StructureInfoProto*) defaultInstance;
+- (StructureInfoProto*) defaultInstance;
 
 - (BOOL) isInitialized;
 - (void) writeToCodedOutputStream:(PBCodedOutputStream*) output;
-- (FullStructureProto_Builder*) builder;
-+ (FullStructureProto_Builder*) builder;
-+ (FullStructureProto_Builder*) builderWithPrototype:(FullStructureProto*) prototype;
+- (StructureInfoProto_Builder*) builder;
++ (StructureInfoProto_Builder*) builder;
++ (StructureInfoProto_Builder*) builderWithPrototype:(StructureInfoProto*) prototype;
 
-+ (FullStructureProto*) parseFromData:(NSData*) data;
-+ (FullStructureProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
-+ (FullStructureProto*) parseFromInputStream:(NSInputStream*) input;
-+ (FullStructureProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
-+ (FullStructureProto*) parseFromCodedInputStream:(PBCodedInputStream*) input;
-+ (FullStructureProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (StructureInfoProto*) parseFromData:(NSData*) data;
++ (StructureInfoProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (StructureInfoProto*) parseFromInputStream:(NSInputStream*) input;
++ (StructureInfoProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (StructureInfoProto*) parseFromCodedInputStream:(PBCodedInputStream*) input;
++ (StructureInfoProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
 @end
 
-@interface FullStructureProto_Builder : PBGeneratedMessage_Builder {
+@interface StructureInfoProto_Builder : PBGeneratedMessage_Builder {
 @private
-  FullStructureProto* result;
+  StructureInfoProto* result;
 }
 
-- (FullStructureProto*) defaultInstance;
+- (StructureInfoProto*) defaultInstance;
 
-- (FullStructureProto_Builder*) clear;
-- (FullStructureProto_Builder*) clone;
+- (StructureInfoProto_Builder*) clear;
+- (StructureInfoProto_Builder*) clone;
 
-- (FullStructureProto*) build;
-- (FullStructureProto*) buildPartial;
+- (StructureInfoProto*) build;
+- (StructureInfoProto*) buildPartial;
 
-- (FullStructureProto_Builder*) mergeFrom:(FullStructureProto*) other;
-- (FullStructureProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input;
-- (FullStructureProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+- (StructureInfoProto_Builder*) mergeFrom:(StructureInfoProto*) other;
+- (StructureInfoProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input;
+- (StructureInfoProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
 
 - (BOOL) hasStructId;
 - (int32_t) structId;
-- (FullStructureProto_Builder*) setStructId:(int32_t) value;
-- (FullStructureProto_Builder*) clearStructId;
+- (StructureInfoProto_Builder*) setStructId:(int32_t) value;
+- (StructureInfoProto_Builder*) clearStructId;
 
 - (BOOL) hasName;
 - (NSString*) name;
-- (FullStructureProto_Builder*) setName:(NSString*) value;
-- (FullStructureProto_Builder*) clearName;
+- (StructureInfoProto_Builder*) setName:(NSString*) value;
+- (StructureInfoProto_Builder*) clearName;
 
 - (BOOL) hasLevel;
 - (int32_t) level;
-- (FullStructureProto_Builder*) setLevel:(int32_t) value;
-- (FullStructureProto_Builder*) clearLevel;
+- (StructureInfoProto_Builder*) setLevel:(int32_t) value;
+- (StructureInfoProto_Builder*) clearLevel;
 
-- (BOOL) hasIncome;
-- (int32_t) income;
-- (FullStructureProto_Builder*) setIncome:(int32_t) value;
-- (FullStructureProto_Builder*) clearIncome;
+- (BOOL) hasStructType;
+- (StructureInfoProto_StructType) structType;
+- (StructureInfoProto_Builder*) setStructType:(StructureInfoProto_StructType) value;
+- (StructureInfoProto_Builder*) clearStructType;
 
-- (BOOL) hasMinutesToGain;
-- (int32_t) minutesToGain;
-- (FullStructureProto_Builder*) setMinutesToGain:(int32_t) value;
-- (FullStructureProto_Builder*) clearMinutesToGain;
+- (BOOL) hasBuildResourceType;
+- (ResourceType) buildResourceType;
+- (StructureInfoProto_Builder*) setBuildResourceType:(ResourceType) value;
+- (StructureInfoProto_Builder*) clearBuildResourceType;
+
+- (BOOL) hasBuildCost;
+- (int32_t) buildCost;
+- (StructureInfoProto_Builder*) setBuildCost:(int32_t) value;
+- (StructureInfoProto_Builder*) clearBuildCost;
 
 - (BOOL) hasMinutesToBuild;
 - (int32_t) minutesToBuild;
-- (FullStructureProto_Builder*) setMinutesToBuild:(int32_t) value;
-- (FullStructureProto_Builder*) clearMinutesToBuild;
+- (StructureInfoProto_Builder*) setMinutesToBuild:(int32_t) value;
+- (StructureInfoProto_Builder*) clearMinutesToBuild;
 
-- (BOOL) hasBuildPrice;
-- (int32_t) buildPrice;
-- (FullStructureProto_Builder*) setBuildPrice:(int32_t) value;
-- (FullStructureProto_Builder*) clearBuildPrice;
+- (BOOL) hasPrerequisiteTownHallLvl;
+- (int32_t) prerequisiteTownHallLvl;
+- (StructureInfoProto_Builder*) setPrerequisiteTownHallLvl:(int32_t) value;
+- (StructureInfoProto_Builder*) clearPrerequisiteTownHallLvl;
 
-- (BOOL) hasIsPremiumCurrency;
-- (BOOL) isPremiumCurrency;
-- (FullStructureProto_Builder*) setIsPremiumCurrency:(BOOL) value;
-- (FullStructureProto_Builder*) clearIsPremiumCurrency;
+- (BOOL) hasWidth;
+- (int32_t) width;
+- (StructureInfoProto_Builder*) setWidth:(int32_t) value;
+- (StructureInfoProto_Builder*) clearWidth;
 
-- (BOOL) hasSellPrice;
-- (int32_t) sellPrice;
-- (FullStructureProto_Builder*) setSellPrice:(int32_t) value;
-- (FullStructureProto_Builder*) clearSellPrice;
-
-- (BOOL) hasMinLevel;
-- (int32_t) minLevel;
-- (FullStructureProto_Builder*) setMinLevel:(int32_t) value;
-- (FullStructureProto_Builder*) clearMinLevel;
-
-- (BOOL) hasXLength;
-- (int32_t) xLength;
-- (FullStructureProto_Builder*) setXLength:(int32_t) value;
-- (FullStructureProto_Builder*) clearXLength;
-
-- (BOOL) hasYLength;
-- (int32_t) yLength;
-- (FullStructureProto_Builder*) setYLength:(int32_t) value;
-- (FullStructureProto_Builder*) clearYLength;
-
-- (BOOL) hasImgVerticalPixelOffset;
-- (int32_t) imgVerticalPixelOffset;
-- (FullStructureProto_Builder*) setImgVerticalPixelOffset:(int32_t) value;
-- (FullStructureProto_Builder*) clearImgVerticalPixelOffset;
-
-- (BOOL) hasSuccessorStructId;
-- (int32_t) successorStructId;
-- (FullStructureProto_Builder*) setSuccessorStructId:(int32_t) value;
-- (FullStructureProto_Builder*) clearSuccessorStructId;
+- (BOOL) hasHeight;
+- (int32_t) height;
+- (StructureInfoProto_Builder*) setHeight:(int32_t) value;
+- (StructureInfoProto_Builder*) clearHeight;
 
 - (BOOL) hasPredecessorStructId;
 - (int32_t) predecessorStructId;
-- (FullStructureProto_Builder*) setPredecessorStructId:(int32_t) value;
-- (FullStructureProto_Builder*) clearPredecessorStructId;
+- (StructureInfoProto_Builder*) setPredecessorStructId:(int32_t) value;
+- (StructureInfoProto_Builder*) clearPredecessorStructId;
+
+- (BOOL) hasSuccessorStructId;
+- (int32_t) successorStructId;
+- (StructureInfoProto_Builder*) setSuccessorStructId:(int32_t) value;
+- (StructureInfoProto_Builder*) clearSuccessorStructId;
+
+- (BOOL) hasImgName;
+- (NSString*) imgName;
+- (StructureInfoProto_Builder*) setImgName:(NSString*) value;
+- (StructureInfoProto_Builder*) clearImgName;
+
+- (BOOL) hasImgVerticalPixelOffset;
+- (Float32) imgVerticalPixelOffset;
+- (StructureInfoProto_Builder*) setImgVerticalPixelOffset:(Float32) value;
+- (StructureInfoProto_Builder*) clearImgVerticalPixelOffset;
+
+- (BOOL) hasDescription;
+- (NSString*) description;
+- (StructureInfoProto_Builder*) setDescription:(NSString*) value;
+- (StructureInfoProto_Builder*) clearDescription;
+
+- (BOOL) hasShortDescription;
+- (NSString*) shortDescription;
+- (StructureInfoProto_Builder*) setShortDescription:(NSString*) value;
+- (StructureInfoProto_Builder*) clearShortDescription;
+@end
+
+@interface ResourceGeneratorProto : PBGeneratedMessage {
+@private
+  BOOL hasProductionRate_:1;
+  BOOL hasCapacity_:1;
+  BOOL hasStructInfo_:1;
+  BOOL hasResourceType_:1;
+  Float32 productionRate;
+  int32_t capacity;
+  StructureInfoProto* structInfo;
+  ResourceType resourceType;
+}
+- (BOOL) hasStructInfo;
+- (BOOL) hasResourceType;
+- (BOOL) hasProductionRate;
+- (BOOL) hasCapacity;
+@property (readonly, retain) StructureInfoProto* structInfo;
+@property (readonly) ResourceType resourceType;
+@property (readonly) Float32 productionRate;
+@property (readonly) int32_t capacity;
+
++ (ResourceGeneratorProto*) defaultInstance;
+- (ResourceGeneratorProto*) defaultInstance;
+
+- (BOOL) isInitialized;
+- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output;
+- (ResourceGeneratorProto_Builder*) builder;
++ (ResourceGeneratorProto_Builder*) builder;
++ (ResourceGeneratorProto_Builder*) builderWithPrototype:(ResourceGeneratorProto*) prototype;
+
++ (ResourceGeneratorProto*) parseFromData:(NSData*) data;
++ (ResourceGeneratorProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (ResourceGeneratorProto*) parseFromInputStream:(NSInputStream*) input;
++ (ResourceGeneratorProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (ResourceGeneratorProto*) parseFromCodedInputStream:(PBCodedInputStream*) input;
++ (ResourceGeneratorProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+@end
+
+@interface ResourceGeneratorProto_Builder : PBGeneratedMessage_Builder {
+@private
+  ResourceGeneratorProto* result;
+}
+
+- (ResourceGeneratorProto*) defaultInstance;
+
+- (ResourceGeneratorProto_Builder*) clear;
+- (ResourceGeneratorProto_Builder*) clone;
+
+- (ResourceGeneratorProto*) build;
+- (ResourceGeneratorProto*) buildPartial;
+
+- (ResourceGeneratorProto_Builder*) mergeFrom:(ResourceGeneratorProto*) other;
+- (ResourceGeneratorProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input;
+- (ResourceGeneratorProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+
+- (BOOL) hasStructInfo;
+- (StructureInfoProto*) structInfo;
+- (ResourceGeneratorProto_Builder*) setStructInfo:(StructureInfoProto*) value;
+- (ResourceGeneratorProto_Builder*) setStructInfoBuilder:(StructureInfoProto_Builder*) builderForValue;
+- (ResourceGeneratorProto_Builder*) mergeStructInfo:(StructureInfoProto*) value;
+- (ResourceGeneratorProto_Builder*) clearStructInfo;
+
+- (BOOL) hasResourceType;
+- (ResourceType) resourceType;
+- (ResourceGeneratorProto_Builder*) setResourceType:(ResourceType) value;
+- (ResourceGeneratorProto_Builder*) clearResourceType;
+
+- (BOOL) hasProductionRate;
+- (Float32) productionRate;
+- (ResourceGeneratorProto_Builder*) setProductionRate:(Float32) value;
+- (ResourceGeneratorProto_Builder*) clearProductionRate;
+
+- (BOOL) hasCapacity;
+- (int32_t) capacity;
+- (ResourceGeneratorProto_Builder*) setCapacity:(int32_t) value;
+- (ResourceGeneratorProto_Builder*) clearCapacity;
+@end
+
+@interface ResourceStorageProto : PBGeneratedMessage {
+@private
+  BOOL hasCapacity_:1;
+  BOOL hasStructInfo_:1;
+  BOOL hasResourceType_:1;
+  int32_t capacity;
+  StructureInfoProto* structInfo;
+  ResourceType resourceType;
+}
+- (BOOL) hasStructInfo;
+- (BOOL) hasResourceType;
+- (BOOL) hasCapacity;
+@property (readonly, retain) StructureInfoProto* structInfo;
+@property (readonly) ResourceType resourceType;
+@property (readonly) int32_t capacity;
+
++ (ResourceStorageProto*) defaultInstance;
+- (ResourceStorageProto*) defaultInstance;
+
+- (BOOL) isInitialized;
+- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output;
+- (ResourceStorageProto_Builder*) builder;
++ (ResourceStorageProto_Builder*) builder;
++ (ResourceStorageProto_Builder*) builderWithPrototype:(ResourceStorageProto*) prototype;
+
++ (ResourceStorageProto*) parseFromData:(NSData*) data;
++ (ResourceStorageProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (ResourceStorageProto*) parseFromInputStream:(NSInputStream*) input;
++ (ResourceStorageProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (ResourceStorageProto*) parseFromCodedInputStream:(PBCodedInputStream*) input;
++ (ResourceStorageProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+@end
+
+@interface ResourceStorageProto_Builder : PBGeneratedMessage_Builder {
+@private
+  ResourceStorageProto* result;
+}
+
+- (ResourceStorageProto*) defaultInstance;
+
+- (ResourceStorageProto_Builder*) clear;
+- (ResourceStorageProto_Builder*) clone;
+
+- (ResourceStorageProto*) build;
+- (ResourceStorageProto*) buildPartial;
+
+- (ResourceStorageProto_Builder*) mergeFrom:(ResourceStorageProto*) other;
+- (ResourceStorageProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input;
+- (ResourceStorageProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+
+- (BOOL) hasStructInfo;
+- (StructureInfoProto*) structInfo;
+- (ResourceStorageProto_Builder*) setStructInfo:(StructureInfoProto*) value;
+- (ResourceStorageProto_Builder*) setStructInfoBuilder:(StructureInfoProto_Builder*) builderForValue;
+- (ResourceStorageProto_Builder*) mergeStructInfo:(StructureInfoProto*) value;
+- (ResourceStorageProto_Builder*) clearStructInfo;
+
+- (BOOL) hasResourceType;
+- (ResourceType) resourceType;
+- (ResourceStorageProto_Builder*) setResourceType:(ResourceType) value;
+- (ResourceStorageProto_Builder*) clearResourceType;
+
+- (BOOL) hasCapacity;
+- (int32_t) capacity;
+- (ResourceStorageProto_Builder*) setCapacity:(int32_t) value;
+- (ResourceStorageProto_Builder*) clearCapacity;
+@end
+
+@interface HospitalProto : PBGeneratedMessage {
+@private
+  BOOL hasHealthPerSecond_:1;
+  BOOL hasQueueSize_:1;
+  BOOL hasStructInfo_:1;
+  Float32 healthPerSecond;
+  int32_t queueSize;
+  StructureInfoProto* structInfo;
+}
+- (BOOL) hasStructInfo;
+- (BOOL) hasQueueSize;
+- (BOOL) hasHealthPerSecond;
+@property (readonly, retain) StructureInfoProto* structInfo;
+@property (readonly) int32_t queueSize;
+@property (readonly) Float32 healthPerSecond;
+
++ (HospitalProto*) defaultInstance;
+- (HospitalProto*) defaultInstance;
+
+- (BOOL) isInitialized;
+- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output;
+- (HospitalProto_Builder*) builder;
++ (HospitalProto_Builder*) builder;
++ (HospitalProto_Builder*) builderWithPrototype:(HospitalProto*) prototype;
+
++ (HospitalProto*) parseFromData:(NSData*) data;
++ (HospitalProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (HospitalProto*) parseFromInputStream:(NSInputStream*) input;
++ (HospitalProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (HospitalProto*) parseFromCodedInputStream:(PBCodedInputStream*) input;
++ (HospitalProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+@end
+
+@interface HospitalProto_Builder : PBGeneratedMessage_Builder {
+@private
+  HospitalProto* result;
+}
+
+- (HospitalProto*) defaultInstance;
+
+- (HospitalProto_Builder*) clear;
+- (HospitalProto_Builder*) clone;
+
+- (HospitalProto*) build;
+- (HospitalProto*) buildPartial;
+
+- (HospitalProto_Builder*) mergeFrom:(HospitalProto*) other;
+- (HospitalProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input;
+- (HospitalProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+
+- (BOOL) hasStructInfo;
+- (StructureInfoProto*) structInfo;
+- (HospitalProto_Builder*) setStructInfo:(StructureInfoProto*) value;
+- (HospitalProto_Builder*) setStructInfoBuilder:(StructureInfoProto_Builder*) builderForValue;
+- (HospitalProto_Builder*) mergeStructInfo:(StructureInfoProto*) value;
+- (HospitalProto_Builder*) clearStructInfo;
+
+- (BOOL) hasQueueSize;
+- (int32_t) queueSize;
+- (HospitalProto_Builder*) setQueueSize:(int32_t) value;
+- (HospitalProto_Builder*) clearQueueSize;
+
+- (BOOL) hasHealthPerSecond;
+- (Float32) healthPerSecond;
+- (HospitalProto_Builder*) setHealthPerSecond:(Float32) value;
+- (HospitalProto_Builder*) clearHealthPerSecond;
+@end
+
+@interface LabProto : PBGeneratedMessage {
+@private
+  BOOL hasPointsPerSecond_:1;
+  BOOL hasQueueSize_:1;
+  BOOL hasStructInfo_:1;
+  Float32 pointsPerSecond;
+  int32_t queueSize;
+  StructureInfoProto* structInfo;
+}
+- (BOOL) hasStructInfo;
+- (BOOL) hasQueueSize;
+- (BOOL) hasPointsPerSecond;
+@property (readonly, retain) StructureInfoProto* structInfo;
+@property (readonly) int32_t queueSize;
+@property (readonly) Float32 pointsPerSecond;
+
++ (LabProto*) defaultInstance;
+- (LabProto*) defaultInstance;
+
+- (BOOL) isInitialized;
+- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output;
+- (LabProto_Builder*) builder;
++ (LabProto_Builder*) builder;
++ (LabProto_Builder*) builderWithPrototype:(LabProto*) prototype;
+
++ (LabProto*) parseFromData:(NSData*) data;
++ (LabProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (LabProto*) parseFromInputStream:(NSInputStream*) input;
++ (LabProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (LabProto*) parseFromCodedInputStream:(PBCodedInputStream*) input;
++ (LabProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+@end
+
+@interface LabProto_Builder : PBGeneratedMessage_Builder {
+@private
+  LabProto* result;
+}
+
+- (LabProto*) defaultInstance;
+
+- (LabProto_Builder*) clear;
+- (LabProto_Builder*) clone;
+
+- (LabProto*) build;
+- (LabProto*) buildPartial;
+
+- (LabProto_Builder*) mergeFrom:(LabProto*) other;
+- (LabProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input;
+- (LabProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+
+- (BOOL) hasStructInfo;
+- (StructureInfoProto*) structInfo;
+- (LabProto_Builder*) setStructInfo:(StructureInfoProto*) value;
+- (LabProto_Builder*) setStructInfoBuilder:(StructureInfoProto_Builder*) builderForValue;
+- (LabProto_Builder*) mergeStructInfo:(StructureInfoProto*) value;
+- (LabProto_Builder*) clearStructInfo;
+
+- (BOOL) hasQueueSize;
+- (int32_t) queueSize;
+- (LabProto_Builder*) setQueueSize:(int32_t) value;
+- (LabProto_Builder*) clearQueueSize;
+
+- (BOOL) hasPointsPerSecond;
+- (Float32) pointsPerSecond;
+- (LabProto_Builder*) setPointsPerSecond:(Float32) value;
+- (LabProto_Builder*) clearPointsPerSecond;
+@end
+
+@interface ResidenceProto : PBGeneratedMessage {
+@private
+  BOOL hasNumMonsterSlots_:1;
+  BOOL hasNumBonusMonsterSlots_:1;
+  BOOL hasNumGemsRequired_:1;
+  BOOL hasNumAcceptedFbInvites_:1;
+  BOOL hasOccupationName_:1;
+  BOOL hasStructInfo_:1;
+  int32_t numMonsterSlots;
+  int32_t numBonusMonsterSlots;
+  int32_t numGemsRequired;
+  int32_t numAcceptedFbInvites;
+  NSString* occupationName;
+  StructureInfoProto* structInfo;
+}
+- (BOOL) hasStructInfo;
+- (BOOL) hasNumMonsterSlots;
+- (BOOL) hasNumBonusMonsterSlots;
+- (BOOL) hasNumGemsRequired;
+- (BOOL) hasNumAcceptedFbInvites;
+- (BOOL) hasOccupationName;
+@property (readonly, retain) StructureInfoProto* structInfo;
+@property (readonly) int32_t numMonsterSlots;
+@property (readonly) int32_t numBonusMonsterSlots;
+@property (readonly) int32_t numGemsRequired;
+@property (readonly) int32_t numAcceptedFbInvites;
+@property (readonly, retain) NSString* occupationName;
+
++ (ResidenceProto*) defaultInstance;
+- (ResidenceProto*) defaultInstance;
+
+- (BOOL) isInitialized;
+- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output;
+- (ResidenceProto_Builder*) builder;
++ (ResidenceProto_Builder*) builder;
++ (ResidenceProto_Builder*) builderWithPrototype:(ResidenceProto*) prototype;
+
++ (ResidenceProto*) parseFromData:(NSData*) data;
++ (ResidenceProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (ResidenceProto*) parseFromInputStream:(NSInputStream*) input;
++ (ResidenceProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (ResidenceProto*) parseFromCodedInputStream:(PBCodedInputStream*) input;
++ (ResidenceProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+@end
+
+@interface ResidenceProto_Builder : PBGeneratedMessage_Builder {
+@private
+  ResidenceProto* result;
+}
+
+- (ResidenceProto*) defaultInstance;
+
+- (ResidenceProto_Builder*) clear;
+- (ResidenceProto_Builder*) clone;
+
+- (ResidenceProto*) build;
+- (ResidenceProto*) buildPartial;
+
+- (ResidenceProto_Builder*) mergeFrom:(ResidenceProto*) other;
+- (ResidenceProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input;
+- (ResidenceProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+
+- (BOOL) hasStructInfo;
+- (StructureInfoProto*) structInfo;
+- (ResidenceProto_Builder*) setStructInfo:(StructureInfoProto*) value;
+- (ResidenceProto_Builder*) setStructInfoBuilder:(StructureInfoProto_Builder*) builderForValue;
+- (ResidenceProto_Builder*) mergeStructInfo:(StructureInfoProto*) value;
+- (ResidenceProto_Builder*) clearStructInfo;
+
+- (BOOL) hasNumMonsterSlots;
+- (int32_t) numMonsterSlots;
+- (ResidenceProto_Builder*) setNumMonsterSlots:(int32_t) value;
+- (ResidenceProto_Builder*) clearNumMonsterSlots;
+
+- (BOOL) hasNumBonusMonsterSlots;
+- (int32_t) numBonusMonsterSlots;
+- (ResidenceProto_Builder*) setNumBonusMonsterSlots:(int32_t) value;
+- (ResidenceProto_Builder*) clearNumBonusMonsterSlots;
+
+- (BOOL) hasNumGemsRequired;
+- (int32_t) numGemsRequired;
+- (ResidenceProto_Builder*) setNumGemsRequired:(int32_t) value;
+- (ResidenceProto_Builder*) clearNumGemsRequired;
+
+- (BOOL) hasNumAcceptedFbInvites;
+- (int32_t) numAcceptedFbInvites;
+- (ResidenceProto_Builder*) setNumAcceptedFbInvites:(int32_t) value;
+- (ResidenceProto_Builder*) clearNumAcceptedFbInvites;
+
+- (BOOL) hasOccupationName;
+- (NSString*) occupationName;
+- (ResidenceProto_Builder*) setOccupationName:(NSString*) value;
+- (ResidenceProto_Builder*) clearOccupationName;
+@end
+
+@interface TownHallProto : PBGeneratedMessage {
+@private
+  BOOL hasNumResourceOneGenerators_:1;
+  BOOL hasNumResourceOneStorages_:1;
+  BOOL hasNumResourceTwoGenerators_:1;
+  BOOL hasNumResourceTwoStorages_:1;
+  BOOL hasNumHospitals_:1;
+  BOOL hasNumResidences_:1;
+  BOOL hasNumMonsterSlots_:1;
+  BOOL hasNumLabs_:1;
+  BOOL hasStructInfo_:1;
+  int32_t numResourceOneGenerators;
+  int32_t numResourceOneStorages;
+  int32_t numResourceTwoGenerators;
+  int32_t numResourceTwoStorages;
+  int32_t numHospitals;
+  int32_t numResidences;
+  int32_t numMonsterSlots;
+  int32_t numLabs;
+  StructureInfoProto* structInfo;
+}
+- (BOOL) hasStructInfo;
+- (BOOL) hasNumResourceOneGenerators;
+- (BOOL) hasNumResourceOneStorages;
+- (BOOL) hasNumResourceTwoGenerators;
+- (BOOL) hasNumResourceTwoStorages;
+- (BOOL) hasNumHospitals;
+- (BOOL) hasNumResidences;
+- (BOOL) hasNumMonsterSlots;
+- (BOOL) hasNumLabs;
+@property (readonly, retain) StructureInfoProto* structInfo;
+@property (readonly) int32_t numResourceOneGenerators;
+@property (readonly) int32_t numResourceOneStorages;
+@property (readonly) int32_t numResourceTwoGenerators;
+@property (readonly) int32_t numResourceTwoStorages;
+@property (readonly) int32_t numHospitals;
+@property (readonly) int32_t numResidences;
+@property (readonly) int32_t numMonsterSlots;
+@property (readonly) int32_t numLabs;
+
++ (TownHallProto*) defaultInstance;
+- (TownHallProto*) defaultInstance;
+
+- (BOOL) isInitialized;
+- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output;
+- (TownHallProto_Builder*) builder;
++ (TownHallProto_Builder*) builder;
++ (TownHallProto_Builder*) builderWithPrototype:(TownHallProto*) prototype;
+
++ (TownHallProto*) parseFromData:(NSData*) data;
++ (TownHallProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (TownHallProto*) parseFromInputStream:(NSInputStream*) input;
++ (TownHallProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (TownHallProto*) parseFromCodedInputStream:(PBCodedInputStream*) input;
++ (TownHallProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+@end
+
+@interface TownHallProto_Builder : PBGeneratedMessage_Builder {
+@private
+  TownHallProto* result;
+}
+
+- (TownHallProto*) defaultInstance;
+
+- (TownHallProto_Builder*) clear;
+- (TownHallProto_Builder*) clone;
+
+- (TownHallProto*) build;
+- (TownHallProto*) buildPartial;
+
+- (TownHallProto_Builder*) mergeFrom:(TownHallProto*) other;
+- (TownHallProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input;
+- (TownHallProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+
+- (BOOL) hasStructInfo;
+- (StructureInfoProto*) structInfo;
+- (TownHallProto_Builder*) setStructInfo:(StructureInfoProto*) value;
+- (TownHallProto_Builder*) setStructInfoBuilder:(StructureInfoProto_Builder*) builderForValue;
+- (TownHallProto_Builder*) mergeStructInfo:(StructureInfoProto*) value;
+- (TownHallProto_Builder*) clearStructInfo;
+
+- (BOOL) hasNumResourceOneGenerators;
+- (int32_t) numResourceOneGenerators;
+- (TownHallProto_Builder*) setNumResourceOneGenerators:(int32_t) value;
+- (TownHallProto_Builder*) clearNumResourceOneGenerators;
+
+- (BOOL) hasNumResourceOneStorages;
+- (int32_t) numResourceOneStorages;
+- (TownHallProto_Builder*) setNumResourceOneStorages:(int32_t) value;
+- (TownHallProto_Builder*) clearNumResourceOneStorages;
+
+- (BOOL) hasNumResourceTwoGenerators;
+- (int32_t) numResourceTwoGenerators;
+- (TownHallProto_Builder*) setNumResourceTwoGenerators:(int32_t) value;
+- (TownHallProto_Builder*) clearNumResourceTwoGenerators;
+
+- (BOOL) hasNumResourceTwoStorages;
+- (int32_t) numResourceTwoStorages;
+- (TownHallProto_Builder*) setNumResourceTwoStorages:(int32_t) value;
+- (TownHallProto_Builder*) clearNumResourceTwoStorages;
+
+- (BOOL) hasNumHospitals;
+- (int32_t) numHospitals;
+- (TownHallProto_Builder*) setNumHospitals:(int32_t) value;
+- (TownHallProto_Builder*) clearNumHospitals;
+
+- (BOOL) hasNumResidences;
+- (int32_t) numResidences;
+- (TownHallProto_Builder*) setNumResidences:(int32_t) value;
+- (TownHallProto_Builder*) clearNumResidences;
+
+- (BOOL) hasNumMonsterSlots;
+- (int32_t) numMonsterSlots;
+- (TownHallProto_Builder*) setNumMonsterSlots:(int32_t) value;
+- (TownHallProto_Builder*) clearNumMonsterSlots;
+
+- (BOOL) hasNumLabs;
+- (int32_t) numLabs;
+- (TownHallProto_Builder*) setNumLabs:(int32_t) value;
+- (TownHallProto_Builder*) clearNumLabs;
 @end
 
 @interface FullUserStructureProto : PBGeneratedMessage {
@@ -204,6 +742,7 @@ BOOL StructOrientationIsValidValue(StructOrientation value);
   BOOL hasUserStructId_:1;
   BOOL hasUserId_:1;
   BOOL hasStructId_:1;
+  BOOL hasFbInviteStructLvl_:1;
   BOOL hasCoordinates_:1;
   BOOL hasOrientation_:1;
   BOOL isComplete_:1;
@@ -212,6 +751,7 @@ BOOL StructOrientationIsValidValue(StructOrientation value);
   int32_t userStructId;
   int32_t userId;
   int32_t structId;
+  int32_t fbInviteStructLvl;
   CoordinateProto* coordinates;
   StructOrientation orientation;
 }
@@ -219,18 +759,20 @@ BOOL StructOrientationIsValidValue(StructOrientation value);
 - (BOOL) hasUserId;
 - (BOOL) hasStructId;
 - (BOOL) hasLastRetrieved;
-- (BOOL) hasCoordinates;
 - (BOOL) hasPurchaseTime;
 - (BOOL) hasIsComplete;
+- (BOOL) hasCoordinates;
 - (BOOL) hasOrientation;
+- (BOOL) hasFbInviteStructLvl;
 @property (readonly) int32_t userStructId;
 @property (readonly) int32_t userId;
 @property (readonly) int32_t structId;
 @property (readonly) int64_t lastRetrieved;
-@property (readonly, retain) CoordinateProto* coordinates;
 @property (readonly) int64_t purchaseTime;
 - (BOOL) isComplete;
+@property (readonly, retain) CoordinateProto* coordinates;
 @property (readonly) StructOrientation orientation;
+@property (readonly) int32_t fbInviteStructLvl;
 
 + (FullUserStructureProto*) defaultInstance;
 - (FullUserStructureProto*) defaultInstance;
@@ -286,13 +828,6 @@ BOOL StructOrientationIsValidValue(StructOrientation value);
 - (FullUserStructureProto_Builder*) setLastRetrieved:(int64_t) value;
 - (FullUserStructureProto_Builder*) clearLastRetrieved;
 
-- (BOOL) hasCoordinates;
-- (CoordinateProto*) coordinates;
-- (FullUserStructureProto_Builder*) setCoordinates:(CoordinateProto*) value;
-- (FullUserStructureProto_Builder*) setCoordinatesBuilder:(CoordinateProto_Builder*) builderForValue;
-- (FullUserStructureProto_Builder*) mergeCoordinates:(CoordinateProto*) value;
-- (FullUserStructureProto_Builder*) clearCoordinates;
-
 - (BOOL) hasPurchaseTime;
 - (int64_t) purchaseTime;
 - (FullUserStructureProto_Builder*) setPurchaseTime:(int64_t) value;
@@ -303,10 +838,22 @@ BOOL StructOrientationIsValidValue(StructOrientation value);
 - (FullUserStructureProto_Builder*) setIsComplete:(BOOL) value;
 - (FullUserStructureProto_Builder*) clearIsComplete;
 
+- (BOOL) hasCoordinates;
+- (CoordinateProto*) coordinates;
+- (FullUserStructureProto_Builder*) setCoordinates:(CoordinateProto*) value;
+- (FullUserStructureProto_Builder*) setCoordinatesBuilder:(CoordinateProto_Builder*) builderForValue;
+- (FullUserStructureProto_Builder*) mergeCoordinates:(CoordinateProto*) value;
+- (FullUserStructureProto_Builder*) clearCoordinates;
+
 - (BOOL) hasOrientation;
 - (StructOrientation) orientation;
 - (FullUserStructureProto_Builder*) setOrientation:(StructOrientation) value;
 - (FullUserStructureProto_Builder*) clearOrientation;
+
+- (BOOL) hasFbInviteStructLvl;
+- (int32_t) fbInviteStructLvl;
+- (FullUserStructureProto_Builder*) setFbInviteStructLvl:(int32_t) value;
+- (FullUserStructureProto_Builder*) clearFbInviteStructLvl;
 @end
 
 @interface CoordinateProto : PBGeneratedMessage {

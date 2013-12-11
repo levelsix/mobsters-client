@@ -8,6 +8,7 @@
 
 #import <Foundation/Foundation.h>
 #import "Protocols.pb.h"
+#import "StaticStructure.h"
 
 @class ForgeAttempt;
 
@@ -82,17 +83,12 @@
 
 @end
 
-typedef enum {
-  kRetrieving = 1,
-  kWaitingForIncome,
-  kBuilding
-} UserStructState;
-
 @interface UserStruct : NSObject 
 
 @property (nonatomic, assign) int userStructId;
 @property (nonatomic, assign) int userId;
 @property (nonatomic, assign) int structId;
+@property (nonatomic, assign) int fbInviteStructLvl;
 @property (nonatomic, retain) NSDate *lastRetrieved;
 @property (nonatomic, assign) CGPoint coordinates;
 @property (nonatomic, retain) NSDate *purchaseTime;
@@ -100,10 +96,16 @@ typedef enum {
 @property (nonatomic, assign) StructOrientation orientation;
 
 + (id) userStructWithProto:(FullUserStructureProto *)proto;
-- (UserStructState) state;
-- (FullStructureProto *) fsp;
-- (FullStructureProto *) fspForNextLevel;
+- (id<StaticStructure>) staticStructForPrevLevel;
+- (id<StaticStructure>) staticStruct;
+- (id<StaticStructure>) staticStructForNextLevel;
+- (id<StaticStructure>) maxStaticStruct;
+- (NSArray *) allStaticStructs;
+- (id<StaticStructure>) staticStructForFbLevel;
+- (id<StaticStructure>) staticStructForNextFbLevel;
 - (int) maxLevel;
+- (int) baseStructId;
+- (int) numBonusSlots;
 
 - (NSDate *) buildCompleteDate;
 - (NSTimeInterval) timeLeftForBuildComplete;

@@ -22,12 +22,14 @@
 @class FinishNormStructWaittimeWithDiamondsResponseProto_Builder;
 @class FullCityProto;
 @class FullCityProto_Builder;
-@class FullStructureProto;
-@class FullStructureProto_Builder;
 @class FullUserProto;
 @class FullUserProto_Builder;
 @class FullUserStructureProto;
 @class FullUserStructureProto_Builder;
+@class HospitalProto;
+@class HospitalProto_Builder;
+@class LabProto;
+@class LabProto_Builder;
 @class MinimumClanProto;
 @class MinimumClanProto_Builder;
 @class MinimumUserProto;
@@ -48,18 +50,24 @@
 @class PurchaseNormStructureRequestProto_Builder;
 @class PurchaseNormStructureResponseProto;
 @class PurchaseNormStructureResponseProto_Builder;
+@class ResidenceProto;
+@class ResidenceProto_Builder;
+@class ResourceGeneratorProto;
+@class ResourceGeneratorProto_Builder;
+@class ResourceStorageProto;
+@class ResourceStorageProto_Builder;
 @class RetrieveCurrencyFromNormStructureRequestProto;
 @class RetrieveCurrencyFromNormStructureRequestProto_Builder;
 @class RetrieveCurrencyFromNormStructureRequestProto_StructRetrieval;
 @class RetrieveCurrencyFromNormStructureRequestProto_StructRetrieval_Builder;
 @class RetrieveCurrencyFromNormStructureResponseProto;
 @class RetrieveCurrencyFromNormStructureResponseProto_Builder;
-@class SellNormStructureRequestProto;
-@class SellNormStructureRequestProto_Builder;
-@class SellNormStructureResponseProto;
-@class SellNormStructureResponseProto_Builder;
 @class StaticUserLevelInfoProto;
 @class StaticUserLevelInfoProto_Builder;
+@class StructureInfoProto;
+@class StructureInfoProto_Builder;
+@class TownHallProto;
+@class TownHallProto_Builder;
 @class UpgradeNormStructureRequestProto;
 @class UpgradeNormStructureRequestProto_Builder;
 @class UpgradeNormStructureResponseProto;
@@ -72,17 +80,14 @@ typedef enum {
   PurchaseNormStructureResponseProto_PurchaseNormStructureStatusSuccess = 1,
   PurchaseNormStructureResponseProto_PurchaseNormStructureStatusFailInsufficientCash = 2,
   PurchaseNormStructureResponseProto_PurchaseNormStructureStatusFailInsufficientGems = 3,
-  PurchaseNormStructureResponseProto_PurchaseNormStructureStatusFailLevelTooLow = 4,
-  PurchaseNormStructureResponseProto_PurchaseNormStructureStatusFailAnotherStructStillBuilding = 5,
-  PurchaseNormStructureResponseProto_PurchaseNormStructureStatusFailAlreadyHaveMaxOfThisStruct = 6,
-  PurchaseNormStructureResponseProto_PurchaseNormStructureStatusFailOther = 7,
+  PurchaseNormStructureResponseProto_PurchaseNormStructureStatusFailInsufficientOil = 4,
+  PurchaseNormStructureResponseProto_PurchaseNormStructureStatusFailOther = 5,
 } PurchaseNormStructureResponseProto_PurchaseNormStructureStatus;
 
 BOOL PurchaseNormStructureResponseProto_PurchaseNormStructureStatusIsValidValue(PurchaseNormStructureResponseProto_PurchaseNormStructureStatus value);
 
 typedef enum {
   MoveOrRotateNormStructureRequestProto_MoveOrRotateNormStructTypeMove = 1,
-  MoveOrRotateNormStructureRequestProto_MoveOrRotateNormStructTypeRotate = 2,
 } MoveOrRotateNormStructureRequestProto_MoveOrRotateNormStructType;
 
 BOOL MoveOrRotateNormStructureRequestProto_MoveOrRotateNormStructTypeIsValidValue(MoveOrRotateNormStructureRequestProto_MoveOrRotateNormStructType value);
@@ -95,21 +100,14 @@ typedef enum {
 BOOL MoveOrRotateNormStructureResponseProto_MoveOrRotateNormStructureStatusIsValidValue(MoveOrRotateNormStructureResponseProto_MoveOrRotateNormStructureStatus value);
 
 typedef enum {
-  SellNormStructureResponseProto_SellNormStructureStatusSuccess = 1,
-  SellNormStructureResponseProto_SellNormStructureStatusFail = 2,
-} SellNormStructureResponseProto_SellNormStructureStatus;
-
-BOOL SellNormStructureResponseProto_SellNormStructureStatusIsValidValue(SellNormStructureResponseProto_SellNormStructureStatus value);
-
-typedef enum {
   UpgradeNormStructureResponseProto_UpgradeNormStructureStatusSuccess = 1,
   UpgradeNormStructureResponseProto_UpgradeNormStructureStatusFailNotEnoughCash = 2,
   UpgradeNormStructureResponseProto_UpgradeNormStructureStatusFailNotEnoughGems = 3,
-  UpgradeNormStructureResponseProto_UpgradeNormStructureStatusFailNotBuiltYet = 4,
-  UpgradeNormStructureResponseProto_UpgradeNormStructureStatusFailNotUsersStruct = 5,
-  UpgradeNormStructureResponseProto_UpgradeNormStructureStatusFailAnotherStructStillUpgrading = 6,
-  UpgradeNormStructureResponseProto_UpgradeNormStructureStatusFailAtMaxLevelAlready = 7,
-  UpgradeNormStructureResponseProto_UpgradeNormStructureStatusFailOther = 8,
+  UpgradeNormStructureResponseProto_UpgradeNormStructureStatusFailNotEnoughOil = 4,
+  UpgradeNormStructureResponseProto_UpgradeNormStructureStatusFailNotBuiltYet = 5,
+  UpgradeNormStructureResponseProto_UpgradeNormStructureStatusFailNotUsersStruct = 6,
+  UpgradeNormStructureResponseProto_UpgradeNormStructureStatusFailAtMaxLevelAlready = 8,
+  UpgradeNormStructureResponseProto_UpgradeNormStructureStatusFailOther = 9,
 } UpgradeNormStructureResponseProto_UpgradeNormStructureStatus;
 
 BOOL UpgradeNormStructureResponseProto_UpgradeNormStructureStatusIsValidValue(UpgradeNormStructureResponseProto_UpgradeNormStructureStatus value);
@@ -131,10 +129,8 @@ typedef enum {
 BOOL NormStructWaitCompleteResponseProto_NormStructWaitCompleteStatusIsValidValue(NormStructWaitCompleteResponseProto_NormStructWaitCompleteStatus value);
 
 typedef enum {
-  RetrieveCurrencyFromNormStructureResponseProto_RetrieveCurrencyFromNormStructureStatusOtherFail = 1,
-  RetrieveCurrencyFromNormStructureResponseProto_RetrieveCurrencyFromNormStructureStatusSuccess = 2,
-  RetrieveCurrencyFromNormStructureResponseProto_RetrieveCurrencyFromNormStructureStatusClientTooApartFromServerTime = 3,
-  RetrieveCurrencyFromNormStructureResponseProto_RetrieveCurrencyFromNormStructureStatusNotLongEnough = 4,
+  RetrieveCurrencyFromNormStructureResponseProto_RetrieveCurrencyFromNormStructureStatusSuccess = 1,
+  RetrieveCurrencyFromNormStructureResponseProto_RetrieveCurrencyFromNormStructureStatusFailOther = 2,
 } RetrieveCurrencyFromNormStructureResponseProto_RetrieveCurrencyFromNormStructureStatus;
 
 BOOL RetrieveCurrencyFromNormStructureResponseProto_RetrieveCurrencyFromNormStructureStatusIsValidValue(RetrieveCurrencyFromNormStructureResponseProto_RetrieveCurrencyFromNormStructureStatus value);
@@ -160,21 +156,33 @@ BOOL ExpansionWaitCompleteResponseProto_ExpansionWaitCompleteStatusIsValidValue(
 @private
   BOOL hasTimeOfPurchase_:1;
   BOOL hasStructId_:1;
+  BOOL hasGemsSpent_:1;
   BOOL hasSender_:1;
   BOOL hasStructCoordinates_:1;
+  BOOL hasResourceType_:1;
+  BOOL hasResourceChange_:1;
   int64_t timeOfPurchase;
   int32_t structId;
+  int32_t gemsSpent;
   MinimumUserProto* sender;
   CoordinateProto* structCoordinates;
+  ResourceType resourceType;
+  int32_t resourceChange;
 }
 - (BOOL) hasSender;
 - (BOOL) hasStructCoordinates;
 - (BOOL) hasStructId;
 - (BOOL) hasTimeOfPurchase;
+- (BOOL) hasGemsSpent;
+- (BOOL) hasResourceChange;
+- (BOOL) hasResourceType;
 @property (readonly, retain) MinimumUserProto* sender;
 @property (readonly, retain) CoordinateProto* structCoordinates;
 @property (readonly) int32_t structId;
 @property (readonly) int64_t timeOfPurchase;
+@property (readonly) int32_t gemsSpent;
+@property (readonly) int32_t resourceChange;
+@property (readonly) ResourceType resourceType;
 
 + (PurchaseNormStructureRequestProto*) defaultInstance;
 - (PurchaseNormStructureRequestProto*) defaultInstance;
@@ -233,6 +241,21 @@ BOOL ExpansionWaitCompleteResponseProto_ExpansionWaitCompleteStatusIsValidValue(
 - (int64_t) timeOfPurchase;
 - (PurchaseNormStructureRequestProto_Builder*) setTimeOfPurchase:(int64_t) value;
 - (PurchaseNormStructureRequestProto_Builder*) clearTimeOfPurchase;
+
+- (BOOL) hasGemsSpent;
+- (int32_t) gemsSpent;
+- (PurchaseNormStructureRequestProto_Builder*) setGemsSpent:(int32_t) value;
+- (PurchaseNormStructureRequestProto_Builder*) clearGemsSpent;
+
+- (BOOL) hasResourceChange;
+- (int32_t) resourceChange;
+- (PurchaseNormStructureRequestProto_Builder*) setResourceChange:(int32_t) value;
+- (PurchaseNormStructureRequestProto_Builder*) clearResourceChange;
+
+- (BOOL) hasResourceType;
+- (ResourceType) resourceType;
+- (PurchaseNormStructureRequestProto_Builder*) setResourceType:(ResourceType) value;
+- (PurchaseNormStructureRequestProto_Builder*) clearResourceType;
 @end
 
 @interface PurchaseNormStructureResponseProto : PBGeneratedMessage {
@@ -450,139 +473,33 @@ BOOL ExpansionWaitCompleteResponseProto_ExpansionWaitCompleteStatusIsValidValue(
 - (MoveOrRotateNormStructureResponseProto_Builder*) clearStatus;
 @end
 
-@interface SellNormStructureRequestProto : PBGeneratedMessage {
-@private
-  BOOL hasUserStructId_:1;
-  BOOL hasSender_:1;
-  int32_t userStructId;
-  MinimumUserProto* sender;
-}
-- (BOOL) hasSender;
-- (BOOL) hasUserStructId;
-@property (readonly, retain) MinimumUserProto* sender;
-@property (readonly) int32_t userStructId;
-
-+ (SellNormStructureRequestProto*) defaultInstance;
-- (SellNormStructureRequestProto*) defaultInstance;
-
-- (BOOL) isInitialized;
-- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output;
-- (SellNormStructureRequestProto_Builder*) builder;
-+ (SellNormStructureRequestProto_Builder*) builder;
-+ (SellNormStructureRequestProto_Builder*) builderWithPrototype:(SellNormStructureRequestProto*) prototype;
-
-+ (SellNormStructureRequestProto*) parseFromData:(NSData*) data;
-+ (SellNormStructureRequestProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
-+ (SellNormStructureRequestProto*) parseFromInputStream:(NSInputStream*) input;
-+ (SellNormStructureRequestProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
-+ (SellNormStructureRequestProto*) parseFromCodedInputStream:(PBCodedInputStream*) input;
-+ (SellNormStructureRequestProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
-@end
-
-@interface SellNormStructureRequestProto_Builder : PBGeneratedMessage_Builder {
-@private
-  SellNormStructureRequestProto* result;
-}
-
-- (SellNormStructureRequestProto*) defaultInstance;
-
-- (SellNormStructureRequestProto_Builder*) clear;
-- (SellNormStructureRequestProto_Builder*) clone;
-
-- (SellNormStructureRequestProto*) build;
-- (SellNormStructureRequestProto*) buildPartial;
-
-- (SellNormStructureRequestProto_Builder*) mergeFrom:(SellNormStructureRequestProto*) other;
-- (SellNormStructureRequestProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input;
-- (SellNormStructureRequestProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
-
-- (BOOL) hasSender;
-- (MinimumUserProto*) sender;
-- (SellNormStructureRequestProto_Builder*) setSender:(MinimumUserProto*) value;
-- (SellNormStructureRequestProto_Builder*) setSenderBuilder:(MinimumUserProto_Builder*) builderForValue;
-- (SellNormStructureRequestProto_Builder*) mergeSender:(MinimumUserProto*) value;
-- (SellNormStructureRequestProto_Builder*) clearSender;
-
-- (BOOL) hasUserStructId;
-- (int32_t) userStructId;
-- (SellNormStructureRequestProto_Builder*) setUserStructId:(int32_t) value;
-- (SellNormStructureRequestProto_Builder*) clearUserStructId;
-@end
-
-@interface SellNormStructureResponseProto : PBGeneratedMessage {
-@private
-  BOOL hasSender_:1;
-  BOOL hasStatus_:1;
-  MinimumUserProto* sender;
-  SellNormStructureResponseProto_SellNormStructureStatus status;
-}
-- (BOOL) hasSender;
-- (BOOL) hasStatus;
-@property (readonly, retain) MinimumUserProto* sender;
-@property (readonly) SellNormStructureResponseProto_SellNormStructureStatus status;
-
-+ (SellNormStructureResponseProto*) defaultInstance;
-- (SellNormStructureResponseProto*) defaultInstance;
-
-- (BOOL) isInitialized;
-- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output;
-- (SellNormStructureResponseProto_Builder*) builder;
-+ (SellNormStructureResponseProto_Builder*) builder;
-+ (SellNormStructureResponseProto_Builder*) builderWithPrototype:(SellNormStructureResponseProto*) prototype;
-
-+ (SellNormStructureResponseProto*) parseFromData:(NSData*) data;
-+ (SellNormStructureResponseProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
-+ (SellNormStructureResponseProto*) parseFromInputStream:(NSInputStream*) input;
-+ (SellNormStructureResponseProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
-+ (SellNormStructureResponseProto*) parseFromCodedInputStream:(PBCodedInputStream*) input;
-+ (SellNormStructureResponseProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
-@end
-
-@interface SellNormStructureResponseProto_Builder : PBGeneratedMessage_Builder {
-@private
-  SellNormStructureResponseProto* result;
-}
-
-- (SellNormStructureResponseProto*) defaultInstance;
-
-- (SellNormStructureResponseProto_Builder*) clear;
-- (SellNormStructureResponseProto_Builder*) clone;
-
-- (SellNormStructureResponseProto*) build;
-- (SellNormStructureResponseProto*) buildPartial;
-
-- (SellNormStructureResponseProto_Builder*) mergeFrom:(SellNormStructureResponseProto*) other;
-- (SellNormStructureResponseProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input;
-- (SellNormStructureResponseProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
-
-- (BOOL) hasSender;
-- (MinimumUserProto*) sender;
-- (SellNormStructureResponseProto_Builder*) setSender:(MinimumUserProto*) value;
-- (SellNormStructureResponseProto_Builder*) setSenderBuilder:(MinimumUserProto_Builder*) builderForValue;
-- (SellNormStructureResponseProto_Builder*) mergeSender:(MinimumUserProto*) value;
-- (SellNormStructureResponseProto_Builder*) clearSender;
-
-- (BOOL) hasStatus;
-- (SellNormStructureResponseProto_SellNormStructureStatus) status;
-- (SellNormStructureResponseProto_Builder*) setStatus:(SellNormStructureResponseProto_SellNormStructureStatus) value;
-- (SellNormStructureResponseProto_Builder*) clearStatus;
-@end
-
 @interface UpgradeNormStructureRequestProto : PBGeneratedMessage {
 @private
   BOOL hasTimeOfUpgrade_:1;
   BOOL hasUserStructId_:1;
+  BOOL hasGemsSpent_:1;
   BOOL hasSender_:1;
+  BOOL hasResourceType_:1;
+  BOOL hasResourceChange_:1;
   int64_t timeOfUpgrade;
   int32_t userStructId;
+  int32_t gemsSpent;
   MinimumUserProto* sender;
+  ResourceType resourceType;
+  int32_t resourceChange;
 }
 - (BOOL) hasSender;
 - (BOOL) hasUserStructId;
 - (BOOL) hasTimeOfUpgrade;
+- (BOOL) hasGemsSpent;
+- (BOOL) hasResourceChange;
+- (BOOL) hasResourceType;
 @property (readonly, retain) MinimumUserProto* sender;
 @property (readonly) int32_t userStructId;
 @property (readonly) int64_t timeOfUpgrade;
+@property (readonly) int32_t gemsSpent;
+@property (readonly) int32_t resourceChange;
+@property (readonly) ResourceType resourceType;
 
 + (UpgradeNormStructureRequestProto*) defaultInstance;
 - (UpgradeNormStructureRequestProto*) defaultInstance;
@@ -634,6 +551,21 @@ BOOL ExpansionWaitCompleteResponseProto_ExpansionWaitCompleteStatusIsValidValue(
 - (int64_t) timeOfUpgrade;
 - (UpgradeNormStructureRequestProto_Builder*) setTimeOfUpgrade:(int64_t) value;
 - (UpgradeNormStructureRequestProto_Builder*) clearTimeOfUpgrade;
+
+- (BOOL) hasGemsSpent;
+- (int32_t) gemsSpent;
+- (UpgradeNormStructureRequestProto_Builder*) setGemsSpent:(int32_t) value;
+- (UpgradeNormStructureRequestProto_Builder*) clearGemsSpent;
+
+- (BOOL) hasResourceChange;
+- (int32_t) resourceChange;
+- (UpgradeNormStructureRequestProto_Builder*) setResourceChange:(int32_t) value;
+- (UpgradeNormStructureRequestProto_Builder*) clearResourceChange;
+
+- (BOOL) hasResourceType;
+- (ResourceType) resourceType;
+- (UpgradeNormStructureRequestProto_Builder*) setResourceType:(ResourceType) value;
+- (UpgradeNormStructureRequestProto_Builder*) clearResourceType;
 @end
 
 @interface UpgradeNormStructureResponseProto : PBGeneratedMessage {
@@ -1001,13 +933,17 @@ BOOL ExpansionWaitCompleteResponseProto_ExpansionWaitCompleteStatusIsValidValue(
 @private
   BOOL hasTimeOfRetrieval_:1;
   BOOL hasUserStructId_:1;
+  BOOL hasAmountCollected_:1;
   int64_t timeOfRetrieval;
   int32_t userStructId;
+  int32_t amountCollected;
 }
 - (BOOL) hasUserStructId;
 - (BOOL) hasTimeOfRetrieval;
+- (BOOL) hasAmountCollected;
 @property (readonly) int32_t userStructId;
 @property (readonly) int64_t timeOfRetrieval;
+@property (readonly) int32_t amountCollected;
 
 + (RetrieveCurrencyFromNormStructureRequestProto_StructRetrieval*) defaultInstance;
 - (RetrieveCurrencyFromNormStructureRequestProto_StructRetrieval*) defaultInstance;
@@ -1052,6 +988,11 @@ BOOL ExpansionWaitCompleteResponseProto_ExpansionWaitCompleteStatusIsValidValue(
 - (int64_t) timeOfRetrieval;
 - (RetrieveCurrencyFromNormStructureRequestProto_StructRetrieval_Builder*) setTimeOfRetrieval:(int64_t) value;
 - (RetrieveCurrencyFromNormStructureRequestProto_StructRetrieval_Builder*) clearTimeOfRetrieval;
+
+- (BOOL) hasAmountCollected;
+- (int32_t) amountCollected;
+- (RetrieveCurrencyFromNormStructureRequestProto_StructRetrieval_Builder*) setAmountCollected:(int32_t) value;
+- (RetrieveCurrencyFromNormStructureRequestProto_StructRetrieval_Builder*) clearAmountCollected;
 @end
 
 @interface RetrieveCurrencyFromNormStructureRequestProto_Builder : PBGeneratedMessage_Builder {

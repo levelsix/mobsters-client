@@ -71,21 +71,36 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
 
 - (UserStruct *) purchaseNormStruct:(int)structId atX:(int)x atY:(int)y {
   GameState *gs = [GameState sharedGameState];
-  FullStructureProto *fsp = [gs structWithId:structId];
+  Globals *gl = [Globals sharedGlobals];
+  StructureInfoProto *fsp = [[gs structWithId:structId] structInfo];
   UserStruct *us = nil;
+  
+  int cur = [gl calculateCurrentQuantityOfStructId:structId];
+  int max = [gl calculateMaxQuantityOfStructId:structId];
+  if (cur >= max) {
+    [Globals popupMessage:@"You are already at the max of this struct"];
+    return us;
+  }
+  
+  int thLevel = [[[[gs myTownHall] staticStruct] structInfo] level];
+  if (fsp.prerequisiteTownHallLvl > thLevel) {
+    [Globals popupMessage:@"Town hall not high enough for this building"];
+    return us;
+  }
   
   // Check that no other building is being built
   for (UserStruct *u in gs.myStructs) {
-    if (u.state == kBuilding) {
+    if (!u.isComplete) {
       [Globals popupMessage:@"You can only construct one building at a time!"];
       return us;
     }
   }
   
-  int goldPrice = fsp.isPremiumCurrency ? fsp.buildPrice : 0;
-  int silverPrice = fsp.isPremiumCurrency ? 0 : fsp.buildPrice;
-  if (gs.silver >= silverPrice && gs.gold >= goldPrice) {
-    int tag = [[SocketCommunication sharedSocketCommunication] sendPurchaseNormStructureMessage:structId x:x y:y time:[self getCurrentMilliseconds]];
+  int cashPrice = 0, oilPrice = 0;
+  if (fsp.buildResourceType == ResourceTypeCash) cashPrice = fsp.buildCost;
+  if (fsp.buildResourceType == ResourceTypeOil) oilPrice = fsp.buildCost;
+  if (gs.silver >= cashPrice && gs.oil >= oilPrice) {
+    int tag = [[SocketCommunication sharedSocketCommunication] sendPurchaseNormStructureMessage:structId x:x y:y time:[self getCurrentMilliseconds] resourceType:fsp.buildResourceType resourceChange:-fsp.buildCost gemCost:0];
     us = [[UserStruct alloc] init];
     
     // UserStructId will come in the response
@@ -98,15 +113,61 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
     us.lastRetrieved = nil;
     
     AddStructUpdate *asu = [AddStructUpdate updateWithTag:tag userStruct:us];
-    SilverUpdate *su = [SilverUpdate updateWithTag:tag change:-silverPrice];
-    GoldUpdate *gu = [GoldUpdate updateWithTag:tag change:-goldPrice];
+    SilverUpdate *su = [SilverUpdate updateWithTag:tag change:-cashPrice];
+    OilUpdate *gu = [GoldUpdate updateWithTag:tag change:-oilPrice];
     [gs addUnrespondedUpdates:asu, su, gu, nil];
     
     [Analytics normStructPurchase:structId];
   } else {
-    [Globals popupMessage:@"Not enough money to purchase this building"];
+    [Globals popupMessage:@"Not enough resources to purchase this building"];
   }
   return us;
+}
+
+- (void) upgradeNormStruct:(UserStruct *)userStruct {
+  GameState *gs = [GameState sharedGameState];
+  SocketCommunication *sc = [SocketCommunication sharedSocketCommunication];
+  StructureInfoProto *nextFsp = userStruct.staticStructForNextLevel.structInfo;
+  
+  int thLevel = [[[[gs myTownHall] staticStruct] structInfo] level];
+  if (nextFsp.prerequisiteTownHallLvl > thLevel) {
+    [Globals popupMessage:@"Town hall not high enough for this building"];
+    return;
+  }
+  
+  // Check that no other building is being upgraded
+  for (UserStruct *us in gs.myStructs) {
+    if (!us.isComplete) {
+      [Globals popupMessage:@"You can only construct one building at a time!"];
+      return;
+    }
+  }
+  
+  if (userStruct.userStructId == 0) {
+    [Globals popupMessage:@"Waiting for confirmation of purchase!"];
+  } else if (userStruct.userId != gs.userId) {
+    [Globals popupMessage:@"This is not your building!"];
+  } else if (!nextFsp) {
+    [Globals popupMessage:@"This building is not upgradable"];
+  } else {
+    int cashPrice = 0, oilPrice = 0;
+    if (nextFsp.buildResourceType == ResourceTypeCash) cashPrice = nextFsp.buildCost;
+    if (nextFsp.buildResourceType == ResourceTypeOil) oilPrice = nextFsp.buildCost;
+    if (oilPrice > gs.oil || cashPrice > gs.silver) {
+      [Globals popupMessage:@"Trying to upgrade without enough resources."];
+    } else {
+      int64_t ms = [self getCurrentMilliseconds];
+      int tag = [sc sendUpgradeNormStructureMessage:userStruct.userStructId time:ms resourceType:nextFsp.buildResourceType resourceChange:-nextFsp.buildCost gemCost:0];
+      userStruct.isComplete = NO;
+      userStruct.purchaseTime = [NSDate dateWithTimeIntervalSince1970:ms/1000.0];
+      userStruct.structId = nextFsp.structId;
+      
+      // Update game state
+      SilverUpdate *su = [SilverUpdate updateWithTag:tag change:-cashPrice];
+      OilUpdate *gu = [GoldUpdate updateWithTag:tag change:-oilPrice];
+      [gs addUnrespondedUpdates:su, gu, nil];
+    }
+  }
 }
 
 - (void) moveNormStruct:(UserStruct *)userStruct atX:(int)x atY:(int)y {
@@ -119,41 +180,16 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
   }
 }
 
-- (void) rotateNormStruct:(UserStruct *)userStruct to:(StructOrientation)orientation {
-  if (userStruct.orientation != orientation) {
-    [[SocketCommunication sharedSocketCommunication] sendRotateNormStructureMessage:userStruct.userStructId orientation:orientation];
-    userStruct.orientation = orientation;
-  }
-}
-
-- (void) sellNormStruct:(UserStruct *)userStruct {
-  GameState *gs = [GameState sharedGameState];
-  SocketCommunication *sc = [SocketCommunication sharedSocketCommunication];
-  FullStructureProto *fsp = userStruct.fsp;
-  
-  if (userStruct.userStructId == 0) {
-    [Globals popupMessage:@"Waiting for confirmation of purchase!"];
-  } else if (userStruct.userId != gs.userId) {
-    [Globals popupMessage:@"This is not your building!"];
-  } else {
-    int tag = [sc sendSellNormStructureMessage:userStruct.userStructId];
-    
-    SellStructUpdate *ssu = [SellStructUpdate updateWithTag:tag userStruct:userStruct];
-    SilverUpdate *su = [SilverUpdate updateWithTag:tag change:fsp.isPremiumCurrency ? 0 : fsp.sellPrice];
-    GoldUpdate *gu = [GoldUpdate updateWithTag:tag change:fsp.isPremiumCurrency ? fsp.sellPrice : 0];
-    
-    [gs addUnrespondedUpdates:ssu, su, gu, nil];
-    
-    [Analytics normStructSell:userStruct.structId level:fsp.level];
-  }
-}
-
 - (void) retrieveFromNormStructure:(UserStruct *)userStruct {
   GameState *gs = [GameState sharedGameState];
   SocketCommunication *sc = [SocketCommunication sharedSocketCommunication];
+  ResourceGeneratorProto *gen = (ResourceGeneratorProto *)userStruct.staticStruct;
+  StructureInfoProto *fsp = gen.structInfo;
   
   if (userStruct.userStructId == 0) {
     [Globals popupMessage:@"Waiting for confirmation of purchase!"];
+  } else if (fsp.structType != StructureInfoProto_StructTypeResourceGenerator) {
+    [Globals popupMessage:@"This building is not a resource generator"];
   } else if (userStruct.userId != gs.userId) {
     [Globals popupMessage:@"This is not your building!"];
   } else if (userStruct.isComplete && userStruct.lastRetrieved) {
@@ -162,7 +198,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
     userStruct.lastRetrieved = [NSDate dateWithTimeIntervalSince1970:ms/1000.0];
     
     // Update game state
-    [gs addUnrespondedUpdate:[SilverUpdate updateWithTag:tag change:userStruct.fsp.income]];
+//    [gs addUnrespondedUpdate:[SilverUpdate updateWithTag:tag change:userStruct.fsp.income]];
   } else {
     [Globals popupMessage:[NSString stringWithFormat:@"Building %d is not ready to be retrieved", userStruct.userStructId]];
   }
@@ -190,8 +226,6 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
     
     // Update game state
     [gs addUnrespondedUpdate:[GoldUpdate updateWithTag:tag change:-[gl calculateGemSpeedupCostForTimeLeft:timeLeft]]];
-    
-    [Analytics normStructInstaUpgrade:userStruct.structId level:userStruct.fsp.level];
   } else {
     [Globals popupMessage:[NSString stringWithFormat:@"Building %d is not upgrading", userStruct.userStructId]];
   }
@@ -221,45 +255,6 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
     [gs addUnrespondedUpdate:[NoUpdate updateWithTag:tag]];
   } else {
     [Globals popupMessage:[NSString stringWithFormat:@"Building %d is not upgrading or constructing", userStruct.userStructId]];
-  }
-}
-
-- (void) upgradeNormStruct:(UserStruct *)userStruct {
-  GameState *gs = [GameState sharedGameState];
-  SocketCommunication *sc = [SocketCommunication sharedSocketCommunication];
-  FullStructureProto *nextFsp = userStruct.fspForNextLevel;
-  
-  // Check that no other building is being upgraded
-  for (UserStruct *us in gs.myStructs) {
-    if (us.state == kBuilding) {
-      [Globals popupMessage:@"You can only construct one building at a time!"];
-      return;
-    }
-  }
-  
-  if (userStruct.userStructId == 0) {
-    [Globals popupMessage:@"Waiting for confirmation of purchase!"];
-  } else if (userStruct.userId != gs.userId) {
-    [Globals popupMessage:@"This is not your building!"];
-  } else if (!nextFsp) {
-    [Globals popupMessage:@"This building is not upgradable"];
-  } else {
-    int goldCost = nextFsp.isPremiumCurrency ? nextFsp.buildPrice : 0;
-    int silverCost = nextFsp.isPremiumCurrency ? 0 : nextFsp.buildPrice;
-    if (goldCost > gs.gold || silverCost > gs.silver) {
-      [Globals popupMessage:@"Trying to upgrade without enough resources."];
-    } else {
-      int64_t ms = [self getCurrentMilliseconds];
-      int tag = [sc sendUpgradeNormStructureMessage:userStruct.userStructId time:ms];
-      userStruct.isComplete = NO;
-      userStruct.purchaseTime = [NSDate dateWithTimeIntervalSince1970:ms/1000.0];
-      userStruct.structId = nextFsp.structId;
-      
-      // Update game state
-      SilverUpdate *su = [SilverUpdate updateWithTag:tag change:-silverCost];
-      GoldUpdate *gu = [GoldUpdate updateWithTag:tag change:-goldCost];
-      [gs addUnrespondedUpdates:su, gu, nil];
-    }
   }
 }
 
@@ -799,25 +794,90 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
   return NO;
 }
 
-- (void) buyInventorySlots {
+- (void) increaseInventorySlots:(UserStruct *)us withGems:(BOOL)gems {
   GameState *gs = [GameState sharedGameState];
-  Globals *gl = [Globals sharedGlobals];
+  ResidenceProto *curRes = (ResidenceProto *)us.staticStruct;
+  ResidenceProto *fbRes = (ResidenceProto *)us.staticStructForNextFbLevel;
   
-  if (gs.gold < gl.inventoryIncreaseSizeCost) {
+  if (curRes.structInfo.structType != StructureInfoProto_StructTypeResidence) {
+    [Globals popupMessage:@"Trying to buy slots for non-residence"];
+  } else if (us.fbInviteStructLvl >= curRes.structInfo.level) {
+    [Globals popupMessage:@"Trying to increase slots past max."];
+  } else if (gems && gs.gold < fbRes.numGemsRequired) {
     [Globals popupMessage:@"Trying to increase inventory without enough gold"];
   } else {
-    gs.numAdditionalMonsterSlots += gl.inventoryIncreaseSizeAmount;
-    int tag = [[SocketCommunication sharedSocketCommunication] buyInventorySlots];
-    [gs addUnrespondedUpdate:[GoldUpdate updateWithTag:tag change:-gl.inventoryIncreaseSizeCost]];
+    int tag = 0;
+    if (gems) {
+      NSArray *arr = [gs acceptedFbRequestsForUserStructId:us.userStructId fbStructLevel:us.fbInviteStructLvl+1];
+      for (RequestFromFriend *req in arr) {
+        [gs.fbAcceptedRequestsFromMe removeObject:req];
+      }
+      
+      tag = [[SocketCommunication sharedSocketCommunication] sendBuyInventorySlotsWithGems:us.userStructId];
+    } else {
+      NSArray *reqs = [gs acceptedFbRequestsForUserStructId:us.userStructId fbStructLevel:us.fbInviteStructLvl+1];
+      
+      if (reqs.count < fbRes.numAcceptedFbInvites) {
+        [Globals popupMessage:@"Trying to increase inventory without enough accepted invites."];
+        return;
+      }
+      
+      NSArray *realReqs = [reqs subarrayWithRange:NSMakeRange(0, fbRes.numAcceptedFbInvites)];
+      NSArray *rejectedReqs = [reqs subarrayWithRange:NSMakeRange(fbRes.numAcceptedFbInvites, reqs.count-fbRes.numAcceptedFbInvites)];
+      
+      uint64_t date = [self getCurrentMilliseconds];
+      for (RequestFromFriend *inv in realReqs) {
+        UserFacebookInviteForSlotProto_Builder *bldr = [UserFacebookInviteForSlotProto builderWithPrototype:inv.invite];
+        bldr.redeemedTime = date;
+        inv.invite = [bldr build];
+      }
+      
+      for (RequestFromFriend *inv in rejectedReqs) {
+        [gs.fbAcceptedRequestsFromMe removeObject:inv];
+      }
+      
+      NSMutableArray *invs = [NSMutableArray array];
+      for (RequestFromFriend *req in realReqs) {
+        [invs addObject:@(req.invite.inviteId)];
+      }
+      
+      tag = [[SocketCommunication sharedSocketCommunication] sendBuyInventorySlots:us.userStructId withFriendInvites:invs];
+    }
+    us.fbInviteStructLvl++;
+    
+    [gs addUnrespondedUpdate:[GoldUpdate updateWithTag:tag change:-fbRes.numGemsRequired]];
   }
 }
 
-- (void) inviteAllFacebookFriends:(NSArray *)fbFriends {
-  [[SocketCommunication sharedSocketCommunication] sendInviteFbFriendsForSlotsMessage:fbFriends];
+- (void) inviteAllFacebookFriends:(NSArray *)fbFriends forStruct:(UserStruct *)us {
+  NSMutableArray *invs = [NSMutableArray array];
+  for (NSString *fbId in fbFriends) {
+    InviteFbFriendsForSlotsRequestProto_FacebookInviteStructure_Builder *bldr = [InviteFbFriendsForSlotsRequestProto_FacebookInviteStructure builder];
+    bldr.fbFriendId = fbId;
+    bldr.userStructId = us.userStructId;
+    bldr.userStructFbLvl = us.fbInviteStructLvl+1;
+    [invs addObject:bldr.build];
+  }
+  
+  [[SocketCommunication sharedSocketCommunication] sendInviteFbFriendsForSlotsMessage:invs];
 }
 
 - (void) acceptAndRejectInvitesWithAcceptIds:(NSArray *)acceptIds rejectIds:(NSArray *)rejectIds {
-  [[SocketCommunication sharedSocketCommunication] sendAcceptAndRejectFbInviteForSlotsMessageAndAcceptIds:acceptIds rejectIds:rejectIds];
+  if (acceptIds.count > 0 || rejectIds.count > 0) {
+    GameState *gs = [GameState sharedGameState];
+    NSMutableArray *toRemove = [NSMutableArray array];
+    for (RequestFromFriend *req in gs.fbUnacceptedRequestsFromFriends) {
+      NSNumber *num = @(req.invite.inviteId);
+      if ([acceptIds containsObject:num] || [rejectIds containsObject:num]) {
+        [toRemove addObject:req];
+      }
+    }
+    for (id req in toRemove) {
+      [gs.fbUnacceptedRequestsFromFriends removeObject:req];
+    }
+    
+    [[SocketCommunication sharedSocketCommunication] sendAcceptAndRejectFbInviteForSlotsMessageAndAcceptIds:acceptIds rejectIds:rejectIds];
+  }
 }
 
 - (void) combineMonsters:(NSArray *)userMonsterIds {

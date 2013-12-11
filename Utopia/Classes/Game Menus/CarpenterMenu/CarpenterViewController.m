@@ -13,83 +13,83 @@
 #import "DiamondShopViewController.h"
 #import "GameViewController.h"
 
-#define NUM_ENTRIES_PER_ROW 3
+#define TABLE_CELL_WIDTH 150
 
 @implementation CarpenterListing
 
-- (void) awakeFromNib {
-  self.grayscaleView = [[UIImageView alloc] initWithFrame:self.mainView.frame];
-  [self insertSubview:self.grayscaleView atIndex:0];
-}
-
-- (void) createMask {
-  UIView *view = self.mainView;
-  UIGraphicsBeginImageContextWithOptions(view.bounds.size, NO, 0.f);
-  [view.layer renderInContext:UIGraphicsGetCurrentContext()];
-  UIImage *image = UIGraphicsGetImageFromCurrentImageContext();
-  UIGraphicsEndImageContext();
-  
-  self.grayscaleView.image = [Globals greyScaleImageWithBaseImage:image];
-}
-
-- (void) setFsp:(FullStructureProto *)f {
-  _fsp = f;
-  
-  if (!_fsp) {
-    self.hidden = YES;
-    _canClick = NO;
-    return;
-  } else {
-    self.hidden = NO;
-  }
-  
-  self.nameLabel.text = _fsp.name;
-  _structId = _fsp.structId;
-  
-  GameState *gs = [GameState sharedGameState];
-  self.rateLabel.text = [NSString stringWithFormat:@"%@ in %@", [Globals cashStringForNumber:_fsp.income], [Globals convertTimeToShortString:_fsp.minutesToGain*60]];
-  
-  if (!_fsp.isPremiumCurrency) {
-    // Highlighted image is the gold icon.
-    self.moneyIcon.highlighted = NO;
-    self.costLabel.text = [Globals cashStringForNumber:_fsp.buildPrice];
-  } else {
-    self.moneyIcon.highlighted = YES;
-    self.costLabel.text = [Globals commafyNumber:_fsp.buildPrice];
-  }
-  
-  if (gs.level >= _fsp.minLevel) {
-    [Globals loadImageForStruct:_fsp.structId toView:self.buildingImageView masked:NO indicator:UIActivityIndicatorViewStyleGray];
-    self.button.userInteractionEnabled = YES;
-    self.mainView.hidden = NO;
-    self.grayscaleView.hidden = YES;
-  } else {
-    [Globals loadImageForStruct:_fsp.structId toView:self.buildingImageView masked:YES indicator:UIActivityIndicatorViewStyleGray];
-    self.button.userInteractionEnabled = NO;
+- (void) setViewToGreyScale:(UIView *)view {
+  for (UIView *v in view.subviews) {
+    if ([v isKindOfClass:[UIImageView class]]) {
+      UIImageView *imgView = (UIImageView *)v;
+      if (imgView.image) {
+        imgView.image = [Globals greyScaleImageWithBaseImage:imgView.image];
+      }
+    } else if ([v isKindOfClass:[UIButton class]]) {
+      UIButton *button = (UIButton *)v;
+      UIImage *img = [button imageForState:UIControlStateNormal];
+      if (img) {
+        [button setImage:[Globals greyScaleImageWithBaseImage:img] forState:UIControlStateNormal];
+      }
+    }
     
-    // Unhide main view before creating mask
-    self.mainView.hidden = NO;
-    [self createMask];
-    self.mainView.hidden = YES;
-    self.grayscaleView.hidden = NO;
+    [self setViewToGreyScale:v];
   }
 }
 
-@end
-
-@implementation CarpenterListingContainer
-
-- (void) awakeFromNib {
-  [super awakeFromNib];
-  [[NSBundle mainBundle] loadNibNamed:@"CarpenterListing" owner:self options:nil];
-  [self addSubview:self.carpenterListing];
-  [self setBackgroundColor:[UIColor clearColor]];
+- (void) flip {
+  UIView *startView = self.isFlipped ? self.descriptionView : self.mainView;
+  UIView *endView = self.isFlipped ? self.mainView : self.descriptionView;
+  [UIView transitionFromView:startView toView:endView duration:0.3f options:UIViewAnimationOptionTransitionFlipFromRight completion:nil];
+  
+  self.isFlipped = !self.isFlipped;
 }
 
-@end
-
-
-@implementation CarpenterListingCell
+- (void) updateForStructInfo:(StructureInfoProto *)structInfo {
+  GameState *gs = [GameState sharedGameState];
+  Globals *gl = [Globals sharedGlobals];
+  
+  [self.descriptionView removeFromSuperview];
+  [self addSubview:self.mainView];
+  self.isFlipped = NO;
+  
+  self.structInfo = structInfo;
+  
+  self.nameLabel.text = structInfo.name;
+  self.nameDescriptionLabel.text = structInfo.name;
+  
+  self.descriptionLabel.text = structInfo.description;
+  
+  CGRect r = self.descriptionLabel.frame;
+  r.size.height = [self.descriptionLabel.text sizeWithFont:self.descriptionLabel.font constrainedToSize:CGSizeMake(self.descriptionLabel.frame.size.width, 9999) lineBreakMode:NSLineBreakByWordWrapping].height;
+  self.descriptionLabel.frame = r;
+  
+  self.buildCashCostLabel.text = [Globals cashStringForNumber:structInfo.buildCost];
+  self.buildOilCostLabel.text = [Globals commafyNumber:structInfo.buildCost];
+  [Globals adjustViewForCentering:self.buildOilCostLabel.superview withLabel:self.buildOilCostLabel];
+  self.buildCashCostLabel.hidden = structInfo.buildResourceType != ResourceTypeCash;
+  self.buildOilCostLabel.superview.hidden = structInfo.buildResourceType != ResourceTypeOil;
+  
+  self.buildTimeLabel.text = [Globals convertTimeToShortString:structInfo.minutesToBuild*60];
+  
+  int cur = [gl calculateCurrentQuantityOfStructId:structInfo.structId];
+  int max = [gl calculateMaxQuantityOfStructId:structInfo.structId];
+  self.quantityLabel.text = [NSString stringWithFormat:@"%d/%d", cur, max];
+  
+  self.bgdImageView.image = [Globals imageNamed:@"buildingbg.png"];
+  self.bgdInfoImageView.image = [Globals imageNamed:@"buildinginfobg.png"];
+  [self.infoButton setImage:[Globals imageNamed:@"chatinfoi.png"] forState:UIControlStateNormal];
+  
+  // We will manually grey the struct in case it is not downloaded yet
+  self.buildingImageView.image = nil;
+  
+  int thLevel = [[[[gs myTownHall] staticStruct] structInfo] level];
+  BOOL greyscale = structInfo.prerequisiteTownHallLvl > thLevel || cur >= max;
+  if (greyscale) {
+    [self setViewToGreyScale:self];
+  }
+  
+  [Globals imageNamed:structInfo.imgName withView:self.buildingImageView greyscale:greyscale indicator:UIActivityIndicatorViewStyleWhite clearImageDuringDownload:YES];
+}
 
 @end
 
@@ -103,14 +103,7 @@
   [self setUpCloseButton];
   [self setUpImageBackButton];
   
-  //add rope to the very top
-  UIColor *c = [UIColor colorWithPatternImage:[Globals imageNamed:@"rope.png"]];
-  UIView *leftRope = [[UIView alloc] initWithFrame:CGRectMake(14, -143, 3, 150)];
-  UIView *rightRope = [[UIView alloc] initWithFrame:CGRectMake(463, -143, 2, 150)];
-  leftRope.backgroundColor = c;
-  rightRope.backgroundColor = c;
-  [self.carpTable addSubview:leftRope];
-  [self.carpTable addSubview:rightRope];
+  [self setupStructTable];
 }
 
 - (void)viewWillAppear:(BOOL)animated {
@@ -126,132 +119,111 @@
 
 - (void) reloadCarpenterStructs {
   GameState *gs = [GameState sharedGameState];
-  Globals *gl = [Globals sharedGlobals];
-  
   [self.structsList removeAllObjects];
   
   NSArray *structs = [[gs staticStructs] allValues];
   
-  int max = [gl maxRepeatedNormStructs];
-  
-  for (FullStructureProto *fsp in structs) {
-    if (fsp.predecessorStructId) {
+  for (id<StaticStructure> s in structs) {
+    StructureInfoProto *fsp = s.structInfo;
+    if (fsp.predecessorStructId || fsp.structType == StructureInfoProto_StructTypeTownHall) {
       continue;
     }
     
-    int count = 0;
-    for (FullUserStructureProto *fusp in [gs myStructs]) {
-      if (fusp.structId == fsp.structId) {
-        count++;
-      }
-      if (count >= max) {
-        break;
-      }
-    }
-    if (count < max) {
-      [self.structsList addObject:fsp];
-    }
+    [self.structsList addObject:fsp];
   }
   
-  [self.structsList sortUsingComparator:^NSComparisonResult(FullStructureProto *obj1, FullStructureProto *obj2) {
-    if (obj1.minLevel < obj2.minLevel) {
-      return NSOrderedAscending;
-    } else if (obj1.minLevel > obj2.minLevel) {
-      return NSOrderedDescending;
+  [self.structsList sortUsingComparator:^NSComparisonResult(StructureInfoProto *obj1, StructureInfoProto *obj2) {
+    if (obj1.prerequisiteTownHallLvl != obj2.prerequisiteTownHallLvl) {
+      return [@(obj1.prerequisiteTownHallLvl) compare:@(obj2.prerequisiteTownHallLvl)];
     } else {
-      if (obj1.structId < obj2.structId) {
-        return NSOrderedAscending;
-      }
-      return NSOrderedDescending;
+      return [@(obj1.structId) compare:@(obj2.structId)];
     }
   }];
   
-  [self.carpTable reloadData];
+  [self.structTable reloadData];
 }
 
-#pragma mark - UITableView delegate methods
+#pragma mark - EasyTableView delegate methods
 
-- (int)numberOfSectionsInTableView:(UITableView *)tableView {
-  return 1;
+- (void) setupStructTable {
+  self.structTable = [[EasyTableView alloc] initWithFrame:self.tableContainerView.bounds numberOfColumns:0 ofWidth:TABLE_CELL_WIDTH];
+  self.structTable.delegate = self;
+  self.structTable.tableView.separatorColor = [UIColor clearColor];
+  self.structTable.autoresizingMask = UIViewAutoresizingFlexibleWidth;
+  [self.tableContainerView addSubview:self.structTable];
 }
 
-- (int) tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-  NSArray *list = self.structsList;
-  
-  int rows = (int)ceilf((float)list.count/NUM_ENTRIES_PER_ROW);
-  
-  if (rows > 0) {
-    tableView.scrollEnabled = YES;
-    [self.spinner stopAnimating];
-    self.spinner.hidden = YES;
-  } else {
-    tableView.scrollEnabled = NO;
-    [self.spinner startAnimating];
-    self.spinner.hidden = NO;
-  }
-  return rows;
+- (NSUInteger) numberOfCellsForEasyTableView:(EasyTableView *)view inSection:(NSInteger)section {
+  return self.structsList.count;
 }
 
-- (UITableViewCell *) tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-  static NSString *cellId = @"CarpenterListingCell";
-  
-  CarpenterListingCell *cell = [tableView dequeueReusableCellWithIdentifier:cellId];
-  if (cell == nil) {
-    [[NSBundle mainBundle] loadNibNamed:@"CarpenterRow" owner:self options:nil];
-    cell = self.carpRow;
-    
-    [cell.listing1.carpenterListing.button addTarget:self action:@selector(buildingClicked:) forControlEvents:UIControlEventTouchUpInside];
-    [cell.listing2.carpenterListing.button addTarget:self action:@selector(buildingClicked:) forControlEvents:UIControlEventTouchUpInside];
-    [cell.listing3.carpenterListing.button addTarget:self action:@selector(buildingClicked:) forControlEvents:UIControlEventTouchUpInside];
-  }
-  
-  int baseIndex = NUM_ENTRIES_PER_ROW*indexPath.row;
-  int count = self.structsList.count;
-  
-  FullStructureProto *fsp1 = baseIndex<count ? [self.structsList objectAtIndex:baseIndex] : nil;
-  FullStructureProto *fsp2 = baseIndex+1<count ? [self.structsList objectAtIndex:baseIndex+1] : nil;
-  FullStructureProto *fsp3 = baseIndex+2<count ? [self.structsList objectAtIndex:baseIndex+2] : nil;
-  
-  cell.listing1.carpenterListing.fsp = fsp1;
-  cell.listing2.carpenterListing.fsp = fsp2;
-  cell.listing3.carpenterListing.fsp = fsp3;
-  
-  // Hide the bottom ropes if this is the last cell
-  UIView *r1 = [cell.contentView viewWithTag:133];
-  UIView *r2 = [cell.contentView viewWithTag:134];
-  if (indexPath.row == [self tableView:self.carpTable numberOfRowsInSection:0]-1) {
-    r1.hidden = YES;
-    r2.hidden = YES;
-  } else {
-    r1.hidden = NO;
-    r2.hidden = NO;
-  }
-  
-  return cell;
+- (UIView *) easyTableView:(EasyTableView *)easyTableView viewForHeaderInSection:(NSInteger)section {
+  return [[UIView alloc] initWithFrame:CGRectMake(0, 0, 15, easyTableView.frame.size.height)];
 }
+
+- (UIView *) easyTableView:(EasyTableView *)easyTableView viewForRect:(CGRect)rect withIndexPath:(NSIndexPath *)indexPath {
+  [[NSBundle mainBundle] loadNibNamed:@"CarpenterListing" owner:self options:nil];
+  self.carpListing.center = ccp(rect.size.width/2, rect.size.height/2);
+  return self.carpListing;
+}
+
+- (void) easyTableView:(EasyTableView *)easyTableView setDataForView:(CarpenterListing *)view forIndexPath:(NSIndexPath *)indexPath {
+  [view updateForStructInfo:self.structsList[indexPath.row]];
+}
+
+#pragma mark - IBActions
 
 - (IBAction) goToGoldShop:(id)sender {
   [self.navigationController pushViewController:[[DiamondShopViewController alloc] init] animated:YES];
 }
 
+#pragma mark Carpenter Listing IBActions
+
 - (IBAction)buildingClicked:(id)sender {
   while (sender && ![sender isKindOfClass:[CarpenterListing class]]) {
     sender = [sender superview];
   }
-  GameState *gs = [GameState sharedGameState];
-  CarpenterListing *carp = (CarpenterListing *)sender;
-  FullStructureProto *fsp = carp.fsp;
   
-  if (gs.level < fsp.minLevel) {
-    [Globals popupMessage:[NSString stringWithFormat:@"You must be level %d to purchase the %@", fsp.minLevel, fsp.name]];
+  Globals *gl = [Globals sharedGlobals];
+  CarpenterListing *carp = (CarpenterListing *)sender;
+  StructureInfoProto *fsp = carp.structInfo;
+  
+  if (carp.isFlipped) {
+    [carp flip];
   } else {
-    UINavigationController *nav = (UINavigationController *)self.navigationController.presentingViewController;
-    UIViewController *vc = [nav.childViewControllers objectAtIndex:0];
-    if ([vc isKindOfClass:[GameViewController class]]) {
-      GameViewController *gvc = (GameViewController *)vc;
-      [gvc buildingPurchased:fsp.structId];
+    GameState *gs = [GameState sharedGameState];
+    TownHallProto *th = (TownHallProto *)[[gs myTownHall] staticStruct];
+    int thLevel = th.structInfo.level;
+    int cur = [gl calculateCurrentQuantityOfStructId:fsp.structId];
+    int max = [gl calculateMaxQuantityOfStructId:fsp.structId];
+    
+    if (fsp.prerequisiteTownHallLvl > thLevel) {
+      [Globals addAlertNotification:[NSString stringWithFormat:@"Upgrade %@ to level %d to unlock!", th.structInfo.name, fsp.prerequisiteTownHallLvl]];
+    } else if (cur >= max) {
+      int nextThLevel = [gl calculateNextTownHallLevelForQuantityIncreaseForStructId:fsp.structId];
+      if (nextThLevel) {
+        [Globals addAlertNotification:[NSString stringWithFormat:@"Upgrade %@ to level %d to build more!", th.structInfo.name, nextThLevel]];
+      } else {
+        [Globals addAlertNotification:[NSString stringWithFormat:@"You have already reached the max number of %@s", fsp.name]];
+      }
+    } else {
+      UINavigationController *nav = (UINavigationController *)self.navigationController.presentingViewController;
+      UIViewController *vc = [nav.childViewControllers objectAtIndex:0];
+      if ([vc isKindOfClass:[GameViewController class]]) {
+        GameViewController *gvc = (GameViewController *)vc;
+        [gvc buildingPurchased:fsp.structId];
+      }
     }
   }
+}
+
+- (IBAction)infoClicked:(id)sender {
+  while (sender && ![sender isKindOfClass:[CarpenterListing class]]) {
+    sender = [sender superview];
+  }
+  
+  CarpenterListing *carp = (CarpenterListing *)sender;
+  [carp flip];
 }
 
 @end

@@ -27,6 +27,9 @@ static PBExtensionRegistry* extensionRegistry = nil;
 @property (retain) CoordinateProto* structCoordinates;
 @property int32_t structId;
 @property int64_t timeOfPurchase;
+@property int32_t gemsSpent;
+@property int32_t resourceChange;
+@property ResourceType resourceType;
 @end
 
 @implementation PurchaseNormStructureRequestProto
@@ -59,6 +62,27 @@ static PBExtensionRegistry* extensionRegistry = nil;
   hasTimeOfPurchase_ = !!value;
 }
 @synthesize timeOfPurchase;
+- (BOOL) hasGemsSpent {
+  return !!hasGemsSpent_;
+}
+- (void) setHasGemsSpent:(BOOL) value {
+  hasGemsSpent_ = !!value;
+}
+@synthesize gemsSpent;
+- (BOOL) hasResourceChange {
+  return !!hasResourceChange_;
+}
+- (void) setHasResourceChange:(BOOL) value {
+  hasResourceChange_ = !!value;
+}
+@synthesize resourceChange;
+- (BOOL) hasResourceType {
+  return !!hasResourceType_;
+}
+- (void) setHasResourceType:(BOOL) value {
+  hasResourceType_ = !!value;
+}
+@synthesize resourceType;
 - (void) dealloc {
   self.sender = nil;
   self.structCoordinates = nil;
@@ -70,6 +94,9 @@ static PBExtensionRegistry* extensionRegistry = nil;
     self.structCoordinates = [CoordinateProto defaultInstance];
     self.structId = 0;
     self.timeOfPurchase = 0L;
+    self.gemsSpent = 0;
+    self.resourceChange = 0;
+    self.resourceType = ResourceTypeCash;
   }
   return self;
 }
@@ -101,6 +128,15 @@ static PurchaseNormStructureRequestProto* defaultPurchaseNormStructureRequestPro
   if (self.hasTimeOfPurchase) {
     [output writeInt64:4 value:self.timeOfPurchase];
   }
+  if (self.hasGemsSpent) {
+    [output writeInt32:5 value:self.gemsSpent];
+  }
+  if (self.hasResourceChange) {
+    [output writeSInt32:6 value:self.resourceChange];
+  }
+  if (self.hasResourceType) {
+    [output writeEnum:7 value:self.resourceType];
+  }
   [self.unknownFields writeToCodedOutputStream:output];
 }
 - (int32_t) serializedSize {
@@ -121,6 +157,15 @@ static PurchaseNormStructureRequestProto* defaultPurchaseNormStructureRequestPro
   }
   if (self.hasTimeOfPurchase) {
     size += computeInt64Size(4, self.timeOfPurchase);
+  }
+  if (self.hasGemsSpent) {
+    size += computeInt32Size(5, self.gemsSpent);
+  }
+  if (self.hasResourceChange) {
+    size += computeSInt32Size(6, self.resourceChange);
+  }
+  if (self.hasResourceType) {
+    size += computeEnumSize(7, self.resourceType);
   }
   size += self.unknownFields.serializedSize;
   memoizedSerializedSize = size;
@@ -209,6 +254,15 @@ static PurchaseNormStructureRequestProto* defaultPurchaseNormStructureRequestPro
   if (other.hasTimeOfPurchase) {
     [self setTimeOfPurchase:other.timeOfPurchase];
   }
+  if (other.hasGemsSpent) {
+    [self setGemsSpent:other.gemsSpent];
+  }
+  if (other.hasResourceChange) {
+    [self setResourceChange:other.resourceChange];
+  }
+  if (other.hasResourceType) {
+    [self setResourceType:other.resourceType];
+  }
   [self mergeUnknownFields:other.unknownFields];
   return self;
 }
@@ -254,6 +308,23 @@ static PurchaseNormStructureRequestProto* defaultPurchaseNormStructureRequestPro
       }
       case 32: {
         [self setTimeOfPurchase:[input readInt64]];
+        break;
+      }
+      case 40: {
+        [self setGemsSpent:[input readInt32]];
+        break;
+      }
+      case 48: {
+        [self setResourceChange:[input readSInt32]];
+        break;
+      }
+      case 56: {
+        int32_t value = [input readEnum];
+        if (ResourceTypeIsValidValue(value)) {
+          [self setResourceType:value];
+        } else {
+          [unknownFields mergeVarintField:7 value:value];
+        }
         break;
       }
     }
@@ -349,6 +420,54 @@ static PurchaseNormStructureRequestProto* defaultPurchaseNormStructureRequestPro
 - (PurchaseNormStructureRequestProto_Builder*) clearTimeOfPurchase {
   result.hasTimeOfPurchase = NO;
   result.timeOfPurchase = 0L;
+  return self;
+}
+- (BOOL) hasGemsSpent {
+  return result.hasGemsSpent;
+}
+- (int32_t) gemsSpent {
+  return result.gemsSpent;
+}
+- (PurchaseNormStructureRequestProto_Builder*) setGemsSpent:(int32_t) value {
+  result.hasGemsSpent = YES;
+  result.gemsSpent = value;
+  return self;
+}
+- (PurchaseNormStructureRequestProto_Builder*) clearGemsSpent {
+  result.hasGemsSpent = NO;
+  result.gemsSpent = 0;
+  return self;
+}
+- (BOOL) hasResourceChange {
+  return result.hasResourceChange;
+}
+- (int32_t) resourceChange {
+  return result.resourceChange;
+}
+- (PurchaseNormStructureRequestProto_Builder*) setResourceChange:(int32_t) value {
+  result.hasResourceChange = YES;
+  result.resourceChange = value;
+  return self;
+}
+- (PurchaseNormStructureRequestProto_Builder*) clearResourceChange {
+  result.hasResourceChange = NO;
+  result.resourceChange = 0;
+  return self;
+}
+- (BOOL) hasResourceType {
+  return result.hasResourceType;
+}
+- (ResourceType) resourceType {
+  return result.resourceType;
+}
+- (PurchaseNormStructureRequestProto_Builder*) setResourceType:(ResourceType) value {
+  result.hasResourceType = YES;
+  result.resourceType = value;
+  return self;
+}
+- (PurchaseNormStructureRequestProto_Builder*) clearResourceType {
+  result.hasResourceType = NO;
+  result.resourceType = ResourceTypeCash;
   return self;
 }
 @end
@@ -475,9 +594,7 @@ BOOL PurchaseNormStructureResponseProto_PurchaseNormStructureStatusIsValidValue(
     case PurchaseNormStructureResponseProto_PurchaseNormStructureStatusSuccess:
     case PurchaseNormStructureResponseProto_PurchaseNormStructureStatusFailInsufficientCash:
     case PurchaseNormStructureResponseProto_PurchaseNormStructureStatusFailInsufficientGems:
-    case PurchaseNormStructureResponseProto_PurchaseNormStructureStatusFailLevelTooLow:
-    case PurchaseNormStructureResponseProto_PurchaseNormStructureStatusFailAnotherStructStillBuilding:
-    case PurchaseNormStructureResponseProto_PurchaseNormStructureStatusFailAlreadyHaveMaxOfThisStruct:
+    case PurchaseNormStructureResponseProto_PurchaseNormStructureStatusFailInsufficientOil:
     case PurchaseNormStructureResponseProto_PurchaseNormStructureStatusFailOther:
       return YES;
     default:
@@ -796,7 +913,6 @@ static MoveOrRotateNormStructureRequestProto* defaultMoveOrRotateNormStructureRe
 BOOL MoveOrRotateNormStructureRequestProto_MoveOrRotateNormStructTypeIsValidValue(MoveOrRotateNormStructureRequestProto_MoveOrRotateNormStructType value) {
   switch (value) {
     case MoveOrRotateNormStructureRequestProto_MoveOrRotateNormStructTypeMove:
-    case MoveOrRotateNormStructureRequestProto_MoveOrRotateNormStructTypeRotate:
       return YES;
     default:
       return NO;
@@ -1282,494 +1398,13 @@ BOOL MoveOrRotateNormStructureResponseProto_MoveOrRotateNormStructureStatusIsVal
 }
 @end
 
-@interface SellNormStructureRequestProto ()
-@property (retain) MinimumUserProto* sender;
-@property int32_t userStructId;
-@end
-
-@implementation SellNormStructureRequestProto
-
-- (BOOL) hasSender {
-  return !!hasSender_;
-}
-- (void) setHasSender:(BOOL) value {
-  hasSender_ = !!value;
-}
-@synthesize sender;
-- (BOOL) hasUserStructId {
-  return !!hasUserStructId_;
-}
-- (void) setHasUserStructId:(BOOL) value {
-  hasUserStructId_ = !!value;
-}
-@synthesize userStructId;
-- (void) dealloc {
-  self.sender = nil;
-  [super dealloc];
-}
-- (id) init {
-  if ((self = [super init])) {
-    self.sender = [MinimumUserProto defaultInstance];
-    self.userStructId = 0;
-  }
-  return self;
-}
-static SellNormStructureRequestProto* defaultSellNormStructureRequestProtoInstance = nil;
-+ (void) initialize {
-  if (self == [SellNormStructureRequestProto class]) {
-    defaultSellNormStructureRequestProtoInstance = [[SellNormStructureRequestProto alloc] init];
-  }
-}
-+ (SellNormStructureRequestProto*) defaultInstance {
-  return defaultSellNormStructureRequestProtoInstance;
-}
-- (SellNormStructureRequestProto*) defaultInstance {
-  return defaultSellNormStructureRequestProtoInstance;
-}
-- (BOOL) isInitialized {
-  return YES;
-}
-- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output {
-  if (self.hasSender) {
-    [output writeMessage:1 value:self.sender];
-  }
-  if (self.hasUserStructId) {
-    [output writeInt32:2 value:self.userStructId];
-  }
-  [self.unknownFields writeToCodedOutputStream:output];
-}
-- (int32_t) serializedSize {
-  int32_t size = memoizedSerializedSize;
-  if (size != -1) {
-    return size;
-  }
-
-  size = 0;
-  if (self.hasSender) {
-    size += computeMessageSize(1, self.sender);
-  }
-  if (self.hasUserStructId) {
-    size += computeInt32Size(2, self.userStructId);
-  }
-  size += self.unknownFields.serializedSize;
-  memoizedSerializedSize = size;
-  return size;
-}
-+ (SellNormStructureRequestProto*) parseFromData:(NSData*) data {
-  return (SellNormStructureRequestProto*)[[[SellNormStructureRequestProto builder] mergeFromData:data] build];
-}
-+ (SellNormStructureRequestProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
-  return (SellNormStructureRequestProto*)[[[SellNormStructureRequestProto builder] mergeFromData:data extensionRegistry:extensionRegistry] build];
-}
-+ (SellNormStructureRequestProto*) parseFromInputStream:(NSInputStream*) input {
-  return (SellNormStructureRequestProto*)[[[SellNormStructureRequestProto builder] mergeFromInputStream:input] build];
-}
-+ (SellNormStructureRequestProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
-  return (SellNormStructureRequestProto*)[[[SellNormStructureRequestProto builder] mergeFromInputStream:input extensionRegistry:extensionRegistry] build];
-}
-+ (SellNormStructureRequestProto*) parseFromCodedInputStream:(PBCodedInputStream*) input {
-  return (SellNormStructureRequestProto*)[[[SellNormStructureRequestProto builder] mergeFromCodedInputStream:input] build];
-}
-+ (SellNormStructureRequestProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
-  return (SellNormStructureRequestProto*)[[[SellNormStructureRequestProto builder] mergeFromCodedInputStream:input extensionRegistry:extensionRegistry] build];
-}
-+ (SellNormStructureRequestProto_Builder*) builder {
-  return [[[SellNormStructureRequestProto_Builder alloc] init] autorelease];
-}
-+ (SellNormStructureRequestProto_Builder*) builderWithPrototype:(SellNormStructureRequestProto*) prototype {
-  return [[SellNormStructureRequestProto builder] mergeFrom:prototype];
-}
-- (SellNormStructureRequestProto_Builder*) builder {
-  return [SellNormStructureRequestProto builder];
-}
-@end
-
-@interface SellNormStructureRequestProto_Builder()
-@property (retain) SellNormStructureRequestProto* result;
-@end
-
-@implementation SellNormStructureRequestProto_Builder
-@synthesize result;
-- (void) dealloc {
-  self.result = nil;
-  [super dealloc];
-}
-- (id) init {
-  if ((self = [super init])) {
-    self.result = [[[SellNormStructureRequestProto alloc] init] autorelease];
-  }
-  return self;
-}
-- (PBGeneratedMessage*) internalGetResult {
-  return result;
-}
-- (SellNormStructureRequestProto_Builder*) clear {
-  self.result = [[[SellNormStructureRequestProto alloc] init] autorelease];
-  return self;
-}
-- (SellNormStructureRequestProto_Builder*) clone {
-  return [SellNormStructureRequestProto builderWithPrototype:result];
-}
-- (SellNormStructureRequestProto*) defaultInstance {
-  return [SellNormStructureRequestProto defaultInstance];
-}
-- (SellNormStructureRequestProto*) build {
-  [self checkInitialized];
-  return [self buildPartial];
-}
-- (SellNormStructureRequestProto*) buildPartial {
-  SellNormStructureRequestProto* returnMe = [[result retain] autorelease];
-  self.result = nil;
-  return returnMe;
-}
-- (SellNormStructureRequestProto_Builder*) mergeFrom:(SellNormStructureRequestProto*) other {
-  if (other == [SellNormStructureRequestProto defaultInstance]) {
-    return self;
-  }
-  if (other.hasSender) {
-    [self mergeSender:other.sender];
-  }
-  if (other.hasUserStructId) {
-    [self setUserStructId:other.userStructId];
-  }
-  [self mergeUnknownFields:other.unknownFields];
-  return self;
-}
-- (SellNormStructureRequestProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input {
-  return [self mergeFromCodedInputStream:input extensionRegistry:[PBExtensionRegistry emptyRegistry]];
-}
-- (SellNormStructureRequestProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
-  PBUnknownFieldSet_Builder* unknownFields = [PBUnknownFieldSet builderWithUnknownFields:self.unknownFields];
-  while (YES) {
-    int32_t tag = [input readTag];
-    switch (tag) {
-      case 0:
-        [self setUnknownFields:[unknownFields build]];
-        return self;
-      default: {
-        if (![self parseUnknownField:input unknownFields:unknownFields extensionRegistry:extensionRegistry tag:tag]) {
-          [self setUnknownFields:[unknownFields build]];
-          return self;
-        }
-        break;
-      }
-      case 10: {
-        MinimumUserProto_Builder* subBuilder = [MinimumUserProto builder];
-        if (self.hasSender) {
-          [subBuilder mergeFrom:self.sender];
-        }
-        [input readMessage:subBuilder extensionRegistry:extensionRegistry];
-        [self setSender:[subBuilder buildPartial]];
-        break;
-      }
-      case 16: {
-        [self setUserStructId:[input readInt32]];
-        break;
-      }
-    }
-  }
-}
-- (BOOL) hasSender {
-  return result.hasSender;
-}
-- (MinimumUserProto*) sender {
-  return result.sender;
-}
-- (SellNormStructureRequestProto_Builder*) setSender:(MinimumUserProto*) value {
-  result.hasSender = YES;
-  result.sender = value;
-  return self;
-}
-- (SellNormStructureRequestProto_Builder*) setSenderBuilder:(MinimumUserProto_Builder*) builderForValue {
-  return [self setSender:[builderForValue build]];
-}
-- (SellNormStructureRequestProto_Builder*) mergeSender:(MinimumUserProto*) value {
-  if (result.hasSender &&
-      result.sender != [MinimumUserProto defaultInstance]) {
-    result.sender =
-      [[[MinimumUserProto builderWithPrototype:result.sender] mergeFrom:value] buildPartial];
-  } else {
-    result.sender = value;
-  }
-  result.hasSender = YES;
-  return self;
-}
-- (SellNormStructureRequestProto_Builder*) clearSender {
-  result.hasSender = NO;
-  result.sender = [MinimumUserProto defaultInstance];
-  return self;
-}
-- (BOOL) hasUserStructId {
-  return result.hasUserStructId;
-}
-- (int32_t) userStructId {
-  return result.userStructId;
-}
-- (SellNormStructureRequestProto_Builder*) setUserStructId:(int32_t) value {
-  result.hasUserStructId = YES;
-  result.userStructId = value;
-  return self;
-}
-- (SellNormStructureRequestProto_Builder*) clearUserStructId {
-  result.hasUserStructId = NO;
-  result.userStructId = 0;
-  return self;
-}
-@end
-
-@interface SellNormStructureResponseProto ()
-@property (retain) MinimumUserProto* sender;
-@property SellNormStructureResponseProto_SellNormStructureStatus status;
-@end
-
-@implementation SellNormStructureResponseProto
-
-- (BOOL) hasSender {
-  return !!hasSender_;
-}
-- (void) setHasSender:(BOOL) value {
-  hasSender_ = !!value;
-}
-@synthesize sender;
-- (BOOL) hasStatus {
-  return !!hasStatus_;
-}
-- (void) setHasStatus:(BOOL) value {
-  hasStatus_ = !!value;
-}
-@synthesize status;
-- (void) dealloc {
-  self.sender = nil;
-  [super dealloc];
-}
-- (id) init {
-  if ((self = [super init])) {
-    self.sender = [MinimumUserProto defaultInstance];
-    self.status = SellNormStructureResponseProto_SellNormStructureStatusSuccess;
-  }
-  return self;
-}
-static SellNormStructureResponseProto* defaultSellNormStructureResponseProtoInstance = nil;
-+ (void) initialize {
-  if (self == [SellNormStructureResponseProto class]) {
-    defaultSellNormStructureResponseProtoInstance = [[SellNormStructureResponseProto alloc] init];
-  }
-}
-+ (SellNormStructureResponseProto*) defaultInstance {
-  return defaultSellNormStructureResponseProtoInstance;
-}
-- (SellNormStructureResponseProto*) defaultInstance {
-  return defaultSellNormStructureResponseProtoInstance;
-}
-- (BOOL) isInitialized {
-  return YES;
-}
-- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output {
-  if (self.hasSender) {
-    [output writeMessage:1 value:self.sender];
-  }
-  if (self.hasStatus) {
-    [output writeEnum:2 value:self.status];
-  }
-  [self.unknownFields writeToCodedOutputStream:output];
-}
-- (int32_t) serializedSize {
-  int32_t size = memoizedSerializedSize;
-  if (size != -1) {
-    return size;
-  }
-
-  size = 0;
-  if (self.hasSender) {
-    size += computeMessageSize(1, self.sender);
-  }
-  if (self.hasStatus) {
-    size += computeEnumSize(2, self.status);
-  }
-  size += self.unknownFields.serializedSize;
-  memoizedSerializedSize = size;
-  return size;
-}
-+ (SellNormStructureResponseProto*) parseFromData:(NSData*) data {
-  return (SellNormStructureResponseProto*)[[[SellNormStructureResponseProto builder] mergeFromData:data] build];
-}
-+ (SellNormStructureResponseProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
-  return (SellNormStructureResponseProto*)[[[SellNormStructureResponseProto builder] mergeFromData:data extensionRegistry:extensionRegistry] build];
-}
-+ (SellNormStructureResponseProto*) parseFromInputStream:(NSInputStream*) input {
-  return (SellNormStructureResponseProto*)[[[SellNormStructureResponseProto builder] mergeFromInputStream:input] build];
-}
-+ (SellNormStructureResponseProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
-  return (SellNormStructureResponseProto*)[[[SellNormStructureResponseProto builder] mergeFromInputStream:input extensionRegistry:extensionRegistry] build];
-}
-+ (SellNormStructureResponseProto*) parseFromCodedInputStream:(PBCodedInputStream*) input {
-  return (SellNormStructureResponseProto*)[[[SellNormStructureResponseProto builder] mergeFromCodedInputStream:input] build];
-}
-+ (SellNormStructureResponseProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
-  return (SellNormStructureResponseProto*)[[[SellNormStructureResponseProto builder] mergeFromCodedInputStream:input extensionRegistry:extensionRegistry] build];
-}
-+ (SellNormStructureResponseProto_Builder*) builder {
-  return [[[SellNormStructureResponseProto_Builder alloc] init] autorelease];
-}
-+ (SellNormStructureResponseProto_Builder*) builderWithPrototype:(SellNormStructureResponseProto*) prototype {
-  return [[SellNormStructureResponseProto builder] mergeFrom:prototype];
-}
-- (SellNormStructureResponseProto_Builder*) builder {
-  return [SellNormStructureResponseProto builder];
-}
-@end
-
-BOOL SellNormStructureResponseProto_SellNormStructureStatusIsValidValue(SellNormStructureResponseProto_SellNormStructureStatus value) {
-  switch (value) {
-    case SellNormStructureResponseProto_SellNormStructureStatusSuccess:
-    case SellNormStructureResponseProto_SellNormStructureStatusFail:
-      return YES;
-    default:
-      return NO;
-  }
-}
-@interface SellNormStructureResponseProto_Builder()
-@property (retain) SellNormStructureResponseProto* result;
-@end
-
-@implementation SellNormStructureResponseProto_Builder
-@synthesize result;
-- (void) dealloc {
-  self.result = nil;
-  [super dealloc];
-}
-- (id) init {
-  if ((self = [super init])) {
-    self.result = [[[SellNormStructureResponseProto alloc] init] autorelease];
-  }
-  return self;
-}
-- (PBGeneratedMessage*) internalGetResult {
-  return result;
-}
-- (SellNormStructureResponseProto_Builder*) clear {
-  self.result = [[[SellNormStructureResponseProto alloc] init] autorelease];
-  return self;
-}
-- (SellNormStructureResponseProto_Builder*) clone {
-  return [SellNormStructureResponseProto builderWithPrototype:result];
-}
-- (SellNormStructureResponseProto*) defaultInstance {
-  return [SellNormStructureResponseProto defaultInstance];
-}
-- (SellNormStructureResponseProto*) build {
-  [self checkInitialized];
-  return [self buildPartial];
-}
-- (SellNormStructureResponseProto*) buildPartial {
-  SellNormStructureResponseProto* returnMe = [[result retain] autorelease];
-  self.result = nil;
-  return returnMe;
-}
-- (SellNormStructureResponseProto_Builder*) mergeFrom:(SellNormStructureResponseProto*) other {
-  if (other == [SellNormStructureResponseProto defaultInstance]) {
-    return self;
-  }
-  if (other.hasSender) {
-    [self mergeSender:other.sender];
-  }
-  if (other.hasStatus) {
-    [self setStatus:other.status];
-  }
-  [self mergeUnknownFields:other.unknownFields];
-  return self;
-}
-- (SellNormStructureResponseProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input {
-  return [self mergeFromCodedInputStream:input extensionRegistry:[PBExtensionRegistry emptyRegistry]];
-}
-- (SellNormStructureResponseProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
-  PBUnknownFieldSet_Builder* unknownFields = [PBUnknownFieldSet builderWithUnknownFields:self.unknownFields];
-  while (YES) {
-    int32_t tag = [input readTag];
-    switch (tag) {
-      case 0:
-        [self setUnknownFields:[unknownFields build]];
-        return self;
-      default: {
-        if (![self parseUnknownField:input unknownFields:unknownFields extensionRegistry:extensionRegistry tag:tag]) {
-          [self setUnknownFields:[unknownFields build]];
-          return self;
-        }
-        break;
-      }
-      case 10: {
-        MinimumUserProto_Builder* subBuilder = [MinimumUserProto builder];
-        if (self.hasSender) {
-          [subBuilder mergeFrom:self.sender];
-        }
-        [input readMessage:subBuilder extensionRegistry:extensionRegistry];
-        [self setSender:[subBuilder buildPartial]];
-        break;
-      }
-      case 16: {
-        int32_t value = [input readEnum];
-        if (SellNormStructureResponseProto_SellNormStructureStatusIsValidValue(value)) {
-          [self setStatus:value];
-        } else {
-          [unknownFields mergeVarintField:2 value:value];
-        }
-        break;
-      }
-    }
-  }
-}
-- (BOOL) hasSender {
-  return result.hasSender;
-}
-- (MinimumUserProto*) sender {
-  return result.sender;
-}
-- (SellNormStructureResponseProto_Builder*) setSender:(MinimumUserProto*) value {
-  result.hasSender = YES;
-  result.sender = value;
-  return self;
-}
-- (SellNormStructureResponseProto_Builder*) setSenderBuilder:(MinimumUserProto_Builder*) builderForValue {
-  return [self setSender:[builderForValue build]];
-}
-- (SellNormStructureResponseProto_Builder*) mergeSender:(MinimumUserProto*) value {
-  if (result.hasSender &&
-      result.sender != [MinimumUserProto defaultInstance]) {
-    result.sender =
-      [[[MinimumUserProto builderWithPrototype:result.sender] mergeFrom:value] buildPartial];
-  } else {
-    result.sender = value;
-  }
-  result.hasSender = YES;
-  return self;
-}
-- (SellNormStructureResponseProto_Builder*) clearSender {
-  result.hasSender = NO;
-  result.sender = [MinimumUserProto defaultInstance];
-  return self;
-}
-- (BOOL) hasStatus {
-  return result.hasStatus;
-}
-- (SellNormStructureResponseProto_SellNormStructureStatus) status {
-  return result.status;
-}
-- (SellNormStructureResponseProto_Builder*) setStatus:(SellNormStructureResponseProto_SellNormStructureStatus) value {
-  result.hasStatus = YES;
-  result.status = value;
-  return self;
-}
-- (SellNormStructureResponseProto_Builder*) clearStatus {
-  result.hasStatus = NO;
-  result.status = SellNormStructureResponseProto_SellNormStructureStatusSuccess;
-  return self;
-}
-@end
-
 @interface UpgradeNormStructureRequestProto ()
 @property (retain) MinimumUserProto* sender;
 @property int32_t userStructId;
 @property int64_t timeOfUpgrade;
+@property int32_t gemsSpent;
+@property int32_t resourceChange;
+@property ResourceType resourceType;
 @end
 
 @implementation UpgradeNormStructureRequestProto
@@ -1795,6 +1430,27 @@ BOOL SellNormStructureResponseProto_SellNormStructureStatusIsValidValue(SellNorm
   hasTimeOfUpgrade_ = !!value;
 }
 @synthesize timeOfUpgrade;
+- (BOOL) hasGemsSpent {
+  return !!hasGemsSpent_;
+}
+- (void) setHasGemsSpent:(BOOL) value {
+  hasGemsSpent_ = !!value;
+}
+@synthesize gemsSpent;
+- (BOOL) hasResourceChange {
+  return !!hasResourceChange_;
+}
+- (void) setHasResourceChange:(BOOL) value {
+  hasResourceChange_ = !!value;
+}
+@synthesize resourceChange;
+- (BOOL) hasResourceType {
+  return !!hasResourceType_;
+}
+- (void) setHasResourceType:(BOOL) value {
+  hasResourceType_ = !!value;
+}
+@synthesize resourceType;
 - (void) dealloc {
   self.sender = nil;
   [super dealloc];
@@ -1804,6 +1460,9 @@ BOOL SellNormStructureResponseProto_SellNormStructureStatusIsValidValue(SellNorm
     self.sender = [MinimumUserProto defaultInstance];
     self.userStructId = 0;
     self.timeOfUpgrade = 0L;
+    self.gemsSpent = 0;
+    self.resourceChange = 0;
+    self.resourceType = ResourceTypeCash;
   }
   return self;
 }
@@ -1832,6 +1491,15 @@ static UpgradeNormStructureRequestProto* defaultUpgradeNormStructureRequestProto
   if (self.hasTimeOfUpgrade) {
     [output writeInt64:3 value:self.timeOfUpgrade];
   }
+  if (self.hasGemsSpent) {
+    [output writeInt32:4 value:self.gemsSpent];
+  }
+  if (self.hasResourceChange) {
+    [output writeSInt32:5 value:self.resourceChange];
+  }
+  if (self.hasResourceType) {
+    [output writeEnum:6 value:self.resourceType];
+  }
   [self.unknownFields writeToCodedOutputStream:output];
 }
 - (int32_t) serializedSize {
@@ -1849,6 +1517,15 @@ static UpgradeNormStructureRequestProto* defaultUpgradeNormStructureRequestProto
   }
   if (self.hasTimeOfUpgrade) {
     size += computeInt64Size(3, self.timeOfUpgrade);
+  }
+  if (self.hasGemsSpent) {
+    size += computeInt32Size(4, self.gemsSpent);
+  }
+  if (self.hasResourceChange) {
+    size += computeSInt32Size(5, self.resourceChange);
+  }
+  if (self.hasResourceType) {
+    size += computeEnumSize(6, self.resourceType);
   }
   size += self.unknownFields.serializedSize;
   memoizedSerializedSize = size;
@@ -1934,6 +1611,15 @@ static UpgradeNormStructureRequestProto* defaultUpgradeNormStructureRequestProto
   if (other.hasTimeOfUpgrade) {
     [self setTimeOfUpgrade:other.timeOfUpgrade];
   }
+  if (other.hasGemsSpent) {
+    [self setGemsSpent:other.gemsSpent];
+  }
+  if (other.hasResourceChange) {
+    [self setResourceChange:other.resourceChange];
+  }
+  if (other.hasResourceType) {
+    [self setResourceType:other.resourceType];
+  }
   [self mergeUnknownFields:other.unknownFields];
   return self;
 }
@@ -1970,6 +1656,23 @@ static UpgradeNormStructureRequestProto* defaultUpgradeNormStructureRequestProto
       }
       case 24: {
         [self setTimeOfUpgrade:[input readInt64]];
+        break;
+      }
+      case 32: {
+        [self setGemsSpent:[input readInt32]];
+        break;
+      }
+      case 40: {
+        [self setResourceChange:[input readSInt32]];
+        break;
+      }
+      case 48: {
+        int32_t value = [input readEnum];
+        if (ResourceTypeIsValidValue(value)) {
+          [self setResourceType:value];
+        } else {
+          [unknownFields mergeVarintField:6 value:value];
+        }
         break;
       }
     }
@@ -2035,6 +1738,54 @@ static UpgradeNormStructureRequestProto* defaultUpgradeNormStructureRequestProto
 - (UpgradeNormStructureRequestProto_Builder*) clearTimeOfUpgrade {
   result.hasTimeOfUpgrade = NO;
   result.timeOfUpgrade = 0L;
+  return self;
+}
+- (BOOL) hasGemsSpent {
+  return result.hasGemsSpent;
+}
+- (int32_t) gemsSpent {
+  return result.gemsSpent;
+}
+- (UpgradeNormStructureRequestProto_Builder*) setGemsSpent:(int32_t) value {
+  result.hasGemsSpent = YES;
+  result.gemsSpent = value;
+  return self;
+}
+- (UpgradeNormStructureRequestProto_Builder*) clearGemsSpent {
+  result.hasGemsSpent = NO;
+  result.gemsSpent = 0;
+  return self;
+}
+- (BOOL) hasResourceChange {
+  return result.hasResourceChange;
+}
+- (int32_t) resourceChange {
+  return result.resourceChange;
+}
+- (UpgradeNormStructureRequestProto_Builder*) setResourceChange:(int32_t) value {
+  result.hasResourceChange = YES;
+  result.resourceChange = value;
+  return self;
+}
+- (UpgradeNormStructureRequestProto_Builder*) clearResourceChange {
+  result.hasResourceChange = NO;
+  result.resourceChange = 0;
+  return self;
+}
+- (BOOL) hasResourceType {
+  return result.hasResourceType;
+}
+- (ResourceType) resourceType {
+  return result.resourceType;
+}
+- (UpgradeNormStructureRequestProto_Builder*) setResourceType:(ResourceType) value {
+  result.hasResourceType = YES;
+  result.resourceType = value;
+  return self;
+}
+- (UpgradeNormStructureRequestProto_Builder*) clearResourceType {
+  result.hasResourceType = NO;
+  result.resourceType = ResourceTypeCash;
   return self;
 }
 @end
@@ -2146,9 +1897,9 @@ BOOL UpgradeNormStructureResponseProto_UpgradeNormStructureStatusIsValidValue(Up
     case UpgradeNormStructureResponseProto_UpgradeNormStructureStatusSuccess:
     case UpgradeNormStructureResponseProto_UpgradeNormStructureStatusFailNotEnoughCash:
     case UpgradeNormStructureResponseProto_UpgradeNormStructureStatusFailNotEnoughGems:
+    case UpgradeNormStructureResponseProto_UpgradeNormStructureStatusFailNotEnoughOil:
     case UpgradeNormStructureResponseProto_UpgradeNormStructureStatusFailNotBuiltYet:
     case UpgradeNormStructureResponseProto_UpgradeNormStructureStatusFailNotUsersStruct:
-    case UpgradeNormStructureResponseProto_UpgradeNormStructureStatusFailAnotherStructStillUpgrading:
     case UpgradeNormStructureResponseProto_UpgradeNormStructureStatusFailAtMaxLevelAlready:
     case UpgradeNormStructureResponseProto_UpgradeNormStructureStatusFailOther:
       return YES;
@@ -3565,6 +3316,7 @@ static RetrieveCurrencyFromNormStructureRequestProto* defaultRetrieveCurrencyFro
 @interface RetrieveCurrencyFromNormStructureRequestProto_StructRetrieval ()
 @property int32_t userStructId;
 @property int64_t timeOfRetrieval;
+@property int32_t amountCollected;
 @end
 
 @implementation RetrieveCurrencyFromNormStructureRequestProto_StructRetrieval
@@ -3583,6 +3335,13 @@ static RetrieveCurrencyFromNormStructureRequestProto* defaultRetrieveCurrencyFro
   hasTimeOfRetrieval_ = !!value;
 }
 @synthesize timeOfRetrieval;
+- (BOOL) hasAmountCollected {
+  return !!hasAmountCollected_;
+}
+- (void) setHasAmountCollected:(BOOL) value {
+  hasAmountCollected_ = !!value;
+}
+@synthesize amountCollected;
 - (void) dealloc {
   [super dealloc];
 }
@@ -3590,6 +3349,7 @@ static RetrieveCurrencyFromNormStructureRequestProto* defaultRetrieveCurrencyFro
   if ((self = [super init])) {
     self.userStructId = 0;
     self.timeOfRetrieval = 0L;
+    self.amountCollected = 0;
   }
   return self;
 }
@@ -3615,6 +3375,9 @@ static RetrieveCurrencyFromNormStructureRequestProto_StructRetrieval* defaultRet
   if (self.hasTimeOfRetrieval) {
     [output writeInt64:2 value:self.timeOfRetrieval];
   }
+  if (self.hasAmountCollected) {
+    [output writeInt32:3 value:self.amountCollected];
+  }
   [self.unknownFields writeToCodedOutputStream:output];
 }
 - (int32_t) serializedSize {
@@ -3629,6 +3392,9 @@ static RetrieveCurrencyFromNormStructureRequestProto_StructRetrieval* defaultRet
   }
   if (self.hasTimeOfRetrieval) {
     size += computeInt64Size(2, self.timeOfRetrieval);
+  }
+  if (self.hasAmountCollected) {
+    size += computeInt32Size(3, self.amountCollected);
   }
   size += self.unknownFields.serializedSize;
   memoizedSerializedSize = size;
@@ -3711,6 +3477,9 @@ static RetrieveCurrencyFromNormStructureRequestProto_StructRetrieval* defaultRet
   if (other.hasTimeOfRetrieval) {
     [self setTimeOfRetrieval:other.timeOfRetrieval];
   }
+  if (other.hasAmountCollected) {
+    [self setAmountCollected:other.amountCollected];
+  }
   [self mergeUnknownFields:other.unknownFields];
   return self;
 }
@@ -3738,6 +3507,10 @@ static RetrieveCurrencyFromNormStructureRequestProto_StructRetrieval* defaultRet
       }
       case 16: {
         [self setTimeOfRetrieval:[input readInt64]];
+        break;
+      }
+      case 24: {
+        [self setAmountCollected:[input readInt32]];
         break;
       }
     }
@@ -3773,6 +3546,22 @@ static RetrieveCurrencyFromNormStructureRequestProto_StructRetrieval* defaultRet
 - (RetrieveCurrencyFromNormStructureRequestProto_StructRetrieval_Builder*) clearTimeOfRetrieval {
   result.hasTimeOfRetrieval = NO;
   result.timeOfRetrieval = 0L;
+  return self;
+}
+- (BOOL) hasAmountCollected {
+  return result.hasAmountCollected;
+}
+- (int32_t) amountCollected {
+  return result.amountCollected;
+}
+- (RetrieveCurrencyFromNormStructureRequestProto_StructRetrieval_Builder*) setAmountCollected:(int32_t) value {
+  result.hasAmountCollected = YES;
+  result.amountCollected = value;
+  return self;
+}
+- (RetrieveCurrencyFromNormStructureRequestProto_StructRetrieval_Builder*) clearAmountCollected {
+  result.hasAmountCollected = NO;
+  result.amountCollected = 0;
   return self;
 }
 @end
@@ -3956,7 +3745,7 @@ static RetrieveCurrencyFromNormStructureRequestProto_StructRetrieval* defaultRet
 - (id) init {
   if ((self = [super init])) {
     self.sender = [MinimumUserProto defaultInstance];
-    self.status = RetrieveCurrencyFromNormStructureResponseProto_RetrieveCurrencyFromNormStructureStatusOtherFail;
+    self.status = RetrieveCurrencyFromNormStructureResponseProto_RetrieveCurrencyFromNormStructureStatusSuccess;
   }
   return self;
 }
@@ -4032,10 +3821,8 @@ static RetrieveCurrencyFromNormStructureResponseProto* defaultRetrieveCurrencyFr
 
 BOOL RetrieveCurrencyFromNormStructureResponseProto_RetrieveCurrencyFromNormStructureStatusIsValidValue(RetrieveCurrencyFromNormStructureResponseProto_RetrieveCurrencyFromNormStructureStatus value) {
   switch (value) {
-    case RetrieveCurrencyFromNormStructureResponseProto_RetrieveCurrencyFromNormStructureStatusOtherFail:
     case RetrieveCurrencyFromNormStructureResponseProto_RetrieveCurrencyFromNormStructureStatusSuccess:
-    case RetrieveCurrencyFromNormStructureResponseProto_RetrieveCurrencyFromNormStructureStatusClientTooApartFromServerTime:
-    case RetrieveCurrencyFromNormStructureResponseProto_RetrieveCurrencyFromNormStructureStatusNotLongEnough:
+    case RetrieveCurrencyFromNormStructureResponseProto_RetrieveCurrencyFromNormStructureStatusFailOther:
       return YES;
     default:
       return NO;
@@ -4174,7 +3961,7 @@ BOOL RetrieveCurrencyFromNormStructureResponseProto_RetrieveCurrencyFromNormStru
 }
 - (RetrieveCurrencyFromNormStructureResponseProto_Builder*) clearStatus {
   result.hasStatus = NO;
-  result.status = RetrieveCurrencyFromNormStructureResponseProto_RetrieveCurrencyFromNormStructureStatusOtherFail;
+  result.status = RetrieveCurrencyFromNormStructureResponseProto_RetrieveCurrencyFromNormStructureStatusSuccess;
   return self;
 }
 @end

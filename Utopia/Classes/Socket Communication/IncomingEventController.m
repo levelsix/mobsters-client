@@ -68,9 +68,6 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
     case EventProtocolResponseSRetrieveCurrencyFromNormStructureEvent:
       responseClass = [RetrieveCurrencyFromNormStructureResponseProto class];
       break;
-    case EventProtocolResponseSSellNormStructureEvent:
-      responseClass = [SellNormStructureResponseProto class];
-      break;
     case EventProtocolResponseSLoadPlayerCityEvent:
       responseClass = [LoadPlayerCityResponseProto class];
       break;
@@ -275,10 +272,10 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
     [gs.myQuests removeAllObjects];
     [gs addToMyQuests:proto.userQuestsList];
     
-    [gs.requestsFromFriends removeAllObjects];
+    [gs.fbUnacceptedRequestsFromFriends removeAllObjects];
+    [gs.fbAcceptedRequestsFromMe removeAllObjects];
     [gs addInventorySlotsRequests:proto.invitesToMeForSlotsList];
-    [gs.usersUsedForExtraSlots removeAllObjects];
-    [gs addUsersUsedForExtraSlots:proto.usersUsedForExtraSlotsList];
+    [gs addInventorySlotsRequests:proto.invitesFromMeForSlotsList];
     
     [gs addToRequestedClans:proto.userClanInfoList];
     
@@ -344,7 +341,6 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
   
   GameState *gs = [GameState sharedGameState];
   if (proto.status == LevelUpResponseProto_LevelUpStatusSuccess) {
-    [gs addToStaticStructs:proto.newlyAvailableStructsList];
     [gs removeNonFullUserUpdatesForTag:tag];
   } else {
     [Globals popupMessage:@"Server failed to handle level up"];
@@ -463,7 +459,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
     [Globals popupMessage:@"Server failed to upgrade building."];
     [gs removeAndUndoAllUpdatesForTag:tag];
   } else {
-      [gs removeNonFullUserUpdatesForTag:tag];
+    [gs removeNonFullUserUpdatesForTag:tag];
   }
 }
 
@@ -505,30 +501,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
   
   GameState *gs = [GameState sharedGameState];
   if (proto.status != RetrieveCurrencyFromNormStructureResponseProto_RetrieveCurrencyFromNormStructureStatusSuccess) {
-    if (proto.status == RetrieveCurrencyFromNormStructureResponseProto_RetrieveCurrencyFromNormStructureStatusClientTooApartFromServerTime) {
-      [self handleTimeOutOfSync];
-    } else {
-      [Globals popupMessage:@"Server failed to retrieve from normal structure."];
-    }
-    [gs removeAndUndoAllUpdatesForTag:tag];
-  } else {
-    if (proto.status == RetrieveCurrencyFromNormStructureResponseProto_RetrieveCurrencyFromNormStructureStatusClientTooApartFromServerTime) {
-      [self handleTimeOutOfSync];
-    } else {
-      [gs removeNonFullUserUpdatesForTag:tag];
-    }
-  }
-}
-
-- (void) handleSellNormStructureResponseProto:(FullEvent *)fe {
-  SellNormStructureResponseProto *proto = (SellNormStructureResponseProto *)fe.event;
-  int tag = fe.tag;
-  
-  LNLog(@"Sell norm struct response received with status %d.", proto.status);
-  
-  GameState *gs = [GameState sharedGameState];
-  if (proto.status != SellNormStructureResponseProto_SellNormStructureStatusSuccess) {
-    [Globals popupMessage:@"Server failed to sell normal structure."];
+    [Globals popupMessage:@"Server failed to retrieve from normal structure."];
     [gs removeAndUndoAllUpdatesForTag:tag];
   } else {
     [gs removeNonFullUserUpdatesForTag:tag];
@@ -1048,7 +1021,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
     
     [gs removeNonFullUserUpdatesForTag:tag];
   } else {
-      [Globals popupMessage:@"Server failed to purchase booster pack."];
+    [Globals popupMessage:@"Server failed to purchase booster pack."];
     
     [gs removeAndUndoAllUpdatesForTag:tag];
   }
@@ -1249,6 +1222,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
   
   GameState *gs = [GameState sharedGameState];
   if (proto.status == InviteFbFriendsForSlotsResponseProto_InviteFbFriendsForSlotsStatusSuccess) {
+    [gs addInventorySlotsRequests:proto.invitesNewList];
     [gs removeNonFullUserUpdatesForTag:tag];
   } else {
     [Globals popupMessage:@"Server failed to invite fb friends for slots."];
@@ -1264,6 +1238,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
   
   GameState *gs = [GameState sharedGameState];
   if (proto.status == AcceptAndRejectFbInviteForSlotsResponseProto_AcceptAndRejectFbInviteForSlotsStatusSuccess) {
+    [gs addInventorySlotsRequests:proto.acceptedInvitesList];
     [gs removeNonFullUserUpdatesForTag:tag];
   } else {
     if (proto.status == AcceptAndRejectFbInviteForSlotsResponseProto_AcceptAndRejectFbInviteForSlotsStatusFailAlreadyBeenUsed ||

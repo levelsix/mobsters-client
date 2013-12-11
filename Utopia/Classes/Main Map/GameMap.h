@@ -44,7 +44,7 @@
 
 @end
 
-@interface GameMap : CCTMXTiledMap {
+@interface GameMap : CCTMXTiledMap <UIGestureRecognizerDelegate> {
   NSMutableArray *_mapSprites;
   NSMutableArray *_walkableData;
   

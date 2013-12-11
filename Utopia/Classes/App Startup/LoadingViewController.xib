@@ -2,12 +2,12 @@
 <document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="4514" systemVersion="12F45" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none">
     <dependencies>
         <deployment defaultVersion="1536" identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="3746"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="3747"/>
     </dependencies>
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="LoadingViewController">
             <connections>
-                <outlet property="loadingBar" destination="nst-AC-yLl" id="3kl-kH-7pD"/>
+                <outlet property="loadingBar" destination="iTA-uJ-GBq" id="OHq-Po-TGU"/>
                 <outlet property="view" destination="1" id="3"/>
             </connections>
         </placeholder>
@@ -17,23 +17,42 @@
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
                 <view contentMode="scaleToFill" id="tTS-5k-cLx">
-                    <rect key="frame" x="44" y="0.0" width="480" height="320"/>
+                    <rect key="frame" x="0.0" y="0.0" width="568" height="320"/>
                     <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
                     <subviews>
-                        <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="ageofchaos.png" id="Qs9-NY-F7a">
-                            <rect key="frame" x="0.0" y="0.0" width="480" height="320"/>
-                            <autoresizingMask key="autoresizingMask"/>
-                        </imageView>
-                        <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="loadingbar.png" id="nst-AC-yLl" customClass="ProgressBar">
-                            <rect key="frame" x="141" y="241" width="199" height="12"/>
+                        <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="loadingbg.png" id="c66-YF-i0j">
+                            <rect key="frame" x="0.0" y="0.0" width="568" height="320"/>
                             <autoresizingMask key="autoresizingMask"/>
                         </imageView>
                         <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Loading..." textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="Eoi-bO-HcR" customClass="NiceFontLabel">
-                            <rect key="frame" x="202" y="236" width="77" height="21"/>
+                            <rect key="frame" x="232" y="230" width="104" height="21"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                            <fontDescription key="fontDescription" type="system" pointSize="11"/>
+                            <fontDescription key="fontDescription" type="system" pointSize="14"/>
                             <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="calibratedRGB"/>
                             <nil key="highlightedColor"/>
+                            <color key="shadowColor" white="0.0" alpha="0.80000000000000004" colorSpace="calibratedWhite"/>
+                            <size key="shadowOffset" width="0.0" height="1"/>
+                        </label>
+                        <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="tipbg.png" id="Mho-EV-F3J">
+                            <rect key="frame" x="53" y="288" width="463" height="32"/>
+                            <autoresizingMask key="autoresizingMask"/>
+                        </imageView>
+                        <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="loadingbarbg.png" id="1Eg-wx-4UR">
+                            <rect key="frame" x="216" y="259" width="137" height="15"/>
+                            <autoresizingMask key="autoresizingMask"/>
+                        </imageView>
+                        <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="loadingbar.png" id="iTA-uJ-GBq" customClass="ProgressBar">
+                            <rect key="frame" x="217" y="260" width="135" height="13"/>
+                            <autoresizingMask key="autoresizingMask"/>
+                        </imageView>
+                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Tip: Never let your carpenter go idle, always be building a bigger &amp; better city" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" id="RjH-55-5J6" customClass="NiceFontLabel5">
+                            <rect key="frame" x="62" y="293" width="445" height="21"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <fontDescription key="fontDescription" type="system" pointSize="13"/>
+                            <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="calibratedRGB"/>
+                            <nil key="highlightedColor"/>
+                            <color key="shadowColor" white="0.0" alpha="0.80000000000000004" colorSpace="calibratedWhite"/>
+                            <size key="shadowOffset" width="0.0" height="1"/>
                         </label>
                     </subviews>
                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
@@ -45,7 +64,9 @@
         </view>
     </objects>
     <resources>
-        <image name="ageofchaos.png" width="480" height="320"/>
-        <image name="loadingbar.png" width="199" height="12"/>
+        <image name="loadingbar.png" width="135" height="13"/>
+        <image name="loadingbarbg.png" width="137" height="15"/>
+        <image name="loadingbg.png" width="568" height="320"/>
+        <image name="tipbg.png" width="463" height="32"/>
     </resources>
 </document>

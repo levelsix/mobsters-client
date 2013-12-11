@@ -36,6 +36,7 @@
 #import <FacebookSDK/FacebookSDK.h>
 #import "DiamondShopViewController.h"
 #import "MenuNavigationController.h"
+#import "MyCroniesViewController.h"
 
 #define DEFAULT_PNG_IMAGE_VIEW_TAG 103
 #define KINGDOM_PNG_IMAGE_VIEW_TAG 104
@@ -120,6 +121,11 @@
   [self.view addSubview:self.topBarViewController.view];
 }
 
+- (void) setupNotificationViewController {
+  self.notifViewController = [[OneLineNotificationViewController alloc] init];
+  [self.notifViewController displayView];
+}
+
 - (void) viewDidLoad {
   [self setupTopBar];
   [self fadeToLoadingScreen];
@@ -127,8 +133,15 @@
   [self progressTo:PART_1_PERCENT];
   
   [[NSBundle mainBundle] loadNibNamed:@"TravelingLoadingView" owner:self options:nil];
-  
-  [self performSelector:@selector(handleLoadPlayerCityResponseProto:) withObject:nil afterDelay:3.f];
+}
+
+- (void) viewDidAppear:(BOOL)animated {
+  [self setupNotificationViewController];
+}
+
+- (void) dealloc {
+  // Must do this manually since it will be in the key window
+  [self.notifViewController.view removeFromSuperview];
 }
 
 - (void) fadeToLoadingScreen {
@@ -265,7 +278,7 @@
 
 - (void) enterDungeon:(int)taskId withDelay:(float)delay {
   GameState *gs = [GameState sharedGameState];
-  DungeonBattleLayer *bl = [[DungeonBattleLayer alloc] initWithMyUserMonsters:[gs allMonstersOnMyTeam] puzzleIsOnLeft:NO];
+  DungeonBattleLayer *bl = [[DungeonBattleLayer alloc] initWithMyUserMonsters:[gs allBattleAvailableMonstersOnTeam] puzzleIsOnLeft:NO];
   bl.delegate = self;
   [self performSelector:@selector(loadBattleScene:) withObject:bl afterDelay:delay];
   [[OutgoingEventController sharedOutgoingEventController] beginDungeon:taskId withDelegate:bl];
@@ -287,7 +300,7 @@
 
 #pragma mark - BattleLayerDelegate methods
 
-- (void) battleComplete {
+- (void) battleComplete:(NSDictionary *)params {
   float duration = 0.6;
   
   [[CCDirector sharedDirector] popSceneWithTransition:[CCTransitionCrossFade class] duration:duration];
@@ -296,6 +309,12 @@
   [UIView animateWithDuration:duration animations:^{
     self.topBarViewController.view.alpha = 1.f;
   }];
+  
+  if ([[params objectForKey:BATTLE_MANAGE_CLICKED_KEY] boolValue]) {
+    MenuNavigationController *m = [[MenuNavigationController alloc] init];
+    [self presentViewController:m animated:YES completion:nil];
+    [m pushViewController:[[MyCroniesViewController alloc] init] animated:NO];
+  }
 }
 
 #pragma mark - Chat access

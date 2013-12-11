@@ -12,21 +12,17 @@
 
 @implementation CoinBar
 
-@synthesize goldLabel, silverLabel;
-
 - (void) awakeFromNib {
-  [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(updateLabels) name:IAP_SUCCESS_NOTIFICATION object:nil];
+  [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(updateLabels) name:GAMESTATE_UPDATE_NOTIFICATION object:nil];
+  [self updateLabels];
 }
 
 - (void) updateLabels {
   GameState *gs = [GameState sharedGameState];
   
-  goldLabel.text = [Globals commafyNumber:gs.gold];
-  silverLabel.text = [Globals commafyNumber:gs.silver];
-}
-
-- (IBAction)barClicked:(id)sender {
-//  [GoldShoppeViewController displayView];
+  self.cashLabel.text = [Globals commafyNumber:gs.silver];
+  self.oilLabel.text = [Globals commafyNumber:gs.oil];
+  self.gemsLabel.text = [Globals commafyNumber:gs.gold];
 }
 
 - (void) dealloc {

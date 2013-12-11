@@ -80,8 +80,6 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
   
   self.maxTeamSize = constants.userMonsterConstants.maxNumTeamSlots;
   self.baseInventorySize = constants.userMonsterConstants.initialMaxNumMonsterLimit;
-  self.inventoryIncreaseSizeAmount = constants.userMonsterConstants.monsterInventoryIncrementAmount;
-  self.inventoryIncreaseSizeCost = constants.userMonsterConstants.monsterInventoryIncrementAmount;
   
   self.cashPerHealthPoint = constants.monsterConstants.cashPerHealthPoint;
   self.secondsToHealPerHealthPoint = constants.monsterConstants.secondsToHealPerHealthPoint;
@@ -240,17 +238,8 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
 }
 
 + (NSString *) imageNameForStruct:(int)structId {
-  FullStructureProto *fsp = [[GameState sharedGameState] structWithId:structId];
+  StructureInfoProto *fsp = [[[GameState sharedGameState] structWithId:structId] structInfo];
   NSString *str = [fsp.name.capitalizedString stringByReplacingOccurrencesOfString:@" " withString:@""];
-  str = [str stringByReplacingOccurrencesOfString:@"'" withString:@""];
-  str = [str stringByReplacingOccurrencesOfString:@"-" withString:@""];
-  NSString *file = [str stringByAppendingString:@".png"];
-  return file;
-}
-
-+ (NSString *) imageNameForMonster:(int)monId {
-  MonsterProto *mon = [[GameState sharedGameState] monsterWithId:monId];
-  NSString *str = [mon.name.capitalizedString stringByReplacingOccurrencesOfString:@" " withString:@""];
   str = [str stringByReplacingOccurrencesOfString:@"'" withString:@""];
   str = [str stringByReplacingOccurrencesOfString:@"-" withString:@""];
   NSString *file = [str stringByAppendingString:@".png"];
@@ -261,21 +250,9 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
   return structId == 0 ? nil : [self imageNamed:[self imageNameForStruct:structId]];
 }
 
-+ (UIImage *) imageForMonster:(int)monId {
-  return monId == 0 ? nil : [self imageNamed:[self imageNameForMonster:monId]];
-}
-
 + (void) loadImageForStruct:(int)structId toView:(UIImageView *)view masked:(BOOL)mask indicator:(UIActivityIndicatorViewStyle)indicator {
   if (!structId || !view) return;
   [self imageNamed:[self imageNameForStruct:structId] withView:view greyscale:mask indicator:indicator clearImageDuringDownload:YES];
-}
-
-+ (void) loadImageForMonster:(int)monId toView:(UIImageView *)view {
-  if (!monId || !view) {
-    view.image = nil;
-    return;
-  }
-  [self imageNamed:[self imageNameForMonster:monId] withView:view maskedColor:nil indicator:UIActivityIndicatorViewStyleWhite clearImageDuringDownload:YES];
 }
 
 + (UIColor *) colorForRarity:(MonsterProto_MonsterQuality)rarity {
@@ -512,7 +489,10 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
   return [NSString stringWithFormat:@"$%@", [self commafyNumber:n]];
 }
 
-+ (NSString *) commafyNumber:(int) n {
++ (NSString *) commafyNumber:(float)f {
+  int n = (int)f;
+  float r = f-n;
+  
   BOOL neg = n < 0;
   n = abs(n);
   NSString *s = [NSString stringWithFormat:@"%03d", n%1000];
@@ -528,7 +508,13 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
   }
   s = [s substringFromIndex:x];
   NSString *pre = neg ? @"-" : @"";
-  return s.length > 0 ? [pre stringByAppendingString:s] : @"0";
+  NSString *toRet = s.length > 0 ? [pre stringByAppendingString:s] : @"0";
+  
+  if (r > 0) {
+    toRet = [toRet stringByAppendingString:[[NSString stringWithFormat:@"%g", r] substringFromIndex:1]];
+  }
+  
+  return toRet;
 }
 
 + (void) calculateDifferencesBetweenOldArray:(NSArray *)oArr newArray:(NSArray *)nArr removalIps:(NSMutableArray *)removals additionIps:(NSMutableArray *)additions section:(int)section {
@@ -551,7 +537,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
 }
 
 + (UIImage *) snapShotView:(UIView *)view {
-  UIGraphicsBeginImageContext(view.bounds.size);
+  UIGraphicsBeginImageContextWithOptions(view.bounds.size, NO, 0.f);
   [view.layer renderInContext:UIGraphicsGetCurrentContext()];
   UIImage *image = UIGraphicsGetImageFromCurrentImageContext();
   UIGraphicsEndImageContext();
@@ -560,6 +546,9 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
 }
 
 + (UIImage *) greyScaleImageWithBaseImage:(UIImage *)inputImage {
+  if (!inputImage) {
+    return nil;
+  }
   
   const int RED = 1;
   const int GREEN = 2;
@@ -1065,17 +1054,97 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
   return MAX(0.f, ceilf(timeLeft/60.f/self.minutesPerGem));
 }
 
+- (int) calculateMaxQuantityOfStructId:(int)structId withTownHall:(TownHallProto *)thp {
+  GameState *gs = [GameState sharedGameState];
+  id<StaticStructure> ss = [gs structWithId:structId];
+  
+  switch (ss.structInfo.structType) {
+    case StructureInfoProto_StructTypeHospital:
+      return thp.numHospitals;
+      break;
+      
+    case StructureInfoProto_StructTypeResidence:
+      return thp.numResidences;
+      break;
+      
+    case StructureInfoProto_StructTypeResourceGenerator:
+    {
+      ResourceGeneratorProto *rgp = (ResourceGeneratorProto *)ss;
+      if (rgp.resourceType == ResourceTypeCash) {
+        return thp.numResourceOneGenerators;
+      } else if (rgp.resourceType == ResourceTypeOil) {
+        return thp.numResourceTwoGenerators;
+      }
+      break;
+    }
+      
+    case StructureInfoProto_StructTypeResourceStorage:
+    {
+      ResourceStorageProto *rsp = (ResourceStorageProto *)ss;
+      if (rsp.resourceType == ResourceTypeCash) {
+        return thp.numResourceOneStorages;
+      } else if (rsp.resourceType == ResourceTypeOil) {
+        return thp.numResourceTwoStorages;
+      }
+      break;
+    }
+      
+    case StructureInfoProto_StructTypeLab:
+      return thp.numLabs;
+      
+    case StructureInfoProto_StructTypeTownHall:
+      return 1;
+      
+    default:
+      break;
+  }
+  return 0;
+}
+
+- (int) calculateMaxQuantityOfStructId:(int)structId {
+  GameState *gs = [GameState sharedGameState];
+  TownHallProto *thp = (TownHallProto *)[[gs myTownHall] staticStruct];
+  return [self calculateMaxQuantityOfStructId:structId withTownHall:thp];
+}
+
+- (int) calculateNextTownHallLevelForQuantityIncreaseForStructId:(int)structId {
+  GameState *gs = [GameState sharedGameState];
+  TownHallProto *thp = (TownHallProto *)[[gs myTownHall] staticStruct];
+  int curMax = [self calculateMaxQuantityOfStructId:structId withTownHall:thp];
+  while (thp.structInfo.successorStructId) {
+    thp = (TownHallProto *)[gs structWithId:thp.structInfo.successorStructId];
+    int newMax = [self calculateMaxQuantityOfStructId:structId withTownHall:thp];
+    
+    if (newMax > curMax) {
+      return thp.structInfo.level;
+    }
+  }
+  return 0;
+}
+
+- (int) calculateCurrentQuantityOfStructId:(int)structId {
+  GameState *gs = [GameState sharedGameState];
+  int quantity = 0;
+  
+  for (UserStruct *us in gs.myStructs) {
+    if (us.baseStructId == structId) {
+      quantity++;
+    }
+  }
+  return quantity;
+}
+
 - (int) calculateNumMinutesForNewExpansion {
   GameState *gs = [GameState sharedGameState];
-  int numExp = [gs numCompletedExpansions];
-  CityExpansionCostProto *exp = [gs.expansionCosts objectForKey:@(numExp+1)];
+  int totalExp = gs.userExpansions.count;
+  CityExpansionCostProto *exp = [gs.expansionCosts objectForKey:@(totalExp)];
   return exp.numMinutesToExpand;
 }
 
 - (int) calculateSilverCostForNewExpansion {
   GameState *gs = [GameState sharedGameState];
-  int numExp = [gs numCompletedExpansions];
-  CityExpansionCostProto *exp = [gs.expansionCosts objectForKey:@(numExp+1)];
+  int totalExp = gs.userExpansions.count;
+  CityExpansionCostProto *exp = [gs.expansionCosts objectForKey:@(totalExp+1)];
   return exp.expansionCostCash;
 }
 
@@ -1229,7 +1298,13 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
 }
 
 + (void) popupMessage:(NSString *)msg {
-  [GenericPopupController displayNotificationViewWithText:msg title:nil];
+  [GenericPopupController displayNotificationViewWithText:msg title:@"Notification"];
+}
+
++ (void) addAlertNotification:(NSString *)msg {
+  GameViewController *gvc = [GameViewController baseController];
+  OneLineNotificationViewController *oln = gvc.notifViewController;
+  [oln addNotification:msg color:[self lightRedColor]];
 }
 
 #pragma mark Bounce View
@@ -1321,6 +1396,10 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
 
 + (UIColor *)redColor {
   return [UIColor colorWithRed:185/255.f green:13/255.f blue:13/255.f alpha:1.f];
+}
+
++ (UIColor *)lightRedColor {
+  return [UIColor colorWithRed:255/255.f green:46/255.f blue:0/255.f alpha:1.f];
 }
 
 + (UIColor *)blueColor {

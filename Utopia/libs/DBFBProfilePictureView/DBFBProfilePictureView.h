@@ -26,7 +26,7 @@ typedef void (^DBFBProfilePictureViewHandler)(DBFBProfilePictureView *profilePic
 /**
  The facebook profile id for the user picture that you want to load.
  */
-@property (copy) NSString* profileID;
+@property (nonatomic, copy) NSString* profileID;
 
 /**
  The cropping type you want for the picture, the enum is defined in the facebook SDK.

@@ -36,13 +36,12 @@
   for (int i = 0; i < self.animateViews.count; i++) {
     UIView *v = [self.animateViews objectAtIndex:i];
     v.alpha = 0.f;
-    CGPoint center = v.center;
-    v.center = ccp(v.center.x, 5.f/4*v.frame.size.height);
+    v.center = ccp(v.center.x, v.superview.frame.size.height);
     
     BOOL isLast = self.animateViews.count-1 == i;
     [UIView animateWithDuration:ANIMATION_SPEED delay:ANIMATION_DELAY*i options:UIViewAnimationOptionCurveEaseInOut animations:^{
       v.alpha = 1.f;
-      v.center = center;
+      v.center = ccp(v.center.x, v.superview.frame.size.height-v.frame.size.height/2);
     } completion:^(BOOL finished) {
       if (block && isLast) {
         block();
@@ -59,12 +58,10 @@
   for (int i = 0; i < self.animateViews.count; i++) {
     UIView *v = [self.animateViews objectAtIndex:i];
     BOOL isLast = self.animateViews.count-1 == i;
-    CGPoint center = v.center;
     [UIView animateWithDuration:ANIMATION_SPEED delay:ANIMATION_DELAY*i options:UIViewAnimationOptionCurveEaseInOut animations:^{
       v.alpha = 0.f;
-      v.center = ccp(v.center.x, 5.f/4*v.frame.size.height/2);
+      v.center = ccp(v.center.x, v.superview.frame.size.height);
     } completion:^(BOOL finished) {
-      v.center = center;
       if (block && isLast) {
         block();
       }

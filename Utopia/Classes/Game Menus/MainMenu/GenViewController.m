@@ -11,6 +11,12 @@
 
 @implementation GenViewController
 
+- (void) viewDidLoad {
+  [super viewDidLoad];
+  
+  self.navigationItem.titleView = self.topBar;
+}
+
 - (void)loadCustomNavBarButtons {
   if (!self.menuCloseButton) {
     [[NSBundle mainBundle] loadNibNamed:@"CustomNavBarButtons" owner:self options:nil];

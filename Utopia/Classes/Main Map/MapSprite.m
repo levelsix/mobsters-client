@@ -9,7 +9,6 @@
 #import "MapSprite.h"
 #import "GameMap.h"
 
-#define GLOW_ACTION_TAG 3021
 #define GLOW_DURATION 0.6f
 
 @implementation MapSprite
@@ -51,17 +50,8 @@
 -(id) initWithFile: (NSString *) file  location: (CGRect)loc map: (GameMap *) map{
   if ((self = [super initWithFile:file location:loc map:map])) {
     _isSelected = NO;
-    [self setUpGlow];
   }
   return self;
-}
-
-- (void) setUpGlow {
-  //  _glow = [[CCSprite spriteWithFile:@"glow.png"] retain];
-  //  _glow.scale = 0.55;
-  //  _glow.position = ccp(self.contentSize.width/2, _map.tileSizeInPoints.height*self.location.size.width/2);
-  //  _glow.visible = NO;
-  //  [self addChild:_glow z:-1];
 }
 
 - (BOOL) select {

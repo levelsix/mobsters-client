@@ -10,6 +10,11 @@
 #import "UserData.h"
 #import "MapSprite.h"
 
+#define CONSTRUCTION_TAG 49
+#define SHADOW_TAG 50
+#define BOUNCE_ACTION_TAG 3022
+#define UPGRADING_TAG 123
+
 @class GameMap;
 @class HomeMap;
 
@@ -17,8 +22,11 @@
   float _percentage;
 }
 
+@property (nonatomic, assign) CCSprite *buildingSprite;
 @property (nonatomic, assign) StructOrientation orientation;
 @property (nonatomic, assign) float verticalOffset;
+
+@property (nonatomic, assign) float baseScale;
 
 - (void) displayProgressBar;
 - (void) updateUpgradeBar;
@@ -27,66 +35,10 @@
 
 @end
 
-@interface HomeBuilding : Building {
-  CGPoint _startTouchLocation;
-  BOOL _isSetDown;
-  BOOL _isConstructing;
-  HomeMap *_homeMap;
-  CGPoint _startMoveCoordinate;
-  StructOrientation _startOrientation;
-}
-
-@property (nonatomic, assign) CGPoint startTouchLocation;
-@property (nonatomic, assign) BOOL isSetDown;
-@property (nonatomic, assign) BOOL isConstructing;
-@property (nonatomic, assign) BOOL isPurchasing;
-
-+ (id) homeWithFile: (NSString *) file location: (CGRect) loc map: (HomeMap *) map;
-- (id) initWithFile: (NSString *) file location: (CGRect)loc map: (HomeMap *) map;
-- (void) locationAfterTouch: (CGPoint) touchLocation;
-- (void) placeBlock;
-- (void) liftBlock;
-- (void) updateMeta;
-- (void) clearMeta;
-- (void) cancelMove;
-
-- (void) displayMoveArrows;
-- (void) removeMoveArrows;
-
-@end
-
-@interface MoneyBuilding : HomeBuilding {
-  ccTime _timeLeft;
-  int _income;
-  UserStruct *_userStruct;
-  BOOL _retrievable;
-  CCSprite *_retrieveBubble;
-  NSTimer *_timer;
-}
-
-@property (nonatomic, retain) UserStruct *userStruct;
-@property (nonatomic, assign) BOOL retrievable;
-@property (nonatomic, retain) NSTimer *timer;
-
-- (void) displayUpgradeComplete;
-
-- (void) createTimerForCurrentState;
-
-@end
-
 @interface MissionBuilding : Building <TaskElement> {
   CCSprite *_lockedBubble;
 }
 
 @property (nonatomic, assign) BOOL isLocked;
-
-@end
-
-@interface ExpansionBoard : Building
-
-@property (nonatomic, assign) CGPoint expandSpot;
-
-- (id) initWithExpansionBlock:(CGPoint)block location:(CGRect)location map:(GameMap *)map isExpanding:(BOOL)isExpanding;
-- (void) beginExpanding;
 
 @end

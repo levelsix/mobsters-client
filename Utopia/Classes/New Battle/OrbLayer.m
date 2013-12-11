@@ -1087,15 +1087,15 @@
 {
   _allowInput = NO;
   
-  // Delegate method refers to orbs beginning to combo
-  [self.delegate turnBegan];
-  
   BOOL foundPowerup = [self checkForPowerupMatch];
   
   if (!foundPowerup) {
     [self createRunForCurrentBoard];
     if ( _run.count > 0) {
       _foundMatch = YES;
+      
+      // Delegate method refers to orbs beginning to combo
+      [self.delegate moveBegan];
       
       NSMutableSet *s = [_run mutableCopy];
       
@@ -1147,13 +1147,16 @@
         
         dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, ORB_ANIMATION_TIME * NSEC_PER_SEC);
         dispatch_after(popTime, dispatch_get_main_queue(), ^(void){
-          [self.delegate turnComplete];
+          [self.delegate moveComplete];
         });
       } else {
-        [self.delegate turnComplete];
+        [self.delegate moveComplete];
       }
     }
   } else {
+    // Delegate method refers to orbs beginning to combo
+    [self.delegate moveBegan];
+    
     [self checkAllGemsAndPowerupsDone];
   }
 }
@@ -1287,6 +1290,8 @@
       
       self.oldGems = [self.gems copy];
       
+      self.isTrackingTouch = YES;
+      
       return YES;
     }
   }
@@ -1365,10 +1370,14 @@
       if (_realDragGem) {
         _currentComboCount = 0;
         _foundMatch = NO;
+        
         [self turnEnd];
+        
         _realDragGem = nil;
         _dragGem = nil;
         _swapGem = nil;
+        
+        self.isTrackingTouch = NO;
       }
     });
   }

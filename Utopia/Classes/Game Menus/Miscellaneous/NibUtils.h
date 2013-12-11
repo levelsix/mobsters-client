@@ -7,6 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "THLabel.h"
 
 typedef enum {
   kButton1 = 1,

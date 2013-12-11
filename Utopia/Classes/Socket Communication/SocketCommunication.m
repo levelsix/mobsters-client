@@ -381,12 +381,15 @@ static NSString *udid = nil;
   return [self sendData:req withMessageType:EventProtocolRequestCInAppPurchaseEvent];
 }
 
-- (int) sendPurchaseNormStructureMessage:(int)structId x:(int)x y:(int)y time:(uint64_t)time{
-  PurchaseNormStructureRequestProto *req = [[[[[[PurchaseNormStructureRequestProto builder]
-                                                setSender:_sender]
-                                               setStructId:structId]
-                                              setStructCoordinates:[[[[CoordinateProto builder] setX:x] setY:y] build]]
-                                             setTimeOfPurchase:time]
+- (int) sendPurchaseNormStructureMessage:(int)structId x:(int)x y:(int)y time:(uint64_t)time resourceType:(ResourceType)type resourceChange:(int)resourceChange gemCost:(int)gemCost {
+  PurchaseNormStructureRequestProto *req = [[[[[[[[[PurchaseNormStructureRequestProto builder]
+                                                   setSender:_sender]
+                                                  setStructId:structId]
+                                                 setStructCoordinates:[[[[CoordinateProto builder] setX:x] setY:y] build]]
+                                                setTimeOfPurchase:time]
+                                               setResourceType:type]
+                                              setResourceChange:resourceChange]
+                                             setGemsSpent:gemCost]
                                             build];
   
   return [self sendData:req withMessageType:EventProtocolRequestCPurchaseNormStructureEvent];
@@ -404,23 +407,14 @@ static NSString *udid = nil;
   return [self sendData:req withMessageType:EventProtocolRequestCMoveOrRotateNormStructureEvent];
 }
 
-- (int) sendRotateNormStructureMessage:(int)userStructId orientation:(StructOrientation)orientation {
-  MoveOrRotateNormStructureRequestProto *req =
-  [[[[[[MoveOrRotateNormStructureRequestProto builder]
-       setSender:_sender]
-      setUserStructId:userStructId]
-     setType:MoveOrRotateNormStructureRequestProto_MoveOrRotateNormStructTypeRotate]
-    setNewOrientation:orientation]
-   build];
-  
-  return [self sendData:req withMessageType:EventProtocolRequestCMoveOrRotateNormStructureEvent];
-}
-
-- (int) sendUpgradeNormStructureMessage:(int)userStructId time:(uint64_t)curTime {
-  UpgradeNormStructureRequestProto *req = [[[[[UpgradeNormStructureRequestProto builder]
-                                              setSender:_sender]
-                                             setUserStructId:userStructId]
-                                            setTimeOfUpgrade:curTime]
+- (int) sendUpgradeNormStructureMessage:(int)userStructId time:(uint64_t)curTime resourceType:(ResourceType)type resourceChange:(int)resourceChange gemCost:(int)gemCost {
+  UpgradeNormStructureRequestProto *req = [[[[[[[[UpgradeNormStructureRequestProto builder]
+                                                 setSender:_sender]
+                                                setUserStructId:userStructId]
+                                               setTimeOfUpgrade:curTime]
+                                              setResourceChange:resourceChange]
+                                             setResourceType:type]
+                                            setGemsSpent:gemCost]
                                            build];
   
   return [self sendData:req withMessageType:EventProtocolRequestCUpgradeNormStructureEvent];
@@ -445,15 +439,6 @@ static NSString *udid = nil;
                                              build];
   
   return [self sendData:req withMessageType:EventProtocolRequestCNormStructWaitCompleteEvent];
-}
-
-- (int) sendSellNormStructureMessage:(int)userStructId {
-  SellNormStructureRequestProto *req = [[[[SellNormStructureRequestProto builder]
-                                          setSender:_sender]
-                                         setUserStructId:userStructId]
-                                        build];
-  
-  return [self sendData:req withMessageType:EventProtocolRequestCSellNormStructureEvent];
 }
 
 - (int) sendLoadPlayerCityMessage:(int)userId {
@@ -754,7 +739,7 @@ static NSString *udid = nil;
   return [self sendData:req withMessageType:EventProtocolRequestCCombineUserMonsterPiecesEvent];
 }
 
-- (int) sendInviteFbFriendsForSlotsMessage:(NSArray *)fbFriendIds {
+- (int) sendInviteFbFriendsForSlotsMessage:(NSArray *)fbFriendInvites {
   GameState *gs = [GameState sharedGameState];
   MinimumUserProtoWithFacebookId *mup = [[[[MinimumUserProtoWithFacebookId builder]
                                            setMinUserProto:_sender]
@@ -763,7 +748,7 @@ static NSString *udid = nil;
   
   InviteFbFriendsForSlotsRequestProto *req = [[[[InviteFbFriendsForSlotsRequestProto builder]
                                                 setSender:mup]
-                                               addAllFbFriendIds:fbFriendIds]
+                                               addAllInvites:fbFriendInvites]
                                               build];
   
   return [self sendData:req withMessageType:EventProtocolRequestCInviteFbFriendsForSlotsEvent];
@@ -834,6 +819,27 @@ static NSString *udid = nil;
   return [self sendData:req withMessageType:EventProtocolRequestCRemoveMonsterFromBattleTeamEvent];
 }
 
+- (int) sendBuyInventorySlotsWithGems:(int)userStructId {
+  IncreaseMonsterInventorySlotRequestProto *req = [[[[[IncreaseMonsterInventorySlotRequestProto builder]
+                                                      setSender:_sender]
+                                                     setIncreaseSlotType:IncreaseMonsterInventorySlotRequestProto_IncreaseSlotTypePurchase]
+                                                    setUserStructId:userStructId]
+                                                   build];
+  
+  return [self sendData:req withMessageType:EventProtocolResponseSIncreaseMonsterInventorySlotEvent];
+}
+
+- (int) sendBuyInventorySlots:(int)userStructId withFriendInvites:(NSArray *)inviteIds {
+  IncreaseMonsterInventorySlotRequestProto *req = [[[[[[IncreaseMonsterInventorySlotRequestProto builder]
+                                                       setSender:_sender]
+                                                      setIncreaseSlotType:IncreaseMonsterInventorySlotRequestProto_IncreaseSlotTypeRedeemFacebookInvites]
+                                                     setUserStructId:userStructId]
+                                                    addAllUserFbInviteForSlotIds:inviteIds]
+                                                   build];
+  
+  return [self sendData:req withMessageType:EventProtocolResponseSIncreaseMonsterInventorySlotEvent];
+}
+
 - (int) sendEnhanceQueueWaitTimeComplete:(UserMonsterCurrentExpProto *)monsterExp userMonsterIds:(NSArray *)userMonsterIds {
   EnhancementWaitTimeCompleteRequestProto *req = [[[[[EnhancementWaitTimeCompleteRequestProto builder]
                                                      setSender:_sender]
@@ -883,21 +889,6 @@ static NSString *udid = nil;
   LNLog(@"Sending retrieve currency message with %d structs.", self.structRetrievals.count);
   
   return [self sendData:req withMessageType:EventProtocolRequestCRetrieveCurrencyFromNormStructureEvent flush:NO];
-}
-
-- (int) buyInventorySlots {
-  [self flushAllExceptEventType:EventProtocolResponseSIncreaseMonsterInventorySlotEvent];
-  _numBuyInventorySlots++;
-  return _currentTagNum;
-}
-
-- (int) sendBuyInventorySlotsMessage {
-  IncreaseMonsterInventorySlotRequestProto *req = [[[[IncreaseMonsterInventorySlotRequestProto builder]
-                                                     setSender:_sender]
-                                                    setNumPurchases:_numBuyInventorySlots]
-                                                   build];
-  
-  return [self sendData:req withMessageType:EventProtocolResponseSIncreaseMonsterInventorySlotEvent flush:NO];
 }
 
 - (int) setHealQueueDirtyWithCoinChange:(int)coinChange gemCost:(int)gemCost {
@@ -1021,7 +1012,7 @@ static NSString *udid = nil;
     }
     
     [bldr setCashChange:_enhanceQueueCashChange];
-//    [bldr setGemCost:_enhanceQueueGemCost];
+    //    [bldr setGemCost:_enhanceQueueGemCost];
     
     NSLog(@"Sending enhancement update with %d adds, %d removals, and %d updates.", added.count, removed.count, changed.count);
     
@@ -1065,13 +1056,6 @@ static NSString *udid = nil;
       _enhancementPotentiallyChanged = NO;
       _enhanceQueueGemCost = 0;
       _enhanceQueueCashChange = 0;
-    }
-  }
-  
-  if (type != EventProtocolRequestCIncreaseMonsterInventorySlotEvent) {
-    if (_numBuyInventorySlots > 0) {
-      [self sendBuyInventorySlotsMessage];
-      _numBuyInventorySlots = 0;
     }
   }
 }

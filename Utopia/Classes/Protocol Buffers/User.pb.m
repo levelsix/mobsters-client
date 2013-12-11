@@ -1183,6 +1183,9 @@ static MinimumUserProtoWithFacebookId* defaultMinimumUserProtoWithFacebookIdInst
 @property (retain) NSString* recipientFacebookId;
 @property int64_t timeOfInvite;
 @property int64_t timeAccepted;
+@property int32_t userStructId;
+@property int32_t structFbLvl;
+@property int64_t redeemedTime;
 @end
 
 @implementation UserFacebookInviteForSlotProto
@@ -1222,6 +1225,27 @@ static MinimumUserProtoWithFacebookId* defaultMinimumUserProtoWithFacebookIdInst
   hasTimeAccepted_ = !!value;
 }
 @synthesize timeAccepted;
+- (BOOL) hasUserStructId {
+  return !!hasUserStructId_;
+}
+- (void) setHasUserStructId:(BOOL) value {
+  hasUserStructId_ = !!value;
+}
+@synthesize userStructId;
+- (BOOL) hasStructFbLvl {
+  return !!hasStructFbLvl_;
+}
+- (void) setHasStructFbLvl:(BOOL) value {
+  hasStructFbLvl_ = !!value;
+}
+@synthesize structFbLvl;
+- (BOOL) hasRedeemedTime {
+  return !!hasRedeemedTime_;
+}
+- (void) setHasRedeemedTime:(BOOL) value {
+  hasRedeemedTime_ = !!value;
+}
+@synthesize redeemedTime;
 - (void) dealloc {
   self.inviter = nil;
   self.recipientFacebookId = nil;
@@ -1234,6 +1258,9 @@ static MinimumUserProtoWithFacebookId* defaultMinimumUserProtoWithFacebookIdInst
     self.recipientFacebookId = @"";
     self.timeOfInvite = 0L;
     self.timeAccepted = 0L;
+    self.userStructId = 0;
+    self.structFbLvl = 0;
+    self.redeemedTime = 0L;
   }
   return self;
 }
@@ -1268,6 +1295,15 @@ static UserFacebookInviteForSlotProto* defaultUserFacebookInviteForSlotProtoInst
   if (self.hasTimeAccepted) {
     [output writeInt64:5 value:self.timeAccepted];
   }
+  if (self.hasUserStructId) {
+    [output writeInt32:6 value:self.userStructId];
+  }
+  if (self.hasStructFbLvl) {
+    [output writeInt32:7 value:self.structFbLvl];
+  }
+  if (self.hasRedeemedTime) {
+    [output writeInt64:8 value:self.redeemedTime];
+  }
   [self.unknownFields writeToCodedOutputStream:output];
 }
 - (int32_t) serializedSize {
@@ -1291,6 +1327,15 @@ static UserFacebookInviteForSlotProto* defaultUserFacebookInviteForSlotProtoInst
   }
   if (self.hasTimeAccepted) {
     size += computeInt64Size(5, self.timeAccepted);
+  }
+  if (self.hasUserStructId) {
+    size += computeInt32Size(6, self.userStructId);
+  }
+  if (self.hasStructFbLvl) {
+    size += computeInt32Size(7, self.structFbLvl);
+  }
+  if (self.hasRedeemedTime) {
+    size += computeInt64Size(8, self.redeemedTime);
   }
   size += self.unknownFields.serializedSize;
   memoizedSerializedSize = size;
@@ -1382,6 +1427,15 @@ static UserFacebookInviteForSlotProto* defaultUserFacebookInviteForSlotProtoInst
   if (other.hasTimeAccepted) {
     [self setTimeAccepted:other.timeAccepted];
   }
+  if (other.hasUserStructId) {
+    [self setUserStructId:other.userStructId];
+  }
+  if (other.hasStructFbLvl) {
+    [self setStructFbLvl:other.structFbLvl];
+  }
+  if (other.hasRedeemedTime) {
+    [self setRedeemedTime:other.redeemedTime];
+  }
   [self mergeUnknownFields:other.unknownFields];
   return self;
 }
@@ -1426,6 +1480,18 @@ static UserFacebookInviteForSlotProto* defaultUserFacebookInviteForSlotProtoInst
       }
       case 40: {
         [self setTimeAccepted:[input readInt64]];
+        break;
+      }
+      case 48: {
+        [self setUserStructId:[input readInt32]];
+        break;
+      }
+      case 56: {
+        [self setStructFbLvl:[input readInt32]];
+        break;
+      }
+      case 64: {
+        [self setRedeemedTime:[input readInt64]];
         break;
       }
     }
@@ -1525,6 +1591,54 @@ static UserFacebookInviteForSlotProto* defaultUserFacebookInviteForSlotProtoInst
   result.timeAccepted = 0L;
   return self;
 }
+- (BOOL) hasUserStructId {
+  return result.hasUserStructId;
+}
+- (int32_t) userStructId {
+  return result.userStructId;
+}
+- (UserFacebookInviteForSlotProto_Builder*) setUserStructId:(int32_t) value {
+  result.hasUserStructId = YES;
+  result.userStructId = value;
+  return self;
+}
+- (UserFacebookInviteForSlotProto_Builder*) clearUserStructId {
+  result.hasUserStructId = NO;
+  result.userStructId = 0;
+  return self;
+}
+- (BOOL) hasStructFbLvl {
+  return result.hasStructFbLvl;
+}
+- (int32_t) structFbLvl {
+  return result.structFbLvl;
+}
+- (UserFacebookInviteForSlotProto_Builder*) setStructFbLvl:(int32_t) value {
+  result.hasStructFbLvl = YES;
+  result.structFbLvl = value;
+  return self;
+}
+- (UserFacebookInviteForSlotProto_Builder*) clearStructFbLvl {
+  result.hasStructFbLvl = NO;
+  result.structFbLvl = 0;
+  return self;
+}
+- (BOOL) hasRedeemedTime {
+  return result.hasRedeemedTime;
+}
+- (int64_t) redeemedTime {
+  return result.redeemedTime;
+}
+- (UserFacebookInviteForSlotProto_Builder*) setRedeemedTime:(int64_t) value {
+  result.hasRedeemedTime = YES;
+  result.redeemedTime = value;
+  return self;
+}
+- (UserFacebookInviteForSlotProto_Builder*) clearRedeemedTime {
+  result.hasRedeemedTime = NO;
+  result.redeemedTime = 0L;
+  return self;
+}
 @end
 
 @interface FullUserProto ()
@@ -1533,6 +1647,7 @@ static UserFacebookInviteForSlotProto* defaultUserFacebookInviteForSlotProtoInst
 @property int32_t level;
 @property int32_t gems;
 @property int32_t cash;
+@property int32_t oil;
 @property int32_t experience;
 @property int32_t tasksCompleted;
 @property int32_t battlesWon;
@@ -1545,9 +1660,9 @@ static UserFacebookInviteForSlotProto* defaultUserFacebookInviteForSlotProtoInst
 @property BOOL isFake;
 @property BOOL isAdmin;
 @property int32_t numCoinsRetrievedFromStructs;
+@property int32_t numOilRetrievedFromStructs;
 @property (retain) MinimumClanProto* clan;
 @property BOOL hasReceivedfbReward;
-@property int32_t numAdditionalMonsterSlots;
 @property int32_t numBeginnerSalesPurchased;
 @property BOOL hasActiveShield;
 @property int64_t shieldEndTime;
@@ -1568,7 +1683,6 @@ static UserFacebookInviteForSlotProto* defaultUserFacebookInviteForSlotProtoInst
 @property int32_t numConsecutiveDaysPlayed;
 @property int64_t lastWallPostNotificationTime;
 @property (retain) NSString* kabamNaid;
-@property int32_t nthExtraSlotsViaFb;
 @end
 
 @implementation FullUserProto
@@ -1608,6 +1722,13 @@ static UserFacebookInviteForSlotProto* defaultUserFacebookInviteForSlotProtoInst
   hasCash_ = !!value;
 }
 @synthesize cash;
+- (BOOL) hasOil {
+  return !!hasOil_;
+}
+- (void) setHasOil:(BOOL) value {
+  hasOil_ = !!value;
+}
+@synthesize oil;
 - (BOOL) hasExperience {
   return !!hasExperience_;
 }
@@ -1702,6 +1823,13 @@ static UserFacebookInviteForSlotProto* defaultUserFacebookInviteForSlotProtoInst
   hasNumCoinsRetrievedFromStructs_ = !!value;
 }
 @synthesize numCoinsRetrievedFromStructs;
+- (BOOL) hasNumOilRetrievedFromStructs {
+  return !!hasNumOilRetrievedFromStructs_;
+}
+- (void) setHasNumOilRetrievedFromStructs:(BOOL) value {
+  hasNumOilRetrievedFromStructs_ = !!value;
+}
+@synthesize numOilRetrievedFromStructs;
 - (BOOL) hasClan {
   return !!hasClan_;
 }
@@ -1721,13 +1849,6 @@ static UserFacebookInviteForSlotProto* defaultUserFacebookInviteForSlotProtoInst
 - (void) setHasReceivedfbReward:(BOOL) value {
   hasReceivedfbReward_ = !!value;
 }
-- (BOOL) hasNumAdditionalMonsterSlots {
-  return !!hasNumAdditionalMonsterSlots_;
-}
-- (void) setHasNumAdditionalMonsterSlots:(BOOL) value {
-  hasNumAdditionalMonsterSlots_ = !!value;
-}
-@synthesize numAdditionalMonsterSlots;
 - (BOOL) hasNumBeginnerSalesPurchased {
   return !!hasNumBeginnerSalesPurchased_;
 }
@@ -1873,13 +1994,6 @@ static UserFacebookInviteForSlotProto* defaultUserFacebookInviteForSlotProtoInst
   hasKabamNaid_ = !!value;
 }
 @synthesize kabamNaid;
-- (BOOL) hasNthExtraSlotsViaFb {
-  return !!hasNthExtraSlotsViaFb_;
-}
-- (void) setHasNthExtraSlotsViaFb:(BOOL) value {
-  hasNthExtraSlotsViaFb_ = !!value;
-}
-@synthesize nthExtraSlotsViaFb;
 - (void) dealloc {
   self.name = nil;
   self.referralCode = nil;
@@ -1898,6 +2012,7 @@ static UserFacebookInviteForSlotProto* defaultUserFacebookInviteForSlotProtoInst
     self.level = 0;
     self.gems = 0;
     self.cash = 0;
+    self.oil = 0;
     self.experience = 0;
     self.tasksCompleted = 0;
     self.battlesWon = 0;
@@ -1910,9 +2025,9 @@ static UserFacebookInviteForSlotProto* defaultUserFacebookInviteForSlotProtoInst
     self.isFake = NO;
     self.isAdmin = NO;
     self.numCoinsRetrievedFromStructs = 0;
+    self.numOilRetrievedFromStructs = 0;
     self.clan = [MinimumClanProto defaultInstance];
     self.hasReceivedfbReward = NO;
-    self.numAdditionalMonsterSlots = 0;
     self.numBeginnerSalesPurchased = 0;
     self.hasActiveShield = NO;
     self.shieldEndTime = 0L;
@@ -1933,7 +2048,6 @@ static UserFacebookInviteForSlotProto* defaultUserFacebookInviteForSlotProtoInst
     self.numConsecutiveDaysPlayed = 0;
     self.lastWallPostNotificationTime = 0L;
     self.kabamNaid = @"";
-    self.nthExtraSlotsViaFb = 0;
   }
   return self;
 }
@@ -2037,9 +2151,6 @@ static FullUserProto* defaultFullUserProtoInstance = nil;
   if (self.hasHasReceivedfbReward) {
     [output writeBool:28 value:self.hasReceivedfbReward];
   }
-  if (self.hasNumAdditionalMonsterSlots) {
-    [output writeInt32:29 value:self.numAdditionalMonsterSlots];
-  }
   if (self.hasNumBeginnerSalesPurchased) {
     [output writeInt32:30 value:self.numBeginnerSalesPurchased];
   }
@@ -2073,8 +2184,11 @@ static FullUserProto* defaultFullUserProtoInstance = nil;
   if (self.hasFacebookId) {
     [output writeString:40 value:self.facebookId];
   }
-  if (self.hasNthExtraSlotsViaFb) {
-    [output writeInt32:41 value:self.nthExtraSlotsViaFb];
+  if (self.hasOil) {
+    [output writeInt32:42 value:self.oil];
+  }
+  if (self.hasNumOilRetrievedFromStructs) {
+    [output writeInt32:43 value:self.numOilRetrievedFromStructs];
   }
   [self.unknownFields writeToCodedOutputStream:output];
 }
@@ -2169,9 +2283,6 @@ static FullUserProto* defaultFullUserProtoInstance = nil;
   if (self.hasHasReceivedfbReward) {
     size += computeBoolSize(28, self.hasReceivedfbReward);
   }
-  if (self.hasNumAdditionalMonsterSlots) {
-    size += computeInt32Size(29, self.numAdditionalMonsterSlots);
-  }
   if (self.hasNumBeginnerSalesPurchased) {
     size += computeInt32Size(30, self.numBeginnerSalesPurchased);
   }
@@ -2205,8 +2316,11 @@ static FullUserProto* defaultFullUserProtoInstance = nil;
   if (self.hasFacebookId) {
     size += computeStringSize(40, self.facebookId);
   }
-  if (self.hasNthExtraSlotsViaFb) {
-    size += computeInt32Size(41, self.nthExtraSlotsViaFb);
+  if (self.hasOil) {
+    size += computeInt32Size(42, self.oil);
+  }
+  if (self.hasNumOilRetrievedFromStructs) {
+    size += computeInt32Size(43, self.numOilRetrievedFromStructs);
   }
   size += self.unknownFields.serializedSize;
   memoizedSerializedSize = size;
@@ -2298,6 +2412,9 @@ static FullUserProto* defaultFullUserProtoInstance = nil;
   if (other.hasCash) {
     [self setCash:other.cash];
   }
+  if (other.hasOil) {
+    [self setOil:other.oil];
+  }
   if (other.hasExperience) {
     [self setExperience:other.experience];
   }
@@ -2334,14 +2451,14 @@ static FullUserProto* defaultFullUserProtoInstance = nil;
   if (other.hasNumCoinsRetrievedFromStructs) {
     [self setNumCoinsRetrievedFromStructs:other.numCoinsRetrievedFromStructs];
   }
+  if (other.hasNumOilRetrievedFromStructs) {
+    [self setNumOilRetrievedFromStructs:other.numOilRetrievedFromStructs];
+  }
   if (other.hasClan) {
     [self mergeClan:other.clan];
   }
   if (other.hasHasReceivedfbReward) {
     [self setHasReceivedfbReward:other.hasReceivedfbReward];
-  }
-  if (other.hasNumAdditionalMonsterSlots) {
-    [self setNumAdditionalMonsterSlots:other.numAdditionalMonsterSlots];
   }
   if (other.hasNumBeginnerSalesPurchased) {
     [self setNumBeginnerSalesPurchased:other.numBeginnerSalesPurchased];
@@ -2402,9 +2519,6 @@ static FullUserProto* defaultFullUserProtoInstance = nil;
   }
   if (other.hasKabamNaid) {
     [self setKabamNaid:other.kabamNaid];
-  }
-  if (other.hasNthExtraSlotsViaFb) {
-    [self setNthExtraSlotsViaFb:other.nthExtraSlotsViaFb];
   }
   [self mergeUnknownFields:other.unknownFields];
   return self;
@@ -2544,10 +2658,6 @@ static FullUserProto* defaultFullUserProtoInstance = nil;
         [self setHasReceivedfbReward:[input readBool]];
         break;
       }
-      case 232: {
-        [self setNumAdditionalMonsterSlots:[input readInt32]];
-        break;
-      }
       case 240: {
         [self setNumBeginnerSalesPurchased:[input readInt32]];
         break;
@@ -2592,8 +2702,12 @@ static FullUserProto* defaultFullUserProtoInstance = nil;
         [self setFacebookId:[input readString]];
         break;
       }
-      case 328: {
-        [self setNthExtraSlotsViaFb:[input readInt32]];
+      case 336: {
+        [self setOil:[input readInt32]];
+        break;
+      }
+      case 344: {
+        [self setNumOilRetrievedFromStructs:[input readInt32]];
         break;
       }
     }
@@ -2677,6 +2791,22 @@ static FullUserProto* defaultFullUserProtoInstance = nil;
 - (FullUserProto_Builder*) clearCash {
   result.hasCash = NO;
   result.cash = 0;
+  return self;
+}
+- (BOOL) hasOil {
+  return result.hasOil;
+}
+- (int32_t) oil {
+  return result.oil;
+}
+- (FullUserProto_Builder*) setOil:(int32_t) value {
+  result.hasOil = YES;
+  result.oil = value;
+  return self;
+}
+- (FullUserProto_Builder*) clearOil {
+  result.hasOil = NO;
+  result.oil = 0;
   return self;
 }
 - (BOOL) hasExperience {
@@ -2871,6 +3001,22 @@ static FullUserProto* defaultFullUserProtoInstance = nil;
   result.numCoinsRetrievedFromStructs = 0;
   return self;
 }
+- (BOOL) hasNumOilRetrievedFromStructs {
+  return result.hasNumOilRetrievedFromStructs;
+}
+- (int32_t) numOilRetrievedFromStructs {
+  return result.numOilRetrievedFromStructs;
+}
+- (FullUserProto_Builder*) setNumOilRetrievedFromStructs:(int32_t) value {
+  result.hasNumOilRetrievedFromStructs = YES;
+  result.numOilRetrievedFromStructs = value;
+  return self;
+}
+- (FullUserProto_Builder*) clearNumOilRetrievedFromStructs {
+  result.hasNumOilRetrievedFromStructs = NO;
+  result.numOilRetrievedFromStructs = 0;
+  return self;
+}
 - (BOOL) hasClan {
   return result.hasClan;
 }
@@ -2915,22 +3061,6 @@ static FullUserProto* defaultFullUserProtoInstance = nil;
 - (FullUserProto_Builder*) clearHasReceivedfbReward {
   result.hasHasReceivedfbReward = NO;
   result.hasReceivedfbReward = NO;
-  return self;
-}
-- (BOOL) hasNumAdditionalMonsterSlots {
-  return result.hasNumAdditionalMonsterSlots;
-}
-- (int32_t) numAdditionalMonsterSlots {
-  return result.numAdditionalMonsterSlots;
-}
-- (FullUserProto_Builder*) setNumAdditionalMonsterSlots:(int32_t) value {
-  result.hasNumAdditionalMonsterSlots = YES;
-  result.numAdditionalMonsterSlots = value;
-  return self;
-}
-- (FullUserProto_Builder*) clearNumAdditionalMonsterSlots {
-  result.hasNumAdditionalMonsterSlots = NO;
-  result.numAdditionalMonsterSlots = 0;
   return self;
 }
 - (BOOL) hasNumBeginnerSalesPurchased {
@@ -3253,28 +3383,11 @@ static FullUserProto* defaultFullUserProtoInstance = nil;
   result.kabamNaid = @"";
   return self;
 }
-- (BOOL) hasNthExtraSlotsViaFb {
-  return result.hasNthExtraSlotsViaFb;
-}
-- (int32_t) nthExtraSlotsViaFb {
-  return result.nthExtraSlotsViaFb;
-}
-- (FullUserProto_Builder*) setNthExtraSlotsViaFb:(int32_t) value {
-  result.hasNthExtraSlotsViaFb = YES;
-  result.nthExtraSlotsViaFb = value;
-  return self;
-}
-- (FullUserProto_Builder*) clearNthExtraSlotsViaFb {
-  result.hasNthExtraSlotsViaFb = NO;
-  result.nthExtraSlotsViaFb = 0;
-  return self;
-}
 @end
 
 @interface StaticUserLevelInfoProto ()
 @property int32_t level;
 @property int32_t requiredExperience;
-@property int32_t maxCash;
 @end
 
 @implementation StaticUserLevelInfoProto
@@ -3293,13 +3406,6 @@ static FullUserProto* defaultFullUserProtoInstance = nil;
   hasRequiredExperience_ = !!value;
 }
 @synthesize requiredExperience;
-- (BOOL) hasMaxCash {
-  return !!hasMaxCash_;
-}
-- (void) setHasMaxCash:(BOOL) value {
-  hasMaxCash_ = !!value;
-}
-@synthesize maxCash;
 - (void) dealloc {
   [super dealloc];
 }
@@ -3307,7 +3413,6 @@ static FullUserProto* defaultFullUserProtoInstance = nil;
   if ((self = [super init])) {
     self.level = 0;
     self.requiredExperience = 0;
-    self.maxCash = 0;
   }
   return self;
 }
@@ -3333,9 +3438,6 @@ static StaticUserLevelInfoProto* defaultStaticUserLevelInfoProtoInstance = nil;
   if (self.hasRequiredExperience) {
     [output writeInt32:2 value:self.requiredExperience];
   }
-  if (self.hasMaxCash) {
-    [output writeInt32:3 value:self.maxCash];
-  }
   [self.unknownFields writeToCodedOutputStream:output];
 }
 - (int32_t) serializedSize {
@@ -3350,9 +3452,6 @@ static StaticUserLevelInfoProto* defaultStaticUserLevelInfoProtoInstance = nil;
   }
   if (self.hasRequiredExperience) {
     size += computeInt32Size(2, self.requiredExperience);
-  }
-  if (self.hasMaxCash) {
-    size += computeInt32Size(3, self.maxCash);
   }
   size += self.unknownFields.serializedSize;
   memoizedSerializedSize = size;
@@ -3435,9 +3534,6 @@ static StaticUserLevelInfoProto* defaultStaticUserLevelInfoProtoInstance = nil;
   if (other.hasRequiredExperience) {
     [self setRequiredExperience:other.requiredExperience];
   }
-  if (other.hasMaxCash) {
-    [self setMaxCash:other.maxCash];
-  }
   [self mergeUnknownFields:other.unknownFields];
   return self;
 }
@@ -3465,10 +3561,6 @@ static StaticUserLevelInfoProto* defaultStaticUserLevelInfoProtoInstance = nil;
       }
       case 16: {
         [self setRequiredExperience:[input readInt32]];
-        break;
-      }
-      case 24: {
-        [self setMaxCash:[input readInt32]];
         break;
       }
     }
@@ -3504,22 +3596,6 @@ static StaticUserLevelInfoProto* defaultStaticUserLevelInfoProtoInstance = nil;
 - (StaticUserLevelInfoProto_Builder*) clearRequiredExperience {
   result.hasRequiredExperience = NO;
   result.requiredExperience = 0;
-  return self;
-}
-- (BOOL) hasMaxCash {
-  return result.hasMaxCash;
-}
-- (int32_t) maxCash {
-  return result.maxCash;
-}
-- (StaticUserLevelInfoProto_Builder*) setMaxCash:(int32_t) value {
-  result.hasMaxCash = YES;
-  result.maxCash = value;
-  return self;
-}
-- (StaticUserLevelInfoProto_Builder*) clearMaxCash {
-  result.hasMaxCash = NO;
-  result.maxCash = 0;
   return self;
 }
 @end

@@ -45,7 +45,6 @@
     self.healthBarView.hidden = YES;
     self.genLabelView.hidden = NO;
     self.combineView.hidden = YES;
-    self.cardContainer.monsterCardView.overlayButton.userInteractionEnabled = NO;
     self.cardContainer.monsterCardView.monsterIcon.alpha = 1.f;
     if ([monster isHealing]) {
       self.genLabel.text = @"Healing";
@@ -72,7 +71,6 @@
         self.healCostLabel.text = @"Healthy";
       } else {
         self.healCostLabel.text = [Globals cashStringForNumber:[gl calculateCostToHealMonster:monster]];
-        self.cardContainer.monsterCardView.overlayButton.userInteractionEnabled = YES;
       }
     }
   }
@@ -93,10 +91,6 @@
 
 - (void) updateForBuySlots {
   self.monster = nil;
-  
-  Globals *gl = [Globals sharedGlobals];
-  self.buySlotsNumLabel.text = [NSString stringWithFormat:@"Buy %d Slots", gl.inventoryIncreaseSizeAmount];
-  self.buySlotsCostLabel.text = [Globals commafyNumber:gl.inventoryIncreaseSizeCost];
   
   self.buySlotsView.hidden = NO;
   self.plusButton.hidden = YES;

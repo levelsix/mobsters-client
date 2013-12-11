@@ -184,7 +184,7 @@
   
   // Check that team is valid
   GameState *gs = [GameState sharedGameState];
-  Globals *gl = [Globals sharedGlobals];
+//  Globals *gl = [Globals sharedGlobals];
   NSArray *team = [gs allMonstersOnMyTeam];
   BOOL hasValidTeam = NO;
   for (UserMonster *um in team) {
@@ -206,8 +206,8 @@
   }
   
   // Check that inventory is not full
-  int curInvSize = gs.myMonsters.count-team.count;
-  if (curInvSize > gl.baseInventorySize+gs.numAdditionalMonsterSlots) {
+  int curInvSize = gs.myMonsters.count;
+  if (curInvSize > gs.maxInventorySlots) {
     NSString *description = @"Uh oh, you have recruited too many mobsters. Manage your team?";
     [GenericPopupController displayConfirmationWithDescription:description title:@"Can't Begin" okayButton:@"Manage" cancelButton:@"Later" target:self selector:@selector(visitTeamPage)];
     return NO;
@@ -289,17 +289,14 @@
     return;
   }
   
-  SelectableSprite *oldSelected = self.selected;
   [super setSelected:selected];
   
-  if (self.selected != oldSelected) {
-    if (self.selected) {
-      if ([self.selected conformsToProtocol:@protocol(TaskElement)]) {
-        self.bottomOptionView = self.missionBotView;
-      }
-    } else {
-      self.bottomOptionView = nil;
+  if (self.selected) {
+    if ([self.selected conformsToProtocol:@protocol(TaskElement)]) {
+      self.bottomOptionView = self.missionBotView;
     }
+  } else {
+    self.bottomOptionView = nil;
   }
 }
 

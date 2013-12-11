@@ -211,9 +211,14 @@
   [super viewDidLoad];
   
   if (self.boosterPack.hasNavTitleImgName) {
-    self.navigationItem.titleView = [[UIImageView alloc] initWithImage:[Globals imageNamed:self.boosterPack.navTitleImgName]];
+    UIImageView *img = [[UIImageView alloc] initWithImage:[Globals imageNamed:self.boosterPack.navTitleImgName]];
+    [self.topBar addSubview:img];
+    img.center = self.topBarLabel.center;
+    img.autoresizingMask = UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleRightMargin;
+    self.topBarLabel.hidden = YES;
   }
   self.title = self.boosterPack.boosterPackName;
+  self.topBarLabel.text = self.title;
   
   [self setUpCloseButton];
   [self setUpImageBackButton];
@@ -223,16 +228,18 @@
   
   self.gemCostLabel.text = [Globals commafyNumber:self.boosterPack.gemPrice];
   self.prizeView.gemCostLabel.text = [Globals commafyNumber:self.boosterPack.gemPrice];
+  
+  [Globals imageNamed:self.boosterPack.machineImgName withView:self.machineIcon greyscale:NO indicator:UIActivityIndicatorViewStyleWhite clearImageDuringDownload:YES];
 }
 
 - (void) viewWillAppear:(BOOL)animated {
   if (self.boosterPack.hasNavBarImgName) {
-    self.topBar = [[UIImageView alloc] initWithImage:[Globals imageNamed:self.boosterPack.navBarImgName]];
-    [self.navigationController.navigationBar insertSubview:self.topBar atIndex:0];
-    [(CustomNavBar *)self.navigationController.navigationBar setBgdView:self.topBar];
-    self.topBar.alpha = 0.f;
+    self.topBarBgd = [[UIImageView alloc] initWithImage:[Globals imageNamed:self.boosterPack.navBarImgName]];
+    [self.navigationController.navigationBar insertSubview:self.topBarBgd atIndex:0];
+    [(CustomNavBar *)self.navigationController.navigationBar setBgdView:self.topBarBgd];
+    self.topBarBgd.alpha = 0.f;
     [UIView animateWithDuration:0.3f animations:^{
-      self.topBar.alpha = 1.f;
+      self.topBarBgd.alpha = 1.f;
     }];
   }
 }
@@ -240,9 +247,9 @@
 - (void) viewWillDisappear:(BOOL)animated {
   CustomNavBar *nav = (CustomNavBar *)self.navigationController.navigationBar;
   [UIView animateWithDuration:0.3f animations:^{
-    self.topBar.alpha = 0.f;
+    self.topBarBgd.alpha = 0.f;
   } completion:^(BOOL finished) {
-    [self.topBar removeFromSuperview];
+    [self.topBarBgd removeFromSuperview];
     [nav setBgdView:nil];
   }];
 }

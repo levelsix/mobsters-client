@@ -635,6 +635,14 @@
 
 @implementation NumTransitionLabel
 
+//- (void) awakeFromNib {
+//  [Globals adjustFontSizeForUILabel:self];
+//  self.font = [UIFont fontWithName:[Globals font] size:self.font.pointSize+2];
+//  self.strokeSize = 1.f;
+//  self.strokePosition = THLabelStrokePositionOutside;
+//  self.strokeColor = [UIColor blackColor];
+//}
+
 - (void) instaMoveToNum:(int)num {
   _currentNum = num;
   _goalNum = num;
@@ -711,7 +719,7 @@
   
   self.button.hidden = NO;
   self.label.hidden = YES;
-//  self.underlineView.hidden = YES;
+  //  self.underlineView.hidden = YES;
   
   [self.button setImage:image forState:UIControlStateNormal];
   

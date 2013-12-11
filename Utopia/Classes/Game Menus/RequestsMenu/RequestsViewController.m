@@ -46,6 +46,14 @@
   [self reloadRequestsArray];
 }
 
+- (void) viewDidAppear:(BOOL)animated {
+  [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(reloadRequestsArray) name:NEW_FB_INVITE_NOTIFICATION object:nil];
+}
+
+- (void) viewDidDisappear:(BOOL)animated {
+  [[NSNotificationCenter defaultCenter] removeObserver:self];
+}
+
 - (IBAction)closeClicked:(id)sender {
   [Globals popOutView:self.mainView fadeOutBgdView:self.bgdView completion:^{
     [self.view removeFromSuperview];
@@ -66,6 +74,8 @@
   }
   
   [[OutgoingEventController sharedOutgoingEventController] acceptAndRejectInvitesWithAcceptIds:accept rejectIds:reject];
+  
+  [self closeClicked:nil];
 }
 
 - (IBAction)unselectAllClicked:(id)sender {
@@ -93,10 +103,19 @@
 
 - (void) reloadRequestsArray {
   GameState *gs = [GameState sharedGameState];
-  self.requests = gs.requestsFromFriends.mutableCopy;
+  self.requests = [NSMutableArray arrayWithArray:gs.fbUnacceptedRequestsFromFriends.allObjects];
+  self.fbInfo = nil;
   
   [self.requestsTable reloadData];
-  [self getFacebookInfo];
+  
+  if (self.requests.count == 0) {
+    self.noRequestsLabel.hidden = NO;
+    self.spinner.hidden = YES;
+  } else {
+    [self getFacebookInfo];
+    self.noRequestsLabel.hidden = YES;
+    self.spinner.hidden = NO;
+  }
 }
 
 - (void) getFacebookInfo {
@@ -112,8 +131,10 @@
     [ids appendFormat:@",%@", req.invite.inviter.facebookId];
   }
   
-  self.spinner.hidden = NO;
   NSDictionary *params = [NSDictionary dictionaryWithObjectsAndKeys:ids, @"ids", nil];
+  if (![FBSession activeSession]) {
+    [FBSession openActiveSessionWithAllowLoginUI:NO];
+  }
   FBRequest *req = [[FBRequest alloc] initWithSession:nil graphPath:@"" parameters:params HTTPMethod:nil];
   [conn addRequest:req completionHandler:^(FBRequestConnection *connection, NSDictionary *result, NSError *error) {
     self.fbInfo = result;

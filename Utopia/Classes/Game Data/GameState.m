@@ -18,6 +18,7 @@
 #import "GameLayer.h"
 #import "SocketCommunication.h"
 #import "PrivateChatPostProto+UnreadStatus.h"
+#import "StaticStructure.h"
 
 #define TagLog(...) //LNLog(__VA_ARGS__)
 
@@ -43,9 +44,8 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
     _rareBoosterPurchases = [[NSMutableArray alloc] init];
     _monsterHealingQueue = [[NSMutableArray alloc] init];
     _recentlyHealedMonsterIds = [[NSMutableSet alloc] init];
-    _requestsFromFriends = [[NSMutableArray alloc] init];
-    _usersUsedForExtraSlots = [[NSMutableArray alloc] init];
-    _acceptedSlotsRequests = [[NSMutableArray alloc] init];
+    _fbAcceptedRequestsFromMe = [[NSMutableSet alloc] init];
+    _fbUnacceptedRequestsFromFriends = [[NSMutableSet alloc] init];
     
     _availableQuests = [[NSMutableDictionary alloc] init];
     _inProgressCompleteQuests = [[NSMutableDictionary alloc] init];
@@ -75,6 +75,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
   self.level = user.level;
   self.gold = user.gems;
   self.silver = user.cash;
+  self.oil = user.oil;
   self.experience = user.experience;
   self.tasksCompleted = user.tasksCompleted;
   self.battlesWon = user.battlesWon;
@@ -87,7 +88,6 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
   self.numBeginnerSalesPurchased = user.numBeginnerSalesPurchased;
   self.hasActiveShield = user.hasActiveShield;
   self.createTime = [NSDate dateWithTimeIntervalSince1970:user.createTime/1000.0];
-  self.numAdditionalMonsterSlots = user.numAdditionalMonsterSlots;
   self.facebookId = user.facebookId;
   
   self.lastLogoutTime = [NSDate dateWithTimeIntervalSince1970:user.lastLogoutTime/1000.0];
@@ -121,7 +121,6 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
   fup.numBeginnerSalesPurchased = self.numBeginnerSalesPurchased;
   fup.hasActiveShield = self.hasActiveShield;
   fup.createTime = self.createTime.timeIntervalSince1970*1000.;
-  fup.numAdditionalMonsterSlots = self.numAdditionalMonsterSlots;
   fup.lastLogoutTime = self.lastLogoutTime.timeIntervalSince1970*1000.;
   fup.facebookId = self.facebookId;
   
@@ -155,7 +154,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
   return p;
 }
 
-- (FullStructureProto *) structWithId:(int)structId {
+- (id<StaticStructure>) structWithId:(int)structId {
   if (structId == 0) {
     [Globals popupMessage:@"Attempted to access struct 0"];
     return nil;
@@ -205,6 +204,8 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
   for (FullUserStructureProto *st in structs) {
     [self.myStructs addObject:[UserStruct userStructWithProto:st]];
   }
+  [self checkResidencesForFbCompletion];
+  [[NSNotificationCenter defaultCenter] postNotificationName:GAMESTATE_UPDATE_NOTIFICATION object:nil];
 }
 
 - (void) addToMyQuests:(NSArray *)quests {
@@ -249,20 +250,60 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
 }
 
 - (void) addInventorySlotsRequests:(NSArray *)invites {
+  BOOL newFbInvite = NO, fbInviteAccepted = NO;
   for (UserFacebookInviteForSlotProto *invite in invites) {
     RequestFromFriend *req = [RequestFromFriend requestForInventorySlotsWithInvite:invite];
-    if (!invite.timeAccepted) {
-      [self.requestsFromFriends addObject:req];
-    } else {
-      [self.acceptedSlotsRequests addObject:req];
+    if (!invite.timeAccepted && [invite.recipientFacebookId isEqualToString:self.facebookId]) {
+      [self.fbUnacceptedRequestsFromFriends addObject:req];
+      newFbInvite = YES;
+    } else if (invite.timeAccepted && [invite.inviter.facebookId isEqualToString:self.facebookId]) {
+      [self.fbAcceptedRequestsFromMe addObject:req];
+      fbInviteAccepted = YES;
+    }
+  }
+  
+  // Check all residences
+  if (fbInviteAccepted) {
+    [self checkResidencesForFbCompletion];
+    
+    [[NSNotificationCenter defaultCenter] postNotificationName:FB_INVITE_ACCEPTED_NOTIFICATION object:nil];
+  }
+  
+  if (newFbInvite) {
+    [[NSNotificationCenter defaultCenter] postNotificationName:NEW_FB_INVITE_NOTIFICATION object:nil];
+  }
+}
+
+- (void) checkResidencesForFbCompletion {
+  for (UserStruct *us in self.myStructs) {
+    if (us.staticStruct.structInfo.structType == StructureInfoProto_StructTypeResidence) {
+      ResidenceProto *res = (ResidenceProto *)us.staticStructForNextFbLevel;
+      NSArray *arr = [self acceptedFbRequestsForUserStructId:us.userStructId fbStructLevel:us.fbInviteStructLvl+1];
+      if (res.numAcceptedFbInvites <= arr.count) {
+        [[OutgoingEventController sharedOutgoingEventController] increaseInventorySlots:us withGems:NO];
+        [[NSNotificationCenter defaultCenter] postNotificationName:FB_INCREASE_SLOTS_NOTIFICATION object:nil userInfo:[NSDictionary dictionaryWithObjectsAndKeys:@(us.userStructId), @"UserStructId", nil]];
+      }
     }
   }
 }
 
-- (void) addUsersUsedForExtraSlots:(NSArray *)users {
-  for (MinimumUserProtoWithFacebookId *user in users) {
-    [self.usersUsedForExtraSlots addObject:user.facebookId];
+- (NSArray *) acceptedFbRequestsForUserStructId:(int)userStructId fbStructLevel:(int)level {
+  NSMutableArray *arr = [NSMutableArray array];
+  for (RequestFromFriend *req in self.fbAcceptedRequestsFromMe) {
+    UserFacebookInviteForSlotProto *inv = req.invite;
+    if (inv.userStructId == userStructId && inv.structFbLvl == level) {
+      [arr addObject:req];
+    }
   }
+  return arr;
+}
+
+- (NSSet *) facebookIdsAlreadyUsed {
+  NSMutableSet *set = [NSMutableSet set];
+  for (RequestFromFriend *req in self.fbAcceptedRequestsFromMe) {
+    [set addObject:req.invite.recipientFacebookId];
+  }
+  return set;
 }
 
 - (void) addNotification:(UserNotification *)un {
@@ -471,9 +512,29 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
   return m;
 }
 
+- (NSArray *) allBattleAvailableMonstersOnTeam {
+  NSArray *arr = [self allMonstersOnMyTeam];
+  NSMutableArray *m = [NSMutableArray array];
+  for (UserMonster *um in arr) {
+    if (![um isHealing] && ![um isEnhancing] && ![um isSacrificing]) {
+      [m addObject:um];
+    }
+  }
+  return m;
+}
+
 - (UserStruct *) myStructWithId:(int)structId {
   for (UserStruct *us in self.myStructs) {
     if (us.structId == structId) {
+      return us;
+    }
+  }
+  return nil;
+}
+
+- (UserStruct *) myTownHall {
+  for (UserStruct *us in self.myStructs) {
+    if (us.staticStruct.structInfo.structType == StructureInfoProto_StructTypeTownHall) {
       return us;
     }
   }
@@ -531,7 +592,12 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
   [self addStaticBoosterPacks:proto.boosterPacksList];
   
   [self.staticStructs removeAllObjects];
-  [self addToStaticStructs:proto.allStructsList];
+  [self addToStaticStructs:proto.allGeneratorsList];
+  [self addToStaticStructs:proto.allTownHallsList];
+  [self addToStaticStructs:proto.allStoragesList];
+  [self addToStaticStructs:proto.allHospitalsList];
+  [self addToStaticStructs:proto.allResidencesList];
+  
   [self addToExpansionCosts:proto.expansionCostsList];
   
   [self.staticMonsters removeAllObjects];
@@ -540,30 +606,30 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
 
 - (void) addToStaticMonsters:(NSArray *)arr {
   for (MonsterProto *p in arr) {
-    [self.staticMonsters setObject:p forKey:[NSNumber numberWithInt:p.monsterId]];
+    [self.staticMonsters setObject:p forKey:@(p.monsterId)];
   }
 }
 
 - (void) addToStaticStructs:(NSArray *)arr {
-  for (FullStructureProto *p in arr) {
-    [self.staticStructs setObject:p forKey:[NSNumber numberWithInt:p.structId]];
+  for (id<StaticStructure> p in arr) {
+    [self.staticStructs setObject:p forKey:@(p.structInfo.structId)];
   }
 }
 
 - (void) addToStaticTasks:(NSArray *)arr {
   for (FullTaskProto *p in arr) {
-    [self.staticTasks setObject:p forKey:[NSNumber numberWithInt:p.taskId]];
+    [self.staticTasks setObject:p forKey:@(p.taskId)];
   }
 }
 
 - (void) addToStaticCities:(NSArray *)arr {
   for (FullCityProto *p in arr) {
-    [self.staticCities setObject:p forKey:[NSNumber numberWithInt:p.cityId]];
+    [self.staticCities setObject:p forKey:@(p.cityId)];
   }
 }
 
 - (FullQuestProto *) questForId:(int)questId {
-  NSNumber *num = [NSNumber numberWithInt:questId];
+  NSNumber *num = @(questId);
   FullQuestProto *fqp = [_availableQuests objectForKey:num];
   fqp = fqp ? fqp : [_inProgressCompleteQuests objectForKey:num];
   fqp = fqp ? fqp : [_inProgressIncompleteQuests objectForKey:num];
@@ -672,9 +738,56 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
   }
 }
 
-- (int) maxCashForLevel:(int)level {
-  StaticUserLevelInfoProto *slip = [self.staticLevelInfos objectForKey:[NSNumber numberWithInt:level]];
-  return slip.maxCash;
+- (int) maxCash {
+  int maxCash = 0;
+  for (UserStruct *us in self.myStructs) {
+    ResourceStorageProto *rgp = (ResourceStorageProto *)us.staticStruct;
+    StructureInfoProto *fsp = [rgp structInfo];
+    if (fsp.structType == StructureInfoProto_StructTypeResourceStorage && rgp.resourceType == ResourceTypeCash) {
+      if (us.isComplete) {
+        maxCash += rgp.capacity;
+      } else {
+        ResourceStorageProto *prev = (ResourceStorageProto *)us.staticStructForPrevLevel;
+        maxCash += prev.capacity;
+      }
+    }
+  }
+  return maxCash;
+}
+
+- (int) maxOil {
+  int maxOil = 0;
+  for (UserStruct *us in self.myStructs) {
+    ResourceStorageProto *rgp = (ResourceStorageProto *)us.staticStruct;
+    StructureInfoProto *fsp = [rgp structInfo];
+    if (fsp.structType == StructureInfoProto_StructTypeResourceStorage && rgp.resourceType == ResourceTypeOil) {
+      if (us.isComplete) {
+        maxOil += rgp.capacity;
+      } else {
+        ResourceStorageProto *prev = (ResourceStorageProto *)us.staticStructForPrevLevel;
+        maxOil += prev.capacity;
+      }
+    }
+  }
+  return maxOil;
+}
+
+- (int) maxInventorySlots {
+  int slots = 0;
+  for (UserStruct *us in self.myStructs) {
+    ResidenceProto *rgp = (ResidenceProto *)us.staticStruct;
+    StructureInfoProto *fsp = [rgp structInfo];
+    if (fsp.structType == StructureInfoProto_StructTypeResidence) {
+      if (us.isComplete) {
+        slots += rgp.numMonsterSlots;
+      } else {
+        ResidenceProto *prev = (ResidenceProto *)us.staticStructForPrevLevel;
+        slots += prev.numMonsterSlots;
+      }
+      slots += us.numBonusSlots;
+    }
+  }
+  return slots;
 }
 
 - (int) expNeededForLevel:(int)level {
@@ -923,9 +1036,8 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
   self.globalChatMessages = [[NSMutableArray alloc] init];
   self.rareBoosterPurchases = [[NSMutableArray alloc] init];
   self.monsterHealingQueue = [[NSMutableArray alloc] init];
-  self.requestsFromFriends = [[NSMutableArray alloc] init];
-  self.usersUsedForExtraSlots = [[NSMutableArray alloc] init];
-  self.acceptedSlotsRequests = [[NSMutableArray alloc] init];
+  self.fbAcceptedRequestsFromMe = [[NSMutableSet alloc] init];
+  self.fbUnacceptedRequestsFromFriends = [[NSMutableSet alloc] init];
   
   self.availableQuests = [[NSMutableDictionary alloc] init];
   self.inProgressCompleteQuests = [[NSMutableDictionary alloc] init];

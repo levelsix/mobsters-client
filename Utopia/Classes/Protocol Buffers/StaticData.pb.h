@@ -30,8 +30,6 @@
 @class FullCityProto_Builder;
 @class FullQuestProto;
 @class FullQuestProto_Builder;
-@class FullStructureProto;
-@class FullStructureProto_Builder;
 @class FullTaskProto;
 @class FullTaskProto_Builder;
 @class FullUserMonsterProto;
@@ -42,6 +40,10 @@
 @class FullUserQuestProto_Builder;
 @class FullUserStructureProto;
 @class FullUserStructureProto_Builder;
+@class HospitalProto;
+@class HospitalProto_Builder;
+@class LabProto;
+@class LabProto_Builder;
 @class MinimumClanProto;
 @class MinimumClanProto_Builder;
 @class MinimumUserMonsterSellProto;
@@ -58,14 +60,24 @@
 @class MonsterProto_Builder;
 @class RareBoosterPurchaseProto;
 @class RareBoosterPurchaseProto_Builder;
+@class ResidenceProto;
+@class ResidenceProto_Builder;
+@class ResourceGeneratorProto;
+@class ResourceGeneratorProto_Builder;
+@class ResourceStorageProto;
+@class ResourceStorageProto_Builder;
 @class StaticDataProto;
 @class StaticDataProto_Builder;
 @class StaticUserLevelInfoProto;
 @class StaticUserLevelInfoProto_Builder;
+@class StructureInfoProto;
+@class StructureInfoProto_Builder;
 @class TaskStageMonsterProto;
 @class TaskStageMonsterProto_Builder;
 @class TaskStageProto;
 @class TaskStageProto_Builder;
+@class TownHallProto;
+@class TownHallProto_Builder;
 @class UserCityExpansionDataProto;
 @class UserCityExpansionDataProto_Builder;
 @class UserCurrentMonsterTeamProto;
@@ -82,13 +94,6 @@
 @class UserMonsterCurrentHealthProto_Builder;
 @class UserMonsterHealingProto;
 @class UserMonsterHealingProto_Builder;
-typedef enum {
-  StaticDataProto_RetrieveStaticDataStatusSuccess = 1,
-  StaticDataProto_RetrieveStaticDataStatusSomeFail = 2,
-} StaticDataProto_RetrieveStaticDataStatus;
-
-BOOL StaticDataProto_RetrieveStaticDataStatusIsValidValue(StaticDataProto_RetrieveStaticDataStatus value);
-
 
 @interface StaticDataRoot : NSObject {
 }
@@ -99,12 +104,9 @@ BOOL StaticDataProto_RetrieveStaticDataStatusIsValidValue(StaticDataProto_Retrie
 @interface StaticDataProto : PBGeneratedMessage {
 @private
   BOOL hasSender_:1;
-  BOOL hasStatus_:1;
   MinimumUserProto* sender;
-  StaticDataProto_RetrieveStaticDataStatus status;
   NSMutableArray* mutableExpansionCostsList;
   NSMutableArray* mutableAllCitiesList;
-  NSMutableArray* mutableAllStructsList;
   NSMutableArray* mutableAllTasksList;
   NSMutableArray* mutableAllMonstersList;
   NSMutableArray* mutableSlipList;
@@ -112,17 +114,19 @@ BOOL StaticDataProto_RetrieveStaticDataStatusIsValidValue(StaticDataProto_Retrie
   NSMutableArray* mutableUnredeemedQuestsList;
   NSMutableArray* mutableAvailableQuestsList;
   NSMutableArray* mutableBoosterPacksList;
+  NSMutableArray* mutableAllGeneratorsList;
+  NSMutableArray* mutableAllStoragesList;
+  NSMutableArray* mutableAllHospitalsList;
+  NSMutableArray* mutableAllResidencesList;
+  NSMutableArray* mutableAllLabsList;
+  NSMutableArray* mutableAllTownHallsList;
 }
 - (BOOL) hasSender;
-- (BOOL) hasStatus;
 @property (readonly, retain) MinimumUserProto* sender;
-@property (readonly) StaticDataProto_RetrieveStaticDataStatus status;
 - (NSArray*) expansionCostsList;
 - (CityExpansionCostProto*) expansionCostsAtIndex:(int32_t) index;
 - (NSArray*) allCitiesList;
 - (FullCityProto*) allCitiesAtIndex:(int32_t) index;
-- (NSArray*) allStructsList;
-- (FullStructureProto*) allStructsAtIndex:(int32_t) index;
 - (NSArray*) allTasksList;
 - (FullTaskProto*) allTasksAtIndex:(int32_t) index;
 - (NSArray*) allMonstersList;
@@ -137,6 +141,18 @@ BOOL StaticDataProto_RetrieveStaticDataStatusIsValidValue(StaticDataProto_Retrie
 - (FullQuestProto*) availableQuestsAtIndex:(int32_t) index;
 - (NSArray*) boosterPacksList;
 - (BoosterPackProto*) boosterPacksAtIndex:(int32_t) index;
+- (NSArray*) allGeneratorsList;
+- (ResourceGeneratorProto*) allGeneratorsAtIndex:(int32_t) index;
+- (NSArray*) allStoragesList;
+- (ResourceStorageProto*) allStoragesAtIndex:(int32_t) index;
+- (NSArray*) allHospitalsList;
+- (HospitalProto*) allHospitalsAtIndex:(int32_t) index;
+- (NSArray*) allResidencesList;
+- (ResidenceProto*) allResidencesAtIndex:(int32_t) index;
+- (NSArray*) allLabsList;
+- (LabProto*) allLabsAtIndex:(int32_t) index;
+- (NSArray*) allTownHallsList;
+- (TownHallProto*) allTownHallsAtIndex:(int32_t) index;
 
 + (StaticDataProto*) defaultInstance;
 - (StaticDataProto*) defaultInstance;
@@ -193,13 +209,6 @@ BOOL StaticDataProto_RetrieveStaticDataStatusIsValidValue(StaticDataProto_Retrie
 - (StaticDataProto_Builder*) addAllAllCities:(NSArray*) values;
 - (StaticDataProto_Builder*) clearAllCitiesList;
 
-- (NSArray*) allStructsList;
-- (FullStructureProto*) allStructsAtIndex:(int32_t) index;
-- (StaticDataProto_Builder*) replaceAllStructsAtIndex:(int32_t) index with:(FullStructureProto*) value;
-- (StaticDataProto_Builder*) addAllStructs:(FullStructureProto*) value;
-- (StaticDataProto_Builder*) addAllAllStructs:(NSArray*) values;
-- (StaticDataProto_Builder*) clearAllStructsList;
-
 - (NSArray*) allTasksList;
 - (FullTaskProto*) allTasksAtIndex:(int32_t) index;
 - (StaticDataProto_Builder*) replaceAllTasksAtIndex:(int32_t) index with:(FullTaskProto*) value;
@@ -249,9 +258,46 @@ BOOL StaticDataProto_RetrieveStaticDataStatusIsValidValue(StaticDataProto_Retrie
 - (StaticDataProto_Builder*) addAllBoosterPacks:(NSArray*) values;
 - (StaticDataProto_Builder*) clearBoosterPacksList;
 
-- (BOOL) hasStatus;
-- (StaticDataProto_RetrieveStaticDataStatus) status;
-- (StaticDataProto_Builder*) setStatus:(StaticDataProto_RetrieveStaticDataStatus) value;
-- (StaticDataProto_Builder*) clearStatus;
+- (NSArray*) allGeneratorsList;
+- (ResourceGeneratorProto*) allGeneratorsAtIndex:(int32_t) index;
+- (StaticDataProto_Builder*) replaceAllGeneratorsAtIndex:(int32_t) index with:(ResourceGeneratorProto*) value;
+- (StaticDataProto_Builder*) addAllGenerators:(ResourceGeneratorProto*) value;
+- (StaticDataProto_Builder*) addAllAllGenerators:(NSArray*) values;
+- (StaticDataProto_Builder*) clearAllGeneratorsList;
+
+- (NSArray*) allStoragesList;
+- (ResourceStorageProto*) allStoragesAtIndex:(int32_t) index;
+- (StaticDataProto_Builder*) replaceAllStoragesAtIndex:(int32_t) index with:(ResourceStorageProto*) value;
+- (StaticDataProto_Builder*) addAllStorages:(ResourceStorageProto*) value;
+- (StaticDataProto_Builder*) addAllAllStorages:(NSArray*) values;
+- (StaticDataProto_Builder*) clearAllStoragesList;
+
+- (NSArray*) allHospitalsList;
+- (HospitalProto*) allHospitalsAtIndex:(int32_t) index;
+- (StaticDataProto_Builder*) replaceAllHospitalsAtIndex:(int32_t) index with:(HospitalProto*) value;
+- (StaticDataProto_Builder*) addAllHospitals:(HospitalProto*) value;
+- (StaticDataProto_Builder*) addAllAllHospitals:(NSArray*) values;
+- (StaticDataProto_Builder*) clearAllHospitalsList;
+
+- (NSArray*) allResidencesList;
+- (ResidenceProto*) allResidencesAtIndex:(int32_t) index;
+- (StaticDataProto_Builder*) replaceAllResidencesAtIndex:(int32_t) index with:(ResidenceProto*) value;
+- (StaticDataProto_Builder*) addAllResidences:(ResidenceProto*) value;
+- (StaticDataProto_Builder*) addAllAllResidences:(NSArray*) values;
+- (StaticDataProto_Builder*) clearAllResidencesList;
+
+- (NSArray*) allLabsList;
+- (LabProto*) allLabsAtIndex:(int32_t) index;
+- (StaticDataProto_Builder*) replaceAllLabsAtIndex:(int32_t) index with:(LabProto*) value;
+- (StaticDataProto_Builder*) addAllLabs:(LabProto*) value;
+- (StaticDataProto_Builder*) addAllAllLabs:(NSArray*) values;
+- (StaticDataProto_Builder*) clearAllLabsList;
+
+- (NSArray*) allTownHallsList;
+- (TownHallProto*) allTownHallsAtIndex:(int32_t) index;
+- (StaticDataProto_Builder*) replaceAllTownHallsAtIndex:(int32_t) index with:(TownHallProto*) value;
+- (StaticDataProto_Builder*) addAllTownHalls:(TownHallProto*) value;
+- (StaticDataProto_Builder*) addAllAllTownHalls:(NSArray*) values;
+- (StaticDataProto_Builder*) clearAllTownHallsList;
 @end
 

@@ -19,6 +19,16 @@ static PBExtensionRegistry* extensionRegistry = nil;
 }
 @end
 
+BOOL ResourceTypeIsValidValue(ResourceType value) {
+  switch (value) {
+    case ResourceTypeCash:
+    case ResourceTypeOil:
+    case ResourceTypeGems:
+      return YES;
+    default:
+      return NO;
+  }
+}
 BOOL StructOrientationIsValidValue(StructOrientation value) {
   switch (value) {
     case StructOrientationPosition1:
@@ -28,25 +38,26 @@ BOOL StructOrientationIsValidValue(StructOrientation value) {
       return NO;
   }
 }
-@interface FullStructureProto ()
+@interface StructureInfoProto ()
 @property int32_t structId;
 @property (retain) NSString* name;
 @property int32_t level;
-@property int32_t income;
-@property int32_t minutesToGain;
+@property StructureInfoProto_StructType structType;
+@property ResourceType buildResourceType;
+@property int32_t buildCost;
 @property int32_t minutesToBuild;
-@property int32_t buildPrice;
-@property BOOL isPremiumCurrency;
-@property int32_t sellPrice;
-@property int32_t minLevel;
-@property int32_t xLength;
-@property int32_t yLength;
-@property int32_t imgVerticalPixelOffset;
-@property int32_t successorStructId;
+@property int32_t prerequisiteTownHallLvl;
+@property int32_t width;
+@property int32_t height;
 @property int32_t predecessorStructId;
+@property int32_t successorStructId;
+@property (retain) NSString* imgName;
+@property Float32 imgVerticalPixelOffset;
+@property (retain) NSString* description;
+@property (retain) NSString* shortDescription;
 @end
 
-@implementation FullStructureProto
+@implementation StructureInfoProto
 
 - (BOOL) hasStructId {
   return !!hasStructId_;
@@ -69,20 +80,27 @@ BOOL StructOrientationIsValidValue(StructOrientation value) {
   hasLevel_ = !!value;
 }
 @synthesize level;
-- (BOOL) hasIncome {
-  return !!hasIncome_;
+- (BOOL) hasStructType {
+  return !!hasStructType_;
 }
-- (void) setHasIncome:(BOOL) value {
-  hasIncome_ = !!value;
+- (void) setHasStructType:(BOOL) value {
+  hasStructType_ = !!value;
 }
-@synthesize income;
-- (BOOL) hasMinutesToGain {
-  return !!hasMinutesToGain_;
+@synthesize structType;
+- (BOOL) hasBuildResourceType {
+  return !!hasBuildResourceType_;
 }
-- (void) setHasMinutesToGain:(BOOL) value {
-  hasMinutesToGain_ = !!value;
+- (void) setHasBuildResourceType:(BOOL) value {
+  hasBuildResourceType_ = !!value;
 }
-@synthesize minutesToGain;
+@synthesize buildResourceType;
+- (BOOL) hasBuildCost {
+  return !!hasBuildCost_;
+}
+- (void) setHasBuildCost:(BOOL) value {
+  hasBuildCost_ = !!value;
+}
+@synthesize buildCost;
 - (BOOL) hasMinutesToBuild {
   return !!hasMinutesToBuild_;
 }
@@ -90,67 +108,27 @@ BOOL StructOrientationIsValidValue(StructOrientation value) {
   hasMinutesToBuild_ = !!value;
 }
 @synthesize minutesToBuild;
-- (BOOL) hasBuildPrice {
-  return !!hasBuildPrice_;
+- (BOOL) hasPrerequisiteTownHallLvl {
+  return !!hasPrerequisiteTownHallLvl_;
 }
-- (void) setHasBuildPrice:(BOOL) value {
-  hasBuildPrice_ = !!value;
+- (void) setHasPrerequisiteTownHallLvl:(BOOL) value {
+  hasPrerequisiteTownHallLvl_ = !!value;
 }
-@synthesize buildPrice;
-- (BOOL) hasIsPremiumCurrency {
-  return !!hasIsPremiumCurrency_;
+@synthesize prerequisiteTownHallLvl;
+- (BOOL) hasWidth {
+  return !!hasWidth_;
 }
-- (void) setHasIsPremiumCurrency:(BOOL) value {
-  hasIsPremiumCurrency_ = !!value;
+- (void) setHasWidth:(BOOL) value {
+  hasWidth_ = !!value;
 }
-- (BOOL) isPremiumCurrency {
-  return !!isPremiumCurrency_;
+@synthesize width;
+- (BOOL) hasHeight {
+  return !!hasHeight_;
 }
-- (void) setIsPremiumCurrency:(BOOL) value {
-  isPremiumCurrency_ = !!value;
+- (void) setHasHeight:(BOOL) value {
+  hasHeight_ = !!value;
 }
-- (BOOL) hasSellPrice {
-  return !!hasSellPrice_;
-}
-- (void) setHasSellPrice:(BOOL) value {
-  hasSellPrice_ = !!value;
-}
-@synthesize sellPrice;
-- (BOOL) hasMinLevel {
-  return !!hasMinLevel_;
-}
-- (void) setHasMinLevel:(BOOL) value {
-  hasMinLevel_ = !!value;
-}
-@synthesize minLevel;
-- (BOOL) hasXLength {
-  return !!hasXLength_;
-}
-- (void) setHasXLength:(BOOL) value {
-  hasXLength_ = !!value;
-}
-@synthesize xLength;
-- (BOOL) hasYLength {
-  return !!hasYLength_;
-}
-- (void) setHasYLength:(BOOL) value {
-  hasYLength_ = !!value;
-}
-@synthesize yLength;
-- (BOOL) hasImgVerticalPixelOffset {
-  return !!hasImgVerticalPixelOffset_;
-}
-- (void) setHasImgVerticalPixelOffset:(BOOL) value {
-  hasImgVerticalPixelOffset_ = !!value;
-}
-@synthesize imgVerticalPixelOffset;
-- (BOOL) hasSuccessorStructId {
-  return !!hasSuccessorStructId_;
-}
-- (void) setHasSuccessorStructId:(BOOL) value {
-  hasSuccessorStructId_ = !!value;
-}
-@synthesize successorStructId;
+@synthesize height;
 - (BOOL) hasPredecessorStructId {
   return !!hasPredecessorStructId_;
 }
@@ -158,8 +136,46 @@ BOOL StructOrientationIsValidValue(StructOrientation value) {
   hasPredecessorStructId_ = !!value;
 }
 @synthesize predecessorStructId;
+- (BOOL) hasSuccessorStructId {
+  return !!hasSuccessorStructId_;
+}
+- (void) setHasSuccessorStructId:(BOOL) value {
+  hasSuccessorStructId_ = !!value;
+}
+@synthesize successorStructId;
+- (BOOL) hasImgName {
+  return !!hasImgName_;
+}
+- (void) setHasImgName:(BOOL) value {
+  hasImgName_ = !!value;
+}
+@synthesize imgName;
+- (BOOL) hasImgVerticalPixelOffset {
+  return !!hasImgVerticalPixelOffset_;
+}
+- (void) setHasImgVerticalPixelOffset:(BOOL) value {
+  hasImgVerticalPixelOffset_ = !!value;
+}
+@synthesize imgVerticalPixelOffset;
+- (BOOL) hasDescription {
+  return !!hasDescription_;
+}
+- (void) setHasDescription:(BOOL) value {
+  hasDescription_ = !!value;
+}
+@synthesize description;
+- (BOOL) hasShortDescription {
+  return !!hasShortDescription_;
+}
+- (void) setHasShortDescription:(BOOL) value {
+  hasShortDescription_ = !!value;
+}
+@synthesize shortDescription;
 - (void) dealloc {
   self.name = nil;
+  self.imgName = nil;
+  self.description = nil;
+  self.shortDescription = nil;
   [super dealloc];
 }
 - (id) init {
@@ -167,32 +183,33 @@ BOOL StructOrientationIsValidValue(StructOrientation value) {
     self.structId = 0;
     self.name = @"";
     self.level = 0;
-    self.income = 0;
-    self.minutesToGain = 0;
+    self.structType = StructureInfoProto_StructTypeResourceGenerator;
+    self.buildResourceType = ResourceTypeCash;
+    self.buildCost = 0;
     self.minutesToBuild = 0;
-    self.buildPrice = 0;
-    self.isPremiumCurrency = NO;
-    self.sellPrice = 0;
-    self.minLevel = 0;
-    self.xLength = 0;
-    self.yLength = 0;
-    self.imgVerticalPixelOffset = 0;
-    self.successorStructId = 0;
+    self.prerequisiteTownHallLvl = 0;
+    self.width = 0;
+    self.height = 0;
     self.predecessorStructId = 0;
+    self.successorStructId = 0;
+    self.imgName = @"";
+    self.imgVerticalPixelOffset = 0;
+    self.description = @"";
+    self.shortDescription = @"";
   }
   return self;
 }
-static FullStructureProto* defaultFullStructureProtoInstance = nil;
+static StructureInfoProto* defaultStructureInfoProtoInstance = nil;
 + (void) initialize {
-  if (self == [FullStructureProto class]) {
-    defaultFullStructureProtoInstance = [[FullStructureProto alloc] init];
+  if (self == [StructureInfoProto class]) {
+    defaultStructureInfoProtoInstance = [[StructureInfoProto alloc] init];
   }
 }
-+ (FullStructureProto*) defaultInstance {
-  return defaultFullStructureProtoInstance;
++ (StructureInfoProto*) defaultInstance {
+  return defaultStructureInfoProtoInstance;
 }
-- (FullStructureProto*) defaultInstance {
-  return defaultFullStructureProtoInstance;
+- (StructureInfoProto*) defaultInstance {
+  return defaultStructureInfoProtoInstance;
 }
 - (BOOL) isInitialized {
   return YES;
@@ -207,41 +224,44 @@ static FullStructureProto* defaultFullStructureProtoInstance = nil;
   if (self.hasLevel) {
     [output writeInt32:3 value:self.level];
   }
-  if (self.hasIncome) {
-    [output writeInt32:4 value:self.income];
+  if (self.hasStructType) {
+    [output writeEnum:4 value:self.structType];
   }
-  if (self.hasMinutesToGain) {
-    [output writeInt32:5 value:self.minutesToGain];
+  if (self.hasBuildResourceType) {
+    [output writeEnum:5 value:self.buildResourceType];
+  }
+  if (self.hasBuildCost) {
+    [output writeInt32:6 value:self.buildCost];
   }
   if (self.hasMinutesToBuild) {
-    [output writeInt32:6 value:self.minutesToBuild];
+    [output writeInt32:7 value:self.minutesToBuild];
   }
-  if (self.hasBuildPrice) {
-    [output writeInt32:7 value:self.buildPrice];
+  if (self.hasPrerequisiteTownHallLvl) {
+    [output writeInt32:8 value:self.prerequisiteTownHallLvl];
   }
-  if (self.hasIsPremiumCurrency) {
-    [output writeBool:8 value:self.isPremiumCurrency];
+  if (self.hasWidth) {
+    [output writeInt32:9 value:self.width];
   }
-  if (self.hasSellPrice) {
-    [output writeInt32:9 value:self.sellPrice];
-  }
-  if (self.hasMinLevel) {
-    [output writeInt32:10 value:self.minLevel];
-  }
-  if (self.hasXLength) {
-    [output writeInt32:11 value:self.xLength];
-  }
-  if (self.hasYLength) {
-    [output writeInt32:12 value:self.yLength];
-  }
-  if (self.hasImgVerticalPixelOffset) {
-    [output writeInt32:13 value:self.imgVerticalPixelOffset];
-  }
-  if (self.hasSuccessorStructId) {
-    [output writeInt32:14 value:self.successorStructId];
+  if (self.hasHeight) {
+    [output writeInt32:10 value:self.height];
   }
   if (self.hasPredecessorStructId) {
-    [output writeInt32:15 value:self.predecessorStructId];
+    [output writeInt32:12 value:self.predecessorStructId];
+  }
+  if (self.hasSuccessorStructId) {
+    [output writeInt32:13 value:self.successorStructId];
+  }
+  if (self.hasImgName) {
+    [output writeString:14 value:self.imgName];
+  }
+  if (self.hasImgVerticalPixelOffset) {
+    [output writeFloat:15 value:self.imgVerticalPixelOffset];
+  }
+  if (self.hasDescription) {
+    [output writeString:16 value:self.description];
+  }
+  if (self.hasShortDescription) {
+    [output writeString:17 value:self.shortDescription];
   }
   [self.unknownFields writeToCodedOutputStream:output];
 }
@@ -261,80 +281,96 @@ static FullStructureProto* defaultFullStructureProtoInstance = nil;
   if (self.hasLevel) {
     size += computeInt32Size(3, self.level);
   }
-  if (self.hasIncome) {
-    size += computeInt32Size(4, self.income);
+  if (self.hasStructType) {
+    size += computeEnumSize(4, self.structType);
   }
-  if (self.hasMinutesToGain) {
-    size += computeInt32Size(5, self.minutesToGain);
+  if (self.hasBuildResourceType) {
+    size += computeEnumSize(5, self.buildResourceType);
+  }
+  if (self.hasBuildCost) {
+    size += computeInt32Size(6, self.buildCost);
   }
   if (self.hasMinutesToBuild) {
-    size += computeInt32Size(6, self.minutesToBuild);
+    size += computeInt32Size(7, self.minutesToBuild);
   }
-  if (self.hasBuildPrice) {
-    size += computeInt32Size(7, self.buildPrice);
+  if (self.hasPrerequisiteTownHallLvl) {
+    size += computeInt32Size(8, self.prerequisiteTownHallLvl);
   }
-  if (self.hasIsPremiumCurrency) {
-    size += computeBoolSize(8, self.isPremiumCurrency);
+  if (self.hasWidth) {
+    size += computeInt32Size(9, self.width);
   }
-  if (self.hasSellPrice) {
-    size += computeInt32Size(9, self.sellPrice);
-  }
-  if (self.hasMinLevel) {
-    size += computeInt32Size(10, self.minLevel);
-  }
-  if (self.hasXLength) {
-    size += computeInt32Size(11, self.xLength);
-  }
-  if (self.hasYLength) {
-    size += computeInt32Size(12, self.yLength);
-  }
-  if (self.hasImgVerticalPixelOffset) {
-    size += computeInt32Size(13, self.imgVerticalPixelOffset);
-  }
-  if (self.hasSuccessorStructId) {
-    size += computeInt32Size(14, self.successorStructId);
+  if (self.hasHeight) {
+    size += computeInt32Size(10, self.height);
   }
   if (self.hasPredecessorStructId) {
-    size += computeInt32Size(15, self.predecessorStructId);
+    size += computeInt32Size(12, self.predecessorStructId);
+  }
+  if (self.hasSuccessorStructId) {
+    size += computeInt32Size(13, self.successorStructId);
+  }
+  if (self.hasImgName) {
+    size += computeStringSize(14, self.imgName);
+  }
+  if (self.hasImgVerticalPixelOffset) {
+    size += computeFloatSize(15, self.imgVerticalPixelOffset);
+  }
+  if (self.hasDescription) {
+    size += computeStringSize(16, self.description);
+  }
+  if (self.hasShortDescription) {
+    size += computeStringSize(17, self.shortDescription);
   }
   size += self.unknownFields.serializedSize;
   memoizedSerializedSize = size;
   return size;
 }
-+ (FullStructureProto*) parseFromData:(NSData*) data {
-  return (FullStructureProto*)[[[FullStructureProto builder] mergeFromData:data] build];
++ (StructureInfoProto*) parseFromData:(NSData*) data {
+  return (StructureInfoProto*)[[[StructureInfoProto builder] mergeFromData:data] build];
 }
-+ (FullStructureProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
-  return (FullStructureProto*)[[[FullStructureProto builder] mergeFromData:data extensionRegistry:extensionRegistry] build];
++ (StructureInfoProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (StructureInfoProto*)[[[StructureInfoProto builder] mergeFromData:data extensionRegistry:extensionRegistry] build];
 }
-+ (FullStructureProto*) parseFromInputStream:(NSInputStream*) input {
-  return (FullStructureProto*)[[[FullStructureProto builder] mergeFromInputStream:input] build];
++ (StructureInfoProto*) parseFromInputStream:(NSInputStream*) input {
+  return (StructureInfoProto*)[[[StructureInfoProto builder] mergeFromInputStream:input] build];
 }
-+ (FullStructureProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
-  return (FullStructureProto*)[[[FullStructureProto builder] mergeFromInputStream:input extensionRegistry:extensionRegistry] build];
++ (StructureInfoProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (StructureInfoProto*)[[[StructureInfoProto builder] mergeFromInputStream:input extensionRegistry:extensionRegistry] build];
 }
-+ (FullStructureProto*) parseFromCodedInputStream:(PBCodedInputStream*) input {
-  return (FullStructureProto*)[[[FullStructureProto builder] mergeFromCodedInputStream:input] build];
++ (StructureInfoProto*) parseFromCodedInputStream:(PBCodedInputStream*) input {
+  return (StructureInfoProto*)[[[StructureInfoProto builder] mergeFromCodedInputStream:input] build];
 }
-+ (FullStructureProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
-  return (FullStructureProto*)[[[FullStructureProto builder] mergeFromCodedInputStream:input extensionRegistry:extensionRegistry] build];
++ (StructureInfoProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (StructureInfoProto*)[[[StructureInfoProto builder] mergeFromCodedInputStream:input extensionRegistry:extensionRegistry] build];
 }
-+ (FullStructureProto_Builder*) builder {
-  return [[[FullStructureProto_Builder alloc] init] autorelease];
++ (StructureInfoProto_Builder*) builder {
+  return [[[StructureInfoProto_Builder alloc] init] autorelease];
 }
-+ (FullStructureProto_Builder*) builderWithPrototype:(FullStructureProto*) prototype {
-  return [[FullStructureProto builder] mergeFrom:prototype];
++ (StructureInfoProto_Builder*) builderWithPrototype:(StructureInfoProto*) prototype {
+  return [[StructureInfoProto builder] mergeFrom:prototype];
 }
-- (FullStructureProto_Builder*) builder {
-  return [FullStructureProto builder];
+- (StructureInfoProto_Builder*) builder {
+  return [StructureInfoProto builder];
 }
 @end
 
-@interface FullStructureProto_Builder()
-@property (retain) FullStructureProto* result;
+BOOL StructureInfoProto_StructTypeIsValidValue(StructureInfoProto_StructType value) {
+  switch (value) {
+    case StructureInfoProto_StructTypeResourceGenerator:
+    case StructureInfoProto_StructTypeResourceStorage:
+    case StructureInfoProto_StructTypeHospital:
+    case StructureInfoProto_StructTypeResidence:
+    case StructureInfoProto_StructTypeTownHall:
+    case StructureInfoProto_StructTypeLab:
+      return YES;
+    default:
+      return NO;
+  }
+}
+@interface StructureInfoProto_Builder()
+@property (retain) StructureInfoProto* result;
 @end
 
-@implementation FullStructureProto_Builder
+@implementation StructureInfoProto_Builder
 @synthesize result;
 - (void) dealloc {
   self.result = nil;
@@ -342,34 +378,34 @@ static FullStructureProto* defaultFullStructureProtoInstance = nil;
 }
 - (id) init {
   if ((self = [super init])) {
-    self.result = [[[FullStructureProto alloc] init] autorelease];
+    self.result = [[[StructureInfoProto alloc] init] autorelease];
   }
   return self;
 }
 - (PBGeneratedMessage*) internalGetResult {
   return result;
 }
-- (FullStructureProto_Builder*) clear {
-  self.result = [[[FullStructureProto alloc] init] autorelease];
+- (StructureInfoProto_Builder*) clear {
+  self.result = [[[StructureInfoProto alloc] init] autorelease];
   return self;
 }
-- (FullStructureProto_Builder*) clone {
-  return [FullStructureProto builderWithPrototype:result];
+- (StructureInfoProto_Builder*) clone {
+  return [StructureInfoProto builderWithPrototype:result];
 }
-- (FullStructureProto*) defaultInstance {
-  return [FullStructureProto defaultInstance];
+- (StructureInfoProto*) defaultInstance {
+  return [StructureInfoProto defaultInstance];
 }
-- (FullStructureProto*) build {
+- (StructureInfoProto*) build {
   [self checkInitialized];
   return [self buildPartial];
 }
-- (FullStructureProto*) buildPartial {
-  FullStructureProto* returnMe = [[result retain] autorelease];
+- (StructureInfoProto*) buildPartial {
+  StructureInfoProto* returnMe = [[result retain] autorelease];
   self.result = nil;
   return returnMe;
 }
-- (FullStructureProto_Builder*) mergeFrom:(FullStructureProto*) other {
-  if (other == [FullStructureProto defaultInstance]) {
+- (StructureInfoProto_Builder*) mergeFrom:(StructureInfoProto*) other {
+  if (other == [StructureInfoProto defaultInstance]) {
     return self;
   }
   if (other.hasStructId) {
@@ -381,49 +417,52 @@ static FullStructureProto* defaultFullStructureProtoInstance = nil;
   if (other.hasLevel) {
     [self setLevel:other.level];
   }
-  if (other.hasIncome) {
-    [self setIncome:other.income];
+  if (other.hasStructType) {
+    [self setStructType:other.structType];
   }
-  if (other.hasMinutesToGain) {
-    [self setMinutesToGain:other.minutesToGain];
+  if (other.hasBuildResourceType) {
+    [self setBuildResourceType:other.buildResourceType];
+  }
+  if (other.hasBuildCost) {
+    [self setBuildCost:other.buildCost];
   }
   if (other.hasMinutesToBuild) {
     [self setMinutesToBuild:other.minutesToBuild];
   }
-  if (other.hasBuildPrice) {
-    [self setBuildPrice:other.buildPrice];
+  if (other.hasPrerequisiteTownHallLvl) {
+    [self setPrerequisiteTownHallLvl:other.prerequisiteTownHallLvl];
   }
-  if (other.hasIsPremiumCurrency) {
-    [self setIsPremiumCurrency:other.isPremiumCurrency];
+  if (other.hasWidth) {
+    [self setWidth:other.width];
   }
-  if (other.hasSellPrice) {
-    [self setSellPrice:other.sellPrice];
-  }
-  if (other.hasMinLevel) {
-    [self setMinLevel:other.minLevel];
-  }
-  if (other.hasXLength) {
-    [self setXLength:other.xLength];
-  }
-  if (other.hasYLength) {
-    [self setYLength:other.yLength];
-  }
-  if (other.hasImgVerticalPixelOffset) {
-    [self setImgVerticalPixelOffset:other.imgVerticalPixelOffset];
-  }
-  if (other.hasSuccessorStructId) {
-    [self setSuccessorStructId:other.successorStructId];
+  if (other.hasHeight) {
+    [self setHeight:other.height];
   }
   if (other.hasPredecessorStructId) {
     [self setPredecessorStructId:other.predecessorStructId];
   }
+  if (other.hasSuccessorStructId) {
+    [self setSuccessorStructId:other.successorStructId];
+  }
+  if (other.hasImgName) {
+    [self setImgName:other.imgName];
+  }
+  if (other.hasImgVerticalPixelOffset) {
+    [self setImgVerticalPixelOffset:other.imgVerticalPixelOffset];
+  }
+  if (other.hasDescription) {
+    [self setDescription:other.description];
+  }
+  if (other.hasShortDescription) {
+    [self setShortDescription:other.shortDescription];
+  }
   [self mergeUnknownFields:other.unknownFields];
   return self;
 }
-- (FullStructureProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input {
+- (StructureInfoProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input {
   return [self mergeFromCodedInputStream:input extensionRegistry:[PBExtensionRegistry emptyRegistry]];
 }
-- (FullStructureProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+- (StructureInfoProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
   PBUnknownFieldSet_Builder* unknownFields = [PBUnknownFieldSet builderWithUnknownFields:self.unknownFields];
   while (YES) {
     int32_t tag = [input readTag];
@@ -451,51 +490,65 @@ static FullStructureProto* defaultFullStructureProtoInstance = nil;
         break;
       }
       case 32: {
-        [self setIncome:[input readInt32]];
+        int32_t value = [input readEnum];
+        if (StructureInfoProto_StructTypeIsValidValue(value)) {
+          [self setStructType:value];
+        } else {
+          [unknownFields mergeVarintField:4 value:value];
+        }
         break;
       }
       case 40: {
-        [self setMinutesToGain:[input readInt32]];
+        int32_t value = [input readEnum];
+        if (ResourceTypeIsValidValue(value)) {
+          [self setBuildResourceType:value];
+        } else {
+          [unknownFields mergeVarintField:5 value:value];
+        }
         break;
       }
       case 48: {
-        [self setMinutesToBuild:[input readInt32]];
+        [self setBuildCost:[input readInt32]];
         break;
       }
       case 56: {
-        [self setBuildPrice:[input readInt32]];
+        [self setMinutesToBuild:[input readInt32]];
         break;
       }
       case 64: {
-        [self setIsPremiumCurrency:[input readBool]];
+        [self setPrerequisiteTownHallLvl:[input readInt32]];
         break;
       }
       case 72: {
-        [self setSellPrice:[input readInt32]];
+        [self setWidth:[input readInt32]];
         break;
       }
       case 80: {
-        [self setMinLevel:[input readInt32]];
-        break;
-      }
-      case 88: {
-        [self setXLength:[input readInt32]];
+        [self setHeight:[input readInt32]];
         break;
       }
       case 96: {
-        [self setYLength:[input readInt32]];
+        [self setPredecessorStructId:[input readInt32]];
         break;
       }
       case 104: {
-        [self setImgVerticalPixelOffset:[input readInt32]];
-        break;
-      }
-      case 112: {
         [self setSuccessorStructId:[input readInt32]];
         break;
       }
-      case 120: {
-        [self setPredecessorStructId:[input readInt32]];
+      case 114: {
+        [self setImgName:[input readString]];
+        break;
+      }
+      case 125: {
+        [self setImgVerticalPixelOffset:[input readFloat]];
+        break;
+      }
+      case 130: {
+        [self setDescription:[input readString]];
+        break;
+      }
+      case 138: {
+        [self setShortDescription:[input readString]];
         break;
       }
     }
@@ -507,12 +560,12 @@ static FullStructureProto* defaultFullStructureProtoInstance = nil;
 - (int32_t) structId {
   return result.structId;
 }
-- (FullStructureProto_Builder*) setStructId:(int32_t) value {
+- (StructureInfoProto_Builder*) setStructId:(int32_t) value {
   result.hasStructId = YES;
   result.structId = value;
   return self;
 }
-- (FullStructureProto_Builder*) clearStructId {
+- (StructureInfoProto_Builder*) clearStructId {
   result.hasStructId = NO;
   result.structId = 0;
   return self;
@@ -523,12 +576,12 @@ static FullStructureProto* defaultFullStructureProtoInstance = nil;
 - (NSString*) name {
   return result.name;
 }
-- (FullStructureProto_Builder*) setName:(NSString*) value {
+- (StructureInfoProto_Builder*) setName:(NSString*) value {
   result.hasName = YES;
   result.name = value;
   return self;
 }
-- (FullStructureProto_Builder*) clearName {
+- (StructureInfoProto_Builder*) clearName {
   result.hasName = NO;
   result.name = @"";
   return self;
@@ -539,46 +592,62 @@ static FullStructureProto* defaultFullStructureProtoInstance = nil;
 - (int32_t) level {
   return result.level;
 }
-- (FullStructureProto_Builder*) setLevel:(int32_t) value {
+- (StructureInfoProto_Builder*) setLevel:(int32_t) value {
   result.hasLevel = YES;
   result.level = value;
   return self;
 }
-- (FullStructureProto_Builder*) clearLevel {
+- (StructureInfoProto_Builder*) clearLevel {
   result.hasLevel = NO;
   result.level = 0;
   return self;
 }
-- (BOOL) hasIncome {
-  return result.hasIncome;
+- (BOOL) hasStructType {
+  return result.hasStructType;
 }
-- (int32_t) income {
-  return result.income;
+- (StructureInfoProto_StructType) structType {
+  return result.structType;
 }
-- (FullStructureProto_Builder*) setIncome:(int32_t) value {
-  result.hasIncome = YES;
-  result.income = value;
+- (StructureInfoProto_Builder*) setStructType:(StructureInfoProto_StructType) value {
+  result.hasStructType = YES;
+  result.structType = value;
   return self;
 }
-- (FullStructureProto_Builder*) clearIncome {
-  result.hasIncome = NO;
-  result.income = 0;
+- (StructureInfoProto_Builder*) clearStructType {
+  result.hasStructType = NO;
+  result.structType = StructureInfoProto_StructTypeResourceGenerator;
   return self;
 }
-- (BOOL) hasMinutesToGain {
-  return result.hasMinutesToGain;
+- (BOOL) hasBuildResourceType {
+  return result.hasBuildResourceType;
 }
-- (int32_t) minutesToGain {
-  return result.minutesToGain;
+- (ResourceType) buildResourceType {
+  return result.buildResourceType;
 }
-- (FullStructureProto_Builder*) setMinutesToGain:(int32_t) value {
-  result.hasMinutesToGain = YES;
-  result.minutesToGain = value;
+- (StructureInfoProto_Builder*) setBuildResourceType:(ResourceType) value {
+  result.hasBuildResourceType = YES;
+  result.buildResourceType = value;
   return self;
 }
-- (FullStructureProto_Builder*) clearMinutesToGain {
-  result.hasMinutesToGain = NO;
-  result.minutesToGain = 0;
+- (StructureInfoProto_Builder*) clearBuildResourceType {
+  result.hasBuildResourceType = NO;
+  result.buildResourceType = ResourceTypeCash;
+  return self;
+}
+- (BOOL) hasBuildCost {
+  return result.hasBuildCost;
+}
+- (int32_t) buildCost {
+  return result.buildCost;
+}
+- (StructureInfoProto_Builder*) setBuildCost:(int32_t) value {
+  result.hasBuildCost = YES;
+  result.buildCost = value;
+  return self;
+}
+- (StructureInfoProto_Builder*) clearBuildCost {
+  result.hasBuildCost = NO;
+  result.buildCost = 0;
   return self;
 }
 - (BOOL) hasMinutesToBuild {
@@ -587,142 +656,62 @@ static FullStructureProto* defaultFullStructureProtoInstance = nil;
 - (int32_t) minutesToBuild {
   return result.minutesToBuild;
 }
-- (FullStructureProto_Builder*) setMinutesToBuild:(int32_t) value {
+- (StructureInfoProto_Builder*) setMinutesToBuild:(int32_t) value {
   result.hasMinutesToBuild = YES;
   result.minutesToBuild = value;
   return self;
 }
-- (FullStructureProto_Builder*) clearMinutesToBuild {
+- (StructureInfoProto_Builder*) clearMinutesToBuild {
   result.hasMinutesToBuild = NO;
   result.minutesToBuild = 0;
   return self;
 }
-- (BOOL) hasBuildPrice {
-  return result.hasBuildPrice;
+- (BOOL) hasPrerequisiteTownHallLvl {
+  return result.hasPrerequisiteTownHallLvl;
 }
-- (int32_t) buildPrice {
-  return result.buildPrice;
+- (int32_t) prerequisiteTownHallLvl {
+  return result.prerequisiteTownHallLvl;
 }
-- (FullStructureProto_Builder*) setBuildPrice:(int32_t) value {
-  result.hasBuildPrice = YES;
-  result.buildPrice = value;
+- (StructureInfoProto_Builder*) setPrerequisiteTownHallLvl:(int32_t) value {
+  result.hasPrerequisiteTownHallLvl = YES;
+  result.prerequisiteTownHallLvl = value;
   return self;
 }
-- (FullStructureProto_Builder*) clearBuildPrice {
-  result.hasBuildPrice = NO;
-  result.buildPrice = 0;
+- (StructureInfoProto_Builder*) clearPrerequisiteTownHallLvl {
+  result.hasPrerequisiteTownHallLvl = NO;
+  result.prerequisiteTownHallLvl = 0;
   return self;
 }
-- (BOOL) hasIsPremiumCurrency {
-  return result.hasIsPremiumCurrency;
+- (BOOL) hasWidth {
+  return result.hasWidth;
 }
-- (BOOL) isPremiumCurrency {
-  return result.isPremiumCurrency;
+- (int32_t) width {
+  return result.width;
 }
-- (FullStructureProto_Builder*) setIsPremiumCurrency:(BOOL) value {
-  result.hasIsPremiumCurrency = YES;
-  result.isPremiumCurrency = value;
+- (StructureInfoProto_Builder*) setWidth:(int32_t) value {
+  result.hasWidth = YES;
+  result.width = value;
   return self;
 }
-- (FullStructureProto_Builder*) clearIsPremiumCurrency {
-  result.hasIsPremiumCurrency = NO;
-  result.isPremiumCurrency = NO;
+- (StructureInfoProto_Builder*) clearWidth {
+  result.hasWidth = NO;
+  result.width = 0;
   return self;
 }
-- (BOOL) hasSellPrice {
-  return result.hasSellPrice;
+- (BOOL) hasHeight {
+  return result.hasHeight;
 }
-- (int32_t) sellPrice {
-  return result.sellPrice;
+- (int32_t) height {
+  return result.height;
 }
-- (FullStructureProto_Builder*) setSellPrice:(int32_t) value {
-  result.hasSellPrice = YES;
-  result.sellPrice = value;
+- (StructureInfoProto_Builder*) setHeight:(int32_t) value {
+  result.hasHeight = YES;
+  result.height = value;
   return self;
 }
-- (FullStructureProto_Builder*) clearSellPrice {
-  result.hasSellPrice = NO;
-  result.sellPrice = 0;
-  return self;
-}
-- (BOOL) hasMinLevel {
-  return result.hasMinLevel;
-}
-- (int32_t) minLevel {
-  return result.minLevel;
-}
-- (FullStructureProto_Builder*) setMinLevel:(int32_t) value {
-  result.hasMinLevel = YES;
-  result.minLevel = value;
-  return self;
-}
-- (FullStructureProto_Builder*) clearMinLevel {
-  result.hasMinLevel = NO;
-  result.minLevel = 0;
-  return self;
-}
-- (BOOL) hasXLength {
-  return result.hasXLength;
-}
-- (int32_t) xLength {
-  return result.xLength;
-}
-- (FullStructureProto_Builder*) setXLength:(int32_t) value {
-  result.hasXLength = YES;
-  result.xLength = value;
-  return self;
-}
-- (FullStructureProto_Builder*) clearXLength {
-  result.hasXLength = NO;
-  result.xLength = 0;
-  return self;
-}
-- (BOOL) hasYLength {
-  return result.hasYLength;
-}
-- (int32_t) yLength {
-  return result.yLength;
-}
-- (FullStructureProto_Builder*) setYLength:(int32_t) value {
-  result.hasYLength = YES;
-  result.yLength = value;
-  return self;
-}
-- (FullStructureProto_Builder*) clearYLength {
-  result.hasYLength = NO;
-  result.yLength = 0;
-  return self;
-}
-- (BOOL) hasImgVerticalPixelOffset {
-  return result.hasImgVerticalPixelOffset;
-}
-- (int32_t) imgVerticalPixelOffset {
-  return result.imgVerticalPixelOffset;
-}
-- (FullStructureProto_Builder*) setImgVerticalPixelOffset:(int32_t) value {
-  result.hasImgVerticalPixelOffset = YES;
-  result.imgVerticalPixelOffset = value;
-  return self;
-}
-- (FullStructureProto_Builder*) clearImgVerticalPixelOffset {
-  result.hasImgVerticalPixelOffset = NO;
-  result.imgVerticalPixelOffset = 0;
-  return self;
-}
-- (BOOL) hasSuccessorStructId {
-  return result.hasSuccessorStructId;
-}
-- (int32_t) successorStructId {
-  return result.successorStructId;
-}
-- (FullStructureProto_Builder*) setSuccessorStructId:(int32_t) value {
-  result.hasSuccessorStructId = YES;
-  result.successorStructId = value;
-  return self;
-}
-- (FullStructureProto_Builder*) clearSuccessorStructId {
-  result.hasSuccessorStructId = NO;
-  result.successorStructId = 0;
+- (StructureInfoProto_Builder*) clearHeight {
+  result.hasHeight = NO;
+  result.height = 0;
   return self;
 }
 - (BOOL) hasPredecessorStructId {
@@ -731,14 +720,2123 @@ static FullStructureProto* defaultFullStructureProtoInstance = nil;
 - (int32_t) predecessorStructId {
   return result.predecessorStructId;
 }
-- (FullStructureProto_Builder*) setPredecessorStructId:(int32_t) value {
+- (StructureInfoProto_Builder*) setPredecessorStructId:(int32_t) value {
   result.hasPredecessorStructId = YES;
   result.predecessorStructId = value;
   return self;
 }
-- (FullStructureProto_Builder*) clearPredecessorStructId {
+- (StructureInfoProto_Builder*) clearPredecessorStructId {
   result.hasPredecessorStructId = NO;
   result.predecessorStructId = 0;
+  return self;
+}
+- (BOOL) hasSuccessorStructId {
+  return result.hasSuccessorStructId;
+}
+- (int32_t) successorStructId {
+  return result.successorStructId;
+}
+- (StructureInfoProto_Builder*) setSuccessorStructId:(int32_t) value {
+  result.hasSuccessorStructId = YES;
+  result.successorStructId = value;
+  return self;
+}
+- (StructureInfoProto_Builder*) clearSuccessorStructId {
+  result.hasSuccessorStructId = NO;
+  result.successorStructId = 0;
+  return self;
+}
+- (BOOL) hasImgName {
+  return result.hasImgName;
+}
+- (NSString*) imgName {
+  return result.imgName;
+}
+- (StructureInfoProto_Builder*) setImgName:(NSString*) value {
+  result.hasImgName = YES;
+  result.imgName = value;
+  return self;
+}
+- (StructureInfoProto_Builder*) clearImgName {
+  result.hasImgName = NO;
+  result.imgName = @"";
+  return self;
+}
+- (BOOL) hasImgVerticalPixelOffset {
+  return result.hasImgVerticalPixelOffset;
+}
+- (Float32) imgVerticalPixelOffset {
+  return result.imgVerticalPixelOffset;
+}
+- (StructureInfoProto_Builder*) setImgVerticalPixelOffset:(Float32) value {
+  result.hasImgVerticalPixelOffset = YES;
+  result.imgVerticalPixelOffset = value;
+  return self;
+}
+- (StructureInfoProto_Builder*) clearImgVerticalPixelOffset {
+  result.hasImgVerticalPixelOffset = NO;
+  result.imgVerticalPixelOffset = 0;
+  return self;
+}
+- (BOOL) hasDescription {
+  return result.hasDescription;
+}
+- (NSString*) description {
+  return result.description;
+}
+- (StructureInfoProto_Builder*) setDescription:(NSString*) value {
+  result.hasDescription = YES;
+  result.description = value;
+  return self;
+}
+- (StructureInfoProto_Builder*) clearDescription {
+  result.hasDescription = NO;
+  result.description = @"";
+  return self;
+}
+- (BOOL) hasShortDescription {
+  return result.hasShortDescription;
+}
+- (NSString*) shortDescription {
+  return result.shortDescription;
+}
+- (StructureInfoProto_Builder*) setShortDescription:(NSString*) value {
+  result.hasShortDescription = YES;
+  result.shortDescription = value;
+  return self;
+}
+- (StructureInfoProto_Builder*) clearShortDescription {
+  result.hasShortDescription = NO;
+  result.shortDescription = @"";
+  return self;
+}
+@end
+
+@interface ResourceGeneratorProto ()
+@property (retain) StructureInfoProto* structInfo;
+@property ResourceType resourceType;
+@property Float32 productionRate;
+@property int32_t capacity;
+@end
+
+@implementation ResourceGeneratorProto
+
+- (BOOL) hasStructInfo {
+  return !!hasStructInfo_;
+}
+- (void) setHasStructInfo:(BOOL) value {
+  hasStructInfo_ = !!value;
+}
+@synthesize structInfo;
+- (BOOL) hasResourceType {
+  return !!hasResourceType_;
+}
+- (void) setHasResourceType:(BOOL) value {
+  hasResourceType_ = !!value;
+}
+@synthesize resourceType;
+- (BOOL) hasProductionRate {
+  return !!hasProductionRate_;
+}
+- (void) setHasProductionRate:(BOOL) value {
+  hasProductionRate_ = !!value;
+}
+@synthesize productionRate;
+- (BOOL) hasCapacity {
+  return !!hasCapacity_;
+}
+- (void) setHasCapacity:(BOOL) value {
+  hasCapacity_ = !!value;
+}
+@synthesize capacity;
+- (void) dealloc {
+  self.structInfo = nil;
+  [super dealloc];
+}
+- (id) init {
+  if ((self = [super init])) {
+    self.structInfo = [StructureInfoProto defaultInstance];
+    self.resourceType = ResourceTypeCash;
+    self.productionRate = 0;
+    self.capacity = 0;
+  }
+  return self;
+}
+static ResourceGeneratorProto* defaultResourceGeneratorProtoInstance = nil;
++ (void) initialize {
+  if (self == [ResourceGeneratorProto class]) {
+    defaultResourceGeneratorProtoInstance = [[ResourceGeneratorProto alloc] init];
+  }
+}
++ (ResourceGeneratorProto*) defaultInstance {
+  return defaultResourceGeneratorProtoInstance;
+}
+- (ResourceGeneratorProto*) defaultInstance {
+  return defaultResourceGeneratorProtoInstance;
+}
+- (BOOL) isInitialized {
+  return YES;
+}
+- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output {
+  if (self.hasStructInfo) {
+    [output writeMessage:1 value:self.structInfo];
+  }
+  if (self.hasResourceType) {
+    [output writeEnum:2 value:self.resourceType];
+  }
+  if (self.hasProductionRate) {
+    [output writeFloat:3 value:self.productionRate];
+  }
+  if (self.hasCapacity) {
+    [output writeInt32:4 value:self.capacity];
+  }
+  [self.unknownFields writeToCodedOutputStream:output];
+}
+- (int32_t) serializedSize {
+  int32_t size = memoizedSerializedSize;
+  if (size != -1) {
+    return size;
+  }
+
+  size = 0;
+  if (self.hasStructInfo) {
+    size += computeMessageSize(1, self.structInfo);
+  }
+  if (self.hasResourceType) {
+    size += computeEnumSize(2, self.resourceType);
+  }
+  if (self.hasProductionRate) {
+    size += computeFloatSize(3, self.productionRate);
+  }
+  if (self.hasCapacity) {
+    size += computeInt32Size(4, self.capacity);
+  }
+  size += self.unknownFields.serializedSize;
+  memoizedSerializedSize = size;
+  return size;
+}
++ (ResourceGeneratorProto*) parseFromData:(NSData*) data {
+  return (ResourceGeneratorProto*)[[[ResourceGeneratorProto builder] mergeFromData:data] build];
+}
++ (ResourceGeneratorProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (ResourceGeneratorProto*)[[[ResourceGeneratorProto builder] mergeFromData:data extensionRegistry:extensionRegistry] build];
+}
++ (ResourceGeneratorProto*) parseFromInputStream:(NSInputStream*) input {
+  return (ResourceGeneratorProto*)[[[ResourceGeneratorProto builder] mergeFromInputStream:input] build];
+}
++ (ResourceGeneratorProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (ResourceGeneratorProto*)[[[ResourceGeneratorProto builder] mergeFromInputStream:input extensionRegistry:extensionRegistry] build];
+}
++ (ResourceGeneratorProto*) parseFromCodedInputStream:(PBCodedInputStream*) input {
+  return (ResourceGeneratorProto*)[[[ResourceGeneratorProto builder] mergeFromCodedInputStream:input] build];
+}
++ (ResourceGeneratorProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (ResourceGeneratorProto*)[[[ResourceGeneratorProto builder] mergeFromCodedInputStream:input extensionRegistry:extensionRegistry] build];
+}
++ (ResourceGeneratorProto_Builder*) builder {
+  return [[[ResourceGeneratorProto_Builder alloc] init] autorelease];
+}
++ (ResourceGeneratorProto_Builder*) builderWithPrototype:(ResourceGeneratorProto*) prototype {
+  return [[ResourceGeneratorProto builder] mergeFrom:prototype];
+}
+- (ResourceGeneratorProto_Builder*) builder {
+  return [ResourceGeneratorProto builder];
+}
+@end
+
+@interface ResourceGeneratorProto_Builder()
+@property (retain) ResourceGeneratorProto* result;
+@end
+
+@implementation ResourceGeneratorProto_Builder
+@synthesize result;
+- (void) dealloc {
+  self.result = nil;
+  [super dealloc];
+}
+- (id) init {
+  if ((self = [super init])) {
+    self.result = [[[ResourceGeneratorProto alloc] init] autorelease];
+  }
+  return self;
+}
+- (PBGeneratedMessage*) internalGetResult {
+  return result;
+}
+- (ResourceGeneratorProto_Builder*) clear {
+  self.result = [[[ResourceGeneratorProto alloc] init] autorelease];
+  return self;
+}
+- (ResourceGeneratorProto_Builder*) clone {
+  return [ResourceGeneratorProto builderWithPrototype:result];
+}
+- (ResourceGeneratorProto*) defaultInstance {
+  return [ResourceGeneratorProto defaultInstance];
+}
+- (ResourceGeneratorProto*) build {
+  [self checkInitialized];
+  return [self buildPartial];
+}
+- (ResourceGeneratorProto*) buildPartial {
+  ResourceGeneratorProto* returnMe = [[result retain] autorelease];
+  self.result = nil;
+  return returnMe;
+}
+- (ResourceGeneratorProto_Builder*) mergeFrom:(ResourceGeneratorProto*) other {
+  if (other == [ResourceGeneratorProto defaultInstance]) {
+    return self;
+  }
+  if (other.hasStructInfo) {
+    [self mergeStructInfo:other.structInfo];
+  }
+  if (other.hasResourceType) {
+    [self setResourceType:other.resourceType];
+  }
+  if (other.hasProductionRate) {
+    [self setProductionRate:other.productionRate];
+  }
+  if (other.hasCapacity) {
+    [self setCapacity:other.capacity];
+  }
+  [self mergeUnknownFields:other.unknownFields];
+  return self;
+}
+- (ResourceGeneratorProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input {
+  return [self mergeFromCodedInputStream:input extensionRegistry:[PBExtensionRegistry emptyRegistry]];
+}
+- (ResourceGeneratorProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  PBUnknownFieldSet_Builder* unknownFields = [PBUnknownFieldSet builderWithUnknownFields:self.unknownFields];
+  while (YES) {
+    int32_t tag = [input readTag];
+    switch (tag) {
+      case 0:
+        [self setUnknownFields:[unknownFields build]];
+        return self;
+      default: {
+        if (![self parseUnknownField:input unknownFields:unknownFields extensionRegistry:extensionRegistry tag:tag]) {
+          [self setUnknownFields:[unknownFields build]];
+          return self;
+        }
+        break;
+      }
+      case 10: {
+        StructureInfoProto_Builder* subBuilder = [StructureInfoProto builder];
+        if (self.hasStructInfo) {
+          [subBuilder mergeFrom:self.structInfo];
+        }
+        [input readMessage:subBuilder extensionRegistry:extensionRegistry];
+        [self setStructInfo:[subBuilder buildPartial]];
+        break;
+      }
+      case 16: {
+        int32_t value = [input readEnum];
+        if (ResourceTypeIsValidValue(value)) {
+          [self setResourceType:value];
+        } else {
+          [unknownFields mergeVarintField:2 value:value];
+        }
+        break;
+      }
+      case 29: {
+        [self setProductionRate:[input readFloat]];
+        break;
+      }
+      case 32: {
+        [self setCapacity:[input readInt32]];
+        break;
+      }
+    }
+  }
+}
+- (BOOL) hasStructInfo {
+  return result.hasStructInfo;
+}
+- (StructureInfoProto*) structInfo {
+  return result.structInfo;
+}
+- (ResourceGeneratorProto_Builder*) setStructInfo:(StructureInfoProto*) value {
+  result.hasStructInfo = YES;
+  result.structInfo = value;
+  return self;
+}
+- (ResourceGeneratorProto_Builder*) setStructInfoBuilder:(StructureInfoProto_Builder*) builderForValue {
+  return [self setStructInfo:[builderForValue build]];
+}
+- (ResourceGeneratorProto_Builder*) mergeStructInfo:(StructureInfoProto*) value {
+  if (result.hasStructInfo &&
+      result.structInfo != [StructureInfoProto defaultInstance]) {
+    result.structInfo =
+      [[[StructureInfoProto builderWithPrototype:result.structInfo] mergeFrom:value] buildPartial];
+  } else {
+    result.structInfo = value;
+  }
+  result.hasStructInfo = YES;
+  return self;
+}
+- (ResourceGeneratorProto_Builder*) clearStructInfo {
+  result.hasStructInfo = NO;
+  result.structInfo = [StructureInfoProto defaultInstance];
+  return self;
+}
+- (BOOL) hasResourceType {
+  return result.hasResourceType;
+}
+- (ResourceType) resourceType {
+  return result.resourceType;
+}
+- (ResourceGeneratorProto_Builder*) setResourceType:(ResourceType) value {
+  result.hasResourceType = YES;
+  result.resourceType = value;
+  return self;
+}
+- (ResourceGeneratorProto_Builder*) clearResourceType {
+  result.hasResourceType = NO;
+  result.resourceType = ResourceTypeCash;
+  return self;
+}
+- (BOOL) hasProductionRate {
+  return result.hasProductionRate;
+}
+- (Float32) productionRate {
+  return result.productionRate;
+}
+- (ResourceGeneratorProto_Builder*) setProductionRate:(Float32) value {
+  result.hasProductionRate = YES;
+  result.productionRate = value;
+  return self;
+}
+- (ResourceGeneratorProto_Builder*) clearProductionRate {
+  result.hasProductionRate = NO;
+  result.productionRate = 0;
+  return self;
+}
+- (BOOL) hasCapacity {
+  return result.hasCapacity;
+}
+- (int32_t) capacity {
+  return result.capacity;
+}
+- (ResourceGeneratorProto_Builder*) setCapacity:(int32_t) value {
+  result.hasCapacity = YES;
+  result.capacity = value;
+  return self;
+}
+- (ResourceGeneratorProto_Builder*) clearCapacity {
+  result.hasCapacity = NO;
+  result.capacity = 0;
+  return self;
+}
+@end
+
+@interface ResourceStorageProto ()
+@property (retain) StructureInfoProto* structInfo;
+@property ResourceType resourceType;
+@property int32_t capacity;
+@end
+
+@implementation ResourceStorageProto
+
+- (BOOL) hasStructInfo {
+  return !!hasStructInfo_;
+}
+- (void) setHasStructInfo:(BOOL) value {
+  hasStructInfo_ = !!value;
+}
+@synthesize structInfo;
+- (BOOL) hasResourceType {
+  return !!hasResourceType_;
+}
+- (void) setHasResourceType:(BOOL) value {
+  hasResourceType_ = !!value;
+}
+@synthesize resourceType;
+- (BOOL) hasCapacity {
+  return !!hasCapacity_;
+}
+- (void) setHasCapacity:(BOOL) value {
+  hasCapacity_ = !!value;
+}
+@synthesize capacity;
+- (void) dealloc {
+  self.structInfo = nil;
+  [super dealloc];
+}
+- (id) init {
+  if ((self = [super init])) {
+    self.structInfo = [StructureInfoProto defaultInstance];
+    self.resourceType = ResourceTypeCash;
+    self.capacity = 0;
+  }
+  return self;
+}
+static ResourceStorageProto* defaultResourceStorageProtoInstance = nil;
++ (void) initialize {
+  if (self == [ResourceStorageProto class]) {
+    defaultResourceStorageProtoInstance = [[ResourceStorageProto alloc] init];
+  }
+}
++ (ResourceStorageProto*) defaultInstance {
+  return defaultResourceStorageProtoInstance;
+}
+- (ResourceStorageProto*) defaultInstance {
+  return defaultResourceStorageProtoInstance;
+}
+- (BOOL) isInitialized {
+  return YES;
+}
+- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output {
+  if (self.hasStructInfo) {
+    [output writeMessage:1 value:self.structInfo];
+  }
+  if (self.hasResourceType) {
+    [output writeEnum:2 value:self.resourceType];
+  }
+  if (self.hasCapacity) {
+    [output writeInt32:3 value:self.capacity];
+  }
+  [self.unknownFields writeToCodedOutputStream:output];
+}
+- (int32_t) serializedSize {
+  int32_t size = memoizedSerializedSize;
+  if (size != -1) {
+    return size;
+  }
+
+  size = 0;
+  if (self.hasStructInfo) {
+    size += computeMessageSize(1, self.structInfo);
+  }
+  if (self.hasResourceType) {
+    size += computeEnumSize(2, self.resourceType);
+  }
+  if (self.hasCapacity) {
+    size += computeInt32Size(3, self.capacity);
+  }
+  size += self.unknownFields.serializedSize;
+  memoizedSerializedSize = size;
+  return size;
+}
++ (ResourceStorageProto*) parseFromData:(NSData*) data {
+  return (ResourceStorageProto*)[[[ResourceStorageProto builder] mergeFromData:data] build];
+}
++ (ResourceStorageProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (ResourceStorageProto*)[[[ResourceStorageProto builder] mergeFromData:data extensionRegistry:extensionRegistry] build];
+}
++ (ResourceStorageProto*) parseFromInputStream:(NSInputStream*) input {
+  return (ResourceStorageProto*)[[[ResourceStorageProto builder] mergeFromInputStream:input] build];
+}
++ (ResourceStorageProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (ResourceStorageProto*)[[[ResourceStorageProto builder] mergeFromInputStream:input extensionRegistry:extensionRegistry] build];
+}
++ (ResourceStorageProto*) parseFromCodedInputStream:(PBCodedInputStream*) input {
+  return (ResourceStorageProto*)[[[ResourceStorageProto builder] mergeFromCodedInputStream:input] build];
+}
++ (ResourceStorageProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (ResourceStorageProto*)[[[ResourceStorageProto builder] mergeFromCodedInputStream:input extensionRegistry:extensionRegistry] build];
+}
++ (ResourceStorageProto_Builder*) builder {
+  return [[[ResourceStorageProto_Builder alloc] init] autorelease];
+}
++ (ResourceStorageProto_Builder*) builderWithPrototype:(ResourceStorageProto*) prototype {
+  return [[ResourceStorageProto builder] mergeFrom:prototype];
+}
+- (ResourceStorageProto_Builder*) builder {
+  return [ResourceStorageProto builder];
+}
+@end
+
+@interface ResourceStorageProto_Builder()
+@property (retain) ResourceStorageProto* result;
+@end
+
+@implementation ResourceStorageProto_Builder
+@synthesize result;
+- (void) dealloc {
+  self.result = nil;
+  [super dealloc];
+}
+- (id) init {
+  if ((self = [super init])) {
+    self.result = [[[ResourceStorageProto alloc] init] autorelease];
+  }
+  return self;
+}
+- (PBGeneratedMessage*) internalGetResult {
+  return result;
+}
+- (ResourceStorageProto_Builder*) clear {
+  self.result = [[[ResourceStorageProto alloc] init] autorelease];
+  return self;
+}
+- (ResourceStorageProto_Builder*) clone {
+  return [ResourceStorageProto builderWithPrototype:result];
+}
+- (ResourceStorageProto*) defaultInstance {
+  return [ResourceStorageProto defaultInstance];
+}
+- (ResourceStorageProto*) build {
+  [self checkInitialized];
+  return [self buildPartial];
+}
+- (ResourceStorageProto*) buildPartial {
+  ResourceStorageProto* returnMe = [[result retain] autorelease];
+  self.result = nil;
+  return returnMe;
+}
+- (ResourceStorageProto_Builder*) mergeFrom:(ResourceStorageProto*) other {
+  if (other == [ResourceStorageProto defaultInstance]) {
+    return self;
+  }
+  if (other.hasStructInfo) {
+    [self mergeStructInfo:other.structInfo];
+  }
+  if (other.hasResourceType) {
+    [self setResourceType:other.resourceType];
+  }
+  if (other.hasCapacity) {
+    [self setCapacity:other.capacity];
+  }
+  [self mergeUnknownFields:other.unknownFields];
+  return self;
+}
+- (ResourceStorageProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input {
+  return [self mergeFromCodedInputStream:input extensionRegistry:[PBExtensionRegistry emptyRegistry]];
+}
+- (ResourceStorageProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  PBUnknownFieldSet_Builder* unknownFields = [PBUnknownFieldSet builderWithUnknownFields:self.unknownFields];
+  while (YES) {
+    int32_t tag = [input readTag];
+    switch (tag) {
+      case 0:
+        [self setUnknownFields:[unknownFields build]];
+        return self;
+      default: {
+        if (![self parseUnknownField:input unknownFields:unknownFields extensionRegistry:extensionRegistry tag:tag]) {
+          [self setUnknownFields:[unknownFields build]];
+          return self;
+        }
+        break;
+      }
+      case 10: {
+        StructureInfoProto_Builder* subBuilder = [StructureInfoProto builder];
+        if (self.hasStructInfo) {
+          [subBuilder mergeFrom:self.structInfo];
+        }
+        [input readMessage:subBuilder extensionRegistry:extensionRegistry];
+        [self setStructInfo:[subBuilder buildPartial]];
+        break;
+      }
+      case 16: {
+        int32_t value = [input readEnum];
+        if (ResourceTypeIsValidValue(value)) {
+          [self setResourceType:value];
+        } else {
+          [unknownFields mergeVarintField:2 value:value];
+        }
+        break;
+      }
+      case 24: {
+        [self setCapacity:[input readInt32]];
+        break;
+      }
+    }
+  }
+}
+- (BOOL) hasStructInfo {
+  return result.hasStructInfo;
+}
+- (StructureInfoProto*) structInfo {
+  return result.structInfo;
+}
+- (ResourceStorageProto_Builder*) setStructInfo:(StructureInfoProto*) value {
+  result.hasStructInfo = YES;
+  result.structInfo = value;
+  return self;
+}
+- (ResourceStorageProto_Builder*) setStructInfoBuilder:(StructureInfoProto_Builder*) builderForValue {
+  return [self setStructInfo:[builderForValue build]];
+}
+- (ResourceStorageProto_Builder*) mergeStructInfo:(StructureInfoProto*) value {
+  if (result.hasStructInfo &&
+      result.structInfo != [StructureInfoProto defaultInstance]) {
+    result.structInfo =
+      [[[StructureInfoProto builderWithPrototype:result.structInfo] mergeFrom:value] buildPartial];
+  } else {
+    result.structInfo = value;
+  }
+  result.hasStructInfo = YES;
+  return self;
+}
+- (ResourceStorageProto_Builder*) clearStructInfo {
+  result.hasStructInfo = NO;
+  result.structInfo = [StructureInfoProto defaultInstance];
+  return self;
+}
+- (BOOL) hasResourceType {
+  return result.hasResourceType;
+}
+- (ResourceType) resourceType {
+  return result.resourceType;
+}
+- (ResourceStorageProto_Builder*) setResourceType:(ResourceType) value {
+  result.hasResourceType = YES;
+  result.resourceType = value;
+  return self;
+}
+- (ResourceStorageProto_Builder*) clearResourceType {
+  result.hasResourceType = NO;
+  result.resourceType = ResourceTypeCash;
+  return self;
+}
+- (BOOL) hasCapacity {
+  return result.hasCapacity;
+}
+- (int32_t) capacity {
+  return result.capacity;
+}
+- (ResourceStorageProto_Builder*) setCapacity:(int32_t) value {
+  result.hasCapacity = YES;
+  result.capacity = value;
+  return self;
+}
+- (ResourceStorageProto_Builder*) clearCapacity {
+  result.hasCapacity = NO;
+  result.capacity = 0;
+  return self;
+}
+@end
+
+@interface HospitalProto ()
+@property (retain) StructureInfoProto* structInfo;
+@property int32_t queueSize;
+@property Float32 healthPerSecond;
+@end
+
+@implementation HospitalProto
+
+- (BOOL) hasStructInfo {
+  return !!hasStructInfo_;
+}
+- (void) setHasStructInfo:(BOOL) value {
+  hasStructInfo_ = !!value;
+}
+@synthesize structInfo;
+- (BOOL) hasQueueSize {
+  return !!hasQueueSize_;
+}
+- (void) setHasQueueSize:(BOOL) value {
+  hasQueueSize_ = !!value;
+}
+@synthesize queueSize;
+- (BOOL) hasHealthPerSecond {
+  return !!hasHealthPerSecond_;
+}
+- (void) setHasHealthPerSecond:(BOOL) value {
+  hasHealthPerSecond_ = !!value;
+}
+@synthesize healthPerSecond;
+- (void) dealloc {
+  self.structInfo = nil;
+  [super dealloc];
+}
+- (id) init {
+  if ((self = [super init])) {
+    self.structInfo = [StructureInfoProto defaultInstance];
+    self.queueSize = 0;
+    self.healthPerSecond = 0;
+  }
+  return self;
+}
+static HospitalProto* defaultHospitalProtoInstance = nil;
++ (void) initialize {
+  if (self == [HospitalProto class]) {
+    defaultHospitalProtoInstance = [[HospitalProto alloc] init];
+  }
+}
++ (HospitalProto*) defaultInstance {
+  return defaultHospitalProtoInstance;
+}
+- (HospitalProto*) defaultInstance {
+  return defaultHospitalProtoInstance;
+}
+- (BOOL) isInitialized {
+  return YES;
+}
+- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output {
+  if (self.hasStructInfo) {
+    [output writeMessage:1 value:self.structInfo];
+  }
+  if (self.hasQueueSize) {
+    [output writeInt32:2 value:self.queueSize];
+  }
+  if (self.hasHealthPerSecond) {
+    [output writeFloat:3 value:self.healthPerSecond];
+  }
+  [self.unknownFields writeToCodedOutputStream:output];
+}
+- (int32_t) serializedSize {
+  int32_t size = memoizedSerializedSize;
+  if (size != -1) {
+    return size;
+  }
+
+  size = 0;
+  if (self.hasStructInfo) {
+    size += computeMessageSize(1, self.structInfo);
+  }
+  if (self.hasQueueSize) {
+    size += computeInt32Size(2, self.queueSize);
+  }
+  if (self.hasHealthPerSecond) {
+    size += computeFloatSize(3, self.healthPerSecond);
+  }
+  size += self.unknownFields.serializedSize;
+  memoizedSerializedSize = size;
+  return size;
+}
++ (HospitalProto*) parseFromData:(NSData*) data {
+  return (HospitalProto*)[[[HospitalProto builder] mergeFromData:data] build];
+}
++ (HospitalProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (HospitalProto*)[[[HospitalProto builder] mergeFromData:data extensionRegistry:extensionRegistry] build];
+}
++ (HospitalProto*) parseFromInputStream:(NSInputStream*) input {
+  return (HospitalProto*)[[[HospitalProto builder] mergeFromInputStream:input] build];
+}
++ (HospitalProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (HospitalProto*)[[[HospitalProto builder] mergeFromInputStream:input extensionRegistry:extensionRegistry] build];
+}
++ (HospitalProto*) parseFromCodedInputStream:(PBCodedInputStream*) input {
+  return (HospitalProto*)[[[HospitalProto builder] mergeFromCodedInputStream:input] build];
+}
++ (HospitalProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (HospitalProto*)[[[HospitalProto builder] mergeFromCodedInputStream:input extensionRegistry:extensionRegistry] build];
+}
++ (HospitalProto_Builder*) builder {
+  return [[[HospitalProto_Builder alloc] init] autorelease];
+}
++ (HospitalProto_Builder*) builderWithPrototype:(HospitalProto*) prototype {
+  return [[HospitalProto builder] mergeFrom:prototype];
+}
+- (HospitalProto_Builder*) builder {
+  return [HospitalProto builder];
+}
+@end
+
+@interface HospitalProto_Builder()
+@property (retain) HospitalProto* result;
+@end
+
+@implementation HospitalProto_Builder
+@synthesize result;
+- (void) dealloc {
+  self.result = nil;
+  [super dealloc];
+}
+- (id) init {
+  if ((self = [super init])) {
+    self.result = [[[HospitalProto alloc] init] autorelease];
+  }
+  return self;
+}
+- (PBGeneratedMessage*) internalGetResult {
+  return result;
+}
+- (HospitalProto_Builder*) clear {
+  self.result = [[[HospitalProto alloc] init] autorelease];
+  return self;
+}
+- (HospitalProto_Builder*) clone {
+  return [HospitalProto builderWithPrototype:result];
+}
+- (HospitalProto*) defaultInstance {
+  return [HospitalProto defaultInstance];
+}
+- (HospitalProto*) build {
+  [self checkInitialized];
+  return [self buildPartial];
+}
+- (HospitalProto*) buildPartial {
+  HospitalProto* returnMe = [[result retain] autorelease];
+  self.result = nil;
+  return returnMe;
+}
+- (HospitalProto_Builder*) mergeFrom:(HospitalProto*) other {
+  if (other == [HospitalProto defaultInstance]) {
+    return self;
+  }
+  if (other.hasStructInfo) {
+    [self mergeStructInfo:other.structInfo];
+  }
+  if (other.hasQueueSize) {
+    [self setQueueSize:other.queueSize];
+  }
+  if (other.hasHealthPerSecond) {
+    [self setHealthPerSecond:other.healthPerSecond];
+  }
+  [self mergeUnknownFields:other.unknownFields];
+  return self;
+}
+- (HospitalProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input {
+  return [self mergeFromCodedInputStream:input extensionRegistry:[PBExtensionRegistry emptyRegistry]];
+}
+- (HospitalProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  PBUnknownFieldSet_Builder* unknownFields = [PBUnknownFieldSet builderWithUnknownFields:self.unknownFields];
+  while (YES) {
+    int32_t tag = [input readTag];
+    switch (tag) {
+      case 0:
+        [self setUnknownFields:[unknownFields build]];
+        return self;
+      default: {
+        if (![self parseUnknownField:input unknownFields:unknownFields extensionRegistry:extensionRegistry tag:tag]) {
+          [self setUnknownFields:[unknownFields build]];
+          return self;
+        }
+        break;
+      }
+      case 10: {
+        StructureInfoProto_Builder* subBuilder = [StructureInfoProto builder];
+        if (self.hasStructInfo) {
+          [subBuilder mergeFrom:self.structInfo];
+        }
+        [input readMessage:subBuilder extensionRegistry:extensionRegistry];
+        [self setStructInfo:[subBuilder buildPartial]];
+        break;
+      }
+      case 16: {
+        [self setQueueSize:[input readInt32]];
+        break;
+      }
+      case 29: {
+        [self setHealthPerSecond:[input readFloat]];
+        break;
+      }
+    }
+  }
+}
+- (BOOL) hasStructInfo {
+  return result.hasStructInfo;
+}
+- (StructureInfoProto*) structInfo {
+  return result.structInfo;
+}
+- (HospitalProto_Builder*) setStructInfo:(StructureInfoProto*) value {
+  result.hasStructInfo = YES;
+  result.structInfo = value;
+  return self;
+}
+- (HospitalProto_Builder*) setStructInfoBuilder:(StructureInfoProto_Builder*) builderForValue {
+  return [self setStructInfo:[builderForValue build]];
+}
+- (HospitalProto_Builder*) mergeStructInfo:(StructureInfoProto*) value {
+  if (result.hasStructInfo &&
+      result.structInfo != [StructureInfoProto defaultInstance]) {
+    result.structInfo =
+      [[[StructureInfoProto builderWithPrototype:result.structInfo] mergeFrom:value] buildPartial];
+  } else {
+    result.structInfo = value;
+  }
+  result.hasStructInfo = YES;
+  return self;
+}
+- (HospitalProto_Builder*) clearStructInfo {
+  result.hasStructInfo = NO;
+  result.structInfo = [StructureInfoProto defaultInstance];
+  return self;
+}
+- (BOOL) hasQueueSize {
+  return result.hasQueueSize;
+}
+- (int32_t) queueSize {
+  return result.queueSize;
+}
+- (HospitalProto_Builder*) setQueueSize:(int32_t) value {
+  result.hasQueueSize = YES;
+  result.queueSize = value;
+  return self;
+}
+- (HospitalProto_Builder*) clearQueueSize {
+  result.hasQueueSize = NO;
+  result.queueSize = 0;
+  return self;
+}
+- (BOOL) hasHealthPerSecond {
+  return result.hasHealthPerSecond;
+}
+- (Float32) healthPerSecond {
+  return result.healthPerSecond;
+}
+- (HospitalProto_Builder*) setHealthPerSecond:(Float32) value {
+  result.hasHealthPerSecond = YES;
+  result.healthPerSecond = value;
+  return self;
+}
+- (HospitalProto_Builder*) clearHealthPerSecond {
+  result.hasHealthPerSecond = NO;
+  result.healthPerSecond = 0;
+  return self;
+}
+@end
+
+@interface LabProto ()
+@property (retain) StructureInfoProto* structInfo;
+@property int32_t queueSize;
+@property Float32 pointsPerSecond;
+@end
+
+@implementation LabProto
+
+- (BOOL) hasStructInfo {
+  return !!hasStructInfo_;
+}
+- (void) setHasStructInfo:(BOOL) value {
+  hasStructInfo_ = !!value;
+}
+@synthesize structInfo;
+- (BOOL) hasQueueSize {
+  return !!hasQueueSize_;
+}
+- (void) setHasQueueSize:(BOOL) value {
+  hasQueueSize_ = !!value;
+}
+@synthesize queueSize;
+- (BOOL) hasPointsPerSecond {
+  return !!hasPointsPerSecond_;
+}
+- (void) setHasPointsPerSecond:(BOOL) value {
+  hasPointsPerSecond_ = !!value;
+}
+@synthesize pointsPerSecond;
+- (void) dealloc {
+  self.structInfo = nil;
+  [super dealloc];
+}
+- (id) init {
+  if ((self = [super init])) {
+    self.structInfo = [StructureInfoProto defaultInstance];
+    self.queueSize = 0;
+    self.pointsPerSecond = 0;
+  }
+  return self;
+}
+static LabProto* defaultLabProtoInstance = nil;
++ (void) initialize {
+  if (self == [LabProto class]) {
+    defaultLabProtoInstance = [[LabProto alloc] init];
+  }
+}
++ (LabProto*) defaultInstance {
+  return defaultLabProtoInstance;
+}
+- (LabProto*) defaultInstance {
+  return defaultLabProtoInstance;
+}
+- (BOOL) isInitialized {
+  return YES;
+}
+- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output {
+  if (self.hasStructInfo) {
+    [output writeMessage:1 value:self.structInfo];
+  }
+  if (self.hasQueueSize) {
+    [output writeInt32:2 value:self.queueSize];
+  }
+  if (self.hasPointsPerSecond) {
+    [output writeFloat:3 value:self.pointsPerSecond];
+  }
+  [self.unknownFields writeToCodedOutputStream:output];
+}
+- (int32_t) serializedSize {
+  int32_t size = memoizedSerializedSize;
+  if (size != -1) {
+    return size;
+  }
+
+  size = 0;
+  if (self.hasStructInfo) {
+    size += computeMessageSize(1, self.structInfo);
+  }
+  if (self.hasQueueSize) {
+    size += computeInt32Size(2, self.queueSize);
+  }
+  if (self.hasPointsPerSecond) {
+    size += computeFloatSize(3, self.pointsPerSecond);
+  }
+  size += self.unknownFields.serializedSize;
+  memoizedSerializedSize = size;
+  return size;
+}
++ (LabProto*) parseFromData:(NSData*) data {
+  return (LabProto*)[[[LabProto builder] mergeFromData:data] build];
+}
++ (LabProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (LabProto*)[[[LabProto builder] mergeFromData:data extensionRegistry:extensionRegistry] build];
+}
++ (LabProto*) parseFromInputStream:(NSInputStream*) input {
+  return (LabProto*)[[[LabProto builder] mergeFromInputStream:input] build];
+}
++ (LabProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (LabProto*)[[[LabProto builder] mergeFromInputStream:input extensionRegistry:extensionRegistry] build];
+}
++ (LabProto*) parseFromCodedInputStream:(PBCodedInputStream*) input {
+  return (LabProto*)[[[LabProto builder] mergeFromCodedInputStream:input] build];
+}
++ (LabProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (LabProto*)[[[LabProto builder] mergeFromCodedInputStream:input extensionRegistry:extensionRegistry] build];
+}
++ (LabProto_Builder*) builder {
+  return [[[LabProto_Builder alloc] init] autorelease];
+}
++ (LabProto_Builder*) builderWithPrototype:(LabProto*) prototype {
+  return [[LabProto builder] mergeFrom:prototype];
+}
+- (LabProto_Builder*) builder {
+  return [LabProto builder];
+}
+@end
+
+@interface LabProto_Builder()
+@property (retain) LabProto* result;
+@end
+
+@implementation LabProto_Builder
+@synthesize result;
+- (void) dealloc {
+  self.result = nil;
+  [super dealloc];
+}
+- (id) init {
+  if ((self = [super init])) {
+    self.result = [[[LabProto alloc] init] autorelease];
+  }
+  return self;
+}
+- (PBGeneratedMessage*) internalGetResult {
+  return result;
+}
+- (LabProto_Builder*) clear {
+  self.result = [[[LabProto alloc] init] autorelease];
+  return self;
+}
+- (LabProto_Builder*) clone {
+  return [LabProto builderWithPrototype:result];
+}
+- (LabProto*) defaultInstance {
+  return [LabProto defaultInstance];
+}
+- (LabProto*) build {
+  [self checkInitialized];
+  return [self buildPartial];
+}
+- (LabProto*) buildPartial {
+  LabProto* returnMe = [[result retain] autorelease];
+  self.result = nil;
+  return returnMe;
+}
+- (LabProto_Builder*) mergeFrom:(LabProto*) other {
+  if (other == [LabProto defaultInstance]) {
+    return self;
+  }
+  if (other.hasStructInfo) {
+    [self mergeStructInfo:other.structInfo];
+  }
+  if (other.hasQueueSize) {
+    [self setQueueSize:other.queueSize];
+  }
+  if (other.hasPointsPerSecond) {
+    [self setPointsPerSecond:other.pointsPerSecond];
+  }
+  [self mergeUnknownFields:other.unknownFields];
+  return self;
+}
+- (LabProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input {
+  return [self mergeFromCodedInputStream:input extensionRegistry:[PBExtensionRegistry emptyRegistry]];
+}
+- (LabProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  PBUnknownFieldSet_Builder* unknownFields = [PBUnknownFieldSet builderWithUnknownFields:self.unknownFields];
+  while (YES) {
+    int32_t tag = [input readTag];
+    switch (tag) {
+      case 0:
+        [self setUnknownFields:[unknownFields build]];
+        return self;
+      default: {
+        if (![self parseUnknownField:input unknownFields:unknownFields extensionRegistry:extensionRegistry tag:tag]) {
+          [self setUnknownFields:[unknownFields build]];
+          return self;
+        }
+        break;
+      }
+      case 10: {
+        StructureInfoProto_Builder* subBuilder = [StructureInfoProto builder];
+        if (self.hasStructInfo) {
+          [subBuilder mergeFrom:self.structInfo];
+        }
+        [input readMessage:subBuilder extensionRegistry:extensionRegistry];
+        [self setStructInfo:[subBuilder buildPartial]];
+        break;
+      }
+      case 16: {
+        [self setQueueSize:[input readInt32]];
+        break;
+      }
+      case 29: {
+        [self setPointsPerSecond:[input readFloat]];
+        break;
+      }
+    }
+  }
+}
+- (BOOL) hasStructInfo {
+  return result.hasStructInfo;
+}
+- (StructureInfoProto*) structInfo {
+  return result.structInfo;
+}
+- (LabProto_Builder*) setStructInfo:(StructureInfoProto*) value {
+  result.hasStructInfo = YES;
+  result.structInfo = value;
+  return self;
+}
+- (LabProto_Builder*) setStructInfoBuilder:(StructureInfoProto_Builder*) builderForValue {
+  return [self setStructInfo:[builderForValue build]];
+}
+- (LabProto_Builder*) mergeStructInfo:(StructureInfoProto*) value {
+  if (result.hasStructInfo &&
+      result.structInfo != [StructureInfoProto defaultInstance]) {
+    result.structInfo =
+      [[[StructureInfoProto builderWithPrototype:result.structInfo] mergeFrom:value] buildPartial];
+  } else {
+    result.structInfo = value;
+  }
+  result.hasStructInfo = YES;
+  return self;
+}
+- (LabProto_Builder*) clearStructInfo {
+  result.hasStructInfo = NO;
+  result.structInfo = [StructureInfoProto defaultInstance];
+  return self;
+}
+- (BOOL) hasQueueSize {
+  return result.hasQueueSize;
+}
+- (int32_t) queueSize {
+  return result.queueSize;
+}
+- (LabProto_Builder*) setQueueSize:(int32_t) value {
+  result.hasQueueSize = YES;
+  result.queueSize = value;
+  return self;
+}
+- (LabProto_Builder*) clearQueueSize {
+  result.hasQueueSize = NO;
+  result.queueSize = 0;
+  return self;
+}
+- (BOOL) hasPointsPerSecond {
+  return result.hasPointsPerSecond;
+}
+- (Float32) pointsPerSecond {
+  return result.pointsPerSecond;
+}
+- (LabProto_Builder*) setPointsPerSecond:(Float32) value {
+  result.hasPointsPerSecond = YES;
+  result.pointsPerSecond = value;
+  return self;
+}
+- (LabProto_Builder*) clearPointsPerSecond {
+  result.hasPointsPerSecond = NO;
+  result.pointsPerSecond = 0;
+  return self;
+}
+@end
+
+@interface ResidenceProto ()
+@property (retain) StructureInfoProto* structInfo;
+@property int32_t numMonsterSlots;
+@property int32_t numBonusMonsterSlots;
+@property int32_t numGemsRequired;
+@property int32_t numAcceptedFbInvites;
+@property (retain) NSString* occupationName;
+@end
+
+@implementation ResidenceProto
+
+- (BOOL) hasStructInfo {
+  return !!hasStructInfo_;
+}
+- (void) setHasStructInfo:(BOOL) value {
+  hasStructInfo_ = !!value;
+}
+@synthesize structInfo;
+- (BOOL) hasNumMonsterSlots {
+  return !!hasNumMonsterSlots_;
+}
+- (void) setHasNumMonsterSlots:(BOOL) value {
+  hasNumMonsterSlots_ = !!value;
+}
+@synthesize numMonsterSlots;
+- (BOOL) hasNumBonusMonsterSlots {
+  return !!hasNumBonusMonsterSlots_;
+}
+- (void) setHasNumBonusMonsterSlots:(BOOL) value {
+  hasNumBonusMonsterSlots_ = !!value;
+}
+@synthesize numBonusMonsterSlots;
+- (BOOL) hasNumGemsRequired {
+  return !!hasNumGemsRequired_;
+}
+- (void) setHasNumGemsRequired:(BOOL) value {
+  hasNumGemsRequired_ = !!value;
+}
+@synthesize numGemsRequired;
+- (BOOL) hasNumAcceptedFbInvites {
+  return !!hasNumAcceptedFbInvites_;
+}
+- (void) setHasNumAcceptedFbInvites:(BOOL) value {
+  hasNumAcceptedFbInvites_ = !!value;
+}
+@synthesize numAcceptedFbInvites;
+- (BOOL) hasOccupationName {
+  return !!hasOccupationName_;
+}
+- (void) setHasOccupationName:(BOOL) value {
+  hasOccupationName_ = !!value;
+}
+@synthesize occupationName;
+- (void) dealloc {
+  self.structInfo = nil;
+  self.occupationName = nil;
+  [super dealloc];
+}
+- (id) init {
+  if ((self = [super init])) {
+    self.structInfo = [StructureInfoProto defaultInstance];
+    self.numMonsterSlots = 0;
+    self.numBonusMonsterSlots = 0;
+    self.numGemsRequired = 0;
+    self.numAcceptedFbInvites = 0;
+    self.occupationName = @"";
+  }
+  return self;
+}
+static ResidenceProto* defaultResidenceProtoInstance = nil;
++ (void) initialize {
+  if (self == [ResidenceProto class]) {
+    defaultResidenceProtoInstance = [[ResidenceProto alloc] init];
+  }
+}
++ (ResidenceProto*) defaultInstance {
+  return defaultResidenceProtoInstance;
+}
+- (ResidenceProto*) defaultInstance {
+  return defaultResidenceProtoInstance;
+}
+- (BOOL) isInitialized {
+  return YES;
+}
+- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output {
+  if (self.hasStructInfo) {
+    [output writeMessage:1 value:self.structInfo];
+  }
+  if (self.hasNumMonsterSlots) {
+    [output writeInt32:2 value:self.numMonsterSlots];
+  }
+  if (self.hasNumBonusMonsterSlots) {
+    [output writeInt32:3 value:self.numBonusMonsterSlots];
+  }
+  if (self.hasNumGemsRequired) {
+    [output writeInt32:4 value:self.numGemsRequired];
+  }
+  if (self.hasNumAcceptedFbInvites) {
+    [output writeInt32:5 value:self.numAcceptedFbInvites];
+  }
+  if (self.hasOccupationName) {
+    [output writeString:6 value:self.occupationName];
+  }
+  [self.unknownFields writeToCodedOutputStream:output];
+}
+- (int32_t) serializedSize {
+  int32_t size = memoizedSerializedSize;
+  if (size != -1) {
+    return size;
+  }
+
+  size = 0;
+  if (self.hasStructInfo) {
+    size += computeMessageSize(1, self.structInfo);
+  }
+  if (self.hasNumMonsterSlots) {
+    size += computeInt32Size(2, self.numMonsterSlots);
+  }
+  if (self.hasNumBonusMonsterSlots) {
+    size += computeInt32Size(3, self.numBonusMonsterSlots);
+  }
+  if (self.hasNumGemsRequired) {
+    size += computeInt32Size(4, self.numGemsRequired);
+  }
+  if (self.hasNumAcceptedFbInvites) {
+    size += computeInt32Size(5, self.numAcceptedFbInvites);
+  }
+  if (self.hasOccupationName) {
+    size += computeStringSize(6, self.occupationName);
+  }
+  size += self.unknownFields.serializedSize;
+  memoizedSerializedSize = size;
+  return size;
+}
++ (ResidenceProto*) parseFromData:(NSData*) data {
+  return (ResidenceProto*)[[[ResidenceProto builder] mergeFromData:data] build];
+}
++ (ResidenceProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (ResidenceProto*)[[[ResidenceProto builder] mergeFromData:data extensionRegistry:extensionRegistry] build];
+}
++ (ResidenceProto*) parseFromInputStream:(NSInputStream*) input {
+  return (ResidenceProto*)[[[ResidenceProto builder] mergeFromInputStream:input] build];
+}
++ (ResidenceProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (ResidenceProto*)[[[ResidenceProto builder] mergeFromInputStream:input extensionRegistry:extensionRegistry] build];
+}
++ (ResidenceProto*) parseFromCodedInputStream:(PBCodedInputStream*) input {
+  return (ResidenceProto*)[[[ResidenceProto builder] mergeFromCodedInputStream:input] build];
+}
++ (ResidenceProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (ResidenceProto*)[[[ResidenceProto builder] mergeFromCodedInputStream:input extensionRegistry:extensionRegistry] build];
+}
++ (ResidenceProto_Builder*) builder {
+  return [[[ResidenceProto_Builder alloc] init] autorelease];
+}
++ (ResidenceProto_Builder*) builderWithPrototype:(ResidenceProto*) prototype {
+  return [[ResidenceProto builder] mergeFrom:prototype];
+}
+- (ResidenceProto_Builder*) builder {
+  return [ResidenceProto builder];
+}
+@end
+
+@interface ResidenceProto_Builder()
+@property (retain) ResidenceProto* result;
+@end
+
+@implementation ResidenceProto_Builder
+@synthesize result;
+- (void) dealloc {
+  self.result = nil;
+  [super dealloc];
+}
+- (id) init {
+  if ((self = [super init])) {
+    self.result = [[[ResidenceProto alloc] init] autorelease];
+  }
+  return self;
+}
+- (PBGeneratedMessage*) internalGetResult {
+  return result;
+}
+- (ResidenceProto_Builder*) clear {
+  self.result = [[[ResidenceProto alloc] init] autorelease];
+  return self;
+}
+- (ResidenceProto_Builder*) clone {
+  return [ResidenceProto builderWithPrototype:result];
+}
+- (ResidenceProto*) defaultInstance {
+  return [ResidenceProto defaultInstance];
+}
+- (ResidenceProto*) build {
+  [self checkInitialized];
+  return [self buildPartial];
+}
+- (ResidenceProto*) buildPartial {
+  ResidenceProto* returnMe = [[result retain] autorelease];
+  self.result = nil;
+  return returnMe;
+}
+- (ResidenceProto_Builder*) mergeFrom:(ResidenceProto*) other {
+  if (other == [ResidenceProto defaultInstance]) {
+    return self;
+  }
+  if (other.hasStructInfo) {
+    [self mergeStructInfo:other.structInfo];
+  }
+  if (other.hasNumMonsterSlots) {
+    [self setNumMonsterSlots:other.numMonsterSlots];
+  }
+  if (other.hasNumBonusMonsterSlots) {
+    [self setNumBonusMonsterSlots:other.numBonusMonsterSlots];
+  }
+  if (other.hasNumGemsRequired) {
+    [self setNumGemsRequired:other.numGemsRequired];
+  }
+  if (other.hasNumAcceptedFbInvites) {
+    [self setNumAcceptedFbInvites:other.numAcceptedFbInvites];
+  }
+  if (other.hasOccupationName) {
+    [self setOccupationName:other.occupationName];
+  }
+  [self mergeUnknownFields:other.unknownFields];
+  return self;
+}
+- (ResidenceProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input {
+  return [self mergeFromCodedInputStream:input extensionRegistry:[PBExtensionRegistry emptyRegistry]];
+}
+- (ResidenceProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  PBUnknownFieldSet_Builder* unknownFields = [PBUnknownFieldSet builderWithUnknownFields:self.unknownFields];
+  while (YES) {
+    int32_t tag = [input readTag];
+    switch (tag) {
+      case 0:
+        [self setUnknownFields:[unknownFields build]];
+        return self;
+      default: {
+        if (![self parseUnknownField:input unknownFields:unknownFields extensionRegistry:extensionRegistry tag:tag]) {
+          [self setUnknownFields:[unknownFields build]];
+          return self;
+        }
+        break;
+      }
+      case 10: {
+        StructureInfoProto_Builder* subBuilder = [StructureInfoProto builder];
+        if (self.hasStructInfo) {
+          [subBuilder mergeFrom:self.structInfo];
+        }
+        [input readMessage:subBuilder extensionRegistry:extensionRegistry];
+        [self setStructInfo:[subBuilder buildPartial]];
+        break;
+      }
+      case 16: {
+        [self setNumMonsterSlots:[input readInt32]];
+        break;
+      }
+      case 24: {
+        [self setNumBonusMonsterSlots:[input readInt32]];
+        break;
+      }
+      case 32: {
+        [self setNumGemsRequired:[input readInt32]];
+        break;
+      }
+      case 40: {
+        [self setNumAcceptedFbInvites:[input readInt32]];
+        break;
+      }
+      case 50: {
+        [self setOccupationName:[input readString]];
+        break;
+      }
+    }
+  }
+}
+- (BOOL) hasStructInfo {
+  return result.hasStructInfo;
+}
+- (StructureInfoProto*) structInfo {
+  return result.structInfo;
+}
+- (ResidenceProto_Builder*) setStructInfo:(StructureInfoProto*) value {
+  result.hasStructInfo = YES;
+  result.structInfo = value;
+  return self;
+}
+- (ResidenceProto_Builder*) setStructInfoBuilder:(StructureInfoProto_Builder*) builderForValue {
+  return [self setStructInfo:[builderForValue build]];
+}
+- (ResidenceProto_Builder*) mergeStructInfo:(StructureInfoProto*) value {
+  if (result.hasStructInfo &&
+      result.structInfo != [StructureInfoProto defaultInstance]) {
+    result.structInfo =
+      [[[StructureInfoProto builderWithPrototype:result.structInfo] mergeFrom:value] buildPartial];
+  } else {
+    result.structInfo = value;
+  }
+  result.hasStructInfo = YES;
+  return self;
+}
+- (ResidenceProto_Builder*) clearStructInfo {
+  result.hasStructInfo = NO;
+  result.structInfo = [StructureInfoProto defaultInstance];
+  return self;
+}
+- (BOOL) hasNumMonsterSlots {
+  return result.hasNumMonsterSlots;
+}
+- (int32_t) numMonsterSlots {
+  return result.numMonsterSlots;
+}
+- (ResidenceProto_Builder*) setNumMonsterSlots:(int32_t) value {
+  result.hasNumMonsterSlots = YES;
+  result.numMonsterSlots = value;
+  return self;
+}
+- (ResidenceProto_Builder*) clearNumMonsterSlots {
+  result.hasNumMonsterSlots = NO;
+  result.numMonsterSlots = 0;
+  return self;
+}
+- (BOOL) hasNumBonusMonsterSlots {
+  return result.hasNumBonusMonsterSlots;
+}
+- (int32_t) numBonusMonsterSlots {
+  return result.numBonusMonsterSlots;
+}
+- (ResidenceProto_Builder*) setNumBonusMonsterSlots:(int32_t) value {
+  result.hasNumBonusMonsterSlots = YES;
+  result.numBonusMonsterSlots = value;
+  return self;
+}
+- (ResidenceProto_Builder*) clearNumBonusMonsterSlots {
+  result.hasNumBonusMonsterSlots = NO;
+  result.numBonusMonsterSlots = 0;
+  return self;
+}
+- (BOOL) hasNumGemsRequired {
+  return result.hasNumGemsRequired;
+}
+- (int32_t) numGemsRequired {
+  return result.numGemsRequired;
+}
+- (ResidenceProto_Builder*) setNumGemsRequired:(int32_t) value {
+  result.hasNumGemsRequired = YES;
+  result.numGemsRequired = value;
+  return self;
+}
+- (ResidenceProto_Builder*) clearNumGemsRequired {
+  result.hasNumGemsRequired = NO;
+  result.numGemsRequired = 0;
+  return self;
+}
+- (BOOL) hasNumAcceptedFbInvites {
+  return result.hasNumAcceptedFbInvites;
+}
+- (int32_t) numAcceptedFbInvites {
+  return result.numAcceptedFbInvites;
+}
+- (ResidenceProto_Builder*) setNumAcceptedFbInvites:(int32_t) value {
+  result.hasNumAcceptedFbInvites = YES;
+  result.numAcceptedFbInvites = value;
+  return self;
+}
+- (ResidenceProto_Builder*) clearNumAcceptedFbInvites {
+  result.hasNumAcceptedFbInvites = NO;
+  result.numAcceptedFbInvites = 0;
+  return self;
+}
+- (BOOL) hasOccupationName {
+  return result.hasOccupationName;
+}
+- (NSString*) occupationName {
+  return result.occupationName;
+}
+- (ResidenceProto_Builder*) setOccupationName:(NSString*) value {
+  result.hasOccupationName = YES;
+  result.occupationName = value;
+  return self;
+}
+- (ResidenceProto_Builder*) clearOccupationName {
+  result.hasOccupationName = NO;
+  result.occupationName = @"";
+  return self;
+}
+@end
+
+@interface TownHallProto ()
+@property (retain) StructureInfoProto* structInfo;
+@property int32_t numResourceOneGenerators;
+@property int32_t numResourceOneStorages;
+@property int32_t numResourceTwoGenerators;
+@property int32_t numResourceTwoStorages;
+@property int32_t numHospitals;
+@property int32_t numResidences;
+@property int32_t numMonsterSlots;
+@property int32_t numLabs;
+@end
+
+@implementation TownHallProto
+
+- (BOOL) hasStructInfo {
+  return !!hasStructInfo_;
+}
+- (void) setHasStructInfo:(BOOL) value {
+  hasStructInfo_ = !!value;
+}
+@synthesize structInfo;
+- (BOOL) hasNumResourceOneGenerators {
+  return !!hasNumResourceOneGenerators_;
+}
+- (void) setHasNumResourceOneGenerators:(BOOL) value {
+  hasNumResourceOneGenerators_ = !!value;
+}
+@synthesize numResourceOneGenerators;
+- (BOOL) hasNumResourceOneStorages {
+  return !!hasNumResourceOneStorages_;
+}
+- (void) setHasNumResourceOneStorages:(BOOL) value {
+  hasNumResourceOneStorages_ = !!value;
+}
+@synthesize numResourceOneStorages;
+- (BOOL) hasNumResourceTwoGenerators {
+  return !!hasNumResourceTwoGenerators_;
+}
+- (void) setHasNumResourceTwoGenerators:(BOOL) value {
+  hasNumResourceTwoGenerators_ = !!value;
+}
+@synthesize numResourceTwoGenerators;
+- (BOOL) hasNumResourceTwoStorages {
+  return !!hasNumResourceTwoStorages_;
+}
+- (void) setHasNumResourceTwoStorages:(BOOL) value {
+  hasNumResourceTwoStorages_ = !!value;
+}
+@synthesize numResourceTwoStorages;
+- (BOOL) hasNumHospitals {
+  return !!hasNumHospitals_;
+}
+- (void) setHasNumHospitals:(BOOL) value {
+  hasNumHospitals_ = !!value;
+}
+@synthesize numHospitals;
+- (BOOL) hasNumResidences {
+  return !!hasNumResidences_;
+}
+- (void) setHasNumResidences:(BOOL) value {
+  hasNumResidences_ = !!value;
+}
+@synthesize numResidences;
+- (BOOL) hasNumMonsterSlots {
+  return !!hasNumMonsterSlots_;
+}
+- (void) setHasNumMonsterSlots:(BOOL) value {
+  hasNumMonsterSlots_ = !!value;
+}
+@synthesize numMonsterSlots;
+- (BOOL) hasNumLabs {
+  return !!hasNumLabs_;
+}
+- (void) setHasNumLabs:(BOOL) value {
+  hasNumLabs_ = !!value;
+}
+@synthesize numLabs;
+- (void) dealloc {
+  self.structInfo = nil;
+  [super dealloc];
+}
+- (id) init {
+  if ((self = [super init])) {
+    self.structInfo = [StructureInfoProto defaultInstance];
+    self.numResourceOneGenerators = 0;
+    self.numResourceOneStorages = 0;
+    self.numResourceTwoGenerators = 0;
+    self.numResourceTwoStorages = 0;
+    self.numHospitals = 0;
+    self.numResidences = 0;
+    self.numMonsterSlots = 0;
+    self.numLabs = 0;
+  }
+  return self;
+}
+static TownHallProto* defaultTownHallProtoInstance = nil;
++ (void) initialize {
+  if (self == [TownHallProto class]) {
+    defaultTownHallProtoInstance = [[TownHallProto alloc] init];
+  }
+}
++ (TownHallProto*) defaultInstance {
+  return defaultTownHallProtoInstance;
+}
+- (TownHallProto*) defaultInstance {
+  return defaultTownHallProtoInstance;
+}
+- (BOOL) isInitialized {
+  return YES;
+}
+- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output {
+  if (self.hasStructInfo) {
+    [output writeMessage:1 value:self.structInfo];
+  }
+  if (self.hasNumResourceOneGenerators) {
+    [output writeInt32:2 value:self.numResourceOneGenerators];
+  }
+  if (self.hasNumResourceOneStorages) {
+    [output writeInt32:3 value:self.numResourceOneStorages];
+  }
+  if (self.hasNumResourceTwoGenerators) {
+    [output writeInt32:4 value:self.numResourceTwoGenerators];
+  }
+  if (self.hasNumResourceTwoStorages) {
+    [output writeInt32:5 value:self.numResourceTwoStorages];
+  }
+  if (self.hasNumHospitals) {
+    [output writeInt32:6 value:self.numHospitals];
+  }
+  if (self.hasNumResidences) {
+    [output writeInt32:7 value:self.numResidences];
+  }
+  if (self.hasNumMonsterSlots) {
+    [output writeInt32:8 value:self.numMonsterSlots];
+  }
+  if (self.hasNumLabs) {
+    [output writeInt32:9 value:self.numLabs];
+  }
+  [self.unknownFields writeToCodedOutputStream:output];
+}
+- (int32_t) serializedSize {
+  int32_t size = memoizedSerializedSize;
+  if (size != -1) {
+    return size;
+  }
+
+  size = 0;
+  if (self.hasStructInfo) {
+    size += computeMessageSize(1, self.structInfo);
+  }
+  if (self.hasNumResourceOneGenerators) {
+    size += computeInt32Size(2, self.numResourceOneGenerators);
+  }
+  if (self.hasNumResourceOneStorages) {
+    size += computeInt32Size(3, self.numResourceOneStorages);
+  }
+  if (self.hasNumResourceTwoGenerators) {
+    size += computeInt32Size(4, self.numResourceTwoGenerators);
+  }
+  if (self.hasNumResourceTwoStorages) {
+    size += computeInt32Size(5, self.numResourceTwoStorages);
+  }
+  if (self.hasNumHospitals) {
+    size += computeInt32Size(6, self.numHospitals);
+  }
+  if (self.hasNumResidences) {
+    size += computeInt32Size(7, self.numResidences);
+  }
+  if (self.hasNumMonsterSlots) {
+    size += computeInt32Size(8, self.numMonsterSlots);
+  }
+  if (self.hasNumLabs) {
+    size += computeInt32Size(9, self.numLabs);
+  }
+  size += self.unknownFields.serializedSize;
+  memoizedSerializedSize = size;
+  return size;
+}
++ (TownHallProto*) parseFromData:(NSData*) data {
+  return (TownHallProto*)[[[TownHallProto builder] mergeFromData:data] build];
+}
++ (TownHallProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (TownHallProto*)[[[TownHallProto builder] mergeFromData:data extensionRegistry:extensionRegistry] build];
+}
++ (TownHallProto*) parseFromInputStream:(NSInputStream*) input {
+  return (TownHallProto*)[[[TownHallProto builder] mergeFromInputStream:input] build];
+}
++ (TownHallProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (TownHallProto*)[[[TownHallProto builder] mergeFromInputStream:input extensionRegistry:extensionRegistry] build];
+}
++ (TownHallProto*) parseFromCodedInputStream:(PBCodedInputStream*) input {
+  return (TownHallProto*)[[[TownHallProto builder] mergeFromCodedInputStream:input] build];
+}
++ (TownHallProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (TownHallProto*)[[[TownHallProto builder] mergeFromCodedInputStream:input extensionRegistry:extensionRegistry] build];
+}
++ (TownHallProto_Builder*) builder {
+  return [[[TownHallProto_Builder alloc] init] autorelease];
+}
++ (TownHallProto_Builder*) builderWithPrototype:(TownHallProto*) prototype {
+  return [[TownHallProto builder] mergeFrom:prototype];
+}
+- (TownHallProto_Builder*) builder {
+  return [TownHallProto builder];
+}
+@end
+
+@interface TownHallProto_Builder()
+@property (retain) TownHallProto* result;
+@end
+
+@implementation TownHallProto_Builder
+@synthesize result;
+- (void) dealloc {
+  self.result = nil;
+  [super dealloc];
+}
+- (id) init {
+  if ((self = [super init])) {
+    self.result = [[[TownHallProto alloc] init] autorelease];
+  }
+  return self;
+}
+- (PBGeneratedMessage*) internalGetResult {
+  return result;
+}
+- (TownHallProto_Builder*) clear {
+  self.result = [[[TownHallProto alloc] init] autorelease];
+  return self;
+}
+- (TownHallProto_Builder*) clone {
+  return [TownHallProto builderWithPrototype:result];
+}
+- (TownHallProto*) defaultInstance {
+  return [TownHallProto defaultInstance];
+}
+- (TownHallProto*) build {
+  [self checkInitialized];
+  return [self buildPartial];
+}
+- (TownHallProto*) buildPartial {
+  TownHallProto* returnMe = [[result retain] autorelease];
+  self.result = nil;
+  return returnMe;
+}
+- (TownHallProto_Builder*) mergeFrom:(TownHallProto*) other {
+  if (other == [TownHallProto defaultInstance]) {
+    return self;
+  }
+  if (other.hasStructInfo) {
+    [self mergeStructInfo:other.structInfo];
+  }
+  if (other.hasNumResourceOneGenerators) {
+    [self setNumResourceOneGenerators:other.numResourceOneGenerators];
+  }
+  if (other.hasNumResourceOneStorages) {
+    [self setNumResourceOneStorages:other.numResourceOneStorages];
+  }
+  if (other.hasNumResourceTwoGenerators) {
+    [self setNumResourceTwoGenerators:other.numResourceTwoGenerators];
+  }
+  if (other.hasNumResourceTwoStorages) {
+    [self setNumResourceTwoStorages:other.numResourceTwoStorages];
+  }
+  if (other.hasNumHospitals) {
+    [self setNumHospitals:other.numHospitals];
+  }
+  if (other.hasNumResidences) {
+    [self setNumResidences:other.numResidences];
+  }
+  if (other.hasNumMonsterSlots) {
+    [self setNumMonsterSlots:other.numMonsterSlots];
+  }
+  if (other.hasNumLabs) {
+    [self setNumLabs:other.numLabs];
+  }
+  [self mergeUnknownFields:other.unknownFields];
+  return self;
+}
+- (TownHallProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input {
+  return [self mergeFromCodedInputStream:input extensionRegistry:[PBExtensionRegistry emptyRegistry]];
+}
+- (TownHallProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  PBUnknownFieldSet_Builder* unknownFields = [PBUnknownFieldSet builderWithUnknownFields:self.unknownFields];
+  while (YES) {
+    int32_t tag = [input readTag];
+    switch (tag) {
+      case 0:
+        [self setUnknownFields:[unknownFields build]];
+        return self;
+      default: {
+        if (![self parseUnknownField:input unknownFields:unknownFields extensionRegistry:extensionRegistry tag:tag]) {
+          [self setUnknownFields:[unknownFields build]];
+          return self;
+        }
+        break;
+      }
+      case 10: {
+        StructureInfoProto_Builder* subBuilder = [StructureInfoProto builder];
+        if (self.hasStructInfo) {
+          [subBuilder mergeFrom:self.structInfo];
+        }
+        [input readMessage:subBuilder extensionRegistry:extensionRegistry];
+        [self setStructInfo:[subBuilder buildPartial]];
+        break;
+      }
+      case 16: {
+        [self setNumResourceOneGenerators:[input readInt32]];
+        break;
+      }
+      case 24: {
+        [self setNumResourceOneStorages:[input readInt32]];
+        break;
+      }
+      case 32: {
+        [self setNumResourceTwoGenerators:[input readInt32]];
+        break;
+      }
+      case 40: {
+        [self setNumResourceTwoStorages:[input readInt32]];
+        break;
+      }
+      case 48: {
+        [self setNumHospitals:[input readInt32]];
+        break;
+      }
+      case 56: {
+        [self setNumResidences:[input readInt32]];
+        break;
+      }
+      case 64: {
+        [self setNumMonsterSlots:[input readInt32]];
+        break;
+      }
+      case 72: {
+        [self setNumLabs:[input readInt32]];
+        break;
+      }
+    }
+  }
+}
+- (BOOL) hasStructInfo {
+  return result.hasStructInfo;
+}
+- (StructureInfoProto*) structInfo {
+  return result.structInfo;
+}
+- (TownHallProto_Builder*) setStructInfo:(StructureInfoProto*) value {
+  result.hasStructInfo = YES;
+  result.structInfo = value;
+  return self;
+}
+- (TownHallProto_Builder*) setStructInfoBuilder:(StructureInfoProto_Builder*) builderForValue {
+  return [self setStructInfo:[builderForValue build]];
+}
+- (TownHallProto_Builder*) mergeStructInfo:(StructureInfoProto*) value {
+  if (result.hasStructInfo &&
+      result.structInfo != [StructureInfoProto defaultInstance]) {
+    result.structInfo =
+      [[[StructureInfoProto builderWithPrototype:result.structInfo] mergeFrom:value] buildPartial];
+  } else {
+    result.structInfo = value;
+  }
+  result.hasStructInfo = YES;
+  return self;
+}
+- (TownHallProto_Builder*) clearStructInfo {
+  result.hasStructInfo = NO;
+  result.structInfo = [StructureInfoProto defaultInstance];
+  return self;
+}
+- (BOOL) hasNumResourceOneGenerators {
+  return result.hasNumResourceOneGenerators;
+}
+- (int32_t) numResourceOneGenerators {
+  return result.numResourceOneGenerators;
+}
+- (TownHallProto_Builder*) setNumResourceOneGenerators:(int32_t) value {
+  result.hasNumResourceOneGenerators = YES;
+  result.numResourceOneGenerators = value;
+  return self;
+}
+- (TownHallProto_Builder*) clearNumResourceOneGenerators {
+  result.hasNumResourceOneGenerators = NO;
+  result.numResourceOneGenerators = 0;
+  return self;
+}
+- (BOOL) hasNumResourceOneStorages {
+  return result.hasNumResourceOneStorages;
+}
+- (int32_t) numResourceOneStorages {
+  return result.numResourceOneStorages;
+}
+- (TownHallProto_Builder*) setNumResourceOneStorages:(int32_t) value {
+  result.hasNumResourceOneStorages = YES;
+  result.numResourceOneStorages = value;
+  return self;
+}
+- (TownHallProto_Builder*) clearNumResourceOneStorages {
+  result.hasNumResourceOneStorages = NO;
+  result.numResourceOneStorages = 0;
+  return self;
+}
+- (BOOL) hasNumResourceTwoGenerators {
+  return result.hasNumResourceTwoGenerators;
+}
+- (int32_t) numResourceTwoGenerators {
+  return result.numResourceTwoGenerators;
+}
+- (TownHallProto_Builder*) setNumResourceTwoGenerators:(int32_t) value {
+  result.hasNumResourceTwoGenerators = YES;
+  result.numResourceTwoGenerators = value;
+  return self;
+}
+- (TownHallProto_Builder*) clearNumResourceTwoGenerators {
+  result.hasNumResourceTwoGenerators = NO;
+  result.numResourceTwoGenerators = 0;
+  return self;
+}
+- (BOOL) hasNumResourceTwoStorages {
+  return result.hasNumResourceTwoStorages;
+}
+- (int32_t) numResourceTwoStorages {
+  return result.numResourceTwoStorages;
+}
+- (TownHallProto_Builder*) setNumResourceTwoStorages:(int32_t) value {
+  result.hasNumResourceTwoStorages = YES;
+  result.numResourceTwoStorages = value;
+  return self;
+}
+- (TownHallProto_Builder*) clearNumResourceTwoStorages {
+  result.hasNumResourceTwoStorages = NO;
+  result.numResourceTwoStorages = 0;
+  return self;
+}
+- (BOOL) hasNumHospitals {
+  return result.hasNumHospitals;
+}
+- (int32_t) numHospitals {
+  return result.numHospitals;
+}
+- (TownHallProto_Builder*) setNumHospitals:(int32_t) value {
+  result.hasNumHospitals = YES;
+  result.numHospitals = value;
+  return self;
+}
+- (TownHallProto_Builder*) clearNumHospitals {
+  result.hasNumHospitals = NO;
+  result.numHospitals = 0;
+  return self;
+}
+- (BOOL) hasNumResidences {
+  return result.hasNumResidences;
+}
+- (int32_t) numResidences {
+  return result.numResidences;
+}
+- (TownHallProto_Builder*) setNumResidences:(int32_t) value {
+  result.hasNumResidences = YES;
+  result.numResidences = value;
+  return self;
+}
+- (TownHallProto_Builder*) clearNumResidences {
+  result.hasNumResidences = NO;
+  result.numResidences = 0;
+  return self;
+}
+- (BOOL) hasNumMonsterSlots {
+  return result.hasNumMonsterSlots;
+}
+- (int32_t) numMonsterSlots {
+  return result.numMonsterSlots;
+}
+- (TownHallProto_Builder*) setNumMonsterSlots:(int32_t) value {
+  result.hasNumMonsterSlots = YES;
+  result.numMonsterSlots = value;
+  return self;
+}
+- (TownHallProto_Builder*) clearNumMonsterSlots {
+  result.hasNumMonsterSlots = NO;
+  result.numMonsterSlots = 0;
+  return self;
+}
+- (BOOL) hasNumLabs {
+  return result.hasNumLabs;
+}
+- (int32_t) numLabs {
+  return result.numLabs;
+}
+- (TownHallProto_Builder*) setNumLabs:(int32_t) value {
+  result.hasNumLabs = YES;
+  result.numLabs = value;
+  return self;
+}
+- (TownHallProto_Builder*) clearNumLabs {
+  result.hasNumLabs = NO;
+  result.numLabs = 0;
   return self;
 }
 @end
@@ -748,10 +2846,11 @@ static FullStructureProto* defaultFullStructureProtoInstance = nil;
 @property int32_t userId;
 @property int32_t structId;
 @property int64_t lastRetrieved;
-@property (retain) CoordinateProto* coordinates;
 @property int64_t purchaseTime;
 @property BOOL isComplete;
+@property (retain) CoordinateProto* coordinates;
 @property StructOrientation orientation;
+@property int32_t fbInviteStructLvl;
 @end
 
 @implementation FullUserStructureProto
@@ -784,13 +2883,6 @@ static FullStructureProto* defaultFullStructureProtoInstance = nil;
   hasLastRetrieved_ = !!value;
 }
 @synthesize lastRetrieved;
-- (BOOL) hasCoordinates {
-  return !!hasCoordinates_;
-}
-- (void) setHasCoordinates:(BOOL) value {
-  hasCoordinates_ = !!value;
-}
-@synthesize coordinates;
 - (BOOL) hasPurchaseTime {
   return !!hasPurchaseTime_;
 }
@@ -810,6 +2902,13 @@ static FullStructureProto* defaultFullStructureProtoInstance = nil;
 - (void) setIsComplete:(BOOL) value {
   isComplete_ = !!value;
 }
+- (BOOL) hasCoordinates {
+  return !!hasCoordinates_;
+}
+- (void) setHasCoordinates:(BOOL) value {
+  hasCoordinates_ = !!value;
+}
+@synthesize coordinates;
 - (BOOL) hasOrientation {
   return !!hasOrientation_;
 }
@@ -817,6 +2916,13 @@ static FullStructureProto* defaultFullStructureProtoInstance = nil;
   hasOrientation_ = !!value;
 }
 @synthesize orientation;
+- (BOOL) hasFbInviteStructLvl {
+  return !!hasFbInviteStructLvl_;
+}
+- (void) setHasFbInviteStructLvl:(BOOL) value {
+  hasFbInviteStructLvl_ = !!value;
+}
+@synthesize fbInviteStructLvl;
 - (void) dealloc {
   self.coordinates = nil;
   [super dealloc];
@@ -827,10 +2933,11 @@ static FullStructureProto* defaultFullStructureProtoInstance = nil;
     self.userId = 0;
     self.structId = 0;
     self.lastRetrieved = 0L;
-    self.coordinates = [CoordinateProto defaultInstance];
     self.purchaseTime = 0L;
     self.isComplete = NO;
+    self.coordinates = [CoordinateProto defaultInstance];
     self.orientation = StructOrientationPosition1;
+    self.fbInviteStructLvl = 0;
   }
   return self;
 }
@@ -862,17 +2969,20 @@ static FullUserStructureProto* defaultFullUserStructureProtoInstance = nil;
   if (self.hasLastRetrieved) {
     [output writeInt64:4 value:self.lastRetrieved];
   }
-  if (self.hasCoordinates) {
-    [output writeMessage:5 value:self.coordinates];
-  }
   if (self.hasPurchaseTime) {
-    [output writeInt64:7 value:self.purchaseTime];
+    [output writeInt64:5 value:self.purchaseTime];
   }
   if (self.hasIsComplete) {
-    [output writeBool:9 value:self.isComplete];
+    [output writeBool:6 value:self.isComplete];
+  }
+  if (self.hasCoordinates) {
+    [output writeMessage:7 value:self.coordinates];
   }
   if (self.hasOrientation) {
-    [output writeEnum:10 value:self.orientation];
+    [output writeEnum:8 value:self.orientation];
+  }
+  if (self.hasFbInviteStructLvl) {
+    [output writeInt32:9 value:self.fbInviteStructLvl];
   }
   [self.unknownFields writeToCodedOutputStream:output];
 }
@@ -895,17 +3005,20 @@ static FullUserStructureProto* defaultFullUserStructureProtoInstance = nil;
   if (self.hasLastRetrieved) {
     size += computeInt64Size(4, self.lastRetrieved);
   }
-  if (self.hasCoordinates) {
-    size += computeMessageSize(5, self.coordinates);
-  }
   if (self.hasPurchaseTime) {
-    size += computeInt64Size(7, self.purchaseTime);
+    size += computeInt64Size(5, self.purchaseTime);
   }
   if (self.hasIsComplete) {
-    size += computeBoolSize(9, self.isComplete);
+    size += computeBoolSize(6, self.isComplete);
+  }
+  if (self.hasCoordinates) {
+    size += computeMessageSize(7, self.coordinates);
   }
   if (self.hasOrientation) {
-    size += computeEnumSize(10, self.orientation);
+    size += computeEnumSize(8, self.orientation);
+  }
+  if (self.hasFbInviteStructLvl) {
+    size += computeInt32Size(9, self.fbInviteStructLvl);
   }
   size += self.unknownFields.serializedSize;
   memoizedSerializedSize = size;
@@ -994,17 +3107,20 @@ static FullUserStructureProto* defaultFullUserStructureProtoInstance = nil;
   if (other.hasLastRetrieved) {
     [self setLastRetrieved:other.lastRetrieved];
   }
-  if (other.hasCoordinates) {
-    [self mergeCoordinates:other.coordinates];
-  }
   if (other.hasPurchaseTime) {
     [self setPurchaseTime:other.purchaseTime];
   }
   if (other.hasIsComplete) {
     [self setIsComplete:other.isComplete];
   }
+  if (other.hasCoordinates) {
+    [self mergeCoordinates:other.coordinates];
+  }
   if (other.hasOrientation) {
     [self setOrientation:other.orientation];
+  }
+  if (other.hasFbInviteStructLvl) {
+    [self setFbInviteStructLvl:other.fbInviteStructLvl];
   }
   [self mergeUnknownFields:other.unknownFields];
   return self;
@@ -1043,7 +3159,15 @@ static FullUserStructureProto* defaultFullUserStructureProtoInstance = nil;
         [self setLastRetrieved:[input readInt64]];
         break;
       }
-      case 42: {
+      case 40: {
+        [self setPurchaseTime:[input readInt64]];
+        break;
+      }
+      case 48: {
+        [self setIsComplete:[input readBool]];
+        break;
+      }
+      case 58: {
         CoordinateProto_Builder* subBuilder = [CoordinateProto builder];
         if (self.hasCoordinates) {
           [subBuilder mergeFrom:self.coordinates];
@@ -1052,21 +3176,17 @@ static FullUserStructureProto* defaultFullUserStructureProtoInstance = nil;
         [self setCoordinates:[subBuilder buildPartial]];
         break;
       }
-      case 56: {
-        [self setPurchaseTime:[input readInt64]];
-        break;
-      }
-      case 72: {
-        [self setIsComplete:[input readBool]];
-        break;
-      }
-      case 80: {
+      case 64: {
         int32_t value = [input readEnum];
         if (StructOrientationIsValidValue(value)) {
           [self setOrientation:value];
         } else {
-          [unknownFields mergeVarintField:10 value:value];
+          [unknownFields mergeVarintField:8 value:value];
         }
+        break;
+      }
+      case 72: {
+        [self setFbInviteStructLvl:[input readInt32]];
         break;
       }
     }
@@ -1136,36 +3256,6 @@ static FullUserStructureProto* defaultFullUserStructureProtoInstance = nil;
   result.lastRetrieved = 0L;
   return self;
 }
-- (BOOL) hasCoordinates {
-  return result.hasCoordinates;
-}
-- (CoordinateProto*) coordinates {
-  return result.coordinates;
-}
-- (FullUserStructureProto_Builder*) setCoordinates:(CoordinateProto*) value {
-  result.hasCoordinates = YES;
-  result.coordinates = value;
-  return self;
-}
-- (FullUserStructureProto_Builder*) setCoordinatesBuilder:(CoordinateProto_Builder*) builderForValue {
-  return [self setCoordinates:[builderForValue build]];
-}
-- (FullUserStructureProto_Builder*) mergeCoordinates:(CoordinateProto*) value {
-  if (result.hasCoordinates &&
-      result.coordinates != [CoordinateProto defaultInstance]) {
-    result.coordinates =
-      [[[CoordinateProto builderWithPrototype:result.coordinates] mergeFrom:value] buildPartial];
-  } else {
-    result.coordinates = value;
-  }
-  result.hasCoordinates = YES;
-  return self;
-}
-- (FullUserStructureProto_Builder*) clearCoordinates {
-  result.hasCoordinates = NO;
-  result.coordinates = [CoordinateProto defaultInstance];
-  return self;
-}
 - (BOOL) hasPurchaseTime {
   return result.hasPurchaseTime;
 }
@@ -1198,6 +3288,36 @@ static FullUserStructureProto* defaultFullUserStructureProtoInstance = nil;
   result.isComplete = NO;
   return self;
 }
+- (BOOL) hasCoordinates {
+  return result.hasCoordinates;
+}
+- (CoordinateProto*) coordinates {
+  return result.coordinates;
+}
+- (FullUserStructureProto_Builder*) setCoordinates:(CoordinateProto*) value {
+  result.hasCoordinates = YES;
+  result.coordinates = value;
+  return self;
+}
+- (FullUserStructureProto_Builder*) setCoordinatesBuilder:(CoordinateProto_Builder*) builderForValue {
+  return [self setCoordinates:[builderForValue build]];
+}
+- (FullUserStructureProto_Builder*) mergeCoordinates:(CoordinateProto*) value {
+  if (result.hasCoordinates &&
+      result.coordinates != [CoordinateProto defaultInstance]) {
+    result.coordinates =
+      [[[CoordinateProto builderWithPrototype:result.coordinates] mergeFrom:value] buildPartial];
+  } else {
+    result.coordinates = value;
+  }
+  result.hasCoordinates = YES;
+  return self;
+}
+- (FullUserStructureProto_Builder*) clearCoordinates {
+  result.hasCoordinates = NO;
+  result.coordinates = [CoordinateProto defaultInstance];
+  return self;
+}
 - (BOOL) hasOrientation {
   return result.hasOrientation;
 }
@@ -1212,6 +3332,22 @@ static FullUserStructureProto* defaultFullUserStructureProtoInstance = nil;
 - (FullUserStructureProto_Builder*) clearOrientation {
   result.hasOrientation = NO;
   result.orientation = StructOrientationPosition1;
+  return self;
+}
+- (BOOL) hasFbInviteStructLvl {
+  return result.hasFbInviteStructLvl;
+}
+- (int32_t) fbInviteStructLvl {
+  return result.fbInviteStructLvl;
+}
+- (FullUserStructureProto_Builder*) setFbInviteStructLvl:(int32_t) value {
+  result.hasFbInviteStructLvl = YES;
+  result.fbInviteStructLvl = value;
+  return self;
+}
+- (FullUserStructureProto_Builder*) clearFbInviteStructLvl {
+  result.hasFbInviteStructLvl = NO;
+  result.fbInviteStructLvl = 0;
   return self;
 }
 @end

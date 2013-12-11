@@ -30,7 +30,6 @@ static PBExtensionRegistry* extensionRegistry = nil;
 @property (retain) MinimumUserProto* sender;
 @property (retain) NSMutableArray* mutableExpansionCostsList;
 @property (retain) NSMutableArray* mutableAllCitiesList;
-@property (retain) NSMutableArray* mutableAllStructsList;
 @property (retain) NSMutableArray* mutableAllTasksList;
 @property (retain) NSMutableArray* mutableAllMonstersList;
 @property (retain) NSMutableArray* mutableSlipList;
@@ -38,7 +37,12 @@ static PBExtensionRegistry* extensionRegistry = nil;
 @property (retain) NSMutableArray* mutableUnredeemedQuestsList;
 @property (retain) NSMutableArray* mutableAvailableQuestsList;
 @property (retain) NSMutableArray* mutableBoosterPacksList;
-@property StaticDataProto_RetrieveStaticDataStatus status;
+@property (retain) NSMutableArray* mutableAllGeneratorsList;
+@property (retain) NSMutableArray* mutableAllStoragesList;
+@property (retain) NSMutableArray* mutableAllHospitalsList;
+@property (retain) NSMutableArray* mutableAllResidencesList;
+@property (retain) NSMutableArray* mutableAllLabsList;
+@property (retain) NSMutableArray* mutableAllTownHallsList;
 @end
 
 @implementation StaticDataProto
@@ -52,7 +56,6 @@ static PBExtensionRegistry* extensionRegistry = nil;
 @synthesize sender;
 @synthesize mutableExpansionCostsList;
 @synthesize mutableAllCitiesList;
-@synthesize mutableAllStructsList;
 @synthesize mutableAllTasksList;
 @synthesize mutableAllMonstersList;
 @synthesize mutableSlipList;
@@ -60,18 +63,16 @@ static PBExtensionRegistry* extensionRegistry = nil;
 @synthesize mutableUnredeemedQuestsList;
 @synthesize mutableAvailableQuestsList;
 @synthesize mutableBoosterPacksList;
-- (BOOL) hasStatus {
-  return !!hasStatus_;
-}
-- (void) setHasStatus:(BOOL) value {
-  hasStatus_ = !!value;
-}
-@synthesize status;
+@synthesize mutableAllGeneratorsList;
+@synthesize mutableAllStoragesList;
+@synthesize mutableAllHospitalsList;
+@synthesize mutableAllResidencesList;
+@synthesize mutableAllLabsList;
+@synthesize mutableAllTownHallsList;
 - (void) dealloc {
   self.sender = nil;
   self.mutableExpansionCostsList = nil;
   self.mutableAllCitiesList = nil;
-  self.mutableAllStructsList = nil;
   self.mutableAllTasksList = nil;
   self.mutableAllMonstersList = nil;
   self.mutableSlipList = nil;
@@ -79,12 +80,17 @@ static PBExtensionRegistry* extensionRegistry = nil;
   self.mutableUnredeemedQuestsList = nil;
   self.mutableAvailableQuestsList = nil;
   self.mutableBoosterPacksList = nil;
+  self.mutableAllGeneratorsList = nil;
+  self.mutableAllStoragesList = nil;
+  self.mutableAllHospitalsList = nil;
+  self.mutableAllResidencesList = nil;
+  self.mutableAllLabsList = nil;
+  self.mutableAllTownHallsList = nil;
   [super dealloc];
 }
 - (id) init {
   if ((self = [super init])) {
     self.sender = [MinimumUserProto defaultInstance];
-    self.status = StaticDataProto_RetrieveStaticDataStatusSuccess;
   }
   return self;
 }
@@ -112,13 +118,6 @@ static StaticDataProto* defaultStaticDataProtoInstance = nil;
 }
 - (FullCityProto*) allCitiesAtIndex:(int32_t) index {
   id value = [mutableAllCitiesList objectAtIndex:index];
-  return value;
-}
-- (NSArray*) allStructsList {
-  return mutableAllStructsList;
-}
-- (FullStructureProto*) allStructsAtIndex:(int32_t) index {
-  id value = [mutableAllStructsList objectAtIndex:index];
   return value;
 }
 - (NSArray*) allTasksList {
@@ -170,6 +169,48 @@ static StaticDataProto* defaultStaticDataProtoInstance = nil;
   id value = [mutableBoosterPacksList objectAtIndex:index];
   return value;
 }
+- (NSArray*) allGeneratorsList {
+  return mutableAllGeneratorsList;
+}
+- (ResourceGeneratorProto*) allGeneratorsAtIndex:(int32_t) index {
+  id value = [mutableAllGeneratorsList objectAtIndex:index];
+  return value;
+}
+- (NSArray*) allStoragesList {
+  return mutableAllStoragesList;
+}
+- (ResourceStorageProto*) allStoragesAtIndex:(int32_t) index {
+  id value = [mutableAllStoragesList objectAtIndex:index];
+  return value;
+}
+- (NSArray*) allHospitalsList {
+  return mutableAllHospitalsList;
+}
+- (HospitalProto*) allHospitalsAtIndex:(int32_t) index {
+  id value = [mutableAllHospitalsList objectAtIndex:index];
+  return value;
+}
+- (NSArray*) allResidencesList {
+  return mutableAllResidencesList;
+}
+- (ResidenceProto*) allResidencesAtIndex:(int32_t) index {
+  id value = [mutableAllResidencesList objectAtIndex:index];
+  return value;
+}
+- (NSArray*) allLabsList {
+  return mutableAllLabsList;
+}
+- (LabProto*) allLabsAtIndex:(int32_t) index {
+  id value = [mutableAllLabsList objectAtIndex:index];
+  return value;
+}
+- (NSArray*) allTownHallsList {
+  return mutableAllTownHallsList;
+}
+- (TownHallProto*) allTownHallsAtIndex:(int32_t) index {
+  id value = [mutableAllTownHallsList objectAtIndex:index];
+  return value;
+}
 - (BOOL) isInitialized {
   return YES;
 }
@@ -183,32 +224,44 @@ static StaticDataProto* defaultStaticDataProtoInstance = nil;
   for (FullCityProto* element in self.allCitiesList) {
     [output writeMessage:3 value:element];
   }
-  for (FullStructureProto* element in self.allStructsList) {
+  for (FullTaskProto* element in self.allTasksList) {
     [output writeMessage:4 value:element];
   }
-  for (FullTaskProto* element in self.allTasksList) {
+  for (MonsterProto* element in self.allMonstersList) {
     [output writeMessage:5 value:element];
   }
-  for (MonsterProto* element in self.allMonstersList) {
+  for (StaticUserLevelInfoProto* element in self.slipList) {
     [output writeMessage:6 value:element];
   }
-  for (StaticUserLevelInfoProto* element in self.slipList) {
+  for (FullQuestProto* element in self.inProgressQuestsList) {
     [output writeMessage:7 value:element];
   }
-  for (FullQuestProto* element in self.inProgressQuestsList) {
+  for (FullQuestProto* element in self.unredeemedQuestsList) {
     [output writeMessage:8 value:element];
   }
-  for (FullQuestProto* element in self.unredeemedQuestsList) {
+  for (FullQuestProto* element in self.availableQuestsList) {
     [output writeMessage:9 value:element];
   }
-  for (FullQuestProto* element in self.availableQuestsList) {
-    [output writeMessage:10 value:element];
-  }
-  if (self.hasStatus) {
-    [output writeEnum:11 value:self.status];
-  }
   for (BoosterPackProto* element in self.boosterPacksList) {
+    [output writeMessage:11 value:element];
+  }
+  for (ResourceGeneratorProto* element in self.allGeneratorsList) {
     [output writeMessage:12 value:element];
+  }
+  for (ResourceStorageProto* element in self.allStoragesList) {
+    [output writeMessage:13 value:element];
+  }
+  for (HospitalProto* element in self.allHospitalsList) {
+    [output writeMessage:14 value:element];
+  }
+  for (ResidenceProto* element in self.allResidencesList) {
+    [output writeMessage:15 value:element];
+  }
+  for (TownHallProto* element in self.allTownHallsList) {
+    [output writeMessage:16 value:element];
+  }
+  for (LabProto* element in self.allLabsList) {
+    [output writeMessage:17 value:element];
   }
   [self.unknownFields writeToCodedOutputStream:output];
 }
@@ -228,32 +281,44 @@ static StaticDataProto* defaultStaticDataProtoInstance = nil;
   for (FullCityProto* element in self.allCitiesList) {
     size += computeMessageSize(3, element);
   }
-  for (FullStructureProto* element in self.allStructsList) {
+  for (FullTaskProto* element in self.allTasksList) {
     size += computeMessageSize(4, element);
   }
-  for (FullTaskProto* element in self.allTasksList) {
+  for (MonsterProto* element in self.allMonstersList) {
     size += computeMessageSize(5, element);
   }
-  for (MonsterProto* element in self.allMonstersList) {
+  for (StaticUserLevelInfoProto* element in self.slipList) {
     size += computeMessageSize(6, element);
   }
-  for (StaticUserLevelInfoProto* element in self.slipList) {
+  for (FullQuestProto* element in self.inProgressQuestsList) {
     size += computeMessageSize(7, element);
   }
-  for (FullQuestProto* element in self.inProgressQuestsList) {
+  for (FullQuestProto* element in self.unredeemedQuestsList) {
     size += computeMessageSize(8, element);
   }
-  for (FullQuestProto* element in self.unredeemedQuestsList) {
+  for (FullQuestProto* element in self.availableQuestsList) {
     size += computeMessageSize(9, element);
   }
-  for (FullQuestProto* element in self.availableQuestsList) {
-    size += computeMessageSize(10, element);
-  }
-  if (self.hasStatus) {
-    size += computeEnumSize(11, self.status);
-  }
   for (BoosterPackProto* element in self.boosterPacksList) {
+    size += computeMessageSize(11, element);
+  }
+  for (ResourceGeneratorProto* element in self.allGeneratorsList) {
     size += computeMessageSize(12, element);
+  }
+  for (ResourceStorageProto* element in self.allStoragesList) {
+    size += computeMessageSize(13, element);
+  }
+  for (HospitalProto* element in self.allHospitalsList) {
+    size += computeMessageSize(14, element);
+  }
+  for (ResidenceProto* element in self.allResidencesList) {
+    size += computeMessageSize(15, element);
+  }
+  for (TownHallProto* element in self.allTownHallsList) {
+    size += computeMessageSize(16, element);
+  }
+  for (LabProto* element in self.allLabsList) {
+    size += computeMessageSize(17, element);
   }
   size += self.unknownFields.serializedSize;
   memoizedSerializedSize = size;
@@ -288,15 +353,6 @@ static StaticDataProto* defaultStaticDataProtoInstance = nil;
 }
 @end
 
-BOOL StaticDataProto_RetrieveStaticDataStatusIsValidValue(StaticDataProto_RetrieveStaticDataStatus value) {
-  switch (value) {
-    case StaticDataProto_RetrieveStaticDataStatusSuccess:
-    case StaticDataProto_RetrieveStaticDataStatusSomeFail:
-      return YES;
-    default:
-      return NO;
-  }
-}
 @interface StaticDataProto_Builder()
 @property (retain) StaticDataProto* result;
 @end
@@ -354,12 +410,6 @@ BOOL StaticDataProto_RetrieveStaticDataStatusIsValidValue(StaticDataProto_Retrie
     }
     [result.mutableAllCitiesList addObjectsFromArray:other.mutableAllCitiesList];
   }
-  if (other.mutableAllStructsList.count > 0) {
-    if (result.mutableAllStructsList == nil) {
-      result.mutableAllStructsList = [NSMutableArray array];
-    }
-    [result.mutableAllStructsList addObjectsFromArray:other.mutableAllStructsList];
-  }
   if (other.mutableAllTasksList.count > 0) {
     if (result.mutableAllTasksList == nil) {
       result.mutableAllTasksList = [NSMutableArray array];
@@ -402,8 +452,41 @@ BOOL StaticDataProto_RetrieveStaticDataStatusIsValidValue(StaticDataProto_Retrie
     }
     [result.mutableBoosterPacksList addObjectsFromArray:other.mutableBoosterPacksList];
   }
-  if (other.hasStatus) {
-    [self setStatus:other.status];
+  if (other.mutableAllGeneratorsList.count > 0) {
+    if (result.mutableAllGeneratorsList == nil) {
+      result.mutableAllGeneratorsList = [NSMutableArray array];
+    }
+    [result.mutableAllGeneratorsList addObjectsFromArray:other.mutableAllGeneratorsList];
+  }
+  if (other.mutableAllStoragesList.count > 0) {
+    if (result.mutableAllStoragesList == nil) {
+      result.mutableAllStoragesList = [NSMutableArray array];
+    }
+    [result.mutableAllStoragesList addObjectsFromArray:other.mutableAllStoragesList];
+  }
+  if (other.mutableAllHospitalsList.count > 0) {
+    if (result.mutableAllHospitalsList == nil) {
+      result.mutableAllHospitalsList = [NSMutableArray array];
+    }
+    [result.mutableAllHospitalsList addObjectsFromArray:other.mutableAllHospitalsList];
+  }
+  if (other.mutableAllResidencesList.count > 0) {
+    if (result.mutableAllResidencesList == nil) {
+      result.mutableAllResidencesList = [NSMutableArray array];
+    }
+    [result.mutableAllResidencesList addObjectsFromArray:other.mutableAllResidencesList];
+  }
+  if (other.mutableAllLabsList.count > 0) {
+    if (result.mutableAllLabsList == nil) {
+      result.mutableAllLabsList = [NSMutableArray array];
+    }
+    [result.mutableAllLabsList addObjectsFromArray:other.mutableAllLabsList];
+  }
+  if (other.mutableAllTownHallsList.count > 0) {
+    if (result.mutableAllTownHallsList == nil) {
+      result.mutableAllTownHallsList = [NSMutableArray array];
+    }
+    [result.mutableAllTownHallsList addObjectsFromArray:other.mutableAllTownHallsList];
   }
   [self mergeUnknownFields:other.unknownFields];
   return self;
@@ -448,60 +531,81 @@ BOOL StaticDataProto_RetrieveStaticDataStatusIsValidValue(StaticDataProto_Retrie
         break;
       }
       case 34: {
-        FullStructureProto_Builder* subBuilder = [FullStructureProto builder];
-        [input readMessage:subBuilder extensionRegistry:extensionRegistry];
-        [self addAllStructs:[subBuilder buildPartial]];
-        break;
-      }
-      case 42: {
         FullTaskProto_Builder* subBuilder = [FullTaskProto builder];
         [input readMessage:subBuilder extensionRegistry:extensionRegistry];
         [self addAllTasks:[subBuilder buildPartial]];
         break;
       }
-      case 50: {
+      case 42: {
         MonsterProto_Builder* subBuilder = [MonsterProto builder];
         [input readMessage:subBuilder extensionRegistry:extensionRegistry];
         [self addAllMonsters:[subBuilder buildPartial]];
         break;
       }
-      case 58: {
+      case 50: {
         StaticUserLevelInfoProto_Builder* subBuilder = [StaticUserLevelInfoProto builder];
         [input readMessage:subBuilder extensionRegistry:extensionRegistry];
         [self addSlip:[subBuilder buildPartial]];
         break;
       }
-      case 66: {
+      case 58: {
         FullQuestProto_Builder* subBuilder = [FullQuestProto builder];
         [input readMessage:subBuilder extensionRegistry:extensionRegistry];
         [self addInProgressQuests:[subBuilder buildPartial]];
         break;
       }
-      case 74: {
+      case 66: {
         FullQuestProto_Builder* subBuilder = [FullQuestProto builder];
         [input readMessage:subBuilder extensionRegistry:extensionRegistry];
         [self addUnredeemedQuests:[subBuilder buildPartial]];
         break;
       }
-      case 82: {
+      case 74: {
         FullQuestProto_Builder* subBuilder = [FullQuestProto builder];
         [input readMessage:subBuilder extensionRegistry:extensionRegistry];
         [self addAvailableQuests:[subBuilder buildPartial]];
         break;
       }
-      case 88: {
-        int32_t value = [input readEnum];
-        if (StaticDataProto_RetrieveStaticDataStatusIsValidValue(value)) {
-          [self setStatus:value];
-        } else {
-          [unknownFields mergeVarintField:11 value:value];
-        }
-        break;
-      }
-      case 98: {
+      case 90: {
         BoosterPackProto_Builder* subBuilder = [BoosterPackProto builder];
         [input readMessage:subBuilder extensionRegistry:extensionRegistry];
         [self addBoosterPacks:[subBuilder buildPartial]];
+        break;
+      }
+      case 98: {
+        ResourceGeneratorProto_Builder* subBuilder = [ResourceGeneratorProto builder];
+        [input readMessage:subBuilder extensionRegistry:extensionRegistry];
+        [self addAllGenerators:[subBuilder buildPartial]];
+        break;
+      }
+      case 106: {
+        ResourceStorageProto_Builder* subBuilder = [ResourceStorageProto builder];
+        [input readMessage:subBuilder extensionRegistry:extensionRegistry];
+        [self addAllStorages:[subBuilder buildPartial]];
+        break;
+      }
+      case 114: {
+        HospitalProto_Builder* subBuilder = [HospitalProto builder];
+        [input readMessage:subBuilder extensionRegistry:extensionRegistry];
+        [self addAllHospitals:[subBuilder buildPartial]];
+        break;
+      }
+      case 122: {
+        ResidenceProto_Builder* subBuilder = [ResidenceProto builder];
+        [input readMessage:subBuilder extensionRegistry:extensionRegistry];
+        [self addAllResidences:[subBuilder buildPartial]];
+        break;
+      }
+      case 130: {
+        TownHallProto_Builder* subBuilder = [TownHallProto builder];
+        [input readMessage:subBuilder extensionRegistry:extensionRegistry];
+        [self addAllTownHalls:[subBuilder buildPartial]];
+        break;
+      }
+      case 138: {
+        LabProto_Builder* subBuilder = [LabProto builder];
+        [input readMessage:subBuilder extensionRegistry:extensionRegistry];
+        [self addAllLabs:[subBuilder buildPartial]];
         break;
       }
     }
@@ -593,35 +697,6 @@ BOOL StaticDataProto_RetrieveStaticDataStatusIsValidValue(StaticDataProto_Retrie
     result.mutableAllCitiesList = [NSMutableArray array];
   }
   [result.mutableAllCitiesList addObject:value];
-  return self;
-}
-- (NSArray*) allStructsList {
-  if (result.mutableAllStructsList == nil) { return [NSArray array]; }
-  return result.mutableAllStructsList;
-}
-- (FullStructureProto*) allStructsAtIndex:(int32_t) index {
-  return [result allStructsAtIndex:index];
-}
-- (StaticDataProto_Builder*) replaceAllStructsAtIndex:(int32_t) index with:(FullStructureProto*) value {
-  [result.mutableAllStructsList replaceObjectAtIndex:index withObject:value];
-  return self;
-}
-- (StaticDataProto_Builder*) addAllAllStructs:(NSArray*) values {
-  if (result.mutableAllStructsList == nil) {
-    result.mutableAllStructsList = [NSMutableArray array];
-  }
-  [result.mutableAllStructsList addObjectsFromArray:values];
-  return self;
-}
-- (StaticDataProto_Builder*) clearAllStructsList {
-  result.mutableAllStructsList = nil;
-  return self;
-}
-- (StaticDataProto_Builder*) addAllStructs:(FullStructureProto*) value {
-  if (result.mutableAllStructsList == nil) {
-    result.mutableAllStructsList = [NSMutableArray array];
-  }
-  [result.mutableAllStructsList addObject:value];
   return self;
 }
 - (NSArray*) allTasksList {
@@ -827,20 +902,178 @@ BOOL StaticDataProto_RetrieveStaticDataStatusIsValidValue(StaticDataProto_Retrie
   [result.mutableBoosterPacksList addObject:value];
   return self;
 }
-- (BOOL) hasStatus {
-  return result.hasStatus;
+- (NSArray*) allGeneratorsList {
+  if (result.mutableAllGeneratorsList == nil) { return [NSArray array]; }
+  return result.mutableAllGeneratorsList;
 }
-- (StaticDataProto_RetrieveStaticDataStatus) status {
-  return result.status;
+- (ResourceGeneratorProto*) allGeneratorsAtIndex:(int32_t) index {
+  return [result allGeneratorsAtIndex:index];
 }
-- (StaticDataProto_Builder*) setStatus:(StaticDataProto_RetrieveStaticDataStatus) value {
-  result.hasStatus = YES;
-  result.status = value;
+- (StaticDataProto_Builder*) replaceAllGeneratorsAtIndex:(int32_t) index with:(ResourceGeneratorProto*) value {
+  [result.mutableAllGeneratorsList replaceObjectAtIndex:index withObject:value];
   return self;
 }
-- (StaticDataProto_Builder*) clearStatus {
-  result.hasStatus = NO;
-  result.status = StaticDataProto_RetrieveStaticDataStatusSuccess;
+- (StaticDataProto_Builder*) addAllAllGenerators:(NSArray*) values {
+  if (result.mutableAllGeneratorsList == nil) {
+    result.mutableAllGeneratorsList = [NSMutableArray array];
+  }
+  [result.mutableAllGeneratorsList addObjectsFromArray:values];
+  return self;
+}
+- (StaticDataProto_Builder*) clearAllGeneratorsList {
+  result.mutableAllGeneratorsList = nil;
+  return self;
+}
+- (StaticDataProto_Builder*) addAllGenerators:(ResourceGeneratorProto*) value {
+  if (result.mutableAllGeneratorsList == nil) {
+    result.mutableAllGeneratorsList = [NSMutableArray array];
+  }
+  [result.mutableAllGeneratorsList addObject:value];
+  return self;
+}
+- (NSArray*) allStoragesList {
+  if (result.mutableAllStoragesList == nil) { return [NSArray array]; }
+  return result.mutableAllStoragesList;
+}
+- (ResourceStorageProto*) allStoragesAtIndex:(int32_t) index {
+  return [result allStoragesAtIndex:index];
+}
+- (StaticDataProto_Builder*) replaceAllStoragesAtIndex:(int32_t) index with:(ResourceStorageProto*) value {
+  [result.mutableAllStoragesList replaceObjectAtIndex:index withObject:value];
+  return self;
+}
+- (StaticDataProto_Builder*) addAllAllStorages:(NSArray*) values {
+  if (result.mutableAllStoragesList == nil) {
+    result.mutableAllStoragesList = [NSMutableArray array];
+  }
+  [result.mutableAllStoragesList addObjectsFromArray:values];
+  return self;
+}
+- (StaticDataProto_Builder*) clearAllStoragesList {
+  result.mutableAllStoragesList = nil;
+  return self;
+}
+- (StaticDataProto_Builder*) addAllStorages:(ResourceStorageProto*) value {
+  if (result.mutableAllStoragesList == nil) {
+    result.mutableAllStoragesList = [NSMutableArray array];
+  }
+  [result.mutableAllStoragesList addObject:value];
+  return self;
+}
+- (NSArray*) allHospitalsList {
+  if (result.mutableAllHospitalsList == nil) { return [NSArray array]; }
+  return result.mutableAllHospitalsList;
+}
+- (HospitalProto*) allHospitalsAtIndex:(int32_t) index {
+  return [result allHospitalsAtIndex:index];
+}
+- (StaticDataProto_Builder*) replaceAllHospitalsAtIndex:(int32_t) index with:(HospitalProto*) value {
+  [result.mutableAllHospitalsList replaceObjectAtIndex:index withObject:value];
+  return self;
+}
+- (StaticDataProto_Builder*) addAllAllHospitals:(NSArray*) values {
+  if (result.mutableAllHospitalsList == nil) {
+    result.mutableAllHospitalsList = [NSMutableArray array];
+  }
+  [result.mutableAllHospitalsList addObjectsFromArray:values];
+  return self;
+}
+- (StaticDataProto_Builder*) clearAllHospitalsList {
+  result.mutableAllHospitalsList = nil;
+  return self;
+}
+- (StaticDataProto_Builder*) addAllHospitals:(HospitalProto*) value {
+  if (result.mutableAllHospitalsList == nil) {
+    result.mutableAllHospitalsList = [NSMutableArray array];
+  }
+  [result.mutableAllHospitalsList addObject:value];
+  return self;
+}
+- (NSArray*) allResidencesList {
+  if (result.mutableAllResidencesList == nil) { return [NSArray array]; }
+  return result.mutableAllResidencesList;
+}
+- (ResidenceProto*) allResidencesAtIndex:(int32_t) index {
+  return [result allResidencesAtIndex:index];
+}
+- (StaticDataProto_Builder*) replaceAllResidencesAtIndex:(int32_t) index with:(ResidenceProto*) value {
+  [result.mutableAllResidencesList replaceObjectAtIndex:index withObject:value];
+  return self;
+}
+- (StaticDataProto_Builder*) addAllAllResidences:(NSArray*) values {
+  if (result.mutableAllResidencesList == nil) {
+    result.mutableAllResidencesList = [NSMutableArray array];
+  }
+  [result.mutableAllResidencesList addObjectsFromArray:values];
+  return self;
+}
+- (StaticDataProto_Builder*) clearAllResidencesList {
+  result.mutableAllResidencesList = nil;
+  return self;
+}
+- (StaticDataProto_Builder*) addAllResidences:(ResidenceProto*) value {
+  if (result.mutableAllResidencesList == nil) {
+    result.mutableAllResidencesList = [NSMutableArray array];
+  }
+  [result.mutableAllResidencesList addObject:value];
+  return self;
+}
+- (NSArray*) allLabsList {
+  if (result.mutableAllLabsList == nil) { return [NSArray array]; }
+  return result.mutableAllLabsList;
+}
+- (LabProto*) allLabsAtIndex:(int32_t) index {
+  return [result allLabsAtIndex:index];
+}
+- (StaticDataProto_Builder*) replaceAllLabsAtIndex:(int32_t) index with:(LabProto*) value {
+  [result.mutableAllLabsList replaceObjectAtIndex:index withObject:value];
+  return self;
+}
+- (StaticDataProto_Builder*) addAllAllLabs:(NSArray*) values {
+  if (result.mutableAllLabsList == nil) {
+    result.mutableAllLabsList = [NSMutableArray array];
+  }
+  [result.mutableAllLabsList addObjectsFromArray:values];
+  return self;
+}
+- (StaticDataProto_Builder*) clearAllLabsList {
+  result.mutableAllLabsList = nil;
+  return self;
+}
+- (StaticDataProto_Builder*) addAllLabs:(LabProto*) value {
+  if (result.mutableAllLabsList == nil) {
+    result.mutableAllLabsList = [NSMutableArray array];
+  }
+  [result.mutableAllLabsList addObject:value];
+  return self;
+}
+- (NSArray*) allTownHallsList {
+  if (result.mutableAllTownHallsList == nil) { return [NSArray array]; }
+  return result.mutableAllTownHallsList;
+}
+- (TownHallProto*) allTownHallsAtIndex:(int32_t) index {
+  return [result allTownHallsAtIndex:index];
+}
+- (StaticDataProto_Builder*) replaceAllTownHallsAtIndex:(int32_t) index with:(TownHallProto*) value {
+  [result.mutableAllTownHallsList replaceObjectAtIndex:index withObject:value];
+  return self;
+}
+- (StaticDataProto_Builder*) addAllAllTownHalls:(NSArray*) values {
+  if (result.mutableAllTownHallsList == nil) {
+    result.mutableAllTownHallsList = [NSMutableArray array];
+  }
+  [result.mutableAllTownHallsList addObjectsFromArray:values];
+  return self;
+}
+- (StaticDataProto_Builder*) clearAllTownHallsList {
+  result.mutableAllTownHallsList = nil;
+  return self;
+}
+- (StaticDataProto_Builder*) addAllTownHalls:(TownHallProto*) value {
+  if (result.mutableAllTownHallsList == nil) {
+    result.mutableAllTownHallsList = [NSMutableArray array];
+  }
+  [result.mutableAllTownHallsList addObject:value];
   return self;
 }
 @end

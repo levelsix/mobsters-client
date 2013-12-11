@@ -11,6 +11,9 @@
 
 @interface ChatMainView : UIView
 
+@property (nonatomic, retain) IBOutlet UIView *insideView;
+@property (nonatomic, retain) IBOutlet UIView *openButton;
+
 @end
 
 @protocol ChatTopBarDelegate <NSObject>

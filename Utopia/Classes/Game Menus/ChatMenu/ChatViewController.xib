@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="4514" systemVersion="12F45" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none">
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="3746"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="3747"/>
     </dependencies>
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="ChatViewController">
@@ -187,13 +187,17 @@
             </subviews>
             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
             <simulatedOrientationMetrics key="simulatedOrientationMetrics" orientation="landscapeRight"/>
+            <connections>
+                <outlet property="insideView" destination="hL8-RM-qPC" id="sJw-LC-1Og"/>
+                <outlet property="openButton" destination="cor-9d-Yl3" id="IEz-0t-2Vj"/>
+            </connections>
         </view>
         <view contentMode="scaleToFill" id="eIq-PW-faH" customClass="ClanChatView">
             <rect key="frame" x="0.0" y="0.0" width="221" height="285"/>
             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
             <subviews>
                 <view contentMode="scaleToFill" id="taO-wK-A5I">
-                    <rect key="frame" x="0.0" y="0.0" width="222.00000000000003" height="285"/>
+                    <rect key="frame" x="0.0" y="0.0" width="222" height="285"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                     <subviews>
                         <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" image="chatblackbg.png" id="Lob-nP-imC">
@@ -248,7 +252,7 @@
                             </connections>
                         </button>
                         <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" style="plain" separatorStyle="none" rowHeight="66" sectionHeaderHeight="14" sectionFooterHeight="22" id="Add-pv-JKk">
-                            <rect key="frame" x="0.0" y="61" width="221.00000000000006" height="224"/>
+                            <rect key="frame" x="0.0" y="61" width="221" height="224"/>
                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                             <color key="separatorColor" red="0.0" green="0.0" blue="0.0" alpha="0.29999999999999999" colorSpace="calibratedRGB"/>

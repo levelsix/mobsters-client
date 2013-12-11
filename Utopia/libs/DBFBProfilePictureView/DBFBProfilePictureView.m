@@ -155,7 +155,7 @@
   
   [self addSubview:self.imageView];
   
-  [self addObserver:self forKeyPath:@"profileID" options:NSKeyValueObservingOptionNew context:nil];
+  [self addObserver:self forKeyPath:@"profileID" options:NSKeyValueObservingOptionNew | NSKeyValueObservingOptionOld context:nil];
   [self addObserver:self forKeyPath:@"pictureCropping" options:NSKeyValueObservingOptionNew context:nil];
   [self addObserver:self forKeyPath:@"showEmptyImage" options:NSKeyValueObservingOptionNew context:nil];
   [self addObserver:self forKeyPath:@"emptyImage" options:NSKeyValueObservingOptionNew context:nil];
@@ -166,7 +166,11 @@
 - (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context
 {
   if([keyPath isEqualToString:@"profileID"] || [keyPath isEqualToString:@"pictureCropping"] || [keyPath isEqualToString:@"showEmptyImage"] || [keyPath isEqualToString:@"emptyImage"]) {
-    [self refreshImage:YES];
+    id old = [change objectForKey:NSKeyValueChangeOldKey];
+    id new = [change objectForKey:NSKeyValueChangeNewKey];
+    if (![old isEqual:new]) {
+      [self refreshImage:YES];
+    }
   }
 }
 
@@ -367,7 +371,7 @@ static BOOL cleanupScheduled = NO;
   // If not forcing refresh, check to see if the previous size we used would be the same
   // as what we'd request now, as this method could be called often on control bounds animation,
   // and we only want to fetch when needed.
-  if (!forceRefresh && [self.previousImageQueryParam isEqualToDictionary:newImageQueryParam]) {
+  if (!forceRefresh && [newImageQueryParam isEqualToDictionary:self.previousImageQueryParam]) {
     
     // But we still may need to adjust the contentMode.
     [self ensureImageViewContentMode];
@@ -387,10 +391,8 @@ static BOOL cleanupScheduled = NO;
     FBRequestConnection *requestConnection = [[FBRequestConnection alloc] init];
     [requestConnection addRequest:fbRequest completionHandler:nil];
     
-    
     // Get the url
     NSURL *url = requestConnection.urlRequest.URL;
-    
     
     UIImage* cachedImage = [self cachedImageForURL:url];
     

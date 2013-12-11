@@ -79,7 +79,10 @@
 @property (nonatomic, retain) GachaponFeaturedView *rightFeaturedView;
 @property (nonatomic, retain) IBOutlet UIScrollView *featuredScrollView;
 
-@property (nonatomic, retain) UIImageView *topBar;
+@property (nonatomic, retain) UIImageView *topBarBgd;
+@property (nonatomic, retain) IBOutlet UILabel *topBarLabel;
+@property (nonatomic, retain) IBOutlet UIView *diamondView;
+@property (nonatomic, retain) IBOutlet UIView *cashView;
 
 @property (nonatomic, retain) IBOutlet GachaponItemCell *itemCell;
 @property (nonatomic, retain) IBOutlet GachaponFeaturedView *featuredView;

@@ -9,6 +9,8 @@
 #import "CCSprite.h"
 #import "Protocols.pb.h"
 
+#define GLOW_ACTION_TAG 3021
+
 @class GameMap;
 
 @interface MapSprite : CCSprite {

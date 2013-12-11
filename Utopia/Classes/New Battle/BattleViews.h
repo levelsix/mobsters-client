@@ -29,8 +29,11 @@
 @property (nonatomic, assign) IBOutlet UIView *mainView;
 @property (nonatomic, assign) IBOutlet UIView *bgdView;
 
-@property (nonatomic, assign) IBOutlet UIActivityIndicatorView *spinner;
-@property (nonatomic, assign) IBOutlet UIView *doneLabel;
+@property (nonatomic, assign) IBOutlet UIActivityIndicatorView *doneSpinner;
+@property (nonatomic, assign) IBOutlet UIActivityIndicatorView *manageSpinner;
+@property (nonatomic, assign) IBOutlet UILabel *doneLabel;
+@property (nonatomic, assign) IBOutlet UILabel *manageLabel;
+@property (nonatomic, assign) IBOutlet UIView *buttonContainer;
 
 - (void) displayWithDungeon:(BeginDungeonResponseProto *)dungeon;
 
@@ -41,12 +44,11 @@
 
 @property (nonatomic, retain) IBOutlet UIView *mainView;
 @property (nonatomic, retain) IBOutlet UIView *emptyView;
-@property (nonatomic, retain) IBOutlet UIImageView *grayscaleView;
 
-@property (nonatomic, retain) IBOutlet UIImageView *bgdView;
+@property (nonatomic, retain) IBOutlet UIImageView *bgdIcon;
 @property (nonatomic, retain) IBOutlet UIImageView *monsterIcon;
 @property (nonatomic, retain) IBOutlet ProgressBar *healthbar;
-@property (nonatomic, retain) IBOutlet UIButton *button;
+@property (nonatomic, retain) IBOutlet UILabel *healthLabel;
 
 @end
 

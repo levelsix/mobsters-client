@@ -10,6 +10,7 @@
 #import "UserData.h"
 #import <CoreLocation/CoreLocation.h>
 #import "FullUserUpdates.h"
+#import "StaticStructure.h"
 
 @interface GameState : NSObject {
   NSTimer *_enhanceTimer;
@@ -25,6 +26,7 @@
 @property (nonatomic, assign) int level;
 @property (nonatomic, assign) int gold;
 @property (nonatomic, assign) int silver;
+@property (nonatomic, assign) int oil;
 @property (nonatomic, retain) NSString *referralCode;
 @property (nonatomic, assign) int battlesWon;
 @property (nonatomic, assign) int battlesLost;
@@ -39,7 +41,6 @@
 @property (nonatomic, retain) NSDate *createTime;
 @property (nonatomic, assign) BOOL hasReceivedfbReward;
 @property (nonatomic, assign) int numBeginnerSalesPurchased;
-@property (nonatomic, assign) int numAdditionalMonsterSlots;
 @property (nonatomic, assign) BOOL hasActiveShield;
 
 @property (nonatomic, retain) NSString *kabamNaid;
@@ -73,9 +74,8 @@
 @property (nonatomic, retain) NSMutableArray *rareBoosterPurchases;
 @property (nonatomic, retain) NSMutableArray *privateChats;
 
-@property (nonatomic, retain) NSMutableArray *requestsFromFriends;
-@property (nonatomic, retain) NSMutableArray *usersUsedForExtraSlots;
-@property (nonatomic, retain) NSMutableArray *acceptedSlotsRequests;
+@property (nonatomic, retain) NSMutableSet *fbUnacceptedRequestsFromFriends;
+@property (nonatomic, retain) NSMutableSet *fbAcceptedRequestsFromMe;
 
 @property (nonatomic, retain) NSMutableArray *unrespondedUpdates;
 
@@ -100,7 +100,7 @@
 - (void) updateUser:(FullUserProto *)user timestamp:(uint64_t)time;
 
 - (id) getStaticDataFrom:(NSDictionary *)dict withId:(int)itemId;
-- (FullStructureProto *) structWithId:(int)structId;
+- (id<StaticStructure>) structWithId:(int)structId;
 - (FullCityProto *)cityWithId:(int)cityId;
 - (FullTaskProto *) taskWithId:(int)taskId;
 - (FullQuestProto *) questForId:(int)questId;
@@ -126,7 +126,8 @@
 - (void) addToExpansionCosts:(NSArray *)costs;
 
 - (void) addInventorySlotsRequests:(NSArray *)invites;
-- (void) addUsersUsedForExtraSlots:(NSArray *)users;
+- (NSArray *) acceptedFbRequestsForUserStructId:(int)userStructId fbStructLevel:(int)level;
+- (NSSet *) facebookIdsAlreadyUsed;
 
 - (void) addUserMonsterHealingItemToEndOfQueue:(UserMonsterHealingItem *)item;
 - (void) removeUserMonsterHealingItem:(UserMonsterHealingItem *)item;
@@ -139,7 +140,9 @@
 - (UserMonster *) myMonsterWithUserMonsterId:(int)userMonsterId;
 - (UserMonster *) myMonsterWithSlotNumber:(int)slotNum;
 - (NSArray *) allMonstersOnMyTeam;
+- (NSArray *) allBattleAvailableMonstersOnTeam;
 - (UserStruct *) myStructWithId:(int)structId;
+- (UserStruct *) myTownHall;
 - (UserQuest *) myQuestWithId:(int)questId;
 - (NSArray *) allCurrentQuests;
 
@@ -156,7 +159,10 @@
 - (void) removeFullUserUpdatesForTag:(int)tag;
 - (void) removeNonFullUserUpdatesForTag:(int)tag;
 
-- (int) maxCashForLevel:(int)level;
+- (int) maxCash;
+- (int) maxOil;
+- (int) maxInventorySlots;
+
 - (int) expNeededForLevel:(int)level;
 - (int) currentExpForLevel;
 - (int) expDeltaNeededForNextLevel;

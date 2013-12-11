@@ -229,32 +229,34 @@
   _movesBgd = [CCSprite spriteWithFile:@"movesbg.png"];
   [puzzleBg addChild:_movesBgd z:-1];
   
-  CCLabelTTF *movesLabel = [CCLabelTTF labelWithString:@"MOVES:" fontName:[Globals font] fontSize:11];
+  CCLabelTTF *movesLabel = [CCLabelTTF labelWithString:@"MOVES " fontName:@"GothamNarrow-UltraItalic" fontSize:12 dimensions:CGSizeMake(100, 30) hAlignment:kCCTextAlignmentRight];
   [_movesBgd addChild:movesLabel];
-  movesLabel.position = ccp(30, 10);
   [movesLabel setFontFillColor:ccc3(255, 255, 255) updateImage:YES];
   [movesLabel enableShadowWithOffset:CGSizeMake(0, -1) opacity:0.3f blur:1.f updateImage:YES];
   
-  _movesLeftLabel = [CCLabelTTF labelWithString:@"5" fontName:[Globals font] fontSize:21];
+  _movesLeftLabel = [CCLabelTTF labelWithString:@"5" fontName:@"GothamNarrow-UltraItalic" fontSize:22 dimensions:CGSizeMake(100, 30) hAlignment:kCCTextAlignmentRight];
   [_movesBgd addChild:_movesLeftLabel];
-  _movesLeftLabel.position = ccp(52, 12);
   [_movesLeftLabel setFontFillColor:ccc3(255,200,0) updateImage:YES];
   [_movesLeftLabel enableShadowWithOffset:CGSizeMake(0, -1) opacity:0.3f blur:1.f updateImage:YES];
   
   if (_puzzleIsOnLeft) {
     _movesBgd.anchorPoint = ccp(0, 0.5);
-    _movesBgd.position = ccp(puzzleBg.contentSize.width, 18);
+    movesLabel.anchorPoint = ccp(0, 0.5);
+    movesLabel.anchorPoint = ccp(0, 0.5);
     
-    movesLabel.position = ccp(18, 10);
-    _movesLeftLabel.position = ccp(40, 12);
+    _movesBgd.position = ccp(puzzleBg.contentSize.width, 90);
+    movesLabel.position = ccp(3, 11);
+    _movesLeftLabel.position = ccp(3, 27);
     
     _movesBgd.flipX = YES;
   } else {
     _movesBgd.anchorPoint = ccp(1, 0.5);
-    _movesBgd.position = ccp(0, 18);
+    movesLabel.anchorPoint = ccp(1, 0.5);
+    _movesLeftLabel.anchorPoint = ccp(1, 0.5);
     
-    movesLabel.position = ccp(30, 10);
-    _movesLeftLabel.position = ccp(52, 12);
+    _movesBgd.position = ccp(0, 90);
+    movesLabel.position = ccp(62, 11);
+    _movesLeftLabel.position = ccp(62, 27);
   }
   
   //  CCSprite *lootBgd = [CCSprite spriteWithFile:@"lootcollect.png"];
@@ -281,18 +283,16 @@
   _comboBgd.position = ccp(clip.contentSize.width+2*_comboBgd.contentSize.width, _comboBgd.parent.contentSize.height/2);
   
   _comboLabel = [CCLabelTTF labelWithString:@"2x" fontName:@"Gotham-UltraItalic" fontSize:23];
-  [_comboLabel setFontFillColor:ccc3(255, 255, 255) updateImage:NO];
   [_comboLabel enableShadowWithOffset:CGSizeMake(0, -1) opacity:0.7f blur:1.f updateImage:YES];
   _comboLabel.anchorPoint = ccp(1, 0.5);
   _comboLabel.position = ccp(_comboBgd.contentSize.width-5, 32);
   [_comboBgd addChild:_comboLabel z:1];
   
-  CCLabelTTF *botLabel = [CCLabelTTF labelWithString:@"COMBO" fontName:@"Gotham-Ultra" fontSize:12];
-  [botLabel setFontFillColor:ccc3(255,228,122) updateImage:NO];
-  [botLabel enableShadowWithOffset:CGSizeMake(0, -1) opacity:0.7f blur:1.f updateImage:YES];
-  botLabel.anchorPoint = ccp(1, 0.5);
-  botLabel.position = ccp(_comboBgd.contentSize.width-5, 14);
-  [_comboBgd addChild:botLabel z:1];
+  _comboBotLabel = [CCLabelTTF labelWithString:@"COMBO" fontName:@"Gotham-Ultra" fontSize:12];
+  [_comboBotLabel enableShadowWithOffset:CGSizeMake(0, -1) opacity:0.7f blur:1.f updateImage:YES];
+  _comboBotLabel.anchorPoint = ccp(1, 0.5);
+  _comboBotLabel.position = ccp(_comboBgd.contentSize.width-5, 14);
+  [_comboBgd addChild:_comboBotLabel z:1];
   
   _comboCount = 0;
   _currentScore = 0;
@@ -304,7 +304,7 @@
 }
 
 - (void) createNextMyPlayerSprite {
-  BattleSprite *mp = [[BattleSprite alloc] initWithPrefix:self.myPlayerObject.spritePrefix nameString:self.myPlayerObject.name];
+  BattleSprite *mp = [[BattleSprite alloc] initWithPrefix:self.myPlayerObject.spritePrefix nameString:self.myPlayerObject.name isMySprite:YES];
   mp.healthBar.color = [self.orbLayer colorForSparkle:self.myPlayerObject.element];
   [self.bgdContainer addChild:mp z:0];
   mp.position = MY_PLAYER_LOCATION;
@@ -388,7 +388,7 @@
 }
 
 - (void) createNextEnemySprite {
-  BattleSprite *bs = [[BattleSprite alloc] initWithPrefix:self.enemyPlayerObject.spritePrefix nameString:self.enemyPlayerObject.name];
+  BattleSprite *bs = [[BattleSprite alloc] initWithPrefix:self.enemyPlayerObject.spritePrefix nameString:self.enemyPlayerObject.name isMySprite:NO];
   bs.healthBar.color = [self.orbLayer colorForSparkle:self.enemyPlayerObject.element];
   [self.bgdContainer addChild:bs];
   self.currentEnemy = bs;
@@ -425,7 +425,7 @@
     self.myPlayer.healthBar.parent.visible = NO;
   }
   
-  _movesLeftLabel.string = [NSString stringWithFormat:@"%d", _movesLeft];
+  _movesLeftLabel.string = [NSString stringWithFormat:@"%d ", _movesLeft];
   _comboLabel.string = [NSString stringWithFormat:@"%dx", _comboCount];
   
   [self.powerBar stopAllActions];
@@ -480,13 +480,16 @@
 
 - (void) checkIfAnyMovesLeft {
   if (_movesLeft == 0) {
-    //[self beginChargingUpForEnemy:NO withTarget:self selector:@selector(showHighScoreWord)];
-    [self showHighScoreWord];
-    [self displayNoInputLayer];
+    [self myTurnEnded];
   } else {
     [self.orbLayer allowInput];
     _scoreForThisTurn = 0;
   }
+}
+
+- (void) myTurnEnded {
+  [self showHighScoreWord];
+  [self displayNoInputLayer];
 }
 
 - (void) showHighScoreWord {
@@ -939,7 +942,7 @@
 
 #pragma mark - Delegate Methods
 
-- (void) turnBegan {
+- (void) moveBegan {
   
 }
 
@@ -964,6 +967,9 @@
   if (_comboCount == 2) {
     [_comboBgd stopAllActions];
     [_comboBgd runAction:[CCMoveTo actionWithDuration:0.3f position:ccp(_comboBgd.parent.contentSize.width, _comboBgd.parent.contentSize.height/2)]];
+    
+    [_comboLabel setFontFillColor:ccc3(255, 255, 255) updateImage:YES];
+    [_comboBotLabel setFontFillColor:ccc3(255,228,122) updateImage:YES];
   }
   if (_comboCount == 5 && ![_comboBgd getChildByTag:COMBO_FIRE_TAG]) {
     // Spawn fire
@@ -972,6 +978,9 @@
     q.position = ccp(_comboBgd.contentSize.width/2+15, _comboBgd.contentSize.height/2+5);
     q.positionType = kCCPositionTypeGrouped;
     [_comboBgd addChild:q z:0 tag:COMBO_FIRE_TAG];
+    
+    [_comboLabel setFontFillColor:ccc3(0,0,0) updateImage:YES];
+    [_comboBotLabel setFontFillColor:ccc3(0,0,0) updateImage:YES];
   }
   
   if (_canPlayNextComboSound) {
@@ -1027,7 +1036,7 @@
   _canPlayNextGemPop = YES;
 }
 
-- (void) turnComplete {
+- (void) moveComplete {
   if (_scoreForThisTurn == 0) {
     [self.orbLayer allowInput];
     return;

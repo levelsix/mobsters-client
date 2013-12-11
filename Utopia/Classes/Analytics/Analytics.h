@@ -23,17 +23,6 @@
 + (void) inAppPurchaseFailed;
 + (void) viewedGoldShopFromTopMenu;
 
-+ (void) clickedGetMoreGold:(int)goldAmt;
-+ (void) clickedGetMoreSilver;
-
-+ (void) notEnoughSilverForUpgrade:(int)structId cost:(int)cost;
-+ (void) notEnoughGoldForUpgrade:(int)structId cost:(int)cost;
-
-+ (void) notEnoughSilverInCarpenter:(int)structId;
-+ (void) notEnoughGoldInCarpenter:(int)structId;
-
-+ (void) notEnoughGoldForInstaUpgrade:(int)structId level:(int)level cost:(int)cost;
-
 // Engagement events
 + (void) levelUp:(int)level;
 

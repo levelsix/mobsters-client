@@ -7,8 +7,9 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "OmnipresentViewController.h"
 
-@interface GenericPopupController : UIViewController
+@interface GenericPopupController : OmnipresentViewController
 
 + (GenericPopupController *) displayNotificationViewWithText:(NSString *)string title:(NSString *)title;
 + (GenericPopupController *) displayNotificationViewWithText:(NSString *)string title:(NSString *)title okayButton:(NSString *)okay target:(id)target selector:(SEL)selector;

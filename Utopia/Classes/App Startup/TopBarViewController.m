@@ -27,8 +27,9 @@
   _percentage = clampf(percentage, 0.f, 1.f);
   
   float totalWidth = _percentage*self.frame.size.width;
+  CGRect r;
   
-  CGRect r = self.leftCap.frame;
+  r = self.leftCap.frame;
   r.size.width = MIN(ceilf(totalWidth/2), self.leftCap.image.size.width);
   self.leftCap.frame = r;
   
@@ -42,13 +43,19 @@
   self.rightCap.frame = r;
   
   r = self.middleBar.frame;
-  r.origin.x = CGRectGetMaxX(self.leftCap.frame)-1;
+  r.origin.x = CGRectGetMaxX(self.leftCap.frame);
   if (totalWidth >= self.leftCap.image.size.width*2) {
-    r.size.width = self.rightCap.frame.origin.x-r.origin.x+2;
+    r.size.width = self.rightCap.frame.origin.x-r.origin.x;
   } else {
     r.size.width = 0;
   }
   self.middleBar.frame = r;
+  
+  if (self.isRightToLeft) {
+    self.transform = CGAffineTransformMakeScale(-1, 1);
+  } else {
+    self.transform = CGAffineTransformIdentity;
+  }
 }
 
 @end
@@ -56,27 +63,42 @@
 @implementation TopBarMonsterView
 
 - (void) awakeFromNib {
-  self.emptyView.frame = self.monsterView.frame;
-  [self addSubview:self.emptyView];
+  self.iconView.transform = CGAffineTransformMakeScale(0.55, 0.55);
 }
 
 - (void) updateForUserMonster:(UserMonster *)um {
   if (!um) {
-    self.emptyView.hidden = NO;
-    self.monsterView.hidden = YES;
+    self.bgdIcon.image = [Globals imageNamed:@"teamempty.png"];
+    self.monsterIcon.image = nil;
+    self.topLabel.text = @"Slot Empty";
+    self.botLabel.hidden = YES;
+    self.healthBarView.hidden = YES;
   } else {
     GameState *gs = [GameState sharedGameState];
     Globals *gl = [Globals sharedGlobals];
     MonsterProto *mp = [gs monsterWithId:um.monsterId];
-    self.healthBar.image = [Globals imageNamed:[Globals imageNameForElement:mp.element suffix:@"ring.png"]];
+    self.healthBar.image = [Globals imageNamed:[Globals imageNameForElement:mp.element suffix:@"hteambar.png"]];
     self.healthBar.percentage = ((float)um.curHealth)/[gl calculateMaxHealthForMonster:um];
-    self.healthLabel.text = [NSString stringWithFormat:@"%d/%d", um.curHealth, [gl calculateMaxHealthForMonster:um]];
     
-    NSString *file = [mp.imagePrefix stringByAppendingString:@"Icon.png"];
-    [Globals imageNamed:file withView:self.monsterIcon greyscale:(um.curHealth <= 0) indicator:UIActivityIndicatorViewStyleWhite clearImageDuringDownload:YES];
+    BOOL greyscale = (um.curHealth <= 0);
+    NSString *file = [mp.imagePrefix stringByAppendingString:@"Thumbnail.png"];
+    [Globals imageNamed:file withView:self.monsterIcon greyscale:greyscale indicator:UIActivityIndicatorViewStyleWhite clearImageDuringDownload:YES];
+    file = [Globals imageNameForElement:mp.element suffix:@"mteam.png"];
+    [Globals imageNamed:file withView:self.bgdIcon greyscale:greyscale indicator:UIActivityIndicatorViewStyleWhite clearImageDuringDownload:YES];
     
-    self.emptyView.hidden = YES;
-    self.monsterView.hidden = NO;
+    self.topLabel.text = mp.displayName;
+    
+    if ([um isHealing]) {
+      self.botLabel.hidden = NO;
+      self.healthBarView.hidden = YES;
+      
+      self.iconView.alpha = 0.5;
+    } else {
+      self.botLabel.hidden = YES;
+      self.healthBarView.hidden = NO;
+      
+      self.iconView.alpha = 1;
+    }
   }
 }
 
@@ -104,6 +126,7 @@
     
     [[NSBundle mainBundle] loadNibNamed:@"TopBarMonsterView" owner:self options:nil];
     [container addSubview:self.topBarMonsterView];
+    self.topBarMonsterView.center = ccp(container.frame.size.width/2, container.frame.size.height/2);
   }
   
   self.chatViewController = [[ChatViewController alloc] init];
@@ -112,6 +135,31 @@
   [self.chatViewController closeAnimated:NO];
   
   self.myCityView.hidden = YES;
+  
+  self.cashBar.isRightToLeft = YES;
+  self.oilBar.isRightToLeft = YES;
+  
+  if (![Globals isLongiPhone]) {
+    UIImage *img = [Globals imageNamed:@"levelxpbg.png"];
+    int diff = self.expBgd.image.size.width-img.size.width;
+    self.expBgd.image = img;
+    self.oilBgd.image = img;
+    self.cashBgd.image = img;
+    
+    CGRect r = self.expBgd.superview.frame;
+    r.size.width -= diff;
+    self.expBgd.superview.frame = r;
+    
+    r = self.oilBgd.superview.frame;
+    r.origin.x += diff;
+    r.size.width -= diff;
+    self.oilBgd.superview.frame = r;
+    
+    r = self.cashBgd.superview.frame;
+    r.origin.x += diff;
+    r.size.width -= diff;
+    self.cashBgd.superview.frame = r;
+  }
 }
 
 - (void) viewWillAppear:(BOOL)animated {
@@ -237,8 +285,9 @@
 
 - (void) gameStateUpdated {
   GameState *gs = [GameState sharedGameState];
-  [self.silverLabel transitionToNum:gs.silver];
-  [self.goldLabel transitionToNum:gs.gold];
+  [self.cashLabel transitionToNum:gs.silver];
+  [self.oilLabel transitionToNum:gs.oil];
+  [self.gemsLabel transitionToNum:gs.gold];
   
   if (self.expLabel.currentNum <= gs.currentExpForLevel) {
     [self.expLabel transitionToNum:gs.currentExpForLevel];
@@ -247,6 +296,9 @@
   }
   
   self.levelLabel.text = [Globals commafyNumber:gs.level];
+  
+  self.cashMaxLabel.text = [NSString stringWithFormat:@"MAX: %@", [Globals commafyNumber:[gs maxCash]]];
+  self.oilMaxLabel.text = [NSString stringWithFormat:@"MAX: %@", [Globals commafyNumber:[gs maxOil]]];
 }
 
 - (void) updateMonsterViews {
@@ -266,9 +318,13 @@
   if (label == self.expLabel) {
     label.text = [NSString stringWithFormat:@"%@/%@", [Globals commafyNumber:number], [Globals commafyNumber:gs.expDeltaNeededForNextLevel]];
     self.expBar.percentage = ((float)number)/gs.expDeltaNeededForNextLevel;
-  } else if (label == self.silverLabel) {
+  } else if (label == self.cashLabel) {
     label.text = [Globals cashStringForNumber:number];
-  } else if (label == self.goldLabel) {
+    self.cashBar.percentage = gs.silver/(float)gs.maxCash;
+  } else if (label == self.oilLabel) {
+    label.text = [Globals commafyNumber:number];
+    self.oilBar.percentage = gs.oil/(float)gs.maxOil;
+  } else if (label == self.gemsLabel) {
     label.text = [Globals commafyNumber:number];
   }
 }

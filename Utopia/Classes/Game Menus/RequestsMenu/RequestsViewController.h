@@ -17,8 +17,7 @@
 @property (nonatomic, retain) IBOutlet UILabel *subtitleLabel;
 @property (nonatomic, retain) IBOutlet UIImageView *checkmark;
 
-
-@property (nonatomic, retain) IBOutlet RequestFromFriend *request;
+@property (nonatomic, retain) RequestFromFriend *request;
 
 @end
 
@@ -29,6 +28,7 @@
 
 @property (nonatomic, retain) IBOutlet UITableView *requestsTable;
 @property (nonatomic, retain) IBOutlet UIActivityIndicatorView *spinner;
+@property (nonatomic, retain) IBOutlet UILabel *noRequestsLabel;
 @property (nonatomic, retain) IBOutlet UIButton *unselectButton;
 
 @property (nonatomic, retain) NSMutableArray *requests;
