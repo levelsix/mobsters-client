@@ -126,8 +126,10 @@
     
     if (item.isComplete) {
       iconName = [Globals imageNameForRarity:item.quality suffix:@"capsule.png"];
+      self.shadowIcon.hidden = NO;
     } else {
       iconName = [Globals imageNameForRarity:item.quality suffix:@"piece.png"];
+      self.shadowIcon.hidden = YES;
     }
     self.label.text = [[Globals stringForRarity:item.quality] lowercaseString];
     
@@ -140,6 +142,7 @@
     self.label.text = [NSString stringWithFormat:@"%@ gems", [Globals commafyNumber:item.gemReward]];
     
     self.diamondIcon.hidden = NO;
+    self.shadowIcon.hidden = YES;
     self.icon.hidden = YES;
   }
   [Globals imageNamed:iconName withView:self.icon greyscale:NO indicator:UIActivityIndicatorViewStyleWhite clearImageDuringDownload:YES];
@@ -397,7 +400,6 @@
 #pragma mark - Featured views methods
 
 - (void) setupFeaturedViews {
-  
   [[NSBundle mainBundle] loadNibNamed:@"GachaponFeaturedView" owner:self options:nil];
   self.leftFeaturedView = self.featuredView;
   [[NSBundle mainBundle] loadNibNamed:@"GachaponFeaturedView" owner:self options:nil];

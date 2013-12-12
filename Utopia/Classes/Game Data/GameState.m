@@ -19,6 +19,7 @@
 #import "SocketCommunication.h"
 #import "PrivateChatPostProto+UnreadStatus.h"
 #import "StaticStructure.h"
+#import "QuestUtil.h"
 
 #define TagLog(...) //LNLog(__VA_ARGS__)
 
@@ -198,6 +199,8 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
   }
   [self beginCombineTimer];
   [[NSNotificationCenter defaultCenter] postNotificationName:MY_TEAM_CHANGED_NOTIFICATION object:nil];
+  
+  [QuestUtil checkAllDonateQuests];
 }
 
 - (void) addToMyStructs:(NSArray *)structs {
@@ -219,18 +222,28 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
     for (FullQuestProto *fqp in quests) {
       [self.availableQuests setObject:fqp forKey:[NSNumber numberWithInt:fqp.questId]];
     }
+    
+    [[NSNotificationCenter defaultCenter] postNotificationName:QUESTS_CHANGED_NOTIFICATION object:nil];
   }
 }
 
 - (void) addToInProgressCompleteQuests:(NSArray *)quests {
-  for (FullQuestProto *fqp in quests) {
-    [self.inProgressCompleteQuests setObject:fqp forKey:[NSNumber numberWithInt:fqp.questId]];
+  if (quests.count > 0) {
+    for (FullQuestProto *fqp in quests) {
+      [self.inProgressCompleteQuests setObject:fqp forKey:[NSNumber numberWithInt:fqp.questId]];
+    }
+    
+    [[NSNotificationCenter defaultCenter] postNotificationName:QUESTS_CHANGED_NOTIFICATION object:nil];
   }
 }
 
 - (void) addToInProgressIncompleteQuests:(NSArray *)quests {
-  for (FullQuestProto *fqp in quests) {
-    [self.inProgressIncompleteQuests setObject:fqp forKey:[NSNumber numberWithInt:fqp.questId]];
+  if (quests.count > 0) {
+    for (FullQuestProto *fqp in quests) {
+      [self.inProgressIncompleteQuests setObject:fqp forKey:[NSNumber numberWithInt:fqp.questId]];
+    }
+    
+    [[NSNotificationCenter defaultCenter] postNotificationName:QUESTS_CHANGED_NOTIFICATION object:nil];
   }
 }
 
@@ -372,6 +385,8 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
   [self.monsterHealingQueue addObject:item];
   
   [self beginHealingTimer];
+  
+  [QuestUtil checkAllDonateQuests];
 }
 
 - (void) removeUserMonsterHealingItem:(UserMonsterHealingItem *)item {
@@ -399,6 +414,8 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
   [self.monsterHealingQueue removeObject:item];
   
   [self beginHealingTimer];
+  
+  [QuestUtil checkAllDonateQuests];
 }
 
 - (void) addAllMonsterHealingProtos:(NSArray *)items {
@@ -417,6 +434,8 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
   [[NSNotificationCenter defaultCenter] postNotificationName:HEAL_WAIT_COMPLETE_NOTIFICATION object:nil];
   
   [self beginHealingTimer];
+  
+  [QuestUtil checkAllDonateQuests];
 }
 
 - (void) addEnhancingItemToEndOfQueue:(EnhancementItem *)item {
@@ -430,6 +449,8 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
   [self.userEnhancement.feeders addObject:item];
   
   [self beginEnhanceTimer];
+  
+  [QuestUtil checkAllDonateQuests];
 }
 
 - (void) removeEnhancingItem:(EnhancementItem *)item {
@@ -458,6 +479,8 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
   [feeders removeObject:item];
   
   [self beginEnhanceTimer];
+  
+  [QuestUtil checkAllDonateQuests];
 }
 
 - (void) addEnhancementProto:(UserEnhancementProto *)proto {
@@ -472,6 +495,8 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
     [[NSNotificationCenter defaultCenter] postNotificationName:ENHANCE_WAIT_COMPLETE_NOTIFICATION object:nil];
     
     [self beginEnhanceTimer];
+    
+    [QuestUtil checkAllDonateQuests];
   }
 }
 
@@ -990,6 +1015,8 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
     [[OutgoingEventController sharedOutgoingEventController] combineMonsters:arr];
     [[NSNotificationCenter defaultCenter] postNotificationName:COMBINE_WAIT_COMPLETE_NOTIFICATION object:nil];
     [self beginCombineTimer];
+    
+    [QuestUtil checkAllDonateQuests];
   }
 }
 

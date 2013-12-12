@@ -748,3 +748,22 @@
 }
 
 @end
+
+@implementation BadgeIcon
+
+- (void) awakeFromNib {
+  self.badgeNum = 0;
+}
+
+- (void) setBadgeNum:(int)badgeNum {
+  _badgeNum = badgeNum;
+  
+  if (_badgeNum > 0) {
+    self.badgeLabel.text = [NSString stringWithFormat:@"%d", _badgeNum];
+    self.hidden = NO;
+  } else {
+    self.hidden = YES;
+  }
+}
+
+@end

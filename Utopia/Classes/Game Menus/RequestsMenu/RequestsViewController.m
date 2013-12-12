@@ -76,6 +76,8 @@
   [[OutgoingEventController sharedOutgoingEventController] acceptAndRejectInvitesWithAcceptIds:accept rejectIds:reject];
   
   [self closeClicked:nil];
+  
+  [[NSNotificationCenter defaultCenter] postNotificationName:FB_INVITE_RESPONDED_NOTIFICATION object:nil];
 }
 
 - (IBAction)unselectAllClicked:(id)sender {
@@ -94,10 +96,10 @@
   
   if ([self.unselectedRequests containsObject:cell.request]) {
     [self.unselectedRequests removeObject:cell.request];
-    cell.checkmark.hidden = YES;
+    cell.checkmark.hidden = NO;
   } else {
     [self.unselectedRequests addObject:cell.request];
-    cell.checkmark.hidden = NO;
+    cell.checkmark.hidden = YES;
   }
 }
 

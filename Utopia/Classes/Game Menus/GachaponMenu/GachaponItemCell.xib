@@ -11,11 +11,11 @@
         </placeholder>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
         <view contentMode="scaleToFill" id="k76-PM-obi" customClass="GachaponItemCell">
-            <rect key="frame" x="0.0" y="0.0" width="57" height="56"/>
+            <rect key="frame" x="0.0" y="0.0" width="56" height="56"/>
             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
             <subviews>
                 <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="gachaepicbg.png" id="2IM-v3-Moe">
-                    <rect key="frame" x="0.0" y="0.0" width="57" height="56"/>
+                    <rect key="frame" x="0.0" y="0.0" width="56" height="56"/>
                     <autoresizingMask key="autoresizingMask"/>
                 </imageView>
                 <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="EPIC" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" id="rZc-TL-ker" customClass="NiceFontLabel">
@@ -31,7 +31,11 @@
                     <rect key="frame" x="8" y="7" width="39" height="30"/>
                     <autoresizingMask key="autoresizingMask"/>
                 </imageView>
-                <imageView opaque="NO" multipleTouchEnabled="YES" contentMode="center" image="epicpiece.png" id="yCI-6f-DKi">
+                <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="shadow.png" id="ORS-LP-UR5">
+                    <rect key="frame" x="11" y="22" width="33" height="22"/>
+                    <autoresizingMask key="autoresizingMask"/>
+                </imageView>
+                <imageView opaque="NO" multipleTouchEnabled="YES" contentMode="center" image="epiccapsule.png" id="yCI-6f-DKi">
                     <rect key="frame" x="5" y="4" width="44" height="35"/>
                     <autoresizingMask key="autoresizingMask"/>
                 </imageView>
@@ -42,12 +46,14 @@
                 <outlet property="diamondIcon" destination="gcl-kg-pZH" id="x8H-Q0-PVw"/>
                 <outlet property="icon" destination="yCI-6f-DKi" id="Nn0-Fw-Aez"/>
                 <outlet property="label" destination="rZc-TL-ker" id="ghP-hf-x7I"/>
+                <outlet property="shadowIcon" destination="ORS-LP-UR5" id="CGm-e9-wB7"/>
             </connections>
         </view>
     </objects>
     <resources>
         <image name="diamond.png" width="44" height="41"/>
-        <image name="epicpiece.png" width="40" height="35"/>
-        <image name="gachaepicbg.png" width="57" height="56"/>
+        <image name="epiccapsule.png" width="32" height="32"/>
+        <image name="gachaepicbg.png" width="56" height="56"/>
+        <image name="shadow.png" width="33" height="22"/>
     </resources>
 </document>

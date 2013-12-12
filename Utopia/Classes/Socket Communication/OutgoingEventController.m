@@ -344,8 +344,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
   
   if (monsterIds.count < fqp.quantity) {
     [Globals popupMessage:@"Attempting to donate without enough of monster."];
-  }
-  if (uq) {
+  } else if (uq) {
     for (NSNumber *num in monsterIds) {
       UserMonster *um = [gs myMonsterWithUserMonsterId:num.intValue];
       if (um && um.isComplete) {

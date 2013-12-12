@@ -72,6 +72,10 @@
   return NO;
 }
 
+- (BOOL) isDonatable {
+  return self.isComplete && !self.isHealing && !self.isEnhancing && !self.isSacrificing;
+}
+
 - (void) setExperience:(int)experience {
   _experience = experience;
   
@@ -86,7 +90,7 @@
 }
 
 - (BOOL) isCombining {
-  return !self.isComplete && self.numPieces == self.staticMonster.numPuzzlePieces;
+  return !self.isComplete && self.numPieces >= self.staticMonster.numPuzzlePieces;
 }
 
 - (int) timeLeftForCombining {

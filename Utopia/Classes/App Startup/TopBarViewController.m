@@ -170,6 +170,13 @@
   
   [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(updateMonsterViews) name:MY_TEAM_CHANGED_NOTIFICATION object:nil];
   [self updateMonsterViews];
+  
+  [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(updateMailBadge) name:NEW_FB_INVITE_NOTIFICATION object:nil];
+  [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(updateMailBadge) name:FB_INVITE_RESPONDED_NOTIFICATION object:nil];
+  [self updateMailBadge];
+  
+  [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(updateQuestBadge) name:QUESTS_CHANGED_NOTIFICATION object:nil];
+  [self updateQuestBadge];
 }
 
 - (void) viewDidDisappear:(BOOL)animated {
@@ -182,6 +189,29 @@
 
 - (void) removeMyCityView {
   self.myCityView.hidden = YES;
+}
+
+- (void) updateMailBadge {
+  GameState *gs = [GameState sharedGameState];
+  self.mailBadge.badgeNum = gs.fbUnacceptedRequestsFromFriends.count;
+}
+
+- (void) updateQuestBadge {
+  GameState *gs = [GameState sharedGameState];
+  int badgeNum = 0;
+  badgeNum += gs.availableQuests.count;
+  badgeNum += gs.inProgressCompleteQuests.count;
+  
+  for (FullQuestProto *q in gs.inProgressIncompleteQuests.allValues) {
+    if (q.questType == FullQuestProto_QuestTypeDonateMonster) {
+      UserQuest *uq = [gs myQuestWithId:q.questId];
+      if (q.quantity == uq.progress) {
+        badgeNum++;
+      }
+    }
+  }
+  
+  self.questBadge.badgeNum = badgeNum;
 }
 
 #pragma mark - Bottom view methods

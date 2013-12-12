@@ -37,26 +37,26 @@
     self.visitLabel.text = @"Visit";
   }
   
+  NSArray *rewards = [Reward createRewardsForQuest:quest];
+  [self.rewardsViewContainer.rewardsView updateForRewards:rewards];
+  
   if (userQuest.isComplete) {
-    self.completeView.hidden = NO;
-    self.collectView.hidden = NO;
-    self.visitView.hidden = YES;
+    self.completeView.alpha = 1.f;
+    self.collectView.alpha = 1.f;
+    self.visitView.alpha = 0.f;
     
     CGRect r = self.rewardsViewContainer.frame;
     r.size.width = self.collectView.frame.origin.x-r.origin.x;
     self.rewardsViewContainer.frame = r;
   } else {
-    self.completeView.hidden = YES;
-    self.collectView.hidden = YES;
-    self.visitView.hidden = NO;
+    self.completeView.alpha = 0.f;
+    self.collectView.alpha = 0.f;
+    self.visitView.alpha = 1.f;
     
     CGRect r = self.rewardsViewContainer.frame;
     r.size.width = CGRectGetMaxX(self.collectView.frame)-r.origin.x;
     self.rewardsViewContainer.frame = r;
   }
-  
-  NSArray *rewards = [Reward createRewardsForQuest:quest];
-  [self.rewardsViewContainer.rewardsView updateForRewards:rewards];
 }
 
 #pragma mark - IBAction methods

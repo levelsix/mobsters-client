@@ -8,8 +8,11 @@
 
 #import <QuartzCore/QuartzCore.h>
 #import "EasyTableView.h"
+#import "Globals.h"
 
 #define ANIMATION_DURATION	0.30
+
+#define HEADER_OFFSET 8
 
 @interface EasyTableViewCell : UITableViewCell
 
@@ -98,8 +101,48 @@
 	tableView.showsHorizontalScrollIndicator = NO;
 	tableView.backgroundColor = [UIColor clearColor];
 	[self addSubview:tableView];
+  
+  [self initHeaders];
 }
 
+#pragma mark - Headers
+
+- (void) initHeaders {
+  [self.headerContainer removeFromSuperview];
+  self.headerContainer = [[UIView alloc] initWithFrame:CGRectZero];
+  [self addSubview:self.headerContainer];
+  
+  int max = [self numberOfSectionsInTableView:self.tableView];
+  for (int i = 0; i < max; i++) {
+    NSString *headerName = nil;
+    if ([self.delegate respondsToSelector:@selector(easyTableView:stringForHorizontalHeaderInDesction:)]) {
+      headerName = [self.delegate easyTableView:self stringForHorizontalHeaderInDesction:i];
+    }
+    
+    if (headerName) {
+      int headerOffsets = 0;
+      int numCellsBefore = 0;
+      int numCellsAfter = [self tableView:self.tableView numberOfRowsInSection:i];
+      for (int j = 0; j <= i; j++) {
+        headerOffsets += [self tableView:self.tableView heightForHeaderInSection:j];
+        numCellsBefore += j < i ? [self tableView:self.tableView numberOfRowsInSection:j] : 0;
+      }
+      
+      CGRect r = CGRectZero;
+      r.origin.x = headerOffsets+numCellsBefore*_cellWidthOrHeight+HEADER_OFFSET;
+      r.origin.y = 0;
+      r.size.width = numCellsAfter*_cellWidthOrHeight-HEADER_OFFSET*2;
+      r.size.height = 30;
+      
+      EasyTableHeaderView *header = [[EasyTableHeaderView alloc] initWithFrame:r];
+      header.tag = i;
+      [header setLabelText:headerName];
+      [self.headerContainer addSubview:header];
+    }
+  }
+  
+  [self scrollViewDidScroll:self.tableView];
+}
 
 #pragma mark -
 #pragma mark Properties
@@ -346,6 +389,15 @@
 	
 	if ([delegate respondsToSelector:@selector(easyTableView:scrolledToFraction:)])
 		[delegate easyTableView:self scrolledToFraction:amountScrolled/maxScrollAmount];
+  
+  self.headerContainer.frame = CGRectMake(-self.contentOffset.x, 0, 0, 0);
+  for (EasyTableHeaderView *header in self.headerContainer.subviews) {
+    float mid = [self convertPoint:ccp(self.frame.size.width/2, 0) toView:header].x;
+    float baseX = 1.5*_cellWidthOrHeight-HEADER_OFFSET;
+    if (header.frame.size.width > baseX*2) {
+      [header moveLabelToXPosition:MIN(MAX(mid, baseX), header.frame.size.width-baseX)];
+    }
+  }
 }
 
 
@@ -434,12 +486,21 @@
 #pragma mark -
 #pragma mark Rotation
 
-- (void)prepareRotatedView:(UIView *)rotatedView withIndexPath:(NSIndexPath *)indexPath{
-	UIView *content = [delegate easyTableView:self viewForRect:rotatedView.bounds withIndexPath:indexPath];
+- (void) prepareRotatedView:(UIView *)rotatedView withIndexPath:(NSIndexPath *)indexPath {
+  int headerHeight = 0;
+  if (self.headerContainer.subviews.count > 0) {
+    headerHeight = [self.headerContainer.subviews[0] frame].size.height*2/3;
+  }
+  
+  CGRect r = rotatedView.bounds;
+  r.origin.y += headerHeight;
+  r.size.height -= headerHeight;
+  
+	UIView *content = [delegate easyTableView:self viewForRect:r withIndexPath:indexPath];
 	
 	// Add a default view if none is provided
 	if (content == nil)
-		content = [[UIView alloc] initWithFrame:rotatedView.bounds];
+		content = [[UIView alloc] initWithFrame:r];
 	
 	content.autoresizingMask = UIViewAutoresizingFlexibleHeight | UIViewAutoresizingFlexibleWidth;
 	content.tag = CELL_CONTENT_TAG;
@@ -447,15 +508,105 @@
 }
 
 
-- (void)setDataForRotatedView:(UIView *)rotatedView forIndexPath:(NSIndexPath *)indexPath {
+- (void) setDataForRotatedView:(UIView *)rotatedView forIndexPath:(NSIndexPath *)indexPath {
 	UIView *content = [rotatedView viewWithTag:CELL_CONTENT_TAG];
 	
   [delegate easyTableView:self setDataForView:content forIndexPath:indexPath];
 }
 
--(void)reloadData{
+- (void) reloadData {
+  [self initHeaders];
   [self.tableView reloadData];
 }
 
 @end
 
+@implementation EasyTableHeaderView
+
+- (id) initWithFrame:(CGRect)frame {
+  if ((self = [super initWithFrame:frame])) {
+    self.label = [[UILabel alloc] initWithFrame:frame];
+    self.label.font = [UIFont fontWithName:[Globals font] size:15.f];
+    self.label.textColor = [UIColor whiteColor];
+    self.label.textAlignment = NSTextAlignmentCenter;
+    [self addSubview:self.label];
+    
+    self.leftView1 = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 0, 1)];
+    self.leftView2 = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 0, 1)];
+    self.rightView1 = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 0, 1)];
+    self.rightView2 = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 0, 1)];
+    
+    UIColor *color = [UIColor colorWithWhite:1.f alpha:0.5f];
+    self.leftView1.backgroundColor = color;
+    self.leftView2.backgroundColor = color;
+    self.rightView1.backgroundColor = color;
+    self.rightView2.backgroundColor = color;
+    
+    [self addSubview:self.leftView1];
+    [self addSubview:self.leftView2];
+    [self addSubview:self.rightView1];
+    [self addSubview:self.rightView2];
+  }
+  return self;
+}
+
+- (void) setFrame:(CGRect)frame {
+  [super setFrame:frame];
+  [self setLabelText:self.label.text];
+}
+
+- (void) setLabelText:(NSString *)labelText {
+  self.label.text = labelText;
+  CGSize size = [self.label.text sizeWithFont:self.label.font];
+  
+  self.label.center = ccp(self.frame.size.width/2, self.frame.size.height/2);
+  
+  CGRect r;
+  
+  r = self.leftView1.frame;
+  r.size.width = self.label.center.x - size.width/2 - 10;
+  r.origin.y = self.label.center.y-1;
+  self.leftView1.frame = r;
+  
+  r = self.leftView2.frame;
+  r.size.width = self.leftView1.frame.size.width;
+  r.origin.y = self.label.center.y+1;
+  self.leftView2.frame = r;
+  
+  r = self.rightView1.frame;
+  r.size.width = self.leftView1.frame.size.width;
+  r.origin.x = self.frame.size.width-r.size.width;
+  r.origin.y = self.leftView1.frame.origin.y;
+  self.rightView1.frame = r;
+  
+  r = self.rightView2.frame;
+  r.size.width = self.leftView1.frame.size.width;
+  r.origin.x = self.rightView1.frame.origin.x;
+  r.origin.y = self.leftView2.frame.origin.y;
+  self.rightView2.frame = r;
+}
+
+- (void) moveLabelToXPosition:(float)x {
+  float diff = x - self.label.center.x;
+  self.label.center = CGPointMake(x, self.label.center.y);
+  
+  CGRect r = self.leftView1.frame;
+  r.size.width += diff;
+  self.leftView1.frame = r;
+  
+  r = self.leftView2.frame;
+  r.size.width += diff;
+  self.leftView2.frame = r;
+  
+  r = self.rightView1.frame;
+  r.origin.x += diff;
+  r.size.width -= diff;
+  self.rightView1.frame = r;
+  
+  r = self.rightView2.frame;
+  r.origin.x += diff;
+  r.size.width -= diff;
+  self.rightView2.frame = r;
+}
+
+@end

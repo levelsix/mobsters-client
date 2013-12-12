@@ -2748,6 +2748,14 @@
 		CFB2508C185866D600BE0C05 /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CFB2508A185866D600BE0C05 /* Default-568h@2x.png */; };
 		CFB2509018587BF300BE0C05 /* THLabel.m in Sources */ = {isa = PBXBuildFile; fileRef = CFB2508F18587BF300BE0C05 /* THLabel.m */; };
 		CFB2509118587BF300BE0C05 /* THLabel.m in Sources */ = {isa = PBXBuildFile; fileRef = CFB2508F18587BF300BE0C05 /* THLabel.m */; };
+		CFB250971859B9C300BE0C05 /* closebattle.png in Resources */ = {isa = PBXBuildFile; fileRef = CFB250951859B9C300BE0C05 /* closebattle.png */; };
+		CFB250981859B9C300BE0C05 /* closebattle.png in Resources */ = {isa = PBXBuildFile; fileRef = CFB250951859B9C300BE0C05 /* closebattle.png */; };
+		CFB250991859B9C300BE0C05 /* closebattle@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CFB250961859B9C300BE0C05 /* closebattle@2x.png */; };
+		CFB2509A1859B9C300BE0C05 /* closebattle@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CFB250961859B9C300BE0C05 /* closebattle@2x.png */; };
+		CFB2509D1859C1AD00BE0C05 /* badgeicon.png in Resources */ = {isa = PBXBuildFile; fileRef = CFB2509B1859C1AD00BE0C05 /* badgeicon.png */; };
+		CFB2509E1859C1AE00BE0C05 /* badgeicon.png in Resources */ = {isa = PBXBuildFile; fileRef = CFB2509B1859C1AD00BE0C05 /* badgeicon.png */; };
+		CFB2509F1859C1AE00BE0C05 /* badgeicon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CFB2509C1859C1AD00BE0C05 /* badgeicon@2x.png */; };
+		CFB250A01859C1AE00BE0C05 /* badgeicon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CFB2509C1859C1AD00BE0C05 /* badgeicon@2x.png */; };
 		CFB58720178B69EB00A5A799 /* giftglow.png in Resources */ = {isa = PBXBuildFile; fileRef = CFB5871E178B69EB00A5A799 /* giftglow.png */; };
 		CFB58721178B69EB00A5A799 /* giftglow.png in Resources */ = {isa = PBXBuildFile; fileRef = CFB5871E178B69EB00A5A799 /* giftglow.png */; };
 		CFB58722178B69EB00A5A799 /* giftglow@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CFB5871F178B69EB00A5A799 /* giftglow@2x.png */; };
@@ -5831,6 +5839,10 @@
 		CFB2508A185866D600BE0C05 /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-568h@2x.png"; sourceTree = "<group>"; };
 		CFB2508E18587BF300BE0C05 /* THLabel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = THLabel.h; sourceTree = "<group>"; };
 		CFB2508F18587BF300BE0C05 /* THLabel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = THLabel.m; sourceTree = "<group>"; };
+		CFB250951859B9C300BE0C05 /* closebattle.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = closebattle.png; sourceTree = "<group>"; };
+		CFB250961859B9C300BE0C05 /* closebattle@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "closebattle@2x.png"; sourceTree = "<group>"; };
+		CFB2509B1859C1AD00BE0C05 /* badgeicon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = badgeicon.png; sourceTree = "<group>"; };
+		CFB2509C1859C1AD00BE0C05 /* badgeicon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "badgeicon@2x.png"; sourceTree = "<group>"; };
 		CFB5871E178B69EB00A5A799 /* giftglow.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = giftglow.png; sourceTree = "<group>"; };
 		CFB5871F178B69EB00A5A799 /* giftglow@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "giftglow@2x.png"; sourceTree = "<group>"; };
 		CFBF02D417C2F68D0082A9BF /* MenuNavigationController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MenuNavigationController.h; sourceTree = "<group>"; };
@@ -9177,6 +9189,8 @@
 			isa = PBXGroup;
 			children = (
 				CFB2503E1858304700BE0C05 /* Home teambar element icons */,
+				CFB2509B1859C1AD00BE0C05 /* badgeicon.png */,
+				CFB2509C1859C1AD00BE0C05 /* badgeicon@2x.png */,
 				CF7064E818470051005B30A1 /* addgems.png */,
 				CF7064E918470051005B30A1 /* addgems@2x.png */,
 				CF7064EA18470051005B30A1 /* cashcap.png */,
@@ -10104,6 +10118,8 @@
 		CFF1D64D17DFC43600874339 /* Puzzle Images */ = {
 			isa = PBXGroup;
 			children = (
+				CFB250951859B9C300BE0C05 /* closebattle.png */,
+				CFB250961859B9C300BE0C05 /* closebattle@2x.png */,
 				CFF391051829D5F60010A3BE /* earthgrenade.png */,
 				CFF391061829D5F60010A3BE /* earthgrenade@2x.png */,
 				CFF391071829D5F60010A3BE /* firegrenade.png */,
@@ -10778,6 +10794,7 @@
 				CF126ED51538ACCA00E0C1AD /* smallamount.png in Resources */,
 				CF126ED61538ACCA00E0C1AD /* smallamount@2x.png in Resources */,
 				CF126ED71538ACCA00E0C1AD /* warrioricon.png in Resources */,
+				CFB2509F1859C1AE00BE0C05 /* badgeicon@2x.png in Resources */,
 				CF126ED81538ACCA00E0C1AD /* warrioricon@2x.png in Resources */,
 				CF126ED91538ACCA00E0C1AD /* crubg.png in Resources */,
 				CF70651118470051005B30A1 /* cashmiddle.png in Resources */,
@@ -10985,6 +11002,7 @@
 				CFFEB11C1834539C007C4BA3 /* lightcardhealthbar.png in Resources */,
 				CF1270D91538ACCC00E0C1AD /* CrackedPendant@2x.png in Resources */,
 				CF37656B182E0D9300D0A77E /* City.proto in Resources */,
+				CFB2509D1859C1AD00BE0C05 /* badgeicon.png in Resources */,
 				CF1270DC1538ACCC00E0C1AD /* goodgirltall.png in Resources */,
 				CF1270DD1538ACCC00E0C1AD /* goodgirltall@2x.png in Resources */,
 				CF1270E01538ACCC00E0C1AD /* HandGuard.png in Resources */,
@@ -11465,6 +11483,7 @@
 				CF37651B182DD6F900D0A77E /* chatblackbg.png in Resources */,
 				CF3766BF1833022700D0A77E /* featuredstars.png in Resources */,
 				CFF740491817AF09009DE4A4 /* park@2x.png in Resources */,
+				CFB250971859B9C300BE0C05 /* closebattle.png in Resources */,
 				CFE02B951821DC000016C1E2 /* miniearth@2x.png in Resources */,
 				CFF39076182888620010A3BE /* topbartest@2x.png in Resources */,
 				CF3766AF1833022700D0A77E /* rarepiece.png in Resources */,
@@ -11731,6 +11750,7 @@
 				CF91C98A16B8F08B00F2F3B6 /* tutokay.png in Resources */,
 				CF91C98B16B8F08B00F2F3B6 /* tutokay@2x.png in Resources */,
 				CFF5829016C387AB00712C4F /* alsocontainsnumberbg.png in Resources */,
+				CFB250991859B9C300BE0C05 /* closebattle@2x.png in Resources */,
 				CFF5829116C387AB00712C4F /* alsocontainsnumberbg@2x.png in Resources */,
 				CFF5829216C387AB00712C4F /* buychestbutton.png in Resources */,
 				CFF5829316C387AB00712C4F /* buychestbutton@2x.png in Resources */,
@@ -13321,6 +13341,7 @@
 				CF69FB21174212ED001C96D0 /* unequibbableitem.png in Resources */,
 				CF69FB22174212ED001C96D0 /* unequibbableitem@2x.png in Resources */,
 				CF69FB23174212ED001C96D0 /* equippedborder.png in Resources */,
+				CFB250981859B9C300BE0C05 /* closebattle.png in Resources */,
 				CF69FB24174212ED001C96D0 /* equippedborder@2x.png in Resources */,
 				CFF39077182888620010A3BE /* topbartest@2x.png in Resources */,
 				CF3766841833022700D0A77E /* epiccapsule.png in Resources */,
@@ -13353,6 +13374,7 @@
 				CFF390CA1829C74A0010A3BE /* earthorb.png in Resources */,
 				CFE7CDC71819FC3300930847 /* waterbar@2x.png in Resources */,
 				CF376514182DD6F900D0A77E /* chatarrow.png in Resources */,
+				CFB2509A1859B9C300BE0C05 /* closebattle@2x.png in Resources */,
 				CFE7CD771819FC3300930847 /* mediumbox.png in Resources */,
 				CFE02BBE1822CF8F0016C1E2 /* myteamimage.png in Resources */,
 				CF20F1A1180FCABC005551B5 /* healingoverlay.png in Resources */,
@@ -13836,6 +13858,7 @@
 				CF376598182E0D9300D0A77E /* StaticData.proto in Resources */,
 				CFD44CA0175D4282006E2198 /* shieldnoticebg@2x.png in Resources */,
 				CFD44CA2175D4282006E2198 /* shieldon.png in Resources */,
+				CFB250A01859C1AE00BE0C05 /* badgeicon@2x.png in Resources */,
 				CFD44CA4175D4282006E2198 /* shieldon@2x.png in Resources */,
 				CFF7405A1817AF09009DE4A4 /* streetlight.png in Resources */,
 				CF20F1A3180FCABC005551B5 /* healingoverlay@2x.png in Resources */,
@@ -13924,6 +13947,7 @@
 				CFE0DAE517798F7400A3CEF7 /* Stables.png in Resources */,
 				CFE0DAE717798F7400A3CEF7 /* Stables@2x.png in Resources */,
 				CF6292F8180D22F600C6C196 /* bagcash@2x.png in Resources */,
+				CFB2509E1859C1AE00BE0C05 /* badgeicon.png in Resources */,
 				CFB58721178B69EB00A5A799 /* giftglow.png in Resources */,
 				CF70651418470051005B30A1 /* cashmiddle@2x.png in Resources */,
 				CFB58723178B69EB00A5A799 /* giftglow@2x.png in Resources */,

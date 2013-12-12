@@ -11,7 +11,9 @@
 
 @interface QuestUtil : NSObject
 
++ (int) checkQuantityForDonateQuest:(FullQuestProto *)quest;
 + (void) checkAllDonateQuests;
 + (void) checkQuestsForDungeon:(BeginDungeonResponseProto *)dungeonInfo;
++ (void) checkNewlyAcceptedQuest:(FullQuestProto *)quest;
 
 @end

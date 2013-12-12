@@ -280,3 +280,10 @@ typedef enum {
 @property (nonatomic, assign) int isChecked;
 
 @end
+
+@interface BadgeIcon : UIView
+
+@property (nonatomic, retain) IBOutlet UILabel *badgeLabel;
+@property (nonatomic, assign) int badgeNum;
+
+@end

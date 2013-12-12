@@ -55,8 +55,9 @@ typedef enum {
 - (void)easyTableView:(EasyTableView *)easyTableView scrolledToFraction:(CGFloat)fraction;
 - (NSUInteger)numberOfSectionsInEasyTableView:(EasyTableView*)easyTableView;
 - (NSUInteger)numberOfCellsForEasyTableView:(EasyTableView *)view inSection:(NSInteger)section;
-- (UIView*)easyTableView:(EasyTableView*)easyTableView viewForHeaderInSection:(NSInteger)section;
-- (UIView*)easyTableView:(EasyTableView*)easyTableView viewForFooterInSection:(NSInteger)section;
+- (NSString *)easyTableView:(EasyTableView*)easyTableView stringForHorizontalHeaderInDesction:(NSInteger)section;
+- (UIView *)easyTableView:(EasyTableView*)easyTableView viewForHeaderInSection:(NSInteger)section;
+- (UIView *)easyTableView:(EasyTableView*)easyTableView viewForFooterInSection:(NSInteger)section;
 - (CGFloat)easyTableView:(EasyTableView *)easyTableView heightOrWidthForCellAtIndexPath:(NSIndexPath *)indexPath;
 - (void) easyTableViewWillEndDragging:(EasyTableView *)easyTableView withVelocity:(CGPoint)velocity targetContentOffset:(inout CGPoint *)targetContentOffset;
 - (void) easyTableViewDidEndScrollingAnimation:(EasyTableView *)easyTableView;
@@ -78,6 +79,9 @@ typedef enum {
 @property (nonatomic, assign) CGPoint contentOffset;
 @property (nonatomic, assign) NSUInteger numberOfCells;
 
+@property (nonatomic, retain) UIView *headerContainer;
+
+
 - (id)initWithFrame:(CGRect)frame numberOfColumns:(NSUInteger)numCells ofWidth:(CGFloat)cellWidth;
 - (id)initWithFrame:(CGRect)frame numberOfRows:(NSUInteger)numCells ofHeight:(CGFloat)cellHeight;
 - (CGPoint)offsetForView:(UIView *)cell;
@@ -87,5 +91,18 @@ typedef enum {
 - (UIView *)viewAtIndexPath:(NSIndexPath *)indexPath;
 - (NSIndexPath*)indexPathForView:(UIView *)cell;
 - (void)reloadData;
+
+@end
+
+@interface EasyTableHeaderView : UIView
+
+@property (nonatomic, strong) UILabel *label;
+@property (nonatomic, strong) UIView *leftView1;
+@property (nonatomic, strong) UIView *leftView2;
+@property (nonatomic, strong) UIView *rightView1;
+@property (nonatomic, strong) UIView *rightView2;
+
+- (void) setLabelText:(NSString *)labelText;
+- (void) moveLabelToXPosition:(float)x;
 
 @end

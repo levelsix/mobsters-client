@@ -30,6 +30,7 @@
 - (BOOL) isHealing;
 - (BOOL) isEnhancing;
 - (BOOL) isSacrificing;
+- (BOOL) isDonatable;
 
 - (MonsterProto *) staticMonster;
 - (BOOL) isCombining;

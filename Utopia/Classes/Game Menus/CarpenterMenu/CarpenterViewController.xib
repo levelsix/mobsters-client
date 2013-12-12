@@ -19,7 +19,7 @@
                     <rect key="frame" x="0.0" y="-40" width="568" height="320"/>
                     <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES"/>
                 </imageView>
-                <view contentMode="scaleToFill" id="43">
+                <view clipsSubviews="YES" contentMode="scaleToFill" id="43">
                     <rect key="frame" x="0.0" y="0.0" width="568" height="240"/>
                     <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES"/>
                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>

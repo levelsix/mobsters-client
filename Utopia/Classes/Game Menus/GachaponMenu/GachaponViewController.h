@@ -50,6 +50,7 @@
 
 @property (nonatomic, retain) IBOutlet UIImageView *bgdView;
 @property (nonatomic, retain) IBOutlet UIImageView *icon;
+@property (nonatomic, retain) IBOutlet UIImageView *shadowIcon;
 @property (nonatomic, retain) IBOutlet UIImageView *diamondIcon;
 @property (nonatomic, retain) IBOutlet UILabel *label;
 

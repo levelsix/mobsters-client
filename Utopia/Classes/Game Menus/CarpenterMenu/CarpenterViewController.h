@@ -41,7 +41,9 @@
 @property (nonatomic, strong) IBOutlet UIView *tableContainerView;
 @property (nonatomic, strong) IBOutlet EasyTableView *structTable;
 @property (nonatomic, strong) IBOutlet UIActivityIndicatorView *spinner;
-@property (nonatomic, strong) NSMutableArray *structsList;
+
+@property (nonatomic, strong) NSMutableArray *incomeStructsList;
+@property (nonatomic, strong) NSMutableArray *mobsterStructsList;
 
 @property (nonatomic, strong) IBOutlet UILabel *cashLabel;
 @property (nonatomic, strong) IBOutlet UILabel *diamondLabel;

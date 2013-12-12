@@ -11,6 +11,7 @@
 #import "OutgoingEventController.h"
 #import "GameViewController.h"
 #import "GenericPopupController.h"
+#import "QuestUtil.h"
 
 @interface QuestLogViewController ()
 
@@ -35,6 +36,29 @@
   self.detailsContainerView.userInteractionEnabled = NO;
   
   [Globals bounceView:self.mainView fadeInBgdView:self.bgdView];
+}
+
+- (void) viewDidAppear:(BOOL)animated {
+  [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(questsChanged) name:QUESTS_CHANGED_NOTIFICATION object:nil];
+}
+
+- (void) viewDidDisappear:(BOOL)animated {
+  [[NSNotificationCenter defaultCenter] removeObserver:self];
+}
+
+- (void) questsChanged {
+  GameState *gs = [GameState sharedGameState];
+  [self.questListViewController reloadWithQuests:gs.allCurrentQuests userQuests:gs.myQuests];
+  
+  if (self.questDetailsViewController) {
+    int questId = self.questDetailsViewController.quest.questId;
+    FullQuestProto *fqp = [gs questForId:questId];
+    if (fqp) {
+      [self.questDetailsViewController loadWithQuest:fqp userQuest:[gs myQuestWithId:questId]];
+    } else {
+      [self transitionToListView];
+    }
+  }
 }
 
 - (IBAction)close:(id)sender {
@@ -99,11 +123,6 @@
 #pragma mark - QuestListCellDelegate methods
 
 - (void) questListCellClicked:(QuestListCell *)cell {
-  if (!cell.userQuest) {
-    UserQuest *uq = [[OutgoingEventController sharedOutgoingEventController] acceptQuest:cell.quest.questId];
-    [cell updateForQuest:cell.quest withUserQuestData:uq];
-  }
-  
   self.questDetailsViewController = [[QuestDetailsViewController alloc] init];
   self.questDetailsViewController.delegate = self;
   [self addChildViewController:self.questDetailsViewController];
@@ -111,6 +130,14 @@
   [self.questDetailsViewController loadWithQuest:cell.quest userQuest:cell.userQuest];
   
   [self transitionToDetailsView];
+  
+  if (!cell.userQuest) {
+    [[OutgoingEventController sharedOutgoingEventController] acceptQuest:cell.quest.questId];
+    
+    [[NSNotificationCenter defaultCenter] postNotificationName:QUESTS_CHANGED_NOTIFICATION object:nil];
+    
+    [QuestUtil checkNewlyAcceptedQuest:cell.quest];
+  }
 }
 
 - (IBAction)backClicked:(id)sender {
@@ -137,18 +164,12 @@
   FullQuestProto *fqp = [gs questForId:questId];
   NSMutableArray *potentials = [NSMutableArray array];
   for (UserMonster *um in gs.myMonsters) {
-    if (um.monsterId == fqp.staticDataId && um.isComplete) {
+    if (um.monsterId == fqp.staticDataId && um.isDonatable) {
       [potentials addObject:um];
     }
   }
   
   [potentials sortUsingComparator:^NSComparisonResult(UserMonster *obj1, UserMonster *obj2) {
-    if (obj1.teamSlot && !obj2.teamSlot) {
-      return NSOrderedDescending;
-    } else if (obj2.teamSlot && !obj1.teamSlot) {
-      return NSOrderedAscending;
-    }
-    
     if (obj1.experience < obj2.experience) {
       return NSOrderedAscending;
     } else if (obj1.experience > obj2.experience) {
@@ -169,14 +190,14 @@
       [arr addObject:[NSNumber numberWithInt:um.userMonsterId]];
     }
     
+    self.userMonsterIds = arr;
+    
     if (numOnTeam) {
       NSString *desc = [NSString stringWithFormat:@"%@ of these mobsters %@ on your team. Would you still like to donate?", numOnTeam == 1 ? @"One" : numOnTeam == 2 ? @"Two" : @"Three", numOnTeam == 1 ? @"is" : @"are"];
       [GenericPopupController displayConfirmationWithDescription:desc title:@"Mobsters on Team" okayButton:@"Donate" cancelButton:@"Cancel" target:self selector:@selector(donateConfirmed)];
     } else {
       [self donateConfirmed];
     }
-    
-    self.userMonsterIds = arr;
   }
 }
 
@@ -184,8 +205,17 @@
   GameState *gs = [GameState sharedGameState];
   FullQuestProto *quest = self.questDetailsViewController.quest;
   UserQuest *uqNew = [[OutgoingEventController sharedOutgoingEventController] donateForQuest:quest.questId monsterIds:self.userMonsterIds];
-  [self.questDetailsViewController loadWithQuest:quest userQuest:uqNew];
+  self.userMonsterIds = nil;
+  if (uqNew.isComplete) {
+    [UIView animateWithDuration:1.f animations:^{
+      [self.questDetailsViewController loadWithQuest:quest userQuest:uqNew];
+    }];
+  }
   [self.questListViewController reloadWithQuests:gs.allCurrentQuests userQuests:gs.myQuests];
+  
+  [[NSNotificationCenter defaultCenter] postNotificationName:QUESTS_CHANGED_NOTIFICATION object:nil];
+  
+  [QuestUtil checkAllDonateQuests];
 }
 
 - (void) collectClickedWithDetailsVC:(QuestDetailsViewController *)detailsVC {
@@ -209,6 +239,10 @@
   }
   
   [self.questListViewController reloadWithQuests:gs.allCurrentQuests userQuests:gs.myQuests];
+  
+  [[NSNotificationCenter defaultCenter] postNotificationName:QUESTS_CHANGED_NOTIFICATION object:nil];
+  
+  [QuestUtil checkAllDonateQuests];
 }
 
 @end

@@ -36,8 +36,10 @@
 #define MY_TEAM_CHANGED_NOTIFICATION @"MyTeamChangedNotification"
 #define CHAT_RECEIVED_NOTIFICATION @"ChatReceivedNotification"
 #define NEW_FB_INVITE_NOTIFICATION @"NewFbInviteNotification"
+#define FB_INVITE_RESPONDED_NOTIFICATION @"FbInviteRespondedNotification"
 #define FB_INVITE_ACCEPTED_NOTIFICATION @"FbInviteAcceptedNotification"
 #define FB_INCREASE_SLOTS_NOTIFICATION @"FbIncreaseSlotsNotification"
+#define QUESTS_CHANGED_NOTIFICATION @"QuestsChangedNotification"
 
 #ifdef LEGENDS_OF_CHAOS
 #define GAME_NAME @"Legends of Chaos"

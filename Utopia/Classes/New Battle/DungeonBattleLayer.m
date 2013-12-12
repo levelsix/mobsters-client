@@ -25,7 +25,6 @@
   self.forfeitButton.hidden = YES;
   
   self.forfeitButton.center = ccp(self.forfeitButton.frame.size.width/2+5, self.forfeitButton.frame.size.height/2+5);
-  self.forfeitButton.layer.cornerRadius = 3.f;
   self.swapLabel.transform = CGAffineTransformMakeRotation(M_PI_2);
 }
 

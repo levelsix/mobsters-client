@@ -86,6 +86,7 @@
   BOOL greyscale = structInfo.prerequisiteTownHallLvl > thLevel || cur >= max;
   if (greyscale) {
     [self setViewToGreyScale:self];
+    [self setViewToGreyScale:self.descriptionView];
   }
   
   [Globals imageNamed:structInfo.imgName withView:self.buildingImageView greyscale:greyscale indicator:UIActivityIndicatorViewStyleWhite clearImageDuringDownload:YES];
@@ -98,7 +99,8 @@
 - (void)viewDidLoad
 {
   [super viewDidLoad];
-  self.structsList = [NSMutableArray array];
+  self.incomeStructsList = [NSMutableArray array];
+  self.mobsterStructsList = [NSMutableArray array];
   self.title = @"Buildings";
   [self setUpCloseButton];
   [self setUpImageBackButton];
@@ -119,7 +121,8 @@
 
 - (void) reloadCarpenterStructs {
   GameState *gs = [GameState sharedGameState];
-  [self.structsList removeAllObjects];
+  [self.incomeStructsList removeAllObjects];
+  [self.mobsterStructsList removeAllObjects];
   
   NSArray *structs = [[gs staticStructs] allValues];
   
@@ -129,16 +132,24 @@
       continue;
     }
     
-    [self.structsList addObject:fsp];
+    if (fsp.structType == StructureInfoProto_StructTypeResourceGenerator ||
+        fsp.structType == StructureInfoProto_StructTypeResourceStorage) {
+      [self.incomeStructsList addObject:fsp];
+    } else {
+      [self.mobsterStructsList addObject:fsp];
+    }
   }
   
-  [self.structsList sortUsingComparator:^NSComparisonResult(StructureInfoProto *obj1, StructureInfoProto *obj2) {
+  NSComparator comp = ^NSComparisonResult(StructureInfoProto *obj1, StructureInfoProto *obj2) {
     if (obj1.prerequisiteTownHallLvl != obj2.prerequisiteTownHallLvl) {
       return [@(obj1.prerequisiteTownHallLvl) compare:@(obj2.prerequisiteTownHallLvl)];
     } else {
       return [@(obj1.structId) compare:@(obj2.structId)];
     }
-  }];
+  };
+  
+  [self.incomeStructsList sortUsingComparator:comp];
+  [self.mobsterStructsList sortUsingComparator:comp];
   
   [self.structTable reloadData];
 }
@@ -153,8 +164,12 @@
   [self.tableContainerView addSubview:self.structTable];
 }
 
+- (NSUInteger) numberOfSectionsInEasyTableView:(EasyTableView *)easyTableView {
+  return 2;
+}
+
 - (NSUInteger) numberOfCellsForEasyTableView:(EasyTableView *)view inSection:(NSInteger)section {
-  return self.structsList.count;
+  return section == 0 ? self.incomeStructsList.count : self.mobsterStructsList.count;
 }
 
 - (UIView *) easyTableView:(EasyTableView *)easyTableView viewForHeaderInSection:(NSInteger)section {
@@ -163,12 +178,21 @@
 
 - (UIView *) easyTableView:(EasyTableView *)easyTableView viewForRect:(CGRect)rect withIndexPath:(NSIndexPath *)indexPath {
   [[NSBundle mainBundle] loadNibNamed:@"CarpenterListing" owner:self options:nil];
-  self.carpListing.center = ccp(rect.size.width/2, rect.size.height/2);
+  self.carpListing.center = ccp(CGRectGetMidX(rect), CGRectGetMidY(rect));
   return self.carpListing;
 }
 
 - (void) easyTableView:(EasyTableView *)easyTableView setDataForView:(CarpenterListing *)view forIndexPath:(NSIndexPath *)indexPath {
-  [view updateForStructInfo:self.structsList[indexPath.row]];
+  NSArray *arr = indexPath.section == 0 ? self.incomeStructsList : self.mobsterStructsList;
+  [view updateForStructInfo:arr[indexPath.row]];
+}
+
+- (NSString *) easyTableView:(EasyTableView *)easyTableView stringForHorizontalHeaderInDesction:(NSInteger)section {
+  if (section == 0) {
+    return @"Income Buildings";
+  } else {
+    return @"Mobster Buildings";
+  }
 }
 
 #pragma mark - IBActions

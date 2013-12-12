@@ -8,6 +8,7 @@
 
 #import "QuestListViewController.h"
 #import "Globals.h"
+#import "QuestUtil.h"
 
 @implementation QuestListCell
 
@@ -29,7 +30,13 @@
   }
   
   if (quest.quantity < 100) {
-    self.progressLabel.text = [NSString stringWithFormat:@"%d/%d", userQuest.progress, quest.quantity];
+    int progress = userQuest.progress;
+    
+    if (!userQuest && quest.questType == FullQuestProto_QuestTypeDonateMonster) {
+      progress = [QuestUtil checkQuantityForDonateQuest:quest];
+    }
+    
+    self.progressLabel.text = [NSString stringWithFormat:@"%d/%d", progress, quest.quantity];
   } else {
     self.progressLabel.text = [NSString stringWithFormat:@"%@", [Globals commafyNumber:userQuest.progress]];
   }
