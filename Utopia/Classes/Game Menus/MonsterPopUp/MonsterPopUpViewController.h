@@ -20,7 +20,9 @@
 
 @end
 
-@interface MonsterPopUpViewController : UIViewController
+@interface MonsterPopUpViewController : UIViewController {
+  BOOL _allowSell;
+}
 
 @property (nonatomic, strong) IBOutlet UIView *mainView;
 @property (nonatomic, strong) IBOutlet UIView *bgdView;
@@ -48,12 +50,16 @@
 @property (nonatomic, strong) IBOutlet ProgressBar *progressBar;
 @property (nonatomic, strong) IBOutlet UIButton *infoButton;
 
+@property (nonatomic, strong) IBOutlet UILabel *sellLabel;
+@property (nonatomic, strong) IBOutlet UIView *sellButtonView;
 
 @property (nonatomic, strong) UserMonster *monster;
 
 - (id)initWithMonsterProto:(UserMonster *)monster;
+- (id)initWithMonsterProto:(UserMonster *)monster allowSell:(BOOL)allowSell;
 - (IBAction)infoClicked:(id)sender;
 - (IBAction)close:(id)sender;
 - (IBAction)backClicked:(id)sender;
+- (IBAction)sellClicked:(id)sender;
 
 @end

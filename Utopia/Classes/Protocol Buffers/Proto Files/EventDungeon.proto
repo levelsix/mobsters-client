@@ -15,6 +15,14 @@ message BeginDungeonRequestProto {
 	
 	//used for determining if boss spawned
 	optional bool userBeatAllCityTasks = 4;
+	
+	//used for PersistentEvent stuff
+	optional bool isEvent = 5;
+	optional int32 persistentEventId = 6;
+	
+	//if the user is going to speed up the persistent event cool down timer
+	//(positive number, server will convert it to negative)
+	optional int32 gemsSpent = 7;
 }
 
 message BeginDungeonResponseProto {
@@ -33,7 +41,7 @@ message BeginDungeonResponseProto {
 //------------------------------------------------------------------------------------------
 
 message EndDungeonRequestProto {
-	optional MinimumUserProto sender = 1;
+	optional MinimumUserProtoWithMaxResources sender = 1;
 	optional int64 userTaskId = 2;
 	optional bool userWon = 3; 
 	optional int64 clientTime = 4;
@@ -48,7 +56,7 @@ message EndDungeonRequestProto {
 }
 
 message EndDungeonResponseProto {
-	optional MinimumUserProto sender = 1;
+	optional MinimumUserProtoWithMaxResources sender = 1;
 	optional EndDungeonStatus status = 2;
 	//repeated FullUserMonsterProto newOrUpdated = 3; //BAD!!! DON'T START NAMES WITH NEW OR COPY
 	repeated FullUserMonsterProto updatedOrNew = 3;
@@ -81,3 +89,26 @@ message ReviveInDungeonResponseProto {
 }
 
 //------------------------------------------------------------------------------------------
+/* merged into BeginDungeon event
+//user can only spend gems to end the cool down timer
+message EndPersistentEventCoolDownTimerRequestProto {
+	optional MinimumUserProto sender = 1;
+	
+	//if the user is going to speed up the evolution process
+	//(positive number, server will convert it to negative)
+	optional int32 gemsSpent = 2; 
+	
+	optional int32 eventPersistentId = 3;
+}
+
+message EndPersistentEventCoolDownTimerResponseProto {
+	optional MinimumUserProto sender = 1;
+	optional EndPersistentEventCoolDownTimerStatus status = 2;
+	
+	enum EndPersistentEventCoolDownTimerStatus {
+		SUCCESS = 1;
+		FAIL_INSUFFICIENT_FUNDS = 2;
+		FAIL_OTHER = 3;
+	}
+}
+*/

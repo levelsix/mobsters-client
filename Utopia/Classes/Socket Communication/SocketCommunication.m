@@ -156,6 +156,15 @@ static NSString *udid = nil;
   }
 }
 
+- (MinimumUserProtoWithMaxResources *) senderWithMaxResources {
+  GameState *gs = [GameState sharedGameState];
+  MinimumUserProtoWithMaxResources_Builder *res = [MinimumUserProtoWithMaxResources builder];
+  res.minUserProto = _sender;
+  res.maxCash = [gs maxCash];
+  res.maxOil = [gs maxOil];
+  return res.build;
+}
+
 - (void) initNetworkCommunicationWithDelegate:(id)delegate {
   [self.connectionThread connect:udid];
   
@@ -381,6 +390,18 @@ static NSString *udid = nil;
   return [self sendData:req withMessageType:EventProtocolRequestCInAppPurchaseEvent];
 }
 
+- (int) sendExchangeGemsForResourcesMessage:(int)gems resources:(int)resources resType:(ResourceType)resType clientTime:(uint64_t)clientTime {
+  ExchangeGemsForResourcesRequestProto *req = [[[[[[[ExchangeGemsForResourcesRequestProto builder]
+                                                    setSender:_sender]
+                                                   setNumGems:gems]
+                                                  setResourceType:resType]
+                                                 setNumResources:resources]
+                                                setClientTime:clientTime]
+                                               build];
+  
+  return [self sendData:req withMessageType:EventProtocolRequestCExchangeGemsForResourcesEvent];
+}
+
 - (int) sendPurchaseNormStructureMessage:(int)structId x:(int)x y:(int)y time:(uint64_t)time resourceType:(ResourceType)type resourceChange:(int)resourceChange gemCost:(int)gemCost {
   PurchaseNormStructureRequestProto *req = [[[[[[[[[PurchaseNormStructureRequestProto builder]
                                                    setSender:_sender]
@@ -490,7 +511,7 @@ static NSString *udid = nil;
 
 - (int) sendQuestRedeemMessage:(int)questId {
   QuestRedeemRequestProto *req = [[[[QuestRedeemRequestProto builder]
-                                    setSender:_sender]
+                                    setSender:[self senderWithMaxResources]]
                                    setQuestId:questId]
                                   build];
   
@@ -698,11 +719,14 @@ static NSString *udid = nil;
   return [self sendData:req withMessageType:EventProtocolRequestCRetrievePrivateChatPostEvent];
 }
 
-- (int) sendBeginDungeonMessage:(uint64_t)clientTime taskId:(int)taskId {
-  BeginDungeonRequestProto *req = [[[[[BeginDungeonRequestProto builder]
-                                      setSender:_sender]
-                                     setClientTime:clientTime]
-                                    setTaskId:taskId]
+- (int) sendBeginDungeonMessage:(uint64_t)clientTime taskId:(int)taskId isEvent:(BOOL)isEvent eventId:(int)eventId gems:(int)gems {
+  BeginDungeonRequestProto *req = [[[[[[[[BeginDungeonRequestProto builder]
+                                         setSender:_sender]
+                                        setClientTime:clientTime]
+                                       setTaskId:taskId]
+                                      setIsEvent:isEvent]
+                                     setPersistentEventId:eventId]
+                                    setGemsSpent:gems]
                                    build];
   return [self sendData:req withMessageType:EventProtocolRequestCBeginDungeonEvent];
 }
@@ -719,7 +743,7 @@ static NSString *udid = nil;
 
 - (int) sendEndDungeonMessage:(uint64_t)userTaskId userWon:(BOOL)userWon isFirstTimeCompleted:(BOOL)isFirstTimeCompleted time:(uint64_t)time {
   EndDungeonRequestProto *req = [[[[[[[EndDungeonRequestProto builder]
-                                      setSender:_sender]
+                                      setSender:[self senderWithMaxResources]]
                                      setUserTaskId:userTaskId]
                                     setUserWon:userWon]
                                    setFirstTimeUserWonTask:isFirstTimeCompleted]
@@ -737,6 +761,15 @@ static NSString *udid = nil;
                                                build];
   
   return [self sendData:req withMessageType:EventProtocolRequestCCombineUserMonsterPiecesEvent];
+}
+
+- (int) sendSellUserMonstersMessage:(NSArray *)sellProtos {
+  SellUserMonsterRequestProto *req = [[[[SellUserMonsterRequestProto builder]
+                                        setSender:[self senderWithMaxResources]]
+                                       addAllSales:sellProtos]
+                                      build];
+  
+  return [self sendData:req withMessageType:EventProtocolRequestCSellUserMonsterEvent];
 }
 
 - (int) sendInviteFbFriendsForSlotsMessage:(NSArray *)fbFriendInvites {
@@ -773,12 +806,12 @@ static NSString *udid = nil;
 #pragma mark - Batch/Flush events
 
 - (int) sendHealQueueWaitTimeComplete:(NSArray *)monsterHealths {
-  HealMonsterWaitTimeCompleteRequestProto *req = [[[[HealMonsterWaitTimeCompleteRequestProto builder]
-                                                    setSender:_sender]
-                                                   addAllUmchp:monsterHealths]
-                                                  build];
+  HealMonsterRequestProto *req = [[[[HealMonsterRequestProto builder]
+                                    setSender:[self senderWithMaxResources]]
+                                   addAllUmchp:monsterHealths]
+                                  build];
   
-  int tag = [self sendData:req withMessageType:EventProtocolRequestCHealMonsterWaitTimeCompleteEvent];
+  int tag = [self sendData:req withMessageType:EventProtocolRequestCHealMonsterEvent];
   
   [self reloadHealQueueSnapshot];
   
@@ -786,14 +819,14 @@ static NSString *udid = nil;
 }
 
 - (int) sendHealQueueSpeedup:(NSArray *)monsterHealths goldCost:(int)goldCost {
-  HealMonsterWaitTimeCompleteRequestProto *req = [[[[[[HealMonsterWaitTimeCompleteRequestProto builder]
-                                                      setSender:_sender]
-                                                     setIsSpeedup:YES]
-                                                    setGemsForSpeedup:goldCost]
-                                                   addAllUmchp:monsterHealths]
-                                                  build];
+  HealMonsterRequestProto *req = [[[[[[HealMonsterRequestProto builder]
+                                      setSender:[self senderWithMaxResources]]
+                                     setIsSpeedup:YES]
+                                    setGemsForSpeedup:goldCost]
+                                   addAllUmchp:monsterHealths]
+                                  build];
   
-  int tag = [self sendData:req withMessageType:EventProtocolRequestCHealMonsterWaitTimeCompleteEvent];
+  int tag = [self sendData:req withMessageType:EventProtocolRequestCHealMonsterEvent];
   
   [self reloadHealQueueSnapshot];
   
@@ -870,11 +903,12 @@ static NSString *udid = nil;
   return tag;
 }
 
-- (int) retrieveCurrencyFromStruct:(int)userStructId time:(uint64_t)time {
+- (int) retrieveCurrencyFromStruct:(int)userStructId time:(uint64_t)time amountCollected:(int)amountCollected {
   [self flushAllExceptEventType:EventProtocolRequestCRetrieveCurrencyFromNormStructureEvent];
-  RetrieveCurrencyFromNormStructureRequestProto_StructRetrieval *sr = [[[[RetrieveCurrencyFromNormStructureRequestProto_StructRetrieval builder]
-                                                                         setUserStructId:userStructId]
-                                                                        setTimeOfRetrieval:time]
+  RetrieveCurrencyFromNormStructureRequestProto_StructRetrieval *sr = [[[[[RetrieveCurrencyFromNormStructureRequestProto_StructRetrieval builder]
+                                                                          setUserStructId:userStructId]
+                                                                         setTimeOfRetrieval:time]
+                                                                        setAmountCollected:amountCollected]
                                                                        build];
   [self.structRetrievals addObject:sr];
   return _currentTagNum;
@@ -882,7 +916,7 @@ static NSString *udid = nil;
 
 - (int) sendRetrieveCurrencyFromNormStructureMessage {
   RetrieveCurrencyFromNormStructureRequestProto *req = [[[[RetrieveCurrencyFromNormStructureRequestProto builder]
-                                                          setSender:_sender]
+                                                          setSender:[self senderWithMaxResources]]
                                                          addAllStructRetrievals:self.structRetrievals]
                                                         build];
   
@@ -924,13 +958,13 @@ static NSString *udid = nil;
   NSMutableSet *changed = [NSMutableSet set];
   for (UserMonsterHealingItem *itemOld in modifiedOld) {
     UserMonsterHealingItem *itemNew = [modifiedCur member:itemOld];
-    if ([itemOld.expectedStartTime compare:itemNew.expectedStartTime] != NSOrderedSame) {
+    if (![[itemOld convertToProto].data isEqual:[itemNew convertToProto].data]) {
       [changed addObject:itemNew];
     }
   }
   
   if (added.count || removed.count || changed.count || _healingQueueCashChange || _healingQueueGemCost) {
-    HealMonsterRequestProto_Builder *bldr = [[HealMonsterRequestProto builder] setSender:_sender];
+    HealMonsterRequestProto_Builder *bldr = [[HealMonsterRequestProto builder] setSender:[self senderWithMaxResources]];
     
     for (UserMonsterHealingItem *item in added) {
       [bldr addUmhNew:[item convertToProto]];
@@ -945,7 +979,7 @@ static NSString *udid = nil;
     }
     
     [bldr setCashChange:_healingQueueCashChange];
-    [bldr setGemCost:_healingQueueGemCost];
+    [bldr setGemCostForHealing:_healingQueueGemCost];
     
     NSLog(@"Sending healing queue update with %d adds, %d removals, and %d updates.", added.count, removed.count, changed.count);
     NSLog(@"Cash change: %@, gemCost: %d", [Globals commafyNumber:_healingQueueCashChange], _healingQueueGemCost);
@@ -958,7 +992,7 @@ static NSString *udid = nil;
 
 - (int) setEnhanceQueueDirtyWithCoinChange:(int)coinChange gemCost:(int)gemCost {
   [self flushAllExceptEventType:EventProtocolRequestCSubmitMonsterEnhancementEvent];
-  _enhanceQueueCashChange += coinChange;
+  _enhanceQueueOilChange += coinChange;
   _enhanceQueueGemCost += gemCost;
   _enhancementPotentiallyChanged = YES;
   return _currentTagNum;
@@ -989,15 +1023,15 @@ static NSString *udid = nil;
   [modifiedCur intersectSet:old];
   
   NSMutableSet *changed = [NSMutableSet set];
-  for (UserMonsterHealingItem *itemOld in modifiedOld) {
-    UserMonsterHealingItem *itemNew = [modifiedCur member:itemOld];
-    if ([itemOld.expectedStartTime compare:itemNew.expectedStartTime] != NSOrderedSame) {
+  for (EnhancementItem *itemOld in modifiedOld) {
+    EnhancementItem *itemNew = [modifiedCur member:itemOld];
+    if (![[itemOld convertToProto].data isEqual:[itemNew convertToProto].data]) {
       [changed addObject:itemNew];
     }
   }
   
-  if (added.count || removed.count || changed.count) {
-    SubmitMonsterEnhancementRequestProto_Builder *bldr = [[SubmitMonsterEnhancementRequestProto builder] setSender:_sender];
+  if (added.count || removed.count || changed.count || _enhanceQueueOilChange || _enhanceQueueGemCost) {
+    SubmitMonsterEnhancementRequestProto_Builder *bldr = [[SubmitMonsterEnhancementRequestProto builder] setSender:[self senderWithMaxResources]];
     
     for (EnhancementItem *item in added) {
       [bldr addUeipNew:[item convertToProto]];
@@ -1011,8 +1045,8 @@ static NSString *udid = nil;
       [bldr addUeipUpdate:[item convertToProto]];
     }
     
-    [bldr setCashChange:_enhanceQueueCashChange];
-    //    [bldr setGemCost:_enhanceQueueGemCost];
+    [bldr setOilChange:_enhanceQueueOilChange];
+    [bldr setGemsSpent:_enhanceQueueGemCost];
     
     NSLog(@"Sending enhancement update with %d adds, %d removals, and %d updates.", added.count, removed.count, changed.count);
     
@@ -1055,7 +1089,7 @@ static NSString *udid = nil;
       [self reloadEnhancementSnapshot];
       _enhancementPotentiallyChanged = NO;
       _enhanceQueueGemCost = 0;
-      _enhanceQueueCashChange = 0;
+      _enhanceQueueOilChange = 0;
     }
   }
 }

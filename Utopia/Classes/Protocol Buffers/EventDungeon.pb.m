@@ -27,6 +27,9 @@ static PBExtensionRegistry* extensionRegistry = nil;
 @property int64_t clientTime;
 @property int32_t taskId;
 @property BOOL userBeatAllCityTasks;
+@property BOOL isEvent;
+@property int32_t persistentEventId;
+@property int32_t gemsSpent;
 @end
 
 @implementation BeginDungeonRequestProto
@@ -64,6 +67,32 @@ static PBExtensionRegistry* extensionRegistry = nil;
 - (void) setUserBeatAllCityTasks:(BOOL) value {
   userBeatAllCityTasks_ = !!value;
 }
+- (BOOL) hasIsEvent {
+  return !!hasIsEvent_;
+}
+- (void) setHasIsEvent:(BOOL) value {
+  hasIsEvent_ = !!value;
+}
+- (BOOL) isEvent {
+  return !!isEvent_;
+}
+- (void) setIsEvent:(BOOL) value {
+  isEvent_ = !!value;
+}
+- (BOOL) hasPersistentEventId {
+  return !!hasPersistentEventId_;
+}
+- (void) setHasPersistentEventId:(BOOL) value {
+  hasPersistentEventId_ = !!value;
+}
+@synthesize persistentEventId;
+- (BOOL) hasGemsSpent {
+  return !!hasGemsSpent_;
+}
+- (void) setHasGemsSpent:(BOOL) value {
+  hasGemsSpent_ = !!value;
+}
+@synthesize gemsSpent;
 - (void) dealloc {
   self.sender = nil;
   [super dealloc];
@@ -74,6 +103,9 @@ static PBExtensionRegistry* extensionRegistry = nil;
     self.clientTime = 0L;
     self.taskId = 0;
     self.userBeatAllCityTasks = NO;
+    self.isEvent = NO;
+    self.persistentEventId = 0;
+    self.gemsSpent = 0;
   }
   return self;
 }
@@ -105,6 +137,15 @@ static BeginDungeonRequestProto* defaultBeginDungeonRequestProtoInstance = nil;
   if (self.hasUserBeatAllCityTasks) {
     [output writeBool:4 value:self.userBeatAllCityTasks];
   }
+  if (self.hasIsEvent) {
+    [output writeBool:5 value:self.isEvent];
+  }
+  if (self.hasPersistentEventId) {
+    [output writeInt32:6 value:self.persistentEventId];
+  }
+  if (self.hasGemsSpent) {
+    [output writeInt32:7 value:self.gemsSpent];
+  }
   [self.unknownFields writeToCodedOutputStream:output];
 }
 - (int32_t) serializedSize {
@@ -125,6 +166,15 @@ static BeginDungeonRequestProto* defaultBeginDungeonRequestProtoInstance = nil;
   }
   if (self.hasUserBeatAllCityTasks) {
     size += computeBoolSize(4, self.userBeatAllCityTasks);
+  }
+  if (self.hasIsEvent) {
+    size += computeBoolSize(5, self.isEvent);
+  }
+  if (self.hasPersistentEventId) {
+    size += computeInt32Size(6, self.persistentEventId);
+  }
+  if (self.hasGemsSpent) {
+    size += computeInt32Size(7, self.gemsSpent);
   }
   size += self.unknownFields.serializedSize;
   memoizedSerializedSize = size;
@@ -213,6 +263,15 @@ static BeginDungeonRequestProto* defaultBeginDungeonRequestProtoInstance = nil;
   if (other.hasUserBeatAllCityTasks) {
     [self setUserBeatAllCityTasks:other.userBeatAllCityTasks];
   }
+  if (other.hasIsEvent) {
+    [self setIsEvent:other.isEvent];
+  }
+  if (other.hasPersistentEventId) {
+    [self setPersistentEventId:other.persistentEventId];
+  }
+  if (other.hasGemsSpent) {
+    [self setGemsSpent:other.gemsSpent];
+  }
   [self mergeUnknownFields:other.unknownFields];
   return self;
 }
@@ -253,6 +312,18 @@ static BeginDungeonRequestProto* defaultBeginDungeonRequestProtoInstance = nil;
       }
       case 32: {
         [self setUserBeatAllCityTasks:[input readBool]];
+        break;
+      }
+      case 40: {
+        [self setIsEvent:[input readBool]];
+        break;
+      }
+      case 48: {
+        [self setPersistentEventId:[input readInt32]];
+        break;
+      }
+      case 56: {
+        [self setGemsSpent:[input readInt32]];
         break;
       }
     }
@@ -334,6 +405,54 @@ static BeginDungeonRequestProto* defaultBeginDungeonRequestProtoInstance = nil;
 - (BeginDungeonRequestProto_Builder*) clearUserBeatAllCityTasks {
   result.hasUserBeatAllCityTasks = NO;
   result.userBeatAllCityTasks = NO;
+  return self;
+}
+- (BOOL) hasIsEvent {
+  return result.hasIsEvent;
+}
+- (BOOL) isEvent {
+  return result.isEvent;
+}
+- (BeginDungeonRequestProto_Builder*) setIsEvent:(BOOL) value {
+  result.hasIsEvent = YES;
+  result.isEvent = value;
+  return self;
+}
+- (BeginDungeonRequestProto_Builder*) clearIsEvent {
+  result.hasIsEvent = NO;
+  result.isEvent = NO;
+  return self;
+}
+- (BOOL) hasPersistentEventId {
+  return result.hasPersistentEventId;
+}
+- (int32_t) persistentEventId {
+  return result.persistentEventId;
+}
+- (BeginDungeonRequestProto_Builder*) setPersistentEventId:(int32_t) value {
+  result.hasPersistentEventId = YES;
+  result.persistentEventId = value;
+  return self;
+}
+- (BeginDungeonRequestProto_Builder*) clearPersistentEventId {
+  result.hasPersistentEventId = NO;
+  result.persistentEventId = 0;
+  return self;
+}
+- (BOOL) hasGemsSpent {
+  return result.hasGemsSpent;
+}
+- (int32_t) gemsSpent {
+  return result.gemsSpent;
+}
+- (BeginDungeonRequestProto_Builder*) setGemsSpent:(int32_t) value {
+  result.hasGemsSpent = YES;
+  result.gemsSpent = value;
+  return self;
+}
+- (BeginDungeonRequestProto_Builder*) clearGemsSpent {
+  result.hasGemsSpent = NO;
+  result.gemsSpent = 0;
   return self;
 }
 @end
@@ -721,7 +840,7 @@ BOOL BeginDungeonResponseProto_BeginDungeonStatusIsValidValue(BeginDungeonRespon
 @end
 
 @interface EndDungeonRequestProto ()
-@property (retain) MinimumUserProto* sender;
+@property (retain) MinimumUserProtoWithMaxResources* sender;
 @property int64_t userTaskId;
 @property BOOL userWon;
 @property int64_t clientTime;
@@ -794,7 +913,7 @@ BOOL BeginDungeonResponseProto_BeginDungeonStatusIsValidValue(BeginDungeonRespon
 }
 - (id) init {
   if ((self = [super init])) {
-    self.sender = [MinimumUserProto defaultInstance];
+    self.sender = [MinimumUserProtoWithMaxResources defaultInstance];
     self.userTaskId = 0L;
     self.userWon = NO;
     self.clientTime = 0L;
@@ -979,7 +1098,7 @@ static EndDungeonRequestProto* defaultEndDungeonRequestProtoInstance = nil;
         break;
       }
       case 10: {
-        MinimumUserProto_Builder* subBuilder = [MinimumUserProto builder];
+        MinimumUserProtoWithMaxResources_Builder* subBuilder = [MinimumUserProtoWithMaxResources builder];
         if (self.hasSender) {
           [subBuilder mergeFrom:self.sender];
         }
@@ -1013,22 +1132,22 @@ static EndDungeonRequestProto* defaultEndDungeonRequestProtoInstance = nil;
 - (BOOL) hasSender {
   return result.hasSender;
 }
-- (MinimumUserProto*) sender {
+- (MinimumUserProtoWithMaxResources*) sender {
   return result.sender;
 }
-- (EndDungeonRequestProto_Builder*) setSender:(MinimumUserProto*) value {
+- (EndDungeonRequestProto_Builder*) setSender:(MinimumUserProtoWithMaxResources*) value {
   result.hasSender = YES;
   result.sender = value;
   return self;
 }
-- (EndDungeonRequestProto_Builder*) setSenderBuilder:(MinimumUserProto_Builder*) builderForValue {
+- (EndDungeonRequestProto_Builder*) setSenderBuilder:(MinimumUserProtoWithMaxResources_Builder*) builderForValue {
   return [self setSender:[builderForValue build]];
 }
-- (EndDungeonRequestProto_Builder*) mergeSender:(MinimumUserProto*) value {
+- (EndDungeonRequestProto_Builder*) mergeSender:(MinimumUserProtoWithMaxResources*) value {
   if (result.hasSender &&
-      result.sender != [MinimumUserProto defaultInstance]) {
+      result.sender != [MinimumUserProtoWithMaxResources defaultInstance]) {
     result.sender =
-      [[[MinimumUserProto builderWithPrototype:result.sender] mergeFrom:value] buildPartial];
+      [[[MinimumUserProtoWithMaxResources builderWithPrototype:result.sender] mergeFrom:value] buildPartial];
   } else {
     result.sender = value;
   }
@@ -1037,7 +1156,7 @@ static EndDungeonRequestProto* defaultEndDungeonRequestProtoInstance = nil;
 }
 - (EndDungeonRequestProto_Builder*) clearSender {
   result.hasSender = NO;
-  result.sender = [MinimumUserProto defaultInstance];
+  result.sender = [MinimumUserProtoWithMaxResources defaultInstance];
   return self;
 }
 - (BOOL) hasUserTaskId {
@@ -1123,7 +1242,7 @@ static EndDungeonRequestProto* defaultEndDungeonRequestProtoInstance = nil;
 @end
 
 @interface EndDungeonResponseProto ()
-@property (retain) MinimumUserProto* sender;
+@property (retain) MinimumUserProtoWithMaxResources* sender;
 @property EndDungeonResponseProto_EndDungeonStatus status;
 @property (retain) NSMutableArray* mutableUpdatedOrNewList;
 @property int32_t taskId;
@@ -1173,7 +1292,7 @@ static EndDungeonRequestProto* defaultEndDungeonRequestProtoInstance = nil;
 }
 - (id) init {
   if ((self = [super init])) {
-    self.sender = [MinimumUserProto defaultInstance];
+    self.sender = [MinimumUserProtoWithMaxResources defaultInstance];
     self.status = EndDungeonResponseProto_EndDungeonStatusSuccess;
     self.taskId = 0;
     self.userWon = NO;
@@ -1366,7 +1485,7 @@ BOOL EndDungeonResponseProto_EndDungeonStatusIsValidValue(EndDungeonResponseProt
         break;
       }
       case 10: {
-        MinimumUserProto_Builder* subBuilder = [MinimumUserProto builder];
+        MinimumUserProtoWithMaxResources_Builder* subBuilder = [MinimumUserProtoWithMaxResources builder];
         if (self.hasSender) {
           [subBuilder mergeFrom:self.sender];
         }
@@ -1403,22 +1522,22 @@ BOOL EndDungeonResponseProto_EndDungeonStatusIsValidValue(EndDungeonResponseProt
 - (BOOL) hasSender {
   return result.hasSender;
 }
-- (MinimumUserProto*) sender {
+- (MinimumUserProtoWithMaxResources*) sender {
   return result.sender;
 }
-- (EndDungeonResponseProto_Builder*) setSender:(MinimumUserProto*) value {
+- (EndDungeonResponseProto_Builder*) setSender:(MinimumUserProtoWithMaxResources*) value {
   result.hasSender = YES;
   result.sender = value;
   return self;
 }
-- (EndDungeonResponseProto_Builder*) setSenderBuilder:(MinimumUserProto_Builder*) builderForValue {
+- (EndDungeonResponseProto_Builder*) setSenderBuilder:(MinimumUserProtoWithMaxResources_Builder*) builderForValue {
   return [self setSender:[builderForValue build]];
 }
-- (EndDungeonResponseProto_Builder*) mergeSender:(MinimumUserProto*) value {
+- (EndDungeonResponseProto_Builder*) mergeSender:(MinimumUserProtoWithMaxResources*) value {
   if (result.hasSender &&
-      result.sender != [MinimumUserProto defaultInstance]) {
+      result.sender != [MinimumUserProtoWithMaxResources defaultInstance]) {
     result.sender =
-      [[[MinimumUserProto builderWithPrototype:result.sender] mergeFrom:value] buildPartial];
+      [[[MinimumUserProtoWithMaxResources builderWithPrototype:result.sender] mergeFrom:value] buildPartial];
   } else {
     result.sender = value;
   }
@@ -1427,7 +1546,7 @@ BOOL EndDungeonResponseProto_EndDungeonStatusIsValidValue(EndDungeonResponseProt
 }
 - (EndDungeonResponseProto_Builder*) clearSender {
   result.hasSender = NO;
-  result.sender = [MinimumUserProto defaultInstance];
+  result.sender = [MinimumUserProtoWithMaxResources defaultInstance];
   return self;
 }
 - (BOOL) hasStatus {

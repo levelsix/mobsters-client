@@ -22,7 +22,7 @@
   float _percentage;
 }
 
-@property (nonatomic, assign) CCSprite *buildingSprite;
+@property (nonatomic, retain) CCSprite *buildingSprite;
 @property (nonatomic, assign) StructOrientation orientation;
 @property (nonatomic, assign) float verticalOffset;
 

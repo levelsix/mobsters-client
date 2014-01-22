@@ -43,6 +43,7 @@ static PBExtensionRegistry* extensionRegistry = nil;
 @property (retain) NSMutableArray* mutableAllResidencesList;
 @property (retain) NSMutableArray* mutableAllLabsList;
 @property (retain) NSMutableArray* mutableAllTownHallsList;
+@property (retain) NSMutableArray* mutableEventsList;
 @end
 
 @implementation StaticDataProto
@@ -69,6 +70,7 @@ static PBExtensionRegistry* extensionRegistry = nil;
 @synthesize mutableAllResidencesList;
 @synthesize mutableAllLabsList;
 @synthesize mutableAllTownHallsList;
+@synthesize mutableEventsList;
 - (void) dealloc {
   self.sender = nil;
   self.mutableExpansionCostsList = nil;
@@ -86,6 +88,7 @@ static PBExtensionRegistry* extensionRegistry = nil;
   self.mutableAllResidencesList = nil;
   self.mutableAllLabsList = nil;
   self.mutableAllTownHallsList = nil;
+  self.mutableEventsList = nil;
   [super dealloc];
 }
 - (id) init {
@@ -211,6 +214,13 @@ static StaticDataProto* defaultStaticDataProtoInstance = nil;
   id value = [mutableAllTownHallsList objectAtIndex:index];
   return value;
 }
+- (NSArray*) eventsList {
+  return mutableEventsList;
+}
+- (PersistentEventProto*) eventsAtIndex:(int32_t) index {
+  id value = [mutableEventsList objectAtIndex:index];
+  return value;
+}
 - (BOOL) isInitialized {
   return YES;
 }
@@ -262,6 +272,9 @@ static StaticDataProto* defaultStaticDataProtoInstance = nil;
   }
   for (LabProto* element in self.allLabsList) {
     [output writeMessage:17 value:element];
+  }
+  for (PersistentEventProto* element in self.eventsList) {
+    [output writeMessage:18 value:element];
   }
   [self.unknownFields writeToCodedOutputStream:output];
 }
@@ -319,6 +332,9 @@ static StaticDataProto* defaultStaticDataProtoInstance = nil;
   }
   for (LabProto* element in self.allLabsList) {
     size += computeMessageSize(17, element);
+  }
+  for (PersistentEventProto* element in self.eventsList) {
+    size += computeMessageSize(18, element);
   }
   size += self.unknownFields.serializedSize;
   memoizedSerializedSize = size;
@@ -488,6 +504,12 @@ static StaticDataProto* defaultStaticDataProtoInstance = nil;
     }
     [result.mutableAllTownHallsList addObjectsFromArray:other.mutableAllTownHallsList];
   }
+  if (other.mutableEventsList.count > 0) {
+    if (result.mutableEventsList == nil) {
+      result.mutableEventsList = [NSMutableArray array];
+    }
+    [result.mutableEventsList addObjectsFromArray:other.mutableEventsList];
+  }
   [self mergeUnknownFields:other.unknownFields];
   return self;
 }
@@ -606,6 +628,12 @@ static StaticDataProto* defaultStaticDataProtoInstance = nil;
         LabProto_Builder* subBuilder = [LabProto builder];
         [input readMessage:subBuilder extensionRegistry:extensionRegistry];
         [self addAllLabs:[subBuilder buildPartial]];
+        break;
+      }
+      case 146: {
+        PersistentEventProto_Builder* subBuilder = [PersistentEventProto builder];
+        [input readMessage:subBuilder extensionRegistry:extensionRegistry];
+        [self addEvents:[subBuilder buildPartial]];
         break;
       }
     }
@@ -1074,6 +1102,35 @@ static StaticDataProto* defaultStaticDataProtoInstance = nil;
     result.mutableAllTownHallsList = [NSMutableArray array];
   }
   [result.mutableAllTownHallsList addObject:value];
+  return self;
+}
+- (NSArray*) eventsList {
+  if (result.mutableEventsList == nil) { return [NSArray array]; }
+  return result.mutableEventsList;
+}
+- (PersistentEventProto*) eventsAtIndex:(int32_t) index {
+  return [result eventsAtIndex:index];
+}
+- (StaticDataProto_Builder*) replaceEventsAtIndex:(int32_t) index with:(PersistentEventProto*) value {
+  [result.mutableEventsList replaceObjectAtIndex:index withObject:value];
+  return self;
+}
+- (StaticDataProto_Builder*) addAllEvents:(NSArray*) values {
+  if (result.mutableEventsList == nil) {
+    result.mutableEventsList = [NSMutableArray array];
+  }
+  [result.mutableEventsList addObjectsFromArray:values];
+  return self;
+}
+- (StaticDataProto_Builder*) clearEventsList {
+  result.mutableEventsList = nil;
+  return self;
+}
+- (StaticDataProto_Builder*) addEvents:(PersistentEventProto*) value {
+  if (result.mutableEventsList == nil) {
+    result.mutableEventsList = [NSMutableArray array];
+  }
+  [result.mutableEventsList addObject:value];
   return self;
 }
 @end

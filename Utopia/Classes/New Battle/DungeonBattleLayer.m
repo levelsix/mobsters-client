@@ -12,14 +12,19 @@
 #import "QuestUtil.h"
 #import <Carrot/Carrot.h>
 #import "GenericPopupController.h"
+#import "GameViewController.h"
+#import <FacebookSDK/FacebookSDK.h>
 
 @implementation DungeonBattleLayer
 
 - (void) loadDeployView {
+  GameViewController *gvc = [GameViewController baseController];
+  UIView *view = gvc.view;
+  
   [[NSBundle mainBundle] loadNibNamed:@"BattleDeployView" owner:self options:nil];
-  [Globals displayUIView:self.swapView];
-  [Globals displayUIView:self.deployView];
-  [Globals displayUIView:self.forfeitButton];
+  [view addSubview:self.swapView];
+  [view addSubview:self.deployView];
+  [view addSubview:self.forfeitButton];
   self.swapView.hidden = YES;
   self.deployView.hidden = YES;
   self.forfeitButton.hidden = YES;
@@ -31,13 +36,6 @@
 - (void) receivedDungeonInfo:(BeginDungeonResponseProto *)di {
   self.dungeonInfo = di;
   _numStages = di.tspList.count;
-}
-
-- (BattleContinueView *) continueView {
-  if (!_continueView) {
-    [[NSBundle mainBundle] loadNibNamed:@"BattleContinueView" owner:self options:nil];
-  }
-  return _continueView;
 }
 
 - (BattleEndView *) endView {
@@ -72,7 +70,7 @@
 
 - (void) youWon {
   [[OutgoingEventController sharedOutgoingEventController] endDungeon:self.dungeonInfo userWon:YES delegate:self];
-  [self.endView displayWithDungeon:self.dungeonInfo];
+  [self.endView displayWinWithDungeon:self.dungeonInfo];
   _wonBattle = YES;
   
   [self makeGoCarrotCalls];
@@ -80,11 +78,13 @@
 
 - (void) youLost {
   [[OutgoingEventController sharedOutgoingEventController] endDungeon:self.dungeonInfo userWon:NO delegate:self];
-  [self.continueView display];
+  [self.endView displayLossWithDungeon:self.dungeonInfo];
   _wonBattle = NO;
 }
 
 - (void) makeGoCarrotCalls {
+  [FBSession openActiveSessionWithPublishPermissions:nil defaultAudience:FBSessionDefaultAudienceEveryone allowLoginUI:YES completionHandler:nil];
+  
   GameState *gs = [GameState sharedGameState];
   for (TaskStageProto *tsp in self.dungeonInfo.tspList) {
     for (TaskStageMonsterProto *tsm in tsp.stageMonstersList) {
@@ -123,14 +123,6 @@
                                                       cancelSelector:nil];
 }
 
-- (IBAction)loseExitClicked:(id)sender {
-  [Globals popOutView:self.continueView.mainView fadeOutBgdView:self.continueView.bgdView completion:^{
-    [self.continueView removeFromSuperview];
-  }];
-  
-  [self.delegate battleComplete:nil];
-}
-
 - (IBAction)winExitClicked:(id)sender {
   if (!_receivedEndDungeonResponse) {
     self.endView.doneSpinner.hidden = NO;
@@ -157,6 +149,8 @@
 }
 
 - (void) exitFinal {
+  self.swapView.hidden  = YES;
+  self.forfeitButton.hidden = YES;
   [Globals popOutView:self.endView.mainView fadeOutBgdView:self.endView.bgdView completion:^{
     [self.endView removeFromSuperview];
   }];
@@ -246,12 +240,14 @@
   
   BattlePlayer *bp = nil;
   for (BattlePlayer *b in self.myTeam) {
-    if (b.slotNum == card.tag) {
+    if (b.slotNum == card.tag && b.curHealth > 0) {
       bp = b;
     }
   }
   
-  [self deployBattleSprite:bp];
+  if (bp) {
+    [self deployBattleSprite:bp];
+  }
 }
 
 - (void) deployBattleSprite:(BattlePlayer *)bp {
@@ -290,6 +286,7 @@
       UserMonster *um = [UserMonster userMonsterWithTaskStageMonsterProto:tsm];
       BattlePlayer *bp = [BattlePlayer playerWithMonster:um];
       [enemyTeam addObject:bp];
+      
       [set addObject:bp.spritePrefix];
     }
     self.enemyTeam = enemyTeam;

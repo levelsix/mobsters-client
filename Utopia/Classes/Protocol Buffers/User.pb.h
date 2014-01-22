@@ -11,6 +11,8 @@
 @class MinimumUserProtoWithFacebookId_Builder;
 @class MinimumUserProtoWithLevel;
 @class MinimumUserProtoWithLevel_Builder;
+@class MinimumUserProtoWithMaxResources;
+@class MinimumUserProtoWithMaxResources_Builder;
 @class MinimumUserProto_Builder;
 @class StaticUserLevelInfoProto;
 @class StaticUserLevelInfoProto_Builder;
@@ -309,6 +311,74 @@
 - (NSString*) facebookId;
 - (MinimumUserProtoWithFacebookId_Builder*) setFacebookId:(NSString*) value;
 - (MinimumUserProtoWithFacebookId_Builder*) clearFacebookId;
+@end
+
+@interface MinimumUserProtoWithMaxResources : PBGeneratedMessage {
+@private
+  BOOL hasMaxCash_:1;
+  BOOL hasMaxOil_:1;
+  BOOL hasMinUserProto_:1;
+  int32_t maxCash;
+  int32_t maxOil;
+  MinimumUserProto* minUserProto;
+}
+- (BOOL) hasMinUserProto;
+- (BOOL) hasMaxCash;
+- (BOOL) hasMaxOil;
+@property (readonly, retain) MinimumUserProto* minUserProto;
+@property (readonly) int32_t maxCash;
+@property (readonly) int32_t maxOil;
+
++ (MinimumUserProtoWithMaxResources*) defaultInstance;
+- (MinimumUserProtoWithMaxResources*) defaultInstance;
+
+- (BOOL) isInitialized;
+- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output;
+- (MinimumUserProtoWithMaxResources_Builder*) builder;
++ (MinimumUserProtoWithMaxResources_Builder*) builder;
++ (MinimumUserProtoWithMaxResources_Builder*) builderWithPrototype:(MinimumUserProtoWithMaxResources*) prototype;
+
++ (MinimumUserProtoWithMaxResources*) parseFromData:(NSData*) data;
++ (MinimumUserProtoWithMaxResources*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (MinimumUserProtoWithMaxResources*) parseFromInputStream:(NSInputStream*) input;
++ (MinimumUserProtoWithMaxResources*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (MinimumUserProtoWithMaxResources*) parseFromCodedInputStream:(PBCodedInputStream*) input;
++ (MinimumUserProtoWithMaxResources*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+@end
+
+@interface MinimumUserProtoWithMaxResources_Builder : PBGeneratedMessage_Builder {
+@private
+  MinimumUserProtoWithMaxResources* result;
+}
+
+- (MinimumUserProtoWithMaxResources*) defaultInstance;
+
+- (MinimumUserProtoWithMaxResources_Builder*) clear;
+- (MinimumUserProtoWithMaxResources_Builder*) clone;
+
+- (MinimumUserProtoWithMaxResources*) build;
+- (MinimumUserProtoWithMaxResources*) buildPartial;
+
+- (MinimumUserProtoWithMaxResources_Builder*) mergeFrom:(MinimumUserProtoWithMaxResources*) other;
+- (MinimumUserProtoWithMaxResources_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input;
+- (MinimumUserProtoWithMaxResources_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+
+- (BOOL) hasMinUserProto;
+- (MinimumUserProto*) minUserProto;
+- (MinimumUserProtoWithMaxResources_Builder*) setMinUserProto:(MinimumUserProto*) value;
+- (MinimumUserProtoWithMaxResources_Builder*) setMinUserProtoBuilder:(MinimumUserProto_Builder*) builderForValue;
+- (MinimumUserProtoWithMaxResources_Builder*) mergeMinUserProto:(MinimumUserProto*) value;
+- (MinimumUserProtoWithMaxResources_Builder*) clearMinUserProto;
+
+- (BOOL) hasMaxCash;
+- (int32_t) maxCash;
+- (MinimumUserProtoWithMaxResources_Builder*) setMaxCash:(int32_t) value;
+- (MinimumUserProtoWithMaxResources_Builder*) clearMaxCash;
+
+- (BOOL) hasMaxOil;
+- (int32_t) maxOil;
+- (MinimumUserProtoWithMaxResources_Builder*) setMaxOil:(int32_t) value;
+- (MinimumUserProtoWithMaxResources_Builder*) clearMaxOil;
 @end
 
 @interface UserFacebookInviteForSlotProto : PBGeneratedMessage {

@@ -411,8 +411,8 @@ static LoadPlayerCityResponseProto* defaultLoadPlayerCityResponseProtoInstance =
 BOOL LoadPlayerCityResponseProto_LoadPlayerCityStatusIsValidValue(LoadPlayerCityResponseProto_LoadPlayerCityStatus value) {
   switch (value) {
     case LoadPlayerCityResponseProto_LoadPlayerCityStatusSuccess:
-    case LoadPlayerCityResponseProto_LoadPlayerCityStatusNoSuchPlayer:
-    case LoadPlayerCityResponseProto_LoadPlayerCityStatusOtherFail:
+    case LoadPlayerCityResponseProto_LoadPlayerCityStatusFailNoSuchPlayer:
+    case LoadPlayerCityResponseProto_LoadPlayerCityStatusFailOther:
       return YES;
     default:
       return NO;

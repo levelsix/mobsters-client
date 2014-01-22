@@ -12,15 +12,17 @@
 #import "MenuNavigationController.h"
 #import "GameState.h"
 #import "OutgoingEventController.h"
+#import "IAPHelper.h"
+#import "GenericPopupController.h"
 
 @implementation GachaponPrizeView
 
-- (void) animateFromPoint:(CGPoint)pt withMonsterId:(int)monsterId {
+- (void) animateWithMonsterId:(int)monsterId {
   GameState *gs = [GameState sharedGameState];
   MonsterProto *proto = [gs monsterWithId:monsterId];
   
   self.nameLabel.text = proto.displayName;
-  self.nameLabel.textColor = [Globals colorForElement:proto.element];
+  self.nameLabel.textColor = [Globals colorForElement:proto.monsterElement];
   self.descriptionLabel.text = proto.description;
   
   self.rarityLabel.text = [Globals stringForRarity:proto.quality];
@@ -30,29 +32,63 @@
   
   NSString *fileName = [proto.imagePrefix stringByAppendingString:@"Character.png"];
   [Globals imageNamed:fileName withView:self.monsterIcon maskedColor:nil indicator:UIActivityIndicatorViewStyleWhite clearImageDuringDownload:YES];
+  self.monsterIcon.contentMode = UIViewContentModeBottomLeft;
   
-  [self doAnimationWithPoint:pt];
+  self.pieceLabel.hidden = YES;
+  self.rarityIcon.hidden = NO;
+  self.rarityLabel.hidden = NO;
+  
+  [self doAnimation];
 }
 
-- (void) doAnimationWithPoint:(CGPoint)pt {
+- (void) animateWithMonsterId:(int)monsterId numPuzzlePieces:(int)numPuzzlePieces {
+  GameState *gs = [GameState sharedGameState];
+  MonsterProto *proto = [gs monsterWithId:monsterId];
+  
+  [self animateWithMonsterId:monsterId];
+  self.pieceLabel.hidden = NO;
+  self.pieceLabel.text = [NSString stringWithFormat:@"Pieces: %d/%d", numPuzzlePieces, proto.numPuzzlePieces];
+}
+
+- (void) animateWithGems:(int)numGems {
+  Globals *gl = [Globals sharedGlobals];
+  IAPHelper *iap = [IAPHelper sharedIAPHelper];
+  InAppPurchasePackageProto *pkg = nil;
+  
+  for (InAppPurchasePackageProto *p in gl.iapPackages) {
+    if (p.currencyAmount <= numGems && p.currencyAmount > pkg.currencyAmount) {
+      pkg = p;
+    }
+  }
+  
+  self.pieceLabel.hidden = YES;
+  self.rarityIcon.hidden = YES;
+  self.rarityLabel.hidden = YES;
+  
+  SKProduct *prod = iap.products[pkg.iapPackageId];
+  self.nameLabel.text = prod.localizedTitle;
+  
+  [Globals imageNamed:pkg.imageName withView:self.monsterIcon greyscale:NO indicator:UIActivityIndicatorViewStyleWhite clearImageDuringDownload:YES];
+  self.monsterIcon.contentMode = UIViewContentModeCenter;
+  
+  self.descriptionLabel.text = [NSString stringWithFormat:@"%@ gems", [Globals commafyNumber:numGems]];
+  
+  [self doAnimation];
+}
+
+- (void) doAnimation {
   self.infoView.center = ccp(self.frame.size.width+self.infoView.frame.size.width/2, self.frame.size.height/2);
   self.monsterSpinner.alpha = 0.f;
-  self.bgdView.alpha = 0.f;
+  self.pieceLabel.alpha = 0.f;
   
   CGPoint curPoint = self.monsterIcon.center;
-  self.monsterIcon.center = pt;
-  self.monsterIcon.transform = CGAffineTransformMakeScale(0, 0);
-  [UIView animateWithDuration:0.4f animations:^{
-    self.monsterIcon.center = ccp(self.frame.size.width/2, self.frame.size.height/2);
-    self.monsterIcon.transform = CGAffineTransformIdentity;
-    self.bgdView.alpha = 1.f;
-  } completion:^(BOOL finished) {
-    [UIView animateWithDuration:0.3f delay:1.f options:UIViewAnimationOptionCurveEaseInOut animations:^{
-      self.monsterIcon.center = curPoint;
-      self.infoView.center = ccp(self.frame.size.width-self.infoView.frame.size.width/2, self.frame.size.height/2);
-      self.monsterSpinner.alpha = 1.f;
-    } completion:nil];
-  }];
+  self.monsterIcon.center = ccp(self.frame.size.width/2, self.frame.size.height/2);
+  [UIView animateWithDuration:0.3f delay:1.f options:UIViewAnimationOptionCurveEaseInOut animations:^{
+    self.monsterIcon.center = curPoint;
+    self.infoView.center = ccp(self.frame.size.width-self.infoView.frame.size.width/2, self.frame.size.height/2);
+    self.monsterSpinner.alpha = 1.f;
+    self.pieceLabel.alpha = 1.f;
+  } completion:nil];
 }
 
 - (IBAction)closeClicked:(id)sender {
@@ -91,7 +127,7 @@
   MonsterProto *proto = [gs monsterWithId:monsterId];
   
   self.nameLabel.text = proto.displayName;
-  self.nameLabel.textColor = [Globals colorForElement:proto.element];
+  self.nameLabel.textColor = [Globals colorForElement:proto.monsterElement];
   
   self.rarityLabel.text = [Globals stringForRarity:proto.quality];
   self.rarityIcon.image = [Globals imageNamed:[Globals imageNameForRarity:proto.quality suffix:@"gtag.png"]];
@@ -100,7 +136,7 @@
   
   NSString *fileName = [proto.imagePrefix stringByAppendingString:@"Character.png"];
   [Globals imageNamed:fileName withView:self.monsterIcon maskedColor:nil indicator:UIActivityIndicatorViewStyleWhite clearImageDuringDownload:YES];
-  [Globals imageNamed:[Globals imageNameForElement:proto.element suffix:@"orb.png"] withView:self.elementIcon maskedColor:nil indicator:UIActivityIndicatorViewStyleWhite clearImageDuringDownload:YES];
+  [Globals imageNamed:[Globals imageNameForElement:proto.monsterElement suffix:@"orb.png"] withView:self.elementIcon maskedColor:nil indicator:UIActivityIndicatorViewStyleWhite clearImageDuringDownload:YES];
   
   UserMonster *um = [[UserMonster alloc] init];
   um.monsterId = monsterId;
@@ -157,8 +193,8 @@
   [animation setBeginTime:CACurrentMediaTime()+delay];
   animation.values = [NSArray arrayWithObjects:   	// i.e., Rotation values for the 3 keyframes, in RADIANS
                       [NSNumber numberWithFloat:0.0 * M_PI],
-                      [NSNumber numberWithFloat:0.1 * M_PI],
-                      [NSNumber numberWithFloat:-0.1 * M_PI],
+                      [NSNumber numberWithFloat:0.04 * M_PI],
+                      [NSNumber numberWithFloat:-0.04 * M_PI],
                       [NSNumber numberWithFloat:0.0 * M_PI], nil];
   animation.keyTimes = [NSArray arrayWithObjects:
                         [NSNumber numberWithFloat:0],
@@ -232,6 +268,8 @@
   self.gemCostLabel.text = [Globals commafyNumber:self.boosterPack.gemPrice];
   self.prizeView.gemCostLabel.text = [Globals commafyNumber:self.boosterPack.gemPrice];
   
+  [[NSNotificationCenter defaultCenter] removeObserver:self.coinBar];
+  
   [Globals imageNamed:self.boosterPack.machineImgName withView:self.machineIcon greyscale:NO indicator:UIActivityIndicatorViewStyleWhite clearImageDuringDownload:YES];
 }
 
@@ -300,13 +338,19 @@
     return;
   }
   
-  [[OutgoingEventController sharedOutgoingEventController] purchaseBoosterPack:self.boosterPack.boosterPackId delegate:self];
-  
-  self.spinner.hidden = NO;
-  self.spinView.hidden = YES;
-  
-  self.gachaTable.userInteractionEnabled = NO;
-  _isSpinning = YES;
+  GameState *gs = [GameState sharedGameState];
+  if (gs.gold < self.boosterPack.gemPrice) {
+    [GenericPopupController displayNotEnoughGemsView];
+  } else {
+    [[OutgoingEventController sharedOutgoingEventController] purchaseBoosterPack:self.boosterPack.boosterPackId delegate:self];
+    [self.coinBar updateLabels];
+    
+    self.spinner.hidden = NO;
+    self.spinView.hidden = YES;
+    
+    self.gachaTable.userInteractionEnabled = NO;
+    _isSpinning = YES;
+  }
 }
 
 - (void) handlePurchaseBoosterPackResponseProto:(FullEvent *)fe {
@@ -322,13 +366,18 @@
     
     if (self.prize.monsterId) {
       GameState *gs = [GameState sharedGameState];
-      MonsterProto *proto = [gs monsterWithId:self.prize.monsterId];
-      NSString *fileName = [proto.imagePrefix stringByAppendingString:@"Character.png"];
+      MonsterProto *mp = [gs monsterWithId:self.prize.monsterId];
+      NSString *fileName = [mp.imagePrefix stringByAppendingString:@"Character.png"];
       [Globals imageNamed:fileName withView:nil greyscale:NO indicator:UIActivityIndicatorViewStyleGray clearImageDuringDownload:YES];
+      
+      if (!self.prize.isComplete) {
+        if (proto.updatedOrNewList.count > 0) {
+          _numPuzzlePieces = [(FullUserMonsterProto *)proto.updatedOrNewList[0] numPieces];
+        } else {
+          _numPuzzlePieces = 1;
+        }
+      }
     }
-  } else {
-    self.gachaTable.userInteractionEnabled = YES;
-    _isSpinning = NO;
   }
   
   self.spinner.hidden = YES;
@@ -367,34 +416,64 @@
 
 - (void) easyTableViewDidEndScrollingAnimation:(EasyTableView *)easyTableView {
   if (_isSpinning) {
-    
     if (self.prize.monsterId) {
       UITableView* table = self.gachaTable.tableView;
       int row = (table.contentOffset.y+table.frame.size.width/2)/TABLE_CELL_WIDTH;
       GachaponItemCell *cell = (GachaponItemCell *)[self.gachaTable viewAtIndexPath:[NSIndexPath indexPathForRow:row inSection:0]];
-      [cell shakeIconNumTimes:1 durationPerShake:0.35 delay:0.f completion:^{
-        [cell shakeIconNumTimes:3 durationPerShake:0.25 delay:0.5f completion:^{
-          [cell shakeIconNumTimes:10 durationPerShake:0.15 delay:0.5f completion:^{
-            [self displayPrizeView];
-            
-            self.gachaTable.userInteractionEnabled = YES;
-            _isSpinning = NO;
+      [cell shakeIconNumTimes:1 durationPerShake:0.2 delay:0.f completion:^{
+        [cell shakeIconNumTimes:3 durationPerShake:0.15 delay:0.5f completion:^{
+          [cell shakeIconNumTimes:8 durationPerShake:0.1 delay:0.5f completion:^{
+            [self displayWhiteFlash];
           }];
         }];
       }];
     } else {
+      [self displayWhiteFlash];
       self.gachaTable.userInteractionEnabled = YES;
       _isSpinning = NO;
     }
   }
 }
 
+- (void) displayWhiteFlash {
+  UIView *view = [[UIView alloc] initWithFrame:self.view.bounds];
+  [self.navigationController.view addSubview:view];
+  view.backgroundColor = [UIColor whiteColor];
+  view.alpha = 0.f;
+  
+  [UIView animateWithDuration:0.4f animations:^{
+    view.alpha = 1.f;
+  } completion:^(BOOL finished) {
+    [self displayPrizeView];
+    [view.superview bringSubviewToFront:view];
+    
+    [self.coinBar updateLabels];
+    
+    [UIView animateWithDuration:0.4f animations:^{
+      view.alpha = 0.f;
+    } completion:^(BOOL finished) {
+      [view removeFromSuperview];
+    }];
+  }];
+  
+  self.gachaTable.userInteractionEnabled = YES;
+  _isSpinning = NO;
+}
+
 - (void) displayPrizeView {
   UIView *parent = self.navigationController.view;
   self.prizeView.frame = parent.bounds;
   [parent addSubview:self.prizeView];
-  CGPoint pt = ccp(self.view.frame.size.width/2, self.prizeView.frame.size.height-self.featuredScrollView.frame.size.height/2);
-  [self.prizeView animateFromPoint:pt withMonsterId:self.prize.monsterId];
+  
+  if (self.prize.monsterId) {
+    if (_numPuzzlePieces > 0) {
+      [self.prizeView animateWithMonsterId:self.prize.monsterId numPuzzlePieces:_numPuzzlePieces];
+    } else {
+      [self.prizeView animateWithMonsterId:self.prize.monsterId];
+    }
+  } else {
+    [self.prizeView animateWithGems:self.prize.gemReward];
+  }
 }
 
 #pragma mark - Featured views methods

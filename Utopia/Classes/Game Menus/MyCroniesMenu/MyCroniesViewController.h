@@ -15,12 +15,15 @@
 
 @interface MyCroniesViewController : GenViewController <EasyTableViewDelegate, MyCroniesCardDelegate, MyCroniesQueueDelegate, MonsterTeamSlotDelegate> {
   float _baseMyReservesHeaderX;
+  
+  UserMonster *_tempMonster;
 }
 
 @property (nonatomic, strong) IBOutlet UIView *tableContainerView;
 @property (nonatomic, strong) IBOutlet UIImageView *leftHeaderUnderlay;
 
-@property (nonatomic, strong) IBOutlet UIView *availMobstersHeaderView;
+@property (nonatomic, strong) IBOutlet UIView *injuredMobstersHeaderView;
+@property (nonatomic, strong) IBOutlet UIView *healthyMobstersHeaderView;
 @property (nonatomic, strong) IBOutlet UIView *unavailMobstersHeaderView;
 @property (nonatomic, strong) IBOutlet UIView *recentlyHealedHeaderView;
 
@@ -32,7 +35,8 @@
 @property (nonatomic, strong) EasyTableView *inventoryTable;
 
 @property (nonatomic, strong) NSArray *recentlyHealedMonsters;
-@property (nonatomic, strong) NSArray *availableMonsters;
+@property (nonatomic, strong) NSArray *injuredMonsters;
+@property (nonatomic, strong) NSArray *healthyMonsters;
 @property (nonatomic, strong) NSArray *unavailableMonsters;
 
 @property (nonatomic, strong) NSTimer *updateTimer;

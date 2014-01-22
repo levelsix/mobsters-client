@@ -6,6 +6,8 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="MainMenuController">
             <connections>
+                <outlet property="labButton" destination="83" id="BRq-Vp-djH"/>
+                <outlet property="labButtonView" destination="79" id="AWE-NS-sh3"/>
                 <outlet property="menuSettingsButton" destination="PV5-Wj-twT" id="xsx-MA-0Ab"/>
                 <outlet property="view" destination="1" id="3"/>
             </connections>

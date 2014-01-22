@@ -13,6 +13,8 @@
 @class MinimumUserProtoWithFacebookId_Builder;
 @class MinimumUserProtoWithLevel;
 @class MinimumUserProtoWithLevel_Builder;
+@class MinimumUserProtoWithMaxResources;
+@class MinimumUserProtoWithMaxResources_Builder;
 @class MinimumUserProto_Builder;
 @class QueueUpRequestProto;
 @class QueueUpRequestProto_Builder;

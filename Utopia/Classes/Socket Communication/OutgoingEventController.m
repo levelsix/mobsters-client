@@ -20,6 +20,7 @@
 #import "OAHMAC_SHA1SignatureProvider.h"
 #import "GameViewController.h"
 #import "Downloader.h"
+#import "PersistentEventProto+Time.h"
 
 #define CODE_PREFIX @"#~#"
 #define PURGE_CODE @"purgecache"
@@ -69,7 +70,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
   }
 }
 
-- (UserStruct *) purchaseNormStruct:(int)structId atX:(int)x atY:(int)y {
+- (UserStruct *) purchaseNormStruct:(int)structId atX:(int)x atY:(int)y allowGems:(BOOL)allowGems {
   GameState *gs = [GameState sharedGameState];
   Globals *gl = [Globals sharedGlobals];
   StructureInfoProto *fsp = [[gs structWithId:structId] structInfo];
@@ -96,13 +97,24 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
     }
   }
   
-  int cashPrice = 0, oilPrice = 0;
-  if (fsp.buildResourceType == ResourceTypeCash) cashPrice = fsp.buildCost;
-  if (fsp.buildResourceType == ResourceTypeOil) oilPrice = fsp.buildCost;
-  if (gs.silver >= cashPrice && gs.oil >= oilPrice) {
-    int tag = [[SocketCommunication sharedSocketCommunication] sendPurchaseNormStructureMessage:structId x:x y:y time:[self getCurrentMilliseconds] resourceType:fsp.buildResourceType resourceChange:-fsp.buildCost gemCost:0];
-    us = [[UserStruct alloc] init];
+  int cost = fsp.buildCost;
+  BOOL isOilBuilding = fsp.buildResourceType == ResourceTypeOil;
+  int curAmount = isOilBuilding ? gs.oil : gs.silver;
+  int gemCost = 0;
+  
+  if (allowGems && cost > curAmount) {
+    gemCost = [gl calculateGemConversionForResourceType:fsp.buildResourceType amount:cost-curAmount];
+    cost = curAmount;
+  }
+  
+  if (cost > curAmount || gemCost > gs.gold) {
+    [Globals popupMessage:@"Trying to build without enough resources."];
+  } else {
+    int tag = [[SocketCommunication sharedSocketCommunication] sendPurchaseNormStructureMessage:structId x:x y:y time:[self getCurrentMilliseconds] resourceType:fsp.buildResourceType resourceChange:-cost gemCost:gemCost];
     
+    [gs saveHealthProgressesFromIndex:0];
+    
+    us = [[UserStruct alloc] init];
     // UserStructId will come in the response
     us.userId = [[GameState sharedGameState] userId];
     us.structId = structId;
@@ -113,18 +125,19 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
     us.lastRetrieved = nil;
     
     AddStructUpdate *asu = [AddStructUpdate updateWithTag:tag userStruct:us];
-    SilverUpdate *su = [SilverUpdate updateWithTag:tag change:-cashPrice];
-    OilUpdate *gu = [GoldUpdate updateWithTag:tag change:-oilPrice];
+    FullUserUpdate *su = [(isOilBuilding ? [OilUpdate class] : [SilverUpdate class]) updateWithTag:tag change:-cost];
+    GoldUpdate *gu = [GoldUpdate updateWithTag:tag change:-gemCost];
     [gs addUnrespondedUpdates:asu, su, gu, nil];
     
     [Analytics normStructPurchase:structId];
-  } else {
-    [Globals popupMessage:@"Not enough resources to purchase this building"];
+    
+    [gs readjustAllMonsterHealingProtos];
   }
   return us;
 }
 
-- (void) upgradeNormStruct:(UserStruct *)userStruct {
+- (void) upgradeNormStruct:(UserStruct *)userStruct allowGems:(BOOL)allowGems {
+  Globals *gl = [Globals sharedGlobals];
   GameState *gs = [GameState sharedGameState];
   SocketCommunication *sc = [SocketCommunication sharedSocketCommunication];
   StructureInfoProto *nextFsp = userStruct.staticStructForNextLevel.structInfo;
@@ -150,22 +163,34 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
   } else if (!nextFsp) {
     [Globals popupMessage:@"This building is not upgradable"];
   } else {
-    int cashPrice = 0, oilPrice = 0;
-    if (nextFsp.buildResourceType == ResourceTypeCash) cashPrice = nextFsp.buildCost;
-    if (nextFsp.buildResourceType == ResourceTypeOil) oilPrice = nextFsp.buildCost;
-    if (oilPrice > gs.oil || cashPrice > gs.silver) {
+    int cost = nextFsp.buildCost;
+    BOOL isOilBuilding = nextFsp.buildResourceType == ResourceTypeOil;
+    int curAmount = isOilBuilding ? gs.oil : gs.silver;
+    int gemCost = 0;
+    
+    if (allowGems && cost > curAmount) {
+      gemCost = [gl calculateGemConversionForResourceType:nextFsp.buildResourceType amount:cost-curAmount];
+      cost = curAmount;
+    }
+    
+    if (cost > curAmount || gemCost > gs.gold) {
       [Globals popupMessage:@"Trying to upgrade without enough resources."];
     } else {
       int64_t ms = [self getCurrentMilliseconds];
-      int tag = [sc sendUpgradeNormStructureMessage:userStruct.userStructId time:ms resourceType:nextFsp.buildResourceType resourceChange:-nextFsp.buildCost gemCost:0];
+      int tag = [sc sendUpgradeNormStructureMessage:userStruct.userStructId time:ms resourceType:nextFsp.buildResourceType resourceChange:-cost gemCost:gemCost];
+      
+      [gs saveHealthProgressesFromIndex:0];
+      
       userStruct.isComplete = NO;
       userStruct.purchaseTime = [NSDate dateWithTimeIntervalSince1970:ms/1000.0];
       userStruct.structId = nextFsp.structId;
       
       // Update game state
-      SilverUpdate *su = [SilverUpdate updateWithTag:tag change:-cashPrice];
-      OilUpdate *gu = [GoldUpdate updateWithTag:tag change:-oilPrice];
+      FullUserUpdate *su = [(isOilBuilding ? [OilUpdate class] : [SilverUpdate class]) updateWithTag:tag change:-cost];
+      GoldUpdate *gu = [GoldUpdate updateWithTag:tag change:-gemCost];
       [gs addUnrespondedUpdates:su, gu, nil];
+      
+      [gs readjustAllMonsterHealingProtos];
     }
   }
 }
@@ -194,11 +219,27 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
     [Globals popupMessage:@"This is not your building!"];
   } else if (userStruct.isComplete && userStruct.lastRetrieved) {
     int64_t ms = [self getCurrentMilliseconds];
-    int tag = [sc retrieveCurrencyFromStruct:userStruct.userStructId time:ms];
+    int numRes = userStruct.numResourcesAvailable;
+    int maxCollect = gen.resourceType == ResourceTypeCash ? gs.maxCash-gs.silver : gs.maxOil-gs.oil;
+    int amountCollected = MIN(numRes, maxCollect);
+    
+    if (amountCollected <= 0) {
+      return;
+    }
+    
+    ms -= (int)((numRes-amountCollected)/gen.productionRate*3600*1000);
+    
+    int tag = [sc retrieveCurrencyFromStruct:userStruct.userStructId time:ms amountCollected:amountCollected];
     userStruct.lastRetrieved = [NSDate dateWithTimeIntervalSince1970:ms/1000.0];
     
     // Update game state
-//    [gs addUnrespondedUpdate:[SilverUpdate updateWithTag:tag change:userStruct.fsp.income]];
+    FullUserUpdate *up = nil;
+    if (gen.resourceType == ResourceTypeCash) {
+      up = [SilverUpdate updateWithTag:tag change:amountCollected];
+    } else if (gen.resourceType == ResourceTypeOil) {
+      up = [OilUpdate updateWithTag:tag change:amountCollected];
+    }
+    [gs addUnrespondedUpdate:up];
   } else {
     [Globals popupMessage:[NSString stringWithFormat:@"Building %d is not ready to be retrieved", userStruct.userStructId]];
   }
@@ -221,11 +262,16 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
   } else if (!userStruct.isComplete) {
     int64_t ms = [self getCurrentMilliseconds];
     int tag = [sc sendFinishNormStructBuildWithDiamondsMessage:userStruct.userStructId gemCost:gemCost time:[self getCurrentMilliseconds]];
+    
+    [gs saveHealthProgressesFromIndex:0];
+    
     userStruct.isComplete = YES;
     userStruct.lastRetrieved = [NSDate dateWithTimeIntervalSince1970:ms/1000.0];
     
     // Update game state
     [gs addUnrespondedUpdate:[GoldUpdate updateWithTag:tag change:-[gl calculateGemSpeedupCostForTimeLeft:timeLeft]]];
+    
+    [gs readjustAllMonsterHealingProtos];
   } else {
     [Globals popupMessage:[NSString stringWithFormat:@"Building %d is not upgrading", userStruct.userStructId]];
   }
@@ -402,11 +448,12 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
   [gs addUnrespondedUpdate:[NoUpdate updateWithTag:tag]];
 }
 
-- (void) inAppPurchase:(NSString *)receipt goldAmt:(int)gold silverAmt:(int)silver product:(SKProduct *)product {
+- (void) inAppPurchase:(NSString *)receipt goldAmt:(int)gold silverAmt:(int)silver product:(SKProduct *)product delegate:(id)delegate {
   GameState *gs = [GameState sharedGameState];
   if (gs.connected) {
     int tag = [[SocketCommunication sharedSocketCommunication] sendInAppPurchaseMessage:receipt product:product];
     [[GameState sharedGameState] addUnrespondedUpdates:[GoldUpdate updateWithTag:tag change:gold], [SilverUpdate updateWithTag:tag change:silver], nil];
+    [[SocketCommunication sharedSocketCommunication] setDelegate:delegate forTag:tag];
     
     if ([product.productIdentifier rangeOfString:@"bsale"].length > 0) {
       gs.numBeginnerSalesPurchased++;
@@ -420,6 +467,25 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
   [mut addObject:receipt];
   [defaults setObject:mut forKey:IAP_DEFAULTS_KEY];
   [defaults synchronize];
+}
+
+- (void) exchangeGemsForResources:(int)gems resources:(int)resources resType:(ResourceType)resType delegate:(id)delegate {
+  GameState *gs = [GameState sharedGameState];
+  
+  if (gs.gold < gems) {
+    [Globals popupMessage:@"Trying to exchange too many gems.."];
+  } else {
+    int tag = [[SocketCommunication sharedSocketCommunication] sendExchangeGemsForResourcesMessage:gems resources:resources resType:resType clientTime:[self getCurrentMilliseconds]];
+    
+    FullUserUpdate *up = nil;
+    if (resType == ResourceTypeCash) {
+      up = [SilverUpdate updateWithTag:tag change:resources];
+    } else if (resType == ResourceTypeOil) {
+      up = [OilUpdate updateWithTag:tag change:resources];
+    }
+    [gs addUnrespondedUpdates:[GoldUpdate updateWithTag:tag change:-gems], up, nil];
+    [[SocketCommunication sharedSocketCommunication] setDelegate:delegate forTag:tag];
+  }
 }
 
 - (void) enableApns:(NSData *)deviceToken {
@@ -670,6 +736,8 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
   BoosterPackProto *bpp = [gs boosterPackForId:boosterPackId];
   if (!bpp) {
     [Globals popupMessage:@"Unable to find booster pack."];
+  } else if (bpp.gemPrice > gs.gold) {
+    [Globals popupMessage:@"Attempting to spin without enough gems."];
   } else {
     int tag = [[SocketCommunication sharedSocketCommunication] sendPurchaseBoosterPackMessage:boosterPackId clientTime:[self getCurrentMilliseconds]];
     [[SocketCommunication sharedSocketCommunication] setDelegate:delegate forTag:tag];
@@ -691,9 +759,38 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
   [[SocketCommunication sharedSocketCommunication] setDelegate:delegate forTag:tag];
 }
 
-- (void) beginDungeon:(int)taskId withDelegate:(id)delegate {
-  int tag = [[SocketCommunication sharedSocketCommunication] sendBeginDungeonMessage:[self getCurrentMilliseconds] taskId:taskId];
+- (void) beginDungeon:(int)taskId isEvent:(BOOL)isEvent eventId:(int)eventId useGems:(BOOL)useGems withDelegate:(id)delegate {
+  GameState *gs = [GameState sharedGameState];
+  Globals *gl = [Globals sharedGlobals];
+  int gems = 0;
+  if (isEvent) {
+    PersistentEventProto *pe = [gs persistentEventWithId:eventId];
+    NSTimeInterval time = pe.cooldownEndTime.timeIntervalSinceNow;
+    if (!pe) {
+      [Globals popupMessage:@"Trying to enter event dungeon without event"];
+      return;
+    } else if (!pe.isRunning) {
+      [Globals popupMessage:@"Trying to enter event dungeon that isn't running"];
+      return;
+    } else if (!useGems && time > 0) {
+      [Globals popupMessage:@"Trying to enter event dungeon before cooldown time"];
+      return;
+    }
+    
+    if (useGems) {
+      gems = [gl calculateGemSpeedupCostForTimeLeft:time];
+      if (gs.gold < gems) {
+        [Globals popupMessage:@"Trying to enter dungeon without enough gems"];
+        return;
+      }
+    }
+  }
+  
+  int tag = [[SocketCommunication sharedSocketCommunication] sendBeginDungeonMessage:[self getCurrentMilliseconds] taskId:taskId isEvent:isEvent eventId:eventId gems:gems];
   [[SocketCommunication sharedSocketCommunication] setDelegate:delegate forTag:tag];
+  [gs addUnrespondedUpdate:[GoldUpdate updateWithTag:tag change:-gems]];
+  
+  [gs.eventCooldownTimes setObject:[NSDate date] forKey:@(eventId)];
 }
 
 - (void) updateMonsterHealth:(int)userMonsterId curHealth:(int)curHealth {
@@ -910,7 +1007,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
   return NO;
 }
 
-- (BOOL) addMonsterToHealingQueue:(int)userMonsterId {
+- (BOOL) addMonsterToHealingQueue:(int)userMonsterId useGems:(BOOL)useGems {
   Globals *gl = [Globals sharedGlobals];
   GameState *gs = [GameState sharedGameState];
   UserMonster *um = [gs myMonsterWithUserMonsterId:userMonsterId];
@@ -919,16 +1016,24 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
   int silverCost = [gl calculateCostToHealMonster:um];
   if (um.curHealth >= maxHealth) {
     [Globals popupMessage:@"This monster is already at full health."];
-  } else if (gs.silver < silverCost) {
+  } else if (!useGems && gs.silver < silverCost) {
     [Globals popupMessage:@"Trying to heal item without enough cash."];
   } else {
+    int gemCost = 0;
+    if (useGems && gs.silver < silverCost) {
+      gemCost = [gl calculateGemConversionForResourceType:ResourceTypeCash amount:silverCost-gs.silver];
+      silverCost = gs.silver;
+    }
+    
     UserMonsterHealingItem *item = [[UserMonsterHealingItem alloc] init];
     item.userMonsterId = userMonsterId;
     item.userId = gs.userId;
     [gs addUserMonsterHealingItemToEndOfQueue:item];
     
-    int tag = [[SocketCommunication sharedSocketCommunication] setHealQueueDirtyWithCoinChange:-silverCost gemCost:0];
-    [gs addUnrespondedUpdate:[SilverUpdate updateWithTag:tag change:-silverCost]];
+    int tag = [[SocketCommunication sharedSocketCommunication] setHealQueueDirtyWithCoinChange:-silverCost gemCost:gemCost];
+    SilverUpdate *su = [SilverUpdate updateWithTag:tag change:-silverCost];
+    GoldUpdate *gu = [GoldUpdate updateWithTag:tag change:-gemCost];
+    [gs addUnrespondedUpdates:su, gu, nil];
     return YES;
   }
   return NO;
@@ -956,7 +1061,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
   GameState *gs = [GameState sharedGameState];
   Globals *gl = [Globals sharedGlobals];
   
-  int timeLeft = [gl calculateTimeLeftToHealAllMonstersInQueue];
+  int timeLeft = gs.monsterHealingQueueEndTime.timeIntervalSinceNow;
   int goldCost = [gl calculateGemSpeedupCostForTimeLeft:timeLeft];
   
   if (gs.gold < goldCost) {
@@ -992,7 +1097,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
   
   NSMutableArray *arr = [NSMutableArray array];
   for (UserMonsterHealingItem *item in healingItems) {
-    if ([item.expectedEndTime timeIntervalSinceNow] > 0) {
+    if ([item.endTime timeIntervalSinceNow] > 0) {
       [Globals popupMessage:@"Trying to finish healing item before time."];
     } else {
       UserMonster *um = [gs myMonsterWithUserMonsterId:item.userMonsterId];
@@ -1012,6 +1117,23 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
   // Remove after to let the queue update to not be affected
   [gs.monsterHealingQueue removeObjectsInArray:healingItems];
   [gs beginHealingTimer];
+}
+
+- (void) sellUserMonster:(int)userMonsterId {
+  GameState *gs = [GameState sharedGameState];
+  UserMonster *um = [gs myMonsterWithUserMonsterId:userMonsterId];
+  
+  if (um) {
+    int price = um.sellPrice;
+    
+    MinimumUserMonsterSellProto *sell = [[[[MinimumUserMonsterSellProto builder] setUserMonsterId:userMonsterId] setCashAmount:price] build];
+    int tag = [[SocketCommunication sharedSocketCommunication] sendSellUserMonstersMessage:@[sell]];
+    [gs addUnrespondedUpdate:[SilverUpdate updateWithTag:tag change:price]];
+    
+    [gs.myMonsters removeObject:um];
+  } else {
+    [Globals popupMessage:@"Trying to sell nonexistant monster"];
+  }
 }
 
 - (BOOL) setBaseEnhanceMonster:(int)userMonsterId {
@@ -1045,7 +1167,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
   }  else {
     int cashIncrease = 0;
     for (EnhancementItem *item in gs.userEnhancement.feeders) {
-      cashIncrease += [gl calculateSilverCostForEnhancement:gs.userEnhancement.baseMonster feeder:item];
+      cashIncrease += [gl calculateOilCostForEnhancement:gs.userEnhancement.baseMonster feeder:item];
     }
     
     int tag = [[SocketCommunication sharedSocketCommunication] setEnhanceQueueDirtyWithCoinChange:cashIncrease gemCost:0];
@@ -1059,7 +1181,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
   return NO;
 }
 
-- (BOOL) addMonsterToEnhancingQueue:(int)userMonsterId {
+- (BOOL) addMonsterToEnhancingQueue:(int)userMonsterId useGems:(BOOL)useGems {
   Globals *gl = [Globals sharedGlobals];
   GameState *gs = [GameState sharedGameState];
   UserMonster *um = [gs myMonsterWithUserMonsterId:userMonsterId];
@@ -1068,20 +1190,28 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
   EnhancementItem *newItem = [[EnhancementItem alloc] init];
   newItem.userMonsterId = userMonsterId;
   
-  int silverCost = [gl calculateSilverCostForEnhancement:ue.baseMonster feeder:newItem];
+  int oilCost = [gl calculateOilCostForEnhancement:ue.baseMonster feeder:newItem];
   if (!ue) {
     [Globals popupMessage:@"Trying to add feeder without base monster."];
   } else if ([um isHealing]) {
     [Globals popupMessage:@"Trying to sacrifice item that is healing."];
-  } else if (gs.silver < silverCost) {
+  } else if (!useGems && gs.oil < oilCost) {
     [Globals popupMessage:@"Trying to enhance item without enough cash."];
   } else {
+    int gemCost = 0;
+    if (useGems && gs.oil < oilCost) {
+      gemCost = [gl calculateGemConversionForResourceType:ResourceTypeOil amount:oilCost-gs.oil];
+      oilCost = gs.oil;
+    }
+    
     [gs addEnhancingItemToEndOfQueue:newItem];
     
     um.teamSlot = 0;
     
-    int tag = [[SocketCommunication sharedSocketCommunication] setEnhanceQueueDirtyWithCoinChange:-silverCost gemCost:0];
-    [gs addUnrespondedUpdate:[SilverUpdate updateWithTag:tag change:-silverCost]];
+    int tag = [[SocketCommunication sharedSocketCommunication] setEnhanceQueueDirtyWithCoinChange:-oilCost gemCost:gemCost];
+    OilUpdate *oil = [OilUpdate updateWithTag:tag change:-oilCost];
+    GoldUpdate *gold = [GoldUpdate updateWithTag:tag change:-gemCost];
+    [gs addUnrespondedUpdates:oil, gold, nil];
     
     return YES;
   }
@@ -1097,9 +1227,9 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
   } else {
     [gs removeEnhancingItem:item];
     
-    int silverChange = [gl calculateSilverCostForEnhancement:gs.userEnhancement.baseMonster feeder:item];
-    int tag = [[SocketCommunication sharedSocketCommunication] setEnhanceQueueDirtyWithCoinChange:silverChange gemCost:0];
-    [gs addUnrespondedUpdate:[SilverUpdate updateWithTag:tag change:silverChange]];
+    int oilChange = [gl calculateOilCostForEnhancement:gs.userEnhancement.baseMonster feeder:item];
+    int tag = [[SocketCommunication sharedSocketCommunication] setEnhanceQueueDirtyWithCoinChange:oilChange gemCost:0];
+    [gs addUnrespondedUpdate:[OilUpdate updateWithTag:tag change:oilChange]];
     
     return YES;
   }

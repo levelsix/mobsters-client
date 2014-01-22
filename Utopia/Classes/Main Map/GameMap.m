@@ -132,6 +132,10 @@
   
   NSMutableArray *newArr = [NSMutableArray array];
   for (UserMonster *um in gs.allMonstersOnMyTeam) {
+    if (um.isHealing || um.isEnhancing || um.isSacrificing) {
+      continue;
+    }
+    
     int tag = MY_TEAM_TAG_BASE+um.userMonsterId;
     MyTeamSprite *ts = (MyTeamSprite *)[self getChildByTag:tag];
     

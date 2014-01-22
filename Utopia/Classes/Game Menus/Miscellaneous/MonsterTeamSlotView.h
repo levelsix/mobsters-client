@@ -16,6 +16,9 @@
 
 - (void) minusClickedForTeamSlotView:(MonsterTeamSlotView *)mv;
 
+@optional
+- (void) healAreaClicked:(MonsterTeamSlotView *)mv;
+
 @end
 
 @interface MonsterTeamSlotView : UIView
@@ -46,6 +49,7 @@
 - (void) animateNewMonster:(UserMonster *)um;
 
 - (IBAction)minusClicked:(id)sender;
+- (IBAction)healAreaClicked:(id)sender;
 
 @end
 

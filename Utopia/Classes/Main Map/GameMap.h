@@ -24,7 +24,6 @@
 #define SILVER_STACK_BOUNCE_DURATION 1.f
 #define DROP_LABEL_DURATION 3.f
 #define PICK_UP_WAIT_TIME 2
-#define DROP_ROTATION 0
 
 @class Building;
 @class SelectableSprite;

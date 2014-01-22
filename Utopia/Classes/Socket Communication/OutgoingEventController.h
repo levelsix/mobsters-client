@@ -21,14 +21,15 @@
 - (void) startupWithDelegate:(id)delegate;
 - (void) logout;
 
-- (void) inAppPurchase:(NSString *)receipt goldAmt:(int)gold silverAmt:(int)silver product:(SKProduct *)product;
+- (void) inAppPurchase:(NSString *)receipt goldAmt:(int)gold silverAmt:(int)silver product:(SKProduct *)product delegate:(id)delegate;
+- (void) exchangeGemsForResources:(int)gems resources:(int)resources resType:(ResourceType)resType delegate:(id)delegate;
 
-- (UserStruct *) purchaseNormStruct:(int)structId atX:(int)x atY:(int)y;
+- (UserStruct *) purchaseNormStruct:(int)structId atX:(int)x atY:(int)y allowGems:(BOOL)allowGems;
 - (void) moveNormStruct:(UserStruct *)userStruct atX:(int)x atY:(int)y;
 - (void) retrieveFromNormStructure:(UserStruct *)userStruct;
 - (void) instaUpgrade:(UserStruct *)userStruct;
 - (void) normStructWaitComplete:(UserStruct *)userStruct;
-- (void) upgradeNormStruct:(UserStruct *)userStruct;
+- (void) upgradeNormStruct:(UserStruct *)userStruct allowGems:(BOOL)allowGems;
 
 - (void) loadPlayerCity:(int)userId withDelegate:(id)delegate;
 - (void) loadNeutralCity:(int)cityId withDelegate:(id)delegate;
@@ -67,7 +68,7 @@
 - (void) privateChatPost:(int)recipientId content:(NSString *)content;
 - (void) retrievePrivateChatPosts:(int)otherUserId delegate:(id)delegate;
 
-- (void) beginDungeon:(int)taskId withDelegate:(id)delegate;
+- (void) beginDungeon:(int)taskId isEvent:(BOOL)isEvent eventId:(int)eventId useGems:(BOOL)useGems withDelegate:(id)delegate;
 - (void) updateMonsterHealth:(int)userMonsterId curHealth:(int)curHealth;
 - (void) endDungeon:(BeginDungeonResponseProto *)dungeonInfo userWon:(BOOL)userWon delegate:(id)delegate;
 
@@ -76,14 +77,15 @@
 - (void) increaseInventorySlots:(UserStruct *)us withGems:(BOOL)gems;
 - (void) combineMonsters:(NSArray *)userMonsterIds;
 - (BOOL) combineMonsterWithSpeedup:(int)userMonsterId;
-- (BOOL) addMonsterToHealingQueue:(int)userMonsterId;
+- (BOOL) addMonsterToHealingQueue:(int)userMonsterId useGems:(BOOL)useGems;
 - (BOOL) removeMonsterFromHealingQueue:(UserMonsterHealingItem *)item;
 - (BOOL) speedupHealingQueue;
 - (void) healQueueWaitTimeComplete:(NSArray *)healingItems;
+- (void) sellUserMonster:(int)userMonsterId;
 
 - (BOOL) setBaseEnhanceMonster:(int)userMonsterId;
 - (BOOL) removeBaseEnhanceMonster;
-- (BOOL) addMonsterToEnhancingQueue:(int)userMonsterId;
+- (BOOL) addMonsterToEnhancingQueue:(int)userMonsterId useGems:(BOOL)useGems;
 - (BOOL) removeMonsterFromEnhancingQueue:(EnhancementItem *)item;
 - (BOOL) speedupEnhancingQueue;
 - (void) enhanceQueueWaitTimeComplete:(NSArray *)enhancingItems;

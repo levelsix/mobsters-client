@@ -15,14 +15,18 @@
 - (void) loadForReward:(Reward *)reward {
   NSString *imgName = nil;
   NSString *labelName = nil;
+  NSString *bgdName = nil;
   UIColor *color = nil;
   if (reward.type == RewardTypeMonster) {
     GameState *gs = [GameState sharedGameState];
     MonsterProto *mp = [gs monsterWithId:reward.monsterId];
+    imgName = [Globals imageNameForRarity:mp.quality suffix:@"piece.png"];
+    bgdName = [Globals imageNameForRarity:mp.quality suffix:@"found.png"];
     labelName = [Globals shortenedStringForRarity:mp.quality];
     color = [Globals colorForRarity:mp.quality];
   } else if (reward.type == RewardTypeSilver) {
     imgName = @"moneystack.png";
+    bgdName = @"cashfound.png";
     labelName = [Globals cashStringForNumber:reward.silverAmount];
     color = [Globals greenColor];
   } else if (reward.type == RewardTypeGold) {
@@ -31,6 +35,7 @@
     color = [Globals purplishPinkColor];
   } else if (reward.type == RewardTypeExperience) {
     imgName = @"levelnumber.png";
+    bgdName = @"expfound.png";
     labelName = [NSString stringWithFormat:@"+%@", [Globals commafyNumber:reward.expAmount]];
     color = [Globals orangeColor];
     
@@ -47,6 +52,7 @@
   }
   
   self.rewardIcon.image = [Globals imageNamed:imgName];
+  self.rewardBgd.image = [Globals imageNamed:bgdName];
   CGPoint center = self.rewardIcon.center;
   self.rewardIcon.frame = CGRectMake(0, 0, self.rewardIcon.image.size.width, self.rewardIcon.image.size.height);
   self.rewardIcon.center = center;
@@ -59,6 +65,22 @@
 @implementation RewardsView
 
 #define REWARD_VIEW_SPACE 3
+
+- (void) setFrame:(CGRect)frame {
+  [super setFrame:frame];
+  
+  self.scrollView.frame = self.bounds;
+  float width = self.innerView.frame.size.width;
+  if (self.scrollView.frame.size.width > width) {
+    self.innerView.center = ccp(self.scrollView.frame.size.width/2, self.scrollView.frame.size.height/2);
+  } else {
+    CGRect r = CGRectZero;
+    r.size = CGSizeMake(width, self.scrollView.frame.size.height);
+    self.innerView.frame = r;
+  }
+  
+  self.scrollView.contentSize = CGSizeMake(width, self.scrollView.frame.size.height);
+}
 
 - (void) updateForRewards:(NSArray *)rewards {
   [self.scrollView removeFromSuperview];

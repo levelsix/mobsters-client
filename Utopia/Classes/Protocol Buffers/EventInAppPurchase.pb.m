@@ -13,6 +13,7 @@ static PBExtensionRegistry* extensionRegistry = nil;
     PBMutableExtensionRegistry* registry = [PBMutableExtensionRegistry registry];
     [self registerAllExtensions:registry];
     [InAppPurchaseRoot registerAllExtensions:registry];
+    [StructureRoot registerAllExtensions:registry];
     [UserRoot registerAllExtensions:registry];
     extensionRegistry = [registry retain];
   }
@@ -1423,6 +1424,610 @@ BOOL EarnFreeDiamondsResponseProto_EarnFreeDiamondsStatusIsValidValue(EarnFreeDi
 - (EarnFreeDiamondsResponseProto_Builder*) clearFreeDiamondsType {
   result.hasFreeDiamondsType = NO;
   result.freeDiamondsType = EarnFreeDiamondsTypeFbConnect;
+  return self;
+}
+@end
+
+@interface ExchangeGemsForResourcesRequestProto ()
+@property (retain) MinimumUserProto* sender;
+@property int32_t numGems;
+@property int32_t numResources;
+@property ResourceType resourceType;
+@property int64_t clientTime;
+@end
+
+@implementation ExchangeGemsForResourcesRequestProto
+
+- (BOOL) hasSender {
+  return !!hasSender_;
+}
+- (void) setHasSender:(BOOL) value {
+  hasSender_ = !!value;
+}
+@synthesize sender;
+- (BOOL) hasNumGems {
+  return !!hasNumGems_;
+}
+- (void) setHasNumGems:(BOOL) value {
+  hasNumGems_ = !!value;
+}
+@synthesize numGems;
+- (BOOL) hasNumResources {
+  return !!hasNumResources_;
+}
+- (void) setHasNumResources:(BOOL) value {
+  hasNumResources_ = !!value;
+}
+@synthesize numResources;
+- (BOOL) hasResourceType {
+  return !!hasResourceType_;
+}
+- (void) setHasResourceType:(BOOL) value {
+  hasResourceType_ = !!value;
+}
+@synthesize resourceType;
+- (BOOL) hasClientTime {
+  return !!hasClientTime_;
+}
+- (void) setHasClientTime:(BOOL) value {
+  hasClientTime_ = !!value;
+}
+@synthesize clientTime;
+- (void) dealloc {
+  self.sender = nil;
+  [super dealloc];
+}
+- (id) init {
+  if ((self = [super init])) {
+    self.sender = [MinimumUserProto defaultInstance];
+    self.numGems = 0;
+    self.numResources = 0;
+    self.resourceType = ResourceTypeCash;
+    self.clientTime = 0L;
+  }
+  return self;
+}
+static ExchangeGemsForResourcesRequestProto* defaultExchangeGemsForResourcesRequestProtoInstance = nil;
++ (void) initialize {
+  if (self == [ExchangeGemsForResourcesRequestProto class]) {
+    defaultExchangeGemsForResourcesRequestProtoInstance = [[ExchangeGemsForResourcesRequestProto alloc] init];
+  }
+}
++ (ExchangeGemsForResourcesRequestProto*) defaultInstance {
+  return defaultExchangeGemsForResourcesRequestProtoInstance;
+}
+- (ExchangeGemsForResourcesRequestProto*) defaultInstance {
+  return defaultExchangeGemsForResourcesRequestProtoInstance;
+}
+- (BOOL) isInitialized {
+  return YES;
+}
+- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output {
+  if (self.hasSender) {
+    [output writeMessage:1 value:self.sender];
+  }
+  if (self.hasNumGems) {
+    [output writeInt32:2 value:self.numGems];
+  }
+  if (self.hasNumResources) {
+    [output writeInt32:3 value:self.numResources];
+  }
+  if (self.hasResourceType) {
+    [output writeEnum:4 value:self.resourceType];
+  }
+  if (self.hasClientTime) {
+    [output writeInt64:5 value:self.clientTime];
+  }
+  [self.unknownFields writeToCodedOutputStream:output];
+}
+- (int32_t) serializedSize {
+  int32_t size = memoizedSerializedSize;
+  if (size != -1) {
+    return size;
+  }
+
+  size = 0;
+  if (self.hasSender) {
+    size += computeMessageSize(1, self.sender);
+  }
+  if (self.hasNumGems) {
+    size += computeInt32Size(2, self.numGems);
+  }
+  if (self.hasNumResources) {
+    size += computeInt32Size(3, self.numResources);
+  }
+  if (self.hasResourceType) {
+    size += computeEnumSize(4, self.resourceType);
+  }
+  if (self.hasClientTime) {
+    size += computeInt64Size(5, self.clientTime);
+  }
+  size += self.unknownFields.serializedSize;
+  memoizedSerializedSize = size;
+  return size;
+}
++ (ExchangeGemsForResourcesRequestProto*) parseFromData:(NSData*) data {
+  return (ExchangeGemsForResourcesRequestProto*)[[[ExchangeGemsForResourcesRequestProto builder] mergeFromData:data] build];
+}
++ (ExchangeGemsForResourcesRequestProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (ExchangeGemsForResourcesRequestProto*)[[[ExchangeGemsForResourcesRequestProto builder] mergeFromData:data extensionRegistry:extensionRegistry] build];
+}
++ (ExchangeGemsForResourcesRequestProto*) parseFromInputStream:(NSInputStream*) input {
+  return (ExchangeGemsForResourcesRequestProto*)[[[ExchangeGemsForResourcesRequestProto builder] mergeFromInputStream:input] build];
+}
++ (ExchangeGemsForResourcesRequestProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (ExchangeGemsForResourcesRequestProto*)[[[ExchangeGemsForResourcesRequestProto builder] mergeFromInputStream:input extensionRegistry:extensionRegistry] build];
+}
++ (ExchangeGemsForResourcesRequestProto*) parseFromCodedInputStream:(PBCodedInputStream*) input {
+  return (ExchangeGemsForResourcesRequestProto*)[[[ExchangeGemsForResourcesRequestProto builder] mergeFromCodedInputStream:input] build];
+}
++ (ExchangeGemsForResourcesRequestProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (ExchangeGemsForResourcesRequestProto*)[[[ExchangeGemsForResourcesRequestProto builder] mergeFromCodedInputStream:input extensionRegistry:extensionRegistry] build];
+}
++ (ExchangeGemsForResourcesRequestProto_Builder*) builder {
+  return [[[ExchangeGemsForResourcesRequestProto_Builder alloc] init] autorelease];
+}
++ (ExchangeGemsForResourcesRequestProto_Builder*) builderWithPrototype:(ExchangeGemsForResourcesRequestProto*) prototype {
+  return [[ExchangeGemsForResourcesRequestProto builder] mergeFrom:prototype];
+}
+- (ExchangeGemsForResourcesRequestProto_Builder*) builder {
+  return [ExchangeGemsForResourcesRequestProto builder];
+}
+@end
+
+@interface ExchangeGemsForResourcesRequestProto_Builder()
+@property (retain) ExchangeGemsForResourcesRequestProto* result;
+@end
+
+@implementation ExchangeGemsForResourcesRequestProto_Builder
+@synthesize result;
+- (void) dealloc {
+  self.result = nil;
+  [super dealloc];
+}
+- (id) init {
+  if ((self = [super init])) {
+    self.result = [[[ExchangeGemsForResourcesRequestProto alloc] init] autorelease];
+  }
+  return self;
+}
+- (PBGeneratedMessage*) internalGetResult {
+  return result;
+}
+- (ExchangeGemsForResourcesRequestProto_Builder*) clear {
+  self.result = [[[ExchangeGemsForResourcesRequestProto alloc] init] autorelease];
+  return self;
+}
+- (ExchangeGemsForResourcesRequestProto_Builder*) clone {
+  return [ExchangeGemsForResourcesRequestProto builderWithPrototype:result];
+}
+- (ExchangeGemsForResourcesRequestProto*) defaultInstance {
+  return [ExchangeGemsForResourcesRequestProto defaultInstance];
+}
+- (ExchangeGemsForResourcesRequestProto*) build {
+  [self checkInitialized];
+  return [self buildPartial];
+}
+- (ExchangeGemsForResourcesRequestProto*) buildPartial {
+  ExchangeGemsForResourcesRequestProto* returnMe = [[result retain] autorelease];
+  self.result = nil;
+  return returnMe;
+}
+- (ExchangeGemsForResourcesRequestProto_Builder*) mergeFrom:(ExchangeGemsForResourcesRequestProto*) other {
+  if (other == [ExchangeGemsForResourcesRequestProto defaultInstance]) {
+    return self;
+  }
+  if (other.hasSender) {
+    [self mergeSender:other.sender];
+  }
+  if (other.hasNumGems) {
+    [self setNumGems:other.numGems];
+  }
+  if (other.hasNumResources) {
+    [self setNumResources:other.numResources];
+  }
+  if (other.hasResourceType) {
+    [self setResourceType:other.resourceType];
+  }
+  if (other.hasClientTime) {
+    [self setClientTime:other.clientTime];
+  }
+  [self mergeUnknownFields:other.unknownFields];
+  return self;
+}
+- (ExchangeGemsForResourcesRequestProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input {
+  return [self mergeFromCodedInputStream:input extensionRegistry:[PBExtensionRegistry emptyRegistry]];
+}
+- (ExchangeGemsForResourcesRequestProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  PBUnknownFieldSet_Builder* unknownFields = [PBUnknownFieldSet builderWithUnknownFields:self.unknownFields];
+  while (YES) {
+    int32_t tag = [input readTag];
+    switch (tag) {
+      case 0:
+        [self setUnknownFields:[unknownFields build]];
+        return self;
+      default: {
+        if (![self parseUnknownField:input unknownFields:unknownFields extensionRegistry:extensionRegistry tag:tag]) {
+          [self setUnknownFields:[unknownFields build]];
+          return self;
+        }
+        break;
+      }
+      case 10: {
+        MinimumUserProto_Builder* subBuilder = [MinimumUserProto builder];
+        if (self.hasSender) {
+          [subBuilder mergeFrom:self.sender];
+        }
+        [input readMessage:subBuilder extensionRegistry:extensionRegistry];
+        [self setSender:[subBuilder buildPartial]];
+        break;
+      }
+      case 16: {
+        [self setNumGems:[input readInt32]];
+        break;
+      }
+      case 24: {
+        [self setNumResources:[input readInt32]];
+        break;
+      }
+      case 32: {
+        int32_t value = [input readEnum];
+        if (ResourceTypeIsValidValue(value)) {
+          [self setResourceType:value];
+        } else {
+          [unknownFields mergeVarintField:4 value:value];
+        }
+        break;
+      }
+      case 40: {
+        [self setClientTime:[input readInt64]];
+        break;
+      }
+    }
+  }
+}
+- (BOOL) hasSender {
+  return result.hasSender;
+}
+- (MinimumUserProto*) sender {
+  return result.sender;
+}
+- (ExchangeGemsForResourcesRequestProto_Builder*) setSender:(MinimumUserProto*) value {
+  result.hasSender = YES;
+  result.sender = value;
+  return self;
+}
+- (ExchangeGemsForResourcesRequestProto_Builder*) setSenderBuilder:(MinimumUserProto_Builder*) builderForValue {
+  return [self setSender:[builderForValue build]];
+}
+- (ExchangeGemsForResourcesRequestProto_Builder*) mergeSender:(MinimumUserProto*) value {
+  if (result.hasSender &&
+      result.sender != [MinimumUserProto defaultInstance]) {
+    result.sender =
+      [[[MinimumUserProto builderWithPrototype:result.sender] mergeFrom:value] buildPartial];
+  } else {
+    result.sender = value;
+  }
+  result.hasSender = YES;
+  return self;
+}
+- (ExchangeGemsForResourcesRequestProto_Builder*) clearSender {
+  result.hasSender = NO;
+  result.sender = [MinimumUserProto defaultInstance];
+  return self;
+}
+- (BOOL) hasNumGems {
+  return result.hasNumGems;
+}
+- (int32_t) numGems {
+  return result.numGems;
+}
+- (ExchangeGemsForResourcesRequestProto_Builder*) setNumGems:(int32_t) value {
+  result.hasNumGems = YES;
+  result.numGems = value;
+  return self;
+}
+- (ExchangeGemsForResourcesRequestProto_Builder*) clearNumGems {
+  result.hasNumGems = NO;
+  result.numGems = 0;
+  return self;
+}
+- (BOOL) hasNumResources {
+  return result.hasNumResources;
+}
+- (int32_t) numResources {
+  return result.numResources;
+}
+- (ExchangeGemsForResourcesRequestProto_Builder*) setNumResources:(int32_t) value {
+  result.hasNumResources = YES;
+  result.numResources = value;
+  return self;
+}
+- (ExchangeGemsForResourcesRequestProto_Builder*) clearNumResources {
+  result.hasNumResources = NO;
+  result.numResources = 0;
+  return self;
+}
+- (BOOL) hasResourceType {
+  return result.hasResourceType;
+}
+- (ResourceType) resourceType {
+  return result.resourceType;
+}
+- (ExchangeGemsForResourcesRequestProto_Builder*) setResourceType:(ResourceType) value {
+  result.hasResourceType = YES;
+  result.resourceType = value;
+  return self;
+}
+- (ExchangeGemsForResourcesRequestProto_Builder*) clearResourceType {
+  result.hasResourceType = NO;
+  result.resourceType = ResourceTypeCash;
+  return self;
+}
+- (BOOL) hasClientTime {
+  return result.hasClientTime;
+}
+- (int64_t) clientTime {
+  return result.clientTime;
+}
+- (ExchangeGemsForResourcesRequestProto_Builder*) setClientTime:(int64_t) value {
+  result.hasClientTime = YES;
+  result.clientTime = value;
+  return self;
+}
+- (ExchangeGemsForResourcesRequestProto_Builder*) clearClientTime {
+  result.hasClientTime = NO;
+  result.clientTime = 0L;
+  return self;
+}
+@end
+
+@interface ExchangeGemsForResourcesResponseProto ()
+@property (retain) MinimumUserProto* sender;
+@property ExchangeGemsForResourcesResponseProto_ExchangeGemsForResourcesStatus status;
+@end
+
+@implementation ExchangeGemsForResourcesResponseProto
+
+- (BOOL) hasSender {
+  return !!hasSender_;
+}
+- (void) setHasSender:(BOOL) value {
+  hasSender_ = !!value;
+}
+@synthesize sender;
+- (BOOL) hasStatus {
+  return !!hasStatus_;
+}
+- (void) setHasStatus:(BOOL) value {
+  hasStatus_ = !!value;
+}
+@synthesize status;
+- (void) dealloc {
+  self.sender = nil;
+  [super dealloc];
+}
+- (id) init {
+  if ((self = [super init])) {
+    self.sender = [MinimumUserProto defaultInstance];
+    self.status = ExchangeGemsForResourcesResponseProto_ExchangeGemsForResourcesStatusSuccess;
+  }
+  return self;
+}
+static ExchangeGemsForResourcesResponseProto* defaultExchangeGemsForResourcesResponseProtoInstance = nil;
++ (void) initialize {
+  if (self == [ExchangeGemsForResourcesResponseProto class]) {
+    defaultExchangeGemsForResourcesResponseProtoInstance = [[ExchangeGemsForResourcesResponseProto alloc] init];
+  }
+}
++ (ExchangeGemsForResourcesResponseProto*) defaultInstance {
+  return defaultExchangeGemsForResourcesResponseProtoInstance;
+}
+- (ExchangeGemsForResourcesResponseProto*) defaultInstance {
+  return defaultExchangeGemsForResourcesResponseProtoInstance;
+}
+- (BOOL) isInitialized {
+  return YES;
+}
+- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output {
+  if (self.hasSender) {
+    [output writeMessage:1 value:self.sender];
+  }
+  if (self.hasStatus) {
+    [output writeEnum:2 value:self.status];
+  }
+  [self.unknownFields writeToCodedOutputStream:output];
+}
+- (int32_t) serializedSize {
+  int32_t size = memoizedSerializedSize;
+  if (size != -1) {
+    return size;
+  }
+
+  size = 0;
+  if (self.hasSender) {
+    size += computeMessageSize(1, self.sender);
+  }
+  if (self.hasStatus) {
+    size += computeEnumSize(2, self.status);
+  }
+  size += self.unknownFields.serializedSize;
+  memoizedSerializedSize = size;
+  return size;
+}
++ (ExchangeGemsForResourcesResponseProto*) parseFromData:(NSData*) data {
+  return (ExchangeGemsForResourcesResponseProto*)[[[ExchangeGemsForResourcesResponseProto builder] mergeFromData:data] build];
+}
++ (ExchangeGemsForResourcesResponseProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (ExchangeGemsForResourcesResponseProto*)[[[ExchangeGemsForResourcesResponseProto builder] mergeFromData:data extensionRegistry:extensionRegistry] build];
+}
++ (ExchangeGemsForResourcesResponseProto*) parseFromInputStream:(NSInputStream*) input {
+  return (ExchangeGemsForResourcesResponseProto*)[[[ExchangeGemsForResourcesResponseProto builder] mergeFromInputStream:input] build];
+}
++ (ExchangeGemsForResourcesResponseProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (ExchangeGemsForResourcesResponseProto*)[[[ExchangeGemsForResourcesResponseProto builder] mergeFromInputStream:input extensionRegistry:extensionRegistry] build];
+}
++ (ExchangeGemsForResourcesResponseProto*) parseFromCodedInputStream:(PBCodedInputStream*) input {
+  return (ExchangeGemsForResourcesResponseProto*)[[[ExchangeGemsForResourcesResponseProto builder] mergeFromCodedInputStream:input] build];
+}
++ (ExchangeGemsForResourcesResponseProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (ExchangeGemsForResourcesResponseProto*)[[[ExchangeGemsForResourcesResponseProto builder] mergeFromCodedInputStream:input extensionRegistry:extensionRegistry] build];
+}
++ (ExchangeGemsForResourcesResponseProto_Builder*) builder {
+  return [[[ExchangeGemsForResourcesResponseProto_Builder alloc] init] autorelease];
+}
++ (ExchangeGemsForResourcesResponseProto_Builder*) builderWithPrototype:(ExchangeGemsForResourcesResponseProto*) prototype {
+  return [[ExchangeGemsForResourcesResponseProto builder] mergeFrom:prototype];
+}
+- (ExchangeGemsForResourcesResponseProto_Builder*) builder {
+  return [ExchangeGemsForResourcesResponseProto builder];
+}
+@end
+
+BOOL ExchangeGemsForResourcesResponseProto_ExchangeGemsForResourcesStatusIsValidValue(ExchangeGemsForResourcesResponseProto_ExchangeGemsForResourcesStatus value) {
+  switch (value) {
+    case ExchangeGemsForResourcesResponseProto_ExchangeGemsForResourcesStatusSuccess:
+    case ExchangeGemsForResourcesResponseProto_ExchangeGemsForResourcesStatusFailOther:
+    case ExchangeGemsForResourcesResponseProto_ExchangeGemsForResourcesStatusFailInsufficientGems:
+      return YES;
+    default:
+      return NO;
+  }
+}
+@interface ExchangeGemsForResourcesResponseProto_Builder()
+@property (retain) ExchangeGemsForResourcesResponseProto* result;
+@end
+
+@implementation ExchangeGemsForResourcesResponseProto_Builder
+@synthesize result;
+- (void) dealloc {
+  self.result = nil;
+  [super dealloc];
+}
+- (id) init {
+  if ((self = [super init])) {
+    self.result = [[[ExchangeGemsForResourcesResponseProto alloc] init] autorelease];
+  }
+  return self;
+}
+- (PBGeneratedMessage*) internalGetResult {
+  return result;
+}
+- (ExchangeGemsForResourcesResponseProto_Builder*) clear {
+  self.result = [[[ExchangeGemsForResourcesResponseProto alloc] init] autorelease];
+  return self;
+}
+- (ExchangeGemsForResourcesResponseProto_Builder*) clone {
+  return [ExchangeGemsForResourcesResponseProto builderWithPrototype:result];
+}
+- (ExchangeGemsForResourcesResponseProto*) defaultInstance {
+  return [ExchangeGemsForResourcesResponseProto defaultInstance];
+}
+- (ExchangeGemsForResourcesResponseProto*) build {
+  [self checkInitialized];
+  return [self buildPartial];
+}
+- (ExchangeGemsForResourcesResponseProto*) buildPartial {
+  ExchangeGemsForResourcesResponseProto* returnMe = [[result retain] autorelease];
+  self.result = nil;
+  return returnMe;
+}
+- (ExchangeGemsForResourcesResponseProto_Builder*) mergeFrom:(ExchangeGemsForResourcesResponseProto*) other {
+  if (other == [ExchangeGemsForResourcesResponseProto defaultInstance]) {
+    return self;
+  }
+  if (other.hasSender) {
+    [self mergeSender:other.sender];
+  }
+  if (other.hasStatus) {
+    [self setStatus:other.status];
+  }
+  [self mergeUnknownFields:other.unknownFields];
+  return self;
+}
+- (ExchangeGemsForResourcesResponseProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input {
+  return [self mergeFromCodedInputStream:input extensionRegistry:[PBExtensionRegistry emptyRegistry]];
+}
+- (ExchangeGemsForResourcesResponseProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  PBUnknownFieldSet_Builder* unknownFields = [PBUnknownFieldSet builderWithUnknownFields:self.unknownFields];
+  while (YES) {
+    int32_t tag = [input readTag];
+    switch (tag) {
+      case 0:
+        [self setUnknownFields:[unknownFields build]];
+        return self;
+      default: {
+        if (![self parseUnknownField:input unknownFields:unknownFields extensionRegistry:extensionRegistry tag:tag]) {
+          [self setUnknownFields:[unknownFields build]];
+          return self;
+        }
+        break;
+      }
+      case 10: {
+        MinimumUserProto_Builder* subBuilder = [MinimumUserProto builder];
+        if (self.hasSender) {
+          [subBuilder mergeFrom:self.sender];
+        }
+        [input readMessage:subBuilder extensionRegistry:extensionRegistry];
+        [self setSender:[subBuilder buildPartial]];
+        break;
+      }
+      case 16: {
+        int32_t value = [input readEnum];
+        if (ExchangeGemsForResourcesResponseProto_ExchangeGemsForResourcesStatusIsValidValue(value)) {
+          [self setStatus:value];
+        } else {
+          [unknownFields mergeVarintField:2 value:value];
+        }
+        break;
+      }
+    }
+  }
+}
+- (BOOL) hasSender {
+  return result.hasSender;
+}
+- (MinimumUserProto*) sender {
+  return result.sender;
+}
+- (ExchangeGemsForResourcesResponseProto_Builder*) setSender:(MinimumUserProto*) value {
+  result.hasSender = YES;
+  result.sender = value;
+  return self;
+}
+- (ExchangeGemsForResourcesResponseProto_Builder*) setSenderBuilder:(MinimumUserProto_Builder*) builderForValue {
+  return [self setSender:[builderForValue build]];
+}
+- (ExchangeGemsForResourcesResponseProto_Builder*) mergeSender:(MinimumUserProto*) value {
+  if (result.hasSender &&
+      result.sender != [MinimumUserProto defaultInstance]) {
+    result.sender =
+      [[[MinimumUserProto builderWithPrototype:result.sender] mergeFrom:value] buildPartial];
+  } else {
+    result.sender = value;
+  }
+  result.hasSender = YES;
+  return self;
+}
+- (ExchangeGemsForResourcesResponseProto_Builder*) clearSender {
+  result.hasSender = NO;
+  result.sender = [MinimumUserProto defaultInstance];
+  return self;
+}
+- (BOOL) hasStatus {
+  return result.hasStatus;
+}
+- (ExchangeGemsForResourcesResponseProto_ExchangeGemsForResourcesStatus) status {
+  return result.status;
+}
+- (ExchangeGemsForResourcesResponseProto_Builder*) setStatus:(ExchangeGemsForResourcesResponseProto_ExchangeGemsForResourcesStatus) value {
+  result.hasStatus = YES;
+  result.status = value;
+  return self;
+}
+- (ExchangeGemsForResourcesResponseProto_Builder*) clearStatus {
+  result.hasStatus = NO;
+  result.status = ExchangeGemsForResourcesResponseProto_ExchangeGemsForResourcesStatusSuccess;
   return self;
 }
 @end

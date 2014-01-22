@@ -9,125 +9,83 @@
 #import "InAppPurchaseData.h"
 #import "Globals.h"
 #import "IAPHelper.h"
+#import "OutgoingEventController.h"
+#import "GameState.h"
 
 @implementation InAppPurchaseData
-@dynamic primaryTitle;
-@dynamic secondaryTitle;
-@dynamic price;
-@dynamic rewardPicName;
-@dynamic isGold;
-@dynamic salePrice;
-@dynamic discount;
 
--(NSString *) rewardPicName
-{
-  Globals *gl = [Globals sharedGlobals];
-  InAppPurchasePackageProto *p = [gl packageForProductId:_product.productIdentifier];
-  return p.imageName;
-}
-
-- (BOOL) isGold {
-  Globals *gl = [Globals sharedGlobals];
-  InAppPurchasePackageProto *p = [gl packageForProductId:_product.productIdentifier];
-  return p.isGold;
-}
-
-+(void) postAdTakeoverResignedNotificationForSender:(id)sender
-{
-  [[NSNotificationCenter defaultCenter]
-   postNotificationName:[InAppPurchaseData adTakeoverResignedNotification]
-   object:sender];
-}
-
-+(NSString *) adTakeoverResignedNotification
-{
-  return @"adTakeoverResignedNotification";
-}
+@synthesize primaryTitle, moneyPrice, rewardPicName;
+@synthesize resourceType, amountGained, gemPrice;
 
 #pragma InAppPurchaseData
-- (BOOL) purchaseAvailable
-{
-  return YES;
-}
 
--(void) makePurchaseWithViewController:(UIViewController *)controller
-{
-  [[IAPHelper sharedIAPHelper] buyProductIdentifier:_saleProduct ? _saleProduct : _product];
-}
-
--(NSString *) primaryTitle
-{
-  return _product.localizedTitle;
-}
-
--(NSString *) price
-{
-  return [[IAPHelper sharedIAPHelper] priceForProduct:_product];
-}
-
-- (NSString *) salePrice {
-  return _saleProduct ? [[IAPHelper sharedIAPHelper] priceForProduct:_saleProduct] : nil;
-}
-
-- (int) discount {
-  if (_saleProduct) {
-    float normPrice = _product.price.floatValue;
-    float salePrice = _saleProduct.price.floatValue;
-    return (int)roundf((normPrice-salePrice)/normPrice*100.f);
+- (BOOL) makePurchaseWithDelegate:(id)delegate {
+  if (_product) {
+    [[IAPHelper sharedIAPHelper] buyProductIdentifier:_product withDelegate:delegate];
+    return YES;
   }
-  return 0;
-}
-
--(NSString *) secondaryTitle
-{
-  Globals *gl = [Globals sharedGlobals];
-  InAppPurchasePackageProto *p = [gl packageForProductId:_product.productIdentifier];
-  return [NSString stringWithFormat:@"%@",[Globals commafyNumber:p.currencyAmount]];
-}
-
-
-#pragma Constant Strings
-+(NSString *) unknownPrice
-{
-  return UNKNOWN_PRICE_STR;
-}
-
-+(NSString *) freePrice
-{
-  return FREE_PRICE_STR;
+  return NO;
 }
 
 #pragma mark  Create/Destroy
--(id) initWithProduct:(SKProduct *)product saleProduct:(SKProduct *)saleProduct
-{
-  self = [super init];
-  if (self) {
+- (id) initWithProduct:(SKProduct *)product {
+  if ((self = [super init])) {
     _product  = product;
-    _saleProduct = saleProduct;
+    
+    Globals *gl = [Globals sharedGlobals];
+    
+    primaryTitle = _product.localizedTitle;
+    moneyPrice = [[IAPHelper sharedIAPHelper] priceForProduct:_product];
+    resourceType = ResourceTypeGems;
+    
+    InAppPurchasePackageProto *p = [gl packageForProductId:_product.productIdentifier];
+    rewardPicName = p.imageName;
+    amountGained = p.currencyAmount;
   }
   return self;
 }
 
-+(id<InAppPurchaseData>) createWithProduct:(SKProduct *)product saleProduct:(SKProduct *)saleProduct
-{
-  InAppPurchaseData *offer = [[InAppPurchaseData alloc] initWithProduct:product saleProduct:saleProduct];
++ (id<InAppPurchaseData>) createWithProduct:(SKProduct *)product {
+  InAppPurchaseData *offer = [[InAppPurchaseData alloc] initWithProduct:product];
   return offer;
 }
 
-+(NSArray *) allSponsoredOffers
-{
-  NSMutableArray *offers = [NSMutableArray array];
-  //  [offers addObject:[AdColonySponsoredOffer    create]];
-  //  [offers addObject:[TapJoySponsoredOffer      create]];
-  /*
-   * Disabled Sponsored offers:(Short Term)
-   *
-   [offers addObject:[FlurryClipsSponsoredOffer create]];
-   [offers addObject:[TapJoySponsoredOffer      create]];
-   [offers addObject:[TwitterSponsoredOffer     create]];
-   [offers addObject:[FacebookSponsoredOffer create]];
-   *
-   */
-  return offers;
+@end
+
+@implementation ResourcePurchaseData
+
+@synthesize primaryTitle, moneyPrice, rewardPicName;
+@synthesize resourceType, amountGained, gemPrice;
+
+- (id) initWithResourceType:(ResourceType)type amount:(int)amount title:(NSString *)title {
+  if ((self = [super init])) {
+    primaryTitle = title;
+    resourceType = type;
+    amountGained = amount;
+    
+    Globals *gl = [Globals sharedGlobals];
+    gemPrice = [gl calculateGemConversionForResourceType:type amount:amount];
+  }
+  return self;
 }
+
++ (id<InAppPurchaseData>)createWithResourceType:(ResourceType)type amount:(int)amount title:(NSString *)title {
+  return [[self alloc] initWithResourceType:type amount:amount title:title];
+}
+
+- (BOOL) makePurchaseWithDelegate:(id)delegate {
+  GameState *gs = [GameState sharedGameState];
+  if (resourceType == ResourceTypeCash && (gs.maxCash-gs.silver < amountGained || amountGained <= 0)) {
+    [Globals addAlertNotification:@"Not enough storage!"];
+  } else if (resourceType == ResourceTypeOil && (gs.maxOil-gs.oil < amountGained || amountGained <= 0)) {
+    [Globals addAlertNotification:@"Not enough storage!"];
+  } else if (gemPrice > gs.gold) {
+    [Globals addAlertNotification:@"Need more gold!"];
+  } else {
+    [[OutgoingEventController sharedOutgoingEventController] exchangeGemsForResources:gemPrice resources:amountGained resType:resourceType delegate:delegate];
+    return YES;
+  }
+  return NO;
+}
+
 @end

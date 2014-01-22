@@ -6,6 +6,8 @@
 @class FullUserMonsterProto_Builder;
 @class MinimumUserMonsterSellProto;
 @class MinimumUserMonsterSellProto_Builder;
+@class MonsterLevelInfoProto;
+@class MonsterLevelInfoProto_Builder;
 @class MonsterProto;
 @class MonsterProto_Builder;
 @class UserCurrentMonsterTeamProto;
@@ -18,6 +20,8 @@
 @class UserMonsterCurrentExpProto_Builder;
 @class UserMonsterCurrentHealthProto;
 @class UserMonsterCurrentHealthProto_Builder;
+@class UserMonsterEvolutionProto;
+@class UserMonsterEvolutionProto_Builder;
 @class UserMonsterHealingProto;
 @class UserMonsterHealingProto_Builder;
 typedef enum {
@@ -26,6 +30,7 @@ typedef enum {
   MonsterProto_MonsterQualityUltra = 3,
   MonsterProto_MonsterQualityEpic = 4,
   MonsterProto_MonsterQualityLegendary = 5,
+  MonsterProto_MonsterQualityEvo = 6,
 } MonsterProto_MonsterQuality;
 
 BOOL MonsterProto_MonsterQualityIsValidValue(MonsterProto_MonsterQuality value);
@@ -36,6 +41,7 @@ typedef enum {
   MonsterProto_MonsterElementWater = 3,
   MonsterProto_MonsterElementLightning = 4,
   MonsterProto_MonsterElementDarkness = 5,
+  MonsterProto_MonsterElementRock = 6,
 } MonsterProto_MonsterElement;
 
 BOOL MonsterProto_MonsterElementIsValidValue(MonsterProto_MonsterElement value);
@@ -51,8 +57,13 @@ BOOL MonsterProto_MonsterElementIsValidValue(MonsterProto_MonsterElement value);
 @private
   BOOL hasAttackLevelMultiplier_:1;
   BOOL hasHpLevelMultiplier_:1;
+  BOOL hasEnhancingFeederExp_:1;
+  BOOL hasNumCatalystMonstersRequired_:1;
+  BOOL hasMinutesToEvolve_:1;
+  BOOL hasEvolutionCatalystMonsterId_:1;
   BOOL hasEvolutionMonsterId_:1;
   BOOL hasMaxLevel_:1;
+  BOOL hasElementSixDmg_:1;
   BOOL hasElementFiveDmg_:1;
   BOOL hasElementFourDmg_:1;
   BOOL hasElementThreeDmg_:1;
@@ -61,22 +72,27 @@ BOOL MonsterProto_MonsterElementIsValidValue(MonsterProto_MonsterElement value);
   BOOL hasMinutesToCombinePieces_:1;
   BOOL hasNumPuzzlePieces_:1;
   BOOL hasBaseHp_:1;
-  BOOL hasEvolutionLevel_:1;
   BOOL hasMonsterId_:1;
+  BOOL hasEvolutionLevel_:1;
   BOOL hasImagePrefix_:1;
   BOOL hasDisplayName_:1;
+  BOOL hasDescription_:1;
   BOOL hasMonsterGroup_:1;
   BOOL hasName_:1;
   BOOL hasCarrotRecruited_:1;
   BOOL hasCarrotDefeated_:1;
   BOOL hasCarrotEvolved_:1;
-  BOOL hasDescription_:1;
-  BOOL hasElement_:1;
   BOOL hasQuality_:1;
+  BOOL hasMonsterElement_:1;
   Float32 attackLevelMultiplier;
   Float32 hpLevelMultiplier;
+  int32_t enhancingFeederExp;
+  int32_t numCatalystMonstersRequired;
+  int32_t minutesToEvolve;
+  int32_t evolutionCatalystMonsterId;
   int32_t evolutionMonsterId;
   int32_t maxLevel;
+  int32_t elementSixDmg;
   int32_t elementFiveDmg;
   int32_t elementFourDmg;
   int32_t elementThreeDmg;
@@ -85,18 +101,19 @@ BOOL MonsterProto_MonsterElementIsValidValue(MonsterProto_MonsterElement value);
   int32_t minutesToCombinePieces;
   int32_t numPuzzlePieces;
   int32_t baseHp;
-  int32_t evolutionLevel;
   int32_t monsterId;
+  int32_t evolutionLevel;
   NSString* imagePrefix;
   NSString* displayName;
+  NSString* description;
   NSString* monsterGroup;
   NSString* name;
   NSString* carrotRecruited;
   NSString* carrotDefeated;
   NSString* carrotEvolved;
-  NSString* description;
-  MonsterProto_MonsterElement element;
   MonsterProto_MonsterQuality quality;
+  MonsterProto_MonsterElement monsterElement;
+  NSMutableArray* mutableLvlInfoList;
 }
 - (BOOL) hasMonsterId;
 - (BOOL) hasName;
@@ -104,7 +121,7 @@ BOOL MonsterProto_MonsterElementIsValidValue(MonsterProto_MonsterElement value);
 - (BOOL) hasQuality;
 - (BOOL) hasEvolutionLevel;
 - (BOOL) hasDisplayName;
-- (BOOL) hasElement;
+- (BOOL) hasMonsterElement;
 - (BOOL) hasBaseHp;
 - (BOOL) hasImagePrefix;
 - (BOOL) hasNumPuzzlePieces;
@@ -114,21 +131,26 @@ BOOL MonsterProto_MonsterElementIsValidValue(MonsterProto_MonsterElement value);
 - (BOOL) hasElementThreeDmg;
 - (BOOL) hasElementFourDmg;
 - (BOOL) hasElementFiveDmg;
+- (BOOL) hasElementSixDmg;
 - (BOOL) hasHpLevelMultiplier;
 - (BOOL) hasAttackLevelMultiplier;
 - (BOOL) hasMaxLevel;
 - (BOOL) hasEvolutionMonsterId;
+- (BOOL) hasEvolutionCatalystMonsterId;
+- (BOOL) hasMinutesToEvolve;
+- (BOOL) hasNumCatalystMonstersRequired;
 - (BOOL) hasCarrotRecruited;
 - (BOOL) hasCarrotDefeated;
 - (BOOL) hasCarrotEvolved;
 - (BOOL) hasDescription;
+- (BOOL) hasEnhancingFeederExp;
 @property (readonly) int32_t monsterId;
 @property (readonly, retain) NSString* name;
 @property (readonly, retain) NSString* monsterGroup;
 @property (readonly) MonsterProto_MonsterQuality quality;
 @property (readonly) int32_t evolutionLevel;
 @property (readonly, retain) NSString* displayName;
-@property (readonly) MonsterProto_MonsterElement element;
+@property (readonly) MonsterProto_MonsterElement monsterElement;
 @property (readonly) int32_t baseHp;
 @property (readonly, retain) NSString* imagePrefix;
 @property (readonly) int32_t numPuzzlePieces;
@@ -138,14 +160,21 @@ BOOL MonsterProto_MonsterElementIsValidValue(MonsterProto_MonsterElement value);
 @property (readonly) int32_t elementThreeDmg;
 @property (readonly) int32_t elementFourDmg;
 @property (readonly) int32_t elementFiveDmg;
+@property (readonly) int32_t elementSixDmg;
 @property (readonly) Float32 hpLevelMultiplier;
 @property (readonly) Float32 attackLevelMultiplier;
 @property (readonly) int32_t maxLevel;
 @property (readonly) int32_t evolutionMonsterId;
+@property (readonly) int32_t evolutionCatalystMonsterId;
+@property (readonly) int32_t minutesToEvolve;
+@property (readonly) int32_t numCatalystMonstersRequired;
 @property (readonly, retain) NSString* carrotRecruited;
 @property (readonly, retain) NSString* carrotDefeated;
 @property (readonly, retain) NSString* carrotEvolved;
 @property (readonly, retain) NSString* description;
+@property (readonly) int32_t enhancingFeederExp;
+- (NSArray*) lvlInfoList;
+- (MonsterLevelInfoProto*) lvlInfoAtIndex:(int32_t) index;
 
 + (MonsterProto*) defaultInstance;
 - (MonsterProto*) defaultInstance;
@@ -211,10 +240,10 @@ BOOL MonsterProto_MonsterElementIsValidValue(MonsterProto_MonsterElement value);
 - (MonsterProto_Builder*) setDisplayName:(NSString*) value;
 - (MonsterProto_Builder*) clearDisplayName;
 
-- (BOOL) hasElement;
-- (MonsterProto_MonsterElement) element;
-- (MonsterProto_Builder*) setElement:(MonsterProto_MonsterElement) value;
-- (MonsterProto_Builder*) clearElement;
+- (BOOL) hasMonsterElement;
+- (MonsterProto_MonsterElement) monsterElement;
+- (MonsterProto_Builder*) setMonsterElement:(MonsterProto_MonsterElement) value;
+- (MonsterProto_Builder*) clearMonsterElement;
 
 - (BOOL) hasBaseHp;
 - (int32_t) baseHp;
@@ -261,6 +290,11 @@ BOOL MonsterProto_MonsterElementIsValidValue(MonsterProto_MonsterElement value);
 - (MonsterProto_Builder*) setElementFiveDmg:(int32_t) value;
 - (MonsterProto_Builder*) clearElementFiveDmg;
 
+- (BOOL) hasElementSixDmg;
+- (int32_t) elementSixDmg;
+- (MonsterProto_Builder*) setElementSixDmg:(int32_t) value;
+- (MonsterProto_Builder*) clearElementSixDmg;
+
 - (BOOL) hasHpLevelMultiplier;
 - (Float32) hpLevelMultiplier;
 - (MonsterProto_Builder*) setHpLevelMultiplier:(Float32) value;
@@ -281,6 +315,21 @@ BOOL MonsterProto_MonsterElementIsValidValue(MonsterProto_MonsterElement value);
 - (MonsterProto_Builder*) setEvolutionMonsterId:(int32_t) value;
 - (MonsterProto_Builder*) clearEvolutionMonsterId;
 
+- (BOOL) hasEvolutionCatalystMonsterId;
+- (int32_t) evolutionCatalystMonsterId;
+- (MonsterProto_Builder*) setEvolutionCatalystMonsterId:(int32_t) value;
+- (MonsterProto_Builder*) clearEvolutionCatalystMonsterId;
+
+- (BOOL) hasMinutesToEvolve;
+- (int32_t) minutesToEvolve;
+- (MonsterProto_Builder*) setMinutesToEvolve:(int32_t) value;
+- (MonsterProto_Builder*) clearMinutesToEvolve;
+
+- (BOOL) hasNumCatalystMonstersRequired;
+- (int32_t) numCatalystMonstersRequired;
+- (MonsterProto_Builder*) setNumCatalystMonstersRequired:(int32_t) value;
+- (MonsterProto_Builder*) clearNumCatalystMonstersRequired;
+
 - (BOOL) hasCarrotRecruited;
 - (NSString*) carrotRecruited;
 - (MonsterProto_Builder*) setCarrotRecruited:(NSString*) value;
@@ -300,6 +349,102 @@ BOOL MonsterProto_MonsterElementIsValidValue(MonsterProto_MonsterElement value);
 - (NSString*) description;
 - (MonsterProto_Builder*) setDescription:(NSString*) value;
 - (MonsterProto_Builder*) clearDescription;
+
+- (BOOL) hasEnhancingFeederExp;
+- (int32_t) enhancingFeederExp;
+- (MonsterProto_Builder*) setEnhancingFeederExp:(int32_t) value;
+- (MonsterProto_Builder*) clearEnhancingFeederExp;
+
+- (NSArray*) lvlInfoList;
+- (MonsterLevelInfoProto*) lvlInfoAtIndex:(int32_t) index;
+- (MonsterProto_Builder*) replaceLvlInfoAtIndex:(int32_t) index with:(MonsterLevelInfoProto*) value;
+- (MonsterProto_Builder*) addLvlInfo:(MonsterLevelInfoProto*) value;
+- (MonsterProto_Builder*) addAllLvlInfo:(NSArray*) values;
+- (MonsterProto_Builder*) clearLvlInfoList;
+@end
+
+@interface MonsterLevelInfoProto : PBGeneratedMessage {
+@private
+  BOOL hasLvl_:1;
+  BOOL hasHp_:1;
+  BOOL hasAttack_:1;
+  BOOL hasCurLvlRequiredExp_:1;
+  BOOL hasFeederExp_:1;
+  int32_t lvl;
+  int32_t hp;
+  int32_t attack;
+  int32_t curLvlRequiredExp;
+  int32_t feederExp;
+}
+- (BOOL) hasLvl;
+- (BOOL) hasHp;
+- (BOOL) hasAttack;
+- (BOOL) hasCurLvlRequiredExp;
+- (BOOL) hasFeederExp;
+@property (readonly) int32_t lvl;
+@property (readonly) int32_t hp;
+@property (readonly) int32_t attack;
+@property (readonly) int32_t curLvlRequiredExp;
+@property (readonly) int32_t feederExp;
+
++ (MonsterLevelInfoProto*) defaultInstance;
+- (MonsterLevelInfoProto*) defaultInstance;
+
+- (BOOL) isInitialized;
+- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output;
+- (MonsterLevelInfoProto_Builder*) builder;
++ (MonsterLevelInfoProto_Builder*) builder;
++ (MonsterLevelInfoProto_Builder*) builderWithPrototype:(MonsterLevelInfoProto*) prototype;
+
++ (MonsterLevelInfoProto*) parseFromData:(NSData*) data;
++ (MonsterLevelInfoProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (MonsterLevelInfoProto*) parseFromInputStream:(NSInputStream*) input;
++ (MonsterLevelInfoProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (MonsterLevelInfoProto*) parseFromCodedInputStream:(PBCodedInputStream*) input;
++ (MonsterLevelInfoProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+@end
+
+@interface MonsterLevelInfoProto_Builder : PBGeneratedMessage_Builder {
+@private
+  MonsterLevelInfoProto* result;
+}
+
+- (MonsterLevelInfoProto*) defaultInstance;
+
+- (MonsterLevelInfoProto_Builder*) clear;
+- (MonsterLevelInfoProto_Builder*) clone;
+
+- (MonsterLevelInfoProto*) build;
+- (MonsterLevelInfoProto*) buildPartial;
+
+- (MonsterLevelInfoProto_Builder*) mergeFrom:(MonsterLevelInfoProto*) other;
+- (MonsterLevelInfoProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input;
+- (MonsterLevelInfoProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+
+- (BOOL) hasLvl;
+- (int32_t) lvl;
+- (MonsterLevelInfoProto_Builder*) setLvl:(int32_t) value;
+- (MonsterLevelInfoProto_Builder*) clearLvl;
+
+- (BOOL) hasHp;
+- (int32_t) hp;
+- (MonsterLevelInfoProto_Builder*) setHp:(int32_t) value;
+- (MonsterLevelInfoProto_Builder*) clearHp;
+
+- (BOOL) hasAttack;
+- (int32_t) attack;
+- (MonsterLevelInfoProto_Builder*) setAttack:(int32_t) value;
+- (MonsterLevelInfoProto_Builder*) clearAttack;
+
+- (BOOL) hasCurLvlRequiredExp;
+- (int32_t) curLvlRequiredExp;
+- (MonsterLevelInfoProto_Builder*) setCurLvlRequiredExp:(int32_t) value;
+- (MonsterLevelInfoProto_Builder*) clearCurLvlRequiredExp;
+
+- (BOOL) hasFeederExp;
+- (int32_t) feederExp;
+- (MonsterLevelInfoProto_Builder*) setFeederExp:(int32_t) value;
+- (MonsterLevelInfoProto_Builder*) clearFeederExp;
 @end
 
 @interface FullUserMonsterProto : PBGeneratedMessage {
@@ -433,19 +578,27 @@ BOOL MonsterProto_MonsterElementIsValidValue(MonsterProto_MonsterElement value);
 
 @interface UserMonsterHealingProto : PBGeneratedMessage {
 @private
+  BOOL hasHealthProgress_:1;
   BOOL hasUserMonsterId_:1;
-  BOOL hasExpectedStartTimeMillis_:1;
+  BOOL hasQueuedTimeMillis_:1;
   BOOL hasUserId_:1;
+  BOOL hasPriority_:1;
+  Float32 healthProgress;
   int64_t userMonsterId;
-  int64_t expectedStartTimeMillis;
+  int64_t queuedTimeMillis;
   int32_t userId;
+  int32_t priority;
 }
 - (BOOL) hasUserId;
 - (BOOL) hasUserMonsterId;
-- (BOOL) hasExpectedStartTimeMillis;
+- (BOOL) hasQueuedTimeMillis;
+- (BOOL) hasHealthProgress;
+- (BOOL) hasPriority;
 @property (readonly) int32_t userId;
 @property (readonly) int64_t userMonsterId;
-@property (readonly) int64_t expectedStartTimeMillis;
+@property (readonly) int64_t queuedTimeMillis;
+@property (readonly) Float32 healthProgress;
+@property (readonly) int32_t priority;
 
 + (UserMonsterHealingProto*) defaultInstance;
 - (UserMonsterHealingProto*) defaultInstance;
@@ -491,10 +644,20 @@ BOOL MonsterProto_MonsterElementIsValidValue(MonsterProto_MonsterElement value);
 - (UserMonsterHealingProto_Builder*) setUserMonsterId:(int64_t) value;
 - (UserMonsterHealingProto_Builder*) clearUserMonsterId;
 
-- (BOOL) hasExpectedStartTimeMillis;
-- (int64_t) expectedStartTimeMillis;
-- (UserMonsterHealingProto_Builder*) setExpectedStartTimeMillis:(int64_t) value;
-- (UserMonsterHealingProto_Builder*) clearExpectedStartTimeMillis;
+- (BOOL) hasQueuedTimeMillis;
+- (int64_t) queuedTimeMillis;
+- (UserMonsterHealingProto_Builder*) setQueuedTimeMillis:(int64_t) value;
+- (UserMonsterHealingProto_Builder*) clearQueuedTimeMillis;
+
+- (BOOL) hasHealthProgress;
+- (Float32) healthProgress;
+- (UserMonsterHealingProto_Builder*) setHealthProgress:(Float32) value;
+- (UserMonsterHealingProto_Builder*) clearHealthProgress;
+
+- (BOOL) hasPriority;
+- (int32_t) priority;
+- (UserMonsterHealingProto_Builder*) setPriority:(int32_t) value;
+- (UserMonsterHealingProto_Builder*) clearPriority;
 @end
 
 @interface UserMonsterCurrentHealthProto : PBGeneratedMessage {
@@ -627,13 +790,17 @@ BOOL MonsterProto_MonsterElementIsValidValue(MonsterProto_MonsterElement value);
 @private
   BOOL hasUserMonsterId_:1;
   BOOL hasExpectedStartTimeMillis_:1;
+  BOOL hasEnhancingCost_:1;
   int64_t userMonsterId;
   int64_t expectedStartTimeMillis;
+  int32_t enhancingCost;
 }
 - (BOOL) hasUserMonsterId;
 - (BOOL) hasExpectedStartTimeMillis;
+- (BOOL) hasEnhancingCost;
 @property (readonly) int64_t userMonsterId;
 @property (readonly) int64_t expectedStartTimeMillis;
+@property (readonly) int32_t enhancingCost;
 
 + (UserEnhancementItemProto*) defaultInstance;
 - (UserEnhancementItemProto*) defaultInstance;
@@ -678,6 +845,11 @@ BOOL MonsterProto_MonsterElementIsValidValue(MonsterProto_MonsterElement value);
 - (int64_t) expectedStartTimeMillis;
 - (UserEnhancementItemProto_Builder*) setExpectedStartTimeMillis:(int64_t) value;
 - (UserEnhancementItemProto_Builder*) clearExpectedStartTimeMillis;
+
+- (BOOL) hasEnhancingCost;
+- (int32_t) enhancingCost;
+- (UserEnhancementItemProto_Builder*) setEnhancingCost:(int32_t) value;
+- (UserEnhancementItemProto_Builder*) clearEnhancingCost;
 @end
 
 @interface UserMonsterCurrentExpProto : PBGeneratedMessage {
@@ -859,5 +1031,72 @@ BOOL MonsterProto_MonsterElementIsValidValue(MonsterProto_MonsterElement value);
 - (UserCurrentMonsterTeamProto_Builder*) addCurrentTeam:(FullUserMonsterProto*) value;
 - (UserCurrentMonsterTeamProto_Builder*) addAllCurrentTeam:(NSArray*) values;
 - (UserCurrentMonsterTeamProto_Builder*) clearCurrentTeamList;
+@end
+
+@interface UserMonsterEvolutionProto : PBGeneratedMessage {
+@private
+  BOOL hasCatalystUserMonsterId_:1;
+  BOOL hasStartTime_:1;
+  int64_t catalystUserMonsterId;
+  int64_t startTime;
+  NSMutableArray* mutableUserMonsterIdsList;
+}
+- (BOOL) hasCatalystUserMonsterId;
+- (BOOL) hasStartTime;
+@property (readonly) int64_t catalystUserMonsterId;
+@property (readonly) int64_t startTime;
+- (NSArray*) userMonsterIdsList;
+- (int64_t) userMonsterIdsAtIndex:(int32_t) index;
+
++ (UserMonsterEvolutionProto*) defaultInstance;
+- (UserMonsterEvolutionProto*) defaultInstance;
+
+- (BOOL) isInitialized;
+- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output;
+- (UserMonsterEvolutionProto_Builder*) builder;
++ (UserMonsterEvolutionProto_Builder*) builder;
++ (UserMonsterEvolutionProto_Builder*) builderWithPrototype:(UserMonsterEvolutionProto*) prototype;
+
++ (UserMonsterEvolutionProto*) parseFromData:(NSData*) data;
++ (UserMonsterEvolutionProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (UserMonsterEvolutionProto*) parseFromInputStream:(NSInputStream*) input;
++ (UserMonsterEvolutionProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (UserMonsterEvolutionProto*) parseFromCodedInputStream:(PBCodedInputStream*) input;
++ (UserMonsterEvolutionProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+@end
+
+@interface UserMonsterEvolutionProto_Builder : PBGeneratedMessage_Builder {
+@private
+  UserMonsterEvolutionProto* result;
+}
+
+- (UserMonsterEvolutionProto*) defaultInstance;
+
+- (UserMonsterEvolutionProto_Builder*) clear;
+- (UserMonsterEvolutionProto_Builder*) clone;
+
+- (UserMonsterEvolutionProto*) build;
+- (UserMonsterEvolutionProto*) buildPartial;
+
+- (UserMonsterEvolutionProto_Builder*) mergeFrom:(UserMonsterEvolutionProto*) other;
+- (UserMonsterEvolutionProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input;
+- (UserMonsterEvolutionProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+
+- (BOOL) hasCatalystUserMonsterId;
+- (int64_t) catalystUserMonsterId;
+- (UserMonsterEvolutionProto_Builder*) setCatalystUserMonsterId:(int64_t) value;
+- (UserMonsterEvolutionProto_Builder*) clearCatalystUserMonsterId;
+
+- (NSArray*) userMonsterIdsList;
+- (int64_t) userMonsterIdsAtIndex:(int32_t) index;
+- (UserMonsterEvolutionProto_Builder*) replaceUserMonsterIdsAtIndex:(int32_t) index with:(int64_t) value;
+- (UserMonsterEvolutionProto_Builder*) addUserMonsterIds:(int64_t) value;
+- (UserMonsterEvolutionProto_Builder*) addAllUserMonsterIds:(NSArray*) values;
+- (UserMonsterEvolutionProto_Builder*) clearUserMonsterIdsList;
+
+- (BOOL) hasStartTime;
+- (int64_t) startTime;
+- (UserMonsterEvolutionProto_Builder*) setStartTime:(int64_t) value;
+- (UserMonsterEvolutionProto_Builder*) clearStartTime;
 @end
 

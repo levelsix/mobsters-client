@@ -19,10 +19,14 @@
 @property (nonatomic, strong) IBOutlet UIImageView *buildingImageView;
 @property (nonatomic, strong) IBOutlet UIImageView *bgdImageView;
 @property (nonatomic, strong) IBOutlet UIImageView *bgdInfoImageView;
+@property (nonatomic, strong) IBOutlet UIImageView *clockIcon;
 @property (nonatomic, strong) IBOutlet UIButton *infoButton;
 
 @property (nonatomic, strong) IBOutlet UILabel *nameDescriptionLabel;
 @property (nonatomic, strong) IBOutlet UILabel *descriptionLabel;
+
+@property (nonatomic, strong) IBOutlet UIView *availableView;
+@property (nonatomic, strong) IBOutlet UILabel *unavailableLabel;
 
 @property (nonatomic, strong) IBOutlet UIView *mainView;
 @property (nonatomic, strong) IBOutlet UIView *descriptionView;

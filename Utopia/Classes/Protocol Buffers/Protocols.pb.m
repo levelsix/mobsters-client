@@ -60,6 +60,7 @@ BOOL EventProtocolRequestIsValidValue(EventProtocolRequest value) {
     case EventProtocolRequestCFinishNormStructWaittimeWithDiamondsEvent:
     case EventProtocolRequestCNormStructWaitCompleteEvent:
     case EventProtocolRequestCLoadPlayerCityEvent:
+    case EventProtocolRequestCExchangeGemsForResourcesEvent:
     case EventProtocolRequestCQuestAcceptEvent:
     case EventProtocolRequestCQuestProgressEvent:
     case EventProtocolRequestCQuestRedeemEvent:
@@ -84,7 +85,9 @@ BOOL EventProtocolRequestIsValidValue(EventProtocolRequest value) {
     case EventProtocolRequestCPickLockBoxEvent:
     case EventProtocolRequestCRetrieveTournamentRankingsEvent:
     case EventProtocolRequestCSubmitMonsterEnhancementEvent:
+    case EventProtocolRequestCEvolveMonsterEvent:
     case EventProtocolRequestCPurchaseBoosterPackEvent:
+    case EventProtocolRequestCEvolutionFinishedEvent:
     case EventProtocolRequestCChangeClanJoinTypeEvent:
     case EventProtocolRequestCPrivateChatPostEvent:
     case EventProtocolRequestCRetrievePrivateChatPostEvent:
@@ -95,7 +98,6 @@ BOOL EventProtocolRequestIsValidValue(EventProtocolRequest value) {
     case EventProtocolRequestCQueueUpEvent:
     case EventProtocolRequestCUpdateMonsterHealthEvent:
     case EventProtocolRequestCHealMonsterEvent:
-    case EventProtocolRequestCHealMonsterWaitTimeCompleteEvent:
     case EventProtocolRequestCAddMonsterToBattleTeamEvent:
     case EventProtocolRequestCRemoveMonsterFromBattleTeamEvent:
     case EventProtocolRequestCIncreaseMonsterInventorySlotEvent:
@@ -122,6 +124,7 @@ BOOL EventProtocolResponseIsValidValue(EventProtocolResponse value) {
     case EventProtocolResponseSFinishNormStructWaittimeWithDiamondsEvent:
     case EventProtocolResponseSNormStructWaitCompleteEvent:
     case EventProtocolResponseSLoadPlayerCityEvent:
+    case EventProtocolResponseSExchangeGemsForResourcesEvent:
     case EventProtocolResponseSQuestAcceptEvent:
     case EventProtocolResponseSQuestProgressEvent:
     case EventProtocolResponseSQuestRedeemEvent:
@@ -146,7 +149,9 @@ BOOL EventProtocolResponseIsValidValue(EventProtocolResponse value) {
     case EventProtocolResponseSPickLockBoxEvent:
     case EventProtocolResponseSRetrieveTournamentRankingsEvent:
     case EventProtocolResponseSSubmitMonsterEnhancementEvent:
+    case EventProtocolResponseSEvolveMonsterEvent:
     case EventProtocolResponseSPurchaseBoosterPackEvent:
+    case EventProtocolResponseSEvolutionFinishedEvent:
     case EventProtocolResponseSChangeClanJoinTypeEvent:
     case EventProtocolResponseSPrivateChatPostEvent:
     case EventProtocolResponseSRetrievePrivateChatPostEvent:
@@ -157,7 +162,6 @@ BOOL EventProtocolResponseIsValidValue(EventProtocolResponse value) {
     case EventProtocolResponseSQueueUpEvent:
     case EventProtocolResponseSUpdateMonsterHealthEvent:
     case EventProtocolResponseSHealMonsterEvent:
-    case EventProtocolResponseSHealMonsterWaitTimeCompleteEvent:
     case EventProtocolResponseSAddMonsterToBattleTeamEvent:
     case EventProtocolResponseSRemoveMonsterFromBattleTeamEvent:
     case EventProtocolResponseSIncreaseMonsterInventorySlotEvent:

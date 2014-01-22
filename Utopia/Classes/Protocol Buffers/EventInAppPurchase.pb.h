@@ -3,22 +3,35 @@
 #import "ProtocolBuffers.h"
 
 #import "InAppPurchase.pb.h"
+#import "Structure.pb.h"
 #import "User.pb.h"
 
+@class CoordinateProto;
+@class CoordinateProto_Builder;
 @class EarnFreeDiamondsRequestProto;
 @class EarnFreeDiamondsRequestProto_Builder;
 @class EarnFreeDiamondsResponseProto;
 @class EarnFreeDiamondsResponseProto_Builder;
+@class ExchangeGemsForResourcesRequestProto;
+@class ExchangeGemsForResourcesRequestProto_Builder;
+@class ExchangeGemsForResourcesResponseProto;
+@class ExchangeGemsForResourcesResponseProto_Builder;
 @class FullUserProto;
 @class FullUserProto_Builder;
+@class FullUserStructureProto;
+@class FullUserStructureProto_Builder;
 @class GoldSaleProto;
 @class GoldSaleProto_Builder;
+@class HospitalProto;
+@class HospitalProto_Builder;
 @class InAppPurchasePackageProto;
 @class InAppPurchasePackageProto_Builder;
 @class InAppPurchaseRequestProto;
 @class InAppPurchaseRequestProto_Builder;
 @class InAppPurchaseResponseProto;
 @class InAppPurchaseResponseProto_Builder;
+@class LabProto;
+@class LabProto_Builder;
 @class MinimumClanProto;
 @class MinimumClanProto_Builder;
 @class MinimumUserProto;
@@ -26,9 +39,21 @@
 @class MinimumUserProtoWithFacebookId_Builder;
 @class MinimumUserProtoWithLevel;
 @class MinimumUserProtoWithLevel_Builder;
+@class MinimumUserProtoWithMaxResources;
+@class MinimumUserProtoWithMaxResources_Builder;
 @class MinimumUserProto_Builder;
+@class ResidenceProto;
+@class ResidenceProto_Builder;
+@class ResourceGeneratorProto;
+@class ResourceGeneratorProto_Builder;
+@class ResourceStorageProto;
+@class ResourceStorageProto_Builder;
 @class StaticUserLevelInfoProto;
 @class StaticUserLevelInfoProto_Builder;
+@class StructureInfoProto;
+@class StructureInfoProto_Builder;
+@class TownHallProto;
+@class TownHallProto_Builder;
 @class UserFacebookInviteForSlotProto;
 @class UserFacebookInviteForSlotProto_Builder;
 typedef enum {
@@ -47,6 +72,14 @@ typedef enum {
 } EarnFreeDiamondsResponseProto_EarnFreeDiamondsStatus;
 
 BOOL EarnFreeDiamondsResponseProto_EarnFreeDiamondsStatusIsValidValue(EarnFreeDiamondsResponseProto_EarnFreeDiamondsStatus value);
+
+typedef enum {
+  ExchangeGemsForResourcesResponseProto_ExchangeGemsForResourcesStatusSuccess = 1,
+  ExchangeGemsForResourcesResponseProto_ExchangeGemsForResourcesStatusFailOther = 2,
+  ExchangeGemsForResourcesResponseProto_ExchangeGemsForResourcesStatusFailInsufficientGems = 3,
+} ExchangeGemsForResourcesResponseProto_ExchangeGemsForResourcesStatus;
+
+BOOL ExchangeGemsForResourcesResponseProto_ExchangeGemsForResourcesStatusIsValidValue(ExchangeGemsForResourcesResponseProto_ExchangeGemsForResourcesStatus value);
 
 
 @interface EventInAppPurchaseRoot : NSObject {
@@ -388,5 +421,150 @@ BOOL EarnFreeDiamondsResponseProto_EarnFreeDiamondsStatusIsValidValue(EarnFreeDi
 - (EarnFreeDiamondsType) freeDiamondsType;
 - (EarnFreeDiamondsResponseProto_Builder*) setFreeDiamondsType:(EarnFreeDiamondsType) value;
 - (EarnFreeDiamondsResponseProto_Builder*) clearFreeDiamondsType;
+@end
+
+@interface ExchangeGemsForResourcesRequestProto : PBGeneratedMessage {
+@private
+  BOOL hasClientTime_:1;
+  BOOL hasNumGems_:1;
+  BOOL hasNumResources_:1;
+  BOOL hasSender_:1;
+  BOOL hasResourceType_:1;
+  int64_t clientTime;
+  int32_t numGems;
+  int32_t numResources;
+  MinimumUserProto* sender;
+  ResourceType resourceType;
+}
+- (BOOL) hasSender;
+- (BOOL) hasNumGems;
+- (BOOL) hasNumResources;
+- (BOOL) hasResourceType;
+- (BOOL) hasClientTime;
+@property (readonly, retain) MinimumUserProto* sender;
+@property (readonly) int32_t numGems;
+@property (readonly) int32_t numResources;
+@property (readonly) ResourceType resourceType;
+@property (readonly) int64_t clientTime;
+
++ (ExchangeGemsForResourcesRequestProto*) defaultInstance;
+- (ExchangeGemsForResourcesRequestProto*) defaultInstance;
+
+- (BOOL) isInitialized;
+- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output;
+- (ExchangeGemsForResourcesRequestProto_Builder*) builder;
++ (ExchangeGemsForResourcesRequestProto_Builder*) builder;
++ (ExchangeGemsForResourcesRequestProto_Builder*) builderWithPrototype:(ExchangeGemsForResourcesRequestProto*) prototype;
+
++ (ExchangeGemsForResourcesRequestProto*) parseFromData:(NSData*) data;
++ (ExchangeGemsForResourcesRequestProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (ExchangeGemsForResourcesRequestProto*) parseFromInputStream:(NSInputStream*) input;
++ (ExchangeGemsForResourcesRequestProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (ExchangeGemsForResourcesRequestProto*) parseFromCodedInputStream:(PBCodedInputStream*) input;
++ (ExchangeGemsForResourcesRequestProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+@end
+
+@interface ExchangeGemsForResourcesRequestProto_Builder : PBGeneratedMessage_Builder {
+@private
+  ExchangeGemsForResourcesRequestProto* result;
+}
+
+- (ExchangeGemsForResourcesRequestProto*) defaultInstance;
+
+- (ExchangeGemsForResourcesRequestProto_Builder*) clear;
+- (ExchangeGemsForResourcesRequestProto_Builder*) clone;
+
+- (ExchangeGemsForResourcesRequestProto*) build;
+- (ExchangeGemsForResourcesRequestProto*) buildPartial;
+
+- (ExchangeGemsForResourcesRequestProto_Builder*) mergeFrom:(ExchangeGemsForResourcesRequestProto*) other;
+- (ExchangeGemsForResourcesRequestProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input;
+- (ExchangeGemsForResourcesRequestProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+
+- (BOOL) hasSender;
+- (MinimumUserProto*) sender;
+- (ExchangeGemsForResourcesRequestProto_Builder*) setSender:(MinimumUserProto*) value;
+- (ExchangeGemsForResourcesRequestProto_Builder*) setSenderBuilder:(MinimumUserProto_Builder*) builderForValue;
+- (ExchangeGemsForResourcesRequestProto_Builder*) mergeSender:(MinimumUserProto*) value;
+- (ExchangeGemsForResourcesRequestProto_Builder*) clearSender;
+
+- (BOOL) hasNumGems;
+- (int32_t) numGems;
+- (ExchangeGemsForResourcesRequestProto_Builder*) setNumGems:(int32_t) value;
+- (ExchangeGemsForResourcesRequestProto_Builder*) clearNumGems;
+
+- (BOOL) hasNumResources;
+- (int32_t) numResources;
+- (ExchangeGemsForResourcesRequestProto_Builder*) setNumResources:(int32_t) value;
+- (ExchangeGemsForResourcesRequestProto_Builder*) clearNumResources;
+
+- (BOOL) hasResourceType;
+- (ResourceType) resourceType;
+- (ExchangeGemsForResourcesRequestProto_Builder*) setResourceType:(ResourceType) value;
+- (ExchangeGemsForResourcesRequestProto_Builder*) clearResourceType;
+
+- (BOOL) hasClientTime;
+- (int64_t) clientTime;
+- (ExchangeGemsForResourcesRequestProto_Builder*) setClientTime:(int64_t) value;
+- (ExchangeGemsForResourcesRequestProto_Builder*) clearClientTime;
+@end
+
+@interface ExchangeGemsForResourcesResponseProto : PBGeneratedMessage {
+@private
+  BOOL hasSender_:1;
+  BOOL hasStatus_:1;
+  MinimumUserProto* sender;
+  ExchangeGemsForResourcesResponseProto_ExchangeGemsForResourcesStatus status;
+}
+- (BOOL) hasSender;
+- (BOOL) hasStatus;
+@property (readonly, retain) MinimumUserProto* sender;
+@property (readonly) ExchangeGemsForResourcesResponseProto_ExchangeGemsForResourcesStatus status;
+
++ (ExchangeGemsForResourcesResponseProto*) defaultInstance;
+- (ExchangeGemsForResourcesResponseProto*) defaultInstance;
+
+- (BOOL) isInitialized;
+- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output;
+- (ExchangeGemsForResourcesResponseProto_Builder*) builder;
++ (ExchangeGemsForResourcesResponseProto_Builder*) builder;
++ (ExchangeGemsForResourcesResponseProto_Builder*) builderWithPrototype:(ExchangeGemsForResourcesResponseProto*) prototype;
+
++ (ExchangeGemsForResourcesResponseProto*) parseFromData:(NSData*) data;
++ (ExchangeGemsForResourcesResponseProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (ExchangeGemsForResourcesResponseProto*) parseFromInputStream:(NSInputStream*) input;
++ (ExchangeGemsForResourcesResponseProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (ExchangeGemsForResourcesResponseProto*) parseFromCodedInputStream:(PBCodedInputStream*) input;
++ (ExchangeGemsForResourcesResponseProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+@end
+
+@interface ExchangeGemsForResourcesResponseProto_Builder : PBGeneratedMessage_Builder {
+@private
+  ExchangeGemsForResourcesResponseProto* result;
+}
+
+- (ExchangeGemsForResourcesResponseProto*) defaultInstance;
+
+- (ExchangeGemsForResourcesResponseProto_Builder*) clear;
+- (ExchangeGemsForResourcesResponseProto_Builder*) clone;
+
+- (ExchangeGemsForResourcesResponseProto*) build;
+- (ExchangeGemsForResourcesResponseProto*) buildPartial;
+
+- (ExchangeGemsForResourcesResponseProto_Builder*) mergeFrom:(ExchangeGemsForResourcesResponseProto*) other;
+- (ExchangeGemsForResourcesResponseProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input;
+- (ExchangeGemsForResourcesResponseProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+
+- (BOOL) hasSender;
+- (MinimumUserProto*) sender;
+- (ExchangeGemsForResourcesResponseProto_Builder*) setSender:(MinimumUserProto*) value;
+- (ExchangeGemsForResourcesResponseProto_Builder*) setSenderBuilder:(MinimumUserProto_Builder*) builderForValue;
+- (ExchangeGemsForResourcesResponseProto_Builder*) mergeSender:(MinimumUserProto*) value;
+- (ExchangeGemsForResourcesResponseProto_Builder*) clearSender;
+
+- (BOOL) hasStatus;
+- (ExchangeGemsForResourcesResponseProto_ExchangeGemsForResourcesStatus) status;
+- (ExchangeGemsForResourcesResponseProto_Builder*) setStatus:(ExchangeGemsForResourcesResponseProto_ExchangeGemsForResourcesStatus) value;
+- (ExchangeGemsForResourcesResponseProto_Builder*) clearStatus;
 @end
 

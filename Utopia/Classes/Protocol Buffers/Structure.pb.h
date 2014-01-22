@@ -42,6 +42,7 @@ typedef enum {
   StructureInfoProto_StructTypeResidence = 4,
   StructureInfoProto_StructTypeTownHall = 5,
   StructureInfoProto_StructTypeLab = 6,
+  StructureInfoProto_StructTypeEvo = 7,
 } StructureInfoProto_StructType;
 
 BOOL StructureInfoProto_StructTypeIsValidValue(StructureInfoProto_StructType value);

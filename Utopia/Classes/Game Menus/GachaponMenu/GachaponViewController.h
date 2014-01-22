@@ -24,8 +24,10 @@
 @property (nonatomic, retain) IBOutlet UIView *bgdView;
 
 @property (nonatomic, retain) IBOutlet UILabel *gemCostLabel;
+@property (nonatomic, retain) IBOutlet UILabel *pieceLabel;
 
-- (void) animateFromPoint:(CGPoint)pt withMonsterId:(int)monsterId;
+- (void) animateWithMonsterId:(int)monsterId;
+- (void) animateWithMonsterId:(int)monsterId numPuzzlePieces:(int)numPuzzlePieces;
 - (IBAction)closeClicked:(id)sender;
 
 @end
@@ -60,6 +62,8 @@
   BOOL _isSpinning;
   
   int _curPage;
+  
+  int _numPuzzlePieces;
 }
 
 @property (nonatomic, retain) BoosterPackProto *boosterPack;
@@ -82,8 +86,7 @@
 
 @property (nonatomic, retain) UIImageView *topBarBgd;
 @property (nonatomic, retain) IBOutlet UILabel *topBarLabel;
-@property (nonatomic, retain) IBOutlet UIView *diamondView;
-@property (nonatomic, retain) IBOutlet UIView *cashView;
+@property (nonatomic, retain) IBOutlet CoinBar *coinBar;
 
 @property (nonatomic, retain) IBOutlet GachaponItemCell *itemCell;
 @property (nonatomic, retain) IBOutlet GachaponFeaturedView *featuredView;

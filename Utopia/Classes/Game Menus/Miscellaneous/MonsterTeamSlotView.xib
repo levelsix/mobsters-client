@@ -14,6 +14,17 @@
             <rect key="frame" x="0.0" y="0.0" width="157" height="49"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="DjP-Px-QtC">
+                    <rect key="frame" x="52" y="3" width="104" height="44"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                    <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                    <state key="normal">
+                        <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                    </state>
+                    <connections>
+                        <action selector="healAreaClicked:" destination="1" eventType="touchUpInside" id="Zuh-tE-Q5b"/>
+                    </connections>
+                </button>
                 <view clipsSubviews="YES" contentMode="scaleToFill" id="jyv-un-7wU">
                     <rect key="frame" x="6" y="4" width="42" height="42"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
@@ -29,7 +40,7 @@
                     </subviews>
                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                 </view>
-                <view contentMode="scaleToFill" id="RIg-Qr-6ep">
+                <view userInteractionEnabled="NO" contentMode="scaleToFill" id="RIg-Qr-6ep">
                     <rect key="frame" x="48" y="0.0" width="109" height="49"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                     <subviews>
@@ -74,7 +85,7 @@
                     <autoresizingMask key="autoresizingMask"/>
                 </imageView>
                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="O5K-s9-8Zj">
-                    <rect key="frame" x="-3" y="-4" width="29" height="30"/>
+                    <rect key="frame" x="-23" y="-25" width="69" height="72"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                     <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
                     <state key="normal" image="minusteam.png">

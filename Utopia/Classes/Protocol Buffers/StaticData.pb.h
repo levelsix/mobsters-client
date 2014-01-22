@@ -53,11 +53,17 @@
 @class MinimumUserProtoWithFacebookId_Builder;
 @class MinimumUserProtoWithLevel;
 @class MinimumUserProtoWithLevel_Builder;
+@class MinimumUserProtoWithMaxResources;
+@class MinimumUserProtoWithMaxResources_Builder;
 @class MinimumUserProto_Builder;
 @class MinimumUserTaskProto;
 @class MinimumUserTaskProto_Builder;
+@class MonsterLevelInfoProto;
+@class MonsterLevelInfoProto_Builder;
 @class MonsterProto;
 @class MonsterProto_Builder;
+@class PersistentEventProto;
+@class PersistentEventProto_Builder;
 @class RareBoosterPurchaseProto;
 @class RareBoosterPurchaseProto_Builder;
 @class ResidenceProto;
@@ -92,8 +98,12 @@
 @class UserMonsterCurrentExpProto_Builder;
 @class UserMonsterCurrentHealthProto;
 @class UserMonsterCurrentHealthProto_Builder;
+@class UserMonsterEvolutionProto;
+@class UserMonsterEvolutionProto_Builder;
 @class UserMonsterHealingProto;
 @class UserMonsterHealingProto_Builder;
+@class UserPersistentEventProto;
+@class UserPersistentEventProto_Builder;
 
 @interface StaticDataRoot : NSObject {
 }
@@ -105,21 +115,22 @@
 @private
   BOOL hasSender_:1;
   MinimumUserProto* sender;
-  NSMutableArray* mutableExpansionCostsList;
-  NSMutableArray* mutableAllCitiesList;
-  NSMutableArray* mutableAllTasksList;
-  NSMutableArray* mutableAllMonstersList;
-  NSMutableArray* mutableSlipList;
-  NSMutableArray* mutableInProgressQuestsList;
-  NSMutableArray* mutableUnredeemedQuestsList;
-  NSMutableArray* mutableAvailableQuestsList;
-  NSMutableArray* mutableBoosterPacksList;
-  NSMutableArray* mutableAllGeneratorsList;
-  NSMutableArray* mutableAllStoragesList;
-  NSMutableArray* mutableAllHospitalsList;
-  NSMutableArray* mutableAllResidencesList;
-  NSMutableArray* mutableAllLabsList;
+  NSMutableArray* mutableEventsList;
   NSMutableArray* mutableAllTownHallsList;
+  NSMutableArray* mutableAllLabsList;
+  NSMutableArray* mutableAllResidencesList;
+  NSMutableArray* mutableAllHospitalsList;
+  NSMutableArray* mutableAllStoragesList;
+  NSMutableArray* mutableAllGeneratorsList;
+  NSMutableArray* mutableBoosterPacksList;
+  NSMutableArray* mutableAvailableQuestsList;
+  NSMutableArray* mutableUnredeemedQuestsList;
+  NSMutableArray* mutableInProgressQuestsList;
+  NSMutableArray* mutableSlipList;
+  NSMutableArray* mutableAllMonstersList;
+  NSMutableArray* mutableAllTasksList;
+  NSMutableArray* mutableAllCitiesList;
+  NSMutableArray* mutableExpansionCostsList;
 }
 - (BOOL) hasSender;
 @property (readonly, retain) MinimumUserProto* sender;
@@ -153,6 +164,8 @@
 - (LabProto*) allLabsAtIndex:(int32_t) index;
 - (NSArray*) allTownHallsList;
 - (TownHallProto*) allTownHallsAtIndex:(int32_t) index;
+- (NSArray*) eventsList;
+- (PersistentEventProto*) eventsAtIndex:(int32_t) index;
 
 + (StaticDataProto*) defaultInstance;
 - (StaticDataProto*) defaultInstance;
@@ -299,5 +312,12 @@
 - (StaticDataProto_Builder*) addAllTownHalls:(TownHallProto*) value;
 - (StaticDataProto_Builder*) addAllAllTownHalls:(NSArray*) values;
 - (StaticDataProto_Builder*) clearAllTownHallsList;
+
+- (NSArray*) eventsList;
+- (PersistentEventProto*) eventsAtIndex:(int32_t) index;
+- (StaticDataProto_Builder*) replaceEventsAtIndex:(int32_t) index with:(PersistentEventProto*) value;
+- (StaticDataProto_Builder*) addEvents:(PersistentEventProto*) value;
+- (StaticDataProto_Builder*) addAllEvents:(NSArray*) values;
+- (StaticDataProto_Builder*) clearEventsList;
 @end
 

@@ -17,6 +17,9 @@
 #import "GenericPopupController.h"
 #import "SoundEngine.h"
 #import "GameViewController.h"
+#import "MyCroniesViewController.h"
+#import "MenuNavigationController.h"
+#import "EnhanceViewController.h"
 
 #define FAR_LEFT_EXPANSION_START 58
 #define FAR_RIGHT_EXPANSION_START 58
@@ -31,6 +34,8 @@
 #define TREES_LAYER_NAME @"Treez"
 
 #define PURCHASE_CONFIRM_MENU_TAG 39245
+
+#define RESOURCE_GEN_MIN_RES 10
 
 @implementation HomeMap
 
@@ -128,7 +133,8 @@
 - (void) beginTimers {
   for (CCNode *node in _children) {
     if (node != _purchBuilding && [node isKindOfClass:[HomeBuilding class]]) {
-      [self updateTimersForBuilding:(HomeBuilding *)node];
+      HomeBuilding *hb = (HomeBuilding *)node;
+      [self updateTimersForBuilding:hb];
     }
   }
 }
@@ -166,6 +172,9 @@
     }
   }
   
+  [self reloadHospitals];
+  [self reloadStorages];
+  
   CCNode *c;
   NSMutableArray *toRemove = [NSMutableArray array];
   CCARRAY_FOREACH(self.children, c) {
@@ -193,6 +202,80 @@
   
   if (self.isRunning) {
     [self beginTimers];
+  }
+}
+
+- (void) reloadHospitals {
+  GameState *gs = [GameState sharedGameState];
+  NSArray *hosps = [gs myValidHospitals];
+  for (CCSprite *spr in self.children) {
+    if ([spr isKindOfClass:[HospitalBuilding class]]) {
+      HospitalBuilding *hosp = (HospitalBuilding *)spr;
+      UserStruct *s = hosp.userStruct;
+      int index = [hosps indexOfObject:s];
+      int monsterId = 0;
+      
+      if (index != NSNotFound && index < gs.monsterHealingQueue.count) {
+        UserMonsterHealingItem *item = gs.monsterHealingQueue[index];
+        UserMonster *um = [gs myMonsterWithUserMonsterId:item.userMonsterId];
+        monsterId = um.monsterId;
+      }
+      
+      if (monsterId) {
+        [hosp beginAnimatingWithMonsterId:monsterId];
+      } else {
+        [hosp stopAnimating];
+      }
+    }
+  }
+}
+
+- (void) reloadStorages {
+  GameState *gs = [GameState sharedGameState];
+  NSMutableArray *oilArr = [NSMutableArray array];
+  NSMutableArray *cashArr = [NSMutableArray array];
+  for (CCSprite *spr in self.children) {
+    if ([spr isKindOfClass:[ResourceStorageBuilding class]]) {
+      ResourceType type = ((ResourceStorageProto *)((ResourceStorageBuilding *)spr).userStruct.staticStruct).resourceType;
+      if (type == ResourceTypeCash) {
+        [cashArr addObject:spr];
+      } else if (type == ResourceTypeOil) {
+        [oilArr addObject:spr];
+      }
+    }
+  }
+  
+  int curCash = gs.silver;
+  int curOil = gs.oil;
+  
+  NSComparator comp = ^NSComparisonResult(ResourceStorageBuilding *obj1, ResourceStorageBuilding *obj2) {
+    int capacity1 = ((ResourceStorageProto *)obj1.userStruct.staticStruct).capacity;
+    int capacity2 = ((ResourceStorageProto *)obj2.userStruct.staticStruct).capacity;
+    return [@(capacity1) compare:@(capacity2)];
+  };
+  [cashArr sortUsingComparator:comp];
+  [oilArr sortUsingComparator:comp];
+  
+  for (NSMutableArray *arr in @[cashArr, oilArr]) {
+    while (arr.count > 0) {
+      int curVal = arr == cashArr ? curCash : curOil;
+      int count = arr.count;
+      int amount = curVal/count;
+      ResourceStorageBuilding *res = arr[0];
+      int capacity1 = ((ResourceStorageProto *)res.userStruct.staticStruct).capacity;
+      
+      if (capacity1 >= amount) {
+        for (ResourceStorageBuilding *r in arr) {
+          float cap = ((ResourceStorageProto *)r.userStruct.staticStruct).capacity;
+          [r setPercentage:amount/cap];
+        }
+        break;
+      } else {
+        [res setPercentage:1.f];
+        curVal -= capacity1;
+        [arr removeObject:res];
+      }
+    }
   }
 }
 
@@ -265,6 +348,7 @@
   }
   
   return arr;
+  //return [NSArray array];
 }
 
 - (void) moveToStruct:(int)structId showArrow:(BOOL)showArrow animated:(BOOL)animated {
@@ -381,6 +465,39 @@
         self.buildingUpgradeOilCostLabel.text = @"N/A";
       }
       
+      BOOL showsEnterButton = YES;
+      switch (fsp.structType) {
+        case StructureInfoProto_StructTypeHospital:
+        case StructureInfoProto_StructTypeResidence:
+          self.enterTopLabel.text = @"Manage";
+          self.enterBottomLabel.text = @"Mobsters";
+          break;
+          
+        case StructureInfoProto_StructTypeLab:
+          self.enterTopLabel.text = @"Enhance";
+          self.enterBottomLabel.text = @"Mobsters";
+          break;
+          
+        case StructureInfoProto_StructTypeTownHall:
+        case StructureInfoProto_StructTypeResourceStorage:
+        case StructureInfoProto_StructTypeResourceGenerator:
+          showsEnterButton = NO;
+          break;
+          
+        default:
+          break;
+      }
+      
+      CGRect r = self.buildingTextView.frame;
+      if (showsEnterButton) {
+        r.size.width = self.buildingEnterView.frame.origin.x-4;
+        self.buildingEnterView.hidden = NO;
+      } else {
+        r.size.width = self.buildingUpgradeView.frame.origin.x-4;
+        self.buildingEnterView.hidden = YES;
+      }
+      self.buildingTextView.frame = r;
+      
       self.buildingUpgradeOilView.hidden = !isOil;
       [Globals adjustViewForCentering:self.buildingUpgradeOilCostLabel.superview withLabel:self.buildingUpgradeOilCostLabel];
     }
@@ -391,7 +508,7 @@
       UserStruct *us = mb.userStruct;
       StructureInfoProto *fsp = us.staticStruct.structInfo;
       self.upgradingNameLabel.text = [NSString stringWithFormat:@"%@ (lvl %d)", fsp.name, fsp.level];
-      self.buildingIncomeLabel.text = fsp.shortDescription;
+      self.upgradingIncomeLabel.text = fsp.shortDescription;
       int timeLeft = us.timeLeftForBuildComplete;
       self.upgradingSpeedupCostLabel.text = [Globals commafyNumber:[gl calculateGemSpeedupCostForTimeLeft:timeLeft]];
     }
@@ -493,16 +610,42 @@
     NSTimer *newTimer = [NSTimer timerWithTimeInterval:mb.userStruct.timeLeftForBuildComplete target:self selector:@selector(constructionComplete:) userInfo:mb repeats:NO];
     [_timers addObject:newTimer];
     [[NSRunLoop mainRunLoop] addTimer:newTimer forMode:NSRunLoopCommonModes];
+  } else {
+    if ([mb isKindOfClass:[ResourceGeneratorBuilding class]]) {
+      ResourceGeneratorBuilding *rb = (ResourceGeneratorBuilding *)mb;
+      if (rb.userStruct.numResourcesAvailable >= RESOURCE_GEN_MIN_RES) {
+        rb.retrievable = YES;
+      } else {
+        [self setupIncomeTimerForBuilding:rb];
+      }
+    }
   }
+}
+
+- (void) setupIncomeTimerForBuilding:(ResourceGeneratorBuilding *)mb {
+  int numRes = RESOURCE_GEN_MIN_RES;
+  
+  NSTimer *timer = nil;
+  // Set timer for when building has x resources
+  if ([mb.userStruct numResourcesAvailable] >= numRes) {
+    timer = [NSTimer timerWithTimeInterval:10.f target:self selector:@selector(waitForIncomeComplete:) userInfo:mb repeats:NO];
+  } else {
+    ResourceGeneratorProto *rg = (ResourceGeneratorProto *)mb.userStruct.staticStruct;
+    int secs = numRes/rg.productionRate*3600;
+    
+    NSDate *date = [mb.userStruct.lastRetrieved dateByAddingTimeInterval:secs];
+    
+    timer = [NSTimer timerWithTimeInterval:date.timeIntervalSinceNow target:self selector:@selector(waitForIncomeComplete:) userInfo:mb repeats:NO];
+  }
+  [_timers addObject:timer];
+  [[NSRunLoop mainRunLoop] addTimer:timer forMode:NSRunLoopCommonModes];
 }
 
 - (void) retrieveFromBuilding:(ResourceGeneratorBuilding *)mb {
   [[OutgoingEventController sharedOutgoingEventController] retrieveFromNormStructure:mb.userStruct];
-  //  if (mb.userStruct.state == kWaitingForIncome) {
-  //    mb.retrievable = NO;
-  //    [self updateTimersForBuilding:mb];
-  //    [self addSilverDrop:[[Globals sharedGlobals] calculateIncomeForUserStruct:mb.userStruct] fromSprite:mb toPosition:CGPointZero secondsToPickup:0];
-  //  }
+  mb.retrievable = NO;
+  
+  [self setupIncomeTimerForBuilding:mb];
 }
 
 - (void) constructionComplete:(NSTimer *)timer {
@@ -522,21 +665,17 @@
 }
 
 - (void) waitForIncomeComplete:(NSTimer *)timer {
-  //  HomeBuilding *mb = [timer userInfo];
-  //  mb.retrievable = YES;
-  //
-  //  if (mb == self.selected) {
-  //    if (_canMove) {
-  //      [mb cancelMove];
-  //      _canMove = NO;
-  //    }
-  //    self.selected = nil;
-  //  }
+  ResourceGeneratorBuilding *mb = [timer userInfo];
+  mb.retrievable = YES;
+  
+  [_timers removeObject:timer];
 }
 
 - (IBAction)moveCheckClicked:(id)sender {
+  GameState *gs = [GameState sharedGameState];
   Globals *gl = [Globals sharedGlobals];
   HomeBuilding *homeBuilding = (HomeBuilding *)self.selected;
+  StructureInfoProto *fsp = [gs structWithId:_purchStructId].structInfo;
   
   if (homeBuilding.isSetDown && _purchasing) {
     if (_constrBuilding) {
@@ -546,40 +685,65 @@
       [GenericPopupController displayConfirmationWithDescription:[NSString stringWithFormat:@"A building is already constructing. Speed it up for %@ gems and purchase this building?", [Globals commafyNumber:gemCost]] title:@"Already Constructing" okayButton:@"Speed Up" cancelButton:@"Cancel" target:self selector:@selector(speedupBuildingAndUpgradeOrPurchase)];
     } else {
       _purchasing = NO;
-      // Use return value as an indicator that purchase is accepted by client
-      UserStruct *us = [[OutgoingEventController sharedOutgoingEventController] purchaseNormStruct:_purchStructId atX:homeBuilding.location.origin.x atY:homeBuilding.location.origin.y];
-      if (us) {
-        homeBuilding.userStruct = us;
-        _constrBuilding = homeBuilding;
-        [self updateTimersForBuilding:_constrBuilding];
-        homeBuilding.isConstructing = YES;
-        homeBuilding.isPurchasing = NO;
-        
-        [_constrBuilding displayProgressBar];
-        
-        [[SoundEngine sharedSoundEngine] carpenterPurchase];
-        
-        [homeBuilding removeChildByTag:PURCHASE_CONFIRM_MENU_TAG cleanup:YES];
-        
-        _canMove = NO;
-        
-        [self reselectCurrentSelection];
+      
+      int cost = fsp.buildCost;
+      BOOL isOilBuilding = fsp.buildResourceType == ResourceTypeOil;
+      int curAmount = isOilBuilding ? gs.oil : gs.silver;
+      
+      if (cost > curAmount) {
+        [GenericPopupController displayExchangeForGemsViewWithResourceType:fsp.buildResourceType amount:cost-curAmount target:self selector:@selector(useGemsForPurchase)];
       } else {
-        [homeBuilding liftBlock];
-        [self removeChild:homeBuilding cleanup:YES];
-        
-        self.selected = nil;
+        [self purchaseBuildingAllowGems:NO];
       }
-      [self doReorder];
     }
   }
 }
 
-- (IBAction)rotateClicked:(id)sender {
-  if ([self.selected isKindOfClass:[Building class]] && !_purchasing) {
-    Building *building = (Building *)self.selected;
-    [building setOrientation:building.orientation+1];
+- (void) useGemsForPurchase {
+  GameState *gs = [GameState sharedGameState];
+  Globals *gl = [Globals sharedGlobals];
+  StructureInfoProto *fsp = [gs structWithId:_purchStructId].structInfo;
+  
+  int cost = fsp.buildCost;
+  BOOL isOilBuilding = fsp.buildResourceType == ResourceTypeOil;
+  int curAmount = isOilBuilding ? gs.oil : gs.silver;
+  int gemCost = [gl calculateGemConversionForResourceType:fsp.buildResourceType amount:cost-curAmount];
+  
+  if (gemCost > gs.gold) {
+    [GenericPopupController displayNotEnoughGemsView];
+  } else {
+    [self purchaseBuildingAllowGems:YES];
   }
+}
+
+- (void) purchaseBuildingAllowGems:(BOOL)allowGems {
+  HomeBuilding *homeBuilding = (HomeBuilding *)self.selected;
+  
+  // Use return value as an indicator that purchase is accepted by client
+  UserStruct *us = [[OutgoingEventController sharedOutgoingEventController] purchaseNormStruct:_purchStructId atX:homeBuilding.location.origin.x atY:homeBuilding.location.origin.y allowGems:allowGems];
+  if (us) {
+    homeBuilding.userStruct = us;
+    _constrBuilding = homeBuilding;
+    [self updateTimersForBuilding:_constrBuilding];
+    homeBuilding.isConstructing = YES;
+    homeBuilding.isPurchasing = NO;
+    
+    [_constrBuilding displayProgressBar];
+    
+    [[SoundEngine sharedSoundEngine] carpenterPurchase];
+    
+    [homeBuilding removeChildByTag:PURCHASE_CONFIRM_MENU_TAG cleanup:YES];
+    
+    _canMove = NO;
+    
+    [self reselectCurrentSelection];
+  } else {
+    [homeBuilding liftBlock];
+    [self removeChild:homeBuilding cleanup:YES];
+    
+    self.selected = nil;
+  }
+  [self doReorder];
 }
 
 - (IBAction)cancelMoveClicked:(id)sender {
@@ -594,6 +758,31 @@
     _canMove = NO;
     self.selected = nil;
     [self doReorder];
+  }
+}
+
+#pragma mark - IBActions
+
+- (IBAction)enterClicked:(id)sender {
+  UserStruct *us = ((HomeBuilding *)self.selected).userStruct;
+  StructureInfoProto *fsp = us.staticStruct.structInfo;
+  
+  GameViewController *gvc = [GameViewController baseController];
+  MenuNavigationController *m = [[MenuNavigationController alloc] init];
+  [gvc presentViewController:m animated:YES completion:nil];
+  
+  switch (fsp.structType) {
+    case StructureInfoProto_StructTypeHospital:
+    case StructureInfoProto_StructTypeResidence:
+      [m pushViewController:[[MyCroniesViewController alloc] init] animated:YES];
+      break;
+      
+    case StructureInfoProto_StructTypeLab:
+      [m pushViewController:[[EnhanceViewController alloc] init] animated:YES];
+      break;
+      
+    default:
+      break;
   }
 }
 
@@ -625,24 +814,43 @@
   } else if (nextFsp) {
     int cost = nextFsp.buildCost;
     BOOL isOilBuilding = nextFsp.buildResourceType == ResourceTypeOil;
-    if (!isOilBuilding && cost > gs.silver) {
-      //        [[RefillMenuController sharedRefillMenuController] displayBuySilverView:cost];
-      self.selected = nil;
-    } else if (cost > gs.oil) {
-      //        [[RefillMenuController sharedRefillMenuController] displayBuyGoldView:cost];
-      self.selected = nil;
+    int curAmount = isOilBuilding ? gs.oil : gs.silver;
+    if (cost > curAmount) {
+      [GenericPopupController displayExchangeForGemsViewWithResourceType:nextFsp.buildResourceType amount:cost-curAmount target:self selector:@selector(useGemsForUpgrade)];
     } else {
-      [[OutgoingEventController sharedOutgoingEventController] upgradeNormStruct:us];
-      
-      if (!us.isComplete) {
-        _constrBuilding = (HomeBuilding *)self.selected;
-        [self updateTimersForBuilding:_constrBuilding];
-        [_constrBuilding displayProgressBar];
-        _constrBuilding.isConstructing = YES;
-        
-        [self reselectCurrentSelection];
-      }
+      [self sendUpgrade:us allowGems:NO];
     }
+  }
+}
+
+- (void) useGemsForUpgrade {
+  UserStruct *us = ((HomeBuilding *)self.selected).userStruct;
+  GameState *gs = [GameState sharedGameState];
+  Globals *gl = [Globals sharedGlobals];
+  StructureInfoProto *nextFsp = us.staticStructForNextLevel.structInfo;
+  
+  int cost = nextFsp.buildCost;
+  BOOL isOilBuilding = nextFsp.buildResourceType == ResourceTypeOil;
+  int curAmount = isOilBuilding ? gs.oil : gs.silver;
+  int gemCost = [gl calculateGemConversionForResourceType:nextFsp.buildResourceType amount:cost-curAmount];
+  
+  if (gemCost > gs.gold) {
+    [GenericPopupController displayNotEnoughGemsView];
+  } else {
+    [self sendUpgrade:us allowGems:YES];
+  }
+}
+
+- (void) sendUpgrade:(UserStruct *)us allowGems:(BOOL)allowGems {
+  [[OutgoingEventController sharedOutgoingEventController] upgradeNormStruct:us allowGems:allowGems];
+  
+  if (!us.isComplete) {
+    _constrBuilding = (HomeBuilding *)self.selected;
+    [self updateTimersForBuilding:_constrBuilding];
+    [_constrBuilding displayProgressBar];
+    _constrBuilding.isConstructing = YES;
+    
+    [self reselectCurrentSelection];
   }
 }
 
@@ -654,8 +862,8 @@
   int timeLeft = us.timeLeftForBuildComplete;
   int goldCost = [gl calculateGemSpeedupCostForTimeLeft:timeLeft];
   
-  NSString *desc = [NSString stringWithFormat:@"Finish instantly for %@ gems?", [Globals commafyNumber:goldCost]];
-  [GenericPopupController displayConfirmationWithDescription:desc title:@"Speed Up!" okayButton:@"Yes" cancelButton:@"No" target:self selector:@selector(speedUpBuilding)];
+  NSString *desc = [NSString stringWithFormat:@"Finish instantly for %@ gem%@?", [Globals commafyNumber:goldCost], goldCost == 1 ? @"" : @"s"];
+  [GenericPopupController displayGemConfirmViewWithDescription:desc title:@"Speed Up!" gemCost:goldCost target:self selector:@selector(speedUpBuilding)];
 }
 
 - (BOOL) speedUpBuilding {
@@ -840,11 +1048,9 @@
     }
   }
   
-  //  for (MoneyBuilding *mb in arr) {
-  //    if (mb.userStruct.state == kRetrieving) {
-  //      [self retrieveFromBuilding:mb];
-  //    }
-  //  }
+  for (ResourceGeneratorBuilding *mb in arr) {
+    [self retrieveFromBuilding:mb];
+  }
 }
 
 - (void) reselectCurrentSelection {
@@ -856,6 +1062,13 @@
 - (void) onEnterTransitionDidFinish {
   [super onEnterTransitionDidFinish];
   [self beginTimers];
+}
+
+- (void) onEnter {
+  [super onEnter];
+  [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(reloadStorages) name:GAMESTATE_UPDATE_NOTIFICATION object:nil];
+  [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(reloadHospitals) name:MONSTER_QUEUE_CHANGED_NOTIFICATION object:nil];
+  [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(setupTeamSprites) name:MONSTER_QUEUE_CHANGED_NOTIFICATION object:nil];
 }
 
 - (void) onExit {

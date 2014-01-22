@@ -10,11 +10,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Utopia/Classes/Main Map/Building.m"
-            timestampString = "407724700.291292"
+            timestampString = "412052987.64327"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "96"
-            endingLineNumber = "96"
+            startingLineNumber = "100"
+            endingLineNumber = "100"
             landmarkName = "-displayProgressBar"
             landmarkType = "5">
          </BreakpointContent>
@@ -25,28 +25,12 @@
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "Utopia/libs/cocos2d/CCNode.m"
-            timestampString = "405599734.099825"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "438"
-            endingLineNumber = "438"
-            landmarkName = "-removeChildByTag:cleanup:"
-            landmarkType = "5">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
             filePath = "Utopia/Classes/Socket Communication/OutgoingEventController.m"
-            timestampString = "408546876.927813"
+            timestampString = "412083614.755599"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "336"
-            endingLineNumber = "336"
+            startingLineNumber = "382"
+            endingLineNumber = "382"
             landmarkName = "-questProgress:"
             landmarkType = "5">
          </BreakpointContent>
@@ -58,11 +42,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Utopia/Classes/Socket Communication/OutgoingEventController.m"
-            timestampString = "408547023.335771"
+            timestampString = "412083614.755599"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "346"
-            endingLineNumber = "346"
+            startingLineNumber = "392"
+            endingLineNumber = "392"
             landmarkName = "-donateForQuest:monsterIds:"
             landmarkType = "5">
          </BreakpointContent>
@@ -70,16 +54,16 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            shouldBeEnabled = "Yes"
+            shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "Utopia/Classes/Game Menus/QuestMenu/QuestLogViewController.m"
-            timestampString = "408548012.242992"
+            filePath = "Utopia/Classes/Main Map/HomeMap.m"
+            timestampString = "412034472.845164"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "206"
-            endingLineNumber = "206"
-            landmarkName = "-donateConfirmed"
+            startingLineNumber = "645"
+            endingLineNumber = "645"
+            landmarkName = "-retrieveFromBuilding:"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>

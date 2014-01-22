@@ -30,8 +30,10 @@
 
 #define IAP_SUCCESS_NOTIFICATION @"IapSuccessNotification"
 #define HEAL_WAIT_COMPLETE_NOTIFICATION @"HealWaitCompleteNotification"
+#define MONSTER_QUEUE_CHANGED_NOTIFICATION @"MonsterQueueChangedNotification"
 #define ENHANCE_WAIT_COMPLETE_NOTIFICATION @"EnhanceWaitCompleteNotification"
 #define COMBINE_WAIT_COMPLETE_NOTIFICATION @"CombineWaitCompleteNotification"
+#define MONSTER_SOLD_COMPLETE_NOTIFICATION @"MonsterSoldNotification"
 #define GAMESTATE_UPDATE_NOTIFICATION @"GameStateUpdateNotification"
 #define MY_TEAM_CHANGED_NOTIFICATION @"MyTeamChangedNotification"
 #define CHAT_RECEIVED_NOTIFICATION @"ChatReceivedNotification"
@@ -77,12 +79,12 @@
 
 @property (nonatomic, assign) float minutesPerGem;
 @property (nonatomic, assign) int pvpRequiredMinLvl;
+@property (nonatomic, assign) float gemsPerResource;
 
 // Monster Constants
 @property (nonatomic, assign) int maxTeamSize;
 @property (nonatomic, assign) int baseInventorySize;
 @property (nonatomic, assign) float cashPerHealthPoint;
-@property (nonatomic, assign) float secondsToHealPerHealthPoint;
 @property (nonatomic, assign) float elementalStrength;
 @property (nonatomic, assign) float elementalWeakness;
 
@@ -183,6 +185,8 @@
 
 + (NSString *) urlStringForFacebookId:(NSString *)uid;
 
++ (BOOL) checkEnteringDungeonWithTarget:(id)target selector:(SEL)selector;
+
 + (BOOL)isLongiPhone;
 
 + (UIColor *)creamColor;
@@ -217,6 +221,7 @@
 
 // Formulas
 - (int) calculateGemSpeedupCostForTimeLeft:(int)timeLeft;
+- (int) calculateGemConversionForResourceType:(ResourceType)type amount:(int)amount;
 
 - (int) calculateMaxQuantityOfStructId:(int)structId;
 - (int) calculateNextTownHallLevelForQuantityIncreaseForStructId:(int)structId;
@@ -231,12 +236,10 @@
 - (int) calculateElementalDamageForMonster:(UserMonster *)um element:(MonsterProto_MonsterElement)element;
 - (int) calculateMaxHealthForMonster:(UserMonster *)um;
 - (int) calculateCostToHealMonster:(UserMonster *)um;
-- (int) calculateSecondsToHealMonster:(UserMonster *)um;
-- (int) calculateTimeLeftToHealAllMonstersInQueue;
 - (float) calculateDamageMultiplierForAttackElement:(MonsterProto_MonsterElement)aElement defenseElement:(MonsterProto_MonsterElement)dElement;
 
 // Enhancement formulas
-- (int) calculateSilverCostForEnhancement:(EnhancementItem *)baseMonster feeder:(EnhancementItem *)feeder;
+- (int) calculateOilCostForEnhancement:(EnhancementItem *)baseMonster feeder:(EnhancementItem *)feeder;
 - (int) calculateSecondsForEnhancement:(EnhancementItem *)baseMonster feeder:(EnhancementItem *)feeder;
 - (int) calculateTimeLeftForEnhancement:(UserEnhancement *)ue;
 - (int) calculateExperienceIncrease:(UserEnhancement *)ue;
@@ -253,10 +256,15 @@
 @interface CCNode (RecursiveOpacity)
 
 - (void) recursivelyApplyOpacity:(GLubyte)opacity;
+- (void) recursivelyApplyColor:(ccColor3B)color;
 
 @end
 
 @interface RecursiveFadeTo : CCFadeTo
+
+@end
+
+@interface RecursiveTintTo : CCTintTo
 
 @end
 

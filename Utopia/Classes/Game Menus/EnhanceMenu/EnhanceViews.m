@@ -51,8 +51,8 @@
     [ue.feeders removeObject:item];
     
     float percIncrease = newPerc-curPerc;
-    int cost = [gl calculateSilverCostForEnhancement:ue.baseMonster feeder:item];
-    self.feederLabel.text = [NSString stringWithFormat:@"%@%% for %@", [Globals commafyNumber:(int)(percIncrease*100)], [Globals cashStringForNumber:cost]];
+    int cost = [gl calculateOilCostForEnhancement:ue.baseMonster feeder:item];
+    self.feederLabel.text = [NSString stringWithFormat:@"%@%% for %@ oil", [Globals commafyNumber:(int)(percIncrease*100)], [Globals commafyNumber:cost]];
   }
   
   self.onTeamIcon.hidden = monster.teamSlot == 0;
@@ -82,7 +82,7 @@
   NSString *fileName = [mp.imagePrefix stringByAppendingString:@"Thumbnail.png"];
   [Globals imageNamed:fileName withView:self.monsterIcon maskedColor:nil indicator:UIActivityIndicatorViewStyleWhite clearImageDuringDownload:YES];
   
-  fileName = [Globals imageNameForElement:mp.element suffix:@"team.png"];
+  fileName = [Globals imageNameForElement:mp.monsterElement suffix:@"team.png"];
   [Globals imageNamed:fileName withView:self.bgdIcon maskedColor:nil indicator:UIActivityIndicatorViewStyleWhite clearImageDuringDownload:YES];
   
   self.timerView.hidden = YES;

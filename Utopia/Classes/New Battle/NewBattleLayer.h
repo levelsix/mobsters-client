@@ -59,29 +59,29 @@
   BOOL _isLoading;
 }
 
-@property (nonatomic, assign) CCProgressTimer *powerBar;
-@property (nonatomic, assign) CCSprite *movesBgd;
-@property (nonatomic, assign) CCLabelTTF *movesLeftLabel;
-@property (nonatomic, assign) CCLabelTTF *lootLabel;
-@property (nonatomic, assign) CCSprite *comboBgd;
-@property (nonatomic, assign) CCLabelTTF *comboLabel;
-@property (nonatomic, assign) CCLabelTTF *comboBotLabel;
+@property (nonatomic, retain) CCProgressTimer *powerBar;
+@property (nonatomic, retain) CCSprite *movesBgd;
+@property (nonatomic, retain) CCLabelTTF *movesLeftLabel;
+@property (nonatomic, retain) CCLabelTTF *lootLabel;
+@property (nonatomic, retain) CCSprite *comboBgd;
+@property (nonatomic, retain) CCLabelTTF *comboLabel;
+@property (nonatomic, retain) CCLabelTTF *comboBotLabel;
 
-@property (nonatomic, assign) OrbLayer *orbLayer;
-@property (nonatomic, assign) OrbBgdLayer *orbBgdLayer;
+@property (nonatomic, retain) OrbLayer *orbLayer;
+@property (nonatomic, retain) OrbBgdLayer *orbBgdLayer;
 
 // bgdContainer holds the bgdLayer as well as battlesprites and all animations on the ground
-@property (nonatomic, assign) CCLayer *bgdContainer;
-@property (nonatomic, assign) BattleBgdLayer *bgdLayer;
-@property (nonatomic, assign) BattleSprite *myPlayer;
-@property (nonatomic, assign) BattleSprite *currentEnemy;
+@property (nonatomic, retain) CCLayer *bgdContainer;
+@property (nonatomic, retain) BattleBgdLayer *bgdLayer;
+@property (nonatomic, retain) BattleSprite *myPlayer;
+@property (nonatomic, retain) BattleSprite *currentEnemy;
 
 @property (nonatomic, retain) BattlePlayer *myPlayerObject;
 @property (nonatomic, retain) BattlePlayer *enemyPlayerObject;
 
-@property (nonatomic, assign) CCSprite *bloodSplatter;
+@property (nonatomic, retain) CCSprite *bloodSplatter;
 
-@property (nonatomic, assign) CCLayerColor *noInputLayer;
+@property (nonatomic, retain) CCLayerColor *noInputLayer;
 
 @property (nonatomic, retain) NSArray *myTeam;
 @property (nonatomic, retain) NSArray *enemyTeam;

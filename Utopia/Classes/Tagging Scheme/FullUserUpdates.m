@@ -42,6 +42,12 @@
 
 @implementation SilverUpdate
 
+- (id) initWithTag:(int)t change:(int)change {
+  GameState *gs = [GameState sharedGameState];
+  change = MIN(change, MAX(0, gs.maxCash-gs.silver));
+  return [super initWithTag:t change:change];
+}
+
 - (void) update {
   GameState *gs = [GameState sharedGameState];
   gs.silver += _change;
@@ -55,6 +61,12 @@
 @end
 
 @implementation OilUpdate
+
+- (id) initWithTag:(int)t change:(int)change {
+  GameState *gs = [GameState sharedGameState];
+  change = MIN(change, MAX(0, gs.maxOil-gs.oil));
+  return [super initWithTag:t change:change];
+}
 
 - (void) update {
   GameState *gs = [GameState sharedGameState];

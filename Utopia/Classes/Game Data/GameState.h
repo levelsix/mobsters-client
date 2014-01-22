@@ -52,6 +52,8 @@
 @property (nonatomic, retain) NSMutableDictionary *staticMonsters;
 @property (nonatomic, retain) NSMutableDictionary *staticTasks;
 @property (nonatomic, retain) NSMutableDictionary *staticCities;
+@property (nonatomic, retain) NSArray *persistentEvents;
+@property (nonatomic, retain) NSMutableDictionary *eventCooldownTimes;
 
 @property (nonatomic, retain) NSMutableSet *completedTasks;
 
@@ -62,6 +64,7 @@
 @property (nonatomic, retain) NSMutableDictionary *myQuests;
 
 @property (nonatomic, retain) NSMutableArray *monsterHealingQueue;
+@property (nonatomic, retain) NSDate *monsterHealingQueueEndTime;
 @property (nonatomic, retain) NSMutableSet *recentlyHealedMonsterIds;
 
 @property (nonatomic, retain) NSMutableDictionary *inProgressCompleteQuests;
@@ -106,6 +109,8 @@
 - (FullQuestProto *) questForId:(int)questId;
 - (BoosterPackProto *) boosterPackForId:(int)packId;
 - (MonsterProto *) monsterWithId:(int)monsterId;
+- (PersistentEventProto *) persistentEventWithId:(int)eventId;
+- (PersistentEventProto *) currentPersistentEventWithType:(PersistentEventProto_EventType)type;
 
 - (BOOL) isTaskUnlocked:(int)taskId;
 - (BOOL) isCityUnlocked:(int)cityId;
@@ -124,6 +129,7 @@
 - (void) addBoosterPurchase:(RareBoosterPurchaseProto *)bp;
 - (void) addToStaticLevelInfos:(NSArray *)lurep;
 - (void) addToExpansionCosts:(NSArray *)costs;
+- (void) addToEventCooldownTimes:(NSArray *)arr;
 
 - (void) addInventorySlotsRequests:(NSArray *)invites;
 - (NSArray *) acceptedFbRequestsForUserStructId:(int)userStructId fbStructLevel:(int)level;
@@ -132,6 +138,8 @@
 - (void) addUserMonsterHealingItemToEndOfQueue:(UserMonsterHealingItem *)item;
 - (void) removeUserMonsterHealingItem:(UserMonsterHealingItem *)item;
 - (void) addAllMonsterHealingProtos:(NSArray *)items;
+- (void) saveHealthProgressesFromIndex:(int)index;
+- (void) readjustAllMonsterHealingProtos;
 
 - (void) addEnhancingItemToEndOfQueue:(EnhancementItem *)item;
 - (void) removeEnhancingItem:(EnhancementItem *)item;
@@ -143,6 +151,9 @@
 - (NSArray *) allBattleAvailableMonstersOnTeam;
 - (UserStruct *) myStructWithId:(int)structId;
 - (UserStruct *) myTownHall;
+- (UserStruct *) myLaboratory;
+- (NSArray *) myValidHospitals;
+- (int) maxHospitalQueueSize;
 - (UserQuest *) myQuestWithId:(int)questId;
 - (NSArray *) allCurrentQuests;
 

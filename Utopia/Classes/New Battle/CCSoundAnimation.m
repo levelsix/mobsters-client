@@ -11,11 +11,14 @@
 
 @implementation CCAnimation (SoundAnimation)
 
-- (void) repeatFrames:(NSRange)range {
-  if (range.location+range.length <= self.frames.count) {
-    NSArray *arr = [self.frames subarrayWithRange:range];
-    NSIndexSet *indexes = [NSIndexSet indexSetWithIndexesInRange:range];
-    [self.frames insertObjects:arr atIndexes:indexes];
+- (void) repeatFrames:(NSRange)range numTimes:(int)numTimes {
+  for (int i = 0; i < numTimes; i++) {
+    if (range.location+range.length <= self.frames.count) {
+      NSArray *arr = [self.frames subarrayWithRange:range];
+      NSIndexSet *indexes = [NSIndexSet indexSetWithIndexesInRange:range];
+      [self.frames insertObjects:arr atIndexes:indexes];
+      _totalDelayUnits += arr.count;
+    }
   }
 }
 

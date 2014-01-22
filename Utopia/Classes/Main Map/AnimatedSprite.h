@@ -48,6 +48,7 @@
 - (void) walk;
 - (void) stopWalking;
 - (void) walkToTileCoord:(CGPoint)tileCoord withSelector:(SEL)completion speedMultiplier:(float)speedMultiplier;
+- (void) restoreStandingFrame:(BOOL)facingLeft;
 
 @end
 

@@ -10,47 +10,44 @@
 #import <StoreKit/StoreKit.h>
 #import "InAppPurchaseData.h"
 #import "NibUtils.h"
+#import "EasyTableView.h"
 
 @interface DiamondListing : UIView
 
 @property (nonatomic, strong) id<InAppPurchaseData> productData;
-@property (nonatomic, strong) IBOutlet UILabel *nameLabel;
-@property (nonatomic, strong) IBOutlet UILabel *boughtAmountLabel;
-@property (nonatomic, strong) IBOutlet UILabel *costLabel;
-@property (nonatomic, strong) IBOutlet UIImageView *diamondImageView;
-@property (nonatomic, strong) IBOutlet UIImageView *backgroundImage;
-@property (nonatomic, strong) IBOutlet UIImageView *darkOverlay;
 
-- (void) updateForPurchaseData:(id<InAppPurchaseData>)product;
+@property (nonatomic, strong) IBOutlet UILabel *nameLabel;
+
+@property (nonatomic, strong) IBOutlet UILabel *gemsAmountLabel;
+@property (nonatomic, strong) IBOutlet UILabel *cashAmountLabel;
+@property (nonatomic, strong) IBOutlet UILabel *oilAmountLabel;
+
+@property (nonatomic, strong) IBOutlet UILabel *moneyCostLabel;
+@property (nonatomic, strong) IBOutlet UILabel *gemsCostLabel;
+
+@property (nonatomic, strong) IBOutlet UIImageView *packageIcon;
+@property (nonatomic, strong) IBOutlet UIImageView *bgdImageView;
+
+@property (nonatomic, strong) IBOutlet UIImageView *gemCostIcon;
+@property (nonatomic, strong) IBOutlet UIImageView *gemAmtIcon;
+@property (nonatomic, strong) IBOutlet UIImageView *oilAmtIcon;
+
+- (void) updateForPurchaseData:(id<InAppPurchaseData>)product greyscale:(BOOL)greyscale canAfford:(BOOL)canAfford;
 
 @end
 
-@interface DiamondListingContainer : UIView
+@interface DiamondShopViewController : GenViewController <EasyTableViewDelegate> {
+  BOOL _isLoading;
+}
 
 @property (nonatomic, strong) IBOutlet DiamondListing *diamondListing;
+@property (nonatomic, strong) IBOutlet EasyTableView *diamondTable;
+@property (nonatomic, strong) IBOutlet UIView *tableContainerView;
 
-@end
+@property (nonatomic, strong) IBOutlet NSMutableArray *packageData;
 
-//this is for the blank space at the bottom
-@interface BlankCell : UITableViewCell
+@property (nonatomic, strong) IBOutlet LoadingView *loadingView;
 
-@end
-
-@interface DiamondListingCell : UITableViewCell
-
-@property (nonatomic, strong) IBOutlet DiamondListingContainer *listing1;
-@property (nonatomic, strong) IBOutlet DiamondListingContainer *listing2;
-@property (nonatomic, strong) IBOutlet DiamondListingContainer *listing3;
-
-@end
-
-@interface DiamondShopViewController : GenViewController <UITableViewDelegate, UITableViewDataSource>
-
-@property (nonatomic, strong) IBOutlet DiamondListingCell *diamondRow;
-@property (nonatomic, strong) IBOutlet BlankCell *blankCell;
-@property (nonatomic, strong) IBOutlet UITableView *diamondTable;
-@property (nonatomic, strong) IBOutlet UIActivityIndicatorView *spinner;
-@property (nonatomic, strong) IBOutlet UILabel *cashLabel;
-@property (nonatomic, strong) IBOutlet UILabel *diamondLabel;
+- (IBAction) packageClicked:(id)sender;
 
 @end

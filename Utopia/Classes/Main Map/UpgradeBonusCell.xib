@@ -58,10 +58,6 @@
                                 <color key="shadowColor" red="0.0" green="0.0" blue="0.0" alpha="0.29999999999999999" colorSpace="calibratedRGB"/>
                                 <size key="shadowOffset" width="0.0" height="1"/>
                             </label>
-                            <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="newquest.png" id="3Rc-92-NZT">
-                                <rect key="frame" x="221" y="13" width="46" height="17"/>
-                                <autoresizingMask key="autoresizingMask"/>
-                            </imageView>
                             <view contentMode="scaleToFill" id="EFw-YM-AGh">
                                 <rect key="frame" x="94" y="2" width="123" height="38"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
@@ -209,6 +205,10 @@
                                 </subviews>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                             </view>
+                            <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="claimed.png" id="RSt-y5-syr">
+                                <rect key="frame" x="219" y="9" width="54" height="24"/>
+                                <autoresizingMask key="autoresizingMask"/>
+                            </imageView>
                         </subviews>
                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                     </view>
@@ -228,7 +228,7 @@
             <connections>
                 <outlet property="acceptViewsContainer" destination="EFw-YM-AGh" id="QvL-ze-nc8"/>
                 <outlet property="arrowIcon" destination="sqz-fh-GcP" id="oHH-Ys-n5S"/>
-                <outlet property="claimedIcon" destination="3Rc-92-NZT" id="vub-sw-Ws9"/>
+                <outlet property="claimedIcon" destination="RSt-y5-syr" id="bg8-2p-clS"/>
                 <outlet property="occupationLabel" destination="Qo8-b5-mZP" id="5jp-bd-s8J"/>
                 <outlet property="requiresLabel" destination="AZm-ap-CjT" id="UyQ-h1-hL5"/>
                 <outlet property="selectedBackgroundView" destination="rQK-pe-geB" id="vga-9D-2X6"/>
@@ -253,9 +253,9 @@
         </view>
     </objects>
     <resources>
+        <image name="claimed.png" width="54" height="24"/>
         <image name="emptyfriendslot.png" width="38" height="38"/>
         <image name="fullfriendborder.png" width="38" height="38"/>
-        <image name="newquest.png" width="46" height="17"/>
         <image name="questarrow.png" width="11" height="18"/>
     </resources>
 </document>

@@ -13,18 +13,14 @@
 #import "UserData.h"
 #import "BattlePlayer.h"
 
-@interface BattleContinueView : UIView
-
-@property (nonatomic, assign) IBOutlet UIView *mainView;
-@property (nonatomic, assign) IBOutlet UIView *bgdView;
-
-- (void) display;
-
-@end
-
 @interface BattleEndView : UIView
 
 @property (nonatomic, retain) IBOutlet RewardsViewContainer *rewardsViewContainer;
+
+@property (nonatomic, retain) IBOutlet UIImageView *splashImage;
+@property (nonatomic, retain) IBOutlet UIImageView *splashTextImage;
+
+@property (nonatomic, retain) IBOutlet UIImageView *lostStickerHead;
 
 @property (nonatomic, assign) IBOutlet UIView *mainView;
 @property (nonatomic, assign) IBOutlet UIView *bgdView;
@@ -35,7 +31,8 @@
 @property (nonatomic, assign) IBOutlet UILabel *manageLabel;
 @property (nonatomic, assign) IBOutlet UIView *buttonContainer;
 
-- (void) displayWithDungeon:(BeginDungeonResponseProto *)dungeon;
+- (void) displayWinWithDungeon:(BeginDungeonResponseProto *)dungeon;
+- (void) displayLossWithDungeon:(BeginDungeonResponseProto *)dungeon;
 
 @end
 

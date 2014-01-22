@@ -42,7 +42,11 @@
 @class MinimumUserProtoWithFacebookId_Builder;
 @class MinimumUserProtoWithLevel;
 @class MinimumUserProtoWithLevel_Builder;
+@class MinimumUserProtoWithMaxResources;
+@class MinimumUserProtoWithMaxResources_Builder;
 @class MinimumUserProto_Builder;
+@class MonsterLevelInfoProto;
+@class MonsterLevelInfoProto_Builder;
 @class MonsterProto;
 @class MonsterProto_Builder;
 @class QuestAcceptRequestProto;
@@ -83,6 +87,8 @@
 @class UserMonsterCurrentExpProto_Builder;
 @class UserMonsterCurrentHealthProto;
 @class UserMonsterCurrentHealthProto_Builder;
+@class UserMonsterEvolutionProto;
+@class UserMonsterEvolutionProto_Builder;
 @class UserMonsterHealingProto;
 @class UserMonsterHealingProto_Builder;
 typedef enum {
@@ -398,11 +404,11 @@ BOOL QuestRedeemResponseProto_QuestRedeemStatusIsValidValue(QuestRedeemResponseP
   BOOL hasQuestId_:1;
   BOOL hasSender_:1;
   int32_t questId;
-  MinimumUserProto* sender;
+  MinimumUserProtoWithMaxResources* sender;
 }
 - (BOOL) hasSender;
 - (BOOL) hasQuestId;
-@property (readonly, retain) MinimumUserProto* sender;
+@property (readonly, retain) MinimumUserProtoWithMaxResources* sender;
 @property (readonly) int32_t questId;
 
 + (QuestRedeemRequestProto*) defaultInstance;
@@ -440,10 +446,10 @@ BOOL QuestRedeemResponseProto_QuestRedeemStatusIsValidValue(QuestRedeemResponseP
 - (QuestRedeemRequestProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
 
 - (BOOL) hasSender;
-- (MinimumUserProto*) sender;
-- (QuestRedeemRequestProto_Builder*) setSender:(MinimumUserProto*) value;
-- (QuestRedeemRequestProto_Builder*) setSenderBuilder:(MinimumUserProto_Builder*) builderForValue;
-- (QuestRedeemRequestProto_Builder*) mergeSender:(MinimumUserProto*) value;
+- (MinimumUserProtoWithMaxResources*) sender;
+- (QuestRedeemRequestProto_Builder*) setSender:(MinimumUserProtoWithMaxResources*) value;
+- (QuestRedeemRequestProto_Builder*) setSenderBuilder:(MinimumUserProtoWithMaxResources_Builder*) builderForValue;
+- (QuestRedeemRequestProto_Builder*) mergeSender:(MinimumUserProtoWithMaxResources*) value;
 - (QuestRedeemRequestProto_Builder*) clearSender;
 
 - (BOOL) hasQuestId;
@@ -459,7 +465,7 @@ BOOL QuestRedeemResponseProto_QuestRedeemStatusIsValidValue(QuestRedeemResponseP
   BOOL hasFump_:1;
   BOOL hasStatus_:1;
   int32_t questId;
-  MinimumUserProto* sender;
+  MinimumUserProtoWithMaxResources* sender;
   FullUserMonsterProto* fump;
   QuestRedeemResponseProto_QuestRedeemStatus status;
   NSMutableArray* mutableNewlyAvailableQuestsList;
@@ -468,7 +474,7 @@ BOOL QuestRedeemResponseProto_QuestRedeemStatusIsValidValue(QuestRedeemResponseP
 - (BOOL) hasStatus;
 - (BOOL) hasFump;
 - (BOOL) hasQuestId;
-@property (readonly, retain) MinimumUserProto* sender;
+@property (readonly, retain) MinimumUserProtoWithMaxResources* sender;
 @property (readonly) QuestRedeemResponseProto_QuestRedeemStatus status;
 @property (readonly, retain) FullUserMonsterProto* fump;
 @property (readonly) int32_t questId;
@@ -510,10 +516,10 @@ BOOL QuestRedeemResponseProto_QuestRedeemStatusIsValidValue(QuestRedeemResponseP
 - (QuestRedeemResponseProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
 
 - (BOOL) hasSender;
-- (MinimumUserProto*) sender;
-- (QuestRedeemResponseProto_Builder*) setSender:(MinimumUserProto*) value;
-- (QuestRedeemResponseProto_Builder*) setSenderBuilder:(MinimumUserProto_Builder*) builderForValue;
-- (QuestRedeemResponseProto_Builder*) mergeSender:(MinimumUserProto*) value;
+- (MinimumUserProtoWithMaxResources*) sender;
+- (QuestRedeemResponseProto_Builder*) setSender:(MinimumUserProtoWithMaxResources*) value;
+- (QuestRedeemResponseProto_Builder*) setSenderBuilder:(MinimumUserProtoWithMaxResources_Builder*) builderForValue;
+- (QuestRedeemResponseProto_Builder*) mergeSender:(MinimumUserProtoWithMaxResources*) value;
 - (QuestRedeemResponseProto_Builder*) clearSender;
 
 - (NSArray*) newlyAvailableQuestsList;

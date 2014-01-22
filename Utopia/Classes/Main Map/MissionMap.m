@@ -177,45 +177,6 @@
   [self moveToSprite:[self assetWithId:a] animated:animated];
 }
 
-- (BOOL) checkEnteringDungeon {
-  if (_enteringDungeon) {
-    return NO;
-  }
-  
-  // Check that team is valid
-  GameState *gs = [GameState sharedGameState];
-//  Globals *gl = [Globals sharedGlobals];
-  NSArray *team = [gs allMonstersOnMyTeam];
-  BOOL hasValidTeam = NO;
-  for (UserMonster *um in team) {
-    if (um.curHealth > 0) {
-      hasValidTeam = YES;
-    }
-  }
-  
-  if (!hasValidTeam) {
-    NSString *description = @"";
-    if (team.count == 0) {
-      description = @"Uh oh, you have no mobsters on your team. Manage your team?";
-    } else {
-      description = @"Uh oh, your mobsters are out of health. Manage your team?";
-    }
-    [GenericPopupController displayConfirmationWithDescription:description title:@"Can't Begin" okayButton:@"Manage" cancelButton:@"Later" target:self selector:@selector(visitTeamPage)];
-    
-    return NO;
-  }
-  
-  // Check that inventory is not full
-  int curInvSize = gs.myMonsters.count;
-  if (curInvSize > gs.maxInventorySlots) {
-    NSString *description = @"Uh oh, you have recruited too many mobsters. Manage your team?";
-    [GenericPopupController displayConfirmationWithDescription:description title:@"Can't Begin" okayButton:@"Manage" cancelButton:@"Later" target:self selector:@selector(visitTeamPage)];
-    return NO;
-  }
-  
-  return YES;
-}
-
 #define SPRITE_DELAY 0.6f
 
 - (void) teamSpritesEnterBuilding:(id<TaskElement>)mp {
@@ -242,10 +203,13 @@
 }
 
 - (IBAction) performCurrentTask:(id)sender {
+  if (_enteringDungeon) {
+    return;
+  }
+  
   if ([self.selected conformsToProtocol:@protocol(TaskElement)]) {
     id<TaskElement> te = (id<TaskElement>)self.selected;
-    
-    if ([self checkEnteringDungeon]) {
+    if ([Globals checkEnteringDungeonWithTarget:self selector:@selector(visitTeamPage)]) {
       [self teamSpritesEnterBuilding:te];
       [self moveToSprite:(CCSprite *)te animated:YES];
       // Set the gvc as the delegate of this

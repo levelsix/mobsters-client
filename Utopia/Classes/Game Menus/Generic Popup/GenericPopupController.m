@@ -92,6 +92,43 @@
   GenericPopupController *gp = [GenericPopupController displayNotificationViewWithText:@"You don't have enough gems. Want more?" title:@"Not Enough Gems" okayButton:@"Enter Shop" target:[GameViewController baseController] selector:@selector(openGemShop)];
   
   [gp.notifButton setImage:[Globals imageNamed:@"finishbuild.png"] forState:UIControlStateNormal];
+  
+  gp.closeButton.hidden = NO;
+  
+  return gp;
+}
+
++ (GenericPopupController *) displayGemConfirmViewWithDescription:(NSString *)description title:(NSString *)title gemCost:(int)gemCost target:(id)target selector:(SEL)selector {
+  GenericPopupController *gp = [[GenericPopupController alloc] init];
+  [gp displayPopup];
+  
+  [gp.mainView addSubview:gp.gemView];
+  gp.gemView.center = gp.notificationView.center;
+  [gp.notificationView removeFromSuperview];
+  
+  gp.titleLabel.text = title;
+  gp.descriptionLabel.text = description;
+  gp.gemButtonLabel.text = [Globals commafyNumber:gemCost];
+  
+  if (target) [gp.gemButton addTarget:target action:selector forControlEvents:UIControlEventTouchUpInside];
+  
+  gp.closeButton.hidden = NO;
+  
+  return gp;
+}
+
++ (GenericPopupController *) displayExchangeForGemsViewWithResourceType:(ResourceType)resourceType amount:(int)amount target:(id)target selector:(SEL)selector {
+  Globals *gl = [Globals sharedGlobals];
+  
+  BOOL isCash = resourceType == ResourceTypeCash;
+  NSString *type = isCash ? @"cash" : @"oil";
+  NSString *title = [NSString stringWithFormat:@"You need more %@", type];
+  NSString *resources = isCash ? [Globals cashStringForNumber:amount] : [NSString stringWithFormat:@"%d %@", amount, type];
+  NSString *description = [NSString stringWithFormat:@"Buy the missing %@?", resources];
+  int gemCost = [gl calculateGemConversionForResourceType:resourceType amount:amount];
+  
+  GenericPopupController *gp = [GenericPopupController displayGemConfirmViewWithDescription:description title:title gemCost:gemCost target:target selector:selector];
+  
   return gp;
 }
 

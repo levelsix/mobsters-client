@@ -8,34 +8,31 @@
 
 #import <Foundation/Foundation.h>
 #import <StoreKit/StoreKit.h>
-#define UNKNOWN_PRICE_STR   @"$$$"
-#define FREE_PRICE_STR      @"Free"
-#define NO_CLIPS            @"No Clips Available"
+#import "Protocols.pb.h"
 
 @protocol InAppPurchaseData <NSObject>
-@property(nonatomic, readonly) NSString *primaryTitle;
-@property(nonatomic, readonly) NSString *secondaryTitle;
-@property(nonatomic, readonly) BOOL isGold;
-@property(nonatomic, readonly) NSString *price;
-@property(nonatomic, readonly) NSString *salePrice;
-@property(nonatomic, readonly) NSString *rewardPicName;
-@property(nonatomic, readonly) int discount;
 
--(void) makePurchaseWithViewController:(UIViewController *)controller;
--(BOOL) purchaseAvailable;
+@property(nonatomic, copy) NSString *primaryTitle;
+@property(nonatomic, assign) ResourceType resourceType;
+@property(nonatomic, assign) int amountGained;
+@property(nonatomic, assign) int gemPrice;
+@property(nonatomic, copy) NSString *moneyPrice;
+@property(nonatomic, copy) NSString *rewardPicName;
+
+- (BOOL) makePurchaseWithDelegate:(id)delegate;
+
 @end
 
 @interface InAppPurchaseData : NSObject<InAppPurchaseData> {
   SKProduct *_product;
-  SKProduct *_saleProduct;
 }
 
-+(NSString *) unknownPrice;
-+(NSString *) freePrice;
-+(NSString *) adTakeoverResignedNotification;
-+(void) postAdTakeoverResignedNotificationForSender:(id)sender;
++ (id<InAppPurchaseData>) createWithProduct:(SKProduct *)product;
 
-#pragma Factory Methods
-+(id<InAppPurchaseData>) createWithProduct:(SKProduct *)product saleProduct:(SKProduct *)saleProduct;
-+(NSArray *) allSponsoredOffers;
+@end
+
+@interface ResourcePurchaseData : NSObject<InAppPurchaseData>
+
++ (id<InAppPurchaseData>) createWithResourceType:(ResourceType)type amount:(int)amount title:(NSString *)title;
+
 @end

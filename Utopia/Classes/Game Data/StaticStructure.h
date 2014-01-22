@@ -33,3 +33,7 @@
 @interface TownHallProto (StaticStructureImpl) <StaticStructure>
 
 @end
+
+@interface LabProto (StaticStructureImpl) <StaticStructure>
+
+@end

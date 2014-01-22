@@ -24,22 +24,18 @@ BOOL EarnFreeDiamondsTypeIsValidValue(EarnFreeDiamondsType value);
 
 @interface InAppPurchasePackageProto : PBGeneratedMessage {
 @private
-  BOOL hasIsGold_:1;
   BOOL hasCurrencyAmount_:1;
   BOOL hasIapPackageId_:1;
   BOOL hasImageName_:1;
-  BOOL isGold_:1;
   int32_t currencyAmount;
   NSString* iapPackageId;
   NSString* imageName;
 }
 - (BOOL) hasIapPackageId;
 - (BOOL) hasCurrencyAmount;
-- (BOOL) hasIsGold;
 - (BOOL) hasImageName;
 @property (readonly, retain) NSString* iapPackageId;
 @property (readonly) int32_t currencyAmount;
-- (BOOL) isGold;
 @property (readonly, retain) NSString* imageName;
 
 + (InAppPurchasePackageProto*) defaultInstance;
@@ -85,11 +81,6 @@ BOOL EarnFreeDiamondsTypeIsValidValue(EarnFreeDiamondsType value);
 - (int32_t) currencyAmount;
 - (InAppPurchasePackageProto_Builder*) setCurrencyAmount:(int32_t) value;
 - (InAppPurchasePackageProto_Builder*) clearCurrencyAmount;
-
-- (BOOL) hasIsGold;
-- (BOOL) isGold;
-- (InAppPurchasePackageProto_Builder*) setIsGold:(BOOL) value;
-- (InAppPurchasePackageProto_Builder*) clearIsGold;
 
 - (BOOL) hasImageName;
 - (NSString*) imageName;

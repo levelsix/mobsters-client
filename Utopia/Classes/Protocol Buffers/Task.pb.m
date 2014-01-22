@@ -1301,3 +1301,737 @@ BOOL TaskStageMonsterProto_MonsterTypeIsValidValue(TaskStageMonsterProto_Monster
 }
 @end
 
+@interface PersistentEventProto ()
+@property int32_t eventId;
+@property PersistentEventProto_DayOfWeek dayOfWeek;
+@property int32_t startHour;
+@property int32_t eventDurationMinutes;
+@property int32_t taskId;
+@property int32_t cooldownMinutes;
+@property PersistentEventProto_EventType type;
+@property MonsterProto_MonsterElement monsterElement;
+@end
+
+@implementation PersistentEventProto
+
+- (BOOL) hasEventId {
+  return !!hasEventId_;
+}
+- (void) setHasEventId:(BOOL) value {
+  hasEventId_ = !!value;
+}
+@synthesize eventId;
+- (BOOL) hasDayOfWeek {
+  return !!hasDayOfWeek_;
+}
+- (void) setHasDayOfWeek:(BOOL) value {
+  hasDayOfWeek_ = !!value;
+}
+@synthesize dayOfWeek;
+- (BOOL) hasStartHour {
+  return !!hasStartHour_;
+}
+- (void) setHasStartHour:(BOOL) value {
+  hasStartHour_ = !!value;
+}
+@synthesize startHour;
+- (BOOL) hasEventDurationMinutes {
+  return !!hasEventDurationMinutes_;
+}
+- (void) setHasEventDurationMinutes:(BOOL) value {
+  hasEventDurationMinutes_ = !!value;
+}
+@synthesize eventDurationMinutes;
+- (BOOL) hasTaskId {
+  return !!hasTaskId_;
+}
+- (void) setHasTaskId:(BOOL) value {
+  hasTaskId_ = !!value;
+}
+@synthesize taskId;
+- (BOOL) hasCooldownMinutes {
+  return !!hasCooldownMinutes_;
+}
+- (void) setHasCooldownMinutes:(BOOL) value {
+  hasCooldownMinutes_ = !!value;
+}
+@synthesize cooldownMinutes;
+- (BOOL) hasType {
+  return !!hasType_;
+}
+- (void) setHasType:(BOOL) value {
+  hasType_ = !!value;
+}
+@synthesize type;
+- (BOOL) hasMonsterElement {
+  return !!hasMonsterElement_;
+}
+- (void) setHasMonsterElement:(BOOL) value {
+  hasMonsterElement_ = !!value;
+}
+@synthesize monsterElement;
+- (void) dealloc {
+  [super dealloc];
+}
+- (id) init {
+  if ((self = [super init])) {
+    self.eventId = 0;
+    self.dayOfWeek = PersistentEventProto_DayOfWeekSunday;
+    self.startHour = 0;
+    self.eventDurationMinutes = 0;
+    self.taskId = 0;
+    self.cooldownMinutes = 0;
+    self.type = PersistentEventProto_EventTypeEnhance;
+    self.monsterElement = MonsterProto_MonsterElementFire;
+  }
+  return self;
+}
+static PersistentEventProto* defaultPersistentEventProtoInstance = nil;
++ (void) initialize {
+  if (self == [PersistentEventProto class]) {
+    defaultPersistentEventProtoInstance = [[PersistentEventProto alloc] init];
+  }
+}
++ (PersistentEventProto*) defaultInstance {
+  return defaultPersistentEventProtoInstance;
+}
+- (PersistentEventProto*) defaultInstance {
+  return defaultPersistentEventProtoInstance;
+}
+- (BOOL) isInitialized {
+  return YES;
+}
+- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output {
+  if (self.hasEventId) {
+    [output writeInt32:1 value:self.eventId];
+  }
+  if (self.hasDayOfWeek) {
+    [output writeEnum:2 value:self.dayOfWeek];
+  }
+  if (self.hasStartHour) {
+    [output writeInt32:3 value:self.startHour];
+  }
+  if (self.hasEventDurationMinutes) {
+    [output writeInt32:4 value:self.eventDurationMinutes];
+  }
+  if (self.hasTaskId) {
+    [output writeInt32:5 value:self.taskId];
+  }
+  if (self.hasCooldownMinutes) {
+    [output writeInt32:6 value:self.cooldownMinutes];
+  }
+  if (self.hasType) {
+    [output writeEnum:7 value:self.type];
+  }
+  if (self.hasMonsterElement) {
+    [output writeEnum:8 value:self.monsterElement];
+  }
+  [self.unknownFields writeToCodedOutputStream:output];
+}
+- (int32_t) serializedSize {
+  int32_t size = memoizedSerializedSize;
+  if (size != -1) {
+    return size;
+  }
+
+  size = 0;
+  if (self.hasEventId) {
+    size += computeInt32Size(1, self.eventId);
+  }
+  if (self.hasDayOfWeek) {
+    size += computeEnumSize(2, self.dayOfWeek);
+  }
+  if (self.hasStartHour) {
+    size += computeInt32Size(3, self.startHour);
+  }
+  if (self.hasEventDurationMinutes) {
+    size += computeInt32Size(4, self.eventDurationMinutes);
+  }
+  if (self.hasTaskId) {
+    size += computeInt32Size(5, self.taskId);
+  }
+  if (self.hasCooldownMinutes) {
+    size += computeInt32Size(6, self.cooldownMinutes);
+  }
+  if (self.hasType) {
+    size += computeEnumSize(7, self.type);
+  }
+  if (self.hasMonsterElement) {
+    size += computeEnumSize(8, self.monsterElement);
+  }
+  size += self.unknownFields.serializedSize;
+  memoizedSerializedSize = size;
+  return size;
+}
++ (PersistentEventProto*) parseFromData:(NSData*) data {
+  return (PersistentEventProto*)[[[PersistentEventProto builder] mergeFromData:data] build];
+}
++ (PersistentEventProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (PersistentEventProto*)[[[PersistentEventProto builder] mergeFromData:data extensionRegistry:extensionRegistry] build];
+}
++ (PersistentEventProto*) parseFromInputStream:(NSInputStream*) input {
+  return (PersistentEventProto*)[[[PersistentEventProto builder] mergeFromInputStream:input] build];
+}
++ (PersistentEventProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (PersistentEventProto*)[[[PersistentEventProto builder] mergeFromInputStream:input extensionRegistry:extensionRegistry] build];
+}
++ (PersistentEventProto*) parseFromCodedInputStream:(PBCodedInputStream*) input {
+  return (PersistentEventProto*)[[[PersistentEventProto builder] mergeFromCodedInputStream:input] build];
+}
++ (PersistentEventProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (PersistentEventProto*)[[[PersistentEventProto builder] mergeFromCodedInputStream:input extensionRegistry:extensionRegistry] build];
+}
++ (PersistentEventProto_Builder*) builder {
+  return [[[PersistentEventProto_Builder alloc] init] autorelease];
+}
++ (PersistentEventProto_Builder*) builderWithPrototype:(PersistentEventProto*) prototype {
+  return [[PersistentEventProto builder] mergeFrom:prototype];
+}
+- (PersistentEventProto_Builder*) builder {
+  return [PersistentEventProto builder];
+}
+@end
+
+BOOL PersistentEventProto_DayOfWeekIsValidValue(PersistentEventProto_DayOfWeek value) {
+  switch (value) {
+    case PersistentEventProto_DayOfWeekSunday:
+    case PersistentEventProto_DayOfWeekMonday:
+    case PersistentEventProto_DayOfWeekTuesday:
+    case PersistentEventProto_DayOfWeekWednesday:
+    case PersistentEventProto_DayOfWeekThursday:
+    case PersistentEventProto_DayOfWeekFriday:
+    case PersistentEventProto_DayOfWeekSaturday:
+      return YES;
+    default:
+      return NO;
+  }
+}
+BOOL PersistentEventProto_EventTypeIsValidValue(PersistentEventProto_EventType value) {
+  switch (value) {
+    case PersistentEventProto_EventTypeEnhance:
+    case PersistentEventProto_EventTypeEvolution:
+      return YES;
+    default:
+      return NO;
+  }
+}
+@interface PersistentEventProto_Builder()
+@property (retain) PersistentEventProto* result;
+@end
+
+@implementation PersistentEventProto_Builder
+@synthesize result;
+- (void) dealloc {
+  self.result = nil;
+  [super dealloc];
+}
+- (id) init {
+  if ((self = [super init])) {
+    self.result = [[[PersistentEventProto alloc] init] autorelease];
+  }
+  return self;
+}
+- (PBGeneratedMessage*) internalGetResult {
+  return result;
+}
+- (PersistentEventProto_Builder*) clear {
+  self.result = [[[PersistentEventProto alloc] init] autorelease];
+  return self;
+}
+- (PersistentEventProto_Builder*) clone {
+  return [PersistentEventProto builderWithPrototype:result];
+}
+- (PersistentEventProto*) defaultInstance {
+  return [PersistentEventProto defaultInstance];
+}
+- (PersistentEventProto*) build {
+  [self checkInitialized];
+  return [self buildPartial];
+}
+- (PersistentEventProto*) buildPartial {
+  PersistentEventProto* returnMe = [[result retain] autorelease];
+  self.result = nil;
+  return returnMe;
+}
+- (PersistentEventProto_Builder*) mergeFrom:(PersistentEventProto*) other {
+  if (other == [PersistentEventProto defaultInstance]) {
+    return self;
+  }
+  if (other.hasEventId) {
+    [self setEventId:other.eventId];
+  }
+  if (other.hasDayOfWeek) {
+    [self setDayOfWeek:other.dayOfWeek];
+  }
+  if (other.hasStartHour) {
+    [self setStartHour:other.startHour];
+  }
+  if (other.hasEventDurationMinutes) {
+    [self setEventDurationMinutes:other.eventDurationMinutes];
+  }
+  if (other.hasTaskId) {
+    [self setTaskId:other.taskId];
+  }
+  if (other.hasCooldownMinutes) {
+    [self setCooldownMinutes:other.cooldownMinutes];
+  }
+  if (other.hasType) {
+    [self setType:other.type];
+  }
+  if (other.hasMonsterElement) {
+    [self setMonsterElement:other.monsterElement];
+  }
+  [self mergeUnknownFields:other.unknownFields];
+  return self;
+}
+- (PersistentEventProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input {
+  return [self mergeFromCodedInputStream:input extensionRegistry:[PBExtensionRegistry emptyRegistry]];
+}
+- (PersistentEventProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  PBUnknownFieldSet_Builder* unknownFields = [PBUnknownFieldSet builderWithUnknownFields:self.unknownFields];
+  while (YES) {
+    int32_t tag = [input readTag];
+    switch (tag) {
+      case 0:
+        [self setUnknownFields:[unknownFields build]];
+        return self;
+      default: {
+        if (![self parseUnknownField:input unknownFields:unknownFields extensionRegistry:extensionRegistry tag:tag]) {
+          [self setUnknownFields:[unknownFields build]];
+          return self;
+        }
+        break;
+      }
+      case 8: {
+        [self setEventId:[input readInt32]];
+        break;
+      }
+      case 16: {
+        int32_t value = [input readEnum];
+        if (PersistentEventProto_DayOfWeekIsValidValue(value)) {
+          [self setDayOfWeek:value];
+        } else {
+          [unknownFields mergeVarintField:2 value:value];
+        }
+        break;
+      }
+      case 24: {
+        [self setStartHour:[input readInt32]];
+        break;
+      }
+      case 32: {
+        [self setEventDurationMinutes:[input readInt32]];
+        break;
+      }
+      case 40: {
+        [self setTaskId:[input readInt32]];
+        break;
+      }
+      case 48: {
+        [self setCooldownMinutes:[input readInt32]];
+        break;
+      }
+      case 56: {
+        int32_t value = [input readEnum];
+        if (PersistentEventProto_EventTypeIsValidValue(value)) {
+          [self setType:value];
+        } else {
+          [unknownFields mergeVarintField:7 value:value];
+        }
+        break;
+      }
+      case 64: {
+        int32_t value = [input readEnum];
+        if (MonsterProto_MonsterElementIsValidValue(value)) {
+          [self setMonsterElement:value];
+        } else {
+          [unknownFields mergeVarintField:8 value:value];
+        }
+        break;
+      }
+    }
+  }
+}
+- (BOOL) hasEventId {
+  return result.hasEventId;
+}
+- (int32_t) eventId {
+  return result.eventId;
+}
+- (PersistentEventProto_Builder*) setEventId:(int32_t) value {
+  result.hasEventId = YES;
+  result.eventId = value;
+  return self;
+}
+- (PersistentEventProto_Builder*) clearEventId {
+  result.hasEventId = NO;
+  result.eventId = 0;
+  return self;
+}
+- (BOOL) hasDayOfWeek {
+  return result.hasDayOfWeek;
+}
+- (PersistentEventProto_DayOfWeek) dayOfWeek {
+  return result.dayOfWeek;
+}
+- (PersistentEventProto_Builder*) setDayOfWeek:(PersistentEventProto_DayOfWeek) value {
+  result.hasDayOfWeek = YES;
+  result.dayOfWeek = value;
+  return self;
+}
+- (PersistentEventProto_Builder*) clearDayOfWeek {
+  result.hasDayOfWeek = NO;
+  result.dayOfWeek = PersistentEventProto_DayOfWeekSunday;
+  return self;
+}
+- (BOOL) hasStartHour {
+  return result.hasStartHour;
+}
+- (int32_t) startHour {
+  return result.startHour;
+}
+- (PersistentEventProto_Builder*) setStartHour:(int32_t) value {
+  result.hasStartHour = YES;
+  result.startHour = value;
+  return self;
+}
+- (PersistentEventProto_Builder*) clearStartHour {
+  result.hasStartHour = NO;
+  result.startHour = 0;
+  return self;
+}
+- (BOOL) hasEventDurationMinutes {
+  return result.hasEventDurationMinutes;
+}
+- (int32_t) eventDurationMinutes {
+  return result.eventDurationMinutes;
+}
+- (PersistentEventProto_Builder*) setEventDurationMinutes:(int32_t) value {
+  result.hasEventDurationMinutes = YES;
+  result.eventDurationMinutes = value;
+  return self;
+}
+- (PersistentEventProto_Builder*) clearEventDurationMinutes {
+  result.hasEventDurationMinutes = NO;
+  result.eventDurationMinutes = 0;
+  return self;
+}
+- (BOOL) hasTaskId {
+  return result.hasTaskId;
+}
+- (int32_t) taskId {
+  return result.taskId;
+}
+- (PersistentEventProto_Builder*) setTaskId:(int32_t) value {
+  result.hasTaskId = YES;
+  result.taskId = value;
+  return self;
+}
+- (PersistentEventProto_Builder*) clearTaskId {
+  result.hasTaskId = NO;
+  result.taskId = 0;
+  return self;
+}
+- (BOOL) hasCooldownMinutes {
+  return result.hasCooldownMinutes;
+}
+- (int32_t) cooldownMinutes {
+  return result.cooldownMinutes;
+}
+- (PersistentEventProto_Builder*) setCooldownMinutes:(int32_t) value {
+  result.hasCooldownMinutes = YES;
+  result.cooldownMinutes = value;
+  return self;
+}
+- (PersistentEventProto_Builder*) clearCooldownMinutes {
+  result.hasCooldownMinutes = NO;
+  result.cooldownMinutes = 0;
+  return self;
+}
+- (BOOL) hasType {
+  return result.hasType;
+}
+- (PersistentEventProto_EventType) type {
+  return result.type;
+}
+- (PersistentEventProto_Builder*) setType:(PersistentEventProto_EventType) value {
+  result.hasType = YES;
+  result.type = value;
+  return self;
+}
+- (PersistentEventProto_Builder*) clearType {
+  result.hasType = NO;
+  result.type = PersistentEventProto_EventTypeEnhance;
+  return self;
+}
+- (BOOL) hasMonsterElement {
+  return result.hasMonsterElement;
+}
+- (MonsterProto_MonsterElement) monsterElement {
+  return result.monsterElement;
+}
+- (PersistentEventProto_Builder*) setMonsterElement:(MonsterProto_MonsterElement) value {
+  result.hasMonsterElement = YES;
+  result.monsterElement = value;
+  return self;
+}
+- (PersistentEventProto_Builder*) clearMonsterElement {
+  result.hasMonsterElement = NO;
+  result.monsterElement = MonsterProto_MonsterElementFire;
+  return self;
+}
+@end
+
+@interface UserPersistentEventProto ()
+@property int32_t userId;
+@property int32_t eventId;
+@property int64_t coolDownStartTime;
+@end
+
+@implementation UserPersistentEventProto
+
+- (BOOL) hasUserId {
+  return !!hasUserId_;
+}
+- (void) setHasUserId:(BOOL) value {
+  hasUserId_ = !!value;
+}
+@synthesize userId;
+- (BOOL) hasEventId {
+  return !!hasEventId_;
+}
+- (void) setHasEventId:(BOOL) value {
+  hasEventId_ = !!value;
+}
+@synthesize eventId;
+- (BOOL) hasCoolDownStartTime {
+  return !!hasCoolDownStartTime_;
+}
+- (void) setHasCoolDownStartTime:(BOOL) value {
+  hasCoolDownStartTime_ = !!value;
+}
+@synthesize coolDownStartTime;
+- (void) dealloc {
+  [super dealloc];
+}
+- (id) init {
+  if ((self = [super init])) {
+    self.userId = 0;
+    self.eventId = 0;
+    self.coolDownStartTime = 0L;
+  }
+  return self;
+}
+static UserPersistentEventProto* defaultUserPersistentEventProtoInstance = nil;
++ (void) initialize {
+  if (self == [UserPersistentEventProto class]) {
+    defaultUserPersistentEventProtoInstance = [[UserPersistentEventProto alloc] init];
+  }
+}
++ (UserPersistentEventProto*) defaultInstance {
+  return defaultUserPersistentEventProtoInstance;
+}
+- (UserPersistentEventProto*) defaultInstance {
+  return defaultUserPersistentEventProtoInstance;
+}
+- (BOOL) isInitialized {
+  return YES;
+}
+- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output {
+  if (self.hasUserId) {
+    [output writeInt32:1 value:self.userId];
+  }
+  if (self.hasEventId) {
+    [output writeInt32:2 value:self.eventId];
+  }
+  if (self.hasCoolDownStartTime) {
+    [output writeInt64:3 value:self.coolDownStartTime];
+  }
+  [self.unknownFields writeToCodedOutputStream:output];
+}
+- (int32_t) serializedSize {
+  int32_t size = memoizedSerializedSize;
+  if (size != -1) {
+    return size;
+  }
+
+  size = 0;
+  if (self.hasUserId) {
+    size += computeInt32Size(1, self.userId);
+  }
+  if (self.hasEventId) {
+    size += computeInt32Size(2, self.eventId);
+  }
+  if (self.hasCoolDownStartTime) {
+    size += computeInt64Size(3, self.coolDownStartTime);
+  }
+  size += self.unknownFields.serializedSize;
+  memoizedSerializedSize = size;
+  return size;
+}
++ (UserPersistentEventProto*) parseFromData:(NSData*) data {
+  return (UserPersistentEventProto*)[[[UserPersistentEventProto builder] mergeFromData:data] build];
+}
++ (UserPersistentEventProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (UserPersistentEventProto*)[[[UserPersistentEventProto builder] mergeFromData:data extensionRegistry:extensionRegistry] build];
+}
++ (UserPersistentEventProto*) parseFromInputStream:(NSInputStream*) input {
+  return (UserPersistentEventProto*)[[[UserPersistentEventProto builder] mergeFromInputStream:input] build];
+}
++ (UserPersistentEventProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (UserPersistentEventProto*)[[[UserPersistentEventProto builder] mergeFromInputStream:input extensionRegistry:extensionRegistry] build];
+}
++ (UserPersistentEventProto*) parseFromCodedInputStream:(PBCodedInputStream*) input {
+  return (UserPersistentEventProto*)[[[UserPersistentEventProto builder] mergeFromCodedInputStream:input] build];
+}
++ (UserPersistentEventProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (UserPersistentEventProto*)[[[UserPersistentEventProto builder] mergeFromCodedInputStream:input extensionRegistry:extensionRegistry] build];
+}
++ (UserPersistentEventProto_Builder*) builder {
+  return [[[UserPersistentEventProto_Builder alloc] init] autorelease];
+}
++ (UserPersistentEventProto_Builder*) builderWithPrototype:(UserPersistentEventProto*) prototype {
+  return [[UserPersistentEventProto builder] mergeFrom:prototype];
+}
+- (UserPersistentEventProto_Builder*) builder {
+  return [UserPersistentEventProto builder];
+}
+@end
+
+@interface UserPersistentEventProto_Builder()
+@property (retain) UserPersistentEventProto* result;
+@end
+
+@implementation UserPersistentEventProto_Builder
+@synthesize result;
+- (void) dealloc {
+  self.result = nil;
+  [super dealloc];
+}
+- (id) init {
+  if ((self = [super init])) {
+    self.result = [[[UserPersistentEventProto alloc] init] autorelease];
+  }
+  return self;
+}
+- (PBGeneratedMessage*) internalGetResult {
+  return result;
+}
+- (UserPersistentEventProto_Builder*) clear {
+  self.result = [[[UserPersistentEventProto alloc] init] autorelease];
+  return self;
+}
+- (UserPersistentEventProto_Builder*) clone {
+  return [UserPersistentEventProto builderWithPrototype:result];
+}
+- (UserPersistentEventProto*) defaultInstance {
+  return [UserPersistentEventProto defaultInstance];
+}
+- (UserPersistentEventProto*) build {
+  [self checkInitialized];
+  return [self buildPartial];
+}
+- (UserPersistentEventProto*) buildPartial {
+  UserPersistentEventProto* returnMe = [[result retain] autorelease];
+  self.result = nil;
+  return returnMe;
+}
+- (UserPersistentEventProto_Builder*) mergeFrom:(UserPersistentEventProto*) other {
+  if (other == [UserPersistentEventProto defaultInstance]) {
+    return self;
+  }
+  if (other.hasUserId) {
+    [self setUserId:other.userId];
+  }
+  if (other.hasEventId) {
+    [self setEventId:other.eventId];
+  }
+  if (other.hasCoolDownStartTime) {
+    [self setCoolDownStartTime:other.coolDownStartTime];
+  }
+  [self mergeUnknownFields:other.unknownFields];
+  return self;
+}
+- (UserPersistentEventProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input {
+  return [self mergeFromCodedInputStream:input extensionRegistry:[PBExtensionRegistry emptyRegistry]];
+}
+- (UserPersistentEventProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  PBUnknownFieldSet_Builder* unknownFields = [PBUnknownFieldSet builderWithUnknownFields:self.unknownFields];
+  while (YES) {
+    int32_t tag = [input readTag];
+    switch (tag) {
+      case 0:
+        [self setUnknownFields:[unknownFields build]];
+        return self;
+      default: {
+        if (![self parseUnknownField:input unknownFields:unknownFields extensionRegistry:extensionRegistry tag:tag]) {
+          [self setUnknownFields:[unknownFields build]];
+          return self;
+        }
+        break;
+      }
+      case 8: {
+        [self setUserId:[input readInt32]];
+        break;
+      }
+      case 16: {
+        [self setEventId:[input readInt32]];
+        break;
+      }
+      case 24: {
+        [self setCoolDownStartTime:[input readInt64]];
+        break;
+      }
+    }
+  }
+}
+- (BOOL) hasUserId {
+  return result.hasUserId;
+}
+- (int32_t) userId {
+  return result.userId;
+}
+- (UserPersistentEventProto_Builder*) setUserId:(int32_t) value {
+  result.hasUserId = YES;
+  result.userId = value;
+  return self;
+}
+- (UserPersistentEventProto_Builder*) clearUserId {
+  result.hasUserId = NO;
+  result.userId = 0;
+  return self;
+}
+- (BOOL) hasEventId {
+  return result.hasEventId;
+}
+- (int32_t) eventId {
+  return result.eventId;
+}
+- (UserPersistentEventProto_Builder*) setEventId:(int32_t) value {
+  result.hasEventId = YES;
+  result.eventId = value;
+  return self;
+}
+- (UserPersistentEventProto_Builder*) clearEventId {
+  result.hasEventId = NO;
+  result.eventId = 0;
+  return self;
+}
+- (BOOL) hasCoolDownStartTime {
+  return result.hasCoolDownStartTime;
+}
+- (int64_t) coolDownStartTime {
+  return result.coolDownStartTime;
+}
+- (UserPersistentEventProto_Builder*) setCoolDownStartTime:(int64_t) value {
+  result.hasCoolDownStartTime = YES;
+  result.coolDownStartTime = value;
+  return self;
+}
+- (UserPersistentEventProto_Builder*) clearCoolDownStartTime {
+  result.hasCoolDownStartTime = NO;
+  result.coolDownStartTime = 0L;
+  return self;
+}
+@end
+

@@ -95,19 +95,22 @@
 }
 
 - (void) transitionToListView {
+  // Do this so that the view doesn't update while scrolling back
+  QuestDetailsViewController *qdvc = self.questDetailsViewController;
+  self.questDetailsViewController = nil;
+  
   [UIView animateWithDuration:0.3f animations:^{
     self.questListViewController.view.center = ccp(self.listContainerView.frame.size.width/2,
                                                    self.questListViewController.view.center.y);
-    self.questDetailsViewController.view.center = ccp(self.detailsContainerView.frame.size.width+
-                                                      self.questDetailsViewController.view.frame.size.width/2,
-                                                      self.questDetailsViewController.view.center.y);
+    qdvc.view.center = ccp(self.detailsContainerView.frame.size.width+
+                                                      qdvc.view.frame.size.width/2,
+                                                      qdvc.view.center.y);
     self.backView.alpha = 0.f;
   } completion:^(BOOL finished) {
     self.backView.hidden = YES;
     
-    [self.questDetailsViewController.view removeFromSuperview];
-    [self.questDetailsViewController removeFromParentViewController];
-    self.questDetailsViewController = nil;
+    [qdvc.view removeFromSuperview];
+    [qdvc removeFromParentViewController];
     
     self.detailsContainerView.userInteractionEnabled = NO;
   }];
@@ -207,7 +210,7 @@
   UserQuest *uqNew = [[OutgoingEventController sharedOutgoingEventController] donateForQuest:quest.questId monsterIds:self.userMonsterIds];
   self.userMonsterIds = nil;
   if (uqNew.isComplete) {
-    [UIView animateWithDuration:1.f animations:^{
+    [UIView animateWithDuration:0.5f animations:^{
       [self.questDetailsViewController loadWithQuest:quest userQuest:uqNew];
     }];
   }

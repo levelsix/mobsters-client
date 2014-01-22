@@ -6,7 +6,7 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="GachaponViewController">
             <connections>
-                <outlet property="diamondView" destination="Bz4-RX-IHB" id="G8R-yN-nUG"/>
+                <outlet property="coinBar" destination="cUc-rB-fB8" id="k5O-Ch-Svd"/>
                 <outlet property="featuredScrollView" destination="zP0-s2-kBX" id="BxT-kQ-01L"/>
                 <outlet property="gemCostLabel" destination="VDe-lu-wWD" id="sIT-Fv-NuP"/>
                 <outlet property="machineIcon" destination="9dS-qh-pNp" id="mFB-31-ZAN"/>
@@ -236,6 +236,47 @@
                     <rect key="frame" x="284" y="0.0" width="284" height="320"/>
                     <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES" flexibleMaxY="YES"/>
                     <subviews>
+                        <view contentMode="scaleToFill" id="sCV-s9-ex1">
+                            <rect key="frame" x="39" y="60" width="110" height="18"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <subviews>
+                                <imageView opaque="NO" multipleTouchEnabled="YES" contentMode="left" image="epicgtag.png" id="4WC-FL-4u7">
+                                    <rect key="frame" x="1" y="1" width="59" height="15"/>
+                                    <autoresizingMask key="autoresizingMask"/>
+                                </imageView>
+                                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Epic" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="KuP-aq-pcm" customClass="NiceFontLabel">
+                                    <rect key="frame" x="0.0" y="0.0" width="24" height="18"/>
+                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                    <fontDescription key="fontDescription" type="system" pointSize="10"/>
+                                    <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                    <nil key="highlightedColor"/>
+                                    <color key="shadowColor" white="0.0" alpha="0.20000000000000001" colorSpace="calibratedWhite"/>
+                                    <size key="shadowOffset" width="0.0" height="1"/>
+                                </label>
+                            </subviews>
+                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                        </view>
+                        <view contentMode="scaleToFill" id="R3D-dd-fM1">
+                            <rect key="frame" x="39" y="80" width="205" height="37"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <subviews>
+                                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Zark Muckerburg" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="9" id="7i2-fy-dTX" customClass="NiceFontLabel">
+                                    <rect key="frame" x="0.0" y="3" width="205" height="26"/>
+                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                    <color key="textColor" red="1" green="0.7843137255" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                    <nil key="highlightedColor"/>
+                                    <color key="shadowColor" white="0.0" alpha="0.29999999999999999" colorSpace="calibratedWhite"/>
+                                    <size key="shadowOffset" width="0.0" height="1"/>
+                                </label>
+                                <view contentMode="scaleToFill" id="K1K-mN-jCl" userLabel="White Line">
+                                    <rect key="frame" x="0.0" y="36" width="200" height="1"/>
+                                    <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                    <color key="backgroundColor" white="1" alpha="0.29999999999999999" colorSpace="calibratedWhite"/>
+                                </view>
+                            </subviews>
+                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                        </view>
                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" text="meep meep meep" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" id="mcg-qG-Ncj" customClass="NiceFontLabel5">
                             <rect key="frame" x="39" y="125" width="197" height="60"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
@@ -246,7 +287,7 @@
                             <size key="shadowOffset" width="0.0" height="1"/>
                         </label>
                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="L5T-AF-h7c">
-                            <rect key="frame" x="248" y="10" width="26" height="26"/>
+                            <rect key="frame" x="249" y="0.0" width="35" height="35"/>
                             <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxY="YES"/>
                             <state key="normal" image="gacharevealclosex.png">
                                 <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
@@ -255,28 +296,6 @@
                                 <action selector="closeClicked:" destination="wBp-uJ-7UM" eventType="touchUpInside" id="RVh-vF-4wS"/>
                             </connections>
                         </button>
-                        <imageView opaque="NO" multipleTouchEnabled="YES" contentMode="left" image="epicgtag.png" id="4WC-FL-4u7">
-                            <rect key="frame" x="40" y="61" width="59" height="15"/>
-                            <autoresizingMask key="autoresizingMask"/>
-                        </imageView>
-                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Epic" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="KuP-aq-pcm" customClass="NiceFontLabel">
-                            <rect key="frame" x="39" y="60" width="24" height="18"/>
-                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                            <fontDescription key="fontDescription" type="system" pointSize="10"/>
-                            <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                            <nil key="highlightedColor"/>
-                            <color key="shadowColor" white="0.0" alpha="0.20000000000000001" colorSpace="calibratedWhite"/>
-                            <size key="shadowOffset" width="0.0" height="1"/>
-                        </label>
-                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Zark Muckerburg" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="9" id="7i2-fy-dTX" customClass="NiceFontLabel">
-                            <rect key="frame" x="39" y="83" width="205" height="26"/>
-                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                            <color key="textColor" red="1" green="0.7843137255" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
-                            <nil key="highlightedColor"/>
-                            <color key="shadowColor" white="0.0" alpha="0.29999999999999999" colorSpace="calibratedWhite"/>
-                            <size key="shadowOffset" width="0.0" height="1"/>
-                        </label>
                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="JaG-Er-WKa">
                             <rect key="frame" x="39" y="193" width="86" height="31"/>
                             <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMaxY="YES"/>
@@ -317,11 +336,6 @@
                             </subviews>
                             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                         </view>
-                        <view contentMode="scaleToFill" id="K1K-mN-jCl" userLabel="White Line">
-                            <rect key="frame" x="39" y="116" width="200" height="1"/>
-                            <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                            <color key="backgroundColor" white="1" alpha="0.29999999999999999" colorSpace="calibratedWhite"/>
-                        </view>
                     </subviews>
                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                 </view>
@@ -329,6 +343,15 @@
                     <rect key="frame" x="31" y="25" width="268" height="269"/>
                     <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMaxY="YES"/>
                 </imageView>
+                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="PIECE: 2/20" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="UnX-tf-Lrl" customClass="NiceFontLabel">
+                    <rect key="frame" x="115" y="242" width="101" height="28"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                    <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                    <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="calibratedRGB"/>
+                    <color key="highlightedColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
+                    <color key="shadowColor" red="0.0" green="0.0" blue="0.0" alpha="0.29999999999999999" colorSpace="calibratedRGB"/>
+                    <size key="shadowOffset" width="0.0" height="1"/>
+                </label>
                 <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="bottomLeft" image="Cheerleader1SMGCharacter.png" id="37l-TZ-c6Y">
                     <rect key="frame" x="89" y="57" width="153" height="193"/>
                     <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMaxY="YES"/>
@@ -345,6 +368,7 @@
                 <outlet property="monsterIcon" destination="37l-TZ-c6Y" id="1Br-M5-DaU"/>
                 <outlet property="monsterSpinner" destination="Fd6-eq-6k6" id="Ri2-8d-Iaw"/>
                 <outlet property="nameLabel" destination="7i2-fy-dTX" id="VMP-Jz-p27"/>
+                <outlet property="pieceLabel" destination="UnX-tf-Lrl" id="y92-uY-OGG"/>
                 <outlet property="rarityIcon" destination="4WC-FL-4u7" id="dL6-lO-wX3"/>
                 <outlet property="rarityLabel" destination="KuP-aq-pcm" id="48F-T7-Rav"/>
             </connections>

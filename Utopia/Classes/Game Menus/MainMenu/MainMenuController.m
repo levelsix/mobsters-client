@@ -15,6 +15,7 @@
 #import "CarpenterViewController.h"
 #import "MyCroniesViewController.h"
 #import "GachaponListViewController.h"
+#import "GameState.h"
 
 @interface MainMenuController ()
 
@@ -38,6 +39,13 @@
   UIBarButtonItem *rightButton1 = [[UIBarButtonItem alloc] initWithCustomView:self.menuCloseButton];
   UIBarButtonItem *rightButton2 = [[UIBarButtonItem alloc] initWithCustomView:self.menuSettingsButton];
   self.navigationItem.rightBarButtonItems = [NSArray arrayWithObjects:rightButton1, rightButton2, nil];
+  
+  GameState *gs = [GameState sharedGameState];
+  if (!gs.myLaboratory.isComplete) {
+    UIImage *img = [Globals greyScaleImageWithBaseImage:[Globals snapShotView:self.labButtonView]];
+    UIImageView *imgView = [[UIImageView alloc] initWithImage:img];
+    [self.labButtonView insertSubview:imgView belowSubview:self.labButton];
+  }
 }
 
 - (IBAction)fundsClicked:(id)sender {
@@ -53,7 +61,12 @@
 }
 
 - (IBAction)labClicked:(id)sender {
-  [self.navigationController pushViewController:[[EnhanceViewController alloc] init] animated:YES];
+  GameState *gs = [GameState sharedGameState];
+  if (gs.myLaboratory.isComplete) {
+    [self.navigationController pushViewController:[[EnhanceViewController alloc] init] animated:YES];
+  } else {
+    [Globals addAlertNotification:@"You must build a Laboratory before you can enter."];
+  }
 }
 
 - (IBAction)clansClicked:(id)sender {

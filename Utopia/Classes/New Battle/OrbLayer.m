@@ -104,6 +104,10 @@
     case color_blue:
       colorPrefix = [Globals imageNameForElement:(MonsterProto_MonsterElement)gemColor suffix:@""];
       break;
+    case color_filler:
+      colorPrefix = @"rock";
+      powerupId = powerup_none;
+      break;
     case color_all:
       colorPrefix = @"all";
       break;

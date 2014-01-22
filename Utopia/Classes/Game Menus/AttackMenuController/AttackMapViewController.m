@@ -10,6 +10,9 @@
 #import "Globals.h"
 #import "GameState.h"
 #import "GameViewController.h"
+#import "PersistentEventProto+Time.h"
+#import "MenuNavigationController.h"
+#import "MyCroniesViewController.h"
 
 #define NUM_CITIES 10
 
@@ -27,6 +30,94 @@
 
 - (void) doShake {
   [Globals shakeView:self.cityNameIcon duration:0.5f offset:5.f];
+}
+
+@end
+
+@implementation AttackEventView
+
+- (void) updateForEvo {
+  GameState *gs = [GameState sharedGameState];
+  _eventType = PersistentEventProto_EventTypeEvolution;
+  PersistentEventProto *pe = [gs currentPersistentEventWithType:PersistentEventProto_EventTypeEvolution];
+  [self updateForPersistentEvent:pe];
+  [self.tabBar clickButton:kButton1];
+}
+
+- (void) updateForEnhance {
+  GameState *gs = [GameState sharedGameState];
+  _eventType = PersistentEventProto_EventTypeEnhance;
+  PersistentEventProto *pe = [gs currentPersistentEventWithType:PersistentEventProto_EventTypeEnhance];
+  [self updateForPersistentEvent:pe];
+  [self.tabBar clickButton:kButton2];
+}
+
+- (void) updateForPersistentEvent:(PersistentEventProto *)pe {
+  GameState *gs = [GameState sharedGameState];
+  
+  if (pe) {
+    FullTaskProto *task = [gs taskWithId:pe.taskId];
+    
+    self.topRibbonLabel.text = pe.type == PersistentEventProto_EventTypeEnhance ? @"FEEDER" : @"DAILY";
+    self.botRibbonLabel.text = pe.type == PersistentEventProto_EventTypeEvolution ? @"event now!" : @"laboratory";
+    
+    NSString *file = [Globals imageNameForElement:pe.monsterElement suffix:@"banner.png"];
+    self.bgdImage.image = [Globals imageNamed:file];
+    file = [Globals imageNameForElement:pe.monsterElement suffix:@"dailylab.png"];
+    self.ribbonImage.image = [Globals imageNamed:file];
+    
+    self.nameLabel.text = task.name;
+    
+    _persistentEventId = pe.eventId;
+    self.taskId = pe.taskId;
+    
+    self.mainView.hidden = NO;
+    self.noEventView.hidden = YES;
+    self.monsterImage.hidden = NO;
+  } else {
+    _persistentEventId = 0;
+    self.taskId = 0;
+    
+    self.mainView.hidden = YES;
+    self.noEventView.hidden = NO;
+    self.monsterImage.hidden = YES;
+  }
+  [self updateLabels];
+}
+
+- (void) updateLabels {
+  GameState *gs = [GameState sharedGameState];
+  Globals *gl = [Globals sharedGlobals];
+  PersistentEventProto *pe = [gs currentPersistentEventWithType:_eventType];
+  
+  if (_persistentEventId != pe.eventId) {
+    [self updateForPersistentEvent:pe];
+  } else {
+    int timeLeft = [pe.endTime timeIntervalSinceNow];    
+    self.timeLeftLabel.text = [NSString stringWithFormat:@"Time Left: %@", [Globals convertTimeToShortString:timeLeft]];
+    
+    NSDate *cdTime = pe.cooldownEndTime;
+    timeLeft = [cdTime timeIntervalSinceNow];
+    if (timeLeft <= 0) {
+      self.enterView.hidden = NO;
+      self.cooldownView.hidden = YES;
+    } else {
+      self.cooldownLabel.text = [NSString stringWithFormat:@"Opens In: %@", [Globals convertTimeToShortString:timeLeft]];
+      int speedupCost = [gl calculateGemSpeedupCostForTimeLeft:timeLeft];
+      self.speedupGemsLabel.text = [Globals commafyNumber:speedupCost];
+      
+      self.enterView.hidden = YES;
+      self.cooldownView.hidden = NO;
+    }
+  }
+}
+
+- (void) button1Clicked:(id)sender {
+  [self updateForEvo];
+}
+
+- (void) button2Clicked:(id)sender {
+  [self updateForEnhance];
 }
 
 @end
@@ -68,6 +159,22 @@
   } else {
     self.mapView.center = ccp(self.mapScrollView.frame.size.width/2-22.f, self.mapView.frame.size.height/2);
   }
+  
+  GameState *gs = [GameState sharedGameState];
+  [gs currentPersistentEventWithType:PersistentEventProto_EventTypeEnhance];
+}
+
+- (void) viewWillAppear:(BOOL)animated {
+  [self.eventView updateForEvo];
+}
+
+- (void) viewDidAppear:(BOOL)animated {
+  self.timer = [NSTimer timerWithTimeInterval:1.f target:self.eventView selector:@selector(updateLabels) userInfo:Nil repeats:YES];
+  [[NSRunLoop mainRunLoop] addTimer:self.timer forMode:NSRunLoopCommonModes];
+}
+
+- (void) viewDidDisappear:(BOOL)animated {
+  [self.timer invalidate];
 }
 
 - (BOOL) prefersStatusBarHidden {
@@ -100,6 +207,22 @@
     [self.delegate visitCityClicked:icon.cityNumber];
     [self close:nil];
   }
+}
+
+- (IBAction)enterEventClicked:(UIButton *)sender {
+  if ([Globals checkEnteringDungeonWithTarget:self selector:@selector(visitTeamPage)]) {
+    [self.delegate enterDungeon:self.eventView.taskId isEvent:YES eventId:self.eventView.persistentEventId useGems:[sender tag]];
+    [self performSelector:@selector(close:) withObject:nil afterDelay:0.1f];
+  }
+}
+
+- (void) visitTeamPage {
+  [self.presentingViewController dismissViewControllerAnimated:YES completion:^{
+    MenuNavigationController *m = [[MenuNavigationController alloc] init];
+    GameViewController *gvc = [GameViewController baseController];
+    [gvc presentViewController:m animated:YES completion:nil];
+    [m pushViewController:[[MyCroniesViewController alloc] init] animated:NO];
+  }];
 }
 
 - (IBAction)close:(id)sender {

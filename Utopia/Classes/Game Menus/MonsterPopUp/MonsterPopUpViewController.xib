@@ -26,6 +26,8 @@
                 <outlet property="nightView" destination="Kz1-fl-bVb" id="Ogc-x8-5LH"/>
                 <outlet property="progressBar" destination="vbz-mG-5Bf" id="bLz-JT-77x"/>
                 <outlet property="rarityLabel" destination="pzX-yh-PXD" id="AHP-kU-fem"/>
+                <outlet property="sellButtonView" destination="1dh-EN-1pG" id="s0x-MJ-X3L"/>
+                <outlet property="sellLabel" destination="RIS-LK-I3K" id="eEP-GU-2ST"/>
                 <outlet property="view" destination="1" id="3"/>
                 <outlet property="waterView" destination="2hg-uy-tH0" id="toZ-fm-Ija"/>
             </connections>
@@ -56,8 +58,8 @@
                             <color key="shadowColor" white="1" alpha="0.5" colorSpace="calibratedWhite"/>
                             <size key="shadowOffset" width="0.0" height="1"/>
                         </label>
-                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" minimumFontSize="7" id="9" customClass="NiceFontLabel">
-                            <rect key="frame" x="82" y="252" width="321" height="42"/>
+                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="3" baselineAdjustment="alignBaselines" minimumFontSize="7" id="9" customClass="NiceFontLabel">
+                            <rect key="frame" x="192" y="248" width="211" height="42"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             <string key="text">Mr. Brute likes long walks on the beach. And by long walks on the beach, I mean he likes beating people up with his baseball bat</string>
                             <fontDescription key="fontDescription" type="system" pointSize="14"/>
@@ -246,6 +248,46 @@
                             </subviews>
                             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                         </view>
+                        <view contentMode="scaleToFill" id="1dh-EN-1pG">
+                            <rect key="frame" x="97" y="256" width="71" height="29"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <subviews>
+                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="Qrq-mo-eQl">
+                                    <rect key="frame" x="0.0" y="0.0" width="71" height="29"/>
+                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                    <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
+                                    <state key="normal" image="heal.png">
+                                        <color key="titleColor" red="0.19607843459999999" green="0.30980393290000002" blue="0.52156865600000002" alpha="1" colorSpace="calibratedRGB"/>
+                                        <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                    </state>
+                                    <state key="highlighted">
+                                        <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                    </state>
+                                    <connections>
+                                        <action selector="sellClicked:" destination="-1" eventType="touchUpInside" id="sdQ-M0-H2Y"/>
+                                    </connections>
+                                </button>
+                                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="SELL" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="9" id="dKc-WA-0QA" customClass="NiceFontLabel">
+                                    <rect key="frame" x="3" y="1" width="65" height="16"/>
+                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                    <fontDescription key="fontDescription" type="system" pointSize="11"/>
+                                    <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="calibratedRGB"/>
+                                    <nil key="highlightedColor"/>
+                                    <color key="shadowColor" white="0.0" alpha="0.40000000000000002" colorSpace="calibratedWhite"/>
+                                    <size key="shadowOffset" width="0.0" height="1"/>
+                                </label>
+                                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="$1,500" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="9" id="RIS-LK-I3K" customClass="NiceFontLabel">
+                                    <rect key="frame" x="3" y="11" width="65" height="16"/>
+                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                    <fontDescription key="fontDescription" type="system" pointSize="9"/>
+                                    <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="calibratedRGB"/>
+                                    <nil key="highlightedColor"/>
+                                    <color key="shadowColor" white="0.0" alpha="0.40000000000000002" colorSpace="calibratedWhite"/>
+                                    <size key="shadowOffset" width="0.0" height="1"/>
+                                </label>
+                            </subviews>
+                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                        </view>
                     </subviews>
                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                 </view>
@@ -418,6 +460,7 @@
         <image name="detailbg.png" width="206" height="163"/>
         <image name="detaildivider.png" width="1" height="2"/>
         <image name="detailhp.png" width="96" height="10"/>
+        <image name="heal.png" width="71" height="28"/>
         <image name="hpbg.png" width="102" height="16"/>
         <image name="infoi.png" width="12" height="12"/>
         <image name="menuback.png" width="71" height="32"/>

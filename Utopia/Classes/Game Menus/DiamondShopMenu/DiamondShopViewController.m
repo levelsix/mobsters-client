@@ -10,75 +10,84 @@
 #import "GameState.h"
 #import "IAPHelper.h"
 
+#define TABLE_CELL_WIDTH 150
+
 @implementation DiamondListing
 
-- (void) updateForPurchaseData:(id<InAppPurchaseData>)product
-{
+- (void) setViewToGreyScale:(UIView *)view {
+  for (UIView *v in view.subviews) {
+    if ([v isKindOfClass:[UIImageView class]]) {
+      UIImageView *imgView = (UIImageView *)v;
+      if (imgView.image) {
+        imgView.image = [Globals greyScaleImageWithBaseImage:imgView.image];
+      }
+    }
+    
+    [self setViewToGreyScale:v];
+  }
+}
+
+- (void) updateForPurchaseData:(id<InAppPurchaseData>)product greyscale:(BOOL)greyscale canAfford:(BOOL)canAfford {
   // Set Free offer title
   self.nameLabel.text = product.primaryTitle;
   
-  // Set diamond quantity text
-  self.boughtAmountLabel.text = product.secondaryTitle;
+  if (product.moneyPrice) {
+    self.moneyCostLabel.text = product.moneyPrice;
+    
+    self.moneyCostLabel.hidden = NO;
+    self.gemsCostLabel.superview.hidden = YES;
+  } else {
+    self.gemsCostLabel.text = [Globals commafyNumber:product.gemPrice];
+    [Globals adjustViewForCentering:self.gemsCostLabel.superview withLabel:self.gemsCostLabel];
+    
+    if (!canAfford) {
+      self.gemsCostLabel.textColor = [Globals lightRedColor];
+    } else {
+      self.gemsCostLabel.textColor = [UIColor whiteColor];
+    }
+    
+    self.moneyCostLabel.hidden = YES;
+    self.gemsCostLabel.superview.hidden = NO;
+  }
   
-  self.costLabel.text = product.price;
+  if (product.resourceType == ResourceTypeGems) {
+    self.gemsAmountLabel.text = [Globals commafyNumber:product.amountGained];
+    [Globals adjustViewForCentering:self.gemsAmountLabel.superview withLabel:self.gemsAmountLabel];
+    
+    self.nameLabel.textColor = [Globals purplishPinkColor];
+    
+    self.gemsAmountLabel.superview.hidden = NO;
+    self.cashAmountLabel.hidden = YES;
+    self.oilAmountLabel.superview.hidden = YES;
+  } else if (product.resourceType == ResourceTypeCash) {
+    self.cashAmountLabel.text = [Globals cashStringForNumber:product.amountGained];
+    
+    self.nameLabel.textColor = [Globals greenColor];
+    
+    self.gemsAmountLabel.superview.hidden = YES;
+    self.cashAmountLabel.hidden = NO;
+    self.oilAmountLabel.superview.hidden = YES;
+  } else if (product.resourceType == ResourceTypeOil) {
+    self.oilAmountLabel.text = [Globals commafyNumber:product.amountGained];
+    [Globals adjustViewForCentering:self.oilAmountLabel.superview withLabel:self.oilAmountLabel];
+    
+    self.nameLabel.textColor = [Globals yellowColor];
+    
+    self.gemsAmountLabel.superview.hidden = YES;
+    self.cashAmountLabel.hidden = YES;
+    self.oilAmountLabel.superview.hidden = NO;
+  }
   
-  [Globals imageNamed:product.rewardPicName withView:self.diamondImageView maskedColor:nil indicator:UIActivityIndicatorViewStyleWhite clearImageDuringDownload:YES];
+  self.bgdImageView.image = [Globals imageNamed:@"buildingbg.png"];
+  self.gemCostIcon.image = [Globals imageNamed:@"diamond.png"];
+  self.gemAmtIcon.image = [Globals imageNamed:@"diamond.png"];
+  self.oilAmtIcon.image = [Globals imageNamed:@"oilicon.png"];
+  self.packageIcon.image = nil;
+  if (greyscale) [self setViewToGreyScale:self];
+  [Globals imageNamed:product.rewardPicName withView:self.packageIcon greyscale:greyscale indicator:UIActivityIndicatorViewStyleWhite clearImageDuringDownload:YES];
   
   self.productData = product;
 }
-
-- (UIImageView *) darkOverlay {
-  // Can't do this in awakeFromNib because server side image will not be loaded yet.
-  if (!_darkOverlay.image) {
-    UIImage *darkOverlayImg = [Globals maskImage:_backgroundImage.image withColor:[UIColor colorWithWhite:0.f alpha:0.3f]];
-    _darkOverlay.image = darkOverlayImg;
-  }
-  return _darkOverlay;
-}
-
-- (void) touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event {
-  self.darkOverlay.hidden = NO;
-}
-
-- (void) touchesMoved:(NSSet *)touches withEvent:(UIEvent *)event {
-  UITouch *touch = [touches anyObject];
-  CGPoint loc = [touch locationInView:self];
-  if ([self pointInside:loc withEvent:event]) {
-    self.darkOverlay.hidden = NO;
-  } else {
-    self.darkOverlay.hidden = YES;
-  }
-}
-
-- (void) touchesEnded:(NSSet *)touches withEvent:(UIEvent *)event {
-  UITouch *touch = [touches anyObject];
-  CGPoint loc = [touch locationInView:self];
-  if ([self pointInside:loc withEvent:event]) {
-    self.darkOverlay.hidden = NO;
-    [[NSRunLoop currentRunLoop] runUntilDate:[NSDate dateWithTimeIntervalSinceNow:0.1]];
-    [self.productData makePurchaseWithViewController:(UIViewController *)self.superview.superview.superview];
-  }
-  self.darkOverlay.hidden = YES;
-}
-
-- (void) touchesCancelled:(NSSet *)touches withEvent:(UIEvent *)event {
-  self.darkOverlay.hidden = YES;
-}
-
-@end
-
-@implementation DiamondListingContainer
-
-- (void) awakeFromNib {
-  [super awakeFromNib];
-  [[NSBundle mainBundle] loadNibNamed:@"DiamondListing" owner:self options:nil];
-  [self addSubview:self.diamondListing];
-  [self setBackgroundColor:[UIColor clearColor]];
-}
-
-@end
-
-@implementation DiamondListingCell
 
 @end
 
@@ -87,126 +96,136 @@
 - (void)viewDidLoad
 {
   [super viewDidLoad];
-  //add rope to the very top
-  UIColor *c = [UIColor colorWithPatternImage:[Globals imageNamed:@"rope.png"]];
-  UIView *leftRope = [[UIView alloc] initWithFrame:CGRectMake(14, -143, 3, 150)];
-  UIView *rightRope = [[UIView alloc] initWithFrame:CGRectMake(463, -143, 2, 150)];
-  leftRope.backgroundColor = c;
-  rightRope.backgroundColor = c;
-  [self.diamondTable addSubview:leftRope];
-  [self.diamondTable addSubview:rightRope];
   
   self.title = @"Add Funds";
   [self setUpCloseButton];
   [self setUpImageBackButton];
   
+  [self setupDiamondTable];
+  [self reloadData];
 }
 
-- (void)viewWillAppear:(BOOL)animated {
-  [self updateLabels];
+- (void) reloadData {
+  self.packageData = [NSMutableArray array];
   
-  NSString *name = [InAppPurchaseData
-                    adTakeoverResignedNotification];
-  [[NSNotificationCenter defaultCenter] addObserver:self
-                                           selector:@selector(refreshTableView)
-                                               name:name
-                                             object:self];
-}
-
-- (void)viewWillDisappear:(BOOL)animated {
-  [[NSNotificationCenter defaultCenter] removeObserver:self];
-}
-
-- (void)updateLabels {
   GameState *gs = [GameState sharedGameState];
-  self.diamondLabel.text = [Globals commafyNumber:gs.gold];
-  self.cashLabel.text = [Globals cashStringForNumber:gs.silver];
-}
-
-#pragma mark - UITableView delegate methods
-
-- (NSInteger) numberOfSectionsInTableView:(UITableView *)tableView {
-  return 1;
-}
-
-- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
   Globals *gl = [Globals sharedGlobals];
-  if (gl.iapPackages.count) {
-    return (gl.iapPackages.count-1)/3 + 1;
-  } else {
-    return 0;
-  }
-}
-
-- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-  static NSString *cellId = @"DiamondListingCell";
-  
-  DiamondListingCell *cell = [tableView dequeueReusableCellWithIdentifier:cellId];
-  if (cell == nil) {
-    [[NSBundle mainBundle] loadNibNamed:@"DiamondRow" owner:self options:nil];
-    cell = self.diamondRow;
-  }
-  
-  Globals *gl = [Globals sharedGlobals];
-  GoldSaleProto *sale = nil;//[gs getCurrentDiamondSale];
-  NSDictionary *dict = [[IAPHelper sharedIAPHelper] products];
-  
-  id arr[10] = {sale.package1SaleIdentifier, sale.packageS1SaleIdentifier, sale.package2SaleIdentifier, sale.packageS2SaleIdentifier, sale.package3SaleIdentifier, sale.packageS3SaleIdentifier, sale.package4SaleIdentifier, sale.packageS4SaleIdentifier, sale.package5SaleIdentifier, sale.packageS5SaleIdentifier};
-  
-  for (int i = 0; i < 3; i++) {
-    int base = 3*indexPath.row;
-    
-    int index = base+i;
-    
-    int newIndex = index;
-    if (newIndex >= gl.iapPackages.count) {
-      newIndex = gl.iapPackages.count-1;
-    }
-    
-    NSString *productId = [(InAppPurchasePackageProto *)[gl.iapPackages objectAtIndex:newIndex] iapPackageId];
-    NSString *saleProductId = arr[index];
-    SKProduct *product = [dict objectForKey:productId];
-    SKProduct *saleProduct = [dict objectForKey:saleProductId];
-    id <InAppPurchaseData> cellData = [InAppPurchaseData createWithProduct:product saleProduct:saleProduct];
-    
-    if (i == 0) {
-      [cell.listing1.diamondListing updateForPurchaseData:cellData];
-    }
-    else if (i == 1) {
-      if (index < gl.iapPackages.count) {
-        cell.listing2.hidden = NO;
-        [cell.listing2.diamondListing updateForPurchaseData:cellData];
-      } else {
-        cell.listing2.hidden = YES;
-      }
-    }
-    else if (i == 2) {
-      if (index < gl.iapPackages.count) {
-        cell.listing3.hidden = NO;
-        [cell.listing3.diamondListing updateForPurchaseData:cellData];
-      } else {
-        cell.listing3.hidden = YES;
-      }
+  IAPHelper *iap = [IAPHelper sharedIAPHelper];
+  NSMutableArray *iaps = [NSMutableArray array];
+  for (InAppPurchasePackageProto *pkg in gl.iapPackages) {
+    SKProduct *prod = iap.products[pkg.iapPackageId];
+    if (prod) {
+      [iaps addObject:[InAppPurchaseData createWithProduct:prod]];
     }
   }
+  [self.packageData addObject:iaps];
   
-  // Hide the bottom ropes if this is the last cell
-  UIView *r1 = [cell.contentView viewWithTag:133];
-  UIView *r2 = [cell.contentView viewWithTag:134];
-  if (indexPath.row == [self tableView:self.diamondTable numberOfRowsInSection:0]-1) {
-    r1.hidden = YES;
-    r2.hidden = YES;
-  } else {
-    r1.hidden = NO;
-    r2.hidden = NO;
-  }
+  NSMutableArray *cash = [NSMutableArray array];
+  int maxCash = [gs maxCash];
+  [cash addObject:[ResourcePurchaseData createWithResourceType:ResourceTypeCash amount:maxCash*0.1 title:@"Fill Storages by 10%"]];
+  [cash addObject:[ResourcePurchaseData createWithResourceType:ResourceTypeCash amount:maxCash*0.5 title:@"Fill Storages by Half"]];
+  [cash addObject:[ResourcePurchaseData createWithResourceType:ResourceTypeCash amount:maxCash-gs.silver title:@"Fill Cash Storages"]];
+  [self.packageData addObject:cash];
   
-  return cell;
-}
-
--(void) refreshTableView
-{
+  NSMutableArray *oil = [NSMutableArray array];
+  int maxOil = [gs maxOil];
+  [oil addObject:[ResourcePurchaseData createWithResourceType:ResourceTypeOil amount:maxOil*0.1 title:@"Fill Storages by 10%"]];
+  [oil addObject:[ResourcePurchaseData createWithResourceType:ResourceTypeOil amount:maxOil*0.5 title:@"Fill Storages by Half"]];
+  [oil addObject:[ResourcePurchaseData createWithResourceType:ResourceTypeOil amount:maxOil-gs.oil title:@"Fill Oil Storages"]];
+  [self.packageData addObject:oil];
+  
   [self.diamondTable reloadData];
+}
+
+- (IBAction) packageClicked:(id)sender {
+  if (_isLoading) return;
+  
+  while (![sender isKindOfClass:[DiamondListing class]]) {
+    sender = [sender superview];
+  }
+  
+  DiamondListing *dl = (DiamondListing *)sender;
+  BOOL success = [dl.productData makePurchaseWithDelegate:self];
+  
+  if (success) {
+    [self.loadingView display:self.navigationController.view];
+    _isLoading = YES;
+  }
+}
+
+- (void) handleInAppPurchaseResponseProto:(FullEvent *)fe {
+  [self.loadingView stop];
+  _isLoading = NO;
+  [self reloadData];
+}
+
+- (void) handleExchangeGemsForResourcesResponseProto:(FullEvent *)fe {
+  [self.loadingView stop];
+  _isLoading = NO;
+  [self reloadData];
+}
+
+#pragma mark - EasyTableView delegate methods
+
+- (void) setupDiamondTable {
+  self.diamondTable = [[EasyTableView alloc] initWithFrame:self.tableContainerView.bounds numberOfColumns:0 ofWidth:TABLE_CELL_WIDTH];
+  self.diamondTable.delegate = self;
+  self.diamondTable.tableView.separatorColor = [UIColor clearColor];
+  self.diamondTable.autoresizingMask = UIViewAutoresizingFlexibleWidth;
+  [self.tableContainerView addSubview:self.diamondTable];
+}
+
+- (NSUInteger) numberOfSectionsInEasyTableView:(EasyTableView *)easyTableView {
+  return 3;
+}
+
+- (NSUInteger) numberOfCellsForEasyTableView:(EasyTableView *)view inSection:(NSInteger)section {
+  return [self.packageData[section] count];
+}
+
+- (UIView *) easyTableView:(EasyTableView *)easyTableView viewForRect:(CGRect)rect withIndexPath:(NSIndexPath *)indexPath {
+  [[NSBundle mainBundle] loadNibNamed:@"DiamondListing" owner:self options:nil];
+  self.diamondListing.center = ccp(CGRectGetMidX(rect), CGRectGetMidY(rect));
+  return self.diamondListing;
+}
+
+- (UIView *) easyTableView:(EasyTableView *)easyTableView viewForHeaderInSection:(NSInteger)section {
+  return [[UIView alloc] initWithFrame:CGRectMake(0, 0, 15, easyTableView.frame.size.height)];
+}
+
+- (NSString *) easyTableView:(EasyTableView *)easyTableView stringForHorizontalHeaderInDesction:(NSInteger)section {
+  if (section == 0) {
+    return @"Gems";
+  } else if (section == 1) {
+    return @"Cash";
+  } else if (section == 2) {
+    return @"Oil";
+  }
+  return nil;
+}
+
+- (void) easyTableView:(EasyTableView *)easyTableView setDataForView:(DiamondListing *)view forIndexPath:(NSIndexPath *)indexPath {
+  GameState *gs = [GameState sharedGameState];
+  BOOL greyscale = NO, canAfford = YES;
+  id<InAppPurchaseData> purch = self.packageData[indexPath.section][indexPath.row];
+  
+  if (indexPath.section == 1) {
+    int max = [gs maxCash];
+    int avail = max - gs.silver;
+    
+    greyscale = (avail < purch.amountGained || avail <= 0);
+  } else if (indexPath.section == 2) {
+    int max = [gs maxOil];
+    int avail = max - gs.oil;
+    
+    greyscale = (avail < purch.amountGained || avail <= 0);
+  }
+  
+  if (gs.gold < purch.gemPrice) {
+    canAfford = NO;
+  }
+  
+  [view updateForPurchaseData:purch greyscale:greyscale canAfford:canAfford];
 }
 
 @end

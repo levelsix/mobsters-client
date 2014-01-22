@@ -46,6 +46,8 @@
 @class MinimumUserProtoWithFacebookId_Builder;
 @class MinimumUserProtoWithLevel;
 @class MinimumUserProtoWithLevel_Builder;
+@class MinimumUserProtoWithMaxResources;
+@class MinimumUserProtoWithMaxResources_Builder;
 @class MinimumUserProto_Builder;
 @class PurchaseCityExpansionRequestProto;
 @class PurchaseCityExpansionRequestProto_Builder;
@@ -69,8 +71,8 @@
 @class UserFacebookInviteForSlotProto_Builder;
 typedef enum {
   LoadPlayerCityResponseProto_LoadPlayerCityStatusSuccess = 1,
-  LoadPlayerCityResponseProto_LoadPlayerCityStatusNoSuchPlayer = 2,
-  LoadPlayerCityResponseProto_LoadPlayerCityStatusOtherFail = 3,
+  LoadPlayerCityResponseProto_LoadPlayerCityStatusFailNoSuchPlayer = 2,
+  LoadPlayerCityResponseProto_LoadPlayerCityStatusFailOther = 3,
 } LoadPlayerCityResponseProto_LoadPlayerCityStatus;
 
 BOOL LoadPlayerCityResponseProto_LoadPlayerCityStatusIsValidValue(LoadPlayerCityResponseProto_LoadPlayerCityStatus value);

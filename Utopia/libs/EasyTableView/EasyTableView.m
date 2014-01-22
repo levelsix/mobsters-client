@@ -123,6 +123,8 @@
       int headerOffsets = 0;
       int numCellsBefore = 0;
       int numCellsAfter = [self tableView:self.tableView numberOfRowsInSection:i];
+      if (numCellsAfter == 0) continue;
+      
       for (int j = 0; j <= i; j++) {
         headerOffsets += [self tableView:self.tableView heightForHeaderInSection:j];
         numCellsBefore += j < i ? [self tableView:self.tableView numberOfRowsInSection:j] : 0;
@@ -546,6 +548,8 @@
     [self addSubview:self.leftView2];
     [self addSubview:self.rightView1];
     [self addSubview:self.rightView2];
+    
+    [self setBackgroundColor:[UIColor clearColor]];
   }
   return self;
 }

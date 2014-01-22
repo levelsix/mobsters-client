@@ -185,7 +185,7 @@
   id<StaticStructure> nextSS = us.staticStructForNextLevel;
   id<StaticStructure> maxSS = us.maxStaticStruct;
   
-  self.nameLabel.text = nextSS.structInfo.name;
+  self.nameLabel.text = [NSString stringWithFormat:@"%@ (Lvl %d)", curSS.structInfo.name, curSS.structInfo.level];
   
   self.upgradeTimeLabel.text = [Globals convertTimeToLongString:nextSS.structInfo.minutesToBuild*60];
   
@@ -374,8 +374,10 @@
 }
 
 - (void) fbInviteAccepted {
-  [self.bonusView updateForUserStruct:self.userStruct];
-  [self.bonusView updateAddSlotsViewForResidence:(ResidenceProto *)self.userStruct.staticStructForNextFbLevel];
+  if (self.userStruct.staticStruct.structInfo.structType == StructureInfoProto_StructTypeResidence) {
+    [self.bonusView updateForUserStruct:self.userStruct];
+    [self.bonusView updateAddSlotsViewForResidence:(ResidenceProto *)self.userStruct.staticStructForNextFbLevel];
+  }
 }
 
 - (void) fbIncreasedSlots:(NSNotification *)notif {

@@ -9,6 +9,9 @@
 #import "MonsterPopUpViewController.h"
 #import "Globals.h"
 #import "GameState.h"
+#import "OutgoingEventController.h"
+#import "QuestUtil.h"
+#import "GenericPopupController.h"
 
 @implementation ElementDisplayView
 
@@ -25,6 +28,13 @@
 - (id)initWithMonsterProto:(UserMonster *)monster {
   if ((self = [super init])) {
     self.monster = monster;
+  }
+  return self;
+}
+
+- (id)initWithMonsterProto:(UserMonster *)monster allowSell:(BOOL)allowSell {
+  if ((self = [self initWithMonsterProto:monster])) {
+    _allowSell = allowSell;
   }
   return self;
 }
@@ -49,6 +59,18 @@
   self.enhanceLabel.text = [NSString stringWithFormat:@"Lvl %d", self.monster.level];
   self.monsterDescription.text = proto.description;
   
+  if (!_allowSell) {
+    self.sellButtonView.hidden = YES;
+    
+    CGRect r = self.monsterDescription.frame;
+    int maxX = CGRectGetMaxX(r);
+    r.origin.x = self.monsterDescription.superview.frame.size.width-maxX;
+    r.size.width = maxX-r.origin.x;
+    self.monsterDescription.frame = r;
+  } else {
+    self.sellLabel.text = [Globals cashStringForNumber:self.monster.sellPrice];
+  }
+  
   self.attackLabel.text = [Globals commafyNumber:[gl calculateTotalDamageForMonster:self.monster]];
   CGSize size = [self.attackLabel.text sizeWithFont:self.attackLabel.font];
   self.infoButton.center = CGPointMake(self.attackLabel.frame.origin.x+size.width+self.infoButton.frame.size.width/2, self.infoButton.center.y);
@@ -70,7 +92,7 @@
 
   NSString *fileName = [proto.imagePrefix stringByAppendingString:@"Character.png"];
   [Globals imageNamed:fileName withView:self.monsterImageView maskedColor:nil indicator:UIActivityIndicatorViewStyleWhite clearImageDuringDownload:YES];
-  [Globals imageNamed:[Globals imageNameForElement:proto.element suffix:@"orb.png"] withView:self.elementType maskedColor:nil indicator:UIActivityIndicatorViewStyleWhite clearImageDuringDownload:YES];
+  [Globals imageNamed:[Globals imageNameForElement:proto.monsterElement suffix:@"orb.png"] withView:self.elementType maskedColor:nil indicator:UIActivityIndicatorViewStyleWhite clearImageDuringDownload:YES];
 }
 
 - (IBAction)infoClicked:(id)sender {
@@ -98,6 +120,21 @@
     [self.elementView removeFromSuperview];
     self.backButtonView.hidden = YES;
   }];
+}
+
+- (IBAction)sellClicked:(id)sender {
+  if (self.monster.teamSlot > 0) {
+    [GenericPopupController displayConfirmationWithDescription:@"This monster is currently on your team. Would you still like to sell it?" title:@"Sell?" okayButton:@"Sell" cancelButton:@"Cancel" target:self selector:@selector(sell)];
+  } else {
+    [self sell];
+  }
+}
+
+- (void) sell {
+  [[OutgoingEventController sharedOutgoingEventController] sellUserMonster:self.monster.userMonsterId];
+  [self close:nil];
+  [[NSNotificationCenter defaultCenter] postNotificationName:MONSTER_SOLD_COMPLETE_NOTIFICATION object:nil];
+  [QuestUtil checkAllDonateQuests];
 }
 
 - (IBAction)close:(id)sender {

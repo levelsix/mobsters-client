@@ -17,6 +17,7 @@
 }
 
 - (void) loadWithQuest:(FullQuestProto *)quest userQuest:(UserQuest *)userQuest {
+  BOOL reloadRewards = ![quest.data isEqualToData:self.quest.data];
   self.quest = quest;
   self.userQuest = userQuest;
   
@@ -37,8 +38,11 @@
     self.visitLabel.text = @"Visit";
   }
   
-  NSArray *rewards = [Reward createRewardsForQuest:quest];
-  [self.rewardsViewContainer.rewardsView updateForRewards:rewards];
+  // Only reload if necessary so that animation can work
+  if (reloadRewards) {
+    NSArray *rewards = [Reward createRewardsForQuest:quest];
+    [self.rewardsViewContainer.rewardsView updateForRewards:rewards];
+  }
   
   if (userQuest.isComplete) {
     self.completeView.alpha = 1.f;

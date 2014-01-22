@@ -51,6 +51,53 @@
                             </subviews>
                             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                         </view>
+                        <view contentMode="scaleToFill" id="aYG-y7-WQi">
+                            <rect key="frame" x="9" y="116" width="122" height="37"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <subviews>
+                                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="10M" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="13" id="rzN-BH-BfT" customClass="NiceFontLabel">
+                                    <rect key="frame" x="13" y="13" width="42" height="24"/>
+                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                    <fontDescription key="fontDescription" type="system" pointSize="10"/>
+                                    <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                    <nil key="highlightedColor"/>
+                                    <color key="shadowColor" white="0.0" alpha="0.40000000000000002" colorSpace="calibratedWhite"/>
+                                    <size key="shadowOffset" width="0.0" height="1"/>
+                                </label>
+                                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="TIME" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="13" id="NuQ-d2-2GR" customClass="NiceFontLabel">
+                                    <rect key="frame" x="0.0" y="0.0" width="42" height="24"/>
+                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                    <fontDescription key="fontDescription" type="system" pointSize="10"/>
+                                    <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                    <nil key="highlightedColor"/>
+                                    <color key="shadowColor" white="0.0" alpha="0.40000000000000002" colorSpace="calibratedWhite"/>
+                                    <size key="shadowOffset" width="0.0" height="1"/>
+                                </label>
+                                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="5/5" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="13" id="igM-yp-ceF" customClass="NiceFontLabel">
+                                    <rect key="frame" x="57" y="13" width="65" height="24"/>
+                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                    <fontDescription key="fontDescription" type="system" pointSize="10"/>
+                                    <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                    <nil key="highlightedColor"/>
+                                    <color key="shadowColor" white="0.0" alpha="0.40000000000000002" colorSpace="calibratedWhite"/>
+                                    <size key="shadowOffset" width="0.0" height="1"/>
+                                </label>
+                                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="BUILT" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="13" id="cFY-ux-ONc" customClass="NiceFontLabel">
+                                    <rect key="frame" x="57" y="0.0" width="65" height="24"/>
+                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                    <fontDescription key="fontDescription" type="system" pointSize="10"/>
+                                    <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                    <nil key="highlightedColor"/>
+                                    <color key="shadowColor" white="0.0" alpha="0.40000000000000002" colorSpace="calibratedWhite"/>
+                                    <size key="shadowOffset" width="0.0" height="1"/>
+                                </label>
+                                <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="clock.png" id="hzP-bi-VTF">
+                                    <rect key="frame" x="0.0" y="20" width="10" height="10"/>
+                                    <autoresizingMask key="autoresizingMask"/>
+                                </imageView>
+                            </subviews>
+                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                        </view>
                         <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="RESIDENCE" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" id="8" customClass="NiceFontLabel">
                             <rect key="frame" x="9" y="4" width="102" height="24"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
@@ -60,46 +107,19 @@
                             <color key="shadowColor" white="0.0" alpha="0.40000000000000002" colorSpace="calibratedWhite"/>
                             <size key="shadowOffset" width="0.0" height="1"/>
                         </label>
-                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="10M" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="13" id="rzN-BH-BfT" customClass="NiceFontLabel">
-                            <rect key="frame" x="9" y="129" width="42" height="24"/>
-                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                            <fontDescription key="fontDescription" type="system" pointSize="10"/>
-                            <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                            <nil key="highlightedColor"/>
-                            <color key="shadowColor" white="0.0" alpha="0.40000000000000002" colorSpace="calibratedWhite"/>
-                            <size key="shadowOffset" width="0.0" height="1"/>
-                        </label>
-                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="TIME" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="13" id="NuQ-d2-2GR" customClass="NiceFontLabel">
-                            <rect key="frame" x="9" y="116" width="42" height="24"/>
-                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                            <fontDescription key="fontDescription" type="system" pointSize="10"/>
-                            <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                            <nil key="highlightedColor"/>
-                            <color key="shadowColor" white="0.0" alpha="0.40000000000000002" colorSpace="calibratedWhite"/>
-                            <size key="shadowOffset" width="0.0" height="1"/>
-                        </label>
-                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="5/5" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="13" id="igM-yp-ceF" customClass="NiceFontLabel">
-                            <rect key="frame" x="66" y="129" width="65" height="24"/>
-                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                            <fontDescription key="fontDescription" type="system" pointSize="10"/>
-                            <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                            <nil key="highlightedColor"/>
-                            <color key="shadowColor" white="0.0" alpha="0.40000000000000002" colorSpace="calibratedWhite"/>
-                            <size key="shadowOffset" width="0.0" height="1"/>
-                        </label>
-                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="BUILT" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="13" id="cFY-ux-ONc" customClass="NiceFontLabel">
-                            <rect key="frame" x="66" y="116" width="65" height="24"/>
-                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                            <fontDescription key="fontDescription" type="system" pointSize="10"/>
-                            <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                            <nil key="highlightedColor"/>
-                            <color key="shadowColor" white="0.0" alpha="0.40000000000000002" colorSpace="calibratedWhite"/>
-                            <size key="shadowOffset" width="0.0" height="1"/>
-                        </label>
                         <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" id="4">
                             <rect key="frame" x="15" y="36" width="111" height="88"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         </imageView>
+                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Level 8 City Hall Required" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="13" id="41q-bO-Oaz" customClass="NiceFontLabel">
+                            <rect key="frame" x="9" y="125" width="122" height="24"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <fontDescription key="fontDescription" type="system" pointSize="10"/>
+                            <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                            <nil key="highlightedColor"/>
+                            <color key="shadowColor" white="0.0" alpha="0.40000000000000002" colorSpace="calibratedWhite"/>
+                            <size key="shadowOffset" width="0.0" height="1"/>
+                        </label>
                         <button opaque="NO" contentMode="center" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="fjW-oN-BAr" customClass="MaskedButton">
                             <rect key="frame" x="-5" y="-5" width="151" height="196"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
@@ -130,12 +150,14 @@
             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
             <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
             <connections>
+                <outlet property="availableView" destination="aYG-y7-WQi" id="cvv-mc-ex5"/>
                 <outlet property="bgdImageView" destination="csi-t9-NHu" id="TcU-VE-lgm"/>
                 <outlet property="bgdInfoImageView" destination="Luk-ra-Kr0" id="dC8-PG-wDE"/>
                 <outlet property="buildCashCostLabel" destination="5" id="dKl-8e-ECb"/>
                 <outlet property="buildOilCostLabel" destination="ZdS-fH-fIh" id="7EX-Fw-X9P"/>
                 <outlet property="buildTimeLabel" destination="rzN-BH-BfT" id="gmC-C2-DDP"/>
                 <outlet property="buildingImageView" destination="4" id="44"/>
+                <outlet property="clockIcon" destination="hzP-bi-VTF" id="vXo-EZ-fY5"/>
                 <outlet property="descriptionLabel" destination="5f1-PI-JpN" id="bGh-cr-zmz"/>
                 <outlet property="descriptionView" destination="3cO-h6-2Fl" id="kBF-TK-qyq"/>
                 <outlet property="infoButton" destination="hZo-Cw-y6X" id="nhf-jS-4p4"/>
@@ -143,6 +165,7 @@
                 <outlet property="nameDescriptionLabel" destination="gvY-rm-KCA" id="lvn-zK-c85"/>
                 <outlet property="nameLabel" destination="8" id="11"/>
                 <outlet property="quantityLabel" destination="igM-yp-ceF" id="gtM-19-oxh"/>
+                <outlet property="unavailableLabel" destination="41q-bO-Oaz" id="0p6-Wq-KYs"/>
             </connections>
         </view>
         <view contentMode="scaleToFill" id="3cO-h6-2Fl">
@@ -191,6 +214,7 @@
         <image name="buildingbg.png" width="151" height="196"/>
         <image name="buildinginfobg.png" width="151" height="196"/>
         <image name="chatinfoi.png" width="17" height="17"/>
+        <image name="clock.png" width="10" height="10"/>
         <image name="oilicon.png" width="26" height="32"/>
     </resources>
 </document>

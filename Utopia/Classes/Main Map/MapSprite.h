@@ -32,7 +32,7 @@
   CCSprite *_glow;
 }
 
-@property (nonatomic, assign) CCSprite *arrow;
+@property (nonatomic, retain) CCSprite *arrow;
 
 - (BOOL) select;
 - (void) unselect;

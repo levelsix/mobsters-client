@@ -3211,7 +3211,7 @@ BOOL NormStructWaitCompleteResponseProto_NormStructWaitCompleteStatusIsValidValu
 @end
 
 @interface RetrieveCurrencyFromNormStructureRequestProto ()
-@property (retain) MinimumUserProto* sender;
+@property (retain) MinimumUserProtoWithMaxResources* sender;
 @property (retain) NSMutableArray* mutableStructRetrievalsList;
 @end
 
@@ -3232,7 +3232,7 @@ BOOL NormStructWaitCompleteResponseProto_NormStructWaitCompleteStatusIsValidValu
 }
 - (id) init {
   if ((self = [super init])) {
-    self.sender = [MinimumUserProto defaultInstance];
+    self.sender = [MinimumUserProtoWithMaxResources defaultInstance];
   }
   return self;
 }
@@ -3639,7 +3639,7 @@ static RetrieveCurrencyFromNormStructureRequestProto_StructRetrieval* defaultRet
         break;
       }
       case 10: {
-        MinimumUserProto_Builder* subBuilder = [MinimumUserProto builder];
+        MinimumUserProtoWithMaxResources_Builder* subBuilder = [MinimumUserProtoWithMaxResources builder];
         if (self.hasSender) {
           [subBuilder mergeFrom:self.sender];
         }
@@ -3659,22 +3659,22 @@ static RetrieveCurrencyFromNormStructureRequestProto_StructRetrieval* defaultRet
 - (BOOL) hasSender {
   return result.hasSender;
 }
-- (MinimumUserProto*) sender {
+- (MinimumUserProtoWithMaxResources*) sender {
   return result.sender;
 }
-- (RetrieveCurrencyFromNormStructureRequestProto_Builder*) setSender:(MinimumUserProto*) value {
+- (RetrieveCurrencyFromNormStructureRequestProto_Builder*) setSender:(MinimumUserProtoWithMaxResources*) value {
   result.hasSender = YES;
   result.sender = value;
   return self;
 }
-- (RetrieveCurrencyFromNormStructureRequestProto_Builder*) setSenderBuilder:(MinimumUserProto_Builder*) builderForValue {
+- (RetrieveCurrencyFromNormStructureRequestProto_Builder*) setSenderBuilder:(MinimumUserProtoWithMaxResources_Builder*) builderForValue {
   return [self setSender:[builderForValue build]];
 }
-- (RetrieveCurrencyFromNormStructureRequestProto_Builder*) mergeSender:(MinimumUserProto*) value {
+- (RetrieveCurrencyFromNormStructureRequestProto_Builder*) mergeSender:(MinimumUserProtoWithMaxResources*) value {
   if (result.hasSender &&
-      result.sender != [MinimumUserProto defaultInstance]) {
+      result.sender != [MinimumUserProtoWithMaxResources defaultInstance]) {
     result.sender =
-      [[[MinimumUserProto builderWithPrototype:result.sender] mergeFrom:value] buildPartial];
+      [[[MinimumUserProtoWithMaxResources builderWithPrototype:result.sender] mergeFrom:value] buildPartial];
   } else {
     result.sender = value;
   }
@@ -3683,7 +3683,7 @@ static RetrieveCurrencyFromNormStructureRequestProto_StructRetrieval* defaultRet
 }
 - (RetrieveCurrencyFromNormStructureRequestProto_Builder*) clearSender {
   result.hasSender = NO;
-  result.sender = [MinimumUserProto defaultInstance];
+  result.sender = [MinimumUserProtoWithMaxResources defaultInstance];
   return self;
 }
 - (NSArray*) structRetrievalsList {
@@ -3718,7 +3718,7 @@ static RetrieveCurrencyFromNormStructureRequestProto_StructRetrieval* defaultRet
 @end
 
 @interface RetrieveCurrencyFromNormStructureResponseProto ()
-@property (retain) MinimumUserProto* sender;
+@property (retain) MinimumUserProtoWithMaxResources* sender;
 @property RetrieveCurrencyFromNormStructureResponseProto_RetrieveCurrencyFromNormStructureStatus status;
 @end
 
@@ -3744,7 +3744,7 @@ static RetrieveCurrencyFromNormStructureRequestProto_StructRetrieval* defaultRet
 }
 - (id) init {
   if ((self = [super init])) {
-    self.sender = [MinimumUserProto defaultInstance];
+    self.sender = [MinimumUserProtoWithMaxResources defaultInstance];
     self.status = RetrieveCurrencyFromNormStructureResponseProto_RetrieveCurrencyFromNormStructureStatusSuccess;
   }
   return self;
@@ -3898,7 +3898,7 @@ BOOL RetrieveCurrencyFromNormStructureResponseProto_RetrieveCurrencyFromNormStru
         break;
       }
       case 10: {
-        MinimumUserProto_Builder* subBuilder = [MinimumUserProto builder];
+        MinimumUserProtoWithMaxResources_Builder* subBuilder = [MinimumUserProtoWithMaxResources builder];
         if (self.hasSender) {
           [subBuilder mergeFrom:self.sender];
         }
@@ -3921,22 +3921,22 @@ BOOL RetrieveCurrencyFromNormStructureResponseProto_RetrieveCurrencyFromNormStru
 - (BOOL) hasSender {
   return result.hasSender;
 }
-- (MinimumUserProto*) sender {
+- (MinimumUserProtoWithMaxResources*) sender {
   return result.sender;
 }
-- (RetrieveCurrencyFromNormStructureResponseProto_Builder*) setSender:(MinimumUserProto*) value {
+- (RetrieveCurrencyFromNormStructureResponseProto_Builder*) setSender:(MinimumUserProtoWithMaxResources*) value {
   result.hasSender = YES;
   result.sender = value;
   return self;
 }
-- (RetrieveCurrencyFromNormStructureResponseProto_Builder*) setSenderBuilder:(MinimumUserProto_Builder*) builderForValue {
+- (RetrieveCurrencyFromNormStructureResponseProto_Builder*) setSenderBuilder:(MinimumUserProtoWithMaxResources_Builder*) builderForValue {
   return [self setSender:[builderForValue build]];
 }
-- (RetrieveCurrencyFromNormStructureResponseProto_Builder*) mergeSender:(MinimumUserProto*) value {
+- (RetrieveCurrencyFromNormStructureResponseProto_Builder*) mergeSender:(MinimumUserProtoWithMaxResources*) value {
   if (result.hasSender &&
-      result.sender != [MinimumUserProto defaultInstance]) {
+      result.sender != [MinimumUserProtoWithMaxResources defaultInstance]) {
     result.sender =
-      [[[MinimumUserProto builderWithPrototype:result.sender] mergeFrom:value] buildPartial];
+      [[[MinimumUserProtoWithMaxResources builderWithPrototype:result.sender] mergeFrom:value] buildPartial];
   } else {
     result.sender = value;
   }
@@ -3945,7 +3945,7 @@ BOOL RetrieveCurrencyFromNormStructureResponseProto_RetrieveCurrencyFromNormStru
 }
 - (RetrieveCurrencyFromNormStructureResponseProto_Builder*) clearSender {
   result.hasSender = NO;
-  result.sender = [MinimumUserProto defaultInstance];
+  result.sender = [MinimumUserProtoWithMaxResources defaultInstance];
   return self;
 }
 - (BOOL) hasStatus {

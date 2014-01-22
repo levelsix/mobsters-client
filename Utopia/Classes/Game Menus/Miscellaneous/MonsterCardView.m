@@ -13,10 +13,20 @@
 
 @implementation MonsterCardView
 
+static UIImage *img = nil;
+
 - (void) awakeFromNib {
   [self addSubview:self.noMonsterView];
   
   self.qualityLabel.superview.transform = CGAffineTransformMakeRotation(-M_PI_4);
+  
+  if (!img) {
+    [self.overlayButton setBaseImage:self.cardBgdView];
+    [self.overlayButton remakeImage];
+    img = [self.overlayButton imageForState:UIControlStateHighlighted];
+  } else {
+    [self.overlayButton setImage:img forState:UIControlStateHighlighted];
+  }
 }
 
 - (void) setDelegate:(id<MonsterCardViewDelegate>)delegate {
@@ -44,7 +54,7 @@
   self.nameLabel.text = [NSString stringWithFormat:@"%@ (LVL %d)", mp.displayName, um.level];
   self.qualityLabel.text = [[Globals stringForRarity:mp.quality] lowercaseString];
   
-  NSString *bgdImgName = [Globals imageNameForElement:mp.element suffix:@"card.png"];
+  NSString *bgdImgName = [Globals imageNameForElement:mp.monsterElement suffix:@"card.png"];
   [Globals imageNamed:bgdImgName withView:self.cardBgdView maskedColor:nil indicator:UIActivityIndicatorViewStyleWhite clearImageDuringDownload:YES];
   
   NSString *tagName = [Globals imageNameForRarity:mp.quality suffix:@"tag.png"];

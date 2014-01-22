@@ -8,6 +8,7 @@
 
 #import "MapSprite.h"
 #import "GameMap.h"
+#import "Globals.h"
 
 #define GLOW_DURATION 0.6f
 
@@ -57,9 +58,10 @@
 - (BOOL) select {
   [self unselect];
   _isSelected = YES;
-  int amt = 120;
-  CCTintBy *tint = [CCTintBy actionWithDuration:GLOW_DURATION red:-amt green:-amt blue:-amt];
-  CCAction *action = [CCRepeatForever actionWithAction:[CCSequence actions:tint, tint.reverse, nil]];
+  int amt = 135;
+  CCTintBy *tint = [RecursiveTintTo actionWithDuration:GLOW_DURATION red:amt green:amt blue:amt];
+  CCTintBy *tintBack = [RecursiveTintTo actionWithDuration:GLOW_DURATION red:255 green:255 blue:255];
+  CCAction *action = [CCRepeatForever actionWithAction:[CCSequence actions:tint, tintBack, nil]];
   action.tag = GLOW_ACTION_TAG;
   [self runAction:action];
   return YES;
@@ -68,7 +70,7 @@
 - (void) unselect {
   _isSelected = NO;
   [self stopActionByTag:GLOW_ACTION_TAG];
-  self.color = ccc3(255, 255, 255);
+  [self recursivelyApplyColor:ccc3(255, 255, 255)];
 }
 
 - (void) displayArrow {

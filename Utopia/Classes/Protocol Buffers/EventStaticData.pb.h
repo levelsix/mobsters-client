@@ -47,11 +47,17 @@
 @class MinimumUserProtoWithFacebookId_Builder;
 @class MinimumUserProtoWithLevel;
 @class MinimumUserProtoWithLevel_Builder;
+@class MinimumUserProtoWithMaxResources;
+@class MinimumUserProtoWithMaxResources_Builder;
 @class MinimumUserProto_Builder;
 @class MinimumUserTaskProto;
 @class MinimumUserTaskProto_Builder;
+@class MonsterLevelInfoProto;
+@class MonsterLevelInfoProto_Builder;
 @class MonsterProto;
 @class MonsterProto_Builder;
+@class PersistentEventProto;
+@class PersistentEventProto_Builder;
 @class PurgeClientStaticDataResponseProto;
 @class PurgeClientStaticDataResponseProto_Builder;
 @class RareBoosterPurchaseProto;
@@ -88,8 +94,12 @@
 @class UserMonsterCurrentExpProto_Builder;
 @class UserMonsterCurrentHealthProto;
 @class UserMonsterCurrentHealthProto_Builder;
+@class UserMonsterEvolutionProto;
+@class UserMonsterEvolutionProto_Builder;
 @class UserMonsterHealingProto;
 @class UserMonsterHealingProto_Builder;
+@class UserPersistentEventProto;
+@class UserPersistentEventProto_Builder;
 
 @interface EventStaticDataRoot : NSObject {
 }

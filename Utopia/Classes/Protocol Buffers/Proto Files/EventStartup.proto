@@ -61,6 +61,7 @@ message StartupResponseProto {
 	repeated FullUserMonsterProto usersMonsters = 19;
 	repeated UserMonsterHealingProto monstersHealing = 20;
 	optional UserEnhancementProto enhancements = 21;
+	optional UserMonsterEvolutionProto evolution = 29;
 	repeated RareBoosterPurchaseProto rareBoosterPurchases = 22;
 	
 	optional string kabamNaid = 23;
@@ -72,13 +73,16 @@ message StartupResponseProto {
 	//send over all invites where this user is the inviter and the invite is accepted
 	//isRedeemed does not matter
 	repeated UserFacebookInviteForSlotProto invitesFromMeForSlots = 25;
-	
-	
 	optional StaticDataProto staticDataStuffProto = 26;
-	//repeated int32 redeemedQuestIds = 27; //above, after "userQuests = 6"
 	
+	//repeated int32 redeemedQuestIds = 27; //above, after "userQuests = 6"
 	//for each city, the city's boss is hiding in the specified taskId
 	repeated int32 taskIdForCurrentCityBoss = 28;
+	
+	//optional UserEvolutionProto evolution = 29; //defined above, below #21
+	
+	//has the cool down timers for each event for a user
+	repeated UserPersistentEventProto userEvents = 30;
 	
 	
 	//repeated LockBoxEventProto lockBoxEvents = ;
@@ -122,6 +126,7 @@ message StartupResponseProto {
 		
 		optional float minutesPerGem = 19; 
 		optional int32 pvpRequiredMinLvl = 20;
+		optional float gemsPerResource = 21;
 		
 		
 		message AnimatedSpriteOffsetProto {

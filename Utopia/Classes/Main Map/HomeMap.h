@@ -48,6 +48,11 @@
 @property (nonatomic, assign) IBOutlet UILabel *buildingUpgradeCashCostLabel;
 @property (nonatomic, assign) IBOutlet UILabel *buildingUpgradeOilCostLabel;
 @property (nonatomic, assign) IBOutlet UIView *buildingUpgradeOilView;
+@property (nonatomic, assign) IBOutlet UILabel *enterTopLabel;
+@property (nonatomic, assign) IBOutlet UILabel *enterBottomLabel;
+@property (nonatomic, assign) IBOutlet UIView *buildingTextView;
+@property (nonatomic, assign) IBOutlet UIView *buildingUpgradeView;
+@property (nonatomic, assign) IBOutlet UIView *buildingEnterView;
 
 @property (nonatomic, assign) IBOutlet UILabel *upgradingNameLabel;
 @property (nonatomic, assign) IBOutlet UILabel *upgradingIncomeLabel;
@@ -80,6 +85,7 @@
 
 - (IBAction)finishExpansionClicked:(id)sender;
 - (IBAction)littleUpgradeClicked:(id)sender;
+- (IBAction)enterClicked:(id)sender;
 
 - (void) constructionComplete:(NSTimer *)timer;
 - (void) waitForIncomeComplete:(NSTimer *)timer;

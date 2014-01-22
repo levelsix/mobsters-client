@@ -36,7 +36,7 @@
     NSString *fileName = [mp.imagePrefix stringByAppendingString:@"Thumbnail.png"];
     [Globals imageNamed:fileName withView:self.monsterIcon maskedColor:nil indicator:UIActivityIndicatorViewStyleWhite clearImageDuringDownload:YES];
     
-    fileName = [Globals imageNameForElement:mp.element suffix:@"team.png"];
+    fileName = [Globals imageNameForElement:mp.monsterElement suffix:@"team.png"];
     [Globals imageNamed:fileName withView:self.bgdIcon maskedColor:nil indicator:UIActivityIndicatorViewStyleWhite clearImageDuringDownload:YES];
     
     if ([um isHealing] || [um isEnhancing] || [um isSacrificing]) {
@@ -91,7 +91,7 @@
       self.subtitleLabel.hidden = NO;
       self.darkOverlay.hidden = NO;
     } else {
-      NSString *fileName = [Globals imageNameForElement:mp.element suffix:@"teamhealthbar.png"];
+      NSString *fileName = @"earthteamhealthbar.png";
       [Globals imageNamed:fileName withView:self.healthBar maskedColor:nil indicator:UIActivityIndicatorViewStyleWhite clearImageDuringDownload:YES];
       self.healthBar.percentage = um.curHealth/(float)[gl calculateMaxHealthForMonster:um];
       
@@ -194,6 +194,12 @@
 
 - (IBAction)minusClicked:(id)sender {
   [self.delegate minusClickedForTeamSlotView:self];
+}
+
+- (IBAction)healAreaClicked:(id)sender {
+  if ([self.delegate respondsToSelector:@selector(healAreaClicked:)]) {
+    [self.delegate healAreaClicked:self];
+  }
 }
 
 @end

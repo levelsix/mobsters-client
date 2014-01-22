@@ -29,11 +29,17 @@
 @class MinimumUserProtoWithFacebookId_Builder;
 @class MinimumUserProtoWithLevel;
 @class MinimumUserProtoWithLevel_Builder;
+@class MinimumUserProtoWithMaxResources;
+@class MinimumUserProtoWithMaxResources_Builder;
 @class MinimumUserProto_Builder;
 @class MinimumUserTaskProto;
 @class MinimumUserTaskProto_Builder;
+@class MonsterLevelInfoProto;
+@class MonsterLevelInfoProto_Builder;
 @class MonsterProto;
 @class MonsterProto_Builder;
+@class PersistentEventProto;
+@class PersistentEventProto_Builder;
 @class ReviveInDungeonRequestProto;
 @class ReviveInDungeonRequestProto_Builder;
 @class ReviveInDungeonResponseProto;
@@ -56,8 +62,12 @@
 @class UserMonsterCurrentExpProto_Builder;
 @class UserMonsterCurrentHealthProto;
 @class UserMonsterCurrentHealthProto_Builder;
+@class UserMonsterEvolutionProto;
+@class UserMonsterEvolutionProto_Builder;
 @class UserMonsterHealingProto;
 @class UserMonsterHealingProto_Builder;
+@class UserPersistentEventProto;
+@class UserPersistentEventProto_Builder;
 typedef enum {
   BeginDungeonResponseProto_BeginDungeonStatusSuccess = 1,
   BeginDungeonResponseProto_BeginDungeonStatusFailOther = 2,
@@ -90,22 +100,34 @@ BOOL ReviveInDungeonResponseProto_ReviveInDungeonStatusIsValidValue(ReviveInDung
 @interface BeginDungeonRequestProto : PBGeneratedMessage {
 @private
   BOOL hasUserBeatAllCityTasks_:1;
+  BOOL hasIsEvent_:1;
   BOOL hasClientTime_:1;
   BOOL hasTaskId_:1;
+  BOOL hasPersistentEventId_:1;
+  BOOL hasGemsSpent_:1;
   BOOL hasSender_:1;
   BOOL userBeatAllCityTasks_:1;
+  BOOL isEvent_:1;
   int64_t clientTime;
   int32_t taskId;
+  int32_t persistentEventId;
+  int32_t gemsSpent;
   MinimumUserProto* sender;
 }
 - (BOOL) hasSender;
 - (BOOL) hasClientTime;
 - (BOOL) hasTaskId;
 - (BOOL) hasUserBeatAllCityTasks;
+- (BOOL) hasIsEvent;
+- (BOOL) hasPersistentEventId;
+- (BOOL) hasGemsSpent;
 @property (readonly, retain) MinimumUserProto* sender;
 @property (readonly) int64_t clientTime;
 @property (readonly) int32_t taskId;
 - (BOOL) userBeatAllCityTasks;
+- (BOOL) isEvent;
+@property (readonly) int32_t persistentEventId;
+@property (readonly) int32_t gemsSpent;
 
 + (BeginDungeonRequestProto*) defaultInstance;
 - (BeginDungeonRequestProto*) defaultInstance;
@@ -162,6 +184,21 @@ BOOL ReviveInDungeonResponseProto_ReviveInDungeonStatusIsValidValue(ReviveInDung
 - (BOOL) userBeatAllCityTasks;
 - (BeginDungeonRequestProto_Builder*) setUserBeatAllCityTasks:(BOOL) value;
 - (BeginDungeonRequestProto_Builder*) clearUserBeatAllCityTasks;
+
+- (BOOL) hasIsEvent;
+- (BOOL) isEvent;
+- (BeginDungeonRequestProto_Builder*) setIsEvent:(BOOL) value;
+- (BeginDungeonRequestProto_Builder*) clearIsEvent;
+
+- (BOOL) hasPersistentEventId;
+- (int32_t) persistentEventId;
+- (BeginDungeonRequestProto_Builder*) setPersistentEventId:(int32_t) value;
+- (BeginDungeonRequestProto_Builder*) clearPersistentEventId;
+
+- (BOOL) hasGemsSpent;
+- (int32_t) gemsSpent;
+- (BeginDungeonRequestProto_Builder*) setGemsSpent:(int32_t) value;
+- (BeginDungeonRequestProto_Builder*) clearGemsSpent;
 @end
 
 @interface BeginDungeonResponseProto : PBGeneratedMessage {
@@ -264,7 +301,7 @@ BOOL ReviveInDungeonResponseProto_ReviveInDungeonStatusIsValidValue(ReviveInDung
   BOOL userBeatAllCityTasks_:1;
   int64_t userTaskId;
   int64_t clientTime;
-  MinimumUserProto* sender;
+  MinimumUserProtoWithMaxResources* sender;
 }
 - (BOOL) hasSender;
 - (BOOL) hasUserTaskId;
@@ -272,7 +309,7 @@ BOOL ReviveInDungeonResponseProto_ReviveInDungeonStatusIsValidValue(ReviveInDung
 - (BOOL) hasClientTime;
 - (BOOL) hasFirstTimeUserWonTask;
 - (BOOL) hasUserBeatAllCityTasks;
-@property (readonly, retain) MinimumUserProto* sender;
+@property (readonly, retain) MinimumUserProtoWithMaxResources* sender;
 @property (readonly) int64_t userTaskId;
 - (BOOL) userWon;
 @property (readonly) int64_t clientTime;
@@ -314,10 +351,10 @@ BOOL ReviveInDungeonResponseProto_ReviveInDungeonStatusIsValidValue(ReviveInDung
 - (EndDungeonRequestProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
 
 - (BOOL) hasSender;
-- (MinimumUserProto*) sender;
-- (EndDungeonRequestProto_Builder*) setSender:(MinimumUserProto*) value;
-- (EndDungeonRequestProto_Builder*) setSenderBuilder:(MinimumUserProto_Builder*) builderForValue;
-- (EndDungeonRequestProto_Builder*) mergeSender:(MinimumUserProto*) value;
+- (MinimumUserProtoWithMaxResources*) sender;
+- (EndDungeonRequestProto_Builder*) setSender:(MinimumUserProtoWithMaxResources*) value;
+- (EndDungeonRequestProto_Builder*) setSenderBuilder:(MinimumUserProtoWithMaxResources_Builder*) builderForValue;
+- (EndDungeonRequestProto_Builder*) mergeSender:(MinimumUserProtoWithMaxResources*) value;
 - (EndDungeonRequestProto_Builder*) clearSender;
 
 - (BOOL) hasUserTaskId;
@@ -354,7 +391,7 @@ BOOL ReviveInDungeonResponseProto_ReviveInDungeonStatusIsValidValue(ReviveInDung
   BOOL hasStatus_:1;
   BOOL userWon_:1;
   int32_t taskId;
-  MinimumUserProto* sender;
+  MinimumUserProtoWithMaxResources* sender;
   EndDungeonResponseProto_EndDungeonStatus status;
   NSMutableArray* mutableUpdatedOrNewList;
 }
@@ -362,7 +399,7 @@ BOOL ReviveInDungeonResponseProto_ReviveInDungeonStatusIsValidValue(ReviveInDung
 - (BOOL) hasStatus;
 - (BOOL) hasTaskId;
 - (BOOL) hasUserWon;
-@property (readonly, retain) MinimumUserProto* sender;
+@property (readonly, retain) MinimumUserProtoWithMaxResources* sender;
 @property (readonly) EndDungeonResponseProto_EndDungeonStatus status;
 @property (readonly) int32_t taskId;
 - (BOOL) userWon;
@@ -404,10 +441,10 @@ BOOL ReviveInDungeonResponseProto_ReviveInDungeonStatusIsValidValue(ReviveInDung
 - (EndDungeonResponseProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
 
 - (BOOL) hasSender;
-- (MinimumUserProto*) sender;
-- (EndDungeonResponseProto_Builder*) setSender:(MinimumUserProto*) value;
-- (EndDungeonResponseProto_Builder*) setSenderBuilder:(MinimumUserProto_Builder*) builderForValue;
-- (EndDungeonResponseProto_Builder*) mergeSender:(MinimumUserProto*) value;
+- (MinimumUserProtoWithMaxResources*) sender;
+- (EndDungeonResponseProto_Builder*) setSender:(MinimumUserProtoWithMaxResources*) value;
+- (EndDungeonResponseProto_Builder*) setSenderBuilder:(MinimumUserProtoWithMaxResources_Builder*) builderForValue;
+- (EndDungeonResponseProto_Builder*) mergeSender:(MinimumUserProtoWithMaxResources*) value;
 - (EndDungeonResponseProto_Builder*) clearSender;
 
 - (BOOL) hasStatus;

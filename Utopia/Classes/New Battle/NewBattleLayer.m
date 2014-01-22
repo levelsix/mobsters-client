@@ -135,7 +135,7 @@
     puzzleBg.position = ccp(puzzX, self.contentSize.height/2);
     self.orbBgdLayer = puzzleBg;
     
-    OrbLayer *ol = [[OrbLayer alloc] initWithContentSize:puzzleBg.contentSize gridSize:gridSize numColors:5];
+    OrbLayer *ol = [[OrbLayer alloc] initWithContentSize:puzzleBg.contentSize gridSize:gridSize numColors:6];
     ol.ignoreAnchorPointForPosition = NO;
     ol.position = ccp(puzzleBg.contentSize.width/2, puzzleBg.contentSize.height/2);
     [self.orbBgdLayer addChild:ol z:2];
@@ -178,13 +178,10 @@
   return self;
 }
 
-- (void) onEnter {
-  [super onEnter];
-  [self begin];
-}
-
 - (void) onEnterTransitionDidFinish {
   [super onEnterTransitionDidFinish];
+  
+  [self begin];
   
   CCClippingNode *clip = (CCClippingNode *)_comboBgd.parent;
   CCDrawNode *stencil = [CCDrawNode node];
@@ -229,12 +226,12 @@
   _movesBgd = [CCSprite spriteWithFile:@"movesbg.png"];
   [puzzleBg addChild:_movesBgd z:-1];
   
-  CCLabelTTF *movesLabel = [CCLabelTTF labelWithString:@"MOVES " fontName:@"GothamNarrow-UltraItalic" fontSize:12 dimensions:CGSizeMake(100, 30) hAlignment:kCCTextAlignmentRight];
+  CCLabelTTF *movesLabel = [CCLabelTTF labelWithString:@"MOVES " fontName:@"GothamNarrow-UltraItalic" fontSize:10 dimensions:CGSizeMake(100, 30) hAlignment:kCCTextAlignmentRight];
   [_movesBgd addChild:movesLabel];
   [movesLabel setFontFillColor:ccc3(255, 255, 255) updateImage:YES];
   [movesLabel enableShadowWithOffset:CGSizeMake(0, -1) opacity:0.3f blur:1.f updateImage:YES];
   
-  _movesLeftLabel = [CCLabelTTF labelWithString:@"5" fontName:@"GothamNarrow-UltraItalic" fontSize:22 dimensions:CGSizeMake(100, 30) hAlignment:kCCTextAlignmentRight];
+  _movesLeftLabel = [CCLabelTTF labelWithString:@"5" fontName:@"GothamNarrow-UltraItalic" fontSize:19 dimensions:CGSizeMake(100, 30) hAlignment:kCCTextAlignmentRight];
   [_movesBgd addChild:_movesLeftLabel];
   [_movesLeftLabel setFontFillColor:ccc3(255,200,0) updateImage:YES];
   [_movesLeftLabel enableShadowWithOffset:CGSizeMake(0, -1) opacity:0.3f blur:1.f updateImage:YES];
@@ -244,7 +241,7 @@
     movesLabel.anchorPoint = ccp(0, 0.5);
     movesLabel.anchorPoint = ccp(0, 0.5);
     
-    _movesBgd.position = ccp(puzzleBg.contentSize.width, 90);
+    _movesBgd.position = ccp(puzzleBg.contentSize.width, 54);
     movesLabel.position = ccp(3, 11);
     _movesLeftLabel.position = ccp(3, 27);
     
@@ -254,20 +251,21 @@
     movesLabel.anchorPoint = ccp(1, 0.5);
     _movesLeftLabel.anchorPoint = ccp(1, 0.5);
     
-    _movesBgd.position = ccp(0, 90);
+    _movesBgd.position = ccp(0, 54);
     movesLabel.position = ccp(62, 11);
     _movesLeftLabel.position = ccp(62, 27);
   }
   
-  //  CCSprite *lootBgd = [CCSprite spriteWithFile:@"lootcollect.png"];
-  //  [self addChild:lootBgd];
-  //  lootBgd.position = ccp(puzzleBg.position.x-puzzleBg.contentSize.width/2+lootBgd.contentSize.width/2+10,
-  //                         puzzleBg.position.y+puzzleBg.contentSize.height/2+lootBgd.contentSize.height/2-5);
-  //
-  //  _lootLabel = [CCLabelTTF labelWithString:@"0" fontName:[Globals font] fontSize:13];
-  //  [lootBgd addChild:_lootLabel];
-  //  _lootLabel.position = ccp(lootBgd.contentSize.width-12, lootBgd.contentSize.height/2);
-  
+  CCSprite *lootBgd = [CCSprite spriteWithFile:@"collectioncapsule.png"];
+  [self addChild:lootBgd];
+  lootBgd.position = ccp(puzzleBg.position.x-puzzleBg.contentSize.width/2-lootBgd.contentSize.width/2-5,
+                        36*3.5);
+
+  _lootLabel = [CCLabelTTF labelWithString:@"0" fontName:[Globals font] fontSize:13];
+  [lootBgd addChild:_lootLabel];
+  _lootLabel.color = ccc3(0, 0, 0);
+  _lootLabel.rotation = -20.f;
+  _lootLabel.position = ccp(lootBgd.contentSize.width-13, lootBgd.contentSize.height/2-1);
   
   _comboBgd = [CCSprite spriteWithFile:@"combobg.png"];
   _comboBgd.anchorPoint = ccp(1, 0.5);
@@ -283,13 +281,11 @@
   _comboBgd.position = ccp(clip.contentSize.width+2*_comboBgd.contentSize.width, _comboBgd.parent.contentSize.height/2);
   
   _comboLabel = [CCLabelTTF labelWithString:@"2x" fontName:@"Gotham-UltraItalic" fontSize:23];
-  [_comboLabel enableShadowWithOffset:CGSizeMake(0, -1) opacity:0.7f blur:1.f updateImage:YES];
   _comboLabel.anchorPoint = ccp(1, 0.5);
   _comboLabel.position = ccp(_comboBgd.contentSize.width-5, 32);
   [_comboBgd addChild:_comboLabel z:1];
   
   _comboBotLabel = [CCLabelTTF labelWithString:@"COMBO" fontName:@"Gotham-Ultra" fontSize:12];
-  [_comboBotLabel enableShadowWithOffset:CGSizeMake(0, -1) opacity:0.7f blur:1.f updateImage:YES];
   _comboBotLabel.anchorPoint = ccp(1, 0.5);
   _comboBotLabel.position = ccp(_comboBgd.contentSize.width-5, 14);
   [_comboBgd addChild:_comboBotLabel z:1];
@@ -703,39 +699,40 @@
 }
 
 - (void) dropLoot:(int)equipId {
-  CCSprite *ed = [CCSprite spriteWithFile:@"itemcrate.png"];
+  GameState *gs = [GameState sharedGameState];
+  MonsterProto *mp = [gs monsterWithId:equipId];
+  NSString *fileName = [Globals imageNameForRarity:mp.quality suffix:@"piece.png"];
+  CCSprite *ed = [CCSprite spriteWithFile:fileName];
   [self.bgdContainer addChild:ed z:-1];
   ed.position = ccpAdd(self.currentEnemy.position, ccp(0,self.currentEnemy.contentSize.height/2));
   ed.scale = 0.01;
   ed.opacity = 5;
   
-  float scale = 35.f/ed.contentSize.width;
-  float distScale = 0.12f;
+  float scale = 25.f/ed.contentSize.width;
+  float distScale = 0.2f;
   
   ccBezierConfig bezier;
-  bezier.controlPoint_1 = ccp(239,265); // control point 1
-  bezier.controlPoint_2 = ccp(138,265); // control point 2
-  bezier.endPosition = self.lootLabel.parent.position;
-  id bezierForward = [CCBezierTo actionWithDuration:0.3 bezier:bezier];
+  bezier.endPosition = [self.bgdContainer convertToNodeSpace:[self.lootLabel.parent.parent convertToWorldSpace:self.lootLabel.parent.position]];
+  bezier.controlPoint_1 = ccp(ed.position.x+(bezier.endPosition.x-ed.position.x)/3,bezier.endPosition.y+(ed.position.y-bezier.endPosition.y)/2+10);
+  bezier.controlPoint_2 = ccp(ed.position.x+(bezier.endPosition.x-ed.position.x)*2/3,bezier.endPosition.y+(ed.position.y-bezier.endPosition.y)/2+10);
+  CCBezierTo *bezierForward = [CCBezierTo actionWithDuration:0.3f bezier:bezier];
   
   [ed runAction:[CCSpawn actions:
                  [CCFadeIn actionWithDuration:0.1],
                  [CCScaleTo actionWithDuration:0.1 scale:scale],
-                 [CCRotateBy actionWithDuration:SILVER_STACK_BOUNCE_DURATION angle:DROP_ROTATION],
                  [CCSequence actions:
                   [CCMoveByCustom actionWithDuration:SILVER_STACK_BOUNCE_DURATION*0.2 position:ccp(0,20)],
                   [CCEaseBounceOut actionWithAction:
-                   [CCMoveByCustom actionWithDuration:SILVER_STACK_BOUNCE_DURATION*0.8 position:ccp(0,-5-self.currentEnemy.contentSize.height/2)]],
-                  [CCMoveBy actionWithDuration:TIME_TO_SCROLL_PER_SCENE*distScale*POINT_OFFSET_PER_SCENE.y/Y_MOVEMENT_FOR_NEW_SCENE
-                                      position:ccpMult(POINT_OFFSET_PER_SCENE, -distScale)],
+                   [CCMoveByCustom actionWithDuration:SILVER_STACK_BOUNCE_DURATION*0.8 position:ccp(0,-15-self.currentEnemy.contentSize.height/2)]],
+                  [CCMoveBy actionWithDuration:TIME_TO_SCROLL_PER_SCENE*distScale*POINT_OFFSET_PER_SCENE.y/Y_MOVEMENT_FOR_NEW_SCENE position:ccpMult(POINT_OFFSET_PER_SCENE, -distScale)],
                   [CCSpawn actions:bezierForward,
-                   [CCScaleBy actionWithDuration:0.3 scale:0.3], nil],
+                   [CCScaleBy actionWithDuration:bezierForward.duration scale:0.3], nil],
                   [CCCallBlock actionWithBlock:
                    ^{
                      [ed removeFromParentAndCleanup:YES];
                      
                      _lootCount++;
-                     CCScaleBy *scale = [CCScaleBy actionWithDuration:0.25 scale:1.8];
+                     CCScaleBy *scale = [CCScaleBy actionWithDuration:0.25 scale:1.4];
                      _lootLabel.string = [Globals commafyNumber:_lootCount];
                      [_lootLabel runAction:
                       [CCSequence actions:
@@ -968,8 +965,12 @@
     [_comboBgd stopAllActions];
     [_comboBgd runAction:[CCMoveTo actionWithDuration:0.3f position:ccp(_comboBgd.parent.contentSize.width, _comboBgd.parent.contentSize.height/2)]];
     
+    _comboLabel.color = ccc3(255, 255, 255);
     [_comboLabel setFontFillColor:ccc3(255, 255, 255) updateImage:YES];
+    [_comboLabel enableShadowWithOffset:CGSizeMake(0, -1) opacity:0.7f blur:1.f updateImage:YES];
+    _comboBotLabel.color = ccc3(255,228,122);
     [_comboBotLabel setFontFillColor:ccc3(255,228,122) updateImage:YES];
+    [_comboBotLabel enableShadowWithOffset:CGSizeMake(0, -1) opacity:0.7f blur:1.f updateImage:YES];
   }
   if (_comboCount == 5 && ![_comboBgd getChildByTag:COMBO_FIRE_TAG]) {
     // Spawn fire
@@ -979,8 +980,12 @@
     q.positionType = kCCPositionTypeGrouped;
     [_comboBgd addChild:q z:0 tag:COMBO_FIRE_TAG];
     
+    _comboLabel.color = ccc3(0, 0, 0);
     [_comboLabel setFontFillColor:ccc3(0,0,0) updateImage:YES];
+    [_comboLabel disableShadowAndUpdateImage:YES];
+    _comboBotLabel.color = ccc3(0, 0, 0);
     [_comboBotLabel setFontFillColor:ccc3(0,0,0) updateImage:YES];
+    [_comboBotLabel disableShadowAndUpdateImage:YES];
   }
   
   if (_canPlayNextComboSound) {
@@ -1006,17 +1011,21 @@
   
   if (MonsterProto_MonsterElementIsValidValue((MonsterProto_MonsterElement)gem.color)) {
     NSString *dmgStr = [NSString stringWithFormat:@"%@", [Globals commafyNumber:dmg]];
-    CCLabelBMFont *dmgLabel = [CCLabelBMFont labelWithString:dmgStr fntFile:[Globals imageNameForElement:(MonsterProto_MonsterElement)gem.color suffix:@"pointsfont.fnt"]];
-    dmgLabel.position = [self.orbLayer pointForGridPosition:[self.orbLayer coordinateOfGem:gem]];
-    [self.orbLayer addChild:dmgLabel z:50];
-    
-    dmgLabel.scale = 0.25;
-    [dmgLabel runAction:[CCSequence actions:
-                         [CCScaleTo actionWithDuration:0.2f scale:1],
-                         [CCSpawn actions:
-                          [CCFadeOut actionWithDuration:0.5f],
-                          [CCMoveBy actionWithDuration:0.5f position:ccp(0,10)],nil],
-                         [CCCallFunc actionWithTarget:dmgLabel selector:@selector(removeFromParent)], nil]];
+    NSString *fntFile = [Globals imageNameForElement:(MonsterProto_MonsterElement)gem.color suffix:@"pointsfont.fnt"];
+    fntFile = fntFile ? fntFile : @"nightpointsfont.fnt";
+    if (fntFile) {
+      CCLabelBMFont *dmgLabel = [CCLabelBMFont labelWithString:dmgStr fntFile:fntFile];
+      dmgLabel.position = [self.orbLayer pointForGridPosition:[self.orbLayer coordinateOfGem:gem]];
+      [self.orbLayer addChild:dmgLabel z:50];
+      
+      dmgLabel.scale = 0.25;
+      [dmgLabel runAction:[CCSequence actions:
+                           [CCScaleTo actionWithDuration:0.2f scale:1],
+                           [CCSpawn actions:
+                            [CCFadeOut actionWithDuration:0.5f],
+                            [CCMoveBy actionWithDuration:0.5f position:ccp(0,10)],nil],
+                           [CCCallFunc actionWithTarget:dmgLabel selector:@selector(removeFromParent)], nil]];
+    }
   }
   
   [self updatePowerBar];
@@ -1028,7 +1037,6 @@
 }
 
 - (void) gemReachedFlyLocation:(Gem *)gem {
-  [self.myPlayer pulseRingGlow];
 }
 
 - (void) allowGemPop {

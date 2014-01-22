@@ -23,7 +23,6 @@
 
 @property (nonatomic, retain) BeginDungeonResponseProto *dungeonInfo;
 
-@property (nonatomic, retain) IBOutlet BattleContinueView *continueView;
 @property (nonatomic, retain) IBOutlet BattleEndView *endView;
 
 @property (nonatomic, retain) IBOutlet UIView *swapView;

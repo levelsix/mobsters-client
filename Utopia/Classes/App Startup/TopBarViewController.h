@@ -36,10 +36,6 @@
 
 @end
 
-@interface TopBarView : UIView
-
-@end
-
 @interface TopBarViewController : UIViewController <NumTransitionLabelDelegate>
 
 @property (nonatomic, assign) IBOutlet SplitImageProgressBar *expBar;

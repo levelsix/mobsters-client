@@ -26,7 +26,7 @@ static PBExtensionRegistry* extensionRegistry = nil;
 @property MonsterProto_MonsterQuality quality;
 @property int32_t evolutionLevel;
 @property (retain) NSString* displayName;
-@property MonsterProto_MonsterElement element;
+@property MonsterProto_MonsterElement monsterElement;
 @property int32_t baseHp;
 @property (retain) NSString* imagePrefix;
 @property int32_t numPuzzlePieces;
@@ -36,14 +36,20 @@ static PBExtensionRegistry* extensionRegistry = nil;
 @property int32_t elementThreeDmg;
 @property int32_t elementFourDmg;
 @property int32_t elementFiveDmg;
+@property int32_t elementSixDmg;
 @property Float32 hpLevelMultiplier;
 @property Float32 attackLevelMultiplier;
 @property int32_t maxLevel;
 @property int32_t evolutionMonsterId;
+@property int32_t evolutionCatalystMonsterId;
+@property int32_t minutesToEvolve;
+@property int32_t numCatalystMonstersRequired;
 @property (retain) NSString* carrotRecruited;
 @property (retain) NSString* carrotDefeated;
 @property (retain) NSString* carrotEvolved;
 @property (retain) NSString* description;
+@property int32_t enhancingFeederExp;
+@property (retain) NSMutableArray* mutableLvlInfoList;
 @end
 
 @implementation MonsterProto
@@ -90,13 +96,13 @@ static PBExtensionRegistry* extensionRegistry = nil;
   hasDisplayName_ = !!value;
 }
 @synthesize displayName;
-- (BOOL) hasElement {
-  return !!hasElement_;
+- (BOOL) hasMonsterElement {
+  return !!hasMonsterElement_;
 }
-- (void) setHasElement:(BOOL) value {
-  hasElement_ = !!value;
+- (void) setHasMonsterElement:(BOOL) value {
+  hasMonsterElement_ = !!value;
 }
-@synthesize element;
+@synthesize monsterElement;
 - (BOOL) hasBaseHp {
   return !!hasBaseHp_;
 }
@@ -160,6 +166,13 @@ static PBExtensionRegistry* extensionRegistry = nil;
   hasElementFiveDmg_ = !!value;
 }
 @synthesize elementFiveDmg;
+- (BOOL) hasElementSixDmg {
+  return !!hasElementSixDmg_;
+}
+- (void) setHasElementSixDmg:(BOOL) value {
+  hasElementSixDmg_ = !!value;
+}
+@synthesize elementSixDmg;
 - (BOOL) hasHpLevelMultiplier {
   return !!hasHpLevelMultiplier_;
 }
@@ -188,6 +201,27 @@ static PBExtensionRegistry* extensionRegistry = nil;
   hasEvolutionMonsterId_ = !!value;
 }
 @synthesize evolutionMonsterId;
+- (BOOL) hasEvolutionCatalystMonsterId {
+  return !!hasEvolutionCatalystMonsterId_;
+}
+- (void) setHasEvolutionCatalystMonsterId:(BOOL) value {
+  hasEvolutionCatalystMonsterId_ = !!value;
+}
+@synthesize evolutionCatalystMonsterId;
+- (BOOL) hasMinutesToEvolve {
+  return !!hasMinutesToEvolve_;
+}
+- (void) setHasMinutesToEvolve:(BOOL) value {
+  hasMinutesToEvolve_ = !!value;
+}
+@synthesize minutesToEvolve;
+- (BOOL) hasNumCatalystMonstersRequired {
+  return !!hasNumCatalystMonstersRequired_;
+}
+- (void) setHasNumCatalystMonstersRequired:(BOOL) value {
+  hasNumCatalystMonstersRequired_ = !!value;
+}
+@synthesize numCatalystMonstersRequired;
 - (BOOL) hasCarrotRecruited {
   return !!hasCarrotRecruited_;
 }
@@ -216,6 +250,14 @@ static PBExtensionRegistry* extensionRegistry = nil;
   hasDescription_ = !!value;
 }
 @synthesize description;
+- (BOOL) hasEnhancingFeederExp {
+  return !!hasEnhancingFeederExp_;
+}
+- (void) setHasEnhancingFeederExp:(BOOL) value {
+  hasEnhancingFeederExp_ = !!value;
+}
+@synthesize enhancingFeederExp;
+@synthesize mutableLvlInfoList;
 - (void) dealloc {
   self.name = nil;
   self.monsterGroup = nil;
@@ -225,6 +267,7 @@ static PBExtensionRegistry* extensionRegistry = nil;
   self.carrotDefeated = nil;
   self.carrotEvolved = nil;
   self.description = nil;
+  self.mutableLvlInfoList = nil;
   [super dealloc];
 }
 - (id) init {
@@ -235,7 +278,7 @@ static PBExtensionRegistry* extensionRegistry = nil;
     self.quality = MonsterProto_MonsterQualityCommon;
     self.evolutionLevel = 0;
     self.displayName = @"";
-    self.element = MonsterProto_MonsterElementFire;
+    self.monsterElement = MonsterProto_MonsterElementFire;
     self.baseHp = 0;
     self.imagePrefix = @"";
     self.numPuzzlePieces = 0;
@@ -245,14 +288,19 @@ static PBExtensionRegistry* extensionRegistry = nil;
     self.elementThreeDmg = 0;
     self.elementFourDmg = 0;
     self.elementFiveDmg = 0;
+    self.elementSixDmg = 0;
     self.hpLevelMultiplier = 0;
     self.attackLevelMultiplier = 0;
     self.maxLevel = 0;
     self.evolutionMonsterId = 0;
+    self.evolutionCatalystMonsterId = 0;
+    self.minutesToEvolve = 0;
+    self.numCatalystMonstersRequired = 0;
     self.carrotRecruited = @"";
     self.carrotDefeated = @"";
     self.carrotEvolved = @"";
     self.description = @"";
+    self.enhancingFeederExp = 0;
   }
   return self;
 }
@@ -267,6 +315,13 @@ static MonsterProto* defaultMonsterProtoInstance = nil;
 }
 - (MonsterProto*) defaultInstance {
   return defaultMonsterProtoInstance;
+}
+- (NSArray*) lvlInfoList {
+  return mutableLvlInfoList;
+}
+- (MonsterLevelInfoProto*) lvlInfoAtIndex:(int32_t) index {
+  id value = [mutableLvlInfoList objectAtIndex:index];
+  return value;
 }
 - (BOOL) isInitialized {
   return YES;
@@ -290,8 +345,8 @@ static MonsterProto* defaultMonsterProtoInstance = nil;
   if (self.hasDisplayName) {
     [output writeString:6 value:self.displayName];
   }
-  if (self.hasElement) {
-    [output writeEnum:7 value:self.element];
+  if (self.hasMonsterElement) {
+    [output writeEnum:7 value:self.monsterElement];
   }
   if (self.hasBaseHp) {
     [output writeInt32:8 value:self.baseHp];
@@ -344,6 +399,24 @@ static MonsterProto* defaultMonsterProtoInstance = nil;
   if (self.hasDescription) {
     [output writeString:24 value:self.description];
   }
+  if (self.hasEvolutionCatalystMonsterId) {
+    [output writeInt32:25 value:self.evolutionCatalystMonsterId];
+  }
+  if (self.hasMinutesToEvolve) {
+    [output writeInt32:26 value:self.minutesToEvolve];
+  }
+  if (self.hasNumCatalystMonstersRequired) {
+    [output writeInt32:27 value:self.numCatalystMonstersRequired];
+  }
+  if (self.hasElementSixDmg) {
+    [output writeInt32:28 value:self.elementSixDmg];
+  }
+  if (self.hasEnhancingFeederExp) {
+    [output writeInt32:29 value:self.enhancingFeederExp];
+  }
+  for (MonsterLevelInfoProto* element in self.lvlInfoList) {
+    [output writeMessage:30 value:element];
+  }
   [self.unknownFields writeToCodedOutputStream:output];
 }
 - (int32_t) serializedSize {
@@ -371,8 +444,8 @@ static MonsterProto* defaultMonsterProtoInstance = nil;
   if (self.hasDisplayName) {
     size += computeStringSize(6, self.displayName);
   }
-  if (self.hasElement) {
-    size += computeEnumSize(7, self.element);
+  if (self.hasMonsterElement) {
+    size += computeEnumSize(7, self.monsterElement);
   }
   if (self.hasBaseHp) {
     size += computeInt32Size(8, self.baseHp);
@@ -425,6 +498,24 @@ static MonsterProto* defaultMonsterProtoInstance = nil;
   if (self.hasDescription) {
     size += computeStringSize(24, self.description);
   }
+  if (self.hasEvolutionCatalystMonsterId) {
+    size += computeInt32Size(25, self.evolutionCatalystMonsterId);
+  }
+  if (self.hasMinutesToEvolve) {
+    size += computeInt32Size(26, self.minutesToEvolve);
+  }
+  if (self.hasNumCatalystMonstersRequired) {
+    size += computeInt32Size(27, self.numCatalystMonstersRequired);
+  }
+  if (self.hasElementSixDmg) {
+    size += computeInt32Size(28, self.elementSixDmg);
+  }
+  if (self.hasEnhancingFeederExp) {
+    size += computeInt32Size(29, self.enhancingFeederExp);
+  }
+  for (MonsterLevelInfoProto* element in self.lvlInfoList) {
+    size += computeMessageSize(30, element);
+  }
   size += self.unknownFields.serializedSize;
   memoizedSerializedSize = size;
   return size;
@@ -465,6 +556,7 @@ BOOL MonsterProto_MonsterQualityIsValidValue(MonsterProto_MonsterQuality value) 
     case MonsterProto_MonsterQualityUltra:
     case MonsterProto_MonsterQualityEpic:
     case MonsterProto_MonsterQualityLegendary:
+    case MonsterProto_MonsterQualityEvo:
       return YES;
     default:
       return NO;
@@ -477,6 +569,7 @@ BOOL MonsterProto_MonsterElementIsValidValue(MonsterProto_MonsterElement value) 
     case MonsterProto_MonsterElementWater:
     case MonsterProto_MonsterElementLightning:
     case MonsterProto_MonsterElementDarkness:
+    case MonsterProto_MonsterElementRock:
       return YES;
     default:
       return NO;
@@ -542,8 +635,8 @@ BOOL MonsterProto_MonsterElementIsValidValue(MonsterProto_MonsterElement value) 
   if (other.hasDisplayName) {
     [self setDisplayName:other.displayName];
   }
-  if (other.hasElement) {
-    [self setElement:other.element];
+  if (other.hasMonsterElement) {
+    [self setMonsterElement:other.monsterElement];
   }
   if (other.hasBaseHp) {
     [self setBaseHp:other.baseHp];
@@ -572,6 +665,9 @@ BOOL MonsterProto_MonsterElementIsValidValue(MonsterProto_MonsterElement value) 
   if (other.hasElementFiveDmg) {
     [self setElementFiveDmg:other.elementFiveDmg];
   }
+  if (other.hasElementSixDmg) {
+    [self setElementSixDmg:other.elementSixDmg];
+  }
   if (other.hasHpLevelMultiplier) {
     [self setHpLevelMultiplier:other.hpLevelMultiplier];
   }
@@ -584,6 +680,15 @@ BOOL MonsterProto_MonsterElementIsValidValue(MonsterProto_MonsterElement value) 
   if (other.hasEvolutionMonsterId) {
     [self setEvolutionMonsterId:other.evolutionMonsterId];
   }
+  if (other.hasEvolutionCatalystMonsterId) {
+    [self setEvolutionCatalystMonsterId:other.evolutionCatalystMonsterId];
+  }
+  if (other.hasMinutesToEvolve) {
+    [self setMinutesToEvolve:other.minutesToEvolve];
+  }
+  if (other.hasNumCatalystMonstersRequired) {
+    [self setNumCatalystMonstersRequired:other.numCatalystMonstersRequired];
+  }
   if (other.hasCarrotRecruited) {
     [self setCarrotRecruited:other.carrotRecruited];
   }
@@ -595,6 +700,15 @@ BOOL MonsterProto_MonsterElementIsValidValue(MonsterProto_MonsterElement value) 
   }
   if (other.hasDescription) {
     [self setDescription:other.description];
+  }
+  if (other.hasEnhancingFeederExp) {
+    [self setEnhancingFeederExp:other.enhancingFeederExp];
+  }
+  if (other.mutableLvlInfoList.count > 0) {
+    if (result.mutableLvlInfoList == nil) {
+      result.mutableLvlInfoList = [NSMutableArray array];
+    }
+    [result.mutableLvlInfoList addObjectsFromArray:other.mutableLvlInfoList];
   }
   [self mergeUnknownFields:other.unknownFields];
   return self;
@@ -649,7 +763,7 @@ BOOL MonsterProto_MonsterElementIsValidValue(MonsterProto_MonsterElement value) 
       case 56: {
         int32_t value = [input readEnum];
         if (MonsterProto_MonsterElementIsValidValue(value)) {
-          [self setElement:value];
+          [self setMonsterElement:value];
         } else {
           [unknownFields mergeVarintField:7 value:value];
         }
@@ -721,6 +835,32 @@ BOOL MonsterProto_MonsterElementIsValidValue(MonsterProto_MonsterElement value) 
       }
       case 194: {
         [self setDescription:[input readString]];
+        break;
+      }
+      case 200: {
+        [self setEvolutionCatalystMonsterId:[input readInt32]];
+        break;
+      }
+      case 208: {
+        [self setMinutesToEvolve:[input readInt32]];
+        break;
+      }
+      case 216: {
+        [self setNumCatalystMonstersRequired:[input readInt32]];
+        break;
+      }
+      case 224: {
+        [self setElementSixDmg:[input readInt32]];
+        break;
+      }
+      case 232: {
+        [self setEnhancingFeederExp:[input readInt32]];
+        break;
+      }
+      case 242: {
+        MonsterLevelInfoProto_Builder* subBuilder = [MonsterLevelInfoProto builder];
+        [input readMessage:subBuilder extensionRegistry:extensionRegistry];
+        [self addLvlInfo:[subBuilder buildPartial]];
         break;
       }
     }
@@ -822,20 +962,20 @@ BOOL MonsterProto_MonsterElementIsValidValue(MonsterProto_MonsterElement value) 
   result.displayName = @"";
   return self;
 }
-- (BOOL) hasElement {
-  return result.hasElement;
+- (BOOL) hasMonsterElement {
+  return result.hasMonsterElement;
 }
-- (MonsterProto_MonsterElement) element {
-  return result.element;
+- (MonsterProto_MonsterElement) monsterElement {
+  return result.monsterElement;
 }
-- (MonsterProto_Builder*) setElement:(MonsterProto_MonsterElement) value {
-  result.hasElement = YES;
-  result.element = value;
+- (MonsterProto_Builder*) setMonsterElement:(MonsterProto_MonsterElement) value {
+  result.hasMonsterElement = YES;
+  result.monsterElement = value;
   return self;
 }
-- (MonsterProto_Builder*) clearElement {
-  result.hasElement = NO;
-  result.element = MonsterProto_MonsterElementFire;
+- (MonsterProto_Builder*) clearMonsterElement {
+  result.hasMonsterElement = NO;
+  result.monsterElement = MonsterProto_MonsterElementFire;
   return self;
 }
 - (BOOL) hasBaseHp {
@@ -982,6 +1122,22 @@ BOOL MonsterProto_MonsterElementIsValidValue(MonsterProto_MonsterElement value) 
   result.elementFiveDmg = 0;
   return self;
 }
+- (BOOL) hasElementSixDmg {
+  return result.hasElementSixDmg;
+}
+- (int32_t) elementSixDmg {
+  return result.elementSixDmg;
+}
+- (MonsterProto_Builder*) setElementSixDmg:(int32_t) value {
+  result.hasElementSixDmg = YES;
+  result.elementSixDmg = value;
+  return self;
+}
+- (MonsterProto_Builder*) clearElementSixDmg {
+  result.hasElementSixDmg = NO;
+  result.elementSixDmg = 0;
+  return self;
+}
 - (BOOL) hasHpLevelMultiplier {
   return result.hasHpLevelMultiplier;
 }
@@ -1046,6 +1202,54 @@ BOOL MonsterProto_MonsterElementIsValidValue(MonsterProto_MonsterElement value) 
   result.evolutionMonsterId = 0;
   return self;
 }
+- (BOOL) hasEvolutionCatalystMonsterId {
+  return result.hasEvolutionCatalystMonsterId;
+}
+- (int32_t) evolutionCatalystMonsterId {
+  return result.evolutionCatalystMonsterId;
+}
+- (MonsterProto_Builder*) setEvolutionCatalystMonsterId:(int32_t) value {
+  result.hasEvolutionCatalystMonsterId = YES;
+  result.evolutionCatalystMonsterId = value;
+  return self;
+}
+- (MonsterProto_Builder*) clearEvolutionCatalystMonsterId {
+  result.hasEvolutionCatalystMonsterId = NO;
+  result.evolutionCatalystMonsterId = 0;
+  return self;
+}
+- (BOOL) hasMinutesToEvolve {
+  return result.hasMinutesToEvolve;
+}
+- (int32_t) minutesToEvolve {
+  return result.minutesToEvolve;
+}
+- (MonsterProto_Builder*) setMinutesToEvolve:(int32_t) value {
+  result.hasMinutesToEvolve = YES;
+  result.minutesToEvolve = value;
+  return self;
+}
+- (MonsterProto_Builder*) clearMinutesToEvolve {
+  result.hasMinutesToEvolve = NO;
+  result.minutesToEvolve = 0;
+  return self;
+}
+- (BOOL) hasNumCatalystMonstersRequired {
+  return result.hasNumCatalystMonstersRequired;
+}
+- (int32_t) numCatalystMonstersRequired {
+  return result.numCatalystMonstersRequired;
+}
+- (MonsterProto_Builder*) setNumCatalystMonstersRequired:(int32_t) value {
+  result.hasNumCatalystMonstersRequired = YES;
+  result.numCatalystMonstersRequired = value;
+  return self;
+}
+- (MonsterProto_Builder*) clearNumCatalystMonstersRequired {
+  result.hasNumCatalystMonstersRequired = NO;
+  result.numCatalystMonstersRequired = 0;
+  return self;
+}
 - (BOOL) hasCarrotRecruited {
   return result.hasCarrotRecruited;
 }
@@ -1108,6 +1312,380 @@ BOOL MonsterProto_MonsterElementIsValidValue(MonsterProto_MonsterElement value) 
 - (MonsterProto_Builder*) clearDescription {
   result.hasDescription = NO;
   result.description = @"";
+  return self;
+}
+- (BOOL) hasEnhancingFeederExp {
+  return result.hasEnhancingFeederExp;
+}
+- (int32_t) enhancingFeederExp {
+  return result.enhancingFeederExp;
+}
+- (MonsterProto_Builder*) setEnhancingFeederExp:(int32_t) value {
+  result.hasEnhancingFeederExp = YES;
+  result.enhancingFeederExp = value;
+  return self;
+}
+- (MonsterProto_Builder*) clearEnhancingFeederExp {
+  result.hasEnhancingFeederExp = NO;
+  result.enhancingFeederExp = 0;
+  return self;
+}
+- (NSArray*) lvlInfoList {
+  if (result.mutableLvlInfoList == nil) { return [NSArray array]; }
+  return result.mutableLvlInfoList;
+}
+- (MonsterLevelInfoProto*) lvlInfoAtIndex:(int32_t) index {
+  return [result lvlInfoAtIndex:index];
+}
+- (MonsterProto_Builder*) replaceLvlInfoAtIndex:(int32_t) index with:(MonsterLevelInfoProto*) value {
+  [result.mutableLvlInfoList replaceObjectAtIndex:index withObject:value];
+  return self;
+}
+- (MonsterProto_Builder*) addAllLvlInfo:(NSArray*) values {
+  if (result.mutableLvlInfoList == nil) {
+    result.mutableLvlInfoList = [NSMutableArray array];
+  }
+  [result.mutableLvlInfoList addObjectsFromArray:values];
+  return self;
+}
+- (MonsterProto_Builder*) clearLvlInfoList {
+  result.mutableLvlInfoList = nil;
+  return self;
+}
+- (MonsterProto_Builder*) addLvlInfo:(MonsterLevelInfoProto*) value {
+  if (result.mutableLvlInfoList == nil) {
+    result.mutableLvlInfoList = [NSMutableArray array];
+  }
+  [result.mutableLvlInfoList addObject:value];
+  return self;
+}
+@end
+
+@interface MonsterLevelInfoProto ()
+@property int32_t lvl;
+@property int32_t hp;
+@property int32_t attack;
+@property int32_t curLvlRequiredExp;
+@property int32_t feederExp;
+@end
+
+@implementation MonsterLevelInfoProto
+
+- (BOOL) hasLvl {
+  return !!hasLvl_;
+}
+- (void) setHasLvl:(BOOL) value {
+  hasLvl_ = !!value;
+}
+@synthesize lvl;
+- (BOOL) hasHp {
+  return !!hasHp_;
+}
+- (void) setHasHp:(BOOL) value {
+  hasHp_ = !!value;
+}
+@synthesize hp;
+- (BOOL) hasAttack {
+  return !!hasAttack_;
+}
+- (void) setHasAttack:(BOOL) value {
+  hasAttack_ = !!value;
+}
+@synthesize attack;
+- (BOOL) hasCurLvlRequiredExp {
+  return !!hasCurLvlRequiredExp_;
+}
+- (void) setHasCurLvlRequiredExp:(BOOL) value {
+  hasCurLvlRequiredExp_ = !!value;
+}
+@synthesize curLvlRequiredExp;
+- (BOOL) hasFeederExp {
+  return !!hasFeederExp_;
+}
+- (void) setHasFeederExp:(BOOL) value {
+  hasFeederExp_ = !!value;
+}
+@synthesize feederExp;
+- (void) dealloc {
+  [super dealloc];
+}
+- (id) init {
+  if ((self = [super init])) {
+    self.lvl = 0;
+    self.hp = 0;
+    self.attack = 0;
+    self.curLvlRequiredExp = 0;
+    self.feederExp = 0;
+  }
+  return self;
+}
+static MonsterLevelInfoProto* defaultMonsterLevelInfoProtoInstance = nil;
++ (void) initialize {
+  if (self == [MonsterLevelInfoProto class]) {
+    defaultMonsterLevelInfoProtoInstance = [[MonsterLevelInfoProto alloc] init];
+  }
+}
++ (MonsterLevelInfoProto*) defaultInstance {
+  return defaultMonsterLevelInfoProtoInstance;
+}
+- (MonsterLevelInfoProto*) defaultInstance {
+  return defaultMonsterLevelInfoProtoInstance;
+}
+- (BOOL) isInitialized {
+  return YES;
+}
+- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output {
+  if (self.hasLvl) {
+    [output writeInt32:1 value:self.lvl];
+  }
+  if (self.hasHp) {
+    [output writeInt32:2 value:self.hp];
+  }
+  if (self.hasAttack) {
+    [output writeInt32:3 value:self.attack];
+  }
+  if (self.hasCurLvlRequiredExp) {
+    [output writeInt32:4 value:self.curLvlRequiredExp];
+  }
+  if (self.hasFeederExp) {
+    [output writeInt32:5 value:self.feederExp];
+  }
+  [self.unknownFields writeToCodedOutputStream:output];
+}
+- (int32_t) serializedSize {
+  int32_t size = memoizedSerializedSize;
+  if (size != -1) {
+    return size;
+  }
+
+  size = 0;
+  if (self.hasLvl) {
+    size += computeInt32Size(1, self.lvl);
+  }
+  if (self.hasHp) {
+    size += computeInt32Size(2, self.hp);
+  }
+  if (self.hasAttack) {
+    size += computeInt32Size(3, self.attack);
+  }
+  if (self.hasCurLvlRequiredExp) {
+    size += computeInt32Size(4, self.curLvlRequiredExp);
+  }
+  if (self.hasFeederExp) {
+    size += computeInt32Size(5, self.feederExp);
+  }
+  size += self.unknownFields.serializedSize;
+  memoizedSerializedSize = size;
+  return size;
+}
++ (MonsterLevelInfoProto*) parseFromData:(NSData*) data {
+  return (MonsterLevelInfoProto*)[[[MonsterLevelInfoProto builder] mergeFromData:data] build];
+}
++ (MonsterLevelInfoProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (MonsterLevelInfoProto*)[[[MonsterLevelInfoProto builder] mergeFromData:data extensionRegistry:extensionRegistry] build];
+}
++ (MonsterLevelInfoProto*) parseFromInputStream:(NSInputStream*) input {
+  return (MonsterLevelInfoProto*)[[[MonsterLevelInfoProto builder] mergeFromInputStream:input] build];
+}
++ (MonsterLevelInfoProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (MonsterLevelInfoProto*)[[[MonsterLevelInfoProto builder] mergeFromInputStream:input extensionRegistry:extensionRegistry] build];
+}
++ (MonsterLevelInfoProto*) parseFromCodedInputStream:(PBCodedInputStream*) input {
+  return (MonsterLevelInfoProto*)[[[MonsterLevelInfoProto builder] mergeFromCodedInputStream:input] build];
+}
++ (MonsterLevelInfoProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (MonsterLevelInfoProto*)[[[MonsterLevelInfoProto builder] mergeFromCodedInputStream:input extensionRegistry:extensionRegistry] build];
+}
++ (MonsterLevelInfoProto_Builder*) builder {
+  return [[[MonsterLevelInfoProto_Builder alloc] init] autorelease];
+}
++ (MonsterLevelInfoProto_Builder*) builderWithPrototype:(MonsterLevelInfoProto*) prototype {
+  return [[MonsterLevelInfoProto builder] mergeFrom:prototype];
+}
+- (MonsterLevelInfoProto_Builder*) builder {
+  return [MonsterLevelInfoProto builder];
+}
+@end
+
+@interface MonsterLevelInfoProto_Builder()
+@property (retain) MonsterLevelInfoProto* result;
+@end
+
+@implementation MonsterLevelInfoProto_Builder
+@synthesize result;
+- (void) dealloc {
+  self.result = nil;
+  [super dealloc];
+}
+- (id) init {
+  if ((self = [super init])) {
+    self.result = [[[MonsterLevelInfoProto alloc] init] autorelease];
+  }
+  return self;
+}
+- (PBGeneratedMessage*) internalGetResult {
+  return result;
+}
+- (MonsterLevelInfoProto_Builder*) clear {
+  self.result = [[[MonsterLevelInfoProto alloc] init] autorelease];
+  return self;
+}
+- (MonsterLevelInfoProto_Builder*) clone {
+  return [MonsterLevelInfoProto builderWithPrototype:result];
+}
+- (MonsterLevelInfoProto*) defaultInstance {
+  return [MonsterLevelInfoProto defaultInstance];
+}
+- (MonsterLevelInfoProto*) build {
+  [self checkInitialized];
+  return [self buildPartial];
+}
+- (MonsterLevelInfoProto*) buildPartial {
+  MonsterLevelInfoProto* returnMe = [[result retain] autorelease];
+  self.result = nil;
+  return returnMe;
+}
+- (MonsterLevelInfoProto_Builder*) mergeFrom:(MonsterLevelInfoProto*) other {
+  if (other == [MonsterLevelInfoProto defaultInstance]) {
+    return self;
+  }
+  if (other.hasLvl) {
+    [self setLvl:other.lvl];
+  }
+  if (other.hasHp) {
+    [self setHp:other.hp];
+  }
+  if (other.hasAttack) {
+    [self setAttack:other.attack];
+  }
+  if (other.hasCurLvlRequiredExp) {
+    [self setCurLvlRequiredExp:other.curLvlRequiredExp];
+  }
+  if (other.hasFeederExp) {
+    [self setFeederExp:other.feederExp];
+  }
+  [self mergeUnknownFields:other.unknownFields];
+  return self;
+}
+- (MonsterLevelInfoProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input {
+  return [self mergeFromCodedInputStream:input extensionRegistry:[PBExtensionRegistry emptyRegistry]];
+}
+- (MonsterLevelInfoProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  PBUnknownFieldSet_Builder* unknownFields = [PBUnknownFieldSet builderWithUnknownFields:self.unknownFields];
+  while (YES) {
+    int32_t tag = [input readTag];
+    switch (tag) {
+      case 0:
+        [self setUnknownFields:[unknownFields build]];
+        return self;
+      default: {
+        if (![self parseUnknownField:input unknownFields:unknownFields extensionRegistry:extensionRegistry tag:tag]) {
+          [self setUnknownFields:[unknownFields build]];
+          return self;
+        }
+        break;
+      }
+      case 8: {
+        [self setLvl:[input readInt32]];
+        break;
+      }
+      case 16: {
+        [self setHp:[input readInt32]];
+        break;
+      }
+      case 24: {
+        [self setAttack:[input readInt32]];
+        break;
+      }
+      case 32: {
+        [self setCurLvlRequiredExp:[input readInt32]];
+        break;
+      }
+      case 40: {
+        [self setFeederExp:[input readInt32]];
+        break;
+      }
+    }
+  }
+}
+- (BOOL) hasLvl {
+  return result.hasLvl;
+}
+- (int32_t) lvl {
+  return result.lvl;
+}
+- (MonsterLevelInfoProto_Builder*) setLvl:(int32_t) value {
+  result.hasLvl = YES;
+  result.lvl = value;
+  return self;
+}
+- (MonsterLevelInfoProto_Builder*) clearLvl {
+  result.hasLvl = NO;
+  result.lvl = 0;
+  return self;
+}
+- (BOOL) hasHp {
+  return result.hasHp;
+}
+- (int32_t) hp {
+  return result.hp;
+}
+- (MonsterLevelInfoProto_Builder*) setHp:(int32_t) value {
+  result.hasHp = YES;
+  result.hp = value;
+  return self;
+}
+- (MonsterLevelInfoProto_Builder*) clearHp {
+  result.hasHp = NO;
+  result.hp = 0;
+  return self;
+}
+- (BOOL) hasAttack {
+  return result.hasAttack;
+}
+- (int32_t) attack {
+  return result.attack;
+}
+- (MonsterLevelInfoProto_Builder*) setAttack:(int32_t) value {
+  result.hasAttack = YES;
+  result.attack = value;
+  return self;
+}
+- (MonsterLevelInfoProto_Builder*) clearAttack {
+  result.hasAttack = NO;
+  result.attack = 0;
+  return self;
+}
+- (BOOL) hasCurLvlRequiredExp {
+  return result.hasCurLvlRequiredExp;
+}
+- (int32_t) curLvlRequiredExp {
+  return result.curLvlRequiredExp;
+}
+- (MonsterLevelInfoProto_Builder*) setCurLvlRequiredExp:(int32_t) value {
+  result.hasCurLvlRequiredExp = YES;
+  result.curLvlRequiredExp = value;
+  return self;
+}
+- (MonsterLevelInfoProto_Builder*) clearCurLvlRequiredExp {
+  result.hasCurLvlRequiredExp = NO;
+  result.curLvlRequiredExp = 0;
+  return self;
+}
+- (BOOL) hasFeederExp {
+  return result.hasFeederExp;
+}
+- (int32_t) feederExp {
+  return result.feederExp;
+}
+- (MonsterLevelInfoProto_Builder*) setFeederExp:(int32_t) value {
+  result.hasFeederExp = YES;
+  result.feederExp = value;
+  return self;
+}
+- (MonsterLevelInfoProto_Builder*) clearFeederExp {
+  result.hasFeederExp = NO;
+  result.feederExp = 0;
   return self;
 }
 @end
@@ -1639,7 +2217,9 @@ static FullUserMonsterProto* defaultFullUserMonsterProtoInstance = nil;
 @interface UserMonsterHealingProto ()
 @property int32_t userId;
 @property int64_t userMonsterId;
-@property int64_t expectedStartTimeMillis;
+@property int64_t queuedTimeMillis;
+@property Float32 healthProgress;
+@property int32_t priority;
 @end
 
 @implementation UserMonsterHealingProto
@@ -1658,13 +2238,27 @@ static FullUserMonsterProto* defaultFullUserMonsterProtoInstance = nil;
   hasUserMonsterId_ = !!value;
 }
 @synthesize userMonsterId;
-- (BOOL) hasExpectedStartTimeMillis {
-  return !!hasExpectedStartTimeMillis_;
+- (BOOL) hasQueuedTimeMillis {
+  return !!hasQueuedTimeMillis_;
 }
-- (void) setHasExpectedStartTimeMillis:(BOOL) value {
-  hasExpectedStartTimeMillis_ = !!value;
+- (void) setHasQueuedTimeMillis:(BOOL) value {
+  hasQueuedTimeMillis_ = !!value;
 }
-@synthesize expectedStartTimeMillis;
+@synthesize queuedTimeMillis;
+- (BOOL) hasHealthProgress {
+  return !!hasHealthProgress_;
+}
+- (void) setHasHealthProgress:(BOOL) value {
+  hasHealthProgress_ = !!value;
+}
+@synthesize healthProgress;
+- (BOOL) hasPriority {
+  return !!hasPriority_;
+}
+- (void) setHasPriority:(BOOL) value {
+  hasPriority_ = !!value;
+}
+@synthesize priority;
 - (void) dealloc {
   [super dealloc];
 }
@@ -1672,7 +2266,9 @@ static FullUserMonsterProto* defaultFullUserMonsterProtoInstance = nil;
   if ((self = [super init])) {
     self.userId = 0;
     self.userMonsterId = 0L;
-    self.expectedStartTimeMillis = 0L;
+    self.queuedTimeMillis = 0L;
+    self.healthProgress = 0;
+    self.priority = 0;
   }
   return self;
 }
@@ -1698,8 +2294,14 @@ static UserMonsterHealingProto* defaultUserMonsterHealingProtoInstance = nil;
   if (self.hasUserMonsterId) {
     [output writeInt64:2 value:self.userMonsterId];
   }
-  if (self.hasExpectedStartTimeMillis) {
-    [output writeInt64:3 value:self.expectedStartTimeMillis];
+  if (self.hasQueuedTimeMillis) {
+    [output writeInt64:3 value:self.queuedTimeMillis];
+  }
+  if (self.hasHealthProgress) {
+    [output writeFloat:5 value:self.healthProgress];
+  }
+  if (self.hasPriority) {
+    [output writeInt32:6 value:self.priority];
   }
   [self.unknownFields writeToCodedOutputStream:output];
 }
@@ -1716,8 +2318,14 @@ static UserMonsterHealingProto* defaultUserMonsterHealingProtoInstance = nil;
   if (self.hasUserMonsterId) {
     size += computeInt64Size(2, self.userMonsterId);
   }
-  if (self.hasExpectedStartTimeMillis) {
-    size += computeInt64Size(3, self.expectedStartTimeMillis);
+  if (self.hasQueuedTimeMillis) {
+    size += computeInt64Size(3, self.queuedTimeMillis);
+  }
+  if (self.hasHealthProgress) {
+    size += computeFloatSize(5, self.healthProgress);
+  }
+  if (self.hasPriority) {
+    size += computeInt32Size(6, self.priority);
   }
   size += self.unknownFields.serializedSize;
   memoizedSerializedSize = size;
@@ -1800,8 +2408,14 @@ static UserMonsterHealingProto* defaultUserMonsterHealingProtoInstance = nil;
   if (other.hasUserMonsterId) {
     [self setUserMonsterId:other.userMonsterId];
   }
-  if (other.hasExpectedStartTimeMillis) {
-    [self setExpectedStartTimeMillis:other.expectedStartTimeMillis];
+  if (other.hasQueuedTimeMillis) {
+    [self setQueuedTimeMillis:other.queuedTimeMillis];
+  }
+  if (other.hasHealthProgress) {
+    [self setHealthProgress:other.healthProgress];
+  }
+  if (other.hasPriority) {
+    [self setPriority:other.priority];
   }
   [self mergeUnknownFields:other.unknownFields];
   return self;
@@ -1833,7 +2447,15 @@ static UserMonsterHealingProto* defaultUserMonsterHealingProtoInstance = nil;
         break;
       }
       case 24: {
-        [self setExpectedStartTimeMillis:[input readInt64]];
+        [self setQueuedTimeMillis:[input readInt64]];
+        break;
+      }
+      case 45: {
+        [self setHealthProgress:[input readFloat]];
+        break;
+      }
+      case 48: {
+        [self setPriority:[input readInt32]];
         break;
       }
     }
@@ -1871,20 +2493,52 @@ static UserMonsterHealingProto* defaultUserMonsterHealingProtoInstance = nil;
   result.userMonsterId = 0L;
   return self;
 }
-- (BOOL) hasExpectedStartTimeMillis {
-  return result.hasExpectedStartTimeMillis;
+- (BOOL) hasQueuedTimeMillis {
+  return result.hasQueuedTimeMillis;
 }
-- (int64_t) expectedStartTimeMillis {
-  return result.expectedStartTimeMillis;
+- (int64_t) queuedTimeMillis {
+  return result.queuedTimeMillis;
 }
-- (UserMonsterHealingProto_Builder*) setExpectedStartTimeMillis:(int64_t) value {
-  result.hasExpectedStartTimeMillis = YES;
-  result.expectedStartTimeMillis = value;
+- (UserMonsterHealingProto_Builder*) setQueuedTimeMillis:(int64_t) value {
+  result.hasQueuedTimeMillis = YES;
+  result.queuedTimeMillis = value;
   return self;
 }
-- (UserMonsterHealingProto_Builder*) clearExpectedStartTimeMillis {
-  result.hasExpectedStartTimeMillis = NO;
-  result.expectedStartTimeMillis = 0L;
+- (UserMonsterHealingProto_Builder*) clearQueuedTimeMillis {
+  result.hasQueuedTimeMillis = NO;
+  result.queuedTimeMillis = 0L;
+  return self;
+}
+- (BOOL) hasHealthProgress {
+  return result.hasHealthProgress;
+}
+- (Float32) healthProgress {
+  return result.healthProgress;
+}
+- (UserMonsterHealingProto_Builder*) setHealthProgress:(Float32) value {
+  result.hasHealthProgress = YES;
+  result.healthProgress = value;
+  return self;
+}
+- (UserMonsterHealingProto_Builder*) clearHealthProgress {
+  result.hasHealthProgress = NO;
+  result.healthProgress = 0;
+  return self;
+}
+- (BOOL) hasPriority {
+  return result.hasPriority;
+}
+- (int32_t) priority {
+  return result.priority;
+}
+- (UserMonsterHealingProto_Builder*) setPriority:(int32_t) value {
+  result.hasPriority = YES;
+  result.priority = value;
+  return self;
+}
+- (UserMonsterHealingProto_Builder*) clearPriority {
+  result.hasPriority = NO;
+  result.priority = 0;
   return self;
 }
 @end
@@ -2399,6 +3053,7 @@ static UserEnhancementProto* defaultUserEnhancementProtoInstance = nil;
 @interface UserEnhancementItemProto ()
 @property int64_t userMonsterId;
 @property int64_t expectedStartTimeMillis;
+@property int32_t enhancingCost;
 @end
 
 @implementation UserEnhancementItemProto
@@ -2417,6 +3072,13 @@ static UserEnhancementProto* defaultUserEnhancementProtoInstance = nil;
   hasExpectedStartTimeMillis_ = !!value;
 }
 @synthesize expectedStartTimeMillis;
+- (BOOL) hasEnhancingCost {
+  return !!hasEnhancingCost_;
+}
+- (void) setHasEnhancingCost:(BOOL) value {
+  hasEnhancingCost_ = !!value;
+}
+@synthesize enhancingCost;
 - (void) dealloc {
   [super dealloc];
 }
@@ -2424,6 +3086,7 @@ static UserEnhancementProto* defaultUserEnhancementProtoInstance = nil;
   if ((self = [super init])) {
     self.userMonsterId = 0L;
     self.expectedStartTimeMillis = 0L;
+    self.enhancingCost = 0;
   }
   return self;
 }
@@ -2449,6 +3112,9 @@ static UserEnhancementItemProto* defaultUserEnhancementItemProtoInstance = nil;
   if (self.hasExpectedStartTimeMillis) {
     [output writeInt64:2 value:self.expectedStartTimeMillis];
   }
+  if (self.hasEnhancingCost) {
+    [output writeInt32:3 value:self.enhancingCost];
+  }
   [self.unknownFields writeToCodedOutputStream:output];
 }
 - (int32_t) serializedSize {
@@ -2463,6 +3129,9 @@ static UserEnhancementItemProto* defaultUserEnhancementItemProtoInstance = nil;
   }
   if (self.hasExpectedStartTimeMillis) {
     size += computeInt64Size(2, self.expectedStartTimeMillis);
+  }
+  if (self.hasEnhancingCost) {
+    size += computeInt32Size(3, self.enhancingCost);
   }
   size += self.unknownFields.serializedSize;
   memoizedSerializedSize = size;
@@ -2545,6 +3214,9 @@ static UserEnhancementItemProto* defaultUserEnhancementItemProtoInstance = nil;
   if (other.hasExpectedStartTimeMillis) {
     [self setExpectedStartTimeMillis:other.expectedStartTimeMillis];
   }
+  if (other.hasEnhancingCost) {
+    [self setEnhancingCost:other.enhancingCost];
+  }
   [self mergeUnknownFields:other.unknownFields];
   return self;
 }
@@ -2572,6 +3244,10 @@ static UserEnhancementItemProto* defaultUserEnhancementItemProtoInstance = nil;
       }
       case 16: {
         [self setExpectedStartTimeMillis:[input readInt64]];
+        break;
+      }
+      case 24: {
+        [self setEnhancingCost:[input readInt32]];
         break;
       }
     }
@@ -2607,6 +3283,22 @@ static UserEnhancementItemProto* defaultUserEnhancementItemProtoInstance = nil;
 - (UserEnhancementItemProto_Builder*) clearExpectedStartTimeMillis {
   result.hasExpectedStartTimeMillis = NO;
   result.expectedStartTimeMillis = 0L;
+  return self;
+}
+- (BOOL) hasEnhancingCost {
+  return result.hasEnhancingCost;
+}
+- (int32_t) enhancingCost {
+  return result.enhancingCost;
+}
+- (UserEnhancementItemProto_Builder*) setEnhancingCost:(int32_t) value {
+  result.hasEnhancingCost = YES;
+  result.enhancingCost = value;
+  return self;
+}
+- (UserEnhancementItemProto_Builder*) clearEnhancingCost {
+  result.hasEnhancingCost = NO;
+  result.enhancingCost = 0;
   return self;
 }
 @end
@@ -3309,6 +4001,283 @@ static UserCurrentMonsterTeamProto* defaultUserCurrentMonsterTeamProtoInstance =
     result.mutableCurrentTeamList = [NSMutableArray array];
   }
   [result.mutableCurrentTeamList addObject:value];
+  return self;
+}
+@end
+
+@interface UserMonsterEvolutionProto ()
+@property int64_t catalystUserMonsterId;
+@property (retain) NSMutableArray* mutableUserMonsterIdsList;
+@property int64_t startTime;
+@end
+
+@implementation UserMonsterEvolutionProto
+
+- (BOOL) hasCatalystUserMonsterId {
+  return !!hasCatalystUserMonsterId_;
+}
+- (void) setHasCatalystUserMonsterId:(BOOL) value {
+  hasCatalystUserMonsterId_ = !!value;
+}
+@synthesize catalystUserMonsterId;
+@synthesize mutableUserMonsterIdsList;
+- (BOOL) hasStartTime {
+  return !!hasStartTime_;
+}
+- (void) setHasStartTime:(BOOL) value {
+  hasStartTime_ = !!value;
+}
+@synthesize startTime;
+- (void) dealloc {
+  self.mutableUserMonsterIdsList = nil;
+  [super dealloc];
+}
+- (id) init {
+  if ((self = [super init])) {
+    self.catalystUserMonsterId = 0L;
+    self.startTime = 0L;
+  }
+  return self;
+}
+static UserMonsterEvolutionProto* defaultUserMonsterEvolutionProtoInstance = nil;
++ (void) initialize {
+  if (self == [UserMonsterEvolutionProto class]) {
+    defaultUserMonsterEvolutionProtoInstance = [[UserMonsterEvolutionProto alloc] init];
+  }
+}
++ (UserMonsterEvolutionProto*) defaultInstance {
+  return defaultUserMonsterEvolutionProtoInstance;
+}
+- (UserMonsterEvolutionProto*) defaultInstance {
+  return defaultUserMonsterEvolutionProtoInstance;
+}
+- (NSArray*) userMonsterIdsList {
+  return mutableUserMonsterIdsList;
+}
+- (int64_t) userMonsterIdsAtIndex:(int32_t) index {
+  id value = [mutableUserMonsterIdsList objectAtIndex:index];
+  return [value longLongValue];
+}
+- (BOOL) isInitialized {
+  return YES;
+}
+- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output {
+  if (self.hasCatalystUserMonsterId) {
+    [output writeInt64:1 value:self.catalystUserMonsterId];
+  }
+  for (NSNumber* value in self.mutableUserMonsterIdsList) {
+    [output writeInt64:2 value:[value longLongValue]];
+  }
+  if (self.hasStartTime) {
+    [output writeInt64:3 value:self.startTime];
+  }
+  [self.unknownFields writeToCodedOutputStream:output];
+}
+- (int32_t) serializedSize {
+  int32_t size = memoizedSerializedSize;
+  if (size != -1) {
+    return size;
+  }
+
+  size = 0;
+  if (self.hasCatalystUserMonsterId) {
+    size += computeInt64Size(1, self.catalystUserMonsterId);
+  }
+  {
+    int32_t dataSize = 0;
+    for (NSNumber* value in self.mutableUserMonsterIdsList) {
+      dataSize += computeInt64SizeNoTag([value longLongValue]);
+    }
+    size += dataSize;
+    size += 1 * self.mutableUserMonsterIdsList.count;
+  }
+  if (self.hasStartTime) {
+    size += computeInt64Size(3, self.startTime);
+  }
+  size += self.unknownFields.serializedSize;
+  memoizedSerializedSize = size;
+  return size;
+}
++ (UserMonsterEvolutionProto*) parseFromData:(NSData*) data {
+  return (UserMonsterEvolutionProto*)[[[UserMonsterEvolutionProto builder] mergeFromData:data] build];
+}
++ (UserMonsterEvolutionProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (UserMonsterEvolutionProto*)[[[UserMonsterEvolutionProto builder] mergeFromData:data extensionRegistry:extensionRegistry] build];
+}
++ (UserMonsterEvolutionProto*) parseFromInputStream:(NSInputStream*) input {
+  return (UserMonsterEvolutionProto*)[[[UserMonsterEvolutionProto builder] mergeFromInputStream:input] build];
+}
++ (UserMonsterEvolutionProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (UserMonsterEvolutionProto*)[[[UserMonsterEvolutionProto builder] mergeFromInputStream:input extensionRegistry:extensionRegistry] build];
+}
++ (UserMonsterEvolutionProto*) parseFromCodedInputStream:(PBCodedInputStream*) input {
+  return (UserMonsterEvolutionProto*)[[[UserMonsterEvolutionProto builder] mergeFromCodedInputStream:input] build];
+}
++ (UserMonsterEvolutionProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (UserMonsterEvolutionProto*)[[[UserMonsterEvolutionProto builder] mergeFromCodedInputStream:input extensionRegistry:extensionRegistry] build];
+}
++ (UserMonsterEvolutionProto_Builder*) builder {
+  return [[[UserMonsterEvolutionProto_Builder alloc] init] autorelease];
+}
++ (UserMonsterEvolutionProto_Builder*) builderWithPrototype:(UserMonsterEvolutionProto*) prototype {
+  return [[UserMonsterEvolutionProto builder] mergeFrom:prototype];
+}
+- (UserMonsterEvolutionProto_Builder*) builder {
+  return [UserMonsterEvolutionProto builder];
+}
+@end
+
+@interface UserMonsterEvolutionProto_Builder()
+@property (retain) UserMonsterEvolutionProto* result;
+@end
+
+@implementation UserMonsterEvolutionProto_Builder
+@synthesize result;
+- (void) dealloc {
+  self.result = nil;
+  [super dealloc];
+}
+- (id) init {
+  if ((self = [super init])) {
+    self.result = [[[UserMonsterEvolutionProto alloc] init] autorelease];
+  }
+  return self;
+}
+- (PBGeneratedMessage*) internalGetResult {
+  return result;
+}
+- (UserMonsterEvolutionProto_Builder*) clear {
+  self.result = [[[UserMonsterEvolutionProto alloc] init] autorelease];
+  return self;
+}
+- (UserMonsterEvolutionProto_Builder*) clone {
+  return [UserMonsterEvolutionProto builderWithPrototype:result];
+}
+- (UserMonsterEvolutionProto*) defaultInstance {
+  return [UserMonsterEvolutionProto defaultInstance];
+}
+- (UserMonsterEvolutionProto*) build {
+  [self checkInitialized];
+  return [self buildPartial];
+}
+- (UserMonsterEvolutionProto*) buildPartial {
+  UserMonsterEvolutionProto* returnMe = [[result retain] autorelease];
+  self.result = nil;
+  return returnMe;
+}
+- (UserMonsterEvolutionProto_Builder*) mergeFrom:(UserMonsterEvolutionProto*) other {
+  if (other == [UserMonsterEvolutionProto defaultInstance]) {
+    return self;
+  }
+  if (other.hasCatalystUserMonsterId) {
+    [self setCatalystUserMonsterId:other.catalystUserMonsterId];
+  }
+  if (other.mutableUserMonsterIdsList.count > 0) {
+    if (result.mutableUserMonsterIdsList == nil) {
+      result.mutableUserMonsterIdsList = [NSMutableArray array];
+    }
+    [result.mutableUserMonsterIdsList addObjectsFromArray:other.mutableUserMonsterIdsList];
+  }
+  if (other.hasStartTime) {
+    [self setStartTime:other.startTime];
+  }
+  [self mergeUnknownFields:other.unknownFields];
+  return self;
+}
+- (UserMonsterEvolutionProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input {
+  return [self mergeFromCodedInputStream:input extensionRegistry:[PBExtensionRegistry emptyRegistry]];
+}
+- (UserMonsterEvolutionProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  PBUnknownFieldSet_Builder* unknownFields = [PBUnknownFieldSet builderWithUnknownFields:self.unknownFields];
+  while (YES) {
+    int32_t tag = [input readTag];
+    switch (tag) {
+      case 0:
+        [self setUnknownFields:[unknownFields build]];
+        return self;
+      default: {
+        if (![self parseUnknownField:input unknownFields:unknownFields extensionRegistry:extensionRegistry tag:tag]) {
+          [self setUnknownFields:[unknownFields build]];
+          return self;
+        }
+        break;
+      }
+      case 8: {
+        [self setCatalystUserMonsterId:[input readInt64]];
+        break;
+      }
+      case 16: {
+        [self addUserMonsterIds:[input readInt64]];
+        break;
+      }
+      case 24: {
+        [self setStartTime:[input readInt64]];
+        break;
+      }
+    }
+  }
+}
+- (BOOL) hasCatalystUserMonsterId {
+  return result.hasCatalystUserMonsterId;
+}
+- (int64_t) catalystUserMonsterId {
+  return result.catalystUserMonsterId;
+}
+- (UserMonsterEvolutionProto_Builder*) setCatalystUserMonsterId:(int64_t) value {
+  result.hasCatalystUserMonsterId = YES;
+  result.catalystUserMonsterId = value;
+  return self;
+}
+- (UserMonsterEvolutionProto_Builder*) clearCatalystUserMonsterId {
+  result.hasCatalystUserMonsterId = NO;
+  result.catalystUserMonsterId = 0L;
+  return self;
+}
+- (NSArray*) userMonsterIdsList {
+  if (result.mutableUserMonsterIdsList == nil) {
+    return [NSArray array];
+  }
+  return result.mutableUserMonsterIdsList;
+}
+- (int64_t) userMonsterIdsAtIndex:(int32_t) index {
+  return [result userMonsterIdsAtIndex:index];
+}
+- (UserMonsterEvolutionProto_Builder*) replaceUserMonsterIdsAtIndex:(int32_t) index with:(int64_t) value {
+  [result.mutableUserMonsterIdsList replaceObjectAtIndex:index withObject:[NSNumber numberWithLongLong:value]];
+  return self;
+}
+- (UserMonsterEvolutionProto_Builder*) addUserMonsterIds:(int64_t) value {
+  if (result.mutableUserMonsterIdsList == nil) {
+    result.mutableUserMonsterIdsList = [NSMutableArray array];
+  }
+  [result.mutableUserMonsterIdsList addObject:[NSNumber numberWithLongLong:value]];
+  return self;
+}
+- (UserMonsterEvolutionProto_Builder*) addAllUserMonsterIds:(NSArray*) values {
+  if (result.mutableUserMonsterIdsList == nil) {
+    result.mutableUserMonsterIdsList = [NSMutableArray array];
+  }
+  [result.mutableUserMonsterIdsList addObjectsFromArray:values];
+  return self;
+}
+- (UserMonsterEvolutionProto_Builder*) clearUserMonsterIdsList {
+  result.mutableUserMonsterIdsList = nil;
+  return self;
+}
+- (BOOL) hasStartTime {
+  return result.hasStartTime;
+}
+- (int64_t) startTime {
+  return result.startTime;
+}
+- (UserMonsterEvolutionProto_Builder*) setStartTime:(int64_t) value {
+  result.hasStartTime = YES;
+  result.startTime = value;
+  return self;
+}
+- (UserMonsterEvolutionProto_Builder*) clearStartTime {
+  result.hasStartTime = NO;
+  result.startTime = 0L;
   return self;
 }
 @end

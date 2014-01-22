@@ -88,6 +88,15 @@
   return _walkActionF;
 }
 
+- (void) restoreStandingFrame:(BOOL)facingLeft {
+  [self stopWalking];
+  [self walkActionN];
+  CCSpriteFrame *frame = [[CCSpriteFrameCache sharedSpriteFrameCache] spriteFrameByName:[NSString stringWithFormat:@"%@RunN00.png", self.prefix]];
+  [self.sprite setDisplayFrame:frame];
+  
+  self.sprite.flipX = facingLeft;
+}
+
 - (void) setColor:(ccColor3B)color {
   [super setColor:color];
   [self.sprite setColor:color];
@@ -126,6 +135,11 @@
 }
 
 - (void) walkAfterCheck {
+  if (!_map) {
+    [self restoreStandingFrame:NO];
+    return;
+  }
+  
   MissionMap *missionMap = (MissionMap *)_map;
   CGPoint pt = [missionMap nextWalkablePositionFromPoint:self.location.origin prevPoint:_oldMapPos];
   if (CGPointEqualToPoint(self.location.origin, pt)) {

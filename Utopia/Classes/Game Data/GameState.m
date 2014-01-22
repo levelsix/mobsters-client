@@ -20,6 +20,8 @@
 #import "PrivateChatPostProto+UnreadStatus.h"
 #import "StaticStructure.h"
 #import "QuestUtil.h"
+#import "HospitalQueueSimulator.h"
+#import "PersistentEventProto+Time.h"
 
 #define TagLog(...) //LNLog(__VA_ARGS__)
 
@@ -36,6 +38,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
     _staticCities = [[NSMutableDictionary alloc] init];
     _staticStructs = [[NSMutableDictionary alloc] init];
     _staticMonsters = [[NSMutableDictionary alloc] init];
+    _eventCooldownTimes = [[NSMutableDictionary alloc] init];
     _notifications = [[NSMutableArray alloc] init];
     _myStructs = [[NSMutableArray alloc] init];
     _myMonsters = [[NSMutableArray alloc] init];
@@ -187,6 +190,24 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
   return [self getStaticDataFrom:_staticTasks withId:taskId];
 }
 
+- (PersistentEventProto *) persistentEventWithId:(int)eventId {
+  for (PersistentEventProto *pe in self.persistentEvents) {
+    if (pe.eventId == eventId) {
+      return pe;
+    }
+  }
+  return nil;
+}
+
+- (PersistentEventProto *) currentPersistentEventWithType:(PersistentEventProto_EventType)type {
+  for (PersistentEventProto *pe in self.persistentEvents) {
+    if (pe.type == type && pe.isRunning) {
+      return pe;
+    }
+  }
+  return nil;
+}
+
 - (void) addToMyMonsters:(NSArray *)monsters {
   for (FullUserMonsterProto *mon in monsters) {
     UserMonster *um = [UserMonster userMonsterWithProto:mon];
@@ -259,6 +280,13 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
   self.expansionCosts = [NSMutableDictionary dictionary];
   for (CityExpansionCostProto *exp in costs) {
     [self.expansionCosts setObject:exp forKey:@(exp.expansionNum)];
+  }
+}
+
+- (void) addToEventCooldownTimes:(NSArray *)arr {
+  for (UserPersistentEventProto *u in arr) {
+    NSDate *date = [NSDate dateWithTimeIntervalSince1970:u.coolDownStartTime/1000.];
+    [self.eventCooldownTimes setObject:date forKey:@(u.eventId)];
   }
 }
 
@@ -375,45 +403,23 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
 }
 
 - (void) addUserMonsterHealingItemToEndOfQueue:(UserMonsterHealingItem *)item {
-  if (self.monsterHealingQueue.count == 0) {
-    item.expectedStartTime = [NSDate date];
-  } else {
-    UserMonsterHealingItem *prevItem = [self.monsterHealingQueue lastObject];
-    item.expectedStartTime = prevItem.expectedEndTime;
-  }
+  UserMonsterHealingItem *prevItem = [self.monsterHealingQueue lastObject];
+  item.priority = prevItem.priority+1;
+  item.queueTime = [NSDate date];
   
   [self.monsterHealingQueue addObject:item];
-  
-  [self beginHealingTimer];
+  [self readjustAllMonsterHealingProtos];
   
   [QuestUtil checkAllDonateQuests];
 }
 
 - (void) removeUserMonsterHealingItem:(UserMonsterHealingItem *)item {
   int index = [self.monsterHealingQueue indexOfObject:item];
-  int total = self.monsterHealingQueue.count;
+  [self saveHealthProgressesFromIndex:index];
   
-  if (index != NSNotFound) {
-    if (total > index+1) {
-      UserMonsterHealingItem *next = [self.monsterHealingQueue objectAtIndex:index+1];
-      if (index == 0) {
-        next.expectedStartTime = [NSDate date];
-      } else {
-        UserMonsterHealingItem *prev = [self.monsterHealingQueue objectAtIndex:index-1];
-        next.expectedStartTime = prev.expectedEndTime;
-      }
-      
-      for (int i = index+2; i < total; i++) {
-        UserMonsterHealingItem *next2 = [self.monsterHealingQueue objectAtIndex:i];
-        UserMonsterHealingItem *next1 = [self.monsterHealingQueue objectAtIndex:i-1];
-        next2.expectedStartTime = next1.expectedEndTime;
-        
-      }
-    }
-  }
   [self.monsterHealingQueue removeObject:item];
   
-  [self beginHealingTimer];
+  [self readjustAllMonsterHealingProtos];
   
   [QuestUtil checkAllDonateQuests];
 }
@@ -426,16 +432,74 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
   }
   
   [self.monsterHealingQueue sortUsingComparator:^NSComparisonResult(UserMonsterHealingItem *obj1, UserMonsterHealingItem *obj2) {
-    return [obj1.expectedStartTime compare:obj2.expectedStartTime];
+    return [@(obj1.priority) compare:@(obj2.priority)];
   }];
   
   [[SocketCommunication sharedSocketCommunication] reloadHealQueueSnapshot];
   
+  [self readjustAllMonsterHealingProtos];
+  
   [[NSNotificationCenter defaultCenter] postNotificationName:HEAL_WAIT_COMPLETE_NOTIFICATION object:nil];
   
-  [self beginHealingTimer];
-  
   [QuestUtil checkAllDonateQuests];
+}
+
+- (void) saveHealthProgressesFromIndex:(int)index {
+  NSMutableArray *allHospitals = [NSMutableArray array];
+  for (UserStruct *us in self.myStructs) {
+    if ([us.staticStruct structInfo].structType == StructureInfoProto_StructTypeHospital) {
+      [allHospitals addObject:us];
+    }
+  }
+  
+  HospitalQueueSimulator *sim = [[HospitalQueueSimulator alloc] initWithHospitals:allHospitals healingItems:self.monsterHealingQueue];
+  [sim simulateUntilDate:[NSDate date]];
+  
+  for (HealingItemSim *hi in sim.healingItems) {
+    UserMonsterHealingItem *item = nil;
+    for (UserMonsterHealingItem *i in self.monsterHealingQueue) {
+      if (!item || hi.userMonsterId == i.userMonsterId) {
+        item = i;
+      }
+    }
+    item.healthProgress = hi.healthProgress;
+    item.queueTime = [NSDate date];
+  }
+}
+
+- (void) readjustAllMonsterHealingProtos {
+  NSMutableArray *allHospitals = [NSMutableArray array];
+  for (UserStruct *us in self.myStructs) {
+    if ([us.staticStruct structInfo].structType == StructureInfoProto_StructTypeHospital) {
+      [allHospitals addObject:us];
+    }
+  }
+  
+  HospitalQueueSimulator *sim = [[HospitalQueueSimulator alloc] initWithHospitals:allHospitals healingItems:self.monsterHealingQueue];
+  [sim simulate];
+  
+  NSDate *lastDate = nil;
+  for (HealingItemSim *hi in sim.healingItems) {
+    UserMonsterHealingItem *item = nil;
+    for (UserMonsterHealingItem *i in self.monsterHealingQueue) {
+      if (!item || hi.userMonsterId == i.userMonsterId) {
+        item = i;
+      }
+    }
+    item.timeDistribution = hi.timeDistribution;
+    item.totalSeconds = hi.totalSeconds;
+    item.endTime = hi.endTime;
+    
+    if (!lastDate || [lastDate compare:hi.endTime] == NSOrderedAscending) {
+      lastDate = hi.endTime;
+    }
+  }
+  self.monsterHealingQueueEndTime = lastDate;
+  
+  [[SocketCommunication sharedSocketCommunication] setHealQueueDirtyWithCoinChange:0 gemCost:0];
+  
+  [[NSNotificationCenter defaultCenter] postNotificationName:MONSTER_QUEUE_CHANGED_NOTIFICATION object:nil];
+  [self beginHealingTimer];
 }
 
 - (void) addEnhancingItemToEndOfQueue:(EnhancementItem *)item {
@@ -550,7 +614,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
 
 - (UserStruct *) myStructWithId:(int)structId {
   for (UserStruct *us in self.myStructs) {
-    if (us.structId == structId) {
+    if (us.userStructId == structId) {
       return us;
     }
   }
@@ -564,6 +628,39 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
     }
   }
   return nil;
+}
+
+- (UserStruct *) myLaboratory {
+  for (UserStruct *us in self.myStructs) {
+    if (us.staticStruct.structInfo.structType == StructureInfoProto_StructTypeLab) {
+      return us;
+    }
+  }
+  return nil;
+}
+
+- (NSArray *) myValidHospitals {
+  NSMutableArray *arr = [NSMutableArray array];
+  for (UserStruct *us in self.myStructs) {
+    if (us.staticStruct.structInfo.structType == StructureInfoProto_StructTypeHospital && us.isComplete) {
+      [arr addObject:us];
+    }
+  }
+  [arr sortUsingComparator:^NSComparisonResult(UserStruct *obj1, UserStruct *obj2) {
+    HospitalProto *hosp1 = (HospitalProto *)obj1.staticStruct;
+    HospitalProto *hosp2 = (HospitalProto *)obj2.staticStruct;
+    return [@(hosp2.healthPerSecond) compare:@(hosp1.healthPerSecond)];
+  }];
+  return arr;
+}
+
+- (int) maxHospitalQueueSize {
+  int queueSize = 0;
+  for (UserStruct *us in self.myValidHospitals) {
+    HospitalProto *hosp = (HospitalProto *)us.staticStruct;
+    queueSize += hosp.queueSize;
+  }
+  return queueSize;
 }
 
 - (UserQuest *) myQuestWithId:(int)questId {
@@ -622,11 +719,14 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
   [self addToStaticStructs:proto.allStoragesList];
   [self addToStaticStructs:proto.allHospitalsList];
   [self addToStaticStructs:proto.allResidencesList];
+  [self addToStaticStructs:proto.allLabsList];
   
   [self addToExpansionCosts:proto.expansionCostsList];
   
   [self.staticMonsters removeAllObjects];
   [self addToStaticMonsters:proto.allMonstersList];
+  
+  self.persistentEvents = proto.eventsList;
 }
 
 - (void) addToStaticMonsters:(NSArray *)arr {
@@ -908,28 +1008,43 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
 - (void) beginHealingTimer {
   [self stopHealingTimer];
   
-  if (self.monsterHealingQueue.count > 0) {
-    UserMonsterHealingItem *item = [self.monsterHealingQueue objectAtIndex:0];
-    if ([item.expectedEndTime timeIntervalSinceNow] <= 0) {
-      [self healingWaitTimeComplete];
+  BOOL healWait = NO;
+  NSDate *earliest = nil;
+  for (UserMonsterHealingItem *item in self.monsterHealingQueue) {
+    NSDate *endTime = item.endTime;
+    if (endTime && [endTime timeIntervalSinceNow] <= 0) {
+      healWait = YES;
+      break;
     } else {
-      _healingTimer = [NSTimer timerWithTimeInterval:item.expectedEndTime.timeIntervalSinceNow target:self selector:@selector(healingWaitTimeComplete) userInfo:nil repeats:NO];
-      [[NSRunLoop mainRunLoop] addTimer:_healingTimer forMode:NSRunLoopCommonModes];
+      if (!earliest || [earliest compare:item.endTime] == NSOrderedDescending) {
+        earliest = item.endTime;
+      }
     }
+  }
+  
+  if (healWait) {
+    [self healingWaitTimeComplete];
+  } else if (earliest) {
+    _healingTimer = [NSTimer timerWithTimeInterval:earliest.timeIntervalSinceNow target:self selector:@selector(healingWaitTimeComplete) userInfo:nil repeats:NO];
+    [[NSRunLoop mainRunLoop] addTimer:_healingTimer forMode:NSRunLoopCommonModes];
   }
 }
 
 - (void) healingWaitTimeComplete {
   NSMutableArray *arr = [NSMutableArray array];
   for (UserMonsterHealingItem *item in self.monsterHealingQueue) {
-    if ([item.expectedEndTime timeIntervalSinceNow] <= 0) {
+    NSDate *endTime = item.endTime;
+    if (endTime && [endTime timeIntervalSinceNow] <= 0) {
       [arr addObject:item];
     }
   }
   
   if (arr.count > 0) {
+    [self saveHealthProgressesFromIndex:0];
     [[OutgoingEventController sharedOutgoingEventController] healQueueWaitTimeComplete:arr];
+    [self readjustAllMonsterHealingProtos];
     [[NSNotificationCenter defaultCenter] postNotificationName:HEAL_WAIT_COMPLETE_NOTIFICATION object:nil];
+    [[NSNotificationCenter defaultCenter] postNotificationName:MONSTER_QUEUE_CHANGED_NOTIFICATION object:nil];
     [self beginHealingTimer];
   }
 }
@@ -1057,6 +1172,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
   self.staticTasks = [[NSMutableDictionary alloc] init];
   self.staticCities = [[NSMutableDictionary alloc] init];
   self.staticStructs = [[NSMutableDictionary alloc] init];
+  self.eventCooldownTimes = [[NSMutableDictionary alloc] init];
   self.notifications = [[NSMutableArray alloc] init];
   self.myStructs = [[NSMutableArray alloc] init];
   self.clanChatMessages = [[NSMutableArray alloc] init];

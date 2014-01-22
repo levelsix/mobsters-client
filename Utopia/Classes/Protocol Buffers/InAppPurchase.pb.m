@@ -33,7 +33,6 @@ BOOL EarnFreeDiamondsTypeIsValidValue(EarnFreeDiamondsType value) {
 @interface InAppPurchasePackageProto ()
 @property (retain) NSString* iapPackageId;
 @property int32_t currencyAmount;
-@property BOOL isGold;
 @property (retain) NSString* imageName;
 @end
 
@@ -53,18 +52,6 @@ BOOL EarnFreeDiamondsTypeIsValidValue(EarnFreeDiamondsType value) {
   hasCurrencyAmount_ = !!value;
 }
 @synthesize currencyAmount;
-- (BOOL) hasIsGold {
-  return !!hasIsGold_;
-}
-- (void) setHasIsGold:(BOOL) value {
-  hasIsGold_ = !!value;
-}
-- (BOOL) isGold {
-  return !!isGold_;
-}
-- (void) setIsGold:(BOOL) value {
-  isGold_ = !!value;
-}
 - (BOOL) hasImageName {
   return !!hasImageName_;
 }
@@ -81,7 +68,6 @@ BOOL EarnFreeDiamondsTypeIsValidValue(EarnFreeDiamondsType value) {
   if ((self = [super init])) {
     self.iapPackageId = @"";
     self.currencyAmount = 0;
-    self.isGold = NO;
     self.imageName = @"";
   }
   return self;
@@ -108,11 +94,8 @@ static InAppPurchasePackageProto* defaultInAppPurchasePackageProtoInstance = nil
   if (self.hasCurrencyAmount) {
     [output writeInt32:2 value:self.currencyAmount];
   }
-  if (self.hasIsGold) {
-    [output writeBool:3 value:self.isGold];
-  }
   if (self.hasImageName) {
-    [output writeString:4 value:self.imageName];
+    [output writeString:3 value:self.imageName];
   }
   [self.unknownFields writeToCodedOutputStream:output];
 }
@@ -129,11 +112,8 @@ static InAppPurchasePackageProto* defaultInAppPurchasePackageProtoInstance = nil
   if (self.hasCurrencyAmount) {
     size += computeInt32Size(2, self.currencyAmount);
   }
-  if (self.hasIsGold) {
-    size += computeBoolSize(3, self.isGold);
-  }
   if (self.hasImageName) {
-    size += computeStringSize(4, self.imageName);
+    size += computeStringSize(3, self.imageName);
   }
   size += self.unknownFields.serializedSize;
   memoizedSerializedSize = size;
@@ -216,9 +196,6 @@ static InAppPurchasePackageProto* defaultInAppPurchasePackageProtoInstance = nil
   if (other.hasCurrencyAmount) {
     [self setCurrencyAmount:other.currencyAmount];
   }
-  if (other.hasIsGold) {
-    [self setIsGold:other.isGold];
-  }
   if (other.hasImageName) {
     [self setImageName:other.imageName];
   }
@@ -251,11 +228,7 @@ static InAppPurchasePackageProto* defaultInAppPurchasePackageProtoInstance = nil
         [self setCurrencyAmount:[input readInt32]];
         break;
       }
-      case 24: {
-        [self setIsGold:[input readBool]];
-        break;
-      }
-      case 34: {
+      case 26: {
         [self setImageName:[input readString]];
         break;
       }
@@ -292,22 +265,6 @@ static InAppPurchasePackageProto* defaultInAppPurchasePackageProtoInstance = nil
 - (InAppPurchasePackageProto_Builder*) clearCurrencyAmount {
   result.hasCurrencyAmount = NO;
   result.currencyAmount = 0;
-  return self;
-}
-- (BOOL) hasIsGold {
-  return result.hasIsGold;
-}
-- (BOOL) isGold {
-  return result.isGold;
-}
-- (InAppPurchasePackageProto_Builder*) setIsGold:(BOOL) value {
-  result.hasIsGold = YES;
-  result.isGold = value;
-  return self;
-}
-- (InAppPurchasePackageProto_Builder*) clearIsGold {
-  result.hasIsGold = NO;
-  result.isGold = NO;
   return self;
 }
 - (BOOL) hasImageName {

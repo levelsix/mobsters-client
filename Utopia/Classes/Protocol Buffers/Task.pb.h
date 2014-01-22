@@ -12,8 +12,12 @@
 @class MinimumUserMonsterSellProto_Builder;
 @class MinimumUserTaskProto;
 @class MinimumUserTaskProto_Builder;
+@class MonsterLevelInfoProto;
+@class MonsterLevelInfoProto_Builder;
 @class MonsterProto;
 @class MonsterProto_Builder;
+@class PersistentEventProto;
+@class PersistentEventProto_Builder;
 @class TaskStageMonsterProto;
 @class TaskStageMonsterProto_Builder;
 @class TaskStageProto;
@@ -28,8 +32,12 @@
 @class UserMonsterCurrentExpProto_Builder;
 @class UserMonsterCurrentHealthProto;
 @class UserMonsterCurrentHealthProto_Builder;
+@class UserMonsterEvolutionProto;
+@class UserMonsterEvolutionProto_Builder;
 @class UserMonsterHealingProto;
 @class UserMonsterHealingProto_Builder;
+@class UserPersistentEventProto;
+@class UserPersistentEventProto_Builder;
 typedef enum {
   TaskStageMonsterProto_MonsterTypeRegular = 1,
   TaskStageMonsterProto_MonsterTypeMiniBoss = 2,
@@ -37,6 +45,25 @@ typedef enum {
 } TaskStageMonsterProto_MonsterType;
 
 BOOL TaskStageMonsterProto_MonsterTypeIsValidValue(TaskStageMonsterProto_MonsterType value);
+
+typedef enum {
+  PersistentEventProto_DayOfWeekSunday = 1,
+  PersistentEventProto_DayOfWeekMonday = 2,
+  PersistentEventProto_DayOfWeekTuesday = 3,
+  PersistentEventProto_DayOfWeekWednesday = 4,
+  PersistentEventProto_DayOfWeekThursday = 5,
+  PersistentEventProto_DayOfWeekFriday = 6,
+  PersistentEventProto_DayOfWeekSaturday = 7,
+} PersistentEventProto_DayOfWeek;
+
+BOOL PersistentEventProto_DayOfWeekIsValidValue(PersistentEventProto_DayOfWeek value);
+
+typedef enum {
+  PersistentEventProto_EventTypeEnhance = 1,
+  PersistentEventProto_EventTypeEvolution = 2,
+} PersistentEventProto_EventType;
+
+BOOL PersistentEventProto_EventTypeIsValidValue(PersistentEventProto_EventType value);
 
 
 @interface TaskRoot : NSObject {
@@ -362,5 +389,182 @@ BOOL TaskStageMonsterProto_MonsterTypeIsValidValue(TaskStageMonsterProto_Monster
 - (int32_t) level;
 - (TaskStageMonsterProto_Builder*) setLevel:(int32_t) value;
 - (TaskStageMonsterProto_Builder*) clearLevel;
+@end
+
+@interface PersistentEventProto : PBGeneratedMessage {
+@private
+  BOOL hasEventId_:1;
+  BOOL hasStartHour_:1;
+  BOOL hasEventDurationMinutes_:1;
+  BOOL hasTaskId_:1;
+  BOOL hasCooldownMinutes_:1;
+  BOOL hasDayOfWeek_:1;
+  BOOL hasType_:1;
+  BOOL hasMonsterElement_:1;
+  int32_t eventId;
+  int32_t startHour;
+  int32_t eventDurationMinutes;
+  int32_t taskId;
+  int32_t cooldownMinutes;
+  PersistentEventProto_DayOfWeek dayOfWeek;
+  PersistentEventProto_EventType type;
+  MonsterProto_MonsterElement monsterElement;
+}
+- (BOOL) hasEventId;
+- (BOOL) hasDayOfWeek;
+- (BOOL) hasStartHour;
+- (BOOL) hasEventDurationMinutes;
+- (BOOL) hasTaskId;
+- (BOOL) hasCooldownMinutes;
+- (BOOL) hasType;
+- (BOOL) hasMonsterElement;
+@property (readonly) int32_t eventId;
+@property (readonly) PersistentEventProto_DayOfWeek dayOfWeek;
+@property (readonly) int32_t startHour;
+@property (readonly) int32_t eventDurationMinutes;
+@property (readonly) int32_t taskId;
+@property (readonly) int32_t cooldownMinutes;
+@property (readonly) PersistentEventProto_EventType type;
+@property (readonly) MonsterProto_MonsterElement monsterElement;
+
++ (PersistentEventProto*) defaultInstance;
+- (PersistentEventProto*) defaultInstance;
+
+- (BOOL) isInitialized;
+- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output;
+- (PersistentEventProto_Builder*) builder;
++ (PersistentEventProto_Builder*) builder;
++ (PersistentEventProto_Builder*) builderWithPrototype:(PersistentEventProto*) prototype;
+
++ (PersistentEventProto*) parseFromData:(NSData*) data;
++ (PersistentEventProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (PersistentEventProto*) parseFromInputStream:(NSInputStream*) input;
++ (PersistentEventProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (PersistentEventProto*) parseFromCodedInputStream:(PBCodedInputStream*) input;
++ (PersistentEventProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+@end
+
+@interface PersistentEventProto_Builder : PBGeneratedMessage_Builder {
+@private
+  PersistentEventProto* result;
+}
+
+- (PersistentEventProto*) defaultInstance;
+
+- (PersistentEventProto_Builder*) clear;
+- (PersistentEventProto_Builder*) clone;
+
+- (PersistentEventProto*) build;
+- (PersistentEventProto*) buildPartial;
+
+- (PersistentEventProto_Builder*) mergeFrom:(PersistentEventProto*) other;
+- (PersistentEventProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input;
+- (PersistentEventProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+
+- (BOOL) hasEventId;
+- (int32_t) eventId;
+- (PersistentEventProto_Builder*) setEventId:(int32_t) value;
+- (PersistentEventProto_Builder*) clearEventId;
+
+- (BOOL) hasDayOfWeek;
+- (PersistentEventProto_DayOfWeek) dayOfWeek;
+- (PersistentEventProto_Builder*) setDayOfWeek:(PersistentEventProto_DayOfWeek) value;
+- (PersistentEventProto_Builder*) clearDayOfWeek;
+
+- (BOOL) hasStartHour;
+- (int32_t) startHour;
+- (PersistentEventProto_Builder*) setStartHour:(int32_t) value;
+- (PersistentEventProto_Builder*) clearStartHour;
+
+- (BOOL) hasEventDurationMinutes;
+- (int32_t) eventDurationMinutes;
+- (PersistentEventProto_Builder*) setEventDurationMinutes:(int32_t) value;
+- (PersistentEventProto_Builder*) clearEventDurationMinutes;
+
+- (BOOL) hasTaskId;
+- (int32_t) taskId;
+- (PersistentEventProto_Builder*) setTaskId:(int32_t) value;
+- (PersistentEventProto_Builder*) clearTaskId;
+
+- (BOOL) hasCooldownMinutes;
+- (int32_t) cooldownMinutes;
+- (PersistentEventProto_Builder*) setCooldownMinutes:(int32_t) value;
+- (PersistentEventProto_Builder*) clearCooldownMinutes;
+
+- (BOOL) hasType;
+- (PersistentEventProto_EventType) type;
+- (PersistentEventProto_Builder*) setType:(PersistentEventProto_EventType) value;
+- (PersistentEventProto_Builder*) clearType;
+
+- (BOOL) hasMonsterElement;
+- (MonsterProto_MonsterElement) monsterElement;
+- (PersistentEventProto_Builder*) setMonsterElement:(MonsterProto_MonsterElement) value;
+- (PersistentEventProto_Builder*) clearMonsterElement;
+@end
+
+@interface UserPersistentEventProto : PBGeneratedMessage {
+@private
+  BOOL hasCoolDownStartTime_:1;
+  BOOL hasUserId_:1;
+  BOOL hasEventId_:1;
+  int64_t coolDownStartTime;
+  int32_t userId;
+  int32_t eventId;
+}
+- (BOOL) hasUserId;
+- (BOOL) hasEventId;
+- (BOOL) hasCoolDownStartTime;
+@property (readonly) int32_t userId;
+@property (readonly) int32_t eventId;
+@property (readonly) int64_t coolDownStartTime;
+
++ (UserPersistentEventProto*) defaultInstance;
+- (UserPersistentEventProto*) defaultInstance;
+
+- (BOOL) isInitialized;
+- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output;
+- (UserPersistentEventProto_Builder*) builder;
++ (UserPersistentEventProto_Builder*) builder;
++ (UserPersistentEventProto_Builder*) builderWithPrototype:(UserPersistentEventProto*) prototype;
+
++ (UserPersistentEventProto*) parseFromData:(NSData*) data;
++ (UserPersistentEventProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (UserPersistentEventProto*) parseFromInputStream:(NSInputStream*) input;
++ (UserPersistentEventProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (UserPersistentEventProto*) parseFromCodedInputStream:(PBCodedInputStream*) input;
++ (UserPersistentEventProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+@end
+
+@interface UserPersistentEventProto_Builder : PBGeneratedMessage_Builder {
+@private
+  UserPersistentEventProto* result;
+}
+
+- (UserPersistentEventProto*) defaultInstance;
+
+- (UserPersistentEventProto_Builder*) clear;
+- (UserPersistentEventProto_Builder*) clone;
+
+- (UserPersistentEventProto*) build;
+- (UserPersistentEventProto*) buildPartial;
+
+- (UserPersistentEventProto_Builder*) mergeFrom:(UserPersistentEventProto*) other;
+- (UserPersistentEventProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input;
+- (UserPersistentEventProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+
+- (BOOL) hasUserId;
+- (int32_t) userId;
+- (UserPersistentEventProto_Builder*) setUserId:(int32_t) value;
+- (UserPersistentEventProto_Builder*) clearUserId;
+
+- (BOOL) hasEventId;
+- (int32_t) eventId;
+- (UserPersistentEventProto_Builder*) setEventId:(int32_t) value;
+- (UserPersistentEventProto_Builder*) clearEventId;
+
+- (BOOL) hasCoolDownStartTime;
+- (int64_t) coolDownStartTime;
+- (UserPersistentEventProto_Builder*) setCoolDownStartTime:(int64_t) value;
+- (UserPersistentEventProto_Builder*) clearCoolDownStartTime;
 @end
 

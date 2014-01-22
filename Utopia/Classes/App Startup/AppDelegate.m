@@ -25,10 +25,11 @@
 #import <MobileAppTracker/MobileAppTracker.h>
 #import <FacebookSDK/FacebookSDK.h>
 #import "Chartboost.h"
+#import "TestFlight.h"
 
 #define APSALAR_API_KEY      @"lvl6"
 #define APSALAR_SECRET       @"K7kbMwwF"
-#define TEST_FLIGHT_API_KEY  @"83db3d95fe7af4e3511206c3e7254a5f_MTExODM4MjAxMi0wNy0xOCAyMTowNjoxOC41MjUzMjc"
+#define TEST_FLIGHT_APP_TOKEN  @"13d8fb3e-81ac-4d22-842f-1fd7dd4a512b"
 
 #define MAT_ADVERTISER_ID    @"885"
 #define MAT_APP_KEY          @"ba62d2918dc7b537cbeaca833085ce89"
@@ -100,10 +101,6 @@
 {
   //Init the window
 	window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
-  
-#ifndef DEBUG
-  [self setUpCrittercism];
-#endif
 	
   /*
    // Init the View Controller
@@ -140,9 +137,6 @@
   
 	[window makeKeyAndVisible];
   
-  //  if (![[LocationManager alloc] initWithDelegate:self]) {
-  //    // Inform of location services off
-  //  }
 #ifndef DEBUG
   [Amplitude initializeApiKey:GIRAFFE_GRAPH_KEY trackCampaignSource:YES];
   //  [Apsalar startSession:APSALAR_API_KEY withKey:APSALAR_SECRET andLaunchOptions:launchOptions];
@@ -152,6 +146,8 @@
   
   // Publish install
   [FBAppEvents activateApp];
+  
+  [TestFlight takeOff:TEST_FLIGHT_APP_TOKEN];
   
   [self removeLocalNotifications];
   

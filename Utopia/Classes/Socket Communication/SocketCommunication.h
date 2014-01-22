@@ -31,7 +31,7 @@
   int _healingQueueGemCost;
   
   BOOL _enhancementPotentiallyChanged;
-  int _enhanceQueueCashChange;
+  int _enhanceQueueOilChange;
   int _enhanceQueueGemCost;
 }
 
@@ -63,7 +63,9 @@
 
 - (int) sendStartupMessage:(uint64_t)clientTime;
 - (int) sendLogoutMessage;
+
 - (int) sendInAppPurchaseMessage:(NSString *)receipt product:(SKProduct *)product;
+- (int) sendExchangeGemsForResourcesMessage:(int)gems resources:(int)resources resType:(ResourceType)resType clientTime:(uint64_t)clientTime;
 
 // Norm Struct messages
 - (int) sendPurchaseNormStructureMessage:(int)structId x:(int)x y:(int)y time:(uint64_t)time resourceType:(ResourceType)type resourceChange:(int)resourceChange gemCost:(int)gemCost;
@@ -110,11 +112,11 @@
 - (int) sendPrivateChatPostMessage:(int)recipientId content:(NSString *)content;
 - (int) sendRetrievePrivateChatPostsMessage:(int)otherUserId;
 
-- (int) sendBeginDungeonMessage:(uint64_t)clientTime taskId:(int)taskId;
+- (int) sendBeginDungeonMessage:(uint64_t)clientTime taskId:(int)taskId isEvent:(BOOL)isEvent eventId:(int)eventId gems:(int)gems;
 - (int) sendUpdateMonsterHealthMessage:(uint64_t)clientTime monsterHealth:(UserMonsterCurrentHealthProto *)monsterHealth;
 - (int) sendEndDungeonMessage:(uint64_t)userTaskId userWon:(BOOL)userWon isFirstTimeCompleted:(BOOL)isFirstTimeCompleted time:(uint64_t)time;
 
-- (int) retrieveCurrencyFromStruct:(int)userStructId time:(uint64_t)time;
+- (int) retrieveCurrencyFromStruct:(int)userStructId time:(uint64_t)time amountCollected:(int)amountCollected;
 
 - (int) sendHealQueueWaitTimeComplete:(NSArray *)monsterHealths;
 - (int) sendHealQueueSpeedup:(NSArray *)monsterHealths goldCost:(int)goldCost;
@@ -123,6 +125,7 @@
 - (int) sendBuyInventorySlotsWithGems:(int)userStructId;
 - (int) sendBuyInventorySlots:(int)userStructId withFriendInvites:(NSArray *)inviteIds;
 - (int) sendCombineUserMonsterPiecesMessage:(NSArray *)userMonsterIds gemCost:(int)gemCost;
+- (int) sendSellUserMonstersMessage:(NSArray *)sellProtos;
 - (int) sendInviteFbFriendsForSlotsMessage:(NSArray *)fbFriendIds;
 - (int) sendAcceptAndRejectFbInviteForSlotsMessageAndAcceptIds:(NSArray *)acceptIds rejectIds:(NSArray *)rejectIds;
 - (void) reloadHealQueueSnapshot;

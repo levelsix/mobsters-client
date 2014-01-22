@@ -20,6 +20,8 @@
 @class MinimumUserProtoWithLevelForTournament;
 @class MinimumUserProtoWithLevelForTournament_Builder;
 @class MinimumUserProtoWithLevel_Builder;
+@class MinimumUserProtoWithMaxResources;
+@class MinimumUserProtoWithMaxResources_Builder;
 @class MinimumUserProto_Builder;
 @class PrivateChatPostProto;
 @class PrivateChatPostProto_Builder;

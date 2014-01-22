@@ -26,7 +26,7 @@
 - (void) setPercentage:(float)percentage {
   _percentage = clampf(percentage, 0.f, 1.f);
   
-  float totalWidth = _percentage*self.frame.size.width;
+  float totalWidth = (int)roundf(_percentage*self.frame.size.width);
   CGRect r;
   
   r = self.leftCap.frame;
@@ -77,13 +77,13 @@
     GameState *gs = [GameState sharedGameState];
     Globals *gl = [Globals sharedGlobals];
     MonsterProto *mp = [gs monsterWithId:um.monsterId];
-    self.healthBar.image = [Globals imageNamed:[Globals imageNameForElement:mp.element suffix:@"hteambar.png"]];
+    self.healthBar.image = [Globals imageNamed:@"earthhteambar.png"];
     self.healthBar.percentage = ((float)um.curHealth)/[gl calculateMaxHealthForMonster:um];
     
     BOOL greyscale = (um.curHealth <= 0);
     NSString *file = [mp.imagePrefix stringByAppendingString:@"Thumbnail.png"];
     [Globals imageNamed:file withView:self.monsterIcon greyscale:greyscale indicator:UIActivityIndicatorViewStyleWhite clearImageDuringDownload:YES];
-    file = [Globals imageNameForElement:mp.element suffix:@"mteam.png"];
+    file = [Globals imageNameForElement:mp.monsterElement suffix:@"mteam.png"];
     [Globals imageNamed:file withView:self.bgdIcon greyscale:greyscale indicator:UIActivityIndicatorViewStyleWhite clearImageDuringDownload:YES];
     
     self.topLabel.text = mp.displayName;
@@ -100,20 +100,6 @@
       self.iconView.alpha = 1;
     }
   }
-}
-
-@end
-
-@implementation TopBarView
-
-- (BOOL) pointInside:(CGPoint)point withEvent:(UIEvent *)event {
-  // Allow all subviews to receive touch.
-  for (UIView * foundView in self.subviews) {
-    if (!foundView.hidden && [foundView pointInside:[self convertPoint:point toView:foundView] withEvent:event]) {
-      return YES;
-    }
-  }
-  return NO;
 }
 
 @end

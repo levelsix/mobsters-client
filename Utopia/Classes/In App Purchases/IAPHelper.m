@@ -102,11 +102,10 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IAPHelper);
   NSString *encodedReceipt = [self base64forData:transaction.transactionReceipt];
   NSString *productId = transaction.payment.productIdentifier;
   InAppPurchasePackageProto *pkg = [gl packageForProductId:productId];
-  int goldAmt = pkg.isGold ? pkg.currencyAmount : 0;
-  int silverAmt = !pkg.isGold ? pkg.currencyAmount : 0;
+  int goldAmt = pkg.currencyAmount;
   SKProduct *prod = [self.products objectForKey:productId];
   
-  [[OutgoingEventController sharedOutgoingEventController] inAppPurchase:encodedReceipt goldAmt:goldAmt silverAmt:silverAmt product:prod];
+  [[OutgoingEventController sharedOutgoingEventController] inAppPurchase:encodedReceipt goldAmt:goldAmt silverAmt:0 product:prod delegate:_purchaseDelegate];
   [[SKPaymentQueue defaultQueue] finishTransaction: transaction];
 }
 
@@ -119,6 +118,10 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IAPHelper);
     // Transaction was cancelled
     [Analytics cancelledGoldPackage:transaction.payment.productIdentifier];
   }
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Warc-performSelector-leaks"
+  [_purchaseDelegate performSelector:NSSelectorFromString(@"handleInAppPurchaseResponseProto:") withObject:nil];
+#pragma clang diagnostic pop
   
   [[SKPaymentQueue defaultQueue] finishTransaction: transaction];
 }
@@ -141,7 +144,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IAPHelper);
   }
 }
 
-- (void)buyProductIdentifier:(SKProduct *)product {
+- (void)buyProductIdentifier:(SKProduct *)product withDelegate:(id)delegate {
   if (!product) {
     [Globals popupMessage:@"An error has occurred processing this transaction.."];
     return;
@@ -151,6 +154,8 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IAPHelper);
   
   SKPayment *payment = [SKPayment paymentWithProduct:product];
   [[SKPaymentQueue defaultQueue] addPayment:payment];
+  
+  _purchaseDelegate = delegate;
 }
 
 @end

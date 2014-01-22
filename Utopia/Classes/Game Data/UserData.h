@@ -31,6 +31,7 @@
 - (BOOL) isEnhancing;
 - (BOOL) isSacrificing;
 - (BOOL) isDonatable;
+- (int) sellPrice;
 
 - (MonsterProto *) staticMonster;
 - (BOOL) isCombining;
@@ -44,13 +45,16 @@
 
 @property (nonatomic, assign) int userMonsterId;
 @property (nonatomic, assign) int userId;
-@property (nonatomic, retain) NSDate *expectedStartTime;
+@property (nonatomic, retain) NSDate *queueTime;
+@property (nonatomic, retain) NSDate *endTime;
+
+@property (nonatomic, assign) float healthProgress;
+@property (nonatomic, assign) int priority;
+@property (nonatomic, assign) float totalSeconds;
+@property (nonatomic, retain) NSArray *timeDistribution;
 
 + (id) userMonsterHealingItemWithProto:(UserMonsterHealingProto *)proto;
 
-- (float) currentPercentageOfHealth;
-- (int) secondsForCompletion;
-- (NSDate *) expectedEndTime;
 - (UserMonsterHealingProto *) convertToProto;
 
 @end
@@ -107,6 +111,8 @@
 - (int) maxLevel;
 - (int) baseStructId;
 - (int) numBonusSlots;
+
+- (int) numResourcesAvailable;
 
 - (NSDate *) buildCompleteDate;
 - (NSTimeInterval) timeLeftForBuildComplete;

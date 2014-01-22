@@ -102,6 +102,18 @@
 @class EnhancementWaitTimeCompleteRequestProto_Builder;
 @class EnhancementWaitTimeCompleteResponseProto;
 @class EnhancementWaitTimeCompleteResponseProto_Builder;
+@class EvolutionFinishedRequestProto;
+@class EvolutionFinishedRequestProto_Builder;
+@class EvolutionFinishedResponseProto;
+@class EvolutionFinishedResponseProto_Builder;
+@class EvolveMonsterRequestProto;
+@class EvolveMonsterRequestProto_Builder;
+@class EvolveMonsterResponseProto;
+@class EvolveMonsterResponseProto_Builder;
+@class ExchangeGemsForResourcesRequestProto;
+@class ExchangeGemsForResourcesRequestProto_Builder;
+@class ExchangeGemsForResourcesResponseProto;
+@class ExchangeGemsForResourcesResponseProto_Builder;
 @class ExpansionWaitCompleteRequestProto;
 @class ExpansionWaitCompleteRequestProto_Builder;
 @class ExpansionWaitCompleteResponseProto;
@@ -140,10 +152,6 @@
 @class HealMonsterRequestProto_Builder;
 @class HealMonsterResponseProto;
 @class HealMonsterResponseProto_Builder;
-@class HealMonsterWaitTimeCompleteRequestProto;
-@class HealMonsterWaitTimeCompleteRequestProto_Builder;
-@class HealMonsterWaitTimeCompleteResponseProto;
-@class HealMonsterWaitTimeCompleteResponseProto_Builder;
 @class HospitalProto;
 @class HospitalProto_Builder;
 @class InAppPurchasePackageProto;
@@ -197,9 +205,13 @@
 @class MinimumUserProtoWithLevelForTournament;
 @class MinimumUserProtoWithLevelForTournament_Builder;
 @class MinimumUserProtoWithLevel_Builder;
+@class MinimumUserProtoWithMaxResources;
+@class MinimumUserProtoWithMaxResources_Builder;
 @class MinimumUserProto_Builder;
 @class MinimumUserTaskProto;
 @class MinimumUserTaskProto_Builder;
+@class MonsterLevelInfoProto;
+@class MonsterLevelInfoProto_Builder;
 @class MonsterProto;
 @class MonsterProto_Builder;
 @class MoveOrRotateNormStructureRequestProto;
@@ -210,6 +222,8 @@
 @class NormStructWaitCompleteRequestProto_Builder;
 @class NormStructWaitCompleteResponseProto;
 @class NormStructWaitCompleteResponseProto_Builder;
+@class PersistentEventProto;
+@class PersistentEventProto_Builder;
 @class PrivateChatPostProto;
 @class PrivateChatPostProto_Builder;
 @class PrivateChatPostRequestProto;
@@ -386,8 +400,12 @@
 @class UserMonsterCurrentExpProto_Builder;
 @class UserMonsterCurrentHealthProto;
 @class UserMonsterCurrentHealthProto_Builder;
+@class UserMonsterEvolutionProto;
+@class UserMonsterEvolutionProto_Builder;
 @class UserMonsterHealingProto;
 @class UserMonsterHealingProto_Builder;
+@class UserPersistentEventProto;
+@class UserPersistentEventProto_Builder;
 typedef enum {
   EventProtocolRequestCStartupEvent = 1,
   EventProtocolRequestCInAppPurchaseEvent = 2,
@@ -399,6 +417,7 @@ typedef enum {
   EventProtocolRequestCFinishNormStructWaittimeWithDiamondsEvent = 8,
   EventProtocolRequestCNormStructWaitCompleteEvent = 9,
   EventProtocolRequestCLoadPlayerCityEvent = 10,
+  EventProtocolRequestCExchangeGemsForResourcesEvent = 11,
   EventProtocolRequestCQuestAcceptEvent = 12,
   EventProtocolRequestCQuestProgressEvent = 13,
   EventProtocolRequestCQuestRedeemEvent = 14,
@@ -423,7 +442,9 @@ typedef enum {
   EventProtocolRequestCPickLockBoxEvent = 33,
   EventProtocolRequestCRetrieveTournamentRankingsEvent = 34,
   EventProtocolRequestCSubmitMonsterEnhancementEvent = 35,
+  EventProtocolRequestCEvolveMonsterEvent = 36,
   EventProtocolRequestCPurchaseBoosterPackEvent = 37,
+  EventProtocolRequestCEvolutionFinishedEvent = 38,
   EventProtocolRequestCChangeClanJoinTypeEvent = 39,
   EventProtocolRequestCPrivateChatPostEvent = 40,
   EventProtocolRequestCRetrievePrivateChatPostEvent = 41,
@@ -434,7 +455,6 @@ typedef enum {
   EventProtocolRequestCQueueUpEvent = 46,
   EventProtocolRequestCUpdateMonsterHealthEvent = 47,
   EventProtocolRequestCHealMonsterEvent = 48,
-  EventProtocolRequestCHealMonsterWaitTimeCompleteEvent = 49,
   EventProtocolRequestCAddMonsterToBattleTeamEvent = 50,
   EventProtocolRequestCRemoveMonsterFromBattleTeamEvent = 51,
   EventProtocolRequestCIncreaseMonsterInventorySlotEvent = 52,
@@ -459,6 +479,7 @@ typedef enum {
   EventProtocolResponseSFinishNormStructWaittimeWithDiamondsEvent = 8,
   EventProtocolResponseSNormStructWaitCompleteEvent = 9,
   EventProtocolResponseSLoadPlayerCityEvent = 10,
+  EventProtocolResponseSExchangeGemsForResourcesEvent = 11,
   EventProtocolResponseSQuestAcceptEvent = 12,
   EventProtocolResponseSQuestProgressEvent = 13,
   EventProtocolResponseSQuestRedeemEvent = 14,
@@ -483,7 +504,9 @@ typedef enum {
   EventProtocolResponseSPickLockBoxEvent = 33,
   EventProtocolResponseSRetrieveTournamentRankingsEvent = 34,
   EventProtocolResponseSSubmitMonsterEnhancementEvent = 35,
+  EventProtocolResponseSEvolveMonsterEvent = 36,
   EventProtocolResponseSPurchaseBoosterPackEvent = 37,
+  EventProtocolResponseSEvolutionFinishedEvent = 38,
   EventProtocolResponseSChangeClanJoinTypeEvent = 39,
   EventProtocolResponseSPrivateChatPostEvent = 40,
   EventProtocolResponseSRetrievePrivateChatPostEvent = 41,
@@ -494,7 +517,6 @@ typedef enum {
   EventProtocolResponseSQueueUpEvent = 46,
   EventProtocolResponseSUpdateMonsterHealthEvent = 47,
   EventProtocolResponseSHealMonsterEvent = 48,
-  EventProtocolResponseSHealMonsterWaitTimeCompleteEvent = 49,
   EventProtocolResponseSAddMonsterToBattleTeamEvent = 50,
   EventProtocolResponseSRemoveMonsterFromBattleTeamEvent = 51,
   EventProtocolResponseSIncreaseMonsterInventorySlotEvent = 52,

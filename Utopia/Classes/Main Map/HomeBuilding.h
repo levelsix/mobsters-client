@@ -7,6 +7,7 @@
 //
 
 #import "Building.h"
+#import "AnimatedSprite.h"
 
 @interface HomeBuilding : Building {
   CGPoint _startTouchLocation;
@@ -51,6 +52,10 @@
 
 @interface ResourceStorageBuilding : HomeBuilding
 
+@property (nonatomic, retain) CCAnimation *anim;
+
+- (void) setPercentage:(float)percentage;
+
 @end
 
 @interface TownHallBuilding : HomeBuilding
@@ -59,9 +64,23 @@
 
 @interface HospitalBuilding : HomeBuilding
 
+@property (nonatomic, retain) CCSprite *tubeSprite;
+@property (nonatomic, retain) CCSprite *monsterSprite;
+
+- (void) beginAnimatingWithMonsterId:(int)monsterId;
+- (void) stopAnimating;
+
 @end
 
 @interface ResidenceBuilding : HomeBuilding
+
+@end
+
+@interface LabBuilding : HomeBuilding
+
+@end
+
+@interface EvoBuilding : HomeBuilding
 
 @end
 

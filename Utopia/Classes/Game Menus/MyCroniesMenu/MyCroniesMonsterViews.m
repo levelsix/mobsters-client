@@ -63,7 +63,7 @@
       self.healthBarView.hidden = NO;
       self.genLabelView.hidden = YES;
       
-      self.healthBar.image = [Globals imageNamed:[Globals imageNameForElement:mp.element suffix:@"cardhealthbar.png"]];
+      self.healthBar.image = [Globals imageNamed:@"earthcardhealthbar.png"];
       self.healthBar.percentage = monster.curHealth/(float)[gl calculateMaxHealthForMonster:monster];
       
       BOOL isFullHealth = monster.curHealth >= [gl calculateMaxHealthForMonster:monster];
@@ -149,7 +149,7 @@
   NSString *fileName = [mp.imagePrefix stringByAppendingString:@"Thumbnail.png"];
   [Globals imageNamed:fileName withView:self.monsterIcon maskedColor:nil indicator:UIActivityIndicatorViewStyleWhite clearImageDuringDownload:YES];
   
-  fileName = [Globals imageNameForElement:mp.element suffix:@"team.png"];
+  fileName = [Globals imageNameForElement:mp.monsterElement suffix:@"team.png"];
   [Globals imageNamed:fileName withView:self.bgdIcon maskedColor:nil indicator:UIActivityIndicatorViewStyleWhite clearImageDuringDownload:YES];
   
   self.timerView.hidden = YES;
@@ -157,11 +157,41 @@
   self.healingItem = item;
 }
 
+- (float) totalSeconds {
+  float secs = 0;
+  for (int i = 0; i < self.healingItem.timeDistribution.count; i += 2) {
+    secs += [self.healingItem.timeDistribution[i] floatValue];
+  }
+  return secs;
+}
+
 - (void) updateForTime {
-  int timeLeft = [self.healingItem.expectedEndTime timeIntervalSinceNow];
+  GameState *gs = [GameState sharedGameState];
+  Globals *gl = [Globals sharedGlobals];
+  UserMonster *um = [gs myMonsterWithUserMonsterId:self.healingItem.userMonsterId];
+  float totalSecs = [self totalSeconds];
+  float timeLeft = [self.healingItem.endTime timeIntervalSinceNow];
+  float timeCompleted = MAX(totalSecs-timeLeft, 0);
+  float healthToHeal = [gl calculateMaxHealthForMonster:um]-um.curHealth;
   
   self.timeLabel.text = [Globals convertTimeToShortString:timeLeft];
-  self.healthBar.percentage = (1-timeLeft/(float)self.healingItem.secondsForCompletion);
+  
+  float percentage = self.healingItem.healthProgress/healthToHeal;
+  
+  for (int i = 0; i < self.healingItem.timeDistribution.count; i += 2) {
+    float secs = [self.healingItem.timeDistribution[i] floatValue];
+    float health = [self.healingItem.timeDistribution[i+1] floatValue];
+    
+    if (timeCompleted > secs) {
+      timeCompleted -= secs;
+      percentage += health/healthToHeal;
+    } else {
+      percentage += health/healthToHeal*timeCompleted/secs;
+      break;
+    }
+  }
+  
+  self.healthBar.percentage = percentage;
   
   self.timerView.hidden = NO;
 }
@@ -180,15 +210,23 @@
 }
 
 - (void) updateTimes {
+  GameState *gs = [GameState sharedGameState];
   Globals *gl = [Globals sharedGlobals];
-  int timeLeft = [gl calculateTimeLeftToHealAllMonstersInQueue];
+  int timeLeft = gs.monsterHealingQueueEndTime.timeIntervalSinceNow;
   int speedupCost = [gl calculateGemSpeedupCostForTimeLeft:timeLeft];
   
-  self.totalTimeLabel.text = [Globals convertTimeToShortString:timeLeft];
-  self.speedupCostLabel.text = [Globals commafyNumber:speedupCost];
-  
-  MyCroniesQueueCell *cell = (MyCroniesQueueCell *)[self.queueTable viewAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:0]];
-  [cell updateForTime];
+  if (gs.myValidHospitals.count > 0) {
+    self.totalTimeLabel.text = [Globals convertTimeToShortString:timeLeft];
+    self.speedupCostLabel.text = [Globals commafyNumber:speedupCost];
+    
+    for (int i = 0; i < gs.monsterHealingQueue.count; i++) {//gs.myValidHospitals.count; i++) {
+      MyCroniesQueueCell *cell = (MyCroniesQueueCell *)[self.queueTable viewAtIndexPath:[NSIndexPath indexPathForRow:i inSection:0]];
+      [cell updateForTime];
+    }
+  } else {
+    self.totalTimeLabel.text = @"N/A";
+    self.speedupCostLabel.text = @"N/A";
+  }
 }
 
 - (IBAction)minusClicked:(id)sender {
@@ -219,11 +257,14 @@
 - (NSUInteger) numberOfCellsForEasyTableView:(EasyTableView *)view inSection:(NSInteger)section {
   GameState *gs = [GameState sharedGameState];
   if (gs.monsterHealingQueue.count == 0) {
-    if (self.alpha == 1.f) {
+    if (self.instructionLabel.alpha == 0.f) {
       [UIView animateWithDuration:0.3f animations:^{
         self.alpha = 0.f;
         self.instructionLabel.alpha = 1.f;
       }];
+    } else {
+      // Have to do this in case queue starts without items
+      self.alpha = 0.f;
     }
   } else {
     if (self.alpha == 0.f) {
@@ -251,7 +292,8 @@
   UserMonsterHealingItem *item = [self.healingQueue objectAtIndex:indexPath.row];
   [view updateForHealingItem:item];
   
-  if (indexPath.row == 0) {
+  GameState *gs = [GameState sharedGameState];
+  if (indexPath.row < gs.myValidHospitals.count) {
     [view updateForTime];
   }
 }

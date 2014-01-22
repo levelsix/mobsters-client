@@ -8,6 +8,7 @@
 
 #import <UIKit/UIKit.h>
 #import "Protocols.pb.h"
+#import "NibUtils.h"
 
 @interface AttackMapIconView : UIView
 
@@ -16,6 +17,35 @@
 @property (nonatomic, assign) BOOL isLocked;
 @property (nonatomic, strong) FullCityProto *fcp;
 @property (nonatomic, assign) int cityNumber;
+
+@end
+
+@interface AttackEventView : TouchableSubviewsView <TabBarDelegate> {
+  int _persistentEventId;
+  PersistentEventProto_EventType _eventType;
+}
+
+@property (nonatomic, retain) IBOutlet UIImageView *bgdImage;
+@property (nonatomic, retain) IBOutlet UIImageView *ribbonImage;
+@property (nonatomic, retain) IBOutlet UIImageView *monsterImage;
+@property (nonatomic, retain) IBOutlet UILabel *nameLabel;
+@property (nonatomic, retain) IBOutlet UILabel *timeLeftLabel;
+@property (nonatomic, retain) IBOutlet UILabel *cooldownLabel;
+@property (nonatomic, retain) IBOutlet UILabel *speedupGemsLabel;
+@property (nonatomic, retain) IBOutlet UILabel *topRibbonLabel;
+@property (nonatomic, retain) IBOutlet UILabel *botRibbonLabel;
+@property (nonatomic, retain) IBOutlet UIButton *infoButton;
+
+@property (nonatomic, retain) IBOutlet FlipTabBar *tabBar;
+
+@property (nonatomic, retain) IBOutlet UIView *enterView;
+@property (nonatomic, retain) IBOutlet UIView *cooldownView;
+
+@property (nonatomic, retain) IBOutlet UIView *mainView;
+@property (nonatomic, retain) IBOutlet UIView *noEventView;
+
+@property (nonatomic, assign) int taskId;
+@property (nonatomic, assign) int persistentEventId;
 
 @end
 
@@ -34,6 +64,7 @@
 @protocol AttackMapDelegate <NSObject>
 
 - (void) visitCityClicked:(int)cityId;
+- (void) enterDungeon:(int)taskId isEvent:(BOOL)isEvent eventId:(int)eventId useGems:(BOOL)useGems;
 
 @end
 
@@ -45,9 +76,13 @@
 @property (nonatomic, strong) IBOutlet UIScrollView *mapScrollView;
 @property (nonatomic, strong) IBOutlet UIView *mapView;
 
+@property (nonatomic, strong) IBOutlet AttackEventView *eventView;
+
+@property (nonatomic, strong) NSTimer *timer;
+
 @property (nonatomic, weak) id<AttackMapDelegate> delegate;
 
+- (IBAction)enterEventClicked:(id)sender;
 - (IBAction)close:(id)sender;
 
 @end
-

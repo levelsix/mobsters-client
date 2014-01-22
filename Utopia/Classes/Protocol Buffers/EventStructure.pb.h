@@ -37,6 +37,8 @@
 @class MinimumUserProtoWithFacebookId_Builder;
 @class MinimumUserProtoWithLevel;
 @class MinimumUserProtoWithLevel_Builder;
+@class MinimumUserProtoWithMaxResources;
+@class MinimumUserProtoWithMaxResources_Builder;
 @class MinimumUserProto_Builder;
 @class MoveOrRotateNormStructureRequestProto;
 @class MoveOrRotateNormStructureRequestProto_Builder;
@@ -904,11 +906,11 @@ BOOL ExpansionWaitCompleteResponseProto_ExpansionWaitCompleteStatusIsValidValue(
 @interface RetrieveCurrencyFromNormStructureRequestProto : PBGeneratedMessage {
 @private
   BOOL hasSender_:1;
-  MinimumUserProto* sender;
+  MinimumUserProtoWithMaxResources* sender;
   NSMutableArray* mutableStructRetrievalsList;
 }
 - (BOOL) hasSender;
-@property (readonly, retain) MinimumUserProto* sender;
+@property (readonly, retain) MinimumUserProtoWithMaxResources* sender;
 - (NSArray*) structRetrievalsList;
 - (RetrieveCurrencyFromNormStructureRequestProto_StructRetrieval*) structRetrievalsAtIndex:(int32_t) index;
 
@@ -1013,10 +1015,10 @@ BOOL ExpansionWaitCompleteResponseProto_ExpansionWaitCompleteStatusIsValidValue(
 - (RetrieveCurrencyFromNormStructureRequestProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
 
 - (BOOL) hasSender;
-- (MinimumUserProto*) sender;
-- (RetrieveCurrencyFromNormStructureRequestProto_Builder*) setSender:(MinimumUserProto*) value;
-- (RetrieveCurrencyFromNormStructureRequestProto_Builder*) setSenderBuilder:(MinimumUserProto_Builder*) builderForValue;
-- (RetrieveCurrencyFromNormStructureRequestProto_Builder*) mergeSender:(MinimumUserProto*) value;
+- (MinimumUserProtoWithMaxResources*) sender;
+- (RetrieveCurrencyFromNormStructureRequestProto_Builder*) setSender:(MinimumUserProtoWithMaxResources*) value;
+- (RetrieveCurrencyFromNormStructureRequestProto_Builder*) setSenderBuilder:(MinimumUserProtoWithMaxResources_Builder*) builderForValue;
+- (RetrieveCurrencyFromNormStructureRequestProto_Builder*) mergeSender:(MinimumUserProtoWithMaxResources*) value;
 - (RetrieveCurrencyFromNormStructureRequestProto_Builder*) clearSender;
 
 - (NSArray*) structRetrievalsList;
@@ -1031,12 +1033,12 @@ BOOL ExpansionWaitCompleteResponseProto_ExpansionWaitCompleteStatusIsValidValue(
 @private
   BOOL hasSender_:1;
   BOOL hasStatus_:1;
-  MinimumUserProto* sender;
+  MinimumUserProtoWithMaxResources* sender;
   RetrieveCurrencyFromNormStructureResponseProto_RetrieveCurrencyFromNormStructureStatus status;
 }
 - (BOOL) hasSender;
 - (BOOL) hasStatus;
-@property (readonly, retain) MinimumUserProto* sender;
+@property (readonly, retain) MinimumUserProtoWithMaxResources* sender;
 @property (readonly) RetrieveCurrencyFromNormStructureResponseProto_RetrieveCurrencyFromNormStructureStatus status;
 
 + (RetrieveCurrencyFromNormStructureResponseProto*) defaultInstance;
@@ -1074,10 +1076,10 @@ BOOL ExpansionWaitCompleteResponseProto_ExpansionWaitCompleteStatusIsValidValue(
 - (RetrieveCurrencyFromNormStructureResponseProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
 
 - (BOOL) hasSender;
-- (MinimumUserProto*) sender;
-- (RetrieveCurrencyFromNormStructureResponseProto_Builder*) setSender:(MinimumUserProto*) value;
-- (RetrieveCurrencyFromNormStructureResponseProto_Builder*) setSenderBuilder:(MinimumUserProto_Builder*) builderForValue;
-- (RetrieveCurrencyFromNormStructureResponseProto_Builder*) mergeSender:(MinimumUserProto*) value;
+- (MinimumUserProtoWithMaxResources*) sender;
+- (RetrieveCurrencyFromNormStructureResponseProto_Builder*) setSender:(MinimumUserProtoWithMaxResources*) value;
+- (RetrieveCurrencyFromNormStructureResponseProto_Builder*) setSenderBuilder:(MinimumUserProtoWithMaxResources_Builder*) builderForValue;
+- (RetrieveCurrencyFromNormStructureResponseProto_Builder*) mergeSender:(MinimumUserProtoWithMaxResources*) value;
 - (RetrieveCurrencyFromNormStructureResponseProto_Builder*) clearSender;
 
 - (BOOL) hasStatus;

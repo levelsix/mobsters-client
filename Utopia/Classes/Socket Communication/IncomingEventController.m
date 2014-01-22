@@ -176,17 +176,11 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
     case EventProtocolResponseSHealMonsterEvent:
       responseClass = [HealMonsterResponseProto class];
       break;
-    case EventProtocolResponseSHealMonsterWaitTimeCompleteEvent:
-      responseClass = [HealMonsterWaitTimeCompleteResponseProto class];
-      break;
     case EventProtocolResponseSAddMonsterToBattleTeamEvent:
       responseClass = [AddMonsterToBattleTeamResponseProto class];
       break;
     case EventProtocolResponseSIncreaseMonsterInventorySlotEvent:
       responseClass = [IncreaseMonsterInventorySlotResponseProto class];
-      break;
-    case EventProtocolResponseSEnhancementWaitTimeCompleteEvent:
-      responseClass = [EnhancementWaitTimeCompleteResponseProto class];
       break;
     case EventProtocolResponseSRemoveMonsterFromBattleTeamEvent:
       responseClass = [RemoveMonsterFromBattleTeamResponseProto class];
@@ -205,6 +199,9 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
       break;
     case EventProtocolResponseSAcceptAndRejectFbInviteForSlotsEvent:
       responseClass = [AcceptAndRejectFbInviteForSlotsResponseProto class];
+      break;
+    case EventProtocolResponseSExchangeGemsForResourcesEvent:
+      responseClass = [ExchangeGemsForResourcesResponseProto class];
       break;
       
     default:
@@ -276,6 +273,8 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
     [gs.fbAcceptedRequestsFromMe removeAllObjects];
     [gs addInventorySlotsRequests:proto.invitesToMeForSlotsList];
     [gs addInventorySlotsRequests:proto.invitesFromMeForSlotsList];
+    
+    [gs addToEventCooldownTimes:proto.userEventsList];
     
     [gs addToRequestedClans:proto.userClanInfoList];
     
@@ -384,6 +383,20 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
     [[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:IAP_SUCCESS_NOTIFICATION object:nil]];
     [gs removeNonFullUserUpdatesForTag:tag];
     [Analytics purchasedGoldPackage:proto.packageName price:proto.packagePrice goldAmount:proto.diamondsGained];
+  }
+}
+
+- (void) handleExchangeGemsForResourcesResponseProto:(FullEvent *)fe {
+  ExchangeGemsForResourcesResponseProto *proto = (ExchangeGemsForResourcesResponseProto *)fe.event;
+  int tag = fe.tag;
+  
+  LNLog(@"Exchange gems response received with status %d.", proto.status);
+  
+  GameState *gs = [GameState sharedGameState];
+  if (proto.status == ExchangeGemsForResourcesResponseProto_ExchangeGemsForResourcesStatusSuccess) {
+    [gs removeNonFullUserUpdatesForTag:tag];
+  } else {
+    [gs removeAndUndoAllUpdatesForTag:tag];
   }
 }
 
@@ -521,6 +534,9 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
       [gs.myStructs removeAllObjects];
       [gs addToMyStructs:proto.ownerNormStructsList];
       
+      [gs readjustAllMonsterHealingProtos];
+      [gs beginHealingTimer];
+      
       NSMutableArray *exp = [NSMutableArray array];
       if (proto.userCityExpansionDataProtoListList.count > 0) {
         for (UserCityExpansionDataProto *e in proto.userCityExpansionDataProtoListList) {
@@ -541,10 +557,10 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
       [defaults removeObjectForKey:key];
       for (NSString *receipt in arr) {
         LNLog(@"Sending over unresponded receipt.");
-        [[OutgoingEventController sharedOutgoingEventController] inAppPurchase:receipt goldAmt:0 silverAmt:0 product:nil];
+        [[OutgoingEventController sharedOutgoingEventController] inAppPurchase:receipt goldAmt:0 silverAmt:0 product:nil delegate:nil];
       }
     }
-  } else if (proto.status == LoadPlayerCityResponseProto_LoadPlayerCityStatusNoSuchPlayer) {
+  } else if (proto.status == LoadPlayerCityResponseProto_LoadPlayerCityStatusFailNoSuchPlayer) {
     [Globals popupMessage:@"Trying to reach a nonexistent player's city."];
     [gs removeAndUndoAllUpdatesForTag:tag];
   } else {
@@ -1094,21 +1110,6 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
   }
 }
 
-- (void) handleHealMonsterWaitTimeCompleteResponseProto:(FullEvent *)fe {
-  HealMonsterWaitTimeCompleteResponseProto *proto = (HealMonsterWaitTimeCompleteResponseProto *)fe.event;
-  int tag = fe.tag;
-  
-  LNLog(@"Heal wait time complete response received with status %d.", proto.status);
-  
-  GameState *gs = [GameState sharedGameState];
-  if (proto.status == HealMonsterWaitTimeCompleteResponseProto_HealMonsterWaitTimeCompleteStatusSuccess) {
-    [gs removeNonFullUserUpdatesForTag:tag];
-  } else {
-    [Globals popupMessage:@"Server failed to handle heal complete."];
-    [gs removeAndUndoAllUpdatesForTag:tag];
-  }
-}
-
 - (void) handleAddMonsterToBattleTeamResponseProto:(FullEvent *)fe {
   AddMonsterToBattleTeamResponseProto *proto = (AddMonsterToBattleTeamResponseProto *)fe.event;
   int tag = fe.tag;
@@ -1150,21 +1151,6 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
     [gs removeNonFullUserUpdatesForTag:tag];
   } else {
     [Globals popupMessage:@"Server failed to handle buying inventory slots."];
-    [gs removeAndUndoAllUpdatesForTag:tag];
-  }
-}
-
-- (void) handleEnhancementWaitTimeCompleteResponseProto:(FullEvent *)fe {
-  IncreaseMonsterInventorySlotResponseProto *proto = (IncreaseMonsterInventorySlotResponseProto *)fe.event;
-  int tag = fe.tag;
-  
-  LNLog(@"Enhancement wait complete response received with status %d.", proto.status);
-  
-  GameState *gs = [GameState sharedGameState];
-  if (proto.status == IncreaseMonsterInventorySlotResponseProto_IncreaseMonsterInventorySlotStatusSuccess) {
-    [gs removeNonFullUserUpdatesForTag:tag];
-  } else {
-    [Globals popupMessage:@"Server failed to handle enhancement wait time."];
     [gs removeAndUndoAllUpdatesForTag:tag];
   }
 }

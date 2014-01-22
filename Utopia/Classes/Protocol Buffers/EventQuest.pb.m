@@ -1179,7 +1179,7 @@ BOOL QuestProgressResponseProto_QuestProgressStatusIsValidValue(QuestProgressRes
 @end
 
 @interface QuestRedeemRequestProto ()
-@property (retain) MinimumUserProto* sender;
+@property (retain) MinimumUserProtoWithMaxResources* sender;
 @property int32_t questId;
 @end
 
@@ -1205,7 +1205,7 @@ BOOL QuestProgressResponseProto_QuestProgressStatusIsValidValue(QuestProgressRes
 }
 - (id) init {
   if ((self = [super init])) {
-    self.sender = [MinimumUserProto defaultInstance];
+    self.sender = [MinimumUserProtoWithMaxResources defaultInstance];
     self.questId = 0;
   }
   return self;
@@ -1350,7 +1350,7 @@ static QuestRedeemRequestProto* defaultQuestRedeemRequestProtoInstance = nil;
         break;
       }
       case 10: {
-        MinimumUserProto_Builder* subBuilder = [MinimumUserProto builder];
+        MinimumUserProtoWithMaxResources_Builder* subBuilder = [MinimumUserProtoWithMaxResources builder];
         if (self.hasSender) {
           [subBuilder mergeFrom:self.sender];
         }
@@ -1368,22 +1368,22 @@ static QuestRedeemRequestProto* defaultQuestRedeemRequestProtoInstance = nil;
 - (BOOL) hasSender {
   return result.hasSender;
 }
-- (MinimumUserProto*) sender {
+- (MinimumUserProtoWithMaxResources*) sender {
   return result.sender;
 }
-- (QuestRedeemRequestProto_Builder*) setSender:(MinimumUserProto*) value {
+- (QuestRedeemRequestProto_Builder*) setSender:(MinimumUserProtoWithMaxResources*) value {
   result.hasSender = YES;
   result.sender = value;
   return self;
 }
-- (QuestRedeemRequestProto_Builder*) setSenderBuilder:(MinimumUserProto_Builder*) builderForValue {
+- (QuestRedeemRequestProto_Builder*) setSenderBuilder:(MinimumUserProtoWithMaxResources_Builder*) builderForValue {
   return [self setSender:[builderForValue build]];
 }
-- (QuestRedeemRequestProto_Builder*) mergeSender:(MinimumUserProto*) value {
+- (QuestRedeemRequestProto_Builder*) mergeSender:(MinimumUserProtoWithMaxResources*) value {
   if (result.hasSender &&
-      result.sender != [MinimumUserProto defaultInstance]) {
+      result.sender != [MinimumUserProtoWithMaxResources defaultInstance]) {
     result.sender =
-      [[[MinimumUserProto builderWithPrototype:result.sender] mergeFrom:value] buildPartial];
+      [[[MinimumUserProtoWithMaxResources builderWithPrototype:result.sender] mergeFrom:value] buildPartial];
   } else {
     result.sender = value;
   }
@@ -1392,7 +1392,7 @@ static QuestRedeemRequestProto* defaultQuestRedeemRequestProtoInstance = nil;
 }
 - (QuestRedeemRequestProto_Builder*) clearSender {
   result.hasSender = NO;
-  result.sender = [MinimumUserProto defaultInstance];
+  result.sender = [MinimumUserProtoWithMaxResources defaultInstance];
   return self;
 }
 - (BOOL) hasQuestId {
@@ -1414,7 +1414,7 @@ static QuestRedeemRequestProto* defaultQuestRedeemRequestProtoInstance = nil;
 @end
 
 @interface QuestRedeemResponseProto ()
-@property (retain) MinimumUserProto* sender;
+@property (retain) MinimumUserProtoWithMaxResources* sender;
 @property (retain) NSMutableArray* mutableNewlyAvailableQuestsList;
 @property QuestRedeemResponseProto_QuestRedeemStatus status;
 @property (retain) FullUserMonsterProto* fump;
@@ -1460,7 +1460,7 @@ static QuestRedeemRequestProto* defaultQuestRedeemRequestProtoInstance = nil;
 }
 - (id) init {
   if ((self = [super init])) {
-    self.sender = [MinimumUserProto defaultInstance];
+    self.sender = [MinimumUserProtoWithMaxResources defaultInstance];
     self.status = QuestRedeemResponseProto_QuestRedeemStatusSuccess;
     self.fump = [FullUserMonsterProto defaultInstance];
     self.questId = 0;
@@ -1654,7 +1654,7 @@ BOOL QuestRedeemResponseProto_QuestRedeemStatusIsValidValue(QuestRedeemResponseP
         break;
       }
       case 10: {
-        MinimumUserProto_Builder* subBuilder = [MinimumUserProto builder];
+        MinimumUserProtoWithMaxResources_Builder* subBuilder = [MinimumUserProtoWithMaxResources builder];
         if (self.hasSender) {
           [subBuilder mergeFrom:self.sender];
         }
@@ -1696,22 +1696,22 @@ BOOL QuestRedeemResponseProto_QuestRedeemStatusIsValidValue(QuestRedeemResponseP
 - (BOOL) hasSender {
   return result.hasSender;
 }
-- (MinimumUserProto*) sender {
+- (MinimumUserProtoWithMaxResources*) sender {
   return result.sender;
 }
-- (QuestRedeemResponseProto_Builder*) setSender:(MinimumUserProto*) value {
+- (QuestRedeemResponseProto_Builder*) setSender:(MinimumUserProtoWithMaxResources*) value {
   result.hasSender = YES;
   result.sender = value;
   return self;
 }
-- (QuestRedeemResponseProto_Builder*) setSenderBuilder:(MinimumUserProto_Builder*) builderForValue {
+- (QuestRedeemResponseProto_Builder*) setSenderBuilder:(MinimumUserProtoWithMaxResources_Builder*) builderForValue {
   return [self setSender:[builderForValue build]];
 }
-- (QuestRedeemResponseProto_Builder*) mergeSender:(MinimumUserProto*) value {
+- (QuestRedeemResponseProto_Builder*) mergeSender:(MinimumUserProtoWithMaxResources*) value {
   if (result.hasSender &&
-      result.sender != [MinimumUserProto defaultInstance]) {
+      result.sender != [MinimumUserProtoWithMaxResources defaultInstance]) {
     result.sender =
-      [[[MinimumUserProto builderWithPrototype:result.sender] mergeFrom:value] buildPartial];
+      [[[MinimumUserProtoWithMaxResources builderWithPrototype:result.sender] mergeFrom:value] buildPartial];
   } else {
     result.sender = value;
   }
@@ -1720,7 +1720,7 @@ BOOL QuestRedeemResponseProto_QuestRedeemStatusIsValidValue(QuestRedeemResponseP
 }
 - (QuestRedeemResponseProto_Builder*) clearSender {
   result.hasSender = NO;
-  result.sender = [MinimumUserProto defaultInstance];
+  result.sender = [MinimumUserProtoWithMaxResources defaultInstance];
   return self;
 }
 - (NSArray*) newlyAvailableQuestsList {

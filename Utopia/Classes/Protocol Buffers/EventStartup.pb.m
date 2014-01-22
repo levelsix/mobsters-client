@@ -468,12 +468,14 @@ static StartupRequestProto* defaultStartupRequestProtoInstance = nil;
 @property (retain) NSMutableArray* mutableUsersMonstersList;
 @property (retain) NSMutableArray* mutableMonstersHealingList;
 @property (retain) UserEnhancementProto* enhancements;
+@property (retain) UserMonsterEvolutionProto* evolution;
 @property (retain) NSMutableArray* mutableRareBoosterPurchasesList;
 @property (retain) NSString* kabamNaid;
 @property (retain) NSMutableArray* mutableInvitesToMeForSlotsList;
 @property (retain) NSMutableArray* mutableInvitesFromMeForSlotsList;
 @property (retain) StaticDataProto* staticDataStuffProto;
 @property (retain) NSMutableArray* mutableTaskIdForCurrentCityBossList;
+@property (retain) NSMutableArray* mutableUserEventsList;
 @end
 
 @implementation StartupResponseProto
@@ -565,6 +567,13 @@ static StartupRequestProto* defaultStartupRequestProtoInstance = nil;
   hasEnhancements_ = !!value;
 }
 @synthesize enhancements;
+- (BOOL) hasEvolution {
+  return !!hasEvolution_;
+}
+- (void) setHasEvolution:(BOOL) value {
+  hasEvolution_ = !!value;
+}
+@synthesize evolution;
 @synthesize mutableRareBoosterPurchasesList;
 - (BOOL) hasKabamNaid {
   return !!hasKabamNaid_;
@@ -583,6 +592,7 @@ static StartupRequestProto* defaultStartupRequestProtoInstance = nil;
 }
 @synthesize staticDataStuffProto;
 @synthesize mutableTaskIdForCurrentCityBossList;
+@synthesize mutableUserEventsList;
 - (void) dealloc {
   self.sender = nil;
   self.startupConstants = nil;
@@ -602,12 +612,14 @@ static StartupRequestProto* defaultStartupRequestProtoInstance = nil;
   self.mutableUsersMonstersList = nil;
   self.mutableMonstersHealingList = nil;
   self.enhancements = nil;
+  self.evolution = nil;
   self.mutableRareBoosterPurchasesList = nil;
   self.kabamNaid = nil;
   self.mutableInvitesToMeForSlotsList = nil;
   self.mutableInvitesFromMeForSlotsList = nil;
   self.staticDataStuffProto = nil;
   self.mutableTaskIdForCurrentCityBossList = nil;
+  self.mutableUserEventsList = nil;
   [super dealloc];
 }
 - (id) init {
@@ -622,6 +634,7 @@ static StartupRequestProto* defaultStartupRequestProtoInstance = nil;
     self.reviewPageConfirmationMessage = @"";
     self.playerHasBoughtInAppPurchase = NO;
     self.enhancements = [UserEnhancementProto defaultInstance];
+    self.evolution = [UserMonsterEvolutionProto defaultInstance];
     self.kabamNaid = @"";
     self.staticDataStuffProto = [StaticDataProto defaultInstance];
   }
@@ -751,6 +764,13 @@ static StartupResponseProto* defaultStartupResponseProtoInstance = nil;
   id value = [mutableTaskIdForCurrentCityBossList objectAtIndex:index];
   return [value intValue];
 }
+- (NSArray*) userEventsList {
+  return mutableUserEventsList;
+}
+- (UserPersistentEventProto*) userEventsAtIndex:(int32_t) index {
+  id value = [mutableUserEventsList objectAtIndex:index];
+  return value;
+}
 - (BOOL) isInitialized {
   return YES;
 }
@@ -838,6 +858,12 @@ static StartupResponseProto* defaultStartupResponseProtoInstance = nil;
   }
   for (NSNumber* value in self.mutableTaskIdForCurrentCityBossList) {
     [output writeInt32:28 value:[value intValue]];
+  }
+  if (self.hasEvolution) {
+    [output writeMessage:29 value:self.evolution];
+  }
+  for (UserPersistentEventProto* element in self.userEventsList) {
+    [output writeMessage:30 value:element];
   }
   [self.unknownFields writeToCodedOutputStream:output];
 }
@@ -951,6 +977,12 @@ static StartupResponseProto* defaultStartupResponseProtoInstance = nil;
     }
     size += dataSize;
     size += 2 * self.mutableTaskIdForCurrentCityBossList.count;
+  }
+  if (self.hasEvolution) {
+    size += computeMessageSize(29, self.evolution);
+  }
+  for (UserPersistentEventProto* element in self.userEventsList) {
+    size += computeMessageSize(30, element);
   }
   size += self.unknownFields.serializedSize;
   memoizedSerializedSize = size;
@@ -1571,6 +1603,7 @@ static StartupResponseProto_ReferralNotificationProto* defaultStartupResponsePro
 @property (retain) StartupResponseProto_StartupConstants_MonsterConstants* monsterConstants;
 @property Float32 minutesPerGem;
 @property int32_t pvpRequiredMinLvl;
+@property Float32 gemsPerResource;
 @end
 
 @implementation StartupResponseProto_StartupConstants
@@ -1703,6 +1736,13 @@ static StartupResponseProto_ReferralNotificationProto* defaultStartupResponsePro
   hasPvpRequiredMinLvl_ = !!value;
 }
 @synthesize pvpRequiredMinLvl;
+- (BOOL) hasGemsPerResource {
+  return !!hasGemsPerResource_;
+}
+- (void) setHasGemsPerResource:(BOOL) value {
+  hasGemsPerResource_ = !!value;
+}
+@synthesize gemsPerResource;
 - (void) dealloc {
   self.mutableInAppPurchasePackagesList = nil;
   self.mutableAnimatedSpriteOffsetsList = nil;
@@ -1735,6 +1775,7 @@ static StartupResponseProto_ReferralNotificationProto* defaultStartupResponsePro
     self.monsterConstants = [StartupResponseProto_StartupConstants_MonsterConstants defaultInstance];
     self.minutesPerGem = 0;
     self.pvpRequiredMinLvl = 0;
+    self.gemsPerResource = 0;
   }
   return self;
 }
@@ -1828,6 +1869,9 @@ static StartupResponseProto_StartupConstants* defaultStartupResponseProto_Startu
   if (self.hasPvpRequiredMinLvl) {
     [output writeInt32:20 value:self.pvpRequiredMinLvl];
   }
+  if (self.hasGemsPerResource) {
+    [output writeFloat:21 value:self.gemsPerResource];
+  }
   [self.unknownFields writeToCodedOutputStream:output];
 }
 - (int32_t) serializedSize {
@@ -1896,6 +1940,9 @@ static StartupResponseProto_StartupConstants* defaultStartupResponseProto_Startu
   }
   if (self.hasPvpRequiredMinLvl) {
     size += computeInt32Size(20, self.pvpRequiredMinLvl);
+  }
+  if (self.hasGemsPerResource) {
+    size += computeFloatSize(21, self.gemsPerResource);
   }
   size += self.unknownFields.serializedSize;
   memoizedSerializedSize = size;
@@ -3618,6 +3665,9 @@ static StartupResponseProto_StartupConstants_MonsterConstants* defaultStartupRes
   if (other.hasPvpRequiredMinLvl) {
     [self setPvpRequiredMinLvl:other.pvpRequiredMinLvl];
   }
+  if (other.hasGemsPerResource) {
+    [self setGemsPerResource:other.gemsPerResource];
+  }
   [self mergeUnknownFields:other.unknownFields];
   return self;
 }
@@ -3751,6 +3801,10 @@ static StartupResponseProto_StartupConstants_MonsterConstants* defaultStartupRes
       }
       case 160: {
         [self setPvpRequiredMinLvl:[input readInt32]];
+        break;
+      }
+      case 173: {
+        [self setGemsPerResource:[input readFloat]];
         break;
       }
     }
@@ -4186,6 +4240,22 @@ static StartupResponseProto_StartupConstants_MonsterConstants* defaultStartupRes
   result.pvpRequiredMinLvl = 0;
   return self;
 }
+- (BOOL) hasGemsPerResource {
+  return result.hasGemsPerResource;
+}
+- (Float32) gemsPerResource {
+  return result.gemsPerResource;
+}
+- (StartupResponseProto_StartupConstants_Builder*) setGemsPerResource:(Float32) value {
+  result.hasGemsPerResource = YES;
+  result.gemsPerResource = value;
+  return self;
+}
+- (StartupResponseProto_StartupConstants_Builder*) clearGemsPerResource {
+  result.hasGemsPerResource = NO;
+  result.gemsPerResource = 0;
+  return self;
+}
 @end
 
 @interface StartupResponseProto_Builder()
@@ -4332,6 +4402,9 @@ static StartupResponseProto_StartupConstants_MonsterConstants* defaultStartupRes
   if (other.hasEnhancements) {
     [self mergeEnhancements:other.enhancements];
   }
+  if (other.hasEvolution) {
+    [self mergeEvolution:other.evolution];
+  }
   if (other.mutableRareBoosterPurchasesList.count > 0) {
     if (result.mutableRareBoosterPurchasesList == nil) {
       result.mutableRareBoosterPurchasesList = [NSMutableArray array];
@@ -4361,6 +4434,12 @@ static StartupResponseProto_StartupConstants_MonsterConstants* defaultStartupRes
       result.mutableTaskIdForCurrentCityBossList = [NSMutableArray array];
     }
     [result.mutableTaskIdForCurrentCityBossList addObjectsFromArray:other.mutableTaskIdForCurrentCityBossList];
+  }
+  if (other.mutableUserEventsList.count > 0) {
+    if (result.mutableUserEventsList == nil) {
+      result.mutableUserEventsList = [NSMutableArray array];
+    }
+    [result.mutableUserEventsList addObjectsFromArray:other.mutableUserEventsList];
   }
   [self mergeUnknownFields:other.unknownFields];
   return self;
@@ -4547,6 +4626,21 @@ static StartupResponseProto_StartupConstants_MonsterConstants* defaultStartupRes
       }
       case 224: {
         [self addTaskIdForCurrentCityBoss:[input readInt32]];
+        break;
+      }
+      case 234: {
+        UserMonsterEvolutionProto_Builder* subBuilder = [UserMonsterEvolutionProto builder];
+        if (self.hasEvolution) {
+          [subBuilder mergeFrom:self.evolution];
+        }
+        [input readMessage:subBuilder extensionRegistry:extensionRegistry];
+        [self setEvolution:[subBuilder buildPartial]];
+        break;
+      }
+      case 242: {
+        UserPersistentEventProto_Builder* subBuilder = [UserPersistentEventProto builder];
+        [input readMessage:subBuilder extensionRegistry:extensionRegistry];
+        [self addUserEvents:[subBuilder buildPartial]];
         break;
       }
     }
@@ -5108,6 +5202,36 @@ static StartupResponseProto_StartupConstants_MonsterConstants* defaultStartupRes
   result.enhancements = [UserEnhancementProto defaultInstance];
   return self;
 }
+- (BOOL) hasEvolution {
+  return result.hasEvolution;
+}
+- (UserMonsterEvolutionProto*) evolution {
+  return result.evolution;
+}
+- (StartupResponseProto_Builder*) setEvolution:(UserMonsterEvolutionProto*) value {
+  result.hasEvolution = YES;
+  result.evolution = value;
+  return self;
+}
+- (StartupResponseProto_Builder*) setEvolutionBuilder:(UserMonsterEvolutionProto_Builder*) builderForValue {
+  return [self setEvolution:[builderForValue build]];
+}
+- (StartupResponseProto_Builder*) mergeEvolution:(UserMonsterEvolutionProto*) value {
+  if (result.hasEvolution &&
+      result.evolution != [UserMonsterEvolutionProto defaultInstance]) {
+    result.evolution =
+      [[[UserMonsterEvolutionProto builderWithPrototype:result.evolution] mergeFrom:value] buildPartial];
+  } else {
+    result.evolution = value;
+  }
+  result.hasEvolution = YES;
+  return self;
+}
+- (StartupResponseProto_Builder*) clearEvolution {
+  result.hasEvolution = NO;
+  result.evolution = [UserMonsterEvolutionProto defaultInstance];
+  return self;
+}
 - (NSArray*) rareBoosterPurchasesList {
   if (result.mutableRareBoosterPurchasesList == nil) { return [NSArray array]; }
   return result.mutableRareBoosterPurchasesList;
@@ -5270,6 +5394,35 @@ static StartupResponseProto_StartupConstants_MonsterConstants* defaultStartupRes
 }
 - (StartupResponseProto_Builder*) clearTaskIdForCurrentCityBossList {
   result.mutableTaskIdForCurrentCityBossList = nil;
+  return self;
+}
+- (NSArray*) userEventsList {
+  if (result.mutableUserEventsList == nil) { return [NSArray array]; }
+  return result.mutableUserEventsList;
+}
+- (UserPersistentEventProto*) userEventsAtIndex:(int32_t) index {
+  return [result userEventsAtIndex:index];
+}
+- (StartupResponseProto_Builder*) replaceUserEventsAtIndex:(int32_t) index with:(UserPersistentEventProto*) value {
+  [result.mutableUserEventsList replaceObjectAtIndex:index withObject:value];
+  return self;
+}
+- (StartupResponseProto_Builder*) addAllUserEvents:(NSArray*) values {
+  if (result.mutableUserEventsList == nil) {
+    result.mutableUserEventsList = [NSMutableArray array];
+  }
+  [result.mutableUserEventsList addObjectsFromArray:values];
+  return self;
+}
+- (StartupResponseProto_Builder*) clearUserEventsList {
+  result.mutableUserEventsList = nil;
+  return self;
+}
+- (StartupResponseProto_Builder*) addUserEvents:(UserPersistentEventProto*) value {
+  if (result.mutableUserEventsList == nil) {
+    result.mutableUserEventsList = [NSMutableArray array];
+  }
+  [result.mutableUserEventsList addObject:value];
   return self;
 }
 @end

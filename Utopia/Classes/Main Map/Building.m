@@ -23,26 +23,30 @@
 
 - (id) initWithFile:(NSString *)file location:(CGRect)loc map:(GameMap *)map {
   if ((self = [super initWithFile:nil location:loc map:map])) {
-    self.buildingSprite = [CCSprite spriteWithFile:file];
+    if (file) self.buildingSprite = [CCSprite spriteWithFile:file];
     if (self.buildingSprite) [self addChild:self.buildingSprite];
     self.buildingSprite.anchorPoint = ccp(0.5,0);
     self.buildingSprite.position = ccp(self.buildingSprite.contentSize.width/2, 0);
-    self.contentSize = self.buildingSprite.contentSize;
     
-    CCSprite *shadow = [CCSprite spriteWithFile:@"4x4shadow.png"];
+    CCSprite *shadow = [CCSprite spriteWithFile:@"3x3base.png"];
     [self addChild:shadow z:-1 tag:SHADOW_TAG];
     shadow.anchorPoint = ccp(0.5, 0);
-    shadow.position = ccp(self.contentSize.width/2-5, 0);
+    
+    self.contentSize = self.buildingSprite.contentSize;
     
     self.baseScale = 1.f;
   }
   return self;
 }
 
+- (void) setContentSize:(CGSize)contentSize {
+  [super setContentSize:contentSize];
+  [[self getChildByTag:SHADOW_TAG] setPosition:ccp(self.contentSize.width/2, 3)];
+}
+
 - (void) setBaseScale:(float)baseScale {
   _baseScale = baseScale;
   self.buildingSprite.scale = baseScale;
-  [[self getChildByTag:SHADOW_TAG] setScale:baseScale];
 }
 
 - (void) setColor:(ccColor3B)color {

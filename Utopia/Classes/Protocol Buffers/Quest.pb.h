@@ -42,6 +42,7 @@ BOOL DialogueProto_SpeechSegmentProto_DialogueSpeakerIsValidValue(DialogueProto_
 
 @interface FullQuestProto : PBGeneratedMessage {
 @private
+  BOOL hasIsAchievement_:1;
   BOOL hasIsCompleteMonster_:1;
   BOOL hasPriority_:1;
   BOOL hasMonsterIdReward_:1;
@@ -60,6 +61,7 @@ BOOL DialogueProto_SpeechSegmentProto_DialogueSpeakerIsValidValue(DialogueProto_
   BOOL hasCarrotId_:1;
   BOOL hasAcceptDialogue_:1;
   BOOL hasQuestType_:1;
+  BOOL isAchievement_:1;
   BOOL isCompleteMonster_:1;
   int32_t priority;
   int32_t monsterIdReward;
@@ -98,6 +100,7 @@ BOOL DialogueProto_SpeechSegmentProto_DialogueSpeakerIsValidValue(DialogueProto_
 - (BOOL) hasQuestGiverImageSuffix;
 - (BOOL) hasPriority;
 - (BOOL) hasCarrotId;
+- (BOOL) hasIsAchievement;
 @property (readonly) int32_t questId;
 @property (readonly) int32_t cityId;
 @property (readonly, retain) NSString* name;
@@ -116,6 +119,7 @@ BOOL DialogueProto_SpeechSegmentProto_DialogueSpeakerIsValidValue(DialogueProto_
 @property (readonly, retain) NSString* questGiverImageSuffix;
 @property (readonly) int32_t priority;
 @property (readonly, retain) NSString* carrotId;
+- (BOOL) isAchievement;
 - (NSArray*) questsRequiredForThisList;
 - (int32_t) questsRequiredForThisAtIndex:(int32_t) index;
 
@@ -251,6 +255,11 @@ BOOL DialogueProto_SpeechSegmentProto_DialogueSpeakerIsValidValue(DialogueProto_
 - (NSString*) carrotId;
 - (FullQuestProto_Builder*) setCarrotId:(NSString*) value;
 - (FullQuestProto_Builder*) clearCarrotId;
+
+- (BOOL) hasIsAchievement;
+- (BOOL) isAchievement;
+- (FullQuestProto_Builder*) setIsAchievement:(BOOL) value;
+- (FullQuestProto_Builder*) clearIsAchievement;
 @end
 
 @interface DialogueProto : PBGeneratedMessage {

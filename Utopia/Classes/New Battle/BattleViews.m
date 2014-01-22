@@ -10,22 +10,29 @@
 #import "Globals.h"
 #import "GameState.h"
 
-@implementation BattleContinueView
-
-- (void) display {
-  [Globals displayUIView:self];
-  [Globals bounceView:self.mainView fadeInBgdView:self.bgdView];
-}
-
-@end
-
 @implementation BattleEndView
 
-- (void) displayWithDungeon:(BeginDungeonResponseProto *)dungeon {
+- (void) displayWinWithDungeon:(BeginDungeonResponseProto *)dungeon {
+  self.rewardsViewContainer.hidden = NO;
+  self.lostStickerHead.hidden = YES;
+  
+  self.splashImage.image = [Globals imageNamed:@"wonsplash.png"];
+  self.splashTextImage.image = [Globals imageNamed:@"youwon.png"];
+  
   NSArray *rewards = [Reward createRewardsForDungeon:dungeon];
   [self.rewardsViewContainer.rewardsView updateForRewards:rewards];
+  
   [Globals displayUIView:self];
-  [Globals bounceView:self.mainView fadeInBgdView:self.bgdView];
+}
+
+- (void) displayLossWithDungeon:(BeginDungeonResponseProto *)dungeon {
+  self.rewardsViewContainer.hidden = YES;
+  self.lostStickerHead.hidden = NO;
+  
+  self.splashImage.image = [Globals imageNamed:@"lostsplash.png"];
+  self.splashTextImage.image = [Globals imageNamed:@"youlost.png"];
+  
+  [Globals displayUIView:self];
 }
 
 @end

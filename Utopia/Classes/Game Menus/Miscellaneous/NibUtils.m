@@ -767,3 +767,21 @@
 }
 
 @end
+
+@implementation TouchableSubviewsView
+
+- (BOOL) pointInside:(CGPoint)point withEvent:(UIEvent *)event {
+  if (![super pointInside:point withEvent:event]) {
+    return NO;
+  }
+  
+  // Allow all subviews to receive touch.
+  for (UIView * foundView in self.subviews) {
+    if (!foundView.hidden && [foundView pointInside:[self convertPoint:point toView:foundView] withEvent:event]) {
+      return YES;
+    }
+  }
+  return NO;
+}
+
+@end

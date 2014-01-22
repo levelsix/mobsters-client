@@ -77,6 +77,7 @@
   
   self.bgdImageView.image = [Globals imageNamed:@"buildingbg.png"];
   self.bgdInfoImageView.image = [Globals imageNamed:@"buildinginfobg.png"];
+  self.clockIcon.image = [Globals imageNamed:@"clock.png"];
   [self.infoButton setImage:[Globals imageNamed:@"chatinfoi.png"] forState:UIControlStateNormal];
   
   // We will manually grey the struct in case it is not downloaded yet
@@ -87,6 +88,16 @@
   if (greyscale) {
     [self setViewToGreyScale:self];
     [self setViewToGreyScale:self.descriptionView];
+  }
+  
+  if (structInfo.prerequisiteTownHallLvl > thLevel) {
+    self.unavailableLabel.text = [NSString stringWithFormat:@"Level %d City Hall Required", structInfo.prerequisiteTownHallLvl];
+    
+    self.unavailableLabel.hidden = NO;
+    self.availableView.hidden = YES;
+  } else {
+    self.availableView.hidden = NO;
+    self.unavailableLabel.hidden = YES;
   }
   
   [Globals imageNamed:structInfo.imgName withView:self.buildingImageView greyscale:greyscale indicator:UIActivityIndicatorViewStyleWhite clearImageDuringDownload:YES];
@@ -228,7 +239,7 @@
       if (nextThLevel) {
         [Globals addAlertNotification:[NSString stringWithFormat:@"Upgrade %@ to level %d to build more!", th.structInfo.name, nextThLevel]];
       } else {
-        [Globals addAlertNotification:[NSString stringWithFormat:@"You have already reached the max number of %@s", fsp.name]];
+        [Globals addAlertNotification:@"You have already reached the max number of these buildings."];
       }
     } else {
       UINavigationController *nav = (UINavigationController *)self.navigationController.presentingViewController;

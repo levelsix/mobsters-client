@@ -59,8 +59,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
   self.iapPackages = constants.inAppPurchasePackagesList;
   NSMutableArray *arr = [NSMutableArray array];
   for (InAppPurchasePackageProto *pkg in self.iapPackages) {
-    InAppPurchasePackageProto *pkg2 = [[[InAppPurchasePackageProto builderWithPrototype:pkg] setIapPackageId:[@"com.lvl6.kingdom." stringByAppendingString:pkg.iapPackageId.pathExtension] ] build];
-    [arr addObject:pkg2];
+    [arr addObject:pkg];
   }
   self.iapPackages = arr;
   [self updateInAppPurchases];
@@ -77,12 +76,12 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
   self.numBeginnerSalesAllowed = constants.numBeginnerSalesAllowed;
   self.minutesPerGem = constants.minutesPerGem;
   self.pvpRequiredMinLvl = constants.pvpRequiredMinLvl;
+  self.gemsPerResource = constants.gemsPerResource;
   
   self.maxTeamSize = constants.userMonsterConstants.maxNumTeamSlots;
   self.baseInventorySize = constants.userMonsterConstants.initialMaxNumMonsterLimit;
   
   self.cashPerHealthPoint = constants.monsterConstants.cashPerHealthPoint;
-  self.secondsToHealPerHealthPoint = constants.monsterConstants.secondsToHealPerHealthPoint;
   self.elementalStrength = constants.monsterConstants.elementalStrength;
   self.elementalWeakness = constants.monsterConstants.elementalWeakness;
   
@@ -258,7 +257,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
 + (UIColor *) colorForRarity:(MonsterProto_MonsterQuality)rarity {
   switch (rarity) {
     case MonsterProto_MonsterQualityCommon:
-      return [self greyishTanColor];
+      return [self creamColor];
       
     case MonsterProto_MonsterQualityRare:
       return [self blueColor];
@@ -271,6 +270,9 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
       
     case MonsterProto_MonsterQualityLegendary:
       return [self redColor];
+      
+    case MonsterProto_MonsterQualityEvo:
+      return [self orangeColor];
       
     default:
       break;
@@ -528,10 +530,10 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
   NSMutableSet *removed = old.mutableCopy;
   [removed minusSet:cur];
   
-  for (UserMonster *um in added) {
+  for (id um in added) {
     [additions addObject:[NSIndexPath indexPathForRow:[nArr indexOfObject:um] inSection:section]];
   }
-  for (UserMonster *um in removed) {
+  for (id um in removed) {
     [removals addObject:[NSIndexPath indexPathForRow:[oArr indexOfObject:um] inSection:section]];
   }
 }
@@ -1054,6 +1056,13 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
   return MAX(0.f, ceilf(timeLeft/60.f/self.minutesPerGem));
 }
 
+- (int) calculateGemConversionForResourceType:(ResourceType)type amount:(int)amount {
+  if (type == ResourceTypeCash || type == ResourceTypeOil) {
+    return ceilf(amount*self.gemsPerResource);
+  }
+  return amount;
+}
+
 - (int) calculateMaxQuantityOfStructId:(int)structId withTownHall:(TownHallProto *)thp {
   GameState *gs = [GameState sharedGameState];
   id<StaticStructure> ss = [gs structWithId:structId];
@@ -1195,6 +1204,9 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
     case MonsterProto_MonsterElementDarkness:
       base = mp.elementFiveDmg;
       break;
+    case MonsterProto_MonsterElementRock:
+      base = mp.elementSixDmg;
+      break;
   }
   return roundf(base*pow(mp.attackLevelMultiplier, um.level-1));
 }
@@ -1209,30 +1221,17 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
   return ceilf(([self calculateMaxHealthForMonster:um]-um.curHealth)*self.cashPerHealthPoint);
 }
 
-- (int) calculateSecondsToHealMonster:(UserMonster *)um {
-  return ceilf(([self calculateMaxHealthForMonster:um]-um.curHealth)*self.secondsToHealPerHealthPoint);
-}
-
-- (int) calculateTimeLeftToHealAllMonstersInQueue {
-  GameState *gs = [GameState sharedGameState];
-  int timeLeft = 0;
-  for (int i = 0; i < gs.monsterHealingQueue.count; i++) {
-    UserMonsterHealingItem *item = [gs.monsterHealingQueue objectAtIndex:i];
-    if (i == 0) {
-      timeLeft += [item.expectedEndTime timeIntervalSinceNow];
-    } else {
-      timeLeft += [item secondsForCompletion];
-    }
-  }
-  return timeLeft;
-}
-
-- (int) calculateSilverCostForEnhancement:(EnhancementItem *)baseMonster feeder:(EnhancementItem *)feeder {
-  return 100;
+- (int) calculateOilCostForEnhancement:(EnhancementItem *)baseMonster feeder:(EnhancementItem *)feeder {
+  UserMonster *um = baseMonster.userMonster;
+  return 100*um.level;
 }
 
 - (int) calculateSecondsForEnhancement:(EnhancementItem *)baseMonster feeder:(EnhancementItem *)feeder {
-  return 30;
+  GameState *gs = [GameState sharedGameState];
+  LabProto *lab = (LabProto *)gs.myLaboratory.staticStruct;
+  
+  int expGain = [self calculateExperienceIncrease:baseMonster feeder:feeder];
+  return (int)ceilf(expGain/lab.pointsPerSecond);
 }
 
 - (int) calculateTimeLeftForEnhancement:(UserEnhancement *)ue {
@@ -1258,7 +1257,9 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
 }
 
 - (int) calculateExperienceIncrease:(EnhancementItem *)baseMonster feeder:(EnhancementItem *)feeder {
-  return 100;
+  UserMonster *um = feeder.userMonster;
+  MonsterProto *mp = um.staticMonster;
+  return um.level*mp.enhancingFeederExp;
 }
 
 - (float) calculateLevelForMonster:(int)monsterId experience:(int)experience {
@@ -1579,6 +1580,42 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
   return curTime < shieldEndTime;
 }
 
++ (BOOL) checkEnteringDungeonWithTarget:(id)target selector:(SEL)selector {
+  
+  // Check that team is valid
+  GameState *gs = [GameState sharedGameState];
+  //  Globals *gl = [Globals sharedGlobals];
+  NSArray *team = [gs allMonstersOnMyTeam];
+  BOOL hasValidTeam = NO;
+  for (UserMonster *um in team) {
+    if (um.curHealth > 0) {
+      hasValidTeam = YES;
+    }
+  }
+  
+  if (!hasValidTeam) {
+    NSString *description = @"";
+    if (team.count == 0) {
+      description = @"Uh oh, you have no mobsters on your team. Manage your team?";
+    } else {
+      description = @"Uh oh, your mobsters are out of health. Manage your team?";
+    }
+    [GenericPopupController displayConfirmationWithDescription:description title:@"Can't Begin" okayButton:@"Manage" cancelButton:@"Later" target:target selector:selector];
+    
+    return NO;
+  }
+  
+  // Check that inventory is not full
+  int curInvSize = gs.myMonsters.count;
+  if (curInvSize > gs.maxInventorySlots) {
+    NSString *description = @"Uh oh, you have recruited too many mobsters. Manage your team?";
+    [GenericPopupController displayConfirmationWithDescription:description title:@"Can't Begin" okayButton:@"Manage" cancelButton:@"Later" target:target selector:selector];
+    return NO;
+  }
+  
+  return YES;
+}
+
 @end
 
 @implementation CCNode (RecursiveOpacity)
@@ -1595,6 +1632,15 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
   }
 }
 
+- (void) recursivelyApplyColor:(ccColor3B)color {
+  if ([self conformsToProtocol:@protocol(CCRGBAProtocol)]) {
+    [(id<CCRGBAProtocol>)self setColor:color];
+  }
+  for (CCNode *c in self.children) {
+    [c recursivelyApplyColor:color];
+  }
+}
+
 @end
 
 @implementation RecursiveFadeTo
@@ -1602,6 +1648,15 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
 -(void) update: (ccTime) t
 {
 	[_target recursivelyApplyOpacity:_fromOpacity + ( _toOpacity - _fromOpacity ) * t];
+}
+
+@end
+
+@implementation RecursiveTintTo
+
+-(void) update: (ccTime) t
+{
+	[_target recursivelyApplyColor:ccc3(_from.r + (_to.r - _from.r) * t, _from.g + (_to.g - _from.g) * t, _from.b + (_to.b - _from.b) * t)];
 }
 
 @end

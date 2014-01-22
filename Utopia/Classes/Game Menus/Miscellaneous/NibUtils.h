@@ -287,3 +287,7 @@ typedef enum {
 @property (nonatomic, assign) int badgeNum;
 
 @end
+
+@interface TouchableSubviewsView : UIView
+
+@end

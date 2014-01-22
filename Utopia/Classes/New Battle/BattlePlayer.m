@@ -23,7 +23,7 @@
     MonsterProto *mp = [gs monsterWithId:monster.monsterId];
     self.maxHealth = [gl calculateMaxHealthForMonster:monster];
     self.curHealth = MIN(self.maxHealth, monster.curHealth);
-    self.element = mp.element;
+    self.element = mp.monsterElement;
     self.fireDamage = [gl calculateElementalDamageForMonster:monster element:MonsterProto_MonsterElementFire];
     self.waterDamage = [gl calculateElementalDamageForMonster:monster element:MonsterProto_MonsterElementWater];
     self.earthDamage = [gl calculateElementalDamageForMonster:monster element:MonsterProto_MonsterElementGrass];

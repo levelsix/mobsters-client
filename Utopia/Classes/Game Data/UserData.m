@@ -76,6 +76,10 @@
   return self.isComplete && !self.isHealing && !self.isEnhancing && !self.isSacrificing;
 }
 
+- (int) sellPrice {
+  return self.experience+self.level;
+}
+
 - (void) setExperience:(int)experience {
   _experience = experience;
   
@@ -148,7 +152,7 @@
         if (self.staticMonster.quality != um.staticMonster.quality) {
           return [@(um.staticMonster.quality) compare:@(self.staticMonster.quality)];
         } else {
-          return [@(self.userMonsterId) compare:@(um.userMonsterId)];
+          return [@(self.monsterId) compare:@(um.monsterId)];
         }
       }
     }
@@ -163,7 +167,9 @@
   if ((self = [super init])){
     self.userId = proto.userId;
     self.userMonsterId = proto.userMonsterId;
-    self.expectedStartTime = proto.hasExpectedStartTimeMillis ? [NSDate dateWithTimeIntervalSince1970:proto.expectedStartTimeMillis/1000.0] : nil;
+    self.queueTime = proto.hasQueuedTimeMillis ? [NSDate dateWithTimeIntervalSince1970:proto.queuedTimeMillis/1000.0] : nil;
+    self.healthProgress = proto.healthProgress;
+    self.priority = proto.priority;
   }
   return self;
 }
@@ -172,41 +178,24 @@
   return [[self alloc] initWithHealingProto:proto];
 }
 
-- (float) currentPercentageOfHealth {
-  Globals *gl = [Globals sharedGlobals];
-  GameState *gs = [GameState sharedGameState];
-  UserMonster *um = [gs myMonsterWithUserMonsterId:self.userMonsterId];
-  int totalTime = self.secondsForCompletion;
-  int timeCompleted = totalTime - [self.expectedEndTime timeIntervalSinceNow];
-  int totalHealth = [gl calculateMaxHealthForMonster:um];
-  float basePerc = um.curHealth/((float)totalHealth);
-  return basePerc+(1.f-basePerc)*timeCompleted/totalTime;
-}
-
-- (int) secondsForCompletion {
-  Globals *gl = [Globals sharedGlobals];
-  GameState *gs = [GameState sharedGameState];
-  UserMonster *um = [gs myMonsterWithUserMonsterId:self.userMonsterId];
-  return [gl calculateSecondsToHealMonster:um];
-}
-
-- (NSDate *) expectedEndTime {
-  return [self.expectedStartTime dateByAddingTimeInterval:self.secondsForCompletion];
-}
-
 - (UserMonsterHealingProto *) convertToProto {
-  return [[[[[UserMonsterHealingProto builder]
-             setUserId:self.userId]
-            setUserMonsterId:self.userMonsterId]
-           setExpectedStartTimeMillis:self.expectedStartTime.timeIntervalSince1970*1000]
-          build];
+  UserMonsterHealingProto_Builder *bldr = [[[[[UserMonsterHealingProto builder]
+                                               setUserId:self.userId]
+                                              setUserMonsterId:self.userMonsterId]
+                                            setHealthProgress:self.healthProgress]
+                                           setPriority:self.priority];
+  
+  [bldr setQueuedTimeMillis:self.queueTime.timeIntervalSince1970*1000];
+  return [bldr build];
 }
 
 - (id) copy {
   UserMonsterHealingItem *item = [[UserMonsterHealingItem alloc] init];
   item.userId = self.userId;
   item.userMonsterId = self.userMonsterId;
-  item.expectedStartTime = [self.expectedStartTime copy];
+  item.queueTime = [self.queueTime copy];
+  item.healthProgress = self.healthProgress;
+  item.priority = self.priority;
   return item;
 }
 
@@ -222,7 +211,7 @@
 }
 
 - (NSString *) description {
-  return [NSString stringWithFormat:@"%p: %d, %@", self, self.userMonsterId, self.expectedStartTime];
+  return [NSString stringWithFormat:@"%p: %d, %@", self, self.userMonsterId, self.queueTime];
 }
 
 @end
@@ -483,6 +472,16 @@
 
 - (NSTimeInterval) timeLeftForBuildComplete {
   return [self.buildCompleteDate timeIntervalSinceNow];
+}
+
+- (int) numResourcesAvailable {
+  ResourceGeneratorProto *gen = (ResourceGeneratorProto *)self.staticStruct;
+  if (![gen isKindOfClass:[ResourceGeneratorProto class]]) {
+    return 0;
+  }
+  float secs = -[self.lastRetrieved timeIntervalSinceNow];
+  int numRes = gen.productionRate/3600.f*secs;
+  return MIN(numRes, gen.capacity);
 }
 
 - (NSString *) description {

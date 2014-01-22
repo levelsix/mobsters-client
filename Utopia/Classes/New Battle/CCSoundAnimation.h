@@ -10,7 +10,7 @@
 
 @interface CCAnimation (SoundAnimation)
 
-- (void) repeatFrames:(NSRange)range;
+- (void) repeatFrames:(NSRange)range numTimes:(int)numTimes;
 - (void) addSoundEffect:(NSString *)effectName atIndex:(int)index;
 
 @end

@@ -42,6 +42,7 @@
   [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(enhanceWaitTimeComplete) name:HEAL_WAIT_COMPLETE_NOTIFICATION object:nil];
   [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(enhanceWaitTimeComplete) name:COMBINE_WAIT_COMPLETE_NOTIFICATION object:nil];
   [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(enhanceWaitTimeComplete) name:ENHANCE_WAIT_COMPLETE_NOTIFICATION object:nil];
+  [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(enhanceWaitTimeComplete) name:MONSTER_SOLD_COMPLETE_NOTIFICATION object:nil];
   
   [self reloadTableAnimated:NO];
   [self.queueView reloadTable];
@@ -189,7 +190,7 @@
 #pragma mark - EnhanceCellDelegate methods
 
 - (void) infoClicked:(EnhanceCardCell *)cell {
-  MonsterPopUpViewController *mpvc = [[MonsterPopUpViewController alloc] initWithMonsterProto:cell.monster];
+  MonsterPopUpViewController *mpvc = [[MonsterPopUpViewController alloc] initWithMonsterProto:cell.monster allowSell:YES];
   UIViewController *parent = self.navigationController;
   mpvc.view.frame = parent.view.bounds;
   [parent.view addSubview:mpvc.view];
@@ -227,11 +228,47 @@
 }
 
 - (void) confirmationAccepted {
+  Globals *gl = [Globals sharedGlobals];
   GameState *gs = [GameState sharedGameState];
+  LabProto *lab = (LabProto *)gs.myLaboratory.staticStruct;
   
+  if (gs.userEnhancement.feeders.count >= lab.queueSize) {
+    [Globals addAlertNotification:@"The laboratory queue is already full!"];
+  } else {
+    EnhancementItem *newItem = [[EnhancementItem alloc] init];
+    newItem.userMonsterId = _confirmUserMonsterId;
+    int cost = [gl calculateOilCostForEnhancement:gs.userEnhancement.baseMonster feeder:newItem];
+    int curAmount = gs.oil;
+    if (cost > curAmount) {
+      [GenericPopupController displayExchangeForGemsViewWithResourceType:ResourceTypeOil amount:cost-curAmount target:self selector:@selector(useGemsForEnhance)];
+    } else {
+      [self sendEnhanceAllowGems:NO];
+    }
+  }
+}
+
+- (void) useGemsForEnhance {
+  GameState *gs = [GameState sharedGameState];
+  Globals *gl = [Globals sharedGlobals];
+  
+  EnhancementItem *newItem = [[EnhancementItem alloc] init];
+  newItem.userMonsterId = _confirmUserMonsterId;
+  int cost = [gl calculateOilCostForEnhancement:gs.userEnhancement.baseMonster feeder:newItem];
+  int curAmount = gs.oil;
+  int gemCost = [gl calculateGemConversionForResourceType:ResourceTypeOil amount:cost-curAmount];
+  
+  if (gemCost > gs.gold) {
+    [GenericPopupController displayNotEnoughGemsView];
+  } else {
+    [self sendEnhanceAllowGems:YES];
+  }
+}
+
+- (void) sendEnhanceAllowGems:(BOOL)allowGems {
+  GameState *gs = [GameState sharedGameState];
   BOOL success = NO;
   if (gs.userEnhancement.baseMonster) {
-    success = [[OutgoingEventController sharedOutgoingEventController] addMonsterToEnhancingQueue:_confirmUserMonsterId];
+    success = [[OutgoingEventController sharedOutgoingEventController] addMonsterToEnhancingQueue:_confirmUserMonsterId useGems:allowGems];
   }
   
   if (success) {

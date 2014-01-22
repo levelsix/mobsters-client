@@ -361,6 +361,7 @@ BOOL StructureInfoProto_StructTypeIsValidValue(StructureInfoProto_StructType val
     case StructureInfoProto_StructTypeResidence:
     case StructureInfoProto_StructTypeTownHall:
     case StructureInfoProto_StructTypeLab:
+    case StructureInfoProto_StructTypeEvo:
       return YES;
     default:
       return NO;

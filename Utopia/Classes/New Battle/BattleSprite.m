@@ -54,23 +54,6 @@
     self.healthLabel.position = ccp(self.healthBgd.contentSize.width/2, self.healthBgd.contentSize.height);
     [self.healthLabel enableShadowWithOffset:CGSizeMake(0, -1) opacity:0.3f blur:1.f updateImage:NO];
     [self.healthLabel setFontFillColor:ccc3(255, 255, 255) updateImage:YES];
-    
-    if (isMySprite) {
-      self.ring = [CCSprite spriteWithFile:@"underring.png"];
-      [self addChild:self.ring];
-      self.ring.position = s.position;
-      
-      self.ringGlow = [CCSprite spriteWithFile:@"overring.png"];
-      [self addChild:self.ringGlow];
-      self.ringGlow.position = s.position;
-      self.ringGlow.opacity = 50;
-    }
-    
-//    self.nameLabel = [CCLabelTTF labelWithString:name fontName:[Globals font] fontSize:12];
-//    [self addChild:self.nameLabel];
-//    self.nameLabel.position = ccp(self.contentSize.width/2, self.healthBgd.position.y+self.healthBgd.contentSize.height+self.nameLabel.contentSize.height/2+5);
-//    [self.nameLabel enableShadowWithOffset:CGSizeMake(0, -1) opacity:0.3f blur:1.f updateImage:NO];
-//    [self.nameLabel setFontFillColor:ccc3(255, 255, 255) updateImage:YES];
   }
   return self;
 }
@@ -181,9 +164,7 @@
   int numTimes = strength*(MAX_SHOTS-1);
   
   [anim addSoundEffect:@"pistol.aif" atIndex:5];
-  for (int i = 0; i < numTimes; i++) {
-    [anim repeatFrames:NSMakeRange(4, 6)];
-  }
+  [anim repeatFrames:NSMakeRange(4, 6) numTimes:numTimes];
   
   [self.sprite runAction:
    [CCSequence actions:
@@ -237,14 +218,6 @@
     [CCCallFunc actionWithTarget:self selector:@selector(restoreStandingFrame)],
     [CCCallFunc actionWithTarget:target selector:selector],
     nil]];
-}
-
-- (void) pulseRingGlow {
-  if (![self.ringGlow getActionByTag:49893]) {
-    CCAction *a = [CCSequence actions:[CCFadeTo actionWithDuration:0.4f opacity:255], [CCFadeTo actionWithDuration:0.4f opacity:self.ringGlow.opacity], nil];
-    a.tag = 49893;
-    [self.ringGlow runAction:a];
-  }
 }
 
 @end

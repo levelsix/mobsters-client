@@ -39,6 +39,7 @@ static PBExtensionRegistry* extensionRegistry = nil;
 @property (retain) NSString* questGiverImageSuffix;
 @property int32_t priority;
 @property (retain) NSString* carrotId;
+@property BOOL isAchievement;
 @end
 
 @implementation FullQuestProto
@@ -175,6 +176,18 @@ static PBExtensionRegistry* extensionRegistry = nil;
   hasCarrotId_ = !!value;
 }
 @synthesize carrotId;
+- (BOOL) hasIsAchievement {
+  return !!hasIsAchievement_;
+}
+- (void) setHasIsAchievement:(BOOL) value {
+  hasIsAchievement_ = !!value;
+}
+- (BOOL) isAchievement {
+  return !!isAchievement_;
+}
+- (void) setIsAchievement:(BOOL) value {
+  isAchievement_ = !!value;
+}
 - (void) dealloc {
   self.name = nil;
   self.description = nil;
@@ -206,6 +219,7 @@ static PBExtensionRegistry* extensionRegistry = nil;
     self.questGiverImageSuffix = @"";
     self.priority = 0;
     self.carrotId = @"";
+    self.isAchievement = NO;
   }
   return self;
 }
@@ -289,6 +303,9 @@ static FullQuestProto* defaultFullQuestProtoInstance = nil;
   if (self.hasCarrotId) {
     [output writeString:19 value:self.carrotId];
   }
+  if (self.hasIsAchievement) {
+    [output writeBool:20 value:self.isAchievement];
+  }
   [self.unknownFields writeToCodedOutputStream:output];
 }
 - (int32_t) serializedSize {
@@ -359,6 +376,9 @@ static FullQuestProto* defaultFullQuestProtoInstance = nil;
   }
   if (self.hasCarrotId) {
     size += computeStringSize(19, self.carrotId);
+  }
+  if (self.hasIsAchievement) {
+    size += computeBoolSize(20, self.isAchievement);
   }
   size += self.unknownFields.serializedSize;
   memoizedSerializedSize = size;
@@ -508,6 +528,9 @@ BOOL FullQuestProto_QuestTypeIsValidValue(FullQuestProto_QuestType value) {
   if (other.hasCarrotId) {
     [self setCarrotId:other.carrotId];
   }
+  if (other.hasIsAchievement) {
+    [self setIsAchievement:other.isAchievement];
+  }
   [self mergeUnknownFields:other.unknownFields];
   return self;
 }
@@ -613,6 +636,10 @@ BOOL FullQuestProto_QuestTypeIsValidValue(FullQuestProto_QuestType value) {
       }
       case 154: {
         [self setCarrotId:[input readString]];
+        break;
+      }
+      case 160: {
+        [self setIsAchievement:[input readBool]];
         break;
       }
     }
@@ -949,6 +976,22 @@ BOOL FullQuestProto_QuestTypeIsValidValue(FullQuestProto_QuestType value) {
 - (FullQuestProto_Builder*) clearCarrotId {
   result.hasCarrotId = NO;
   result.carrotId = @"";
+  return self;
+}
+- (BOOL) hasIsAchievement {
+  return result.hasIsAchievement;
+}
+- (BOOL) isAchievement {
+  return result.isAchievement;
+}
+- (FullQuestProto_Builder*) setIsAchievement:(BOOL) value {
+  result.hasIsAchievement = YES;
+  result.isAchievement = value;
+  return self;
+}
+- (FullQuestProto_Builder*) clearIsAchievement {
+  result.hasIsAchievement = NO;
+  result.isAchievement = NO;
   return self;
 }
 @end

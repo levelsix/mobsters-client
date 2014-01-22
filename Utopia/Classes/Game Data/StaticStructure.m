@@ -28,3 +28,7 @@
 @implementation TownHallProto (StaticStructureImpl)
 
 @end
+
+@implementation LabProto (StaticStructureImpl)
+
+@end

@@ -1177,6 +1177,279 @@ static MinimumUserProtoWithFacebookId* defaultMinimumUserProtoWithFacebookIdInst
 }
 @end
 
+@interface MinimumUserProtoWithMaxResources ()
+@property (retain) MinimumUserProto* minUserProto;
+@property int32_t maxCash;
+@property int32_t maxOil;
+@end
+
+@implementation MinimumUserProtoWithMaxResources
+
+- (BOOL) hasMinUserProto {
+  return !!hasMinUserProto_;
+}
+- (void) setHasMinUserProto:(BOOL) value {
+  hasMinUserProto_ = !!value;
+}
+@synthesize minUserProto;
+- (BOOL) hasMaxCash {
+  return !!hasMaxCash_;
+}
+- (void) setHasMaxCash:(BOOL) value {
+  hasMaxCash_ = !!value;
+}
+@synthesize maxCash;
+- (BOOL) hasMaxOil {
+  return !!hasMaxOil_;
+}
+- (void) setHasMaxOil:(BOOL) value {
+  hasMaxOil_ = !!value;
+}
+@synthesize maxOil;
+- (void) dealloc {
+  self.minUserProto = nil;
+  [super dealloc];
+}
+- (id) init {
+  if ((self = [super init])) {
+    self.minUserProto = [MinimumUserProto defaultInstance];
+    self.maxCash = 0;
+    self.maxOil = 0;
+  }
+  return self;
+}
+static MinimumUserProtoWithMaxResources* defaultMinimumUserProtoWithMaxResourcesInstance = nil;
++ (void) initialize {
+  if (self == [MinimumUserProtoWithMaxResources class]) {
+    defaultMinimumUserProtoWithMaxResourcesInstance = [[MinimumUserProtoWithMaxResources alloc] init];
+  }
+}
++ (MinimumUserProtoWithMaxResources*) defaultInstance {
+  return defaultMinimumUserProtoWithMaxResourcesInstance;
+}
+- (MinimumUserProtoWithMaxResources*) defaultInstance {
+  return defaultMinimumUserProtoWithMaxResourcesInstance;
+}
+- (BOOL) isInitialized {
+  return YES;
+}
+- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output {
+  if (self.hasMinUserProto) {
+    [output writeMessage:1 value:self.minUserProto];
+  }
+  if (self.hasMaxCash) {
+    [output writeInt32:2 value:self.maxCash];
+  }
+  if (self.hasMaxOil) {
+    [output writeInt32:3 value:self.maxOil];
+  }
+  [self.unknownFields writeToCodedOutputStream:output];
+}
+- (int32_t) serializedSize {
+  int32_t size = memoizedSerializedSize;
+  if (size != -1) {
+    return size;
+  }
+
+  size = 0;
+  if (self.hasMinUserProto) {
+    size += computeMessageSize(1, self.minUserProto);
+  }
+  if (self.hasMaxCash) {
+    size += computeInt32Size(2, self.maxCash);
+  }
+  if (self.hasMaxOil) {
+    size += computeInt32Size(3, self.maxOil);
+  }
+  size += self.unknownFields.serializedSize;
+  memoizedSerializedSize = size;
+  return size;
+}
++ (MinimumUserProtoWithMaxResources*) parseFromData:(NSData*) data {
+  return (MinimumUserProtoWithMaxResources*)[[[MinimumUserProtoWithMaxResources builder] mergeFromData:data] build];
+}
++ (MinimumUserProtoWithMaxResources*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (MinimumUserProtoWithMaxResources*)[[[MinimumUserProtoWithMaxResources builder] mergeFromData:data extensionRegistry:extensionRegistry] build];
+}
++ (MinimumUserProtoWithMaxResources*) parseFromInputStream:(NSInputStream*) input {
+  return (MinimumUserProtoWithMaxResources*)[[[MinimumUserProtoWithMaxResources builder] mergeFromInputStream:input] build];
+}
++ (MinimumUserProtoWithMaxResources*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (MinimumUserProtoWithMaxResources*)[[[MinimumUserProtoWithMaxResources builder] mergeFromInputStream:input extensionRegistry:extensionRegistry] build];
+}
++ (MinimumUserProtoWithMaxResources*) parseFromCodedInputStream:(PBCodedInputStream*) input {
+  return (MinimumUserProtoWithMaxResources*)[[[MinimumUserProtoWithMaxResources builder] mergeFromCodedInputStream:input] build];
+}
++ (MinimumUserProtoWithMaxResources*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (MinimumUserProtoWithMaxResources*)[[[MinimumUserProtoWithMaxResources builder] mergeFromCodedInputStream:input extensionRegistry:extensionRegistry] build];
+}
++ (MinimumUserProtoWithMaxResources_Builder*) builder {
+  return [[[MinimumUserProtoWithMaxResources_Builder alloc] init] autorelease];
+}
++ (MinimumUserProtoWithMaxResources_Builder*) builderWithPrototype:(MinimumUserProtoWithMaxResources*) prototype {
+  return [[MinimumUserProtoWithMaxResources builder] mergeFrom:prototype];
+}
+- (MinimumUserProtoWithMaxResources_Builder*) builder {
+  return [MinimumUserProtoWithMaxResources builder];
+}
+@end
+
+@interface MinimumUserProtoWithMaxResources_Builder()
+@property (retain) MinimumUserProtoWithMaxResources* result;
+@end
+
+@implementation MinimumUserProtoWithMaxResources_Builder
+@synthesize result;
+- (void) dealloc {
+  self.result = nil;
+  [super dealloc];
+}
+- (id) init {
+  if ((self = [super init])) {
+    self.result = [[[MinimumUserProtoWithMaxResources alloc] init] autorelease];
+  }
+  return self;
+}
+- (PBGeneratedMessage*) internalGetResult {
+  return result;
+}
+- (MinimumUserProtoWithMaxResources_Builder*) clear {
+  self.result = [[[MinimumUserProtoWithMaxResources alloc] init] autorelease];
+  return self;
+}
+- (MinimumUserProtoWithMaxResources_Builder*) clone {
+  return [MinimumUserProtoWithMaxResources builderWithPrototype:result];
+}
+- (MinimumUserProtoWithMaxResources*) defaultInstance {
+  return [MinimumUserProtoWithMaxResources defaultInstance];
+}
+- (MinimumUserProtoWithMaxResources*) build {
+  [self checkInitialized];
+  return [self buildPartial];
+}
+- (MinimumUserProtoWithMaxResources*) buildPartial {
+  MinimumUserProtoWithMaxResources* returnMe = [[result retain] autorelease];
+  self.result = nil;
+  return returnMe;
+}
+- (MinimumUserProtoWithMaxResources_Builder*) mergeFrom:(MinimumUserProtoWithMaxResources*) other {
+  if (other == [MinimumUserProtoWithMaxResources defaultInstance]) {
+    return self;
+  }
+  if (other.hasMinUserProto) {
+    [self mergeMinUserProto:other.minUserProto];
+  }
+  if (other.hasMaxCash) {
+    [self setMaxCash:other.maxCash];
+  }
+  if (other.hasMaxOil) {
+    [self setMaxOil:other.maxOil];
+  }
+  [self mergeUnknownFields:other.unknownFields];
+  return self;
+}
+- (MinimumUserProtoWithMaxResources_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input {
+  return [self mergeFromCodedInputStream:input extensionRegistry:[PBExtensionRegistry emptyRegistry]];
+}
+- (MinimumUserProtoWithMaxResources_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  PBUnknownFieldSet_Builder* unknownFields = [PBUnknownFieldSet builderWithUnknownFields:self.unknownFields];
+  while (YES) {
+    int32_t tag = [input readTag];
+    switch (tag) {
+      case 0:
+        [self setUnknownFields:[unknownFields build]];
+        return self;
+      default: {
+        if (![self parseUnknownField:input unknownFields:unknownFields extensionRegistry:extensionRegistry tag:tag]) {
+          [self setUnknownFields:[unknownFields build]];
+          return self;
+        }
+        break;
+      }
+      case 10: {
+        MinimumUserProto_Builder* subBuilder = [MinimumUserProto builder];
+        if (self.hasMinUserProto) {
+          [subBuilder mergeFrom:self.minUserProto];
+        }
+        [input readMessage:subBuilder extensionRegistry:extensionRegistry];
+        [self setMinUserProto:[subBuilder buildPartial]];
+        break;
+      }
+      case 16: {
+        [self setMaxCash:[input readInt32]];
+        break;
+      }
+      case 24: {
+        [self setMaxOil:[input readInt32]];
+        break;
+      }
+    }
+  }
+}
+- (BOOL) hasMinUserProto {
+  return result.hasMinUserProto;
+}
+- (MinimumUserProto*) minUserProto {
+  return result.minUserProto;
+}
+- (MinimumUserProtoWithMaxResources_Builder*) setMinUserProto:(MinimumUserProto*) value {
+  result.hasMinUserProto = YES;
+  result.minUserProto = value;
+  return self;
+}
+- (MinimumUserProtoWithMaxResources_Builder*) setMinUserProtoBuilder:(MinimumUserProto_Builder*) builderForValue {
+  return [self setMinUserProto:[builderForValue build]];
+}
+- (MinimumUserProtoWithMaxResources_Builder*) mergeMinUserProto:(MinimumUserProto*) value {
+  if (result.hasMinUserProto &&
+      result.minUserProto != [MinimumUserProto defaultInstance]) {
+    result.minUserProto =
+      [[[MinimumUserProto builderWithPrototype:result.minUserProto] mergeFrom:value] buildPartial];
+  } else {
+    result.minUserProto = value;
+  }
+  result.hasMinUserProto = YES;
+  return self;
+}
+- (MinimumUserProtoWithMaxResources_Builder*) clearMinUserProto {
+  result.hasMinUserProto = NO;
+  result.minUserProto = [MinimumUserProto defaultInstance];
+  return self;
+}
+- (BOOL) hasMaxCash {
+  return result.hasMaxCash;
+}
+- (int32_t) maxCash {
+  return result.maxCash;
+}
+- (MinimumUserProtoWithMaxResources_Builder*) setMaxCash:(int32_t) value {
+  result.hasMaxCash = YES;
+  result.maxCash = value;
+  return self;
+}
+- (MinimumUserProtoWithMaxResources_Builder*) clearMaxCash {
+  result.hasMaxCash = NO;
+  result.maxCash = 0;
+  return self;
+}
+- (BOOL) hasMaxOil {
+  return result.hasMaxOil;
+}
+- (int32_t) maxOil {
+  return result.maxOil;
+}
+- (MinimumUserProtoWithMaxResources_Builder*) setMaxOil:(int32_t) value {
+  result.hasMaxOil = YES;
+  result.maxOil = value;
+  return self;
+}
+- (MinimumUserProtoWithMaxResources_Builder*) clearMaxOil {
+  result.hasMaxOil = NO;
+  result.maxOil = 0;
+  return self;
+}
+@end
+
 @interface UserFacebookInviteForSlotProto ()
 @property int32_t inviteId;
 @property (retain) MinimumUserProtoWithFacebookId* inviter;

@@ -37,7 +37,7 @@
   }
   
   if (anim.count == 0) {
-    NSLog(@"Created animation with 0 frames..");
+    NSLog(@"Created animation with 0 frames for prefix %@..", prefix);
   }
   
   return [self initWithSpriteFrames:anim delay:delay];

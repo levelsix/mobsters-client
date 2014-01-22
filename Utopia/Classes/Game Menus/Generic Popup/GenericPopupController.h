@@ -8,6 +8,7 @@
 
 #import <UIKit/UIKit.h>
 #import "OmnipresentViewController.h"
+#import "Protocols.pb.h"
 
 @interface GenericPopupController : OmnipresentViewController
 
@@ -20,14 +21,13 @@
 + (GenericPopupController *) displayNegativeConfirmationWithDescription:(NSString *)description title:(NSString *)title okayButton:(NSString *)okay cancelButton:(NSString *)cancel okTarget:(id)okTarget okSelector:(SEL)okSelector cancelTarget:(id)cancelTarget cancelSelector:(SEL)cancelSelector;
 
 + (GenericPopupController *) displayNotEnoughGemsView;
-//+ (GenericPopupController *) displayGemConfirmViewWithDescription:(NSString *)description title:(NSString *)title gemCost:(int)gemCost target:(id)target selector:(SEL)selector;
++ (GenericPopupController *) displayGemConfirmViewWithDescription:(NSString *)description title:(NSString *)title gemCost:(int)gemCost target:(id)target selector:(SEL)selector;
++ (GenericPopupController *) displayExchangeForGemsViewWithResourceType:(ResourceType)resourceType amount:(int)amount target:(id)target selector:(SEL)selector;
 
 @property (nonatomic, retain) IBOutlet UILabel *titleLabel;
 
 @property (nonatomic, retain) IBOutlet UIView *descriptionView;
 @property (nonatomic, retain) IBOutlet UILabel *descriptionLabel;
-
-@property (nonatomic, retain) IBOutlet UIView *notEnoughGemsView;
 
 // Button views
 @property (nonatomic, retain) IBOutlet UIView *notificationView;
@@ -43,6 +43,7 @@
 @property (nonatomic, retain) IBOutlet UIView *gemView;
 @property (nonatomic, retain) IBOutlet UILabel *gemButtonLabel;
 @property (nonatomic, retain) IBOutlet UIButton *gemButton;
+@property (nonatomic, retain) IBOutlet UIButton *closeButton;
 
 @property (nonatomic, retain) IBOutlet UIView *mainView;
 @property (nonatomic, retain) IBOutlet UIView *bgdView;

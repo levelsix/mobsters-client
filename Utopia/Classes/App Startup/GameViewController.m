@@ -150,11 +150,10 @@
   nav.navigationBarHidden = YES;
   [self presentViewController:nav animated:NO completion:nil];
   
-  //  [FBSession openActiveSessionWithReadPermissions:nil allowLoginUI:YES
-  //                                   completionHandler:^(FBSession *session, FBSessionState status, NSError *error) {
-  //                                     [[Carrot sharedInstance] postAction:@"recruit" forObjectInstance:@"cheer0_1"];
-  //                                     [[Carrot sharedInstance] postAction:@"recruit" forObjectInstance:@"clown1_2"];
-  //                                   }];
+//  [FBSession openActiveSessionWithPublishPermissions:@[@"publish_actions"] defaultAudience:FBSessionDefaultAudienceEveryone allowLoginUI:YES completionHandler:^(FBSession *session, FBSessionState status, NSError *error) {
+//  }];
+//  [Carrot performFacebookAuthAllowingUI:YES forPermission:CarrotFacebookPermissionReadWrite];
+//  [[Carrot sharedInstance] postAction:@"recruit" forObjectInstance:@"Gravity"];
 }
 
 - (void) progressTo:(float)t {
@@ -281,7 +280,7 @@
   DungeonBattleLayer *bl = [[DungeonBattleLayer alloc] initWithMyUserMonsters:[gs allBattleAvailableMonstersOnTeam] puzzleIsOnLeft:NO];
   bl.delegate = self;
   [self performSelector:@selector(loadBattleScene:) withObject:bl afterDelay:delay];
-  [[OutgoingEventController sharedOutgoingEventController] beginDungeon:taskId withDelegate:bl];
+  [[OutgoingEventController sharedOutgoingEventController] beginDungeon:taskId isEvent:NO eventId:0 useGems:NO withDelegate:bl];
 }
 
 - (void) loadBattleScene:(DungeonBattleLayer *)bl {
@@ -298,6 +297,27 @@
   }];
 }
 
+- (void) enterDungeon:(int)taskId isEvent:(BOOL)isEvent eventId:(int)eventId useGems:(BOOL)useGems {
+  GameState *gs = [GameState sharedGameState];
+  DungeonBattleLayer *bl = [[DungeonBattleLayer alloc] initWithMyUserMonsters:[gs allBattleAvailableMonstersOnTeam] puzzleIsOnLeft:NO];
+  bl.delegate = self;
+  
+  [[OutgoingEventController sharedOutgoingEventController] beginDungeon:taskId isEvent:isEvent eventId:eventId useGems:useGems withDelegate:bl];
+  
+  // Must start animation so that the scene is auto switched instead of glitching
+  [[CCDirector sharedDirector] startAnimation];
+  CCScene *scene = [CCScene node];
+  [scene addChild:bl];
+  
+  CCLayerColor *c = [CCLayerColor layerWithColor:ccc4(0, 0, 0, 255)];
+  [[[CCDirector sharedDirector] runningScene] addChild:c];
+  [[CCDirector sharedDirector] pushScene:[CCTransitionCrossFade transitionWithDuration:0.6f scene:scene]];
+  [c performSelector:@selector(removeFromParent) withObject:nil afterDelay:1.f];
+  
+  self.topBarViewController.view.alpha = 0.f;
+  self.topBarViewController.view.hidden = YES;
+}
+
 #pragma mark - BattleLayerDelegate methods
 
 - (void) battleComplete:(NSDictionary *)params {
@@ -305,15 +325,18 @@
   
   [[CCDirector sharedDirector] popSceneWithTransition:[CCTransitionCrossFade class] duration:duration];
   
-  self.topBarViewController.view.hidden = NO;
-  [UIView animateWithDuration:duration animations:^{
-    self.topBarViewController.view.alpha = 1.f;
-  }];
-  
   if ([[params objectForKey:BATTLE_MANAGE_CLICKED_KEY] boolValue]) {
     MenuNavigationController *m = [[MenuNavigationController alloc] init];
-    [self presentViewController:m animated:YES completion:nil];
     [m pushViewController:[[MyCroniesViewController alloc] init] animated:NO];
+    [self presentViewController:m animated:YES completion:^{
+      self.topBarViewController.view.hidden = NO;
+      self.topBarViewController.view.alpha = 1.f;
+    }];
+  } else {
+    self.topBarViewController.view.hidden = NO;
+    [UIView animateWithDuration:duration animations:^{
+      self.topBarViewController.view.alpha = 1.f;
+    }];
   }
 }
 
@@ -335,7 +358,7 @@
 - (void) openGemShop {
   DiamondShopViewController *dvc = [[DiamondShopViewController alloc] init];
   if (self.presentedViewController) {
-    [self.presentedViewController.navigationController pushViewController:dvc animated:YES];
+    [(UINavigationController *)self.presentedViewController pushViewController:dvc animated:YES];
   } else {
     MenuNavigationController *m = [[MenuNavigationController alloc] init];
     [self presentViewController:m animated:YES completion:nil];
