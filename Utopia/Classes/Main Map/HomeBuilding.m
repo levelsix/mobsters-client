@@ -509,7 +509,7 @@
   self.contentSize = self.buildingSprite.contentSize;
   self.baseScale = 0.85;
   
-  anim = [CCAnimation animationWithSpritePrefix:@"HealingCenterIn" delay:0.1];
+  anim = [CCAnimation animationWithSpritePrefix:@"HealingCenterTube" delay:0.1];
   [anim repeatFrames:NSMakeRange(0,1) numTimes:5];
   spr = [CCSprite spriteWithSpriteFrame:[anim.frames[0] spriteFrame]];
   [spr runAction:[CCRepeatForever actionWithAction:[CCAnimate actionWithAnimation:anim]]];
@@ -540,7 +540,7 @@
   [[CCSpriteFrameCache sharedSpriteFrameCache] addSpriteFramesWithFile:@"HealingCenter.plist"];
   CCSpriteFrame *frame = [[CCSpriteFrameCache sharedSpriteFrameCache] spriteFrameByName:@"HealingCenterBase00.png"];
   [self.buildingSprite setDisplayFrame:frame];
-  frame = [[CCSpriteFrameCache sharedSpriteFrameCache] spriteFrameByName:@"HealingCenterIn00.png"];
+  frame = [[CCSpriteFrameCache sharedSpriteFrameCache] spriteFrameByName:@"HealingCenterTube00.png"];
   [self.tubeSprite setDisplayFrame:frame];
 }
 

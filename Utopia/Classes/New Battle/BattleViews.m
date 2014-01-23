@@ -9,6 +9,7 @@
 #import "BattleViews.h"
 #import "Globals.h"
 #import "GameState.h"
+#import "CAKeyframeAnimation+AHEasing.h"
 
 @implementation BattleEndView
 
@@ -31,6 +32,10 @@
   
   self.splashImage.image = [Globals imageNamed:@"lostsplash.png"];
   self.splashTextImage.image = [Globals imageNamed:@"youlost.png"];
+  
+  CAKeyframeAnimation *anim = [CAKeyframeAnimation animationWithKeyPath:@"transform.scale" function:BackEaseOut fromValue:0.2 toValue:1.f];
+  anim.duration = 1.f;
+  [self.lostStickerHead.layer addAnimation:anim forKey:nil];
   
   [Globals displayUIView:self];
 }

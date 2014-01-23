@@ -35,5 +35,6 @@
 
 - (IBAction)forfeitClicked:(id)sender;
 - (IBAction)manageClicked:(id)sender;
+- (IBAction)shareClicked:(id)sender;
 
 @end

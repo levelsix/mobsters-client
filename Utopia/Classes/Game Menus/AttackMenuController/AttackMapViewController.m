@@ -211,6 +211,7 @@
 
 - (IBAction)enterEventClicked:(UIButton *)sender {
   if ([Globals checkEnteringDungeonWithTarget:self selector:@selector(visitTeamPage)]) {
+    [self.timer invalidate];
     [self.delegate enterDungeon:self.eventView.taskId isEvent:YES eventId:self.eventView.persistentEventId useGems:[sender tag]];
     [self performSelector:@selector(close:) withObject:nil afterDelay:0.1f];
   }

@@ -2449,10 +2449,6 @@
 		CF70654818470051005B30A1 /* xpmiddle.png in Resources */ = {isa = PBXBuildFile; fileRef = CF70650718470051005B30A1 /* xpmiddle.png */; };
 		CF70654918470051005B30A1 /* xpmiddle@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CF70650818470051005B30A1 /* xpmiddle@2x.png */; };
 		CF70654A18470051005B30A1 /* xpmiddle@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CF70650818470051005B30A1 /* xpmiddle@2x.png */; };
-		CF76997B187798780031D6ED /* HealingCenter@2x.pvr.ccz in Resources */ = {isa = PBXBuildFile; fileRef = CF769979187798780031D6ED /* HealingCenter@2x.pvr.ccz */; };
-		CF76997C187798790031D6ED /* HealingCenter@2x.pvr.ccz in Resources */ = {isa = PBXBuildFile; fileRef = CF769979187798780031D6ED /* HealingCenter@2x.pvr.ccz */; };
-		CF76997D187798790031D6ED /* HealingCenter@2x.plist in Resources */ = {isa = PBXBuildFile; fileRef = CF76997A187798780031D6ED /* HealingCenter@2x.plist */; };
-		CF76997E187798790031D6ED /* HealingCenter@2x.plist in Resources */ = {isa = PBXBuildFile; fileRef = CF76997A187798780031D6ED /* HealingCenter@2x.plist */; };
 		CF76998318779F190031D6ED /* 4x4base@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CF76998118779F190031D6ED /* 4x4base@2x.png */; };
 		CF76998418779F190031D6ED /* 4x4base@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CF76998118779F190031D6ED /* 4x4base@2x.png */; };
 		CF76998518779F190031D6ED /* 4x4base.png in Resources */ = {isa = PBXBuildFile; fileRef = CF76998218779F190031D6ED /* 4x4base.png */; };
@@ -2597,7 +2593,7 @@
 		CF8C7AE1157C1F0E003A6AFE /* FullUserUpdates.m in Sources */ = {isa = PBXBuildFile; fileRef = CF8C7AE0157C1F0E003A6AFE /* FullUserUpdates.m */; };
 		CF8E5DA318037763009D4F61 /* BattleEndView.xib in Resources */ = {isa = PBXBuildFile; fileRef = CF8E5DA218037763009D4F61 /* BattleEndView.xib */; };
 		CF8E5DA418037763009D4F61 /* BattleEndView.xib in Resources */ = {isa = PBXBuildFile; fileRef = CF8E5DA218037763009D4F61 /* BattleEndView.xib */; };
-		CF8E5DDC1803A019009D4F61 /* CoreImage.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CF8E5DDB1803A019009D4F61 /* CoreImage.framework */; };
+		CF8E5DDC1803A019009D4F61 /* CoreImage.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CF8E5DDB1803A019009D4F61 /* CoreImage.framework */; settings = {ATTRIBUTES = (Required, ); }; };
 		CF8FC843154544930082473E /* cloud1.png in Resources */ = {isa = PBXBuildFile; fileRef = CF8FC83F154544930082473E /* cloud1.png */; };
 		CF8FC844154544930082473E /* cloud1@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CF8FC840154544930082473E /* cloud1@2x.png */; };
 		CF8FC845154544930082473E /* cloud1shadow.png in Resources */ = {isa = PBXBuildFile; fileRef = CF8FC841154544930082473E /* cloud1shadow.png */; };
@@ -2935,6 +2931,24 @@
 		CFC04DCD188FE8D400F2DB59 /* youwon.png in Resources */ = {isa = PBXBuildFile; fileRef = CFC04D86188FE8D400F2DB59 /* youwon.png */; };
 		CFC04DCE188FE8D400F2DB59 /* youwon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CFC04D87188FE8D400F2DB59 /* youwon@2x.png */; };
 		CFC04DCF188FE8D400F2DB59 /* youwon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CFC04D87188FE8D400F2DB59 /* youwon@2x.png */; };
+		CFC04DDA18909DF400F2DB59 /* Kamcord.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CFC04DD418909DF400F2DB59 /* Kamcord.framework */; };
+		CFC04DDB18909DF400F2DB59 /* Kamcord.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CFC04DD418909DF400F2DB59 /* Kamcord.framework */; };
+		CFC04DDC18909DF500F2DB59 /* iPadExperienceStoryboard.storyboardc in Resources */ = {isa = PBXBuildFile; fileRef = CFC04DD618909DF400F2DB59 /* iPadExperienceStoryboard.storyboardc */; };
+		CFC04DDD18909DF500F2DB59 /* iPadExperienceStoryboard.storyboardc in Resources */ = {isa = PBXBuildFile; fileRef = CFC04DD618909DF400F2DB59 /* iPadExperienceStoryboard.storyboardc */; };
+		CFC04DDE18909DF500F2DB59 /* iPhoneExperienceStoryboard.storyboardc in Resources */ = {isa = PBXBuildFile; fileRef = CFC04DD718909DF400F2DB59 /* iPhoneExperienceStoryboard.storyboardc */; };
+		CFC04DDF18909DF500F2DB59 /* iPhoneExperienceStoryboard.storyboardc in Resources */ = {isa = PBXBuildFile; fileRef = CFC04DD718909DF400F2DB59 /* iPhoneExperienceStoryboard.storyboardc */; };
+		CFC04DE018909DF500F2DB59 /* Kamcord.bundle in Resources */ = {isa = PBXBuildFile; fileRef = CFC04DD818909DF400F2DB59 /* Kamcord.bundle */; };
+		CFC04DE118909DF500F2DB59 /* Kamcord.bundle in Resources */ = {isa = PBXBuildFile; fileRef = CFC04DD818909DF400F2DB59 /* Kamcord.bundle */; };
+		CFC04DE218909DF500F2DB59 /* KC_GTMOAuth2ViewTouch.nib in Resources */ = {isa = PBXBuildFile; fileRef = CFC04DD918909DF400F2DB59 /* KC_GTMOAuth2ViewTouch.nib */; };
+		CFC04DE318909DF500F2DB59 /* KC_GTMOAuth2ViewTouch.nib in Resources */ = {isa = PBXBuildFile; fileRef = CFC04DD918909DF400F2DB59 /* KC_GTMOAuth2ViewTouch.nib */; };
+		CFC04DE61890A92A00F2DB59 /* HealingCenter@2x.plist in Resources */ = {isa = PBXBuildFile; fileRef = CFC04DE41890A92A00F2DB59 /* HealingCenter@2x.plist */; };
+		CFC04DE71890A92A00F2DB59 /* HealingCenter@2x.plist in Resources */ = {isa = PBXBuildFile; fileRef = CFC04DE41890A92A00F2DB59 /* HealingCenter@2x.plist */; };
+		CFC04DE81890A92A00F2DB59 /* HealingCenter@2x.pvr.ccz in Resources */ = {isa = PBXBuildFile; fileRef = CFC04DE51890A92A00F2DB59 /* HealingCenter@2x.pvr.ccz */; };
+		CFC04DE91890A92A00F2DB59 /* HealingCenter@2x.pvr.ccz in Resources */ = {isa = PBXBuildFile; fileRef = CFC04DE51890A92A00F2DB59 /* HealingCenter@2x.pvr.ccz */; };
+		CFC04E621890F28000F2DB59 /* Untitled.ccb in Resources */ = {isa = PBXBuildFile; fileRef = CFC04E611890F28000F2DB59 /* Untitled.ccb */; };
+		CFC04E631890F28100F2DB59 /* Untitled.ccb in Resources */ = {isa = PBXBuildFile; fileRef = CFC04E611890F28000F2DB59 /* Untitled.ccb */; };
+		CFC04E651890F69900F2DB59 /* Untitled.ccbi in Resources */ = {isa = PBXBuildFile; fileRef = CFC04E641890F69800F2DB59 /* Untitled.ccbi */; };
+		CFC04E661890F69900F2DB59 /* Untitled.ccbi in Resources */ = {isa = PBXBuildFile; fileRef = CFC04E641890F69800F2DB59 /* Untitled.ccbi */; };
 		CFC141AC1657484A0060188D /* socket.c in Sources */ = {isa = PBXBuildFile; fileRef = CFC141801657484A0060188D /* socket.c */; };
 		CFC141FD1658B70D0060188D /* amqp_api.c in Sources */ = {isa = PBXBuildFile; fileRef = CFC141F61658B70B0060188D /* amqp_api.c */; };
 		CFC141FE1658B70D0060188D /* amqp_connection.c in Sources */ = {isa = PBXBuildFile; fileRef = CFC141F71658B70B0060188D /* amqp_connection.c */; };
@@ -4319,6 +4333,13 @@
 			proxyType = 1;
 			remoteGlobalIDString = 7461B52D0F94FAF800A0C422;
 			remoteInfo = ProtocolBuffers;
+		};
+		CFC04ED41890FFC800F2DB59 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = CFC04ECE1890FFAE00F2DB59 /* cocos2d-ios.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 5018F24D0DFDEAC400C013A5;
+			remoteInfo = cocos2d;
 		};
 /* End PBXContainerItemProxy section */
 
@@ -5757,8 +5778,6 @@
 		CF74698515F6D91400B86B46 /* filterbg@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "filterbg@2x.png"; sourceTree = "<group>"; };
 		CF74698C15F6D91400B86B46 /* sortdropdown.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = sortdropdown.png; sourceTree = "<group>"; };
 		CF74698D15F6D91400B86B46 /* sortdropdown@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "sortdropdown@2x.png"; sourceTree = "<group>"; };
-		CF769979187798780031D6ED /* HealingCenter@2x.pvr.ccz */ = {isa = PBXFileReference; lastKnownFileType = file; path = "HealingCenter@2x.pvr.ccz"; sourceTree = "<group>"; };
-		CF76997A187798780031D6ED /* HealingCenter@2x.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "HealingCenter@2x.plist"; sourceTree = "<group>"; };
 		CF76998118779F190031D6ED /* 4x4base@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "4x4base@2x.png"; sourceTree = "<group>"; };
 		CF76998218779F190031D6ED /* 4x4base.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = 4x4base.png; sourceTree = "<group>"; };
 		CF7699E3187E5E2C0031D6ED /* OilDrill@2x.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "OilDrill@2x.plist"; sourceTree = "<group>"; };
@@ -6126,6 +6145,16 @@
 		CFC04D85188FE8D400F2DB59 /* youlost@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "youlost@2x.png"; sourceTree = "<group>"; };
 		CFC04D86188FE8D400F2DB59 /* youwon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = youwon.png; sourceTree = "<group>"; };
 		CFC04D87188FE8D400F2DB59 /* youwon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "youwon@2x.png"; sourceTree = "<group>"; };
+		CFC04DD418909DF400F2DB59 /* Kamcord.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Kamcord.framework; sourceTree = "<group>"; };
+		CFC04DD618909DF400F2DB59 /* iPadExperienceStoryboard.storyboardc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = wrapper.storyboardc; path = iPadExperienceStoryboard.storyboardc; sourceTree = "<group>"; };
+		CFC04DD718909DF400F2DB59 /* iPhoneExperienceStoryboard.storyboardc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = wrapper.storyboardc; path = iPhoneExperienceStoryboard.storyboardc; sourceTree = "<group>"; };
+		CFC04DD818909DF400F2DB59 /* Kamcord.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = Kamcord.bundle; sourceTree = "<group>"; };
+		CFC04DD918909DF400F2DB59 /* KC_GTMOAuth2ViewTouch.nib */ = {isa = PBXFileReference; lastKnownFileType = file.bplist; path = KC_GTMOAuth2ViewTouch.nib; sourceTree = "<group>"; };
+		CFC04DE41890A92A00F2DB59 /* HealingCenter@2x.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "HealingCenter@2x.plist"; sourceTree = "<group>"; };
+		CFC04DE51890A92A00F2DB59 /* HealingCenter@2x.pvr.ccz */ = {isa = PBXFileReference; lastKnownFileType = file; path = "HealingCenter@2x.pvr.ccz"; sourceTree = "<group>"; };
+		CFC04E611890F28000F2DB59 /* Untitled.ccb */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = Untitled.ccb; sourceTree = "<group>"; };
+		CFC04E641890F69800F2DB59 /* Untitled.ccbi */ = {isa = PBXFileReference; lastKnownFileType = file; path = Untitled.ccbi; sourceTree = "<group>"; };
+		CFC04ECE1890FFAE00F2DB59 /* cocos2d-ios.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = "cocos2d-ios.xcodeproj"; path = "cocos2d-iphone/cocos2d-ios.xcodeproj"; sourceTree = "<group>"; };
 		CFC141641657484A0060188D /* amqp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = amqp.h; sourceTree = "<group>"; };
 		CFC141681657484A0060188D /* amqp_framing.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = amqp_framing.h; sourceTree = "<group>"; };
 		CFC1416A1657484A0060188D /* amqp_private.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = amqp_private.h; sourceTree = "<group>"; };
@@ -6958,10 +6987,10 @@
 			files = (
 				CFF390491827B00C0010A3BE /* MobileAppTracker.framework in Frameworks */,
 				CFE02D9718261F6F0016C1E2 /* libsqlite3.dylib in Frameworks */,
-				CF0C8752180520EE007D6E1A /* CoreText.framework in Frameworks */,
 				CF8E5DDC1803A019009D4F61 /* CoreImage.framework in Frameworks */,
 				454E624B15670A15004EB7E9 /* CoreTelephony.framework in Frameworks */,
 				CFEAB54616BBD34C00AEB7BD /* Social.framework in Frameworks */,
+				CF0C8752180520EE007D6E1A /* CoreText.framework in Frameworks */,
 				CFEAB54416BBD32900AEB7BD /* Accounts.framework in Frameworks */,
 				CF7F27D8165EC8CB00D967DC /* AdSupport.framework in Frameworks */,
 				45857343157D3BB80086F70C /* libxml2.dylib in Frameworks */,
@@ -6975,6 +7004,7 @@
 				454E62411566E0D8004EB7E9 /* CoreVideo.framework in Frameworks */,
 				CF1273AE1538AD4C00E0C1AD /* Security.framework in Frameworks */,
 				CF7FEF101540C3D000716E37 /* MessageUI.framework in Frameworks */,
+				CFC04DDA18909DF400F2DB59 /* Kamcord.framework in Frameworks */,
 				CF1273D1153902E300E0C1AD /* libz.dylib in Frameworks */,
 				CF1273C21538B7AF00E0C1AD /* CoreLocation.framework in Frameworks */,
 				CF1273B81538AD8B00E0C1AD /* CFNetwork.framework in Frameworks */,
@@ -7007,6 +7037,7 @@
 				CF69F75D174212ED001C96D0 /* MobileCoreServices.framework in Frameworks */,
 				CF69F75E174212ED001C96D0 /* Twitter.framework in Frameworks */,
 				CF69F75F174212ED001C96D0 /* QuartzCore.framework in Frameworks */,
+				CFC04DDB18909DF400F2DB59 /* Kamcord.framework in Frameworks */,
 				CF69F760174212ED001C96D0 /* MediaPlayer.framework in Frameworks */,
 				CF69F761174212ED001C96D0 /* CoreMedia.framework in Frameworks */,
 				CF69F762174212ED001C96D0 /* CoreVideo.framework in Frameworks */,
@@ -7716,6 +7747,8 @@
 		CF1265F21538ACC400E0C1AD /* libs */ = {
 			isa = PBXGroup;
 			children = (
+				CFC04ECE1890FFAE00F2DB59 /* cocos2d-ios.xcodeproj */,
+				CFC04DD318909DF400F2DB59 /* Kamcord.embeddedframework */,
 				CFF0296618629687000BF079 /* TestFlightSDK2.1.3 */,
 				CFB2508D18587BF200BE0C05 /* THLabel */,
 				CFFEB1731834C2FD007C4BA3 /* AHEasing */,
@@ -7864,6 +7897,8 @@
 		CF1267741538ACC500E0C1AD /* Utopia Images */ = {
 			isa = PBXGroup;
 			children = (
+				CFC04E611890F28000F2DB59 /* Untitled.ccb */,
+				CFC04E641890F69800F2DB59 /* Untitled.ccbi */,
 				CFC04D63188FE8D300F2DB59 /* won lost NEW */,
 				CFC04CEC188F2D2D00F2DB59 /* Daily Event */,
 				CFB2506618585D6700BE0C05 /* Loading */,
@@ -9450,6 +9485,8 @@
 		CF7064C51846CED8005B30A1 /* New Home Map (Functional) */ = {
 			isa = PBXGroup;
 			children = (
+				CFC04DE41890A92A00F2DB59 /* HealingCenter@2x.plist */,
+				CFC04DE51890A92A00F2DB59 /* HealingCenter@2x.pvr.ccz */,
 				CFC04D4D188F7D7100F2DB59 /* ResearchLab@2x.plist */,
 				CFC04D4E188F7D7100F2DB59 /* ResearchLab@2x.pvr.ccz */,
 				CFC04CDD188D509E00F2DB59 /* Laboratory@2x.png */,
@@ -9476,8 +9513,6 @@
 				CFC04D48188F6C1400F2DB59 /* 3x3base@2x.png */,
 				CF76998118779F190031D6ED /* 4x4base@2x.png */,
 				CF76998218779F190031D6ED /* 4x4base.png */,
-				CF769979187798780031D6ED /* HealingCenter@2x.pvr.ccz */,
-				CF76997A187798780031D6ED /* HealingCenter@2x.plist */,
 				CF7064C61846CED8005B30A1 /* homeroad.png */,
 				CF7064C71846CED8005B30A1 /* homeroad@2x.png */,
 				CF7064C81846CED8005B30A1 /* sale1.png */,
@@ -9783,6 +9818,34 @@
 				CFC04D87188FE8D400F2DB59 /* youwon@2x.png */,
 			);
 			path = "won lost NEW";
+			sourceTree = "<group>";
+		};
+		CFC04DD318909DF400F2DB59 /* Kamcord.embeddedframework */ = {
+			isa = PBXGroup;
+			children = (
+				CFC04DD418909DF400F2DB59 /* Kamcord.framework */,
+				CFC04DD518909DF400F2DB59 /* Resources */,
+			);
+			path = Kamcord.embeddedframework;
+			sourceTree = "<group>";
+		};
+		CFC04DD518909DF400F2DB59 /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				CFC04DD618909DF400F2DB59 /* iPadExperienceStoryboard.storyboardc */,
+				CFC04DD718909DF400F2DB59 /* iPhoneExperienceStoryboard.storyboardc */,
+				CFC04DD818909DF400F2DB59 /* Kamcord.bundle */,
+				CFC04DD918909DF400F2DB59 /* KC_GTMOAuth2ViewTouch.nib */,
+			);
+			path = Resources;
+			sourceTree = "<group>";
+		};
+		CFC04ECF1890FFAE00F2DB59 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				CFC04ED51890FFC800F2DB59 /* libcocos2d.a */,
+			);
+			name = Products;
 			sourceTree = "<group>";
 		};
 		CFC1414D1657484A0060188D /* librabbitmq */ = {
@@ -11082,6 +11145,10 @@
 			projectDirPath = "";
 			projectReferences = (
 				{
+					ProductGroup = CFC04ECF1890FFAE00F2DB59 /* Products */;
+					ProjectRef = CFC04ECE1890FFAE00F2DB59 /* cocos2d-ios.xcodeproj */;
+				},
+				{
 					ProductGroup = CF12671D1538ACC500E0C1AD /* Products */;
 					ProjectRef = CF12671C1538ACC500E0C1AD /* ProtocolBuffers.xcodeproj */;
 				},
@@ -11114,6 +11181,13 @@
 			fileType = wrapper.application;
 			path = CommandLineTests.app;
 			remoteRef = CF1273A81538ACCF00E0C1AD /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		CFC04ED51890FFC800F2DB59 /* libcocos2d.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libcocos2d.a;
+			remoteRef = CFC04ED41890FFC800F2DB59 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
 /* End PBXReferenceProxy section */
@@ -11378,6 +11452,7 @@
 				CF12701D1538ACCB00E0C1AD /* swordsactive@2x.png in Resources */,
 				CF12701E1538ACCB00E0C1AD /* swordsinactive.png in Resources */,
 				CF12701F1538ACCB00E0C1AD /* swordsinactive@2x.png in Resources */,
+				CFC04DE018909DF500F2DB59 /* Kamcord.bundle in Resources */,
 				CF1270201538ACCB00E0C1AD /* unequipweaponbg.png in Resources */,
 				CF37651F182DD6F900D0A77E /* chatpost.png in Resources */,
 				CFFEB1441834539C007C4BA3 /* ultratag.png in Resources */,
@@ -11489,6 +11564,7 @@
 				CF12711F1538ACCC00E0C1AD /* legarcher@2x.png in Resources */,
 				CF1271201538ACCC00E0C1AD /* paarcher.png in Resources */,
 				CF1271211538ACCC00E0C1AD /* paarcher@2x.png in Resources */,
+				CFC04E651890F69900F2DB59 /* Untitled.ccbi in Resources */,
 				CF1271221538ACCC00E0C1AD /* panda.png in Resources */,
 				CF1271231538ACCC00E0C1AD /* panda@2x.png in Resources */,
 				CFFEB0FC1834539C007C4BA3 /* epictag.png in Resources */,
@@ -11709,6 +11785,7 @@
 				CF41D0EB158BDB9C00A4DBC3 /* diaprevious.png in Resources */,
 				CFC04DBC188FE8D400F2DB59 /* wonlostbg2@2x.png in Resources */,
 				CF41D0EC158BDB9C00A4DBC3 /* diaprevious@2x.png in Resources */,
+				CFC04DE61890A92A00F2DB59 /* HealingCenter@2x.plist in Resources */,
 				CF41D0ED158BDB9C00A4DBC3 /* nameplate.png in Resources */,
 				CF41D0EE158BDB9C00A4DBC3 /* nameplate@2x.png in Resources */,
 				CF41D0EF158BDB9C00A4DBC3 /* speechbubble.png in Resources */,
@@ -11763,7 +11840,6 @@
 				CFB250531858304700BE0C05 /* lightmteam@2x.png in Resources */,
 				CF41D14C158BDDAC00A4DBC3 /* Battle_Music.m4a in Resources */,
 				CF41D14D158BDDAC00A4DBC3 /* Battle_Success.m4a in Resources */,
-				CF76997D187798790031D6ED /* HealingCenter@2x.plist in Resources */,
 				CF41D14E158BDDAC00A4DBC3 /* Game_Music.m4a in Resources */,
 				CFFEB1D118384123007C4BA3 /* nightbattleringglow@2x.png in Resources */,
 				CFFEB1561834539C007C4BA3 /* waterteamhealthbar@2x.png in Resources */,
@@ -12061,6 +12137,7 @@
 				CFE02AD918207CF40016C1E2 /* lockedup@2x.png in Resources */,
 				CF629341180D312900C6C196 /* onoffswitchbg.png in Resources */,
 				CFF3904F18284B8C0010A3BE /* m8@2x.fnt in Resources */,
+				CFC04DE218909DF500F2DB59 /* KC_GTMOAuth2ViewTouch.nib in Resources */,
 				CFF3900F18273C2E0010A3BE /* fullfriendmask.png in Resources */,
 				CFFEB16218349B7D007C4BA3 /* lightteam.png in Resources */,
 				CF62E70815FEC6D500DF850F /* ClanViewController.xib in Resources */,
@@ -12072,6 +12149,7 @@
 				CFD09C041602B2D2005D94D1 /* BrowseClanCell.xib in Resources */,
 				CF3766AB1833022700D0A77E /* rarecapsule.png in Resources */,
 				CF3766ED1833022700D0A77E /* commongtag@2x.png in Resources */,
+				CFC04DDE18909DF500F2DB59 /* iPhoneExperienceStoryboard.storyboardc in Resources */,
 				CFD09C061602E7DF005D94D1 /* ClanMemberCell.xib in Resources */,
 				CF20F27E1811EB12005551B5 /* MyCroniesQueueCell.xib in Resources */,
 				CF20F0B1180FB6FF005551B5 /* wonbg@2x.png in Resources */,
@@ -12200,6 +12278,7 @@
 				CF91C98B16B8F08B00F2F3B6 /* tutokay@2x.png in Resources */,
 				CFF5829016C387AB00712C4F /* alsocontainsnumberbg.png in Resources */,
 				CFB250991859B9C300BE0C05 /* closebattle@2x.png in Resources */,
+				CFC04DE81890A92A00F2DB59 /* HealingCenter@2x.pvr.ccz in Resources */,
 				CFF5829116C387AB00712C4F /* alsocontainsnumberbg@2x.png in Resources */,
 				CFF5829216C387AB00712C4F /* buychestbutton.png in Resources */,
 				CFF5829316C387AB00712C4F /* buychestbutton@2x.png in Resources */,
@@ -12432,6 +12511,7 @@
 				CF5FE52B1726145D000B0595 /* equippedtag.png in Resources */,
 				CF5FE52C1726145D000B0595 /* equippedtag@2x.png in Resources */,
 				CF23EE09172FC06A00474BF6 /* prefswitchbg.png in Resources */,
+				CFC04E621890F28000F2DB59 /* Untitled.ccb in Resources */,
 				CF23EE0A172FC06A00474BF6 /* prefswitchbg@2x.png in Resources */,
 				CFE7CD061819FC3300930847 /* addfunds.png in Resources */,
 				CFF7405D1817AF09009DE4A4 /* streetsign.png in Resources */,
@@ -12818,7 +12898,6 @@
 				CFF1D76717DFC43700874339 /* scene2left.png in Resources */,
 				CFF1D76917DFC43700874339 /* scene2left@2x.png in Resources */,
 				CFF1D76B17DFC43700874339 /* scene2right.png in Resources */,
-				CF76997B187798780031D6ED /* HealingCenter@2x.pvr.ccz in Resources */,
 				CFF1D76D17DFC43700874339 /* scene2right@2x.png in Resources */,
 				CFF1D77917DFE9C400874339 /* shadow.png in Resources */,
 				CF376567182E0D9300D0A77E /* BoosterPackStuff.proto in Resources */,
@@ -12834,6 +12913,7 @@
 				CF4DB8F41807DA1F00062258 /* TravelingLoadingView.xib in Resources */,
 				CFF1D79417E101C900874339 /* hammertime.png in Resources */,
 				CFF1D79617E101C900874339 /* hammertime@2x.png in Resources */,
+				CFC04DDC18909DF500F2DB59 /* iPadExperienceStoryboard.storyboardc in Resources */,
 				CFF1D79817E101C900874339 /* mir1.png in Resources */,
 				CFF1D79A17E101C900874339 /* mir1@2x.png in Resources */,
 				CFF1D79C17E101C900874339 /* mir2.png in Resources */,
@@ -13016,6 +13096,7 @@
 				CF69F7E5174212ED001C96D0 /* allarchicon.png in Resources */,
 				CF69F7E6174212ED001C96D0 /* allarchicon@2x.png in Resources */,
 				CF69F7E7174212ED001C96D0 /* backbutton.png in Resources */,
+				CFC04DDD18909DF500F2DB59 /* iPadExperienceStoryboard.storyboardc in Resources */,
 				CF69F7E8174212ED001C96D0 /* backbutton@2x.png in Resources */,
 				CFC04DBB188FE8D400F2DB59 /* wonlostbg2.png in Resources */,
 				CF69F7E9174212ED001C96D0 /* bigamount.png in Resources */,
@@ -13034,6 +13115,7 @@
 				CF69F7F9174212ED001C96D0 /* legarchicon.png in Resources */,
 				CF69F7FA174212ED001C96D0 /* legarchicon@2x.png in Resources */,
 				CF376533182DD71500D0A77E /* Aller_BdIt.ttf in Resources */,
+				CFC04DDF18909DF500F2DB59 /* iPhoneExperienceStoryboard.storyboardc in Resources */,
 				CF69F7FD174212ED001C96D0 /* medamount.png in Resources */,
 				CF69F7FE174212ED001C96D0 /* medamount@2x.png in Resources */,
 				CF3765B41831AAB200D0A77E /* ClanChatCell.xib in Resources */,
@@ -13608,6 +13690,7 @@
 				CF69FA5C174212ED001C96D0 /* Standard_Perfect2.m4a in Resources */,
 				CFF3901018273C2E0010A3BE /* fullfriendmask.png in Resources */,
 				CF69FA5D174212ED001C96D0 /* Archer_Combo.m4a in Resources */,
+				CFC04DE71890A92A00F2DB59 /* HealingCenter@2x.plist in Resources */,
 				CF69FA5E174212ED001C96D0 /* Invoker_Combo.m4a in Resources */,
 				CF69FA5F174212ED001C96D0 /* Panda_Combo.m4a in Resources */,
 				CF69FA60174212ED001C96D0 /* Warrior_Combo.m4a in Resources */,
@@ -13836,6 +13919,7 @@
 				CFE7CDA31819FC3300930847 /* nightbar.png in Resources */,
 				CF69FB06174212ED001C96D0 /* navstar.png in Resources */,
 				CF69FB07174212ED001C96D0 /* navstar@2x.png in Resources */,
+				CFC04E631890F28100F2DB59 /* Untitled.ccb in Resources */,
 				CF69FB08174212ED001C96D0 /* squareheader.png in Resources */,
 				CF69FB09174212ED001C96D0 /* squareheader@2x.png in Resources */,
 				CF69FB0A174212ED001C96D0 /* winlossbg.png in Resources */,
@@ -13860,6 +13944,7 @@
 				CF69FB1A174212ED001C96D0 /* attacklistbg.png in Resources */,
 				CFFEB11B1834539C007C4BA3 /* lightcard@2x.png in Resources */,
 				CF69FB1B174212ED001C96D0 /* attacklistbg@2x.png in Resources */,
+				CFC04DE318909DF500F2DB59 /* KC_GTMOAuth2ViewTouch.nib in Resources */,
 				CF69FB1C174212ED001C96D0 /* attacknav.png in Resources */,
 				CF69FB1D174212ED001C96D0 /* attacknav@2x.png in Resources */,
 				CFE7CD791819FC3300930847 /* mediumbox@2x.png in Resources */,
@@ -14201,7 +14286,6 @@
 				CFF7405E1817AF09009DE4A4 /* streetsign.png in Resources */,
 				CF69FCCE174212ED001C96D0 /* twittershare.png in Resources */,
 				CFE7CD1B1819FC3300930847 /* backgroundleft.png in Resources */,
-				CF76997C187798790031D6ED /* HealingCenter@2x.pvr.ccz in Resources */,
 				CF69FCCF174212ED001C96D0 /* twittershare@2x.png in Resources */,
 				CFCE570318137CD400494F8C /* notifcationbg.png in Resources */,
 				CF20F22B180FCBC1005551B5 /* shelf@2x.png in Resources */,
@@ -14220,6 +14304,7 @@
 				CF69FCE3174212ED001C96D0 /* feedcircle.png in Resources */,
 				CFE7CDA51819FC3300930847 /* nightbar@2x.png in Resources */,
 				CF69FCE4174212ED001C96D0 /* feedcircle@2x.png in Resources */,
+				CFC04DE91890A92A00F2DB59 /* HealingCenter@2x.pvr.ccz in Resources */,
 				CF69FCE5174212ED001C96D0 /* armoryfeedbg.png in Resources */,
 				CF69FCE6174212ED001C96D0 /* armoryfeedbg@2x.png in Resources */,
 				CF69FCE7174212ED001C96D0 /* activeslot.png in Resources */,
@@ -14346,6 +14431,7 @@
 				CFF740671817D3C5009DE4A4 /* RewardView.xib in Resources */,
 				CFE7CD8F1819FC3300930847 /* minidivider.png in Resources */,
 				CFFEB1271834539C007C4BA3 /* minusteam@2x.png in Resources */,
+				CFC04E661890F69900F2DB59 /* Untitled.ccbi in Resources */,
 				CFFEB1551834539C007C4BA3 /* waterteamhealthbar.png in Resources */,
 				CFE02AE018207CF40016C1E2 /* taskgradient.png in Resources */,
 				CF0A8D93183AD03400B32CDC /* orangebutton@2x.png in Resources */,
@@ -14596,6 +14682,7 @@
 				CFF391181829D5F60010A3BE /* firegrenade@2x.png in Resources */,
 				CFC9712E182B05CD00FF1D83 /* powermeterbg.png in Resources */,
 				CFE7CD1D1819FC3300930847 /* backgroundleft@2x.png in Resources */,
+				CFC04DE118909DF500F2DB59 /* Kamcord.bundle in Resources */,
 				CFBF031D17C595F60082A9BF /* ClanBrowseViewController.xib in Resources */,
 				CFBF032417C596890082A9BF /* ClanCreateViewController.xib in Resources */,
 				CF1279A918202DE900211623 /* TopBarMonsterView.xib in Resources */,
@@ -14718,7 +14805,6 @@
 				CF3764EB182DADEE00D0A77E /* 3darrow.png in Resources */,
 				CFF1D7BA17E14DA800874339 /* movesleft.png in Resources */,
 				CFF1D7BC17E14DA800874339 /* movesleft@2x.png in Resources */,
-				CF76997E187798790031D6ED /* HealingCenter@2x.plist in Resources */,
 				CF3766BC1833022700D0A77E /* featureddivider.png in Resources */,
 				CFE0E69D17E2BFEF002ECA84 /* damagelabel.png in Resources */,
 				CFE0E69E17E2BFEF002ECA84 /* damagelabel@2x.png in Resources */,
@@ -15484,6 +15570,8 @@
 					"$(inherited)",
 					"$(SRCROOT)",
 					"$(SRCROOT)/Utopia/libs",
+					"/Users/Ashwin/mobsters-client/Utopia/libs",
+					"/Users/Ashwin/mobsters-client/Utopia/libs/Kamcord.embeddedframework",
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Utopia/Utopia-Prefix.pch";
@@ -15542,6 +15630,8 @@
 					"$(inherited)",
 					"$(SRCROOT)",
 					"$(SRCROOT)/Utopia/libs",
+					"/Users/Ashwin/mobsters-client/Utopia/libs",
+					"/Users/Ashwin/mobsters-client/Utopia/libs/Kamcord.embeddedframework",
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Utopia/Utopia-Prefix.pch";
@@ -15593,9 +15683,10 @@
 				CLANG_ENABLE_OBJC_ARC = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
-					"\\\"$(SRCROOT)/Utopia/libs\\\"",
+					"\\\\\\\"$(SRCROOT)/Utopia/libs\\\\\\\"",
 					"$(SRCROOT)",
 					"/Users/Ashwin/mobsters-client/Utopia/libs",
+					"/Users/Ashwin/mobsters-client/Utopia/libs/Kamcord.embeddedframework",
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Utopia/Utopia-Prefix.pch";
@@ -15650,9 +15741,10 @@
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
-					"\\\"$(SRCROOT)/Utopia/libs\\\"",
+					"\\\\\\\"$(SRCROOT)/Utopia/libs\\\\\\\"",
 					"$(SRCROOT)",
 					"/Users/Ashwin/mobsters-client/Utopia/libs",
+					"/Users/Ashwin/mobsters-client/Utopia/libs/Kamcord.embeddedframework",
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Utopia/Utopia-Prefix.pch";

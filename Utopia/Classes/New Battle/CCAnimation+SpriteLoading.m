@@ -31,8 +31,10 @@
     if (exists) {
       CCSpriteFrame *frame = [[CCSpriteFrameCache sharedSpriteFrameCache] spriteFrameByName:file];
       [anim addObject:frame];
-    } else {
+    } else if (i > 0) {
       break;
+    } else {
+      NSLog(@"Attempting sprite frame 01 for prefix %@..", prefix);
     }
   }
   

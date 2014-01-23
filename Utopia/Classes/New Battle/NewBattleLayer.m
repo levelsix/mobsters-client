@@ -1016,7 +1016,7 @@
     if (fntFile) {
       CCLabelBMFont *dmgLabel = [CCLabelBMFont labelWithString:dmgStr fntFile:fntFile];
       dmgLabel.position = [self.orbLayer pointForGridPosition:[self.orbLayer coordinateOfGem:gem]];
-      [self.orbLayer addChild:dmgLabel z:50];
+      [self.orbLayer addChild:dmgLabel z:101];
       
       dmgLabel.scale = 0.25;
       [dmgLabel runAction:[CCSequence actions:

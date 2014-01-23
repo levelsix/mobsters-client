@@ -26,6 +26,7 @@
 #import <FacebookSDK/FacebookSDK.h>
 #import "Chartboost.h"
 #import "TestFlight.h"
+#import <Kamcord/Kamcord.h>
 
 #define APSALAR_API_KEY      @"lvl6"
 #define APSALAR_SECRET       @"K7kbMwwF"
@@ -45,6 +46,9 @@
 #define CHARTBOOST_APP_SIG   @"5f72ac2d97bf7a6d7835b8a72b207f50bba0d68b"
 
 #define PA_INSTALL_KEY       @"PxlAddictInstallKey"
+
+#define KAMCORD_DEV_KEY      @"whYswvPukXavib0gs7RbrWE3BU9TXdxAbpIbHF8v15W"
+#define KAMCORD_SECRET       @"AjmSH6fWejpFdnzGTOBItZHAOE91tEOUr7AxkspVUOZ"
 
 @implementation AppDelegate
 
@@ -95,6 +99,11 @@
   
   [cb startSession];
   [cb showInterstitial];
+}
+
+- (void) setUpKamcord:(UIViewController *)vc {
+  [Kamcord setDeveloperKey:KAMCORD_DEV_KEY developerSecret:KAMCORD_SECRET appName:@"Mob Squad" parentViewController:vc];
+  [Kamcord setFacebookAppID:FACEBOOK_APP_ID];
 }
 
 - (BOOL) application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
@@ -148,6 +157,8 @@
   [FBAppEvents activateApp];
   
   [TestFlight takeOff:TEST_FLIGHT_APP_TOKEN];
+  
+  [self setUpKamcord:nav];
   
   [self removeLocalNotifications];
   

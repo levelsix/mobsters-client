@@ -14,6 +14,8 @@
 #import "GenericPopupController.h"
 #import "GameViewController.h"
 #import <FacebookSDK/FacebookSDK.h>
+#import <Kamcord/Kamcord.h>
+#import "CCBReader.h"
 
 @implementation DungeonBattleLayer
 
@@ -69,17 +71,28 @@
 }
 
 - (void) youWon {
-  [[OutgoingEventController sharedOutgoingEventController] endDungeon:self.dungeonInfo userWon:YES delegate:self];
-  [self.endView displayWinWithDungeon:self.dungeonInfo];
-  _wonBattle = YES;
-  
-  [self makeGoCarrotCalls];
+  [self endBattle:YES];
 }
 
 - (void) youLost {
-  [[OutgoingEventController sharedOutgoingEventController] endDungeon:self.dungeonInfo userWon:NO delegate:self];
+  [self endBattle:NO];
+}
+
+- (void) endBattle:(BOOL)won {
+  [[OutgoingEventController sharedOutgoingEventController] endDungeon:self.dungeonInfo userWon:won delegate:self];
   [self.endView displayLossWithDungeon:self.dungeonInfo];
-  _wonBattle = NO;
+  _wonBattle = won;
+  
+  [self.orbBgdLayer runAction:[CCMoveBy actionWithDuration:0.5f position:ccp(self.contentSize.width, 0)]];
+  
+  if (won) {
+    [self.endView displayWinWithDungeon:self.dungeonInfo];
+    
+    [self makeGoCarrotCalls];
+  } else {
+    [self.endView displayLossWithDungeon:self.dungeonInfo];
+  }
+  [Kamcord stopRecording];
 }
 
 - (void) makeGoCarrotCalls {
@@ -156,6 +169,13 @@
   }];
   
   [self.delegate battleComplete:[NSDictionary dictionaryWithObjectsAndKeys:@(_manageWasClicked), BATTLE_MANAGE_CLICKED_KEY, nil]];
+  
+  // in case it hasnt stopped yet
+  [Kamcord stopRecording];
+}
+
+- (IBAction)shareClicked:(id)sender {
+  [Kamcord showView];
 }
 
 //- (IBAction)refillClicked:(id)sender {
@@ -308,6 +328,9 @@
   
   // This will spawn the deploy view assuming someone is alive
   [self currentMyPlayerDied];
+  [self addChild:[CCBReader nodeGraphFromFile:@"Untitled"]];
+  
+  [Kamcord startRecording];
 }
 
 - (void) currentMyPlayerDied {
