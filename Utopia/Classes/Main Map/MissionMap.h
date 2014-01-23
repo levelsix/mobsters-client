@@ -9,7 +9,7 @@
 #import "GameMap.h"
 #import "Protocols.pb.h"
 
-#define ASSET_TAG_BASE 2555
+#define ASSET_TAG @"Asset%d"
 
 #define DRAGON_TAG 5456
 

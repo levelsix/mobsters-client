@@ -6,9 +6,9 @@
 //  Copyright (c) 2013 LVL6. All rights reserved.
 //
 
-#import "CCLayer.h"
+#import "cocos2d.h"
 
-@interface OrbBgdLayer : CCLayer
+@interface OrbBgdLayer : CCNode
 
 - (id) initWithGridSize:(CGSize)gridSize;
 

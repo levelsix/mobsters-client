@@ -7,6 +7,7 @@
 //
 
 #import "cocos2d.h"
+#import "CCAnimation.h"
 
 @interface CCAnimation (SoundAnimation)
 
@@ -15,7 +16,7 @@
 
 @end
 
-@interface CCSoundAnimate : CCAnimate
+@interface CCSoundAnimate : CCActionAnimate
 
 @property (nonatomic, retain) NSDictionary *soundDictionary;
 @property (nonatomic, retain) NSMutableSet *playedSounds;

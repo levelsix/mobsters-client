@@ -13,8 +13,9 @@
 #import "AttackMapViewController.h"
 #import "DungeonBattleLayer.h"
 #import "OneLineNotificationViewController.h"
+#import "CCDirector+Downloader.h"
 
-@interface GameViewController : UIViewController <AttackMapDelegate, BattleLayerDelegate>
+@interface GameViewController : UIViewController <AttackMapDelegate, BattleLayerDelegate, CCDirectorDownloaderDelegate>
 
 @property (nonatomic, strong) TopBarViewController *topBarViewController;
 @property (nonatomic, strong) OneLineNotificationViewController *notifViewController;

@@ -26,7 +26,7 @@
 @property (nonatomic, retain) CCSprite *sprite;
 
 @property (nonatomic, retain) CCLabelTTF *healthLabel;
-@property (nonatomic, retain) CCProgressTimer *healthBar;
+@property (nonatomic, retain) CCProgressNode *healthBar;
 @property (nonatomic, retain) CCSprite *healthBgd;
 @property (nonatomic, retain) CCLabelTTF *nameLabel;
 

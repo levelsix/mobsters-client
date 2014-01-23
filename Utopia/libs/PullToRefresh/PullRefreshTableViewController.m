@@ -29,7 +29,7 @@
 
 #import <QuartzCore/QuartzCore.h>
 #import "PullRefreshTableViewController.h"
-#import "CGPointExtension.h"
+#import "cocos2d.h"
 
 #define REFRESH_HEADER_HEIGHT 55.0f
 

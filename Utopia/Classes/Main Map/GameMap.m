@@ -11,59 +11,24 @@
 #import "Building.h"
 #import "Globals.h"
 #import "NibUtils.h"
-#import "GameLayer.h"
 #import "SoundEngine.h"
 #import "GameState.h"
 #import "MyTeamSprite.h"
 
 #define REORDER_START_Z 150
 
-#define MY_TEAM_TAG_BASE 194239
-
-@implementation CCMoveByCustom
-- (void) update: (ccTime) t {
-	//Here we neglect to change something with a zero delta.
-  if (_positionDelta.x == 0 && _positionDelta.y == 0) {
-    // Do nothing
-  } else if (_positionDelta.x == 0) {
-		[_target setPosition: ccp( [(CCNode*)_target position].x, (_startPos.y + _positionDelta.y * t ) )];
-	} else if (_positionDelta.y == 0) {
-		[_target setPosition: ccp( (_startPos.x + _positionDelta.x * t ), [(CCNode*)_target position].y )];
-	} else {
-		[_target setPosition: ccp( (_startPos.x + _positionDelta.x * t ), (_startPos.y + _positionDelta.y * t ) )];
-	}
-}
-@end
-
-@implementation CCMoveToCustom
-- (void) update: (ccTime) t {
-	//Here we neglect to change something with a zero delta.
-	if (_positionDelta.x == 0) {
-		[_target setPosition: ccp( [(CCNode*)_target position].x, (_startPos.y + _positionDelta.y * t ) )];
-	} else if (_positionDelta.y == 0) {
-		[_target setPosition: ccp( (_startPos.x + _positionDelta.x * t ), [(CCNode*)_target position].y )];
-	} else{
-		[_target setPosition: ccp( (_startPos.x + _positionDelta.x * t ), (_startPos.y + _positionDelta.y * t ) )];
-	}
-}
-@end
+#define MY_TEAM_TAG_BASE @"MyTeam%d"
 
 @implementation GameMap
 
 @synthesize tileSizeInPoints;
 @synthesize silverOnMap, goldOnMap;
-@synthesize decLayer;
 
-+(id) tiledMapWithTMXFile:(NSString*)tmxFile
-{
-	return [[self alloc] initWithTMXFile:tmxFile];
-}
-
--(void) addChild:(CCNode *)node z:(NSInteger)z tag:(NSInteger)tag {
+-(void) addChild:(CCNode *)node z:(NSInteger)z name:(NSString *)name {
   if ([[node class] isSubclassOfClass:[MapSprite class]]) {
     [_mapSprites addObject:node];
   }
-  [super addChild:node z:z tag:tag];
+  [super addChild:node z:z name:name];
 }
 
 - (void) removeChild:(CCNode *)node cleanup:(BOOL)cleanup {
@@ -73,29 +38,11 @@
   [super removeChild:node cleanup:cleanup];
 }
 
--(id) initWithTMXFile:(NSString *)tmxFile {
-  if ((self = [super initWithTMXFile:tmxFile])) {
+-(id) initWithFile:(NSString *)tmxFile {
+  if ((self = [super initWithFile:tmxFile])) {
     _mapSprites = [NSMutableArray array];
     
-    // add UIPanGestureRecognizer
-    UIPanGestureRecognizer *pan = [[UIPanGestureRecognizer alloc] init];
-    pan.maximumNumberOfTouches = 1;
-    CCGestureRecognizer *recognizer = [CCGestureRecognizer CCRecognizerWithRecognizerTargetAction:pan target:self action:@selector(drag:node:)];
-    [self addGestureRecognizer:recognizer];
-    
-    // add UIPinchGestureRecognizer
-    recognizer = [CCGestureRecognizer CCRecognizerWithRecognizerTargetAction:[[UIPinchGestureRecognizer alloc]init] target:self action:@selector(scale:node:)];
-    [self addGestureRecognizer:recognizer];
-    
-    self.isTouchEnabled = YES;
-    
-    // add UITapGestureRecognizer
-    UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc]init];
-    recognizer = [CCGestureRecognizer CCRecognizerWithRecognizerTargetAction:tap target:self action:@selector(tap:node:)];
-    [tap requireGestureRecognizerToFail:pan];
-    [self addGestureRecognizer:recognizer];
-    
-    if (CC_CONTENT_SCALE_FACTOR() == 2) {
+    if ([CCDirector sharedDirector].contentScaleFactor == 2) {
       tileSizeInPoints = CGSizeMake(self.tileSize.width/2, self.tileSize.height/2);
     } else {
       tileSizeInPoints = _tileSize;
@@ -110,7 +57,28 @@
   return self;
 }
 
+- (void) loadGestureRecognizers {
+  UIPanGestureRecognizer *pan = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(drag:)];
+  pan.maximumNumberOfTouches = 1;
+  [[[CCDirector sharedDirector] view] addGestureRecognizer:pan];
+  
+  // add UIPinchGestureRecognizer
+  UIPinchGestureRecognizer *pinch = [[UIPinchGestureRecognizer alloc] initWithTarget:self action:@selector(scale:)];
+  [[[CCDirector sharedDirector] view] addGestureRecognizer:pinch];
+  
+  // add UITapGestureRecognizer
+  UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(tap:)];
+  [[[CCDirector sharedDirector] view] addGestureRecognizer:tap];
+  
+  self.gestureRecognizers = @[pan, pinch, tap];
+}
 
+- (void) unloadGestureRecognizers {
+  for (UIGestureRecognizer *gest in self.gestureRecognizers) {
+    [[[CCDirector sharedDirector] view] removeGestureRecognizer:gest];
+  }
+  self.gestureRecognizers = nil;
+}
 
 - (void) setVisible:(BOOL)visible {
   [super setVisible:visible];
@@ -118,13 +86,13 @@
 }
 
 - (void) setSelected:(SelectableSprite *)selected {
-    [_selected unselect];
-    
-    if ([selected select]) {
-      _selected = selected;
-    } else {
-      _selected = nil;
-    }
+  [_selected unselect];
+  
+  if ([selected select]) {
+    _selected = selected;
+  } else {
+    _selected = nil;
+  }
 }
 
 - (void) setupTeamSprites {
@@ -136,18 +104,16 @@
       continue;
     }
     
-    int tag = MY_TEAM_TAG_BASE+um.userMonsterId;
-    MyTeamSprite *ts = (MyTeamSprite *)[self getChildByTag:tag];
+    NSString *name = [NSString stringWithFormat:MY_TEAM_TAG_BASE, um.userMonsterId];
+    MyTeamSprite *ts = (MyTeamSprite *)[self getChildByName:name recursively:NO];
     
     if (!ts) {
       MonsterProto *mp = [gs monsterWithId:um.monsterId];
       CGRect r = CGRectMake(0, 0, 1, 1);
       r.origin = [self randomWalkablePosition];
       ts = [[MyTeamSprite alloc] initWithFile:mp.imagePrefix location:r map:self];
-      ts.tag = tag;
+      ts.name = name;
       [self addChild:ts];
-    } else {
-      [self.myTeamSprites removeObject:ts];
     }
     
     [newArr addObject:ts];
@@ -230,7 +196,7 @@
   for (int i = 0; i < [_mapSprites count]; i++) {
     MapSprite *child = [_mapSprites objectAtIndex:i];
     if (![child isExemptFromReorder]) {
-      [self reorderChild:child z:i+REORDER_START_Z];
+      child.zOrder = i+REORDER_START_Z;
     }
   }
 }
@@ -244,7 +210,7 @@
       continue;
     }
     SelectableSprite *child = (SelectableSprite *)spr;
-    if ([child isPointInArea:pt] && child.visible && child.opacity > 0.f) {
+    if ([child hitTestWithWorldPos:pt] && child.visible && child.opacity > 0.f) {
       CGPoint center = ccp(child.contentSize.width/2, child.contentSize.height/2);
       float thisDistToCenter = ccpDistance(center, [child convertToNodeSpace:pt]);
       
@@ -259,7 +225,7 @@
 
 #pragma mark - Gesture Recognizers
 
-- (void) tap:(UIGestureRecognizer*)recognizer node:(CCNode*)node
+- (void) tap:(UIGestureRecognizer*)recognizer
 {
   CGPoint pt = [recognizer locationInView:recognizer.view];
   pt = [[CCDirector sharedDirector] convertToGL:pt];
@@ -278,7 +244,7 @@
   }
 }
 
-- (void) drag:(UIGestureRecognizer*)recognizer node:(CCNode*)node
+- (void) drag:(UIGestureRecognizer*)recognizer
 {
   // Now do drag motion
   UIPanGestureRecognizer* pan = (UIPanGestureRecognizer*)recognizer;
@@ -286,11 +252,11 @@
   if([recognizer state] == UIGestureRecognizerStateBegan ||
      [recognizer state] == UIGestureRecognizerStateChanged )
   {
-    [node stopActionByTag:190];
+    [self stopActionByTag:190];
     CGPoint translation = [pan translationInView:pan.view.superview];
     
     CGPoint delta = [self convertVectorToGL: translation];
-    [node setPosition:ccpAdd(node.position, delta)];
+    [self setPosition:ccpAdd(self.position, delta)];
     [pan setTranslation:CGPointZero inView:pan.view.superview];
   } else if ([recognizer state] == UIGestureRecognizerStateEnded) {
     CGPoint vel = [pan velocityInView:pan.view.superview];
@@ -303,19 +269,19 @@
     
     vel.x /= 3;
     vel.y /= 3;
-    id actionID = [CCMoveBy actionWithDuration:dist/1500 position:vel];
-    CCEaseOut *action = [CCEaseSineOut actionWithAction:actionID];
+    id actionID = [CCActionMoveBy actionWithDuration:dist/1500 position:vel];
+    CCActionEaseOut *action = [CCActionEaseOut actionWithAction:actionID];
     action.tag = 190;
-    [node runAction:action];
+    [self runAction:action];
   }
 }
 
-- (void) scale:(UIGestureRecognizer*)recognizer node:(CCNode*)node
+- (void) scale:(UIGestureRecognizer*)recognizer
 {
   UIPinchGestureRecognizer* pinch = (UIPinchGestureRecognizer*)recognizer;
   
   // See if zoom should even be allowed
-  float newScale = node.scale * pinch.scale;
+  float newScale = self.scale * pinch.scale;
   pinch.scale = 1.0f; // we just reset the scaling so we only wory about the delta
   if (newScale > MAX_ZOOM || newScale < MIN_ZOOM) {
     return;
@@ -324,15 +290,13 @@
   CCDirector* director = [CCDirector sharedDirector];
   CGPoint pt = [recognizer locationInView:recognizer.view.superview];
   pt = [director convertToGL:pt];
-  CGPoint beforeScale = [node convertToNodeSpace:pt];
+  CGPoint beforeScale = [self convertToNodeSpace:pt];
   
-  node.scale = newScale;
-  CGPoint afterScale = [node convertToNodeSpace:pt];
+  self.scale = newScale;
+  CGPoint afterScale = [self convertToNodeSpace:pt];
   CGPoint diff = ccpSub(afterScale, beforeScale);
   
-  node.position = ccpAdd(node.position, ccpMult(diff, node.scale));
-  
-  [self.decLayer updateAllCloudOpacities];
+  self.position = ccpAdd(self.position, ccpMult(diff, self.scale));
 }
 
 -(void) setPosition:(CGPoint)position {
@@ -344,8 +308,8 @@
   float maxX = trPt.x;
   float maxY = trPt.y;//+self.tileSizeInPoints.height/2;
   
-  float x = MAX(MIN(-minX*self.scaleX, position.x), -maxX*self.scaleX + [[CCDirector sharedDirector] winSize].width);
-  float y = MAX(MIN(-minY*self.scaleY, position.y), -maxY*self.scaleY + [[CCDirector sharedDirector] winSize].height);
+  float x = MAX(MIN(-minX*self.scaleX, position.x), -maxX*self.scaleX + [[CCDirector sharedDirector] viewSize].width);
+  float y = MAX(MIN(-minY*self.scaleY, position.y), -maxY*self.scaleY + [[CCDirector sharedDirector] viewSize].height);
   
   [super setPosition:ccp(x,y)];
 }
@@ -361,7 +325,7 @@
   }
 }
 
-- (BOOL) isPointInArea:(CGPoint)pt {
+- (BOOL) hitTestWithWorldPos:(CGPoint)pt {
   // Whole screen is in area
   return YES;
 }
@@ -519,13 +483,13 @@
   // move map to the center of the screen
   CGSize ms = [self mapSize];
   CGSize ts = [self tileSizeInPoints];
-  CGSize size = [[CCDirector sharedDirector] winSize];
+  CGSize size = [[CCDirector sharedDirector] viewSize];
   
   float x = -ms.width*ts.width/2*_scaleX+size.width/2;
   float y = -ms.height*ts.height/2*_scaleY+size.height/2;
   CGPoint newPos = ccp(x,y);
   if (animated) {
-    [self runAction:[CCMoveTo actionWithDuration:0.2f position:newPos]];
+    [self runAction:[CCActionMoveTo actionWithDuration:0.2f position:newPos]];
   } else {
     self.position = newPos;
   }
@@ -535,7 +499,7 @@
   float dur = 0.f;
   if (spr) {
     CGPoint pt = spr.position;
-    CGSize size = [[CCDirector sharedDirector] winSize];
+    CGSize size = [[CCDirector sharedDirector] viewSize];
     
     // Since all sprites have anchor point ccp(0.5,0) adjust accordingly
     float x = -pt.x*_scaleX+size.width/2;
@@ -543,7 +507,7 @@
     CGPoint newPos = ccpAdd(offset,ccp(x,y));
     if (animated) {
       dur = ccpDistance(newPos, self.position)/1000.f;
-      [self runAction:[CCEaseSineInOut actionWithAction:[CCMoveTo actionWithDuration:dur position:newPos]]];
+      [self runAction:[CCActionEaseInOut actionWithAction:[CCActionMoveTo actionWithDuration:dur position:newPos]]];
     } else {
       self.position = newPos;
     }
@@ -578,12 +542,16 @@
   [super onEnter];
   [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(setupTeamSprites) name:MY_TEAM_CHANGED_NOTIFICATION object:nil];
   [self setupTeamSprites];
+  
+  [self loadGestureRecognizers];
 }
 
 - (void) onExit {
   [super onExit];
   self.selected = nil;
   [[NSNotificationCenter defaultCenter] removeObserver:self];
+  
+  [self unloadGestureRecognizers];
 }
 
 @end

@@ -16,18 +16,14 @@
 @implementation Drop
 
 - (id) initWithFile:(NSString *)file {
-  if ((self = [super initWithFile:file])) {
+  if ((self = [super initWithImageNamed:file])) {
     // Set isTouchEnabled to YES so that gesture recognizers will ignore
-    self.isTouchEnabled = YES;
+    self.userInteractionEnabled = YES;
   }
   return self;
 }
 
-- (void) registerWithTouchDispatcher {
-  [[[CCDirector sharedDirector] touchDispatcher] addTargetedDelegate:self priority:0 swallowsTouches:YES];
-}
-
-- (BOOL) isPointInArea:(CGPoint)pt {
+- (BOOL) hitTestWithWorldPos:(CGPoint)pt {
   CGRect rect = CGRectInset(CGRectMake(0, 0, self.contentSize.width, self.contentSize.height), -RECT_LEEWAY, -RECT_LEEWAY);
   
   pt = [self convertToNodeSpace:pt];
@@ -41,7 +37,7 @@
 - (BOOL) ccTouchBegan:(UITouch *)touch withEvent:(UIEvent *)event {
   if (!_clicked) {
     CGPoint pt = [[CCDirector sharedDirector] convertToGL:[touch locationInView:[touch view]]];
-    return [self isPointInArea:pt];
+    return [self hitTestWithWorldPos:pt];
   }
   return NO;
 }

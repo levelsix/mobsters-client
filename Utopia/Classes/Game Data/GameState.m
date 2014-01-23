@@ -10,12 +10,10 @@
 #import "SocketCommunication.h"
 #import "Globals.h"
 #import "OutgoingEventController.h"
-#import "ActivityFeedController.h"
 #import "AppDelegate.h"
 #import "HomeMap.h"
 #import "ClanViewController.h"
 #import "Downloader.h"
-#import "GameLayer.h"
 #import "SocketCommunication.h"
 #import "PrivateChatPostProto+UnreadStatus.h"
 #import "StaticStructure.h"
@@ -29,7 +27,7 @@
 
 @implementation GameState
 
-SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
+LN_SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
 
 - (id) init {
   if ((self = [super init])) {
@@ -357,10 +355,6 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
     un.hasBeenViewed = NO;
   } else {
     un.hasBeenViewed = YES;
-  }
-  
-  if ([ActivityFeedController isInitialized]) {
-    [[[ActivityFeedController sharedActivityFeedController] activityTableView] reloadData];
   }
 }
 

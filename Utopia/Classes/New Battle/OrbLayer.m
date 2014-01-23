@@ -30,15 +30,14 @@
 
 @implementation DestroyedGem
 
-- (id) initWithColor:(ccColor3B)color {
-  if ((self = [super initWithFile:@"orbball.png"])) {
+- (id) initWithColor:(CCColor *)color {
+  if ((self = [super initWithImageNamed:@"orbball.png"])) {
     self.color = color;
     
-    self.streak = [CCMotionStreak streakWithFade:0.5 minSeg:0.1f width:8 color:ccWHITE textureFilename:@"streak.png"];
-    self.streak.color = color;
+    self.streak = [CCMotionStreak streakWithFade:0.5 minSeg:0.1f width:8 color:color textureFilename:@"streak.png"];
     
     // schedule an update on each frame so we can syncronize the streak with the target
-    [self schedule:@selector(onUpdate:)];
+    [self schedule:@selector(onUpdate:) interval:0.f];
   }
   return self;
 }
@@ -50,7 +49,7 @@
   }
 }
 
-- (void) onUpdate:(ccTime)delta {
+- (void) onUpdate:(CCTime)delta {
 	[self.streak setPosition:self.position];
 }
 
@@ -77,16 +76,12 @@
     self.reservedGems = [NSMutableSet set];
     self.contentSize = size;
     
-    self.isTouchEnabled = YES;
+    self.userInteractionEnabled = YES;
     
     [self initBoard];
 	}
 	
 	return self;
-}
-
-- (void)registerWithTouchDispatcher {
-  [[[CCDirector sharedDirector] touchDispatcher] addTargetedDelegate:self priority:0 swallowsTouches:YES];
 }
 
 - (CGSize) squareSize {
@@ -124,7 +119,7 @@
     default: return nil; break;
   }
   
-  return [CCSprite spriteWithFile:[NSString stringWithFormat:@"%@%@.png", colorPrefix, powerupSuffix]];
+  return [CCSprite spriteWithImageNamed:[NSString stringWithFormat:@"%@%@.png", colorPrefix, powerupSuffix]];
 }
 
 - (Gem *) createRandomGem
@@ -249,7 +244,7 @@
   }
   
   for (Gem *gem in self.gems) {
-    [gem.sprite runAction:[CCMoveTo actionWithDuration:0.3 position:[self pointForGridPosition:[self coordinateOfGem:gem]]]];
+    [gem.sprite runAction:[CCActionMoveTo actionWithDuration:0.3 position:[self pointForGridPosition:[self coordinateOfGem:gem]]]];
   }
   
   [self.delegate reshuffle];
@@ -415,11 +410,11 @@
   [self updateGemPositionsAfterSwap];
 }
 
-- (ccColor3B) colorForSparkle:(GemColorId)color {
+- (CCColor *) colorForSparkle:(GemColorId)color {
   UIColor *c = [Globals colorForElement:(MonsterProto_MonsterElement)color];
   float r = 1.f, g = 1.f, b = 1.f, a = 1.f;
   [c getRed:&r green:&g blue:&b alpha:&a];
-  return ccc3(r*255, g*255, b*255);
+  return [CCColor colorWithCcColor3b:ccc3(r*255, g*255, b*255)];
 }
 
 // Color of gem that destroyed this gem
@@ -445,49 +440,49 @@
     [self initiatePowerup:gem.powerup atLocation:pt withColor:color];
   }
   
-  CCCallBlock *crack = [CCCallBlock actionWithBlock:^{
+  CCActionCallBlock *crack = [CCActionCallBlock actionWithBlock:^{
     if (powerup == powerup_horizontal_line || powerup == powerup_vertical_line) {
-      CCParticleSystemQuad *q = [CCParticleSystemQuad particleWithFile:@"molotov.plist"];
+      CCParticleSystemBase *q = [CCParticleSystemBase particleWithFile:@"molotov.plist"];
       [self addChild:q z:100];
       q.position = gem.sprite.position;
       q.autoRemoveOnFinish = YES;
       
       [[SoundEngine sharedSoundEngine] puzzleBoardExplosion];
     } else if (powerup == powerup_all_of_one_color) {
-      CCParticleSystemQuad *q = [CCParticleSystemQuad particleWithFile:@"molotov.plist"];
+      CCParticleSystemBase *q = [CCParticleSystemBase particleWithFile:@"molotov.plist"];
       [self addChild:q z:100];
       q.position = gem.sprite.position;
       q.autoRemoveOnFinish = YES;
       
       [[SoundEngine sharedSoundEngine] puzzleBoardExplosion];
     } else {
-      CCSprite *q = [CCSprite spriteWithFile:@"ring.png"];
+      CCSprite *q = [CCSprite spriteWithImageNamed:@"ring.png"];
       [self addChild:q];
       q.position = gem.sprite.position;
       q.scale = 0.5;
-      [q runAction:[CCSequence actions:
-                    [CCSpawn actions:[CCFadeOut actionWithDuration:0.2], [CCScaleTo actionWithDuration:0.2 scale:1], nil],
-                    [CCCallBlock actionWithBlock:
+      [q runAction:[CCActionSequence actions:
+                    [CCActionSpawn actions:[CCActionFadeOut actionWithDuration:0.2], [CCActionScaleTo actionWithDuration:0.2 scale:1], nil],
+                    [CCActionCallBlock actionWithBlock:
                      ^{
                        [q removeFromParentAndCleanup:YES];
                      }], nil]];
       
-      CCParticleSystemQuad *x = [CCParticleSystemQuad particleWithFile:@"sparkle1.plist"];
+      CCParticleSystemBase *x = [CCParticleSystemBase particleWithFile:@"sparkle1.plist"];
       [self addChild:x z:12];
       x.position = gem.sprite.position;
       x.autoRemoveOnFinish = YES;
-      x.startColor = ccc4FFromccc3B([self colorForSparkle:gem.color]);
+      x.startColor = [self colorForSparkle:gem.color];
     }
   }];
   
-  CCScaleTo *scale = [CCScaleTo actionWithDuration:0.2 scale:0];
-  CCCallBlock *completion = [CCCallBlock actionWithBlock:^{
+  CCActionScaleTo *scale = [CCActionScaleTo actionWithDuration:0.2 scale:0];
+  CCActionCallBlock *completion = [CCActionCallBlock actionWithBlock:^{
     _gemsToProcess--;
     [self checkAllGemsAndPowerupsDone];
     [gem.sprite removeFromParentAndCleanup:YES];
   }];
   
-  CCSequence *sequence = [CCSequence actions:crack, scale, completion, nil];
+  CCActionSequence *sequence = [CCActionSequence actions:crack, scale, completion, nil];
   [gem.sprite runAction:sequence];
   
   // Create random bezier
@@ -512,18 +507,18 @@
     bez.controlPoint_1 = ccpAdd(initPoint, CGPointApplyAffineTransform(basePt1, t));
     bez.controlPoint_2 = ccpAdd(initPoint, CGPointApplyAffineTransform(basePt2, t));
     
-    CCBezierTo *move = [CCBezierTo actionWithDuration:0.25f+xScale/600.f bezier:bez];
+    CCActionBezierTo *move = [CCActionBezierTo actionWithDuration:0.25f+xScale/600.f bezier:bez];
     DestroyedGem *dg = [[DestroyedGem alloc] initWithColor:[self colorForSparkle:gem.color]];
     [self addChild:dg z:10];
     dg.position = gem.sprite.position;
-    [dg runAction:[CCSequence actions:move,
-                   [CCCallBlock actionWithBlock:
+    [dg runAction:[CCActionSequence actions:move,
+                   [CCActionCallBlock actionWithBlock:
                     ^{
                       [self.delegate gemReachedFlyLocation:gem];
                     }],
-                   [CCFadeOut actionWithDuration:0.5f],
-                   [CCDelayTime actionWithDuration:0.7f],
-                   [CCCallFunc actionWithTarget:dg selector:@selector(removeFromParent)], nil]];
+                   [CCActionFadeOut actionWithDuration:0.5f],
+                   [CCActionDelay actionWithDuration:0.7f],
+                   [CCActionCallFunc actionWithTarget:dg selector:@selector(removeFromParent)], nil]];
   }
   
   [self.delegate gemKilled:gem];
@@ -607,9 +602,9 @@
     [toReplace.sprite removeFromParentAndCleanup:YES];
     
     [powerupGem.sprite runAction:
-     [CCSequence actions:
-      [CCEaseSineOut actionWithAction:[CCScaleTo actionWithDuration:0.2 scale:1.3]],
-      [CCEaseSineIn actionWithAction:[CCScaleTo actionWithDuration:0.2 scale:1]], nil]];
+     [CCActionSequence actions:
+      [CCActionEaseOut actionWithAction:[CCActionScaleTo actionWithDuration:0.2 scale:1.3]],
+      [CCActionEaseIn actionWithAction:[CCActionScaleTo actionWithDuration:0.2 scale:1]], nil]];
     
     _gemsToProcess--;
   }
@@ -644,19 +639,19 @@
     
     BOOL leftSideIsLonger = location.x > self.gridSize.width-location.x-1;
     
-    CCSprite *r = [CCSprite spriteWithFile:@"rocket.png"];
+    CCSprite *r = [CCSprite spriteWithImageNamed:@"rocket.png"];
     r.position = [self pointForGridPosition:p.startLocation];
     [self addChild:r z:10];
     
-    CCParticleSystemQuad *q = [CCParticleSystemQuad particleWithFile:@"rockettail.plist"];
+    CCParticleSystemBase *q = [CCParticleSystemBase particleWithFile:@"rockettail.plist"];
     q.position = ccp(0,12);
     [r addChild:q z:-1];
     
     NSMutableArray *seq = [NSMutableArray array];
     for (int i = p.startLocation.x; i < self.gridSize.width; i++) {
       CGPoint pos = ccp(i, p.startLocation.y);
-      [seq addObject:[CCMoveTo actionWithDuration:TIME_TO_TRAVEL_PER_SQUARE position:[self pointForGridPosition:pos]]];
-      [seq addObject:[CCCallBlock actionWithBlock:^{
+      [seq addObject:[CCActionMoveTo actionWithDuration:TIME_TO_TRAVEL_PER_SQUARE position:[self pointForGridPosition:pos]]];
+      [seq addObject:[CCActionCallBlock actionWithBlock:^{
         Gem *g = _gems[(int)(pos.x+pos.y*self.gridSize.width)];
         if (![self.reservedGems containsObject:g]) {
           [self destroyGem:g fromColor:color fromPowerup:powerupId];
@@ -665,55 +660,55 @@
     }
     
     float time = TIME_TO_TRAVEL_PER_SQUARE*(p.startLocation.x+ROCKET_END_LOCATION-self.gridSize.width);
-    [seq addObject:[CCSpawn actions:[CCMoveTo actionWithDuration:time position:[self pointForGridPosition:ccp(p.startLocation.x+ROCKET_END_LOCATION, p.startLocation.y)]],
-                    [CCFadeOut actionWithDuration:time],
-                    [CCCallBlock actionWithBlock:
+    [seq addObject:[CCActionSpawn actions:[CCActionMoveTo actionWithDuration:time position:[self pointForGridPosition:ccp(p.startLocation.x+ROCKET_END_LOCATION, p.startLocation.y)]],
+                    [CCActionFadeOut actionWithDuration:time],
+                    [CCActionCallBlock actionWithBlock:
                      ^{
                        if (!leftSideIsLonger) {
                          [self.powerups removeObject:p];
                          [self checkAllGemsAndPowerupsDone];
                        }
                      }], nil]];
-    [seq addObject:[CCCallBlock actionWithBlock:^{
+    [seq addObject:[CCActionCallBlock actionWithBlock:^{
       [r removeFromParentAndCleanup:YES];
     }]];
     
-    [r runAction:[CCSequence actionWithArray:seq]];
+    [r runAction:[CCActionSequence actionWithArray:seq]];
     
-    r = [CCSprite spriteWithFile:@"rocket.png"];
+    r = [CCSprite spriteWithImageNamed:@"rocket.png"];
     r.position = [self pointForGridPosition:p.startLocation];
     r.flipX = YES;
     [self addChild:r z:10];
     
-    q = [CCParticleSystemQuad particleWithFile:@"rockettail.plist"];
+    q = [CCParticleSystemBase particleWithFile:@"rockettail.plist"];
     q.position = ccp(20,12);
     [r addChild:q z:-1];
     
     seq = [NSMutableArray array];
     for (int i = p.startLocation.x; i >= 0; i--) {
       CGPoint pos = ccp(i, p.startLocation.y);
-      [seq addObject:[CCMoveTo actionWithDuration:TIME_TO_TRAVEL_PER_SQUARE position:[self pointForGridPosition:pos]]];
-      [seq addObject:[CCCallBlock actionWithBlock:^{
+      [seq addObject:[CCActionMoveTo actionWithDuration:TIME_TO_TRAVEL_PER_SQUARE position:[self pointForGridPosition:pos]]];
+      [seq addObject:[CCActionCallBlock actionWithBlock:^{
         Gem *g = _gems[(int)(pos.x+pos.y*self.gridSize.width)];
         [self destroyGem:g fromColor:color fromPowerup:powerupId];
       }]];
     }
     
     time = TIME_TO_TRAVEL_PER_SQUARE*(p.startLocation.x-ROCKET_END_LOCATION)*-1;
-    [seq addObject:[CCSpawn actions:[CCMoveTo actionWithDuration:time position:[self pointForGridPosition:ccp(p.startLocation.x-ROCKET_END_LOCATION, p.startLocation.y)]],
-                    [CCFadeOut actionWithDuration:time],
-                    [CCCallBlock actionWithBlock:
+    [seq addObject:[CCActionSpawn actions:[CCActionMoveTo actionWithDuration:time position:[self pointForGridPosition:ccp(p.startLocation.x-ROCKET_END_LOCATION, p.startLocation.y)]],
+                    [CCActionFadeOut actionWithDuration:time],
+                    [CCActionCallBlock actionWithBlock:
                      ^{
                        if (leftSideIsLonger) {
                          [self.powerups removeObject:p];
                          [self checkAllGemsAndPowerupsDone];
                        }
                      }], nil]];
-    [seq addObject:[CCCallBlock actionWithBlock:^{
+    [seq addObject:[CCActionCallBlock actionWithBlock:^{
       [r removeFromParentAndCleanup:YES];
     }]];
     
-    [r runAction:[CCSequence actionWithArray:seq]];
+    [r runAction:[CCActionSequence actionWithArray:seq]];
     
     [[SoundEngine sharedSoundEngine] puzzleRocket];
   } else if (p.powerupId == powerup_vertical_line) {
@@ -726,25 +721,25 @@
     BOOL topSideIsLonger = location.y > self.gridSize.height-location.y-1;
     
     // Have to do this due to rotation issues
-    CCSprite *r = [CCSprite spriteWithFile:@"rocket.png"];
+    CCSprite *r = [CCSprite spriteWithImageNamed:@"rocket.png"];
     r.opacity = 0;
     r.position = [self pointForGridPosition:p.startLocation];
     [self addChild:r z:10];
     
-    CCSprite *n = [CCSprite spriteWithFile:@"rocket.png"];
+    CCSprite *n = [CCSprite spriteWithImageNamed:@"rocket.png"];
     n.position = ccp(r.contentSize.width/2, r.contentSize.height/2);
     n.rotation = 90;
     [r addChild:n];
     
-    CCParticleSystemQuad *q = [CCParticleSystemQuad particleWithFile:@"rockettail.plist"];
+    CCParticleSystemBase *q = [CCParticleSystemBase particleWithFile:@"rockettail.plist"];
     q.position = ccpAdd(n.position, ccp(0, 10));
     [r addChild:q z:-1];
     
     NSMutableArray *seq = [NSMutableArray array];
     for (int i = p.startLocation.y; i >= 0; i--) {
       CGPoint pos = ccp(p.startLocation.x, i);
-      [seq addObject:[CCMoveTo actionWithDuration:TIME_TO_TRAVEL_PER_SQUARE position:[self pointForGridPosition:pos]]];
-      [seq addObject:[CCCallBlock actionWithBlock:^{
+      [seq addObject:[CCActionMoveTo actionWithDuration:TIME_TO_TRAVEL_PER_SQUARE position:[self pointForGridPosition:pos]]];
+      [seq addObject:[CCActionCallBlock actionWithBlock:^{
         Gem *g = _gems[(int)(pos.x+pos.y*self.gridSize.width)];
         if (![self.reservedGems containsObject:g]) {
           [self destroyGem:g fromColor:color fromPowerup:powerupId];
@@ -753,61 +748,61 @@
     }
     
     float time = TIME_TO_TRAVEL_PER_SQUARE*(p.startLocation.y-ROCKET_END_LOCATION)*-1;
-    [seq addObject:[CCSpawn actions:[CCMoveTo actionWithDuration:time position:[self pointForGridPosition:ccp(p.startLocation.x, p.startLocation.y-ROCKET_END_LOCATION)]],
-                    [CCCallBlock actionWithBlock:
+    [seq addObject:[CCActionSpawn actions:[CCActionMoveTo actionWithDuration:time position:[self pointForGridPosition:ccp(p.startLocation.x, p.startLocation.y-ROCKET_END_LOCATION)]],
+                    [CCActionCallBlock actionWithBlock:
                      ^{
-                       [n runAction:[CCFadeOut actionWithDuration:time]];
+                       [n runAction:[CCActionFadeOut actionWithDuration:time]];
                        if (topSideIsLonger) {
                          [self.powerups removeObject:p];
                          [self checkAllGemsAndPowerupsDone];
                        }
                      }], nil]];
-    [seq addObject:[CCCallBlock actionWithBlock:^{
+    [seq addObject:[CCActionCallBlock actionWithBlock:^{
       [r removeFromParentAndCleanup:YES];
     }]];
     
-    [r runAction:[CCSequence actionWithArray:seq]];
+    [r runAction:[CCActionSequence actionWithArray:seq]];
     
     
-    r = [CCSprite spriteWithFile:@"rocket.png"];
+    r = [CCSprite spriteWithImageNamed:@"rocket.png"];
     r.opacity = 0;
     r.position = [self pointForGridPosition:p.startLocation];
     [self addChild:r z:10];
     
-    n = [CCSprite spriteWithFile:@"rocket.png"];
+    n = [CCSprite spriteWithImageNamed:@"rocket.png"];
     n.position = ccp(r.contentSize.width/2, r.contentSize.height/2);
     n.rotation = -90;
     [r addChild:n];
     
-    q = [CCParticleSystemQuad particleWithFile:@"rockettail.plist"];
+    q = [CCParticleSystemBase particleWithFile:@"rockettail.plist"];
     q.position = ccpAdd(n.position, ccp(0, -10));
     [r addChild:q z:-1];
     
     seq = [NSMutableArray array];
     for (int i = p.startLocation.y; i < self.gridSize.height; i++) {
       CGPoint pos = ccp(p.startLocation.x, i);
-      [seq addObject:[CCMoveTo actionWithDuration:TIME_TO_TRAVEL_PER_SQUARE position:[self pointForGridPosition:pos]]];
-      [seq addObject:[CCCallBlock actionWithBlock:^{
+      [seq addObject:[CCActionMoveTo actionWithDuration:TIME_TO_TRAVEL_PER_SQUARE position:[self pointForGridPosition:pos]]];
+      [seq addObject:[CCActionCallBlock actionWithBlock:^{
         Gem *g = _gems[(int)(pos.x+pos.y*self.gridSize.width)];
         [self destroyGem:g fromColor:color fromPowerup:powerupId];
       }]];
     }
     
     time = TIME_TO_TRAVEL_PER_SQUARE*(p.startLocation.y+ROCKET_END_LOCATION-self.gridSize.height);
-    [seq addObject:[CCSpawn actions:[CCMoveTo actionWithDuration:time position:[self pointForGridPosition:ccp(p.startLocation.x, p.startLocation.y+ROCKET_END_LOCATION)]],
-                    [CCCallBlock actionWithBlock:
+    [seq addObject:[CCActionSpawn actions:[CCActionMoveTo actionWithDuration:time position:[self pointForGridPosition:ccp(p.startLocation.x, p.startLocation.y+ROCKET_END_LOCATION)]],
+                    [CCActionCallBlock actionWithBlock:
                      ^{
-                       [n runAction:[CCFadeOut actionWithDuration:time]];
+                       [n runAction:[CCActionFadeOut actionWithDuration:time]];
                        if (!topSideIsLonger) {
                          [self.powerups removeObject:p];
                          [self checkAllGemsAndPowerupsDone];
                        }
                      }], nil]];
-    [seq addObject:[CCCallBlock actionWithBlock:^{
+    [seq addObject:[CCActionCallBlock actionWithBlock:^{
       [r removeFromParentAndCleanup:YES];
     }]];
     
-    [r runAction:[CCSequence actionWithArray:seq]];
+    [r runAction:[CCActionSequence actionWithArray:seq]];
     
     [[SoundEngine sharedSoundEngine] puzzleRocket];
   } else if (p.powerupId == powerup_explosion) {
@@ -818,9 +813,9 @@
         [self.reservedGems addObject:gem];
       }
     }
-    [self runAction:[CCSequence actions:
-                     [CCDelayTime actionWithDuration:0.05],
-                     [CCCallBlock actionWithBlock:
+    [self runAction:[CCActionSequence actions:
+                     [CCActionDelay actionWithDuration:0.05],
+                     [CCActionCallBlock actionWithBlock:
                       ^{
                         [self.powerups removeObject:p];
                         for (Gem *gem in blowup) {
@@ -828,7 +823,7 @@
                         }
                         [self checkAllGemsAndPowerupsDone];
                         
-                        CCParticleSystemQuad *x = [CCParticleSystemQuad particleWithFile:@"grenade1.plist"];
+                        CCParticleSystemBase *x = [CCParticleSystemBase particleWithFile:@"grenade1.plist"];
                         [self addChild:x z:12];
                         x.position = [self pointForGridPosition:p.startLocation];
                         x.autoRemoveOnFinish = YES;
@@ -852,16 +847,16 @@
     if (blowup.count > 0) {
       for (int i = 0; i < blowup.count; i++) {
         Gem *gem = [blowup objectAtIndex:i];
-        CCParticleSystemQuad *q = [CCParticleSystemQuad particleWithFile:@"rockettail.plist"];
+        CCParticleSystemBase *q = [CCParticleSystemBase particleWithFile:@"rockettail.plist"];
         [self addChild:q z:10];
         q.position = [self pointForGridPosition:p.startLocation];
         
         BOOL last = i == blowup.count-1;
         [q runAction:
-         [CCSequence actions:
-          [CCDelayTime actionWithDuration:i*0.1],
-          [CCMoveTo actionWithDuration:MOLOTOV_PARTICLE_DURATION position:gem.sprite.position],
-          [CCCallBlock actionWithBlock:
+         [CCActionSequence actions:
+          [CCActionDelay actionWithDuration:i*0.1],
+          [CCActionMoveTo actionWithDuration:MOLOTOV_PARTICLE_DURATION position:gem.sprite.position],
+          [CCActionCallBlock actionWithBlock:
            ^{
              [q removeFromParentAndCleanup:YES];
              
@@ -974,10 +969,10 @@
       
       for (Gem *gem in _gems) {
         if (gem.color == color) {
-          CCParticleSystemQuad *q = [CCParticleSystemQuad particleWithFile:@"rockettail.plist"];
+          CCParticleSystemBase *q = [CCParticleSystemBase particleWithFile:@"rockettail.plist"];
           [self addChild:q z:10];
           q.position = _realDragGem.sprite.position;
-          [q runAction:[CCMoveTo actionWithDuration:MOLOTOV_PARTICLE_DURATION position:gem.sprite.position]];
+          [q runAction:[CCActionMoveTo actionWithDuration:MOLOTOV_PARTICLE_DURATION position:gem.sprite.position]];
           q.duration = MOLOTOV_PARTICLE_DURATION;
           q.autoRemoveOnFinish = YES;
         }
@@ -985,8 +980,8 @@
       
       // First action just delays everything, then we replace and fire off rockets
       NSMutableArray *seq = [NSMutableArray array];
-      [seq addObject:[CCDelayTime actionWithDuration:MOLOTOV_PARTICLE_DURATION-0.1]];
-      [seq addObject:[CCCallBlock actionWithBlock:^{
+      [seq addObject:[CCActionDelay actionWithDuration:MOLOTOV_PARTICLE_DURATION-0.1]];
+      [seq addObject:[CCActionCallBlock actionWithBlock:^{
         NSMutableSet *colorGems = [NSMutableSet set];
         for (int i = 0; i < self.gems.count; i++) {
           Gem *gem = [self.gems objectAtIndex:i];
@@ -1002,20 +997,20 @@
         }
         
         NSMutableArray *seq = [NSMutableArray array];
-        [seq addObject:[CCDelayTime actionWithDuration:0.2]];
+        [seq addObject:[CCActionDelay actionWithDuration:0.2]];
         for (Gem *gem in colorGems) {
-          [seq addObject:[CCDelayTime actionWithDuration:0.2]];
-          [seq addObject:[CCCallBlock actionWithBlock:^{
+          [seq addObject:[CCActionDelay actionWithDuration:0.2]];
+          [seq addObject:[CCActionCallBlock actionWithBlock:^{
             [self destroyGem:gem fromColor:gem.color fromPowerup:powerup_none];
           }]];
         }
-        [seq addObject:[CCCallBlock actionWithBlock:^{
+        [seq addObject:[CCActionCallBlock actionWithBlock:^{
           [self.powerups removeObject:p];
           [self checkAllGemsAndPowerupsDone];
         }]];
-        [self runAction:[CCSequence actionWithArray:seq]];
+        [self runAction:[CCActionSequence actionWithArray:seq]];
       }]];
-      [self runAction:[CCSequence actionWithArray:seq]];
+      [self runAction:[CCActionSequence actionWithArray:seq]];
       
       _realDragGem.powerup = powerup_none;
       _swapGem.powerup = powerup_none;
@@ -1050,21 +1045,21 @@
       NSMutableArray *seq = [NSMutableArray array];
       for (int i = 0; i < self.gridSize.width; i++) {
         for (int j = 0; j < self.gridSize.height; j++) {
-          [seq addObject:[CCCallBlock actionWithBlock:^{
+          [seq addObject:[CCActionCallBlock actionWithBlock:^{
             Gem *g = _gems[(int)(i+j*self.gridSize.width)];
             g.powerup = powerup_none;
             [self destroyGem:g fromColor:g.color fromPowerup:powerup_all_of_one_color];
           }]];
-          [seq addObject:[CCDelayTime actionWithDuration:0.08]];
+          [seq addObject:[CCActionDelay actionWithDuration:0.08]];
         }
       }
       Powerup *p = [[Powerup alloc] init];
       [self.powerups addObject:p];
-      [seq addObject:[CCCallBlock actionWithBlock:^{
+      [seq addObject:[CCActionCallBlock actionWithBlock:^{
         [self.powerups removeObject:p];
         [self checkAllGemsAndPowerupsDone];
       }]];
-      [self runAction:[CCSequence actionWithArray:seq]];
+      [self runAction:[CCActionSequence actionWithArray:seq]];
     }
     _foundMatch = YES;
     return YES;
@@ -1183,10 +1178,10 @@
         _gemsBouncing++;
         int numSquares = (container.sprite.position.y - startY) / squareSize.height;
         //        [container.sprite stopAllActions];
-        CCMoveTo * moveTo = [CCMoveTo actionWithDuration:0.4+0.1*numSquares position:CGPointMake(startX, startY)];
-        [container.sprite runAction:[CCSequence actions:
-                                     [CCEaseBounceOut actionWithAction:moveTo],
-                                     [CCCallBlock actionWithBlock:
+        CCActionMoveTo * moveTo = [CCActionMoveTo actionWithDuration:0.4+0.1*numSquares position:CGPointMake(startX, startY)];
+        [container.sprite runAction:[CCActionSequence actions:
+                                     [CCActionEaseBounceOut actionWithAction:moveTo],
+                                     [CCActionCallBlock actionWithBlock:
                                       ^{
                                         _gemsBouncing--;
                                         if (_gemsBouncing == 0) {
@@ -1240,11 +1235,11 @@
   
   // Not using bezier but keep for future use?
   bezier1.endPosition = gem2Pos;
-  id move1 = [CCMoveTo actionWithDuration:ORB_ANIMATION_TIME position:gem2.sprite.position];
+  id move1 = [CCActionMoveTo actionWithDuration:ORB_ANIMATION_TIME position:gem2.sprite.position];
   [gem1.sprite runAction:move1];
   
   bezier2.endPosition = gem1Pos;
-  id move2 = [CCMoveTo actionWithDuration:ORB_ANIMATION_TIME position:gem1.sprite.position];
+  id move2 = [CCActionMoveTo actionWithDuration:ORB_ANIMATION_TIME position:gem1.sprite.position];
   [gem2.sprite runAction:move2];
 }
 
@@ -1265,8 +1260,8 @@
 -(BOOL)ccTouchBegan:(UITouch *)touch withEvent:(UIEvent *)event {
   if (!_allowInput) return NO;
   
-  CGPoint location = [self convertTouchToNodeSpace: touch];
-  if (![self isPointInArea:[self convertToWorldSpace:location]]) return NO;
+  CGPoint location = [touch locationInNode:self];
+  if (![self hitTestWithWorldPos:[self convertToWorldSpace:location]]) return NO;
   CGPoint square = ccp((int)(location.x/self.squareSize.width), (int)(location.y/self.squareSize.height));
   if (square.x > self.gridSize.width-1 || square.y > self.gridSize.height-1) {
     return NO;
@@ -1288,7 +1283,7 @@
       
       _realDragGem = container;
       container.sprite.opacity = 128;
-      [_dragGem.sprite.parent reorderChild:_dragGem.sprite z:10];
+      _dragGem.sprite.zOrder = 10;
       
       _beganTimer = NO;
       
@@ -1307,7 +1302,7 @@
   if (!_allowInput) return;
   
   if (_dragGem) {
-    CGPoint location = [self convertTouchToNodeSpace: touch];
+    CGPoint location = [touch locationInNode:self];
     [_dragGem.sprite setPosition:location];
     _swapGem = nil;
     

@@ -25,7 +25,7 @@
   //  NSString *tmxFile = @"villa_montalvo.tmx";
   GameState *gs = [GameState sharedGameState];
   FullCityProto *fcp = [gs cityWithId:proto.cityId];
-  if ((self = [super initWithTMXFile:fcp.mapTmxName])) {
+  if ((self = [super initWithFile:fcp.mapTmxName])) {
     self.cityId = proto.cityId;
     
     self.walkableData = [NSMutableArray arrayWithCapacity:[self mapSize].width];
@@ -40,7 +40,7 @@
     int width = self.mapSize.width;
     int height = self.mapSize.height;
     // Get the walkable data
-    CCTMXLayer *layer = [self layerNamed:@"Walkable"];
+    CCTiledMapLayer *layer = [self layerNamed:@"Walkable"];
     for (int i = 0; i < width; i++) {
       for (int j = 0; j < height; j++) {
         NSMutableArray *row = [self.walkableData objectAtIndex:i];
@@ -65,7 +65,8 @@
           continue;
         }
         mb.orientation = ncep.orientation;
-        [self addChild:mb z:1 tag:ncep.assetId+ASSET_TAG_BASE];
+        mb.name = [NSString stringWithFormat:ASSET_TAG, ncep.assetId];
+        [self addChild:mb z:1];
         
         [self changeTiles:mb.location canWalk:NO];
       } else if (ncep.type == CityElementProto_CityElemTypeDecoration) {
@@ -76,7 +77,8 @@
           LNLog(@"Unable to find %@", ncep.imgId);
           continue;
         }
-        [self addChild:s z:1 tag:ncep.assetId+ASSET_TAG_BASE];
+        s.name = [NSString stringWithFormat:ASSET_TAG, ncep.assetId];
+        [self addChild:s z:1];
         
         // Don't take it off for decs
         //[self changeTiles:s.location canWalk:NO];
@@ -89,7 +91,8 @@
           LNLog(@"Unable to find %@", ncep.imgId);
           continue;
         }
-        [self addChild:ne z:1 tag:ncep.assetId+ASSET_TAG_BASE];
+        ne.name = [NSString stringWithFormat:ASSET_TAG, ncep.assetId];
+        [self addChild:ne z:1];
       }
     }
     
@@ -136,12 +139,12 @@
     
     _allowSelection = YES;
     
-    CCSprite *s1 = [CCSprite spriteWithFile:fcp.mapImgName];
+    CCSprite *s1 = [CCSprite spriteWithImageNamed:fcp.mapImgName];
     [self addChild:s1 z:-1000];
     
     s1.position = ccp(s1.contentSize.width/2-33, s1.contentSize.height/2-50);
     
-    CCSprite *road = [CCSprite spriteWithFile:fcp.roadImgName];
+    CCSprite *road = [CCSprite spriteWithImageNamed:fcp.roadImgName];
     [self addChild:road z:-998];
     road.position = ccpAdd(s1.position, ccp(fcp.roadImgCoords.x, fcp.roadImgCoords.y));
     
@@ -156,7 +159,7 @@
 - (void) setupTeamSprites {
   [super setupTeamSprites];
   for (MyTeamSprite *ts in self.myTeamSprites) {
-    [ts recursivelyApplyOpacity:255];
+    [ts recursivelyApplyOpacity:1.f];
     [ts walk];
   }
 }
@@ -170,7 +173,7 @@
 }
 
 - (id) assetWithId:(int)assetId {
-  return [self getChildByTag:assetId+ASSET_TAG_BASE];
+  return [self getChildByName:[NSString stringWithFormat:ASSET_TAG, assetId] recursively:NO];
 }
 
 - (void) moveToAssetId:(int)a animated:(BOOL)animated {
@@ -185,16 +188,16 @@
   float delay = 0;
   for (MyTeamSprite *ts in self.myTeamSprites) {
     [ts runAction:
-     [CCSequence actions:
-      [CCDelayTime actionWithDuration:delay],
-      [CCCallBlock actionWithBlock:
+     [CCActionSequence actions:
+      [CCActionDelay actionWithDuration:delay],
+      [CCActionCallBlock actionWithBlock:
        ^{
          CGRect r = ts.location;
          r.origin = start;
          ts.location = r;
          [ts walkToTileCoord:end withSelector:@selector(stopWalking) speedMultiplier:1.5f];
        }],
-      [CCDelayTime actionWithDuration:0.2f],
+      [CCActionDelay actionWithDuration:0.2f],
       [RecursiveFadeTo actionWithDuration:0.3f opacity:0],
       nil]];
     delay += SPRITE_DELAY;

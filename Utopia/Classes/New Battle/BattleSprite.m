@@ -26,10 +26,10 @@
     self.contentSize = CGSizeMake(40, 55);
     
     self.sprite = [CCSprite node];
-    [self addChild:_sprite z:5 tag:9999];
+    [self addChild:_sprite z:5];
     self.sprite.position = ccp(self.contentSize.width/2, self.contentSize.height/2-3);
     
-    CCSprite *s = [CCSprite spriteWithFile:@"shadow.png"];
+    CCSprite *s = [CCSprite spriteWithImageNamed:@"shadow.png"];
     [self addChild:s];
     s.position = ccp(self.contentSize.width/2, 0);
     
@@ -37,14 +37,14 @@
     
     self.isFacingNear = YES;
     
-    self.healthBgd = [CCSprite spriteWithFile:@"minitimebg.png"];
+    self.healthBgd = [CCSprite spriteWithImageNamed:@"minitimebg.png"];
     [self addChild:self.healthBgd z:6];
     self.healthBgd.position = ccp(self.contentSize.width/2, self.contentSize.height+3);
     
-    self.healthBar = [CCProgressTimer progressWithSprite:[CCSprite spriteWithFile:@"minihpbar.png"]];
+    self.healthBar = [CCProgressNode progressWithSprite:[CCSprite spriteWithImageNamed:@"minihpbar.png"]];
     [self.healthBgd addChild:self.healthBar];
     self.healthBar.position = ccp(self.healthBgd.contentSize.width/2, self.healthBgd.contentSize.height/2);
-    self.healthBar.type = kCCProgressTimerTypeBar;
+    self.healthBar.type = CCProgressNodeTypeBar;
     self.healthBar.midpoint = ccp(0, 0.5);
     self.healthBar.barChangeRate = ccp(1,0);
     self.healthBar.percentage = 90;
@@ -52,8 +52,10 @@
     self.healthLabel = [CCLabelTTF labelWithString:@"31/100" fontName:[Globals font] fontSize:12];
     [self.healthBgd addChild:self.healthLabel];
     self.healthLabel.position = ccp(self.healthBgd.contentSize.width/2, self.healthBgd.contentSize.height);
-    [self.healthLabel enableShadowWithOffset:CGSizeMake(0, -1) opacity:0.3f blur:1.f updateImage:NO];
-    [self.healthLabel setFontFillColor:ccc3(255, 255, 255) updateImage:YES];
+    self.healthLabel.color = [CCColor whiteColor];
+    self.healthLabel.shadowOffset = ccp(0, -1);
+    self.healthLabel.shadowColor = [CCColor colorWithWhite:0.f alpha:0.3f];
+    self.healthLabel.shadowBlurRadius = 1.f;
   }
   return self;
 }
@@ -68,7 +70,7 @@
     [[CCSpriteFrameCache sharedSpriteFrameCache] addSpriteFramesWithFile:[NSString stringWithFormat:@"%@RunNF.plist", self.prefix]];
     NSString *p = [NSString stringWithFormat:@"%@RunN", self.prefix];
     CCAnimation *anim = [CCAnimation animationWithSpritePrefix:p delay:ANIMATATION_DELAY];
-    self.walkActionN = [CCRepeatForever actionWithAction:[CCAnimate actionWithAnimation:anim]];
+    self.walkActionN = [CCActionRepeatForever actionWithAction:[CCActionAnimate actionWithAnimation:anim]];
   }
   return _walkActionN;
 }
@@ -78,7 +80,7 @@
     [[CCSpriteFrameCache sharedSpriteFrameCache] addSpriteFramesWithFile:[NSString stringWithFormat:@"%@RunNF.plist", self.prefix]];
     NSString *p = [NSString stringWithFormat:@"%@RunF", self.prefix];
     CCAnimation *anim = [CCAnimation animationWithSpritePrefix:p delay:ANIMATATION_DELAY];
-    self.walkActionF = [CCRepeatForever actionWithAction:[CCAnimate actionWithAnimation:anim]];
+    self.walkActionF = [CCActionRepeatForever actionWithAction:[CCActionAnimate actionWithAnimation:anim]];
   }
   return _walkActionF;
 }
@@ -113,7 +115,7 @@
 - (void) restoreStandingFrame {
   [self attackAnimationN];
   CCSpriteFrame *frame = [[CCSpriteFrameCache sharedSpriteFrameCache] spriteFrameByName:[NSString stringWithFormat:@"%@Attack%@00.png", self.prefix, self.isFacingNear ? @"N" : @"F"]];
-  [self.sprite setDisplayFrame:frame];
+  [self.sprite setSpriteFrame:frame];
   
   self.sprite.flipX = !self.isFacingNear;
 }
@@ -124,13 +126,13 @@
     [self.sprite runAction:self.isFacingNear ? self.walkActionN : self.walkActionF];
     self.isWalking = YES;
     
-    CCSequence *seq = [CCSequence actions:
-                       [CCCallBlock actionWithBlock:
+    CCActionSequence *seq = [CCActionSequence actions:
+                       [CCActionCallBlock actionWithBlock:
                         ^{
                           [[SoundEngine sharedSoundEngine] puzzleWalking];
                         }],
-                       [CCDelayTime actionWithDuration:0.9], nil];
-    CCRepeatForever *r = [CCRepeatForever actionWithAction:seq];
+                       [CCActionDelay actionWithDuration:0.9], nil];
+    CCActionRepeatForever *r = [CCActionRepeatForever actionWithAction:seq];
     r.tag = 7654;
     [self runAction:r];
   }
@@ -148,10 +150,10 @@
 - (void) performNearAttackAnimationWithTarget:(id)target selector:(SEL)selector {
   self.sprite.flipX = NO;
   [self.sprite runAction:
-   [CCSequence actions:
-    [CCAnimate actionWithAnimation:self.attackAnimationN],
-    [CCCallFunc actionWithTarget:self selector:@selector(restoreStandingFrame)],
-    [CCCallFunc actionWithTarget:target selector:selector],
+   [CCActionSequence actions:
+    [CCActionAnimate actionWithAnimation:self.attackAnimationN],
+    [CCActionCallFunc actionWithTarget:self selector:@selector(restoreStandingFrame)],
+    [CCActionCallFunc actionWithTarget:target selector:selector],
     nil]];
 }
 
@@ -167,17 +169,17 @@
   [anim repeatFrames:NSMakeRange(4, 6) numTimes:numTimes];
   
   [self.sprite runAction:
-   [CCSequence actions:
+   [CCActionSequence actions:
     [CCSoundAnimate actionWithAnimation:anim],
-    [CCCallFunc actionWithTarget:self selector:@selector(restoreStandingFrame)],
-    [CCCallFunc actionWithTarget:target selector:selector],
+    [CCActionCallFunc actionWithTarget:self selector:@selector(restoreStandingFrame)],
+    [CCActionCallFunc actionWithTarget:target selector:selector],
     nil]];
 }
 
 - (void) displayChargingFrame {
   [self attackAnimationN];
   CCSpriteFrame *frame = [[CCSpriteFrameCache sharedSpriteFrameCache] spriteFrameByName:[NSString stringWithFormat:@"%@Charge.png", self.prefix]];
-  [self.sprite setDisplayFrame:frame];
+  [self.sprite setSpriteFrame:frame];
   self.sprite.flipX = NO;
 }
 
@@ -185,7 +187,7 @@
   CGPoint pointOffset = POINT_OFFSET_PER_SCENE;
   CGPoint startPos = self.position;
   [self.sprite runAction:
-    [CCAnimate actionWithAnimation:self.flinchAnimationN]];
+    [CCActionAnimate actionWithAnimation:self.flinchAnimationN]];
   
   float moveTime = 0.15f;
   float moveAmount = 0.006;
@@ -193,11 +195,11 @@
   int numTimes = strength*(MAX_SHOTS-1)+1;
   
   [self runAction:
-   [CCSequence actions:
-    [CCDelayTime actionWithDuration:0.2],
-    [CCRepeat actionWithAction:
-     [CCSequence actions:
-      [CCCallBlock actionWithBlock:
+   [CCActionSequence actions:
+    [CCActionDelay actionWithDuration:0.2],
+    [CCActionRepeat actionWithAction:
+     [CCActionSequence actions:
+      [CCActionCallBlock actionWithBlock:
        ^{
          int totalParticles = 40+strength*40;
          
@@ -205,18 +207,18 @@
          NSMutableDictionary *dict = [NSMutableDictionary dictionaryWithContentsOfFile:path];
          [dict setObject:[NSNumber numberWithInt:totalParticles] forKey:@"maxParticles"];
          
-         CCParticleSystemQuad *q = [[CCParticleSystemQuad alloc] initWithDictionary:dict];
+         CCParticleSystemBase *q = [[CCParticleSystemBase alloc] initWithDictionary:dict];
          q.autoRemoveOnFinish = YES;
          q.position = ccpAdd(self.position, ccp(0, self.contentSize.height/2-5));
          q.speedVar = 40+strength*15;
          q.endSizeVar = 5+strength*10;
          [self.parent addChild:q];
        }],
-      [CCMoveBy actionWithDuration:moveTime position:ccpMult(pointOffset, moveAmount)],
-      [CCDelayTime actionWithDuration:delayTime], nil] times:numTimes],
-    [CCMoveTo actionWithDuration:0.1f position:startPos],
-    [CCCallFunc actionWithTarget:self selector:@selector(restoreStandingFrame)],
-    [CCCallFunc actionWithTarget:target selector:selector],
+      [CCActionMoveBy actionWithDuration:moveTime position:ccpMult(pointOffset, moveAmount)],
+      [CCActionDelay actionWithDuration:delayTime], nil] times:numTimes],
+    [CCActionMoveTo actionWithDuration:0.1f position:startPos],
+    [CCActionCallFunc actionWithTarget:self selector:@selector(restoreStandingFrame)],
+    [CCActionCallFunc actionWithTarget:target selector:selector],
     nil]];
 }
 

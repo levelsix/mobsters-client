@@ -276,6 +276,8 @@
 		B7EE69E31819E75700B983FE /* CCLayoutBox.m in Sources */ = {isa = PBXBuildFile; fileRef = B7EE69DF1819E75700B983FE /* CCLayoutBox.m */; };
 		B7EE6A1E181AE34600B983FE /* CCSlider.h in Headers */ = {isa = PBXBuildFile; fileRef = B7EE6A1C181AE34600B983FE /* CCSlider.h */; };
 		B7EE6A1F181AE34600B983FE /* CCSlider.m in Sources */ = {isa = PBXBuildFile; fileRef = B7EE6A1D181AE34600B983FE /* CCSlider.m */; };
+		CFC04EE1189142CF00F2DB59 /* CCDirector+Downloader.h in Headers */ = {isa = PBXBuildFile; fileRef = CFC04EDF189142CF00F2DB59 /* CCDirector+Downloader.h */; };
+		CFC04EE2189142CF00F2DB59 /* CCDirector+Downloader.m in Sources */ = {isa = PBXBuildFile; fileRef = CFC04EE0189142CF00F2DB59 /* CCDirector+Downloader.m */; };
 		D2CB8493187F80EF006820BE /* kazmath.h in Headers */ = {isa = PBXBuildFile; fileRef = A015BFB213B826D800C73E76 /* kazmath.h */; };
 		D2CB8494187F80EF006820BE /* mat3.h in Headers */ = {isa = PBXBuildFile; fileRef = A015BFB313B826D800C73E76 /* mat3.h */; };
 		D2CB8495187F80EF006820BE /* mat4.h in Headers */ = {isa = PBXBuildFile; fileRef = A015BFB413B826D800C73E76 /* mat4.h */; };
@@ -686,6 +688,8 @@
 		B7EE69DF1819E75700B983FE /* CCLayoutBox.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CCLayoutBox.m; sourceTree = "<group>"; };
 		B7EE6A1C181AE34600B983FE /* CCSlider.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CCSlider.h; path = "cocos2d-ui/CCSlider.h"; sourceTree = "<group>"; };
 		B7EE6A1D181AE34600B983FE /* CCSlider.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CCSlider.m; path = "cocos2d-ui/CCSlider.m"; sourceTree = "<group>"; };
+		CFC04EDF189142CF00F2DB59 /* CCDirector+Downloader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "CCDirector+Downloader.h"; sourceTree = "<group>"; };
+		CFC04EE0189142CF00F2DB59 /* CCDirector+Downloader.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "CCDirector+Downloader.m"; sourceTree = "<group>"; };
 		D33803DC18032E4F0072D8FE /* CCPhysics+ObjectiveChipmunk.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "CCPhysics+ObjectiveChipmunk.h"; sourceTree = "<group>"; };
 		D33803E218032ECE0072D8FE /* CCPhysicsBody.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CCPhysicsBody.m; sourceTree = "<group>"; };
 		D33803E418032F250072D8FE /* CCPhysicsBody.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CCPhysicsBody.h; sourceTree = "<group>"; };
@@ -764,6 +768,7 @@
 		29B97314FDCFA39411CA2CEA /* CustomTemplate */ = {
 			isa = PBXGroup;
 			children = (
+				CFC04EDE1891427800F2DB59 /* LVL6 Additions */,
 				A07EC9B2141A8D32008C1F12 /* README.md */,
 				501A7CAC0EBC97BA005BC158 /* AUTHORS */,
 				508A4A2310B47A46004B9CC3 /* RELEASE_NOTES */,
@@ -1405,6 +1410,15 @@
 			name = Layouts;
 			sourceTree = "<group>";
 		};
+		CFC04EDE1891427800F2DB59 /* LVL6 Additions */ = {
+			isa = PBXGroup;
+			children = (
+				CFC04EDF189142CF00F2DB59 /* CCDirector+Downloader.h */,
+				CFC04EE0189142CF00F2DB59 /* CCDirector+Downloader.m */,
+			);
+			path = "LVL6 Additions";
+			sourceTree = "<group>";
+		};
 		E0BC7DA11342CE83001B4DCC /* Shaders */ = {
 			isa = PBXGroup;
 			children = (
@@ -1557,6 +1571,7 @@
 				50316AA610291280003ACFE7 /* CCRenderTexture.h in Headers */,
 				B7D273171822F4AA0054849B /* CCBSequenceProperty.h in Headers */,
 				D2CB8498187F80EF006820BE /* ray2.h in Headers */,
+				CFC04EE1189142CF00F2DB59 /* CCDirector+Downloader.h in Headers */,
 				50316AD41029A126003ACFE7 /* CCMotionStreak.h in Headers */,
 				505462FC1062768000AB7C52 /* ccConfig.h in Headers */,
 				50E2A15010A45E7F00D894CE /* CCSpriteFrame.h in Headers */,
@@ -1811,6 +1826,7 @@
 				50316AD51029A126003ACFE7 /* CCMotionStreak.m in Sources */,
 				50E2A15110A45E7F00D894CE /* CCSpriteFrame.m in Sources */,
 				502C8BE110A661E200D137BA /* CCSpriteFrameCache.m in Sources */,
+				CFC04EE2189142CF00F2DB59 /* CCDirector+Downloader.m in Sources */,
 				50E1357610ADEB1B00C9E7FA /* CCTexture.m in Sources */,
 				50D2AC9610E90DFA0068ECEB /* CCTiledMapLayer.m in Sources */,
 				50D2AC9810E90DFA0068ECEB /* CCTiledMapObjectGroup.m in Sources */,

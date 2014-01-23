@@ -13,7 +13,6 @@
 #import "UserData.h"
 #import "LNSynthesizeSingleton.h"
 #import "OutgoingEventController.h"
-#import "GameLayer.h"
 #import "GenericPopupController.h"
 #import "SoundEngine.h"
 #import "GameViewController.h"
@@ -33,7 +32,7 @@
 #define WALKABLE_LAYER_NAME @"Walkable"
 #define TREES_LAYER_NAME @"Treez"
 
-#define PURCHASE_CONFIRM_MENU_TAG 39245
+#define PURCHASE_CONFIRM_MENU_TAG @"PurchConfirm"
 
 #define RESOURCE_GEN_MIN_RES 10
 
@@ -42,22 +41,22 @@
 @synthesize redGid, greenGid;
 
 - (id) init {
-  self = [self initWithTMXFile:@"home.tmx"];
+  self = [self initWithFile:@"home.tmx"];
   return self;
 }
 
-- (id) initWithTMXFile:(NSString *)tmxFile {
+- (id) initWithFile:(NSString *)tmxFile {
   _loading = YES;
-  if ((self = [super initWithTMXFile:tmxFile])) {
+  if ((self = [super initWithFile:tmxFile])) {
     self.buildableData = [NSMutableArray arrayWithCapacity:[self mapSize].width];
     
     for (CCNode *child in [self children]) {
-      if ([child isKindOfClass:[CCTMXLayer class]]) {
-        CCTMXLayer *layer = (CCTMXLayer *)child;
+      if ([child isKindOfClass:[CCTiledMapLayer class]]) {
+        CCTiledMapLayer *layer = (CCTiledMapLayer *)child;
         if ([[layer layerName] isEqualToString: METATILES_LAYER_NAME]) {
           // Put meta tile layer at front,
           // when something is selected, we will make it z = 1000
-          [self reorderChild:layer z:1001];
+          child.zOrder = 1001;
           CGPoint redGidPt = ccp(_mapSize.width-1, _mapSize.height-1);
           CGPoint greenGidPt = ccp(_mapSize.width-1, _mapSize.height-2);
           redGid = [layer tileGIDAt:redGidPt];
@@ -65,7 +64,7 @@
           [layer removeTileAt:redGidPt];
           [layer removeTileAt:greenGidPt];
         } else {
-          [self reorderChild:layer z:-1];
+          child.zOrder = -1;
         }
       }
     }
@@ -88,7 +87,7 @@
       [self.walkableData addObject:row];
     }
     
-    CCTMXLayer *layer = [self layerNamed:BUILDABLE_LAYER_NAME];
+    CCTiledMapLayer *layer = [self layerNamed:BUILDABLE_LAYER_NAME];
     layer.visible = NO;
     layer = [self layerNamed:WALKABLE_LAYER_NAME];
     layer.visible = NO;
@@ -106,12 +105,12 @@
     [self refresh];
     [self moveToCenterAnimated:NO];
     
-    CCSprite *s1 = [CCSprite spriteWithFile:@"missionmap.png"];
+    CCSprite *s1 = [CCSprite spriteWithImageNamed:@"missionmap.png"];
     [self addChild:s1 z:-1000];
     
     s1.position = ccp(s1.contentSize.width/2-33, s1.contentSize.height/2-50);
     
-    CCSprite *road = [CCSprite spriteWithFile:@"homeroad.png"];
+    CCSprite *road = [CCSprite spriteWithImageNamed:@"homeroad.png"];
     [self addChild:road z:-998];
     road.position = ccp(self.contentSize.width/2-17, self.contentSize.height/2-7);
     
@@ -175,9 +174,8 @@
   [self reloadHospitals];
   [self reloadStorages];
   
-  CCNode *c;
   NSMutableArray *toRemove = [NSMutableArray array];
-  CCARRAY_FOREACH(self.children, c) {
+  for (CCNode *c in self.children) {
     if ([c isKindOfClass:[SelectableSprite class]] && ![arr containsObject:c]) {
       [toRemove addObject:c];
     }
@@ -200,7 +198,7 @@
   [self doReorder];
   _loading = NO;
   
-  if (self.isRunning) {
+  if (self.isRunningInActiveScene) {
     [self beginTimers];
   }
 }
@@ -283,8 +281,8 @@
   GameState *gs = [GameState sharedGameState];
   NSMutableArray *arr = [NSMutableArray array];
   
-  CCTMXLayer *buildLayer = [self layerNamed:BUILDABLE_LAYER_NAME];
-  CCTMXLayer *walkLayer = [self layerNamed:WALKABLE_LAYER_NAME];
+  CCTiledMapLayer *buildLayer = [self layerNamed:BUILDABLE_LAYER_NAME];
+  CCTiledMapLayer *walkLayer = [self layerNamed:WALKABLE_LAYER_NAME];
   int width = self.mapSize.width;
   int height = self.mapSize.height;
   
@@ -377,7 +375,7 @@
   [super doReorder];
   
   if ((_isMoving && self.selected) || ([self.selected isKindOfClass:[HomeBuilding class]] && !((HomeBuilding *)self.selected).isSetDown)) {
-    [self reorderChild:self.selected z:1000];
+    self.selected.zOrder = 1000;
   }
 }
 
@@ -407,7 +405,7 @@
   [self moveToSprite:_purchBuilding animated:YES];
   
   PurchaseConfirmMenu *m = [[PurchaseConfirmMenu alloc] initWithCheckTarget:self checkSelector:@selector(moveCheckClicked:) cancelTarget:self cancelSelector:@selector(cancelMoveClicked:)];
-  m.tag = PURCHASE_CONFIRM_MENU_TAG;
+  m.name = PURCHASE_CONFIRM_MENU_TAG;
   [_purchBuilding addChild:m];
   m.position = ccp(_purchBuilding.contentSize.width/2, (_purchBuilding.contentSize.height+10)*_purchBuilding.baseScale);
 }
@@ -534,7 +532,7 @@
 
 #pragma mark - Gesture Recognizers
 
-- (void) drag:(UIGestureRecognizer*)recognizer node:(CCNode*)node
+- (void) drag:(UIGestureRecognizer*)recognizer
 {
   // First check if a sprite was clicked
   CGPoint pt = [recognizer locationInView:recognizer.view];
@@ -575,12 +573,12 @@
     }
   }
   
-  [super drag:recognizer node:node];
+  [super drag:recognizer];
 }
 
-- (void) tap:(UIGestureRecognizer *)recognizer node:(CCNode *)node {
+- (void) tap:(UIGestureRecognizer *)recognizer {
   if (!_purchasing && !_isMoving) {
-    [super tap:recognizer node:node];
+    [super tap:recognizer];
     // Reorder in case something got deselected?
     [self doReorder];
   }
@@ -732,7 +730,7 @@
     
     [[SoundEngine sharedSoundEngine] carpenterPurchase];
     
-    [homeBuilding removeChildByTag:PURCHASE_CONFIRM_MENU_TAG cleanup:YES];
+    [homeBuilding removeChildByName:PURCHASE_CONFIRM_MENU_TAG cleanup:YES];
     
     _canMove = NO;
     

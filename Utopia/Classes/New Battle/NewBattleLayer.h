@@ -20,7 +20,7 @@
 
 @end
 
-@interface BattleBgdLayer : CCLayer {
+@interface BattleBgdLayer : CCNode {
   CGPoint _curBasePoint;
 }
 
@@ -36,7 +36,7 @@
 
 @end
 
-@interface NewBattleLayer : CCLayer <OrbLayerDelegate, BattleBgdLayerDelegate> {
+@interface NewBattleLayer : CCNode <OrbLayerDelegate, BattleBgdLayerDelegate> {
   int _orbCount;
   int _comboCount;
   float _currentScore;
@@ -59,7 +59,7 @@
   BOOL _isLoading;
 }
 
-@property (nonatomic, retain) CCProgressTimer *powerBar;
+@property (nonatomic, retain) CCProgressNode *powerBar;
 @property (nonatomic, retain) CCSprite *movesBgd;
 @property (nonatomic, retain) CCLabelTTF *movesLeftLabel;
 @property (nonatomic, retain) CCLabelTTF *lootLabel;
@@ -71,7 +71,7 @@
 @property (nonatomic, retain) OrbBgdLayer *orbBgdLayer;
 
 // bgdContainer holds the bgdLayer as well as battlesprites and all animations on the ground
-@property (nonatomic, retain) CCLayer *bgdContainer;
+@property (nonatomic, retain) CCNode *bgdContainer;
 @property (nonatomic, retain) BattleBgdLayer *bgdLayer;
 @property (nonatomic, retain) BattleSprite *myPlayer;
 @property (nonatomic, retain) BattleSprite *currentEnemy;
@@ -81,7 +81,7 @@
 
 @property (nonatomic, retain) CCSprite *bloodSplatter;
 
-@property (nonatomic, retain) CCLayerColor *noInputLayer;
+@property (nonatomic, retain) CCNodeColor *noInputLayer;
 
 @property (nonatomic, retain) NSArray *myTeam;
 @property (nonatomic, retain) NSArray *enemyTeam;

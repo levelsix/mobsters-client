@@ -14,7 +14,6 @@
 #import "Downloader.h"
 #import "GenericPopupController.h"
 #import "SoundEngine.h"
-#import "GameLayer.h"
 #import "HomeMap.h"
 #import "OutgoingEventController.h"
 #import "GameViewController.h"
@@ -34,7 +33,7 @@
 static NSString *fontName = @"AxeHandel";
 static int fontSize = 12;
 
-SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
+LN_SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
 
 - (id) init {
   if ((self = [super init])) {
@@ -128,8 +127,8 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
     for (NSString *str in @[@"%@RunNF.plist", @"%@AttackNF.plist", @"%@Card.png"]) {
       i++;
       NSString *fileName = [NSString stringWithFormat:str, spritePrefix];
-      fileName = [CCFileUtils getDoubleResolutionImage:fileName validate:NO];
-      [[Downloader sharedDownloader] asyncDownloadFile:fileName completion:^{
+      NSString *doubleRes = [self getDoubleResolutionImage:fileName];
+      [[Downloader sharedDownloader] asyncDownloadFile:doubleRes completion:^{
         NSDictionary *dict = [NSDictionary dictionaryWithContentsOfFile:[Globals pathToFile:fileName]];
         NSDictionary *metadataDict = [dict objectForKey:@"metadata"];
         NSString *texturePath = [metadataDict objectForKey:@"textureFileName"];
@@ -680,7 +679,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
   }
   
   // prevents overloading the autorelease pool
-  NSString *resName = [CCFileUtils getDoubleResolutionImage:fileName validate:NO];
+  NSString *resName = [self getDoubleResolutionImage:fileName];
   NSString *fullpath = [[NSBundle mainBundle] pathForResource:resName ofType:nil];
   
   // Added for Utopia project
@@ -734,7 +733,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
   }
   
   // prevents overloading the autorelease pool
-  NSString *resName = [CCFileUtils getDoubleResolutionImage:path validate:NO];
+  NSString *resName = [self getDoubleResolutionImage:path];
   UIImage *image = nil;
   NSString *fullpath = [[NSBundle mainBundle] pathForResource:resName ofType:nil];
   
@@ -815,7 +814,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
     return;
   }
   
-  NSString *resName =  [imageName rangeOfString:@"http"].location != NSNotFound ? imageName : [CCFileUtils getDoubleResolutionImage:imageName validate:NO];
+  NSString *resName =  [imageName rangeOfString:@"http"].location != NSNotFound ? imageName : [self getDoubleResolutionImage:imageName];
   NSString *fullpath = [[NSBundle mainBundle] pathForResource:resName ofType:nil];
   
   if (!fullpath) {
@@ -918,7 +917,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
   NSString *key = [NSString stringWithFormat:@"%p", s];
   [[gl imageViewsWaitingForDownloading] removeObjectForKey:key];
   
-  NSString *resName = [CCFileUtils getDoubleResolutionImage:imageName validate:NO];
+  NSString *resName = [self getDoubleResolutionImage:imageName];
   NSString *fullpath = [[NSBundle mainBundle] pathForResource:resName ofType:nil];
   
   if (!fullpath) {
@@ -934,7 +933,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
         NSString *str = [[gl imageViewsWaitingForDownloading] objectForKey:key];
         if ([str isEqualToString:imageName]) {
           if ([[NSFileManager defaultManager] fileExistsAtPath:fullpath]) {
-            CCSprite *newSprite = [CCSprite spriteWithFile:imageName];
+            CCSprite *newSprite = [CCSprite spriteWithImageNamed:imageName];
             [s.parent addChild:newSprite];
             newSprite.position = s.position;
             newSprite.anchorPoint = s.anchorPoint;
@@ -947,7 +946,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
     }
   }
   
-  CCSprite *newSprite = [CCSprite spriteWithFile:imageName];
+  CCSprite *newSprite = [CCSprite spriteWithImageNamed:imageName];
   [s.parent addChild:newSprite];
   newSprite.position = s.position;
   newSprite.anchorPoint = s.anchorPoint;
@@ -961,7 +960,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
   // Remember, frame is relative to top left corner
   float width = view.frame.size.width;
   float height = view.frame.size.height;
-  view.frame = CGRectMake(pt.x-width/2, ([[CCDirector sharedDirector] winSize].height - pt.y)-height, width, height);
+  view.frame = CGRectMake(pt.x-width/2, ([[CCDirector sharedDirector] viewSize].height - pt.y)-height, width, height);
 }
 
 + (NSString *) nameForDialogueSpeaker:(DialogueProto_SpeechSegmentProto_DialogueSpeaker)speaker {
@@ -1423,20 +1422,6 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
   return [UIColor colorWithRed:120/255.f green:117/255.f blue:98/255.f alpha:1.f];
 }
 
-+ (GameMap *)mapForQuest:(FullQuestProto *)fqp {
-  if (fqp.cityId > 0) {
-    GameLayer *gLay = [GameLayer sharedGameLayer];
-    if (gLay.currentCity == fqp.cityId) {
-      return (GameMap *)[gLay missionMap];
-    } else {
-      return nil;
-    }
-  } else {
-    //      return [HomeMap sharedHomeMap];
-  }
-  return nil;
-}
-
 + (NSString *) bazaarQuestGiverName {
   return @"Bizzaro Byrone";
 }
@@ -1465,15 +1450,15 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
   
   float scaleX = arrow.scaleX;
   float scaleY = arrow.scaleY;
-  CCMoveBy *upAction = [CCEaseSineInOut actionWithAction:[CCSpawn actions:
-                                                          [CCMoveTo actionWithDuration:ARROW_ANIMATION_DURATION position:ccpAdd(arrow.position, ccp(-ARROW_ANIMATION_DISTANCE*cosf(angle), -ARROW_ANIMATION_DISTANCE*sinf(angle)))],
-                                                          [CCScaleTo actionWithDuration:ARROW_ANIMATION_DURATION scaleX:scaleX scaleY:scaleY],
-                                                          nil]];
-  CCMoveBy *downAction = [CCEaseSineInOut actionWithAction:[CCSpawn actions:
-                                                            [CCMoveTo actionWithDuration:ARROW_ANIMATION_DURATION position:arrow.position],
-                                                            [CCScaleTo actionWithDuration:ARROW_ANIMATION_DURATION scaleX:scaleX scaleY:0.9f*scaleY],
-                                                            nil]];
-  [arrow runAction:[CCRepeatForever actionWithAction:[CCSequence actions:upAction, downAction, nil]]];
+  CCActionMoveBy *upAction = [CCActionEaseInOut actionWithAction:[CCActionSpawn actions:
+                                                                  [CCActionMoveTo actionWithDuration:ARROW_ANIMATION_DURATION position:ccpAdd(arrow.position, ccp(-ARROW_ANIMATION_DISTANCE*cosf(angle), -ARROW_ANIMATION_DISTANCE*sinf(angle)))],
+                                                                  [CCActionScaleTo actionWithDuration:ARROW_ANIMATION_DURATION scaleX:scaleX scaleY:scaleY],
+                                                                  nil]];
+  CCActionMoveBy *downAction = [CCActionEaseInOut actionWithAction:[CCActionSpawn actions:
+                                                                    [CCActionMoveTo actionWithDuration:ARROW_ANIMATION_DURATION position:arrow.position],
+                                                                    [CCActionScaleTo actionWithDuration:ARROW_ANIMATION_DURATION scaleX:scaleX scaleY:0.9f*scaleY],
+                                                                    nil]];
+  [arrow runAction:[CCActionRepeatForever actionWithAction:[CCActionSequence actions:upAction, downAction, nil]]];
 }
 
 - (BOOL) validateUserName:(NSString *)name {
@@ -1616,26 +1601,59 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
   return YES;
 }
 
++(NSString*) getDoubleResolutionImage:(NSString*)path {
+	if( [CCDirector sharedDirector].contentScaleFactor == 2 )
+	{
+		
+		NSString *pathWithoutExtension = [path stringByDeletingPathExtension];
+		NSString *name = [pathWithoutExtension lastPathComponent];
+		
+		// check if path already has the suffix.
+		if( [name rangeOfString:@"@2x"].location != NSNotFound ) {
+      
+			CCLOG(@"cocos2d: WARNING Filename(%@) already has the suffix %@. Using it.", name, @"@2x");
+			return path;
+		}
+    
+		
+		NSString *extension = [path pathExtension];
+		
+		if( [extension isEqualToString:@"ccz"] || [extension isEqualToString:@"gz"] )
+		{
+			// All ccz / gz files should be in the format filename.xxx.ccz
+			// so we need to pull off the .xxx part of the extension as well
+			extension = [NSString stringWithFormat:@"%@.%@", [pathWithoutExtension pathExtension], extension];
+			pathWithoutExtension = [pathWithoutExtension stringByDeletingPathExtension];
+		}
+		
+		
+		NSString *retinaName = [pathWithoutExtension stringByAppendingString:@"@2x"];
+		retinaName = [retinaName stringByAppendingPathExtension:extension];
+    
+    return retinaName;
+    
+		CCLOG(@"cocos2d: CCFileUtils: Warning HD file not found: %@", [retinaName lastPathComponent] );
+	}
+	
+	return path;
+}
+
 @end
 
 @implementation CCNode (RecursiveOpacity)
 
 - (void) recursivelyApplyOpacity:(GLubyte)opacity {
-  if ([self conformsToProtocol:@protocol(CCRGBAProtocol)]) {
-    [(id<CCRGBAProtocol>)self setOpacity:opacity];
-  }
-  if ([self isKindOfClass:[CCProgressTimer class]]) {
-    self.visible = opacity > 150;
+  self.opacity = opacity;
+  if ([self isKindOfClass:[CCProgressNode class]]) {
+    self.visible = opacity > 0.6f;
   }
   for (CCNode *c in self.children) {
     [c recursivelyApplyOpacity:opacity];
   }
 }
 
-- (void) recursivelyApplyColor:(ccColor3B)color {
-  if ([self conformsToProtocol:@protocol(CCRGBAProtocol)]) {
-    [(id<CCRGBAProtocol>)self setColor:color];
-  }
+- (void) recursivelyApplyColor:(CCColor *)color {
+  self.color = color;
   for (CCNode *c in self.children) {
     [c recursivelyApplyColor:color];
   }
@@ -1645,18 +1663,23 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
 
 @implementation RecursiveFadeTo
 
--(void) update: (ccTime) t
+-(void) update: (CCTime) t
 {
 	[_target recursivelyApplyOpacity:_fromOpacity + ( _toOpacity - _fromOpacity ) * t];
 }
 
 @end
-
+ 
 @implementation RecursiveTintTo
 
--(void) update: (ccTime) t
+-(void) update: (CCTime) t
 {
-	[_target recursivelyApplyColor:ccc3(_from.r + (_to.r - _from.r) * t, _from.g + (_to.g - _from.g) * t, _from.b + (_to.b - _from.b) * t)];
+	CCNode* tn = (CCNode*) _target;
+  
+	ccColor4F fc = _from.ccColor4f;
+	ccColor4F tc = _to.ccColor4f;
+  
+	[tn recursivelyApplyColor:[CCColor colorWithRed:fc.r + (tc.r - fc.r) * t green:fc.g + (tc.g - fc.g) * t blue:fc.b + (tc.b - fc.b) * t alpha:tn.opacity]];
 }
 
 @end

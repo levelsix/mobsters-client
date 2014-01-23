@@ -10,16 +10,13 @@
 
 #import "AppDelegate.h"
 #import "GameConfig.h"
-#import "GameLayer.h"
 #import "GameViewController.h"
 #import "SocketCommunication.h"
 #import "IAPHelper.h"
 #import "GameState.h"
 #import "OutgoingEventController.h"
 #import "Globals.h"
-//#import "Apsalar.h"
 #import "SoundEngine.h"
-//#import "Crittercism.h"
 #import "Downloader.h"
 #import "Amplitude.h"
 #import <MobileAppTracker/MobileAppTracker.h>

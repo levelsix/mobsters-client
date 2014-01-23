@@ -201,7 +201,6 @@
 + (UIColor *)yellowColor;
 + (UIColor *)greyishTanColor;
 
-+ (GameMap *) mapForQuest:(FullQuestProto *)fqp;
 + (NSString *) bazaarQuestGiverName;
 + (NSString *) homeQuestGiverName;
 
@@ -218,6 +217,8 @@
 + (UIColor *) colorForColorProto:(ColorProto *)cp;
 
 + (BOOL) userHasBeginnerShield:(uint64_t)createTime hasActiveShield:(BOOL)hasActiveShield;
+
++(NSString*) getDoubleResolutionImage:(NSString*)path;
 
 // Formulas
 - (int) calculateGemSpeedupCostForTimeLeft:(int)timeLeft;
@@ -256,15 +257,15 @@
 @interface CCNode (RecursiveOpacity)
 
 - (void) recursivelyApplyOpacity:(GLubyte)opacity;
-- (void) recursivelyApplyColor:(ccColor3B)color;
+- (void) recursivelyApplyColor:(CCColor *)color;
 
 @end
 
-@interface RecursiveFadeTo : CCFadeTo
+@interface RecursiveFadeTo : CCActionFadeTo
 
 @end
 
-@interface RecursiveTintTo : CCTintTo
+@interface RecursiveTintTo : CCActionTintTo
 
 @end
 

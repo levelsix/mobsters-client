@@ -10,10 +10,10 @@
 #import "UserData.h"
 #import "MapSprite.h"
 
-#define CONSTRUCTION_TAG 49
-#define SHADOW_TAG 50
-#define BOUNCE_ACTION_TAG 3022
-#define UPGRADING_TAG 123
+#define CONSTRUCTION_TAG @"Construction"
+#define SHADOW_TAG @"Shadow"
+#define BOUNCE_ACTION_TAG 25334
+#define UPGRADING_TAG @"Upgrade"
 
 @class GameMap;
 @class HomeMap;

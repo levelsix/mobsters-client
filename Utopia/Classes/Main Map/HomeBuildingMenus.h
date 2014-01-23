@@ -22,7 +22,7 @@
   CCLabelTTF *_timeLabel;
 }
 
-@property (nonatomic, retain) CCProgressTimer *progressBar;
+@property (nonatomic, retain) CCProgressNode *progressBar;
 
 - (id) initBar;
 - (void) updateForSecsLeft:(int)secs totalSecs:(int)totalSecs;

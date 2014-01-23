@@ -83,7 +83,7 @@
   [self.endView displayLossWithDungeon:self.dungeonInfo];
   _wonBattle = won;
   
-  [self.orbBgdLayer runAction:[CCMoveBy actionWithDuration:0.5f position:ccp(self.contentSize.width, 0)]];
+  [self.orbBgdLayer runAction:[CCActionMoveBy actionWithDuration:0.5f position:ccp(self.contentSize.width, 0)]];
   
   if (won) {
     [self.endView displayWinWithDungeon:self.dungeonInfo];
@@ -328,7 +328,7 @@
   
   // This will spawn the deploy view assuming someone is alive
   [self currentMyPlayerDied];
-  [self addChild:[CCBReader nodeGraphFromFile:@"Untitled"]];
+  [self addChild:[CCBReader load:@"Untitled"]];
   
   [Kamcord startRecording];
 }

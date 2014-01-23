@@ -12,6 +12,8 @@
 #import "SoundEngine.h"
 #import "GameState.h"
 #import "OutgoingEventController.h"
+#import "CCAnimation.h"
+#import "CCTextureCache.h"
 
 // Disable for this file
 #pragma clang diagnostic push
@@ -37,7 +39,7 @@
 
 #define PUZZLE_BGD_TAG 1456
 
-#define NO_INPUT_LAYER_OPACITY 150
+#define NO_INPUT_LAYER_OPACITY 0.6f
 
 #define CENTER_OF_BATTLE ccp((self.contentSize.width-self.orbBgdLayer.contentSize.width-14)/2, self.contentSize.height/2-40)
 #define PLAYER_X_DISTANCE_FROM_CENTER (CENTER_OF_BATTLE.x*0.4+4)
@@ -49,7 +51,7 @@
 
 #define PUZZLE_ON_LEFT_BGD_OFFSET (self.contentSize.width-2*CENTER_OF_BATTLE.x)
 
-#define COMBO_FIRE_TAG 9283
+#define COMBO_FIRE_TAG @"ComboFire"
 
 @implementation BattleBgdLayer
 
@@ -73,10 +75,10 @@
   }
   
   float nextBaseX = self.position.x-Y_MOVEMENT_FOR_NEW_SCENE*offsetPerScene.x/offsetPerScene.y;
-  [self runAction:[CCSequence actions:
-                   [CCMoveTo actionWithDuration:TIME_TO_SCROLL_PER_SCENE position:ccp(nextBaseX, nextBaseY)],
-                   [CCCallFunc actionWithTarget:self selector:@selector(removePastScenes)],
-                   [CCCallFunc actionWithTarget:self.delegate selector:@selector(reachedNextScene)],
+  [self runAction:[CCActionSequence actions:
+                   [CCActionMoveTo actionWithDuration:TIME_TO_SCROLL_PER_SCENE position:ccp(nextBaseX, nextBaseY)],
+                   [CCActionCallFunc actionWithTarget:self selector:@selector(removePastScenes)],
+                   [CCActionCallFunc actionWithTarget:self.delegate selector:@selector(reachedNextScene)],
                    nil]];
 }
 
@@ -94,8 +96,8 @@
 }
 
 - (void) addSceneAtBasePosition:(CGPoint)pos {
-  CCSprite *left1 = [CCSprite spriteWithFile:@"scene1left.png"];
-  CCSprite *right1 = [CCSprite spriteWithFile:@"scene1right.png"];
+  CCSprite *left1 = [CCSprite spriteWithImageNamed:@"scene1left.png"];
+  CCSprite *right1 = [CCSprite spriteWithImageNamed:@"scene1right.png"];
   
   left1.position = ccp(pos.x+left1.contentSize.width/2, pos.y+left1.contentSize.height/2);
   right1.position = ccp(left1.position.x+left1.contentSize.width/2+right1.contentSize.width/2,
@@ -104,8 +106,8 @@
   [self addChild:left1];
   [self addChild:right1];
   
-  CCSprite *left2 = [CCSprite spriteWithFile:@"scene2left.png"];
-  CCSprite *right2 = [CCSprite spriteWithFile:@"scene2right.png"];
+  CCSprite *left2 = [CCSprite spriteWithImageNamed:@"scene2left.png"];
+  CCSprite *right2 = [CCSprite spriteWithImageNamed:@"scene2right.png"];
   
   left2.position = ccp(pos.x+left2.contentSize.width/2+POINT_OFFSET_PER_SCENE.x/2,
                        left1.position.y+left1.contentSize.height/2+left2.contentSize.height/2);
@@ -130,24 +132,21 @@
     
     OrbBgdLayer *puzzleBg = [[OrbBgdLayer alloc] initWithGridSize:gridSize];
     [self addChild:puzzleBg z:2];
-    puzzleBg.ignoreAnchorPointForPosition = NO;
     float puzzX = puzzleIsOnLeft ? puzzleBg.contentSize.width/2+14 : self.contentSize.width-puzzleBg.contentSize.width/2-14;
     puzzleBg.position = ccp(puzzX, self.contentSize.height/2);
     self.orbBgdLayer = puzzleBg;
     
     OrbLayer *ol = [[OrbLayer alloc] initWithContentSize:puzzleBg.contentSize gridSize:gridSize numColors:6];
-    ol.ignoreAnchorPointForPosition = NO;
     ol.position = ccp(puzzleBg.contentSize.width/2, puzzleBg.contentSize.height/2);
     [self.orbBgdLayer addChild:ol z:2];
     ol.delegate = self;
     self.orbLayer = ol;
     
-    self.noInputLayer = [CCLayerColor layerWithColor:ccc4(0, 0, 0, NO_INPUT_LAYER_OPACITY) width:self.orbLayer.contentSize.width height:self.orbLayer.contentSize.height];
+    self.noInputLayer = [CCNodeColor nodeWithColor:[CCColor colorWithCcColor4f:ccc4f(0, 0, 0, NO_INPUT_LAYER_OPACITY)] width:self.orbLayer.contentSize.width height:self.orbLayer.contentSize.height];
     [self.orbBgdLayer addChild:self.noInputLayer z:self.orbLayer.zOrder];
-    self.noInputLayer.ignoreAnchorPointForPosition = NO;
     self.noInputLayer.position = ol.position;
     
-    self.bgdContainer = [CCLayer node];
+    self.bgdContainer = [CCNode node];
     [self addChild:self.bgdContainer z:0];
     
     self.bgdLayer = [BattleBgdLayer node];
@@ -186,8 +185,7 @@
   CCClippingNode *clip = (CCClippingNode *)_comboBgd.parent;
   CCDrawNode *stencil = [CCDrawNode node];
   CGPoint rectangle[] = {{0, 0}, {clip.contentSize.width, 0}, {clip.contentSize.width, clip.contentSize.height}, {0, clip.contentSize.height}};
-  ccColor4F white = {1, 1, 1, 1};
-  [stencil drawPolyWithVerts:rectangle count:4 fillColor:white borderWidth:1 borderColor:white];
+  [stencil drawPolyWithVerts:rectangle count:4 fillColor:[CCColor whiteColor] borderWidth:1 borderColor:[CCColor whiteColor]];
   clip.stencil = stencil;
 }
 
@@ -204,11 +202,11 @@
 - (void) setupUI {
   OrbBgdLayer *puzzleBg = self.orbBgdLayer;
   
-//  CCSprite *powerBgd = [CCSprite spriteWithFile:@"powermeterbg.png"];
+//  CCSprite *powerBgd = [CCSprite spriteWithImageNamed:@"powermeterbg.png"];
 //  [puzzleBg addChild:powerBgd z:1];
 //  powerBgd.position = ccpAdd(ccp(powerBgd.contentSize.width/2, -powerBgd.contentSize.height/2), ccp(15, puzzleBg.contentSize.height-3));
 //  
-//  _powerBar = [CCProgressTimer progressWithSprite:[CCSprite spriteWithFile:@"powermeter.png"]];
+//  _powerBar = [CCProgressTimer progressWithSprite:[CCSprite spriteWithImageNamed:@"powermeter.png"]];
 //  [powerBgd addChild:_powerBar];
 //  _powerBar.position = ccp(powerBgd.contentSize.width/2-0.5, powerBgd.contentSize.height/2);
 //  _powerBar.type = kCCProgressTimerTypeBar;
@@ -223,18 +221,24 @@
 //  [powerBgd addChild:l];
 //  l.position = ccp(powerBgd.contentSize.width*2/3, 0);
   
-  _movesBgd = [CCSprite spriteWithFile:@"movesbg.png"];
+  _movesBgd = [CCSprite spriteWithImageNamed:@"movesbg.png"];
   [puzzleBg addChild:_movesBgd z:-1];
   
-  CCLabelTTF *movesLabel = [CCLabelTTF labelWithString:@"MOVES " fontName:@"GothamNarrow-UltraItalic" fontSize:10 dimensions:CGSizeMake(100, 30) hAlignment:kCCTextAlignmentRight];
+  CCLabelTTF *movesLabel = [CCLabelTTF labelWithString:@"MOVES " fontName:@"GothamNarrow-UltraItalic" fontSize:10 dimensions:CGSizeMake(100, 30)];
+  movesLabel.horizontalAlignment = CCTextAlignmentRight;
   [_movesBgd addChild:movesLabel];
-  [movesLabel setFontFillColor:ccc3(255, 255, 255) updateImage:YES];
-  [movesLabel enableShadowWithOffset:CGSizeMake(0, -1) opacity:0.3f blur:1.f updateImage:YES];
+  [movesLabel setColor:[CCColor whiteColor]];
+  [movesLabel setShadowOffset:ccp(0,-1)];
+  [movesLabel setOpacity:0.3f];
+  [movesLabel setShadowBlurRadius:1.f];
   
-  _movesLeftLabel = [CCLabelTTF labelWithString:@"5" fontName:@"GothamNarrow-UltraItalic" fontSize:19 dimensions:CGSizeMake(100, 30) hAlignment:kCCTextAlignmentRight];
+  _movesLeftLabel = [CCLabelTTF labelWithString:@"5" fontName:@"GothamNarrow-UltraItalic" fontSize:19 dimensions:CGSizeMake(100, 30)];
   [_movesBgd addChild:_movesLeftLabel];
-  [_movesLeftLabel setFontFillColor:ccc3(255,200,0) updateImage:YES];
-  [_movesLeftLabel enableShadowWithOffset:CGSizeMake(0, -1) opacity:0.3f blur:1.f updateImage:YES];
+  [_movesLeftLabel setHorizontalAlignment:CCTextAlignmentRight];
+  [_movesLeftLabel setColor:[CCColor whiteColor]];
+  [_movesLeftLabel setShadowOffset:ccp(0,-1)];
+  [_movesLeftLabel setOpacity:0.3f];
+  [_movesLeftLabel setShadowBlurRadius:1.f];
   
   if (_puzzleIsOnLeft) {
     _movesBgd.anchorPoint = ccp(0, 0.5);
@@ -256,18 +260,18 @@
     _movesLeftLabel.position = ccp(62, 27);
   }
   
-  CCSprite *lootBgd = [CCSprite spriteWithFile:@"collectioncapsule.png"];
+  CCSprite *lootBgd = [CCSprite spriteWithImageNamed:@"collectioncapsule.png"];
   [self addChild:lootBgd];
   lootBgd.position = ccp(puzzleBg.position.x-puzzleBg.contentSize.width/2-lootBgd.contentSize.width/2-5,
                         36*3.5);
 
   _lootLabel = [CCLabelTTF labelWithString:@"0" fontName:[Globals font] fontSize:13];
   [lootBgd addChild:_lootLabel];
-  _lootLabel.color = ccc3(0, 0, 0);
+  _lootLabel.color = [CCColor blackColor];
   _lootLabel.rotation = -20.f;
   _lootLabel.position = ccp(lootBgd.contentSize.width-13, lootBgd.contentSize.height/2-1);
   
-  _comboBgd = [CCSprite spriteWithFile:@"combobg.png"];
+  _comboBgd = [CCSprite spriteWithImageNamed:@"combobg.png"];
   _comboBgd.anchorPoint = ccp(1, 0.5);
   
   CCClippingNode *clip = [CCClippingNode clippingNode];
@@ -321,7 +325,7 @@
   
   self.myPlayer.isFacingNear = YES;
   [self.myPlayer beginWalking];
-  [self.myPlayer runAction:[CCMoveTo actionWithDuration:ccpDistance(startPos, endPos)/MY_WALKING_SPEED position:endPos]];
+  [self.myPlayer runAction:[CCActionMoveTo actionWithDuration:ccpDistance(startPos, endPos)/MY_WALKING_SPEED position:endPos]];
   [self stopPulsing];
 }
 
@@ -335,9 +339,9 @@
   [self.myPlayer beginWalking];
   self.myPlayer.position = newPos;
   [self.myPlayer runAction:
-   [CCSequence actions:
-    [CCMoveTo actionWithDuration:ccpDistance(finalPos, newPos)/MY_WALKING_SPEED position:finalPos],
-    [CCCallBlock actionWithBlock:
+   [CCActionSequence actions:
+    [CCActionMoveTo actionWithDuration:ccpDistance(finalPos, newPos)/MY_WALKING_SPEED position:finalPos],
+    [CCActionCallBlock actionWithBlock:
      ^{
        float perc = ((float)self.myPlayerObject.curHealth)/self.myPlayerObject.maxHealth;
        if (perc < PULSE_CONT_THRESH) {
@@ -363,7 +367,7 @@
     [self spawnNextEnemy];
     [self displayWaveNumber];
   } else {
-    [self runAction:[CCSequence actions:[CCDelayTime actionWithDuration:2.f], [CCCallFunc actionWithTarget:self selector:@selector(youWon)], nil]];
+    [self runAction:[CCActionSequence actions:[CCActionDelay actionWithDuration:2.f], [CCActionCallFunc actionWithTarget:self selector:@selector(youWon)], nil]];
   }
 }
 
@@ -377,10 +381,10 @@
   CGPoint newPos = ccpAdd(finalPos, ccp(Y_MOVEMENT_FOR_NEW_SCENE*offsetPerScene.x/offsetPerScene.y, Y_MOVEMENT_FOR_NEW_SCENE));
   
   self.currentEnemy.position = newPos;
-  [self.currentEnemy runAction:[CCMoveTo actionWithDuration:TIME_TO_SCROLL_PER_SCENE position:finalPos]];
+  [self.currentEnemy runAction:[CCActionMoveTo actionWithDuration:TIME_TO_SCROLL_PER_SCENE position:finalPos]];
   
   [self.currentEnemy.healthLabel stopActionByTag:RED_TINT_TAG];
-  self.currentEnemy.healthLabel.color = ccc3(255,255,255);
+  self.currentEnemy.healthLabel.color = [CCColor colorWithCcColor3b:ccc3(255,255,255)];
 }
 
 - (void) createNextEnemySprite {
@@ -431,7 +435,7 @@
 - (void) updatePowerBar {
   float newPerc = ((float)_currentScore)/MAKEITRAIN_SCORE*100;
   float diff = newPerc-self.powerBar.percentage;
-  CCAction *a = [CCProgressTo actionWithDuration:diff/50.f percent:newPerc];
+  CCAction *a = [CCActionProgressTo actionWithDuration:diff/50.f percent:newPerc];
   a.tag = 18302;
   [self.powerBar stopActionByTag:a.tag];
   [self.powerBar runAction:a];
@@ -439,9 +443,9 @@
 
 - (void) pulseLabel:(CCNode *)label {
   if (![label getActionByTag:924]) {
-    CCScaleBy *a = [CCScaleBy actionWithDuration:0.4f scale:1.2];
+    CCActionScaleBy *a = [CCActionScaleBy actionWithDuration:0.4f scale:1.2];
     CCAction *b = [a reverse];
-    CCSequence *seq = [CCEaseSineInOut actionWithAction:[CCSequence actions:a, b, nil]];
+    CCActionSequence *seq = [CCActionEaseInOut actionWithAction:[CCActionSequence actions:a, b, nil]];
     seq.tag = 924;
     [label runAction:seq];
   }
@@ -500,9 +504,9 @@
   
   float strength = MIN(1, _currentScore/STRENGTH_FOR_MAX_SHOTS);
   [self.myPlayer performFarAttackAnimationWithStrength:strength target:nil selector:nil];
-  [self runAction:[CCSequence actions:
-                   [CCDelayTime actionWithDuration:0.3],
-                   [CCCallBlock actionWithBlock:
+  [self runAction:[CCActionSequence actions:
+                   [CCActionDelay actionWithDuration:0.3],
+                   [CCActionCallBlock actionWithBlock:
                     ^{
                       [self.currentEnemy performNearFlinchAnimationWithStrength:strength target:self selector:@selector(dealMyDamage)];
                     }],
@@ -517,7 +521,7 @@
     [self pulseHealthLabel:YES];
   } else {
     [self.currentEnemy.healthLabel stopActionByTag:RED_TINT_TAG];
-    self.currentEnemy.healthLabel.color = ccc3(255, 255, 255);
+    self.currentEnemy.healthLabel.color = [CCColor whiteColor];
   }
 }
 
@@ -542,7 +546,7 @@
   BattlePlayer *att, *def;
   BattleSprite *attSpr, *defSpr;
   CCLabelTTF *healthLabel;
-  CCProgressTimer *healthBar;
+  CCProgressNode *healthBar;
   if (enemyIsAttacker) {
     att = self.enemyPlayerObject; def = self.myPlayerObject;
     attSpr = self.currentEnemy; defSpr = self.myPlayer;
@@ -562,25 +566,25 @@
   
   damageDone = damageDone < 0 ? curHealth-newHealth : damageDone;
   
-  [healthBar runAction:[CCSequence actions:
-                        [CCEaseSineIn actionWithAction:[CCProgressTo actionWithDuration:percChange/HEALTH_BAR_SPEED percent:newPercent]],
-                        [CCCallBlock actionWithBlock:
+  [healthBar runAction:[CCActionSequence actions:
+                        [CCActionEaseIn actionWithAction:[CCActionProgressTo actionWithDuration:percChange/HEALTH_BAR_SPEED percent:newPercent]],
+                        [CCActionCallBlock actionWithBlock:
                          ^{
                            [healthLabel stopActionByTag:1015];
                            
                            _currentScore = 0;
                            [self updateHealthBars];
                          }],
-                        [CCCallFunc actionWithTarget:self selector:selector],
+                        [CCActionCallFunc actionWithTarget:self selector:selector],
                         nil]];
   
-  CCRepeat *f = [CCRepeatForever actionWithAction:
-                 [CCSequence actions:
-                  [CCCallBlock actionWithBlock:
+  CCActionRepeat *f = [CCActionRepeatForever actionWithAction:
+                 [CCActionSequence actions:
+                  [CCActionCallBlock actionWithBlock:
                    ^{
                      healthLabel.string = [NSString stringWithFormat:@"%@/%@", [Globals commafyNumber:(int)(healthBar.percentage/100.f*def.maxHealth)], [Globals commafyNumber:def.maxHealth]];
                    }],
-                  [CCDelayTime actionWithDuration:0.01],
+                  [CCActionDelay actionWithDuration:0.01],
                   nil]];
   f.tag = 1015;
   [healthLabel runAction:f];
@@ -588,14 +592,14 @@
   CCLabelTTF *damageLabel = [CCLabelTTF labelWithString:[NSString stringWithFormat:@"-%@", [Globals commafyNumber:damageDone]] fontName:[Globals font] fontSize:25];
   [self.bgdContainer addChild:damageLabel z:defSpr.zOrder];
   damageLabel.position = ccpAdd(defSpr.position, ccp(0, defSpr.contentSize.height-15));
-  damageLabel.color = ccc3(255, 0, 0);
+  damageLabel.color = [CCColor colorWithCcColor3b:ccc3(255, 0, 0)];
   damageLabel.scale = 0.01;
-  [damageLabel runAction:[CCSequence actions:
-                          [CCSpawn actions:
-                           [CCEaseElasticOut actionWithAction:[CCScaleTo actionWithDuration:1.2f scale:1]],
-                           [CCFadeOut actionWithDuration:1.5f],
-                           [CCMoveBy actionWithDuration:1.5f position:ccp(0,25)],nil],
-                          [CCCallFunc actionWithTarget:damageLabel selector:@selector(removeFromParent)], nil]];
+  [damageLabel runAction:[CCActionSequence actions:
+                          [CCActionSpawn actions:
+                           [CCActionEaseElasticOut actionWithAction:[CCActionScaleTo actionWithDuration:1.2f scale:1]],
+                           [CCActionFadeOut actionWithDuration:1.5f],
+                           [CCActionMoveBy actionWithDuration:1.5f position:ccp(0,25)],nil],
+                          [CCActionCallFunc actionWithTarget:damageLabel selector:@selector(removeFromParent)], nil]];
   
   def.curHealth = newHealth;
   
@@ -605,12 +609,12 @@
 }
 
 - (void) blowupBattleSprite:(BattleSprite *)sprite withBlock:(void(^)())block {
-  [sprite runAction:[CCSequence actions:[RecursiveFadeTo actionWithDuration:0.3f opacity:0],
-                     [CCDelayTime actionWithDuration:0.7f],
-                     [CCCallFunc actionWithTarget:sprite selector:@selector(removeFromParent)],
-                     [CCCallBlock actionWithBlock:block], nil]];
+  [sprite runAction:[CCActionSequence actions:[RecursiveFadeTo actionWithDuration:0.3f opacity:0],
+                     [CCActionDelay actionWithDuration:0.7f],
+                     [CCActionCallFunc actionWithTarget:sprite selector:@selector(removeFromParent)],
+                     [CCActionCallBlock actionWithBlock:block], nil]];
   
-  CCParticleSystemQuad *q = [CCParticleSystemQuad particleWithFile:@"characterdie.plist"];
+  CCParticleSystemBase *q = [CCParticleSystemBase particleWithFile:@"characterdie.plist"];
   q.autoRemoveOnFinish = YES;
   q.position = ccpAdd(sprite.position, ccp(0, sprite.contentSize.height/2-5));
   [self.bgdContainer addChild:q z:0];
@@ -671,14 +675,14 @@
   float fadeTime = 0.2;
   float delayTime = 1.05;
   
-  CCLayerColor *l = [CCLayerColor layerWithColor:ccc4(0, 0, 0, 0) width:self.contentSize.width height:self.contentSize.height];
+  CCNodeColor *l = [CCNodeColor nodeWithColor:[CCColor colorWithCcColor4b:ccc4(0, 0, 0, 0)] width:self.contentSize.width height:self.contentSize.height];
   [self addChild:l];
-  [l runAction:[CCSequence actions:
-                [CCDelayTime actionWithDuration:initDelay],
-                [CCFadeTo actionWithDuration:fadeTime opacity:180],
-                [CCDelayTime actionWithDuration:delayTime],
-                [CCFadeTo actionWithDuration:fadeTime opacity:0],
-                [CCCallBlock actionWithBlock:
+  [l runAction:[CCActionSequence actions:
+                [CCActionDelay actionWithDuration:initDelay],
+                [CCActionFadeTo actionWithDuration:fadeTime opacity:180],
+                [CCActionDelay actionWithDuration:delayTime],
+                [CCActionFadeTo actionWithDuration:fadeTime opacity:0],
+                [CCActionCallBlock actionWithBlock:
                  ^{
                    [l removeFromParentAndCleanup:YES];
                  }], nil]];
@@ -687,12 +691,12 @@
   [self addChild:label];
   label.position = ccp(CENTER_OF_BATTLE.x, -label.contentSize.height/2);
   
-  [label runAction:[CCSequence actions:
-                    [CCDelayTime actionWithDuration:initDelay],
-                    [CCEaseSineOut actionWithAction:[CCMoveTo actionWithDuration:fadeTime position:ccp(label.position.x, self.contentSize.height/2)]],
-                    [CCDelayTime actionWithDuration:delayTime],
-                    [CCEaseSineIn actionWithAction:[CCMoveTo actionWithDuration:fadeTime position:ccp(label.position.x, self.contentSize.height+label.contentSize.height)]],
-                    [CCCallBlock actionWithBlock:
+  [label runAction:[CCActionSequence actions:
+                    [CCActionDelay actionWithDuration:initDelay],
+                    [CCActionEaseOut actionWithAction:[CCActionMoveTo actionWithDuration:fadeTime position:ccp(label.position.x, self.contentSize.height/2)]],
+                    [CCActionDelay actionWithDuration:delayTime],
+                    [CCActionEaseIn actionWithAction:[CCActionMoveTo actionWithDuration:fadeTime position:ccp(label.position.x, self.contentSize.height+label.contentSize.height)]],
+                    [CCActionCallBlock actionWithBlock:
                      ^{
                        [label removeFromParentAndCleanup:YES];
                      }], nil]];
@@ -702,11 +706,11 @@
   GameState *gs = [GameState sharedGameState];
   MonsterProto *mp = [gs monsterWithId:equipId];
   NSString *fileName = [Globals imageNameForRarity:mp.quality suffix:@"piece.png"];
-  CCSprite *ed = [CCSprite spriteWithFile:fileName];
+  CCSprite *ed = [CCSprite spriteWithImageNamed:fileName];
   [self.bgdContainer addChild:ed z:-1];
   ed.position = ccpAdd(self.currentEnemy.position, ccp(0,self.currentEnemy.contentSize.height/2));
   ed.scale = 0.01;
-  ed.opacity = 5;
+  ed.opacity = 0.1f;
   
   float scale = 25.f/ed.contentSize.width;
   float distScale = 0.2f;
@@ -715,27 +719,27 @@
   bezier.endPosition = [self.bgdContainer convertToNodeSpace:[self.lootLabel.parent.parent convertToWorldSpace:self.lootLabel.parent.position]];
   bezier.controlPoint_1 = ccp(ed.position.x+(bezier.endPosition.x-ed.position.x)/3,bezier.endPosition.y+(ed.position.y-bezier.endPosition.y)/2+10);
   bezier.controlPoint_2 = ccp(ed.position.x+(bezier.endPosition.x-ed.position.x)*2/3,bezier.endPosition.y+(ed.position.y-bezier.endPosition.y)/2+10);
-  CCBezierTo *bezierForward = [CCBezierTo actionWithDuration:0.3f bezier:bezier];
+  CCActionBezierTo *bezierForward = [CCActionBezierTo actionWithDuration:0.3f bezier:bezier];
   
-  [ed runAction:[CCSpawn actions:
-                 [CCFadeIn actionWithDuration:0.1],
-                 [CCScaleTo actionWithDuration:0.1 scale:scale],
-                 [CCSequence actions:
-                  [CCMoveByCustom actionWithDuration:SILVER_STACK_BOUNCE_DURATION*0.2 position:ccp(0,20)],
-                  [CCEaseBounceOut actionWithAction:
-                   [CCMoveByCustom actionWithDuration:SILVER_STACK_BOUNCE_DURATION*0.8 position:ccp(0,-15-self.currentEnemy.contentSize.height/2)]],
-                  [CCMoveBy actionWithDuration:TIME_TO_SCROLL_PER_SCENE*distScale*POINT_OFFSET_PER_SCENE.y/Y_MOVEMENT_FOR_NEW_SCENE position:ccpMult(POINT_OFFSET_PER_SCENE, -distScale)],
-                  [CCSpawn actions:bezierForward,
-                   [CCScaleBy actionWithDuration:bezierForward.duration scale:0.3], nil],
-                  [CCCallBlock actionWithBlock:
+  [ed runAction:[CCActionSpawn actions:
+                 [CCActionFadeIn actionWithDuration:0.1],
+                 [CCActionScaleTo actionWithDuration:0.1 scale:scale],
+                 [CCActionSequence actions:
+                  [CCActionMoveBy actionWithDuration:SILVER_STACK_BOUNCE_DURATION*0.2 position:ccp(0,20)],
+                  [CCActionEaseBounceOut actionWithAction:
+                   [CCActionMoveBy actionWithDuration:SILVER_STACK_BOUNCE_DURATION*0.8 position:ccp(0,-15-self.currentEnemy.contentSize.height/2)]],
+                  [CCActionMoveBy actionWithDuration:TIME_TO_SCROLL_PER_SCENE*distScale*POINT_OFFSET_PER_SCENE.y/Y_MOVEMENT_FOR_NEW_SCENE position:ccpMult(POINT_OFFSET_PER_SCENE, -distScale)],
+                  [CCActionSpawn actions:bezierForward,
+                   [CCActionScaleBy actionWithDuration:bezierForward.duration scale:0.3], nil],
+                  [CCActionCallBlock actionWithBlock:
                    ^{
                      [ed removeFromParentAndCleanup:YES];
                      
                      _lootCount++;
-                     CCScaleBy *scale = [CCScaleBy actionWithDuration:0.25 scale:1.4];
+                     CCActionScaleBy *scale = [CCActionScaleBy actionWithDuration:0.25 scale:1.4];
                      _lootLabel.string = [Globals commafyNumber:_lootCount];
                      [_lootLabel runAction:
-                      [CCSequence actions:
+                      [CCActionSequence actions:
                        scale,
                        scale.reverse, nil]];
                    }],
@@ -746,17 +750,17 @@
 - (void) spawnPlaneWithTarget:(id)target selector:(SEL)selector {
   CGPoint pt = POINT_OFFSET_PER_SCENE;
   
-  CCSprite *plane = [CCSprite spriteWithFile:@"airplane.png"];
+  CCSprite *plane = [CCSprite spriteWithImageNamed:@"airplane.png"];
   [self.bgdContainer addChild:plane];
   plane.position = ccp(-plane.contentSize.width/2,
                        self.currentEnemy.position.y+5-(self.currentEnemy.position.x+plane.contentSize.width/2)*pt.y/pt.x);
   
   [plane runAction:
-   [CCSequence actions:
-    [CCMoveTo actionWithDuration:1.f position:ccpAdd(self.currentEnemy.position, ccp(0,5))],
-    [CCDelayTime actionWithDuration:0.01f],
-    [CCMoveBy actionWithDuration:0.5f position:ccpMult(pt, 0.4)],
-    [CCCallBlock actionWithBlock:
+   [CCActionSequence actions:
+    [CCActionMoveTo actionWithDuration:1.f position:ccpAdd(self.currentEnemy.position, ccp(0,5))],
+    [CCActionDelay actionWithDuration:0.01f],
+    [CCActionMoveBy actionWithDuration:0.5f position:ccpMult(pt, 0.4)],
+    [CCActionCallBlock actionWithBlock:
      ^{
        [plane removeFromParentAndCleanup:YES];
      }],
@@ -764,7 +768,7 @@
   
   int end = 5;
   for (int i = 0; i <= end; i++) {
-    CCSprite *bomb = [CCSprite spriteWithFile:@"bomb.png"];
+    CCSprite *bomb = [CCSprite spriteWithImageNamed:@"bomb.png"];
     [self.bgdContainer addChild:bomb];
     bomb.scale = 0.3;
     
@@ -778,13 +782,13 @@
     bomb.position = ccp(endPos.x, endPos.y+130);
     
     [bomb runAction:
-     [CCSequence actions:
-      [CCDelayTime actionWithDuration:0.85f+0.1*i],
-      [CCEaseSineIn actionWithAction:[CCMoveTo actionWithDuration:0.7f position:endPos]],
-      [CCCallBlock actionWithBlock:
+     [CCActionSequence actions:
+      [CCActionDelay actionWithDuration:0.85f+0.1*i],
+      [CCActionEaseIn actionWithAction:[CCActionMoveTo actionWithDuration:0.7f position:endPos]],
+      [CCActionCallBlock actionWithBlock:
        ^{
          [[CCTextureCache sharedTextureCache] addImage:@"bombdrop.png"];
-         CCParticleSystemQuad *q = [CCParticleSystemQuad particleWithFile:@"bombdrop.plist"];
+         CCParticleSystemBase *q = [CCParticleSystemBase particleWithFile:@"bombdrop.plist"];
          q.autoRemoveOnFinish = YES;
          q.position = bomb.position;
          [self.bgdContainer addChild:q];
@@ -807,15 +811,15 @@
 
 - (void) shakeScreenWithIntensity:(float)intensity {
   // Shake everything with zOrder 0
-  CCMoveBy *move = [CCMoveBy actionWithDuration:0.02f position:ccp(3*intensity, 0)];
-  CCSequence *seq = [CCSequence actions:move, move.reverse, move.reverse, move, nil];
-  CCRepeat *repeat = [CCRepeat actionWithAction:seq times:5+(intensity*3)];
+  CCActionMoveBy *move = [CCActionMoveBy actionWithDuration:0.02f position:ccp(3*intensity, 0)];
+  CCActionSequence *seq = [CCActionSequence actions:move, move.reverse, move.reverse, move, nil];
+  CCActionRepeat *repeat = [CCActionRepeat actionWithAction:seq times:5+(intensity*3)];
   
   // Dont shake curEnemy because it messes with it coming back after flinch
   NSArray *arr = [NSArray arrayWithObjects:self.bgdContainer, nil];
   for (CCNode *n in arr) {
     CGPoint curPos = n.position;
-    [n runAction:[CCSequence actions:repeat.copy, [CCCallBlock actionWithBlock:^{
+    [n runAction:[CCActionSequence actions:repeat.copy, [CCActionCallBlock actionWithBlock:^{
       n.position = curPos;
     }], nil]];
   }
@@ -842,34 +846,34 @@
     [anim addSpriteFrame:[[CCSpriteFrameCache sharedSpriteFrameCache] spriteFrameByName:@"mir1.png"]];
     [anim addSpriteFrame:[[CCSpriteFrameCache sharedSpriteFrameCache] spriteFrameByName:@"mir2.png"]];
     [anim addSpriteFrame:[[CCSpriteFrameCache sharedSpriteFrameCache] spriteFrameByName:@"mir3.png"]];
-    phrase = [CCSprite spriteWithSpriteFrameName:@"mir1.png"];
-    [phrase runAction:[CCRepeatForever actionWithAction:[CCAnimate actionWithAnimation:anim]]];
+    phrase = [CCSprite spriteWithImageNamed:@"mir1.png"];
+    [phrase runAction:[CCActionRepeatForever actionWithAction:[CCActionAnimate actionWithAnimation:anim]]];
   } else {
     if (phraseFile) {
-      phrase = [CCSprite spriteWithFile:phraseFile];
+      phrase = [CCSprite spriteWithImageNamed:phraseFile];
     }
   }
   
   if (phrase) {
-    CCLayerColor *l = [CCLayerColor layerWithColor:ccc4(0, 0, 0, 0) width:self.contentSize.width height:self.contentSize.height];
+    CCNodeColor *l = [CCNodeColor nodeWithColor:[CCColor colorWithCcColor4b:ccc4(0, 0, 0, 0)] width:self.contentSize.width height:self.contentSize.height];
     [self addChild:l z:1];
-    [l runAction:[CCSequence actions:
-                  [CCFadeTo actionWithDuration:0.3 opacity:180],
-                  [CCDelayTime actionWithDuration:1.1],
-                  [CCFadeTo actionWithDuration:0.3 opacity:0],
-                  [CCCallBlock actionWithBlock:
+    [l runAction:[CCActionSequence actions:
+                  [CCActionFadeTo actionWithDuration:0.3 opacity:180],
+                  [CCActionDelay actionWithDuration:1.1],
+                  [CCActionFadeTo actionWithDuration:0.3 opacity:0],
+                  [CCActionCallBlock actionWithBlock:
                    ^{
                      [l removeFromParentAndCleanup:YES];
                    }], nil]];
     
     [self addChild:phrase z:3];
     phrase.position = ccp(-phrase.contentSize.width/2, self.contentSize.height/2);
-    CCSequence *seq =
-    [CCSequence actions:
-     [CCMoveBy actionWithDuration:0.15 position:ccp(phrase.contentSize.width+self.contentSize.width/5, 0)],
-     [CCMoveBy actionWithDuration:1.1 position:ccp(self.contentSize.width*3/5-phrase.contentSize.width, 0)],
-     [CCMoveBy actionWithDuration:0.15 position:ccp(phrase.contentSize.width+self.contentSize.width/5, 0)],
-     [CCCallBlock actionWithBlock:
+    CCActionSequence *seq =
+    [CCActionSequence actions:
+     [CCActionMoveBy actionWithDuration:0.15 position:ccp(phrase.contentSize.width+self.contentSize.width/5, 0)],
+     [CCActionMoveBy actionWithDuration:1.1 position:ccp(self.contentSize.width*3/5-phrase.contentSize.width, 0)],
+     [CCActionMoveBy actionWithDuration:0.15 position:ccp(phrase.contentSize.width+self.contentSize.width/5, 0)],
+     [CCActionCallBlock actionWithBlock:
       ^{
         [phrase removeFromParentAndCleanup:YES];
         [target performSelector:selector];
@@ -891,7 +895,7 @@
 
 - (CCSprite *) bloodSplatter {
   if (!_bloodSplatter) {
-    CCSprite *s = [CCSprite spriteWithFile:@"bloodsplatter.png"];
+    CCSprite *s = [CCSprite spriteWithImageNamed:@"bloodsplatter.png"];
     [self addChild:s z:1];
     s.position = ccp(self.contentSize.width/2, self.contentSize.height/2);
     _bloodSplatter = s;
@@ -900,31 +904,31 @@
 }
 
 - (void) pulseBloodOnce {
-  CCFadeTo *fadeIn = [CCFadeTo actionWithDuration:0.5f opacity:255];
-  CCFadeTo *fadeOut = [CCFadeTo actionWithDuration:0.5f opacity:0];
+  CCActionFadeTo *fadeIn = [CCActionFadeTo actionWithDuration:0.5f opacity:255];
+  CCActionFadeTo *fadeOut = [CCActionFadeTo actionWithDuration:0.5f opacity:0];
   self.bloodSplatter.opacity = 0;
   [self.bloodSplatter runAction:
-   [CCSequence actions:fadeIn, fadeOut, nil]];
+   [CCActionSequence actions:fadeIn, fadeOut, nil]];
 }
 
 - (void) pulseBloodContinuously {
   [self stopAllActions];
-  CCFadeTo *fadeIn = [CCFadeTo actionWithDuration:1.f opacity:255];
-  CCFadeTo *fadeOut = [CCFadeTo actionWithDuration:1.f opacity:140];
+  CCActionFadeTo *fadeIn = [CCActionFadeTo actionWithDuration:1.f opacity:255];
+  CCActionFadeTo *fadeOut = [CCActionFadeTo actionWithDuration:1.f opacity:140];
   self.bloodSplatter.opacity = 0;
   [self.bloodSplatter runAction:
-   [CCRepeatForever actionWithAction:
-    [CCSequence actions:fadeIn, fadeOut, nil]]];
+   [CCActionRepeatForever actionWithAction:
+    [CCActionSequence actions:fadeIn, fadeOut, nil]]];
 }
 
 - (void) pulseHealthLabel:(BOOL)isEnemy {
   CCLabelTTF *label = isEnemy ? self.currentEnemy.healthLabel : self.myPlayer.healthLabel;
   
   if (![label getActionByTag:RED_TINT_TAG]) {
-    CCFadeTo *tintRed = [CCTintTo actionWithDuration:1.f red:255 green:0 blue:0];
-    CCFadeTo *tintWhite = [CCTintTo actionWithDuration:1.f red:255 green:255 blue:255];
-    CCSequence *seq = [CCSequence actions:tintRed, tintWhite, nil];
-    CCRepeatForever *rep = [CCRepeatForever actionWithAction:seq];
+    CCActionTintTo *tintRed = [CCActionTintTo actionWithDuration:1.f color:[CCColor colorWithCcColor3b:ccc3(255, 0, 0)]];
+    CCActionTintTo *tintWhite = [CCActionTintTo actionWithDuration:1.f color:[CCColor colorWithCcColor3b:ccc3(255, 255, 255)]];
+    CCActionSequence *seq = [CCActionSequence actions:tintRed, tintWhite, nil];
+    CCActionRepeatForever *rep = [CCActionRepeatForever actionWithAction:seq];
     rep.tag = RED_TINT_TAG;
     [label runAction:rep];
   }
@@ -934,7 +938,7 @@
   [_bloodSplatter stopAllActions];
   _bloodSplatter.opacity = 0;
   [self.myPlayer.healthLabel stopActionByTag:RED_TINT_TAG];
-  self.myPlayer.healthLabel.color = ccc3(255, 255, 255);
+  self.myPlayer.healthLabel.color = [CCColor colorWithCcColor3b:ccc3(255, 255, 255)];
 }
 
 #pragma mark - Delegate Methods
@@ -949,11 +953,11 @@
   // Update combo count label but do it somewhat slowly
   __block int base = MAX(2, [_comboLabel.string intValue]);
   if (base < _comboCount) {
-    CCCallBlock *block = [CCCallBlock actionWithBlock:^{
+    CCActionCallBlock *block = [CCActionCallBlock actionWithBlock:^{
       base += 1;
       _comboLabel.string = [NSString stringWithFormat:@"%dx", base];
     }];
-    CCRepeat *rep = [CCRepeat actionWithAction:[CCSequence actions:block, [CCDelayTime actionWithDuration:0.15f], nil] times:_comboCount-base];
+    CCActionRepeat *rep = [CCActionRepeat actionWithAction:[CCActionSequence actions:block, [CCActionDelay actionWithDuration:0.15f], nil] times:_comboCount-base];
     rep.tag = 83239;
     [_comboLabel stopActionByTag:rep.tag];
     [_comboLabel runAction:rep];
@@ -963,29 +967,25 @@
   
   if (_comboCount == 2) {
     [_comboBgd stopAllActions];
-    [_comboBgd runAction:[CCMoveTo actionWithDuration:0.3f position:ccp(_comboBgd.parent.contentSize.width, _comboBgd.parent.contentSize.height/2)]];
+    [_comboBgd runAction:[CCActionMoveTo actionWithDuration:0.3f position:ccp(_comboBgd.parent.contentSize.width, _comboBgd.parent.contentSize.height/2)]];
     
-    _comboLabel.color = ccc3(255, 255, 255);
-    [_comboLabel setFontFillColor:ccc3(255, 255, 255) updateImage:YES];
-    [_comboLabel enableShadowWithOffset:CGSizeMake(0, -1) opacity:0.7f blur:1.f updateImage:YES];
-    _comboBotLabel.color = ccc3(255,228,122);
-    [_comboBotLabel setFontFillColor:ccc3(255,228,122) updateImage:YES];
-    [_comboBotLabel enableShadowWithOffset:CGSizeMake(0, -1) opacity:0.7f blur:1.f updateImage:YES];
+    _comboLabel.color = [CCColor whiteColor];
+    [_comboLabel setShadowOffset:ccp(0, -1)];
+    [_comboLabel setShadowBlurRadius:0.7f];
+    _comboBotLabel.color = [CCColor colorWithCcColor3b:ccc3(255,228,122)];
+    [_comboLabel setShadowOffset:ccp(0, -1)];
+    [_comboLabel setShadowBlurRadius:0.7f];
   }
-  if (_comboCount == 5 && ![_comboBgd getChildByTag:COMBO_FIRE_TAG]) {
+  if (_comboCount == 5 && ![_comboBgd getChildByName:COMBO_FIRE_TAG recursively:NO]) {
     // Spawn fire
-    CCParticleSystemQuad *q = [CCParticleSystemQuad particleWithFile:@"ComboFire4.plist"];
+    CCParticleSystemBase *q = [CCParticleSystemBase particleWithFile:@"ComboFire4.plist"];
     q.autoRemoveOnFinish = YES;
     q.position = ccp(_comboBgd.contentSize.width/2+15, _comboBgd.contentSize.height/2+5);
-    q.positionType = kCCPositionTypeGrouped;
-    [_comboBgd addChild:q z:0 tag:COMBO_FIRE_TAG];
+    q.positionType = CCPositionTypeNormalized;
+    [_comboBgd addChild:q z:0 name:COMBO_FIRE_TAG];
     
-    _comboLabel.color = ccc3(0, 0, 0);
-    [_comboLabel setFontFillColor:ccc3(0,0,0) updateImage:YES];
-    [_comboLabel disableShadowAndUpdateImage:YES];
-    _comboBotLabel.color = ccc3(0, 0, 0);
-    [_comboBotLabel setFontFillColor:ccc3(0,0,0) updateImage:YES];
-    [_comboBotLabel disableShadowAndUpdateImage:YES];
+    _comboLabel.color = [CCColor blackColor];
+    _comboBotLabel.color = [CCColor blackColor];
   }
   
   if (_canPlayNextComboSound) {
@@ -1019,12 +1019,12 @@
       [self.orbLayer addChild:dmgLabel z:101];
       
       dmgLabel.scale = 0.25;
-      [dmgLabel runAction:[CCSequence actions:
-                           [CCScaleTo actionWithDuration:0.2f scale:1],
-                           [CCSpawn actions:
-                            [CCFadeOut actionWithDuration:0.5f],
-                            [CCMoveBy actionWithDuration:0.5f position:ccp(0,10)],nil],
-                           [CCCallFunc actionWithTarget:dmgLabel selector:@selector(removeFromParent)], nil]];
+      [dmgLabel runAction:[CCActionSequence actions:
+                           [CCActionScaleTo actionWithDuration:0.2f scale:1],
+                           [CCActionSpawn actions:
+                            [CCActionFadeOut actionWithDuration:0.5f],
+                            [CCActionMoveBy actionWithDuration:0.5f position:ccp(0,10)],nil],
+                           [CCActionCallFunc actionWithTarget:dmgLabel selector:@selector(removeFromParent)], nil]];
     }
   }
   
@@ -1055,13 +1055,13 @@
   
   [_comboBgd stopAllActions];
   [_comboBgd runAction:
-   [CCSequence actions:
-    [CCDelayTime actionWithDuration:0.5f],
-    [CCMoveTo actionWithDuration:0.3f position:ccp(_comboBgd.parent.contentSize.width+2*self.comboBgd.contentSize.width, _comboBgd.parent.contentSize.height/2)],
-    [CCDelayTime actionWithDuration:0.5f],
-    [CCCallBlock actionWithBlock:
+   [CCActionSequence actions:
+    [CCActionDelay actionWithDuration:0.5f],
+    [CCActionMoveTo actionWithDuration:0.3f position:ccp(_comboBgd.parent.contentSize.width+2*self.comboBgd.contentSize.width, _comboBgd.parent.contentSize.height/2)],
+    [CCActionDelay actionWithDuration:0.5f],
+    [CCActionCallBlock actionWithBlock:
      ^{
-       [[self.comboBgd getChildByTag:COMBO_FIRE_TAG] removeFromParent];
+       [[self.comboBgd getChildByName:COMBO_FIRE_TAG recursively:NO] removeFromParent];
      }], nil]];
   
   [self updateHealthBars];
@@ -1077,10 +1077,10 @@
   
   [self.noInputLayer stopAllActions];
   self.noInputLayer.opacity = NO_INPUT_LAYER_OPACITY;
-  [self.noInputLayer runAction:[CCSequence actions:
-                                [CCDelayTime actionWithDuration:0.7f],
+  [self.noInputLayer runAction:[CCActionSequence actions:
+                                [CCActionDelay actionWithDuration:0.7f],
                                 [RecursiveFadeTo actionWithDuration:0.3 opacity:0],
-                                [CCCallFunc actionWithTarget:label selector:@selector(removeFromParent)], nil]];
+                                [CCActionCallFunc actionWithTarget:label selector:@selector(removeFromParent)], nil]];
 }
 
 - (void) reachedNextScene {
@@ -1096,11 +1096,11 @@
 
 - (void) beginChargingUpForEnemy:(BOOL)isEnemy withTarget:(id)target selector:(SEL)selector {
   // isEnemy no longer works
-  CCProgressTimer *prog = self.powerBar;
+  CCProgressNode *prog = self.powerBar;
   
-  [prog runAction:[CCSequence actions:
-                   [CCProgressTo actionWithDuration:prog.percentage*0.015 percent:0],
-                   [CCCallFunc actionWithTarget:target selector:selector],
+  [prog runAction:[CCActionSequence actions:
+                   [CCActionProgressTo actionWithDuration:prog.percentage*0.015 percent:0],
+                   [CCActionCallFunc actionWithTarget:target selector:selector],
                    nil]];
   
   [[SoundEngine sharedSoundEngine] puzzlePowerUp];
@@ -1109,11 +1109,11 @@
 #pragma mark - No Input Layer Methods
 
 - (void) displayNoInputLayer {
-  [self.noInputLayer runAction:[CCFadeTo actionWithDuration:0.3 opacity:NO_INPUT_LAYER_OPACITY]];
+  [self.noInputLayer runAction:[CCActionFadeTo actionWithDuration:0.3 opacity:NO_INPUT_LAYER_OPACITY]];
 }
 
 - (void) removeNoInputLayer {
-  [self.noInputLayer runAction:[CCFadeTo actionWithDuration:0.3 opacity:0]];
+  [self.noInputLayer runAction:[CCActionFadeTo actionWithDuration:0.3 opacity:0]];
 }
 
 @end

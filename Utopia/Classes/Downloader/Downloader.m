@@ -15,7 +15,7 @@
 
 @implementation Downloader
 
-SYNTHESIZE_SINGLETON_FOR_CLASS(Downloader);
+LN_SYNTHESIZE_SINGLETON_FOR_CLASS(Downloader);
 
 @synthesize loadingView;
 
@@ -79,7 +79,6 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(Downloader);
 
 - (NSString *) syncDownloadFile:(NSString *)fileName {
   LNLog(@"Beginning sync download of file %@", fileName);
-  //  [self performSelectorOnMainThread:@selector(beginLoading:) withObject:fileName waitUntilDone:YES];
   [self beginLoading:fileName];
   [[NSRunLoop mainRunLoop] runUntilDate:[NSDate dateWithTimeIntervalSinceNow:0.01f]];
   NSString *path = [self downloadFile:fileName];

@@ -19,7 +19,7 @@
 @implementation CCAnimation (SpriteLoading)
 
 + (id) animationWithSpritePrefix:(NSString *)prefix delay:(float)delay {
-  return [[[self alloc] initWithSpritePrefix:prefix delay:delay] autorelease];
+  return [[self alloc] initWithSpritePrefix:prefix delay:delay];
 }
 
 - (id) initWithSpritePrefix:(NSString *)prefix delay:(float)delay {

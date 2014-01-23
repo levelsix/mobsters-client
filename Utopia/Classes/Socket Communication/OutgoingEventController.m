@@ -11,7 +11,6 @@
 #import "GameState.h"
 #import "SocketCommunication.h"
 #import "Globals.h"
-#import "GameLayer.h"
 #import "MissionMap.h"
 #import "HomeMap.h"
 #import "GenericPopupController.h"
@@ -29,7 +28,7 @@
 
 @implementation OutgoingEventController
 
-SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
+LN_SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
 
 - (uint64_t) getCurrentMilliseconds {
   return ((uint64_t)[[NSDate date] timeIntervalSince1970])*1000;

@@ -34,7 +34,7 @@
 
 - (id) initWithAnimation:(CCAnimation *)a {
   // Extract sounds out
-  CCAnimation *anim = [[a copy] autorelease];
+  CCAnimation *anim = [a copy];
   NSMutableDictionary *dict = [NSMutableDictionary dictionary];
   int i = 0;
   while (i < anim.frames.count) {
@@ -59,7 +59,7 @@
   [self.playedSounds removeAllObjects];
 }
 
-- (void) update:(ccTime)t {
+- (void) update:(CCTime)t {
 	[super update:t];
   
 	NSUInteger idx = t * self.animation.frames.count;
@@ -71,12 +71,6 @@
       [self.playedSounds addObject:num];
     }
   }
-}
-
-- (void) dealloc {
-  self.soundDictionary = nil;
-  self.playedSounds = nil;
-  [super dealloc];
 }
 
 @end

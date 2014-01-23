@@ -64,7 +64,7 @@
   CGPoint delta_;
 }
 
-+ (id) actionWithDuration: (ccTime) t location: (CGRect) p;
-- (id) initWithDuration: (ccTime) t location: (CGRect) p;
++ (id) actionWithDuration: (CCTime) t location: (CGRect) p;
+- (id) initWithDuration: (CCTime) t location: (CGRect) p;
 
 @end

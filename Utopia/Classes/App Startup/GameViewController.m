@@ -15,16 +15,12 @@
 
 #import "GameViewController.h"
 #import "GameConfig.h"
-#import "GameLayer.h"
-#import "GameState.h"
 #import "GameState.h"
 #import "Globals.h"
 #import "GenericPopupController.h"
-#import "GameLayer.h"
 #import "HomeMap.h"
 #import "MissionMap.h"
 #import "SoundEngine.h"
-#import "GameLayer.h"
 #import "NewBattleLayer.h"
 #import "LoadingViewController.h"
 #import "OutgoingEventController.h"
@@ -83,12 +79,8 @@
                              numberOfSamples:0];
   
   // Display link director is causing problems with uiscrollview and table view.
-  [director setProjection:kCCDirectorProjection2D];
+  [director setProjection:CCDirectorProjection2D];
   [director setView:glView];
-  
-	// Enables High Res mode (Retina Display) on iPhone 4 and maintains low res on all other devices
-	if( ! [director enableRetinaDisplay:YES] )
-		CCLOG(@"Retina Display Not supported");
   
   [self.view insertSubview:glView atIndex:0];
   
@@ -103,12 +95,10 @@
 	// Default texture format for PNG/BMP/TIFF/JPEG/GIF images
 	// It can be RGBA8888, RGBA4444, RGB5_A1, RGB565
 	// You can change anytime.
-	[CCTexture2D setDefaultAlphaPixelFormat:kCCTexture2DPixelFormat_RGBA8888];
-	
-	// Assume that PVR images have premultiplied alpha
-	[CCTexture2D PVRImagesHavePremultipliedAlpha:NO];
+	[CCTexture setDefaultAlphaPixelFormat:CCTexturePixelFormat_RGBA8888];
   
   [[CCFileUtils sharedFileUtils] setiPhoneRetinaDisplaySuffix:@"@2x"];
+  [[CCDirector sharedDirector] setDownloaderDelegate:self];
   
   [self addChildViewController:director];
   [self.view addSubview:director.view];
@@ -243,7 +233,7 @@
       if (![dir runningScene]) {
         [dir pushScene:scene];
       } else {
-        [[CCDirector sharedDirector] replaceScene:[CCTransitionCrossFade transitionWithDuration:0.4f scene:scene]];
+        [[CCDirector sharedDirector] replaceScene:scene withTransition:[CCTransition transitionCrossFadeWithDuration:0.4f]];
       }
     } else {
       [[OutgoingEventController sharedOutgoingEventController] loadNeutralCity:cityId withDelegate:self];
@@ -268,7 +258,7 @@
   [scene addChild:mm];
   [mm moveToCenterAnimated:NO];
   self.currentMap = mm;
-  [[CCDirector sharedDirector] replaceScene:[CCTransitionCrossFade transitionWithDuration:0.4f scene:scene]];
+  [[CCDirector sharedDirector] replaceScene:scene withTransition:[CCTransition transitionCrossFadeWithDuration:0.4f]];
   
   [self.topBarViewController performSelector:@selector(showMyCityView) withObject:nil afterDelay:0.4];
   
@@ -288,7 +278,7 @@
   
   CCScene *scene = [CCScene node];
   [scene addChild:bl];
-  [[CCDirector sharedDirector] pushScene:[CCTransitionCrossFade transitionWithDuration:duration scene:scene]];
+  [[CCDirector sharedDirector] pushScene:scene withTransition:[CCTransition transitionCrossFadeWithDuration:duration]];
   
   [UIView animateWithDuration:duration animations:^{
     self.topBarViewController.view.alpha = 0.f;
@@ -309,13 +299,23 @@
   CCScene *scene = [CCScene node];
   [scene addChild:bl];
   
-  CCLayerColor *c = [CCLayerColor layerWithColor:ccc4(0, 0, 0, 255)];
+  CCNodeColor *c = [CCNodeColor nodeWithColor:[CCColor blackColor]];
   [[[CCDirector sharedDirector] runningScene] addChild:c];
-  [[CCDirector sharedDirector] pushScene:[CCTransitionCrossFade transitionWithDuration:0.6f scene:scene]];
+  [[CCDirector sharedDirector] pushScene:scene withTransition:[CCTransition transitionFadeWithColor:[CCColor blackColor] duration:0.6f]];
   [c performSelector:@selector(removeFromParent) withObject:nil afterDelay:1.f];
   
   self.topBarViewController.view.alpha = 0.f;
   self.topBarViewController.view.hidden = YES;
+}
+
+#pragma mark - CCDirectorDownloaderDelegate methods
+
+- (NSString *) filepathToFile:(NSString *)filename {
+  return [Globals pathToFile:filename];
+}
+
+- (NSString *) downloadFile:(NSString *)filename {
+  return [[Downloader sharedDownloader] syncDownloadFile:[Globals getDoubleResolutionImage:filename]];
 }
 
 #pragma mark - BattleLayerDelegate methods
@@ -323,7 +323,7 @@
 - (void) battleComplete:(NSDictionary *)params {
   float duration = 0.6;
   
-  [[CCDirector sharedDirector] popSceneWithTransition:[CCTransitionCrossFade class] duration:duration];
+  [[CCDirector sharedDirector] popSceneWithTransition:[CCTransition transitionCrossFadeWithDuration:duration]];
   
   if ([[params objectForKey:BATTLE_MANAGE_CLICKED_KEY] boolValue]) {
     MenuNavigationController *m = [[MenuNavigationController alloc] init];

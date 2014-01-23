@@ -8,13 +8,12 @@
 
 #import "SoundEngine.h"
 #import "LNSynthesizeSingleton.h"
-#import "SimpleAudioEngine.h"
 #import "Globals.h"
 #import <MediaPlayer/MediaPlayer.h>
 
 @implementation SoundEngine
 
-SYNTHESIZE_SINGLETON_FOR_CLASS(SoundEngine);
+LN_SYNTHESIZE_SINGLETON_FOR_CLASS(SoundEngine);
 
 - (void) playBackgroundMusic:(NSString *)music loop:(BOOL)loop {
 #ifndef DEBUG

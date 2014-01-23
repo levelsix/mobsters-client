@@ -11,7 +11,6 @@
 #import "Building.h"
 #import "AnimatedSprite.h"
 #import "Drops.h"
-#import "DecorationLayer.h"
 #import "MyTeamSprite.h"
 #import "MapBotView.h"
 
@@ -28,22 +27,7 @@
 @class Building;
 @class SelectableSprite;
 
-//CCMoveByCustom
-@interface CCMoveByCustom : CCMoveBy
-
--(void) update: (ccTime) t;
-
-@end
-
-
-//CClCustom
-@interface CCMoveToCustom : CCMoveTo
-
-- (void) update: (ccTime) t;
-
-@end
-
-@interface GameMap : CCTMXTiledMap <UIGestureRecognizerDelegate> {
+@interface GameMap : CCTiledMap <UIGestureRecognizerDelegate> {
   NSMutableArray *_mapSprites;
   NSMutableArray *_walkableData;
   
@@ -51,10 +35,10 @@
   CGPoint topRightCorner;
 }
 
+@property (nonatomic, retain) NSArray *gestureRecognizers;
+
 @property (nonatomic, assign) SelectableSprite *selected;
 @property (nonatomic, retain) NSArray *mapSprites;
-
-@property (nonatomic, retain) DecorationLayer *decLayer;
 
 @property (nonatomic, retain) NSMutableArray *walkableData;
 
@@ -70,8 +54,6 @@
 // This will be used to replace the chat view in the top bar
 @property (nonatomic, assign) MapBotView *bottomOptionView;
 
-+ (id) tiledMapWithTMXFile:(NSString*)tmxFile;
-- (id) initWithTMXFile:(NSString *)tmxFile;
 - (CGPoint)convertVectorToGL:(CGPoint)uiPoint;
 - (void) doReorder;
 - (SelectableSprite *) selectableForPt:(CGPoint)pt;
@@ -89,9 +71,9 @@
 - (CGPoint) nextWalkablePositionFromPoint:(CGPoint)point prevPoint:(CGPoint)prevPt;
 - (NSArray *) walkableAdjacentTilesCoordForTileCoord:(CGPoint)tileCoord;
 
-- (void) drag:(UIGestureRecognizer*)recognizer node:(CCNode*)node;
-- (void) tap:(UIGestureRecognizer*)recognizer node:(CCNode*)node;
-- (void) scale:(UIGestureRecognizer*)recognizer node:(CCNode*)node;
+- (void) drag:(UIGestureRecognizer*)recognizer;
+- (void) tap:(UIGestureRecognizer*)recognizer;
+- (void) scale:(UIGestureRecognizer*)recognizer;
 
 - (CGPoint) convertTilePointToCCPoint:(CGPoint)pt;
 - (CGPoint) convertCCPointToTilePoint:(CGPoint)pt;

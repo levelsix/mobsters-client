@@ -18,7 +18,7 @@
 
 - (id) initWithFile: (NSString *) file  location: (CGRect)loc map: (GameMap *) map {
   if (file) {
-    self = [super initWithFile:file];
+    self = [super initWithImageNamed:file];
   } else {
     self = [super init];
   }
@@ -59,9 +59,9 @@
   [self unselect];
   _isSelected = YES;
   int amt = 135;
-  CCTintBy *tint = [RecursiveTintTo actionWithDuration:GLOW_DURATION red:amt green:amt blue:amt];
-  CCTintBy *tintBack = [RecursiveTintTo actionWithDuration:GLOW_DURATION red:255 green:255 blue:255];
-  CCAction *action = [CCRepeatForever actionWithAction:[CCSequence actions:tint, tintBack, nil]];
+  CCActionTintTo *tint = [RecursiveTintTo actionWithDuration:GLOW_DURATION color:[CCColor colorWithCcColor3b:ccc3(amt, amt, amt)]];
+  CCActionTintTo *tintBack = [RecursiveTintTo actionWithDuration:GLOW_DURATION color:[CCColor colorWithCcColor3b:ccc3(255, 255, 255)]];
+  CCAction *action = [CCActionRepeatForever actionWithAction:[CCActionSequence actions:tint, tintBack, nil]];
   action.tag = GLOW_ACTION_TAG;
   [self runAction:action];
   return YES;
@@ -70,23 +70,23 @@
 - (void) unselect {
   _isSelected = NO;
   [self stopActionByTag:GLOW_ACTION_TAG];
-  [self recursivelyApplyColor:ccc3(255, 255, 255)];
+  [self recursivelyApplyColor:[CCColor colorWithCcColor3b:ccc3(255, 255, 255)]];
 }
 
 - (void) displayArrow {
   [self removeArrowAnimated:NO];
-  _arrow = [CCSprite spriteWithFile:@"3darrow.png"];
+  _arrow = [CCSprite spriteWithImageNamed:@"3darrow.png"];
   [self addChild:_arrow];
   
   _arrow.anchorPoint = ccp(0.5f, 0.f);
   _arrow.position = ccp(self.contentSize.width/2, self.contentSize.height+5.f);
   
-  CCSpawn *down = [CCSpawn actions:
-                   [CCEaseSineInOut actionWithAction:[CCScaleBy actionWithDuration:0.7f scaleX:1.f scaleY:0.88f]],
-                   [CCEaseSineInOut actionWithAction:[CCMoveBy actionWithDuration:0.7f position:ccp(0.f, -5.f)]],
+  CCActionSpawn *down = [CCActionSpawn actions:
+                   [CCActionEaseInOut actionWithAction:[CCActionScaleBy actionWithDuration:0.7f scaleX:1.f scaleY:0.88f]],
+                   [CCActionEaseInOut actionWithAction:[CCActionMoveBy actionWithDuration:0.7f position:ccp(0.f, -5.f)]],
                    nil];
   CCActionInterval *up = [down reverse];
-  [_arrow runAction:[CCRepeatForever actionWithAction:[CCSequence actions:down, up, nil]]];
+  [_arrow runAction:[CCActionRepeatForever actionWithAction:[CCActionSequence actions:down, up, nil]]];
 }
 
 - (void) removeArrowAnimated:(BOOL)animated {
@@ -95,7 +95,7 @@
       [_arrow removeFromParentAndCleanup:YES];
       _arrow = nil;
     } else {
-      [_arrow runAction:[CCSequence actions:[CCFadeOut actionWithDuration:0.2f], [CCCallBlock actionWithBlock:^{
+      [_arrow runAction:[CCActionSequence actions:[CCActionFadeOut actionWithDuration:0.2f], [CCActionCallBlock actionWithBlock:^{
         [_arrow removeFromParentAndCleanup:YES];
         _arrow = nil;
       }], nil]];
@@ -104,16 +104,16 @@
 }
 
 - (void) displayCheck {
-  CCSprite *check = [CCSprite spriteWithFile:@"3dcheckmark.png"];
+  CCSprite *check = [CCSprite spriteWithImageNamed:@"3dcheckmark.png"];
   [self addChild:check];
   check.anchorPoint = ccp(0.5, 0.f);
   check.position = ccp(self.contentSize.width/2, self.contentSize.height+5.f);
   
-  [check runAction:[CCSequence actions:
-                    [CCDelayTime actionWithDuration:1.5f],
-                    [CCSpawn actions:
-                     [CCMoveBy actionWithDuration:1.5f position:ccp(0, 20.f)],
-                     [CCFadeOut actionWithDuration:1.5f],
+  [check runAction:[CCActionSequence actions:
+                    [CCActionDelay actionWithDuration:1.5f],
+                    [CCActionSpawn actions:
+                     [CCActionMoveBy actionWithDuration:1.5f position:ccp(0, 20.f)],
+                     [CCActionFadeOut actionWithDuration:1.5f],
                      nil],
                     nil]];
   

@@ -18,7 +18,7 @@
 @synthesize  products = _products;
 @synthesize request = _request;
 
-SYNTHESIZE_SINGLETON_FOR_CLASS(IAPHelper);
+LN_SYNTHESIZE_SINGLETON_FOR_CLASS(IAPHelper);
 
 - (id)init {
   if ((self = [super init])) {

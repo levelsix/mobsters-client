@@ -27,7 +27,7 @@
 
 - (void) setBaseScale:(float)baseScale {
   [super setBaseScale:baseScale];
-  [(CCSprite *)[self getChildByTag:CONSTRUCTION_TAG] setScale:baseScale];
+  [(CCSprite *)[self getChildByName:CONSTRUCTION_TAG recursively:NO] setScale:baseScale];
 }
 
 + (id) buildingWithUserStruct:(UserStruct *)us map:(HomeMap *)map {
@@ -79,11 +79,11 @@
   return self;
 }
 
-- (void) setColor:(ccColor3B)color {
+- (void) setColor:(CCColor *)color {
   [super setColor:color];
   
   if (self.isConstructing) {
-    [(CCSprite *)[self getChildByTag:CONSTRUCTION_TAG] setColor:color];
+    [(CCSprite *)[self getChildByName:CONSTRUCTION_TAG recursively:NO] setColor:color];
   }
 }
 
@@ -92,7 +92,7 @@
   
   if (self.isConstructing) {
     CCAction *action = [self.buildingSprite getActionByTag:BOUNCE_ACTION_TAG];
-    CCNode *constr = [self getChildByTag:CONSTRUCTION_TAG];
+    CCNode *constr = [self getChildByName:CONSTRUCTION_TAG recursively:NO];
     [constr runAction:[action copy]];
   }
   
@@ -110,7 +110,7 @@
   [self removeMoveArrows];
   
   if (self.isConstructing) {
-    CCNode *constr = [self getChildByTag:CONSTRUCTION_TAG];
+    CCNode *constr = [self getChildByName:CONSTRUCTION_TAG recursively:NO];
     [constr stopActionByTag:GLOW_ACTION_TAG];
   }
 }
@@ -122,21 +122,21 @@
       _isConstructing = isConstructing;
       
       [[CCSpriteFrameCache sharedSpriteFrameCache] addSpriteFramesWithFile:@"Construction.plist"];
-      CCSprite *sprite = [CCSprite spriteWithSpriteFrameName:@"Construction.png"];
+      CCSprite *sprite = [CCSprite spriteWithImageNamed:@"Construction.png"];
       sprite.anchorPoint = ccp(0.462, 0.165);
       sprite.position = ccp(self.contentSize.width/2, -self.verticalOffset-2);
       sprite.scale = self.baseScale;
-      [self addChild:sprite z:1 tag:CONSTRUCTION_TAG];
+      [self addChild:sprite z:1 name:CONSTRUCTION_TAG];
       
       CCAnimation *anim = [CCAnimation animationWithSpritePrefix:@"Construction" delay:1];
       CCSprite *spr = [CCSprite spriteWithSpriteFrame:[[anim.frames objectAtIndex:0] spriteFrame]];
-      [spr runAction:[CCRepeatForever actionWithAction:[CCAnimate actionWithAnimation:anim]]];
+      [spr runAction:[CCActionRepeatForever actionWithAction:[CCActionAnimate actionWithAnimation:anim]]];
       [sprite addChild:spr];
       spr.position = ccp(sprite.contentSize.width/2, sprite.contentSize.height/2);
     } else {
       _isConstructing = isConstructing;
       self.buildingSprite.visible = YES;
-      [self removeChildByTag:CONSTRUCTION_TAG cleanup:YES];
+      [self removeChildByName:CONSTRUCTION_TAG cleanup:YES];
     }
   }
 }
@@ -152,7 +152,7 @@
 }
 
 -(void) updateMeta {
-  CCTMXLayer *meta = [_homeMap layerNamed:@"MetaLayer"];
+  CCTiledMapLayer *meta = [_homeMap layerNamed:@"MetaLayer"];
   int red = _homeMap.redGid;
   int green = _homeMap.greenGid;
   for (int i = 0; i < self.location.size.width; i++) {
@@ -174,7 +174,7 @@
 }
 
 -(void) clearMeta {
-  CCTMXLayer *meta = [_homeMap layerNamed:@"MetaLayer"];
+  CCTiledMapLayer *meta = [_homeMap layerNamed:@"MetaLayer"];
   for (int i = 0; i < self.location.size.width; i++) {
     for (int j = 0; j < self.location.size.height; j++) {
       CGPoint tileCoord = ccp(_homeMap.mapSize.height-1-(self.location.origin.y+j),_homeMap.mapSize.width-1-(self.location.origin.x+i));
@@ -188,26 +188,26 @@
     return;
   }
   
-  CCSprite *sprite = (CCSprite *)[self getChildByTag:CONSTRUCTION_TAG];
+  CCSprite *sprite = (CCSprite *)[self getChildByName:CONSTRUCTION_TAG recursively:NO];
   sprite = sprite ? sprite : self.buildingSprite;
   
   if ([_homeMap isBlockBuildable:self.location]) {
-    sprite.opacity = 255;
+    sprite.opacity = 1.f;
     [_homeMap changeTiles:self.location toBuildable:NO];
     _isSetDown = YES;
     _startMoveCoordinate = _location.origin;
     _startOrientation = self.orientation;
   } else {
-    sprite.opacity = 150;
+    sprite.opacity = 0.6f;
   }
 }
 
 - (void) liftBlock {
-  CCSprite *sprite = (CCSprite *)[self getChildByTag:CONSTRUCTION_TAG];
+  CCSprite *sprite = (CCSprite *)[self getChildByName:CONSTRUCTION_TAG recursively:NO];
   sprite = sprite ? sprite : self.buildingSprite;
   
   if (self.isSetDown) {
-    sprite.opacity = 150;
+    sprite.opacity = 0.6f;
     [_homeMap changeTiles:self.location toBuildable:YES];
   }
   self.isSetDown = NO;
@@ -252,11 +252,11 @@
   }
 }
 
-#define ARROW_LAYER_TAG 821
+#define ARROW_LAYER_TAG @"Arrow"
 #define ARROW_FADE_DURATION 0.2f
 
 - (void) displayMoveArrows {
-  CCNode *o = [self getChildByTag:ARROW_LAYER_TAG];
+  CCNode *o = [self getChildByName:ARROW_LAYER_TAG recursively:NO];
   if (o) {
     [o stopAllActions];
     [o recursivelyApplyOpacity:255];
@@ -265,10 +265,10 @@
   
   CCSprite *node = [CCSprite node];
   
-  CCSprite *nr = [CCSprite spriteWithFile:@"arrowdown.png"];
-  CCSprite *nl = [CCSprite spriteWithFile:@"arrowdown.png"];
-  CCSprite *fr = [CCSprite spriteWithFile:@"arrowup.png"];
-  CCSprite *fl = [CCSprite spriteWithFile:@"arrowup.png"];
+  CCSprite *nr = [CCSprite spriteWithImageNamed:@"arrowdown.png"];
+  CCSprite *nl = [CCSprite spriteWithImageNamed:@"arrowdown.png"];
+  CCSprite *fr = [CCSprite spriteWithImageNamed:@"arrowup.png"];
+  CCSprite *fl = [CCSprite spriteWithImageNamed:@"arrowup.png"];
   nr.flipX = YES;
   fr.flipX = YES;
   
@@ -294,18 +294,18 @@
   [node recursivelyApplyOpacity:0];
   [node runAction:[RecursiveFadeTo actionWithDuration:ARROW_FADE_DURATION opacity:255]];
   
-  [self addChild:node z:-1 tag:ARROW_LAYER_TAG];
+  [self addChild:node z:-1 name:ARROW_LAYER_TAG];
 }
 
 - (void) removeMoveArrows {
-  CCNode *node = [self getChildByTag:ARROW_LAYER_TAG];
+  CCNode *node = [self getChildByName:ARROW_LAYER_TAG recursively:NO];
   [node stopAllActions];
-  [node runAction:[CCSequence actions:[RecursiveFadeTo actionWithDuration:ARROW_FADE_DURATION opacity:0],
-                   [CCCallBlock actionWithBlock:^{[node removeFromParentAndCleanup:YES];}], nil]];
+  [node runAction:[CCActionSequence actions:[RecursiveFadeTo actionWithDuration:ARROW_FADE_DURATION opacity:0],
+                   [CCActionCallBlock actionWithBlock:^{[node removeFromParentAndCleanup:YES];}], nil]];
 }
 
 - (void) updateUpgradeBar {
-  CCNode *n = [self getChildByTag:UPGRADING_TAG];
+  CCNode *n = [self getChildByName:UPGRADING_TAG recursively:NO];
   if (n && [n isKindOfClass:[UpgradeProgressBar class]]) {
     UpgradeProgressBar *bar = (UpgradeProgressBar *)n;
 
@@ -321,12 +321,12 @@
 }
 
 - (void) displayUpgradeComplete {
-  CCSprite *spinner = [CCSprite spriteWithFile:@"buildingspinner.png"];
+  CCSprite *spinner = [CCSprite spriteWithImageNamed:@"buildingspinner.png"];
   
   NSString *str = self.userStruct.staticStruct.structInfo.level == 1 ? @"Building Complete!" : @"Building Upgraded!";
   CCLabelTTF *label = [CCLabelTTF labelWithString:str fontName:[Globals font] fontSize:22.f];
-  [label setFontFillColor:ccc3(255, 200, 0) updateImage:NO];
-  [label enableShadowWithOffset:CGSizeMake(0, -1) opacity:0.7f blur:0.f updateImage:YES];
+  [label setColor:[CCColor colorWithCcColor4b:ccc4(255, 200, 0, 200)]];
+  [label setShadowOffset:ccp(0, -1)];
   
   [self addChild:spinner z:-1];
   [self addChild:label];
@@ -335,26 +335,26 @@
   label.position = ccp(self.contentSize.width/2, self.contentSize.height + 15);
   
   [spinner runAction:
-   [CCSpawn actions:
-    [CCFadeIn actionWithDuration:0.3f],
-    [CCRotateBy actionWithDuration:5.f angle:360.f],
-    [CCSequence actions:
-     [CCDelayTime actionWithDuration:3.7f],
-     [CCFadeOut actionWithDuration:1.3f],
-     [CCCallBlock actionWithBlock:^{[spinner removeFromParentAndCleanup:YES];}],
+   [CCActionSpawn actions:
+    [CCActionFadeIn actionWithDuration:0.3f],
+    [CCActionRotateBy actionWithDuration:5.f angle:360.f],
+    [CCActionSequence actions:
+     [CCActionDelay actionWithDuration:3.7f],
+     [CCActionFadeOut actionWithDuration:1.3f],
+     [CCActionCallBlock actionWithBlock:^{[spinner removeFromParentAndCleanup:YES];}],
      nil],
     nil]];
   
   label.scale = 0.3f;
-  [label runAction:[CCSequence actions:
-                    [CCSpawn actions:
-                     [CCEaseElasticOut actionWithAction:[CCScaleTo actionWithDuration:1.2f scale:1]],
-                     [CCSequence actions:
-                      [CCDelayTime actionWithDuration:3.7f],
-                      [CCFadeOut actionWithDuration:1.3f],
+  [label runAction:[CCActionSequence actions:
+                    [CCActionSpawn actions:
+                     [CCActionEaseElasticOut actionWithAction:[CCActionScaleTo actionWithDuration:1.2f scale:1]],
+                     [CCActionSequence actions:
+                      [CCActionDelay actionWithDuration:3.7f],
+                      [CCActionFadeOut actionWithDuration:1.3f],
                       nil],
-                     [CCMoveBy actionWithDuration:5.f position:ccp(0,35)],nil],
-                    [CCCallBlock actionWithBlock:^{[label removeFromParentAndCleanup:YES];}], nil]];
+                     [CCActionMoveBy actionWithDuration:5.f position:ccp(0,35)],nil],
+                    [CCActionCallBlock actionWithBlock:^{[label removeFromParentAndCleanup:YES];}], nil]];
 }
 
 @end
@@ -380,7 +380,7 @@
     }
     
     CCSprite *spr = [CCSprite spriteWithSpriteFrame:[anim.frames[0] spriteFrame]];
-    [spr runAction:[CCRepeatForever actionWithAction:[CCAnimate actionWithAnimation:anim]]];
+    [spr runAction:[CCActionRepeatForever actionWithAction:[CCActionAnimate actionWithAnimation:anim]]];
     spr.anchorPoint = ccp(0.5, 0);
     spr.scale = self.baseScale;
     [self addChild:spr];
@@ -398,7 +398,7 @@
     [self removeChild:_retrieveBubble cleanup:YES];
   }
   ResourceType type = ((ResourceGeneratorProto *)self.userStruct.staticStruct).resourceType;
-  _retrieveBubble = [CCSprite spriteWithFile:type == ResourceTypeCash ? @"cashready.png" : @"oilready.png"];
+  _retrieveBubble = [CCSprite spriteWithImageNamed:type == ResourceTypeCash ? @"cashready.png" : @"oilready.png"];
   [self addChild:_retrieveBubble];
   _retrieveBubble.position = ccp(self.contentSize.width/2,self.contentSize.height-OVER_HOME_BUILDING_MENU_OFFSET);
 }
@@ -470,7 +470,7 @@
   int mult = self.anim.frames.count-1;
   int imgNum = roundf(percentage*mult);
   CCSpriteFrame *frame = [self.anim.frames[imgNum] spriteFrame];
-  [self.buildingSprite setDisplayFrame:frame];
+  [self.buildingSprite setSpriteFrame:frame];
 }
 
 
@@ -500,7 +500,7 @@
   [anim repeatFrames:NSMakeRange(0,1) numTimes:5];
   
   CCSprite *spr = [CCSprite spriteWithSpriteFrame:[anim.frames[0] spriteFrame]];
-  [spr runAction:[CCRepeatForever actionWithAction:[CCAnimate actionWithAnimation:anim]]];
+  [spr runAction:[CCActionRepeatForever actionWithAction:[CCActionAnimate actionWithAnimation:anim]]];
   spr.anchorPoint = ccp(0.5, 0);
   spr.position = ccp(spr.contentSize.width/2, 0);
   spr.scale = self.baseScale;
@@ -512,7 +512,7 @@
   anim = [CCAnimation animationWithSpritePrefix:@"HealingCenterTube" delay:0.1];
   [anim repeatFrames:NSMakeRange(0,1) numTimes:5];
   spr = [CCSprite spriteWithSpriteFrame:[anim.frames[0] spriteFrame]];
-  [spr runAction:[CCRepeatForever actionWithAction:[CCAnimate actionWithAnimation:anim]]];
+  [spr runAction:[CCActionRepeatForever actionWithAction:[CCActionAnimate actionWithAnimation:anim]]];
   spr.position = ccp(self.buildingSprite.contentSize.width/2, self.buildingSprite.contentSize.height/2);
   [self.buildingSprite addChild:spr z:2];
   self.tubeSprite = spr;
@@ -522,7 +522,7 @@
     MonsterProto *mp = [gs monsterWithId:monsterId];
     
     [[CCSpriteFrameCache sharedSpriteFrameCache] addSpriteFramesWithFile:[NSString stringWithFormat:@"%@AttackNF.plist", mp.imagePrefix]];
-    self.monsterSprite = [CCSprite spriteWithSpriteFrameName:[NSString stringWithFormat:@"%@AttackN00.png", mp.imagePrefix]];
+    self.monsterSprite = [CCSprite spriteWithImageNamed:[NSString stringWithFormat:@"%@AttackN00.png", mp.imagePrefix]];
     self.monsterSprite.anchorPoint = ccp(0.5, 0);
     self.monsterSprite.position = ccp(self.contentSize.width/2, 15);
     self.monsterSprite.scale = 0.7;
@@ -539,9 +539,9 @@
   
   [[CCSpriteFrameCache sharedSpriteFrameCache] addSpriteFramesWithFile:@"HealingCenter.plist"];
   CCSpriteFrame *frame = [[CCSpriteFrameCache sharedSpriteFrameCache] spriteFrameByName:@"HealingCenterBase00.png"];
-  [self.buildingSprite setDisplayFrame:frame];
+  [self.buildingSprite setSpriteFrame:frame];
   frame = [[CCSpriteFrameCache sharedSpriteFrameCache] spriteFrameByName:@"HealingCenterTube00.png"];
-  [self.tubeSprite setDisplayFrame:frame];
+  [self.tubeSprite setSpriteFrame:frame];
 }
 
 @end
@@ -587,7 +587,7 @@
   CCAnimation *anim = [CCAnimation animationWithSpritePrefix:@"ResearchLab" delay:0.1];
   
   CCSprite *spr = [CCSprite spriteWithSpriteFrame:[anim.frames[0] spriteFrame]];
-  [spr runAction:[CCRepeatForever actionWithAction:[CCAnimate actionWithAnimation:anim]]];
+  [spr runAction:[CCActionRepeatForever actionWithAction:[CCActionAnimate actionWithAnimation:anim]]];
   spr.anchorPoint = ccp(0.5, 0);
   spr.position = ccp(spr.contentSize.width/2-2, 15);
   spr.scale = self.baseScale;
@@ -602,7 +602,7 @@
   
   [[CCSpriteFrameCache sharedSpriteFrameCache] addSpriteFramesWithFile:@"ResearchLab.plist"];
   CCSpriteFrame *frame = [[CCSpriteFrameCache sharedSpriteFrameCache] spriteFrameByName:@"ResearchLab00.png"];
-  [self.buildingSprite setDisplayFrame:frame];
+  [self.buildingSprite setSpriteFrame:frame];
 }
 
 @end
@@ -619,7 +619,7 @@
   if ((self = [super initWithFile:file location:location map:map])) {
     self.expandSpot = block;
     
-    [self removeChildByTag:SHADOW_TAG];
+    [self removeChildByName:SHADOW_TAG cleanup:YES];
   }
   return self;
 }
@@ -632,7 +632,7 @@
 //  return select;
 //}
 
-- (BOOL) isPointInArea:(CGPoint)pt {
+- (BOOL) hitTestWithWorldPos:(CGPoint)pt {
   pt = [_map convertToNodeSpace:pt];
   
   CGPoint tilePt = [_map convertCCPointToTilePoint:pt];
@@ -641,12 +641,12 @@
 
 - (void) beginExpanding {
   [self displayProgressBar];
-  CCNode *n = [self getChildByTag:UPGRADING_TAG];
+  CCNode *n = [self getChildByName:UPGRADING_TAG recursively:NO];
   n.position = ccpAdd(ccp(self.contentSize.width/2, self.contentSize.height/2), ccp(0, 5));
 }
 
 - (void) updateUpgradeBar {
-  CCNode *n = [self getChildByTag:UPGRADING_TAG];
+  CCNode *n = [self getChildByName:UPGRADING_TAG recursively:NO];
   if (n && [n isKindOfClass:[UpgradeProgressBar class]]) {
     UpgradeProgressBar *bar = (UpgradeProgressBar *)n;
     Globals *gl = [Globals sharedGlobals];

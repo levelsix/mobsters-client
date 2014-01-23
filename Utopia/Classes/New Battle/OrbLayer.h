@@ -64,7 +64,7 @@ typedef enum {
 
 @end
 
-@interface OrbLayer : CCLayer <CCTouchOneByOneDelegate> {
+@interface OrbLayer : CCNode {
   BOOL _allowInput;
   Gem * _dragGem;
   Gem * _realDragGem;
@@ -97,7 +97,7 @@ typedef enum {
 - (id) initWithContentSize:(CGSize)size gridSize:(CGSize)gridSize numColors:(int)numColors;
 - (void) allowInput;
 - (void) disallowInput;
-- (ccColor3B) colorForSparkle:(GemColorId)color;
+- (CCColor *) colorForSparkle:(GemColorId)color;
 
 - (CGPoint) pointForGridPosition:(CGPoint)pt;
 - (CGPoint) coordinateOfGem:(Gem *)gem;

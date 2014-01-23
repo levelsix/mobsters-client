@@ -38,7 +38,7 @@
 
 @implementation SocketCommunication
 
-SYNTHESIZE_SINGLETON_FOR_CLASS(SocketCommunication);
+LN_SYNTHESIZE_SINGLETON_FOR_CLASS(SocketCommunication);
 
 static NSString *udid = nil;
 

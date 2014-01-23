@@ -24,7 +24,7 @@
     _nameLabel = [[CCLabelTTF alloc] initWithString:@"" fontName:[Globals font] fontSize:[Globals fontSize]];
     [self addChild:_nameLabel z:1];
     _nameLabel.position = ccp(self.contentSize.width/2, self.contentSize.height+3);
-    _nameLabel.color = ccc3(255,200,0);
+    _nameLabel.color = [CCColor colorWithCcColor3b:ccc3(255,200,0)];
   }
   return self;
 }
@@ -34,7 +34,7 @@
   self.arrow.position = ccpAdd(self.arrow.position, ccp(0, 10.f));
 }
 
-- (void) setOpacity:(GLubyte)opacity {
+- (void) setOpacity:(CGFloat)opacity {
   [super setOpacity:opacity];
   _nameLabel.opacity = opacity;
 }
@@ -59,7 +59,7 @@
     [self addChild:self.sprite];
     self.sprite.position = ccp(self.contentSize.width/2, self.contentSize.height/2-3);
     
-    CCSprite *s = [CCSprite spriteWithFile:@"shadow.png"];
+    CCSprite *s = [CCSprite spriteWithImageNamed:@"shadow.png"];
     [self addChild:s z:-1];
     s.position = ccp(self.contentSize.width/2, 0);
     
@@ -73,7 +73,7 @@
     [[CCSpriteFrameCache sharedSpriteFrameCache] addSpriteFramesWithFile:[NSString stringWithFormat:@"%@RunNF.plist", self.prefix]];
     NSString *p = [NSString stringWithFormat:@"%@RunN", self.prefix];
     CCAnimation *anim = [CCAnimation animationWithSpritePrefix:p delay:ANIMATATION_DELAY];
-    self.walkActionN = [CCRepeatForever actionWithAction:[CCAnimate actionWithAnimation:anim]];
+    self.walkActionN = [CCActionRepeatForever actionWithAction:[CCActionAnimate actionWithAnimation:anim]];
   }
   return _walkActionN;
 }
@@ -83,7 +83,7 @@
     [[CCSpriteFrameCache sharedSpriteFrameCache] addSpriteFramesWithFile:[NSString stringWithFormat:@"%@RunNF.plist", self.prefix]];
     NSString *p = [NSString stringWithFormat:@"%@RunF", self.prefix];
     CCAnimation *anim = [CCAnimation animationWithSpritePrefix:p delay:ANIMATATION_DELAY];
-    self.walkActionF = [CCRepeatForever actionWithAction:[CCAnimate actionWithAnimation:anim]];
+    self.walkActionF = [CCActionRepeatForever actionWithAction:[CCActionAnimate actionWithAnimation:anim]];
   }
   return _walkActionF;
 }
@@ -92,12 +92,12 @@
   [self stopWalking];
   [self walkActionN];
   CCSpriteFrame *frame = [[CCSpriteFrameCache sharedSpriteFrameCache] spriteFrameByName:[NSString stringWithFormat:@"%@RunN00.png", self.prefix]];
-  [self.sprite setDisplayFrame:frame];
+  [self.sprite setSpriteFrame:frame];
   
   self.sprite.flipX = facingLeft;
 }
 
-- (void) setColor:(ccColor3B)color {
+- (void) setColor:(CCColor *)color {
   [super setColor:color];
   [self.sprite setColor:color];
 }
@@ -110,7 +110,7 @@
   self.nameLabel.position = ccp(self.contentSize.width/2, self.contentSize.height+3);
 }
 
-- (void) setOpacity:(GLubyte)opacity {
+- (void) setOpacity:(CGFloat)opacity {
   [super setOpacity:opacity];
   [self.sprite setOpacity:opacity];
 }
@@ -127,6 +127,7 @@
 }
 
 - (void) walk {
+  [self stopWalking];
   if (self.prefix) {
     [Globals downloadAllFilesForSpritePrefixes:[NSArray arrayWithObject:self.prefix] completion:^{
       [self walkAfterCheck];
@@ -189,9 +190,9 @@
     }
   }
   
-  CCAction *a = [CCSequence actions:
+  CCAction *a = [CCActionSequence actions:
                  [MoveToLocation actionWithDuration:diff/WALKING_SPEED/speedMultiplier location:r],
-                 [CCCallFunc actionWithTarget:self selector:completion],
+                 [CCActionCallFunc actionWithTarget:self selector:completion],
                  nil
                  ];
   a.tag = 10;
@@ -209,14 +210,13 @@
 
 @implementation NeutralEnemy
 
-@synthesize isLocked = _isLocked, name = _name, ftp = _ftp;
+@synthesize isLocked = _isLocked, ftp = _ftp;
 
 - (BOOL) select {
   if (self.isLocked) {
     if (!_lockedBubble.numberOfRunningActions) {
-      CCActionInterval *mov = [CCRotateBy actionWithDuration:0.04f angle:15];
-      [_lockedBubble runAction:[CCRepeat actionWithAction:[CCSequence actions:mov.copy, mov.reverse, mov.reverse, mov.copy, nil]
-                                                    times:3]];
+      CCActionInterval *mov = [CCActionRotateBy actionWithDuration:0.04f angle:15];
+      [_lockedBubble runAction:[CCActionRepeat actionWithAction:[CCActionSequence actions:mov.copy, mov.reverse, mov.reverse, mov.copy, nil] times:3]];
     }
     return NO;
   } else {
@@ -231,19 +231,19 @@
       // Make sure to cleanup just in case
       [self removeChild:_lockedBubble cleanup:YES];
     }
-    _lockedBubble = [CCSprite spriteWithFile:@"bosslock.png"];
+    _lockedBubble = [CCSprite spriteWithImageNamed:@"bosslock.png"];
     [self addChild:_lockedBubble];
     _lockedBubble.position = ccp(self.contentSize.width/2,self.contentSize.height-5);
     _lockedBubble.anchorPoint = ccp(0.5, 0);
     
     int amt = 150;
-    self.color = ccc3(amt, amt, amt);
+    self.color = [CCColor colorWithCcColor3b:ccc3(amt, amt, amt)];
   } else {
     if (_lockedBubble) {
       // Make sure to cleanup just in case
       [self removeChild:_lockedBubble cleanup:YES];
     }
-    self.color = ccc3(255, 255, 255);
+    self.color = [CCColor colorWithCcColor3b:ccc3(255, 255, 255)];
   }
 }
 
@@ -251,12 +251,12 @@
 
 @implementation MoveToLocation
 
-+(id) actionWithDuration: (ccTime) t location: (CGRect) p
++(id) actionWithDuration: (CCTime) t location: (CGRect) p
 {
   return [[self alloc] initWithDuration:t location:p];
 }
 
--(id) initWithDuration: (ccTime) t location: (CGRect) p
+-(id) initWithDuration: (CCTime) t location: (CGRect) p
 {
   if( (self=[super initWithDuration: t]) )
     endLocation_ = p;
@@ -277,7 +277,7 @@
   delta_ = ccpSub( endLocation_.origin, startLocation_.origin );
 }
 
--(void) update: (ccTime) t
+-(void) update: (CCTime) t
 {
   CGRect r = startLocation_;
   r.origin.x = (startLocation_.origin.x + delta_.x * t );

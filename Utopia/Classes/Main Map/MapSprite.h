@@ -6,7 +6,7 @@
 //  Copyright (c) 2012 LVL6. All rights reserved.
 //
 
-#import "CCSprite.h"
+#import "cocos2d.h"
 #import "Protocols.pb.h"
 
 #define GLOW_ACTION_TAG 3021
@@ -47,7 +47,6 @@
 
 @required
 
-@property (nonatomic, copy) NSString *name;
 @property (nonatomic, retain) FullTaskProto *ftp;
 
 // So we can access these

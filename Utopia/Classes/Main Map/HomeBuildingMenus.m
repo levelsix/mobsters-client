@@ -18,15 +18,15 @@
 
 - (id) initWithCheckTarget:(id)cTarget checkSelector:(SEL)cSelector cancelTarget:(id)xTarget cancelSelector:(SEL)xSelector {
   if ((self = [super init])) {
-    CCMenuItemSprite *check = [CCMenuItemSprite itemWithNormalSprite:[CCSprite spriteWithFile:@"confirmbuild.png"] selectedSprite:nil target:cTarget selector:cSelector];
-    CCMenuItemSprite *cancel = [CCMenuItemSprite itemWithNormalSprite:[CCSprite spriteWithFile:@"cancelbuild.png"] selectedSprite:nil target:xTarget selector:xSelector];
-    CCMenu *menu = [CCMenu menuWithItems:check, cancel, nil];
-    [self addChild:menu];
-    
-    check.position = ccp(check.contentSize.width-3, 0);
-    cancel.position = ccp(-cancel.contentSize.width+3, 0);
-    menu.position = ccp(0,0);
-    menu.isTouchEnabled = YES;
+//    CCMenuItemSprite *check = [CCMenuItemSprite itemWithNormalSprite:[CCSprite spriteWithImageNamed:@"confirmbuild.png"] selectedSprite:nil target:cTarget selector:cSelector];
+//    CCMenuItemSprite *cancel = [CCMenuItemSprite itemWithNormalSprite:[CCSprite spriteWithImageNamed:@"cancelbuild.png"] selectedSprite:nil target:xTarget selector:xSelector];
+//    CCMenu *menu = [CCMenu menuWithItems:check, cancel, nil];
+//    [self addChild:menu];
+//    
+//    check.position = ccp(check.contentSize.width-3, 0);
+//    cancel.position = ccp(-cancel.contentSize.width+3, 0);
+//    menu.position = ccp(0,0);
+//    menu.isTouchEnabled = YES;
   }
   return self;
 }
@@ -35,17 +35,17 @@
 @implementation UpgradeProgressBar
 
 - (id) initBar {
-  if ((self = [super initWithFile:@"buildingbarbg.png"])) {
-    _progressBar = [CCProgressTimer progressWithSprite:[CCSprite spriteWithFile:@"buildingbar.png"]];
+  if ((self = [super initWithImageNamed:@"buildingbarbg.png"])) {
+    _progressBar = [CCProgressNode progressWithSprite:[CCSprite spriteWithImageNamed:@"buildingbar.png"]];
     [self addChild:_progressBar];
     _progressBar.position = ccp(self.contentSize.width/2, self.contentSize.height/2);
-    _progressBar.type = kCCProgressTimerTypeBar;
+    _progressBar.type = CCProgressNodeTypeBar;
     _progressBar.midpoint = ccp(0,0.5);
     _progressBar.barChangeRate = ccp(1, 0);
     
-    _timeLabel = [CCLabelTTF labelWithString:@"" fontName:[Globals font] fontSize:14.f dimensions:_progressBar.contentSize hAlignment:kCCTextAlignmentCenter];
-    [_timeLabel setFontFillColor:ccc3(255, 255, 255) updateImage:NO];
-    [_timeLabel enableShadowWithOffset:CGSizeMake(0, -1) opacity:1.f blur:0.f updateImage:YES];
+    _timeLabel = [CCLabelTTF labelWithString:@"" fontName:[Globals font] fontSize:14.f dimensions:_progressBar.contentSize];
+    [_timeLabel setFontColor:[CCColor colorWithCcColor3b:ccc3(255, 255, 255)]];
+    [_timeLabel setShadowOffset:ccp(0, -1)];
     [Globals adjustFontSizeForCCLabelTTF:_timeLabel size:12.f];
     [self addChild:_timeLabel];
     _timeLabel.position = ccp(self.contentSize.width/2, self.contentSize.height/2);

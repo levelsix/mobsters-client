@@ -16,7 +16,7 @@
     for (int i = 0; i < gridSize.width; i++) {
       for (int j = 0; j < gridSize.height; j++) {
         NSString *fileName = (i+j)%2==0 ? @"lightsquare.png" : @"darksquare.png";
-        CCSprite *square = [CCSprite spriteWithFile:fileName];
+        CCSprite *square = [CCSprite spriteWithImageNamed:fileName];
         
         [self addChild:square];
         square.position = ccp((i+0.5)*square.contentSize.width, (j+0.5)*square.contentSize.height);
@@ -31,14 +31,14 @@
 }
 
 - (void) assembleBorder {
-  CCSprite *leftBorder = [CCSprite spriteWithFile:@"borderstraight.png"];
-  CCSprite *rightBorder = [CCSprite spriteWithFile:@"borderstraight.png"];
-  CCSprite *botBorder = [CCSprite spriteWithFile:@"borderstraight.png"];
-  CCSprite *topBorder = [CCSprite spriteWithFile:@"borderstraight.png"];
-  CCSprite *blCorner = [CCSprite spriteWithFile:@"borderrounded.png"];
-  CCSprite *brCorner = [CCSprite spriteWithFile:@"borderrounded.png"];
-  CCSprite *tlCorner = [CCSprite spriteWithFile:@"borderrounded.png"];
-  CCSprite *trCorner = [CCSprite spriteWithFile:@"borderrounded.png"];
+  CCSprite *leftBorder = [CCSprite spriteWithImageNamed:@"borderstraight.png"];
+  CCSprite *rightBorder = [CCSprite spriteWithImageNamed:@"borderstraight.png"];
+  CCSprite *botBorder = [CCSprite spriteWithImageNamed:@"borderstraight.png"];
+  CCSprite *topBorder = [CCSprite spriteWithImageNamed:@"borderstraight.png"];
+  CCSprite *blCorner = [CCSprite spriteWithImageNamed:@"borderrounded.png"];
+  CCSprite *brCorner = [CCSprite spriteWithImageNamed:@"borderrounded.png"];
+  CCSprite *tlCorner = [CCSprite spriteWithImageNamed:@"borderrounded.png"];
+  CCSprite *trCorner = [CCSprite spriteWithImageNamed:@"borderrounded.png"];
   
   float borderWidth = leftBorder.contentSize.width;
   CGSize cornerSize = blCorner.contentSize;

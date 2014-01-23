@@ -26,7 +26,7 @@
 //     [MyClassName sharedMyClassName];
 //
 
-#define SYNTHESIZE_SINGLETON_FOR_CLASS(classname) \
+#define LN_SYNTHESIZE_SINGLETON_FOR_CLASS(classname) \
  \
 static classname *shared##classname = nil; \
  \

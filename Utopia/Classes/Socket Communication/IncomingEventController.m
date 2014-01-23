@@ -13,10 +13,8 @@
 #import "Globals.h"
 #import "OutgoingEventController.h"
 #import "HomeMap.h"
-#import "GameLayer.h"
 #import "MissionMap.h"
 #import "GameViewController.h"
-#import "ActivityFeedController.h"
 #import "GenericPopupController.h"
 #import "FullEvent.h"
 #import "AppDelegate.h"
@@ -29,7 +27,7 @@
 
 @implementation IncomingEventController
 
-SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
+LN_SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
 
 - (Class) getClassForType: (EventProtocolResponse) type {
   // This is very hacky but I suppose necessary.. :/

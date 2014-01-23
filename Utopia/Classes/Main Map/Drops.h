@@ -8,7 +8,7 @@
 
 #import "cocos2d.h"
 
-@interface Drop : CCSprite <CCTouchOneByOneDelegate> {
+@interface Drop : CCSprite {
   BOOL _clicked;
 }
 
