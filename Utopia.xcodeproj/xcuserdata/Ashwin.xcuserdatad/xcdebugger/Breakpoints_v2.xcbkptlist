@@ -84,11 +84,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Utopia/Classes/Main Map/GameMap.m"
-            timestampString = "412172147.137936"
+            timestampString = "412256809.968128"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "152"
-            endingLineNumber = "152"
+            startingLineNumber = "162"
+            endingLineNumber = "162"
             landmarkName = "-compareMapSprite1:toMapSprite2:"
             landmarkType = "5">
          </BreakpointContent>

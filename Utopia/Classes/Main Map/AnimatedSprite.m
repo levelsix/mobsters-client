@@ -229,7 +229,7 @@
   if (isLocked) {
     if (_lockedBubble) {
       // Make sure to cleanup just in case
-      [self removeChild:_lockedBubble cleanup:YES];
+      [_lockedBubble removeFromParent];
     }
     _lockedBubble = [CCSprite spriteWithImageNamed:@"bosslock.png"];
     [self addChild:_lockedBubble];
@@ -241,7 +241,7 @@
   } else {
     if (_lockedBubble) {
       // Make sure to cleanup just in case
-      [self removeChild:_lockedBubble cleanup:YES];
+      [_lockedBubble removeFromParent];
     }
     self.color = [CCColor colorWithCcColor3b:ccc3(255, 255, 255)];
   }

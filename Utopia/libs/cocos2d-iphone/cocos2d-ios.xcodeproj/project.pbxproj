@@ -276,8 +276,8 @@
 		B7EE69E31819E75700B983FE /* CCLayoutBox.m in Sources */ = {isa = PBXBuildFile; fileRef = B7EE69DF1819E75700B983FE /* CCLayoutBox.m */; };
 		B7EE6A1E181AE34600B983FE /* CCSlider.h in Headers */ = {isa = PBXBuildFile; fileRef = B7EE6A1C181AE34600B983FE /* CCSlider.h */; };
 		B7EE6A1F181AE34600B983FE /* CCSlider.m in Sources */ = {isa = PBXBuildFile; fileRef = B7EE6A1D181AE34600B983FE /* CCSlider.m */; };
-		CFC04EE1189142CF00F2DB59 /* CCDirector+Downloader.h in Headers */ = {isa = PBXBuildFile; fileRef = CFC04EDF189142CF00F2DB59 /* CCDirector+Downloader.h */; };
-		CFC04EE2189142CF00F2DB59 /* CCDirector+Downloader.m in Sources */ = {isa = PBXBuildFile; fileRef = CFC04EE0189142CF00F2DB59 /* CCDirector+Downloader.m */; };
+		CFC04EF11892862900F2DB59 /* CCDirector+Downloader.h in Headers */ = {isa = PBXBuildFile; fileRef = CFC04EEF1892862900F2DB59 /* CCDirector+Downloader.h */; };
+		CFC04EF21892862900F2DB59 /* CCDirector+Downloader.m in Sources */ = {isa = PBXBuildFile; fileRef = CFC04EF01892862900F2DB59 /* CCDirector+Downloader.m */; };
 		D2CB8493187F80EF006820BE /* kazmath.h in Headers */ = {isa = PBXBuildFile; fileRef = A015BFB213B826D800C73E76 /* kazmath.h */; };
 		D2CB8494187F80EF006820BE /* mat3.h in Headers */ = {isa = PBXBuildFile; fileRef = A015BFB313B826D800C73E76 /* mat3.h */; };
 		D2CB8495187F80EF006820BE /* mat4.h in Headers */ = {isa = PBXBuildFile; fileRef = A015BFB413B826D800C73E76 /* mat4.h */; };
@@ -688,8 +688,8 @@
 		B7EE69DF1819E75700B983FE /* CCLayoutBox.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CCLayoutBox.m; sourceTree = "<group>"; };
 		B7EE6A1C181AE34600B983FE /* CCSlider.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CCSlider.h; path = "cocos2d-ui/CCSlider.h"; sourceTree = "<group>"; };
 		B7EE6A1D181AE34600B983FE /* CCSlider.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CCSlider.m; path = "cocos2d-ui/CCSlider.m"; sourceTree = "<group>"; };
-		CFC04EDF189142CF00F2DB59 /* CCDirector+Downloader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "CCDirector+Downloader.h"; sourceTree = "<group>"; };
-		CFC04EE0189142CF00F2DB59 /* CCDirector+Downloader.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "CCDirector+Downloader.m"; sourceTree = "<group>"; };
+		CFC04EEF1892862900F2DB59 /* CCDirector+Downloader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "CCDirector+Downloader.h"; sourceTree = "<group>"; };
+		CFC04EF01892862900F2DB59 /* CCDirector+Downloader.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "CCDirector+Downloader.m"; sourceTree = "<group>"; };
 		D33803DC18032E4F0072D8FE /* CCPhysics+ObjectiveChipmunk.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "CCPhysics+ObjectiveChipmunk.h"; sourceTree = "<group>"; };
 		D33803E218032ECE0072D8FE /* CCPhysicsBody.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CCPhysicsBody.m; sourceTree = "<group>"; };
 		D33803E418032F250072D8FE /* CCPhysicsBody.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CCPhysicsBody.h; sourceTree = "<group>"; };
@@ -768,7 +768,7 @@
 		29B97314FDCFA39411CA2CEA /* CustomTemplate */ = {
 			isa = PBXGroup;
 			children = (
-				CFC04EDE1891427800F2DB59 /* LVL6 Additions */,
+				CFC04EEE1892862900F2DB59 /* LVL6 Additions */,
 				A07EC9B2141A8D32008C1F12 /* README.md */,
 				501A7CAC0EBC97BA005BC158 /* AUTHORS */,
 				508A4A2310B47A46004B9CC3 /* RELEASE_NOTES */,
@@ -1410,11 +1410,11 @@
 			name = Layouts;
 			sourceTree = "<group>";
 		};
-		CFC04EDE1891427800F2DB59 /* LVL6 Additions */ = {
+		CFC04EEE1892862900F2DB59 /* LVL6 Additions */ = {
 			isa = PBXGroup;
 			children = (
-				CFC04EDF189142CF00F2DB59 /* CCDirector+Downloader.h */,
-				CFC04EE0189142CF00F2DB59 /* CCDirector+Downloader.m */,
+				CFC04EEF1892862900F2DB59 /* CCDirector+Downloader.h */,
+				CFC04EF01892862900F2DB59 /* CCDirector+Downloader.m */,
 			);
 			path = "LVL6 Additions";
 			sourceTree = "<group>";
@@ -1571,7 +1571,7 @@
 				50316AA610291280003ACFE7 /* CCRenderTexture.h in Headers */,
 				B7D273171822F4AA0054849B /* CCBSequenceProperty.h in Headers */,
 				D2CB8498187F80EF006820BE /* ray2.h in Headers */,
-				CFC04EE1189142CF00F2DB59 /* CCDirector+Downloader.h in Headers */,
+				CFC04EF11892862900F2DB59 /* CCDirector+Downloader.h in Headers */,
 				50316AD41029A126003ACFE7 /* CCMotionStreak.h in Headers */,
 				505462FC1062768000AB7C52 /* ccConfig.h in Headers */,
 				50E2A15010A45E7F00D894CE /* CCSpriteFrame.h in Headers */,
@@ -1761,7 +1761,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "#appledoc Xcode script\n# Start constants\ncompany=\"Cocos2D\";\ncompanyID=\"Cocos2D 3.0\";\ncompanyURL=\"http://www.cocos2d-iphone.org\";\ntarget=\"iphoneos\";\noutputPath=\"api-docs\";\n# End constants\ntools/appledoc \\\n--project-name \"${companyID}\" \\\n--project-company \"${company}\" \\\n--company-id \"${companyID}\" \\\n--docset-atom-filename \"${company}.atom\" \\\n--docset-feed-url \"${companyURL}/${company}/%DOCSETATOMFILENAME\" \\\n--docset-package-url \"${companyURL}/${company}/%DOCSETPACKAGEFILENAME\" \\\n--docset-fallback-url \"${companyURL}/${company}\" \\\n--output \"${outputPath}\" \\\n--publish-docset \\\n--install-docset \\\n--docset-platform-family \"${target}\" \\\n--logformat xcode \\\n--no-keep-undocumented-members \\\n--no-search-undocumented-doc \\\n--keep-intermediate-files \\\n--no-repeat-first-par \\\n--no-warn-invalid-crossref \\\n--exit-threshold 2 \\\n--ignore base64.h \\\n--ignore CCActionManager.h \\\n--ignore CCAnimationCache.h \\\n--ignore CCAnimation.h \\\n--ignore CCAtlasNode.h \\\n--ignore CCBAnimationManager.h \\\n--ignore CCBKeyFrame.h \\\n--ignore CCBLocalizationManager.h \\\n--ignore CCBReader.h \\\n--ignore CCBReader_Private.h \\\n--ignore CCBSequence.h \\\n--ignore CCBSequenceProperty.h \\\n--ignore CCBuilderReader.h \\\n--ignore ccConfig.h \\\n--ignore CCConfiguration.h \\\n--ignore ccDeprecated.h \\\n--ignore CCDirectorIOS.h \\\n--ignore CCDirectorMac.h \\\n--ignore CCDirector_Private.h \\\n--ignore CCDrawingPrimitives.h \\\n--ignore CCES2Renderer.h \\\n--ignore CCESRenderer.h \\\n--ignore CCFileUtils.h \\\n--ignore ccFPSImages.h \\\n--ignore CCGL.h \\\n--ignore CCGLProgram.h \\\n--ignore ccGLStateCache.h \\\n--ignore CCGLView.h \\\n--ignore CCLabelAtlas.h \\\n--ignore CCLabelBMFont_Private.h \\\n--ignore ccMacros.h \\\n--ignore CCNode_Private.h \\\n--ignore CCNS.h \\\n--ignore CCParticleBatchNode.h \\\n--ignore CCParticleSystem_Private.h \\\n--ignore CCParticleSystemQuad_Private.h \\\n--ignore CCProfiling.h \\\n--ignore CCProgressNode_Private.h \\\n--ignore CCProtocols.h \\\n--ignore CCResponderManager.h \\\n--ignore CCScheduler.h \\\n--ignore CCShaderCache.h \\\n--ignore ccShader_PositionColor_frag.h \\\n--ignore ccShader_PositionColorLengthTexture_frag.h \\\n--ignore ccShader_PositionColorLengthTexture_vert.h \\\n--ignore ccShader_PositionColor_vert.h \\\n--ignore ccShader_PositionTextureA8Color_frag.h \\\n--ignore ccShader_PositionTextureA8Color_vert.h \\\n--ignore ccShader_PositionTextureColorAlphaTest_frag.h \\\n--ignore ccShader_PositionTextureColor_frag.h \\\n--ignore ccShader_PositionTextureColor_vert.h \\\n--ignore ccShader_PositionTexture_frag.h \\\n--ignore ccShader_PositionTexture_uColor_frag.h \\\n--ignore ccShader_PositionTexture_uColor_vert.h \\\n--ignore ccShader_PositionTexture_vert.h \\\n--ignore ccShader_Position_uColor_frag.h \\\n--ignore ccShader_Position_uColor_vert.h \\\n--ignore ccShaders.h \\\n--ignore CCSpriteBatchNode_Private.h \\\n--ignore CCSpriteFrameCache.h \\\n--ignore CCSprite_Private.h \\\n--ignore CCTextureAtlas.h \\\n--ignore CCTextureCache.h \\\n--ignore CCTexture_Private.h \\\n--ignore CCTexturePVR.h \\\n--ignore CCTiledMapLayer_Private.h \\\n--ignore ccTypes.h \\\n--ignore ccUtils.h \\\n--ignore CCVertex.h \\\n--ignore CCWindow.h \\\n--ignore CGPointExtension.h \\\n--ignore cocos2d.h \\\n--ignore cocos2d-ui.h \\\n--ignore .m \\\n--ignore NSAttributedString+CCAdditions.h \\\n--ignore NSThread+performBlock.h \\\n--ignore OpenGL_Internal.h \\\n--ignore TGAlib.h \\\n--ignore TransformUtils.h \\\n--ignore UITouch+CC.h \\\n--ignore uthash.h \\\n--ignore utlist.h \\\n--ignore ZipUtils.h \\\ncocos2d cocos2d-ui\n";
+			shellScript = "tools/build_docs.sh\n\n";
 		};
 /* End PBXShellScriptBuildPhase section */
 
@@ -1826,7 +1826,7 @@
 				50316AD51029A126003ACFE7 /* CCMotionStreak.m in Sources */,
 				50E2A15110A45E7F00D894CE /* CCSpriteFrame.m in Sources */,
 				502C8BE110A661E200D137BA /* CCSpriteFrameCache.m in Sources */,
-				CFC04EE2189142CF00F2DB59 /* CCDirector+Downloader.m in Sources */,
+				CFC04EF21892862900F2DB59 /* CCDirector+Downloader.m in Sources */,
 				50E1357610ADEB1B00C9E7FA /* CCTexture.m in Sources */,
 				50D2AC9610E90DFA0068ECEB /* CCTiledMapLayer.m in Sources */,
 				50D2AC9810E90DFA0068ECEB /* CCTiledMapObjectGroup.m in Sources */,

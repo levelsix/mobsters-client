@@ -242,7 +242,12 @@ static NSUInteger globalOrderOfArrival = 1;
 }
 
 -(float)rotationalSkewX {
-	return _rotationalSkewX;
+	CCPhysicsBody *body = GetBodyIfRunning(self);
+	if(body){
+		return -CC_RADIANS_TO_DEGREES(body.absoluteRadians) + NodeToPhysicsRotation(self.parent);
+	} else {
+		return _rotationalSkewX;
+	}
 }
 
 -(void) setRotationalSkewX: (float)newX
@@ -255,7 +260,12 @@ static NSUInteger globalOrderOfArrival = 1;
 
 -(float)rotationalSkewY
 {
-	return _rotationalSkewY;
+	CCPhysicsBody *body = GetBodyIfRunning(self);
+	if(body){
+		return -CC_RADIANS_TO_DEGREES(body.absoluteRadians) + NodeToPhysicsRotation(self.parent);
+	} else {
+		return _rotationalSkewY;
+	}
 }
 
 -(void) setRotationalSkewY: (float)newY
@@ -963,6 +973,7 @@ RecursivelyIncrementPausedAncestors(CCNode *node, int increment)
 		cpTransform nonRigid = self.nonRigidTransform;
 		[_physicsBody willAddToPhysicsNode:physics nonRigidTransform:nonRigid];
 		[physics.space smartAdd:physicsBody];
+		[_physicsBody didAddToPhysicsNode:physics];
 		
 		NSArray *joints = physicsBody.joints;
 		for(NSUInteger i=0, count=joints.count; i<count; i++){
@@ -1027,8 +1038,6 @@ RecursivelyIncrementPausedAncestors(CCNode *node, int increment)
 
 -(void) onEnter
 {
-	[_children makeObjectsPerformSelector:@selector(onEnter)];
-	
 	[self setupPhysicsBody:_physicsBody];
 	
 	if(![_scheduler isTargetScheduled:self]){
@@ -1038,6 +1047,9 @@ RecursivelyIncrementPausedAncestors(CCNode *node, int increment)
 	BOOL wasRunning = self.runningInActiveScene;
 	_isInActiveScene = YES;
 	[self wasRunning:wasRunning];
+  
+  // LVL6 Addition: Moved this after because it fails on transitions
+	[_children makeObjectsPerformSelector:@selector(onEnter)];
 }
 
 -(void) onEnterTransitionDidFinish

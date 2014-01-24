@@ -10,11 +10,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Utopia/Classes/Main Map/Building.m"
-            timestampString = "412167860.39347"
+            timestampString = "412223559.608824"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "99"
-            endingLineNumber = "99"
+            startingLineNumber = "100"
+            endingLineNumber = "100"
             landmarkName = "-displayProgressBar"
             landmarkType = "5">
          </BreakpointContent>
@@ -58,11 +58,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Utopia/Classes/Main Map/HomeMap.m"
-            timestampString = "412167860.39347"
+            timestampString = "412253441.535843"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "643"
-            endingLineNumber = "643"
+            startingLineNumber = "652"
+            endingLineNumber = "652"
             landmarkName = "-retrieveFromBuilding:"
             landmarkType = "5">
          </BreakpointContent>
@@ -70,32 +70,16 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            shouldBeEnabled = "Yes"
+            shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "Utopia/libs/cocos2d-iphone/cocos2d/Support/CCFileUtils.m"
-            timestampString = "412176307.289318"
+            filePath = "Utopia/libs/cocos2d-iphone/cocos2d/CCNode.m"
+            timestampString = "412258310.380762"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "326"
-            endingLineNumber = "326"
-            landmarkName = "-getPathForFilename:withSuffix:"
-            landmarkType = "5">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "Utopia/Classes/Game Data/Globals.m"
-            timestampString = "412175489.469121"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "1614"
-            endingLineNumber = "1614"
-            landmarkName = "+getDoubleResolutionImage:"
+            startingLineNumber = "1220"
+            endingLineNumber = "1220"
+            landmarkName = "-setPaused:"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>

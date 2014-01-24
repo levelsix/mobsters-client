@@ -278,6 +278,8 @@
   if (success) {
     [self reloadTableAnimated:YES];
     [self updateCurrentTeamAnimated:YES];
+    
+    [[NSNotificationCenter defaultCenter] postNotificationName:MY_TEAM_CHANGED_NOTIFICATION object:nil];
   }
 }
 
@@ -387,6 +389,8 @@
     [self.queueView updateTimes];
     
     if (um.teamSlot) {
+      [[NSNotificationCenter defaultCenter] postNotificationName:MY_TEAM_CHANGED_NOTIFICATION object:nil];
+      
       [self updateCurrentTeamAnimated:YES];
     }
   }

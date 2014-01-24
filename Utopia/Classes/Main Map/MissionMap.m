@@ -52,7 +52,7 @@
         }
       }
     }
-    [self removeChild:layer cleanup:YES];
+    [layer removeFromParent];
     
     // Add all the buildings, can't add people till after aviary placed
     for (CityElementProto *ncep in proto.cityElementsList) {

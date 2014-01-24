@@ -256,7 +256,7 @@
 
 @interface CCNode (RecursiveOpacity)
 
-- (void) recursivelyApplyOpacity:(GLubyte)opacity;
+- (void) recursivelyApplyOpacity:(CGFloat)opacity;
 - (void) recursivelyApplyColor:(CCColor *)color;
 
 @end
@@ -274,5 +274,11 @@
 - (void) shuffle;
 - (id) clone;
 - (NSArray *)reversedArray;
+
+@end
+
+@interface CCActionEaseRate (BaseRate)
+
+- (CCActionInterval *) initWithAction:(CCActionInterval *)action;
 
 @end

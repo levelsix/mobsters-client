@@ -258,8 +258,9 @@
 - (void) displayMoveArrows {
   CCNode *o = [self getChildByName:ARROW_LAYER_TAG recursively:NO];
   if (o) {
+    // This means it was reclicked
     [o stopAllActions];
-    [o recursivelyApplyOpacity:255];
+    [o recursivelyApplyOpacity:1.f];
     return;
   }
   
@@ -292,7 +293,7 @@
   node.position = ccp(self.contentSize.width/2, -self.verticalOffset);
   
   [node recursivelyApplyOpacity:0];
-  [node runAction:[RecursiveFadeTo actionWithDuration:ARROW_FADE_DURATION opacity:255]];
+  [node runAction:[RecursiveFadeTo actionWithDuration:ARROW_FADE_DURATION opacity:1.f]];
   
   [self addChild:node z:-1 name:ARROW_LAYER_TAG];
 }
@@ -325,7 +326,7 @@
   
   NSString *str = self.userStruct.staticStruct.structInfo.level == 1 ? @"Building Complete!" : @"Building Upgraded!";
   CCLabelTTF *label = [CCLabelTTF labelWithString:str fontName:[Globals font] fontSize:22.f];
-  [label setColor:[CCColor colorWithCcColor4b:ccc4(255, 200, 0, 200)]];
+  [label setFontColor:[CCColor colorWithCcColor3b:ccc3(255, 200, 0)]];
   [label setShadowOffset:ccp(0, -1)];
   
   [self addChild:spinner z:-1];
@@ -395,7 +396,7 @@
 - (void) initializeRetrieveBubble {
   if (_retrieveBubble) {
     // Make sure to cleanup just in case
-    [self removeChild:_retrieveBubble cleanup:YES];
+    [_retrieveBubble removeFromParent];
   }
   ResourceType type = ((ResourceGeneratorProto *)self.userStruct.staticStruct).resourceType;
   _retrieveBubble = [CCSprite spriteWithImageNamed:type == ResourceTypeCash ? @"cashready.png" : @"oilready.png"];

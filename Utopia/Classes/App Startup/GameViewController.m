@@ -33,6 +33,7 @@
 #import "DiamondShopViewController.h"
 #import "MenuNavigationController.h"
 #import "MyCroniesViewController.h"
+#import "CCTexture_Private.h"
 
 #define DEFAULT_PNG_IMAGE_VIEW_TAG 103
 #define KINGDOM_PNG_IMAGE_VIEW_TAG 104
@@ -96,6 +97,8 @@
 	// It can be RGBA8888, RGBA4444, RGB5_A1, RGB565
 	// You can change anytime.
 	[CCTexture setDefaultAlphaPixelFormat:CCTexturePixelFormat_RGBA8888];
+  
+  [CCTexture PVRImagesHavePremultipliedAlpha:NO];
   
   [[CCFileUtils sharedFileUtils] setiPhoneRetinaDisplaySuffix:@"@2x"];
   [[CCDirector sharedDirector] setDownloaderDelegate:self];

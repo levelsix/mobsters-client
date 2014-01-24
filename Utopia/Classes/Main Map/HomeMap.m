@@ -120,6 +120,15 @@
   return self;
 }
 
+- (BOOL) gestureRecognizer:(UIGestureRecognizer *)gestureRecognizer shouldReceiveTouch:(UITouch *)touch {
+  PurchaseConfirmMenu *menu = (PurchaseConfirmMenu *)[self getChildByName:PURCHASE_CONFIRM_MENU_TAG recursively:YES];
+  
+  if ([menu hitTestWithWorldPos:[touch locationInWorld]]) {
+    return NO;
+  }
+  return YES;
+}
+
 - (void) invalidateAllTimers {
   // Invalidate all timers
   [_timers enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
@@ -182,7 +191,7 @@
   }
   
   for (SelectableSprite *c in toRemove) {
-    [self removeChild:c cleanup:YES];
+    [c removeFromParent];
   }
   
   for (CCNode *node in arr) {
@@ -440,7 +449,7 @@
     _canMove = NO;
     if (_purchasing) {
       _purchasing = NO;
-      [self removeChild:_purchBuilding cleanup:YES];
+      [_purchBuilding removeFromParent];
     }
   }
 }
@@ -737,7 +746,7 @@
     [self reselectCurrentSelection];
   } else {
     [homeBuilding liftBlock];
-    [self removeChild:homeBuilding cleanup:YES];
+    [homeBuilding removeFromParent];
     
     self.selected = nil;
   }

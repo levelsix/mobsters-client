@@ -34,15 +34,7 @@
   return NO;
 }
 
-- (BOOL) ccTouchBegan:(UITouch *)touch withEvent:(UIEvent *)event {
-  if (!_clicked) {
-    CGPoint pt = [[CCDirector sharedDirector] convertToGL:[touch locationInView:[touch view]]];
-    return [self hitTestWithWorldPos:pt];
-  }
-  return NO;
-}
-
-- (void) ccTouchEnded:(UITouch *)touch withEvent:(UIEvent *)event {
+- (void) touchEnded:(UITouch *)touch withEvent:(UIEvent *)event {
   CCNode *n = self.parent;
   if ([n isKindOfClass:[GameMap class]]) {
 //    GameMap *map = (GameMap *)self.parent;

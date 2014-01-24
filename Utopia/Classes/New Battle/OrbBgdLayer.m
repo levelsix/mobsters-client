@@ -25,6 +25,8 @@
       }
     }
     
+    self.anchorPoint = ccp(0.5, 0.5);
+    
     [self assembleBorder];
   }
   return self;

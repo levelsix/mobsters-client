@@ -54,8 +54,7 @@
     self.healthLabel.position = ccp(self.healthBgd.contentSize.width/2, self.healthBgd.contentSize.height);
     self.healthLabel.color = [CCColor whiteColor];
     self.healthLabel.shadowOffset = ccp(0, -1);
-    self.healthLabel.shadowColor = [CCColor colorWithWhite:0.f alpha:0.3f];
-    self.healthLabel.shadowBlurRadius = 1.f;
+    self.healthLabel.shadowColor = [CCColor colorWithWhite:0.f alpha:0.7f];
   }
   return self;
 }
@@ -207,7 +206,7 @@
          NSMutableDictionary *dict = [NSMutableDictionary dictionaryWithContentsOfFile:path];
          [dict setObject:[NSNumber numberWithInt:totalParticles] forKey:@"maxParticles"];
          
-         CCParticleSystemBase *q = [[CCParticleSystemBase alloc] initWithDictionary:dict];
+         CCParticleSystem *q = [[CCParticleSystem alloc] initWithDictionary:dict];
          q.autoRemoveOnFinish = YES;
          q.position = ccpAdd(self.position, ccp(0, self.contentSize.height/2-5));
          q.speedVar = 40+strength*15;

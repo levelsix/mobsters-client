@@ -51,7 +51,7 @@
 {
 	[super startWithTarget:aTarget];
 	_from = [(CCProgressNode*)_target percentage];
-
+  
   // LVL6 Addition - Commented this
 	// XXX: Is this correct ?
 	// Adding it to support CCRepeat

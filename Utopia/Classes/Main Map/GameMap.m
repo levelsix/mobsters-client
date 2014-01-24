@@ -59,18 +59,25 @@
 
 - (void) loadGestureRecognizers {
   UIPanGestureRecognizer *pan = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(drag:)];
+  pan.delegate = self;
   pan.maximumNumberOfTouches = 1;
   [[[CCDirector sharedDirector] view] addGestureRecognizer:pan];
   
   // add UIPinchGestureRecognizer
   UIPinchGestureRecognizer *pinch = [[UIPinchGestureRecognizer alloc] initWithTarget:self action:@selector(scale:)];
+  pinch.delegate = self;
   [[[CCDirector sharedDirector] view] addGestureRecognizer:pinch];
   
   // add UITapGestureRecognizer
   UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(tap:)];
+  tap.delegate = self;
   [[[CCDirector sharedDirector] view] addGestureRecognizer:tap];
   
   self.gestureRecognizers = @[pan, pinch, tap];
+}
+
+- (BOOL) gestureRecognizer:(UIGestureRecognizer *)gestureRecognizer shouldRecognizeSimultaneouslyWithGestureRecognizer:(UIGestureRecognizer *)otherGestureRecognizer {
+  return YES;
 }
 
 - (void) unloadGestureRecognizers {
@@ -114,6 +121,9 @@
       ts = [[MyTeamSprite alloc] initWithFile:mp.imagePrefix location:r map:self];
       ts.name = name;
       [self addChild:ts];
+    } else {
+      // Remove it so it doesn't get deleted
+      [self.myTeamSprites removeObject:ts];
     }
     
     [newArr addObject:ts];

@@ -75,7 +75,6 @@ typedef enum {
   int _numColors;
   BOOL _beganTimer;
   CGPoint _lastGridPt;
-  int _currentComboCount;
   BOOL _foundMatch;
   int _gemsBouncing;
 }

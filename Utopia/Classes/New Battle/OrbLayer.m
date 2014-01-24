@@ -35,9 +35,6 @@
     self.color = color;
     
     self.streak = [CCMotionStreak streakWithFade:0.5 minSeg:0.1f width:8 color:color textureFilename:@"streak.png"];
-    
-    // schedule an update on each frame so we can syncronize the streak with the target
-    [self schedule:@selector(onUpdate:) interval:0.f];
   }
   return self;
 }
@@ -49,7 +46,7 @@
   }
 }
 
-- (void) onUpdate:(CCTime)delta {
+- (void) update:(CCTime)delta {
 	[self.streak setPosition:self.position];
 }
 
@@ -336,7 +333,6 @@
 - (void) findRunFromGem:(Gem*)gem index:(int)index
 {
   [_tempRun removeAllObjects];
-  
   [self findMatchesAboveGem:gem index:index];
   if (_tempRun.count > NUMBER_OF_ORBS_FOR_MATCH-1) [self addRun:_tempRun];
   
@@ -404,7 +400,7 @@
       newGem.sprite.position = CGPointMake(self.squareSize.width/2+(x*self.squareSize.width), self.contentSize.height+self.squareSize.height*(y-self.gridSize.height+replaceVal+0.5f));
       [self addChild:newGem.sprite z:9];
       [_gems replaceObjectAtIndex:index withObject:newGem];
-      [self removeChild:gem.sprite cleanup:YES];
+      [gem.sprite removeFromParent];
     }
   }
   [self updateGemPositionsAfterSwap];
@@ -442,14 +438,14 @@
   
   CCActionCallBlock *crack = [CCActionCallBlock actionWithBlock:^{
     if (powerup == powerup_horizontal_line || powerup == powerup_vertical_line) {
-      CCParticleSystemBase *q = [CCParticleSystemBase particleWithFile:@"molotov.plist"];
+      CCParticleSystem *q = [CCParticleSystem particleWithFile:@"molotov.plist"];
       [self addChild:q z:100];
       q.position = gem.sprite.position;
       q.autoRemoveOnFinish = YES;
       
       [[SoundEngine sharedSoundEngine] puzzleBoardExplosion];
     } else if (powerup == powerup_all_of_one_color) {
-      CCParticleSystemBase *q = [CCParticleSystemBase particleWithFile:@"molotov.plist"];
+      CCParticleSystem *q = [CCParticleSystem particleWithFile:@"molotov.plist"];
       [self addChild:q z:100];
       q.position = gem.sprite.position;
       q.autoRemoveOnFinish = YES;
@@ -467,7 +463,7 @@
                        [q removeFromParentAndCleanup:YES];
                      }], nil]];
       
-      CCParticleSystemBase *x = [CCParticleSystemBase particleWithFile:@"sparkle1.plist"];
+      CCParticleSystem *x = [CCParticleSystem particleWithFile:@"sparkle1.plist"];
       [self addChild:x z:12];
       x.position = gem.sprite.position;
       x.autoRemoveOnFinish = YES;
@@ -569,17 +565,9 @@
   NSMutableArray * batch = [batches lastObject];
   Gem *powerupGem = [self getPowerupGemForBatch:batch];
   
-  _currentComboCount++;
-  int minX = self.gridSize.width, minY = self.gridSize.height, maxX = 0, maxY = 0;
   for (Gem * gem in batch)
   {
     [self destroyGem:gem fromColor:gem.color fromPowerup:powerup_none];
-    
-    CGPoint coord = [self coordinateOfGem:gem];
-    minX = MIN(minX, coord.x);
-    minY = MIN(minY, coord.y);
-    maxX = MAX(maxX, coord.x+1);
-    maxY = MAX(maxY, coord.y+1);
   }
   
   if (powerupGem) {
@@ -643,7 +631,7 @@
     r.position = [self pointForGridPosition:p.startLocation];
     [self addChild:r z:10];
     
-    CCParticleSystemBase *q = [CCParticleSystemBase particleWithFile:@"rockettail.plist"];
+    CCParticleSystem *q = [CCParticleSystem particleWithFile:@"rockettail.plist"];
     q.position = ccp(0,12);
     [r addChild:q z:-1];
     
@@ -680,7 +668,7 @@
     r.flipX = YES;
     [self addChild:r z:10];
     
-    q = [CCParticleSystemBase particleWithFile:@"rockettail.plist"];
+    q = [CCParticleSystem particleWithFile:@"rockettail.plist"];
     q.position = ccp(20,12);
     [r addChild:q z:-1];
     
@@ -731,7 +719,7 @@
     n.rotation = 90;
     [r addChild:n];
     
-    CCParticleSystemBase *q = [CCParticleSystemBase particleWithFile:@"rockettail.plist"];
+    CCParticleSystem *q = [CCParticleSystem particleWithFile:@"rockettail.plist"];
     q.position = ccpAdd(n.position, ccp(0, 10));
     [r addChild:q z:-1];
     
@@ -774,7 +762,7 @@
     n.rotation = -90;
     [r addChild:n];
     
-    q = [CCParticleSystemBase particleWithFile:@"rockettail.plist"];
+    q = [CCParticleSystem particleWithFile:@"rockettail.plist"];
     q.position = ccpAdd(n.position, ccp(0, -10));
     [r addChild:q z:-1];
     
@@ -823,7 +811,7 @@
                         }
                         [self checkAllGemsAndPowerupsDone];
                         
-                        CCParticleSystemBase *x = [CCParticleSystemBase particleWithFile:@"grenade1.plist"];
+                        CCParticleSystem *x = [CCParticleSystem particleWithFile:@"grenade1.plist"];
                         [self addChild:x z:12];
                         x.position = [self pointForGridPosition:p.startLocation];
                         x.autoRemoveOnFinish = YES;
@@ -847,7 +835,8 @@
     if (blowup.count > 0) {
       for (int i = 0; i < blowup.count; i++) {
         Gem *gem = [blowup objectAtIndex:i];
-        CCParticleSystemBase *q = [CCParticleSystemBase particleWithFile:@"rockettail.plist"];
+        CCParticleSystem *q = [CCParticleSystem particleWithFile:@"rockettail.plist"];
+        q.particlePositionType = CCParticleSystemPositionTypeFree;
         [self addChild:q z:10];
         q.position = [self pointForGridPosition:p.startLocation];
         
@@ -969,7 +958,7 @@
       
       for (Gem *gem in _gems) {
         if (gem.color == color) {
-          CCParticleSystemBase *q = [CCParticleSystemBase particleWithFile:@"rockettail.plist"];
+          CCParticleSystem *q = [CCParticleSystem particleWithFile:@"rockettail.plist"];
           [self addChild:q z:10];
           q.position = _realDragGem.sprite.position;
           [q runAction:[CCActionMoveTo actionWithDuration:MOLOTOV_PARTICLE_DURATION position:gem.sprite.position]];
@@ -1257,15 +1246,11 @@
 
 #pragma mark touch handling
 
--(BOOL)ccTouchBegan:(UITouch *)touch withEvent:(UIEvent *)event {
-  if (!_allowInput) return NO;
+- (void) touchBegan:(UITouch *)touch withEvent:(UIEvent *)event {
+  if (!_allowInput) return;
   
   CGPoint location = [touch locationInNode:self];
-  if (![self hitTestWithWorldPos:[self convertToWorldSpace:location]]) return NO;
   CGPoint square = ccp((int)(location.x/self.squareSize.width), (int)(location.y/self.squareSize.height));
-  if (square.x > self.gridSize.width-1 || square.y > self.gridSize.height-1) {
-    return NO;
-  }
   
   _lastGridPt = square;
   
@@ -1282,7 +1267,7 @@
       }
       
       _realDragGem = container;
-      container.sprite.opacity = 128;
+      container.sprite.opacity = 0.5f;
       _dragGem.sprite.zOrder = 10;
       
       _beganTimer = NO;
@@ -1290,15 +1275,11 @@
       self.oldGems = [self.gems copy];
       
       self.isTrackingTouch = YES;
-      
-      return YES;
     }
   }
-  
-  return NO;
 }
 
-- (void) ccTouchMoved:(UITouch *)touch withEvent:(UIEvent *)event {
+- (void) touchMoved:(UITouch *)touch withEvent:(UIEvent *)event {
   if (!_allowInput) return;
   
   if (_dragGem) {
@@ -1353,21 +1334,20 @@
 }
 
 - (void) timedOut {
-  [self ccTouchEnded:nil withEvent:nil];
+  [self touchEnded:nil withEvent:nil];
 }
 
-- (void) ccTouchEnded:(UITouch *)touch withEvent:(UIEvent *)event {
+- (void) touchEnded:(UITouch *)touch withEvent:(UIEvent *)event {
   if (_realDragGem) {
     [self unschedule:@selector(timedOut)];
-    [self removeChild:_dragGem.sprite cleanup:YES];
+    [_dragGem.sprite removeFromParent];
     
     _allowInput = NO;
-    _realDragGem.sprite.opacity = 255.0;
+    _realDragGem.sprite.opacity = 1.f;
     
     dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, ORB_ANIMATION_TIME * NSEC_PER_SEC);
     dispatch_after(popTime, dispatch_get_main_queue(), ^(void){
       if (_realDragGem) {
-        _currentComboCount = 0;
         _foundMatch = NO;
         
         [self turnEnd];
@@ -1382,8 +1362,8 @@
   }
 }
 
-- (void) ccTouchCancelled:(UITouch *)touch withEvent:(UIEvent *)event {
-  [self ccTouchEnded:touch withEvent:event];
+- (void) touchCancelled:(UITouch *)touch withEvent:(UIEvent *)event {
+  [self touchEnded:touch withEvent:event];
 }
 
 @end

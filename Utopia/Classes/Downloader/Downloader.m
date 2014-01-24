@@ -80,7 +80,6 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(Downloader);
 - (NSString *) syncDownloadFile:(NSString *)fileName {
   LNLog(@"Beginning sync download of file %@", fileName);
   [self beginLoading:fileName];
-  [[NSRunLoop mainRunLoop] runUntilDate:[NSDate dateWithTimeIntervalSinceNow:0.01f]];
   NSString *path = [self downloadFile:fileName];
   [self stopLoading];
   return path;

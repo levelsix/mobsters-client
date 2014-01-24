@@ -9,12 +9,18 @@
 #import "cocos2d.h"
 #import "NibUtils.h"
 #import "UserData.h"
+#import <cocos2d-ui.h>
 
 #define PROGRESS_BAR_SPEED 2.f
 
 @interface PurchaseConfirmMenu : CCNode
 
 - (id) initWithCheckTarget:(id)cTarget checkSelector:(SEL)cSelector cancelTarget:(id)xTarget cancelSelector:(SEL)xSelector;
+
+@property (nonatomic, retain) CCButton *check;
+@property (nonatomic, retain) CCButton *cancel;
+
+@property (nonatomic, assign) BOOL tracking;
 
 @end
 

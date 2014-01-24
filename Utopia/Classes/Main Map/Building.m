@@ -59,7 +59,8 @@
   [self.buildingSprite stopActionByTag:BOUNCE_ACTION_TAG];
   CCActionScaleTo *scaleBig = [CCActionScaleTo actionWithDuration:BOUNCE_DURATION scale:BOUNCE_SCALE*self.baseScale];
   CCActionScaleTo *scaleBack = [CCActionScaleTo actionWithDuration:BOUNCE_DURATION scale:self.baseScale];
-  CCAction *bounce = [CCActionEaseInOut actionWithAction:[CCActionSequence actions:scaleBig, scaleBack, nil]];
+  CCActionInterval *bounce = [CCActionSequence actions:scaleBig, scaleBack, nil];
+  bounce = [CCActionEaseInOut actionWithAction:bounce];
   bounce.tag = BOUNCE_ACTION_TAG;
   [self.buildingSprite runAction:bounce];
   
@@ -174,7 +175,7 @@
   if (isLocked) {
     if (_lockedBubble) {
       // Make sure to cleanup just in case
-      [self removeChild:_lockedBubble cleanup:YES];
+      [_lockedBubble removeFromParent];
     }
     _lockedBubble = [CCSprite spriteWithImageNamed:@"lockedup.png"];
     [self addChild:_lockedBubble];
@@ -186,7 +187,7 @@
   } else {
     if (_lockedBubble) {
       // Make sure to cleanup just in case
-      [self removeChild:_lockedBubble cleanup:YES];
+      [_lockedBubble removeFromParent];
     }
     self.color = [CCColor colorWithCcColor3b:ccc3(255, 255, 255)];
   }

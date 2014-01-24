@@ -59,8 +59,8 @@
   [self unselect];
   _isSelected = YES;
   int amt = 135;
-  CCActionTintTo *tint = [RecursiveTintTo actionWithDuration:GLOW_DURATION color:[CCColor colorWithCcColor3b:ccc3(amt, amt, amt)]];
-  CCActionTintTo *tintBack = [RecursiveTintTo actionWithDuration:GLOW_DURATION color:[CCColor colorWithCcColor3b:ccc3(255, 255, 255)]];
+  CCActionTintTo *tint = [CCActionTintTo actionWithDuration:GLOW_DURATION color:[CCColor colorWithCcColor3b:ccc3(amt, amt, amt)]];
+  CCActionTintTo *tintBack = [CCActionTintTo actionWithDuration:GLOW_DURATION color:[CCColor colorWithCcColor3b:ccc3(255, 255, 255)]];
   CCAction *action = [CCActionRepeatForever actionWithAction:[CCActionSequence actions:tint, tintBack, nil]];
   action.tag = GLOW_ACTION_TAG;
   [self runAction:action];

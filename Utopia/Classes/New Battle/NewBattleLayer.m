@@ -88,10 +88,15 @@
 }
 
 - (void) removePastScenes {
+  NSMutableArray *toRemove = [NSMutableArray array];
   for (CCNode *n in self.children) {
     if (n.position.y+n.contentSize.height/2 < -1*self.position.y) {
-      [n removeFromParentAndCleanup:YES];
+      [toRemove addObject:n];
     }
+  }
+  
+  for (CCNode *n in toRemove) {
+    [n removeFromParent];
   }
 }
 
@@ -128,7 +133,9 @@
   if ((self = [super init])) {
     _puzzleIsOnLeft = puzzleIsOnLeft;
     
-    CGSize gridSize = CGSizeMake(8, 8);
+    CGSize gridSize = CGSizeMake(8,8);
+    
+    self.contentSize = [CCDirector sharedDirector].viewSize;
     
     OrbBgdLayer *puzzleBg = [[OrbBgdLayer alloc] initWithGridSize:gridSize];
     [self addChild:puzzleBg z:2];
@@ -137,7 +144,6 @@
     self.orbBgdLayer = puzzleBg;
     
     OrbLayer *ol = [[OrbLayer alloc] initWithContentSize:puzzleBg.contentSize gridSize:gridSize numColors:6];
-    ol.position = ccp(puzzleBg.contentSize.width/2, puzzleBg.contentSize.height/2);
     [self.orbBgdLayer addChild:ol z:2];
     ol.delegate = self;
     self.orbLayer = ol;
@@ -147,6 +153,7 @@
     self.noInputLayer.position = ol.position;
     
     self.bgdContainer = [CCNode node];
+    self.bgdContainer.contentSize = self.contentSize;
     [self addChild:self.bgdContainer z:0];
     
     self.bgdLayer = [BattleBgdLayer node];
@@ -229,15 +236,15 @@
   [_movesBgd addChild:movesLabel];
   [movesLabel setColor:[CCColor whiteColor]];
   [movesLabel setShadowOffset:ccp(0,-1)];
-  [movesLabel setOpacity:0.3f];
+  [movesLabel setShadowColor:[CCColor colorWithWhite:0.f alpha:0.3f]];
   [movesLabel setShadowBlurRadius:1.f];
   
   _movesLeftLabel = [CCLabelTTF labelWithString:@"5" fontName:@"GothamNarrow-UltraItalic" fontSize:19 dimensions:CGSizeMake(100, 30)];
   [_movesBgd addChild:_movesLeftLabel];
   [_movesLeftLabel setHorizontalAlignment:CCTextAlignmentRight];
-  [_movesLeftLabel setColor:[CCColor whiteColor]];
+  [_movesLeftLabel setColor:[CCColor colorWithCcColor3b:ccc3(255, 200, 0)]];
   [_movesLeftLabel setShadowOffset:ccp(0,-1)];
-  [_movesLeftLabel setOpacity:0.3f];
+  [_movesLeftLabel setShadowColor:[CCColor colorWithWhite:0.f alpha:0.3f]];
   [_movesLeftLabel setShadowBlurRadius:1.f];
   
   if (_puzzleIsOnLeft) {
@@ -256,8 +263,8 @@
     _movesLeftLabel.anchorPoint = ccp(1, 0.5);
     
     _movesBgd.position = ccp(0, 54);
-    movesLabel.position = ccp(62, 11);
-    _movesLeftLabel.position = ccp(62, 27);
+    movesLabel.position = ccp(62, 6);
+    _movesLeftLabel.position = ccp(62, 22);
   }
   
   CCSprite *lootBgd = [CCSprite spriteWithImageNamed:@"collectioncapsule.png"];
@@ -278,7 +285,7 @@
   [self.orbBgdLayer addChild:clip z:self.orbLayer.zOrder];
   clip.contentSize = CGSizeMake(_comboBgd.contentSize.width*2, _comboBgd.contentSize.height*3);
   clip.anchorPoint = ccp(1, 0.5);
-  clip.position = ccp(self.orbLayer.position.x+self.orbLayer.contentSize.width/2, 54);
+  clip.position = ccp(self.orbLayer.position.x+self.orbLayer.contentSize.width, 54);
   clip.scale = 1.5;
   
   [clip addChild:_comboBgd];
@@ -614,7 +621,7 @@
                      [CCActionCallFunc actionWithTarget:sprite selector:@selector(removeFromParent)],
                      [CCActionCallBlock actionWithBlock:block], nil]];
   
-  CCParticleSystemBase *q = [CCParticleSystemBase particleWithFile:@"characterdie.plist"];
+  CCParticleSystem *q = [CCParticleSystem particleWithFile:@"characterdie.plist"];
   q.autoRemoveOnFinish = YES;
   q.position = ccpAdd(sprite.position, ccp(0, sprite.contentSize.height/2-5));
   [self.bgdContainer addChild:q z:0];
@@ -679,9 +686,9 @@
   [self addChild:l];
   [l runAction:[CCActionSequence actions:
                 [CCActionDelay actionWithDuration:initDelay],
-                [CCActionFadeTo actionWithDuration:fadeTime opacity:180],
+                [CCActionFadeTo actionWithDuration:fadeTime opacity:0.65f],
                 [CCActionDelay actionWithDuration:delayTime],
-                [CCActionFadeTo actionWithDuration:fadeTime opacity:0],
+                [CCActionFadeTo actionWithDuration:fadeTime opacity:0.f],
                 [CCActionCallBlock actionWithBlock:
                  ^{
                    [l removeFromParentAndCleanup:YES];
@@ -788,7 +795,7 @@
       [CCActionCallBlock actionWithBlock:
        ^{
          [[CCTextureCache sharedTextureCache] addImage:@"bombdrop.png"];
-         CCParticleSystemBase *q = [CCParticleSystemBase particleWithFile:@"bombdrop.plist"];
+         CCParticleSystem *q = [CCParticleSystem particleWithFile:@"bombdrop.plist"];
          q.autoRemoveOnFinish = YES;
          q.position = bomb.position;
          [self.bgdContainer addChild:q];
@@ -858,7 +865,7 @@
     CCNodeColor *l = [CCNodeColor nodeWithColor:[CCColor colorWithCcColor4b:ccc4(0, 0, 0, 0)] width:self.contentSize.width height:self.contentSize.height];
     [self addChild:l z:1];
     [l runAction:[CCActionSequence actions:
-                  [CCActionFadeTo actionWithDuration:0.3 opacity:180],
+                  [CCActionFadeTo actionWithDuration:0.3 opacity:0.6f],
                   [CCActionDelay actionWithDuration:1.1],
                   [CCActionFadeTo actionWithDuration:0.3 opacity:0],
                   [CCActionCallBlock actionWithBlock:
@@ -904,7 +911,7 @@
 }
 
 - (void) pulseBloodOnce {
-  CCActionFadeTo *fadeIn = [CCActionFadeTo actionWithDuration:0.5f opacity:255];
+  CCActionFadeTo *fadeIn = [CCActionFadeTo actionWithDuration:0.5f opacity:1.f];
   CCActionFadeTo *fadeOut = [CCActionFadeTo actionWithDuration:0.5f opacity:0];
   self.bloodSplatter.opacity = 0;
   [self.bloodSplatter runAction:
@@ -913,8 +920,8 @@
 
 - (void) pulseBloodContinuously {
   [self stopAllActions];
-  CCActionFadeTo *fadeIn = [CCActionFadeTo actionWithDuration:1.f opacity:255];
-  CCActionFadeTo *fadeOut = [CCActionFadeTo actionWithDuration:1.f opacity:140];
+  CCActionFadeTo *fadeIn = [CCActionFadeTo actionWithDuration:1.f opacity:1.f];
+  CCActionFadeTo *fadeOut = [CCActionFadeTo actionWithDuration:1.f opacity:0.5f];
   self.bloodSplatter.opacity = 0;
   [self.bloodSplatter runAction:
    [CCActionRepeatForever actionWithAction:
@@ -978,10 +985,9 @@
   }
   if (_comboCount == 5 && ![_comboBgd getChildByName:COMBO_FIRE_TAG recursively:NO]) {
     // Spawn fire
-    CCParticleSystemBase *q = [CCParticleSystemBase particleWithFile:@"ComboFire4.plist"];
+    CCParticleSystem *q = [CCParticleSystem particleWithFile:@"ComboFire4.plist"];
     q.autoRemoveOnFinish = YES;
     q.position = ccp(_comboBgd.contentSize.width/2+15, _comboBgd.contentSize.height/2+5);
-    q.positionType = CCPositionTypeNormalized;
     [_comboBgd addChild:q z:0 name:COMBO_FIRE_TAG];
     
     _comboLabel.color = [CCColor blackColor];
@@ -992,12 +998,11 @@
     _soundComboCount++;
     [[SoundEngine sharedSoundEngine] puzzleComboSound:_soundComboCount];
     _canPlayNextComboSound = NO;
-    [self schedule:@selector(allowComboSound) interval:0.02];
+    [self schedule:@selector(allowComboSound) interval:0.02 repeat:1 delay:0];
   }
 }
 
 - (void) allowComboSound {
-  [self unschedule:@selector(allowComboSound)];
   _canPlayNextComboSound = YES;
 }
 
@@ -1032,16 +1037,15 @@
   if (_canPlayNextGemPop) {
     [[SoundEngine sharedSoundEngine] puzzleGemPop];
     _canPlayNextGemPop = NO;
-    [self schedule:@selector(allowGemPop) interval:0.02];
+    [self schedule:@selector(allowGemPop) interval:0.02 repeat:1 delay:0];
   }
 }
 
-- (void) gemReachedFlyLocation:(Gem *)gem {
+- (void) allowGemPop {
+  _canPlayNextGemPop = YES;
 }
 
-- (void) allowGemPop {
-  [self unschedule:@selector(allowGemPop)];
-  _canPlayNextGemPop = YES;
+- (void) gemReachedFlyLocation:(Gem *)gem {
 }
 
 - (void) moveComplete {

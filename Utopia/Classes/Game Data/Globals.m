@@ -1610,8 +1610,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
 		
 		// check if path already has the suffix.
 		if( [name rangeOfString:@"@2x"].location != NSNotFound ) {
-      
-			CCLOG(@"cocos2d: WARNING Filename(%@) already has the suffix %@. Using it.", name, @"@2x");
+//			CCLOG(@"cocos2d: WARNING Filename(%@) already has the suffix %@. Using it.", name, @"@2x");
 			return path;
 		}
     
@@ -1642,7 +1641,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
 
 @implementation CCNode (RecursiveOpacity)
 
-- (void) recursivelyApplyOpacity:(GLubyte)opacity {
+- (void) recursivelyApplyOpacity:(CGFloat)opacity {
   self.opacity = opacity;
   if ([self isKindOfClass:[CCProgressNode class]]) {
     self.visible = opacity > 0.6f;
@@ -1712,6 +1711,14 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
     [array addObject:element];
   }
   return array;
+}
+
+@end
+
+@implementation CCActionEaseRate (BaseRate)
+
+- (CCActionInterval *) initWithAction:(CCActionInterval *)action {
+  return [self initWithAction:action rate:2];
 }
 
 @end
