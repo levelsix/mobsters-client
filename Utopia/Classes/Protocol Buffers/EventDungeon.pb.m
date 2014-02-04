@@ -30,6 +30,7 @@ static PBExtensionRegistry* extensionRegistry = nil;
 @property BOOL isEvent;
 @property int32_t persistentEventId;
 @property int32_t gemsSpent;
+@property (retain) NSMutableArray* mutableQuestIdsList;
 @end
 
 @implementation BeginDungeonRequestProto
@@ -93,8 +94,10 @@ static PBExtensionRegistry* extensionRegistry = nil;
   hasGemsSpent_ = !!value;
 }
 @synthesize gemsSpent;
+@synthesize mutableQuestIdsList;
 - (void) dealloc {
   self.sender = nil;
+  self.mutableQuestIdsList = nil;
   [super dealloc];
 }
 - (id) init {
@@ -121,6 +124,13 @@ static BeginDungeonRequestProto* defaultBeginDungeonRequestProtoInstance = nil;
 - (BeginDungeonRequestProto*) defaultInstance {
   return defaultBeginDungeonRequestProtoInstance;
 }
+- (NSArray*) questIdsList {
+  return mutableQuestIdsList;
+}
+- (int32_t) questIdsAtIndex:(int32_t) index {
+  id value = [mutableQuestIdsList objectAtIndex:index];
+  return [value intValue];
+}
 - (BOOL) isInitialized {
   return YES;
 }
@@ -145,6 +155,9 @@ static BeginDungeonRequestProto* defaultBeginDungeonRequestProtoInstance = nil;
   }
   if (self.hasGemsSpent) {
     [output writeInt32:7 value:self.gemsSpent];
+  }
+  for (NSNumber* value in self.mutableQuestIdsList) {
+    [output writeInt32:8 value:[value intValue]];
   }
   [self.unknownFields writeToCodedOutputStream:output];
 }
@@ -175,6 +188,14 @@ static BeginDungeonRequestProto* defaultBeginDungeonRequestProtoInstance = nil;
   }
   if (self.hasGemsSpent) {
     size += computeInt32Size(7, self.gemsSpent);
+  }
+  {
+    int32_t dataSize = 0;
+    for (NSNumber* value in self.mutableQuestIdsList) {
+      dataSize += computeInt32SizeNoTag([value intValue]);
+    }
+    size += dataSize;
+    size += 1 * self.mutableQuestIdsList.count;
   }
   size += self.unknownFields.serializedSize;
   memoizedSerializedSize = size;
@@ -272,6 +293,12 @@ static BeginDungeonRequestProto* defaultBeginDungeonRequestProtoInstance = nil;
   if (other.hasGemsSpent) {
     [self setGemsSpent:other.gemsSpent];
   }
+  if (other.mutableQuestIdsList.count > 0) {
+    if (result.mutableQuestIdsList == nil) {
+      result.mutableQuestIdsList = [NSMutableArray array];
+    }
+    [result.mutableQuestIdsList addObjectsFromArray:other.mutableQuestIdsList];
+  }
   [self mergeUnknownFields:other.unknownFields];
   return self;
 }
@@ -324,6 +351,10 @@ static BeginDungeonRequestProto* defaultBeginDungeonRequestProtoInstance = nil;
       }
       case 56: {
         [self setGemsSpent:[input readInt32]];
+        break;
+      }
+      case 64: {
+        [self addQuestIds:[input readInt32]];
         break;
       }
     }
@@ -453,6 +484,37 @@ static BeginDungeonRequestProto* defaultBeginDungeonRequestProtoInstance = nil;
 - (BeginDungeonRequestProto_Builder*) clearGemsSpent {
   result.hasGemsSpent = NO;
   result.gemsSpent = 0;
+  return self;
+}
+- (NSArray*) questIdsList {
+  if (result.mutableQuestIdsList == nil) {
+    return [NSArray array];
+  }
+  return result.mutableQuestIdsList;
+}
+- (int32_t) questIdsAtIndex:(int32_t) index {
+  return [result questIdsAtIndex:index];
+}
+- (BeginDungeonRequestProto_Builder*) replaceQuestIdsAtIndex:(int32_t) index with:(int32_t) value {
+  [result.mutableQuestIdsList replaceObjectAtIndex:index withObject:[NSNumber numberWithInt:value]];
+  return self;
+}
+- (BeginDungeonRequestProto_Builder*) addQuestIds:(int32_t) value {
+  if (result.mutableQuestIdsList == nil) {
+    result.mutableQuestIdsList = [NSMutableArray array];
+  }
+  [result.mutableQuestIdsList addObject:[NSNumber numberWithInt:value]];
+  return self;
+}
+- (BeginDungeonRequestProto_Builder*) addAllQuestIds:(NSArray*) values {
+  if (result.mutableQuestIdsList == nil) {
+    result.mutableQuestIdsList = [NSMutableArray array];
+  }
+  [result.mutableQuestIdsList addObjectsFromArray:values];
+  return self;
+}
+- (BeginDungeonRequestProto_Builder*) clearQuestIdsList {
+  result.mutableQuestIdsList = nil;
   return self;
 }
 @end
@@ -1632,6 +1694,8 @@ BOOL EndDungeonResponseProto_EndDungeonStatusIsValidValue(EndDungeonResponseProt
 @property (retain) MinimumUserProto* sender;
 @property int64_t userTaskId;
 @property int64_t clientTime;
+@property (retain) NSMutableArray* mutableReviveMeList;
+@property int32_t gemsSpent;
 @end
 
 @implementation ReviveInDungeonRequestProto
@@ -1657,8 +1721,17 @@ BOOL EndDungeonResponseProto_EndDungeonStatusIsValidValue(EndDungeonResponseProt
   hasClientTime_ = !!value;
 }
 @synthesize clientTime;
+@synthesize mutableReviveMeList;
+- (BOOL) hasGemsSpent {
+  return !!hasGemsSpent_;
+}
+- (void) setHasGemsSpent:(BOOL) value {
+  hasGemsSpent_ = !!value;
+}
+@synthesize gemsSpent;
 - (void) dealloc {
   self.sender = nil;
+  self.mutableReviveMeList = nil;
   [super dealloc];
 }
 - (id) init {
@@ -1666,6 +1739,7 @@ BOOL EndDungeonResponseProto_EndDungeonStatusIsValidValue(EndDungeonResponseProt
     self.sender = [MinimumUserProto defaultInstance];
     self.userTaskId = 0L;
     self.clientTime = 0L;
+    self.gemsSpent = 0;
   }
   return self;
 }
@@ -1681,6 +1755,13 @@ static ReviveInDungeonRequestProto* defaultReviveInDungeonRequestProtoInstance =
 - (ReviveInDungeonRequestProto*) defaultInstance {
   return defaultReviveInDungeonRequestProtoInstance;
 }
+- (NSArray*) reviveMeList {
+  return mutableReviveMeList;
+}
+- (UserMonsterCurrentHealthProto*) reviveMeAtIndex:(int32_t) index {
+  id value = [mutableReviveMeList objectAtIndex:index];
+  return value;
+}
 - (BOOL) isInitialized {
   return YES;
 }
@@ -1693,6 +1774,12 @@ static ReviveInDungeonRequestProto* defaultReviveInDungeonRequestProtoInstance =
   }
   if (self.hasClientTime) {
     [output writeInt64:3 value:self.clientTime];
+  }
+  for (UserMonsterCurrentHealthProto* element in self.reviveMeList) {
+    [output writeMessage:4 value:element];
+  }
+  if (self.hasGemsSpent) {
+    [output writeInt32:5 value:self.gemsSpent];
   }
   [self.unknownFields writeToCodedOutputStream:output];
 }
@@ -1711,6 +1798,12 @@ static ReviveInDungeonRequestProto* defaultReviveInDungeonRequestProtoInstance =
   }
   if (self.hasClientTime) {
     size += computeInt64Size(3, self.clientTime);
+  }
+  for (UserMonsterCurrentHealthProto* element in self.reviveMeList) {
+    size += computeMessageSize(4, element);
+  }
+  if (self.hasGemsSpent) {
+    size += computeInt32Size(5, self.gemsSpent);
   }
   size += self.unknownFields.serializedSize;
   memoizedSerializedSize = size;
@@ -1796,6 +1889,15 @@ static ReviveInDungeonRequestProto* defaultReviveInDungeonRequestProtoInstance =
   if (other.hasClientTime) {
     [self setClientTime:other.clientTime];
   }
+  if (other.mutableReviveMeList.count > 0) {
+    if (result.mutableReviveMeList == nil) {
+      result.mutableReviveMeList = [NSMutableArray array];
+    }
+    [result.mutableReviveMeList addObjectsFromArray:other.mutableReviveMeList];
+  }
+  if (other.hasGemsSpent) {
+    [self setGemsSpent:other.gemsSpent];
+  }
   [self mergeUnknownFields:other.unknownFields];
   return self;
 }
@@ -1832,6 +1934,16 @@ static ReviveInDungeonRequestProto* defaultReviveInDungeonRequestProtoInstance =
       }
       case 24: {
         [self setClientTime:[input readInt64]];
+        break;
+      }
+      case 34: {
+        UserMonsterCurrentHealthProto_Builder* subBuilder = [UserMonsterCurrentHealthProto builder];
+        [input readMessage:subBuilder extensionRegistry:extensionRegistry];
+        [self addReviveMe:[subBuilder buildPartial]];
+        break;
+      }
+      case 40: {
+        [self setGemsSpent:[input readInt32]];
         break;
       }
     }
@@ -1897,6 +2009,51 @@ static ReviveInDungeonRequestProto* defaultReviveInDungeonRequestProtoInstance =
 - (ReviveInDungeonRequestProto_Builder*) clearClientTime {
   result.hasClientTime = NO;
   result.clientTime = 0L;
+  return self;
+}
+- (NSArray*) reviveMeList {
+  if (result.mutableReviveMeList == nil) { return [NSArray array]; }
+  return result.mutableReviveMeList;
+}
+- (UserMonsterCurrentHealthProto*) reviveMeAtIndex:(int32_t) index {
+  return [result reviveMeAtIndex:index];
+}
+- (ReviveInDungeonRequestProto_Builder*) replaceReviveMeAtIndex:(int32_t) index with:(UserMonsterCurrentHealthProto*) value {
+  [result.mutableReviveMeList replaceObjectAtIndex:index withObject:value];
+  return self;
+}
+- (ReviveInDungeonRequestProto_Builder*) addAllReviveMe:(NSArray*) values {
+  if (result.mutableReviveMeList == nil) {
+    result.mutableReviveMeList = [NSMutableArray array];
+  }
+  [result.mutableReviveMeList addObjectsFromArray:values];
+  return self;
+}
+- (ReviveInDungeonRequestProto_Builder*) clearReviveMeList {
+  result.mutableReviveMeList = nil;
+  return self;
+}
+- (ReviveInDungeonRequestProto_Builder*) addReviveMe:(UserMonsterCurrentHealthProto*) value {
+  if (result.mutableReviveMeList == nil) {
+    result.mutableReviveMeList = [NSMutableArray array];
+  }
+  [result.mutableReviveMeList addObject:value];
+  return self;
+}
+- (BOOL) hasGemsSpent {
+  return result.hasGemsSpent;
+}
+- (int32_t) gemsSpent {
+  return result.gemsSpent;
+}
+- (ReviveInDungeonRequestProto_Builder*) setGemsSpent:(int32_t) value {
+  result.hasGemsSpent = YES;
+  result.gemsSpent = value;
+  return self;
+}
+- (ReviveInDungeonRequestProto_Builder*) clearGemsSpent {
+  result.hasGemsSpent = NO;
+  result.gemsSpent = 0;
   return self;
 }
 @end

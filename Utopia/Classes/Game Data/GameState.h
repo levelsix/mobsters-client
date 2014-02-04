@@ -15,6 +15,7 @@
 @interface GameState : NSObject {
   NSTimer *_enhanceTimer;
   NSTimer *_expansionTimer;
+  NSTimer *_evolutionTimer;
   NSTimer *_healingTimer;
   NSTimer *_combineTimer;
 }
@@ -93,6 +94,7 @@
 @property (nonatomic, retain) NSMutableDictionary *staticLevelInfos;
 
 @property (nonatomic, retain) UserEnhancement *userEnhancement;
+@property (nonatomic, retain) UserEvolution *userEvolution;
 
 + (GameState *) sharedGameState;
 + (void) purgeSingleton;
@@ -183,6 +185,9 @@
 
 - (void) beginEnhanceTimer;
 - (void) stopEnhanceTimer;
+
+- (void) beginEvolutionTimer;
+- (void) stopEvolutionTimer;
 
 - (void) beginCombineTimer;
 - (void) stopCombineTimer;

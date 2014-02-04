@@ -1429,7 +1429,7 @@ BOOL EarnFreeDiamondsResponseProto_EarnFreeDiamondsStatusIsValidValue(EarnFreeDi
 @end
 
 @interface ExchangeGemsForResourcesRequestProto ()
-@property (retain) MinimumUserProto* sender;
+@property (retain) MinimumUserProtoWithMaxResources* sender;
 @property int32_t numGems;
 @property int32_t numResources;
 @property ResourceType resourceType;
@@ -1479,7 +1479,7 @@ BOOL EarnFreeDiamondsResponseProto_EarnFreeDiamondsStatusIsValidValue(EarnFreeDi
 }
 - (id) init {
   if ((self = [super init])) {
-    self.sender = [MinimumUserProto defaultInstance];
+    self.sender = [MinimumUserProtoWithMaxResources defaultInstance];
     self.numGems = 0;
     self.numResources = 0;
     self.resourceType = ResourceTypeCash;
@@ -1654,7 +1654,7 @@ static ExchangeGemsForResourcesRequestProto* defaultExchangeGemsForResourcesRequ
         break;
       }
       case 10: {
-        MinimumUserProto_Builder* subBuilder = [MinimumUserProto builder];
+        MinimumUserProtoWithMaxResources_Builder* subBuilder = [MinimumUserProtoWithMaxResources builder];
         if (self.hasSender) {
           [subBuilder mergeFrom:self.sender];
         }
@@ -1689,22 +1689,22 @@ static ExchangeGemsForResourcesRequestProto* defaultExchangeGemsForResourcesRequ
 - (BOOL) hasSender {
   return result.hasSender;
 }
-- (MinimumUserProto*) sender {
+- (MinimumUserProtoWithMaxResources*) sender {
   return result.sender;
 }
-- (ExchangeGemsForResourcesRequestProto_Builder*) setSender:(MinimumUserProto*) value {
+- (ExchangeGemsForResourcesRequestProto_Builder*) setSender:(MinimumUserProtoWithMaxResources*) value {
   result.hasSender = YES;
   result.sender = value;
   return self;
 }
-- (ExchangeGemsForResourcesRequestProto_Builder*) setSenderBuilder:(MinimumUserProto_Builder*) builderForValue {
+- (ExchangeGemsForResourcesRequestProto_Builder*) setSenderBuilder:(MinimumUserProtoWithMaxResources_Builder*) builderForValue {
   return [self setSender:[builderForValue build]];
 }
-- (ExchangeGemsForResourcesRequestProto_Builder*) mergeSender:(MinimumUserProto*) value {
+- (ExchangeGemsForResourcesRequestProto_Builder*) mergeSender:(MinimumUserProtoWithMaxResources*) value {
   if (result.hasSender &&
-      result.sender != [MinimumUserProto defaultInstance]) {
+      result.sender != [MinimumUserProtoWithMaxResources defaultInstance]) {
     result.sender =
-      [[[MinimumUserProto builderWithPrototype:result.sender] mergeFrom:value] buildPartial];
+      [[[MinimumUserProtoWithMaxResources builderWithPrototype:result.sender] mergeFrom:value] buildPartial];
   } else {
     result.sender = value;
   }
@@ -1713,7 +1713,7 @@ static ExchangeGemsForResourcesRequestProto* defaultExchangeGemsForResourcesRequ
 }
 - (ExchangeGemsForResourcesRequestProto_Builder*) clearSender {
   result.hasSender = NO;
-  result.sender = [MinimumUserProto defaultInstance];
+  result.sender = [MinimumUserProtoWithMaxResources defaultInstance];
   return self;
 }
 - (BOOL) hasNumGems {
@@ -1783,7 +1783,7 @@ static ExchangeGemsForResourcesRequestProto* defaultExchangeGemsForResourcesRequ
 @end
 
 @interface ExchangeGemsForResourcesResponseProto ()
-@property (retain) MinimumUserProto* sender;
+@property (retain) MinimumUserProtoWithMaxResources* sender;
 @property ExchangeGemsForResourcesResponseProto_ExchangeGemsForResourcesStatus status;
 @end
 
@@ -1809,7 +1809,7 @@ static ExchangeGemsForResourcesRequestProto* defaultExchangeGemsForResourcesRequ
 }
 - (id) init {
   if ((self = [super init])) {
-    self.sender = [MinimumUserProto defaultInstance];
+    self.sender = [MinimumUserProtoWithMaxResources defaultInstance];
     self.status = ExchangeGemsForResourcesResponseProto_ExchangeGemsForResourcesStatusSuccess;
   }
   return self;
@@ -1964,7 +1964,7 @@ BOOL ExchangeGemsForResourcesResponseProto_ExchangeGemsForResourcesStatusIsValid
         break;
       }
       case 10: {
-        MinimumUserProto_Builder* subBuilder = [MinimumUserProto builder];
+        MinimumUserProtoWithMaxResources_Builder* subBuilder = [MinimumUserProtoWithMaxResources builder];
         if (self.hasSender) {
           [subBuilder mergeFrom:self.sender];
         }
@@ -1987,22 +1987,22 @@ BOOL ExchangeGemsForResourcesResponseProto_ExchangeGemsForResourcesStatusIsValid
 - (BOOL) hasSender {
   return result.hasSender;
 }
-- (MinimumUserProto*) sender {
+- (MinimumUserProtoWithMaxResources*) sender {
   return result.sender;
 }
-- (ExchangeGemsForResourcesResponseProto_Builder*) setSender:(MinimumUserProto*) value {
+- (ExchangeGemsForResourcesResponseProto_Builder*) setSender:(MinimumUserProtoWithMaxResources*) value {
   result.hasSender = YES;
   result.sender = value;
   return self;
 }
-- (ExchangeGemsForResourcesResponseProto_Builder*) setSenderBuilder:(MinimumUserProto_Builder*) builderForValue {
+- (ExchangeGemsForResourcesResponseProto_Builder*) setSenderBuilder:(MinimumUserProtoWithMaxResources_Builder*) builderForValue {
   return [self setSender:[builderForValue build]];
 }
-- (ExchangeGemsForResourcesResponseProto_Builder*) mergeSender:(MinimumUserProto*) value {
+- (ExchangeGemsForResourcesResponseProto_Builder*) mergeSender:(MinimumUserProtoWithMaxResources*) value {
   if (result.hasSender &&
-      result.sender != [MinimumUserProto defaultInstance]) {
+      result.sender != [MinimumUserProtoWithMaxResources defaultInstance]) {
     result.sender =
-      [[[MinimumUserProto builderWithPrototype:result.sender] mergeFrom:value] buildPartial];
+      [[[MinimumUserProtoWithMaxResources builderWithPrototype:result.sender] mergeFrom:value] buildPartial];
   } else {
     result.sender = value;
   }
@@ -2011,7 +2011,7 @@ BOOL ExchangeGemsForResourcesResponseProto_ExchangeGemsForResourcesStatusIsValid
 }
 - (ExchangeGemsForResourcesResponseProto_Builder*) clearSender {
   result.hasSender = NO;
-  result.sender = [MinimumUserProto defaultInstance];
+  result.sender = [MinimumUserProtoWithMaxResources defaultInstance];
   return self;
 }
 - (BOOL) hasStatus {

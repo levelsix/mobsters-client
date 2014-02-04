@@ -113,6 +113,7 @@ BOOL ReviveInDungeonResponseProto_ReviveInDungeonStatusIsValidValue(ReviveInDung
   int32_t persistentEventId;
   int32_t gemsSpent;
   MinimumUserProto* sender;
+  NSMutableArray* mutableQuestIdsList;
 }
 - (BOOL) hasSender;
 - (BOOL) hasClientTime;
@@ -128,6 +129,8 @@ BOOL ReviveInDungeonResponseProto_ReviveInDungeonStatusIsValidValue(ReviveInDung
 - (BOOL) isEvent;
 @property (readonly) int32_t persistentEventId;
 @property (readonly) int32_t gemsSpent;
+- (NSArray*) questIdsList;
+- (int32_t) questIdsAtIndex:(int32_t) index;
 
 + (BeginDungeonRequestProto*) defaultInstance;
 - (BeginDungeonRequestProto*) defaultInstance;
@@ -199,6 +202,13 @@ BOOL ReviveInDungeonResponseProto_ReviveInDungeonStatusIsValidValue(ReviveInDung
 - (int32_t) gemsSpent;
 - (BeginDungeonRequestProto_Builder*) setGemsSpent:(int32_t) value;
 - (BeginDungeonRequestProto_Builder*) clearGemsSpent;
+
+- (NSArray*) questIdsList;
+- (int32_t) questIdsAtIndex:(int32_t) index;
+- (BeginDungeonRequestProto_Builder*) replaceQuestIdsAtIndex:(int32_t) index with:(int32_t) value;
+- (BeginDungeonRequestProto_Builder*) addQuestIds:(int32_t) value;
+- (BeginDungeonRequestProto_Builder*) addAllQuestIds:(NSArray*) values;
+- (BeginDungeonRequestProto_Builder*) clearQuestIdsList;
 @end
 
 @interface BeginDungeonResponseProto : PBGeneratedMessage {
@@ -474,17 +484,24 @@ BOOL ReviveInDungeonResponseProto_ReviveInDungeonStatusIsValidValue(ReviveInDung
 @private
   BOOL hasUserTaskId_:1;
   BOOL hasClientTime_:1;
+  BOOL hasGemsSpent_:1;
   BOOL hasSender_:1;
   int64_t userTaskId;
   int64_t clientTime;
+  int32_t gemsSpent;
   MinimumUserProto* sender;
+  NSMutableArray* mutableReviveMeList;
 }
 - (BOOL) hasSender;
 - (BOOL) hasUserTaskId;
 - (BOOL) hasClientTime;
+- (BOOL) hasGemsSpent;
 @property (readonly, retain) MinimumUserProto* sender;
 @property (readonly) int64_t userTaskId;
 @property (readonly) int64_t clientTime;
+@property (readonly) int32_t gemsSpent;
+- (NSArray*) reviveMeList;
+- (UserMonsterCurrentHealthProto*) reviveMeAtIndex:(int32_t) index;
 
 + (ReviveInDungeonRequestProto*) defaultInstance;
 - (ReviveInDungeonRequestProto*) defaultInstance;
@@ -536,6 +553,18 @@ BOOL ReviveInDungeonResponseProto_ReviveInDungeonStatusIsValidValue(ReviveInDung
 - (int64_t) clientTime;
 - (ReviveInDungeonRequestProto_Builder*) setClientTime:(int64_t) value;
 - (ReviveInDungeonRequestProto_Builder*) clearClientTime;
+
+- (NSArray*) reviveMeList;
+- (UserMonsterCurrentHealthProto*) reviveMeAtIndex:(int32_t) index;
+- (ReviveInDungeonRequestProto_Builder*) replaceReviveMeAtIndex:(int32_t) index with:(UserMonsterCurrentHealthProto*) value;
+- (ReviveInDungeonRequestProto_Builder*) addReviveMe:(UserMonsterCurrentHealthProto*) value;
+- (ReviveInDungeonRequestProto_Builder*) addAllReviveMe:(NSArray*) values;
+- (ReviveInDungeonRequestProto_Builder*) clearReviveMeList;
+
+- (BOOL) hasGemsSpent;
+- (int32_t) gemsSpent;
+- (ReviveInDungeonRequestProto_Builder*) setGemsSpent:(int32_t) value;
+- (ReviveInDungeonRequestProto_Builder*) clearGemsSpent;
 @end
 
 @interface ReviveInDungeonResponseProto : PBGeneratedMessage {

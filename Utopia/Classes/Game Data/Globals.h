@@ -32,6 +32,7 @@
 #define HEAL_WAIT_COMPLETE_NOTIFICATION @"HealWaitCompleteNotification"
 #define MONSTER_QUEUE_CHANGED_NOTIFICATION @"MonsterQueueChangedNotification"
 #define ENHANCE_WAIT_COMPLETE_NOTIFICATION @"EnhanceWaitCompleteNotification"
+#define EVOLUTION_WAIT_COMPLETE_NOTIFICATION @"EvolutionWaitCompleteNotification"
 #define COMBINE_WAIT_COMPLETE_NOTIFICATION @"CombineWaitCompleteNotification"
 #define MONSTER_SOLD_COMPLETE_NOTIFICATION @"MonsterSoldNotification"
 #define GAMESTATE_UPDATE_NOTIFICATION @"GameStateUpdateNotification"

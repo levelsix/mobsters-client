@@ -305,12 +305,14 @@ BOOL PersistentEventProto_EventTypeIsValidValue(PersistentEventProto_EventType v
   BOOL hasExpReward_:1;
   BOOL hasCashReward_:1;
   BOOL hasLevel_:1;
+  BOOL hasItemId_:1;
   BOOL hasMonsterType_:1;
   BOOL puzzlePieceDropped_:1;
   int32_t monsterId;
   int32_t expReward;
   int32_t cashReward;
   int32_t level;
+  int32_t itemId;
   TaskStageMonsterProto_MonsterType monsterType;
 }
 - (BOOL) hasMonsterId;
@@ -319,12 +321,14 @@ BOOL PersistentEventProto_EventTypeIsValidValue(PersistentEventProto_EventType v
 - (BOOL) hasCashReward;
 - (BOOL) hasPuzzlePieceDropped;
 - (BOOL) hasLevel;
+- (BOOL) hasItemId;
 @property (readonly) int32_t monsterId;
 @property (readonly) TaskStageMonsterProto_MonsterType monsterType;
 @property (readonly) int32_t expReward;
 @property (readonly) int32_t cashReward;
 - (BOOL) puzzlePieceDropped;
 @property (readonly) int32_t level;
+@property (readonly) int32_t itemId;
 
 + (TaskStageMonsterProto*) defaultInstance;
 - (TaskStageMonsterProto*) defaultInstance;
@@ -389,6 +393,11 @@ BOOL PersistentEventProto_EventTypeIsValidValue(PersistentEventProto_EventType v
 - (int32_t) level;
 - (TaskStageMonsterProto_Builder*) setLevel:(int32_t) value;
 - (TaskStageMonsterProto_Builder*) clearLevel;
+
+- (BOOL) hasItemId;
+- (int32_t) itemId;
+- (TaskStageMonsterProto_Builder*) setItemId:(int32_t) value;
+- (TaskStageMonsterProto_Builder*) clearItemId;
 @end
 
 @interface PersistentEventProto : PBGeneratedMessage {

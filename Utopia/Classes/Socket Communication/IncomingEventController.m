@@ -201,6 +201,12 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
     case EventProtocolResponseSExchangeGemsForResourcesEvent:
       responseClass = [ExchangeGemsForResourcesResponseProto class];
       break;
+    case EventProtocolResponseSEvolveMonsterEvent:
+      responseClass = [EvolveMonsterResponseProto class];
+      break;
+    case EventProtocolResponseSEvolutionFinishedEvent:
+      responseClass = [EvolutionFinishedResponseProto class];
+      break;
       
     default:
       responseClass = nil;
@@ -214,6 +220,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
 }
 
 - (void) handleUserCreateResponseProto:(FullEvent *)fe {
+  [[OutgoingEventController sharedOutgoingEventController] startupWithDelegate:[GameViewController baseController]];
 }
 
 - (void) handleStartupResponseProto:(FullEvent *)fe {
@@ -261,6 +268,11 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
     
     if (proto.hasEnhancements) {
       [gs addEnhancementProto:proto.enhancements];
+    }
+    
+    if (proto.hasEvolution) {
+      gs.userEvolution = [UserEvolution evolutionWithUserEvolutionProto:proto.evolution];
+      [gs beginEvolutionTimer];
     }
     
     gs.completedTasks = [NSMutableSet setWithArray:proto.completedTaskIdsList];
@@ -325,6 +337,8 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
     [standardDefault synchronize];
   } else {
     // Need to create new player
+    
+    [[OutgoingEventController sharedOutgoingEventController] createUser];
   }
   
   [gs removeNonFullUserUpdatesForTag:tag];
@@ -534,6 +548,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
       
       [gs readjustAllMonsterHealingProtos];
       [gs beginHealingTimer];
+      [gs beginEnhanceTimer];
       
       NSMutableArray *exp = [NSMutableArray array];
       if (proto.userCityExpansionDataProtoListList.count > 0) {
@@ -1231,6 +1246,40 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
     } else {
       [Globals popupMessage:@"Server failed to accept/reject slot invites."];
     }
+    [gs removeAndUndoAllUpdatesForTag:tag];
+  }
+}
+
+- (void) handleEvolveMonsterResponseProto:(FullEvent *)fe {
+  EvolveMonsterResponseProto *proto = (EvolveMonsterResponseProto *)fe.event;
+  int tag = fe.tag;
+  
+  LNLog(@"Evolve monster response received with status %d.", proto.status);
+  
+  GameState *gs = [GameState sharedGameState];
+  if (proto.status == EvolveMonsterResponseProto_EvolveMonsterStatusSuccess) {
+    [gs removeNonFullUserUpdatesForTag:tag];
+  } else {
+    [Globals popupMessage:@"Server failed to evolve monster."];
+    
+    [gs removeAndUndoAllUpdatesForTag:tag];
+  }
+}
+
+- (void) handleEvolutionFinishedResponseProto:(FullEvent *)fe {
+  EvolutionFinishedResponseProto *proto = (EvolutionFinishedResponseProto *)fe.event;
+  int tag = fe.tag;
+  
+  LNLog(@"Evolution finished response received with status %d.", proto.status);
+  
+  GameState *gs = [GameState sharedGameState];
+  if (proto.status == EvolutionFinishedResponseProto_EvolutionFinishedStatusSuccess) {
+    [gs addToMyMonsters:@[proto.evolvedMonster]];
+    
+    [gs removeNonFullUserUpdatesForTag:tag];
+  } else {
+    [Globals popupMessage:@"Server failed to complete evolution."];
+    
     [gs removeAndUndoAllUpdatesForTag:tag];
   }
 }

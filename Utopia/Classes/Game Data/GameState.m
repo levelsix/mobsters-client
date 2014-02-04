@@ -1088,6 +1088,36 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
   }
 }
 
+#pragma mark Evolution Timer
+
+- (void) beginEvolutionTimer {
+  [self stopEnhanceTimer];
+  
+  if (self.userEvolution) {
+    if ([self.userEvolution.endTime timeIntervalSinceNow] <= 0) {
+      [self evolutionWaitTimeComplete];
+    } else {
+      _evolutionTimer = [NSTimer timerWithTimeInterval:self.userEvolution.endTime.timeIntervalSinceNow target:self selector:@selector(evolutionWaitTimeComplete) userInfo:nil repeats:NO];
+      [[NSRunLoop mainRunLoop] addTimer:_evolutionTimer forMode:NSRunLoopCommonModes];
+    }
+  }
+}
+
+- (void) evolutionWaitTimeComplete {
+  if (self.userEvolution && [self.userEvolution.endTime timeIntervalSinceNow] < 0) {
+    [[OutgoingEventController sharedOutgoingEventController] finishEvolutionWithGems:NO withDelegate:nil];
+    [[NSNotificationCenter defaultCenter] postNotificationName:EVOLUTION_WAIT_COMPLETE_NOTIFICATION object:nil];
+    [self beginEvolutionTimer];
+  }
+}
+
+- (void) stopEvolutionTimer {
+  if (_evolutionTimer) {
+    [_evolutionTimer invalidate];
+    _evolutionTimer = nil;
+  }
+}
+
 #pragma mark Combine Timer
 
 - (void) beginCombineTimer {

@@ -720,7 +720,8 @@ RecursivelyIncrementPausedAncestors(CCNode *node, int increment)
 
 -(void) removeChildByName:(NSString*)name cleanup:(BOOL)cleanup
 {
-	NSAssert( !name, @"Invalid name");
+  // LVL6 Additoin
+	NSAssert( name, @"Invalid name");
 
 	CCNode *child = [self getChildByName:name recursively:NO];
 

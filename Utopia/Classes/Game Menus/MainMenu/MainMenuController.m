@@ -16,6 +16,7 @@
 #import "MyCroniesViewController.h"
 #import "GachaponListViewController.h"
 #import "GameState.h"
+#import "EvoViewController.h"
 
 @interface MainMenuController ()
 
@@ -63,9 +64,9 @@
 - (IBAction)labClicked:(id)sender {
   GameState *gs = [GameState sharedGameState];
   if (gs.myLaboratory.isComplete) {
-    [self.navigationController pushViewController:[[EnhanceViewController alloc] init] animated:YES];
+    [self.navigationController pushViewController:[[EvoViewController alloc] init] animated:YES];
   } else {
-    [Globals addAlertNotification:@"You must build a Laboratory before you can enter."];
+    [Globals addAlertNotification:@"You must own a completed Laboratory before you can enter."];
   }
 }
 

@@ -328,7 +328,7 @@
   
   // This will spawn the deploy view assuming someone is alive
   [self currentMyPlayerDied];
-//  [self addChild:[CCBReader load:@"Untitled"]];
+  [self addChild:[CCBReader load:@"Untitled"]];
   
   [Kamcord startRecording];
 }

@@ -93,4 +93,7 @@
 - (void) inviteAllFacebookFriends:(NSArray *)fbFriends forStruct:(UserStruct *)us;
 - (void) acceptAndRejectInvitesWithAcceptIds:(NSArray *)acceptIds rejectIds:(NSArray *)rejectIds;
 
+- (BOOL) evolveMonster:(EvoItem *)evoItem useGems:(BOOL)gems;
+- (void) finishEvolutionWithGems:(BOOL)gems withDelegate:(id)delegate;
+
 @end

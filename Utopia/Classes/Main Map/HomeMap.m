@@ -475,7 +475,6 @@
       BOOL showsEnterButton = YES;
       switch (fsp.structType) {
         case StructureInfoProto_StructTypeHospital:
-        case StructureInfoProto_StructTypeResidence:
           self.enterTopLabel.text = @"Manage";
           self.enterBottomLabel.text = @"Mobsters";
           break;
@@ -485,6 +484,7 @@
           self.enterBottomLabel.text = @"Mobsters";
           break;
           
+        case StructureInfoProto_StructTypeResidence:
         case StructureInfoProto_StructTypeTownHall:
         case StructureInfoProto_StructTypeResourceStorage:
         case StructureInfoProto_StructTypeResourceGenerator:
@@ -818,6 +818,8 @@
     int timeLeft = cus.timeLeftForBuildComplete;
     int gemCost = [gl calculateGemSpeedupCostForTimeLeft:timeLeft];
     [GenericPopupController displayConfirmationWithDescription:[NSString stringWithFormat:@"A building is already constructing. Speed it up for %@ gems and upgrade this building?", [Globals commafyNumber:gemCost]] title:@"Already Constructing" okayButton:@"Speed Up" cancelButton:@"Cancel" target:self selector:@selector(speedupBuildingAndUpgradeOrPurchase)];
+  } else if (nextFsp.structType == StructureInfoProto_StructTypeLab && gs.userEnhancement) {
+    [GenericPopupController displayConfirmationWithDescription:@"Your current enhancement will be cancelled. Continue?" title:@"Cancel Enhancement" okayButton:@"Continue" cancelButton:@"Cancel" target:self selector:@selector(cancelEnhancementAndUpgrade)];
   } else if (nextFsp) {
     int cost = nextFsp.buildCost;
     BOOL isOilBuilding = nextFsp.buildResourceType == ResourceTypeOil;
@@ -828,6 +830,11 @@
       [self sendUpgrade:us allowGems:NO];
     }
   }
+}
+
+- (void) cancelEnhancementAndUpgrade {
+  [[OutgoingEventController sharedOutgoingEventController] removeBaseEnhanceMonster];
+  [self bigUpgradeClicked];
 }
 
 - (void) useGemsForUpgrade {
@@ -953,7 +960,7 @@
   
   int silverCost = [gl calculateSilverCostForNewExpansion];
   if (gs.silver < silverCost) {
-    //    [[RefillMenuController sharedRefillMenuController] displayBuySilverView:silverCost];
+    [Globals popupMessage:@"Not enough cash to expand."];
   } else {
     [[OutgoingEventController sharedOutgoingEventController] purchaseCityExpansionAtX:exp.expandSpot.x atY:exp.expandSpot.y];
     [exp beginExpanding];

@@ -272,6 +272,8 @@
   }
   
   if (success) {
+    [[NSNotificationCenter defaultCenter] postNotificationName:MY_TEAM_CHANGED_NOTIFICATION object:nil];
+    
     [self reloadTableAnimated:YES];
     
     GameState *gs = [GameState sharedGameState];
@@ -302,18 +304,27 @@
 }
 
 - (void) speedupButtonClicked {
-  BOOL success = [[OutgoingEventController sharedOutgoingEventController] speedupEnhancingQueue];
+  GameState *gs = [GameState sharedGameState];
+  Globals *gl = [Globals sharedGlobals];
+  int timeLeft = [gl calculateTimeLeftForEnhancement:gs.userEnhancement];
+  int goldCost = [gl calculateGemSpeedupCostForTimeLeft:timeLeft];
   
-  if (success) {
-    [self reloadTableAnimated:YES];
+  if (gs.gold < goldCost) {
+    [GenericPopupController displayNotEnoughGemsView];
+  } else {
+    BOOL success = [[OutgoingEventController sharedOutgoingEventController] speedupEnhancingQueue];
     
-    NSMutableArray *arr = [NSMutableArray array];
-    for (int i = 0; i < self.queueView.enhancingQueue.count; i++) {
-      [arr addObject:[NSIndexPath indexPathForRow:i inSection:0]];
+    if (success) {
+      [self reloadTableAnimated:YES];
+      
+      NSMutableArray *arr = [NSMutableArray array];
+      for (int i = 0; i < self.queueView.enhancingQueue.count; i++) {
+        [arr addObject:[NSIndexPath indexPathForRow:i inSection:0]];
+      }
+      [self.queueView.queueTable.tableView deleteRowsAtIndexPaths:arr withRowAnimation:UITableViewRowAnimationFade];
+      
+      [self updateCurrentTeam];
     }
-    [self.queueView.queueTable.tableView deleteRowsAtIndexPaths:arr withRowAnimation:UITableViewRowAnimationFade];
-    
-    [self updateCurrentTeam];
   }
 }
 

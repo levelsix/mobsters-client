@@ -59,7 +59,7 @@
 - (void) setDelegate:(id)delegate forTag:(int)tag;
 
 // Send different event messages
-- (int) sendUserCreateMessageWithName:(NSString *)name lat:(CGFloat)lat lon:(CGFloat)lon referralCode:(NSString *)refCode deviceToken:(NSString *)deviceToken attack:(int)attack defense:(int)defense energy:(int)energy stamina:(int)stamina structX:(int)structX structY:(int)structY usedDiamonds:(BOOL)usedDiamondsToBuild;
+- (int) sendUserCreateMessage;
 
 - (int) sendStartupMessage:(uint64_t)clientTime;
 - (int) sendLogoutMessage;
@@ -117,6 +117,9 @@
 - (int) sendEndDungeonMessage:(uint64_t)userTaskId userWon:(BOOL)userWon isFirstTimeCompleted:(BOOL)isFirstTimeCompleted time:(uint64_t)time;
 
 - (int) retrieveCurrencyFromStruct:(int)userStructId time:(uint64_t)time amountCollected:(int)amountCollected;
+
+- (int) sendEvolveMonsterMessageWithEvolution:(UserMonsterEvolutionProto *)evo gemCost:(int)gemCost oilChange:(int)oilChange;
+- (int) sendEvolutionFinishedMessageWithGems:(int)gems;
 
 - (int) sendHealQueueWaitTimeComplete:(NSArray *)monsterHealths;
 - (int) sendHealQueueSpeedup:(NSArray *)monsterHealths goldCost:(int)goldCost;

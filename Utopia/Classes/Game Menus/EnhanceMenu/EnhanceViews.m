@@ -33,8 +33,14 @@
     
     float baseLevel = [gl calculateLevelForMonster:monster.monsterId experience:monster.experience];
     float curPerc = baseLevel-(int)baseLevel;
-    self.orangeBar.percentage = curPerc;
-    self.percentageLabel.text = [NSString stringWithFormat:@"%d%%", (int)(curPerc*100)];
+    
+    if (monster.level >= monster.staticMonster.maxLevel) {
+      self.percentageLabel.text = @"MAX";
+      self.orangeBar.percentage = 1.f;
+    } else {
+      self.percentageLabel.text = [NSString stringWithFormat:@"%d%%", (int)roundf(curPerc*100)];
+      self.orangeBar.percentage = curPerc;
+    }
   } else {
     self.enhanceBarView.hidden = YES;
     self.feederLabelView.hidden = NO;
@@ -52,7 +58,7 @@
     
     float percIncrease = newPerc-curPerc;
     int cost = [gl calculateOilCostForEnhancement:ue.baseMonster feeder:item];
-    self.feederLabel.text = [NSString stringWithFormat:@"%@%% for %@ oil", [Globals commafyNumber:(int)(percIncrease*100)], [Globals commafyNumber:cost]];
+    self.feederLabel.text = [NSString stringWithFormat:@"%@%% for %@ oil", [Globals commafyNumber:(int)roundf(percIncrease*100)], [Globals commafyNumber:cost]];
   }
   
   self.onTeamIcon.hidden = monster.teamSlot == 0;
@@ -203,21 +209,23 @@
 - (void) updateForUserEnhancement:(UserEnhancement *)ue {
   if (ue.baseMonster) {
     UserMonster *um = ue.baseMonster.userMonster;
+    MonsterProto *mp = um.staticMonster;
     
-    float curPerc = [ue currentPercentageOfLevel];
-    float newPerc = [ue finalPercentageFromCurrentLevel];
-    float delta = newPerc-curPerc;
+    int curPerc = roundf([ue currentPercentageOfLevel]*100);
+    int newPerc = roundf([ue finalPercentageFromCurrentLevel]*100);
+    int delta = newPerc-curPerc;
     
-    int additionalLevel = (int)curPerc;
-    curPerc = curPerc-additionalLevel;
-    newPerc = newPerc-additionalLevel;
+    int additionalLevel = (int)(curPerc/100.f);
+    curPerc = curPerc-additionalLevel*100;
+    newPerc = newPerc-additionalLevel*100;
     
-    self.orangeBar.percentage = curPerc;
-    self.yellowBar.percentage = newPerc;
-    NSString *deltaString = delta > 0 ? [NSString stringWithFormat:@" + %@%%", [Globals commafyNumber:(int)ceilf(delta*100)]] : @"";
-    self.percentageLabel.text = [NSString stringWithFormat:@"%d%%%@", (int)floorf(curPerc*100), deltaString];
+    self.orangeBar.percentage = curPerc/100.f;
+    self.yellowBar.percentage = newPerc/100.f;
+    NSString *deltaString = delta > 0 ? [NSString stringWithFormat:@" + %@%%", [Globals commafyNumber:delta]] : @"";
+    self.percentageLabel.text = [NSString stringWithFormat:@"%d%%%@", curPerc, deltaString];
     
     [self.cardContainer.monsterCardView updateForMonster:um];
+    self.cardContainer.monsterCardView.nameLabel.text = [NSString stringWithFormat:@"%@ (LVL %d)", mp.displayName, um.level+additionalLevel];
     
     self.onTeamIcon.hidden = um.teamSlot == 0;
   }

@@ -1183,37 +1183,34 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
 }
 
 - (int) calculateElementalDamageForMonster:(UserMonster *)um element:(MonsterProto_MonsterElement)element {
-  GameState *gs = [GameState sharedGameState];
-  MonsterProto *mp = [gs monsterWithId:um.monsterId];
+  MonsterLevelInfoProto *li = um.currentLevelInfo;
   
   int base = 0;
   switch (element) {
     case MonsterProto_MonsterElementFire:
-      base = mp.elementOneDmg;
+      base = li.fireDmg;
       break;
     case MonsterProto_MonsterElementGrass:
-      base = mp.elementTwoDmg;
+      base = li.grassDmg;
       break;
     case MonsterProto_MonsterElementWater:
-      base = mp.elementThreeDmg;
+      base = li.waterDmg;
       break;
     case MonsterProto_MonsterElementLightning:
-      base = mp.elementFourDmg;
+      base = li.lightningDmg;
       break;
     case MonsterProto_MonsterElementDarkness:
-      base = mp.elementFiveDmg;
+      base = li.darknessDmg;
       break;
     case MonsterProto_MonsterElementRock:
-      base = mp.elementSixDmg;
+      base = li.rockDmg;
       break;
   }
-  return roundf(base*pow(mp.attackLevelMultiplier, um.level-1));
+  return base;
 }
 
 - (int) calculateMaxHealthForMonster:(UserMonster *)um {
-  GameState *gs = [GameState sharedGameState];
-  MonsterProto *mp = [gs monsterWithId:um.monsterId];
-  return mp.baseHp*pow(mp.hpLevelMultiplier, um.level-1);
+  return um.currentLevelInfo.hp;
 }
 
 - (int) calculateCostToHealMonster:(UserMonster *)um {
@@ -1257,13 +1254,24 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
 
 - (int) calculateExperienceIncrease:(EnhancementItem *)baseMonster feeder:(EnhancementItem *)feeder {
   UserMonster *um = feeder.userMonster;
-  MonsterProto *mp = um.staticMonster;
-  return um.level*mp.enhancingFeederExp;
+  return um.currentLevelInfo.feederExp;
 }
 
 - (float) calculateLevelForMonster:(int)monsterId experience:(int)experience {
-  // Remember to cap it at monster's max level
-  return experience/15.f+1;
+  // Should return a percentage towards next level as well
+  GameState *gs = [GameState sharedGameState];
+  MonsterProto *mp = [gs monsterWithId:monsterId];
+  
+  for (int i = 1; i < mp.lvlInfoList.count; i++) {
+    MonsterLevelInfoProto *info = mp.lvlInfoList[i];
+    if (experience < info.curLvlRequiredExp) {
+      MonsterLevelInfoProto *curInfo = mp.lvlInfoList[i-1];
+      int expForThisLevel = experience-curInfo.curLvlRequiredExp;
+      int totalExpTillNextLevel = [mp.lvlInfoList[i] curLvlRequiredExp]-curInfo.curLvlRequiredExp;
+      return curInfo.lvl+expForThisLevel/(float)totalExpTillNextLevel;
+    }
+  }
+  return mp.maxLevel;
 }
 
 - (float) calculateDamageMultiplierForAttackElement:(MonsterProto_MonsterElement)aElement defenseElement:(MonsterProto_MonsterElement)dElement {

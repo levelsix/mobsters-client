@@ -132,7 +132,7 @@ static NSString *udid = nil;
 - (id) init {
   if ((self = [super init])) {
 #ifdef FORCE_TUTORIAL
-    udid = [[NSString stringWithFormat:@"%d%d%d", arc4random(), arc4random(), arc4random()] retain];
+    udid = [NSString stringWithFormat:@"%d%d%d", arc4random(), arc4random(), arc4random()];
 #else
     udid = UDID;
 #endif
@@ -330,21 +330,10 @@ static NSString *udid = nil;
   }
 }
 
-- (int) sendUserCreateMessageWithName:(NSString *)name lat:(CGFloat)lat lon:(CGFloat)lon referralCode:(NSString *)refCode deviceToken:(NSString *)deviceToken attack:(int)attack defense:(int)defense energy:(int)energy stamina:(int)stamina structX:(int)structX structY:(int)structY usedDiamonds:(BOOL)usedDiamondsToBuild {
+- (int) sendUserCreateMessage {
   UserCreateRequestProto_Builder *bldr = [UserCreateRequestProto builder];
   
   bldr.udid = udid;
-  bldr.name = name;
-  
-  if (refCode) {
-    bldr.referrerCode = refCode;
-  }
-  
-  if (deviceToken) {
-    bldr.deviceToken = deviceToken;
-  }
-  bldr.structCoords = [[[[CoordinateProto builder] setX:structX] setY:structY] build];
-  bldr.usedDiamondsToBuilt = usedDiamondsToBuild;
   
   UserCreateRequestProto *req = [bldr build];
   return [self sendData:req withMessageType:EventProtocolRequestCUserCreateEvent];
@@ -392,7 +381,7 @@ static NSString *udid = nil;
 
 - (int) sendExchangeGemsForResourcesMessage:(int)gems resources:(int)resources resType:(ResourceType)resType clientTime:(uint64_t)clientTime {
   ExchangeGemsForResourcesRequestProto *req = [[[[[[[ExchangeGemsForResourcesRequestProto builder]
-                                                    setSender:_sender]
+                                                    setSender:[self senderWithMaxResources]]
                                                    setNumGems:gems]
                                                   setResourceType:resType]
                                                  setNumResources:resources]
@@ -801,6 +790,26 @@ static NSString *udid = nil;
                                                       build];
   
   return [self sendData:req withMessageType:EventProtocolRequestCAcceptAndRejectFbInviteForSlotsEvent];
+}
+
+- (int) sendEvolveMonsterMessageWithEvolution:(UserMonsterEvolutionProto *)evo gemCost:(int)gemCost oilChange:(int)oilChange {
+  EvolveMonsterRequestProto *req = [[[[[[EvolveMonsterRequestProto builder]
+                                        setSender:_sender]
+                                       setEvolution:evo]
+                                      setGemsSpent:gemCost]
+                                     setOilChange:oilChange]
+                                    build];
+  
+  return [self sendData:req withMessageType:EventProtocolRequestCEvolveMonsterEvent];
+}
+
+- (int) sendEvolutionFinishedMessageWithGems:(int)gems {
+  EvolutionFinishedRequestProto *req = [[[[EvolutionFinishedRequestProto builder]
+                                          setSender:_sender]
+                                         setGemsSpent:gems]
+                                        build];
+  
+  return [self sendData:req withMessageType:EventProtocolRequestCEvolutionFinishedEvent];
 }
 
 #pragma mark - Batch/Flush events

@@ -29,11 +29,14 @@
 + (id) userMonsterWithTaskStageMonsterProto:(TaskStageMonsterProto *)proto;
 - (BOOL) isHealing;
 - (BOOL) isEnhancing;
+- (BOOL) isEvolving;
 - (BOOL) isSacrificing;
 - (BOOL) isDonatable;
 - (int) sellPrice;
 
 - (MonsterProto *) staticMonster;
+- (MonsterProto *) staticEvolutionMonster;
+- (MonsterLevelInfoProto *) currentLevelInfo;
 - (BOOL) isCombining;
 - (int) timeLeftForCombining;
 
@@ -59,11 +62,23 @@
 
 @end
 
+@interface EvoItem : NSObject
+
+@property (nonatomic, retain) UserMonster *userMonster1;
+@property (nonatomic, retain) UserMonster *userMonster2;
+@property (nonatomic, assign) UserMonster *catalystMonster;
+
+- (id) initWithUserMonster:(UserMonster *)um1 catalystMonster:(UserMonster *)catalystMonster;
+- (id) initWithUserMonster:(UserMonster *)um1 andUserMonster:(UserMonster *)um2 catalystMonster:(UserMonster *)catalystMonster;
+
+@end
+
 @interface EnhancementItem : NSObject
 
 + (id) itemWithUserEnhancementItemProto:(UserEnhancementItemProto *)proto;
 
 @property (nonatomic, assign) int userMonsterId;
+@property (nonatomic, assign) int enhancementCost;
 @property (nonatomic, retain) NSDate *expectedStartTime;
 
 - (float) currentPercentage;
@@ -79,12 +94,26 @@
 @property (nonatomic, retain) EnhancementItem *baseMonster;
 @property (nonatomic, retain) NSMutableArray *feeders;
 
-+(id) enhancementWithUserEnhancementProto:(UserEnhancementProto *)proto;
++ (id) enhancementWithUserEnhancementProto:(UserEnhancementProto *)proto;
 
 - (float) currentPercentageOfLevel;
 - (float) finalPercentageFromCurrentLevel;
 
 - (id) clone;
+
+@end
+
+@interface UserEvolution : NSObject
+
+@property (nonatomic, assign) int userMonsterId1;
+@property (nonatomic, assign) int userMonsterId2;
+@property (nonatomic, assign) int catalystMonsterId;
+@property (nonatomic, retain) NSDate *startTime;
+
++ (id) evolutionWithUserEvolutionProto:(UserMonsterEvolutionProto *)proto;
++ (id) evolutionWithEvoItem:(EvoItem *)evo time:(NSDate *)time;
+- (NSDate *) endTime;
+- (UserMonsterEvolutionProto *) convertToProto;
 
 @end
 

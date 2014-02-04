@@ -433,7 +433,7 @@ BOOL ExchangeGemsForResourcesResponseProto_ExchangeGemsForResourcesStatusIsValid
   int64_t clientTime;
   int32_t numGems;
   int32_t numResources;
-  MinimumUserProto* sender;
+  MinimumUserProtoWithMaxResources* sender;
   ResourceType resourceType;
 }
 - (BOOL) hasSender;
@@ -441,7 +441,7 @@ BOOL ExchangeGemsForResourcesResponseProto_ExchangeGemsForResourcesStatusIsValid
 - (BOOL) hasNumResources;
 - (BOOL) hasResourceType;
 - (BOOL) hasClientTime;
-@property (readonly, retain) MinimumUserProto* sender;
+@property (readonly, retain) MinimumUserProtoWithMaxResources* sender;
 @property (readonly) int32_t numGems;
 @property (readonly) int32_t numResources;
 @property (readonly) ResourceType resourceType;
@@ -482,10 +482,10 @@ BOOL ExchangeGemsForResourcesResponseProto_ExchangeGemsForResourcesStatusIsValid
 - (ExchangeGemsForResourcesRequestProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
 
 - (BOOL) hasSender;
-- (MinimumUserProto*) sender;
-- (ExchangeGemsForResourcesRequestProto_Builder*) setSender:(MinimumUserProto*) value;
-- (ExchangeGemsForResourcesRequestProto_Builder*) setSenderBuilder:(MinimumUserProto_Builder*) builderForValue;
-- (ExchangeGemsForResourcesRequestProto_Builder*) mergeSender:(MinimumUserProto*) value;
+- (MinimumUserProtoWithMaxResources*) sender;
+- (ExchangeGemsForResourcesRequestProto_Builder*) setSender:(MinimumUserProtoWithMaxResources*) value;
+- (ExchangeGemsForResourcesRequestProto_Builder*) setSenderBuilder:(MinimumUserProtoWithMaxResources_Builder*) builderForValue;
+- (ExchangeGemsForResourcesRequestProto_Builder*) mergeSender:(MinimumUserProtoWithMaxResources*) value;
 - (ExchangeGemsForResourcesRequestProto_Builder*) clearSender;
 
 - (BOOL) hasNumGems;
@@ -513,12 +513,12 @@ BOOL ExchangeGemsForResourcesResponseProto_ExchangeGemsForResourcesStatusIsValid
 @private
   BOOL hasSender_:1;
   BOOL hasStatus_:1;
-  MinimumUserProto* sender;
+  MinimumUserProtoWithMaxResources* sender;
   ExchangeGemsForResourcesResponseProto_ExchangeGemsForResourcesStatus status;
 }
 - (BOOL) hasSender;
 - (BOOL) hasStatus;
-@property (readonly, retain) MinimumUserProto* sender;
+@property (readonly, retain) MinimumUserProtoWithMaxResources* sender;
 @property (readonly) ExchangeGemsForResourcesResponseProto_ExchangeGemsForResourcesStatus status;
 
 + (ExchangeGemsForResourcesResponseProto*) defaultInstance;
@@ -556,10 +556,10 @@ BOOL ExchangeGemsForResourcesResponseProto_ExchangeGemsForResourcesStatusIsValid
 - (ExchangeGemsForResourcesResponseProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
 
 - (BOOL) hasSender;
-- (MinimumUserProto*) sender;
-- (ExchangeGemsForResourcesResponseProto_Builder*) setSender:(MinimumUserProto*) value;
-- (ExchangeGemsForResourcesResponseProto_Builder*) setSenderBuilder:(MinimumUserProto_Builder*) builderForValue;
-- (ExchangeGemsForResourcesResponseProto_Builder*) mergeSender:(MinimumUserProto*) value;
+- (MinimumUserProtoWithMaxResources*) sender;
+- (ExchangeGemsForResourcesResponseProto_Builder*) setSender:(MinimumUserProtoWithMaxResources*) value;
+- (ExchangeGemsForResourcesResponseProto_Builder*) setSenderBuilder:(MinimumUserProtoWithMaxResources_Builder*) builderForValue;
+- (ExchangeGemsForResourcesResponseProto_Builder*) mergeSender:(MinimumUserProtoWithMaxResources*) value;
 - (ExchangeGemsForResourcesResponseProto_Builder*) clearSender;
 
 - (BOOL) hasStatus;

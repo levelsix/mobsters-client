@@ -35,25 +35,13 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
 }
 
 - (void) createUser {
-  //  GameState *gs = [GameState sharedGameState];
-  //  SocketCommunication *sc = [SocketCommunication sharedSocketCommunication];
-  //
-  //  Globals *gl = [Globals sharedGlobals];
-  //  int tag = [sc sendUserCreateMessageWithName:gs.name
-  //                                         type:gs.type
-  //                                          lat:gs.location.latitude
-  //                                          lon:gs.location.longitude
-  //                                 referralCode:tc.referralCode
-  //                                  deviceToken:gs.deviceToken
-  //                                       attack:gs.attack
-  //                                      defense:gs.defense
-  //                                       energy:tc.initEnergy+gl.skillPointsGainedOnLevelup
-  //                                      stamina:tc.initStamina
-  //                                      structX:tc.structCoords.x
-  //                                      structY:tc.structCoords.y
-  //                                 usedDiamonds:YES];
-  //
-  //  [gs addUnrespondedUpdate:[NoUpdate updateWithTag:tag]];
+  GameState *gs = [GameState sharedGameState];
+  SocketCommunication *sc = [SocketCommunication sharedSocketCommunication];
+
+  Globals *gl = [Globals sharedGlobals];
+  int tag = [sc sendUserCreateMessage];
+
+  [gs addUnrespondedUpdate:[NoUpdate updateWithTag:tag]];
 }
 
 - (void) startupWithDelegate:(id)delegate {
@@ -1190,12 +1178,15 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
   newItem.userMonsterId = userMonsterId;
   
   int oilCost = [gl calculateOilCostForEnhancement:ue.baseMonster feeder:newItem];
+  
+  newItem.enhancementCost = oilCost;
+  
   if (!ue) {
     [Globals popupMessage:@"Trying to add feeder without base monster."];
   } else if ([um isHealing]) {
     [Globals popupMessage:@"Trying to sacrifice item that is healing."];
   } else if (!useGems && gs.oil < oilCost) {
-    [Globals popupMessage:@"Trying to enhance item without enough cash."];
+    [Globals popupMessage:@"Trying to enhance item without enough oil."];
   } else {
     int gemCost = 0;
     if (useGems && gs.oil < oilCost) {
@@ -1203,30 +1194,33 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
       oilCost = gs.oil;
     }
     
-    [gs addEnhancingItemToEndOfQueue:newItem];
-    
-    um.teamSlot = 0;
-    
-    int tag = [[SocketCommunication sharedSocketCommunication] setEnhanceQueueDirtyWithCoinChange:-oilCost gemCost:gemCost];
-    OilUpdate *oil = [OilUpdate updateWithTag:tag change:-oilCost];
-    GoldUpdate *gold = [GoldUpdate updateWithTag:tag change:-gemCost];
-    [gs addUnrespondedUpdates:oil, gold, nil];
-    
-    return YES;
+    if (gs.gold < gemCost) {
+      [Globals popupMessage:@"Trying to enhance without enough gems."];
+    } else {
+      [gs addEnhancingItemToEndOfQueue:newItem];
+      
+      um.teamSlot = 0;
+      
+      int tag = [[SocketCommunication sharedSocketCommunication] setEnhanceQueueDirtyWithCoinChange:-oilCost gemCost:gemCost];
+      OilUpdate *oil = [OilUpdate updateWithTag:tag change:-oilCost];
+      GoldUpdate *gold = [GoldUpdate updateWithTag:tag change:-gemCost];
+      [gs addUnrespondedUpdates:oil, gold, nil];
+      
+      return YES;
+    }
   }
   return NO;
 }
 
 - (BOOL) removeMonsterFromEnhancingQueue:(EnhancementItem *)item {
   GameState *gs = [GameState sharedGameState];
-  Globals *gl = [Globals sharedGlobals];
   
   if (![gs.userEnhancement.feeders containsObject:item]) {
     [Globals popupMessage:@"This item is not in the enhancing queue."];
   } else {
     [gs removeEnhancingItem:item];
     
-    int oilChange = [gl calculateOilCostForEnhancement:gs.userEnhancement.baseMonster feeder:item];
+    int oilChange = item.enhancementCost;
     int tag = [[SocketCommunication sharedSocketCommunication] setEnhanceQueueDirtyWithCoinChange:oilChange gemCost:0];
     [gs addUnrespondedUpdate:[OilUpdate updateWithTag:tag change:oilChange]];
     
@@ -1303,6 +1297,75 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
     [self removeBaseEnhanceMonster];
   } else {
     [gs beginEnhanceTimer];
+  }
+}
+
+- (BOOL) evolveMonster:(EvoItem *)evoItem useGems:(BOOL)gems {
+  GameState *gs = [GameState sharedGameState];
+  Globals *gl = [Globals sharedGlobals];
+  
+  UserEvolution *evo = [UserEvolution evolutionWithEvoItem:evoItem time:[NSDate date]];
+  int oilCost = evoItem.userMonster1.staticMonster.evolutionCost;
+  
+  if (!evoItem.userMonster1 || !evoItem.userMonster2 || !evoItem.catalystMonster) {
+    [Globals popupMessage:@"Trying to evolve without proper monsters."];
+  } else if (evoItem.userMonster1.level < evoItem.userMonster1.staticMonster.maxLevel ||
+             evoItem.userMonster2.level < evoItem.userMonster2.staticMonster.maxLevel) {
+    [Globals popupMessage:@"Trying to evolve without max monsters."];
+  } else if (!gems && gs.oil < oilCost) {
+    [Globals popupMessage:@"Trying to enhance item without enough oil."];
+  } else {
+    int gemCost = 0;
+    if (gems && gs.oil < oilCost) {
+      gemCost = [gl calculateGemConversionForResourceType:ResourceTypeOil amount:oilCost-gs.oil];
+      oilCost = gs.oil;
+    }
+    
+    if (gs.gold < gemCost) {
+      [Globals popupMessage:@"Trying to evolve without enough gems."];
+    } else {
+      evoItem.userMonster1.teamSlot = 0;
+      evoItem.userMonster2.teamSlot = 0;
+      
+      int tag = [[SocketCommunication sharedSocketCommunication] sendEvolveMonsterMessageWithEvolution:[evo convertToProto] gemCost:gemCost oilChange:-oilCost];
+      OilUpdate *oil = [OilUpdate updateWithTag:tag change:-oilCost];
+      GoldUpdate *gold = [GoldUpdate updateWithTag:tag change:-gemCost];
+      [gs addUnrespondedUpdates:oil, gold, nil];
+      
+      gs.userEvolution = evo;
+      [gs beginEvolutionTimer];
+      
+      return YES;
+    }
+  }
+  
+  return NO;
+}
+
+- (void) finishEvolutionWithGems:(BOOL)gems withDelegate:(id)delegate {
+  GameState *gs = [GameState sharedGameState];
+  Globals *gl = [Globals sharedGlobals];
+  UserEvolution *ue = gs.userEvolution;
+  
+  if (!gs.userEvolution) {
+    [Globals popupMessage:@"Trying to finish evolution without one."];
+  } else {
+    int timeLeft = gs.userEvolution.endTime.timeIntervalSinceNow;
+    int numGems = 0;
+    if (gems) {
+      numGems = [gl calculateGemSpeedupCostForTimeLeft:timeLeft];
+    }
+    
+    int tag = [[SocketCommunication sharedSocketCommunication] sendEvolutionFinishedMessageWithGems:numGems];
+    [[SocketCommunication sharedSocketCommunication] setDelegate:delegate forTag:tag];
+    [gs addUnrespondedUpdate:[GoldUpdate updateWithTag:tag change:-numGems]];
+    
+    [gs.myMonsters removeObject:[gs myMonsterWithUserMonsterId:ue.userMonsterId1]];
+    [gs.myMonsters removeObject:[gs myMonsterWithUserMonsterId:ue.userMonsterId2]];
+    [gs.myMonsters removeObject:[gs myMonsterWithUserMonsterId:ue.catalystMonsterId]];
+    gs.userEvolution = nil;
+    
+    [gs beginEvolutionTimer];
   }
 }
 

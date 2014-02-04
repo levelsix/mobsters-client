@@ -29,6 +29,7 @@
 @property (nonatomic, assign) IBOutlet UIImageView *qualityBgdView;
 @property (nonatomic, assign) IBOutlet UIView *starView;
 @property (nonatomic, assign) IBOutlet MaskedButton *overlayButton;
+@property (nonatomic, assign) IBOutlet UIButton *infoButton;
 
 @property (nonatomic, retain) IBOutlet UIView *mainView;
 @property (nonatomic, retain) IBOutlet UIView *noMonsterView;

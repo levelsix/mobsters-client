@@ -921,6 +921,7 @@ static MinimumUserTaskProto* defaultMinimumUserTaskProtoInstance = nil;
 @property int32_t cashReward;
 @property BOOL puzzlePieceDropped;
 @property int32_t level;
+@property int32_t itemId;
 @end
 
 @implementation TaskStageMonsterProto
@@ -972,6 +973,13 @@ static MinimumUserTaskProto* defaultMinimumUserTaskProtoInstance = nil;
   hasLevel_ = !!value;
 }
 @synthesize level;
+- (BOOL) hasItemId {
+  return !!hasItemId_;
+}
+- (void) setHasItemId:(BOOL) value {
+  hasItemId_ = !!value;
+}
+@synthesize itemId;
 - (void) dealloc {
   [super dealloc];
 }
@@ -983,6 +991,7 @@ static MinimumUserTaskProto* defaultMinimumUserTaskProtoInstance = nil;
     self.cashReward = 0;
     self.puzzlePieceDropped = NO;
     self.level = 0;
+    self.itemId = 0;
   }
   return self;
 }
@@ -1020,6 +1029,9 @@ static TaskStageMonsterProto* defaultTaskStageMonsterProtoInstance = nil;
   if (self.hasLevel) {
     [output writeInt32:6 value:self.level];
   }
+  if (self.hasItemId) {
+    [output writeInt32:7 value:self.itemId];
+  }
   [self.unknownFields writeToCodedOutputStream:output];
 }
 - (int32_t) serializedSize {
@@ -1046,6 +1058,9 @@ static TaskStageMonsterProto* defaultTaskStageMonsterProtoInstance = nil;
   }
   if (self.hasLevel) {
     size += computeInt32Size(6, self.level);
+  }
+  if (self.hasItemId) {
+    size += computeInt32Size(7, self.itemId);
   }
   size += self.unknownFields.serializedSize;
   memoizedSerializedSize = size;
@@ -1150,6 +1165,9 @@ BOOL TaskStageMonsterProto_MonsterTypeIsValidValue(TaskStageMonsterProto_Monster
   if (other.hasLevel) {
     [self setLevel:other.level];
   }
+  if (other.hasItemId) {
+    [self setItemId:other.itemId];
+  }
   [self mergeUnknownFields:other.unknownFields];
   return self;
 }
@@ -1198,6 +1216,10 @@ BOOL TaskStageMonsterProto_MonsterTypeIsValidValue(TaskStageMonsterProto_Monster
       }
       case 48: {
         [self setLevel:[input readInt32]];
+        break;
+      }
+      case 56: {
+        [self setItemId:[input readInt32]];
         break;
       }
     }
@@ -1297,6 +1319,22 @@ BOOL TaskStageMonsterProto_MonsterTypeIsValidValue(TaskStageMonsterProto_Monster
 - (TaskStageMonsterProto_Builder*) clearLevel {
   result.hasLevel = NO;
   result.level = 0;
+  return self;
+}
+- (BOOL) hasItemId {
+  return result.hasItemId;
+}
+- (int32_t) itemId {
+  return result.itemId;
+}
+- (TaskStageMonsterProto_Builder*) setItemId:(int32_t) value {
+  result.hasItemId = YES;
+  result.itemId = value;
+  return self;
+}
+- (TaskStageMonsterProto_Builder*) clearItemId {
+  result.hasItemId = NO;
+  result.itemId = 0;
   return self;
 }
 @end

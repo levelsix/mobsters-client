@@ -55,6 +55,42 @@
 - (void) updateForPersistentEvent:(PersistentEventProto *)pe {
   GameState *gs = [GameState sharedGameState];
   
+  NSMutableArray *imgs = [NSMutableArray array];
+  for (int i = 0; i <= 12; i++) {
+    NSString *str = [NSString stringWithFormat:@"Scientist1Breath%02d.png", i];
+    UIImage *img = [Globals imageNamed:str];
+    [imgs addObject:img];
+  }
+  for (int i = 0; i <= 12; i++) {
+    NSString *str = [NSString stringWithFormat:@"Scientist1Breath%02d.png", i];
+    UIImage *img = [Globals imageNamed:str];
+    [imgs addObject:img];
+  }
+  for (int i = 0; i <= 12; i++) {
+    NSString *str = [NSString stringWithFormat:@"Scientist1Blink%02d.png", i];
+    UIImage *img = [Globals imageNamed:str];
+    [imgs addObject:img];
+  }
+//  for (int i = 0; i <= 12; i++) {
+//    NSString *str = [NSString stringWithFormat:@"Scientist1Breath%02d.png", i];
+//    UIImage *img = [Globals imageNamed:str];
+//    [imgs addObject:img];
+//  }
+//  for (int i = 0; i <= 12; i++) {
+//    NSString *str = [NSString stringWithFormat:@"Scientist1Breath%02d.png", i];
+//    UIImage *img = [Globals imageNamed:str];
+//    [imgs addObject:img];
+//  }
+//  for (int i = 0; i <= 16; i++) {
+//    NSString *str = [NSString stringWithFormat:@"Scientist1Turn%02d.png", i];
+//    UIImage *img = [Globals imageNamed:str];
+//    [imgs addObject:img];
+//  }
+  self.monsterImage.animationImages = imgs;
+  
+  self.monsterImage.animationDuration = imgs.count*0.1;
+  [self.monsterImage startAnimating];
+  
   if (pe) {
     FullTaskProto *task = [gs taskWithId:pe.taskId];
     

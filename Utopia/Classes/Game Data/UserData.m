@@ -62,6 +62,13 @@
   return self.userMonsterId == gs.userEnhancement.baseMonster.userMonsterId;
 }
 
+- (BOOL) isEvolving {
+  GameState *gs = [GameState sharedGameState];
+  int i = self.userMonsterId;
+  UserEvolution *evo = gs.userEvolution;
+  return evo.userMonsterId1 == i || evo.userMonsterId2 == i || evo.catalystMonsterId == i;
+}
+
 - (BOOL) isSacrificing {
   GameState *gs = [GameState sharedGameState];
   for (EnhancementItem *ei in gs.userEnhancement.feeders) {
@@ -91,6 +98,16 @@
 - (MonsterProto *) staticMonster {
   GameState *gs = [GameState sharedGameState];
   return [gs monsterWithId:self.monsterId];
+}
+
+- (MonsterProto *) staticEvolutionMonster {
+  GameState *gs = [GameState sharedGameState];
+  return [gs monsterWithId:self.staticMonster.evolutionMonsterId];
+}
+
+- (MonsterLevelInfoProto *) currentLevelInfo {
+  NSArray *arr = self.staticMonster.lvlInfoList;
+  return arr.count > self.level-1 ? arr[self.level-1] : nil;
 }
 
 - (BOOL) isCombining {
@@ -281,6 +298,78 @@
 
 @end
 
+@implementation UserEvolution
+
++ (id) evolutionWithUserEvolutionProto:(UserMonsterEvolutionProto *)proto {
+  return [[self alloc] initWithUserEvolutionProto:proto];
+}
+
++ (id) evolutionWithEvoItem:(EvoItem *)evo time:(NSDate *)time {
+  return [[self alloc] initWithEvoItem:evo time:time];
+}
+
+- (id) initWithUserEvolutionProto:(UserMonsterEvolutionProto *)proto {
+  if ((self = [super init])) {
+    self.userMonsterId1 = proto.userMonsterIdsList.count > 0 ? [proto.userMonsterIdsList[0] intValue] : 0;
+    self.userMonsterId2 = proto.userMonsterIdsList.count > 1 ? [proto.userMonsterIdsList[1] intValue] : 0;
+    self.catalystMonsterId = proto.catalystUserMonsterId;
+    self.startTime = [NSDate dateWithTimeIntervalSince1970:proto.startTime/1000.];
+  }
+  return self;
+}
+
+- (id) initWithEvoItem:(EvoItem *)evo time:(NSDate *)time {
+  if ((self = [super init])) {
+    self.userMonsterId1 = evo.userMonster1.userMonsterId;
+    self.userMonsterId2 = evo.userMonster2.userMonsterId;
+    self.catalystMonsterId = evo.catalystMonster.userMonsterId;
+    self.startTime = time;
+  }
+  return self;
+}
+
+- (NSDate *) endTime {
+  GameState *gs = [GameState sharedGameState];
+  UserMonster *um = [gs myMonsterWithUserMonsterId:self.userMonsterId1];
+  return [self.startTime dateByAddingTimeInterval:um.staticMonster.minutesToEvolve*60];
+}
+
+- (UserMonsterEvolutionProto *) convertToProto {
+  UserMonsterEvolutionProto_Builder *bldr = [UserMonsterEvolutionProto builder];
+  [bldr addUserMonsterIds:self.userMonsterId1];
+  [bldr addUserMonsterIds:self.userMonsterId2];
+  bldr.catalystUserMonsterId = self.catalystMonsterId;
+  bldr.startTime = self.startTime.timeIntervalSince1970*1000;
+  return bldr.build;
+}
+
+@end
+
+@implementation EvoItem
+
+- (id) initWithUserMonster:(UserMonster *)um1 catalystMonster:(UserMonster *)catalystMonster {
+  if ((self = [super init])) {
+    self.userMonster1 = um1;
+    self.catalystMonster = catalystMonster;
+  }
+  return self;
+}
+
+- (id) initWithUserMonster:(UserMonster *)um1 andUserMonster:(UserMonster *)um2 catalystMonster:(UserMonster *)catalystMonster {
+  if ((self = [super init])) {
+    self.userMonster1 = um1;
+    self.userMonster2 = um2;
+    self.catalystMonster = catalystMonster;
+  }
+  return self;
+}
+
+- (BOOL) isEqual:(EvoItem *)object {
+  return [self.userMonster1 isEqual:object.userMonster1] && [self.userMonster2 isEqual:object.userMonster2];
+}
+
+@end
+
 @implementation EnhancementItem
 
 + (id) itemWithUserEnhancementItemProto:(UserEnhancementItemProto *)proto {
@@ -291,6 +380,7 @@
   if ((self = [super init])) {
     self.userMonsterId = proto.userMonsterId;
     self.expectedStartTime = proto.hasExpectedStartTimeMillis ? [NSDate dateWithTimeIntervalSince1970:proto.expectedStartTimeMillis/1000.] : nil;
+    self.enhancementCost = proto.enhancingCost;
   }
   return self;
 }
@@ -322,6 +412,7 @@
   if (self.expectedStartTime) {
     bldr.expectedStartTimeMillis = self.expectedStartTime.timeIntervalSince1970*1000;
   }
+  bldr.enhancingCost = self.enhancementCost;
   return bldr.build;
 }
 
@@ -329,6 +420,7 @@
   EnhancementItem *item = [[EnhancementItem alloc] init];
   item.userMonsterId = self.userMonsterId;
   item.expectedStartTime = [self.expectedStartTime copy];
+  item.enhancementCost = self.enhancementCost;
   return item;
 }
 

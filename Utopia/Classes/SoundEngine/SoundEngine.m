@@ -17,28 +17,28 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(SoundEngine);
 
 - (void) playBackgroundMusic:(NSString *)music loop:(BOOL)loop {
 #ifndef DEBUG
-  NSUserDefaults *ud = [NSUserDefaults standardUserDefaults];
-  BOOL play = ![ud boolForKey:MUSIC_DEFAULTS_KEY];
-  if (play && [[MPMusicPlayerController iPodMusicPlayer] playbackState] != MPMusicPlaybackStatePlaying) {
-    [[SimpleAudioEngine sharedEngine] playBackgroundMusic:music loop:loop];
-  }
+//  NSUserDefaults *ud = [NSUserDefaults standardUserDefaults];
+//  BOOL play = ![ud boolForKey:MUSIC_DEFAULTS_KEY];
+//  if (play && [[MPMusicPlayerController iPodMusicPlayer] playbackState] != MPMusicPlaybackStatePlaying) {
+//    [[SimpleAudioEngine sharedEngine] playBackgroundMusic:music loop:loop];
+//  }
 #endif
 }
 
 - (int) playEffect:(NSString *)effect {
 #ifndef DEBUG
-  NSUserDefaults *ud = [NSUserDefaults standardUserDefaults];
-  BOOL play = ![ud boolForKey:SOUND_EFFECTS_DEFAULTS_KEY];
-  if (play) {
-    return [[SimpleAudioEngine sharedEngine] playEffect:effect];
-  }
+//  NSUserDefaults *ud = [NSUserDefaults standardUserDefaults];
+//  BOOL play = ![ud boolForKey:SOUND_EFFECTS_DEFAULTS_KEY];
+//  if (play) {
+//    return [[SimpleAudioEngine sharedEngine] playEffect:effect];
+//  }
 #endif
   return 0;
 }
 
 - (void) stopEffect:(int)effect {
 #ifndef DEBUG
-  [[SimpleAudioEngine sharedEngine] stopEffect:effect];
+//  [[SimpleAudioEngine sharedEngine] stopEffect:effect];
 #endif
 }
 
@@ -91,7 +91,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(SoundEngine);
   _lastPlayedMusic = _curMusic;
   _curMusic = kNoMusic;
 #ifndef DEBUG
-  [[SimpleAudioEngine sharedEngine] stopBackgroundMusic];
+//  [[SimpleAudioEngine sharedEngine] stopBackgroundMusic];
 #endif
 }
 

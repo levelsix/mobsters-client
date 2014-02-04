@@ -1290,8 +1290,6 @@
 		CFC04DE218909DF500F2DB59 /* KC_GTMOAuth2ViewTouch.nib in Resources */ = {isa = PBXBuildFile; fileRef = CFC04DD918909DF400F2DB59 /* KC_GTMOAuth2ViewTouch.nib */; };
 		CFC04DE61890A92A00F2DB59 /* HealingCenter@2x.plist in Resources */ = {isa = PBXBuildFile; fileRef = CFC04DE41890A92A00F2DB59 /* HealingCenter@2x.plist */; };
 		CFC04DE81890A92A00F2DB59 /* HealingCenter@2x.pvr.ccz in Resources */ = {isa = PBXBuildFile; fileRef = CFC04DE51890A92A00F2DB59 /* HealingCenter@2x.pvr.ccz */; };
-		CFC04E621890F28000F2DB59 /* Untitled.ccb in Resources */ = {isa = PBXBuildFile; fileRef = CFC04E611890F28000F2DB59 /* Untitled.ccb */; };
-		CFC04E651890F69900F2DB59 /* Untitled.ccbi in Resources */ = {isa = PBXBuildFile; fileRef = CFC04E641890F69800F2DB59 /* Untitled.ccbi */; };
 		CFC04ED81891028D00F2DB59 /* libcocos2d.a in Frameworks */ = {isa = PBXBuildFile; fileRef = CFC04ED51890FFC800F2DB59 /* libcocos2d.a */; };
 		CFC141AC1657484A0060188D /* socket.c in Sources */ = {isa = PBXBuildFile; fileRef = CFC141801657484A0060188D /* socket.c */; };
 		CFC141FD1658B70D0060188D /* amqp_api.c in Sources */ = {isa = PBXBuildFile; fileRef = CFC141F61658B70B0060188D /* amqp_api.c */; };
@@ -1678,6 +1676,231 @@
 		CFEB284715951ADC00B622FC /* FullEvent.m in Sources */ = {isa = PBXBuildFile; fileRef = CFEB284615951ADB00B622FC /* FullEvent.m */; };
 		CFEC29C9159AAA2100F15EDC /* visitprofile.png in Resources */ = {isa = PBXBuildFile; fileRef = CFEC29C7159AAA2100F15EDC /* visitprofile.png */; };
 		CFEC29CA159AAA2100F15EDC /* visitprofile@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CFEC29C8159AAA2100F15EDC /* visitprofile@2x.png */; };
+		CFEDA72C1896114F00867490 /* EvoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CFEDA72A1896114F00867490 /* EvoViewController.m */; };
+		CFEDA72D1896114F00867490 /* EvoViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = CFEDA72B1896114F00867490 /* EvoViewController.xib */; };
+		CFEDA820189640AA00867490 /* Scientist1Blink00@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CFEDA737189640A800867490 /* Scientist1Blink00@2x.png */; };
+		CFEDA821189640AA00867490 /* Scientist1Blink01@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CFEDA738189640A800867490 /* Scientist1Blink01@2x.png */; };
+		CFEDA822189640AA00867490 /* Scientist1Blink02@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CFEDA739189640A800867490 /* Scientist1Blink02@2x.png */; };
+		CFEDA823189640AA00867490 /* Scientist1Blink03@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CFEDA73A189640A800867490 /* Scientist1Blink03@2x.png */; };
+		CFEDA824189640AA00867490 /* Scientist1Blink04@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CFEDA73B189640A800867490 /* Scientist1Blink04@2x.png */; };
+		CFEDA825189640AA00867490 /* Scientist1Blink05@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CFEDA73C189640A800867490 /* Scientist1Blink05@2x.png */; };
+		CFEDA826189640AA00867490 /* Scientist1Blink06@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CFEDA73D189640A800867490 /* Scientist1Blink06@2x.png */; };
+		CFEDA827189640AA00867490 /* Scientist1Blink07@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CFEDA73E189640A800867490 /* Scientist1Blink07@2x.png */; };
+		CFEDA828189640AA00867490 /* Scientist1Blink08@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CFEDA73F189640A800867490 /* Scientist1Blink08@2x.png */; };
+		CFEDA829189640AA00867490 /* Scientist1Blink09@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CFEDA740189640A800867490 /* Scientist1Blink09@2x.png */; };
+		CFEDA82A189640AA00867490 /* Scientist1Blink10@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CFEDA741189640A800867490 /* Scientist1Blink10@2x.png */; };
+		CFEDA82B189640AA00867490 /* Scientist1Blink11@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CFEDA742189640A800867490 /* Scientist1Blink11@2x.png */; };
+		CFEDA82C189640AA00867490 /* Scientist1Blink12@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CFEDA743189640A800867490 /* Scientist1Blink12@2x.png */; };
+		CFEDA82D189640AA00867490 /* Scientist1Breath00@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CFEDA745189640A800867490 /* Scientist1Breath00@2x.png */; };
+		CFEDA82E189640AA00867490 /* Scientist1Breath01@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CFEDA746189640A800867490 /* Scientist1Breath01@2x.png */; };
+		CFEDA82F189640AA00867490 /* Scientist1Breath02@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CFEDA747189640A800867490 /* Scientist1Breath02@2x.png */; };
+		CFEDA830189640AA00867490 /* Scientist1Breath03@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CFEDA748189640A800867490 /* Scientist1Breath03@2x.png */; };
+		CFEDA831189640AA00867490 /* Scientist1Breath04@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CFEDA749189640A800867490 /* Scientist1Breath04@2x.png */; };
+		CFEDA832189640AA00867490 /* Scientist1Breath05@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CFEDA74A189640A800867490 /* Scientist1Breath05@2x.png */; };
+		CFEDA833189640AA00867490 /* Scientist1Breath06@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CFEDA74B189640A800867490 /* Scientist1Breath06@2x.png */; };
+		CFEDA834189640AA00867490 /* Scientist1Breath07@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CFEDA74C189640A800867490 /* Scientist1Breath07@2x.png */; };
+		CFEDA835189640AA00867490 /* Scientist1Breath08@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CFEDA74D189640A800867490 /* Scientist1Breath08@2x.png */; };
+		CFEDA836189640AA00867490 /* Scientist1Breath09@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CFEDA74E189640A800867490 /* Scientist1Breath09@2x.png */; };
+		CFEDA837189640AA00867490 /* Scientist1Breath10@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CFEDA74F189640A800867490 /* Scientist1Breath10@2x.png */; };
+		CFEDA838189640AA00867490 /* Scientist1Breath11@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CFEDA750189640A800867490 /* Scientist1Breath11@2x.png */; };
+		CFEDA839189640AA00867490 /* Scientist1Breath12@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CFEDA751189640A800867490 /* Scientist1Breath12@2x.png */; };
+		CFEDA83A189640AA00867490 /* Scientist1Turn00@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CFEDA753189640A800867490 /* Scientist1Turn00@2x.png */; };
+		CFEDA83B189640AA00867490 /* Scientist1Turn01@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CFEDA754189640A800867490 /* Scientist1Turn01@2x.png */; };
+		CFEDA83C189640AA00867490 /* Scientist1Turn02@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CFEDA755189640A800867490 /* Scientist1Turn02@2x.png */; };
+		CFEDA83D189640AA00867490 /* Scientist1Turn03@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CFEDA756189640A800867490 /* Scientist1Turn03@2x.png */; };
+		CFEDA83E189640AA00867490 /* Scientist1Turn04@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CFEDA757189640A800867490 /* Scientist1Turn04@2x.png */; };
+		CFEDA83F189640AA00867490 /* Scientist1Turn05@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CFEDA758189640A800867490 /* Scientist1Turn05@2x.png */; };
+		CFEDA840189640AA00867490 /* Scientist1Turn06@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CFEDA759189640A800867490 /* Scientist1Turn06@2x.png */; };
+		CFEDA841189640AA00867490 /* Scientist1Turn07@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CFEDA75A189640A800867490 /* Scientist1Turn07@2x.png */; };
+		CFEDA842189640AA00867490 /* Scientist1Turn08@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CFEDA75B189640A800867490 /* Scientist1Turn08@2x.png */; };
+		CFEDA843189640AA00867490 /* Scientist1Turn09@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CFEDA75C189640A800867490 /* Scientist1Turn09@2x.png */; };
+		CFEDA844189640AA00867490 /* Scientist1Turn10@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CFEDA75D189640A800867490 /* Scientist1Turn10@2x.png */; };
+		CFEDA845189640AA00867490 /* Scientist1Turn11@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CFEDA75E189640A800867490 /* Scientist1Turn11@2x.png */; };
+		CFEDA846189640AA00867490 /* Scientist1Turn12@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CFEDA75F189640A800867490 /* Scientist1Turn12@2x.png */; };
+		CFEDA847189640AA00867490 /* Scientist1Turn13@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CFEDA760189640A800867490 /* Scientist1Turn13@2x.png */; };
+		CFEDA848189640AA00867490 /* Scientist1Turn14@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CFEDA761189640A800867490 /* Scientist1Turn14@2x.png */; };
+		CFEDA849189640AA00867490 /* Scientist1Turn15@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CFEDA762189640A800867490 /* Scientist1Turn15@2x.png */; };
+		CFEDA84A189640AA00867490 /* Scientist1Turn16@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CFEDA763189640A800867490 /* Scientist1Turn16@2x.png */; };
+		CFEDA84B189640AA00867490 /* Scientist2Blink00.png in Resources */ = {isa = PBXBuildFile; fileRef = CFEDA766189640A800867490 /* Scientist2Blink00.png */; };
+		CFEDA84C189640AA00867490 /* Scientist2Blink01.png in Resources */ = {isa = PBXBuildFile; fileRef = CFEDA767189640A800867490 /* Scientist2Blink01.png */; };
+		CFEDA84D189640AA00867490 /* Scientist2Blink02.png in Resources */ = {isa = PBXBuildFile; fileRef = CFEDA768189640A800867490 /* Scientist2Blink02.png */; };
+		CFEDA84E189640AA00867490 /* Scientist2Blink03.png in Resources */ = {isa = PBXBuildFile; fileRef = CFEDA769189640A800867490 /* Scientist2Blink03.png */; };
+		CFEDA84F189640AA00867490 /* Scientist2Blink04.png in Resources */ = {isa = PBXBuildFile; fileRef = CFEDA76A189640A800867490 /* Scientist2Blink04.png */; };
+		CFEDA850189640AA00867490 /* Scientist2Blink05.png in Resources */ = {isa = PBXBuildFile; fileRef = CFEDA76B189640A800867490 /* Scientist2Blink05.png */; };
+		CFEDA851189640AA00867490 /* Scientist2Blink06.png in Resources */ = {isa = PBXBuildFile; fileRef = CFEDA76C189640A800867490 /* Scientist2Blink06.png */; };
+		CFEDA852189640AA00867490 /* Scientist2Blink07.png in Resources */ = {isa = PBXBuildFile; fileRef = CFEDA76D189640A800867490 /* Scientist2Blink07.png */; };
+		CFEDA853189640AA00867490 /* Scientist2Blink08.png in Resources */ = {isa = PBXBuildFile; fileRef = CFEDA76E189640A800867490 /* Scientist2Blink08.png */; };
+		CFEDA854189640AA00867490 /* Scientist2Blink09.png in Resources */ = {isa = PBXBuildFile; fileRef = CFEDA76F189640A800867490 /* Scientist2Blink09.png */; };
+		CFEDA855189640AA00867490 /* Scientist2Blink10.png in Resources */ = {isa = PBXBuildFile; fileRef = CFEDA770189640A800867490 /* Scientist2Blink10.png */; };
+		CFEDA856189640AA00867490 /* Scientist2Blink11.png in Resources */ = {isa = PBXBuildFile; fileRef = CFEDA771189640A800867490 /* Scientist2Blink11.png */; };
+		CFEDA857189640AA00867490 /* Scientist2Blink12.png in Resources */ = {isa = PBXBuildFile; fileRef = CFEDA772189640A800867490 /* Scientist2Blink12.png */; };
+		CFEDA858189640AA00867490 /* Scientist2Breath00.png in Resources */ = {isa = PBXBuildFile; fileRef = CFEDA774189640A800867490 /* Scientist2Breath00.png */; };
+		CFEDA859189640AA00867490 /* Scientist2Breath01.png in Resources */ = {isa = PBXBuildFile; fileRef = CFEDA775189640A800867490 /* Scientist2Breath01.png */; };
+		CFEDA85A189640AA00867490 /* Scientist2Breath02.png in Resources */ = {isa = PBXBuildFile; fileRef = CFEDA776189640A800867490 /* Scientist2Breath02.png */; };
+		CFEDA85B189640AA00867490 /* Scientist2Breath03.png in Resources */ = {isa = PBXBuildFile; fileRef = CFEDA777189640A800867490 /* Scientist2Breath03.png */; };
+		CFEDA85C189640AA00867490 /* Scientist2Breath04.png in Resources */ = {isa = PBXBuildFile; fileRef = CFEDA778189640A800867490 /* Scientist2Breath04.png */; };
+		CFEDA85D189640AA00867490 /* Scientist2Breath05.png in Resources */ = {isa = PBXBuildFile; fileRef = CFEDA779189640A800867490 /* Scientist2Breath05.png */; };
+		CFEDA85E189640AA00867490 /* Scientist2Breath06.png in Resources */ = {isa = PBXBuildFile; fileRef = CFEDA77A189640A800867490 /* Scientist2Breath06.png */; };
+		CFEDA85F189640AA00867490 /* Scientist2Breath07.png in Resources */ = {isa = PBXBuildFile; fileRef = CFEDA77B189640A800867490 /* Scientist2Breath07.png */; };
+		CFEDA860189640AA00867490 /* Scientist2Breath08.png in Resources */ = {isa = PBXBuildFile; fileRef = CFEDA77C189640A800867490 /* Scientist2Breath08.png */; };
+		CFEDA861189640AA00867490 /* Scientist2Breath09.png in Resources */ = {isa = PBXBuildFile; fileRef = CFEDA77D189640A800867490 /* Scientist2Breath09.png */; };
+		CFEDA862189640AA00867490 /* Scientist2Breath10.png in Resources */ = {isa = PBXBuildFile; fileRef = CFEDA77E189640A800867490 /* Scientist2Breath10.png */; };
+		CFEDA863189640AA00867490 /* Scientist2Breath11.png in Resources */ = {isa = PBXBuildFile; fileRef = CFEDA77F189640A800867490 /* Scientist2Breath11.png */; };
+		CFEDA864189640AA00867490 /* Scientist2Breath12.png in Resources */ = {isa = PBXBuildFile; fileRef = CFEDA780189640A800867490 /* Scientist2Breath12.png */; };
+		CFEDA865189640AA00867490 /* Scientist2Turn00.png in Resources */ = {isa = PBXBuildFile; fileRef = CFEDA782189640A800867490 /* Scientist2Turn00.png */; };
+		CFEDA866189640AA00867490 /* Scientist2Turn01.png in Resources */ = {isa = PBXBuildFile; fileRef = CFEDA783189640A800867490 /* Scientist2Turn01.png */; };
+		CFEDA867189640AA00867490 /* Scientist2Turn02.png in Resources */ = {isa = PBXBuildFile; fileRef = CFEDA784189640A800867490 /* Scientist2Turn02.png */; };
+		CFEDA868189640AA00867490 /* Scientist2Turn03.png in Resources */ = {isa = PBXBuildFile; fileRef = CFEDA785189640A800867490 /* Scientist2Turn03.png */; };
+		CFEDA869189640AA00867490 /* Scientist2Turn04.png in Resources */ = {isa = PBXBuildFile; fileRef = CFEDA786189640A800867490 /* Scientist2Turn04.png */; };
+		CFEDA86A189640AA00867490 /* Scientist2Turn05.png in Resources */ = {isa = PBXBuildFile; fileRef = CFEDA787189640A800867490 /* Scientist2Turn05.png */; };
+		CFEDA86B189640AA00867490 /* Scientist2Turn06.png in Resources */ = {isa = PBXBuildFile; fileRef = CFEDA788189640A800867490 /* Scientist2Turn06.png */; };
+		CFEDA86C189640AA00867490 /* Scientist2Turn07.png in Resources */ = {isa = PBXBuildFile; fileRef = CFEDA789189640A800867490 /* Scientist2Turn07.png */; };
+		CFEDA86D189640AA00867490 /* Scientist2Turn08.png in Resources */ = {isa = PBXBuildFile; fileRef = CFEDA78A189640A900867490 /* Scientist2Turn08.png */; };
+		CFEDA86E189640AA00867490 /* Scientist2Turn09.png in Resources */ = {isa = PBXBuildFile; fileRef = CFEDA78B189640A900867490 /* Scientist2Turn09.png */; };
+		CFEDA86F189640AA00867490 /* Scientist2Turn10.png in Resources */ = {isa = PBXBuildFile; fileRef = CFEDA78C189640A900867490 /* Scientist2Turn10.png */; };
+		CFEDA870189640AA00867490 /* Scientist2Turn11.png in Resources */ = {isa = PBXBuildFile; fileRef = CFEDA78D189640A900867490 /* Scientist2Turn11.png */; };
+		CFEDA871189640AA00867490 /* Scientist2Turn12.png in Resources */ = {isa = PBXBuildFile; fileRef = CFEDA78E189640A900867490 /* Scientist2Turn12.png */; };
+		CFEDA872189640AA00867490 /* Scientist2Turn13.png in Resources */ = {isa = PBXBuildFile; fileRef = CFEDA78F189640A900867490 /* Scientist2Turn13.png */; };
+		CFEDA873189640AA00867490 /* Scientist2Turn14.png in Resources */ = {isa = PBXBuildFile; fileRef = CFEDA790189640A900867490 /* Scientist2Turn14.png */; };
+		CFEDA874189640AA00867490 /* Scientist2Turn15.png in Resources */ = {isa = PBXBuildFile; fileRef = CFEDA791189640A900867490 /* Scientist2Turn15.png */; };
+		CFEDA875189640AA00867490 /* Scientist2Turn16.png in Resources */ = {isa = PBXBuildFile; fileRef = CFEDA792189640A900867490 /* Scientist2Turn16.png */; };
+		CFEDA876189640AA00867490 /* Scientist3Blink00.png in Resources */ = {isa = PBXBuildFile; fileRef = CFEDA795189640A900867490 /* Scientist3Blink00.png */; };
+		CFEDA877189640AA00867490 /* Scientist3Blink01.png in Resources */ = {isa = PBXBuildFile; fileRef = CFEDA796189640A900867490 /* Scientist3Blink01.png */; };
+		CFEDA878189640AA00867490 /* Scientist3Blink02.png in Resources */ = {isa = PBXBuildFile; fileRef = CFEDA797189640A900867490 /* Scientist3Blink02.png */; };
+		CFEDA879189640AA00867490 /* Scientist3Blink03.png in Resources */ = {isa = PBXBuildFile; fileRef = CFEDA798189640A900867490 /* Scientist3Blink03.png */; };
+		CFEDA87A189640AA00867490 /* Scientist3Blink04.png in Resources */ = {isa = PBXBuildFile; fileRef = CFEDA799189640A900867490 /* Scientist3Blink04.png */; };
+		CFEDA87B189640AA00867490 /* Scientist3Blink05.png in Resources */ = {isa = PBXBuildFile; fileRef = CFEDA79A189640A900867490 /* Scientist3Blink05.png */; };
+		CFEDA87C189640AA00867490 /* Scientist3Blink06.png in Resources */ = {isa = PBXBuildFile; fileRef = CFEDA79B189640A900867490 /* Scientist3Blink06.png */; };
+		CFEDA87D189640AA00867490 /* Scientist3Blink07.png in Resources */ = {isa = PBXBuildFile; fileRef = CFEDA79C189640A900867490 /* Scientist3Blink07.png */; };
+		CFEDA87E189640AA00867490 /* Scientist3Blink08.png in Resources */ = {isa = PBXBuildFile; fileRef = CFEDA79D189640A900867490 /* Scientist3Blink08.png */; };
+		CFEDA87F189640AA00867490 /* Scientist3Blink09.png in Resources */ = {isa = PBXBuildFile; fileRef = CFEDA79E189640A900867490 /* Scientist3Blink09.png */; };
+		CFEDA880189640AA00867490 /* Scientist3Blink10.png in Resources */ = {isa = PBXBuildFile; fileRef = CFEDA79F189640A900867490 /* Scientist3Blink10.png */; };
+		CFEDA881189640AA00867490 /* Scientist3Blink11.png in Resources */ = {isa = PBXBuildFile; fileRef = CFEDA7A0189640A900867490 /* Scientist3Blink11.png */; };
+		CFEDA882189640AA00867490 /* Scientist3Blink12.png in Resources */ = {isa = PBXBuildFile; fileRef = CFEDA7A1189640A900867490 /* Scientist3Blink12.png */; };
+		CFEDA883189640AA00867490 /* Scientist3Breath00.png in Resources */ = {isa = PBXBuildFile; fileRef = CFEDA7A3189640A900867490 /* Scientist3Breath00.png */; };
+		CFEDA884189640AA00867490 /* Scientist3Breath01.png in Resources */ = {isa = PBXBuildFile; fileRef = CFEDA7A4189640A900867490 /* Scientist3Breath01.png */; };
+		CFEDA885189640AA00867490 /* Scientist3Breath02.png in Resources */ = {isa = PBXBuildFile; fileRef = CFEDA7A5189640A900867490 /* Scientist3Breath02.png */; };
+		CFEDA886189640AA00867490 /* Scientist3Breath03.png in Resources */ = {isa = PBXBuildFile; fileRef = CFEDA7A6189640A900867490 /* Scientist3Breath03.png */; };
+		CFEDA887189640AA00867490 /* Scientist3Breath04.png in Resources */ = {isa = PBXBuildFile; fileRef = CFEDA7A7189640A900867490 /* Scientist3Breath04.png */; };
+		CFEDA888189640AA00867490 /* Scientist3Breath05.png in Resources */ = {isa = PBXBuildFile; fileRef = CFEDA7A8189640A900867490 /* Scientist3Breath05.png */; };
+		CFEDA889189640AA00867490 /* Scientist3Breath06.png in Resources */ = {isa = PBXBuildFile; fileRef = CFEDA7A9189640A900867490 /* Scientist3Breath06.png */; };
+		CFEDA88A189640AA00867490 /* Scientist3Breath07.png in Resources */ = {isa = PBXBuildFile; fileRef = CFEDA7AA189640A900867490 /* Scientist3Breath07.png */; };
+		CFEDA88B189640AA00867490 /* Scientist3Breath08.png in Resources */ = {isa = PBXBuildFile; fileRef = CFEDA7AB189640A900867490 /* Scientist3Breath08.png */; };
+		CFEDA88C189640AA00867490 /* Scientist3Breath09.png in Resources */ = {isa = PBXBuildFile; fileRef = CFEDA7AC189640A900867490 /* Scientist3Breath09.png */; };
+		CFEDA88D189640AA00867490 /* Scientist3Breath10.png in Resources */ = {isa = PBXBuildFile; fileRef = CFEDA7AD189640A900867490 /* Scientist3Breath10.png */; };
+		CFEDA88E189640AA00867490 /* Scientist3Breath11.png in Resources */ = {isa = PBXBuildFile; fileRef = CFEDA7AE189640A900867490 /* Scientist3Breath11.png */; };
+		CFEDA88F189640AA00867490 /* Scientist3Breath12.png in Resources */ = {isa = PBXBuildFile; fileRef = CFEDA7AF189640A900867490 /* Scientist3Breath12.png */; };
+		CFEDA890189640AA00867490 /* Scientist3Turn00.png in Resources */ = {isa = PBXBuildFile; fileRef = CFEDA7B1189640A900867490 /* Scientist3Turn00.png */; };
+		CFEDA891189640AA00867490 /* Scientist3Turn01.png in Resources */ = {isa = PBXBuildFile; fileRef = CFEDA7B2189640A900867490 /* Scientist3Turn01.png */; };
+		CFEDA892189640AA00867490 /* Scientist3Turn02.png in Resources */ = {isa = PBXBuildFile; fileRef = CFEDA7B3189640A900867490 /* Scientist3Turn02.png */; };
+		CFEDA893189640AA00867490 /* Scientist3Turn03.png in Resources */ = {isa = PBXBuildFile; fileRef = CFEDA7B4189640A900867490 /* Scientist3Turn03.png */; };
+		CFEDA894189640AA00867490 /* Scientist3Turn04.png in Resources */ = {isa = PBXBuildFile; fileRef = CFEDA7B5189640A900867490 /* Scientist3Turn04.png */; };
+		CFEDA895189640AA00867490 /* Scientist3Turn05.png in Resources */ = {isa = PBXBuildFile; fileRef = CFEDA7B6189640A900867490 /* Scientist3Turn05.png */; };
+		CFEDA896189640AA00867490 /* Scientist3Turn06.png in Resources */ = {isa = PBXBuildFile; fileRef = CFEDA7B7189640A900867490 /* Scientist3Turn06.png */; };
+		CFEDA897189640AA00867490 /* Scientist3Turn07.png in Resources */ = {isa = PBXBuildFile; fileRef = CFEDA7B8189640A900867490 /* Scientist3Turn07.png */; };
+		CFEDA898189640AA00867490 /* Scientist3Turn08.png in Resources */ = {isa = PBXBuildFile; fileRef = CFEDA7B9189640A900867490 /* Scientist3Turn08.png */; };
+		CFEDA899189640AA00867490 /* Scientist3Turn09.png in Resources */ = {isa = PBXBuildFile; fileRef = CFEDA7BA189640A900867490 /* Scientist3Turn09.png */; };
+		CFEDA89A189640AA00867490 /* Scientist3Turn10.png in Resources */ = {isa = PBXBuildFile; fileRef = CFEDA7BB189640A900867490 /* Scientist3Turn10.png */; };
+		CFEDA89B189640AA00867490 /* Scientist3Turn11.png in Resources */ = {isa = PBXBuildFile; fileRef = CFEDA7BC189640A900867490 /* Scientist3Turn11.png */; };
+		CFEDA89C189640AA00867490 /* Scientist3Turn12.png in Resources */ = {isa = PBXBuildFile; fileRef = CFEDA7BD189640A900867490 /* Scientist3Turn12.png */; };
+		CFEDA89D189640AA00867490 /* Scientist3Turn13.png in Resources */ = {isa = PBXBuildFile; fileRef = CFEDA7BE189640A900867490 /* Scientist3Turn13.png */; };
+		CFEDA89E189640AA00867490 /* Scientist3Turn14.png in Resources */ = {isa = PBXBuildFile; fileRef = CFEDA7BF189640A900867490 /* Scientist3Turn14.png */; };
+		CFEDA89F189640AA00867490 /* Scientist3Turn15.png in Resources */ = {isa = PBXBuildFile; fileRef = CFEDA7C0189640A900867490 /* Scientist3Turn15.png */; };
+		CFEDA8A0189640AA00867490 /* Scientist3Turn16.png in Resources */ = {isa = PBXBuildFile; fileRef = CFEDA7C1189640A900867490 /* Scientist3Turn16.png */; };
+		CFEDA8A1189640AA00867490 /* Scientist4Blink00.png in Resources */ = {isa = PBXBuildFile; fileRef = CFEDA7C4189640A900867490 /* Scientist4Blink00.png */; };
+		CFEDA8A2189640AA00867490 /* Scientist4Blink01.png in Resources */ = {isa = PBXBuildFile; fileRef = CFEDA7C5189640A900867490 /* Scientist4Blink01.png */; };
+		CFEDA8A3189640AA00867490 /* Scientist4Blink02.png in Resources */ = {isa = PBXBuildFile; fileRef = CFEDA7C6189640A900867490 /* Scientist4Blink02.png */; };
+		CFEDA8A4189640AA00867490 /* Scientist4Blink03.png in Resources */ = {isa = PBXBuildFile; fileRef = CFEDA7C7189640A900867490 /* Scientist4Blink03.png */; };
+		CFEDA8A5189640AA00867490 /* Scientist4Blink04.png in Resources */ = {isa = PBXBuildFile; fileRef = CFEDA7C8189640A900867490 /* Scientist4Blink04.png */; };
+		CFEDA8A6189640AA00867490 /* Scientist4Blink05.png in Resources */ = {isa = PBXBuildFile; fileRef = CFEDA7C9189640A900867490 /* Scientist4Blink05.png */; };
+		CFEDA8A7189640AA00867490 /* Scientist4Blink06.png in Resources */ = {isa = PBXBuildFile; fileRef = CFEDA7CA189640A900867490 /* Scientist4Blink06.png */; };
+		CFEDA8A8189640AA00867490 /* Scientist4Blink07.png in Resources */ = {isa = PBXBuildFile; fileRef = CFEDA7CB189640A900867490 /* Scientist4Blink07.png */; };
+		CFEDA8A9189640AA00867490 /* Scientist4Blink08.png in Resources */ = {isa = PBXBuildFile; fileRef = CFEDA7CC189640A900867490 /* Scientist4Blink08.png */; };
+		CFEDA8AA189640AA00867490 /* Scientist4Blink09.png in Resources */ = {isa = PBXBuildFile; fileRef = CFEDA7CD189640A900867490 /* Scientist4Blink09.png */; };
+		CFEDA8AB189640AA00867490 /* Scientist4Blink10.png in Resources */ = {isa = PBXBuildFile; fileRef = CFEDA7CE189640A900867490 /* Scientist4Blink10.png */; };
+		CFEDA8AC189640AA00867490 /* Scientist4Blink11.png in Resources */ = {isa = PBXBuildFile; fileRef = CFEDA7CF189640A900867490 /* Scientist4Blink11.png */; };
+		CFEDA8AD189640AA00867490 /* Scientist4Blink12.png in Resources */ = {isa = PBXBuildFile; fileRef = CFEDA7D0189640A900867490 /* Scientist4Blink12.png */; };
+		CFEDA8AE189640AA00867490 /* Scientist4Breath00.png in Resources */ = {isa = PBXBuildFile; fileRef = CFEDA7D2189640A900867490 /* Scientist4Breath00.png */; };
+		CFEDA8AF189640AA00867490 /* Scientist4Breath01.png in Resources */ = {isa = PBXBuildFile; fileRef = CFEDA7D3189640A900867490 /* Scientist4Breath01.png */; };
+		CFEDA8B0189640AA00867490 /* Scientist4Breath02.png in Resources */ = {isa = PBXBuildFile; fileRef = CFEDA7D4189640A900867490 /* Scientist4Breath02.png */; };
+		CFEDA8B1189640AA00867490 /* Scientist4Breath03.png in Resources */ = {isa = PBXBuildFile; fileRef = CFEDA7D5189640A900867490 /* Scientist4Breath03.png */; };
+		CFEDA8B2189640AA00867490 /* Scientist4Breath04.png in Resources */ = {isa = PBXBuildFile; fileRef = CFEDA7D6189640A900867490 /* Scientist4Breath04.png */; };
+		CFEDA8B3189640AA00867490 /* Scientist4Breath05.png in Resources */ = {isa = PBXBuildFile; fileRef = CFEDA7D7189640A900867490 /* Scientist4Breath05.png */; };
+		CFEDA8B4189640AA00867490 /* Scientist4Breath06.png in Resources */ = {isa = PBXBuildFile; fileRef = CFEDA7D8189640A900867490 /* Scientist4Breath06.png */; };
+		CFEDA8B5189640AA00867490 /* Scientist4Breath07.png in Resources */ = {isa = PBXBuildFile; fileRef = CFEDA7D9189640A900867490 /* Scientist4Breath07.png */; };
+		CFEDA8B6189640AA00867490 /* Scientist4Breath08.png in Resources */ = {isa = PBXBuildFile; fileRef = CFEDA7DA189640A900867490 /* Scientist4Breath08.png */; };
+		CFEDA8B7189640AA00867490 /* Scientist4Breath09.png in Resources */ = {isa = PBXBuildFile; fileRef = CFEDA7DB189640A900867490 /* Scientist4Breath09.png */; };
+		CFEDA8B8189640AA00867490 /* Scientist4Breath10.png in Resources */ = {isa = PBXBuildFile; fileRef = CFEDA7DC189640A900867490 /* Scientist4Breath10.png */; };
+		CFEDA8B9189640AA00867490 /* Scientist4Breath11.png in Resources */ = {isa = PBXBuildFile; fileRef = CFEDA7DD189640A900867490 /* Scientist4Breath11.png */; };
+		CFEDA8BA189640AA00867490 /* Scientist4Breath12.png in Resources */ = {isa = PBXBuildFile; fileRef = CFEDA7DE189640A900867490 /* Scientist4Breath12.png */; };
+		CFEDA8BB189640AA00867490 /* Scientist4Turn00.png in Resources */ = {isa = PBXBuildFile; fileRef = CFEDA7E0189640A900867490 /* Scientist4Turn00.png */; };
+		CFEDA8BC189640AA00867490 /* Scientist4Turn01.png in Resources */ = {isa = PBXBuildFile; fileRef = CFEDA7E1189640A900867490 /* Scientist4Turn01.png */; };
+		CFEDA8BD189640AA00867490 /* Scientist4Turn02.png in Resources */ = {isa = PBXBuildFile; fileRef = CFEDA7E2189640A900867490 /* Scientist4Turn02.png */; };
+		CFEDA8BE189640AA00867490 /* Scientist4Turn03.png in Resources */ = {isa = PBXBuildFile; fileRef = CFEDA7E3189640A900867490 /* Scientist4Turn03.png */; };
+		CFEDA8BF189640AA00867490 /* Scientist4Turn04.png in Resources */ = {isa = PBXBuildFile; fileRef = CFEDA7E4189640A900867490 /* Scientist4Turn04.png */; };
+		CFEDA8C0189640AA00867490 /* Scientist4Turn05.png in Resources */ = {isa = PBXBuildFile; fileRef = CFEDA7E5189640A900867490 /* Scientist4Turn05.png */; };
+		CFEDA8C1189640AA00867490 /* Scientist4Turn06.png in Resources */ = {isa = PBXBuildFile; fileRef = CFEDA7E6189640A900867490 /* Scientist4Turn06.png */; };
+		CFEDA8C2189640AA00867490 /* Scientist4Turn07.png in Resources */ = {isa = PBXBuildFile; fileRef = CFEDA7E7189640A900867490 /* Scientist4Turn07.png */; };
+		CFEDA8C3189640AA00867490 /* Scientist4Turn08.png in Resources */ = {isa = PBXBuildFile; fileRef = CFEDA7E8189640A900867490 /* Scientist4Turn08.png */; };
+		CFEDA8C4189640AA00867490 /* Scientist4Turn09.png in Resources */ = {isa = PBXBuildFile; fileRef = CFEDA7E9189640A900867490 /* Scientist4Turn09.png */; };
+		CFEDA8C5189640AA00867490 /* Scientist4Turn10.png in Resources */ = {isa = PBXBuildFile; fileRef = CFEDA7EA189640A900867490 /* Scientist4Turn10.png */; };
+		CFEDA8C6189640AA00867490 /* Scientist4Turn11.png in Resources */ = {isa = PBXBuildFile; fileRef = CFEDA7EB189640A900867490 /* Scientist4Turn11.png */; };
+		CFEDA8C7189640AA00867490 /* Scientist4Turn12.png in Resources */ = {isa = PBXBuildFile; fileRef = CFEDA7EC189640A900867490 /* Scientist4Turn12.png */; };
+		CFEDA8C8189640AA00867490 /* Scientist4Turn13.png in Resources */ = {isa = PBXBuildFile; fileRef = CFEDA7ED189640A900867490 /* Scientist4Turn13.png */; };
+		CFEDA8C9189640AA00867490 /* Scientist4Turn14.png in Resources */ = {isa = PBXBuildFile; fileRef = CFEDA7EE189640A900867490 /* Scientist4Turn14.png */; };
+		CFEDA8CA189640AA00867490 /* Scientist4Turn15.png in Resources */ = {isa = PBXBuildFile; fileRef = CFEDA7EF189640A900867490 /* Scientist4Turn15.png */; };
+		CFEDA8CB189640AA00867490 /* Scientist4Turn16.png in Resources */ = {isa = PBXBuildFile; fileRef = CFEDA7F0189640A900867490 /* Scientist4Turn16.png */; };
+		CFEDA8CC189640AA00867490 /* Scientist5Blink00.png in Resources */ = {isa = PBXBuildFile; fileRef = CFEDA7F3189640A900867490 /* Scientist5Blink00.png */; };
+		CFEDA8CD189640AA00867490 /* Scientist5Blink01.png in Resources */ = {isa = PBXBuildFile; fileRef = CFEDA7F4189640A900867490 /* Scientist5Blink01.png */; };
+		CFEDA8CE189640AA00867490 /* Scientist5Blink02.png in Resources */ = {isa = PBXBuildFile; fileRef = CFEDA7F5189640AA00867490 /* Scientist5Blink02.png */; };
+		CFEDA8CF189640AA00867490 /* Scientist5Blink03.png in Resources */ = {isa = PBXBuildFile; fileRef = CFEDA7F6189640AA00867490 /* Scientist5Blink03.png */; };
+		CFEDA8D0189640AA00867490 /* Scientist5Blink04.png in Resources */ = {isa = PBXBuildFile; fileRef = CFEDA7F7189640AA00867490 /* Scientist5Blink04.png */; };
+		CFEDA8D1189640AA00867490 /* Scientist5Blink05.png in Resources */ = {isa = PBXBuildFile; fileRef = CFEDA7F8189640AA00867490 /* Scientist5Blink05.png */; };
+		CFEDA8D2189640AA00867490 /* Scientist5Blink06.png in Resources */ = {isa = PBXBuildFile; fileRef = CFEDA7F9189640AA00867490 /* Scientist5Blink06.png */; };
+		CFEDA8D3189640AA00867490 /* Scientist5Blink07.png in Resources */ = {isa = PBXBuildFile; fileRef = CFEDA7FA189640AA00867490 /* Scientist5Blink07.png */; };
+		CFEDA8D4189640AA00867490 /* Scientist5Blink08.png in Resources */ = {isa = PBXBuildFile; fileRef = CFEDA7FB189640AA00867490 /* Scientist5Blink08.png */; };
+		CFEDA8D5189640AA00867490 /* Scientist5Blink09.png in Resources */ = {isa = PBXBuildFile; fileRef = CFEDA7FC189640AA00867490 /* Scientist5Blink09.png */; };
+		CFEDA8D6189640AA00867490 /* Scientist5Blink10.png in Resources */ = {isa = PBXBuildFile; fileRef = CFEDA7FD189640AA00867490 /* Scientist5Blink10.png */; };
+		CFEDA8D7189640AA00867490 /* Scientist5Blink11.png in Resources */ = {isa = PBXBuildFile; fileRef = CFEDA7FE189640AA00867490 /* Scientist5Blink11.png */; };
+		CFEDA8D8189640AA00867490 /* Scientist5Blink12.png in Resources */ = {isa = PBXBuildFile; fileRef = CFEDA7FF189640AA00867490 /* Scientist5Blink12.png */; };
+		CFEDA8D9189640AA00867490 /* Scientist5Breath00.png in Resources */ = {isa = PBXBuildFile; fileRef = CFEDA801189640AA00867490 /* Scientist5Breath00.png */; };
+		CFEDA8DA189640AA00867490 /* Scientist5Breath01.png in Resources */ = {isa = PBXBuildFile; fileRef = CFEDA802189640AA00867490 /* Scientist5Breath01.png */; };
+		CFEDA8DB189640AA00867490 /* Scientist5Breath02.png in Resources */ = {isa = PBXBuildFile; fileRef = CFEDA803189640AA00867490 /* Scientist5Breath02.png */; };
+		CFEDA8DC189640AA00867490 /* Scientist5Breath03.png in Resources */ = {isa = PBXBuildFile; fileRef = CFEDA804189640AA00867490 /* Scientist5Breath03.png */; };
+		CFEDA8DD189640AA00867490 /* Scientist5Breath04.png in Resources */ = {isa = PBXBuildFile; fileRef = CFEDA805189640AA00867490 /* Scientist5Breath04.png */; };
+		CFEDA8DE189640AA00867490 /* Scientist5Breath05.png in Resources */ = {isa = PBXBuildFile; fileRef = CFEDA806189640AA00867490 /* Scientist5Breath05.png */; };
+		CFEDA8DF189640AA00867490 /* Scientist5Breath06.png in Resources */ = {isa = PBXBuildFile; fileRef = CFEDA807189640AA00867490 /* Scientist5Breath06.png */; };
+		CFEDA8E0189640AA00867490 /* Scientist5Breath07.png in Resources */ = {isa = PBXBuildFile; fileRef = CFEDA808189640AA00867490 /* Scientist5Breath07.png */; };
+		CFEDA8E1189640AA00867490 /* Scientist5Breath08.png in Resources */ = {isa = PBXBuildFile; fileRef = CFEDA809189640AA00867490 /* Scientist5Breath08.png */; };
+		CFEDA8E2189640AA00867490 /* Scientist5Breath09.png in Resources */ = {isa = PBXBuildFile; fileRef = CFEDA80A189640AA00867490 /* Scientist5Breath09.png */; };
+		CFEDA8E3189640AA00867490 /* Scientist5Breath10.png in Resources */ = {isa = PBXBuildFile; fileRef = CFEDA80B189640AA00867490 /* Scientist5Breath10.png */; };
+		CFEDA8E4189640AA00867490 /* Scientist5Breath11.png in Resources */ = {isa = PBXBuildFile; fileRef = CFEDA80C189640AA00867490 /* Scientist5Breath11.png */; };
+		CFEDA8E5189640AA00867490 /* Scientist5Breath12.png in Resources */ = {isa = PBXBuildFile; fileRef = CFEDA80D189640AA00867490 /* Scientist5Breath12.png */; };
+		CFEDA8E6189640AA00867490 /* Scientist5Turn00.png in Resources */ = {isa = PBXBuildFile; fileRef = CFEDA80F189640AA00867490 /* Scientist5Turn00.png */; };
+		CFEDA8E7189640AA00867490 /* Scientist5Turn01.png in Resources */ = {isa = PBXBuildFile; fileRef = CFEDA810189640AA00867490 /* Scientist5Turn01.png */; };
+		CFEDA8E8189640AA00867490 /* Scientist5Turn02.png in Resources */ = {isa = PBXBuildFile; fileRef = CFEDA811189640AA00867490 /* Scientist5Turn02.png */; };
+		CFEDA8E9189640AA00867490 /* Scientist5Turn03.png in Resources */ = {isa = PBXBuildFile; fileRef = CFEDA812189640AA00867490 /* Scientist5Turn03.png */; };
+		CFEDA8EA189640AA00867490 /* Scientist5Turn04.png in Resources */ = {isa = PBXBuildFile; fileRef = CFEDA813189640AA00867490 /* Scientist5Turn04.png */; };
+		CFEDA8EB189640AA00867490 /* Scientist5Turn05.png in Resources */ = {isa = PBXBuildFile; fileRef = CFEDA814189640AA00867490 /* Scientist5Turn05.png */; };
+		CFEDA8EC189640AA00867490 /* Scientist5Turn06.png in Resources */ = {isa = PBXBuildFile; fileRef = CFEDA815189640AA00867490 /* Scientist5Turn06.png */; };
+		CFEDA8ED189640AA00867490 /* Scientist5Turn07.png in Resources */ = {isa = PBXBuildFile; fileRef = CFEDA816189640AA00867490 /* Scientist5Turn07.png */; };
+		CFEDA8EE189640AA00867490 /* Scientist5Turn08.png in Resources */ = {isa = PBXBuildFile; fileRef = CFEDA817189640AA00867490 /* Scientist5Turn08.png */; };
+		CFEDA8EF189640AA00867490 /* Scientist5Turn09.png in Resources */ = {isa = PBXBuildFile; fileRef = CFEDA818189640AA00867490 /* Scientist5Turn09.png */; };
+		CFEDA8F0189640AA00867490 /* Scientist5Turn10.png in Resources */ = {isa = PBXBuildFile; fileRef = CFEDA819189640AA00867490 /* Scientist5Turn10.png */; };
+		CFEDA8F1189640AA00867490 /* Scientist5Turn11.png in Resources */ = {isa = PBXBuildFile; fileRef = CFEDA81A189640AA00867490 /* Scientist5Turn11.png */; };
+		CFEDA8F2189640AA00867490 /* Scientist5Turn12.png in Resources */ = {isa = PBXBuildFile; fileRef = CFEDA81B189640AA00867490 /* Scientist5Turn12.png */; };
+		CFEDA8F3189640AA00867490 /* Scientist5Turn13.png in Resources */ = {isa = PBXBuildFile; fileRef = CFEDA81C189640AA00867490 /* Scientist5Turn13.png */; };
+		CFEDA8F4189640AA00867490 /* Scientist5Turn14.png in Resources */ = {isa = PBXBuildFile; fileRef = CFEDA81D189640AA00867490 /* Scientist5Turn14.png */; };
+		CFEDA8F5189640AA00867490 /* Scientist5Turn15.png in Resources */ = {isa = PBXBuildFile; fileRef = CFEDA81E189640AA00867490 /* Scientist5Turn15.png */; };
+		CFEDA8F6189640AA00867490 /* Scientist5Turn16.png in Resources */ = {isa = PBXBuildFile; fileRef = CFEDA81F189640AA00867490 /* Scientist5Turn16.png */; };
+		CFEDA8FB189652AA00867490 /* EvoViews.m in Sources */ = {isa = PBXBuildFile; fileRef = CFEDA8FA189652AA00867490 /* EvoViews.m */; };
+		CFEDA8FC18967EAE00867490 /* EvoCardCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = CFEDA8F71896528200867490 /* EvoCardCell.xib */; };
+		CFEDA90618974A7300867490 /* evolveequals.png in Resources */ = {isa = PBXBuildFile; fileRef = CFEDA8FE18974A7300867490 /* evolveequals.png */; };
+		CFEDA90718974A7300867490 /* evolveequals@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CFEDA8FF18974A7300867490 /* evolveequals@2x.png */; };
+		CFEDA90818974A7300867490 /* evolveplus.png in Resources */ = {isa = PBXBuildFile; fileRef = CFEDA90018974A7300867490 /* evolveplus.png */; };
+		CFEDA90918974A7300867490 /* evolveplus@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CFEDA90118974A7300867490 /* evolveplus@2x.png */; };
+		CFEDA90A18974A7300867490 /* feederbase.png in Resources */ = {isa = PBXBuildFile; fileRef = CFEDA90218974A7300867490 /* feederbase.png */; };
+		CFEDA90B18974A7300867490 /* feederbase@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CFEDA90318974A7300867490 /* feederbase@2x.png */; };
 		CFEE00E117B9A43600F3BB19 /* bigbackground.png in Resources */ = {isa = PBXBuildFile; fileRef = CFEE00DF17B9A43600F3BB19 /* bigbackground.png */; };
 		CFEE00E317B9A43600F3BB19 /* bigbackground@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CFEE00E017B9A43600F3BB19 /* bigbackground@2x.png */; };
 		CFEE00E917B9A4C400F3BB19 /* topbar.png in Resources */ = {isa = PBXBuildFile; fileRef = CFEE00E717B9A4C400F3BB19 /* topbar.png */; };
@@ -3655,8 +3878,6 @@
 		CFC04DD918909DF400F2DB59 /* KC_GTMOAuth2ViewTouch.nib */ = {isa = PBXFileReference; lastKnownFileType = file.bplist; path = KC_GTMOAuth2ViewTouch.nib; sourceTree = "<group>"; };
 		CFC04DE41890A92A00F2DB59 /* HealingCenter@2x.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "HealingCenter@2x.plist"; sourceTree = "<group>"; };
 		CFC04DE51890A92A00F2DB59 /* HealingCenter@2x.pvr.ccz */ = {isa = PBXFileReference; lastKnownFileType = file; path = "HealingCenter@2x.pvr.ccz"; sourceTree = "<group>"; };
-		CFC04E611890F28000F2DB59 /* Untitled.ccb */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = Untitled.ccb; sourceTree = "<group>"; };
-		CFC04E641890F69800F2DB59 /* Untitled.ccbi */ = {isa = PBXFileReference; lastKnownFileType = file; path = Untitled.ccbi; sourceTree = "<group>"; };
 		CFC04ECE1890FFAE00F2DB59 /* cocos2d-ios.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = "cocos2d-ios.xcodeproj"; path = "cocos2d-iphone/cocos2d-ios.xcodeproj"; sourceTree = "<group>"; };
 		CFC141641657484A0060188D /* amqp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = amqp.h; sourceTree = "<group>"; };
 		CFC141681657484A0060188D /* amqp_framing.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = amqp_framing.h; sourceTree = "<group>"; };
@@ -4068,6 +4289,233 @@
 		CFEB284615951ADB00B622FC /* FullEvent.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FullEvent.m; sourceTree = "<group>"; };
 		CFEC29C7159AAA2100F15EDC /* visitprofile.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = visitprofile.png; sourceTree = "<group>"; };
 		CFEC29C8159AAA2100F15EDC /* visitprofile@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "visitprofile@2x.png"; sourceTree = "<group>"; };
+		CFEDA7291896114F00867490 /* EvoViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EvoViewController.h; sourceTree = "<group>"; };
+		CFEDA72A1896114F00867490 /* EvoViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EvoViewController.m; sourceTree = "<group>"; };
+		CFEDA72B1896114F00867490 /* EvoViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = EvoViewController.xib; sourceTree = "<group>"; };
+		CFEDA737189640A800867490 /* Scientist1Blink00@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Scientist1Blink00@2x.png"; sourceTree = "<group>"; };
+		CFEDA738189640A800867490 /* Scientist1Blink01@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Scientist1Blink01@2x.png"; sourceTree = "<group>"; };
+		CFEDA739189640A800867490 /* Scientist1Blink02@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Scientist1Blink02@2x.png"; sourceTree = "<group>"; };
+		CFEDA73A189640A800867490 /* Scientist1Blink03@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Scientist1Blink03@2x.png"; sourceTree = "<group>"; };
+		CFEDA73B189640A800867490 /* Scientist1Blink04@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Scientist1Blink04@2x.png"; sourceTree = "<group>"; };
+		CFEDA73C189640A800867490 /* Scientist1Blink05@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Scientist1Blink05@2x.png"; sourceTree = "<group>"; };
+		CFEDA73D189640A800867490 /* Scientist1Blink06@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Scientist1Blink06@2x.png"; sourceTree = "<group>"; };
+		CFEDA73E189640A800867490 /* Scientist1Blink07@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Scientist1Blink07@2x.png"; sourceTree = "<group>"; };
+		CFEDA73F189640A800867490 /* Scientist1Blink08@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Scientist1Blink08@2x.png"; sourceTree = "<group>"; };
+		CFEDA740189640A800867490 /* Scientist1Blink09@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Scientist1Blink09@2x.png"; sourceTree = "<group>"; };
+		CFEDA741189640A800867490 /* Scientist1Blink10@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Scientist1Blink10@2x.png"; sourceTree = "<group>"; };
+		CFEDA742189640A800867490 /* Scientist1Blink11@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Scientist1Blink11@2x.png"; sourceTree = "<group>"; };
+		CFEDA743189640A800867490 /* Scientist1Blink12@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Scientist1Blink12@2x.png"; sourceTree = "<group>"; };
+		CFEDA745189640A800867490 /* Scientist1Breath00@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Scientist1Breath00@2x.png"; sourceTree = "<group>"; };
+		CFEDA746189640A800867490 /* Scientist1Breath01@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Scientist1Breath01@2x.png"; sourceTree = "<group>"; };
+		CFEDA747189640A800867490 /* Scientist1Breath02@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Scientist1Breath02@2x.png"; sourceTree = "<group>"; };
+		CFEDA748189640A800867490 /* Scientist1Breath03@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Scientist1Breath03@2x.png"; sourceTree = "<group>"; };
+		CFEDA749189640A800867490 /* Scientist1Breath04@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Scientist1Breath04@2x.png"; sourceTree = "<group>"; };
+		CFEDA74A189640A800867490 /* Scientist1Breath05@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Scientist1Breath05@2x.png"; sourceTree = "<group>"; };
+		CFEDA74B189640A800867490 /* Scientist1Breath06@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Scientist1Breath06@2x.png"; sourceTree = "<group>"; };
+		CFEDA74C189640A800867490 /* Scientist1Breath07@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Scientist1Breath07@2x.png"; sourceTree = "<group>"; };
+		CFEDA74D189640A800867490 /* Scientist1Breath08@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Scientist1Breath08@2x.png"; sourceTree = "<group>"; };
+		CFEDA74E189640A800867490 /* Scientist1Breath09@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Scientist1Breath09@2x.png"; sourceTree = "<group>"; };
+		CFEDA74F189640A800867490 /* Scientist1Breath10@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Scientist1Breath10@2x.png"; sourceTree = "<group>"; };
+		CFEDA750189640A800867490 /* Scientist1Breath11@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Scientist1Breath11@2x.png"; sourceTree = "<group>"; };
+		CFEDA751189640A800867490 /* Scientist1Breath12@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Scientist1Breath12@2x.png"; sourceTree = "<group>"; };
+		CFEDA753189640A800867490 /* Scientist1Turn00@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Scientist1Turn00@2x.png"; sourceTree = "<group>"; };
+		CFEDA754189640A800867490 /* Scientist1Turn01@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Scientist1Turn01@2x.png"; sourceTree = "<group>"; };
+		CFEDA755189640A800867490 /* Scientist1Turn02@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Scientist1Turn02@2x.png"; sourceTree = "<group>"; };
+		CFEDA756189640A800867490 /* Scientist1Turn03@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Scientist1Turn03@2x.png"; sourceTree = "<group>"; };
+		CFEDA757189640A800867490 /* Scientist1Turn04@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Scientist1Turn04@2x.png"; sourceTree = "<group>"; };
+		CFEDA758189640A800867490 /* Scientist1Turn05@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Scientist1Turn05@2x.png"; sourceTree = "<group>"; };
+		CFEDA759189640A800867490 /* Scientist1Turn06@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Scientist1Turn06@2x.png"; sourceTree = "<group>"; };
+		CFEDA75A189640A800867490 /* Scientist1Turn07@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Scientist1Turn07@2x.png"; sourceTree = "<group>"; };
+		CFEDA75B189640A800867490 /* Scientist1Turn08@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Scientist1Turn08@2x.png"; sourceTree = "<group>"; };
+		CFEDA75C189640A800867490 /* Scientist1Turn09@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Scientist1Turn09@2x.png"; sourceTree = "<group>"; };
+		CFEDA75D189640A800867490 /* Scientist1Turn10@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Scientist1Turn10@2x.png"; sourceTree = "<group>"; };
+		CFEDA75E189640A800867490 /* Scientist1Turn11@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Scientist1Turn11@2x.png"; sourceTree = "<group>"; };
+		CFEDA75F189640A800867490 /* Scientist1Turn12@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Scientist1Turn12@2x.png"; sourceTree = "<group>"; };
+		CFEDA760189640A800867490 /* Scientist1Turn13@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Scientist1Turn13@2x.png"; sourceTree = "<group>"; };
+		CFEDA761189640A800867490 /* Scientist1Turn14@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Scientist1Turn14@2x.png"; sourceTree = "<group>"; };
+		CFEDA762189640A800867490 /* Scientist1Turn15@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Scientist1Turn15@2x.png"; sourceTree = "<group>"; };
+		CFEDA763189640A800867490 /* Scientist1Turn16@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Scientist1Turn16@2x.png"; sourceTree = "<group>"; };
+		CFEDA766189640A800867490 /* Scientist2Blink00.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Scientist2Blink00.png; sourceTree = "<group>"; };
+		CFEDA767189640A800867490 /* Scientist2Blink01.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Scientist2Blink01.png; sourceTree = "<group>"; };
+		CFEDA768189640A800867490 /* Scientist2Blink02.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Scientist2Blink02.png; sourceTree = "<group>"; };
+		CFEDA769189640A800867490 /* Scientist2Blink03.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Scientist2Blink03.png; sourceTree = "<group>"; };
+		CFEDA76A189640A800867490 /* Scientist2Blink04.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Scientist2Blink04.png; sourceTree = "<group>"; };
+		CFEDA76B189640A800867490 /* Scientist2Blink05.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Scientist2Blink05.png; sourceTree = "<group>"; };
+		CFEDA76C189640A800867490 /* Scientist2Blink06.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Scientist2Blink06.png; sourceTree = "<group>"; };
+		CFEDA76D189640A800867490 /* Scientist2Blink07.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Scientist2Blink07.png; sourceTree = "<group>"; };
+		CFEDA76E189640A800867490 /* Scientist2Blink08.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Scientist2Blink08.png; sourceTree = "<group>"; };
+		CFEDA76F189640A800867490 /* Scientist2Blink09.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Scientist2Blink09.png; sourceTree = "<group>"; };
+		CFEDA770189640A800867490 /* Scientist2Blink10.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Scientist2Blink10.png; sourceTree = "<group>"; };
+		CFEDA771189640A800867490 /* Scientist2Blink11.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Scientist2Blink11.png; sourceTree = "<group>"; };
+		CFEDA772189640A800867490 /* Scientist2Blink12.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Scientist2Blink12.png; sourceTree = "<group>"; };
+		CFEDA774189640A800867490 /* Scientist2Breath00.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Scientist2Breath00.png; sourceTree = "<group>"; };
+		CFEDA775189640A800867490 /* Scientist2Breath01.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Scientist2Breath01.png; sourceTree = "<group>"; };
+		CFEDA776189640A800867490 /* Scientist2Breath02.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Scientist2Breath02.png; sourceTree = "<group>"; };
+		CFEDA777189640A800867490 /* Scientist2Breath03.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Scientist2Breath03.png; sourceTree = "<group>"; };
+		CFEDA778189640A800867490 /* Scientist2Breath04.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Scientist2Breath04.png; sourceTree = "<group>"; };
+		CFEDA779189640A800867490 /* Scientist2Breath05.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Scientist2Breath05.png; sourceTree = "<group>"; };
+		CFEDA77A189640A800867490 /* Scientist2Breath06.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Scientist2Breath06.png; sourceTree = "<group>"; };
+		CFEDA77B189640A800867490 /* Scientist2Breath07.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Scientist2Breath07.png; sourceTree = "<group>"; };
+		CFEDA77C189640A800867490 /* Scientist2Breath08.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Scientist2Breath08.png; sourceTree = "<group>"; };
+		CFEDA77D189640A800867490 /* Scientist2Breath09.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Scientist2Breath09.png; sourceTree = "<group>"; };
+		CFEDA77E189640A800867490 /* Scientist2Breath10.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Scientist2Breath10.png; sourceTree = "<group>"; };
+		CFEDA77F189640A800867490 /* Scientist2Breath11.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Scientist2Breath11.png; sourceTree = "<group>"; };
+		CFEDA780189640A800867490 /* Scientist2Breath12.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Scientist2Breath12.png; sourceTree = "<group>"; };
+		CFEDA782189640A800867490 /* Scientist2Turn00.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Scientist2Turn00.png; sourceTree = "<group>"; };
+		CFEDA783189640A800867490 /* Scientist2Turn01.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Scientist2Turn01.png; sourceTree = "<group>"; };
+		CFEDA784189640A800867490 /* Scientist2Turn02.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Scientist2Turn02.png; sourceTree = "<group>"; };
+		CFEDA785189640A800867490 /* Scientist2Turn03.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Scientist2Turn03.png; sourceTree = "<group>"; };
+		CFEDA786189640A800867490 /* Scientist2Turn04.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Scientist2Turn04.png; sourceTree = "<group>"; };
+		CFEDA787189640A800867490 /* Scientist2Turn05.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Scientist2Turn05.png; sourceTree = "<group>"; };
+		CFEDA788189640A800867490 /* Scientist2Turn06.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Scientist2Turn06.png; sourceTree = "<group>"; };
+		CFEDA789189640A800867490 /* Scientist2Turn07.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Scientist2Turn07.png; sourceTree = "<group>"; };
+		CFEDA78A189640A900867490 /* Scientist2Turn08.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Scientist2Turn08.png; sourceTree = "<group>"; };
+		CFEDA78B189640A900867490 /* Scientist2Turn09.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Scientist2Turn09.png; sourceTree = "<group>"; };
+		CFEDA78C189640A900867490 /* Scientist2Turn10.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Scientist2Turn10.png; sourceTree = "<group>"; };
+		CFEDA78D189640A900867490 /* Scientist2Turn11.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Scientist2Turn11.png; sourceTree = "<group>"; };
+		CFEDA78E189640A900867490 /* Scientist2Turn12.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Scientist2Turn12.png; sourceTree = "<group>"; };
+		CFEDA78F189640A900867490 /* Scientist2Turn13.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Scientist2Turn13.png; sourceTree = "<group>"; };
+		CFEDA790189640A900867490 /* Scientist2Turn14.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Scientist2Turn14.png; sourceTree = "<group>"; };
+		CFEDA791189640A900867490 /* Scientist2Turn15.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Scientist2Turn15.png; sourceTree = "<group>"; };
+		CFEDA792189640A900867490 /* Scientist2Turn16.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Scientist2Turn16.png; sourceTree = "<group>"; };
+		CFEDA795189640A900867490 /* Scientist3Blink00.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Scientist3Blink00.png; sourceTree = "<group>"; };
+		CFEDA796189640A900867490 /* Scientist3Blink01.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Scientist3Blink01.png; sourceTree = "<group>"; };
+		CFEDA797189640A900867490 /* Scientist3Blink02.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Scientist3Blink02.png; sourceTree = "<group>"; };
+		CFEDA798189640A900867490 /* Scientist3Blink03.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Scientist3Blink03.png; sourceTree = "<group>"; };
+		CFEDA799189640A900867490 /* Scientist3Blink04.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Scientist3Blink04.png; sourceTree = "<group>"; };
+		CFEDA79A189640A900867490 /* Scientist3Blink05.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Scientist3Blink05.png; sourceTree = "<group>"; };
+		CFEDA79B189640A900867490 /* Scientist3Blink06.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Scientist3Blink06.png; sourceTree = "<group>"; };
+		CFEDA79C189640A900867490 /* Scientist3Blink07.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Scientist3Blink07.png; sourceTree = "<group>"; };
+		CFEDA79D189640A900867490 /* Scientist3Blink08.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Scientist3Blink08.png; sourceTree = "<group>"; };
+		CFEDA79E189640A900867490 /* Scientist3Blink09.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Scientist3Blink09.png; sourceTree = "<group>"; };
+		CFEDA79F189640A900867490 /* Scientist3Blink10.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Scientist3Blink10.png; sourceTree = "<group>"; };
+		CFEDA7A0189640A900867490 /* Scientist3Blink11.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Scientist3Blink11.png; sourceTree = "<group>"; };
+		CFEDA7A1189640A900867490 /* Scientist3Blink12.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Scientist3Blink12.png; sourceTree = "<group>"; };
+		CFEDA7A3189640A900867490 /* Scientist3Breath00.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Scientist3Breath00.png; sourceTree = "<group>"; };
+		CFEDA7A4189640A900867490 /* Scientist3Breath01.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Scientist3Breath01.png; sourceTree = "<group>"; };
+		CFEDA7A5189640A900867490 /* Scientist3Breath02.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Scientist3Breath02.png; sourceTree = "<group>"; };
+		CFEDA7A6189640A900867490 /* Scientist3Breath03.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Scientist3Breath03.png; sourceTree = "<group>"; };
+		CFEDA7A7189640A900867490 /* Scientist3Breath04.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Scientist3Breath04.png; sourceTree = "<group>"; };
+		CFEDA7A8189640A900867490 /* Scientist3Breath05.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Scientist3Breath05.png; sourceTree = "<group>"; };
+		CFEDA7A9189640A900867490 /* Scientist3Breath06.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Scientist3Breath06.png; sourceTree = "<group>"; };
+		CFEDA7AA189640A900867490 /* Scientist3Breath07.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Scientist3Breath07.png; sourceTree = "<group>"; };
+		CFEDA7AB189640A900867490 /* Scientist3Breath08.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Scientist3Breath08.png; sourceTree = "<group>"; };
+		CFEDA7AC189640A900867490 /* Scientist3Breath09.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Scientist3Breath09.png; sourceTree = "<group>"; };
+		CFEDA7AD189640A900867490 /* Scientist3Breath10.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Scientist3Breath10.png; sourceTree = "<group>"; };
+		CFEDA7AE189640A900867490 /* Scientist3Breath11.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Scientist3Breath11.png; sourceTree = "<group>"; };
+		CFEDA7AF189640A900867490 /* Scientist3Breath12.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Scientist3Breath12.png; sourceTree = "<group>"; };
+		CFEDA7B1189640A900867490 /* Scientist3Turn00.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Scientist3Turn00.png; sourceTree = "<group>"; };
+		CFEDA7B2189640A900867490 /* Scientist3Turn01.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Scientist3Turn01.png; sourceTree = "<group>"; };
+		CFEDA7B3189640A900867490 /* Scientist3Turn02.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Scientist3Turn02.png; sourceTree = "<group>"; };
+		CFEDA7B4189640A900867490 /* Scientist3Turn03.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Scientist3Turn03.png; sourceTree = "<group>"; };
+		CFEDA7B5189640A900867490 /* Scientist3Turn04.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Scientist3Turn04.png; sourceTree = "<group>"; };
+		CFEDA7B6189640A900867490 /* Scientist3Turn05.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Scientist3Turn05.png; sourceTree = "<group>"; };
+		CFEDA7B7189640A900867490 /* Scientist3Turn06.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Scientist3Turn06.png; sourceTree = "<group>"; };
+		CFEDA7B8189640A900867490 /* Scientist3Turn07.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Scientist3Turn07.png; sourceTree = "<group>"; };
+		CFEDA7B9189640A900867490 /* Scientist3Turn08.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Scientist3Turn08.png; sourceTree = "<group>"; };
+		CFEDA7BA189640A900867490 /* Scientist3Turn09.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Scientist3Turn09.png; sourceTree = "<group>"; };
+		CFEDA7BB189640A900867490 /* Scientist3Turn10.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Scientist3Turn10.png; sourceTree = "<group>"; };
+		CFEDA7BC189640A900867490 /* Scientist3Turn11.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Scientist3Turn11.png; sourceTree = "<group>"; };
+		CFEDA7BD189640A900867490 /* Scientist3Turn12.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Scientist3Turn12.png; sourceTree = "<group>"; };
+		CFEDA7BE189640A900867490 /* Scientist3Turn13.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Scientist3Turn13.png; sourceTree = "<group>"; };
+		CFEDA7BF189640A900867490 /* Scientist3Turn14.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Scientist3Turn14.png; sourceTree = "<group>"; };
+		CFEDA7C0189640A900867490 /* Scientist3Turn15.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Scientist3Turn15.png; sourceTree = "<group>"; };
+		CFEDA7C1189640A900867490 /* Scientist3Turn16.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Scientist3Turn16.png; sourceTree = "<group>"; };
+		CFEDA7C4189640A900867490 /* Scientist4Blink00.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Scientist4Blink00.png; sourceTree = "<group>"; };
+		CFEDA7C5189640A900867490 /* Scientist4Blink01.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Scientist4Blink01.png; sourceTree = "<group>"; };
+		CFEDA7C6189640A900867490 /* Scientist4Blink02.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Scientist4Blink02.png; sourceTree = "<group>"; };
+		CFEDA7C7189640A900867490 /* Scientist4Blink03.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Scientist4Blink03.png; sourceTree = "<group>"; };
+		CFEDA7C8189640A900867490 /* Scientist4Blink04.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Scientist4Blink04.png; sourceTree = "<group>"; };
+		CFEDA7C9189640A900867490 /* Scientist4Blink05.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Scientist4Blink05.png; sourceTree = "<group>"; };
+		CFEDA7CA189640A900867490 /* Scientist4Blink06.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Scientist4Blink06.png; sourceTree = "<group>"; };
+		CFEDA7CB189640A900867490 /* Scientist4Blink07.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Scientist4Blink07.png; sourceTree = "<group>"; };
+		CFEDA7CC189640A900867490 /* Scientist4Blink08.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Scientist4Blink08.png; sourceTree = "<group>"; };
+		CFEDA7CD189640A900867490 /* Scientist4Blink09.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Scientist4Blink09.png; sourceTree = "<group>"; };
+		CFEDA7CE189640A900867490 /* Scientist4Blink10.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Scientist4Blink10.png; sourceTree = "<group>"; };
+		CFEDA7CF189640A900867490 /* Scientist4Blink11.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Scientist4Blink11.png; sourceTree = "<group>"; };
+		CFEDA7D0189640A900867490 /* Scientist4Blink12.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Scientist4Blink12.png; sourceTree = "<group>"; };
+		CFEDA7D2189640A900867490 /* Scientist4Breath00.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Scientist4Breath00.png; sourceTree = "<group>"; };
+		CFEDA7D3189640A900867490 /* Scientist4Breath01.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Scientist4Breath01.png; sourceTree = "<group>"; };
+		CFEDA7D4189640A900867490 /* Scientist4Breath02.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Scientist4Breath02.png; sourceTree = "<group>"; };
+		CFEDA7D5189640A900867490 /* Scientist4Breath03.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Scientist4Breath03.png; sourceTree = "<group>"; };
+		CFEDA7D6189640A900867490 /* Scientist4Breath04.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Scientist4Breath04.png; sourceTree = "<group>"; };
+		CFEDA7D7189640A900867490 /* Scientist4Breath05.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Scientist4Breath05.png; sourceTree = "<group>"; };
+		CFEDA7D8189640A900867490 /* Scientist4Breath06.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Scientist4Breath06.png; sourceTree = "<group>"; };
+		CFEDA7D9189640A900867490 /* Scientist4Breath07.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Scientist4Breath07.png; sourceTree = "<group>"; };
+		CFEDA7DA189640A900867490 /* Scientist4Breath08.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Scientist4Breath08.png; sourceTree = "<group>"; };
+		CFEDA7DB189640A900867490 /* Scientist4Breath09.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Scientist4Breath09.png; sourceTree = "<group>"; };
+		CFEDA7DC189640A900867490 /* Scientist4Breath10.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Scientist4Breath10.png; sourceTree = "<group>"; };
+		CFEDA7DD189640A900867490 /* Scientist4Breath11.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Scientist4Breath11.png; sourceTree = "<group>"; };
+		CFEDA7DE189640A900867490 /* Scientist4Breath12.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Scientist4Breath12.png; sourceTree = "<group>"; };
+		CFEDA7E0189640A900867490 /* Scientist4Turn00.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Scientist4Turn00.png; sourceTree = "<group>"; };
+		CFEDA7E1189640A900867490 /* Scientist4Turn01.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Scientist4Turn01.png; sourceTree = "<group>"; };
+		CFEDA7E2189640A900867490 /* Scientist4Turn02.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Scientist4Turn02.png; sourceTree = "<group>"; };
+		CFEDA7E3189640A900867490 /* Scientist4Turn03.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Scientist4Turn03.png; sourceTree = "<group>"; };
+		CFEDA7E4189640A900867490 /* Scientist4Turn04.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Scientist4Turn04.png; sourceTree = "<group>"; };
+		CFEDA7E5189640A900867490 /* Scientist4Turn05.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Scientist4Turn05.png; sourceTree = "<group>"; };
+		CFEDA7E6189640A900867490 /* Scientist4Turn06.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Scientist4Turn06.png; sourceTree = "<group>"; };
+		CFEDA7E7189640A900867490 /* Scientist4Turn07.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Scientist4Turn07.png; sourceTree = "<group>"; };
+		CFEDA7E8189640A900867490 /* Scientist4Turn08.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Scientist4Turn08.png; sourceTree = "<group>"; };
+		CFEDA7E9189640A900867490 /* Scientist4Turn09.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Scientist4Turn09.png; sourceTree = "<group>"; };
+		CFEDA7EA189640A900867490 /* Scientist4Turn10.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Scientist4Turn10.png; sourceTree = "<group>"; };
+		CFEDA7EB189640A900867490 /* Scientist4Turn11.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Scientist4Turn11.png; sourceTree = "<group>"; };
+		CFEDA7EC189640A900867490 /* Scientist4Turn12.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Scientist4Turn12.png; sourceTree = "<group>"; };
+		CFEDA7ED189640A900867490 /* Scientist4Turn13.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Scientist4Turn13.png; sourceTree = "<group>"; };
+		CFEDA7EE189640A900867490 /* Scientist4Turn14.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Scientist4Turn14.png; sourceTree = "<group>"; };
+		CFEDA7EF189640A900867490 /* Scientist4Turn15.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Scientist4Turn15.png; sourceTree = "<group>"; };
+		CFEDA7F0189640A900867490 /* Scientist4Turn16.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Scientist4Turn16.png; sourceTree = "<group>"; };
+		CFEDA7F3189640A900867490 /* Scientist5Blink00.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Scientist5Blink00.png; sourceTree = "<group>"; };
+		CFEDA7F4189640A900867490 /* Scientist5Blink01.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Scientist5Blink01.png; sourceTree = "<group>"; };
+		CFEDA7F5189640AA00867490 /* Scientist5Blink02.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Scientist5Blink02.png; sourceTree = "<group>"; };
+		CFEDA7F6189640AA00867490 /* Scientist5Blink03.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Scientist5Blink03.png; sourceTree = "<group>"; };
+		CFEDA7F7189640AA00867490 /* Scientist5Blink04.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Scientist5Blink04.png; sourceTree = "<group>"; };
+		CFEDA7F8189640AA00867490 /* Scientist5Blink05.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Scientist5Blink05.png; sourceTree = "<group>"; };
+		CFEDA7F9189640AA00867490 /* Scientist5Blink06.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Scientist5Blink06.png; sourceTree = "<group>"; };
+		CFEDA7FA189640AA00867490 /* Scientist5Blink07.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Scientist5Blink07.png; sourceTree = "<group>"; };
+		CFEDA7FB189640AA00867490 /* Scientist5Blink08.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Scientist5Blink08.png; sourceTree = "<group>"; };
+		CFEDA7FC189640AA00867490 /* Scientist5Blink09.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Scientist5Blink09.png; sourceTree = "<group>"; };
+		CFEDA7FD189640AA00867490 /* Scientist5Blink10.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Scientist5Blink10.png; sourceTree = "<group>"; };
+		CFEDA7FE189640AA00867490 /* Scientist5Blink11.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Scientist5Blink11.png; sourceTree = "<group>"; };
+		CFEDA7FF189640AA00867490 /* Scientist5Blink12.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Scientist5Blink12.png; sourceTree = "<group>"; };
+		CFEDA801189640AA00867490 /* Scientist5Breath00.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Scientist5Breath00.png; sourceTree = "<group>"; };
+		CFEDA802189640AA00867490 /* Scientist5Breath01.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Scientist5Breath01.png; sourceTree = "<group>"; };
+		CFEDA803189640AA00867490 /* Scientist5Breath02.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Scientist5Breath02.png; sourceTree = "<group>"; };
+		CFEDA804189640AA00867490 /* Scientist5Breath03.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Scientist5Breath03.png; sourceTree = "<group>"; };
+		CFEDA805189640AA00867490 /* Scientist5Breath04.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Scientist5Breath04.png; sourceTree = "<group>"; };
+		CFEDA806189640AA00867490 /* Scientist5Breath05.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Scientist5Breath05.png; sourceTree = "<group>"; };
+		CFEDA807189640AA00867490 /* Scientist5Breath06.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Scientist5Breath06.png; sourceTree = "<group>"; };
+		CFEDA808189640AA00867490 /* Scientist5Breath07.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Scientist5Breath07.png; sourceTree = "<group>"; };
+		CFEDA809189640AA00867490 /* Scientist5Breath08.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Scientist5Breath08.png; sourceTree = "<group>"; };
+		CFEDA80A189640AA00867490 /* Scientist5Breath09.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Scientist5Breath09.png; sourceTree = "<group>"; };
+		CFEDA80B189640AA00867490 /* Scientist5Breath10.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Scientist5Breath10.png; sourceTree = "<group>"; };
+		CFEDA80C189640AA00867490 /* Scientist5Breath11.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Scientist5Breath11.png; sourceTree = "<group>"; };
+		CFEDA80D189640AA00867490 /* Scientist5Breath12.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Scientist5Breath12.png; sourceTree = "<group>"; };
+		CFEDA80F189640AA00867490 /* Scientist5Turn00.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Scientist5Turn00.png; sourceTree = "<group>"; };
+		CFEDA810189640AA00867490 /* Scientist5Turn01.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Scientist5Turn01.png; sourceTree = "<group>"; };
+		CFEDA811189640AA00867490 /* Scientist5Turn02.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Scientist5Turn02.png; sourceTree = "<group>"; };
+		CFEDA812189640AA00867490 /* Scientist5Turn03.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Scientist5Turn03.png; sourceTree = "<group>"; };
+		CFEDA813189640AA00867490 /* Scientist5Turn04.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Scientist5Turn04.png; sourceTree = "<group>"; };
+		CFEDA814189640AA00867490 /* Scientist5Turn05.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Scientist5Turn05.png; sourceTree = "<group>"; };
+		CFEDA815189640AA00867490 /* Scientist5Turn06.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Scientist5Turn06.png; sourceTree = "<group>"; };
+		CFEDA816189640AA00867490 /* Scientist5Turn07.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Scientist5Turn07.png; sourceTree = "<group>"; };
+		CFEDA817189640AA00867490 /* Scientist5Turn08.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Scientist5Turn08.png; sourceTree = "<group>"; };
+		CFEDA818189640AA00867490 /* Scientist5Turn09.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Scientist5Turn09.png; sourceTree = "<group>"; };
+		CFEDA819189640AA00867490 /* Scientist5Turn10.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Scientist5Turn10.png; sourceTree = "<group>"; };
+		CFEDA81A189640AA00867490 /* Scientist5Turn11.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Scientist5Turn11.png; sourceTree = "<group>"; };
+		CFEDA81B189640AA00867490 /* Scientist5Turn12.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Scientist5Turn12.png; sourceTree = "<group>"; };
+		CFEDA81C189640AA00867490 /* Scientist5Turn13.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Scientist5Turn13.png; sourceTree = "<group>"; };
+		CFEDA81D189640AA00867490 /* Scientist5Turn14.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Scientist5Turn14.png; sourceTree = "<group>"; };
+		CFEDA81E189640AA00867490 /* Scientist5Turn15.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Scientist5Turn15.png; sourceTree = "<group>"; };
+		CFEDA81F189640AA00867490 /* Scientist5Turn16.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Scientist5Turn16.png; sourceTree = "<group>"; };
+		CFEDA8F71896528200867490 /* EvoCardCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = EvoCardCell.xib; sourceTree = "<group>"; };
+		CFEDA8F9189652AA00867490 /* EvoViews.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EvoViews.h; sourceTree = "<group>"; };
+		CFEDA8FA189652AA00867490 /* EvoViews.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EvoViews.m; sourceTree = "<group>"; };
+		CFEDA8FE18974A7300867490 /* evolveequals.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = evolveequals.png; sourceTree = "<group>"; };
+		CFEDA8FF18974A7300867490 /* evolveequals@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "evolveequals@2x.png"; sourceTree = "<group>"; };
+		CFEDA90018974A7300867490 /* evolveplus.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = evolveplus.png; sourceTree = "<group>"; };
+		CFEDA90118974A7300867490 /* evolveplus@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "evolveplus@2x.png"; sourceTree = "<group>"; };
+		CFEDA90218974A7300867490 /* feederbase.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = feederbase.png; sourceTree = "<group>"; };
+		CFEDA90318974A7300867490 /* feederbase@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "feederbase@2x.png"; sourceTree = "<group>"; };
 		CFEE00DF17B9A43600F3BB19 /* bigbackground.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = bigbackground.png; sourceTree = "<group>"; };
 		CFEE00E017B9A43600F3BB19 /* bigbackground@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "bigbackground@2x.png"; sourceTree = "<group>"; };
 		CFEE00E717B9A4C400F3BB19 /* topbar.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = topbar.png; sourceTree = "<group>"; };
@@ -4766,6 +5214,7 @@
 		CF1265491538ACC400E0C1AD /* Game Menus */ = {
 			isa = PBXGroup;
 			children = (
+				CFEDA7221896106E00867490 /* EvoMenuController */,
 				CF20F044180E142B005551B5 /* AttackMenuController */,
 				CF32E9F2180D09D600CBD50D /* DiamondShopMenu */,
 				CF62935E180D4A4100C6C196 /* CarpenterMenu */,
@@ -4996,8 +5445,8 @@
 		CF1267741538ACC500E0C1AD /* Utopia Images */ = {
 			isa = PBXGroup;
 			children = (
-				CFC04E611890F28000F2DB59 /* Untitled.ccb */,
-				CFC04E641890F69800F2DB59 /* Untitled.ccbi */,
+				CFEDA8FD18974A7300867490 /* Evolve */,
+				CFEDA734189640A800867490 /* menu_ */,
 				CFC04D63188FE8D300F2DB59 /* won lost NEW */,
 				CFC04CEC188F2D2D00F2DB59 /* Daily Event */,
 				CFB2506618585D6700BE0C05 /* Loading */,
@@ -7507,6 +7956,415 @@
 			path = "Boss Event Images";
 			sourceTree = "<group>";
 		};
+		CFEDA7221896106E00867490 /* EvoMenuController */ = {
+			isa = PBXGroup;
+			children = (
+				CFEDA8F9189652AA00867490 /* EvoViews.h */,
+				CFEDA8FA189652AA00867490 /* EvoViews.m */,
+				CFEDA8F71896528200867490 /* EvoCardCell.xib */,
+				CFEDA7291896114F00867490 /* EvoViewController.h */,
+				CFEDA72A1896114F00867490 /* EvoViewController.m */,
+				CFEDA72B1896114F00867490 /* EvoViewController.xib */,
+			);
+			name = EvoMenuController;
+			path = "../../../../Utopia/Utopia/Classes/Game Menus/EvoMenu";
+			sourceTree = "<group>";
+		};
+		CFEDA734189640A800867490 /* menu_ */ = {
+			isa = PBXGroup;
+			children = (
+				CFEDA735189640A800867490 /* scientist_blue */,
+				CFEDA764189640A800867490 /* scientist_green */,
+				CFEDA793189640A900867490 /* scientist_purple */,
+				CFEDA7C2189640A900867490 /* scientist_red */,
+				CFEDA7F1189640A900867490 /* scientist_yellow */,
+			);
+			path = menu_;
+			sourceTree = "<group>";
+		};
+		CFEDA735189640A800867490 /* scientist_blue */ = {
+			isa = PBXGroup;
+			children = (
+				CFEDA736189640A800867490 /* blink */,
+				CFEDA744189640A800867490 /* breach */,
+				CFEDA752189640A800867490 /* turn */,
+			);
+			path = scientist_blue;
+			sourceTree = "<group>";
+		};
+		CFEDA736189640A800867490 /* blink */ = {
+			isa = PBXGroup;
+			children = (
+				CFEDA737189640A800867490 /* Scientist1Blink00@2x.png */,
+				CFEDA738189640A800867490 /* Scientist1Blink01@2x.png */,
+				CFEDA739189640A800867490 /* Scientist1Blink02@2x.png */,
+				CFEDA73A189640A800867490 /* Scientist1Blink03@2x.png */,
+				CFEDA73B189640A800867490 /* Scientist1Blink04@2x.png */,
+				CFEDA73C189640A800867490 /* Scientist1Blink05@2x.png */,
+				CFEDA73D189640A800867490 /* Scientist1Blink06@2x.png */,
+				CFEDA73E189640A800867490 /* Scientist1Blink07@2x.png */,
+				CFEDA73F189640A800867490 /* Scientist1Blink08@2x.png */,
+				CFEDA740189640A800867490 /* Scientist1Blink09@2x.png */,
+				CFEDA741189640A800867490 /* Scientist1Blink10@2x.png */,
+				CFEDA742189640A800867490 /* Scientist1Blink11@2x.png */,
+				CFEDA743189640A800867490 /* Scientist1Blink12@2x.png */,
+			);
+			path = blink;
+			sourceTree = "<group>";
+		};
+		CFEDA744189640A800867490 /* breach */ = {
+			isa = PBXGroup;
+			children = (
+				CFEDA745189640A800867490 /* Scientist1Breath00@2x.png */,
+				CFEDA746189640A800867490 /* Scientist1Breath01@2x.png */,
+				CFEDA747189640A800867490 /* Scientist1Breath02@2x.png */,
+				CFEDA748189640A800867490 /* Scientist1Breath03@2x.png */,
+				CFEDA749189640A800867490 /* Scientist1Breath04@2x.png */,
+				CFEDA74A189640A800867490 /* Scientist1Breath05@2x.png */,
+				CFEDA74B189640A800867490 /* Scientist1Breath06@2x.png */,
+				CFEDA74C189640A800867490 /* Scientist1Breath07@2x.png */,
+				CFEDA74D189640A800867490 /* Scientist1Breath08@2x.png */,
+				CFEDA74E189640A800867490 /* Scientist1Breath09@2x.png */,
+				CFEDA74F189640A800867490 /* Scientist1Breath10@2x.png */,
+				CFEDA750189640A800867490 /* Scientist1Breath11@2x.png */,
+				CFEDA751189640A800867490 /* Scientist1Breath12@2x.png */,
+			);
+			path = breach;
+			sourceTree = "<group>";
+		};
+		CFEDA752189640A800867490 /* turn */ = {
+			isa = PBXGroup;
+			children = (
+				CFEDA753189640A800867490 /* Scientist1Turn00@2x.png */,
+				CFEDA754189640A800867490 /* Scientist1Turn01@2x.png */,
+				CFEDA755189640A800867490 /* Scientist1Turn02@2x.png */,
+				CFEDA756189640A800867490 /* Scientist1Turn03@2x.png */,
+				CFEDA757189640A800867490 /* Scientist1Turn04@2x.png */,
+				CFEDA758189640A800867490 /* Scientist1Turn05@2x.png */,
+				CFEDA759189640A800867490 /* Scientist1Turn06@2x.png */,
+				CFEDA75A189640A800867490 /* Scientist1Turn07@2x.png */,
+				CFEDA75B189640A800867490 /* Scientist1Turn08@2x.png */,
+				CFEDA75C189640A800867490 /* Scientist1Turn09@2x.png */,
+				CFEDA75D189640A800867490 /* Scientist1Turn10@2x.png */,
+				CFEDA75E189640A800867490 /* Scientist1Turn11@2x.png */,
+				CFEDA75F189640A800867490 /* Scientist1Turn12@2x.png */,
+				CFEDA760189640A800867490 /* Scientist1Turn13@2x.png */,
+				CFEDA761189640A800867490 /* Scientist1Turn14@2x.png */,
+				CFEDA762189640A800867490 /* Scientist1Turn15@2x.png */,
+				CFEDA763189640A800867490 /* Scientist1Turn16@2x.png */,
+			);
+			path = turn;
+			sourceTree = "<group>";
+		};
+		CFEDA764189640A800867490 /* scientist_green */ = {
+			isa = PBXGroup;
+			children = (
+				CFEDA765189640A800867490 /* blink */,
+				CFEDA773189640A800867490 /* breach */,
+				CFEDA781189640A800867490 /* turn */,
+			);
+			path = scientist_green;
+			sourceTree = "<group>";
+		};
+		CFEDA765189640A800867490 /* blink */ = {
+			isa = PBXGroup;
+			children = (
+				CFEDA766189640A800867490 /* Scientist2Blink00.png */,
+				CFEDA767189640A800867490 /* Scientist2Blink01.png */,
+				CFEDA768189640A800867490 /* Scientist2Blink02.png */,
+				CFEDA769189640A800867490 /* Scientist2Blink03.png */,
+				CFEDA76A189640A800867490 /* Scientist2Blink04.png */,
+				CFEDA76B189640A800867490 /* Scientist2Blink05.png */,
+				CFEDA76C189640A800867490 /* Scientist2Blink06.png */,
+				CFEDA76D189640A800867490 /* Scientist2Blink07.png */,
+				CFEDA76E189640A800867490 /* Scientist2Blink08.png */,
+				CFEDA76F189640A800867490 /* Scientist2Blink09.png */,
+				CFEDA770189640A800867490 /* Scientist2Blink10.png */,
+				CFEDA771189640A800867490 /* Scientist2Blink11.png */,
+				CFEDA772189640A800867490 /* Scientist2Blink12.png */,
+			);
+			path = blink;
+			sourceTree = "<group>";
+		};
+		CFEDA773189640A800867490 /* breach */ = {
+			isa = PBXGroup;
+			children = (
+				CFEDA774189640A800867490 /* Scientist2Breath00.png */,
+				CFEDA775189640A800867490 /* Scientist2Breath01.png */,
+				CFEDA776189640A800867490 /* Scientist2Breath02.png */,
+				CFEDA777189640A800867490 /* Scientist2Breath03.png */,
+				CFEDA778189640A800867490 /* Scientist2Breath04.png */,
+				CFEDA779189640A800867490 /* Scientist2Breath05.png */,
+				CFEDA77A189640A800867490 /* Scientist2Breath06.png */,
+				CFEDA77B189640A800867490 /* Scientist2Breath07.png */,
+				CFEDA77C189640A800867490 /* Scientist2Breath08.png */,
+				CFEDA77D189640A800867490 /* Scientist2Breath09.png */,
+				CFEDA77E189640A800867490 /* Scientist2Breath10.png */,
+				CFEDA77F189640A800867490 /* Scientist2Breath11.png */,
+				CFEDA780189640A800867490 /* Scientist2Breath12.png */,
+			);
+			path = breach;
+			sourceTree = "<group>";
+		};
+		CFEDA781189640A800867490 /* turn */ = {
+			isa = PBXGroup;
+			children = (
+				CFEDA782189640A800867490 /* Scientist2Turn00.png */,
+				CFEDA783189640A800867490 /* Scientist2Turn01.png */,
+				CFEDA784189640A800867490 /* Scientist2Turn02.png */,
+				CFEDA785189640A800867490 /* Scientist2Turn03.png */,
+				CFEDA786189640A800867490 /* Scientist2Turn04.png */,
+				CFEDA787189640A800867490 /* Scientist2Turn05.png */,
+				CFEDA788189640A800867490 /* Scientist2Turn06.png */,
+				CFEDA789189640A800867490 /* Scientist2Turn07.png */,
+				CFEDA78A189640A900867490 /* Scientist2Turn08.png */,
+				CFEDA78B189640A900867490 /* Scientist2Turn09.png */,
+				CFEDA78C189640A900867490 /* Scientist2Turn10.png */,
+				CFEDA78D189640A900867490 /* Scientist2Turn11.png */,
+				CFEDA78E189640A900867490 /* Scientist2Turn12.png */,
+				CFEDA78F189640A900867490 /* Scientist2Turn13.png */,
+				CFEDA790189640A900867490 /* Scientist2Turn14.png */,
+				CFEDA791189640A900867490 /* Scientist2Turn15.png */,
+				CFEDA792189640A900867490 /* Scientist2Turn16.png */,
+			);
+			path = turn;
+			sourceTree = "<group>";
+		};
+		CFEDA793189640A900867490 /* scientist_purple */ = {
+			isa = PBXGroup;
+			children = (
+				CFEDA794189640A900867490 /* blink */,
+				CFEDA7A2189640A900867490 /* breach */,
+				CFEDA7B0189640A900867490 /* turn */,
+			);
+			path = scientist_purple;
+			sourceTree = "<group>";
+		};
+		CFEDA794189640A900867490 /* blink */ = {
+			isa = PBXGroup;
+			children = (
+				CFEDA795189640A900867490 /* Scientist3Blink00.png */,
+				CFEDA796189640A900867490 /* Scientist3Blink01.png */,
+				CFEDA797189640A900867490 /* Scientist3Blink02.png */,
+				CFEDA798189640A900867490 /* Scientist3Blink03.png */,
+				CFEDA799189640A900867490 /* Scientist3Blink04.png */,
+				CFEDA79A189640A900867490 /* Scientist3Blink05.png */,
+				CFEDA79B189640A900867490 /* Scientist3Blink06.png */,
+				CFEDA79C189640A900867490 /* Scientist3Blink07.png */,
+				CFEDA79D189640A900867490 /* Scientist3Blink08.png */,
+				CFEDA79E189640A900867490 /* Scientist3Blink09.png */,
+				CFEDA79F189640A900867490 /* Scientist3Blink10.png */,
+				CFEDA7A0189640A900867490 /* Scientist3Blink11.png */,
+				CFEDA7A1189640A900867490 /* Scientist3Blink12.png */,
+			);
+			path = blink;
+			sourceTree = "<group>";
+		};
+		CFEDA7A2189640A900867490 /* breach */ = {
+			isa = PBXGroup;
+			children = (
+				CFEDA7A3189640A900867490 /* Scientist3Breath00.png */,
+				CFEDA7A4189640A900867490 /* Scientist3Breath01.png */,
+				CFEDA7A5189640A900867490 /* Scientist3Breath02.png */,
+				CFEDA7A6189640A900867490 /* Scientist3Breath03.png */,
+				CFEDA7A7189640A900867490 /* Scientist3Breath04.png */,
+				CFEDA7A8189640A900867490 /* Scientist3Breath05.png */,
+				CFEDA7A9189640A900867490 /* Scientist3Breath06.png */,
+				CFEDA7AA189640A900867490 /* Scientist3Breath07.png */,
+				CFEDA7AB189640A900867490 /* Scientist3Breath08.png */,
+				CFEDA7AC189640A900867490 /* Scientist3Breath09.png */,
+				CFEDA7AD189640A900867490 /* Scientist3Breath10.png */,
+				CFEDA7AE189640A900867490 /* Scientist3Breath11.png */,
+				CFEDA7AF189640A900867490 /* Scientist3Breath12.png */,
+			);
+			path = breach;
+			sourceTree = "<group>";
+		};
+		CFEDA7B0189640A900867490 /* turn */ = {
+			isa = PBXGroup;
+			children = (
+				CFEDA7B1189640A900867490 /* Scientist3Turn00.png */,
+				CFEDA7B2189640A900867490 /* Scientist3Turn01.png */,
+				CFEDA7B3189640A900867490 /* Scientist3Turn02.png */,
+				CFEDA7B4189640A900867490 /* Scientist3Turn03.png */,
+				CFEDA7B5189640A900867490 /* Scientist3Turn04.png */,
+				CFEDA7B6189640A900867490 /* Scientist3Turn05.png */,
+				CFEDA7B7189640A900867490 /* Scientist3Turn06.png */,
+				CFEDA7B8189640A900867490 /* Scientist3Turn07.png */,
+				CFEDA7B9189640A900867490 /* Scientist3Turn08.png */,
+				CFEDA7BA189640A900867490 /* Scientist3Turn09.png */,
+				CFEDA7BB189640A900867490 /* Scientist3Turn10.png */,
+				CFEDA7BC189640A900867490 /* Scientist3Turn11.png */,
+				CFEDA7BD189640A900867490 /* Scientist3Turn12.png */,
+				CFEDA7BE189640A900867490 /* Scientist3Turn13.png */,
+				CFEDA7BF189640A900867490 /* Scientist3Turn14.png */,
+				CFEDA7C0189640A900867490 /* Scientist3Turn15.png */,
+				CFEDA7C1189640A900867490 /* Scientist3Turn16.png */,
+			);
+			path = turn;
+			sourceTree = "<group>";
+		};
+		CFEDA7C2189640A900867490 /* scientist_red */ = {
+			isa = PBXGroup;
+			children = (
+				CFEDA7C3189640A900867490 /* blink */,
+				CFEDA7D1189640A900867490 /* breach */,
+				CFEDA7DF189640A900867490 /* turn */,
+			);
+			path = scientist_red;
+			sourceTree = "<group>";
+		};
+		CFEDA7C3189640A900867490 /* blink */ = {
+			isa = PBXGroup;
+			children = (
+				CFEDA7C4189640A900867490 /* Scientist4Blink00.png */,
+				CFEDA7C5189640A900867490 /* Scientist4Blink01.png */,
+				CFEDA7C6189640A900867490 /* Scientist4Blink02.png */,
+				CFEDA7C7189640A900867490 /* Scientist4Blink03.png */,
+				CFEDA7C8189640A900867490 /* Scientist4Blink04.png */,
+				CFEDA7C9189640A900867490 /* Scientist4Blink05.png */,
+				CFEDA7CA189640A900867490 /* Scientist4Blink06.png */,
+				CFEDA7CB189640A900867490 /* Scientist4Blink07.png */,
+				CFEDA7CC189640A900867490 /* Scientist4Blink08.png */,
+				CFEDA7CD189640A900867490 /* Scientist4Blink09.png */,
+				CFEDA7CE189640A900867490 /* Scientist4Blink10.png */,
+				CFEDA7CF189640A900867490 /* Scientist4Blink11.png */,
+				CFEDA7D0189640A900867490 /* Scientist4Blink12.png */,
+			);
+			path = blink;
+			sourceTree = "<group>";
+		};
+		CFEDA7D1189640A900867490 /* breach */ = {
+			isa = PBXGroup;
+			children = (
+				CFEDA7D2189640A900867490 /* Scientist4Breath00.png */,
+				CFEDA7D3189640A900867490 /* Scientist4Breath01.png */,
+				CFEDA7D4189640A900867490 /* Scientist4Breath02.png */,
+				CFEDA7D5189640A900867490 /* Scientist4Breath03.png */,
+				CFEDA7D6189640A900867490 /* Scientist4Breath04.png */,
+				CFEDA7D7189640A900867490 /* Scientist4Breath05.png */,
+				CFEDA7D8189640A900867490 /* Scientist4Breath06.png */,
+				CFEDA7D9189640A900867490 /* Scientist4Breath07.png */,
+				CFEDA7DA189640A900867490 /* Scientist4Breath08.png */,
+				CFEDA7DB189640A900867490 /* Scientist4Breath09.png */,
+				CFEDA7DC189640A900867490 /* Scientist4Breath10.png */,
+				CFEDA7DD189640A900867490 /* Scientist4Breath11.png */,
+				CFEDA7DE189640A900867490 /* Scientist4Breath12.png */,
+			);
+			path = breach;
+			sourceTree = "<group>";
+		};
+		CFEDA7DF189640A900867490 /* turn */ = {
+			isa = PBXGroup;
+			children = (
+				CFEDA7E0189640A900867490 /* Scientist4Turn00.png */,
+				CFEDA7E1189640A900867490 /* Scientist4Turn01.png */,
+				CFEDA7E2189640A900867490 /* Scientist4Turn02.png */,
+				CFEDA7E3189640A900867490 /* Scientist4Turn03.png */,
+				CFEDA7E4189640A900867490 /* Scientist4Turn04.png */,
+				CFEDA7E5189640A900867490 /* Scientist4Turn05.png */,
+				CFEDA7E6189640A900867490 /* Scientist4Turn06.png */,
+				CFEDA7E7189640A900867490 /* Scientist4Turn07.png */,
+				CFEDA7E8189640A900867490 /* Scientist4Turn08.png */,
+				CFEDA7E9189640A900867490 /* Scientist4Turn09.png */,
+				CFEDA7EA189640A900867490 /* Scientist4Turn10.png */,
+				CFEDA7EB189640A900867490 /* Scientist4Turn11.png */,
+				CFEDA7EC189640A900867490 /* Scientist4Turn12.png */,
+				CFEDA7ED189640A900867490 /* Scientist4Turn13.png */,
+				CFEDA7EE189640A900867490 /* Scientist4Turn14.png */,
+				CFEDA7EF189640A900867490 /* Scientist4Turn15.png */,
+				CFEDA7F0189640A900867490 /* Scientist4Turn16.png */,
+			);
+			path = turn;
+			sourceTree = "<group>";
+		};
+		CFEDA7F1189640A900867490 /* scientist_yellow */ = {
+			isa = PBXGroup;
+			children = (
+				CFEDA7F2189640A900867490 /* blink */,
+				CFEDA800189640AA00867490 /* breach */,
+				CFEDA80E189640AA00867490 /* turn */,
+			);
+			path = scientist_yellow;
+			sourceTree = "<group>";
+		};
+		CFEDA7F2189640A900867490 /* blink */ = {
+			isa = PBXGroup;
+			children = (
+				CFEDA7F3189640A900867490 /* Scientist5Blink00.png */,
+				CFEDA7F4189640A900867490 /* Scientist5Blink01.png */,
+				CFEDA7F5189640AA00867490 /* Scientist5Blink02.png */,
+				CFEDA7F6189640AA00867490 /* Scientist5Blink03.png */,
+				CFEDA7F7189640AA00867490 /* Scientist5Blink04.png */,
+				CFEDA7F8189640AA00867490 /* Scientist5Blink05.png */,
+				CFEDA7F9189640AA00867490 /* Scientist5Blink06.png */,
+				CFEDA7FA189640AA00867490 /* Scientist5Blink07.png */,
+				CFEDA7FB189640AA00867490 /* Scientist5Blink08.png */,
+				CFEDA7FC189640AA00867490 /* Scientist5Blink09.png */,
+				CFEDA7FD189640AA00867490 /* Scientist5Blink10.png */,
+				CFEDA7FE189640AA00867490 /* Scientist5Blink11.png */,
+				CFEDA7FF189640AA00867490 /* Scientist5Blink12.png */,
+			);
+			path = blink;
+			sourceTree = "<group>";
+		};
+		CFEDA800189640AA00867490 /* breach */ = {
+			isa = PBXGroup;
+			children = (
+				CFEDA801189640AA00867490 /* Scientist5Breath00.png */,
+				CFEDA802189640AA00867490 /* Scientist5Breath01.png */,
+				CFEDA803189640AA00867490 /* Scientist5Breath02.png */,
+				CFEDA804189640AA00867490 /* Scientist5Breath03.png */,
+				CFEDA805189640AA00867490 /* Scientist5Breath04.png */,
+				CFEDA806189640AA00867490 /* Scientist5Breath05.png */,
+				CFEDA807189640AA00867490 /* Scientist5Breath06.png */,
+				CFEDA808189640AA00867490 /* Scientist5Breath07.png */,
+				CFEDA809189640AA00867490 /* Scientist5Breath08.png */,
+				CFEDA80A189640AA00867490 /* Scientist5Breath09.png */,
+				CFEDA80B189640AA00867490 /* Scientist5Breath10.png */,
+				CFEDA80C189640AA00867490 /* Scientist5Breath11.png */,
+				CFEDA80D189640AA00867490 /* Scientist5Breath12.png */,
+			);
+			path = breach;
+			sourceTree = "<group>";
+		};
+		CFEDA80E189640AA00867490 /* turn */ = {
+			isa = PBXGroup;
+			children = (
+				CFEDA80F189640AA00867490 /* Scientist5Turn00.png */,
+				CFEDA810189640AA00867490 /* Scientist5Turn01.png */,
+				CFEDA811189640AA00867490 /* Scientist5Turn02.png */,
+				CFEDA812189640AA00867490 /* Scientist5Turn03.png */,
+				CFEDA813189640AA00867490 /* Scientist5Turn04.png */,
+				CFEDA814189640AA00867490 /* Scientist5Turn05.png */,
+				CFEDA815189640AA00867490 /* Scientist5Turn06.png */,
+				CFEDA816189640AA00867490 /* Scientist5Turn07.png */,
+				CFEDA817189640AA00867490 /* Scientist5Turn08.png */,
+				CFEDA818189640AA00867490 /* Scientist5Turn09.png */,
+				CFEDA819189640AA00867490 /* Scientist5Turn10.png */,
+				CFEDA81A189640AA00867490 /* Scientist5Turn11.png */,
+				CFEDA81B189640AA00867490 /* Scientist5Turn12.png */,
+				CFEDA81C189640AA00867490 /* Scientist5Turn13.png */,
+				CFEDA81D189640AA00867490 /* Scientist5Turn14.png */,
+				CFEDA81E189640AA00867490 /* Scientist5Turn15.png */,
+				CFEDA81F189640AA00867490 /* Scientist5Turn16.png */,
+			);
+			path = turn;
+			sourceTree = "<group>";
+		};
+		CFEDA8FD18974A7300867490 /* Evolve */ = {
+			isa = PBXGroup;
+			children = (
+				CFEDA8FE18974A7300867490 /* evolveequals.png */,
+				CFEDA8FF18974A7300867490 /* evolveequals@2x.png */,
+				CFEDA90018974A7300867490 /* evolveplus.png */,
+				CFEDA90118974A7300867490 /* evolveplus@2x.png */,
+				CFEDA90218974A7300867490 /* feederbase.png */,
+				CFEDA90318974A7300867490 /* feederbase@2x.png */,
+			);
+			path = Evolve;
+			sourceTree = "<group>";
+		};
 		CFEE022517BDC29900F3BB19 /* MainMenu */ = {
 			isa = PBXGroup;
 			children = (
@@ -8298,6 +9156,7 @@
 				CF126EA71538ACCA00E0C1AD /* activeredglow.png in Resources */,
 				CF126EA81538ACCA00E0C1AD /* activeredglow@2x.png in Resources */,
 				CF126EAB1538ACCA00E0C1AD /* allarchicon.png in Resources */,
+				CFEDA8CA189640AA00867490 /* Scientist4Turn15.png in Resources */,
 				CF20F2741810FDDB005551B5 /* finishheal@2x.png in Resources */,
 				CF126EAC1538ACCA00E0C1AD /* allarchicon@2x.png in Resources */,
 				CF126EAD1538ACCA00E0C1AD /* backbutton.png in Resources */,
@@ -8306,13 +9165,18 @@
 				CF126EAF1538ACCA00E0C1AD /* bigamount.png in Resources */,
 				CF126EB01538ACCA00E0C1AD /* bigamount@2x.png in Resources */,
 				CF3766931833022700D0A77E /* gachagemsbg.png in Resources */,
+				CFEDA847189640AA00867490 /* Scientist1Turn13@2x.png in Resources */,
 				CFE02D371825D9CC0016C1E2 /* clandivider@2x.png in Resources */,
+				CFEDA83D189640AA00867490 /* Scientist1Turn03@2x.png in Resources */,
 				CF126EB91538ACCA00E0C1AD /* greencircle.png in Resources */,
 				CF126EBA1538ACCA00E0C1AD /* greencircle@2x.png in Resources */,
 				CFFEB18D18361531007C4BA3 /* enhancepercent@2x.png in Resources */,
 				CF126EBB1538ACCA00E0C1AD /* greenglow.png in Resources */,
+				CFEDA8C0189640AA00867490 /* Scientist4Turn05.png in Resources */,
+				CFEDA8E3189640AA00867490 /* Scientist5Breath10.png in Resources */,
 				CF126EBC1538ACCA00E0C1AD /* greenglow@2x.png in Resources */,
 				CF3766231832D76B00D0A77E /* Luchador1BazookaBig.png in Resources */,
+				CFEDA87B189640AA00867490 /* Scientist3Blink05.png in Resources */,
 				CF126EBD1538ACCA00E0C1AD /* invokericon.png in Resources */,
 				CF126EBE1538ACCA00E0C1AD /* invokericon@2x.png in Resources */,
 				CF126EBF1538ACCA00E0C1AD /* legarchicon.png in Resources */,
@@ -8320,6 +9184,7 @@
 				CF126EC31538ACCA00E0C1AD /* medamount.png in Resources */,
 				CF126EC41538ACCA00E0C1AD /* medamount@2x.png in Resources */,
 				CF126EC71538ACCA00E0C1AD /* nameinput.png in Resources */,
+				CFEDA8BB189640AA00867490 /* Scientist4Turn00.png in Resources */,
 				CF706485184585A5005B30A1 /* oilcap.png in Resources */,
 				CF70654718470051005B30A1 /* xpmiddle.png in Resources */,
 				CF126EC81538ACCA00E0C1AD /* nameinput@2x.png in Resources */,
@@ -8328,10 +9193,12 @@
 				CF126ECA1538ACCA00E0C1AD /* nextpreviousarrows@2x.png in Resources */,
 				CF126ECB1538ACCA00E0C1AD /* pandaicon.png in Resources */,
 				CF126ECC1538ACCA00E0C1AD /* pandaicon@2x.png in Resources */,
+				CFEDA8B2189640AA00867490 /* Scientist4Breath04.png in Resources */,
 				CF126ECD1538ACCA00E0C1AD /* redcircle.png in Resources */,
 				CF126ECE1538ACCA00E0C1AD /* redcircle@2x.png in Resources */,
 				CF126ECF1538ACCA00E0C1AD /* select.png in Resources */,
 				CF06067B188A92EC00A69355 /* OilCollector@2x.png in Resources */,
+				CFEDA8BE189640AA00867490 /* Scientist4Turn03.png in Resources */,
 				CFFEB14C1834539C007C4BA3 /* watercardhealthbar.png in Resources */,
 				CF126ED01538ACCA00E0C1AD /* select@2x.png in Resources */,
 				CF126ED31538ACCA00E0C1AD /* skelicon.png in Resources */,
@@ -8349,6 +9216,7 @@
 				CF126EF31538ACCB00E0C1AD /* overheadattackbutton@2x.png in Resources */,
 				CF126EF41538ACCB00E0C1AD /* overheadprofilebutton.png in Resources */,
 				CF126EF51538ACCB00E0C1AD /* overheadprofilebutton@2x.png in Resources */,
+				CFEDA8D4189640AA00867490 /* Scientist5Blink08.png in Resources */,
 				CFFEB1C318372CC8007C4BA3 /* movesbg.png in Resources */,
 				CFE02CB1182340950016C1E2 /* Clown4PistolBig.png in Resources */,
 				CF126EF61538ACCB00E0C1AD /* overpersonbubble.png in Resources */,
@@ -8356,7 +9224,9 @@
 				CFC04D39188F2D2E00F2DB59 /* waterbanner.png in Resources */,
 				CF3766D71833022700D0A77E /* gooniegrablogo.png in Resources */,
 				CF126F3E1538ACCB00E0C1AD /* oklevelup.png in Resources */,
+				CFEDA72D1896114F00867490 /* EvoViewController.xib in Resources */,
 				CFFEB10A1834539C007C4BA3 /* fireteam@2x.png in Resources */,
+				CFEDA886189640AA00867490 /* Scientist3Breath03.png in Resources */,
 				CFE7CD3A1819FC3300930847 /* Construction@2x.plist in Resources */,
 				CF0A8D7018385C9600B32CDC /* HomeBuildingMenuSmall.xib in Resources */,
 				CFF390811828BF890010A3BE /* RequestTableCell.xib in Resources */,
@@ -8366,6 +9236,7 @@
 				CF126F441538ACCB00E0C1AD /* attackborder.png in Resources */,
 				CF126F451538ACCB00E0C1AD /* attackborder@2x.png in Resources */,
 				CFC04D59188FBB2D00F2DB59 /* blackandwhitebanner.png in Resources */,
+				CFEDA8E5189640AA00867490 /* Scientist5Breath12.png in Resources */,
 				CF126F461538ACCB00E0C1AD /* mapattackicon.png in Resources */,
 				CFC9718A182C74E500FF1D83 /* waterpointsfont@2x.png in Resources */,
 				CF376538182DDA5D00D0A77E /* chatactivetab.png in Resources */,
@@ -8374,6 +9245,7 @@
 				CF126F4C1538ACCB00E0C1AD /* mapprofileicon.png in Resources */,
 				CF126F4D1538ACCB00E0C1AD /* mapprofileicon@2x.png in Resources */,
 				CF126FAC1538ACCB00E0C1AD /* attackswords.png in Resources */,
+				CFEDA8B1189640AA00867490 /* Scientist4Breath03.png in Resources */,
 				CF7064DE1846CED8005B30A1 /* sale3@2x.png in Resources */,
 				CFC04D19188F2D2E00F2DB59 /* enterroom@2x.png in Resources */,
 				CFF391191829D5F60010A3BE /* lightgrenade.png in Resources */,
@@ -8386,16 +9258,22 @@
 				CF126FB21538ACCB00E0C1AD /* defenseshield.png in Resources */,
 				CFF390ED1829C74A0010A3BE /* nightorb.png in Resources */,
 				CF126FB31538ACCB00E0C1AD /* defenseshield@2x.png in Resources */,
+				CFEDA877189640AA00867490 /* Scientist3Blink01.png in Resources */,
+				CFEDA84E189640AA00867490 /* Scientist2Blink03.png in Resources */,
 				CF126FB41538ACCB00E0C1AD /* goldcoin.png in Resources */,
+				CFEDA82C189640AA00867490 /* Scientist1Blink12@2x.png in Resources */,
 				CFC04DC2188FE8D400F2DB59 /* wonlostspinner@2x.png in Resources */,
 				CF126FB51538ACCB00E0C1AD /* goldcoin@2x.png in Resources */,
 				CF37669B1833022700D0A77E /* gachararebg.png in Resources */,
+				CFEDA89C189640AA00867490 /* Scientist3Turn12.png in Resources */,
+				CFEDA8D2189640AA00867490 /* Scientist5Blink06.png in Resources */,
 				CFC97190182C89AA00FF1D83 /* ComboFire4.plist in Resources */,
 				CF126FB61538ACCB00E0C1AD /* marketcoinbg.png in Resources */,
 				CF126FB71538ACCB00E0C1AD /* marketcoinbg@2x.png in Resources */,
 				CF126FBA1538ACCB00E0C1AD /* notificationbg.png in Resources */,
 				CF126FBB1538ACCB00E0C1AD /* notificationbg@2x.png in Resources */,
 				CFE7CDA81819FC3300930847 /* questbutton@2x.png in Resources */,
+				CFEDA8E4189640AA00867490 /* Scientist5Breath11.png in Resources */,
 				CF126FBC1538ACCB00E0C1AD /* rope.png in Resources */,
 				CFE02B9F1821DC000016C1E2 /* minilight.png in Resources */,
 				CFC9717E182C74E500FF1D83 /* firepointsfont@2x.png in Resources */,
@@ -8410,6 +9288,7 @@
 				CFC97155182C419B00FF1D83 /* combobg.png in Resources */,
 				CFF390F51829C74A0010A3BE /* nightupdown.png in Resources */,
 				CF70651D18470051005B30A1 /* firehteambar.png in Resources */,
+				CFEDA88E189640AA00867490 /* Scientist3Breath11.png in Resources */,
 				CF126FC11538ACCB00E0C1AD /* woodenbg@2x.png in Resources */,
 				CF126FC21538ACCB00E0C1AD /* woodenshelf.png in Resources */,
 				CFE02CC118235A0E0016C1E2 /* GachaponViewController.xib in Resources */,
@@ -8436,17 +9315,20 @@
 				CFC04D2B188F2D2E00F2DB59 /* lightdailylab.png in Resources */,
 				CFCE570218137CD400494F8C /* notifcationbg.png in Resources */,
 				CF3765CE1831C38300D0A77E /* chatarrowback.png in Resources */,
+				CFEDA884189640AA00867490 /* Scientist3Breath01.png in Resources */,
 				CF126FDE1538ACCB00E0C1AD /* afcollect.png in Resources */,
 				CFC9717C182C74E500FF1D83 /* firepointsfont.fnt in Resources */,
 				CF3766A71833022700D0A77E /* legendpiece.png in Resources */,
 				CF126FDF1538ACCB00E0C1AD /* afcollect@2x.png in Resources */,
 				CF126FE01538ACCB00E0C1AD /* profile.png in Resources */,
 				CF126FE11538ACCB00E0C1AD /* profile@2x.png in Resources */,
+				CFEDA88C189640AA00867490 /* Scientist3Breath09.png in Resources */,
 				CFE7CDA61819FC3300930847 /* questbutton.png in Resources */,
 				CFF740331817AF09009DE4A4 /* fence2.png in Resources */,
 				CFF391171829D5F60010A3BE /* firegrenade@2x.png in Resources */,
 				CF126FE21538ACCB00E0C1AD /* revenge.png in Resources */,
 				CF126FE31538ACCB00E0C1AD /* revenge@2x.png in Resources */,
+				CFEDA84C189640AA00867490 /* Scientist2Blink01.png in Resources */,
 				CF126FE41538ACCB00E0C1AD /* activebigcorner.png in Resources */,
 				CFC04DA8188FE8D400F2DB59 /* managebutton.png in Resources */,
 				CF126FE51538ACCB00E0C1AD /* activebigcorner@2x.png in Resources */,
@@ -8475,6 +9357,7 @@
 				CF126FFB1538ACCB00E0C1AD /* fireactive@2x.png in Resources */,
 				CF126FFC1538ACCB00E0C1AD /* fireinactive.png in Resources */,
 				CF126FFD1538ACCB00E0C1AD /* fireinactive@2x.png in Resources */,
+				CFEDA896189640AA00867490 /* Scientist3Turn06.png in Resources */,
 				CF126FFE1538ACCB00E0C1AD /* profattackbigbutton.png in Resources */,
 				CF126FFF1538ACCB00E0C1AD /* profattackbigbutton@2x.png in Resources */,
 				CF1270001538ACCB00E0C1AD /* profattackbutton.png in Resources */,
@@ -8483,15 +9366,19 @@
 				CFF3900118273C2E0010A3BE /* askfacebook@2x.png in Resources */,
 				CF37661F1832D61C00D0A77E /* Rapper4AKBig@2x.png in Resources */,
 				CFF740411817AF09009DE4A4 /* hydrant@2x.png in Resources */,
+				CFEDA895189640AA00867490 /* Scientist3Turn05.png in Resources */,
 				CF1270041538ACCB00E0C1AD /* profilenotification.png in Resources */,
+				CFEDA8B9189640AA00867490 /* Scientist4Breath11.png in Resources */,
 				CFE02B9B1821DC000016C1E2 /* mininight.png in Resources */,
 				CF1270051538ACCB00E0C1AD /* profilenotification@2x.png in Resources */,
 				CF1270061538ACCB00E0C1AD /* profilepictureframe.png in Resources */,
+				CFEDA8B8189640AA00867490 /* Scientist4Breath10.png in Resources */,
 				CF629307180D22F600C6C196 /* pilegems@2x.png in Resources */,
 				CF1270071538ACCB00E0C1AD /* profilepictureframe@2x.png in Resources */,
 				CFF390251827496D0010A3BE /* fbcheck.png in Resources */,
 				CF629345180D312900C6C196 /* settingsbottombg.png in Resources */,
 				CFFEB14E1834539C007C4BA3 /* watercardhealthbar@2x.png in Resources */,
+				CFEDA83E189640AA00867490 /* Scientist1Turn04@2x.png in Resources */,
 				CF1270081538ACCB00E0C1AD /* profminiattstat.png in Resources */,
 				CF1270091538ACCB00E0C1AD /* profminiattstat@2x.png in Resources */,
 				CFFEB0E61834539C007C4BA3 /* commontag@2x.png in Resources */,
@@ -8507,11 +9394,14 @@
 				CF1270111538ACCB00E0C1AD /* skilldefenseicon@2x.png in Resources */,
 				CF1270121538ACCB00E0C1AD /* skillenergyicon.png in Resources */,
 				CF1270131538ACCB00E0C1AD /* skillenergyicon@2x.png in Resources */,
+				CFEDA8A6189640AA00867490 /* Scientist4Blink05.png in Resources */,
 				CF1270141538ACCB00E0C1AD /* skillhpicon.png in Resources */,
 				CFF3900318273C2E0010A3BE /* emptybar.png in Resources */,
 				CF1270151538ACCB00E0C1AD /* skillhpicon@2x.png in Resources */,
 				CF1270161538ACCB00E0C1AD /* skillplus.png in Resources */,
 				CF1270171538ACCB00E0C1AD /* skillplus@2x.png in Resources */,
+				CFEDA8CE189640AA00867490 /* Scientist5Blink02.png in Resources */,
+				CFEDA87D189640AA00867490 /* Scientist3Blink07.png in Resources */,
 				CFB250551858304700BE0C05 /* nightmteam.png in Resources */,
 				CF1270181538ACCB00E0C1AD /* skillplusdisabled.png in Resources */,
 				CF1270191538ACCB00E0C1AD /* skillplusdisabled@2x.png in Resources */,
@@ -8532,16 +9422,19 @@
 				CF1270221538ACCB00E0C1AD /* visitfriend.png in Resources */,
 				CF1270231538ACCB00E0C1AD /* visitfriend@2x.png in Resources */,
 				CF1270241538ACCB00E0C1AD /* wallactive.png in Resources */,
+				CFEDA8C4189640AA00867490 /* Scientist4Turn09.png in Resources */,
 				CF1270251538ACCB00E0C1AD /* wallactive@2x.png in Resources */,
 				CFB250221853136B00BE0C05 /* clock@2x.png in Resources */,
 				CF1270261538ACCB00E0C1AD /* wallinactive.png in Resources */,
 				CF1270271538ACCB00E0C1AD /* wallinactive@2x.png in Resources */,
+				CFEDA8E7189640AA00867490 /* Scientist5Turn01.png in Resources */,
 				CF1270281538ACCB00E0C1AD /* weaponbg.png in Resources */,
 				CFE7CD241819FC3300930847 /* buildingbar@2x.png in Resources */,
 				CF1270291538ACCB00E0C1AD /* weaponbg@2x.png in Resources */,
 				CF12702A1538ACCB00E0C1AD /* weaponborder.png in Resources */,
 				CF12702B1538ACCB00E0C1AD /* weaponborder@2x.png in Resources */,
 				CF12702C1538ACCB00E0C1AD /* weaponcornertag.png in Resources */,
+				CFEDA853189640AA00867490 /* Scientist2Blink08.png in Resources */,
 				CFE02D4F1825D9CC0016C1E2 /* profilebutton@2x.png in Resources */,
 				CF12702D1538ACCB00E0C1AD /* weaponcornertag@2x.png in Resources */,
 				CF20F154180FCABC005551B5 /* detailhp.png in Resources */,
@@ -8560,10 +9453,12 @@
 				CFB2509D1859C1AD00BE0C05 /* badgeicon.png in Resources */,
 				CF1270DC1538ACCC00E0C1AD /* goodgirltall.png in Resources */,
 				CF1270DD1538ACCC00E0C1AD /* goodgirltall@2x.png in Resources */,
+				CFEDA89F189640AA00867490 /* Scientist3Turn15.png in Resources */,
 				CF1270E01538ACCC00E0C1AD /* HandGuard.png in Resources */,
 				CF20F228180FCBC1005551B5 /* shelf.png in Resources */,
 				CFE7CD341819FC3300930847 /* cashbar@2x.png in Resources */,
 				CF1270E11538ACCC00E0C1AD /* HandGuard@2x.png in Resources */,
+				CFEDA837189640AA00867490 /* Scientist1Breath10@2x.png in Resources */,
 				CF1270E21538ACCC00E0C1AD /* Inn.png in Resources */,
 				CF1270E31538ACCC00E0C1AD /* Inn@2x.png in Resources */,
 				CF1270EA1538ACCC00E0C1AD /* RustyDagger.png in Resources */,
@@ -8576,6 +9471,7 @@
 				CF1271021538ACCC00E0C1AD /* alarcher.png in Resources */,
 				CF1271031538ACCC00E0C1AD /* alarcher@2x.png in Resources */,
 				CFF390601828567D0010A3BE /* m7.png in Resources */,
+				CFEDA829189640AA00867490 /* Scientist1Blink09@2x.png in Resources */,
 				CFF390F31829C74A0010A3BE /* nightsideways@2x.png in Resources */,
 				CF1271041538ACCC00E0C1AD /* baarcher.png in Resources */,
 				CF20F156180FCABC005551B5 /* detailhp@2x.png in Resources */,
@@ -8583,6 +9479,7 @@
 				CF1271051538ACCC00E0C1AD /* baarcher@2x.png in Resources */,
 				CF1271061538ACCC00E0C1AD /* binvoker.png in Resources */,
 				CF1271071538ACCC00E0C1AD /* binvoker@2x.png in Resources */,
+				CFEDA866189640AA00867490 /* Scientist2Turn01.png in Resources */,
 				CF1271081538ACCC00E0C1AD /* blarcher.png in Resources */,
 				CF1271091538ACCC00E0C1AD /* blarcher@2x.png in Resources */,
 				CFFEB1711834B47F007C4BA3 /* teamempty@2x.png in Resources */,
@@ -8621,6 +9518,7 @@
 				CF1271161538ACCC00E0C1AD /* hpanda.png in Resources */,
 				CF1271171538ACCC00E0C1AD /* hpanda@2x.png in Resources */,
 				CFFEB1081834539C007C4BA3 /* fireteam.png in Resources */,
+				CFEDA85D189640AA00867490 /* Scientist2Breath05.png in Resources */,
 				CF1271181538ACCC00E0C1AD /* hskel.png in Resources */,
 				CFB2508018585D6700BE0C05 /* tipbg@2x.png in Resources */,
 				CF1271191538ACCC00E0C1AD /* hskel@2x.png in Resources */,
@@ -8635,10 +9533,11 @@
 				CF12711F1538ACCC00E0C1AD /* legarcher@2x.png in Resources */,
 				CF1271201538ACCC00E0C1AD /* paarcher.png in Resources */,
 				CF1271211538ACCC00E0C1AD /* paarcher@2x.png in Resources */,
-				CFC04E651890F69900F2DB59 /* Untitled.ccbi in Resources */,
+				CFEDA85B189640AA00867490 /* Scientist2Breath03.png in Resources */,
 				CF1271221538ACCC00E0C1AD /* panda.png in Resources */,
 				CF1271231538ACCC00E0C1AD /* panda@2x.png in Resources */,
 				CFFEB0FC1834539C007C4BA3 /* epictag.png in Resources */,
+				CFEDA867189640AA00867490 /* Scientist2Turn02.png in Resources */,
 				CF1271241538ACCC00E0C1AD /* pinvoker.png in Resources */,
 				CF1271251538ACCC00E0C1AD /* pinvoker@2x.png in Resources */,
 				CF1271261538ACCC00E0C1AD /* plarcher.png in Resources */,
@@ -8648,18 +9547,22 @@
 				CF3764FE182DD6BD00D0A77E /* ChatViewController.xib in Resources */,
 				CF1271281538ACCC00E0C1AD /* ppanda.png in Resources */,
 				CFE7CD921819FC3300930847 /* minitopbarbg.png in Resources */,
+				CFEDA8D5189640AA00867490 /* Scientist5Blink09.png in Resources */,
 				CF1271291538ACCC00E0C1AD /* ppanda@2x.png in Resources */,
 				CF12712A1538ACCC00E0C1AD /* pskel.png in Resources */,
 				CF62934F180D312900C6C196 /* settingsdivider@2x.png in Resources */,
 				CF12712B1538ACCC00E0C1AD /* pskel@2x.png in Resources */,
 				CF6F1A15181518C900CFF2B9 /* visittask.png in Resources */,
 				CF37659F182E0D9300D0A77E /* User.proto in Resources */,
+				CFEDA90A18974A7300867490 /* feederbase.png in Resources */,
 				CFF390D51829C74A0010A3BE /* fireorb.png in Resources */,
 				CF12712C1538ACCC00E0C1AD /* pwarrior.png in Resources */,
 				CF0A8D88183AD03400B32CDC /* cancel.png in Resources */,
 				CF12712D1538ACCC00E0C1AD /* pwarrior@2x.png in Resources */,
 				CF12712E1538ACCC00E0C1AD /* skel.png in Resources */,
+				CFEDA86A189640AA00867490 /* Scientist2Turn05.png in Resources */,
 				CFC04D21188F2D2E00F2DB59 /* firebanner@2x.png in Resources */,
+				CFEDA844189640AA00867490 /* Scientist1Turn10@2x.png in Resources */,
 				CF12712F1538ACCC00E0C1AD /* skel@2x.png in Resources */,
 				CFF740451817AF09009DE4A4 /* palmtree1@2x.png in Resources */,
 				CF1271301538ACCC00E0C1AD /* warrior.png in Resources */,
@@ -8695,6 +9598,7 @@
 				CF37661D1832D61C00D0A77E /* Rapper4AKBig.png in Resources */,
 				CF8FC845154544930082473E /* cloud1shadow.png in Resources */,
 				CF8FC846154544930082473E /* cloud1shadow@2x.png in Resources */,
+				CFEDA8FC18967EAE00867490 /* EvoCardCell.xib in Resources */,
 				CFB250491858304700BE0C05 /* earthmteam.png in Resources */,
 				CFCB4D29154A3F0800470054 /* wallinputbg.png in Resources */,
 				CF3765B31831AAB200D0A77E /* ClanChatCell.xib in Resources */,
@@ -8704,15 +9608,19 @@
 				CF2940871565A186002D9E45 /* red@2x.png in Resources */,
 				CF29408A1565A18F002D9E45 /* grey.png in Resources */,
 				CFC04D0D188F2D2E00F2DB59 /* attackmapborder@2x.png in Resources */,
+				CFEDA878189640AA00867490 /* Scientist3Blink02.png in Resources */,
+				CFEDA84F189640AA00867490 /* Scientist2Blink04.png in Resources */,
 				CFB250A2185FF0A200BE0C05 /* DiamondListing.xib in Resources */,
 				CFF3902D18274CCE0010A3BE /* checkbox@2x.png in Resources */,
 				CFC04D96188FE8D400F2DB59 /* expfound@2x.png in Resources */,
+				CFEDA85A189640AA00867490 /* Scientist2Breath02.png in Resources */,
 				CFE7CD5A1819FC3300930847 /* firebar.png in Resources */,
 				CF29408B1565A18F002D9E45 /* grey@2x.png in Resources */,
 				CF629319180D22F600C6C196 /* vaultgems.png in Resources */,
 				CFA03DF51565E06900862FF3 /* red.png in Resources */,
 				CFE7CD141819FC3300930847 /* attackbutton@2x.png in Resources */,
 				CFFEB1241834539C007C4BA3 /* minusteam.png in Resources */,
+				CFEDA842189640AA00867490 /* Scientist1Turn08@2x.png in Resources */,
 				CFFEB1341834539C007C4BA3 /* nightteamhealthbar.png in Resources */,
 				CF6F19F1181518C900CFF2B9 /* questbg.png in Resources */,
 				CF629305180D22F600C6C196 /* pilegems.png in Resources */,
@@ -8733,19 +9641,24 @@
 				CFF3900D18273C2E0010A3BE /* fullfriendborder@2x.png in Resources */,
 				CF3CF23B1574682400CD04D7 /* ttebg@2x.png in Resources */,
 				CF3CF23C1574682400CD04D7 /* yellowttebar.png in Resources */,
+				CFEDA82B189640AA00867490 /* Scientist1Blink11@2x.png in Resources */,
 				CFFEB14A1834539C007C4BA3 /* watercard@2x.png in Resources */,
 				CF3CF23D1574682400CD04D7 /* yellowttebar@2x.png in Resources */,
 				CF3CF2401574698A00CD04D7 /* yellowtaskbar.png in Resources */,
+				CFEDA860189640AA00867490 /* Scientist2Breath08.png in Resources */,
 				CF3CF2411574698A00CD04D7 /* yellowtaskbar@2x.png in Resources */,
 				CF376515182DD6F900D0A77E /* chatarrow@2x.png in Resources */,
 				CFE02BB91821E72C0016C1E2 /* swapempty@2x.png in Resources */,
 				CF9AE70F180CA78C0013DD44 /* LoadingViewController.xib in Resources */,
+				CFEDA8AC189640AA00867490 /* Scientist4Blink11.png in Resources */,
 				CF376525182DD6F900D0A77E /* chatpostbg@2x.png in Resources */,
+				CFEDA885189640AA00867490 /* Scientist3Breath02.png in Resources */,
 				CF629353180D312900C6C196 /* settingsmiddlebg@2x.png in Resources */,
 				CFFEB12E1834539C007C4BA3 /* nightcardhealthbar@2x.png in Resources */,
 				CF376521182DD6F900D0A77E /* chatpost@2x.png in Resources */,
 				CFE7CD881819FC3300930847 /* menubutton@2x.png in Resources */,
 				CFC9712B182B05CD00FF1D83 /* powermeter@2x.png in Resources */,
+				CFEDA8C6189640AA00867490 /* Scientist4Turn11.png in Resources */,
 				CFCE57611813C20800494F8C /* privatemessage.png in Resources */,
 				CFE7CD841819FC3300930847 /* menubg@2x.png in Resources */,
 				CFE02D3F1825D9CC0016C1E2 /* clanname@2x.png in Resources */,
@@ -8764,6 +9677,7 @@
 				CF37672218336F7900D0A77E /* gachaarrow@2x.png in Resources */,
 				CF376585182E0D9300D0A77E /* EventStartup.proto in Resources */,
 				CFE02B931821DC000016C1E2 /* miniearth.png in Resources */,
+				CFEDA8AA189640AA00867490 /* Scientist4Blink09.png in Resources */,
 				CF62933F180D312900C6C196 /* onoffswitch@2x.png in Resources */,
 				CF629311180D22F600C6C196 /* stackcash.png in Resources */,
 				CFFEB11A1834539C007C4BA3 /* lightcard@2x.png in Resources */,
@@ -8780,6 +9694,7 @@
 				CFB2502E18569FB800BE0C05 /* underring.png in Resources */,
 				CFE7CD0C1819FC3300930847 /* arrowdown@2x.png in Resources */,
 				CF48CA8B1577624200802A39 /* Armory@2x.png in Resources */,
+				CFEDA8DC189640AA00867490 /* Scientist5Breath03.png in Resources */,
 				CF769A05187F6CC00031D6ED /* House@2x.png in Resources */,
 				CFE7CD581819FC3300930847 /* expbar@2x.png in Resources */,
 				CF48CA8C1577624200802A39 /* Vault.png in Resources */,
@@ -8813,6 +9728,7 @@
 				CF6F1A01181518C900CFF2B9 /* rewardlabel.png in Resources */,
 				CFFEB11E1834539C007C4BA3 /* lightcardhealthbar@2x.png in Resources */,
 				CF8C7AC31579DAAA003A6AFE /* levelupstars.png in Resources */,
+				CFEDA835189640AA00867490 /* Scientist1Breath08@2x.png in Resources */,
 				CFB250881858649D00BE0C05 /* loadingbg@2x.png in Resources */,
 				CFF391011829C74A0010A3BE /* waterupdown.png in Resources */,
 				CF8C7AC41579DAAA003A6AFE /* levelupstars@2x.png in Resources */,
@@ -8823,6 +9739,8 @@
 				CFFEB1A31837042D007C4BA3 /* borderrounded.png in Resources */,
 				CF8C7AC71579DAAA003A6AFE /* luplus3.png in Resources */,
 				CF8C7AC81579DAAA003A6AFE /* luplus3@2x.png in Resources */,
+				CFEDA830189640AA00867490 /* Scientist1Breath03@2x.png in Resources */,
+				CFEDA8D6189640AA00867490 /* Scientist5Blink10.png in Resources */,
 				CF8C7ACA1579DAAA003A6AFE /* lustaminaguy.png in Resources */,
 				CF37660C1832CDA600D0A77E /* DialogueViewController.xib in Resources */,
 				CF8C7ACB1579DAAA003A6AFE /* lustaminaguy@2x.png in Resources */,
@@ -8843,6 +9761,7 @@
 				CFE02D391825D9CC0016C1E2 /* clanlistbg.png in Resources */,
 				CF15EDF2158064D900A8AAC1 /* combowheellight.png in Resources */,
 				CF0A8D92183AD03400B32CDC /* orangebutton@2x.png in Resources */,
+				CFEDA882189640AA00867490 /* Scientist3Blink12.png in Resources */,
 				CF62930D180D22F600C6C196 /* safegems.png in Resources */,
 				CF15EDF3158064D900A8AAC1 /* combowheellight@2x.png in Resources */,
 				4562FCDF158A8BC2005206E5 /* round_glow.png in Resources */,
@@ -8876,10 +9795,12 @@
 				CF41D136158BDDAC00A4DBC3 /* Armory_Enter.m4a in Resources */,
 				CFE7CD861819FC3300930847 /* menubutton.png in Resources */,
 				CFC97163182C5A8400FF1D83 /* orbball.png in Resources */,
+				CFEDA8CF189640AA00867490 /* Scientist5Blink03.png in Resources */,
 				CF41D137158BDDAC00A4DBC3 /* Armory_Leave.m4a in Resources */,
 				CF41D138158BDDAC00A4DBC3 /* Archer_Attack.m4a in Resources */,
 				CF41D139158BDDAC00A4DBC3 /* Invoker_Attack.m4a in Resources */,
 				CF37668B1833022700D0A77E /* gachacommonbg.png in Resources */,
+				CFEDA8ED189640AA00867490 /* Scientist5Turn07.png in Resources */,
 				CF41D13A158BDDAC00A4DBC3 /* Panda_Attack.m4a in Resources */,
 				CF41D13B158BDDAC00A4DBC3 /* Warrior_Attack.m4a in Resources */,
 				CF41D13C158BDDAC00A4DBC3 /* Standard_Good1.m4a in Resources */,
@@ -8896,7 +9817,9 @@
 				CF41D142158BDDAC00A4DBC3 /* Standard_Perfect1.m4a in Resources */,
 				CFC97180182C74E500FF1D83 /* lightpointsfont.fnt in Resources */,
 				CFF390EB1829C74A0010A3BE /* lightupdown@2x.png in Resources */,
+				CFEDA8A7189640AA00867490 /* Scientist4Blink06.png in Resources */,
 				CF41D143158BDDAC00A4DBC3 /* Standard_Perfect2.m4a in Resources */,
+				CFEDA85F189640AA00867490 /* Scientist2Breath07.png in Resources */,
 				CF41D144158BDDAC00A4DBC3 /* Archer_Combo.m4a in Resources */,
 				CF41D145158BDDAC00A4DBC3 /* Invoker_Combo.m4a in Resources */,
 				CF41D146158BDDAC00A4DBC3 /* Panda_Combo.m4a in Resources */,
@@ -8905,8 +9828,11 @@
 				CF41D149158BDDAC00A4DBC3 /* Coin_Pickup.m4a in Resources */,
 				CF41D14A158BDDAC00A4DBC3 /* shiny_item.m4a in Resources */,
 				CF20F18A180FCABC005551B5 /* heal@2x.png in Resources */,
+				CFEDA82D189640AA00867490 /* Scientist1Breath00@2x.png in Resources */,
+				CFEDA868189640AA00867490 /* Scientist2Turn03.png in Resources */,
 				CF3765B71831AC6900D0A77E /* chatinfoi.png in Resources */,
 				CF41D14B158BDDAC00A4DBC3 /* Battle_Loss.m4a in Resources */,
+				CFEDA865189640AA00867490 /* Scientist2Turn00.png in Resources */,
 				CFB250531858304700BE0C05 /* lightmteam@2x.png in Resources */,
 				CF41D14C158BDDAC00A4DBC3 /* Battle_Music.m4a in Resources */,
 				CF41D14D158BDDAC00A4DBC3 /* Battle_Success.m4a in Resources */,
@@ -8919,6 +9845,7 @@
 				CF41D150158BDDAC00A4DBC3 /* DoorClosing_Final.m4a in Resources */,
 				CF7064B11845A340005B30A1 /* upgradebarcurrent@2x.png in Resources */,
 				CFFEB1A71837042E007C4BA3 /* borderstraight.png in Resources */,
+				CFEDA8C2189640AA00867490 /* Scientist4Turn07.png in Resources */,
 				CF41D151158BDDAC00A4DBC3 /* DoorOpening.m4a in Resources */,
 				CFE02BA51821DC000016C1E2 /* miniwater@2x.png in Resources */,
 				CF376599182E0D9300D0A77E /* Structure.proto in Resources */,
@@ -8926,14 +9853,17 @@
 				CF41D152158BDDAC00A4DBC3 /* Marketplace_Buy.m4a in Resources */,
 				CF41D153158BDDAC00A4DBC3 /* Marketplace_Buy1.m4a in Resources */,
 				CF41D154158BDDAC00A4DBC3 /* Marketplace_Enter.m4a in Resources */,
+				CFEDA864189640AA00867490 /* Scientist2Breath12.png in Resources */,
 				CF41D155158BDDAC00A4DBC3 /* Marketplace_Exit.m4a in Resources */,
 				CF70653718470051005B30A1 /* nighthteambar.png in Resources */,
 				CFE02D01182370B00016C1E2 /* Cheerleader2BazookaThumbnail@2x.png in Resources */,
+				CFEDA83F189640AA00867490 /* Scientist1Turn05@2x.png in Resources */,
 				CF41D157158BDDAC00A4DBC3 /* notification_alert.m4a in Resources */,
 				CF41D158158BDDAC00A4DBC3 /* Quest Scroll Open.m4a in Resources */,
 				CF41D159158BDDAC00A4DBC3 /* QuestCompleted.m4a in Resources */,
 				CFE02D471825D9CC0016C1E2 /* clantag@2x.png in Resources */,
 				CFF7403F1817AF09009DE4A4 /* hydrant.png in Resources */,
+				CFEDA8E1189640AA00867490 /* Scientist5Breath08.png in Resources */,
 				CF41D15A158BDDAC00A4DBC3 /* QuestNew.m4a in Resources */,
 				CF41D15B158BDDAC00A4DBC3 /* Vault_Deposit.m4a in Resources */,
 				CF41D15C158BDDAC00A4DBC3 /* Vault_Deposit1.m4a in Resources */,
@@ -8946,10 +9876,13 @@
 				CF3765F0183203FE00D0A77E /* multiplayerbw@2x.png in Resources */,
 				CFF02BB3158C1D920072965A /* Medieval Market.m4a in Resources */,
 				CF3766C31833022700D0A77E /* gacharevealbg.png in Resources */,
+				CFEDA849189640AA00867490 /* Scientist1Turn15@2x.png in Resources */,
 				CF37657B182E0D9300D0A77E /* EventInAppPurchase.proto in Resources */,
 				CFF02BC5158C41980072965A /* goldpile.png in Resources */,
+				CFEDA828189640AA00867490 /* Scientist1Blink08@2x.png in Resources */,
 				CFF02BC6158C41980072965A /* goldpile@2x.png in Resources */,
 				CFF02BC7158C41980072965A /* refillbg.png in Resources */,
+				CFEDA891189640AA00867490 /* Scientist3Turn01.png in Resources */,
 				CFF02BC8158C41980072965A /* refillbg@2x.png in Resources */,
 				CFF02BC9158C41980072965A /* refillbutton.png in Resources */,
 				CF3766891833022700D0A77E /* epicpiece@2x.png in Resources */,
@@ -8959,6 +9892,7 @@
 				CFF02BCC158C41980072965A /* refillenergy@2x.png in Resources */,
 				CFF02BCD158C41980072965A /* refillgoldstack.png in Resources */,
 				CFF02BCE158C41980072965A /* refillgoldstack@2x.png in Resources */,
+				CFEDA8BD189640AA00867490 /* Scientist4Turn02.png in Resources */,
 				CFF02BCF158C41980072965A /* refillsilverstack.png in Resources */,
 				CFF02BD0158C41980072965A /* refillsilverstack@2x.png in Resources */,
 				CF70651718470051005B30A1 /* diamondbar@2x.png in Resources */,
@@ -8967,6 +9901,10 @@
 				CFF02BD3158C41980072965A /* refilltextbg.png in Resources */,
 				CFF02BD4158C41980072965A /* refilltextbg@2x.png in Resources */,
 				CFEB28431593F02500B622FC /* unlockedheader.png in Resources */,
+				CFEDA881189640AA00867490 /* Scientist3Blink11.png in Resources */,
+				CFEDA893189640AA00867490 /* Scientist3Turn03.png in Resources */,
+				CFEDA88A189640AA00867490 /* Scientist3Breath07.png in Resources */,
+				CFEDA86B189640AA00867490 /* Scientist2Turn06.png in Resources */,
 				CFEB28441593F02500B622FC /* unlockedheader@2x.png in Resources */,
 				CFEC29C9159AAA2100F15EDC /* visitprofile.png in Resources */,
 				CF70651918470051005B30A1 /* earthhteambar.png in Resources */,
@@ -8974,6 +9912,7 @@
 				CF13766C15ABB61400D2D2B1 /* level_up_pop_ups.m4a in Resources */,
 				CF13766D15ABB61900D2D2B1 /* questavail_notif.m4a in Resources */,
 				CFC04D27188F2D2E00F2DB59 /* lightbanner.png in Resources */,
+				CFEDA825189640AA00867490 /* Scientist1Blink05@2x.png in Resources */,
 				CF30102915ABED170028A4D9 /* Archer_Task.m4a in Resources */,
 				CF70652518470051005B30A1 /* hteambarbg.png in Resources */,
 				CF30102A15ABED170028A4D9 /* hand_shake.m4a in Resources */,
@@ -8999,6 +9938,7 @@
 				CF376519182DD6F900D0A77E /* chatbg@2x.png in Resources */,
 				CFA2A10915B7DE0F00578F6F /* lvl1@2x.png in Resources */,
 				CFC9717A182C74E500FF1D83 /* earthpointsfont@2x.png in Resources */,
+				CFEDA845189640AA00867490 /* Scientist1Turn11@2x.png in Resources */,
 				CF09725C15BA43EB00F8353B /* blacksmithicon.png in Resources */,
 				CFFEB1421834539C007C4BA3 /* teamhealthbg@2x.png in Resources */,
 				CF09725D15BA43EB00F8353B /* blacksmithicon@2x.png in Resources */,
@@ -9016,11 +9956,13 @@
 				CF9908EB15BF6C900094F672 /* AllianceWarriorWalkNF@2x.pvr.ccz in Resources */,
 				CFE02AD718207CF40016C1E2 /* lockedup.png in Resources */,
 				CF9908F015BF6C900094F672 /* FarmerMitchWalkNF.plist in Resources */,
+				CFEDA843189640AA00867490 /* Scientist1Turn09@2x.png in Resources */,
 				CFF740311817AF09009DE4A4 /* fence1@2x.png in Resources */,
 				CF9908F115BF6C900094F672 /* FarmerMitchWalkNF.pvr.ccz in Resources */,
 				CF70650B18470051005B30A1 /* addgems@2x.png in Resources */,
 				CFFEB1CD18384123007C4BA3 /* nightbattlering@2x.png in Resources */,
 				CF9908F215BF6C900094F672 /* FarmerMitchWalkNF@2x.plist in Resources */,
+				CFEDA8C5189640AA00867490 /* Scientist4Turn10.png in Resources */,
 				CF9908F315BF6C900094F672 /* FarmerMitchWalkNF@2x.pvr.ccz in Resources */,
 				CF9908FC15BF6C900094F672 /* LegionWarriorWalkNF.plist in Resources */,
 				CF9908FD15BF6C900094F672 /* LegionWarriorWalkNF.pvr.ccz in Resources */,
@@ -9037,6 +9979,8 @@
 				CF99091615BF7BF50094F672 /* BlackSmithWalkNF@2x.plist in Resources */,
 				CF37658B182E0D9300D0A77E /* EventTournament.proto in Resources */,
 				CFC04DA2188FE8D400F2DB59 /* lostsplash@2x.png in Resources */,
+				CFEDA826189640AA00867490 /* Scientist1Blink06@2x.png in Resources */,
+				CFEDA894189640AA00867490 /* Scientist3Turn04.png in Resources */,
 				CF99091715BF7BF50094F672 /* BlackSmithWalkNF@2x.pvr.ccz in Resources */,
 				CF79732E15C0F3D8003ABFAA /* equipneeded@2x.png in Resources */,
 				CF79732F15C0F3D8003ABFAA /* equipneeded.png in Resources */,
@@ -9048,6 +9992,7 @@
 				CF3766CB1833022700D0A77E /* gacharevealspinner.png in Resources */,
 				CFB2502C18569FB800BE0C05 /* overring@2x.png in Resources */,
 				CF7F17E915C26F30005ED86F /* TutorialGuideBadWalkNF.pvr.ccz in Resources */,
+				CFEDA90818974A7300867490 /* evolveplus.png in Resources */,
 				CFC9716B182C5AA400FF1D83 /* streak@2x.png in Resources */,
 				CF7F17EA15C26F30005ED86F /* TutorialGuideBadWalkNF@2x.pvr.ccz in Resources */,
 				CFC04D4B188F6C1400F2DB59 /* 3x3base@2x.png in Resources */,
@@ -9060,6 +10005,7 @@
 				CFFEB1CF18384123007C4BA3 /* nightbattleringglow.png in Resources */,
 				CF12799B181F5F1600211623 /* progressquest.png in Resources */,
 				CF7F17F215C26F47005ED86F /* TutorialGuideWalkNF@2x.pvr.ccz in Resources */,
+				CFEDA8AE189640AA00867490 /* Scientist4Breath00.png in Resources */,
 				CFFEB0D61834539C007C4BA3 /* addteam@2x.png in Resources */,
 				CFF3900918273C2E0010A3BE /* emptyfriendslot@2x.png in Resources */,
 				CF7064B71845A340005B30A1 /* upgradebg.png in Resources */,
@@ -9075,6 +10021,7 @@
 				CF7064AB1845A340005B30A1 /* upgradebarbg.png in Resources */,
 				CF20F2621810EEEC005551B5 /* MyCroniesViewController.xib in Resources */,
 				CF629368180D4A4100C6C196 /* CarpenterListing.xib in Resources */,
+				CFEDA838189640AA00867490 /* Scientist1Breath11@2x.png in Resources */,
 				CF37659B182E0D9300D0A77E /* Task.proto in Resources */,
 				CFFEB1321834539C007C4BA3 /* nightteam@2x.png in Resources */,
 				CF3766F91833022700D0A77E /* raregtag@2x.png in Resources */,
@@ -9087,6 +10034,7 @@
 				CFF0296F18629689000BF079 /* README.md in Resources */,
 				CF37672018336F7800D0A77E /* gachaarrow.png in Resources */,
 				CF689C0615C3A69400F2E50E /* ForgeCheck.m4a in Resources */,
+				CFEDA892189640AA00867490 /* Scientist3Turn02.png in Resources */,
 				CF689C0715C3A69400F2E50E /* ForgeEnter.m4a in Resources */,
 				CFC04D88188FE8D400F2DB59 /* cashfound.png in Resources */,
 				CF689C0815C3A69400F2E50E /* ForgeFail.m4a in Resources */,
@@ -9103,20 +10051,25 @@
 				CFC66B5115CB69F7009D537A /* profilebg@2x.png in Resources */,
 				CF6F19BB181518C900CFF2B9 /* luchadoretest.png in Resources */,
 				CFC66B5215CB69F7009D537A /* roundedheader.png in Resources */,
+				CFEDA836189640AA00867490 /* Scientist1Breath09@2x.png in Resources */,
 				CFC66B5315CB69F7009D537A /* roundedheader@2x.png in Resources */,
+				CFEDA820189640AA00867490 /* Scientist1Blink00@2x.png in Resources */,
 				CFC66B5415CB69F7009D537A /* activenavfire.png in Resources */,
 				CFC66B5515CB69F7009D537A /* activenavfire@2x.png in Resources */,
+				CFEDA8A8189640AA00867490 /* Scientist4Blink07.png in Resources */,
 				CFC66B5615CB69F7009D537A /* activenavperson.png in Resources */,
 				CFC66B5715CB69F7009D537A /* activenavperson@2x.png in Resources */,
 				CFFEB1201834539C007C4BA3 /* lightteamhealthbar.png in Resources */,
 				CFC66B5815CB69F7009D537A /* activenavstar.png in Resources */,
 				CFC66B5915CB69F7009D537A /* activenavstar@2x.png in Resources */,
+				CFEDA883189640AA00867490 /* Scientist3Breath00.png in Resources */,
 				CFC04DC0188FE8D400F2DB59 /* wonlostspinner.png in Resources */,
 				CF37669D1833022700D0A77E /* gachararebg@2x.png in Resources */,
 				CFC66B5C15CB69F7009D537A /* navfire.png in Resources */,
 				CFC66B5D15CB69F7009D537A /* navfire@2x.png in Resources */,
 				CF629351180D312900C6C196 /* settingsmiddlebg.png in Resources */,
 				CFFEB0E01834539C007C4BA3 /* cardshadow.png in Resources */,
+				CFEDA82F189640AA00867490 /* Scientist1Breath02@2x.png in Resources */,
 				CFF7402B1817AF09009DE4A4 /* cornerpiece.png in Resources */,
 				CFC66B5E15CB69F7009D537A /* navperson.png in Resources */,
 				CFC66B5F15CB69F7009D537A /* navperson@2x.png in Resources */,
@@ -9128,11 +10081,13 @@
 				CFC66B6115CB69F7009D537A /* navstar@2x.png in Resources */,
 				CFC66B6415CB69F7009D537A /* squareheader.png in Resources */,
 				CF629328180D2AFB00C6C196 /* SettingsViewController.xib in Resources */,
+				CFEDA859189640AA00867490 /* Scientist2Breath01.png in Resources */,
 				CF7699F9187E61050031D6ED /* CashStorage@2x.pvr.ccz in Resources */,
 				CFC66B6515CB69F7009D537A /* squareheader@2x.png in Resources */,
 				CF70651318470051005B30A1 /* cashmiddle@2x.png in Resources */,
 				CFC66B6615CB69F7009D537A /* winlossbg.png in Resources */,
 				CFC66B6715CB69F7009D537A /* winlossbg@2x.png in Resources */,
+				CFEDA87C189640AA00867490 /* Scientist3Blink06.png in Resources */,
 				CFC66B7515CB7012009D537A /* inactivesidebutton.png in Resources */,
 				CFA370F315D0E4FE0066D72E /* resetskillpoints@2x.png in Resources */,
 				CFC04DAC188FE8D400F2DB59 /* rarefound.png in Resources */,
@@ -9144,6 +10099,7 @@
 				CF664F421815F87900731AEB /* EnhanceViewController.xib in Resources */,
 				CFA3710615D2358A0066D72E /* equippeditem@2x.png in Resources */,
 				CFA3710715D2358A0066D72E /* equipselected.png in Resources */,
+				CFEDA8C1189640AA00867490 /* Scientist4Turn06.png in Resources */,
 				CF1279A818202DE900211623 /* TopBarMonsterView.xib in Resources */,
 				CFA3710815D2358A0066D72E /* equipselected@2x.png in Resources */,
 				CFA3710915D2358A0066D72E /* unequippeditem.png in Resources */,
@@ -9153,6 +10109,7 @@
 				CFA3712015D302AF0066D72E /* attacklistbg.png in Resources */,
 				CFA3712115D302AF0066D72E /* attacklistbg@2x.png in Resources */,
 				CFA3712215D302AF0066D72E /* attacknav.png in Resources */,
+				CFEDA8EF189640AA00867490 /* Scientist5Turn09.png in Resources */,
 				CFA3712315D302AF0066D72E /* attacknav@2x.png in Resources */,
 				CFA3712615D302AF0066D72E /* listattackbutton.png in Resources */,
 				CFA3712715D302AF0066D72E /* listattackbutton@2x.png in Resources */,
@@ -9162,14 +10119,18 @@
 				CF62934B180D312900C6C196 /* settingsbottombutton@2x.png in Resources */,
 				CF7F596415D37B5B0048CB77 /* equippedborder@2x.png in Resources */,
 				CF7F596B15D4C8C90048CB77 /* listpulltorefresh.png in Resources */,
+				CFEDA880189640AA00867490 /* Scientist3Blink10.png in Resources */,
 				CF7F596C15D4C8C90048CB77 /* listpulltorefresh@2x.png in Resources */,
 				CF7F596F15D4CC3C0048CB77 /* listprofilebutton.png in Resources */,
+				CFEDA841189640AA00867490 /* Scientist1Turn07@2x.png in Resources */,
 				CF7F597015D4CC3C0048CB77 /* listprofilebutton@2x.png in Resources */,
 				CF2F40C815D5DC5900D0CC76 /* notification.png in Resources */,
 				CF3766151832CE4400D0A77E /* dialoguebox@2x.png in Resources */,
 				CFF391251829D5F60010A3BE /* watergrenade.png in Resources */,
 				CF629303180D22F600C6C196 /* casegems@2x.png in Resources */,
 				CF2F40C915D5DC5900D0CC76 /* notification@2x.png in Resources */,
+				CFEDA8EC189640AA00867490 /* Scientist5Turn06.png in Resources */,
+				CFEDA890189640AA00867490 /* Scientist3Turn00.png in Resources */,
 				CF0A8D77183ABC3200B32CDC /* 4x4shadow.png in Resources */,
 				CFE7CD101819FC3300930847 /* arrowup@2x.png in Resources */,
 				CF48C67C15DB1C4E001AA587 /* ranknumberbg.png in Resources */,
@@ -9180,6 +10141,7 @@
 				CFDC099215DD9C5D007A55E2 /* citydivider@2x.png in Resources */,
 				CF37668D1833022700D0A77E /* gachacommonbg@2x.png in Resources */,
 				CF62935B180D312900C6C196 /* settingstopbg@2x.png in Resources */,
+				CFEDA90918974A7300867490 /* evolveplus@2x.png in Resources */,
 				CFCE570A18137CD400494F8C /* notificationsicon.png in Resources */,
 				CFCE56F818137CD400494F8C /* alertbubble@2x.png in Resources */,
 				CFF740271817AF09009DE4A4 /* bench2.png in Resources */,
@@ -9189,6 +10151,7 @@
 				CFC04D8A188FE8D400F2DB59 /* cashfound@2x.png in Resources */,
 				CF7699E5187E5E2D0031D6ED /* OilDrill@2x.plist in Resources */,
 				CFF391151829D5F60010A3BE /* firegrenade.png in Resources */,
+				CFEDA8B0189640AA00867490 /* Scientist4Breath02.png in Resources */,
 				CFE7CD701819FC3300930847 /* levelnumber@2x.png in Resources */,
 				CFE02D8E1825F8840016C1E2 /* 2sidenav@2x.png in Resources */,
 				CFE7CDB41819FC3300930847 /* topbarbg.png in Resources */,
@@ -9210,6 +10173,7 @@
 				CFC04DE218909DF500F2DB59 /* KC_GTMOAuth2ViewTouch.nib in Resources */,
 				CFF3900F18273C2E0010A3BE /* fullfriendmask.png in Resources */,
 				CFFEB16218349B7D007C4BA3 /* lightteam.png in Resources */,
+				CFEDA90618974A7300867490 /* evolveequals.png in Resources */,
 				CF62E70815FEC6D500DF850F /* ClanViewController.xib in Resources */,
 				CFF390D31829C74A0010A3BE /* earthupdown@2x.png in Resources */,
 				CFE02CFF182370AF0016C1E2 /* Cheerleader2BazookaThumbnail.png in Resources */,
@@ -9220,6 +10184,7 @@
 				CF3766AB1833022700D0A77E /* rarecapsule.png in Resources */,
 				CF3766ED1833022700D0A77E /* commongtag@2x.png in Resources */,
 				CFC04DDE18909DF500F2DB59 /* iPhoneExperienceStoryboard.storyboardc in Resources */,
+				CFEDA89A189640AA00867490 /* Scientist3Turn10.png in Resources */,
 				CFD09C061602E7DF005D94D1 /* ClanMemberCell.xib in Resources */,
 				CF20F27E1811EB12005551B5 /* MyCroniesQueueCell.xib in Resources */,
 				CF20F0B1180FB6FF005551B5 /* wonbg@2x.png in Resources */,
@@ -9234,7 +10199,9 @@
 				CFFEB13A1834539C007C4BA3 /* onteam@2x.png in Resources */,
 				CFCE571F1813BC0700494F8C /* ProfileViewController.xib in Resources */,
 				CF52FA151626768600AD3478 /* DownloaderSpinner.xib in Resources */,
+				CFEDA8E6189640AA00867490 /* Scientist5Turn00.png in Resources */,
 				CFF4A0751629361D00A452A7 /* goldmineicon.png in Resources */,
+				CFEDA8C3189640AA00867490 /* Scientist4Turn08.png in Resources */,
 				CF32EA10180D0B9D00CBD50D /* shelftopper@2x.png in Resources */,
 				CF37656D182E0D9300D0A77E /* Clan.proto in Resources */,
 				CFF740591817AF09009DE4A4 /* streetlight.png in Resources */,
@@ -9245,6 +10212,7 @@
 				CF2B4CDC162A5B2600758BC8 /* yellowdefenseshield@2x.png in Resources */,
 				CF2B4CDD162A5B2600758BC8 /* yellowattackswords.png in Resources */,
 				CF2B4CDE162A5B2600758BC8 /* yellowdefenseshield.png in Resources */,
+				CFEDA8A1189640AA00867490 /* Scientist4Blink00.png in Resources */,
 				CF2B4CF6162E64F600758BC8 /* attackpopupborder.png in Resources */,
 				CFE02C6818231EA60016C1E2 /* Cheerleader1UziCard.png in Resources */,
 				CFB2507418585D6700BE0C05 /* loadingbarbg.png in Resources */,
@@ -9262,6 +10230,7 @@
 				CF2B4CFE162E64F600758BC8 /* leaderboardsearchbar.png in Resources */,
 				CF2B4CFF162E64F600758BC8 /* leaderboardsearchbar@2x.png in Resources */,
 				CF2B4D00162E64F600758BC8 /* leaderboardsearchx.png in Resources */,
+				CFEDA874189640AA00867490 /* Scientist2Turn15.png in Resources */,
 				CF2B4D01162E64F600758BC8 /* leaderboardsearchx@2x.png in Resources */,
 				CFC04DBA188FE8D400F2DB59 /* wonlostbg2.png in Resources */,
 				CFE02B971821DC000016C1E2 /* minifire.png in Resources */,
@@ -9285,6 +10254,7 @@
 				CF7064E51846D58E005B30A1 /* home@2x.tmx in Resources */,
 				CF1B4FFD167C42F400B73276 /* tournamentbanner.png in Resources */,
 				CF1B4FFE167C42F400B73276 /* tournamentbanner@2x.png in Resources */,
+				CFEDA8AF189640AA00867490 /* Scientist4Breath01.png in Resources */,
 				CF1B4FFF167C42F400B73276 /* tournleaderboardbutton.png in Resources */,
 				CFFEB16418349B7D007C4BA3 /* lightteam@2x.png in Resources */,
 				CF1B5000167C42F400B73276 /* tournleaderboardbutton@2x.png in Resources */,
@@ -9307,7 +10277,9 @@
 				CF6F19EF181518C900CFF2B9 /* questarrow@2x.png in Resources */,
 				CFFEB1CB18384123007C4BA3 /* nightbattlering.png in Resources */,
 				CF49CBA8169BB9CF00725DB0 /* crown@2x.png in Resources */,
+				CFEDA89E189640AA00867490 /* Scientist3Turn14.png in Resources */,
 				CFE7CD1E1819FC3300930847 /* backgroundright.png in Resources */,
+				CFEDA83C189640AA00867490 /* Scientist1Turn02@2x.png in Resources */,
 				CFE02BBD1822CF8F0016C1E2 /* myteamimage.png in Resources */,
 				CF49CBA9169BB9CF00725DB0 /* towernamebg.png in Resources */,
 				CF49CBAA169BB9CF00725DB0 /* towernamebg@2x.png in Resources */,
@@ -9316,6 +10288,7 @@
 				CFF390E51829C74A0010A3BE /* lightsideways.png in Resources */,
 				CF49CBAC169BB9CF00725DB0 /* warbluebar@2x.png in Resources */,
 				CF49CBAD169BB9CF00725DB0 /* warendsinbg.png in Resources */,
+				CFEDA8F1189640AA00867490 /* Scientist5Turn11.png in Resources */,
 				CF49CBAE169BB9CF00725DB0 /* warendsinbg@2x.png in Resources */,
 				CF629359180D312900C6C196 /* settingstopbg.png in Resources */,
 				CFE7CD6C1819FC3300930847 /* leftrightexpand@2x.png in Resources */,
@@ -9329,6 +10302,7 @@
 				CFB2507E18585D6700BE0C05 /* tipbg.png in Resources */,
 				CF49CBB2169BB9CF00725DB0 /* warticker@2x.png in Resources */,
 				CFF5F62016B22CF70073E16D /* warstatsheader.png in Resources */,
+				CFEDA898189640AA00867490 /* Scientist3Turn08.png in Resources */,
 				CFF5F62116B22CF70073E16D /* warstatsheader@2x.png in Resources */,
 				CFF5F62F16B246F50073E16D /* clanstatstickerbg.png in Resources */,
 				CFF5F63016B246F50073E16D /* clanstatstickerbg@2x.png in Resources */,
@@ -9343,6 +10317,7 @@
 				CFF390DF1829C74A0010A3BE /* fireupdown@2x.png in Resources */,
 				CFFEB19518361540007C4BA3 /* enhancebutton.png in Resources */,
 				CF91C98A16B8F08B00F2F3B6 /* tutokay.png in Resources */,
+				CFEDA873189640AA00867490 /* Scientist2Turn14.png in Resources */,
 				CF7699F3187E60DB0031D6ED /* CityHall@2x.png in Resources */,
 				CF91C98B16B8F08B00F2F3B6 /* tutokay@2x.png in Resources */,
 				CFF5829016C387AB00712C4F /* alsocontainsnumberbg.png in Resources */,
@@ -9361,11 +10336,13 @@
 				CFF582AD16C387AB00712C4F /* lvlbg@2x.png in Resources */,
 				CFC04DA4188FE8D400F2DB59 /* loststickerhead.png in Resources */,
 				CFF582AE16C387AB00712C4F /* packpricebg.png in Resources */,
+				CFEDA8F4189640AA00867490 /* Scientist5Turn14.png in Resources */,
 				CF376593182E0D9300D0A77E /* Protocols.proto in Resources */,
 				CFF582AF16C387AB00712C4F /* packpricebg@2x.png in Resources */,
 				CFF582B016C387AB00712C4F /* pricecrossedout.png in Resources */,
 				CF62930B180D22F600C6C196 /* safecash@2x.png in Resources */,
 				CFF582B116C387AB00712C4F /* pricecrossedout@2x.png in Resources */,
+				CFEDA850189640AA00867490 /* Scientist2Blink05.png in Resources */,
 				CFE02ADF18207CF40016C1E2 /* taskgradient.png in Resources */,
 				CFE7CD6A1819FC3300930847 /* leftrightexpand.png in Resources */,
 				CFE802BD16C6151E00B6B196 /* forgeinfo.png in Resources */,
@@ -9400,28 +10377,36 @@
 				CFC4D01B16E98D9E009A25DA /* commonmini.png in Resources */,
 				CF7064AD1845A340005B30A1 /* upgradebarbg@2x.png in Resources */,
 				CFC4D01C16E98D9E009A25DA /* commonmini@2x.png in Resources */,
+				CFEDA82E189640AA00867490 /* Scientist1Breath01@2x.png in Resources */,
 				CF7064AF1845A340005B30A1 /* upgradebarcurrent.png in Resources */,
 				CF37671C18333D0A00D0A77E /* GachaponFeaturedView.xib in Resources */,
 				CFC4D01D16E98D9E009A25DA /* epicmini.png in Resources */,
+				CFEDA89D189640AA00867490 /* Scientist3Turn13.png in Resources */,
 				CFC04DB8188FE8D400F2DB59 /* wonlostbg.png in Resources */,
+				CFEDA8D7189640AA00867490 /* Scientist5Blink11.png in Resources */,
 				CFC4D01E16E98D9E009A25DA /* epicmini@2x.png in Resources */,
 				CFC4D02116E98D9E009A25DA /* legendarymini.png in Resources */,
+				CFEDA8E9189640AA00867490 /* Scientist5Turn03.png in Resources */,
 				CFC4D02216E98D9E009A25DA /* legendarymini@2x.png in Resources */,
 				CFC4D02516E98D9E009A25DA /* raremini.png in Resources */,
 				CFC4D02616E98D9E009A25DA /* raremini@2x.png in Resources */,
+				CFEDA879189640AA00867490 /* Scientist3Blink03.png in Resources */,
 				CFE02D311825D9CC0016C1E2 /* clandetailbg.png in Resources */,
 				CFC4D02716E98D9E009A25DA /* superraremini.png in Resources */,
 				CFE02B8B1821DC000016C1E2 /* deploybg.png in Resources */,
 				CFFEB1541834539C007C4BA3 /* waterteamhealthbar.png in Resources */,
 				CFC4D02816E98D9E009A25DA /* superraremini@2x.png in Resources */,
 				CF20F1AE180FCABC005551B5 /* minitimebg@2x.png in Resources */,
+				CFEDA84D189640AA00867490 /* Scientist2Blink02.png in Resources */,
 				CFE7CDB61819FC3300930847 /* topbarbg@2x.png in Resources */,
+				CFEDA872189640AA00867490 /* Scientist2Turn13.png in Resources */,
 				CFC4D02916E98D9E009A25DA /* totalattacksword.png in Resources */,
 				CFC4D02A16E98D9E009A25DA /* totalattacksword@2x.png in Resources */,
 				CFC4D02B16E98D9E009A25DA /* totaldefenseshield.png in Resources */,
 				CF37670D1833022700D0A77E /* ticker.png in Resources */,
 				CFE7CD221819FC3300930847 /* buildingbar.png in Resources */,
 				CFC4D02C16E98D9E009A25DA /* totaldefenseshield@2x.png in Resources */,
+				CFEDA8C9189640AA00867490 /* Scientist4Turn14.png in Resources */,
 				CFCE570C18137CD400494F8C /* notificationsicon@2x.png in Resources */,
 				CFC9718D182C81EB00FF1D83 /* combofire.plist in Resources */,
 				CFC4D02D16E98D9E009A25DA /* uncommonmini.png in Resources */,
@@ -9444,12 +10429,14 @@
 				CFE02BB71821E72C0016C1E2 /* swapempty.png in Resources */,
 				CFC4D04216E9B0E2009A25DA /* alliancecircle@2x.png in Resources */,
 				CF7064B51845A340005B30A1 /* upgradebarnew@2x.png in Resources */,
+				CFEDA8B7189640AA00867490 /* Scientist4Breath09.png in Resources */,
 				CFC4D04316E9B0E2009A25DA /* legionbg.png in Resources */,
 				CF06067E188A92EC00A69355 /* Hospital@2x.png in Resources */,
 				CFC4D04416E9B0E2009A25DA /* legionbg@2x.png in Resources */,
 				CF629347180D312900C6C196 /* settingsbottombg@2x.png in Resources */,
 				CFFEB12C1834539C007C4BA3 /* nightcardhealthbar.png in Resources */,
 				CFC4D04516E9B0E2009A25DA /* legioncircle.png in Resources */,
+				CFEDA8F3189640AA00867490 /* Scientist5Turn13.png in Resources */,
 				CFC4D04616E9B0E2009A25DA /* legioncircle@2x.png in Resources */,
 				CFF390FB1829C74A0010A3BE /* waterorb@2x.png in Resources */,
 				CFC4D05516E9B72D009A25DA /* battleanalysisbg.png in Resources */,
@@ -9481,6 +10468,7 @@
 				CFFA9D7018877C5F0097AD72 /* rockorb@2x.png in Resources */,
 				CF3CAFE816EEDEF400F5D3B8 /* starterpackdescription@2x.png in Resources */,
 				CF62933D180D312900C6C196 /* onoffswitch.png in Resources */,
+				CFEDA852189640AA00867490 /* Scientist2Blink07.png in Resources */,
 				CF3CAFED16F005A600F5D3B8 /* infostarterpack.png in Resources */,
 				CF3CAFEE16F005A600F5D3B8 /* infostarterpack@2x.png in Resources */,
 				CF3CAFF116F00C5E00F5D3B8 /* buystarterchest.png in Resources */,
@@ -9494,20 +10482,25 @@
 				CF629366180D4A4100C6C196 /* CarpenterViewController.xib in Resources */,
 				CF26A87A16FABCD00020D508 /* dragon.png in Resources */,
 				CFFEB0F81834539C007C4BA3 /* emptyslot.png in Resources */,
+				CFEDA8CD189640AA00867490 /* Scientist5Blink01.png in Resources */,
 				CFC04DCE188FE8D400F2DB59 /* youwon@2x.png in Resources */,
 				CF376573182E0D9300D0A77E /* EventChat.proto in Resources */,
 				CF3765C31831BCB100D0A77E /* newcircle.png in Resources */,
 				CFF390FD1829C74A0010A3BE /* watersideways.png in Resources */,
+				CFEDA8A9189640AA00867490 /* Scientist4Blink08.png in Resources */,
 				CF70652118470051005B30A1 /* hometeamslotopen.png in Resources */,
 				CF26A87B16FABCD00020D508 /* dragon@2x.png in Resources */,
 				CF26A87D16FAC8310020D508 /* fire.plist in Resources */,
 				CFD5E900171652B200FBDEA3 /* feedcircle.png in Resources */,
 				CFF3901518273C2E0010A3BE /* letterheader@2x.png in Resources */,
 				CFFEB1261834539C007C4BA3 /* minusteam@2x.png in Resources */,
+				CFEDA848189640AA00867490 /* Scientist1Turn14@2x.png in Resources */,
 				CFD5E901171652B200FBDEA3 /* feedcircle@2x.png in Resources */,
 				CF376529182DD6F900D0A77E /* chatslidebutton@2x.png in Resources */,
 				CFD5E904171652DB00FBDEA3 /* armoryfeedbg.png in Resources */,
+				CFEDA824189640AA00867490 /* Scientist1Blink04@2x.png in Resources */,
 				CFD5E905171652DB00FBDEA3 /* armoryfeedbg@2x.png in Resources */,
+				CFEDA887189640AA00867490 /* Scientist3Breath04.png in Resources */,
 				CFD5E9A11716846F00FBDEA3 /* activeslot.png in Resources */,
 				CFD5E9A21716846F00FBDEA3 /* activeslot@2x.png in Resources */,
 				CFD5E9A31716846F00FBDEA3 /* addequipbutton.png in Resources */,
@@ -9547,9 +10540,11 @@
 				CFD5E9BA1716846F00FBDEA3 /* equippeditemsbg@2x.png in Resources */,
 				CFE7CD5C1819FC3300930847 /* firebar@2x.png in Resources */,
 				CFD5E9BB1716846F00FBDEA3 /* inactivetabpressed.png in Resources */,
+				CFEDA833189640AA00867490 /* Scientist1Breath06@2x.png in Resources */,
 				CFC04D25188F2D2E00F2DB59 /* firedailylab@2x.png in Resources */,
 				CFE7CD561819FC3300930847 /* expbar.png in Resources */,
 				CFD5E9BC1716846F00FBDEA3 /* inactivetabpressed@2x.png in Resources */,
+				CFEDA87E189640AA00867490 /* Scientist3Blink08.png in Resources */,
 				CFE7CD901819FC3300930847 /* minidivider@2x.png in Resources */,
 				CF6F1A09181518C900CFF2B9 /* sharecheckmark.png in Resources */,
 				CFFEB0E21834539C007C4BA3 /* cardshadow@2x.png in Resources */,
@@ -9557,6 +10552,7 @@
 				CFD5E9BD1716846F00FBDEA3 /* inactivetabslot.png in Resources */,
 				CFF3906B18285A7D0010A3BE /* m7 in Resources */,
 				CFD5E9BE1716846F00FBDEA3 /* inactivetabslot@2x.png in Resources */,
+				CFEDA85C189640AA00867490 /* Scientist2Breath04.png in Resources */,
 				CF3765D01831C38300D0A77E /* chatarrowback@2x.png in Resources */,
 				CFD5E9C11716846F00FBDEA3 /* nothingequipped.png in Resources */,
 				CFFEB0FA1834539C007C4BA3 /* emptyslot@2x.png in Resources */,
@@ -9566,6 +10562,7 @@
 				CFD5E9CB1716846F00FBDEA3 /* weaponactive.png in Resources */,
 				CFD5E9CC1716846F00FBDEA3 /* weaponactive@2x.png in Resources */,
 				CFD5E9D11717B9C000FBDEA3 /* activenavwall.png in Resources */,
+				CFEDA8E0189640AA00867490 /* Scientist5Breath07.png in Resources */,
 				CFD5E9D21717B9C100FBDEA3 /* activenavwall@2x.png in Resources */,
 				CFFEB1C118372CC8007C4BA3 /* minihpbar@2x.png in Resources */,
 				CFD5E9D31717B9C100FBDEA3 /* navwall.png in Resources */,
@@ -9577,10 +10574,10 @@
 				CFC04D15188F2D2E00F2DB59 /* earthdailylab@2x.png in Resources */,
 				CFC97165182C5A8400FF1D83 /* orbball@2x.png in Resources */,
 				CF5FE5241726017C000B0595 /* equiplocked@2x.png in Resources */,
+				CFEDA834189640AA00867490 /* Scientist1Breath07@2x.png in Resources */,
 				CF5FE52B1726145D000B0595 /* equippedtag.png in Resources */,
 				CF5FE52C1726145D000B0595 /* equippedtag@2x.png in Resources */,
 				CF23EE09172FC06A00474BF6 /* prefswitchbg.png in Resources */,
-				CFC04E621890F28000F2DB59 /* Untitled.ccb in Resources */,
 				CF23EE0A172FC06A00474BF6 /* prefswitchbg@2x.png in Resources */,
 				CFE7CD061819FC3300930847 /* addfunds.png in Resources */,
 				CFF7405D1817AF09009DE4A4 /* streetsign.png in Resources */,
@@ -9590,6 +10587,7 @@
 				CF3766C91833022700D0A77E /* gacharevealclosex@2x.png in Resources */,
 				CF57B1C2173D1A67003C8266 /* commonprofileequip.png in Resources */,
 				CF57B1C3173D1A67003C8266 /* commonprofileequip@2x.png in Resources */,
+				CFEDA8DA189640AA00867490 /* Scientist5Breath01.png in Resources */,
 				CF69FD5617421718001C96D0 /* Default.png in Resources */,
 				CF69FD5717421718001C96D0 /* Default@2x.png in Resources */,
 				CFFEB1A91837042E007C4BA3 /* borderstraight@2x.png in Resources */,
@@ -9597,6 +10595,7 @@
 				CF127999181F5F1600211623 /* newquest@2x.png in Resources */,
 				CF9BAB121746E3E4009564DE /* chaticon@2x.png in Resources */,
 				CF769A03187F6CC00031D6ED /* House.png in Resources */,
+				CFEDA851189640AA00867490 /* Scientist2Blink06.png in Resources */,
 				CF9BAB141746E3E4009564DE /* chaticon.png in Resources */,
 				CFE7CD0A1819FC3300930847 /* arrowdown.png in Resources */,
 				CF4CA58717472BFA00751326 /* onlinenowcircles.png in Resources */,
@@ -9615,6 +10614,7 @@
 				CFF740611817AF09009DE4A4 /* vase.png in Resources */,
 				CF629317180D22F600C6C196 /* vaultcash@2x.png in Resources */,
 				CFE02BA31821DC000016C1E2 /* miniwater.png in Resources */,
+				CFEDA8DF189640AA00867490 /* Scientist5Breath06.png in Resources */,
 				CF629309180D22F600C6C196 /* safecash.png in Resources */,
 				CFF390E91829C74A0010A3BE /* lightupdown.png in Resources */,
 				CFC04D33188F2D2E00F2DB59 /* nightdailylab.png in Resources */,
@@ -9630,19 +10630,27 @@
 				CF629355180D312900C6C196 /* settingspremium.png in Resources */,
 				CFE7CD521819FC3300930847 /* expand.png in Resources */,
 				CFB2506118583D2500BE0C05 /* buildinginfobg@2x.png in Resources */,
+				CFEDA8EA189640AA00867490 /* Scientist5Turn04.png in Resources */,
+				CFEDA8E2189640AA00867490 /* Scientist5Breath09.png in Resources */,
 				CF3766B91833022700D0A77E /* ultrapiece@2x.png in Resources */,
 				CFE02AF81821A2E30016C1E2 /* Luchador2AKIcon@2x.png in Resources */,
+				CFEDA87A189640AA00867490 /* Scientist3Blink04.png in Resources */,
 				CF20F09F180FB6FF005551B5 /* donebtn.png in Resources */,
 				CFF740291817AF09009DE4A4 /* bench2@2x.png in Resources */,
 				CFC04D17188F2D2E00F2DB59 /* enterroom.png in Resources */,
+				CFEDA8AB189640AA00867490 /* Scientist4Blink10.png in Resources */,
+				CFEDA899189640AA00867490 /* Scientist3Turn09.png in Resources */,
+				CFEDA870189640AA00867490 /* Scientist2Turn11.png in Resources */,
 				CFF7404D1817AF09009DE4A4 /* redlight@2x.png in Resources */,
 				CF3766171832CE4400D0A77E /* Screen Shot 2013-11-11 at 6.30.50 PM.png in Resources */,
+				CFEDA83B189640AA00867490 /* Scientist1Turn01@2x.png in Resources */,
 				CF127997181F5F1600211623 /* newquest.png in Resources */,
 				CF3766811833022700D0A77E /* commonpiece@2x.png in Resources */,
 				CFC04CE8188DCB2000F2DB59 /* claimed.png in Resources */,
 				CFE7CD421819FC3300930847 /* diamondbarbg.png in Resources */,
 				CF32EA04180D0B1E00CBD50D /* moneybottombar@2x.png in Resources */,
 				CFB250341856A31600BE0C05 /* menuresourcebg.png in Resources */,
+				CFEDA86E189640AA00867490 /* Scientist2Turn09.png in Resources */,
 				CF3B02EA174DB7E600A3A4F2 /* csevil.png in Resources */,
 				CF3B02EC174DB7E600A3A4F2 /* csevil@2x.png in Resources */,
 				CF3B02EE174DB7E600A3A4F2 /* evilselect.png in Resources */,
@@ -9664,20 +10672,24 @@
 				CF3B030A174DB82600A3A4F2 /* dialoguealliancearcher.png in Resources */,
 				CFF3902118273C470010A3BE /* Gotham-Medium.otf in Resources */,
 				CF3766A51833022700D0A77E /* legendcapsule@2x.png in Resources */,
+				CFEDA823189640AA00867490 /* Scientist1Blink03@2x.png in Resources */,
 				CFCE56FC18137CD400494F8C /* bluenot@2x.png in Resources */,
 				CF3B030C174DB82600A3A4F2 /* dialoguealliancearcher@2x.png in Resources */,
 				CFE7CD7A1819FC3300930847 /* mediumdivider.png in Resources */,
 				CF3B030E174DB82600A3A4F2 /* dialoguelegionarcher.png in Resources */,
 				CF3B0310174DB82600A3A4F2 /* dialoguelegionarcher@2x.png in Resources */,
+				CFEDA86D189640AA00867490 /* Scientist2Turn08.png in Resources */,
 				CF3B0312174DB82600A3A4F2 /* dialoguelegionmage.png in Resources */,
 				CF3766F31833022700D0A77E /* legendgtag.png in Resources */,
 				CF3B0314174DB82600A3A4F2 /* dialoguelegionmage@2x.png in Resources */,
 				CF3B0316174DB82600A3A4F2 /* dialoguepanda.png in Resources */,
+				CFEDA8C7189640AA00867490 /* Scientist4Turn12.png in Resources */,
 				CF3B0318174DB82700A3A4F2 /* dialoguepanda@2x.png in Resources */,
 				CF70650F18470051005B30A1 /* cashcap@2x.png in Resources */,
 				CFE02CB3182340950016C1E2 /* Clown4PistolBig@2x.png in Resources */,
 				CF3B031A174DB82700A3A4F2 /* dialogueskeleton.png in Resources */,
 				CF3B031C174DB82700A3A4F2 /* dialogueskeleton@2x.png in Resources */,
+				CFEDA876189640AA00867490 /* Scientist3Blink00.png in Resources */,
 				CFFEB0EC1834539C007C4BA3 /* earthcardhealthbar.png in Resources */,
 				CF3765B018319E0F00D0A77E /* shield@2x.png in Resources */,
 				CF3B031E174DB82700A3A4F2 /* dialoguewarrior.png in Resources */,
@@ -9687,6 +10699,7 @@
 				CF70653318470051005B30A1 /* myteambar.png in Resources */,
 				CFD44C99175D4282006E2198 /* protectionshield.png in Resources */,
 				CFD44C9B175D4282006E2198 /* protectionshield@2x.png in Resources */,
+				CFEDA8A0189640AA00867490 /* Scientist3Turn16.png in Resources */,
 				CFD44C9D175D4282006E2198 /* shieldnoticebg.png in Resources */,
 				CFE7CD821819FC3300930847 /* menubg.png in Resources */,
 				CFD44C9F175D4282006E2198 /* shieldnoticebg@2x.png in Resources */,
@@ -9702,8 +10715,10 @@
 				CF376591182E0D9300D0A77E /* MonsterStuff.proto in Resources */,
 				CFE02B991821DC000016C1E2 /* minifire@2x.png in Resources */,
 				CFFEB1381834539C007C4BA3 /* onteam.png in Resources */,
+				CFEDA8A2189640AA00867490 /* Scientist4Blink01.png in Resources */,
 				CF8A3E631767DD9600BDF639 /* citycollectablesbg.png in Resources */,
 				CF8A3E651767DD9600BDF639 /* citycollectablesbg@2x.png in Resources */,
+				CFEDA88F189640AA00867490 /* Scientist3Breath12.png in Resources */,
 				CF8A3E671767DD9600BDF639 /* citycollectablesheader.png in Resources */,
 				CF8A3E691767DD9600BDF639 /* citycollectablesheader@2x.png in Resources */,
 				CF70652718470051005B30A1 /* hteambarbg@2x.png in Resources */,
@@ -9714,11 +10729,14 @@
 				CF7699F1187E60DB0031D6ED /* CityHall.png in Resources */,
 				CFF390DD1829C74A0010A3BE /* fireupdown.png in Resources */,
 				CF8A3E891767DDA100BDF639 /* cityrankup.png in Resources */,
+				CFEDA854189640AA00867490 /* Scientist2Blink09.png in Resources */,
 				CFF740351817AF09009DE4A4 /* fence2@2x.png in Resources */,
 				CFF740251817AF09009DE4A4 /* bench1@2x.png in Resources */,
 				CF8A3E8B1767DDA100BDF639 /* cityrankup@2x.png in Resources */,
 				CF8A3E8D1767DDA100BDF639 /* fighthim.png in Resources */,
 				CF7699FF187E610F0031D6ED /* OilStorage@2x.pvr.ccz in Resources */,
+				CFEDA858189640AA00867490 /* Scientist2Breath00.png in Resources */,
+				CFEDA84A189640AA00867490 /* Scientist1Turn16@2x.png in Resources */,
 				CFC9712D182B05CD00FF1D83 /* powermeterbg.png in Resources */,
 				CFE7CD161819FC3300930847 /* attackbuttonbg.png in Resources */,
 				CF8A3E8F1767DDA100BDF639 /* fighthim@2x.png in Resources */,
@@ -9732,6 +10750,7 @@
 				CF8A3E9E1769531300BDF639 /* picknow@2x.png in Resources */,
 				CFFEB1501834539C007C4BA3 /* waterteam.png in Resources */,
 				CF8A3EA9176AC36E00BDF639 /* bossoverlay.png in Resources */,
+				CFEDA82A189640AA00867490 /* Scientist1Blink10@2x.png in Resources */,
 				CF8A3EAB176AC36E00BDF639 /* bossoverlay@2x.png in Resources */,
 				CF0A8D7318385E1A00B32CDC /* MissionBuildingMenuSmall.xib in Resources */,
 				CF8A3EC4176BD7CF00BDF639 /* bigbossbubble.png in Resources */,
@@ -9743,18 +10762,24 @@
 				CF8A3ECE176BD7CF00BDF639 /* bossheart@2x.png in Resources */,
 				CF8A3ED0176BD7CF00BDF639 /* minihealthbar.png in Resources */,
 				CFC9712F182B05CD00FF1D83 /* powermeterbg@2x.png in Resources */,
+				CFEDA831189640AA00867490 /* Scientist1Breath04@2x.png in Resources */,
 				CF8A3ED2176BD7CF00BDF639 /* minihealthbar@2x.png in Resources */,
+				CFEDA839189640AA00867490 /* Scientist1Breath12@2x.png in Resources */,
+				CFEDA90B18974A7300867490 /* feederbase@2x.png in Resources */,
 				CF8A3ED4176BD7CF00BDF639 /* powerattackbutton.png in Resources */,
 				CF8A3ED6176BD7CF00BDF639 /* powerattackbutton@2x.png in Resources */,
 				CFF3905318284B8C0010A3BE /* testbox.png in Resources */,
 				CF8A3ED8176BD7CF00BDF639 /* regattackbutton.png in Resources */,
+				CFEDA86C189640AA00867490 /* Scientist2Turn07.png in Resources */,
 				CFFEB0DC1834539C007C4BA3 /* cardhealthbg.png in Resources */,
+				CFEDA8CB189640AA00867490 /* Scientist4Turn16.png in Resources */,
 				CF8A3EDA176BD7CF00BDF639 /* regattackbutton@2x.png in Resources */,
 				CF8A3EDC176BD7CF00BDF639 /* smallbossbubble.png in Resources */,
 				CF8A3EDE176BD7CF00BDF639 /* smallbossbubble@2x.png in Resources */,
 				CF20F2721810FDDB005551B5 /* finishheal.png in Resources */,
 				CF8A3EE0176BD7CF00BDF639 /* staminaguy.png in Resources */,
 				CFC04D98188FE8D400F2DB59 /* itemswonlost.png in Resources */,
+				CFEDA8D0189640AA00867490 /* Scientist5Blink04.png in Resources */,
 				CF8A3EE2176BD7CF00BDF639 /* staminaguy@2x.png in Resources */,
 				CF6F19F3181518C900CFF2B9 /* questbg@2x.png in Resources */,
 				CF20F20E180FCBC1005551B5 /* buybutton@2x.png in Resources */,
@@ -9762,10 +10787,12 @@
 				CF76998518779F190031D6ED /* 4x4base.png in Resources */,
 				CF3766BD1833022700D0A77E /* featureddivider@2x.png in Resources */,
 				CF8A3EE6176C038900BDF639 /* minibolt.png in Resources */,
+				CFEDA8D3189640AA00867490 /* Scientist5Blink07.png in Resources */,
 				CFFEB18B18361531007C4BA3 /* enhancepercent.png in Resources */,
 				CF8A3EE8176C038900BDF639 /* minibolt@2x.png in Resources */,
 				CFE0DAD617798F5D00A3CEF7 /* Farm.png in Resources */,
 				CF376579182E0D9300D0A77E /* EventDungeon.proto in Resources */,
+				CFEDA84B189640AA00867490 /* Scientist2Blink00.png in Resources */,
 				CFE02AE118207CF40016C1E2 /* taskgradient@2x.png in Resources */,
 				CFE0DAD817798F5D00A3CEF7 /* Farm@2x.png in Resources */,
 				CFE0DADE17798F6B00A3CEF7 /* Tavern.png in Resources */,
@@ -9784,6 +10811,7 @@
 				CFD037151790CC4900719C6B /* tutorialtext.plist in Resources */,
 				CFD037171790CC4900719C6B /* tutorialtext.pvr.ccz in Resources */,
 				CFB250841858603A00BE0C05 /* loadingbg.png in Resources */,
+				CFEDA8D9189640AA00867490 /* Scientist5Breath00.png in Resources */,
 				CF37658D182E0D9300D0A77E /* EventUser.proto in Resources */,
 				CFC04D90188FE8D400F2DB59 /* epicfound.png in Resources */,
 				CF76998318779F190031D6ED /* 4x4base@2x.png in Resources */,
@@ -9794,15 +10822,19 @@
 				CFD037271794917800719C6B /* blackcircle@2x.png in Resources */,
 				CF376595182E0D9300D0A77E /* Quest.proto in Resources */,
 				CF3765BF1831BBE900D0A77E /* PrivateChatListCell.xib in Resources */,
+				CFEDA8BA189640AA00867490 /* Scientist4Breath12.png in Resources */,
 				CFF38FFB18273C2E0010A3BE /* 123.png in Resources */,
 				CF664F491815FB3900731AEB /* EnhanceCardCell.xib in Resources */,
 				CFFEB0EE1834539C007C4BA3 /* earthcardhealthbar@2x.png in Resources */,
 				CF70652918470051005B30A1 /* levelicon.png in Resources */,
+				CFEDA87F189640AA00867490 /* Scientist3Blink09.png in Resources */,
 				CFF740471817AF09009DE4A4 /* park.png in Resources */,
 				CFEE00E117B9A43600F3BB19 /* bigbackground.png in Resources */,
 				CFC04D49188F6C1400F2DB59 /* 3x3base.png in Resources */,
+				CFEDA889189640AA00867490 /* Scientist3Breath06.png in Resources */,
 				CFEE00E317B9A43600F3BB19 /* bigbackground@2x.png in Resources */,
 				CFEE00E917B9A4C400F3BB19 /* topbar.png in Resources */,
+				CFEDA8B3189640AA00867490 /* Scientist4Breath05.png in Resources */,
 				CFEE00EB17B9A4C400F3BB19 /* topbar@2x.png in Resources */,
 				CFEE00EF17B9A83A00F3BB19 /* armorynav.png in Resources */,
 				CFE02D8C1825F8840016C1E2 /* 2sidenav.png in Resources */,
@@ -9820,22 +10852,27 @@
 				CF20F1A2180FCABC005551B5 /* healingoverlay@2x.png in Resources */,
 				CFC97169182C5AA400FF1D83 /* streak.png in Resources */,
 				CFEE024817BDC76000F3BB19 /* close1.png in Resources */,
+				CFEDA869189640AA00867490 /* Scientist2Turn04.png in Resources */,
 				CFEE024A17BDC76000F3BB19 /* close1@2x.png in Resources */,
 				CFFD3120185061720091E315 /* UpgradeBonusCell.xib in Resources */,
+				CFEDA8B5189640AA00867490 /* Scientist4Breath07.png in Resources */,
 				CFB2507618585D6700BE0C05 /* loadingbarbg@2x.png in Resources */,
 				CFEE024C17BDC76000F3BB19 /* funds.png in Resources */,
 				CFB250511858304700BE0C05 /* lightmteam.png in Resources */,
 				CFC04D11188F2D2E00F2DB59 /* earthbanner@2x.png in Resources */,
 				CFE7CDAC1819FC3300930847 /* sellicon.png in Resources */,
+				CFEDA840189640AA00867490 /* Scientist1Turn06@2x.png in Resources */,
 				CF7064D61846CED8005B30A1 /* sale1@2x.png in Resources */,
 				CFEE024E17BDC76000F3BB19 /* funds@2x.png in Resources */,
 				CFEE025017BDC76000F3BB19 /* menuback.png in Resources */,
 				CFEE025217BDC76000F3BB19 /* menuback@2x.png in Resources */,
 				CFEE025417BDC76000F3BB19 /* mainmenubg.png in Resources */,
 				CFEE025617BDC76000F3BB19 /* mainmenubg@2x.png in Resources */,
+				CFEDA8AD189640AA00867490 /* Scientist4Blink12.png in Resources */,
 				CFEE025817BDC76000F3BB19 /* menubluebox.png in Resources */,
 				CFB2503C1856A7E300BE0C05 /* levelxpbg@2x.png in Resources */,
 				CFEE025A17BDC76000F3BB19 /* menubluebox@2x.png in Resources */,
+				CFEDA86F189640AA00867490 /* Scientist2Turn10.png in Resources */,
 				CF3765EC183203FE00D0A77E /* closedcity@2x.png in Resources */,
 				CFEE025C17BDC76000F3BB19 /* menubrute.png in Resources */,
 				CFEE025E17BDC76000F3BB19 /* menubrute@2x.png in Resources */,
@@ -9858,11 +10895,15 @@
 				CFEE026E17BDC76100F3BB19 /* menulab@2x.png in Resources */,
 				CFFEB1121834539C007C4BA3 /* fixarrow@2x.png in Resources */,
 				CFF390CF1829C74A0010A3BE /* earthsideways@2x.png in Resources */,
+				CFEDA8C8189640AA00867490 /* Scientist4Turn13.png in Resources */,
 				CFEE027017BDC76100F3BB19 /* menutopbar.png in Resources */,
+				CFEDA8B4189640AA00867490 /* Scientist4Breath06.png in Resources */,
+				CFEDA8BF189640AA00867490 /* Scientist4Turn04.png in Resources */,
 				CFB2502A18569FB800BE0C05 /* overring.png in Resources */,
 				CFEE027217BDC76100F3BB19 /* menutopbar@2x.png in Resources */,
 				CFEE027417BDC76100F3BB19 /* settingshelp.png in Resources */,
 				CFEE027617BDC76100F3BB19 /* settingshelp@2x.png in Resources */,
+				CFEDA822189640AA00867490 /* Scientist1Blink02@2x.png in Resources */,
 				CFEE027817BDC76100F3BB19 /* yellowmenubar.png in Resources */,
 				CFEE027A17BDC76100F3BB19 /* yellowmenubar@2x.png in Resources */,
 				CFEE028117BDC9AC00F3BB19 /* MainMenuController.xib in Resources */,
@@ -9880,8 +10921,10 @@
 				CFC04CEA188DCB2000F2DB59 /* claimed@2x.png in Resources */,
 				CF12798D181F5EF300211623 /* GothamNarrow-Ultra.otf in Resources */,
 				CFE7CD4C1819FC3300930847 /* emptycard@2x.png in Resources */,
+				CFEDA861189640AA00867490 /* Scientist2Breath09.png in Resources */,
 				CFBF031C17C595F60082A9BF /* ClanBrowseViewController.xib in Resources */,
 				CFBF032317C596890082A9BF /* ClanCreateViewController.xib in Resources */,
+				CFEDA8DE189640AA00867490 /* Scientist5Breath05.png in Resources */,
 				CFFEB1C518372CC8007C4BA3 /* movesbg@2x.png in Resources */,
 				CFBF032A17C596A10082A9BF /* ClanInfoViewController.xib in Resources */,
 				CFF7402D1817AF09009DE4A4 /* cornerpiece@2x.png in Resources */,
@@ -9889,6 +10932,7 @@
 				CF20F22A180FCBC1005551B5 /* shelf@2x.png in Resources */,
 				CF62934D180D312900C6C196 /* settingsdivider.png in Resources */,
 				CFC97194182C920500FF1D83 /* missionmap2.tmx in Resources */,
+				CFEDA90718974A7300867490 /* evolveequals@2x.png in Resources */,
 				CFE02AF61821A2E30016C1E2 /* Luchador2AKIcon.png in Resources */,
 				CFCE56FA18137CD400494F8C /* bluenot.png in Resources */,
 				CF37667B1833022700D0A77E /* commoncapsule.png in Resources */,
@@ -9907,6 +10951,7 @@
 				CFE02AF21820A79B0016C1E2 /* finishbuild@2x.png in Resources */,
 				CF3766D91833022700D0A77E /* gooniegrablogo@2x.png in Resources */,
 				CFF740631817AF09009DE4A4 /* vase@2x.png in Resources */,
+				CFEDA8F2189640AA00867490 /* Scientist5Turn12.png in Resources */,
 				CFF391271829D5F60010A3BE /* watergrenade@2x.png in Resources */,
 				CFE02D411825D9CC0016C1E2 /* clansearch.png in Resources */,
 				CFF3901718273C2E0010A3BE /* slotsgemsbutton.png in Resources */,
@@ -9916,9 +10961,13 @@
 				CF6F1A281815240900CFF2B9 /* QuestListCell.xib in Resources */,
 				CFF1D6E317DFC43700874339 /* healthbar@2x.png in Resources */,
 				CFF1D6E517DFC43700874339 /* rockettail.plist in Resources */,
+				CFEDA8DB189640AA00867490 /* Scientist5Breath02.png in Resources */,
+				CFEDA8A5189640AA00867490 /* Scientist4Blink04.png in Resources */,
 				CFF1D6EB17DFC43700874339 /* orbblowup.plist in Resources */,
 				CFF1D6ED17DFC43700874339 /* orbblowup@2x.plist in Resources */,
+				CFEDA8CC189640AA00867490 /* Scientist5Blink00.png in Resources */,
 				CFCE56FE18137CD400494F8C /* notdivider.png in Resources */,
+				CFEDA897189640AA00867490 /* Scientist3Turn07.png in Resources */,
 				CFF1D6EF17DFC43700874339 /* pop.plist in Resources */,
 				CFE7CD9A1819FC3300930847 /* moneystack.png in Resources */,
 				CFE7CD281819FC3300930847 /* buildingbarbg@2x.png in Resources */,
@@ -9948,6 +10997,7 @@
 				CF376597182E0D9300D0A77E /* StaticData.proto in Resources */,
 				CFF1D74117DFC43700874339 /* timeryellow@2x.png in Resources */,
 				CFCE570E18137CD400494F8C /* orangenot.png in Resources */,
+				CFEDA88D189640AA00867490 /* Scientist3Breath10.png in Resources */,
 				CF20F20C180FCBC1005551B5 /* buybutton.png in Resources */,
 				CF4DB8F61807DA1F00062258 /* WelcomeView.xib in Resources */,
 				CFF39074182888620010A3BE /* topbartest.png in Resources */,
@@ -9956,6 +11006,7 @@
 				CF3766AD1833022700D0A77E /* rarecapsule@2x.png in Resources */,
 				CFF74075181826B8009DE4A4 /* complete.png in Resources */,
 				CFFEB19118361531007C4BA3 /* enhancepercentbg@2x.png in Resources */,
+				CFEDA8B6189640AA00867490 /* Scientist4Breath08.png in Resources */,
 				CFE7CD381819FC3300930847 /* cashready@2x.png in Resources */,
 				CF664F4C1815FEC400731AEB /* EnhanceQueueCell.xib in Resources */,
 				CFF1D75F17DFC43700874339 /* scene1left.png in Resources */,
@@ -9964,7 +11015,9 @@
 				CFF1D76317DFC43700874339 /* scene1right.png in Resources */,
 				CFF1D76517DFC43700874339 /* scene1right@2x.png in Resources */,
 				CFC04D3D188F2D2E00F2DB59 /* waterdailylab.png in Resources */,
+				CFEDA832189640AA00867490 /* Scientist1Breath05@2x.png in Resources */,
 				CFF1D76717DFC43700874339 /* scene2left.png in Resources */,
+				CFEDA827189640AA00867490 /* Scientist1Blink07@2x.png in Resources */,
 				CFF1D76917DFC43700874339 /* scene2left@2x.png in Resources */,
 				CFF1D76B17DFC43700874339 /* scene2right.png in Resources */,
 				CFF1D76D17DFC43700874339 /* scene2right@2x.png in Resources */,
@@ -9974,15 +11027,20 @@
 				CFC9715D182C440E00FF1D83 /* Gotham-Ultra.otf in Resources */,
 				CFE7CD981819FC3300930847 /* mobstericon@2x.png in Resources */,
 				CFF1D77B17DFE9C400874339 /* shadow@2x.png in Resources */,
+				CFEDA89B189640AA00867490 /* Scientist3Turn11.png in Resources */,
 				CFF1D78C17E101C900874339 /* ballin.png in Resources */,
+				CFEDA8F0189640AA00867490 /* Scientist5Turn10.png in Resources */,
 				CFF1D78E17E101C900874339 /* ballin@2x.png in Resources */,
 				CFC04D1F188F2D2E00F2DB59 /* firebanner.png in Resources */,
 				CFF1D79017E101C900874339 /* canttouchthis.png in Resources */,
 				CFF1D79217E101C900874339 /* canttouchthis@2x.png in Resources */,
 				CF4DB8F41807DA1F00062258 /* TravelingLoadingView.xib in Resources */,
+				CFEDA8D8189640AA00867490 /* Scientist5Blink12.png in Resources */,
+				CFEDA8EB189640AA00867490 /* Scientist5Turn05.png in Resources */,
 				CFF1D79417E101C900874339 /* hammertime.png in Resources */,
 				CFF1D79617E101C900874339 /* hammertime@2x.png in Resources */,
 				CFC04DDC18909DF500F2DB59 /* iPadExperienceStoryboard.storyboardc in Resources */,
+				CFEDA8D1189640AA00867490 /* Scientist5Blink05.png in Resources */,
 				CFF1D79817E101C900874339 /* mir1.png in Resources */,
 				CFF1D79A17E101C900874339 /* mir1@2x.png in Resources */,
 				CFF1D79C17E101C900874339 /* mir2.png in Resources */,
@@ -9990,6 +11048,7 @@
 				CFF1D7A017E101C900874339 /* mir3.png in Resources */,
 				CFF1D7A217E101C900874339 /* mir3@2x.png in Resources */,
 				CFF1D7A617E12E3200874339 /* makeitrain@2x.plist in Resources */,
+				CFEDA85E189640AA00867490 /* Scientist2Breath06.png in Resources */,
 				CFF1D7A817E12E3200874339 /* makeitrain@2x.pvr.ccz in Resources */,
 				CF3766C71833022700D0A77E /* gacharevealclosex.png in Resources */,
 				CFF1D7AD17E14A1400874339 /* opponentsbg.png in Resources */,
@@ -9997,8 +11056,10 @@
 				CF70654518470051005B30A1 /* xpcap@2x.png in Resources */,
 				CFF1D7AF17E14A1400874339 /* opponentsbg@2x.png in Resources */,
 				CFF1D7B517E14DA800874339 /* damagebg.png in Resources */,
+				CFEDA862189640AA00867490 /* Scientist2Breath10.png in Resources */,
 				CF20F168180FCABC005551B5 /* spotlight.png in Resources */,
 				CFC04D35188F2D2E00F2DB59 /* nightdailylab@2x.png in Resources */,
+				CFEDA821189640AA00867490 /* Scientist1Blink01@2x.png in Resources */,
 				CFF1D7B717E14DA800874339 /* damagebg@2x.png in Resources */,
 				CFF1D7B917E14DA800874339 /* movesleft.png in Resources */,
 				CF20F188180FCABC005551B5 /* heal.png in Resources */,
@@ -10008,7 +11069,9 @@
 				CF32E9EE180D015900CBD50D /* TopBarViewController.xib in Resources */,
 				CFE0E69717E2BFD3002ECA84 /* damagelabel.png in Resources */,
 				CFE0E69817E2BFD3002ECA84 /* damagelabel@2x.png in Resources */,
+				CFEDA846189640AA00867490 /* Scientist1Turn12@2x.png in Resources */,
 				CFE0E69917E2BFD3002ECA84 /* percent.png in Resources */,
+				CFEDA8A3189640AA00867490 /* Scientist4Blink02.png in Resources */,
 				CFE0E69A17E2BFD3002ECA84 /* percent@2x.png in Resources */,
 				CFCE571018137CD400494F8C /* orangenot@2x.png in Resources */,
 				CF37653E182DDA5D00D0A77E /* chatinactivetab@2x.png in Resources */,
@@ -10019,9 +11082,11 @@
 				CFE0E6A417E3A536002ECA84 /* characterdie.plist in Resources */,
 				CFE0E6AE17E3C002002ECA84 /* filledstar.png in Resources */,
 				CFB2504B1858304700BE0C05 /* earthmteam@2x.png in Resources */,
+				CFEDA8A4189640AA00867490 /* Scientist4Blink03.png in Resources */,
 				CF3765C51831BCB100D0A77E /* newcircle@2x.png in Resources */,
 				CFE0E6B017E3C002002ECA84 /* filledstar@2x.png in Resources */,
 				CF3766251832D76B00D0A77E /* Luchador1BazookaBig@2x.png in Resources */,
+				CFEDA8EE189640AA00867490 /* Scientist5Turn08.png in Resources */,
 				CF6292FD180D22F600C6C196 /* casecash.png in Resources */,
 				CFE0E6B217E3C002002ECA84 /* innerstar.png in Resources */,
 				CFE0E6B417E3C002002ECA84 /* innerstar@2x.png in Resources */,
@@ -10057,9 +11122,11 @@
 				CFE0E6DA17E7B886002ECA84 /* lootcollect.png in Resources */,
 				CF3766F71833022700D0A77E /* raregtag.png in Resources */,
 				CFE0E6DC17E7B886002ECA84 /* lootcollect@2x.png in Resources */,
+				CFEDA888189640AA00867490 /* Scientist3Breath05.png in Resources */,
 				CF52D08017E9400500A067A6 /* bloodsplatter.png in Resources */,
 				CFF74077181826B8009DE4A4 /* complete@2x.png in Resources */,
 				CFC04DAE188FE8D400F2DB59 /* rarefound@2x.png in Resources */,
+				CFEDA8F5189640AA00867490 /* Scientist5Turn15.png in Resources */,
 				CF52D08217E9400500A067A6 /* bloodsplatter@2x.png in Resources */,
 				CF52D0C217EA6CA500A067A6 /* flinchstars.plist in Resources */,
 				CF52D0C517EAA65400A067A6 /* charging.plist in Resources */,
@@ -10070,6 +11137,7 @@
 				CF63F78F17EC23F700FEBAA9 /* plane.aif in Resources */,
 				CF63F79117EC23F700FEBAA9 /* rocket.aif in Resources */,
 				CF63F7AD17ECF87A00FEBAA9 /* tiles.png in Resources */,
+				CFEDA871189640AA00867490 /* Scientist2Turn12.png in Resources */,
 				CF63F7AF17ECF87A00FEBAA9 /* tiles@2x.png in Resources */,
 				CF63F7B217ECF8A300FEBAA9 /* testtilemap@2x.tmx in Resources */,
 				CF63F7C017ED3DB900FEBAA9 /* combo1a.aif in Resources */,
@@ -10077,8 +11145,10 @@
 				CFF391031829C74A0010A3BE /* waterupdown@2x.png in Resources */,
 				CFC04D13188F2D2E00F2DB59 /* earthdailylab.png in Resources */,
 				CFC04D2D188F2D2E00F2DB59 /* lightdailylab@2x.png in Resources */,
+				CFEDA856189640AA00867490 /* Scientist2Blink11.png in Resources */,
 				CF63F7C417ED3DB900FEBAA9 /* combo3a.aif in Resources */,
 				CF70651F18470051005B30A1 /* firehteambar@2x.png in Resources */,
+				CFEDA855189640AA00867490 /* Scientist2Blink10.png in Resources */,
 				CF63F7C617ED3DB900FEBAA9 /* combo4a.aif in Resources */,
 				CF63F7C817ED3DB900FEBAA9 /* combo5a.aif in Resources */,
 				CF3764F0182DADEE00D0A77E /* bosslock@2x.png in Resources */,
@@ -10093,8 +11163,11 @@
 				CFCE56E518137C9000494F8C /* MonsterPopUpViewController.xib in Resources */,
 				CFC04DA0188FE8D400F2DB59 /* lostsplash.png in Resources */,
 				CFFEB18718361531007C4BA3 /* enhanceaddpercent.png in Resources */,
+				CFEDA857189640AA00867490 /* Scientist2Blink12.png in Resources */,
 				CF63F7D617ED3DB900FEBAA9 /* combo13a.aif in Resources */,
 				CF63F7DD17ED3DE400FEBAA9 /* walking.aif in Resources */,
+				CFEDA88B189640AA00867490 /* Scientist3Breath08.png in Resources */,
+				CFEDA8E8189640AA00867490 /* Scientist5Turn02.png in Resources */,
 				CF63F7DF17ED3DE400FEBAA9 /* wrongmove.aif in Resources */,
 				CF22F97717F14C0600DFD79D /* gem_pop.aif in Resources */,
 				CFE7CD761819FC3300930847 /* mediumbox.png in Resources */,
@@ -10102,12 +11175,15 @@
 				CF22F97E17F150E200DFD79D /* gem_blows_up.mp3 in Resources */,
 				CF70654318470051005B30A1 /* xpcap.png in Resources */,
 				CFCE56F618137CD400494F8C /* alertbubble.png in Resources */,
+				CFEDA8F6189640AA00867490 /* Scientist5Turn16.png in Resources */,
 				CF22F98417F24E4A00DFD79D /* cancelbuild.png in Resources */,
 				CF22F98617F24E4A00DFD79D /* cancelbuild@2x.png in Resources */,
 				CF22F98817F24E4A00DFD79D /* confirmbuild.png in Resources */,
 				CF22F98A17F24E4A00DFD79D /* confirmbuild@2x.png in Resources */,
 				CFE02AD518207CF40016C1E2 /* enter@2x.png in Resources */,
 				CF22F98E17F27EDA00DFD79D /* buildingspinner.png in Resources */,
+				CFEDA863189640AA00867490 /* Scientist2Breath11.png in Resources */,
+				CFEDA875189640AA00867490 /* Scientist2Turn16.png in Resources */,
 				CF1279A1181F5F1600211623 /* sell@2x.png in Resources */,
 				CF22F99017F27EDA00DFD79D /* buildingspinner@2x.png in Resources */,
 				CFC04D2F188F2D2E00F2DB59 /* nightbanner.png in Resources */,
@@ -10120,6 +11196,7 @@
 				CF3766D31833022700D0A77E /* gooniegrabbanner.png in Resources */,
 				CF3765A2182F03B400D0A77E /* ChatCell.xib in Resources */,
 				CF7064D81846CED8005B30A1 /* sale2.png in Resources */,
+				CFEDA83A189640AA00867490 /* Scientist1Turn00@2x.png in Resources */,
 				CFF3905518284B8C0010A3BE /* testbox@2x.png in Resources */,
 				CFF207FF17FCD94200AA6F84 /* missionroad@2x.png in Resources */,
 				CFF2080217FCE1E800AA6F84 /* rackcity@2x.tmx in Resources */,
@@ -10128,8 +11205,10 @@
 				CFF2080E17FF4C2000AA6F84 /* itemdurabilitybar@2x.png in Resources */,
 				CFF2081017FF4C2000AA6F84 /* itemdurabilitybg.png in Resources */,
 				CFF2081217FF4C2000AA6F84 /* itemdurabilitybg@2x.png in Resources */,
+				CFEDA8BC189640AA00867490 /* Scientist4Turn01.png in Resources */,
 				CFFEB0D41834539B007C4BA3 /* addteam.png in Resources */,
 				CF8E5DA318037763009D4F61 /* BattleEndView.xib in Resources */,
+				CFEDA8DD189640AA00867490 /* Scientist5Breath04.png in Resources */,
 				CF7699E7187E5E2D0031D6ED /* OilDrill@2x.pvr.ccz in Resources */,
 				CF6292F5180D22F500C6C196 /* bagcash.png in Resources */,
 			);
@@ -10216,6 +11295,7 @@
 				CF126E201538ACCA00E0C1AD /* PullRefreshTableViewController.m in Sources */,
 				CF126E211538ACCA00E0C1AD /* SBDoubleSidedLayer.m in Sources */,
 				CF126E221538ACCA00E0C1AD /* SBGradientOverlayLayer.m in Sources */,
+				CFEDA8FB189652AA00867490 /* EvoViews.m in Sources */,
 				CF126E231538ACCA00E0C1AD /* SBTickerView.m in Sources */,
 				CF126E241538ACCA00E0C1AD /* UIView+SBExtras.m in Sources */,
 				CF9AE6D418090C320013DD44 /* EventApns.pb.m in Sources */,
@@ -10272,6 +11352,7 @@
 				CF15BA8516572A8400A51F85 /* AMQPObject.m in Sources */,
 				CFFEB1781834C2FD007C4BA3 /* CAKeyframeAnimation+AHEasing.m in Sources */,
 				CF32E9ED180D015900CBD50D /* TopBarViewController.m in Sources */,
+				CFEDA72C1896114F00867490 /* EvoViewController.m in Sources */,
 				CFCE571D1813BC0700494F8C /* ProfileViewController.m in Sources */,
 				CF15BA8616572A8400A51F85 /* AMQPQueue.m in Sources */,
 				CFC141AC1657484A0060188D /* socket.c in Sources */,
