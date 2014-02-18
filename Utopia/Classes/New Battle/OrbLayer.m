@@ -407,7 +407,7 @@
 }
 
 - (CCColor *) colorForSparkle:(GemColorId)color {
-  UIColor *c = [Globals colorForElement:(MonsterProto_MonsterElement)color];
+  UIColor *c = [Globals colorForElementOnDarkBackground:(MonsterProto_MonsterElement)color];
   float r = 1.f, g = 1.f, b = 1.f, a = 1.f;
   [c getRed:&r green:&g blue:&b alpha:&a];
   return [CCColor colorWithCcColor3b:ccc3(r*255, g*255, b*255)];

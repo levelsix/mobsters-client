@@ -37,6 +37,7 @@
 @property (nonatomic, assign) int experience;
 @property (nonatomic, assign) int tasksCompleted;
 @property (nonatomic, assign) int numReferrals;
+@property (nonatomic, assign) int elo;
 @property (nonatomic, assign) int playerHasBoughtInAppPurchase;
 @property (nonatomic, assign) BOOL isAdmin;
 @property (nonatomic, retain) NSDate *createTime;
@@ -92,6 +93,7 @@
 @property (nonatomic, retain) NSMutableDictionary *expansionCosts;
 
 @property (nonatomic, retain) NSMutableDictionary *staticLevelInfos;
+@property (nonatomic, retain) NSMutableDictionary *battleDialogueInfo;
 
 @property (nonatomic, retain) UserEnhancement *userEnhancement;
 @property (nonatomic, retain) UserEvolution *userEvolution;
@@ -113,6 +115,7 @@
 - (MonsterProto *) monsterWithId:(int)monsterId;
 - (PersistentEventProto *) persistentEventWithId:(int)eventId;
 - (PersistentEventProto *) currentPersistentEventWithType:(PersistentEventProto_EventType)type;
+- (MonsterBattleDialogueProto *) battleDialogueForMonsterId:(int)monsterId type:(MonsterBattleDialogueProto_DialogueType)type;
 
 - (BOOL) isTaskUnlocked:(int)taskId;
 - (BOOL) isCityUnlocked:(int)cityId;
@@ -154,6 +157,7 @@
 - (UserStruct *) myStructWithId:(int)structId;
 - (UserStruct *) myTownHall;
 - (UserStruct *) myLaboratory;
+- (NSArray *) allHospitals;
 - (NSArray *) myValidHospitals;
 - (int) maxHospitalQueueSize;
 - (UserQuest *) myQuestWithId:(int)questId;

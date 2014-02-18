@@ -39,6 +39,7 @@
 
 - (void) updateForMonster:(UserMonster *)um;
 - (void) updateForNoMonsterWithLabel:(NSString *)str;
+- (void) updateForMonster:(UserMonster *)um backupString:(NSString *)str;
 
 - (IBAction)darkOverlayClicked:(id)sender;
 - (IBAction)infoClicked:(id)sender;

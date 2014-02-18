@@ -18,6 +18,8 @@
 @class FullUserProto_Builder;
 @class MinimumClanProto;
 @class MinimumClanProto_Builder;
+@class MinimumUserMonsterProto;
+@class MinimumUserMonsterProto_Builder;
 @class MinimumUserMonsterSellProto;
 @class MinimumUserMonsterSellProto_Builder;
 @class MinimumUserProto;
@@ -28,6 +30,8 @@
 @class MinimumUserProtoWithMaxResources;
 @class MinimumUserProtoWithMaxResources_Builder;
 @class MinimumUserProto_Builder;
+@class MonsterBattleDialogueProto;
+@class MonsterBattleDialogueProto_Builder;
 @class MonsterLevelInfoProto;
 @class MonsterLevelInfoProto_Builder;
 @class MonsterProto;

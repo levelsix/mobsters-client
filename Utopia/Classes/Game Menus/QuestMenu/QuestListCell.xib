@@ -18,78 +18,84 @@
                 <rect key="frame" x="0.0" y="0.0" width="356" height="63"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
-                    <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="questbg.png" id="qEQ-tK-MUG">
-                        <rect key="frame" x="10" y="6" width="336" height="51"/>
-                        <autoresizingMask key="autoresizingMask"/>
-                    </imageView>
-                    <imageView opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" image="luchadoretest.png" id="ojf-AA-Qk0">
-                        <rect key="frame" x="20" y="9" width="39" height="41"/>
-                        <autoresizingMask key="autoresizingMask"/>
-                    </imageView>
-                    <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Launder Cash" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="9" id="SU5-MW-GES" customClass="NiceFontLabel">
-                        <rect key="frame" x="67" y="13" width="153" height="34"/>
-                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                        <fontDescription key="fontDescription" type="system" pointSize="20"/>
-                        <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                        <color key="highlightedColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                        <color key="shadowColor" red="0.0" green="0.0" blue="0.0" alpha="0.29999999999999999" colorSpace="calibratedRGB"/>
-                        <size key="shadowOffset" width="0.0" height="1"/>
-                    </label>
-                    <view userInteractionEnabled="NO" contentMode="scaleToFill" id="9gQ-Uv-BsG">
-                        <rect key="frame" x="219" y="14" width="30" height="31"/>
+                    <view contentMode="scaleToFill" id="doD-4n-4X6">
+                        <rect key="frame" x="0.0" y="0.0" width="356" height="63"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
-                            <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="newbg.png" id="4hB-ZR-t35">
-                                <rect key="frame" x="0.0" y="0.0" width="30" height="31"/>
+                            <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="questbg.png" id="qEQ-tK-MUG">
+                                <rect key="frame" x="10" y="6" width="336" height="51"/>
                                 <autoresizingMask key="autoresizingMask"/>
                             </imageView>
-                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="NEW!" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" id="PCR-b5-rC8" customClass="NiceFontLabel">
-                                <rect key="frame" x="-1" y="8" width="32" height="13"/>
+                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Launder Cash" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="9" id="SU5-MW-GES" customClass="NiceFontLabel">
+                                <rect key="frame" x="67" y="13" width="153" height="34"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="8"/>
-                                <color key="textColor" red="1" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
-                                <color key="highlightedColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                <size key="shadowOffset" width="0.0" height="1"/>
-                            </label>
-                        </subviews>
-                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                    </view>
-                    <view userInteractionEnabled="NO" contentMode="scaleToFill" id="q7b-3z-wgo">
-                        <rect key="frame" x="247" y="15" width="70" height="29"/>
-                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                        <subviews>
-                            <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="questnumberbg.png" id="CKR-QW-osy">
-                                <rect key="frame" x="12" y="1" width="57" height="30"/>
-                                <autoresizingMask key="autoresizingMask"/>
-                            </imageView>
-                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="0/1" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="10" adjustsFontSizeToFit="NO" id="9X9-Tx-n5t" customClass="NiceFontLabel">
-                                <rect key="frame" x="15" y="-3" width="51" height="35"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="18"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="20"/>
                                 <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                <nil key="highlightedColor"/>
+                                <color key="highlightedColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <color key="shadowColor" red="0.0" green="0.0" blue="0.0" alpha="0.29999999999999999" colorSpace="calibratedRGB"/>
                                 <size key="shadowOffset" width="0.0" height="1"/>
                             </label>
+                            <view userInteractionEnabled="NO" contentMode="scaleToFill" id="9gQ-Uv-BsG">
+                                <rect key="frame" x="219" y="14" width="30" height="31"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <subviews>
+                                    <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="newbg.png" id="4hB-ZR-t35">
+                                        <rect key="frame" x="0.0" y="0.0" width="30" height="31"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                    </imageView>
+                                    <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="NEW!" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" id="PCR-b5-rC8" customClass="NiceFontLabel">
+                                        <rect key="frame" x="-1" y="8" width="32" height="13"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="8"/>
+                                        <color key="textColor" red="1" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                        <color key="highlightedColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                        <size key="shadowOffset" width="0.0" height="1"/>
+                                    </label>
+                                </subviews>
+                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                            </view>
+                            <view userInteractionEnabled="NO" contentMode="scaleToFill" id="q7b-3z-wgo">
+                                <rect key="frame" x="247" y="15" width="70" height="29"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <subviews>
+                                    <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="questnumberbg.png" id="CKR-QW-osy">
+                                        <rect key="frame" x="12" y="1" width="57" height="30"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                    </imageView>
+                                    <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="0/1" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="10" adjustsFontSizeToFit="NO" id="9X9-Tx-n5t" customClass="NiceFontLabel">
+                                        <rect key="frame" x="15" y="-3" width="51" height="35"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="18"/>
+                                        <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                        <nil key="highlightedColor"/>
+                                        <color key="shadowColor" red="0.0" green="0.0" blue="0.0" alpha="0.29999999999999999" colorSpace="calibratedRGB"/>
+                                        <size key="shadowOffset" width="0.0" height="1"/>
+                                    </label>
+                                </subviews>
+                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                            </view>
+                            <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="questarrow.png" id="hx0-uQ-oah">
+                                <rect key="frame" x="325" y="22" width="12" height="19"/>
+                                <autoresizingMask key="autoresizingMask"/>
+                            </imageView>
+                            <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleAspectFit" image="Cheerleader2BazookaThumbnail.png" id="0fo-LB-e7z">
+                                <rect key="frame" x="12" y="10" width="46" height="44"/>
+                                <autoresizingMask key="autoresizingMask"/>
+                            </imageView>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="Xlu-fF-gbk" customClass="MaskedButton">
+                                <rect key="frame" x="10" y="6" width="336" height="51"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <state key="normal">
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <action selector="darkOverlayClicked:" destination="zhC-k2-ZJd" eventType="touchUpInside" id="Hhh-Y2-VfO"/>
+                                    <outlet property="baseImage" destination="qEQ-tK-MUG" id="DpZ-bJ-nlg"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                     </view>
-                    <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="questarrow.png" id="hx0-uQ-oah">
-                        <rect key="frame" x="325" y="22" width="12" height="19"/>
-                        <autoresizingMask key="autoresizingMask"/>
-                    </imageView>
-                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="vjp-9s-tuZ" customClass="MaskedButton">
-                        <rect key="frame" x="10" y="6" width="336" height="51"/>
-                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                        <fontDescription key="fontDescription" type="system" pointSize="15"/>
-                        <state key="normal">
-                            <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                        </state>
-                        <connections>
-                            <action selector="darkOverlayClicked:" destination="zhC-k2-ZJd" eventType="touchUpInside" id="MFV-ac-IlA"/>
-                            <outlet property="baseImage" destination="qEQ-tK-MUG" id="Ls5-xO-IyR"/>
-                        </connections>
-                    </button>
                 </subviews>
             </tableViewCellContentView>
             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
@@ -99,7 +105,7 @@
                 <outlet property="inProgressView" destination="q7b-3z-wgo" id="BXA-PL-byg"/>
                 <outlet property="nameLabel" destination="SU5-MW-GES" id="8Ec-8h-1yw"/>
                 <outlet property="progressLabel" destination="9X9-Tx-n5t" id="ZPj-L3-P97"/>
-                <outlet property="questGiverImageView" destination="ojf-AA-Qk0" id="rSy-tc-rv0"/>
+                <outlet property="questGiverImageView" destination="0fo-LB-e7z" id="xNk-wS-3BR"/>
             </connections>
         </tableViewCell>
         <view userInteractionEnabled="NO" contentMode="scaleToFill" id="YGt-iz-0eB">
@@ -123,8 +129,8 @@
         </view>
     </objects>
     <resources>
+        <image name="Cheerleader2BazookaThumbnail.png" width="59" height="56"/>
         <image name="complete.png" width="70" height="26"/>
-        <image name="luchadoretest.png" width="39" height="46"/>
         <image name="newbg.png" width="30" height="31"/>
         <image name="questarrow.png" width="11" height="18"/>
         <image name="questbg.png" width="336" height="51"/>

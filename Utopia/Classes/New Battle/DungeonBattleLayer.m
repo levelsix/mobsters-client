@@ -40,13 +40,6 @@
   _numStages = di.tspList.count;
 }
 
-- (BattleEndView *) endView {
-  if (!_endView) {
-    [[NSBundle mainBundle] loadNibNamed:@"BattleEndView" owner:self options:nil];
-  }
-  return _endView;
-}
-
 - (void) beginMyTurn {
   [super beginMyTurn];
   [self displaySwapButton];
@@ -79,20 +72,24 @@
 }
 
 - (void) endBattle:(BOOL)won {
-  [[OutgoingEventController sharedOutgoingEventController] endDungeon:self.dungeonInfo userWon:won delegate:self];
-  [self.endView displayLossWithDungeon:self.dungeonInfo];
   _wonBattle = won;
   
-  [self.orbBgdLayer runAction:[CCActionMoveBy actionWithDuration:0.5f position:ccp(self.contentSize.width, 0)]];
-  
-  if (won) {
-    [self.endView displayWinWithDungeon:self.dungeonInfo];
-    
-    [self makeGoCarrotCalls];
-  } else {
-    [self.endView displayLossWithDungeon:self.dungeonInfo];
-  }
-  [Kamcord stopRecording];
+  [self removeOrbLayerAnimated:YES withBlock:^{
+     if (won) {
+       [CCBReader load:@"BattleWonView" owner:self];
+       [self.wonView updateForRewards:[Reward createRewardsForDungeon:self.dungeonInfo]];
+       self.wonView.anchorPoint = ccp(0.5, 0.5);
+       self.wonView.position = ccp(self.contentSize.width/2, self.contentSize.height/2);
+       [self addChild:self.wonView z:10000];
+       [[OutgoingEventController sharedOutgoingEventController] endDungeon:self.dungeonInfo userWon:won delegate:self];
+       
+       [self makeGoCarrotCalls];
+     } else {
+       [self addChild:[CCBReader load:@"BattleLostView" owner:self] z:10000];
+       self.lostView.anchorPoint = ccp(0.5, 0.5);
+       self.lostView.position = ccp(self.contentSize.width/2, self.contentSize.height/2);
+     }
+   }];
 }
 
 - (void) makeGoCarrotCalls {
@@ -131,16 +128,21 @@
                                                           okayButton:@"Forfeit"
                                                         cancelButton:@"Cancel"
                                                             okTarget:self
-                                                          okSelector:@selector(exitFinal)
+                                                          okSelector:@selector(forfeitConfirmed)
                                                         cancelTarget:nil
                                                       cancelSelector:nil];
 }
 
+- (void) forfeitConfirmed {
+  [[OutgoingEventController sharedOutgoingEventController] endDungeon:self.dungeonInfo userWon:NO delegate:nil];
+  [self exitFinal];
+}
+
 - (IBAction)winExitClicked:(id)sender {
-  if (!_receivedEndDungeonResponse) {
-    self.endView.doneSpinner.hidden = NO;
-    self.endView.doneLabel.hidden = YES;
-    self.endView.buttonContainer.userInteractionEnabled = NO;
+  if (!_wonBattle) {
+    [[OutgoingEventController sharedOutgoingEventController] endDungeon:self.dungeonInfo userWon:_wonBattle delegate:nil];
+    [self exitFinal];
+  } else if (!_receivedEndDungeonResponse) {
     _waitingForEndDungeonResponse = YES;
     
     _manageWasClicked = NO;
@@ -151,22 +153,12 @@
 
 - (IBAction)manageClicked:(id)sender {
   _manageWasClicked = YES;
-  if (!_receivedEndDungeonResponse) {
-    self.endView.manageSpinner.hidden = NO;
-    self.endView.manageLabel.hidden = YES;
-    self.endView.buttonContainer.userInteractionEnabled = NO;
-    _waitingForEndDungeonResponse = YES;
-  } else {
-    [self exitFinal];
-  }
+  [self winExitClicked:sender];
 }
 
 - (void) exitFinal {
   self.swapView.hidden  = YES;
   self.forfeitButton.hidden = YES;
-  [Globals popOutView:self.endView.mainView fadeOutBgdView:self.endView.bgdView completion:^{
-    [self.endView removeFromSuperview];
-  }];
   
   [self.delegate battleComplete:[NSDictionary dictionaryWithObjectsAndKeys:@(_manageWasClicked), BATTLE_MANAGE_CLICKED_KEY, nil]];
   
@@ -175,36 +167,49 @@
 }
 
 - (IBAction)shareClicked:(id)sender {
+  [Kamcord stopRecording];
   [Kamcord showView];
 }
 
-//- (IBAction)refillClicked:(id)sender {
-//  [Globals popOutView:self.continueView.mainView fadeOutBgdView:self.continueView.bgdView completion:^{
-//    [self.continueView removeFromSuperview];
-//  }];
-//
-//  [self dealDamageWithPercent:-1000000 enemyIsAttacker:YES withSelector:@selector(beginMyTurn)];
-//  [self.bloodSplatter stopAllActions];
-//  self.bloodSplatter.opacity = 0;
-//  [self.leftHealthLabel stopActionByTag:RED_TINT_TAG];
-//  self.leftHealthLabel.color = ccc3(255, 255, 255);
-//}
+- (IBAction)continueClicked:(id)sender {
+  Globals *gl = [Globals sharedGlobals];
+  int gemsAmount = [gl calculateGemCostToHealTeamDuringBattle:self.myTeam];
+  NSString *desc = [NSString stringWithFormat:@"Would you like to heal your entire team for %d gems?", gemsAmount];
+  [GenericPopupController displayGemConfirmViewWithDescription:desc title:@"Heal Team?" gemCost:gemsAmount target:self selector:@selector(continueConfirmed)];
+}
+
+- (void) continueConfirmed {
+  GameState *gs = [GameState sharedGameState];
+  Globals *gl = [Globals sharedGlobals];
+  int gemsAmount = [gl calculateGemCostToHealTeamDuringBattle:self.myTeam];
+  
+  if (gs.gold < gemsAmount) {
+    [GenericPopupController displayNotEnoughGemsView];
+  } else {
+    [[OutgoingEventController sharedOutgoingEventController] reviveInDungeon:self.dungeonInfo.userTaskId myTeam:self.myTeam];
+    [self.lostView removeFromParent];
+    [self displayDeployViewAndIsCancellable:NO];
+    [self displayOrbLayer];
+  }
+}
 
 #pragma BattleDeployView methods
 
-#define DEPLOY_CENTER_Y 260
+#define ANIMATION_TIME 0.4f
+#define SWAP_CENTER_Y 268
+#define DEPLOY_CENTER_Y self.contentSize.height-16-self.deployView.frame.size.height/2
 
 - (void) displaySwapButton {
   self.swapView.hidden = NO;
-  self.swapView.center = ccp(-self.swapView.frame.size.width/2, DEPLOY_CENTER_Y);
-  [UIView animateWithDuration:0.3f animations:^{
-    self.swapView.center = ccp(self.swapView.frame.size.width/2, DEPLOY_CENTER_Y);
+  self.swapView.center = ccp(-self.swapView.frame.size.width/2, SWAP_CENTER_Y);
+  [UIView animateWithDuration:ANIMATION_TIME animations:^{
+    self.swapView.center = ccp(self.swapView.frame.size.width/2, SWAP_CENTER_Y);
   }];
 }
 
 - (void) removeSwapButton {
-  [UIView animateWithDuration:0.3f animations:^{
-    self.swapView.center = ccp(-self.swapView.frame.size.width/2, DEPLOY_CENTER_Y);
+  [UIView animateWithDuration:ANIMATION_TIME animations:^{
+    self.swapView.center = ccp(-self.swapView.frame.size.width/2, SWAP_CENTER_Y);
   } completion:^(BOOL finished) {
     self.swapView.hidden = YES;
   }];
@@ -224,8 +229,9 @@
   
   self.deployView.hidden = NO;
   self.deployView.center = ccp(-self.deployView.frame.size.width/2, DEPLOY_CENTER_Y);
-  [UIView animateWithDuration:0.3f animations:^{
-    self.deployView.center = ccp((self.orbBgdLayer.position.x-self.orbBgdLayer.contentSize.width/2)/2, DEPLOY_CENTER_Y);
+  [UIView animateWithDuration:ANIMATION_TIME animations:^{
+    float extra = [Globals isLongiPhone] ? self.movesBgd.contentSize.width : 0;
+    self.deployView.center = ccp((self.contentSize.width-self.orbBgdLayer.contentSize.width-extra-14)/2, DEPLOY_CENTER_Y);
   } completion:^(BOOL finished) {
     if (finished && cancel) {
       self.deployCancelButton = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, self.contentSize.width, self.contentSize.height)];
@@ -241,7 +247,7 @@
 - (void) removeDeployView {
   [self.deployCancelButton removeFromSuperview];
   self.deployCancelButton = nil;
-  [UIView animateWithDuration:0.3f animations:^{
+  [UIView animateWithDuration:ANIMATION_TIME animations:^{
     self.deployView.center = ccp(-self.deployView.frame.size.width/2, DEPLOY_CENTER_Y);
   } completion:^(BOOL finished) {
     self.deployView.hidden = YES;
@@ -324,11 +330,11 @@
 }
 
 - (void) begin {
+  [self displayOrbLayer];
   [self loadDeployView];
   
   // This will spawn the deploy view assuming someone is alive
   [self currentMyPlayerDied];
-  [self addChild:[CCBReader load:@"Untitled"]];
   
   [Kamcord startRecording];
 }
@@ -352,7 +358,7 @@
   if (_curStage < 0) {
     if (!self.dungeonInfo) {
       _numTimesNotResponded++;
-      if (_numTimesNotResponded < 5) {
+      if (_numTimesNotResponded < 10) {
         [self.myPlayer beginWalking];
         [self.bgdLayer scrollToNewScene];
       } else {

@@ -26,6 +26,8 @@
 @class LogoutRequestProto_Builder;
 @class MinimumClanProto;
 @class MinimumClanProto_Builder;
+@class MinimumUserMonsterProto;
+@class MinimumUserMonsterProto_Builder;
 @class MinimumUserMonsterSellProto;
 @class MinimumUserMonsterSellProto_Builder;
 @class MinimumUserProto;
@@ -36,6 +38,8 @@
 @class MinimumUserProtoWithMaxResources;
 @class MinimumUserProtoWithMaxResources_Builder;
 @class MinimumUserProto_Builder;
+@class MonsterBattleDialogueProto;
+@class MonsterBattleDialogueProto_Builder;
 @class MonsterLevelInfoProto;
 @class MonsterLevelInfoProto_Builder;
 @class MonsterProto;
@@ -62,6 +66,10 @@
 @class TownHallProto_Builder;
 @class UpdateClientUserResponseProto;
 @class UpdateClientUserResponseProto_Builder;
+@class UpdateUserCurrencyRequestProto;
+@class UpdateUserCurrencyRequestProto_Builder;
+@class UpdateUserCurrencyResponseProto;
+@class UpdateUserCurrencyResponseProto_Builder;
 @class UserCreateRequestProto;
 @class UserCreateRequestProto_Builder;
 @class UserCreateResponseProto;
@@ -108,6 +116,16 @@ typedef enum {
 } SetFacebookIdResponseProto_SetFacebookIdStatus;
 
 BOOL SetFacebookIdResponseProto_SetFacebookIdStatusIsValidValue(SetFacebookIdResponseProto_SetFacebookIdStatus value);
+
+typedef enum {
+  UpdateUserCurrencyResponseProto_UpdateUserCurrencyStatusSuccess = 1,
+  UpdateUserCurrencyResponseProto_UpdateUserCurrencyStatusFailOther = 2,
+  UpdateUserCurrencyResponseProto_UpdateUserCurrencyStatusFailInsufficientCash = 3,
+  UpdateUserCurrencyResponseProto_UpdateUserCurrencyStatusFailInsufficientOil = 4,
+  UpdateUserCurrencyResponseProto_UpdateUserCurrencyStatusFailInsufficientGems = 5,
+} UpdateUserCurrencyResponseProto_UpdateUserCurrencyStatus;
+
+BOOL UpdateUserCurrencyResponseProto_UpdateUserCurrencyStatusIsValidValue(UpdateUserCurrencyResponseProto_UpdateUserCurrencyStatus value);
 
 
 @interface EventUserRoot : NSObject {
@@ -770,5 +788,168 @@ BOOL SetFacebookIdResponseProto_SetFacebookIdStatusIsValidValue(SetFacebookIdRes
 - (SetFacebookIdResponseProto_SetFacebookIdStatus) status;
 - (SetFacebookIdResponseProto_Builder*) setStatus:(SetFacebookIdResponseProto_SetFacebookIdStatus) value;
 - (SetFacebookIdResponseProto_Builder*) clearStatus;
+@end
+
+@interface UpdateUserCurrencyRequestProto : PBGeneratedMessage {
+@private
+  BOOL hasClientTime_:1;
+  BOOL hasReason_:1;
+  BOOL hasDetails_:1;
+  BOOL hasSender_:1;
+  BOOL hasCashSpent_:1;
+  BOOL hasOilSpent_:1;
+  BOOL hasGemsSpent_:1;
+  int64_t clientTime;
+  NSString* reason;
+  NSString* details;
+  MinimumUserProto* sender;
+  int32_t cashSpent;
+  int32_t oilSpent;
+  int32_t gemsSpent;
+}
+- (BOOL) hasSender;
+- (BOOL) hasCashSpent;
+- (BOOL) hasOilSpent;
+- (BOOL) hasGemsSpent;
+- (BOOL) hasClientTime;
+- (BOOL) hasReason;
+- (BOOL) hasDetails;
+@property (readonly, retain) MinimumUserProto* sender;
+@property (readonly) int32_t cashSpent;
+@property (readonly) int32_t oilSpent;
+@property (readonly) int32_t gemsSpent;
+@property (readonly) int64_t clientTime;
+@property (readonly, retain) NSString* reason;
+@property (readonly, retain) NSString* details;
+
++ (UpdateUserCurrencyRequestProto*) defaultInstance;
+- (UpdateUserCurrencyRequestProto*) defaultInstance;
+
+- (BOOL) isInitialized;
+- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output;
+- (UpdateUserCurrencyRequestProto_Builder*) builder;
++ (UpdateUserCurrencyRequestProto_Builder*) builder;
++ (UpdateUserCurrencyRequestProto_Builder*) builderWithPrototype:(UpdateUserCurrencyRequestProto*) prototype;
+
++ (UpdateUserCurrencyRequestProto*) parseFromData:(NSData*) data;
++ (UpdateUserCurrencyRequestProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (UpdateUserCurrencyRequestProto*) parseFromInputStream:(NSInputStream*) input;
++ (UpdateUserCurrencyRequestProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (UpdateUserCurrencyRequestProto*) parseFromCodedInputStream:(PBCodedInputStream*) input;
++ (UpdateUserCurrencyRequestProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+@end
+
+@interface UpdateUserCurrencyRequestProto_Builder : PBGeneratedMessage_Builder {
+@private
+  UpdateUserCurrencyRequestProto* result;
+}
+
+- (UpdateUserCurrencyRequestProto*) defaultInstance;
+
+- (UpdateUserCurrencyRequestProto_Builder*) clear;
+- (UpdateUserCurrencyRequestProto_Builder*) clone;
+
+- (UpdateUserCurrencyRequestProto*) build;
+- (UpdateUserCurrencyRequestProto*) buildPartial;
+
+- (UpdateUserCurrencyRequestProto_Builder*) mergeFrom:(UpdateUserCurrencyRequestProto*) other;
+- (UpdateUserCurrencyRequestProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input;
+- (UpdateUserCurrencyRequestProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+
+- (BOOL) hasSender;
+- (MinimumUserProto*) sender;
+- (UpdateUserCurrencyRequestProto_Builder*) setSender:(MinimumUserProto*) value;
+- (UpdateUserCurrencyRequestProto_Builder*) setSenderBuilder:(MinimumUserProto_Builder*) builderForValue;
+- (UpdateUserCurrencyRequestProto_Builder*) mergeSender:(MinimumUserProto*) value;
+- (UpdateUserCurrencyRequestProto_Builder*) clearSender;
+
+- (BOOL) hasCashSpent;
+- (int32_t) cashSpent;
+- (UpdateUserCurrencyRequestProto_Builder*) setCashSpent:(int32_t) value;
+- (UpdateUserCurrencyRequestProto_Builder*) clearCashSpent;
+
+- (BOOL) hasOilSpent;
+- (int32_t) oilSpent;
+- (UpdateUserCurrencyRequestProto_Builder*) setOilSpent:(int32_t) value;
+- (UpdateUserCurrencyRequestProto_Builder*) clearOilSpent;
+
+- (BOOL) hasGemsSpent;
+- (int32_t) gemsSpent;
+- (UpdateUserCurrencyRequestProto_Builder*) setGemsSpent:(int32_t) value;
+- (UpdateUserCurrencyRequestProto_Builder*) clearGemsSpent;
+
+- (BOOL) hasClientTime;
+- (int64_t) clientTime;
+- (UpdateUserCurrencyRequestProto_Builder*) setClientTime:(int64_t) value;
+- (UpdateUserCurrencyRequestProto_Builder*) clearClientTime;
+
+- (BOOL) hasReason;
+- (NSString*) reason;
+- (UpdateUserCurrencyRequestProto_Builder*) setReason:(NSString*) value;
+- (UpdateUserCurrencyRequestProto_Builder*) clearReason;
+
+- (BOOL) hasDetails;
+- (NSString*) details;
+- (UpdateUserCurrencyRequestProto_Builder*) setDetails:(NSString*) value;
+- (UpdateUserCurrencyRequestProto_Builder*) clearDetails;
+@end
+
+@interface UpdateUserCurrencyResponseProto : PBGeneratedMessage {
+@private
+  BOOL hasSender_:1;
+  BOOL hasStatus_:1;
+  MinimumUserProto* sender;
+  UpdateUserCurrencyResponseProto_UpdateUserCurrencyStatus status;
+}
+- (BOOL) hasSender;
+- (BOOL) hasStatus;
+@property (readonly, retain) MinimumUserProto* sender;
+@property (readonly) UpdateUserCurrencyResponseProto_UpdateUserCurrencyStatus status;
+
++ (UpdateUserCurrencyResponseProto*) defaultInstance;
+- (UpdateUserCurrencyResponseProto*) defaultInstance;
+
+- (BOOL) isInitialized;
+- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output;
+- (UpdateUserCurrencyResponseProto_Builder*) builder;
++ (UpdateUserCurrencyResponseProto_Builder*) builder;
++ (UpdateUserCurrencyResponseProto_Builder*) builderWithPrototype:(UpdateUserCurrencyResponseProto*) prototype;
+
++ (UpdateUserCurrencyResponseProto*) parseFromData:(NSData*) data;
++ (UpdateUserCurrencyResponseProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (UpdateUserCurrencyResponseProto*) parseFromInputStream:(NSInputStream*) input;
++ (UpdateUserCurrencyResponseProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (UpdateUserCurrencyResponseProto*) parseFromCodedInputStream:(PBCodedInputStream*) input;
++ (UpdateUserCurrencyResponseProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+@end
+
+@interface UpdateUserCurrencyResponseProto_Builder : PBGeneratedMessage_Builder {
+@private
+  UpdateUserCurrencyResponseProto* result;
+}
+
+- (UpdateUserCurrencyResponseProto*) defaultInstance;
+
+- (UpdateUserCurrencyResponseProto_Builder*) clear;
+- (UpdateUserCurrencyResponseProto_Builder*) clone;
+
+- (UpdateUserCurrencyResponseProto*) build;
+- (UpdateUserCurrencyResponseProto*) buildPartial;
+
+- (UpdateUserCurrencyResponseProto_Builder*) mergeFrom:(UpdateUserCurrencyResponseProto*) other;
+- (UpdateUserCurrencyResponseProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input;
+- (UpdateUserCurrencyResponseProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+
+- (BOOL) hasSender;
+- (MinimumUserProto*) sender;
+- (UpdateUserCurrencyResponseProto_Builder*) setSender:(MinimumUserProto*) value;
+- (UpdateUserCurrencyResponseProto_Builder*) setSenderBuilder:(MinimumUserProto_Builder*) builderForValue;
+- (UpdateUserCurrencyResponseProto_Builder*) mergeSender:(MinimumUserProto*) value;
+- (UpdateUserCurrencyResponseProto_Builder*) clearSender;
+
+- (BOOL) hasStatus;
+- (UpdateUserCurrencyResponseProto_UpdateUserCurrencyStatus) status;
+- (UpdateUserCurrencyResponseProto_Builder*) setStatus:(UpdateUserCurrencyResponseProto_UpdateUserCurrencyStatus) value;
+- (UpdateUserCurrencyResponseProto_Builder*) clearStatus;
 @end
 

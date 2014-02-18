@@ -19,11 +19,6 @@
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Warc-performSelector-leaks"
 
-#define Y_MOVEMENT_FOR_NEW_SCENE 140
-#define TIME_TO_SCROLL_PER_SCENE 3.f
-#define HEALTH_BAR_SPEED 40
-#define MY_WALKING_SPEED 250.f
-
 #define BALLIN_SCORE 230
 #define CANTTOUCHTHIS_SCORE 300
 #define HAMMERTIME_SCORE 420
@@ -41,15 +36,7 @@
 
 #define NO_INPUT_LAYER_OPACITY 0.6f
 
-#define CENTER_OF_BATTLE ccp((self.contentSize.width-self.orbBgdLayer.contentSize.width-14)/2, self.contentSize.height/2-40)
-#define PLAYER_X_DISTANCE_FROM_CENTER (CENTER_OF_BATTLE.x*0.4+4)
-#define MY_PLAYER_LOCATION ccpAdd(CENTER_OF_BATTLE, ccp(-PLAYER_X_DISTANCE_FROM_CENTER, -PLAYER_X_DISTANCE_FROM_CENTER*SLOPE_OF_ROAD))
-#define ENEMY_PLAYER_LOCATION ccpAdd(CENTER_OF_BATTLE, ccp(PLAYER_X_DISTANCE_FROM_CENTER, PLAYER_X_DISTANCE_FROM_CENTER*SLOPE_OF_ROAD))
-#define BGD_LAYER_INIT_POSITION ccp(-530+(CENTER_OF_BATTLE.x-CENTER_OF_BATTLE.y*SLOPE_OF_ROAD), 0)
-
 #define BGD_SCALE ((self.contentSize.width-480)/88.f*0.3+1.f)
-
-#define PUZZLE_ON_LEFT_BGD_OFFSET (self.contentSize.width-2*CENTER_OF_BATTLE.x)
 
 #define COMBO_FIRE_TAG @"ComboFire"
 
@@ -162,6 +149,7 @@
     if (_puzzleIsOnLeft) self.bgdLayer.position = ccpAdd(BGD_LAYER_INIT_POSITION, ccp(PUZZLE_ON_LEFT_BGD_OFFSET, 0));
     self.bgdLayer.delegate = self;
     
+    // Scale the bgdContainer
     CGPoint basePt = CENTER_OF_BATTLE;
     if (_puzzleIsOnLeft) basePt = ccpAdd(CENTER_OF_BATTLE, ccp(PUZZLE_ON_LEFT_BGD_OFFSET, 0));
     CGPoint beforeScale = [self.bgdContainer convertToNodeSpace:basePt];
@@ -180,6 +168,8 @@
       [arr addObject:[BattlePlayer playerWithMonster:um]];
     }
     self.myTeam = arr;
+    
+    [self removeOrbLayerAnimated:NO withBlock:nil];
   }
   return self;
 }
@@ -252,9 +242,9 @@
     movesLabel.anchorPoint = ccp(0, 0.5);
     movesLabel.anchorPoint = ccp(0, 0.5);
     
-    _movesBgd.position = ccp(puzzleBg.contentSize.width, 54);
-    movesLabel.position = ccp(3, 11);
-    _movesLeftLabel.position = ccp(3, 27);
+    _movesBgd.position = ccp(puzzleBg.contentSize.width, 36);
+    movesLabel.position = ccp(3, 6);
+    _movesLeftLabel.position = ccp(3, 24);
     
     _movesBgd.flipX = YES;
   } else {
@@ -262,15 +252,14 @@
     movesLabel.anchorPoint = ccp(1, 0.5);
     _movesLeftLabel.anchorPoint = ccp(1, 0.5);
     
-    _movesBgd.position = ccp(0, 54);
-    movesLabel.position = ccp(62, 6);
-    _movesLeftLabel.position = ccp(62, 22);
+    _movesBgd.position = ccp(0, 36);
+    movesLabel.position = ccp(45, 3);
+    _movesLeftLabel.position = ccp(45, 24);
   }
   
   CCSprite *lootBgd = [CCSprite spriteWithImageNamed:@"collectioncapsule.png"];
-  [self addChild:lootBgd];
-  lootBgd.position = ccp(puzzleBg.position.x-puzzleBg.contentSize.width/2-lootBgd.contentSize.width/2-5,
-                        36*3.5);
+  [puzzleBg addChild:lootBgd];
+  lootBgd.position = ccp(-lootBgd.contentSize.width/2-5, 36*2.5);
 
   _lootLabel = [CCLabelTTF labelWithString:@"0" fontName:[Globals font] fontSize:13];
   [lootBgd addChild:_lootLabel];
@@ -319,8 +308,6 @@
   mp.isFacingNear = NO;
   self.myPlayer = mp;
   [self updateHealthBars];
-  
-  self.orbLayer.orbFlyToLocation = [self.orbLayer convertToNodeSpace:[self.bgdContainer convertToWorldSpace:ccpAdd(mp.position, ccp(0, mp.contentSize.height/2))]];
 }
 
 - (void) makeMyPlayerWalkOut {
@@ -678,7 +665,7 @@
 }
 
 - (void) displayWaveNumber {
-  float initDelay = 1.4;
+  float initDelay = TIME_TO_SCROLL_PER_SCENE-1.6;
   float fadeTime = 0.2;
   float delayTime = 1.05;
   
@@ -951,7 +938,7 @@
 #pragma mark - Delegate Methods
 
 - (void) moveBegan {
-  
+  self.orbLayer.orbFlyToLocation = [self.orbLayer convertToNodeSpace:[self.bgdContainer convertToWorldSpace:ccpAdd(self.myPlayer.position, ccp(0, self.myPlayer.contentSize.height/2))]];
 }
 
 - (void) newComboFound {
@@ -974,6 +961,7 @@
   
   if (_comboCount == 2) {
     [_comboBgd stopAllActions];
+    [[_comboBgd getChildByName:COMBO_FIRE_TAG recursively:NO] removeFromParent];
     [_comboBgd runAction:[CCActionMoveTo actionWithDuration:0.3f position:ccp(_comboBgd.parent.contentSize.width, _comboBgd.parent.contentSize.height/2)]];
     
     _comboLabel.color = [CCColor whiteColor];
@@ -1013,11 +1001,10 @@
   float percDamageIncrease = 100.f*dmg/[self.myPlayerObject totalAttackPower];
   _currentScore += percDamageIncrease;
   _scoreForThisTurn += percDamageIncrease;
-  
   if (MonsterProto_MonsterElementIsValidValue((MonsterProto_MonsterElement)gem.color)) {
     NSString *dmgStr = [NSString stringWithFormat:@"%@", [Globals commafyNumber:dmg]];
     NSString *fntFile = [Globals imageNameForElement:(MonsterProto_MonsterElement)gem.color suffix:@"pointsfont.fnt"];
-    fntFile = fntFile ? fntFile : @"nightpointsfont.fnt";
+    fntFile = gem.color != color_filler ? fntFile : @"nightpointsfont.fnt";
     if (fntFile) {
       CCLabelBMFont *dmgLabel = [CCLabelBMFont labelWithString:dmgStr fntFile:fntFile];
       dmgLabel.position = [self.orbLayer pointForGridPosition:[self.orbLayer coordinateOfGem:gem]];
@@ -1118,6 +1105,28 @@
 
 - (void) removeNoInputLayer {
   [self.noInputLayer runAction:[CCActionFadeTo actionWithDuration:0.3 opacity:0]];
+}
+
+- (void) displayOrbLayer {
+  [self.orbBgdLayer runAction:[CCActionEaseOut actionWithAction:[CCActionMoveTo actionWithDuration:0.4f position:ccp(self.contentSize.width-self.orbBgdLayer.contentSize.width/2-14, self.orbBgdLayer.parent.contentSize.height/2)] rate:3]];
+}
+
+- (void) removeOrbLayerAnimated:(BOOL)animated withBlock:(void(^)())block {
+  if (!block) {
+    block = ^{};
+  }
+  
+  CGPoint pos = ccp(self.contentSize.width+self.orbBgdLayer.contentSize.width,
+                    self.orbBgdLayer.parent.contentSize.height/2);
+  if (animated) {
+    [self.orbBgdLayer runAction:
+     [CCActionSequence actions:
+      [CCActionMoveTo actionWithDuration:0.3f position:pos],
+      [CCActionCallBlock actionWithBlock:block], nil]];
+  } else {
+    self.orbBgdLayer.position = pos;
+    block();
+  }
 }
 
 @end

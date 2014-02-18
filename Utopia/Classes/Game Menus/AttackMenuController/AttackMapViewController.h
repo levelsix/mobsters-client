@@ -58,6 +58,7 @@
 @interface MultiplayerView : UIView
 
 @property (nonatomic, strong) IBOutlet UILabel *multiplayerUnlockLabel;
+@property (nonatomic, strong) IBOutlet UILabel *cashCostLabel;
 
 @end
 
@@ -65,10 +66,13 @@
 
 - (void) visitCityClicked:(int)cityId;
 - (void) enterDungeon:(int)taskId isEvent:(BOOL)isEvent eventId:(int)eventId useGems:(BOOL)useGems;
+- (void) findPvpMatch:(BOOL)useGems;
 
 @end
 
-@interface AttackMapViewController : UIViewController
+@interface AttackMapViewController : UIViewController {
+  BOOL _buttonClicked;
+}
 
 @property (nonatomic, strong) IBOutlet UIImageView *borderView;
 @property (nonatomic, strong) IBOutlet MultiplayerView *multiplayerView;
@@ -83,6 +87,7 @@
 @property (nonatomic, weak) id<AttackMapDelegate> delegate;
 
 - (IBAction)enterEventClicked:(id)sender;
+- (IBAction)findMatchClicked:(id)sender;
 - (IBAction)close:(id)sender;
 
 @end

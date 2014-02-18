@@ -46,6 +46,8 @@
 @class LabProto_Builder;
 @class MinimumClanProto;
 @class MinimumClanProto_Builder;
+@class MinimumUserMonsterProto;
+@class MinimumUserMonsterProto_Builder;
 @class MinimumUserMonsterSellProto;
 @class MinimumUserMonsterSellProto_Builder;
 @class MinimumUserProto;
@@ -58,6 +60,8 @@
 @class MinimumUserProto_Builder;
 @class MinimumUserTaskProto;
 @class MinimumUserTaskProto_Builder;
+@class MonsterBattleDialogueProto;
+@class MonsterBattleDialogueProto_Builder;
 @class MonsterLevelInfoProto;
 @class MonsterLevelInfoProto_Builder;
 @class MonsterProto;
@@ -115,6 +119,7 @@
 @private
   BOOL hasSender_:1;
   MinimumUserProto* sender;
+  NSMutableArray* mutableMbdsList;
   NSMutableArray* mutableEventsList;
   NSMutableArray* mutableAllTownHallsList;
   NSMutableArray* mutableAllLabsList;
@@ -166,6 +171,8 @@
 - (TownHallProto*) allTownHallsAtIndex:(int32_t) index;
 - (NSArray*) eventsList;
 - (PersistentEventProto*) eventsAtIndex:(int32_t) index;
+- (NSArray*) mbdsList;
+- (MonsterBattleDialogueProto*) mbdsAtIndex:(int32_t) index;
 
 + (StaticDataProto*) defaultInstance;
 - (StaticDataProto*) defaultInstance;
@@ -319,5 +326,12 @@
 - (StaticDataProto_Builder*) addEvents:(PersistentEventProto*) value;
 - (StaticDataProto_Builder*) addAllEvents:(NSArray*) values;
 - (StaticDataProto_Builder*) clearEventsList;
+
+- (NSArray*) mbdsList;
+- (MonsterBattleDialogueProto*) mbdsAtIndex:(int32_t) index;
+- (StaticDataProto_Builder*) replaceMbdsAtIndex:(int32_t) index with:(MonsterBattleDialogueProto*) value;
+- (StaticDataProto_Builder*) addMbds:(MonsterBattleDialogueProto*) value;
+- (StaticDataProto_Builder*) addAllMbds:(NSArray*) values;
+- (StaticDataProto_Builder*) clearMbdsList;
 @end
 

@@ -44,6 +44,7 @@ static PBExtensionRegistry* extensionRegistry = nil;
 @property (retain) NSMutableArray* mutableAllLabsList;
 @property (retain) NSMutableArray* mutableAllTownHallsList;
 @property (retain) NSMutableArray* mutableEventsList;
+@property (retain) NSMutableArray* mutableMbdsList;
 @end
 
 @implementation StaticDataProto
@@ -71,6 +72,7 @@ static PBExtensionRegistry* extensionRegistry = nil;
 @synthesize mutableAllLabsList;
 @synthesize mutableAllTownHallsList;
 @synthesize mutableEventsList;
+@synthesize mutableMbdsList;
 - (void) dealloc {
   self.sender = nil;
   self.mutableExpansionCostsList = nil;
@@ -89,6 +91,7 @@ static PBExtensionRegistry* extensionRegistry = nil;
   self.mutableAllLabsList = nil;
   self.mutableAllTownHallsList = nil;
   self.mutableEventsList = nil;
+  self.mutableMbdsList = nil;
   [super dealloc];
 }
 - (id) init {
@@ -221,6 +224,13 @@ static StaticDataProto* defaultStaticDataProtoInstance = nil;
   id value = [mutableEventsList objectAtIndex:index];
   return value;
 }
+- (NSArray*) mbdsList {
+  return mutableMbdsList;
+}
+- (MonsterBattleDialogueProto*) mbdsAtIndex:(int32_t) index {
+  id value = [mutableMbdsList objectAtIndex:index];
+  return value;
+}
 - (BOOL) isInitialized {
   return YES;
 }
@@ -275,6 +285,9 @@ static StaticDataProto* defaultStaticDataProtoInstance = nil;
   }
   for (PersistentEventProto* element in self.eventsList) {
     [output writeMessage:18 value:element];
+  }
+  for (MonsterBattleDialogueProto* element in self.mbdsList) {
+    [output writeMessage:19 value:element];
   }
   [self.unknownFields writeToCodedOutputStream:output];
 }
@@ -335,6 +348,9 @@ static StaticDataProto* defaultStaticDataProtoInstance = nil;
   }
   for (PersistentEventProto* element in self.eventsList) {
     size += computeMessageSize(18, element);
+  }
+  for (MonsterBattleDialogueProto* element in self.mbdsList) {
+    size += computeMessageSize(19, element);
   }
   size += self.unknownFields.serializedSize;
   memoizedSerializedSize = size;
@@ -510,6 +526,12 @@ static StaticDataProto* defaultStaticDataProtoInstance = nil;
     }
     [result.mutableEventsList addObjectsFromArray:other.mutableEventsList];
   }
+  if (other.mutableMbdsList.count > 0) {
+    if (result.mutableMbdsList == nil) {
+      result.mutableMbdsList = [NSMutableArray array];
+    }
+    [result.mutableMbdsList addObjectsFromArray:other.mutableMbdsList];
+  }
   [self mergeUnknownFields:other.unknownFields];
   return self;
 }
@@ -634,6 +656,12 @@ static StaticDataProto* defaultStaticDataProtoInstance = nil;
         PersistentEventProto_Builder* subBuilder = [PersistentEventProto builder];
         [input readMessage:subBuilder extensionRegistry:extensionRegistry];
         [self addEvents:[subBuilder buildPartial]];
+        break;
+      }
+      case 154: {
+        MonsterBattleDialogueProto_Builder* subBuilder = [MonsterBattleDialogueProto builder];
+        [input readMessage:subBuilder extensionRegistry:extensionRegistry];
+        [self addMbds:[subBuilder buildPartial]];
         break;
       }
     }
@@ -1131,6 +1159,35 @@ static StaticDataProto* defaultStaticDataProtoInstance = nil;
     result.mutableEventsList = [NSMutableArray array];
   }
   [result.mutableEventsList addObject:value];
+  return self;
+}
+- (NSArray*) mbdsList {
+  if (result.mutableMbdsList == nil) { return [NSArray array]; }
+  return result.mutableMbdsList;
+}
+- (MonsterBattleDialogueProto*) mbdsAtIndex:(int32_t) index {
+  return [result mbdsAtIndex:index];
+}
+- (StaticDataProto_Builder*) replaceMbdsAtIndex:(int32_t) index with:(MonsterBattleDialogueProto*) value {
+  [result.mutableMbdsList replaceObjectAtIndex:index withObject:value];
+  return self;
+}
+- (StaticDataProto_Builder*) addAllMbds:(NSArray*) values {
+  if (result.mutableMbdsList == nil) {
+    result.mutableMbdsList = [NSMutableArray array];
+  }
+  [result.mutableMbdsList addObjectsFromArray:values];
+  return self;
+}
+- (StaticDataProto_Builder*) clearMbdsList {
+  result.mutableMbdsList = nil;
+  return self;
+}
+- (StaticDataProto_Builder*) addMbds:(MonsterBattleDialogueProto*) value {
+  if (result.mutableMbdsList == nil) {
+    result.mutableMbdsList = [NSMutableArray array];
+  }
+  [result.mutableMbdsList addObject:value];
   return self;
 }
 @end

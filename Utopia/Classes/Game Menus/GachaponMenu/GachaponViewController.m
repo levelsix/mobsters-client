@@ -22,7 +22,7 @@
   MonsterProto *proto = [gs monsterWithId:monsterId];
   
   self.nameLabel.text = proto.displayName;
-  self.nameLabel.textColor = [Globals colorForElement:proto.monsterElement];
+  self.nameLabel.textColor = [Globals colorForElementOnDarkBackground:proto.monsterElement];
   self.descriptionLabel.text = proto.description;
   
   self.rarityLabel.text = [Globals stringForRarity:proto.quality];
@@ -81,14 +81,41 @@
   self.monsterSpinner.alpha = 0.f;
   self.pieceLabel.alpha = 0.f;
   
+  [self rotateSpinner];
+  
   CGPoint curPoint = self.monsterIcon.center;
   self.monsterIcon.center = ccp(self.frame.size.width/2, self.frame.size.height/2);
-  [UIView animateWithDuration:0.3f delay:1.f options:UIViewAnimationOptionCurveEaseInOut animations:^{
+  float baseDelay = 1.f;
+  [UIView animateWithDuration:0.3f delay:baseDelay options:UIViewAnimationOptionCurveEaseInOut animations:^{
     self.monsterIcon.center = curPoint;
     self.infoView.center = ccp(self.frame.size.width-self.infoView.frame.size.width/2, self.frame.size.height/2);
-    self.monsterSpinner.alpha = 1.f;
     self.pieceLabel.alpha = 1.f;
-  } completion:nil];
+  } completion:^(BOOL finished) {
+    [UIView animateWithDuration:0.3f animations:^{
+      self.monsterSpinner.alpha = 1.f;
+    }];
+  }];
+  
+  for (int i = 0; i < self.animateViews.count; i++) {
+    UIView *v = self.animateViews[i];
+    v.alpha = 0.f;
+    CGPoint center = v.center;
+    v.center = ccpAdd(center, ccp(100, 0));
+    [UIView animateWithDuration:0.3f delay:baseDelay+i*0.2f options:UIViewAnimationOptionCurveEaseInOut animations:^{
+      v.alpha = 1.f;
+      v.center = center;
+    } completion:nil];
+  }
+}
+
+- (void) rotateSpinner {
+  CABasicAnimation *fullRotation;
+  fullRotation = [CABasicAnimation animationWithKeyPath:@"transform.rotation"];
+  fullRotation.fromValue = [NSNumber numberWithFloat:0];
+  fullRotation.toValue = [NSNumber numberWithFloat:M_PI * 2];
+  fullRotation.duration = 6.f;
+  fullRotation.repeatCount = 50000;
+  [self.monsterSpinner.layer addAnimation:fullRotation forKey:@"360"];
 }
 
 - (IBAction)closeClicked:(id)sender {
@@ -127,7 +154,7 @@
   MonsterProto *proto = [gs monsterWithId:monsterId];
   
   self.nameLabel.text = proto.displayName;
-  self.nameLabel.textColor = [Globals colorForElement:proto.monsterElement];
+  self.nameLabel.textColor = [Globals colorForElementOnDarkBackground:proto.monsterElement];
   
   self.rarityLabel.text = [Globals stringForRarity:proto.quality];
   self.rarityIcon.image = [Globals imageNamed:[Globals imageNameForRarity:proto.quality suffix:@"gtag.png"]];

@@ -81,6 +81,7 @@
 @property (nonatomic, assign) float minutesPerGem;
 @property (nonatomic, assign) int pvpRequiredMinLvl;
 @property (nonatomic, assign) float gemsPerResource;
+@property (nonatomic, assign) float continueBattleGemCostMultiplier;
 
 // Monster Constants
 @property (nonatomic, assign) int maxTeamSize;
@@ -147,12 +148,10 @@
 + (NSString *) imageNameForRarity:(MonsterProto_MonsterQuality)rarity suffix:(NSString *)str;
 + (NSString *) stringForElement:(MonsterProto_MonsterElement)element;
 + (NSString *) imageNameForElement:(MonsterProto_MonsterElement)element suffix:(NSString *)str;
-+ (UIColor *) colorForElement:(MonsterProto_MonsterElement)element;
++ (UIColor *) colorForElementOnDarkBackground:(MonsterProto_MonsterElement)element;
++ (UIColor *) colorForElementOnLightBackground:(MonsterProto_MonsterElement)element;
 
 + (NSString *) stringForTimeSinceNow:(NSDate *)date shortened:(BOOL)shortened ;
-
-+ (NSString *) nameForDialogueSpeaker:(DialogueProto_SpeechSegmentProto_DialogueSpeaker)speaker;
-+ (NSString *) imageNameForDialogueSpeaker:(DialogueProto_SpeechSegmentProto_DialogueSpeaker)speaker;
 
 + (NSDictionary *) convertUserTeamArrayToDictionary:(NSArray *)array;
 
@@ -224,6 +223,7 @@
 // Formulas
 - (int) calculateGemSpeedupCostForTimeLeft:(int)timeLeft;
 - (int) calculateGemConversionForResourceType:(ResourceType)type amount:(int)amount;
+- (int) calculateGemCostToHealTeamDuringBattle:(NSArray *)team;
 
 - (int) calculateMaxQuantityOfStructId:(int)structId;
 - (int) calculateNextTownHallLevelForQuantityIncreaseForStructId:(int)structId;

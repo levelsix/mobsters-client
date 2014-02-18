@@ -12,6 +12,7 @@ static PBExtensionRegistry* extensionRegistry = nil;
   if (self == [QuestRoot class]) {
     PBMutableExtensionRegistry* registry = [PBMutableExtensionRegistry registry];
     [self registerAllExtensions:registry];
+    [StructureRoot registerAllExtensions:registry];
     extensionRegistry = [registry retain];
   }
 }
@@ -40,6 +41,7 @@ static PBExtensionRegistry* extensionRegistry = nil;
 @property int32_t priority;
 @property (retain) NSString* carrotId;
 @property BOOL isAchievement;
+@property (retain) CoordinateProto* questGiverImgOffset;
 @end
 
 @implementation FullQuestProto
@@ -188,6 +190,13 @@ static PBExtensionRegistry* extensionRegistry = nil;
 - (void) setIsAchievement:(BOOL) value {
   isAchievement_ = !!value;
 }
+- (BOOL) hasQuestGiverImgOffset {
+  return !!hasQuestGiverImgOffset_;
+}
+- (void) setHasQuestGiverImgOffset:(BOOL) value {
+  hasQuestGiverImgOffset_ = !!value;
+}
+@synthesize questGiverImgOffset;
 - (void) dealloc {
   self.name = nil;
   self.description = nil;
@@ -197,6 +206,7 @@ static PBExtensionRegistry* extensionRegistry = nil;
   self.mutableQuestsRequiredForThisList = nil;
   self.questGiverImageSuffix = nil;
   self.carrotId = nil;
+  self.questGiverImgOffset = nil;
   [super dealloc];
 }
 - (id) init {
@@ -220,6 +230,7 @@ static PBExtensionRegistry* extensionRegistry = nil;
     self.priority = 0;
     self.carrotId = @"";
     self.isAchievement = NO;
+    self.questGiverImgOffset = [CoordinateProto defaultInstance];
   }
   return self;
 }
@@ -306,6 +317,9 @@ static FullQuestProto* defaultFullQuestProtoInstance = nil;
   if (self.hasIsAchievement) {
     [output writeBool:20 value:self.isAchievement];
   }
+  if (self.hasQuestGiverImgOffset) {
+    [output writeMessage:21 value:self.questGiverImgOffset];
+  }
   [self.unknownFields writeToCodedOutputStream:output];
 }
 - (int32_t) serializedSize {
@@ -380,6 +394,9 @@ static FullQuestProto* defaultFullQuestProtoInstance = nil;
   if (self.hasIsAchievement) {
     size += computeBoolSize(20, self.isAchievement);
   }
+  if (self.hasQuestGiverImgOffset) {
+    size += computeMessageSize(21, self.questGiverImgOffset);
+  }
   size += self.unknownFields.serializedSize;
   memoizedSerializedSize = size;
   return size;
@@ -421,6 +438,8 @@ BOOL FullQuestProto_QuestTypeIsValidValue(FullQuestProto_QuestType value) {
     case FullQuestProto_QuestTypeCollectCoinsFromHome:
     case FullQuestProto_QuestTypeBuildStruct:
     case FullQuestProto_QuestTypeUpgradeStruct:
+    case FullQuestProto_QuestTypeMonsterAppear:
+    case FullQuestProto_QuestTypeCollectSpecialItem:
       return YES;
     default:
       return NO;
@@ -531,6 +550,9 @@ BOOL FullQuestProto_QuestTypeIsValidValue(FullQuestProto_QuestType value) {
   if (other.hasIsAchievement) {
     [self setIsAchievement:other.isAchievement];
   }
+  if (other.hasQuestGiverImgOffset) {
+    [self mergeQuestGiverImgOffset:other.questGiverImgOffset];
+  }
   [self mergeUnknownFields:other.unknownFields];
   return self;
 }
@@ -640,6 +662,15 @@ BOOL FullQuestProto_QuestTypeIsValidValue(FullQuestProto_QuestType value) {
       }
       case 160: {
         [self setIsAchievement:[input readBool]];
+        break;
+      }
+      case 170: {
+        CoordinateProto_Builder* subBuilder = [CoordinateProto builder];
+        if (self.hasQuestGiverImgOffset) {
+          [subBuilder mergeFrom:self.questGiverImgOffset];
+        }
+        [input readMessage:subBuilder extensionRegistry:extensionRegistry];
+        [self setQuestGiverImgOffset:[subBuilder buildPartial]];
         break;
       }
     }
@@ -994,6 +1025,36 @@ BOOL FullQuestProto_QuestTypeIsValidValue(FullQuestProto_QuestType value) {
   result.isAchievement = NO;
   return self;
 }
+- (BOOL) hasQuestGiverImgOffset {
+  return result.hasQuestGiverImgOffset;
+}
+- (CoordinateProto*) questGiverImgOffset {
+  return result.questGiverImgOffset;
+}
+- (FullQuestProto_Builder*) setQuestGiverImgOffset:(CoordinateProto*) value {
+  result.hasQuestGiverImgOffset = YES;
+  result.questGiverImgOffset = value;
+  return self;
+}
+- (FullQuestProto_Builder*) setQuestGiverImgOffsetBuilder:(CoordinateProto_Builder*) builderForValue {
+  return [self setQuestGiverImgOffset:[builderForValue build]];
+}
+- (FullQuestProto_Builder*) mergeQuestGiverImgOffset:(CoordinateProto*) value {
+  if (result.hasQuestGiverImgOffset &&
+      result.questGiverImgOffset != [CoordinateProto defaultInstance]) {
+    result.questGiverImgOffset =
+      [[[CoordinateProto builderWithPrototype:result.questGiverImgOffset] mergeFrom:value] buildPartial];
+  } else {
+    result.questGiverImgOffset = value;
+  }
+  result.hasQuestGiverImgOffset = YES;
+  return self;
+}
+- (FullQuestProto_Builder*) clearQuestGiverImgOffset {
+  result.hasQuestGiverImgOffset = NO;
+  result.questGiverImgOffset = [CoordinateProto defaultInstance];
+  return self;
+}
 @end
 
 @interface DialogueProto ()
@@ -1084,8 +1145,9 @@ static DialogueProto* defaultDialogueProtoInstance = nil;
 @end
 
 @interface DialogueProto_SpeechSegmentProto ()
-@property DialogueProto_SpeechSegmentProto_DialogueSpeaker speaker;
+@property (retain) NSString* speaker;
 @property (retain) NSString* speakerText;
+@property BOOL isLeftSide;
 @end
 
 @implementation DialogueProto_SpeechSegmentProto
@@ -1104,14 +1166,28 @@ static DialogueProto* defaultDialogueProtoInstance = nil;
   hasSpeakerText_ = !!value;
 }
 @synthesize speakerText;
+- (BOOL) hasIsLeftSide {
+  return !!hasIsLeftSide_;
+}
+- (void) setHasIsLeftSide:(BOOL) value {
+  hasIsLeftSide_ = !!value;
+}
+- (BOOL) isLeftSide {
+  return !!isLeftSide_;
+}
+- (void) setIsLeftSide:(BOOL) value {
+  isLeftSide_ = !!value;
+}
 - (void) dealloc {
+  self.speaker = nil;
   self.speakerText = nil;
   [super dealloc];
 }
 - (id) init {
   if ((self = [super init])) {
-    self.speaker = DialogueProto_SpeechSegmentProto_DialogueSpeakerPlayerType;
+    self.speaker = @"";
     self.speakerText = @"";
+    self.isLeftSide = NO;
   }
   return self;
 }
@@ -1132,10 +1208,13 @@ static DialogueProto_SpeechSegmentProto* defaultDialogueProto_SpeechSegmentProto
 }
 - (void) writeToCodedOutputStream:(PBCodedOutputStream*) output {
   if (self.hasSpeaker) {
-    [output writeEnum:1 value:self.speaker];
+    [output writeString:1 value:self.speaker];
   }
   if (self.hasSpeakerText) {
     [output writeString:2 value:self.speakerText];
+  }
+  if (self.hasIsLeftSide) {
+    [output writeBool:3 value:self.isLeftSide];
   }
   [self.unknownFields writeToCodedOutputStream:output];
 }
@@ -1147,10 +1226,13 @@ static DialogueProto_SpeechSegmentProto* defaultDialogueProto_SpeechSegmentProto
 
   size = 0;
   if (self.hasSpeaker) {
-    size += computeEnumSize(1, self.speaker);
+    size += computeStringSize(1, self.speaker);
   }
   if (self.hasSpeakerText) {
     size += computeStringSize(2, self.speakerText);
+  }
+  if (self.hasIsLeftSide) {
+    size += computeBoolSize(3, self.isLeftSide);
   }
   size += self.unknownFields.serializedSize;
   memoizedSerializedSize = size;
@@ -1185,20 +1267,6 @@ static DialogueProto_SpeechSegmentProto* defaultDialogueProto_SpeechSegmentProto
 }
 @end
 
-BOOL DialogueProto_SpeechSegmentProto_DialogueSpeakerIsValidValue(DialogueProto_SpeechSegmentProto_DialogueSpeaker value) {
-  switch (value) {
-    case DialogueProto_SpeechSegmentProto_DialogueSpeakerPlayerType:
-    case DialogueProto_SpeechSegmentProto_DialogueSpeakerTutorialGirl:
-    case DialogueProto_SpeechSegmentProto_DialogueSpeakerQuestgiver1:
-    case DialogueProto_SpeechSegmentProto_DialogueSpeakerQuestgiver2:
-    case DialogueProto_SpeechSegmentProto_DialogueSpeakerQuestgiver3:
-    case DialogueProto_SpeechSegmentProto_DialogueSpeakerQuestgiver4:
-    case DialogueProto_SpeechSegmentProto_DialogueSpeakerQuestgiver5:
-      return YES;
-    default:
-      return NO;
-  }
-}
 @interface DialogueProto_SpeechSegmentProto_Builder()
 @property (retain) DialogueProto_SpeechSegmentProto* result;
 @end
@@ -1247,6 +1315,9 @@ BOOL DialogueProto_SpeechSegmentProto_DialogueSpeakerIsValidValue(DialogueProto_
   if (other.hasSpeakerText) {
     [self setSpeakerText:other.speakerText];
   }
+  if (other.hasIsLeftSide) {
+    [self setIsLeftSide:other.isLeftSide];
+  }
   [self mergeUnknownFields:other.unknownFields];
   return self;
 }
@@ -1268,17 +1339,16 @@ BOOL DialogueProto_SpeechSegmentProto_DialogueSpeakerIsValidValue(DialogueProto_
         }
         break;
       }
-      case 8: {
-        int32_t value = [input readEnum];
-        if (DialogueProto_SpeechSegmentProto_DialogueSpeakerIsValidValue(value)) {
-          [self setSpeaker:value];
-        } else {
-          [unknownFields mergeVarintField:1 value:value];
-        }
+      case 10: {
+        [self setSpeaker:[input readString]];
         break;
       }
       case 18: {
         [self setSpeakerText:[input readString]];
+        break;
+      }
+      case 24: {
+        [self setIsLeftSide:[input readBool]];
         break;
       }
     }
@@ -1287,17 +1357,17 @@ BOOL DialogueProto_SpeechSegmentProto_DialogueSpeakerIsValidValue(DialogueProto_
 - (BOOL) hasSpeaker {
   return result.hasSpeaker;
 }
-- (DialogueProto_SpeechSegmentProto_DialogueSpeaker) speaker {
+- (NSString*) speaker {
   return result.speaker;
 }
-- (DialogueProto_SpeechSegmentProto_Builder*) setSpeaker:(DialogueProto_SpeechSegmentProto_DialogueSpeaker) value {
+- (DialogueProto_SpeechSegmentProto_Builder*) setSpeaker:(NSString*) value {
   result.hasSpeaker = YES;
   result.speaker = value;
   return self;
 }
 - (DialogueProto_SpeechSegmentProto_Builder*) clearSpeaker {
   result.hasSpeaker = NO;
-  result.speaker = DialogueProto_SpeechSegmentProto_DialogueSpeakerPlayerType;
+  result.speaker = @"";
   return self;
 }
 - (BOOL) hasSpeakerText {
@@ -1314,6 +1384,22 @@ BOOL DialogueProto_SpeechSegmentProto_DialogueSpeakerIsValidValue(DialogueProto_
 - (DialogueProto_SpeechSegmentProto_Builder*) clearSpeakerText {
   result.hasSpeakerText = NO;
   result.speakerText = @"";
+  return self;
+}
+- (BOOL) hasIsLeftSide {
+  return result.hasIsLeftSide;
+}
+- (BOOL) isLeftSide {
+  return result.isLeftSide;
+}
+- (DialogueProto_SpeechSegmentProto_Builder*) setIsLeftSide:(BOOL) value {
+  result.hasIsLeftSide = YES;
+  result.isLeftSide = value;
+  return self;
+}
+- (DialogueProto_SpeechSegmentProto_Builder*) clearIsLeftSide {
+  result.hasIsLeftSide = NO;
+  result.isLeftSide = NO;
   return self;
 }
 @end

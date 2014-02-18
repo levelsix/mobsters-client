@@ -48,6 +48,10 @@
 @class BeginDungeonRequestProto_Builder;
 @class BeginDungeonResponseProto;
 @class BeginDungeonResponseProto_Builder;
+@class BeginPvpBattleRequestProto;
+@class BeginPvpBattleRequestProto_Builder;
+@class BeginPvpBattleResponseProto;
+@class BeginPvpBattleResponseProto_Builder;
 @class BoosterDisplayItemProto;
 @class BoosterDisplayItemProto_Builder;
 @class BoosterItemProto;
@@ -98,6 +102,10 @@
 @class EndDungeonRequestProto_Builder;
 @class EndDungeonResponseProto;
 @class EndDungeonResponseProto_Builder;
+@class EndPvpBattleRequestProto;
+@class EndPvpBattleRequestProto_Builder;
+@class EndPvpBattleResponseProto;
+@class EndPvpBattleResponseProto_Builder;
 @class EnhancementWaitTimeCompleteRequestProto;
 @class EnhancementWaitTimeCompleteRequestProto_Builder;
 @class EnhancementWaitTimeCompleteResponseProto;
@@ -192,6 +200,8 @@
 @class LogoutRequestProto_Builder;
 @class MinimumClanProto;
 @class MinimumClanProto_Builder;
+@class MinimumUserMonsterProto;
+@class MinimumUserMonsterProto_Builder;
 @class MinimumUserMonsterSellProto;
 @class MinimumUserMonsterSellProto_Builder;
 @class MinimumUserProto;
@@ -210,6 +220,8 @@
 @class MinimumUserProto_Builder;
 @class MinimumUserTaskProto;
 @class MinimumUserTaskProto_Builder;
+@class MonsterBattleDialogueProto;
+@class MonsterBattleDialogueProto_Builder;
 @class MonsterLevelInfoProto;
 @class MonsterLevelInfoProto_Builder;
 @class MonsterProto;
@@ -244,6 +256,8 @@
 @class PurchaseNormStructureResponseProto_Builder;
 @class PurgeClientStaticDataResponseProto;
 @class PurgeClientStaticDataResponseProto_Builder;
+@class PvpProto;
+@class PvpProto_Builder;
 @class QuestAcceptRequestProto;
 @class QuestAcceptRequestProto_Builder;
 @class QuestAcceptResponseProto;
@@ -378,6 +392,10 @@
 @class UpdateMonsterHealthRequestProto_Builder;
 @class UpdateMonsterHealthResponseProto;
 @class UpdateMonsterHealthResponseProto_Builder;
+@class UpdateUserCurrencyRequestProto;
+@class UpdateUserCurrencyRequestProto_Builder;
+@class UpdateUserCurrencyResponseProto;
+@class UpdateUserCurrencyResponseProto_Builder;
 @class UpgradeNormStructureRequestProto;
 @class UpgradeNormStructureRequestProto_Builder;
 @class UpgradeNormStructureResponseProto;
@@ -463,6 +481,9 @@ typedef enum {
   EventProtocolRequestCSellUserMonsterEvent = 55,
   EventProtocolRequestCInviteFbFriendsForSlotsEvent = 56,
   EventProtocolRequestCAcceptAndRejectFbInviteForSlotsEvent = 57,
+  EventProtocolRequestCUpdateUserCurrencyEvent = 59,
+  EventProtocolRequestCBeginPvpBattleEvent = 60,
+  EventProtocolRequestCEndPvpBattleEvent = 61,
   EventProtocolRequestCLogoutEvent = 101,
 } EventProtocolRequest;
 
@@ -525,6 +546,9 @@ typedef enum {
   EventProtocolResponseSSellUserMonsterEvent = 55,
   EventProtocolResponseSInviteFbFriendsForSlotsEvent = 56,
   EventProtocolResponseSAcceptAndRejectFbInviteForSlotsEvent = 57,
+  EventProtocolResponseSUpdateUserCurrencyEvent = 59,
+  EventProtocolResponseSBeginPvpBattleEvent = 60,
+  EventProtocolResponseSEndPvpBattleEvent = 61,
   EventProtocolResponseSUpdateClientUserEvent = 101,
   EventProtocolResponseSReferralCodeUsedEvent = 102,
   EventProtocolResponseSPurgeStaticDataEvent = 103,

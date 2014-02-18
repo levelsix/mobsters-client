@@ -13,6 +13,7 @@
 #import "PersistentEventProto+Time.h"
 #import "MenuNavigationController.h"
 #import "MyCroniesViewController.h"
+#import "GenericPopupController.h"
 
 #define NUM_CITIES 10
 
@@ -56,36 +57,45 @@
   GameState *gs = [GameState sharedGameState];
   
   NSMutableArray *imgs = [NSMutableArray array];
-  for (int i = 0; i <= 12; i++) {
-    NSString *str = [NSString stringWithFormat:@"Scientist1Breath%02d.png", i];
-    UIImage *img = [Globals imageNamed:str];
-    [imgs addObject:img];
+  if (pe.type == PersistentEventProto_EventTypeEvolution) {
+    for (int i = 0; i <= 12; i++) {
+      NSString *str = [NSString stringWithFormat:@"Scientist%dBreath%02d.png", pe.monsterElement, i];
+      UIImage *img = [Globals imageNamed:str];
+      [imgs addObject:img];
+    }
+    for (int i = 0; i <= 12; i++) {
+      NSString *str = [NSString stringWithFormat:@"Scientist%dBreath%02d.png", pe.monsterElement, i];
+      UIImage *img = [Globals imageNamed:str];
+      [imgs addObject:img];
+    }
+    for (int i = 0; i <= 12; i++) {
+      NSString *str = [NSString stringWithFormat:@"Scientist%dBlink%02d.png", pe.monsterElement, i];
+      UIImage *img = [Globals imageNamed:str];
+      [imgs addObject:img];
+    }
+    for (int i = 0; i <= 12; i++) {
+      NSString *str = [NSString stringWithFormat:@"Scientist%dBreath%02d.png", pe.monsterElement, i];
+      UIImage *img = [Globals imageNamed:str];
+      [imgs addObject:img];
+    }
+    for (int i = 0; i <= 12; i++) {
+      NSString *str = [NSString stringWithFormat:@"Scientist%dBreath%02d.png", pe.monsterElement, i];
+      UIImage *img = [Globals imageNamed:str];
+      [imgs addObject:img];
+    }
+    for (int i = 0; i <= 16; i++) {
+      NSString *str = [NSString stringWithFormat:@"Scientist%dTurn%02d.png", pe.monsterElement, i];
+      UIImage *img = [Globals imageNamed:str];
+      [imgs addObject:img];
+    }
+  } else if (pe.type == PersistentEventProto_EventTypeEnhance) {
+    for (int i = 0; i <= 12; i++) {
+      NSString *str = [NSString stringWithFormat:@"FatBoy%dMove%02d.png", pe.monsterElement, i];
+      UIImage *img = [Globals imageNamed:str];
+      [imgs addObject:img];
+    }
   }
-  for (int i = 0; i <= 12; i++) {
-    NSString *str = [NSString stringWithFormat:@"Scientist1Breath%02d.png", i];
-    UIImage *img = [Globals imageNamed:str];
-    [imgs addObject:img];
-  }
-  for (int i = 0; i <= 12; i++) {
-    NSString *str = [NSString stringWithFormat:@"Scientist1Blink%02d.png", i];
-    UIImage *img = [Globals imageNamed:str];
-    [imgs addObject:img];
-  }
-//  for (int i = 0; i <= 12; i++) {
-//    NSString *str = [NSString stringWithFormat:@"Scientist1Breath%02d.png", i];
-//    UIImage *img = [Globals imageNamed:str];
-//    [imgs addObject:img];
-//  }
-//  for (int i = 0; i <= 12; i++) {
-//    NSString *str = [NSString stringWithFormat:@"Scientist1Breath%02d.png", i];
-//    UIImage *img = [Globals imageNamed:str];
-//    [imgs addObject:img];
-//  }
-//  for (int i = 0; i <= 16; i++) {
-//    NSString *str = [NSString stringWithFormat:@"Scientist1Turn%02d.png", i];
-//    UIImage *img = [Globals imageNamed:str];
-//    [imgs addObject:img];
-//  }
+  
   self.monsterImage.animationImages = imgs;
   
   self.monsterImage.animationDuration = imgs.count*0.1;
@@ -129,7 +139,7 @@
   if (_persistentEventId != pe.eventId) {
     [self updateForPersistentEvent:pe];
   } else {
-    int timeLeft = [pe.endTime timeIntervalSinceNow];    
+    int timeLeft = [pe.endTime timeIntervalSinceNow];
     self.timeLeftLabel.text = [NSString stringWithFormat:@"Time Left: %@", [Globals convertTimeToShortString:timeLeft]];
     
     NSDate *cdTime = pe.cooldownEndTime;
@@ -174,6 +184,10 @@
   Globals *gl = [Globals sharedGlobals];
   self.multiplayerUnlockLabel.superview.layer.cornerRadius = 5.f;
   self.multiplayerUnlockLabel.text = [NSString stringWithFormat:@"Multiplayer play\n unlocks at level %d", gl.pvpRequiredMinLvl];
+  
+  GameState *gs = [GameState sharedGameState];
+  TownHallProto *thp = (TownHallProto *)gs.myTownHall.staticStruct;
+  self.cashCostLabel.text = [NSString stringWithFormat:@"Match Cost: %@", [Globals cashStringForNumber:thp.pvpQueueCashCost]];
 }
 
 @end
@@ -193,7 +207,10 @@
     self.borderView.image = [Globals imageNamed:@"attackmapborderwide.png"];
     self.mapView.center = ccp(self.mapView.frame.size.width/2, self.mapView.frame.size.height/2);
   } else {
+    self.borderView.image = [Globals imageNamed:@"attackmapborder.png"];
     self.mapView.center = ccp(self.mapScrollView.frame.size.width/2-22.f, self.mapView.frame.size.height/2);
+    [self.eventView.monsterImage removeFromSuperview];
+    self.eventView.monsterImage = nil;
   }
   
   GameState *gs = [GameState sharedGameState];
@@ -202,6 +219,9 @@
 
 - (void) viewWillAppear:(BOOL)animated {
   [self.eventView updateForEvo];
+  
+  // In case we come from back button on gem view
+  self.navigationController.navigationBarHidden = YES;
 }
 
 - (void) viewDidAppear:(BOOL)animated {
@@ -239,27 +259,58 @@
   
   if (icon.isLocked) {
     [icon doShake];
-  } else {
+  } else if (!_buttonClicked) {
+    _buttonClicked = YES;
     [self.delegate visitCityClicked:icon.cityNumber];
     [self close:nil];
   }
 }
 
 - (IBAction)enterEventClicked:(UIButton *)sender {
-  if ([Globals checkEnteringDungeonWithTarget:self selector:@selector(visitTeamPage)]) {
+  if (!_buttonClicked && [Globals checkEnteringDungeonWithTarget:self selector:@selector(visitTeamPage)]) {
+    _buttonClicked = YES;
     [self.timer invalidate];
     [self.delegate enterDungeon:self.eventView.taskId isEvent:YES eventId:self.eventView.persistentEventId useGems:[sender tag]];
     [self performSelector:@selector(close:) withObject:nil afterDelay:0.1f];
   }
 }
 
+- (IBAction)findMatchClicked:(id)sender {
+  if (!_buttonClicked && [Globals checkEnteringDungeonWithTarget:self selector:@selector(visitTeamPage)]) {
+    _buttonClicked = YES;
+    GameState *gs = [GameState sharedGameState];
+    TownHallProto *thp = (TownHallProto *)gs.myTownHall.staticStruct;
+    if (gs.silver < thp.pvpQueueCashCost) {
+      [GenericPopupController displayExchangeForGemsViewWithResourceType:ResourceTypeCash amount:thp.pvpQueueCashCost-gs.silver target:self selector:@selector(nextMatchUseGems)];
+    } else {
+      [self nextMatch:NO];
+    }
+  }
+}
+
+- (void) nextMatchUseGems {
+  GameState *gs = [GameState sharedGameState];
+  Globals *gl = [Globals sharedGlobals];
+  TownHallProto *thp = (TownHallProto *)gs.myTownHall.staticStruct;
+  int cost = thp.pvpQueueCashCost;
+  int curAmount = gs.silver;
+  int gemCost = [gl calculateGemConversionForResourceType:ResourceTypeCash amount:cost-curAmount];
+  
+  if (gemCost > gs.gold) {
+    [GenericPopupController displayNotEnoughGemsView];
+  } else {
+    [self nextMatch:YES];
+  }
+}
+
+- (void) nextMatch:(BOOL)useGems {
+  [self.delegate findPvpMatch:useGems];
+  [self close:nil];
+}
+
 - (void) visitTeamPage {
-  [self.presentingViewController dismissViewControllerAnimated:YES completion:^{
-    MenuNavigationController *m = [[MenuNavigationController alloc] init];
-    GameViewController *gvc = [GameViewController baseController];
-    [gvc presentViewController:m animated:YES completion:nil];
-    [m pushViewController:[[MyCroniesViewController alloc] init] animated:NO];
-  }];
+  [self.navigationController pushViewController:[[MyCroniesViewController alloc] init] animated:YES];
+  self.navigationController.navigationBarHidden = NO;
 }
 
 - (IBAction)close:(id)sender {

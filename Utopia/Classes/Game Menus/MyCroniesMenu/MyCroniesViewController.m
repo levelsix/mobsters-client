@@ -325,9 +325,18 @@
 }
 
 - (void) speedupCombineClicked:(MyCroniesCardCell *)cell {
-  BOOL success = [[OutgoingEventController sharedOutgoingEventController] combineMonsterWithSpeedup:cell.monster.userMonsterId];
-  if (success) {
-    [self reloadTableAnimated:YES];
+  GameState *gs = [GameState sharedGameState];
+  Globals *gl = [Globals sharedGlobals];
+  int timeLeft = cell.monster.timeLeftForCombining;
+  int goldCost = [gl calculateGemSpeedupCostForTimeLeft:timeLeft];
+  
+  if (gs.gold < goldCost) {
+    [GenericPopupController displayNotEnoughGemsView];
+  } else {
+    BOOL success = [[OutgoingEventController sharedOutgoingEventController] combineMonsterWithSpeedup:cell.monster.userMonsterId];
+    if (success) {
+      [self reloadTableAnimated:YES];
+    }
   }
 }
 
@@ -412,22 +421,35 @@
     UserMonster *um = [gs myMonsterWithUserMonsterId:cell.healingItem.userMonsterId];
     if (um.teamSlot) {
       [self updateCurrentTeamAnimated:YES];
+      [[NSNotificationCenter defaultCenter] postNotificationName:MY_TEAM_CHANGED_NOTIFICATION object:nil];
     }
   }
 }
 
 - (void) speedupButtonClicked {
-  BOOL success = [[OutgoingEventController sharedOutgoingEventController] speedupHealingQueue];
-  if (success) {
-    [self reloadTableAnimated:YES];
-    
-    NSMutableArray *arr = [NSMutableArray array];
-    for (int i = 0; i < self.queueView.healingQueue.count; i++) {
-      [arr addObject:[NSIndexPath indexPathForRow:i inSection:0]];
+  GameState *gs = [GameState sharedGameState];
+  Globals *gl = [Globals sharedGlobals];
+  
+  int timeLeft = gs.monsterHealingQueueEndTime.timeIntervalSinceNow;
+  int goldCost = [gl calculateGemSpeedupCostForTimeLeft:timeLeft];
+  
+  if (gs.gold < goldCost) {
+    [GenericPopupController displayNotEnoughGemsView];
+  } else {
+    BOOL success = [[OutgoingEventController sharedOutgoingEventController] speedupHealingQueue];
+    if (success) {
+      [self reloadTableAnimated:YES];
+      
+      NSMutableArray *arr = [NSMutableArray array];
+      for (int i = 0; i < self.queueView.healingQueue.count; i++) {
+        [arr addObject:[NSIndexPath indexPathForRow:i inSection:0]];
+      }
+      [self.queueView.queueTable.tableView deleteRowsAtIndexPaths:arr withRowAnimation:UITableViewRowAnimationFade];
+      
+      [self updateCurrentTeamAnimated:YES];
+      [[NSNotificationCenter defaultCenter] postNotificationName:MY_TEAM_CHANGED_NOTIFICATION object:nil];
+      [[NSNotificationCenter defaultCenter] postNotificationName:MONSTER_QUEUE_CHANGED_NOTIFICATION object:nil];
     }
-    [self.queueView.queueTable.tableView deleteRowsAtIndexPaths:arr withRowAnimation:UITableViewRowAnimationFade];
-    
-    [self updateCurrentTeamAnimated:YES];
   }
 }
 

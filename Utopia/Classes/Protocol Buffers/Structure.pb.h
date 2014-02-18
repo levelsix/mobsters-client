@@ -623,6 +623,7 @@ BOOL StructureInfoProto_StructTypeIsValidValue(StructureInfoProto_StructType val
   BOOL hasNumResidences_:1;
   BOOL hasNumMonsterSlots_:1;
   BOOL hasNumLabs_:1;
+  BOOL hasPvpQueueCashCost_:1;
   BOOL hasStructInfo_:1;
   int32_t numResourceOneGenerators;
   int32_t numResourceOneStorages;
@@ -632,6 +633,7 @@ BOOL StructureInfoProto_StructTypeIsValidValue(StructureInfoProto_StructType val
   int32_t numResidences;
   int32_t numMonsterSlots;
   int32_t numLabs;
+  int32_t pvpQueueCashCost;
   StructureInfoProto* structInfo;
 }
 - (BOOL) hasStructInfo;
@@ -643,6 +645,7 @@ BOOL StructureInfoProto_StructTypeIsValidValue(StructureInfoProto_StructType val
 - (BOOL) hasNumResidences;
 - (BOOL) hasNumMonsterSlots;
 - (BOOL) hasNumLabs;
+- (BOOL) hasPvpQueueCashCost;
 @property (readonly, retain) StructureInfoProto* structInfo;
 @property (readonly) int32_t numResourceOneGenerators;
 @property (readonly) int32_t numResourceOneStorages;
@@ -652,6 +655,7 @@ BOOL StructureInfoProto_StructTypeIsValidValue(StructureInfoProto_StructType val
 @property (readonly) int32_t numResidences;
 @property (readonly) int32_t numMonsterSlots;
 @property (readonly) int32_t numLabs;
+@property (readonly) int32_t pvpQueueCashCost;
 
 + (TownHallProto*) defaultInstance;
 - (TownHallProto*) defaultInstance;
@@ -733,6 +737,11 @@ BOOL StructureInfoProto_StructTypeIsValidValue(StructureInfoProto_StructType val
 - (int32_t) numLabs;
 - (TownHallProto_Builder*) setNumLabs:(int32_t) value;
 - (TownHallProto_Builder*) clearNumLabs;
+
+- (BOOL) hasPvpQueueCashCost;
+- (int32_t) pvpQueueCashCost;
+- (TownHallProto_Builder*) setPvpQueueCashCost:(int32_t) value;
+- (TownHallProto_Builder*) clearPvpQueueCashCost;
 @end
 
 @interface FullUserStructureProto : PBGeneratedMessage {

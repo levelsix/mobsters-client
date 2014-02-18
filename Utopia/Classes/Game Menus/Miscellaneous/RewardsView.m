@@ -29,6 +29,11 @@
     bgdName = @"cashfound.png";
     labelName = [Globals cashStringForNumber:reward.silverAmount];
     color = [Globals greenColor];
+  } else if (reward.type == RewardTypeOil) {
+    imgName = @"oilicon.png";
+    bgdName = @"ultrafound.png";
+    labelName = [Globals commafyNumber:reward.oilAmount];
+    color = [Globals goldColor];
   } else if (reward.type == RewardTypeGold) {
     imgName = @"diamond.png";
     labelName = [Globals commafyNumber:reward.goldAmount];
@@ -64,7 +69,7 @@
 
 @implementation RewardsView
 
-#define REWARD_VIEW_SPACE 3
+#define REWARD_VIEW_SPACE 6
 
 - (void) setFrame:(CGRect)frame {
   [super setFrame:frame];

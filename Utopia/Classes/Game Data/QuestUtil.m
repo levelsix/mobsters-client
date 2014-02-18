@@ -59,7 +59,8 @@
   NSMutableArray *potentialQuests = [NSMutableArray array];
   
   for (FullQuestProto *quest in gs.inProgressIncompleteQuests.allValues) {
-    if (quest.questType == FullQuestProto_QuestTypeKillMonster) {
+    if (quest.questType == FullQuestProto_QuestTypeKillMonster ||
+        quest.questType == FullQuestProto_QuestTypeCollectSpecialItem) {
       [potentialQuests addObject:quest];
     }
   }
@@ -73,11 +74,20 @@
       
       // Check the potential quests
       for (FullQuestProto *quest in potentialQuests) {
-        UserQuest *uq = [gs myQuestWithId:quest.questId];
-        if (quest.staticDataId == tsm.monsterId) {
-          uq.progress = MIN(uq.progress+1, quest.quantity);
-          uq.isComplete = (uq.progress >= quest.quantity);
-          [changedQuests addObject:quest];
+        if (quest.questType == FullQuestProto_QuestTypeKillMonster) {
+          UserQuest *uq = [gs myQuestWithId:quest.questId];
+          if (quest.staticDataId == tsm.monsterId) {
+            uq.progress = MIN(uq.progress+1, quest.quantity);
+            uq.isComplete = (uq.progress >= quest.quantity);
+            [changedQuests addObject:quest];
+          }
+        } else if (quest.questType == FullQuestProto_QuestTypeCollectSpecialItem) {
+          UserQuest *uq = [gs myQuestWithId:quest.questId];
+          if (quest.staticDataId == tsm.itemId) {
+            uq.progress = MIN(uq.progress+1, quest.quantity);
+            uq.isComplete = (uq.progress >= quest.quantity);
+            [changedQuests addObject:quest];
+          }
         }
       }
     }

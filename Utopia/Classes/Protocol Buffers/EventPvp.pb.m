@@ -12,6 +12,7 @@ static PBExtensionRegistry* extensionRegistry = nil;
   if (self == [EventPvpRoot class]) {
     PBMutableExtensionRegistry* registry = [PBMutableExtensionRegistry registry];
     [self registerAllExtensions:registry];
+    [BattleRoot registerAllExtensions:registry];
     [UserRoot registerAllExtensions:registry];
     extensionRegistry = [registry retain];
   }
@@ -22,6 +23,7 @@ static PBExtensionRegistry* extensionRegistry = nil;
 
 @interface QueueUpRequestProto ()
 @property (retain) MinimumUserProto* attacker;
+@property int32_t attackerElo;
 @property (retain) NSMutableArray* mutableSeenUserIdsList;
 @property int64_t clientTime;
 @end
@@ -35,6 +37,13 @@ static PBExtensionRegistry* extensionRegistry = nil;
   hasAttacker_ = !!value;
 }
 @synthesize attacker;
+- (BOOL) hasAttackerElo {
+  return !!hasAttackerElo_;
+}
+- (void) setHasAttackerElo:(BOOL) value {
+  hasAttackerElo_ = !!value;
+}
+@synthesize attackerElo;
 @synthesize mutableSeenUserIdsList;
 - (BOOL) hasClientTime {
   return !!hasClientTime_;
@@ -51,6 +60,7 @@ static PBExtensionRegistry* extensionRegistry = nil;
 - (id) init {
   if ((self = [super init])) {
     self.attacker = [MinimumUserProto defaultInstance];
+    self.attackerElo = 0;
     self.clientTime = 0L;
   }
   return self;
@@ -81,11 +91,14 @@ static QueueUpRequestProto* defaultQueueUpRequestProtoInstance = nil;
   if (self.hasAttacker) {
     [output writeMessage:1 value:self.attacker];
   }
+  if (self.hasAttackerElo) {
+    [output writeInt32:2 value:self.attackerElo];
+  }
   for (NSNumber* value in self.mutableSeenUserIdsList) {
-    [output writeInt32:2 value:[value intValue]];
+    [output writeInt32:5 value:[value intValue]];
   }
   if (self.hasClientTime) {
-    [output writeInt64:3 value:self.clientTime];
+    [output writeInt64:6 value:self.clientTime];
   }
   [self.unknownFields writeToCodedOutputStream:output];
 }
@@ -99,6 +112,9 @@ static QueueUpRequestProto* defaultQueueUpRequestProtoInstance = nil;
   if (self.hasAttacker) {
     size += computeMessageSize(1, self.attacker);
   }
+  if (self.hasAttackerElo) {
+    size += computeInt32Size(2, self.attackerElo);
+  }
   {
     int32_t dataSize = 0;
     for (NSNumber* value in self.mutableSeenUserIdsList) {
@@ -108,7 +124,7 @@ static QueueUpRequestProto* defaultQueueUpRequestProtoInstance = nil;
     size += 1 * self.mutableSeenUserIdsList.count;
   }
   if (self.hasClientTime) {
-    size += computeInt64Size(3, self.clientTime);
+    size += computeInt64Size(6, self.clientTime);
   }
   size += self.unknownFields.serializedSize;
   memoizedSerializedSize = size;
@@ -188,6 +204,9 @@ static QueueUpRequestProto* defaultQueueUpRequestProtoInstance = nil;
   if (other.hasAttacker) {
     [self mergeAttacker:other.attacker];
   }
+  if (other.hasAttackerElo) {
+    [self setAttackerElo:other.attackerElo];
+  }
   if (other.mutableSeenUserIdsList.count > 0) {
     if (result.mutableSeenUserIdsList == nil) {
       result.mutableSeenUserIdsList = [NSMutableArray array];
@@ -228,10 +247,14 @@ static QueueUpRequestProto* defaultQueueUpRequestProtoInstance = nil;
         break;
       }
       case 16: {
+        [self setAttackerElo:[input readInt32]];
+        break;
+      }
+      case 40: {
         [self addSeenUserIds:[input readInt32]];
         break;
       }
-      case 24: {
+      case 48: {
         [self setClientTime:[input readInt64]];
         break;
       }
@@ -266,6 +289,22 @@ static QueueUpRequestProto* defaultQueueUpRequestProtoInstance = nil;
 - (QueueUpRequestProto_Builder*) clearAttacker {
   result.hasAttacker = NO;
   result.attacker = [MinimumUserProto defaultInstance];
+  return self;
+}
+- (BOOL) hasAttackerElo {
+  return result.hasAttackerElo;
+}
+- (int32_t) attackerElo {
+  return result.attackerElo;
+}
+- (QueueUpRequestProto_Builder*) setAttackerElo:(int32_t) value {
+  result.hasAttackerElo = YES;
+  result.attackerElo = value;
+  return self;
+}
+- (QueueUpRequestProto_Builder*) clearAttackerElo {
+  result.hasAttackerElo = NO;
+  result.attackerElo = 0;
   return self;
 }
 - (NSArray*) seenUserIdsList {
@@ -319,9 +358,8 @@ static QueueUpRequestProto* defaultQueueUpRequestProtoInstance = nil;
 
 @interface QueueUpResponseProto ()
 @property (retain) MinimumUserProto* attacker;
-@property (retain) MinimumUserProto* defender;
+@property (retain) NSMutableArray* mutableDefenderInfoListList;
 @property QueueUpResponseProto_QueueUpStatus status;
-@property int32_t possibleCoinReward;
 @end
 
 @implementation QueueUpResponseProto
@@ -333,13 +371,7 @@ static QueueUpRequestProto* defaultQueueUpRequestProtoInstance = nil;
   hasAttacker_ = !!value;
 }
 @synthesize attacker;
-- (BOOL) hasDefender {
-  return !!hasDefender_;
-}
-- (void) setHasDefender:(BOOL) value {
-  hasDefender_ = !!value;
-}
-@synthesize defender;
+@synthesize mutableDefenderInfoListList;
 - (BOOL) hasStatus {
   return !!hasStatus_;
 }
@@ -347,24 +379,15 @@ static QueueUpRequestProto* defaultQueueUpRequestProtoInstance = nil;
   hasStatus_ = !!value;
 }
 @synthesize status;
-- (BOOL) hasPossibleCoinReward {
-  return !!hasPossibleCoinReward_;
-}
-- (void) setHasPossibleCoinReward:(BOOL) value {
-  hasPossibleCoinReward_ = !!value;
-}
-@synthesize possibleCoinReward;
 - (void) dealloc {
   self.attacker = nil;
-  self.defender = nil;
+  self.mutableDefenderInfoListList = nil;
   [super dealloc];
 }
 - (id) init {
   if ((self = [super init])) {
     self.attacker = [MinimumUserProto defaultInstance];
-    self.defender = [MinimumUserProto defaultInstance];
     self.status = QueueUpResponseProto_QueueUpStatusSuccess;
-    self.possibleCoinReward = 0;
   }
   return self;
 }
@@ -380,6 +403,13 @@ static QueueUpResponseProto* defaultQueueUpResponseProtoInstance = nil;
 - (QueueUpResponseProto*) defaultInstance {
   return defaultQueueUpResponseProtoInstance;
 }
+- (NSArray*) defenderInfoListList {
+  return mutableDefenderInfoListList;
+}
+- (PvpProto*) defenderInfoListAtIndex:(int32_t) index {
+  id value = [mutableDefenderInfoListList objectAtIndex:index];
+  return value;
+}
 - (BOOL) isInitialized {
   return YES;
 }
@@ -387,14 +417,11 @@ static QueueUpResponseProto* defaultQueueUpResponseProtoInstance = nil;
   if (self.hasAttacker) {
     [output writeMessage:1 value:self.attacker];
   }
-  if (self.hasDefender) {
-    [output writeMessage:2 value:self.defender];
+  for (PvpProto* element in self.defenderInfoListList) {
+    [output writeMessage:2 value:element];
   }
   if (self.hasStatus) {
     [output writeEnum:3 value:self.status];
-  }
-  if (self.hasPossibleCoinReward) {
-    [output writeInt32:4 value:self.possibleCoinReward];
   }
   [self.unknownFields writeToCodedOutputStream:output];
 }
@@ -408,14 +435,11 @@ static QueueUpResponseProto* defaultQueueUpResponseProtoInstance = nil;
   if (self.hasAttacker) {
     size += computeMessageSize(1, self.attacker);
   }
-  if (self.hasDefender) {
-    size += computeMessageSize(2, self.defender);
+  for (PvpProto* element in self.defenderInfoListList) {
+    size += computeMessageSize(2, element);
   }
   if (self.hasStatus) {
     size += computeEnumSize(3, self.status);
-  }
-  if (self.hasPossibleCoinReward) {
-    size += computeInt32Size(4, self.possibleCoinReward);
   }
   size += self.unknownFields.serializedSize;
   memoizedSerializedSize = size;
@@ -453,9 +477,9 @@ static QueueUpResponseProto* defaultQueueUpResponseProtoInstance = nil;
 BOOL QueueUpResponseProto_QueueUpStatusIsValidValue(QueueUpResponseProto_QueueUpStatus value) {
   switch (value) {
     case QueueUpResponseProto_QueueUpStatusSuccess:
-    case QueueUpResponseProto_QueueUpStatusOtherFail:
-    case QueueUpResponseProto_QueueUpStatusFailNotEnoughSilver:
-    case QueueUpResponseProto_QueueUpStatusFailCantFindAnyone:
+    case QueueUpResponseProto_QueueUpStatusFailNotEnoughCash:
+    case QueueUpResponseProto_QueueUpStatusFailOther:
+    case QueueUpResponseProto_QueueUpStatusFailNotEnoughGems:
       return YES;
     default:
       return NO;
@@ -506,14 +530,14 @@ BOOL QueueUpResponseProto_QueueUpStatusIsValidValue(QueueUpResponseProto_QueueUp
   if (other.hasAttacker) {
     [self mergeAttacker:other.attacker];
   }
-  if (other.hasDefender) {
-    [self mergeDefender:other.defender];
+  if (other.mutableDefenderInfoListList.count > 0) {
+    if (result.mutableDefenderInfoListList == nil) {
+      result.mutableDefenderInfoListList = [NSMutableArray array];
+    }
+    [result.mutableDefenderInfoListList addObjectsFromArray:other.mutableDefenderInfoListList];
   }
   if (other.hasStatus) {
     [self setStatus:other.status];
-  }
-  if (other.hasPossibleCoinReward) {
-    [self setPossibleCoinReward:other.possibleCoinReward];
   }
   [self mergeUnknownFields:other.unknownFields];
   return self;
@@ -546,12 +570,9 @@ BOOL QueueUpResponseProto_QueueUpStatusIsValidValue(QueueUpResponseProto_QueueUp
         break;
       }
       case 18: {
-        MinimumUserProto_Builder* subBuilder = [MinimumUserProto builder];
-        if (self.hasDefender) {
-          [subBuilder mergeFrom:self.defender];
-        }
+        PvpProto_Builder* subBuilder = [PvpProto builder];
         [input readMessage:subBuilder extensionRegistry:extensionRegistry];
-        [self setDefender:[subBuilder buildPartial]];
+        [self addDefenderInfoList:[subBuilder buildPartial]];
         break;
       }
       case 24: {
@@ -561,10 +582,6 @@ BOOL QueueUpResponseProto_QueueUpStatusIsValidValue(QueueUpResponseProto_QueueUp
         } else {
           [unknownFields mergeVarintField:3 value:value];
         }
-        break;
-      }
-      case 32: {
-        [self setPossibleCoinReward:[input readInt32]];
         break;
       }
     }
@@ -600,34 +617,33 @@ BOOL QueueUpResponseProto_QueueUpStatusIsValidValue(QueueUpResponseProto_QueueUp
   result.attacker = [MinimumUserProto defaultInstance];
   return self;
 }
-- (BOOL) hasDefender {
-  return result.hasDefender;
+- (NSArray*) defenderInfoListList {
+  if (result.mutableDefenderInfoListList == nil) { return [NSArray array]; }
+  return result.mutableDefenderInfoListList;
 }
-- (MinimumUserProto*) defender {
-  return result.defender;
+- (PvpProto*) defenderInfoListAtIndex:(int32_t) index {
+  return [result defenderInfoListAtIndex:index];
 }
-- (QueueUpResponseProto_Builder*) setDefender:(MinimumUserProto*) value {
-  result.hasDefender = YES;
-  result.defender = value;
+- (QueueUpResponseProto_Builder*) replaceDefenderInfoListAtIndex:(int32_t) index with:(PvpProto*) value {
+  [result.mutableDefenderInfoListList replaceObjectAtIndex:index withObject:value];
   return self;
 }
-- (QueueUpResponseProto_Builder*) setDefenderBuilder:(MinimumUserProto_Builder*) builderForValue {
-  return [self setDefender:[builderForValue build]];
-}
-- (QueueUpResponseProto_Builder*) mergeDefender:(MinimumUserProto*) value {
-  if (result.hasDefender &&
-      result.defender != [MinimumUserProto defaultInstance]) {
-    result.defender =
-      [[[MinimumUserProto builderWithPrototype:result.defender] mergeFrom:value] buildPartial];
-  } else {
-    result.defender = value;
+- (QueueUpResponseProto_Builder*) addAllDefenderInfoList:(NSArray*) values {
+  if (result.mutableDefenderInfoListList == nil) {
+    result.mutableDefenderInfoListList = [NSMutableArray array];
   }
-  result.hasDefender = YES;
+  [result.mutableDefenderInfoListList addObjectsFromArray:values];
   return self;
 }
-- (QueueUpResponseProto_Builder*) clearDefender {
-  result.hasDefender = NO;
-  result.defender = [MinimumUserProto defaultInstance];
+- (QueueUpResponseProto_Builder*) clearDefenderInfoListList {
+  result.mutableDefenderInfoListList = nil;
+  return self;
+}
+- (QueueUpResponseProto_Builder*) addDefenderInfoList:(PvpProto*) value {
+  if (result.mutableDefenderInfoListList == nil) {
+    result.mutableDefenderInfoListList = [NSMutableArray array];
+  }
+  [result.mutableDefenderInfoListList addObject:value];
   return self;
 }
 - (BOOL) hasStatus {
@@ -646,20 +662,1394 @@ BOOL QueueUpResponseProto_QueueUpStatusIsValidValue(QueueUpResponseProto_QueueUp
   result.status = QueueUpResponseProto_QueueUpStatusSuccess;
   return self;
 }
-- (BOOL) hasPossibleCoinReward {
-  return result.hasPossibleCoinReward;
+@end
+
+@interface BeginPvpBattleRequestProto ()
+@property (retain) MinimumUserProto* sender;
+@property int32_t senderElo;
+@property int64_t attackStartTime;
+@property (retain) PvpProto* enemy;
+@end
+
+@implementation BeginPvpBattleRequestProto
+
+- (BOOL) hasSender {
+  return !!hasSender_;
 }
-- (int32_t) possibleCoinReward {
-  return result.possibleCoinReward;
+- (void) setHasSender:(BOOL) value {
+  hasSender_ = !!value;
 }
-- (QueueUpResponseProto_Builder*) setPossibleCoinReward:(int32_t) value {
-  result.hasPossibleCoinReward = YES;
-  result.possibleCoinReward = value;
+@synthesize sender;
+- (BOOL) hasSenderElo {
+  return !!hasSenderElo_;
+}
+- (void) setHasSenderElo:(BOOL) value {
+  hasSenderElo_ = !!value;
+}
+@synthesize senderElo;
+- (BOOL) hasAttackStartTime {
+  return !!hasAttackStartTime_;
+}
+- (void) setHasAttackStartTime:(BOOL) value {
+  hasAttackStartTime_ = !!value;
+}
+@synthesize attackStartTime;
+- (BOOL) hasEnemy {
+  return !!hasEnemy_;
+}
+- (void) setHasEnemy:(BOOL) value {
+  hasEnemy_ = !!value;
+}
+@synthesize enemy;
+- (void) dealloc {
+  self.sender = nil;
+  self.enemy = nil;
+  [super dealloc];
+}
+- (id) init {
+  if ((self = [super init])) {
+    self.sender = [MinimumUserProto defaultInstance];
+    self.senderElo = 0;
+    self.attackStartTime = 0L;
+    self.enemy = [PvpProto defaultInstance];
+  }
   return self;
 }
-- (QueueUpResponseProto_Builder*) clearPossibleCoinReward {
-  result.hasPossibleCoinReward = NO;
-  result.possibleCoinReward = 0;
+static BeginPvpBattleRequestProto* defaultBeginPvpBattleRequestProtoInstance = nil;
++ (void) initialize {
+  if (self == [BeginPvpBattleRequestProto class]) {
+    defaultBeginPvpBattleRequestProtoInstance = [[BeginPvpBattleRequestProto alloc] init];
+  }
+}
++ (BeginPvpBattleRequestProto*) defaultInstance {
+  return defaultBeginPvpBattleRequestProtoInstance;
+}
+- (BeginPvpBattleRequestProto*) defaultInstance {
+  return defaultBeginPvpBattleRequestProtoInstance;
+}
+- (BOOL) isInitialized {
+  return YES;
+}
+- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output {
+  if (self.hasSender) {
+    [output writeMessage:1 value:self.sender];
+  }
+  if (self.hasSenderElo) {
+    [output writeInt32:2 value:self.senderElo];
+  }
+  if (self.hasAttackStartTime) {
+    [output writeInt64:3 value:self.attackStartTime];
+  }
+  if (self.hasEnemy) {
+    [output writeMessage:4 value:self.enemy];
+  }
+  [self.unknownFields writeToCodedOutputStream:output];
+}
+- (int32_t) serializedSize {
+  int32_t size = memoizedSerializedSize;
+  if (size != -1) {
+    return size;
+  }
+
+  size = 0;
+  if (self.hasSender) {
+    size += computeMessageSize(1, self.sender);
+  }
+  if (self.hasSenderElo) {
+    size += computeInt32Size(2, self.senderElo);
+  }
+  if (self.hasAttackStartTime) {
+    size += computeInt64Size(3, self.attackStartTime);
+  }
+  if (self.hasEnemy) {
+    size += computeMessageSize(4, self.enemy);
+  }
+  size += self.unknownFields.serializedSize;
+  memoizedSerializedSize = size;
+  return size;
+}
++ (BeginPvpBattleRequestProto*) parseFromData:(NSData*) data {
+  return (BeginPvpBattleRequestProto*)[[[BeginPvpBattleRequestProto builder] mergeFromData:data] build];
+}
++ (BeginPvpBattleRequestProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (BeginPvpBattleRequestProto*)[[[BeginPvpBattleRequestProto builder] mergeFromData:data extensionRegistry:extensionRegistry] build];
+}
++ (BeginPvpBattleRequestProto*) parseFromInputStream:(NSInputStream*) input {
+  return (BeginPvpBattleRequestProto*)[[[BeginPvpBattleRequestProto builder] mergeFromInputStream:input] build];
+}
++ (BeginPvpBattleRequestProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (BeginPvpBattleRequestProto*)[[[BeginPvpBattleRequestProto builder] mergeFromInputStream:input extensionRegistry:extensionRegistry] build];
+}
++ (BeginPvpBattleRequestProto*) parseFromCodedInputStream:(PBCodedInputStream*) input {
+  return (BeginPvpBattleRequestProto*)[[[BeginPvpBattleRequestProto builder] mergeFromCodedInputStream:input] build];
+}
++ (BeginPvpBattleRequestProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (BeginPvpBattleRequestProto*)[[[BeginPvpBattleRequestProto builder] mergeFromCodedInputStream:input extensionRegistry:extensionRegistry] build];
+}
++ (BeginPvpBattleRequestProto_Builder*) builder {
+  return [[[BeginPvpBattleRequestProto_Builder alloc] init] autorelease];
+}
++ (BeginPvpBattleRequestProto_Builder*) builderWithPrototype:(BeginPvpBattleRequestProto*) prototype {
+  return [[BeginPvpBattleRequestProto builder] mergeFrom:prototype];
+}
+- (BeginPvpBattleRequestProto_Builder*) builder {
+  return [BeginPvpBattleRequestProto builder];
+}
+@end
+
+@interface BeginPvpBattleRequestProto_Builder()
+@property (retain) BeginPvpBattleRequestProto* result;
+@end
+
+@implementation BeginPvpBattleRequestProto_Builder
+@synthesize result;
+- (void) dealloc {
+  self.result = nil;
+  [super dealloc];
+}
+- (id) init {
+  if ((self = [super init])) {
+    self.result = [[[BeginPvpBattleRequestProto alloc] init] autorelease];
+  }
+  return self;
+}
+- (PBGeneratedMessage*) internalGetResult {
+  return result;
+}
+- (BeginPvpBattleRequestProto_Builder*) clear {
+  self.result = [[[BeginPvpBattleRequestProto alloc] init] autorelease];
+  return self;
+}
+- (BeginPvpBattleRequestProto_Builder*) clone {
+  return [BeginPvpBattleRequestProto builderWithPrototype:result];
+}
+- (BeginPvpBattleRequestProto*) defaultInstance {
+  return [BeginPvpBattleRequestProto defaultInstance];
+}
+- (BeginPvpBattleRequestProto*) build {
+  [self checkInitialized];
+  return [self buildPartial];
+}
+- (BeginPvpBattleRequestProto*) buildPartial {
+  BeginPvpBattleRequestProto* returnMe = [[result retain] autorelease];
+  self.result = nil;
+  return returnMe;
+}
+- (BeginPvpBattleRequestProto_Builder*) mergeFrom:(BeginPvpBattleRequestProto*) other {
+  if (other == [BeginPvpBattleRequestProto defaultInstance]) {
+    return self;
+  }
+  if (other.hasSender) {
+    [self mergeSender:other.sender];
+  }
+  if (other.hasSenderElo) {
+    [self setSenderElo:other.senderElo];
+  }
+  if (other.hasAttackStartTime) {
+    [self setAttackStartTime:other.attackStartTime];
+  }
+  if (other.hasEnemy) {
+    [self mergeEnemy:other.enemy];
+  }
+  [self mergeUnknownFields:other.unknownFields];
+  return self;
+}
+- (BeginPvpBattleRequestProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input {
+  return [self mergeFromCodedInputStream:input extensionRegistry:[PBExtensionRegistry emptyRegistry]];
+}
+- (BeginPvpBattleRequestProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  PBUnknownFieldSet_Builder* unknownFields = [PBUnknownFieldSet builderWithUnknownFields:self.unknownFields];
+  while (YES) {
+    int32_t tag = [input readTag];
+    switch (tag) {
+      case 0:
+        [self setUnknownFields:[unknownFields build]];
+        return self;
+      default: {
+        if (![self parseUnknownField:input unknownFields:unknownFields extensionRegistry:extensionRegistry tag:tag]) {
+          [self setUnknownFields:[unknownFields build]];
+          return self;
+        }
+        break;
+      }
+      case 10: {
+        MinimumUserProto_Builder* subBuilder = [MinimumUserProto builder];
+        if (self.hasSender) {
+          [subBuilder mergeFrom:self.sender];
+        }
+        [input readMessage:subBuilder extensionRegistry:extensionRegistry];
+        [self setSender:[subBuilder buildPartial]];
+        break;
+      }
+      case 16: {
+        [self setSenderElo:[input readInt32]];
+        break;
+      }
+      case 24: {
+        [self setAttackStartTime:[input readInt64]];
+        break;
+      }
+      case 34: {
+        PvpProto_Builder* subBuilder = [PvpProto builder];
+        if (self.hasEnemy) {
+          [subBuilder mergeFrom:self.enemy];
+        }
+        [input readMessage:subBuilder extensionRegistry:extensionRegistry];
+        [self setEnemy:[subBuilder buildPartial]];
+        break;
+      }
+    }
+  }
+}
+- (BOOL) hasSender {
+  return result.hasSender;
+}
+- (MinimumUserProto*) sender {
+  return result.sender;
+}
+- (BeginPvpBattleRequestProto_Builder*) setSender:(MinimumUserProto*) value {
+  result.hasSender = YES;
+  result.sender = value;
+  return self;
+}
+- (BeginPvpBattleRequestProto_Builder*) setSenderBuilder:(MinimumUserProto_Builder*) builderForValue {
+  return [self setSender:[builderForValue build]];
+}
+- (BeginPvpBattleRequestProto_Builder*) mergeSender:(MinimumUserProto*) value {
+  if (result.hasSender &&
+      result.sender != [MinimumUserProto defaultInstance]) {
+    result.sender =
+      [[[MinimumUserProto builderWithPrototype:result.sender] mergeFrom:value] buildPartial];
+  } else {
+    result.sender = value;
+  }
+  result.hasSender = YES;
+  return self;
+}
+- (BeginPvpBattleRequestProto_Builder*) clearSender {
+  result.hasSender = NO;
+  result.sender = [MinimumUserProto defaultInstance];
+  return self;
+}
+- (BOOL) hasSenderElo {
+  return result.hasSenderElo;
+}
+- (int32_t) senderElo {
+  return result.senderElo;
+}
+- (BeginPvpBattleRequestProto_Builder*) setSenderElo:(int32_t) value {
+  result.hasSenderElo = YES;
+  result.senderElo = value;
+  return self;
+}
+- (BeginPvpBattleRequestProto_Builder*) clearSenderElo {
+  result.hasSenderElo = NO;
+  result.senderElo = 0;
+  return self;
+}
+- (BOOL) hasAttackStartTime {
+  return result.hasAttackStartTime;
+}
+- (int64_t) attackStartTime {
+  return result.attackStartTime;
+}
+- (BeginPvpBattleRequestProto_Builder*) setAttackStartTime:(int64_t) value {
+  result.hasAttackStartTime = YES;
+  result.attackStartTime = value;
+  return self;
+}
+- (BeginPvpBattleRequestProto_Builder*) clearAttackStartTime {
+  result.hasAttackStartTime = NO;
+  result.attackStartTime = 0L;
+  return self;
+}
+- (BOOL) hasEnemy {
+  return result.hasEnemy;
+}
+- (PvpProto*) enemy {
+  return result.enemy;
+}
+- (BeginPvpBattleRequestProto_Builder*) setEnemy:(PvpProto*) value {
+  result.hasEnemy = YES;
+  result.enemy = value;
+  return self;
+}
+- (BeginPvpBattleRequestProto_Builder*) setEnemyBuilder:(PvpProto_Builder*) builderForValue {
+  return [self setEnemy:[builderForValue build]];
+}
+- (BeginPvpBattleRequestProto_Builder*) mergeEnemy:(PvpProto*) value {
+  if (result.hasEnemy &&
+      result.enemy != [PvpProto defaultInstance]) {
+    result.enemy =
+      [[[PvpProto builderWithPrototype:result.enemy] mergeFrom:value] buildPartial];
+  } else {
+    result.enemy = value;
+  }
+  result.hasEnemy = YES;
+  return self;
+}
+- (BeginPvpBattleRequestProto_Builder*) clearEnemy {
+  result.hasEnemy = NO;
+  result.enemy = [PvpProto defaultInstance];
+  return self;
+}
+@end
+
+@interface BeginPvpBattleResponseProto ()
+@property (retain) MinimumUserProto* sender;
+@property BeginPvpBattleResponseProto_BeginPvpBattleStatus status;
+@end
+
+@implementation BeginPvpBattleResponseProto
+
+- (BOOL) hasSender {
+  return !!hasSender_;
+}
+- (void) setHasSender:(BOOL) value {
+  hasSender_ = !!value;
+}
+@synthesize sender;
+- (BOOL) hasStatus {
+  return !!hasStatus_;
+}
+- (void) setHasStatus:(BOOL) value {
+  hasStatus_ = !!value;
+}
+@synthesize status;
+- (void) dealloc {
+  self.sender = nil;
+  [super dealloc];
+}
+- (id) init {
+  if ((self = [super init])) {
+    self.sender = [MinimumUserProto defaultInstance];
+    self.status = BeginPvpBattleResponseProto_BeginPvpBattleStatusSuccess;
+  }
+  return self;
+}
+static BeginPvpBattleResponseProto* defaultBeginPvpBattleResponseProtoInstance = nil;
++ (void) initialize {
+  if (self == [BeginPvpBattleResponseProto class]) {
+    defaultBeginPvpBattleResponseProtoInstance = [[BeginPvpBattleResponseProto alloc] init];
+  }
+}
++ (BeginPvpBattleResponseProto*) defaultInstance {
+  return defaultBeginPvpBattleResponseProtoInstance;
+}
+- (BeginPvpBattleResponseProto*) defaultInstance {
+  return defaultBeginPvpBattleResponseProtoInstance;
+}
+- (BOOL) isInitialized {
+  return YES;
+}
+- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output {
+  if (self.hasSender) {
+    [output writeMessage:1 value:self.sender];
+  }
+  if (self.hasStatus) {
+    [output writeEnum:2 value:self.status];
+  }
+  [self.unknownFields writeToCodedOutputStream:output];
+}
+- (int32_t) serializedSize {
+  int32_t size = memoizedSerializedSize;
+  if (size != -1) {
+    return size;
+  }
+
+  size = 0;
+  if (self.hasSender) {
+    size += computeMessageSize(1, self.sender);
+  }
+  if (self.hasStatus) {
+    size += computeEnumSize(2, self.status);
+  }
+  size += self.unknownFields.serializedSize;
+  memoizedSerializedSize = size;
+  return size;
+}
++ (BeginPvpBattleResponseProto*) parseFromData:(NSData*) data {
+  return (BeginPvpBattleResponseProto*)[[[BeginPvpBattleResponseProto builder] mergeFromData:data] build];
+}
++ (BeginPvpBattleResponseProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (BeginPvpBattleResponseProto*)[[[BeginPvpBattleResponseProto builder] mergeFromData:data extensionRegistry:extensionRegistry] build];
+}
++ (BeginPvpBattleResponseProto*) parseFromInputStream:(NSInputStream*) input {
+  return (BeginPvpBattleResponseProto*)[[[BeginPvpBattleResponseProto builder] mergeFromInputStream:input] build];
+}
++ (BeginPvpBattleResponseProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (BeginPvpBattleResponseProto*)[[[BeginPvpBattleResponseProto builder] mergeFromInputStream:input extensionRegistry:extensionRegistry] build];
+}
++ (BeginPvpBattleResponseProto*) parseFromCodedInputStream:(PBCodedInputStream*) input {
+  return (BeginPvpBattleResponseProto*)[[[BeginPvpBattleResponseProto builder] mergeFromCodedInputStream:input] build];
+}
++ (BeginPvpBattleResponseProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (BeginPvpBattleResponseProto*)[[[BeginPvpBattleResponseProto builder] mergeFromCodedInputStream:input extensionRegistry:extensionRegistry] build];
+}
++ (BeginPvpBattleResponseProto_Builder*) builder {
+  return [[[BeginPvpBattleResponseProto_Builder alloc] init] autorelease];
+}
++ (BeginPvpBattleResponseProto_Builder*) builderWithPrototype:(BeginPvpBattleResponseProto*) prototype {
+  return [[BeginPvpBattleResponseProto builder] mergeFrom:prototype];
+}
+- (BeginPvpBattleResponseProto_Builder*) builder {
+  return [BeginPvpBattleResponseProto builder];
+}
+@end
+
+BOOL BeginPvpBattleResponseProto_BeginPvpBattleStatusIsValidValue(BeginPvpBattleResponseProto_BeginPvpBattleStatus value) {
+  switch (value) {
+    case BeginPvpBattleResponseProto_BeginPvpBattleStatusSuccess:
+    case BeginPvpBattleResponseProto_BeginPvpBattleStatusFailEnemyUnavailable:
+    case BeginPvpBattleResponseProto_BeginPvpBattleStatusFailOther:
+      return YES;
+    default:
+      return NO;
+  }
+}
+@interface BeginPvpBattleResponseProto_Builder()
+@property (retain) BeginPvpBattleResponseProto* result;
+@end
+
+@implementation BeginPvpBattleResponseProto_Builder
+@synthesize result;
+- (void) dealloc {
+  self.result = nil;
+  [super dealloc];
+}
+- (id) init {
+  if ((self = [super init])) {
+    self.result = [[[BeginPvpBattleResponseProto alloc] init] autorelease];
+  }
+  return self;
+}
+- (PBGeneratedMessage*) internalGetResult {
+  return result;
+}
+- (BeginPvpBattleResponseProto_Builder*) clear {
+  self.result = [[[BeginPvpBattleResponseProto alloc] init] autorelease];
+  return self;
+}
+- (BeginPvpBattleResponseProto_Builder*) clone {
+  return [BeginPvpBattleResponseProto builderWithPrototype:result];
+}
+- (BeginPvpBattleResponseProto*) defaultInstance {
+  return [BeginPvpBattleResponseProto defaultInstance];
+}
+- (BeginPvpBattleResponseProto*) build {
+  [self checkInitialized];
+  return [self buildPartial];
+}
+- (BeginPvpBattleResponseProto*) buildPartial {
+  BeginPvpBattleResponseProto* returnMe = [[result retain] autorelease];
+  self.result = nil;
+  return returnMe;
+}
+- (BeginPvpBattleResponseProto_Builder*) mergeFrom:(BeginPvpBattleResponseProto*) other {
+  if (other == [BeginPvpBattleResponseProto defaultInstance]) {
+    return self;
+  }
+  if (other.hasSender) {
+    [self mergeSender:other.sender];
+  }
+  if (other.hasStatus) {
+    [self setStatus:other.status];
+  }
+  [self mergeUnknownFields:other.unknownFields];
+  return self;
+}
+- (BeginPvpBattleResponseProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input {
+  return [self mergeFromCodedInputStream:input extensionRegistry:[PBExtensionRegistry emptyRegistry]];
+}
+- (BeginPvpBattleResponseProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  PBUnknownFieldSet_Builder* unknownFields = [PBUnknownFieldSet builderWithUnknownFields:self.unknownFields];
+  while (YES) {
+    int32_t tag = [input readTag];
+    switch (tag) {
+      case 0:
+        [self setUnknownFields:[unknownFields build]];
+        return self;
+      default: {
+        if (![self parseUnknownField:input unknownFields:unknownFields extensionRegistry:extensionRegistry tag:tag]) {
+          [self setUnknownFields:[unknownFields build]];
+          return self;
+        }
+        break;
+      }
+      case 10: {
+        MinimumUserProto_Builder* subBuilder = [MinimumUserProto builder];
+        if (self.hasSender) {
+          [subBuilder mergeFrom:self.sender];
+        }
+        [input readMessage:subBuilder extensionRegistry:extensionRegistry];
+        [self setSender:[subBuilder buildPartial]];
+        break;
+      }
+      case 16: {
+        int32_t value = [input readEnum];
+        if (BeginPvpBattleResponseProto_BeginPvpBattleStatusIsValidValue(value)) {
+          [self setStatus:value];
+        } else {
+          [unknownFields mergeVarintField:2 value:value];
+        }
+        break;
+      }
+    }
+  }
+}
+- (BOOL) hasSender {
+  return result.hasSender;
+}
+- (MinimumUserProto*) sender {
+  return result.sender;
+}
+- (BeginPvpBattleResponseProto_Builder*) setSender:(MinimumUserProto*) value {
+  result.hasSender = YES;
+  result.sender = value;
+  return self;
+}
+- (BeginPvpBattleResponseProto_Builder*) setSenderBuilder:(MinimumUserProto_Builder*) builderForValue {
+  return [self setSender:[builderForValue build]];
+}
+- (BeginPvpBattleResponseProto_Builder*) mergeSender:(MinimumUserProto*) value {
+  if (result.hasSender &&
+      result.sender != [MinimumUserProto defaultInstance]) {
+    result.sender =
+      [[[MinimumUserProto builderWithPrototype:result.sender] mergeFrom:value] buildPartial];
+  } else {
+    result.sender = value;
+  }
+  result.hasSender = YES;
+  return self;
+}
+- (BeginPvpBattleResponseProto_Builder*) clearSender {
+  result.hasSender = NO;
+  result.sender = [MinimumUserProto defaultInstance];
+  return self;
+}
+- (BOOL) hasStatus {
+  return result.hasStatus;
+}
+- (BeginPvpBattleResponseProto_BeginPvpBattleStatus) status {
+  return result.status;
+}
+- (BeginPvpBattleResponseProto_Builder*) setStatus:(BeginPvpBattleResponseProto_BeginPvpBattleStatus) value {
+  result.hasStatus = YES;
+  result.status = value;
+  return self;
+}
+- (BeginPvpBattleResponseProto_Builder*) clearStatus {
+  result.hasStatus = NO;
+  result.status = BeginPvpBattleResponseProto_BeginPvpBattleStatusSuccess;
+  return self;
+}
+@end
+
+@interface EndPvpBattleRequestProto ()
+@property (retain) MinimumUserProtoWithMaxResources* sender;
+@property int32_t defenderId;
+@property BOOL userAttacked;
+@property BOOL userWon;
+@property int64_t clientTime;
+@property int32_t oilChange;
+@property int32_t cashChange;
+@end
+
+@implementation EndPvpBattleRequestProto
+
+- (BOOL) hasSender {
+  return !!hasSender_;
+}
+- (void) setHasSender:(BOOL) value {
+  hasSender_ = !!value;
+}
+@synthesize sender;
+- (BOOL) hasDefenderId {
+  return !!hasDefenderId_;
+}
+- (void) setHasDefenderId:(BOOL) value {
+  hasDefenderId_ = !!value;
+}
+@synthesize defenderId;
+- (BOOL) hasUserAttacked {
+  return !!hasUserAttacked_;
+}
+- (void) setHasUserAttacked:(BOOL) value {
+  hasUserAttacked_ = !!value;
+}
+- (BOOL) userAttacked {
+  return !!userAttacked_;
+}
+- (void) setUserAttacked:(BOOL) value {
+  userAttacked_ = !!value;
+}
+- (BOOL) hasUserWon {
+  return !!hasUserWon_;
+}
+- (void) setHasUserWon:(BOOL) value {
+  hasUserWon_ = !!value;
+}
+- (BOOL) userWon {
+  return !!userWon_;
+}
+- (void) setUserWon:(BOOL) value {
+  userWon_ = !!value;
+}
+- (BOOL) hasClientTime {
+  return !!hasClientTime_;
+}
+- (void) setHasClientTime:(BOOL) value {
+  hasClientTime_ = !!value;
+}
+@synthesize clientTime;
+- (BOOL) hasOilChange {
+  return !!hasOilChange_;
+}
+- (void) setHasOilChange:(BOOL) value {
+  hasOilChange_ = !!value;
+}
+@synthesize oilChange;
+- (BOOL) hasCashChange {
+  return !!hasCashChange_;
+}
+- (void) setHasCashChange:(BOOL) value {
+  hasCashChange_ = !!value;
+}
+@synthesize cashChange;
+- (void) dealloc {
+  self.sender = nil;
+  [super dealloc];
+}
+- (id) init {
+  if ((self = [super init])) {
+    self.sender = [MinimumUserProtoWithMaxResources defaultInstance];
+    self.defenderId = 0;
+    self.userAttacked = NO;
+    self.userWon = NO;
+    self.clientTime = 0L;
+    self.oilChange = 0;
+    self.cashChange = 0;
+  }
+  return self;
+}
+static EndPvpBattleRequestProto* defaultEndPvpBattleRequestProtoInstance = nil;
++ (void) initialize {
+  if (self == [EndPvpBattleRequestProto class]) {
+    defaultEndPvpBattleRequestProtoInstance = [[EndPvpBattleRequestProto alloc] init];
+  }
+}
++ (EndPvpBattleRequestProto*) defaultInstance {
+  return defaultEndPvpBattleRequestProtoInstance;
+}
+- (EndPvpBattleRequestProto*) defaultInstance {
+  return defaultEndPvpBattleRequestProtoInstance;
+}
+- (BOOL) isInitialized {
+  return YES;
+}
+- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output {
+  if (self.hasSender) {
+    [output writeMessage:1 value:self.sender];
+  }
+  if (self.hasDefenderId) {
+    [output writeInt32:2 value:self.defenderId];
+  }
+  if (self.hasUserAttacked) {
+    [output writeBool:3 value:self.userAttacked];
+  }
+  if (self.hasUserWon) {
+    [output writeBool:4 value:self.userWon];
+  }
+  if (self.hasClientTime) {
+    [output writeInt64:5 value:self.clientTime];
+  }
+  if (self.hasOilChange) {
+    [output writeInt32:6 value:self.oilChange];
+  }
+  if (self.hasCashChange) {
+    [output writeInt32:7 value:self.cashChange];
+  }
+  [self.unknownFields writeToCodedOutputStream:output];
+}
+- (int32_t) serializedSize {
+  int32_t size = memoizedSerializedSize;
+  if (size != -1) {
+    return size;
+  }
+
+  size = 0;
+  if (self.hasSender) {
+    size += computeMessageSize(1, self.sender);
+  }
+  if (self.hasDefenderId) {
+    size += computeInt32Size(2, self.defenderId);
+  }
+  if (self.hasUserAttacked) {
+    size += computeBoolSize(3, self.userAttacked);
+  }
+  if (self.hasUserWon) {
+    size += computeBoolSize(4, self.userWon);
+  }
+  if (self.hasClientTime) {
+    size += computeInt64Size(5, self.clientTime);
+  }
+  if (self.hasOilChange) {
+    size += computeInt32Size(6, self.oilChange);
+  }
+  if (self.hasCashChange) {
+    size += computeInt32Size(7, self.cashChange);
+  }
+  size += self.unknownFields.serializedSize;
+  memoizedSerializedSize = size;
+  return size;
+}
++ (EndPvpBattleRequestProto*) parseFromData:(NSData*) data {
+  return (EndPvpBattleRequestProto*)[[[EndPvpBattleRequestProto builder] mergeFromData:data] build];
+}
++ (EndPvpBattleRequestProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (EndPvpBattleRequestProto*)[[[EndPvpBattleRequestProto builder] mergeFromData:data extensionRegistry:extensionRegistry] build];
+}
++ (EndPvpBattleRequestProto*) parseFromInputStream:(NSInputStream*) input {
+  return (EndPvpBattleRequestProto*)[[[EndPvpBattleRequestProto builder] mergeFromInputStream:input] build];
+}
++ (EndPvpBattleRequestProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (EndPvpBattleRequestProto*)[[[EndPvpBattleRequestProto builder] mergeFromInputStream:input extensionRegistry:extensionRegistry] build];
+}
++ (EndPvpBattleRequestProto*) parseFromCodedInputStream:(PBCodedInputStream*) input {
+  return (EndPvpBattleRequestProto*)[[[EndPvpBattleRequestProto builder] mergeFromCodedInputStream:input] build];
+}
++ (EndPvpBattleRequestProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (EndPvpBattleRequestProto*)[[[EndPvpBattleRequestProto builder] mergeFromCodedInputStream:input extensionRegistry:extensionRegistry] build];
+}
++ (EndPvpBattleRequestProto_Builder*) builder {
+  return [[[EndPvpBattleRequestProto_Builder alloc] init] autorelease];
+}
++ (EndPvpBattleRequestProto_Builder*) builderWithPrototype:(EndPvpBattleRequestProto*) prototype {
+  return [[EndPvpBattleRequestProto builder] mergeFrom:prototype];
+}
+- (EndPvpBattleRequestProto_Builder*) builder {
+  return [EndPvpBattleRequestProto builder];
+}
+@end
+
+@interface EndPvpBattleRequestProto_Builder()
+@property (retain) EndPvpBattleRequestProto* result;
+@end
+
+@implementation EndPvpBattleRequestProto_Builder
+@synthesize result;
+- (void) dealloc {
+  self.result = nil;
+  [super dealloc];
+}
+- (id) init {
+  if ((self = [super init])) {
+    self.result = [[[EndPvpBattleRequestProto alloc] init] autorelease];
+  }
+  return self;
+}
+- (PBGeneratedMessage*) internalGetResult {
+  return result;
+}
+- (EndPvpBattleRequestProto_Builder*) clear {
+  self.result = [[[EndPvpBattleRequestProto alloc] init] autorelease];
+  return self;
+}
+- (EndPvpBattleRequestProto_Builder*) clone {
+  return [EndPvpBattleRequestProto builderWithPrototype:result];
+}
+- (EndPvpBattleRequestProto*) defaultInstance {
+  return [EndPvpBattleRequestProto defaultInstance];
+}
+- (EndPvpBattleRequestProto*) build {
+  [self checkInitialized];
+  return [self buildPartial];
+}
+- (EndPvpBattleRequestProto*) buildPartial {
+  EndPvpBattleRequestProto* returnMe = [[result retain] autorelease];
+  self.result = nil;
+  return returnMe;
+}
+- (EndPvpBattleRequestProto_Builder*) mergeFrom:(EndPvpBattleRequestProto*) other {
+  if (other == [EndPvpBattleRequestProto defaultInstance]) {
+    return self;
+  }
+  if (other.hasSender) {
+    [self mergeSender:other.sender];
+  }
+  if (other.hasDefenderId) {
+    [self setDefenderId:other.defenderId];
+  }
+  if (other.hasUserAttacked) {
+    [self setUserAttacked:other.userAttacked];
+  }
+  if (other.hasUserWon) {
+    [self setUserWon:other.userWon];
+  }
+  if (other.hasClientTime) {
+    [self setClientTime:other.clientTime];
+  }
+  if (other.hasOilChange) {
+    [self setOilChange:other.oilChange];
+  }
+  if (other.hasCashChange) {
+    [self setCashChange:other.cashChange];
+  }
+  [self mergeUnknownFields:other.unknownFields];
+  return self;
+}
+- (EndPvpBattleRequestProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input {
+  return [self mergeFromCodedInputStream:input extensionRegistry:[PBExtensionRegistry emptyRegistry]];
+}
+- (EndPvpBattleRequestProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  PBUnknownFieldSet_Builder* unknownFields = [PBUnknownFieldSet builderWithUnknownFields:self.unknownFields];
+  while (YES) {
+    int32_t tag = [input readTag];
+    switch (tag) {
+      case 0:
+        [self setUnknownFields:[unknownFields build]];
+        return self;
+      default: {
+        if (![self parseUnknownField:input unknownFields:unknownFields extensionRegistry:extensionRegistry tag:tag]) {
+          [self setUnknownFields:[unknownFields build]];
+          return self;
+        }
+        break;
+      }
+      case 10: {
+        MinimumUserProtoWithMaxResources_Builder* subBuilder = [MinimumUserProtoWithMaxResources builder];
+        if (self.hasSender) {
+          [subBuilder mergeFrom:self.sender];
+        }
+        [input readMessage:subBuilder extensionRegistry:extensionRegistry];
+        [self setSender:[subBuilder buildPartial]];
+        break;
+      }
+      case 16: {
+        [self setDefenderId:[input readInt32]];
+        break;
+      }
+      case 24: {
+        [self setUserAttacked:[input readBool]];
+        break;
+      }
+      case 32: {
+        [self setUserWon:[input readBool]];
+        break;
+      }
+      case 40: {
+        [self setClientTime:[input readInt64]];
+        break;
+      }
+      case 48: {
+        [self setOilChange:[input readInt32]];
+        break;
+      }
+      case 56: {
+        [self setCashChange:[input readInt32]];
+        break;
+      }
+    }
+  }
+}
+- (BOOL) hasSender {
+  return result.hasSender;
+}
+- (MinimumUserProtoWithMaxResources*) sender {
+  return result.sender;
+}
+- (EndPvpBattleRequestProto_Builder*) setSender:(MinimumUserProtoWithMaxResources*) value {
+  result.hasSender = YES;
+  result.sender = value;
+  return self;
+}
+- (EndPvpBattleRequestProto_Builder*) setSenderBuilder:(MinimumUserProtoWithMaxResources_Builder*) builderForValue {
+  return [self setSender:[builderForValue build]];
+}
+- (EndPvpBattleRequestProto_Builder*) mergeSender:(MinimumUserProtoWithMaxResources*) value {
+  if (result.hasSender &&
+      result.sender != [MinimumUserProtoWithMaxResources defaultInstance]) {
+    result.sender =
+      [[[MinimumUserProtoWithMaxResources builderWithPrototype:result.sender] mergeFrom:value] buildPartial];
+  } else {
+    result.sender = value;
+  }
+  result.hasSender = YES;
+  return self;
+}
+- (EndPvpBattleRequestProto_Builder*) clearSender {
+  result.hasSender = NO;
+  result.sender = [MinimumUserProtoWithMaxResources defaultInstance];
+  return self;
+}
+- (BOOL) hasDefenderId {
+  return result.hasDefenderId;
+}
+- (int32_t) defenderId {
+  return result.defenderId;
+}
+- (EndPvpBattleRequestProto_Builder*) setDefenderId:(int32_t) value {
+  result.hasDefenderId = YES;
+  result.defenderId = value;
+  return self;
+}
+- (EndPvpBattleRequestProto_Builder*) clearDefenderId {
+  result.hasDefenderId = NO;
+  result.defenderId = 0;
+  return self;
+}
+- (BOOL) hasUserAttacked {
+  return result.hasUserAttacked;
+}
+- (BOOL) userAttacked {
+  return result.userAttacked;
+}
+- (EndPvpBattleRequestProto_Builder*) setUserAttacked:(BOOL) value {
+  result.hasUserAttacked = YES;
+  result.userAttacked = value;
+  return self;
+}
+- (EndPvpBattleRequestProto_Builder*) clearUserAttacked {
+  result.hasUserAttacked = NO;
+  result.userAttacked = NO;
+  return self;
+}
+- (BOOL) hasUserWon {
+  return result.hasUserWon;
+}
+- (BOOL) userWon {
+  return result.userWon;
+}
+- (EndPvpBattleRequestProto_Builder*) setUserWon:(BOOL) value {
+  result.hasUserWon = YES;
+  result.userWon = value;
+  return self;
+}
+- (EndPvpBattleRequestProto_Builder*) clearUserWon {
+  result.hasUserWon = NO;
+  result.userWon = NO;
+  return self;
+}
+- (BOOL) hasClientTime {
+  return result.hasClientTime;
+}
+- (int64_t) clientTime {
+  return result.clientTime;
+}
+- (EndPvpBattleRequestProto_Builder*) setClientTime:(int64_t) value {
+  result.hasClientTime = YES;
+  result.clientTime = value;
+  return self;
+}
+- (EndPvpBattleRequestProto_Builder*) clearClientTime {
+  result.hasClientTime = NO;
+  result.clientTime = 0L;
+  return self;
+}
+- (BOOL) hasOilChange {
+  return result.hasOilChange;
+}
+- (int32_t) oilChange {
+  return result.oilChange;
+}
+- (EndPvpBattleRequestProto_Builder*) setOilChange:(int32_t) value {
+  result.hasOilChange = YES;
+  result.oilChange = value;
+  return self;
+}
+- (EndPvpBattleRequestProto_Builder*) clearOilChange {
+  result.hasOilChange = NO;
+  result.oilChange = 0;
+  return self;
+}
+- (BOOL) hasCashChange {
+  return result.hasCashChange;
+}
+- (int32_t) cashChange {
+  return result.cashChange;
+}
+- (EndPvpBattleRequestProto_Builder*) setCashChange:(int32_t) value {
+  result.hasCashChange = YES;
+  result.cashChange = value;
+  return self;
+}
+- (EndPvpBattleRequestProto_Builder*) clearCashChange {
+  result.hasCashChange = NO;
+  result.cashChange = 0;
+  return self;
+}
+@end
+
+@interface EndPvpBattleResponseProto ()
+@property (retain) MinimumUserProtoWithMaxResources* sender;
+@property int32_t defenderId;
+@property BOOL attackerAttacked;
+@property BOOL attackerWon;
+@property EndPvpBattleResponseProto_EndPvpBattleStatus status;
+@end
+
+@implementation EndPvpBattleResponseProto
+
+- (BOOL) hasSender {
+  return !!hasSender_;
+}
+- (void) setHasSender:(BOOL) value {
+  hasSender_ = !!value;
+}
+@synthesize sender;
+- (BOOL) hasDefenderId {
+  return !!hasDefenderId_;
+}
+- (void) setHasDefenderId:(BOOL) value {
+  hasDefenderId_ = !!value;
+}
+@synthesize defenderId;
+- (BOOL) hasAttackerAttacked {
+  return !!hasAttackerAttacked_;
+}
+- (void) setHasAttackerAttacked:(BOOL) value {
+  hasAttackerAttacked_ = !!value;
+}
+- (BOOL) attackerAttacked {
+  return !!attackerAttacked_;
+}
+- (void) setAttackerAttacked:(BOOL) value {
+  attackerAttacked_ = !!value;
+}
+- (BOOL) hasAttackerWon {
+  return !!hasAttackerWon_;
+}
+- (void) setHasAttackerWon:(BOOL) value {
+  hasAttackerWon_ = !!value;
+}
+- (BOOL) attackerWon {
+  return !!attackerWon_;
+}
+- (void) setAttackerWon:(BOOL) value {
+  attackerWon_ = !!value;
+}
+- (BOOL) hasStatus {
+  return !!hasStatus_;
+}
+- (void) setHasStatus:(BOOL) value {
+  hasStatus_ = !!value;
+}
+@synthesize status;
+- (void) dealloc {
+  self.sender = nil;
+  [super dealloc];
+}
+- (id) init {
+  if ((self = [super init])) {
+    self.sender = [MinimumUserProtoWithMaxResources defaultInstance];
+    self.defenderId = 0;
+    self.attackerAttacked = NO;
+    self.attackerWon = NO;
+    self.status = EndPvpBattleResponseProto_EndPvpBattleStatusSuccess;
+  }
+  return self;
+}
+static EndPvpBattleResponseProto* defaultEndPvpBattleResponseProtoInstance = nil;
++ (void) initialize {
+  if (self == [EndPvpBattleResponseProto class]) {
+    defaultEndPvpBattleResponseProtoInstance = [[EndPvpBattleResponseProto alloc] init];
+  }
+}
++ (EndPvpBattleResponseProto*) defaultInstance {
+  return defaultEndPvpBattleResponseProtoInstance;
+}
+- (EndPvpBattleResponseProto*) defaultInstance {
+  return defaultEndPvpBattleResponseProtoInstance;
+}
+- (BOOL) isInitialized {
+  return YES;
+}
+- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output {
+  if (self.hasSender) {
+    [output writeMessage:1 value:self.sender];
+  }
+  if (self.hasDefenderId) {
+    [output writeInt32:2 value:self.defenderId];
+  }
+  if (self.hasAttackerAttacked) {
+    [output writeBool:3 value:self.attackerAttacked];
+  }
+  if (self.hasAttackerWon) {
+    [output writeBool:4 value:self.attackerWon];
+  }
+  if (self.hasStatus) {
+    [output writeEnum:9 value:self.status];
+  }
+  [self.unknownFields writeToCodedOutputStream:output];
+}
+- (int32_t) serializedSize {
+  int32_t size = memoizedSerializedSize;
+  if (size != -1) {
+    return size;
+  }
+
+  size = 0;
+  if (self.hasSender) {
+    size += computeMessageSize(1, self.sender);
+  }
+  if (self.hasDefenderId) {
+    size += computeInt32Size(2, self.defenderId);
+  }
+  if (self.hasAttackerAttacked) {
+    size += computeBoolSize(3, self.attackerAttacked);
+  }
+  if (self.hasAttackerWon) {
+    size += computeBoolSize(4, self.attackerWon);
+  }
+  if (self.hasStatus) {
+    size += computeEnumSize(9, self.status);
+  }
+  size += self.unknownFields.serializedSize;
+  memoizedSerializedSize = size;
+  return size;
+}
++ (EndPvpBattleResponseProto*) parseFromData:(NSData*) data {
+  return (EndPvpBattleResponseProto*)[[[EndPvpBattleResponseProto builder] mergeFromData:data] build];
+}
++ (EndPvpBattleResponseProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (EndPvpBattleResponseProto*)[[[EndPvpBattleResponseProto builder] mergeFromData:data extensionRegistry:extensionRegistry] build];
+}
++ (EndPvpBattleResponseProto*) parseFromInputStream:(NSInputStream*) input {
+  return (EndPvpBattleResponseProto*)[[[EndPvpBattleResponseProto builder] mergeFromInputStream:input] build];
+}
++ (EndPvpBattleResponseProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (EndPvpBattleResponseProto*)[[[EndPvpBattleResponseProto builder] mergeFromInputStream:input extensionRegistry:extensionRegistry] build];
+}
++ (EndPvpBattleResponseProto*) parseFromCodedInputStream:(PBCodedInputStream*) input {
+  return (EndPvpBattleResponseProto*)[[[EndPvpBattleResponseProto builder] mergeFromCodedInputStream:input] build];
+}
++ (EndPvpBattleResponseProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (EndPvpBattleResponseProto*)[[[EndPvpBattleResponseProto builder] mergeFromCodedInputStream:input extensionRegistry:extensionRegistry] build];
+}
++ (EndPvpBattleResponseProto_Builder*) builder {
+  return [[[EndPvpBattleResponseProto_Builder alloc] init] autorelease];
+}
++ (EndPvpBattleResponseProto_Builder*) builderWithPrototype:(EndPvpBattleResponseProto*) prototype {
+  return [[EndPvpBattleResponseProto builder] mergeFrom:prototype];
+}
+- (EndPvpBattleResponseProto_Builder*) builder {
+  return [EndPvpBattleResponseProto builder];
+}
+@end
+
+BOOL EndPvpBattleResponseProto_EndPvpBattleStatusIsValidValue(EndPvpBattleResponseProto_EndPvpBattleStatus value) {
+  switch (value) {
+    case EndPvpBattleResponseProto_EndPvpBattleStatusSuccess:
+    case EndPvpBattleResponseProto_EndPvpBattleStatusFailOther:
+    case EndPvpBattleResponseProto_EndPvpBattleStatusFailBattleTookTooLong:
+      return YES;
+    default:
+      return NO;
+  }
+}
+@interface EndPvpBattleResponseProto_Builder()
+@property (retain) EndPvpBattleResponseProto* result;
+@end
+
+@implementation EndPvpBattleResponseProto_Builder
+@synthesize result;
+- (void) dealloc {
+  self.result = nil;
+  [super dealloc];
+}
+- (id) init {
+  if ((self = [super init])) {
+    self.result = [[[EndPvpBattleResponseProto alloc] init] autorelease];
+  }
+  return self;
+}
+- (PBGeneratedMessage*) internalGetResult {
+  return result;
+}
+- (EndPvpBattleResponseProto_Builder*) clear {
+  self.result = [[[EndPvpBattleResponseProto alloc] init] autorelease];
+  return self;
+}
+- (EndPvpBattleResponseProto_Builder*) clone {
+  return [EndPvpBattleResponseProto builderWithPrototype:result];
+}
+- (EndPvpBattleResponseProto*) defaultInstance {
+  return [EndPvpBattleResponseProto defaultInstance];
+}
+- (EndPvpBattleResponseProto*) build {
+  [self checkInitialized];
+  return [self buildPartial];
+}
+- (EndPvpBattleResponseProto*) buildPartial {
+  EndPvpBattleResponseProto* returnMe = [[result retain] autorelease];
+  self.result = nil;
+  return returnMe;
+}
+- (EndPvpBattleResponseProto_Builder*) mergeFrom:(EndPvpBattleResponseProto*) other {
+  if (other == [EndPvpBattleResponseProto defaultInstance]) {
+    return self;
+  }
+  if (other.hasSender) {
+    [self mergeSender:other.sender];
+  }
+  if (other.hasDefenderId) {
+    [self setDefenderId:other.defenderId];
+  }
+  if (other.hasAttackerAttacked) {
+    [self setAttackerAttacked:other.attackerAttacked];
+  }
+  if (other.hasAttackerWon) {
+    [self setAttackerWon:other.attackerWon];
+  }
+  if (other.hasStatus) {
+    [self setStatus:other.status];
+  }
+  [self mergeUnknownFields:other.unknownFields];
+  return self;
+}
+- (EndPvpBattleResponseProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input {
+  return [self mergeFromCodedInputStream:input extensionRegistry:[PBExtensionRegistry emptyRegistry]];
+}
+- (EndPvpBattleResponseProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  PBUnknownFieldSet_Builder* unknownFields = [PBUnknownFieldSet builderWithUnknownFields:self.unknownFields];
+  while (YES) {
+    int32_t tag = [input readTag];
+    switch (tag) {
+      case 0:
+        [self setUnknownFields:[unknownFields build]];
+        return self;
+      default: {
+        if (![self parseUnknownField:input unknownFields:unknownFields extensionRegistry:extensionRegistry tag:tag]) {
+          [self setUnknownFields:[unknownFields build]];
+          return self;
+        }
+        break;
+      }
+      case 10: {
+        MinimumUserProtoWithMaxResources_Builder* subBuilder = [MinimumUserProtoWithMaxResources builder];
+        if (self.hasSender) {
+          [subBuilder mergeFrom:self.sender];
+        }
+        [input readMessage:subBuilder extensionRegistry:extensionRegistry];
+        [self setSender:[subBuilder buildPartial]];
+        break;
+      }
+      case 16: {
+        [self setDefenderId:[input readInt32]];
+        break;
+      }
+      case 24: {
+        [self setAttackerAttacked:[input readBool]];
+        break;
+      }
+      case 32: {
+        [self setAttackerWon:[input readBool]];
+        break;
+      }
+      case 72: {
+        int32_t value = [input readEnum];
+        if (EndPvpBattleResponseProto_EndPvpBattleStatusIsValidValue(value)) {
+          [self setStatus:value];
+        } else {
+          [unknownFields mergeVarintField:9 value:value];
+        }
+        break;
+      }
+    }
+  }
+}
+- (BOOL) hasSender {
+  return result.hasSender;
+}
+- (MinimumUserProtoWithMaxResources*) sender {
+  return result.sender;
+}
+- (EndPvpBattleResponseProto_Builder*) setSender:(MinimumUserProtoWithMaxResources*) value {
+  result.hasSender = YES;
+  result.sender = value;
+  return self;
+}
+- (EndPvpBattleResponseProto_Builder*) setSenderBuilder:(MinimumUserProtoWithMaxResources_Builder*) builderForValue {
+  return [self setSender:[builderForValue build]];
+}
+- (EndPvpBattleResponseProto_Builder*) mergeSender:(MinimumUserProtoWithMaxResources*) value {
+  if (result.hasSender &&
+      result.sender != [MinimumUserProtoWithMaxResources defaultInstance]) {
+    result.sender =
+      [[[MinimumUserProtoWithMaxResources builderWithPrototype:result.sender] mergeFrom:value] buildPartial];
+  } else {
+    result.sender = value;
+  }
+  result.hasSender = YES;
+  return self;
+}
+- (EndPvpBattleResponseProto_Builder*) clearSender {
+  result.hasSender = NO;
+  result.sender = [MinimumUserProtoWithMaxResources defaultInstance];
+  return self;
+}
+- (BOOL) hasDefenderId {
+  return result.hasDefenderId;
+}
+- (int32_t) defenderId {
+  return result.defenderId;
+}
+- (EndPvpBattleResponseProto_Builder*) setDefenderId:(int32_t) value {
+  result.hasDefenderId = YES;
+  result.defenderId = value;
+  return self;
+}
+- (EndPvpBattleResponseProto_Builder*) clearDefenderId {
+  result.hasDefenderId = NO;
+  result.defenderId = 0;
+  return self;
+}
+- (BOOL) hasAttackerAttacked {
+  return result.hasAttackerAttacked;
+}
+- (BOOL) attackerAttacked {
+  return result.attackerAttacked;
+}
+- (EndPvpBattleResponseProto_Builder*) setAttackerAttacked:(BOOL) value {
+  result.hasAttackerAttacked = YES;
+  result.attackerAttacked = value;
+  return self;
+}
+- (EndPvpBattleResponseProto_Builder*) clearAttackerAttacked {
+  result.hasAttackerAttacked = NO;
+  result.attackerAttacked = NO;
+  return self;
+}
+- (BOOL) hasAttackerWon {
+  return result.hasAttackerWon;
+}
+- (BOOL) attackerWon {
+  return result.attackerWon;
+}
+- (EndPvpBattleResponseProto_Builder*) setAttackerWon:(BOOL) value {
+  result.hasAttackerWon = YES;
+  result.attackerWon = value;
+  return self;
+}
+- (EndPvpBattleResponseProto_Builder*) clearAttackerWon {
+  result.hasAttackerWon = NO;
+  result.attackerWon = NO;
+  return self;
+}
+- (BOOL) hasStatus {
+  return result.hasStatus;
+}
+- (EndPvpBattleResponseProto_EndPvpBattleStatus) status {
+  return result.status;
+}
+- (EndPvpBattleResponseProto_Builder*) setStatus:(EndPvpBattleResponseProto_EndPvpBattleStatus) value {
+  result.hasStatus = YES;
+  result.status = value;
+  return self;
+}
+- (EndPvpBattleResponseProto_Builder*) clearStatus {
+  result.hasStatus = NO;
+  result.status = EndPvpBattleResponseProto_EndPvpBattleStatusSuccess;
   return self;
 }
 @end

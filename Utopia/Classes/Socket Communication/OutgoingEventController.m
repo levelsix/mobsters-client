@@ -38,7 +38,6 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
   GameState *gs = [GameState sharedGameState];
   SocketCommunication *sc = [SocketCommunication sharedSocketCommunication];
 
-  Globals *gl = [Globals sharedGlobals];
   int tag = [sc sendUserCreateMessage];
 
   [gs addUnrespondedUpdate:[NoUpdate updateWithTag:tag]];
@@ -818,6 +817,69 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
   }
 }
 
+- (void) reviveInDungeon:(uint64_t)userTaskId myTeam:(NSArray *)team {
+  GameState *gs = [GameState sharedGameState];
+  Globals *gl = [Globals sharedGlobals];
+  
+  int gemCost = [gl calculateGemCostToHealTeamDuringBattle:team];
+  
+  if (gs.gold < gemCost) {
+    [Globals popupMessage:@"Trying to revive without enough gold"];
+  } else {
+    NSMutableArray *arr = [NSMutableArray array];
+    for (BattlePlayer *pl in team) {
+      UserMonsterCurrentHealthProto *pr = [[[[UserMonsterCurrentHealthProto builder] setCurrentHealth:pl.maxHealth] setUserMonsterId:pl.userMonsterId] build];
+      [arr addObject:pr];
+      
+      pl.curHealth = pl.maxHealth;
+      
+      UserMonster *um = [gs myMonsterWithUserMonsterId:pl.userMonsterId];
+      um.curHealth = pl.curHealth;
+    }
+    
+    int tag = [[SocketCommunication sharedSocketCommunication] sendReviveInDungeonMessage:userTaskId clientTime:[self getCurrentMilliseconds] userHealths:arr gems:gemCost];
+    [gs addUnrespondedUpdate:[GoldUpdate updateWithTag:tag change:-gemCost]];
+  }
+}
+
+- (void) queueUpEvent:(NSArray *)seenUserIds withDelegate:(id)delegate {
+  seenUserIds = seenUserIds ? seenUserIds : [NSArray array];
+  int tag = [[SocketCommunication sharedSocketCommunication] sendQueueUpMessage:seenUserIds clientTime:[self getCurrentMilliseconds]];
+  [[SocketCommunication sharedSocketCommunication] setDelegate:delegate forTag:tag];
+}
+
+- (BOOL) viewNextPvpGuy:(BOOL)useGems {
+  GameState *gs = [GameState sharedGameState];
+  Globals *gl = [Globals sharedGlobals];
+  TownHallProto *thp = (TownHallProto *)gs.myTownHall.staticStruct;
+  
+  int cashCost = thp.pvpQueueCashCost;
+  int gemCost = 0;
+  
+  if (useGems && cashCost > gs.silver) {
+    gemCost = [gl calculateGemConversionForResourceType:ResourceTypeCash amount:cashCost-gs.silver];
+    cashCost = gs.silver;
+  }
+  
+  if (cashCost > gs.silver || gemCost > gs.gold) {
+    [Globals popupMessage:@"Trying to view next pvp guy without enough resources."];
+  } else {
+    int tag = [[SocketCommunication sharedSocketCommunication] sendUpdateUserCurrencyMessageWithCashSpent:cashCost oilSpent:0 gemsSpent:gemCost clientTime:[self getCurrentMilliseconds]];
+    
+    SilverUpdate *su = [SilverUpdate updateWithTag:tag change:-cashCost];
+    GoldUpdate *gu = [GoldUpdate updateWithTag:tag change:-gemCost];
+    [gs addUnrespondedUpdates:su, gu, nil];
+    
+    return YES;
+  }
+  return NO;
+}
+
+- (void) beginPvpBattle:(PvpProto *)proto {
+  GameState *gs = [GameState sharedGameState];
+  [[SocketCommunication sharedSocketCommunication] sendBeginPvpBattleMessage:proto senderElo:gs.elo clientTime:[self getCurrentMilliseconds]];
+}
+
 - (BOOL) removeMonsterFromTeam:(int)userMonsterId {
   GameState *gs = [GameState sharedGameState];
   UserMonster *um = [gs myMonsterWithUserMonsterId:userMonsterId];
@@ -936,7 +998,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
   NSMutableArray *invs = [NSMutableArray array];
   for (NSString *fbId in fbFriends) {
     InviteFbFriendsForSlotsRequestProto_FacebookInviteStructure_Builder *bldr = [InviteFbFriendsForSlotsRequestProto_FacebookInviteStructure builder];
-    bldr.fbFriendId = fbId;
+    bldr.fbFriendId = [NSString stringWithFormat:@"%@", fbId];
     bldr.userStructId = us.userStructId;
     bldr.userStructFbLvl = us.fbInviteStructLvl+1;
     [invs addObject:bldr.build];

@@ -178,7 +178,10 @@
   for (int i = 0; i < self.location.size.width; i++) {
     for (int j = 0; j < self.location.size.height; j++) {
       CGPoint tileCoord = ccp(_homeMap.mapSize.height-1-(self.location.origin.y+j),_homeMap.mapSize.width-1-(self.location.origin.x+i));
-      [meta removeTileAt:tileCoord];
+      if (tileCoord.x < meta.layerSize.width && tileCoord.x >= 0 &&
+          tileCoord.y < meta.layerSize.height && tileCoord.y >= 0) {
+        [meta removeTileAt:tileCoord];
+      }
     }
   }
 }
@@ -452,7 +455,7 @@
     
     ResourceStorageProto *res = (ResourceStorageProto *)userStruct.staticStruct;
     NSString *prefix = res.resourceType == ResourceTypeCash ? @"CashStorage" : @"OilStorage";
-    float vertOffset = res.resourceType == ResourceTypeCash ? 0 : 0;
+    float vertOffset = res.resourceType == ResourceTypeCash ? 5 : 12;
     [[CCSpriteFrameCache sharedSpriteFrameCache] addSpriteFramesWithFile:[NSString stringWithFormat:@"%@.plist", prefix]];
     self.anim = [CCAnimation animationWithSpritePrefix:prefix delay:2.];
     
@@ -503,7 +506,7 @@
   CCSprite *spr = [CCSprite spriteWithSpriteFrame:[anim.frames[0] spriteFrame]];
   [spr runAction:[CCActionRepeatForever actionWithAction:[CCActionAnimate actionWithAnimation:anim]]];
   spr.anchorPoint = ccp(0.5, 0);
-  spr.position = ccp(spr.contentSize.width/2, 0);
+  spr.position = ccp(spr.contentSize.width/2, 15);
   spr.scale = self.baseScale;
   [self addChild:spr];
   self.buildingSprite = spr;
@@ -525,8 +528,8 @@
     [[CCSpriteFrameCache sharedSpriteFrameCache] addSpriteFramesWithFile:[NSString stringWithFormat:@"%@AttackNF.plist", mp.imagePrefix]];
     self.monsterSprite = [CCSprite spriteWithImageNamed:[NSString stringWithFormat:@"%@AttackN00.png", mp.imagePrefix]];
     self.monsterSprite.anchorPoint = ccp(0.5, 0);
-    self.monsterSprite.position = ccp(self.contentSize.width/2, 15);
-    self.monsterSprite.scale = 0.7;
+    self.monsterSprite.position = ccp(self.contentSize.width/2, 1);
+    self.monsterSprite.scale = 0.8;
     self.monsterSprite.flipX = YES;
     [self.buildingSprite addChild:self.monsterSprite z:1];
   }

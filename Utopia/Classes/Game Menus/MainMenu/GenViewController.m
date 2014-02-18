@@ -38,7 +38,9 @@
     
     NSArray *vcs = self.navigationController.viewControllers;
     GenViewController *gvc = [vcs objectAtIndex:vcs.count-2];
-    self.menuBackLabel.text = gvc.shortTitle ? gvc.shortTitle : gvc.title;
+    if ([gvc isKindOfClass:[GenViewController class]]) {
+      self.menuBackLabel.text = gvc.shortTitle ? gvc.shortTitle : gvc.title;
+    }
   }
 }
 

@@ -1,6 +1,8 @@
 //ALL REQUEST PROTOS SHOULD INCLUDE A MinimumUserProto AS optional that represents which client sent it/triggered it 
 //DO NO START PROPERTY METHODS WITH THE WORDS NEW OR COPY
 
+import "Structure.proto";
+
 package com.lvl6.proto;
 
 option java_outer_classname = "QuestProto";
@@ -27,6 +29,7 @@ message FullQuestProto {
      optional int32 priority = 18;
      optional string carrotId = 19;
      optional bool isAchievement = 20;
+     optional CoordinateProto questGiverImgOffset = 21; //not used at the moment
      
      enum QuestType {
      	KILL_MONSTER = 1;
@@ -35,6 +38,17 @@ message FullQuestProto {
      	COLLECT_COINS_FROM_HOME = 4;
      	BUILD_STRUCT = 5;
      	UPGRADE_STRUCT = 6;
+     	
+     	//AFTER USER FINISHES QUEST, SPECIAL MONSTER APPEARS, WHICH USER NEEDS TO KILL
+     	//USED IN PERSISTENT EVENTS (DAILY DUNGEONS)
+     	MONSTER_APPEAR = 7;
+
+		//MONSTERS SPECIFIED IN quest_monster_item_table drop the required item
+		//NOTE: a quest is tied to a city. So if a monster is listed in 
+		//quest_monster_item table then everywhere the aforementioned monster
+		//spawns in the city, the monster has a chance to drop said item.
+     	COLLECT_SPECIAL_ITEM = 8;
+     	
      }
 }
 
@@ -44,18 +58,9 @@ message DialogueProto {
 	repeated SpeechSegmentProto speechSegment = 1;
 
 	message SpeechSegmentProto {
-		optional DialogueSpeaker speaker = 1;
+		optional string speaker = 1;
 		optional string speakerText = 2;
-		
-		enum DialogueSpeaker {
-			PLAYER_TYPE = 1;
-			TUTORIAL_GIRL = 2;
-			QUESTGIVER_1 = 3;		// Farmer Mitch
-			QUESTGIVER_2 = 4;		// Captain Riz
-			QUESTGIVER_3 = 5;		// Sean The Brave
-			QUESTGIVER_4 = 6;		// Captain Riz
-			QUESTGIVER_5 = 7; 		// Sailor Steve
-		}
+		optional bool isLeftSide = 3;
 	}
 }
 

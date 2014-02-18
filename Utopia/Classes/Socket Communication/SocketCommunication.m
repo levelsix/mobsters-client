@@ -812,6 +812,53 @@ static NSString *udid = nil;
   return [self sendData:req withMessageType:EventProtocolRequestCEvolutionFinishedEvent];
 }
 
+- (int) sendReviveInDungeonMessage:(uint64_t)userTaskId clientTime:(uint64_t)clientTime userHealths:(NSArray *)healths gems:(int)gems {
+  ReviveInDungeonRequestProto *req = [[[[[[[ReviveInDungeonRequestProto builder]
+                                           setSender:_sender]
+                                          setUserTaskId:userTaskId]
+                                         setClientTime:clientTime]
+                                        addAllReviveMe:healths]
+                                       setGemsSpent:gems]
+                                      build];
+  
+  return [self sendData:req withMessageType:EventProtocolRequestCReviveInDungeonEvent];
+}
+
+- (int) sendQueueUpMessage:(NSArray *)seenUserIds clientTime:(uint64_t)clientTime {
+  GameState *gs = [GameState sharedGameState];
+  QueueUpRequestProto *req = [[[[[[QueueUpRequestProto builder]
+                                  addAllSeenUserIds:seenUserIds]
+                                 setAttackerElo:gs.elo]
+                                setAttacker:_sender]
+                               setClientTime:clientTime]
+                              build];
+  
+  return [self sendData:req withMessageType:EventProtocolRequestCQueueUpEvent];
+}
+
+- (int) sendUpdateUserCurrencyMessageWithCashSpent:(int)cashSpent oilSpent:(int)oilSpent gemsSpent:(int)gemsSpent clientTime:(uint64_t)clientTime {
+  UpdateUserCurrencyRequestProto *req = [[[[[[[UpdateUserCurrencyRequestProto builder]
+                                              setSender:_sender]
+                                             setCashSpent:cashSpent]
+                                            setOilSpent:oilSpent]
+                                           setGemsSpent:gemsSpent]
+                                          setClientTime:clientTime]
+                                         build];
+  
+  return [self sendData:req withMessageType:EventProtocolRequestCUpdateUserCurrencyEvent];
+}
+
+- (int) sendBeginPvpBattleMessage:(PvpProto *)enemy senderElo:(int)elo clientTime:(uint64_t)clientTime {
+  BeginPvpBattleRequestProto *req = [[[[[[BeginPvpBattleRequestProto builder]
+                                        setSender:_sender]
+                                       setEnemy:enemy]
+                                      setSenderElo:elo]
+                                       setAttackStartTime:clientTime]
+                                     build];
+  
+  return [self sendData:req withMessageType:EventProtocolRequestCBeginPvpBattleEvent];
+}
+
 #pragma mark - Batch/Flush events
 
 - (int) sendHealQueueWaitTimeComplete:(NSArray *)monsterHealths {

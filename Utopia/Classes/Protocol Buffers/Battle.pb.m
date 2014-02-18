@@ -12,6 +12,7 @@ static PBExtensionRegistry* extensionRegistry = nil;
   if (self == [BattleRoot class]) {
     PBMutableExtensionRegistry* registry = [PBMutableExtensionRegistry registry];
     [self registerAllExtensions:registry];
+    [MonsterStuffRoot registerAllExtensions:registry];
     [UserRoot registerAllExtensions:registry];
     extensionRegistry = [registry retain];
   }
@@ -337,6 +338,374 @@ static MinimumUserProtoWithBattleHistory* defaultMinimumUserProtoWithBattleHisto
 - (MinimumUserProtoWithBattleHistory_Builder*) clearBattlesFled {
   result.hasBattlesFled = NO;
   result.battlesFled = 0;
+  return self;
+}
+@end
+
+@interface PvpProto ()
+@property (retain) MinimumUserProtoWithLevel* defender;
+@property int32_t curElo;
+@property (retain) NSMutableArray* mutableDefenderMonstersList;
+@property int32_t prospectiveCashWinnings;
+@property int32_t prospectiveOilWinnings;
+@end
+
+@implementation PvpProto
+
+- (BOOL) hasDefender {
+  return !!hasDefender_;
+}
+- (void) setHasDefender:(BOOL) value {
+  hasDefender_ = !!value;
+}
+@synthesize defender;
+- (BOOL) hasCurElo {
+  return !!hasCurElo_;
+}
+- (void) setHasCurElo:(BOOL) value {
+  hasCurElo_ = !!value;
+}
+@synthesize curElo;
+@synthesize mutableDefenderMonstersList;
+- (BOOL) hasProspectiveCashWinnings {
+  return !!hasProspectiveCashWinnings_;
+}
+- (void) setHasProspectiveCashWinnings:(BOOL) value {
+  hasProspectiveCashWinnings_ = !!value;
+}
+@synthesize prospectiveCashWinnings;
+- (BOOL) hasProspectiveOilWinnings {
+  return !!hasProspectiveOilWinnings_;
+}
+- (void) setHasProspectiveOilWinnings:(BOOL) value {
+  hasProspectiveOilWinnings_ = !!value;
+}
+@synthesize prospectiveOilWinnings;
+- (void) dealloc {
+  self.defender = nil;
+  self.mutableDefenderMonstersList = nil;
+  [super dealloc];
+}
+- (id) init {
+  if ((self = [super init])) {
+    self.defender = [MinimumUserProtoWithLevel defaultInstance];
+    self.curElo = 0;
+    self.prospectiveCashWinnings = 0;
+    self.prospectiveOilWinnings = 0;
+  }
+  return self;
+}
+static PvpProto* defaultPvpProtoInstance = nil;
++ (void) initialize {
+  if (self == [PvpProto class]) {
+    defaultPvpProtoInstance = [[PvpProto alloc] init];
+  }
+}
++ (PvpProto*) defaultInstance {
+  return defaultPvpProtoInstance;
+}
+- (PvpProto*) defaultInstance {
+  return defaultPvpProtoInstance;
+}
+- (NSArray*) defenderMonstersList {
+  return mutableDefenderMonstersList;
+}
+- (MinimumUserMonsterProto*) defenderMonstersAtIndex:(int32_t) index {
+  id value = [mutableDefenderMonstersList objectAtIndex:index];
+  return value;
+}
+- (BOOL) isInitialized {
+  return YES;
+}
+- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output {
+  if (self.hasDefender) {
+    [output writeMessage:1 value:self.defender];
+  }
+  if (self.hasCurElo) {
+    [output writeInt32:2 value:self.curElo];
+  }
+  for (MinimumUserMonsterProto* element in self.defenderMonstersList) {
+    [output writeMessage:3 value:element];
+  }
+  if (self.hasProspectiveCashWinnings) {
+    [output writeInt32:4 value:self.prospectiveCashWinnings];
+  }
+  if (self.hasProspectiveOilWinnings) {
+    [output writeInt32:5 value:self.prospectiveOilWinnings];
+  }
+  [self.unknownFields writeToCodedOutputStream:output];
+}
+- (int32_t) serializedSize {
+  int32_t size = memoizedSerializedSize;
+  if (size != -1) {
+    return size;
+  }
+
+  size = 0;
+  if (self.hasDefender) {
+    size += computeMessageSize(1, self.defender);
+  }
+  if (self.hasCurElo) {
+    size += computeInt32Size(2, self.curElo);
+  }
+  for (MinimumUserMonsterProto* element in self.defenderMonstersList) {
+    size += computeMessageSize(3, element);
+  }
+  if (self.hasProspectiveCashWinnings) {
+    size += computeInt32Size(4, self.prospectiveCashWinnings);
+  }
+  if (self.hasProspectiveOilWinnings) {
+    size += computeInt32Size(5, self.prospectiveOilWinnings);
+  }
+  size += self.unknownFields.serializedSize;
+  memoizedSerializedSize = size;
+  return size;
+}
++ (PvpProto*) parseFromData:(NSData*) data {
+  return (PvpProto*)[[[PvpProto builder] mergeFromData:data] build];
+}
++ (PvpProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (PvpProto*)[[[PvpProto builder] mergeFromData:data extensionRegistry:extensionRegistry] build];
+}
++ (PvpProto*) parseFromInputStream:(NSInputStream*) input {
+  return (PvpProto*)[[[PvpProto builder] mergeFromInputStream:input] build];
+}
++ (PvpProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (PvpProto*)[[[PvpProto builder] mergeFromInputStream:input extensionRegistry:extensionRegistry] build];
+}
++ (PvpProto*) parseFromCodedInputStream:(PBCodedInputStream*) input {
+  return (PvpProto*)[[[PvpProto builder] mergeFromCodedInputStream:input] build];
+}
++ (PvpProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (PvpProto*)[[[PvpProto builder] mergeFromCodedInputStream:input extensionRegistry:extensionRegistry] build];
+}
++ (PvpProto_Builder*) builder {
+  return [[[PvpProto_Builder alloc] init] autorelease];
+}
++ (PvpProto_Builder*) builderWithPrototype:(PvpProto*) prototype {
+  return [[PvpProto builder] mergeFrom:prototype];
+}
+- (PvpProto_Builder*) builder {
+  return [PvpProto builder];
+}
+@end
+
+@interface PvpProto_Builder()
+@property (retain) PvpProto* result;
+@end
+
+@implementation PvpProto_Builder
+@synthesize result;
+- (void) dealloc {
+  self.result = nil;
+  [super dealloc];
+}
+- (id) init {
+  if ((self = [super init])) {
+    self.result = [[[PvpProto alloc] init] autorelease];
+  }
+  return self;
+}
+- (PBGeneratedMessage*) internalGetResult {
+  return result;
+}
+- (PvpProto_Builder*) clear {
+  self.result = [[[PvpProto alloc] init] autorelease];
+  return self;
+}
+- (PvpProto_Builder*) clone {
+  return [PvpProto builderWithPrototype:result];
+}
+- (PvpProto*) defaultInstance {
+  return [PvpProto defaultInstance];
+}
+- (PvpProto*) build {
+  [self checkInitialized];
+  return [self buildPartial];
+}
+- (PvpProto*) buildPartial {
+  PvpProto* returnMe = [[result retain] autorelease];
+  self.result = nil;
+  return returnMe;
+}
+- (PvpProto_Builder*) mergeFrom:(PvpProto*) other {
+  if (other == [PvpProto defaultInstance]) {
+    return self;
+  }
+  if (other.hasDefender) {
+    [self mergeDefender:other.defender];
+  }
+  if (other.hasCurElo) {
+    [self setCurElo:other.curElo];
+  }
+  if (other.mutableDefenderMonstersList.count > 0) {
+    if (result.mutableDefenderMonstersList == nil) {
+      result.mutableDefenderMonstersList = [NSMutableArray array];
+    }
+    [result.mutableDefenderMonstersList addObjectsFromArray:other.mutableDefenderMonstersList];
+  }
+  if (other.hasProspectiveCashWinnings) {
+    [self setProspectiveCashWinnings:other.prospectiveCashWinnings];
+  }
+  if (other.hasProspectiveOilWinnings) {
+    [self setProspectiveOilWinnings:other.prospectiveOilWinnings];
+  }
+  [self mergeUnknownFields:other.unknownFields];
+  return self;
+}
+- (PvpProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input {
+  return [self mergeFromCodedInputStream:input extensionRegistry:[PBExtensionRegistry emptyRegistry]];
+}
+- (PvpProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  PBUnknownFieldSet_Builder* unknownFields = [PBUnknownFieldSet builderWithUnknownFields:self.unknownFields];
+  while (YES) {
+    int32_t tag = [input readTag];
+    switch (tag) {
+      case 0:
+        [self setUnknownFields:[unknownFields build]];
+        return self;
+      default: {
+        if (![self parseUnknownField:input unknownFields:unknownFields extensionRegistry:extensionRegistry tag:tag]) {
+          [self setUnknownFields:[unknownFields build]];
+          return self;
+        }
+        break;
+      }
+      case 10: {
+        MinimumUserProtoWithLevel_Builder* subBuilder = [MinimumUserProtoWithLevel builder];
+        if (self.hasDefender) {
+          [subBuilder mergeFrom:self.defender];
+        }
+        [input readMessage:subBuilder extensionRegistry:extensionRegistry];
+        [self setDefender:[subBuilder buildPartial]];
+        break;
+      }
+      case 16: {
+        [self setCurElo:[input readInt32]];
+        break;
+      }
+      case 26: {
+        MinimumUserMonsterProto_Builder* subBuilder = [MinimumUserMonsterProto builder];
+        [input readMessage:subBuilder extensionRegistry:extensionRegistry];
+        [self addDefenderMonsters:[subBuilder buildPartial]];
+        break;
+      }
+      case 32: {
+        [self setProspectiveCashWinnings:[input readInt32]];
+        break;
+      }
+      case 40: {
+        [self setProspectiveOilWinnings:[input readInt32]];
+        break;
+      }
+    }
+  }
+}
+- (BOOL) hasDefender {
+  return result.hasDefender;
+}
+- (MinimumUserProtoWithLevel*) defender {
+  return result.defender;
+}
+- (PvpProto_Builder*) setDefender:(MinimumUserProtoWithLevel*) value {
+  result.hasDefender = YES;
+  result.defender = value;
+  return self;
+}
+- (PvpProto_Builder*) setDefenderBuilder:(MinimumUserProtoWithLevel_Builder*) builderForValue {
+  return [self setDefender:[builderForValue build]];
+}
+- (PvpProto_Builder*) mergeDefender:(MinimumUserProtoWithLevel*) value {
+  if (result.hasDefender &&
+      result.defender != [MinimumUserProtoWithLevel defaultInstance]) {
+    result.defender =
+      [[[MinimumUserProtoWithLevel builderWithPrototype:result.defender] mergeFrom:value] buildPartial];
+  } else {
+    result.defender = value;
+  }
+  result.hasDefender = YES;
+  return self;
+}
+- (PvpProto_Builder*) clearDefender {
+  result.hasDefender = NO;
+  result.defender = [MinimumUserProtoWithLevel defaultInstance];
+  return self;
+}
+- (BOOL) hasCurElo {
+  return result.hasCurElo;
+}
+- (int32_t) curElo {
+  return result.curElo;
+}
+- (PvpProto_Builder*) setCurElo:(int32_t) value {
+  result.hasCurElo = YES;
+  result.curElo = value;
+  return self;
+}
+- (PvpProto_Builder*) clearCurElo {
+  result.hasCurElo = NO;
+  result.curElo = 0;
+  return self;
+}
+- (NSArray*) defenderMonstersList {
+  if (result.mutableDefenderMonstersList == nil) { return [NSArray array]; }
+  return result.mutableDefenderMonstersList;
+}
+- (MinimumUserMonsterProto*) defenderMonstersAtIndex:(int32_t) index {
+  return [result defenderMonstersAtIndex:index];
+}
+- (PvpProto_Builder*) replaceDefenderMonstersAtIndex:(int32_t) index with:(MinimumUserMonsterProto*) value {
+  [result.mutableDefenderMonstersList replaceObjectAtIndex:index withObject:value];
+  return self;
+}
+- (PvpProto_Builder*) addAllDefenderMonsters:(NSArray*) values {
+  if (result.mutableDefenderMonstersList == nil) {
+    result.mutableDefenderMonstersList = [NSMutableArray array];
+  }
+  [result.mutableDefenderMonstersList addObjectsFromArray:values];
+  return self;
+}
+- (PvpProto_Builder*) clearDefenderMonstersList {
+  result.mutableDefenderMonstersList = nil;
+  return self;
+}
+- (PvpProto_Builder*) addDefenderMonsters:(MinimumUserMonsterProto*) value {
+  if (result.mutableDefenderMonstersList == nil) {
+    result.mutableDefenderMonstersList = [NSMutableArray array];
+  }
+  [result.mutableDefenderMonstersList addObject:value];
+  return self;
+}
+- (BOOL) hasProspectiveCashWinnings {
+  return result.hasProspectiveCashWinnings;
+}
+- (int32_t) prospectiveCashWinnings {
+  return result.prospectiveCashWinnings;
+}
+- (PvpProto_Builder*) setProspectiveCashWinnings:(int32_t) value {
+  result.hasProspectiveCashWinnings = YES;
+  result.prospectiveCashWinnings = value;
+  return self;
+}
+- (PvpProto_Builder*) clearProspectiveCashWinnings {
+  result.hasProspectiveCashWinnings = NO;
+  result.prospectiveCashWinnings = 0;
+  return self;
+}
+- (BOOL) hasProspectiveOilWinnings {
+  return result.hasProspectiveOilWinnings;
+}
+- (int32_t) prospectiveOilWinnings {
+  return result.prospectiveOilWinnings;
+}
+- (PvpProto_Builder*) setProspectiveOilWinnings:(int32_t) value {
+  result.hasProspectiveOilWinnings = YES;
+  result.prospectiveOilWinnings = value;
+  return self;
+}
+- (PvpProto_Builder*) clearProspectiveOilWinnings {
+  result.hasProspectiveOilWinnings = NO;
+  result.prospectiveOilWinnings = 0;
   return self;
 }
 @end

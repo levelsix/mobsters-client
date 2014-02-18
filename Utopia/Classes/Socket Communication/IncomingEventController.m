@@ -147,6 +147,9 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
     case EventProtocolResponseSSubmitMonsterEnhancementEvent:
       responseClass = [SubmitMonsterEnhancementResponseProto class];
       break;
+    case EventProtocolResponseSEnhancementWaitTimeCompleteEvent:
+      responseClass = [EnhancementWaitTimeCompleteResponseProto class];
+      break;
     case EventProtocolResponseSPurchaseBoosterPackEvent:
       responseClass = [PurchaseBoosterPackResponseProto class];
       break;
@@ -206,6 +209,15 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
       break;
     case EventProtocolResponseSEvolutionFinishedEvent:
       responseClass = [EvolutionFinishedResponseProto class];
+      break;
+    case EventProtocolResponseSQueueUpEvent:
+      responseClass = [QueueUpResponseProto class];
+      break;
+    case EventProtocolResponseSUpdateUserCurrencyEvent:
+      responseClass = [UpdateUserCurrencyResponseProto class];
+      break;
+    case EventProtocolResponseSBeginPvpBattleEvent:
+      responseClass = [BeginPvpBattleResponseProto class];
       break;
       
     default:
@@ -1039,6 +1051,21 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
   }
 }
 
+- (void) handleEnhancementWaitTimeCompleteResponseProto:(FullEvent *)fe {
+  EnhancementWaitTimeCompleteResponseProto *proto = (EnhancementWaitTimeCompleteResponseProto *)fe.event;
+  int tag = fe.tag;
+  LNLog(@"Enhancement wait time complete received with status %d.", proto.status);
+  
+  GameState *gs = [GameState sharedGameState];
+  if (proto.status == EnhancementWaitTimeCompleteResponseProto_EnhancementWaitTimeCompleteStatusSuccess) {
+    [gs removeNonFullUserUpdatesForTag:tag];
+  } else {
+    [Globals popupMessage:@"Server failed to complete enhance wait time."];
+    
+    [gs removeAndUndoAllUpdatesForTag:tag];
+  }
+}
+
 - (void) handlePurchaseBoosterPackResponseProto:(FullEvent *)fe {
   PurchaseBoosterPackResponseProto *proto = (PurchaseBoosterPackResponseProto *)fe.event;
   int tag = fe.tag;
@@ -1087,7 +1114,6 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
   }
 }
 
-
 - (void) handleEndDungeonResponseProto:(FullEvent *)fe {
   EndDungeonResponseProto *proto = (EndDungeonResponseProto *)fe.event;
   int tag = fe.tag;
@@ -1104,6 +1130,34 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
     [gs removeNonFullUserUpdatesForTag:tag];
   } else {
     [Globals popupMessage:@"Server failed to end dungeon."];
+    [gs removeAndUndoAllUpdatesForTag:tag];
+  }
+}
+
+- (void) handleReviveInDungeonResponseProto:(FullEvent *)fe {
+  ReviveInDungeonResponseProto *proto = (ReviveInDungeonResponseProto *)fe.event;
+  int tag = fe.tag;
+  LNLog(@"Revive in dungeon response received with status %d.", proto.status);
+  
+  GameState *gs = [GameState sharedGameState];
+  if (proto.status == ReviveInDungeonResponseProto_ReviveInDungeonStatusSuccess) {
+    [gs removeNonFullUserUpdatesForTag:tag];
+  } else {
+    [Globals popupMessage:@"Server failed to revive in dungeon."];
+    [gs removeAndUndoAllUpdatesForTag:tag];
+  }
+}
+
+- (void) handleQueueUpResponseProto:(FullEvent *)fe {
+  QueueUpResponseProto *proto = (QueueUpResponseProto *)fe.event;
+  int tag = fe.tag;
+  LNLog(@"Queue up response received with status %d.", proto.status);
+  
+  GameState *gs = [GameState sharedGameState];
+  if (proto.status == QueueUpResponseProto_QueueUpStatusSuccess) {
+    [gs removeNonFullUserUpdatesForTag:tag];
+  } else {
+    [Globals popupMessage:@"Server failed to queue up."];
     [gs removeAndUndoAllUpdatesForTag:tag];
   }
 }
@@ -1279,6 +1333,38 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
     [gs removeNonFullUserUpdatesForTag:tag];
   } else {
     [Globals popupMessage:@"Server failed to complete evolution."];
+    
+    [gs removeAndUndoAllUpdatesForTag:tag];
+  }
+}
+
+- (void) handleUpdateUserCurrencyResponseProto:(FullEvent *)fe {
+  UpdateUserCurrencyResponseProto *proto = (UpdateUserCurrencyResponseProto *)fe.event;
+  int tag = fe.tag;
+  
+  LNLog(@"Update user currency response received with status %d.", proto.status);
+  
+  GameState *gs = [GameState sharedGameState];
+  if (proto.status == UpdateUserCurrencyResponseProto_UpdateUserCurrencyStatusSuccess) {
+    [gs removeNonFullUserUpdatesForTag:tag];
+  } else {
+    [Globals popupMessage:@"Server failed to update user currency."];
+    
+    [gs removeAndUndoAllUpdatesForTag:tag];
+  }
+}
+
+- (void) handleBeginPvpBattleResponseProto:(FullEvent *)fe {
+  BeginPvpBattleResponseProto *proto = (BeginPvpBattleResponseProto *)fe.event;
+  int tag = fe.tag;
+  
+  LNLog(@"Begin pvp battle response received with status %d.", proto.status);
+  
+  GameState *gs = [GameState sharedGameState];
+  if (proto.status == BeginPvpBattleResponseProto_BeginPvpBattleStatusSuccess) {
+    [gs removeNonFullUserUpdatesForTag:tag];
+  } else {
+    [Globals popupMessage:@"Server failed to begin pvp battle."];
     
     [gs removeAndUndoAllUpdatesForTag:tag];
   }

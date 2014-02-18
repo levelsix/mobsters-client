@@ -15,6 +15,7 @@
 
 @property (nonatomic, strong) IBOutlet UIImageView *elementIcon;
 @property (nonatomic, strong) IBOutlet UILabel *statLabel;
+@property (nonatomic, strong) IBOutlet UILabel *elementLabel;
 
 - (void) updateStatsWithElementType:(MonsterProto_MonsterElement)element andDamage:(int)damage;
 
@@ -36,12 +37,15 @@
 @property (nonatomic, strong) IBOutlet ElementDisplayView *earthView;
 @property (nonatomic, strong) IBOutlet ElementDisplayView *lightView;
 @property (nonatomic, strong) IBOutlet ElementDisplayView *nightView;
+@property (nonatomic, strong) IBOutlet ElementDisplayView *rockView;
 
 @property (nonatomic, strong) IBOutlet UILabel *monsterNameLabel;
 @property (nonatomic, strong) IBOutlet UILabel *hpLabel;
 @property (nonatomic, strong) IBOutlet UILabel *rarityLabel;
 @property (nonatomic, strong) IBOutlet UILabel *attackLabel;
 @property (nonatomic, strong) IBOutlet UILabel *enhanceLabel;
+@property (nonatomic, strong) IBOutlet UILabel *elementLabel;
+@property (nonatomic, strong) IBOutlet UILabel *speedLabel;
 @property (nonatomic, strong) IBOutlet UILabel *monsterDescription;
 
 @property (nonatomic, strong) IBOutlet UIImageView *monsterImageView;

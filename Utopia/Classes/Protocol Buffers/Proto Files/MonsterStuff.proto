@@ -73,6 +73,7 @@ message MonsterLevelInfoProto {
 	optional sint32 lightningDmg = 8;
 	optional sint32 darknessDmg = 9;
 	optional sint32 rockDmg = 10;
+	optional int32 speed = 11;
 }
 
 //------------------------------------------------------------------------------------------
@@ -90,6 +91,12 @@ message FullUserMonsterProto {
 	optional int32 teamSlotNum = 10;
 	//optional string sourceOfPieces = 11;	//not needed for client
 }
+
+message MinimumUserMonsterProto {
+	optional int32 monsterId = 1;
+	optional int32 monsterLvl = 2;
+}
+
 //------------------------------------------------------------------------------------------
 // used in HealMonsterRequestProto
 message UserMonsterHealingProto {
@@ -156,6 +163,7 @@ message UserCurrentMonsterTeamProto {
 }
 
 //------------------------------------------------------------------------------------------
+
 message UserMonsterEvolutionProto {
 	//the monster that is required to combine 2 monsters
 	optional int64 catalystUserMonsterId = 1;
@@ -164,4 +172,17 @@ message UserMonsterEvolutionProto {
 	repeated int64 userMonsterIds = 2;
 	
 	optional int64 startTime = 3;
+}
+
+//------------------------------------------------------------------------------------------
+
+message MonsterBattleDialogueProto {
+	optional int32 monsterId = 1;
+	optional DialogueType dialogueType = 3;
+	optional string dialogue = 2;
+	optional float probabilityUttered = 4; //chance the monster says it
+	
+	enum DialogueType {
+		ENTER_BATTLE = 1;
+	}
 }

@@ -1941,7 +1941,6 @@ static UserFacebookInviteForSlotProto* defaultUserFacebookInviteForSlotProtoInst
 @property int64_t shieldEndTime;
 @property int32_t elo;
 @property (retain) NSString* rank;
-@property int64_t lastTimeQueued;
 @property int32_t attacksWon;
 @property int32_t defensesWon;
 @property int32_t attacksLost;
@@ -1956,6 +1955,7 @@ static UserFacebookInviteForSlotProto* defaultUserFacebookInviteForSlotProtoInst
 @property int32_t numConsecutiveDaysPlayed;
 @property int64_t lastWallPostNotificationTime;
 @property (retain) NSString* kabamNaid;
+@property int64_t inBattleShieldEndTime;
 @end
 
 @implementation FullUserProto
@@ -2162,13 +2162,6 @@ static UserFacebookInviteForSlotProto* defaultUserFacebookInviteForSlotProtoInst
   hasRank_ = !!value;
 }
 @synthesize rank;
-- (BOOL) hasLastTimeQueued {
-  return !!hasLastTimeQueued_;
-}
-- (void) setHasLastTimeQueued:(BOOL) value {
-  hasLastTimeQueued_ = !!value;
-}
-@synthesize lastTimeQueued;
 - (BOOL) hasAttacksWon {
   return !!hasAttacksWon_;
 }
@@ -2267,6 +2260,13 @@ static UserFacebookInviteForSlotProto* defaultUserFacebookInviteForSlotProtoInst
   hasKabamNaid_ = !!value;
 }
 @synthesize kabamNaid;
+- (BOOL) hasInBattleShieldEndTime {
+  return !!hasInBattleShieldEndTime_;
+}
+- (void) setHasInBattleShieldEndTime:(BOOL) value {
+  hasInBattleShieldEndTime_ = !!value;
+}
+@synthesize inBattleShieldEndTime;
 - (void) dealloc {
   self.name = nil;
   self.referralCode = nil;
@@ -2306,7 +2306,6 @@ static UserFacebookInviteForSlotProto* defaultUserFacebookInviteForSlotProtoInst
     self.shieldEndTime = 0L;
     self.elo = 0;
     self.rank = @"";
-    self.lastTimeQueued = 0L;
     self.attacksWon = 0;
     self.defensesWon = 0;
     self.attacksLost = 0;
@@ -2321,6 +2320,7 @@ static UserFacebookInviteForSlotProto* defaultUserFacebookInviteForSlotProtoInst
     self.numConsecutiveDaysPlayed = 0;
     self.lastWallPostNotificationTime = 0L;
     self.kabamNaid = @"";
+    self.inBattleShieldEndTime = 0L;
   }
   return self;
 }
@@ -2439,8 +2439,8 @@ static FullUserProto* defaultFullUserProtoInstance = nil;
   if (self.hasRank) {
     [output writeString:34 value:self.rank];
   }
-  if (self.hasLastTimeQueued) {
-    [output writeInt64:35 value:self.lastTimeQueued];
+  if (self.hasInBattleShieldEndTime) {
+    [output writeInt64:35 value:self.inBattleShieldEndTime];
   }
   if (self.hasAttacksWon) {
     [output writeInt32:36 value:self.attacksWon];
@@ -2571,8 +2571,8 @@ static FullUserProto* defaultFullUserProtoInstance = nil;
   if (self.hasRank) {
     size += computeStringSize(34, self.rank);
   }
-  if (self.hasLastTimeQueued) {
-    size += computeInt64Size(35, self.lastTimeQueued);
+  if (self.hasInBattleShieldEndTime) {
+    size += computeInt64Size(35, self.inBattleShieldEndTime);
   }
   if (self.hasAttacksWon) {
     size += computeInt32Size(36, self.attacksWon);
@@ -2748,9 +2748,6 @@ static FullUserProto* defaultFullUserProtoInstance = nil;
   if (other.hasRank) {
     [self setRank:other.rank];
   }
-  if (other.hasLastTimeQueued) {
-    [self setLastTimeQueued:other.lastTimeQueued];
-  }
   if (other.hasAttacksWon) {
     [self setAttacksWon:other.attacksWon];
   }
@@ -2792,6 +2789,9 @@ static FullUserProto* defaultFullUserProtoInstance = nil;
   }
   if (other.hasKabamNaid) {
     [self setKabamNaid:other.kabamNaid];
+  }
+  if (other.hasInBattleShieldEndTime) {
+    [self setInBattleShieldEndTime:other.inBattleShieldEndTime];
   }
   [self mergeUnknownFields:other.unknownFields];
   return self;
@@ -2952,7 +2952,7 @@ static FullUserProto* defaultFullUserProtoInstance = nil;
         break;
       }
       case 280: {
-        [self setLastTimeQueued:[input readInt64]];
+        [self setInBattleShieldEndTime:[input readInt64]];
         break;
       }
       case 288: {
@@ -3416,22 +3416,6 @@ static FullUserProto* defaultFullUserProtoInstance = nil;
   result.rank = @"";
   return self;
 }
-- (BOOL) hasLastTimeQueued {
-  return result.hasLastTimeQueued;
-}
-- (int64_t) lastTimeQueued {
-  return result.lastTimeQueued;
-}
-- (FullUserProto_Builder*) setLastTimeQueued:(int64_t) value {
-  result.hasLastTimeQueued = YES;
-  result.lastTimeQueued = value;
-  return self;
-}
-- (FullUserProto_Builder*) clearLastTimeQueued {
-  result.hasLastTimeQueued = NO;
-  result.lastTimeQueued = 0L;
-  return self;
-}
 - (BOOL) hasAttacksWon {
   return result.hasAttacksWon;
 }
@@ -3654,6 +3638,22 @@ static FullUserProto* defaultFullUserProtoInstance = nil;
 - (FullUserProto_Builder*) clearKabamNaid {
   result.hasKabamNaid = NO;
   result.kabamNaid = @"";
+  return self;
+}
+- (BOOL) hasInBattleShieldEndTime {
+  return result.hasInBattleShieldEndTime;
+}
+- (int64_t) inBattleShieldEndTime {
+  return result.inBattleShieldEndTime;
+}
+- (FullUserProto_Builder*) setInBattleShieldEndTime:(int64_t) value {
+  result.hasInBattleShieldEndTime = YES;
+  result.inBattleShieldEndTime = value;
+  return self;
+}
+- (FullUserProto_Builder*) clearInBattleShieldEndTime {
+  result.hasInBattleShieldEndTime = NO;
+  result.inBattleShieldEndTime = 0L;
   return self;
 }
 @end

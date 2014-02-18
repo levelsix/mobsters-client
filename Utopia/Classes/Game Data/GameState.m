@@ -91,6 +91,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
   self.hasActiveShield = user.hasActiveShield;
   self.createTime = [NSDate dateWithTimeIntervalSince1970:user.createTime/1000.0];
   self.facebookId = user.facebookId;
+  self.elo = user.elo;
   
   self.lastLogoutTime = [NSDate dateWithTimeIntervalSince1970:user.lastLogoutTime/1000.0];
   
@@ -125,6 +126,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
   fup.createTime = self.createTime.timeIntervalSince1970*1000.;
   fup.lastLogoutTime = self.lastLogoutTime.timeIntervalSince1970*1000.;
   fup.facebookId = self.facebookId;
+  fup.elo = self.elo;
   
   return [fup build];
 }
@@ -206,6 +208,21 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
   return nil;
 }
 
+- (MonsterBattleDialogueProto *) battleDialogueForMonsterId:(int)monsterId type:(MonsterBattleDialogueProto_DialogueType)type {
+  NSDictionary *dict = [self.battleDialogueInfo objectForKey:@(monsterId)];
+  NSArray *dialogues = [dict objectForKey:@(type)];
+  
+  float rand = ((float) (arc4random() % ((unsigned)RAND_MAX + 1)) / RAND_MAX);
+  float curPerc = 0.f;
+  for (MonsterBattleDialogueProto *dia in dialogues) {
+    curPerc += dia.probabilityUttered;
+    if (rand < curPerc) {
+      return dia;
+    }
+  }
+  return nil;
+}
+
 - (void) addToMyMonsters:(NSArray *)monsters {
   for (FullUserMonsterProto *mon in monsters) {
     UserMonster *um = [UserMonster userMonsterWithProto:mon];
@@ -271,6 +288,25 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
   for (StaticUserLevelInfoProto *exp in lurep) {
     NSNumber *level = [NSNumber numberWithInt:exp.level];
     [self.staticLevelInfos setObject:exp forKey:level];
+  }
+}
+
+- (void) addBattleDialogueInfo:(NSArray *)mbds {
+  self.battleDialogueInfo = [NSMutableDictionary dictionary];
+  for (MonsterBattleDialogueProto *dia in mbds) {
+    NSMutableDictionary *dict = [self.battleDialogueInfo objectForKey:@(dia.monsterId)];
+    if (!dict) {
+      dict = [NSMutableDictionary dictionary];
+      [self.battleDialogueInfo setObject:dict forKey:@(dia.monsterId)];
+    }
+    
+    NSMutableArray *arr = [dict objectForKey:@(dia.dialogueType)];
+    if (!arr) {
+      arr = [NSMutableArray array];
+      [dict setObject:arr forKey:@(dia.dialogueType)];
+    }
+    
+    [arr addObject:dia];
   }
 }
 
@@ -462,12 +498,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
 }
 
 - (void) readjustAllMonsterHealingProtos {
-  NSMutableArray *allHospitals = [NSMutableArray array];
-  for (UserStruct *us in self.myStructs) {
-    if ([us.staticStruct structInfo].structType == StructureInfoProto_StructTypeHospital) {
-      [allHospitals addObject:us];
-    }
-  }
+  NSArray *allHospitals = [self allHospitals];
   
   HospitalQueueSimulator *sim = [[HospitalQueueSimulator alloc] initWithHospitals:allHospitals healingItems:self.monsterHealingQueue];
   [sim simulate];
@@ -633,6 +664,16 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
   return nil;
 }
 
+- (NSArray *) allHospitals {
+  NSMutableArray *allHospitals = [NSMutableArray array];
+  for (UserStruct *us in self.myStructs) {
+    if ([us.staticStruct structInfo].structType == StructureInfoProto_StructTypeHospital) {
+      [allHospitals addObject:us];
+    }
+  }
+  return allHospitals;
+}
+
 - (NSArray *) myValidHospitals {
   NSMutableArray *arr = [NSMutableArray array];
   for (UserStruct *us in self.myStructs) {
@@ -719,6 +760,8 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
   
   [self.staticMonsters removeAllObjects];
   [self addToStaticMonsters:proto.allMonstersList];
+  
+  [self addBattleDialogueInfo:proto.mbdsList];
   
   self.persistentEvents = proto.eventsList;
 }
@@ -1039,6 +1082,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
     [self readjustAllMonsterHealingProtos];
     [[NSNotificationCenter defaultCenter] postNotificationName:HEAL_WAIT_COMPLETE_NOTIFICATION object:nil];
     [[NSNotificationCenter defaultCenter] postNotificationName:MONSTER_QUEUE_CHANGED_NOTIFICATION object:nil];
+    [[NSNotificationCenter defaultCenter] postNotificationName:MY_TEAM_CHANGED_NOTIFICATION object:nil];
     [self beginHealingTimer];
   }
 }

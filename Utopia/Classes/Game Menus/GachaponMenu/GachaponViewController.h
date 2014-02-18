@@ -26,6 +26,8 @@
 @property (nonatomic, retain) IBOutlet UILabel *gemCostLabel;
 @property (nonatomic, retain) IBOutlet UILabel *pieceLabel;
 
+@property (nonatomic, retain) IBOutletCollection(UIView) NSArray *animateViews;
+
 - (void) animateWithMonsterId:(int)monsterId;
 - (void) animateWithMonsterId:(int)monsterId numPuzzlePieces:(int)numPuzzlePieces;
 - (IBAction)closeClicked:(id)sender;

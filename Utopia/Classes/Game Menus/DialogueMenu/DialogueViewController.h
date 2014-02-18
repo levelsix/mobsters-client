@@ -7,13 +7,34 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "Protocols.pb.h"
 
-@interface DialogueViewController : UIViewController
+@class DialogueViewController;
+
+@protocol DialogueViewControllerDelegate
+
+- (void) dialogueViewControllerFinished:(DialogueViewController *)dvc;
+
+@end
+
+@interface DialogueViewController : UIViewController {
+  int _curIndex;
+  BOOL _isAnimating;
+}
 
 @property (nonatomic, retain) IBOutlet UIImageView *leftImageView;
 @property (nonatomic, retain) IBOutlet UIImageView *rightImageView;
 
 @property (nonatomic, retain) IBOutlet UILabel *speakerLabel;
 @property (nonatomic, retain) IBOutlet UILabel *dialogueLabel;
+
+@property (nonatomic, retain) IBOutlet UIView *speechBubble;
+@property (nonatomic, retain) IBOutlet UIImageView *bottomGradient;
+
+@property (nonatomic, retain) DialogueProto *dialogue;
+
+@property (nonatomic, assign) id<DialogueViewControllerDelegate> delegate;
+
+- (id) initWithDialogueProto:(DialogueProto *)dialogue;
 
 @end

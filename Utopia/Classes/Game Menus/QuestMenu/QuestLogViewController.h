@@ -10,7 +10,9 @@
 #import "QuestListViewController.h"
 #import "QuestDetailsViewController.h"
 
-@interface QuestLogViewController : UIViewController <QuestListCellDelegate, QuestDetailsViewControllerDelegate>
+@interface QuestLogViewController : UIViewController <QuestListCellDelegate, QuestDetailsViewControllerDelegate> {
+  NSArray *arr;
+}
 
 @property (nonatomic, strong) NSArray *userMonsterIds;
 
@@ -27,5 +29,6 @@
 @property (nonatomic, strong) IBOutlet UIView *bgdView;
 
 - (IBAction)backClicked:(id)sender;
+- (void) loadDetailsViewForQuest:(FullQuestProto *)quest userQuest:(UserQuest *)uq animated:(BOOL)animated;
 
 @end

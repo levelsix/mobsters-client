@@ -12,30 +12,46 @@
 #import "NibUtils.h"
 #import "UserData.h"
 #import "BattlePlayer.h"
+#import <cocos2d.h>
+#import <cocos2d-ui.h>
 
-@interface BattleEndView : UIView
+@interface BattleLostView : CCNode
 
-@property (nonatomic, retain) IBOutlet RewardsViewContainer *rewardsViewContainer;
-
-@property (nonatomic, retain) IBOutlet UIImageView *splashImage;
-@property (nonatomic, retain) IBOutlet UIImageView *splashTextImage;
-
-@property (nonatomic, retain) IBOutlet UIImageView *lostStickerHead;
-
-@property (nonatomic, assign) IBOutlet UIView *mainView;
-@property (nonatomic, assign) IBOutlet UIView *bgdView;
-
-@property (nonatomic, assign) IBOutlet UIActivityIndicatorView *doneSpinner;
-@property (nonatomic, assign) IBOutlet UIActivityIndicatorView *manageSpinner;
-@property (nonatomic, assign) IBOutlet UILabel *doneLabel;
-@property (nonatomic, assign) IBOutlet UILabel *manageLabel;
-@property (nonatomic, assign) IBOutlet UIView *buttonContainer;
-
-- (void) displayWinWithDungeon:(BeginDungeonResponseProto *)dungeon;
-- (void) displayLossWithDungeon:(BeginDungeonResponseProto *)dungeon;
+@property (nonatomic, retain) CCNode *bgdNode;
+@property (nonatomic, retain) CCNode *headerView;
+@property (nonatomic, retain) CCSprite *youLostHeader;
+@property (nonatomic, retain) CCSprite *spinner;
+@property (nonatomic, retain) CCSprite *stickerHead;
+@property (nonatomic, retain) CCNode *shareButton;
+@property (nonatomic, retain) CCNode *continueButton;
+@property (nonatomic, retain) CCNode *doneButton;
+@property (nonatomic, retain) CCNode *manageButton;
 
 @end
 
+@interface BattleWonView : CCNode <UIScrollViewDelegate>
+
+@property (nonatomic, retain) CCNode *bgdNode;
+@property (nonatomic, retain) CCNode *shareButton;
+@property (nonatomic, retain) CCNode *doneButton;
+@property (nonatomic, retain) CCNode *manageButton;
+@property (nonatomic, retain) CCNode *headerView;
+@property (nonatomic, retain) CCSprite *youWonHeader;
+@property (nonatomic, retain) CCSprite *spinner;
+@property (nonatomic, retain) CCNode *rewardsBgd;
+@property (nonatomic, retain) CCNode *rewardsView;
+
+@property (nonatomic, retain) UIScrollView *rewardsScrollView;
+
+- (void) updateForRewards:(NSArray *)rewards;
+
+@end
+
+@interface BattleRewardNode : CCSprite
+
+- (id) initWithReward:(Reward *)reward;
+
+@end
 
 @interface BattleDeployCardView : UIView
 
@@ -54,5 +70,27 @@
 @property (nonatomic, retain) IBOutletCollection(BattleDeployCardView) NSArray *cardViews;
 
 - (void) updateWithBattlePlayers:(NSArray *)players;
+
+@end
+
+@interface BattleQueueNode : CCNode
+
+@property (nonatomic, retain) IBOutlet CCLabelTTF *nameLabel;
+@property (nonatomic, retain) IBOutlet CCLabelTTF *cashLabel;
+@property (nonatomic, retain) IBOutlet CCLabelTTF *oilLabel;
+@property (nonatomic, retain) IBOutlet CCLabelTTF *nextMatchCostLabel;
+@property (nonatomic, retain) IBOutlet CCLabelTTF *leagueLabel;
+@property (nonatomic, retain) IBOutlet CCLabelTTF *rankLabel;
+
+@property (nonatomic, retain) IBOutlet CCNode *cashNode;
+@property (nonatomic, retain) IBOutlet CCNode *oilNode;
+@property (nonatomic, retain) IBOutlet CCNode *leagueNode;
+@property (nonatomic, retain) IBOutlet CCNode *nextButtonNode;
+@property (nonatomic, retain) IBOutlet CCNode *attackButtonNode;
+@property (nonatomic, retain) IBOutlet CCNode *gradientNode;
+
+- (void) updateForPvpProto:(PvpProto *)pvp;
+- (void) fadeInAnimation;
+- (void) fadeOutAnimation;
 
 @end

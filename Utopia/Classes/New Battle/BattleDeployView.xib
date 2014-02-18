@@ -9,7 +9,6 @@
             <connections>
                 <outlet property="deployView" destination="1" id="VU7-QQ-QSf"/>
                 <outlet property="forfeitButton" destination="RMt-Hq-RNm" id="iyt-Np-Lmg"/>
-                <outlet property="swapLabel" destination="mTz-mE-Xqi" id="t91-GC-5gz"/>
                 <outlet property="swapView" destination="6Xu-Fi-vgb" id="JBe-v8-v0X"/>
             </connections>
         </placeholder>
@@ -263,24 +262,33 @@
             </connections>
         </view>
         <view contentMode="scaleToFill" id="6Xu-Fi-vgb">
-            <rect key="frame" x="0.0" y="0.0" width="23" height="56"/>
+            <rect key="frame" x="0.0" y="0.0" width="91" height="41"/>
             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
             <subviews>
                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="DPS-10-VDX">
-                    <rect key="frame" x="-10" y="0.0" width="33" height="56"/>
+                    <rect key="frame" x="0.0" y="0.0" width="91" height="41"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                     <fontDescription key="fontDescription" type="system" pointSize="15"/>
-                    <state key="normal" image="swap.png">
+                    <state key="normal" backgroundImage="swapbutton.png">
                         <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                     </state>
                     <connections>
                         <action selector="swapClicked:" destination="-1" eventType="touchUpInside" id="R27-5R-6ji"/>
                     </connections>
                 </button>
-                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="swap" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" id="mTz-mE-Xqi" customClass="NiceFontLabel">
-                    <rect key="frame" x="-6" y="9" width="36" height="21"/>
+                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="swap" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" id="mTz-mE-Xqi" customClass="NiceFontLabel">
+                    <rect key="frame" x="33" y="2" width="36" height="21"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                     <fontDescription key="fontDescription" type="system" pointSize="11"/>
+                    <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    <nil key="highlightedColor"/>
+                    <color key="shadowColor" red="0.0" green="0.0" blue="0.0" alpha="0.29999999999999999" colorSpace="calibratedRGB"/>
+                    <size key="shadowOffset" width="0.0" height="1"/>
+                </label>
+                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="mobster" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" id="9sz-8t-acG" customClass="NiceFontLabel">
+                    <rect key="frame" x="33" y="18" width="58" height="21"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                    <fontDescription key="fontDescription" type="system" pointSize="12"/>
                     <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     <nil key="highlightedColor"/>
                     <color key="shadowColor" red="0.0" green="0.0" blue="0.0" alpha="0.29999999999999999" colorSpace="calibratedRGB"/>
@@ -307,7 +315,7 @@
         <image name="fireteam.png" width="42" height="42"/>
         <image name="minitimebar.png" width="40" height="7"/>
         <image name="minitimebg.png" width="44" height="11"/>
-        <image name="swap.png" width="33" height="56"/>
+        <image name="swapbutton.png" width="91" height="41"/>
         <image name="teamempty.png" width="42" height="42"/>
     </resources>
 </document>

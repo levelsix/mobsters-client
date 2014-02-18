@@ -14,8 +14,11 @@
 #import "DungeonBattleLayer.h"
 #import "OneLineNotificationViewController.h"
 #import "CCDirector+Downloader.h"
+#import "DialogueViewController.h"
 
-@interface GameViewController : UIViewController <AttackMapDelegate, BattleLayerDelegate, CCDirectorDownloaderDelegate>
+@interface GameViewController : UIViewController <AttackMapDelegate, BattleLayerDelegate, CCDirectorDownloaderDelegate, DialogueViewControllerDelegate> {
+  int _questIdAfterDialogue;
+}
 
 @property (nonatomic, strong) TopBarViewController *topBarViewController;
 @property (nonatomic, strong) OneLineNotificationViewController *notifViewController;
@@ -33,5 +36,7 @@
 - (void) openPrivateChatWithUserId:(int)userId;
 
 - (void) openGemShop;
+
+- (void) beginDialogue:(DialogueProto *)proto withQuestId:(int)questId;
 
 @end

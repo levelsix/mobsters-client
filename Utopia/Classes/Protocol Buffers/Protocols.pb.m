@@ -106,6 +106,9 @@ BOOL EventProtocolRequestIsValidValue(EventProtocolRequest value) {
     case EventProtocolRequestCSellUserMonsterEvent:
     case EventProtocolRequestCInviteFbFriendsForSlotsEvent:
     case EventProtocolRequestCAcceptAndRejectFbInviteForSlotsEvent:
+    case EventProtocolRequestCUpdateUserCurrencyEvent:
+    case EventProtocolRequestCBeginPvpBattleEvent:
+    case EventProtocolRequestCEndPvpBattleEvent:
     case EventProtocolRequestCLogoutEvent:
       return YES;
     default:
@@ -170,6 +173,9 @@ BOOL EventProtocolResponseIsValidValue(EventProtocolResponse value) {
     case EventProtocolResponseSSellUserMonsterEvent:
     case EventProtocolResponseSInviteFbFriendsForSlotsEvent:
     case EventProtocolResponseSAcceptAndRejectFbInviteForSlotsEvent:
+    case EventProtocolResponseSUpdateUserCurrencyEvent:
+    case EventProtocolResponseSBeginPvpBattleEvent:
+    case EventProtocolResponseSEndPvpBattleEvent:
     case EventProtocolResponseSUpdateClientUserEvent:
     case EventProtocolResponseSReferralCodeUsedEvent:
     case EventProtocolResponseSPurgeStaticDataEvent:

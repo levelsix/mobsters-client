@@ -8,6 +8,16 @@
 
 #import "cocos2d.h"
 
-@interface BattleSpeechBubble : CCSprite
+@interface BattleSpeechBubble : CCSprite {
+  int _curLetter;
+}
+
+@property (nonatomic, retain) CCSprite *midBubble;
+@property (nonatomic, retain) CCSprite *rightBubble;
+@property (nonatomic, retain) CCLabelTTF *label;
+@property (nonatomic, retain) NSString *text;
+
++ (id) speechBubbleWithText:(NSString *)text;
+- (void) beginLabelAnimation;
 
 @end

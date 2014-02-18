@@ -34,6 +34,9 @@
 #import "MenuNavigationController.h"
 #import "MyCroniesViewController.h"
 #import "CCTexture_Private.h"
+#import "PvpBattleLayer.h"
+#import "DialogueViewController.h"
+#import "QuestLogViewController.h"
 
 #define DEFAULT_PNG_IMAGE_VIEW_TAG 103
 #define KINGDOM_PNG_IMAGE_VIEW_TAG 104
@@ -206,6 +209,53 @@
   }
 }
 
+- (void) showTopBarDuration:(float)duration completion:(void (^)(void))completion {
+  self.topBarViewController.view.hidden = NO;
+  [self.topBarViewController viewWillAppear:(duration > 0.f)];
+  if (duration > 0.f) {
+    [UIView animateWithDuration:duration animations:^{
+      self.topBarViewController.view.alpha = 1.f;
+    } completion:^(BOOL finished) {
+      [self.topBarViewController viewDidAppear:YES];
+      
+      if (completion) {
+        completion();
+      }
+    }];
+  } else {
+    self.topBarViewController.view.alpha = 1.f;
+    [self.topBarViewController viewDidAppear:NO];
+    
+    if (completion) {
+      completion();
+    }
+  }
+}
+
+- (void) hideTopBarDuration:(float)duration completion:(void (^)(void))completion {
+  [self.topBarViewController viewWillDisappear:(duration > 0.f)];
+  if (duration > 0.f) {
+    [UIView animateWithDuration:duration animations:^{
+      self.topBarViewController.view.alpha = 0.f;
+    } completion:^(BOOL finished) {
+      self.topBarViewController.view.hidden = YES;
+      [self.topBarViewController viewDidDisappear:YES];
+      
+      if (completion) {
+        completion();
+      }
+    }];
+  } else {
+    self.topBarViewController.view.alpha = 0.f;
+    self.topBarViewController.view.hidden = YES;
+    [self.topBarViewController viewDidDisappear:NO];
+    
+    if (completion) {
+      completion();
+    }
+  }
+}
+
 #pragma mark - Home Map Methods
 
 - (void) buildingPurchased:(int)structId {
@@ -276,18 +326,14 @@
   [[OutgoingEventController sharedOutgoingEventController] beginDungeon:taskId isEvent:NO eventId:0 useGems:NO withDelegate:bl];
 }
 
-- (void) loadBattleScene:(DungeonBattleLayer *)bl {
+- (void) loadBattleScene:(NewBattleLayer *)bl {
   float duration = 0.6;
   
   CCScene *scene = [CCScene node];
   [scene addChild:bl];
   [[CCDirector sharedDirector] pushScene:scene withTransition:[CCTransition transitionCrossFadeWithDuration:duration]];
   
-  [UIView animateWithDuration:duration animations:^{
-    self.topBarViewController.view.alpha = 0.f;
-  } completion:^(BOOL finished) {
-    self.topBarViewController.view.hidden = YES;
-  }];
+  [self hideTopBarDuration:duration completion:nil];
 }
 
 - (void) enterDungeon:(int)taskId isEvent:(BOOL)isEvent eventId:(int)eventId useGems:(BOOL)useGems {
@@ -297,6 +343,10 @@
   
   [[OutgoingEventController sharedOutgoingEventController] beginDungeon:taskId isEvent:isEvent eventId:eventId useGems:useGems withDelegate:bl];
   
+  [self fadeIntoBattleLayer:bl];
+}
+
+- (void) fadeIntoBattleLayer:(NewBattleLayer *)bl {
   // Must start animation so that the scene is auto switched instead of glitching
   [[CCDirector sharedDirector] startAnimation];
   CCScene *scene = [CCScene node];
@@ -307,8 +357,18 @@
   [[CCDirector sharedDirector] pushScene:scene withTransition:[CCTransition transitionFadeWithColor:[CCColor blackColor] duration:0.6f]];
   [c performSelector:@selector(removeFromParent) withObject:nil afterDelay:1.f];
   
-  self.topBarViewController.view.alpha = 0.f;
-  self.topBarViewController.view.hidden = YES;
+  [self hideTopBarDuration:0.f completion:nil];
+}
+
+- (void) findPvpMatch:(BOOL)useGems {
+  GameState *gs = [GameState sharedGameState];
+  PvpBattleLayer *bl = [[PvpBattleLayer alloc] initWithMyUserMonsters:[gs allBattleAvailableMonstersOnTeam] puzzleIsOnLeft:NO];
+  bl.delegate = self;
+  bl.useGemsForQueue = useGems;
+  
+  [[OutgoingEventController sharedOutgoingEventController] queueUpEvent:nil withDelegate:bl];
+  
+  [self fadeIntoBattleLayer:bl];
 }
 
 #pragma mark - CCDirectorDownloaderDelegate methods
@@ -332,14 +392,10 @@
     MenuNavigationController *m = [[MenuNavigationController alloc] init];
     [m pushViewController:[[MyCroniesViewController alloc] init] animated:NO];
     [self presentViewController:m animated:YES completion:^{
-      self.topBarViewController.view.hidden = NO;
-      self.topBarViewController.view.alpha = 1.f;
+      [self showTopBarDuration:0.f completion:nil];
     }];
   } else {
-    self.topBarViewController.view.hidden = NO;
-    [UIView animateWithDuration:duration animations:^{
-      self.topBarViewController.view.alpha = 1.f;
-    }];
+    [self showTopBarDuration:duration completion:nil];
   }
 }
 
@@ -361,11 +417,42 @@
 - (void) openGemShop {
   DiamondShopViewController *dvc = [[DiamondShopViewController alloc] init];
   if (self.presentedViewController) {
-    [(UINavigationController *)self.presentedViewController pushViewController:dvc animated:YES];
+    UINavigationController *nav = (UINavigationController *)self.presentedViewController;
+    [nav pushViewController:dvc animated:YES];
+    
+    // In case we go to gem shop from attack map
+    nav.navigationBarHidden = NO;
   } else {
     MenuNavigationController *m = [[MenuNavigationController alloc] init];
     [self presentViewController:m animated:YES completion:nil];
     [m pushViewController:[[DiamondShopViewController alloc] init] animated:NO];
+  }
+}
+
+#pragma mark - Dialogue
+
+- (void) beginDialogue:(DialogueProto *)proto withQuestId:(int)questId {
+  _questIdAfterDialogue = questId;
+  [self hideTopBarDuration:0.3f completion:^{
+    DialogueViewController *dvc = [[DialogueViewController alloc] initWithDialogueProto:proto];
+    dvc.delegate = self;
+    [self addChildViewController:dvc];
+    [self.view addSubview:dvc.view];
+  }];
+}
+
+- (void) dialogueViewControllerFinished:(DialogueViewController *)dvc {
+  [self showTopBarDuration:0.3f completion:nil];
+  
+  if (_questIdAfterDialogue) {
+    QuestLogViewController *qvc = [[QuestLogViewController alloc] init];
+    [self addChildViewController:qvc];
+    qvc.view.frame = self.view.bounds;
+    [self.view addSubview:qvc.view];
+    
+    GameState *gs = [GameState sharedGameState];
+    FullQuestProto *fqp = [gs questForId:_questIdAfterDialogue];
+    [qvc loadDetailsViewForQuest:fqp userQuest:nil animated:NO];
   }
 }
 

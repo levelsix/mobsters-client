@@ -14,6 +14,19 @@
 #import "BattleViews.h"
 #import "OrbBgdLayer.h"
 
+#define Y_MOVEMENT_FOR_NEW_SCENE 100
+#define TIME_TO_SCROLL_PER_SCENE 1.8f
+#define HEALTH_BAR_SPEED 40
+#define MY_WALKING_SPEED 250.f
+
+#define CENTER_OF_BATTLE ccp((self.contentSize.width-self.orbBgdLayer.contentSize.width-14)/2, self.contentSize.height/2-40)
+#define PLAYER_X_DISTANCE_FROM_CENTER (CENTER_OF_BATTLE.x*0.4+4)
+#define MY_PLAYER_LOCATION ccpAdd(CENTER_OF_BATTLE, ccp(-PLAYER_X_DISTANCE_FROM_CENTER, -PLAYER_X_DISTANCE_FROM_CENTER*SLOPE_OF_ROAD))
+#define ENEMY_PLAYER_LOCATION ccpAdd(CENTER_OF_BATTLE, ccp(PLAYER_X_DISTANCE_FROM_CENTER, PLAYER_X_DISTANCE_FROM_CENTER*SLOPE_OF_ROAD))
+#define BGD_LAYER_INIT_POSITION ccp(-530+(CENTER_OF_BATTLE.x-CENTER_OF_BATTLE.y*SLOPE_OF_ROAD), 0)
+
+#define PUZZLE_ON_LEFT_BGD_OFFSET (self.contentSize.width-2*CENTER_OF_BATTLE.x)
+
 @protocol BattleBgdLayerDelegate <NSObject>
 
 - (void) reachedNextScene;
@@ -106,5 +119,8 @@
 
 - (void) displayNoInputLayer;
 - (void) removeNoInputLayer;
+
+- (void) displayOrbLayer;
+- (void) removeOrbLayerAnimated:(BOOL)animated withBlock:(void(^)())block;
 
 @end

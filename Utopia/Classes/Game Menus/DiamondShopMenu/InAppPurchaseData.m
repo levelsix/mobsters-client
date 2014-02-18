@@ -80,7 +80,7 @@
   } else if (resourceType == ResourceTypeOil && (gs.maxOil-gs.oil < amountGained || amountGained <= 0)) {
     [Globals addAlertNotification:@"Not enough storage!"];
   } else if (gemPrice > gs.gold) {
-    [Globals addAlertNotification:@"Need more gold!"];
+    [Globals addAlertNotification:@"Need more gems!"];
   } else {
     [[OutgoingEventController sharedOutgoingEventController] exchangeGemsForResources:gemPrice resources:amountGained resType:resourceType delegate:delegate];
     return YES;

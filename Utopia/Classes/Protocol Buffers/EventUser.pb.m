@@ -2764,3 +2764,682 @@ BOOL SetFacebookIdResponseProto_SetFacebookIdStatusIsValidValue(SetFacebookIdRes
 }
 @end
 
+@interface UpdateUserCurrencyRequestProto ()
+@property (retain) MinimumUserProto* sender;
+@property int32_t cashSpent;
+@property int32_t oilSpent;
+@property int32_t gemsSpent;
+@property int64_t clientTime;
+@property (retain) NSString* reason;
+@property (retain) NSString* details;
+@end
+
+@implementation UpdateUserCurrencyRequestProto
+
+- (BOOL) hasSender {
+  return !!hasSender_;
+}
+- (void) setHasSender:(BOOL) value {
+  hasSender_ = !!value;
+}
+@synthesize sender;
+- (BOOL) hasCashSpent {
+  return !!hasCashSpent_;
+}
+- (void) setHasCashSpent:(BOOL) value {
+  hasCashSpent_ = !!value;
+}
+@synthesize cashSpent;
+- (BOOL) hasOilSpent {
+  return !!hasOilSpent_;
+}
+- (void) setHasOilSpent:(BOOL) value {
+  hasOilSpent_ = !!value;
+}
+@synthesize oilSpent;
+- (BOOL) hasGemsSpent {
+  return !!hasGemsSpent_;
+}
+- (void) setHasGemsSpent:(BOOL) value {
+  hasGemsSpent_ = !!value;
+}
+@synthesize gemsSpent;
+- (BOOL) hasClientTime {
+  return !!hasClientTime_;
+}
+- (void) setHasClientTime:(BOOL) value {
+  hasClientTime_ = !!value;
+}
+@synthesize clientTime;
+- (BOOL) hasReason {
+  return !!hasReason_;
+}
+- (void) setHasReason:(BOOL) value {
+  hasReason_ = !!value;
+}
+@synthesize reason;
+- (BOOL) hasDetails {
+  return !!hasDetails_;
+}
+- (void) setHasDetails:(BOOL) value {
+  hasDetails_ = !!value;
+}
+@synthesize details;
+- (void) dealloc {
+  self.sender = nil;
+  self.reason = nil;
+  self.details = nil;
+  [super dealloc];
+}
+- (id) init {
+  if ((self = [super init])) {
+    self.sender = [MinimumUserProto defaultInstance];
+    self.cashSpent = 0;
+    self.oilSpent = 0;
+    self.gemsSpent = 0;
+    self.clientTime = 0L;
+    self.reason = @"";
+    self.details = @"";
+  }
+  return self;
+}
+static UpdateUserCurrencyRequestProto* defaultUpdateUserCurrencyRequestProtoInstance = nil;
++ (void) initialize {
+  if (self == [UpdateUserCurrencyRequestProto class]) {
+    defaultUpdateUserCurrencyRequestProtoInstance = [[UpdateUserCurrencyRequestProto alloc] init];
+  }
+}
++ (UpdateUserCurrencyRequestProto*) defaultInstance {
+  return defaultUpdateUserCurrencyRequestProtoInstance;
+}
+- (UpdateUserCurrencyRequestProto*) defaultInstance {
+  return defaultUpdateUserCurrencyRequestProtoInstance;
+}
+- (BOOL) isInitialized {
+  return YES;
+}
+- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output {
+  if (self.hasSender) {
+    [output writeMessage:1 value:self.sender];
+  }
+  if (self.hasCashSpent) {
+    [output writeSInt32:2 value:self.cashSpent];
+  }
+  if (self.hasOilSpent) {
+    [output writeSInt32:3 value:self.oilSpent];
+  }
+  if (self.hasGemsSpent) {
+    [output writeSInt32:4 value:self.gemsSpent];
+  }
+  if (self.hasClientTime) {
+    [output writeInt64:5 value:self.clientTime];
+  }
+  if (self.hasReason) {
+    [output writeString:6 value:self.reason];
+  }
+  if (self.hasDetails) {
+    [output writeString:7 value:self.details];
+  }
+  [self.unknownFields writeToCodedOutputStream:output];
+}
+- (int32_t) serializedSize {
+  int32_t size = memoizedSerializedSize;
+  if (size != -1) {
+    return size;
+  }
+
+  size = 0;
+  if (self.hasSender) {
+    size += computeMessageSize(1, self.sender);
+  }
+  if (self.hasCashSpent) {
+    size += computeSInt32Size(2, self.cashSpent);
+  }
+  if (self.hasOilSpent) {
+    size += computeSInt32Size(3, self.oilSpent);
+  }
+  if (self.hasGemsSpent) {
+    size += computeSInt32Size(4, self.gemsSpent);
+  }
+  if (self.hasClientTime) {
+    size += computeInt64Size(5, self.clientTime);
+  }
+  if (self.hasReason) {
+    size += computeStringSize(6, self.reason);
+  }
+  if (self.hasDetails) {
+    size += computeStringSize(7, self.details);
+  }
+  size += self.unknownFields.serializedSize;
+  memoizedSerializedSize = size;
+  return size;
+}
++ (UpdateUserCurrencyRequestProto*) parseFromData:(NSData*) data {
+  return (UpdateUserCurrencyRequestProto*)[[[UpdateUserCurrencyRequestProto builder] mergeFromData:data] build];
+}
++ (UpdateUserCurrencyRequestProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (UpdateUserCurrencyRequestProto*)[[[UpdateUserCurrencyRequestProto builder] mergeFromData:data extensionRegistry:extensionRegistry] build];
+}
++ (UpdateUserCurrencyRequestProto*) parseFromInputStream:(NSInputStream*) input {
+  return (UpdateUserCurrencyRequestProto*)[[[UpdateUserCurrencyRequestProto builder] mergeFromInputStream:input] build];
+}
++ (UpdateUserCurrencyRequestProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (UpdateUserCurrencyRequestProto*)[[[UpdateUserCurrencyRequestProto builder] mergeFromInputStream:input extensionRegistry:extensionRegistry] build];
+}
++ (UpdateUserCurrencyRequestProto*) parseFromCodedInputStream:(PBCodedInputStream*) input {
+  return (UpdateUserCurrencyRequestProto*)[[[UpdateUserCurrencyRequestProto builder] mergeFromCodedInputStream:input] build];
+}
++ (UpdateUserCurrencyRequestProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (UpdateUserCurrencyRequestProto*)[[[UpdateUserCurrencyRequestProto builder] mergeFromCodedInputStream:input extensionRegistry:extensionRegistry] build];
+}
++ (UpdateUserCurrencyRequestProto_Builder*) builder {
+  return [[[UpdateUserCurrencyRequestProto_Builder alloc] init] autorelease];
+}
++ (UpdateUserCurrencyRequestProto_Builder*) builderWithPrototype:(UpdateUserCurrencyRequestProto*) prototype {
+  return [[UpdateUserCurrencyRequestProto builder] mergeFrom:prototype];
+}
+- (UpdateUserCurrencyRequestProto_Builder*) builder {
+  return [UpdateUserCurrencyRequestProto builder];
+}
+@end
+
+@interface UpdateUserCurrencyRequestProto_Builder()
+@property (retain) UpdateUserCurrencyRequestProto* result;
+@end
+
+@implementation UpdateUserCurrencyRequestProto_Builder
+@synthesize result;
+- (void) dealloc {
+  self.result = nil;
+  [super dealloc];
+}
+- (id) init {
+  if ((self = [super init])) {
+    self.result = [[[UpdateUserCurrencyRequestProto alloc] init] autorelease];
+  }
+  return self;
+}
+- (PBGeneratedMessage*) internalGetResult {
+  return result;
+}
+- (UpdateUserCurrencyRequestProto_Builder*) clear {
+  self.result = [[[UpdateUserCurrencyRequestProto alloc] init] autorelease];
+  return self;
+}
+- (UpdateUserCurrencyRequestProto_Builder*) clone {
+  return [UpdateUserCurrencyRequestProto builderWithPrototype:result];
+}
+- (UpdateUserCurrencyRequestProto*) defaultInstance {
+  return [UpdateUserCurrencyRequestProto defaultInstance];
+}
+- (UpdateUserCurrencyRequestProto*) build {
+  [self checkInitialized];
+  return [self buildPartial];
+}
+- (UpdateUserCurrencyRequestProto*) buildPartial {
+  UpdateUserCurrencyRequestProto* returnMe = [[result retain] autorelease];
+  self.result = nil;
+  return returnMe;
+}
+- (UpdateUserCurrencyRequestProto_Builder*) mergeFrom:(UpdateUserCurrencyRequestProto*) other {
+  if (other == [UpdateUserCurrencyRequestProto defaultInstance]) {
+    return self;
+  }
+  if (other.hasSender) {
+    [self mergeSender:other.sender];
+  }
+  if (other.hasCashSpent) {
+    [self setCashSpent:other.cashSpent];
+  }
+  if (other.hasOilSpent) {
+    [self setOilSpent:other.oilSpent];
+  }
+  if (other.hasGemsSpent) {
+    [self setGemsSpent:other.gemsSpent];
+  }
+  if (other.hasClientTime) {
+    [self setClientTime:other.clientTime];
+  }
+  if (other.hasReason) {
+    [self setReason:other.reason];
+  }
+  if (other.hasDetails) {
+    [self setDetails:other.details];
+  }
+  [self mergeUnknownFields:other.unknownFields];
+  return self;
+}
+- (UpdateUserCurrencyRequestProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input {
+  return [self mergeFromCodedInputStream:input extensionRegistry:[PBExtensionRegistry emptyRegistry]];
+}
+- (UpdateUserCurrencyRequestProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  PBUnknownFieldSet_Builder* unknownFields = [PBUnknownFieldSet builderWithUnknownFields:self.unknownFields];
+  while (YES) {
+    int32_t tag = [input readTag];
+    switch (tag) {
+      case 0:
+        [self setUnknownFields:[unknownFields build]];
+        return self;
+      default: {
+        if (![self parseUnknownField:input unknownFields:unknownFields extensionRegistry:extensionRegistry tag:tag]) {
+          [self setUnknownFields:[unknownFields build]];
+          return self;
+        }
+        break;
+      }
+      case 10: {
+        MinimumUserProto_Builder* subBuilder = [MinimumUserProto builder];
+        if (self.hasSender) {
+          [subBuilder mergeFrom:self.sender];
+        }
+        [input readMessage:subBuilder extensionRegistry:extensionRegistry];
+        [self setSender:[subBuilder buildPartial]];
+        break;
+      }
+      case 16: {
+        [self setCashSpent:[input readSInt32]];
+        break;
+      }
+      case 24: {
+        [self setOilSpent:[input readSInt32]];
+        break;
+      }
+      case 32: {
+        [self setGemsSpent:[input readSInt32]];
+        break;
+      }
+      case 40: {
+        [self setClientTime:[input readInt64]];
+        break;
+      }
+      case 50: {
+        [self setReason:[input readString]];
+        break;
+      }
+      case 58: {
+        [self setDetails:[input readString]];
+        break;
+      }
+    }
+  }
+}
+- (BOOL) hasSender {
+  return result.hasSender;
+}
+- (MinimumUserProto*) sender {
+  return result.sender;
+}
+- (UpdateUserCurrencyRequestProto_Builder*) setSender:(MinimumUserProto*) value {
+  result.hasSender = YES;
+  result.sender = value;
+  return self;
+}
+- (UpdateUserCurrencyRequestProto_Builder*) setSenderBuilder:(MinimumUserProto_Builder*) builderForValue {
+  return [self setSender:[builderForValue build]];
+}
+- (UpdateUserCurrencyRequestProto_Builder*) mergeSender:(MinimumUserProto*) value {
+  if (result.hasSender &&
+      result.sender != [MinimumUserProto defaultInstance]) {
+    result.sender =
+      [[[MinimumUserProto builderWithPrototype:result.sender] mergeFrom:value] buildPartial];
+  } else {
+    result.sender = value;
+  }
+  result.hasSender = YES;
+  return self;
+}
+- (UpdateUserCurrencyRequestProto_Builder*) clearSender {
+  result.hasSender = NO;
+  result.sender = [MinimumUserProto defaultInstance];
+  return self;
+}
+- (BOOL) hasCashSpent {
+  return result.hasCashSpent;
+}
+- (int32_t) cashSpent {
+  return result.cashSpent;
+}
+- (UpdateUserCurrencyRequestProto_Builder*) setCashSpent:(int32_t) value {
+  result.hasCashSpent = YES;
+  result.cashSpent = value;
+  return self;
+}
+- (UpdateUserCurrencyRequestProto_Builder*) clearCashSpent {
+  result.hasCashSpent = NO;
+  result.cashSpent = 0;
+  return self;
+}
+- (BOOL) hasOilSpent {
+  return result.hasOilSpent;
+}
+- (int32_t) oilSpent {
+  return result.oilSpent;
+}
+- (UpdateUserCurrencyRequestProto_Builder*) setOilSpent:(int32_t) value {
+  result.hasOilSpent = YES;
+  result.oilSpent = value;
+  return self;
+}
+- (UpdateUserCurrencyRequestProto_Builder*) clearOilSpent {
+  result.hasOilSpent = NO;
+  result.oilSpent = 0;
+  return self;
+}
+- (BOOL) hasGemsSpent {
+  return result.hasGemsSpent;
+}
+- (int32_t) gemsSpent {
+  return result.gemsSpent;
+}
+- (UpdateUserCurrencyRequestProto_Builder*) setGemsSpent:(int32_t) value {
+  result.hasGemsSpent = YES;
+  result.gemsSpent = value;
+  return self;
+}
+- (UpdateUserCurrencyRequestProto_Builder*) clearGemsSpent {
+  result.hasGemsSpent = NO;
+  result.gemsSpent = 0;
+  return self;
+}
+- (BOOL) hasClientTime {
+  return result.hasClientTime;
+}
+- (int64_t) clientTime {
+  return result.clientTime;
+}
+- (UpdateUserCurrencyRequestProto_Builder*) setClientTime:(int64_t) value {
+  result.hasClientTime = YES;
+  result.clientTime = value;
+  return self;
+}
+- (UpdateUserCurrencyRequestProto_Builder*) clearClientTime {
+  result.hasClientTime = NO;
+  result.clientTime = 0L;
+  return self;
+}
+- (BOOL) hasReason {
+  return result.hasReason;
+}
+- (NSString*) reason {
+  return result.reason;
+}
+- (UpdateUserCurrencyRequestProto_Builder*) setReason:(NSString*) value {
+  result.hasReason = YES;
+  result.reason = value;
+  return self;
+}
+- (UpdateUserCurrencyRequestProto_Builder*) clearReason {
+  result.hasReason = NO;
+  result.reason = @"";
+  return self;
+}
+- (BOOL) hasDetails {
+  return result.hasDetails;
+}
+- (NSString*) details {
+  return result.details;
+}
+- (UpdateUserCurrencyRequestProto_Builder*) setDetails:(NSString*) value {
+  result.hasDetails = YES;
+  result.details = value;
+  return self;
+}
+- (UpdateUserCurrencyRequestProto_Builder*) clearDetails {
+  result.hasDetails = NO;
+  result.details = @"";
+  return self;
+}
+@end
+
+@interface UpdateUserCurrencyResponseProto ()
+@property (retain) MinimumUserProto* sender;
+@property UpdateUserCurrencyResponseProto_UpdateUserCurrencyStatus status;
+@end
+
+@implementation UpdateUserCurrencyResponseProto
+
+- (BOOL) hasSender {
+  return !!hasSender_;
+}
+- (void) setHasSender:(BOOL) value {
+  hasSender_ = !!value;
+}
+@synthesize sender;
+- (BOOL) hasStatus {
+  return !!hasStatus_;
+}
+- (void) setHasStatus:(BOOL) value {
+  hasStatus_ = !!value;
+}
+@synthesize status;
+- (void) dealloc {
+  self.sender = nil;
+  [super dealloc];
+}
+- (id) init {
+  if ((self = [super init])) {
+    self.sender = [MinimumUserProto defaultInstance];
+    self.status = UpdateUserCurrencyResponseProto_UpdateUserCurrencyStatusSuccess;
+  }
+  return self;
+}
+static UpdateUserCurrencyResponseProto* defaultUpdateUserCurrencyResponseProtoInstance = nil;
++ (void) initialize {
+  if (self == [UpdateUserCurrencyResponseProto class]) {
+    defaultUpdateUserCurrencyResponseProtoInstance = [[UpdateUserCurrencyResponseProto alloc] init];
+  }
+}
++ (UpdateUserCurrencyResponseProto*) defaultInstance {
+  return defaultUpdateUserCurrencyResponseProtoInstance;
+}
+- (UpdateUserCurrencyResponseProto*) defaultInstance {
+  return defaultUpdateUserCurrencyResponseProtoInstance;
+}
+- (BOOL) isInitialized {
+  return YES;
+}
+- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output {
+  if (self.hasSender) {
+    [output writeMessage:1 value:self.sender];
+  }
+  if (self.hasStatus) {
+    [output writeEnum:2 value:self.status];
+  }
+  [self.unknownFields writeToCodedOutputStream:output];
+}
+- (int32_t) serializedSize {
+  int32_t size = memoizedSerializedSize;
+  if (size != -1) {
+    return size;
+  }
+
+  size = 0;
+  if (self.hasSender) {
+    size += computeMessageSize(1, self.sender);
+  }
+  if (self.hasStatus) {
+    size += computeEnumSize(2, self.status);
+  }
+  size += self.unknownFields.serializedSize;
+  memoizedSerializedSize = size;
+  return size;
+}
++ (UpdateUserCurrencyResponseProto*) parseFromData:(NSData*) data {
+  return (UpdateUserCurrencyResponseProto*)[[[UpdateUserCurrencyResponseProto builder] mergeFromData:data] build];
+}
++ (UpdateUserCurrencyResponseProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (UpdateUserCurrencyResponseProto*)[[[UpdateUserCurrencyResponseProto builder] mergeFromData:data extensionRegistry:extensionRegistry] build];
+}
++ (UpdateUserCurrencyResponseProto*) parseFromInputStream:(NSInputStream*) input {
+  return (UpdateUserCurrencyResponseProto*)[[[UpdateUserCurrencyResponseProto builder] mergeFromInputStream:input] build];
+}
++ (UpdateUserCurrencyResponseProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (UpdateUserCurrencyResponseProto*)[[[UpdateUserCurrencyResponseProto builder] mergeFromInputStream:input extensionRegistry:extensionRegistry] build];
+}
++ (UpdateUserCurrencyResponseProto*) parseFromCodedInputStream:(PBCodedInputStream*) input {
+  return (UpdateUserCurrencyResponseProto*)[[[UpdateUserCurrencyResponseProto builder] mergeFromCodedInputStream:input] build];
+}
++ (UpdateUserCurrencyResponseProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (UpdateUserCurrencyResponseProto*)[[[UpdateUserCurrencyResponseProto builder] mergeFromCodedInputStream:input extensionRegistry:extensionRegistry] build];
+}
++ (UpdateUserCurrencyResponseProto_Builder*) builder {
+  return [[[UpdateUserCurrencyResponseProto_Builder alloc] init] autorelease];
+}
++ (UpdateUserCurrencyResponseProto_Builder*) builderWithPrototype:(UpdateUserCurrencyResponseProto*) prototype {
+  return [[UpdateUserCurrencyResponseProto builder] mergeFrom:prototype];
+}
+- (UpdateUserCurrencyResponseProto_Builder*) builder {
+  return [UpdateUserCurrencyResponseProto builder];
+}
+@end
+
+BOOL UpdateUserCurrencyResponseProto_UpdateUserCurrencyStatusIsValidValue(UpdateUserCurrencyResponseProto_UpdateUserCurrencyStatus value) {
+  switch (value) {
+    case UpdateUserCurrencyResponseProto_UpdateUserCurrencyStatusSuccess:
+    case UpdateUserCurrencyResponseProto_UpdateUserCurrencyStatusFailOther:
+    case UpdateUserCurrencyResponseProto_UpdateUserCurrencyStatusFailInsufficientCash:
+    case UpdateUserCurrencyResponseProto_UpdateUserCurrencyStatusFailInsufficientOil:
+    case UpdateUserCurrencyResponseProto_UpdateUserCurrencyStatusFailInsufficientGems:
+      return YES;
+    default:
+      return NO;
+  }
+}
+@interface UpdateUserCurrencyResponseProto_Builder()
+@property (retain) UpdateUserCurrencyResponseProto* result;
+@end
+
+@implementation UpdateUserCurrencyResponseProto_Builder
+@synthesize result;
+- (void) dealloc {
+  self.result = nil;
+  [super dealloc];
+}
+- (id) init {
+  if ((self = [super init])) {
+    self.result = [[[UpdateUserCurrencyResponseProto alloc] init] autorelease];
+  }
+  return self;
+}
+- (PBGeneratedMessage*) internalGetResult {
+  return result;
+}
+- (UpdateUserCurrencyResponseProto_Builder*) clear {
+  self.result = [[[UpdateUserCurrencyResponseProto alloc] init] autorelease];
+  return self;
+}
+- (UpdateUserCurrencyResponseProto_Builder*) clone {
+  return [UpdateUserCurrencyResponseProto builderWithPrototype:result];
+}
+- (UpdateUserCurrencyResponseProto*) defaultInstance {
+  return [UpdateUserCurrencyResponseProto defaultInstance];
+}
+- (UpdateUserCurrencyResponseProto*) build {
+  [self checkInitialized];
+  return [self buildPartial];
+}
+- (UpdateUserCurrencyResponseProto*) buildPartial {
+  UpdateUserCurrencyResponseProto* returnMe = [[result retain] autorelease];
+  self.result = nil;
+  return returnMe;
+}
+- (UpdateUserCurrencyResponseProto_Builder*) mergeFrom:(UpdateUserCurrencyResponseProto*) other {
+  if (other == [UpdateUserCurrencyResponseProto defaultInstance]) {
+    return self;
+  }
+  if (other.hasSender) {
+    [self mergeSender:other.sender];
+  }
+  if (other.hasStatus) {
+    [self setStatus:other.status];
+  }
+  [self mergeUnknownFields:other.unknownFields];
+  return self;
+}
+- (UpdateUserCurrencyResponseProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input {
+  return [self mergeFromCodedInputStream:input extensionRegistry:[PBExtensionRegistry emptyRegistry]];
+}
+- (UpdateUserCurrencyResponseProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  PBUnknownFieldSet_Builder* unknownFields = [PBUnknownFieldSet builderWithUnknownFields:self.unknownFields];
+  while (YES) {
+    int32_t tag = [input readTag];
+    switch (tag) {
+      case 0:
+        [self setUnknownFields:[unknownFields build]];
+        return self;
+      default: {
+        if (![self parseUnknownField:input unknownFields:unknownFields extensionRegistry:extensionRegistry tag:tag]) {
+          [self setUnknownFields:[unknownFields build]];
+          return self;
+        }
+        break;
+      }
+      case 10: {
+        MinimumUserProto_Builder* subBuilder = [MinimumUserProto builder];
+        if (self.hasSender) {
+          [subBuilder mergeFrom:self.sender];
+        }
+        [input readMessage:subBuilder extensionRegistry:extensionRegistry];
+        [self setSender:[subBuilder buildPartial]];
+        break;
+      }
+      case 16: {
+        int32_t value = [input readEnum];
+        if (UpdateUserCurrencyResponseProto_UpdateUserCurrencyStatusIsValidValue(value)) {
+          [self setStatus:value];
+        } else {
+          [unknownFields mergeVarintField:2 value:value];
+        }
+        break;
+      }
+    }
+  }
+}
+- (BOOL) hasSender {
+  return result.hasSender;
+}
+- (MinimumUserProto*) sender {
+  return result.sender;
+}
+- (UpdateUserCurrencyResponseProto_Builder*) setSender:(MinimumUserProto*) value {
+  result.hasSender = YES;
+  result.sender = value;
+  return self;
+}
+- (UpdateUserCurrencyResponseProto_Builder*) setSenderBuilder:(MinimumUserProto_Builder*) builderForValue {
+  return [self setSender:[builderForValue build]];
+}
+- (UpdateUserCurrencyResponseProto_Builder*) mergeSender:(MinimumUserProto*) value {
+  if (result.hasSender &&
+      result.sender != [MinimumUserProto defaultInstance]) {
+    result.sender =
+      [[[MinimumUserProto builderWithPrototype:result.sender] mergeFrom:value] buildPartial];
+  } else {
+    result.sender = value;
+  }
+  result.hasSender = YES;
+  return self;
+}
+- (UpdateUserCurrencyResponseProto_Builder*) clearSender {
+  result.hasSender = NO;
+  result.sender = [MinimumUserProto defaultInstance];
+  return self;
+}
+- (BOOL) hasStatus {
+  return result.hasStatus;
+}
+- (UpdateUserCurrencyResponseProto_UpdateUserCurrencyStatus) status {
+  return result.status;
+}
+- (UpdateUserCurrencyResponseProto_Builder*) setStatus:(UpdateUserCurrencyResponseProto_UpdateUserCurrencyStatus) value {
+  result.hasStatus = YES;
+  result.status = value;
+  return self;
+}
+- (UpdateUserCurrencyResponseProto_Builder*) clearStatus {
+  result.hasStatus = NO;
+  result.status = UpdateUserCurrencyResponseProto_UpdateUserCurrencyStatusSuccess;
+  return self;
+}
+@end
+

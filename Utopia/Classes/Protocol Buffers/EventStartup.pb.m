@@ -38,6 +38,7 @@ static PBExtensionRegistry* extensionRegistry = nil;
 @property (retain) NSString* advertiserId;
 @property BOOL isForceTutorial;
 @property (retain) NSString* fbId;
+@property BOOL isFreshRestart;
 @end
 
 @implementation StartupRequestProto
@@ -96,6 +97,18 @@ static PBExtensionRegistry* extensionRegistry = nil;
   hasFbId_ = !!value;
 }
 @synthesize fbId;
+- (BOOL) hasIsFreshRestart {
+  return !!hasIsFreshRestart_;
+}
+- (void) setHasIsFreshRestart:(BOOL) value {
+  hasIsFreshRestart_ = !!value;
+}
+- (BOOL) isFreshRestart {
+  return !!isFreshRestart_;
+}
+- (void) setIsFreshRestart:(BOOL) value {
+  isFreshRestart_ = !!value;
+}
 - (void) dealloc {
   self.udid = nil;
   self.apsalarId = nil;
@@ -113,6 +126,7 @@ static PBExtensionRegistry* extensionRegistry = nil;
     self.advertiserId = @"";
     self.isForceTutorial = NO;
     self.fbId = @"";
+    self.isFreshRestart = NO;
   }
   return self;
 }
@@ -153,6 +167,9 @@ static StartupRequestProto* defaultStartupRequestProtoInstance = nil;
   if (self.hasFbId) {
     [output writeString:7 value:self.fbId];
   }
+  if (self.hasIsFreshRestart) {
+    [output writeBool:8 value:self.isFreshRestart];
+  }
   [self.unknownFields writeToCodedOutputStream:output];
 }
 - (int32_t) serializedSize {
@@ -182,6 +199,9 @@ static StartupRequestProto* defaultStartupRequestProtoInstance = nil;
   }
   if (self.hasFbId) {
     size += computeStringSize(7, self.fbId);
+  }
+  if (self.hasIsFreshRestart) {
+    size += computeBoolSize(8, self.isFreshRestart);
   }
   size += self.unknownFields.serializedSize;
   memoizedSerializedSize = size;
@@ -279,6 +299,9 @@ static StartupRequestProto* defaultStartupRequestProtoInstance = nil;
   if (other.hasFbId) {
     [self setFbId:other.fbId];
   }
+  if (other.hasIsFreshRestart) {
+    [self setIsFreshRestart:other.isFreshRestart];
+  }
   [self mergeUnknownFields:other.unknownFields];
   return self;
 }
@@ -326,6 +349,10 @@ static StartupRequestProto* defaultStartupRequestProtoInstance = nil;
       }
       case 58: {
         [self setFbId:[input readString]];
+        break;
+      }
+      case 64: {
+        [self setIsFreshRestart:[input readBool]];
         break;
       }
     }
@@ -441,6 +468,22 @@ static StartupRequestProto* defaultStartupRequestProtoInstance = nil;
 - (StartupRequestProto_Builder*) clearFbId {
   result.hasFbId = NO;
   result.fbId = @"";
+  return self;
+}
+- (BOOL) hasIsFreshRestart {
+  return result.hasIsFreshRestart;
+}
+- (BOOL) isFreshRestart {
+  return result.isFreshRestart;
+}
+- (StartupRequestProto_Builder*) setIsFreshRestart:(BOOL) value {
+  result.hasIsFreshRestart = YES;
+  result.isFreshRestart = value;
+  return self;
+}
+- (StartupRequestProto_Builder*) clearIsFreshRestart {
+  result.hasIsFreshRestart = NO;
+  result.isFreshRestart = NO;
   return self;
 }
 @end
@@ -1604,6 +1647,7 @@ static StartupResponseProto_ReferralNotificationProto* defaultStartupResponsePro
 @property Float32 minutesPerGem;
 @property int32_t pvpRequiredMinLvl;
 @property Float32 gemsPerResource;
+@property Float32 continueBattleGemCostMultiplier;
 @end
 
 @implementation StartupResponseProto_StartupConstants
@@ -1743,6 +1787,13 @@ static StartupResponseProto_ReferralNotificationProto* defaultStartupResponsePro
   hasGemsPerResource_ = !!value;
 }
 @synthesize gemsPerResource;
+- (BOOL) hasContinueBattleGemCostMultiplier {
+  return !!hasContinueBattleGemCostMultiplier_;
+}
+- (void) setHasContinueBattleGemCostMultiplier:(BOOL) value {
+  hasContinueBattleGemCostMultiplier_ = !!value;
+}
+@synthesize continueBattleGemCostMultiplier;
 - (void) dealloc {
   self.mutableInAppPurchasePackagesList = nil;
   self.mutableAnimatedSpriteOffsetsList = nil;
@@ -1776,6 +1827,7 @@ static StartupResponseProto_ReferralNotificationProto* defaultStartupResponsePro
     self.minutesPerGem = 0;
     self.pvpRequiredMinLvl = 0;
     self.gemsPerResource = 0;
+    self.continueBattleGemCostMultiplier = 0;
   }
   return self;
 }
@@ -1872,6 +1924,9 @@ static StartupResponseProto_StartupConstants* defaultStartupResponseProto_Startu
   if (self.hasGemsPerResource) {
     [output writeFloat:21 value:self.gemsPerResource];
   }
+  if (self.hasContinueBattleGemCostMultiplier) {
+    [output writeFloat:22 value:self.continueBattleGemCostMultiplier];
+  }
   [self.unknownFields writeToCodedOutputStream:output];
 }
 - (int32_t) serializedSize {
@@ -1943,6 +1998,9 @@ static StartupResponseProto_StartupConstants* defaultStartupResponseProto_Startu
   }
   if (self.hasGemsPerResource) {
     size += computeFloatSize(21, self.gemsPerResource);
+  }
+  if (self.hasContinueBattleGemCostMultiplier) {
+    size += computeFloatSize(22, self.continueBattleGemCostMultiplier);
   }
   size += self.unknownFields.serializedSize;
   memoizedSerializedSize = size;
@@ -3668,6 +3726,9 @@ static StartupResponseProto_StartupConstants_MonsterConstants* defaultStartupRes
   if (other.hasGemsPerResource) {
     [self setGemsPerResource:other.gemsPerResource];
   }
+  if (other.hasContinueBattleGemCostMultiplier) {
+    [self setContinueBattleGemCostMultiplier:other.continueBattleGemCostMultiplier];
+  }
   [self mergeUnknownFields:other.unknownFields];
   return self;
 }
@@ -3805,6 +3866,10 @@ static StartupResponseProto_StartupConstants_MonsterConstants* defaultStartupRes
       }
       case 173: {
         [self setGemsPerResource:[input readFloat]];
+        break;
+      }
+      case 181: {
+        [self setContinueBattleGemCostMultiplier:[input readFloat]];
         break;
       }
     }
@@ -4254,6 +4319,22 @@ static StartupResponseProto_StartupConstants_MonsterConstants* defaultStartupRes
 - (StartupResponseProto_StartupConstants_Builder*) clearGemsPerResource {
   result.hasGemsPerResource = NO;
   result.gemsPerResource = 0;
+  return self;
+}
+- (BOOL) hasContinueBattleGemCostMultiplier {
+  return result.hasContinueBattleGemCostMultiplier;
+}
+- (Float32) continueBattleGemCostMultiplier {
+  return result.continueBattleGemCostMultiplier;
+}
+- (StartupResponseProto_StartupConstants_Builder*) setContinueBattleGemCostMultiplier:(Float32) value {
+  result.hasContinueBattleGemCostMultiplier = YES;
+  result.continueBattleGemCostMultiplier = value;
+  return self;
+}
+- (StartupResponseProto_StartupConstants_Builder*) clearContinueBattleGemCostMultiplier {
+  result.hasContinueBattleGemCostMultiplier = NO;
+  result.continueBattleGemCostMultiplier = 0;
   return self;
 }
 @end

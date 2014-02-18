@@ -26,6 +26,7 @@
 @property (nonatomic, retain) NSDate *combineStartTime;
 
 + (id) userMonsterWithProto:(FullUserMonsterProto *)proto;
++ (id) userMonsterWithMinProto:(MinimumUserMonsterProto *)proto;
 + (id) userMonsterWithTaskStageMonsterProto:(TaskStageMonsterProto *)proto;
 - (BOOL) isHealing;
 - (BOOL) isEnhancing;
@@ -68,7 +69,6 @@
 @property (nonatomic, retain) UserMonster *userMonster2;
 @property (nonatomic, assign) UserMonster *catalystMonster;
 
-- (id) initWithUserMonster:(UserMonster *)um1 catalystMonster:(UserMonster *)catalystMonster;
 - (id) initWithUserMonster:(UserMonster *)um1 andUserMonster:(UserMonster *)um2 catalystMonster:(UserMonster *)catalystMonster;
 
 @end
@@ -202,6 +202,7 @@ typedef enum {
 typedef enum {
   RewardTypeMonster = 1,
   RewardTypeSilver,
+  RewardTypeOil,
   RewardTypeGold,
   RewardTypeExperience
 } RewardType;
@@ -211,15 +212,18 @@ typedef enum {
 @property (nonatomic, assign) int monsterId;
 @property (nonatomic, assign) BOOL isPuzzlePiece;
 @property (nonatomic, assign) int silverAmount;
+@property (nonatomic, assign) int oilAmount;
 @property (nonatomic, assign) int goldAmount;
 @property (nonatomic, assign) int expAmount;
 @property (nonatomic, assign) RewardType type;
 
 + (NSArray *) createRewardsForDungeon:(BeginDungeonResponseProto *)proto;
 + (NSArray *) createRewardsForQuest:(FullQuestProto *)quest;
++ (NSArray *) createRewardsForPvpProto:(PvpProto *)pvp;
 
 - (id) initWithMonsterId:(int)monsterId isPuzzlePiece:(BOOL)isPuzzlePiece;
 - (id) initWithSilverAmount:(int)silverAmount;
+- (id) initWithOilAmount:(int)oilAmount;
 - (id) initWithGoldAmount:(int)goldAmount;
 - (id) initWithExpAmount:(int)expAmount;
 

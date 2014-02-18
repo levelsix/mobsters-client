@@ -295,6 +295,8 @@
   [gvc addChildViewController:rvc];
   rvc.view.frame = gvc.view.bounds;
   [gvc.view addSubview:rvc.view];
+  
+  [self updateMailBadge];
 }
 
 #pragma mark - Updating HUD Stuff
@@ -313,7 +315,7 @@
   
   self.levelLabel.text = [Globals commafyNumber:gs.level];
   
-  self.cashMaxLabel.text = [NSString stringWithFormat:@"MAX: %@", [Globals commafyNumber:[gs maxCash]]];
+  self.cashMaxLabel.text = [NSString stringWithFormat:@"MAX: %@", [Globals cashStringForNumber:[gs maxCash]]];
   self.oilMaxLabel.text = [NSString stringWithFormat:@"MAX: %@", [Globals commafyNumber:[gs maxOil]]];
 }
 

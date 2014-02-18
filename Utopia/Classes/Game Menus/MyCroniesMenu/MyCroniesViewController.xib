@@ -172,6 +172,10 @@
                             <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
                             <color key="backgroundColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
                         </view>
+                        <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="menutopbar.png" id="3nA-Ud-rI3">
+                            <rect key="frame" x="0.0" y="-40" width="568" height="40"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                        </imageView>
                     </subviews>
                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                 </view>
@@ -427,6 +431,7 @@
         <image name="mainmenubg.png" width="568" height="320"/>
         <image name="menufloatleft.png" width="30" height="164"/>
         <image name="menuresourcebg.png" width="82" height="19"/>
+        <image name="menutopbar.png" width="568" height="40"/>
         <image name="moneystack.png" width="43" height="34"/>
     </resources>
 </document>

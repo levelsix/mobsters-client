@@ -2,13 +2,30 @@
 
 #import "ProtocolBuffers.h"
 
+#import "Battle.pb.h"
 #import "User.pb.h"
 
+@class BeginPvpBattleRequestProto;
+@class BeginPvpBattleRequestProto_Builder;
+@class BeginPvpBattleResponseProto;
+@class BeginPvpBattleResponseProto_Builder;
+@class EndPvpBattleRequestProto;
+@class EndPvpBattleRequestProto_Builder;
+@class EndPvpBattleResponseProto;
+@class EndPvpBattleResponseProto_Builder;
+@class FullUserMonsterProto;
+@class FullUserMonsterProto_Builder;
 @class FullUserProto;
 @class FullUserProto_Builder;
 @class MinimumClanProto;
 @class MinimumClanProto_Builder;
+@class MinimumUserMonsterProto;
+@class MinimumUserMonsterProto_Builder;
+@class MinimumUserMonsterSellProto;
+@class MinimumUserMonsterSellProto_Builder;
 @class MinimumUserProto;
+@class MinimumUserProtoWithBattleHistory;
+@class MinimumUserProtoWithBattleHistory_Builder;
 @class MinimumUserProtoWithFacebookId;
 @class MinimumUserProtoWithFacebookId_Builder;
 @class MinimumUserProtoWithLevel;
@@ -16,22 +33,60 @@
 @class MinimumUserProtoWithMaxResources;
 @class MinimumUserProtoWithMaxResources_Builder;
 @class MinimumUserProto_Builder;
+@class MonsterBattleDialogueProto;
+@class MonsterBattleDialogueProto_Builder;
+@class MonsterLevelInfoProto;
+@class MonsterLevelInfoProto_Builder;
+@class MonsterProto;
+@class MonsterProto_Builder;
+@class PvpProto;
+@class PvpProto_Builder;
 @class QueueUpRequestProto;
 @class QueueUpRequestProto_Builder;
 @class QueueUpResponseProto;
 @class QueueUpResponseProto_Builder;
 @class StaticUserLevelInfoProto;
 @class StaticUserLevelInfoProto_Builder;
+@class UserCurrentMonsterTeamProto;
+@class UserCurrentMonsterTeamProto_Builder;
+@class UserEnhancementItemProto;
+@class UserEnhancementItemProto_Builder;
+@class UserEnhancementProto;
+@class UserEnhancementProto_Builder;
 @class UserFacebookInviteForSlotProto;
 @class UserFacebookInviteForSlotProto_Builder;
+@class UserMonsterCurrentExpProto;
+@class UserMonsterCurrentExpProto_Builder;
+@class UserMonsterCurrentHealthProto;
+@class UserMonsterCurrentHealthProto_Builder;
+@class UserMonsterEvolutionProto;
+@class UserMonsterEvolutionProto_Builder;
+@class UserMonsterHealingProto;
+@class UserMonsterHealingProto_Builder;
 typedef enum {
   QueueUpResponseProto_QueueUpStatusSuccess = 1,
-  QueueUpResponseProto_QueueUpStatusOtherFail = 2,
-  QueueUpResponseProto_QueueUpStatusFailNotEnoughSilver = 3,
-  QueueUpResponseProto_QueueUpStatusFailCantFindAnyone = 4,
+  QueueUpResponseProto_QueueUpStatusFailNotEnoughCash = 2,
+  QueueUpResponseProto_QueueUpStatusFailOther = 3,
+  QueueUpResponseProto_QueueUpStatusFailNotEnoughGems = 4,
 } QueueUpResponseProto_QueueUpStatus;
 
 BOOL QueueUpResponseProto_QueueUpStatusIsValidValue(QueueUpResponseProto_QueueUpStatus value);
+
+typedef enum {
+  BeginPvpBattleResponseProto_BeginPvpBattleStatusSuccess = 1,
+  BeginPvpBattleResponseProto_BeginPvpBattleStatusFailEnemyUnavailable = 2,
+  BeginPvpBattleResponseProto_BeginPvpBattleStatusFailOther = 3,
+} BeginPvpBattleResponseProto_BeginPvpBattleStatus;
+
+BOOL BeginPvpBattleResponseProto_BeginPvpBattleStatusIsValidValue(BeginPvpBattleResponseProto_BeginPvpBattleStatus value);
+
+typedef enum {
+  EndPvpBattleResponseProto_EndPvpBattleStatusSuccess = 1,
+  EndPvpBattleResponseProto_EndPvpBattleStatusFailOther = 2,
+  EndPvpBattleResponseProto_EndPvpBattleStatusFailBattleTookTooLong = 3,
+} EndPvpBattleResponseProto_EndPvpBattleStatus;
+
+BOOL EndPvpBattleResponseProto_EndPvpBattleStatusIsValidValue(EndPvpBattleResponseProto_EndPvpBattleStatus value);
 
 
 @interface EventPvpRoot : NSObject {
@@ -43,14 +98,18 @@ BOOL QueueUpResponseProto_QueueUpStatusIsValidValue(QueueUpResponseProto_QueueUp
 @interface QueueUpRequestProto : PBGeneratedMessage {
 @private
   BOOL hasClientTime_:1;
+  BOOL hasAttackerElo_:1;
   BOOL hasAttacker_:1;
   int64_t clientTime;
+  int32_t attackerElo;
   MinimumUserProto* attacker;
   NSMutableArray* mutableSeenUserIdsList;
 }
 - (BOOL) hasAttacker;
+- (BOOL) hasAttackerElo;
 - (BOOL) hasClientTime;
 @property (readonly, retain) MinimumUserProto* attacker;
+@property (readonly) int32_t attackerElo;
 @property (readonly) int64_t clientTime;
 - (NSArray*) seenUserIdsList;
 - (int32_t) seenUserIdsAtIndex:(int32_t) index;
@@ -96,6 +155,11 @@ BOOL QueueUpResponseProto_QueueUpStatusIsValidValue(QueueUpResponseProto_QueueUp
 - (QueueUpRequestProto_Builder*) mergeAttacker:(MinimumUserProto*) value;
 - (QueueUpRequestProto_Builder*) clearAttacker;
 
+- (BOOL) hasAttackerElo;
+- (int32_t) attackerElo;
+- (QueueUpRequestProto_Builder*) setAttackerElo:(int32_t) value;
+- (QueueUpRequestProto_Builder*) clearAttackerElo;
+
 - (NSArray*) seenUserIdsList;
 - (int32_t) seenUserIdsAtIndex:(int32_t) index;
 - (QueueUpRequestProto_Builder*) replaceSeenUserIdsAtIndex:(int32_t) index with:(int32_t) value;
@@ -111,23 +175,18 @@ BOOL QueueUpResponseProto_QueueUpStatusIsValidValue(QueueUpResponseProto_QueueUp
 
 @interface QueueUpResponseProto : PBGeneratedMessage {
 @private
-  BOOL hasPossibleCoinReward_:1;
   BOOL hasAttacker_:1;
-  BOOL hasDefender_:1;
   BOOL hasStatus_:1;
-  int32_t possibleCoinReward;
   MinimumUserProto* attacker;
-  MinimumUserProto* defender;
   QueueUpResponseProto_QueueUpStatus status;
+  NSMutableArray* mutableDefenderInfoListList;
 }
 - (BOOL) hasAttacker;
-- (BOOL) hasDefender;
 - (BOOL) hasStatus;
-- (BOOL) hasPossibleCoinReward;
 @property (readonly, retain) MinimumUserProto* attacker;
-@property (readonly, retain) MinimumUserProto* defender;
 @property (readonly) QueueUpResponseProto_QueueUpStatus status;
-@property (readonly) int32_t possibleCoinReward;
+- (NSArray*) defenderInfoListList;
+- (PvpProto*) defenderInfoListAtIndex:(int32_t) index;
 
 + (QueueUpResponseProto*) defaultInstance;
 - (QueueUpResponseProto*) defaultInstance;
@@ -170,21 +229,344 @@ BOOL QueueUpResponseProto_QueueUpStatusIsValidValue(QueueUpResponseProto_QueueUp
 - (QueueUpResponseProto_Builder*) mergeAttacker:(MinimumUserProto*) value;
 - (QueueUpResponseProto_Builder*) clearAttacker;
 
-- (BOOL) hasDefender;
-- (MinimumUserProto*) defender;
-- (QueueUpResponseProto_Builder*) setDefender:(MinimumUserProto*) value;
-- (QueueUpResponseProto_Builder*) setDefenderBuilder:(MinimumUserProto_Builder*) builderForValue;
-- (QueueUpResponseProto_Builder*) mergeDefender:(MinimumUserProto*) value;
-- (QueueUpResponseProto_Builder*) clearDefender;
+- (NSArray*) defenderInfoListList;
+- (PvpProto*) defenderInfoListAtIndex:(int32_t) index;
+- (QueueUpResponseProto_Builder*) replaceDefenderInfoListAtIndex:(int32_t) index with:(PvpProto*) value;
+- (QueueUpResponseProto_Builder*) addDefenderInfoList:(PvpProto*) value;
+- (QueueUpResponseProto_Builder*) addAllDefenderInfoList:(NSArray*) values;
+- (QueueUpResponseProto_Builder*) clearDefenderInfoListList;
 
 - (BOOL) hasStatus;
 - (QueueUpResponseProto_QueueUpStatus) status;
 - (QueueUpResponseProto_Builder*) setStatus:(QueueUpResponseProto_QueueUpStatus) value;
 - (QueueUpResponseProto_Builder*) clearStatus;
+@end
 
-- (BOOL) hasPossibleCoinReward;
-- (int32_t) possibleCoinReward;
-- (QueueUpResponseProto_Builder*) setPossibleCoinReward:(int32_t) value;
-- (QueueUpResponseProto_Builder*) clearPossibleCoinReward;
+@interface BeginPvpBattleRequestProto : PBGeneratedMessage {
+@private
+  BOOL hasAttackStartTime_:1;
+  BOOL hasSenderElo_:1;
+  BOOL hasSender_:1;
+  BOOL hasEnemy_:1;
+  int64_t attackStartTime;
+  int32_t senderElo;
+  MinimumUserProto* sender;
+  PvpProto* enemy;
+}
+- (BOOL) hasSender;
+- (BOOL) hasSenderElo;
+- (BOOL) hasAttackStartTime;
+- (BOOL) hasEnemy;
+@property (readonly, retain) MinimumUserProto* sender;
+@property (readonly) int32_t senderElo;
+@property (readonly) int64_t attackStartTime;
+@property (readonly, retain) PvpProto* enemy;
+
++ (BeginPvpBattleRequestProto*) defaultInstance;
+- (BeginPvpBattleRequestProto*) defaultInstance;
+
+- (BOOL) isInitialized;
+- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output;
+- (BeginPvpBattleRequestProto_Builder*) builder;
++ (BeginPvpBattleRequestProto_Builder*) builder;
++ (BeginPvpBattleRequestProto_Builder*) builderWithPrototype:(BeginPvpBattleRequestProto*) prototype;
+
++ (BeginPvpBattleRequestProto*) parseFromData:(NSData*) data;
++ (BeginPvpBattleRequestProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (BeginPvpBattleRequestProto*) parseFromInputStream:(NSInputStream*) input;
++ (BeginPvpBattleRequestProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (BeginPvpBattleRequestProto*) parseFromCodedInputStream:(PBCodedInputStream*) input;
++ (BeginPvpBattleRequestProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+@end
+
+@interface BeginPvpBattleRequestProto_Builder : PBGeneratedMessage_Builder {
+@private
+  BeginPvpBattleRequestProto* result;
+}
+
+- (BeginPvpBattleRequestProto*) defaultInstance;
+
+- (BeginPvpBattleRequestProto_Builder*) clear;
+- (BeginPvpBattleRequestProto_Builder*) clone;
+
+- (BeginPvpBattleRequestProto*) build;
+- (BeginPvpBattleRequestProto*) buildPartial;
+
+- (BeginPvpBattleRequestProto_Builder*) mergeFrom:(BeginPvpBattleRequestProto*) other;
+- (BeginPvpBattleRequestProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input;
+- (BeginPvpBattleRequestProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+
+- (BOOL) hasSender;
+- (MinimumUserProto*) sender;
+- (BeginPvpBattleRequestProto_Builder*) setSender:(MinimumUserProto*) value;
+- (BeginPvpBattleRequestProto_Builder*) setSenderBuilder:(MinimumUserProto_Builder*) builderForValue;
+- (BeginPvpBattleRequestProto_Builder*) mergeSender:(MinimumUserProto*) value;
+- (BeginPvpBattleRequestProto_Builder*) clearSender;
+
+- (BOOL) hasSenderElo;
+- (int32_t) senderElo;
+- (BeginPvpBattleRequestProto_Builder*) setSenderElo:(int32_t) value;
+- (BeginPvpBattleRequestProto_Builder*) clearSenderElo;
+
+- (BOOL) hasAttackStartTime;
+- (int64_t) attackStartTime;
+- (BeginPvpBattleRequestProto_Builder*) setAttackStartTime:(int64_t) value;
+- (BeginPvpBattleRequestProto_Builder*) clearAttackStartTime;
+
+- (BOOL) hasEnemy;
+- (PvpProto*) enemy;
+- (BeginPvpBattleRequestProto_Builder*) setEnemy:(PvpProto*) value;
+- (BeginPvpBattleRequestProto_Builder*) setEnemyBuilder:(PvpProto_Builder*) builderForValue;
+- (BeginPvpBattleRequestProto_Builder*) mergeEnemy:(PvpProto*) value;
+- (BeginPvpBattleRequestProto_Builder*) clearEnemy;
+@end
+
+@interface BeginPvpBattleResponseProto : PBGeneratedMessage {
+@private
+  BOOL hasSender_:1;
+  BOOL hasStatus_:1;
+  MinimumUserProto* sender;
+  BeginPvpBattleResponseProto_BeginPvpBattleStatus status;
+}
+- (BOOL) hasSender;
+- (BOOL) hasStatus;
+@property (readonly, retain) MinimumUserProto* sender;
+@property (readonly) BeginPvpBattleResponseProto_BeginPvpBattleStatus status;
+
++ (BeginPvpBattleResponseProto*) defaultInstance;
+- (BeginPvpBattleResponseProto*) defaultInstance;
+
+- (BOOL) isInitialized;
+- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output;
+- (BeginPvpBattleResponseProto_Builder*) builder;
++ (BeginPvpBattleResponseProto_Builder*) builder;
++ (BeginPvpBattleResponseProto_Builder*) builderWithPrototype:(BeginPvpBattleResponseProto*) prototype;
+
++ (BeginPvpBattleResponseProto*) parseFromData:(NSData*) data;
++ (BeginPvpBattleResponseProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (BeginPvpBattleResponseProto*) parseFromInputStream:(NSInputStream*) input;
++ (BeginPvpBattleResponseProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (BeginPvpBattleResponseProto*) parseFromCodedInputStream:(PBCodedInputStream*) input;
++ (BeginPvpBattleResponseProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+@end
+
+@interface BeginPvpBattleResponseProto_Builder : PBGeneratedMessage_Builder {
+@private
+  BeginPvpBattleResponseProto* result;
+}
+
+- (BeginPvpBattleResponseProto*) defaultInstance;
+
+- (BeginPvpBattleResponseProto_Builder*) clear;
+- (BeginPvpBattleResponseProto_Builder*) clone;
+
+- (BeginPvpBattleResponseProto*) build;
+- (BeginPvpBattleResponseProto*) buildPartial;
+
+- (BeginPvpBattleResponseProto_Builder*) mergeFrom:(BeginPvpBattleResponseProto*) other;
+- (BeginPvpBattleResponseProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input;
+- (BeginPvpBattleResponseProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+
+- (BOOL) hasSender;
+- (MinimumUserProto*) sender;
+- (BeginPvpBattleResponseProto_Builder*) setSender:(MinimumUserProto*) value;
+- (BeginPvpBattleResponseProto_Builder*) setSenderBuilder:(MinimumUserProto_Builder*) builderForValue;
+- (BeginPvpBattleResponseProto_Builder*) mergeSender:(MinimumUserProto*) value;
+- (BeginPvpBattleResponseProto_Builder*) clearSender;
+
+- (BOOL) hasStatus;
+- (BeginPvpBattleResponseProto_BeginPvpBattleStatus) status;
+- (BeginPvpBattleResponseProto_Builder*) setStatus:(BeginPvpBattleResponseProto_BeginPvpBattleStatus) value;
+- (BeginPvpBattleResponseProto_Builder*) clearStatus;
+@end
+
+@interface EndPvpBattleRequestProto : PBGeneratedMessage {
+@private
+  BOOL hasUserAttacked_:1;
+  BOOL hasUserWon_:1;
+  BOOL hasClientTime_:1;
+  BOOL hasDefenderId_:1;
+  BOOL hasOilChange_:1;
+  BOOL hasCashChange_:1;
+  BOOL hasSender_:1;
+  BOOL userAttacked_:1;
+  BOOL userWon_:1;
+  int64_t clientTime;
+  int32_t defenderId;
+  int32_t oilChange;
+  int32_t cashChange;
+  MinimumUserProtoWithMaxResources* sender;
+}
+- (BOOL) hasSender;
+- (BOOL) hasDefenderId;
+- (BOOL) hasUserAttacked;
+- (BOOL) hasUserWon;
+- (BOOL) hasClientTime;
+- (BOOL) hasOilChange;
+- (BOOL) hasCashChange;
+@property (readonly, retain) MinimumUserProtoWithMaxResources* sender;
+@property (readonly) int32_t defenderId;
+- (BOOL) userAttacked;
+- (BOOL) userWon;
+@property (readonly) int64_t clientTime;
+@property (readonly) int32_t oilChange;
+@property (readonly) int32_t cashChange;
+
++ (EndPvpBattleRequestProto*) defaultInstance;
+- (EndPvpBattleRequestProto*) defaultInstance;
+
+- (BOOL) isInitialized;
+- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output;
+- (EndPvpBattleRequestProto_Builder*) builder;
++ (EndPvpBattleRequestProto_Builder*) builder;
++ (EndPvpBattleRequestProto_Builder*) builderWithPrototype:(EndPvpBattleRequestProto*) prototype;
+
++ (EndPvpBattleRequestProto*) parseFromData:(NSData*) data;
++ (EndPvpBattleRequestProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (EndPvpBattleRequestProto*) parseFromInputStream:(NSInputStream*) input;
++ (EndPvpBattleRequestProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (EndPvpBattleRequestProto*) parseFromCodedInputStream:(PBCodedInputStream*) input;
++ (EndPvpBattleRequestProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+@end
+
+@interface EndPvpBattleRequestProto_Builder : PBGeneratedMessage_Builder {
+@private
+  EndPvpBattleRequestProto* result;
+}
+
+- (EndPvpBattleRequestProto*) defaultInstance;
+
+- (EndPvpBattleRequestProto_Builder*) clear;
+- (EndPvpBattleRequestProto_Builder*) clone;
+
+- (EndPvpBattleRequestProto*) build;
+- (EndPvpBattleRequestProto*) buildPartial;
+
+- (EndPvpBattleRequestProto_Builder*) mergeFrom:(EndPvpBattleRequestProto*) other;
+- (EndPvpBattleRequestProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input;
+- (EndPvpBattleRequestProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+
+- (BOOL) hasSender;
+- (MinimumUserProtoWithMaxResources*) sender;
+- (EndPvpBattleRequestProto_Builder*) setSender:(MinimumUserProtoWithMaxResources*) value;
+- (EndPvpBattleRequestProto_Builder*) setSenderBuilder:(MinimumUserProtoWithMaxResources_Builder*) builderForValue;
+- (EndPvpBattleRequestProto_Builder*) mergeSender:(MinimumUserProtoWithMaxResources*) value;
+- (EndPvpBattleRequestProto_Builder*) clearSender;
+
+- (BOOL) hasDefenderId;
+- (int32_t) defenderId;
+- (EndPvpBattleRequestProto_Builder*) setDefenderId:(int32_t) value;
+- (EndPvpBattleRequestProto_Builder*) clearDefenderId;
+
+- (BOOL) hasUserAttacked;
+- (BOOL) userAttacked;
+- (EndPvpBattleRequestProto_Builder*) setUserAttacked:(BOOL) value;
+- (EndPvpBattleRequestProto_Builder*) clearUserAttacked;
+
+- (BOOL) hasUserWon;
+- (BOOL) userWon;
+- (EndPvpBattleRequestProto_Builder*) setUserWon:(BOOL) value;
+- (EndPvpBattleRequestProto_Builder*) clearUserWon;
+
+- (BOOL) hasClientTime;
+- (int64_t) clientTime;
+- (EndPvpBattleRequestProto_Builder*) setClientTime:(int64_t) value;
+- (EndPvpBattleRequestProto_Builder*) clearClientTime;
+
+- (BOOL) hasOilChange;
+- (int32_t) oilChange;
+- (EndPvpBattleRequestProto_Builder*) setOilChange:(int32_t) value;
+- (EndPvpBattleRequestProto_Builder*) clearOilChange;
+
+- (BOOL) hasCashChange;
+- (int32_t) cashChange;
+- (EndPvpBattleRequestProto_Builder*) setCashChange:(int32_t) value;
+- (EndPvpBattleRequestProto_Builder*) clearCashChange;
+@end
+
+@interface EndPvpBattleResponseProto : PBGeneratedMessage {
+@private
+  BOOL hasAttackerAttacked_:1;
+  BOOL hasAttackerWon_:1;
+  BOOL hasDefenderId_:1;
+  BOOL hasSender_:1;
+  BOOL hasStatus_:1;
+  BOOL attackerAttacked_:1;
+  BOOL attackerWon_:1;
+  int32_t defenderId;
+  MinimumUserProtoWithMaxResources* sender;
+  EndPvpBattleResponseProto_EndPvpBattleStatus status;
+}
+- (BOOL) hasSender;
+- (BOOL) hasDefenderId;
+- (BOOL) hasAttackerAttacked;
+- (BOOL) hasAttackerWon;
+- (BOOL) hasStatus;
+@property (readonly, retain) MinimumUserProtoWithMaxResources* sender;
+@property (readonly) int32_t defenderId;
+- (BOOL) attackerAttacked;
+- (BOOL) attackerWon;
+@property (readonly) EndPvpBattleResponseProto_EndPvpBattleStatus status;
+
++ (EndPvpBattleResponseProto*) defaultInstance;
+- (EndPvpBattleResponseProto*) defaultInstance;
+
+- (BOOL) isInitialized;
+- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output;
+- (EndPvpBattleResponseProto_Builder*) builder;
++ (EndPvpBattleResponseProto_Builder*) builder;
++ (EndPvpBattleResponseProto_Builder*) builderWithPrototype:(EndPvpBattleResponseProto*) prototype;
+
++ (EndPvpBattleResponseProto*) parseFromData:(NSData*) data;
++ (EndPvpBattleResponseProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (EndPvpBattleResponseProto*) parseFromInputStream:(NSInputStream*) input;
++ (EndPvpBattleResponseProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (EndPvpBattleResponseProto*) parseFromCodedInputStream:(PBCodedInputStream*) input;
++ (EndPvpBattleResponseProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+@end
+
+@interface EndPvpBattleResponseProto_Builder : PBGeneratedMessage_Builder {
+@private
+  EndPvpBattleResponseProto* result;
+}
+
+- (EndPvpBattleResponseProto*) defaultInstance;
+
+- (EndPvpBattleResponseProto_Builder*) clear;
+- (EndPvpBattleResponseProto_Builder*) clone;
+
+- (EndPvpBattleResponseProto*) build;
+- (EndPvpBattleResponseProto*) buildPartial;
+
+- (EndPvpBattleResponseProto_Builder*) mergeFrom:(EndPvpBattleResponseProto*) other;
+- (EndPvpBattleResponseProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input;
+- (EndPvpBattleResponseProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+
+- (BOOL) hasSender;
+- (MinimumUserProtoWithMaxResources*) sender;
+- (EndPvpBattleResponseProto_Builder*) setSender:(MinimumUserProtoWithMaxResources*) value;
+- (EndPvpBattleResponseProto_Builder*) setSenderBuilder:(MinimumUserProtoWithMaxResources_Builder*) builderForValue;
+- (EndPvpBattleResponseProto_Builder*) mergeSender:(MinimumUserProtoWithMaxResources*) value;
+- (EndPvpBattleResponseProto_Builder*) clearSender;
+
+- (BOOL) hasDefenderId;
+- (int32_t) defenderId;
+- (EndPvpBattleResponseProto_Builder*) setDefenderId:(int32_t) value;
+- (EndPvpBattleResponseProto_Builder*) clearDefenderId;
+
+- (BOOL) hasAttackerAttacked;
+- (BOOL) attackerAttacked;
+- (EndPvpBattleResponseProto_Builder*) setAttackerAttacked:(BOOL) value;
+- (EndPvpBattleResponseProto_Builder*) clearAttackerAttacked;
+
+- (BOOL) hasAttackerWon;
+- (BOOL) attackerWon;
+- (EndPvpBattleResponseProto_Builder*) setAttackerWon:(BOOL) value;
+- (EndPvpBattleResponseProto_Builder*) clearAttackerWon;
+
+- (BOOL) hasStatus;
+- (EndPvpBattleResponseProto_EndPvpBattleStatus) status;
+- (EndPvpBattleResponseProto_Builder*) setStatus:(EndPvpBattleResponseProto_EndPvpBattleStatus) value;
+- (EndPvpBattleResponseProto_Builder*) clearStatus;
 @end
 

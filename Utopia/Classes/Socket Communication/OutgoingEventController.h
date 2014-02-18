@@ -71,6 +71,11 @@
 - (void) beginDungeon:(int)taskId isEvent:(BOOL)isEvent eventId:(int)eventId useGems:(BOOL)useGems withDelegate:(id)delegate;
 - (void) updateMonsterHealth:(int)userMonsterId curHealth:(int)curHealth;
 - (void) endDungeon:(BeginDungeonResponseProto *)dungeonInfo userWon:(BOOL)userWon delegate:(id)delegate;
+- (void) reviveInDungeon:(uint64_t)userTaskId myTeam:(NSArray *)team;
+
+- (void) queueUpEvent:(NSArray *)seenUserIds withDelegate:(id)delegate;
+- (BOOL) viewNextPvpGuy:(BOOL)useGems;
+- (void) beginPvpBattle:(PvpProto *)proto;
 
 - (BOOL) removeMonsterFromTeam:(int)userMonsterId;
 - (BOOL) addMonsterToTeam:(int)userMonsterId;

@@ -287,31 +287,21 @@
                             <color key="shadowColor" white="0.0" alpha="0.25" colorSpace="calibratedWhite"/>
                             <size key="shadowOffset" width="0.0" height="1"/>
                         </label>
-                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="L5T-AF-h7c">
-                            <rect key="frame" x="249" y="0.0" width="35" height="35"/>
-                            <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxY="YES"/>
-                            <state key="normal" image="gacharevealclosex.png">
-                                <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                            </state>
-                            <connections>
-                                <action selector="closeClicked:" destination="wBp-uJ-7UM" eventType="touchUpInside" id="RVh-vF-4wS"/>
-                            </connections>
-                        </button>
-                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="JaG-Er-WKa">
-                            <rect key="frame" x="39" y="193" width="86" height="31"/>
-                            <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                            <state key="normal" image="spinbutton.png">
-                                <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                            </state>
-                            <connections>
-                                <action selector="closeClicked:" destination="wBp-uJ-7UM" eventType="touchUpInside" id="r6r-nP-WAc"/>
-                                <action selector="spinClicked:" destination="-1" eventType="touchUpInside" id="pc6-YA-0Mg"/>
-                            </connections>
-                        </button>
-                        <view userInteractionEnabled="NO" contentMode="scaleToFill" id="n1L-do-Zng">
+                        <view multipleTouchEnabled="YES" contentMode="scaleToFill" id="n1L-do-Zng">
                             <rect key="frame" x="39" y="193" width="86" height="31"/>
                             <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             <subviews>
+                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="JaG-Er-WKa">
+                                    <rect key="frame" x="0.0" y="0.0" width="86" height="31"/>
+                                    <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                    <state key="normal" image="spinbutton.png">
+                                        <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                    </state>
+                                    <connections>
+                                        <action selector="closeClicked:" destination="wBp-uJ-7UM" eventType="touchUpInside" id="r6r-nP-WAc"/>
+                                        <action selector="spinClicked:" destination="-1" eventType="touchUpInside" id="pc6-YA-0Mg"/>
+                                    </connections>
+                                </button>
                                 <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="SPIN" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="zvz-Oq-VgU" customClass="NiceFontLabel">
                                     <rect key="frame" x="52" y="2" width="43" height="28"/>
                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
@@ -321,7 +311,7 @@
                                     <color key="shadowColor" red="0.0" green="0.0" blue="0.0" alpha="0.29999999999999999" colorSpace="calibratedRGB"/>
                                     <size key="shadowOffset" width="0.0" height="1"/>
                                 </label>
-                                <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleAspectFit" image="diamond.png" id="KNg-hC-tr4">
+                                <imageView opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" image="diamond.png" id="KNg-hC-tr4">
                                     <rect key="frame" x="29" y="5" width="22" height="20"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                 </imageView>
@@ -337,6 +327,16 @@
                             </subviews>
                             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                         </view>
+                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="L5T-AF-h7c">
+                            <rect key="frame" x="249" y="0.0" width="35" height="35"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxY="YES"/>
+                            <state key="normal" image="gacharevealclosex.png">
+                                <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                            </state>
+                            <connections>
+                                <action selector="closeClicked:" destination="wBp-uJ-7UM" eventType="touchUpInside" id="RVh-vF-4wS"/>
+                            </connections>
+                        </button>
                     </subviews>
                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                 </view>
@@ -372,6 +372,10 @@
                 <outlet property="pieceLabel" destination="UnX-tf-Lrl" id="y92-uY-OGG"/>
                 <outlet property="rarityIcon" destination="4WC-FL-4u7" id="dL6-lO-wX3"/>
                 <outlet property="rarityLabel" destination="KuP-aq-pcm" id="48F-T7-Rav"/>
+                <outletCollection property="animateViews" destination="sCV-s9-ex1" id="lKb-ld-lM9"/>
+                <outletCollection property="animateViews" destination="R3D-dd-fM1" id="eDd-Lt-zeC"/>
+                <outletCollection property="animateViews" destination="mcg-qG-Ncj" id="crg-gK-hiL"/>
+                <outletCollection property="animateViews" destination="n1L-do-Zng" id="ZXa-44-DjQ"/>
             </connections>
         </view>
         <view contentMode="scaleToFill" id="cUc-rB-fB8" userLabel="Title View" customClass="CoinBar">

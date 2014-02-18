@@ -105,14 +105,14 @@
     [self refresh];
     [self moveToCenterAnimated:NO];
     
-    CCSprite *s1 = [CCSprite spriteWithImageNamed:@"missionmap.png"];
+    CCSprite *s1 = [CCSprite spriteWithImageNamed:@"missionmap2.png"];
     [self addChild:s1 z:-1000];
     
     s1.position = ccp(s1.contentSize.width/2-33, s1.contentSize.height/2-50);
     
-    CCSprite *road = [CCSprite spriteWithImageNamed:@"homeroad.png"];
-    [self addChild:road z:-998];
-    road.position = ccp(self.contentSize.width/2-17, self.contentSize.height/2-7);
+//    CCSprite *road = [CCSprite spriteWithImageNamed:@"homeroad.png"];
+//    [self addChild:road z:-998];
+//    road.position = ccp(self.contentSize.width/2-17, self.contentSize.height/2-7);
     
     bottomLeftCorner = ccp(s1.position.x-s1.contentSize.width/2, s1.position.y-s1.contentSize.height/2);
     topRightCorner = ccp(s1.position.x+s1.contentSize.width/2, s1.position.y+s1.contentSize.height/2);
@@ -403,6 +403,7 @@
   _purchBuilding.isPurchasing = YES;
   
   [self addChild:_purchBuilding];
+  [_purchBuilding placeBlock];
   
   _canMove = YES;
   _purchasing = YES;
@@ -691,8 +692,6 @@
       int gemCost = [gl calculateGemSpeedupCostForTimeLeft:timeLeft];
       [GenericPopupController displayConfirmationWithDescription:[NSString stringWithFormat:@"A building is already constructing. Speed it up for %@ gems and purchase this building?", [Globals commafyNumber:gemCost]] title:@"Already Constructing" okayButton:@"Speed Up" cancelButton:@"Cancel" target:self selector:@selector(speedupBuildingAndUpgradeOrPurchase)];
     } else {
-      _purchasing = NO;
-      
       int cost = fsp.buildCost;
       BOOL isOilBuilding = fsp.buildResourceType == ResourceTypeOil;
       int curAmount = isOilBuilding ? gs.oil : gs.silver;
@@ -742,6 +741,7 @@
     [homeBuilding removeChildByName:PURCHASE_CONFIRM_MENU_TAG cleanup:YES];
     
     _canMove = NO;
+    _purchasing = NO;
     
     [self reselectCurrentSelection];
   } else {
@@ -891,7 +891,7 @@
     int timeLeft = us.timeLeftForBuildComplete;
     int gemCost = [gl calculateGemSpeedupCostForTimeLeft:timeLeft];
     if (gs.gold < gemCost) {
-      //      [[RefillMenuController sharedRefillMenuController] displayBuyGoldView:goldCost];
+      [GenericPopupController displayNotEnoughGemsView];
     } else {
       [[OutgoingEventController sharedOutgoingEventController] instaUpgrade:mb.userStruct];
       if (us.isComplete) {

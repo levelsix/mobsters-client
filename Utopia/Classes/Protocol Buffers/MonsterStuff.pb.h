@@ -4,8 +4,12 @@
 
 @class FullUserMonsterProto;
 @class FullUserMonsterProto_Builder;
+@class MinimumUserMonsterProto;
+@class MinimumUserMonsterProto_Builder;
 @class MinimumUserMonsterSellProto;
 @class MinimumUserMonsterSellProto_Builder;
+@class MonsterBattleDialogueProto;
+@class MonsterBattleDialogueProto_Builder;
 @class MonsterLevelInfoProto;
 @class MonsterLevelInfoProto_Builder;
 @class MonsterProto;
@@ -45,6 +49,12 @@ typedef enum {
 } MonsterProto_MonsterElement;
 
 BOOL MonsterProto_MonsterElementIsValidValue(MonsterProto_MonsterElement value);
+
+typedef enum {
+  MonsterBattleDialogueProto_DialogueTypeEnterBattle = 1,
+} MonsterBattleDialogueProto_DialogueType;
+
+BOOL MonsterBattleDialogueProto_DialogueTypeIsValidValue(MonsterBattleDialogueProto_DialogueType value);
 
 
 @interface MonsterStuffRoot : NSObject {
@@ -288,6 +298,7 @@ BOOL MonsterProto_MonsterElementIsValidValue(MonsterProto_MonsterElement value);
   BOOL hasHp_:1;
   BOOL hasCurLvlRequiredExp_:1;
   BOOL hasFeederExp_:1;
+  BOOL hasSpeed_:1;
   BOOL hasFireDmg_:1;
   BOOL hasGrassDmg_:1;
   BOOL hasWaterDmg_:1;
@@ -298,6 +309,7 @@ BOOL MonsterProto_MonsterElementIsValidValue(MonsterProto_MonsterElement value);
   int32_t hp;
   int32_t curLvlRequiredExp;
   int32_t feederExp;
+  int32_t speed;
   int32_t fireDmg;
   int32_t grassDmg;
   int32_t waterDmg;
@@ -315,6 +327,7 @@ BOOL MonsterProto_MonsterElementIsValidValue(MonsterProto_MonsterElement value);
 - (BOOL) hasLightningDmg;
 - (BOOL) hasDarknessDmg;
 - (BOOL) hasRockDmg;
+- (BOOL) hasSpeed;
 @property (readonly) int32_t lvl;
 @property (readonly) int32_t hp;
 @property (readonly) int32_t curLvlRequiredExp;
@@ -325,6 +338,7 @@ BOOL MonsterProto_MonsterElementIsValidValue(MonsterProto_MonsterElement value);
 @property (readonly) int32_t lightningDmg;
 @property (readonly) int32_t darknessDmg;
 @property (readonly) int32_t rockDmg;
+@property (readonly) int32_t speed;
 
 + (MonsterLevelInfoProto*) defaultInstance;
 - (MonsterLevelInfoProto*) defaultInstance;
@@ -409,6 +423,11 @@ BOOL MonsterProto_MonsterElementIsValidValue(MonsterProto_MonsterElement value);
 - (int32_t) rockDmg;
 - (MonsterLevelInfoProto_Builder*) setRockDmg:(int32_t) value;
 - (MonsterLevelInfoProto_Builder*) clearRockDmg;
+
+- (BOOL) hasSpeed;
+- (int32_t) speed;
+- (MonsterLevelInfoProto_Builder*) setSpeed:(int32_t) value;
+- (MonsterLevelInfoProto_Builder*) clearSpeed;
 @end
 
 @interface FullUserMonsterProto : PBGeneratedMessage {
@@ -538,6 +557,63 @@ BOOL MonsterProto_MonsterElementIsValidValue(MonsterProto_MonsterElement value);
 - (int32_t) teamSlotNum;
 - (FullUserMonsterProto_Builder*) setTeamSlotNum:(int32_t) value;
 - (FullUserMonsterProto_Builder*) clearTeamSlotNum;
+@end
+
+@interface MinimumUserMonsterProto : PBGeneratedMessage {
+@private
+  BOOL hasMonsterId_:1;
+  BOOL hasMonsterLvl_:1;
+  int32_t monsterId;
+  int32_t monsterLvl;
+}
+- (BOOL) hasMonsterId;
+- (BOOL) hasMonsterLvl;
+@property (readonly) int32_t monsterId;
+@property (readonly) int32_t monsterLvl;
+
++ (MinimumUserMonsterProto*) defaultInstance;
+- (MinimumUserMonsterProto*) defaultInstance;
+
+- (BOOL) isInitialized;
+- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output;
+- (MinimumUserMonsterProto_Builder*) builder;
++ (MinimumUserMonsterProto_Builder*) builder;
++ (MinimumUserMonsterProto_Builder*) builderWithPrototype:(MinimumUserMonsterProto*) prototype;
+
++ (MinimumUserMonsterProto*) parseFromData:(NSData*) data;
++ (MinimumUserMonsterProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (MinimumUserMonsterProto*) parseFromInputStream:(NSInputStream*) input;
++ (MinimumUserMonsterProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (MinimumUserMonsterProto*) parseFromCodedInputStream:(PBCodedInputStream*) input;
++ (MinimumUserMonsterProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+@end
+
+@interface MinimumUserMonsterProto_Builder : PBGeneratedMessage_Builder {
+@private
+  MinimumUserMonsterProto* result;
+}
+
+- (MinimumUserMonsterProto*) defaultInstance;
+
+- (MinimumUserMonsterProto_Builder*) clear;
+- (MinimumUserMonsterProto_Builder*) clone;
+
+- (MinimumUserMonsterProto*) build;
+- (MinimumUserMonsterProto*) buildPartial;
+
+- (MinimumUserMonsterProto_Builder*) mergeFrom:(MinimumUserMonsterProto*) other;
+- (MinimumUserMonsterProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input;
+- (MinimumUserMonsterProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+
+- (BOOL) hasMonsterId;
+- (int32_t) monsterId;
+- (MinimumUserMonsterProto_Builder*) setMonsterId:(int32_t) value;
+- (MinimumUserMonsterProto_Builder*) clearMonsterId;
+
+- (BOOL) hasMonsterLvl;
+- (int32_t) monsterLvl;
+- (MinimumUserMonsterProto_Builder*) setMonsterLvl:(int32_t) value;
+- (MinimumUserMonsterProto_Builder*) clearMonsterLvl;
 @end
 
 @interface UserMonsterHealingProto : PBGeneratedMessage {
@@ -1062,5 +1138,80 @@ BOOL MonsterProto_MonsterElementIsValidValue(MonsterProto_MonsterElement value);
 - (int64_t) startTime;
 - (UserMonsterEvolutionProto_Builder*) setStartTime:(int64_t) value;
 - (UserMonsterEvolutionProto_Builder*) clearStartTime;
+@end
+
+@interface MonsterBattleDialogueProto : PBGeneratedMessage {
+@private
+  BOOL hasProbabilityUttered_:1;
+  BOOL hasMonsterId_:1;
+  BOOL hasDialogue_:1;
+  BOOL hasDialogueType_:1;
+  Float32 probabilityUttered;
+  int32_t monsterId;
+  NSString* dialogue;
+  MonsterBattleDialogueProto_DialogueType dialogueType;
+}
+- (BOOL) hasMonsterId;
+- (BOOL) hasDialogueType;
+- (BOOL) hasDialogue;
+- (BOOL) hasProbabilityUttered;
+@property (readonly) int32_t monsterId;
+@property (readonly) MonsterBattleDialogueProto_DialogueType dialogueType;
+@property (readonly, retain) NSString* dialogue;
+@property (readonly) Float32 probabilityUttered;
+
++ (MonsterBattleDialogueProto*) defaultInstance;
+- (MonsterBattleDialogueProto*) defaultInstance;
+
+- (BOOL) isInitialized;
+- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output;
+- (MonsterBattleDialogueProto_Builder*) builder;
++ (MonsterBattleDialogueProto_Builder*) builder;
++ (MonsterBattleDialogueProto_Builder*) builderWithPrototype:(MonsterBattleDialogueProto*) prototype;
+
++ (MonsterBattleDialogueProto*) parseFromData:(NSData*) data;
++ (MonsterBattleDialogueProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (MonsterBattleDialogueProto*) parseFromInputStream:(NSInputStream*) input;
++ (MonsterBattleDialogueProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (MonsterBattleDialogueProto*) parseFromCodedInputStream:(PBCodedInputStream*) input;
++ (MonsterBattleDialogueProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+@end
+
+@interface MonsterBattleDialogueProto_Builder : PBGeneratedMessage_Builder {
+@private
+  MonsterBattleDialogueProto* result;
+}
+
+- (MonsterBattleDialogueProto*) defaultInstance;
+
+- (MonsterBattleDialogueProto_Builder*) clear;
+- (MonsterBattleDialogueProto_Builder*) clone;
+
+- (MonsterBattleDialogueProto*) build;
+- (MonsterBattleDialogueProto*) buildPartial;
+
+- (MonsterBattleDialogueProto_Builder*) mergeFrom:(MonsterBattleDialogueProto*) other;
+- (MonsterBattleDialogueProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input;
+- (MonsterBattleDialogueProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+
+- (BOOL) hasMonsterId;
+- (int32_t) monsterId;
+- (MonsterBattleDialogueProto_Builder*) setMonsterId:(int32_t) value;
+- (MonsterBattleDialogueProto_Builder*) clearMonsterId;
+
+- (BOOL) hasDialogueType;
+- (MonsterBattleDialogueProto_DialogueType) dialogueType;
+- (MonsterBattleDialogueProto_Builder*) setDialogueType:(MonsterBattleDialogueProto_DialogueType) value;
+- (MonsterBattleDialogueProto_Builder*) clearDialogueType;
+
+- (BOOL) hasDialogue;
+- (NSString*) dialogue;
+- (MonsterBattleDialogueProto_Builder*) setDialogue:(NSString*) value;
+- (MonsterBattleDialogueProto_Builder*) clearDialogue;
+
+- (BOOL) hasProbabilityUttered;
+- (Float32) probabilityUttered;
+- (MonsterBattleDialogueProto_Builder*) setProbabilityUttered:(Float32) value;
+- (MonsterBattleDialogueProto_Builder*) clearProbabilityUttered;
 @end
 

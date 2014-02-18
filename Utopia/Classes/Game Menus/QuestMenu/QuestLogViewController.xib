@@ -12,6 +12,7 @@
                 <outlet property="detailsContainerView" destination="Vwc-lL-Ycx" id="Svd-lN-fQo"/>
                 <outlet property="listContainerView" destination="AOV-Ck-1vZ" id="5fm-YO-UUD"/>
                 <outlet property="mainView" destination="KEj-6n-KKN" id="GhC-g1-3qJ"/>
+                <outlet property="questGiverImageView" destination="ac8-3z-TNx" id="MXF-pE-a33"/>
                 <outlet property="titleLabel" destination="mnu-xd-ccU" id="YIt-ye-xfM"/>
                 <outlet property="view" destination="1" id="3"/>
             </connections>
@@ -26,17 +27,21 @@
                     <autoresizingMask key="autoresizingMask"/>
                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                 </imageView>
+                <imageView opaque="NO" multipleTouchEnabled="YES" contentMode="top" image="Clown4ShotgunBig.png" id="ac8-3z-TNx">
+                    <rect key="frame" x="-200" y="25" width="152" height="320"/>
+                    <autoresizingMask key="autoresizingMask"/>
+                </imageView>
                 <view contentMode="scaleToFill" id="KEj-6n-KKN">
-                    <rect key="frame" x="44" y="0.0" width="480" height="320"/>
-                    <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES"/>
+                    <rect key="frame" x="97" y="0.0" width="374" height="320"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
                     <subviews>
                         <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="notifcationsbg.png" id="w3X-Bw-xa8">
-                            <rect key="frame" x="53" y="7" width="374" height="305"/>
+                            <rect key="frame" x="0.0" y="7" width="374" height="305"/>
                             <autoresizingMask key="autoresizingMask"/>
                             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                         </imageView>
                         <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Quests" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="11" id="mnu-xd-ccU" customClass="NiceFontLabel">
-                            <rect key="frame" x="105" y="19" width="271" height="31"/>
+                            <rect key="frame" x="52" y="19" width="271" height="31"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             <fontDescription key="fontDescription" type="system" pointSize="22"/>
                             <color key="textColor" white="0.0" alpha="0.80000000000000004" colorSpace="calibratedWhite"/>
@@ -45,7 +50,7 @@
                             <size key="shadowOffset" width="0.0" height="1"/>
                         </label>
                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="ZqV-Me-mhg">
-                            <rect key="frame" x="382" y="21" width="30" height="29"/>
+                            <rect key="frame" x="329" y="21" width="30" height="29"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             <fontDescription key="fontDescription" type="system" pointSize="15"/>
                             <state key="normal" image="close1.png">
@@ -56,17 +61,17 @@
                             </connections>
                         </button>
                         <view clipsSubviews="YES" contentMode="scaleToFill" id="AOV-Ck-1vZ">
-                            <rect key="frame" x="62" y="59" width="356" height="243"/>
+                            <rect key="frame" x="9" y="59" width="356" height="243"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                         </view>
                         <view clipsSubviews="YES" contentMode="scaleToFill" id="Vwc-lL-Ycx">
-                            <rect key="frame" x="52" y="59" width="366" height="243"/>
+                            <rect key="frame" x="-1" y="59" width="366" height="243"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                         </view>
                         <view alpha="0.0" contentMode="scaleToFill" id="Ytp-1u-aeh">
-                            <rect key="frame" x="68" y="17" width="71" height="36"/>
+                            <rect key="frame" x="15" y="17" width="71" height="36"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             <subviews>
                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="gaI-dM-sxc">
@@ -106,6 +111,7 @@
         </view>
     </objects>
     <resources>
+        <image name="Clown4ShotgunBig.png" width="227" height="295"/>
         <image name="close1.png" width="30" height="29"/>
         <image name="menuback.png" width="71" height="32"/>
         <image name="notifcationsbg.png" width="374" height="305"/>

@@ -64,6 +64,8 @@
 @class LabProto_Builder;
 @class MinimumClanProto;
 @class MinimumClanProto_Builder;
+@class MinimumUserMonsterProto;
+@class MinimumUserMonsterProto_Builder;
 @class MinimumUserMonsterSellProto;
 @class MinimumUserMonsterSellProto_Builder;
 @class MinimumUserProto;
@@ -80,6 +82,8 @@
 @class MinimumUserProto_Builder;
 @class MinimumUserTaskProto;
 @class MinimumUserTaskProto_Builder;
+@class MonsterBattleDialogueProto;
+@class MonsterBattleDialogueProto_Builder;
 @class MonsterLevelInfoProto;
 @class MonsterLevelInfoProto_Builder;
 @class MonsterProto;
@@ -88,6 +92,8 @@
 @class PersistentEventProto_Builder;
 @class PrivateChatPostProto;
 @class PrivateChatPostProto_Builder;
+@class PvpProto;
+@class PvpProto_Builder;
 @class RareBoosterPurchaseProto;
 @class RareBoosterPurchaseProto_Builder;
 @class ResidenceProto;
@@ -175,6 +181,7 @@ BOOL StartupResponseProto_StartupStatusIsValidValue(StartupResponseProto_Startup
 @interface StartupRequestProto : PBGeneratedMessage {
 @private
   BOOL hasIsForceTutorial_:1;
+  BOOL hasIsFreshRestart_:1;
   BOOL hasVersionNum_:1;
   BOOL hasUdid_:1;
   BOOL hasApsalarId_:1;
@@ -182,6 +189,7 @@ BOOL StartupResponseProto_StartupStatusIsValidValue(StartupResponseProto_Startup
   BOOL hasAdvertiserId_:1;
   BOOL hasFbId_:1;
   BOOL isForceTutorial_:1;
+  BOOL isFreshRestart_:1;
   Float32 versionNum;
   NSString* udid;
   NSString* apsalarId;
@@ -196,6 +204,7 @@ BOOL StartupResponseProto_StartupStatusIsValidValue(StartupResponseProto_Startup
 - (BOOL) hasAdvertiserId;
 - (BOOL) hasIsForceTutorial;
 - (BOOL) hasFbId;
+- (BOOL) hasIsFreshRestart;
 @property (readonly, retain) NSString* udid;
 @property (readonly) Float32 versionNum;
 @property (readonly, retain) NSString* apsalarId;
@@ -203,6 +212,7 @@ BOOL StartupResponseProto_StartupStatusIsValidValue(StartupResponseProto_Startup
 @property (readonly, retain) NSString* advertiserId;
 - (BOOL) isForceTutorial;
 @property (readonly, retain) NSString* fbId;
+- (BOOL) isFreshRestart;
 
 + (StartupRequestProto*) defaultInstance;
 - (StartupRequestProto*) defaultInstance;
@@ -272,6 +282,11 @@ BOOL StartupResponseProto_StartupStatusIsValidValue(StartupResponseProto_Startup
 - (NSString*) fbId;
 - (StartupRequestProto_Builder*) setFbId:(NSString*) value;
 - (StartupRequestProto_Builder*) clearFbId;
+
+- (BOOL) hasIsFreshRestart;
+- (BOOL) isFreshRestart;
+- (StartupRequestProto_Builder*) setIsFreshRestart:(BOOL) value;
+- (StartupRequestProto_Builder*) clearIsFreshRestart;
 @end
 
 @interface StartupResponseProto : PBGeneratedMessage {
@@ -536,44 +551,46 @@ BOOL StartupResponseProto_StartupStatusIsValidValue(StartupResponseProto_Startup
 
 @interface StartupResponseProto_StartupConstants : PBGeneratedMessage {
 @private
+  BOOL hasContinueBattleGemCostMultiplier_:1;
   BOOL hasGemsPerResource_:1;
   BOOL hasMinutesPerGem_:1;
-  BOOL hasPvpRequiredMinLvl_:1;
-  BOOL hasNumBeginnerSalesAllowed_:1;
-  BOOL hasFbConnectRewardDiamonds_:1;
-  BOOL hasLevelToShowRateUsPopup_:1;
-  BOOL hasNumHoursBeforeReshowingGoldSale_:1;
-  BOOL hasMaxLengthOfChatString_:1;
-  BOOL hasMaxNameLength_:1;
-  BOOL hasMinNameLength_:1;
-  BOOL hasMaxNumOfSingleStruct_:1;
   BOOL hasMaxLevelForUser_:1;
+  BOOL hasMaxNumOfSingleStruct_:1;
+  BOOL hasMinNameLength_:1;
+  BOOL hasMaxNameLength_:1;
+  BOOL hasMaxLengthOfChatString_:1;
+  BOOL hasPvpRequiredMinLvl_:1;
+  BOOL hasNumHoursBeforeReshowingGoldSale_:1;
+  BOOL hasLevelToShowRateUsPopup_:1;
+  BOOL hasFbConnectRewardDiamonds_:1;
+  BOOL hasNumBeginnerSalesAllowed_:1;
   BOOL hasFaqFileName_:1;
-  BOOL hasClanConstants_:1;
-  BOOL hasDownloadableNibConstants_:1;
-  BOOL hasTouramentConstants_:1;
-  BOOL hasAdminChatUserProto_:1;
-  BOOL hasUserMonsterConstants_:1;
   BOOL hasMonsterConstants_:1;
+  BOOL hasUserMonsterConstants_:1;
+  BOOL hasAdminChatUserProto_:1;
+  BOOL hasTouramentConstants_:1;
+  BOOL hasDownloadableNibConstants_:1;
+  BOOL hasClanConstants_:1;
+  Float32 continueBattleGemCostMultiplier;
   Float32 gemsPerResource;
   Float32 minutesPerGem;
-  int32_t pvpRequiredMinLvl;
-  int32_t numBeginnerSalesAllowed;
-  int32_t fbConnectRewardDiamonds;
-  int32_t levelToShowRateUsPopup;
-  int32_t numHoursBeforeReshowingGoldSale;
-  int32_t maxLengthOfChatString;
-  int32_t maxNameLength;
-  int32_t minNameLength;
-  int32_t maxNumOfSingleStruct;
   int32_t maxLevelForUser;
+  int32_t maxNumOfSingleStruct;
+  int32_t minNameLength;
+  int32_t maxNameLength;
+  int32_t maxLengthOfChatString;
+  int32_t pvpRequiredMinLvl;
+  int32_t numHoursBeforeReshowingGoldSale;
+  int32_t levelToShowRateUsPopup;
+  int32_t fbConnectRewardDiamonds;
+  int32_t numBeginnerSalesAllowed;
   NSString* faqFileName;
-  StartupResponseProto_StartupConstants_ClanConstants* clanConstants;
-  StartupResponseProto_StartupConstants_DownloadableNibConstants* downloadableNibConstants;
-  StartupResponseProto_StartupConstants_TournamentConstants* touramentConstants;
-  MinimumUserProto* adminChatUserProto;
-  StartupResponseProto_StartupConstants_UserMonsterConstants* userMonsterConstants;
   StartupResponseProto_StartupConstants_MonsterConstants* monsterConstants;
+  StartupResponseProto_StartupConstants_UserMonsterConstants* userMonsterConstants;
+  MinimumUserProto* adminChatUserProto;
+  StartupResponseProto_StartupConstants_TournamentConstants* touramentConstants;
+  StartupResponseProto_StartupConstants_DownloadableNibConstants* downloadableNibConstants;
+  StartupResponseProto_StartupConstants_ClanConstants* clanConstants;
   NSMutableArray* mutableAnimatedSpriteOffsetsList;
   NSMutableArray* mutableInAppPurchasePackagesList;
 }
@@ -596,6 +613,7 @@ BOOL StartupResponseProto_StartupStatusIsValidValue(StartupResponseProto_Startup
 - (BOOL) hasMinutesPerGem;
 - (BOOL) hasPvpRequiredMinLvl;
 - (BOOL) hasGemsPerResource;
+- (BOOL) hasContinueBattleGemCostMultiplier;
 @property (readonly) int32_t maxLevelForUser;
 @property (readonly) int32_t maxNumOfSingleStruct;
 @property (readonly) int32_t minNameLength;
@@ -615,6 +633,7 @@ BOOL StartupResponseProto_StartupStatusIsValidValue(StartupResponseProto_Startup
 @property (readonly) Float32 minutesPerGem;
 @property (readonly) int32_t pvpRequiredMinLvl;
 @property (readonly) Float32 gemsPerResource;
+@property (readonly) Float32 continueBattleGemCostMultiplier;
 - (NSArray*) inAppPurchasePackagesList;
 - (InAppPurchasePackageProto*) inAppPurchasePackagesAtIndex:(int32_t) index;
 - (NSArray*) animatedSpriteOffsetsList;
@@ -1181,6 +1200,11 @@ BOOL StartupResponseProto_StartupStatusIsValidValue(StartupResponseProto_Startup
 - (Float32) gemsPerResource;
 - (StartupResponseProto_StartupConstants_Builder*) setGemsPerResource:(Float32) value;
 - (StartupResponseProto_StartupConstants_Builder*) clearGemsPerResource;
+
+- (BOOL) hasContinueBattleGemCostMultiplier;
+- (Float32) continueBattleGemCostMultiplier;
+- (StartupResponseProto_StartupConstants_Builder*) setContinueBattleGemCostMultiplier:(Float32) value;
+- (StartupResponseProto_StartupConstants_Builder*) clearContinueBattleGemCostMultiplier;
 @end
 
 @interface StartupResponseProto_Builder : PBGeneratedMessage_Builder {

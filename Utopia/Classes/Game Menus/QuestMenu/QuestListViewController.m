@@ -24,10 +24,8 @@
   
   self.nameLabel.text = quest.name;
   
-  if (quest.questGiverImageSuffix) {
-    //    NSString *file = [@"dialogue" stringByAppendingString:fqp.questGiverImageSuffix];
-    //    [Globals imageNamed:file withView:self.questGiverImageView maskedColor:nil indicator:UIActivityIndicatorViewStyleWhiteLarge clearImageDuringDownload:YES];
-  }
+  NSString *file = [quest.questGiverImageSuffix stringByAppendingString:@"Thumbnail.png"];
+  [Globals imageNamed:file withView:self.questGiverImageView maskedColor:nil indicator:UIActivityIndicatorViewStyleWhiteLarge clearImageDuringDownload:YES];
   
   if (quest.quantity < 100) {
     int progress = userQuest.progress;

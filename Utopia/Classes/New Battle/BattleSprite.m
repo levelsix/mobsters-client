@@ -59,6 +59,48 @@
   return self;
 }
 
+#define FADE_DURATION 0.2f
+#define DELAY_DURATION 5.f
+
+- (void) initiateSpeechBubbleWithText:(NSString *)text completion:(void (^)(void))completion {
+  if (!text) {
+    completion();
+    return;
+  }
+  
+  BattleSpeechBubble *speech = [BattleSpeechBubble speechBubbleWithText:text];
+  
+  // Add it to the parent's parent
+  [self addChild:speech z:7];
+  CGPoint pt = ccp(self.contentSize.width/2, self.contentSize.height-3);
+//  pt = [speech.parent convertToNodeSpace:[self convertToWorldSpace:pt]];
+  speech.position = pt;
+  
+  speech.scale = 0.f;
+  [speech recursivelyApplyOpacity:0.f];
+  [speech runAction:
+   [CCActionSequence actions:
+    [CCActionDelay actionWithDuration:FADE_DURATION*1.5f],
+    [CCActionSpawn actions:
+     [CCActionScaleTo actionWithDuration:FADE_DURATION scale:1.f],
+     [RecursiveFadeTo actionWithDuration:FADE_DURATION opacity:1.f], nil],
+    [CCActionCallFunc actionWithTarget:speech selector:@selector(beginLabelAnimation)],
+    [CCActionDelay actionWithDuration:DELAY_DURATION],
+    [CCActionSpawn actions:
+     [CCActionScaleTo actionWithDuration:FADE_DURATION scale:0.f],
+     [RecursiveFadeTo actionWithDuration:FADE_DURATION opacity:0.f], nil],
+    [CCActionCallBlock actionWithBlock:completion],
+    [CCActionCallFunc actionWithTarget:speech selector:@selector(removeFromParent)],
+    nil]];
+  
+  [self.healthBgd runAction:
+   [CCActionSequence actions:
+    [RecursiveFadeTo actionWithDuration:FADE_DURATION opacity:0.f],
+    [CCActionDelay actionWithDuration:DELAY_DURATION+3*FADE_DURATION],
+    [RecursiveFadeTo actionWithDuration:FADE_DURATION opacity:1.f],
+    nil]];
+}
+
 - (void) setIsFacingNear:(BOOL)isFacingNear {
   _isFacingNear = isFacingNear;
   [self restoreStandingFrame];
@@ -126,11 +168,11 @@
     self.isWalking = YES;
     
     CCActionSequence *seq = [CCActionSequence actions:
-                       [CCActionCallBlock actionWithBlock:
-                        ^{
-                          [[SoundEngine sharedSoundEngine] puzzleWalking];
-                        }],
-                       [CCActionDelay actionWithDuration:0.9], nil];
+                             [CCActionCallBlock actionWithBlock:
+                              ^{
+                                [[SoundEngine sharedSoundEngine] puzzleWalking];
+                              }],
+                             [CCActionDelay actionWithDuration:0.9], nil];
     CCActionRepeatForever *r = [CCActionRepeatForever actionWithAction:seq];
     r.tag = 7654;
     [self runAction:r];
@@ -139,7 +181,8 @@
 
 - (void) stopWalking {
   self.isWalking = NO;
-  [self.sprite stopAction:self.walkActionF];
+  if (self.walkActionF) [self.sprite stopAction:self.walkActionF];
+  if (self.walkActionN) [self.sprite stopAction:self.walkActionN];
   [self restoreStandingFrame];
   
   [self stopActionByTag:7654];
@@ -186,7 +229,7 @@
   CGPoint pointOffset = POINT_OFFSET_PER_SCENE;
   CGPoint startPos = self.position;
   [self.sprite runAction:
-    [CCActionAnimate actionWithAnimation:self.flinchAnimationN]];
+   [CCActionAnimate actionWithAnimation:self.flinchAnimationN]];
   
   float moveTime = 0.15f;
   float moveAmount = 0.006;

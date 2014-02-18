@@ -5334,6 +5334,7 @@ BOOL IncreaseMonsterInventorySlotResponseProto_IncreaseMonsterInventorySlotStatu
     case IncreaseMonsterInventorySlotResponseProto_IncreaseMonsterInventorySlotStatusFailInsufficientFacebookInvites:
     case IncreaseMonsterInventorySlotResponseProto_IncreaseMonsterInventorySlotStatusFailOther:
     case IncreaseMonsterInventorySlotResponseProto_IncreaseMonsterInventorySlotStatusFailInconsistentInviteData:
+    case IncreaseMonsterInventorySlotResponseProto_IncreaseMonsterInventorySlotStatusFailStructureAtMaxFbInviteLvl:
       return YES;
     default:
       return NO;

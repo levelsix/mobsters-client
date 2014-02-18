@@ -33,6 +33,22 @@
   return [[self alloc] initWithMonsterProto:proto];
 }
 
+- (id) initWithMinMonsterProto:(MinimumUserMonsterProto *)proto {
+  if ((self = [super init])){
+    self.monsterId = proto.monsterId;
+    self.level = proto.monsterLvl;
+    
+    Globals *gl = [Globals sharedGlobals];
+    self.curHealth = [gl calculateMaxHealthForMonster:self];
+    self.isComplete = YES;
+  }
+  return self;
+}
+
++ (id) userMonsterWithMinProto:(MinimumUserMonsterProto *)proto {
+  return [[self alloc] initWithMinMonsterProto:proto];
+}
+
 - (id) initWithTaskStageMonsterProto:(TaskStageMonsterProto *)proto {
   if ((self = [super init])){
     Globals *gl = [Globals sharedGlobals];
@@ -347,14 +363,6 @@
 
 @implementation EvoItem
 
-- (id) initWithUserMonster:(UserMonster *)um1 catalystMonster:(UserMonster *)catalystMonster {
-  if ((self = [super init])) {
-    self.userMonster1 = um1;
-    self.catalystMonster = catalystMonster;
-  }
-  return self;
-}
-
 - (id) initWithUserMonster:(UserMonster *)um1 andUserMonster:(UserMonster *)um2 catalystMonster:(UserMonster *)catalystMonster {
   if ((self = [super init])) {
     self.userMonster1 = um1;
@@ -365,7 +373,15 @@
 }
 
 - (BOOL) isEqual:(EvoItem *)object {
-  return [self.userMonster1 isEqual:object.userMonster1] && [self.userMonster2 isEqual:object.userMonster2];
+  return [self.userMonster1 isEqual:object.userMonster1] && [self.userMonster2 isEqual:object.userMonster2] && [self.catalystMonster isEqual:object.catalystMonster];
+}
+
+- (NSString *)description {
+  return [NSString stringWithFormat:@"1:%d, 2:%d, C:%d", self.userMonster1.userMonsterId, self.userMonster2.userMonsterId, self.catalystMonster.userMonsterId];
+}
+
+- (NSUInteger) hash {
+  return self.userMonster1.userMonsterId+self.userMonster2.userMonsterId+self.catalystMonster.userMonsterId;
 }
 
 @end
@@ -687,10 +703,10 @@
     [rewards addObject:r];
   }
   
-  if (expAmount) {
-    Reward *r = [[Reward alloc] initWithExpAmount:expAmount];
-    [rewards addObject:r];
-  }
+//  if (expAmount) {
+//    Reward *r = [[Reward alloc] initWithExpAmount:expAmount];
+//    [rewards addObject:r];
+//  }
   
   return rewards;
 }
@@ -721,6 +737,22 @@
   return rewards;
 }
 
++ (NSArray *) createRewardsForPvpProto:(PvpProto *)pvp {
+  NSMutableArray *rewards = [NSMutableArray array];
+  
+  if (pvp.prospectiveCashWinnings) {
+    Reward *r = [[Reward alloc] initWithSilverAmount:pvp.prospectiveCashWinnings];
+    [rewards addObject:r];
+  }
+  
+  if (pvp.prospectiveOilWinnings) {
+    Reward *r = [[Reward alloc] initWithOilAmount:pvp.prospectiveOilWinnings];
+    [rewards addObject:r];
+  }
+  
+  return rewards;
+}
+
 - (id) initWithMonsterId:(int)monsterId isPuzzlePiece:(BOOL)isPuzzlePiece {
   if ((self = [super init])) {
     self.type = RewardTypeMonster;
@@ -734,6 +766,14 @@
   if ((self = [super init])) {
     self.type = RewardTypeSilver;
     self.silverAmount = silverAmount;
+  }
+  return self;
+}
+
+- (id) initWithOilAmount:(int)oilAmount {
+  if ((self = [super init])) {
+    self.type = RewardTypeOil;
+    self.oilAmount = oilAmount;
   }
   return self;
 }

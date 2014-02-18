@@ -1030,6 +1030,7 @@ BOOL MonsterProto_MonsterElementIsValidValue(MonsterProto_MonsterElement value) 
 @property int32_t lightningDmg;
 @property int32_t darknessDmg;
 @property int32_t rockDmg;
+@property int32_t speed;
 @end
 
 @implementation MonsterLevelInfoProto
@@ -1104,6 +1105,13 @@ BOOL MonsterProto_MonsterElementIsValidValue(MonsterProto_MonsterElement value) 
   hasRockDmg_ = !!value;
 }
 @synthesize rockDmg;
+- (BOOL) hasSpeed {
+  return !!hasSpeed_;
+}
+- (void) setHasSpeed:(BOOL) value {
+  hasSpeed_ = !!value;
+}
+@synthesize speed;
 - (void) dealloc {
   [super dealloc];
 }
@@ -1119,6 +1127,7 @@ BOOL MonsterProto_MonsterElementIsValidValue(MonsterProto_MonsterElement value) 
     self.lightningDmg = 0;
     self.darknessDmg = 0;
     self.rockDmg = 0;
+    self.speed = 0;
   }
   return self;
 }
@@ -1168,6 +1177,9 @@ static MonsterLevelInfoProto* defaultMonsterLevelInfoProtoInstance = nil;
   if (self.hasRockDmg) {
     [output writeSInt32:10 value:self.rockDmg];
   }
+  if (self.hasSpeed) {
+    [output writeInt32:11 value:self.speed];
+  }
   [self.unknownFields writeToCodedOutputStream:output];
 }
 - (int32_t) serializedSize {
@@ -1206,6 +1218,9 @@ static MonsterLevelInfoProto* defaultMonsterLevelInfoProtoInstance = nil;
   }
   if (self.hasRockDmg) {
     size += computeSInt32Size(10, self.rockDmg);
+  }
+  if (self.hasSpeed) {
+    size += computeInt32Size(11, self.speed);
   }
   size += self.unknownFields.serializedSize;
   memoizedSerializedSize = size;
@@ -1312,6 +1327,9 @@ static MonsterLevelInfoProto* defaultMonsterLevelInfoProtoInstance = nil;
   if (other.hasRockDmg) {
     [self setRockDmg:other.rockDmg];
   }
+  if (other.hasSpeed) {
+    [self setSpeed:other.speed];
+  }
   [self mergeUnknownFields:other.unknownFields];
   return self;
 }
@@ -1371,6 +1389,10 @@ static MonsterLevelInfoProto* defaultMonsterLevelInfoProtoInstance = nil;
       }
       case 80: {
         [self setRockDmg:[input readSInt32]];
+        break;
+      }
+      case 88: {
+        [self setSpeed:[input readInt32]];
         break;
       }
     }
@@ -1534,6 +1556,22 @@ static MonsterLevelInfoProto* defaultMonsterLevelInfoProtoInstance = nil;
 - (MonsterLevelInfoProto_Builder*) clearRockDmg {
   result.hasRockDmg = NO;
   result.rockDmg = 0;
+  return self;
+}
+- (BOOL) hasSpeed {
+  return result.hasSpeed;
+}
+- (int32_t) speed {
+  return result.speed;
+}
+- (MonsterLevelInfoProto_Builder*) setSpeed:(int32_t) value {
+  result.hasSpeed = YES;
+  result.speed = value;
+  return self;
+}
+- (MonsterLevelInfoProto_Builder*) clearSpeed {
+  result.hasSpeed = NO;
+  result.speed = 0;
   return self;
 }
 @end
@@ -2058,6 +2096,221 @@ static FullUserMonsterProto* defaultFullUserMonsterProtoInstance = nil;
 - (FullUserMonsterProto_Builder*) clearTeamSlotNum {
   result.hasTeamSlotNum = NO;
   result.teamSlotNum = 0;
+  return self;
+}
+@end
+
+@interface MinimumUserMonsterProto ()
+@property int32_t monsterId;
+@property int32_t monsterLvl;
+@end
+
+@implementation MinimumUserMonsterProto
+
+- (BOOL) hasMonsterId {
+  return !!hasMonsterId_;
+}
+- (void) setHasMonsterId:(BOOL) value {
+  hasMonsterId_ = !!value;
+}
+@synthesize monsterId;
+- (BOOL) hasMonsterLvl {
+  return !!hasMonsterLvl_;
+}
+- (void) setHasMonsterLvl:(BOOL) value {
+  hasMonsterLvl_ = !!value;
+}
+@synthesize monsterLvl;
+- (void) dealloc {
+  [super dealloc];
+}
+- (id) init {
+  if ((self = [super init])) {
+    self.monsterId = 0;
+    self.monsterLvl = 0;
+  }
+  return self;
+}
+static MinimumUserMonsterProto* defaultMinimumUserMonsterProtoInstance = nil;
++ (void) initialize {
+  if (self == [MinimumUserMonsterProto class]) {
+    defaultMinimumUserMonsterProtoInstance = [[MinimumUserMonsterProto alloc] init];
+  }
+}
++ (MinimumUserMonsterProto*) defaultInstance {
+  return defaultMinimumUserMonsterProtoInstance;
+}
+- (MinimumUserMonsterProto*) defaultInstance {
+  return defaultMinimumUserMonsterProtoInstance;
+}
+- (BOOL) isInitialized {
+  return YES;
+}
+- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output {
+  if (self.hasMonsterId) {
+    [output writeInt32:1 value:self.monsterId];
+  }
+  if (self.hasMonsterLvl) {
+    [output writeInt32:2 value:self.monsterLvl];
+  }
+  [self.unknownFields writeToCodedOutputStream:output];
+}
+- (int32_t) serializedSize {
+  int32_t size = memoizedSerializedSize;
+  if (size != -1) {
+    return size;
+  }
+
+  size = 0;
+  if (self.hasMonsterId) {
+    size += computeInt32Size(1, self.monsterId);
+  }
+  if (self.hasMonsterLvl) {
+    size += computeInt32Size(2, self.monsterLvl);
+  }
+  size += self.unknownFields.serializedSize;
+  memoizedSerializedSize = size;
+  return size;
+}
++ (MinimumUserMonsterProto*) parseFromData:(NSData*) data {
+  return (MinimumUserMonsterProto*)[[[MinimumUserMonsterProto builder] mergeFromData:data] build];
+}
++ (MinimumUserMonsterProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (MinimumUserMonsterProto*)[[[MinimumUserMonsterProto builder] mergeFromData:data extensionRegistry:extensionRegistry] build];
+}
++ (MinimumUserMonsterProto*) parseFromInputStream:(NSInputStream*) input {
+  return (MinimumUserMonsterProto*)[[[MinimumUserMonsterProto builder] mergeFromInputStream:input] build];
+}
++ (MinimumUserMonsterProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (MinimumUserMonsterProto*)[[[MinimumUserMonsterProto builder] mergeFromInputStream:input extensionRegistry:extensionRegistry] build];
+}
++ (MinimumUserMonsterProto*) parseFromCodedInputStream:(PBCodedInputStream*) input {
+  return (MinimumUserMonsterProto*)[[[MinimumUserMonsterProto builder] mergeFromCodedInputStream:input] build];
+}
++ (MinimumUserMonsterProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (MinimumUserMonsterProto*)[[[MinimumUserMonsterProto builder] mergeFromCodedInputStream:input extensionRegistry:extensionRegistry] build];
+}
++ (MinimumUserMonsterProto_Builder*) builder {
+  return [[[MinimumUserMonsterProto_Builder alloc] init] autorelease];
+}
++ (MinimumUserMonsterProto_Builder*) builderWithPrototype:(MinimumUserMonsterProto*) prototype {
+  return [[MinimumUserMonsterProto builder] mergeFrom:prototype];
+}
+- (MinimumUserMonsterProto_Builder*) builder {
+  return [MinimumUserMonsterProto builder];
+}
+@end
+
+@interface MinimumUserMonsterProto_Builder()
+@property (retain) MinimumUserMonsterProto* result;
+@end
+
+@implementation MinimumUserMonsterProto_Builder
+@synthesize result;
+- (void) dealloc {
+  self.result = nil;
+  [super dealloc];
+}
+- (id) init {
+  if ((self = [super init])) {
+    self.result = [[[MinimumUserMonsterProto alloc] init] autorelease];
+  }
+  return self;
+}
+- (PBGeneratedMessage*) internalGetResult {
+  return result;
+}
+- (MinimumUserMonsterProto_Builder*) clear {
+  self.result = [[[MinimumUserMonsterProto alloc] init] autorelease];
+  return self;
+}
+- (MinimumUserMonsterProto_Builder*) clone {
+  return [MinimumUserMonsterProto builderWithPrototype:result];
+}
+- (MinimumUserMonsterProto*) defaultInstance {
+  return [MinimumUserMonsterProto defaultInstance];
+}
+- (MinimumUserMonsterProto*) build {
+  [self checkInitialized];
+  return [self buildPartial];
+}
+- (MinimumUserMonsterProto*) buildPartial {
+  MinimumUserMonsterProto* returnMe = [[result retain] autorelease];
+  self.result = nil;
+  return returnMe;
+}
+- (MinimumUserMonsterProto_Builder*) mergeFrom:(MinimumUserMonsterProto*) other {
+  if (other == [MinimumUserMonsterProto defaultInstance]) {
+    return self;
+  }
+  if (other.hasMonsterId) {
+    [self setMonsterId:other.monsterId];
+  }
+  if (other.hasMonsterLvl) {
+    [self setMonsterLvl:other.monsterLvl];
+  }
+  [self mergeUnknownFields:other.unknownFields];
+  return self;
+}
+- (MinimumUserMonsterProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input {
+  return [self mergeFromCodedInputStream:input extensionRegistry:[PBExtensionRegistry emptyRegistry]];
+}
+- (MinimumUserMonsterProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  PBUnknownFieldSet_Builder* unknownFields = [PBUnknownFieldSet builderWithUnknownFields:self.unknownFields];
+  while (YES) {
+    int32_t tag = [input readTag];
+    switch (tag) {
+      case 0:
+        [self setUnknownFields:[unknownFields build]];
+        return self;
+      default: {
+        if (![self parseUnknownField:input unknownFields:unknownFields extensionRegistry:extensionRegistry tag:tag]) {
+          [self setUnknownFields:[unknownFields build]];
+          return self;
+        }
+        break;
+      }
+      case 8: {
+        [self setMonsterId:[input readInt32]];
+        break;
+      }
+      case 16: {
+        [self setMonsterLvl:[input readInt32]];
+        break;
+      }
+    }
+  }
+}
+- (BOOL) hasMonsterId {
+  return result.hasMonsterId;
+}
+- (int32_t) monsterId {
+  return result.monsterId;
+}
+- (MinimumUserMonsterProto_Builder*) setMonsterId:(int32_t) value {
+  result.hasMonsterId = YES;
+  result.monsterId = value;
+  return self;
+}
+- (MinimumUserMonsterProto_Builder*) clearMonsterId {
+  result.hasMonsterId = NO;
+  result.monsterId = 0;
+  return self;
+}
+- (BOOL) hasMonsterLvl {
+  return result.hasMonsterLvl;
+}
+- (int32_t) monsterLvl {
+  return result.monsterLvl;
+}
+- (MinimumUserMonsterProto_Builder*) setMonsterLvl:(int32_t) value {
+  result.hasMonsterLvl = YES;
+  result.monsterLvl = value;
+  return self;
+}
+- (MinimumUserMonsterProto_Builder*) clearMonsterLvl {
+  result.hasMonsterLvl = NO;
+  result.monsterLvl = 0;
   return self;
 }
 @end
@@ -4126,6 +4379,311 @@ static UserMonsterEvolutionProto* defaultUserMonsterEvolutionProtoInstance = nil
 - (UserMonsterEvolutionProto_Builder*) clearStartTime {
   result.hasStartTime = NO;
   result.startTime = 0L;
+  return self;
+}
+@end
+
+@interface MonsterBattleDialogueProto ()
+@property int32_t monsterId;
+@property MonsterBattleDialogueProto_DialogueType dialogueType;
+@property (retain) NSString* dialogue;
+@property Float32 probabilityUttered;
+@end
+
+@implementation MonsterBattleDialogueProto
+
+- (BOOL) hasMonsterId {
+  return !!hasMonsterId_;
+}
+- (void) setHasMonsterId:(BOOL) value {
+  hasMonsterId_ = !!value;
+}
+@synthesize monsterId;
+- (BOOL) hasDialogueType {
+  return !!hasDialogueType_;
+}
+- (void) setHasDialogueType:(BOOL) value {
+  hasDialogueType_ = !!value;
+}
+@synthesize dialogueType;
+- (BOOL) hasDialogue {
+  return !!hasDialogue_;
+}
+- (void) setHasDialogue:(BOOL) value {
+  hasDialogue_ = !!value;
+}
+@synthesize dialogue;
+- (BOOL) hasProbabilityUttered {
+  return !!hasProbabilityUttered_;
+}
+- (void) setHasProbabilityUttered:(BOOL) value {
+  hasProbabilityUttered_ = !!value;
+}
+@synthesize probabilityUttered;
+- (void) dealloc {
+  self.dialogue = nil;
+  [super dealloc];
+}
+- (id) init {
+  if ((self = [super init])) {
+    self.monsterId = 0;
+    self.dialogueType = MonsterBattleDialogueProto_DialogueTypeEnterBattle;
+    self.dialogue = @"";
+    self.probabilityUttered = 0;
+  }
+  return self;
+}
+static MonsterBattleDialogueProto* defaultMonsterBattleDialogueProtoInstance = nil;
++ (void) initialize {
+  if (self == [MonsterBattleDialogueProto class]) {
+    defaultMonsterBattleDialogueProtoInstance = [[MonsterBattleDialogueProto alloc] init];
+  }
+}
++ (MonsterBattleDialogueProto*) defaultInstance {
+  return defaultMonsterBattleDialogueProtoInstance;
+}
+- (MonsterBattleDialogueProto*) defaultInstance {
+  return defaultMonsterBattleDialogueProtoInstance;
+}
+- (BOOL) isInitialized {
+  return YES;
+}
+- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output {
+  if (self.hasMonsterId) {
+    [output writeInt32:1 value:self.monsterId];
+  }
+  if (self.hasDialogue) {
+    [output writeString:2 value:self.dialogue];
+  }
+  if (self.hasDialogueType) {
+    [output writeEnum:3 value:self.dialogueType];
+  }
+  if (self.hasProbabilityUttered) {
+    [output writeFloat:4 value:self.probabilityUttered];
+  }
+  [self.unknownFields writeToCodedOutputStream:output];
+}
+- (int32_t) serializedSize {
+  int32_t size = memoizedSerializedSize;
+  if (size != -1) {
+    return size;
+  }
+
+  size = 0;
+  if (self.hasMonsterId) {
+    size += computeInt32Size(1, self.monsterId);
+  }
+  if (self.hasDialogue) {
+    size += computeStringSize(2, self.dialogue);
+  }
+  if (self.hasDialogueType) {
+    size += computeEnumSize(3, self.dialogueType);
+  }
+  if (self.hasProbabilityUttered) {
+    size += computeFloatSize(4, self.probabilityUttered);
+  }
+  size += self.unknownFields.serializedSize;
+  memoizedSerializedSize = size;
+  return size;
+}
++ (MonsterBattleDialogueProto*) parseFromData:(NSData*) data {
+  return (MonsterBattleDialogueProto*)[[[MonsterBattleDialogueProto builder] mergeFromData:data] build];
+}
++ (MonsterBattleDialogueProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (MonsterBattleDialogueProto*)[[[MonsterBattleDialogueProto builder] mergeFromData:data extensionRegistry:extensionRegistry] build];
+}
++ (MonsterBattleDialogueProto*) parseFromInputStream:(NSInputStream*) input {
+  return (MonsterBattleDialogueProto*)[[[MonsterBattleDialogueProto builder] mergeFromInputStream:input] build];
+}
++ (MonsterBattleDialogueProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (MonsterBattleDialogueProto*)[[[MonsterBattleDialogueProto builder] mergeFromInputStream:input extensionRegistry:extensionRegistry] build];
+}
++ (MonsterBattleDialogueProto*) parseFromCodedInputStream:(PBCodedInputStream*) input {
+  return (MonsterBattleDialogueProto*)[[[MonsterBattleDialogueProto builder] mergeFromCodedInputStream:input] build];
+}
++ (MonsterBattleDialogueProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (MonsterBattleDialogueProto*)[[[MonsterBattleDialogueProto builder] mergeFromCodedInputStream:input extensionRegistry:extensionRegistry] build];
+}
++ (MonsterBattleDialogueProto_Builder*) builder {
+  return [[[MonsterBattleDialogueProto_Builder alloc] init] autorelease];
+}
++ (MonsterBattleDialogueProto_Builder*) builderWithPrototype:(MonsterBattleDialogueProto*) prototype {
+  return [[MonsterBattleDialogueProto builder] mergeFrom:prototype];
+}
+- (MonsterBattleDialogueProto_Builder*) builder {
+  return [MonsterBattleDialogueProto builder];
+}
+@end
+
+BOOL MonsterBattleDialogueProto_DialogueTypeIsValidValue(MonsterBattleDialogueProto_DialogueType value) {
+  switch (value) {
+    case MonsterBattleDialogueProto_DialogueTypeEnterBattle:
+      return YES;
+    default:
+      return NO;
+  }
+}
+@interface MonsterBattleDialogueProto_Builder()
+@property (retain) MonsterBattleDialogueProto* result;
+@end
+
+@implementation MonsterBattleDialogueProto_Builder
+@synthesize result;
+- (void) dealloc {
+  self.result = nil;
+  [super dealloc];
+}
+- (id) init {
+  if ((self = [super init])) {
+    self.result = [[[MonsterBattleDialogueProto alloc] init] autorelease];
+  }
+  return self;
+}
+- (PBGeneratedMessage*) internalGetResult {
+  return result;
+}
+- (MonsterBattleDialogueProto_Builder*) clear {
+  self.result = [[[MonsterBattleDialogueProto alloc] init] autorelease];
+  return self;
+}
+- (MonsterBattleDialogueProto_Builder*) clone {
+  return [MonsterBattleDialogueProto builderWithPrototype:result];
+}
+- (MonsterBattleDialogueProto*) defaultInstance {
+  return [MonsterBattleDialogueProto defaultInstance];
+}
+- (MonsterBattleDialogueProto*) build {
+  [self checkInitialized];
+  return [self buildPartial];
+}
+- (MonsterBattleDialogueProto*) buildPartial {
+  MonsterBattleDialogueProto* returnMe = [[result retain] autorelease];
+  self.result = nil;
+  return returnMe;
+}
+- (MonsterBattleDialogueProto_Builder*) mergeFrom:(MonsterBattleDialogueProto*) other {
+  if (other == [MonsterBattleDialogueProto defaultInstance]) {
+    return self;
+  }
+  if (other.hasMonsterId) {
+    [self setMonsterId:other.monsterId];
+  }
+  if (other.hasDialogueType) {
+    [self setDialogueType:other.dialogueType];
+  }
+  if (other.hasDialogue) {
+    [self setDialogue:other.dialogue];
+  }
+  if (other.hasProbabilityUttered) {
+    [self setProbabilityUttered:other.probabilityUttered];
+  }
+  [self mergeUnknownFields:other.unknownFields];
+  return self;
+}
+- (MonsterBattleDialogueProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input {
+  return [self mergeFromCodedInputStream:input extensionRegistry:[PBExtensionRegistry emptyRegistry]];
+}
+- (MonsterBattleDialogueProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  PBUnknownFieldSet_Builder* unknownFields = [PBUnknownFieldSet builderWithUnknownFields:self.unknownFields];
+  while (YES) {
+    int32_t tag = [input readTag];
+    switch (tag) {
+      case 0:
+        [self setUnknownFields:[unknownFields build]];
+        return self;
+      default: {
+        if (![self parseUnknownField:input unknownFields:unknownFields extensionRegistry:extensionRegistry tag:tag]) {
+          [self setUnknownFields:[unknownFields build]];
+          return self;
+        }
+        break;
+      }
+      case 8: {
+        [self setMonsterId:[input readInt32]];
+        break;
+      }
+      case 18: {
+        [self setDialogue:[input readString]];
+        break;
+      }
+      case 24: {
+        int32_t value = [input readEnum];
+        if (MonsterBattleDialogueProto_DialogueTypeIsValidValue(value)) {
+          [self setDialogueType:value];
+        } else {
+          [unknownFields mergeVarintField:3 value:value];
+        }
+        break;
+      }
+      case 37: {
+        [self setProbabilityUttered:[input readFloat]];
+        break;
+      }
+    }
+  }
+}
+- (BOOL) hasMonsterId {
+  return result.hasMonsterId;
+}
+- (int32_t) monsterId {
+  return result.monsterId;
+}
+- (MonsterBattleDialogueProto_Builder*) setMonsterId:(int32_t) value {
+  result.hasMonsterId = YES;
+  result.monsterId = value;
+  return self;
+}
+- (MonsterBattleDialogueProto_Builder*) clearMonsterId {
+  result.hasMonsterId = NO;
+  result.monsterId = 0;
+  return self;
+}
+- (BOOL) hasDialogueType {
+  return result.hasDialogueType;
+}
+- (MonsterBattleDialogueProto_DialogueType) dialogueType {
+  return result.dialogueType;
+}
+- (MonsterBattleDialogueProto_Builder*) setDialogueType:(MonsterBattleDialogueProto_DialogueType) value {
+  result.hasDialogueType = YES;
+  result.dialogueType = value;
+  return self;
+}
+- (MonsterBattleDialogueProto_Builder*) clearDialogueType {
+  result.hasDialogueType = NO;
+  result.dialogueType = MonsterBattleDialogueProto_DialogueTypeEnterBattle;
+  return self;
+}
+- (BOOL) hasDialogue {
+  return result.hasDialogue;
+}
+- (NSString*) dialogue {
+  return result.dialogue;
+}
+- (MonsterBattleDialogueProto_Builder*) setDialogue:(NSString*) value {
+  result.hasDialogue = YES;
+  result.dialogue = value;
+  return self;
+}
+- (MonsterBattleDialogueProto_Builder*) clearDialogue {
+  result.hasDialogue = NO;
+  result.dialogue = @"";
+  return self;
+}
+- (BOOL) hasProbabilityUttered {
+  return result.hasProbabilityUttered;
+}
+- (Float32) probabilityUttered {
+  return result.probabilityUttered;
+}
+- (MonsterBattleDialogueProto_Builder*) setProbabilityUttered:(Float32) value {
+  result.hasProbabilityUttered = YES;
+  result.probabilityUttered = value;
+  return self;
+}
+- (MonsterBattleDialogueProto_Builder*) clearProbabilityUttered {
+  result.hasProbabilityUttered = NO;
+  result.probabilityUttered = 0;
   return self;
 }
 @end

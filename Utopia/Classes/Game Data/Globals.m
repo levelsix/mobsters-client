@@ -21,6 +21,7 @@
 #import "SocketCommunication.h"
 #import "ODIN.h"
 #import "AppDelegate.h"
+#import "HospitalQueueSimulator.h"
 
 #define FONT_LABEL_OFFSET 1.f
 #define SHAKE_DURATION 0.05f
@@ -76,6 +77,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
   self.minutesPerGem = constants.minutesPerGem;
   self.pvpRequiredMinLvl = constants.pvpRequiredMinLvl;
   self.gemsPerResource = constants.gemsPerResource;
+  self.continueBattleGemCostMultiplier = constants.continueBattleGemCostMultiplier;
   
   self.maxTeamSize = constants.userMonsterConstants.maxNumTeamSlots;
   self.baseInventorySize = constants.userMonsterConstants.initialMaxNumMonsterLimit;
@@ -278,7 +280,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
   }
 }
 
-+ (UIColor *) colorForElement:(MonsterProto_MonsterElement)element {
++ (UIColor *) colorForElementOnDarkBackground:(MonsterProto_MonsterElement)element {
   ccColor3B c = ccc3(255, 255, 255);
   switch (element) {
     case MonsterProto_MonsterElementDarkness:
@@ -299,6 +301,43 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
       
     case MonsterProto_MonsterElementGrass:
       c = ccc3(100, 220, 20);
+      break;
+      
+    case MonsterProto_MonsterElementRock:
+      c = ccc3(100, 100, 100);
+      break;
+      
+    default:
+      break;
+  }
+  return [UIColor colorWithRed:c.r/255.f green:c.g/255.f blue:c.b/255.f alpha:1.f];
+}
+
++ (UIColor *) colorForElementOnLightBackground:(MonsterProto_MonsterElement)element {
+  ccColor3B c = ccc3(255, 255, 255);
+  switch (element) {
+    case MonsterProto_MonsterElementDarkness:
+      c = ccc3(128, 59, 185);
+      break;
+      
+    case MonsterProto_MonsterElementWater:
+      c = ccc3(36, 158, 195);
+      break;
+      
+    case MonsterProto_MonsterElementFire:
+      c = ccc3(209, 63, 37);
+      break;
+      
+    case MonsterProto_MonsterElementLightning:
+      c = ccc3(177, 121, 71);
+      break;
+      
+    case MonsterProto_MonsterElementGrass:
+      c = ccc3(96, 146, 25);
+      break;
+      
+    case MonsterProto_MonsterElementRock:
+      c = ccc3(77, 82, 84);
       break;
       
     default:
@@ -360,6 +399,9 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
       
     case MonsterProto_MonsterElementWater:
       return @"Water";
+      
+    case MonsterProto_MonsterElementRock:
+      return @"Rock";
       
     default:
       return nil;
@@ -963,80 +1005,6 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
   view.frame = CGRectMake(pt.x-width/2, ([[CCDirector sharedDirector] viewSize].height - pt.y)-height, width, height);
 }
 
-+ (NSString *) nameForDialogueSpeaker:(DialogueProto_SpeechSegmentProto_DialogueSpeaker)speaker {
-  switch (speaker) {
-    case DialogueProto_SpeechSegmentProto_DialogueSpeakerPlayerType:
-      return [[GameState sharedGameState] name];
-      break;
-    case DialogueProto_SpeechSegmentProto_DialogueSpeakerQuestgiver1:
-      return @"Farmer Mitch";
-      break;
-    case DialogueProto_SpeechSegmentProto_DialogueSpeakerQuestgiver2:
-      return @"Captain Riz";
-      break;
-    case DialogueProto_SpeechSegmentProto_DialogueSpeakerQuestgiver3:
-      return @"Sean the Brave";
-      break;
-    case DialogueProto_SpeechSegmentProto_DialogueSpeakerQuestgiver4:
-      return @"Captain Riz";
-      break;
-    case DialogueProto_SpeechSegmentProto_DialogueSpeakerQuestgiver5:
-      return @"Sailor Steve";
-    default:
-      return nil;
-      break;
-  }
-}
-
-+ (NSString *) imageNameForDialogueSpeaker:(DialogueProto_SpeechSegmentProto_DialogueSpeaker)speaker {
-  switch (speaker) {
-    case DialogueProto_SpeechSegmentProto_DialogueSpeakerQuestgiver1:
-      return @"dialoguemitch.png";
-      break;
-    case DialogueProto_SpeechSegmentProto_DialogueSpeakerQuestgiver2:
-      return @"dialogueriz.png";
-      break;
-    case DialogueProto_SpeechSegmentProto_DialogueSpeakerQuestgiver3:
-      return @"dialoguesean.png";
-      break;
-    case DialogueProto_SpeechSegmentProto_DialogueSpeakerQuestgiver4:
-      return @"dialogueriz.png";
-      break;
-    case DialogueProto_SpeechSegmentProto_DialogueSpeakerQuestgiver5:
-      return @"dialoguesteve.png";
-      break;
-    default:
-      return nil;
-      break;
-  }
-}
-
-+ (NSString *) imageNameForBigDialogueSpeaker:(DialogueProto_SpeechSegmentProto_DialogueSpeaker)speaker {
-  switch (speaker) {
-    case DialogueProto_SpeechSegmentProto_DialogueSpeakerPlayerType:
-      return nil;
-      break;
-    case DialogueProto_SpeechSegmentProto_DialogueSpeakerQuestgiver1:
-      return @"bigmitch2.png";
-      break;
-    case DialogueProto_SpeechSegmentProto_DialogueSpeakerQuestgiver2:
-      return @"bigriz2.png";
-      break;
-    case DialogueProto_SpeechSegmentProto_DialogueSpeakerQuestgiver3:
-      return @"bigsean2.png";
-      break;
-    case DialogueProto_SpeechSegmentProto_DialogueSpeakerQuestgiver4:
-      return @"bigriz2.png";
-      break;
-    case DialogueProto_SpeechSegmentProto_DialogueSpeakerQuestgiver5:
-      return @"bigsteve2.png";
-      break;
-    default:
-      return nil;
-      break;
-  }
-}
-
 + (NSDictionary *) convertUserTeamArrayToDictionary:(NSArray *)array {
   NSMutableDictionary *dict = [NSMutableDictionary dictionary];
   for (UserCurrentMonsterTeamProto *team in array) {
@@ -1574,7 +1542,6 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
 }
 
 + (BOOL) checkEnteringDungeonWithTarget:(id)target selector:(SEL)selector {
-  
   // Check that team is valid
   GameState *gs = [GameState sharedGameState];
   //  Globals *gl = [Globals sharedGlobals];
@@ -1609,30 +1576,56 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
   return YES;
 }
 
-+(NSString*) getDoubleResolutionImage:(NSString*)path {
-	if( [CCDirector sharedDirector].contentScaleFactor == 2 )
-	{
-		
+- (int) calculateGemCostToHealTeamDuringBattle:(NSArray *)team {
+  GameState *gs = [GameState sharedGameState];
+  int cashCost = 0;
+  int gemCost = 0;
+  
+  for (BattlePlayer *bp in team) {
+    UserMonster *um = [gs myMonsterWithUserMonsterId:bp.userMonsterId];
+    cashCost += [self calculateCostToHealMonster:um];
+  }
+  gemCost += [self calculateGemConversionForResourceType:ResourceTypeCash amount:cashCost];
+  
+  NSMutableArray *fakeQueue = [NSMutableArray array];
+  for (BattlePlayer *bp in team) {
+    UserMonsterHealingItem *heal = [[UserMonsterHealingItem alloc] init];
+    heal.queueTime = [NSDate date];
+    heal.userMonsterId = bp.userMonsterId;
+    [fakeQueue addObject:heal];
+  }
+  HospitalQueueSimulator *sim = [[HospitalQueueSimulator alloc] initWithHospitals:[gs allHospitals] healingItems:fakeQueue];
+  [sim simulate];
+  
+  NSDate *lastDate = nil;
+  for (HealingItemSim *hi in sim.healingItems) {
+    if (!lastDate || [lastDate compare:hi.endTime] == NSOrderedAscending) {
+      lastDate = hi.endTime;
+    }
+  }
+  gemCost += [self calculateGemSpeedupCostForTimeLeft:lastDate.timeIntervalSinceNow];
+  
+  return gemCost*self.continueBattleGemCostMultiplier;
+}
+
++ (NSString*) getDoubleResolutionImage:(NSString*)path {
+	if([CCDirector sharedDirector].contentScaleFactor == 2) {
 		NSString *pathWithoutExtension = [path stringByDeletingPathExtension];
 		NSString *name = [pathWithoutExtension lastPathComponent];
 		
 		// check if path already has the suffix.
 		if( [name rangeOfString:@"@2x"].location != NSNotFound ) {
-//			CCLOG(@"cocos2d: WARNING Filename(%@) already has the suffix %@. Using it.", name, @"@2x");
 			return path;
 		}
     
-		
 		NSString *extension = [path pathExtension];
 		
-		if( [extension isEqualToString:@"ccz"] || [extension isEqualToString:@"gz"] )
-		{
+		if([extension isEqualToString:@"ccz"] || [extension isEqualToString:@"gz"]) {
 			// All ccz / gz files should be in the format filename.xxx.ccz
 			// so we need to pull off the .xxx part of the extension as well
 			extension = [NSString stringWithFormat:@"%@.%@", [pathWithoutExtension pathExtension], extension];
 			pathWithoutExtension = [pathWithoutExtension stringByDeletingPathExtension];
 		}
-		
 		
 		NSString *retinaName = [pathWithoutExtension stringByAppendingString:@"@2x"];
 		retinaName = [retinaName stringByAppendingPathExtension:extension];
@@ -1676,7 +1669,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
 }
 
 @end
- 
+
 @implementation RecursiveTintTo
 
 -(void) update: (CCTime) t

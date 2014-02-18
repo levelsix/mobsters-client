@@ -109,3 +109,37 @@ message SetFacebookIdResponseProto {
 	}
 }
 	
+
+//------------------------------------------------------------------------------------------
+//this event is mainly to make a regular user pay for something, never to give stuff to him
+message UpdateUserCurrencyRequestProto {
+	optional MinimumUserProto sender = 1;
+	
+	//however if user is an admin, use it however you want :)
+	optional sint32 cashSpent = 2;
+	optional sint32 oilSpent = 3;
+	optional sint32 gemsSpent = 4;
+	
+	optional int64 clientTime = 5;
+	
+	//main subject regarding why user is charged, look at ControllerConstants.java
+	//for examples. Look in the section with prefix "UCHRFC__"
+	optional string reason = 6;
+	
+	optional string details = 7;
+}
+
+message UpdateUserCurrencyResponseProto {
+	optional MinimumUserProto sender = 1;
+	optional UpdateUserCurrencyStatus status = 2;
+	
+	
+	enum UpdateUserCurrencyStatus {
+		SUCCESS = 1;
+		FAIL_OTHER = 2;
+		FAIL_INSUFFICIENT_CASH = 3;
+		FAIL_INSUFFICIENT_OIL = 4;
+		FAIL_INSUFFICIENT_GEMS = 5;
+	}
+}
+	

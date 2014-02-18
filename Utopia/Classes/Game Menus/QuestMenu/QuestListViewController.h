@@ -35,6 +35,7 @@
 @property (nonatomic, weak) id<QuestListCellDelegate> delegate;
 
 - (void) updateForQuest:(FullQuestProto *)quest withUserQuestData:(UserQuest *)userQuest;
+- (IBAction)darkOverlayClicked:(id)sender;
 
 @end
 

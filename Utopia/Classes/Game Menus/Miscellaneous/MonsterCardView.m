@@ -39,15 +39,18 @@ static UIImage *img = nil;
 }
 
 - (void) updateForMonster:(UserMonster *)um {
-  GameState *gs = [GameState sharedGameState];
-  MonsterProto *mp = [gs monsterWithId:um.monsterId];
-  
-  self.monster = um;
-  
+  [self updateForMonster:um backupString:@"Slot Empty"];
+}
+
+- (void) updateForMonster:(UserMonster *)um backupString:(NSString *)str {
   if (!um) {
-    [self updateForNoMonsterWithLabel:@"Slot Empty"];
+    [self updateForNoMonsterWithLabel:str];
     return;
   }
+  
+  GameState *gs = [GameState sharedGameState];
+  MonsterProto *mp = [gs monsterWithId:um.monsterId];
+  self.monster = um;
   
   NSString *fileName = [mp.imagePrefix stringByAppendingString:@"Card.png"];
   [Globals imageNamed:fileName withView:self.monsterIcon maskedColor:nil indicator:UIActivityIndicatorViewStyleWhite clearImageDuringDownload:YES];

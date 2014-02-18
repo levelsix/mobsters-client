@@ -19,6 +19,8 @@
   NSString *name = [Globals imageNameForElement:element suffix:@"orb.png"];
   [Globals imageNamed:name withView:self.elementIcon maskedColor:nil indicator:UIActivityIndicatorViewStyleWhite clearImageDuringDownload:YES];
   self.statLabel.text = [Globals commafyNumber:damage];
+  self.elementLabel.text = [Globals stringForElement:element];
+  self.elementLabel.textColor = [Globals colorForElementOnLightBackground:element];
 }
 
 @end
@@ -46,6 +48,9 @@
   
   self.backButtonView.hidden = YES;
   
+  self.mainView.layer.cornerRadius = 6.f;
+  self.container.layer.cornerRadius = 6.f;
+  
   [Globals bounceView:self.mainView fadeInBgdView:self.bgdView];
 }
 
@@ -56,7 +61,7 @@
   self.monsterNameLabel.text = proto.displayName;
   self.rarityLabel.text = [Globals stringForRarity:proto.quality];
   self.rarityLabel.textColor = [Globals colorForRarity:proto.quality];
-  self.enhanceLabel.text = [NSString stringWithFormat:@"Lvl %d", self.monster.level];
+  self.enhanceLabel.text = [NSString stringWithFormat:@"Lvl. %d", self.monster.level];
   self.monsterDescription.text = proto.description;
   
   if (!_allowSell) {
@@ -72,6 +77,7 @@
   }
   
   self.attackLabel.text = [Globals commafyNumber:[gl calculateTotalDamageForMonster:self.monster]];
+  self.speedLabel.text = [Globals commafyNumber:self.monster.currentLevelInfo.speed];
   CGSize size = [self.attackLabel.text sizeWithFont:self.attackLabel.font];
   self.infoButton.center = CGPointMake(self.attackLabel.frame.origin.x+size.width+self.infoButton.frame.size.width/2, self.infoButton.center.y);
   
@@ -89,7 +95,12 @@
   [self.lightView updateStatsWithElementType:elem andDamage:[gl calculateElementalDamageForMonster:self.monster element:elem]];
   elem = MonsterProto_MonsterElementDarkness;
   [self.nightView updateStatsWithElementType:elem andDamage:[gl calculateElementalDamageForMonster:self.monster element:elem]];
-
+  elem = MonsterProto_MonsterElementRock;
+  [self.rockView updateStatsWithElementType:elem andDamage:[gl calculateElementalDamageForMonster:self.monster element:elem]];
+  
+  self.elementLabel.text = [Globals stringForElement:proto.monsterElement];
+  self.elementLabel.textColor = [Globals colorForElementOnLightBackground:proto.monsterElement];
+  
   NSString *fileName = [proto.imagePrefix stringByAppendingString:@"Character.png"];
   [Globals imageNamed:fileName withView:self.monsterImageView maskedColor:nil indicator:UIActivityIndicatorViewStyleWhite clearImageDuringDownload:YES];
   [Globals imageNamed:[Globals imageNameForElement:proto.monsterElement suffix:@"orb.png"] withView:self.elementType maskedColor:nil indicator:UIActivityIndicatorViewStyleWhite clearImageDuringDownload:YES];
@@ -104,6 +115,7 @@
     self.descriptionView.center = CGPointMake(self.descriptionView.center.x-self.descriptionView.frame.size.width, self.descriptionView.center.y);
     self.elementView.center = mainViewCenter;
     self.backButtonView.alpha = 1.0f;
+    self.sellButtonView.alpha = 0.f;
   }completion:^(BOOL finished) {
     self.descriptionView.hidden = YES;
   }];
@@ -116,6 +128,7 @@
     self.descriptionView.center = mainViewCenter;
     self.elementView.center = CGPointMake(self.elementView.center.x+self.elementView.frame.size.width, self.elementView.center.y);
     self.backButtonView.alpha = 0.0f;
+    self.sellButtonView.alpha = 1.f;
   } completion:^(BOOL finished) {
     [self.elementView removeFromSuperview];
     self.backButtonView.hidden = YES;
@@ -123,11 +136,7 @@
 }
 
 - (IBAction)sellClicked:(id)sender {
-  if (self.monster.teamSlot > 0) {
-    [GenericPopupController displayConfirmationWithDescription:@"This monster is currently on your team. Would you still like to sell it?" title:@"Sell?" okayButton:@"Sell" cancelButton:@"Cancel" target:self selector:@selector(sell)];
-  } else {
-    [self sell];
-  }
+  [GenericPopupController displayConfirmationWithDescription:[NSString stringWithFormat:@"Are you sure you would like to sell %@?", self.monster.staticMonster.name] title:@"Sell?" okayButton:@"Sell" cancelButton:@"Cancel" target:self selector:@selector(sell)];
 }
 
 - (void) sell {

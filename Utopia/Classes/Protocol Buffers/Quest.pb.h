@@ -2,6 +2,10 @@
 
 #import "ProtocolBuffers.h"
 
+#import "Structure.pb.h"
+
+@class CoordinateProto;
+@class CoordinateProto_Builder;
 @class DialogueProto;
 @class DialogueProto_Builder;
 @class DialogueProto_SpeechSegmentProto;
@@ -10,6 +14,22 @@
 @class FullQuestProto_Builder;
 @class FullUserQuestProto;
 @class FullUserQuestProto_Builder;
+@class FullUserStructureProto;
+@class FullUserStructureProto_Builder;
+@class HospitalProto;
+@class HospitalProto_Builder;
+@class LabProto;
+@class LabProto_Builder;
+@class ResidenceProto;
+@class ResidenceProto_Builder;
+@class ResourceGeneratorProto;
+@class ResourceGeneratorProto_Builder;
+@class ResourceStorageProto;
+@class ResourceStorageProto_Builder;
+@class StructureInfoProto;
+@class StructureInfoProto_Builder;
+@class TownHallProto;
+@class TownHallProto_Builder;
 typedef enum {
   FullQuestProto_QuestTypeKillMonster = 1,
   FullQuestProto_QuestTypeDonateMonster = 2,
@@ -17,21 +37,11 @@ typedef enum {
   FullQuestProto_QuestTypeCollectCoinsFromHome = 4,
   FullQuestProto_QuestTypeBuildStruct = 5,
   FullQuestProto_QuestTypeUpgradeStruct = 6,
+  FullQuestProto_QuestTypeMonsterAppear = 7,
+  FullQuestProto_QuestTypeCollectSpecialItem = 8,
 } FullQuestProto_QuestType;
 
 BOOL FullQuestProto_QuestTypeIsValidValue(FullQuestProto_QuestType value);
-
-typedef enum {
-  DialogueProto_SpeechSegmentProto_DialogueSpeakerPlayerType = 1,
-  DialogueProto_SpeechSegmentProto_DialogueSpeakerTutorialGirl = 2,
-  DialogueProto_SpeechSegmentProto_DialogueSpeakerQuestgiver1 = 3,
-  DialogueProto_SpeechSegmentProto_DialogueSpeakerQuestgiver2 = 4,
-  DialogueProto_SpeechSegmentProto_DialogueSpeakerQuestgiver3 = 5,
-  DialogueProto_SpeechSegmentProto_DialogueSpeakerQuestgiver4 = 6,
-  DialogueProto_SpeechSegmentProto_DialogueSpeakerQuestgiver5 = 7,
-} DialogueProto_SpeechSegmentProto_DialogueSpeaker;
-
-BOOL DialogueProto_SpeechSegmentProto_DialogueSpeakerIsValidValue(DialogueProto_SpeechSegmentProto_DialogueSpeaker value);
 
 
 @interface QuestRoot : NSObject {
@@ -60,6 +70,7 @@ BOOL DialogueProto_SpeechSegmentProto_DialogueSpeakerIsValidValue(DialogueProto_
   BOOL hasQuestGiverImageSuffix_:1;
   BOOL hasCarrotId_:1;
   BOOL hasAcceptDialogue_:1;
+  BOOL hasQuestGiverImgOffset_:1;
   BOOL hasQuestType_:1;
   BOOL isAchievement_:1;
   BOOL isCompleteMonster_:1;
@@ -79,6 +90,7 @@ BOOL DialogueProto_SpeechSegmentProto_DialogueSpeakerIsValidValue(DialogueProto_
   NSString* questGiverImageSuffix;
   NSString* carrotId;
   DialogueProto* acceptDialogue;
+  CoordinateProto* questGiverImgOffset;
   FullQuestProto_QuestType questType;
   NSMutableArray* mutableQuestsRequiredForThisList;
 }
@@ -101,6 +113,7 @@ BOOL DialogueProto_SpeechSegmentProto_DialogueSpeakerIsValidValue(DialogueProto_
 - (BOOL) hasPriority;
 - (BOOL) hasCarrotId;
 - (BOOL) hasIsAchievement;
+- (BOOL) hasQuestGiverImgOffset;
 @property (readonly) int32_t questId;
 @property (readonly) int32_t cityId;
 @property (readonly, retain) NSString* name;
@@ -120,6 +133,7 @@ BOOL DialogueProto_SpeechSegmentProto_DialogueSpeakerIsValidValue(DialogueProto_
 @property (readonly) int32_t priority;
 @property (readonly, retain) NSString* carrotId;
 - (BOOL) isAchievement;
+@property (readonly, retain) CoordinateProto* questGiverImgOffset;
 - (NSArray*) questsRequiredForThisList;
 - (int32_t) questsRequiredForThisAtIndex:(int32_t) index;
 
@@ -260,6 +274,13 @@ BOOL DialogueProto_SpeechSegmentProto_DialogueSpeakerIsValidValue(DialogueProto_
 - (BOOL) isAchievement;
 - (FullQuestProto_Builder*) setIsAchievement:(BOOL) value;
 - (FullQuestProto_Builder*) clearIsAchievement;
+
+- (BOOL) hasQuestGiverImgOffset;
+- (CoordinateProto*) questGiverImgOffset;
+- (FullQuestProto_Builder*) setQuestGiverImgOffset:(CoordinateProto*) value;
+- (FullQuestProto_Builder*) setQuestGiverImgOffsetBuilder:(CoordinateProto_Builder*) builderForValue;
+- (FullQuestProto_Builder*) mergeQuestGiverImgOffset:(CoordinateProto*) value;
+- (FullQuestProto_Builder*) clearQuestGiverImgOffset;
 @end
 
 @interface DialogueProto : PBGeneratedMessage {
@@ -288,15 +309,19 @@ BOOL DialogueProto_SpeechSegmentProto_DialogueSpeakerIsValidValue(DialogueProto_
 
 @interface DialogueProto_SpeechSegmentProto : PBGeneratedMessage {
 @private
-  BOOL hasSpeakerText_:1;
+  BOOL hasIsLeftSide_:1;
   BOOL hasSpeaker_:1;
+  BOOL hasSpeakerText_:1;
+  BOOL isLeftSide_:1;
+  NSString* speaker;
   NSString* speakerText;
-  DialogueProto_SpeechSegmentProto_DialogueSpeaker speaker;
 }
 - (BOOL) hasSpeaker;
 - (BOOL) hasSpeakerText;
-@property (readonly) DialogueProto_SpeechSegmentProto_DialogueSpeaker speaker;
+- (BOOL) hasIsLeftSide;
+@property (readonly, retain) NSString* speaker;
 @property (readonly, retain) NSString* speakerText;
+- (BOOL) isLeftSide;
 
 + (DialogueProto_SpeechSegmentProto*) defaultInstance;
 - (DialogueProto_SpeechSegmentProto*) defaultInstance;
@@ -333,14 +358,19 @@ BOOL DialogueProto_SpeechSegmentProto_DialogueSpeakerIsValidValue(DialogueProto_
 - (DialogueProto_SpeechSegmentProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
 
 - (BOOL) hasSpeaker;
-- (DialogueProto_SpeechSegmentProto_DialogueSpeaker) speaker;
-- (DialogueProto_SpeechSegmentProto_Builder*) setSpeaker:(DialogueProto_SpeechSegmentProto_DialogueSpeaker) value;
+- (NSString*) speaker;
+- (DialogueProto_SpeechSegmentProto_Builder*) setSpeaker:(NSString*) value;
 - (DialogueProto_SpeechSegmentProto_Builder*) clearSpeaker;
 
 - (BOOL) hasSpeakerText;
 - (NSString*) speakerText;
 - (DialogueProto_SpeechSegmentProto_Builder*) setSpeakerText:(NSString*) value;
 - (DialogueProto_SpeechSegmentProto_Builder*) clearSpeakerText;
+
+- (BOOL) hasIsLeftSide;
+- (BOOL) isLeftSide;
+- (DialogueProto_SpeechSegmentProto_Builder*) setIsLeftSide:(BOOL) value;
+- (DialogueProto_SpeechSegmentProto_Builder*) clearIsLeftSide;
 @end
 
 @interface DialogueProto_Builder : PBGeneratedMessage_Builder {

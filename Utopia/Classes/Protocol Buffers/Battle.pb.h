@@ -2,12 +2,19 @@
 
 #import "ProtocolBuffers.h"
 
+#import "MonsterStuff.pb.h"
 #import "User.pb.h"
 
+@class FullUserMonsterProto;
+@class FullUserMonsterProto_Builder;
 @class FullUserProto;
 @class FullUserProto_Builder;
 @class MinimumClanProto;
 @class MinimumClanProto_Builder;
+@class MinimumUserMonsterProto;
+@class MinimumUserMonsterProto_Builder;
+@class MinimumUserMonsterSellProto;
+@class MinimumUserMonsterSellProto_Builder;
 @class MinimumUserProto;
 @class MinimumUserProtoWithBattleHistory;
 @class MinimumUserProtoWithBattleHistory_Builder;
@@ -18,10 +25,32 @@
 @class MinimumUserProtoWithMaxResources;
 @class MinimumUserProtoWithMaxResources_Builder;
 @class MinimumUserProto_Builder;
+@class MonsterBattleDialogueProto;
+@class MonsterBattleDialogueProto_Builder;
+@class MonsterLevelInfoProto;
+@class MonsterLevelInfoProto_Builder;
+@class MonsterProto;
+@class MonsterProto_Builder;
+@class PvpProto;
+@class PvpProto_Builder;
 @class StaticUserLevelInfoProto;
 @class StaticUserLevelInfoProto_Builder;
+@class UserCurrentMonsterTeamProto;
+@class UserCurrentMonsterTeamProto_Builder;
+@class UserEnhancementItemProto;
+@class UserEnhancementItemProto_Builder;
+@class UserEnhancementProto;
+@class UserEnhancementProto_Builder;
 @class UserFacebookInviteForSlotProto;
 @class UserFacebookInviteForSlotProto_Builder;
+@class UserMonsterCurrentExpProto;
+@class UserMonsterCurrentExpProto_Builder;
+@class UserMonsterCurrentHealthProto;
+@class UserMonsterCurrentHealthProto_Builder;
+@class UserMonsterEvolutionProto;
+@class UserMonsterEvolutionProto_Builder;
+@class UserMonsterHealingProto;
+@class UserMonsterHealingProto_Builder;
 typedef enum {
   BattleResultAttackerWin = 1,
   BattleResultDefenderWin = 2,
@@ -112,5 +141,92 @@ BOOL BattleResultIsValidValue(BattleResult value);
 - (int32_t) battlesFled;
 - (MinimumUserProtoWithBattleHistory_Builder*) setBattlesFled:(int32_t) value;
 - (MinimumUserProtoWithBattleHistory_Builder*) clearBattlesFled;
+@end
+
+@interface PvpProto : PBGeneratedMessage {
+@private
+  BOOL hasCurElo_:1;
+  BOOL hasProspectiveCashWinnings_:1;
+  BOOL hasProspectiveOilWinnings_:1;
+  BOOL hasDefender_:1;
+  int32_t curElo;
+  int32_t prospectiveCashWinnings;
+  int32_t prospectiveOilWinnings;
+  MinimumUserProtoWithLevel* defender;
+  NSMutableArray* mutableDefenderMonstersList;
+}
+- (BOOL) hasDefender;
+- (BOOL) hasCurElo;
+- (BOOL) hasProspectiveCashWinnings;
+- (BOOL) hasProspectiveOilWinnings;
+@property (readonly, retain) MinimumUserProtoWithLevel* defender;
+@property (readonly) int32_t curElo;
+@property (readonly) int32_t prospectiveCashWinnings;
+@property (readonly) int32_t prospectiveOilWinnings;
+- (NSArray*) defenderMonstersList;
+- (MinimumUserMonsterProto*) defenderMonstersAtIndex:(int32_t) index;
+
++ (PvpProto*) defaultInstance;
+- (PvpProto*) defaultInstance;
+
+- (BOOL) isInitialized;
+- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output;
+- (PvpProto_Builder*) builder;
++ (PvpProto_Builder*) builder;
++ (PvpProto_Builder*) builderWithPrototype:(PvpProto*) prototype;
+
++ (PvpProto*) parseFromData:(NSData*) data;
++ (PvpProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (PvpProto*) parseFromInputStream:(NSInputStream*) input;
++ (PvpProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (PvpProto*) parseFromCodedInputStream:(PBCodedInputStream*) input;
++ (PvpProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+@end
+
+@interface PvpProto_Builder : PBGeneratedMessage_Builder {
+@private
+  PvpProto* result;
+}
+
+- (PvpProto*) defaultInstance;
+
+- (PvpProto_Builder*) clear;
+- (PvpProto_Builder*) clone;
+
+- (PvpProto*) build;
+- (PvpProto*) buildPartial;
+
+- (PvpProto_Builder*) mergeFrom:(PvpProto*) other;
+- (PvpProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input;
+- (PvpProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+
+- (BOOL) hasDefender;
+- (MinimumUserProtoWithLevel*) defender;
+- (PvpProto_Builder*) setDefender:(MinimumUserProtoWithLevel*) value;
+- (PvpProto_Builder*) setDefenderBuilder:(MinimumUserProtoWithLevel_Builder*) builderForValue;
+- (PvpProto_Builder*) mergeDefender:(MinimumUserProtoWithLevel*) value;
+- (PvpProto_Builder*) clearDefender;
+
+- (BOOL) hasCurElo;
+- (int32_t) curElo;
+- (PvpProto_Builder*) setCurElo:(int32_t) value;
+- (PvpProto_Builder*) clearCurElo;
+
+- (NSArray*) defenderMonstersList;
+- (MinimumUserMonsterProto*) defenderMonstersAtIndex:(int32_t) index;
+- (PvpProto_Builder*) replaceDefenderMonstersAtIndex:(int32_t) index with:(MinimumUserMonsterProto*) value;
+- (PvpProto_Builder*) addDefenderMonsters:(MinimumUserMonsterProto*) value;
+- (PvpProto_Builder*) addAllDefenderMonsters:(NSArray*) values;
+- (PvpProto_Builder*) clearDefenderMonstersList;
+
+- (BOOL) hasProspectiveCashWinnings;
+- (int32_t) prospectiveCashWinnings;
+- (PvpProto_Builder*) setProspectiveCashWinnings:(int32_t) value;
+- (PvpProto_Builder*) clearProspectiveCashWinnings;
+
+- (BOOL) hasProspectiveOilWinnings;
+- (int32_t) prospectiveOilWinnings;
+- (PvpProto_Builder*) setProspectiveOilWinnings:(int32_t) value;
+- (PvpProto_Builder*) clearProspectiveOilWinnings;
 @end
 

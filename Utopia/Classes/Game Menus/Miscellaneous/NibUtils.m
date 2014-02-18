@@ -670,9 +670,9 @@
     int diff = _goalNum - _currentNum;
     int change = 0;
     if (diff > 0) {
-      change = MAX((int)(0.1*diff), 1);
+      change = MAX((int)(0.1*diff), 1.f);
     } else if (diff < 0) {
-      change = MIN((int)(0.1*diff), -1);
+      change = MIN((int)(0.1*diff), -1.f);
     }
     
     _currentNum += change;

@@ -36,6 +36,9 @@
   self.detailsContainerView.userInteractionEnabled = NO;
   
   [Globals bounceView:self.mainView fadeInBgdView:self.bgdView];
+  [Globals bounceView:self.questGiverImageView];
+  
+  arr = gs.staticMonsters.allValues;
 }
 
 - (void) viewDidAppear:(BOOL)animated {
@@ -62,6 +65,12 @@
 }
 
 - (IBAction)close:(id)sender {
+  [UIView animateWithDuration:0.3f animations:^{
+    self.questGiverImageView.center = ccp(-self.questGiverImageView.image.size.width,
+                                          self.view.frame.size.height-self.questGiverImageView.frame.size.height/2);
+    self.questGiverImageView.alpha = 0.f;
+  }];
+  
   [Globals popOutView:self.mainView fadeOutBgdView:self.bgdView completion:^{
     [self.view removeFromSuperview];
     [self removeFromParentViewController];
@@ -70,13 +79,19 @@
 
 #pragma mark - Transition between ViewControllers
 
-- (void) transitionToDetailsView {
+- (void) transitionToDetailsViewAnimated:(BOOL)animated {
   self.questDetailsViewController.view.center = ccp(self.detailsContainerView.frame.size.width+
                                                     self.questDetailsViewController.view.frame.size.width/2,
                                                     self.questDetailsViewController.view.center.y);
   self.backView.hidden = NO;
   self.backView.alpha = 0.f;
-  [UIView animateWithDuration:0.3f animations:^{
+  float duration = animated ? 0.3f : 0.f;
+  [UIView animateWithDuration:duration animations:^{
+    int val = [Globals isLongiPhone] ? 0 : 44;
+    self.questGiverImageView.center = ccp(80-val, 184);
+    self.mainView.center = ccp(140-val+self.mainView.frame.size.width/2,
+                               self.view.frame.size.height/2);
+    
     self.questDetailsViewController.view.center = ccp(self.detailsContainerView.frame.size.width/2,
                                                       self.questDetailsViewController.view.center.y);
     self.questListViewController.view.center = ccp(-self.questListViewController.view.center.x,
@@ -87,7 +102,7 @@
   }];
   
   CATransition *animation = [CATransition animation];
-  animation.duration = 0.3f;
+  animation.duration = duration;
   animation.type = kCATransitionFade;
   animation.timingFunction = [CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseInEaseOut];
   [self.titleLabel.layer addAnimation:animation forKey:@"changeTextTransition"];
@@ -100,6 +115,9 @@
   self.questDetailsViewController = nil;
   
   [UIView animateWithDuration:0.3f animations:^{
+    self.questGiverImageView.center = ccp(-self.questGiverImageView.image.size.width, 184);
+    self.mainView.center = ccp(self.view.frame.size.width/2, self.view.frame.size.height/2);
+    
     self.questListViewController.view.center = ccp(self.listContainerView.frame.size.width/2,
                                                    self.questListViewController.view.center.y);
     qdvc.view.center = ccp(self.detailsContainerView.frame.size.width+
@@ -126,20 +144,32 @@
 #pragma mark - QuestListCellDelegate methods
 
 - (void) questListCellClicked:(QuestListCell *)cell {
+  [self loadDetailsViewForQuest:cell.quest userQuest:cell.userQuest animated:YES];
+}
+
+- (void) loadDetailsViewForQuest:(FullQuestProto *)quest userQuest:(UserQuest *)uq animated:(BOOL)animated {
   self.questDetailsViewController = [[QuestDetailsViewController alloc] init];
   self.questDetailsViewController.delegate = self;
   [self addChildViewController:self.questDetailsViewController];
   [self.detailsContainerView addSubview:self.questDetailsViewController.view];
-  [self.questDetailsViewController loadWithQuest:cell.quest userQuest:cell.userQuest];
+  [self.questDetailsViewController loadWithQuest:quest userQuest:uq];
   
-  [self transitionToDetailsView];
+//  NSString *file = [quest.questGiverImageSuffix stringByAppendingString:@"Big.png"];
+  static int x = 0;
+  MonsterProto *mp = arr[x];
+  NSString *file = [mp.imagePrefix stringByAppendingString:@"Big.png"];
+  x++;
   
-  if (!cell.userQuest) {
-    [[OutgoingEventController sharedOutgoingEventController] acceptQuest:cell.quest.questId];
+  [Globals imageNamed:file withView:self.questGiverImageView maskedColor:nil indicator:UIActivityIndicatorViewStyleWhiteLarge clearImageDuringDownload:YES];
+  
+  [self transitionToDetailsViewAnimated:animated];
+  
+  if (!uq) {
+    [[OutgoingEventController sharedOutgoingEventController] acceptQuest:quest.questId];
     
     [[NSNotificationCenter defaultCenter] postNotificationName:QUESTS_CHANGED_NOTIFICATION object:nil];
     
-    [QuestUtil checkNewlyAcceptedQuest:cell.quest];
+    [QuestUtil checkNewlyAcceptedQuest:quest];
   }
 }
 
@@ -184,16 +214,16 @@
   
   if (potentials.count >= fqp.quantity) {
     NSArray *ums = [potentials subarrayWithRange:NSMakeRange(0, fqp.quantity)];
-    NSMutableArray *arr = [NSMutableArray array];
+    NSMutableArray *ids = [NSMutableArray array];
     int numOnTeam = 0;
     for (UserMonster *um in ums) {
       if (um.teamSlot > 0) {
         numOnTeam++;
       }
-      [arr addObject:[NSNumber numberWithInt:um.userMonsterId]];
+      [ids addObject:[NSNumber numberWithInt:um.userMonsterId]];
     }
     
-    self.userMonsterIds = arr;
+    self.userMonsterIds = ids;
     
     if (numOnTeam) {
       NSString *desc = [NSString stringWithFormat:@"%@ of these mobsters %@ on your team. Would you still like to donate?", numOnTeam == 1 ? @"One" : numOnTeam == 2 ? @"Two" : @"Three", numOnTeam == 1 ? @"is" : @"are"];
@@ -237,7 +267,19 @@
   QuestRedeemResponseProto *proto = (QuestRedeemResponseProto *)fe.event;
   GameState *gs = [GameState sharedGameState];
   
-  if (self.questDetailsViewController.quest.questId == proto.questId) {
+  FullQuestProto *quest = nil;
+  for (FullQuestProto *fqp in proto.newlyAvailableQuestsList) {
+    if (fqp.hasAcceptDialogue) {
+      quest = fqp;
+      break;
+    }
+  }
+  
+  if (quest) {
+    GameViewController *gvc = [GameViewController baseController];
+    [gvc beginDialogue:quest.acceptDialogue withQuestId:quest.questId];
+    [self close:nil];
+  } else if (self.questDetailsViewController.quest.questId == proto.questId) {
     [self transitionToListView];
   }
   
