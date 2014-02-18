@@ -12093,7 +12093,7 @@
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(SRCROOT)/Utopia/libs/**",
-					"/Users/Ashwin/mobsters-client/Utopia/libs/TestFlightSDK2.1.3",
+					"$(SRCROOT)/Utopia/libs/TestFlightSDK2.1.3",
 				);
 				ONLY_ACTIVE_ARCH = YES;
 				OTHER_LDFLAGS = (
@@ -12159,7 +12159,7 @@
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(SRCROOT)/Utopia/libs/**",
-					"/Users/Ashwin/mobsters-client/Utopia/libs/TestFlightSDK2.1.3",
+					"$(SRCROOT)/Utopia/libs/TestFlightSDK2.1.3",
 				);
 				ONLY_ACTIVE_ARCH = NO;
 				OTHER_LDFLAGS = (
