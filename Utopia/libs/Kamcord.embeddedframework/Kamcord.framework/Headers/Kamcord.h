@@ -30,14 +30,7 @@
 
 /*
  *
- * Import custom UI API.
- *
- */
-#import "KamcordCustomUI.h"
-
-/*
- *
- * Current version is 1.6.6 (01/04/2014)
+ * Current version is 1.7.0 (2/12/2014)
  *
  */
 FOUNDATION_EXPORT NSString * const KamcordVersion;
@@ -65,8 +58,8 @@ typedef enum
 
 /*
  *
- * Keys for skinning the Kamcord UI. For more information, please refer to here:
- * https://github.com/kamcord/kamcord-ios-sdk/wiki/Using-the-Kamcord-API%3A-Skinning-the-Kamcord-UI
+ * This has been removed as of version 1.7.0. This enum is here for legacy reasons
+ * and will be removed in a future release.
  *
  */
 typedef enum
@@ -120,6 +113,11 @@ typedef enum
  *
  * @returns     A string describing the current Kamcord SDK.
  *
+ */
++ (NSString *)SDKVersion;
+
+/*
+ * Deprecated version of [Kamcord SDKVersion].
  */
 + (NSString *)kamcordSDKVersion;
 
@@ -412,7 +410,7 @@ typedef enum
  *
  */
 + (void)showVideoWithMetadataConstraints:(NSDictionary *)constraints
-                              withTitle:(NSString *)title;
+                               withTitle:(NSString *)title;
 
 /*
  *
@@ -587,6 +585,8 @@ typedef enum
 /*
  *
  * Set title of the video on Kamcord watch pages and on YouTube.
+ * If the user enters their own title in the Kamcord Share UI,
+ * their title will override this.
  *
  * @param       title       The title of the video on the Kamcord watch page and on YouTube.
  *
@@ -791,6 +791,20 @@ typedef enum
  *
  */
 + (NSUInteger)videoFPS;
+
+/*
+ *
+ * If doing cross promo between your games, you can set the icon for
+ * the extra cross promo watch tab.
+ *
+ * @param       imageName           The name of the image in the main bundle.
+ *                                  If you have both the 1x and 2x image
+ *                                  named "crossPromoIcon.png" and "crossPromoIcon2@x.png",
+ *                                  pass in @"crossPromoIcon.png" and we will automatically
+ *                                  use the 2x version on retina devices.
+ *
+ */
++ (void)setCrossPromoIcon:(NSString *)imageName;
 
 // -------------------------------------------------------------------------
 // OpenGL Commands

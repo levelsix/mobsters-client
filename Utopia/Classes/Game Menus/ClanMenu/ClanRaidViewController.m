@@ -7,32 +7,38 @@
 //
 
 #import "ClanRaidViewController.h"
-
-@interface ClanRaidViewController ()
-
-@end
+#import "ClanRaidDetailsViewController.h"
 
 @implementation ClanRaidViewController
 
-- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
-{
-    self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
-    if (self) {
-        // Custom initialization
-    }
-    return self;
+#pragma mark - UITableView delegate/dataSource
+
+- (int) numberOfSectionsInTableView:(UITableView *)tableView {
+  return 1;
 }
 
-- (void)viewDidLoad
-{
-    [super viewDidLoad];
-    // Do any additional setup after loading the view from its nib.
+- (int) tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
+  return 1;
 }
 
-- (void)didReceiveMemoryWarning
-{
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
+- (UITableViewCell *) tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
+  [[NSBundle mainBundle] loadNibNamed:@"ClanRaidActiveCell" owner:self options:nil];
+  return self.nibCell;
+}
+
+- (float) tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
+  if (indexPath.section == 0) {
+    return 144.f;
+  } else {
+    return 56.f;
+  }
+}
+
+#pragma mark - IBActions
+
+- (IBAction)raidSelected:(id)sender {
+  ClanRaidDetailsViewController *details = [[ClanRaidDetailsViewController alloc] init];
+  [self.navigationController pushViewController:details animated:YES];
 }
 
 @end

@@ -14,7 +14,7 @@
 
 @property (nonatomic, retain) CCSprite *midBubble;
 @property (nonatomic, retain) CCSprite *rightBubble;
-@property (nonatomic, retain) CCLabelTTF *label;
+@property (nonatomic, retain) CCLabelBMFont *label;
 @property (nonatomic, retain) NSString *text;
 
 + (id) speechBubbleWithText:(NSString *)text;

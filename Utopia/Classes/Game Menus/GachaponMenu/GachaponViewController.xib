@@ -23,15 +23,15 @@
         </placeholder>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
         <view contentMode="scaleToFill" id="j7g-Uq-6OJ" userLabel="Main View">
-            <rect key="frame" x="0.0" y="0.0" width="568" height="280"/>
+            <rect key="frame" x="0.0" y="0.0" width="567.99999999999989" height="280"/>
             <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES"/>
             <subviews>
                 <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="mainmenubg.png" id="DK1-Z2-9W1">
-                    <rect key="frame" x="0.0" y="-24" width="568" height="320"/>
+                    <rect key="frame" x="0.0" y="-24" width="567.99999999999989" height="320"/>
                     <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES"/>
                 </imageView>
                 <view tag="5" contentMode="scaleToFill" id="4VP-Od-GFZ">
-                    <rect key="frame" x="0.0" y="-1" width="568" height="281"/>
+                    <rect key="frame" x="0.0" y="-1" width="567.99999999999989" height="281"/>
                     <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES"/>
                     <subviews>
                         <view contentMode="scaleToFill" id="7T8-TF-AHe" userLabel="Machine View">
@@ -194,12 +194,12 @@
                             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                         </view>
                         <view contentMode="scaleToFill" id="uZU-xc-fTc" userLabel="Table Container">
-                            <rect key="frame" x="0.0" y="209" width="568" height="72"/>
+                            <rect key="frame" x="0.0" y="209" width="567.99999999999989" height="72"/>
                             <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
                             <color key="backgroundColor" white="0.0" alpha="0.20000000000000001" colorSpace="calibratedWhite"/>
                         </view>
                         <view contentMode="scaleToFill" id="QKQ-Ov-dcL" userLabel="Border">
-                            <rect key="frame" x="0.0" y="208" width="568" height="1"/>
+                            <rect key="frame" x="0.0" y="208" width="567.99999999999989" height="1"/>
                             <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
                             <color key="backgroundColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
                         </view>

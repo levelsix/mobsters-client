@@ -16,7 +16,8 @@
 
 - (id) initWithText:(NSString *)text {
   if ((self = [super initWithImageNamed:@"bubbleleft.png"])) {
-    CCLabelTTF *label = [CCLabelTTF labelWithString:@"" fontName:@"Gotham-Medium" fontSize:8.f];
+//    CCLabelTTF *label = [CCLabelTTF labelWithString:@"" fontName:@"Gotham-Medium" fontSize:8.f];
+    CCLabelBMFont *label = [CCLabelBMFont labelWithString:@"" fntFile:@"mini7.fnt"];
     [self addChild:label z:1];
     label.anchorPoint = ccp(0, 0.5);
     label.color = [CCColor colorWithRed:17.f/255.f green:90.f/255.f blue:100.f/255.f alpha:1.f];

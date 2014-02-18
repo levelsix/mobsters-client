@@ -11,12 +11,7 @@
 #import "ClanBrowseViewController.h"
 #import "ClanInfoViewController.h"
 #import "ClanCreateViewController.h"
-
-typedef enum {
-  kMyClan = 1,
-  kBrowseClans,
-  kCreateClan
-} ClanState;
+#import "ClanRaidViewController.h"
 
 @interface ClanViewController : GenViewController {
   UIViewController *_controller1;
@@ -26,6 +21,8 @@ typedef enum {
 @property (nonatomic, retain) ClanBrowseViewController *clanBrowseViewController;
 @property (nonatomic, retain) ClanCreateViewController *clanCreateViewController;
 @property (nonatomic, retain) ClanInfoViewController *clanInfoViewController;
+@property (nonatomic, retain) ClanRaidViewController *clanRaidViewController;
+
 @property (nonatomic, retain) IBOutlet FlipTabBar *menuTopBar;
 
 @end

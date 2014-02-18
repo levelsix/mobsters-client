@@ -7,7 +7,12 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "GenViewController.h"
 
-@interface ClanRaidViewController : UIViewController
+@interface ClanRaidViewController : GenViewController <UITableViewDataSource, UITableViewDelegate>
+
+@property (nonatomic, retain) IBOutlet UITableViewCell *nibCell;
+
+- (IBAction)raidSelected:(id)sender;
 
 @end

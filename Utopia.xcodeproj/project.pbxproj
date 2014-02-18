@@ -2063,6 +2063,14 @@
 		CFFA31EE18B3DC46008B81B9 /* ClanRaidViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = CFFA31EC18B3DC46008B81B9 /* ClanRaidViewController.xib */; };
 		CFFA31F018B3DFF7008B81B9 /* ClanRaidActiveCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = CFFA31EF18B3DFF7008B81B9 /* ClanRaidActiveCell.xib */; };
 		CFFA31F218B3E00D008B81B9 /* ClanRaidInactiveCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = CFFA31F118B3E00D008B81B9 /* ClanRaidInactiveCell.xib */; };
+		CFFA31F518B3E836008B81B9 /* ClanRaidViews.m in Sources */ = {isa = PBXBuildFile; fileRef = CFFA31F418B3E836008B81B9 /* ClanRaidViews.m */; };
+		CFFA31F918B3F055008B81B9 /* ClanRaidDetailsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CFFA31F718B3F055008B81B9 /* ClanRaidDetailsViewController.m */; };
+		CFFA31FA18B3F055008B81B9 /* ClanRaidDetailsViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = CFFA31F818B3F055008B81B9 /* ClanRaidDetailsViewController.xib */; };
+		CFFA31FD18B3F1DA008B81B9 /* Rapper4AKCharacter@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CFFA31FB18B3F1D9008B81B9 /* Rapper4AKCharacter@2x.png */; };
+		CFFA31FE18B3F1DA008B81B9 /* Rapper4ShotgunCharacter.png in Resources */ = {isa = PBXBuildFile; fileRef = CFFA31FC18B3F1D9008B81B9 /* Rapper4ShotgunCharacter.png */; };
+		CFFA320118B3F28D008B81B9 /* mini7.fnt in Resources */ = {isa = PBXBuildFile; fileRef = CFFA31FF18B3F28D008B81B9 /* mini7.fnt */; };
+		CFFA320218B3F28D008B81B9 /* mini7.png in Resources */ = {isa = PBXBuildFile; fileRef = CFFA320018B3F28D008B81B9 /* mini7.png */; };
+		CFFA320718B40944008B81B9 /* ClanRaidStageCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = CFFA320618B40944008B81B9 /* ClanRaidStageCell.xib */; };
 		CFFA9D68188771680097AD72 /* MPM@2x.plist in Resources */ = {isa = PBXBuildFile; fileRef = CFFA9D66188771680097AD72 /* MPM@2x.plist */; };
 		CFFA9D6A188771680097AD72 /* MPM@2x.pvr.ccz in Resources */ = {isa = PBXBuildFile; fileRef = CFFA9D67188771680097AD72 /* MPM@2x.pvr.ccz */; };
 		CFFA9D6E18877C5E0097AD72 /* rockorb.png in Resources */ = {isa = PBXBuildFile; fileRef = CFFA9D6C18877C5E0097AD72 /* rockorb.png */; };
@@ -4807,6 +4815,16 @@
 		CFFA31EC18B3DC46008B81B9 /* ClanRaidViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ClanRaidViewController.xib; sourceTree = "<group>"; };
 		CFFA31EF18B3DFF7008B81B9 /* ClanRaidActiveCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ClanRaidActiveCell.xib; sourceTree = "<group>"; };
 		CFFA31F118B3E00D008B81B9 /* ClanRaidInactiveCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ClanRaidInactiveCell.xib; sourceTree = "<group>"; };
+		CFFA31F318B3E836008B81B9 /* ClanRaidViews.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ClanRaidViews.h; sourceTree = "<group>"; };
+		CFFA31F418B3E836008B81B9 /* ClanRaidViews.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ClanRaidViews.m; sourceTree = "<group>"; };
+		CFFA31F618B3F055008B81B9 /* ClanRaidDetailsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ClanRaidDetailsViewController.h; sourceTree = "<group>"; };
+		CFFA31F718B3F055008B81B9 /* ClanRaidDetailsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ClanRaidDetailsViewController.m; sourceTree = "<group>"; };
+		CFFA31F818B3F055008B81B9 /* ClanRaidDetailsViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ClanRaidDetailsViewController.xib; sourceTree = "<group>"; };
+		CFFA31FB18B3F1D9008B81B9 /* Rapper4AKCharacter@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Rapper4AKCharacter@2x.png"; sourceTree = "<group>"; };
+		CFFA31FC18B3F1D9008B81B9 /* Rapper4ShotgunCharacter.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Rapper4ShotgunCharacter.png; sourceTree = "<group>"; };
+		CFFA31FF18B3F28D008B81B9 /* mini7.fnt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = mini7.fnt; sourceTree = "<group>"; };
+		CFFA320018B3F28D008B81B9 /* mini7.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = mini7.png; sourceTree = "<group>"; };
+		CFFA320618B40944008B81B9 /* ClanRaidStageCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ClanRaidStageCell.xib; sourceTree = "<group>"; };
 		CFFA9D66188771680097AD72 /* MPM@2x.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "MPM@2x.plist"; sourceTree = "<group>"; };
 		CFFA9D67188771680097AD72 /* MPM@2x.pvr.ccz */ = {isa = PBXFileReference; lastKnownFileType = file; path = "MPM@2x.pvr.ccz"; sourceTree = "<group>"; };
 		CFFA9D6C18877C5E0097AD72 /* rockorb.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = rockorb.png; sourceTree = "<group>"; };
@@ -5674,6 +5692,7 @@
 		CF1267741538ACC500E0C1AD /* Utopia Images */ = {
 			isa = PBXGroup;
 			children = (
+				CFF1D64217DED12E00874339 /* test */,
 				CFFA31C218B30954008B81B9 /* Raids */,
 				CFF0B49918AEA1D500C13A27 /* bubble */,
 				CFFBE00118ACA8160090CA9A /* moveswap */,
@@ -5694,7 +5713,6 @@
 				CF37660E1832CE4400D0A77E /* Dialogue */,
 				CF3765D2183203FD00D0A77E /* nav map */,
 				CF376500182DD6F800D0A77E /* Chat */,
-				CFF1D64217DED12E00874339 /* test */,
 				CFC97113182B05CD00FF1D83 /* power meter */,
 				CFF390831828C00B0010A3BE /* Requests Menu */,
 				CF0A8D7F183AD03300B32CDC /* GenericPopup */,
@@ -8429,6 +8447,10 @@
 		CFF1D64217DED12E00874339 /* test */ = {
 			isa = PBXGroup;
 			children = (
+				CFFA31FF18B3F28D008B81B9 /* mini7.fnt */,
+				CFFA320018B3F28D008B81B9 /* mini7.png */,
+				CFFA31FB18B3F1D9008B81B9 /* Rapper4AKCharacter@2x.png */,
+				CFFA31FC18B3F1D9008B81B9 /* Rapper4ShotgunCharacter.png */,
 				CFFA31BD18B2B7D2008B81B9 /* missionmap2@2x.png */,
 				CFAB77B618B1A21D0066FE25 /* Scientist1Big.png */,
 				CFAB77B718B1A21E0066FE25 /* Scientist1Big@2x.png */,
@@ -8871,11 +8893,17 @@
 		CFFA31E918B3DC1E008B81B9 /* Raids */ = {
 			isa = PBXGroup;
 			children = (
+				CFFA31F318B3E836008B81B9 /* ClanRaidViews.h */,
+				CFFA31F418B3E836008B81B9 /* ClanRaidViews.m */,
 				CFFA31EA18B3DC46008B81B9 /* ClanRaidViewController.h */,
 				CFFA31EB18B3DC46008B81B9 /* ClanRaidViewController.m */,
 				CFFA31EC18B3DC46008B81B9 /* ClanRaidViewController.xib */,
 				CFFA31EF18B3DFF7008B81B9 /* ClanRaidActiveCell.xib */,
 				CFFA31F118B3E00D008B81B9 /* ClanRaidInactiveCell.xib */,
+				CFFA31F618B3F055008B81B9 /* ClanRaidDetailsViewController.h */,
+				CFFA31F718B3F055008B81B9 /* ClanRaidDetailsViewController.m */,
+				CFFA31F818B3F055008B81B9 /* ClanRaidDetailsViewController.xib */,
+				CFFA320618B40944008B81B9 /* ClanRaidStageCell.xib */,
 			);
 			name = Raids;
 			sourceTree = "<group>";
@@ -9791,6 +9819,7 @@
 				CFF3900118273C2E0010A3BE /* askfacebook@2x.png in Resources */,
 				CFF740411817AF09009DE4A4 /* hydrant@2x.png in Resources */,
 				CF1270041538ACCB00E0C1AD /* profilenotification.png in Resources */,
+				CFFA320718B40944008B81B9 /* ClanRaidStageCell.xib in Resources */,
 				CFE02B9B1821DC000016C1E2 /* mininight.png in Resources */,
 				CF1270051538ACCB00E0C1AD /* profilenotification@2x.png in Resources */,
 				CF1270061538ACCB00E0C1AD /* profilepictureframe.png in Resources */,
@@ -9956,6 +9985,7 @@
 				CF1271191538ACCC00E0C1AD /* hskel@2x.png in Resources */,
 				CF134C5D18AB006D00D7D700 /* findmatchbig.png in Resources */,
 				CF12711A1538ACCC00E0C1AD /* hwarrior.png in Resources */,
+				CFFA320218B3F28D008B81B9 /* mini7.png in Resources */,
 				CFF391131829D5F60010A3BE /* earthgrenade@2x.png in Resources */,
 				CF12711B1538ACCC00E0C1AD /* hwarrior@2x.png in Resources */,
 				CF6F19ED181518C900CFF2B9 /* questarrow.png in Resources */,
@@ -10333,6 +10363,7 @@
 				CF41D160158BDDAC00A4DBC3 /* Vault_Withdraw2.m4a in Resources */,
 				CF3765F0183203FE00D0A77E /* multiplayerbw@2x.png in Resources */,
 				CFFBDFBA18ACA3D90090CA9A /* Scientist4Breath02@2x.png in Resources */,
+				CFFA31FA18B3F055008B81B9 /* ClanRaidDetailsViewController.xib in Resources */,
 				CFF02BB3158C1D920072965A /* Medieval Market.m4a in Resources */,
 				CFFBE00A18ACA8160090CA9A /* swapbutton.png in Resources */,
 				CFFBDF4618ACA3D90090CA9A /* Scientist1Turn02@2x.png in Resources */,
@@ -10651,6 +10682,7 @@
 				CFFEB16218349B7D007C4BA3 /* lightteam.png in Resources */,
 				CFFBDFCB18ACA3D90090CA9A /* Scientist4Turn06@2x.png in Resources */,
 				CFEDA90618974A7300867490 /* evolveequals.png in Resources */,
+				CFFA320118B3F28D008B81B9 /* mini7.fnt in Resources */,
 				CF62E70815FEC6D500DF850F /* ClanViewController.xib in Resources */,
 				CFF390D31829C74A0010A3BE /* earthupdown@2x.png in Resources */,
 				CFE02CFF182370AF0016C1E2 /* Cheerleader2BazookaThumbnail.png in Resources */,
@@ -10938,6 +10970,7 @@
 				CF7064D01846CED8005B30A1 /* homeroad.png in Resources */,
 				CFC4D05D16E9B72D009A25DA /* redbar.png in Resources */,
 				CFCE570418137CD400494F8C /* notifcationbg@2x.png in Resources */,
+				CFFA31FE18B3F1DA008B81B9 /* Rapper4ShotgunCharacter.png in Resources */,
 				CFC4D05E16E9B72D009A25DA /* redbar@2x.png in Resources */,
 				CFC4D05F16E9B72D009A25DA /* redminibox.png in Resources */,
 				CFC4D06016E9B72D009A25DA /* redminibox@2x.png in Resources */,
@@ -11501,6 +11534,7 @@
 				CFF1D73517DFC43700874339 /* sparkle1@2x.plist in Resources */,
 				CFF1D73B17DFC43700874339 /* timerbg.png in Resources */,
 				CF134A6918A5E4B500D7D700 /* FatBoy3Move00@2x.png in Resources */,
+				CFFA31FD18B3F1DA008B81B9 /* Rapper4AKCharacter@2x.png in Resources */,
 				CF3766A31833022700D0A77E /* legendcapsule.png in Resources */,
 				CFF1D73D17DFC43700874339 /* timerbg@2x.png in Resources */,
 				CFF1D73F17DFC43700874339 /* timeryellow.png in Resources */,
@@ -11807,6 +11841,7 @@
 				CF126E221538ACCA00E0C1AD /* SBGradientOverlayLayer.m in Sources */,
 				CFEDA8FB189652AA00867490 /* EvoViews.m in Sources */,
 				CF126E231538ACCA00E0C1AD /* SBTickerView.m in Sources */,
+				CFFA31F918B3F055008B81B9 /* ClanRaidDetailsViewController.m in Sources */,
 				CF126E241538ACCA00E0C1AD /* UIView+SBExtras.m in Sources */,
 				CF9AE6D418090C320013DD44 /* EventApns.pb.m in Sources */,
 				CF1273BD1538AE1E00E0C1AD /* main.m in Sources */,
@@ -11924,6 +11959,7 @@
 				CFF2080617FE269300AA6F84 /* DungeonBattleLayer.m in Sources */,
 				CF4DB8DD1807DA1F00062258 /* ChatBottomView.m in Sources */,
 				CF664F401815F87900731AEB /* EnhanceViewController.m in Sources */,
+				CFFA31F518B3E836008B81B9 /* ClanRaidViews.m in Sources */,
 				CF9AE717180CE5100013DD44 /* GenViewController.m in Sources */,
 				CF9AE70518090C320013DD44 /* Protocols.pb.m in Sources */,
 				CFF740801818EE25009DE4A4 /* QuestUtil.m in Sources */,
@@ -12027,8 +12063,8 @@
 					"$(inherited)",
 					"$(SRCROOT)",
 					"$(SRCROOT)/Utopia/libs",
-					"/Users/Ashwin/mobsters-client/Utopia/libs",
-					"/Users/Ashwin/mobsters-client/Utopia/libs/Kamcord.embeddedframework",
+					"$(SRCROOT)/Utopia/libs",
+					"$(SRCROOT)/Utopia/libs/Kamcord.embeddedframework",
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Utopia/Utopia-Prefix.pch";
@@ -12094,8 +12130,8 @@
 					"$(inherited)",
 					"$(SRCROOT)",
 					"$(SRCROOT)/Utopia/libs",
-					"/Users/Ashwin/mobsters-client/Utopia/libs",
-					"/Users/Ashwin/mobsters-client/Utopia/libs/Kamcord.embeddedframework",
+					"$(SRCROOT)/Utopia/libs",
+					"$(SRCROOT)/Utopia/libs/Kamcord.embeddedframework",
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Utopia/Utopia-Prefix.pch";

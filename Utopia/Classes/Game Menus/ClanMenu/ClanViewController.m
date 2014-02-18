@@ -19,10 +19,12 @@
   self.clanBrowseViewController = [[ClanBrowseViewController alloc] initWithNibName:nil bundle:nil];
   self.clanInfoViewController = [[ClanInfoViewController alloc] initWithNibName:nil bundle:nil];
   self.clanCreateViewController = [[ClanCreateViewController alloc] initWithNibName:nil bundle:nil];
+  self.clanRaidViewController = [[ClanRaidViewController alloc] initWithNibName:nil bundle:nil];
   
   [self addChildViewController:self.clanBrowseViewController];
   [self addChildViewController:self.clanInfoViewController];
   [self addChildViewController:self.clanCreateViewController];
+  [self addChildViewController:self.clanRaidViewController];
   
   self.title = @"Clans";
   self.navigationItem.titleView = self.menuTopBar;
@@ -54,10 +56,10 @@
 
 - (void) loadInClanConfiguration {
   _controller1 = self.clanInfoViewController;
-  _controller2 = self.clanBrowseViewController;
+  _controller2 = self.clanRaidViewController;
   
   self.menuTopBar.label1.text = @"MY CLAN";
-  self.menuTopBar.label2.text = @"BROWSE CLANS";
+  self.menuTopBar.label2.text = @"RAIDS";
 }
 
 - (void) loadNotInClanConfiguration {

@@ -2,6 +2,9 @@
 //  KamcordRecorder.h
 //
 
+#ifndef __KAMCORDRECORDER_H__
+#define __KAMCORDRECORDER_H__
+
 #import <UIKit/UIKit.h>
 #import <OpenGLES/EAGL.h>
 #import <OpenGLES/ES1/gl.h>
@@ -159,3 +162,5 @@
 + (void)setParentViewController:(UIViewController *)parentViewController;
 
 @end
+
+#endif
