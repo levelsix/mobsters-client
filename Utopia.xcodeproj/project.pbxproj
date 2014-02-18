@@ -1742,10 +1742,6 @@
 		CFEB284715951ADC00B622FC /* FullEvent.m in Sources */ = {isa = PBXBuildFile; fileRef = CFEB284615951ADB00B622FC /* FullEvent.m */; };
 		CFEC29C9159AAA2100F15EDC /* visitprofile.png in Resources */ = {isa = PBXBuildFile; fileRef = CFEC29C7159AAA2100F15EDC /* visitprofile.png */; };
 		CFEC29CA159AAA2100F15EDC /* visitprofile@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CFEC29C8159AAA2100F15EDC /* visitprofile@2x.png */; };
-		CFEDA72C1896114F00867490 /* EvoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CFEDA72A1896114F00867490 /* EvoViewController.m */; };
-		CFEDA72D1896114F00867490 /* EvoViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = CFEDA72B1896114F00867490 /* EvoViewController.xib */; };
-		CFEDA8FB189652AA00867490 /* EvoViews.m in Sources */ = {isa = PBXBuildFile; fileRef = CFEDA8FA189652AA00867490 /* EvoViews.m */; };
-		CFEDA8FC18967EAE00867490 /* EvoCardCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = CFEDA8F71896528200867490 /* EvoCardCell.xib */; };
 		CFEDA90618974A7300867490 /* evolveequals.png in Resources */ = {isa = PBXBuildFile; fileRef = CFEDA8FE18974A7300867490 /* evolveequals.png */; };
 		CFEDA90718974A7300867490 /* evolveequals@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CFEDA8FF18974A7300867490 /* evolveequals@2x.png */; };
 		CFEDA90818974A7300867490 /* evolveplus.png in Resources */ = {isa = PBXBuildFile; fileRef = CFEDA90018974A7300867490 /* evolveplus.png */; };
@@ -2071,6 +2067,10 @@
 		CFFA320118B3F28D008B81B9 /* mini7.fnt in Resources */ = {isa = PBXBuildFile; fileRef = CFFA31FF18B3F28D008B81B9 /* mini7.fnt */; };
 		CFFA320218B3F28D008B81B9 /* mini7.png in Resources */ = {isa = PBXBuildFile; fileRef = CFFA320018B3F28D008B81B9 /* mini7.png */; };
 		CFFA320718B40944008B81B9 /* ClanRaidStageCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = CFFA320618B40944008B81B9 /* ClanRaidStageCell.xib */; };
+		CFFA320F18B421EC008B81B9 /* EvoCardCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = CFFA320918B421EC008B81B9 /* EvoCardCell.xib */; };
+		CFFA321018B421EC008B81B9 /* EvoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CFFA320B18B421EC008B81B9 /* EvoViewController.m */; };
+		CFFA321118B421EC008B81B9 /* EvoViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = CFFA320C18B421EC008B81B9 /* EvoViewController.xib */; };
+		CFFA321218B421EC008B81B9 /* EvoViews.m in Sources */ = {isa = PBXBuildFile; fileRef = CFFA320E18B421EC008B81B9 /* EvoViews.m */; };
 		CFFA9D68188771680097AD72 /* MPM@2x.plist in Resources */ = {isa = PBXBuildFile; fileRef = CFFA9D66188771680097AD72 /* MPM@2x.plist */; };
 		CFFA9D6A188771680097AD72 /* MPM@2x.pvr.ccz in Resources */ = {isa = PBXBuildFile; fileRef = CFFA9D67188771680097AD72 /* MPM@2x.pvr.ccz */; };
 		CFFA9D6E18877C5E0097AD72 /* rockorb.png in Resources */ = {isa = PBXBuildFile; fileRef = CFFA9D6C18877C5E0097AD72 /* rockorb.png */; };
@@ -4472,12 +4472,6 @@
 		CFEB284615951ADB00B622FC /* FullEvent.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FullEvent.m; sourceTree = "<group>"; };
 		CFEC29C7159AAA2100F15EDC /* visitprofile.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = visitprofile.png; sourceTree = "<group>"; };
 		CFEC29C8159AAA2100F15EDC /* visitprofile@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "visitprofile@2x.png"; sourceTree = "<group>"; };
-		CFEDA7291896114F00867490 /* EvoViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EvoViewController.h; sourceTree = "<group>"; };
-		CFEDA72A1896114F00867490 /* EvoViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EvoViewController.m; sourceTree = "<group>"; };
-		CFEDA72B1896114F00867490 /* EvoViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = EvoViewController.xib; sourceTree = "<group>"; };
-		CFEDA8F71896528200867490 /* EvoCardCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = EvoCardCell.xib; sourceTree = "<group>"; };
-		CFEDA8F9189652AA00867490 /* EvoViews.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EvoViews.h; sourceTree = "<group>"; };
-		CFEDA8FA189652AA00867490 /* EvoViews.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EvoViews.m; sourceTree = "<group>"; };
 		CFEDA8FE18974A7300867490 /* evolveequals.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = evolveequals.png; sourceTree = "<group>"; };
 		CFEDA8FF18974A7300867490 /* evolveequals@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "evolveequals@2x.png"; sourceTree = "<group>"; };
 		CFEDA90018974A7300867490 /* evolveplus.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = evolveplus.png; sourceTree = "<group>"; };
@@ -4825,6 +4819,12 @@
 		CFFA31FF18B3F28D008B81B9 /* mini7.fnt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = mini7.fnt; sourceTree = "<group>"; };
 		CFFA320018B3F28D008B81B9 /* mini7.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = mini7.png; sourceTree = "<group>"; };
 		CFFA320618B40944008B81B9 /* ClanRaidStageCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ClanRaidStageCell.xib; sourceTree = "<group>"; };
+		CFFA320918B421EC008B81B9 /* EvoCardCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = EvoCardCell.xib; sourceTree = "<group>"; };
+		CFFA320A18B421EC008B81B9 /* EvoViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EvoViewController.h; sourceTree = "<group>"; };
+		CFFA320B18B421EC008B81B9 /* EvoViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EvoViewController.m; sourceTree = "<group>"; };
+		CFFA320C18B421EC008B81B9 /* EvoViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = EvoViewController.xib; sourceTree = "<group>"; };
+		CFFA320D18B421EC008B81B9 /* EvoViews.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EvoViews.h; sourceTree = "<group>"; };
+		CFFA320E18B421EC008B81B9 /* EvoViews.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EvoViews.m; sourceTree = "<group>"; };
 		CFFA9D66188771680097AD72 /* MPM@2x.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "MPM@2x.plist"; sourceTree = "<group>"; };
 		CFFA9D67188771680097AD72 /* MPM@2x.pvr.ccz */ = {isa = PBXFileReference; lastKnownFileType = file; path = "MPM@2x.pvr.ccz"; sourceTree = "<group>"; };
 		CFFA9D6C18877C5E0097AD72 /* rockorb.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = rockorb.png; sourceTree = "<group>"; };
@@ -5461,9 +5461,9 @@
 		CF1265491538ACC400E0C1AD /* Game Menus */ = {
 			isa = PBXGroup;
 			children = (
+				CFFA320818B421EC008B81B9 /* EvoMenuController */,
 				CF62E6FE15FEC65600DF850F /* ClanMenu */,
 				CF3766061832CD3D00D0A77E /* DialogueMenu */,
-				CFEDA7221896106E00867490 /* EvoMenuController */,
 				CF20F044180E142B005551B5 /* AttackMenuController */,
 				CF32E9F2180D09D600CBD50D /* DiamondShopMenu */,
 				CF62935E180D4A4100C6C196 /* CarpenterMenu */,
@@ -8316,20 +8316,6 @@
 			path = "Boss Event Images";
 			sourceTree = "<group>";
 		};
-		CFEDA7221896106E00867490 /* EvoMenuController */ = {
-			isa = PBXGroup;
-			children = (
-				CFEDA8F9189652AA00867490 /* EvoViews.h */,
-				CFEDA8FA189652AA00867490 /* EvoViews.m */,
-				CFEDA8F71896528200867490 /* EvoCardCell.xib */,
-				CFEDA7291896114F00867490 /* EvoViewController.h */,
-				CFEDA72A1896114F00867490 /* EvoViewController.m */,
-				CFEDA72B1896114F00867490 /* EvoViewController.xib */,
-			);
-			name = EvoMenuController;
-			path = "../../../../Utopia/Utopia/Classes/Game Menus/EvoMenu";
-			sourceTree = "<group>";
-		};
 		CFEDA8FD18974A7300867490 /* Evolve */ = {
 			isa = PBXGroup;
 			children = (
@@ -8906,6 +8892,20 @@
 				CFFA320618B40944008B81B9 /* ClanRaidStageCell.xib */,
 			);
 			name = Raids;
+			sourceTree = "<group>";
+		};
+		CFFA320818B421EC008B81B9 /* EvoMenuController */ = {
+			isa = PBXGroup;
+			children = (
+				CFFA320918B421EC008B81B9 /* EvoCardCell.xib */,
+				CFFA320A18B421EC008B81B9 /* EvoViewController.h */,
+				CFFA320B18B421EC008B81B9 /* EvoViewController.m */,
+				CFFA320C18B421EC008B81B9 /* EvoViewController.xib */,
+				CFFA320D18B421EC008B81B9 /* EvoViews.h */,
+				CFFA320E18B421EC008B81B9 /* EvoViews.m */,
+			);
+			name = EvoMenuController;
+			path = EvoMenu;
 			sourceTree = "<group>";
 		};
 		CFFBDE3E18ACA3D80090CA9A /* Scientists */ = {
@@ -9656,7 +9656,6 @@
 				CF3766D71833022700D0A77E /* gooniegrablogo.png in Resources */,
 				CFFBDF8618ACA3D90090CA9A /* Scientist3Blink06@2x.png in Resources */,
 				CF126F3E1538ACCB00E0C1AD /* oklevelup.png in Resources */,
-				CFEDA72D1896114F00867490 /* EvoViewController.xib in Resources */,
 				CF134A5B18A5E4B500D7D700 /* FatBoy1Move12@2x.png in Resources */,
 				CFFEB10A1834539C007C4BA3 /* fireteam@2x.png in Resources */,
 				CFE7CD3A1819FC3300930847 /* Construction@2x.plist in Resources */,
@@ -10070,7 +10069,6 @@
 				CF8FC844154544930082473E /* cloud1@2x.png in Resources */,
 				CF8FC845154544930082473E /* cloud1shadow.png in Resources */,
 				CF8FC846154544930082473E /* cloud1shadow@2x.png in Resources */,
-				CFEDA8FC18967EAE00867490 /* EvoCardCell.xib in Resources */,
 				CFB250491858304700BE0C05 /* earthmteam.png in Resources */,
 				CFCB4D29154A3F0800470054 /* wallinputbg.png in Resources */,
 				CF3765B31831AAB200D0A77E /* ClanChatCell.xib in Resources */,
@@ -11708,6 +11706,7 @@
 				CF63F7D017ED3DB900FEBAA9 /* combo9a.aif in Resources */,
 				CF63F7D217ED3DB900FEBAA9 /* combo11a.aif in Resources */,
 				CF63F7D417ED3DB900FEBAA9 /* combo12a.aif in Resources */,
+				CFFA321118B421EC008B81B9 /* EvoViewController.xib in Resources */,
 				CFFBDF6E18ACA3D90090CA9A /* Scientist2Breath12@2x.png in Resources */,
 				CFFBDFF618ACA3D90090CA9A /* Scientist5Turn06@2x.png in Resources */,
 				CF3767091833022700D0A77E /* spinbutton.png in Resources */,
@@ -11737,6 +11736,7 @@
 				CFC04D9E188FE8D400F2DB59 /* legendfound@2x.png in Resources */,
 				CFF740661817D3C5009DE4A4 /* RewardView.xib in Resources */,
 				CFF3905118284B8C0010A3BE /* m8@2x.png in Resources */,
+				CFFA320F18B421EC008B81B9 /* EvoCardCell.xib in Resources */,
 				CFF207F717FCD94200AA6F84 /* missionmap.png in Resources */,
 				CFF207FB17FCD94200AA6F84 /* missionmap@2x.png in Resources */,
 				CFF207FD17FCD94200AA6F84 /* missionroad.png in Resources */,
@@ -11839,7 +11839,6 @@
 				CF126E201538ACCA00E0C1AD /* PullRefreshTableViewController.m in Sources */,
 				CF126E211538ACCA00E0C1AD /* SBDoubleSidedLayer.m in Sources */,
 				CF126E221538ACCA00E0C1AD /* SBGradientOverlayLayer.m in Sources */,
-				CFEDA8FB189652AA00867490 /* EvoViews.m in Sources */,
 				CF126E231538ACCA00E0C1AD /* SBTickerView.m in Sources */,
 				CFFA31F918B3F055008B81B9 /* ClanRaidDetailsViewController.m in Sources */,
 				CF126E241538ACCA00E0C1AD /* UIView+SBExtras.m in Sources */,
@@ -11884,6 +11883,7 @@
 				CF28BBFC1628EEEA0012F1C1 /* unzip.c in Sources */,
 				CF4DB9011808975500062258 /* GameViewController.m in Sources */,
 				CFCE56E318137C9000494F8C /* MonsterPopUpViewController.m in Sources */,
+				CFFA321218B421EC008B81B9 /* EvoViews.m in Sources */,
 				CF28BBFD1628EEEA0012F1C1 /* zip.c in Sources */,
 				CF9AE6DC18090C320013DD44 /* EventPvp.pb.m in Sources */,
 				CF28BBFE1628EEEA0012F1C1 /* SSZipArchive.m in Sources */,
@@ -11897,7 +11897,6 @@
 				CF15BA8516572A8400A51F85 /* AMQPObject.m in Sources */,
 				CFFEB1781834C2FD007C4BA3 /* CAKeyframeAnimation+AHEasing.m in Sources */,
 				CF32E9ED180D015900CBD50D /* TopBarViewController.m in Sources */,
-				CFEDA72C1896114F00867490 /* EvoViewController.m in Sources */,
 				CFCE571D1813BC0700494F8C /* ProfileViewController.m in Sources */,
 				CF15BA8616572A8400A51F85 /* AMQPQueue.m in Sources */,
 				CFC141AC1657484A0060188D /* socket.c in Sources */,
@@ -11955,6 +11954,7 @@
 				CF9AE70718090C320013DD44 /* Structure.pb.m in Sources */,
 				CF52D0AD17EA3E7D00A067A6 /* BattleViews.m in Sources */,
 				CF63F78217EC168D00FEBAA9 /* CCSoundAnimation.m in Sources */,
+				CFFA321018B421EC008B81B9 /* EvoViewController.m in Sources */,
 				CF3765AA183175DE00D0A77E /* ChatView.m in Sources */,
 				CFF2080617FE269300AA6F84 /* DungeonBattleLayer.m in Sources */,
 				CF4DB8DD1807DA1F00062258 /* ChatBottomView.m in Sources */,

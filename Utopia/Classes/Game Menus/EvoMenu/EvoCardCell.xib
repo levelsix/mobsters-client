@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="4514" systemVersion="12F45" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none">
+    <dependencies>
+        <deployment defaultVersion="1536" identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="3747"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="EvoViewController">
+            <connections>
+                <outlet property="evoCardCell" destination="qRk-qj-CP3" id="HYf-ap-HOj"/>
+            </connections>
+        </placeholder>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view contentMode="scaleToFill" id="qRk-qj-CP3" customClass="EvoCardCell">
+            <rect key="frame" x="0.0" y="0.0" width="112" height="160"/>
+            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+            <subviews>
+                <view contentMode="scaleToFill" id="nhW-VB-Plz">
+                    <rect key="frame" x="2" y="0.0" width="108" height="160"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
+                    <subviews>
+                        <view contentMode="scaleToFill" id="IC6-hG-huO">
+                            <rect key="frame" x="1" y="4" width="101" height="125"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <subviews>
+                                <view contentMode="scaleToFill" id="YB9-zO-oy7" customClass="MonsterCardContainerView">
+                                    <rect key="frame" x="6" y="5" width="95" height="120"/>
+                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                    <color key="backgroundColor" white="0.75387474799999998" alpha="1" colorSpace="calibratedWhite"/>
+                                </view>
+                                <imageView opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="center" image="onteam.png" id="Med-xt-afc">
+                                    <rect key="frame" x="0.0" y="0.0" width="17" height="17"/>
+                                    <autoresizingMask key="autoresizingMask"/>
+                                </imageView>
+                            </subviews>
+                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                        </view>
+                        <view contentMode="scaleToFill" id="bpr-Oq-esZ">
+                            <rect key="frame" x="0.0" y="3" width="108" height="136"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <subviews>
+                                <view contentMode="scaleToFill" id="Rnv-fX-0XK" customClass="MonsterCardContainerView">
+                                    <rect key="frame" x="13" y="10" width="95" height="120"/>
+                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                    <color key="backgroundColor" red="0.45470010080000001" green="0.80953881049999998" blue="0.73333334920000004" alpha="1" colorSpace="deviceRGB"/>
+                                </view>
+                                <view contentMode="scaleToFill" id="gyh-Rh-9Ej" customClass="MonsterCardContainerView">
+                                    <rect key="frame" x="6" y="2" width="95" height="120"/>
+                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                    <color key="backgroundColor" red="1" green="0.40000000000000002" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                </view>
+                                <imageView opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="center" image="onteam.png" id="RpO-Fo-L2o">
+                                    <rect key="frame" x="0.0" y="-2" width="17" height="17"/>
+                                    <autoresizingMask key="autoresizingMask"/>
+                                </imageView>
+                            </subviews>
+                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                        </view>
+                    </subviews>
+                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                </view>
+            </subviews>
+            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+            <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
+            <connections>
+                <outlet property="delegate" destination="-1" id="5o2-Pp-d7U"/>
+                <outlet property="notReadyContainer" destination="YB9-zO-oy7" id="r9n-Ym-YvM"/>
+                <outlet property="notReadyTeamIcon" destination="Med-xt-afc" id="ORr-0g-Uss"/>
+                <outlet property="notReadyView" destination="IC6-hG-huO" id="ZgO-Me-KPW"/>
+                <outlet property="readyContainer1" destination="gyh-Rh-9Ej" id="fih-b5-9ei"/>
+                <outlet property="readyContainer2" destination="Rnv-fX-0XK" id="tXz-Ql-Bx3"/>
+                <outlet property="readyTeamIcon" destination="RpO-Fo-L2o" id="xkc-uj-J1S"/>
+                <outlet property="readyView" destination="bpr-Oq-esZ" id="yzv-bs-0fJ"/>
+            </connections>
+        </view>
+    </objects>
+    <resources>
+        <image name="onteam.png" width="17" height="17"/>
+    </resources>
+</document>
