@@ -495,7 +495,7 @@
                             <color key="backgroundColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
                         </view>
                         <view clipsSubviews="YES" contentMode="scaleToFill" id="kdq-uU-J3X" userLabel="Top Dark">
-                            <rect key="frame" x="0.0" y="0.0" width="568" height="60"/>
+                            <rect key="frame" x="0.0" y="0.0" width="567.99999999999989" height="60"/>
                             <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
                             <subviews>
                                 <view tag="1" contentMode="scaleToFill" id="REi-jr-Qdc" customClass="MonsterTeamSlotContainerView">

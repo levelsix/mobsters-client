@@ -21,6 +21,13 @@
     [self placeBlock];
     
     self.baseScale = 1.f;
+    
+    NSString *fileName = [NSString stringWithFormat:@"%dx%ddark.png", (int)loc.size.width, (int)loc.size.height];
+    CCSprite *shadow = [CCSprite spriteWithImageNamed:fileName];
+    [self addChild:shadow z:-1 name:SHADOW_TAG];
+    shadow.anchorPoint = ccp(0.5, 0);
+    // Reassign the content size
+    self.contentSize = self.contentSize;
   }
   return self;
 }
@@ -312,14 +319,14 @@
   CCNode *n = [self getChildByName:UPGRADING_TAG recursively:NO];
   if (n && [n isKindOfClass:[UpgradeProgressBar class]]) {
     UpgradeProgressBar *bar = (UpgradeProgressBar *)n;
-
+    
     NSTimeInterval time = self.userStruct.timeLeftForBuildComplete;
     int totalTime = self.userStruct.staticStruct.structInfo.minutesToBuild*60;
-
+    
     if (_percentage) {
       time = totalTime*(100.f-_percentage)/100.f;
     }
-
+    
     [bar updateForSecsLeft:(int)time totalSecs:totalTime];
   }
 }
@@ -389,7 +396,7 @@
     spr.scale = self.baseScale;
     [self addChild:spr];
     self.buildingSprite = spr;
-    spr.position = ccp(spr.contentSize.width/2+horizOffset, vertOffset);
+    spr.position = ccp(spr.contentSize.width/2+horizOffset, vertOffset+fsp.imgVerticalPixelOffset);
     self.contentSize = CGSizeMake(self.buildingSprite.contentSize.width, self.buildingSprite.contentSize.height+self.buildingSprite.position.y);
     self.baseScale = 0.75;
   }
@@ -465,7 +472,7 @@
     [self addChild:spr];
     self.buildingSprite = spr;
     self.contentSize = self.buildingSprite.contentSize;
-    spr.position = ccp(spr.contentSize.width/2, vertOffset);
+    spr.position = ccp(spr.contentSize.width/2, vertOffset+fsp.imgVerticalPixelOffset);
   }
   return self;
 }
@@ -503,10 +510,11 @@
   CCAnimation *anim = [CCAnimation animationWithSpritePrefix:@"HealingCenterBase" delay:0.1];
   [anim repeatFrames:NSMakeRange(0,1) numTimes:5];
   
+  StructureInfoProto *fsp = [self.userStruct.staticStruct structInfo];
   CCSprite *spr = [CCSprite spriteWithSpriteFrame:[anim.frames[0] spriteFrame]];
   [spr runAction:[CCActionRepeatForever actionWithAction:[CCActionAnimate actionWithAnimation:anim]]];
   spr.anchorPoint = ccp(0.5, 0);
-  spr.position = ccp(spr.contentSize.width/2, 15);
+  spr.position = ccp(spr.contentSize.width/2, 15+fsp.imgVerticalPixelOffset);
   spr.scale = self.baseScale;
   [self addChild:spr];
   self.buildingSprite = spr;
@@ -526,12 +534,15 @@
     MonsterProto *mp = [gs monsterWithId:monsterId];
     
     [[CCSpriteFrameCache sharedSpriteFrameCache] addSpriteFramesWithFile:[NSString stringWithFormat:@"%@AttackNF.plist", mp.imagePrefix]];
-    self.monsterSprite = [CCSprite spriteWithImageNamed:[NSString stringWithFormat:@"%@AttackN00.png", mp.imagePrefix]];
-    self.monsterSprite.anchorPoint = ccp(0.5, 0);
-    self.monsterSprite.position = ccp(self.contentSize.width/2, 1);
-    self.monsterSprite.scale = 0.8;
-    self.monsterSprite.flipX = YES;
-    [self.buildingSprite addChild:self.monsterSprite z:1];
+    NSString *file = [NSString stringWithFormat:@"%@AttackN00.png", mp.imagePrefix];
+    if ([[CCSpriteFrameCache sharedSpriteFrameCache] containsFrame:file]) {
+      self.monsterSprite = [CCSprite spriteWithImageNamed:file];
+      self.monsterSprite.anchorPoint = ccp(0.5, 0);
+      self.monsterSprite.position = ccp(self.contentSize.width/2, 1);
+      self.monsterSprite.scale = 0.8;
+      self.monsterSprite.flipX = YES;
+      [self.buildingSprite addChild:self.monsterSprite z:1];
+    }
   }
 }
 
@@ -554,8 +565,9 @@
 
 - (id) initWithUserStruct:(UserStruct *)userStruct map:(HomeMap *)map {
   if ((self = [super initWithUserStruct:userStruct map:map])) {
+    StructureInfoProto *fsp = [userStruct.staticStruct structInfo];
     self.verticalOffset = 0;
-    self.buildingSprite.position = ccpAdd(self.buildingSprite.position, ccp(-2, 12));
+    self.buildingSprite.position = ccpAdd(self.buildingSprite.position, ccp(-2, 5+fsp.imgVerticalPixelOffset));
   }
   return self;
 }
@@ -566,7 +578,8 @@
 
 - (id) initWithUserStruct:(UserStruct *)userStruct map:(HomeMap *)map {
   if ((self = [super initWithUserStruct:userStruct map:map])) {
-    self.buildingSprite.position = ccpAdd(self.buildingSprite.position, ccp(0, 7));
+    StructureInfoProto *fsp = [userStruct.staticStruct structInfo];
+    self.buildingSprite.position = ccpAdd(self.buildingSprite.position, ccp(0, 3+fsp.imgVerticalPixelOffset));
   }
   return self;
 }
@@ -577,7 +590,8 @@
 
 - (id) initWithUserStruct:(UserStruct *)userStruct map:(HomeMap *)map {
   if ((self = [super initWithUserStruct:userStruct map:map])) {
-    self.buildingSprite.position = ccpAdd(self.buildingSprite.position, ccp(0, 0));
+    StructureInfoProto *fsp = [userStruct.staticStruct structInfo];
+    self.buildingSprite.position = ccpAdd(self.buildingSprite.position, ccp(0, fsp.imgVerticalPixelOffset));
     
     [self beginAnimating];
   }
@@ -590,10 +604,11 @@
   [[CCSpriteFrameCache sharedSpriteFrameCache] addSpriteFramesWithFile:@"ResearchLab.plist"];
   CCAnimation *anim = [CCAnimation animationWithSpritePrefix:@"ResearchLab" delay:0.1];
   
+  StructureInfoProto *fsp = [self.userStruct.staticStruct structInfo];
   CCSprite *spr = [CCSprite spriteWithSpriteFrame:[anim.frames[0] spriteFrame]];
   [spr runAction:[CCActionRepeatForever actionWithAction:[CCActionAnimate actionWithAnimation:anim]]];
   spr.anchorPoint = ccp(0.5, 0);
-  spr.position = ccp(spr.contentSize.width/2-2, 15);
+  spr.position = ccp(spr.contentSize.width/2-2, 15+fsp.imgVerticalPixelOffset);
   spr.scale = self.baseScale;
   [self addChild:spr];
   self.buildingSprite = spr;
@@ -630,9 +645,9 @@
 
 //- (BOOL) select {
 //  BOOL select = [super select];
-//  
+//
 //  [self.buildingSprite stopActionByTag:BOUNCE_ACTION_TAG];
-//  
+//
 //  return select;
 //}
 

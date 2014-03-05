@@ -57,6 +57,11 @@
 @property (nonatomic, retain) NSArray *persistentEvents;
 @property (nonatomic, retain) NSMutableDictionary *eventCooldownTimes;
 
+@property (nonatomic, retain) NSArray *persistentClanEvents;
+@property (nonatomic, retain) PersistentClanEventClanInfoProto *curClanRaidInfo;
+@property (nonatomic, retain) NSMutableArray *curClanRaidUserInfos;
+@property (nonatomic, retain) NSMutableDictionary *staticRaids;
+
 @property (nonatomic, retain) NSMutableSet *completedTasks;
 
 @property (nonatomic, retain) NSArray *boosterPacks;
@@ -109,6 +114,7 @@
 - (id) getStaticDataFrom:(NSDictionary *)dict withId:(int)itemId;
 - (id<StaticStructure>) structWithId:(int)structId;
 - (FullCityProto *)cityWithId:(int)cityId;
+- (ClanRaidProto *) raidWithId:(int)raidId;
 - (FullTaskProto *) taskWithId:(int)taskId;
 - (FullQuestProto *) questForId:(int)questId;
 - (BoosterPackProto *) boosterPackForId:(int)packId;
@@ -149,6 +155,7 @@
 - (void) addEnhancingItemToEndOfQueue:(EnhancementItem *)item;
 - (void) removeEnhancingItem:(EnhancementItem *)item;
 - (void) addEnhancementProto:(UserEnhancementProto *)proto;
+- (void) addClanRaidUserInfo:(PersistentClanEventUserInfoProto *)info;
 
 - (UserMonster *) myMonsterWithUserMonsterId:(int)userMonsterId;
 - (UserMonster *) myMonsterWithSlotNumber:(int)slotNum;
@@ -206,5 +213,7 @@
 - (void) addToRequestedClans:(NSArray *)arr;
 
 - (BOOL) hasBeginnerShield;
+
+- (PersistentClanEventUserInfoProto *) myClanRaidInfo;
 
 @end

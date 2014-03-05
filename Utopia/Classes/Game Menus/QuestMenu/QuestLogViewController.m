@@ -37,8 +37,6 @@
   
   [Globals bounceView:self.mainView fadeInBgdView:self.bgdView];
   [Globals bounceView:self.questGiverImageView];
-  
-  arr = gs.staticMonsters.allValues;
 }
 
 - (void) viewDidAppear:(BOOL)animated {
@@ -88,8 +86,8 @@
   float duration = animated ? 0.3f : 0.f;
   [UIView animateWithDuration:duration animations:^{
     int val = [Globals isLongiPhone] ? 0 : 44;
-    self.questGiverImageView.center = ccp(80-val, 184);
-    self.mainView.center = ccp(140-val+self.mainView.frame.size.width/2,
+    self.questGiverImageView.center = ccp(self.questGiverImageView.frame.size.width/2-val, self.view.frame.size.height-self.questGiverImageView.frame.size.height/2);
+    self.mainView.center = ccp(44-val+self.mainView.center.x,
                                self.view.frame.size.height/2);
     
     self.questDetailsViewController.view.center = ccp(self.detailsContainerView.frame.size.width/2,
@@ -115,7 +113,7 @@
   self.questDetailsViewController = nil;
   
   [UIView animateWithDuration:0.3f animations:^{
-    self.questGiverImageView.center = ccp(-self.questGiverImageView.image.size.width, 184);
+    self.questGiverImageView.center = ccp(-self.questGiverImageView.image.size.width, self.view.frame.size.height-self.questGiverImageView.frame.size.height/2);
     self.mainView.center = ccp(self.view.frame.size.width/2, self.view.frame.size.height/2);
     
     self.questListViewController.view.center = ccp(self.listContainerView.frame.size.width/2,
@@ -154,12 +152,7 @@
   [self.detailsContainerView addSubview:self.questDetailsViewController.view];
   [self.questDetailsViewController loadWithQuest:quest userQuest:uq];
   
-//  NSString *file = [quest.questGiverImageSuffix stringByAppendingString:@"Big.png"];
-  static int x = 0;
-  MonsterProto *mp = arr[x];
-  NSString *file = [mp.imagePrefix stringByAppendingString:@"Big.png"];
-  x++;
-  
+  NSString *file = [quest.questGiverImageSuffix stringByAppendingString:@"Big.png"];
   [Globals imageNamed:file withView:self.questGiverImageView maskedColor:nil indicator:UIActivityIndicatorViewStyleWhiteLarge clearImageDuringDownload:YES];
   
   [self transitionToDetailsViewAnimated:animated];

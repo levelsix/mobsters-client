@@ -1,15 +1,28 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="4514" systemVersion="12F45" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none">
     <dependencies>
+        <deployment defaultVersion="1536" identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="3747"/>
     </dependencies>
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="ClanInfoViewController">
             <connections>
+                <outlet property="headerButtonsView" destination="dR3-Vu-dAM" id="42J-74-i28"/>
                 <outlet property="infoTable" destination="7" id="10"/>
                 <outlet property="infoView" destination="dsY-jI-XDF" id="cBF-mk-Snb"/>
                 <outlet property="loadingMembersView" destination="11" id="14"/>
+                <outlet property="settingsBgdImage" destination="2hK-v5-4aB" id="bHL-PD-EHQ"/>
+                <outlet property="settingsView" destination="ziQ-0V-wkP" id="NOT-Dy-8lx"/>
                 <outlet property="view" destination="1" id="3"/>
+                <outletCollection property="settingsButtons" destination="4bK-IC-CmI" id="83P-zX-J3s"/>
+                <outletCollection property="settingsButtons" destination="W5n-BJ-JcO" id="ia0-pg-Whc"/>
+                <outletCollection property="settingsButtons" destination="EsX-rp-1II" id="LMA-me-7aG"/>
+                <outletCollection property="settingsButtons" destination="dcb-SA-zAH" id="zbY-ae-GdT"/>
+                <outletCollection property="headerButtons" destination="6QS-kr-YA6" id="6KA-EU-PZN"/>
+                <outletCollection property="headerButtons" destination="xjn-Qa-ZyW" id="jAx-ZO-wD0"/>
+                <outletCollection property="headerButtons" destination="hWf-A0-10z" id="wT4-6g-Nkq"/>
+                <outletCollection property="headerButtons" destination="r16-EK-tj7" id="vPo-Jx-bGf"/>
+                <outletCollection property="headerButtons" destination="N8Q-ei-D4e" id="VT4-7E-Jtl"/>
             </connections>
         </placeholder>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
@@ -25,17 +38,17 @@
                     <rect key="frame" x="44" y="8" width="480" height="280"/>
                     <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES"/>
                     <subviews>
-                        <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" style="plain" separatorStyle="none" rowHeight="47" sectionHeaderHeight="22" sectionFooterHeight="22" id="7">
+                        <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" delaysContentTouches="NO" style="plain" separatorStyle="none" rowHeight="47" sectionHeaderHeight="22" sectionFooterHeight="22" id="7" customClass="CancellableTableView">
                             <rect key="frame" x="0.0" y="0.0" width="480" height="280"/>
                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                            <view key="tableHeaderView" contentMode="scaleToFill" id="dsY-jI-XDF" customClass="ClanInfoView">
-                                <rect key="frame" x="0.0" y="0.0" width="480" height="102"/>
+                            <view key="tableHeaderView" contentMode="scaleToFill" id="3mF-0M-mob">
+                                <rect key="frame" x="0.0" y="0.0" width="480" height="121"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
                                 <subviews>
-                                    <view contentMode="scaleToFill" id="3mF-0M-mob">
+                                    <view contentMode="scaleToFill" id="dsY-jI-XDF" customClass="ClanInfoView">
                                         <rect key="frame" x="0.0" y="0.0" width="480" height="102"/>
-                                        <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <subviews>
                                             <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="clandetailbg.png" id="1Qv-KH-dpD">
                                                 <rect key="frame" x="7" y="6" width="466" height="90"/>
@@ -51,7 +64,7 @@
                                                 <size key="shadowOffset" width="0.0" height="1"/>
                                             </label>
                                             <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Founded: 8/12/2013" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="10" id="avP-v6-8Oe" customClass="NiceFontLabel">
-                                                <rect key="frame" x="360" y="12" width="105.00000000000104" height="21"/>
+                                                <rect key="frame" x="360" y="12" width="105" height="21"/>
                                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
                                                 <fontDescription key="fontDescription" type="system" pointSize="11"/>
                                                 <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -110,15 +123,109 @@
                                             </view>
                                         </subviews>
                                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                        <connections>
+                                            <outlet property="descriptionView" destination="ycv-mZ-Wqz" id="Dnl-wn-d6v"/>
+                                            <outlet property="foundedLabel" destination="avP-v6-8Oe" id="Kus-Ng-sqE"/>
+                                            <outlet property="membersLabel" destination="Tcm-pY-ixJ" id="IHp-Si-2lP"/>
+                                            <outlet property="nameLabel" destination="FJ8-Hw-Tk6" id="DRh-Bx-M2d"/>
+                                        </connections>
+                                    </view>
+                                    <view contentMode="scaleToFill" id="dR3-Vu-dAM">
+                                        <rect key="frame" x="0.0" y="89" width="480" height="32"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <subviews>
+                                            <button opaque="NO" tag="1" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" adjustsImageWhenHighlighted="NO" adjustsImageWhenDisabled="NO" lineBreakMode="middleTruncation" id="6QS-kr-YA6" customClass="NiceFontButton">
+                                                <rect key="frame" x="9" y="5" width="37" height="30"/>
+                                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                <fontDescription key="fontDescription" type="system" pointSize="13"/>
+                                                <state key="normal" title="Level">
+                                                    <color key="titleColor" red="0.79607843137254897" green="0.79607843137254897" blue="0.79607843137254897" alpha="1" colorSpace="calibratedRGB"/>
+                                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                                </state>
+                                                <state key="selected">
+                                                    <color key="titleColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                                </state>
+                                                <state key="highlighted" title="Level">
+                                                    <color key="titleColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                                </state>
+                                                <connections>
+                                                    <action selector="sortClicked:" destination="-1" eventType="touchUpInside" id="KmT-1r-zrs"/>
+                                                </connections>
+                                            </button>
+                                            <button opaque="NO" tag="2" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" adjustsImageWhenHighlighted="NO" adjustsImageWhenDisabled="NO" lineBreakMode="middleTruncation" id="xjn-Qa-ZyW" customClass="NiceFontButton">
+                                                <rect key="frame" x="42" y="5" width="57" height="30"/>
+                                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                <fontDescription key="fontDescription" type="system" pointSize="13"/>
+                                                <state key="normal" title="Member">
+                                                    <color key="titleColor" red="0.79607843140000001" green="0.79607843140000001" blue="0.79607843140000001" alpha="1" colorSpace="calibratedRGB"/>
+                                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                                </state>
+                                                <state key="selected">
+                                                    <color key="titleColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                                </state>
+                                                <state key="highlighted">
+                                                    <color key="titleColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                                </state>
+                                                <connections>
+                                                    <action selector="sortClicked:" destination="-1" eventType="touchUpInside" id="Cf0-vd-bk1"/>
+                                                </connections>
+                                            </button>
+                                            <button opaque="NO" tag="3" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" adjustsImageWhenHighlighted="NO" adjustsImageWhenDisabled="NO" lineBreakMode="middleTruncation" id="hWf-A0-10z" customClass="NiceFontButton">
+                                                <rect key="frame" x="163" y="5" width="92" height="30"/>
+                                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                <fontDescription key="fontDescription" type="system" pointSize="13"/>
+                                                <state key="normal" title="Current Team">
+                                                    <color key="titleColor" red="0.79607843140000001" green="0.79607843140000001" blue="0.79607843140000001" alpha="1" colorSpace="calibratedRGB"/>
+                                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                                </state>
+                                                <state key="selected">
+                                                    <color key="titleColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                                </state>
+                                                <state key="highlighted">
+                                                    <color key="titleColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                                </state>
+                                                <connections>
+                                                    <action selector="sortClicked:" destination="-1" eventType="touchUpInside" id="KF4-XH-3iN"/>
+                                                </connections>
+                                            </button>
+                                            <button opaque="NO" tag="4" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" adjustsImageWhenHighlighted="NO" adjustsImageWhenDisabled="NO" lineBreakMode="middleTruncation" id="r16-EK-tj7" customClass="NiceFontButton">
+                                                <rect key="frame" x="263" y="5" width="128" height="30"/>
+                                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                <fontDescription key="fontDescription" type="system" pointSize="13"/>
+                                                <state key="normal" title="Raid Contributions">
+                                                    <color key="titleColor" red="0.79607843140000001" green="0.79607843140000001" blue="0.79607843140000001" alpha="1" colorSpace="calibratedRGB"/>
+                                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                                </state>
+                                                <state key="selected">
+                                                    <color key="titleColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                                </state>
+                                                <state key="highlighted">
+                                                    <color key="titleColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                                </state>
+                                                <connections>
+                                                    <action selector="sortClicked:" destination="-1" eventType="touchUpInside" id="sd7-TI-X7l"/>
+                                                </connections>
+                                            </button>
+                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" adjustsImageWhenHighlighted="NO" adjustsImageWhenDisabled="NO" lineBreakMode="middleTruncation" id="N8Q-ei-D4e" customClass="NiceFontButton">
+                                                <rect key="frame" x="402" y="5" width="54" height="30"/>
+                                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                <fontDescription key="fontDescription" type="system" pointSize="13"/>
+                                                <state key="normal" title="Options">
+                                                    <color key="titleColor" red="0.79607843140000001" green="0.79607843140000001" blue="0.79607843140000001" alpha="1" colorSpace="calibratedRGB"/>
+                                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                                </state>
+                                                <state key="selected">
+                                                    <color key="titleColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                                </state>
+                                                <state key="highlighted">
+                                                    <color key="titleColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                                </state>
+                                            </button>
+                                        </subviews>
+                                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                     </view>
                                 </subviews>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                                <connections>
-                                    <outlet property="descriptionView" destination="ycv-mZ-Wqz" id="Dnl-wn-d6v"/>
-                                    <outlet property="foundedLabel" destination="avP-v6-8Oe" id="Kus-Ng-sqE"/>
-                                    <outlet property="membersLabel" destination="Tcm-pY-ixJ" id="IHp-Si-2lP"/>
-                                    <outlet property="nameLabel" destination="FJ8-Hw-Tk6" id="DRh-Bx-M2d"/>
-                                </connections>
                             </view>
                             <connections>
                                 <outlet property="dataSource" destination="-1" id="8"/>
@@ -126,7 +233,7 @@
                             </connections>
                         </tableView>
                         <view contentMode="scaleToFill" id="11">
-                            <rect key="frame" x="120" y="131" width="240" height="116"/>
+                            <rect key="frame" x="120" y="136" width="240" height="116"/>
                             <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
                             <subviews>
                                 <activityIndicatorView opaque="NO" contentMode="scaleToFill" animating="YES" style="whiteLarge" id="12">
@@ -152,10 +259,185 @@
             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
             <simulatedOrientationMetrics key="simulatedOrientationMetrics" orientation="landscapeRight"/>
         </view>
+        <view contentMode="scaleToFill" id="ziQ-0V-wkP">
+            <rect key="frame" x="0.0" y="0.0" width="87" height="132"/>
+            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+            <subviews>
+                <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="top" image="4options.png" id="2hK-v5-4aB">
+                    <rect key="frame" x="0.0" y="0.0" width="87" height="132"/>
+                    <autoresizingMask key="autoresizingMask"/>
+                </imageView>
+                <view contentMode="scaleToFill" id="4bK-IC-CmI" customClass="ClanInfoSettingsButtonView">
+                    <rect key="frame" x="5" y="6" width="71" height="28"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                    <subviews>
+                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="HW3-Pg-sk6">
+                            <rect key="frame" x="0.0" y="0.0" width="71" height="28"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <state key="normal" backgroundImage="enhancebutton.png">
+                                <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                            </state>
+                            <connections>
+                                <action selector="buttonClicked:" destination="4bK-IC-CmI" eventType="touchUpInside" id="jOw-bk-IEW"/>
+                            </connections>
+                        </button>
+                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Leadership" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="9" id="r9a-7k-V4r" customClass="NiceFontLabel">
+                            <rect key="frame" x="0.0" y="11" width="70" height="16"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <fontDescription key="fontDescription" type="system" pointSize="11"/>
+                            <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="calibratedRGB"/>
+                            <nil key="highlightedColor"/>
+                            <color key="shadowColor" white="0.0" alpha="0.40000000000000002" colorSpace="calibratedWhite"/>
+                            <size key="shadowOffset" width="0.0" height="1"/>
+                        </label>
+                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Transfer" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="9" id="trm-aA-r9X" customClass="NiceFontLabel">
+                            <rect key="frame" x="3" y="-2" width="65" height="16"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <fontDescription key="fontDescription" type="system" pointSize="9"/>
+                            <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="calibratedRGB"/>
+                            <nil key="highlightedColor"/>
+                            <color key="shadowColor" white="0.0" alpha="0.40000000000000002" colorSpace="calibratedWhite"/>
+                            <size key="shadowOffset" width="0.0" height="1"/>
+                        </label>
+                    </subviews>
+                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                    <connections>
+                        <outlet property="botLabel" destination="r9a-7k-V4r" id="emx-yA-x5J"/>
+                        <outlet property="delegate" destination="-1" id="Pp2-kz-0dF"/>
+                        <outlet property="topLabel" destination="trm-aA-r9X" id="wye-NY-sy0"/>
+                    </connections>
+                </view>
+                <view contentMode="scaleToFill" id="W5n-BJ-JcO" customClass="ClanInfoSettingsButtonView">
+                    <rect key="frame" x="5" y="36" width="71" height="28"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                    <subviews>
+                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="1OK-VV-SfA">
+                            <rect key="frame" x="0.0" y="0.0" width="71" height="28"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <state key="normal" backgroundImage="finishheal.png">
+                                <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                            </state>
+                            <connections>
+                                <action selector="buttonClicked:" destination="W5n-BJ-JcO" eventType="touchUpInside" id="OGF-V8-3qP"/>
+                            </connections>
+                        </button>
+                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Leadership" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="9" id="Kpe-c7-nCJ" customClass="NiceFontLabel">
+                            <rect key="frame" x="0.0" y="11" width="70" height="16"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <fontDescription key="fontDescription" type="system" pointSize="11"/>
+                            <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="calibratedRGB"/>
+                            <nil key="highlightedColor"/>
+                            <color key="shadowColor" white="0.0" alpha="0.40000000000000002" colorSpace="calibratedWhite"/>
+                            <size key="shadowOffset" width="0.0" height="1"/>
+                        </label>
+                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Transfer" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="9" id="vAe-2J-64Q" customClass="NiceFontLabel">
+                            <rect key="frame" x="3" y="-2" width="65" height="16"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <fontDescription key="fontDescription" type="system" pointSize="9"/>
+                            <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="calibratedRGB"/>
+                            <nil key="highlightedColor"/>
+                            <color key="shadowColor" white="0.0" alpha="0.40000000000000002" colorSpace="calibratedWhite"/>
+                            <size key="shadowOffset" width="0.0" height="1"/>
+                        </label>
+                    </subviews>
+                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                    <connections>
+                        <outlet property="botLabel" destination="Kpe-c7-nCJ" id="jqv-ie-kHT"/>
+                        <outlet property="delegate" destination="-1" id="iKT-91-eoG"/>
+                        <outlet property="topLabel" destination="vAe-2J-64Q" id="R2Y-zN-glD"/>
+                    </connections>
+                </view>
+                <view contentMode="scaleToFill" id="EsX-rp-1II" customClass="ClanInfoSettingsButtonView">
+                    <rect key="frame" x="5" y="68" width="71" height="28"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                    <subviews>
+                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="Qet-DA-9Ym">
+                            <rect key="frame" x="0.0" y="0.0" width="71" height="28"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <state key="normal" backgroundImage="profilebutton.png">
+                                <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                            </state>
+                            <connections>
+                                <action selector="buttonClicked:" destination="EsX-rp-1II" eventType="touchUpInside" id="ACK-Mz-OiF"/>
+                            </connections>
+                        </button>
+                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Leadership" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="9" id="KAk-aT-NsN" customClass="NiceFontLabel">
+                            <rect key="frame" x="0.0" y="11" width="70" height="16"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <fontDescription key="fontDescription" type="system" pointSize="11"/>
+                            <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="calibratedRGB"/>
+                            <nil key="highlightedColor"/>
+                            <color key="shadowColor" white="0.0" alpha="0.40000000000000002" colorSpace="calibratedWhite"/>
+                            <size key="shadowOffset" width="0.0" height="1"/>
+                        </label>
+                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Transfer" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="9" id="ynV-mT-dk9" customClass="NiceFontLabel">
+                            <rect key="frame" x="3" y="-2" width="65" height="16"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <fontDescription key="fontDescription" type="system" pointSize="9"/>
+                            <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="calibratedRGB"/>
+                            <nil key="highlightedColor"/>
+                            <color key="shadowColor" white="0.0" alpha="0.40000000000000002" colorSpace="calibratedWhite"/>
+                            <size key="shadowOffset" width="0.0" height="1"/>
+                        </label>
+                    </subviews>
+                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                    <connections>
+                        <outlet property="botLabel" destination="KAk-aT-NsN" id="LO0-26-DEd"/>
+                        <outlet property="delegate" destination="-1" id="Vnx-aE-WrW"/>
+                        <outlet property="topLabel" destination="ynV-mT-dk9" id="49s-PC-95Q"/>
+                    </connections>
+                </view>
+                <view contentMode="scaleToFill" id="dcb-SA-zAH" customClass="ClanInfoSettingsButtonView">
+                    <rect key="frame" x="5" y="99" width="71" height="28"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                    <subviews>
+                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="Am7-6f-Xeu">
+                            <rect key="frame" x="0.0" y="0.0" width="71" height="28"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <state key="normal" backgroundImage="heal.png">
+                                <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                            </state>
+                            <connections>
+                                <action selector="buttonClicked:" destination="dcb-SA-zAH" eventType="touchUpInside" id="cqO-6c-fTL"/>
+                            </connections>
+                        </button>
+                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Leadership" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="9" id="Ypx-0x-g75" customClass="NiceFontLabel">
+                            <rect key="frame" x="0.0" y="11" width="70" height="16"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <fontDescription key="fontDescription" type="system" pointSize="11"/>
+                            <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="calibratedRGB"/>
+                            <nil key="highlightedColor"/>
+                            <color key="shadowColor" white="0.0" alpha="0.40000000000000002" colorSpace="calibratedWhite"/>
+                            <size key="shadowOffset" width="0.0" height="1"/>
+                        </label>
+                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Transfer" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="9" id="mwz-lE-OCe" customClass="NiceFontLabel">
+                            <rect key="frame" x="3" y="-2" width="65" height="16"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <fontDescription key="fontDescription" type="system" pointSize="9"/>
+                            <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="calibratedRGB"/>
+                            <nil key="highlightedColor"/>
+                            <color key="shadowColor" white="0.0" alpha="0.40000000000000002" colorSpace="calibratedWhite"/>
+                            <size key="shadowOffset" width="0.0" height="1"/>
+                        </label>
+                    </subviews>
+                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                    <connections>
+                        <outlet property="botLabel" destination="Ypx-0x-g75" id="gLE-Yd-K2F"/>
+                        <outlet property="delegate" destination="-1" id="abe-9O-msy"/>
+                        <outlet property="topLabel" destination="mwz-lE-OCe" id="Cd8-8J-S4R"/>
+                    </connections>
+                </view>
+            </subviews>
+            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+        </view>
     </objects>
     <resources>
+        <image name="4options.png" width="87" height="132"/>
         <image name="clandetailbg.png" width="466" height="90"/>
         <image name="enhancebutton.png" width="71" height="28"/>
+        <image name="finishheal.png" width="71" height="28"/>
+        <image name="heal.png" width="71" height="28"/>
         <image name="mainmenubg.png" width="568" height="320"/>
+        <image name="profilebutton.png" width="71" height="28"/>
     </resources>
 </document>

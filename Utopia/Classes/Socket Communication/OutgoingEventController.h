@@ -11,6 +11,7 @@
 #import "UserData.h"
 #import <CoreLocation/CoreLocation.h>
 #import "StoreKit/StoreKit.h"
+#import "BattlePlayer.h"
 
 @interface OutgoingEventController : NSObject
 
@@ -60,6 +61,10 @@
 - (void) bootPlayerFromClan:(int)playerId delegate:(id)delegate;
 - (void) retrieveClanInfo:(NSString *)clanName clanId:(int)clanId grabType:(RetrieveClanInfoRequestProto_ClanInfoGrabType)grabType isForBrowsingList:(BOOL)isForBrowsingList beforeClanId:(int)beforeClanId delegate:(id)delegate;
 
+- (void) beginClanRaid:(PersistentClanEventProto *)event delegate:(id)delegate;
+- (void) setClanRaidTeam:(NSArray *)userMonsterIds delegate:(id)delegate;
+- (void) dealDamageToClanRaidMonster:(int)dmg attacker:(BattlePlayer *)userMonsterId curTeam:(NSArray *)curTeam;
+
 - (void) purchaseCityExpansionAtX:(int)x atY:(int)y;
 - (void) expansionWaitComplete:(BOOL)speedUp atX:(int)x atY:(int)y;
 
@@ -100,5 +105,7 @@
 
 - (BOOL) evolveMonster:(EvoItem *)evoItem useGems:(BOOL)gems;
 - (void) finishEvolutionWithGems:(BOOL)gems withDelegate:(id)delegate;
+
+- (void) updateUserCurrencyWithCashChange:(int)cashChange oilChange:(int)oilChange gemChange:(int)gemChange reason:(NSString *)reason;
 
 @end

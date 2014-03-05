@@ -9,10 +9,12 @@
 #import "CCSprite.h"
 #import "cocos2d.h"
 #import "BattleSpeechBubble.h"
+#import "Protocols.pb.h"
 
 @interface BattleSprite : CCSprite
 
 @property (nonatomic, retain) NSString *prefix;
+@property (nonatomic, assign) MonsterProto_AnimationType animationType;
 
 @property (nonatomic, retain) CCAction *walkActionN;
 @property (nonatomic, retain) CCAction *walkActionF;
@@ -33,17 +35,24 @@
 @property (nonatomic, assign) BOOL isFacingNear;
 @property (nonatomic, assign) BOOL isWalking;
 
+// Used for clan battle sprites
+@property (nonatomic, assign) BOOL cameFromTop;
+
 - (void) beginWalking;
 - (void) stopWalking;
 
 - (void) displayChargingFrame;
 - (void) restoreStandingFrame;
 
-- (void) performNearAttackAnimationWithTarget:(id)target selector:(SEL)selector;
-- (void) performFarAttackAnimationWithStrength:(float)strength target:(id)target selector:(SEL)selector;
+- (void) faceNearWithoutUpdate;
+- (void) faceFarWithoutUpdate;
 
-- (void) performNearFlinchAnimationWithStrength:(float)strength target:(id)target selector:(SEL)selector;
+- (void) performNearAttackAnimationWithEnemy:(BattleSprite *)enemy target:(id)target selector:(SEL)selector;
+- (void) performFarAttackAnimationWithStrength:(float)strength enemy:(BattleSprite *)enemy target:(id)target selector:(SEL)selector;
 
-- (id) initWithPrefix:(NSString *)prefix nameString:(NSString *)name isMySprite:(BOOL)isMySprite;
+- (void) performNearFlinchAnimationWithStrength:(float)strength delay:(float)delay;
+- (void) performFarFlinchAnimationWithDelay:(float)delay;
+
+- (id) initWithPrefix:(NSString *)prefix nameString:(NSString *)name animationType:(MonsterProto_AnimationType)animationType isMySprite:(BOOL)isMySprite;
 
 @end

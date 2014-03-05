@@ -9,6 +9,7 @@
 #import "OrbLayer.h"
 #import "SoundEngine.h"
 #import "Globals.h"
+#import "CCTextureCache.h"
 
 #define ORB_ANIMATION_OFFSET 10
 #define ORB_ANIMATION_TIME 0.15
@@ -58,6 +59,8 @@
 
 @implementation OrbLayer
 
+@synthesize allowsInput = _allowInput;
+
 - (id) initWithContentSize:(CGSize)size gridSize:(CGSize)gridSize numColors:(int)numColors
 {
   if((self=[super init])) {
@@ -85,7 +88,7 @@
   return CGSizeMake(_contentSize.width/_gridSize.width, _contentSize.height/_gridSize.height);
 }
 
-- (CCSprite *) createGemSpriteWithColor:(GemColorId)gemColor powerup:(PowerupId)powerupId
+- (NSString *) gemSpriteImageNameWithColor:(GemColorId)gemColor powerup:(PowerupId)powerupId
 {
   NSString *colorPrefix = @"";
   switch (gemColor) {
@@ -116,17 +119,16 @@
     default: return nil; break;
   }
   
-  return [CCSprite spriteWithImageNamed:[NSString stringWithFormat:@"%@%@.png", colorPrefix, powerupSuffix]];
+  return [NSString stringWithFormat:@"%@%@.png", colorPrefix, powerupSuffix];
 }
 
-- (Gem *) createRandomGem
-{
+- (Gem *) createRandomGemForPosition:(CGPoint)pt {
   int gemColor = (arc4random() % _numColors) + color_red;
   return [self createGemWithColor:gemColor powerup:powerup_none];
 }
 
 - (Gem *) createGemWithColor:(GemColorId)gemColor powerup:(PowerupId)powerupId {
-  CCSprite * gem = [self createGemSpriteWithColor:gemColor powerup:powerupId];
+  CCSprite * gem = [CCSprite spriteWithImageNamed:[self gemSpriteImageNameWithColor:gemColor powerup:powerupId]];
   if (!gem) {
     NSString *s = [NSString stringWithFormat:@"%d%@", gemColor, powerupId == powerup_explosion ? @"g" : powerupId != powerup_none ? @"r" : @""];
     gem = [CCLabelTTF labelWithString:s fontName:[Globals font] fontSize:20.f];
@@ -138,14 +140,20 @@
   return container;
 }
 
-- (void) initBoard
-{
+- (void) initBoard {
+  // Cleanup first
+  for (Gem *gem in self.gems) {
+    [gem.sprite removeFromParent];
+  }
+  
   CGSize gs = [self gridSize];
   self.gems = [[NSMutableArray alloc] init];
   for (int i = 0; i < gs.width*gs.height; i++) {
     BOOL gemOkay = NO;
     while (!gemOkay) {
-      [_gems addObject:[self createRandomGem]];
+      int x = i % (int)self.gridSize.width;
+      int y = i / self.gridSize.width;
+      [_gems addObject:[self createRandomGemForPosition:ccp(x, y)]];
       [_run removeAllObjects];
       for (int j = 0; j <= i; j++) {
         [self findRunFromGem:_gems[j] index:j];
@@ -172,15 +180,35 @@
 }
 
 - (BOOL) validMoveExists {
-  for (int x = 0; x < self.gridSize.width; x++) {
-    for (int y = 0; y < self.gridSize.height; y++) {
+  return [self getValidMove].count > 0;
+}
+
+- (NSSet *) getValidMove {
+  // Choose random corner and direction
+  BOOL flipX = arc4random() % 2 == 0;
+  BOOL flipY = arc4random() % 2 == 0;
+  
+  for (int a = 0; a < self.gridSize.width; a++) {
+    for (int b = 0; b < self.gridSize.height; b++) {
+      int x = flipX ? self.gridSize.width-a-1 : a;
+      int y = flipY ? self.gridSize.height-b-1 : b;
+      
       int idx = x+(y*self.gridSize.width);
       Gem *gem = self.gems[idx];
       NSMutableArray *toCheck = [NSMutableArray array];
       
       // If it is a molotov, return true
       if (gem.powerup == powerup_all_of_one_color) {
-        return YES;
+        NSMutableSet *set = [NSMutableSet set];
+        [set addObject:gem];
+        
+        if (x < self.gridSize.width) {
+          [set addObject:self.gems[idx+1]];
+        } else {
+          [set addObject:self.gems[idx-1]];
+        }
+        
+        return set;
       }
       
       // Check right gem and up gem if they exist
@@ -196,7 +224,10 @@
       for (Gem *checkGem in toCheck) {
         // Check if both are powerups
         if (gem.powerup != powerup_none && checkGem.powerup != powerup_none) {
-          return YES;
+          NSMutableSet *set = [NSMutableSet set];
+          [set addObject:gem];
+          [set addObject:checkGem];
+          return set;
         }
         
         // Swap and see if run exists
@@ -207,18 +238,34 @@
         
         [self createRunForCurrentBoard];
         
+        NSSet *set = nil;
+        if (_run.count > 0) {
+          NSMutableArray *batches = [self createBatchesFromRun];
+          for (NSMutableArray *batch in batches) {
+            if ([batch containsObject:gem] || [batch containsObject:checkGem]) {
+              set = [NSSet setWithArray:batch];
+              break;
+            }
+          }
+          
+          // In case there's a match that really wasn't caused by this swap..
+          if (!set) {
+            set = [NSSet setWithArray:batches[0]];
+          }
+        }
+        
         // Swap them back
         [self.gems replaceObjectAtIndex:idx withObject:gem];
         [self.gems replaceObjectAtIndex:checkIndex withObject:checkGem];
         
-        if (_run.count > 0) {
-          return YES;
+        if (set) {
+          return set;
         }
       }
     }
   }
   
-  return NO;
+  return nil;
 }
 
 - (int) createRunForCurrentBoard {
@@ -355,10 +402,8 @@
   
   // slide down
   NSMutableSet * used = [NSMutableSet set];
-  for (int column = 0; column < self.gridSize.width; column ++)
-  {
-    for (int row = 0; row < self.gridSize.height; row ++)
-    {
+  for (int column = 0; column < self.gridSize.width; column ++) {
+    for (int row = 0; row < self.gridSize.height; row ++) {
       int thisIndex = (row*self.gridSize.width)+column;
       Gem * thisGem = _gems[thisIndex];
       for (int newRow = row; newRow < self.gridSize.height; newRow++)
@@ -389,18 +434,18 @@
   }
   
   // fill spaces
-  for (Gem *gem in _run)
-  {
-    int index = [_gems indexOfObject:gem];
-    if (index != NSNotFound) {
-      int x = index % (int)self.gridSize.width;
-      int y = index / self.gridSize.width;
-      int replaceVal = numToReplace[x];
-      Gem *newGem = [self createRandomGem];
-      newGem.sprite.position = CGPointMake(self.squareSize.width/2+(x*self.squareSize.width), self.contentSize.height+self.squareSize.height*(y-self.gridSize.height+replaceVal+0.5f));
-      [self addChild:newGem.sprite z:9];
-      [_gems replaceObjectAtIndex:index withObject:newGem];
-      [gem.sprite removeFromParent];
+  for (int x = 0; x < self.gridSize.width; x ++) {
+    for (int y = 0; y < self.gridSize.height; y ++) {
+      int thisIndex = (y*self.gridSize.width)+x;
+      Gem *gem = _gems[thisIndex];
+      if ([_run containsObject:gem]) {
+        int replaceVal = numToReplace[x];
+        Gem *newGem = [self createRandomGemForPosition:ccp(x, y)];
+        newGem.sprite.position = CGPointMake(self.squareSize.width/2+(x*self.squareSize.width), self.contentSize.height+self.squareSize.height*(y-self.gridSize.height+replaceVal+0.5f));
+        [self addChild:newGem.sprite z:9];
+        [_gems replaceObjectAtIndex:thisIndex withObject:newGem];
+        [gem.sprite removeFromParent];
+      }
     }
   }
   [self updateGemPositionsAfterSwap];
@@ -413,7 +458,7 @@
   return [CCColor colorWithCcColor3b:ccc3(r*255, g*255, b*255)];
 }
 
-// Color of gem that destroyed this gem
+// Color and powerup of gem that destroyed this gem
 - (void) destroyGem:(Gem *)gem fromColor:(GemColorId)color fromPowerup:(PowerupId)powerup {
   if (![self.gems containsObject:gem] || [self.destroyedGems containsObject:gem]) {
     return;
@@ -638,9 +683,9 @@
     NSMutableArray *seq = [NSMutableArray array];
     for (int i = p.startLocation.x; i < self.gridSize.width; i++) {
       CGPoint pos = ccp(i, p.startLocation.y);
+      Gem *g = _gems[(int)(pos.x+pos.y*self.gridSize.width)];
       [seq addObject:[CCActionMoveTo actionWithDuration:TIME_TO_TRAVEL_PER_SQUARE position:[self pointForGridPosition:pos]]];
       [seq addObject:[CCActionCallBlock actionWithBlock:^{
-        Gem *g = _gems[(int)(pos.x+pos.y*self.gridSize.width)];
         if (![self.reservedGems containsObject:g]) {
           [self destroyGem:g fromColor:color fromPowerup:powerupId];
         }
@@ -675,10 +720,12 @@
     seq = [NSMutableArray array];
     for (int i = p.startLocation.x; i >= 0; i--) {
       CGPoint pos = ccp(i, p.startLocation.y);
+      Gem *g = _gems[(int)(pos.x+pos.y*self.gridSize.width)];
       [seq addObject:[CCActionMoveTo actionWithDuration:TIME_TO_TRAVEL_PER_SQUARE position:[self pointForGridPosition:pos]]];
       [seq addObject:[CCActionCallBlock actionWithBlock:^{
-        Gem *g = _gems[(int)(pos.x+pos.y*self.gridSize.width)];
-        [self destroyGem:g fromColor:color fromPowerup:powerupId];
+        if (![self.reservedGems containsObject:g]) {
+          [self destroyGem:g fromColor:color fromPowerup:powerupId];
+        }
       }]];
     }
     
@@ -726,9 +773,9 @@
     NSMutableArray *seq = [NSMutableArray array];
     for (int i = p.startLocation.y; i >= 0; i--) {
       CGPoint pos = ccp(p.startLocation.x, i);
+      Gem *g = _gems[(int)(pos.x+pos.y*self.gridSize.width)];
       [seq addObject:[CCActionMoveTo actionWithDuration:TIME_TO_TRAVEL_PER_SQUARE position:[self pointForGridPosition:pos]]];
       [seq addObject:[CCActionCallBlock actionWithBlock:^{
-        Gem *g = _gems[(int)(pos.x+pos.y*self.gridSize.width)];
         if (![self.reservedGems containsObject:g]) {
           [self destroyGem:g fromColor:color fromPowerup:powerupId];
         }
@@ -769,9 +816,9 @@
     seq = [NSMutableArray array];
     for (int i = p.startLocation.y; i < self.gridSize.height; i++) {
       CGPoint pos = ccp(p.startLocation.x, i);
+      Gem *g = _gems[(int)(pos.x+pos.y*self.gridSize.width)];
       [seq addObject:[CCActionMoveTo actionWithDuration:TIME_TO_TRAVEL_PER_SQUARE position:[self pointForGridPosition:pos]]];
       [seq addObject:[CCActionCallBlock actionWithBlock:^{
-        Gem *g = _gems[(int)(pos.x+pos.y*self.gridSize.width)];
         [self destroyGem:g fromColor:color fromPowerup:powerupId];
       }]];
     }
@@ -1071,10 +1118,49 @@
   return NO;
 }
 
+- (NSMutableArray *) createBatchesFromRun {
+  NSMutableSet *s = [_run mutableCopy];
+  
+  NSMutableArray * batches = [NSMutableArray array];
+  while (s.count > 0)
+  {
+    Gem *gem = [s anyObject];
+    NSMutableArray * batch = [NSMutableArray array];
+    [batch addObject:gem];
+    [s removeObject:gem];
+    
+    BOOL foundGem = YES;
+    while (foundGem) {
+      foundGem = NO;
+      for (Gem * g in [s copy])
+      {
+        for (Gem *g2 in [batch copy]) {
+          if (g.color == g2.color && [self gem:g isTouchingGem:g2])
+          {
+            [batch addObject:g];
+            [s removeObject:g];
+            foundGem = YES;
+          }
+        }
+      }
+    }
+    
+    if (batch.count > NUMBER_OF_ORBS_FOR_MATCH-1)
+      [batches addObject:batch];
+    else {
+      NSLog(@"ERROR: found run with no batch..");
+      break;
+    }
+  }
+  
+  return batches;
+}
+
 - (void) turnEnd
 {
   _allowInput = NO;
   
+  [_run removeAllObjects];
   BOOL foundPowerup = [self checkForPowerupMatch];
   
   if (!foundPowerup) {
@@ -1085,40 +1171,7 @@
       // Delegate method refers to orbs beginning to combo
       [self.delegate moveBegan];
       
-      NSMutableSet *s = [_run mutableCopy];
-      
-      NSMutableArray * batches = [NSMutableArray array];
-      while (s.count > 0)
-      {
-        Gem *gem = [s anyObject];
-        NSMutableArray * batch = [NSMutableArray array];
-        [batch addObject:gem];
-        [s removeObject:gem];
-        
-        BOOL foundGem = YES;
-        while (foundGem) {
-          foundGem = NO;
-          for (Gem * g in [s copy])
-          {
-            for (Gem *g2 in [batch copy]) {
-              if (g.color == g2.color && [self gem:g isTouchingGem:g2])
-              {
-                [batch addObject:g];
-                [s removeObject:g];
-                foundGem = YES;
-              }
-            }
-          }
-        }
-        
-        if (batch.count > NUMBER_OF_ORBS_FOR_MATCH-1)
-          [batches addObject:batch];
-        else {
-          NSLog(@"ERROR: found run with no batch..");
-          break;
-        }
-      }
-      
+      NSMutableArray *batches = [self createBatchesFromRun];
       [self processBatches:batches];
     } else {
       if (!_foundMatch && _swapGem) {
@@ -1133,19 +1186,27 @@
         
         [[SoundEngine sharedSoundEngine] puzzleWrongMove];
         
-        dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, ORB_ANIMATION_TIME * NSEC_PER_SEC);
-        dispatch_after(popTime, dispatch_get_main_queue(), ^(void){
-          [self.delegate moveComplete];
-        });
+        [self runAction:
+         [CCActionSequence actions:
+          [CCActionDelay actionWithDuration:ORB_ANIMATION_TIME],
+          [CCActionCallFunc actionWithTarget:self.delegate selector:@selector(moveComplete)], nil]];
       } else {
-        [self.delegate moveComplete];
+        // Do this so that it doesn't get immediately unscheduled a couple lines later
+        [self runAction:
+         [CCActionCallFunc actionWithTarget:self.delegate selector:@selector(moveComplete)]];
       }
     }
   } else {
     // Delegate method refers to orbs beginning to combo
     [self.delegate moveBegan];
     
+    _foundMatch = YES;
     [self checkAllGemsAndPowerupsDone];
+  }
+  
+  if (_foundMatch) {
+    [self unschedule:@selector(pulseValidMove)];
+    [self stopValidMovePulsing];
   }
 }
 
@@ -1166,7 +1227,6 @@
       {
         _gemsBouncing++;
         int numSquares = (container.sprite.position.y - startY) / squareSize.height;
-        //        [container.sprite stopAllActions];
         CCActionMoveTo * moveTo = [CCActionMoveTo actionWithDuration:0.4+0.1*numSquares position:CGPointMake(startX, startY)];
         [container.sprite runAction:[CCActionSequence actions:
                                      [CCActionEaseBounceOut actionWithAction:moveTo],
@@ -1237,11 +1297,72 @@
     [self reshuffle];
   }
   
+  [self scheduleOnce:@selector(pulseValidMove) delay:3.f];
+  
   _allowInput = YES;
 }
 
 - (void) disallowInput {
   _allowInput = NO;
+}
+
+#define PULSING_ANIMATION_TAG 82930
+
+- (void) pulseValidMove {
+  if (_isPulsing) return;
+  _isPulsing = YES;
+  
+  NSSet *move = [self getValidMove];
+  for (Gem *gem in move) {
+    NSString *key = [NSString stringWithFormat:@"%d%dOverlay", gem.color, gem.powerup];
+    CCTexture *texture = [[CCTextureCache sharedTextureCache] textureForKey:key];
+    if (!texture) {
+      UIImage *img = [Globals imageNamed:[self gemSpriteImageNameWithColor:gem.color powerup:gem.powerup]];
+      img = [Globals maskImage:img withColor:[UIColor whiteColor]];
+      texture = [[CCTextureCache sharedTextureCache] addCGImage:img.CGImage forKey:key];
+      texture.contentScale = gem.sprite.texture.contentScale;
+    }
+    CCSprite *spr = [CCSprite spriteWithTexture:texture];
+    spr.position = ccp(gem.sprite.contentSize.width/2, gem.sprite.contentSize.height/2);
+    [gem.sprite addChild:spr z:0 name:@"Overlay"];
+    spr.opacity = 0.f;
+    spr.blendFunc = (ccBlendFunc) {GL_DST_COLOR, GL_ONE};
+    
+    float pulseDur = 0.4f;
+    float numTimes = 4;
+    float delay = 1.3f;
+    CCAction *action =
+    [CCActionRepeatForever actionWithAction:
+     [CCActionSequence actions:
+      [CCActionRepeat actionWithAction:
+       [CCActionSequence actions:
+        [CCActionScaleTo actionWithDuration:pulseDur scale:1.15f],
+        [CCActionScaleTo actionWithDuration:pulseDur scale:1.f], nil] times:numTimes],
+      [CCActionDelay actionWithDuration:delay], nil]];
+    action.tag = PULSING_ANIMATION_TAG;
+    [gem.sprite runAction:action];
+    
+    [spr runAction:
+     [CCActionRepeatForever actionWithAction:
+      [CCActionSequence actions:
+       [CCActionRepeat actionWithAction:
+        [CCActionSequence actions:
+         [CCActionFadeTo actionWithDuration:pulseDur opacity:0.4f],
+         [CCActionFadeTo actionWithDuration:pulseDur opacity:0.f], nil] times:numTimes],
+       [CCActionDelay actionWithDuration:delay], nil]]];
+  }
+}
+
+- (void) stopValidMovePulsing {
+  // Stop the pulsing gems
+  for (Gem *gem in self.gems) {
+    [gem.sprite stopActionByTag:PULSING_ANIMATION_TAG];
+    gem.sprite.scale = 1.f;
+    
+    CCNode *n = [gem.sprite getChildByName:@"Overlay" recursively:NO];
+    [n removeFromParent];
+  }
+  _isPulsing = NO;
 }
 
 #pragma mark touch handling
@@ -1318,17 +1439,16 @@
     
     if (_swapGem) {
       [self doGemSwapAnimationWithGem:_realDragGem andGem:_swapGem];
-      int idxA = [_gems indexOfObject:_swapGem];
-      int idxB = [_gems indexOfObject:_realDragGem];
-      [_gems replaceObjectAtIndex:idxA withObject:_realDragGem];
-      [_gems replaceObjectAtIndex:idxB withObject:_swapGem];
       
-      //      if (!_beganTimer) {
-      //        _beganTimer = YES;
-      //        [self schedule:@selector(timedOut) interval:TIME_LIMIT];
-      //      }
       
-      [self timedOut];
+      if (_realDragGem && _swapGem) {
+        int idxA = [_gems indexOfObject:_swapGem];
+        int idxB = [_gems indexOfObject:_realDragGem];
+        [_gems replaceObjectAtIndex:idxA withObject:_realDragGem];
+        [_gems replaceObjectAtIndex:idxB withObject:_swapGem];
+        
+        [self timedOut];
+      }
     }
   }
 }
@@ -1338,6 +1458,8 @@
 }
 
 - (void) touchEnded:(UITouch *)touch withEvent:(UIEvent *)event {
+  if (!_allowInput) return;
+  
   if (_realDragGem) {
     [self unschedule:@selector(timedOut)];
     [_dragGem.sprite removeFromParent];

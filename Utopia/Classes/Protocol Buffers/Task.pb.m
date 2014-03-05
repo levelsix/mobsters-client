@@ -20,6 +20,20 @@ static PBExtensionRegistry* extensionRegistry = nil;
 }
 @end
 
+BOOL DayOfWeekIsValidValue(DayOfWeek value) {
+  switch (value) {
+    case DayOfWeekSunday:
+    case DayOfWeekMonday:
+    case DayOfWeekTuesday:
+    case DayOfWeekWednesday:
+    case DayOfWeekThursday:
+    case DayOfWeekFriday:
+    case DayOfWeekSaturday:
+      return YES;
+    default:
+      return NO;
+  }
+}
 @interface TaskStageProto ()
 @property int32_t stageId;
 @property (retain) NSMutableArray* mutableStageMonstersList;
@@ -1341,7 +1355,7 @@ BOOL TaskStageMonsterProto_MonsterTypeIsValidValue(TaskStageMonsterProto_Monster
 
 @interface PersistentEventProto ()
 @property int32_t eventId;
-@property PersistentEventProto_DayOfWeek dayOfWeek;
+@property DayOfWeek dayOfWeek;
 @property int32_t startHour;
 @property int32_t eventDurationMinutes;
 @property int32_t taskId;
@@ -1414,7 +1428,7 @@ BOOL TaskStageMonsterProto_MonsterTypeIsValidValue(TaskStageMonsterProto_Monster
 - (id) init {
   if ((self = [super init])) {
     self.eventId = 0;
-    self.dayOfWeek = PersistentEventProto_DayOfWeekSunday;
+    self.dayOfWeek = DayOfWeekSunday;
     self.startHour = 0;
     self.eventDurationMinutes = 0;
     self.taskId = 0;
@@ -1530,20 +1544,6 @@ static PersistentEventProto* defaultPersistentEventProtoInstance = nil;
 }
 @end
 
-BOOL PersistentEventProto_DayOfWeekIsValidValue(PersistentEventProto_DayOfWeek value) {
-  switch (value) {
-    case PersistentEventProto_DayOfWeekSunday:
-    case PersistentEventProto_DayOfWeekMonday:
-    case PersistentEventProto_DayOfWeekTuesday:
-    case PersistentEventProto_DayOfWeekWednesday:
-    case PersistentEventProto_DayOfWeekThursday:
-    case PersistentEventProto_DayOfWeekFriday:
-    case PersistentEventProto_DayOfWeekSaturday:
-      return YES;
-    default:
-      return NO;
-  }
-}
 BOOL PersistentEventProto_EventTypeIsValidValue(PersistentEventProto_EventType value) {
   switch (value) {
     case PersistentEventProto_EventTypeEnhance:
@@ -1646,7 +1646,7 @@ BOOL PersistentEventProto_EventTypeIsValidValue(PersistentEventProto_EventType v
       }
       case 16: {
         int32_t value = [input readEnum];
-        if (PersistentEventProto_DayOfWeekIsValidValue(value)) {
+        if (DayOfWeekIsValidValue(value)) {
           [self setDayOfWeek:value];
         } else {
           [unknownFields mergeVarintField:2 value:value];
@@ -1709,17 +1709,17 @@ BOOL PersistentEventProto_EventTypeIsValidValue(PersistentEventProto_EventType v
 - (BOOL) hasDayOfWeek {
   return result.hasDayOfWeek;
 }
-- (PersistentEventProto_DayOfWeek) dayOfWeek {
+- (DayOfWeek) dayOfWeek {
   return result.dayOfWeek;
 }
-- (PersistentEventProto_Builder*) setDayOfWeek:(PersistentEventProto_DayOfWeek) value {
+- (PersistentEventProto_Builder*) setDayOfWeek:(DayOfWeek) value {
   result.hasDayOfWeek = YES;
   result.dayOfWeek = value;
   return self;
 }
 - (PersistentEventProto_Builder*) clearDayOfWeek {
   result.hasDayOfWeek = NO;
-  result.dayOfWeek = PersistentEventProto_DayOfWeekSunday;
+  result.dayOfWeek = DayOfWeekSunday;
   return self;
 }
 - (BOOL) hasStartHour {

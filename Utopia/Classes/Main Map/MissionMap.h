@@ -28,5 +28,7 @@
 - (id) assetWithId:(int)assetId;
 - (void) moveToAssetId:(int)a animated:(BOOL)animated;
 - (void) changeTiles: (CGRect) buildBlock canWalk:(BOOL)canWalk;
+- (void) setAllLocksAndArrowsForBuildings;
+- (IBAction) performCurrentTask:(id)sender;
 
 @end

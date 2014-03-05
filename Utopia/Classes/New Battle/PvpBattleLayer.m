@@ -18,256 +18,40 @@
 
 @implementation PvpBattleLayer
 
-- (void) loadDeployView {
-  GameViewController *gvc = [GameViewController baseController];
-  UIView *view = gvc.view;
-  
-  [[NSBundle mainBundle] loadNibNamed:@"BattleDeployView" owner:self options:nil];
-  [view addSubview:self.swapView];
-  [view addSubview:self.deployView];
-  [view addSubview:self.forfeitButton];
-  self.swapView.hidden = YES;
-  self.deployView.hidden = YES;
-  self.forfeitButton.hidden = YES;
-  
-  self.forfeitButton.center = ccp(self.forfeitButton.frame.size.width/2+5, self.forfeitButton.frame.size.height/2+5);
-  self.swapLabel.transform = CGAffineTransformMakeRotation(M_PI_2);
-}
-
-- (void) beginMyTurn {
-  [super beginMyTurn];
-  [self displaySwapButton];
-  self.forfeitButton.hidden = NO;
-}
-
-- (void) moveBegan {
-  [super moveBegan];
-  [self removeSwapButton];
-}
-
-- (void) myTurnEnded {
-  [super myTurnEnded];
-  self.forfeitButton.hidden = YES;
-}
-
 #pragma mark - Continue View Actions
 
 - (void) youWon {
-  [self endBattle:YES];
-}
-
-- (void) youLost {
-  [self endBattle:NO];
-}
-
-- (void) endBattle:(BOOL)won {
-  _receivedEndDungeonResponse = YES;
-  _wonBattle = won;
-  
-  [self removeOrbLayerAnimated:YES withBlock:^{
-    if (won) {
-      [CCBReader load:@"BattleWonView" owner:self];
-      PvpProto *pvp = self.queueInfo.defenderInfoListList[_curQueueNum];
-      [self.wonView updateForRewards:[Reward createRewardsForPvpProto:pvp]];
-      [self addChild:self.wonView z:10000];
-      
-      self.wonView.anchorPoint = ccp(0.5, 0.5);
-      self.wonView.position = ccp(self.contentSize.width/2, self.contentSize.height/2);
-    } else {
-      [self addChild:[CCBReader load:@"BattleLostView" owner:self] z:10000];
-      self.lostView.anchorPoint = ccp(0.5, 0.5);
-      self.lostView.continueButton.visible = NO;
-      self.lostView.position = ccp(self.contentSize.width/2, self.contentSize.height/2);
-    }
-  }];
+  [super youWon];
+  PvpProto *pvp = self.queueInfo.defenderInfoListList[_curQueueNum];
+  [self.wonView updateForRewards:[Reward createRewardsForPvpProto:pvp]];
 }
 
 - (IBAction)forfeitClicked:(id)sender {
   if (_hasChosenEnemy) {
-    [GenericPopupController displayNegativeConfirmationWithDescription:@"You will lose everything - are you sure you want to forfeit?"
-                                                                 title:@"Forfeit Battle"
-                                                            okayButton:@"Forfeit"
-                                                          cancelButton:@"Cancel"
-                                                              okTarget:self
-                                                            okSelector:@selector(forfeitConfirmed)
-                                                          cancelTarget:nil
-                                                        cancelSelector:nil];
+    [super forfeitClicked:nil];
   } else {
     [GenericPopupController displayConfirmationWithDescription:@"Are you sure you would like to leave?"
                                                          title:@"Leave?"
                                                     okayButton:@"Leave"
                                                   cancelButton:@"Cancel"
                                                       okTarget:self
-                                                    okSelector:@selector(forfeitConfirmed)
+                                                    okSelector:@selector(exitFinal)
                                                   cancelTarget:nil
                                                 cancelSelector:nil];
   }
 }
 
-- (void) forfeitConfirmed {
-  [self exitFinal];
-}
-
 - (IBAction)winExitClicked:(id)sender {
   if (!_wonBattle) {
     [self exitFinal];
-  } else if (!_receivedEndDungeonResponse) {
-    _waitingForEndDungeonResponse = YES;
+  } else if (!_receivedEndPvpResponse) {
+    _waitingForEndPvpResponse = YES;
     
     _manageWasClicked = NO;
+#warning fix this
+    [self exitFinal];
   } else {
     [self exitFinal];
-  }
-}
-
-- (IBAction)manageClicked:(id)sender {
-  _manageWasClicked = YES;
-  if (!_receivedEndDungeonResponse) {
-    _waitingForEndDungeonResponse = YES;
-  } else {
-    [self exitFinal];
-  }
-}
-
-- (void) exitFinal {
-  self.swapView.hidden  = YES;
-  self.forfeitButton.hidden = YES;
-  
-  [self.delegate battleComplete:[NSDictionary dictionaryWithObjectsAndKeys:@(_manageWasClicked), BATTLE_MANAGE_CLICKED_KEY, nil]];
-  
-  // in case it hasnt stopped yet
-  [Kamcord stopRecording];
-}
-
-- (IBAction)shareClicked:(id)sender {
-  [Kamcord stopRecording];
-  [Kamcord showView];
-}
-
-- (IBAction)continueClicked:(id)sender {
-  Globals *gl = [Globals sharedGlobals];
-  int gemsAmount = [gl calculateGemCostToHealTeamDuringBattle:self.myTeam];
-  NSString *desc = [NSString stringWithFormat:@"Would you like to heal your entire team for %d gems?", gemsAmount];
-  [GenericPopupController displayGemConfirmViewWithDescription:desc title:@"Heal Team?" gemCost:gemsAmount target:self selector:@selector(continueConfirmed)];
-}
-
-- (void) continueConfirmed {
-  GameState *gs = [GameState sharedGameState];
-  Globals *gl = [Globals sharedGlobals];
-  int gemsAmount = [gl calculateGemCostToHealTeamDuringBattle:self.myTeam];
-  
-  if (gs.gold < gemsAmount) {
-    [GenericPopupController displayNotEnoughGemsView];
-  } else {
-    [self.lostView removeFromParent];
-    [self displayDeployViewAndIsCancellable:NO];
-    [self.orbBgdLayer runAction:[CCActionMoveTo actionWithDuration:0.3f position:ccp(self.contentSize.width-self.orbBgdLayer.contentSize.width/2-14, self.orbBgdLayer.position.y)]];
-  }
-}
-
-#pragma BattleDeployView methods
-
-#define ANIMATION_TIME 0.4f
-#define SWAP_CENTER_Y 268
-#define DEPLOY_CENTER_Y self.contentSize.height-16-self.deployView.frame.size.height/2
-
-- (void) displaySwapButton {
-  self.swapView.hidden = NO;
-  self.swapView.center = ccp(-self.swapView.frame.size.width/2, SWAP_CENTER_Y);
-  [UIView animateWithDuration:ANIMATION_TIME animations:^{
-    self.swapView.center = ccp(self.swapView.frame.size.width/2, SWAP_CENTER_Y);
-  }];
-}
-
-- (void) removeSwapButton {
-  [UIView animateWithDuration:ANIMATION_TIME animations:^{
-    self.swapView.center = ccp(-self.swapView.frame.size.width/2, SWAP_CENTER_Y);
-  } completion:^(BOOL finished) {
-    self.swapView.hidden = YES;
-  }];
-}
-
-- (IBAction)swapClicked:(id)sender {
-  if (_orbCount == 0 && !self.orbLayer.isTrackingTouch) {
-    [self removeSwapButton];
-    [self displayDeployViewAndIsCancellable:YES];
-  }
-}
-
-- (void) displayDeployViewAndIsCancellable:(BOOL)cancel {
-  [self displayNoInputLayer];
-  
-  [self.deployView updateWithBattlePlayers:self.myTeam];
-  
-  self.deployView.hidden = NO;
-  self.deployView.center = ccp(-self.deployView.frame.size.width/2, DEPLOY_CENTER_Y);
-  [UIView animateWithDuration:ANIMATION_TIME animations:^{
-    float extra = [Globals isLongiPhone] ? self.movesBgd.contentSize.width : 0;
-    self.deployView.center = ccp((self.contentSize.width-self.orbBgdLayer.contentSize.width-extra-14)/2, DEPLOY_CENTER_Y);
-  } completion:^(BOOL finished) {
-    if (finished && cancel) {
-      self.deployCancelButton = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, self.contentSize.width, self.contentSize.height)];
-      [Globals displayUIView:self.deployCancelButton];
-      [self.deployCancelButton addTarget:self action:@selector(cancelDeploy:) forControlEvents:UIControlEventTouchUpInside];
-      [self.deployView.superview bringSubviewToFront:self.deployView];
-    }
-  }];
-  
-  [self.orbLayer disallowInput];
-}
-
-- (void) removeDeployView {
-  [self.deployCancelButton removeFromSuperview];
-  self.deployCancelButton = nil;
-  [UIView animateWithDuration:ANIMATION_TIME animations:^{
-    self.deployView.center = ccp(-self.deployView.frame.size.width/2, DEPLOY_CENTER_Y);
-  } completion:^(BOOL finished) {
-    self.deployView.hidden = YES;
-  }];
-}
-
-- (IBAction)cancelDeploy:(id)sender {
-  [self deployBattleSprite:nil];
-}
-
-- (IBAction)deployCardClicked:(id)sender {
-  while (![sender isKindOfClass:[BattleDeployCardView class]]) {
-    sender = [sender superview];
-  }
-  BattleDeployCardView *card = (BattleDeployCardView *)sender;
-  
-  BattlePlayer *bp = nil;
-  for (BattlePlayer *b in self.myTeam) {
-    if (b.slotNum == card.tag && b.curHealth > 0) {
-      bp = b;
-    }
-  }
-  
-  if (bp) {
-    [self deployBattleSprite:bp];
-  }
-}
-
-- (void) deployBattleSprite:(BattlePlayer *)bp {
-  [self removeDeployView];
-  BOOL isSwap = self.myPlayer != nil;
-  if (bp && bp.userMonsterId != self.myPlayerObject.userMonsterId) {
-    self.myPlayerObject = bp;
-    
-    if (isSwap) {
-      [self makeMyPlayerWalkOut];
-    }
-    [self createNextMyPlayerSprite];
-    
-    // If it is swap, enemy should attack
-    // If it is game start, wait till battle response has arrived
-    // Otherwise, it is coming back from player just dying
-    SEL selector = isSwap ? @selector(beginMyTurn) : _curStage < 0 ? @selector(reachedNextScene) : @selector(beginMyTurn);
-    [self makeMyPlayerWalkInFromEntranceWithSelector:selector];
-  } else if (isSwap) {
-    [self displaySwapButton];
-    [self.orbLayer allowInput];
-    [self removeNoInputLayer];
   }
 }
 
@@ -389,7 +173,7 @@
   
   _hasChosenEnemy = YES;
   _curStage = 0;
-  _numStages = self.enemyTeam.count;
+  _hasStarted = YES;
 }
 
 #pragma mark - Waiting for server
@@ -406,40 +190,11 @@
 }
 
 - (void) begin {
-  BattlePlayer *bp = nil;
-  for (BattlePlayer *b in self.myTeam) {
-    if (b.curHealth > 0) {
-      bp = b;
-    }
-  }
-  if (bp) {
-    [self deployBattleSprite:bp];
-  }
+  [super begin];
   
   [self loadQueueNode];
-  [self loadDeployView];
-  
-  // This will spawn the deploy view assuming someone is alive
-  [self currentMyPlayerDied];
-  
-  [Kamcord startRecording];
   
   self.forfeitButton.hidden = NO;
-}
-
-- (void) currentMyPlayerDied {
-  BOOL someoneIsAlive = NO;
-  for (BattlePlayer *bp in self.myTeam) {
-    if (bp.curHealth > 0) {
-      someoneIsAlive = YES;
-    }
-  }
-  
-  if (someoneIsAlive) {
-    [self displayDeployViewAndIsCancellable:NO];
-  } else {
-    [self youLost];
-  }
 }
 
 - (void) prepareNextEnemyTeam {
@@ -486,7 +241,7 @@
     NSMutableArray *mut = [NSMutableArray array];
     for (BattlePlayer *bp in self.enemyTeam) {
       int idx = [self.enemyTeam indexOfObject:bp];
-      BattleSprite *bs = [[BattleSprite alloc] initWithPrefix:bp.spritePrefix nameString:bp.name isMySprite:NO];
+      BattleSprite *bs = [[BattleSprite alloc] initWithPrefix:bp.spritePrefix nameString:bp.name animationType:bp.animationType isMySprite:NO];
       bs.healthBar.color = [self.orbLayer colorForSparkle:bp.element];
       [self.bgdContainer addChild:bs z:-idx];
       bs.isFacingNear = YES;
@@ -529,46 +284,35 @@
 }
 
 - (void) reachedNextScene {
-  if (_curStage < 0) {
-    if (!self.queueInfo) {
-      _numTimesNotResponded++;
-      if (_numTimesNotResponded < 5) {
-        [self.myPlayer beginWalking];
-        [self.bgdLayer scrollToNewScene];
-      } else {
-        [self.myPlayer stopWalking];
-        [GenericPopupController displayNotificationViewWithText:@"The enemies seem to have been scared off. Tap okay to return outside." title:@"Something Went Wrong" okayButton:@"Okay" target:self selector:@selector(exitFinal)];
-      }
+  if (!self.queueInfo) {
+    _numTimesNotResponded++;
+    if (_numTimesNotResponded < 5) {
+      [self.myPlayer beginWalking];
+      [self.bgdLayer scrollToNewScene];
     } else {
-      if (!_hasChosenEnemy) {
-        if (!_spawnedNewTeam) {
-          [self.myPlayer beginWalking];
-          [self.bgdLayer scrollToNewScene];
-          
-          if (self.enemyTeam) {
-            // Spawn the new team
-            [self spawnNextEnemyTeam];
-            _spawnedNewTeam = YES;
-          } else if (!_waitingForDownload) {
-            [self prepareNextEnemyTeam];
-          }
-        } else {
-          [self.myPlayer stopWalking];
-        }
-      } else {
-        [self moveToNextEnemy];
-      }
+      [self.myPlayer stopWalking];
+      [GenericPopupController displayNotificationViewWithText:@"The enemies seem to have been scared off. Tap okay to return outside." title:@"Something Went Wrong" okayButton:@"Okay" target:self selector:@selector(exitFinal)];
     }
   } else {
-    [super reachedNextScene];
+    if (!_hasChosenEnemy) {
+      if (!_spawnedNewTeam) {
+        [self.myPlayer beginWalking];
+        [self.bgdLayer scrollToNewScene];
+        
+        if (self.enemyTeam) {
+          // Spawn the new team
+          [self spawnNextEnemyTeam];
+          _spawnedNewTeam = YES;
+        } else if (!_waitingForDownload) {
+          [self prepareNextEnemyTeam];
+        }
+      } else {
+        [self.myPlayer stopWalking];
+      }
+    } else {
+      [super reachedNextScene];
+    }
   }
-}
-
-- (void) dealloc {
-  [self.forfeitButton removeFromSuperview];
-  [self.swapView removeFromSuperview];
-  [self.deployView removeFromSuperview];
-  [self.deployCancelButton removeFromSuperview];
 }
 
 @end

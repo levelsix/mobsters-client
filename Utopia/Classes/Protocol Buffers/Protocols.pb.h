@@ -44,6 +44,14 @@
 @class ApproveOrRejectRequestToJoinClanRequestProto_Builder;
 @class ApproveOrRejectRequestToJoinClanResponseProto;
 @class ApproveOrRejectRequestToJoinClanResponseProto_Builder;
+@class AttackClanRaidMonsterRequestProto;
+@class AttackClanRaidMonsterRequestProto_Builder;
+@class AttackClanRaidMonsterResponseProto;
+@class AttackClanRaidMonsterResponseProto_Builder;
+@class BeginClanRaidRequestProto;
+@class BeginClanRaidRequestProto_Builder;
+@class BeginClanRaidResponseProto;
+@class BeginClanRaidResponseProto_Builder;
 @class BeginDungeonRequestProto;
 @class BeginDungeonRequestProto_Builder;
 @class BeginDungeonResponseProto;
@@ -74,6 +82,14 @@
 @class CityElementProto_Builder;
 @class CityExpansionCostProto;
 @class CityExpansionCostProto_Builder;
+@class ClanRaidProto;
+@class ClanRaidProto_Builder;
+@class ClanRaidStageMonsterProto;
+@class ClanRaidStageMonsterProto_Builder;
+@class ClanRaidStageProto;
+@class ClanRaidStageProto_Builder;
+@class ClanRaidStageRewardProto;
+@class ClanRaidStageRewardProto_Builder;
 @class ColorProto;
 @class ColorProto_Builder;
 @class CombineUserMonsterPiecesRequestProto;
@@ -234,6 +250,14 @@
 @class NormStructWaitCompleteRequestProto_Builder;
 @class NormStructWaitCompleteResponseProto;
 @class NormStructWaitCompleteResponseProto_Builder;
+@class PersistentClanEventClanInfoProto;
+@class PersistentClanEventClanInfoProto_Builder;
+@class PersistentClanEventProto;
+@class PersistentClanEventProto_Builder;
+@class PersistentClanEventUserInfoProto;
+@class PersistentClanEventUserInfoProto_Builder;
+@class PersistentClanEventUserRewardProto;
+@class PersistentClanEventUserRewardProto_Builder;
 @class PersistentEventProto;
 @class PersistentEventProto_Builder;
 @class PrivateChatPostProto;
@@ -280,6 +304,10 @@
 @class ReceivedGroupChatResponseProto_Builder;
 @class ReceivedRareBoosterPurchaseResponseProto;
 @class ReceivedRareBoosterPurchaseResponseProto_Builder;
+@class RecordClanRaidStatsRequestProto;
+@class RecordClanRaidStatsRequestProto_Builder;
+@class RecordClanRaidStatsResponseProto;
+@class RecordClanRaidStatsResponseProto_Builder;
 @class ReferralCodeUsedResponseProto;
 @class ReferralCodeUsedResponseProto_Builder;
 @class RemoveMonsterFromBattleTeamRequestProto;
@@ -362,6 +390,8 @@
 @class StartupResponseProto_StartupConstants_TournamentConstants_Builder;
 @class StartupResponseProto_StartupConstants_UserMonsterConstants;
 @class StartupResponseProto_StartupConstants_UserMonsterConstants_Builder;
+@class StartupResponseProto_TutorialConstants;
+@class StartupResponseProto_TutorialConstants_Builder;
 @class StaticDataProto;
 @class StaticDataProto_Builder;
 @class StaticUserLevelInfoProto;
@@ -386,6 +416,8 @@
 @class TransferClanOwnershipRequestProto_Builder;
 @class TransferClanOwnershipResponseProto;
 @class TransferClanOwnershipResponseProto_Builder;
+@class TutorialStructProto;
+@class TutorialStructProto_Builder;
 @class UpdateClientUserResponseProto;
 @class UpdateClientUserResponseProto_Builder;
 @class UpdateMonsterHealthRequestProto;
@@ -484,6 +516,9 @@ typedef enum {
   EventProtocolRequestCUpdateUserCurrencyEvent = 59,
   EventProtocolRequestCBeginPvpBattleEvent = 60,
   EventProtocolRequestCEndPvpBattleEvent = 61,
+  EventProtocolRequestCBeginClanRaidEvent = 62,
+  EventProtocolRequestCAttackClanRaidMonsterEvent = 63,
+  EventProtocolRequestCRecordClanRaidStatsEvent = 64,
   EventProtocolRequestCLogoutEvent = 101,
 } EventProtocolRequest;
 
@@ -549,6 +584,9 @@ typedef enum {
   EventProtocolResponseSUpdateUserCurrencyEvent = 59,
   EventProtocolResponseSBeginPvpBattleEvent = 60,
   EventProtocolResponseSEndPvpBattleEvent = 61,
+  EventProtocolResponseSBeginClanRaidEvent = 62,
+  EventProtocolResponseSAttackClanRaidMonsterEvent = 63,
+  EventProtocolResponseSRecordClanRaidStatsEvent = 64,
   EventProtocolResponseSUpdateClientUserEvent = 101,
   EventProtocolResponseSReferralCodeUsedEvent = 102,
   EventProtocolResponseSPurgeStaticDataEvent = 103,

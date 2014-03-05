@@ -21,13 +21,15 @@
 @end
 
 @interface MyTeamSprite : AnimatedSprite {
+  id _destinationTarget;
   SEL _destinationSelector;
+  float _speedMultiplier;
 }
 
 @property (nonatomic, retain) NSMutableArray *spOpenSteps;
 @property (nonatomic, retain) NSMutableArray *spClosedSteps;
 @property (nonatomic, retain) NSMutableArray *shortestPath;
 
-- (void) moveToward:(CGPoint)target withCompletionSelector:(SEL)comp;
+- (void) moveToward:(CGPoint)point speedMultiplier:(float)speed completionTarget:(id)target selector:(SEL)comp;
 
 @end

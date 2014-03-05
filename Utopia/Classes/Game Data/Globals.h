@@ -43,6 +43,12 @@
 #define FB_INVITE_ACCEPTED_NOTIFICATION @"FbInviteAcceptedNotification"
 #define FB_INCREASE_SLOTS_NOTIFICATION @"FbIncreaseSlotsNotification"
 #define QUESTS_CHANGED_NOTIFICATION @"QuestsChangedNotification"
+#define MY_CLAN_MEMBERS_LIST_NOTIFICATION @"MyClanMembersListNotification"
+#define CLAN_RAID_ATTACK_NOTIFICATION @"ClanRaidAttackNotification"
+
+#define MY_CLAN_MEMBERS_LIST_KEY @"MyMembersList"
+#define CLAN_RAID_ATTACK_KEY @"ClanRaidAttackKey"
+
 
 #ifdef LEGENDS_OF_CHAOS
 #define GAME_NAME @"Legends of Chaos"
@@ -281,5 +287,11 @@
 @interface CCActionEaseRate (BaseRate)
 
 - (CCActionInterval *) initWithAction:(CCActionInterval *)action;
+
+@end
+
+@interface CCNode (UIImage)
+
+- (UIImage *) UIImage;
 
 @end

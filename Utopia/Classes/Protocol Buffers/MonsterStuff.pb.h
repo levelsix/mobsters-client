@@ -51,6 +51,13 @@ typedef enum {
 BOOL MonsterProto_MonsterElementIsValidValue(MonsterProto_MonsterElement value);
 
 typedef enum {
+  MonsterProto_AnimationTypeMelee = 1,
+  MonsterProto_AnimationTypeRanged = 2,
+} MonsterProto_AnimationType;
+
+BOOL MonsterProto_AnimationTypeIsValidValue(MonsterProto_AnimationType value);
+
+typedef enum {
   MonsterBattleDialogueProto_DialogueTypeEnterBattle = 1,
 } MonsterBattleDialogueProto_DialogueType;
 
@@ -85,6 +92,7 @@ BOOL MonsterBattleDialogueProto_DialogueTypeIsValidValue(MonsterBattleDialoguePr
   BOOL hasDescription_:1;
   BOOL hasMonsterElement_:1;
   BOOL hasQuality_:1;
+  BOOL hasAttackAnimationType_:1;
   int32_t evolutionCost;
   int32_t numCatalystMonstersRequired;
   int32_t minutesToEvolve;
@@ -105,6 +113,7 @@ BOOL MonsterBattleDialogueProto_DialogueTypeIsValidValue(MonsterBattleDialoguePr
   NSString* description;
   MonsterProto_MonsterElement monsterElement;
   MonsterProto_MonsterQuality quality;
+  MonsterProto_AnimationType attackAnimationType;
   NSMutableArray* mutableLvlInfoList;
 }
 - (BOOL) hasMonsterId;
@@ -127,6 +136,7 @@ BOOL MonsterBattleDialogueProto_DialogueTypeIsValidValue(MonsterBattleDialoguePr
 - (BOOL) hasCarrotEvolved;
 - (BOOL) hasDescription;
 - (BOOL) hasEvolutionCost;
+- (BOOL) hasAttackAnimationType;
 @property (readonly) int32_t monsterId;
 @property (readonly, retain) NSString* name;
 @property (readonly, retain) NSString* monsterGroup;
@@ -147,6 +157,7 @@ BOOL MonsterBattleDialogueProto_DialogueTypeIsValidValue(MonsterBattleDialoguePr
 @property (readonly, retain) NSString* carrotEvolved;
 @property (readonly, retain) NSString* description;
 @property (readonly) int32_t evolutionCost;
+@property (readonly) MonsterProto_AnimationType attackAnimationType;
 - (NSArray*) lvlInfoList;
 - (MonsterLevelInfoProto*) lvlInfoAtIndex:(int32_t) index;
 
@@ -290,6 +301,11 @@ BOOL MonsterBattleDialogueProto_DialogueTypeIsValidValue(MonsterBattleDialoguePr
 - (int32_t) evolutionCost;
 - (MonsterProto_Builder*) setEvolutionCost:(int32_t) value;
 - (MonsterProto_Builder*) clearEvolutionCost;
+
+- (BOOL) hasAttackAnimationType;
+- (MonsterProto_AnimationType) attackAnimationType;
+- (MonsterProto_Builder*) setAttackAnimationType:(MonsterProto_AnimationType) value;
+- (MonsterProto_Builder*) clearAttackAnimationType;
 @end
 
 @interface MonsterLevelInfoProto : PBGeneratedMessage {

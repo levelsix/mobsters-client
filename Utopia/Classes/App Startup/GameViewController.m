@@ -37,6 +37,7 @@
 #import "PvpBattleLayer.h"
 #import "DialogueViewController.h"
 #import "QuestLogViewController.h"
+#import "ClanRaidBattleLayer.h"
 
 #define DEFAULT_PNG_IMAGE_VIEW_TAG 103
 #define KINGDOM_PNG_IMAGE_VIEW_TAG 104
@@ -145,11 +146,6 @@
   UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:lvc];
   nav.navigationBarHidden = YES;
   [self presentViewController:nav animated:NO completion:nil];
-  
-//  [FBSession openActiveSessionWithPublishPermissions:@[@"publish_actions"] defaultAudience:FBSessionDefaultAudienceEveryone allowLoginUI:YES completionHandler:^(FBSession *session, FBSessionState status, NSError *error) {
-//  }];
-//  [Carrot performFacebookAuthAllowingUI:YES forPermission:CarrotFacebookPermissionReadWrite];
-//  [[Carrot sharedInstance] postAction:@"recruit" forObjectInstance:@"Gravity"];
 }
 
 - (void) progressTo:(float)t {
@@ -167,11 +163,18 @@
 - (void) handleStartupResponseProto:(FullEvent *)fe {
   [self progressTo:PART_3_PERCENT];
   
-  GameState *gs = [GameState sharedGameState];
-  [[OutgoingEventController sharedOutgoingEventController] loadPlayerCity:gs.userId withDelegate:self];
-  
-  if (self.loadingView.superview) {
-    [self.loadingView stop];
+  StartupResponseProto *proto = (StartupResponseProto *)fe.event;
+  if (proto.startupStatus == StartupResponseProto_StartupStatusUserInDb) {
+    GameState *gs = [GameState sharedGameState];
+    [[OutgoingEventController sharedOutgoingEventController] loadPlayerCity:gs.userId withDelegate:self];
+    
+    // Stop the map spinner view
+    if (self.loadingView.superview) {
+      [self.loadingView stop];
+    }
+  } else {
+    [self dismissViewControllerAnimated:YES completion:nil];
+    [self beginTutorial:proto.tutorialConstants];
   }
 }
 
@@ -186,6 +189,13 @@
   } else if ([self.currentMap isKindOfClass:[HomeMap class]]) {
     [(HomeMap *)self.currentMap refresh];
   }
+}
+
+#pragma mark - Tutorial Stuff
+
+- (void) beginTutorial:(StartupResponseProto_TutorialConstants *)constants {
+  self.tutController = [[TutorialController alloc] initWithTutorialConstants:constants gameViewController:self];
+  [self.tutController beginTutorial];
 }
 
 #pragma mark - Observer methods to update top bar
@@ -322,16 +332,21 @@
   GameState *gs = [GameState sharedGameState];
   DungeonBattleLayer *bl = [[DungeonBattleLayer alloc] initWithMyUserMonsters:[gs allBattleAvailableMonstersOnTeam] puzzleIsOnLeft:NO];
   bl.delegate = self;
-  [self performSelector:@selector(loadBattleScene:) withObject:bl afterDelay:delay];
+  [self performSelector:@selector(crossFadeIntoBattleLayer:) withObject:bl afterDelay:delay];
   [[OutgoingEventController sharedOutgoingEventController] beginDungeon:taskId isEvent:NO eventId:0 useGems:NO withDelegate:bl];
 }
 
-- (void) loadBattleScene:(NewBattleLayer *)bl {
+- (void) crossFadeIntoBattleLayer:(NewBattleLayer *)bl {
   float duration = 0.6;
   
+  CCDirector *dir = [CCDirector sharedDirector];
   CCScene *scene = [CCScene node];
   [scene addChild:bl];
-  [[CCDirector sharedDirector] pushScene:scene withTransition:[CCTransition transitionCrossFadeWithDuration:duration]];
+  if (dir.runningScene) {
+    [dir pushScene:scene withTransition:[CCTransition transitionCrossFadeWithDuration:duration]];
+  } else {
+    [dir replaceScene:scene];
+  }
   
   [self hideTopBarDuration:duration completion:nil];
 }
@@ -343,19 +358,34 @@
   
   [[OutgoingEventController sharedOutgoingEventController] beginDungeon:taskId isEvent:isEvent eventId:eventId useGems:useGems withDelegate:bl];
   
-  [self fadeIntoBattleLayer:bl];
+  [self blackFadeIntoBattleLayer:bl];
 }
 
-- (void) fadeIntoBattleLayer:(NewBattleLayer *)bl {
+- (void) beginClanRaidBattle:(PersistentClanEventProto *)clanEvent withTeam:(NSArray *)team {
+  GameState *gs = [GameState sharedGameState];
+  if (gs.curClanRaidInfo.clanEventId == clanEvent.clanEventId) {
+    ClanRaidBattleLayer *bl = [[ClanRaidBattleLayer alloc] initWithEvent:gs.curClanRaidInfo myUserMonsters:team puzzleIsOnLeft:NO];
+    bl.delegate = self;
+    
+    [self blackFadeIntoBattleLayer:bl];
+  }
+}
+
+- (void) blackFadeIntoBattleLayer:(NewBattleLayer *)bl {
   // Must start animation so that the scene is auto switched instead of glitching
   [[CCDirector sharedDirector] startAnimation];
   CCScene *scene = [CCScene node];
   [scene addChild:bl];
   
-  CCNodeColor *c = [CCNodeColor nodeWithColor:[CCColor blackColor]];
-  [[[CCDirector sharedDirector] runningScene] addChild:c];
-  [[CCDirector sharedDirector] pushScene:scene withTransition:[CCTransition transitionFadeWithColor:[CCColor blackColor] duration:0.6f]];
-  [c performSelector:@selector(removeFromParent) withObject:nil afterDelay:1.f];
+  CCDirector *dir = [CCDirector sharedDirector];
+  if (dir.runningScene) {
+    CCNodeColor *c = [CCNodeColor nodeWithColor:[CCColor blackColor]];
+    [dir.runningScene addChild:c];
+    [dir pushScene:scene withTransition:[CCTransition transitionFadeWithColor:[CCColor blackColor] duration:0.6f]];
+    [c performSelector:@selector(removeFromParent) withObject:nil afterDelay:1.f];
+  } else {
+    [dir replaceScene:scene];
+  }
   
   [self hideTopBarDuration:0.f completion:nil];
 }
@@ -368,7 +398,7 @@
   
   [[OutgoingEventController sharedOutgoingEventController] queueUpEvent:nil withDelegate:bl];
   
-  [self fadeIntoBattleLayer:bl];
+  [self blackFadeIntoBattleLayer:bl];
 }
 
 #pragma mark - CCDirectorDownloaderDelegate methods

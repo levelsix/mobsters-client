@@ -30,28 +30,24 @@
   BOOL hasRequestToJoinRequired_:1;
   BOOL hasCreateTime_:1;
   BOOL hasClanId_:1;
-  BOOL hasOwnerId_:1;
   BOOL hasName_:1;
   BOOL hasDescription_:1;
   BOOL hasTag_:1;
   BOOL requestToJoinRequired_:1;
   int64_t createTime;
   int32_t clanId;
-  int32_t ownerId;
   NSString* name;
   NSString* description;
   NSString* tag;
 }
 - (BOOL) hasClanId;
 - (BOOL) hasName;
-- (BOOL) hasOwnerId;
 - (BOOL) hasCreateTime;
 - (BOOL) hasDescription;
 - (BOOL) hasTag;
 - (BOOL) hasRequestToJoinRequired;
 @property (readonly) int32_t clanId;
 @property (readonly, retain) NSString* name;
-@property (readonly) int32_t ownerId;
 @property (readonly) int64_t createTime;
 @property (readonly, retain) NSString* description;
 @property (readonly, retain) NSString* tag;
@@ -100,11 +96,6 @@
 - (NSString*) name;
 - (MinimumClanProto_Builder*) setName:(NSString*) value;
 - (MinimumClanProto_Builder*) clearName;
-
-- (BOOL) hasOwnerId;
-- (int32_t) ownerId;
-- (MinimumClanProto_Builder*) setOwnerId:(int32_t) value;
-- (MinimumClanProto_Builder*) clearOwnerId;
 
 - (BOOL) hasCreateTime;
 - (int64_t) createTime;

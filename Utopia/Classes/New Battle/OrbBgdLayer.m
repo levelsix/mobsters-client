@@ -73,14 +73,16 @@
   botBorder.position = ccp(self.contentSize.width/2, 0);
   topBorder.position = ccp(self.contentSize.width/2, self.contentSize.height);
   
-  [self addChild:leftBorder z:100];
-  [self addChild:rightBorder z:100];
-  [self addChild:botBorder z:100];
-  [self addChild:topBorder z:100];
-  [self addChild:blCorner z:100];
-  [self addChild:brCorner z:100];
-  [self addChild:tlCorner z:100];
-  [self addChild:trCorner z:100];
+  int z = 0;
+  int z2 = 100;
+  [self addChild:leftBorder z:z];
+  [self addChild:rightBorder z:z];
+  [self addChild:botBorder z:z];
+  [self addChild:topBorder z:z];
+  [self addChild:blCorner z:z2];
+  [self addChild:brCorner z:z2];
+  [self addChild:tlCorner z:z2];
+  [self addChild:trCorner z:z2];
 }
 
 @end

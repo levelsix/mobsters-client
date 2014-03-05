@@ -22,7 +22,6 @@ static PBExtensionRegistry* extensionRegistry = nil;
 @interface MinimumClanProto ()
 @property int32_t clanId;
 @property (retain) NSString* name;
-@property int32_t ownerId;
 @property int64_t createTime;
 @property (retain) NSString* description;
 @property (retain) NSString* tag;
@@ -45,13 +44,6 @@ static PBExtensionRegistry* extensionRegistry = nil;
   hasName_ = !!value;
 }
 @synthesize name;
-- (BOOL) hasOwnerId {
-  return !!hasOwnerId_;
-}
-- (void) setHasOwnerId:(BOOL) value {
-  hasOwnerId_ = !!value;
-}
-@synthesize ownerId;
 - (BOOL) hasCreateTime {
   return !!hasCreateTime_;
 }
@@ -95,7 +87,6 @@ static PBExtensionRegistry* extensionRegistry = nil;
   if ((self = [super init])) {
     self.clanId = 0;
     self.name = @"";
-    self.ownerId = 0;
     self.createTime = 0L;
     self.description = @"";
     self.tag = @"";
@@ -125,9 +116,6 @@ static MinimumClanProto* defaultMinimumClanProtoInstance = nil;
   if (self.hasName) {
     [output writeString:2 value:self.name];
   }
-  if (self.hasOwnerId) {
-    [output writeInt32:3 value:self.ownerId];
-  }
   if (self.hasCreateTime) {
     [output writeInt64:4 value:self.createTime];
   }
@@ -154,9 +142,6 @@ static MinimumClanProto* defaultMinimumClanProtoInstance = nil;
   }
   if (self.hasName) {
     size += computeStringSize(2, self.name);
-  }
-  if (self.hasOwnerId) {
-    size += computeInt32Size(3, self.ownerId);
   }
   if (self.hasCreateTime) {
     size += computeInt64Size(4, self.createTime);
@@ -251,9 +236,6 @@ static MinimumClanProto* defaultMinimumClanProtoInstance = nil;
   if (other.hasName) {
     [self setName:other.name];
   }
-  if (other.hasOwnerId) {
-    [self setOwnerId:other.ownerId];
-  }
   if (other.hasCreateTime) {
     [self setCreateTime:other.createTime];
   }
@@ -293,10 +275,6 @@ static MinimumClanProto* defaultMinimumClanProtoInstance = nil;
       }
       case 18: {
         [self setName:[input readString]];
-        break;
-      }
-      case 24: {
-        [self setOwnerId:[input readInt32]];
         break;
       }
       case 32: {
@@ -348,22 +326,6 @@ static MinimumClanProto* defaultMinimumClanProtoInstance = nil;
 - (MinimumClanProto_Builder*) clearName {
   result.hasName = NO;
   result.name = @"";
-  return self;
-}
-- (BOOL) hasOwnerId {
-  return result.hasOwnerId;
-}
-- (int32_t) ownerId {
-  return result.ownerId;
-}
-- (MinimumClanProto_Builder*) setOwnerId:(int32_t) value {
-  result.hasOwnerId = YES;
-  result.ownerId = value;
-  return self;
-}
-- (MinimumClanProto_Builder*) clearOwnerId {
-  result.hasOwnerId = NO;
-  result.ownerId = 0;
   return self;
 }
 - (BOOL) hasCreateTime {

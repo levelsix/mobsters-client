@@ -15,8 +15,10 @@
 #import "OneLineNotificationViewController.h"
 #import "CCDirector+Downloader.h"
 #import "DialogueViewController.h"
+#import "ClanRaidDetailsViewController.h"
+#import "TutorialController.h"
 
-@interface GameViewController : UIViewController <AttackMapDelegate, BattleLayerDelegate, CCDirectorDownloaderDelegate, DialogueViewControllerDelegate> {
+@interface GameViewController : UIViewController <AttackMapDelegate, BattleLayerDelegate, CCDirectorDownloaderDelegate, DialogueViewControllerDelegate, ClanRaidDetailsDelegate> {
   int _questIdAfterDialogue;
 }
 
@@ -25,6 +27,8 @@
 @property (nonatomic, strong) GameMap *currentMap;
 
 @property (nonatomic, strong) IBOutlet TravelingLoadingView *loadingView;
+
+@property (nonatomic, strong) TutorialController *tutController;
 
 + (id) baseController;
 
@@ -38,5 +42,8 @@
 - (void) openGemShop;
 
 - (void) beginDialogue:(DialogueProto *)proto withQuestId:(int)questId;
+
+- (void) crossFadeIntoBattleLayer:(NewBattleLayer *)bl;
+- (void) blackFadeIntoBattleLayer:(NewBattleLayer *)bl;
 
 @end

@@ -27,10 +27,6 @@
     self.buildingSprite.anchorPoint = ccp(0.5,0);
     self.buildingSprite.position = ccp(self.buildingSprite.contentSize.width/2, 0);
     
-//    CCSprite *shadow = [CCSprite spriteWithImageNamed:@"3x3base.png"];
-//    [self addChild:shadow z:-1 name:SHADOW_TAG];
-//    shadow.anchorPoint = ccp(0.5, 0);
-    
     self.contentSize = self.buildingSprite.contentSize;
     
     self.baseScale = 1.f;

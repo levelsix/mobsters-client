@@ -30,13 +30,20 @@
 
 @end
 
+typedef enum {
+  MapDirectionNearLeft = 1,
+  MapDirectionNearRight,
+  MapDirectionFarLeft,
+  MapDirectionFarRight,
+} MapDirection;
+
 @interface AnimatedSprite : CharacterSprite
 {
   CCAction *_curAction;
   
   CGPoint _spriteOffset;
   CGPoint _oldMapPos;
-  BOOL _moving;
+  BOOL _shouldWalk;
 }
 
 @property (nonatomic, retain) CCSprite *sprite;
@@ -47,8 +54,11 @@
 
 - (void) walk;
 - (void) stopWalking;
-- (void) walkToTileCoord:(CGPoint)tileCoord withSelector:(SEL)completion speedMultiplier:(float)speedMultiplier;
-- (void) restoreStandingFrame:(BOOL)facingLeft;
+- (void) walkToTileCoords:(NSArray *)tileCoords completionTarget:(id)target selector:(SEL)completion speedMultiplier:(float)speedMultiplier;
+- (void) walkToTileCoord:(CGPoint)tileCoord completionTarget:(id)target selector:(SEL)completion speedMultiplier:(float)speedMultiplier;
+- (void) restoreStandingFrame;
+- (void) restoreStandingFrame:(MapDirection)direction;
+- (void) jumpNumTimes:(int)numTimes completionTarget:(id)target selector:(SEL)completion;
 
 @end
 

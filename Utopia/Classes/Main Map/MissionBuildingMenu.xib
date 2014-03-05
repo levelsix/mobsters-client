@@ -18,7 +18,7 @@
             <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
             <subviews>
                 <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" alpha="0.90000000000000002" contentMode="scaleToFill" image="taskgradient.png" id="RVy-62-uTp">
-                    <rect key="frame" x="-100" y="10" width="547" height="50"/>
+                    <rect key="frame" x="-114" y="10" width="574" height="50"/>
                     <autoresizingMask key="autoresizingMask"/>
                 </imageView>
                 <view contentMode="scaleToFill" id="ab7-yI-CLl">

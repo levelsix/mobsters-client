@@ -33,6 +33,8 @@
   
   CGPoint bottomLeftCorner;
   CGPoint topRightCorner;
+  
+  float _mapMovementDivisor;
 }
 
 @property (nonatomic, retain) NSArray *gestureRecognizers;

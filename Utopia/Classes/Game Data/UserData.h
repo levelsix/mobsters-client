@@ -41,6 +41,8 @@
 - (BOOL) isCombining;
 - (int) timeLeftForCombining;
 
+- (FullUserMonsterProto *) convertToProto;
+
 - (NSComparisonResult) compare:(UserMonster *)um;
 
 @end

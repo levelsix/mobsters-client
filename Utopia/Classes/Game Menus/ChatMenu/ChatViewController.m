@@ -165,7 +165,7 @@
   
   void (^anim)(void) = ^{
     CGRect r = self.view.frame;
-    r.origin.x = -self.containerView.frame.size.width;
+    r.origin.x = -self.containerView.frame.size.width-1;
     self.view.frame = r;
     
     self.arrow.transform = CGAffineTransformMakeScale(-1, 1);

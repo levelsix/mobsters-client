@@ -14,8 +14,8 @@
 
 typedef enum {
   color_red = MonsterProto_MonsterElementFire,
-  color_blue = MonsterProto_MonsterElementWater,
   color_green = MonsterProto_MonsterElementGrass,
+  color_blue = MonsterProto_MonsterElementWater,
   color_white = MonsterProto_MonsterElementLightning,
   color_purple = MonsterProto_MonsterElementDarkness,
   color_filler = MonsterProto_MonsterElementRock,
@@ -77,6 +77,7 @@ typedef enum {
   CGPoint _lastGridPt;
   BOOL _foundMatch;
   int _gemsBouncing;
+  BOOL _isPulsing;
 }
 
 @property (nonatomic, readonly) CGSize gridSize;
@@ -91,17 +92,28 @@ typedef enum {
 
 @property (nonatomic, assign) BOOL isTrackingTouch;
 
+@property (nonatomic, readonly) BOOL allowsInput;
+
 @property (nonatomic, assign) id<OrbLayerDelegate> delegate;
 
 - (id) initWithContentSize:(CGSize)size gridSize:(CGSize)gridSize numColors:(int)numColors;
 - (void) allowInput;
 - (void) disallowInput;
 - (CCColor *) colorForSparkle:(GemColorId)color;
+- (void) initBoard;
+
+- (CGSize) squareSize;
+- (void) doGemSwapAnimationWithGem:(Gem *)gem1 andGem:(Gem *)gem2;
+
+- (Gem *) createGemWithColor:(GemColorId)gemColor powerup:(PowerupId)powerupId;
+- (Gem *) createRandomGemForPosition:(CGPoint)pt;
 
 - (CGPoint) pointForGridPosition:(CGPoint)pt;
 - (CGPoint) coordinateOfGem:(Gem *)gem;
 
+- (NSSet *) getValidMove;
 - (BOOL) validMoveExists;
+- (void) pulseValidMove;
 - (void) reshuffle;
 
 @end

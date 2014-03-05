@@ -64,6 +64,8 @@
 @class StructureInfoProto_Builder;
 @class TownHallProto;
 @class TownHallProto_Builder;
+@class TutorialStructProto;
+@class TutorialStructProto_Builder;
 @class UpdateClientUserResponseProto;
 @class UpdateClientUserResponseProto_Builder;
 @class UpdateUserCurrencyRequestProto;

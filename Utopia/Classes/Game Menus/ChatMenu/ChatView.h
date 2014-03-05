@@ -54,6 +54,8 @@
 
 - (void) updateForChats:(NSArray *)chats andClan:(MinimumClanProto *)clan;
 
+- (IBAction)infoClicked:(id)sender;
+
 @end
 
 @interface PrivateChatView : ChatView {

@@ -605,15 +605,16 @@ GetPositionFromBody(CCNode *node, CCPhysicsBody *body)
 -(CCNode*) getChildByName:(NSString *)name recursively:(bool)isRecursive
 {
 	NSAssert(name, @"name is NULL");
-  // LVL6 Addition
-  // This seems unnecessary.. and just causes bugs
-	//if([self.name isEqualToString:name]){
-	//	return self;
-	//}
 	
   for (CCNode* node in _children) {
 		if(isRecursive){
 			// Recurse:
+      
+      // LVL6 Addition
+      // Moved this into the recursive loop
+      if([self.name isEqualToString:name]){
+      	return self;
+      }
 			CCNode* n = [node getChildByName:name recursively:isRecursive];
 			if(n)
 				return n;
@@ -1170,7 +1171,9 @@ RecursivelyIncrementPausedAncestors(CCNode *node, int increment)
 		imp(self, selector, t.deltaTime);
 	} forTarget:self withDelay:delay];
 	
-	timer.repeatCount = CCTimerRepeatForever;
+  // LVL6 Addition
+	timer.repeatCount = repeat;
+  //	timer.repeatCount = CCTimerRepeatForever;
 	timer.repeatInterval = interval;
 	timer.userData = NSStringFromSelector(selector);
 	

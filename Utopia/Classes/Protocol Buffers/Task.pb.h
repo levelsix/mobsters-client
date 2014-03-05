@@ -43,24 +43,24 @@
 @class UserPersistentEventProto;
 @class UserPersistentEventProto_Builder;
 typedef enum {
+  DayOfWeekSunday = 1,
+  DayOfWeekMonday = 2,
+  DayOfWeekTuesday = 3,
+  DayOfWeekWednesday = 4,
+  DayOfWeekThursday = 5,
+  DayOfWeekFriday = 6,
+  DayOfWeekSaturday = 7,
+} DayOfWeek;
+
+BOOL DayOfWeekIsValidValue(DayOfWeek value);
+
+typedef enum {
   TaskStageMonsterProto_MonsterTypeRegular = 1,
   TaskStageMonsterProto_MonsterTypeMiniBoss = 2,
   TaskStageMonsterProto_MonsterTypeBoss = 3,
 } TaskStageMonsterProto_MonsterType;
 
 BOOL TaskStageMonsterProto_MonsterTypeIsValidValue(TaskStageMonsterProto_MonsterType value);
-
-typedef enum {
-  PersistentEventProto_DayOfWeekSunday = 1,
-  PersistentEventProto_DayOfWeekMonday = 2,
-  PersistentEventProto_DayOfWeekTuesday = 3,
-  PersistentEventProto_DayOfWeekWednesday = 4,
-  PersistentEventProto_DayOfWeekThursday = 5,
-  PersistentEventProto_DayOfWeekFriday = 6,
-  PersistentEventProto_DayOfWeekSaturday = 7,
-} PersistentEventProto_DayOfWeek;
-
-BOOL PersistentEventProto_DayOfWeekIsValidValue(PersistentEventProto_DayOfWeek value);
 
 typedef enum {
   PersistentEventProto_EventTypeEnhance = 1,
@@ -419,7 +419,7 @@ BOOL PersistentEventProto_EventTypeIsValidValue(PersistentEventProto_EventType v
   int32_t eventDurationMinutes;
   int32_t taskId;
   int32_t cooldownMinutes;
-  PersistentEventProto_DayOfWeek dayOfWeek;
+  DayOfWeek dayOfWeek;
   PersistentEventProto_EventType type;
   MonsterProto_MonsterElement monsterElement;
 }
@@ -432,7 +432,7 @@ BOOL PersistentEventProto_EventTypeIsValidValue(PersistentEventProto_EventType v
 - (BOOL) hasType;
 - (BOOL) hasMonsterElement;
 @property (readonly) int32_t eventId;
-@property (readonly) PersistentEventProto_DayOfWeek dayOfWeek;
+@property (readonly) DayOfWeek dayOfWeek;
 @property (readonly) int32_t startHour;
 @property (readonly) int32_t eventDurationMinutes;
 @property (readonly) int32_t taskId;
@@ -480,8 +480,8 @@ BOOL PersistentEventProto_EventTypeIsValidValue(PersistentEventProto_EventType v
 - (PersistentEventProto_Builder*) clearEventId;
 
 - (BOOL) hasDayOfWeek;
-- (PersistentEventProto_DayOfWeek) dayOfWeek;
-- (PersistentEventProto_Builder*) setDayOfWeek:(PersistentEventProto_DayOfWeek) value;
+- (DayOfWeek) dayOfWeek;
+- (PersistentEventProto_Builder*) setDayOfWeek:(DayOfWeek) value;
 - (PersistentEventProto_Builder*) clearDayOfWeek;
 
 - (BOOL) hasStartHour;

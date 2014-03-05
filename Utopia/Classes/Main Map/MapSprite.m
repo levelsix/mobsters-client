@@ -75,7 +75,7 @@
 
 - (void) displayArrow {
   [self removeArrowAnimated:NO];
-  _arrow = [CCSprite spriteWithImageNamed:@"3darrow.png"];
+  _arrow = [CCSprite spriteWithImageNamed:@"arrow.png"];
   [self addChild:_arrow];
   
   _arrow.anchorPoint = ccp(0.5f, 0.f);

@@ -109,6 +109,9 @@ BOOL EventProtocolRequestIsValidValue(EventProtocolRequest value) {
     case EventProtocolRequestCUpdateUserCurrencyEvent:
     case EventProtocolRequestCBeginPvpBattleEvent:
     case EventProtocolRequestCEndPvpBattleEvent:
+    case EventProtocolRequestCBeginClanRaidEvent:
+    case EventProtocolRequestCAttackClanRaidMonsterEvent:
+    case EventProtocolRequestCRecordClanRaidStatsEvent:
     case EventProtocolRequestCLogoutEvent:
       return YES;
     default:
@@ -176,6 +179,9 @@ BOOL EventProtocolResponseIsValidValue(EventProtocolResponse value) {
     case EventProtocolResponseSUpdateUserCurrencyEvent:
     case EventProtocolResponseSBeginPvpBattleEvent:
     case EventProtocolResponseSEndPvpBattleEvent:
+    case EventProtocolResponseSBeginClanRaidEvent:
+    case EventProtocolResponseSAttackClanRaidMonsterEvent:
+    case EventProtocolResponseSRecordClanRaidStatsEvent:
     case EventProtocolResponseSUpdateClientUserEvent:
     case EventProtocolResponseSReferralCodeUsedEvent:
     case EventProtocolResponseSPurgeStaticDataEvent:

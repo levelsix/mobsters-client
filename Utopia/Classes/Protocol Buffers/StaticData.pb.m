@@ -14,6 +14,7 @@ static PBExtensionRegistry* extensionRegistry = nil;
     [self registerAllExtensions:registry];
     [BoosterPackStuffRoot registerAllExtensions:registry];
     [CityRoot registerAllExtensions:registry];
+    [ClanRoot registerAllExtensions:registry];
     [MonsterStuffRoot registerAllExtensions:registry];
     [QuestRoot registerAllExtensions:registry];
     [StructureRoot registerAllExtensions:registry];
@@ -43,8 +44,10 @@ static PBExtensionRegistry* extensionRegistry = nil;
 @property (retain) NSMutableArray* mutableAllResidencesList;
 @property (retain) NSMutableArray* mutableAllLabsList;
 @property (retain) NSMutableArray* mutableAllTownHallsList;
-@property (retain) NSMutableArray* mutableEventsList;
+@property (retain) NSMutableArray* mutablePersistentEventsList;
 @property (retain) NSMutableArray* mutableMbdsList;
+@property (retain) NSMutableArray* mutableRaidsList;
+@property (retain) NSMutableArray* mutablePersistentClanEventsList;
 @end
 
 @implementation StaticDataProto
@@ -71,8 +74,10 @@ static PBExtensionRegistry* extensionRegistry = nil;
 @synthesize mutableAllResidencesList;
 @synthesize mutableAllLabsList;
 @synthesize mutableAllTownHallsList;
-@synthesize mutableEventsList;
+@synthesize mutablePersistentEventsList;
 @synthesize mutableMbdsList;
+@synthesize mutableRaidsList;
+@synthesize mutablePersistentClanEventsList;
 - (void) dealloc {
   self.sender = nil;
   self.mutableExpansionCostsList = nil;
@@ -90,8 +95,10 @@ static PBExtensionRegistry* extensionRegistry = nil;
   self.mutableAllResidencesList = nil;
   self.mutableAllLabsList = nil;
   self.mutableAllTownHallsList = nil;
-  self.mutableEventsList = nil;
+  self.mutablePersistentEventsList = nil;
   self.mutableMbdsList = nil;
+  self.mutableRaidsList = nil;
+  self.mutablePersistentClanEventsList = nil;
   [super dealloc];
 }
 - (id) init {
@@ -217,11 +224,11 @@ static StaticDataProto* defaultStaticDataProtoInstance = nil;
   id value = [mutableAllTownHallsList objectAtIndex:index];
   return value;
 }
-- (NSArray*) eventsList {
-  return mutableEventsList;
+- (NSArray*) persistentEventsList {
+  return mutablePersistentEventsList;
 }
-- (PersistentEventProto*) eventsAtIndex:(int32_t) index {
-  id value = [mutableEventsList objectAtIndex:index];
+- (PersistentEventProto*) persistentEventsAtIndex:(int32_t) index {
+  id value = [mutablePersistentEventsList objectAtIndex:index];
   return value;
 }
 - (NSArray*) mbdsList {
@@ -229,6 +236,20 @@ static StaticDataProto* defaultStaticDataProtoInstance = nil;
 }
 - (MonsterBattleDialogueProto*) mbdsAtIndex:(int32_t) index {
   id value = [mutableMbdsList objectAtIndex:index];
+  return value;
+}
+- (NSArray*) raidsList {
+  return mutableRaidsList;
+}
+- (ClanRaidProto*) raidsAtIndex:(int32_t) index {
+  id value = [mutableRaidsList objectAtIndex:index];
+  return value;
+}
+- (NSArray*) persistentClanEventsList {
+  return mutablePersistentClanEventsList;
+}
+- (PersistentClanEventProto*) persistentClanEventsAtIndex:(int32_t) index {
+  id value = [mutablePersistentClanEventsList objectAtIndex:index];
   return value;
 }
 - (BOOL) isInitialized {
@@ -283,11 +304,17 @@ static StaticDataProto* defaultStaticDataProtoInstance = nil;
   for (LabProto* element in self.allLabsList) {
     [output writeMessage:17 value:element];
   }
-  for (PersistentEventProto* element in self.eventsList) {
+  for (PersistentEventProto* element in self.persistentEventsList) {
     [output writeMessage:18 value:element];
   }
   for (MonsterBattleDialogueProto* element in self.mbdsList) {
     [output writeMessage:19 value:element];
+  }
+  for (ClanRaidProto* element in self.raidsList) {
+    [output writeMessage:20 value:element];
+  }
+  for (PersistentClanEventProto* element in self.persistentClanEventsList) {
+    [output writeMessage:21 value:element];
   }
   [self.unknownFields writeToCodedOutputStream:output];
 }
@@ -346,11 +373,17 @@ static StaticDataProto* defaultStaticDataProtoInstance = nil;
   for (LabProto* element in self.allLabsList) {
     size += computeMessageSize(17, element);
   }
-  for (PersistentEventProto* element in self.eventsList) {
+  for (PersistentEventProto* element in self.persistentEventsList) {
     size += computeMessageSize(18, element);
   }
   for (MonsterBattleDialogueProto* element in self.mbdsList) {
     size += computeMessageSize(19, element);
+  }
+  for (ClanRaidProto* element in self.raidsList) {
+    size += computeMessageSize(20, element);
+  }
+  for (PersistentClanEventProto* element in self.persistentClanEventsList) {
+    size += computeMessageSize(21, element);
   }
   size += self.unknownFields.serializedSize;
   memoizedSerializedSize = size;
@@ -520,17 +553,29 @@ static StaticDataProto* defaultStaticDataProtoInstance = nil;
     }
     [result.mutableAllTownHallsList addObjectsFromArray:other.mutableAllTownHallsList];
   }
-  if (other.mutableEventsList.count > 0) {
-    if (result.mutableEventsList == nil) {
-      result.mutableEventsList = [NSMutableArray array];
+  if (other.mutablePersistentEventsList.count > 0) {
+    if (result.mutablePersistentEventsList == nil) {
+      result.mutablePersistentEventsList = [NSMutableArray array];
     }
-    [result.mutableEventsList addObjectsFromArray:other.mutableEventsList];
+    [result.mutablePersistentEventsList addObjectsFromArray:other.mutablePersistentEventsList];
   }
   if (other.mutableMbdsList.count > 0) {
     if (result.mutableMbdsList == nil) {
       result.mutableMbdsList = [NSMutableArray array];
     }
     [result.mutableMbdsList addObjectsFromArray:other.mutableMbdsList];
+  }
+  if (other.mutableRaidsList.count > 0) {
+    if (result.mutableRaidsList == nil) {
+      result.mutableRaidsList = [NSMutableArray array];
+    }
+    [result.mutableRaidsList addObjectsFromArray:other.mutableRaidsList];
+  }
+  if (other.mutablePersistentClanEventsList.count > 0) {
+    if (result.mutablePersistentClanEventsList == nil) {
+      result.mutablePersistentClanEventsList = [NSMutableArray array];
+    }
+    [result.mutablePersistentClanEventsList addObjectsFromArray:other.mutablePersistentClanEventsList];
   }
   [self mergeUnknownFields:other.unknownFields];
   return self;
@@ -655,13 +700,25 @@ static StaticDataProto* defaultStaticDataProtoInstance = nil;
       case 146: {
         PersistentEventProto_Builder* subBuilder = [PersistentEventProto builder];
         [input readMessage:subBuilder extensionRegistry:extensionRegistry];
-        [self addEvents:[subBuilder buildPartial]];
+        [self addPersistentEvents:[subBuilder buildPartial]];
         break;
       }
       case 154: {
         MonsterBattleDialogueProto_Builder* subBuilder = [MonsterBattleDialogueProto builder];
         [input readMessage:subBuilder extensionRegistry:extensionRegistry];
         [self addMbds:[subBuilder buildPartial]];
+        break;
+      }
+      case 162: {
+        ClanRaidProto_Builder* subBuilder = [ClanRaidProto builder];
+        [input readMessage:subBuilder extensionRegistry:extensionRegistry];
+        [self addRaids:[subBuilder buildPartial]];
+        break;
+      }
+      case 170: {
+        PersistentClanEventProto_Builder* subBuilder = [PersistentClanEventProto builder];
+        [input readMessage:subBuilder extensionRegistry:extensionRegistry];
+        [self addPersistentClanEvents:[subBuilder buildPartial]];
         break;
       }
     }
@@ -1132,33 +1189,33 @@ static StaticDataProto* defaultStaticDataProtoInstance = nil;
   [result.mutableAllTownHallsList addObject:value];
   return self;
 }
-- (NSArray*) eventsList {
-  if (result.mutableEventsList == nil) { return [NSArray array]; }
-  return result.mutableEventsList;
+- (NSArray*) persistentEventsList {
+  if (result.mutablePersistentEventsList == nil) { return [NSArray array]; }
+  return result.mutablePersistentEventsList;
 }
-- (PersistentEventProto*) eventsAtIndex:(int32_t) index {
-  return [result eventsAtIndex:index];
+- (PersistentEventProto*) persistentEventsAtIndex:(int32_t) index {
+  return [result persistentEventsAtIndex:index];
 }
-- (StaticDataProto_Builder*) replaceEventsAtIndex:(int32_t) index with:(PersistentEventProto*) value {
-  [result.mutableEventsList replaceObjectAtIndex:index withObject:value];
+- (StaticDataProto_Builder*) replacePersistentEventsAtIndex:(int32_t) index with:(PersistentEventProto*) value {
+  [result.mutablePersistentEventsList replaceObjectAtIndex:index withObject:value];
   return self;
 }
-- (StaticDataProto_Builder*) addAllEvents:(NSArray*) values {
-  if (result.mutableEventsList == nil) {
-    result.mutableEventsList = [NSMutableArray array];
+- (StaticDataProto_Builder*) addAllPersistentEvents:(NSArray*) values {
+  if (result.mutablePersistentEventsList == nil) {
+    result.mutablePersistentEventsList = [NSMutableArray array];
   }
-  [result.mutableEventsList addObjectsFromArray:values];
+  [result.mutablePersistentEventsList addObjectsFromArray:values];
   return self;
 }
-- (StaticDataProto_Builder*) clearEventsList {
-  result.mutableEventsList = nil;
+- (StaticDataProto_Builder*) clearPersistentEventsList {
+  result.mutablePersistentEventsList = nil;
   return self;
 }
-- (StaticDataProto_Builder*) addEvents:(PersistentEventProto*) value {
-  if (result.mutableEventsList == nil) {
-    result.mutableEventsList = [NSMutableArray array];
+- (StaticDataProto_Builder*) addPersistentEvents:(PersistentEventProto*) value {
+  if (result.mutablePersistentEventsList == nil) {
+    result.mutablePersistentEventsList = [NSMutableArray array];
   }
-  [result.mutableEventsList addObject:value];
+  [result.mutablePersistentEventsList addObject:value];
   return self;
 }
 - (NSArray*) mbdsList {
@@ -1188,6 +1245,64 @@ static StaticDataProto* defaultStaticDataProtoInstance = nil;
     result.mutableMbdsList = [NSMutableArray array];
   }
   [result.mutableMbdsList addObject:value];
+  return self;
+}
+- (NSArray*) raidsList {
+  if (result.mutableRaidsList == nil) { return [NSArray array]; }
+  return result.mutableRaidsList;
+}
+- (ClanRaidProto*) raidsAtIndex:(int32_t) index {
+  return [result raidsAtIndex:index];
+}
+- (StaticDataProto_Builder*) replaceRaidsAtIndex:(int32_t) index with:(ClanRaidProto*) value {
+  [result.mutableRaidsList replaceObjectAtIndex:index withObject:value];
+  return self;
+}
+- (StaticDataProto_Builder*) addAllRaids:(NSArray*) values {
+  if (result.mutableRaidsList == nil) {
+    result.mutableRaidsList = [NSMutableArray array];
+  }
+  [result.mutableRaidsList addObjectsFromArray:values];
+  return self;
+}
+- (StaticDataProto_Builder*) clearRaidsList {
+  result.mutableRaidsList = nil;
+  return self;
+}
+- (StaticDataProto_Builder*) addRaids:(ClanRaidProto*) value {
+  if (result.mutableRaidsList == nil) {
+    result.mutableRaidsList = [NSMutableArray array];
+  }
+  [result.mutableRaidsList addObject:value];
+  return self;
+}
+- (NSArray*) persistentClanEventsList {
+  if (result.mutablePersistentClanEventsList == nil) { return [NSArray array]; }
+  return result.mutablePersistentClanEventsList;
+}
+- (PersistentClanEventProto*) persistentClanEventsAtIndex:(int32_t) index {
+  return [result persistentClanEventsAtIndex:index];
+}
+- (StaticDataProto_Builder*) replacePersistentClanEventsAtIndex:(int32_t) index with:(PersistentClanEventProto*) value {
+  [result.mutablePersistentClanEventsList replaceObjectAtIndex:index withObject:value];
+  return self;
+}
+- (StaticDataProto_Builder*) addAllPersistentClanEvents:(NSArray*) values {
+  if (result.mutablePersistentClanEventsList == nil) {
+    result.mutablePersistentClanEventsList = [NSMutableArray array];
+  }
+  [result.mutablePersistentClanEventsList addObjectsFromArray:values];
+  return self;
+}
+- (StaticDataProto_Builder*) clearPersistentClanEventsList {
+  result.mutablePersistentClanEventsList = nil;
+  return self;
+}
+- (StaticDataProto_Builder*) addPersistentClanEvents:(PersistentClanEventProto*) value {
+  if (result.mutablePersistentClanEventsList == nil) {
+    result.mutablePersistentClanEventsList = [NSMutableArray array];
+  }
+  [result.mutablePersistentClanEventsList addObject:value];
   return self;
 }
 @end

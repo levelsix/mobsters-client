@@ -23,6 +23,10 @@
 
 #define CODE_PREFIX @"#~#"
 #define PURGE_CODE @"purgecache"
+#define CASH_CODE @"fastcash"
+#define OIL_CODE @"oilspill"
+#define CASH_AND_OIL_CODE @"greedisgood"
+#define GEMS_CODE @"gemsgalore"
 
 #define  LVL6_SHARED_SECRET @"mister8conrad3chan9is1a2very4great5man"
 
@@ -532,7 +536,33 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
       if ([code isEqualToString:PURGE_CODE]) {
         [[Downloader sharedDownloader] purgeAllDownloadedData];
         msg = @"All downloaded data has been purged.";
-      } else {
+      } else if ((r = [code rangeOfString:CASH_CODE]).length > 0) {
+        r.length++;
+        code = [code stringByReplacingCharactersInRange:r withString:@""];
+        int amt = code.intValue;
+        msg = [NSString stringWithFormat:@"Awarded %d cash.", amt];
+        [[OutgoingEventController sharedOutgoingEventController] updateUserCurrencyWithCashChange:amt oilChange:0 gemChange:0 reason:CASH_CODE];
+      } else if ((r = [code rangeOfString:OIL_CODE]).length > 0) {
+        r.length++;
+        code = [code stringByReplacingCharactersInRange:r withString:@""];
+        int amt = code.intValue;
+        msg = [NSString stringWithFormat:@"Awarded %d oil.", amt];
+        [[OutgoingEventController sharedOutgoingEventController] updateUserCurrencyWithCashChange:0 oilChange:amt gemChange:0 reason:OIL_CODE];
+      } else if ((r = [code rangeOfString:CASH_AND_OIL_CODE]).length > 0) {
+        r.length++;
+        code = [code stringByReplacingCharactersInRange:r withString:@""];
+        int amt = code.intValue;
+        msg = [NSString stringWithFormat:@"Awarded %d cash and oil.", amt];
+        [[OutgoingEventController sharedOutgoingEventController] updateUserCurrencyWithCashChange:amt oilChange:amt gemChange:0 reason:CASH_AND_OIL_CODE];
+      } else if ((r = [code rangeOfString:GEMS_CODE]).length > 0) {
+        r.length++;
+        code = [code stringByReplacingCharactersInRange:r withString:@""];
+        int amt = code.intValue;
+        msg = [NSString stringWithFormat:@"Awarded %d gems.", amt];
+        [[OutgoingEventController sharedOutgoingEventController] updateUserCurrencyWithCashChange:0 oilChange:0 gemChange:amt reason:GEMS_CODE];
+      }
+      
+      else {
         msg = @"Unaccepted code.";
       }
     } else {
@@ -603,7 +633,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
 - (void) approveOrRejectRequestToJoinClan:(int)requesterId accept:(BOOL)accept delegate:(id)delegate {
   GameState *gs = [GameState sharedGameState];
   
-  if (!gs.clan || gs.clan.ownerId != gs.userId) {
+  if (!gs.clan) {
     [Globals popupMessage:@"Attempting to respond to clan request while not clan leader."];
   } else {
     int tag = [[SocketCommunication sharedSocketCommunication] sendApproveOrRejectRequestToJoinClan:requesterId accept:accept];
@@ -614,7 +644,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
 - (void) transferClanOwnership:(int)newClanOwnerId delegate:(id)delegate {
   GameState *gs = [GameState sharedGameState];
   
-  if (!gs.clan || gs.clan.ownerId != gs.userId) {
+  if (!gs.clan) {
     [Globals popupMessage:@"Attempting to transfer clan ownership while not clan leader."];
   } else {
     int tag = [[SocketCommunication sharedSocketCommunication] sendTransferClanOwnership:newClanOwnerId];
@@ -626,7 +656,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
   GameState *gs = [GameState sharedGameState];
   Globals *gl = [Globals sharedGlobals];
   
-  if (!gs.clan || gs.clan.ownerId != gs.userId) {
+  if (!gs.clan) {
     [Globals popupMessage:@"Attempting to change clan description while not clan leader."];
   } else if (description.length <= 0 || description.length > gl.maxCharLengthForClanDescription) {
     [Globals popupMessage:@"Attempting to change clan description with inappropriate length"];
@@ -639,7 +669,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
 - (void) changeClanJoinType:(BOOL)requestRequired delegate:(id)delegate {
   GameState *gs = [GameState sharedGameState];
   
-  if (!gs.clan || gs.clan.ownerId != gs.userId) {
+  if (!gs.clan) {
     [Globals popupMessage:@"Attempting to change clan join type while not clan leader."];
   } else {
     int tag = [[SocketCommunication sharedSocketCommunication] sendChangeClanJoinType:requestRequired];
@@ -650,7 +680,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
 - (void) bootPlayerFromClan:(int)playerId delegate:(id)delegate {
   GameState *gs = [GameState sharedGameState];
   
-  if (!gs.clan || gs.clan.ownerId != gs.userId) {
+  if (!gs.clan) {
     [Globals popupMessage:@"Attempting to boot player while not clan leader."];
   } else {
     // Make sure clan is not engaged in a clan tower war
@@ -665,6 +695,53 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
   
   GameState *gs = [GameState sharedGameState];
   [gs addUnrespondedUpdate:[NoUpdate updateWithTag:tag]];
+}
+
+- (void) beginClanRaid:(PersistentClanEventProto *)event delegate:(id)delegate {
+  GameState *gs = [GameState sharedGameState];
+  BOOL isFirstStage = gs.curClanRaidInfo.clanRaidId == 0 || gs.curClanRaidInfo.currentStage.stageNum == 1;
+  int tag = [[SocketCommunication sharedSocketCommunication] sendBeginClanRaidMessage:event.clanRaidId eventId:event.clanEventId isFirstStage:isFirstStage curTime:[self getCurrentMilliseconds] userMonsters:nil];
+  [[SocketCommunication sharedSocketCommunication] setDelegate:delegate forTag:tag];
+}
+
+- (void) setClanRaidTeam:(NSArray *)userMonsters delegate:(id)delegate {
+  GameState *gs = [GameState sharedGameState];
+  BOOL isFirstStage = gs.curClanRaidInfo.currentStage.stageNum == 1;
+  
+  NSMutableArray *arr = [NSMutableArray array];
+  for (UserMonster *um in userMonsters) {
+    [arr addObject:[um convertToProto]];
+  }
+  
+  int tag = [[SocketCommunication sharedSocketCommunication] sendBeginClanRaidMessage:gs.curClanRaidInfo.clanRaidId eventId:gs.curClanRaidInfo.clanEventId isFirstStage:isFirstStage curTime:[self getCurrentMilliseconds] userMonsters:arr];
+  [[SocketCommunication sharedSocketCommunication] setDelegate:delegate forTag:tag];
+}
+
+- (void) dealDamageToClanRaidMonster:(int)dmg attacker:(BattlePlayer *)attacker curTeam:(NSArray *)curTeam {
+  GameState *gs = [GameState sharedGameState];
+  
+  NSMutableArray *mut = [NSMutableArray array];
+  NSMutableArray *ums = [NSMutableArray array];
+  FullUserMonsterProto *attackerProto = nil;
+  for (BattlePlayer *player in curTeam) {
+    UserMonsterCurrentHealthProto_Builder *b = [UserMonsterCurrentHealthProto builder];
+    b.userMonsterId = player.userMonsterId;
+    b.currentHealth = player.curHealth;
+    [mut addObject:b.build];
+    
+    UserMonster *um = [gs myMonsterWithUserMonsterId:player.userMonsterId];
+    um.curHealth = player.curHealth;
+    
+    [ums addObject:[um convertToProto]];
+    
+    if (um.userMonsterId == attacker.userMonsterId) {
+      attackerProto = [um convertToProto];
+    }
+  }
+  
+  UserCurrentMonsterTeamProto *team = [[[[UserCurrentMonsterTeamProto builder] addAllCurrentTeam:ums] setUserId:gs.userId] build];
+  PersistentClanEventClanInfoProto *info = gs.curClanRaidInfo;
+  [[SocketCommunication sharedSocketCommunication] sendAttackClanRaidMonsterMessage:info clientTime:[self getCurrentMilliseconds] damageDealt:dmg curTeam:team monsterHealths:mut attacker:attackerProto];
 }
 
 - (void) purchaseCityExpansionAtX:(int)x atY:(int)y {
@@ -864,7 +941,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
   if (cashCost > gs.silver || gemCost > gs.gold) {
     [Globals popupMessage:@"Trying to view next pvp guy without enough resources."];
   } else {
-    int tag = [[SocketCommunication sharedSocketCommunication] sendUpdateUserCurrencyMessageWithCashSpent:cashCost oilSpent:0 gemsSpent:gemCost clientTime:[self getCurrentMilliseconds]];
+    int tag = [[SocketCommunication sharedSocketCommunication] sendUpdateUserCurrencyMessageWithCashSpent:cashCost oilSpent:0 gemsSpent:gemCost clientTime:[self getCurrentMilliseconds] reason:@"Viewed New Pvp Guy"];
     
     SilverUpdate *su = [SilverUpdate updateWithTag:tag change:-cashCost];
     GoldUpdate *gu = [GoldUpdate updateWithTag:tag change:-gemCost];
@@ -1429,6 +1506,16 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
     
     [gs beginEvolutionTimer];
   }
+}
+
+- (void) updateUserCurrencyWithCashChange:(int)cashChange oilChange:(int)oilChange gemChange:(int)gemChange reason:(NSString *)reason {
+  GameState *gs = [GameState sharedGameState];
+  int tag = [[SocketCommunication sharedSocketCommunication] sendUpdateUserCurrencyMessageWithCashSpent:cashChange oilSpent:oilChange gemsSpent:gemChange clientTime:[self getCurrentMilliseconds] reason:reason];
+  
+  SilverUpdate *su = [SilverUpdate updateWithTag:tag change:cashChange];
+  OilUpdate *ou = [OilUpdate updateWithTag:tag change:oilChange];
+  GoldUpdate *gu = [GoldUpdate updateWithTag:tag change:gemChange];
+  [gs addUnrespondedUpdates:su, ou, gu, nil];
 }
 
 @end

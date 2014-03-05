@@ -19,6 +19,8 @@
 #import "MyCroniesViewController.h"
 #import "MenuNavigationController.h"
 #import "EnhanceViewController.h"
+#import "CCAnimation+SpriteLoading.h"
+#import "CCSoundAnimation.h"
 
 #define FAR_LEFT_EXPANSION_START 58
 #define FAR_RIGHT_EXPANSION_START 58
@@ -105,19 +107,172 @@
     [self refresh];
     [self moveToCenterAnimated:NO];
     
-    CCSprite *s1 = [CCSprite spriteWithImageNamed:@"missionmap2.png"];
-    [self addChild:s1 z:-1000];
+    CCSprite *map = [CCSprite spriteWithImageNamed:@"missionmap2.png"];
+    [self addChild:map z:-1000];
     
-    s1.position = ccp(s1.contentSize.width/2-33, s1.contentSize.height/2-50);
+    map.position = ccp(map.contentSize.width/2-33, map.contentSize.height/2-50);
     
-//    CCSprite *road = [CCSprite spriteWithImageNamed:@"homeroad.png"];
-//    [self addChild:road z:-998];
-//    road.position = ccp(self.contentSize.width/2-17, self.contentSize.height/2-7);
+    //    CCSprite *road = [CCSprite spriteWithImageNamed:@"homeroad.png"];
+    //    [self addChild:road z:-998];
+    //    road.position = ccp(self.contentSize.width/2-17, self.contentSize.height/2-7);
     
-    bottomLeftCorner = ccp(s1.position.x-s1.contentSize.width/2, s1.position.y-s1.contentSize.height/2);
-    topRightCorner = ccp(s1.position.x+s1.contentSize.width/2, s1.position.y+s1.contentSize.height/2);
+    [self beginMapAnimations];
+    
+    bottomLeftCorner = ccp(map.position.x-map.contentSize.width/2, map.position.y-map.contentSize.height/2);
+    topRightCorner = ccp(map.position.x+map.contentSize.width/2, map.position.y+map.contentSize.height/2);
   }
   return self;
+}
+
+- (void) beginMapAnimations {
+  [[CCSpriteFrameCache sharedSpriteFrameCache] addSpriteFramesWithFile:@"Boat.plist"];
+  CCAnimation *anim = [CCAnimation animationWithSpritePrefix:@"Boat" delay:0.1];
+//  [anim repeatFrames:NSMakeRange(0,1) numTimes:5];
+  CCSprite *boat = [CCSprite spriteWithSpriteFrame:[anim.frames[0] spriteFrame]];
+  [boat runAction:[CCActionRepeatForever actionWithAction:[CCActionAnimate actionWithAnimation:anim]]];
+  [self addChild:boat z:1];
+  boat.position = ccp(780, 35);
+  
+  [self schedule:@selector(createNewWave) interval:3.5f];
+}
+
+- (void) createNewWave {
+  [self createNewWave:NO];
+}
+
+- (void) createNewWave:(BOOL)right {
+  CGPoint startPos = ccp(68, 58);
+  CGPoint farEndPos = ccp(143, 118);
+  CGPoint finalEndPos = ccp(143, 105);
+  float dur1 = 5.0f, dur2 = 0.9f;
+  float waveMove1 = 100, waveMove2 = 10;
+  
+  if (right) {
+    startPos.x = self.contentSize.width-startPos.x+5;
+    farEndPos.x = self.contentSize.width-farEndPos.x+5;
+    finalEndPos.x = self.contentSize.width-finalEndPos.x+5;
+  }
+  
+  CCNode *node = [CCNode node];
+  node.position = startPos;
+  node.rotation = 35.85*(1-right*2);
+  [self addChild:node];
+  
+  [node runAction:
+   [CCActionSequence actions:
+    [CCActionMoveTo actionWithDuration:dur1 position:farEndPos],
+    [CCActionMoveTo actionWithDuration:dur2 position:finalEndPos],
+    [CCActionCallFunc actionWithTarget:node selector:@selector(removeFromParent)],
+    nil]];
+  
+  CCSprite *wave = [CCSprite spriteWithImageNamed:@"wave.png"];
+  [node addChild:wave];
+  
+  // Right
+  CCSprite *w1 = [CCSprite spriteWithImageNamed:@"wave.png"];
+  w1.position = ccp(wave.contentSize.width, wave.contentSize.height/2);
+  [wave addChild:w1];
+  
+  // Far Right
+  w1 = [CCSprite spriteWithImageNamed:@"wave.png"];
+  w1.position = ccp(wave.contentSize.width*3/2, wave.contentSize.height/2);
+  [wave addChild:w1];
+  
+  // Left
+  w1 = [CCSprite spriteWithImageNamed:@"wave.png"];
+  w1.position = ccp(0, wave.contentSize.height/2);
+  [wave addChild:w1];
+  
+  // Far Left
+  w1 = [CCSprite spriteWithImageNamed:@"wave.png"];
+  w1.position = ccp(-wave.contentSize.width/2, wave.contentSize.height/2);
+  [wave addChild:w1];
+  
+  [wave recursivelyApplyOpacity:0.f];
+  [wave runAction:
+   [CCActionSequence actions:
+     [RecursiveFadeTo actionWithDuration:dur1 opacity:1.f],
+     [RecursiveFadeTo actionWithDuration:dur2 opacity:0.f],
+    nil]];
+  [wave runAction:
+   [CCActionSequence actions:
+    [CCActionMoveTo actionWithDuration:dur1 position:ccp(-waveMove1, 0)],
+    [CCActionMoveTo actionWithDuration:dur1 position:ccp(-waveMove2, 2)],
+    nil]];
+  
+  
+  CCSprite *wave2 = [CCSprite spriteWithImageNamed:@"wave.png"];
+  wave2.position = ccp(0, -5);
+  [node addChild:wave2];
+  
+  // Right
+  w1 = [CCSprite spriteWithImageNamed:@"wave.png"];
+  w1.position = ccp(wave2.contentSize.width, wave2.contentSize.height/2);
+  [wave2 addChild:w1];
+  
+  // Far Right
+  w1 = [CCSprite spriteWithImageNamed:@"wave.png"];
+  w1.position = ccp(wave2.contentSize.width*3/2, wave2.contentSize.height/2);
+  [wave2 addChild:w1];
+  
+  // Left
+  w1 = [CCSprite spriteWithImageNamed:@"wave.png"];
+  w1.position = ccp(0, wave2.contentSize.height/2);
+  [wave2 addChild:w1];
+  
+  // Far Left
+  w1 = [CCSprite spriteWithImageNamed:@"wave.png"];
+  w1.position = ccp(-wave2.contentSize.width/2, wave2.contentSize.height/2);
+  [wave2 addChild:w1];
+  
+  [wave2 recursivelyApplyOpacity:0.f];
+  [wave2 runAction:
+   [CCActionSequence actions:
+    [RecursiveFadeTo actionWithDuration:dur1 opacity:0.5f],
+    [RecursiveFadeTo actionWithDuration:dur2 opacity:0.f],
+    nil]];
+  [wave2 runAction:
+   [CCActionSequence actions:
+    [CCActionMoveTo actionWithDuration:dur1 position:ccp(waveMove1, 0)],
+    [CCActionMoveTo actionWithDuration:dur1 position:ccp(waveMove2, 2)],
+    nil]];
+  
+  
+  CCSprite *wave3 = [CCSprite spriteWithImageNamed:@"wave.png"];
+  wave3.position = ccp(0, -10);
+  [node addChild:wave3];
+  
+  // Right
+  w1 = [CCSprite spriteWithImageNamed:@"wave.png"];
+  w1.position = ccp(wave3.contentSize.width, wave3.contentSize.height/2);
+  [wave3 addChild:w1];
+  
+  // Far Right
+  w1 = [CCSprite spriteWithImageNamed:@"wave.png"];
+  w1.position = ccp(wave3.contentSize.width*3/2, wave3.contentSize.height/2);
+  [wave3 addChild:w1];
+  
+  // Left
+  w1 = [CCSprite spriteWithImageNamed:@"wave.png"];
+  w1.position = ccp(0, wave3.contentSize.height/2);
+  [wave3 addChild:w1];
+  
+  // Far Left
+  w1 = [CCSprite spriteWithImageNamed:@"wave.png"];
+  w1.position = ccp(-wave3.contentSize.width/2, wave3.contentSize.height/2);
+  [wave3 addChild:w1];
+  
+  [wave3 recursivelyApplyOpacity:0.f];
+  [wave3 runAction:
+   [CCActionSequence actions:
+    [RecursiveFadeTo actionWithDuration:dur1 opacity:0.2f],
+    [RecursiveFadeTo actionWithDuration:dur2 opacity:0.f],
+    nil]];
+  [wave3 runAction:
+   [CCActionSequence actions:
+    [CCActionMoveTo actionWithDuration:dur1 position:ccp(-waveMove1, 0)],
+    [CCActionMoveTo actionWithDuration:dur1 position:ccp(-waveMove2, 4)],
+    nil]];
 }
 
 - (BOOL) gestureRecognizer:(UIGestureRecognizer *)gestureRecognizer shouldReceiveTouch:(UITouch *)touch {
@@ -264,8 +419,8 @@
   [oilArr sortUsingComparator:comp];
   
   for (NSMutableArray *arr in @[cashArr, oilArr]) {
+    int curVal = arr == cashArr ? curCash : curOil;
     while (arr.count > 0) {
-      int curVal = arr == cashArr ? curCash : curOil;
       int count = arr.count;
       int amount = curVal/count;
       ResourceStorageBuilding *res = arr[0];
@@ -325,7 +480,7 @@
       
       UserExpansion *ue = [gs getExpansionForX:i y:j];
       
-      if (!ue || ue.isExpanding) {
+      if (false) {//(!ue || ue.isExpanding) {
         CGPoint offset = ccp(0,0);
         
         CGRect r = CGRectZero;

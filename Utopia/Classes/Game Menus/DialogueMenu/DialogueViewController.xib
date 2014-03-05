@@ -23,12 +23,12 @@
                     <rect key="frame" x="0.0" y="235" width="568" height="85"/>
                     <autoresizingMask key="autoresizingMask"/>
                 </imageView>
-                <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="top" image="Scientist1Big.png" id="qhg-jh-w6v">
-                    <rect key="frame" x="0.0" y="164" width="169" height="223"/>
+                <imageView opaque="NO" multipleTouchEnabled="YES" contentMode="bottomLeft" id="qhg-jh-w6v">
+                    <rect key="frame" x="-30" y="136" width="152" height="320"/>
                     <autoresizingMask key="autoresizingMask"/>
                 </imageView>
                 <view contentMode="scaleToFill" id="AlM-Ns-QkQ">
-                    <rect key="frame" x="108" y="219" width="260" height="81"/>
+                    <rect key="frame" x="81" y="219" width="260" height="81"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                     <subviews>
                         <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="speechbubble.png" id="obe-3n-PYo">
@@ -54,7 +54,6 @@
         </view>
     </objects>
     <resources>
-        <image name="Scientist1Big.png" width="135" height="320"/>
         <image name="diagradient.png" width="1" height="85"/>
         <image name="speechbubble.png" width="260" height="81"/>
     </resources>

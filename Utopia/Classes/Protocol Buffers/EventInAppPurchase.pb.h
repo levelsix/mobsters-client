@@ -54,6 +54,8 @@
 @class StructureInfoProto_Builder;
 @class TownHallProto;
 @class TownHallProto_Builder;
+@class TutorialStructProto;
+@class TutorialStructProto_Builder;
 @class UserFacebookInviteForSlotProto;
 @class UserFacebookInviteForSlotProto_Builder;
 typedef enum {

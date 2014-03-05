@@ -22,9 +22,9 @@
 @implementation MissionMap
 
 - (id) initWithProto:(LoadCityResponseProto *)proto {
-  //  NSString *tmxFile = @"villa_montalvo.tmx";
   GameState *gs = [GameState sharedGameState];
   FullCityProto *fcp = [gs cityWithId:proto.cityId];
+  if (!fcp) return nil;
   if ((self = [super initWithFile:fcp.mapTmxName])) {
     self.cityId = proto.cityId;
     
@@ -109,17 +109,6 @@
       }
     }
     
-    //    // Load up the minimum user task protos
-    //    for (MinimumUserTaskProto *mutp in proto.userTasksInfoList) {
-    //      FullTaskProto *ftp = [gs taskWithId:mutp.taskId];
-    //      id<TaskElement> asset = (id<TaskElement>)[self assetWithId:ftp.assetNumWithinCity];
-    //      if (asset) {
-    //        asset.numTimesActedForTask = mutp.numTimesActed;
-    //      } else {
-    //        LNLog(@"Could not find asset number %d.", ftp.assetNumWithinCity);
-    //      }
-    //    }
-    
     // Just use jobs for defeat type jobs, tasks are tracked on their own
     _jobs = [[NSMutableArray alloc] init];
     
@@ -195,7 +184,7 @@
          CGRect r = ts.location;
          r.origin = start;
          ts.location = r;
-         [ts walkToTileCoord:end withSelector:@selector(stopWalking) speedMultiplier:1.5f];
+         [ts walkToTileCoord:end completionTarget:ts selector:@selector(stopWalking) speedMultiplier:1.5f];
        }],
       [CCActionDelay actionWithDuration:0.2f],
       [RecursiveFadeTo actionWithDuration:0.3f opacity:0],
@@ -230,10 +219,7 @@
   [m pushViewController:[[MyCroniesViewController alloc] init] animated:NO];
 }
 
-- (void) onEnter {
-  [super onEnter];
-  _enteringDungeon = NO;
-  
+- (void) setAllLocksAndArrowsForBuildings {
   GameState *gs = [GameState sharedGameState];
   NSArray *taskIdsWithArrows = gs.taskIdsToUnlockMoreTasks;
   for (CCNode *n in self.children) {
@@ -249,6 +235,13 @@
       }
     }
   }
+}
+
+- (void) onEnter {
+  [super onEnter];
+  _enteringDungeon = NO;
+  
+  [self setAllLocksAndArrowsForBuildings];
 }
 
 - (void) setSelected:(SelectableSprite *)selected {

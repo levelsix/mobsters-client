@@ -77,6 +77,8 @@
 @class StructureInfoProto_Builder;
 @class TownHallProto;
 @class TownHallProto_Builder;
+@class TutorialStructProto;
+@class TutorialStructProto_Builder;
 @class UserCityExpansionDataProto;
 @class UserCityExpansionDataProto_Builder;
 @class UserCurrentMonsterTeamProto;

@@ -30,6 +30,8 @@
 @class StructureInfoProto_Builder;
 @class TownHallProto;
 @class TownHallProto_Builder;
+@class TutorialStructProto;
+@class TutorialStructProto_Builder;
 typedef enum {
   FullQuestProto_QuestTypeKillMonster = 1,
   FullQuestProto_QuestTypeDonateMonster = 2,

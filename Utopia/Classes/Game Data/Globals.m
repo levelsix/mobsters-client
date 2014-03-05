@@ -131,15 +131,22 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
       NSString *fileName = [NSString stringWithFormat:str, spritePrefix];
       NSString *doubleRes = [self getDoubleResolutionImage:fileName];
       [[Downloader sharedDownloader] asyncDownloadFile:doubleRes completion:^{
-        NSDictionary *dict = [NSDictionary dictionaryWithContentsOfFile:[Globals pathToFile:fileName]];
-        NSDictionary *metadataDict = [dict objectForKey:@"metadata"];
-        NSString *texturePath = [metadataDict objectForKey:@"textureFileName"];
-        [[Downloader sharedDownloader] asyncDownloadFile:texturePath completion:^{
+        if ([fileName.pathExtension isEqualToString:@"plist"]) {
+          NSDictionary *dict = [NSDictionary dictionaryWithContentsOfFile:[Globals pathToFile:fileName]];
+          NSDictionary *metadataDict = [dict objectForKey:@"metadata"];
+          NSString *texturePath = [metadataDict objectForKey:@"textureFileName"];
+          [[Downloader sharedDownloader] asyncDownloadFile:texturePath completion:^{
+            i--;
+            if (i == 0) {
+              completed();
+            }
+          }];
+        } else {
           i--;
           if (i == 0) {
             completed();
           }
-        }];
+        }
       }];
     }
   }
@@ -281,7 +288,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
 }
 
 + (UIColor *) colorForElementOnDarkBackground:(MonsterProto_MonsterElement)element {
-  ccColor3B c = ccc3(255, 255, 255);
+  ccColor3B c;
   switch (element) {
     case MonsterProto_MonsterElementDarkness:
       c = ccc3(129, 7, 181);
@@ -308,13 +315,14 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
       break;
       
     default:
+      c = ccc3(255, 255, 255);
       break;
   }
   return [UIColor colorWithRed:c.r/255.f green:c.g/255.f blue:c.b/255.f alpha:1.f];
 }
 
 + (UIColor *) colorForElementOnLightBackground:(MonsterProto_MonsterElement)element {
-  ccColor3B c = ccc3(255, 255, 255);
+  ccColor3B c;
   switch (element) {
     case MonsterProto_MonsterElementDarkness:
       c = ccc3(128, 59, 185);
@@ -341,6 +349,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
       break;
       
     default:
+      c = ccc3(255, 255, 255);
       break;
   }
   return [UIColor colorWithRed:c.r/255.f green:c.g/255.f blue:c.b/255.f alpha:1.f];
@@ -1720,6 +1729,24 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
 
 - (CCActionInterval *) initWithAction:(CCActionInterval *)action {
   return [self initWithAction:action rate:2];
+}
+
+@end
+
+@implementation CCNode (UIImage)
+
+- (UIImage *) UIImage {
+  CCRenderTexture* renderer = [CCRenderTexture renderTextureWithWidth:self.contentSize.width height:self.contentSize.height];
+  
+  const CGPoint ANCHORBEFORE = self.anchorPoint;
+  self.anchorPoint = CGPointZero;
+  
+  [renderer begin];
+  [self visit];
+  [renderer end];
+  self.anchorPoint = ANCHORBEFORE;
+  
+  return [renderer getUIImage];
 }
 
 @end

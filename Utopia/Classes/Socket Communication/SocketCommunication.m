@@ -168,6 +168,8 @@ static NSString *udid = nil;
 - (void) initNetworkCommunicationWithDelegate:(id)delegate {
   [self.connectionThread connect:udid];
   
+  // In case we just came from inactive state
+  _sender = nil;
   [self rebuildSender];
   _currentTagNum = 1;
   _shouldReconnect = YES;
@@ -836,13 +838,14 @@ static NSString *udid = nil;
   return [self sendData:req withMessageType:EventProtocolRequestCQueueUpEvent];
 }
 
-- (int) sendUpdateUserCurrencyMessageWithCashSpent:(int)cashSpent oilSpent:(int)oilSpent gemsSpent:(int)gemsSpent clientTime:(uint64_t)clientTime {
-  UpdateUserCurrencyRequestProto *req = [[[[[[[UpdateUserCurrencyRequestProto builder]
-                                              setSender:_sender]
-                                             setCashSpent:cashSpent]
-                                            setOilSpent:oilSpent]
-                                           setGemsSpent:gemsSpent]
-                                          setClientTime:clientTime]
+- (int) sendUpdateUserCurrencyMessageWithCashSpent:(int)cashSpent oilSpent:(int)oilSpent gemsSpent:(int)gemsSpent clientTime:(uint64_t)clientTime reason:(NSString *)reason {
+  UpdateUserCurrencyRequestProto *req = [[[[[[[[UpdateUserCurrencyRequestProto builder]
+                                               setSender:_sender]
+                                              setCashSpent:cashSpent]
+                                             setOilSpent:oilSpent]
+                                            setGemsSpent:gemsSpent]
+                                           setClientTime:clientTime]
+                                          setReason:reason]
                                          build];
   
   return [self sendData:req withMessageType:EventProtocolRequestCUpdateUserCurrencyEvent];
@@ -850,13 +853,42 @@ static NSString *udid = nil;
 
 - (int) sendBeginPvpBattleMessage:(PvpProto *)enemy senderElo:(int)elo clientTime:(uint64_t)clientTime {
   BeginPvpBattleRequestProto *req = [[[[[[BeginPvpBattleRequestProto builder]
-                                        setSender:_sender]
-                                       setEnemy:enemy]
-                                      setSenderElo:elo]
-                                       setAttackStartTime:clientTime]
+                                         setSender:_sender]
+                                        setEnemy:enemy]
+                                       setSenderElo:elo]
+                                      setAttackStartTime:clientTime]
                                      build];
   
   return [self sendData:req withMessageType:EventProtocolRequestCBeginPvpBattleEvent];
+}
+
+- (int) sendBeginClanRaidMessage:(int)raidId eventId:(int)eventId isFirstStage:(BOOL)isFirstStage curTime:(uint64_t)curTime userMonsters:(NSArray *)userMonsters {
+  BeginClanRaidRequestProto_Builder *bldr = [[[[[[BeginClanRaidRequestProto builder]
+                                                 setSender:_sender]
+                                                setCurTime:curTime]
+                                               setRaidId:raidId]
+                                              setClanEventId:eventId]
+                                             setIsFirstStage:isFirstStage];
+  
+  if (userMonsters.count > 0) {
+    [bldr setSetMonsterTeamForRaid:YES];
+    [bldr addAllUserMonsters:userMonsters];
+  }
+  
+  return [self sendData:bldr.build withMessageType:EventProtocolRequestCBeginClanRaidEvent];
+}
+
+- (int) sendAttackClanRaidMonsterMessage:(PersistentClanEventClanInfoProto *)eventDetails clientTime:(uint64_t)clientTime damageDealt:(int)damageDealt curTeam:(UserCurrentMonsterTeamProto *)curTeam monsterHealths:(NSArray *)monsterHealths attacker:(FullUserMonsterProto *)attacker {
+  AttackClanRaidMonsterRequestProto_Builder *bldr = [AttackClanRaidMonsterRequestProto builder];
+  bldr.sender = _sender;
+  bldr.eventDetails = eventDetails;
+  bldr.clientTime = clientTime;
+  bldr.damageDealt = damageDealt;
+  [bldr addAllMonsterHealths:monsterHealths];
+  bldr.userMonsterTeam = curTeam;
+  bldr.userMonsterThatAttacked = attacker;
+  
+  return [self sendData:bldr.build withMessageType:EventProtocolRequestCAttackClanRaidMonsterEvent];
 }
 
 #pragma mark - Batch/Flush events

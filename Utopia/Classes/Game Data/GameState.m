@@ -36,6 +36,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
     _staticCities = [[NSMutableDictionary alloc] init];
     _staticStructs = [[NSMutableDictionary alloc] init];
     _staticMonsters = [[NSMutableDictionary alloc] init];
+    _staticRaids = [[NSMutableDictionary alloc] init];
     _eventCooldownTimes = [[NSMutableDictionary alloc] init];
     _notifications = [[NSMutableArray alloc] init];
     _myStructs = [[NSMutableArray alloc] init];
@@ -179,7 +180,15 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
     [Globals popupMessage:@"Attempted to access city 0"];
     return nil;
   }
-  return [self.staticCities objectForKey:[NSNumber numberWithInt:cityId]];//[self getStaticDataFrom:_staticCities withId:cityId];
+  return [self getStaticDataFrom:_staticCities withId:cityId];
+}
+
+- (ClanRaidProto *) raidWithId:(int)raidId {
+  if (raidId == 0) {
+    [Globals popupMessage:@"Attempted to access raid 0"];
+    return nil;
+  }
+  return [self getStaticDataFrom:_staticRaids withId:raidId];
 }
 
 - (FullTaskProto *) taskWithId:(int)taskId {
@@ -589,6 +598,22 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
   }
 }
 
+- (void) addClanRaidUserInfo:(PersistentClanEventUserInfoProto *)info {
+  PersistentClanEventUserInfoProto *toRemove = nil;
+  for (PersistentClanEventUserInfoProto *p in self.curClanRaidUserInfos) {
+    if (p.userId == info.userId) {
+      toRemove = p;
+      break;
+    }
+  }
+  
+  if (toRemove) {
+    [self.curClanRaidUserInfos removeObject:toRemove];
+  }
+  
+  [self.curClanRaidUserInfos addObject:info];
+}
+
 - (UserMonster *) myMonsterWithUserMonsterId:(int)userMonsterId {
   for (UserMonster *um in self.myMonsters) {
     if (userMonsterId == um.userMonsterId) {
@@ -634,6 +659,9 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
       [m addObject:um];
     }
   }
+  [m sortUsingComparator:^NSComparisonResult(UserMonster *obj1, UserMonster *obj2) {
+    return [@(obj1.teamSlot) compare:@(obj2.teamSlot)];
+  }];
   return m;
 }
 
@@ -763,7 +791,11 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
   
   [self addBattleDialogueInfo:proto.mbdsList];
   
-  self.persistentEvents = proto.eventsList;
+  [self.staticRaids removeAllObjects];
+  [self addToStaticRaids:proto.raidsList];
+  
+  self.persistentEvents = proto.persistentEventsList;
+  self.persistentClanEvents = proto.persistentClanEventsList;
 }
 
 - (void) addToStaticMonsters:(NSArray *)arr {
@@ -787,6 +819,12 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
 - (void) addToStaticCities:(NSArray *)arr {
   for (FullCityProto *p in arr) {
     [self.staticCities setObject:p forKey:@(p.cityId)];
+  }
+}
+
+- (void) addToStaticRaids:(NSArray *)arr {
+  for (ClanRaidProto *p in arr) {
+    [self.staticRaids setObject:p forKey:@(p.clanRaidId)];
   }
 }
 
@@ -1000,6 +1038,15 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
   for (UserExpansion *e in self.userExpansions) {
     if (e.isExpanding) {
       return e;
+    }
+  }
+  return nil;
+}
+
+- (PersistentClanEventUserInfoProto *) myClanRaidInfo {
+  for (PersistentClanEventUserInfoProto *info in self.curClanRaidUserInfos) {
+    if (info.userId == self.userId) {
+      return info;
     }
   }
   return nil;

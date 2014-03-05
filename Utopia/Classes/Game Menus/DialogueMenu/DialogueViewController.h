@@ -11,9 +11,13 @@
 
 @class DialogueViewController;
 
-@protocol DialogueViewControllerDelegate
+@protocol DialogueViewControllerDelegate <NSObject>
 
 - (void) dialogueViewControllerFinished:(DialogueViewController *)dvc;
+
+@optional
+- (void) dialogueViewController:(DialogueViewController *)dvc willDisplaySpeechAtIndex:(int)index;
+- (void) dialogueViewController:(DialogueViewController *)dvc didDisplaySpeechAtIndex:(int)index;
 
 @end
 
@@ -35,6 +39,9 @@
 
 @property (nonatomic, assign) id<DialogueViewControllerDelegate> delegate;
 
+@property (nonatomic, assign) BOOL blackOutSpeakers;
+
 - (id) initWithDialogueProto:(DialogueProto *)dialogue;
+- (void) animateNext;
 
 @end

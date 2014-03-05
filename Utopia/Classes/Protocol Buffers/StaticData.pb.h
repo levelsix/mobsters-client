@@ -4,6 +4,7 @@
 
 #import "BoosterPackStuff.pb.h"
 #import "City.pb.h"
+#import "Clan.pb.h"
 #import "MonsterStuff.pb.h"
 #import "Quest.pb.h"
 #import "Structure.pb.h"
@@ -20,6 +21,14 @@
 @class CityElementProto_Builder;
 @class CityExpansionCostProto;
 @class CityExpansionCostProto_Builder;
+@class ClanRaidProto;
+@class ClanRaidProto_Builder;
+@class ClanRaidStageMonsterProto;
+@class ClanRaidStageMonsterProto_Builder;
+@class ClanRaidStageProto;
+@class ClanRaidStageProto_Builder;
+@class ClanRaidStageRewardProto;
+@class ClanRaidStageRewardProto_Builder;
 @class CoordinateProto;
 @class CoordinateProto_Builder;
 @class DialogueProto;
@@ -28,10 +37,16 @@
 @class DialogueProto_SpeechSegmentProto_Builder;
 @class FullCityProto;
 @class FullCityProto_Builder;
+@class FullClanProto;
+@class FullClanProtoWithClanSize;
+@class FullClanProtoWithClanSize_Builder;
+@class FullClanProto_Builder;
 @class FullQuestProto;
 @class FullQuestProto_Builder;
 @class FullTaskProto;
 @class FullTaskProto_Builder;
+@class FullUserClanProto;
+@class FullUserClanProto_Builder;
 @class FullUserMonsterProto;
 @class FullUserMonsterProto_Builder;
 @class FullUserProto;
@@ -51,6 +66,10 @@
 @class MinimumUserMonsterSellProto;
 @class MinimumUserMonsterSellProto_Builder;
 @class MinimumUserProto;
+@class MinimumUserProtoForClans;
+@class MinimumUserProtoForClans_Builder;
+@class MinimumUserProtoWithBattleHistory;
+@class MinimumUserProtoWithBattleHistory_Builder;
 @class MinimumUserProtoWithFacebookId;
 @class MinimumUserProtoWithFacebookId_Builder;
 @class MinimumUserProtoWithLevel;
@@ -66,8 +85,18 @@
 @class MonsterLevelInfoProto_Builder;
 @class MonsterProto;
 @class MonsterProto_Builder;
+@class PersistentClanEventClanInfoProto;
+@class PersistentClanEventClanInfoProto_Builder;
+@class PersistentClanEventProto;
+@class PersistentClanEventProto_Builder;
+@class PersistentClanEventUserInfoProto;
+@class PersistentClanEventUserInfoProto_Builder;
+@class PersistentClanEventUserRewardProto;
+@class PersistentClanEventUserRewardProto_Builder;
 @class PersistentEventProto;
 @class PersistentEventProto_Builder;
+@class PvpProto;
+@class PvpProto_Builder;
 @class RareBoosterPurchaseProto;
 @class RareBoosterPurchaseProto_Builder;
 @class ResidenceProto;
@@ -88,6 +117,8 @@
 @class TaskStageProto_Builder;
 @class TownHallProto;
 @class TownHallProto_Builder;
+@class TutorialStructProto;
+@class TutorialStructProto_Builder;
 @class UserCityExpansionDataProto;
 @class UserCityExpansionDataProto_Builder;
 @class UserCurrentMonsterTeamProto;
@@ -119,8 +150,10 @@
 @private
   BOOL hasSender_:1;
   MinimumUserProto* sender;
+  NSMutableArray* mutablePersistentClanEventsList;
+  NSMutableArray* mutableRaidsList;
   NSMutableArray* mutableMbdsList;
-  NSMutableArray* mutableEventsList;
+  NSMutableArray* mutablePersistentEventsList;
   NSMutableArray* mutableAllTownHallsList;
   NSMutableArray* mutableAllLabsList;
   NSMutableArray* mutableAllResidencesList;
@@ -169,10 +202,14 @@
 - (LabProto*) allLabsAtIndex:(int32_t) index;
 - (NSArray*) allTownHallsList;
 - (TownHallProto*) allTownHallsAtIndex:(int32_t) index;
-- (NSArray*) eventsList;
-- (PersistentEventProto*) eventsAtIndex:(int32_t) index;
+- (NSArray*) persistentEventsList;
+- (PersistentEventProto*) persistentEventsAtIndex:(int32_t) index;
 - (NSArray*) mbdsList;
 - (MonsterBattleDialogueProto*) mbdsAtIndex:(int32_t) index;
+- (NSArray*) raidsList;
+- (ClanRaidProto*) raidsAtIndex:(int32_t) index;
+- (NSArray*) persistentClanEventsList;
+- (PersistentClanEventProto*) persistentClanEventsAtIndex:(int32_t) index;
 
 + (StaticDataProto*) defaultInstance;
 - (StaticDataProto*) defaultInstance;
@@ -320,12 +357,12 @@
 - (StaticDataProto_Builder*) addAllAllTownHalls:(NSArray*) values;
 - (StaticDataProto_Builder*) clearAllTownHallsList;
 
-- (NSArray*) eventsList;
-- (PersistentEventProto*) eventsAtIndex:(int32_t) index;
-- (StaticDataProto_Builder*) replaceEventsAtIndex:(int32_t) index with:(PersistentEventProto*) value;
-- (StaticDataProto_Builder*) addEvents:(PersistentEventProto*) value;
-- (StaticDataProto_Builder*) addAllEvents:(NSArray*) values;
-- (StaticDataProto_Builder*) clearEventsList;
+- (NSArray*) persistentEventsList;
+- (PersistentEventProto*) persistentEventsAtIndex:(int32_t) index;
+- (StaticDataProto_Builder*) replacePersistentEventsAtIndex:(int32_t) index with:(PersistentEventProto*) value;
+- (StaticDataProto_Builder*) addPersistentEvents:(PersistentEventProto*) value;
+- (StaticDataProto_Builder*) addAllPersistentEvents:(NSArray*) values;
+- (StaticDataProto_Builder*) clearPersistentEventsList;
 
 - (NSArray*) mbdsList;
 - (MonsterBattleDialogueProto*) mbdsAtIndex:(int32_t) index;
@@ -333,5 +370,19 @@
 - (StaticDataProto_Builder*) addMbds:(MonsterBattleDialogueProto*) value;
 - (StaticDataProto_Builder*) addAllMbds:(NSArray*) values;
 - (StaticDataProto_Builder*) clearMbdsList;
+
+- (NSArray*) raidsList;
+- (ClanRaidProto*) raidsAtIndex:(int32_t) index;
+- (StaticDataProto_Builder*) replaceRaidsAtIndex:(int32_t) index with:(ClanRaidProto*) value;
+- (StaticDataProto_Builder*) addRaids:(ClanRaidProto*) value;
+- (StaticDataProto_Builder*) addAllRaids:(NSArray*) values;
+- (StaticDataProto_Builder*) clearRaidsList;
+
+- (NSArray*) persistentClanEventsList;
+- (PersistentClanEventProto*) persistentClanEventsAtIndex:(int32_t) index;
+- (StaticDataProto_Builder*) replacePersistentClanEventsAtIndex:(int32_t) index with:(PersistentClanEventProto*) value;
+- (StaticDataProto_Builder*) addPersistentClanEvents:(PersistentClanEventProto*) value;
+- (StaticDataProto_Builder*) addAllPersistentClanEvents:(NSArray*) values;
+- (StaticDataProto_Builder*) clearPersistentClanEventsList;
 @end
 

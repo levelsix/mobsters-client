@@ -3,12 +3,21 @@
 #import "ProtocolBuffers.h"
 
 #import "Clan.pb.h"
+#import "MonsterStuff.pb.h"
 #import "User.pb.h"
 
 @class ApproveOrRejectRequestToJoinClanRequestProto;
 @class ApproveOrRejectRequestToJoinClanRequestProto_Builder;
 @class ApproveOrRejectRequestToJoinClanResponseProto;
 @class ApproveOrRejectRequestToJoinClanResponseProto_Builder;
+@class AttackClanRaidMonsterRequestProto;
+@class AttackClanRaidMonsterRequestProto_Builder;
+@class AttackClanRaidMonsterResponseProto;
+@class AttackClanRaidMonsterResponseProto_Builder;
+@class BeginClanRaidRequestProto;
+@class BeginClanRaidRequestProto_Builder;
+@class BeginClanRaidResponseProto;
+@class BeginClanRaidResponseProto_Builder;
 @class BootPlayerFromClanRequestProto;
 @class BootPlayerFromClanRequestProto_Builder;
 @class BootPlayerFromClanResponseProto;
@@ -21,6 +30,16 @@
 @class ChangeClanJoinTypeRequestProto_Builder;
 @class ChangeClanJoinTypeResponseProto;
 @class ChangeClanJoinTypeResponseProto_Builder;
+@class ClanRaidProto;
+@class ClanRaidProto_Builder;
+@class ClanRaidStageMonsterProto;
+@class ClanRaidStageMonsterProto_Builder;
+@class ClanRaidStageProto;
+@class ClanRaidStageProto_Builder;
+@class ClanRaidStageRewardProto;
+@class ClanRaidStageRewardProto_Builder;
+@class CoordinateProto;
+@class CoordinateProto_Builder;
 @class CreateClanRequestProto;
 @class CreateClanRequestProto_Builder;
 @class CreateClanResponseProto;
@@ -29,12 +48,20 @@
 @class FullClanProtoWithClanSize;
 @class FullClanProtoWithClanSize_Builder;
 @class FullClanProto_Builder;
+@class FullTaskProto;
+@class FullTaskProto_Builder;
 @class FullUserClanProto;
 @class FullUserClanProto_Builder;
 @class FullUserMonsterProto;
 @class FullUserMonsterProto_Builder;
 @class FullUserProto;
 @class FullUserProto_Builder;
+@class FullUserStructureProto;
+@class FullUserStructureProto_Builder;
+@class HospitalProto;
+@class HospitalProto_Builder;
+@class LabProto;
+@class LabProto_Builder;
 @class LeaveClanRequestProto;
 @class LeaveClanRequestProto_Builder;
 @class LeaveClanResponseProto;
@@ -57,18 +84,40 @@
 @class MinimumUserProtoWithMaxResources;
 @class MinimumUserProtoWithMaxResources_Builder;
 @class MinimumUserProto_Builder;
+@class MinimumUserTaskProto;
+@class MinimumUserTaskProto_Builder;
 @class MonsterBattleDialogueProto;
 @class MonsterBattleDialogueProto_Builder;
 @class MonsterLevelInfoProto;
 @class MonsterLevelInfoProto_Builder;
 @class MonsterProto;
 @class MonsterProto_Builder;
+@class PersistentClanEventClanInfoProto;
+@class PersistentClanEventClanInfoProto_Builder;
+@class PersistentClanEventProto;
+@class PersistentClanEventProto_Builder;
+@class PersistentClanEventUserInfoProto;
+@class PersistentClanEventUserInfoProto_Builder;
+@class PersistentClanEventUserRewardProto;
+@class PersistentClanEventUserRewardProto_Builder;
+@class PersistentEventProto;
+@class PersistentEventProto_Builder;
 @class PvpProto;
 @class PvpProto_Builder;
+@class RecordClanRaidStatsRequestProto;
+@class RecordClanRaidStatsRequestProto_Builder;
+@class RecordClanRaidStatsResponseProto;
+@class RecordClanRaidStatsResponseProto_Builder;
 @class RequestJoinClanRequestProto;
 @class RequestJoinClanRequestProto_Builder;
 @class RequestJoinClanResponseProto;
 @class RequestJoinClanResponseProto_Builder;
+@class ResidenceProto;
+@class ResidenceProto_Builder;
+@class ResourceGeneratorProto;
+@class ResourceGeneratorProto_Builder;
+@class ResourceStorageProto;
+@class ResourceStorageProto_Builder;
 @class RetractRequestJoinClanRequestProto;
 @class RetractRequestJoinClanRequestProto_Builder;
 @class RetractRequestJoinClanResponseProto;
@@ -79,10 +128,20 @@
 @class RetrieveClanInfoResponseProto_Builder;
 @class StaticUserLevelInfoProto;
 @class StaticUserLevelInfoProto_Builder;
+@class StructureInfoProto;
+@class StructureInfoProto_Builder;
+@class TaskStageMonsterProto;
+@class TaskStageMonsterProto_Builder;
+@class TaskStageProto;
+@class TaskStageProto_Builder;
+@class TownHallProto;
+@class TownHallProto_Builder;
 @class TransferClanOwnershipRequestProto;
 @class TransferClanOwnershipRequestProto_Builder;
 @class TransferClanOwnershipResponseProto;
 @class TransferClanOwnershipResponseProto_Builder;
+@class TutorialStructProto;
+@class TutorialStructProto_Builder;
 @class UserCurrentMonsterTeamProto;
 @class UserCurrentMonsterTeamProto_Builder;
 @class UserEnhancementItemProto;
@@ -99,6 +158,8 @@
 @class UserMonsterEvolutionProto_Builder;
 @class UserMonsterHealingProto;
 @class UserMonsterHealingProto_Builder;
+@class UserPersistentEventProto;
+@class UserPersistentEventProto_Builder;
 typedef enum {
   CreateClanResponseProto_CreateClanStatusSuccess = 1,
   CreateClanResponseProto_CreateClanStatusOtherFail = 2,
@@ -201,6 +262,35 @@ typedef enum {
 } ChangeClanJoinTypeResponseProto_ChangeClanJoinTypeStatus;
 
 BOOL ChangeClanJoinTypeResponseProto_ChangeClanJoinTypeStatusIsValidValue(ChangeClanJoinTypeResponseProto_ChangeClanJoinTypeStatus value);
+
+typedef enum {
+  BeginClanRaidResponseProto_BeginClanRaidStatusSuccess = 1,
+  BeginClanRaidResponseProto_BeginClanRaidStatusFailAlreadyStarted = 2,
+  BeginClanRaidResponseProto_BeginClanRaidStatusFailNotAuthorized = 3,
+  BeginClanRaidResponseProto_BeginClanRaidStatusFailNoActiveClanRaid = 4,
+  BeginClanRaidResponseProto_BeginClanRaidStatusFailNoMonstersSent = 5,
+} BeginClanRaidResponseProto_BeginClanRaidStatus;
+
+BOOL BeginClanRaidResponseProto_BeginClanRaidStatusIsValidValue(BeginClanRaidResponseProto_BeginClanRaidStatus value);
+
+typedef enum {
+  AttackClanRaidMonsterResponseProto_AttackClanRaidMonsterStatusSuccess = 1,
+  AttackClanRaidMonsterResponseProto_AttackClanRaidMonsterStatusSuccessMonsterJustDied = 2,
+  AttackClanRaidMonsterResponseProto_AttackClanRaidMonsterStatusFailUserNotInClan = 3,
+  AttackClanRaidMonsterResponseProto_AttackClanRaidMonsterStatusFailNoStageRaidInProgress = 4,
+  AttackClanRaidMonsterResponseProto_AttackClanRaidMonsterStatusFailMonsterAlreadyDead = 5,
+  AttackClanRaidMonsterResponseProto_AttackClanRaidMonsterStatusFailOther = 6,
+} AttackClanRaidMonsterResponseProto_AttackClanRaidMonsterStatus;
+
+BOOL AttackClanRaidMonsterResponseProto_AttackClanRaidMonsterStatusIsValidValue(AttackClanRaidMonsterResponseProto_AttackClanRaidMonsterStatus value);
+
+typedef enum {
+  RecordClanRaidStatsResponseProto_RecordClanRaidStatsStatusSuccess = 1,
+  RecordClanRaidStatsResponseProto_RecordClanRaidStatsStatusFailMonsterAlreadyDead = 2,
+  RecordClanRaidStatsResponseProto_RecordClanRaidStatsStatusFailOther = 3,
+} RecordClanRaidStatsResponseProto_RecordClanRaidStatsStatus;
+
+BOOL RecordClanRaidStatsResponseProto_RecordClanRaidStatsStatusIsValidValue(RecordClanRaidStatsResponseProto_RecordClanRaidStatsStatus value);
 
 
 @interface EventClanRoot : NSObject {
@@ -1041,6 +1131,7 @@ BOOL ChangeClanJoinTypeResponseProto_ChangeClanJoinTypeStatusIsValidValue(Change
   RetrieveClanInfoResponseProto_RetrieveClanInfoStatus status;
   NSMutableArray* mutableMembersList;
   NSMutableArray* mutableClanInfoList;
+  NSMutableArray* mutableMonsterTeamsList;
 }
 - (BOOL) hasSender;
 - (BOOL) hasStatus;
@@ -1060,6 +1151,8 @@ BOOL ChangeClanJoinTypeResponseProto_ChangeClanJoinTypeStatusIsValidValue(Change
 - (MinimumUserProtoForClans*) membersAtIndex:(int32_t) index;
 - (NSArray*) clanInfoList;
 - (FullClanProtoWithClanSize*) clanInfoAtIndex:(int32_t) index;
+- (NSArray*) monsterTeamsList;
+- (UserCurrentMonsterTeamProto*) monsterTeamsAtIndex:(int32_t) index;
 
 + (RetrieveClanInfoResponseProto*) defaultInstance;
 - (RetrieveClanInfoResponseProto*) defaultInstance;
@@ -1145,6 +1238,13 @@ BOOL ChangeClanJoinTypeResponseProto_ChangeClanJoinTypeStatusIsValidValue(Change
 - (int32_t) beforeThisClanId;
 - (RetrieveClanInfoResponseProto_Builder*) setBeforeThisClanId:(int32_t) value;
 - (RetrieveClanInfoResponseProto_Builder*) clearBeforeThisClanId;
+
+- (NSArray*) monsterTeamsList;
+- (UserCurrentMonsterTeamProto*) monsterTeamsAtIndex:(int32_t) index;
+- (RetrieveClanInfoResponseProto_Builder*) replaceMonsterTeamsAtIndex:(int32_t) index with:(UserCurrentMonsterTeamProto*) value;
+- (RetrieveClanInfoResponseProto_Builder*) addMonsterTeams:(UserCurrentMonsterTeamProto*) value;
+- (RetrieveClanInfoResponseProto_Builder*) addAllMonsterTeams:(NSArray*) values;
+- (RetrieveClanInfoResponseProto_Builder*) clearMonsterTeamsList;
 @end
 
 @interface TransferClanOwnershipRequestProto : PBGeneratedMessage {
@@ -1692,5 +1792,529 @@ BOOL ChangeClanJoinTypeResponseProto_ChangeClanJoinTypeStatusIsValidValue(Change
 - (ChangeClanJoinTypeResponseProto_Builder*) setFullClanBuilder:(FullClanProtoWithClanSize_Builder*) builderForValue;
 - (ChangeClanJoinTypeResponseProto_Builder*) mergeFullClan:(FullClanProtoWithClanSize*) value;
 - (ChangeClanJoinTypeResponseProto_Builder*) clearFullClan;
+@end
+
+@interface BeginClanRaidRequestProto : PBGeneratedMessage {
+@private
+  BOOL hasSetMonsterTeamForRaid_:1;
+  BOOL hasIsFirstStage_:1;
+  BOOL hasCurTime_:1;
+  BOOL hasRaidId_:1;
+  BOOL hasClanEventId_:1;
+  BOOL hasSender_:1;
+  BOOL setMonsterTeamForRaid_:1;
+  BOOL isFirstStage_:1;
+  int64_t curTime;
+  int32_t raidId;
+  int32_t clanEventId;
+  MinimumUserProto* sender;
+  NSMutableArray* mutableUserMonstersList;
+}
+- (BOOL) hasSender;
+- (BOOL) hasCurTime;
+- (BOOL) hasRaidId;
+- (BOOL) hasClanEventId;
+- (BOOL) hasSetMonsterTeamForRaid;
+- (BOOL) hasIsFirstStage;
+@property (readonly, retain) MinimumUserProto* sender;
+@property (readonly) int64_t curTime;
+@property (readonly) int32_t raidId;
+@property (readonly) int32_t clanEventId;
+- (BOOL) setMonsterTeamForRaid;
+- (BOOL) isFirstStage;
+- (NSArray*) userMonstersList;
+- (FullUserMonsterProto*) userMonstersAtIndex:(int32_t) index;
+
++ (BeginClanRaidRequestProto*) defaultInstance;
+- (BeginClanRaidRequestProto*) defaultInstance;
+
+- (BOOL) isInitialized;
+- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output;
+- (BeginClanRaidRequestProto_Builder*) builder;
++ (BeginClanRaidRequestProto_Builder*) builder;
++ (BeginClanRaidRequestProto_Builder*) builderWithPrototype:(BeginClanRaidRequestProto*) prototype;
+
++ (BeginClanRaidRequestProto*) parseFromData:(NSData*) data;
++ (BeginClanRaidRequestProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (BeginClanRaidRequestProto*) parseFromInputStream:(NSInputStream*) input;
++ (BeginClanRaidRequestProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (BeginClanRaidRequestProto*) parseFromCodedInputStream:(PBCodedInputStream*) input;
++ (BeginClanRaidRequestProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+@end
+
+@interface BeginClanRaidRequestProto_Builder : PBGeneratedMessage_Builder {
+@private
+  BeginClanRaidRequestProto* result;
+}
+
+- (BeginClanRaidRequestProto*) defaultInstance;
+
+- (BeginClanRaidRequestProto_Builder*) clear;
+- (BeginClanRaidRequestProto_Builder*) clone;
+
+- (BeginClanRaidRequestProto*) build;
+- (BeginClanRaidRequestProto*) buildPartial;
+
+- (BeginClanRaidRequestProto_Builder*) mergeFrom:(BeginClanRaidRequestProto*) other;
+- (BeginClanRaidRequestProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input;
+- (BeginClanRaidRequestProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+
+- (BOOL) hasSender;
+- (MinimumUserProto*) sender;
+- (BeginClanRaidRequestProto_Builder*) setSender:(MinimumUserProto*) value;
+- (BeginClanRaidRequestProto_Builder*) setSenderBuilder:(MinimumUserProto_Builder*) builderForValue;
+- (BeginClanRaidRequestProto_Builder*) mergeSender:(MinimumUserProto*) value;
+- (BeginClanRaidRequestProto_Builder*) clearSender;
+
+- (BOOL) hasCurTime;
+- (int64_t) curTime;
+- (BeginClanRaidRequestProto_Builder*) setCurTime:(int64_t) value;
+- (BeginClanRaidRequestProto_Builder*) clearCurTime;
+
+- (BOOL) hasRaidId;
+- (int32_t) raidId;
+- (BeginClanRaidRequestProto_Builder*) setRaidId:(int32_t) value;
+- (BeginClanRaidRequestProto_Builder*) clearRaidId;
+
+- (BOOL) hasClanEventId;
+- (int32_t) clanEventId;
+- (BeginClanRaidRequestProto_Builder*) setClanEventId:(int32_t) value;
+- (BeginClanRaidRequestProto_Builder*) clearClanEventId;
+
+- (BOOL) hasSetMonsterTeamForRaid;
+- (BOOL) setMonsterTeamForRaid;
+- (BeginClanRaidRequestProto_Builder*) setSetMonsterTeamForRaid:(BOOL) value;
+- (BeginClanRaidRequestProto_Builder*) clearSetMonsterTeamForRaid;
+
+- (NSArray*) userMonstersList;
+- (FullUserMonsterProto*) userMonstersAtIndex:(int32_t) index;
+- (BeginClanRaidRequestProto_Builder*) replaceUserMonstersAtIndex:(int32_t) index with:(FullUserMonsterProto*) value;
+- (BeginClanRaidRequestProto_Builder*) addUserMonsters:(FullUserMonsterProto*) value;
+- (BeginClanRaidRequestProto_Builder*) addAllUserMonsters:(NSArray*) values;
+- (BeginClanRaidRequestProto_Builder*) clearUserMonstersList;
+
+- (BOOL) hasIsFirstStage;
+- (BOOL) isFirstStage;
+- (BeginClanRaidRequestProto_Builder*) setIsFirstStage:(BOOL) value;
+- (BeginClanRaidRequestProto_Builder*) clearIsFirstStage;
+@end
+
+@interface BeginClanRaidResponseProto : PBGeneratedMessage {
+@private
+  BOOL hasSender_:1;
+  BOOL hasEventDetails_:1;
+  BOOL hasUserDetails_:1;
+  BOOL hasStatus_:1;
+  MinimumUserProto* sender;
+  PersistentClanEventClanInfoProto* eventDetails;
+  PersistentClanEventUserInfoProto* userDetails;
+  BeginClanRaidResponseProto_BeginClanRaidStatus status;
+}
+- (BOOL) hasSender;
+- (BOOL) hasEventDetails;
+- (BOOL) hasStatus;
+- (BOOL) hasUserDetails;
+@property (readonly, retain) MinimumUserProto* sender;
+@property (readonly, retain) PersistentClanEventClanInfoProto* eventDetails;
+@property (readonly) BeginClanRaidResponseProto_BeginClanRaidStatus status;
+@property (readonly, retain) PersistentClanEventUserInfoProto* userDetails;
+
++ (BeginClanRaidResponseProto*) defaultInstance;
+- (BeginClanRaidResponseProto*) defaultInstance;
+
+- (BOOL) isInitialized;
+- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output;
+- (BeginClanRaidResponseProto_Builder*) builder;
++ (BeginClanRaidResponseProto_Builder*) builder;
++ (BeginClanRaidResponseProto_Builder*) builderWithPrototype:(BeginClanRaidResponseProto*) prototype;
+
++ (BeginClanRaidResponseProto*) parseFromData:(NSData*) data;
++ (BeginClanRaidResponseProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (BeginClanRaidResponseProto*) parseFromInputStream:(NSInputStream*) input;
++ (BeginClanRaidResponseProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (BeginClanRaidResponseProto*) parseFromCodedInputStream:(PBCodedInputStream*) input;
++ (BeginClanRaidResponseProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+@end
+
+@interface BeginClanRaidResponseProto_Builder : PBGeneratedMessage_Builder {
+@private
+  BeginClanRaidResponseProto* result;
+}
+
+- (BeginClanRaidResponseProto*) defaultInstance;
+
+- (BeginClanRaidResponseProto_Builder*) clear;
+- (BeginClanRaidResponseProto_Builder*) clone;
+
+- (BeginClanRaidResponseProto*) build;
+- (BeginClanRaidResponseProto*) buildPartial;
+
+- (BeginClanRaidResponseProto_Builder*) mergeFrom:(BeginClanRaidResponseProto*) other;
+- (BeginClanRaidResponseProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input;
+- (BeginClanRaidResponseProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+
+- (BOOL) hasSender;
+- (MinimumUserProto*) sender;
+- (BeginClanRaidResponseProto_Builder*) setSender:(MinimumUserProto*) value;
+- (BeginClanRaidResponseProto_Builder*) setSenderBuilder:(MinimumUserProto_Builder*) builderForValue;
+- (BeginClanRaidResponseProto_Builder*) mergeSender:(MinimumUserProto*) value;
+- (BeginClanRaidResponseProto_Builder*) clearSender;
+
+- (BOOL) hasEventDetails;
+- (PersistentClanEventClanInfoProto*) eventDetails;
+- (BeginClanRaidResponseProto_Builder*) setEventDetails:(PersistentClanEventClanInfoProto*) value;
+- (BeginClanRaidResponseProto_Builder*) setEventDetailsBuilder:(PersistentClanEventClanInfoProto_Builder*) builderForValue;
+- (BeginClanRaidResponseProto_Builder*) mergeEventDetails:(PersistentClanEventClanInfoProto*) value;
+- (BeginClanRaidResponseProto_Builder*) clearEventDetails;
+
+- (BOOL) hasStatus;
+- (BeginClanRaidResponseProto_BeginClanRaidStatus) status;
+- (BeginClanRaidResponseProto_Builder*) setStatus:(BeginClanRaidResponseProto_BeginClanRaidStatus) value;
+- (BeginClanRaidResponseProto_Builder*) clearStatus;
+
+- (BOOL) hasUserDetails;
+- (PersistentClanEventUserInfoProto*) userDetails;
+- (BeginClanRaidResponseProto_Builder*) setUserDetails:(PersistentClanEventUserInfoProto*) value;
+- (BeginClanRaidResponseProto_Builder*) setUserDetailsBuilder:(PersistentClanEventUserInfoProto_Builder*) builderForValue;
+- (BeginClanRaidResponseProto_Builder*) mergeUserDetails:(PersistentClanEventUserInfoProto*) value;
+- (BeginClanRaidResponseProto_Builder*) clearUserDetails;
+@end
+
+@interface AttackClanRaidMonsterRequestProto : PBGeneratedMessage {
+@private
+  BOOL hasClientTime_:1;
+  BOOL hasDamageDealt_:1;
+  BOOL hasSender_:1;
+  BOOL hasEventDetails_:1;
+  BOOL hasUserMonsterThatAttacked_:1;
+  BOOL hasUserMonsterTeam_:1;
+  int64_t clientTime;
+  int32_t damageDealt;
+  MinimumUserProto* sender;
+  PersistentClanEventClanInfoProto* eventDetails;
+  FullUserMonsterProto* userMonsterThatAttacked;
+  UserCurrentMonsterTeamProto* userMonsterTeam;
+  NSMutableArray* mutableMonsterHealthsList;
+}
+- (BOOL) hasSender;
+- (BOOL) hasEventDetails;
+- (BOOL) hasClientTime;
+- (BOOL) hasDamageDealt;
+- (BOOL) hasUserMonsterThatAttacked;
+- (BOOL) hasUserMonsterTeam;
+@property (readonly, retain) MinimumUserProto* sender;
+@property (readonly, retain) PersistentClanEventClanInfoProto* eventDetails;
+@property (readonly) int64_t clientTime;
+@property (readonly) int32_t damageDealt;
+@property (readonly, retain) FullUserMonsterProto* userMonsterThatAttacked;
+@property (readonly, retain) UserCurrentMonsterTeamProto* userMonsterTeam;
+- (NSArray*) monsterHealthsList;
+- (UserMonsterCurrentHealthProto*) monsterHealthsAtIndex:(int32_t) index;
+
++ (AttackClanRaidMonsterRequestProto*) defaultInstance;
+- (AttackClanRaidMonsterRequestProto*) defaultInstance;
+
+- (BOOL) isInitialized;
+- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output;
+- (AttackClanRaidMonsterRequestProto_Builder*) builder;
++ (AttackClanRaidMonsterRequestProto_Builder*) builder;
++ (AttackClanRaidMonsterRequestProto_Builder*) builderWithPrototype:(AttackClanRaidMonsterRequestProto*) prototype;
+
++ (AttackClanRaidMonsterRequestProto*) parseFromData:(NSData*) data;
++ (AttackClanRaidMonsterRequestProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (AttackClanRaidMonsterRequestProto*) parseFromInputStream:(NSInputStream*) input;
++ (AttackClanRaidMonsterRequestProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (AttackClanRaidMonsterRequestProto*) parseFromCodedInputStream:(PBCodedInputStream*) input;
++ (AttackClanRaidMonsterRequestProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+@end
+
+@interface AttackClanRaidMonsterRequestProto_Builder : PBGeneratedMessage_Builder {
+@private
+  AttackClanRaidMonsterRequestProto* result;
+}
+
+- (AttackClanRaidMonsterRequestProto*) defaultInstance;
+
+- (AttackClanRaidMonsterRequestProto_Builder*) clear;
+- (AttackClanRaidMonsterRequestProto_Builder*) clone;
+
+- (AttackClanRaidMonsterRequestProto*) build;
+- (AttackClanRaidMonsterRequestProto*) buildPartial;
+
+- (AttackClanRaidMonsterRequestProto_Builder*) mergeFrom:(AttackClanRaidMonsterRequestProto*) other;
+- (AttackClanRaidMonsterRequestProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input;
+- (AttackClanRaidMonsterRequestProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+
+- (BOOL) hasSender;
+- (MinimumUserProto*) sender;
+- (AttackClanRaidMonsterRequestProto_Builder*) setSender:(MinimumUserProto*) value;
+- (AttackClanRaidMonsterRequestProto_Builder*) setSenderBuilder:(MinimumUserProto_Builder*) builderForValue;
+- (AttackClanRaidMonsterRequestProto_Builder*) mergeSender:(MinimumUserProto*) value;
+- (AttackClanRaidMonsterRequestProto_Builder*) clearSender;
+
+- (BOOL) hasEventDetails;
+- (PersistentClanEventClanInfoProto*) eventDetails;
+- (AttackClanRaidMonsterRequestProto_Builder*) setEventDetails:(PersistentClanEventClanInfoProto*) value;
+- (AttackClanRaidMonsterRequestProto_Builder*) setEventDetailsBuilder:(PersistentClanEventClanInfoProto_Builder*) builderForValue;
+- (AttackClanRaidMonsterRequestProto_Builder*) mergeEventDetails:(PersistentClanEventClanInfoProto*) value;
+- (AttackClanRaidMonsterRequestProto_Builder*) clearEventDetails;
+
+- (BOOL) hasClientTime;
+- (int64_t) clientTime;
+- (AttackClanRaidMonsterRequestProto_Builder*) setClientTime:(int64_t) value;
+- (AttackClanRaidMonsterRequestProto_Builder*) clearClientTime;
+
+- (BOOL) hasDamageDealt;
+- (int32_t) damageDealt;
+- (AttackClanRaidMonsterRequestProto_Builder*) setDamageDealt:(int32_t) value;
+- (AttackClanRaidMonsterRequestProto_Builder*) clearDamageDealt;
+
+- (NSArray*) monsterHealthsList;
+- (UserMonsterCurrentHealthProto*) monsterHealthsAtIndex:(int32_t) index;
+- (AttackClanRaidMonsterRequestProto_Builder*) replaceMonsterHealthsAtIndex:(int32_t) index with:(UserMonsterCurrentHealthProto*) value;
+- (AttackClanRaidMonsterRequestProto_Builder*) addMonsterHealths:(UserMonsterCurrentHealthProto*) value;
+- (AttackClanRaidMonsterRequestProto_Builder*) addAllMonsterHealths:(NSArray*) values;
+- (AttackClanRaidMonsterRequestProto_Builder*) clearMonsterHealthsList;
+
+- (BOOL) hasUserMonsterThatAttacked;
+- (FullUserMonsterProto*) userMonsterThatAttacked;
+- (AttackClanRaidMonsterRequestProto_Builder*) setUserMonsterThatAttacked:(FullUserMonsterProto*) value;
+- (AttackClanRaidMonsterRequestProto_Builder*) setUserMonsterThatAttackedBuilder:(FullUserMonsterProto_Builder*) builderForValue;
+- (AttackClanRaidMonsterRequestProto_Builder*) mergeUserMonsterThatAttacked:(FullUserMonsterProto*) value;
+- (AttackClanRaidMonsterRequestProto_Builder*) clearUserMonsterThatAttacked;
+
+- (BOOL) hasUserMonsterTeam;
+- (UserCurrentMonsterTeamProto*) userMonsterTeam;
+- (AttackClanRaidMonsterRequestProto_Builder*) setUserMonsterTeam:(UserCurrentMonsterTeamProto*) value;
+- (AttackClanRaidMonsterRequestProto_Builder*) setUserMonsterTeamBuilder:(UserCurrentMonsterTeamProto_Builder*) builderForValue;
+- (AttackClanRaidMonsterRequestProto_Builder*) mergeUserMonsterTeam:(UserCurrentMonsterTeamProto*) value;
+- (AttackClanRaidMonsterRequestProto_Builder*) clearUserMonsterTeam;
+@end
+
+@interface AttackClanRaidMonsterResponseProto : PBGeneratedMessage {
+@private
+  BOOL hasDmgDealt_:1;
+  BOOL hasSender_:1;
+  BOOL hasEventDetails_:1;
+  BOOL hasUserMonsterThatAttacked_:1;
+  BOOL hasStatus_:1;
+  int32_t dmgDealt;
+  MinimumUserProto* sender;
+  PersistentClanEventClanInfoProto* eventDetails;
+  FullUserMonsterProto* userMonsterThatAttacked;
+  AttackClanRaidMonsterResponseProto_AttackClanRaidMonsterStatus status;
+  NSMutableArray* mutableClanUsersDetailsList;
+}
+- (BOOL) hasSender;
+- (BOOL) hasDmgDealt;
+- (BOOL) hasEventDetails;
+- (BOOL) hasUserMonsterThatAttacked;
+- (BOOL) hasStatus;
+@property (readonly, retain) MinimumUserProto* sender;
+@property (readonly) int32_t dmgDealt;
+@property (readonly, retain) PersistentClanEventClanInfoProto* eventDetails;
+@property (readonly, retain) FullUserMonsterProto* userMonsterThatAttacked;
+@property (readonly) AttackClanRaidMonsterResponseProto_AttackClanRaidMonsterStatus status;
+- (NSArray*) clanUsersDetailsList;
+- (PersistentClanEventUserInfoProto*) clanUsersDetailsAtIndex:(int32_t) index;
+
++ (AttackClanRaidMonsterResponseProto*) defaultInstance;
+- (AttackClanRaidMonsterResponseProto*) defaultInstance;
+
+- (BOOL) isInitialized;
+- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output;
+- (AttackClanRaidMonsterResponseProto_Builder*) builder;
++ (AttackClanRaidMonsterResponseProto_Builder*) builder;
++ (AttackClanRaidMonsterResponseProto_Builder*) builderWithPrototype:(AttackClanRaidMonsterResponseProto*) prototype;
+
++ (AttackClanRaidMonsterResponseProto*) parseFromData:(NSData*) data;
++ (AttackClanRaidMonsterResponseProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (AttackClanRaidMonsterResponseProto*) parseFromInputStream:(NSInputStream*) input;
++ (AttackClanRaidMonsterResponseProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (AttackClanRaidMonsterResponseProto*) parseFromCodedInputStream:(PBCodedInputStream*) input;
++ (AttackClanRaidMonsterResponseProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+@end
+
+@interface AttackClanRaidMonsterResponseProto_Builder : PBGeneratedMessage_Builder {
+@private
+  AttackClanRaidMonsterResponseProto* result;
+}
+
+- (AttackClanRaidMonsterResponseProto*) defaultInstance;
+
+- (AttackClanRaidMonsterResponseProto_Builder*) clear;
+- (AttackClanRaidMonsterResponseProto_Builder*) clone;
+
+- (AttackClanRaidMonsterResponseProto*) build;
+- (AttackClanRaidMonsterResponseProto*) buildPartial;
+
+- (AttackClanRaidMonsterResponseProto_Builder*) mergeFrom:(AttackClanRaidMonsterResponseProto*) other;
+- (AttackClanRaidMonsterResponseProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input;
+- (AttackClanRaidMonsterResponseProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+
+- (BOOL) hasSender;
+- (MinimumUserProto*) sender;
+- (AttackClanRaidMonsterResponseProto_Builder*) setSender:(MinimumUserProto*) value;
+- (AttackClanRaidMonsterResponseProto_Builder*) setSenderBuilder:(MinimumUserProto_Builder*) builderForValue;
+- (AttackClanRaidMonsterResponseProto_Builder*) mergeSender:(MinimumUserProto*) value;
+- (AttackClanRaidMonsterResponseProto_Builder*) clearSender;
+
+- (BOOL) hasDmgDealt;
+- (int32_t) dmgDealt;
+- (AttackClanRaidMonsterResponseProto_Builder*) setDmgDealt:(int32_t) value;
+- (AttackClanRaidMonsterResponseProto_Builder*) clearDmgDealt;
+
+- (BOOL) hasEventDetails;
+- (PersistentClanEventClanInfoProto*) eventDetails;
+- (AttackClanRaidMonsterResponseProto_Builder*) setEventDetails:(PersistentClanEventClanInfoProto*) value;
+- (AttackClanRaidMonsterResponseProto_Builder*) setEventDetailsBuilder:(PersistentClanEventClanInfoProto_Builder*) builderForValue;
+- (AttackClanRaidMonsterResponseProto_Builder*) mergeEventDetails:(PersistentClanEventClanInfoProto*) value;
+- (AttackClanRaidMonsterResponseProto_Builder*) clearEventDetails;
+
+- (NSArray*) clanUsersDetailsList;
+- (PersistentClanEventUserInfoProto*) clanUsersDetailsAtIndex:(int32_t) index;
+- (AttackClanRaidMonsterResponseProto_Builder*) replaceClanUsersDetailsAtIndex:(int32_t) index with:(PersistentClanEventUserInfoProto*) value;
+- (AttackClanRaidMonsterResponseProto_Builder*) addClanUsersDetails:(PersistentClanEventUserInfoProto*) value;
+- (AttackClanRaidMonsterResponseProto_Builder*) addAllClanUsersDetails:(NSArray*) values;
+- (AttackClanRaidMonsterResponseProto_Builder*) clearClanUsersDetailsList;
+
+- (BOOL) hasUserMonsterThatAttacked;
+- (FullUserMonsterProto*) userMonsterThatAttacked;
+- (AttackClanRaidMonsterResponseProto_Builder*) setUserMonsterThatAttacked:(FullUserMonsterProto*) value;
+- (AttackClanRaidMonsterResponseProto_Builder*) setUserMonsterThatAttackedBuilder:(FullUserMonsterProto_Builder*) builderForValue;
+- (AttackClanRaidMonsterResponseProto_Builder*) mergeUserMonsterThatAttacked:(FullUserMonsterProto*) value;
+- (AttackClanRaidMonsterResponseProto_Builder*) clearUserMonsterThatAttacked;
+
+- (BOOL) hasStatus;
+- (AttackClanRaidMonsterResponseProto_AttackClanRaidMonsterStatus) status;
+- (AttackClanRaidMonsterResponseProto_Builder*) setStatus:(AttackClanRaidMonsterResponseProto_AttackClanRaidMonsterStatus) value;
+- (AttackClanRaidMonsterResponseProto_Builder*) clearStatus;
+@end
+
+@interface RecordClanRaidStatsRequestProto : PBGeneratedMessage {
+@private
+  BOOL hasClientTime_:1;
+  BOOL hasClanId_:1;
+  BOOL hasSender_:1;
+  int64_t clientTime;
+  int32_t clanId;
+  MinimumUserProto* sender;
+}
+- (BOOL) hasSender;
+- (BOOL) hasClanId;
+- (BOOL) hasClientTime;
+@property (readonly, retain) MinimumUserProto* sender;
+@property (readonly) int32_t clanId;
+@property (readonly) int64_t clientTime;
+
++ (RecordClanRaidStatsRequestProto*) defaultInstance;
+- (RecordClanRaidStatsRequestProto*) defaultInstance;
+
+- (BOOL) isInitialized;
+- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output;
+- (RecordClanRaidStatsRequestProto_Builder*) builder;
++ (RecordClanRaidStatsRequestProto_Builder*) builder;
++ (RecordClanRaidStatsRequestProto_Builder*) builderWithPrototype:(RecordClanRaidStatsRequestProto*) prototype;
+
++ (RecordClanRaidStatsRequestProto*) parseFromData:(NSData*) data;
++ (RecordClanRaidStatsRequestProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (RecordClanRaidStatsRequestProto*) parseFromInputStream:(NSInputStream*) input;
++ (RecordClanRaidStatsRequestProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (RecordClanRaidStatsRequestProto*) parseFromCodedInputStream:(PBCodedInputStream*) input;
++ (RecordClanRaidStatsRequestProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+@end
+
+@interface RecordClanRaidStatsRequestProto_Builder : PBGeneratedMessage_Builder {
+@private
+  RecordClanRaidStatsRequestProto* result;
+}
+
+- (RecordClanRaidStatsRequestProto*) defaultInstance;
+
+- (RecordClanRaidStatsRequestProto_Builder*) clear;
+- (RecordClanRaidStatsRequestProto_Builder*) clone;
+
+- (RecordClanRaidStatsRequestProto*) build;
+- (RecordClanRaidStatsRequestProto*) buildPartial;
+
+- (RecordClanRaidStatsRequestProto_Builder*) mergeFrom:(RecordClanRaidStatsRequestProto*) other;
+- (RecordClanRaidStatsRequestProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input;
+- (RecordClanRaidStatsRequestProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+
+- (BOOL) hasSender;
+- (MinimumUserProto*) sender;
+- (RecordClanRaidStatsRequestProto_Builder*) setSender:(MinimumUserProto*) value;
+- (RecordClanRaidStatsRequestProto_Builder*) setSenderBuilder:(MinimumUserProto_Builder*) builderForValue;
+- (RecordClanRaidStatsRequestProto_Builder*) mergeSender:(MinimumUserProto*) value;
+- (RecordClanRaidStatsRequestProto_Builder*) clearSender;
+
+- (BOOL) hasClanId;
+- (int32_t) clanId;
+- (RecordClanRaidStatsRequestProto_Builder*) setClanId:(int32_t) value;
+- (RecordClanRaidStatsRequestProto_Builder*) clearClanId;
+
+- (BOOL) hasClientTime;
+- (int64_t) clientTime;
+- (RecordClanRaidStatsRequestProto_Builder*) setClientTime:(int64_t) value;
+- (RecordClanRaidStatsRequestProto_Builder*) clearClientTime;
+@end
+
+@interface RecordClanRaidStatsResponseProto : PBGeneratedMessage {
+@private
+  BOOL hasSender_:1;
+  BOOL hasStatus_:1;
+  MinimumUserProto* sender;
+  RecordClanRaidStatsResponseProto_RecordClanRaidStatsStatus status;
+}
+- (BOOL) hasSender;
+- (BOOL) hasStatus;
+@property (readonly, retain) MinimumUserProto* sender;
+@property (readonly) RecordClanRaidStatsResponseProto_RecordClanRaidStatsStatus status;
+
++ (RecordClanRaidStatsResponseProto*) defaultInstance;
+- (RecordClanRaidStatsResponseProto*) defaultInstance;
+
+- (BOOL) isInitialized;
+- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output;
+- (RecordClanRaidStatsResponseProto_Builder*) builder;
++ (RecordClanRaidStatsResponseProto_Builder*) builder;
++ (RecordClanRaidStatsResponseProto_Builder*) builderWithPrototype:(RecordClanRaidStatsResponseProto*) prototype;
+
++ (RecordClanRaidStatsResponseProto*) parseFromData:(NSData*) data;
++ (RecordClanRaidStatsResponseProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (RecordClanRaidStatsResponseProto*) parseFromInputStream:(NSInputStream*) input;
++ (RecordClanRaidStatsResponseProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (RecordClanRaidStatsResponseProto*) parseFromCodedInputStream:(PBCodedInputStream*) input;
++ (RecordClanRaidStatsResponseProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+@end
+
+@interface RecordClanRaidStatsResponseProto_Builder : PBGeneratedMessage_Builder {
+@private
+  RecordClanRaidStatsResponseProto* result;
+}
+
+- (RecordClanRaidStatsResponseProto*) defaultInstance;
+
+- (RecordClanRaidStatsResponseProto_Builder*) clear;
+- (RecordClanRaidStatsResponseProto_Builder*) clone;
+
+- (RecordClanRaidStatsResponseProto*) build;
+- (RecordClanRaidStatsResponseProto*) buildPartial;
+
+- (RecordClanRaidStatsResponseProto_Builder*) mergeFrom:(RecordClanRaidStatsResponseProto*) other;
+- (RecordClanRaidStatsResponseProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input;
+- (RecordClanRaidStatsResponseProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+
+- (BOOL) hasSender;
+- (MinimumUserProto*) sender;
+- (RecordClanRaidStatsResponseProto_Builder*) setSender:(MinimumUserProto*) value;
+- (RecordClanRaidStatsResponseProto_Builder*) setSenderBuilder:(MinimumUserProto_Builder*) builderForValue;
+- (RecordClanRaidStatsResponseProto_Builder*) mergeSender:(MinimumUserProto*) value;
+- (RecordClanRaidStatsResponseProto_Builder*) clearSender;
+
+- (BOOL) hasStatus;
+- (RecordClanRaidStatsResponseProto_RecordClanRaidStatsStatus) status;
+- (RecordClanRaidStatsResponseProto_Builder*) setStatus:(RecordClanRaidStatsResponseProto_RecordClanRaidStatsStatus) value;
+- (RecordClanRaidStatsResponseProto_Builder*) clearStatus;
 @end
 

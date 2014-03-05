@@ -9,6 +9,7 @@
 #import <Foundation/Foundation.h>
 #import "UserData.h"
 #import "OrbLayer.h"
+#import "Protocols.pb.h"
 
 @interface BattlePlayer : NSObject
 
@@ -17,6 +18,7 @@
 
 @property (nonatomic, retain) NSString *name;
 @property (nonatomic, retain) NSString *spritePrefix;
+@property (nonatomic, assign) MonsterProto_AnimationType animationType;
 
 @property (nonatomic, assign) MonsterProto_MonsterElement element;
 
@@ -25,14 +27,20 @@
 @property (nonatomic, assign) int earthDamage;
 @property (nonatomic, assign) int lightDamage;
 @property (nonatomic, assign) int nightDamage;
+@property (nonatomic, assign) int rockDamage;
+
+@property (nonatomic, assign) int minDamage;
+@property (nonatomic, assign) int maxDamage;
+@property (nonatomic, assign) float damageRandomnessFactor;
 
 @property (nonatomic, assign) int userMonsterId;
 @property (nonatomic, assign) int slotNum;
 
 + (id) playerWithMonster:(UserMonster *)monster;
-- (id) initWithMonster:(UserMonster *)monster;
++ (id) playerWithClanRaidStageMonster:(ClanRaidStageMonsterProto *)monster curHealth:(int)curHealth;
 
 - (int) damageForColor:(GemColorId)color;
 - (int) totalAttackPower;
+- (int) randomDamage;
 
 @end

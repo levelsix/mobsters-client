@@ -41,6 +41,7 @@ static PBExtensionRegistry* extensionRegistry = nil;
 @property (retain) NSString* description;
 @property (retain) NSMutableArray* mutableLvlInfoList;
 @property int32_t evolutionCost;
+@property MonsterProto_AnimationType attackAnimationType;
 @end
 
 @implementation MonsterProto
@@ -186,6 +187,13 @@ static PBExtensionRegistry* extensionRegistry = nil;
   hasEvolutionCost_ = !!value;
 }
 @synthesize evolutionCost;
+- (BOOL) hasAttackAnimationType {
+  return !!hasAttackAnimationType_;
+}
+- (void) setHasAttackAnimationType:(BOOL) value {
+  hasAttackAnimationType_ = !!value;
+}
+@synthesize attackAnimationType;
 - (void) dealloc {
   self.name = nil;
   self.monsterGroup = nil;
@@ -220,6 +228,7 @@ static PBExtensionRegistry* extensionRegistry = nil;
     self.carrotEvolved = @"";
     self.description = @"";
     self.evolutionCost = 0;
+    self.attackAnimationType = MonsterProto_AnimationTypeMelee;
   }
   return self;
 }
@@ -309,6 +318,9 @@ static MonsterProto* defaultMonsterProtoInstance = nil;
   if (self.hasEvolutionCost) {
     [output writeInt32:21 value:self.evolutionCost];
   }
+  if (self.hasAttackAnimationType) {
+    [output writeEnum:22 value:self.attackAnimationType];
+  }
   [self.unknownFields writeToCodedOutputStream:output];
 }
 - (int32_t) serializedSize {
@@ -381,6 +393,9 @@ static MonsterProto* defaultMonsterProtoInstance = nil;
   if (self.hasEvolutionCost) {
     size += computeInt32Size(21, self.evolutionCost);
   }
+  if (self.hasAttackAnimationType) {
+    size += computeEnumSize(22, self.attackAnimationType);
+  }
   size += self.unknownFields.serializedSize;
   memoizedSerializedSize = size;
   return size;
@@ -435,6 +450,15 @@ BOOL MonsterProto_MonsterElementIsValidValue(MonsterProto_MonsterElement value) 
     case MonsterProto_MonsterElementLightning:
     case MonsterProto_MonsterElementDarkness:
     case MonsterProto_MonsterElementRock:
+      return YES;
+    default:
+      return NO;
+  }
+}
+BOOL MonsterProto_AnimationTypeIsValidValue(MonsterProto_AnimationType value) {
+  switch (value) {
+    case MonsterProto_AnimationTypeMelee:
+    case MonsterProto_AnimationTypeRanged:
       return YES;
     default:
       return NO;
@@ -547,6 +571,9 @@ BOOL MonsterProto_MonsterElementIsValidValue(MonsterProto_MonsterElement value) 
   }
   if (other.hasEvolutionCost) {
     [self setEvolutionCost:other.evolutionCost];
+  }
+  if (other.hasAttackAnimationType) {
+    [self setAttackAnimationType:other.attackAnimationType];
   }
   [self mergeUnknownFields:other.unknownFields];
   return self;
@@ -663,6 +690,15 @@ BOOL MonsterProto_MonsterElementIsValidValue(MonsterProto_MonsterElement value) 
       }
       case 168: {
         [self setEvolutionCost:[input readInt32]];
+        break;
+      }
+      case 176: {
+        int32_t value = [input readEnum];
+        if (MonsterProto_AnimationTypeIsValidValue(value)) {
+          [self setAttackAnimationType:value];
+        } else {
+          [unknownFields mergeVarintField:22 value:value];
+        }
         break;
       }
     }
@@ -1015,6 +1051,22 @@ BOOL MonsterProto_MonsterElementIsValidValue(MonsterProto_MonsterElement value) 
 - (MonsterProto_Builder*) clearEvolutionCost {
   result.hasEvolutionCost = NO;
   result.evolutionCost = 0;
+  return self;
+}
+- (BOOL) hasAttackAnimationType {
+  return result.hasAttackAnimationType;
+}
+- (MonsterProto_AnimationType) attackAnimationType {
+  return result.attackAnimationType;
+}
+- (MonsterProto_Builder*) setAttackAnimationType:(MonsterProto_AnimationType) value {
+  result.hasAttackAnimationType = YES;
+  result.attackAnimationType = value;
+  return self;
+}
+- (MonsterProto_Builder*) clearAttackAnimationType {
+  result.hasAttackAnimationType = NO;
+  result.attackAnimationType = MonsterProto_AnimationTypeMelee;
   return self;
 }
 @end

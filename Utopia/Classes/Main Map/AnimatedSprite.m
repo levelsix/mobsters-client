@@ -88,13 +88,17 @@
   return _walkActionF;
 }
 
-- (void) restoreStandingFrame:(BOOL)facingLeft {
+- (void) restoreStandingFrame {
+  [self restoreStandingFrame:MapDirectionNearRight];
+}
+
+- (void) restoreStandingFrame:(MapDirection)direction {
   [self stopWalking];
-  [self walkActionN];
-  CCSpriteFrame *frame = [[CCSpriteFrameCache sharedSpriteFrameCache] spriteFrameByName:[NSString stringWithFormat:@"%@RunN00.png", self.prefix]];
+  [[CCSpriteFrameCache sharedSpriteFrameCache] addSpriteFramesWithFile:[NSString stringWithFormat:@"%@AttackNF.plist", self.prefix]];
+  CCSpriteFrame *frame = [[CCSpriteFrameCache sharedSpriteFrameCache] spriteFrameByName:[NSString stringWithFormat:@"%@Attack%@00.png", self.prefix, (direction == MapDirectionFarRight || direction == MapDirectionFarLeft) ? @"F" : @"N"]];
   [self.sprite setSpriteFrame:frame];
   
-  self.sprite.flipX = facingLeft;
+  self.sprite.flipX = (direction == MapDirectionFarRight || direction == MapDirectionNearRight);
 }
 
 - (void) setColor:(CCColor *)color {
@@ -129,15 +133,18 @@
 - (void) walk {
   [self stopWalking];
   if (self.prefix) {
+    _shouldWalk = YES;
     [Globals downloadAllFilesForSpritePrefixes:[NSArray arrayWithObject:self.prefix] completion:^{
-      [self walkAfterCheck];
+      if (_shouldWalk) {
+        [self walkAfterCheck];
+      }
     }];
   }
 }
 
 - (void) walkAfterCheck {
-  if (!_map) {
-    [self restoreStandingFrame:NO];
+  if (!_map || !_shouldWalk) {
+    [self restoreStandingFrame];
     return;
   }
   
@@ -150,11 +157,31 @@
     _oldMapPos = r.origin;
     [self walkAfterCheck];
   } else {
-    [self walkToTileCoord:pt withSelector:@selector(walkAfterCheck) speedMultiplier:1.f];
+    [self walkToTileCoord:pt completionTarget:self selector:@selector(walkAfterCheck) speedMultiplier:1.f];
   }
 }
 
-- (void) walkToTileCoord:(CGPoint)tileCoord withSelector:(SEL)completion speedMultiplier:(float)speedMultiplier {
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Warc-performSelector-leaks"
+- (void) walkToTileCoord:(CGPoint)tileCoord completionTarget:(id)target selector:(SEL)completion speedMultiplier:(float)speedMultiplier {
+  [self walkToTileCoord:tileCoord completion:^{
+    [target performSelector:completion withObject:self];
+  } speedMultiplier:speedMultiplier];
+}
+
+- (void) walkToTileCoords:(NSArray *)tileCoords completionTarget:(id)target selector:(SEL)completion speedMultiplier:(float)speedMultiplier {
+  if (tileCoords.count > 0) {
+    CGPoint tileCoord = [tileCoords[0] CGPointValue];
+    [self walkToTileCoord:tileCoord completion:^{
+      [self walkToTileCoords:[tileCoords subarrayWithRange:NSMakeRange(1, tileCoords.count-1)] completionTarget:target selector:completion speedMultiplier:speedMultiplier];
+    } speedMultiplier:speedMultiplier];
+  } else {
+    [target performSelector:completion withObject:self];
+  }
+}
+#pragma clang diagnostic pop
+
+- (void) walkToTileCoord:(CGPoint)tileCoord completion:(void (^)(void))completion speedMultiplier:(float)speedMultiplier {
   _oldMapPos = self.location.origin;
   
   CGRect r = self.location;
@@ -192,18 +219,24 @@
   
   CCAction *a = [CCActionSequence actions:
                  [MoveToLocation actionWithDuration:diff/WALKING_SPEED/speedMultiplier location:r],
-                 [CCActionCallFunc actionWithTarget:self selector:completion],
-                 nil
-                 ];
+                 [CCActionCallBlock actionWithBlock:completion],
+                 nil];
   a.tag = 10;
   [self stopActionByTag:10];
   [self runAction:a];
+}
+
+- (void) jumpNumTimes:(int)numTimes completionTarget:(id)target selector:(SEL)completion {
+  CCActionJumpBy *jump = [CCActionJumpBy actionWithDuration:0.25*numTimes position:ccp(0,0) height:14 jumps:numTimes];
+  [self.sprite runAction:[CCActionSequence actions:jump,
+                   [CCActionCallFunc actionWithTarget:target selector:completion], nil]];
 }
 
 - (void) stopWalking {
   [self.sprite stopAllActions];
   [self stopAllActions];
   _curAction = nil;
+  _shouldWalk = NO;
 }
 
 @end

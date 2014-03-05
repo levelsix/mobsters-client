@@ -7,8 +7,9 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "NibUtils.h"
 
-@interface TimingFunctionTableView : UITableView
+@interface TimingFunctionTableView : CancellableTableView
 
 @property (nonatomic, assign) CGSize repeatSize;
 @property (nonatomic, assign) UIView *headerUnderlay;

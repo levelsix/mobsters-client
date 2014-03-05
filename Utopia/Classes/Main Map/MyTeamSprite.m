@@ -51,11 +51,13 @@
 
 #pragma mark - A* algorithm stuff
 
-- (void) moveToward:(CGPoint)target withCompletionSelector:(SEL)comp {
-  if (![_map isTileCoordWalkable:target]) {
+- (void) moveToward:(CGPoint)point speedMultiplier:(float)speed completionTarget:(id)target selector:(SEL)comp {
+  if (![_map isTileCoordWalkable:point]) {
     return;
   }
   
+  _speedMultiplier = speed;
+  _destinationTarget = target;
   _destinationSelector = comp;
   
   [self stopWalking];
@@ -63,7 +65,7 @@
   CGPoint fromTileCoord = self.location.origin;
   fromTileCoord.x = roundf(fromTileCoord.x);
   fromTileCoord.y = roundf(fromTileCoord.y);
-  CGPoint toTileCoord = target;
+  CGPoint toTileCoord = point;
   
   self.spOpenSteps = [[NSMutableArray alloc] init];
   self.spClosedSteps = [[NSMutableArray alloc] init];
@@ -148,7 +150,7 @@
   } while ([self.spOpenSteps count] > 0);
   
   if (!self.shortestPath) {
-    [self performSelector:_destinationSelector];
+    [_destinationTarget performSelector:_destinationSelector];
   }
 }
 
@@ -171,14 +173,14 @@
 	// Check if there remains path steps to go through
 	if ([self.shortestPath count] == 0) {
 		self.shortestPath = nil;
-    [self performSelector:_destinationSelector];
+    [_destinationTarget performSelector:_destinationSelector];
 		return;
 	}
   
 	// Get the next step to move to
 	ShortestPathStep *s = [self.shortestPath objectAtIndex:0];
   
-  [self walkToTileCoord:s.position withSelector:@selector(popStepAndAnimate) speedMultiplier:3.f];
+  [self walkToTileCoord:s.position completionTarget:self selector:@selector(popStepAndAnimate) speedMultiplier:_speedMultiplier];
   
 	// Remove the step
 	[self.shortestPath removeObjectAtIndex:0];

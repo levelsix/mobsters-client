@@ -2,17 +2,27 @@
 //  ClanRaidViewController.h
 //  Utopia
 //
-//  Created by Ashwin Kamath on 2/18/14.
+//  Created by Ashwin Kamath on 2/27/14.
 //  Copyright (c) 2014 LVL6. All rights reserved.
 //
 
 #import <UIKit/UIKit.h>
+#import "ClanRaidDetailsViewController.h"
+#import "ClanRaidLeaderboardViewController.h"
+#import "Protocols.pb.h"
 #import "GenViewController.h"
 
-@interface ClanRaidViewController : GenViewController <UITableViewDataSource, UITableViewDelegate>
+@interface ClanRaidViewController : GenViewController
 
-@property (nonatomic, retain) IBOutlet UITableViewCell *nibCell;
+@property (nonatomic, retain) ClanRaidDetailsViewController *detailsViewController;
+@property (nonatomic, retain) ClanRaidLeaderboardViewController *leaderboardViewController;
 
-- (IBAction)raidSelected:(id)sender;
+@property (nonatomic, retain) IBOutlet FlipTabBar *menuTopBar;
+
+@property (nonatomic, retain) PersistentClanEventProto *clanEvent;
+
+@property (nonatomic, retain) NSArray *clanMembers;
+
+- (id) initWithClanEvent:(PersistentClanEventProto *)clanEvent membersList:(NSArray *)membersList canStartRaidStage:(BOOL)canStartRaidStage;
 
 @end

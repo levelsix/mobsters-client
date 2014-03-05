@@ -1,0 +1,53 @@
+//
+//  TutorialMissionMap.h
+//  Utopia
+//
+//  Created by Ashwin Kamath on 3/2/14.
+//  Copyright (c) 2014 LVL6. All rights reserved.
+//
+
+#import "MissionMap.h"
+#import "MyTeamSprite.h"
+
+@protocol TutorialMissionMapDelegate <NSObject>
+
+- (void) initialChaseComplete;
+- (void) enemyJumped;
+- (void) enemyRanIntoFirstBuilding;
+- (void) friendEnteredFirstBuilding;
+- (void) enemyRanOffMap;
+- (void) enemyArrivedWithBoss;
+- (void) everyoneEnteredSecondBuilding;
+- (void) enemyBossRanOffMap;
+- (void) yachtWentOffScene;
+
+@end
+
+@interface TutorialMissionMap : MissionMap
+
+@property (nonatomic, retain) AnimatedSprite *friendSprite;
+@property (nonatomic, retain) AnimatedSprite *enemySprite;
+@property (nonatomic, retain) AnimatedSprite *enemyBossSprite;
+@property (nonatomic, retain) AnimatedSprite *markZSprite;
+@property (nonatomic, retain) StartupResponseProto_TutorialConstants *constants;
+
+@property (nonatomic, assign) int clickableAssetId;
+
+@property (nonatomic, assign) id<TutorialMissionMapDelegate> delegate;
+
+- (id) initWithTutorialConstants:(StartupResponseProto_TutorialConstants *)constants;
+- (void) beginInitialChase;
+- (void) enemyJump;
+- (void) enemyRunIntoFirstBuilding;
+- (void) displayArrowOverFirstBuilding;
+
+- (void) beginSecondConfrontation;
+- (void) runOutEnemy;
+- (void) enemyComeInWithBoss;
+- (void) beginChaseIntoSecondBuilding;
+
+- (void) beginThirdConfrontation;
+- (void) runOutEnemyBoss;
+- (void) moveToYacht;
+
+@end

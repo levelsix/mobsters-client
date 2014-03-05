@@ -66,9 +66,25 @@
                                 <fontDescription key="fontDescription" type="system" pointSize="13"/>
                                 <color key="textColor" red="0.61176470589999998" green="0.79215686269999996" blue="0.062745098040000002" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
-                                <color key="shadowColor" red="0.0" green="0.0" blue="0.0" alpha="0.29999999999999999" colorSpace="calibratedRGB"/>
+                                <color key="shadowColor" red="0.031372549019607843" green="0.30588235294117649" blue="0.5725490196078431" alpha="0.80000000000000004" colorSpace="calibratedRGB"/>
                                 <size key="shadowOffset" width="0.0" height="1"/>
                             </label>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="39" customClass="MaskedButton">
+                                <rect key="frame" x="7" y="0.0" width="465" height="46"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
+                                <state key="normal">
+                                    <color key="titleColor" red="0.19607843459999999" green="0.30980393290000002" blue="0.52156865600000002" alpha="1" colorSpace="calibratedRGB"/>
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <state key="highlighted">
+                                    <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <action selector="cellClicked:" destination="-1" eventType="touchUpInside" id="dl3-oa-Fna"/>
+                                    <outlet property="baseImage" destination="34" id="40"/>
+                                </connections>
+                            </button>
                             <view contentMode="scaleToFill" id="26">
                                 <rect key="frame" x="348" y="5" width="85" height="36"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxY="YES"/>
@@ -100,22 +116,6 @@
                                 </subviews>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                             </view>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="39" customClass="MaskedButton">
-                                <rect key="frame" x="7" y="0.0" width="465" height="46"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
-                                <state key="normal">
-                                    <color key="titleColor" red="0.19607843459999999" green="0.30980393290000002" blue="0.52156865600000002" alpha="1" colorSpace="calibratedRGB"/>
-                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                                </state>
-                                <state key="highlighted">
-                                    <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                </state>
-                                <connections>
-                                    <action selector="cellClicked:" destination="-1" eventType="touchUpInside" id="dl3-oa-Fna"/>
-                                    <outlet property="baseImage" destination="34" id="40"/>
-                                </connections>
-                            </button>
                         </subviews>
                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                     </view>
@@ -125,7 +125,7 @@
             <connections>
                 <outlet property="buttonLabel" destination="27" id="30"/>
                 <outlet property="buttonView" destination="26" id="29"/>
-                <outlet property="membersLabel" destination="17" id="24"/>
+                <outlet property="membersLabel" destination="kkB-FI-Cai" id="Asc-er-t32"/>
                 <outlet property="redButton" destination="28" id="33"/>
                 <outlet property="topLabel" destination="6" id="18"/>
                 <outlet property="typeLabel" destination="22" id="25"/>

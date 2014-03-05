@@ -14,6 +14,9 @@
 #import "OutgoingEventController.h"
 #import "CCAnimation.h"
 #import "CCTextureCache.h"
+#import "GameViewController.h"
+#import "GenericPopupController.h"
+#import <Kamcord/Kamcord.h>
 
 // Disable for this file
 #pragma clang diagnostic push
@@ -23,12 +26,6 @@
 #define CANTTOUCHTHIS_SCORE 300
 #define HAMMERTIME_SCORE 420
 #define MAKEITRAIN_SCORE 600
-
-#define NUM_MOVES_PER_TURN 3
-
-#define PULSE_ONCE_THRESH 0.5
-#define PULSE_CONT_THRESH 0.3
-#define RED_TINT_TAG 6789
 
 #define STRENGTH_FOR_MAX_SHOTS MAKEITRAIN_SCORE
 
@@ -116,28 +113,29 @@
 
 #pragma mark - Setup
 
+- (CGSize) gridSize {
+  return CGSizeMake(8,8);
+}
+
 - (id) initWithMyUserMonsters:(NSArray *)monsters puzzleIsOnLeft:(BOOL)puzzleIsOnLeft {
   if ((self = [super init])) {
     _puzzleIsOnLeft = puzzleIsOnLeft;
     
-    CGSize gridSize = CGSizeMake(8,8);
+    CGSize gridSize = [self gridSize];
     
     self.contentSize = [CCDirector sharedDirector].viewSize;
     
     OrbBgdLayer *puzzleBg = [[OrbBgdLayer alloc] initWithGridSize:gridSize];
     [self addChild:puzzleBg z:2];
     float puzzX = puzzleIsOnLeft ? puzzleBg.contentSize.width/2+14 : self.contentSize.width-puzzleBg.contentSize.width/2-14;
-    puzzleBg.position = ccp(puzzX, self.contentSize.height/2);
+    puzzleBg.position = ccp(puzzX, puzzleBg.contentSize.height/2+16);
     self.orbBgdLayer = puzzleBg;
     
-    OrbLayer *ol = [[OrbLayer alloc] initWithContentSize:puzzleBg.contentSize gridSize:gridSize numColors:6];
-    [self.orbBgdLayer addChild:ol z:2];
-    ol.delegate = self;
-    self.orbLayer = ol;
+    [self initOrbLayer];
     
     self.noInputLayer = [CCNodeColor nodeWithColor:[CCColor colorWithCcColor4f:ccc4f(0, 0, 0, NO_INPUT_LAYER_OPACITY)] width:self.orbLayer.contentSize.width height:self.orbLayer.contentSize.height];
     [self.orbBgdLayer addChild:self.noInputLayer z:self.orbLayer.zOrder];
-    self.noInputLayer.position = ol.position;
+    self.noInputLayer.position = self.orbLayer.position;
     
     self.bgdContainer = [CCNode node];
     self.bgdContainer.contentSize = self.contentSize;
@@ -169,9 +167,17 @@
     }
     self.myTeam = arr;
     
+    [self loadDeployView];
     [self removeOrbLayerAnimated:NO withBlock:nil];
   }
   return self;
+}
+
+- (void) initOrbLayer {
+  OrbLayer *ol = [[OrbLayer alloc] initWithContentSize:self.orbBgdLayer.contentSize gridSize:self.gridSize numColors:6];
+  [self.orbBgdLayer addChild:ol z:2];
+  ol.delegate = self;
+  self.orbLayer = ol;
 }
 
 - (void) onEnterTransitionDidFinish {
@@ -193,30 +199,21 @@
 }
 
 - (void) begin {
-  [self moveToNextEnemy];
+  BattlePlayer *bp = nil;
+  for (BattlePlayer *b in self.myTeam) {
+    if (b.curHealth > 0 && (!bp || b.slotNum < bp.slotNum)) {
+      bp = b;
+    }
+  }
+  if (bp) {
+    [self deployBattleSprite:bp];
+  }
+  
+  [Kamcord startRecording];
 }
 
 - (void) setupUI {
   OrbBgdLayer *puzzleBg = self.orbBgdLayer;
-  
-//  CCSprite *powerBgd = [CCSprite spriteWithImageNamed:@"powermeterbg.png"];
-//  [puzzleBg addChild:powerBgd z:1];
-//  powerBgd.position = ccpAdd(ccp(powerBgd.contentSize.width/2, -powerBgd.contentSize.height/2), ccp(15, puzzleBg.contentSize.height-3));
-//  
-//  _powerBar = [CCProgressTimer progressWithSprite:[CCSprite spriteWithImageNamed:@"powermeter.png"]];
-//  [powerBgd addChild:_powerBar];
-//  _powerBar.position = ccp(powerBgd.contentSize.width/2-0.5, powerBgd.contentSize.height/2);
-//  _powerBar.type = kCCProgressTimerTypeBar;
-//  _powerBar.midpoint = ccp(0, 0.5);
-//  _powerBar.barChangeRate = ccp(1,0);
-//  _powerBar.percentage = 90;
-//  
-//  CCLayerColor *l = [CCLayerColor layerWithColor:ccc4(0, 0, 0, 150) width:1 height:powerBgd.contentSize.height];
-//  [powerBgd addChild:l];
-//  l.position = ccp(powerBgd.contentSize.width/3, 0);
-//  l = [CCLayerColor layerWithColor:ccc4(0, 0, 0, 150) width:1 height:powerBgd.contentSize.height];
-//  [powerBgd addChild:l];
-//  l.position = ccp(powerBgd.contentSize.width*2/3, 0);
   
   _movesBgd = [CCSprite spriteWithImageNamed:@"movesbg.png"];
   [puzzleBg addChild:_movesBgd z:-1];
@@ -260,7 +257,7 @@
   CCSprite *lootBgd = [CCSprite spriteWithImageNamed:@"collectioncapsule.png"];
   [puzzleBg addChild:lootBgd];
   lootBgd.position = ccp(-lootBgd.contentSize.width/2-5, 36*2.5);
-
+  
   _lootLabel = [CCLabelTTF labelWithString:@"0" fontName:[Globals font] fontSize:13];
   [lootBgd addChild:_lootLabel];
   _lootLabel.color = [CCColor blackColor];
@@ -290,19 +287,16 @@
   _comboBotLabel.position = ccp(_comboBgd.contentSize.width-5, 14);
   [_comboBgd addChild:_comboBotLabel z:1];
   
-  _comboCount = 0;
-  _currentScore = 0;
   _movesLeft = NUM_MOVES_PER_TURN;
-  _soundComboCount = 0;
   _curStage = -1;
   
   [self updateHealthBars];
 }
 
 - (void) createNextMyPlayerSprite {
-  BattleSprite *mp = [[BattleSprite alloc] initWithPrefix:self.myPlayerObject.spritePrefix nameString:self.myPlayerObject.name isMySprite:YES];
+  BattleSprite *mp = [[BattleSprite alloc] initWithPrefix:self.myPlayerObject.spritePrefix nameString:self.myPlayerObject.name animationType:self.myPlayerObject.animationType isMySprite:YES];
   mp.healthBar.color = [self.orbLayer colorForSparkle:self.myPlayerObject.element];
-  [self.bgdContainer addChild:mp z:0];
+  [self.bgdContainer addChild:mp z:1];
   mp.position = MY_PLAYER_LOCATION;
   if (_puzzleIsOnLeft) mp.position = ccpAdd(MY_PLAYER_LOCATION, ccp(PUZZLE_ON_LEFT_BGD_OFFSET, 0));
   mp.isFacingNear = NO;
@@ -323,45 +317,59 @@
   [self stopPulsing];
 }
 
-- (void) makeMyPlayerWalkInFromEntranceWithSelector:(SEL)selector {
-  CGPoint finalPos = self.myPlayer.position;
+- (void) makePlayer:(BattleSprite *)player walkInFromEntranceWithSelector:(SEL)selector {
+  CGPoint finalPos = player.position;
   CGPoint offsetPerScene = POINT_OFFSET_PER_SCENE;
-  float startX = -self.myPlayer.contentSize.width;
+  float startX = -player.contentSize.width;
   float xDelta = finalPos.x-startX;
   CGPoint newPos = ccp(startX, finalPos.y-xDelta*offsetPerScene.y/offsetPerScene.x);
   
-  [self.myPlayer beginWalking];
-  self.myPlayer.position = newPos;
-  [self.myPlayer runAction:
+  [player beginWalking];
+  player.position = newPos;
+  [player runAction:
    [CCActionSequence actions:
     [CCActionMoveTo actionWithDuration:ccpDistance(finalPos, newPos)/MY_WALKING_SPEED position:finalPos],
     [CCActionCallBlock actionWithBlock:
      ^{
-       float perc = ((float)self.myPlayerObject.curHealth)/self.myPlayerObject.maxHealth;
-       if (perc < PULSE_CONT_THRESH) {
-         [self pulseBloodContinuously];
-         [self pulseHealthLabel:NO];
-       } else {
-         [self stopPulsing];
+       if (player == self.myPlayer) {
+         float perc = ((float)self.myPlayerObject.curHealth)/self.myPlayerObject.maxHealth;
+         if (perc < PULSE_CONT_THRESH) {
+           [self pulseBloodContinuously];
+           [self pulseHealthLabel:NO];
+         } else {
+           [self stopPulsing];
+         }
+         
+         [self updateHealthBars];
        }
        
-       [self.myPlayer stopWalking];
-       [self updateHealthBars];
-       [self performSelector:selector];
+       [player stopWalking];
+       [self performSelector:selector withObject:player];
      }],
     nil]];
 }
 
 - (void) moveToNextEnemy {
-  _curStage++;
-  [self.myPlayer beginWalking];
-  [self.bgdLayer scrollToNewScene];
+  [self removeSwapButton];
+  [self removeDeployView];
+  self.forfeitButton.hidden = YES;
   
-  if (_curStage < _numStages) {
+  _curStage++;
+  if (_curStage < self.enemyTeam.count) {
+    [self.myPlayer beginWalking];
+    [self.bgdLayer scrollToNewScene];
+    
     [self spawnNextEnemy];
     [self displayWaveNumber];
   } else {
-    [self runAction:[CCActionSequence actions:[CCActionDelay actionWithDuration:2.f], [CCActionCallFunc actionWithTarget:self selector:@selector(youWon)], nil]];
+    if (_lootDropped) {
+      [self.myPlayer beginWalking];
+      [self.bgdLayer scrollToNewScene];
+      
+      [self runAction:[CCActionSequence actions:[CCActionDelay actionWithDuration:2.f], [CCActionCallFunc actionWithTarget:self selector:@selector(youWon)], nil]];
+    } else {
+      [self youWon];
+    }
   }
 }
 
@@ -382,7 +390,7 @@
 }
 
 - (void) createNextEnemySprite {
-  BattleSprite *bs = [[BattleSprite alloc] initWithPrefix:self.enemyPlayerObject.spritePrefix nameString:self.enemyPlayerObject.name isMySprite:NO];
+  BattleSprite *bs = [[BattleSprite alloc] initWithPrefix:self.enemyPlayerObject.spritePrefix nameString:self.enemyPlayerObject.name animationType:self.enemyPlayerObject.animationType isMySprite:NO];
   bs.healthBar.color = [self.orbLayer colorForSparkle:self.enemyPlayerObject.element];
   [self.bgdContainer addChild:bs];
   self.currentEnemy = bs;
@@ -421,18 +429,6 @@
   
   _movesLeftLabel.string = [NSString stringWithFormat:@"%d ", _movesLeft];
   _comboLabel.string = [NSString stringWithFormat:@"%dx", _comboCount];
-  
-  [self.powerBar stopAllActions];
-  _powerBar.percentage = ((float)_currentScore)/MAKEITRAIN_SCORE*100;
-}
-
-- (void) updatePowerBar {
-  float newPerc = ((float)_currentScore)/MAKEITRAIN_SCORE*100;
-  float diff = newPerc-self.powerBar.percentage;
-  CCAction *a = [CCActionProgressTo actionWithDuration:diff/50.f percent:newPerc];
-  a.tag = 18302;
-  [self.powerBar stopActionByTag:a.tag];
-  [self.powerBar runAction:a];
 }
 
 - (void) pulseLabel:(CCNode *)label {
@@ -447,29 +443,31 @@
 
 #pragma mark - Turn Sequence
 
-- (void) checkForReshuffle {
-  
-}
-
 - (void) beginMyTurn {
   _comboCount = 0;
   _orbCount = 0;
-  _currentScore = 0;
   _movesLeft = NUM_MOVES_PER_TURN;
-  _scoreForThisTurn = 0;
   _soundComboCount = 0;
+  _enemyShouldAttack = NO;
+  
+  _myDamageDealt = 0;
+  _myDamageForThisTurn = 0;
+  _enemyDamageDealt = 0;
   
   [self updateHealthBars];
   [self removeNoInputLayer];
   [self.orbLayer allowInput];
+  
+  [self displaySwapButton];
+  self.forfeitButton.hidden = NO;
 }
 
 - (void) beginEnemyTurn {
-  int damage = arc4random()%300+100;
+  Globals *gl = [Globals sharedGlobals];
+  _enemyDamageDealt = [self.enemyPlayerObject randomDamage];
+  _enemyDamageDealt = _enemyDamageDealt*[gl calculateDamageMultiplierForAttackElement:self.enemyPlayerObject.element defenseElement:self.myPlayerObject.element];
   
-  _enemyDamagePercent = damage;
-  
-  [self.currentEnemy performNearAttackAnimationWithTarget:self selector:@selector(dealEnemyDamage)];
+  [self.currentEnemy performNearAttackAnimationWithEnemy:self.myPlayer target:self selector:@selector(dealEnemyDamage)];
 }
 
 - (void) checkIfAnyMovesLeft {
@@ -477,13 +475,15 @@
     [self myTurnEnded];
   } else {
     [self.orbLayer allowInput];
-    _scoreForThisTurn = 0;
+    _myDamageForThisTurn = 0;
   }
 }
 
 - (void) myTurnEnded {
   [self showHighScoreWord];
   [self displayNoInputLayer];
+  
+  self.forfeitButton.hidden = YES;
 }
 
 - (void) showHighScoreWord {
@@ -491,24 +491,21 @@
 }
 
 - (void) doMyAttackAnimation {
-  if (_currentScore > MAKEITRAIN_SCORE) {
+  int currentScore = _myDamageDealt/(float)[self.myPlayerObject totalAttackPower]*100.f;
+  if (currentScore > MAKEITRAIN_SCORE) {
     [self.myPlayer restoreStandingFrame];
     [self spawnPlaneWithTarget:nil selector:nil];
   }
   
-  float strength = MIN(1, _currentScore/STRENGTH_FOR_MAX_SHOTS);
-  [self.myPlayer performFarAttackAnimationWithStrength:strength target:nil selector:nil];
-  [self runAction:[CCActionSequence actions:
-                   [CCActionDelay actionWithDuration:0.3],
-                   [CCActionCallBlock actionWithBlock:
-                    ^{
-                      [self.currentEnemy performNearFlinchAnimationWithStrength:strength target:self selector:@selector(dealMyDamage)];
-                    }],
-                   nil]];
+  float strength = MIN(1, currentScore/STRENGTH_FOR_MAX_SHOTS);
+  [self.myPlayer performFarAttackAnimationWithStrength:strength enemy:self.currentEnemy target:self selector:@selector(dealMyDamage)];
 }
 
 - (void) dealMyDamage {
-  [self dealDamageWithPercent:_currentScore enemyIsAttacker:NO withSelector:@selector(checkEnemyHealth)];
+  Globals *gl = [Globals sharedGlobals];
+  _myDamageDealt = _myDamageDealt*[gl calculateDamageMultiplierForAttackElement:self.myPlayerObject.element defenseElement:self.enemyPlayerObject.element];
+  _enemyShouldAttack = YES;
+  [self dealDamage:_myDamageDealt enemyIsAttacker:NO withSelector:@selector(checkEnemyHealth)];
   
   float perc = ((float)self.enemyPlayerObject.curHealth)/self.enemyPlayerObject.maxHealth;
   if (perc < PULSE_CONT_THRESH) {
@@ -520,7 +517,7 @@
 }
 
 - (void) dealEnemyDamage {
-  [self dealDamageWithPercent:_enemyDamagePercent enemyIsAttacker:YES withSelector:@selector(checkMyHealth)];
+  [self dealDamage:_enemyDamageDealt enemyIsAttacker:YES withSelector:@selector(checkMyHealth)];
   
   float perc = ((float)self.myPlayerObject.curHealth)/self.myPlayerObject.maxHealth;
   if (!_bloodSplatter || _bloodSplatter.numberOfRunningActions == 0) {
@@ -535,8 +532,7 @@
   }
 }
 
-- (void) dealDamageWithPercent:(int)percent enemyIsAttacker:(BOOL)enemyIsAttacker withSelector:(SEL)selector {
-  Globals *gl = [Globals sharedGlobals];
+- (void) dealDamage:(int)damageDone enemyIsAttacker:(BOOL)enemyIsAttacker withSelector:(SEL)selector {
   BattlePlayer *att, *def;
   BattleSprite *attSpr, *defSpr;
   CCLabelTTF *healthLabel;
@@ -552,34 +548,28 @@
   }
   
   int curHealth = def.curHealth;
-  int damageDone = [att totalAttackPower]*percent/100.f;
-  damageDone = damageDone*[gl calculateDamageMultiplierForAttackElement:att.element defenseElement:def.element];
   int newHealth = MIN(def.maxHealth, MAX(0, curHealth-damageDone));
   float newPercent = ((float)newHealth)/def.maxHealth*100;
   float percChange = ABS(healthBar.percentage-newPercent);
-  
-  damageDone = damageDone < 0 ? curHealth-newHealth : damageDone;
   
   [healthBar runAction:[CCActionSequence actions:
                         [CCActionEaseIn actionWithAction:[CCActionProgressTo actionWithDuration:percChange/HEALTH_BAR_SPEED percent:newPercent]],
                         [CCActionCallBlock actionWithBlock:
                          ^{
                            [healthLabel stopActionByTag:1015];
-                           
-                           _currentScore = 0;
                            [self updateHealthBars];
                          }],
                         [CCActionCallFunc actionWithTarget:self selector:selector],
                         nil]];
   
   CCActionRepeat *f = [CCActionRepeatForever actionWithAction:
-                 [CCActionSequence actions:
-                  [CCActionCallBlock actionWithBlock:
-                   ^{
-                     healthLabel.string = [NSString stringWithFormat:@"%@/%@", [Globals commafyNumber:(int)(healthBar.percentage/100.f*def.maxHealth)], [Globals commafyNumber:def.maxHealth]];
-                   }],
-                  [CCActionDelay actionWithDuration:0.01],
-                  nil]];
+                       [CCActionSequence actions:
+                        [CCActionCallBlock actionWithBlock:
+                         ^{
+                           healthLabel.string = [NSString stringWithFormat:@"%@/%@", [Globals commafyNumber:(int)(healthBar.percentage/100.f*def.maxHealth)], [Globals commafyNumber:def.maxHealth]];
+                         }],
+                        [CCActionDelay actionWithDuration:0.01],
+                        nil]];
   f.tag = 1015;
   [healthLabel runAction:f];
   
@@ -596,9 +586,11 @@
                           [CCActionCallFunc actionWithTarget:damageLabel selector:@selector(removeFromParent)], nil]];
   
   def.curHealth = newHealth;
-  
-  if (enemyIsAttacker) {
-    [[OutgoingEventController sharedOutgoingEventController] updateMonsterHealth:def.userMonsterId curHealth:def.curHealth];
+}
+
+- (void) sendServerUpdatedValues {
+  if (_enemyDamageDealt) {
+    [[OutgoingEventController sharedOutgoingEventController] updateMonsterHealth:self.myPlayerObject.userMonsterId curHealth:self.myPlayerObject.curHealth];
   }
 }
 
@@ -611,7 +603,7 @@
   CCParticleSystem *q = [CCParticleSystem particleWithFile:@"characterdie.plist"];
   q.autoRemoveOnFinish = YES;
   q.position = ccpAdd(sprite.position, ccp(0, sprite.contentSize.height/2-5));
-  [self.bgdContainer addChild:q z:0];
+  [self.bgdContainer addChild:q z:2];
 }
 
 - (void) checkEnemyHealth {
@@ -619,6 +611,9 @@
     int loot = [self getCurrentEnemyLoot];
     if (loot) {
       [self dropLoot:loot];
+      _lootDropped = YES;
+    } else {
+      _lootDropped = NO;
     }
     
     [self blowupBattleSprite:self.currentEnemy withBlock:
@@ -628,8 +623,14 @@
        [self moveToNextEnemy];
      }];
     self.currentEnemy = nil;
+    
+    // Send server updated values here because monster just died
+    // But make sure that I actually did damage..
+    [self sendServerUpdatedValues];
   } else {
-    [self beginEnemyTurn];
+    if (_enemyShouldAttack) {
+      [self beginEnemyTurn];
+    }
   }
 }
 
@@ -639,6 +640,7 @@
 }
 
 - (void) checkMyHealth {
+  [self sendServerUpdatedValues];
   if (self.myPlayerObject.curHealth <= 0) {
     [self stopPulsing];
     
@@ -655,10 +657,15 @@
 }
 
 - (void) currentMyPlayerDied {
-  // Overwrite this
-  if (self.myPlayerObject) {
-    [self createNextMyPlayerSprite];
-    [self makeMyPlayerWalkInFromEntranceWithSelector:@selector(beginMyTurn)];
+  BOOL someoneIsAlive = NO;
+  for (BattlePlayer *bp in self.myTeam) {
+    if (bp.curHealth > 0) {
+      someoneIsAlive = YES;
+    }
+  }
+  
+  if (someoneIsAlive) {
+    [self displayDeployViewAndIsCancellable:NO];
   } else {
     [self youLost];
   }
@@ -681,7 +688,7 @@
                    [l removeFromParentAndCleanup:YES];
                  }], nil]];
   
-  CCLabelBMFont *label = [CCLabelBMFont labelWithString:[NSString stringWithFormat:@"Enemy %d/%d", _curStage+1, _numStages] fntFile:@"wavefont.fnt"];
+  CCLabelBMFont *label = [CCLabelBMFont labelWithString:[NSString stringWithFormat:@"Enemy %d/%d", _curStage+1, self.enemyTeam.count] fntFile:@"wavefont.fnt"];
   [self addChild:label];
   label.position = ccp(CENTER_OF_BATTLE.x, -label.contentSize.height/2);
   
@@ -769,10 +776,6 @@
     CGPoint endPos = ccpAdd(self.currentEnemy.position, ccp(5,10));
     endPos = ccpAdd(endPos, ccpMult(POINT_OFFSET_PER_SCENE, 0.02*(i-2)));
     
-    //CGPoint offset = ccpMult(POINT_OFFSET_PER_SCENE, 0.02);
-    //offset = ccp((i%2==0?-1:1)*offset.y,(i%2==1?-1:1)*offset.x);
-    //endPos = ccpAdd(endPos, offset);
-    
     bomb.position = ccp(endPos.x, endPos.y+130);
     
     [bomb runAction:
@@ -823,13 +826,14 @@
   CCSprite *phrase = nil;
   NSString *phraseFile = nil;
   BOOL isMakeItRain = NO;
-  if (_currentScore > MAKEITRAIN_SCORE) {
+  int currentScore = _myDamageDealt/(float)[self.myPlayerObject totalAttackPower]*100.f;
+  if (currentScore > MAKEITRAIN_SCORE) {
     isMakeItRain = YES;
-  } else if (_currentScore > HAMMERTIME_SCORE) {
+  } else if (currentScore > HAMMERTIME_SCORE) {
     phraseFile = @"hammertime.png";
-  } else if (_currentScore > CANTTOUCHTHIS_SCORE) {
+  } else if (currentScore > CANTTOUCHTHIS_SCORE) {
     phraseFile = @"canttouchthis.png";
-  } else if (_currentScore > BALLIN_SCORE) {
+  } else if (currentScore > BALLIN_SCORE) {
     phraseFile = @"ballin.png";
   }
   
@@ -875,14 +879,40 @@
      nil];
     [phrase runAction:seq];
   } else {
-    [target performSelector:selector];
+    [self runAction:[CCActionSequence actions:[CCActionDelay actionWithDuration:0.5f], [CCActionCallFunc actionWithTarget:target selector:selector], nil]];
   }
 }
 
 - (void) youWon {
+  [self endBattle:YES];
+  [CCBReader load:@"BattleWonView" owner:self];
 }
 
 - (void) youLost {
+  [self endBattle:NO];
+  [CCBReader load:@"BattleLostView" owner:self];
+}
+
+- (void) endBattle:(BOOL)won {
+  _wonBattle = won;
+  
+  [self removeSwapButton];
+  [self removeDeployView];
+  self.forfeitButton.hidden = YES;
+  
+  [self removeOrbLayerAnimated:YES withBlock:^{
+    if (won) {
+      [self addChild:self.wonView z:10000];
+      
+      self.wonView.anchorPoint = ccp(0.5, 0.5);
+      self.wonView.position = ccp(self.contentSize.width/2, self.contentSize.height/2);
+    } else {
+      [self addChild:self.lostView z:10000];
+      self.lostView.anchorPoint = ccp(0.5, 0.5);
+      self.lostView.continueButton.visible = NO;
+      self.lostView.position = ccp(self.contentSize.width/2, self.contentSize.height/2);
+    }
+  }];
 }
 
 #pragma mark - Blood Splatter
@@ -891,6 +921,7 @@
   if (!_bloodSplatter) {
     CCSprite *s = [CCSprite spriteWithImageNamed:@"bloodsplatter.png"];
     [self addChild:s z:1];
+    s.opacity = 0.f;
     s.position = ccp(self.contentSize.width/2, self.contentSize.height/2);
     _bloodSplatter = s;
   }
@@ -930,6 +961,7 @@
 
 - (void) stopPulsing {
   [_bloodSplatter stopAllActions];
+  [self.bloodSplatter runAction:[CCActionFadeTo actionWithDuration:self.bloodSplatter.opacity*0.2f opacity:0.f]];
   _bloodSplatter.opacity = 0;
   [self.myPlayer.healthLabel stopActionByTag:RED_TINT_TAG];
   self.myPlayer.healthLabel.color = [CCColor colorWithCcColor3b:ccc3(255, 255, 255)];
@@ -939,6 +971,8 @@
 
 - (void) moveBegan {
   self.orbLayer.orbFlyToLocation = [self.orbLayer convertToNodeSpace:[self.bgdContainer convertToWorldSpace:ccpAdd(self.myPlayer.position, ccp(0, self.myPlayer.contentSize.height/2))]];
+  
+  [self removeSwapButton];
 }
 
 - (void) newComboFound {
@@ -998,9 +1032,8 @@
   _orbCount++;
   
   int dmg = [self.myPlayerObject damageForColor:gem.color];
-  float percDamageIncrease = 100.f*dmg/[self.myPlayerObject totalAttackPower];
-  _currentScore += percDamageIncrease;
-  _scoreForThisTurn += percDamageIncrease;
+  _myDamageDealt += dmg;
+  _myDamageForThisTurn += dmg;
   if (MonsterProto_MonsterElementIsValidValue((MonsterProto_MonsterElement)gem.color)) {
     NSString *dmgStr = [NSString stringWithFormat:@"%@", [Globals commafyNumber:dmg]];
     NSString *fntFile = [Globals imageNameForElement:(MonsterProto_MonsterElement)gem.color suffix:@"pointsfont.fnt"];
@@ -1020,7 +1053,6 @@
     }
   }
   
-  [self updatePowerBar];
   if (_canPlayNextGemPop) {
     [[SoundEngine sharedSoundEngine] puzzleGemPop];
     _canPlayNextGemPop = NO;
@@ -1036,7 +1068,7 @@
 }
 
 - (void) moveComplete {
-  if (_scoreForThisTurn == 0) {
+  if (_myDamageForThisTurn == 0) {
     [self.orbLayer allowInput];
     return;
   }
@@ -1063,6 +1095,8 @@
 
 - (void) reshuffle {
   CCLabelTTF *label = [CCLabelTTF labelWithString:@"No more moves!\nShuffling..." fontName:[Globals font] fontSize:25];
+  label.horizontalAlignment = CCTextAlignmentCenter;
+  label.verticalAlignment = CCVerticalTextAlignmentCenter;
   label.position = ccp(self.noInputLayer.contentSize.width/2, self.noInputLayer.contentSize.height/2);
   [self.noInputLayer addChild:label];
   
@@ -1075,26 +1109,13 @@
 }
 
 - (void) reachedNextScene {
+  _hasStarted = YES;
   [self.myPlayer stopWalking];
   
   if (self.enemyPlayerObject) {
     [self beginMyTurn];
     [self updateHealthBars];
   }
-}
-
-#pragma mark - Charging
-
-- (void) beginChargingUpForEnemy:(BOOL)isEnemy withTarget:(id)target selector:(SEL)selector {
-  // isEnemy no longer works
-  CCProgressNode *prog = self.powerBar;
-  
-  [prog runAction:[CCActionSequence actions:
-                   [CCActionProgressTo actionWithDuration:prog.percentage*0.015 percent:0],
-                   [CCActionCallFunc actionWithTarget:target selector:selector],
-                   nil]];
-  
-  [[SoundEngine sharedSoundEngine] puzzlePowerUp];
 }
 
 #pragma mark - No Input Layer Methods
@@ -1104,11 +1125,12 @@
 }
 
 - (void) removeNoInputLayer {
+  [self.noInputLayer stopAllActions];
   [self.noInputLayer runAction:[CCActionFadeTo actionWithDuration:0.3 opacity:0]];
 }
 
 - (void) displayOrbLayer {
-  [self.orbBgdLayer runAction:[CCActionEaseOut actionWithAction:[CCActionMoveTo actionWithDuration:0.4f position:ccp(self.contentSize.width-self.orbBgdLayer.contentSize.width/2-14, self.orbBgdLayer.parent.contentSize.height/2)] rate:3]];
+  [self.orbBgdLayer runAction:[CCActionEaseOut actionWithAction:[CCActionMoveTo actionWithDuration:0.4f position:ccp(self.contentSize.width-self.orbBgdLayer.contentSize.width/2-14, self.orbBgdLayer.position.y)] rate:3]];
 }
 
 - (void) removeOrbLayerAnimated:(BOOL)animated withBlock:(void(^)())block {
@@ -1117,7 +1139,7 @@
   }
   
   CGPoint pos = ccp(self.contentSize.width+self.orbBgdLayer.contentSize.width,
-                    self.orbBgdLayer.parent.contentSize.height/2);
+                    self.orbBgdLayer.position.y);
   if (animated) {
     [self.orbBgdLayer runAction:
      [CCActionSequence actions:
@@ -1127,6 +1149,198 @@
     self.orbBgdLayer.position = pos;
     block();
   }
+}
+
+#pragma mark - Deploy and Swap views
+
+- (void) loadDeployView {
+  GameViewController *gvc = [GameViewController baseController];
+  UIView *view = gvc.view;
+  
+  [[NSBundle mainBundle] loadNibNamed:@"BattleDeployView" owner:self options:nil];
+  [view addSubview:self.swapView];
+  [view addSubview:self.deployView];
+  [view addSubview:self.forfeitButton];
+  self.swapView.hidden = YES;
+  self.deployView.hidden = YES;
+  self.forfeitButton.hidden = YES;
+  
+  self.forfeitButton.center = ccp(self.forfeitButton.frame.size.width/2+5, self.forfeitButton.frame.size.height/2+5);
+  self.swapLabel.transform = CGAffineTransformMakeRotation(M_PI_2);
+}
+
+#define ANIMATION_TIME 0.4f
+#define SWAP_CENTER_Y 268
+#define DEPLOY_CENTER_Y self.contentSize.height-16-self.deployView.frame.size.height/2
+
+- (void) displaySwapButton {
+  self.swapView.hidden = NO;
+  self.swapView.center = ccp(-self.swapView.frame.size.width/2, SWAP_CENTER_Y);
+  [UIView animateWithDuration:ANIMATION_TIME animations:^{
+    self.swapView.center = ccp(self.swapView.frame.size.width/2, SWAP_CENTER_Y);
+  }];
+}
+
+- (void) removeSwapButton {
+  [UIView animateWithDuration:ANIMATION_TIME animations:^{
+    self.swapView.center = ccp(-self.swapView.frame.size.width/2, SWAP_CENTER_Y);
+  } completion:^(BOOL finished) {
+    self.swapView.hidden = YES;
+  }];
+}
+
+- (IBAction)swapClicked:(id)sender {
+  if (_orbCount == 0 && !self.orbLayer.isTrackingTouch) {
+    [self removeSwapButton];
+    [self displayDeployViewAndIsCancellable:YES];
+  }
+}
+
+- (void) displayDeployViewAndIsCancellable:(BOOL)cancel {
+  [self displayNoInputLayer];
+  
+  [self.deployView updateWithBattlePlayers:self.myTeam];
+  
+  self.deployView.hidden = NO;
+  self.deployView.center = ccp(-self.deployView.frame.size.width/2, DEPLOY_CENTER_Y);
+  [UIView animateWithDuration:ANIMATION_TIME animations:^{
+    float extra = [Globals isLongiPhone] ? self.movesBgd.contentSize.width : 0;
+    self.deployView.center = ccp((self.contentSize.width-self.orbBgdLayer.contentSize.width-extra-14)/2, DEPLOY_CENTER_Y);
+  } completion:^(BOOL finished) {
+    if (finished && cancel) {
+      self.deployCancelButton = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, self.contentSize.width, self.contentSize.height)];
+      [Globals displayUIView:self.deployCancelButton];
+      [self.deployCancelButton addTarget:self action:@selector(cancelDeploy:) forControlEvents:UIControlEventTouchUpInside];
+      [self.deployView.superview bringSubviewToFront:self.deployView];
+    }
+  }];
+  
+  [self.orbLayer disallowInput];
+}
+
+- (void) removeDeployView {
+  [self.deployCancelButton removeFromSuperview];
+  self.deployCancelButton = nil;
+  [UIView animateWithDuration:ANIMATION_TIME animations:^{
+    self.deployView.center = ccp(-self.deployView.frame.size.width/2, DEPLOY_CENTER_Y);
+  } completion:^(BOOL finished) {
+    self.deployView.hidden = YES;
+  }];
+}
+
+- (IBAction)cancelDeploy:(id)sender {
+  [self deployBattleSprite:nil];
+}
+
+- (IBAction)deployCardClicked:(id)sender {
+  while (![sender isKindOfClass:[BattleDeployCardView class]]) {
+    sender = [sender superview];
+  }
+  BattleDeployCardView *card = (BattleDeployCardView *)sender;
+  
+  BattlePlayer *bp = nil;
+  for (BattlePlayer *b in self.myTeam) {
+    if (b.slotNum == card.tag && b.curHealth > 0) {
+      bp = b;
+    }
+  }
+  
+  if (bp) {
+    [self deployBattleSprite:bp];
+  }
+}
+
+- (void) deployBattleSprite:(BattlePlayer *)bp {
+  [self removeDeployView];
+  BOOL isSwap = self.myPlayer != nil;
+  if (bp && bp.userMonsterId != self.myPlayerObject.userMonsterId) {
+    self.myPlayerObject = bp;
+    
+    if (isSwap) {
+      [self makeMyPlayerWalkOut];
+    }
+    [self createNextMyPlayerSprite];
+    
+    // If it is swap, enemy should attack
+    // If it is game start, wait till battle response has arrived
+    // Otherwise, it is coming back from player just dying
+    SEL selector = isSwap ? @selector(beginMyTurn) : !
+    _hasStarted ? @selector(reachedNextScene) : @selector(beginMyTurn);
+    [self makePlayer:self.myPlayer walkInFromEntranceWithSelector:selector];
+  } else if (isSwap) {
+    [self displaySwapButton];
+    [self.orbLayer allowInput];
+    [self removeNoInputLayer];
+  }
+}
+
+#pragma mark - Continue View Actions
+
+- (IBAction)forfeitClicked:(id)sender {
+  [GenericPopupController displayNegativeConfirmationWithDescription:@"You will lose everything - are you sure you want to forfeit?"
+                                                               title:@"Forfeit Battle"
+                                                          okayButton:@"Forfeit"
+                                                        cancelButton:@"Cancel"
+                                                            okTarget:self
+                                                          okSelector:@selector(youLost)
+                                                        cancelTarget:nil
+                                                      cancelSelector:nil];
+}
+
+- (IBAction)winExitClicked:(id)sender {
+  _manageWasClicked = NO;
+  [self exitFinal];
+}
+
+- (IBAction)manageClicked:(id)sender {
+  _manageWasClicked = YES;
+  [self winExitClicked:sender];
+}
+
+- (void) exitFinal {
+  self.swapView.hidden  = YES;
+  self.forfeitButton.hidden = YES;
+  
+  [self.delegate battleComplete:[NSDictionary dictionaryWithObjectsAndKeys:@(_manageWasClicked), BATTLE_MANAGE_CLICKED_KEY, nil]];
+  
+  // in case it hasnt stopped yet
+  [Kamcord stopRecording];
+}
+
+- (IBAction)shareClicked:(id)sender {
+  [Kamcord stopRecording];
+  [Kamcord showView];
+}
+
+- (IBAction)continueClicked:(id)sender {
+  Globals *gl = [Globals sharedGlobals];
+  int gemsAmount = [gl calculateGemCostToHealTeamDuringBattle:self.myTeam];
+  
+  if (gemsAmount > 0) {
+    NSString *desc = [NSString stringWithFormat:@"Would you like to heal your entire team for %d gems?", gemsAmount];
+    [GenericPopupController displayGemConfirmViewWithDescription:desc title:@"Heal Team?" gemCost:gemsAmount target:self selector:@selector(continueConfirmed)];
+  } else {
+    [self continueConfirmed];
+  }
+}
+
+- (void) continueConfirmed {
+  [self.lostView removeFromParent];
+  
+  if (!self.myPlayer) {
+    [self displayDeployViewAndIsCancellable:NO];
+  } else {
+    [self beginMyTurn];
+  }
+  [self displayOrbLayer];
+}
+
+
+- (void) dealloc {
+  [self.forfeitButton removeFromSuperview];
+  [self.swapView removeFromSuperview];
+  [self.deployView removeFromSuperview];
+  [self.deployCancelButton removeFromSuperview];
 }
 
 @end

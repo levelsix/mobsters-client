@@ -20,10 +20,13 @@
 @class StructureInfoProto_Builder;
 @class TownHallProto;
 @class TownHallProto_Builder;
+@class TutorialStructProto;
+@class TutorialStructProto_Builder;
 typedef enum {
   ResourceTypeCash = 1,
   ResourceTypeOil = 2,
   ResourceTypeGems = 3,
+  ResourceTypeMonster = 20,
 } ResourceType;
 
 BOOL ResourceTypeIsValidValue(ResourceType value);
@@ -921,5 +924,64 @@ BOOL StructureInfoProto_StructTypeIsValidValue(StructureInfoProto_StructType val
 - (Float32) y;
 - (CoordinateProto_Builder*) setY:(Float32) value;
 - (CoordinateProto_Builder*) clearY;
+@end
+
+@interface TutorialStructProto : PBGeneratedMessage {
+@private
+  BOOL hasStructId_:1;
+  BOOL hasCoordinate_:1;
+  int32_t structId;
+  CoordinateProto* coordinate;
+}
+- (BOOL) hasStructId;
+- (BOOL) hasCoordinate;
+@property (readonly) int32_t structId;
+@property (readonly, retain) CoordinateProto* coordinate;
+
++ (TutorialStructProto*) defaultInstance;
+- (TutorialStructProto*) defaultInstance;
+
+- (BOOL) isInitialized;
+- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output;
+- (TutorialStructProto_Builder*) builder;
++ (TutorialStructProto_Builder*) builder;
++ (TutorialStructProto_Builder*) builderWithPrototype:(TutorialStructProto*) prototype;
+
++ (TutorialStructProto*) parseFromData:(NSData*) data;
++ (TutorialStructProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (TutorialStructProto*) parseFromInputStream:(NSInputStream*) input;
++ (TutorialStructProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (TutorialStructProto*) parseFromCodedInputStream:(PBCodedInputStream*) input;
++ (TutorialStructProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+@end
+
+@interface TutorialStructProto_Builder : PBGeneratedMessage_Builder {
+@private
+  TutorialStructProto* result;
+}
+
+- (TutorialStructProto*) defaultInstance;
+
+- (TutorialStructProto_Builder*) clear;
+- (TutorialStructProto_Builder*) clone;
+
+- (TutorialStructProto*) build;
+- (TutorialStructProto*) buildPartial;
+
+- (TutorialStructProto_Builder*) mergeFrom:(TutorialStructProto*) other;
+- (TutorialStructProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input;
+- (TutorialStructProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+
+- (BOOL) hasStructId;
+- (int32_t) structId;
+- (TutorialStructProto_Builder*) setStructId:(int32_t) value;
+- (TutorialStructProto_Builder*) clearStructId;
+
+- (BOOL) hasCoordinate;
+- (CoordinateProto*) coordinate;
+- (TutorialStructProto_Builder*) setCoordinate:(CoordinateProto*) value;
+- (TutorialStructProto_Builder*) setCoordinateBuilder:(CoordinateProto_Builder*) builderForValue;
+- (TutorialStructProto_Builder*) mergeCoordinate:(CoordinateProto*) value;
+- (TutorialStructProto_Builder*) clearCoordinate;
 @end
 

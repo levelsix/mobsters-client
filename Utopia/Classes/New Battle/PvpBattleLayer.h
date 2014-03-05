@@ -9,13 +9,8 @@
 #import "NewBattleLayer.h"
 
 @interface PvpBattleLayer : NewBattleLayer {
-  BOOL _wonBattle;
-  BOOL _receivedEndDungeonResponse;
-  BOOL _waitingForEndDungeonResponse;
-  
-  BOOL _manageWasClicked;
-  
-  int _numTimesNotResponded;
+  BOOL _receivedEndPvpResponse;
+  BOOL _waitingForEndPvpResponse;
   
   int _curQueueNum;
   BOOL _hasChosenEnemy;

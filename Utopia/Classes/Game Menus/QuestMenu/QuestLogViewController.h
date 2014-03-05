@@ -10,9 +10,7 @@
 #import "QuestListViewController.h"
 #import "QuestDetailsViewController.h"
 
-@interface QuestLogViewController : UIViewController <QuestListCellDelegate, QuestDetailsViewControllerDelegate> {
-  NSArray *arr;
-}
+@interface QuestLogViewController : UIViewController <QuestListCellDelegate, QuestDetailsViewControllerDelegate>
 
 @property (nonatomic, strong) NSArray *userMonsterIds;
 

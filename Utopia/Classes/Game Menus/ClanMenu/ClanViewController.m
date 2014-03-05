@@ -19,7 +19,7 @@
   self.clanBrowseViewController = [[ClanBrowseViewController alloc] initWithNibName:nil bundle:nil];
   self.clanInfoViewController = [[ClanInfoViewController alloc] initWithNibName:nil bundle:nil];
   self.clanCreateViewController = [[ClanCreateViewController alloc] initWithNibName:nil bundle:nil];
-  self.clanRaidViewController = [[ClanRaidViewController alloc] initWithNibName:nil bundle:nil];
+  self.clanRaidViewController = [[ClanRaidListViewController alloc] initWithNibName:nil bundle:nil];
   
   [self addChildViewController:self.clanBrowseViewController];
   [self addChildViewController:self.clanInfoViewController];
@@ -118,6 +118,33 @@
 
 - (void) handleRetractRequestJoinClanResponseProto:(FullEvent *)e {
   [self.clanBrowseViewController.browseClansTable reloadData];
+}
+
+- (void) handleRetrieveClanInfoResponseProto:(FullEvent *)fe {
+  [self.clanInfoViewController handleRetrieveClanInfoResponseProto:fe];
+  
+  GameState *gs = [GameState sharedGameState];
+  RetrieveClanInfoResponseProto *proto = (RetrieveClanInfoResponseProto *)fe.event;
+  if (proto.clanInfoList.count == 1 && ((FullClanProtoWithClanSize *)proto.clanInfoList[0]).clan.clanId == gs.clan.clanId) {
+    if (!self.clanRaidViewController.raidViewController.leaderboardViewController.members) {
+      [self.clanRaidViewController.raidViewController.leaderboardViewController createMembersListFromClanMembers:proto.membersList];
+    }
+    self.myClanMembersList = proto.membersList;
+    
+    if (self.clanInfoViewController.myUser) {
+      UserClanStatus status = self.clanInfoViewController.myUser.clanStatus;
+      switch (status) {
+        case UserClanStatusLeader:
+        case UserClanStatusJuniorLeader:
+        case UserClanStatusCaptain:
+          self.canStartRaidStage = YES;
+          break;
+          
+        default:
+          break;
+      }
+    }
+  }
 }
 
 @end

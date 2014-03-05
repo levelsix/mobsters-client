@@ -494,6 +494,7 @@ static StartupRequestProto* defaultStartupRequestProtoInstance = nil;
 @property StartupResponseProto_StartupStatus startupStatus;
 @property StartupResponseProto_UpdateStatus updateStatus;
 @property (retain) StartupResponseProto_StartupConstants* startupConstants;
+@property (retain) StartupResponseProto_TutorialConstants* tutorialConstants;
 @property (retain) NSMutableArray* mutableUserQuestsList;
 @property (retain) NSMutableArray* mutableRedeemedQuestIdsList;
 @property (retain) NSMutableArray* mutableUserClanInfoList;
@@ -519,6 +520,8 @@ static StartupRequestProto* defaultStartupRequestProtoInstance = nil;
 @property (retain) StaticDataProto* staticDataStuffProto;
 @property (retain) NSMutableArray* mutableTaskIdForCurrentCityBossList;
 @property (retain) NSMutableArray* mutableUserEventsList;
+@property (retain) PersistentClanEventClanInfoProto* curRaidClanInfo;
+@property (retain) NSMutableArray* mutableCurRaidClanUserInfoList;
 @end
 
 @implementation StartupResponseProto
@@ -558,6 +561,13 @@ static StartupRequestProto* defaultStartupRequestProtoInstance = nil;
   hasStartupConstants_ = !!value;
 }
 @synthesize startupConstants;
+- (BOOL) hasTutorialConstants {
+  return !!hasTutorialConstants_;
+}
+- (void) setHasTutorialConstants:(BOOL) value {
+  hasTutorialConstants_ = !!value;
+}
+@synthesize tutorialConstants;
 @synthesize mutableUserQuestsList;
 @synthesize mutableRedeemedQuestIdsList;
 @synthesize mutableUserClanInfoList;
@@ -636,9 +646,18 @@ static StartupRequestProto* defaultStartupRequestProtoInstance = nil;
 @synthesize staticDataStuffProto;
 @synthesize mutableTaskIdForCurrentCityBossList;
 @synthesize mutableUserEventsList;
+- (BOOL) hasCurRaidClanInfo {
+  return !!hasCurRaidClanInfo_;
+}
+- (void) setHasCurRaidClanInfo:(BOOL) value {
+  hasCurRaidClanInfo_ = !!value;
+}
+@synthesize curRaidClanInfo;
+@synthesize mutableCurRaidClanUserInfoList;
 - (void) dealloc {
   self.sender = nil;
   self.startupConstants = nil;
+  self.tutorialConstants = nil;
   self.mutableUserQuestsList = nil;
   self.mutableRedeemedQuestIdsList = nil;
   self.mutableUserClanInfoList = nil;
@@ -663,6 +682,8 @@ static StartupRequestProto* defaultStartupRequestProtoInstance = nil;
   self.staticDataStuffProto = nil;
   self.mutableTaskIdForCurrentCityBossList = nil;
   self.mutableUserEventsList = nil;
+  self.curRaidClanInfo = nil;
+  self.mutableCurRaidClanUserInfoList = nil;
   [super dealloc];
 }
 - (id) init {
@@ -672,6 +693,7 @@ static StartupRequestProto* defaultStartupRequestProtoInstance = nil;
     self.startupStatus = StartupResponseProto_StartupStatusUserInDb;
     self.updateStatus = StartupResponseProto_UpdateStatusNoUpdate;
     self.startupConstants = [StartupResponseProto_StartupConstants defaultInstance];
+    self.tutorialConstants = [StartupResponseProto_TutorialConstants defaultInstance];
     self.appStoreUrl = @"";
     self.reviewPageUrl = @"";
     self.reviewPageConfirmationMessage = @"";
@@ -680,6 +702,7 @@ static StartupRequestProto* defaultStartupRequestProtoInstance = nil;
     self.evolution = [UserMonsterEvolutionProto defaultInstance];
     self.kabamNaid = @"";
     self.staticDataStuffProto = [StaticDataProto defaultInstance];
+    self.curRaidClanInfo = [PersistentClanEventClanInfoProto defaultInstance];
   }
   return self;
 }
@@ -814,6 +837,13 @@ static StartupResponseProto* defaultStartupResponseProtoInstance = nil;
   id value = [mutableUserEventsList objectAtIndex:index];
   return value;
 }
+- (NSArray*) curRaidClanUserInfoList {
+  return mutableCurRaidClanUserInfoList;
+}
+- (PersistentClanEventUserInfoProto*) curRaidClanUserInfoAtIndex:(int32_t) index {
+  id value = [mutableCurRaidClanUserInfoList objectAtIndex:index];
+  return value;
+}
 - (BOOL) isInitialized {
   return YES;
 }
@@ -907,6 +937,15 @@ static StartupResponseProto* defaultStartupResponseProtoInstance = nil;
   }
   for (UserPersistentEventProto* element in self.userEventsList) {
     [output writeMessage:30 value:element];
+  }
+  if (self.hasCurRaidClanInfo) {
+    [output writeMessage:31 value:self.curRaidClanInfo];
+  }
+  for (PersistentClanEventUserInfoProto* element in self.curRaidClanUserInfoList) {
+    [output writeMessage:32 value:element];
+  }
+  if (self.hasTutorialConstants) {
+    [output writeMessage:34 value:self.tutorialConstants];
   }
   [self.unknownFields writeToCodedOutputStream:output];
 }
@@ -1026,6 +1065,15 @@ static StartupResponseProto* defaultStartupResponseProtoInstance = nil;
   }
   for (UserPersistentEventProto* element in self.userEventsList) {
     size += computeMessageSize(30, element);
+  }
+  if (self.hasCurRaidClanInfo) {
+    size += computeMessageSize(31, self.curRaidClanInfo);
+  }
+  for (PersistentClanEventUserInfoProto* element in self.curRaidClanUserInfoList) {
+    size += computeMessageSize(32, element);
+  }
+  if (self.hasTutorialConstants) {
+    size += computeMessageSize(34, self.tutorialConstants);
   }
   size += self.unknownFields.serializedSize;
   memoizedSerializedSize = size;
@@ -4339,6 +4387,587 @@ static StartupResponseProto_StartupConstants_MonsterConstants* defaultStartupRes
 }
 @end
 
+@interface StartupResponseProto_TutorialConstants ()
+@property int32_t startingMonsterId;
+@property int32_t enemyMonsterId;
+@property int32_t enemyBossMonsterId;
+@property int32_t markZmonsterId;
+@property (retain) NSMutableArray* mutableTutorialStructuresList;
+@property (retain) NSMutableArray* mutableStructureIdsToBeBuilltList;
+@property int32_t cityId;
+@property (retain) NSMutableArray* mutableCityOneElementsList;
+@property int32_t cityElementIdForFirstDungeon;
+@property int32_t cityElementIdForSecondDungeon;
+@end
+
+@implementation StartupResponseProto_TutorialConstants
+
+- (BOOL) hasStartingMonsterId {
+  return !!hasStartingMonsterId_;
+}
+- (void) setHasStartingMonsterId:(BOOL) value {
+  hasStartingMonsterId_ = !!value;
+}
+@synthesize startingMonsterId;
+- (BOOL) hasEnemyMonsterId {
+  return !!hasEnemyMonsterId_;
+}
+- (void) setHasEnemyMonsterId:(BOOL) value {
+  hasEnemyMonsterId_ = !!value;
+}
+@synthesize enemyMonsterId;
+- (BOOL) hasEnemyBossMonsterId {
+  return !!hasEnemyBossMonsterId_;
+}
+- (void) setHasEnemyBossMonsterId:(BOOL) value {
+  hasEnemyBossMonsterId_ = !!value;
+}
+@synthesize enemyBossMonsterId;
+- (BOOL) hasMarkZmonsterId {
+  return !!hasMarkZmonsterId_;
+}
+- (void) setHasMarkZmonsterId:(BOOL) value {
+  hasMarkZmonsterId_ = !!value;
+}
+@synthesize markZmonsterId;
+@synthesize mutableTutorialStructuresList;
+@synthesize mutableStructureIdsToBeBuilltList;
+- (BOOL) hasCityId {
+  return !!hasCityId_;
+}
+- (void) setHasCityId:(BOOL) value {
+  hasCityId_ = !!value;
+}
+@synthesize cityId;
+@synthesize mutableCityOneElementsList;
+- (BOOL) hasCityElementIdForFirstDungeon {
+  return !!hasCityElementIdForFirstDungeon_;
+}
+- (void) setHasCityElementIdForFirstDungeon:(BOOL) value {
+  hasCityElementIdForFirstDungeon_ = !!value;
+}
+@synthesize cityElementIdForFirstDungeon;
+- (BOOL) hasCityElementIdForSecondDungeon {
+  return !!hasCityElementIdForSecondDungeon_;
+}
+- (void) setHasCityElementIdForSecondDungeon:(BOOL) value {
+  hasCityElementIdForSecondDungeon_ = !!value;
+}
+@synthesize cityElementIdForSecondDungeon;
+- (void) dealloc {
+  self.mutableTutorialStructuresList = nil;
+  self.mutableStructureIdsToBeBuilltList = nil;
+  self.mutableCityOneElementsList = nil;
+  [super dealloc];
+}
+- (id) init {
+  if ((self = [super init])) {
+    self.startingMonsterId = 0;
+    self.enemyMonsterId = 0;
+    self.enemyBossMonsterId = 0;
+    self.markZmonsterId = 0;
+    self.cityId = 0;
+    self.cityElementIdForFirstDungeon = 0;
+    self.cityElementIdForSecondDungeon = 0;
+  }
+  return self;
+}
+static StartupResponseProto_TutorialConstants* defaultStartupResponseProto_TutorialConstantsInstance = nil;
++ (void) initialize {
+  if (self == [StartupResponseProto_TutorialConstants class]) {
+    defaultStartupResponseProto_TutorialConstantsInstance = [[StartupResponseProto_TutorialConstants alloc] init];
+  }
+}
++ (StartupResponseProto_TutorialConstants*) defaultInstance {
+  return defaultStartupResponseProto_TutorialConstantsInstance;
+}
+- (StartupResponseProto_TutorialConstants*) defaultInstance {
+  return defaultStartupResponseProto_TutorialConstantsInstance;
+}
+- (NSArray*) tutorialStructuresList {
+  return mutableTutorialStructuresList;
+}
+- (TutorialStructProto*) tutorialStructuresAtIndex:(int32_t) index {
+  id value = [mutableTutorialStructuresList objectAtIndex:index];
+  return value;
+}
+- (NSArray*) structureIdsToBeBuilltList {
+  return mutableStructureIdsToBeBuilltList;
+}
+- (int32_t) structureIdsToBeBuilltAtIndex:(int32_t) index {
+  id value = [mutableStructureIdsToBeBuilltList objectAtIndex:index];
+  return [value intValue];
+}
+- (NSArray*) cityOneElementsList {
+  return mutableCityOneElementsList;
+}
+- (CityElementProto*) cityOneElementsAtIndex:(int32_t) index {
+  id value = [mutableCityOneElementsList objectAtIndex:index];
+  return value;
+}
+- (BOOL) isInitialized {
+  return YES;
+}
+- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output {
+  if (self.hasStartingMonsterId) {
+    [output writeInt32:1 value:self.startingMonsterId];
+  }
+  if (self.hasEnemyMonsterId) {
+    [output writeInt32:2 value:self.enemyMonsterId];
+  }
+  for (TutorialStructProto* element in self.tutorialStructuresList) {
+    [output writeMessage:3 value:element];
+  }
+  for (NSNumber* value in self.mutableStructureIdsToBeBuilltList) {
+    [output writeInt32:4 value:[value intValue]];
+  }
+  if (self.hasCityId) {
+    [output writeInt32:5 value:self.cityId];
+  }
+  for (CityElementProto* element in self.cityOneElementsList) {
+    [output writeMessage:6 value:element];
+  }
+  if (self.hasCityElementIdForFirstDungeon) {
+    [output writeInt32:7 value:self.cityElementIdForFirstDungeon];
+  }
+  if (self.hasCityElementIdForSecondDungeon) {
+    [output writeInt32:8 value:self.cityElementIdForSecondDungeon];
+  }
+  if (self.hasEnemyBossMonsterId) {
+    [output writeInt32:9 value:self.enemyBossMonsterId];
+  }
+  if (self.hasMarkZmonsterId) {
+    [output writeInt32:10 value:self.markZmonsterId];
+  }
+  [self.unknownFields writeToCodedOutputStream:output];
+}
+- (int32_t) serializedSize {
+  int32_t size = memoizedSerializedSize;
+  if (size != -1) {
+    return size;
+  }
+
+  size = 0;
+  if (self.hasStartingMonsterId) {
+    size += computeInt32Size(1, self.startingMonsterId);
+  }
+  if (self.hasEnemyMonsterId) {
+    size += computeInt32Size(2, self.enemyMonsterId);
+  }
+  for (TutorialStructProto* element in self.tutorialStructuresList) {
+    size += computeMessageSize(3, element);
+  }
+  {
+    int32_t dataSize = 0;
+    for (NSNumber* value in self.mutableStructureIdsToBeBuilltList) {
+      dataSize += computeInt32SizeNoTag([value intValue]);
+    }
+    size += dataSize;
+    size += 1 * self.mutableStructureIdsToBeBuilltList.count;
+  }
+  if (self.hasCityId) {
+    size += computeInt32Size(5, self.cityId);
+  }
+  for (CityElementProto* element in self.cityOneElementsList) {
+    size += computeMessageSize(6, element);
+  }
+  if (self.hasCityElementIdForFirstDungeon) {
+    size += computeInt32Size(7, self.cityElementIdForFirstDungeon);
+  }
+  if (self.hasCityElementIdForSecondDungeon) {
+    size += computeInt32Size(8, self.cityElementIdForSecondDungeon);
+  }
+  if (self.hasEnemyBossMonsterId) {
+    size += computeInt32Size(9, self.enemyBossMonsterId);
+  }
+  if (self.hasMarkZmonsterId) {
+    size += computeInt32Size(10, self.markZmonsterId);
+  }
+  size += self.unknownFields.serializedSize;
+  memoizedSerializedSize = size;
+  return size;
+}
++ (StartupResponseProto_TutorialConstants*) parseFromData:(NSData*) data {
+  return (StartupResponseProto_TutorialConstants*)[[[StartupResponseProto_TutorialConstants builder] mergeFromData:data] build];
+}
++ (StartupResponseProto_TutorialConstants*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (StartupResponseProto_TutorialConstants*)[[[StartupResponseProto_TutorialConstants builder] mergeFromData:data extensionRegistry:extensionRegistry] build];
+}
++ (StartupResponseProto_TutorialConstants*) parseFromInputStream:(NSInputStream*) input {
+  return (StartupResponseProto_TutorialConstants*)[[[StartupResponseProto_TutorialConstants builder] mergeFromInputStream:input] build];
+}
++ (StartupResponseProto_TutorialConstants*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (StartupResponseProto_TutorialConstants*)[[[StartupResponseProto_TutorialConstants builder] mergeFromInputStream:input extensionRegistry:extensionRegistry] build];
+}
++ (StartupResponseProto_TutorialConstants*) parseFromCodedInputStream:(PBCodedInputStream*) input {
+  return (StartupResponseProto_TutorialConstants*)[[[StartupResponseProto_TutorialConstants builder] mergeFromCodedInputStream:input] build];
+}
++ (StartupResponseProto_TutorialConstants*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (StartupResponseProto_TutorialConstants*)[[[StartupResponseProto_TutorialConstants builder] mergeFromCodedInputStream:input extensionRegistry:extensionRegistry] build];
+}
++ (StartupResponseProto_TutorialConstants_Builder*) builder {
+  return [[[StartupResponseProto_TutorialConstants_Builder alloc] init] autorelease];
+}
++ (StartupResponseProto_TutorialConstants_Builder*) builderWithPrototype:(StartupResponseProto_TutorialConstants*) prototype {
+  return [[StartupResponseProto_TutorialConstants builder] mergeFrom:prototype];
+}
+- (StartupResponseProto_TutorialConstants_Builder*) builder {
+  return [StartupResponseProto_TutorialConstants builder];
+}
+@end
+
+@interface StartupResponseProto_TutorialConstants_Builder()
+@property (retain) StartupResponseProto_TutorialConstants* result;
+@end
+
+@implementation StartupResponseProto_TutorialConstants_Builder
+@synthesize result;
+- (void) dealloc {
+  self.result = nil;
+  [super dealloc];
+}
+- (id) init {
+  if ((self = [super init])) {
+    self.result = [[[StartupResponseProto_TutorialConstants alloc] init] autorelease];
+  }
+  return self;
+}
+- (PBGeneratedMessage*) internalGetResult {
+  return result;
+}
+- (StartupResponseProto_TutorialConstants_Builder*) clear {
+  self.result = [[[StartupResponseProto_TutorialConstants alloc] init] autorelease];
+  return self;
+}
+- (StartupResponseProto_TutorialConstants_Builder*) clone {
+  return [StartupResponseProto_TutorialConstants builderWithPrototype:result];
+}
+- (StartupResponseProto_TutorialConstants*) defaultInstance {
+  return [StartupResponseProto_TutorialConstants defaultInstance];
+}
+- (StartupResponseProto_TutorialConstants*) build {
+  [self checkInitialized];
+  return [self buildPartial];
+}
+- (StartupResponseProto_TutorialConstants*) buildPartial {
+  StartupResponseProto_TutorialConstants* returnMe = [[result retain] autorelease];
+  self.result = nil;
+  return returnMe;
+}
+- (StartupResponseProto_TutorialConstants_Builder*) mergeFrom:(StartupResponseProto_TutorialConstants*) other {
+  if (other == [StartupResponseProto_TutorialConstants defaultInstance]) {
+    return self;
+  }
+  if (other.hasStartingMonsterId) {
+    [self setStartingMonsterId:other.startingMonsterId];
+  }
+  if (other.hasEnemyMonsterId) {
+    [self setEnemyMonsterId:other.enemyMonsterId];
+  }
+  if (other.hasEnemyBossMonsterId) {
+    [self setEnemyBossMonsterId:other.enemyBossMonsterId];
+  }
+  if (other.hasMarkZmonsterId) {
+    [self setMarkZmonsterId:other.markZmonsterId];
+  }
+  if (other.mutableTutorialStructuresList.count > 0) {
+    if (result.mutableTutorialStructuresList == nil) {
+      result.mutableTutorialStructuresList = [NSMutableArray array];
+    }
+    [result.mutableTutorialStructuresList addObjectsFromArray:other.mutableTutorialStructuresList];
+  }
+  if (other.mutableStructureIdsToBeBuilltList.count > 0) {
+    if (result.mutableStructureIdsToBeBuilltList == nil) {
+      result.mutableStructureIdsToBeBuilltList = [NSMutableArray array];
+    }
+    [result.mutableStructureIdsToBeBuilltList addObjectsFromArray:other.mutableStructureIdsToBeBuilltList];
+  }
+  if (other.hasCityId) {
+    [self setCityId:other.cityId];
+  }
+  if (other.mutableCityOneElementsList.count > 0) {
+    if (result.mutableCityOneElementsList == nil) {
+      result.mutableCityOneElementsList = [NSMutableArray array];
+    }
+    [result.mutableCityOneElementsList addObjectsFromArray:other.mutableCityOneElementsList];
+  }
+  if (other.hasCityElementIdForFirstDungeon) {
+    [self setCityElementIdForFirstDungeon:other.cityElementIdForFirstDungeon];
+  }
+  if (other.hasCityElementIdForSecondDungeon) {
+    [self setCityElementIdForSecondDungeon:other.cityElementIdForSecondDungeon];
+  }
+  [self mergeUnknownFields:other.unknownFields];
+  return self;
+}
+- (StartupResponseProto_TutorialConstants_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input {
+  return [self mergeFromCodedInputStream:input extensionRegistry:[PBExtensionRegistry emptyRegistry]];
+}
+- (StartupResponseProto_TutorialConstants_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  PBUnknownFieldSet_Builder* unknownFields = [PBUnknownFieldSet builderWithUnknownFields:self.unknownFields];
+  while (YES) {
+    int32_t tag = [input readTag];
+    switch (tag) {
+      case 0:
+        [self setUnknownFields:[unknownFields build]];
+        return self;
+      default: {
+        if (![self parseUnknownField:input unknownFields:unknownFields extensionRegistry:extensionRegistry tag:tag]) {
+          [self setUnknownFields:[unknownFields build]];
+          return self;
+        }
+        break;
+      }
+      case 8: {
+        [self setStartingMonsterId:[input readInt32]];
+        break;
+      }
+      case 16: {
+        [self setEnemyMonsterId:[input readInt32]];
+        break;
+      }
+      case 26: {
+        TutorialStructProto_Builder* subBuilder = [TutorialStructProto builder];
+        [input readMessage:subBuilder extensionRegistry:extensionRegistry];
+        [self addTutorialStructures:[subBuilder buildPartial]];
+        break;
+      }
+      case 32: {
+        [self addStructureIdsToBeBuillt:[input readInt32]];
+        break;
+      }
+      case 40: {
+        [self setCityId:[input readInt32]];
+        break;
+      }
+      case 50: {
+        CityElementProto_Builder* subBuilder = [CityElementProto builder];
+        [input readMessage:subBuilder extensionRegistry:extensionRegistry];
+        [self addCityOneElements:[subBuilder buildPartial]];
+        break;
+      }
+      case 56: {
+        [self setCityElementIdForFirstDungeon:[input readInt32]];
+        break;
+      }
+      case 64: {
+        [self setCityElementIdForSecondDungeon:[input readInt32]];
+        break;
+      }
+      case 72: {
+        [self setEnemyBossMonsterId:[input readInt32]];
+        break;
+      }
+      case 80: {
+        [self setMarkZmonsterId:[input readInt32]];
+        break;
+      }
+    }
+  }
+}
+- (BOOL) hasStartingMonsterId {
+  return result.hasStartingMonsterId;
+}
+- (int32_t) startingMonsterId {
+  return result.startingMonsterId;
+}
+- (StartupResponseProto_TutorialConstants_Builder*) setStartingMonsterId:(int32_t) value {
+  result.hasStartingMonsterId = YES;
+  result.startingMonsterId = value;
+  return self;
+}
+- (StartupResponseProto_TutorialConstants_Builder*) clearStartingMonsterId {
+  result.hasStartingMonsterId = NO;
+  result.startingMonsterId = 0;
+  return self;
+}
+- (BOOL) hasEnemyMonsterId {
+  return result.hasEnemyMonsterId;
+}
+- (int32_t) enemyMonsterId {
+  return result.enemyMonsterId;
+}
+- (StartupResponseProto_TutorialConstants_Builder*) setEnemyMonsterId:(int32_t) value {
+  result.hasEnemyMonsterId = YES;
+  result.enemyMonsterId = value;
+  return self;
+}
+- (StartupResponseProto_TutorialConstants_Builder*) clearEnemyMonsterId {
+  result.hasEnemyMonsterId = NO;
+  result.enemyMonsterId = 0;
+  return self;
+}
+- (BOOL) hasEnemyBossMonsterId {
+  return result.hasEnemyBossMonsterId;
+}
+- (int32_t) enemyBossMonsterId {
+  return result.enemyBossMonsterId;
+}
+- (StartupResponseProto_TutorialConstants_Builder*) setEnemyBossMonsterId:(int32_t) value {
+  result.hasEnemyBossMonsterId = YES;
+  result.enemyBossMonsterId = value;
+  return self;
+}
+- (StartupResponseProto_TutorialConstants_Builder*) clearEnemyBossMonsterId {
+  result.hasEnemyBossMonsterId = NO;
+  result.enemyBossMonsterId = 0;
+  return self;
+}
+- (BOOL) hasMarkZmonsterId {
+  return result.hasMarkZmonsterId;
+}
+- (int32_t) markZmonsterId {
+  return result.markZmonsterId;
+}
+- (StartupResponseProto_TutorialConstants_Builder*) setMarkZmonsterId:(int32_t) value {
+  result.hasMarkZmonsterId = YES;
+  result.markZmonsterId = value;
+  return self;
+}
+- (StartupResponseProto_TutorialConstants_Builder*) clearMarkZmonsterId {
+  result.hasMarkZmonsterId = NO;
+  result.markZmonsterId = 0;
+  return self;
+}
+- (NSArray*) tutorialStructuresList {
+  if (result.mutableTutorialStructuresList == nil) { return [NSArray array]; }
+  return result.mutableTutorialStructuresList;
+}
+- (TutorialStructProto*) tutorialStructuresAtIndex:(int32_t) index {
+  return [result tutorialStructuresAtIndex:index];
+}
+- (StartupResponseProto_TutorialConstants_Builder*) replaceTutorialStructuresAtIndex:(int32_t) index with:(TutorialStructProto*) value {
+  [result.mutableTutorialStructuresList replaceObjectAtIndex:index withObject:value];
+  return self;
+}
+- (StartupResponseProto_TutorialConstants_Builder*) addAllTutorialStructures:(NSArray*) values {
+  if (result.mutableTutorialStructuresList == nil) {
+    result.mutableTutorialStructuresList = [NSMutableArray array];
+  }
+  [result.mutableTutorialStructuresList addObjectsFromArray:values];
+  return self;
+}
+- (StartupResponseProto_TutorialConstants_Builder*) clearTutorialStructuresList {
+  result.mutableTutorialStructuresList = nil;
+  return self;
+}
+- (StartupResponseProto_TutorialConstants_Builder*) addTutorialStructures:(TutorialStructProto*) value {
+  if (result.mutableTutorialStructuresList == nil) {
+    result.mutableTutorialStructuresList = [NSMutableArray array];
+  }
+  [result.mutableTutorialStructuresList addObject:value];
+  return self;
+}
+- (NSArray*) structureIdsToBeBuilltList {
+  if (result.mutableStructureIdsToBeBuilltList == nil) {
+    return [NSArray array];
+  }
+  return result.mutableStructureIdsToBeBuilltList;
+}
+- (int32_t) structureIdsToBeBuilltAtIndex:(int32_t) index {
+  return [result structureIdsToBeBuilltAtIndex:index];
+}
+- (StartupResponseProto_TutorialConstants_Builder*) replaceStructureIdsToBeBuilltAtIndex:(int32_t) index with:(int32_t) value {
+  [result.mutableStructureIdsToBeBuilltList replaceObjectAtIndex:index withObject:[NSNumber numberWithInt:value]];
+  return self;
+}
+- (StartupResponseProto_TutorialConstants_Builder*) addStructureIdsToBeBuillt:(int32_t) value {
+  if (result.mutableStructureIdsToBeBuilltList == nil) {
+    result.mutableStructureIdsToBeBuilltList = [NSMutableArray array];
+  }
+  [result.mutableStructureIdsToBeBuilltList addObject:[NSNumber numberWithInt:value]];
+  return self;
+}
+- (StartupResponseProto_TutorialConstants_Builder*) addAllStructureIdsToBeBuillt:(NSArray*) values {
+  if (result.mutableStructureIdsToBeBuilltList == nil) {
+    result.mutableStructureIdsToBeBuilltList = [NSMutableArray array];
+  }
+  [result.mutableStructureIdsToBeBuilltList addObjectsFromArray:values];
+  return self;
+}
+- (StartupResponseProto_TutorialConstants_Builder*) clearStructureIdsToBeBuilltList {
+  result.mutableStructureIdsToBeBuilltList = nil;
+  return self;
+}
+- (BOOL) hasCityId {
+  return result.hasCityId;
+}
+- (int32_t) cityId {
+  return result.cityId;
+}
+- (StartupResponseProto_TutorialConstants_Builder*) setCityId:(int32_t) value {
+  result.hasCityId = YES;
+  result.cityId = value;
+  return self;
+}
+- (StartupResponseProto_TutorialConstants_Builder*) clearCityId {
+  result.hasCityId = NO;
+  result.cityId = 0;
+  return self;
+}
+- (NSArray*) cityOneElementsList {
+  if (result.mutableCityOneElementsList == nil) { return [NSArray array]; }
+  return result.mutableCityOneElementsList;
+}
+- (CityElementProto*) cityOneElementsAtIndex:(int32_t) index {
+  return [result cityOneElementsAtIndex:index];
+}
+- (StartupResponseProto_TutorialConstants_Builder*) replaceCityOneElementsAtIndex:(int32_t) index with:(CityElementProto*) value {
+  [result.mutableCityOneElementsList replaceObjectAtIndex:index withObject:value];
+  return self;
+}
+- (StartupResponseProto_TutorialConstants_Builder*) addAllCityOneElements:(NSArray*) values {
+  if (result.mutableCityOneElementsList == nil) {
+    result.mutableCityOneElementsList = [NSMutableArray array];
+  }
+  [result.mutableCityOneElementsList addObjectsFromArray:values];
+  return self;
+}
+- (StartupResponseProto_TutorialConstants_Builder*) clearCityOneElementsList {
+  result.mutableCityOneElementsList = nil;
+  return self;
+}
+- (StartupResponseProto_TutorialConstants_Builder*) addCityOneElements:(CityElementProto*) value {
+  if (result.mutableCityOneElementsList == nil) {
+    result.mutableCityOneElementsList = [NSMutableArray array];
+  }
+  [result.mutableCityOneElementsList addObject:value];
+  return self;
+}
+- (BOOL) hasCityElementIdForFirstDungeon {
+  return result.hasCityElementIdForFirstDungeon;
+}
+- (int32_t) cityElementIdForFirstDungeon {
+  return result.cityElementIdForFirstDungeon;
+}
+- (StartupResponseProto_TutorialConstants_Builder*) setCityElementIdForFirstDungeon:(int32_t) value {
+  result.hasCityElementIdForFirstDungeon = YES;
+  result.cityElementIdForFirstDungeon = value;
+  return self;
+}
+- (StartupResponseProto_TutorialConstants_Builder*) clearCityElementIdForFirstDungeon {
+  result.hasCityElementIdForFirstDungeon = NO;
+  result.cityElementIdForFirstDungeon = 0;
+  return self;
+}
+- (BOOL) hasCityElementIdForSecondDungeon {
+  return result.hasCityElementIdForSecondDungeon;
+}
+- (int32_t) cityElementIdForSecondDungeon {
+  return result.cityElementIdForSecondDungeon;
+}
+- (StartupResponseProto_TutorialConstants_Builder*) setCityElementIdForSecondDungeon:(int32_t) value {
+  result.hasCityElementIdForSecondDungeon = YES;
+  result.cityElementIdForSecondDungeon = value;
+  return self;
+}
+- (StartupResponseProto_TutorialConstants_Builder*) clearCityElementIdForSecondDungeon {
+  result.hasCityElementIdForSecondDungeon = NO;
+  result.cityElementIdForSecondDungeon = 0;
+  return self;
+}
+@end
+
 @interface StartupResponseProto_Builder()
 @property (retain) StartupResponseProto* result;
 @end
@@ -4395,6 +5024,9 @@ static StartupResponseProto_StartupConstants_MonsterConstants* defaultStartupRes
   }
   if (other.hasStartupConstants) {
     [self mergeStartupConstants:other.startupConstants];
+  }
+  if (other.hasTutorialConstants) {
+    [self mergeTutorialConstants:other.tutorialConstants];
   }
   if (other.mutableUserQuestsList.count > 0) {
     if (result.mutableUserQuestsList == nil) {
@@ -4521,6 +5153,15 @@ static StartupResponseProto_StartupConstants_MonsterConstants* defaultStartupRes
       result.mutableUserEventsList = [NSMutableArray array];
     }
     [result.mutableUserEventsList addObjectsFromArray:other.mutableUserEventsList];
+  }
+  if (other.hasCurRaidClanInfo) {
+    [self mergeCurRaidClanInfo:other.curRaidClanInfo];
+  }
+  if (other.mutableCurRaidClanUserInfoList.count > 0) {
+    if (result.mutableCurRaidClanUserInfoList == nil) {
+      result.mutableCurRaidClanUserInfoList = [NSMutableArray array];
+    }
+    [result.mutableCurRaidClanUserInfoList addObjectsFromArray:other.mutableCurRaidClanUserInfoList];
   }
   [self mergeUnknownFields:other.unknownFields];
   return self;
@@ -4724,6 +5365,30 @@ static StartupResponseProto_StartupConstants_MonsterConstants* defaultStartupRes
         [self addUserEvents:[subBuilder buildPartial]];
         break;
       }
+      case 250: {
+        PersistentClanEventClanInfoProto_Builder* subBuilder = [PersistentClanEventClanInfoProto builder];
+        if (self.hasCurRaidClanInfo) {
+          [subBuilder mergeFrom:self.curRaidClanInfo];
+        }
+        [input readMessage:subBuilder extensionRegistry:extensionRegistry];
+        [self setCurRaidClanInfo:[subBuilder buildPartial]];
+        break;
+      }
+      case 258: {
+        PersistentClanEventUserInfoProto_Builder* subBuilder = [PersistentClanEventUserInfoProto builder];
+        [input readMessage:subBuilder extensionRegistry:extensionRegistry];
+        [self addCurRaidClanUserInfo:[subBuilder buildPartial]];
+        break;
+      }
+      case 274: {
+        StartupResponseProto_TutorialConstants_Builder* subBuilder = [StartupResponseProto_TutorialConstants builder];
+        if (self.hasTutorialConstants) {
+          [subBuilder mergeFrom:self.tutorialConstants];
+        }
+        [input readMessage:subBuilder extensionRegistry:extensionRegistry];
+        [self setTutorialConstants:[subBuilder buildPartial]];
+        break;
+      }
     }
   }
 }
@@ -4833,6 +5498,36 @@ static StartupResponseProto_StartupConstants_MonsterConstants* defaultStartupRes
 - (StartupResponseProto_Builder*) clearStartupConstants {
   result.hasStartupConstants = NO;
   result.startupConstants = [StartupResponseProto_StartupConstants defaultInstance];
+  return self;
+}
+- (BOOL) hasTutorialConstants {
+  return result.hasTutorialConstants;
+}
+- (StartupResponseProto_TutorialConstants*) tutorialConstants {
+  return result.tutorialConstants;
+}
+- (StartupResponseProto_Builder*) setTutorialConstants:(StartupResponseProto_TutorialConstants*) value {
+  result.hasTutorialConstants = YES;
+  result.tutorialConstants = value;
+  return self;
+}
+- (StartupResponseProto_Builder*) setTutorialConstantsBuilder:(StartupResponseProto_TutorialConstants_Builder*) builderForValue {
+  return [self setTutorialConstants:[builderForValue build]];
+}
+- (StartupResponseProto_Builder*) mergeTutorialConstants:(StartupResponseProto_TutorialConstants*) value {
+  if (result.hasTutorialConstants &&
+      result.tutorialConstants != [StartupResponseProto_TutorialConstants defaultInstance]) {
+    result.tutorialConstants =
+      [[[StartupResponseProto_TutorialConstants builderWithPrototype:result.tutorialConstants] mergeFrom:value] buildPartial];
+  } else {
+    result.tutorialConstants = value;
+  }
+  result.hasTutorialConstants = YES;
+  return self;
+}
+- (StartupResponseProto_Builder*) clearTutorialConstants {
+  result.hasTutorialConstants = NO;
+  result.tutorialConstants = [StartupResponseProto_TutorialConstants defaultInstance];
   return self;
 }
 - (NSArray*) userQuestsList {
@@ -5504,6 +6199,65 @@ static StartupResponseProto_StartupConstants_MonsterConstants* defaultStartupRes
     result.mutableUserEventsList = [NSMutableArray array];
   }
   [result.mutableUserEventsList addObject:value];
+  return self;
+}
+- (BOOL) hasCurRaidClanInfo {
+  return result.hasCurRaidClanInfo;
+}
+- (PersistentClanEventClanInfoProto*) curRaidClanInfo {
+  return result.curRaidClanInfo;
+}
+- (StartupResponseProto_Builder*) setCurRaidClanInfo:(PersistentClanEventClanInfoProto*) value {
+  result.hasCurRaidClanInfo = YES;
+  result.curRaidClanInfo = value;
+  return self;
+}
+- (StartupResponseProto_Builder*) setCurRaidClanInfoBuilder:(PersistentClanEventClanInfoProto_Builder*) builderForValue {
+  return [self setCurRaidClanInfo:[builderForValue build]];
+}
+- (StartupResponseProto_Builder*) mergeCurRaidClanInfo:(PersistentClanEventClanInfoProto*) value {
+  if (result.hasCurRaidClanInfo &&
+      result.curRaidClanInfo != [PersistentClanEventClanInfoProto defaultInstance]) {
+    result.curRaidClanInfo =
+      [[[PersistentClanEventClanInfoProto builderWithPrototype:result.curRaidClanInfo] mergeFrom:value] buildPartial];
+  } else {
+    result.curRaidClanInfo = value;
+  }
+  result.hasCurRaidClanInfo = YES;
+  return self;
+}
+- (StartupResponseProto_Builder*) clearCurRaidClanInfo {
+  result.hasCurRaidClanInfo = NO;
+  result.curRaidClanInfo = [PersistentClanEventClanInfoProto defaultInstance];
+  return self;
+}
+- (NSArray*) curRaidClanUserInfoList {
+  if (result.mutableCurRaidClanUserInfoList == nil) { return [NSArray array]; }
+  return result.mutableCurRaidClanUserInfoList;
+}
+- (PersistentClanEventUserInfoProto*) curRaidClanUserInfoAtIndex:(int32_t) index {
+  return [result curRaidClanUserInfoAtIndex:index];
+}
+- (StartupResponseProto_Builder*) replaceCurRaidClanUserInfoAtIndex:(int32_t) index with:(PersistentClanEventUserInfoProto*) value {
+  [result.mutableCurRaidClanUserInfoList replaceObjectAtIndex:index withObject:value];
+  return self;
+}
+- (StartupResponseProto_Builder*) addAllCurRaidClanUserInfo:(NSArray*) values {
+  if (result.mutableCurRaidClanUserInfoList == nil) {
+    result.mutableCurRaidClanUserInfoList = [NSMutableArray array];
+  }
+  [result.mutableCurRaidClanUserInfoList addObjectsFromArray:values];
+  return self;
+}
+- (StartupResponseProto_Builder*) clearCurRaidClanUserInfoList {
+  result.mutableCurRaidClanUserInfoList = nil;
+  return self;
+}
+- (StartupResponseProto_Builder*) addCurRaidClanUserInfo:(PersistentClanEventUserInfoProto*) value {
+  if (result.mutableCurRaidClanUserInfoList == nil) {
+    result.mutableCurRaidClanUserInfoList = [NSMutableArray array];
+  }
+  [result.mutableCurRaidClanUserInfoList addObject:value];
   return self;
 }
 @end

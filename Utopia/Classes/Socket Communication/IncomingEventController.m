@@ -219,6 +219,12 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
     case EventProtocolResponseSBeginPvpBattleEvent:
       responseClass = [BeginPvpBattleResponseProto class];
       break;
+    case EventProtocolResponseSBeginClanRaidEvent:
+      responseClass = [BeginClanRaidResponseProto class];
+      break;
+    case EventProtocolResponseSAttackClanRaidMonsterEvent:
+      responseClass = [AttackClanRaidMonsterResponseProto class];
+      break;
       
     default:
       responseClass = nil;
@@ -258,12 +264,11 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
   gl.reviewPageConfirmationMessage = proto.reviewPageConfirmationMessage;
   
   [gl updateConstants:proto.startupConstants];
+  [gs updateStaticData:proto.staticDataStuffProto];
   if (proto.startupStatus == StartupResponseProto_StartupStatusUserInDb) {
     if (proto.sender.userId == 0) {
       LNLog(@"Received user id 0..");
     }
-    
-    [gs updateStaticData:proto.staticDataStuffProto];
     
     // Update user before creating map
     [gs updateUser:proto.sender timestamp:0];
@@ -299,6 +304,14 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
     [gs addToEventCooldownTimes:proto.userEventsList];
     
     [gs addToRequestedClans:proto.userClanInfoList];
+    
+    if (proto.hasCurRaidClanInfo) {
+      gs.curClanRaidInfo = proto.curRaidClanInfo;
+      gs.curClanRaidUserInfos = [proto.curRaidClanUserInfoList mutableCopy];
+    } else {
+      gs.curClanRaidInfo = nil;
+      [gs.curClanRaidUserInfos removeAllObjects];
+    }
     
     [gs.globalChatMessages removeAllObjects];
     [gs.clanChatMessages removeAllObjects];
@@ -349,8 +362,6 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
     [standardDefault synchronize];
   } else {
     // Need to create new player
-    
-    [[OutgoingEventController sharedOutgoingEventController] createUser];
   }
   
   [gs removeNonFullUserUpdatesForTag:tag];
@@ -1365,6 +1376,56 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
     [gs removeNonFullUserUpdatesForTag:tag];
   } else {
     [Globals popupMessage:@"Server failed to begin pvp battle."];
+    
+    [gs removeAndUndoAllUpdatesForTag:tag];
+  }
+}
+
+- (void) handleBeginClanRaidResponseProto:(FullEvent *)fe {
+  BeginClanRaidResponseProto *proto = (BeginClanRaidResponseProto *)fe.event;
+  int tag = fe.tag;
+  
+  LNLog(@"Begin clan raid response received with status %d.", proto.status);
+  
+  GameState *gs = [GameState sharedGameState];
+  if (proto.status == BeginClanRaidResponseProto_BeginClanRaidStatusSuccess) {
+    if (proto.hasEventDetails) {
+      gs.curClanRaidInfo = proto.eventDetails;
+    }
+    if (proto.hasUserDetails) {
+      [gs addClanRaidUserInfo:proto.userDetails];
+    }
+    
+    [gs removeNonFullUserUpdatesForTag:tag];
+  } else {
+    [Globals popupMessage:@"Server failed to begin clan raid."];
+    
+    [gs removeAndUndoAllUpdatesForTag:tag];
+  }
+}
+
+- (void) handleAttackClanRaidMonsterResponseProto:(FullEvent *)fe {
+  AttackClanRaidMonsterResponseProto *proto = (AttackClanRaidMonsterResponseProto *)fe.event;
+  int tag = fe.tag;
+  
+  LNLog(@"Attack clan raid monster response received with status %d.", proto.status);
+  
+  GameState *gs = [GameState sharedGameState];
+  if (proto.status == AttackClanRaidMonsterResponseProto_AttackClanRaidMonsterStatusSuccess ||
+      proto.status == AttackClanRaidMonsterResponseProto_AttackClanRaidMonsterStatusSuccessMonsterJustDied) {
+    NSDictionary *dict = [NSDictionary dictionaryWithObject:proto forKey:CLAN_RAID_ATTACK_KEY];
+    [[NSNotificationCenter defaultCenter] postNotificationName:CLAN_RAID_ATTACK_NOTIFICATION object:nil userInfo:dict];
+    
+    if (proto.hasEventDetails) {
+      gs.curClanRaidInfo = proto.eventDetails;
+    }
+    for (PersistentClanEventUserInfoProto *ui in proto.clanUsersDetailsList) {
+      [gs addClanRaidUserInfo:ui];
+    }
+    
+    [gs removeNonFullUserUpdatesForTag:tag];
+  } else {
+    [Globals popupMessage:@"Server failed to attack clan raid monster."];
     
     [gs removeAndUndoAllUpdatesForTag:tag];
   }

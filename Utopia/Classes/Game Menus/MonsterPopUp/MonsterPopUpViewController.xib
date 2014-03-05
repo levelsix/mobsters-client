@@ -350,10 +350,6 @@
                     </subviews>
                     <color key="backgroundColor" red="0.98039215690000003" green="0.97254901959999995" blue="0.90196078430000004" alpha="1" colorSpace="calibratedRGB"/>
                 </view>
-                <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="detaildivider.png" id="dco-7f-sH1">
-                    <rect key="frame" x="525" y="289" width="50" height="2"/>
-                    <autoresizingMask key="autoresizingMask"/>
-                </imageView>
             </subviews>
             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
             <simulatedOrientationMetrics key="simulatedOrientationMetrics" orientation="landscapeRight"/>

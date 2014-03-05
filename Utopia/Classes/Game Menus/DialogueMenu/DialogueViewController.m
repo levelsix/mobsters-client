@@ -34,6 +34,10 @@
   self.view.hidden = NO;
   _isAnimating = YES;
   if (_curIndex < self.dialogue.speechSegmentList.count) {
+    if ([self.delegate respondsToSelector:@selector(dialogueViewController:willDisplaySpeechAtIndex:)]) {
+      [self.delegate dialogueViewController:self willDisplaySpeechAtIndex:_curIndex];
+    }
+    
     DialogueProto_SpeechSegmentProto *oldSS = _curIndex > 0 ? self.dialogue.speechSegmentList[_curIndex-1] : nil;
     DialogueProto_SpeechSegmentProto *curSS = self.dialogue.speechSegmentList[_curIndex];
     
@@ -45,7 +49,8 @@
     } else {
       void (^anim)(void) = ^{
         NSString *img = [curSS.speaker stringByAppendingString:@"Big.png"];
-        [Globals imageNamed:img withView:self.leftImageView greyscale:NO indicator:UIActivityIndicatorViewStyleWhite clearImageDuringDownload:YES];
+        UIColor *color = self.blackOutSpeakers ? [UIColor colorWithWhite:0.f alpha:1.f] : nil;
+        [Globals imageNamed:img withView:self.leftImageView maskedColor:color indicator:UIActivityIndicatorViewStyleWhite clearImageDuringDownload:YES];
         
         self.dialogueLabel.text = curSS.speakerText;
         
@@ -73,6 +78,9 @@
   }
 }
 
+#define IMAGE_BEGIN_SCALE .55
+#define IMAGE_END_SCALE .70
+
 - (void) animateIn:(BOOL)isLeftSide {
   if (isLeftSide) {
     self.view.transform = CGAffineTransformIdentity;
@@ -85,10 +93,10 @@
   CGPoint pt = self.leftImageView.center;
   self.leftImageView.center = ccpAdd(pt, ccp(-self.leftImageView.frame.size.width, self.leftImageView.frame.size.height/3));
   self.speechBubble.alpha = 0.f;
-  self.leftImageView.transform = CGAffineTransformMakeScale(0.8, 0.8);
+  self.leftImageView.transform = CGAffineTransformMakeScale(IMAGE_BEGIN_SCALE, IMAGE_BEGIN_SCALE);
   
   [UIView animateWithDuration:0.3f animations:^{
-    self.leftImageView.transform = CGAffineTransformIdentity;
+    self.leftImageView.transform = CGAffineTransformMakeScale(IMAGE_END_SCALE, IMAGE_END_SCALE);
     self.leftImageView.center = pt;
     
     // This will only do anything on first animation
@@ -105,7 +113,7 @@
     CGPoint pt = self.leftImageView.center;
     [UIView animateWithDuration:0.15f animations:^{
       self.leftImageView.center = ccpAdd(pt, ccp(-self.leftImageView.frame.size.width, self.leftImageView.frame.size.height/3));
-      self.leftImageView.transform = CGAffineTransformMakeScale(0.8, 0.8);
+      self.leftImageView.transform = CGAffineTransformMakeScale(IMAGE_BEGIN_SCALE, IMAGE_BEGIN_SCALE);
     } completion:^(BOOL finished) {
       self.leftImageView.transform = CGAffineTransformIdentity;
       self.leftImageView.center = pt;
@@ -143,6 +151,10 @@
 
 - (void) animationDidStop:(CAAnimation *)anim finished:(BOOL)flag {
   _isAnimating = NO;
+  
+  if ([self.delegate respondsToSelector:@selector(dialogueViewController:didDisplaySpeechAtIndex:)]) {
+    [self.delegate dialogueViewController:self didDisplaySpeechAtIndex:_curIndex-1];
+  }
 }
 
 - (void) animateBubbleOutCompletion:(void (^)(void))completion {

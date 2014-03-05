@@ -20,8 +20,8 @@
     CCLabelBMFont *label = [CCLabelBMFont labelWithString:@"" fntFile:@"mini7.fnt"];
     [self addChild:label z:1];
     label.anchorPoint = ccp(0, 0.5);
-    label.color = [CCColor colorWithRed:17.f/255.f green:90.f/255.f blue:100.f/255.f alpha:1.f];
-    label.position = ccp(5, self.contentSize.height/2+1);
+//    label.color = [CCColor colorWithRed:17.f/255.f green:90.f/255.f blue:100.f/255.f alpha:1.f];
+    label.position = ccp(5, self.contentSize.height/2+2);
     self.label = label;
     
     CCSprite *right = [CCSprite spriteWithImageNamed:@"bubbleright.png"];
@@ -39,10 +39,10 @@
     
     self.anchorPoint = ccp(0.7, 0);
     
-    label.texture.antialiased = YES;
-    self.texture.antialiased = YES;
-    mid.texture.antialiased = YES;
-    right.texture.antialiased = YES;
+    label.texture.antialiased = NO;
+    self.texture.antialiased = NO;
+    mid.texture.antialiased = NO;
+    right.texture.antialiased = NO;
   }
   return self;
 }

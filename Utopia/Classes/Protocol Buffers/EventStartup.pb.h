@@ -24,6 +24,14 @@
 @class CityElementProto_Builder;
 @class CityExpansionCostProto;
 @class CityExpansionCostProto_Builder;
+@class ClanRaidProto;
+@class ClanRaidProto_Builder;
+@class ClanRaidStageMonsterProto;
+@class ClanRaidStageMonsterProto_Builder;
+@class ClanRaidStageProto;
+@class ClanRaidStageProto_Builder;
+@class ClanRaidStageRewardProto;
+@class ClanRaidStageRewardProto_Builder;
 @class ColorProto;
 @class ColorProto_Builder;
 @class CoordinateProto;
@@ -88,6 +96,14 @@
 @class MonsterLevelInfoProto_Builder;
 @class MonsterProto;
 @class MonsterProto_Builder;
+@class PersistentClanEventClanInfoProto;
+@class PersistentClanEventClanInfoProto_Builder;
+@class PersistentClanEventProto;
+@class PersistentClanEventProto_Builder;
+@class PersistentClanEventUserInfoProto;
+@class PersistentClanEventUserInfoProto_Builder;
+@class PersistentClanEventUserRewardProto;
+@class PersistentClanEventUserRewardProto_Builder;
 @class PersistentEventProto;
 @class PersistentEventProto_Builder;
 @class PrivateChatPostProto;
@@ -124,6 +140,8 @@
 @class StartupResponseProto_StartupConstants_TournamentConstants_Builder;
 @class StartupResponseProto_StartupConstants_UserMonsterConstants;
 @class StartupResponseProto_StartupConstants_UserMonsterConstants_Builder;
+@class StartupResponseProto_TutorialConstants;
+@class StartupResponseProto_TutorialConstants_Builder;
 @class StaticDataProto;
 @class StaticDataProto_Builder;
 @class StaticUserLevelInfoProto;
@@ -136,6 +154,8 @@
 @class TaskStageProto_Builder;
 @class TownHallProto;
 @class TownHallProto_Builder;
+@class TutorialStructProto;
+@class TutorialStructProto_Builder;
 @class UserCityExpansionDataProto;
 @class UserCityExpansionDataProto_Builder;
 @class UserCurrentMonsterTeamProto;
@@ -293,53 +313,59 @@ BOOL StartupResponseProto_StartupStatusIsValidValue(StartupResponseProto_Startup
 @private
   BOOL hasPlayerHasBoughtInAppPurchase_:1;
   BOOL hasServerTimeMillis_:1;
-  BOOL hasAppStoreUrl_:1;
-  BOOL hasReviewPageUrl_:1;
-  BOOL hasReviewPageConfirmationMessage_:1;
   BOOL hasKabamNaid_:1;
-  BOOL hasSender_:1;
-  BOOL hasStartupConstants_:1;
-  BOOL hasStaticDataStuffProto_:1;
-  BOOL hasEvolution_:1;
+  BOOL hasReviewPageConfirmationMessage_:1;
+  BOOL hasReviewPageUrl_:1;
+  BOOL hasAppStoreUrl_:1;
   BOOL hasEnhancements_:1;
-  BOOL hasStartupStatus_:1;
+  BOOL hasEvolution_:1;
+  BOOL hasStaticDataStuffProto_:1;
+  BOOL hasCurRaidClanInfo_:1;
+  BOOL hasTutorialConstants_:1;
+  BOOL hasStartupConstants_:1;
+  BOOL hasSender_:1;
   BOOL hasUpdateStatus_:1;
+  BOOL hasStartupStatus_:1;
   BOOL playerHasBoughtInAppPurchase_:1;
   int64_t serverTimeMillis;
-  NSString* appStoreUrl;
-  NSString* reviewPageUrl;
-  NSString* reviewPageConfirmationMessage;
   NSString* kabamNaid;
-  FullUserProto* sender;
-  StartupResponseProto_StartupConstants* startupConstants;
-  StaticDataProto* staticDataStuffProto;
-  UserMonsterEvolutionProto* evolution;
+  NSString* reviewPageConfirmationMessage;
+  NSString* reviewPageUrl;
+  NSString* appStoreUrl;
   UserEnhancementProto* enhancements;
-  StartupResponseProto_StartupStatus startupStatus;
+  UserMonsterEvolutionProto* evolution;
+  StaticDataProto* staticDataStuffProto;
+  PersistentClanEventClanInfoProto* curRaidClanInfo;
+  StartupResponseProto_TutorialConstants* tutorialConstants;
+  StartupResponseProto_StartupConstants* startupConstants;
+  FullUserProto* sender;
   StartupResponseProto_UpdateStatus updateStatus;
+  StartupResponseProto_StartupStatus startupStatus;
+  NSMutableArray* mutableCompletedTaskIdsList;
   NSMutableArray* mutableTaskIdForCurrentCityBossList;
   NSMutableArray* mutableRedeemedQuestIdsList;
-  NSMutableArray* mutableCompletedTaskIdsList;
   NSMutableArray* mutableNoticesToPlayersList;
-  NSMutableArray* mutableGlobalChatsList;
   NSMutableArray* mutableClanChatsList;
   NSMutableArray* mutablePcppList;
   NSMutableArray* mutableUsersMonstersList;
   NSMutableArray* mutableMonstersHealingList;
-  NSMutableArray* mutableReferralNotificationsList;
+  NSMutableArray* mutableGlobalChatsList;
   NSMutableArray* mutableRareBoosterPurchasesList;
-  NSMutableArray* mutableAttackNotificationsList;
+  NSMutableArray* mutableReferralNotificationsList;
   NSMutableArray* mutableInvitesToMeForSlotsList;
   NSMutableArray* mutableInvitesFromMeForSlotsList;
+  NSMutableArray* mutableAttackNotificationsList;
   NSMutableArray* mutableUserClanInfoList;
-  NSMutableArray* mutableUserQuestsList;
   NSMutableArray* mutableUserEventsList;
+  NSMutableArray* mutableUserQuestsList;
+  NSMutableArray* mutableCurRaidClanUserInfoList;
 }
 - (BOOL) hasServerTimeMillis;
 - (BOOL) hasSender;
 - (BOOL) hasStartupStatus;
 - (BOOL) hasUpdateStatus;
 - (BOOL) hasStartupConstants;
+- (BOOL) hasTutorialConstants;
 - (BOOL) hasAppStoreUrl;
 - (BOOL) hasReviewPageUrl;
 - (BOOL) hasReviewPageConfirmationMessage;
@@ -348,11 +374,13 @@ BOOL StartupResponseProto_StartupStatusIsValidValue(StartupResponseProto_Startup
 - (BOOL) hasEvolution;
 - (BOOL) hasKabamNaid;
 - (BOOL) hasStaticDataStuffProto;
+- (BOOL) hasCurRaidClanInfo;
 @property (readonly) int64_t serverTimeMillis;
 @property (readonly, retain) FullUserProto* sender;
 @property (readonly) StartupResponseProto_StartupStatus startupStatus;
 @property (readonly) StartupResponseProto_UpdateStatus updateStatus;
 @property (readonly, retain) StartupResponseProto_StartupConstants* startupConstants;
+@property (readonly, retain) StartupResponseProto_TutorialConstants* tutorialConstants;
 @property (readonly, retain) NSString* appStoreUrl;
 @property (readonly, retain) NSString* reviewPageUrl;
 @property (readonly, retain) NSString* reviewPageConfirmationMessage;
@@ -361,6 +389,7 @@ BOOL StartupResponseProto_StartupStatusIsValidValue(StartupResponseProto_Startup
 @property (readonly, retain) UserMonsterEvolutionProto* evolution;
 @property (readonly, retain) NSString* kabamNaid;
 @property (readonly, retain) StaticDataProto* staticDataStuffProto;
+@property (readonly, retain) PersistentClanEventClanInfoProto* curRaidClanInfo;
 - (NSArray*) userQuestsList;
 - (FullUserQuestProto*) userQuestsAtIndex:(int32_t) index;
 - (NSArray*) redeemedQuestIdsList;
@@ -395,6 +424,8 @@ BOOL StartupResponseProto_StartupStatusIsValidValue(StartupResponseProto_Startup
 - (int32_t) taskIdForCurrentCityBossAtIndex:(int32_t) index;
 - (NSArray*) userEventsList;
 - (UserPersistentEventProto*) userEventsAtIndex:(int32_t) index;
+- (NSArray*) curRaidClanUserInfoList;
+- (PersistentClanEventUserInfoProto*) curRaidClanUserInfoAtIndex:(int32_t) index;
 
 + (StartupResponseProto*) defaultInstance;
 - (StartupResponseProto*) defaultInstance;
@@ -1207,6 +1238,138 @@ BOOL StartupResponseProto_StartupStatusIsValidValue(StartupResponseProto_Startup
 - (StartupResponseProto_StartupConstants_Builder*) clearContinueBattleGemCostMultiplier;
 @end
 
+@interface StartupResponseProto_TutorialConstants : PBGeneratedMessage {
+@private
+  BOOL hasStartingMonsterId_:1;
+  BOOL hasEnemyMonsterId_:1;
+  BOOL hasEnemyBossMonsterId_:1;
+  BOOL hasMarkZmonsterId_:1;
+  BOOL hasCityId_:1;
+  BOOL hasCityElementIdForFirstDungeon_:1;
+  BOOL hasCityElementIdForSecondDungeon_:1;
+  int32_t startingMonsterId;
+  int32_t enemyMonsterId;
+  int32_t enemyBossMonsterId;
+  int32_t markZmonsterId;
+  int32_t cityId;
+  int32_t cityElementIdForFirstDungeon;
+  int32_t cityElementIdForSecondDungeon;
+  NSMutableArray* mutableStructureIdsToBeBuilltList;
+  NSMutableArray* mutableTutorialStructuresList;
+  NSMutableArray* mutableCityOneElementsList;
+}
+- (BOOL) hasStartingMonsterId;
+- (BOOL) hasEnemyMonsterId;
+- (BOOL) hasEnemyBossMonsterId;
+- (BOOL) hasMarkZmonsterId;
+- (BOOL) hasCityId;
+- (BOOL) hasCityElementIdForFirstDungeon;
+- (BOOL) hasCityElementIdForSecondDungeon;
+@property (readonly) int32_t startingMonsterId;
+@property (readonly) int32_t enemyMonsterId;
+@property (readonly) int32_t enemyBossMonsterId;
+@property (readonly) int32_t markZmonsterId;
+@property (readonly) int32_t cityId;
+@property (readonly) int32_t cityElementIdForFirstDungeon;
+@property (readonly) int32_t cityElementIdForSecondDungeon;
+- (NSArray*) tutorialStructuresList;
+- (TutorialStructProto*) tutorialStructuresAtIndex:(int32_t) index;
+- (NSArray*) structureIdsToBeBuilltList;
+- (int32_t) structureIdsToBeBuilltAtIndex:(int32_t) index;
+- (NSArray*) cityOneElementsList;
+- (CityElementProto*) cityOneElementsAtIndex:(int32_t) index;
+
++ (StartupResponseProto_TutorialConstants*) defaultInstance;
+- (StartupResponseProto_TutorialConstants*) defaultInstance;
+
+- (BOOL) isInitialized;
+- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output;
+- (StartupResponseProto_TutorialConstants_Builder*) builder;
++ (StartupResponseProto_TutorialConstants_Builder*) builder;
++ (StartupResponseProto_TutorialConstants_Builder*) builderWithPrototype:(StartupResponseProto_TutorialConstants*) prototype;
+
++ (StartupResponseProto_TutorialConstants*) parseFromData:(NSData*) data;
++ (StartupResponseProto_TutorialConstants*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (StartupResponseProto_TutorialConstants*) parseFromInputStream:(NSInputStream*) input;
++ (StartupResponseProto_TutorialConstants*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (StartupResponseProto_TutorialConstants*) parseFromCodedInputStream:(PBCodedInputStream*) input;
++ (StartupResponseProto_TutorialConstants*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+@end
+
+@interface StartupResponseProto_TutorialConstants_Builder : PBGeneratedMessage_Builder {
+@private
+  StartupResponseProto_TutorialConstants* result;
+}
+
+- (StartupResponseProto_TutorialConstants*) defaultInstance;
+
+- (StartupResponseProto_TutorialConstants_Builder*) clear;
+- (StartupResponseProto_TutorialConstants_Builder*) clone;
+
+- (StartupResponseProto_TutorialConstants*) build;
+- (StartupResponseProto_TutorialConstants*) buildPartial;
+
+- (StartupResponseProto_TutorialConstants_Builder*) mergeFrom:(StartupResponseProto_TutorialConstants*) other;
+- (StartupResponseProto_TutorialConstants_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input;
+- (StartupResponseProto_TutorialConstants_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+
+- (BOOL) hasStartingMonsterId;
+- (int32_t) startingMonsterId;
+- (StartupResponseProto_TutorialConstants_Builder*) setStartingMonsterId:(int32_t) value;
+- (StartupResponseProto_TutorialConstants_Builder*) clearStartingMonsterId;
+
+- (BOOL) hasEnemyMonsterId;
+- (int32_t) enemyMonsterId;
+- (StartupResponseProto_TutorialConstants_Builder*) setEnemyMonsterId:(int32_t) value;
+- (StartupResponseProto_TutorialConstants_Builder*) clearEnemyMonsterId;
+
+- (BOOL) hasEnemyBossMonsterId;
+- (int32_t) enemyBossMonsterId;
+- (StartupResponseProto_TutorialConstants_Builder*) setEnemyBossMonsterId:(int32_t) value;
+- (StartupResponseProto_TutorialConstants_Builder*) clearEnemyBossMonsterId;
+
+- (BOOL) hasMarkZmonsterId;
+- (int32_t) markZmonsterId;
+- (StartupResponseProto_TutorialConstants_Builder*) setMarkZmonsterId:(int32_t) value;
+- (StartupResponseProto_TutorialConstants_Builder*) clearMarkZmonsterId;
+
+- (NSArray*) tutorialStructuresList;
+- (TutorialStructProto*) tutorialStructuresAtIndex:(int32_t) index;
+- (StartupResponseProto_TutorialConstants_Builder*) replaceTutorialStructuresAtIndex:(int32_t) index with:(TutorialStructProto*) value;
+- (StartupResponseProto_TutorialConstants_Builder*) addTutorialStructures:(TutorialStructProto*) value;
+- (StartupResponseProto_TutorialConstants_Builder*) addAllTutorialStructures:(NSArray*) values;
+- (StartupResponseProto_TutorialConstants_Builder*) clearTutorialStructuresList;
+
+- (NSArray*) structureIdsToBeBuilltList;
+- (int32_t) structureIdsToBeBuilltAtIndex:(int32_t) index;
+- (StartupResponseProto_TutorialConstants_Builder*) replaceStructureIdsToBeBuilltAtIndex:(int32_t) index with:(int32_t) value;
+- (StartupResponseProto_TutorialConstants_Builder*) addStructureIdsToBeBuillt:(int32_t) value;
+- (StartupResponseProto_TutorialConstants_Builder*) addAllStructureIdsToBeBuillt:(NSArray*) values;
+- (StartupResponseProto_TutorialConstants_Builder*) clearStructureIdsToBeBuilltList;
+
+- (BOOL) hasCityId;
+- (int32_t) cityId;
+- (StartupResponseProto_TutorialConstants_Builder*) setCityId:(int32_t) value;
+- (StartupResponseProto_TutorialConstants_Builder*) clearCityId;
+
+- (NSArray*) cityOneElementsList;
+- (CityElementProto*) cityOneElementsAtIndex:(int32_t) index;
+- (StartupResponseProto_TutorialConstants_Builder*) replaceCityOneElementsAtIndex:(int32_t) index with:(CityElementProto*) value;
+- (StartupResponseProto_TutorialConstants_Builder*) addCityOneElements:(CityElementProto*) value;
+- (StartupResponseProto_TutorialConstants_Builder*) addAllCityOneElements:(NSArray*) values;
+- (StartupResponseProto_TutorialConstants_Builder*) clearCityOneElementsList;
+
+- (BOOL) hasCityElementIdForFirstDungeon;
+- (int32_t) cityElementIdForFirstDungeon;
+- (StartupResponseProto_TutorialConstants_Builder*) setCityElementIdForFirstDungeon:(int32_t) value;
+- (StartupResponseProto_TutorialConstants_Builder*) clearCityElementIdForFirstDungeon;
+
+- (BOOL) hasCityElementIdForSecondDungeon;
+- (int32_t) cityElementIdForSecondDungeon;
+- (StartupResponseProto_TutorialConstants_Builder*) setCityElementIdForSecondDungeon:(int32_t) value;
+- (StartupResponseProto_TutorialConstants_Builder*) clearCityElementIdForSecondDungeon;
+@end
+
 @interface StartupResponseProto_Builder : PBGeneratedMessage_Builder {
 @private
   StartupResponseProto* result;
@@ -1252,6 +1415,13 @@ BOOL StartupResponseProto_StartupStatusIsValidValue(StartupResponseProto_Startup
 - (StartupResponseProto_Builder*) setStartupConstantsBuilder:(StartupResponseProto_StartupConstants_Builder*) builderForValue;
 - (StartupResponseProto_Builder*) mergeStartupConstants:(StartupResponseProto_StartupConstants*) value;
 - (StartupResponseProto_Builder*) clearStartupConstants;
+
+- (BOOL) hasTutorialConstants;
+- (StartupResponseProto_TutorialConstants*) tutorialConstants;
+- (StartupResponseProto_Builder*) setTutorialConstants:(StartupResponseProto_TutorialConstants*) value;
+- (StartupResponseProto_Builder*) setTutorialConstantsBuilder:(StartupResponseProto_TutorialConstants_Builder*) builderForValue;
+- (StartupResponseProto_Builder*) mergeTutorialConstants:(StartupResponseProto_TutorialConstants*) value;
+- (StartupResponseProto_Builder*) clearTutorialConstants;
 
 - (NSArray*) userQuestsList;
 - (FullUserQuestProto*) userQuestsAtIndex:(int32_t) index;
@@ -1417,5 +1587,19 @@ BOOL StartupResponseProto_StartupStatusIsValidValue(StartupResponseProto_Startup
 - (StartupResponseProto_Builder*) addUserEvents:(UserPersistentEventProto*) value;
 - (StartupResponseProto_Builder*) addAllUserEvents:(NSArray*) values;
 - (StartupResponseProto_Builder*) clearUserEventsList;
+
+- (BOOL) hasCurRaidClanInfo;
+- (PersistentClanEventClanInfoProto*) curRaidClanInfo;
+- (StartupResponseProto_Builder*) setCurRaidClanInfo:(PersistentClanEventClanInfoProto*) value;
+- (StartupResponseProto_Builder*) setCurRaidClanInfoBuilder:(PersistentClanEventClanInfoProto_Builder*) builderForValue;
+- (StartupResponseProto_Builder*) mergeCurRaidClanInfo:(PersistentClanEventClanInfoProto*) value;
+- (StartupResponseProto_Builder*) clearCurRaidClanInfo;
+
+- (NSArray*) curRaidClanUserInfoList;
+- (PersistentClanEventUserInfoProto*) curRaidClanUserInfoAtIndex:(int32_t) index;
+- (StartupResponseProto_Builder*) replaceCurRaidClanUserInfoAtIndex:(int32_t) index with:(PersistentClanEventUserInfoProto*) value;
+- (StartupResponseProto_Builder*) addCurRaidClanUserInfo:(PersistentClanEventUserInfoProto*) value;
+- (StartupResponseProto_Builder*) addAllCurRaidClanUserInfo:(NSArray*) values;
+- (StartupResponseProto_Builder*) clearCurRaidClanUserInfoList;
 @end
 

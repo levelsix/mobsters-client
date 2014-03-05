@@ -13,6 +13,9 @@ static PBExtensionRegistry* extensionRegistry = nil;
     PBMutableExtensionRegistry* registry = [PBMutableExtensionRegistry registry];
     [self registerAllExtensions:registry];
     [BattleRoot registerAllExtensions:registry];
+    [MonsterStuffRoot registerAllExtensions:registry];
+    [StructureRoot registerAllExtensions:registry];
+    [TaskRoot registerAllExtensions:registry];
     [UserRoot registerAllExtensions:registry];
     extensionRegistry = [registry retain];
   }
@@ -23,6 +26,9 @@ static PBExtensionRegistry* extensionRegistry = nil;
 
 BOOL UserClanStatusIsValidValue(UserClanStatus value) {
   switch (value) {
+    case UserClanStatusLeader:
+    case UserClanStatusJuniorLeader:
+    case UserClanStatusCaptain:
     case UserClanStatusMember:
     case UserClanStatusRequesting:
       return YES;
@@ -33,7 +39,6 @@ BOOL UserClanStatusIsValidValue(UserClanStatus value) {
 @interface FullClanProto ()
 @property int32_t clanId;
 @property (retain) NSString* name;
-@property (retain) MinimumUserProto* owner;
 @property int64_t createTime;
 @property (retain) NSString* description;
 @property (retain) NSString* tag;
@@ -56,13 +61,6 @@ BOOL UserClanStatusIsValidValue(UserClanStatus value) {
   hasName_ = !!value;
 }
 @synthesize name;
-- (BOOL) hasOwner {
-  return !!hasOwner_;
-}
-- (void) setHasOwner:(BOOL) value {
-  hasOwner_ = !!value;
-}
-@synthesize owner;
 - (BOOL) hasCreateTime {
   return !!hasCreateTime_;
 }
@@ -98,7 +96,6 @@ BOOL UserClanStatusIsValidValue(UserClanStatus value) {
 }
 - (void) dealloc {
   self.name = nil;
-  self.owner = nil;
   self.description = nil;
   self.tag = nil;
   [super dealloc];
@@ -107,7 +104,6 @@ BOOL UserClanStatusIsValidValue(UserClanStatus value) {
   if ((self = [super init])) {
     self.clanId = 0;
     self.name = @"";
-    self.owner = [MinimumUserProto defaultInstance];
     self.createTime = 0L;
     self.description = @"";
     self.tag = @"";
@@ -137,9 +133,6 @@ static FullClanProto* defaultFullClanProtoInstance = nil;
   if (self.hasName) {
     [output writeString:2 value:self.name];
   }
-  if (self.hasOwner) {
-    [output writeMessage:3 value:self.owner];
-  }
   if (self.hasCreateTime) {
     [output writeInt64:4 value:self.createTime];
   }
@@ -166,9 +159,6 @@ static FullClanProto* defaultFullClanProtoInstance = nil;
   }
   if (self.hasName) {
     size += computeStringSize(2, self.name);
-  }
-  if (self.hasOwner) {
-    size += computeMessageSize(3, self.owner);
   }
   if (self.hasCreateTime) {
     size += computeInt64Size(4, self.createTime);
@@ -263,9 +253,6 @@ static FullClanProto* defaultFullClanProtoInstance = nil;
   if (other.hasName) {
     [self setName:other.name];
   }
-  if (other.hasOwner) {
-    [self mergeOwner:other.owner];
-  }
   if (other.hasCreateTime) {
     [self setCreateTime:other.createTime];
   }
@@ -305,15 +292,6 @@ static FullClanProto* defaultFullClanProtoInstance = nil;
       }
       case 18: {
         [self setName:[input readString]];
-        break;
-      }
-      case 26: {
-        MinimumUserProto_Builder* subBuilder = [MinimumUserProto builder];
-        if (self.hasOwner) {
-          [subBuilder mergeFrom:self.owner];
-        }
-        [input readMessage:subBuilder extensionRegistry:extensionRegistry];
-        [self setOwner:[subBuilder buildPartial]];
         break;
       }
       case 32: {
@@ -365,36 +343,6 @@ static FullClanProto* defaultFullClanProtoInstance = nil;
 - (FullClanProto_Builder*) clearName {
   result.hasName = NO;
   result.name = @"";
-  return self;
-}
-- (BOOL) hasOwner {
-  return result.hasOwner;
-}
-- (MinimumUserProto*) owner {
-  return result.owner;
-}
-- (FullClanProto_Builder*) setOwner:(MinimumUserProto*) value {
-  result.hasOwner = YES;
-  result.owner = value;
-  return self;
-}
-- (FullClanProto_Builder*) setOwnerBuilder:(MinimumUserProto_Builder*) builderForValue {
-  return [self setOwner:[builderForValue build]];
-}
-- (FullClanProto_Builder*) mergeOwner:(MinimumUserProto*) value {
-  if (result.hasOwner &&
-      result.owner != [MinimumUserProto defaultInstance]) {
-    result.owner =
-      [[[MinimumUserProto builderWithPrototype:result.owner] mergeFrom:value] buildPartial];
-  } else {
-    result.owner = value;
-  }
-  result.hasOwner = YES;
-  return self;
-}
-- (FullClanProto_Builder*) clearOwner {
-  result.hasOwner = NO;
-  result.owner = [MinimumUserProto defaultInstance];
   return self;
 }
 - (BOOL) hasCreateTime {
@@ -507,7 +455,7 @@ static FullClanProto* defaultFullClanProtoInstance = nil;
   if ((self = [super init])) {
     self.userId = 0;
     self.clanId = 0;
-    self.status = UserClanStatusMember;
+    self.status = UserClanStatusLeader;
     self.requestTime = 0L;
   }
   return self;
@@ -738,7 +686,7 @@ static FullUserClanProto* defaultFullUserClanProtoInstance = nil;
 }
 - (FullUserClanProto_Builder*) clearStatus {
   result.hasStatus = NO;
-  result.status = UserClanStatusMember;
+  result.status = UserClanStatusLeader;
   return self;
 }
 - (BOOL) hasRequestTime {
@@ -997,6 +945,7 @@ static FullClanProtoWithClanSize* defaultFullClanProtoWithClanSizeInstance = nil
 @interface MinimumUserProtoForClans ()
 @property (retain) MinimumUserProtoWithBattleHistory* minUserProto;
 @property UserClanStatus clanStatus;
+@property Float32 raidContribution;
 @end
 
 @implementation MinimumUserProtoForClans
@@ -1015,6 +964,13 @@ static FullClanProtoWithClanSize* defaultFullClanProtoWithClanSizeInstance = nil
   hasClanStatus_ = !!value;
 }
 @synthesize clanStatus;
+- (BOOL) hasRaidContribution {
+  return !!hasRaidContribution_;
+}
+- (void) setHasRaidContribution:(BOOL) value {
+  hasRaidContribution_ = !!value;
+}
+@synthesize raidContribution;
 - (void) dealloc {
   self.minUserProto = nil;
   [super dealloc];
@@ -1022,7 +978,8 @@ static FullClanProtoWithClanSize* defaultFullClanProtoWithClanSizeInstance = nil
 - (id) init {
   if ((self = [super init])) {
     self.minUserProto = [MinimumUserProtoWithBattleHistory defaultInstance];
-    self.clanStatus = UserClanStatusMember;
+    self.clanStatus = UserClanStatusLeader;
+    self.raidContribution = 0;
   }
   return self;
 }
@@ -1048,6 +1005,9 @@ static MinimumUserProtoForClans* defaultMinimumUserProtoForClansInstance = nil;
   if (self.hasClanStatus) {
     [output writeEnum:2 value:self.clanStatus];
   }
+  if (self.hasRaidContribution) {
+    [output writeFloat:3 value:self.raidContribution];
+  }
   [self.unknownFields writeToCodedOutputStream:output];
 }
 - (int32_t) serializedSize {
@@ -1062,6 +1022,9 @@ static MinimumUserProtoForClans* defaultMinimumUserProtoForClansInstance = nil;
   }
   if (self.hasClanStatus) {
     size += computeEnumSize(2, self.clanStatus);
+  }
+  if (self.hasRaidContribution) {
+    size += computeFloatSize(3, self.raidContribution);
   }
   size += self.unknownFields.serializedSize;
   memoizedSerializedSize = size;
@@ -1144,6 +1107,9 @@ static MinimumUserProtoForClans* defaultMinimumUserProtoForClansInstance = nil;
   if (other.hasClanStatus) {
     [self setClanStatus:other.clanStatus];
   }
+  if (other.hasRaidContribution) {
+    [self setRaidContribution:other.raidContribution];
+  }
   [self mergeUnknownFields:other.unknownFields];
   return self;
 }
@@ -1181,6 +1147,10 @@ static MinimumUserProtoForClans* defaultMinimumUserProtoForClansInstance = nil;
         } else {
           [unknownFields mergeVarintField:2 value:value];
         }
+        break;
+      }
+      case 29: {
+        [self setRaidContribution:[input readFloat]];
         break;
       }
     }
@@ -1229,7 +1199,3321 @@ static MinimumUserProtoForClans* defaultMinimumUserProtoForClansInstance = nil;
 }
 - (MinimumUserProtoForClans_Builder*) clearClanStatus {
   result.hasClanStatus = NO;
-  result.clanStatus = UserClanStatusMember;
+  result.clanStatus = UserClanStatusLeader;
+  return self;
+}
+- (BOOL) hasRaidContribution {
+  return result.hasRaidContribution;
+}
+- (Float32) raidContribution {
+  return result.raidContribution;
+}
+- (MinimumUserProtoForClans_Builder*) setRaidContribution:(Float32) value {
+  result.hasRaidContribution = YES;
+  result.raidContribution = value;
+  return self;
+}
+- (MinimumUserProtoForClans_Builder*) clearRaidContribution {
+  result.hasRaidContribution = NO;
+  result.raidContribution = 0;
+  return self;
+}
+@end
+
+@interface ClanRaidProto ()
+@property int32_t clanRaidId;
+@property (retain) NSString* clanRaidName;
+@property (retain) NSString* activeTitleImgName;
+@property (retain) NSString* activeBackgroundImgName;
+@property (retain) NSString* activeDescription;
+@property (retain) NSString* inactiveMonsterImgName;
+@property (retain) NSString* inactiveDescription;
+@property (retain) NSString* dialogueText;
+@property (retain) NSString* spotlightMonsterImgName;
+@property (retain) NSMutableArray* mutableRaidStagesList;
+@end
+
+@implementation ClanRaidProto
+
+- (BOOL) hasClanRaidId {
+  return !!hasClanRaidId_;
+}
+- (void) setHasClanRaidId:(BOOL) value {
+  hasClanRaidId_ = !!value;
+}
+@synthesize clanRaidId;
+- (BOOL) hasClanRaidName {
+  return !!hasClanRaidName_;
+}
+- (void) setHasClanRaidName:(BOOL) value {
+  hasClanRaidName_ = !!value;
+}
+@synthesize clanRaidName;
+- (BOOL) hasActiveTitleImgName {
+  return !!hasActiveTitleImgName_;
+}
+- (void) setHasActiveTitleImgName:(BOOL) value {
+  hasActiveTitleImgName_ = !!value;
+}
+@synthesize activeTitleImgName;
+- (BOOL) hasActiveBackgroundImgName {
+  return !!hasActiveBackgroundImgName_;
+}
+- (void) setHasActiveBackgroundImgName:(BOOL) value {
+  hasActiveBackgroundImgName_ = !!value;
+}
+@synthesize activeBackgroundImgName;
+- (BOOL) hasActiveDescription {
+  return !!hasActiveDescription_;
+}
+- (void) setHasActiveDescription:(BOOL) value {
+  hasActiveDescription_ = !!value;
+}
+@synthesize activeDescription;
+- (BOOL) hasInactiveMonsterImgName {
+  return !!hasInactiveMonsterImgName_;
+}
+- (void) setHasInactiveMonsterImgName:(BOOL) value {
+  hasInactiveMonsterImgName_ = !!value;
+}
+@synthesize inactiveMonsterImgName;
+- (BOOL) hasInactiveDescription {
+  return !!hasInactiveDescription_;
+}
+- (void) setHasInactiveDescription:(BOOL) value {
+  hasInactiveDescription_ = !!value;
+}
+@synthesize inactiveDescription;
+- (BOOL) hasDialogueText {
+  return !!hasDialogueText_;
+}
+- (void) setHasDialogueText:(BOOL) value {
+  hasDialogueText_ = !!value;
+}
+@synthesize dialogueText;
+- (BOOL) hasSpotlightMonsterImgName {
+  return !!hasSpotlightMonsterImgName_;
+}
+- (void) setHasSpotlightMonsterImgName:(BOOL) value {
+  hasSpotlightMonsterImgName_ = !!value;
+}
+@synthesize spotlightMonsterImgName;
+@synthesize mutableRaidStagesList;
+- (void) dealloc {
+  self.clanRaidName = nil;
+  self.activeTitleImgName = nil;
+  self.activeBackgroundImgName = nil;
+  self.activeDescription = nil;
+  self.inactiveMonsterImgName = nil;
+  self.inactiveDescription = nil;
+  self.dialogueText = nil;
+  self.spotlightMonsterImgName = nil;
+  self.mutableRaidStagesList = nil;
+  [super dealloc];
+}
+- (id) init {
+  if ((self = [super init])) {
+    self.clanRaidId = 0;
+    self.clanRaidName = @"";
+    self.activeTitleImgName = @"";
+    self.activeBackgroundImgName = @"";
+    self.activeDescription = @"";
+    self.inactiveMonsterImgName = @"";
+    self.inactiveDescription = @"";
+    self.dialogueText = @"";
+    self.spotlightMonsterImgName = @"";
+  }
+  return self;
+}
+static ClanRaidProto* defaultClanRaidProtoInstance = nil;
++ (void) initialize {
+  if (self == [ClanRaidProto class]) {
+    defaultClanRaidProtoInstance = [[ClanRaidProto alloc] init];
+  }
+}
++ (ClanRaidProto*) defaultInstance {
+  return defaultClanRaidProtoInstance;
+}
+- (ClanRaidProto*) defaultInstance {
+  return defaultClanRaidProtoInstance;
+}
+- (NSArray*) raidStagesList {
+  return mutableRaidStagesList;
+}
+- (ClanRaidStageProto*) raidStagesAtIndex:(int32_t) index {
+  id value = [mutableRaidStagesList objectAtIndex:index];
+  return value;
+}
+- (BOOL) isInitialized {
+  return YES;
+}
+- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output {
+  if (self.hasClanRaidId) {
+    [output writeInt32:1 value:self.clanRaidId];
+  }
+  if (self.hasClanRaidName) {
+    [output writeString:2 value:self.clanRaidName];
+  }
+  if (self.hasActiveTitleImgName) {
+    [output writeString:3 value:self.activeTitleImgName];
+  }
+  if (self.hasActiveBackgroundImgName) {
+    [output writeString:4 value:self.activeBackgroundImgName];
+  }
+  if (self.hasActiveDescription) {
+    [output writeString:5 value:self.activeDescription];
+  }
+  if (self.hasInactiveMonsterImgName) {
+    [output writeString:6 value:self.inactiveMonsterImgName];
+  }
+  if (self.hasInactiveDescription) {
+    [output writeString:7 value:self.inactiveDescription];
+  }
+  if (self.hasDialogueText) {
+    [output writeString:8 value:self.dialogueText];
+  }
+  if (self.hasSpotlightMonsterImgName) {
+    [output writeString:9 value:self.spotlightMonsterImgName];
+  }
+  for (ClanRaidStageProto* element in self.raidStagesList) {
+    [output writeMessage:10 value:element];
+  }
+  [self.unknownFields writeToCodedOutputStream:output];
+}
+- (int32_t) serializedSize {
+  int32_t size = memoizedSerializedSize;
+  if (size != -1) {
+    return size;
+  }
+
+  size = 0;
+  if (self.hasClanRaidId) {
+    size += computeInt32Size(1, self.clanRaidId);
+  }
+  if (self.hasClanRaidName) {
+    size += computeStringSize(2, self.clanRaidName);
+  }
+  if (self.hasActiveTitleImgName) {
+    size += computeStringSize(3, self.activeTitleImgName);
+  }
+  if (self.hasActiveBackgroundImgName) {
+    size += computeStringSize(4, self.activeBackgroundImgName);
+  }
+  if (self.hasActiveDescription) {
+    size += computeStringSize(5, self.activeDescription);
+  }
+  if (self.hasInactiveMonsterImgName) {
+    size += computeStringSize(6, self.inactiveMonsterImgName);
+  }
+  if (self.hasInactiveDescription) {
+    size += computeStringSize(7, self.inactiveDescription);
+  }
+  if (self.hasDialogueText) {
+    size += computeStringSize(8, self.dialogueText);
+  }
+  if (self.hasSpotlightMonsterImgName) {
+    size += computeStringSize(9, self.spotlightMonsterImgName);
+  }
+  for (ClanRaidStageProto* element in self.raidStagesList) {
+    size += computeMessageSize(10, element);
+  }
+  size += self.unknownFields.serializedSize;
+  memoizedSerializedSize = size;
+  return size;
+}
++ (ClanRaidProto*) parseFromData:(NSData*) data {
+  return (ClanRaidProto*)[[[ClanRaidProto builder] mergeFromData:data] build];
+}
++ (ClanRaidProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (ClanRaidProto*)[[[ClanRaidProto builder] mergeFromData:data extensionRegistry:extensionRegistry] build];
+}
++ (ClanRaidProto*) parseFromInputStream:(NSInputStream*) input {
+  return (ClanRaidProto*)[[[ClanRaidProto builder] mergeFromInputStream:input] build];
+}
++ (ClanRaidProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (ClanRaidProto*)[[[ClanRaidProto builder] mergeFromInputStream:input extensionRegistry:extensionRegistry] build];
+}
++ (ClanRaidProto*) parseFromCodedInputStream:(PBCodedInputStream*) input {
+  return (ClanRaidProto*)[[[ClanRaidProto builder] mergeFromCodedInputStream:input] build];
+}
++ (ClanRaidProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (ClanRaidProto*)[[[ClanRaidProto builder] mergeFromCodedInputStream:input extensionRegistry:extensionRegistry] build];
+}
++ (ClanRaidProto_Builder*) builder {
+  return [[[ClanRaidProto_Builder alloc] init] autorelease];
+}
++ (ClanRaidProto_Builder*) builderWithPrototype:(ClanRaidProto*) prototype {
+  return [[ClanRaidProto builder] mergeFrom:prototype];
+}
+- (ClanRaidProto_Builder*) builder {
+  return [ClanRaidProto builder];
+}
+@end
+
+@interface ClanRaidProto_Builder()
+@property (retain) ClanRaidProto* result;
+@end
+
+@implementation ClanRaidProto_Builder
+@synthesize result;
+- (void) dealloc {
+  self.result = nil;
+  [super dealloc];
+}
+- (id) init {
+  if ((self = [super init])) {
+    self.result = [[[ClanRaidProto alloc] init] autorelease];
+  }
+  return self;
+}
+- (PBGeneratedMessage*) internalGetResult {
+  return result;
+}
+- (ClanRaidProto_Builder*) clear {
+  self.result = [[[ClanRaidProto alloc] init] autorelease];
+  return self;
+}
+- (ClanRaidProto_Builder*) clone {
+  return [ClanRaidProto builderWithPrototype:result];
+}
+- (ClanRaidProto*) defaultInstance {
+  return [ClanRaidProto defaultInstance];
+}
+- (ClanRaidProto*) build {
+  [self checkInitialized];
+  return [self buildPartial];
+}
+- (ClanRaidProto*) buildPartial {
+  ClanRaidProto* returnMe = [[result retain] autorelease];
+  self.result = nil;
+  return returnMe;
+}
+- (ClanRaidProto_Builder*) mergeFrom:(ClanRaidProto*) other {
+  if (other == [ClanRaidProto defaultInstance]) {
+    return self;
+  }
+  if (other.hasClanRaidId) {
+    [self setClanRaidId:other.clanRaidId];
+  }
+  if (other.hasClanRaidName) {
+    [self setClanRaidName:other.clanRaidName];
+  }
+  if (other.hasActiveTitleImgName) {
+    [self setActiveTitleImgName:other.activeTitleImgName];
+  }
+  if (other.hasActiveBackgroundImgName) {
+    [self setActiveBackgroundImgName:other.activeBackgroundImgName];
+  }
+  if (other.hasActiveDescription) {
+    [self setActiveDescription:other.activeDescription];
+  }
+  if (other.hasInactiveMonsterImgName) {
+    [self setInactiveMonsterImgName:other.inactiveMonsterImgName];
+  }
+  if (other.hasInactiveDescription) {
+    [self setInactiveDescription:other.inactiveDescription];
+  }
+  if (other.hasDialogueText) {
+    [self setDialogueText:other.dialogueText];
+  }
+  if (other.hasSpotlightMonsterImgName) {
+    [self setSpotlightMonsterImgName:other.spotlightMonsterImgName];
+  }
+  if (other.mutableRaidStagesList.count > 0) {
+    if (result.mutableRaidStagesList == nil) {
+      result.mutableRaidStagesList = [NSMutableArray array];
+    }
+    [result.mutableRaidStagesList addObjectsFromArray:other.mutableRaidStagesList];
+  }
+  [self mergeUnknownFields:other.unknownFields];
+  return self;
+}
+- (ClanRaidProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input {
+  return [self mergeFromCodedInputStream:input extensionRegistry:[PBExtensionRegistry emptyRegistry]];
+}
+- (ClanRaidProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  PBUnknownFieldSet_Builder* unknownFields = [PBUnknownFieldSet builderWithUnknownFields:self.unknownFields];
+  while (YES) {
+    int32_t tag = [input readTag];
+    switch (tag) {
+      case 0:
+        [self setUnknownFields:[unknownFields build]];
+        return self;
+      default: {
+        if (![self parseUnknownField:input unknownFields:unknownFields extensionRegistry:extensionRegistry tag:tag]) {
+          [self setUnknownFields:[unknownFields build]];
+          return self;
+        }
+        break;
+      }
+      case 8: {
+        [self setClanRaidId:[input readInt32]];
+        break;
+      }
+      case 18: {
+        [self setClanRaidName:[input readString]];
+        break;
+      }
+      case 26: {
+        [self setActiveTitleImgName:[input readString]];
+        break;
+      }
+      case 34: {
+        [self setActiveBackgroundImgName:[input readString]];
+        break;
+      }
+      case 42: {
+        [self setActiveDescription:[input readString]];
+        break;
+      }
+      case 50: {
+        [self setInactiveMonsterImgName:[input readString]];
+        break;
+      }
+      case 58: {
+        [self setInactiveDescription:[input readString]];
+        break;
+      }
+      case 66: {
+        [self setDialogueText:[input readString]];
+        break;
+      }
+      case 74: {
+        [self setSpotlightMonsterImgName:[input readString]];
+        break;
+      }
+      case 82: {
+        ClanRaidStageProto_Builder* subBuilder = [ClanRaidStageProto builder];
+        [input readMessage:subBuilder extensionRegistry:extensionRegistry];
+        [self addRaidStages:[subBuilder buildPartial]];
+        break;
+      }
+    }
+  }
+}
+- (BOOL) hasClanRaidId {
+  return result.hasClanRaidId;
+}
+- (int32_t) clanRaidId {
+  return result.clanRaidId;
+}
+- (ClanRaidProto_Builder*) setClanRaidId:(int32_t) value {
+  result.hasClanRaidId = YES;
+  result.clanRaidId = value;
+  return self;
+}
+- (ClanRaidProto_Builder*) clearClanRaidId {
+  result.hasClanRaidId = NO;
+  result.clanRaidId = 0;
+  return self;
+}
+- (BOOL) hasClanRaidName {
+  return result.hasClanRaidName;
+}
+- (NSString*) clanRaidName {
+  return result.clanRaidName;
+}
+- (ClanRaidProto_Builder*) setClanRaidName:(NSString*) value {
+  result.hasClanRaidName = YES;
+  result.clanRaidName = value;
+  return self;
+}
+- (ClanRaidProto_Builder*) clearClanRaidName {
+  result.hasClanRaidName = NO;
+  result.clanRaidName = @"";
+  return self;
+}
+- (BOOL) hasActiveTitleImgName {
+  return result.hasActiveTitleImgName;
+}
+- (NSString*) activeTitleImgName {
+  return result.activeTitleImgName;
+}
+- (ClanRaidProto_Builder*) setActiveTitleImgName:(NSString*) value {
+  result.hasActiveTitleImgName = YES;
+  result.activeTitleImgName = value;
+  return self;
+}
+- (ClanRaidProto_Builder*) clearActiveTitleImgName {
+  result.hasActiveTitleImgName = NO;
+  result.activeTitleImgName = @"";
+  return self;
+}
+- (BOOL) hasActiveBackgroundImgName {
+  return result.hasActiveBackgroundImgName;
+}
+- (NSString*) activeBackgroundImgName {
+  return result.activeBackgroundImgName;
+}
+- (ClanRaidProto_Builder*) setActiveBackgroundImgName:(NSString*) value {
+  result.hasActiveBackgroundImgName = YES;
+  result.activeBackgroundImgName = value;
+  return self;
+}
+- (ClanRaidProto_Builder*) clearActiveBackgroundImgName {
+  result.hasActiveBackgroundImgName = NO;
+  result.activeBackgroundImgName = @"";
+  return self;
+}
+- (BOOL) hasActiveDescription {
+  return result.hasActiveDescription;
+}
+- (NSString*) activeDescription {
+  return result.activeDescription;
+}
+- (ClanRaidProto_Builder*) setActiveDescription:(NSString*) value {
+  result.hasActiveDescription = YES;
+  result.activeDescription = value;
+  return self;
+}
+- (ClanRaidProto_Builder*) clearActiveDescription {
+  result.hasActiveDescription = NO;
+  result.activeDescription = @"";
+  return self;
+}
+- (BOOL) hasInactiveMonsterImgName {
+  return result.hasInactiveMonsterImgName;
+}
+- (NSString*) inactiveMonsterImgName {
+  return result.inactiveMonsterImgName;
+}
+- (ClanRaidProto_Builder*) setInactiveMonsterImgName:(NSString*) value {
+  result.hasInactiveMonsterImgName = YES;
+  result.inactiveMonsterImgName = value;
+  return self;
+}
+- (ClanRaidProto_Builder*) clearInactiveMonsterImgName {
+  result.hasInactiveMonsterImgName = NO;
+  result.inactiveMonsterImgName = @"";
+  return self;
+}
+- (BOOL) hasInactiveDescription {
+  return result.hasInactiveDescription;
+}
+- (NSString*) inactiveDescription {
+  return result.inactiveDescription;
+}
+- (ClanRaidProto_Builder*) setInactiveDescription:(NSString*) value {
+  result.hasInactiveDescription = YES;
+  result.inactiveDescription = value;
+  return self;
+}
+- (ClanRaidProto_Builder*) clearInactiveDescription {
+  result.hasInactiveDescription = NO;
+  result.inactiveDescription = @"";
+  return self;
+}
+- (BOOL) hasDialogueText {
+  return result.hasDialogueText;
+}
+- (NSString*) dialogueText {
+  return result.dialogueText;
+}
+- (ClanRaidProto_Builder*) setDialogueText:(NSString*) value {
+  result.hasDialogueText = YES;
+  result.dialogueText = value;
+  return self;
+}
+- (ClanRaidProto_Builder*) clearDialogueText {
+  result.hasDialogueText = NO;
+  result.dialogueText = @"";
+  return self;
+}
+- (BOOL) hasSpotlightMonsterImgName {
+  return result.hasSpotlightMonsterImgName;
+}
+- (NSString*) spotlightMonsterImgName {
+  return result.spotlightMonsterImgName;
+}
+- (ClanRaidProto_Builder*) setSpotlightMonsterImgName:(NSString*) value {
+  result.hasSpotlightMonsterImgName = YES;
+  result.spotlightMonsterImgName = value;
+  return self;
+}
+- (ClanRaidProto_Builder*) clearSpotlightMonsterImgName {
+  result.hasSpotlightMonsterImgName = NO;
+  result.spotlightMonsterImgName = @"";
+  return self;
+}
+- (NSArray*) raidStagesList {
+  if (result.mutableRaidStagesList == nil) { return [NSArray array]; }
+  return result.mutableRaidStagesList;
+}
+- (ClanRaidStageProto*) raidStagesAtIndex:(int32_t) index {
+  return [result raidStagesAtIndex:index];
+}
+- (ClanRaidProto_Builder*) replaceRaidStagesAtIndex:(int32_t) index with:(ClanRaidStageProto*) value {
+  [result.mutableRaidStagesList replaceObjectAtIndex:index withObject:value];
+  return self;
+}
+- (ClanRaidProto_Builder*) addAllRaidStages:(NSArray*) values {
+  if (result.mutableRaidStagesList == nil) {
+    result.mutableRaidStagesList = [NSMutableArray array];
+  }
+  [result.mutableRaidStagesList addObjectsFromArray:values];
+  return self;
+}
+- (ClanRaidProto_Builder*) clearRaidStagesList {
+  result.mutableRaidStagesList = nil;
+  return self;
+}
+- (ClanRaidProto_Builder*) addRaidStages:(ClanRaidStageProto*) value {
+  if (result.mutableRaidStagesList == nil) {
+    result.mutableRaidStagesList = [NSMutableArray array];
+  }
+  [result.mutableRaidStagesList addObject:value];
+  return self;
+}
+@end
+
+@interface ClanRaidStageProto ()
+@property int32_t clanRaidStageId;
+@property int32_t clanRaidId;
+@property int32_t durationMinutes;
+@property int32_t stageNum;
+@property (retain) NSString* name;
+@property (retain) NSMutableArray* mutableMonstersList;
+@property (retain) NSMutableArray* mutablePossibleRewardsList;
+@end
+
+@implementation ClanRaidStageProto
+
+- (BOOL) hasClanRaidStageId {
+  return !!hasClanRaidStageId_;
+}
+- (void) setHasClanRaidStageId:(BOOL) value {
+  hasClanRaidStageId_ = !!value;
+}
+@synthesize clanRaidStageId;
+- (BOOL) hasClanRaidId {
+  return !!hasClanRaidId_;
+}
+- (void) setHasClanRaidId:(BOOL) value {
+  hasClanRaidId_ = !!value;
+}
+@synthesize clanRaidId;
+- (BOOL) hasDurationMinutes {
+  return !!hasDurationMinutes_;
+}
+- (void) setHasDurationMinutes:(BOOL) value {
+  hasDurationMinutes_ = !!value;
+}
+@synthesize durationMinutes;
+- (BOOL) hasStageNum {
+  return !!hasStageNum_;
+}
+- (void) setHasStageNum:(BOOL) value {
+  hasStageNum_ = !!value;
+}
+@synthesize stageNum;
+- (BOOL) hasName {
+  return !!hasName_;
+}
+- (void) setHasName:(BOOL) value {
+  hasName_ = !!value;
+}
+@synthesize name;
+@synthesize mutableMonstersList;
+@synthesize mutablePossibleRewardsList;
+- (void) dealloc {
+  self.name = nil;
+  self.mutableMonstersList = nil;
+  self.mutablePossibleRewardsList = nil;
+  [super dealloc];
+}
+- (id) init {
+  if ((self = [super init])) {
+    self.clanRaidStageId = 0;
+    self.clanRaidId = 0;
+    self.durationMinutes = 0;
+    self.stageNum = 0;
+    self.name = @"";
+  }
+  return self;
+}
+static ClanRaidStageProto* defaultClanRaidStageProtoInstance = nil;
++ (void) initialize {
+  if (self == [ClanRaidStageProto class]) {
+    defaultClanRaidStageProtoInstance = [[ClanRaidStageProto alloc] init];
+  }
+}
++ (ClanRaidStageProto*) defaultInstance {
+  return defaultClanRaidStageProtoInstance;
+}
+- (ClanRaidStageProto*) defaultInstance {
+  return defaultClanRaidStageProtoInstance;
+}
+- (NSArray*) monstersList {
+  return mutableMonstersList;
+}
+- (ClanRaidStageMonsterProto*) monstersAtIndex:(int32_t) index {
+  id value = [mutableMonstersList objectAtIndex:index];
+  return value;
+}
+- (NSArray*) possibleRewardsList {
+  return mutablePossibleRewardsList;
+}
+- (ClanRaidStageRewardProto*) possibleRewardsAtIndex:(int32_t) index {
+  id value = [mutablePossibleRewardsList objectAtIndex:index];
+  return value;
+}
+- (BOOL) isInitialized {
+  return YES;
+}
+- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output {
+  if (self.hasClanRaidStageId) {
+    [output writeInt32:1 value:self.clanRaidStageId];
+  }
+  if (self.hasClanRaidId) {
+    [output writeInt32:2 value:self.clanRaidId];
+  }
+  if (self.hasDurationMinutes) {
+    [output writeInt32:3 value:self.durationMinutes];
+  }
+  if (self.hasStageNum) {
+    [output writeInt32:4 value:self.stageNum];
+  }
+  if (self.hasName) {
+    [output writeString:5 value:self.name];
+  }
+  for (ClanRaidStageMonsterProto* element in self.monstersList) {
+    [output writeMessage:11 value:element];
+  }
+  for (ClanRaidStageRewardProto* element in self.possibleRewardsList) {
+    [output writeMessage:12 value:element];
+  }
+  [self.unknownFields writeToCodedOutputStream:output];
+}
+- (int32_t) serializedSize {
+  int32_t size = memoizedSerializedSize;
+  if (size != -1) {
+    return size;
+  }
+
+  size = 0;
+  if (self.hasClanRaidStageId) {
+    size += computeInt32Size(1, self.clanRaidStageId);
+  }
+  if (self.hasClanRaidId) {
+    size += computeInt32Size(2, self.clanRaidId);
+  }
+  if (self.hasDurationMinutes) {
+    size += computeInt32Size(3, self.durationMinutes);
+  }
+  if (self.hasStageNum) {
+    size += computeInt32Size(4, self.stageNum);
+  }
+  if (self.hasName) {
+    size += computeStringSize(5, self.name);
+  }
+  for (ClanRaidStageMonsterProto* element in self.monstersList) {
+    size += computeMessageSize(11, element);
+  }
+  for (ClanRaidStageRewardProto* element in self.possibleRewardsList) {
+    size += computeMessageSize(12, element);
+  }
+  size += self.unknownFields.serializedSize;
+  memoizedSerializedSize = size;
+  return size;
+}
++ (ClanRaidStageProto*) parseFromData:(NSData*) data {
+  return (ClanRaidStageProto*)[[[ClanRaidStageProto builder] mergeFromData:data] build];
+}
++ (ClanRaidStageProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (ClanRaidStageProto*)[[[ClanRaidStageProto builder] mergeFromData:data extensionRegistry:extensionRegistry] build];
+}
++ (ClanRaidStageProto*) parseFromInputStream:(NSInputStream*) input {
+  return (ClanRaidStageProto*)[[[ClanRaidStageProto builder] mergeFromInputStream:input] build];
+}
++ (ClanRaidStageProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (ClanRaidStageProto*)[[[ClanRaidStageProto builder] mergeFromInputStream:input extensionRegistry:extensionRegistry] build];
+}
++ (ClanRaidStageProto*) parseFromCodedInputStream:(PBCodedInputStream*) input {
+  return (ClanRaidStageProto*)[[[ClanRaidStageProto builder] mergeFromCodedInputStream:input] build];
+}
++ (ClanRaidStageProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (ClanRaidStageProto*)[[[ClanRaidStageProto builder] mergeFromCodedInputStream:input extensionRegistry:extensionRegistry] build];
+}
++ (ClanRaidStageProto_Builder*) builder {
+  return [[[ClanRaidStageProto_Builder alloc] init] autorelease];
+}
++ (ClanRaidStageProto_Builder*) builderWithPrototype:(ClanRaidStageProto*) prototype {
+  return [[ClanRaidStageProto builder] mergeFrom:prototype];
+}
+- (ClanRaidStageProto_Builder*) builder {
+  return [ClanRaidStageProto builder];
+}
+@end
+
+@interface ClanRaidStageProto_Builder()
+@property (retain) ClanRaidStageProto* result;
+@end
+
+@implementation ClanRaidStageProto_Builder
+@synthesize result;
+- (void) dealloc {
+  self.result = nil;
+  [super dealloc];
+}
+- (id) init {
+  if ((self = [super init])) {
+    self.result = [[[ClanRaidStageProto alloc] init] autorelease];
+  }
+  return self;
+}
+- (PBGeneratedMessage*) internalGetResult {
+  return result;
+}
+- (ClanRaidStageProto_Builder*) clear {
+  self.result = [[[ClanRaidStageProto alloc] init] autorelease];
+  return self;
+}
+- (ClanRaidStageProto_Builder*) clone {
+  return [ClanRaidStageProto builderWithPrototype:result];
+}
+- (ClanRaidStageProto*) defaultInstance {
+  return [ClanRaidStageProto defaultInstance];
+}
+- (ClanRaidStageProto*) build {
+  [self checkInitialized];
+  return [self buildPartial];
+}
+- (ClanRaidStageProto*) buildPartial {
+  ClanRaidStageProto* returnMe = [[result retain] autorelease];
+  self.result = nil;
+  return returnMe;
+}
+- (ClanRaidStageProto_Builder*) mergeFrom:(ClanRaidStageProto*) other {
+  if (other == [ClanRaidStageProto defaultInstance]) {
+    return self;
+  }
+  if (other.hasClanRaidStageId) {
+    [self setClanRaidStageId:other.clanRaidStageId];
+  }
+  if (other.hasClanRaidId) {
+    [self setClanRaidId:other.clanRaidId];
+  }
+  if (other.hasDurationMinutes) {
+    [self setDurationMinutes:other.durationMinutes];
+  }
+  if (other.hasStageNum) {
+    [self setStageNum:other.stageNum];
+  }
+  if (other.hasName) {
+    [self setName:other.name];
+  }
+  if (other.mutableMonstersList.count > 0) {
+    if (result.mutableMonstersList == nil) {
+      result.mutableMonstersList = [NSMutableArray array];
+    }
+    [result.mutableMonstersList addObjectsFromArray:other.mutableMonstersList];
+  }
+  if (other.mutablePossibleRewardsList.count > 0) {
+    if (result.mutablePossibleRewardsList == nil) {
+      result.mutablePossibleRewardsList = [NSMutableArray array];
+    }
+    [result.mutablePossibleRewardsList addObjectsFromArray:other.mutablePossibleRewardsList];
+  }
+  [self mergeUnknownFields:other.unknownFields];
+  return self;
+}
+- (ClanRaidStageProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input {
+  return [self mergeFromCodedInputStream:input extensionRegistry:[PBExtensionRegistry emptyRegistry]];
+}
+- (ClanRaidStageProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  PBUnknownFieldSet_Builder* unknownFields = [PBUnknownFieldSet builderWithUnknownFields:self.unknownFields];
+  while (YES) {
+    int32_t tag = [input readTag];
+    switch (tag) {
+      case 0:
+        [self setUnknownFields:[unknownFields build]];
+        return self;
+      default: {
+        if (![self parseUnknownField:input unknownFields:unknownFields extensionRegistry:extensionRegistry tag:tag]) {
+          [self setUnknownFields:[unknownFields build]];
+          return self;
+        }
+        break;
+      }
+      case 8: {
+        [self setClanRaidStageId:[input readInt32]];
+        break;
+      }
+      case 16: {
+        [self setClanRaidId:[input readInt32]];
+        break;
+      }
+      case 24: {
+        [self setDurationMinutes:[input readInt32]];
+        break;
+      }
+      case 32: {
+        [self setStageNum:[input readInt32]];
+        break;
+      }
+      case 42: {
+        [self setName:[input readString]];
+        break;
+      }
+      case 90: {
+        ClanRaidStageMonsterProto_Builder* subBuilder = [ClanRaidStageMonsterProto builder];
+        [input readMessage:subBuilder extensionRegistry:extensionRegistry];
+        [self addMonsters:[subBuilder buildPartial]];
+        break;
+      }
+      case 98: {
+        ClanRaidStageRewardProto_Builder* subBuilder = [ClanRaidStageRewardProto builder];
+        [input readMessage:subBuilder extensionRegistry:extensionRegistry];
+        [self addPossibleRewards:[subBuilder buildPartial]];
+        break;
+      }
+    }
+  }
+}
+- (BOOL) hasClanRaidStageId {
+  return result.hasClanRaidStageId;
+}
+- (int32_t) clanRaidStageId {
+  return result.clanRaidStageId;
+}
+- (ClanRaidStageProto_Builder*) setClanRaidStageId:(int32_t) value {
+  result.hasClanRaidStageId = YES;
+  result.clanRaidStageId = value;
+  return self;
+}
+- (ClanRaidStageProto_Builder*) clearClanRaidStageId {
+  result.hasClanRaidStageId = NO;
+  result.clanRaidStageId = 0;
+  return self;
+}
+- (BOOL) hasClanRaidId {
+  return result.hasClanRaidId;
+}
+- (int32_t) clanRaidId {
+  return result.clanRaidId;
+}
+- (ClanRaidStageProto_Builder*) setClanRaidId:(int32_t) value {
+  result.hasClanRaidId = YES;
+  result.clanRaidId = value;
+  return self;
+}
+- (ClanRaidStageProto_Builder*) clearClanRaidId {
+  result.hasClanRaidId = NO;
+  result.clanRaidId = 0;
+  return self;
+}
+- (BOOL) hasDurationMinutes {
+  return result.hasDurationMinutes;
+}
+- (int32_t) durationMinutes {
+  return result.durationMinutes;
+}
+- (ClanRaidStageProto_Builder*) setDurationMinutes:(int32_t) value {
+  result.hasDurationMinutes = YES;
+  result.durationMinutes = value;
+  return self;
+}
+- (ClanRaidStageProto_Builder*) clearDurationMinutes {
+  result.hasDurationMinutes = NO;
+  result.durationMinutes = 0;
+  return self;
+}
+- (BOOL) hasStageNum {
+  return result.hasStageNum;
+}
+- (int32_t) stageNum {
+  return result.stageNum;
+}
+- (ClanRaidStageProto_Builder*) setStageNum:(int32_t) value {
+  result.hasStageNum = YES;
+  result.stageNum = value;
+  return self;
+}
+- (ClanRaidStageProto_Builder*) clearStageNum {
+  result.hasStageNum = NO;
+  result.stageNum = 0;
+  return self;
+}
+- (BOOL) hasName {
+  return result.hasName;
+}
+- (NSString*) name {
+  return result.name;
+}
+- (ClanRaidStageProto_Builder*) setName:(NSString*) value {
+  result.hasName = YES;
+  result.name = value;
+  return self;
+}
+- (ClanRaidStageProto_Builder*) clearName {
+  result.hasName = NO;
+  result.name = @"";
+  return self;
+}
+- (NSArray*) monstersList {
+  if (result.mutableMonstersList == nil) { return [NSArray array]; }
+  return result.mutableMonstersList;
+}
+- (ClanRaidStageMonsterProto*) monstersAtIndex:(int32_t) index {
+  return [result monstersAtIndex:index];
+}
+- (ClanRaidStageProto_Builder*) replaceMonstersAtIndex:(int32_t) index with:(ClanRaidStageMonsterProto*) value {
+  [result.mutableMonstersList replaceObjectAtIndex:index withObject:value];
+  return self;
+}
+- (ClanRaidStageProto_Builder*) addAllMonsters:(NSArray*) values {
+  if (result.mutableMonstersList == nil) {
+    result.mutableMonstersList = [NSMutableArray array];
+  }
+  [result.mutableMonstersList addObjectsFromArray:values];
+  return self;
+}
+- (ClanRaidStageProto_Builder*) clearMonstersList {
+  result.mutableMonstersList = nil;
+  return self;
+}
+- (ClanRaidStageProto_Builder*) addMonsters:(ClanRaidStageMonsterProto*) value {
+  if (result.mutableMonstersList == nil) {
+    result.mutableMonstersList = [NSMutableArray array];
+  }
+  [result.mutableMonstersList addObject:value];
+  return self;
+}
+- (NSArray*) possibleRewardsList {
+  if (result.mutablePossibleRewardsList == nil) { return [NSArray array]; }
+  return result.mutablePossibleRewardsList;
+}
+- (ClanRaidStageRewardProto*) possibleRewardsAtIndex:(int32_t) index {
+  return [result possibleRewardsAtIndex:index];
+}
+- (ClanRaidStageProto_Builder*) replacePossibleRewardsAtIndex:(int32_t) index with:(ClanRaidStageRewardProto*) value {
+  [result.mutablePossibleRewardsList replaceObjectAtIndex:index withObject:value];
+  return self;
+}
+- (ClanRaidStageProto_Builder*) addAllPossibleRewards:(NSArray*) values {
+  if (result.mutablePossibleRewardsList == nil) {
+    result.mutablePossibleRewardsList = [NSMutableArray array];
+  }
+  [result.mutablePossibleRewardsList addObjectsFromArray:values];
+  return self;
+}
+- (ClanRaidStageProto_Builder*) clearPossibleRewardsList {
+  result.mutablePossibleRewardsList = nil;
+  return self;
+}
+- (ClanRaidStageProto_Builder*) addPossibleRewards:(ClanRaidStageRewardProto*) value {
+  if (result.mutablePossibleRewardsList == nil) {
+    result.mutablePossibleRewardsList = [NSMutableArray array];
+  }
+  [result.mutablePossibleRewardsList addObject:value];
+  return self;
+}
+@end
+
+@interface ClanRaidStageMonsterProto ()
+@property int32_t crsmId;
+@property int32_t monsterId;
+@property int32_t monsterHp;
+@property int32_t minDmg;
+@property int32_t maxDmg;
+@end
+
+@implementation ClanRaidStageMonsterProto
+
+- (BOOL) hasCrsmId {
+  return !!hasCrsmId_;
+}
+- (void) setHasCrsmId:(BOOL) value {
+  hasCrsmId_ = !!value;
+}
+@synthesize crsmId;
+- (BOOL) hasMonsterId {
+  return !!hasMonsterId_;
+}
+- (void) setHasMonsterId:(BOOL) value {
+  hasMonsterId_ = !!value;
+}
+@synthesize monsterId;
+- (BOOL) hasMonsterHp {
+  return !!hasMonsterHp_;
+}
+- (void) setHasMonsterHp:(BOOL) value {
+  hasMonsterHp_ = !!value;
+}
+@synthesize monsterHp;
+- (BOOL) hasMinDmg {
+  return !!hasMinDmg_;
+}
+- (void) setHasMinDmg:(BOOL) value {
+  hasMinDmg_ = !!value;
+}
+@synthesize minDmg;
+- (BOOL) hasMaxDmg {
+  return !!hasMaxDmg_;
+}
+- (void) setHasMaxDmg:(BOOL) value {
+  hasMaxDmg_ = !!value;
+}
+@synthesize maxDmg;
+- (void) dealloc {
+  [super dealloc];
+}
+- (id) init {
+  if ((self = [super init])) {
+    self.crsmId = 0;
+    self.monsterId = 0;
+    self.monsterHp = 0;
+    self.minDmg = 0;
+    self.maxDmg = 0;
+  }
+  return self;
+}
+static ClanRaidStageMonsterProto* defaultClanRaidStageMonsterProtoInstance = nil;
++ (void) initialize {
+  if (self == [ClanRaidStageMonsterProto class]) {
+    defaultClanRaidStageMonsterProtoInstance = [[ClanRaidStageMonsterProto alloc] init];
+  }
+}
++ (ClanRaidStageMonsterProto*) defaultInstance {
+  return defaultClanRaidStageMonsterProtoInstance;
+}
+- (ClanRaidStageMonsterProto*) defaultInstance {
+  return defaultClanRaidStageMonsterProtoInstance;
+}
+- (BOOL) isInitialized {
+  return YES;
+}
+- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output {
+  if (self.hasCrsmId) {
+    [output writeInt32:1 value:self.crsmId];
+  }
+  if (self.hasMonsterId) {
+    [output writeInt32:3 value:self.monsterId];
+  }
+  if (self.hasMonsterHp) {
+    [output writeInt32:4 value:self.monsterHp];
+  }
+  if (self.hasMinDmg) {
+    [output writeInt32:5 value:self.minDmg];
+  }
+  if (self.hasMaxDmg) {
+    [output writeInt32:6 value:self.maxDmg];
+  }
+  [self.unknownFields writeToCodedOutputStream:output];
+}
+- (int32_t) serializedSize {
+  int32_t size = memoizedSerializedSize;
+  if (size != -1) {
+    return size;
+  }
+
+  size = 0;
+  if (self.hasCrsmId) {
+    size += computeInt32Size(1, self.crsmId);
+  }
+  if (self.hasMonsterId) {
+    size += computeInt32Size(3, self.monsterId);
+  }
+  if (self.hasMonsterHp) {
+    size += computeInt32Size(4, self.monsterHp);
+  }
+  if (self.hasMinDmg) {
+    size += computeInt32Size(5, self.minDmg);
+  }
+  if (self.hasMaxDmg) {
+    size += computeInt32Size(6, self.maxDmg);
+  }
+  size += self.unknownFields.serializedSize;
+  memoizedSerializedSize = size;
+  return size;
+}
++ (ClanRaidStageMonsterProto*) parseFromData:(NSData*) data {
+  return (ClanRaidStageMonsterProto*)[[[ClanRaidStageMonsterProto builder] mergeFromData:data] build];
+}
++ (ClanRaidStageMonsterProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (ClanRaidStageMonsterProto*)[[[ClanRaidStageMonsterProto builder] mergeFromData:data extensionRegistry:extensionRegistry] build];
+}
++ (ClanRaidStageMonsterProto*) parseFromInputStream:(NSInputStream*) input {
+  return (ClanRaidStageMonsterProto*)[[[ClanRaidStageMonsterProto builder] mergeFromInputStream:input] build];
+}
++ (ClanRaidStageMonsterProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (ClanRaidStageMonsterProto*)[[[ClanRaidStageMonsterProto builder] mergeFromInputStream:input extensionRegistry:extensionRegistry] build];
+}
++ (ClanRaidStageMonsterProto*) parseFromCodedInputStream:(PBCodedInputStream*) input {
+  return (ClanRaidStageMonsterProto*)[[[ClanRaidStageMonsterProto builder] mergeFromCodedInputStream:input] build];
+}
++ (ClanRaidStageMonsterProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (ClanRaidStageMonsterProto*)[[[ClanRaidStageMonsterProto builder] mergeFromCodedInputStream:input extensionRegistry:extensionRegistry] build];
+}
++ (ClanRaidStageMonsterProto_Builder*) builder {
+  return [[[ClanRaidStageMonsterProto_Builder alloc] init] autorelease];
+}
++ (ClanRaidStageMonsterProto_Builder*) builderWithPrototype:(ClanRaidStageMonsterProto*) prototype {
+  return [[ClanRaidStageMonsterProto builder] mergeFrom:prototype];
+}
+- (ClanRaidStageMonsterProto_Builder*) builder {
+  return [ClanRaidStageMonsterProto builder];
+}
+@end
+
+@interface ClanRaidStageMonsterProto_Builder()
+@property (retain) ClanRaidStageMonsterProto* result;
+@end
+
+@implementation ClanRaidStageMonsterProto_Builder
+@synthesize result;
+- (void) dealloc {
+  self.result = nil;
+  [super dealloc];
+}
+- (id) init {
+  if ((self = [super init])) {
+    self.result = [[[ClanRaidStageMonsterProto alloc] init] autorelease];
+  }
+  return self;
+}
+- (PBGeneratedMessage*) internalGetResult {
+  return result;
+}
+- (ClanRaidStageMonsterProto_Builder*) clear {
+  self.result = [[[ClanRaidStageMonsterProto alloc] init] autorelease];
+  return self;
+}
+- (ClanRaidStageMonsterProto_Builder*) clone {
+  return [ClanRaidStageMonsterProto builderWithPrototype:result];
+}
+- (ClanRaidStageMonsterProto*) defaultInstance {
+  return [ClanRaidStageMonsterProto defaultInstance];
+}
+- (ClanRaidStageMonsterProto*) build {
+  [self checkInitialized];
+  return [self buildPartial];
+}
+- (ClanRaidStageMonsterProto*) buildPartial {
+  ClanRaidStageMonsterProto* returnMe = [[result retain] autorelease];
+  self.result = nil;
+  return returnMe;
+}
+- (ClanRaidStageMonsterProto_Builder*) mergeFrom:(ClanRaidStageMonsterProto*) other {
+  if (other == [ClanRaidStageMonsterProto defaultInstance]) {
+    return self;
+  }
+  if (other.hasCrsmId) {
+    [self setCrsmId:other.crsmId];
+  }
+  if (other.hasMonsterId) {
+    [self setMonsterId:other.monsterId];
+  }
+  if (other.hasMonsterHp) {
+    [self setMonsterHp:other.monsterHp];
+  }
+  if (other.hasMinDmg) {
+    [self setMinDmg:other.minDmg];
+  }
+  if (other.hasMaxDmg) {
+    [self setMaxDmg:other.maxDmg];
+  }
+  [self mergeUnknownFields:other.unknownFields];
+  return self;
+}
+- (ClanRaidStageMonsterProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input {
+  return [self mergeFromCodedInputStream:input extensionRegistry:[PBExtensionRegistry emptyRegistry]];
+}
+- (ClanRaidStageMonsterProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  PBUnknownFieldSet_Builder* unknownFields = [PBUnknownFieldSet builderWithUnknownFields:self.unknownFields];
+  while (YES) {
+    int32_t tag = [input readTag];
+    switch (tag) {
+      case 0:
+        [self setUnknownFields:[unknownFields build]];
+        return self;
+      default: {
+        if (![self parseUnknownField:input unknownFields:unknownFields extensionRegistry:extensionRegistry tag:tag]) {
+          [self setUnknownFields:[unknownFields build]];
+          return self;
+        }
+        break;
+      }
+      case 8: {
+        [self setCrsmId:[input readInt32]];
+        break;
+      }
+      case 24: {
+        [self setMonsterId:[input readInt32]];
+        break;
+      }
+      case 32: {
+        [self setMonsterHp:[input readInt32]];
+        break;
+      }
+      case 40: {
+        [self setMinDmg:[input readInt32]];
+        break;
+      }
+      case 48: {
+        [self setMaxDmg:[input readInt32]];
+        break;
+      }
+    }
+  }
+}
+- (BOOL) hasCrsmId {
+  return result.hasCrsmId;
+}
+- (int32_t) crsmId {
+  return result.crsmId;
+}
+- (ClanRaidStageMonsterProto_Builder*) setCrsmId:(int32_t) value {
+  result.hasCrsmId = YES;
+  result.crsmId = value;
+  return self;
+}
+- (ClanRaidStageMonsterProto_Builder*) clearCrsmId {
+  result.hasCrsmId = NO;
+  result.crsmId = 0;
+  return self;
+}
+- (BOOL) hasMonsterId {
+  return result.hasMonsterId;
+}
+- (int32_t) monsterId {
+  return result.monsterId;
+}
+- (ClanRaidStageMonsterProto_Builder*) setMonsterId:(int32_t) value {
+  result.hasMonsterId = YES;
+  result.monsterId = value;
+  return self;
+}
+- (ClanRaidStageMonsterProto_Builder*) clearMonsterId {
+  result.hasMonsterId = NO;
+  result.monsterId = 0;
+  return self;
+}
+- (BOOL) hasMonsterHp {
+  return result.hasMonsterHp;
+}
+- (int32_t) monsterHp {
+  return result.monsterHp;
+}
+- (ClanRaidStageMonsterProto_Builder*) setMonsterHp:(int32_t) value {
+  result.hasMonsterHp = YES;
+  result.monsterHp = value;
+  return self;
+}
+- (ClanRaidStageMonsterProto_Builder*) clearMonsterHp {
+  result.hasMonsterHp = NO;
+  result.monsterHp = 0;
+  return self;
+}
+- (BOOL) hasMinDmg {
+  return result.hasMinDmg;
+}
+- (int32_t) minDmg {
+  return result.minDmg;
+}
+- (ClanRaidStageMonsterProto_Builder*) setMinDmg:(int32_t) value {
+  result.hasMinDmg = YES;
+  result.minDmg = value;
+  return self;
+}
+- (ClanRaidStageMonsterProto_Builder*) clearMinDmg {
+  result.hasMinDmg = NO;
+  result.minDmg = 0;
+  return self;
+}
+- (BOOL) hasMaxDmg {
+  return result.hasMaxDmg;
+}
+- (int32_t) maxDmg {
+  return result.maxDmg;
+}
+- (ClanRaidStageMonsterProto_Builder*) setMaxDmg:(int32_t) value {
+  result.hasMaxDmg = YES;
+  result.maxDmg = value;
+  return self;
+}
+- (ClanRaidStageMonsterProto_Builder*) clearMaxDmg {
+  result.hasMaxDmg = NO;
+  result.maxDmg = 0;
+  return self;
+}
+@end
+
+@interface ClanRaidStageRewardProto ()
+@property int32_t crsrId;
+@property int32_t minOilReward;
+@property int32_t maxOilReward;
+@property int32_t minCashReward;
+@property int32_t maxCashReward;
+@property int32_t monsterId;
+@end
+
+@implementation ClanRaidStageRewardProto
+
+- (BOOL) hasCrsrId {
+  return !!hasCrsrId_;
+}
+- (void) setHasCrsrId:(BOOL) value {
+  hasCrsrId_ = !!value;
+}
+@synthesize crsrId;
+- (BOOL) hasMinOilReward {
+  return !!hasMinOilReward_;
+}
+- (void) setHasMinOilReward:(BOOL) value {
+  hasMinOilReward_ = !!value;
+}
+@synthesize minOilReward;
+- (BOOL) hasMaxOilReward {
+  return !!hasMaxOilReward_;
+}
+- (void) setHasMaxOilReward:(BOOL) value {
+  hasMaxOilReward_ = !!value;
+}
+@synthesize maxOilReward;
+- (BOOL) hasMinCashReward {
+  return !!hasMinCashReward_;
+}
+- (void) setHasMinCashReward:(BOOL) value {
+  hasMinCashReward_ = !!value;
+}
+@synthesize minCashReward;
+- (BOOL) hasMaxCashReward {
+  return !!hasMaxCashReward_;
+}
+- (void) setHasMaxCashReward:(BOOL) value {
+  hasMaxCashReward_ = !!value;
+}
+@synthesize maxCashReward;
+- (BOOL) hasMonsterId {
+  return !!hasMonsterId_;
+}
+- (void) setHasMonsterId:(BOOL) value {
+  hasMonsterId_ = !!value;
+}
+@synthesize monsterId;
+- (void) dealloc {
+  [super dealloc];
+}
+- (id) init {
+  if ((self = [super init])) {
+    self.crsrId = 0;
+    self.minOilReward = 0;
+    self.maxOilReward = 0;
+    self.minCashReward = 0;
+    self.maxCashReward = 0;
+    self.monsterId = 0;
+  }
+  return self;
+}
+static ClanRaidStageRewardProto* defaultClanRaidStageRewardProtoInstance = nil;
++ (void) initialize {
+  if (self == [ClanRaidStageRewardProto class]) {
+    defaultClanRaidStageRewardProtoInstance = [[ClanRaidStageRewardProto alloc] init];
+  }
+}
++ (ClanRaidStageRewardProto*) defaultInstance {
+  return defaultClanRaidStageRewardProtoInstance;
+}
+- (ClanRaidStageRewardProto*) defaultInstance {
+  return defaultClanRaidStageRewardProtoInstance;
+}
+- (BOOL) isInitialized {
+  return YES;
+}
+- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output {
+  if (self.hasCrsrId) {
+    [output writeInt32:1 value:self.crsrId];
+  }
+  if (self.hasMinOilReward) {
+    [output writeInt32:3 value:self.minOilReward];
+  }
+  if (self.hasMaxOilReward) {
+    [output writeInt32:4 value:self.maxOilReward];
+  }
+  if (self.hasMinCashReward) {
+    [output writeInt32:5 value:self.minCashReward];
+  }
+  if (self.hasMaxCashReward) {
+    [output writeInt32:6 value:self.maxCashReward];
+  }
+  if (self.hasMonsterId) {
+    [output writeInt32:7 value:self.monsterId];
+  }
+  [self.unknownFields writeToCodedOutputStream:output];
+}
+- (int32_t) serializedSize {
+  int32_t size = memoizedSerializedSize;
+  if (size != -1) {
+    return size;
+  }
+
+  size = 0;
+  if (self.hasCrsrId) {
+    size += computeInt32Size(1, self.crsrId);
+  }
+  if (self.hasMinOilReward) {
+    size += computeInt32Size(3, self.minOilReward);
+  }
+  if (self.hasMaxOilReward) {
+    size += computeInt32Size(4, self.maxOilReward);
+  }
+  if (self.hasMinCashReward) {
+    size += computeInt32Size(5, self.minCashReward);
+  }
+  if (self.hasMaxCashReward) {
+    size += computeInt32Size(6, self.maxCashReward);
+  }
+  if (self.hasMonsterId) {
+    size += computeInt32Size(7, self.monsterId);
+  }
+  size += self.unknownFields.serializedSize;
+  memoizedSerializedSize = size;
+  return size;
+}
++ (ClanRaidStageRewardProto*) parseFromData:(NSData*) data {
+  return (ClanRaidStageRewardProto*)[[[ClanRaidStageRewardProto builder] mergeFromData:data] build];
+}
++ (ClanRaidStageRewardProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (ClanRaidStageRewardProto*)[[[ClanRaidStageRewardProto builder] mergeFromData:data extensionRegistry:extensionRegistry] build];
+}
++ (ClanRaidStageRewardProto*) parseFromInputStream:(NSInputStream*) input {
+  return (ClanRaidStageRewardProto*)[[[ClanRaidStageRewardProto builder] mergeFromInputStream:input] build];
+}
++ (ClanRaidStageRewardProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (ClanRaidStageRewardProto*)[[[ClanRaidStageRewardProto builder] mergeFromInputStream:input extensionRegistry:extensionRegistry] build];
+}
++ (ClanRaidStageRewardProto*) parseFromCodedInputStream:(PBCodedInputStream*) input {
+  return (ClanRaidStageRewardProto*)[[[ClanRaidStageRewardProto builder] mergeFromCodedInputStream:input] build];
+}
++ (ClanRaidStageRewardProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (ClanRaidStageRewardProto*)[[[ClanRaidStageRewardProto builder] mergeFromCodedInputStream:input extensionRegistry:extensionRegistry] build];
+}
++ (ClanRaidStageRewardProto_Builder*) builder {
+  return [[[ClanRaidStageRewardProto_Builder alloc] init] autorelease];
+}
++ (ClanRaidStageRewardProto_Builder*) builderWithPrototype:(ClanRaidStageRewardProto*) prototype {
+  return [[ClanRaidStageRewardProto builder] mergeFrom:prototype];
+}
+- (ClanRaidStageRewardProto_Builder*) builder {
+  return [ClanRaidStageRewardProto builder];
+}
+@end
+
+@interface ClanRaidStageRewardProto_Builder()
+@property (retain) ClanRaidStageRewardProto* result;
+@end
+
+@implementation ClanRaidStageRewardProto_Builder
+@synthesize result;
+- (void) dealloc {
+  self.result = nil;
+  [super dealloc];
+}
+- (id) init {
+  if ((self = [super init])) {
+    self.result = [[[ClanRaidStageRewardProto alloc] init] autorelease];
+  }
+  return self;
+}
+- (PBGeneratedMessage*) internalGetResult {
+  return result;
+}
+- (ClanRaidStageRewardProto_Builder*) clear {
+  self.result = [[[ClanRaidStageRewardProto alloc] init] autorelease];
+  return self;
+}
+- (ClanRaidStageRewardProto_Builder*) clone {
+  return [ClanRaidStageRewardProto builderWithPrototype:result];
+}
+- (ClanRaidStageRewardProto*) defaultInstance {
+  return [ClanRaidStageRewardProto defaultInstance];
+}
+- (ClanRaidStageRewardProto*) build {
+  [self checkInitialized];
+  return [self buildPartial];
+}
+- (ClanRaidStageRewardProto*) buildPartial {
+  ClanRaidStageRewardProto* returnMe = [[result retain] autorelease];
+  self.result = nil;
+  return returnMe;
+}
+- (ClanRaidStageRewardProto_Builder*) mergeFrom:(ClanRaidStageRewardProto*) other {
+  if (other == [ClanRaidStageRewardProto defaultInstance]) {
+    return self;
+  }
+  if (other.hasCrsrId) {
+    [self setCrsrId:other.crsrId];
+  }
+  if (other.hasMinOilReward) {
+    [self setMinOilReward:other.minOilReward];
+  }
+  if (other.hasMaxOilReward) {
+    [self setMaxOilReward:other.maxOilReward];
+  }
+  if (other.hasMinCashReward) {
+    [self setMinCashReward:other.minCashReward];
+  }
+  if (other.hasMaxCashReward) {
+    [self setMaxCashReward:other.maxCashReward];
+  }
+  if (other.hasMonsterId) {
+    [self setMonsterId:other.monsterId];
+  }
+  [self mergeUnknownFields:other.unknownFields];
+  return self;
+}
+- (ClanRaidStageRewardProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input {
+  return [self mergeFromCodedInputStream:input extensionRegistry:[PBExtensionRegistry emptyRegistry]];
+}
+- (ClanRaidStageRewardProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  PBUnknownFieldSet_Builder* unknownFields = [PBUnknownFieldSet builderWithUnknownFields:self.unknownFields];
+  while (YES) {
+    int32_t tag = [input readTag];
+    switch (tag) {
+      case 0:
+        [self setUnknownFields:[unknownFields build]];
+        return self;
+      default: {
+        if (![self parseUnknownField:input unknownFields:unknownFields extensionRegistry:extensionRegistry tag:tag]) {
+          [self setUnknownFields:[unknownFields build]];
+          return self;
+        }
+        break;
+      }
+      case 8: {
+        [self setCrsrId:[input readInt32]];
+        break;
+      }
+      case 24: {
+        [self setMinOilReward:[input readInt32]];
+        break;
+      }
+      case 32: {
+        [self setMaxOilReward:[input readInt32]];
+        break;
+      }
+      case 40: {
+        [self setMinCashReward:[input readInt32]];
+        break;
+      }
+      case 48: {
+        [self setMaxCashReward:[input readInt32]];
+        break;
+      }
+      case 56: {
+        [self setMonsterId:[input readInt32]];
+        break;
+      }
+    }
+  }
+}
+- (BOOL) hasCrsrId {
+  return result.hasCrsrId;
+}
+- (int32_t) crsrId {
+  return result.crsrId;
+}
+- (ClanRaidStageRewardProto_Builder*) setCrsrId:(int32_t) value {
+  result.hasCrsrId = YES;
+  result.crsrId = value;
+  return self;
+}
+- (ClanRaidStageRewardProto_Builder*) clearCrsrId {
+  result.hasCrsrId = NO;
+  result.crsrId = 0;
+  return self;
+}
+- (BOOL) hasMinOilReward {
+  return result.hasMinOilReward;
+}
+- (int32_t) minOilReward {
+  return result.minOilReward;
+}
+- (ClanRaidStageRewardProto_Builder*) setMinOilReward:(int32_t) value {
+  result.hasMinOilReward = YES;
+  result.minOilReward = value;
+  return self;
+}
+- (ClanRaidStageRewardProto_Builder*) clearMinOilReward {
+  result.hasMinOilReward = NO;
+  result.minOilReward = 0;
+  return self;
+}
+- (BOOL) hasMaxOilReward {
+  return result.hasMaxOilReward;
+}
+- (int32_t) maxOilReward {
+  return result.maxOilReward;
+}
+- (ClanRaidStageRewardProto_Builder*) setMaxOilReward:(int32_t) value {
+  result.hasMaxOilReward = YES;
+  result.maxOilReward = value;
+  return self;
+}
+- (ClanRaidStageRewardProto_Builder*) clearMaxOilReward {
+  result.hasMaxOilReward = NO;
+  result.maxOilReward = 0;
+  return self;
+}
+- (BOOL) hasMinCashReward {
+  return result.hasMinCashReward;
+}
+- (int32_t) minCashReward {
+  return result.minCashReward;
+}
+- (ClanRaidStageRewardProto_Builder*) setMinCashReward:(int32_t) value {
+  result.hasMinCashReward = YES;
+  result.minCashReward = value;
+  return self;
+}
+- (ClanRaidStageRewardProto_Builder*) clearMinCashReward {
+  result.hasMinCashReward = NO;
+  result.minCashReward = 0;
+  return self;
+}
+- (BOOL) hasMaxCashReward {
+  return result.hasMaxCashReward;
+}
+- (int32_t) maxCashReward {
+  return result.maxCashReward;
+}
+- (ClanRaidStageRewardProto_Builder*) setMaxCashReward:(int32_t) value {
+  result.hasMaxCashReward = YES;
+  result.maxCashReward = value;
+  return self;
+}
+- (ClanRaidStageRewardProto_Builder*) clearMaxCashReward {
+  result.hasMaxCashReward = NO;
+  result.maxCashReward = 0;
+  return self;
+}
+- (BOOL) hasMonsterId {
+  return result.hasMonsterId;
+}
+- (int32_t) monsterId {
+  return result.monsterId;
+}
+- (ClanRaidStageRewardProto_Builder*) setMonsterId:(int32_t) value {
+  result.hasMonsterId = YES;
+  result.monsterId = value;
+  return self;
+}
+- (ClanRaidStageRewardProto_Builder*) clearMonsterId {
+  result.hasMonsterId = NO;
+  result.monsterId = 0;
+  return self;
+}
+@end
+
+@interface PersistentClanEventProto ()
+@property int32_t clanEventId;
+@property DayOfWeek dayOfWeek;
+@property int32_t startHour;
+@property int32_t eventDurationMinutes;
+@property int32_t clanRaidId;
+@end
+
+@implementation PersistentClanEventProto
+
+- (BOOL) hasClanEventId {
+  return !!hasClanEventId_;
+}
+- (void) setHasClanEventId:(BOOL) value {
+  hasClanEventId_ = !!value;
+}
+@synthesize clanEventId;
+- (BOOL) hasDayOfWeek {
+  return !!hasDayOfWeek_;
+}
+- (void) setHasDayOfWeek:(BOOL) value {
+  hasDayOfWeek_ = !!value;
+}
+@synthesize dayOfWeek;
+- (BOOL) hasStartHour {
+  return !!hasStartHour_;
+}
+- (void) setHasStartHour:(BOOL) value {
+  hasStartHour_ = !!value;
+}
+@synthesize startHour;
+- (BOOL) hasEventDurationMinutes {
+  return !!hasEventDurationMinutes_;
+}
+- (void) setHasEventDurationMinutes:(BOOL) value {
+  hasEventDurationMinutes_ = !!value;
+}
+@synthesize eventDurationMinutes;
+- (BOOL) hasClanRaidId {
+  return !!hasClanRaidId_;
+}
+- (void) setHasClanRaidId:(BOOL) value {
+  hasClanRaidId_ = !!value;
+}
+@synthesize clanRaidId;
+- (void) dealloc {
+  [super dealloc];
+}
+- (id) init {
+  if ((self = [super init])) {
+    self.clanEventId = 0;
+    self.dayOfWeek = DayOfWeekMonday;
+    self.startHour = 0;
+    self.eventDurationMinutes = 0;
+    self.clanRaidId = 0;
+  }
+  return self;
+}
+static PersistentClanEventProto* defaultPersistentClanEventProtoInstance = nil;
++ (void) initialize {
+  if (self == [PersistentClanEventProto class]) {
+    defaultPersistentClanEventProtoInstance = [[PersistentClanEventProto alloc] init];
+  }
+}
++ (PersistentClanEventProto*) defaultInstance {
+  return defaultPersistentClanEventProtoInstance;
+}
+- (PersistentClanEventProto*) defaultInstance {
+  return defaultPersistentClanEventProtoInstance;
+}
+- (BOOL) isInitialized {
+  return YES;
+}
+- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output {
+  if (self.hasClanEventId) {
+    [output writeInt32:1 value:self.clanEventId];
+  }
+  if (self.hasDayOfWeek) {
+    [output writeEnum:2 value:self.dayOfWeek];
+  }
+  if (self.hasStartHour) {
+    [output writeInt32:3 value:self.startHour];
+  }
+  if (self.hasEventDurationMinutes) {
+    [output writeInt32:4 value:self.eventDurationMinutes];
+  }
+  if (self.hasClanRaidId) {
+    [output writeInt32:5 value:self.clanRaidId];
+  }
+  [self.unknownFields writeToCodedOutputStream:output];
+}
+- (int32_t) serializedSize {
+  int32_t size = memoizedSerializedSize;
+  if (size != -1) {
+    return size;
+  }
+
+  size = 0;
+  if (self.hasClanEventId) {
+    size += computeInt32Size(1, self.clanEventId);
+  }
+  if (self.hasDayOfWeek) {
+    size += computeEnumSize(2, self.dayOfWeek);
+  }
+  if (self.hasStartHour) {
+    size += computeInt32Size(3, self.startHour);
+  }
+  if (self.hasEventDurationMinutes) {
+    size += computeInt32Size(4, self.eventDurationMinutes);
+  }
+  if (self.hasClanRaidId) {
+    size += computeInt32Size(5, self.clanRaidId);
+  }
+  size += self.unknownFields.serializedSize;
+  memoizedSerializedSize = size;
+  return size;
+}
++ (PersistentClanEventProto*) parseFromData:(NSData*) data {
+  return (PersistentClanEventProto*)[[[PersistentClanEventProto builder] mergeFromData:data] build];
+}
++ (PersistentClanEventProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (PersistentClanEventProto*)[[[PersistentClanEventProto builder] mergeFromData:data extensionRegistry:extensionRegistry] build];
+}
++ (PersistentClanEventProto*) parseFromInputStream:(NSInputStream*) input {
+  return (PersistentClanEventProto*)[[[PersistentClanEventProto builder] mergeFromInputStream:input] build];
+}
++ (PersistentClanEventProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (PersistentClanEventProto*)[[[PersistentClanEventProto builder] mergeFromInputStream:input extensionRegistry:extensionRegistry] build];
+}
++ (PersistentClanEventProto*) parseFromCodedInputStream:(PBCodedInputStream*) input {
+  return (PersistentClanEventProto*)[[[PersistentClanEventProto builder] mergeFromCodedInputStream:input] build];
+}
++ (PersistentClanEventProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (PersistentClanEventProto*)[[[PersistentClanEventProto builder] mergeFromCodedInputStream:input extensionRegistry:extensionRegistry] build];
+}
++ (PersistentClanEventProto_Builder*) builder {
+  return [[[PersistentClanEventProto_Builder alloc] init] autorelease];
+}
++ (PersistentClanEventProto_Builder*) builderWithPrototype:(PersistentClanEventProto*) prototype {
+  return [[PersistentClanEventProto builder] mergeFrom:prototype];
+}
+- (PersistentClanEventProto_Builder*) builder {
+  return [PersistentClanEventProto builder];
+}
+@end
+
+@interface PersistentClanEventProto_Builder()
+@property (retain) PersistentClanEventProto* result;
+@end
+
+@implementation PersistentClanEventProto_Builder
+@synthesize result;
+- (void) dealloc {
+  self.result = nil;
+  [super dealloc];
+}
+- (id) init {
+  if ((self = [super init])) {
+    self.result = [[[PersistentClanEventProto alloc] init] autorelease];
+  }
+  return self;
+}
+- (PBGeneratedMessage*) internalGetResult {
+  return result;
+}
+- (PersistentClanEventProto_Builder*) clear {
+  self.result = [[[PersistentClanEventProto alloc] init] autorelease];
+  return self;
+}
+- (PersistentClanEventProto_Builder*) clone {
+  return [PersistentClanEventProto builderWithPrototype:result];
+}
+- (PersistentClanEventProto*) defaultInstance {
+  return [PersistentClanEventProto defaultInstance];
+}
+- (PersistentClanEventProto*) build {
+  [self checkInitialized];
+  return [self buildPartial];
+}
+- (PersistentClanEventProto*) buildPartial {
+  PersistentClanEventProto* returnMe = [[result retain] autorelease];
+  self.result = nil;
+  return returnMe;
+}
+- (PersistentClanEventProto_Builder*) mergeFrom:(PersistentClanEventProto*) other {
+  if (other == [PersistentClanEventProto defaultInstance]) {
+    return self;
+  }
+  if (other.hasClanEventId) {
+    [self setClanEventId:other.clanEventId];
+  }
+  if (other.hasDayOfWeek) {
+    [self setDayOfWeek:other.dayOfWeek];
+  }
+  if (other.hasStartHour) {
+    [self setStartHour:other.startHour];
+  }
+  if (other.hasEventDurationMinutes) {
+    [self setEventDurationMinutes:other.eventDurationMinutes];
+  }
+  if (other.hasClanRaidId) {
+    [self setClanRaidId:other.clanRaidId];
+  }
+  [self mergeUnknownFields:other.unknownFields];
+  return self;
+}
+- (PersistentClanEventProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input {
+  return [self mergeFromCodedInputStream:input extensionRegistry:[PBExtensionRegistry emptyRegistry]];
+}
+- (PersistentClanEventProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  PBUnknownFieldSet_Builder* unknownFields = [PBUnknownFieldSet builderWithUnknownFields:self.unknownFields];
+  while (YES) {
+    int32_t tag = [input readTag];
+    switch (tag) {
+      case 0:
+        [self setUnknownFields:[unknownFields build]];
+        return self;
+      default: {
+        if (![self parseUnknownField:input unknownFields:unknownFields extensionRegistry:extensionRegistry tag:tag]) {
+          [self setUnknownFields:[unknownFields build]];
+          return self;
+        }
+        break;
+      }
+      case 8: {
+        [self setClanEventId:[input readInt32]];
+        break;
+      }
+      case 16: {
+        int32_t value = [input readEnum];
+        if (DayOfWeekIsValidValue(value)) {
+          [self setDayOfWeek:value];
+        } else {
+          [unknownFields mergeVarintField:2 value:value];
+        }
+        break;
+      }
+      case 24: {
+        [self setStartHour:[input readInt32]];
+        break;
+      }
+      case 32: {
+        [self setEventDurationMinutes:[input readInt32]];
+        break;
+      }
+      case 40: {
+        [self setClanRaidId:[input readInt32]];
+        break;
+      }
+    }
+  }
+}
+- (BOOL) hasClanEventId {
+  return result.hasClanEventId;
+}
+- (int32_t) clanEventId {
+  return result.clanEventId;
+}
+- (PersistentClanEventProto_Builder*) setClanEventId:(int32_t) value {
+  result.hasClanEventId = YES;
+  result.clanEventId = value;
+  return self;
+}
+- (PersistentClanEventProto_Builder*) clearClanEventId {
+  result.hasClanEventId = NO;
+  result.clanEventId = 0;
+  return self;
+}
+- (BOOL) hasDayOfWeek {
+  return result.hasDayOfWeek;
+}
+- (DayOfWeek) dayOfWeek {
+  return result.dayOfWeek;
+}
+- (PersistentClanEventProto_Builder*) setDayOfWeek:(DayOfWeek) value {
+  result.hasDayOfWeek = YES;
+  result.dayOfWeek = value;
+  return self;
+}
+- (PersistentClanEventProto_Builder*) clearDayOfWeek {
+  result.hasDayOfWeek = NO;
+  result.dayOfWeek = DayOfWeekMonday;
+  return self;
+}
+- (BOOL) hasStartHour {
+  return result.hasStartHour;
+}
+- (int32_t) startHour {
+  return result.startHour;
+}
+- (PersistentClanEventProto_Builder*) setStartHour:(int32_t) value {
+  result.hasStartHour = YES;
+  result.startHour = value;
+  return self;
+}
+- (PersistentClanEventProto_Builder*) clearStartHour {
+  result.hasStartHour = NO;
+  result.startHour = 0;
+  return self;
+}
+- (BOOL) hasEventDurationMinutes {
+  return result.hasEventDurationMinutes;
+}
+- (int32_t) eventDurationMinutes {
+  return result.eventDurationMinutes;
+}
+- (PersistentClanEventProto_Builder*) setEventDurationMinutes:(int32_t) value {
+  result.hasEventDurationMinutes = YES;
+  result.eventDurationMinutes = value;
+  return self;
+}
+- (PersistentClanEventProto_Builder*) clearEventDurationMinutes {
+  result.hasEventDurationMinutes = NO;
+  result.eventDurationMinutes = 0;
+  return self;
+}
+- (BOOL) hasClanRaidId {
+  return result.hasClanRaidId;
+}
+- (int32_t) clanRaidId {
+  return result.clanRaidId;
+}
+- (PersistentClanEventProto_Builder*) setClanRaidId:(int32_t) value {
+  result.hasClanRaidId = YES;
+  result.clanRaidId = value;
+  return self;
+}
+- (PersistentClanEventProto_Builder*) clearClanRaidId {
+  result.hasClanRaidId = NO;
+  result.clanRaidId = 0;
+  return self;
+}
+@end
+
+@interface PersistentClanEventClanInfoProto ()
+@property int32_t clanId;
+@property int32_t clanEventId;
+@property int32_t clanRaidId;
+@property int32_t clanRaidStageId;
+@property int64_t stageStartTime;
+@property int32_t crsmId;
+@property int64_t stageMonsterStartTime;
+@end
+
+@implementation PersistentClanEventClanInfoProto
+
+- (BOOL) hasClanId {
+  return !!hasClanId_;
+}
+- (void) setHasClanId:(BOOL) value {
+  hasClanId_ = !!value;
+}
+@synthesize clanId;
+- (BOOL) hasClanEventId {
+  return !!hasClanEventId_;
+}
+- (void) setHasClanEventId:(BOOL) value {
+  hasClanEventId_ = !!value;
+}
+@synthesize clanEventId;
+- (BOOL) hasClanRaidId {
+  return !!hasClanRaidId_;
+}
+- (void) setHasClanRaidId:(BOOL) value {
+  hasClanRaidId_ = !!value;
+}
+@synthesize clanRaidId;
+- (BOOL) hasClanRaidStageId {
+  return !!hasClanRaidStageId_;
+}
+- (void) setHasClanRaidStageId:(BOOL) value {
+  hasClanRaidStageId_ = !!value;
+}
+@synthesize clanRaidStageId;
+- (BOOL) hasStageStartTime {
+  return !!hasStageStartTime_;
+}
+- (void) setHasStageStartTime:(BOOL) value {
+  hasStageStartTime_ = !!value;
+}
+@synthesize stageStartTime;
+- (BOOL) hasCrsmId {
+  return !!hasCrsmId_;
+}
+- (void) setHasCrsmId:(BOOL) value {
+  hasCrsmId_ = !!value;
+}
+@synthesize crsmId;
+- (BOOL) hasStageMonsterStartTime {
+  return !!hasStageMonsterStartTime_;
+}
+- (void) setHasStageMonsterStartTime:(BOOL) value {
+  hasStageMonsterStartTime_ = !!value;
+}
+@synthesize stageMonsterStartTime;
+- (void) dealloc {
+  [super dealloc];
+}
+- (id) init {
+  if ((self = [super init])) {
+    self.clanId = 0;
+    self.clanEventId = 0;
+    self.clanRaidId = 0;
+    self.clanRaidStageId = 0;
+    self.stageStartTime = 0L;
+    self.crsmId = 0;
+    self.stageMonsterStartTime = 0L;
+  }
+  return self;
+}
+static PersistentClanEventClanInfoProto* defaultPersistentClanEventClanInfoProtoInstance = nil;
++ (void) initialize {
+  if (self == [PersistentClanEventClanInfoProto class]) {
+    defaultPersistentClanEventClanInfoProtoInstance = [[PersistentClanEventClanInfoProto alloc] init];
+  }
+}
++ (PersistentClanEventClanInfoProto*) defaultInstance {
+  return defaultPersistentClanEventClanInfoProtoInstance;
+}
+- (PersistentClanEventClanInfoProto*) defaultInstance {
+  return defaultPersistentClanEventClanInfoProtoInstance;
+}
+- (BOOL) isInitialized {
+  return YES;
+}
+- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output {
+  if (self.hasClanId) {
+    [output writeInt32:1 value:self.clanId];
+  }
+  if (self.hasClanEventId) {
+    [output writeInt32:2 value:self.clanEventId];
+  }
+  if (self.hasClanRaidId) {
+    [output writeInt32:3 value:self.clanRaidId];
+  }
+  if (self.hasClanRaidStageId) {
+    [output writeInt32:4 value:self.clanRaidStageId];
+  }
+  if (self.hasStageStartTime) {
+    [output writeInt64:5 value:self.stageStartTime];
+  }
+  if (self.hasCrsmId) {
+    [output writeInt32:6 value:self.crsmId];
+  }
+  if (self.hasStageMonsterStartTime) {
+    [output writeInt64:7 value:self.stageMonsterStartTime];
+  }
+  [self.unknownFields writeToCodedOutputStream:output];
+}
+- (int32_t) serializedSize {
+  int32_t size = memoizedSerializedSize;
+  if (size != -1) {
+    return size;
+  }
+
+  size = 0;
+  if (self.hasClanId) {
+    size += computeInt32Size(1, self.clanId);
+  }
+  if (self.hasClanEventId) {
+    size += computeInt32Size(2, self.clanEventId);
+  }
+  if (self.hasClanRaidId) {
+    size += computeInt32Size(3, self.clanRaidId);
+  }
+  if (self.hasClanRaidStageId) {
+    size += computeInt32Size(4, self.clanRaidStageId);
+  }
+  if (self.hasStageStartTime) {
+    size += computeInt64Size(5, self.stageStartTime);
+  }
+  if (self.hasCrsmId) {
+    size += computeInt32Size(6, self.crsmId);
+  }
+  if (self.hasStageMonsterStartTime) {
+    size += computeInt64Size(7, self.stageMonsterStartTime);
+  }
+  size += self.unknownFields.serializedSize;
+  memoizedSerializedSize = size;
+  return size;
+}
++ (PersistentClanEventClanInfoProto*) parseFromData:(NSData*) data {
+  return (PersistentClanEventClanInfoProto*)[[[PersistentClanEventClanInfoProto builder] mergeFromData:data] build];
+}
++ (PersistentClanEventClanInfoProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (PersistentClanEventClanInfoProto*)[[[PersistentClanEventClanInfoProto builder] mergeFromData:data extensionRegistry:extensionRegistry] build];
+}
++ (PersistentClanEventClanInfoProto*) parseFromInputStream:(NSInputStream*) input {
+  return (PersistentClanEventClanInfoProto*)[[[PersistentClanEventClanInfoProto builder] mergeFromInputStream:input] build];
+}
++ (PersistentClanEventClanInfoProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (PersistentClanEventClanInfoProto*)[[[PersistentClanEventClanInfoProto builder] mergeFromInputStream:input extensionRegistry:extensionRegistry] build];
+}
++ (PersistentClanEventClanInfoProto*) parseFromCodedInputStream:(PBCodedInputStream*) input {
+  return (PersistentClanEventClanInfoProto*)[[[PersistentClanEventClanInfoProto builder] mergeFromCodedInputStream:input] build];
+}
++ (PersistentClanEventClanInfoProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (PersistentClanEventClanInfoProto*)[[[PersistentClanEventClanInfoProto builder] mergeFromCodedInputStream:input extensionRegistry:extensionRegistry] build];
+}
++ (PersistentClanEventClanInfoProto_Builder*) builder {
+  return [[[PersistentClanEventClanInfoProto_Builder alloc] init] autorelease];
+}
++ (PersistentClanEventClanInfoProto_Builder*) builderWithPrototype:(PersistentClanEventClanInfoProto*) prototype {
+  return [[PersistentClanEventClanInfoProto builder] mergeFrom:prototype];
+}
+- (PersistentClanEventClanInfoProto_Builder*) builder {
+  return [PersistentClanEventClanInfoProto builder];
+}
+@end
+
+@interface PersistentClanEventClanInfoProto_Builder()
+@property (retain) PersistentClanEventClanInfoProto* result;
+@end
+
+@implementation PersistentClanEventClanInfoProto_Builder
+@synthesize result;
+- (void) dealloc {
+  self.result = nil;
+  [super dealloc];
+}
+- (id) init {
+  if ((self = [super init])) {
+    self.result = [[[PersistentClanEventClanInfoProto alloc] init] autorelease];
+  }
+  return self;
+}
+- (PBGeneratedMessage*) internalGetResult {
+  return result;
+}
+- (PersistentClanEventClanInfoProto_Builder*) clear {
+  self.result = [[[PersistentClanEventClanInfoProto alloc] init] autorelease];
+  return self;
+}
+- (PersistentClanEventClanInfoProto_Builder*) clone {
+  return [PersistentClanEventClanInfoProto builderWithPrototype:result];
+}
+- (PersistentClanEventClanInfoProto*) defaultInstance {
+  return [PersistentClanEventClanInfoProto defaultInstance];
+}
+- (PersistentClanEventClanInfoProto*) build {
+  [self checkInitialized];
+  return [self buildPartial];
+}
+- (PersistentClanEventClanInfoProto*) buildPartial {
+  PersistentClanEventClanInfoProto* returnMe = [[result retain] autorelease];
+  self.result = nil;
+  return returnMe;
+}
+- (PersistentClanEventClanInfoProto_Builder*) mergeFrom:(PersistentClanEventClanInfoProto*) other {
+  if (other == [PersistentClanEventClanInfoProto defaultInstance]) {
+    return self;
+  }
+  if (other.hasClanId) {
+    [self setClanId:other.clanId];
+  }
+  if (other.hasClanEventId) {
+    [self setClanEventId:other.clanEventId];
+  }
+  if (other.hasClanRaidId) {
+    [self setClanRaidId:other.clanRaidId];
+  }
+  if (other.hasClanRaidStageId) {
+    [self setClanRaidStageId:other.clanRaidStageId];
+  }
+  if (other.hasStageStartTime) {
+    [self setStageStartTime:other.stageStartTime];
+  }
+  if (other.hasCrsmId) {
+    [self setCrsmId:other.crsmId];
+  }
+  if (other.hasStageMonsterStartTime) {
+    [self setStageMonsterStartTime:other.stageMonsterStartTime];
+  }
+  [self mergeUnknownFields:other.unknownFields];
+  return self;
+}
+- (PersistentClanEventClanInfoProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input {
+  return [self mergeFromCodedInputStream:input extensionRegistry:[PBExtensionRegistry emptyRegistry]];
+}
+- (PersistentClanEventClanInfoProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  PBUnknownFieldSet_Builder* unknownFields = [PBUnknownFieldSet builderWithUnknownFields:self.unknownFields];
+  while (YES) {
+    int32_t tag = [input readTag];
+    switch (tag) {
+      case 0:
+        [self setUnknownFields:[unknownFields build]];
+        return self;
+      default: {
+        if (![self parseUnknownField:input unknownFields:unknownFields extensionRegistry:extensionRegistry tag:tag]) {
+          [self setUnknownFields:[unknownFields build]];
+          return self;
+        }
+        break;
+      }
+      case 8: {
+        [self setClanId:[input readInt32]];
+        break;
+      }
+      case 16: {
+        [self setClanEventId:[input readInt32]];
+        break;
+      }
+      case 24: {
+        [self setClanRaidId:[input readInt32]];
+        break;
+      }
+      case 32: {
+        [self setClanRaidStageId:[input readInt32]];
+        break;
+      }
+      case 40: {
+        [self setStageStartTime:[input readInt64]];
+        break;
+      }
+      case 48: {
+        [self setCrsmId:[input readInt32]];
+        break;
+      }
+      case 56: {
+        [self setStageMonsterStartTime:[input readInt64]];
+        break;
+      }
+    }
+  }
+}
+- (BOOL) hasClanId {
+  return result.hasClanId;
+}
+- (int32_t) clanId {
+  return result.clanId;
+}
+- (PersistentClanEventClanInfoProto_Builder*) setClanId:(int32_t) value {
+  result.hasClanId = YES;
+  result.clanId = value;
+  return self;
+}
+- (PersistentClanEventClanInfoProto_Builder*) clearClanId {
+  result.hasClanId = NO;
+  result.clanId = 0;
+  return self;
+}
+- (BOOL) hasClanEventId {
+  return result.hasClanEventId;
+}
+- (int32_t) clanEventId {
+  return result.clanEventId;
+}
+- (PersistentClanEventClanInfoProto_Builder*) setClanEventId:(int32_t) value {
+  result.hasClanEventId = YES;
+  result.clanEventId = value;
+  return self;
+}
+- (PersistentClanEventClanInfoProto_Builder*) clearClanEventId {
+  result.hasClanEventId = NO;
+  result.clanEventId = 0;
+  return self;
+}
+- (BOOL) hasClanRaidId {
+  return result.hasClanRaidId;
+}
+- (int32_t) clanRaidId {
+  return result.clanRaidId;
+}
+- (PersistentClanEventClanInfoProto_Builder*) setClanRaidId:(int32_t) value {
+  result.hasClanRaidId = YES;
+  result.clanRaidId = value;
+  return self;
+}
+- (PersistentClanEventClanInfoProto_Builder*) clearClanRaidId {
+  result.hasClanRaidId = NO;
+  result.clanRaidId = 0;
+  return self;
+}
+- (BOOL) hasClanRaidStageId {
+  return result.hasClanRaidStageId;
+}
+- (int32_t) clanRaidStageId {
+  return result.clanRaidStageId;
+}
+- (PersistentClanEventClanInfoProto_Builder*) setClanRaidStageId:(int32_t) value {
+  result.hasClanRaidStageId = YES;
+  result.clanRaidStageId = value;
+  return self;
+}
+- (PersistentClanEventClanInfoProto_Builder*) clearClanRaidStageId {
+  result.hasClanRaidStageId = NO;
+  result.clanRaidStageId = 0;
+  return self;
+}
+- (BOOL) hasStageStartTime {
+  return result.hasStageStartTime;
+}
+- (int64_t) stageStartTime {
+  return result.stageStartTime;
+}
+- (PersistentClanEventClanInfoProto_Builder*) setStageStartTime:(int64_t) value {
+  result.hasStageStartTime = YES;
+  result.stageStartTime = value;
+  return self;
+}
+- (PersistentClanEventClanInfoProto_Builder*) clearStageStartTime {
+  result.hasStageStartTime = NO;
+  result.stageStartTime = 0L;
+  return self;
+}
+- (BOOL) hasCrsmId {
+  return result.hasCrsmId;
+}
+- (int32_t) crsmId {
+  return result.crsmId;
+}
+- (PersistentClanEventClanInfoProto_Builder*) setCrsmId:(int32_t) value {
+  result.hasCrsmId = YES;
+  result.crsmId = value;
+  return self;
+}
+- (PersistentClanEventClanInfoProto_Builder*) clearCrsmId {
+  result.hasCrsmId = NO;
+  result.crsmId = 0;
+  return self;
+}
+- (BOOL) hasStageMonsterStartTime {
+  return result.hasStageMonsterStartTime;
+}
+- (int64_t) stageMonsterStartTime {
+  return result.stageMonsterStartTime;
+}
+- (PersistentClanEventClanInfoProto_Builder*) setStageMonsterStartTime:(int64_t) value {
+  result.hasStageMonsterStartTime = YES;
+  result.stageMonsterStartTime = value;
+  return self;
+}
+- (PersistentClanEventClanInfoProto_Builder*) clearStageMonsterStartTime {
+  result.hasStageMonsterStartTime = NO;
+  result.stageMonsterStartTime = 0L;
+  return self;
+}
+@end
+
+@interface PersistentClanEventUserInfoProto ()
+@property int32_t userId;
+@property int32_t clanId;
+@property int32_t crId;
+@property int32_t crDmgDone;
+@property int32_t crsDmgDone;
+@property int32_t crsmDmgDone;
+@property (retain) UserCurrentMonsterTeamProto* userMonsters;
+@end
+
+@implementation PersistentClanEventUserInfoProto
+
+- (BOOL) hasUserId {
+  return !!hasUserId_;
+}
+- (void) setHasUserId:(BOOL) value {
+  hasUserId_ = !!value;
+}
+@synthesize userId;
+- (BOOL) hasClanId {
+  return !!hasClanId_;
+}
+- (void) setHasClanId:(BOOL) value {
+  hasClanId_ = !!value;
+}
+@synthesize clanId;
+- (BOOL) hasCrId {
+  return !!hasCrId_;
+}
+- (void) setHasCrId:(BOOL) value {
+  hasCrId_ = !!value;
+}
+@synthesize crId;
+- (BOOL) hasCrDmgDone {
+  return !!hasCrDmgDone_;
+}
+- (void) setHasCrDmgDone:(BOOL) value {
+  hasCrDmgDone_ = !!value;
+}
+@synthesize crDmgDone;
+- (BOOL) hasCrsDmgDone {
+  return !!hasCrsDmgDone_;
+}
+- (void) setHasCrsDmgDone:(BOOL) value {
+  hasCrsDmgDone_ = !!value;
+}
+@synthesize crsDmgDone;
+- (BOOL) hasCrsmDmgDone {
+  return !!hasCrsmDmgDone_;
+}
+- (void) setHasCrsmDmgDone:(BOOL) value {
+  hasCrsmDmgDone_ = !!value;
+}
+@synthesize crsmDmgDone;
+- (BOOL) hasUserMonsters {
+  return !!hasUserMonsters_;
+}
+- (void) setHasUserMonsters:(BOOL) value {
+  hasUserMonsters_ = !!value;
+}
+@synthesize userMonsters;
+- (void) dealloc {
+  self.userMonsters = nil;
+  [super dealloc];
+}
+- (id) init {
+  if ((self = [super init])) {
+    self.userId = 0;
+    self.clanId = 0;
+    self.crId = 0;
+    self.crDmgDone = 0;
+    self.crsDmgDone = 0;
+    self.crsmDmgDone = 0;
+    self.userMonsters = [UserCurrentMonsterTeamProto defaultInstance];
+  }
+  return self;
+}
+static PersistentClanEventUserInfoProto* defaultPersistentClanEventUserInfoProtoInstance = nil;
++ (void) initialize {
+  if (self == [PersistentClanEventUserInfoProto class]) {
+    defaultPersistentClanEventUserInfoProtoInstance = [[PersistentClanEventUserInfoProto alloc] init];
+  }
+}
++ (PersistentClanEventUserInfoProto*) defaultInstance {
+  return defaultPersistentClanEventUserInfoProtoInstance;
+}
+- (PersistentClanEventUserInfoProto*) defaultInstance {
+  return defaultPersistentClanEventUserInfoProtoInstance;
+}
+- (BOOL) isInitialized {
+  return YES;
+}
+- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output {
+  if (self.hasUserId) {
+    [output writeInt32:1 value:self.userId];
+  }
+  if (self.hasClanId) {
+    [output writeInt32:2 value:self.clanId];
+  }
+  if (self.hasCrId) {
+    [output writeInt32:3 value:self.crId];
+  }
+  if (self.hasCrDmgDone) {
+    [output writeInt32:4 value:self.crDmgDone];
+  }
+  if (self.hasCrsDmgDone) {
+    [output writeInt32:6 value:self.crsDmgDone];
+  }
+  if (self.hasCrsmDmgDone) {
+    [output writeInt32:8 value:self.crsmDmgDone];
+  }
+  if (self.hasUserMonsters) {
+    [output writeMessage:9 value:self.userMonsters];
+  }
+  [self.unknownFields writeToCodedOutputStream:output];
+}
+- (int32_t) serializedSize {
+  int32_t size = memoizedSerializedSize;
+  if (size != -1) {
+    return size;
+  }
+
+  size = 0;
+  if (self.hasUserId) {
+    size += computeInt32Size(1, self.userId);
+  }
+  if (self.hasClanId) {
+    size += computeInt32Size(2, self.clanId);
+  }
+  if (self.hasCrId) {
+    size += computeInt32Size(3, self.crId);
+  }
+  if (self.hasCrDmgDone) {
+    size += computeInt32Size(4, self.crDmgDone);
+  }
+  if (self.hasCrsDmgDone) {
+    size += computeInt32Size(6, self.crsDmgDone);
+  }
+  if (self.hasCrsmDmgDone) {
+    size += computeInt32Size(8, self.crsmDmgDone);
+  }
+  if (self.hasUserMonsters) {
+    size += computeMessageSize(9, self.userMonsters);
+  }
+  size += self.unknownFields.serializedSize;
+  memoizedSerializedSize = size;
+  return size;
+}
++ (PersistentClanEventUserInfoProto*) parseFromData:(NSData*) data {
+  return (PersistentClanEventUserInfoProto*)[[[PersistentClanEventUserInfoProto builder] mergeFromData:data] build];
+}
++ (PersistentClanEventUserInfoProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (PersistentClanEventUserInfoProto*)[[[PersistentClanEventUserInfoProto builder] mergeFromData:data extensionRegistry:extensionRegistry] build];
+}
++ (PersistentClanEventUserInfoProto*) parseFromInputStream:(NSInputStream*) input {
+  return (PersistentClanEventUserInfoProto*)[[[PersistentClanEventUserInfoProto builder] mergeFromInputStream:input] build];
+}
++ (PersistentClanEventUserInfoProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (PersistentClanEventUserInfoProto*)[[[PersistentClanEventUserInfoProto builder] mergeFromInputStream:input extensionRegistry:extensionRegistry] build];
+}
++ (PersistentClanEventUserInfoProto*) parseFromCodedInputStream:(PBCodedInputStream*) input {
+  return (PersistentClanEventUserInfoProto*)[[[PersistentClanEventUserInfoProto builder] mergeFromCodedInputStream:input] build];
+}
++ (PersistentClanEventUserInfoProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (PersistentClanEventUserInfoProto*)[[[PersistentClanEventUserInfoProto builder] mergeFromCodedInputStream:input extensionRegistry:extensionRegistry] build];
+}
++ (PersistentClanEventUserInfoProto_Builder*) builder {
+  return [[[PersistentClanEventUserInfoProto_Builder alloc] init] autorelease];
+}
++ (PersistentClanEventUserInfoProto_Builder*) builderWithPrototype:(PersistentClanEventUserInfoProto*) prototype {
+  return [[PersistentClanEventUserInfoProto builder] mergeFrom:prototype];
+}
+- (PersistentClanEventUserInfoProto_Builder*) builder {
+  return [PersistentClanEventUserInfoProto builder];
+}
+@end
+
+@interface PersistentClanEventUserInfoProto_Builder()
+@property (retain) PersistentClanEventUserInfoProto* result;
+@end
+
+@implementation PersistentClanEventUserInfoProto_Builder
+@synthesize result;
+- (void) dealloc {
+  self.result = nil;
+  [super dealloc];
+}
+- (id) init {
+  if ((self = [super init])) {
+    self.result = [[[PersistentClanEventUserInfoProto alloc] init] autorelease];
+  }
+  return self;
+}
+- (PBGeneratedMessage*) internalGetResult {
+  return result;
+}
+- (PersistentClanEventUserInfoProto_Builder*) clear {
+  self.result = [[[PersistentClanEventUserInfoProto alloc] init] autorelease];
+  return self;
+}
+- (PersistentClanEventUserInfoProto_Builder*) clone {
+  return [PersistentClanEventUserInfoProto builderWithPrototype:result];
+}
+- (PersistentClanEventUserInfoProto*) defaultInstance {
+  return [PersistentClanEventUserInfoProto defaultInstance];
+}
+- (PersistentClanEventUserInfoProto*) build {
+  [self checkInitialized];
+  return [self buildPartial];
+}
+- (PersistentClanEventUserInfoProto*) buildPartial {
+  PersistentClanEventUserInfoProto* returnMe = [[result retain] autorelease];
+  self.result = nil;
+  return returnMe;
+}
+- (PersistentClanEventUserInfoProto_Builder*) mergeFrom:(PersistentClanEventUserInfoProto*) other {
+  if (other == [PersistentClanEventUserInfoProto defaultInstance]) {
+    return self;
+  }
+  if (other.hasUserId) {
+    [self setUserId:other.userId];
+  }
+  if (other.hasClanId) {
+    [self setClanId:other.clanId];
+  }
+  if (other.hasCrId) {
+    [self setCrId:other.crId];
+  }
+  if (other.hasCrDmgDone) {
+    [self setCrDmgDone:other.crDmgDone];
+  }
+  if (other.hasCrsDmgDone) {
+    [self setCrsDmgDone:other.crsDmgDone];
+  }
+  if (other.hasCrsmDmgDone) {
+    [self setCrsmDmgDone:other.crsmDmgDone];
+  }
+  if (other.hasUserMonsters) {
+    [self mergeUserMonsters:other.userMonsters];
+  }
+  [self mergeUnknownFields:other.unknownFields];
+  return self;
+}
+- (PersistentClanEventUserInfoProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input {
+  return [self mergeFromCodedInputStream:input extensionRegistry:[PBExtensionRegistry emptyRegistry]];
+}
+- (PersistentClanEventUserInfoProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  PBUnknownFieldSet_Builder* unknownFields = [PBUnknownFieldSet builderWithUnknownFields:self.unknownFields];
+  while (YES) {
+    int32_t tag = [input readTag];
+    switch (tag) {
+      case 0:
+        [self setUnknownFields:[unknownFields build]];
+        return self;
+      default: {
+        if (![self parseUnknownField:input unknownFields:unknownFields extensionRegistry:extensionRegistry tag:tag]) {
+          [self setUnknownFields:[unknownFields build]];
+          return self;
+        }
+        break;
+      }
+      case 8: {
+        [self setUserId:[input readInt32]];
+        break;
+      }
+      case 16: {
+        [self setClanId:[input readInt32]];
+        break;
+      }
+      case 24: {
+        [self setCrId:[input readInt32]];
+        break;
+      }
+      case 32: {
+        [self setCrDmgDone:[input readInt32]];
+        break;
+      }
+      case 48: {
+        [self setCrsDmgDone:[input readInt32]];
+        break;
+      }
+      case 64: {
+        [self setCrsmDmgDone:[input readInt32]];
+        break;
+      }
+      case 74: {
+        UserCurrentMonsterTeamProto_Builder* subBuilder = [UserCurrentMonsterTeamProto builder];
+        if (self.hasUserMonsters) {
+          [subBuilder mergeFrom:self.userMonsters];
+        }
+        [input readMessage:subBuilder extensionRegistry:extensionRegistry];
+        [self setUserMonsters:[subBuilder buildPartial]];
+        break;
+      }
+    }
+  }
+}
+- (BOOL) hasUserId {
+  return result.hasUserId;
+}
+- (int32_t) userId {
+  return result.userId;
+}
+- (PersistentClanEventUserInfoProto_Builder*) setUserId:(int32_t) value {
+  result.hasUserId = YES;
+  result.userId = value;
+  return self;
+}
+- (PersistentClanEventUserInfoProto_Builder*) clearUserId {
+  result.hasUserId = NO;
+  result.userId = 0;
+  return self;
+}
+- (BOOL) hasClanId {
+  return result.hasClanId;
+}
+- (int32_t) clanId {
+  return result.clanId;
+}
+- (PersistentClanEventUserInfoProto_Builder*) setClanId:(int32_t) value {
+  result.hasClanId = YES;
+  result.clanId = value;
+  return self;
+}
+- (PersistentClanEventUserInfoProto_Builder*) clearClanId {
+  result.hasClanId = NO;
+  result.clanId = 0;
+  return self;
+}
+- (BOOL) hasCrId {
+  return result.hasCrId;
+}
+- (int32_t) crId {
+  return result.crId;
+}
+- (PersistentClanEventUserInfoProto_Builder*) setCrId:(int32_t) value {
+  result.hasCrId = YES;
+  result.crId = value;
+  return self;
+}
+- (PersistentClanEventUserInfoProto_Builder*) clearCrId {
+  result.hasCrId = NO;
+  result.crId = 0;
+  return self;
+}
+- (BOOL) hasCrDmgDone {
+  return result.hasCrDmgDone;
+}
+- (int32_t) crDmgDone {
+  return result.crDmgDone;
+}
+- (PersistentClanEventUserInfoProto_Builder*) setCrDmgDone:(int32_t) value {
+  result.hasCrDmgDone = YES;
+  result.crDmgDone = value;
+  return self;
+}
+- (PersistentClanEventUserInfoProto_Builder*) clearCrDmgDone {
+  result.hasCrDmgDone = NO;
+  result.crDmgDone = 0;
+  return self;
+}
+- (BOOL) hasCrsDmgDone {
+  return result.hasCrsDmgDone;
+}
+- (int32_t) crsDmgDone {
+  return result.crsDmgDone;
+}
+- (PersistentClanEventUserInfoProto_Builder*) setCrsDmgDone:(int32_t) value {
+  result.hasCrsDmgDone = YES;
+  result.crsDmgDone = value;
+  return self;
+}
+- (PersistentClanEventUserInfoProto_Builder*) clearCrsDmgDone {
+  result.hasCrsDmgDone = NO;
+  result.crsDmgDone = 0;
+  return self;
+}
+- (BOOL) hasCrsmDmgDone {
+  return result.hasCrsmDmgDone;
+}
+- (int32_t) crsmDmgDone {
+  return result.crsmDmgDone;
+}
+- (PersistentClanEventUserInfoProto_Builder*) setCrsmDmgDone:(int32_t) value {
+  result.hasCrsmDmgDone = YES;
+  result.crsmDmgDone = value;
+  return self;
+}
+- (PersistentClanEventUserInfoProto_Builder*) clearCrsmDmgDone {
+  result.hasCrsmDmgDone = NO;
+  result.crsmDmgDone = 0;
+  return self;
+}
+- (BOOL) hasUserMonsters {
+  return result.hasUserMonsters;
+}
+- (UserCurrentMonsterTeamProto*) userMonsters {
+  return result.userMonsters;
+}
+- (PersistentClanEventUserInfoProto_Builder*) setUserMonsters:(UserCurrentMonsterTeamProto*) value {
+  result.hasUserMonsters = YES;
+  result.userMonsters = value;
+  return self;
+}
+- (PersistentClanEventUserInfoProto_Builder*) setUserMonstersBuilder:(UserCurrentMonsterTeamProto_Builder*) builderForValue {
+  return [self setUserMonsters:[builderForValue build]];
+}
+- (PersistentClanEventUserInfoProto_Builder*) mergeUserMonsters:(UserCurrentMonsterTeamProto*) value {
+  if (result.hasUserMonsters &&
+      result.userMonsters != [UserCurrentMonsterTeamProto defaultInstance]) {
+    result.userMonsters =
+      [[[UserCurrentMonsterTeamProto builderWithPrototype:result.userMonsters] mergeFrom:value] buildPartial];
+  } else {
+    result.userMonsters = value;
+  }
+  result.hasUserMonsters = YES;
+  return self;
+}
+- (PersistentClanEventUserInfoProto_Builder*) clearUserMonsters {
+  result.hasUserMonsters = NO;
+  result.userMonsters = [UserCurrentMonsterTeamProto defaultInstance];
+  return self;
+}
+@end
+
+@interface PersistentClanEventUserRewardProto ()
+@property int32_t rewardId;
+@property int32_t userId;
+@property int32_t crsId;
+@property int64_t crsEndTime;
+@property ResourceType resourceType;
+@property int32_t staticDataId;
+@property int32_t quantity;
+@property int32_t clanEventPersistentId;
+@end
+
+@implementation PersistentClanEventUserRewardProto
+
+- (BOOL) hasRewardId {
+  return !!hasRewardId_;
+}
+- (void) setHasRewardId:(BOOL) value {
+  hasRewardId_ = !!value;
+}
+@synthesize rewardId;
+- (BOOL) hasUserId {
+  return !!hasUserId_;
+}
+- (void) setHasUserId:(BOOL) value {
+  hasUserId_ = !!value;
+}
+@synthesize userId;
+- (BOOL) hasCrsId {
+  return !!hasCrsId_;
+}
+- (void) setHasCrsId:(BOOL) value {
+  hasCrsId_ = !!value;
+}
+@synthesize crsId;
+- (BOOL) hasCrsEndTime {
+  return !!hasCrsEndTime_;
+}
+- (void) setHasCrsEndTime:(BOOL) value {
+  hasCrsEndTime_ = !!value;
+}
+@synthesize crsEndTime;
+- (BOOL) hasResourceType {
+  return !!hasResourceType_;
+}
+- (void) setHasResourceType:(BOOL) value {
+  hasResourceType_ = !!value;
+}
+@synthesize resourceType;
+- (BOOL) hasStaticDataId {
+  return !!hasStaticDataId_;
+}
+- (void) setHasStaticDataId:(BOOL) value {
+  hasStaticDataId_ = !!value;
+}
+@synthesize staticDataId;
+- (BOOL) hasQuantity {
+  return !!hasQuantity_;
+}
+- (void) setHasQuantity:(BOOL) value {
+  hasQuantity_ = !!value;
+}
+@synthesize quantity;
+- (BOOL) hasClanEventPersistentId {
+  return !!hasClanEventPersistentId_;
+}
+- (void) setHasClanEventPersistentId:(BOOL) value {
+  hasClanEventPersistentId_ = !!value;
+}
+@synthesize clanEventPersistentId;
+- (void) dealloc {
+  [super dealloc];
+}
+- (id) init {
+  if ((self = [super init])) {
+    self.rewardId = 0;
+    self.userId = 0;
+    self.crsId = 0;
+    self.crsEndTime = 0L;
+    self.resourceType = ResourceTypeCash;
+    self.staticDataId = 0;
+    self.quantity = 0;
+    self.clanEventPersistentId = 0;
+  }
+  return self;
+}
+static PersistentClanEventUserRewardProto* defaultPersistentClanEventUserRewardProtoInstance = nil;
++ (void) initialize {
+  if (self == [PersistentClanEventUserRewardProto class]) {
+    defaultPersistentClanEventUserRewardProtoInstance = [[PersistentClanEventUserRewardProto alloc] init];
+  }
+}
++ (PersistentClanEventUserRewardProto*) defaultInstance {
+  return defaultPersistentClanEventUserRewardProtoInstance;
+}
+- (PersistentClanEventUserRewardProto*) defaultInstance {
+  return defaultPersistentClanEventUserRewardProtoInstance;
+}
+- (BOOL) isInitialized {
+  return YES;
+}
+- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output {
+  if (self.hasRewardId) {
+    [output writeInt32:1 value:self.rewardId];
+  }
+  if (self.hasUserId) {
+    [output writeInt32:2 value:self.userId];
+  }
+  if (self.hasCrsId) {
+    [output writeInt32:3 value:self.crsId];
+  }
+  if (self.hasCrsEndTime) {
+    [output writeInt64:4 value:self.crsEndTime];
+  }
+  if (self.hasResourceType) {
+    [output writeEnum:5 value:self.resourceType];
+  }
+  if (self.hasStaticDataId) {
+    [output writeInt32:6 value:self.staticDataId];
+  }
+  if (self.hasQuantity) {
+    [output writeInt32:7 value:self.quantity];
+  }
+  if (self.hasClanEventPersistentId) {
+    [output writeInt32:8 value:self.clanEventPersistentId];
+  }
+  [self.unknownFields writeToCodedOutputStream:output];
+}
+- (int32_t) serializedSize {
+  int32_t size = memoizedSerializedSize;
+  if (size != -1) {
+    return size;
+  }
+
+  size = 0;
+  if (self.hasRewardId) {
+    size += computeInt32Size(1, self.rewardId);
+  }
+  if (self.hasUserId) {
+    size += computeInt32Size(2, self.userId);
+  }
+  if (self.hasCrsId) {
+    size += computeInt32Size(3, self.crsId);
+  }
+  if (self.hasCrsEndTime) {
+    size += computeInt64Size(4, self.crsEndTime);
+  }
+  if (self.hasResourceType) {
+    size += computeEnumSize(5, self.resourceType);
+  }
+  if (self.hasStaticDataId) {
+    size += computeInt32Size(6, self.staticDataId);
+  }
+  if (self.hasQuantity) {
+    size += computeInt32Size(7, self.quantity);
+  }
+  if (self.hasClanEventPersistentId) {
+    size += computeInt32Size(8, self.clanEventPersistentId);
+  }
+  size += self.unknownFields.serializedSize;
+  memoizedSerializedSize = size;
+  return size;
+}
++ (PersistentClanEventUserRewardProto*) parseFromData:(NSData*) data {
+  return (PersistentClanEventUserRewardProto*)[[[PersistentClanEventUserRewardProto builder] mergeFromData:data] build];
+}
++ (PersistentClanEventUserRewardProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (PersistentClanEventUserRewardProto*)[[[PersistentClanEventUserRewardProto builder] mergeFromData:data extensionRegistry:extensionRegistry] build];
+}
++ (PersistentClanEventUserRewardProto*) parseFromInputStream:(NSInputStream*) input {
+  return (PersistentClanEventUserRewardProto*)[[[PersistentClanEventUserRewardProto builder] mergeFromInputStream:input] build];
+}
++ (PersistentClanEventUserRewardProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (PersistentClanEventUserRewardProto*)[[[PersistentClanEventUserRewardProto builder] mergeFromInputStream:input extensionRegistry:extensionRegistry] build];
+}
++ (PersistentClanEventUserRewardProto*) parseFromCodedInputStream:(PBCodedInputStream*) input {
+  return (PersistentClanEventUserRewardProto*)[[[PersistentClanEventUserRewardProto builder] mergeFromCodedInputStream:input] build];
+}
++ (PersistentClanEventUserRewardProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (PersistentClanEventUserRewardProto*)[[[PersistentClanEventUserRewardProto builder] mergeFromCodedInputStream:input extensionRegistry:extensionRegistry] build];
+}
++ (PersistentClanEventUserRewardProto_Builder*) builder {
+  return [[[PersistentClanEventUserRewardProto_Builder alloc] init] autorelease];
+}
++ (PersistentClanEventUserRewardProto_Builder*) builderWithPrototype:(PersistentClanEventUserRewardProto*) prototype {
+  return [[PersistentClanEventUserRewardProto builder] mergeFrom:prototype];
+}
+- (PersistentClanEventUserRewardProto_Builder*) builder {
+  return [PersistentClanEventUserRewardProto builder];
+}
+@end
+
+@interface PersistentClanEventUserRewardProto_Builder()
+@property (retain) PersistentClanEventUserRewardProto* result;
+@end
+
+@implementation PersistentClanEventUserRewardProto_Builder
+@synthesize result;
+- (void) dealloc {
+  self.result = nil;
+  [super dealloc];
+}
+- (id) init {
+  if ((self = [super init])) {
+    self.result = [[[PersistentClanEventUserRewardProto alloc] init] autorelease];
+  }
+  return self;
+}
+- (PBGeneratedMessage*) internalGetResult {
+  return result;
+}
+- (PersistentClanEventUserRewardProto_Builder*) clear {
+  self.result = [[[PersistentClanEventUserRewardProto alloc] init] autorelease];
+  return self;
+}
+- (PersistentClanEventUserRewardProto_Builder*) clone {
+  return [PersistentClanEventUserRewardProto builderWithPrototype:result];
+}
+- (PersistentClanEventUserRewardProto*) defaultInstance {
+  return [PersistentClanEventUserRewardProto defaultInstance];
+}
+- (PersistentClanEventUserRewardProto*) build {
+  [self checkInitialized];
+  return [self buildPartial];
+}
+- (PersistentClanEventUserRewardProto*) buildPartial {
+  PersistentClanEventUserRewardProto* returnMe = [[result retain] autorelease];
+  self.result = nil;
+  return returnMe;
+}
+- (PersistentClanEventUserRewardProto_Builder*) mergeFrom:(PersistentClanEventUserRewardProto*) other {
+  if (other == [PersistentClanEventUserRewardProto defaultInstance]) {
+    return self;
+  }
+  if (other.hasRewardId) {
+    [self setRewardId:other.rewardId];
+  }
+  if (other.hasUserId) {
+    [self setUserId:other.userId];
+  }
+  if (other.hasCrsId) {
+    [self setCrsId:other.crsId];
+  }
+  if (other.hasCrsEndTime) {
+    [self setCrsEndTime:other.crsEndTime];
+  }
+  if (other.hasResourceType) {
+    [self setResourceType:other.resourceType];
+  }
+  if (other.hasStaticDataId) {
+    [self setStaticDataId:other.staticDataId];
+  }
+  if (other.hasQuantity) {
+    [self setQuantity:other.quantity];
+  }
+  if (other.hasClanEventPersistentId) {
+    [self setClanEventPersistentId:other.clanEventPersistentId];
+  }
+  [self mergeUnknownFields:other.unknownFields];
+  return self;
+}
+- (PersistentClanEventUserRewardProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input {
+  return [self mergeFromCodedInputStream:input extensionRegistry:[PBExtensionRegistry emptyRegistry]];
+}
+- (PersistentClanEventUserRewardProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  PBUnknownFieldSet_Builder* unknownFields = [PBUnknownFieldSet builderWithUnknownFields:self.unknownFields];
+  while (YES) {
+    int32_t tag = [input readTag];
+    switch (tag) {
+      case 0:
+        [self setUnknownFields:[unknownFields build]];
+        return self;
+      default: {
+        if (![self parseUnknownField:input unknownFields:unknownFields extensionRegistry:extensionRegistry tag:tag]) {
+          [self setUnknownFields:[unknownFields build]];
+          return self;
+        }
+        break;
+      }
+      case 8: {
+        [self setRewardId:[input readInt32]];
+        break;
+      }
+      case 16: {
+        [self setUserId:[input readInt32]];
+        break;
+      }
+      case 24: {
+        [self setCrsId:[input readInt32]];
+        break;
+      }
+      case 32: {
+        [self setCrsEndTime:[input readInt64]];
+        break;
+      }
+      case 40: {
+        int32_t value = [input readEnum];
+        if (ResourceTypeIsValidValue(value)) {
+          [self setResourceType:value];
+        } else {
+          [unknownFields mergeVarintField:5 value:value];
+        }
+        break;
+      }
+      case 48: {
+        [self setStaticDataId:[input readInt32]];
+        break;
+      }
+      case 56: {
+        [self setQuantity:[input readInt32]];
+        break;
+      }
+      case 64: {
+        [self setClanEventPersistentId:[input readInt32]];
+        break;
+      }
+    }
+  }
+}
+- (BOOL) hasRewardId {
+  return result.hasRewardId;
+}
+- (int32_t) rewardId {
+  return result.rewardId;
+}
+- (PersistentClanEventUserRewardProto_Builder*) setRewardId:(int32_t) value {
+  result.hasRewardId = YES;
+  result.rewardId = value;
+  return self;
+}
+- (PersistentClanEventUserRewardProto_Builder*) clearRewardId {
+  result.hasRewardId = NO;
+  result.rewardId = 0;
+  return self;
+}
+- (BOOL) hasUserId {
+  return result.hasUserId;
+}
+- (int32_t) userId {
+  return result.userId;
+}
+- (PersistentClanEventUserRewardProto_Builder*) setUserId:(int32_t) value {
+  result.hasUserId = YES;
+  result.userId = value;
+  return self;
+}
+- (PersistentClanEventUserRewardProto_Builder*) clearUserId {
+  result.hasUserId = NO;
+  result.userId = 0;
+  return self;
+}
+- (BOOL) hasCrsId {
+  return result.hasCrsId;
+}
+- (int32_t) crsId {
+  return result.crsId;
+}
+- (PersistentClanEventUserRewardProto_Builder*) setCrsId:(int32_t) value {
+  result.hasCrsId = YES;
+  result.crsId = value;
+  return self;
+}
+- (PersistentClanEventUserRewardProto_Builder*) clearCrsId {
+  result.hasCrsId = NO;
+  result.crsId = 0;
+  return self;
+}
+- (BOOL) hasCrsEndTime {
+  return result.hasCrsEndTime;
+}
+- (int64_t) crsEndTime {
+  return result.crsEndTime;
+}
+- (PersistentClanEventUserRewardProto_Builder*) setCrsEndTime:(int64_t) value {
+  result.hasCrsEndTime = YES;
+  result.crsEndTime = value;
+  return self;
+}
+- (PersistentClanEventUserRewardProto_Builder*) clearCrsEndTime {
+  result.hasCrsEndTime = NO;
+  result.crsEndTime = 0L;
+  return self;
+}
+- (BOOL) hasResourceType {
+  return result.hasResourceType;
+}
+- (ResourceType) resourceType {
+  return result.resourceType;
+}
+- (PersistentClanEventUserRewardProto_Builder*) setResourceType:(ResourceType) value {
+  result.hasResourceType = YES;
+  result.resourceType = value;
+  return self;
+}
+- (PersistentClanEventUserRewardProto_Builder*) clearResourceType {
+  result.hasResourceType = NO;
+  result.resourceType = ResourceTypeCash;
+  return self;
+}
+- (BOOL) hasStaticDataId {
+  return result.hasStaticDataId;
+}
+- (int32_t) staticDataId {
+  return result.staticDataId;
+}
+- (PersistentClanEventUserRewardProto_Builder*) setStaticDataId:(int32_t) value {
+  result.hasStaticDataId = YES;
+  result.staticDataId = value;
+  return self;
+}
+- (PersistentClanEventUserRewardProto_Builder*) clearStaticDataId {
+  result.hasStaticDataId = NO;
+  result.staticDataId = 0;
+  return self;
+}
+- (BOOL) hasQuantity {
+  return result.hasQuantity;
+}
+- (int32_t) quantity {
+  return result.quantity;
+}
+- (PersistentClanEventUserRewardProto_Builder*) setQuantity:(int32_t) value {
+  result.hasQuantity = YES;
+  result.quantity = value;
+  return self;
+}
+- (PersistentClanEventUserRewardProto_Builder*) clearQuantity {
+  result.hasQuantity = NO;
+  result.quantity = 0;
+  return self;
+}
+- (BOOL) hasClanEventPersistentId {
+  return result.hasClanEventPersistentId;
+}
+- (int32_t) clanEventPersistentId {
+  return result.clanEventPersistentId;
+}
+- (PersistentClanEventUserRewardProto_Builder*) setClanEventPersistentId:(int32_t) value {
+  result.hasClanEventPersistentId = YES;
+  result.clanEventPersistentId = value;
+  return self;
+}
+- (PersistentClanEventUserRewardProto_Builder*) clearClanEventPersistentId {
+  result.hasClanEventPersistentId = NO;
+  result.clanEventPersistentId = 0;
   return self;
 }
 @end

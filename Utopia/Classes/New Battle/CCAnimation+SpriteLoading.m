@@ -31,10 +31,18 @@
     if (exists) {
       CCSpriteFrame *frame = [[CCSpriteFrameCache sharedSpriteFrameCache] spriteFrameByName:file];
       [anim addObject:frame];
-    } else if (i > 0) {
-      break;
     } else {
-      NSLog(@"Attempting sprite frame 01 for prefix %@..", prefix);
+      NSString *file2 = [NSString stringWithFormat:@"%@%02d.tga",prefix, i];
+      BOOL exists2 = [[CCSpriteFrameCache sharedSpriteFrameCache] containsFrame:file2];
+      
+      if (exists2) {
+        CCSpriteFrame *frame = [[CCSpriteFrameCache sharedSpriteFrameCache] spriteFrameByName:file2];
+        [anim addObject:frame];
+      } else if (i > 0) {
+        break;
+      } else {
+        NSLog(@"Attempting sprite frame 01 for prefix %@..", prefix);
+      }
     }
   }
   

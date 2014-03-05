@@ -36,10 +36,10 @@
             <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
             <subviews>
                 <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" alpha="0.89999997615814209" contentMode="scaleToFill" image="taskgradient.png" id="52n-Ax-gFO">
-                    <rect key="frame" x="-100" y="10" width="547" height="50"/>
+                    <rect key="frame" x="-115" y="10" width="574" height="50"/>
                     <autoresizingMask key="autoresizingMask"/>
                 </imageView>
-                <view contentMode="scaleToFill" id="r63-Kl-H49">
+                <view userInteractionEnabled="NO" contentMode="scaleToFill" id="r63-Kl-H49">
                     <rect key="frame" x="0.0" y="0.0" width="168" height="60"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                     <subviews>
@@ -208,10 +208,10 @@
             <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
             <subviews>
                 <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" alpha="0.89999997615814209" contentMode="scaleToFill" image="taskgradient.png" id="cxl-1n-ija">
-                    <rect key="frame" x="-100" y="10" width="547" height="50"/>
+                    <rect key="frame" x="-114" y="10" width="574" height="50"/>
                     <autoresizingMask key="autoresizingMask"/>
                 </imageView>
-                <view contentMode="scaleToFill" id="8N8-0F-WnZ">
+                <view userInteractionEnabled="NO" contentMode="scaleToFill" id="8N8-0F-WnZ">
                     <rect key="frame" x="0.0" y="0.0" width="218" height="60"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                     <subviews>
@@ -296,10 +296,10 @@
             <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
             <subviews>
                 <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" alpha="0.89999997615814209" contentMode="scaleToFill" image="taskgradient.png" id="Vvf-7A-iR6">
-                    <rect key="frame" x="-100" y="10" width="547" height="50"/>
+                    <rect key="frame" x="-114" y="10" width="574" height="50"/>
                     <autoresizingMask key="autoresizingMask"/>
                 </imageView>
-                <view contentMode="scaleToFill" id="O6y-Rp-wnD">
+                <view userInteractionEnabled="NO" contentMode="scaleToFill" id="O6y-Rp-wnD">
                     <rect key="frame" x="0.0" y="0.0" width="218" height="60"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                     <subviews>
@@ -388,10 +388,10 @@
             <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
             <subviews>
                 <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" alpha="0.89999997615814209" contentMode="scaleToFill" image="taskgradient.png" id="gZU-hR-KSa">
-                    <rect key="frame" x="-100" y="10" width="547" height="50"/>
+                    <rect key="frame" x="-114" y="10" width="574" height="50"/>
                     <autoresizingMask key="autoresizingMask"/>
                 </imageView>
-                <view contentMode="scaleToFill" id="fNz-7p-uOD">
+                <view userInteractionEnabled="NO" contentMode="scaleToFill" id="fNz-7p-uOD">
                     <rect key="frame" x="0.0" y="0.0" width="218" height="60"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                     <subviews>

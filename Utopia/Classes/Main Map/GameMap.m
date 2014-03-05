@@ -53,6 +53,8 @@
     //    [self addChild:self.decLayer z:2000];
     
     self.scale = DEFAULT_ZOOM;
+    
+    _mapMovementDivisor = 1000.f;
   }
   return self;
 }
@@ -249,7 +251,8 @@
     CGPoint loc = CGPointMake(roundf(pt.x), roundf(pt.y));
     
     if (_myTeamSprites.count > 0) {
-      [[_myTeamSprites objectAtIndex:0] moveToward:loc withCompletionSelector:@selector(walk)];
+      MyTeamSprite *ms = [_myTeamSprites objectAtIndex:0];
+      [ms moveToward:loc speedMultiplier:3.f completionTarget:ms selector:@selector(walk)];
     }
   }
 }
@@ -309,7 +312,7 @@
   self.position = ccpAdd(self.position, ccpMult(diff, self.scale));
 }
 
--(void) setPosition:(CGPoint)position {
+- (CGPoint) clipPositionToBoundary:(CGPoint)position {
   // For y, make sure to account for anchor point being at bottom middle.
   CGPoint blPt = bottomLeftCorner;
   CGPoint trPt = topRightCorner;
@@ -321,7 +324,11 @@
   float x = MAX(MIN(-minX*self.scaleX, position.x), -maxX*self.scaleX + [[CCDirector sharedDirector] viewSize].width);
   float y = MAX(MIN(-minY*self.scaleY, position.y), -maxY*self.scaleY + [[CCDirector sharedDirector] viewSize].height);
   
-  [super setPosition:ccp(x,y)];
+  return ccp(x, y);
+}
+
+-(void) setPosition:(CGPoint)position {
+  [super setPosition:[self clipPositionToBoundary:position]];
 }
 
 - (void) setScale:(float)scale {
@@ -349,9 +356,9 @@
 
 - (BOOL) isTileCoordWalkable:(CGPoint)pt {
   pt.x = floorf(pt.x); pt.y = floorf(pt.y);
-  if (pt.x < _walkableData.count && pt.x > 0) {
+  if (pt.x < _walkableData.count && pt.x >= 0) {
     NSArray *row = [_walkableData objectAtIndex:pt.x];
-    if (pt.y < row.count && pt.y > 0) {
+    if (pt.y < row.count && pt.y >= 0) {
       NSNumber *val = [row objectAtIndex:pt.y];
       return val.boolValue == YES;
     }
@@ -489,6 +496,8 @@
 
 #pragma mark - Move to sprite methods
 
+#define MAP_MOVE_ACTION_TAG 1020
+
 - (void) moveToCenterAnimated:(BOOL)animated {
   // move map to the center of the screen
   CGSize ms = [self mapSize];
@@ -499,7 +508,10 @@
   float y = -ms.height*ts.height/2*_scaleY+size.height/2;
   CGPoint newPos = ccp(x,y);
   if (animated) {
-    [self runAction:[CCActionMoveTo actionWithDuration:0.2f position:newPos]];
+    CCAction *a = [CCActionMoveTo actionWithDuration:0.2f position:newPos];
+    a.tag = MAP_MOVE_ACTION_TAG;
+    [self stopActionByTag:a.tag];
+    [self runAction:a];
   } else {
     self.position = newPos;
   }
@@ -514,10 +526,13 @@
     // Since all sprites have anchor point ccp(0.5,0) adjust accordingly
     float x = -pt.x*_scaleX+size.width/2;
     float y = (-pt.y-spr.contentSize.height*0.5)*_scaleY+size.height/2;
-    CGPoint newPos = ccpAdd(offset,ccp(x,y));
+    CGPoint newPos = [self clipPositionToBoundary:ccpAdd(offset,ccp(x,y))];
     if (animated) {
-      dur = ccpDistance(newPos, self.position)/1000.f;
-      [self runAction:[CCActionEaseInOut actionWithAction:[CCActionMoveTo actionWithDuration:dur position:newPos]]];
+      dur = ccpDistance(newPos, self.position)/_mapMovementDivisor;
+      CCAction *a = [CCActionEaseInOut actionWithAction:[CCActionMoveTo actionWithDuration:dur position:newPos]];
+      a.tag = MAP_MOVE_ACTION_TAG;
+      [self stopActionByTag:a.tag];
+      [self runAction:a];
     } else {
       self.position = newPos;
     }

@@ -3,18 +3,39 @@
 #import "ProtocolBuffers.h"
 
 #import "Battle.pb.h"
+#import "MonsterStuff.pb.h"
+#import "Structure.pb.h"
+#import "Task.pb.h"
 #import "User.pb.h"
 
+@class ClanRaidProto;
+@class ClanRaidProto_Builder;
+@class ClanRaidStageMonsterProto;
+@class ClanRaidStageMonsterProto_Builder;
+@class ClanRaidStageProto;
+@class ClanRaidStageProto_Builder;
+@class ClanRaidStageRewardProto;
+@class ClanRaidStageRewardProto_Builder;
+@class CoordinateProto;
+@class CoordinateProto_Builder;
 @class FullClanProto;
 @class FullClanProtoWithClanSize;
 @class FullClanProtoWithClanSize_Builder;
 @class FullClanProto_Builder;
+@class FullTaskProto;
+@class FullTaskProto_Builder;
 @class FullUserClanProto;
 @class FullUserClanProto_Builder;
 @class FullUserMonsterProto;
 @class FullUserMonsterProto_Builder;
 @class FullUserProto;
 @class FullUserProto_Builder;
+@class FullUserStructureProto;
+@class FullUserStructureProto_Builder;
+@class HospitalProto;
+@class HospitalProto_Builder;
+@class LabProto;
+@class LabProto_Builder;
 @class MinimumClanProto;
 @class MinimumClanProto_Builder;
 @class MinimumUserMonsterProto;
@@ -33,16 +54,44 @@
 @class MinimumUserProtoWithMaxResources;
 @class MinimumUserProtoWithMaxResources_Builder;
 @class MinimumUserProto_Builder;
+@class MinimumUserTaskProto;
+@class MinimumUserTaskProto_Builder;
 @class MonsterBattleDialogueProto;
 @class MonsterBattleDialogueProto_Builder;
 @class MonsterLevelInfoProto;
 @class MonsterLevelInfoProto_Builder;
 @class MonsterProto;
 @class MonsterProto_Builder;
+@class PersistentClanEventClanInfoProto;
+@class PersistentClanEventClanInfoProto_Builder;
+@class PersistentClanEventProto;
+@class PersistentClanEventProto_Builder;
+@class PersistentClanEventUserInfoProto;
+@class PersistentClanEventUserInfoProto_Builder;
+@class PersistentClanEventUserRewardProto;
+@class PersistentClanEventUserRewardProto_Builder;
+@class PersistentEventProto;
+@class PersistentEventProto_Builder;
 @class PvpProto;
 @class PvpProto_Builder;
+@class ResidenceProto;
+@class ResidenceProto_Builder;
+@class ResourceGeneratorProto;
+@class ResourceGeneratorProto_Builder;
+@class ResourceStorageProto;
+@class ResourceStorageProto_Builder;
 @class StaticUserLevelInfoProto;
 @class StaticUserLevelInfoProto_Builder;
+@class StructureInfoProto;
+@class StructureInfoProto_Builder;
+@class TaskStageMonsterProto;
+@class TaskStageMonsterProto_Builder;
+@class TaskStageProto;
+@class TaskStageProto_Builder;
+@class TownHallProto;
+@class TownHallProto_Builder;
+@class TutorialStructProto;
+@class TutorialStructProto_Builder;
 @class UserCurrentMonsterTeamProto;
 @class UserCurrentMonsterTeamProto_Builder;
 @class UserEnhancementItemProto;
@@ -59,9 +108,14 @@
 @class UserMonsterEvolutionProto_Builder;
 @class UserMonsterHealingProto;
 @class UserMonsterHealingProto_Builder;
+@class UserPersistentEventProto;
+@class UserPersistentEventProto_Builder;
 typedef enum {
-  UserClanStatusMember = 1,
-  UserClanStatusRequesting = 2,
+  UserClanStatusLeader = 1,
+  UserClanStatusJuniorLeader = 2,
+  UserClanStatusCaptain = 3,
+  UserClanStatusMember = 4,
+  UserClanStatusRequesting = 10,
 } UserClanStatus;
 
 BOOL UserClanStatusIsValidValue(UserClanStatus value);
@@ -81,25 +135,21 @@ BOOL UserClanStatusIsValidValue(UserClanStatus value);
   BOOL hasName_:1;
   BOOL hasDescription_:1;
   BOOL hasTag_:1;
-  BOOL hasOwner_:1;
   BOOL requestToJoinRequired_:1;
   int64_t createTime;
   int32_t clanId;
   NSString* name;
   NSString* description;
   NSString* tag;
-  MinimumUserProto* owner;
 }
 - (BOOL) hasClanId;
 - (BOOL) hasName;
-- (BOOL) hasOwner;
 - (BOOL) hasCreateTime;
 - (BOOL) hasDescription;
 - (BOOL) hasTag;
 - (BOOL) hasRequestToJoinRequired;
 @property (readonly) int32_t clanId;
 @property (readonly, retain) NSString* name;
-@property (readonly, retain) MinimumUserProto* owner;
 @property (readonly) int64_t createTime;
 @property (readonly, retain) NSString* description;
 @property (readonly, retain) NSString* tag;
@@ -148,13 +198,6 @@ BOOL UserClanStatusIsValidValue(UserClanStatus value);
 - (NSString*) name;
 - (FullClanProto_Builder*) setName:(NSString*) value;
 - (FullClanProto_Builder*) clearName;
-
-- (BOOL) hasOwner;
-- (MinimumUserProto*) owner;
-- (FullClanProto_Builder*) setOwner:(MinimumUserProto*) value;
-- (FullClanProto_Builder*) setOwnerBuilder:(MinimumUserProto_Builder*) builderForValue;
-- (FullClanProto_Builder*) mergeOwner:(MinimumUserProto*) value;
-- (FullClanProto_Builder*) clearOwner;
 
 - (BOOL) hasCreateTime;
 - (int64_t) createTime;
@@ -313,15 +356,19 @@ BOOL UserClanStatusIsValidValue(UserClanStatus value);
 
 @interface MinimumUserProtoForClans : PBGeneratedMessage {
 @private
+  BOOL hasRaidContribution_:1;
   BOOL hasMinUserProto_:1;
   BOOL hasClanStatus_:1;
+  Float32 raidContribution;
   MinimumUserProtoWithBattleHistory* minUserProto;
   UserClanStatus clanStatus;
 }
 - (BOOL) hasMinUserProto;
 - (BOOL) hasClanStatus;
+- (BOOL) hasRaidContribution;
 @property (readonly, retain) MinimumUserProtoWithBattleHistory* minUserProto;
 @property (readonly) UserClanStatus clanStatus;
+@property (readonly) Float32 raidContribution;
 
 + (MinimumUserProtoForClans*) defaultInstance;
 - (MinimumUserProtoForClans*) defaultInstance;
@@ -368,5 +415,822 @@ BOOL UserClanStatusIsValidValue(UserClanStatus value);
 - (UserClanStatus) clanStatus;
 - (MinimumUserProtoForClans_Builder*) setClanStatus:(UserClanStatus) value;
 - (MinimumUserProtoForClans_Builder*) clearClanStatus;
+
+- (BOOL) hasRaidContribution;
+- (Float32) raidContribution;
+- (MinimumUserProtoForClans_Builder*) setRaidContribution:(Float32) value;
+- (MinimumUserProtoForClans_Builder*) clearRaidContribution;
+@end
+
+@interface ClanRaidProto : PBGeneratedMessage {
+@private
+  BOOL hasClanRaidId_:1;
+  BOOL hasClanRaidName_:1;
+  BOOL hasActiveTitleImgName_:1;
+  BOOL hasActiveBackgroundImgName_:1;
+  BOOL hasActiveDescription_:1;
+  BOOL hasInactiveMonsterImgName_:1;
+  BOOL hasInactiveDescription_:1;
+  BOOL hasDialogueText_:1;
+  BOOL hasSpotlightMonsterImgName_:1;
+  int32_t clanRaidId;
+  NSString* clanRaidName;
+  NSString* activeTitleImgName;
+  NSString* activeBackgroundImgName;
+  NSString* activeDescription;
+  NSString* inactiveMonsterImgName;
+  NSString* inactiveDescription;
+  NSString* dialogueText;
+  NSString* spotlightMonsterImgName;
+  NSMutableArray* mutableRaidStagesList;
+}
+- (BOOL) hasClanRaidId;
+- (BOOL) hasClanRaidName;
+- (BOOL) hasActiveTitleImgName;
+- (BOOL) hasActiveBackgroundImgName;
+- (BOOL) hasActiveDescription;
+- (BOOL) hasInactiveMonsterImgName;
+- (BOOL) hasInactiveDescription;
+- (BOOL) hasDialogueText;
+- (BOOL) hasSpotlightMonsterImgName;
+@property (readonly) int32_t clanRaidId;
+@property (readonly, retain) NSString* clanRaidName;
+@property (readonly, retain) NSString* activeTitleImgName;
+@property (readonly, retain) NSString* activeBackgroundImgName;
+@property (readonly, retain) NSString* activeDescription;
+@property (readonly, retain) NSString* inactiveMonsterImgName;
+@property (readonly, retain) NSString* inactiveDescription;
+@property (readonly, retain) NSString* dialogueText;
+@property (readonly, retain) NSString* spotlightMonsterImgName;
+- (NSArray*) raidStagesList;
+- (ClanRaidStageProto*) raidStagesAtIndex:(int32_t) index;
+
++ (ClanRaidProto*) defaultInstance;
+- (ClanRaidProto*) defaultInstance;
+
+- (BOOL) isInitialized;
+- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output;
+- (ClanRaidProto_Builder*) builder;
++ (ClanRaidProto_Builder*) builder;
++ (ClanRaidProto_Builder*) builderWithPrototype:(ClanRaidProto*) prototype;
+
++ (ClanRaidProto*) parseFromData:(NSData*) data;
++ (ClanRaidProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (ClanRaidProto*) parseFromInputStream:(NSInputStream*) input;
++ (ClanRaidProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (ClanRaidProto*) parseFromCodedInputStream:(PBCodedInputStream*) input;
++ (ClanRaidProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+@end
+
+@interface ClanRaidProto_Builder : PBGeneratedMessage_Builder {
+@private
+  ClanRaidProto* result;
+}
+
+- (ClanRaidProto*) defaultInstance;
+
+- (ClanRaidProto_Builder*) clear;
+- (ClanRaidProto_Builder*) clone;
+
+- (ClanRaidProto*) build;
+- (ClanRaidProto*) buildPartial;
+
+- (ClanRaidProto_Builder*) mergeFrom:(ClanRaidProto*) other;
+- (ClanRaidProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input;
+- (ClanRaidProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+
+- (BOOL) hasClanRaidId;
+- (int32_t) clanRaidId;
+- (ClanRaidProto_Builder*) setClanRaidId:(int32_t) value;
+- (ClanRaidProto_Builder*) clearClanRaidId;
+
+- (BOOL) hasClanRaidName;
+- (NSString*) clanRaidName;
+- (ClanRaidProto_Builder*) setClanRaidName:(NSString*) value;
+- (ClanRaidProto_Builder*) clearClanRaidName;
+
+- (BOOL) hasActiveTitleImgName;
+- (NSString*) activeTitleImgName;
+- (ClanRaidProto_Builder*) setActiveTitleImgName:(NSString*) value;
+- (ClanRaidProto_Builder*) clearActiveTitleImgName;
+
+- (BOOL) hasActiveBackgroundImgName;
+- (NSString*) activeBackgroundImgName;
+- (ClanRaidProto_Builder*) setActiveBackgroundImgName:(NSString*) value;
+- (ClanRaidProto_Builder*) clearActiveBackgroundImgName;
+
+- (BOOL) hasActiveDescription;
+- (NSString*) activeDescription;
+- (ClanRaidProto_Builder*) setActiveDescription:(NSString*) value;
+- (ClanRaidProto_Builder*) clearActiveDescription;
+
+- (BOOL) hasInactiveMonsterImgName;
+- (NSString*) inactiveMonsterImgName;
+- (ClanRaidProto_Builder*) setInactiveMonsterImgName:(NSString*) value;
+- (ClanRaidProto_Builder*) clearInactiveMonsterImgName;
+
+- (BOOL) hasInactiveDescription;
+- (NSString*) inactiveDescription;
+- (ClanRaidProto_Builder*) setInactiveDescription:(NSString*) value;
+- (ClanRaidProto_Builder*) clearInactiveDescription;
+
+- (BOOL) hasDialogueText;
+- (NSString*) dialogueText;
+- (ClanRaidProto_Builder*) setDialogueText:(NSString*) value;
+- (ClanRaidProto_Builder*) clearDialogueText;
+
+- (BOOL) hasSpotlightMonsterImgName;
+- (NSString*) spotlightMonsterImgName;
+- (ClanRaidProto_Builder*) setSpotlightMonsterImgName:(NSString*) value;
+- (ClanRaidProto_Builder*) clearSpotlightMonsterImgName;
+
+- (NSArray*) raidStagesList;
+- (ClanRaidStageProto*) raidStagesAtIndex:(int32_t) index;
+- (ClanRaidProto_Builder*) replaceRaidStagesAtIndex:(int32_t) index with:(ClanRaidStageProto*) value;
+- (ClanRaidProto_Builder*) addRaidStages:(ClanRaidStageProto*) value;
+- (ClanRaidProto_Builder*) addAllRaidStages:(NSArray*) values;
+- (ClanRaidProto_Builder*) clearRaidStagesList;
+@end
+
+@interface ClanRaidStageProto : PBGeneratedMessage {
+@private
+  BOOL hasClanRaidStageId_:1;
+  BOOL hasClanRaidId_:1;
+  BOOL hasDurationMinutes_:1;
+  BOOL hasStageNum_:1;
+  BOOL hasName_:1;
+  int32_t clanRaidStageId;
+  int32_t clanRaidId;
+  int32_t durationMinutes;
+  int32_t stageNum;
+  NSString* name;
+  NSMutableArray* mutableMonstersList;
+  NSMutableArray* mutablePossibleRewardsList;
+}
+- (BOOL) hasClanRaidStageId;
+- (BOOL) hasClanRaidId;
+- (BOOL) hasDurationMinutes;
+- (BOOL) hasStageNum;
+- (BOOL) hasName;
+@property (readonly) int32_t clanRaidStageId;
+@property (readonly) int32_t clanRaidId;
+@property (readonly) int32_t durationMinutes;
+@property (readonly) int32_t stageNum;
+@property (readonly, retain) NSString* name;
+- (NSArray*) monstersList;
+- (ClanRaidStageMonsterProto*) monstersAtIndex:(int32_t) index;
+- (NSArray*) possibleRewardsList;
+- (ClanRaidStageRewardProto*) possibleRewardsAtIndex:(int32_t) index;
+
++ (ClanRaidStageProto*) defaultInstance;
+- (ClanRaidStageProto*) defaultInstance;
+
+- (BOOL) isInitialized;
+- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output;
+- (ClanRaidStageProto_Builder*) builder;
++ (ClanRaidStageProto_Builder*) builder;
++ (ClanRaidStageProto_Builder*) builderWithPrototype:(ClanRaidStageProto*) prototype;
+
++ (ClanRaidStageProto*) parseFromData:(NSData*) data;
++ (ClanRaidStageProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (ClanRaidStageProto*) parseFromInputStream:(NSInputStream*) input;
++ (ClanRaidStageProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (ClanRaidStageProto*) parseFromCodedInputStream:(PBCodedInputStream*) input;
++ (ClanRaidStageProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+@end
+
+@interface ClanRaidStageProto_Builder : PBGeneratedMessage_Builder {
+@private
+  ClanRaidStageProto* result;
+}
+
+- (ClanRaidStageProto*) defaultInstance;
+
+- (ClanRaidStageProto_Builder*) clear;
+- (ClanRaidStageProto_Builder*) clone;
+
+- (ClanRaidStageProto*) build;
+- (ClanRaidStageProto*) buildPartial;
+
+- (ClanRaidStageProto_Builder*) mergeFrom:(ClanRaidStageProto*) other;
+- (ClanRaidStageProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input;
+- (ClanRaidStageProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+
+- (BOOL) hasClanRaidStageId;
+- (int32_t) clanRaidStageId;
+- (ClanRaidStageProto_Builder*) setClanRaidStageId:(int32_t) value;
+- (ClanRaidStageProto_Builder*) clearClanRaidStageId;
+
+- (BOOL) hasClanRaidId;
+- (int32_t) clanRaidId;
+- (ClanRaidStageProto_Builder*) setClanRaidId:(int32_t) value;
+- (ClanRaidStageProto_Builder*) clearClanRaidId;
+
+- (BOOL) hasDurationMinutes;
+- (int32_t) durationMinutes;
+- (ClanRaidStageProto_Builder*) setDurationMinutes:(int32_t) value;
+- (ClanRaidStageProto_Builder*) clearDurationMinutes;
+
+- (BOOL) hasStageNum;
+- (int32_t) stageNum;
+- (ClanRaidStageProto_Builder*) setStageNum:(int32_t) value;
+- (ClanRaidStageProto_Builder*) clearStageNum;
+
+- (BOOL) hasName;
+- (NSString*) name;
+- (ClanRaidStageProto_Builder*) setName:(NSString*) value;
+- (ClanRaidStageProto_Builder*) clearName;
+
+- (NSArray*) monstersList;
+- (ClanRaidStageMonsterProto*) monstersAtIndex:(int32_t) index;
+- (ClanRaidStageProto_Builder*) replaceMonstersAtIndex:(int32_t) index with:(ClanRaidStageMonsterProto*) value;
+- (ClanRaidStageProto_Builder*) addMonsters:(ClanRaidStageMonsterProto*) value;
+- (ClanRaidStageProto_Builder*) addAllMonsters:(NSArray*) values;
+- (ClanRaidStageProto_Builder*) clearMonstersList;
+
+- (NSArray*) possibleRewardsList;
+- (ClanRaidStageRewardProto*) possibleRewardsAtIndex:(int32_t) index;
+- (ClanRaidStageProto_Builder*) replacePossibleRewardsAtIndex:(int32_t) index with:(ClanRaidStageRewardProto*) value;
+- (ClanRaidStageProto_Builder*) addPossibleRewards:(ClanRaidStageRewardProto*) value;
+- (ClanRaidStageProto_Builder*) addAllPossibleRewards:(NSArray*) values;
+- (ClanRaidStageProto_Builder*) clearPossibleRewardsList;
+@end
+
+@interface ClanRaidStageMonsterProto : PBGeneratedMessage {
+@private
+  BOOL hasCrsmId_:1;
+  BOOL hasMonsterId_:1;
+  BOOL hasMonsterHp_:1;
+  BOOL hasMinDmg_:1;
+  BOOL hasMaxDmg_:1;
+  int32_t crsmId;
+  int32_t monsterId;
+  int32_t monsterHp;
+  int32_t minDmg;
+  int32_t maxDmg;
+}
+- (BOOL) hasCrsmId;
+- (BOOL) hasMonsterId;
+- (BOOL) hasMonsterHp;
+- (BOOL) hasMinDmg;
+- (BOOL) hasMaxDmg;
+@property (readonly) int32_t crsmId;
+@property (readonly) int32_t monsterId;
+@property (readonly) int32_t monsterHp;
+@property (readonly) int32_t minDmg;
+@property (readonly) int32_t maxDmg;
+
++ (ClanRaidStageMonsterProto*) defaultInstance;
+- (ClanRaidStageMonsterProto*) defaultInstance;
+
+- (BOOL) isInitialized;
+- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output;
+- (ClanRaidStageMonsterProto_Builder*) builder;
++ (ClanRaidStageMonsterProto_Builder*) builder;
++ (ClanRaidStageMonsterProto_Builder*) builderWithPrototype:(ClanRaidStageMonsterProto*) prototype;
+
++ (ClanRaidStageMonsterProto*) parseFromData:(NSData*) data;
++ (ClanRaidStageMonsterProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (ClanRaidStageMonsterProto*) parseFromInputStream:(NSInputStream*) input;
++ (ClanRaidStageMonsterProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (ClanRaidStageMonsterProto*) parseFromCodedInputStream:(PBCodedInputStream*) input;
++ (ClanRaidStageMonsterProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+@end
+
+@interface ClanRaidStageMonsterProto_Builder : PBGeneratedMessage_Builder {
+@private
+  ClanRaidStageMonsterProto* result;
+}
+
+- (ClanRaidStageMonsterProto*) defaultInstance;
+
+- (ClanRaidStageMonsterProto_Builder*) clear;
+- (ClanRaidStageMonsterProto_Builder*) clone;
+
+- (ClanRaidStageMonsterProto*) build;
+- (ClanRaidStageMonsterProto*) buildPartial;
+
+- (ClanRaidStageMonsterProto_Builder*) mergeFrom:(ClanRaidStageMonsterProto*) other;
+- (ClanRaidStageMonsterProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input;
+- (ClanRaidStageMonsterProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+
+- (BOOL) hasCrsmId;
+- (int32_t) crsmId;
+- (ClanRaidStageMonsterProto_Builder*) setCrsmId:(int32_t) value;
+- (ClanRaidStageMonsterProto_Builder*) clearCrsmId;
+
+- (BOOL) hasMonsterId;
+- (int32_t) monsterId;
+- (ClanRaidStageMonsterProto_Builder*) setMonsterId:(int32_t) value;
+- (ClanRaidStageMonsterProto_Builder*) clearMonsterId;
+
+- (BOOL) hasMonsterHp;
+- (int32_t) monsterHp;
+- (ClanRaidStageMonsterProto_Builder*) setMonsterHp:(int32_t) value;
+- (ClanRaidStageMonsterProto_Builder*) clearMonsterHp;
+
+- (BOOL) hasMinDmg;
+- (int32_t) minDmg;
+- (ClanRaidStageMonsterProto_Builder*) setMinDmg:(int32_t) value;
+- (ClanRaidStageMonsterProto_Builder*) clearMinDmg;
+
+- (BOOL) hasMaxDmg;
+- (int32_t) maxDmg;
+- (ClanRaidStageMonsterProto_Builder*) setMaxDmg:(int32_t) value;
+- (ClanRaidStageMonsterProto_Builder*) clearMaxDmg;
+@end
+
+@interface ClanRaidStageRewardProto : PBGeneratedMessage {
+@private
+  BOOL hasCrsrId_:1;
+  BOOL hasMinOilReward_:1;
+  BOOL hasMaxOilReward_:1;
+  BOOL hasMinCashReward_:1;
+  BOOL hasMaxCashReward_:1;
+  BOOL hasMonsterId_:1;
+  int32_t crsrId;
+  int32_t minOilReward;
+  int32_t maxOilReward;
+  int32_t minCashReward;
+  int32_t maxCashReward;
+  int32_t monsterId;
+}
+- (BOOL) hasCrsrId;
+- (BOOL) hasMinOilReward;
+- (BOOL) hasMaxOilReward;
+- (BOOL) hasMinCashReward;
+- (BOOL) hasMaxCashReward;
+- (BOOL) hasMonsterId;
+@property (readonly) int32_t crsrId;
+@property (readonly) int32_t minOilReward;
+@property (readonly) int32_t maxOilReward;
+@property (readonly) int32_t minCashReward;
+@property (readonly) int32_t maxCashReward;
+@property (readonly) int32_t monsterId;
+
++ (ClanRaidStageRewardProto*) defaultInstance;
+- (ClanRaidStageRewardProto*) defaultInstance;
+
+- (BOOL) isInitialized;
+- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output;
+- (ClanRaidStageRewardProto_Builder*) builder;
++ (ClanRaidStageRewardProto_Builder*) builder;
++ (ClanRaidStageRewardProto_Builder*) builderWithPrototype:(ClanRaidStageRewardProto*) prototype;
+
++ (ClanRaidStageRewardProto*) parseFromData:(NSData*) data;
++ (ClanRaidStageRewardProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (ClanRaidStageRewardProto*) parseFromInputStream:(NSInputStream*) input;
++ (ClanRaidStageRewardProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (ClanRaidStageRewardProto*) parseFromCodedInputStream:(PBCodedInputStream*) input;
++ (ClanRaidStageRewardProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+@end
+
+@interface ClanRaidStageRewardProto_Builder : PBGeneratedMessage_Builder {
+@private
+  ClanRaidStageRewardProto* result;
+}
+
+- (ClanRaidStageRewardProto*) defaultInstance;
+
+- (ClanRaidStageRewardProto_Builder*) clear;
+- (ClanRaidStageRewardProto_Builder*) clone;
+
+- (ClanRaidStageRewardProto*) build;
+- (ClanRaidStageRewardProto*) buildPartial;
+
+- (ClanRaidStageRewardProto_Builder*) mergeFrom:(ClanRaidStageRewardProto*) other;
+- (ClanRaidStageRewardProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input;
+- (ClanRaidStageRewardProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+
+- (BOOL) hasCrsrId;
+- (int32_t) crsrId;
+- (ClanRaidStageRewardProto_Builder*) setCrsrId:(int32_t) value;
+- (ClanRaidStageRewardProto_Builder*) clearCrsrId;
+
+- (BOOL) hasMinOilReward;
+- (int32_t) minOilReward;
+- (ClanRaidStageRewardProto_Builder*) setMinOilReward:(int32_t) value;
+- (ClanRaidStageRewardProto_Builder*) clearMinOilReward;
+
+- (BOOL) hasMaxOilReward;
+- (int32_t) maxOilReward;
+- (ClanRaidStageRewardProto_Builder*) setMaxOilReward:(int32_t) value;
+- (ClanRaidStageRewardProto_Builder*) clearMaxOilReward;
+
+- (BOOL) hasMinCashReward;
+- (int32_t) minCashReward;
+- (ClanRaidStageRewardProto_Builder*) setMinCashReward:(int32_t) value;
+- (ClanRaidStageRewardProto_Builder*) clearMinCashReward;
+
+- (BOOL) hasMaxCashReward;
+- (int32_t) maxCashReward;
+- (ClanRaidStageRewardProto_Builder*) setMaxCashReward:(int32_t) value;
+- (ClanRaidStageRewardProto_Builder*) clearMaxCashReward;
+
+- (BOOL) hasMonsterId;
+- (int32_t) monsterId;
+- (ClanRaidStageRewardProto_Builder*) setMonsterId:(int32_t) value;
+- (ClanRaidStageRewardProto_Builder*) clearMonsterId;
+@end
+
+@interface PersistentClanEventProto : PBGeneratedMessage {
+@private
+  BOOL hasClanEventId_:1;
+  BOOL hasStartHour_:1;
+  BOOL hasEventDurationMinutes_:1;
+  BOOL hasClanRaidId_:1;
+  BOOL hasDayOfWeek_:1;
+  int32_t clanEventId;
+  int32_t startHour;
+  int32_t eventDurationMinutes;
+  int32_t clanRaidId;
+  DayOfWeek dayOfWeek;
+}
+- (BOOL) hasClanEventId;
+- (BOOL) hasDayOfWeek;
+- (BOOL) hasStartHour;
+- (BOOL) hasEventDurationMinutes;
+- (BOOL) hasClanRaidId;
+@property (readonly) int32_t clanEventId;
+@property (readonly) DayOfWeek dayOfWeek;
+@property (readonly) int32_t startHour;
+@property (readonly) int32_t eventDurationMinutes;
+@property (readonly) int32_t clanRaidId;
+
++ (PersistentClanEventProto*) defaultInstance;
+- (PersistentClanEventProto*) defaultInstance;
+
+- (BOOL) isInitialized;
+- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output;
+- (PersistentClanEventProto_Builder*) builder;
++ (PersistentClanEventProto_Builder*) builder;
++ (PersistentClanEventProto_Builder*) builderWithPrototype:(PersistentClanEventProto*) prototype;
+
++ (PersistentClanEventProto*) parseFromData:(NSData*) data;
++ (PersistentClanEventProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (PersistentClanEventProto*) parseFromInputStream:(NSInputStream*) input;
++ (PersistentClanEventProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (PersistentClanEventProto*) parseFromCodedInputStream:(PBCodedInputStream*) input;
++ (PersistentClanEventProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+@end
+
+@interface PersistentClanEventProto_Builder : PBGeneratedMessage_Builder {
+@private
+  PersistentClanEventProto* result;
+}
+
+- (PersistentClanEventProto*) defaultInstance;
+
+- (PersistentClanEventProto_Builder*) clear;
+- (PersistentClanEventProto_Builder*) clone;
+
+- (PersistentClanEventProto*) build;
+- (PersistentClanEventProto*) buildPartial;
+
+- (PersistentClanEventProto_Builder*) mergeFrom:(PersistentClanEventProto*) other;
+- (PersistentClanEventProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input;
+- (PersistentClanEventProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+
+- (BOOL) hasClanEventId;
+- (int32_t) clanEventId;
+- (PersistentClanEventProto_Builder*) setClanEventId:(int32_t) value;
+- (PersistentClanEventProto_Builder*) clearClanEventId;
+
+- (BOOL) hasDayOfWeek;
+- (DayOfWeek) dayOfWeek;
+- (PersistentClanEventProto_Builder*) setDayOfWeek:(DayOfWeek) value;
+- (PersistentClanEventProto_Builder*) clearDayOfWeek;
+
+- (BOOL) hasStartHour;
+- (int32_t) startHour;
+- (PersistentClanEventProto_Builder*) setStartHour:(int32_t) value;
+- (PersistentClanEventProto_Builder*) clearStartHour;
+
+- (BOOL) hasEventDurationMinutes;
+- (int32_t) eventDurationMinutes;
+- (PersistentClanEventProto_Builder*) setEventDurationMinutes:(int32_t) value;
+- (PersistentClanEventProto_Builder*) clearEventDurationMinutes;
+
+- (BOOL) hasClanRaidId;
+- (int32_t) clanRaidId;
+- (PersistentClanEventProto_Builder*) setClanRaidId:(int32_t) value;
+- (PersistentClanEventProto_Builder*) clearClanRaidId;
+@end
+
+@interface PersistentClanEventClanInfoProto : PBGeneratedMessage {
+@private
+  BOOL hasStageStartTime_:1;
+  BOOL hasStageMonsterStartTime_:1;
+  BOOL hasClanId_:1;
+  BOOL hasClanEventId_:1;
+  BOOL hasClanRaidId_:1;
+  BOOL hasClanRaidStageId_:1;
+  BOOL hasCrsmId_:1;
+  int64_t stageStartTime;
+  int64_t stageMonsterStartTime;
+  int32_t clanId;
+  int32_t clanEventId;
+  int32_t clanRaidId;
+  int32_t clanRaidStageId;
+  int32_t crsmId;
+}
+- (BOOL) hasClanId;
+- (BOOL) hasClanEventId;
+- (BOOL) hasClanRaidId;
+- (BOOL) hasClanRaidStageId;
+- (BOOL) hasStageStartTime;
+- (BOOL) hasCrsmId;
+- (BOOL) hasStageMonsterStartTime;
+@property (readonly) int32_t clanId;
+@property (readonly) int32_t clanEventId;
+@property (readonly) int32_t clanRaidId;
+@property (readonly) int32_t clanRaidStageId;
+@property (readonly) int64_t stageStartTime;
+@property (readonly) int32_t crsmId;
+@property (readonly) int64_t stageMonsterStartTime;
+
++ (PersistentClanEventClanInfoProto*) defaultInstance;
+- (PersistentClanEventClanInfoProto*) defaultInstance;
+
+- (BOOL) isInitialized;
+- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output;
+- (PersistentClanEventClanInfoProto_Builder*) builder;
++ (PersistentClanEventClanInfoProto_Builder*) builder;
++ (PersistentClanEventClanInfoProto_Builder*) builderWithPrototype:(PersistentClanEventClanInfoProto*) prototype;
+
++ (PersistentClanEventClanInfoProto*) parseFromData:(NSData*) data;
++ (PersistentClanEventClanInfoProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (PersistentClanEventClanInfoProto*) parseFromInputStream:(NSInputStream*) input;
++ (PersistentClanEventClanInfoProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (PersistentClanEventClanInfoProto*) parseFromCodedInputStream:(PBCodedInputStream*) input;
++ (PersistentClanEventClanInfoProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+@end
+
+@interface PersistentClanEventClanInfoProto_Builder : PBGeneratedMessage_Builder {
+@private
+  PersistentClanEventClanInfoProto* result;
+}
+
+- (PersistentClanEventClanInfoProto*) defaultInstance;
+
+- (PersistentClanEventClanInfoProto_Builder*) clear;
+- (PersistentClanEventClanInfoProto_Builder*) clone;
+
+- (PersistentClanEventClanInfoProto*) build;
+- (PersistentClanEventClanInfoProto*) buildPartial;
+
+- (PersistentClanEventClanInfoProto_Builder*) mergeFrom:(PersistentClanEventClanInfoProto*) other;
+- (PersistentClanEventClanInfoProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input;
+- (PersistentClanEventClanInfoProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+
+- (BOOL) hasClanId;
+- (int32_t) clanId;
+- (PersistentClanEventClanInfoProto_Builder*) setClanId:(int32_t) value;
+- (PersistentClanEventClanInfoProto_Builder*) clearClanId;
+
+- (BOOL) hasClanEventId;
+- (int32_t) clanEventId;
+- (PersistentClanEventClanInfoProto_Builder*) setClanEventId:(int32_t) value;
+- (PersistentClanEventClanInfoProto_Builder*) clearClanEventId;
+
+- (BOOL) hasClanRaidId;
+- (int32_t) clanRaidId;
+- (PersistentClanEventClanInfoProto_Builder*) setClanRaidId:(int32_t) value;
+- (PersistentClanEventClanInfoProto_Builder*) clearClanRaidId;
+
+- (BOOL) hasClanRaidStageId;
+- (int32_t) clanRaidStageId;
+- (PersistentClanEventClanInfoProto_Builder*) setClanRaidStageId:(int32_t) value;
+- (PersistentClanEventClanInfoProto_Builder*) clearClanRaidStageId;
+
+- (BOOL) hasStageStartTime;
+- (int64_t) stageStartTime;
+- (PersistentClanEventClanInfoProto_Builder*) setStageStartTime:(int64_t) value;
+- (PersistentClanEventClanInfoProto_Builder*) clearStageStartTime;
+
+- (BOOL) hasCrsmId;
+- (int32_t) crsmId;
+- (PersistentClanEventClanInfoProto_Builder*) setCrsmId:(int32_t) value;
+- (PersistentClanEventClanInfoProto_Builder*) clearCrsmId;
+
+- (BOOL) hasStageMonsterStartTime;
+- (int64_t) stageMonsterStartTime;
+- (PersistentClanEventClanInfoProto_Builder*) setStageMonsterStartTime:(int64_t) value;
+- (PersistentClanEventClanInfoProto_Builder*) clearStageMonsterStartTime;
+@end
+
+@interface PersistentClanEventUserInfoProto : PBGeneratedMessage {
+@private
+  BOOL hasUserId_:1;
+  BOOL hasClanId_:1;
+  BOOL hasCrId_:1;
+  BOOL hasCrDmgDone_:1;
+  BOOL hasCrsDmgDone_:1;
+  BOOL hasCrsmDmgDone_:1;
+  BOOL hasUserMonsters_:1;
+  int32_t userId;
+  int32_t clanId;
+  int32_t crId;
+  int32_t crDmgDone;
+  int32_t crsDmgDone;
+  int32_t crsmDmgDone;
+  UserCurrentMonsterTeamProto* userMonsters;
+}
+- (BOOL) hasUserId;
+- (BOOL) hasClanId;
+- (BOOL) hasCrId;
+- (BOOL) hasCrDmgDone;
+- (BOOL) hasCrsDmgDone;
+- (BOOL) hasCrsmDmgDone;
+- (BOOL) hasUserMonsters;
+@property (readonly) int32_t userId;
+@property (readonly) int32_t clanId;
+@property (readonly) int32_t crId;
+@property (readonly) int32_t crDmgDone;
+@property (readonly) int32_t crsDmgDone;
+@property (readonly) int32_t crsmDmgDone;
+@property (readonly, retain) UserCurrentMonsterTeamProto* userMonsters;
+
++ (PersistentClanEventUserInfoProto*) defaultInstance;
+- (PersistentClanEventUserInfoProto*) defaultInstance;
+
+- (BOOL) isInitialized;
+- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output;
+- (PersistentClanEventUserInfoProto_Builder*) builder;
++ (PersistentClanEventUserInfoProto_Builder*) builder;
++ (PersistentClanEventUserInfoProto_Builder*) builderWithPrototype:(PersistentClanEventUserInfoProto*) prototype;
+
++ (PersistentClanEventUserInfoProto*) parseFromData:(NSData*) data;
++ (PersistentClanEventUserInfoProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (PersistentClanEventUserInfoProto*) parseFromInputStream:(NSInputStream*) input;
++ (PersistentClanEventUserInfoProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (PersistentClanEventUserInfoProto*) parseFromCodedInputStream:(PBCodedInputStream*) input;
++ (PersistentClanEventUserInfoProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+@end
+
+@interface PersistentClanEventUserInfoProto_Builder : PBGeneratedMessage_Builder {
+@private
+  PersistentClanEventUserInfoProto* result;
+}
+
+- (PersistentClanEventUserInfoProto*) defaultInstance;
+
+- (PersistentClanEventUserInfoProto_Builder*) clear;
+- (PersistentClanEventUserInfoProto_Builder*) clone;
+
+- (PersistentClanEventUserInfoProto*) build;
+- (PersistentClanEventUserInfoProto*) buildPartial;
+
+- (PersistentClanEventUserInfoProto_Builder*) mergeFrom:(PersistentClanEventUserInfoProto*) other;
+- (PersistentClanEventUserInfoProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input;
+- (PersistentClanEventUserInfoProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+
+- (BOOL) hasUserId;
+- (int32_t) userId;
+- (PersistentClanEventUserInfoProto_Builder*) setUserId:(int32_t) value;
+- (PersistentClanEventUserInfoProto_Builder*) clearUserId;
+
+- (BOOL) hasClanId;
+- (int32_t) clanId;
+- (PersistentClanEventUserInfoProto_Builder*) setClanId:(int32_t) value;
+- (PersistentClanEventUserInfoProto_Builder*) clearClanId;
+
+- (BOOL) hasCrId;
+- (int32_t) crId;
+- (PersistentClanEventUserInfoProto_Builder*) setCrId:(int32_t) value;
+- (PersistentClanEventUserInfoProto_Builder*) clearCrId;
+
+- (BOOL) hasCrDmgDone;
+- (int32_t) crDmgDone;
+- (PersistentClanEventUserInfoProto_Builder*) setCrDmgDone:(int32_t) value;
+- (PersistentClanEventUserInfoProto_Builder*) clearCrDmgDone;
+
+- (BOOL) hasCrsDmgDone;
+- (int32_t) crsDmgDone;
+- (PersistentClanEventUserInfoProto_Builder*) setCrsDmgDone:(int32_t) value;
+- (PersistentClanEventUserInfoProto_Builder*) clearCrsDmgDone;
+
+- (BOOL) hasCrsmDmgDone;
+- (int32_t) crsmDmgDone;
+- (PersistentClanEventUserInfoProto_Builder*) setCrsmDmgDone:(int32_t) value;
+- (PersistentClanEventUserInfoProto_Builder*) clearCrsmDmgDone;
+
+- (BOOL) hasUserMonsters;
+- (UserCurrentMonsterTeamProto*) userMonsters;
+- (PersistentClanEventUserInfoProto_Builder*) setUserMonsters:(UserCurrentMonsterTeamProto*) value;
+- (PersistentClanEventUserInfoProto_Builder*) setUserMonstersBuilder:(UserCurrentMonsterTeamProto_Builder*) builderForValue;
+- (PersistentClanEventUserInfoProto_Builder*) mergeUserMonsters:(UserCurrentMonsterTeamProto*) value;
+- (PersistentClanEventUserInfoProto_Builder*) clearUserMonsters;
+@end
+
+@interface PersistentClanEventUserRewardProto : PBGeneratedMessage {
+@private
+  BOOL hasCrsEndTime_:1;
+  BOOL hasRewardId_:1;
+  BOOL hasUserId_:1;
+  BOOL hasCrsId_:1;
+  BOOL hasStaticDataId_:1;
+  BOOL hasQuantity_:1;
+  BOOL hasClanEventPersistentId_:1;
+  BOOL hasResourceType_:1;
+  int64_t crsEndTime;
+  int32_t rewardId;
+  int32_t userId;
+  int32_t crsId;
+  int32_t staticDataId;
+  int32_t quantity;
+  int32_t clanEventPersistentId;
+  ResourceType resourceType;
+}
+- (BOOL) hasRewardId;
+- (BOOL) hasUserId;
+- (BOOL) hasCrsId;
+- (BOOL) hasCrsEndTime;
+- (BOOL) hasResourceType;
+- (BOOL) hasStaticDataId;
+- (BOOL) hasQuantity;
+- (BOOL) hasClanEventPersistentId;
+@property (readonly) int32_t rewardId;
+@property (readonly) int32_t userId;
+@property (readonly) int32_t crsId;
+@property (readonly) int64_t crsEndTime;
+@property (readonly) ResourceType resourceType;
+@property (readonly) int32_t staticDataId;
+@property (readonly) int32_t quantity;
+@property (readonly) int32_t clanEventPersistentId;
+
++ (PersistentClanEventUserRewardProto*) defaultInstance;
+- (PersistentClanEventUserRewardProto*) defaultInstance;
+
+- (BOOL) isInitialized;
+- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output;
+- (PersistentClanEventUserRewardProto_Builder*) builder;
++ (PersistentClanEventUserRewardProto_Builder*) builder;
++ (PersistentClanEventUserRewardProto_Builder*) builderWithPrototype:(PersistentClanEventUserRewardProto*) prototype;
+
++ (PersistentClanEventUserRewardProto*) parseFromData:(NSData*) data;
++ (PersistentClanEventUserRewardProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (PersistentClanEventUserRewardProto*) parseFromInputStream:(NSInputStream*) input;
++ (PersistentClanEventUserRewardProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (PersistentClanEventUserRewardProto*) parseFromCodedInputStream:(PBCodedInputStream*) input;
++ (PersistentClanEventUserRewardProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+@end
+
+@interface PersistentClanEventUserRewardProto_Builder : PBGeneratedMessage_Builder {
+@private
+  PersistentClanEventUserRewardProto* result;
+}
+
+- (PersistentClanEventUserRewardProto*) defaultInstance;
+
+- (PersistentClanEventUserRewardProto_Builder*) clear;
+- (PersistentClanEventUserRewardProto_Builder*) clone;
+
+- (PersistentClanEventUserRewardProto*) build;
+- (PersistentClanEventUserRewardProto*) buildPartial;
+
+- (PersistentClanEventUserRewardProto_Builder*) mergeFrom:(PersistentClanEventUserRewardProto*) other;
+- (PersistentClanEventUserRewardProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input;
+- (PersistentClanEventUserRewardProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+
+- (BOOL) hasRewardId;
+- (int32_t) rewardId;
+- (PersistentClanEventUserRewardProto_Builder*) setRewardId:(int32_t) value;
+- (PersistentClanEventUserRewardProto_Builder*) clearRewardId;
+
+- (BOOL) hasUserId;
+- (int32_t) userId;
+- (PersistentClanEventUserRewardProto_Builder*) setUserId:(int32_t) value;
+- (PersistentClanEventUserRewardProto_Builder*) clearUserId;
+
+- (BOOL) hasCrsId;
+- (int32_t) crsId;
+- (PersistentClanEventUserRewardProto_Builder*) setCrsId:(int32_t) value;
+- (PersistentClanEventUserRewardProto_Builder*) clearCrsId;
+
+- (BOOL) hasCrsEndTime;
+- (int64_t) crsEndTime;
+- (PersistentClanEventUserRewardProto_Builder*) setCrsEndTime:(int64_t) value;
+- (PersistentClanEventUserRewardProto_Builder*) clearCrsEndTime;
+
+- (BOOL) hasResourceType;
+- (ResourceType) resourceType;
+- (PersistentClanEventUserRewardProto_Builder*) setResourceType:(ResourceType) value;
+- (PersistentClanEventUserRewardProto_Builder*) clearResourceType;
+
+- (BOOL) hasStaticDataId;
+- (int32_t) staticDataId;
+- (PersistentClanEventUserRewardProto_Builder*) setStaticDataId:(int32_t) value;
+- (PersistentClanEventUserRewardProto_Builder*) clearStaticDataId;
+
+- (BOOL) hasQuantity;
+- (int32_t) quantity;
+- (PersistentClanEventUserRewardProto_Builder*) setQuantity:(int32_t) value;
+- (PersistentClanEventUserRewardProto_Builder*) clearQuantity;
+
+- (BOOL) hasClanEventPersistentId;
+- (int32_t) clanEventPersistentId;
+- (PersistentClanEventUserRewardProto_Builder*) setClanEventPersistentId:(int32_t) value;
+- (PersistentClanEventUserRewardProto_Builder*) clearClanEventPersistentId;
 @end
 

@@ -38,11 +38,11 @@
   
   if (c.clan.requestToJoinRequired) {
     self.typeLabel.text = @"By Request Only";
-    self.typeLabel.textColor = [Globals redColor];
+    self.typeLabel.textColor = [UIColor colorWithRed:249/255.f green:166/255.f blue:166/255.f alpha:1.f];
     [self.redButton setImage:[Globals imageNamed:@"heal.png"] forState:UIControlStateNormal];
   } else {
     self.typeLabel.text = @"Anyone Can Join";
-    self.typeLabel.textColor = [Globals greenColor];
+    self.typeLabel.textColor = [UIColor colorWithRed:188/255.f green:242/255.f blue:83/255.f alpha:1.f];
     [self.redButton setImage:[Globals imageNamed:@"confirm.png"] forState:UIControlStateNormal];
   }
   

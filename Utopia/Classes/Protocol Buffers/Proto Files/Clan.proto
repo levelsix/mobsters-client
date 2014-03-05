@@ -1,6 +1,9 @@
 //BAD!!! DON'T START NAMES WITH NEW OR COPY
 
 import "Battle.proto";
+import "MonsterStuff.proto";
+import "Structure.proto";
+import "Task.proto";
 import "User.proto";
 
 package com.lvl6.proto;
@@ -12,7 +15,7 @@ option java_outer_classname = "ClanProto";
 message FullClanProto {
 	optional int32 clanId = 1;
 	optional string name = 2;
-	optional MinimumUserProto owner = 3;
+	//optional MinimumUserProto owner = 3;
 	optional int64 createTime = 4;
 	optional string description = 5;
 	optional string tag = 6;
@@ -23,8 +26,11 @@ message FullClanProto {
 //------------------------------------------------------------------------------------------
 
 enum UserClanStatus {
-	MEMBER = 1;
-	REQUESTING = 2;
+	LEADER = 1;
+	JUNIOR_LEADER = 2; //is a leader but can't demote jr leaders or promote to jr leader
+	CAPTAIN = 3; //power is can only start a raid
+	MEMBER = 4;
+	REQUESTING = 10;
 }
 
 //------------------------------------------------------------------------------------------
@@ -48,6 +54,125 @@ message FullClanProtoWithClanSize {
 message MinimumUserProtoForClans {
 	optional MinimumUserProtoWithBattleHistory minUserProto = 1;
 	optional UserClanStatus clanStatus = 2;
+	optional float raidContribution = 3;
 }
 
 //------------------------------------------------------------------------------------------
+//this is analogous to a city
+//multiple clan raids can be available at the same time
+message ClanRaidProto {
+	optional int32 clanRaidId = 1;
+	optional string clanRaidName = 2;
+	optional string activeTitleImgName = 3;
+	optional string activeBackgroundImgName = 4;
+	optional string activeDescription = 5;
+	optional string inactiveMonsterImgName = 6;
+	optional string inactiveDescription = 7;
+	optional string dialogueText = 8;
+	optional string spotlightMonsterImgName = 9;
+	
+	repeated ClanRaidStageProto raidStages = 10;
+}
+
+//this is analogous to a task
+message ClanRaidStageProto {
+//might need some way to specify ordering, which stage goes first for a raid
+	optional int32 clanRaidStageId = 1; //not really sure if needed
+	optional int32 clanRaidId = 2;
+	optional int32 durationMinutes = 3;
+	optional int32 stageNum = 4;
+	optional string name = 5;
+	
+	//multiple monsters per stage (all will spawn, unlike task_stage_monsters)
+	repeated ClanRaidStageMonsterProto monsters = 11;
+	
+	//the possible rewards
+	repeated ClanRaidStageRewardProto possibleRewards = 12;
+}
+
+//this is analogous to task stage monsters
+//Note: can be multiple monsters for one stage (all will spawn, unlike task_stage_monsters)
+message ClanRaidStageMonsterProto {
+	optional int32 crsmId = 1;
+	//optional int32 clanRaidStageId = 2;
+	optional int32 monsterId = 3;
+	optional int32 monsterHp = 4;
+	optional int32 minDmg = 5;
+	optional int32 maxDmg = 6;
+}
+
+message ClanRaidStageRewardProto {
+	optional int32 crsrId = 1;
+	//optional int32 clanRaidStageId = 2;
+	optional int32 minOilReward =  3;
+	optional int32 maxOilReward = 4;
+	optional int32 minCashReward = 5;
+	optional int32 maxCashReward = 6;
+	optional int32 monsterId = 7;
+	
+	//optional int32 expectedMonsterRewardQuantity = 8; //don't think client needs this
+}
+
+//------------------------------------------------------------------------------------------
+
+message PersistentClanEventProto {
+	optional int32 clanEventId = 1;
+	optional DayOfWeek dayOfWeek = 2 [default = MONDAY];
+	optional int32 startHour = 3;
+	optional int32 eventDurationMinutes = 4;
+	optional int32 clanRaidId = 5;
+}
+
+//must be sent every time user wants to attack a clan raid stage monster or end a raid
+message PersistentClanEventClanInfoProto {
+	optional int32 clanId = 1;
+	optional int32 clanEventId = 2;
+	optional int32 clanRaidId = 3;
+	optional int32 clanRaidStageId = 4;
+	
+	//once clan is finished with a stage, this will not be set and 
+	//clan raid stage id will be the id of the next stage
+	optional int64 stageStartTime = 5;
+	
+	//when a monster, A, is defeated, this will update to the next monster, B, and
+	//stageMonsterStartTime will update to when A was defeated
+	optional int32 crsmId = 6;
+	
+	//Used to differentiate attacks across different stage monsters
+	optional int64 stageMonsterStartTime = 7;
+}
+
+message PersistentClanEventUserInfoProto {
+	optional int32 userId = 1;
+	optional int32 clanId = 2;
+	optional int32 crId = 3; //clan_raid_id
+	optional int32 crDmgDone = 4; //damage done for this clan raid
+	
+	//in PersistentClanEventClanInfoProto, so not needed
+	//optional int32 crsId = 5; //clan_raid_stage_id
+	
+	optional int32 crsDmgDone = 6; //damage done for this clan raid stage
+	
+	//in PersistentClanEventClanInfoProto, so not needed
+	//optional int32 crsmId = 7; //primary key in clan_raid_stage_monster table 
+	optional int32 crsmDmgDone = 8; 
+	optional UserCurrentMonsterTeamProto userMonsters = 9; 
+}
+
+message PersistentClanEventUserRewardProto {
+	optional int32 rewardId = 1;
+	optional int32 userId = 2;
+	optional int32 crsId = 3;
+	optional int64 crsEndTime = 4;
+	optional ResourceType resourceType = 5 [default = CASH];
+	optional int32 staticDataId = 6; //will most likely be monster id
+	optional int32 quantity = 7;
+	optional int32 clanEventPersistentId = 8;
+}
+
+//------------------------------------------------------------------------------------------
+
+
+
+//------------------------------------------------------------------------------------------
+

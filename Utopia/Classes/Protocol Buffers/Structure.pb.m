@@ -24,6 +24,7 @@ BOOL ResourceTypeIsValidValue(ResourceType value) {
     case ResourceTypeCash:
     case ResourceTypeOil:
     case ResourceTypeGems:
+    case ResourceTypeMonster:
       return YES;
     default:
       return NO;
@@ -3602,6 +3603,241 @@ static CoordinateProto* defaultCoordinateProtoInstance = nil;
 - (CoordinateProto_Builder*) clearY {
   result.hasY = NO;
   result.y = 0;
+  return self;
+}
+@end
+
+@interface TutorialStructProto ()
+@property int32_t structId;
+@property (retain) CoordinateProto* coordinate;
+@end
+
+@implementation TutorialStructProto
+
+- (BOOL) hasStructId {
+  return !!hasStructId_;
+}
+- (void) setHasStructId:(BOOL) value {
+  hasStructId_ = !!value;
+}
+@synthesize structId;
+- (BOOL) hasCoordinate {
+  return !!hasCoordinate_;
+}
+- (void) setHasCoordinate:(BOOL) value {
+  hasCoordinate_ = !!value;
+}
+@synthesize coordinate;
+- (void) dealloc {
+  self.coordinate = nil;
+  [super dealloc];
+}
+- (id) init {
+  if ((self = [super init])) {
+    self.structId = 0;
+    self.coordinate = [CoordinateProto defaultInstance];
+  }
+  return self;
+}
+static TutorialStructProto* defaultTutorialStructProtoInstance = nil;
++ (void) initialize {
+  if (self == [TutorialStructProto class]) {
+    defaultTutorialStructProtoInstance = [[TutorialStructProto alloc] init];
+  }
+}
++ (TutorialStructProto*) defaultInstance {
+  return defaultTutorialStructProtoInstance;
+}
+- (TutorialStructProto*) defaultInstance {
+  return defaultTutorialStructProtoInstance;
+}
+- (BOOL) isInitialized {
+  return YES;
+}
+- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output {
+  if (self.hasStructId) {
+    [output writeInt32:1 value:self.structId];
+  }
+  if (self.hasCoordinate) {
+    [output writeMessage:2 value:self.coordinate];
+  }
+  [self.unknownFields writeToCodedOutputStream:output];
+}
+- (int32_t) serializedSize {
+  int32_t size = memoizedSerializedSize;
+  if (size != -1) {
+    return size;
+  }
+
+  size = 0;
+  if (self.hasStructId) {
+    size += computeInt32Size(1, self.structId);
+  }
+  if (self.hasCoordinate) {
+    size += computeMessageSize(2, self.coordinate);
+  }
+  size += self.unknownFields.serializedSize;
+  memoizedSerializedSize = size;
+  return size;
+}
++ (TutorialStructProto*) parseFromData:(NSData*) data {
+  return (TutorialStructProto*)[[[TutorialStructProto builder] mergeFromData:data] build];
+}
++ (TutorialStructProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (TutorialStructProto*)[[[TutorialStructProto builder] mergeFromData:data extensionRegistry:extensionRegistry] build];
+}
++ (TutorialStructProto*) parseFromInputStream:(NSInputStream*) input {
+  return (TutorialStructProto*)[[[TutorialStructProto builder] mergeFromInputStream:input] build];
+}
++ (TutorialStructProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (TutorialStructProto*)[[[TutorialStructProto builder] mergeFromInputStream:input extensionRegistry:extensionRegistry] build];
+}
++ (TutorialStructProto*) parseFromCodedInputStream:(PBCodedInputStream*) input {
+  return (TutorialStructProto*)[[[TutorialStructProto builder] mergeFromCodedInputStream:input] build];
+}
++ (TutorialStructProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (TutorialStructProto*)[[[TutorialStructProto builder] mergeFromCodedInputStream:input extensionRegistry:extensionRegistry] build];
+}
++ (TutorialStructProto_Builder*) builder {
+  return [[[TutorialStructProto_Builder alloc] init] autorelease];
+}
++ (TutorialStructProto_Builder*) builderWithPrototype:(TutorialStructProto*) prototype {
+  return [[TutorialStructProto builder] mergeFrom:prototype];
+}
+- (TutorialStructProto_Builder*) builder {
+  return [TutorialStructProto builder];
+}
+@end
+
+@interface TutorialStructProto_Builder()
+@property (retain) TutorialStructProto* result;
+@end
+
+@implementation TutorialStructProto_Builder
+@synthesize result;
+- (void) dealloc {
+  self.result = nil;
+  [super dealloc];
+}
+- (id) init {
+  if ((self = [super init])) {
+    self.result = [[[TutorialStructProto alloc] init] autorelease];
+  }
+  return self;
+}
+- (PBGeneratedMessage*) internalGetResult {
+  return result;
+}
+- (TutorialStructProto_Builder*) clear {
+  self.result = [[[TutorialStructProto alloc] init] autorelease];
+  return self;
+}
+- (TutorialStructProto_Builder*) clone {
+  return [TutorialStructProto builderWithPrototype:result];
+}
+- (TutorialStructProto*) defaultInstance {
+  return [TutorialStructProto defaultInstance];
+}
+- (TutorialStructProto*) build {
+  [self checkInitialized];
+  return [self buildPartial];
+}
+- (TutorialStructProto*) buildPartial {
+  TutorialStructProto* returnMe = [[result retain] autorelease];
+  self.result = nil;
+  return returnMe;
+}
+- (TutorialStructProto_Builder*) mergeFrom:(TutorialStructProto*) other {
+  if (other == [TutorialStructProto defaultInstance]) {
+    return self;
+  }
+  if (other.hasStructId) {
+    [self setStructId:other.structId];
+  }
+  if (other.hasCoordinate) {
+    [self mergeCoordinate:other.coordinate];
+  }
+  [self mergeUnknownFields:other.unknownFields];
+  return self;
+}
+- (TutorialStructProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input {
+  return [self mergeFromCodedInputStream:input extensionRegistry:[PBExtensionRegistry emptyRegistry]];
+}
+- (TutorialStructProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  PBUnknownFieldSet_Builder* unknownFields = [PBUnknownFieldSet builderWithUnknownFields:self.unknownFields];
+  while (YES) {
+    int32_t tag = [input readTag];
+    switch (tag) {
+      case 0:
+        [self setUnknownFields:[unknownFields build]];
+        return self;
+      default: {
+        if (![self parseUnknownField:input unknownFields:unknownFields extensionRegistry:extensionRegistry tag:tag]) {
+          [self setUnknownFields:[unknownFields build]];
+          return self;
+        }
+        break;
+      }
+      case 8: {
+        [self setStructId:[input readInt32]];
+        break;
+      }
+      case 18: {
+        CoordinateProto_Builder* subBuilder = [CoordinateProto builder];
+        if (self.hasCoordinate) {
+          [subBuilder mergeFrom:self.coordinate];
+        }
+        [input readMessage:subBuilder extensionRegistry:extensionRegistry];
+        [self setCoordinate:[subBuilder buildPartial]];
+        break;
+      }
+    }
+  }
+}
+- (BOOL) hasStructId {
+  return result.hasStructId;
+}
+- (int32_t) structId {
+  return result.structId;
+}
+- (TutorialStructProto_Builder*) setStructId:(int32_t) value {
+  result.hasStructId = YES;
+  result.structId = value;
+  return self;
+}
+- (TutorialStructProto_Builder*) clearStructId {
+  result.hasStructId = NO;
+  result.structId = 0;
+  return self;
+}
+- (BOOL) hasCoordinate {
+  return result.hasCoordinate;
+}
+- (CoordinateProto*) coordinate {
+  return result.coordinate;
+}
+- (TutorialStructProto_Builder*) setCoordinate:(CoordinateProto*) value {
+  result.hasCoordinate = YES;
+  result.coordinate = value;
+  return self;
+}
+- (TutorialStructProto_Builder*) setCoordinateBuilder:(CoordinateProto_Builder*) builderForValue {
+  return [self setCoordinate:[builderForValue build]];
+}
+- (TutorialStructProto_Builder*) mergeCoordinate:(CoordinateProto*) value {
+  if (result.hasCoordinate &&
+      result.coordinate != [CoordinateProto defaultInstance]) {
+    result.coordinate =
+      [[[CoordinateProto builderWithPrototype:result.coordinate] mergeFrom:value] buildPartial];
+  } else {
+    result.coordinate = value;
+  }
+  result.hasCoordinate = YES;
+  return self;
+}
+- (TutorialStructProto_Builder*) clearCoordinate {
+  result.hasCoordinate = NO;
+  result.coordinate = [CoordinateProto defaultInstance];
   return self;
 }
 @end

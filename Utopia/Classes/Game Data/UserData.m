@@ -192,6 +192,21 @@
   }
 }
 
+- (FullUserMonsterProto *)convertToProto {
+  FullUserMonsterProto_Builder *bldr = [FullUserMonsterProto builder];
+  bldr.userMonsterId = self.userMonsterId;
+  bldr.userId = self.userId;
+  bldr.monsterId = self.monsterId;
+  bldr.currentHealth = self.curHealth;
+  bldr.currentExp = self.experience;
+  bldr.currentLvl = self.level;
+  bldr.teamSlotNum = self.teamSlot;
+  bldr.isComplete = self.isComplete;
+  bldr.numPieces = self.numPieces;
+  bldr.combineStartTime = self.combineStartTime.timeIntervalSince1970*1000.;
+  return bldr.build;
+}
+
 @end
 
 @implementation UserMonsterHealingItem

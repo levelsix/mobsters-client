@@ -69,4 +69,15 @@
   }
 }
 
+- (BOOL) pointInside:(CGPoint)point withEvent:(UIEvent *)event {
+  if ([super pointInside:point withEvent:event]) {
+    for (UIView *v in self.animateViews) {
+      if (!v.hidden && v.userInteractionEnabled && [v pointInside:[self convertPoint:point toView:v] withEvent:event]) {
+        return YES;
+      }
+    }
+  }
+  return NO;
+}
+
 @end
