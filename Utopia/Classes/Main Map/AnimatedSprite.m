@@ -60,7 +60,7 @@
     self.sprite.position = ccp(self.contentSize.width/2, self.contentSize.height/2-3);
     
     CCSprite *s = [CCSprite spriteWithImageNamed:@"shadow.png"];
-    [self addChild:s z:-1];
+    [self addChild:s z:-1 name:SHADOW_TAG];
     s.position = ccp(self.contentSize.width/2, 0);
     
     [self walk];
@@ -95,7 +95,10 @@
 - (void) restoreStandingFrame:(MapDirection)direction {
   [self stopWalking];
   [[CCSpriteFrameCache sharedSpriteFrameCache] addSpriteFramesWithFile:[NSString stringWithFormat:@"%@AttackNF.plist", self.prefix]];
-  CCSpriteFrame *frame = [[CCSpriteFrameCache sharedSpriteFrameCache] spriteFrameByName:[NSString stringWithFormat:@"%@Attack%@00.png", self.prefix, (direction == MapDirectionFarRight || direction == MapDirectionFarLeft) ? @"F" : @"N"]];
+  NSString *name;
+  if (direction == MapDirectionFront) name = [NSString stringWithFormat:@"%@StayN00.png", self.prefix];
+  else name = [NSString stringWithFormat:@"%@Attack%@00.png", self.prefix, (direction == MapDirectionFarRight || direction == MapDirectionFarLeft) ? @"F" : @"N"];
+  CCSpriteFrame *frame = [[CCSpriteFrameCache sharedSpriteFrameCache] spriteFrameByName:name];
   [self.sprite setSpriteFrame:frame];
   
   self.sprite.flipX = (direction == MapDirectionFarRight || direction == MapDirectionNearRight);
@@ -209,9 +212,12 @@
     LNLog(@"No Action");
   }
   
+  
   if (_curAction != nextAction) {
+    if (_curAction) {
+      [self.sprite stopAction:_curAction];
+    }
     _curAction = nextAction;
-    [_sprite stopAllActions];
     if (_curAction) {
       [_sprite runAction:_curAction];
     }
@@ -221,20 +227,34 @@
                  [MoveToLocation actionWithDuration:diff/WALKING_SPEED/speedMultiplier location:r],
                  [CCActionCallBlock actionWithBlock:completion],
                  nil];
-  a.tag = 10;
   [self stopActionByTag:10];
+  a.tag = 10;
   [self runAction:a];
 }
 
 - (void) jumpNumTimes:(int)numTimes completionTarget:(id)target selector:(SEL)completion {
-  CCActionJumpBy *jump = [CCActionJumpBy actionWithDuration:0.25*numTimes position:ccp(0,0) height:14 jumps:numTimes];
+  [self jumpNumTimes:numTimes timePerJump:0.25 completionTarget:target selector:completion];
+}
+
+- (void) jumpNumTimes:(int)numTimes timePerJump:(float)dur completionTarget:(id)target selector:(SEL)completion {
+  CCActionJumpBy *jump = [CCActionJumpBy actionWithDuration:dur*numTimes position:ccp(0,0) height:14 jumps:numTimes];
   [self.sprite runAction:[CCActionSequence actions:jump,
-                   [CCActionCallFunc actionWithTarget:target selector:completion], nil]];
+                          [CCActionCallFunc actionWithTarget:target selector:completion], nil]];
+  
+  CCSprite *spr = (CCSprite *)[self getChildByName:SHADOW_TAG recursively:NO];
+  [spr runAction:
+   [CCActionRepeat actionWithAction:
+    [CCActionSequence actions:
+     [CCActionScaleTo actionWithDuration:dur/2.f scale:0.9],
+     [CCActionScaleTo actionWithDuration:dur/2.f scale:1.f], nil]
+                              times:numTimes]];
 }
 
 - (void) stopWalking {
-  [self.sprite stopAllActions];
-  [self stopAllActions];
+  if (_curAction) {
+    [self.sprite stopAction:_curAction];
+  }
+  [self stopActionByTag:10];
   _curAction = nil;
   _shouldWalk = NO;
 }

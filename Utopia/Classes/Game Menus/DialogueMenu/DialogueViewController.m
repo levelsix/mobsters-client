@@ -108,6 +108,13 @@
   }];
 }
 
+- (void) fadeOutBottomGradient {
+  [UIView animateWithDuration:0.3f animations:^{
+    // This will only do anything on first animation
+    self.bottomGradient.alpha = 0.f;
+  }];
+}
+
 - (void) animateOut:(void (^)(void))completion {
   [self animateBubbleOutCompletion:^{
     CGPoint pt = self.leftImageView.center;

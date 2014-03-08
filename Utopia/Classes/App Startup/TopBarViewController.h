@@ -60,10 +60,14 @@
 @property (nonatomic, retain) IBOutlet UIView *myCityView;
 @property (nonatomic, retain) IBOutlet UIView *menuView;
 
+@property (nonatomic, retain) IBOutlet UIView *mainView;
+@property (nonatomic, retain) IBOutlet UIView *coinBarsView;
+@property (nonatomic, retain) IBOutlet UIView *questView;
+
 @property (nonatomic, retain) IBOutletCollection(UIView) NSArray *topBarMonsterViewContainers;
 @property (nonatomic, retain) IBOutlet TopBarMonsterView *topBarMonsterView;
 
-@property (nonatomic, retain) IBOutlet ChatViewController *chatViewController;
+@property (nonatomic, retain) ChatViewController *chatViewController;
 
 @property (nonatomic, assign) MapBotView *curViewOverChatView;
 
@@ -71,6 +75,7 @@
 - (void) removeMyCityView;
 
 - (IBAction)menuClicked:(id)sender;
+- (IBAction)questsClicked:(id)sender;
 - (void) replaceChatViewWithView:(MapBotView *)view;
 - (void) removeViewOverChatView;
 

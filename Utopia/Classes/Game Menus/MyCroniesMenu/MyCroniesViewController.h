@@ -43,4 +43,14 @@
 
 - (IBAction)headerClicked:(id)sender;
 
+- (NSMutableSet *) recentlyHealedMonsterIds;
+- (NSMutableArray *) monsterHealingQueue;
+- (UserMonster *) monsterForSlot:(int)slot;
+- (NSArray *) monsterList;
+- (int) maxInventorySlots;
+- (int) numValidHospitals;
+- (BOOL) userMonsterIsUnavailable:(UserMonster *)um;
+- (NSDate *) monsterHealingQueueEndTime;
+- (int) maxQueueSize;
+
 @end

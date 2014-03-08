@@ -71,9 +71,6 @@
             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
             <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
             <connections>
-                <outlet property="buySlotsCostLabel" destination="mBr-YE-xw7" id="4zW-YE-gIt"/>
-                <outlet property="buySlotsNumLabel" destination="EWr-aG-r5E" id="IWV-us-gkg"/>
-                <outlet property="buySlotsView" destination="CXM-wn-sG4" id="brY-Ry-bpV"/>
                 <outlet property="cardContainer" destination="lf5-Yk-icT" id="22e-M3-8yn"/>
                 <outlet property="combineCostLabel" destination="kme-SF-pOP" id="K3S-VA-oTi"/>
                 <outlet property="combineView" destination="LpT-WB-Iu9" id="egd-Va-ucw"/>
@@ -87,49 +84,6 @@
                 <outlet property="onTeamIcon" destination="xOb-z9-q3p" id="RD4-zw-eS0"/>
                 <outlet property="plusButton" destination="ypZ-pO-MBF" id="nRt-rE-eNq"/>
             </connections>
-        </view>
-        <view contentMode="scaleToFill" id="CXM-wn-sG4">
-            <rect key="frame" x="0.0" y="0.0" width="107" height="130"/>
-            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-            <subviews>
-                <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="emptyslot.png" id="2Ke-88-Fbv">
-                    <rect key="frame" x="0.0" y="0.0" width="107" height="130"/>
-                    <autoresizingMask key="autoresizingMask"/>
-                </imageView>
-                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Buy 5 Slots" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="9" id="EWr-aG-r5E" customClass="NiceFontLabel">
-                    <rect key="frame" x="0.0" y="24" width="107" height="36"/>
-                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                    <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="calibratedRGB"/>
-                    <nil key="highlightedColor"/>
-                </label>
-                <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" userInteractionEnabled="NO" contentMode="scaleToFill" image="diamond.png" id="uep-us-QrX">
-                    <rect key="frame" x="24" y="64" width="31" height="27"/>
-                    <autoresizingMask key="autoresizingMask"/>
-                </imageView>
-                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="25" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="mBr-YE-xw7" customClass="NiceFontLabel">
-                    <rect key="frame" x="58" y="65" width="42" height="21"/>
-                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                    <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="calibratedRGB"/>
-                    <nil key="highlightedColor"/>
-                </label>
-                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="VpH-5R-is7" customClass="MaskedButton">
-                    <rect key="frame" x="0.0" y="0.0" width="107" height="130"/>
-                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                    <fontDescription key="fontDescription" type="system" pointSize="15"/>
-                    <state key="normal">
-                        <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                    </state>
-                    <connections>
-                        <action selector="buySlotsClicked:" destination="9fd-sp-Dwx" eventType="touchUpInside" id="dhi-Lj-HlU"/>
-                        <outlet property="baseImage" destination="2Ke-88-Fbv" id="69y-4E-eAy"/>
-                    </connections>
-                </button>
-            </subviews>
-            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-            <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
         </view>
         <view userInteractionEnabled="NO" contentMode="scaleToFill" id="s8F-t6-rch" userLabel="Health Bar View">
             <rect key="frame" x="0.0" y="0.0" width="95" height="34"/>
@@ -205,7 +159,6 @@
         <image name="cardhealthbg.png" width="46" height="9"/>
         <image name="diamond.png" width="44" height="41"/>
         <image name="earthcardhealthbar.png" width="44" height="7"/>
-        <image name="emptyslot.png" width="95" height="120"/>
         <image name="finishheal.png" width="71" height="28"/>
         <image name="onteam.png" width="17" height="17"/>
     </resources>

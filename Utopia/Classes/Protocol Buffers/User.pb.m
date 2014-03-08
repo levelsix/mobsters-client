@@ -1908,6 +1908,7 @@ static UserFacebookInviteForSlotProto* defaultUserFacebookInviteForSlotProtoInst
 @property int32_t attacksLost;
 @property int32_t defensesLost;
 @property (retain) NSString* facebookId;
+@property (retain) NSString* gameCenterId;
 @property (retain) NSString* udid;
 @property (retain) NSString* deviceToken;
 @property int64_t lastBattleNotificationTime;
@@ -1918,6 +1919,7 @@ static UserFacebookInviteForSlotProto* defaultUserFacebookInviteForSlotProtoInst
 @property int64_t lastWallPostNotificationTime;
 @property (retain) NSString* kabamNaid;
 @property int64_t inBattleShieldEndTime;
+@property BOOL fbIdSetOnUserCreate;
 @end
 
 @implementation FullUserProto
@@ -2159,6 +2161,13 @@ static UserFacebookInviteForSlotProto* defaultUserFacebookInviteForSlotProtoInst
   hasFacebookId_ = !!value;
 }
 @synthesize facebookId;
+- (BOOL) hasGameCenterId {
+  return !!hasGameCenterId_;
+}
+- (void) setHasGameCenterId:(BOOL) value {
+  hasGameCenterId_ = !!value;
+}
+@synthesize gameCenterId;
 - (BOOL) hasUdid {
   return !!hasUdid_;
 }
@@ -2229,12 +2238,25 @@ static UserFacebookInviteForSlotProto* defaultUserFacebookInviteForSlotProtoInst
   hasInBattleShieldEndTime_ = !!value;
 }
 @synthesize inBattleShieldEndTime;
+- (BOOL) hasFbIdSetOnUserCreate {
+  return !!hasFbIdSetOnUserCreate_;
+}
+- (void) setHasFbIdSetOnUserCreate:(BOOL) value {
+  hasFbIdSetOnUserCreate_ = !!value;
+}
+- (BOOL) fbIdSetOnUserCreate {
+  return !!fbIdSetOnUserCreate_;
+}
+- (void) setFbIdSetOnUserCreate:(BOOL) value {
+  fbIdSetOnUserCreate_ = !!value;
+}
 - (void) dealloc {
   self.name = nil;
   self.referralCode = nil;
   self.clan = nil;
   self.rank = nil;
   self.facebookId = nil;
+  self.gameCenterId = nil;
   self.udid = nil;
   self.deviceToken = nil;
   self.kabamNaid = nil;
@@ -2273,6 +2295,7 @@ static UserFacebookInviteForSlotProto* defaultUserFacebookInviteForSlotProtoInst
     self.attacksLost = 0;
     self.defensesLost = 0;
     self.facebookId = @"";
+    self.gameCenterId = @"";
     self.udid = @"";
     self.deviceToken = @"";
     self.lastBattleNotificationTime = 0L;
@@ -2283,6 +2306,7 @@ static UserFacebookInviteForSlotProto* defaultUserFacebookInviteForSlotProtoInst
     self.lastWallPostNotificationTime = 0L;
     self.kabamNaid = @"";
     self.inBattleShieldEndTime = 0L;
+    self.fbIdSetOnUserCreate = NO;
   }
   return self;
 }
@@ -2425,6 +2449,12 @@ static FullUserProto* defaultFullUserProtoInstance = nil;
   if (self.hasNumOilRetrievedFromStructs) {
     [output writeInt32:43 value:self.numOilRetrievedFromStructs];
   }
+  if (self.hasFbIdSetOnUserCreate) {
+    [output writeBool:44 value:self.fbIdSetOnUserCreate];
+  }
+  if (self.hasGameCenterId) {
+    [output writeString:45 value:self.gameCenterId];
+  }
   [self.unknownFields writeToCodedOutputStream:output];
 }
 - (int32_t) serializedSize {
@@ -2556,6 +2586,12 @@ static FullUserProto* defaultFullUserProtoInstance = nil;
   }
   if (self.hasNumOilRetrievedFromStructs) {
     size += computeInt32Size(43, self.numOilRetrievedFromStructs);
+  }
+  if (self.hasFbIdSetOnUserCreate) {
+    size += computeBoolSize(44, self.fbIdSetOnUserCreate);
+  }
+  if (self.hasGameCenterId) {
+    size += computeStringSize(45, self.gameCenterId);
   }
   size += self.unknownFields.serializedSize;
   memoizedSerializedSize = size;
@@ -2725,6 +2761,9 @@ static FullUserProto* defaultFullUserProtoInstance = nil;
   if (other.hasFacebookId) {
     [self setFacebookId:other.facebookId];
   }
+  if (other.hasGameCenterId) {
+    [self setGameCenterId:other.gameCenterId];
+  }
   if (other.hasUdid) {
     [self setUdid:other.udid];
   }
@@ -2754,6 +2793,9 @@ static FullUserProto* defaultFullUserProtoInstance = nil;
   }
   if (other.hasInBattleShieldEndTime) {
     [self setInBattleShieldEndTime:other.inBattleShieldEndTime];
+  }
+  if (other.hasFbIdSetOnUserCreate) {
+    [self setFbIdSetOnUserCreate:other.fbIdSetOnUserCreate];
   }
   [self mergeUnknownFields:other.unknownFields];
   return self;
@@ -2943,6 +2985,14 @@ static FullUserProto* defaultFullUserProtoInstance = nil;
       }
       case 344: {
         [self setNumOilRetrievedFromStructs:[input readInt32]];
+        break;
+      }
+      case 352: {
+        [self setFbIdSetOnUserCreate:[input readBool]];
+        break;
+      }
+      case 362: {
+        [self setGameCenterId:[input readString]];
         break;
       }
     }
@@ -3458,6 +3508,22 @@ static FullUserProto* defaultFullUserProtoInstance = nil;
   result.facebookId = @"";
   return self;
 }
+- (BOOL) hasGameCenterId {
+  return result.hasGameCenterId;
+}
+- (NSString*) gameCenterId {
+  return result.gameCenterId;
+}
+- (FullUserProto_Builder*) setGameCenterId:(NSString*) value {
+  result.hasGameCenterId = YES;
+  result.gameCenterId = value;
+  return self;
+}
+- (FullUserProto_Builder*) clearGameCenterId {
+  result.hasGameCenterId = NO;
+  result.gameCenterId = @"";
+  return self;
+}
 - (BOOL) hasUdid {
   return result.hasUdid;
 }
@@ -3616,6 +3682,22 @@ static FullUserProto* defaultFullUserProtoInstance = nil;
 - (FullUserProto_Builder*) clearInBattleShieldEndTime {
   result.hasInBattleShieldEndTime = NO;
   result.inBattleShieldEndTime = 0L;
+  return self;
+}
+- (BOOL) hasFbIdSetOnUserCreate {
+  return result.hasFbIdSetOnUserCreate;
+}
+- (BOOL) fbIdSetOnUserCreate {
+  return result.fbIdSetOnUserCreate;
+}
+- (FullUserProto_Builder*) setFbIdSetOnUserCreate:(BOOL) value {
+  result.hasFbIdSetOnUserCreate = YES;
+  result.fbIdSetOnUserCreate = value;
+  return self;
+}
+- (FullUserProto_Builder*) clearFbIdSetOnUserCreate {
+  result.hasFbIdSetOnUserCreate = NO;
+  result.fbIdSetOnUserCreate = NO;
   return self;
 }
 @end

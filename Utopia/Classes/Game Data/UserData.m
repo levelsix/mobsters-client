@@ -493,6 +493,21 @@
   return [[self alloc] initWithStructProto:proto];
 }
 
+- (id) initWithTutorialStructProto:(TutorialStructProto *)proto {
+  if ((self = [super init])) {
+    self.structId = proto.structId;
+    self.userStructId = proto.structId;
+    self.isComplete = YES;
+    self.coordinates = CGPointMake(proto.coordinate.x, proto.coordinate.y);
+    self.orientation = StructOrientationPosition1;
+  }
+  return self;
+}
+
++ (id) userStructWithTutorialStructProto:(TutorialStructProto *)proto {
+  return [[self alloc] initWithTutorialStructProto:proto];
+}
+
 - (id<StaticStructure>) staticStructForPrevLevel {
   int predecessorStructId = self.staticStruct.structInfo.predecessorStructId;
   if (predecessorStructId) {

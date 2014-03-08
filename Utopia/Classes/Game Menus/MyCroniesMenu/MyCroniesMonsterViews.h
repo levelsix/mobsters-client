@@ -19,7 +19,6 @@
 - (void) cardClicked:(MyCroniesCardCell *)cell;
 - (void) infoClicked:(MyCroniesCardCell *)cell;
 - (void) speedupCombineClicked:(MyCroniesCardCell *)cell;
-- (void) buySlotsClicked:(MyCroniesCardCell *)cell;
 
 @end
 
@@ -39,10 +38,6 @@
 @property (nonatomic, strong) IBOutlet UIView *combineView;
 @property (nonatomic, strong) IBOutlet UILabel *combineCostLabel;
 
-@property (nonatomic, strong) IBOutlet UIView *buySlotsView;
-@property (nonatomic, strong) IBOutlet UILabel *buySlotsNumLabel;
-@property (nonatomic, strong) IBOutlet UILabel *buySlotsCostLabel;
-
 @property (nonatomic, strong) IBOutlet UIView *mainView;
 
 @property (nonatomic, strong) UserMonster *monster;
@@ -51,7 +46,6 @@
 
 - (void) updateForUserMonster:(UserMonster *)monster;
 - (void) updateForEmptySlots:(int)numSlots;
-- (void) updateForBuySlots;
 
 - (void) updateForTime;
 
@@ -68,8 +62,9 @@
 @property (nonatomic, strong) IBOutlet UILabel *timeLabel;
 
 @property (nonatomic, strong) UserMonsterHealingItem *healingItem;
+@property (nonatomic, strong) UserMonster *userMonster;
 
-- (void) updateForHealingItem:(UserMonsterHealingItem *)item;
+- (void) updateForHealingItem:(UserMonsterHealingItem *)item userMonster:(UserMonster *)um;
 - (void) updateForTime;
 
 
@@ -82,22 +77,26 @@
 
 @end
 
-@interface MyCroniesQueueView : UIView <EasyTableViewDelegate>
+@interface MyCroniesQueueView : UIView <EasyTableViewDelegate> {
+  int _numHospitals;
+}
 
 @property (nonatomic, strong) IBOutlet UIView *tableContainerView;
 @property (nonatomic, strong) IBOutlet UILabel *speedupCostLabel;
 @property (nonatomic, strong) IBOutlet UILabel *totalTimeLabel;
 @property (nonatomic, strong) IBOutlet UILabel *instructionLabel;
+@property (nonatomic, strong) IBOutlet UIButton *speedupButton;
 
 @property (nonatomic, strong) IBOutlet MyCroniesQueueCell *queueCell;
 
 @property (nonatomic, strong) EasyTableView *queueTable;
 @property (nonatomic, strong) NSArray *healingQueue;
+@property (nonatomic, strong) NSArray *userMonsters;
 
 @property (nonatomic, weak) IBOutlet id<MyCroniesQueueDelegate> delegate;
 
-- (void) updateTimes;
-- (void) reloadTable;
+- (void) reloadTableWithHealingQueue:(NSArray *)healingQueue userMonster:(NSArray *)userMonsters timeLeft:(int)timeLeft hospitalCount:(int)hospitalCount;
+- (void) updateTimeWithTimeLeft:(int)timeLeft hospitalCount:(int)hospitalCount;
 
 - (IBAction)speedupClicked:(id)sender;
 

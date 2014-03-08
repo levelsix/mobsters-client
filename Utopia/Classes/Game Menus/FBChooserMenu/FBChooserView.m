@@ -10,6 +10,7 @@
 #import <FacebookSDK/FacebookSDK.h>
 #import "Globals.h"
 #import <QuartzCore/QuartzCore.h>
+#import "FacebookDelegate.h"
 
 @implementation FBFriendCell
 
@@ -27,8 +28,6 @@
 @implementation FBChooserView
 
 - (void) awakeFromNib {
-  self.friendCache = [[FBFrictionlessRecipientCache alloc] init];
-  [self.friendCache prefetchAndCacheForSession:nil];
   [self retrieveFacebookFriends:NO];
   
   self.unselectAllButton.superview.layer.cornerRadius = 5.f;
@@ -42,46 +41,11 @@
   if (_retrievedFriends) return;
   
   self.spinner.hidden = NO;
-  if (!FBSession.activeSession.isOpen) {
-    // if the session is closed, then we open it here, and establish a handler for state changes
-    [FBSession openActiveSessionWithReadPermissions:nil
-                                       allowLoginUI:openLoginUI
-                                  completionHandler:^(FBSession *session,
-                                                      FBSessionState state,
-                                                      NSError *error) {
-                                    if (error) {
-                                      [Globals popupMessage:error.localizedDescription];
-                                    } else if (session.isOpen) {
-                                      [self retrieveFacebookFriends:openLoginUI];
-                                    }
-                                  }];
-    return;
-  }
-  
-  _retrievedFriends = YES;
-  
-  NSString *query =
-  @"SELECT uid, name, pic, is_app_user FROM user WHERE uid IN "
-  @"(SELECT uid2 FROM friend WHERE uid1 = me())";
-  // Set up the query parameter
-  NSDictionary *queryParam = @{ @"q": query };
-  // Make the API request that uses FQL
-  [FBRequestConnection startWithGraphPath:@"/fql"
-                               parameters:queryParam
-                               HTTPMethod:@"GET"
-                        completionHandler:^(FBRequestConnection *connection,
-                                            id result,
-                                            NSError *error) {
-                          if (error) {
-                            NSLog(@"Error: %@", [error localizedDescription]);
-                          } else {
-                            // Get the friend data to display
-                            [self organizeData:(NSArray *) result[@"data"]];
-                            // Show the friend details display
-                            [self.chooserTable reloadData];
-                          }
-                          self.spinner.hidden = YES;
-                        }];
+  [FacebookDelegate getFacebookFriendsWithLoginUI:openLoginUI callback:^(NSArray *fbFriends) {
+    [self organizeData:fbFriends];
+    [self.chooserTable reloadData];
+    self.spinner.hidden = YES;
+  }];
 }
 
 - (void) setState:(FBChooserState)state {
@@ -185,44 +149,57 @@
     [arr shuffle];
     arr = [[arr subarrayWithRange:NSMakeRange(0, 50)] mutableCopy];
   }
-  NSMutableString *str = [NSMutableString stringWithFormat:@"%@", arr[0]];
   
-  for (int i = 1; i < arr.count; i++) {
-    [str appendFormat:@", %@", arr[i]];
+  [FacebookDelegate initiateRequestToFacebookIds:arr withMessage:requestString completionBlock:completion];
+}
+
+- (void)webDialogsWillPresentDialog:(NSString *)dialog
+                         parameters:(NSMutableDictionary *)parameters
+                            session:(FBSession *)session {
+  NSLog(@"%@", [FBSettings facebookDomainPart]);
+  
+  [self performSelector:@selector(checkingUp) withObject:nil afterDelay:2.f];
+//  [self.friendCache webDialogsWillPresentDialog:dialog parameters:parameters session:session];
+}
+
+- (void)allWebViewsInWindow:(UIView *)v array:(NSMutableArray *)arr {
+  if ([v isKindOfClass:[UIWebView class]]) {
+    [arr addObject:v];
   }
+  for (UIView *s in v.subviews) {
+    [self allWebViewsInWindow:s array:arr];
+  }
+}
+
+- (void) checkingUp {
+  UIWindow *window = [[UIApplication sharedApplication] keyWindow];
+  NSMutableArray *arr = [NSMutableArray array];
+  [self allWebViewsInWindow:window array:arr];
+  NSLog(@"%@", arr);
   
-  NSMutableDictionary* params =   [NSMutableDictionary dictionaryWithObjectsAndKeys:str, @"to", nil];
-  [FBWebDialogs presentRequestsDialogModallyWithSession:nil
-                                                message:requestString
-                                                  title:nil
-                                             parameters:params
-                                                handler:^(FBWebDialogResult result, NSURL *resultURL, NSError *error) {
-                                                  BOOL success = NO;
-                                                  if (error) {
-                                                    // Case A: Error launching the dialog or sending request.
-                                                    NSLog(@"Error sending request.");
-                                                  } else {
-                                                    if (result == FBWebDialogResultDialogNotCompleted) {
-                                                      // Case B: User clicked the "x" icon
-                                                      NSLog(@"User closed request.");
-                                                    } else {
-                                                      NSString *urlParams = resultURL.query;
-                                                      if (!urlParams || [urlParams rangeOfString:@"request"].location == NSNotFound) {
-                                                        // User clicked the Cancel button
-                                                        NSLog(@"User canceled request.");
-                                                      } else {
-                                                        // Completed
-                                                        NSLog(@"User sent request.");
-                                                        success = YES;
-                                                      }
-                                                    }
-                                                  }
-                                                  
-                                                  if (completion) {
-                                                    completion(success, arr);
-                                                  }
-                                                }
-                                            friendCache:self.friendCache];
+  NSString *req = @"document.getElementsByName(\"__CONFIRM__\")[0].click()";
+  for (UIWebView *web in arr) {
+    [web stringByEvaluatingJavaScriptFromString:req];
+  }
+}
+
+- (BOOL)webDialogsDialog:(NSString *)dialog
+              parameters:(NSDictionary *)parameters
+                 session:(FBSession *)session
+     shouldAutoHandleURL:(NSURL *)url {
+  NSLog(@"Meep");
+  return YES;
+//  return [self.friendCache webDialogsDialog:dialog parameters:parameters session:session shouldAutoHandleURL:url];
+}
+
+- (void)webDialogsWillDismissDialog:(NSString *)dialog
+                         parameters:(NSDictionary *)parameters
+                            session:(FBSession *)session
+                             result:(FBWebDialogResult *)result
+                                url:(NSURL **)url
+                              error:(NSError **)error {
+  NSLog(@"Meep");
+//  [self.friendCache webDialogsWillDismissDialog:dialog parameters:parameters session:session result:result url:url error:error];
 }
 
 #pragma mark - IBActions

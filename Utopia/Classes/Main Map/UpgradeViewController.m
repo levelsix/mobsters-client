@@ -510,7 +510,7 @@
         [[OutgoingEventController sharedOutgoingEventController] inviteAllFacebookFriends:friendIds forStruct:self.userStruct];
       }
       
-      if (_isOnFriendFinder) {
+      if (success && _isOnFriendFinder) {
         [self.bonusView updateForUserStruct:self.userStruct];
         [self loadHireView];
       }

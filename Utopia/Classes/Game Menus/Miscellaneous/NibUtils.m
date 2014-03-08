@@ -55,6 +55,15 @@
 
 @end
 
+@implementation NiceFontLabel6
+
+- (void) awakeFromNib {
+  [Globals adjustFontSizeForUILabel:self];
+  self.font = [UIFont fontWithName:@"Klavika Bold" size:self.font.pointSize];
+}
+
+@end
+
 @implementation NiceFontButton
 
 - (void) awakeFromNib {
@@ -69,6 +78,15 @@
 - (void) awakeFromNib {
   [Globals adjustFontSizeForSize:self.titleLabel.font.pointSize withUIView:self];
   self.titleLabel.font = [UIFont fontWithName:@"Gotham-Book" size:self.titleLabel.font.pointSize];
+}
+
+@end
+
+@implementation NiceFontButton3
+
+- (void) awakeFromNib {
+  [Globals adjustFontSizeForSize:self.titleLabel.font.pointSize withUIView:self];
+  self.titleLabel.font = [UIFont fontWithName:@"Klavika Bold" size:self.titleLabel.font.pointSize];
 }
 
 @end

@@ -165,6 +165,7 @@
                 <outlet property="mainView" destination="UZs-O3-0rd" id="XmX-rM-BJC"/>
                 <outlet property="nameDescriptionLabel" destination="gvY-rm-KCA" id="lvn-zK-c85"/>
                 <outlet property="nameLabel" destination="8" id="11"/>
+                <outlet property="oilIcon" destination="6ea-og-abf" id="uf7-1O-U1b"/>
                 <outlet property="quantityLabel" destination="igM-yp-ceF" id="gtM-19-oxh"/>
                 <outlet property="unavailableLabel" destination="41q-bO-Oaz" id="0p6-Wq-KYs"/>
             </connections>

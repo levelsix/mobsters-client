@@ -15,9 +15,6 @@
 @implementation MyCroniesCardCell
 
 - (void) awakeFromNib {
-  self.buySlotsView.center = self.cardContainer.center;
-  [self.cardContainer.superview addSubview:self.buySlotsView];
-  
   self.combineView.center = self.cardContainer.center;
   [self.cardContainer.superview addSubview:self.combineView];
   
@@ -36,7 +33,6 @@
     Globals *gl = [Globals sharedGlobals];
     MonsterProto *mp = [gs monsterWithId:monster.monsterId];
     [self.cardContainer.monsterCardView updateForMonster:monster];
-    self.buySlotsView.hidden = YES;
     self.cardContainer.hidden = NO;
     
     self.plusButton.hidden = monster.teamSlot > 0;
@@ -81,24 +77,11 @@
   
   self.plusButton.hidden = YES;
   self.onTeamIcon.hidden = YES;
-  self.buySlotsView.hidden = YES;
   self.cardContainer.hidden = NO;
   self.combineView.hidden = YES;
   self.healthBarView.hidden = YES;
   self.genLabelView.hidden = YES;
   [self.cardContainer.monsterCardView updateForNoMonsterWithLabel:[NSString stringWithFormat:@"%d Slot%@ Empty", numSlots, numSlots == 1 ? @"" : @"s"]];
-}
-
-- (void) updateForBuySlots {
-  self.monster = nil;
-  
-  self.buySlotsView.hidden = NO;
-  self.plusButton.hidden = YES;
-  self.onTeamIcon.hidden = YES;
-  self.cardContainer.hidden = YES;
-  self.combineView.hidden = YES;
-  self.healthBarView.hidden = YES;
-  self.genLabelView.hidden = YES;
 }
 
 - (void) updateForTime {
@@ -121,10 +104,6 @@
   [self.delegate plusClicked:self];
 }
 
-- (IBAction)buySlotsClicked:(id)sender {
-  [self.delegate buySlotsClicked:self];
-}
-
 - (void) infoClicked:(MonsterCardView *)view {
   [self.delegate infoClicked:self];
 }
@@ -141,9 +120,8 @@
 
 @implementation MyCroniesQueueCell
 
-- (void) updateForHealingItem:(UserMonsterHealingItem *)item {
+- (void) updateForHealingItem:(UserMonsterHealingItem *)item userMonster:(UserMonster *)um {
   GameState *gs = [GameState sharedGameState];
-  UserMonster *um = [gs myMonsterWithUserMonsterId:item.userMonsterId];
   MonsterProto *mp = [gs monsterWithId:um.monsterId];
   
   NSString *fileName = [mp.imagePrefix stringByAppendingString:@"Thumbnail.png"];
@@ -155,6 +133,7 @@
   self.timerView.hidden = YES;
   
   self.healingItem = item;
+  self.userMonster = um;
 }
 
 - (float) totalSeconds {
@@ -166,9 +145,8 @@
 }
 
 - (void) updateForTime {
-  GameState *gs = [GameState sharedGameState];
   Globals *gl = [Globals sharedGlobals];
-  UserMonster *um = [gs myMonsterWithUserMonsterId:self.healingItem.userMonsterId];
+  UserMonster *um = self.userMonster;
   float totalSecs = [self totalSeconds];
   float timeLeft = [self.healingItem.endTime timeIntervalSinceNow];
   float timeCompleted = MAX(totalSecs-timeLeft, 0);
@@ -204,22 +182,23 @@
   [self setupInventoryTable];
 }
 
-- (void) reloadTable {
+- (void) reloadTableWithHealingQueue:(NSArray *)healingQueue userMonster:(NSArray *)userMonsters timeLeft:(int)timeLeft hospitalCount:(int)hospitalCount {
+  self.healingQueue = healingQueue;
+  self.userMonsters = userMonsters;
+  _numHospitals = hospitalCount;
   [self.queueTable reloadData];
-  [self updateTimes];
+  [self updateTimeWithTimeLeft:timeLeft hospitalCount:hospitalCount];
 }
 
-- (void) updateTimes {
-  GameState *gs = [GameState sharedGameState];
+- (void) updateTimeWithTimeLeft:(int)timeLeft hospitalCount:(int)hospitalCount {
   Globals *gl = [Globals sharedGlobals];
-  int timeLeft = gs.monsterHealingQueueEndTime.timeIntervalSinceNow;
   int speedupCost = [gl calculateGemSpeedupCostForTimeLeft:timeLeft];
   
-  if (gs.myValidHospitals.count > 0) {
+  if (hospitalCount > 0) {
     self.totalTimeLabel.text = [Globals convertTimeToShortString:timeLeft];
     self.speedupCostLabel.text = [Globals commafyNumber:speedupCost];
     
-    for (int i = 0; i < gs.monsterHealingQueue.count; i++) {//gs.myValidHospitals.count; i++) {
+    for (int i = 0; i < hospitalCount; i++) {
       MyCroniesQueueCell *cell = (MyCroniesQueueCell *)[self.queueTable viewAtIndexPath:[NSIndexPath indexPathForRow:i inSection:0]];
       [cell updateForTime];
     }
@@ -255,8 +234,7 @@
 }
 
 - (NSUInteger) numberOfCellsForEasyTableView:(EasyTableView *)view inSection:(NSInteger)section {
-  GameState *gs = [GameState sharedGameState];
-  if (gs.monsterHealingQueue.count == 0) {
+  if (self.healingQueue.count == 0) {
     if (self.instructionLabel.alpha == 0.f) {
       [UIView animateWithDuration:0.3f animations:^{
         self.alpha = 0.f;
@@ -277,7 +255,6 @@
       self.instructionLabel.alpha = 0.f;
     }
   }
-  self.healingQueue = [gs.monsterHealingQueue copy];
   return self.healingQueue.count;
 }
 
@@ -288,12 +265,20 @@
   return self.queueCell;
 }
 
+- (UserMonster *) userMonsterForId:(int)userMonsterId {
+  for (UserMonster *um in self.userMonsters) {
+    if (um.userMonsterId == userMonsterId) {
+      return um;
+    }
+  }
+  return nil;
+}
+
 - (void)easyTableView:(EasyTableView *)easyTableView setDataForView:(MyCroniesQueueCell *)view forIndexPath:(NSIndexPath *)indexPath {
   UserMonsterHealingItem *item = [self.healingQueue objectAtIndex:indexPath.row];
-  [view updateForHealingItem:item];
+  [view updateForHealingItem:item userMonster:[self userMonsterForId:item.userMonsterId]];
   
-  GameState *gs = [GameState sharedGameState];
-  if (indexPath.row < gs.myValidHospitals.count) {
+  if (indexPath.row < _numHospitals) {
     [view updateForTime];
   }
 }

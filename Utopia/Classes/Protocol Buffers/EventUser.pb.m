@@ -32,6 +32,9 @@ static PBExtensionRegistry* extensionRegistry = nil;
 @property (retain) CoordinateProto* structCoords;
 @property BOOL usedDiamondsToBuilt;
 @property (retain) NSString* facebookId;
+@property int32_t cash;
+@property int32_t oil;
+@property int32_t gems;
 @end
 
 @implementation UserCreateRequestProto
@@ -104,6 +107,27 @@ static PBExtensionRegistry* extensionRegistry = nil;
   hasFacebookId_ = !!value;
 }
 @synthesize facebookId;
+- (BOOL) hasCash {
+  return !!hasCash_;
+}
+- (void) setHasCash:(BOOL) value {
+  hasCash_ = !!value;
+}
+@synthesize cash;
+- (BOOL) hasOil {
+  return !!hasOil_;
+}
+- (void) setHasOil:(BOOL) value {
+  hasOil_ = !!value;
+}
+@synthesize oil;
+- (BOOL) hasGems {
+  return !!hasGems_;
+}
+- (void) setHasGems:(BOOL) value {
+  hasGems_ = !!value;
+}
+@synthesize gems;
 - (void) dealloc {
   self.udid = nil;
   self.name = nil;
@@ -124,6 +148,9 @@ static PBExtensionRegistry* extensionRegistry = nil;
     self.structCoords = [CoordinateProto defaultInstance];
     self.usedDiamondsToBuilt = NO;
     self.facebookId = @"";
+    self.cash = 0;
+    self.oil = 0;
+    self.gems = 0;
   }
   return self;
 }
@@ -170,6 +197,15 @@ static UserCreateRequestProto* defaultUserCreateRequestProtoInstance = nil;
   if (self.hasFacebookId) {
     [output writeString:9 value:self.facebookId];
   }
+  if (self.hasCash) {
+    [output writeInt32:10 value:self.cash];
+  }
+  if (self.hasOil) {
+    [output writeInt32:11 value:self.oil];
+  }
+  if (self.hasGems) {
+    [output writeInt32:12 value:self.gems];
+  }
   [self.unknownFields writeToCodedOutputStream:output];
 }
 - (int32_t) serializedSize {
@@ -205,6 +241,15 @@ static UserCreateRequestProto* defaultUserCreateRequestProtoInstance = nil;
   }
   if (self.hasFacebookId) {
     size += computeStringSize(9, self.facebookId);
+  }
+  if (self.hasCash) {
+    size += computeInt32Size(10, self.cash);
+  }
+  if (self.hasOil) {
+    size += computeInt32Size(11, self.oil);
+  }
+  if (self.hasGems) {
+    size += computeInt32Size(12, self.gems);
   }
   size += self.unknownFields.serializedSize;
   memoizedSerializedSize = size;
@@ -308,6 +353,15 @@ static UserCreateRequestProto* defaultUserCreateRequestProtoInstance = nil;
   if (other.hasFacebookId) {
     [self setFacebookId:other.facebookId];
   }
+  if (other.hasCash) {
+    [self setCash:other.cash];
+  }
+  if (other.hasOil) {
+    [self setOil:other.oil];
+  }
+  if (other.hasGems) {
+    [self setGems:other.gems];
+  }
   [self mergeUnknownFields:other.unknownFields];
   return self;
 }
@@ -368,6 +422,18 @@ static UserCreateRequestProto* defaultUserCreateRequestProtoInstance = nil;
       }
       case 74: {
         [self setFacebookId:[input readString]];
+        break;
+      }
+      case 80: {
+        [self setCash:[input readInt32]];
+        break;
+      }
+      case 88: {
+        [self setOil:[input readInt32]];
+        break;
+      }
+      case 96: {
+        [self setGems:[input readInt32]];
         break;
       }
     }
@@ -529,6 +595,54 @@ static UserCreateRequestProto* defaultUserCreateRequestProtoInstance = nil;
 - (UserCreateRequestProto_Builder*) clearFacebookId {
   result.hasFacebookId = NO;
   result.facebookId = @"";
+  return self;
+}
+- (BOOL) hasCash {
+  return result.hasCash;
+}
+- (int32_t) cash {
+  return result.cash;
+}
+- (UserCreateRequestProto_Builder*) setCash:(int32_t) value {
+  result.hasCash = YES;
+  result.cash = value;
+  return self;
+}
+- (UserCreateRequestProto_Builder*) clearCash {
+  result.hasCash = NO;
+  result.cash = 0;
+  return self;
+}
+- (BOOL) hasOil {
+  return result.hasOil;
+}
+- (int32_t) oil {
+  return result.oil;
+}
+- (UserCreateRequestProto_Builder*) setOil:(int32_t) value {
+  result.hasOil = YES;
+  result.oil = value;
+  return self;
+}
+- (UserCreateRequestProto_Builder*) clearOil {
+  result.hasOil = NO;
+  result.oil = 0;
+  return self;
+}
+- (BOOL) hasGems {
+  return result.hasGems;
+}
+- (int32_t) gems {
+  return result.gems;
+}
+- (UserCreateRequestProto_Builder*) setGems:(int32_t) value {
+  result.hasGems = YES;
+  result.gems = value;
+  return self;
+}
+- (UserCreateRequestProto_Builder*) clearGems {
+  result.hasGems = NO;
+  result.gems = 0;
   return self;
 }
 @end
@@ -3439,6 +3553,530 @@ BOOL UpdateUserCurrencyResponseProto_UpdateUserCurrencyStatusIsValidValue(Update
 - (UpdateUserCurrencyResponseProto_Builder*) clearStatus {
   result.hasStatus = NO;
   result.status = UpdateUserCurrencyResponseProto_UpdateUserCurrencyStatusSuccess;
+  return self;
+}
+@end
+
+@interface SetGameCenterIdRequestProto ()
+@property (retain) MinimumUserProto* sender;
+@property (retain) NSString* gameCenterId;
+@end
+
+@implementation SetGameCenterIdRequestProto
+
+- (BOOL) hasSender {
+  return !!hasSender_;
+}
+- (void) setHasSender:(BOOL) value {
+  hasSender_ = !!value;
+}
+@synthesize sender;
+- (BOOL) hasGameCenterId {
+  return !!hasGameCenterId_;
+}
+- (void) setHasGameCenterId:(BOOL) value {
+  hasGameCenterId_ = !!value;
+}
+@synthesize gameCenterId;
+- (void) dealloc {
+  self.sender = nil;
+  self.gameCenterId = nil;
+  [super dealloc];
+}
+- (id) init {
+  if ((self = [super init])) {
+    self.sender = [MinimumUserProto defaultInstance];
+    self.gameCenterId = @"";
+  }
+  return self;
+}
+static SetGameCenterIdRequestProto* defaultSetGameCenterIdRequestProtoInstance = nil;
++ (void) initialize {
+  if (self == [SetGameCenterIdRequestProto class]) {
+    defaultSetGameCenterIdRequestProtoInstance = [[SetGameCenterIdRequestProto alloc] init];
+  }
+}
++ (SetGameCenterIdRequestProto*) defaultInstance {
+  return defaultSetGameCenterIdRequestProtoInstance;
+}
+- (SetGameCenterIdRequestProto*) defaultInstance {
+  return defaultSetGameCenterIdRequestProtoInstance;
+}
+- (BOOL) isInitialized {
+  return YES;
+}
+- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output {
+  if (self.hasSender) {
+    [output writeMessage:1 value:self.sender];
+  }
+  if (self.hasGameCenterId) {
+    [output writeString:2 value:self.gameCenterId];
+  }
+  [self.unknownFields writeToCodedOutputStream:output];
+}
+- (int32_t) serializedSize {
+  int32_t size = memoizedSerializedSize;
+  if (size != -1) {
+    return size;
+  }
+
+  size = 0;
+  if (self.hasSender) {
+    size += computeMessageSize(1, self.sender);
+  }
+  if (self.hasGameCenterId) {
+    size += computeStringSize(2, self.gameCenterId);
+  }
+  size += self.unknownFields.serializedSize;
+  memoizedSerializedSize = size;
+  return size;
+}
++ (SetGameCenterIdRequestProto*) parseFromData:(NSData*) data {
+  return (SetGameCenterIdRequestProto*)[[[SetGameCenterIdRequestProto builder] mergeFromData:data] build];
+}
++ (SetGameCenterIdRequestProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (SetGameCenterIdRequestProto*)[[[SetGameCenterIdRequestProto builder] mergeFromData:data extensionRegistry:extensionRegistry] build];
+}
++ (SetGameCenterIdRequestProto*) parseFromInputStream:(NSInputStream*) input {
+  return (SetGameCenterIdRequestProto*)[[[SetGameCenterIdRequestProto builder] mergeFromInputStream:input] build];
+}
++ (SetGameCenterIdRequestProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (SetGameCenterIdRequestProto*)[[[SetGameCenterIdRequestProto builder] mergeFromInputStream:input extensionRegistry:extensionRegistry] build];
+}
++ (SetGameCenterIdRequestProto*) parseFromCodedInputStream:(PBCodedInputStream*) input {
+  return (SetGameCenterIdRequestProto*)[[[SetGameCenterIdRequestProto builder] mergeFromCodedInputStream:input] build];
+}
++ (SetGameCenterIdRequestProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (SetGameCenterIdRequestProto*)[[[SetGameCenterIdRequestProto builder] mergeFromCodedInputStream:input extensionRegistry:extensionRegistry] build];
+}
++ (SetGameCenterIdRequestProto_Builder*) builder {
+  return [[[SetGameCenterIdRequestProto_Builder alloc] init] autorelease];
+}
++ (SetGameCenterIdRequestProto_Builder*) builderWithPrototype:(SetGameCenterIdRequestProto*) prototype {
+  return [[SetGameCenterIdRequestProto builder] mergeFrom:prototype];
+}
+- (SetGameCenterIdRequestProto_Builder*) builder {
+  return [SetGameCenterIdRequestProto builder];
+}
+@end
+
+@interface SetGameCenterIdRequestProto_Builder()
+@property (retain) SetGameCenterIdRequestProto* result;
+@end
+
+@implementation SetGameCenterIdRequestProto_Builder
+@synthesize result;
+- (void) dealloc {
+  self.result = nil;
+  [super dealloc];
+}
+- (id) init {
+  if ((self = [super init])) {
+    self.result = [[[SetGameCenterIdRequestProto alloc] init] autorelease];
+  }
+  return self;
+}
+- (PBGeneratedMessage*) internalGetResult {
+  return result;
+}
+- (SetGameCenterIdRequestProto_Builder*) clear {
+  self.result = [[[SetGameCenterIdRequestProto alloc] init] autorelease];
+  return self;
+}
+- (SetGameCenterIdRequestProto_Builder*) clone {
+  return [SetGameCenterIdRequestProto builderWithPrototype:result];
+}
+- (SetGameCenterIdRequestProto*) defaultInstance {
+  return [SetGameCenterIdRequestProto defaultInstance];
+}
+- (SetGameCenterIdRequestProto*) build {
+  [self checkInitialized];
+  return [self buildPartial];
+}
+- (SetGameCenterIdRequestProto*) buildPartial {
+  SetGameCenterIdRequestProto* returnMe = [[result retain] autorelease];
+  self.result = nil;
+  return returnMe;
+}
+- (SetGameCenterIdRequestProto_Builder*) mergeFrom:(SetGameCenterIdRequestProto*) other {
+  if (other == [SetGameCenterIdRequestProto defaultInstance]) {
+    return self;
+  }
+  if (other.hasSender) {
+    [self mergeSender:other.sender];
+  }
+  if (other.hasGameCenterId) {
+    [self setGameCenterId:other.gameCenterId];
+  }
+  [self mergeUnknownFields:other.unknownFields];
+  return self;
+}
+- (SetGameCenterIdRequestProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input {
+  return [self mergeFromCodedInputStream:input extensionRegistry:[PBExtensionRegistry emptyRegistry]];
+}
+- (SetGameCenterIdRequestProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  PBUnknownFieldSet_Builder* unknownFields = [PBUnknownFieldSet builderWithUnknownFields:self.unknownFields];
+  while (YES) {
+    int32_t tag = [input readTag];
+    switch (tag) {
+      case 0:
+        [self setUnknownFields:[unknownFields build]];
+        return self;
+      default: {
+        if (![self parseUnknownField:input unknownFields:unknownFields extensionRegistry:extensionRegistry tag:tag]) {
+          [self setUnknownFields:[unknownFields build]];
+          return self;
+        }
+        break;
+      }
+      case 10: {
+        MinimumUserProto_Builder* subBuilder = [MinimumUserProto builder];
+        if (self.hasSender) {
+          [subBuilder mergeFrom:self.sender];
+        }
+        [input readMessage:subBuilder extensionRegistry:extensionRegistry];
+        [self setSender:[subBuilder buildPartial]];
+        break;
+      }
+      case 18: {
+        [self setGameCenterId:[input readString]];
+        break;
+      }
+    }
+  }
+}
+- (BOOL) hasSender {
+  return result.hasSender;
+}
+- (MinimumUserProto*) sender {
+  return result.sender;
+}
+- (SetGameCenterIdRequestProto_Builder*) setSender:(MinimumUserProto*) value {
+  result.hasSender = YES;
+  result.sender = value;
+  return self;
+}
+- (SetGameCenterIdRequestProto_Builder*) setSenderBuilder:(MinimumUserProto_Builder*) builderForValue {
+  return [self setSender:[builderForValue build]];
+}
+- (SetGameCenterIdRequestProto_Builder*) mergeSender:(MinimumUserProto*) value {
+  if (result.hasSender &&
+      result.sender != [MinimumUserProto defaultInstance]) {
+    result.sender =
+      [[[MinimumUserProto builderWithPrototype:result.sender] mergeFrom:value] buildPartial];
+  } else {
+    result.sender = value;
+  }
+  result.hasSender = YES;
+  return self;
+}
+- (SetGameCenterIdRequestProto_Builder*) clearSender {
+  result.hasSender = NO;
+  result.sender = [MinimumUserProto defaultInstance];
+  return self;
+}
+- (BOOL) hasGameCenterId {
+  return result.hasGameCenterId;
+}
+- (NSString*) gameCenterId {
+  return result.gameCenterId;
+}
+- (SetGameCenterIdRequestProto_Builder*) setGameCenterId:(NSString*) value {
+  result.hasGameCenterId = YES;
+  result.gameCenterId = value;
+  return self;
+}
+- (SetGameCenterIdRequestProto_Builder*) clearGameCenterId {
+  result.hasGameCenterId = NO;
+  result.gameCenterId = @"";
+  return self;
+}
+@end
+
+@interface SetGameCenterIdResponseProto ()
+@property (retain) MinimumUserProto* sender;
+@property (retain) NSString* gameCenterId;
+@property SetGameCenterIdResponseProto_SetGameCenterIdStatus status;
+@end
+
+@implementation SetGameCenterIdResponseProto
+
+- (BOOL) hasSender {
+  return !!hasSender_;
+}
+- (void) setHasSender:(BOOL) value {
+  hasSender_ = !!value;
+}
+@synthesize sender;
+- (BOOL) hasGameCenterId {
+  return !!hasGameCenterId_;
+}
+- (void) setHasGameCenterId:(BOOL) value {
+  hasGameCenterId_ = !!value;
+}
+@synthesize gameCenterId;
+- (BOOL) hasStatus {
+  return !!hasStatus_;
+}
+- (void) setHasStatus:(BOOL) value {
+  hasStatus_ = !!value;
+}
+@synthesize status;
+- (void) dealloc {
+  self.sender = nil;
+  self.gameCenterId = nil;
+  [super dealloc];
+}
+- (id) init {
+  if ((self = [super init])) {
+    self.sender = [MinimumUserProto defaultInstance];
+    self.gameCenterId = @"";
+    self.status = SetGameCenterIdResponseProto_SetGameCenterIdStatusSuccess;
+  }
+  return self;
+}
+static SetGameCenterIdResponseProto* defaultSetGameCenterIdResponseProtoInstance = nil;
++ (void) initialize {
+  if (self == [SetGameCenterIdResponseProto class]) {
+    defaultSetGameCenterIdResponseProtoInstance = [[SetGameCenterIdResponseProto alloc] init];
+  }
+}
++ (SetGameCenterIdResponseProto*) defaultInstance {
+  return defaultSetGameCenterIdResponseProtoInstance;
+}
+- (SetGameCenterIdResponseProto*) defaultInstance {
+  return defaultSetGameCenterIdResponseProtoInstance;
+}
+- (BOOL) isInitialized {
+  return YES;
+}
+- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output {
+  if (self.hasSender) {
+    [output writeMessage:1 value:self.sender];
+  }
+  if (self.hasGameCenterId) {
+    [output writeString:2 value:self.gameCenterId];
+  }
+  if (self.hasStatus) {
+    [output writeEnum:3 value:self.status];
+  }
+  [self.unknownFields writeToCodedOutputStream:output];
+}
+- (int32_t) serializedSize {
+  int32_t size = memoizedSerializedSize;
+  if (size != -1) {
+    return size;
+  }
+
+  size = 0;
+  if (self.hasSender) {
+    size += computeMessageSize(1, self.sender);
+  }
+  if (self.hasGameCenterId) {
+    size += computeStringSize(2, self.gameCenterId);
+  }
+  if (self.hasStatus) {
+    size += computeEnumSize(3, self.status);
+  }
+  size += self.unknownFields.serializedSize;
+  memoizedSerializedSize = size;
+  return size;
+}
++ (SetGameCenterIdResponseProto*) parseFromData:(NSData*) data {
+  return (SetGameCenterIdResponseProto*)[[[SetGameCenterIdResponseProto builder] mergeFromData:data] build];
+}
++ (SetGameCenterIdResponseProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (SetGameCenterIdResponseProto*)[[[SetGameCenterIdResponseProto builder] mergeFromData:data extensionRegistry:extensionRegistry] build];
+}
++ (SetGameCenterIdResponseProto*) parseFromInputStream:(NSInputStream*) input {
+  return (SetGameCenterIdResponseProto*)[[[SetGameCenterIdResponseProto builder] mergeFromInputStream:input] build];
+}
++ (SetGameCenterIdResponseProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (SetGameCenterIdResponseProto*)[[[SetGameCenterIdResponseProto builder] mergeFromInputStream:input extensionRegistry:extensionRegistry] build];
+}
++ (SetGameCenterIdResponseProto*) parseFromCodedInputStream:(PBCodedInputStream*) input {
+  return (SetGameCenterIdResponseProto*)[[[SetGameCenterIdResponseProto builder] mergeFromCodedInputStream:input] build];
+}
++ (SetGameCenterIdResponseProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (SetGameCenterIdResponseProto*)[[[SetGameCenterIdResponseProto builder] mergeFromCodedInputStream:input extensionRegistry:extensionRegistry] build];
+}
++ (SetGameCenterIdResponseProto_Builder*) builder {
+  return [[[SetGameCenterIdResponseProto_Builder alloc] init] autorelease];
+}
++ (SetGameCenterIdResponseProto_Builder*) builderWithPrototype:(SetGameCenterIdResponseProto*) prototype {
+  return [[SetGameCenterIdResponseProto builder] mergeFrom:prototype];
+}
+- (SetGameCenterIdResponseProto_Builder*) builder {
+  return [SetGameCenterIdResponseProto builder];
+}
+@end
+
+BOOL SetGameCenterIdResponseProto_SetGameCenterIdStatusIsValidValue(SetGameCenterIdResponseProto_SetGameCenterIdStatus value) {
+  switch (value) {
+    case SetGameCenterIdResponseProto_SetGameCenterIdStatusSuccess:
+    case SetGameCenterIdResponseProto_SetGameCenterIdStatusFailOther:
+      return YES;
+    default:
+      return NO;
+  }
+}
+@interface SetGameCenterIdResponseProto_Builder()
+@property (retain) SetGameCenterIdResponseProto* result;
+@end
+
+@implementation SetGameCenterIdResponseProto_Builder
+@synthesize result;
+- (void) dealloc {
+  self.result = nil;
+  [super dealloc];
+}
+- (id) init {
+  if ((self = [super init])) {
+    self.result = [[[SetGameCenterIdResponseProto alloc] init] autorelease];
+  }
+  return self;
+}
+- (PBGeneratedMessage*) internalGetResult {
+  return result;
+}
+- (SetGameCenterIdResponseProto_Builder*) clear {
+  self.result = [[[SetGameCenterIdResponseProto alloc] init] autorelease];
+  return self;
+}
+- (SetGameCenterIdResponseProto_Builder*) clone {
+  return [SetGameCenterIdResponseProto builderWithPrototype:result];
+}
+- (SetGameCenterIdResponseProto*) defaultInstance {
+  return [SetGameCenterIdResponseProto defaultInstance];
+}
+- (SetGameCenterIdResponseProto*) build {
+  [self checkInitialized];
+  return [self buildPartial];
+}
+- (SetGameCenterIdResponseProto*) buildPartial {
+  SetGameCenterIdResponseProto* returnMe = [[result retain] autorelease];
+  self.result = nil;
+  return returnMe;
+}
+- (SetGameCenterIdResponseProto_Builder*) mergeFrom:(SetGameCenterIdResponseProto*) other {
+  if (other == [SetGameCenterIdResponseProto defaultInstance]) {
+    return self;
+  }
+  if (other.hasSender) {
+    [self mergeSender:other.sender];
+  }
+  if (other.hasGameCenterId) {
+    [self setGameCenterId:other.gameCenterId];
+  }
+  if (other.hasStatus) {
+    [self setStatus:other.status];
+  }
+  [self mergeUnknownFields:other.unknownFields];
+  return self;
+}
+- (SetGameCenterIdResponseProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input {
+  return [self mergeFromCodedInputStream:input extensionRegistry:[PBExtensionRegistry emptyRegistry]];
+}
+- (SetGameCenterIdResponseProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  PBUnknownFieldSet_Builder* unknownFields = [PBUnknownFieldSet builderWithUnknownFields:self.unknownFields];
+  while (YES) {
+    int32_t tag = [input readTag];
+    switch (tag) {
+      case 0:
+        [self setUnknownFields:[unknownFields build]];
+        return self;
+      default: {
+        if (![self parseUnknownField:input unknownFields:unknownFields extensionRegistry:extensionRegistry tag:tag]) {
+          [self setUnknownFields:[unknownFields build]];
+          return self;
+        }
+        break;
+      }
+      case 10: {
+        MinimumUserProto_Builder* subBuilder = [MinimumUserProto builder];
+        if (self.hasSender) {
+          [subBuilder mergeFrom:self.sender];
+        }
+        [input readMessage:subBuilder extensionRegistry:extensionRegistry];
+        [self setSender:[subBuilder buildPartial]];
+        break;
+      }
+      case 18: {
+        [self setGameCenterId:[input readString]];
+        break;
+      }
+      case 24: {
+        int32_t value = [input readEnum];
+        if (SetGameCenterIdResponseProto_SetGameCenterIdStatusIsValidValue(value)) {
+          [self setStatus:value];
+        } else {
+          [unknownFields mergeVarintField:3 value:value];
+        }
+        break;
+      }
+    }
+  }
+}
+- (BOOL) hasSender {
+  return result.hasSender;
+}
+- (MinimumUserProto*) sender {
+  return result.sender;
+}
+- (SetGameCenterIdResponseProto_Builder*) setSender:(MinimumUserProto*) value {
+  result.hasSender = YES;
+  result.sender = value;
+  return self;
+}
+- (SetGameCenterIdResponseProto_Builder*) setSenderBuilder:(MinimumUserProto_Builder*) builderForValue {
+  return [self setSender:[builderForValue build]];
+}
+- (SetGameCenterIdResponseProto_Builder*) mergeSender:(MinimumUserProto*) value {
+  if (result.hasSender &&
+      result.sender != [MinimumUserProto defaultInstance]) {
+    result.sender =
+      [[[MinimumUserProto builderWithPrototype:result.sender] mergeFrom:value] buildPartial];
+  } else {
+    result.sender = value;
+  }
+  result.hasSender = YES;
+  return self;
+}
+- (SetGameCenterIdResponseProto_Builder*) clearSender {
+  result.hasSender = NO;
+  result.sender = [MinimumUserProto defaultInstance];
+  return self;
+}
+- (BOOL) hasGameCenterId {
+  return result.hasGameCenterId;
+}
+- (NSString*) gameCenterId {
+  return result.gameCenterId;
+}
+- (SetGameCenterIdResponseProto_Builder*) setGameCenterId:(NSString*) value {
+  result.hasGameCenterId = YES;
+  result.gameCenterId = value;
+  return self;
+}
+- (SetGameCenterIdResponseProto_Builder*) clearGameCenterId {
+  result.hasGameCenterId = NO;
+  result.gameCenterId = @"";
+  return self;
+}
+- (BOOL) hasStatus {
+  return result.hasStatus;
+}
+- (SetGameCenterIdResponseProto_SetGameCenterIdStatus) status {
+  return result.status;
+}
+- (SetGameCenterIdResponseProto_Builder*) setStatus:(SetGameCenterIdResponseProto_SetGameCenterIdStatus) value {
+  result.hasStatus = YES;
+  result.status = value;
+  return self;
+}
+- (SetGameCenterIdResponseProto_Builder*) clearStatus {
+  result.hasStatus = NO;
+  result.status = SetGameCenterIdResponseProto_SetGameCenterIdStatusSuccess;
   return self;
 }
 @end

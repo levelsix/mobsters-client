@@ -18,7 +18,9 @@
 
 @end
 
-@interface TutorialBattleLayer : NewBattleLayer
+@interface TutorialBattleLayer : NewBattleLayer {
+  BOOL _allowTurnBegin;
+}
 
 @property (nonatomic, retain) StartupResponseProto_TutorialConstants *constants;
 
@@ -39,6 +41,8 @@
 @end
 
 @interface TutorialBattleTwoLayer : TutorialBattleLayer
+
+- (id) initWithConstants:(StartupResponseProto_TutorialConstants *)constants enemyDamageDealt:(int)damage;
 
 - (void) swapToMark;
 

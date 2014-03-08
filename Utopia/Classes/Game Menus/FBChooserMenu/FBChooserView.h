@@ -23,7 +23,7 @@ typedef enum {
   FBChooserStateGameFriends
 } FBChooserState;
 
-@interface FBChooserView : UIView <UITableViewDataSource, UITableViewDelegate> {
+@interface FBChooserView : UIView <UITableViewDataSource, UITableViewDelegate, FBWebDialogsDelegate> {
   BOOL _retrievedFriends;
 }
 
@@ -41,8 +41,6 @@ typedef enum {
 @property (nonatomic, retain) IBOutlet UIButton *unselectAllButton;
 
 @property (nonatomic, assign) FBChooserState state;
-
-@property (nonatomic, retain) FBFrictionlessRecipientCache *friendCache;
 
 - (void) retrieveFacebookFriends:(BOOL)openLoginUI;
 - (void) sendRequestWithString:(NSString *)requestString completionBlock:(void(^)(BOOL success, NSArray *friendIds))completion;

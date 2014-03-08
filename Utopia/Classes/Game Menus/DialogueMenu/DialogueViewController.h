@@ -43,5 +43,6 @@
 
 - (id) initWithDialogueProto:(DialogueProto *)dialogue;
 - (void) animateNext;
+- (void) fadeOutBottomGradient;
 
 @end

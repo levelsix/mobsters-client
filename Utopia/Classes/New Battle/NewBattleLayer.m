@@ -1264,8 +1264,7 @@
     // If it is swap, enemy should attack
     // If it is game start, wait till battle response has arrived
     // Otherwise, it is coming back from player just dying
-    SEL selector = isSwap ? @selector(beginMyTurn) : !
-    _hasStarted ? @selector(reachedNextScene) : @selector(beginMyTurn);
+    SEL selector = isSwap ? @selector(beginMyTurn) : !_hasStarted ? @selector(reachedNextScene) : @selector(beginMyTurn);
     [self makePlayer:self.myPlayer walkInFromEntranceWithSelector:selector];
   } else if (isSwap) {
     [self displaySwapButton];

@@ -18,20 +18,12 @@
 #import "GameState.h"
 #import "EvoViewController.h"
 
-@interface MainMenuController ()
-
-@end
-
 @implementation MainMenuController
 
-- (id)init
-{
-    if ((self = [super init])) {
-      self.title = @"Menu";
-      
-      [self setUpImageBackButton];
-    }
-    return self;
+- (void) viewDidLoad {
+  self.title = @"Menu";
+  
+  [self setUpImageBackButton];
 }
 
 - (void) viewWillAppear:(BOOL)animated {

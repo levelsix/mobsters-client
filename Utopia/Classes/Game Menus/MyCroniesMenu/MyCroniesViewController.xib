@@ -43,6 +43,11 @@
                             </subviews>
                             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                         </view>
+                        <view contentMode="scaleToFill" id="ZKc-ce-gjV" userLabel="Bot Border">
+                            <rect key="frame" x="0.0" y="219" width="568" height="1"/>
+                            <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
+                            <color key="backgroundColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
+                        </view>
                         <view contentMode="scaleToFill" id="B8E-iz-aAJ" userLabel="Bot Dark">
                             <rect key="frame" x="0.0" y="219" width="568" height="60"/>
                             <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
@@ -118,6 +123,7 @@
                                     <connections>
                                         <outlet property="delegate" destination="-1" id="IKf-rQ-6ut"/>
                                         <outlet property="instructionLabel" destination="WyY-Sf-DBc" id="1eH-tn-K0h"/>
+                                        <outlet property="speedupButton" destination="f1Z-id-MPn" id="ln7-37-dhf"/>
                                         <outlet property="speedupCostLabel" destination="E7N-mq-NAU" id="A9i-T5-B1s"/>
                                         <outlet property="tableContainerView" destination="Rxc-hO-KRq" id="Zcw-fh-eBz"/>
                                         <outlet property="totalTimeLabel" destination="0Nx-O9-5DJ" id="RG4-vO-UVi"/>
@@ -139,11 +145,6 @@
                                 </label>
                             </subviews>
                             <color key="backgroundColor" white="0.0" alpha="0.20000000000000001" colorSpace="calibratedWhite"/>
-                        </view>
-                        <view contentMode="scaleToFill" id="ZKc-ce-gjV" userLabel="Bot Border">
-                            <rect key="frame" x="0.0" y="219" width="568" height="1"/>
-                            <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
-                            <color key="backgroundColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
                         </view>
                         <view clipsSubviews="YES" contentMode="scaleToFill" id="i05-Gw-Ord" userLabel="Top Dark">
                             <rect key="frame" x="0.0" y="0.0" width="568" height="60"/>

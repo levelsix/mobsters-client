@@ -125,19 +125,48 @@
 }
 
 - (void) beginMapAnimations {
-  [[CCSpriteFrameCache sharedSpriteFrameCache] addSpriteFramesWithFile:@"Boat.plist"];
-  CCAnimation *anim = [CCAnimation animationWithSpritePrefix:@"Boat" delay:0.1];
-//  [anim repeatFrames:NSMakeRange(0,1) numTimes:5];
-  CCSprite *boat = [CCSprite spriteWithSpriteFrame:[anim.frames[0] spriteFrame]];
-  [boat runAction:[CCActionRepeatForever actionWithAction:[CCActionAnimate actionWithAnimation:anim]]];
-  [self addChild:boat z:1];
-  boat.position = ccp(780, 35);
+  [self createBoat];
   
   [self schedule:@selector(createNewWave) interval:3.5f];
 }
 
+- (void) createBoat {
+  [[CCSpriteFrameCache sharedSpriteFrameCache] addSpriteFramesWithFile:@"Boat.plist"];
+  CCAnimation *anim = [CCAnimation animationWithSpritePrefix:@"Boat" delay:0.1];
+  CCSprite *boat = [CCSprite spriteWithSpriteFrame:[anim.frames[0] spriteFrame]];
+  [boat runAction:[CCActionRepeatForever actionWithAction:[CCActionAnimate actionWithAnimation:anim]]];
+  [self addChild:boat z:1];
+  boat.position = ccp(780, 35);
+}
+
 - (void) createNewWave {
   [self createNewWave:NO];
+}
+
+- (CCSprite *)createWave {
+  CCSprite *wave = [CCSprite spriteWithImageNamed:@"wave.png"];
+  
+  // Right
+  CCSprite *w1 = [CCSprite spriteWithImageNamed:@"wave.png"];
+  w1.position = ccp(wave.contentSize.width, wave.contentSize.height/2);
+  [wave addChild:w1];
+  
+  // Far Right
+  w1 = [CCSprite spriteWithImageNamed:@"wave.png"];
+  w1.position = ccp(wave.contentSize.width*3/2, wave.contentSize.height/2);
+  [wave addChild:w1];
+  
+  // Left
+  w1 = [CCSprite spriteWithImageNamed:@"wave.png"];
+  w1.position = ccp(0, wave.contentSize.height/2);
+  [wave addChild:w1];
+  
+  // Far Left
+  w1 = [CCSprite spriteWithImageNamed:@"wave.png"];
+  w1.position = ccp(-wave.contentSize.width/2, wave.contentSize.height/2);
+  [wave addChild:w1];
+  
+  return wave;
 }
 
 - (void) createNewWave:(BOOL)right {
@@ -165,28 +194,8 @@
     [CCActionCallFunc actionWithTarget:node selector:@selector(removeFromParent)],
     nil]];
   
-  CCSprite *wave = [CCSprite spriteWithImageNamed:@"wave.png"];
+  CCSprite *wave = [self createWave];
   [node addChild:wave];
-  
-  // Right
-  CCSprite *w1 = [CCSprite spriteWithImageNamed:@"wave.png"];
-  w1.position = ccp(wave.contentSize.width, wave.contentSize.height/2);
-  [wave addChild:w1];
-  
-  // Far Right
-  w1 = [CCSprite spriteWithImageNamed:@"wave.png"];
-  w1.position = ccp(wave.contentSize.width*3/2, wave.contentSize.height/2);
-  [wave addChild:w1];
-  
-  // Left
-  w1 = [CCSprite spriteWithImageNamed:@"wave.png"];
-  w1.position = ccp(0, wave.contentSize.height/2);
-  [wave addChild:w1];
-  
-  // Far Left
-  w1 = [CCSprite spriteWithImageNamed:@"wave.png"];
-  w1.position = ccp(-wave.contentSize.width/2, wave.contentSize.height/2);
-  [wave addChild:w1];
   
   [wave recursivelyApplyOpacity:0.f];
   [wave runAction:
@@ -201,29 +210,9 @@
     nil]];
   
   
-  CCSprite *wave2 = [CCSprite spriteWithImageNamed:@"wave.png"];
+  CCSprite *wave2 = [self createWave];
   wave2.position = ccp(0, -5);
   [node addChild:wave2];
-  
-  // Right
-  w1 = [CCSprite spriteWithImageNamed:@"wave.png"];
-  w1.position = ccp(wave2.contentSize.width, wave2.contentSize.height/2);
-  [wave2 addChild:w1];
-  
-  // Far Right
-  w1 = [CCSprite spriteWithImageNamed:@"wave.png"];
-  w1.position = ccp(wave2.contentSize.width*3/2, wave2.contentSize.height/2);
-  [wave2 addChild:w1];
-  
-  // Left
-  w1 = [CCSprite spriteWithImageNamed:@"wave.png"];
-  w1.position = ccp(0, wave2.contentSize.height/2);
-  [wave2 addChild:w1];
-  
-  // Far Left
-  w1 = [CCSprite spriteWithImageNamed:@"wave.png"];
-  w1.position = ccp(-wave2.contentSize.width/2, wave2.contentSize.height/2);
-  [wave2 addChild:w1];
   
   [wave2 recursivelyApplyOpacity:0.f];
   [wave2 runAction:
@@ -238,29 +227,9 @@
     nil]];
   
   
-  CCSprite *wave3 = [CCSprite spriteWithImageNamed:@"wave.png"];
+  CCSprite *wave3 = [self createWave];
   wave3.position = ccp(0, -10);
   [node addChild:wave3];
-  
-  // Right
-  w1 = [CCSprite spriteWithImageNamed:@"wave.png"];
-  w1.position = ccp(wave3.contentSize.width, wave3.contentSize.height/2);
-  [wave3 addChild:w1];
-  
-  // Far Right
-  w1 = [CCSprite spriteWithImageNamed:@"wave.png"];
-  w1.position = ccp(wave3.contentSize.width*3/2, wave3.contentSize.height/2);
-  [wave3 addChild:w1];
-  
-  // Left
-  w1 = [CCSprite spriteWithImageNamed:@"wave.png"];
-  w1.position = ccp(0, wave3.contentSize.height/2);
-  [wave3 addChild:w1];
-  
-  // Far Left
-  w1 = [CCSprite spriteWithImageNamed:@"wave.png"];
-  w1.position = ccp(-wave3.contentSize.width/2, wave3.contentSize.height/2);
-  [wave3 addChild:w1];
   
   [wave3 recursivelyApplyOpacity:0.f];
   [wave3 runAction:
@@ -302,6 +271,11 @@
   }
 }
 
+- (NSArray *) myStructsList {
+  GameState *gs = [GameState sharedGameState];
+  return [gs myStructs];
+}
+
 - (void) refresh {
   if (_loading) return;
   self.selected = nil;
@@ -311,27 +285,26 @@
   [self invalidateAllTimers];
   
   NSMutableArray *arr = [NSMutableArray array];
-  GameState *gs = [GameState sharedGameState];
   [arr addObjectsFromArray:[self refreshForExpansion]];
   
   [self setupTeamSprites];
   [arr addObjectsFromArray:self.myTeamSprites];
   
-  for (UserStruct *s in [gs myStructs]) {
+  for (UserStruct *s in self.myStructsList) {
     StructureInfoProto *fsp = s.staticStruct.structInfo;
     if (!fsp) {return;}
-    HomeBuilding *moneyBuilding = [HomeBuilding buildingWithUserStruct:s map:self];
-    [self addChild:moneyBuilding];
+    HomeBuilding *homeBuilding = [HomeBuilding buildingWithUserStruct:s map:self];
+    [self addChild:homeBuilding z:0 name:STRUCT_TAG(s.userStructId)];
     
-    moneyBuilding.orientation = s.orientation;
-    moneyBuilding.userStruct = s;
+    homeBuilding.orientation = s.orientation;
+    homeBuilding.userStruct = s;
     
-    [arr addObject:moneyBuilding];
-    [moneyBuilding placeBlock];
+    [arr addObject:homeBuilding];
+    [homeBuilding placeBlock];
     
     if (!s.isComplete) {
-      moneyBuilding.isConstructing = YES;
-      _constrBuilding = moneyBuilding;
+      homeBuilding.isConstructing = YES;
+      _constrBuilding = homeBuilding;
     }
   }
   
@@ -543,6 +516,30 @@
   }
 }
 
+- (CGPoint) openSpaceNearCenterWithSize:(CGSize)size {
+  CGRect loc;
+  loc.size = size;
+  loc.origin = ccp(0,0);
+  
+  CGPoint mapMid = ccp(self.mapSize.width/2, self.mapSize.height/2);
+  CGRect closest = loc;
+  for (int i = 0; i < self.mapSize.width; i++) {
+    for (int j = 0; j < self.mapSize.height; j++) {
+      loc.origin = ccp(i, j);
+      
+      CGPoint locMid = ccp(i+size.width/2, j+size.height/2);
+      CGPoint closeMid = ccp(closest.origin.x+size.width/2, closest.origin.y+size.height/2);
+      float distLoc = ccpDistance(mapMid, locMid);
+      float distClose = ccpDistance(mapMid, closeMid);
+      
+      if (distLoc < distClose && [self isBlockBuildable:loc]) {
+        closest = loc;
+      }
+    }
+  }
+  return closest.origin;
+}
+
 - (void) preparePurchaseOfStruct:(int)structId {
   if (_purchasing) {
     self.selected = nil;
@@ -552,7 +549,8 @@
   
   UserStruct *us = [[UserStruct alloc] init];
   us.structId = structId;
-  us.coordinates = ccp(CENTER_TILE_X, CENTER_TILE_Y);
+  StructureInfoProto *fsp = us.staticStruct.structInfo;
+  us.coordinates = [self openSpaceNearCenterWithSize:CGSizeMake(fsp.width, fsp.height)];
   
   _purchBuilding = [HomeBuilding buildingWithUserStruct:us map:self];
   _purchBuilding.isPurchasing = YES;
@@ -724,7 +722,6 @@
         [homeBuilding updateMeta];
         return;
       } else if (_isMoving && ([recognizer state] == UIGestureRecognizerStateEnded || [recognizer state] == UIGestureRecognizerStateCancelled)) {
-        [homeBuilding clearMeta];
         [homeBuilding placeBlock];
         _isMoving = NO;
         [self doReorder];
@@ -811,9 +808,13 @@
   [self setupIncomeTimerForBuilding:mb];
 }
 
+- (void) sendNormStructComplete:(UserStruct *)us {
+  [[OutgoingEventController sharedOutgoingEventController] normStructWaitComplete:us];
+}
+
 - (void) constructionComplete:(NSTimer *)timer {
   HomeBuilding *mb = [timer userInfo];
-  [[OutgoingEventController sharedOutgoingEventController] normStructWaitComplete:mb.userStruct];
+  [self sendNormStructComplete:mb.userStruct];
   [self updateTimersForBuilding:mb];
   mb.isConstructing = NO;
   [mb removeProgressBar];
@@ -881,13 +882,14 @@
   HomeBuilding *homeBuilding = (HomeBuilding *)self.selected;
   
   // Use return value as an indicator that purchase is accepted by client
-  UserStruct *us = [[OutgoingEventController sharedOutgoingEventController] purchaseNormStruct:_purchStructId atX:homeBuilding.location.origin.x atY:homeBuilding.location.origin.y allowGems:allowGems];
+  UserStruct *us = [self sendPurchaseStruct:allowGems];
   if (us) {
     homeBuilding.userStruct = us;
     _constrBuilding = homeBuilding;
     [self updateTimersForBuilding:_constrBuilding];
     homeBuilding.isConstructing = YES;
     homeBuilding.isPurchasing = NO;
+    homeBuilding.name = STRUCT_TAG(us.userStructId);
     
     [_constrBuilding displayProgressBar];
     
@@ -897,6 +899,7 @@
     
     _canMove = NO;
     _purchasing = NO;
+    _purchBuilding = NO;
     
     [self reselectCurrentSelection];
   } else {
@@ -906,6 +909,13 @@
     self.selected = nil;
   }
   [self doReorder];
+}
+
+- (UserStruct *) sendPurchaseStruct:(BOOL)allowGems {
+  HomeBuilding *homeBuilding = (HomeBuilding *)self.selected;
+  
+  // Use return value as an indicator that purchase is accepted by client
+  return [[OutgoingEventController sharedOutgoingEventController] purchaseNormStruct:_purchStructId atX:homeBuilding.location.origin.x atY:homeBuilding.location.origin.y allowGems:allowGems];
 }
 
 - (IBAction)cancelMoveClicked:(id)sender {
@@ -1035,6 +1045,10 @@
   [GenericPopupController displayGemConfirmViewWithDescription:desc title:@"Speed Up!" gemCost:goldCost target:self selector:@selector(speedUpBuilding)];
 }
 
+- (void) sendSpeedupBuilding:(UserStruct *)us {
+  [[OutgoingEventController sharedOutgoingEventController] instaUpgrade:us];
+}
+
 - (BOOL) speedUpBuilding {
   if (_isSpeedingUp) return NO;
   HomeBuilding *mb = (HomeBuilding *)_constrBuilding;
@@ -1048,7 +1062,7 @@
     if (gs.gold < gemCost) {
       [GenericPopupController displayNotEnoughGemsView];
     } else {
-      [[OutgoingEventController sharedOutgoingEventController] instaUpgrade:mb.userStruct];
+      [self sendSpeedupBuilding:mb.userStruct];
       if (us.isComplete) {
         _isSpeedingUp = YES;
         

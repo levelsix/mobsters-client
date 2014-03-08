@@ -29,7 +29,6 @@
 #import "DungeonBattleLayer.h"
 #import "Downloader.h"
 #import <Carrot/Carrot.h>
-#import <FacebookSDK/FacebookSDK.h>
 #import "DiamondShopViewController.h"
 #import "MenuNavigationController.h"
 #import "MyCroniesViewController.h"
@@ -38,6 +37,8 @@
 #import "DialogueViewController.h"
 #import "QuestLogViewController.h"
 #import "ClanRaidBattleLayer.h"
+#import "TutorialController.h"
+#import "FacebookDelegate.h"
 
 #define DEFAULT_PNG_IMAGE_VIEW_TAG 103
 #define KINGDOM_PNG_IMAGE_VIEW_TAG 104

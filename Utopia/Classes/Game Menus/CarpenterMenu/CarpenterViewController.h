@@ -20,6 +20,7 @@
 @property (nonatomic, strong) IBOutlet UIImageView *bgdImageView;
 @property (nonatomic, strong) IBOutlet UIImageView *bgdInfoImageView;
 @property (nonatomic, strong) IBOutlet UIImageView *clockIcon;
+@property (nonatomic, strong) IBOutlet UIImageView *oilIcon;
 @property (nonatomic, strong) IBOutlet UIButton *infoButton;
 
 @property (nonatomic, strong) IBOutlet UILabel *nameDescriptionLabel;
@@ -52,8 +53,10 @@
 @property (nonatomic, strong) IBOutlet UILabel *cashLabel;
 @property (nonatomic, strong) IBOutlet UILabel *diamondLabel;
 
+- (UserStruct *) townHall;
+- (void) buildingPurchased:(int)structId;
+
 - (void) reloadCarpenterStructs;
-- (IBAction)goToGoldShop:(id)sender;
 
 - (IBAction)buildingClicked:(id)sender;
 - (IBAction)infoClicked:(id)sender;

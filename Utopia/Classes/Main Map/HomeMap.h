@@ -19,6 +19,8 @@
 #define EXPANSION_MID_SQUARE_SIZE 6
 #define EXPANSION_ROAD_SIZE 2
 
+#define STRUCT_TAG(d) [NSString stringWithFormat:@"UserStruct%d", d]
+
 @class HomeBuildingMenu;
 
 @interface HomeMap : GameMap <MapBotViewDelegate, UpgradeViewControllerDelegate> {
@@ -54,6 +56,9 @@
 @property (nonatomic, assign) IBOutlet UIView *buildingUpgradeView;
 @property (nonatomic, assign) IBOutlet UIView *buildingEnterView;
 
+@property (nonatomic, assign) IBOutlet UIButton *enterButton;
+@property (nonatomic, assign) IBOutlet UIButton *speedupButton;
+
 @property (nonatomic, assign) IBOutlet UILabel *upgradingNameLabel;
 @property (nonatomic, assign) IBOutlet UILabel *upgradingIncomeLabel;
 @property (nonatomic, assign) IBOutlet UILabel *upgradingSpeedupCostLabel;
@@ -72,10 +77,16 @@
 - (BOOL) isBlockBuildable: (CGRect) buildBlock;
 - (void) refresh;
 - (void) preparePurchaseOfStruct:(int)structId;
+- (UserStruct *) sendPurchaseStruct:(BOOL)allowGems;
+- (void) purchaseBuildingAllowGems:(BOOL)allowGems;
+- (BOOL) speedUpBuilding;
 - (void) scrollScreenForTouch:(CGPoint)pt;
 - (void) retrieveFromBuilding:(HomeBuilding *)hb;
 - (void) updateTimersForBuilding:(HomeBuilding *)hb;
 - (void) invalidateAllTimers;
+
+- (void) sendNormStructComplete:(UserStruct *)us;
+- (void) sendSpeedupBuilding:(UserStruct *)us;
 
 - (void) moveToStruct:(int)structId showArrow:(BOOL)showArrow animated:(BOOL)animated;
 

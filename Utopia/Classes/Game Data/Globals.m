@@ -78,6 +78,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
   self.pvpRequiredMinLvl = constants.pvpRequiredMinLvl;
   self.gemsPerResource = constants.gemsPerResource;
   self.continueBattleGemCostMultiplier = constants.continueBattleGemCostMultiplier;
+  self.addAllFbFriends = constants.addAllFbFriends;
   
   self.maxTeamSize = constants.userMonsterConstants.maxNumTeamSlots;
   self.baseInventorySize = constants.userMonsterConstants.initialMaxNumMonsterLimit;
@@ -1107,11 +1108,10 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
   return 0;
 }
 
-- (int) calculateCurrentQuantityOfStructId:(int)structId {
-  GameState *gs = [GameState sharedGameState];
+- (int) calculateCurrentQuantityOfStructId:(int)structId structs:(NSArray *)structs {
   int quantity = 0;
   
-  for (UserStruct *us in gs.myStructs) {
+  for (UserStruct *us in structs) {
     if (us.baseStructId == structId) {
       quantity++;
     }
@@ -1415,8 +1415,9 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
   return @"Ruby";
 }
 
-#define ARROW_ANIMATION_DURATION 0.25f
+#define ARROW_ANIMATION_DURATION 0.7f
 #define ARROW_ANIMATION_DISTANCE 14
+#define ARROW_TAG 123152
 + (void) animateUIArrow:(UIView *)arrow atAngle:(float)angle {
   [arrow.layer removeAllAnimations];
   float rotation = -M_PI_2-angle;
@@ -1427,6 +1428,67 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
     arrow.layer.transform = CATransform3DMakeRotation(rotation, 0.0f, 0.0f, 1.0f);
     arrow.center = CGPointMake(arrow.center.x-ARROW_ANIMATION_DISTANCE*cosf(angle), arrow.center.y+ARROW_ANIMATION_DISTANCE*sinf(angle));
   } completion:nil];
+}
+
++ (CGPoint) pointOnRect:(CGRect)r atAngle:(float)angle {
+  float vx = cosf(angle);
+  float vy = sinf(angle);
+  CGPoint pt1 = r.origin;
+  CGPoint pt2 = ccp(pt1.x+r.size.width, pt1.y+r.size.height);
+  CGPoint p = ccp(pt1.x+r.size.width/2, pt1.y+r.size.height/2);
+  
+  float tl = -1, tr = -1, tu = -1, tb = -1;
+  
+  if (abs(vx) > 0.1) {
+    tl = (pt1.x-p.x)/vx;
+    tr = (pt2.x-p.x)/vx;
+  }
+  if (abs(vy) > 0.1) {
+    tu = (pt1.y-p.y)/vy;
+    tb = (pt2.y-p.y)/vy;
+  }
+  
+  float t = MAXFLOAT;
+  if (tl > 0 && tl < t) {
+    t = tl;
+  } if (tr > 0 && tr < t) {
+    t = tr;
+  } if (tu > 0 && tu < t) {
+    t = tu;
+  } if (tb > 0 && tb < t) {
+    t = tb;
+  }
+  
+  return ccp(p.x+t*vx, p.y+t*vy);
+}
+
++ (void) createUIArrowForView:(UIView *)view atAngle:(float)angle {
+  UIImageView *img = [[UIImageView alloc] initWithImage:[Globals imageNamed:@"arrow.png"]];
+  [view.superview addSubview:img];
+  
+  CGPoint pt = [self pointOnRect:CGRectInset(view.frame, -16, -16) atAngle:-angle];
+  img.center = pt;
+  img.tag = ARROW_TAG;
+  
+  [self animateUIArrow:img atAngle:M_PI+angle];
+  img.alpha = 0.f;
+  [UIView animateWithDuration:0.3f animations:^{
+    img.alpha = 1.f;
+  }];
+}
+
++ (void) removeUIArrowFromViewRecursively:(UIView *)view {
+  if (view.tag == ARROW_TAG) {
+    [UIView animateWithDuration:0.3f animations:^{
+      view.alpha = 0.f;
+    } completion:^(BOOL finished) {
+      [view removeFromSuperview];
+    }];
+    [view removeFromSuperview];
+  }
+  for (UIView *v in view.subviews) {
+    [self removeUIArrowFromViewRecursively:v];
+  }
 }
 
 + (void) animateCCArrow:(CCNode *)arrow atAngle:(float)angle {
@@ -1449,10 +1511,10 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
 - (BOOL) validateUserName:(NSString *)name {
   // make sure length is okay
   if (name.length < self.minNameLength) {
-    [Globals popupMessage:@"This name is too short."];
+    [Globals popupMessage:[NSString stringWithFormat:@"Your name must be atleast %d characters.", self.minNameLength]];
     return NO;
   } else if (name.length > self.maxNameLength) {
-    [Globals popupMessage:@"This name is too long."];
+    [Globals popupMessage:[NSString stringWithFormat:@"Your name must be less than %d characters.", self.maxNameLength]];
     return NO;
   }
   

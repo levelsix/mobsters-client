@@ -487,86 +487,90 @@
 
 @interface FullUserProto : PBGeneratedMessage {
 @private
-  BOOL hasHasActiveShield_:1;
   BOOL hasHasReceivedfbReward_:1;
+  BOOL hasHasActiveShield_:1;
   BOOL hasIsAdmin_:1;
   BOOL hasIsFake_:1;
-  BOOL hasInBattleShieldEndTime_:1;
-  BOOL hasLastWallPostNotificationTime_:1;
+  BOOL hasFbIdSetOnUserCreate_:1;
   BOOL hasCreateTime_:1;
   BOOL hasLastBattleNotificationTime_:1;
+  BOOL hasInBattleShieldEndTime_:1;
   BOOL hasShieldEndTime_:1;
+  BOOL hasLastWallPostNotificationTime_:1;
   BOOL hasLastLogoutTime_:1;
   BOOL hasLastLoginTime_:1;
-  BOOL hasUserId_:1;
-  BOOL hasNumConsecutiveDaysPlayed_:1;
-  BOOL hasApsalarId_:1;
-  BOOL hasLevel_:1;
-  BOOL hasNumBadges_:1;
-  BOOL hasGems_:1;
-  BOOL hasDefensesLost_:1;
-  BOOL hasAttacksLost_:1;
-  BOOL hasDefensesWon_:1;
-  BOOL hasAttacksWon_:1;
-  BOOL hasElo_:1;
-  BOOL hasCash_:1;
-  BOOL hasOil_:1;
   BOOL hasNumBeginnerSalesPurchased_:1;
-  BOOL hasExperience_:1;
+  BOOL hasNumConsecutiveDaysPlayed_:1;
+  BOOL hasElo_:1;
+  BOOL hasAttacksWon_:1;
+  BOOL hasDefensesWon_:1;
+  BOOL hasAttacksLost_:1;
+  BOOL hasDefensesLost_:1;
+  BOOL hasNumBadges_:1;
+  BOOL hasApsalarId_:1;
+  BOOL hasUserId_:1;
   BOOL hasNumOilRetrievedFromStructs_:1;
   BOOL hasNumCoinsRetrievedFromStructs_:1;
   BOOL hasNumReferrals_:1;
   BOOL hasFlees_:1;
-  BOOL hasTasksCompleted_:1;
-  BOOL hasBattlesWon_:1;
   BOOL hasBattlesLost_:1;
-  BOOL hasReferralCode_:1;
-  BOOL hasKabamNaid_:1;
+  BOOL hasBattlesWon_:1;
+  BOOL hasLevel_:1;
+  BOOL hasGems_:1;
+  BOOL hasCash_:1;
+  BOOL hasOil_:1;
+  BOOL hasTasksCompleted_:1;
+  BOOL hasExperience_:1;
   BOOL hasName_:1;
+  BOOL hasKabamNaid_:1;
   BOOL hasDeviceToken_:1;
   BOOL hasUdid_:1;
+  BOOL hasGameCenterId_:1;
   BOOL hasFacebookId_:1;
+  BOOL hasReferralCode_:1;
   BOOL hasRank_:1;
   BOOL hasClan_:1;
-  BOOL hasActiveShield_:1;
   BOOL hasReceivedfbReward_:1;
+  BOOL hasActiveShield_:1;
   BOOL isAdmin_:1;
   BOOL isFake_:1;
-  int64_t inBattleShieldEndTime;
-  int64_t lastWallPostNotificationTime;
+  BOOL fbIdSetOnUserCreate_:1;
   int64_t createTime;
   int64_t lastBattleNotificationTime;
+  int64_t inBattleShieldEndTime;
   int64_t shieldEndTime;
+  int64_t lastWallPostNotificationTime;
   int64_t lastLogoutTime;
   int64_t lastLoginTime;
-  int32_t userId;
-  int32_t numConsecutiveDaysPlayed;
-  int32_t apsalarId;
-  int32_t level;
-  int32_t numBadges;
-  int32_t gems;
-  int32_t defensesLost;
-  int32_t attacksLost;
-  int32_t defensesWon;
-  int32_t attacksWon;
-  int32_t elo;
-  int32_t cash;
-  int32_t oil;
   int32_t numBeginnerSalesPurchased;
-  int32_t experience;
+  int32_t numConsecutiveDaysPlayed;
+  int32_t elo;
+  int32_t attacksWon;
+  int32_t defensesWon;
+  int32_t attacksLost;
+  int32_t defensesLost;
+  int32_t numBadges;
+  int32_t apsalarId;
+  int32_t userId;
   int32_t numOilRetrievedFromStructs;
   int32_t numCoinsRetrievedFromStructs;
   int32_t numReferrals;
   int32_t flees;
-  int32_t tasksCompleted;
-  int32_t battlesWon;
   int32_t battlesLost;
-  NSString* referralCode;
-  NSString* kabamNaid;
+  int32_t battlesWon;
+  int32_t level;
+  int32_t gems;
+  int32_t cash;
+  int32_t oil;
+  int32_t tasksCompleted;
+  int32_t experience;
   NSString* name;
+  NSString* kabamNaid;
   NSString* deviceToken;
   NSString* udid;
+  NSString* gameCenterId;
   NSString* facebookId;
+  NSString* referralCode;
   NSString* rank;
   MinimumClanProto* clan;
 }
@@ -601,6 +605,7 @@
 - (BOOL) hasAttacksLost;
 - (BOOL) hasDefensesLost;
 - (BOOL) hasFacebookId;
+- (BOOL) hasGameCenterId;
 - (BOOL) hasUdid;
 - (BOOL) hasDeviceToken;
 - (BOOL) hasLastBattleNotificationTime;
@@ -611,6 +616,7 @@
 - (BOOL) hasLastWallPostNotificationTime;
 - (BOOL) hasKabamNaid;
 - (BOOL) hasInBattleShieldEndTime;
+- (BOOL) hasFbIdSetOnUserCreate;
 @property (readonly) int32_t userId;
 @property (readonly, retain) NSString* name;
 @property (readonly) int32_t level;
@@ -642,6 +648,7 @@
 @property (readonly) int32_t attacksLost;
 @property (readonly) int32_t defensesLost;
 @property (readonly, retain) NSString* facebookId;
+@property (readonly, retain) NSString* gameCenterId;
 @property (readonly, retain) NSString* udid;
 @property (readonly, retain) NSString* deviceToken;
 @property (readonly) int64_t lastBattleNotificationTime;
@@ -652,6 +659,7 @@
 @property (readonly) int64_t lastWallPostNotificationTime;
 @property (readonly, retain) NSString* kabamNaid;
 @property (readonly) int64_t inBattleShieldEndTime;
+- (BOOL) fbIdSetOnUserCreate;
 
 + (FullUserProto*) defaultInstance;
 - (FullUserProto*) defaultInstance;
@@ -844,6 +852,11 @@
 - (FullUserProto_Builder*) setFacebookId:(NSString*) value;
 - (FullUserProto_Builder*) clearFacebookId;
 
+- (BOOL) hasGameCenterId;
+- (NSString*) gameCenterId;
+- (FullUserProto_Builder*) setGameCenterId:(NSString*) value;
+- (FullUserProto_Builder*) clearGameCenterId;
+
 - (BOOL) hasUdid;
 - (NSString*) udid;
 - (FullUserProto_Builder*) setUdid:(NSString*) value;
@@ -893,6 +906,11 @@
 - (int64_t) inBattleShieldEndTime;
 - (FullUserProto_Builder*) setInBattleShieldEndTime:(int64_t) value;
 - (FullUserProto_Builder*) clearInBattleShieldEndTime;
+
+- (BOOL) hasFbIdSetOnUserCreate;
+- (BOOL) fbIdSetOnUserCreate;
+- (FullUserProto_Builder*) setFbIdSetOnUserCreate:(BOOL) value;
+- (FullUserProto_Builder*) clearFbIdSetOnUserCreate;
 @end
 
 @interface StaticUserLevelInfoProto : PBGeneratedMessage {

@@ -82,6 +82,10 @@
 @class PersistentClanEventClanInfoProto_Builder;
 @class PersistentClanEventProto;
 @class PersistentClanEventProto_Builder;
+@class PersistentClanEventRaidHistoryProto;
+@class PersistentClanEventRaidHistoryProto_Builder;
+@class PersistentClanEventRaidStageHistoryProto;
+@class PersistentClanEventRaidStageHistoryProto_Builder;
 @class PersistentClanEventUserInfoProto;
 @class PersistentClanEventUserInfoProto_Builder;
 @class PersistentClanEventUserRewardProto;

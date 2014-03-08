@@ -17,6 +17,7 @@
                 <outlet property="buildingUpgradeOilView" destination="ywa-5V-yih" id="Wht-Yd-80e"/>
                 <outlet property="buildingUpgradeView" destination="cTb-Mb-5eM" id="yPM-2M-UHO"/>
                 <outlet property="enterBottomLabel" destination="woU-rG-ZfQ" id="ohA-AB-iGc"/>
+                <outlet property="enterButton" destination="GWW-6c-rmS" id="jjC-4y-djm"/>
                 <outlet property="enterTopLabel" destination="Z2s-tu-FjS" id="QVE-5K-hVJ"/>
                 <outlet property="expandBotView" destination="rBI-qQ-j6P" id="1nl-0F-Wjx"/>
                 <outlet property="expandCostLabel" destination="NAz-92-yz5" id="mfr-uj-5yu"/>
@@ -24,6 +25,7 @@
                 <outlet property="expandingBotView" destination="GWN-65-ohU" id="vd3-Me-ef8"/>
                 <outlet property="expandingSpeedupCostLabel" destination="B8s-hn-kfs" id="EbW-xx-c38"/>
                 <outlet property="expandingSubtitleLabel" destination="D7n-Tv-yFg" id="Rer-53-MYk"/>
+                <outlet property="speedupButton" destination="b8N-ck-Uwb" id="1ze-Ex-1kg"/>
                 <outlet property="upgradeBotView" destination="bZw-HN-uKE" id="VKM-Tu-rsE"/>
                 <outlet property="upgradingIncomeLabel" destination="lyh-r1-yqx" id="vdn-rt-exR"/>
                 <outlet property="upgradingNameLabel" destination="3dO-aY-w49" id="u7L-oU-D7N"/>

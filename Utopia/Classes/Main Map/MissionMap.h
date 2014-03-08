@@ -23,6 +23,7 @@
 @property (nonatomic, retain) IBOutlet MapBotView *missionBotView;
 @property (nonatomic, assign) IBOutlet UILabel *missionNameLabel;
 @property (nonatomic, assign) IBOutlet UILabel *missionDescriptionLabel;
+@property (nonatomic, assign) IBOutlet UIButton *enterButton;
 
 - (id) initWithProto:(LoadCityResponseProto *)proto;
 - (id) assetWithId:(int)assetId;

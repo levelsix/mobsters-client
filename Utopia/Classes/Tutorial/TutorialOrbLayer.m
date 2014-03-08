@@ -161,7 +161,10 @@
           toRemove = gem;
         }
       }
-      [set removeObject:toRemove];
+      
+      if (toRemove) {
+        [set removeObject:toRemove];
+      }
     }
     return set;
   }

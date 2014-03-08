@@ -7,6 +7,7 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="MissionMap">
             <connections>
+                <outlet property="enterButton" destination="FZi-2h-jmj" id="r1B-Bx-0fv"/>
                 <outlet property="missionBotView" destination="74" id="84"/>
                 <outlet property="missionDescriptionLabel" destination="J2j-GC-srP" id="r7n-fY-5D9"/>
                 <outlet property="missionNameLabel" destination="75" id="Nca-nD-Lae"/>

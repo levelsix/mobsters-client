@@ -129,6 +129,14 @@ static NSString *udid = nil;
   return advertiserId;
 }
 
+- (BOOL) isForcedTutorial {
+#ifdef FORCE_TUTORIAL
+  return YES;
+#else
+  return NO;
+#endif
+}
+
 - (id) init {
   if ((self = [super init])) {
 #ifdef FORCE_TUTORIAL
@@ -341,21 +349,28 @@ static NSString *udid = nil;
   return [self sendData:req withMessageType:EventProtocolRequestCUserCreateEvent];
 }
 
-- (int) sendStartupMessage:(uint64_t)clientTime {
+- (int) sendStartupMessageWithFacebookId:(NSString *)facebookId isFreshRestart:(BOOL)isFreshRestart clientTime:(uint64_t)clientTime {
   NSString *advertiserId = [self getIFA];
   NSString *mac = [self getMacAddress];
-  StartupRequestProto_Builder *bldr = [[[[StartupRequestProto builder]
-                                         setUdid:udid]
+  StartupRequestProto_Builder *bldr = [[[[[[[StartupRequestProto builder]
+                                          setUdid:udid]
+                                         setFbId:facebookId]
+                                         setIsForceTutorial:[self isForcedTutorial]]
+                                        setIsFreshRestart:isFreshRestart]
                                         setVersionNum:[[[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleShortVersionString"] floatValue]]
                                        setMacAddress:mac];
   
   if (advertiserId) {
     [bldr setAdvertiserId:advertiserId];
   }
+  if (facebookId) {
+    [bldr setFbId:facebookId];
+  }
   
   StartupRequestProto *req = [bldr build];
   
   LNLog(@"Sent over udid: %@", udid);
+  LNLog(@"Facebook Id: %@", facebookId);
   LNLog(@"Mac Address: %@", mac);
   LNLog(@"Advertiser ID: %@", advertiserId);
   return [self sendData:req withMessageType:EventProtocolRequestCStartupEvent];

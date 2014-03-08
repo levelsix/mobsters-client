@@ -100,6 +100,10 @@
 @class PersistentClanEventClanInfoProto_Builder;
 @class PersistentClanEventProto;
 @class PersistentClanEventProto_Builder;
+@class PersistentClanEventRaidHistoryProto;
+@class PersistentClanEventRaidHistoryProto_Builder;
+@class PersistentClanEventRaidStageHistoryProto;
+@class PersistentClanEventRaidStageHistoryProto_Builder;
 @class PersistentClanEventUserInfoProto;
 @class PersistentClanEventUserInfoProto_Builder;
 @class PersistentClanEventUserRewardProto;
@@ -317,13 +321,13 @@ BOOL StartupResponseProto_StartupStatusIsValidValue(StartupResponseProto_Startup
   BOOL hasReviewPageConfirmationMessage_:1;
   BOOL hasReviewPageUrl_:1;
   BOOL hasAppStoreUrl_:1;
-  BOOL hasEnhancements_:1;
   BOOL hasEvolution_:1;
-  BOOL hasStaticDataStuffProto_:1;
-  BOOL hasCurRaidClanInfo_:1;
+  BOOL hasEnhancements_:1;
   BOOL hasTutorialConstants_:1;
   BOOL hasStartupConstants_:1;
+  BOOL hasCurRaidClanInfo_:1;
   BOOL hasSender_:1;
+  BOOL hasStaticDataStuffProto_:1;
   BOOL hasUpdateStatus_:1;
   BOOL hasStartupStatus_:1;
   BOOL playerHasBoughtInAppPurchase_:1;
@@ -332,33 +336,34 @@ BOOL StartupResponseProto_StartupStatusIsValidValue(StartupResponseProto_Startup
   NSString* reviewPageConfirmationMessage;
   NSString* reviewPageUrl;
   NSString* appStoreUrl;
-  UserEnhancementProto* enhancements;
   UserMonsterEvolutionProto* evolution;
-  StaticDataProto* staticDataStuffProto;
-  PersistentClanEventClanInfoProto* curRaidClanInfo;
+  UserEnhancementProto* enhancements;
   StartupResponseProto_TutorialConstants* tutorialConstants;
   StartupResponseProto_StartupConstants* startupConstants;
+  PersistentClanEventClanInfoProto* curRaidClanInfo;
   FullUserProto* sender;
+  StaticDataProto* staticDataStuffProto;
   StartupResponseProto_UpdateStatus updateStatus;
   StartupResponseProto_StartupStatus startupStatus;
+  NSMutableArray* mutableRedeemedQuestIdsList;
   NSMutableArray* mutableCompletedTaskIdsList;
   NSMutableArray* mutableTaskIdForCurrentCityBossList;
-  NSMutableArray* mutableRedeemedQuestIdsList;
   NSMutableArray* mutableNoticesToPlayersList;
-  NSMutableArray* mutableClanChatsList;
-  NSMutableArray* mutablePcppList;
-  NSMutableArray* mutableUsersMonstersList;
-  NSMutableArray* mutableMonstersHealingList;
-  NSMutableArray* mutableGlobalChatsList;
-  NSMutableArray* mutableRareBoosterPurchasesList;
-  NSMutableArray* mutableReferralNotificationsList;
   NSMutableArray* mutableInvitesToMeForSlotsList;
   NSMutableArray* mutableInvitesFromMeForSlotsList;
+  NSMutableArray* mutableUserEventsList;
+  NSMutableArray* mutableCurRaidClanUserInfoList;
+  NSMutableArray* mutableRaidStageHistoryList;
+  NSMutableArray* mutableRareBoosterPurchasesList;
+  NSMutableArray* mutableMonstersHealingList;
+  NSMutableArray* mutableUsersMonstersList;
+  NSMutableArray* mutablePcppList;
+  NSMutableArray* mutableClanChatsList;
+  NSMutableArray* mutableGlobalChatsList;
+  NSMutableArray* mutableReferralNotificationsList;
   NSMutableArray* mutableAttackNotificationsList;
   NSMutableArray* mutableUserClanInfoList;
-  NSMutableArray* mutableUserEventsList;
   NSMutableArray* mutableUserQuestsList;
-  NSMutableArray* mutableCurRaidClanUserInfoList;
 }
 - (BOOL) hasServerTimeMillis;
 - (BOOL) hasSender;
@@ -426,6 +431,8 @@ BOOL StartupResponseProto_StartupStatusIsValidValue(StartupResponseProto_Startup
 - (UserPersistentEventProto*) userEventsAtIndex:(int32_t) index;
 - (NSArray*) curRaidClanUserInfoList;
 - (PersistentClanEventUserInfoProto*) curRaidClanUserInfoAtIndex:(int32_t) index;
+- (NSArray*) raidStageHistoryList;
+- (PersistentClanEventRaidStageHistoryProto*) raidStageHistoryAtIndex:(int32_t) index;
 
 + (StartupResponseProto*) defaultInstance;
 - (StartupResponseProto*) defaultInstance;
@@ -582,6 +589,7 @@ BOOL StartupResponseProto_StartupStatusIsValidValue(StartupResponseProto_Startup
 
 @interface StartupResponseProto_StartupConstants : PBGeneratedMessage {
 @private
+  BOOL hasAddAllFbFriends_:1;
   BOOL hasContinueBattleGemCostMultiplier_:1;
   BOOL hasGemsPerResource_:1;
   BOOL hasMinutesPerGem_:1;
@@ -602,6 +610,7 @@ BOOL StartupResponseProto_StartupStatusIsValidValue(StartupResponseProto_Startup
   BOOL hasTouramentConstants_:1;
   BOOL hasDownloadableNibConstants_:1;
   BOOL hasClanConstants_:1;
+  BOOL addAllFbFriends_:1;
   Float32 continueBattleGemCostMultiplier;
   Float32 gemsPerResource;
   Float32 minutesPerGem;
@@ -645,6 +654,7 @@ BOOL StartupResponseProto_StartupStatusIsValidValue(StartupResponseProto_Startup
 - (BOOL) hasPvpRequiredMinLvl;
 - (BOOL) hasGemsPerResource;
 - (BOOL) hasContinueBattleGemCostMultiplier;
+- (BOOL) hasAddAllFbFriends;
 @property (readonly) int32_t maxLevelForUser;
 @property (readonly) int32_t maxNumOfSingleStruct;
 @property (readonly) int32_t minNameLength;
@@ -665,6 +675,7 @@ BOOL StartupResponseProto_StartupStatusIsValidValue(StartupResponseProto_Startup
 @property (readonly) int32_t pvpRequiredMinLvl;
 @property (readonly) Float32 gemsPerResource;
 @property (readonly) Float32 continueBattleGemCostMultiplier;
+- (BOOL) addAllFbFriends;
 - (NSArray*) inAppPurchasePackagesList;
 - (InAppPurchasePackageProto*) inAppPurchasePackagesAtIndex:(int32_t) index;
 - (NSArray*) animatedSpriteOffsetsList;
@@ -1236,6 +1247,11 @@ BOOL StartupResponseProto_StartupStatusIsValidValue(StartupResponseProto_Startup
 - (Float32) continueBattleGemCostMultiplier;
 - (StartupResponseProto_StartupConstants_Builder*) setContinueBattleGemCostMultiplier:(Float32) value;
 - (StartupResponseProto_StartupConstants_Builder*) clearContinueBattleGemCostMultiplier;
+
+- (BOOL) hasAddAllFbFriends;
+- (BOOL) addAllFbFriends;
+- (StartupResponseProto_StartupConstants_Builder*) setAddAllFbFriends:(BOOL) value;
+- (StartupResponseProto_StartupConstants_Builder*) clearAddAllFbFriends;
 @end
 
 @interface StartupResponseProto_TutorialConstants : PBGeneratedMessage {
@@ -1247,6 +1263,9 @@ BOOL StartupResponseProto_StartupStatusIsValidValue(StartupResponseProto_Startup
   BOOL hasCityId_:1;
   BOOL hasCityElementIdForFirstDungeon_:1;
   BOOL hasCityElementIdForSecondDungeon_:1;
+  BOOL hasCashInit_:1;
+  BOOL hasOilInit_:1;
+  BOOL hasGemsInit_:1;
   int32_t startingMonsterId;
   int32_t enemyMonsterId;
   int32_t enemyBossMonsterId;
@@ -1254,6 +1273,9 @@ BOOL StartupResponseProto_StartupStatusIsValidValue(StartupResponseProto_Startup
   int32_t cityId;
   int32_t cityElementIdForFirstDungeon;
   int32_t cityElementIdForSecondDungeon;
+  int32_t cashInit;
+  int32_t oilInit;
+  int32_t gemsInit;
   NSMutableArray* mutableStructureIdsToBeBuilltList;
   NSMutableArray* mutableTutorialStructuresList;
   NSMutableArray* mutableCityOneElementsList;
@@ -1265,6 +1287,9 @@ BOOL StartupResponseProto_StartupStatusIsValidValue(StartupResponseProto_Startup
 - (BOOL) hasCityId;
 - (BOOL) hasCityElementIdForFirstDungeon;
 - (BOOL) hasCityElementIdForSecondDungeon;
+- (BOOL) hasCashInit;
+- (BOOL) hasOilInit;
+- (BOOL) hasGemsInit;
 @property (readonly) int32_t startingMonsterId;
 @property (readonly) int32_t enemyMonsterId;
 @property (readonly) int32_t enemyBossMonsterId;
@@ -1272,6 +1297,9 @@ BOOL StartupResponseProto_StartupStatusIsValidValue(StartupResponseProto_Startup
 @property (readonly) int32_t cityId;
 @property (readonly) int32_t cityElementIdForFirstDungeon;
 @property (readonly) int32_t cityElementIdForSecondDungeon;
+@property (readonly) int32_t cashInit;
+@property (readonly) int32_t oilInit;
+@property (readonly) int32_t gemsInit;
 - (NSArray*) tutorialStructuresList;
 - (TutorialStructProto*) tutorialStructuresAtIndex:(int32_t) index;
 - (NSArray*) structureIdsToBeBuilltList;
@@ -1368,6 +1396,21 @@ BOOL StartupResponseProto_StartupStatusIsValidValue(StartupResponseProto_Startup
 - (int32_t) cityElementIdForSecondDungeon;
 - (StartupResponseProto_TutorialConstants_Builder*) setCityElementIdForSecondDungeon:(int32_t) value;
 - (StartupResponseProto_TutorialConstants_Builder*) clearCityElementIdForSecondDungeon;
+
+- (BOOL) hasCashInit;
+- (int32_t) cashInit;
+- (StartupResponseProto_TutorialConstants_Builder*) setCashInit:(int32_t) value;
+- (StartupResponseProto_TutorialConstants_Builder*) clearCashInit;
+
+- (BOOL) hasOilInit;
+- (int32_t) oilInit;
+- (StartupResponseProto_TutorialConstants_Builder*) setOilInit:(int32_t) value;
+- (StartupResponseProto_TutorialConstants_Builder*) clearOilInit;
+
+- (BOOL) hasGemsInit;
+- (int32_t) gemsInit;
+- (StartupResponseProto_TutorialConstants_Builder*) setGemsInit:(int32_t) value;
+- (StartupResponseProto_TutorialConstants_Builder*) clearGemsInit;
 @end
 
 @interface StartupResponseProto_Builder : PBGeneratedMessage_Builder {
@@ -1601,5 +1644,12 @@ BOOL StartupResponseProto_StartupStatusIsValidValue(StartupResponseProto_Startup
 - (StartupResponseProto_Builder*) addCurRaidClanUserInfo:(PersistentClanEventUserInfoProto*) value;
 - (StartupResponseProto_Builder*) addAllCurRaidClanUserInfo:(NSArray*) values;
 - (StartupResponseProto_Builder*) clearCurRaidClanUserInfoList;
+
+- (NSArray*) raidStageHistoryList;
+- (PersistentClanEventRaidStageHistoryProto*) raidStageHistoryAtIndex:(int32_t) index;
+- (StartupResponseProto_Builder*) replaceRaidStageHistoryAtIndex:(int32_t) index with:(PersistentClanEventRaidStageHistoryProto*) value;
+- (StartupResponseProto_Builder*) addRaidStageHistory:(PersistentClanEventRaidStageHistoryProto*) value;
+- (StartupResponseProto_Builder*) addAllRaidStageHistory:(NSArray*) values;
+- (StartupResponseProto_Builder*) clearRaidStageHistoryList;
 @end
 

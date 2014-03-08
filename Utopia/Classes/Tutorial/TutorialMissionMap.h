@@ -17,6 +17,7 @@
 - (void) friendEnteredFirstBuilding;
 - (void) enemyRanOffMap;
 - (void) enemyArrivedWithBoss;
+- (void) friendWalkedUpToBoss;
 - (void) everyoneEnteredSecondBuilding;
 - (void) enemyBossRanOffMap;
 - (void) yachtWentOffScene;
@@ -29,7 +30,10 @@
 @property (nonatomic, retain) AnimatedSprite *enemySprite;
 @property (nonatomic, retain) AnimatedSprite *enemyBossSprite;
 @property (nonatomic, retain) AnimatedSprite *markZSprite;
+
 @property (nonatomic, retain) StartupResponseProto_TutorialConstants *constants;
+
+@property (nonatomic, retain) CCSprite *boatSprite;
 
 @property (nonatomic, assign) int clickableAssetId;
 
@@ -44,10 +48,13 @@
 - (void) beginSecondConfrontation;
 - (void) runOutEnemy;
 - (void) enemyComeInWithBoss;
+- (void) friendWalkUpToBoss;
+- (void) enemyTurnToBoss;
 - (void) beginChaseIntoSecondBuilding;
 
 - (void) beginThirdConfrontation;
 - (void) runOutEnemyBoss;
+- (void) markLooksAtYou;
 - (void) moveToYacht;
 
 @end

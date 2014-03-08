@@ -22,6 +22,9 @@
 
 @property (nonatomic, assign) BOOL hasTrackedVisit;
 
+@property (nonatomic, assign) NSString *apnsToken;
+@property (nonatomic, assign) NSString *gameCenterId;
+
 @property (nonatomic, retain) UIWindow *window;
 
 - (void) registerForPushNotifications;

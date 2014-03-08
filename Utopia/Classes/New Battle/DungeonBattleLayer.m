@@ -13,9 +13,9 @@
 #import <Carrot/Carrot.h>
 #import "GenericPopupController.h"
 #import "GameViewController.h"
-#import <FacebookSDK/FacebookSDK.h>
 #import <Kamcord/Kamcord.h>
 #import "CCBReader.h"
+#import "FacebookDelegate.h"
 
 @implementation DungeonBattleLayer
 
@@ -33,8 +33,6 @@
 }
 
 - (void) makeGoCarrotCalls {
-  [FBSession openActiveSessionWithPublishPermissions:nil defaultAudience:FBSessionDefaultAudienceEveryone allowLoginUI:NO completionHandler:nil];
-  
   GameState *gs = [GameState sharedGameState];
   for (TaskStageProto *tsp in self.dungeonInfo.tspList) {
     for (TaskStageMonsterProto *tsm in tsp.stageMonstersList) {

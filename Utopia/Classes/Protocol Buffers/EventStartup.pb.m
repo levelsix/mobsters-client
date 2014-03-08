@@ -522,6 +522,7 @@ static StartupRequestProto* defaultStartupRequestProtoInstance = nil;
 @property (retain) NSMutableArray* mutableUserEventsList;
 @property (retain) PersistentClanEventClanInfoProto* curRaidClanInfo;
 @property (retain) NSMutableArray* mutableCurRaidClanUserInfoList;
+@property (retain) NSMutableArray* mutableRaidStageHistoryList;
 @end
 
 @implementation StartupResponseProto
@@ -654,6 +655,7 @@ static StartupRequestProto* defaultStartupRequestProtoInstance = nil;
 }
 @synthesize curRaidClanInfo;
 @synthesize mutableCurRaidClanUserInfoList;
+@synthesize mutableRaidStageHistoryList;
 - (void) dealloc {
   self.sender = nil;
   self.startupConstants = nil;
@@ -684,6 +686,7 @@ static StartupRequestProto* defaultStartupRequestProtoInstance = nil;
   self.mutableUserEventsList = nil;
   self.curRaidClanInfo = nil;
   self.mutableCurRaidClanUserInfoList = nil;
+  self.mutableRaidStageHistoryList = nil;
   [super dealloc];
 }
 - (id) init {
@@ -844,6 +847,13 @@ static StartupResponseProto* defaultStartupResponseProtoInstance = nil;
   id value = [mutableCurRaidClanUserInfoList objectAtIndex:index];
   return value;
 }
+- (NSArray*) raidStageHistoryList {
+  return mutableRaidStageHistoryList;
+}
+- (PersistentClanEventRaidStageHistoryProto*) raidStageHistoryAtIndex:(int32_t) index {
+  id value = [mutableRaidStageHistoryList objectAtIndex:index];
+  return value;
+}
 - (BOOL) isInitialized {
   return YES;
 }
@@ -943,6 +953,9 @@ static StartupResponseProto* defaultStartupResponseProtoInstance = nil;
   }
   for (PersistentClanEventUserInfoProto* element in self.curRaidClanUserInfoList) {
     [output writeMessage:32 value:element];
+  }
+  for (PersistentClanEventRaidStageHistoryProto* element in self.raidStageHistoryList) {
+    [output writeMessage:33 value:element];
   }
   if (self.hasTutorialConstants) {
     [output writeMessage:34 value:self.tutorialConstants];
@@ -1071,6 +1084,9 @@ static StartupResponseProto* defaultStartupResponseProtoInstance = nil;
   }
   for (PersistentClanEventUserInfoProto* element in self.curRaidClanUserInfoList) {
     size += computeMessageSize(32, element);
+  }
+  for (PersistentClanEventRaidStageHistoryProto* element in self.raidStageHistoryList) {
+    size += computeMessageSize(33, element);
   }
   if (self.hasTutorialConstants) {
     size += computeMessageSize(34, self.tutorialConstants);
@@ -1696,6 +1712,7 @@ static StartupResponseProto_ReferralNotificationProto* defaultStartupResponsePro
 @property int32_t pvpRequiredMinLvl;
 @property Float32 gemsPerResource;
 @property Float32 continueBattleGemCostMultiplier;
+@property BOOL addAllFbFriends;
 @end
 
 @implementation StartupResponseProto_StartupConstants
@@ -1842,6 +1859,18 @@ static StartupResponseProto_ReferralNotificationProto* defaultStartupResponsePro
   hasContinueBattleGemCostMultiplier_ = !!value;
 }
 @synthesize continueBattleGemCostMultiplier;
+- (BOOL) hasAddAllFbFriends {
+  return !!hasAddAllFbFriends_;
+}
+- (void) setHasAddAllFbFriends:(BOOL) value {
+  hasAddAllFbFriends_ = !!value;
+}
+- (BOOL) addAllFbFriends {
+  return !!addAllFbFriends_;
+}
+- (void) setAddAllFbFriends:(BOOL) value {
+  addAllFbFriends_ = !!value;
+}
 - (void) dealloc {
   self.mutableInAppPurchasePackagesList = nil;
   self.mutableAnimatedSpriteOffsetsList = nil;
@@ -1876,6 +1905,7 @@ static StartupResponseProto_ReferralNotificationProto* defaultStartupResponsePro
     self.pvpRequiredMinLvl = 0;
     self.gemsPerResource = 0;
     self.continueBattleGemCostMultiplier = 0;
+    self.addAllFbFriends = NO;
   }
   return self;
 }
@@ -1975,6 +2005,9 @@ static StartupResponseProto_StartupConstants* defaultStartupResponseProto_Startu
   if (self.hasContinueBattleGemCostMultiplier) {
     [output writeFloat:22 value:self.continueBattleGemCostMultiplier];
   }
+  if (self.hasAddAllFbFriends) {
+    [output writeBool:23 value:self.addAllFbFriends];
+  }
   [self.unknownFields writeToCodedOutputStream:output];
 }
 - (int32_t) serializedSize {
@@ -2049,6 +2082,9 @@ static StartupResponseProto_StartupConstants* defaultStartupResponseProto_Startu
   }
   if (self.hasContinueBattleGemCostMultiplier) {
     size += computeFloatSize(22, self.continueBattleGemCostMultiplier);
+  }
+  if (self.hasAddAllFbFriends) {
+    size += computeBoolSize(23, self.addAllFbFriends);
   }
   size += self.unknownFields.serializedSize;
   memoizedSerializedSize = size;
@@ -3777,6 +3813,9 @@ static StartupResponseProto_StartupConstants_MonsterConstants* defaultStartupRes
   if (other.hasContinueBattleGemCostMultiplier) {
     [self setContinueBattleGemCostMultiplier:other.continueBattleGemCostMultiplier];
   }
+  if (other.hasAddAllFbFriends) {
+    [self setAddAllFbFriends:other.addAllFbFriends];
+  }
   [self mergeUnknownFields:other.unknownFields];
   return self;
 }
@@ -3918,6 +3957,10 @@ static StartupResponseProto_StartupConstants_MonsterConstants* defaultStartupRes
       }
       case 181: {
         [self setContinueBattleGemCostMultiplier:[input readFloat]];
+        break;
+      }
+      case 184: {
+        [self setAddAllFbFriends:[input readBool]];
         break;
       }
     }
@@ -4385,6 +4428,22 @@ static StartupResponseProto_StartupConstants_MonsterConstants* defaultStartupRes
   result.continueBattleGemCostMultiplier = 0;
   return self;
 }
+- (BOOL) hasAddAllFbFriends {
+  return result.hasAddAllFbFriends;
+}
+- (BOOL) addAllFbFriends {
+  return result.addAllFbFriends;
+}
+- (StartupResponseProto_StartupConstants_Builder*) setAddAllFbFriends:(BOOL) value {
+  result.hasAddAllFbFriends = YES;
+  result.addAllFbFriends = value;
+  return self;
+}
+- (StartupResponseProto_StartupConstants_Builder*) clearAddAllFbFriends {
+  result.hasAddAllFbFriends = NO;
+  result.addAllFbFriends = NO;
+  return self;
+}
 @end
 
 @interface StartupResponseProto_TutorialConstants ()
@@ -4398,6 +4457,9 @@ static StartupResponseProto_StartupConstants_MonsterConstants* defaultStartupRes
 @property (retain) NSMutableArray* mutableCityOneElementsList;
 @property int32_t cityElementIdForFirstDungeon;
 @property int32_t cityElementIdForSecondDungeon;
+@property int32_t cashInit;
+@property int32_t oilInit;
+@property int32_t gemsInit;
 @end
 
 @implementation StartupResponseProto_TutorialConstants
@@ -4454,6 +4516,27 @@ static StartupResponseProto_StartupConstants_MonsterConstants* defaultStartupRes
   hasCityElementIdForSecondDungeon_ = !!value;
 }
 @synthesize cityElementIdForSecondDungeon;
+- (BOOL) hasCashInit {
+  return !!hasCashInit_;
+}
+- (void) setHasCashInit:(BOOL) value {
+  hasCashInit_ = !!value;
+}
+@synthesize cashInit;
+- (BOOL) hasOilInit {
+  return !!hasOilInit_;
+}
+- (void) setHasOilInit:(BOOL) value {
+  hasOilInit_ = !!value;
+}
+@synthesize oilInit;
+- (BOOL) hasGemsInit {
+  return !!hasGemsInit_;
+}
+- (void) setHasGemsInit:(BOOL) value {
+  hasGemsInit_ = !!value;
+}
+@synthesize gemsInit;
 - (void) dealloc {
   self.mutableTutorialStructuresList = nil;
   self.mutableStructureIdsToBeBuilltList = nil;
@@ -4469,6 +4552,9 @@ static StartupResponseProto_StartupConstants_MonsterConstants* defaultStartupRes
     self.cityId = 0;
     self.cityElementIdForFirstDungeon = 0;
     self.cityElementIdForSecondDungeon = 0;
+    self.cashInit = 0;
+    self.oilInit = 0;
+    self.gemsInit = 0;
   }
   return self;
 }
@@ -4539,6 +4625,15 @@ static StartupResponseProto_TutorialConstants* defaultStartupResponseProto_Tutor
   if (self.hasMarkZmonsterId) {
     [output writeInt32:10 value:self.markZmonsterId];
   }
+  if (self.hasCashInit) {
+    [output writeInt32:11 value:self.cashInit];
+  }
+  if (self.hasOilInit) {
+    [output writeInt32:12 value:self.oilInit];
+  }
+  if (self.hasGemsInit) {
+    [output writeInt32:13 value:self.gemsInit];
+  }
   [self.unknownFields writeToCodedOutputStream:output];
 }
 - (int32_t) serializedSize {
@@ -4582,6 +4677,15 @@ static StartupResponseProto_TutorialConstants* defaultStartupResponseProto_Tutor
   }
   if (self.hasMarkZmonsterId) {
     size += computeInt32Size(10, self.markZmonsterId);
+  }
+  if (self.hasCashInit) {
+    size += computeInt32Size(11, self.cashInit);
+  }
+  if (self.hasOilInit) {
+    size += computeInt32Size(12, self.oilInit);
+  }
+  if (self.hasGemsInit) {
+    size += computeInt32Size(13, self.gemsInit);
   }
   size += self.unknownFields.serializedSize;
   memoizedSerializedSize = size;
@@ -4697,6 +4801,15 @@ static StartupResponseProto_TutorialConstants* defaultStartupResponseProto_Tutor
   if (other.hasCityElementIdForSecondDungeon) {
     [self setCityElementIdForSecondDungeon:other.cityElementIdForSecondDungeon];
   }
+  if (other.hasCashInit) {
+    [self setCashInit:other.cashInit];
+  }
+  if (other.hasOilInit) {
+    [self setOilInit:other.oilInit];
+  }
+  if (other.hasGemsInit) {
+    [self setGemsInit:other.gemsInit];
+  }
   [self mergeUnknownFields:other.unknownFields];
   return self;
 }
@@ -4760,6 +4873,18 @@ static StartupResponseProto_TutorialConstants* defaultStartupResponseProto_Tutor
       }
       case 80: {
         [self setMarkZmonsterId:[input readInt32]];
+        break;
+      }
+      case 88: {
+        [self setCashInit:[input readInt32]];
+        break;
+      }
+      case 96: {
+        [self setOilInit:[input readInt32]];
+        break;
+      }
+      case 104: {
+        [self setGemsInit:[input readInt32]];
         break;
       }
     }
@@ -4966,6 +5091,54 @@ static StartupResponseProto_TutorialConstants* defaultStartupResponseProto_Tutor
   result.cityElementIdForSecondDungeon = 0;
   return self;
 }
+- (BOOL) hasCashInit {
+  return result.hasCashInit;
+}
+- (int32_t) cashInit {
+  return result.cashInit;
+}
+- (StartupResponseProto_TutorialConstants_Builder*) setCashInit:(int32_t) value {
+  result.hasCashInit = YES;
+  result.cashInit = value;
+  return self;
+}
+- (StartupResponseProto_TutorialConstants_Builder*) clearCashInit {
+  result.hasCashInit = NO;
+  result.cashInit = 0;
+  return self;
+}
+- (BOOL) hasOilInit {
+  return result.hasOilInit;
+}
+- (int32_t) oilInit {
+  return result.oilInit;
+}
+- (StartupResponseProto_TutorialConstants_Builder*) setOilInit:(int32_t) value {
+  result.hasOilInit = YES;
+  result.oilInit = value;
+  return self;
+}
+- (StartupResponseProto_TutorialConstants_Builder*) clearOilInit {
+  result.hasOilInit = NO;
+  result.oilInit = 0;
+  return self;
+}
+- (BOOL) hasGemsInit {
+  return result.hasGemsInit;
+}
+- (int32_t) gemsInit {
+  return result.gemsInit;
+}
+- (StartupResponseProto_TutorialConstants_Builder*) setGemsInit:(int32_t) value {
+  result.hasGemsInit = YES;
+  result.gemsInit = value;
+  return self;
+}
+- (StartupResponseProto_TutorialConstants_Builder*) clearGemsInit {
+  result.hasGemsInit = NO;
+  result.gemsInit = 0;
+  return self;
+}
 @end
 
 @interface StartupResponseProto_Builder()
@@ -5162,6 +5335,12 @@ static StartupResponseProto_TutorialConstants* defaultStartupResponseProto_Tutor
       result.mutableCurRaidClanUserInfoList = [NSMutableArray array];
     }
     [result.mutableCurRaidClanUserInfoList addObjectsFromArray:other.mutableCurRaidClanUserInfoList];
+  }
+  if (other.mutableRaidStageHistoryList.count > 0) {
+    if (result.mutableRaidStageHistoryList == nil) {
+      result.mutableRaidStageHistoryList = [NSMutableArray array];
+    }
+    [result.mutableRaidStageHistoryList addObjectsFromArray:other.mutableRaidStageHistoryList];
   }
   [self mergeUnknownFields:other.unknownFields];
   return self;
@@ -5378,6 +5557,12 @@ static StartupResponseProto_TutorialConstants* defaultStartupResponseProto_Tutor
         PersistentClanEventUserInfoProto_Builder* subBuilder = [PersistentClanEventUserInfoProto builder];
         [input readMessage:subBuilder extensionRegistry:extensionRegistry];
         [self addCurRaidClanUserInfo:[subBuilder buildPartial]];
+        break;
+      }
+      case 266: {
+        PersistentClanEventRaidStageHistoryProto_Builder* subBuilder = [PersistentClanEventRaidStageHistoryProto builder];
+        [input readMessage:subBuilder extensionRegistry:extensionRegistry];
+        [self addRaidStageHistory:[subBuilder buildPartial]];
         break;
       }
       case 274: {
@@ -6258,6 +6443,35 @@ static StartupResponseProto_TutorialConstants* defaultStartupResponseProto_Tutor
     result.mutableCurRaidClanUserInfoList = [NSMutableArray array];
   }
   [result.mutableCurRaidClanUserInfoList addObject:value];
+  return self;
+}
+- (NSArray*) raidStageHistoryList {
+  if (result.mutableRaidStageHistoryList == nil) { return [NSArray array]; }
+  return result.mutableRaidStageHistoryList;
+}
+- (PersistentClanEventRaidStageHistoryProto*) raidStageHistoryAtIndex:(int32_t) index {
+  return [result raidStageHistoryAtIndex:index];
+}
+- (StartupResponseProto_Builder*) replaceRaidStageHistoryAtIndex:(int32_t) index with:(PersistentClanEventRaidStageHistoryProto*) value {
+  [result.mutableRaidStageHistoryList replaceObjectAtIndex:index withObject:value];
+  return self;
+}
+- (StartupResponseProto_Builder*) addAllRaidStageHistory:(NSArray*) values {
+  if (result.mutableRaidStageHistoryList == nil) {
+    result.mutableRaidStageHistoryList = [NSMutableArray array];
+  }
+  [result.mutableRaidStageHistoryList addObjectsFromArray:values];
+  return self;
+}
+- (StartupResponseProto_Builder*) clearRaidStageHistoryList {
+  result.mutableRaidStageHistoryList = nil;
+  return self;
+}
+- (StartupResponseProto_Builder*) addRaidStageHistory:(PersistentClanEventRaidStageHistoryProto*) value {
+  if (result.mutableRaidStageHistoryList == nil) {
+    result.mutableRaidStageHistoryList = [NSMutableArray array];
+  }
+  [result.mutableRaidStageHistoryList addObject:value];
   return self;
 }
 @end

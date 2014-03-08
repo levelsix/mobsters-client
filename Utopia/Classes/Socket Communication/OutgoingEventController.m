@@ -47,8 +47,8 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
   [gs addUnrespondedUpdate:[NoUpdate updateWithTag:tag]];
 }
 
-- (void) startupWithDelegate:(id)delegate {
-  int tag = [[SocketCommunication sharedSocketCommunication] sendStartupMessage:[self getCurrentMilliseconds]];
+- (void) startupWithFacebookId:(NSString *)facebookId isFreshRestart:(BOOL)isFreshRestart delegate:(id)delegate {
+  int tag = [[SocketCommunication sharedSocketCommunication] sendStartupMessageWithFacebookId:facebookId isFreshRestart:isFreshRestart clientTime:[self getCurrentMilliseconds]];
   [[GameState sharedGameState] addUnrespondedUpdate:[NoUpdate updateWithTag:tag]];
   [[SocketCommunication sharedSocketCommunication] setDelegate:delegate forTag:tag];
 }
@@ -66,8 +66,8 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
   StructureInfoProto *fsp = [[gs structWithId:structId] structInfo];
   UserStruct *us = nil;
   
-  int cur = [gl calculateCurrentQuantityOfStructId:structId];
-  int max = [gl calculateMaxQuantityOfStructId:structId];
+  int cur = [gl calculateCurrentQuantityOfStructId:structId structs:gs.myStructs];
+  int max = [gl calculateMaxQuantityOfStructId:structId withTownHall:(TownHallProto *)gs.myTownHall.staticStruct];
   if (cur >= max) {
     [Globals popupMessage:@"You are already at the max of this struct"];
     return us;
@@ -478,26 +478,19 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
   }
 }
 
-- (void) enableApns:(NSData *)deviceToken {
+- (void) enableApns:(NSString *)deviceToken {
   GameState *gs = [GameState sharedGameState];
-  
-  NSString *str = nil;
-  if (deviceToken) {
-    str = [[deviceToken description] stringByTrimmingCharactersInSet:[NSCharacterSet characterSetWithCharactersInString:@"<>"]];
-    str = [str stringByReplacingOccurrencesOfString:@" " withString:@""];
+  if (!gs.connected || gs.isTutorial) {
+    return;
   }
   
-  gs.deviceToken = str;
-  
-  while (gs.userId == 0) {
-    [[NSRunLoop mainRunLoop] runUntilDate:[NSDate dateWithTimeIntervalSinceNow:1.f]];
-    
-    if (gs.isTutorial) {
-      return;
-    }
+  if (deviceToken.length == 0) {
+    deviceToken = nil;
   }
   
-  int tag = [[SocketCommunication sharedSocketCommunication] sendAPNSMessage:str];
+  gs.deviceToken = deviceToken;
+  
+  int tag = [[SocketCommunication sharedSocketCommunication] sendAPNSMessage:deviceToken];
   
   [gs addUnrespondedUpdate:[NoUpdate updateWithTag:tag]];
 }

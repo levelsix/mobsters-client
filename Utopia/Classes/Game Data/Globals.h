@@ -89,6 +89,8 @@
 @property (nonatomic, assign) float gemsPerResource;
 @property (nonatomic, assign) float continueBattleGemCostMultiplier;
 
+@property (nonatomic, assign) BOOL addAllFbFriends;
+
 // Monster Constants
 @property (nonatomic, assign) int maxTeamSize;
 @property (nonatomic, assign) int baseInventorySize;
@@ -211,6 +213,8 @@
 + (NSString *) homeQuestGiverName;
 
 + (void) animateUIArrow:(UIView *)arrow atAngle:(float)angle;
++ (void) createUIArrowForView:(UIView *)view atAngle:(float)angle;
++ (void) removeUIArrowFromViewRecursively:(UIView *)view;
 + (void) animateCCArrow:(CCNode *)arrow atAngle:(float)angle;
 
 - (BOOL) validateUserName:(NSString *)name;
@@ -231,9 +235,9 @@
 - (int) calculateGemConversionForResourceType:(ResourceType)type amount:(int)amount;
 - (int) calculateGemCostToHealTeamDuringBattle:(NSArray *)team;
 
-- (int) calculateMaxQuantityOfStructId:(int)structId;
+- (int) calculateMaxQuantityOfStructId:(int)structId withTownHall:(TownHallProto *)thp;
 - (int) calculateNextTownHallLevelForQuantityIncreaseForStructId:(int)structId;
-- (int) calculateCurrentQuantityOfStructId:(int)structId;
+- (int) calculateCurrentQuantityOfStructId:(int)structId structs:(NSArray *)structs;
 
 - (int) calculateNumMinutesForNewExpansion;
 - (int) calculateSilverCostForNewExpansion;

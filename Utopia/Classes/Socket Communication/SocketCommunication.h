@@ -61,7 +61,7 @@
 // Send different event messages
 - (int) sendUserCreateMessage;
 
-- (int) sendStartupMessage:(uint64_t)clientTime;
+- (int) sendStartupMessageWithFacebookId:(NSString *)facebookId isFreshRestart:(BOOL)isFreshRestart clientTime:(uint64_t)clientTime;
 - (int) sendLogoutMessage;
 
 - (int) sendInAppPurchaseMessage:(NSString *)receipt product:(SKProduct *)product;

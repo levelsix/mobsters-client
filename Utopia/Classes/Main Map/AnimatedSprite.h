@@ -35,6 +35,7 @@ typedef enum {
   MapDirectionNearRight,
   MapDirectionFarLeft,
   MapDirectionFarRight,
+  MapDirectionFront,
 } MapDirection;
 
 @interface AnimatedSprite : CharacterSprite
@@ -59,6 +60,7 @@ typedef enum {
 - (void) restoreStandingFrame;
 - (void) restoreStandingFrame:(MapDirection)direction;
 - (void) jumpNumTimes:(int)numTimes completionTarget:(id)target selector:(SEL)completion;
+- (void) jumpNumTimes:(int)numTimes timePerJump:(float)dur completionTarget:(id)target selector:(SEL)completion;
 
 @end
 

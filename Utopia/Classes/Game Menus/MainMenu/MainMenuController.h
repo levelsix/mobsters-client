@@ -16,6 +16,8 @@
 @property (nonatomic, retain) IBOutlet UIView *labButtonView;
 @property (nonatomic, retain) IBOutlet UIButton *labButton;
 
+@property (nonatomic, retain) IBOutlet UIView *buildingsButtonView;
+
 - (IBAction)fundsClicked:(id)sender;
 
 @end

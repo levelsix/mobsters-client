@@ -44,9 +44,10 @@
   self.isFlipped = !self.isFlipped;
 }
 
-- (void) updateForStructInfo:(StructureInfoProto *)structInfo {
-  GameState *gs = [GameState sharedGameState];
+- (void) updateForStructInfo:(StructureInfoProto *)structInfo townHall:(UserStruct *)townHall structs:(NSArray *)structs {
   Globals *gl = [Globals sharedGlobals];
+  TownHallProto *thp = (TownHallProto *)townHall.staticStruct;
+  int thLevel = thp.structInfo.level;
   
   [self.descriptionView removeFromSuperview];
   [self addSubview:self.mainView];
@@ -71,19 +72,19 @@
   
   self.buildTimeLabel.text = [Globals convertTimeToShortString:structInfo.minutesToBuild*60];
   
-  int cur = [gl calculateCurrentQuantityOfStructId:structInfo.structId];
-  int max = [gl calculateMaxQuantityOfStructId:structInfo.structId];
+  int cur = [gl calculateCurrentQuantityOfStructId:structInfo.structId structs:structs];
+  int max = [gl calculateMaxQuantityOfStructId:structInfo.structId withTownHall:thp];
   self.quantityLabel.text = [NSString stringWithFormat:@"%d/%d", cur, max];
   
   self.bgdImageView.image = [Globals imageNamed:@"buildingbg.png"];
   self.bgdInfoImageView.image = [Globals imageNamed:@"buildinginfobg.png"];
   self.clockIcon.image = [Globals imageNamed:@"clock.png"];
+  self.oilIcon.image = [Globals imageNamed:@"oilicon.png"];
   [self.infoButton setImage:[Globals imageNamed:@"chatinfoi.png"] forState:UIControlStateNormal];
   
   // We will manually grey the struct in case it is not downloaded yet
   self.buildingImageView.image = nil;
   
-  int thLevel = [[[[gs myTownHall] staticStruct] structInfo] level];
   BOOL greyscale = structInfo.prerequisiteTownHallLvl > thLevel || cur >= max;
   if (greyscale) {
     [self setViewToGreyScale:self];
@@ -165,6 +166,31 @@
   [self.structTable reloadData];
 }
 
+#pragma mark - Overridable methods
+
+- (NSArray *) curStructsList {
+  GameState *gs = [GameState sharedGameState];
+  return gs.myStructs;
+}
+
+- (UserStruct *) townHall {
+  GameState *gs = [GameState sharedGameState];
+  return [gs myTownHall];
+}
+
+- (int) townHallLevel {
+  return [[[[self townHall] staticStruct] structInfo] level];
+}
+
+- (void) buildingPurchased:(int)structId {
+  UINavigationController *nav = (UINavigationController *)self.navigationController.presentingViewController;
+  UIViewController *vc = [nav.childViewControllers objectAtIndex:0];
+  if ([vc isKindOfClass:[GameViewController class]]) {
+    GameViewController *gvc = (GameViewController *)vc;
+    [gvc buildingPurchased:structId];
+  }
+}
+
 #pragma mark - EasyTableView delegate methods
 
 - (void) setupStructTable {
@@ -195,7 +221,7 @@
 
 - (void) easyTableView:(EasyTableView *)easyTableView setDataForView:(CarpenterListing *)view forIndexPath:(NSIndexPath *)indexPath {
   NSArray *arr = indexPath.section == 0 ? self.incomeStructsList : self.mobsterStructsList;
-  [view updateForStructInfo:arr[indexPath.row]];
+  [view updateForStructInfo:arr[indexPath.row] townHall:[self townHall] structs:[self curStructsList]];
 }
 
 - (NSString *) easyTableView:(EasyTableView *)easyTableView stringForHorizontalHeaderInDesction:(NSInteger)section {
@@ -204,12 +230,6 @@
   } else {
     return @"Mobster Buildings";
   }
-}
-
-#pragma mark - IBActions
-
-- (IBAction) goToGoldShop:(id)sender {
-  [self.navigationController pushViewController:[[DiamondShopViewController alloc] init] animated:YES];
 }
 
 #pragma mark Carpenter Listing IBActions
@@ -226,11 +246,10 @@
   if (carp.isFlipped) {
     [carp flip];
   } else {
-    GameState *gs = [GameState sharedGameState];
-    TownHallProto *th = (TownHallProto *)[[gs myTownHall] staticStruct];
+    TownHallProto *th = (TownHallProto *)[[self townHall] staticStruct];
     int thLevel = th.structInfo.level;
-    int cur = [gl calculateCurrentQuantityOfStructId:fsp.structId];
-    int max = [gl calculateMaxQuantityOfStructId:fsp.structId];
+    int cur = [gl calculateCurrentQuantityOfStructId:fsp.structId structs:[self curStructsList]];
+    int max = [gl calculateMaxQuantityOfStructId:fsp.structId withTownHall:th];
     
     if (fsp.prerequisiteTownHallLvl > thLevel) {
       [Globals addAlertNotification:[NSString stringWithFormat:@"Upgrade %@ to level %d to unlock!", th.structInfo.name, fsp.prerequisiteTownHallLvl]];
@@ -242,12 +261,7 @@
         [Globals addAlertNotification:@"You have already reached the max number of these buildings."];
       }
     } else {
-      UINavigationController *nav = (UINavigationController *)self.navigationController.presentingViewController;
-      UIViewController *vc = [nav.childViewControllers objectAtIndex:0];
-      if ([vc isKindOfClass:[GameViewController class]]) {
-        GameViewController *gvc = (GameViewController *)vc;
-        [gvc buildingPurchased:fsp.structId];
-      }
+      [self buildingPurchased:fsp.structId];
     }
   }
 }

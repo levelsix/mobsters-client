@@ -112,6 +112,8 @@ BOOL EventProtocolRequestIsValidValue(EventProtocolRequest value) {
     case EventProtocolRequestCBeginClanRaidEvent:
     case EventProtocolRequestCAttackClanRaidMonsterEvent:
     case EventProtocolRequestCRecordClanRaidStatsEvent:
+    case EventProtocolRequestCPromoteDemoteClanMemberEvent:
+    case EventProtocolRequestCSetGameCenterIdEvent:
     case EventProtocolRequestCLogoutEvent:
       return YES;
     default:
@@ -182,6 +184,8 @@ BOOL EventProtocolResponseIsValidValue(EventProtocolResponse value) {
     case EventProtocolResponseSBeginClanRaidEvent:
     case EventProtocolResponseSAttackClanRaidMonsterEvent:
     case EventProtocolResponseSRecordClanRaidStatsEvent:
+    case EventProtocolResponseSPromoteDemoteClanMemberEvent:
+    case EventProtocolResponseSSetGameCenterIdEvent:
     case EventProtocolResponseSUpdateClientUserEvent:
     case EventProtocolResponseSReferralCodeUsedEvent:
     case EventProtocolResponseSPurgeStaticDataEvent:
@@ -189,6 +193,7 @@ BOOL EventProtocolResponseIsValidValue(EventProtocolResponse value) {
     case EventProtocolResponseSSendAdminMessageEvent:
     case EventProtocolResponseSGeneralNotificationEvent:
     case EventProtocolResponseSReceivedRareBoosterPurchaseEvent:
+    case EventProtocolResponseSAwardClanRaidStageRewardEvent:
       return YES;
     default:
       return NO;

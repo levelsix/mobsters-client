@@ -2353,6 +2353,7 @@ static ResidenceProto* defaultResidenceProtoInstance = nil;
 @property int32_t numMonsterSlots;
 @property int32_t numLabs;
 @property int32_t pvpQueueCashCost;
+@property int32_t resourceCapacity;
 @end
 
 @implementation TownHallProto
@@ -2427,6 +2428,13 @@ static ResidenceProto* defaultResidenceProtoInstance = nil;
   hasPvpQueueCashCost_ = !!value;
 }
 @synthesize pvpQueueCashCost;
+- (BOOL) hasResourceCapacity {
+  return !!hasResourceCapacity_;
+}
+- (void) setHasResourceCapacity:(BOOL) value {
+  hasResourceCapacity_ = !!value;
+}
+@synthesize resourceCapacity;
 - (void) dealloc {
   self.structInfo = nil;
   [super dealloc];
@@ -2443,6 +2451,7 @@ static ResidenceProto* defaultResidenceProtoInstance = nil;
     self.numMonsterSlots = 0;
     self.numLabs = 0;
     self.pvpQueueCashCost = 0;
+    self.resourceCapacity = 0;
   }
   return self;
 }
@@ -2492,6 +2501,9 @@ static TownHallProto* defaultTownHallProtoInstance = nil;
   if (self.hasPvpQueueCashCost) {
     [output writeInt32:10 value:self.pvpQueueCashCost];
   }
+  if (self.hasResourceCapacity) {
+    [output writeInt32:11 value:self.resourceCapacity];
+  }
   [self.unknownFields writeToCodedOutputStream:output];
 }
 - (int32_t) serializedSize {
@@ -2530,6 +2542,9 @@ static TownHallProto* defaultTownHallProtoInstance = nil;
   }
   if (self.hasPvpQueueCashCost) {
     size += computeInt32Size(10, self.pvpQueueCashCost);
+  }
+  if (self.hasResourceCapacity) {
+    size += computeInt32Size(11, self.resourceCapacity);
   }
   size += self.unknownFields.serializedSize;
   memoizedSerializedSize = size;
@@ -2636,6 +2651,9 @@ static TownHallProto* defaultTownHallProtoInstance = nil;
   if (other.hasPvpQueueCashCost) {
     [self setPvpQueueCashCost:other.pvpQueueCashCost];
   }
+  if (other.hasResourceCapacity) {
+    [self setResourceCapacity:other.resourceCapacity];
+  }
   [self mergeUnknownFields:other.unknownFields];
   return self;
 }
@@ -2700,6 +2718,10 @@ static TownHallProto* defaultTownHallProtoInstance = nil;
       }
       case 80: {
         [self setPvpQueueCashCost:[input readInt32]];
+        break;
+      }
+      case 88: {
+        [self setResourceCapacity:[input readInt32]];
         break;
       }
     }
@@ -2877,6 +2899,22 @@ static TownHallProto* defaultTownHallProtoInstance = nil;
 - (TownHallProto_Builder*) clearPvpQueueCashCost {
   result.hasPvpQueueCashCost = NO;
   result.pvpQueueCashCost = 0;
+  return self;
+}
+- (BOOL) hasResourceCapacity {
+  return result.hasResourceCapacity;
+}
+- (int32_t) resourceCapacity {
+  return result.resourceCapacity;
+}
+- (TownHallProto_Builder*) setResourceCapacity:(int32_t) value {
+  result.hasResourceCapacity = YES;
+  result.resourceCapacity = value;
+  return self;
+}
+- (TownHallProto_Builder*) clearResourceCapacity {
+  result.hasResourceCapacity = NO;
+  result.resourceCapacity = 0;
   return self;
 }
 @end

@@ -16,7 +16,8 @@
 #import "CCDirector+Downloader.h"
 #import "DialogueViewController.h"
 #import "ClanRaidDetailsViewController.h"
-#import "TutorialController.h"
+
+@class TutorialController;
 
 @interface GameViewController : UIViewController <AttackMapDelegate, BattleLayerDelegate, CCDirectorDownloaderDelegate, DialogueViewControllerDelegate, ClanRaidDetailsDelegate> {
   int _questIdAfterDialogue;
@@ -45,5 +46,8 @@
 
 - (void) crossFadeIntoBattleLayer:(NewBattleLayer *)bl;
 - (void) blackFadeIntoBattleLayer:(NewBattleLayer *)bl;
+
+- (void) showTopBarDuration:(float)duration completion:(void (^)(void))completion;
+- (void) hideTopBarDuration:(float)duration completion:(void (^)(void))completion;
 
 @end

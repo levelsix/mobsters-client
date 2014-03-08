@@ -333,8 +333,12 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
       //      [gs addBoosterPurchase:rbp];
     }
     
-    [(AppDelegate *)[[UIApplication sharedApplication] delegate] registerForPushNotifications];
-    [(AppDelegate *)[[UIApplication sharedApplication] delegate] removeLocalNotifications];
+    AppDelegate *ad = (AppDelegate *)[[UIApplication sharedApplication] delegate];
+    [ad registerForPushNotifications];
+    [ad removeLocalNotifications];
+    if (ad.apnsToken && ![ad.apnsToken isEqualToString:gs.deviceToken]) {
+      [[OutgoingEventController sharedOutgoingEventController] enableApns:ad.apnsToken];
+    }
     
     // Display generic popups for strings that haven't been seen before
     NSUserDefaults *standardDefault = [NSUserDefaults standardUserDefaults];

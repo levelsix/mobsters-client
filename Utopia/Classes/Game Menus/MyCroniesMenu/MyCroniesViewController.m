@@ -45,7 +45,7 @@
   [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(healWaitTimeComplete) name:MONSTER_SOLD_COMPLETE_NOTIFICATION object:nil];
   
   [self reloadTableAnimated:NO];
-  [self.queueView reloadTable];
+  [self.queueView reloadTableWithHealingQueue:self.monsterHealingQueue userMonster:self.monsterList timeLeft:self.monsterHealingQueueEndTime.timeIntervalSinceNow hospitalCount:self.numValidHospitals];
   [self updateCurrentTeamAnimated:NO];
 }
 
@@ -61,24 +61,21 @@
 - (IBAction)menuCloseClicked:(id)sender {
   [super menuCloseClicked:sender];
   
-  GameState *gs = [GameState sharedGameState];
-  [gs.recentlyHealedMonsterIds removeAllObjects];
+  [self.recentlyHealedMonsterIds removeAllObjects];
 }
 
 - (IBAction)popCurrentViewController:(id)sender {
   [super popCurrentViewController:sender];
   
-  GameState *gs = [GameState sharedGameState];
-  [gs.recentlyHealedMonsterIds removeAllObjects];
+  [self.recentlyHealedMonsterIds removeAllObjects];
 }
 
 - (void) healWaitTimeComplete {
   [self reloadTableAnimated:YES];
   [self updateCurrentTeamAnimated:YES];
   
-  GameState *gs = [GameState sharedGameState];
   NSMutableArray *remove = [NSMutableArray array];
-  [Globals calculateDifferencesBetweenOldArray:self.queueView.healingQueue newArray:gs.monsterHealingQueue removalIps:remove additionIps:nil section:0];
+  [Globals calculateDifferencesBetweenOldArray:self.queueView.healingQueue newArray:self.monsterHealingQueue removalIps:remove additionIps:nil section:0];
   if (remove.count > 0) {
     [self.queueView.queueTable.tableView deleteRowsAtIndexPaths:remove withRowAnimation:UITableViewRowAnimationTop];
   }
@@ -89,7 +86,7 @@
     [cell updateForTime];
   }
   
-  [self.queueView updateTimes];
+  [self.queueView updateTimeWithTimeLeft:self.monsterHealingQueueEndTime.timeIntervalSinceNow hospitalCount:self.numValidHospitals];
 }
 
 - (MonsterTeamSlotView *) teamSlotViewForSlotNum:(int)num {
@@ -98,15 +95,68 @@
 }
 
 - (void) updateCurrentTeamAnimated:(BOOL)animated {
-  GameState *gs = [GameState sharedGameState];
   for (MonsterTeamSlotContainerView *container in self.teamSlotsContainer.subviews) {
     if (animated) {
-      [container.teamSlotView animateNewMonster:[gs myMonsterWithSlotNumber:container.tag]];
+      [container.teamSlotView animateNewMonster:[self monsterForSlot:container.tag]];
     } else {
-      [container.teamSlotView updateForMyCroniesConfiguration:[gs myMonsterWithSlotNumber:container.tag]];
+      [container.teamSlotView updateForMyCroniesConfiguration:[self monsterForSlot:container.tag]];
     }
     container.teamSlotView.delegate = self;
   }
+}
+
+#pragma mark - Potentially rewritable methods
+
+- (NSMutableSet *) recentlyHealedMonsterIds {
+  GameState *gs = [GameState sharedGameState];
+  return gs.recentlyHealedMonsterIds;
+}
+
+- (NSMutableArray *) monsterHealingQueue {
+  GameState *gs = [GameState sharedGameState];
+  return gs.monsterHealingQueue;
+}
+
+- (UserMonster *) monsterForSlot:(int)slot {
+  GameState *gs = [GameState sharedGameState];
+  return [gs myMonsterWithSlotNumber:slot];
+}
+
+- (NSArray *) monsterList {
+  GameState *gs = [GameState sharedGameState];
+  return gs.myMonsters;
+}
+
+- (int) maxInventorySlots {
+  GameState *gs = [GameState sharedGameState];
+  return [gs maxInventorySlots];
+}
+
+- (NSDate *) monsterHealingQueueEndTime {
+  GameState *gs = [GameState sharedGameState];
+  return gs.monsterHealingQueueEndTime;
+}
+
+- (int) maxQueueSize {
+  GameState *gs = [GameState sharedGameState];
+  return gs.maxHospitalQueueSize;
+}
+
+- (int) numValidHospitals {
+  GameState *gs = [GameState sharedGameState];
+  return gs.myValidHospitals.count;
+}
+
+- (BOOL) userMonsterIsUnavailable:(UserMonster *)um {
+  return !um.isComplete || [um isHealing] || [um isEnhancing] || [um isSacrificing];
+}
+
+- (BOOL) addMonsterToHealingQueue:(int)umId useGems:(BOOL)useGems {
+  return [[OutgoingEventController sharedOutgoingEventController] addMonsterToHealingQueue:umId useGems:useGems];
+}
+
+- (BOOL) speedupHealingQueue {
+  return [[OutgoingEventController sharedOutgoingEventController] speedupHealingQueue];
 }
 
 #pragma mark - EasyTableViewDelegate and Methods
@@ -131,7 +181,6 @@
 }
 
 - (void) reloadMonstersArray {
-  GameState *gs = [GameState sharedGameState];
   Globals *gl = [Globals sharedGlobals];
   
   NSMutableArray *recent = [NSMutableArray array];
@@ -139,11 +188,11 @@
   NSMutableArray *full = [NSMutableArray array];
   NSMutableArray *unavail = [NSMutableArray array];
   
-  for (UserMonster *um in gs.myMonsters) {
-    if (!um.isComplete || [um isHealing] || [um isEnhancing] || [um isSacrificing]) {
+  for (UserMonster *um in self.monsterList) {
+    if ([self userMonsterIsUnavailable:um]) {
       [unavail addObject:um];
     } else {
-      if ([gs.recentlyHealedMonsterIds containsObject:@(um.userMonsterId)]) {
+      if ([self.recentlyHealedMonsterIds containsObject:@(um.userMonsterId)]) {
         [recent addObject:um];
       } else {
         if (um.curHealth < [gl calculateMaxHealthForMonster:um]) {
@@ -171,7 +220,6 @@
 }
 
 - (void) reloadTableAnimated:(BOOL)animated {
-  GameState *gs = [GameState sharedGameState];
   NSArray *rec = self.recentlyHealedMonsters, *inj = self.injuredMonsters, *full = self.healthyMonsters, *unavail = self.unavailableMonsters;
   NSMutableArray *remove = [NSMutableArray array], *add = [NSMutableArray array];
   
@@ -179,9 +227,9 @@
   
   if (animated) {
     int oldMax = rec.count+inj.count+full.count+unavail.count;
-    int newMax = gs.myMonsters.count;
-    NSArray *oldSlots = oldMax >= gs.maxInventorySlots ? nil : @[@YES];
-    NSArray *newSlots = newMax >= gs.maxInventorySlots ? nil : @[@YES];
+    int newMax = self.monsterList.count;
+    NSArray *oldSlots = oldMax >= self.maxInventorySlots ? nil : @[@YES];
+    NSArray *newSlots = newMax >= self.maxInventorySlots ? nil : @[@YES];
     
     [Globals calculateDifferencesBetweenOldArray:inj newArray:self.injuredMonsters removalIps:remove additionIps:add section:0];
     [Globals calculateDifferencesBetweenOldArray:rec newArray:self.recentlyHealedMonsters removalIps:remove additionIps:add section:1];
@@ -238,11 +286,10 @@
 }
 
 - (NSUInteger) numberOfCellsForEasyTableView:(EasyTableView *)view inSection:(NSInteger)section {
-  GameState *gs = [GameState sharedGameState];
   if (section < 4) {
     return [self arrayForSection:section].count;
   } else if (section == 4) {
-    return gs.maxInventorySlots > gs.myMonsters.count;
+    return self.maxInventorySlots > self.monsterList.count;
   }
   return 0;
 }
@@ -258,8 +305,7 @@
     UserMonster *um = indexPath.row < arr.count ? [arr objectAtIndex:indexPath.row] : nil;
     [view updateForUserMonster:um];
   } else if (indexPath.section == 4) {
-    GameState *gs = [GameState sharedGameState];
-    int numEmpty = gs.maxInventorySlots - gs.myMonsters.count;
+    int numEmpty = self.maxInventorySlots - self.monsterList.count;
     
     [view updateForEmptySlots:numEmpty];
   }
@@ -299,15 +345,6 @@
     
     [[NSNotificationCenter defaultCenter] postNotificationName:MY_TEAM_CHANGED_NOTIFICATION object:nil];
   }
-}
-
-- (void) buySlotsClicked:(MyCroniesCardCell *)cell {
-  //  BuySlotsViewController *mpvc = [[BuySlotsViewController alloc] init];
-  //  mpvc.delegate = self;
-  //  UIViewController *parent = self.navigationController;
-  //  mpvc.view.frame = parent.view.bounds;
-  //  [parent.view addSubview:mpvc.view];
-  //  [parent addChildViewController:mpvc];
 }
 
 - (void) slotsPurchased {
@@ -356,7 +393,7 @@
     [Globals addAlertNotification:@"This mobster is not yet complete!"];
   } else if (um.curHealth >= [gl calculateMaxHealthForMonster:um]) {
     [Globals addAlertNotification:@"This mobster is already healthy!"];
-  } else if (gs.monsterHealingQueue.count >= gs.maxHospitalQueueSize) {
+  } else if (self.monsterHealingQueue.count >= self.maxQueueSize) {
     [Globals addAlertNotification:@"The hospital queue is already full!"];
   } else {
     int cost = [gl calculateCostToHealMonster:um];
@@ -387,15 +424,14 @@
 }
 
 - (void) sendHeal:(UserMonster *)um allowGems:(BOOL)allowGems {
-  BOOL success = [[OutgoingEventController sharedOutgoingEventController] addMonsterToHealingQueue:um.userMonsterId useGems:allowGems];
+  BOOL success = [self addMonsterToHealingQueue:um.userMonsterId useGems:allowGems];
   if (success) {
     [self reloadTableAnimated:YES];
     
-    GameState *gs = [GameState sharedGameState];
-    NSArray *arr = [NSArray arrayWithObject:[NSIndexPath indexPathForRow:gs.monsterHealingQueue.count-1 inSection:0]];
+    NSArray *arr = [NSArray arrayWithObject:[NSIndexPath indexPathForRow:self.monsterHealingQueue.count-1 inSection:0]];
     [self.queueView.queueTable.tableView insertRowsAtIndexPaths:arr withRowAnimation:UITableViewRowAnimationLeft];
     
-    [self.queueView updateTimes];
+    [self.queueView updateTimeWithTimeLeft:self.monsterHealingQueueEndTime.timeIntervalSinceNow hospitalCount:self.numValidHospitals];
     
     if (um.teamSlot) {
       [[NSNotificationCenter defaultCenter] postNotificationName:MY_TEAM_CHANGED_NOTIFICATION object:nil];
@@ -415,7 +451,7 @@
     NSArray *arr = [NSArray arrayWithObject:[self.queueView.queueTable indexPathForView:cell]];
     [self.queueView.queueTable.tableView deleteRowsAtIndexPaths:arr withRowAnimation:UITableViewRowAnimationLeft];
     
-    [self.queueView updateTimes];
+    [self.queueView updateTimeWithTimeLeft:self.monsterHealingQueueEndTime.timeIntervalSinceNow hospitalCount:self.numValidHospitals];
     
     GameState *gs = [GameState sharedGameState];
     UserMonster *um = [gs myMonsterWithUserMonsterId:cell.healingItem.userMonsterId];
@@ -430,18 +466,19 @@
   GameState *gs = [GameState sharedGameState];
   Globals *gl = [Globals sharedGlobals];
   
-  int timeLeft = gs.monsterHealingQueueEndTime.timeIntervalSinceNow;
+  int timeLeft = self.monsterHealingQueueEndTime.timeIntervalSinceNow;
   int goldCost = [gl calculateGemSpeedupCostForTimeLeft:timeLeft];
   
   if (gs.gold < goldCost) {
     [GenericPopupController displayNotEnoughGemsView];
   } else {
-    BOOL success = [[OutgoingEventController sharedOutgoingEventController] speedupHealingQueue];
+    int healingQueueSize = self.monsterHealingQueue.count;
+    BOOL success = [self speedupHealingQueue];
     if (success) {
       [self reloadTableAnimated:YES];
       
       NSMutableArray *arr = [NSMutableArray array];
-      for (int i = 0; i < self.queueView.healingQueue.count; i++) {
+      for (int i = 0; i < healingQueueSize; i++) {
         [arr addObject:[NSIndexPath indexPathForRow:i inSection:0]];
       }
       [self.queueView.queueTable.tableView deleteRowsAtIndexPaths:arr withRowAnimation:UITableViewRowAnimationFade];

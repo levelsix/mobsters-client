@@ -132,6 +132,7 @@
 @property (nonatomic, assign) StructOrientation orientation;
 
 + (id) userStructWithProto:(FullUserStructureProto *)proto;
++ (id) userStructWithTutorialStructProto:(TutorialStructProto *)proto;
 - (id<StaticStructure>) staticStructForPrevLevel;
 - (id<StaticStructure>) staticStruct;
 - (id<StaticStructure>) staticStructForNextLevel;

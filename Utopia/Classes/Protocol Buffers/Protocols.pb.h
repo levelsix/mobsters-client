@@ -48,6 +48,8 @@
 @class AttackClanRaidMonsterRequestProto_Builder;
 @class AttackClanRaidMonsterResponseProto;
 @class AttackClanRaidMonsterResponseProto_Builder;
+@class AwardClanRaidStageRewardResponseProto;
+@class AwardClanRaidStageRewardResponseProto_Builder;
 @class BeginClanRaidRequestProto;
 @class BeginClanRaidRequestProto_Builder;
 @class BeginClanRaidResponseProto;
@@ -254,6 +256,10 @@
 @class PersistentClanEventClanInfoProto_Builder;
 @class PersistentClanEventProto;
 @class PersistentClanEventProto_Builder;
+@class PersistentClanEventRaidHistoryProto;
+@class PersistentClanEventRaidHistoryProto_Builder;
+@class PersistentClanEventRaidStageHistoryProto;
+@class PersistentClanEventRaidStageHistoryProto_Builder;
 @class PersistentClanEventUserInfoProto;
 @class PersistentClanEventUserInfoProto_Builder;
 @class PersistentClanEventUserRewardProto;
@@ -266,6 +272,10 @@
 @class PrivateChatPostRequestProto_Builder;
 @class PrivateChatPostResponseProto;
 @class PrivateChatPostResponseProto_Builder;
+@class PromoteDemoteClanMemberRequestProto;
+@class PromoteDemoteClanMemberRequestProto_Builder;
+@class PromoteDemoteClanMemberResponseProto;
+@class PromoteDemoteClanMemberResponseProto_Builder;
 @class PurchaseBoosterPackRequestProto;
 @class PurchaseBoosterPackRequestProto_Builder;
 @class PurchaseBoosterPackResponseProto;
@@ -368,6 +378,10 @@
 @class SetFacebookIdRequestProto_Builder;
 @class SetFacebookIdResponseProto;
 @class SetFacebookIdResponseProto_Builder;
+@class SetGameCenterIdRequestProto;
+@class SetGameCenterIdRequestProto_Builder;
+@class SetGameCenterIdResponseProto;
+@class SetGameCenterIdResponseProto_Builder;
 @class StartupRequestProto;
 @class StartupRequestProto_Builder;
 @class StartupResponseProto;
@@ -519,6 +533,8 @@ typedef enum {
   EventProtocolRequestCBeginClanRaidEvent = 62,
   EventProtocolRequestCAttackClanRaidMonsterEvent = 63,
   EventProtocolRequestCRecordClanRaidStatsEvent = 64,
+  EventProtocolRequestCPromoteDemoteClanMemberEvent = 65,
+  EventProtocolRequestCSetGameCenterIdEvent = 66,
   EventProtocolRequestCLogoutEvent = 101,
 } EventProtocolRequest;
 
@@ -587,6 +603,8 @@ typedef enum {
   EventProtocolResponseSBeginClanRaidEvent = 62,
   EventProtocolResponseSAttackClanRaidMonsterEvent = 63,
   EventProtocolResponseSRecordClanRaidStatsEvent = 64,
+  EventProtocolResponseSPromoteDemoteClanMemberEvent = 65,
+  EventProtocolResponseSSetGameCenterIdEvent = 66,
   EventProtocolResponseSUpdateClientUserEvent = 101,
   EventProtocolResponseSReferralCodeUsedEvent = 102,
   EventProtocolResponseSPurgeStaticDataEvent = 103,
@@ -594,6 +612,7 @@ typedef enum {
   EventProtocolResponseSSendAdminMessageEvent = 105,
   EventProtocolResponseSGeneralNotificationEvent = 106,
   EventProtocolResponseSReceivedRareBoosterPurchaseEvent = 107,
+  EventProtocolResponseSAwardClanRaidStageRewardEvent = 108,
 } EventProtocolResponse;
 
 BOOL EventProtocolResponseIsValidValue(EventProtocolResponse value);

@@ -517,19 +517,22 @@
   }
 }
 
-- (float) moveToSprite:(CCSprite *)spr animated:(BOOL)animated withOffset:(CGPoint)offset {
+- (float) moveToSprite:(CCSprite *)spr animated:(BOOL)animated withOffset:(CGPoint)offset scale:(float)scale {
   float dur = 0.f;
   if (spr) {
     CGPoint pt = spr.position;
     CGSize size = [[CCDirector sharedDirector] viewSize];
     
     // Since all sprites have anchor point ccp(0.5,0) adjust accordingly
-    float x = -pt.x*_scaleX+size.width/2;
-    float y = (-pt.y-spr.contentSize.height*0.5)*_scaleY+size.height/2;
+    float x = -pt.x*scale+size.width/2;
+    float y = (-pt.y-spr.contentSize.height*0.5)*scale+size.height/2;
     CGPoint newPos = [self clipPositionToBoundary:ccpAdd(offset,ccp(x,y))];
     if (animated) {
       dur = ccpDistance(newPos, self.position)/_mapMovementDivisor;
-      CCAction *a = [CCActionEaseInOut actionWithAction:[CCActionMoveTo actionWithDuration:dur position:newPos]];
+      CCAction *a = [CCActionEaseInOut actionWithAction:
+                      [CCActionSpawn actions:
+                       [CCActionScaleTo actionWithDuration:dur scale:scale],
+                       [CCActionMoveTo actionWithDuration:dur position:newPos], nil]];
       a.tag = MAP_MOVE_ACTION_TAG;
       [self stopActionByTag:a.tag];
       [self runAction:a];
@@ -538,6 +541,10 @@
     }
   }
   return dur;
+}
+
+- (float) moveToSprite:(CCSprite *)spr animated:(BOOL)animated withOffset:(CGPoint)offset {
+  return [self moveToSprite:spr animated:animated withOffset:offset scale:self.scale];
 }
 
 - (void) moveToSprite:(CCSprite *)spr animated:(BOOL)animated {

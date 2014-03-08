@@ -202,6 +202,7 @@
   sprite = sprite ? sprite : self.buildingSprite;
   
   if ([_homeMap isBlockBuildable:self.location]) {
+    [self clearMeta];
     sprite.opacity = 1.f;
     [_homeMap changeTiles:self.location toBuildable:NO];
     _isSetDown = YES;
@@ -518,7 +519,7 @@
   spr.scale = self.baseScale;
   [self addChild:spr];
   self.buildingSprite = spr;
-  self.contentSize = self.buildingSprite.contentSize;
+  self.contentSize = CGSizeMake(self.buildingSprite.contentSize.width, self.buildingSprite.contentSize.height+10);
   self.baseScale = 0.85;
   
   anim = [CCAnimation animationWithSpritePrefix:@"HealingCenterTube" delay:0.1];

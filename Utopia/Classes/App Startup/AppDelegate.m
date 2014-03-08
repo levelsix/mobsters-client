@@ -20,10 +20,12 @@
 #import "Downloader.h"
 #import "Amplitude.h"
 #import <MobileAppTracker/MobileAppTracker.h>
-#import <FacebookSDK/FacebookSDK.h>
 #import "Chartboost.h"
 #import "TestFlight.h"
 #import <Kamcord/Kamcord.h>
+#import "FacebookDelegate.h"
+#import "MSWindow.h"
+#import "GameCenterDelegate.h"
 
 #define APSALAR_API_KEY      @"lvl6"
 #define APSALAR_SECRET       @"K7kbMwwF"
@@ -52,7 +54,7 @@
 @synthesize window;
 
 - (BOOL) application:(UIApplication *)application openURL:(NSURL *)url sourceApplication:(NSString *)sourceApplication annotation:(id)annotation {
-  return [FBAppCall handleOpenURL:url sourceApplication:sourceApplication];
+  return [FacebookDelegate handleOpenURL:url sourceApplication:sourceApplication];
 }
 
 - (void) setUpMobileAppTracker {
@@ -106,40 +108,12 @@
 - (BOOL) application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
   //Init the window
-	window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
-	
-  /*
-   // Init the View Controller
-   viewController = [[RootViewController alloc] initWithNibName:nil bundle:nil];
-   viewController.wantsFullScreenLayout = YES;
-   
-   //
-   // Create the EAGLView manually
-   //  1. Create a RGB565 format. Alternative: RGBA8
-   //	2. depth format of 0 bit. Use 16 or 24 bit for 3d effects, like CCPageTurnTransition
-   //
-   //
-   EAGLView *glView = [EAGLView viewWithFrame:[window bounds]
-   pixelFormat:kEAGLColorFormatRGBA8	// kEAGLColorFormatRGBA8
-   depthFormat:0						// GL_DEPTH_COMPONENT16_OES
-   ];
-   
-   // attach the openglView to the director
-   [director setOpenGLView:glView];
-   */
+	window = [[MSWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
   
   GameViewController *gvc = [[GameViewController alloc] init];
   UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:gvc];
   nav.navigationBarHidden = YES;
   window.rootViewController = nav;
-  
-	/*
-   // make the OpenGLView a child of the view controller
-   [viewController setView:glView];
-   
-   // make the View Controller a child of the main window
-   [window addSubview: viewController.view];
-   */
   
 	[window makeKeyAndVisible];
   
@@ -151,7 +125,11 @@
   [Analytics openedApp];
   
   // Publish install
-  [FBAppEvents activateApp];
+  [FacebookDelegate activateApp];
+  [FacebookDelegate checkForCachedToken];
+  
+  // Game center
+  [GameCenterDelegate authenticateGameCenter];
   
   [TestFlight takeOff:TEST_FLIGHT_APP_TOKEN];
   
@@ -182,6 +160,8 @@
     GameViewController *gvc = [GameViewController baseController];
     [[SocketCommunication sharedSocketCommunication] initNetworkCommunicationWithDelegate:gvc];
   }
+  
+  [FacebookDelegate handleDidBecomeActive];
 }
 
 - (void)applicationDidReceiveMemoryWarning:(UIApplication *)application {
@@ -247,7 +227,14 @@
 - (void)application:(UIApplication*)application didRegisterForRemoteNotificationsWithDeviceToken:(NSData*)deviceToken
 {
 	LNLog(@"My token is: %@", deviceToken);
-  [[OutgoingEventController sharedOutgoingEventController] enableApns:deviceToken];
+  
+  NSString *str = @"";
+  if (deviceToken) {
+    str = [[deviceToken description] stringByTrimmingCharactersInSet:[NSCharacterSet characterSetWithCharactersInString:@"<>"]];
+    str = [str stringByReplacingOccurrencesOfString:@" " withString:@""];
+  }
+  self.apnsToken = str;
+  [[OutgoingEventController sharedOutgoingEventController] enableApns:self.apnsToken];
 }
 
 - (void)application:(UIApplication*)application didFailToRegisterForRemoteNotificationsWithError:(NSError*)error

@@ -26,6 +26,7 @@
     _map = map;
     self.location = loc;
     self.anchorPoint = ccp(loc.size.height/(loc.size.height+loc.size.width), 0);
+    self.constrainedToBoundary = YES;
   }
   return self;
 }
@@ -35,9 +36,11 @@
 }
 
 - (void) setLocation:(CGRect)location {
-  CGSize ms = _map.mapSize;
-  location.origin.x = MIN(ms.width-location.size.width, MAX(0, location.origin.x));
-  location.origin.y = MIN(ms.height-location.size.height, MAX(0, location.origin.y));
+  if (self.constrainedToBoundary) {
+    CGSize ms = _map.mapSize;
+    location.origin.x = MIN(ms.width-location.size.width, MAX(0, location.origin.x));
+    location.origin.y = MIN(ms.height-location.size.height, MAX(0, location.origin.y));
+  }
   _location = location;
   self.position = [_map convertTilePointToCCPoint:location.origin];
   

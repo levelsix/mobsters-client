@@ -58,6 +58,10 @@
 @class SetFacebookIdRequestProto_Builder;
 @class SetFacebookIdResponseProto;
 @class SetFacebookIdResponseProto_Builder;
+@class SetGameCenterIdRequestProto;
+@class SetGameCenterIdRequestProto_Builder;
+@class SetGameCenterIdResponseProto;
+@class SetGameCenterIdResponseProto_Builder;
 @class StaticUserLevelInfoProto;
 @class StaticUserLevelInfoProto_Builder;
 @class StructureInfoProto;
@@ -129,6 +133,13 @@ typedef enum {
 
 BOOL UpdateUserCurrencyResponseProto_UpdateUserCurrencyStatusIsValidValue(UpdateUserCurrencyResponseProto_UpdateUserCurrencyStatus value);
 
+typedef enum {
+  SetGameCenterIdResponseProto_SetGameCenterIdStatusSuccess = 1,
+  SetGameCenterIdResponseProto_SetGameCenterIdStatusFailOther = 2,
+} SetGameCenterIdResponseProto_SetGameCenterIdStatus;
+
+BOOL SetGameCenterIdResponseProto_SetGameCenterIdStatusIsValidValue(SetGameCenterIdResponseProto_SetGameCenterIdStatus value);
+
 
 @interface EventUserRoot : NSObject {
 }
@@ -141,6 +152,9 @@ BOOL UpdateUserCurrencyResponseProto_UpdateUserCurrencyStatusIsValidValue(Update
   BOOL hasUsedDiamondsToBuilt_:1;
   BOOL hasTimeOfStructPurchase_:1;
   BOOL hasTimeOfStructBuild_:1;
+  BOOL hasCash_:1;
+  BOOL hasOil_:1;
+  BOOL hasGems_:1;
   BOOL hasUdid_:1;
   BOOL hasName_:1;
   BOOL hasReferrerCode_:1;
@@ -150,6 +164,9 @@ BOOL UpdateUserCurrencyResponseProto_UpdateUserCurrencyStatusIsValidValue(Update
   BOOL usedDiamondsToBuilt_:1;
   int64_t timeOfStructPurchase;
   int64_t timeOfStructBuild;
+  int32_t cash;
+  int32_t oil;
+  int32_t gems;
   NSString* udid;
   NSString* name;
   NSString* referrerCode;
@@ -166,6 +183,9 @@ BOOL UpdateUserCurrencyResponseProto_UpdateUserCurrencyStatusIsValidValue(Update
 - (BOOL) hasStructCoords;
 - (BOOL) hasUsedDiamondsToBuilt;
 - (BOOL) hasFacebookId;
+- (BOOL) hasCash;
+- (BOOL) hasOil;
+- (BOOL) hasGems;
 @property (readonly, retain) NSString* udid;
 @property (readonly, retain) NSString* name;
 @property (readonly, retain) NSString* referrerCode;
@@ -175,6 +195,9 @@ BOOL UpdateUserCurrencyResponseProto_UpdateUserCurrencyStatusIsValidValue(Update
 @property (readonly, retain) CoordinateProto* structCoords;
 - (BOOL) usedDiamondsToBuilt;
 @property (readonly, retain) NSString* facebookId;
+@property (readonly) int32_t cash;
+@property (readonly) int32_t oil;
+@property (readonly) int32_t gems;
 
 + (UserCreateRequestProto*) defaultInstance;
 - (UserCreateRequestProto*) defaultInstance;
@@ -256,6 +279,21 @@ BOOL UpdateUserCurrencyResponseProto_UpdateUserCurrencyStatusIsValidValue(Update
 - (NSString*) facebookId;
 - (UserCreateRequestProto_Builder*) setFacebookId:(NSString*) value;
 - (UserCreateRequestProto_Builder*) clearFacebookId;
+
+- (BOOL) hasCash;
+- (int32_t) cash;
+- (UserCreateRequestProto_Builder*) setCash:(int32_t) value;
+- (UserCreateRequestProto_Builder*) clearCash;
+
+- (BOOL) hasOil;
+- (int32_t) oil;
+- (UserCreateRequestProto_Builder*) setOil:(int32_t) value;
+- (UserCreateRequestProto_Builder*) clearOil;
+
+- (BOOL) hasGems;
+- (int32_t) gems;
+- (UserCreateRequestProto_Builder*) setGems:(int32_t) value;
+- (UserCreateRequestProto_Builder*) clearGems;
 @end
 
 @interface UserCreateResponseProto : PBGeneratedMessage {
@@ -953,5 +991,132 @@ BOOL UpdateUserCurrencyResponseProto_UpdateUserCurrencyStatusIsValidValue(Update
 - (UpdateUserCurrencyResponseProto_UpdateUserCurrencyStatus) status;
 - (UpdateUserCurrencyResponseProto_Builder*) setStatus:(UpdateUserCurrencyResponseProto_UpdateUserCurrencyStatus) value;
 - (UpdateUserCurrencyResponseProto_Builder*) clearStatus;
+@end
+
+@interface SetGameCenterIdRequestProto : PBGeneratedMessage {
+@private
+  BOOL hasGameCenterId_:1;
+  BOOL hasSender_:1;
+  NSString* gameCenterId;
+  MinimumUserProto* sender;
+}
+- (BOOL) hasSender;
+- (BOOL) hasGameCenterId;
+@property (readonly, retain) MinimumUserProto* sender;
+@property (readonly, retain) NSString* gameCenterId;
+
++ (SetGameCenterIdRequestProto*) defaultInstance;
+- (SetGameCenterIdRequestProto*) defaultInstance;
+
+- (BOOL) isInitialized;
+- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output;
+- (SetGameCenterIdRequestProto_Builder*) builder;
++ (SetGameCenterIdRequestProto_Builder*) builder;
++ (SetGameCenterIdRequestProto_Builder*) builderWithPrototype:(SetGameCenterIdRequestProto*) prototype;
+
++ (SetGameCenterIdRequestProto*) parseFromData:(NSData*) data;
++ (SetGameCenterIdRequestProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (SetGameCenterIdRequestProto*) parseFromInputStream:(NSInputStream*) input;
++ (SetGameCenterIdRequestProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (SetGameCenterIdRequestProto*) parseFromCodedInputStream:(PBCodedInputStream*) input;
++ (SetGameCenterIdRequestProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+@end
+
+@interface SetGameCenterIdRequestProto_Builder : PBGeneratedMessage_Builder {
+@private
+  SetGameCenterIdRequestProto* result;
+}
+
+- (SetGameCenterIdRequestProto*) defaultInstance;
+
+- (SetGameCenterIdRequestProto_Builder*) clear;
+- (SetGameCenterIdRequestProto_Builder*) clone;
+
+- (SetGameCenterIdRequestProto*) build;
+- (SetGameCenterIdRequestProto*) buildPartial;
+
+- (SetGameCenterIdRequestProto_Builder*) mergeFrom:(SetGameCenterIdRequestProto*) other;
+- (SetGameCenterIdRequestProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input;
+- (SetGameCenterIdRequestProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+
+- (BOOL) hasSender;
+- (MinimumUserProto*) sender;
+- (SetGameCenterIdRequestProto_Builder*) setSender:(MinimumUserProto*) value;
+- (SetGameCenterIdRequestProto_Builder*) setSenderBuilder:(MinimumUserProto_Builder*) builderForValue;
+- (SetGameCenterIdRequestProto_Builder*) mergeSender:(MinimumUserProto*) value;
+- (SetGameCenterIdRequestProto_Builder*) clearSender;
+
+- (BOOL) hasGameCenterId;
+- (NSString*) gameCenterId;
+- (SetGameCenterIdRequestProto_Builder*) setGameCenterId:(NSString*) value;
+- (SetGameCenterIdRequestProto_Builder*) clearGameCenterId;
+@end
+
+@interface SetGameCenterIdResponseProto : PBGeneratedMessage {
+@private
+  BOOL hasGameCenterId_:1;
+  BOOL hasSender_:1;
+  BOOL hasStatus_:1;
+  NSString* gameCenterId;
+  MinimumUserProto* sender;
+  SetGameCenterIdResponseProto_SetGameCenterIdStatus status;
+}
+- (BOOL) hasSender;
+- (BOOL) hasGameCenterId;
+- (BOOL) hasStatus;
+@property (readonly, retain) MinimumUserProto* sender;
+@property (readonly, retain) NSString* gameCenterId;
+@property (readonly) SetGameCenterIdResponseProto_SetGameCenterIdStatus status;
+
++ (SetGameCenterIdResponseProto*) defaultInstance;
+- (SetGameCenterIdResponseProto*) defaultInstance;
+
+- (BOOL) isInitialized;
+- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output;
+- (SetGameCenterIdResponseProto_Builder*) builder;
++ (SetGameCenterIdResponseProto_Builder*) builder;
++ (SetGameCenterIdResponseProto_Builder*) builderWithPrototype:(SetGameCenterIdResponseProto*) prototype;
+
++ (SetGameCenterIdResponseProto*) parseFromData:(NSData*) data;
++ (SetGameCenterIdResponseProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (SetGameCenterIdResponseProto*) parseFromInputStream:(NSInputStream*) input;
++ (SetGameCenterIdResponseProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (SetGameCenterIdResponseProto*) parseFromCodedInputStream:(PBCodedInputStream*) input;
++ (SetGameCenterIdResponseProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+@end
+
+@interface SetGameCenterIdResponseProto_Builder : PBGeneratedMessage_Builder {
+@private
+  SetGameCenterIdResponseProto* result;
+}
+
+- (SetGameCenterIdResponseProto*) defaultInstance;
+
+- (SetGameCenterIdResponseProto_Builder*) clear;
+- (SetGameCenterIdResponseProto_Builder*) clone;
+
+- (SetGameCenterIdResponseProto*) build;
+- (SetGameCenterIdResponseProto*) buildPartial;
+
+- (SetGameCenterIdResponseProto_Builder*) mergeFrom:(SetGameCenterIdResponseProto*) other;
+- (SetGameCenterIdResponseProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input;
+- (SetGameCenterIdResponseProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+
+- (BOOL) hasSender;
+- (MinimumUserProto*) sender;
+- (SetGameCenterIdResponseProto_Builder*) setSender:(MinimumUserProto*) value;
+- (SetGameCenterIdResponseProto_Builder*) setSenderBuilder:(MinimumUserProto_Builder*) builderForValue;
+- (SetGameCenterIdResponseProto_Builder*) mergeSender:(MinimumUserProto*) value;
+- (SetGameCenterIdResponseProto_Builder*) clearSender;
+
+- (BOOL) hasGameCenterId;
+- (NSString*) gameCenterId;
+- (SetGameCenterIdResponseProto_Builder*) setGameCenterId:(NSString*) value;
+- (SetGameCenterIdResponseProto_Builder*) clearGameCenterId;
+
+- (BOOL) hasStatus;
+- (SetGameCenterIdResponseProto_SetGameCenterIdStatus) status;
+- (SetGameCenterIdResponseProto_Builder*) setStatus:(SetGameCenterIdResponseProto_SetGameCenterIdStatus) value;
+- (SetGameCenterIdResponseProto_Builder*) clearStatus;
 @end
 

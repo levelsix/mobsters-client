@@ -66,6 +66,10 @@
 @class PersistentClanEventClanInfoProto_Builder;
 @class PersistentClanEventProto;
 @class PersistentClanEventProto_Builder;
+@class PersistentClanEventRaidHistoryProto;
+@class PersistentClanEventRaidHistoryProto_Builder;
+@class PersistentClanEventRaidStageHistoryProto;
+@class PersistentClanEventRaidStageHistoryProto_Builder;
 @class PersistentClanEventUserInfoProto;
 @class PersistentClanEventUserInfoProto_Builder;
 @class PersistentClanEventUserRewardProto;
@@ -1126,38 +1130,34 @@ BOOL UserClanStatusIsValidValue(UserClanStatus value);
 @interface PersistentClanEventUserRewardProto : PBGeneratedMessage {
 @private
   BOOL hasCrsEndTime_:1;
+  BOOL hasTimeRedeemed_:1;
   BOOL hasRewardId_:1;
   BOOL hasUserId_:1;
-  BOOL hasCrsId_:1;
   BOOL hasStaticDataId_:1;
   BOOL hasQuantity_:1;
-  BOOL hasClanEventPersistentId_:1;
   BOOL hasResourceType_:1;
   int64_t crsEndTime;
+  int64_t timeRedeemed;
   int32_t rewardId;
   int32_t userId;
-  int32_t crsId;
   int32_t staticDataId;
   int32_t quantity;
-  int32_t clanEventPersistentId;
   ResourceType resourceType;
 }
 - (BOOL) hasRewardId;
 - (BOOL) hasUserId;
-- (BOOL) hasCrsId;
 - (BOOL) hasCrsEndTime;
 - (BOOL) hasResourceType;
 - (BOOL) hasStaticDataId;
 - (BOOL) hasQuantity;
-- (BOOL) hasClanEventPersistentId;
+- (BOOL) hasTimeRedeemed;
 @property (readonly) int32_t rewardId;
 @property (readonly) int32_t userId;
-@property (readonly) int32_t crsId;
 @property (readonly) int64_t crsEndTime;
 @property (readonly) ResourceType resourceType;
 @property (readonly) int32_t staticDataId;
 @property (readonly) int32_t quantity;
-@property (readonly) int32_t clanEventPersistentId;
+@property (readonly) int64_t timeRedeemed;
 
 + (PersistentClanEventUserRewardProto*) defaultInstance;
 - (PersistentClanEventUserRewardProto*) defaultInstance;
@@ -1203,11 +1203,6 @@ BOOL UserClanStatusIsValidValue(UserClanStatus value);
 - (PersistentClanEventUserRewardProto_Builder*) setUserId:(int32_t) value;
 - (PersistentClanEventUserRewardProto_Builder*) clearUserId;
 
-- (BOOL) hasCrsId;
-- (int32_t) crsId;
-- (PersistentClanEventUserRewardProto_Builder*) setCrsId:(int32_t) value;
-- (PersistentClanEventUserRewardProto_Builder*) clearCrsId;
-
 - (BOOL) hasCrsEndTime;
 - (int64_t) crsEndTime;
 - (PersistentClanEventUserRewardProto_Builder*) setCrsEndTime:(int64_t) value;
@@ -1228,9 +1223,178 @@ BOOL UserClanStatusIsValidValue(UserClanStatus value);
 - (PersistentClanEventUserRewardProto_Builder*) setQuantity:(int32_t) value;
 - (PersistentClanEventUserRewardProto_Builder*) clearQuantity;
 
-- (BOOL) hasClanEventPersistentId;
-- (int32_t) clanEventPersistentId;
-- (PersistentClanEventUserRewardProto_Builder*) setClanEventPersistentId:(int32_t) value;
-- (PersistentClanEventUserRewardProto_Builder*) clearClanEventPersistentId;
+- (BOOL) hasTimeRedeemed;
+- (int64_t) timeRedeemed;
+- (PersistentClanEventUserRewardProto_Builder*) setTimeRedeemed:(int64_t) value;
+- (PersistentClanEventUserRewardProto_Builder*) clearTimeRedeemed;
+@end
+
+@interface PersistentClanEventRaidStageHistoryProto : PBGeneratedMessage {
+@private
+  BOOL hasCrsEndTime_:1;
+  BOOL hasEventId_:1;
+  BOOL hasClanRaidId_:1;
+  BOOL hasClanRaidStageId_:1;
+  BOOL hasCrsDmgDone_:1;
+  BOOL hasStageHp_:1;
+  int64_t crsEndTime;
+  int32_t eventId;
+  int32_t clanRaidId;
+  int32_t clanRaidStageId;
+  int32_t crsDmgDone;
+  int32_t stageHp;
+  NSMutableArray* mutableRewardsList;
+}
+- (BOOL) hasEventId;
+- (BOOL) hasClanRaidId;
+- (BOOL) hasClanRaidStageId;
+- (BOOL) hasCrsEndTime;
+- (BOOL) hasCrsDmgDone;
+- (BOOL) hasStageHp;
+@property (readonly) int32_t eventId;
+@property (readonly) int32_t clanRaidId;
+@property (readonly) int32_t clanRaidStageId;
+@property (readonly) int64_t crsEndTime;
+@property (readonly) int32_t crsDmgDone;
+@property (readonly) int32_t stageHp;
+- (NSArray*) rewardsList;
+- (PersistentClanEventUserRewardProto*) rewardsAtIndex:(int32_t) index;
+
++ (PersistentClanEventRaidStageHistoryProto*) defaultInstance;
+- (PersistentClanEventRaidStageHistoryProto*) defaultInstance;
+
+- (BOOL) isInitialized;
+- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output;
+- (PersistentClanEventRaidStageHistoryProto_Builder*) builder;
++ (PersistentClanEventRaidStageHistoryProto_Builder*) builder;
++ (PersistentClanEventRaidStageHistoryProto_Builder*) builderWithPrototype:(PersistentClanEventRaidStageHistoryProto*) prototype;
+
++ (PersistentClanEventRaidStageHistoryProto*) parseFromData:(NSData*) data;
++ (PersistentClanEventRaidStageHistoryProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (PersistentClanEventRaidStageHistoryProto*) parseFromInputStream:(NSInputStream*) input;
++ (PersistentClanEventRaidStageHistoryProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (PersistentClanEventRaidStageHistoryProto*) parseFromCodedInputStream:(PBCodedInputStream*) input;
++ (PersistentClanEventRaidStageHistoryProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+@end
+
+@interface PersistentClanEventRaidStageHistoryProto_Builder : PBGeneratedMessage_Builder {
+@private
+  PersistentClanEventRaidStageHistoryProto* result;
+}
+
+- (PersistentClanEventRaidStageHistoryProto*) defaultInstance;
+
+- (PersistentClanEventRaidStageHistoryProto_Builder*) clear;
+- (PersistentClanEventRaidStageHistoryProto_Builder*) clone;
+
+- (PersistentClanEventRaidStageHistoryProto*) build;
+- (PersistentClanEventRaidStageHistoryProto*) buildPartial;
+
+- (PersistentClanEventRaidStageHistoryProto_Builder*) mergeFrom:(PersistentClanEventRaidStageHistoryProto*) other;
+- (PersistentClanEventRaidStageHistoryProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input;
+- (PersistentClanEventRaidStageHistoryProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+
+- (NSArray*) rewardsList;
+- (PersistentClanEventUserRewardProto*) rewardsAtIndex:(int32_t) index;
+- (PersistentClanEventRaidStageHistoryProto_Builder*) replaceRewardsAtIndex:(int32_t) index with:(PersistentClanEventUserRewardProto*) value;
+- (PersistentClanEventRaidStageHistoryProto_Builder*) addRewards:(PersistentClanEventUserRewardProto*) value;
+- (PersistentClanEventRaidStageHistoryProto_Builder*) addAllRewards:(NSArray*) values;
+- (PersistentClanEventRaidStageHistoryProto_Builder*) clearRewardsList;
+
+- (BOOL) hasEventId;
+- (int32_t) eventId;
+- (PersistentClanEventRaidStageHistoryProto_Builder*) setEventId:(int32_t) value;
+- (PersistentClanEventRaidStageHistoryProto_Builder*) clearEventId;
+
+- (BOOL) hasClanRaidId;
+- (int32_t) clanRaidId;
+- (PersistentClanEventRaidStageHistoryProto_Builder*) setClanRaidId:(int32_t) value;
+- (PersistentClanEventRaidStageHistoryProto_Builder*) clearClanRaidId;
+
+- (BOOL) hasClanRaidStageId;
+- (int32_t) clanRaidStageId;
+- (PersistentClanEventRaidStageHistoryProto_Builder*) setClanRaidStageId:(int32_t) value;
+- (PersistentClanEventRaidStageHistoryProto_Builder*) clearClanRaidStageId;
+
+- (BOOL) hasCrsEndTime;
+- (int64_t) crsEndTime;
+- (PersistentClanEventRaidStageHistoryProto_Builder*) setCrsEndTime:(int64_t) value;
+- (PersistentClanEventRaidStageHistoryProto_Builder*) clearCrsEndTime;
+
+- (BOOL) hasCrsDmgDone;
+- (int32_t) crsDmgDone;
+- (PersistentClanEventRaidStageHistoryProto_Builder*) setCrsDmgDone:(int32_t) value;
+- (PersistentClanEventRaidStageHistoryProto_Builder*) clearCrsDmgDone;
+
+- (BOOL) hasStageHp;
+- (int32_t) stageHp;
+- (PersistentClanEventRaidStageHistoryProto_Builder*) setStageHp:(int32_t) value;
+- (PersistentClanEventRaidStageHistoryProto_Builder*) clearStageHp;
+@end
+
+@interface PersistentClanEventRaidHistoryProto : PBGeneratedMessage {
+@private
+  BOOL hasUserId_:1;
+  BOOL hasCrDmg_:1;
+  BOOL hasClanCrDmg_:1;
+  int32_t userId;
+  int32_t crDmg;
+  int32_t clanCrDmg;
+}
+- (BOOL) hasUserId;
+- (BOOL) hasCrDmg;
+- (BOOL) hasClanCrDmg;
+@property (readonly) int32_t userId;
+@property (readonly) int32_t crDmg;
+@property (readonly) int32_t clanCrDmg;
+
++ (PersistentClanEventRaidHistoryProto*) defaultInstance;
+- (PersistentClanEventRaidHistoryProto*) defaultInstance;
+
+- (BOOL) isInitialized;
+- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output;
+- (PersistentClanEventRaidHistoryProto_Builder*) builder;
++ (PersistentClanEventRaidHistoryProto_Builder*) builder;
++ (PersistentClanEventRaidHistoryProto_Builder*) builderWithPrototype:(PersistentClanEventRaidHistoryProto*) prototype;
+
++ (PersistentClanEventRaidHistoryProto*) parseFromData:(NSData*) data;
++ (PersistentClanEventRaidHistoryProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (PersistentClanEventRaidHistoryProto*) parseFromInputStream:(NSInputStream*) input;
++ (PersistentClanEventRaidHistoryProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (PersistentClanEventRaidHistoryProto*) parseFromCodedInputStream:(PBCodedInputStream*) input;
++ (PersistentClanEventRaidHistoryProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+@end
+
+@interface PersistentClanEventRaidHistoryProto_Builder : PBGeneratedMessage_Builder {
+@private
+  PersistentClanEventRaidHistoryProto* result;
+}
+
+- (PersistentClanEventRaidHistoryProto*) defaultInstance;
+
+- (PersistentClanEventRaidHistoryProto_Builder*) clear;
+- (PersistentClanEventRaidHistoryProto_Builder*) clone;
+
+- (PersistentClanEventRaidHistoryProto*) build;
+- (PersistentClanEventRaidHistoryProto*) buildPartial;
+
+- (PersistentClanEventRaidHistoryProto_Builder*) mergeFrom:(PersistentClanEventRaidHistoryProto*) other;
+- (PersistentClanEventRaidHistoryProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input;
+- (PersistentClanEventRaidHistoryProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+
+- (BOOL) hasUserId;
+- (int32_t) userId;
+- (PersistentClanEventRaidHistoryProto_Builder*) setUserId:(int32_t) value;
+- (PersistentClanEventRaidHistoryProto_Builder*) clearUserId;
+
+- (BOOL) hasCrDmg;
+- (int32_t) crDmg;
+- (PersistentClanEventRaidHistoryProto_Builder*) setCrDmg:(int32_t) value;
+- (PersistentClanEventRaidHistoryProto_Builder*) clearCrDmg;
+
+- (BOOL) hasClanCrDmg;
+- (int32_t) clanCrDmg;
+- (PersistentClanEventRaidHistoryProto_Builder*) setClanCrDmg:(int32_t) value;
+- (PersistentClanEventRaidHistoryProto_Builder*) clearClanCrDmg;
 @end
 

@@ -11,17 +11,31 @@
 
 #define INITIAL_X self.mapSize.width-2
 #define INITIAL_Y self.mapSize.height-1
+
 #define FIRST_BUILDING_ENTER_X ms.location.origin.x+2.2
 #define FIRST_BUILDING_ENTER_Y ms.location.origin.y-1.8
-#define ENEMY_CONFRONTATION_X FIRST_BUILDING_ENTER_X+1.6
-#define FRIEND_CONFRONTATION_X FIRST_BUILDING_ENTER_X-1.6
+#define FIRST_ENEMY_CONFRONTATION_X FIRST_BUILDING_ENTER_X+1.6
+#define FIRST_FRIEND_CONFRONTATION_X FIRST_BUILDING_ENTER_X-1.6
+
 #define ENEMY_FIRST_RUN_OFF_Y ms.location.origin.y+6
-#define TWO_GUYS_Y_ABOVE 0.6
-#define TWO_GUYS_Y_BELOW 1.1
+#define FIRST_TWO_GUYS_Y_ABOVE FIRST_BUILDING_ENTER_Y+0.6
+#define FIRST_TWO_GUYS_Y_BELOW FIRST_BUILDING_ENTER_Y-1.1
+
 #define SECOND_BUILDING_RUN_X ms.location.origin.x-2.3
-#define SECOND_BUILDING_ENTER_X ms.location.origin.x+2
+#define SECOND_BUILDING_ENTER_X ms.location.origin.x+1.5
 #define SECOND_BUILDING_ENTER_Y ms.location.origin.y-1.8
-#define ENEMY_SECOND_RUN_OFF_Y ms.location.origin.y+2
+
+#define ENEMY_SECOND_RUN_OFF_Y ms.location.origin.y+6
+#define ENEMY_SECOND_RUN_OFF_X ms.location.origin.x+4
+#define SECOND_ENEMY_CONFRONTATION_Y ms.location.origin.y+1.5
+#define SECOND_FRIEND_CONFRONTATION_Y ms.location.origin.y-1.8
+#define SECOND_TWO_GUYS_X_LEFT ms.location.origin.x-2.8
+#define SECOND_TWO_GUYS_X_RIGHT ms.location.origin.x-1.2
+
+#define YACHT_STAIR_START_POINT ccp(6.5, -1)
+#define YACHT_STAIR_END_POINT ccp(5.8, -3.5)
+#define YACHT_BOARD_POINT ccp(5.8, -5)
+
 
 @implementation TutorialMissionMap
 
@@ -38,6 +52,10 @@
     [self.enemySprite recursivelyApplyOpacity:0.f];
     self.enemySprite.location = CGRectMake(INITIAL_X, INITIAL_Y, 1, 1);
     [self moveToSprite:self.enemySprite animated:NO];
+    
+    self.boatSprite = [CCSprite spriteWithImageNamed:@"marksboat.png"];
+    [self addChild:self.boatSprite];
+    self.boatSprite.position = ccp(540, -40);
   }
   return self;
 }
@@ -49,6 +67,7 @@
   MonsterProto *mp = [gs monsterWithId:monsterId];
   CGRect r = CGRectMake(0, 0, 1, 1);
   AnimatedSprite *as = [[AnimatedSprite alloc] initWithFile:mp.imagePrefix location:r map:self];
+  as.constrainedToBoundary = NO;
   [as stopWalking];
   [self addChild:as];
   return as;
@@ -82,7 +101,7 @@
   return _markZSprite;
 }
 
-- (void) followSprite:(MapSprite *)ms {
+- (void) followSprite:(CCSprite *)ms {
   [self runAction:
    [CCActionRepeatForever actionWithAction:
     [CCActionSequence actions:
@@ -125,7 +144,7 @@
     [CCActionCallBlock actionWithBlock:
      ^{
        // Make friend jump
-       [self.friendSprite jumpNumTimes:1 completionTarget:self.delegate selector:@selector(initialChaseComplete)];
+       [self.friendSprite jumpNumTimes:2 completionTarget:self.delegate selector:@selector(initialChaseComplete)];
      }],
     nil]];
   [self moveToSprite:self.friendSprite animated:YES];
@@ -139,7 +158,7 @@
     [CCActionDelay actionWithDuration:1.2f],
     [CCActionCallBlock actionWithBlock:
      ^{
-       [self.enemySprite jumpNumTimes:2 completionTarget:self.delegate selector:@selector(enemyJumped)];
+       [self.enemySprite jumpNumTimes:1 completionTarget:self.delegate selector:@selector(enemyJumped)];
      }], nil]];
 }
 
@@ -156,7 +175,7 @@
 - (void) fadeOutEnemySprite {
   CGPoint pt = ccp(self.enemySprite.location.origin.x, self.enemySprite.location.origin.y+1.f);
   [self.enemySprite walkToTileCoord:pt completionTarget:self.enemySprite selector:@selector(stopWalking) speedMultiplier:1.f];
-  [self.enemySprite runAction:[RecursiveFadeTo actionWithDuration:0.3 opacity:0.f]];
+  [self.enemySprite runAction:[RecursiveFadeTo actionWithDuration:0.25 opacity:0.f]];
   
   MissionBuilding *ms = (MissionBuilding *)[self assetWithId:self.constants.cityElementIdForFirstDungeon];
   [self.friendSprite walkToTileCoord:ccp(INITIAL_X, FIRST_BUILDING_ENTER_Y) completionTarget:self selector:@selector(friendWalkedToFirstBuilding) speedMultiplier:2.f];
@@ -166,7 +185,8 @@
   // Move enemy sprite away so that it doesn't grab touches
   self.enemySprite.position = ccp(0,0);
   
-  float delay = 0.3f;
+  [self.friendSprite restoreStandingFrame:MapDirectionNearRight];
+  float delay = 0.4f;
   [self.friendSprite runAction:
    [CCActionSequence actions:
     [CCActionDelay actionWithDuration:delay],
@@ -174,13 +194,11 @@
     [CCActionDelay actionWithDuration:delay],
     [CCActionCallBlock actionWithBlock:^{ [self.friendSprite restoreStandingFrame:MapDirectionNearRight]; }],
     [CCActionDelay actionWithDuration:delay],
+    [CCActionCallBlock actionWithBlock:^{ [self.friendSprite restoreStandingFrame:MapDirectionFarRight]; }],
+    [CCActionDelay actionWithDuration:delay],
     [CCActionCallBlock actionWithBlock:^{ [self.friendSprite restoreStandingFrame:MapDirectionNearLeft]; }],
+    [CCActionCallFunc actionWithTarget:self.delegate selector:@selector(enemyRanIntoFirstBuilding)],
     nil]];
-}
-
-- (void) friendFinishedLookingAround {
-  [self.friendSprite restoreStandingFrame:MapDirectionNearLeft];
-  [self.delegate enemyRanIntoFirstBuilding];
 }
 
 - (void) displayArrowOverFirstBuilding {
@@ -194,6 +212,7 @@
 - (void) performCurrentTask:(id)sender {
   self.clickableAssetId = 0;
   self.selected = nil;
+  [Globals removeUIArrowFromViewRecursively:self.missionBotView];
   
   MissionBuilding *ms = (MissionBuilding *)[self assetWithId:self.constants.cityElementIdForFirstDungeon];
   [self.friendSprite walkToTileCoord:ccp(FIRST_BUILDING_ENTER_X, FIRST_BUILDING_ENTER_Y) completionTarget:self selector:@selector(fadeOutFriendSprite) speedMultiplier:2.f];
@@ -202,25 +221,25 @@
 - (void) fadeOutFriendSprite {
   CGPoint pt = ccp(self.friendSprite.location.origin.x, self.friendSprite.location.origin.y+1.f);
   [self.friendSprite walkToTileCoord:pt completionTarget:self.delegate selector:@selector(friendEnteredFirstBuilding) speedMultiplier:1.f];
-  [self.friendSprite runAction:[RecursiveFadeTo actionWithDuration:0.3 opacity:0.f]];
+  [self.friendSprite runAction:[RecursiveFadeTo actionWithDuration:0.25 opacity:0.f]];
 }
 
 - (void) beginSecondConfrontation {
-  [self.enemySprite recursivelyApplyOpacity:1.f];
-  [self.friendSprite recursivelyApplyOpacity:1.f];
-  
   [self.enemySprite restoreStandingFrame:MapDirectionNearLeft];
   [self.friendSprite restoreStandingFrame:MapDirectionFarRight];
   
-  MissionBuilding *ms = (MissionBuilding *)[self assetWithId:self.constants.cityElementIdForFirstDungeon];
-  self.enemySprite.location = CGRectMake(ENEMY_CONFRONTATION_X, FIRST_BUILDING_ENTER_Y, 1, 1);
-  self.friendSprite.location = CGRectMake(FRIEND_CONFRONTATION_X, FIRST_BUILDING_ENTER_Y, 1, 1);
+  [self.enemySprite recursivelyApplyOpacity:1.f];
+  [self.friendSprite recursivelyApplyOpacity:1.f];
   
-  [self moveToSprite:self.friendSprite animated:NO withOffset:ccp(-20, -18)];
+  MissionBuilding *ms = (MissionBuilding *)[self assetWithId:self.constants.cityElementIdForFirstDungeon];
+  self.enemySprite.location = CGRectMake(FIRST_ENEMY_CONFRONTATION_X, FIRST_BUILDING_ENTER_Y, 1, 1);
+  self.friendSprite.location = CGRectMake(FIRST_FRIEND_CONFRONTATION_X, FIRST_BUILDING_ENTER_Y, 1, 1);
+  
+  [self moveToSprite:self.friendSprite animated:NO];
 }
 
 - (void) runOutEnemy {
-  [self.enemySprite jumpNumTimes:2 completionTarget:self selector:@selector(enemyJumpFinishedRunOut)];
+  [self.enemySprite jumpNumTimes:1 completionTarget:self selector:@selector(enemyJumpFinishedRunOut)];
 }
 
 - (void) enemyJumpFinishedRunOut {
@@ -231,11 +250,11 @@
 
 - (void) enemyComeInWithBoss {
   MissionBuilding *ms = (MissionBuilding *)[self assetWithId:self.constants.cityElementIdForFirstDungeon];
-  NSArray *tileCoords = @[[NSValue valueWithCGPoint:ccp(INITIAL_X, FIRST_BUILDING_ENTER_Y+TWO_GUYS_Y_ABOVE)], [NSValue valueWithCGPoint:ccp(ENEMY_CONFRONTATION_X, FIRST_BUILDING_ENTER_Y+0.3)]];
+  NSArray *tileCoords = @[[NSValue valueWithCGPoint:ccp(INITIAL_X, FIRST_TWO_GUYS_Y_ABOVE)], [NSValue valueWithCGPoint:ccp(FIRST_ENEMY_CONFRONTATION_X, FIRST_TWO_GUYS_Y_ABOVE)]];
   [self.enemySprite walkToTileCoords:tileCoords completionTarget:self selector:@selector(enemySpriteStopRunning) speedMultiplier:2.f];
   
   self.enemyBossSprite.location = CGRectMake(INITIAL_X, ENEMY_FIRST_RUN_OFF_Y+2, 1, 1);
-  tileCoords = @[[NSValue valueWithCGPoint:ccp(INITIAL_X, FIRST_BUILDING_ENTER_Y-TWO_GUYS_Y_BELOW)], [NSValue valueWithCGPoint:ccp(ENEMY_CONFRONTATION_X, FIRST_BUILDING_ENTER_Y-TWO_GUYS_Y_BELOW)]];
+  tileCoords = @[[NSValue valueWithCGPoint:ccp(INITIAL_X, FIRST_TWO_GUYS_Y_BELOW)], [NSValue valueWithCGPoint:ccp(FIRST_ENEMY_CONFRONTATION_X, FIRST_TWO_GUYS_Y_BELOW)]];
   [self.enemyBossSprite walkToTileCoords:tileCoords completionTarget:self selector:@selector(enemyBossReachedConfrontation) speedMultiplier:2.f];
 }
 
@@ -248,11 +267,83 @@
   [self.delegate enemyArrivedWithBoss];
 }
 
-- (void) beginChaseIntoSecondBuilding {
-  [self runIntoSecondBuildingAnimatedSprite:self.friendSprite withDelay:0.f];
-  [self runIntoSecondBuildingAnimatedSprite:self.enemySprite withDelay:0.5f];
-  [self runIntoSecondBuildingAnimatedSprite:self.enemyBossSprite withDelay:0.5f];
+- (void) friendWalkUpToBoss {
   [self followSprite:self.friendSprite];
+  CGPoint finalPos = ccp(self.enemyBossSprite.location.origin.x-1.8, self.enemyBossSprite.location.origin.y);
+  NSArray *tileCoords = @[[NSValue valueWithCGPoint:ccp(finalPos.x, self.friendSprite.location.origin.y)], [NSValue valueWithCGPoint:finalPos]];
+  [self.friendSprite walkToTileCoords:tileCoords completionTarget:self selector:@selector(friendJumpAfterReachingBoss) speedMultiplier:2.f];
+}
+
+- (void) friendJumpAfterReachingBoss {
+  [self stopAllActions];
+  
+  [self.friendSprite restoreStandingFrame:MapDirectionFarRight];
+  
+  [self.friendSprite runAction:
+   [CCActionSequence actions:
+    [CCActionDelay actionWithDuration:1.f],
+    [CCActionCallBlock actionWithBlock:
+     ^{
+       [self.friendSprite jumpNumTimes:2 completionTarget:self.delegate selector:@selector(friendWalkedUpToBoss)];
+     }],
+    nil]];
+}
+
+- (void) enemyTurnToBoss {
+  [self.enemySprite restoreStandingFrame:MapDirectionNearRight];
+}
+
+- (void) beginChaseIntoSecondBuilding {
+  [self followSprite:self.friendSprite];
+  [self firstStutter];
+}
+
+- (void) firstStutter {
+  [self stutterWithSelector:@selector(secondStutter)];
+}
+
+- (void) secondStutter {
+  [self.enemyBossSprite restoreStandingFrame:MapDirectionNearLeft];
+  
+  [self runAction:
+   [CCActionSequence actions:
+    [CCActionDelay actionWithDuration:0.5f],
+    [CCActionCallBlock actionWithBlock:
+     ^{
+       [self stutterWithSelector:@selector(runToSecondBuilding)];
+     }],
+    nil]];
+}
+
+- (void) stutterWithSelector:(SEL)selector {
+  [self.enemySprite restoreStandingFrame:MapDirectionNearLeft];
+  [self.friendSprite walkToTileCoord:ccp(self.friendSprite.location.origin.x-1, self.friendSprite.location.origin.y) completionTarget:self selector:@selector(friendFaceFarRight) speedMultiplier:2.f];
+  [self.enemyBossSprite runAction:
+   [CCActionSequence actions:
+    [CCActionDelay actionWithDuration:0.3f],
+    [CCActionCallBlock actionWithBlock:
+     ^{
+       [self.enemyBossSprite walkToTileCoord:ccp(self.enemyBossSprite.location.origin.x-1, self.friendSprite.location.origin.y) completionTarget:self selector:selector speedMultiplier:2.f];
+     }],
+    nil]];
+}
+
+- (void) friendFaceFarRight {
+  [self.friendSprite restoreStandingFrame:MapDirectionFarRight];
+}
+
+- (void) runToSecondBuilding {
+  [self.enemyBossSprite restoreStandingFrame:MapDirectionNearLeft];
+
+  [self runAction:
+   [CCActionSequence actions:
+    [CCActionDelay actionWithDuration:0.5f],
+    [CCActionCallBlock actionWithBlock:
+     ^{
+       [self runIntoSecondBuildingAnimatedSprite:self.friendSprite withDelay:0.f];
+       [self runIntoSecondBuildingAnimatedSprite:self.enemySprite withDelay:0.8f];
+       [self runIntoSecondBuildingAnimatedSprite:self.enemyBossSprite withDelay:0.8f];
+     }], nil]];
 }
 
 - (void) runIntoSecondBuildingAnimatedSprite:(AnimatedSprite *)as withDelay:(float)delay {
@@ -273,7 +364,7 @@
 - (void) animatedSpriteEnterSecondBuilding:(AnimatedSprite *)as {
   CGPoint pt = ccp(as.location.origin.x, as.location.origin.y+1.f);
   [as walkToTileCoord:pt completionTarget:self selector:@selector(animatedSpriteEnteredSecondBuilding:) speedMultiplier:1.f];
-  [as runAction:[RecursiveFadeTo actionWithDuration:0.3 opacity:0.f]];
+  [as runAction:[RecursiveFadeTo actionWithDuration:0.25 opacity:0.f]];
 }
 
 - (void) animatedSpriteEnteredSecondBuilding:(AnimatedSprite *)as {
@@ -291,26 +382,26 @@
   [self.friendSprite recursivelyApplyOpacity:1.f];
   [self.markZSprite recursivelyApplyOpacity:1.f];
   
-  [self.enemySprite restoreStandingFrame:MapDirectionNearLeft];
-  [self.enemyBossSprite restoreStandingFrame:MapDirectionNearLeft];
-  [self.friendSprite restoreStandingFrame:MapDirectionFarRight];
-  [self.markZSprite restoreStandingFrame:MapDirectionFarRight];
+  [self.enemySprite restoreStandingFrame:MapDirectionNearRight];
+  [self.enemyBossSprite restoreStandingFrame:MapDirectionNearRight];
+  [self.friendSprite restoreStandingFrame:MapDirectionFarLeft];
+  [self.markZSprite restoreStandingFrame:MapDirectionFarLeft];
   
   MissionBuilding *ms = (MissionBuilding *)[self assetWithId:self.constants.cityElementIdForSecondDungeon];
-  self.enemySprite.location = CGRectMake(ENEMY_CONFRONTATION_X, FIRST_BUILDING_ENTER_Y+TWO_GUYS_Y_ABOVE, 1, 1);
-  self.enemyBossSprite.location = CGRectMake(ENEMY_CONFRONTATION_X, FIRST_BUILDING_ENTER_Y-TWO_GUYS_Y_BELOW, 1, 1);
-  self.friendSprite.location = CGRectMake(FRIEND_CONFRONTATION_X, FIRST_BUILDING_ENTER_Y+TWO_GUYS_Y_ABOVE, 1, 1);
-  self.markZSprite.location = CGRectMake(FRIEND_CONFRONTATION_X, FIRST_BUILDING_ENTER_Y-TWO_GUYS_Y_BELOW, 1, 1);
+  self.enemySprite.location = CGRectMake(SECOND_TWO_GUYS_X_RIGHT, SECOND_ENEMY_CONFRONTATION_Y, 1, 1);
+  self.enemyBossSprite.location = CGRectMake(SECOND_TWO_GUYS_X_LEFT, SECOND_ENEMY_CONFRONTATION_Y, 1, 1);
+  self.friendSprite.location = CGRectMake(SECOND_TWO_GUYS_X_RIGHT, SECOND_FRIEND_CONFRONTATION_Y, 1, 1);
+  self.markZSprite.location = CGRectMake(SECOND_TWO_GUYS_X_LEFT, SECOND_FRIEND_CONFRONTATION_Y, 1, 1);
   
-  [self moveToSprite:self.friendSprite animated:NO withOffset:ccp(-20, -18)];
+  [self moveToSprite:self.friendSprite animated:NO withOffset:ccp(20, -24)];
 }
 
 - (void) runOutEnemyBoss {
   MissionBuilding *ms = (MissionBuilding *)[self assetWithId:self.constants.cityElementIdForSecondDungeon];
-  NSArray *tileCoords = @[[NSValue valueWithCGPoint:ccp(INITIAL_X, self.enemySprite.location.origin.y)], [NSValue valueWithCGPoint:ccp(INITIAL_X, ENEMY_SECOND_RUN_OFF_Y)]];
+  NSArray *tileCoords = @[[NSValue valueWithCGPoint:ccp(self.enemySprite.location.origin.x, ENEMY_SECOND_RUN_OFF_Y)], [NSValue valueWithCGPoint:ccp(ENEMY_SECOND_RUN_OFF_X, ENEMY_SECOND_RUN_OFF_Y)]];
   [self.enemySprite walkToTileCoords:tileCoords completionTarget:self.enemySprite selector:@selector(stopWalking) speedMultiplier:2.f];
   
-  tileCoords = @[[NSValue valueWithCGPoint:ccp(INITIAL_X, self.enemyBossSprite.location.origin.y)], [NSValue valueWithCGPoint:ccp(INITIAL_X, ENEMY_SECOND_RUN_OFF_Y)]];
+  tileCoords = @[[NSValue valueWithCGPoint:ccp(self.enemyBossSprite.location.origin.x, ENEMY_SECOND_RUN_OFF_Y)], [NSValue valueWithCGPoint:ccp(ENEMY_SECOND_RUN_OFF_X, ENEMY_SECOND_RUN_OFF_Y)]];
   [self.enemyBossSprite walkToTileCoords:tileCoords completionTarget:self selector:@selector(enemyBossLeftScene) speedMultiplier:2.f];
 }
 
@@ -318,8 +409,70 @@
   [self.delegate enemyBossRanOffMap];
 }
 
+- (void) markLooksAtYou {
+  [self.markZSprite restoreStandingFrame:MapDirectionFront];
+}
+
 - (void) moveToYacht {
+  [self.friendSprite restoreStandingFrame:MapDirectionNearLeft];
+  [self.markZSprite restoreStandingFrame:MapDirectionFarRight];
   
+  [self.markZSprite runAction:
+   [CCActionSequence actions:
+    [CCActionDelay actionWithDuration:1.1],
+    [CCActionCallBlock actionWithBlock:
+     ^{
+       [self.markZSprite jumpNumTimes:1 completionTarget:nil selector:nil];
+     }],
+    nil]];
+  [self.friendSprite runAction:
+   [CCActionSequence actions:
+    [CCActionDelay actionWithDuration:1.25],
+    [CCActionCallBlock actionWithBlock:
+     ^{
+       [self.friendSprite jumpNumTimes:1 completionTarget:self selector:@selector(walkToYacht)];
+     }],
+    nil]];
+  
+  [self moveToSprite:self.markZSprite animated:YES];
+}
+
+- (void) walkToYacht {
+  NSArray *baseCoords = @[[NSValue valueWithCGPoint:YACHT_STAIR_START_POINT], [NSValue valueWithCGPoint:YACHT_STAIR_END_POINT], [NSValue valueWithCGPoint:YACHT_BOARD_POINT]];
+  
+  NSArray *tileCoords = [@[[NSValue valueWithCGPoint:ccp(YACHT_STAIR_START_POINT.x, self.friendSprite.location.origin.y)]] arrayByAddingObjectsFromArray:baseCoords];
+  [self.friendSprite walkToTileCoords:tileCoords completionTarget:self selector:@selector(animatedSpriteReachedYacht:) speedMultiplier:1.7f];
+  
+  tileCoords = [@[[NSValue valueWithCGPoint:ccp(YACHT_STAIR_START_POINT.x, self.markZSprite.location.origin.y)]] arrayByAddingObjectsFromArray:baseCoords];
+  [self.markZSprite walkToTileCoords:tileCoords completionTarget:self selector:@selector(animatedSpriteReachedYacht:) speedMultiplier:1.7f];
+  
+  [self followSprite:self.markZSprite];
+}
+
+- (void) animatedSpriteReachedYacht:(AnimatedSprite *)as {
+  [self stopAllActions];
+  [as restoreStandingFrame:MapDirectionNearLeft];
+  [as runAction:[CCActionSequence actions:
+                 [CCActionDelay actionWithDuration:0.3],
+                 [RecursiveFadeTo actionWithDuration:0.2 opacity:0.f],
+                 [CCActionCallBlock actionWithBlock:
+                  ^{
+                    if (as == self.friendSprite) {
+                      [self floatBoatOffScreen];
+                    }
+                  }],
+                 nil]];
+  
+  [as jumpNumTimes:1 timePerJump:0.4f completionTarget:nil selector:nil];
+  [as walkToTileCoord:ccp(as.location.origin.x-2.5, as.location.origin.y) completionTarget:nil selector:nil speedMultiplier:1.7f];
+}
+
+- (void) floatBoatOffScreen {
+  CGPoint ptOffset = POINT_OFFSET_PER_SCENE;
+  [self.boatSprite runAction:
+   [CCActionSequence actions:
+    [CCActionMoveBy actionWithDuration:2.5f position:ccpMult(ptOffset, -0.18)],
+    [CCActionCallFunc actionWithTarget:self.delegate selector:@selector(yachtWentOffScene)], nil]];
 }
 
 #pragma mark - Overwritten methods
@@ -348,6 +501,12 @@
     return;
   }
   [super setSelected:selected];
+}
+
+- (void) updateMapBotView:(MapBotView *)botView {
+  [super updateMapBotView:botView];
+  float angle = [Globals isLongiPhone] ? M_PI_2 : M_PI;
+  [Globals createUIArrowForView:self.enterButton atAngle:angle];
 }
 
 //- (void) drag:(UIGestureRecognizer *)recognizer {

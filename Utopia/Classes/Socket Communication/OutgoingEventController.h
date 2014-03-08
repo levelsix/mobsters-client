@@ -44,7 +44,7 @@
 
 - (void) retrieveUsersForUserIds:(NSArray *)userIds includeCurMonsterTeam:(BOOL)includeCurMonsterTeam delegate:(id)delegate;
 
-- (void) enableApns:(NSData *)deviceToken;
+- (void) enableApns:(NSString *)deviceToken;
 
 - (void) fbConnectReward;
 

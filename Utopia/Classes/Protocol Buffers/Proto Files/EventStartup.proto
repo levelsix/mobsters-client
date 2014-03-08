@@ -92,7 +92,7 @@ message StartupResponseProto {
 	optional PersistentClanEventClanInfoProto curRaidClanInfo = 31;
 	repeated PersistentClanEventUserInfoProto curRaidClanUserInfo = 32;
 
-	//repeated PersistentClanEventRaidStageHistoryProto raidStageHistory = 33;
+	repeated PersistentClanEventRaidStageHistoryProto raidStageHistory = 33;
 	
 	//optional TutorialConstants tutorialConstants = 34; //defined above, below #5
 
@@ -138,8 +138,10 @@ message StartupResponseProto {
 		optional float minutesPerGem = 19; 
 		optional int32 pvpRequiredMinLvl = 20;
 		optional float gemsPerResource = 21;
+		//(multiplies with cost to heal all battle team monsters while in dungeon)
 		optional float continueBattleGemCostMultiplier = 22;
 		
+		optional bool addAllFbFriends = 23;
 		
 		message AnimatedSpriteOffsetProto {
 			optional string imageName = 1;
@@ -196,6 +198,11 @@ message StartupResponseProto {
 		
 		//optional int32 enemyBossMonsterId = 9; //defined above
 		//optional int32 markZMonsterId = 10; //defined above
+		
+		optional int32 cashInit = 11;
+		optional int32 oilInit = 12;
+		optional int32 gemsInit = 13;
+		 	
 	}
 	
     enum UpdateStatus {

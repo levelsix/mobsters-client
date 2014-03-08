@@ -62,7 +62,7 @@
 
 @implementation TutorialBattleTwoLayer
 
-- (id) initWithConstants:(StartupResponseProto_TutorialConstants *)constants {
+- (id) initWithConstants:(StartupResponseProto_TutorialConstants *)constants enemyDamageDealt:(int)damage {
   if ((self = [super initWithConstants:constants])) {
     Globals *gl = [Globals sharedGlobals];
     UserMonster *um = [[UserMonster alloc] init];
@@ -71,8 +71,8 @@
     um.level = 1;
     um.curHealth = [gl calculateMaxHealthForMonster:um];
     BattlePlayer *bp = [BattlePlayer playerWithMonster:um];
-    bp.minDamage = 137;
-    bp.maxDamage = 139;
+    bp.minDamage = damage;
+    bp.maxDamage = damage;
     bp.curHealth = 500;
     bp.maxHealth = 500;
     self.enemyTeam = [NSArray arrayWithObject:bp];
@@ -113,12 +113,36 @@
   _orbCount = 0;
   self.swappableTeamSlot = 2;
   [self displaySwapButton];
+  
+  [self runAction:
+   [CCActionSequence actions:
+    [CCActionDelay actionWithDuration:0.3f],
+    [CCActionCallBlock actionWithBlock:
+     ^{
+       [Globals createUIArrowForView:self.swapView atAngle:0];
+     }], nil]];
+}
+
+- (void) displayDeployViewAndIsCancellable:(BOOL)cancel {
+  [super displayDeployViewAndIsCancellable:cancel];
+  
+  [Globals removeUIArrowFromViewRecursively:self.swapView.superview];
+  
+  [self runAction:
+   [CCActionSequence actions:
+    [CCActionDelay actionWithDuration:0.3f],
+    [CCActionCallBlock actionWithBlock:
+     ^{
+       BattleDeployCardView *card = self.deployView.cardViews[1];
+       [Globals createUIArrowForView:card atAngle:M_PI_2];
+     }], nil]];
 }
 
 - (void) deployBattleSprite:(BattlePlayer *)bp {
   if (bp.slotNum == self.swappableTeamSlot) {
     [super deployBattleSprite:bp];
     [self.delegate swappedToMark];
+    [Globals removeUIArrowFromViewRecursively:self.deployView];
   }
 }
 
@@ -154,13 +178,15 @@
     self.swappableTeamSlot = 1;
     
     BattlePlayer *mark = self.myTeam[1];
-    float mult = 3;
-    mark.fireDamage *= mult;
-    mark.waterDamage *= mult;
-    mark.earthDamage *= mult;
-    mark.lightDamage *= mult;
-    mark.nightDamage *= mult;
-    mark.rockDamage *= mult;
+    float mult = 50;
+    mark.fireDamage = mult-10;
+    mark.waterDamage = mult+10;
+    mark.earthDamage = mult+4;
+    mark.lightDamage = mult+2;
+    mark.nightDamage = mult-3;
+    mark.rockDamage = mult-12;
+    mark.curHealth = 450;
+    mark.maxHealth = 450;
   }
   return self;
 }
@@ -168,11 +194,14 @@
 - (void) beginFirstMove {
   [self.noInputLayer stopAllActions];
   self.noInputLayer.opacity = 0.f;
+  _allowTurnBegin = YES;
   [self beginMyTurn];
 }
 
 - (void) beginSecondMove {
-  [self allowMove];
+  [self.noInputLayer stopAllActions];
+  self.noInputLayer.opacity = 0.f;
+  [self.orbLayer allowInput];
 }
 
 - (void) beginThirdMove {
@@ -180,8 +209,12 @@
 }
 
 - (void) allowMove {
-  [self.noInputLayer stopAllActions];
-  self.noInputLayer.opacity = 0.f;
+  if (_movesLeft <= 0) {
+    _allowTurnBegin = YES;
+    [self beginMyTurn];
+  } else {
+    [self removeNoInputLayer];
+  }
   [self.orbLayer allowInput];
 }
 
@@ -230,6 +263,13 @@
 - (void) begin {
   [super begin];
   [self displayOrbLayer];
+}
+
+- (void) beginMyTurn {
+  if (_allowTurnBegin) {
+    _allowTurnBegin = NO;
+    [super beginMyTurn];
+  }
 }
 
 - (void) reachedNextScene {
