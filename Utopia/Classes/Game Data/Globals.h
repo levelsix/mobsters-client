@@ -84,6 +84,8 @@
 @property (nonatomic, assign) int numBeginnerSalesAllowed;
 @property (nonatomic, assign) int defaultDaysBattleShieldIsActive;
 
+@property (nonatomic, assign) int baseResourceCapacity;
+
 @property (nonatomic, assign) float minutesPerGem;
 @property (nonatomic, assign) int pvpRequiredMinLvl;
 @property (nonatomic, assign) float gemsPerResource;

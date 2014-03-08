@@ -79,6 +79,8 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
   self.gemsPerResource = constants.gemsPerResource;
   self.continueBattleGemCostMultiplier = constants.continueBattleGemCostMultiplier;
   self.addAllFbFriends = constants.addAllFbFriends;
+#warning fix
+  self.baseResourceCapacity = 1000;
   
   self.maxTeamSize = constants.userMonsterConstants.maxNumTeamSlots;
   self.baseInventorySize = constants.userMonsterConstants.initialMaxNumMonsterLimit;

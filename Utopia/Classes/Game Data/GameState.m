@@ -939,7 +939,8 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
 }
 
 - (int) maxCash {
-  int maxCash = 0;
+  Globals *gl = [Globals sharedGlobals];
+  int maxCash = gl.baseResourceCapacity;
   for (UserStruct *us in self.myStructs) {
     ResourceStorageProto *rgp = (ResourceStorageProto *)us.staticStruct;
     StructureInfoProto *fsp = [rgp structInfo];
@@ -956,7 +957,8 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
 }
 
 - (int) maxOil {
-  int maxOil = 0;
+  Globals *gl = [Globals sharedGlobals];
+  int maxOil = gl.baseResourceCapacity;
   for (UserStruct *us in self.myStructs) {
     ResourceStorageProto *rgp = (ResourceStorageProto *)us.staticStruct;
     StructureInfoProto *fsp = [rgp structInfo];

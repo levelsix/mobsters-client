@@ -107,11 +107,11 @@
   [self.gameViewController.topBarViewController.mainView setHidden:YES];
   [self.gameViewController.topBarViewController.chatViewController.view setHidden:YES];
   
-  //[self initMissionMap];
-  //[self beginBlackedOutDialogue];
+  [self initMissionMap];
+  [self beginBlackedOutDialogue];
   //[self beginSecondBattlePhase];
   
-  [self yachtWentOffScene];
+  //[self yachtWentOffScene];
   
   //[self initHomeMap];
   //[self initTopBar];
