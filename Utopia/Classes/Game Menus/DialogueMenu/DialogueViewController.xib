@@ -36,7 +36,7 @@
                             <autoresizingMask key="autoresizingMask"/>
                         </imageView>
                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" text="Hey Meep, look at that fat kid eating cake. Let's go shoot him.." textAlignment="center" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" id="yBQ-Qk-ZiX" customClass="NiceFontLabel5">
-                            <rect key="frame" x="35" y="8" width="211" height="66"/>
+                            <rect key="frame" x="36" y="8" width="205" height="66"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             <fontDescription key="fontDescription" type="system" pointSize="12"/>
                             <color key="textColor" white="0.0" alpha="0.69999999999999996" colorSpace="calibratedWhite"/>

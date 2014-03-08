@@ -119,6 +119,8 @@ BOOL LevelUpResponseProto_LevelUpStatusIsValidValue(LevelUpResponseProto_LevelUp
 typedef enum {
   SetFacebookIdResponseProto_SetFacebookIdStatusSuccess = 1,
   SetFacebookIdResponseProto_SetFacebookIdStatusFailOther = 2,
+  SetFacebookIdResponseProto_SetFacebookIdStatusFailFbIdExists = 3,
+  SetFacebookIdResponseProto_SetFacebookIdStatusFailUserFbIdAlreadySet = 4,
 } SetFacebookIdResponseProto_SetFacebookIdStatus;
 
 BOOL SetFacebookIdResponseProto_SetFacebookIdStatusIsValidValue(SetFacebookIdResponseProto_SetFacebookIdStatus value);
@@ -149,55 +151,38 @@ BOOL SetGameCenterIdResponseProto_SetGameCenterIdStatusIsValidValue(SetGameCente
 
 @interface UserCreateRequestProto : PBGeneratedMessage {
 @private
-  BOOL hasUsedDiamondsToBuilt_:1;
-  BOOL hasTimeOfStructPurchase_:1;
-  BOOL hasTimeOfStructBuild_:1;
   BOOL hasCash_:1;
   BOOL hasOil_:1;
   BOOL hasGems_:1;
   BOOL hasUdid_:1;
   BOOL hasName_:1;
-  BOOL hasReferrerCode_:1;
   BOOL hasDeviceToken_:1;
   BOOL hasFacebookId_:1;
-  BOOL hasStructCoords_:1;
-  BOOL usedDiamondsToBuilt_:1;
-  int64_t timeOfStructPurchase;
-  int64_t timeOfStructBuild;
   int32_t cash;
   int32_t oil;
   int32_t gems;
   NSString* udid;
   NSString* name;
-  NSString* referrerCode;
   NSString* deviceToken;
   NSString* facebookId;
-  CoordinateProto* structCoords;
+  NSMutableArray* mutableStructsJustBuiltList;
 }
 - (BOOL) hasUdid;
 - (BOOL) hasName;
-- (BOOL) hasReferrerCode;
 - (BOOL) hasDeviceToken;
-- (BOOL) hasTimeOfStructPurchase;
-- (BOOL) hasTimeOfStructBuild;
-- (BOOL) hasStructCoords;
-- (BOOL) hasUsedDiamondsToBuilt;
 - (BOOL) hasFacebookId;
 - (BOOL) hasCash;
 - (BOOL) hasOil;
 - (BOOL) hasGems;
 @property (readonly, retain) NSString* udid;
 @property (readonly, retain) NSString* name;
-@property (readonly, retain) NSString* referrerCode;
 @property (readonly, retain) NSString* deviceToken;
-@property (readonly) int64_t timeOfStructPurchase;
-@property (readonly) int64_t timeOfStructBuild;
-@property (readonly, retain) CoordinateProto* structCoords;
-- (BOOL) usedDiamondsToBuilt;
 @property (readonly, retain) NSString* facebookId;
 @property (readonly) int32_t cash;
 @property (readonly) int32_t oil;
 @property (readonly) int32_t gems;
+- (NSArray*) structsJustBuiltList;
+- (TutorialStructProto*) structsJustBuiltAtIndex:(int32_t) index;
 
 + (UserCreateRequestProto*) defaultInstance;
 - (UserCreateRequestProto*) defaultInstance;
@@ -243,42 +228,22 @@ BOOL SetGameCenterIdResponseProto_SetGameCenterIdStatusIsValidValue(SetGameCente
 - (UserCreateRequestProto_Builder*) setName:(NSString*) value;
 - (UserCreateRequestProto_Builder*) clearName;
 
-- (BOOL) hasReferrerCode;
-- (NSString*) referrerCode;
-- (UserCreateRequestProto_Builder*) setReferrerCode:(NSString*) value;
-- (UserCreateRequestProto_Builder*) clearReferrerCode;
-
 - (BOOL) hasDeviceToken;
 - (NSString*) deviceToken;
 - (UserCreateRequestProto_Builder*) setDeviceToken:(NSString*) value;
 - (UserCreateRequestProto_Builder*) clearDeviceToken;
 
-- (BOOL) hasTimeOfStructPurchase;
-- (int64_t) timeOfStructPurchase;
-- (UserCreateRequestProto_Builder*) setTimeOfStructPurchase:(int64_t) value;
-- (UserCreateRequestProto_Builder*) clearTimeOfStructPurchase;
-
-- (BOOL) hasTimeOfStructBuild;
-- (int64_t) timeOfStructBuild;
-- (UserCreateRequestProto_Builder*) setTimeOfStructBuild:(int64_t) value;
-- (UserCreateRequestProto_Builder*) clearTimeOfStructBuild;
-
-- (BOOL) hasStructCoords;
-- (CoordinateProto*) structCoords;
-- (UserCreateRequestProto_Builder*) setStructCoords:(CoordinateProto*) value;
-- (UserCreateRequestProto_Builder*) setStructCoordsBuilder:(CoordinateProto_Builder*) builderForValue;
-- (UserCreateRequestProto_Builder*) mergeStructCoords:(CoordinateProto*) value;
-- (UserCreateRequestProto_Builder*) clearStructCoords;
-
-- (BOOL) hasUsedDiamondsToBuilt;
-- (BOOL) usedDiamondsToBuilt;
-- (UserCreateRequestProto_Builder*) setUsedDiamondsToBuilt:(BOOL) value;
-- (UserCreateRequestProto_Builder*) clearUsedDiamondsToBuilt;
-
 - (BOOL) hasFacebookId;
 - (NSString*) facebookId;
 - (UserCreateRequestProto_Builder*) setFacebookId:(NSString*) value;
 - (UserCreateRequestProto_Builder*) clearFacebookId;
+
+- (NSArray*) structsJustBuiltList;
+- (TutorialStructProto*) structsJustBuiltAtIndex:(int32_t) index;
+- (UserCreateRequestProto_Builder*) replaceStructsJustBuiltAtIndex:(int32_t) index with:(TutorialStructProto*) value;
+- (UserCreateRequestProto_Builder*) addStructsJustBuilt:(TutorialStructProto*) value;
+- (UserCreateRequestProto_Builder*) addAllStructsJustBuilt:(NSArray*) values;
+- (UserCreateRequestProto_Builder*) clearStructsJustBuiltList;
 
 - (BOOL) hasCash;
 - (int32_t) cash;

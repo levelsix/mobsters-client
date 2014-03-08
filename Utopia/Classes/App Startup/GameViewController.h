@@ -36,6 +36,7 @@
 + (id) baseController;
 
 - (void) handleConnectedToHost;
+- (void) reloadAccountWithStartupResponse:(StartupResponseProto *)startupResponse;
 
 - (void) buildingPurchased:(int)structId;
 - (void) enterDungeon:(int)taskId withDelay:(float)delay;

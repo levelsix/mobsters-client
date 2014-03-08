@@ -142,7 +142,7 @@
   rect.size = size;
   
   UIColor *c = [UIColor colorWithWhite:0.5f alpha:1.f];
-  NSDictionary *dict = [NSDictionary dictionaryWithObjectsAndKeys:self.font, UITextAttributeFont, c, UITextAttributeTextColor, nil];
+  NSDictionary *dict = [NSDictionary dictionaryWithObjectsAndKeys:self.font, NSFontAttributeName, c, NSForegroundColorAttributeName, nil];
   NSAttributedString *attr = [[NSAttributedString alloc] initWithString:self.placeholder attributes:dict];
   [attr drawInRect:rect];
 }

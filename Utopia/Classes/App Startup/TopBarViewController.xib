@@ -7,6 +7,7 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="TopBarViewController">
             <connections>
+                <outlet property="attackView" destination="3ef-TM-6z9" id="a5P-SF-P0I"/>
                 <outlet property="cashBar" destination="dTR-Is-M9C" id="gt7-UU-n4c"/>
                 <outlet property="cashBgd" destination="fcT-IN-fsB" id="7cM-58-3aO"/>
                 <outlet property="cashLabel" destination="RKP-GK-dXx" id="Wk5-Gi-apR"/>
@@ -46,6 +47,21 @@
                             <rect key="frame" x="0.0" y="-4" width="568" height="114"/>
                             <autoresizingMask key="autoresizingMask"/>
                         </imageView>
+                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="3ef-TM-6z9">
+                            <rect key="frame" x="2" y="272" width="106" height="47"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                            <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
+                            <state key="normal" backgroundImage="mainattack.png">
+                                <color key="titleColor" red="0.19607843459999999" green="0.30980393290000002" blue="0.52156865600000002" alpha="1" colorSpace="calibratedRGB"/>
+                                <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                            </state>
+                            <state key="highlighted">
+                                <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                            </state>
+                            <connections>
+                                <action selector="attackClicked:" destination="-1" eventType="touchUpInside" id="Uck-oT-YsS"/>
+                            </connections>
+                        </button>
                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="ZIw-3f-99G">
                             <rect key="frame" x="460" y="272" width="106" height="47"/>
                             <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMinY="YES"/>
@@ -92,21 +108,6 @@
                             </subviews>
                             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                         </view>
-                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="3ef-TM-6z9">
-                            <rect key="frame" x="2" y="272" width="106" height="47"/>
-                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                            <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
-                            <state key="normal" backgroundImage="mainattack.png">
-                                <color key="titleColor" red="0.19607843459999999" green="0.30980393290000002" blue="0.52156865600000002" alpha="1" colorSpace="calibratedRGB"/>
-                                <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                            </state>
-                            <state key="highlighted">
-                                <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                            </state>
-                            <connections>
-                                <action selector="attackClicked:" destination="-1" eventType="touchUpInside" id="Uck-oT-YsS"/>
-                            </connections>
-                        </button>
                         <view contentMode="scaleToFill" id="wwM-37-tra">
                             <rect key="frame" x="6" y="220" width="41" height="39"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>

@@ -129,7 +129,7 @@ static NSString *udid = nil;
   return advertiserId;
 }
 
-- (BOOL) isForcedTutorial {
++ (BOOL) isForcedTutorial {
 #ifdef FORCE_TUTORIAL
   return YES;
 #else
@@ -139,11 +139,11 @@ static NSString *udid = nil;
 
 - (id) init {
   if ((self = [super init])) {
-#ifdef FORCE_TUTORIAL
-    udid = [NSString stringWithFormat:@"%d%d%d", arc4random(), arc4random(), arc4random()];
-#else
-    udid = UDID;
-#endif
+    if ([SocketCommunication isForcedTutorial]) {
+      udid = [NSString stringWithFormat:@"%d%d%d", arc4random(), arc4random(), arc4random()];
+    } else {
+      udid = UDID;
+    }
     
     self.connectionThread = [[AMQPConnectionThread alloc] init];
     [self.connectionThread start];
@@ -340,10 +340,17 @@ static NSString *udid = nil;
   }
 }
 
-- (int) sendUserCreateMessage {
+- (int) sendUserCreateMessageWithName:(NSString *)name facebookId:(NSString *)facebookId structs:(NSArray *)structs cash:(int)cash oil:(int)oil gems:(int)gems {
   UserCreateRequestProto_Builder *bldr = [UserCreateRequestProto builder];
   
   bldr.udid = udid;
+  bldr.name = name;
+  bldr.facebookId = facebookId;
+  [bldr addAllStructsJustBuilt:structs];
+  bldr.cash = cash;
+  bldr.oil = oil;
+  bldr.cash = cash;
+  bldr.gems = gems;
   
   UserCreateRequestProto *req = [bldr build];
   return [self sendData:req withMessageType:EventProtocolRequestCUserCreateEvent];
@@ -355,7 +362,7 @@ static NSString *udid = nil;
   StartupRequestProto_Builder *bldr = [[[[[[[StartupRequestProto builder]
                                           setUdid:udid]
                                          setFbId:facebookId]
-                                         setIsForceTutorial:[self isForcedTutorial]]
+                                         setIsForceTutorial:[SocketCommunication isForcedTutorial]]
                                         setIsFreshRestart:isFreshRestart]
                                         setVersionNum:[[[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleShortVersionString"] floatValue]]
                                        setMacAddress:mac];

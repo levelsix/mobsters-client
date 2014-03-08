@@ -1511,10 +1511,10 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
 - (BOOL) validateUserName:(NSString *)name {
   // make sure length is okay
   if (name.length < self.minNameLength) {
-    [Globals popupMessage:[NSString stringWithFormat:@"Your name must be atleast %d characters.", self.minNameLength]];
+    [Globals addAlertNotification:[NSString stringWithFormat:@"Your name must be atleast %d character%@.", self.minNameLength, self.minNameLength == 1 ? @"" : @"s"]];
     return NO;
   } else if (name.length > self.maxNameLength) {
-    [Globals popupMessage:[NSString stringWithFormat:@"Your name must be less than %d characters.", self.maxNameLength]];
+    [Globals addAlertNotification:[NSString stringWithFormat:@"Your name must be less than %d characters.", self.maxNameLength]];
     return NO;
   }
   
@@ -1523,7 +1523,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
   NSArray *swearWords = [NSArray arrayWithObjects:@"fuck", @"shit", @"bitch", nil];
   for (NSString *swear in swearWords) {
     if ([lowerStr rangeOfString:swear].location != NSNotFound) {
-      [Globals popupMessage:@"Please refrain from using vulgar language within this game."];
+      [Globals addAlertNotification:@"Please refrain from using vulgar language within this game."];
       return NO;
     }
   }

@@ -278,7 +278,9 @@
     _hasStarted = YES;
   } else {
     [self.myPlayer stopWalking];
-    [self.delegate battleLayerReachedEnemy];
+    if ([self.delegate respondsToSelector:@selector(battleLayerReachedEnemy)]) {
+      [self.delegate battleLayerReachedEnemy];
+    }
   }
 }
 
@@ -293,7 +295,9 @@
   } else {
     [self displayNoInputLayer];
     _myDamageForThisTurn = 0;
-    [self.delegate moveFinished];
+    if ([self.delegate respondsToSelector:@selector(moveFinished)]) {
+      [self.delegate moveFinished];
+    }
   }
 }
 

@@ -262,7 +262,7 @@
   } else if (!_buttonClicked) {
     _buttonClicked = YES;
     [self.delegate visitCityClicked:icon.cityNumber];
-    [self close:nil];
+    [self close];
   }
 }
 
@@ -314,6 +314,10 @@
 }
 
 - (IBAction)close:(id)sender {
+  [self close];
+}
+
+- (void) close {
   [self.presentingViewController dismissViewControllerAnimated:YES completion:nil];
 }
 

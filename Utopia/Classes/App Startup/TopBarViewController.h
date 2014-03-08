@@ -59,6 +59,7 @@
 
 @property (nonatomic, retain) IBOutlet UIView *myCityView;
 @property (nonatomic, retain) IBOutlet UIView *menuView;
+@property (nonatomic, retain) IBOutlet UIView *attackView;
 
 @property (nonatomic, retain) IBOutlet UIView *mainView;
 @property (nonatomic, retain) IBOutlet UIView *coinBarsView;

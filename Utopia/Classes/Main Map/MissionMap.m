@@ -65,7 +65,7 @@
           continue;
         }
         mb.orientation = ncep.orientation;
-        mb.name = [NSString stringWithFormat:ASSET_TAG, ncep.assetId];
+        mb.name = ASSET_TAG(ncep.assetId);
         [self addChild:mb z:1];
         
         [self changeTiles:mb.location canWalk:NO];
@@ -77,7 +77,7 @@
           LNLog(@"Unable to find %@", ncep.imgId);
           continue;
         }
-        s.name = [NSString stringWithFormat:ASSET_TAG, ncep.assetId];
+        s.name = ASSET_TAG(ncep.assetId);
         [self addChild:s z:1];
         
         // Don't take it off for decs
@@ -91,7 +91,7 @@
           LNLog(@"Unable to find %@", ncep.imgId);
           continue;
         }
-        ne.name = [NSString stringWithFormat:ASSET_TAG, ncep.assetId];
+        ne.name = ASSET_TAG(ncep.assetId);
         [self addChild:ne z:1];
       }
     }
@@ -162,7 +162,7 @@
 }
 
 - (id) assetWithId:(int)assetId {
-  return [self getChildByName:[NSString stringWithFormat:ASSET_TAG, assetId] recursively:NO];
+  return [self getChildByName:ASSET_TAG(assetId) recursively:NO];
 }
 
 - (void) moveToAssetId:(int)a animated:(BOOL)animated {

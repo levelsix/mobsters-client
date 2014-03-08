@@ -1006,6 +1006,10 @@
 		CF70654518470051005B30A1 /* xpcap@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CF70650618470051005B30A1 /* xpcap@2x.png */; };
 		CF70654718470051005B30A1 /* xpmiddle.png in Resources */ = {isa = PBXBuildFile; fileRef = CF70650718470051005B30A1 /* xpmiddle.png */; };
 		CF70654918470051005B30A1 /* xpmiddle@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CF70650818470051005B30A1 /* xpmiddle@2x.png */; };
+		CF7372A918CB7CE900EE2CBC /* TutorialAttackMapViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CF7372A818CB7CE900EE2CBC /* TutorialAttackMapViewController.m */; };
+		CF7372B018CB983400EE2CBC /* TutorialElementsBattleLayer.m in Sources */ = {isa = PBXBuildFile; fileRef = CF7372AF18CB983400EE2CBC /* TutorialElementsBattleLayer.m */; };
+		CF7372B518CB989000EE2CBC /* TutorialElementsController.m in Sources */ = {isa = PBXBuildFile; fileRef = CF7372B418CB989000EE2CBC /* TutorialElementsController.m */; };
+		CF7372B718CB997600EE2CBC /* TutorialElementsBattleLayout.txt in Resources */ = {isa = PBXBuildFile; fileRef = CF7372B618CB997600EE2CBC /* TutorialElementsBattleLayout.txt */; };
 		CF76998318779F190031D6ED /* 4x4base@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CF76998118779F190031D6ED /* 4x4base@2x.png */; };
 		CF76998518779F190031D6ED /* 4x4base.png in Resources */ = {isa = PBXBuildFile; fileRef = CF76998218779F190031D6ED /* 4x4base.png */; };
 		CF7699E5187E5E2D0031D6ED /* OilDrill@2x.plist in Resources */ = {isa = PBXBuildFile; fileRef = CF7699E3187E5E2C0031D6ED /* OilDrill@2x.plist */; };
@@ -3679,6 +3683,13 @@
 		CF70650618470051005B30A1 /* xpcap@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "xpcap@2x.png"; sourceTree = "<group>"; };
 		CF70650718470051005B30A1 /* xpmiddle.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = xpmiddle.png; sourceTree = "<group>"; };
 		CF70650818470051005B30A1 /* xpmiddle@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "xpmiddle@2x.png"; sourceTree = "<group>"; };
+		CF7372A718CB7CE900EE2CBC /* TutorialAttackMapViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TutorialAttackMapViewController.h; sourceTree = "<group>"; };
+		CF7372A818CB7CE900EE2CBC /* TutorialAttackMapViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TutorialAttackMapViewController.m; sourceTree = "<group>"; };
+		CF7372AE18CB983400EE2CBC /* TutorialElementsBattleLayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TutorialElementsBattleLayer.h; sourceTree = "<group>"; };
+		CF7372AF18CB983400EE2CBC /* TutorialElementsBattleLayer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TutorialElementsBattleLayer.m; sourceTree = "<group>"; };
+		CF7372B318CB989000EE2CBC /* TutorialElementsController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TutorialElementsController.h; sourceTree = "<group>"; };
+		CF7372B418CB989000EE2CBC /* TutorialElementsController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TutorialElementsController.m; sourceTree = "<group>"; };
+		CF7372B618CB997600EE2CBC /* TutorialElementsBattleLayout.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = TutorialElementsBattleLayout.txt; sourceTree = "<group>"; };
 		CF74698215F6D91400B86B46 /* donefiltering.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = donefiltering.png; sourceTree = "<group>"; };
 		CF74698315F6D91400B86B46 /* donefiltering@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "donefiltering@2x.png"; sourceTree = "<group>"; };
 		CF74698415F6D91400B86B46 /* filterbg.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = filterbg.png; sourceTree = "<group>"; };
@@ -7243,6 +7254,8 @@
 				CFA7502018CAD30000AC66FC /* TutorialNameViewController.h */,
 				CFA7502118CAD30000AC66FC /* TutorialNameViewController.m */,
 				CFA7502218CAD30000AC66FC /* TutorialNameViewController.xib */,
+				CF7372A718CB7CE900EE2CBC /* TutorialAttackMapViewController.h */,
+				CF7372A818CB7CE900EE2CBC /* TutorialAttackMapViewController.m */,
 			);
 			name = MenuControllers;
 			sourceTree = "<group>";
@@ -7408,6 +7421,7 @@
 				CF54944018C7381A001E7D32 /* TutorialMaps */,
 				CF54944718C8156D001E7D32 /* MenuControllers */,
 				CF54943F18C73809001E7D32 /* TutorialBattle */,
+				CF7372AD18CB92F800EE2CBC /* MiniTutorials */,
 			);
 			path = Tutorial;
 			sourceTree = "<group>";
@@ -7582,6 +7596,26 @@
 				CF70650818470051005B30A1 /* xpmiddle@2x.png */,
 			);
 			path = "New Top bar";
+			sourceTree = "<group>";
+		};
+		CF7372AD18CB92F800EE2CBC /* MiniTutorials */ = {
+			isa = PBXGroup;
+			children = (
+				CF7372B218CB985100EE2CBC /* Elements */,
+			);
+			name = MiniTutorials;
+			sourceTree = "<group>";
+		};
+		CF7372B218CB985100EE2CBC /* Elements */ = {
+			isa = PBXGroup;
+			children = (
+				CF7372B318CB989000EE2CBC /* TutorialElementsController.h */,
+				CF7372B418CB989000EE2CBC /* TutorialElementsController.m */,
+				CF7372AE18CB983400EE2CBC /* TutorialElementsBattleLayer.h */,
+				CF7372AF18CB983400EE2CBC /* TutorialElementsBattleLayer.m */,
+				CF7372B618CB997600EE2CBC /* TutorialElementsBattleLayout.txt */,
+			);
+			name = Elements;
 			sourceTree = "<group>";
 		};
 		CF781C54161E60E900E2FF95 /* Expansion Images */ = {
@@ -10805,6 +10839,7 @@
 				CFC66B5C15CB69F7009D537A /* navfire.png in Resources */,
 				CFC66B5D15CB69F7009D537A /* navfire@2x.png in Resources */,
 				CF629351180D312900C6C196 /* settingsmiddlebg.png in Resources */,
+				CF7372B718CB997600EE2CBC /* TutorialElementsBattleLayout.txt in Resources */,
 				CFFEB0E01834539C007C4BA3 /* cardshadow.png in Resources */,
 				CFF7402B1817AF09009DE4A4 /* cornerpiece.png in Resources */,
 				CFC66B5E15CB69F7009D537A /* navperson.png in Resources */,
@@ -12062,6 +12097,7 @@
 				CFFEB17A1834C2FD007C4BA3 /* easing.c in Sources */,
 				CF126D181538ACCA00E0C1AD /* AppDelegate.m in Sources */,
 				CF9AE6DA18090C320013DD44 /* EventInAppPurchase.pb.m in Sources */,
+				CF7372A918CB7CE900EE2CBC /* TutorialAttackMapViewController.m in Sources */,
 				CFC371311884C2BC000348D8 /* HospitalQueueSimulator.m in Sources */,
 				CFFD311E18503E880091E315 /* UpgradeViewController.m in Sources */,
 				CF7063FA183EF991005B30A1 /* StaticStructure.m in Sources */,
@@ -12163,6 +12199,7 @@
 				CFFF9A5E18BEB9B80036EEC3 /* ClanRaidProto+EasyAccess.m in Sources */,
 				CF15BA8216572A8400A51F85 /* AMQPConsumerThread.m in Sources */,
 				CF15BA8316572A8400A51F85 /* AMQPExchange.m in Sources */,
+				CF7372B018CB983400EE2CBC /* TutorialElementsBattleLayer.m in Sources */,
 				CF15BA8416572A8400A51F85 /* AMQPMessage.m in Sources */,
 				CF15BA8516572A8400A51F85 /* AMQPObject.m in Sources */,
 				CFEF25BA18C9849000FB867A /* FacebookDelegate.m in Sources */,
@@ -12175,6 +12212,7 @@
 				CFC141AC1657484A0060188D /* socket.c in Sources */,
 				CFC141FD1658B70D0060188D /* amqp_api.c in Sources */,
 				CFE02CBF18235A0E0016C1E2 /* GachaponViewController.m in Sources */,
+				CF7372B518CB989000EE2CBC /* TutorialElementsController.m in Sources */,
 				CFC141FE1658B70D0060188D /* amqp_connection.c in Sources */,
 				CF6F1A23181521FF00CFF2B9 /* QuestDetailsViewController.m in Sources */,
 				CF9AE6E618090C320013DD44 /* MonsterStuff.pb.m in Sources */,

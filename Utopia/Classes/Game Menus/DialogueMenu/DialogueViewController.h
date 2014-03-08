@@ -13,9 +13,8 @@
 
 @protocol DialogueViewControllerDelegate <NSObject>
 
-- (void) dialogueViewControllerFinished:(DialogueViewController *)dvc;
-
 @optional
+- (void) dialogueViewControllerFinished:(DialogueViewController *)dvc;
 - (void) dialogueViewController:(DialogueViewController *)dvc willDisplaySpeechAtIndex:(int)index;
 - (void) dialogueViewController:(DialogueViewController *)dvc didDisplaySpeechAtIndex:(int)index;
 

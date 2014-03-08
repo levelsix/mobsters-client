@@ -10,8 +10,8 @@
 
 @protocol TutorialMyCroniesDelegate <NSObject>
 
-- (void) queuedUpMonster;
-- (void) spedUpQueue;
+- (void) queuedUpMonster:(int)cashSpent;
+- (void) spedUpQueue:(int)gemsSpent;
 - (void) exitedMyCronies;
 
 @end

@@ -65,4 +65,9 @@
   return NO;
 }
 
+- (BOOL) textFieldShouldReturn:(UITextField *)textField {
+  [self closeClicked:nil];
+  return NO;
+}
+
 @end

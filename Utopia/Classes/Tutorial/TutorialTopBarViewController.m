@@ -32,6 +32,24 @@
   [self.view addSubview:self.menuView];
 }
 
+- (void) displayAttackButton {
+  [self.view addSubview:self.attackView];
+  
+  self.attackView.alpha = 0.f;
+  [UIView animateWithDuration:0.2f animations:^{
+    self.attackView.alpha = 1.f;
+  }];
+}
+
+- (void) displayQuestButton {
+  [self.view addSubview:self.questView];
+  
+  self.questView.alpha = 0.f;
+  [UIView animateWithDuration:0.2f animations:^{
+    self.questView.alpha = 1.f;
+  }];
+}
+
 - (void) allowMenuClick {
   _allowMenuClick = YES;
   
@@ -46,26 +64,37 @@
   }
 }
 
-- (IBAction)plusClicked:(id)sender {
-  // Do nothing
-}
-
-- (void) allowQuestClick {
-  self.mainView.hidden = YES;
-  self.mainView.alpha = 0.f;
-  [UIView animateWithDuration:0.3f animations:^{
-    self.mainView.alpha = 1.f;
-  } completion:^(BOOL finished) {
-    [Globals createUIArrowForView:self.questView atAngle:M_PI_2];
-  }];
-}
-
-- (IBAction)questsClicked:(id)sender {
-  [super questsClicked:sender];
-  [Globals removeUIArrowFromViewRecursively:self.view];
+- (void) allowAttackClick {
+  _allowAttackClick = YES;
+  
+  [self displayAttackButton];
+  [Globals createUIArrowForView:self.attackView atAngle:M_PI_2];
 }
 
 - (IBAction)attackClicked:(id)sender {
+  if (_allowAttackClick) {
+    _allowAttackClick = NO;
+    [Globals removeUIArrowFromViewRecursively:self.view];
+    [self.delegate attackClicked];
+  }
+}
+
+- (void) allowQuestsClick {
+  _allowQuestsClick = YES;
+  
+  [self displayQuestButton];
+  [Globals createUIArrowForView:self.questView atAngle:0];
+}
+
+- (IBAction)questsClicked:(id)sender {
+  if (_allowQuestsClick) {
+    _allowQuestsClick = NO;
+    [self.delegate questsClicked];
+    [Globals removeUIArrowFromViewRecursively:self.view];
+  }
+}
+
+- (IBAction)plusClicked:(id)sender {
   // Do nothing
 }
 

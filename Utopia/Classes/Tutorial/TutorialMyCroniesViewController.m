@@ -117,7 +117,8 @@
   hi.timeDistribution = @[@(hi.endTime.timeIntervalSinceNow), @(maxHp-um.curHealth)];
   [self.healingQueue addObject:hi];
   
-  [self.delegate queuedUpMonster];
+  int cashCost = [gl calculateCostToHealMonster:um];
+  [self.delegate queuedUpMonster:cashCost];
   
   [Globals removeUIArrowFromViewRecursively:self.view];
   self.inventoryTable.userInteractionEnabled = NO;
@@ -126,15 +127,27 @@
 
 - (BOOL) speedupHealingQueue {
   Globals *gl = [Globals sharedGlobals];
+  
+  int timeLeft = self.monsterHealingQueueEndTime.timeIntervalSinceNow;
+  int gemCost = [gl calculateGemSpeedupCostForTimeLeft:timeLeft];
+  
   [self.monsterHealingQueue removeAllObjects];
   UserMonster *um = self.myMonsters[0];
   um.curHealth = [gl calculateMaxHealthForMonster:um];
   
-  [self.delegate spedUpQueue];
+  [self.delegate spedUpQueue:gemCost];
   
   [Globals removeUIArrowFromViewRecursively:self.view];
   self.queueView.userInteractionEnabled = NO;
   return YES;
+}
+
+- (void) updateLabels {
+  [super updateLabels];
+  
+  if (self.monsterHealingQueueEndTime.timeIntervalSinceNow < 0) {
+    [self speedupButtonClicked];
+  }
 }
 
 - (void) infoClicked:(MyCroniesCardCell *)cell {

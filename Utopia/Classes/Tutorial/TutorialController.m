@@ -27,9 +27,16 @@
     _damageDealtToFriend = 137;
     
     GameState *gs = [GameState sharedGameState];
-    gs.silver = constants.cashInit;
-    gs.oil = constants.oilInit;
-    gs.gold = constants.gemsInit;
+    gs.silver = _cash = constants.cashInit;
+    gs.oil = _oil = constants.oilInit;
+    gs.gold = _gems = constants.gemsInit;
+    
+    _structs = [NSMutableDictionary dictionary];
+    for (NSNumber *structId in constants.structureIdsToBeBuilltList) {
+      [_structs setObject:[NSValue valueWithCGPoint:ccp(0, 0)] forKey:structId];
+    }
+    
+    _name = @"Joey Meatball";
   }
   return self;
 }
@@ -104,21 +111,24 @@
   //[self beginBlackedOutDialogue];
   //[self beginSecondBattlePhase];
   
-  //[self yachtWentOffScene];
+  [self yachtWentOffScene];
   
-  [self initHomeMap];
-  [self initTopBar];
-  [self beginFacebookLoginPhase];
+  //[self initHomeMap];
+  //[self initTopBar];
+  //[self beginAttackMapPhase];
 }
 
 - (void) initMissionMap {
   CCScene *scene = [CCScene node];
-  TutorialMissionMap *missionMap = [[TutorialMissionMap alloc] initWithTutorialConstants:self.constants];
-  missionMap.delegate = self;
-  [scene addChild:missionMap];
-  [[CCDirector sharedDirector] replaceScene:scene];
-  self.missionMap = missionMap;
-  self.gameViewController.currentMap = missionMap;
+  if (!self.missionMap) {
+    TutorialMissionMap *missionMap = [[TutorialMissionMap alloc] initWithTutorialConstants:self.constants];
+    missionMap.delegate = self;
+    self.missionMap = missionMap;
+  }
+  [scene addChild:self.missionMap];
+  CCDirector *dir = [CCDirector sharedDirector];
+  [dir replaceScene:scene];
+  self.gameViewController.currentMap = self.missionMap;
 }
 
 - (void) initHomeMap {
@@ -148,6 +158,9 @@
   [self.gameViewController.view addSubview:self.topBarViewController.view];
   [self.topBarViewController displayMenuButton];
   [self.topBarViewController displayCoinBars];
+  
+  // Have to do this for some reason..
+  [self.topBarViewController viewWillAppear:YES];
 }
 
 - (void) initMainMenuController {
@@ -177,9 +190,9 @@
   if (gcName) {
     [self initNameViewController:gcName];
   } else {
-    [FacebookDelegate getFacebookUsernameAndDoAction:^(NSString *facebookId) {
-      if (facebookId) {
-        [self initNameViewController:facebookId];
+    [FacebookDelegate getFacebookUsernameAndDoAction:^(NSString *username) {
+      if (username) {
+        [self initNameViewController:username];
       } else {
         [self initNameViewController:nil];
       }
@@ -192,6 +205,57 @@
   self.nameViewController.delegate = self;
   [self.gameViewController addChildViewController:self.nameViewController];
   [self.gameViewController.view addSubview:self.nameViewController.view];
+}
+
+- (void) initAttackMapViewController {
+  self.attackMapViewController = [[TutorialAttackMapViewController alloc] init];
+  self.attackMapViewController.delegate = self;
+  [self.attackMapViewController allowClickOnCityId:1];
+  MenuNavigationController *nav = [[MenuNavigationController alloc] init];
+  nav.navigationBarHidden = YES;
+  [self.gameViewController presentViewController:nav animated:YES completion:nil];
+  [nav pushViewController:self.attackMapViewController animated:YES];
+}
+
+- (void) cleanup {
+  [self.topBarViewController.view removeFromSuperview];
+  [self.topBarViewController removeFromParentViewController];
+  
+  [self.gameViewController.topBarViewController.mainView setHidden:NO];
+  [self.gameViewController.topBarViewController.chatViewController.view setHidden:NO];
+}
+
+- (void) sendUserCreate {
+  NSMutableArray *str = [NSMutableArray array];
+  for (NSNumber *num in _structs) {
+    CGPoint coord = [_structs[num] CGPointValue];
+    
+    TutorialStructProto_Builder *bldr = [TutorialStructProto builder];
+    bldr.structId = num.intValue;
+    bldr.coordinate = [[[[CoordinateProto builder] setX:coord.x] setY:coord.y] build];
+    [str addObject:bldr.build];
+  }
+  
+  [[OutgoingEventController sharedOutgoingEventController] createUserWithName:_name facebookId:_facebookId structs:str cash:_cash oil:_oil gems:_gems delegate:self];
+}
+
+- (void) handleUserCreateResponseProto:(FullEvent *)fe {
+  UserCreateResponseProto *proto = (UserCreateResponseProto *)fe.event;
+  if (proto.status == UserCreateResponseProto_UserCreateStatusSuccess) {
+    _sendingUserCreateStartup = YES;
+    [[OutgoingEventController sharedOutgoingEventController] startupWithFacebookId:_facebookId isFreshRestart:YES delegate:self];
+  } else {
+    [Globals popupMessage:@"Something went wrong with creating your account. Please contact support about this issue."];
+  }
+}
+
+- (void) handleStartupResponseProto:(FullEvent *)fe {
+  StartupResponseProto *proto = (StartupResponseProto *)fe.event;
+  if (_sendingUserCreateStartup) {
+    self.userCreateStartupResponse = proto;
+  } else {
+    [self facebookStartupReceived:proto];
+  }
 }
 
 #pragma mark - Tutorial Sequence
@@ -481,11 +545,41 @@
   _currentStep = TutorialStepEnterName;
 }
 
-- (void) begin {
+- (void) beginAttackMapPhase {
   NSArray *dialogue = @[@(TutorialDialogueSpeakerMarkL), @"Is that really on your birth certificate? Seems legit I guess.",
                         @(TutorialDialogueSpeakerFriendR), @"Enough chit chat. There’s a world to conquer, and it’s yours for the taking.",
-                        @(TutorialDialogueSpeakerFriendR), @"Let’s head to the training grounds so I can teach you more about battling.",
-                        @(TutorialDialogueSpeakerMarkL), @"Just keep following the floating orange arrows! Aren’t they pretty?"];
+                        @(TutorialDialogueSpeakerFriendR), @"Let’s head to the training grounds now so I can teach you more about battling."];
+  [self displayDialogue:dialogue allowTouch:YES];
+  
+  _currentStep = TutorialStepAttackMap;
+}
+
+- (void) beginEnterBattleThreePhase {
+  [self.missionMap moveToThirdBuilding];
+  
+  NSArray *dialogue = @[@(TutorialDialogueSpeakerFriend), @"Unlike your world, we mobsters like to take the fight inside. Click on the Tea Lounge to start a fight."];
+  [self displayDialogue:dialogue allowTouch:YES];
+  
+  _currentStep = TutorialStepEnterBattleThree;
+}
+
+- (void) beginElementsMiniTutorialPhase {
+  GameState *gs = [GameState sharedGameState];
+  MonsterProto *mp = [gs monsterWithId:self.constants.startingMonsterId];
+  self.elementsController = [[TutorialElementsController alloc] initWithGameViewController:self.gameViewController dialogueSpeakerImage:mp.imagePrefix constants:self.constants];
+  self.elementsController.delegate = self;
+  [self.elementsController begin];
+  
+  [UIView animateWithDuration:0.4f animations:^{
+    self.topBarViewController.view.alpha = 0.f;
+  }];
+  
+  _currentStep = TutorialStepElementsMiniTutorial;
+}
+
+- (void) beginClickQuestsPhase {
+  NSArray *dialogue = @[@(TutorialDialogueSpeakerFriend), @"You learn quick, but it’s easy to get side-tracked when you’re building an empire.",
+                        @(TutorialDialogueSpeakerFriend), @"I’ve created a mission list to guide you in case you get lost. Tap here now to check it out!"];
   [self displayDialogue:dialogue allowTouch:YES];
   
   _currentStep = TutorialStepClickQuests;
@@ -533,12 +627,11 @@
   [self beginHomeMapPhase];
 }
 
-#pragma mark - BattleLayer delegate
-
-- (void) moveMade {
-  // Dismiss the dialogue
-  [self.dialogueViewController animateNext];
+- (void) enteredThirdBuilding {
+  [self beginElementsMiniTutorialPhase];
 }
+
+#pragma mark - BattleLayer delegate
 
 - (void) battleLayerReachedEnemy {
   if (_currentStep == TutorialStepEnteredFirstBattle) {
@@ -546,6 +639,11 @@
   } else if (_currentStep == TutorialStepEnteredSecondBattle) {
     [self beginSecondBattleFirstMovePhase];
   }
+}
+
+- (void) moveMade {
+  // Dismiss the dialogue
+  [self.dialogueViewController animateNext];
 }
 
 - (void) moveFinished {
@@ -598,7 +696,7 @@
   [self beginHealQueueingPhase];
 }
 
-- (void) purchasedBuildingWasSetDown {
+- (void) purchasedBuildingWasSetDown:(int)structId coordinate:(CGPoint)coordinate cashCost:(int)cashCost oilCost:(int)oilCost {
   if (_currentStep == TutorialStepBeginBuildingOne) {
     [self beginSpeedupBuildingOnePhase];
   } else if (_currentStep == TutorialStepBeginBuildingTwo) {
@@ -606,9 +704,19 @@
   } else if (_currentStep == TutorialStepBeginBuildingThree) {
     [self beginSpeedupBuildingThreePhase];
   }
+  
+  [_structs setObject:[NSValue valueWithCGPoint:coordinate] forKey:@(structId)];
+  
+  GameState *gs = [GameState sharedGameState];
+  _cash -= cashCost;
+  _oil -= oilCost;
+  gs.silver = _cash;
+  gs.oil = _oil;
+  
+  [[NSNotificationCenter defaultCenter] postNotificationName:GAMESTATE_UPDATE_NOTIFICATION object:nil];
 }
 
-- (void) buildingWasCompleted {
+- (void) buildingWasCompleted:(int)gemsSpent {
   [self.dialogueViewController animateNext];
   if (_currentStep == TutorialStepSpeedupBuildingOne) {
     [self beginBuildingTwoPhase];
@@ -617,16 +725,34 @@
   } else if (_currentStep == TutorialStepSpeedupBuildingThree) {
     [self beginFacebookLoginPhase];
   }
+  
+  GameState *gs = [GameState sharedGameState];
+  _gems -= gemsSpent;
+  gs.gold = _gems;
+  
+  [[NSNotificationCenter defaultCenter] postNotificationName:GAMESTATE_UPDATE_NOTIFICATION object:nil];
 }
 
 #pragma mark - MyCroniesViewController delegate
 
-- (void) queuedUpMonster {
+- (void) queuedUpMonster:(int)cashSpent {
   [self beginSpeedupHealQueuePhase];
+  
+  GameState *gs = [GameState sharedGameState];
+  _cash -= cashSpent;
+  gs.silver = _cash;
+  
+  [[NSNotificationCenter defaultCenter] postNotificationName:GAMESTATE_UPDATE_NOTIFICATION object:nil];
 }
 
-- (void) spedUpQueue {
+- (void) spedUpQueue:(int)gemsSpent {
   [self beginHospitalExitPhase];
+  
+  GameState *gs = [GameState sharedGameState];
+  _gems -= gemsSpent;
+  gs.gold = _gems;
+  
+  [[NSNotificationCenter defaultCenter] postNotificationName:GAMESTATE_UPDATE_NOTIFICATION object:nil];
 }
 
 - (void) exitedMyCronies {
@@ -643,6 +769,16 @@
     
     [self.dialogueViewController animateNext];
   }
+}
+
+- (void) attackClicked {
+  [self initAttackMapViewController];
+}
+
+- (void) questsClicked {
+  [self.dialogueViewController animateNext];
+  
+  NSLog(@"Yay, done!");
 }
 
 #pragma mark - MainMenu delegate
@@ -676,6 +812,7 @@
 - (void) facebookConnectAccepted {
   [FacebookDelegate getFacebookIdAndDoAction:^(NSString *facebookId) {
     if (facebookId) {
+      _facebookId = facebookId;
       [[OutgoingEventController sharedOutgoingEventController] startupWithFacebookId:facebookId isFreshRestart:YES delegate:self];
     } else {
       [Globals popupMessage:@"Something went wrong. Your facebook account could not be retrieved! Please try again."];
@@ -683,8 +820,7 @@
   }];
 }
 
-- (void) handleStartupResponseProto:(FullEvent *)fe {
-  StartupResponseProto *proto = (StartupResponseProto *)fe.event;
+- (void) facebookStartupReceived:(StartupResponseProto *)proto {
   if (proto.startupStatus == StartupResponseProto_StartupStatusUserNotInDb) {
     [self.facebookViewController close];
     [self beginFacebookAcceptedNamingPhase];
@@ -694,20 +830,49 @@
       [FacebookSpammer spamAllFriendsWithRequest];
     }
   } else {
+    _facebookId = nil;
     self.facebookStartupResponse = proto;
-    NSString *desc = [NSString stringWithFormat:@"Oops! This Facebook account is already linked to another player (%@). Would you like to load this account now?", proto.sender.name];
-    [GenericPopupController displayConfirmationWithDescription:desc title:@"Account Already Used" okayButton:@"Load" cancelButton:@"Cancel" target:self selector:@selector(swapAccounts)];
+    NSString *desc = [NSString stringWithFormat:@"Oops! This Facebook account is already linked to another player (%@). Would you like to load that account now?", proto.sender.name];
+    [GenericPopupController displayConfirmationWithDescription:desc title:@"Account Already Used" okayButton:@"Load" cancelButton:@"Cancel" okTarget:self okSelector:@selector(swapAccounts) cancelTarget:self cancelSelector:@selector(swapRejected)];
   }
 }
 
 - (void) swapAccounts {
-  NSLog(@"Swap!");
+  [self.facebookViewController close];
+  [self cleanup];
+  [self.gameViewController reloadAccountWithStartupResponse:self.facebookStartupResponse];
+}
+
+- (void) swapRejected {
+  [FacebookDelegate logout];
+  [self.facebookViewController allowClick];
 }
 
 #pragma mark - Name delegate
 
 - (void) nameChosen:(NSString *)name {
-  NSLog(@"%@", name);
+  _name = name;
+  [self beginAttackMapPhase];
+}
+
+#pragma mark - AttackMap delegate
+
+- (void) visitCityClicked:(int)cityId {
+  if (_currentStep == TutorialStepAttackMap) {
+    // Go back to the mission map
+    [self initMissionMap];
+    [self beginEnterBattleThreePhase];
+  }
+}
+
+#pragma mark - Elements Tutorial delegate
+
+- (void) elementsTutorialComplete {
+  [self beginClickQuestsPhase];
+  
+  [UIView animateWithDuration:0.4f animations:^{
+    self.topBarViewController.view.alpha = 1.f;
+  }];
 }
 
 #pragma mark - DialogueViewController delegate
@@ -756,6 +921,9 @@
              (_currentStep == TutorialStepBeginBuildingTwo && index == 2) ||
              (_currentStep == TutorialStepBeginBuildingThree && index == 3)) {
     [self.topBarViewController allowMenuClick];
+  } else if (_currentStep == TutorialStepClickQuests && index == 1) {
+    dvc.view.userInteractionEnabled = NO;
+    [self.topBarViewController allowQuestsClick];
   }
 }
 
@@ -789,10 +957,12 @@
       [self.homeMap walkToHospitalAndEnter];
     } else if (_currentStep == TutorialStepFacebookLogin) {
       [self initFacebookViewController];
-    } else if (_currentStep == TutorialStepEnterName ) {
+    } else if (_currentStep == TutorialStepEnterName) {
       [self initNameViewController];
-    } else if (_currentStep == TutorialStepClickQuests) {
-      
+    } else if (_currentStep == TutorialStepAttackMap) {
+      [self.topBarViewController allowAttackClick];
+    } else if (_currentStep == TutorialStepEnterBattleThree) {
+      [self.missionMap displayArrowOverThirdBuilding];
     }
   }
 }

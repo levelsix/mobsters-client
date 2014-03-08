@@ -18,8 +18,17 @@
 #import "TutorialMainMenuController.h"
 #import "TutorialFacebookViewController.h"
 #import "TutorialNameViewController.h"
+#import "TutorialAttackMapViewController.h"
+#import "TutorialElementsController.h"
 
 @class GameViewController;
+
+@protocol TutorialControllerDelegate <NSObject>
+
+- (void) reloadAccountWithStartupResponse:(StartupResponseProto *)startupResponse;
+- (void) tutorialFinished;
+
+@end
 
 typedef enum {
   TutorialDialogueSpeakerFriend,
@@ -75,14 +84,28 @@ typedef enum {
   
   TutorialStepFacebookLogin,
   TutorialStepEnterName,
+  
+  TutorialStepAttackMap,
+  TutorialStepEnterBattleThree,
+  TutorialStepElementsMiniTutorial,
   TutorialStepClickQuests,
 } TutorialStep;
 
-@interface TutorialController : NSObject <TutorialMissionMapDelegate, DialogueViewControllerDelegate, TutorialBattleLayerDelegate, TutorialHomeMapDelegate, TutorialMyCroniesDelegate, TutorialTopBarDelegate, TutorialMainMenuDelegate, TutorialCarpenterDelegate, TutorialFacebookDelegate, TutorialNameDelegate> {
+@interface TutorialController : NSObject <TutorialMissionMapDelegate, DialogueViewControllerDelegate, TutorialBattleLayerDelegate, TutorialHomeMapDelegate, TutorialMyCroniesDelegate, TutorialTopBarDelegate, TutorialMainMenuDelegate, TutorialCarpenterDelegate, TutorialFacebookDelegate, TutorialNameDelegate, AttackMapDelegate, TutorialElementsDelegate> {
   TutorialStep _currentStep;
   
   int _damageDealtToFriend;
   float _hospitalHealSpeed;
+  
+  NSString *_name;
+  NSString *_facebookId;
+  NSMutableDictionary *_structs;
+  
+  int _cash;
+  int _oil;
+  int _gems;
+  
+  BOOL _sendingUserCreateStartup;
 }
 
 @property (nonatomic, assign) GameViewController *gameViewController;
@@ -100,10 +123,15 @@ typedef enum {
 
 @property (nonatomic, retain) TutorialFacebookViewController *facebookViewController;
 @property (nonatomic, retain) TutorialNameViewController *nameViewController;
+@property (nonatomic, retain) TutorialAttackMapViewController *attackMapViewController;
+
+@property (nonatomic, retain) TutorialElementsController *elementsController;
 
 @property (nonatomic, retain) DialogueViewController *dialogueViewController;
 
 @property (nonatomic, retain) StartupResponseProto *facebookStartupResponse;
+
+@property (nonatomic, retain) StartupResponseProto *userCreateStartupResponse;
 
 - (id) initWithTutorialConstants:(StartupResponseProto_TutorialConstants *)constants gameViewController:(GameViewController *)gvc;
 - (void) beginTutorial;

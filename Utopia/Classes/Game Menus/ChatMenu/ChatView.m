@@ -117,6 +117,11 @@
   return height;
 }
 
+- (void) dealloc {
+  self.chatTable.delegate = nil;
+  self.chatTable.dataSource = nil;
+}
+
 @end
 
 @implementation GlobalChatView

@@ -251,6 +251,10 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
   Globals *gl = [Globals sharedGlobals];
   GameState *gs = [GameState sharedGameState];
   
+  if (gs.isTutorial) {
+    return;
+  }
+  
   gs.connected = YES;
   
   if (proto.updateStatus == StartupResponseProto_UpdateStatusMajorUpdate) {

@@ -508,23 +508,24 @@
   BOOL hasDefensesLost_:1;
   BOOL hasNumBadges_:1;
   BOOL hasApsalarId_:1;
-  BOOL hasUserId_:1;
   BOOL hasNumOilRetrievedFromStructs_:1;
   BOOL hasNumCoinsRetrievedFromStructs_:1;
   BOOL hasNumReferrals_:1;
+  BOOL hasUserId_:1;
   BOOL hasFlees_:1;
   BOOL hasBattlesLost_:1;
   BOOL hasBattlesWon_:1;
   BOOL hasLevel_:1;
   BOOL hasGems_:1;
   BOOL hasCash_:1;
-  BOOL hasOil_:1;
   BOOL hasTasksCompleted_:1;
   BOOL hasExperience_:1;
+  BOOL hasOil_:1;
+  BOOL hasUdid_:1;
   BOOL hasName_:1;
   BOOL hasKabamNaid_:1;
   BOOL hasDeviceToken_:1;
-  BOOL hasUdid_:1;
+  BOOL hasUdidForHistory_:1;
   BOOL hasGameCenterId_:1;
   BOOL hasFacebookId_:1;
   BOOL hasReferralCode_:1;
@@ -551,23 +552,24 @@
   int32_t defensesLost;
   int32_t numBadges;
   int32_t apsalarId;
-  int32_t userId;
   int32_t numOilRetrievedFromStructs;
   int32_t numCoinsRetrievedFromStructs;
   int32_t numReferrals;
+  int32_t userId;
   int32_t flees;
   int32_t battlesLost;
   int32_t battlesWon;
   int32_t level;
   int32_t gems;
   int32_t cash;
-  int32_t oil;
   int32_t tasksCompleted;
   int32_t experience;
+  int32_t oil;
+  NSString* udid;
   NSString* name;
   NSString* kabamNaid;
   NSString* deviceToken;
-  NSString* udid;
+  NSString* udidForHistory;
   NSString* gameCenterId;
   NSString* facebookId;
   NSString* referralCode;
@@ -606,7 +608,7 @@
 - (BOOL) hasDefensesLost;
 - (BOOL) hasFacebookId;
 - (BOOL) hasGameCenterId;
-- (BOOL) hasUdid;
+- (BOOL) hasUdidForHistory;
 - (BOOL) hasDeviceToken;
 - (BOOL) hasLastBattleNotificationTime;
 - (BOOL) hasNumBadges;
@@ -617,6 +619,7 @@
 - (BOOL) hasKabamNaid;
 - (BOOL) hasInBattleShieldEndTime;
 - (BOOL) hasFbIdSetOnUserCreate;
+- (BOOL) hasUdid;
 @property (readonly) int32_t userId;
 @property (readonly, retain) NSString* name;
 @property (readonly) int32_t level;
@@ -649,7 +652,7 @@
 @property (readonly) int32_t defensesLost;
 @property (readonly, retain) NSString* facebookId;
 @property (readonly, retain) NSString* gameCenterId;
-@property (readonly, retain) NSString* udid;
+@property (readonly, retain) NSString* udidForHistory;
 @property (readonly, retain) NSString* deviceToken;
 @property (readonly) int64_t lastBattleNotificationTime;
 @property (readonly) int32_t numBadges;
@@ -660,6 +663,7 @@
 @property (readonly, retain) NSString* kabamNaid;
 @property (readonly) int64_t inBattleShieldEndTime;
 - (BOOL) fbIdSetOnUserCreate;
+@property (readonly, retain) NSString* udid;
 
 + (FullUserProto*) defaultInstance;
 - (FullUserProto*) defaultInstance;
@@ -857,10 +861,10 @@
 - (FullUserProto_Builder*) setGameCenterId:(NSString*) value;
 - (FullUserProto_Builder*) clearGameCenterId;
 
-- (BOOL) hasUdid;
-- (NSString*) udid;
-- (FullUserProto_Builder*) setUdid:(NSString*) value;
-- (FullUserProto_Builder*) clearUdid;
+- (BOOL) hasUdidForHistory;
+- (NSString*) udidForHistory;
+- (FullUserProto_Builder*) setUdidForHistory:(NSString*) value;
+- (FullUserProto_Builder*) clearUdidForHistory;
 
 - (BOOL) hasDeviceToken;
 - (NSString*) deviceToken;
@@ -911,6 +915,11 @@
 - (BOOL) fbIdSetOnUserCreate;
 - (FullUserProto_Builder*) setFbIdSetOnUserCreate:(BOOL) value;
 - (FullUserProto_Builder*) clearFbIdSetOnUserCreate;
+
+- (BOOL) hasUdid;
+- (NSString*) udid;
+- (FullUserProto_Builder*) setUdid:(NSString*) value;
+- (FullUserProto_Builder*) clearUdid;
 @end
 
 @interface StaticUserLevelInfoProto : PBGeneratedMessage {

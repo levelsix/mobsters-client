@@ -36,6 +36,8 @@
     }
     
     _mapMovementDivisor = 300.f;
+    
+    self.cityId = -1;
   }
   return self;
 }
@@ -296,7 +298,15 @@
 - (void) purchaseBuildingAllowGems:(BOOL)allowGems {
   [super purchaseBuildingAllowGems:allowGems];
   [self moveToSprite:_constrBuilding animated:YES];
-  [self.delegate purchasedBuildingWasSetDown];
+  
+  int cashCost = 0, oilCost = 0;
+  StructureInfoProto *fsp = _constrBuilding.userStruct.staticStruct.structInfo;
+  if (fsp.buildResourceType == ResourceTypeCash) {
+    cashCost = fsp.buildCost;
+  } else if (fsp.buildResourceType == ResourceTypeOil) {
+    oilCost = fsp.buildCost;
+  }
+  [self.delegate purchasedBuildingWasSetDown:_constrBuilding.userStruct.structId coordinate:_constrBuilding.location.origin cashCost:cashCost oilCost:oilCost];
 }
 
 - (IBAction)finishNowClicked:(id)sender {
@@ -305,14 +315,17 @@
 
 - (void) sendNormStructComplete:(UserStruct *)us {
   us.isComplete = YES;
-  [self.delegate buildingWasCompleted];
+  [self.delegate buildingWasCompleted:0];
   self.clickableUserStructId = 0;
   self.selected = nil;
 }
 
 - (void) sendSpeedupBuilding:(UserStruct *)us {
+  Globals *gl = [Globals sharedGlobals];
+  int timeLeft = us.timeLeftForBuildComplete;
+  int gemCost = [gl calculateGemSpeedupCostForTimeLeft:timeLeft];
   us.isComplete = YES;
-  [self.delegate buildingWasCompleted];
+  [self.delegate buildingWasCompleted:gemCost];
   self.clickableUserStructId = 0;
   self.selected = nil;
 }

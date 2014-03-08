@@ -10,6 +10,7 @@
 
 @protocol TutorialBattleLayerDelegate <BattleLayerDelegate>
 
+@optional
 - (void) battleLayerReachedEnemy;
 - (void) moveMade;
 - (void) moveFinished;

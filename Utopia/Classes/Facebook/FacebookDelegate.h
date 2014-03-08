@@ -30,6 +30,8 @@
 + (void) initiateRequestToFacebookIds:(NSArray *)fbIds withMessage:(NSString *)message completionBlock:(void(^)(BOOL success, NSArray *friendIds))completion;
 
 + (void) getFacebookIdAndDoAction:(void (^)(NSString *facebookId))handler;
-+ (void) getFacebookUsernameAndDoAction:(void (^)(NSString *facebookId))handler;
++ (void) getFacebookUsernameAndDoAction:(void (^)(NSString *username))handler;
+
++ (void) logout;
 
 @end

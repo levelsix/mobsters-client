@@ -43,6 +43,9 @@
 
 - (IBAction)headerClicked:(id)sender;
 
+- (void) updateLabels;
+- (void) speedupButtonClicked;
+
 - (NSMutableSet *) recentlyHealedMonsterIds;
 - (NSMutableArray *) monsterHealingQueue;
 - (UserMonster *) monsterForSlot:(int)slot;

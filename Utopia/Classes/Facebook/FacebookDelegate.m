@@ -9,6 +9,7 @@
 #import "FacebookDelegate.h"
 #import <FacebookSDK/FacebookSDK.h>
 #import "Globals.h"
+#import "GenericPopupController.h"
 
 @implementation FacebookDelegate
 
@@ -50,20 +51,19 @@
 }
 
 - (void) showMessage:(NSString *)alertText withTitle:(NSString *)title {
-  UIAlertView *alert = [[UIAlertView alloc] initWithTitle:title message:alertText delegate:nil cancelButtonTitle:@"Okay" otherButtonTitles:nil];
-  [alert show];
+  [GenericPopupController displayNotificationViewWithText:alertText title:title];
 }
 
 - (void) sessionStateChanged:(FBSession *)session state:(FBSessionState)state error:(NSError *)error {
   // If the session was opened successfully
   if (!error && state == FBSessionStateOpen){
-    NSLog(@"Session opened");
+    LNLog(@"Facebook session opened.");
     // Show the user the logged-in UI
     return;
   }
   if (state == FBSessionStateClosed || state == FBSessionStateClosedLoginFailed){
     // If the session is closed
-    NSLog(@"Session closed");
+    LNLog(@"Facebook session closed.");
     // Show the user the logged-out UI
   }
   
@@ -74,7 +74,7 @@
     NSString *alertTitle;
     // If the error requires people using an app to make an action outside of the app in order to recover
     if ([FBErrorUtility shouldNotifyUserForError:error] == YES){
-      alertTitle = @"Something went wrong";
+      alertTitle = @"Something went wrong!";
       alertText = [FBErrorUtility userMessageForError:error];
       [self showMessage:alertText withTitle:alertTitle];
     } else {
@@ -123,19 +123,25 @@
     // Open a session showing the user the login UI
     // You must ALWAYS ask for basic_info permissions when opening a session
     BOOL triedToOpen = [FBSession openActiveSessionWithReadPermissions:@[@"basic_info", @"email"]
-                                       allowLoginUI:login
-                                  completionHandler:
-     ^(FBSession *session, FBSessionState state, NSError *error) {
-       // Call the app delegate's sessionStateChanged:state:error method to handle session state changes
-       [self sessionStateChanged:session state:state error:error];
-       
-       if (_loginCompletionHandler) {
-         _loginCompletionHandler(!error && state == FBSessionStateOpen);
-       }
-     }];
+                                                          allowLoginUI:login
+                                                     completionHandler:^(FBSession *session, FBSessionState state, NSError *error) {
+                                                       // Call the app delegate's sessionStateChanged:state:error method to handle session state changes
+                                                       [self sessionStateChanged:session state:state error:error];
+                                                       
+                                                       if (_loginCompletionHandler) {
+                                                         _loginCompletionHandler(!error && state == FBSessionStateOpen);
+                                                         _loginCompletionHandler = nil;
+                                                       }
+                                                     }];
     
-    if (!triedToOpen && completionHandler) {
-      completionHandler(NO);
+    // If session isn't created.. it means no token was found
+    // To check this, call activeSession. Since, this will create a new session if it
+    // is not already set, we must check if it's current state is created, since that
+    // means it hasn't attempted logging in or anything.
+    FBSession *session = [FBSession activeSession];
+    if (!triedToOpen && session.state == FBSessionStateCreated && _loginCompletionHandler) {
+      _loginCompletionHandler(NO);
+      _loginCompletionHandler = nil;
     }
   }
 }
@@ -225,7 +231,7 @@
 - (void) getMyFacebookUser:(void (^)(NSDictionary<FBGraphUser> *facebookUser))handler {
   if (!self.myFacebookUser) {
     [self openSessionWithReadPermissionsWithLoginUI:NO completionHandler:^(BOOL success) {
-      [[FBRequest requestForMe] startWithCompletionHandler:^(FBRequestConnection *connection, NSDictionary<FBGraphUser> *result, NSError *error) {
+      [FBRequestConnection startForMeWithCompletionHandler:^(FBRequestConnection *connection, NSDictionary<FBGraphUser> *result, NSError *error) {
         if (!error) {
           self.myFacebookUser = result;
           handler(result);
@@ -245,10 +251,20 @@
   }];
 }
 
-+ (void) getFacebookUsernameAndDoAction:(void (^)(NSString *facebookId))handler {
++ (void) getFacebookUsernameAndDoAction:(void (^)(NSString *username))handler {
   [[FacebookDelegate sharedFacebookDelegate] getMyFacebookUser:^(NSDictionary<FBGraphUser> *facebookUser) {
     handler(facebookUser.username);
   }];
+}
+
+- (void) logout {
+  [FBSession.activeSession closeAndClearTokenInformation];
+  self.myFacebookUser = nil;
+  [FBSession setActiveSession:nil];
+}
+
++ (void) logout {
+  [[FacebookDelegate sharedFacebookDelegate] logout];
 }
 
 @end

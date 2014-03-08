@@ -39,14 +39,16 @@
 #import "ClanRaidBattleLayer.h"
 #import "TutorialController.h"
 #import "FacebookDelegate.h"
+#import "SocketCommunication.h"
+#import "IncomingEventController.h"
 
 #define DEFAULT_PNG_IMAGE_VIEW_TAG 103
 #define KINGDOM_PNG_IMAGE_VIEW_TAG 104
 
 #define PART_0_PERCENT 0.f
 #define PART_1_PERCENT 0.05f
-#define PART_2_PERCENT 0.85f
-#define PART_3_PERCENT 1.f
+#define PART_2_PERCENT 0.75f
+#define PART_3_PERCENT 0.9f
 
 @implementation GameViewController
 
@@ -126,9 +128,9 @@
 
 - (void) viewDidLoad {
   [self setupTopBar];
-  [self fadeToLoadingScreen];
+  [self fadeToLoadingScreenPercentage:0.f animated:NO];
   
-  [self progressTo:PART_1_PERCENT];
+  [self progressTo:PART_1_PERCENT animated:YES];
   
   [[NSBundle mainBundle] loadNibNamed:@"TravelingLoadingView" owner:self options:nil];
   
@@ -144,30 +146,53 @@
   [self.notifViewController.view removeFromSuperview];
 }
 
-- (void) fadeToLoadingScreen {
-  LoadingViewController *lvc = [[LoadingViewController alloc] init];
+- (void) fadeToLoadingScreenPercentage:(float)percentage animated:(BOOL)animated {
+  LoadingViewController *lvc = [[LoadingViewController alloc] initWithPercentage:percentage];
   UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:lvc];
   nav.navigationBarHidden = YES;
-  [self presentViewController:nav animated:NO completion:nil];
+  [self presentViewController:nav animated:animated completion:nil];
 }
 
-- (void) progressTo:(float)t {
+- (void) reloadAccountWithStartupResponse:(StartupResponseProto *)startupResponse {
+  GameState *gs = [GameState sharedGameState];
+  gs.isTutorial = NO;
+  
+  [self fadeToLoadingScreenPercentage:PART_3_PERCENT animated:YES];
+  FullEvent *fe = [[FullEvent alloc] initWithEvent:startupResponse tag:0];
+  [[IncomingEventController sharedIncomingEventController] handleStartupResponseProto:fe];
+  [self handleStartupResponseProto:fe];
+  
+  // For tutorial
+  self.tutController = nil;
+}
+
+- (void) progressTo:(float)t animated:(BOOL)animated {
   LoadingViewController *lvc = (LoadingViewController *)[(UINavigationController *)self.presentedViewController visibleViewController];
   if ([lvc isKindOfClass:[LoadingViewController class]]) {
-    [lvc progressToPercentage:t];
+    if (animated) {
+      [lvc progressToPercentage:t];
+    } else {
+      [lvc setPercentage:t];
+    }
   }
 }
 
 - (void) handleConnectedToHost {
-  [self progressTo:PART_2_PERCENT];
-  
-  [FacebookDelegate getFacebookIdAndDoAction:^(NSString *facebookId) {
-    [[OutgoingEventController sharedOutgoingEventController] startupWithFacebookId:facebookId isFreshRestart:_isFreshRestart delegate:self];
-  }];
+  if (!self.tutController) {
+    [self progressTo:PART_2_PERCENT animated:YES];
+    
+    [FacebookDelegate getFacebookIdAndDoAction:^(NSString *facebookId) {
+      if ([SocketCommunication isForcedTutorial]) {
+        NSLog(@"Forcing tutorial. Throwing away facebook id %@.", facebookId);
+        facebookId = nil;
+      }
+      [[OutgoingEventController sharedOutgoingEventController] startupWithFacebookId:facebookId isFreshRestart:_isFreshRestart delegate:self];
+    }];
+  }
 }
 
 - (void) handleStartupResponseProto:(FullEvent *)fe {
-  [self progressTo:PART_3_PERCENT];
+  [self progressTo:PART_3_PERCENT animated:YES];
   
   StartupResponseProto *proto = (StartupResponseProto *)fe.event;
   if (proto.startupStatus == StartupResponseProto_StartupStatusUserInDb) {
@@ -186,7 +211,7 @@
 
 - (void) handleLoadPlayerCityResponseProto:(FullEvent *)fe {
   if ([self.navigationController.visibleViewController isKindOfClass:[LoadingViewController class]]) {
-    [self progressTo:1.f];
+    [self progressTo:1.f animated:NO];
     
     [self dismissViewControllerAnimated:YES completion:nil];
     
@@ -202,6 +227,9 @@
 - (void) beginTutorial:(StartupResponseProto_TutorialConstants *)constants {
   self.tutController = [[TutorialController alloc] initWithTutorialConstants:constants gameViewController:self];
   [self.tutController beginTutorial];
+  
+  GameState *gs = [GameState sharedGameState];
+  gs.isTutorial = YES;
 }
 
 #pragma mark - Observer methods to update top bar

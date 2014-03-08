@@ -8,28 +8,30 @@
 
 #import "LoadingViewController.h"
 
-#define SECONDS_PER_PART 10.f
+#define SECONDS_PER_PART 5.f
 
 @implementation LoadingViewController
 
-- (id) init
-{
-    self = [super init];
-    if (self) {
-        // Custom initialization
-      self.modalTransitionStyle = UIModalTransitionStyleCrossDissolve;
-    }
-    return self;
+- (id) initWithPercentage:(float)percentage {
+  if ((self = [super init])) {
+    self.modalTransitionStyle = UIModalTransitionStyleCrossDissolve;
+    _initPercentage = percentage;
+  }
+  return self;
 }
 
 - (void) viewDidLoad {
-  self.loadingBar.percentage = 0.f;
+  self.loadingBar.percentage = _initPercentage;
 }
 
 - (void) progressToPercentage:(float)percentage {
   [UIView animateWithDuration:SECONDS_PER_PART animations:^{
     self.loadingBar.percentage = percentage;
   }];
+}
+
+- (void) setPercentage:(float)percentage {
+  self.loadingBar.percentage = percentage;
 }
 
 - (BOOL) prefersStatusBarHidden {

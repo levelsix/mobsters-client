@@ -21,6 +21,7 @@
 - (void) everyoneEnteredSecondBuilding;
 - (void) enemyBossRanOffMap;
 - (void) yachtWentOffScene;
+- (void) enteredThirdBuilding;
 
 @end
 
@@ -56,5 +57,8 @@
 - (void) runOutEnemyBoss;
 - (void) markLooksAtYou;
 - (void) moveToYacht;
+
+- (void) moveToThirdBuilding;
+- (void) displayArrowOverThirdBuilding;
 
 @end

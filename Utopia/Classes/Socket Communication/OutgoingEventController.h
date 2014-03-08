@@ -17,7 +17,7 @@
 
 + (OutgoingEventController *) sharedOutgoingEventController;
 
-- (void) createUser;
+- (void) createUserWithName:(NSString *)name facebookId:(NSString *)facebookId structs:(NSArray *)structs cash:(int)cash oil:(int)oil gems:(int)gems delegate:(id)delegate;
 
 - (void) startupWithFacebookId:(NSString *)facebookId isFreshRestart:(BOOL)isFreshRestart delegate:(id)delegate;
 - (void) logout;

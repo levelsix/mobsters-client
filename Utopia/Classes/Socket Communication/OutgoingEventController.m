@@ -38,11 +38,12 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
   return ((uint64_t)[[NSDate date] timeIntervalSince1970])*1000;
 }
 
-- (void) createUser {
+- (void) createUserWithName:(NSString *)name facebookId:(NSString *)facebookId structs:(NSArray *)structs cash:(int)cash oil:(int)oil gems:(int)gems delegate:(id)delegate {
   GameState *gs = [GameState sharedGameState];
   SocketCommunication *sc = [SocketCommunication sharedSocketCommunication];
 
-  int tag = [sc sendUserCreateMessage];
+  int tag = [sc sendUserCreateMessageWithName:name facebookId:facebookId structs:structs cash:cash oil:oil gems:gems];
+  [sc setDelegate:delegate forTag:tag];
 
   [gs addUnrespondedUpdate:[NoUpdate updateWithTag:tag]];
 }

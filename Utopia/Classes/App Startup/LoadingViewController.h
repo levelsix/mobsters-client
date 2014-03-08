@@ -9,10 +9,15 @@
 #import <UIKit/UIKit.h>
 #import "NibUtils.h"
 
-@interface LoadingViewController : UIViewController
+@interface LoadingViewController : UIViewController {
+  float _initPercentage;
+}
 
 @property (nonatomic, assign) IBOutlet ProgressBar *loadingBar;
 
+- (id) initWithPercentage:(float)percentage;
+
 - (void) progressToPercentage:(float)percentage;
+- (void) setPercentage:(float)percentage;
 
 @end

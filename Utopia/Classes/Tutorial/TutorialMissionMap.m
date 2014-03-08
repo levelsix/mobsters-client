@@ -56,6 +56,8 @@
     self.boatSprite = [CCSprite spriteWithImageNamed:@"marksboat.png"];
     [self addChild:self.boatSprite];
     self.boatSprite.position = ccp(540, -40);
+    
+    self.cityId = -1;
   }
   return self;
 }
@@ -210,12 +212,16 @@
 }
 
 - (void) performCurrentTask:(id)sender {
+  if (self.clickableAssetId == self.constants.cityElementIdForFirstDungeon) {
+    MissionBuilding *ms = (MissionBuilding *)[self assetWithId:self.constants.cityElementIdForFirstDungeon];
+    [self.friendSprite walkToTileCoord:ccp(FIRST_BUILDING_ENTER_X, FIRST_BUILDING_ENTER_Y) completionTarget:self selector:@selector(fadeOutFriendSprite) speedMultiplier:2.f];
+  } else {
+    [self.delegate enteredThirdBuilding];
+  }
+  
   self.clickableAssetId = 0;
   self.selected = nil;
   [Globals removeUIArrowFromViewRecursively:self.missionBotView];
-  
-  MissionBuilding *ms = (MissionBuilding *)[self assetWithId:self.constants.cityElementIdForFirstDungeon];
-  [self.friendSprite walkToTileCoord:ccp(FIRST_BUILDING_ENTER_X, FIRST_BUILDING_ENTER_Y) completionTarget:self selector:@selector(fadeOutFriendSprite) speedMultiplier:2.f];
 }
 
 - (void) fadeOutFriendSprite {
@@ -475,6 +481,22 @@
     [CCActionCallFunc actionWithTarget:self.delegate selector:@selector(yachtWentOffScene)], nil]];
 }
 
+- (void) moveToThirdBuilding {
+#pragma warning make this a constant
+  self.scale = 1.1f;
+  MapSprite *ms = [self assetWithId:3];
+  [self moveToSprite:ms animated:NO];
+}
+
+- (void) displayArrowOverThirdBuilding {
+  MissionBuilding *ms = (MissionBuilding *)[self assetWithId:3];
+  
+  [self moveToSprite:ms animated:YES withOffset:ccp(0, -38)];
+  [ms displayArrow];
+  
+  self.clickableAssetId = 3;
+}
+
 #pragma mark - Overwritten methods
 
 - (void) setAllLocksAndArrowsForBuildings {
@@ -489,7 +511,7 @@
 
 - (SelectableSprite *) selectableForPt:(CGPoint)pt {
   SelectableSprite *ss = [super selectableForPt:pt];
-  if ([ss.name isEqualToString:[NSString stringWithFormat:ASSET_TAG, self.clickableAssetId]]) {
+  if (ss == [self assetWithId:self.clickableAssetId]) {
     [ss removeArrowAnimated:YES];
     return ss;
   }
@@ -497,7 +519,7 @@
 }
 
 - (void) setSelected:(SelectableSprite *)selected {
-  if ([self.selected.name isEqualToString:[NSString stringWithFormat:ASSET_TAG, self.clickableAssetId]]) {
+  if (self.selected == [self assetWithId:self.clickableAssetId]) {
     return;
   }
   [super setSelected:selected];
@@ -509,12 +531,12 @@
   [Globals createUIArrowForView:self.enterButton atAngle:angle];
 }
 
-//- (void) drag:(UIGestureRecognizer *)recognizer {
-//  // Do nothing
-//}
-//
-//- (void) scale:(UIGestureRecognizer *)recognizer {
-//  // Do nothing
-//}
+- (void) drag:(UIGestureRecognizer *)recognizer {
+  // Do nothing
+}
+
+- (void) scale:(UIGestureRecognizer *)recognizer {
+  // Do nothing
+}
 
 @end

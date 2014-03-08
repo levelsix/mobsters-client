@@ -67,7 +67,9 @@
     _curIndex++;
   } else {
     [self animateOut:^{
-      [self.delegate dialogueViewControllerFinished:self];
+      if ([self.delegate respondsToSelector:@selector(dialogueViewControllerFinished:)]) {
+        [self.delegate dialogueViewControllerFinished:self];
+      }
       [self.view removeFromSuperview];
       [self removeFromParentViewController];
     }];

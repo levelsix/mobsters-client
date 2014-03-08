@@ -1909,7 +1909,7 @@ static UserFacebookInviteForSlotProto* defaultUserFacebookInviteForSlotProtoInst
 @property int32_t defensesLost;
 @property (retain) NSString* facebookId;
 @property (retain) NSString* gameCenterId;
-@property (retain) NSString* udid;
+@property (retain) NSString* udidForHistory;
 @property (retain) NSString* deviceToken;
 @property int64_t lastBattleNotificationTime;
 @property int32_t numBadges;
@@ -1920,6 +1920,7 @@ static UserFacebookInviteForSlotProto* defaultUserFacebookInviteForSlotProtoInst
 @property (retain) NSString* kabamNaid;
 @property int64_t inBattleShieldEndTime;
 @property BOOL fbIdSetOnUserCreate;
+@property (retain) NSString* udid;
 @end
 
 @implementation FullUserProto
@@ -2168,13 +2169,13 @@ static UserFacebookInviteForSlotProto* defaultUserFacebookInviteForSlotProtoInst
   hasGameCenterId_ = !!value;
 }
 @synthesize gameCenterId;
-- (BOOL) hasUdid {
-  return !!hasUdid_;
+- (BOOL) hasUdidForHistory {
+  return !!hasUdidForHistory_;
 }
-- (void) setHasUdid:(BOOL) value {
-  hasUdid_ = !!value;
+- (void) setHasUdidForHistory:(BOOL) value {
+  hasUdidForHistory_ = !!value;
 }
-@synthesize udid;
+@synthesize udidForHistory;
 - (BOOL) hasDeviceToken {
   return !!hasDeviceToken_;
 }
@@ -2250,6 +2251,13 @@ static UserFacebookInviteForSlotProto* defaultUserFacebookInviteForSlotProtoInst
 - (void) setFbIdSetOnUserCreate:(BOOL) value {
   fbIdSetOnUserCreate_ = !!value;
 }
+- (BOOL) hasUdid {
+  return !!hasUdid_;
+}
+- (void) setHasUdid:(BOOL) value {
+  hasUdid_ = !!value;
+}
+@synthesize udid;
 - (void) dealloc {
   self.name = nil;
   self.referralCode = nil;
@@ -2257,9 +2265,10 @@ static UserFacebookInviteForSlotProto* defaultUserFacebookInviteForSlotProtoInst
   self.rank = nil;
   self.facebookId = nil;
   self.gameCenterId = nil;
-  self.udid = nil;
+  self.udidForHistory = nil;
   self.deviceToken = nil;
   self.kabamNaid = nil;
+  self.udid = nil;
   [super dealloc];
 }
 - (id) init {
@@ -2296,7 +2305,7 @@ static UserFacebookInviteForSlotProto* defaultUserFacebookInviteForSlotProtoInst
     self.defensesLost = 0;
     self.facebookId = @"";
     self.gameCenterId = @"";
-    self.udid = @"";
+    self.udidForHistory = @"";
     self.deviceToken = @"";
     self.lastBattleNotificationTime = 0L;
     self.numBadges = 0;
@@ -2307,6 +2316,7 @@ static UserFacebookInviteForSlotProto* defaultUserFacebookInviteForSlotProtoInst
     self.kabamNaid = @"";
     self.inBattleShieldEndTime = 0L;
     self.fbIdSetOnUserCreate = NO;
+    self.udid = @"";
   }
   return self;
 }
@@ -2455,6 +2465,9 @@ static FullUserProto* defaultFullUserProtoInstance = nil;
   if (self.hasGameCenterId) {
     [output writeString:45 value:self.gameCenterId];
   }
+  if (self.hasUdidForHistory) {
+    [output writeString:46 value:self.udidForHistory];
+  }
   [self.unknownFields writeToCodedOutputStream:output];
 }
 - (int32_t) serializedSize {
@@ -2592,6 +2605,9 @@ static FullUserProto* defaultFullUserProtoInstance = nil;
   }
   if (self.hasGameCenterId) {
     size += computeStringSize(45, self.gameCenterId);
+  }
+  if (self.hasUdidForHistory) {
+    size += computeStringSize(46, self.udidForHistory);
   }
   size += self.unknownFields.serializedSize;
   memoizedSerializedSize = size;
@@ -2764,8 +2780,8 @@ static FullUserProto* defaultFullUserProtoInstance = nil;
   if (other.hasGameCenterId) {
     [self setGameCenterId:other.gameCenterId];
   }
-  if (other.hasUdid) {
-    [self setUdid:other.udid];
+  if (other.hasUdidForHistory) {
+    [self setUdidForHistory:other.udidForHistory];
   }
   if (other.hasDeviceToken) {
     [self setDeviceToken:other.deviceToken];
@@ -2796,6 +2812,9 @@ static FullUserProto* defaultFullUserProtoInstance = nil;
   }
   if (other.hasFbIdSetOnUserCreate) {
     [self setFbIdSetOnUserCreate:other.fbIdSetOnUserCreate];
+  }
+  if (other.hasUdid) {
+    [self setUdid:other.udid];
   }
   [self mergeUnknownFields:other.unknownFields];
   return self;
@@ -2993,6 +3012,10 @@ static FullUserProto* defaultFullUserProtoInstance = nil;
       }
       case 362: {
         [self setGameCenterId:[input readString]];
+        break;
+      }
+      case 370: {
+        [self setUdidForHistory:[input readString]];
         break;
       }
     }
@@ -3524,20 +3547,20 @@ static FullUserProto* defaultFullUserProtoInstance = nil;
   result.gameCenterId = @"";
   return self;
 }
-- (BOOL) hasUdid {
-  return result.hasUdid;
+- (BOOL) hasUdidForHistory {
+  return result.hasUdidForHistory;
 }
-- (NSString*) udid {
-  return result.udid;
+- (NSString*) udidForHistory {
+  return result.udidForHistory;
 }
-- (FullUserProto_Builder*) setUdid:(NSString*) value {
-  result.hasUdid = YES;
-  result.udid = value;
+- (FullUserProto_Builder*) setUdidForHistory:(NSString*) value {
+  result.hasUdidForHistory = YES;
+  result.udidForHistory = value;
   return self;
 }
-- (FullUserProto_Builder*) clearUdid {
-  result.hasUdid = NO;
-  result.udid = @"";
+- (FullUserProto_Builder*) clearUdidForHistory {
+  result.hasUdidForHistory = NO;
+  result.udidForHistory = @"";
   return self;
 }
 - (BOOL) hasDeviceToken {
@@ -3698,6 +3721,22 @@ static FullUserProto* defaultFullUserProtoInstance = nil;
 - (FullUserProto_Builder*) clearFbIdSetOnUserCreate {
   result.hasFbIdSetOnUserCreate = NO;
   result.fbIdSetOnUserCreate = NO;
+  return self;
+}
+- (BOOL) hasUdid {
+  return result.hasUdid;
+}
+- (NSString*) udid {
+  return result.udid;
+}
+- (FullUserProto_Builder*) setUdid:(NSString*) value {
+  result.hasUdid = YES;
+  result.udid = value;
+  return self;
+}
+- (FullUserProto_Builder*) clearUdid {
+  result.hasUdid = NO;
+  result.udid = @"";
   return self;
 }
 @end

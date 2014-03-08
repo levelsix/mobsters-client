@@ -239,4 +239,8 @@
   [gvc.view addSubview:pvc.view];
 }
 
+- (void) dealloc {
+  NSLog(@"Meep");
+}
+
 @end

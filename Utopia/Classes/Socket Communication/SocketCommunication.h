@@ -44,6 +44,8 @@
 
 @property (nonatomic, retain) NSMutableDictionary *tagDelegates;
 
++ (BOOL) isForcedTutorial;
+
 - (NSString *) getIFA;
 - (NSString *) getIPAddress;
 - (NSString *) getMacAddress;
@@ -59,7 +61,7 @@
 - (void) setDelegate:(id)delegate forTag:(int)tag;
 
 // Send different event messages
-- (int) sendUserCreateMessage;
+- (int) sendUserCreateMessageWithName:(NSString *)name facebookId:(NSString *)facebookId structs:(NSArray *)structs cash:(int)cash oil:(int)oil gems:(int)gems;
 
 - (int) sendStartupMessageWithFacebookId:(NSString *)facebookId isFreshRestart:(BOOL)isFreshRestart clientTime:(uint64_t)clientTime;
 - (int) sendLogoutMessage;

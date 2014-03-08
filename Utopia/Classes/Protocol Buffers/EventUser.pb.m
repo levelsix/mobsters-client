@@ -25,13 +25,9 @@ static PBExtensionRegistry* extensionRegistry = nil;
 @interface UserCreateRequestProto ()
 @property (retain) NSString* udid;
 @property (retain) NSString* name;
-@property (retain) NSString* referrerCode;
 @property (retain) NSString* deviceToken;
-@property int64_t timeOfStructPurchase;
-@property int64_t timeOfStructBuild;
-@property (retain) CoordinateProto* structCoords;
-@property BOOL usedDiamondsToBuilt;
 @property (retain) NSString* facebookId;
+@property (retain) NSMutableArray* mutableStructsJustBuiltList;
 @property int32_t cash;
 @property int32_t oil;
 @property int32_t gems;
@@ -53,13 +49,6 @@ static PBExtensionRegistry* extensionRegistry = nil;
   hasName_ = !!value;
 }
 @synthesize name;
-- (BOOL) hasReferrerCode {
-  return !!hasReferrerCode_;
-}
-- (void) setHasReferrerCode:(BOOL) value {
-  hasReferrerCode_ = !!value;
-}
-@synthesize referrerCode;
 - (BOOL) hasDeviceToken {
   return !!hasDeviceToken_;
 }
@@ -67,39 +56,6 @@ static PBExtensionRegistry* extensionRegistry = nil;
   hasDeviceToken_ = !!value;
 }
 @synthesize deviceToken;
-- (BOOL) hasTimeOfStructPurchase {
-  return !!hasTimeOfStructPurchase_;
-}
-- (void) setHasTimeOfStructPurchase:(BOOL) value {
-  hasTimeOfStructPurchase_ = !!value;
-}
-@synthesize timeOfStructPurchase;
-- (BOOL) hasTimeOfStructBuild {
-  return !!hasTimeOfStructBuild_;
-}
-- (void) setHasTimeOfStructBuild:(BOOL) value {
-  hasTimeOfStructBuild_ = !!value;
-}
-@synthesize timeOfStructBuild;
-- (BOOL) hasStructCoords {
-  return !!hasStructCoords_;
-}
-- (void) setHasStructCoords:(BOOL) value {
-  hasStructCoords_ = !!value;
-}
-@synthesize structCoords;
-- (BOOL) hasUsedDiamondsToBuilt {
-  return !!hasUsedDiamondsToBuilt_;
-}
-- (void) setHasUsedDiamondsToBuilt:(BOOL) value {
-  hasUsedDiamondsToBuilt_ = !!value;
-}
-- (BOOL) usedDiamondsToBuilt {
-  return !!usedDiamondsToBuilt_;
-}
-- (void) setUsedDiamondsToBuilt:(BOOL) value {
-  usedDiamondsToBuilt_ = !!value;
-}
 - (BOOL) hasFacebookId {
   return !!hasFacebookId_;
 }
@@ -107,6 +63,7 @@ static PBExtensionRegistry* extensionRegistry = nil;
   hasFacebookId_ = !!value;
 }
 @synthesize facebookId;
+@synthesize mutableStructsJustBuiltList;
 - (BOOL) hasCash {
   return !!hasCash_;
 }
@@ -131,22 +88,16 @@ static PBExtensionRegistry* extensionRegistry = nil;
 - (void) dealloc {
   self.udid = nil;
   self.name = nil;
-  self.referrerCode = nil;
   self.deviceToken = nil;
-  self.structCoords = nil;
   self.facebookId = nil;
+  self.mutableStructsJustBuiltList = nil;
   [super dealloc];
 }
 - (id) init {
   if ((self = [super init])) {
     self.udid = @"";
     self.name = @"";
-    self.referrerCode = @"";
     self.deviceToken = @"";
-    self.timeOfStructPurchase = 0L;
-    self.timeOfStructBuild = 0L;
-    self.structCoords = [CoordinateProto defaultInstance];
-    self.usedDiamondsToBuilt = NO;
     self.facebookId = @"";
     self.cash = 0;
     self.oil = 0;
@@ -166,6 +117,13 @@ static UserCreateRequestProto* defaultUserCreateRequestProtoInstance = nil;
 - (UserCreateRequestProto*) defaultInstance {
   return defaultUserCreateRequestProtoInstance;
 }
+- (NSArray*) structsJustBuiltList {
+  return mutableStructsJustBuiltList;
+}
+- (TutorialStructProto*) structsJustBuiltAtIndex:(int32_t) index {
+  id value = [mutableStructsJustBuiltList objectAtIndex:index];
+  return value;
+}
 - (BOOL) isInitialized {
   return YES;
 }
@@ -176,26 +134,14 @@ static UserCreateRequestProto* defaultUserCreateRequestProtoInstance = nil;
   if (self.hasName) {
     [output writeString:2 value:self.name];
   }
-  if (self.hasReferrerCode) {
-    [output writeString:3 value:self.referrerCode];
-  }
   if (self.hasDeviceToken) {
-    [output writeString:4 value:self.deviceToken];
-  }
-  if (self.hasTimeOfStructPurchase) {
-    [output writeInt64:5 value:self.timeOfStructPurchase];
-  }
-  if (self.hasTimeOfStructBuild) {
-    [output writeInt64:6 value:self.timeOfStructBuild];
-  }
-  if (self.hasStructCoords) {
-    [output writeMessage:7 value:self.structCoords];
-  }
-  if (self.hasUsedDiamondsToBuilt) {
-    [output writeBool:8 value:self.usedDiamondsToBuilt];
+    [output writeString:3 value:self.deviceToken];
   }
   if (self.hasFacebookId) {
-    [output writeString:9 value:self.facebookId];
+    [output writeString:4 value:self.facebookId];
+  }
+  for (TutorialStructProto* element in self.structsJustBuiltList) {
+    [output writeMessage:5 value:element];
   }
   if (self.hasCash) {
     [output writeInt32:10 value:self.cash];
@@ -221,26 +167,14 @@ static UserCreateRequestProto* defaultUserCreateRequestProtoInstance = nil;
   if (self.hasName) {
     size += computeStringSize(2, self.name);
   }
-  if (self.hasReferrerCode) {
-    size += computeStringSize(3, self.referrerCode);
-  }
   if (self.hasDeviceToken) {
-    size += computeStringSize(4, self.deviceToken);
-  }
-  if (self.hasTimeOfStructPurchase) {
-    size += computeInt64Size(5, self.timeOfStructPurchase);
-  }
-  if (self.hasTimeOfStructBuild) {
-    size += computeInt64Size(6, self.timeOfStructBuild);
-  }
-  if (self.hasStructCoords) {
-    size += computeMessageSize(7, self.structCoords);
-  }
-  if (self.hasUsedDiamondsToBuilt) {
-    size += computeBoolSize(8, self.usedDiamondsToBuilt);
+    size += computeStringSize(3, self.deviceToken);
   }
   if (self.hasFacebookId) {
-    size += computeStringSize(9, self.facebookId);
+    size += computeStringSize(4, self.facebookId);
+  }
+  for (TutorialStructProto* element in self.structsJustBuiltList) {
+    size += computeMessageSize(5, element);
   }
   if (self.hasCash) {
     size += computeInt32Size(10, self.cash);
@@ -332,26 +266,17 @@ static UserCreateRequestProto* defaultUserCreateRequestProtoInstance = nil;
   if (other.hasName) {
     [self setName:other.name];
   }
-  if (other.hasReferrerCode) {
-    [self setReferrerCode:other.referrerCode];
-  }
   if (other.hasDeviceToken) {
     [self setDeviceToken:other.deviceToken];
   }
-  if (other.hasTimeOfStructPurchase) {
-    [self setTimeOfStructPurchase:other.timeOfStructPurchase];
-  }
-  if (other.hasTimeOfStructBuild) {
-    [self setTimeOfStructBuild:other.timeOfStructBuild];
-  }
-  if (other.hasStructCoords) {
-    [self mergeStructCoords:other.structCoords];
-  }
-  if (other.hasUsedDiamondsToBuilt) {
-    [self setUsedDiamondsToBuilt:other.usedDiamondsToBuilt];
-  }
   if (other.hasFacebookId) {
     [self setFacebookId:other.facebookId];
+  }
+  if (other.mutableStructsJustBuiltList.count > 0) {
+    if (result.mutableStructsJustBuiltList == nil) {
+      result.mutableStructsJustBuiltList = [NSMutableArray array];
+    }
+    [result.mutableStructsJustBuiltList addObjectsFromArray:other.mutableStructsJustBuiltList];
   }
   if (other.hasCash) {
     [self setCash:other.cash];
@@ -392,36 +317,17 @@ static UserCreateRequestProto* defaultUserCreateRequestProtoInstance = nil;
         break;
       }
       case 26: {
-        [self setReferrerCode:[input readString]];
-        break;
-      }
-      case 34: {
         [self setDeviceToken:[input readString]];
         break;
       }
-      case 40: {
-        [self setTimeOfStructPurchase:[input readInt64]];
-        break;
-      }
-      case 48: {
-        [self setTimeOfStructBuild:[input readInt64]];
-        break;
-      }
-      case 58: {
-        CoordinateProto_Builder* subBuilder = [CoordinateProto builder];
-        if (self.hasStructCoords) {
-          [subBuilder mergeFrom:self.structCoords];
-        }
-        [input readMessage:subBuilder extensionRegistry:extensionRegistry];
-        [self setStructCoords:[subBuilder buildPartial]];
-        break;
-      }
-      case 64: {
-        [self setUsedDiamondsToBuilt:[input readBool]];
-        break;
-      }
-      case 74: {
+      case 34: {
         [self setFacebookId:[input readString]];
+        break;
+      }
+      case 42: {
+        TutorialStructProto_Builder* subBuilder = [TutorialStructProto builder];
+        [input readMessage:subBuilder extensionRegistry:extensionRegistry];
+        [self addStructsJustBuilt:[subBuilder buildPartial]];
         break;
       }
       case 80: {
@@ -471,22 +377,6 @@ static UserCreateRequestProto* defaultUserCreateRequestProtoInstance = nil;
   result.name = @"";
   return self;
 }
-- (BOOL) hasReferrerCode {
-  return result.hasReferrerCode;
-}
-- (NSString*) referrerCode {
-  return result.referrerCode;
-}
-- (UserCreateRequestProto_Builder*) setReferrerCode:(NSString*) value {
-  result.hasReferrerCode = YES;
-  result.referrerCode = value;
-  return self;
-}
-- (UserCreateRequestProto_Builder*) clearReferrerCode {
-  result.hasReferrerCode = NO;
-  result.referrerCode = @"";
-  return self;
-}
 - (BOOL) hasDeviceToken {
   return result.hasDeviceToken;
 }
@@ -503,84 +393,6 @@ static UserCreateRequestProto* defaultUserCreateRequestProtoInstance = nil;
   result.deviceToken = @"";
   return self;
 }
-- (BOOL) hasTimeOfStructPurchase {
-  return result.hasTimeOfStructPurchase;
-}
-- (int64_t) timeOfStructPurchase {
-  return result.timeOfStructPurchase;
-}
-- (UserCreateRequestProto_Builder*) setTimeOfStructPurchase:(int64_t) value {
-  result.hasTimeOfStructPurchase = YES;
-  result.timeOfStructPurchase = value;
-  return self;
-}
-- (UserCreateRequestProto_Builder*) clearTimeOfStructPurchase {
-  result.hasTimeOfStructPurchase = NO;
-  result.timeOfStructPurchase = 0L;
-  return self;
-}
-- (BOOL) hasTimeOfStructBuild {
-  return result.hasTimeOfStructBuild;
-}
-- (int64_t) timeOfStructBuild {
-  return result.timeOfStructBuild;
-}
-- (UserCreateRequestProto_Builder*) setTimeOfStructBuild:(int64_t) value {
-  result.hasTimeOfStructBuild = YES;
-  result.timeOfStructBuild = value;
-  return self;
-}
-- (UserCreateRequestProto_Builder*) clearTimeOfStructBuild {
-  result.hasTimeOfStructBuild = NO;
-  result.timeOfStructBuild = 0L;
-  return self;
-}
-- (BOOL) hasStructCoords {
-  return result.hasStructCoords;
-}
-- (CoordinateProto*) structCoords {
-  return result.structCoords;
-}
-- (UserCreateRequestProto_Builder*) setStructCoords:(CoordinateProto*) value {
-  result.hasStructCoords = YES;
-  result.structCoords = value;
-  return self;
-}
-- (UserCreateRequestProto_Builder*) setStructCoordsBuilder:(CoordinateProto_Builder*) builderForValue {
-  return [self setStructCoords:[builderForValue build]];
-}
-- (UserCreateRequestProto_Builder*) mergeStructCoords:(CoordinateProto*) value {
-  if (result.hasStructCoords &&
-      result.structCoords != [CoordinateProto defaultInstance]) {
-    result.structCoords =
-      [[[CoordinateProto builderWithPrototype:result.structCoords] mergeFrom:value] buildPartial];
-  } else {
-    result.structCoords = value;
-  }
-  result.hasStructCoords = YES;
-  return self;
-}
-- (UserCreateRequestProto_Builder*) clearStructCoords {
-  result.hasStructCoords = NO;
-  result.structCoords = [CoordinateProto defaultInstance];
-  return self;
-}
-- (BOOL) hasUsedDiamondsToBuilt {
-  return result.hasUsedDiamondsToBuilt;
-}
-- (BOOL) usedDiamondsToBuilt {
-  return result.usedDiamondsToBuilt;
-}
-- (UserCreateRequestProto_Builder*) setUsedDiamondsToBuilt:(BOOL) value {
-  result.hasUsedDiamondsToBuilt = YES;
-  result.usedDiamondsToBuilt = value;
-  return self;
-}
-- (UserCreateRequestProto_Builder*) clearUsedDiamondsToBuilt {
-  result.hasUsedDiamondsToBuilt = NO;
-  result.usedDiamondsToBuilt = NO;
-  return self;
-}
 - (BOOL) hasFacebookId {
   return result.hasFacebookId;
 }
@@ -595,6 +407,35 @@ static UserCreateRequestProto* defaultUserCreateRequestProtoInstance = nil;
 - (UserCreateRequestProto_Builder*) clearFacebookId {
   result.hasFacebookId = NO;
   result.facebookId = @"";
+  return self;
+}
+- (NSArray*) structsJustBuiltList {
+  if (result.mutableStructsJustBuiltList == nil) { return [NSArray array]; }
+  return result.mutableStructsJustBuiltList;
+}
+- (TutorialStructProto*) structsJustBuiltAtIndex:(int32_t) index {
+  return [result structsJustBuiltAtIndex:index];
+}
+- (UserCreateRequestProto_Builder*) replaceStructsJustBuiltAtIndex:(int32_t) index with:(TutorialStructProto*) value {
+  [result.mutableStructsJustBuiltList replaceObjectAtIndex:index withObject:value];
+  return self;
+}
+- (UserCreateRequestProto_Builder*) addAllStructsJustBuilt:(NSArray*) values {
+  if (result.mutableStructsJustBuiltList == nil) {
+    result.mutableStructsJustBuiltList = [NSMutableArray array];
+  }
+  [result.mutableStructsJustBuiltList addObjectsFromArray:values];
+  return self;
+}
+- (UserCreateRequestProto_Builder*) clearStructsJustBuiltList {
+  result.mutableStructsJustBuiltList = nil;
+  return self;
+}
+- (UserCreateRequestProto_Builder*) addStructsJustBuilt:(TutorialStructProto*) value {
+  if (result.mutableStructsJustBuiltList == nil) {
+    result.mutableStructsJustBuiltList = [NSMutableArray array];
+  }
+  [result.mutableStructsJustBuiltList addObject:value];
   return self;
 }
 - (BOOL) hasCash {
@@ -2735,6 +2576,8 @@ BOOL SetFacebookIdResponseProto_SetFacebookIdStatusIsValidValue(SetFacebookIdRes
   switch (value) {
     case SetFacebookIdResponseProto_SetFacebookIdStatusSuccess:
     case SetFacebookIdResponseProto_SetFacebookIdStatusFailOther:
+    case SetFacebookIdResponseProto_SetFacebookIdStatusFailFbIdExists:
+    case SetFacebookIdResponseProto_SetFacebookIdStatusFailUserFbIdAlreadySet:
       return YES;
     default:
       return NO;

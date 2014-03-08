@@ -149,8 +149,6 @@
 }
 
 - (void) viewWillAppear:(BOOL)animated {
-  self.expBar.percentage = 0.35;
-  
   [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(gameStateUpdated) name:GAMESTATE_UPDATE_NOTIFICATION object:nil];
   [self gameStateUpdated];
   

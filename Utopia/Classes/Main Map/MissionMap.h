@@ -9,7 +9,7 @@
 #import "GameMap.h"
 #import "Protocols.pb.h"
 
-#define ASSET_TAG @"Asset%d"
+#define ASSET_TAG(d) [NSString stringWithFormat:@"Asset%d", d]
 
 #define DRAGON_TAG 5456
 
