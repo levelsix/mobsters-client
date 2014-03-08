@@ -131,6 +131,8 @@
   [self progressTo:PART_1_PERCENT];
   
   [[NSBundle mainBundle] loadNibNamed:@"TravelingLoadingView" owner:self options:nil];
+  
+  _isFreshRestart = YES;
 }
 
 - (void) viewDidAppear:(BOOL)animated {
@@ -158,7 +160,10 @@
 
 - (void) handleConnectedToHost {
   [self progressTo:PART_2_PERCENT];
-  [[OutgoingEventController sharedOutgoingEventController] startupWithDelegate:self];
+  
+  [FacebookDelegate getFacebookIdAndDoAction:^(NSString *facebookId) {
+    [[OutgoingEventController sharedOutgoingEventController] startupWithFacebookId:facebookId isFreshRestart:_isFreshRestart delegate:self];
+  }];
 }
 
 - (void) handleStartupResponseProto:(FullEvent *)fe {

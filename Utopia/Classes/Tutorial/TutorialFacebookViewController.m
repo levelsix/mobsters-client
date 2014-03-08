@@ -46,7 +46,6 @@
 }
 
 - (void) rejectionConfirmed {
-  [self close];
   [self.delegate facebookConnectRejected];
 }
 

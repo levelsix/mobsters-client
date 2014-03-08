@@ -221,7 +221,7 @@
 
 - (void) zoomOutMap {
   HospitalBuilding *hospital = [self hospital];
-  [self moveToSprite:hospital animated:YES withOffset:ccp(0, -50) scale:0.8f];
+  [self moveToSprite:hospital animated:YES withOffset:ccp(0, -50) scale:1.f];
 }
 
 - (void) speedupPurchasedBuilding {
@@ -229,7 +229,7 @@
 }
 
 - (void) moveToOilDrill {
-  [self moveToSprite:[self oilDrill] animated:YES withOffset:ccp(0, 0) scale:1.3f];
+  [self moveToSprite:[self oilDrill] animated:YES];
 }
 
 #pragma mark - Overwritten methods

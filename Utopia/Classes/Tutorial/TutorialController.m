@@ -14,6 +14,8 @@
 #import "FacebookSpammer.h"
 #import "GameCenterDelegate.h"
 #import "FacebookDelegate.h"
+#import "OutgoingEventController.h"
+#import "GenericPopupController.h"
 
 @implementation TutorialController
 
@@ -98,15 +100,15 @@
   [self.gameViewController.topBarViewController.mainView setHidden:YES];
   [self.gameViewController.topBarViewController.chatViewController.view setHidden:YES];
   
-  [self initMissionMap];
-  [self beginBlackedOutDialogue];
+  //[self initMissionMap];
+  //[self beginBlackedOutDialogue];
   //[self beginSecondBattlePhase];
   
   //[self yachtWentOffScene];
   
-  //[self initHomeMap];
-  //[self initTopBar];
-  //[self beginBuildingThreePhase];
+  [self initHomeMap];
+  [self initTopBar];
+  [self beginFacebookLoginPhase];
 }
 
 - (void) initMissionMap {
@@ -666,16 +668,40 @@
 
 #pragma mark - Facebook delegate
 
-- (void) facebookConnectAccepted {
-  Globals *gl = [Globals sharedGlobals];
-  if (gl.addAllFbFriends) {
-    [FacebookSpammer spamAllFriendsWithRequest];
-  }
-  [self beginFacebookAcceptedNamingPhase];
+- (void) facebookConnectRejected {
+  [self.facebookViewController close];
+  [self beginFacebookRejectedNamingPhase];
 }
 
-- (void) facebookConnectRejected {
-  [self beginFacebookRejectedNamingPhase];
+- (void) facebookConnectAccepted {
+  [FacebookDelegate getFacebookIdAndDoAction:^(NSString *facebookId) {
+    if (facebookId) {
+      [[OutgoingEventController sharedOutgoingEventController] startupWithFacebookId:facebookId isFreshRestart:YES delegate:self];
+    } else {
+      [Globals popupMessage:@"Something went wrong. Your facebook account could not be retrieved! Please try again."];
+    }
+  }];
+}
+
+- (void) handleStartupResponseProto:(FullEvent *)fe {
+  StartupResponseProto *proto = (StartupResponseProto *)fe.event;
+  if (proto.startupStatus == StartupResponseProto_StartupStatusUserNotInDb) {
+    [self.facebookViewController close];
+    [self beginFacebookAcceptedNamingPhase];
+    
+    Globals *gl = [Globals sharedGlobals];
+    if (gl.addAllFbFriends) {
+      [FacebookSpammer spamAllFriendsWithRequest];
+    }
+  } else {
+    self.facebookStartupResponse = proto;
+    NSString *desc = [NSString stringWithFormat:@"Oops! This Facebook account is already linked to another player (%@). Would you like to load this account now?", proto.sender.name];
+    [GenericPopupController displayConfirmationWithDescription:desc title:@"Account Already Used" okayButton:@"Load" cancelButton:@"Cancel" target:self selector:@selector(swapAccounts)];
+  }
+}
+
+- (void) swapAccounts {
+  NSLog(@"Swap!");
 }
 
 #pragma mark - Name delegate

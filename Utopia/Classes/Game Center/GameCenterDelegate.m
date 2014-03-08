@@ -10,6 +10,7 @@
 #import <GameKit/GameKit.h>
 #import "AppDelegate.h"
 #import "OutgoingEventController.h"
+#import "Globals.h"
 
 @implementation GameCenterDelegate
 
@@ -35,7 +36,7 @@ BOOL isGameCenterAPIAvailable()
         AppDelegate *ad = (AppDelegate *)[[UIApplication sharedApplication] delegate];
         ad.gameCenterId = player.playerID;
       }
-      NSLog(@"VC: %@, ERROR: %@", vc, error);
+      LNLog(@"Connected to Game Center.");
     }];
   }
 }

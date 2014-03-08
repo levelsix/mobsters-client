@@ -126,7 +126,6 @@
   
   // Publish install
   [FacebookDelegate activateApp];
-  [FacebookDelegate checkForCachedToken];
   
   // Game center
   [GameCenterDelegate authenticateGameCenter];

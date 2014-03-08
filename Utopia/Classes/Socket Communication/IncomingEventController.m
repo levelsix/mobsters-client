@@ -238,7 +238,8 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
 }
 
 - (void) handleUserCreateResponseProto:(FullEvent *)fe {
-  [[OutgoingEventController sharedOutgoingEventController] startupWithDelegate:[GameViewController baseController]];
+  UserCreateResponseProto *proto = (UserCreateResponseProto *)fe.event;
+  LNLog(@"User create response received with status %d.", proto.status);
 }
 
 - (void) handleStartupResponseProto:(FullEvent *)fe {

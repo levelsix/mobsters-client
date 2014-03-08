@@ -33,10 +33,6 @@
   return self;
 }
 
-+ (void) checkForCachedToken {
-  [[self sharedFacebookDelegate] openSessionWithReadPermissionsWithLoginUI:NO completionHandler:nil];
-}
-
 + (void) activateApp {
   [FBAppEvents activateApp];
 }
@@ -126,7 +122,7 @@
     
     // Open a session showing the user the login UI
     // You must ALWAYS ask for basic_info permissions when opening a session
-    [FBSession openActiveSessionWithReadPermissions:@[@"basic_info", @"email"]
+    BOOL triedToOpen = [FBSession openActiveSessionWithReadPermissions:@[@"basic_info", @"email"]
                                        allowLoginUI:login
                                   completionHandler:
      ^(FBSession *session, FBSessionState state, NSError *error) {
@@ -137,6 +133,10 @@
          _loginCompletionHandler(!error && state == FBSessionStateOpen);
        }
      }];
+    
+    if (!triedToOpen && completionHandler) {
+      completionHandler(NO);
+    }
   }
 }
 

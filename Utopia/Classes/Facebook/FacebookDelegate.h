@@ -20,7 +20,6 @@
 
 + (FacebookDelegate *) sharedFacebookDelegate;
 
-+ (void) checkForCachedToken;
 + (void) activateApp;
 + (BOOL) handleOpenURL:(NSURL *)url sourceApplication:(NSString *)sourceApplication;
 + (void) handleDidBecomeActive;

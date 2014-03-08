@@ -19,7 +19,7 @@
 
 - (void) createUser;
 
-- (void) startupWithDelegate:(id)delegate;
+- (void) startupWithFacebookId:(NSString *)facebookId isFreshRestart:(BOOL)isFreshRestart delegate:(id)delegate;
 - (void) logout;
 
 - (void) inAppPurchase:(NSString *)receipt goldAmt:(int)gold silverAmt:(int)silver product:(SKProduct *)product delegate:(id)delegate;

@@ -21,6 +21,8 @@
 
 @interface GameViewController : UIViewController <AttackMapDelegate, BattleLayerDelegate, CCDirectorDownloaderDelegate, DialogueViewControllerDelegate, ClanRaidDetailsDelegate> {
   int _questIdAfterDialogue;
+  
+  BOOL _isFreshRestart;
 }
 
 @property (nonatomic, strong) TopBarViewController *topBarViewController;

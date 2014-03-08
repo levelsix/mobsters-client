@@ -26,5 +26,6 @@
 @property (nonatomic, assign) id<TutorialFacebookDelegate> delegate;
 
 - (void) allowClick;
+- (void) close;
 
 @end
