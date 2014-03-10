@@ -15,7 +15,8 @@
 - (void) enterHospitalClicked;
 
 - (void) purchasedBuildingWasSetDown:(int)structId coordinate:(CGPoint)coordinate cashCost:(int)cashCost oilCost:(int)oilCost;
-- (void) buildingWasCompleted:(int)gemsSpent;
+- (void) buildingWasSpedUp:(int)gemsSpent;
+- (void) buildingWasCompleted;
 
 @end
 

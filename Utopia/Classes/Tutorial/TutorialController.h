@@ -20,6 +20,7 @@
 #import "TutorialNameViewController.h"
 #import "TutorialAttackMapViewController.h"
 #import "TutorialElementsController.h"
+#import "TutorialTouchView.h"
 
 @class GameViewController;
 
@@ -132,6 +133,8 @@ typedef enum {
 @property (nonatomic, retain) StartupResponseProto *facebookStartupResponse;
 
 @property (nonatomic, retain) StartupResponseProto *userCreateStartupResponse;
+
+@property (nonatomic, retain) TutorialTouchView *touchView;
 
 - (id) initWithTutorialConstants:(StartupResponseProto_TutorialConstants *)constants gameViewController:(GameViewController *)gvc;
 - (void) beginTutorial;

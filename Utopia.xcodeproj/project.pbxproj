@@ -1079,6 +1079,7 @@
 		CF8A3EE2176BD7CF00BDF639 /* staminaguy@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CF8A3EC3176BD7CF00BDF639 /* staminaguy@2x.png */; };
 		CF8A3EE6176C038900BDF639 /* minibolt.png in Resources */ = {isa = PBXBuildFile; fileRef = CF8A3EE4176C038800BDF639 /* minibolt.png */; };
 		CF8A3EE8176C038900BDF639 /* minibolt@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CF8A3EE5176C038800BDF639 /* minibolt@2x.png */; };
+		CF8BA22018CDA9DD003277D1 /* TutorialTouchView.m in Sources */ = {isa = PBXBuildFile; fileRef = CF8BA21F18CDA9DD003277D1 /* TutorialTouchView.m */; };
 		CF8C7AB71579DAAA003A6AFE /* cityunlocked.png in Resources */ = {isa = PBXBuildFile; fileRef = CF8C7A9F1579DAAA003A6AFE /* cityunlocked.png */; };
 		CF8C7AB81579DAAA003A6AFE /* cityunlocked@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CF8C7AA01579DAAA003A6AFE /* cityunlocked@2x.png */; };
 		CF8C7AB91579DAAA003A6AFE /* cityupsquare.png in Resources */ = {isa = PBXBuildFile; fileRef = CF8C7AA11579DAAA003A6AFE /* cityupsquare.png */; };
@@ -3775,6 +3776,8 @@
 		CF8A3EC3176BD7CF00BDF639 /* staminaguy@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "staminaguy@2x.png"; sourceTree = "<group>"; };
 		CF8A3EE4176C038800BDF639 /* minibolt.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = minibolt.png; sourceTree = "<group>"; };
 		CF8A3EE5176C038800BDF639 /* minibolt@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "minibolt@2x.png"; sourceTree = "<group>"; };
+		CF8BA21E18CDA9DD003277D1 /* TutorialTouchView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TutorialTouchView.h; sourceTree = "<group>"; };
+		CF8BA21F18CDA9DD003277D1 /* TutorialTouchView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TutorialTouchView.m; sourceTree = "<group>"; };
 		CF8C7A9F1579DAAA003A6AFE /* cityunlocked.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = cityunlocked.png; sourceTree = "<group>"; };
 		CF8C7AA01579DAAA003A6AFE /* cityunlocked@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "cityunlocked@2x.png"; sourceTree = "<group>"; };
 		CF8C7AA11579DAAA003A6AFE /* cityupsquare.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = cityupsquare.png; sourceTree = "<group>"; };
@@ -7418,6 +7421,8 @@
 			children = (
 				CF6A292C18C430E800AD676F /* TutorialController.h */,
 				CF6A292D18C430E800AD676F /* TutorialController.m */,
+				CF8BA21E18CDA9DD003277D1 /* TutorialTouchView.h */,
+				CF8BA21F18CDA9DD003277D1 /* TutorialTouchView.m */,
 				CF54944018C7381A001E7D32 /* TutorialMaps */,
 				CF54944718C8156D001E7D32 /* MenuControllers */,
 				CF54943F18C73809001E7D32 /* TutorialBattle */,
@@ -12168,6 +12173,7 @@
 				CF689C1A15C3B89400F2E50E /* NSString+SBJSON.m in Sources */,
 				CF30278E18BFFD8E009D2D25 /* ClanRaidLeaderboardViewController.m in Sources */,
 				CF689C1B15C3B89400F2E50E /* SBJSON.m in Sources */,
+				CF8BA22018CDA9DD003277D1 /* TutorialTouchView.m in Sources */,
 				CF689C1C15C3B89400F2E50E /* SBJsonBase.m in Sources */,
 				CF689C1D15C3B89400F2E50E /* SBJsonParser.m in Sources */,
 				CF9AE6D818090C320013DD44 /* EventClan.pb.m in Sources */,
@@ -12420,7 +12426,7 @@
 					"$(inherited)",
 				);
 				PRODUCT_NAME = "Age of Chaos";
-				PROVISIONING_PROFILE = "15AFF4FE-AAE3-4019-BED1-EA043A74A8FD";
+				PROVISIONING_PROFILE = "";
 				SUPPORTED_PLATFORMS = "iphonesimulator iphoneos";
 				TARGETED_DEVICE_FAMILY = 1;
 				USER_HEADER_SEARCH_PATHS = "$(inherited) \"$(SRCROOT)/Utopia/libs/Apsalar\" \"$(SRCROOT)\"";
@@ -12487,7 +12493,7 @@
 					"$(inherited)",
 				);
 				PRODUCT_NAME = "Age of Chaos";
-				PROVISIONING_PROFILE = "4D8BEC57-BD71-4B41-9205-22B0322D073E";
+				PROVISIONING_PROFILE = "";
 				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "";
 				SKIP_INSTALL = NO;
 				SUPPORTED_PLATFORMS = "iphonesimulator iphoneos";

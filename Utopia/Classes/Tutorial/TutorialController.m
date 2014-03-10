@@ -88,11 +88,14 @@
   }
   
   DialogueViewController *dvc = [[DialogueViewController alloc] initWithDialogueProto:dp.build];
-  dvc.view.userInteractionEnabled = allowTouch;
   dvc.delegate = self;
   [vc addChildViewController:dvc];
-  [vc.view addSubview:dvc.view];
+  [vc.view insertSubview:dvc.view belowSubview:self.touchView];
   self.dialogueViewController = dvc;
+  
+  [self.touchView addResponder:self.dialogueViewController];
+  self.touchView.userInteractionEnabled = !allowTouch;
+  self.dialogueViewController.view.userInteractionEnabled = allowTouch;
   
   if (!allowTouch) {
     [dvc.bottomGradient removeFromSuperview];
@@ -107,6 +110,11 @@
   [self.gameViewController.topBarViewController.mainView setHidden:YES];
   [self.gameViewController.topBarViewController.chatViewController.view setHidden:YES];
   
+  self.touchView = [[TutorialTouchView alloc] initWithFrame:self.gameViewController.view.bounds];
+  [self.gameViewController.view addSubview:self.touchView];
+  [self.touchView addResponder:[CCDirector sharedDirector].view];
+  self.touchView.userInteractionEnabled = NO;
+  
   [self initMissionMap];
   [self beginBlackedOutDialogue];
   //[self beginSecondBattlePhase];
@@ -115,7 +123,7 @@
   
   //[self initHomeMap];
   //[self initTopBar];
-  //[self beginAttackMapPhase];
+  //[self beginFacebookLoginPhase];
 }
 
 - (void) initMissionMap {
@@ -155,12 +163,20 @@
   self.topBarViewController = [[TutorialTopBarViewController alloc] init];
   self.topBarViewController.delegate = self;
   [self.gameViewController addChildViewController:self.topBarViewController];
-  [self.gameViewController.view addSubview:self.topBarViewController.view];
+  [self.gameViewController.view insertSubview:self.topBarViewController.view belowSubview:self.touchView];
   [self.topBarViewController displayMenuButton];
   [self.topBarViewController displayCoinBars];
   
   // Have to do this for some reason..
   [self.topBarViewController viewWillAppear:YES];
+}
+
+- (void) initMyCroniesViewController {
+  MenuNavigationController *m = [[MenuNavigationController alloc] init];
+  [self.gameViewController presentViewController:m animated:YES completion:nil];
+  self.myCroniesViewController = [[TutorialMyCroniesViewController alloc] initWithTutorialConstants:self.constants damageDealt:_damageDealtToFriend hospitalHealSpeed:_hospitalHealSpeed];
+  self.myCroniesViewController.delegate = self;
+  [m pushViewController:self.myCroniesViewController animated:YES];
 }
 
 - (void) initMainMenuController {
@@ -190,13 +206,17 @@
   if (gcName) {
     [self initNameViewController:gcName];
   } else {
-    [FacebookDelegate getFacebookUsernameAndDoAction:^(NSString *username) {
-      if (username) {
-        [self initNameViewController:username];
-      } else {
-        [self initNameViewController:nil];
-      }
-    }];
+    if (_facebookId) {
+      [FacebookDelegate getFacebookUsernameAndDoAction:^(NSString *username) {
+        if (username) {
+          [self initNameViewController:username];
+        } else {
+          [self initNameViewController:nil];
+        }
+      }];
+    } else {
+      [self initNameViewController:nil];
+    }
   }
 }
 
@@ -445,11 +465,7 @@
 }
 
 - (void) beginHealQueueingPhase {
-  MenuNavigationController *m = [[MenuNavigationController alloc] init];
-  [self.gameViewController presentViewController:m animated:YES completion:nil];
-  self.myCroniesViewController = [[TutorialMyCroniesViewController alloc] initWithTutorialConstants:self.constants damageDealt:_damageDealtToFriend hospitalHealSpeed:_hospitalHealSpeed];
-  self.myCroniesViewController.delegate = self;
-  [m pushViewController:self.myCroniesViewController animated:YES];
+  [self initMyCroniesViewController];
   
   NSArray *dialogue = @[@(TutorialDialogueSpeakerMarkR), @"Click on Joey to insert him into the healing queue.",
                         @(TutorialDialogueSpeakerMarkL), @"Mom always said, “health over wealth.” Use your gems to auto-magically heal Joey.",
@@ -460,13 +476,15 @@
 }
 
 - (void) beginSpeedupHealQueuePhase {
-  [self.dialogueViewController animateNext];
+  //NSArray *dialogue = @[@(TutorialDialogueSpeakerMarkL), @"Mom always said, “health over wealth.” Use your gems to auto-magically heal Joey."];
+  //[self displayDialogue:dialogue allowTouch:NO toViewController:self.myCroniesViewController];
   
   _currentStep = TutorialStepSpeedupHealQueue;
 }
 
 - (void) beginHospitalExitPhase {
-  [self.dialogueViewController animateNext];
+  //NSArray *dialogue = @[@(TutorialDialogueSpeakerMarkL), @"Fantastic. Exit the hospital and I’ll show you the rest of the island."];
+  //[self displayDialogue:dialogue allowTouch:NO toViewController:self.myCroniesViewController];
   
   _currentStep = TutorialStepExitHospital;
 }
@@ -487,6 +505,7 @@
   
   NSArray *dialogue = @[@(TutorialDialogueSpeakerMarkL), @"Patience is a virtue, but not when you're building a Cash Printer."];
   [self displayDialogue:dialogue allowTouch:NO];
+  self.touchView.userInteractionEnabled = NO;
   
   _currentStep = TutorialStepSpeedupBuildingOne;
 }
@@ -716,15 +735,8 @@
   [[NSNotificationCenter defaultCenter] postNotificationName:GAMESTATE_UPDATE_NOTIFICATION object:nil];
 }
 
-- (void) buildingWasCompleted:(int)gemsSpent {
+- (void) buildingWasSpedUp:(int)gemsSpent {
   [self.dialogueViewController animateNext];
-  if (_currentStep == TutorialStepSpeedupBuildingOne) {
-    [self beginBuildingTwoPhase];
-  } else if (_currentStep == TutorialStepSpeedupBuildingTwo) {
-    [self beginBuildingThreePhase];
-  } else if (_currentStep == TutorialStepSpeedupBuildingThree) {
-    [self beginFacebookLoginPhase];
-  }
   
   GameState *gs = [GameState sharedGameState];
   _gems -= gemsSpent;
@@ -733,9 +745,20 @@
   [[NSNotificationCenter defaultCenter] postNotificationName:GAMESTATE_UPDATE_NOTIFICATION object:nil];
 }
 
+- (void) buildingWasCompleted {
+  if (_currentStep == TutorialStepSpeedupBuildingOne) {
+    [self beginBuildingTwoPhase];
+  } else if (_currentStep == TutorialStepSpeedupBuildingTwo) {
+    [self beginBuildingThreePhase];
+  } else if (_currentStep == TutorialStepSpeedupBuildingThree) {
+    [self beginFacebookLoginPhase];
+  }
+}
+
 #pragma mark - MyCroniesViewController delegate
 
 - (void) queuedUpMonster:(int)cashSpent {
+  [self.dialogueViewController animateNext];
   [self beginSpeedupHealQueuePhase];
   
   GameState *gs = [GameState sharedGameState];
@@ -746,6 +769,7 @@
 }
 
 - (void) spedUpQueue:(int)gemsSpent {
+  [self.dialogueViewController animateNext];
   [self beginHospitalExitPhase];
   
   GameState *gs = [GameState sharedGameState];
@@ -756,6 +780,7 @@
 }
 
 - (void) exitedMyCronies {
+  [self.dialogueViewController animateNext];
   [self beginBuildingOnePhase];
 }
 
@@ -853,6 +878,8 @@
 - (void) nameChosen:(NSString *)name {
   _name = name;
   [self beginAttackMapPhase];
+  
+  [self sendUserCreate];
 }
 
 #pragma mark - AttackMap delegate
@@ -879,12 +906,14 @@
 
 - (void) dialogueViewController:(DialogueViewController *)dvc willDisplaySpeechAtIndex:(int)index {
   if (_currentStep == TutorialStepSecondBattleFirstMove && index == 1) {
-    dvc.view.userInteractionEnabled = NO;
+    self.touchView.userInteractionEnabled = YES;
+    [self.touchView addResponder:dvc];
     [dvc fadeOutBottomGradient];
   } else if (_currentStep == TutorialStepFriendJoke && index == 1) {
     [self.missionMap enemyTurnToBoss];
   } else if (_currentStep == TutorialStepSecondBattleKillEnemy && index == 3) {
-    dvc.view.userInteractionEnabled = NO;
+    self.touchView.userInteractionEnabled = YES;
+    [self.touchView addResponder:dvc];
     [dvc fadeOutBottomGradient];
   }  else if ((_currentStep == TutorialStepBeginBuildingOne && index == 1) ||
               (_currentStep == TutorialStepBeginBuildingTwo && index == 2) ||
@@ -922,7 +951,7 @@
              (_currentStep == TutorialStepBeginBuildingThree && index == 3)) {
     [self.topBarViewController allowMenuClick];
   } else if (_currentStep == TutorialStepClickQuests && index == 1) {
-    dvc.view.userInteractionEnabled = NO;
+    self.touchView.userInteractionEnabled = YES;
     [self.topBarViewController allowQuestsClick];
   }
 }
@@ -964,6 +993,9 @@
     } else if (_currentStep == TutorialStepEnterBattleThree) {
       [self.missionMap displayArrowOverThirdBuilding];
     }
+    
+    [self.touchView removeResponder:self.dialogueViewController];
+    self.touchView.userInteractionEnabled = NO;
   }
 }
 

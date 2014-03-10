@@ -679,15 +679,19 @@ BOOL SetGameCenterIdResponseProto_SetGameCenterIdStatusIsValidValue(SetGameCente
 
 @interface SetFacebookIdRequestProto : PBGeneratedMessage {
 @private
+  BOOL hasIsUserCreate_:1;
   BOOL hasFbId_:1;
   BOOL hasSender_:1;
+  BOOL isUserCreate_:1;
   NSString* fbId;
   MinimumUserProto* sender;
 }
 - (BOOL) hasSender;
 - (BOOL) hasFbId;
+- (BOOL) hasIsUserCreate;
 @property (readonly, retain) MinimumUserProto* sender;
 @property (readonly, retain) NSString* fbId;
+- (BOOL) isUserCreate;
 
 + (SetFacebookIdRequestProto*) defaultInstance;
 - (SetFacebookIdRequestProto*) defaultInstance;
@@ -734,6 +738,11 @@ BOOL SetGameCenterIdResponseProto_SetGameCenterIdStatusIsValidValue(SetGameCente
 - (NSString*) fbId;
 - (SetFacebookIdRequestProto_Builder*) setFbId:(NSString*) value;
 - (SetFacebookIdRequestProto_Builder*) clearFbId;
+
+- (BOOL) hasIsUserCreate;
+- (BOOL) isUserCreate;
+- (SetFacebookIdRequestProto_Builder*) setIsUserCreate:(BOOL) value;
+- (SetFacebookIdRequestProto_Builder*) clearIsUserCreate;
 @end
 
 @interface SetFacebookIdResponseProto : PBGeneratedMessage {

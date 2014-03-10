@@ -315,7 +315,7 @@
 
 - (void) sendNormStructComplete:(UserStruct *)us {
   us.isComplete = YES;
-  [self.delegate buildingWasCompleted:0];
+  [self.delegate buildingWasSpedUp:0];
   self.clickableUserStructId = 0;
   self.selected = nil;
 }
@@ -325,9 +325,18 @@
   int timeLeft = us.timeLeftForBuildComplete;
   int gemCost = [gl calculateGemSpeedupCostForTimeLeft:timeLeft];
   us.isComplete = YES;
-  [self.delegate buildingWasCompleted:gemCost];
+  [self.delegate buildingWasSpedUp:gemCost];
   self.clickableUserStructId = 0;
   self.selected = nil;
+}
+
+- (void) reselectCurrentSelection {
+  if ([self.selected.name isEqualToString:STRUCT_TAG(self.clickableUserStructId)]) {
+    [super reselectCurrentSelection];
+  } else {
+    self.selected = nil;
+    [self.delegate buildingWasCompleted];
+  }
 }
 
 - (void) drag:(UIGestureRecognizer *)recognizer {

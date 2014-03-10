@@ -85,6 +85,8 @@
 - (void) updateTimersForBuilding:(HomeBuilding *)hb;
 - (void) invalidateAllTimers;
 
+- (void) reselectCurrentSelection;
+
 - (void) sendNormStructComplete:(UserStruct *)us;
 - (void) sendSpeedupBuilding:(UserStruct *)us;
 

@@ -2237,6 +2237,7 @@ static UpdateClientUserResponseProto* defaultUpdateClientUserResponseProtoInstan
 @interface SetFacebookIdRequestProto ()
 @property (retain) MinimumUserProto* sender;
 @property (retain) NSString* fbId;
+@property BOOL isUserCreate;
 @end
 
 @implementation SetFacebookIdRequestProto
@@ -2255,6 +2256,18 @@ static UpdateClientUserResponseProto* defaultUpdateClientUserResponseProtoInstan
   hasFbId_ = !!value;
 }
 @synthesize fbId;
+- (BOOL) hasIsUserCreate {
+  return !!hasIsUserCreate_;
+}
+- (void) setHasIsUserCreate:(BOOL) value {
+  hasIsUserCreate_ = !!value;
+}
+- (BOOL) isUserCreate {
+  return !!isUserCreate_;
+}
+- (void) setIsUserCreate:(BOOL) value {
+  isUserCreate_ = !!value;
+}
 - (void) dealloc {
   self.sender = nil;
   self.fbId = nil;
@@ -2264,6 +2277,7 @@ static UpdateClientUserResponseProto* defaultUpdateClientUserResponseProtoInstan
   if ((self = [super init])) {
     self.sender = [MinimumUserProto defaultInstance];
     self.fbId = @"";
+    self.isUserCreate = NO;
   }
   return self;
 }
@@ -2289,6 +2303,9 @@ static SetFacebookIdRequestProto* defaultSetFacebookIdRequestProtoInstance = nil
   if (self.hasFbId) {
     [output writeString:2 value:self.fbId];
   }
+  if (self.hasIsUserCreate) {
+    [output writeBool:3 value:self.isUserCreate];
+  }
   [self.unknownFields writeToCodedOutputStream:output];
 }
 - (int32_t) serializedSize {
@@ -2303,6 +2320,9 @@ static SetFacebookIdRequestProto* defaultSetFacebookIdRequestProtoInstance = nil
   }
   if (self.hasFbId) {
     size += computeStringSize(2, self.fbId);
+  }
+  if (self.hasIsUserCreate) {
+    size += computeBoolSize(3, self.isUserCreate);
   }
   size += self.unknownFields.serializedSize;
   memoizedSerializedSize = size;
@@ -2385,6 +2405,9 @@ static SetFacebookIdRequestProto* defaultSetFacebookIdRequestProtoInstance = nil
   if (other.hasFbId) {
     [self setFbId:other.fbId];
   }
+  if (other.hasIsUserCreate) {
+    [self setIsUserCreate:other.isUserCreate];
+  }
   [self mergeUnknownFields:other.unknownFields];
   return self;
 }
@@ -2417,6 +2440,10 @@ static SetFacebookIdRequestProto* defaultSetFacebookIdRequestProtoInstance = nil
       }
       case 18: {
         [self setFbId:[input readString]];
+        break;
+      }
+      case 24: {
+        [self setIsUserCreate:[input readBool]];
         break;
       }
     }
@@ -2466,6 +2493,22 @@ static SetFacebookIdRequestProto* defaultSetFacebookIdRequestProtoInstance = nil
 - (SetFacebookIdRequestProto_Builder*) clearFbId {
   result.hasFbId = NO;
   result.fbId = @"";
+  return self;
+}
+- (BOOL) hasIsUserCreate {
+  return result.hasIsUserCreate;
+}
+- (BOOL) isUserCreate {
+  return result.isUserCreate;
+}
+- (SetFacebookIdRequestProto_Builder*) setIsUserCreate:(BOOL) value {
+  result.hasIsUserCreate = YES;
+  result.isUserCreate = value;
+  return self;
+}
+- (SetFacebookIdRequestProto_Builder*) clearIsUserCreate {
+  result.hasIsUserCreate = NO;
+  result.isUserCreate = NO;
   return self;
 }
 @end
