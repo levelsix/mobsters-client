@@ -115,15 +115,15 @@
   [self.touchView addResponder:[CCDirector sharedDirector].view];
   self.touchView.userInteractionEnabled = NO;
   
-  [self initMissionMap];
-  [self beginBlackedOutDialogue];
+  //[self initMissionMap];
+  //[self beginBlackedOutDialogue];
   //[self beginSecondBattlePhase];
   
   //[self yachtWentOffScene];
   
-  //[self initHomeMap];
-  //[self initTopBar];
-  //[self beginFacebookLoginPhase];
+  [self initMissionMap];
+  [self initTopBar];
+  [self beginFacebookLoginPhase];
 }
 
 - (void) initMissionMap {
@@ -160,15 +160,17 @@
 }
 
 - (void) initTopBar {
-  self.topBarViewController = [[TutorialTopBarViewController alloc] init];
-  self.topBarViewController.delegate = self;
-  [self.gameViewController addChildViewController:self.topBarViewController];
-  [self.gameViewController.view insertSubview:self.topBarViewController.view belowSubview:self.touchView];
-  [self.topBarViewController displayMenuButton];
-  [self.topBarViewController displayCoinBars];
-  
-  // Have to do this for some reason..
-  [self.topBarViewController viewWillAppear:YES];
+  if (!self.topBarViewController) {
+    self.topBarViewController = [[TutorialTopBarViewController alloc] init];
+    self.topBarViewController.delegate = self;
+    [self.gameViewController addChildViewController:self.topBarViewController];
+    [self.gameViewController.view insertSubview:self.topBarViewController.view belowSubview:self.touchView];
+    [self.topBarViewController displayMenuButton];
+    [self.topBarViewController displayCoinBars];
+    
+    // Have to do this for some reason..
+    [self.topBarViewController viewWillAppear:YES];
+  }
 }
 
 - (void) initMyCroniesViewController {
@@ -243,6 +245,19 @@
   
   [self.gameViewController.topBarViewController.mainView setHidden:NO];
   [self.gameViewController.topBarViewController.chatViewController.view setHidden:NO];
+  
+  [self.touchView removeFromSuperview];
+}
+
+- (void) tutorialFinished {
+  [self cleanup];
+  
+  [self.gameViewController.topBarViewController questsClicked:nil];
+  
+  LoadCityResponseProto_Builder *bldr = [LoadCityResponseProto builder];
+  [bldr addAllCityElements:self.constants.cityOneElementsList];
+  bldr.cityId = self.constants.cityId;
+  [self.gameViewController tutorialFinishedWithStartupResponse:self.userCreateStartupResponse loadCityResponse:bldr.build];
 }
 
 - (void) sendUserCreate {
@@ -803,7 +818,7 @@
 - (void) questsClicked {
   [self.dialogueViewController animateNext];
   
-  NSLog(@"Yay, done!");
+  [self tutorialFinished];
 }
 
 #pragma mark - MainMenu delegate
@@ -950,8 +965,8 @@
              (_currentStep == TutorialStepBeginBuildingTwo && index == 2) ||
              (_currentStep == TutorialStepBeginBuildingThree && index == 3)) {
     [self.topBarViewController allowMenuClick];
-  } else if (_currentStep == TutorialStepClickQuests && index == 1) {
-    self.touchView.userInteractionEnabled = YES;
+  } else if (_currentStep == TutorialStepClickQuests) {
+    self.dialogueViewController.view.userInteractionEnabled = NO; 
     [self.topBarViewController allowQuestsClick];
   }
 }

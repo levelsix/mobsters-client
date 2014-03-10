@@ -36,14 +36,22 @@
   DialogueViewController *dvc = [[DialogueViewController alloc] initWithDialogueProto:dp.build];
   dvc.delegate = self;
   [self.gameViewController addChildViewController:dvc];
-  [self.gameViewController.view addSubview:dvc.view];
+  [self.gameViewController.view insertSubview:dvc.view belowSubview:self.touchView];
   self.dialogueViewController = dvc;
+  
+  [self.touchView addResponder:self.dialogueViewController];
+  self.touchView.userInteractionEnabled = YES;
 }
 
 - (void) begin {
   self.battleLayer = [[TutorialElementsBattleLayer alloc] initWithConstants:self.constants];
   self.battleLayer.delegate = self;
   [self.gameViewController crossFadeIntoBattleLayer:self.battleLayer];
+  
+  self.touchView = [[TutorialTouchView alloc] initWithFrame:self.gameViewController.view.bounds];
+  [self.gameViewController.view addSubview:self.touchView];
+  [self.touchView addResponder:[CCDirector sharedDirector].view];
+  self.touchView.userInteractionEnabled = NO;
 }
 
 - (void) beginFirstMove {
@@ -119,13 +127,16 @@
   [self.delegate elementsTutorialComplete];
   [[CCDirector sharedDirector] popSceneWithTransition:[CCTransition transitionCrossFadeWithDuration:0.6f]];
   [self.gameViewController showTopBarDuration:0.f completion:nil];
+  
+  [self.touchView removeFromSuperview];
 }
 
 #pragma mark - Dialogue delegate
 
 - (void) dialogueViewController:(DialogueViewController *)dvc willDisplaySpeechAtIndex:(int)index {
   if (_currentStep != TutorialElementsStepHierarchy && index == dvc.dialogue.speechSegmentList.count-1) {
-    dvc.view.userInteractionEnabled = NO;
+    self.touchView.userInteractionEnabled = YES;
+    [self.touchView addResponder:dvc];
     
     if (index == 0) {
       [dvc.bottomGradient removeFromSuperview];
@@ -155,6 +166,8 @@
   if (_currentStep == TutorialElementsStepHierarchy) {
     [self beginKillEnemy];
   }
+  
+  [self.touchView removeResponder:self.dialogueViewController];
 }
 
 @end

@@ -166,6 +166,21 @@
   self.tutController = nil;
 }
 
+- (void) tutorialFinishedWithStartupResponse:(StartupResponseProto *)startupResponse loadCityResponse:(LoadCityResponseProto *)loadCityResponse {
+  GameState *gs = [GameState sharedGameState];
+  gs.isTutorial = NO;
+  
+  FullEvent *fe = [[FullEvent alloc] initWithEvent:startupResponse tag:0];
+  [[IncomingEventController sharedIncomingEventController] handleStartupResponseProto:fe];
+  [self handleStartupResponseProto:fe];
+  
+  fe = [[FullEvent alloc] initWithEvent:loadCityResponse tag:0];
+  [self handleLoadCityResponseProto:fe];
+  
+  // For tutorial
+  self.tutController = nil;
+}
+
 - (void) progressTo:(float)t animated:(BOOL)animated {
   LoadingViewController *lvc = (LoadingViewController *)[(UINavigationController *)self.presentedViewController visibleViewController];
   if ([lvc isKindOfClass:[LoadingViewController class]]) {

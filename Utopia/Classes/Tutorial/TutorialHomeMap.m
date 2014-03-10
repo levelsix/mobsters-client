@@ -258,7 +258,7 @@
 }
 
 - (void) setSelected:(SelectableSprite *)selected {
-  if ([self.selected.name isEqualToString:STRUCT_TAG(self.clickableUserStructId)]) {
+  if (self.selected != selected && [self.selected.name isEqualToString:STRUCT_TAG(self.clickableUserStructId)]) {
     return;
   }
   [super setSelected:selected];
@@ -291,6 +291,8 @@
   us.coordinates = homeBuilding.location.origin;
   us.lastRetrieved = [NSDate date];
   [self.myStructs addObject:us];
+  
+  self.clickableUserStructId = _purchStructId;
   
   return us;
 }
@@ -327,7 +329,7 @@
   us.isComplete = YES;
   [self.delegate buildingWasSpedUp:gemCost];
   self.clickableUserStructId = 0;
-  self.selected = nil;
+  self.bottomOptionView = nil;
 }
 
 - (void) reselectCurrentSelection {

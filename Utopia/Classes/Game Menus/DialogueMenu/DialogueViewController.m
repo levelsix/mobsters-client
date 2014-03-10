@@ -31,6 +31,8 @@
 }
 
 - (void) animateNext {
+  if (_isAnimating) return;
+  
   self.view.hidden = NO;
   _isAnimating = YES;
   if (_curIndex < self.dialogue.speechSegmentList.count) {
@@ -178,10 +180,8 @@
   }];
 }
 
-- (void) touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event {
-  if (!_isAnimating) {
-    [self animateNext];
-  }
+- (void) touchesEnded:(NSSet *)touches withEvent:(UIEvent *)event {
+  [self animateNext];
 }
 
 @end

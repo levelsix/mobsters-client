@@ -9,6 +9,7 @@
 #import <Foundation/Foundation.h>
 #import "TutorialElementsBattleLayer.h"
 #import "DialogueViewController.h"
+#import "TutorialTouchView.h"
 
 @class GameViewController;
 
@@ -40,6 +41,8 @@ typedef enum {
 @property (nonatomic, copy) NSString *dialogueSpeakerImage;
 
 @property (nonatomic, assign) id<TutorialElementsDelegate> delegate;
+
+@property (nonatomic, retain) TutorialTouchView *touchView;
 
 - (id) initWithGameViewController:(GameViewController *)gvc dialogueSpeakerImage:(NSString *)dsi constants:(StartupResponseProto_TutorialConstants *)constants;
 - (void) begin;

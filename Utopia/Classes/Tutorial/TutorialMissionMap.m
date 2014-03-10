@@ -425,7 +425,7 @@
   
   [self.markZSprite runAction:
    [CCActionSequence actions:
-    [CCActionDelay actionWithDuration:1.1],
+    [CCActionDelay actionWithDuration:0.7],
     [CCActionCallBlock actionWithBlock:
      ^{
        [self.markZSprite jumpNumTimes:1 completionTarget:nil selector:nil];
@@ -433,7 +433,7 @@
     nil]];
   [self.friendSprite runAction:
    [CCActionSequence actions:
-    [CCActionDelay actionWithDuration:1.25],
+    [CCActionDelay actionWithDuration:0.85],
     [CCActionCallBlock actionWithBlock:
      ^{
        [self.friendSprite jumpNumTimes:1 completionTarget:self selector:@selector(walkToYacht)];
