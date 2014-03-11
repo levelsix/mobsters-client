@@ -29,6 +29,7 @@
 - (void) youWon {
   [super youWon];
   [self.wonView updateForRewards:[Reward createRewardsForDungeon:self.dungeonInfo]];
+  [[OutgoingEventController sharedOutgoingEventController] endDungeon:self.dungeonInfo userWon:YES delegate:self];
   [self makeGoCarrotCalls];
 }
 
@@ -62,14 +63,12 @@
 
 - (IBAction)winExitClicked:(id)sender {
   if (!_wonBattle) {
-    [[OutgoingEventController sharedOutgoingEventController] endDungeon:self.dungeonInfo userWon:_wonBattle delegate:nil];
+    [[OutgoingEventController sharedOutgoingEventController] endDungeon:self.dungeonInfo userWon:_wonBattle delegate:self];
     [self exitFinal];
   } else if (!_receivedEndDungeonResponse) {
     _waitingForEndDungeonResponse = YES;
     
-#warning fix this
     _manageWasClicked = NO;
-    [self exitFinal];
   } else {
     [self exitFinal];
   }

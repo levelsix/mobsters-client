@@ -23,6 +23,7 @@
 #import "SocketCommunication.h"
 #import "DungeonBattleLayer.h"
 #import "GameCenterDelegate.h"
+#import "FacebookDelegate.h"
 
 #define QUEST_REDEEM_KIIP_REWARD @"quest_redeem"
 
@@ -354,6 +355,10 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
     NSString *gcId = [GameCenterDelegate gameCenterId];
     if (gcId) {
       [[OutgoingEventController sharedOutgoingEventController] setGameCenterId:gcId];
+    }
+    FacebookDelegate *fd = [FacebookDelegate sharedFacebookDelegate];
+    if (fd.myFacebookUser) {
+      [[GameViewController baseController] canProceedWithFacebookId:fd.myFacebookUser.id];
     }
     
     // Display generic popups for strings that haven't been seen before

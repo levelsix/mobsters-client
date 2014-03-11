@@ -1003,41 +1003,93 @@
       Powerup *p = [[Powerup alloc] init];
       [self.powerups addObject:p];
       
+      NSMutableArray *toDestroy = [NSMutableArray array];
       for (Gem *gem in _gems) {
-        if (gem.color == color) {
+        if (gem.color == color && gem != _realDragGem && gem != _swapGem) {
           CCParticleSystem *q = [CCParticleSystem particleWithFile:@"rockettail.plist"];
           [self addChild:q z:10];
           q.position = _realDragGem.sprite.position;
           [q runAction:[CCActionMoveTo actionWithDuration:MOLOTOV_PARTICLE_DURATION position:gem.sprite.position]];
           q.duration = MOLOTOV_PARTICLE_DURATION;
           q.autoRemoveOnFinish = YES;
+          
+          [toDestroy addObject:gem];
+          [self.reservedGems addObject:toDestroy];
         }
       }
+      [toDestroy shuffle];
       
       // First action just delays everything, then we replace and fire off rockets
       NSMutableArray *seq = [NSMutableArray array];
       [seq addObject:[CCActionDelay actionWithDuration:MOLOTOV_PARTICLE_DURATION-0.1]];
       [seq addObject:[CCActionCallBlock actionWithBlock:^{
-        NSMutableSet *colorGems = [NSMutableSet set];
-        for (int i = 0; i < self.gems.count; i++) {
-          Gem *gem = [self.gems objectAtIndex:i];
-          if (gem.color == color) {
-            Gem *newGem = [self createGemWithColor:color powerup:arc4random() % 2 == 0 ? powerup_horizontal_line : powerup_vertical_line];
-            [self.gems replaceObjectAtIndex:[self.gems indexOfObject:gem] withObject:newGem];
-            newGem.sprite.position = [self pointForGridPosition:[self coordinateOfGem:newGem]];
-            [gem.sprite removeFromParentAndCleanup:YES];
-            [self addChild:newGem.sprite z:9];
-            
-            [colorGems addObject:newGem];
-          }
-        }
-        
         NSMutableArray *seq = [NSMutableArray array];
         [seq addObject:[CCActionDelay actionWithDuration:0.2]];
-        for (Gem *gem in colorGems) {
+        for (Gem *gem in toDestroy) {
+          Gem *newGem = [self createGemWithColor:color powerup:arc4random() % 2 == 0 ? powerup_horizontal_line : powerup_vertical_line];
+          [self.gems replaceObjectAtIndex:[self.gems indexOfObject:gem] withObject:newGem];
+          newGem.sprite.position = [self pointForGridPosition:[self coordinateOfGem:newGem]];
+          [gem.sprite removeFromParentAndCleanup:YES];
+          [self addChild:newGem.sprite z:9];
+          
           [seq addObject:[CCActionDelay actionWithDuration:0.2]];
           [seq addObject:[CCActionCallBlock actionWithBlock:^{
-            [self destroyGem:gem fromColor:gem.color fromPowerup:powerup_none];
+            [self destroyGem:newGem fromColor:gem.color fromPowerup:powerup_none];
+          }]];
+        }
+        [seq addObject:[CCActionCallBlock actionWithBlock:^{
+          [self.powerups removeObject:p];
+          [self checkAllGemsAndPowerupsDone];
+        }]];
+        [self runAction:[CCActionSequence actionWithArray:seq]];
+      }]];
+      [self runAction:[CCActionSequence actionWithArray:seq]];
+      
+      _realDragGem.powerup = powerup_none;
+      _swapGem.powerup = powerup_none;
+      [self destroyGem:_realDragGem fromColor:color_all fromPowerup:powerup_none];
+      [self destroyGem:_swapGem fromColor:color_all fromPowerup:powerup_none];
+    }
+    // bomb and cocktail
+    else if ((_realDragGem.powerup == powerup_explosion && _swapGem.powerup == powerup_all_of_one_color) ||
+             (_swapGem.powerup == powerup_explosion && _realDragGem.powerup == powerup_all_of_one_color)) {
+      GemColorId color = _realDragGem.powerup == powerup_all_of_one_color ? _swapGem.color : _realDragGem.color;
+      
+      Powerup *p = [[Powerup alloc] init];
+      [self.powerups addObject:p];
+      
+      NSMutableArray *toDestroy = [NSMutableArray array];
+      for (Gem *gem in _gems) {
+        if (gem.color == color && gem != _realDragGem && gem != _swapGem) {
+          CCParticleSystem *q = [CCParticleSystem particleWithFile:@"rockettail.plist"];
+          [self addChild:q z:10];
+          q.position = _realDragGem.sprite.position;
+          [q runAction:[CCActionMoveTo actionWithDuration:MOLOTOV_PARTICLE_DURATION position:gem.sprite.position]];
+          q.duration = MOLOTOV_PARTICLE_DURATION;
+          q.autoRemoveOnFinish = YES;
+          
+          [toDestroy addObject:gem];
+          [self.reservedGems addObject:toDestroy];
+        }
+      }
+      [toDestroy shuffle];
+      
+      // First action just delays everything, then we replace and fire off rockets
+      NSMutableArray *seq = [NSMutableArray array];
+      [seq addObject:[CCActionDelay actionWithDuration:MOLOTOV_PARTICLE_DURATION-0.1]];
+      [seq addObject:[CCActionCallBlock actionWithBlock:^{
+        NSMutableArray *seq = [NSMutableArray array];
+        [seq addObject:[CCActionDelay actionWithDuration:0.2]];
+        for (Gem *gem in toDestroy) {
+          Gem *newGem = [self createGemWithColor:color powerup:powerup_explosion];
+          [self.gems replaceObjectAtIndex:[self.gems indexOfObject:gem] withObject:newGem];
+          newGem.sprite.position = [self pointForGridPosition:[self coordinateOfGem:newGem]];
+          [gem.sprite removeFromParentAndCleanup:YES];
+          [self addChild:newGem.sprite z:9];
+          
+          [seq addObject:[CCActionDelay actionWithDuration:0.2]];
+          [seq addObject:[CCActionCallBlock actionWithBlock:^{
+            [self destroyGem:newGem fromColor:gem.color fromPowerup:powerup_none];
           }]];
         }
         [seq addObject:[CCActionCallBlock actionWithBlock:^{

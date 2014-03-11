@@ -7,6 +7,7 @@
 //
 
 #import "MiniTutorialBattleLayer.h"
+#import "Globals.h"
 
 @implementation MiniTutorialBattleLayer
 
@@ -24,7 +25,9 @@
 }
 
 - (void) beginThirdMove {
-  [self allowMove];
+  [self.noInputLayer stopAllActions];
+  self.noInputLayer.opacity = 0.f;
+  [self.orbLayer allowInput];
 }
 
 - (void) allowMove {
@@ -96,7 +99,17 @@
 }
 
 - (void) checkMyHealth {
+  [self sendServerUpdatedValues];
   [self.delegate turnFinished];
+}
+
+- (void) youWon {
+  [super youWon];
+  
+  CCSprite *spr = [CCSprite spriteWithImageNamed:@"arrow.png"];
+  [self.wonView.doneButton addChild:spr];
+  spr.position = ccp(self.wonView.doneButton.contentSize.width+spr.contentSize.width/2+5, self.wonView.doneButton.contentSize.height/2);
+  [Globals animateCCArrow:spr atAngle:M_PI];
 }
 
 - (void) displaySwapButton {
@@ -113,6 +126,14 @@
 }
 
 - (void) cancelDeploy:(id)sender {
+  // Do nothing
+}
+
+- (void) shareClicked:(id)sender {
+  // Do nothing
+}
+
+- (void) manageClicked:(id)sender {
   // Do nothing
 }
 

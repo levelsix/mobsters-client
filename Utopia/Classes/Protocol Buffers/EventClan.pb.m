@@ -9120,7 +9120,7 @@ BOOL RecordClanRaidStatsResponseProto_RecordClanRaidStatsStatusIsValidValue(Reco
 
 @interface PromoteDemoteClanMemberRequestProto ()
 @property (retain) MinimumUserProto* sender;
-@property int32_t victim;
+@property int32_t victimId;
 @property UserClanStatus userClanStatus;
 @end
 
@@ -9133,13 +9133,13 @@ BOOL RecordClanRaidStatsResponseProto_RecordClanRaidStatsStatusIsValidValue(Reco
   hasSender_ = !!value;
 }
 @synthesize sender;
-- (BOOL) hasVictim {
-  return !!hasVictim_;
+- (BOOL) hasVictimId {
+  return !!hasVictimId_;
 }
-- (void) setHasVictim:(BOOL) value {
-  hasVictim_ = !!value;
+- (void) setHasVictimId:(BOOL) value {
+  hasVictimId_ = !!value;
 }
-@synthesize victim;
+@synthesize victimId;
 - (BOOL) hasUserClanStatus {
   return !!hasUserClanStatus_;
 }
@@ -9154,7 +9154,7 @@ BOOL RecordClanRaidStatsResponseProto_RecordClanRaidStatsStatusIsValidValue(Reco
 - (id) init {
   if ((self = [super init])) {
     self.sender = [MinimumUserProto defaultInstance];
-    self.victim = 0;
+    self.victimId = 0;
     self.userClanStatus = UserClanStatusMember;
   }
   return self;
@@ -9178,8 +9178,8 @@ static PromoteDemoteClanMemberRequestProto* defaultPromoteDemoteClanMemberReques
   if (self.hasSender) {
     [output writeMessage:1 value:self.sender];
   }
-  if (self.hasVictim) {
-    [output writeInt32:2 value:self.victim];
+  if (self.hasVictimId) {
+    [output writeInt32:2 value:self.victimId];
   }
   if (self.hasUserClanStatus) {
     [output writeEnum:3 value:self.userClanStatus];
@@ -9196,8 +9196,8 @@ static PromoteDemoteClanMemberRequestProto* defaultPromoteDemoteClanMemberReques
   if (self.hasSender) {
     size += computeMessageSize(1, self.sender);
   }
-  if (self.hasVictim) {
-    size += computeInt32Size(2, self.victim);
+  if (self.hasVictimId) {
+    size += computeInt32Size(2, self.victimId);
   }
   if (self.hasUserClanStatus) {
     size += computeEnumSize(3, self.userClanStatus);
@@ -9280,8 +9280,8 @@ static PromoteDemoteClanMemberRequestProto* defaultPromoteDemoteClanMemberReques
   if (other.hasSender) {
     [self mergeSender:other.sender];
   }
-  if (other.hasVictim) {
-    [self setVictim:other.victim];
+  if (other.hasVictimId) {
+    [self setVictimId:other.victimId];
   }
   if (other.hasUserClanStatus) {
     [self setUserClanStatus:other.userClanStatus];
@@ -9317,7 +9317,7 @@ static PromoteDemoteClanMemberRequestProto* defaultPromoteDemoteClanMemberReques
         break;
       }
       case 16: {
-        [self setVictim:[input readInt32]];
+        [self setVictimId:[input readInt32]];
         break;
       }
       case 24: {
@@ -9362,20 +9362,20 @@ static PromoteDemoteClanMemberRequestProto* defaultPromoteDemoteClanMemberReques
   result.sender = [MinimumUserProto defaultInstance];
   return self;
 }
-- (BOOL) hasVictim {
-  return result.hasVictim;
+- (BOOL) hasVictimId {
+  return result.hasVictimId;
 }
-- (int32_t) victim {
-  return result.victim;
+- (int32_t) victimId {
+  return result.victimId;
 }
-- (PromoteDemoteClanMemberRequestProto_Builder*) setVictim:(int32_t) value {
-  result.hasVictim = YES;
-  result.victim = value;
+- (PromoteDemoteClanMemberRequestProto_Builder*) setVictimId:(int32_t) value {
+  result.hasVictimId = YES;
+  result.victimId = value;
   return self;
 }
-- (PromoteDemoteClanMemberRequestProto_Builder*) clearVictim {
-  result.hasVictim = NO;
-  result.victim = 0;
+- (PromoteDemoteClanMemberRequestProto_Builder*) clearVictimId {
+  result.hasVictimId = NO;
+  result.victimId = 0;
   return self;
 }
 - (BOOL) hasUserClanStatus {
@@ -9398,7 +9398,7 @@ static PromoteDemoteClanMemberRequestProto* defaultPromoteDemoteClanMemberReques
 
 @interface PromoteDemoteClanMemberResponseProto ()
 @property (retain) MinimumUserProto* sender;
-@property int32_t victim;
+@property int32_t victimId;
 @property UserClanStatus userClanStatus;
 @property PromoteDemoteClanMemberResponseProto_PromoteDemoteClanMemberStatus status;
 @end
@@ -9412,13 +9412,13 @@ static PromoteDemoteClanMemberRequestProto* defaultPromoteDemoteClanMemberReques
   hasSender_ = !!value;
 }
 @synthesize sender;
-- (BOOL) hasVictim {
-  return !!hasVictim_;
+- (BOOL) hasVictimId {
+  return !!hasVictimId_;
 }
-- (void) setHasVictim:(BOOL) value {
-  hasVictim_ = !!value;
+- (void) setHasVictimId:(BOOL) value {
+  hasVictimId_ = !!value;
 }
-@synthesize victim;
+@synthesize victimId;
 - (BOOL) hasUserClanStatus {
   return !!hasUserClanStatus_;
 }
@@ -9440,7 +9440,7 @@ static PromoteDemoteClanMemberRequestProto* defaultPromoteDemoteClanMemberReques
 - (id) init {
   if ((self = [super init])) {
     self.sender = [MinimumUserProto defaultInstance];
-    self.victim = 0;
+    self.victimId = 0;
     self.userClanStatus = UserClanStatusMember;
     self.status = PromoteDemoteClanMemberResponseProto_PromoteDemoteClanMemberStatusSuccess;
   }
@@ -9465,8 +9465,8 @@ static PromoteDemoteClanMemberResponseProto* defaultPromoteDemoteClanMemberRespo
   if (self.hasSender) {
     [output writeMessage:1 value:self.sender];
   }
-  if (self.hasVictim) {
-    [output writeInt32:2 value:self.victim];
+  if (self.hasVictimId) {
+    [output writeInt32:2 value:self.victimId];
   }
   if (self.hasUserClanStatus) {
     [output writeEnum:3 value:self.userClanStatus];
@@ -9486,8 +9486,8 @@ static PromoteDemoteClanMemberResponseProto* defaultPromoteDemoteClanMemberRespo
   if (self.hasSender) {
     size += computeMessageSize(1, self.sender);
   }
-  if (self.hasVictim) {
-    size += computeInt32Size(2, self.victim);
+  if (self.hasVictimId) {
+    size += computeInt32Size(2, self.victimId);
   }
   if (self.hasUserClanStatus) {
     size += computeEnumSize(3, self.userClanStatus);
@@ -9584,8 +9584,8 @@ BOOL PromoteDemoteClanMemberResponseProto_PromoteDemoteClanMemberStatusIsValidVa
   if (other.hasSender) {
     [self mergeSender:other.sender];
   }
-  if (other.hasVictim) {
-    [self setVictim:other.victim];
+  if (other.hasVictimId) {
+    [self setVictimId:other.victimId];
   }
   if (other.hasUserClanStatus) {
     [self setUserClanStatus:other.userClanStatus];
@@ -9624,7 +9624,7 @@ BOOL PromoteDemoteClanMemberResponseProto_PromoteDemoteClanMemberStatusIsValidVa
         break;
       }
       case 16: {
-        [self setVictim:[input readInt32]];
+        [self setVictimId:[input readInt32]];
         break;
       }
       case 24: {
@@ -9678,20 +9678,20 @@ BOOL PromoteDemoteClanMemberResponseProto_PromoteDemoteClanMemberStatusIsValidVa
   result.sender = [MinimumUserProto defaultInstance];
   return self;
 }
-- (BOOL) hasVictim {
-  return result.hasVictim;
+- (BOOL) hasVictimId {
+  return result.hasVictimId;
 }
-- (int32_t) victim {
-  return result.victim;
+- (int32_t) victimId {
+  return result.victimId;
 }
-- (PromoteDemoteClanMemberResponseProto_Builder*) setVictim:(int32_t) value {
-  result.hasVictim = YES;
-  result.victim = value;
+- (PromoteDemoteClanMemberResponseProto_Builder*) setVictimId:(int32_t) value {
+  result.hasVictimId = YES;
+  result.victimId = value;
   return self;
 }
-- (PromoteDemoteClanMemberResponseProto_Builder*) clearVictim {
-  result.hasVictim = NO;
-  result.victim = 0;
+- (PromoteDemoteClanMemberResponseProto_Builder*) clearVictimId {
+  result.hasVictimId = NO;
+  result.victimId = 0;
   return self;
 }
 - (BOOL) hasUserClanStatus {

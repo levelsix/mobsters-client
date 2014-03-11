@@ -88,7 +88,7 @@ typedef enum {
   
   TutorialStepAttackMap,
   TutorialStepEnterBattleThree,
-  TutorialStepElementsMiniTutorial,
+  TutorialStepRainbowMiniTutorial,
   TutorialStepClickQuests,
 } TutorialStep;
 

@@ -414,12 +414,22 @@
                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                     <color key="backgroundColor" white="1" alpha="0.5" colorSpace="custom" customColorSpace="calibratedWhite"/>
                                 </view>
+                                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="You have no more friends to invite." textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" id="Azc-OP-Idw" customClass="NiceFontLabel">
+                                    <rect key="frame" x="30" y="61" width="222" height="54"/>
+                                    <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
+                                    <fontDescription key="fontDescription" type="system" pointSize="13"/>
+                                    <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="calibratedRGB"/>
+                                    <nil key="highlightedColor"/>
+                                    <color key="shadowColor" red="0.0" green="0.0" blue="0.0" alpha="0.20000000000000001" colorSpace="calibratedRGB"/>
+                                    <size key="shadowOffset" width="0.0" height="1"/>
+                                </label>
                             </subviews>
                             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                             <connections>
                                 <outlet property="allFriendsButton" destination="sVB-fV-vZS" id="zcU-a8-P9z"/>
                                 <outlet property="chooserTable" destination="SNU-Bz-gaC" id="Rw0-BG-zTi"/>
                                 <outlet property="gameFriendsButton" destination="lr6-RL-dJk" id="d6W-oM-TcZ"/>
+                                <outlet property="noFriendsLabel" destination="Azc-OP-Idw" id="0Ni-2O-cEq"/>
                                 <outlet property="spinner" destination="npe-wm-GcQ" id="QE4-PB-JYB"/>
                                 <outlet property="unselectAllButton" destination="xbZ-zK-Iyy" id="E5V-YZ-wR1"/>
                             </connections>

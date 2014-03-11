@@ -91,7 +91,7 @@
 
 @property (nonatomic, assign) BOOL addAllFbFriends;
 
-@property (nonatomic, assign) StartupResponseProto_StartupConstants_MiniTutorialConstants *miniTutorialConstants;
+@property (nonatomic, retain) StartupResponseProto_StartupConstants_MiniTutorialConstants *miniTutorialConstants;
 
 // Monster Constants
 @property (nonatomic, assign) int maxTeamSize;
@@ -160,6 +160,9 @@
 + (NSString *) imageNameForElement:(MonsterProto_MonsterElement)element suffix:(NSString *)str;
 + (UIColor *) colorForElementOnDarkBackground:(MonsterProto_MonsterElement)element;
 + (UIColor *) colorForElementOnLightBackground:(MonsterProto_MonsterElement)element;
+
++ (MonsterProto_MonsterElement) elementForSuperEffective:(MonsterProto_MonsterElement)element;
++ (MonsterProto_MonsterElement) elementForNotVeryEffective:(MonsterProto_MonsterElement)element;
 
 + (NSString *) stringForTimeSinceNow:(NSDate *)date shortened:(BOOL)shortened ;
 

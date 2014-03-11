@@ -966,7 +966,8 @@
     UpgradeViewController *uvc = [[UpgradeViewController alloc] initWithUserStruct:us];
     uvc.delegate = self;
     [gvc addChildViewController:uvc];
-    [Globals displayUIView:uvc.view];
+    [gvc.view addSubview:uvc.view];
+    self.upgradeViewController = uvc;
   } else {
     [Globals popupMessage:[NSString stringWithFormat:@"The maximum level for the %@ is %d.", us.staticStruct.structInfo.name, maxLevel]];
   }
@@ -1252,6 +1253,14 @@
   [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(reloadStorages) name:GAMESTATE_UPDATE_NOTIFICATION object:nil];
   [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(reloadHospitals) name:MONSTER_QUEUE_CHANGED_NOTIFICATION object:nil];
   [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(setupTeamSprites) name:MONSTER_QUEUE_CHANGED_NOTIFICATION object:nil];
+}
+
+- (void) onExitTransitionDidStart {
+  [super onExitTransitionDidStart];
+  
+  [self.upgradeViewController.view removeFromSuperview];
+  [self.upgradeViewController removeFromParentViewController];
+  self.upgradeViewController = nil;
 }
 
 - (void) onExit {

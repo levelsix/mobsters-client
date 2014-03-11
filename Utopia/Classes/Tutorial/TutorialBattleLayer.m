@@ -29,29 +29,27 @@
 - (void) beginFirstMove {
   [super beginFirstMove];
   
-  TutorialOrbLayer *orb = (TutorialOrbLayer *)self.orbLayer;
-  [orb createOverlayAvoidingPositions:[NSArray arrayWithObjects:
-                                       [NSValue valueWithCGPoint:ccp(1, 0)],
-                                       [NSValue valueWithCGPoint:ccp(0, 1)],
-                                       [NSValue valueWithCGPoint:ccp(1, 1)],
-                                       [NSValue valueWithCGPoint:ccp(1, 2)], nil]
-                       withForcedMove:[NSSet setWithObjects:
-                                       [NSValue valueWithCGPoint:ccp(0, 1)],
-                                       [NSValue valueWithCGPoint:ccp(1, 1)], nil]];
+  [self.orbLayer createOverlayAvoidingPositions:[NSArray arrayWithObjects:
+                                                 [NSValue valueWithCGPoint:ccp(1, 0)],
+                                                 [NSValue valueWithCGPoint:ccp(0, 1)],
+                                                 [NSValue valueWithCGPoint:ccp(1, 1)],
+                                                 [NSValue valueWithCGPoint:ccp(1, 2)], nil]
+                                 withForcedMove:[NSSet setWithObjects:
+                                                 [NSValue valueWithCGPoint:ccp(0, 1)],
+                                                 [NSValue valueWithCGPoint:ccp(1, 1)], nil]];
 }
 
 - (void) beginSecondMove {
   [super beginSecondMove];
   
-  TutorialOrbLayer *orb = (TutorialOrbLayer *)self.orbLayer;
-  [orb createOverlayAvoidingPositions:[NSArray arrayWithObjects:
-                                       [NSValue valueWithCGPoint:ccp(2, 1)],
-                                       [NSValue valueWithCGPoint:ccp(3, 2)],
-                                       [NSValue valueWithCGPoint:ccp(3, 1)],
-                                       [NSValue valueWithCGPoint:ccp(4, 1)], nil]
-                       withForcedMove:[NSSet setWithObjects:
-                                       [NSValue valueWithCGPoint:ccp(3, 1)],
-                                       [NSValue valueWithCGPoint:ccp(3, 2)], nil]];
+  [self.orbLayer createOverlayAvoidingPositions:[NSArray arrayWithObjects:
+                                                 [NSValue valueWithCGPoint:ccp(2, 1)],
+                                                 [NSValue valueWithCGPoint:ccp(3, 2)],
+                                                 [NSValue valueWithCGPoint:ccp(3, 1)],
+                                                 [NSValue valueWithCGPoint:ccp(4, 1)], nil]
+                                 withForcedMove:[NSSet setWithObjects:
+                                                 [NSValue valueWithCGPoint:ccp(3, 1)],
+                                                 [NSValue valueWithCGPoint:ccp(3, 2)], nil]];
 }
 
 - (void) dealDamage:(int)damageDone enemyIsAttacker:(BOOL)enemyIsAttacker withSelector:(SEL)selector {
@@ -92,30 +90,28 @@
 - (void) beginFirstMove {
   [super beginFirstMove];
   
-  TutorialOrbLayer *orb = (TutorialOrbLayer *)self.orbLayer;
-  [orb createOverlayAvoidingPositions:[NSArray arrayWithObjects:
-                                       [NSValue valueWithCGPoint:ccp(2, 1)],
-                                       [NSValue valueWithCGPoint:ccp(3, 2)],
-                                       [NSValue valueWithCGPoint:ccp(3, 1)],
-                                       [NSValue valueWithCGPoint:ccp(4, 1)],
-                                       [NSValue valueWithCGPoint:ccp(5, 1)], nil]
-                       withForcedMove:[NSSet setWithObjects:
-                                       [NSValue valueWithCGPoint:ccp(3, 1)],
-                                       [NSValue valueWithCGPoint:ccp(3, 2)], nil]];
+  [self.orbLayer createOverlayAvoidingPositions:[NSArray arrayWithObjects:
+                                                 [NSValue valueWithCGPoint:ccp(2, 1)],
+                                                 [NSValue valueWithCGPoint:ccp(3, 2)],
+                                                 [NSValue valueWithCGPoint:ccp(3, 1)],
+                                                 [NSValue valueWithCGPoint:ccp(4, 1)],
+                                                 [NSValue valueWithCGPoint:ccp(5, 1)], nil]
+                                 withForcedMove:[NSSet setWithObjects:
+                                                 [NSValue valueWithCGPoint:ccp(3, 1)],
+                                                 [NSValue valueWithCGPoint:ccp(3, 2)], nil]];
 }
 
 - (void) beginSecondMove {
   [super beginSecondMove];
   
-  TutorialOrbLayer *orb = (TutorialOrbLayer *)self.orbLayer;
-  [orb createOverlayAvoidingPositions:[NSArray arrayWithObjects:
-                                       [NSValue valueWithCGPoint:ccp(3, 2)],
-                                       [NSValue valueWithCGPoint:ccp(3, 3)],
-                                       [NSValue valueWithCGPoint:ccp(3, 4)],
-                                       [NSValue valueWithCGPoint:ccp(3, 1)], nil]
-                       withForcedMove:[NSSet setWithObjects:
-                                       [NSValue valueWithCGPoint:ccp(3, 2)],
-                                       [NSValue valueWithCGPoint:ccp(3, 1)], nil]];
+  [self.orbLayer createOverlayAvoidingPositions:[NSArray arrayWithObjects:
+                                                 [NSValue valueWithCGPoint:ccp(3, 2)],
+                                                 [NSValue valueWithCGPoint:ccp(3, 3)],
+                                                 [NSValue valueWithCGPoint:ccp(3, 4)],
+                                                 [NSValue valueWithCGPoint:ccp(3, 1)], nil]
+                                 withForcedMove:[NSSet setWithObjects:
+                                                 [NSValue valueWithCGPoint:ccp(3, 2)],
+                                                 [NSValue valueWithCGPoint:ccp(3, 1)], nil]];
 }
 
 - (void) dealDamage:(int)damageDone enemyIsAttacker:(BOOL)enemyIsAttacker withSelector:(SEL)selector {

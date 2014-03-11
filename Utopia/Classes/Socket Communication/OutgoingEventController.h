@@ -46,6 +46,7 @@
 
 - (void) enableApns:(NSString *)deviceToken;
 - (void) setGameCenterId:(NSString *)gameCenterId;
+- (void) setFacebookId:(NSString *)facebookId delegate:(id)delegate;
 
 - (void) sendGroupChat:(GroupChatScope)scope message:(NSString *)msg;
 
@@ -72,6 +73,8 @@
 - (void) privateChatPost:(int)recipientId content:(NSString *)content;
 - (void) retrievePrivateChatPosts:(int)otherUserId delegate:(id)delegate;
 
+- (void) beginDungeon:(int)taskId withDelegate:(id)delegate;
+- (void) beginDungeon:(int)taskId enemyElement:(MonsterProto_MonsterElement)element withDelegate:(id)delegate;
 - (void) beginDungeon:(int)taskId isEvent:(BOOL)isEvent eventId:(int)eventId useGems:(BOOL)useGems withDelegate:(id)delegate;
 - (void) updateMonsterHealth:(int)userMonsterId curHealth:(int)curHealth;
 - (void) endDungeon:(BeginDungeonResponseProto *)dungeonInfo userWon:(BOOL)userWon delegate:(id)delegate;

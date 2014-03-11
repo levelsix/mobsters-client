@@ -47,6 +47,7 @@
 
 @property (nonatomic, retain) NSString *kabamNaid;
 @property (nonatomic, retain) NSString *facebookId;
+@property (nonatomic, retain) NSString *gameCenterId;
 
 @property (nonatomic, retain) NSString *deviceToken;
 

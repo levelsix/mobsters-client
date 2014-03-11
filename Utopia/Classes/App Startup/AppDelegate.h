@@ -22,7 +22,7 @@
 
 @property (nonatomic, assign) BOOL hasTrackedVisit;
 
-@property (nonatomic, assign) NSString *apnsToken;
+@property (nonatomic, retain) NSString *apnsToken;
 
 @property (nonatomic, retain) UIWindow *window;
 

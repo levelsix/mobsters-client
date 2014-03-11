@@ -748,14 +748,18 @@ BOOL SetGameCenterIdResponseProto_SetGameCenterIdStatusIsValidValue(SetGameCente
 @interface SetFacebookIdResponseProto : PBGeneratedMessage {
 @private
   BOOL hasSender_:1;
+  BOOL hasExisting_:1;
   BOOL hasStatus_:1;
   MinimumUserProto* sender;
+  MinimumUserProto* existing;
   SetFacebookIdResponseProto_SetFacebookIdStatus status;
 }
 - (BOOL) hasSender;
 - (BOOL) hasStatus;
+- (BOOL) hasExisting;
 @property (readonly, retain) MinimumUserProto* sender;
 @property (readonly) SetFacebookIdResponseProto_SetFacebookIdStatus status;
+@property (readonly, retain) MinimumUserProto* existing;
 
 + (SetFacebookIdResponseProto*) defaultInstance;
 - (SetFacebookIdResponseProto*) defaultInstance;
@@ -802,6 +806,13 @@ BOOL SetGameCenterIdResponseProto_SetGameCenterIdStatusIsValidValue(SetGameCente
 - (SetFacebookIdResponseProto_SetFacebookIdStatus) status;
 - (SetFacebookIdResponseProto_Builder*) setStatus:(SetFacebookIdResponseProto_SetFacebookIdStatus) value;
 - (SetFacebookIdResponseProto_Builder*) clearStatus;
+
+- (BOOL) hasExisting;
+- (MinimumUserProto*) existing;
+- (SetFacebookIdResponseProto_Builder*) setExisting:(MinimumUserProto*) value;
+- (SetFacebookIdResponseProto_Builder*) setExistingBuilder:(MinimumUserProto_Builder*) builderForValue;
+- (SetFacebookIdResponseProto_Builder*) mergeExisting:(MinimumUserProto*) value;
+- (SetFacebookIdResponseProto_Builder*) clearExisting;
 @end
 
 @interface UpdateUserCurrencyRequestProto : PBGeneratedMessage {

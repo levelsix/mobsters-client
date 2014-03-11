@@ -16,10 +16,11 @@
 #import "CCDirector+Downloader.h"
 #import "DialogueViewController.h"
 #import "ClanRaidDetailsViewController.h"
+#import "MiniTutorialController.h"
 
 @class TutorialController;
 
-@interface GameViewController : UIViewController <AttackMapDelegate, BattleLayerDelegate, CCDirectorDownloaderDelegate, DialogueViewControllerDelegate, ClanRaidDetailsDelegate> {
+@interface GameViewController : UIViewController <AttackMapDelegate, BattleLayerDelegate, CCDirectorDownloaderDelegate, DialogueViewControllerDelegate, ClanRaidDetailsDelegate, MiniTutorialDelegate> {
   int _questIdAfterDialogue;
   
   BOOL _isFreshRestart;
@@ -32,6 +33,7 @@
 @property (nonatomic, strong) IBOutlet TravelingLoadingView *loadingView;
 
 @property (nonatomic, strong) TutorialController *tutController;
+@property (nonatomic, strong) MiniTutorialController *miniTutController;
 
 + (id) baseController;
 
@@ -54,5 +56,7 @@
 
 - (void) showTopBarDuration:(float)duration completion:(void (^)(void))completion;
 - (void) hideTopBarDuration:(float)duration completion:(void (^)(void))completion;
+
+- (BOOL) canProceedWithFacebookId:(NSString *)facebookId;
 
 @end

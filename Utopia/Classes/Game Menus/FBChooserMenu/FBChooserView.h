@@ -40,6 +40,8 @@ typedef enum {
 @property (nonatomic, retain) IBOutlet UIButton *gameFriendsButton;
 @property (nonatomic, retain) IBOutlet UIButton *unselectAllButton;
 
+@property (nonatomic, retain) IBOutlet UILabel *noFriendsLabel;
+
 @property (nonatomic, assign) FBChooserState state;
 
 - (void) retrieveFacebookFriends:(BOOL)openLoginUI;

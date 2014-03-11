@@ -31,6 +31,8 @@ static PBExtensionRegistry* extensionRegistry = nil;
 @property int32_t persistentEventId;
 @property int32_t gemsSpent;
 @property (retain) NSMutableArray* mutableQuestIdsList;
+@property MonsterProto_MonsterElement elem;
+@property BOOL forceEnemyElem;
 @end
 
 @implementation BeginDungeonRequestProto
@@ -95,6 +97,25 @@ static PBExtensionRegistry* extensionRegistry = nil;
 }
 @synthesize gemsSpent;
 @synthesize mutableQuestIdsList;
+- (BOOL) hasElem {
+  return !!hasElem_;
+}
+- (void) setHasElem:(BOOL) value {
+  hasElem_ = !!value;
+}
+@synthesize elem;
+- (BOOL) hasForceEnemyElem {
+  return !!hasForceEnemyElem_;
+}
+- (void) setHasForceEnemyElem:(BOOL) value {
+  hasForceEnemyElem_ = !!value;
+}
+- (BOOL) forceEnemyElem {
+  return !!forceEnemyElem_;
+}
+- (void) setForceEnemyElem:(BOOL) value {
+  forceEnemyElem_ = !!value;
+}
 - (void) dealloc {
   self.sender = nil;
   self.mutableQuestIdsList = nil;
@@ -109,6 +130,8 @@ static PBExtensionRegistry* extensionRegistry = nil;
     self.isEvent = NO;
     self.persistentEventId = 0;
     self.gemsSpent = 0;
+    self.elem = MonsterProto_MonsterElementFire;
+    self.forceEnemyElem = NO;
   }
   return self;
 }
@@ -159,6 +182,12 @@ static BeginDungeonRequestProto* defaultBeginDungeonRequestProtoInstance = nil;
   for (NSNumber* value in self.mutableQuestIdsList) {
     [output writeInt32:8 value:[value intValue]];
   }
+  if (self.hasElem) {
+    [output writeEnum:9 value:self.elem];
+  }
+  if (self.hasForceEnemyElem) {
+    [output writeBool:10 value:self.forceEnemyElem];
+  }
   [self.unknownFields writeToCodedOutputStream:output];
 }
 - (int32_t) serializedSize {
@@ -196,6 +225,12 @@ static BeginDungeonRequestProto* defaultBeginDungeonRequestProtoInstance = nil;
     }
     size += dataSize;
     size += 1 * self.mutableQuestIdsList.count;
+  }
+  if (self.hasElem) {
+    size += computeEnumSize(9, self.elem);
+  }
+  if (self.hasForceEnemyElem) {
+    size += computeBoolSize(10, self.forceEnemyElem);
   }
   size += self.unknownFields.serializedSize;
   memoizedSerializedSize = size;
@@ -299,6 +334,12 @@ static BeginDungeonRequestProto* defaultBeginDungeonRequestProtoInstance = nil;
     }
     [result.mutableQuestIdsList addObjectsFromArray:other.mutableQuestIdsList];
   }
+  if (other.hasElem) {
+    [self setElem:other.elem];
+  }
+  if (other.hasForceEnemyElem) {
+    [self setForceEnemyElem:other.forceEnemyElem];
+  }
   [self mergeUnknownFields:other.unknownFields];
   return self;
 }
@@ -355,6 +396,19 @@ static BeginDungeonRequestProto* defaultBeginDungeonRequestProtoInstance = nil;
       }
       case 64: {
         [self addQuestIds:[input readInt32]];
+        break;
+      }
+      case 72: {
+        int32_t value = [input readEnum];
+        if (MonsterProto_MonsterElementIsValidValue(value)) {
+          [self setElem:value];
+        } else {
+          [unknownFields mergeVarintField:9 value:value];
+        }
+        break;
+      }
+      case 80: {
+        [self setForceEnemyElem:[input readBool]];
         break;
       }
     }
@@ -515,6 +569,38 @@ static BeginDungeonRequestProto* defaultBeginDungeonRequestProtoInstance = nil;
 }
 - (BeginDungeonRequestProto_Builder*) clearQuestIdsList {
   result.mutableQuestIdsList = nil;
+  return self;
+}
+- (BOOL) hasElem {
+  return result.hasElem;
+}
+- (MonsterProto_MonsterElement) elem {
+  return result.elem;
+}
+- (BeginDungeonRequestProto_Builder*) setElem:(MonsterProto_MonsterElement) value {
+  result.hasElem = YES;
+  result.elem = value;
+  return self;
+}
+- (BeginDungeonRequestProto_Builder*) clearElem {
+  result.hasElem = NO;
+  result.elem = MonsterProto_MonsterElementFire;
+  return self;
+}
+- (BOOL) hasForceEnemyElem {
+  return result.hasForceEnemyElem;
+}
+- (BOOL) forceEnemyElem {
+  return result.forceEnemyElem;
+}
+- (BeginDungeonRequestProto_Builder*) setForceEnemyElem:(BOOL) value {
+  result.hasForceEnemyElem = YES;
+  result.forceEnemyElem = value;
+  return self;
+}
+- (BeginDungeonRequestProto_Builder*) clearForceEnemyElem {
+  result.hasForceEnemyElem = NO;
+  result.forceEnemyElem = NO;
   return self;
 }
 @end

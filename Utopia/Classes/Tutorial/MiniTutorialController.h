@@ -9,9 +9,9 @@
 #import <Foundation/Foundation.h>
 #import "DialogueViewController.h"
 #import "MiniTutorialBattleLayer.h"
-#import "GameViewController.h"
 #import "TutorialTouchView.h"
 
+@class GameViewController;
 @class MiniTutorialController;
 
 @protocol MiniTutorialDelegate <NSObject>
@@ -34,6 +34,8 @@
 @property (nonatomic, retain) NSArray *myTeam;
 
 @property (nonatomic, assign) id<MiniTutorialDelegate> delegate;
+
++ (id) miniTutorialForCityId:(int)cityId assetId:(int)assetId gameViewController:(GameViewController *)gvc;
 
 - (id) initWithMyTeam:(NSArray *)myTeam gameViewController:(GameViewController *)gvc;
 

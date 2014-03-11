@@ -1089,7 +1089,13 @@
 		CF8BA23118CEAA2F003277D1 /* TutorialRainbowBattleLayout.txt in Resources */ = {isa = PBXBuildFile; fileRef = CF8BA23018CEAA2E003277D1 /* TutorialRainbowBattleLayout.txt */; };
 		CF8BA23418CEAD06003277D1 /* MiniTutorialController.m in Sources */ = {isa = PBXBuildFile; fileRef = CF8BA23318CEAD06003277D1 /* MiniTutorialController.m */; };
 		CF8BA23718CEAD28003277D1 /* MiniTutorialBattleLayer.m in Sources */ = {isa = PBXBuildFile; fileRef = CF8BA23618CEAD28003277D1 /* MiniTutorialBattleLayer.m */; };
-		CF8BA23A18CF1481003277D1 /* TutorialPowerupCombinationLayout.txt in Resources */ = {isa = PBXBuildFile; fileRef = CF8BA23918CF1481003277D1 /* TutorialPowerupCombinationLayout.txt */; };
+		CF8BA23A18CF1481003277D1 /* TutorialDoublePowerupLayout.txt in Resources */ = {isa = PBXBuildFile; fileRef = CF8BA23918CF1481003277D1 /* TutorialDoublePowerupLayout.txt */; };
+		CF8BA23E18CF391A003277D1 /* TutorialBasicComboController.m in Sources */ = {isa = PBXBuildFile; fileRef = CF8BA23D18CF391A003277D1 /* TutorialBasicComboController.m */; };
+		CF8BA24118CF3930003277D1 /* TutorialBasicComboBattleLayer.m in Sources */ = {isa = PBXBuildFile; fileRef = CF8BA24018CF3930003277D1 /* TutorialBasicComboBattleLayer.m */; };
+		CF8BA24418CF3A9A003277D1 /* TutorialDoublePowerupBattleLayer.m in Sources */ = {isa = PBXBuildFile; fileRef = CF8BA24318CF3A9A003277D1 /* TutorialDoublePowerupBattleLayer.m */; };
+		CF8BA24718CF3AAD003277D1 /* TutorialDoublePowerupController.m in Sources */ = {isa = PBXBuildFile; fileRef = CF8BA24618CF3AAD003277D1 /* TutorialDoublePowerupController.m */; };
+		CF8BA24B18CF4022003277D1 /* TutorialPowerupController.m in Sources */ = {isa = PBXBuildFile; fileRef = CF8BA24A18CF4022003277D1 /* TutorialPowerupController.m */; };
+		CF8BA24E18CF4044003277D1 /* TutorialPowerupBattleLayer.m in Sources */ = {isa = PBXBuildFile; fileRef = CF8BA24D18CF4044003277D1 /* TutorialPowerupBattleLayer.m */; };
 		CF8C7AB71579DAAA003A6AFE /* cityunlocked.png in Resources */ = {isa = PBXBuildFile; fileRef = CF8C7A9F1579DAAA003A6AFE /* cityunlocked.png */; };
 		CF8C7AB81579DAAA003A6AFE /* cityunlocked@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CF8C7AA01579DAAA003A6AFE /* cityunlocked@2x.png */; };
 		CF8C7AB91579DAAA003A6AFE /* cityupsquare.png in Resources */ = {isa = PBXBuildFile; fileRef = CF8C7AA11579DAAA003A6AFE /* cityupsquare.png */; };
@@ -3801,7 +3807,19 @@
 		CF8BA23318CEAD06003277D1 /* MiniTutorialController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MiniTutorialController.m; sourceTree = "<group>"; };
 		CF8BA23518CEAD28003277D1 /* MiniTutorialBattleLayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MiniTutorialBattleLayer.h; sourceTree = "<group>"; };
 		CF8BA23618CEAD28003277D1 /* MiniTutorialBattleLayer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MiniTutorialBattleLayer.m; sourceTree = "<group>"; };
-		CF8BA23918CF1481003277D1 /* TutorialPowerupCombinationLayout.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = TutorialPowerupCombinationLayout.txt; sourceTree = "<group>"; };
+		CF8BA23918CF1481003277D1 /* TutorialDoublePowerupLayout.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = TutorialDoublePowerupLayout.txt; sourceTree = "<group>"; };
+		CF8BA23C18CF3919003277D1 /* TutorialBasicComboController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TutorialBasicComboController.h; sourceTree = "<group>"; };
+		CF8BA23D18CF391A003277D1 /* TutorialBasicComboController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TutorialBasicComboController.m; sourceTree = "<group>"; };
+		CF8BA23F18CF3930003277D1 /* TutorialBasicComboBattleLayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TutorialBasicComboBattleLayer.h; sourceTree = "<group>"; };
+		CF8BA24018CF3930003277D1 /* TutorialBasicComboBattleLayer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TutorialBasicComboBattleLayer.m; sourceTree = "<group>"; };
+		CF8BA24218CF3A9A003277D1 /* TutorialDoublePowerupBattleLayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TutorialDoublePowerupBattleLayer.h; sourceTree = "<group>"; };
+		CF8BA24318CF3A9A003277D1 /* TutorialDoublePowerupBattleLayer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TutorialDoublePowerupBattleLayer.m; sourceTree = "<group>"; };
+		CF8BA24518CF3AAD003277D1 /* TutorialDoublePowerupController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TutorialDoublePowerupController.h; sourceTree = "<group>"; };
+		CF8BA24618CF3AAD003277D1 /* TutorialDoublePowerupController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TutorialDoublePowerupController.m; sourceTree = "<group>"; };
+		CF8BA24918CF4022003277D1 /* TutorialPowerupController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TutorialPowerupController.h; sourceTree = "<group>"; };
+		CF8BA24A18CF4022003277D1 /* TutorialPowerupController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TutorialPowerupController.m; sourceTree = "<group>"; };
+		CF8BA24C18CF4044003277D1 /* TutorialPowerupBattleLayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TutorialPowerupBattleLayer.h; sourceTree = "<group>"; };
+		CF8BA24D18CF4044003277D1 /* TutorialPowerupBattleLayer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TutorialPowerupBattleLayer.m; sourceTree = "<group>"; };
 		CF8C7A9F1579DAAA003A6AFE /* cityunlocked.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = cityunlocked.png; sourceTree = "<group>"; };
 		CF8C7AA01579DAAA003A6AFE /* cityunlocked@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "cityunlocked@2x.png"; sourceTree = "<group>"; };
 		CF8C7AA11579DAAA003A6AFE /* cityupsquare.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = cityupsquare.png; sourceTree = "<group>"; };
@@ -7634,13 +7652,15 @@
 		CF7372AD18CB92F800EE2CBC /* MiniTutorials */ = {
 			isa = PBXGroup;
 			children = (
-				CF8BA23818CF1469003277D1 /* PowerupCombination */,
 				CF8BA23218CEAD06003277D1 /* MiniTutorialController.h */,
 				CF8BA23318CEAD06003277D1 /* MiniTutorialController.m */,
 				CF8BA23518CEAD28003277D1 /* MiniTutorialBattleLayer.h */,
 				CF8BA23618CEAD28003277D1 /* MiniTutorialBattleLayer.m */,
-				CF7372B218CB985100EE2CBC /* Elements */,
+				CF8BA23B18CF38E0003277D1 /* BasicCombo */,
+				CF8BA24818CF4013003277D1 /* Powerup */,
 				CF8BA22918CEA8DE003277D1 /* Rainbow */,
+				CF8BA23818CF1469003277D1 /* DoublePowerup */,
+				CF7372B218CB985100EE2CBC /* Elements */,
 			);
 			name = MiniTutorials;
 			sourceTree = "<group>";
@@ -7688,12 +7708,38 @@
 			name = Rainbow;
 			sourceTree = "<group>";
 		};
-		CF8BA23818CF1469003277D1 /* PowerupCombination */ = {
+		CF8BA23818CF1469003277D1 /* DoublePowerup */ = {
 			isa = PBXGroup;
 			children = (
-				CF8BA23918CF1481003277D1 /* TutorialPowerupCombinationLayout.txt */,
+				CF8BA24518CF3AAD003277D1 /* TutorialDoublePowerupController.h */,
+				CF8BA24618CF3AAD003277D1 /* TutorialDoublePowerupController.m */,
+				CF8BA24218CF3A9A003277D1 /* TutorialDoublePowerupBattleLayer.h */,
+				CF8BA24318CF3A9A003277D1 /* TutorialDoublePowerupBattleLayer.m */,
+				CF8BA23918CF1481003277D1 /* TutorialDoublePowerupLayout.txt */,
 			);
-			name = PowerupCombination;
+			name = DoublePowerup;
+			sourceTree = "<group>";
+		};
+		CF8BA23B18CF38E0003277D1 /* BasicCombo */ = {
+			isa = PBXGroup;
+			children = (
+				CF8BA23C18CF3919003277D1 /* TutorialBasicComboController.h */,
+				CF8BA23D18CF391A003277D1 /* TutorialBasicComboController.m */,
+				CF8BA23F18CF3930003277D1 /* TutorialBasicComboBattleLayer.h */,
+				CF8BA24018CF3930003277D1 /* TutorialBasicComboBattleLayer.m */,
+			);
+			name = BasicCombo;
+			sourceTree = "<group>";
+		};
+		CF8BA24818CF4013003277D1 /* Powerup */ = {
+			isa = PBXGroup;
+			children = (
+				CF8BA24918CF4022003277D1 /* TutorialPowerupController.h */,
+				CF8BA24A18CF4022003277D1 /* TutorialPowerupController.m */,
+				CF8BA24C18CF4044003277D1 /* TutorialPowerupBattleLayer.h */,
+				CF8BA24D18CF4044003277D1 /* TutorialPowerupBattleLayer.m */,
+			);
+			name = Powerup;
 			sourceTree = "<group>";
 		};
 		CF8C7ADD157C1C36003A6AFE /* Tagging Scheme */ = {
@@ -11013,7 +11059,7 @@
 				CFEDA90618974A7300867490 /* evolveequals.png in Resources */,
 				CF62E70815FEC6D500DF850F /* ClanViewController.xib in Resources */,
 				CFF390D31829C74A0010A3BE /* earthupdown@2x.png in Resources */,
-				CF8BA23A18CF1481003277D1 /* TutorialPowerupCombinationLayout.txt in Resources */,
+				CF8BA23A18CF1481003277D1 /* TutorialDoublePowerupLayout.txt in Resources */,
 				CFE02CFF182370AF0016C1E2 /* Cheerleader2BazookaThumbnail.png in Resources */,
 				CFC04DBE188FE8D400F2DB59 /* wonlostbg@2x.png in Resources */,
 				CF6F1A0F181518C900CFF2B9 /* taskbg@2x.png in Resources */,
@@ -12185,9 +12231,11 @@
 				CF9AE6D918090C320013DD44 /* EventDungeon.pb.m in Sources */,
 				CF9AE70818090C320013DD44 /* Task.pb.m in Sources */,
 				CF126D691538ACCA00E0C1AD /* IAPHelper.m in Sources */,
+				CF8BA24E18CF4044003277D1 /* TutorialPowerupBattleLayer.m in Sources */,
 				CF9AE6D518090C320013DD44 /* EventBoosterPack.pb.m in Sources */,
 				CF4DB8E71807DA1F00062258 /* HomeBuildingMenus.m in Sources */,
 				CF9AE70918090C320013DD44 /* TournamentStuff.pb.m in Sources */,
+				CF8BA24418CF3A9A003277D1 /* TutorialDoublePowerupBattleLayer.m in Sources */,
 				CF126D831538ACCA00E0C1AD /* IncomingEventController.m in Sources */,
 				CF8BA22F18CEA9D8003277D1 /* TutorialRainbowController.m in Sources */,
 				CF126D841538ACCA00E0C1AD /* OutgoingEventController.m in Sources */,
@@ -12218,6 +12266,8 @@
 				CF9AE6E418090C320013DD44 /* InAppPurchase.pb.m in Sources */,
 				CF30277B18BF0583009D2D25 /* ClanRaidHealthBar.m in Sources */,
 				CF0A8D7D183ABDE600B32CDC /* FBChooserView.m in Sources */,
+				CF8BA24B18CF4022003277D1 /* TutorialPowerupController.m in Sources */,
+				CF8BA24718CF3AAD003277D1 /* TutorialDoublePowerupController.m in Sources */,
 				CF41D195158BFAE900A4DBC3 /* OpenUDID.m in Sources */,
 				CF9AE70A18090C320013DD44 /* User.pb.m in Sources */,
 				CFF3905918284BF90010A3BE /* BattleSpeechBubble.m in Sources */,
@@ -12271,6 +12321,7 @@
 				CF7372B018CB983400EE2CBC /* TutorialElementsBattleLayer.m in Sources */,
 				CF15BA8416572A8400A51F85 /* AMQPMessage.m in Sources */,
 				CF15BA8516572A8400A51F85 /* AMQPObject.m in Sources */,
+				CF8BA24118CF3930003277D1 /* TutorialBasicComboBattleLayer.m in Sources */,
 				CFEF25BA18C9849000FB867A /* FacebookDelegate.m in Sources */,
 				CFFEB1781834C2FD007C4BA3 /* CAKeyframeAnimation+AHEasing.m in Sources */,
 				CF32E9ED180D015900CBD50D /* TopBarViewController.m in Sources */,
@@ -12298,6 +12349,7 @@
 				CF7F27D3165B36D000D967DC /* AMQPConnectionThread.m in Sources */,
 				CF19F36816C20D6C00B77E7E /* iCarousel.m in Sources */,
 				CFF3913C182A10CD0010A3BE /* DBFBProfilePictureView.m in Sources */,
+				CF8BA23E18CF391A003277D1 /* TutorialBasicComboController.m in Sources */,
 				CF9AE6DB18090C320013DD44 /* EventMonster.pb.m in Sources */,
 				CF9AE6E318090C320013DD44 /* EventUser.pb.m in Sources */,
 				CF26A89B16FD58E50020D508 /* Amplitude.m in Sources */,

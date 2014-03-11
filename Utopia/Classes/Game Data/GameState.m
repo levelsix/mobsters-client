@@ -91,7 +91,9 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
   self.numBeginnerSalesPurchased = user.numBeginnerSalesPurchased;
   self.hasActiveShield = user.hasActiveShield;
   self.createTime = [NSDate dateWithTimeIntervalSince1970:user.createTime/1000.0];
-  self.facebookId = user.facebookId;
+  if (user.hasFacebookId) self.facebookId = user.facebookId;
+  if (user.hasGameCenterId) self.gameCenterId = user.gameCenterId;
+  if (user.hasDeviceToken) self.deviceToken = user.deviceToken;
   self.elo = user.elo;
   
   self.lastLogoutTime = [NSDate dateWithTimeIntervalSince1970:user.lastLogoutTime/1000.0];

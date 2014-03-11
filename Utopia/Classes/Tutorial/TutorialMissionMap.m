@@ -542,4 +542,8 @@
   // Do nothing
 }
 
+- (void) setupTeamSprites {
+  // Do nothing
+}
+
 @end

@@ -8,8 +8,37 @@
 
 #import "MiniTutorialController.h"
 #import "GameState.h"
+#import "TutorialElementsController.h"
+#import "TutorialRainbowController.h"
+#import "TutorialBasicComboController.h"
+#import "TutorialDoublePowerupController.h"
+#import "TutorialPowerupController.h"
+#import "GameViewController.h"
 
 @implementation MiniTutorialController
+
++ (id) miniTutorialForCityId:(int)cityId assetId:(int)assetId gameViewController:(GameViewController *)gvc {
+  GameState *gs = [GameState sharedGameState];
+  Globals *gl = [Globals sharedGlobals];
+  StartupResponseProto_StartupConstants_MiniTutorialConstants *miniTuts = gl.miniTutorialConstants;
+  
+  NSArray *myTeam = gs.allMonstersOnMyTeam;
+  MiniTutorialController *mtc = nil;
+  if (cityId == miniTuts.cityId) {
+    if (assetId == miniTuts.matchThreeTutorialAssetId) {
+      mtc = [[TutorialBasicComboController alloc] initWithMyTeam:myTeam gameViewController:gvc];
+    } else if (assetId == miniTuts.firstPowerUpAssetId) {
+      mtc = [[TutorialPowerupController alloc] initWithMyTeam:myTeam gameViewController:gvc];
+    } else if (assetId == miniTuts.elementTutorialAssetId) {
+      mtc = [[TutorialElementsController alloc] initWithMyTeam:myTeam gameViewController:gvc];
+    } else if (assetId == miniTuts.rainbowTutorialAssetId) {
+      mtc = [[TutorialRainbowController alloc] initWithMyTeam:myTeam gameViewController:gvc];
+    } else if (assetId == miniTuts.powerUpComboTutorialAssetId) {
+      mtc = [[TutorialDoublePowerupController alloc] initWithMyTeam:myTeam gameViewController:gvc];
+    }
+  }
+  return mtc;
+}
 
 - (id) initWithMyTeam:(NSArray *)myTeam gameViewController:(GameViewController *)gvc {
   if ((self = [super init])) {
@@ -31,6 +60,11 @@
   [self.gameViewController.view addSubview:self.touchView];
   [self.touchView addResponder:[CCDirector sharedDirector].view];
   self.touchView.userInteractionEnabled = NO;
+}
+
+- (void) moveMade {
+  // Dismiss the dialogue
+  [self.dialogueViewController animateNext];
 }
 
 - (void) displayDialogue:(NSArray *)dialogue {
@@ -70,6 +104,7 @@
 #pragma mark - Dialogue delegate
 
 - (void) dialogueViewController:(DialogueViewController *)dvc willDisplaySpeechAtIndex:(int)index {
+  if (index == dvc.dialogue.speechSegmentList.count-1) {
     self.touchView.userInteractionEnabled = YES;
     [self.touchView addResponder:dvc];
     
@@ -78,6 +113,7 @@
     } else {
       [dvc fadeOutBottomGradient];
     }
+  }
 }
 
 

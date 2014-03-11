@@ -1,54 +1,53 @@
 //
-//  TutorialRainbowController.m
+//  TutorialPowerupController.m
 //  Utopia
 //
-//  Created by Ashwin Kamath on 3/10/14.
+//  Created by Ashwin Kamath on 3/11/14.
 //  Copyright (c) 2014 LVL6. All rights reserved.
 //
 
-#import "TutorialRainbowController.h"
+#import "TutorialPowerupController.h"
 #import "GameState.h"
 #import "OutgoingEventController.h"
 
-@implementation TutorialRainbowController
+@implementation TutorialPowerupController
 
 - (void) initBattleLayer {
-  self.battleLayer = [[TutorialRainbowBattleLayer alloc] initWithMyUserMonsters:self.myTeam puzzleIsOnLeft:NO];
+  self.battleLayer = [[TutorialPowerupBattleLayer alloc] initWithMyUserMonsters:self.myTeam puzzleIsOnLeft:NO];
   self.battleLayer.delegate = self;
   
   GameState *gs = [GameState sharedGameState];
   Globals *gl = [Globals sharedGlobals];
-  FullTaskProto *ftp = [gs taskWithCityId:gl.miniTutorialConstants.cityId assetId:gl.miniTutorialConstants.rainbowTutorialAssetId];
+  FullTaskProto *ftp = [gs taskWithCityId:gl.miniTutorialConstants.cityId assetId:gl.miniTutorialConstants.matchThreeTutorialAssetId];
   [[OutgoingEventController sharedOutgoingEventController] beginDungeon:ftp.taskId withDelegate:self.battleLayer];
 }
 
 - (void) beginFirstMove {
-  NSArray *dialogue = @[@"When you’re weaker than your opponent, you can still beat him with power-ups.",
-                        @"A rainbow orb is the best power-up you can create, so match 5 orbs to make one now!"];
+  NSArray *dialogue = @[@"Power-ups are key to making strong attacks. Combine 4 orbs in a line to make a striped orb."];
   [self displayDialogue:dialogue];
   
-  _currentStep = TutorialRainbowStepFirstMove;
+  _currentStep = TutorialPowerupStepFirstMove;
 }
 
 - (void) beginSecondMove {
-  NSArray *dialogue = @[@"Good work. A rainbow orb will completely destroy one element off the board. Activate it now!"];
+  NSArray *dialogue = @[@"We’re not finished yet. Swipe the striped orb up to activate the power-up."];
   [self displayDialogue:dialogue];
   
-  _currentStep = TutorialRainbowStepSecondMove;
+  _currentStep = TutorialPowerupStepSecondMove;
 }
 
 - (void) beginThirdMove {
-  NSArray *dialogue = @[@"Boom baby! This last move is up to you!"];
+  NSArray *dialogue = @[@"Bada bing, bada boom. It all comes down to this last move."];
   [self displayDialogue:dialogue];
   
-  _currentStep = TutorialRainbowStepThirdMove;
+  _currentStep = TutorialPowerupStepThirdMove;
 }
 
 - (void) beginKillEnemy {
   NSArray *dialogue = @[@"You have 3 moves before I attack again. Finish him off!"];
   [self displayDialogue:dialogue];
   
-  _currentStep = TutorialRainbowStepKillEnemy;
+  _currentStep = TutorialPowerupStepKillEnemy;
 }
 
 #pragma mark - Battle delegate
@@ -61,19 +60,19 @@
 }
 
 - (void) moveFinished {
-  if (_currentStep == TutorialRainbowStepFirstMove) {
+  if (_currentStep == TutorialPowerupStepFirstMove) {
     [self beginSecondMove];
-  } else if (_currentStep == TutorialRainbowStepSecondMove) {
+  } else if (_currentStep == TutorialPowerupStepSecondMove) {
     [self beginThirdMove];
-  } else if (_currentStep == TutorialRainbowStepKillEnemy) {
+  } else if (_currentStep == TutorialPowerupStepKillEnemy) {
     [self.battleLayer allowMove];
   }
 }
 
 - (void) turnFinished {
-  if (_currentStep == TutorialRainbowStepThirdMove) {
+  if (_currentStep == TutorialPowerupStepThirdMove) {
     [self beginKillEnemy];
-  } if (_currentStep == TutorialRainbowStepKillEnemy) {
+  } if (_currentStep == TutorialPowerupStepKillEnemy) {
     [self.battleLayer allowMove];
   }
 }
@@ -82,9 +81,9 @@
 
 - (void) dialogueViewController:(DialogueViewController *)dvc didDisplaySpeechAtIndex:(int)index {
   if (index == dvc.dialogue.speechSegmentList.count-1) {
-    if (_currentStep == TutorialRainbowStepFirstMove) {
+    if (_currentStep == TutorialPowerupStepFirstMove) {
       [self.battleLayer beginFirstMove];
-    } else if (_currentStep == TutorialRainbowStepSecondMove) {
+    } else if (_currentStep == TutorialPowerupStepSecondMove) {
       [self.battleLayer beginSecondMove];
     } else {
       [self.battleLayer allowMove];

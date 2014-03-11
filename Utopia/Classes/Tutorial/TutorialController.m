@@ -117,8 +117,8 @@
   self.touchView.userInteractionEnabled = NO;
   
   [self initMissionMapWithCenterOnThirdBuilding:NO];
-  //[self beginBlackedOutDialogue];
-  [self beginSecondBattlePhase];
+  [self beginBlackedOutDialogue];
+  //[self beginSecondBattlePhase];
   
   //[self yachtWentOffScene];
   
@@ -622,16 +622,9 @@
   _currentStep = TutorialStepEnterBattleThree;
 }
 
-- (void) beginElementsMiniTutorialPhase {
-  Globals *gl = [Globals sharedGlobals];
-  UserMonster *um1 = [[UserMonster alloc] init];
-  um1.userMonsterId = 1;
-  um1.monsterId = self.constants.startingMonsterId;
-  um1.level = 1;
-  um1.curHealth = [gl calculateMaxHealthForMonster:um1];
-  um1.teamSlot = 1;
-  
-  self.rainbowController = [[TutorialRainbowController alloc] initWithMyTeam:[NSArray arrayWithObject:um1] gameViewController:self.gameViewController];
+- (void) beginRainbowMiniTutorialPhase {
+  GameState *gs = [GameState sharedGameState];
+  self.rainbowController = [[TutorialRainbowController alloc] initWithMyTeam:gs.allMonstersOnMyTeam gameViewController:self.gameViewController];
   self.rainbowController.delegate = self;
   [self.rainbowController begin];
   
@@ -639,7 +632,7 @@
     self.topBarViewController.view.alpha = 0.f;
   }];
   
-  _currentStep = TutorialStepElementsMiniTutorial;
+  _currentStep = TutorialStepRainbowMiniTutorial;
 }
 
 - (void) beginClickQuestsPhase {
@@ -693,7 +686,7 @@
 }
 
 - (void) enteredThirdBuilding {
-  [self beginElementsMiniTutorialPhase];
+  [self beginRainbowMiniTutorialPhase];
 }
 
 #pragma mark - BattleLayer delegate
@@ -998,7 +991,7 @@
     [self.battleLayer beginSecondMove];
   } else if (_currentStep == TutorialStepFirstBattleLastMove ||
              _currentStep == TutorialStepSecondBattleThirdMove) {
-    [self.battleLayer beginThirdMove];
+    [self.battleLayer allowMove];
   } else if (_currentStep == TutorialStepSecondBattleFirstMove && index == 1) {
     [self.battleLayer beginFirstMove];
   } else if (_currentStep == TutorialStepSecondBattleKillEnemy && index == 3) {

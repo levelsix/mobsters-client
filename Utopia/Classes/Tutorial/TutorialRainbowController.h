@@ -8,8 +8,6 @@
 
 #import <Foundation/Foundation.h>
 #import "TutorialRainbowBattleLayer.h"
-#import "DialogueViewController.h"
-#import "TutorialTouchView.h"
 #import "MiniTutorialController.h"
 
 @class GameViewController;

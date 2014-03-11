@@ -34,4 +34,6 @@
 
 + (void) logout;
 
++ (void) facebookIdIsValid;
+
 @end

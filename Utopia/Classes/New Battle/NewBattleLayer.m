@@ -121,6 +121,12 @@
   if ((self = [super init])) {
     _puzzleIsOnLeft = puzzleIsOnLeft;
     
+    NSMutableArray *arr = [NSMutableArray array];
+    for (UserMonster *um in monsters) {
+      [arr addObject:[BattlePlayer playerWithMonster:um]];
+    }
+    self.myTeam = arr;
+    
     CGSize gridSize = [self gridSize];
     
     self.contentSize = [CCDirector sharedDirector].viewSize;
@@ -161,12 +167,6 @@
     _canPlayNextComboSound = YES;
     _canPlayNextGemPop = YES;
     
-    NSMutableArray *arr = [NSMutableArray array];
-    for (UserMonster *um in monsters) {
-      [arr addObject:[BattlePlayer playerWithMonster:um]];
-    }
-    self.myTeam = arr;
-    
     [self loadDeployView];
     [self removeOrbLayerAnimated:NO withBlock:nil];
   }
@@ -198,13 +198,18 @@
   [super onExitTransitionDidStart];
 }
 
-- (void) begin {
+- (BattlePlayer *) firstMyPlayer {
   BattlePlayer *bp = nil;
   for (BattlePlayer *b in self.myTeam) {
     if (b.curHealth > 0 && (!bp || b.slotNum < bp.slotNum)) {
       bp = b;
     }
   }
+  return bp;
+}
+
+- (void) begin {
+  BattlePlayer *bp = [self firstMyPlayer];
   if (bp) {
     [self deployBattleSprite:bp];
   }

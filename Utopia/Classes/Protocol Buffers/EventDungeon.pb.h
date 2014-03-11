@@ -105,18 +105,22 @@ BOOL ReviveInDungeonResponseProto_ReviveInDungeonStatusIsValidValue(ReviveInDung
 @private
   BOOL hasUserBeatAllCityTasks_:1;
   BOOL hasIsEvent_:1;
+  BOOL hasForceEnemyElem_:1;
   BOOL hasClientTime_:1;
   BOOL hasTaskId_:1;
   BOOL hasPersistentEventId_:1;
   BOOL hasGemsSpent_:1;
   BOOL hasSender_:1;
+  BOOL hasElem_:1;
   BOOL userBeatAllCityTasks_:1;
   BOOL isEvent_:1;
+  BOOL forceEnemyElem_:1;
   int64_t clientTime;
   int32_t taskId;
   int32_t persistentEventId;
   int32_t gemsSpent;
   MinimumUserProto* sender;
+  MonsterProto_MonsterElement elem;
   NSMutableArray* mutableQuestIdsList;
 }
 - (BOOL) hasSender;
@@ -126,6 +130,8 @@ BOOL ReviveInDungeonResponseProto_ReviveInDungeonStatusIsValidValue(ReviveInDung
 - (BOOL) hasIsEvent;
 - (BOOL) hasPersistentEventId;
 - (BOOL) hasGemsSpent;
+- (BOOL) hasElem;
+- (BOOL) hasForceEnemyElem;
 @property (readonly, retain) MinimumUserProto* sender;
 @property (readonly) int64_t clientTime;
 @property (readonly) int32_t taskId;
@@ -133,6 +139,8 @@ BOOL ReviveInDungeonResponseProto_ReviveInDungeonStatusIsValidValue(ReviveInDung
 - (BOOL) isEvent;
 @property (readonly) int32_t persistentEventId;
 @property (readonly) int32_t gemsSpent;
+@property (readonly) MonsterProto_MonsterElement elem;
+- (BOOL) forceEnemyElem;
 - (NSArray*) questIdsList;
 - (int32_t) questIdsAtIndex:(int32_t) index;
 
@@ -213,6 +221,16 @@ BOOL ReviveInDungeonResponseProto_ReviveInDungeonStatusIsValidValue(ReviveInDung
 - (BeginDungeonRequestProto_Builder*) addQuestIds:(int32_t) value;
 - (BeginDungeonRequestProto_Builder*) addAllQuestIds:(NSArray*) values;
 - (BeginDungeonRequestProto_Builder*) clearQuestIdsList;
+
+- (BOOL) hasElem;
+- (MonsterProto_MonsterElement) elem;
+- (BeginDungeonRequestProto_Builder*) setElem:(MonsterProto_MonsterElement) value;
+- (BeginDungeonRequestProto_Builder*) clearElem;
+
+- (BOOL) hasForceEnemyElem;
+- (BOOL) forceEnemyElem;
+- (BeginDungeonRequestProto_Builder*) setForceEnemyElem:(BOOL) value;
+- (BeginDungeonRequestProto_Builder*) clearForceEnemyElem;
 @end
 
 @interface BeginDungeonResponseProto : PBGeneratedMessage {

@@ -2516,6 +2516,7 @@ static SetFacebookIdRequestProto* defaultSetFacebookIdRequestProtoInstance = nil
 @interface SetFacebookIdResponseProto ()
 @property (retain) MinimumUserProto* sender;
 @property SetFacebookIdResponseProto_SetFacebookIdStatus status;
+@property (retain) MinimumUserProto* existing;
 @end
 
 @implementation SetFacebookIdResponseProto
@@ -2534,14 +2535,23 @@ static SetFacebookIdRequestProto* defaultSetFacebookIdRequestProtoInstance = nil
   hasStatus_ = !!value;
 }
 @synthesize status;
+- (BOOL) hasExisting {
+  return !!hasExisting_;
+}
+- (void) setHasExisting:(BOOL) value {
+  hasExisting_ = !!value;
+}
+@synthesize existing;
 - (void) dealloc {
   self.sender = nil;
+  self.existing = nil;
   [super dealloc];
 }
 - (id) init {
   if ((self = [super init])) {
     self.sender = [MinimumUserProto defaultInstance];
     self.status = SetFacebookIdResponseProto_SetFacebookIdStatusSuccess;
+    self.existing = [MinimumUserProto defaultInstance];
   }
   return self;
 }
@@ -2567,6 +2577,9 @@ static SetFacebookIdResponseProto* defaultSetFacebookIdResponseProtoInstance = n
   if (self.hasStatus) {
     [output writeEnum:2 value:self.status];
   }
+  if (self.hasExisting) {
+    [output writeMessage:3 value:self.existing];
+  }
   [self.unknownFields writeToCodedOutputStream:output];
 }
 - (int32_t) serializedSize {
@@ -2581,6 +2594,9 @@ static SetFacebookIdResponseProto* defaultSetFacebookIdResponseProtoInstance = n
   }
   if (self.hasStatus) {
     size += computeEnumSize(2, self.status);
+  }
+  if (self.hasExisting) {
+    size += computeMessageSize(3, self.existing);
   }
   size += self.unknownFields.serializedSize;
   memoizedSerializedSize = size;
@@ -2674,6 +2690,9 @@ BOOL SetFacebookIdResponseProto_SetFacebookIdStatusIsValidValue(SetFacebookIdRes
   if (other.hasStatus) {
     [self setStatus:other.status];
   }
+  if (other.hasExisting) {
+    [self mergeExisting:other.existing];
+  }
   [self mergeUnknownFields:other.unknownFields];
   return self;
 }
@@ -2711,6 +2730,15 @@ BOOL SetFacebookIdResponseProto_SetFacebookIdStatusIsValidValue(SetFacebookIdRes
         } else {
           [unknownFields mergeVarintField:2 value:value];
         }
+        break;
+      }
+      case 26: {
+        MinimumUserProto_Builder* subBuilder = [MinimumUserProto builder];
+        if (self.hasExisting) {
+          [subBuilder mergeFrom:self.existing];
+        }
+        [input readMessage:subBuilder extensionRegistry:extensionRegistry];
+        [self setExisting:[subBuilder buildPartial]];
         break;
       }
     }
@@ -2760,6 +2788,36 @@ BOOL SetFacebookIdResponseProto_SetFacebookIdStatusIsValidValue(SetFacebookIdRes
 - (SetFacebookIdResponseProto_Builder*) clearStatus {
   result.hasStatus = NO;
   result.status = SetFacebookIdResponseProto_SetFacebookIdStatusSuccess;
+  return self;
+}
+- (BOOL) hasExisting {
+  return result.hasExisting;
+}
+- (MinimumUserProto*) existing {
+  return result.existing;
+}
+- (SetFacebookIdResponseProto_Builder*) setExisting:(MinimumUserProto*) value {
+  result.hasExisting = YES;
+  result.existing = value;
+  return self;
+}
+- (SetFacebookIdResponseProto_Builder*) setExistingBuilder:(MinimumUserProto_Builder*) builderForValue {
+  return [self setExisting:[builderForValue build]];
+}
+- (SetFacebookIdResponseProto_Builder*) mergeExisting:(MinimumUserProto*) value {
+  if (result.hasExisting &&
+      result.existing != [MinimumUserProto defaultInstance]) {
+    result.existing =
+      [[[MinimumUserProto builderWithPrototype:result.existing] mergeFrom:value] buildPartial];
+  } else {
+    result.existing = value;
+  }
+  result.hasExisting = YES;
+  return self;
+}
+- (SetFacebookIdResponseProto_Builder*) clearExisting {
+  result.hasExisting = NO;
+  result.existing = [MinimumUserProto defaultInstance];
   return self;
 }
 @end

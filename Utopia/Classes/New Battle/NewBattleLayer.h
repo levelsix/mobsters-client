@@ -116,6 +116,7 @@
 - (CGSize) gridSize;
 
 - (void) begin;
+- (BattlePlayer *) firstMyPlayer;
 - (void) beginMyTurn;
 - (void) myTurnEnded;
 - (void) beginEnemyTurn;
@@ -156,6 +157,10 @@
 - (void) removeOrbLayerAnimated:(BOOL)animated withBlock:(void(^)())block;
 
 - (void) displaySwapButton;
+
+- (IBAction)winExitClicked:(id)sender;
+- (IBAction)manageClicked:(id)sender;
+- (IBAction)shareClicked:(id)sender;
 
 
 @property (nonatomic, retain) BattleLostView *lostView;

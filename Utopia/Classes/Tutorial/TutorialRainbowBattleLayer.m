@@ -13,8 +13,7 @@
 - (void) beginFirstMove {
   [super beginFirstMove];
   
-  TutorialOrbLayer *orb = (TutorialOrbLayer *)self.orbLayer;
-  [orb createOverlayAvoidingPositions:[NSArray arrayWithObjects:
+  [self.orbLayer createOverlayAvoidingPositions:[NSArray arrayWithObjects:
                                        [NSValue valueWithCGPoint:ccp(2, 1)],
                                        [NSValue valueWithCGPoint:ccp(3, 1)],
                                        [NSValue valueWithCGPoint:ccp(4, 1)],
@@ -29,13 +28,12 @@
 - (void) beginSecondMove {
   [super beginSecondMove];
   
-  TutorialOrbLayer *orb = (TutorialOrbLayer *)self.orbLayer;
-  [orb createOverlayAvoidingPositions:[NSArray arrayWithObjects:
+  [self.orbLayer createOverlayAvoidingPositions:[NSArray arrayWithObjects:
                                        [NSValue valueWithCGPoint:ccp(4, 1)],
                                        [NSValue valueWithCGPoint:ccp(4, 2)], nil]
                        withForcedMove:[NSSet setWithObjects:
-                                       [NSValue valueWithCGPoint:ccp(4, 1)],
-                                       [NSValue valueWithCGPoint:ccp(4, 2)], nil]];
+                                       [NSValue valueWithCGPoint:ccp(4, 2)],
+                                       [NSValue valueWithCGPoint:ccp(4, 1)], nil]];
 
 }
 

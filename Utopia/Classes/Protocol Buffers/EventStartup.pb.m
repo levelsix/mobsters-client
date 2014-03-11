@@ -3760,6 +3760,7 @@ static StartupResponseProto_StartupConstants_MonsterConstants* defaultStartupRes
 @property int32_t powerUpComboTutorialAssetId;
 @property int32_t monsterDropTutorialAssetId;
 @property int32_t elementTutorialAssetId;
+@property int32_t cityId;
 @end
 
 @implementation StartupResponseProto_StartupConstants_MiniTutorialConstants
@@ -3806,6 +3807,13 @@ static StartupResponseProto_StartupConstants_MonsterConstants* defaultStartupRes
   hasElementTutorialAssetId_ = !!value;
 }
 @synthesize elementTutorialAssetId;
+- (BOOL) hasCityId {
+  return !!hasCityId_;
+}
+- (void) setHasCityId:(BOOL) value {
+  hasCityId_ = !!value;
+}
+@synthesize cityId;
 - (void) dealloc {
   [super dealloc];
 }
@@ -3817,6 +3825,7 @@ static StartupResponseProto_StartupConstants_MonsterConstants* defaultStartupRes
     self.powerUpComboTutorialAssetId = 0;
     self.monsterDropTutorialAssetId = 0;
     self.elementTutorialAssetId = 0;
+    self.cityId = 0;
   }
   return self;
 }
@@ -3854,6 +3863,9 @@ static StartupResponseProto_StartupConstants_MiniTutorialConstants* defaultStart
   if (self.hasElementTutorialAssetId) {
     [output writeInt32:6 value:self.elementTutorialAssetId];
   }
+  if (self.hasCityId) {
+    [output writeInt32:7 value:self.cityId];
+  }
   [self.unknownFields writeToCodedOutputStream:output];
 }
 - (int32_t) serializedSize {
@@ -3880,6 +3892,9 @@ static StartupResponseProto_StartupConstants_MiniTutorialConstants* defaultStart
   }
   if (self.hasElementTutorialAssetId) {
     size += computeInt32Size(6, self.elementTutorialAssetId);
+  }
+  if (self.hasCityId) {
+    size += computeInt32Size(7, self.cityId);
   }
   size += self.unknownFields.serializedSize;
   memoizedSerializedSize = size;
@@ -3974,6 +3989,9 @@ static StartupResponseProto_StartupConstants_MiniTutorialConstants* defaultStart
   if (other.hasElementTutorialAssetId) {
     [self setElementTutorialAssetId:other.elementTutorialAssetId];
   }
+  if (other.hasCityId) {
+    [self setCityId:other.cityId];
+  }
   [self mergeUnknownFields:other.unknownFields];
   return self;
 }
@@ -4017,6 +4035,10 @@ static StartupResponseProto_StartupConstants_MiniTutorialConstants* defaultStart
       }
       case 48: {
         [self setElementTutorialAssetId:[input readInt32]];
+        break;
+      }
+      case 56: {
+        [self setCityId:[input readInt32]];
         break;
       }
     }
@@ -4116,6 +4138,22 @@ static StartupResponseProto_StartupConstants_MiniTutorialConstants* defaultStart
 - (StartupResponseProto_StartupConstants_MiniTutorialConstants_Builder*) clearElementTutorialAssetId {
   result.hasElementTutorialAssetId = NO;
   result.elementTutorialAssetId = 0;
+  return self;
+}
+- (BOOL) hasCityId {
+  return result.hasCityId;
+}
+- (int32_t) cityId {
+  return result.cityId;
+}
+- (StartupResponseProto_StartupConstants_MiniTutorialConstants_Builder*) setCityId:(int32_t) value {
+  result.hasCityId = YES;
+  result.cityId = value;
+  return self;
+}
+- (StartupResponseProto_StartupConstants_MiniTutorialConstants_Builder*) clearCityId {
+  result.hasCityId = NO;
+  result.cityId = 0;
   return self;
 }
 @end

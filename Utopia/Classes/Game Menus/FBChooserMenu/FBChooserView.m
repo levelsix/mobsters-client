@@ -42,8 +42,11 @@
   
   self.spinner.hidden = NO;
   [FacebookDelegate getFacebookFriendsWithLoginUI:openLoginUI callback:^(NSArray *fbFriends) {
-    [self organizeData:fbFriends];
-    [self.chooserTable reloadData];
+    if (openLoginUI) {
+      _retrievedFriends = YES;
+      [self organizeData:fbFriends];
+      [self.chooserTable reloadData];
+    }
     self.spinner.hidden = YES;
   }];
 }
@@ -171,7 +174,13 @@
 #pragma mark - UITableView methods
 
 - (int) numberOfSectionsInTableView:(UITableView *)tableView {
-  return self.data.count;
+  int count = self.data.count;
+  if (count == 0 && _retrievedFriends) {
+    self.noFriendsLabel.hidden = NO;
+  } else {
+    self.noFriendsLabel.hidden = YES;
+  }
+  return count;
 }
 
 - (int) tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {

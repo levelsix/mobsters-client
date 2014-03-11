@@ -481,7 +481,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
 
 - (void) enableApns:(NSString *)deviceToken {
   GameState *gs = [GameState sharedGameState];
-  if (!gs.connected || gs.isTutorial) {
+  if (!gs.connected || gs.isTutorial || [gs.deviceToken isEqualToString:deviceToken]) {
     return;
   }
   
@@ -498,7 +498,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
 
 - (void) setGameCenterId:(NSString *)gameCenterId {
   GameState *gs = [GameState sharedGameState];
-  if (!gs.connected || gs.isTutorial) {
+  if (!gs.connected || gs.isTutorial || [gs.gameCenterId isEqualToString:gameCenterId]) {
     return;
   }
   
@@ -509,6 +509,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
   GameState *gs = [GameState sharedGameState];
   if (gs.facebookId) {
     [Globals popupMessage:@"Trying to set new facebook id when there is one already.."];
+    return;
   }
   
   int tag = [[SocketCommunication sharedSocketCommunication] sendSetFacebookIdMessage:facebookId];
@@ -818,6 +819,16 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
   [[SocketCommunication sharedSocketCommunication] setDelegate:delegate forTag:tag];
 }
 
+- (void) beginDungeon:(int)taskId withDelegate:(id)delegate {
+  int tag = [[SocketCommunication sharedSocketCommunication] sendBeginDungeonMessage:[self getCurrentMilliseconds] taskId:taskId isEvent:NO eventId:0 gems:0 enemyElement:MonsterProto_MonsterElementFire shouldForceElem:NO questIds:nil];
+  [[SocketCommunication sharedSocketCommunication] setDelegate:delegate forTag:tag];
+}
+
+- (void) beginDungeon:(int)taskId enemyElement:(MonsterProto_MonsterElement)element withDelegate:(id)delegate {
+  int tag = [[SocketCommunication sharedSocketCommunication] sendBeginDungeonMessage:[self getCurrentMilliseconds] taskId:taskId isEvent:NO eventId:0 gems:0 enemyElement:element shouldForceElem:YES questIds:nil];
+  [[SocketCommunication sharedSocketCommunication] setDelegate:delegate forTag:tag];
+}
+
 - (void) beginDungeon:(int)taskId isEvent:(BOOL)isEvent eventId:(int)eventId useGems:(BOOL)useGems withDelegate:(id)delegate {
   GameState *gs = [GameState sharedGameState];
   Globals *gl = [Globals sharedGlobals];
@@ -845,7 +856,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
     }
   }
   
-  int tag = [[SocketCommunication sharedSocketCommunication] sendBeginDungeonMessage:[self getCurrentMilliseconds] taskId:taskId isEvent:isEvent eventId:eventId gems:gems];
+  int tag = [[SocketCommunication sharedSocketCommunication] sendBeginDungeonMessage:[self getCurrentMilliseconds] taskId:taskId isEvent:isEvent eventId:eventId gems:gems enemyElement:MonsterProto_MonsterElementFire shouldForceElem:NO questIds:nil];
   [[SocketCommunication sharedSocketCommunication] setDelegate:delegate forTag:tag];
   [gs addUnrespondedUpdate:[GoldUpdate updateWithTag:tag change:-gems]];
   

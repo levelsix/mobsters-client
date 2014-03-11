@@ -2418,18 +2418,18 @@ BOOL PromoteDemoteClanMemberResponseProto_PromoteDemoteClanMemberStatusIsValidVa
 
 @interface PromoteDemoteClanMemberRequestProto : PBGeneratedMessage {
 @private
-  BOOL hasVictim_:1;
+  BOOL hasVictimId_:1;
   BOOL hasSender_:1;
   BOOL hasUserClanStatus_:1;
-  int32_t victim;
+  int32_t victimId;
   MinimumUserProto* sender;
   UserClanStatus userClanStatus;
 }
 - (BOOL) hasSender;
-- (BOOL) hasVictim;
+- (BOOL) hasVictimId;
 - (BOOL) hasUserClanStatus;
 @property (readonly, retain) MinimumUserProto* sender;
-@property (readonly) int32_t victim;
+@property (readonly) int32_t victimId;
 @property (readonly) UserClanStatus userClanStatus;
 
 + (PromoteDemoteClanMemberRequestProto*) defaultInstance;
@@ -2473,10 +2473,10 @@ BOOL PromoteDemoteClanMemberResponseProto_PromoteDemoteClanMemberStatusIsValidVa
 - (PromoteDemoteClanMemberRequestProto_Builder*) mergeSender:(MinimumUserProto*) value;
 - (PromoteDemoteClanMemberRequestProto_Builder*) clearSender;
 
-- (BOOL) hasVictim;
-- (int32_t) victim;
-- (PromoteDemoteClanMemberRequestProto_Builder*) setVictim:(int32_t) value;
-- (PromoteDemoteClanMemberRequestProto_Builder*) clearVictim;
+- (BOOL) hasVictimId;
+- (int32_t) victimId;
+- (PromoteDemoteClanMemberRequestProto_Builder*) setVictimId:(int32_t) value;
+- (PromoteDemoteClanMemberRequestProto_Builder*) clearVictimId;
 
 - (BOOL) hasUserClanStatus;
 - (UserClanStatus) userClanStatus;
@@ -2486,21 +2486,21 @@ BOOL PromoteDemoteClanMemberResponseProto_PromoteDemoteClanMemberStatusIsValidVa
 
 @interface PromoteDemoteClanMemberResponseProto : PBGeneratedMessage {
 @private
-  BOOL hasVictim_:1;
+  BOOL hasVictimId_:1;
   BOOL hasSender_:1;
   BOOL hasUserClanStatus_:1;
   BOOL hasStatus_:1;
-  int32_t victim;
+  int32_t victimId;
   MinimumUserProto* sender;
   UserClanStatus userClanStatus;
   PromoteDemoteClanMemberResponseProto_PromoteDemoteClanMemberStatus status;
 }
 - (BOOL) hasSender;
-- (BOOL) hasVictim;
+- (BOOL) hasVictimId;
 - (BOOL) hasUserClanStatus;
 - (BOOL) hasStatus;
 @property (readonly, retain) MinimumUserProto* sender;
-@property (readonly) int32_t victim;
+@property (readonly) int32_t victimId;
 @property (readonly) UserClanStatus userClanStatus;
 @property (readonly) PromoteDemoteClanMemberResponseProto_PromoteDemoteClanMemberStatus status;
 
@@ -2545,10 +2545,10 @@ BOOL PromoteDemoteClanMemberResponseProto_PromoteDemoteClanMemberStatusIsValidVa
 - (PromoteDemoteClanMemberResponseProto_Builder*) mergeSender:(MinimumUserProto*) value;
 - (PromoteDemoteClanMemberResponseProto_Builder*) clearSender;
 
-- (BOOL) hasVictim;
-- (int32_t) victim;
-- (PromoteDemoteClanMemberResponseProto_Builder*) setVictim:(int32_t) value;
-- (PromoteDemoteClanMemberResponseProto_Builder*) clearVictim;
+- (BOOL) hasVictimId;
+- (int32_t) victimId;
+- (PromoteDemoteClanMemberResponseProto_Builder*) setVictimId:(int32_t) value;
+- (PromoteDemoteClanMemberResponseProto_Builder*) clearVictimId;
 
 - (BOOL) hasUserClanStatus;
 - (UserClanStatus) userClanStatus;

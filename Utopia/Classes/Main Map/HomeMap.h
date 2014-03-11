@@ -69,6 +69,8 @@
 @property (nonatomic, assign) IBOutlet UILabel *expandingSubtitleLabel;
 @property (nonatomic, assign) IBOutlet UILabel *expandingSpeedupCostLabel;
 
+@property (nonatomic, retain) UpgradeViewController *upgradeViewController;
+
 @property (nonatomic, assign, readonly) BOOL loading;
 @property (nonatomic, assign) int redGid;
 @property (nonatomic, assign) int greenGid;

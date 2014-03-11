@@ -41,6 +41,7 @@
 #import "FacebookDelegate.h"
 #import "SocketCommunication.h"
 #import "IncomingEventController.h"
+#import "MiniTutorialController.h"
 
 #define DEFAULT_PNG_IMAGE_VIEW_TAG 103
 #define KINGDOM_PNG_IMAGE_VIEW_TAG 104
@@ -129,7 +130,6 @@
 - (void) viewDidLoad {
   [self setupTopBar];
   [self fadeToLoadingScreenPercentage:0.f animated:NO];
-  
   [self progressTo:PART_1_PERCENT animated:YES];
   
   [[NSBundle mainBundle] loadNibNamed:@"TravelingLoadingView" owner:self options:nil];
@@ -379,12 +379,26 @@
   [self.loadingView stop];
 }
 
-- (void) enterDungeon:(int)taskId withDelay:(float)delay {
+- (BOOL) miniTutorialControllerForTaskId:(int)taskId {
   GameState *gs = [GameState sharedGameState];
-  DungeonBattleLayer *bl = [[DungeonBattleLayer alloc] initWithMyUserMonsters:[gs allBattleAvailableMonstersOnTeam] puzzleIsOnLeft:NO];
-  bl.delegate = self;
-  [self performSelector:@selector(crossFadeIntoBattleLayer:) withObject:bl afterDelay:delay];
-  [[OutgoingEventController sharedOutgoingEventController] beginDungeon:taskId isEvent:NO eventId:0 useGems:NO withDelegate:bl];
+  FullTaskProto *ftp = [gs taskWithId:taskId];
+  MiniTutorialController *mtc = [MiniTutorialController miniTutorialForCityId:ftp.cityId assetId:ftp.assetNumWithinCity gameViewController:self];
+  mtc.delegate = self;
+  self.miniTutController = mtc;
+  
+  return mtc != nil;
+}
+
+- (void) enterDungeon:(int)taskId withDelay:(float)delay {
+  if (![self miniTutorialControllerForTaskId:taskId]) {
+    GameState *gs = [GameState sharedGameState];
+    DungeonBattleLayer *bl = [[DungeonBattleLayer alloc] initWithMyUserMonsters:[gs allBattleAvailableMonstersOnTeam] puzzleIsOnLeft:NO];
+    bl.delegate = self;
+    [self performSelector:@selector(crossFadeIntoBattleLayer:) withObject:bl afterDelay:delay];
+    [[OutgoingEventController sharedOutgoingEventController] beginDungeon:taskId withDelegate:bl];
+  } else {
+    [self.miniTutController performSelector:@selector(begin) withObject:nil afterDelay:delay];
+  }
 }
 
 - (void) crossFadeIntoBattleLayer:(NewBattleLayer *)bl {
@@ -450,6 +464,12 @@
   [[OutgoingEventController sharedOutgoingEventController] queueUpEvent:nil withDelegate:bl];
   
   [self blackFadeIntoBattleLayer:bl];
+}
+
+#pragma mark - MiniTutorial delegate
+
+- (void) miniTutorialComplete:(MiniTutorialController *)tut {
+  self.miniTutController = nil;
 }
 
 #pragma mark - CCDirectorDownloaderDelegate methods
@@ -535,6 +555,48 @@
     FullQuestProto *fqp = [gs questForId:_questIdAfterDialogue];
     [qvc loadDetailsViewForQuest:fqp userQuest:nil animated:NO];
   }
+}
+
+#pragma mark - Facebook stuff
+
+- (BOOL) canProceedWithFacebookId:(NSString *)facebookId {
+  GameState *gs = [GameState sharedGameState];
+  if (!gs.connected || gs.isTutorial) {
+    return YES;
+  } else if ([gs.facebookId isEqualToString:facebookId]) {
+    return YES;
+  } else if (!gs.facebookId.length) {
+    [[OutgoingEventController sharedOutgoingEventController] setFacebookId:facebookId delegate:self];
+  } else {
+    // Logged in with different fb
+    NSString *desc = [NSString stringWithFormat:@"Oops! This Facebook account is different from the one linked to this player. Would you like to reload the game?"];
+    [GenericPopupController displayConfirmationWithDescription:desc title:@"Account Already Set" okayButton:@"Reload" cancelButton:@"Cancel" okTarget:self okSelector:@selector(swapAccounts) cancelTarget:self cancelSelector:@selector(swapRejected)];
+  }
+  return NO;
+}
+
+- (void) handleSetFacebookIdResponseProto:(FullEvent *)fe {
+  SetFacebookIdResponseProto *proto = (SetFacebookIdResponseProto *)fe.event;
+  if (proto.status == SetFacebookIdResponseProto_SetFacebookIdStatusFailFbIdExists) {
+    NSString *desc = [NSString stringWithFormat:@"Oops! This Facebook account is already linked to another player (%@). Would you like to load that account now?", proto.existing.name];
+    [GenericPopupController displayConfirmationWithDescription:desc title:@"Account Already Used" okayButton:@"Load" cancelButton:@"Cancel" okTarget:self okSelector:@selector(swapAccounts) cancelTarget:self cancelSelector:@selector(swapRejected)];
+  } else if (proto.status == SetFacebookIdResponseProto_SetFacebookIdStatusSuccess) {
+    [FacebookDelegate facebookIdIsValid];
+  } else {
+    [FacebookDelegate logout];
+  }
+}
+
+- (void) swapAccounts {
+  _isFreshRestart = YES;
+  self.currentMap = nil;
+  [self fadeToLoadingScreenPercentage:0.f animated:YES];
+  [self progressTo:PART_1_PERCENT animated:YES];
+  [self handleConnectedToHost];
+}
+
+- (void) swapRejected {
+  [FacebookDelegate logout];
 }
 
 @end

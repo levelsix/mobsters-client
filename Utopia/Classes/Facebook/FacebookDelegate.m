@@ -12,6 +12,7 @@
 #import "GenericPopupController.h"
 #import "GameState.h"
 #import "OutgoingEventController.h"
+#import "GameViewController.h"
 
 @implementation FacebookDelegate
 
@@ -56,12 +57,37 @@
   [GenericPopupController displayNotificationViewWithText:alertText title:title];
 }
 
+- (void) facebookIdIsValid {
+  // Will be called by game view controller
+  if (_loginCompletionHandler) {
+    _loginCompletionHandler(YES);
+    _loginCompletionHandler = nil;
+  }
+}
+
++ (void) facebookIdIsValid {
+  [[FacebookDelegate sharedFacebookDelegate] facebookIdIsValid];
+}
+
 - (void) sessionStateChanged:(FBSession *)session state:(FBSessionState)state error:(NSError *)error {
   // If the session was opened successfully
   if (!error && state == FBSessionStateOpen){
     LNLog(@"Facebook session opened.");
     // Show the user the logged-in UI
-    return;
+    
+    [self getMyFacebookUser:^(NSDictionary<FBGraphUser> *facebookUser) {
+      if ([[GameViewController baseController] canProceedWithFacebookId:facebookUser.id]) {
+        if (_loginCompletionHandler) {
+          _loginCompletionHandler(YES);
+          _loginCompletionHandler = nil;
+        }
+      }
+    }];
+  } else {
+    if (_loginCompletionHandler) {
+      _loginCompletionHandler(NO);
+      _loginCompletionHandler = nil;
+    }
   }
   if (state == FBSessionStateClosed || state == FBSessionStateClosedLoginFailed){
     // If the session is closed
@@ -129,11 +155,6 @@
                                                      completionHandler:^(FBSession *session, FBSessionState state, NSError *error) {
                                                        // Call the app delegate's sessionStateChanged:state:error method to handle session state changes
                                                        [self sessionStateChanged:session state:state error:error];
-                                                       
-                                                       if (_loginCompletionHandler) {
-                                                         _loginCompletionHandler(!error && state == FBSessionStateOpen);
-                                                         _loginCompletionHandler = nil;
-                                                       }
                                                      }];
     
     // If session isn't created.. it means no token was found
@@ -174,6 +195,8 @@
                                 completion(result[@"data"]);
                               }
                             }];
+    } else {
+      completion(nil);
     }
   }];
 }
@@ -260,6 +283,10 @@
 }
 
 - (void) logout {
+  if (_loginCompletionHandler) {
+    _loginCompletionHandler(NO);
+    _loginCompletionHandler = nil;
+  }
   [FBSession.activeSession closeAndClearTokenInformation];
   self.myFacebookUser = nil;
   [FBSession setActiveSession:nil];

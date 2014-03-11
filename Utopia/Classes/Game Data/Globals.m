@@ -421,6 +421,52 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
   }
 }
 
++ (MonsterProto_MonsterElement) elementForSuperEffective:(MonsterProto_MonsterElement)element {
+  switch (element) {
+    case MonsterProto_MonsterElementDarkness:
+      return MonsterProto_MonsterElementLightning;
+      
+    case MonsterProto_MonsterElementLightning:
+      return MonsterProto_MonsterElementDarkness;
+      
+    case MonsterProto_MonsterElementFire:
+      return MonsterProto_MonsterElementGrass;
+      
+    case MonsterProto_MonsterElementGrass:
+      return MonsterProto_MonsterElementWater;
+      
+    case MonsterProto_MonsterElementWater:
+      return MonsterProto_MonsterElementFire;
+      
+    default:
+      return MonsterProto_MonsterElementRock;
+      break;
+  }
+}
+
++ (MonsterProto_MonsterElement) elementForNotVeryEffective:(MonsterProto_MonsterElement)element {
+  switch (element) {
+    case MonsterProto_MonsterElementDarkness:
+      return MonsterProto_MonsterElementLightning;
+      
+    case MonsterProto_MonsterElementLightning:
+      return MonsterProto_MonsterElementDarkness;
+      
+    case MonsterProto_MonsterElementFire:
+      return MonsterProto_MonsterElementWater;
+      
+    case MonsterProto_MonsterElementGrass:
+      return MonsterProto_MonsterElementFire;
+      
+    case MonsterProto_MonsterElementWater:
+      return MonsterProto_MonsterElementGrass;
+      
+    default:
+      return MonsterProto_MonsterElementRock;
+      break;
+  }
+}
+
 + (NSString *) imageNameForElement:(MonsterProto_MonsterElement)element suffix:(NSString *)str {
   NSString *base = [[self stringForElement:element] lowercaseString];
   return [base stringByAppendingString:str];
@@ -1250,7 +1296,13 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
       return curInfo.lvl+expForThisLevel/(float)totalExpTillNextLevel;
     }
   }
-  return mp.maxLevel;
+  
+  int maxFromList = 1;
+  if (mp.lvlInfoList.count > 0) {
+    MonsterLevelInfoProto *info = [mp.lvlInfoList lastObject];;
+    maxFromList = info.lvl;
+  }
+  return MIN(mp.maxLevel, maxFromList);
 }
 
 - (float) calculateDamageMultiplierForAttackElement:(MonsterProto_MonsterElement)aElement defenseElement:(MonsterProto_MonsterElement)dElement {

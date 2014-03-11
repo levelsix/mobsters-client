@@ -1130,12 +1130,14 @@ BOOL StartupResponseProto_StartupStatusIsValidValue(StartupResponseProto_Startup
   BOOL hasPowerUpComboTutorialAssetId_:1;
   BOOL hasMonsterDropTutorialAssetId_:1;
   BOOL hasElementTutorialAssetId_:1;
+  BOOL hasCityId_:1;
   int32_t matchThreeTutorialAssetId;
   int32_t firstPowerUpAssetId;
   int32_t rainbowTutorialAssetId;
   int32_t powerUpComboTutorialAssetId;
   int32_t monsterDropTutorialAssetId;
   int32_t elementTutorialAssetId;
+  int32_t cityId;
 }
 - (BOOL) hasMatchThreeTutorialAssetId;
 - (BOOL) hasFirstPowerUpAssetId;
@@ -1143,12 +1145,14 @@ BOOL StartupResponseProto_StartupStatusIsValidValue(StartupResponseProto_Startup
 - (BOOL) hasPowerUpComboTutorialAssetId;
 - (BOOL) hasMonsterDropTutorialAssetId;
 - (BOOL) hasElementTutorialAssetId;
+- (BOOL) hasCityId;
 @property (readonly) int32_t matchThreeTutorialAssetId;
 @property (readonly) int32_t firstPowerUpAssetId;
 @property (readonly) int32_t rainbowTutorialAssetId;
 @property (readonly) int32_t powerUpComboTutorialAssetId;
 @property (readonly) int32_t monsterDropTutorialAssetId;
 @property (readonly) int32_t elementTutorialAssetId;
+@property (readonly) int32_t cityId;
 
 + (StartupResponseProto_StartupConstants_MiniTutorialConstants*) defaultInstance;
 - (StartupResponseProto_StartupConstants_MiniTutorialConstants*) defaultInstance;
@@ -1213,6 +1217,11 @@ BOOL StartupResponseProto_StartupStatusIsValidValue(StartupResponseProto_Startup
 - (int32_t) elementTutorialAssetId;
 - (StartupResponseProto_StartupConstants_MiniTutorialConstants_Builder*) setElementTutorialAssetId:(int32_t) value;
 - (StartupResponseProto_StartupConstants_MiniTutorialConstants_Builder*) clearElementTutorialAssetId;
+
+- (BOOL) hasCityId;
+- (int32_t) cityId;
+- (StartupResponseProto_StartupConstants_MiniTutorialConstants_Builder*) setCityId:(int32_t) value;
+- (StartupResponseProto_StartupConstants_MiniTutorialConstants_Builder*) clearCityId;
 @end
 
 @interface StartupResponseProto_StartupConstants_Builder : PBGeneratedMessage_Builder {

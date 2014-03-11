@@ -16,6 +16,55 @@
 
 @implementation TutorialElementsController
 
+- (NSString *) myType {
+  GameState *gs = [GameState sharedGameState];
+  MonsterProto *mp = [gs monsterWithId:self.speakerMonsterId];
+  return [[Globals stringForElement:mp.monsterElement] lowercaseString];
+}
+
+- (NSString *) weakType {
+  GameState *gs = [GameState sharedGameState];
+  MonsterProto *mp = [gs monsterWithId:self.speakerMonsterId];
+  return [[Globals stringForElement:[Globals elementForNotVeryEffective:mp.monsterElement]] lowercaseString];
+}
+
+- (NSString *) strongType {
+  GameState *gs = [GameState sharedGameState];
+  MonsterProto *mp = [gs monsterWithId:self.speakerMonsterId];
+  return [[Globals stringForElement:[Globals elementForSuperEffective:mp.monsterElement]] lowercaseString];
+}
+
+- (NSString *) myColor {
+  GameState *gs = [GameState sharedGameState];
+  MonsterProto *mp = [gs monsterWithId:self.speakerMonsterId];
+  switch (mp.monsterElement) {
+    case MonsterProto_MonsterElementGrass:
+      return @"green";
+    case MonsterProto_MonsterElementWater:
+      return @"blue";
+    case MonsterProto_MonsterElementLightning:
+      return @"yellow";
+    case MonsterProto_MonsterElementDarkness:
+      return @"purple";
+    case MonsterProto_MonsterElementFire:
+      return @"red";
+    default:
+      return @"";
+  }
+}
+
+- (int) weakDamage {
+  GameState *gs = [GameState sharedGameState];
+  MonsterProto *mp = [gs monsterWithId:self.speakerMonsterId];
+  return [self.battleLayer.myPlayerObject damageForColor:(GemColorId)[Globals elementForNotVeryEffective:mp.monsterElement]];
+}
+
+- (int) strongDamage {
+  GameState *gs = [GameState sharedGameState];
+  MonsterProto *mp = [gs monsterWithId:self.speakerMonsterId];
+  return [self.battleLayer.myPlayerObject damageForColor:(GemColorId)mp.monsterElement];
+}
+
 - (void) initBattleLayer {
   self.battleLayer = [[TutorialElementsBattleLayer alloc] initWithMyUserMonsters:self.myTeam puzzleIsOnLeft:NO];
   self.battleLayer.delegate = self;
@@ -23,27 +72,29 @@
   GameState *gs = [GameState sharedGameState];
   Globals *gl = [Globals sharedGlobals];
   FullTaskProto *ftp = [gs taskWithCityId:1 assetId:gl.miniTutorialConstants.elementTutorialAssetId];
-  [[OutgoingEventController sharedOutgoingEventController] beginDungeon:ftp.taskId isEvent:NO eventId:0 useGems:NO withDelegate:self.battleLayer];
+  MonsterProto_MonsterElement elem = [self.battleLayer firstMyPlayer].element;
+  MonsterProto_MonsterElement enemyElem = [Globals elementForSuperEffective:elem];
+  [[OutgoingEventController sharedOutgoingEventController] beginDungeon:ftp.taskId enemyElement:enemyElem withDelegate:self.battleLayer];
 }
 
 - (void) beginFirstMove {
   NSArray *dialogue = @[@"We mobsters draw our strength from the different elements on the board.",
-                        @"Notice how the health bar above my head is red? It means I’m a fire-type mobster.",
-                        @"Check this out. Swipe this orb down to match 3 water orbs."];
+                        [NSString stringWithFormat:@"Notice how the health bar above my head is %@? It means I’m a %@-type mobster.", [self myColor], [self myType]],
+                        [NSString stringWithFormat:@"Check this out. Swipe this orb down to match 3 %@ orbs.", [self weakType]]];
   [self displayDialogue:dialogue];
   
   _currentStep = TutorialElementsStepFirstMove;
 }
 
 - (void) beginSecondMove {
-  NSArray *dialogue = @[@"Weak. We only did 2 damage per orb. Now let’s see what happens when you match 3 fire orbs."];
+  NSArray *dialogue = @[[NSString stringWithFormat:@"Weak. We only did %d damage per orb. Now let’s see what happens when you match 3 %@ orbs.", [self weakDamage], [self myType]]];
   [self displayDialogue:dialogue];
   
   _currentStep = TutorialElementsStepSecondMove;
 }
 
 - (void) beginThirdMove {
-  NSArray *dialogue = @[@"Boom! You did 6 damage per orb! That’s much stronger because I’m a fire-type.",
+  NSArray *dialogue = @[[NSString stringWithFormat:@"Boom! You did %d damage per orb! That’s much stronger because I am %@-type.", [self strongDamage], [self myType]],
                         @"You have one move left before I attack. Choose wisely!"];
   [self displayDialogue:dialogue];
   
@@ -51,7 +102,7 @@
 }
 
 - (void) beginShowHierarchy {
-  NSArray *dialogue = @[@"Did you see that? Because I’m a fire-type, I also do extra damage versus an earth-type.",
+  NSArray *dialogue = @[[NSString stringWithFormat:@"Did you see that? Because I am %@-type, I also do extra damage versus %@-types.", [self myType], [self strongType]],
                         @"Like \"Rock, Paper, Scissors\", each element has its own strength and weakness.",
                         @"Click here to see the elemental hierarchy, and check back if you ever forget."];
   [self displayDialogue:dialogue];
@@ -71,11 +122,6 @@
 - (void) battleLayerReachedEnemy {
   [super battleLayerReachedEnemy];
   [self beginFirstMove];
-}
-
-- (void) moveMade {
-  // Dismiss the dialogue
-  [self.dialogueViewController animateNext];
 }
 
 - (void) moveFinished {
@@ -99,7 +145,7 @@
 #pragma mark - Dialogue delegate
 
 - (void) dialogueViewController:(DialogueViewController *)dvc willDisplaySpeechAtIndex:(int)index {
-  if (_currentStep != TutorialElementsStepHierarchy && index == dvc.dialogue.speechSegmentList.count-1) {
+  if (_currentStep != TutorialElementsStepHierarchy) {
     [super dialogueViewController:dvc willDisplaySpeechAtIndex:index];
   }
 }
