@@ -19,7 +19,7 @@
 #import "TutorialFacebookViewController.h"
 #import "TutorialNameViewController.h"
 #import "TutorialAttackMapViewController.h"
-#import "TutorialElementsController.h"
+#import "TutorialRainbowController.h"
 #import "TutorialTouchView.h"
 
 @class GameViewController;
@@ -92,7 +92,7 @@ typedef enum {
   TutorialStepClickQuests,
 } TutorialStep;
 
-@interface TutorialController : NSObject <TutorialMissionMapDelegate, DialogueViewControllerDelegate, TutorialBattleLayerDelegate, TutorialHomeMapDelegate, TutorialMyCroniesDelegate, TutorialTopBarDelegate, TutorialMainMenuDelegate, TutorialCarpenterDelegate, TutorialFacebookDelegate, TutorialNameDelegate, AttackMapDelegate, TutorialElementsDelegate> {
+@interface TutorialController : NSObject <TutorialMissionMapDelegate, DialogueViewControllerDelegate, TutorialBattleLayerDelegate, TutorialHomeMapDelegate, TutorialMyCroniesDelegate, TutorialTopBarDelegate, TutorialMainMenuDelegate, TutorialCarpenterDelegate, TutorialFacebookDelegate, TutorialNameDelegate, AttackMapDelegate, MiniTutorialDelegate> {
   TutorialStep _currentStep;
   
   int _damageDealtToFriend;
@@ -107,6 +107,7 @@ typedef enum {
   int _gems;
   
   BOOL _sendingUserCreateStartup;
+  BOOL _waitingOnUserCreate;
 }
 
 @property (nonatomic, assign) GameViewController *gameViewController;
@@ -126,7 +127,7 @@ typedef enum {
 @property (nonatomic, retain) TutorialNameViewController *nameViewController;
 @property (nonatomic, retain) TutorialAttackMapViewController *attackMapViewController;
 
-@property (nonatomic, retain) TutorialElementsController *elementsController;
+@property (nonatomic, retain) TutorialRainbowController *rainbowController;
 
 @property (nonatomic, retain) DialogueViewController *dialogueViewController;
 

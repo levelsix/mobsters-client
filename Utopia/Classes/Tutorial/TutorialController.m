@@ -36,12 +36,12 @@
       [_structs setObject:[NSValue valueWithCGPoint:ccp(0, 0)] forKey:structId];
     }
     
-    _name = @"Joey Meatball";
+    _name = @"NewUser";
   }
   return self;
 }
 
-- (void) displayDialogue:(NSArray *)dialogue allowTouch:(BOOL)allowTouch toViewController:(UIViewController *)vc {
+- (void) displayDialogue:(NSArray *)dialogue allowTouch:(BOOL)allowTouch useShortBubble:(BOOL)shortBubble toViewController:(UIViewController *)vc {
   GameState *gs = [GameState sharedGameState];
   DialogueProto_Builder *dp = [DialogueProto builder];
   
@@ -81,13 +81,14 @@
     
     MonsterProto *mp = [gs monsterWithId:monsterId];
     DialogueProto_SpeechSegmentProto_Builder *ss = [DialogueProto_SpeechSegmentProto builder];
-    ss.speaker = mp.imagePrefix;
+    ss.speaker = mp.displayName;
+    ss.speakerImage = mp.imagePrefix;
     ss.isLeftSide = isLeftSide;
     ss.speakerText = speakerText;
     [dp addSpeechSegment:ss.build];
   }
   
-  DialogueViewController *dvc = [[DialogueViewController alloc] initWithDialogueProto:dp.build];
+  DialogueViewController *dvc = [[DialogueViewController alloc] initWithDialogueProto:dp.build useSmallBubble:shortBubble];
   dvc.delegate = self;
   [vc addChildViewController:dvc];
   [vc.view insertSubview:dvc.view belowSubview:self.touchView];
@@ -102,8 +103,8 @@
   }
 }
 
-- (void) displayDialogue:(NSArray *)dialogue allowTouch:(BOOL)allowTouch {
-  [self displayDialogue:dialogue allowTouch:allowTouch toViewController:self.gameViewController];
+- (void) displayDialogue:(NSArray *)dialogue allowTouch:(BOOL)allowTouch useShortBubble:(BOOL)shortBubble {
+  [self displayDialogue:dialogue allowTouch:allowTouch useShortBubble:shortBubble toViewController:self.gameViewController];
 }
 
 - (void) beginTutorial {
@@ -115,27 +116,36 @@
   [self.touchView addResponder:[CCDirector sharedDirector].view];
   self.touchView.userInteractionEnabled = NO;
   
-  //[self initMissionMap];
+  [self initMissionMapWithCenterOnThirdBuilding:NO];
   //[self beginBlackedOutDialogue];
-  //[self beginSecondBattlePhase];
+  [self beginSecondBattlePhase];
   
   //[self yachtWentOffScene];
   
-  [self initMissionMap];
+  [self initHomeMap];
   [self initTopBar];
   [self beginFacebookLoginPhase];
 }
 
-- (void) initMissionMap {
+- (void) initMissionMapWithCenterOnThirdBuilding:(BOOL)thirdBuilding {
   CCScene *scene = [CCScene node];
   if (!self.missionMap) {
     TutorialMissionMap *missionMap = [[TutorialMissionMap alloc] initWithTutorialConstants:self.constants];
     missionMap.delegate = self;
     self.missionMap = missionMap;
   }
+  
+  if (thirdBuilding) {
+    [self.missionMap moveToThirdBuilding];
+  }
+  
   [scene addChild:self.missionMap];
   CCDirector *dir = [CCDirector sharedDirector];
-  [dir replaceScene:scene];
+  if (!dir.runningScene) {
+    [dir replaceScene:scene];
+  } else {
+    [[CCDirector sharedDirector] replaceScene:scene withTransition:[CCTransition transitionCrossFadeWithDuration:0.4f]];
+  }
   self.gameViewController.currentMap = self.missionMap;
 }
 
@@ -150,6 +160,9 @@
   
   HospitalProto *hp = (HospitalProto *)homeMap.hospital.userStruct.staticStruct;
   _hospitalHealSpeed = hp.healthPerSecond;
+  
+  GameState *gs = [GameState sharedGameState];
+  gs.myStructs = homeMap.myStructs;
   
   CCDirector *dir = [CCDirector sharedDirector];
   if (!dir.runningScene) {
@@ -252,12 +265,19 @@
 - (void) tutorialFinished {
   [self cleanup];
   
-  [self.gameViewController.topBarViewController questsClicked:nil];
-  
   LoadCityResponseProto_Builder *bldr = [LoadCityResponseProto builder];
   [bldr addAllCityElements:self.constants.cityOneElementsList];
   bldr.cityId = self.constants.cityId;
-  [self.gameViewController tutorialFinishedWithStartupResponse:self.userCreateStartupResponse loadCityResponse:bldr.build];
+  
+  CCScene *scene = [CCScene node];
+  MissionMap *mm = [[MissionMap alloc] initWithProto:bldr.build];
+  [scene addChild:mm];
+  mm.position = self.missionMap.position;
+  self.gameViewController.currentMap = mm;
+  [[CCDirector sharedDirector] replaceScene:scene withTransition:[CCTransition transitionCrossFadeWithDuration:0.4f]];
+  
+  [self.gameViewController.topBarViewController showMyCityView];
+  [self.gameViewController tutorialFinished];
 }
 
 - (void) sendUserCreate {
@@ -288,6 +308,11 @@
   StartupResponseProto *proto = (StartupResponseProto *)fe.event;
   if (_sendingUserCreateStartup) {
     self.userCreateStartupResponse = proto;
+    [self.gameViewController tutorialReceivedStartupResponse:self.userCreateStartupResponse];
+    
+    if (_waitingOnUserCreate) {
+      [self fadeToMissionMap];
+    }
   } else {
     [self facebookStartupReceived:proto];
   }
@@ -297,7 +322,7 @@
 
 - (void) beginBlackedOutDialogue {
   NSArray *dialogue = @[@(TutorialDialogueSpeakerFriend), @"Help! Somebody stole my meatballs!"];
-  [self displayDialogue:dialogue allowTouch:YES];
+  [self displayDialogue:dialogue allowTouch:YES useShortBubble:NO];
   self.dialogueViewController.blackOutSpeakers = YES;
   
   _currentStep = TutorialStepBlackedOutDialogue;
@@ -311,21 +336,21 @@
 
 - (void) beginFirstDialoguePhase {
   NSArray *dialogue = @[@(TutorialDialogueSpeakerFriend), @"Somebody stop that guy. He stole my meatballs!"];
-  [self displayDialogue:dialogue allowTouch:YES];
+  [self displayDialogue:dialogue allowTouch:YES useShortBubble:NO];
   
   _currentStep = TutorialStepFirstDialogue;
 }
 
 - (void) beginFirstEnemyTauntPhase {
   NSArray *dialogue = @[@(TutorialDialogueSpeakerEnemy), @"You'll never catch me!"];
-  [self displayDialogue:dialogue allowTouch:YES];
+  [self displayDialogue:dialogue allowTouch:YES useShortBubble:NO];
   
   _currentStep = TutorialStepFirstEnemyTaunt;
 }
 
 - (void) beginFriendEnterBuildingPhase {
   NSArray *dialogue = @[@(TutorialDialogueSpeakerFriend), @"Did you see where that scumbag went?"];
-  [self displayDialogue:dialogue allowTouch:YES];
+  [self displayDialogue:dialogue allowTouch:YES useShortBubble:NO];
   
   _currentStep = TutorialStepFriendEnterBuilding;
 }
@@ -340,21 +365,21 @@
 
 - (void) beginFirstBattleFirstMovePhase {
   NSArray *dialogue = @[@(TutorialDialogueSpeakerFriend), @"This is Candy Crush on steroids. Match 3 orbs by swiping this one to the right."];
-  [self displayDialogue:dialogue allowTouch:NO];
+  [self displayDialogue:dialogue allowTouch:NO useShortBubble:YES];
   
   _currentStep = TutorialStepFirstBattleFirstMove;
 }
 
 - (void) beginFirstBattleSecondMovePhase {
   NSArray *dialogue = @[@(TutorialDialogueSpeakerFriend), @"Nice! The more orbs you break, the stronger I get. Let’s try another."];
-  [self displayDialogue:dialogue allowTouch:NO];
+  [self displayDialogue:dialogue allowTouch:NO useShortBubble:YES];
   
   _currentStep = TutorialStepFirstBattleSecondMove;
 }
 
 - (void) beginFirstBattleFinalMovePhase {
   NSArray *dialogue = @[@(TutorialDialogueSpeakerFriend), @"Good job! You have 1 move left before I attack. Make it count."];
-  [self displayDialogue:dialogue allowTouch:NO];
+  [self displayDialogue:dialogue allowTouch:NO useShortBubble:YES];
   
   _currentStep = TutorialStepFirstBattleLastMove;
 }
@@ -363,21 +388,21 @@
   [self.missionMap beginSecondConfrontation];
   
   NSArray *dialogue = @[@(TutorialDialogueSpeakerEnemy), @"Do you know who you’re messing with? Just wait till I call in back up!"];
-  [self displayDialogue:dialogue allowTouch:YES];
+  [self displayDialogue:dialogue allowTouch:YES useShortBubble:NO];
   
   _currentStep = TutorialStepPostFirstBattleConfrontation;
 }
 
 - (void) beginEnemyRanOffPhase {
   NSArray *dialogue = @[@(TutorialDialogueSpeakerFriend), @"Thanks for helping me out back there. Hopefully we’re done with..."];
-  [self displayDialogue:dialogue allowTouch:YES];
+  [self displayDialogue:dialogue allowTouch:YES useShortBubble:NO];
   
   _currentStep = TutorialStepEnemyRanOff;
 }
 
 - (void) beginEnemyBroughtBackBossPhase {
   NSArray *dialogue = @[@(TutorialDialogueSpeakerEnemy), @"Prepare to..."];
-  [self displayDialogue:dialogue allowTouch:YES];
+  [self displayDialogue:dialogue allowTouch:YES useShortBubble:NO];
   
   _currentStep = TutorialStepEnemyBroughtBackBoss;
 }
@@ -387,7 +412,7 @@
                         @(TutorialDialogueSpeakerEnemy), @"...Why?",
                         @(TutorialDialogueSpeakerFriend), @"'CAUSE THIS MAN IS RIPPED!",
                         @(TutorialDialogueSpeakerEnemyBoss), @"Bad joke. You die now."];
-  [self displayDialogue:dialogue allowTouch:YES];
+  [self displayDialogue:dialogue allowTouch:YES useShortBubble:NO];
   
   _currentStep = TutorialStepFriendJoke;
 }
@@ -403,21 +428,21 @@
 - (void) beginSecondBattleFirstMovePhase {
   NSArray *dialogue = @[@(TutorialDialogueSpeakerEnemyBoss), @"You no run. You fight.",
                         @(TutorialDialogueSpeakerFriend), @"We’re dunzos if we don’t do something quick. Create a power-up by matching 4 orbs."];
-  [self displayDialogue:dialogue allowTouch:YES];
+  [self displayDialogue:dialogue allowTouch:YES useShortBubble:YES];
   
   _currentStep = TutorialStepSecondBattleFirstMove;
 }
 
 - (void) beginSecondBattleSecondMovePhase {
   NSArray *dialogue = @[@(TutorialDialogueSpeakerFriend), @"We’re not finished yet. Swipe the striped orb up to activate the power-up."];
-  [self displayDialogue:dialogue allowTouch:NO];
+  [self displayDialogue:dialogue allowTouch:NO useShortBubble:YES];
   
   _currentStep = TutorialStepSecondBattleSecondMove;
 }
 
 - (void) beginSecondBattleThirdMovePhase {
   NSArray *dialogue = @[@(TutorialDialogueSpeakerFriend), @"Bada bing, bada boom. It all comes down to this last move."];
-  [self displayDialogue:dialogue allowTouch:NO];
+  [self displayDialogue:dialogue allowTouch:NO useShortBubble:YES];
   
   _currentStep = TutorialStepSecondBattleThirdMove;
 }
@@ -426,7 +451,7 @@
   NSArray *dialogue = @[@(TutorialDialogueSpeakerFriend), @"Looks like I won’t make...",
                         @(TutorialDialogueSpeakerMarkL), @"*Poke*",
                         @(TutorialDialogueSpeakerMarkL), @"Hey buddy, you don’t look so good. Would you “like” me to help you out?"];
-  [self displayDialogue:dialogue allowTouch:YES];
+  [self displayDialogue:dialogue allowTouch:YES useShortBubble:YES];
   
   _currentStep = TutorialStepSecondBattleSwap;
 }
@@ -436,7 +461,7 @@
                         @(TutorialDialogueSpeakerEnemyBoss), @"...",
                         @(TutorialDialogueSpeakerMarkL), @"\"Currently saving a stranger who got owned by a luchador. #LOL #GoodGuyZark\"",
                         @(TutorialDialogueSpeakerMarkL), @"Heh, 12 likes already. Alright, let’s do this."];
-  [self displayDialogue:dialogue allowTouch:YES];
+  [self displayDialogue:dialogue allowTouch:YES useShortBubble:YES];
   
   _currentStep = TutorialStepSecondBattleKillEnemy;
 }
@@ -447,7 +472,7 @@
   NSArray *dialogue = @[@(TutorialDialogueSpeakerEnemyBoss), @"You win battle. Not war. We be back.",
                         @(TutorialDialogueSpeakerMarkL), @"So... is it cool if I still send you a friend request?",
                         @(TutorialDialogueSpeakerEnemyBoss), @"... No."];
-  [self displayDialogue:dialogue allowTouch:YES];
+  [self displayDialogue:dialogue allowTouch:YES useShortBubble:NO];
   
   _currentStep = TutorialStepPostSecondBattleConfrontation;
 }
@@ -457,7 +482,7 @@
   
   NSArray *dialogue = @[@(TutorialDialogueSpeakerMarkL), @"I don’t know if you noticed, but your buddy Joey is kinda bleeding everywhere.",
                         @(TutorialDialogueSpeakerMarkL), @"I have a private island nearby with a sweet hospital. We’ll take my BookFace yacht."];
-  [self displayDialogue:dialogue allowTouch:YES];
+  [self displayDialogue:dialogue allowTouch:YES useShortBubble:NO];
   
   _currentStep = TutorialStepBoardYacht;
 }
@@ -474,7 +499,7 @@
                         @(TutorialDialogueSpeakerMarkL), @"Your destiny is to turn this island into your secret base and to recruit the meanest mobsters around.",
                         @(TutorialDialogueSpeakerFriendR), @"In case you didn’t notice, I’m still bleeding and...",
                         @(TutorialDialogueSpeakerMarkL), @"First, let’s learn how to heal Joey so he can stop whining. Follow the magical floating arrows to begin."];
-  [self displayDialogue:dialogue allowTouch:YES];
+  [self displayDialogue:dialogue allowTouch:YES useShortBubble:NO];
   
   _currentStep = TutorialStepEnterHospital;
 }
@@ -485,7 +510,7 @@
   NSArray *dialogue = @[@(TutorialDialogueSpeakerMarkR), @"Click on Joey to insert him into the healing queue.",
                         @(TutorialDialogueSpeakerMarkL), @"Mom always said, “health over wealth.” Use your gems to auto-magically heal Joey.",
                         @(TutorialDialogueSpeakerMarkL), @"Fantastic. Exit the hospital and I’ll show you the rest of the island."];
-  [self displayDialogue:dialogue allowTouch:NO toViewController:self.myCroniesViewController];
+  [self displayDialogue:dialogue allowTouch:NO useShortBubble:NO toViewController:self.myCroniesViewController];
   
   _currentStep = TutorialStepBeginHealQueue;
 }
@@ -510,7 +535,7 @@
   
   NSArray *dialogue = @[@(TutorialDialogueSpeakerMarkL), @"On your path to power, you’ll need cash to... do anything really.",
                         @(TutorialDialogueSpeakerMarkL), @"What better way to make money than to print it? Build a Cash Printer now!"];
-  [self displayDialogue:dialogue allowTouch:YES];
+  [self displayDialogue:dialogue allowTouch:YES useShortBubble:NO];
   
   _currentStep = TutorialStepBeginBuildingOne;
 }
@@ -519,7 +544,7 @@
   [self.homeMap speedupPurchasedBuilding];
   
   NSArray *dialogue = @[@(TutorialDialogueSpeakerMarkL), @"Patience is a virtue, but not when you're building a Cash Printer."];
-  [self displayDialogue:dialogue allowTouch:NO];
+  [self displayDialogue:dialogue allowTouch:NO useShortBubble:NO];
   self.touchView.userInteractionEnabled = NO;
   
   _currentStep = TutorialStepSpeedupBuildingOne;
@@ -529,7 +554,7 @@
   NSArray *dialogue = @[@(TutorialDialogueSpeakerMarkL), @"Nice job! The Printer can only store a small amount of cash, so we’ll need a Vault to stash it.",
                         @(TutorialDialogueSpeakerMarkL), @"Hmm... I tried to buy one on Amazon, but they don't seem to ship to secret islands yet.",
                         @(TutorialDialogueSpeakerMarkL),@"Let's build one in the meantime!"];
-  [self displayDialogue:dialogue allowTouch:YES];
+  [self displayDialogue:dialogue allowTouch:YES useShortBubble:NO];
   
   _currentStep = TutorialStepBeginBuildingTwo;
 }
@@ -545,7 +570,7 @@
                         @(TutorialDialogueSpeakerMarkL), @"Another important resource is Oil, which is used to upgrade your mobsters and buildings.",
                         @(TutorialDialogueSpeakerMarkL), @"A Saudi Prince once donated this Oil Drill to me, but you'll probably need it more than I.",
                         @(TutorialDialogueSpeakerMarkL), @"Construct an Oil Silo now to protect what your liquid gold!"];
-  [self displayDialogue:dialogue allowTouch:YES];
+  [self displayDialogue:dialogue allowTouch:YES useShortBubble:NO];
   
   _currentStep = TutorialStepBeginBuildingThree;
 }
@@ -560,21 +585,21 @@
   NSArray *dialogue = @[@(TutorialDialogueSpeakerMarkL), @"Great job! The Silo will now protect your oil from being stolen in battle.",
                         @(TutorialDialogueSpeakerMarkL), @"Your island is starting to look like a real secret base! There’s just one last thing...",
                         @(TutorialDialogueSpeakerMarkL), @"I know I just met you, and this is crazy, but here’s my friend request, so add me maybe?"];
-  [self displayDialogue:dialogue allowTouch:YES];
+  [self displayDialogue:dialogue allowTouch:YES useShortBubble:NO];
   
   _currentStep = TutorialStepFacebookLogin;
 }
 
 - (void) beginFacebookRejectedNamingPhase {
   NSArray *dialogue = @[@(TutorialDialogueSpeakerMarkL), @"Playing hard to get huh? I can play that game too. What was your name again?"];
-  [self displayDialogue:dialogue allowTouch:YES];
+  [self displayDialogue:dialogue allowTouch:YES useShortBubble:NO];
   
   _currentStep = TutorialStepEnterName;
 }
 
 - (void) beginFacebookAcceptedNamingPhase {
   NSArray *dialogue = @[@(TutorialDialogueSpeakerMarkL), @"Hurray! I know we’re besties now, but what was your name again?"];
-  [self displayDialogue:dialogue allowTouch:YES];
+  [self displayDialogue:dialogue allowTouch:YES useShortBubble:NO];
   
   _currentStep = TutorialStepEnterName;
 }
@@ -583,7 +608,7 @@
   NSArray *dialogue = @[@(TutorialDialogueSpeakerMarkL), @"Is that really on your birth certificate? Seems legit I guess.",
                         @(TutorialDialogueSpeakerFriendR), @"Enough chit chat. There’s a world to conquer, and it’s yours for the taking.",
                         @(TutorialDialogueSpeakerFriendR), @"Let’s head to the training grounds now so I can teach you more about battling."];
-  [self displayDialogue:dialogue allowTouch:YES];
+  [self displayDialogue:dialogue allowTouch:YES useShortBubble:NO];
   
   _currentStep = TutorialStepAttackMap;
 }
@@ -592,17 +617,23 @@
   [self.missionMap moveToThirdBuilding];
   
   NSArray *dialogue = @[@(TutorialDialogueSpeakerFriend), @"Unlike your world, we mobsters like to take the fight inside. Click on the Tea Lounge to start a fight."];
-  [self displayDialogue:dialogue allowTouch:YES];
+  [self displayDialogue:dialogue allowTouch:YES useShortBubble:NO];
   
   _currentStep = TutorialStepEnterBattleThree;
 }
 
 - (void) beginElementsMiniTutorialPhase {
-  GameState *gs = [GameState sharedGameState];
-  MonsterProto *mp = [gs monsterWithId:self.constants.startingMonsterId];
-  self.elementsController = [[TutorialElementsController alloc] initWithGameViewController:self.gameViewController dialogueSpeakerImage:mp.imagePrefix constants:self.constants];
-  self.elementsController.delegate = self;
-  [self.elementsController begin];
+  Globals *gl = [Globals sharedGlobals];
+  UserMonster *um1 = [[UserMonster alloc] init];
+  um1.userMonsterId = 1;
+  um1.monsterId = self.constants.startingMonsterId;
+  um1.level = 1;
+  um1.curHealth = [gl calculateMaxHealthForMonster:um1];
+  um1.teamSlot = 1;
+  
+  self.rainbowController = [[TutorialRainbowController alloc] initWithMyTeam:[NSArray arrayWithObject:um1] gameViewController:self.gameViewController];
+  self.rainbowController.delegate = self;
+  [self.rainbowController begin];
   
   [UIView animateWithDuration:0.4f animations:^{
     self.topBarViewController.view.alpha = 0.f;
@@ -614,7 +645,7 @@
 - (void) beginClickQuestsPhase {
   NSArray *dialogue = @[@(TutorialDialogueSpeakerFriend), @"You learn quick, but it’s easy to get side-tracked when you’re building an empire.",
                         @(TutorialDialogueSpeakerFriend), @"I’ve created a mission list to guide you in case you get lost. Tap here now to check it out!"];
-  [self displayDialogue:dialogue allowTouch:YES];
+  [self displayDialogue:dialogue allowTouch:YES useShortBubble:NO];
   
   _currentStep = TutorialStepClickQuests;
 }
@@ -817,8 +848,10 @@
 
 - (void) questsClicked {
   [self.dialogueViewController animateNext];
+  self.dialogueViewController.delegate = nil;
   
   [self tutorialFinished];
+  [self.gameViewController.topBarViewController questsClicked:nil];
 }
 
 #pragma mark - MainMenu delegate
@@ -901,15 +934,30 @@
 
 - (void) visitCityClicked:(int)cityId {
   if (_currentStep == TutorialStepAttackMap) {
+    GameState *gs = [GameState sharedGameState];
+    FullCityProto *fcp = [gs cityWithId:self.constants.cityId];
+    self.gameViewController.loadingView.label.text = [NSString stringWithFormat:@"Traveling to\n%@", fcp.name];
+    [self.gameViewController.loadingView display:self.gameViewController.view];
+    
+    [self performSelector:@selector(fadeToMissionMap) withObject:nil afterDelay:0.5f];
+  }
+}
+
+- (void) fadeToMissionMap {
+  if (self.userCreateStartupResponse) {
+    [self.gameViewController.loadingView stop];
+    
     // Go back to the mission map
-    [self initMissionMap];
+    [self initMissionMapWithCenterOnThirdBuilding:YES];
     [self beginEnterBattleThreePhase];
+  } else {
+    _waitingOnUserCreate = YES;
   }
 }
 
 #pragma mark - Elements Tutorial delegate
 
-- (void) elementsTutorialComplete {
+- (void) miniTutorialComplete:(MiniTutorialController *)tut {
   [self beginClickQuestsPhase];
   
   [UIView animateWithDuration:0.4f animations:^{
@@ -965,7 +1013,7 @@
              (_currentStep == TutorialStepBeginBuildingTwo && index == 2) ||
              (_currentStep == TutorialStepBeginBuildingThree && index == 3)) {
     [self.topBarViewController allowMenuClick];
-  } else if (_currentStep == TutorialStepClickQuests) {
+  } else if (_currentStep == TutorialStepClickQuests && index == 1) {
     self.dialogueViewController.view.userInteractionEnabled = NO; 
     [self.topBarViewController allowQuestsClick];
   }

@@ -67,6 +67,7 @@
   } else if (!_receivedEndDungeonResponse) {
     _waitingForEndDungeonResponse = YES;
     
+#warning fix this
     _manageWasClicked = NO;
     [self exitFinal];
   } else {
@@ -127,7 +128,7 @@
 
 - (void) reachedNextScene {
   if (!_hasStarted) {
-    if (!self.dungeonInfo) {
+    if (!self.enemyTeam.count) {
       _numTimesNotResponded++;
       if (_numTimesNotResponded < 10) {
         [self.myPlayer beginWalking];

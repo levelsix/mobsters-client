@@ -75,10 +75,16 @@
   }
 }
 
+- (IBAction)infoClicked:(id)sender {
+  // Do nothing
+}
+
 - (void) popCurrentViewController:(id)sender {
   // Do nothing
 }
 
-//- (voi÷
+- (void) menuCloseClicked:(id)sender {
+  // Do nothing
+}
 
 @end

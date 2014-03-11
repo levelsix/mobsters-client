@@ -148,6 +148,8 @@
 @class FinishNormStructWaittimeWithDiamondsRequestProto_Builder;
 @class FinishNormStructWaittimeWithDiamondsResponseProto;
 @class FinishNormStructWaittimeWithDiamondsResponseProto_Builder;
+@class ForceLogoutResponseProto;
+@class ForceLogoutResponseProto_Builder;
 @class FullCityProto;
 @class FullCityProto_Builder;
 @class FullClanProto;
@@ -398,6 +400,8 @@
 @class StartupResponseProto_StartupConstants_ClanConstants_Builder;
 @class StartupResponseProto_StartupConstants_DownloadableNibConstants;
 @class StartupResponseProto_StartupConstants_DownloadableNibConstants_Builder;
+@class StartupResponseProto_StartupConstants_MiniTutorialConstants;
+@class StartupResponseProto_StartupConstants_MiniTutorialConstants_Builder;
 @class StartupResponseProto_StartupConstants_MonsterConstants;
 @class StartupResponseProto_StartupConstants_MonsterConstants_Builder;
 @class StartupResponseProto_StartupConstants_TournamentConstants;
@@ -613,6 +617,7 @@ typedef enum {
   EventProtocolResponseSGeneralNotificationEvent = 106,
   EventProtocolResponseSReceivedRareBoosterPurchaseEvent = 107,
   EventProtocolResponseSAwardClanRaidStageRewardEvent = 108,
+  EventProtocolResponseSForceLogoutEvent = 109,
 } EventProtocolResponse;
 
 BOOL EventProtocolResponseIsValidValue(EventProtocolResponse value);

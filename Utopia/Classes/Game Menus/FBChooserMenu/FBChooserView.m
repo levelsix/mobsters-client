@@ -153,55 +153,6 @@
   [FacebookDelegate initiateRequestToFacebookIds:arr withMessage:requestString completionBlock:completion];
 }
 
-- (void)webDialogsWillPresentDialog:(NSString *)dialog
-                         parameters:(NSMutableDictionary *)parameters
-                            session:(FBSession *)session {
-  NSLog(@"%@", [FBSettings facebookDomainPart]);
-  
-  [self performSelector:@selector(checkingUp) withObject:nil afterDelay:2.f];
-//  [self.friendCache webDialogsWillPresentDialog:dialog parameters:parameters session:session];
-}
-
-- (void)allWebViewsInWindow:(UIView *)v array:(NSMutableArray *)arr {
-  if ([v isKindOfClass:[UIWebView class]]) {
-    [arr addObject:v];
-  }
-  for (UIView *s in v.subviews) {
-    [self allWebViewsInWindow:s array:arr];
-  }
-}
-
-- (void) checkingUp {
-  UIWindow *window = [[UIApplication sharedApplication] keyWindow];
-  NSMutableArray *arr = [NSMutableArray array];
-  [self allWebViewsInWindow:window array:arr];
-  NSLog(@"%@", arr);
-  
-  NSString *req = @"document.getElementsByName(\"__CONFIRM__\")[0].click()";
-  for (UIWebView *web in arr) {
-    [web stringByEvaluatingJavaScriptFromString:req];
-  }
-}
-
-- (BOOL)webDialogsDialog:(NSString *)dialog
-              parameters:(NSDictionary *)parameters
-                 session:(FBSession *)session
-     shouldAutoHandleURL:(NSURL *)url {
-  NSLog(@"Meep");
-  return YES;
-//  return [self.friendCache webDialogsDialog:dialog parameters:parameters session:session shouldAutoHandleURL:url];
-}
-
-- (void)webDialogsWillDismissDialog:(NSString *)dialog
-                         parameters:(NSDictionary *)parameters
-                            session:(FBSession *)session
-                             result:(FBWebDialogResult *)result
-                                url:(NSURL **)url
-                              error:(NSError **)error {
-  NSLog(@"Meep");
-//  [self.friendCache webDialogsWillDismissDialog:dialog parameters:parameters session:session result:result url:url error:error];
-}
-
 #pragma mark - IBActions
 
 - (IBAction)allFriendsClicked:(id)sender {

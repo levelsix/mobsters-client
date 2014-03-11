@@ -45,8 +45,7 @@
 - (void) retrieveUsersForUserIds:(NSArray *)userIds includeCurMonsterTeam:(BOOL)includeCurMonsterTeam delegate:(id)delegate;
 
 - (void) enableApns:(NSString *)deviceToken;
-
-- (void) fbConnectReward;
+- (void) setGameCenterId:(NSString *)gameCenterId;
 
 - (void) sendGroupChat:(GroupChatScope)scope message:(NSString *)msg;
 

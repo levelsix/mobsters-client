@@ -194,6 +194,7 @@ BOOL EventProtocolResponseIsValidValue(EventProtocolResponse value) {
     case EventProtocolResponseSGeneralNotificationEvent:
     case EventProtocolResponseSReceivedRareBoosterPurchaseEvent:
     case EventProtocolResponseSAwardClanRaidStageRewardEvent:
+    case EventProtocolResponseSForceLogoutEvent:
       return YES;
     default:
       return NO;

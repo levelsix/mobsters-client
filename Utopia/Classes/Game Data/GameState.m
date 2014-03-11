@@ -199,6 +199,15 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
   return [self getStaticDataFrom:_staticTasks withId:taskId];
 }
 
+- (FullTaskProto *) taskWithCityId:(int)cityId assetId:(int)assetId {
+  for (FullTaskProto *ftp in self.staticTasks.allValues) {
+    if (ftp.cityId == cityId && ftp.assetNumWithinCity == assetId) {
+      return ftp;
+    }
+  }
+  return nil;
+}
+
 - (PersistentEventProto *) persistentEventWithId:(int)eventId {
   for (PersistentEventProto *pe in self.persistentEvents) {
     if (pe.eventId == eventId) {
@@ -939,8 +948,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
 }
 
 - (int) maxCash {
-  Globals *gl = [Globals sharedGlobals];
-  int maxCash = gl.baseResourceCapacity;
+  int maxCash = ((TownHallProto *)self.myTownHall.staticStruct).resourceCapacity;
   for (UserStruct *us in self.myStructs) {
     ResourceStorageProto *rgp = (ResourceStorageProto *)us.staticStruct;
     StructureInfoProto *fsp = [rgp structInfo];
@@ -957,8 +965,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
 }
 
 - (int) maxOil {
-  Globals *gl = [Globals sharedGlobals];
-  int maxOil = gl.baseResourceCapacity;
+  int maxOil = ((TownHallProto *)self.myTownHall.staticStruct).resourceCapacity;
   for (UserStruct *us in self.myStructs) {
     ResourceStorageProto *rgp = (ResourceStorageProto *)us.staticStruct;
     StructureInfoProto *fsp = [rgp structInfo];

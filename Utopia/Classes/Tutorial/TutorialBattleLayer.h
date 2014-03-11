@@ -7,33 +7,22 @@
 //
 
 #import "NewBattleLayer.h"
+#import "MiniTutorialBattleLayer.h"
 
-@protocol TutorialBattleLayerDelegate <BattleLayerDelegate>
+@protocol TutorialBattleLayerDelegate <MiniTutorialBattleLayerDelegate>
 
 @optional
-- (void) battleLayerReachedEnemy;
-- (void) moveMade;
-- (void) moveFinished;
-- (void) turnFinished;
 - (void) swappedToMark;
 
 @end
 
-@interface TutorialBattleLayer : NewBattleLayer {
-  BOOL _allowTurnBegin;
-}
+@interface TutorialBattleLayer : MiniTutorialBattleLayer
 
 @property (nonatomic, retain) StartupResponseProto_TutorialConstants *constants;
 
 @property (nonatomic, assign) id<TutorialBattleLayerDelegate> delegate;
 
-@property (nonatomic, assign) int swappableTeamSlot;
-
 - (id) initWithConstants:(StartupResponseProto_TutorialConstants *)constants;
-- (void) beginFirstMove;
-- (void) beginSecondMove;
-- (void) beginThirdMove;
-- (void) allowMove;
 
 @end
 

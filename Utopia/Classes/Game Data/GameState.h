@@ -116,6 +116,7 @@
 - (FullCityProto *)cityWithId:(int)cityId;
 - (ClanRaidProto *) raidWithId:(int)raidId;
 - (FullTaskProto *) taskWithId:(int)taskId;
+- (FullTaskProto *) taskWithCityId:(int)cityId assetId:(int)assetId;
 - (FullQuestProto *) questForId:(int)questId;
 - (BoosterPackProto *) boosterPackForId:(int)packId;
 - (MonsterProto *) monsterWithId:(int)monsterId;

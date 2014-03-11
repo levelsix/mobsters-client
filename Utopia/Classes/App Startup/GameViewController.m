@@ -166,16 +166,18 @@
   self.tutController = nil;
 }
 
-- (void) tutorialFinishedWithStartupResponse:(StartupResponseProto *)startupResponse loadCityResponse:(LoadCityResponseProto *)loadCityResponse {
+- (void) tutorialReceivedStartupResponse:(StartupResponseProto *)startupResponse {
   GameState *gs = [GameState sharedGameState];
   gs.isTutorial = NO;
   
   FullEvent *fe = [[FullEvent alloc] initWithEvent:startupResponse tag:0];
   [[IncomingEventController sharedIncomingEventController] handleStartupResponseProto:fe];
   [self handleStartupResponseProto:fe];
-  
-  fe = [[FullEvent alloc] initWithEvent:loadCityResponse tag:0];
-  [self handleLoadCityResponseProto:fe];
+}
+
+- (void) tutorialFinished {
+  GameState *gs = [GameState sharedGameState];
+  gs.isTutorial = NO;
   
   // For tutorial
   self.tutController = nil;
@@ -232,7 +234,7 @@
     
     // Load the home map
     [self visitCityClicked:0];
-  } else if ([self.currentMap isKindOfClass:[HomeMap class]]) {
+  } else if (self.currentMap.cityId == 0 && [self.currentMap isKindOfClass:[HomeMap class]]) {
     [(HomeMap *)self.currentMap refresh];
   }
 }

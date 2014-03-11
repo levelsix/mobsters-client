@@ -313,15 +313,19 @@ BOOL FullQuestProto_QuestTypeIsValidValue(FullQuestProto_QuestType value);
 @private
   BOOL hasIsLeftSide_:1;
   BOOL hasSpeaker_:1;
+  BOOL hasSpeakerImage_:1;
   BOOL hasSpeakerText_:1;
   BOOL isLeftSide_:1;
   NSString* speaker;
+  NSString* speakerImage;
   NSString* speakerText;
 }
 - (BOOL) hasSpeaker;
+- (BOOL) hasSpeakerImage;
 - (BOOL) hasSpeakerText;
 - (BOOL) hasIsLeftSide;
 @property (readonly, retain) NSString* speaker;
+@property (readonly, retain) NSString* speakerImage;
 @property (readonly, retain) NSString* speakerText;
 - (BOOL) isLeftSide;
 
@@ -363,6 +367,11 @@ BOOL FullQuestProto_QuestTypeIsValidValue(FullQuestProto_QuestType value);
 - (NSString*) speaker;
 - (DialogueProto_SpeechSegmentProto_Builder*) setSpeaker:(NSString*) value;
 - (DialogueProto_SpeechSegmentProto_Builder*) clearSpeaker;
+
+- (BOOL) hasSpeakerImage;
+- (NSString*) speakerImage;
+- (DialogueProto_SpeechSegmentProto_Builder*) setSpeakerImage:(NSString*) value;
+- (DialogueProto_SpeechSegmentProto_Builder*) clearSpeakerImage;
 
 - (BOOL) hasSpeakerText;
 - (NSString*) speakerText;

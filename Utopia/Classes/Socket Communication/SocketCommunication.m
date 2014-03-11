@@ -550,6 +550,24 @@ static NSString *udid = nil;
   return [self sendData:req withMessageType:EventProtocolRequestCEnableApnsEvent];
 }
 
+- (int) sendSetGameCenterMessage:(NSString *)gameCenterId {
+  SetGameCenterIdRequestProto *req = [[[[SetGameCenterIdRequestProto builder]
+                                        setSender:_sender]
+                                       setGameCenterId:gameCenterId]
+                                      build];
+  
+  return [self sendData:req withMessageType:EventProtocolRequestCSetGameCenterIdEvent];
+}
+
+- (int) sendSetFacebookIdMessage:(NSString *)facebookId {
+  SetFacebookIdRequestProto *req = [[[[SetFacebookIdRequestProto builder]
+                                      setSender:_sender]
+                                     setFbId:facebookId]
+                                    build];
+  
+  return [self sendData:req withMessageType:EventProtocolResponseSSetFacebookIdEvent];
+}
+
 - (int) sendEarnFreeDiamondsFBConnectMessageClientTime:(uint64_t)time {
   EarnFreeDiamondsRequestProto *req = [[[[[EarnFreeDiamondsRequestProto builder]
                                           setSender:_sender]

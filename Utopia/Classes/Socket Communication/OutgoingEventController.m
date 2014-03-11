@@ -496,21 +496,23 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
   [gs addUnrespondedUpdate:[NoUpdate updateWithTag:tag]];
 }
 
-- (void) fbConnectReward {
+- (void) setGameCenterId:(NSString *)gameCenterId {
   GameState *gs = [GameState sharedGameState];
-  int i = 0;
-  while (gs.userId == 0) {
-    [[NSRunLoop mainRunLoop] runUntilDate:[NSDate dateWithTimeIntervalSinceNow:1.f]];
-    
-    i++;
-    if (gs.isTutorial || i > 30) {
-      return;
-    }
+  if (!gs.connected || gs.isTutorial) {
+    return;
   }
   
-  if (!gs.hasReceivedfbReward) {
-    [[SocketCommunication sharedSocketCommunication] sendEarnFreeDiamondsFBConnectMessageClientTime:[self getCurrentMilliseconds]];
+  [[SocketCommunication sharedSocketCommunication] sendSetGameCenterMessage:gameCenterId];
+}
+
+- (void) setFacebookId:(NSString *)facebookId delegate:(id)delegate {
+  GameState *gs = [GameState sharedGameState];
+  if (gs.facebookId) {
+    [Globals popupMessage:@"Trying to set new facebook id when there is one already.."];
   }
+  
+  int tag = [[SocketCommunication sharedSocketCommunication] sendSetFacebookIdMessage:facebookId];
+  [[SocketCommunication sharedSocketCommunication] setDelegate:delegate forTag:tag];
 }
 
 - (void) retrieveTournamentRanking:(int)eventId afterRank:(int)afterRank {

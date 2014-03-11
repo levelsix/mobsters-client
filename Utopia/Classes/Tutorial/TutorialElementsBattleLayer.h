@@ -8,6 +8,6 @@
 
 #import "TutorialBattleLayer.h"
 
-@interface TutorialElementsBattleLayer : TutorialBattleLayer
+@interface TutorialElementsBattleLayer : MiniTutorialBattleLayer
 
 @end

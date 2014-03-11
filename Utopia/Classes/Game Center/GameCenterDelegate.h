@@ -12,5 +12,6 @@
 
 + (void) authenticateGameCenter;
 + (NSString *) gameCenterName;
++ (NSString *) gameCenterId;
 
 @end

@@ -40,6 +40,8 @@
 @class DialogueProto_Builder;
 @class DialogueProto_SpeechSegmentProto;
 @class DialogueProto_SpeechSegmentProto_Builder;
+@class ForceLogoutResponseProto;
+@class ForceLogoutResponseProto_Builder;
 @class FullCityProto;
 @class FullCityProto_Builder;
 @class FullClanProto;
@@ -138,6 +140,8 @@
 @class StartupResponseProto_StartupConstants_ClanConstants_Builder;
 @class StartupResponseProto_StartupConstants_DownloadableNibConstants;
 @class StartupResponseProto_StartupConstants_DownloadableNibConstants_Builder;
+@class StartupResponseProto_StartupConstants_MiniTutorialConstants;
+@class StartupResponseProto_StartupConstants_MiniTutorialConstants_Builder;
 @class StartupResponseProto_StartupConstants_MonsterConstants;
 @class StartupResponseProto_StartupConstants_MonsterConstants_Builder;
 @class StartupResponseProto_StartupConstants_TournamentConstants;
@@ -207,6 +211,7 @@ BOOL StartupResponseProto_StartupStatusIsValidValue(StartupResponseProto_Startup
   BOOL hasIsForceTutorial_:1;
   BOOL hasIsFreshRestart_:1;
   BOOL hasVersionNum_:1;
+  BOOL hasClientTime_:1;
   BOOL hasUdid_:1;
   BOOL hasApsalarId_:1;
   BOOL hasMacAddress_:1;
@@ -215,6 +220,7 @@ BOOL StartupResponseProto_StartupStatusIsValidValue(StartupResponseProto_Startup
   BOOL isForceTutorial_:1;
   BOOL isFreshRestart_:1;
   Float32 versionNum;
+  int64_t clientTime;
   NSString* udid;
   NSString* apsalarId;
   NSString* macAddress;
@@ -229,6 +235,7 @@ BOOL StartupResponseProto_StartupStatusIsValidValue(StartupResponseProto_Startup
 - (BOOL) hasIsForceTutorial;
 - (BOOL) hasFbId;
 - (BOOL) hasIsFreshRestart;
+- (BOOL) hasClientTime;
 @property (readonly, retain) NSString* udid;
 @property (readonly) Float32 versionNum;
 @property (readonly, retain) NSString* apsalarId;
@@ -237,6 +244,7 @@ BOOL StartupResponseProto_StartupStatusIsValidValue(StartupResponseProto_Startup
 - (BOOL) isForceTutorial;
 @property (readonly, retain) NSString* fbId;
 - (BOOL) isFreshRestart;
+@property (readonly) int64_t clientTime;
 
 + (StartupRequestProto*) defaultInstance;
 - (StartupRequestProto*) defaultInstance;
@@ -311,6 +319,11 @@ BOOL StartupResponseProto_StartupStatusIsValidValue(StartupResponseProto_Startup
 - (BOOL) isFreshRestart;
 - (StartupRequestProto_Builder*) setIsFreshRestart:(BOOL) value;
 - (StartupRequestProto_Builder*) clearIsFreshRestart;
+
+- (BOOL) hasClientTime;
+- (int64_t) clientTime;
+- (StartupRequestProto_Builder*) setClientTime:(int64_t) value;
+- (StartupRequestProto_Builder*) clearClientTime;
 @end
 
 @interface StartupResponseProto : PBGeneratedMessage {
@@ -598,13 +611,14 @@ BOOL StartupResponseProto_StartupStatusIsValidValue(StartupResponseProto_Startup
   BOOL hasMinNameLength_:1;
   BOOL hasMaxNameLength_:1;
   BOOL hasMaxLengthOfChatString_:1;
-  BOOL hasPvpRequiredMinLvl_:1;
   BOOL hasNumHoursBeforeReshowingGoldSale_:1;
   BOOL hasLevelToShowRateUsPopup_:1;
+  BOOL hasPvpRequiredMinLvl_:1;
   BOOL hasFbConnectRewardDiamonds_:1;
   BOOL hasNumBeginnerSalesAllowed_:1;
   BOOL hasFaqFileName_:1;
   BOOL hasMonsterConstants_:1;
+  BOOL hasMiniTuts_:1;
   BOOL hasUserMonsterConstants_:1;
   BOOL hasAdminChatUserProto_:1;
   BOOL hasTouramentConstants_:1;
@@ -619,13 +633,14 @@ BOOL StartupResponseProto_StartupStatusIsValidValue(StartupResponseProto_Startup
   int32_t minNameLength;
   int32_t maxNameLength;
   int32_t maxLengthOfChatString;
-  int32_t pvpRequiredMinLvl;
   int32_t numHoursBeforeReshowingGoldSale;
   int32_t levelToShowRateUsPopup;
+  int32_t pvpRequiredMinLvl;
   int32_t fbConnectRewardDiamonds;
   int32_t numBeginnerSalesAllowed;
   NSString* faqFileName;
   StartupResponseProto_StartupConstants_MonsterConstants* monsterConstants;
+  StartupResponseProto_StartupConstants_MiniTutorialConstants* miniTuts;
   StartupResponseProto_StartupConstants_UserMonsterConstants* userMonsterConstants;
   MinimumUserProto* adminChatUserProto;
   StartupResponseProto_StartupConstants_TournamentConstants* touramentConstants;
@@ -655,6 +670,7 @@ BOOL StartupResponseProto_StartupStatusIsValidValue(StartupResponseProto_Startup
 - (BOOL) hasGemsPerResource;
 - (BOOL) hasContinueBattleGemCostMultiplier;
 - (BOOL) hasAddAllFbFriends;
+- (BOOL) hasMiniTuts;
 @property (readonly) int32_t maxLevelForUser;
 @property (readonly) int32_t maxNumOfSingleStruct;
 @property (readonly) int32_t minNameLength;
@@ -676,6 +692,7 @@ BOOL StartupResponseProto_StartupStatusIsValidValue(StartupResponseProto_Startup
 @property (readonly) Float32 gemsPerResource;
 @property (readonly) Float32 continueBattleGemCostMultiplier;
 - (BOOL) addAllFbFriends;
+@property (readonly, retain) StartupResponseProto_StartupConstants_MiniTutorialConstants* miniTuts;
 - (NSArray*) inAppPurchasePackagesList;
 - (InAppPurchasePackageProto*) inAppPurchasePackagesAtIndex:(int32_t) index;
 - (NSArray*) animatedSpriteOffsetsList;
@@ -1105,6 +1122,99 @@ BOOL StartupResponseProto_StartupStatusIsValidValue(StartupResponseProto_Startup
 - (StartupResponseProto_StartupConstants_MonsterConstants_Builder*) clearElementalWeakness;
 @end
 
+@interface StartupResponseProto_StartupConstants_MiniTutorialConstants : PBGeneratedMessage {
+@private
+  BOOL hasMatchThreeTutorialAssetId_:1;
+  BOOL hasFirstPowerUpAssetId_:1;
+  BOOL hasRainbowTutorialAssetId_:1;
+  BOOL hasPowerUpComboTutorialAssetId_:1;
+  BOOL hasMonsterDropTutorialAssetId_:1;
+  BOOL hasElementTutorialAssetId_:1;
+  int32_t matchThreeTutorialAssetId;
+  int32_t firstPowerUpAssetId;
+  int32_t rainbowTutorialAssetId;
+  int32_t powerUpComboTutorialAssetId;
+  int32_t monsterDropTutorialAssetId;
+  int32_t elementTutorialAssetId;
+}
+- (BOOL) hasMatchThreeTutorialAssetId;
+- (BOOL) hasFirstPowerUpAssetId;
+- (BOOL) hasRainbowTutorialAssetId;
+- (BOOL) hasPowerUpComboTutorialAssetId;
+- (BOOL) hasMonsterDropTutorialAssetId;
+- (BOOL) hasElementTutorialAssetId;
+@property (readonly) int32_t matchThreeTutorialAssetId;
+@property (readonly) int32_t firstPowerUpAssetId;
+@property (readonly) int32_t rainbowTutorialAssetId;
+@property (readonly) int32_t powerUpComboTutorialAssetId;
+@property (readonly) int32_t monsterDropTutorialAssetId;
+@property (readonly) int32_t elementTutorialAssetId;
+
++ (StartupResponseProto_StartupConstants_MiniTutorialConstants*) defaultInstance;
+- (StartupResponseProto_StartupConstants_MiniTutorialConstants*) defaultInstance;
+
+- (BOOL) isInitialized;
+- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output;
+- (StartupResponseProto_StartupConstants_MiniTutorialConstants_Builder*) builder;
++ (StartupResponseProto_StartupConstants_MiniTutorialConstants_Builder*) builder;
++ (StartupResponseProto_StartupConstants_MiniTutorialConstants_Builder*) builderWithPrototype:(StartupResponseProto_StartupConstants_MiniTutorialConstants*) prototype;
+
++ (StartupResponseProto_StartupConstants_MiniTutorialConstants*) parseFromData:(NSData*) data;
++ (StartupResponseProto_StartupConstants_MiniTutorialConstants*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (StartupResponseProto_StartupConstants_MiniTutorialConstants*) parseFromInputStream:(NSInputStream*) input;
++ (StartupResponseProto_StartupConstants_MiniTutorialConstants*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (StartupResponseProto_StartupConstants_MiniTutorialConstants*) parseFromCodedInputStream:(PBCodedInputStream*) input;
++ (StartupResponseProto_StartupConstants_MiniTutorialConstants*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+@end
+
+@interface StartupResponseProto_StartupConstants_MiniTutorialConstants_Builder : PBGeneratedMessage_Builder {
+@private
+  StartupResponseProto_StartupConstants_MiniTutorialConstants* result;
+}
+
+- (StartupResponseProto_StartupConstants_MiniTutorialConstants*) defaultInstance;
+
+- (StartupResponseProto_StartupConstants_MiniTutorialConstants_Builder*) clear;
+- (StartupResponseProto_StartupConstants_MiniTutorialConstants_Builder*) clone;
+
+- (StartupResponseProto_StartupConstants_MiniTutorialConstants*) build;
+- (StartupResponseProto_StartupConstants_MiniTutorialConstants*) buildPartial;
+
+- (StartupResponseProto_StartupConstants_MiniTutorialConstants_Builder*) mergeFrom:(StartupResponseProto_StartupConstants_MiniTutorialConstants*) other;
+- (StartupResponseProto_StartupConstants_MiniTutorialConstants_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input;
+- (StartupResponseProto_StartupConstants_MiniTutorialConstants_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+
+- (BOOL) hasMatchThreeTutorialAssetId;
+- (int32_t) matchThreeTutorialAssetId;
+- (StartupResponseProto_StartupConstants_MiniTutorialConstants_Builder*) setMatchThreeTutorialAssetId:(int32_t) value;
+- (StartupResponseProto_StartupConstants_MiniTutorialConstants_Builder*) clearMatchThreeTutorialAssetId;
+
+- (BOOL) hasFirstPowerUpAssetId;
+- (int32_t) firstPowerUpAssetId;
+- (StartupResponseProto_StartupConstants_MiniTutorialConstants_Builder*) setFirstPowerUpAssetId:(int32_t) value;
+- (StartupResponseProto_StartupConstants_MiniTutorialConstants_Builder*) clearFirstPowerUpAssetId;
+
+- (BOOL) hasRainbowTutorialAssetId;
+- (int32_t) rainbowTutorialAssetId;
+- (StartupResponseProto_StartupConstants_MiniTutorialConstants_Builder*) setRainbowTutorialAssetId:(int32_t) value;
+- (StartupResponseProto_StartupConstants_MiniTutorialConstants_Builder*) clearRainbowTutorialAssetId;
+
+- (BOOL) hasPowerUpComboTutorialAssetId;
+- (int32_t) powerUpComboTutorialAssetId;
+- (StartupResponseProto_StartupConstants_MiniTutorialConstants_Builder*) setPowerUpComboTutorialAssetId:(int32_t) value;
+- (StartupResponseProto_StartupConstants_MiniTutorialConstants_Builder*) clearPowerUpComboTutorialAssetId;
+
+- (BOOL) hasMonsterDropTutorialAssetId;
+- (int32_t) monsterDropTutorialAssetId;
+- (StartupResponseProto_StartupConstants_MiniTutorialConstants_Builder*) setMonsterDropTutorialAssetId:(int32_t) value;
+- (StartupResponseProto_StartupConstants_MiniTutorialConstants_Builder*) clearMonsterDropTutorialAssetId;
+
+- (BOOL) hasElementTutorialAssetId;
+- (int32_t) elementTutorialAssetId;
+- (StartupResponseProto_StartupConstants_MiniTutorialConstants_Builder*) setElementTutorialAssetId:(int32_t) value;
+- (StartupResponseProto_StartupConstants_MiniTutorialConstants_Builder*) clearElementTutorialAssetId;
+@end
+
 @interface StartupResponseProto_StartupConstants_Builder : PBGeneratedMessage_Builder {
 @private
   StartupResponseProto_StartupConstants* result;
@@ -1252,6 +1362,13 @@ BOOL StartupResponseProto_StartupStatusIsValidValue(StartupResponseProto_Startup
 - (BOOL) addAllFbFriends;
 - (StartupResponseProto_StartupConstants_Builder*) setAddAllFbFriends:(BOOL) value;
 - (StartupResponseProto_StartupConstants_Builder*) clearAddAllFbFriends;
+
+- (BOOL) hasMiniTuts;
+- (StartupResponseProto_StartupConstants_MiniTutorialConstants*) miniTuts;
+- (StartupResponseProto_StartupConstants_Builder*) setMiniTuts:(StartupResponseProto_StartupConstants_MiniTutorialConstants*) value;
+- (StartupResponseProto_StartupConstants_Builder*) setMiniTutsBuilder:(StartupResponseProto_StartupConstants_MiniTutorialConstants_Builder*) builderForValue;
+- (StartupResponseProto_StartupConstants_Builder*) mergeMiniTuts:(StartupResponseProto_StartupConstants_MiniTutorialConstants*) value;
+- (StartupResponseProto_StartupConstants_Builder*) clearMiniTuts;
 @end
 
 @interface StartupResponseProto_TutorialConstants : PBGeneratedMessage {
@@ -1651,5 +1768,62 @@ BOOL StartupResponseProto_StartupStatusIsValidValue(StartupResponseProto_Startup
 - (StartupResponseProto_Builder*) addRaidStageHistory:(PersistentClanEventRaidStageHistoryProto*) value;
 - (StartupResponseProto_Builder*) addAllRaidStageHistory:(NSArray*) values;
 - (StartupResponseProto_Builder*) clearRaidStageHistoryList;
+@end
+
+@interface ForceLogoutResponseProto : PBGeneratedMessage {
+@private
+  BOOL hasLoginTime_:1;
+  BOOL hasPreviousLoginTime_:1;
+  int64_t loginTime;
+  int64_t previousLoginTime;
+}
+- (BOOL) hasLoginTime;
+- (BOOL) hasPreviousLoginTime;
+@property (readonly) int64_t loginTime;
+@property (readonly) int64_t previousLoginTime;
+
++ (ForceLogoutResponseProto*) defaultInstance;
+- (ForceLogoutResponseProto*) defaultInstance;
+
+- (BOOL) isInitialized;
+- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output;
+- (ForceLogoutResponseProto_Builder*) builder;
++ (ForceLogoutResponseProto_Builder*) builder;
++ (ForceLogoutResponseProto_Builder*) builderWithPrototype:(ForceLogoutResponseProto*) prototype;
+
++ (ForceLogoutResponseProto*) parseFromData:(NSData*) data;
++ (ForceLogoutResponseProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (ForceLogoutResponseProto*) parseFromInputStream:(NSInputStream*) input;
++ (ForceLogoutResponseProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (ForceLogoutResponseProto*) parseFromCodedInputStream:(PBCodedInputStream*) input;
++ (ForceLogoutResponseProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+@end
+
+@interface ForceLogoutResponseProto_Builder : PBGeneratedMessage_Builder {
+@private
+  ForceLogoutResponseProto* result;
+}
+
+- (ForceLogoutResponseProto*) defaultInstance;
+
+- (ForceLogoutResponseProto_Builder*) clear;
+- (ForceLogoutResponseProto_Builder*) clone;
+
+- (ForceLogoutResponseProto*) build;
+- (ForceLogoutResponseProto*) buildPartial;
+
+- (ForceLogoutResponseProto_Builder*) mergeFrom:(ForceLogoutResponseProto*) other;
+- (ForceLogoutResponseProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input;
+- (ForceLogoutResponseProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+
+- (BOOL) hasLoginTime;
+- (int64_t) loginTime;
+- (ForceLogoutResponseProto_Builder*) setLoginTime:(int64_t) value;
+- (ForceLogoutResponseProto_Builder*) clearLoginTime;
+
+- (BOOL) hasPreviousLoginTime;
+- (int64_t) previousLoginTime;
+- (ForceLogoutResponseProto_Builder*) setPreviousLoginTime:(int64_t) value;
+- (ForceLogoutResponseProto_Builder*) clearPreviousLoginTime;
 @end
 

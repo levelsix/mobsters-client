@@ -37,7 +37,8 @@
 
 - (void) handleConnectedToHost;
 - (void) reloadAccountWithStartupResponse:(StartupResponseProto *)startupResponse;
-- (void) tutorialFinishedWithStartupResponse:(StartupResponseProto *)startupResponse loadCityResponse:(LoadCityResponseProto *)loadCityResponse;
+- (void) tutorialReceivedStartupResponse:(StartupResponseProto *)startupResponse;
+- (void) tutorialFinished;
 
 - (void) buildingPurchased:(int)structId;
 - (void) enterDungeon:(int)taskId withDelay:(float)delay;

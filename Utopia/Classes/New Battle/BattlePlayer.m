@@ -33,6 +33,7 @@
     self.rockDamage = [gl calculateElementalDamageForMonster:monster element:MonsterProto_MonsterElementRock];
     self.name = [NSString stringWithFormat:@"%@ (lvl %d)", mp.displayName, monster.level];
     self.spritePrefix = mp.imagePrefix;
+    self.monsterId = monster.monsterId;
     self.userMonsterId = monster.userMonsterId;
     self.slotNum = monster.teamSlot;
     self.animationType = mp.attackAnimationType;
@@ -57,6 +58,7 @@
     self.maxDamage = monster.maxDmg;
     self.spritePrefix = mp.imagePrefix;
     self.animationType = mp.attackAnimationType;
+    self.monsterId = monster.monsterId;
     self.userMonsterId = monster.crsmId;
   }
   return self;

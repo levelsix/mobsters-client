@@ -23,10 +23,11 @@
 @interface DialogueViewController : UIViewController {
   int _curIndex;
   BOOL _isAnimating;
+  BOOL _useSmallBubble;
 }
 
 @property (nonatomic, retain) IBOutlet UIImageView *leftImageView;
-@property (nonatomic, retain) IBOutlet UIImageView *rightImageView;
+@property (nonatomic, retain) IBOutlet UIImageView *speechBubbleImage;
 
 @property (nonatomic, retain) IBOutlet UILabel *speakerLabel;
 @property (nonatomic, retain) IBOutlet UILabel *dialogueLabel;
@@ -41,6 +42,7 @@
 @property (nonatomic, assign) BOOL blackOutSpeakers;
 
 - (id) initWithDialogueProto:(DialogueProto *)dialogue;
+- (id) initWithDialogueProto:(DialogueProto *)dialogue useSmallBubble:(BOOL)smallBubble;
 - (void) animateNext;
 - (void) fadeOutBottomGradient;
 

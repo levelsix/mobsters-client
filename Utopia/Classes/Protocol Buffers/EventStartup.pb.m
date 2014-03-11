@@ -39,6 +39,7 @@ static PBExtensionRegistry* extensionRegistry = nil;
 @property BOOL isForceTutorial;
 @property (retain) NSString* fbId;
 @property BOOL isFreshRestart;
+@property int64_t clientTime;
 @end
 
 @implementation StartupRequestProto
@@ -109,6 +110,13 @@ static PBExtensionRegistry* extensionRegistry = nil;
 - (void) setIsFreshRestart:(BOOL) value {
   isFreshRestart_ = !!value;
 }
+- (BOOL) hasClientTime {
+  return !!hasClientTime_;
+}
+- (void) setHasClientTime:(BOOL) value {
+  hasClientTime_ = !!value;
+}
+@synthesize clientTime;
 - (void) dealloc {
   self.udid = nil;
   self.apsalarId = nil;
@@ -127,6 +135,7 @@ static PBExtensionRegistry* extensionRegistry = nil;
     self.isForceTutorial = NO;
     self.fbId = @"";
     self.isFreshRestart = NO;
+    self.clientTime = 0L;
   }
   return self;
 }
@@ -170,6 +179,9 @@ static StartupRequestProto* defaultStartupRequestProtoInstance = nil;
   if (self.hasIsFreshRestart) {
     [output writeBool:8 value:self.isFreshRestart];
   }
+  if (self.hasClientTime) {
+    [output writeInt64:9 value:self.clientTime];
+  }
   [self.unknownFields writeToCodedOutputStream:output];
 }
 - (int32_t) serializedSize {
@@ -202,6 +214,9 @@ static StartupRequestProto* defaultStartupRequestProtoInstance = nil;
   }
   if (self.hasIsFreshRestart) {
     size += computeBoolSize(8, self.isFreshRestart);
+  }
+  if (self.hasClientTime) {
+    size += computeInt64Size(9, self.clientTime);
   }
   size += self.unknownFields.serializedSize;
   memoizedSerializedSize = size;
@@ -302,6 +317,9 @@ static StartupRequestProto* defaultStartupRequestProtoInstance = nil;
   if (other.hasIsFreshRestart) {
     [self setIsFreshRestart:other.isFreshRestart];
   }
+  if (other.hasClientTime) {
+    [self setClientTime:other.clientTime];
+  }
   [self mergeUnknownFields:other.unknownFields];
   return self;
 }
@@ -353,6 +371,10 @@ static StartupRequestProto* defaultStartupRequestProtoInstance = nil;
       }
       case 64: {
         [self setIsFreshRestart:[input readBool]];
+        break;
+      }
+      case 72: {
+        [self setClientTime:[input readInt64]];
         break;
       }
     }
@@ -484,6 +506,22 @@ static StartupRequestProto* defaultStartupRequestProtoInstance = nil;
 - (StartupRequestProto_Builder*) clearIsFreshRestart {
   result.hasIsFreshRestart = NO;
   result.isFreshRestart = NO;
+  return self;
+}
+- (BOOL) hasClientTime {
+  return result.hasClientTime;
+}
+- (int64_t) clientTime {
+  return result.clientTime;
+}
+- (StartupRequestProto_Builder*) setClientTime:(int64_t) value {
+  result.hasClientTime = YES;
+  result.clientTime = value;
+  return self;
+}
+- (StartupRequestProto_Builder*) clearClientTime {
+  result.hasClientTime = NO;
+  result.clientTime = 0L;
   return self;
 }
 @end
@@ -1713,6 +1751,7 @@ static StartupResponseProto_ReferralNotificationProto* defaultStartupResponsePro
 @property Float32 gemsPerResource;
 @property Float32 continueBattleGemCostMultiplier;
 @property BOOL addAllFbFriends;
+@property (retain) StartupResponseProto_StartupConstants_MiniTutorialConstants* miniTuts;
 @end
 
 @implementation StartupResponseProto_StartupConstants
@@ -1871,6 +1910,13 @@ static StartupResponseProto_ReferralNotificationProto* defaultStartupResponsePro
 - (void) setAddAllFbFriends:(BOOL) value {
   addAllFbFriends_ = !!value;
 }
+- (BOOL) hasMiniTuts {
+  return !!hasMiniTuts_;
+}
+- (void) setHasMiniTuts:(BOOL) value {
+  hasMiniTuts_ = !!value;
+}
+@synthesize miniTuts;
 - (void) dealloc {
   self.mutableInAppPurchasePackagesList = nil;
   self.mutableAnimatedSpriteOffsetsList = nil;
@@ -1881,6 +1927,7 @@ static StartupResponseProto_ReferralNotificationProto* defaultStartupResponsePro
   self.adminChatUserProto = nil;
   self.userMonsterConstants = nil;
   self.monsterConstants = nil;
+  self.miniTuts = nil;
   [super dealloc];
 }
 - (id) init {
@@ -1906,6 +1953,7 @@ static StartupResponseProto_ReferralNotificationProto* defaultStartupResponsePro
     self.gemsPerResource = 0;
     self.continueBattleGemCostMultiplier = 0;
     self.addAllFbFriends = NO;
+    self.miniTuts = [StartupResponseProto_StartupConstants_MiniTutorialConstants defaultInstance];
   }
   return self;
 }
@@ -2008,6 +2056,9 @@ static StartupResponseProto_StartupConstants* defaultStartupResponseProto_Startu
   if (self.hasAddAllFbFriends) {
     [output writeBool:23 value:self.addAllFbFriends];
   }
+  if (self.hasMiniTuts) {
+    [output writeMessage:24 value:self.miniTuts];
+  }
   [self.unknownFields writeToCodedOutputStream:output];
 }
 - (int32_t) serializedSize {
@@ -2085,6 +2136,9 @@ static StartupResponseProto_StartupConstants* defaultStartupResponseProto_Startu
   }
   if (self.hasAddAllFbFriends) {
     size += computeBoolSize(23, self.addAllFbFriends);
+  }
+  if (self.hasMiniTuts) {
+    size += computeMessageSize(24, self.miniTuts);
   }
   size += self.unknownFields.serializedSize;
   memoizedSerializedSize = size;
@@ -3699,6 +3753,373 @@ static StartupResponseProto_StartupConstants_MonsterConstants* defaultStartupRes
 }
 @end
 
+@interface StartupResponseProto_StartupConstants_MiniTutorialConstants ()
+@property int32_t matchThreeTutorialAssetId;
+@property int32_t firstPowerUpAssetId;
+@property int32_t rainbowTutorialAssetId;
+@property int32_t powerUpComboTutorialAssetId;
+@property int32_t monsterDropTutorialAssetId;
+@property int32_t elementTutorialAssetId;
+@end
+
+@implementation StartupResponseProto_StartupConstants_MiniTutorialConstants
+
+- (BOOL) hasMatchThreeTutorialAssetId {
+  return !!hasMatchThreeTutorialAssetId_;
+}
+- (void) setHasMatchThreeTutorialAssetId:(BOOL) value {
+  hasMatchThreeTutorialAssetId_ = !!value;
+}
+@synthesize matchThreeTutorialAssetId;
+- (BOOL) hasFirstPowerUpAssetId {
+  return !!hasFirstPowerUpAssetId_;
+}
+- (void) setHasFirstPowerUpAssetId:(BOOL) value {
+  hasFirstPowerUpAssetId_ = !!value;
+}
+@synthesize firstPowerUpAssetId;
+- (BOOL) hasRainbowTutorialAssetId {
+  return !!hasRainbowTutorialAssetId_;
+}
+- (void) setHasRainbowTutorialAssetId:(BOOL) value {
+  hasRainbowTutorialAssetId_ = !!value;
+}
+@synthesize rainbowTutorialAssetId;
+- (BOOL) hasPowerUpComboTutorialAssetId {
+  return !!hasPowerUpComboTutorialAssetId_;
+}
+- (void) setHasPowerUpComboTutorialAssetId:(BOOL) value {
+  hasPowerUpComboTutorialAssetId_ = !!value;
+}
+@synthesize powerUpComboTutorialAssetId;
+- (BOOL) hasMonsterDropTutorialAssetId {
+  return !!hasMonsterDropTutorialAssetId_;
+}
+- (void) setHasMonsterDropTutorialAssetId:(BOOL) value {
+  hasMonsterDropTutorialAssetId_ = !!value;
+}
+@synthesize monsterDropTutorialAssetId;
+- (BOOL) hasElementTutorialAssetId {
+  return !!hasElementTutorialAssetId_;
+}
+- (void) setHasElementTutorialAssetId:(BOOL) value {
+  hasElementTutorialAssetId_ = !!value;
+}
+@synthesize elementTutorialAssetId;
+- (void) dealloc {
+  [super dealloc];
+}
+- (id) init {
+  if ((self = [super init])) {
+    self.matchThreeTutorialAssetId = 0;
+    self.firstPowerUpAssetId = 0;
+    self.rainbowTutorialAssetId = 0;
+    self.powerUpComboTutorialAssetId = 0;
+    self.monsterDropTutorialAssetId = 0;
+    self.elementTutorialAssetId = 0;
+  }
+  return self;
+}
+static StartupResponseProto_StartupConstants_MiniTutorialConstants* defaultStartupResponseProto_StartupConstants_MiniTutorialConstantsInstance = nil;
++ (void) initialize {
+  if (self == [StartupResponseProto_StartupConstants_MiniTutorialConstants class]) {
+    defaultStartupResponseProto_StartupConstants_MiniTutorialConstantsInstance = [[StartupResponseProto_StartupConstants_MiniTutorialConstants alloc] init];
+  }
+}
++ (StartupResponseProto_StartupConstants_MiniTutorialConstants*) defaultInstance {
+  return defaultStartupResponseProto_StartupConstants_MiniTutorialConstantsInstance;
+}
+- (StartupResponseProto_StartupConstants_MiniTutorialConstants*) defaultInstance {
+  return defaultStartupResponseProto_StartupConstants_MiniTutorialConstantsInstance;
+}
+- (BOOL) isInitialized {
+  return YES;
+}
+- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output {
+  if (self.hasMatchThreeTutorialAssetId) {
+    [output writeInt32:1 value:self.matchThreeTutorialAssetId];
+  }
+  if (self.hasFirstPowerUpAssetId) {
+    [output writeInt32:2 value:self.firstPowerUpAssetId];
+  }
+  if (self.hasRainbowTutorialAssetId) {
+    [output writeInt32:3 value:self.rainbowTutorialAssetId];
+  }
+  if (self.hasPowerUpComboTutorialAssetId) {
+    [output writeInt32:4 value:self.powerUpComboTutorialAssetId];
+  }
+  if (self.hasMonsterDropTutorialAssetId) {
+    [output writeInt32:5 value:self.monsterDropTutorialAssetId];
+  }
+  if (self.hasElementTutorialAssetId) {
+    [output writeInt32:6 value:self.elementTutorialAssetId];
+  }
+  [self.unknownFields writeToCodedOutputStream:output];
+}
+- (int32_t) serializedSize {
+  int32_t size = memoizedSerializedSize;
+  if (size != -1) {
+    return size;
+  }
+
+  size = 0;
+  if (self.hasMatchThreeTutorialAssetId) {
+    size += computeInt32Size(1, self.matchThreeTutorialAssetId);
+  }
+  if (self.hasFirstPowerUpAssetId) {
+    size += computeInt32Size(2, self.firstPowerUpAssetId);
+  }
+  if (self.hasRainbowTutorialAssetId) {
+    size += computeInt32Size(3, self.rainbowTutorialAssetId);
+  }
+  if (self.hasPowerUpComboTutorialAssetId) {
+    size += computeInt32Size(4, self.powerUpComboTutorialAssetId);
+  }
+  if (self.hasMonsterDropTutorialAssetId) {
+    size += computeInt32Size(5, self.monsterDropTutorialAssetId);
+  }
+  if (self.hasElementTutorialAssetId) {
+    size += computeInt32Size(6, self.elementTutorialAssetId);
+  }
+  size += self.unknownFields.serializedSize;
+  memoizedSerializedSize = size;
+  return size;
+}
++ (StartupResponseProto_StartupConstants_MiniTutorialConstants*) parseFromData:(NSData*) data {
+  return (StartupResponseProto_StartupConstants_MiniTutorialConstants*)[[[StartupResponseProto_StartupConstants_MiniTutorialConstants builder] mergeFromData:data] build];
+}
++ (StartupResponseProto_StartupConstants_MiniTutorialConstants*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (StartupResponseProto_StartupConstants_MiniTutorialConstants*)[[[StartupResponseProto_StartupConstants_MiniTutorialConstants builder] mergeFromData:data extensionRegistry:extensionRegistry] build];
+}
++ (StartupResponseProto_StartupConstants_MiniTutorialConstants*) parseFromInputStream:(NSInputStream*) input {
+  return (StartupResponseProto_StartupConstants_MiniTutorialConstants*)[[[StartupResponseProto_StartupConstants_MiniTutorialConstants builder] mergeFromInputStream:input] build];
+}
++ (StartupResponseProto_StartupConstants_MiniTutorialConstants*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (StartupResponseProto_StartupConstants_MiniTutorialConstants*)[[[StartupResponseProto_StartupConstants_MiniTutorialConstants builder] mergeFromInputStream:input extensionRegistry:extensionRegistry] build];
+}
++ (StartupResponseProto_StartupConstants_MiniTutorialConstants*) parseFromCodedInputStream:(PBCodedInputStream*) input {
+  return (StartupResponseProto_StartupConstants_MiniTutorialConstants*)[[[StartupResponseProto_StartupConstants_MiniTutorialConstants builder] mergeFromCodedInputStream:input] build];
+}
++ (StartupResponseProto_StartupConstants_MiniTutorialConstants*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (StartupResponseProto_StartupConstants_MiniTutorialConstants*)[[[StartupResponseProto_StartupConstants_MiniTutorialConstants builder] mergeFromCodedInputStream:input extensionRegistry:extensionRegistry] build];
+}
++ (StartupResponseProto_StartupConstants_MiniTutorialConstants_Builder*) builder {
+  return [[[StartupResponseProto_StartupConstants_MiniTutorialConstants_Builder alloc] init] autorelease];
+}
++ (StartupResponseProto_StartupConstants_MiniTutorialConstants_Builder*) builderWithPrototype:(StartupResponseProto_StartupConstants_MiniTutorialConstants*) prototype {
+  return [[StartupResponseProto_StartupConstants_MiniTutorialConstants builder] mergeFrom:prototype];
+}
+- (StartupResponseProto_StartupConstants_MiniTutorialConstants_Builder*) builder {
+  return [StartupResponseProto_StartupConstants_MiniTutorialConstants builder];
+}
+@end
+
+@interface StartupResponseProto_StartupConstants_MiniTutorialConstants_Builder()
+@property (retain) StartupResponseProto_StartupConstants_MiniTutorialConstants* result;
+@end
+
+@implementation StartupResponseProto_StartupConstants_MiniTutorialConstants_Builder
+@synthesize result;
+- (void) dealloc {
+  self.result = nil;
+  [super dealloc];
+}
+- (id) init {
+  if ((self = [super init])) {
+    self.result = [[[StartupResponseProto_StartupConstants_MiniTutorialConstants alloc] init] autorelease];
+  }
+  return self;
+}
+- (PBGeneratedMessage*) internalGetResult {
+  return result;
+}
+- (StartupResponseProto_StartupConstants_MiniTutorialConstants_Builder*) clear {
+  self.result = [[[StartupResponseProto_StartupConstants_MiniTutorialConstants alloc] init] autorelease];
+  return self;
+}
+- (StartupResponseProto_StartupConstants_MiniTutorialConstants_Builder*) clone {
+  return [StartupResponseProto_StartupConstants_MiniTutorialConstants builderWithPrototype:result];
+}
+- (StartupResponseProto_StartupConstants_MiniTutorialConstants*) defaultInstance {
+  return [StartupResponseProto_StartupConstants_MiniTutorialConstants defaultInstance];
+}
+- (StartupResponseProto_StartupConstants_MiniTutorialConstants*) build {
+  [self checkInitialized];
+  return [self buildPartial];
+}
+- (StartupResponseProto_StartupConstants_MiniTutorialConstants*) buildPartial {
+  StartupResponseProto_StartupConstants_MiniTutorialConstants* returnMe = [[result retain] autorelease];
+  self.result = nil;
+  return returnMe;
+}
+- (StartupResponseProto_StartupConstants_MiniTutorialConstants_Builder*) mergeFrom:(StartupResponseProto_StartupConstants_MiniTutorialConstants*) other {
+  if (other == [StartupResponseProto_StartupConstants_MiniTutorialConstants defaultInstance]) {
+    return self;
+  }
+  if (other.hasMatchThreeTutorialAssetId) {
+    [self setMatchThreeTutorialAssetId:other.matchThreeTutorialAssetId];
+  }
+  if (other.hasFirstPowerUpAssetId) {
+    [self setFirstPowerUpAssetId:other.firstPowerUpAssetId];
+  }
+  if (other.hasRainbowTutorialAssetId) {
+    [self setRainbowTutorialAssetId:other.rainbowTutorialAssetId];
+  }
+  if (other.hasPowerUpComboTutorialAssetId) {
+    [self setPowerUpComboTutorialAssetId:other.powerUpComboTutorialAssetId];
+  }
+  if (other.hasMonsterDropTutorialAssetId) {
+    [self setMonsterDropTutorialAssetId:other.monsterDropTutorialAssetId];
+  }
+  if (other.hasElementTutorialAssetId) {
+    [self setElementTutorialAssetId:other.elementTutorialAssetId];
+  }
+  [self mergeUnknownFields:other.unknownFields];
+  return self;
+}
+- (StartupResponseProto_StartupConstants_MiniTutorialConstants_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input {
+  return [self mergeFromCodedInputStream:input extensionRegistry:[PBExtensionRegistry emptyRegistry]];
+}
+- (StartupResponseProto_StartupConstants_MiniTutorialConstants_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  PBUnknownFieldSet_Builder* unknownFields = [PBUnknownFieldSet builderWithUnknownFields:self.unknownFields];
+  while (YES) {
+    int32_t tag = [input readTag];
+    switch (tag) {
+      case 0:
+        [self setUnknownFields:[unknownFields build]];
+        return self;
+      default: {
+        if (![self parseUnknownField:input unknownFields:unknownFields extensionRegistry:extensionRegistry tag:tag]) {
+          [self setUnknownFields:[unknownFields build]];
+          return self;
+        }
+        break;
+      }
+      case 8: {
+        [self setMatchThreeTutorialAssetId:[input readInt32]];
+        break;
+      }
+      case 16: {
+        [self setFirstPowerUpAssetId:[input readInt32]];
+        break;
+      }
+      case 24: {
+        [self setRainbowTutorialAssetId:[input readInt32]];
+        break;
+      }
+      case 32: {
+        [self setPowerUpComboTutorialAssetId:[input readInt32]];
+        break;
+      }
+      case 40: {
+        [self setMonsterDropTutorialAssetId:[input readInt32]];
+        break;
+      }
+      case 48: {
+        [self setElementTutorialAssetId:[input readInt32]];
+        break;
+      }
+    }
+  }
+}
+- (BOOL) hasMatchThreeTutorialAssetId {
+  return result.hasMatchThreeTutorialAssetId;
+}
+- (int32_t) matchThreeTutorialAssetId {
+  return result.matchThreeTutorialAssetId;
+}
+- (StartupResponseProto_StartupConstants_MiniTutorialConstants_Builder*) setMatchThreeTutorialAssetId:(int32_t) value {
+  result.hasMatchThreeTutorialAssetId = YES;
+  result.matchThreeTutorialAssetId = value;
+  return self;
+}
+- (StartupResponseProto_StartupConstants_MiniTutorialConstants_Builder*) clearMatchThreeTutorialAssetId {
+  result.hasMatchThreeTutorialAssetId = NO;
+  result.matchThreeTutorialAssetId = 0;
+  return self;
+}
+- (BOOL) hasFirstPowerUpAssetId {
+  return result.hasFirstPowerUpAssetId;
+}
+- (int32_t) firstPowerUpAssetId {
+  return result.firstPowerUpAssetId;
+}
+- (StartupResponseProto_StartupConstants_MiniTutorialConstants_Builder*) setFirstPowerUpAssetId:(int32_t) value {
+  result.hasFirstPowerUpAssetId = YES;
+  result.firstPowerUpAssetId = value;
+  return self;
+}
+- (StartupResponseProto_StartupConstants_MiniTutorialConstants_Builder*) clearFirstPowerUpAssetId {
+  result.hasFirstPowerUpAssetId = NO;
+  result.firstPowerUpAssetId = 0;
+  return self;
+}
+- (BOOL) hasRainbowTutorialAssetId {
+  return result.hasRainbowTutorialAssetId;
+}
+- (int32_t) rainbowTutorialAssetId {
+  return result.rainbowTutorialAssetId;
+}
+- (StartupResponseProto_StartupConstants_MiniTutorialConstants_Builder*) setRainbowTutorialAssetId:(int32_t) value {
+  result.hasRainbowTutorialAssetId = YES;
+  result.rainbowTutorialAssetId = value;
+  return self;
+}
+- (StartupResponseProto_StartupConstants_MiniTutorialConstants_Builder*) clearRainbowTutorialAssetId {
+  result.hasRainbowTutorialAssetId = NO;
+  result.rainbowTutorialAssetId = 0;
+  return self;
+}
+- (BOOL) hasPowerUpComboTutorialAssetId {
+  return result.hasPowerUpComboTutorialAssetId;
+}
+- (int32_t) powerUpComboTutorialAssetId {
+  return result.powerUpComboTutorialAssetId;
+}
+- (StartupResponseProto_StartupConstants_MiniTutorialConstants_Builder*) setPowerUpComboTutorialAssetId:(int32_t) value {
+  result.hasPowerUpComboTutorialAssetId = YES;
+  result.powerUpComboTutorialAssetId = value;
+  return self;
+}
+- (StartupResponseProto_StartupConstants_MiniTutorialConstants_Builder*) clearPowerUpComboTutorialAssetId {
+  result.hasPowerUpComboTutorialAssetId = NO;
+  result.powerUpComboTutorialAssetId = 0;
+  return self;
+}
+- (BOOL) hasMonsterDropTutorialAssetId {
+  return result.hasMonsterDropTutorialAssetId;
+}
+- (int32_t) monsterDropTutorialAssetId {
+  return result.monsterDropTutorialAssetId;
+}
+- (StartupResponseProto_StartupConstants_MiniTutorialConstants_Builder*) setMonsterDropTutorialAssetId:(int32_t) value {
+  result.hasMonsterDropTutorialAssetId = YES;
+  result.monsterDropTutorialAssetId = value;
+  return self;
+}
+- (StartupResponseProto_StartupConstants_MiniTutorialConstants_Builder*) clearMonsterDropTutorialAssetId {
+  result.hasMonsterDropTutorialAssetId = NO;
+  result.monsterDropTutorialAssetId = 0;
+  return self;
+}
+- (BOOL) hasElementTutorialAssetId {
+  return result.hasElementTutorialAssetId;
+}
+- (int32_t) elementTutorialAssetId {
+  return result.elementTutorialAssetId;
+}
+- (StartupResponseProto_StartupConstants_MiniTutorialConstants_Builder*) setElementTutorialAssetId:(int32_t) value {
+  result.hasElementTutorialAssetId = YES;
+  result.elementTutorialAssetId = value;
+  return self;
+}
+- (StartupResponseProto_StartupConstants_MiniTutorialConstants_Builder*) clearElementTutorialAssetId {
+  result.hasElementTutorialAssetId = NO;
+  result.elementTutorialAssetId = 0;
+  return self;
+}
+@end
+
 @interface StartupResponseProto_StartupConstants_Builder()
 @property (retain) StartupResponseProto_StartupConstants* result;
 @end
@@ -3815,6 +4236,9 @@ static StartupResponseProto_StartupConstants_MonsterConstants* defaultStartupRes
   }
   if (other.hasAddAllFbFriends) {
     [self setAddAllFbFriends:other.addAllFbFriends];
+  }
+  if (other.hasMiniTuts) {
+    [self mergeMiniTuts:other.miniTuts];
   }
   [self mergeUnknownFields:other.unknownFields];
   return self;
@@ -3961,6 +4385,15 @@ static StartupResponseProto_StartupConstants_MonsterConstants* defaultStartupRes
       }
       case 184: {
         [self setAddAllFbFriends:[input readBool]];
+        break;
+      }
+      case 194: {
+        StartupResponseProto_StartupConstants_MiniTutorialConstants_Builder* subBuilder = [StartupResponseProto_StartupConstants_MiniTutorialConstants builder];
+        if (self.hasMiniTuts) {
+          [subBuilder mergeFrom:self.miniTuts];
+        }
+        [input readMessage:subBuilder extensionRegistry:extensionRegistry];
+        [self setMiniTuts:[subBuilder buildPartial]];
         break;
       }
     }
@@ -4442,6 +4875,36 @@ static StartupResponseProto_StartupConstants_MonsterConstants* defaultStartupRes
 - (StartupResponseProto_StartupConstants_Builder*) clearAddAllFbFriends {
   result.hasAddAllFbFriends = NO;
   result.addAllFbFriends = NO;
+  return self;
+}
+- (BOOL) hasMiniTuts {
+  return result.hasMiniTuts;
+}
+- (StartupResponseProto_StartupConstants_MiniTutorialConstants*) miniTuts {
+  return result.miniTuts;
+}
+- (StartupResponseProto_StartupConstants_Builder*) setMiniTuts:(StartupResponseProto_StartupConstants_MiniTutorialConstants*) value {
+  result.hasMiniTuts = YES;
+  result.miniTuts = value;
+  return self;
+}
+- (StartupResponseProto_StartupConstants_Builder*) setMiniTutsBuilder:(StartupResponseProto_StartupConstants_MiniTutorialConstants_Builder*) builderForValue {
+  return [self setMiniTuts:[builderForValue build]];
+}
+- (StartupResponseProto_StartupConstants_Builder*) mergeMiniTuts:(StartupResponseProto_StartupConstants_MiniTutorialConstants*) value {
+  if (result.hasMiniTuts &&
+      result.miniTuts != [StartupResponseProto_StartupConstants_MiniTutorialConstants defaultInstance]) {
+    result.miniTuts =
+      [[[StartupResponseProto_StartupConstants_MiniTutorialConstants builderWithPrototype:result.miniTuts] mergeFrom:value] buildPartial];
+  } else {
+    result.miniTuts = value;
+  }
+  result.hasMiniTuts = YES;
+  return self;
+}
+- (StartupResponseProto_StartupConstants_Builder*) clearMiniTuts {
+  result.hasMiniTuts = NO;
+  result.miniTuts = [StartupResponseProto_StartupConstants_MiniTutorialConstants defaultInstance];
   return self;
 }
 @end
@@ -6472,6 +6935,221 @@ static StartupResponseProto_TutorialConstants* defaultStartupResponseProto_Tutor
     result.mutableRaidStageHistoryList = [NSMutableArray array];
   }
   [result.mutableRaidStageHistoryList addObject:value];
+  return self;
+}
+@end
+
+@interface ForceLogoutResponseProto ()
+@property int64_t loginTime;
+@property int64_t previousLoginTime;
+@end
+
+@implementation ForceLogoutResponseProto
+
+- (BOOL) hasLoginTime {
+  return !!hasLoginTime_;
+}
+- (void) setHasLoginTime:(BOOL) value {
+  hasLoginTime_ = !!value;
+}
+@synthesize loginTime;
+- (BOOL) hasPreviousLoginTime {
+  return !!hasPreviousLoginTime_;
+}
+- (void) setHasPreviousLoginTime:(BOOL) value {
+  hasPreviousLoginTime_ = !!value;
+}
+@synthesize previousLoginTime;
+- (void) dealloc {
+  [super dealloc];
+}
+- (id) init {
+  if ((self = [super init])) {
+    self.loginTime = 0L;
+    self.previousLoginTime = 0L;
+  }
+  return self;
+}
+static ForceLogoutResponseProto* defaultForceLogoutResponseProtoInstance = nil;
++ (void) initialize {
+  if (self == [ForceLogoutResponseProto class]) {
+    defaultForceLogoutResponseProtoInstance = [[ForceLogoutResponseProto alloc] init];
+  }
+}
++ (ForceLogoutResponseProto*) defaultInstance {
+  return defaultForceLogoutResponseProtoInstance;
+}
+- (ForceLogoutResponseProto*) defaultInstance {
+  return defaultForceLogoutResponseProtoInstance;
+}
+- (BOOL) isInitialized {
+  return YES;
+}
+- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output {
+  if (self.hasLoginTime) {
+    [output writeInt64:1 value:self.loginTime];
+  }
+  if (self.hasPreviousLoginTime) {
+    [output writeInt64:2 value:self.previousLoginTime];
+  }
+  [self.unknownFields writeToCodedOutputStream:output];
+}
+- (int32_t) serializedSize {
+  int32_t size = memoizedSerializedSize;
+  if (size != -1) {
+    return size;
+  }
+
+  size = 0;
+  if (self.hasLoginTime) {
+    size += computeInt64Size(1, self.loginTime);
+  }
+  if (self.hasPreviousLoginTime) {
+    size += computeInt64Size(2, self.previousLoginTime);
+  }
+  size += self.unknownFields.serializedSize;
+  memoizedSerializedSize = size;
+  return size;
+}
++ (ForceLogoutResponseProto*) parseFromData:(NSData*) data {
+  return (ForceLogoutResponseProto*)[[[ForceLogoutResponseProto builder] mergeFromData:data] build];
+}
++ (ForceLogoutResponseProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (ForceLogoutResponseProto*)[[[ForceLogoutResponseProto builder] mergeFromData:data extensionRegistry:extensionRegistry] build];
+}
++ (ForceLogoutResponseProto*) parseFromInputStream:(NSInputStream*) input {
+  return (ForceLogoutResponseProto*)[[[ForceLogoutResponseProto builder] mergeFromInputStream:input] build];
+}
++ (ForceLogoutResponseProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (ForceLogoutResponseProto*)[[[ForceLogoutResponseProto builder] mergeFromInputStream:input extensionRegistry:extensionRegistry] build];
+}
++ (ForceLogoutResponseProto*) parseFromCodedInputStream:(PBCodedInputStream*) input {
+  return (ForceLogoutResponseProto*)[[[ForceLogoutResponseProto builder] mergeFromCodedInputStream:input] build];
+}
++ (ForceLogoutResponseProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (ForceLogoutResponseProto*)[[[ForceLogoutResponseProto builder] mergeFromCodedInputStream:input extensionRegistry:extensionRegistry] build];
+}
++ (ForceLogoutResponseProto_Builder*) builder {
+  return [[[ForceLogoutResponseProto_Builder alloc] init] autorelease];
+}
++ (ForceLogoutResponseProto_Builder*) builderWithPrototype:(ForceLogoutResponseProto*) prototype {
+  return [[ForceLogoutResponseProto builder] mergeFrom:prototype];
+}
+- (ForceLogoutResponseProto_Builder*) builder {
+  return [ForceLogoutResponseProto builder];
+}
+@end
+
+@interface ForceLogoutResponseProto_Builder()
+@property (retain) ForceLogoutResponseProto* result;
+@end
+
+@implementation ForceLogoutResponseProto_Builder
+@synthesize result;
+- (void) dealloc {
+  self.result = nil;
+  [super dealloc];
+}
+- (id) init {
+  if ((self = [super init])) {
+    self.result = [[[ForceLogoutResponseProto alloc] init] autorelease];
+  }
+  return self;
+}
+- (PBGeneratedMessage*) internalGetResult {
+  return result;
+}
+- (ForceLogoutResponseProto_Builder*) clear {
+  self.result = [[[ForceLogoutResponseProto alloc] init] autorelease];
+  return self;
+}
+- (ForceLogoutResponseProto_Builder*) clone {
+  return [ForceLogoutResponseProto builderWithPrototype:result];
+}
+- (ForceLogoutResponseProto*) defaultInstance {
+  return [ForceLogoutResponseProto defaultInstance];
+}
+- (ForceLogoutResponseProto*) build {
+  [self checkInitialized];
+  return [self buildPartial];
+}
+- (ForceLogoutResponseProto*) buildPartial {
+  ForceLogoutResponseProto* returnMe = [[result retain] autorelease];
+  self.result = nil;
+  return returnMe;
+}
+- (ForceLogoutResponseProto_Builder*) mergeFrom:(ForceLogoutResponseProto*) other {
+  if (other == [ForceLogoutResponseProto defaultInstance]) {
+    return self;
+  }
+  if (other.hasLoginTime) {
+    [self setLoginTime:other.loginTime];
+  }
+  if (other.hasPreviousLoginTime) {
+    [self setPreviousLoginTime:other.previousLoginTime];
+  }
+  [self mergeUnknownFields:other.unknownFields];
+  return self;
+}
+- (ForceLogoutResponseProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input {
+  return [self mergeFromCodedInputStream:input extensionRegistry:[PBExtensionRegistry emptyRegistry]];
+}
+- (ForceLogoutResponseProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  PBUnknownFieldSet_Builder* unknownFields = [PBUnknownFieldSet builderWithUnknownFields:self.unknownFields];
+  while (YES) {
+    int32_t tag = [input readTag];
+    switch (tag) {
+      case 0:
+        [self setUnknownFields:[unknownFields build]];
+        return self;
+      default: {
+        if (![self parseUnknownField:input unknownFields:unknownFields extensionRegistry:extensionRegistry tag:tag]) {
+          [self setUnknownFields:[unknownFields build]];
+          return self;
+        }
+        break;
+      }
+      case 8: {
+        [self setLoginTime:[input readInt64]];
+        break;
+      }
+      case 16: {
+        [self setPreviousLoginTime:[input readInt64]];
+        break;
+      }
+    }
+  }
+}
+- (BOOL) hasLoginTime {
+  return result.hasLoginTime;
+}
+- (int64_t) loginTime {
+  return result.loginTime;
+}
+- (ForceLogoutResponseProto_Builder*) setLoginTime:(int64_t) value {
+  result.hasLoginTime = YES;
+  result.loginTime = value;
+  return self;
+}
+- (ForceLogoutResponseProto_Builder*) clearLoginTime {
+  result.hasLoginTime = NO;
+  result.loginTime = 0L;
+  return self;
+}
+- (BOOL) hasPreviousLoginTime {
+  return result.hasPreviousLoginTime;
+}
+- (int64_t) previousLoginTime {
+  return result.previousLoginTime;
+}
+- (ForceLogoutResponseProto_Builder*) setPreviousLoginTime:(int64_t) value {
+  result.hasPreviousLoginTime = YES;
+  result.previousLoginTime = value;
+  return self;
+}
+- (ForceLogoutResponseProto_Builder*) clearPreviousLoginTime {
+  result.hasPreviousLoginTime = NO;
+  result.previousLoginTime = 0L;
   return self;
 }
 @end

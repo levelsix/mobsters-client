@@ -1146,6 +1146,7 @@ static DialogueProto* defaultDialogueProtoInstance = nil;
 
 @interface DialogueProto_SpeechSegmentProto ()
 @property (retain) NSString* speaker;
+@property (retain) NSString* speakerImage;
 @property (retain) NSString* speakerText;
 @property BOOL isLeftSide;
 @end
@@ -1159,6 +1160,13 @@ static DialogueProto* defaultDialogueProtoInstance = nil;
   hasSpeaker_ = !!value;
 }
 @synthesize speaker;
+- (BOOL) hasSpeakerImage {
+  return !!hasSpeakerImage_;
+}
+- (void) setHasSpeakerImage:(BOOL) value {
+  hasSpeakerImage_ = !!value;
+}
+@synthesize speakerImage;
 - (BOOL) hasSpeakerText {
   return !!hasSpeakerText_;
 }
@@ -1180,12 +1188,14 @@ static DialogueProto* defaultDialogueProtoInstance = nil;
 }
 - (void) dealloc {
   self.speaker = nil;
+  self.speakerImage = nil;
   self.speakerText = nil;
   [super dealloc];
 }
 - (id) init {
   if ((self = [super init])) {
     self.speaker = @"";
+    self.speakerImage = @"";
     self.speakerText = @"";
     self.isLeftSide = NO;
   }
@@ -1210,11 +1220,14 @@ static DialogueProto_SpeechSegmentProto* defaultDialogueProto_SpeechSegmentProto
   if (self.hasSpeaker) {
     [output writeString:1 value:self.speaker];
   }
+  if (self.hasSpeakerImage) {
+    [output writeString:2 value:self.speakerImage];
+  }
   if (self.hasSpeakerText) {
-    [output writeString:2 value:self.speakerText];
+    [output writeString:3 value:self.speakerText];
   }
   if (self.hasIsLeftSide) {
-    [output writeBool:3 value:self.isLeftSide];
+    [output writeBool:4 value:self.isLeftSide];
   }
   [self.unknownFields writeToCodedOutputStream:output];
 }
@@ -1228,11 +1241,14 @@ static DialogueProto_SpeechSegmentProto* defaultDialogueProto_SpeechSegmentProto
   if (self.hasSpeaker) {
     size += computeStringSize(1, self.speaker);
   }
+  if (self.hasSpeakerImage) {
+    size += computeStringSize(2, self.speakerImage);
+  }
   if (self.hasSpeakerText) {
-    size += computeStringSize(2, self.speakerText);
+    size += computeStringSize(3, self.speakerText);
   }
   if (self.hasIsLeftSide) {
-    size += computeBoolSize(3, self.isLeftSide);
+    size += computeBoolSize(4, self.isLeftSide);
   }
   size += self.unknownFields.serializedSize;
   memoizedSerializedSize = size;
@@ -1312,6 +1328,9 @@ static DialogueProto_SpeechSegmentProto* defaultDialogueProto_SpeechSegmentProto
   if (other.hasSpeaker) {
     [self setSpeaker:other.speaker];
   }
+  if (other.hasSpeakerImage) {
+    [self setSpeakerImage:other.speakerImage];
+  }
   if (other.hasSpeakerText) {
     [self setSpeakerText:other.speakerText];
   }
@@ -1344,10 +1363,14 @@ static DialogueProto_SpeechSegmentProto* defaultDialogueProto_SpeechSegmentProto
         break;
       }
       case 18: {
+        [self setSpeakerImage:[input readString]];
+        break;
+      }
+      case 26: {
         [self setSpeakerText:[input readString]];
         break;
       }
-      case 24: {
+      case 32: {
         [self setIsLeftSide:[input readBool]];
         break;
       }
@@ -1368,6 +1391,22 @@ static DialogueProto_SpeechSegmentProto* defaultDialogueProto_SpeechSegmentProto
 - (DialogueProto_SpeechSegmentProto_Builder*) clearSpeaker {
   result.hasSpeaker = NO;
   result.speaker = @"";
+  return self;
+}
+- (BOOL) hasSpeakerImage {
+  return result.hasSpeakerImage;
+}
+- (NSString*) speakerImage {
+  return result.speakerImage;
+}
+- (DialogueProto_SpeechSegmentProto_Builder*) setSpeakerImage:(NSString*) value {
+  result.hasSpeakerImage = YES;
+  result.speakerImage = value;
+  return self;
+}
+- (DialogueProto_SpeechSegmentProto_Builder*) clearSpeakerImage {
+  result.hasSpeakerImage = NO;
+  result.speakerImage = @"";
   return self;
 }
 - (BOOL) hasSpeakerText {

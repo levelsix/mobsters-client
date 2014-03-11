@@ -88,6 +88,8 @@
 - (int) sendRetrieveUsersForUserIds:(NSArray *)userIds includeCurMonsterTeam:(BOOL)includeCurMonsterTeam;
 
 - (int) sendAPNSMessage:(NSString *)deviceToken;
+- (int) sendSetGameCenterMessage:(NSString *)gameCenterId;
+- (int) sendSetFacebookIdMessage:(NSString *)facebookId;
 
 - (int) sendEarnFreeDiamondsFBConnectMessageClientTime:(uint64_t)time;
 

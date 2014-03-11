@@ -12,20 +12,6 @@
 
 @implementation TutorialElementsBattleLayer
 
-- (id) initWithConstants:(StartupResponseProto_TutorialConstants *)constants {
-  if ((self = [super initWithConstants:constants])) {
-    Globals *gl = [Globals sharedGlobals];
-    UserMonster *um = [[UserMonster alloc] init];
-    um.userMonsterId = 1;
-    um.monsterId = constants.enemyMonsterId;
-    um.level = 1;
-    um.curHealth = [gl calculateMaxHealthForMonster:um];
-    BattlePlayer *bp = [BattlePlayer playerWithMonster:um];
-    self.enemyTeam = [NSArray arrayWithObject:bp];
-  }
-  return self;
-}
-
 - (void) beginFirstMove {
   [super beginFirstMove];
   
@@ -52,10 +38,6 @@
                        withForcedMove:[NSSet setWithObjects:
                                        [NSValue valueWithCGPoint:ccp(5, 2)],
                                        [NSValue valueWithCGPoint:ccp(5, 1)], nil]];
-}
-
-- (CGSize) gridSize {
-  return CGSizeMake(8, 8);
 }
 
 - (NSString *) presetLayoutFile {

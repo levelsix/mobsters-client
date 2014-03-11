@@ -1080,6 +1080,16 @@
 		CF8A3EE6176C038900BDF639 /* minibolt.png in Resources */ = {isa = PBXBuildFile; fileRef = CF8A3EE4176C038800BDF639 /* minibolt.png */; };
 		CF8A3EE8176C038900BDF639 /* minibolt@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CF8A3EE5176C038800BDF639 /* minibolt@2x.png */; };
 		CF8BA22018CDA9DD003277D1 /* TutorialTouchView.m in Sources */ = {isa = PBXBuildFile; fileRef = CF8BA21F18CDA9DD003277D1 /* TutorialTouchView.m */; };
+		CF8BA22518CE7C41003277D1 /* speechbubblename.png in Resources */ = {isa = PBXBuildFile; fileRef = CF8BA22118CE7C40003277D1 /* speechbubblename.png */; };
+		CF8BA22618CE7C41003277D1 /* speechbubblename@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CF8BA22218CE7C40003277D1 /* speechbubblename@2x.png */; };
+		CF8BA22718CE7C41003277D1 /* speechbubbleshortname.png in Resources */ = {isa = PBXBuildFile; fileRef = CF8BA22318CE7C41003277D1 /* speechbubbleshortname.png */; };
+		CF8BA22818CE7C41003277D1 /* speechbubbleshortname@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CF8BA22418CE7C41003277D1 /* speechbubbleshortname@2x.png */; };
+		CF8BA22C18CEA92D003277D1 /* TutorialRainbowBattleLayer.m in Sources */ = {isa = PBXBuildFile; fileRef = CF8BA22B18CEA92D003277D1 /* TutorialRainbowBattleLayer.m */; };
+		CF8BA22F18CEA9D8003277D1 /* TutorialRainbowController.m in Sources */ = {isa = PBXBuildFile; fileRef = CF8BA22E18CEA9D8003277D1 /* TutorialRainbowController.m */; };
+		CF8BA23118CEAA2F003277D1 /* TutorialRainbowBattleLayout.txt in Resources */ = {isa = PBXBuildFile; fileRef = CF8BA23018CEAA2E003277D1 /* TutorialRainbowBattleLayout.txt */; };
+		CF8BA23418CEAD06003277D1 /* MiniTutorialController.m in Sources */ = {isa = PBXBuildFile; fileRef = CF8BA23318CEAD06003277D1 /* MiniTutorialController.m */; };
+		CF8BA23718CEAD28003277D1 /* MiniTutorialBattleLayer.m in Sources */ = {isa = PBXBuildFile; fileRef = CF8BA23618CEAD28003277D1 /* MiniTutorialBattleLayer.m */; };
+		CF8BA23A18CF1481003277D1 /* TutorialPowerupCombinationLayout.txt in Resources */ = {isa = PBXBuildFile; fileRef = CF8BA23918CF1481003277D1 /* TutorialPowerupCombinationLayout.txt */; };
 		CF8C7AB71579DAAA003A6AFE /* cityunlocked.png in Resources */ = {isa = PBXBuildFile; fileRef = CF8C7A9F1579DAAA003A6AFE /* cityunlocked.png */; };
 		CF8C7AB81579DAAA003A6AFE /* cityunlocked@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CF8C7AA01579DAAA003A6AFE /* cityunlocked@2x.png */; };
 		CF8C7AB91579DAAA003A6AFE /* cityupsquare.png in Resources */ = {isa = PBXBuildFile; fileRef = CF8C7AA11579DAAA003A6AFE /* cityupsquare.png */; };
@@ -3778,6 +3788,20 @@
 		CF8A3EE5176C038800BDF639 /* minibolt@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "minibolt@2x.png"; sourceTree = "<group>"; };
 		CF8BA21E18CDA9DD003277D1 /* TutorialTouchView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TutorialTouchView.h; sourceTree = "<group>"; };
 		CF8BA21F18CDA9DD003277D1 /* TutorialTouchView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TutorialTouchView.m; sourceTree = "<group>"; };
+		CF8BA22118CE7C40003277D1 /* speechbubblename.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = speechbubblename.png; sourceTree = "<group>"; };
+		CF8BA22218CE7C40003277D1 /* speechbubblename@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "speechbubblename@2x.png"; sourceTree = "<group>"; };
+		CF8BA22318CE7C41003277D1 /* speechbubbleshortname.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = speechbubbleshortname.png; sourceTree = "<group>"; };
+		CF8BA22418CE7C41003277D1 /* speechbubbleshortname@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "speechbubbleshortname@2x.png"; sourceTree = "<group>"; };
+		CF8BA22A18CEA92D003277D1 /* TutorialRainbowBattleLayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TutorialRainbowBattleLayer.h; sourceTree = "<group>"; };
+		CF8BA22B18CEA92D003277D1 /* TutorialRainbowBattleLayer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TutorialRainbowBattleLayer.m; sourceTree = "<group>"; };
+		CF8BA22D18CEA9D8003277D1 /* TutorialRainbowController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TutorialRainbowController.h; sourceTree = "<group>"; };
+		CF8BA22E18CEA9D8003277D1 /* TutorialRainbowController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TutorialRainbowController.m; sourceTree = "<group>"; };
+		CF8BA23018CEAA2E003277D1 /* TutorialRainbowBattleLayout.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = TutorialRainbowBattleLayout.txt; sourceTree = "<group>"; };
+		CF8BA23218CEAD06003277D1 /* MiniTutorialController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MiniTutorialController.h; sourceTree = "<group>"; };
+		CF8BA23318CEAD06003277D1 /* MiniTutorialController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MiniTutorialController.m; sourceTree = "<group>"; };
+		CF8BA23518CEAD28003277D1 /* MiniTutorialBattleLayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MiniTutorialBattleLayer.h; sourceTree = "<group>"; };
+		CF8BA23618CEAD28003277D1 /* MiniTutorialBattleLayer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MiniTutorialBattleLayer.m; sourceTree = "<group>"; };
+		CF8BA23918CF1481003277D1 /* TutorialPowerupCombinationLayout.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = TutorialPowerupCombinationLayout.txt; sourceTree = "<group>"; };
 		CF8C7A9F1579DAAA003A6AFE /* cityunlocked.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = cityunlocked.png; sourceTree = "<group>"; };
 		CF8C7AA01579DAAA003A6AFE /* cityunlocked@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "cityunlocked@2x.png"; sourceTree = "<group>"; };
 		CF8C7AA11579DAAA003A6AFE /* cityupsquare.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = cityupsquare.png; sourceTree = "<group>"; };
@@ -7206,6 +7230,10 @@
 		CF54942F18C5B955001E7D32 /* Tutorial */ = {
 			isa = PBXGroup;
 			children = (
+				CF8BA22118CE7C40003277D1 /* speechbubblename.png */,
+				CF8BA22218CE7C40003277D1 /* speechbubblename@2x.png */,
+				CF8BA22318CE7C41003277D1 /* speechbubbleshortname.png */,
+				CF8BA22418CE7C41003277D1 /* speechbubbleshortname@2x.png */,
 				CF54944118C7E920001E7D32 /* marksboat.png */,
 				CF54944218C7E920001E7D32 /* marksboat@2x.png */,
 				CF54943018C5B955001E7D32 /* arrow.png */,
@@ -7606,7 +7634,13 @@
 		CF7372AD18CB92F800EE2CBC /* MiniTutorials */ = {
 			isa = PBXGroup;
 			children = (
+				CF8BA23818CF1469003277D1 /* PowerupCombination */,
+				CF8BA23218CEAD06003277D1 /* MiniTutorialController.h */,
+				CF8BA23318CEAD06003277D1 /* MiniTutorialController.m */,
+				CF8BA23518CEAD28003277D1 /* MiniTutorialBattleLayer.h */,
+				CF8BA23618CEAD28003277D1 /* MiniTutorialBattleLayer.m */,
 				CF7372B218CB985100EE2CBC /* Elements */,
+				CF8BA22918CEA8DE003277D1 /* Rainbow */,
 			);
 			name = MiniTutorials;
 			sourceTree = "<group>";
@@ -7640,6 +7674,26 @@
 				CF781C60161E60E900E2FF95 /* infoslot@2x.png */,
 			);
 			path = "Expansion Images";
+			sourceTree = "<group>";
+		};
+		CF8BA22918CEA8DE003277D1 /* Rainbow */ = {
+			isa = PBXGroup;
+			children = (
+				CF8BA22D18CEA9D8003277D1 /* TutorialRainbowController.h */,
+				CF8BA22E18CEA9D8003277D1 /* TutorialRainbowController.m */,
+				CF8BA22A18CEA92D003277D1 /* TutorialRainbowBattleLayer.h */,
+				CF8BA22B18CEA92D003277D1 /* TutorialRainbowBattleLayer.m */,
+				CF8BA23018CEAA2E003277D1 /* TutorialRainbowBattleLayout.txt */,
+			);
+			name = Rainbow;
+			sourceTree = "<group>";
+		};
+		CF8BA23818CF1469003277D1 /* PowerupCombination */ = {
+			isa = PBXGroup;
+			children = (
+				CF8BA23918CF1481003277D1 /* TutorialPowerupCombinationLayout.txt */,
+			);
+			name = PowerupCombination;
 			sourceTree = "<group>";
 		};
 		CF8C7ADD157C1C36003A6AFE /* Tagging Scheme */ = {
@@ -10045,6 +10099,7 @@
 				CFFBDF2E18ACA3D90090CA9A /* Scientist1Blink04@2x.png in Resources */,
 				CF134A5918A5E4B500D7D700 /* FatBoy1Move10@2x.png in Resources */,
 				CFF391171829D5F60010A3BE /* firegrenade@2x.png in Resources */,
+				CF8BA22618CE7C41003277D1 /* speechbubblename@2x.png in Resources */,
 				CF126FE21538ACCB00E0C1AD /* revenge.png in Resources */,
 				CFFF9A5018BEB67D0036EEC3 /* timerbgmiddle.png in Resources */,
 				CF126FE31538ACCB00E0C1AD /* revenge@2x.png in Resources */,
@@ -10268,6 +10323,7 @@
 				CF1271271538ACCC00E0C1AD /* plarcher@2x.png in Resources */,
 				CF3764FE182DD6BD00D0A77E /* ChatViewController.xib in Resources */,
 				CF1271281538ACCC00E0C1AD /* ppanda.png in Resources */,
+				CF8BA22718CE7C41003277D1 /* speechbubbleshortname.png in Resources */,
 				CFE7CD921819FC3300930847 /* minitopbarbg.png in Resources */,
 				CF1271291538ACCC00E0C1AD /* ppanda@2x.png in Resources */,
 				CF12712A1538ACCC00E0C1AD /* pskel.png in Resources */,
@@ -10438,6 +10494,7 @@
 				CF769A05187F6CC00031D6ED /* House@2x.png in Resources */,
 				CFE7CD581819FC3300930847 /* expbar@2x.png in Resources */,
 				CFFA31DF18B30955008B81B9 /* raidlairbubble.png in Resources */,
+				CF8BA23118CEAA2F003277D1 /* TutorialRainbowBattleLayout.txt in Resources */,
 				CF37652D182DD6F900D0A77E /* chattopbar@2x.png in Resources */,
 				CFFBDF8D18ACA3D90090CA9A /* Scientist3Breath00@2x.png in Resources */,
 				CF4DB8E61807DA1F00062258 /* HomeBuildingMenu.xib in Resources */,
@@ -10956,6 +11013,7 @@
 				CFEDA90618974A7300867490 /* evolveequals.png in Resources */,
 				CF62E70815FEC6D500DF850F /* ClanViewController.xib in Resources */,
 				CFF390D31829C74A0010A3BE /* earthupdown@2x.png in Resources */,
+				CF8BA23A18CF1481003277D1 /* TutorialPowerupCombinationLayout.txt in Resources */,
 				CFE02CFF182370AF0016C1E2 /* Cheerleader2BazookaThumbnail.png in Resources */,
 				CFC04DBE188FE8D400F2DB59 /* wonlostbg@2x.png in Resources */,
 				CF6F1A0F181518C900CFF2B9 /* taskbg@2x.png in Resources */,
@@ -11160,6 +11218,7 @@
 				CFC4D01316E98D9E009A25DA /* analysisbutton.png in Resources */,
 				CFC4D01416E98D9E009A25DA /* analysisbutton@2x.png in Resources */,
 				CFC4D01516E98D9E009A25DA /* attackagain.png in Resources */,
+				CF8BA22818CE7C41003277D1 /* speechbubbleshortname@2x.png in Resources */,
 				CFC4D01616E98D9E009A25DA /* attackagain@2x.png in Resources */,
 				CFC4D01716E98D9E009A25DA /* attackagainsword.png in Resources */,
 				CFC4D01816E98D9E009A25DA /* attackagainsword@2x.png in Resources */,
@@ -11431,6 +11490,7 @@
 				CFF7404B1817AF09009DE4A4 /* redlight.png in Resources */,
 				CFF740611817AF09009DE4A4 /* vase.png in Resources */,
 				CF629317180D22F600C6C196 /* vaultcash@2x.png in Resources */,
+				CF8BA22518CE7C41003277D1 /* speechbubblename.png in Resources */,
 				CFE02BA31821DC000016C1E2 /* miniwater.png in Resources */,
 				CF629309180D22F600C6C196 /* safecash.png in Resources */,
 				CFF390E91829C74A0010A3BE /* lightupdown.png in Resources */,
@@ -12129,6 +12189,7 @@
 				CF4DB8E71807DA1F00062258 /* HomeBuildingMenus.m in Sources */,
 				CF9AE70918090C320013DD44 /* TournamentStuff.pb.m in Sources */,
 				CF126D831538ACCA00E0C1AD /* IncomingEventController.m in Sources */,
+				CF8BA22F18CEA9D8003277D1 /* TutorialRainbowController.m in Sources */,
 				CF126D841538ACCA00E0C1AD /* OutgoingEventController.m in Sources */,
 				CF126D851538ACCA00E0C1AD /* SocketCommunication.m in Sources */,
 				CF9AE70618090C320013DD44 /* Quest.pb.m in Sources */,
@@ -12148,6 +12209,7 @@
 				CF8C7AE1157C1F0E003A6AFE /* FullUserUpdates.m in Sources */,
 				CF192978157D9FF100D51C70 /* OtherUpdates.m in Sources */,
 				45D21E43158037F500BB4D53 /* OAHMAC_SHA1SignatureProvider.m in Sources */,
+				CF8BA23718CEAD28003277D1 /* MiniTutorialBattleLayer.m in Sources */,
 				CF4DB8E11807DA1F00062258 /* Drops.m in Sources */,
 				45D21E4615803A6000BB4D53 /* Base64Transcoder.c in Sources */,
 				CF7064BE1845E2F2005B30A1 /* OmnipresentViewController.m in Sources */,
@@ -12204,6 +12266,7 @@
 				CF15BA8116572A8400A51F85 /* AMQPConsumer.m in Sources */,
 				CFFF9A5E18BEB9B80036EEC3 /* ClanRaidProto+EasyAccess.m in Sources */,
 				CF15BA8216572A8400A51F85 /* AMQPConsumerThread.m in Sources */,
+				CF8BA23418CEAD06003277D1 /* MiniTutorialController.m in Sources */,
 				CF15BA8316572A8400A51F85 /* AMQPExchange.m in Sources */,
 				CF7372B018CB983400EE2CBC /* TutorialElementsBattleLayer.m in Sources */,
 				CF15BA8416572A8400A51F85 /* AMQPMessage.m in Sources */,
@@ -12213,6 +12276,7 @@
 				CF32E9ED180D015900CBD50D /* TopBarViewController.m in Sources */,
 				CFF513B518C8A011004B0E56 /* TutorialMainMenuController.m in Sources */,
 				CFCE571D1813BC0700494F8C /* ProfileViewController.m in Sources */,
+				CF8BA22C18CEA92D003277D1 /* TutorialRainbowBattleLayer.m in Sources */,
 				CF54942518C56EBE001E7D32 /* TutorialBattleLayer.m in Sources */,
 				CF15BA8616572A8400A51F85 /* AMQPQueue.m in Sources */,
 				CFC141AC1657484A0060188D /* socket.c in Sources */,

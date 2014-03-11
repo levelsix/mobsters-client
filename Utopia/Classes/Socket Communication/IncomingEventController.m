@@ -22,6 +22,7 @@
 #import "ClanViewController.h"
 #import "SocketCommunication.h"
 #import "DungeonBattleLayer.h"
+#import "GameCenterDelegate.h"
 
 #define QUEST_REDEEM_KIIP_REWARD @"quest_redeem"
 
@@ -225,6 +226,12 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
     case EventProtocolResponseSAttackClanRaidMonsterEvent:
       responseClass = [AttackClanRaidMonsterResponseProto class];
       break;
+    case EventProtocolResponseSSetGameCenterIdEvent:
+      responseClass = [SetGameCenterIdResponseProto class];
+      break;
+    case EventProtocolResponseSSetFacebookIdEvent:
+      responseClass = [SetFacebookIdResponseProto class];
+      break;
       
     default:
       responseClass = nil;
@@ -343,6 +350,10 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
     [ad removeLocalNotifications];
     if (ad.apnsToken && ![ad.apnsToken isEqualToString:gs.deviceToken]) {
       [[OutgoingEventController sharedOutgoingEventController] enableApns:ad.apnsToken];
+    }
+    NSString *gcId = [GameCenterDelegate gameCenterId];
+    if (gcId) {
+      [[OutgoingEventController sharedOutgoingEventController] setGameCenterId:gcId];
     }
     
     // Display generic popups for strings that haven't been seen before
@@ -709,6 +720,21 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
   } else {
     [gs removeAndUndoAllUpdatesForTag:tag];
   }
+}
+
+- (void) handleSetGameCenterIdResponseProto:(FullEvent *)fe {
+  SetGameCenterIdResponseProto *proto = (SetGameCenterIdResponseProto *)fe.event;
+  
+  LNLog(@"Set game center response received with status %d.", proto.status);
+  if (proto.status != SetGameCenterIdResponseProto_SetGameCenterIdStatusSuccess) {
+    [Globals popupMessage:@"Server failed to set game center id."];
+  }
+}
+
+- (void) handleSetFacebookIdResponseProto:(FullEvent *)fe {
+  SetFacebookIdResponseProto *proto = (SetFacebookIdResponseProto *)fe.event;
+  
+  LNLog(@"Set facebook id response received with status %d.", proto.status);
 }
 
 - (void) handleEarnFreeDiamondsResponseProto:(FullEvent *)fe {

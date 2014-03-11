@@ -14,11 +14,26 @@
 @implementation DialogueViewController
 
 - (id) initWithDialogueProto:(DialogueProto *)dialogue {
+  return [self initWithDialogueProto:dialogue useSmallBubble:NO];
+}
+
+- (id) initWithDialogueProto:(DialogueProto *)dialogue useSmallBubble:(BOOL)smallBubble {
   if ((self = [super init])) {
     self.dialogue = dialogue;
+    _useSmallBubble = smallBubble;
     self.view.hidden = YES;
   }
   return self;
+}
+
+- (void) viewDidLoad {
+  if (_useSmallBubble) {
+    self.speechBubbleImage.image = [Globals imageNamed:@"speechbubbleshortname.png"];
+    
+    CGRect r = self.speechBubble.frame;
+    r.size = self.speechBubbleImage.image.size;
+    self.speechBubble.frame = r;
+  }
 }
 
 - (void) viewDidAppear:(BOOL)animated {
@@ -45,15 +60,17 @@
     
     if (oldSS.isLeftSide == curSS.isLeftSide && [oldSS.speaker isEqualToString:curSS.speaker]) {
       [self animateBubbleOutCompletion:^{
+        self.speakerLabel.text = curSS.speaker;
         self.dialogueLabel.text = curSS.speakerText;
         [self animateBubbleIn];
       }];
     } else {
       void (^anim)(void) = ^{
-        NSString *img = [curSS.speaker stringByAppendingString:@"Big.png"];
+        NSString *img = [curSS.speakerImage stringByAppendingString:@"Big.png"];
         UIColor *color = self.blackOutSpeakers ? [UIColor colorWithWhite:0.f alpha:1.f] : nil;
         [Globals imageNamed:img withView:self.leftImageView maskedColor:color indicator:UIActivityIndicatorViewStyleWhite clearImageDuringDownload:YES];
         
+        self.speakerLabel.text = curSS.speaker;
         self.dialogueLabel.text = curSS.speakerText;
         
         [self animateIn:curSS.isLeftSide];
@@ -89,9 +106,11 @@
   if (isLeftSide) {
     self.view.transform = CGAffineTransformIdentity;
     self.dialogueLabel.transform = CGAffineTransformIdentity;
+    self.speakerLabel.transform = CGAffineTransformIdentity;
   } else {
     self.view.transform = CGAffineTransformMakeScale(-1, 1);
     self.dialogueLabel.transform = CGAffineTransformMakeScale(-1, 1);
+    self.speakerLabel.transform = CGAffineTransformMakeScale(-1, 1);
   }
   
   CGPoint pt = self.leftImageView.center;
@@ -116,6 +135,8 @@
   [UIView animateWithDuration:0.3f animations:^{
     // This will only do anything on first animation
     self.bottomGradient.alpha = 0.f;
+  } completion:^(BOOL finished) {
+    [self.bottomGradient removeFromSuperview];
   }];
 }
 

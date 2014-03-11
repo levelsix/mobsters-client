@@ -33,6 +33,7 @@
 @property (nonatomic, assign) int maxDamage;
 @property (nonatomic, assign) float damageRandomnessFactor;
 
+@property (nonatomic, assign) int monsterId;
 @property (nonatomic, assign) int userMonsterId;
 @property (nonatomic, assign) int slotNum;
 

@@ -33,8 +33,7 @@ BOOL isGameCenterAPIAvailable()
     [[GKLocalPlayer localPlayer] setAuthenticateHandler:^(UIViewController *vc, NSError *error) {
       GKLocalPlayer *player = [GKLocalPlayer localPlayer];
       if (player.isAuthenticated) {
-        AppDelegate *ad = (AppDelegate *)[[UIApplication sharedApplication] delegate];
-        ad.gameCenterId = player.playerID;
+        [[OutgoingEventController sharedOutgoingEventController] setGameCenterId:player.playerID];
       }
       LNLog(@"Connected to Game Center.");
     }];
@@ -45,6 +44,14 @@ BOOL isGameCenterAPIAvailable()
   GKLocalPlayer *player = [GKLocalPlayer localPlayer];
   if (player.isAuthenticated) {
     return player.alias;
+  }
+  return nil;
+}
+
++ (NSString *) gameCenterId {
+  GKLocalPlayer *player = [GKLocalPlayer localPlayer];
+  if (player.isAuthenticated) {
+    return player.playerID;
   }
   return nil;
 }

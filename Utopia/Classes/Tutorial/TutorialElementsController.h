@@ -7,17 +7,10 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "MiniTutorialController.h"
 #import "TutorialElementsBattleLayer.h"
-#import "DialogueViewController.h"
-#import "TutorialTouchView.h"
 
 @class GameViewController;
-
-@protocol TutorialElementsDelegate <NSObject>
-
-- (void) elementsTutorialComplete;
-
-@end
 
 typedef enum {
   TutorialElementsStepFirstMove,
@@ -27,24 +20,10 @@ typedef enum {
   TutorialElementsStepKillEnemy
 } TutorialElementsStep;
 
-@interface TutorialElementsController : NSObject <DialogueViewControllerDelegate, TutorialBattleLayerDelegate> {
+@interface TutorialElementsController : MiniTutorialController {
   TutorialElementsStep _currentStep;
 }
 
-@property (nonatomic, retain) StartupResponseProto_TutorialConstants *constants;
-
 @property (nonatomic, retain) TutorialElementsBattleLayer *battleLayer;
-
-@property (nonatomic, retain) DialogueViewController *dialogueViewController;
-
-@property (nonatomic, assign) GameViewController *gameViewController;
-@property (nonatomic, copy) NSString *dialogueSpeakerImage;
-
-@property (nonatomic, assign) id<TutorialElementsDelegate> delegate;
-
-@property (nonatomic, retain) TutorialTouchView *touchView;
-
-- (id) initWithGameViewController:(GameViewController *)gvc dialogueSpeakerImage:(NSString *)dsi constants:(StartupResponseProto_TutorialConstants *)constants;
-- (void) begin;
 
 @end

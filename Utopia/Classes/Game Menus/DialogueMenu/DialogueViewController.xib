@@ -10,7 +10,9 @@
                 <outlet property="bottomGradient" destination="miP-0N-nr9" id="foD-Lg-ylS"/>
                 <outlet property="dialogueLabel" destination="yBQ-Qk-ZiX" id="XXA-zR-kGq"/>
                 <outlet property="leftImageView" destination="qhg-jh-w6v" id="bmp-ss-98Q"/>
+                <outlet property="speakerLabel" destination="UnO-id-wSF" id="WqH-xW-MqI"/>
                 <outlet property="speechBubble" destination="AlM-Ns-QkQ" id="cz6-AF-iX3"/>
+                <outlet property="speechBubbleImage" destination="FF6-1X-Z5W" id="uN7-FE-E64"/>
                 <outlet property="view" destination="1" id="3"/>
             </connections>
         </placeholder>
@@ -28,22 +30,38 @@
                     <autoresizingMask key="autoresizingMask"/>
                 </imageView>
                 <view contentMode="scaleToFill" id="AlM-Ns-QkQ">
-                    <rect key="frame" x="81" y="219" width="260" height="81"/>
+                    <rect key="frame" x="81" y="210" width="300" height="96"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                     <subviews>
-                        <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="speechbubble.png" id="obe-3n-PYo">
-                            <rect key="frame" x="0.0" y="0.0" width="260" height="81"/>
+                        <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="left" image="speechbubblename.png" id="FF6-1X-Z5W">
+                            <rect key="frame" x="0.0" y="0.0" width="300" height="96"/>
                             <autoresizingMask key="autoresizingMask"/>
                         </imageView>
-                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" text="Hey Meep, look at that fat kid eating cake. Let's go shoot him.." textAlignment="center" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" id="yBQ-Qk-ZiX" customClass="NiceFontLabel5">
-                            <rect key="frame" x="36" y="8" width="205" height="66"/>
-                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                            <fontDescription key="fontDescription" type="system" pointSize="12"/>
-                            <color key="textColor" white="0.0" alpha="0.69999999999999996" colorSpace="calibratedWhite"/>
-                            <color key="highlightedColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                            <color key="shadowColor" red="1" green="1" blue="1" alpha="0.5" colorSpace="calibratedRGB"/>
-                            <size key="shadowOffset" width="0.0" height="1"/>
-                        </label>
+                        <view contentMode="scaleToFill" id="S4C-58-9WP">
+                            <rect key="frame" x="18" y="1" width="282" height="93"/>
+                            <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
+                            <subviews>
+                                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Zark Muckerburger" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="10" id="UnO-id-wSF" customClass="NiceFontLabel">
+                                    <rect key="frame" x="17" y="0.0" width="249" height="32"/>
+                                    <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                    <fontDescription key="fontDescription" type="system" pointSize="16"/>
+                                    <color key="textColor" red="0.44313728809356689" green="0.23921570181846619" blue="0.070588238537311554" alpha="1" colorSpace="deviceRGB"/>
+                                    <nil key="highlightedColor"/>
+                                    <color key="shadowColor" red="1" green="1" blue="1" alpha="0.5" colorSpace="calibratedRGB"/>
+                                    <size key="shadowOffset" width="0.0" height="1"/>
+                                </label>
+                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" text="Hey Meep, look at that fat kid eating cake. Let's go shoot him.." textAlignment="center" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" id="yBQ-Qk-ZiX" customClass="NiceFontLabel5">
+                                    <rect key="frame" x="17" y="33" width="249" height="51"/>
+                                    <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
+                                    <fontDescription key="fontDescription" type="system" pointSize="12"/>
+                                    <color key="textColor" white="0.0" alpha="0.69999999999999996" colorSpace="calibratedWhite"/>
+                                    <color key="highlightedColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                    <color key="shadowColor" red="1" green="1" blue="1" alpha="0.5" colorSpace="calibratedRGB"/>
+                                    <size key="shadowOffset" width="0.0" height="1"/>
+                                </label>
+                            </subviews>
+                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                        </view>
                     </subviews>
                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                 </view>
@@ -55,6 +73,6 @@
     </objects>
     <resources>
         <image name="diagradient.png" width="1" height="85"/>
-        <image name="speechbubble.png" width="260" height="81"/>
+        <image name="speechbubblename.png" width="300" height="96"/>
     </resources>
 </document>

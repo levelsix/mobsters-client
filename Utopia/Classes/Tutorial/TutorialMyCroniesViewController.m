@@ -59,6 +59,7 @@
   [super viewDidLoad];
   self.inventoryTable.userInteractionEnabled = NO;
   self.queueView.userInteractionEnabled = NO;
+  self.teamSlotsContainer.userInteractionEnabled = NO;
 }
 
 - (NSMutableSet *) recentlyHealedMonsterIds {

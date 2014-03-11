@@ -54,6 +54,15 @@
                                        [NSValue valueWithCGPoint:ccp(3, 2)], nil]];
 }
 
+- (void) dealDamage:(int)damageDone enemyIsAttacker:(BOOL)enemyIsAttacker withSelector:(SEL)selector {
+  if (!enemyIsAttacker) {
+    // Make sure he kills
+    damageDone = MAX(damageDone, self.enemyPlayerObject.curHealth+7);
+  }
+  
+  [super dealDamage:damageDone enemyIsAttacker:enemyIsAttacker withSelector:selector];
+}
+
 - (NSString *) presetLayoutFile {
   return @"TutorialBattle1Layout.txt";
 }
@@ -107,6 +116,19 @@
                        withForcedMove:[NSSet setWithObjects:
                                        [NSValue valueWithCGPoint:ccp(3, 2)],
                                        [NSValue valueWithCGPoint:ccp(3, 1)], nil]];
+}
+
+- (void) dealDamage:(int)damageDone enemyIsAttacker:(BOOL)enemyIsAttacker withSelector:(SEL)selector {
+  if (!enemyIsAttacker) {
+    // Make sure first guy does not kill, second guy kills
+    if (self.myPlayerObject.slotNum == 1) {
+      damageDone = MIN(damageDone, self.enemyPlayerObject.curHealth*0.9);
+    } else if (self.myPlayerObject.slotNum == 2) {
+      damageDone = MAX(damageDone, self.enemyPlayerObject.curHealth*1.1);
+    }
+  }
+  
+  [super dealDamage:damageDone enemyIsAttacker:enemyIsAttacker withSelector:selector];
 }
 
 - (void) swapToMark {
@@ -175,8 +197,6 @@
     
     [self.forfeitButton removeFromSuperview];
     
-    self.swappableTeamSlot = 1;
-    
     BattlePlayer *mark = self.myTeam[1];
     float mult = 50;
     mark.fireDamage = mult-10;
@@ -191,118 +211,14 @@
   return self;
 }
 
-- (void) beginFirstMove {
-  [self.noInputLayer stopAllActions];
-  self.noInputLayer.opacity = 0.f;
-  _allowTurnBegin = YES;
-  [self beginMyTurn];
-}
-
-- (void) beginSecondMove {
-  [self.noInputLayer stopAllActions];
-  self.noInputLayer.opacity = 0.f;
-  [self.orbLayer allowInput];
-}
-
-- (void) beginThirdMove {
-  [self allowMove];
-}
-
-- (void) allowMove {
-  if (_movesLeft <= 0) {
-    _allowTurnBegin = YES;
-    [self beginMyTurn];
-  } else {
-    [self removeNoInputLayer];
-  }
-  [self.orbLayer allowInput];
-}
-
 #pragma mark - Overwritten methods
-
-- (NSString *) presetLayoutFile {
-  return nil;
-}
 
 - (CGSize) gridSize {
   return CGSizeMake(6, 6);
 }
 
-- (void) initOrbLayer {
-  TutorialOrbLayer *ol = [[TutorialOrbLayer alloc] initWithContentSize:self.orbBgdLayer.contentSize gridSize:self.gridSize numColors:6 presetLayoutFile:[self presetLayoutFile]];
-  [self.orbBgdLayer addChild:ol z:2];
-  ol.delegate = self;
-  self.orbLayer = ol;
-}
-
 - (void) sendServerUpdatedValues {
   // Do nothing
-}
-
-- (void) displayWaveNumber {
-  // Do nothing
-}
-
-- (void) displaySwapButton {
-  if (self.swappableTeamSlot) {
-    [super displaySwapButton];
-  }
-}
-
-- (void) deployBattleSprite:(BattlePlayer *)bp {
-  if (bp.slotNum == self.swappableTeamSlot) {
-    [super deployBattleSprite:bp];
-    self.swappableTeamSlot = 0;
-  }
-}
-
-- (void) cancelDeploy:(id)sender {
-  // Do nothing
-}
-
-- (void) begin {
-  [super begin];
-  [self displayOrbLayer];
-}
-
-- (void) beginMyTurn {
-  if (_allowTurnBegin) {
-    _allowTurnBegin = NO;
-    [super beginMyTurn];
-  }
-}
-
-- (void) reachedNextScene {
-  if (!_hasStarted) {
-    [self moveToNextEnemy];
-    _hasStarted = YES;
-  } else {
-    [self.myPlayer stopWalking];
-    if ([self.delegate respondsToSelector:@selector(battleLayerReachedEnemy)]) {
-      [self.delegate battleLayerReachedEnemy];
-    }
-  }
-}
-
-- (void) moveBegan {
-  [super moveBegan];
-  [self.delegate moveMade];
-}
-
-- (void) checkIfAnyMovesLeft {
-  if (_movesLeft == 0) {
-    [self myTurnEnded];
-  } else {
-    [self displayNoInputLayer];
-    _myDamageForThisTurn = 0;
-    if ([self.delegate respondsToSelector:@selector(moveFinished)]) {
-      [self.delegate moveFinished];
-    }
-  }
-}
-
-- (void) checkMyHealth {
-  [self.delegate turnFinished];
 }
 
 - (void) youWon {

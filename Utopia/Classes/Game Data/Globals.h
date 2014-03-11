@@ -84,14 +84,14 @@
 @property (nonatomic, assign) int numBeginnerSalesAllowed;
 @property (nonatomic, assign) int defaultDaysBattleShieldIsActive;
 
-@property (nonatomic, assign) int baseResourceCapacity;
-
 @property (nonatomic, assign) float minutesPerGem;
 @property (nonatomic, assign) int pvpRequiredMinLvl;
 @property (nonatomic, assign) float gemsPerResource;
 @property (nonatomic, assign) float continueBattleGemCostMultiplier;
 
 @property (nonatomic, assign) BOOL addAllFbFriends;
+
+@property (nonatomic, assign) StartupResponseProto_StartupConstants_MiniTutorialConstants *miniTutorialConstants;
 
 // Monster Constants
 @property (nonatomic, assign) int maxTeamSize;

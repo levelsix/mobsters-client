@@ -10,48 +10,20 @@
 
 #import "GameViewController.h"
 #import "Protocols.pb.h"
+#import "OutgoingEventController.h"
+#import "Globals.h"
+#import "GameState.h"
 
 @implementation TutorialElementsController
 
-- (id) initWithGameViewController:(GameViewController *)gvc dialogueSpeakerImage:(NSString *)dsi constants:(StartupResponseProto_TutorialConstants *)constants {
-  if ((self = [super init])) {
-    self.gameViewController = gvc;
-    self.dialogueSpeakerImage = dsi;
-    self.constants = constants;
-  }
-  return self;
-}
-
-- (void) displayDialogue:(NSArray *)dialogue {
-  DialogueProto_Builder *dp = [DialogueProto builder];
-  
-  for (NSString *speakerText in dialogue) {
-    DialogueProto_SpeechSegmentProto_Builder *ss = [DialogueProto_SpeechSegmentProto builder];
-    ss.speaker = self.dialogueSpeakerImage;
-    ss.isLeftSide = YES;
-    ss.speakerText = speakerText;
-    [dp addSpeechSegment:ss.build];
-  }
-  
-  DialogueViewController *dvc = [[DialogueViewController alloc] initWithDialogueProto:dp.build];
-  dvc.delegate = self;
-  [self.gameViewController addChildViewController:dvc];
-  [self.gameViewController.view insertSubview:dvc.view belowSubview:self.touchView];
-  self.dialogueViewController = dvc;
-  
-  [self.touchView addResponder:self.dialogueViewController];
-  self.touchView.userInteractionEnabled = YES;
-}
-
-- (void) begin {
-  self.battleLayer = [[TutorialElementsBattleLayer alloc] initWithConstants:self.constants];
+- (void) initBattleLayer {
+  self.battleLayer = [[TutorialElementsBattleLayer alloc] initWithMyUserMonsters:self.myTeam puzzleIsOnLeft:NO];
   self.battleLayer.delegate = self;
-  [self.gameViewController crossFadeIntoBattleLayer:self.battleLayer];
   
-  self.touchView = [[TutorialTouchView alloc] initWithFrame:self.gameViewController.view.bounds];
-  [self.gameViewController.view addSubview:self.touchView];
-  [self.touchView addResponder:[CCDirector sharedDirector].view];
-  self.touchView.userInteractionEnabled = NO;
+  GameState *gs = [GameState sharedGameState];
+  Globals *gl = [Globals sharedGlobals];
+  FullTaskProto *ftp = [gs taskWithCityId:1 assetId:gl.miniTutorialConstants.elementTutorialAssetId];
+  [[OutgoingEventController sharedOutgoingEventController] beginDungeon:ftp.taskId isEvent:NO eventId:0 useGems:NO withDelegate:self.battleLayer];
 }
 
 - (void) beginFirstMove {
@@ -97,6 +69,7 @@
 #pragma mark - Battle delegate
 
 - (void) battleLayerReachedEnemy {
+  [super battleLayerReachedEnemy];
   [self beginFirstMove];
 }
 
@@ -123,26 +96,11 @@
   }
 }
 
-- (void) battleComplete:(NSDictionary *)params {
-  [self.delegate elementsTutorialComplete];
-  [[CCDirector sharedDirector] popSceneWithTransition:[CCTransition transitionCrossFadeWithDuration:0.6f]];
-  [self.gameViewController showTopBarDuration:0.f completion:nil];
-  
-  [self.touchView removeFromSuperview];
-}
-
 #pragma mark - Dialogue delegate
 
 - (void) dialogueViewController:(DialogueViewController *)dvc willDisplaySpeechAtIndex:(int)index {
   if (_currentStep != TutorialElementsStepHierarchy && index == dvc.dialogue.speechSegmentList.count-1) {
-    self.touchView.userInteractionEnabled = YES;
-    [self.touchView addResponder:dvc];
-    
-    if (index == 0) {
-      [dvc.bottomGradient removeFromSuperview];
-    } else {
-      [dvc fadeOutBottomGradient];
-    }
+    [super dialogueViewController:dvc willDisplaySpeechAtIndex:index];
   }
 }
 
@@ -166,8 +124,7 @@
   if (_currentStep == TutorialElementsStepHierarchy) {
     [self beginKillEnemy];
   }
-  
-  [self.touchView removeResponder:self.dialogueViewController];
+  [super dialogueViewControllerFinished:dvc];
 }
 
 @end

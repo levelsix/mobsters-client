@@ -477,24 +477,27 @@
   CGPoint ptOffset = POINT_OFFSET_PER_SCENE;
   [self.boatSprite runAction:
    [CCActionSequence actions:
-    [CCActionMoveBy actionWithDuration:2.5f position:ccpMult(ptOffset, -0.18)],
+    [CCActionMoveBy actionWithDuration:2.5f position:ccpMult(ptOffset, -0.19)],
     [CCActionCallFunc actionWithTarget:self.delegate selector:@selector(yachtWentOffScene)], nil]];
 }
 
 - (void) moveToThirdBuilding {
-#pragma warning make this a constant
+  Globals *gl = [Globals sharedGlobals];
+  int assetId = gl.miniTutorialConstants.rainbowTutorialAssetId;
   self.scale = 1.1f;
-  MapSprite *ms = [self assetWithId:3];
+  MapSprite *ms = [self assetWithId:assetId];
   [self moveToSprite:ms animated:NO];
 }
 
 - (void) displayArrowOverThirdBuilding {
-  MissionBuilding *ms = (MissionBuilding *)[self assetWithId:3];
+  Globals *gl = [Globals sharedGlobals];
+  int assetId = gl.miniTutorialConstants.rainbowTutorialAssetId;
+  MissionBuilding *ms = (MissionBuilding *)[self assetWithId:assetId];
   
   [self moveToSprite:ms animated:YES withOffset:ccp(0, -38)];
   [ms displayArrow];
   
-  self.clickableAssetId = 3;
+  self.clickableAssetId = assetId;
 }
 
 #pragma mark - Overwritten methods

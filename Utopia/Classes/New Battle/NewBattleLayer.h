@@ -113,6 +113,8 @@
 - (id) initWithMyUserMonsters:(NSArray *)monsters puzzleIsOnLeft:(BOOL)puzzleIsOnLeft;
 - (void) initOrbLayer;
 
+- (CGSize) gridSize;
+
 - (void) begin;
 - (void) beginMyTurn;
 - (void) myTurnEnded;

@@ -10,6 +10,8 @@
 #import <FacebookSDK/FacebookSDK.h>
 #import "Globals.h"
 #import "GenericPopupController.h"
+#import "GameState.h"
+#import "OutgoingEventController.h"
 
 @implementation FacebookDelegate
 
