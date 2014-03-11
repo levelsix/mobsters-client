@@ -122,9 +122,9 @@
   
   //[self yachtWentOffScene];
   
-  [self initHomeMap];
-  [self initTopBar];
-  [self beginFacebookLoginPhase];
+  //[self initHomeMap];
+  //[self initTopBar];
+  //[self beginFacebookLoginPhase];
 }
 
 - (void) initMissionMapWithCenterOnThirdBuilding:(BOOL)thirdBuilding {

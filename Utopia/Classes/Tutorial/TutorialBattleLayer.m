@@ -161,7 +161,7 @@
 }
 
 - (void) deployBattleSprite:(BattlePlayer *)bp {
-  if (bp.slotNum == self.swappableTeamSlot) {
+  if (!self.myPlayer || bp.slotNum == self.swappableTeamSlot) {
     [super deployBattleSprite:bp];
     [self.delegate swappedToMark];
     [Globals removeUIArrowFromViewRecursively:self.deployView];
