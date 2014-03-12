@@ -625,7 +625,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
   [self.curClanRaidUserInfos addObject:info];
 }
 
-- (UserMonster *) myMonsterWithUserMonsterId:(int)userMonsterId {
+- (UserMonster *) myMonsterWithUserMonsterId:(uint64_t)userMonsterId {
   for (UserMonster *um in self.myMonsters) {
     if (userMonsterId == um.userMonsterId) {
       return um;

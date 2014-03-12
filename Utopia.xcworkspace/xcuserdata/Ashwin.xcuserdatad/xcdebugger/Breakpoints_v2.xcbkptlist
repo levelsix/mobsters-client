@@ -74,11 +74,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Utopia/libs/cocos2d-iphone/cocos2d-ui/CCBReader/CCBReader.m"
-            timestampString = "413611130.538303"
+            timestampString = "416356444.950174"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "915"
-            endingLineNumber = "915"
+            startingLineNumber = "898"
+            endingLineNumber = "898"
             landmarkName = "-readNodeGraphParent:"
             landmarkType = "5">
          </BreakpointContent>

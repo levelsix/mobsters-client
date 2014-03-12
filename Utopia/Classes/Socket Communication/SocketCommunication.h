@@ -138,8 +138,8 @@
 
 - (int) sendHealQueueWaitTimeComplete:(NSArray *)monsterHealths;
 - (int) sendHealQueueSpeedup:(NSArray *)monsterHealths goldCost:(int)goldCost;
-- (int) sendAddMonsterToTeam:(int)userMonsterId teamSlot:(int)teamSlot;
-- (int) sendRemoveMonsterFromTeam:(int)userMonsterId;
+- (int) sendAddMonsterToTeam:(uint64_t)userMonsterId teamSlot:(int)teamSlot;
+- (int) sendRemoveMonsterFromTeam:(uint64_t)userMonsterId;
 - (int) sendBuyInventorySlotsWithGems:(int)userStructId;
 - (int) sendBuyInventorySlots:(int)userStructId withFriendInvites:(NSArray *)inviteIds;
 - (int) sendCombineUserMonsterPiecesMessage:(NSArray *)userMonsterIds gemCost:(int)gemCost;

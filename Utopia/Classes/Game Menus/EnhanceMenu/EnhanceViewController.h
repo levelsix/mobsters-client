@@ -13,7 +13,7 @@
 #import "MonsterTeamSlotView.h"
 
 @interface EnhanceViewController : GenViewController <EasyTableViewDelegate, EnhanceCardDelegate> {
-  int _confirmUserMonsterId;
+  uint64_t _confirmUserMonsterId;
 }
 
 @property (nonatomic, strong) IBOutlet EnhanceQueueView *queueView;

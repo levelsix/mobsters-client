@@ -151,7 +151,7 @@
   return !um.isComplete || [um isHealing] || [um isEnhancing] || [um isSacrificing];
 }
 
-- (BOOL) addMonsterToHealingQueue:(int)umId useGems:(BOOL)useGems {
+- (BOOL) addMonsterToHealingQueue:(uint64_t)umId useGems:(BOOL)useGems {
   return [[OutgoingEventController sharedOutgoingEventController] addMonsterToHealingQueue:umId useGems:useGems];
 }
 

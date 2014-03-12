@@ -14,7 +14,7 @@
 
 @interface UserMonster : NSObject
 
-@property (nonatomic, assign) int userMonsterId;
+@property (nonatomic, assign) uint64_t userMonsterId;
 @property (nonatomic, assign) int userId;
 @property (nonatomic, assign) int monsterId;
 @property (nonatomic, assign) int curHealth;
@@ -49,7 +49,7 @@
 
 @interface UserMonsterHealingItem : NSObject
 
-@property (nonatomic, assign) int userMonsterId;
+@property (nonatomic, assign) uint64_t userMonsterId;
 @property (nonatomic, assign) int userId;
 @property (nonatomic, retain) NSDate *queueTime;
 @property (nonatomic, retain) NSDate *endTime;
@@ -79,7 +79,7 @@
 
 + (id) itemWithUserEnhancementItemProto:(UserEnhancementItemProto *)proto;
 
-@property (nonatomic, assign) int userMonsterId;
+@property (nonatomic, assign) uint64_t userMonsterId;
 @property (nonatomic, assign) int enhancementCost;
 @property (nonatomic, retain) NSDate *expectedStartTime;
 
@@ -107,9 +107,9 @@
 
 @interface UserEvolution : NSObject
 
-@property (nonatomic, assign) int userMonsterId1;
-@property (nonatomic, assign) int userMonsterId2;
-@property (nonatomic, assign) int catalystMonsterId;
+@property (nonatomic, assign) uint64_t userMonsterId1;
+@property (nonatomic, assign) uint64_t userMonsterId2;
+@property (nonatomic, assign) uint64_t catalystMonsterId;
 @property (nonatomic, retain) NSDate *startTime;
 
 + (id) evolutionWithUserEvolutionProto:(UserMonsterEvolutionProto *)proto;

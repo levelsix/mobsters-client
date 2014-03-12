@@ -863,7 +863,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
   [gs.eventCooldownTimes setObject:[NSDate date] forKey:@(eventId)];
 }
 
-- (void) updateMonsterHealth:(int)userMonsterId curHealth:(int)curHealth {
+- (void) updateMonsterHealth:(uint64_t)userMonsterId curHealth:(int)curHealth {
   if (userMonsterId <= 0) {
     [Globals popupMessage:@"Trying to update invalid user monster"];
   } else if (curHealth < 0) {
@@ -964,7 +964,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
   [[SocketCommunication sharedSocketCommunication] sendBeginPvpBattleMessage:proto senderElo:gs.elo clientTime:[self getCurrentMilliseconds]];
 }
 
-- (BOOL) removeMonsterFromTeam:(int)userMonsterId {
+- (BOOL) removeMonsterFromTeam:(uint64_t)userMonsterId {
   GameState *gs = [GameState sharedGameState];
   UserMonster *um = [gs myMonsterWithUserMonsterId:userMonsterId];
   
@@ -979,7 +979,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
   return NO;
 }
 
-- (BOOL) addMonsterToTeam:(int)userMonsterId {
+- (BOOL) addMonsterToTeam:(uint64_t)userMonsterId {
   Globals *gl = [Globals sharedGlobals];
   GameState *gs = [GameState sharedGameState];
   UserMonster *um = [gs myMonsterWithUserMonsterId:userMonsterId];
@@ -1118,7 +1118,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
   [[SocketCommunication sharedSocketCommunication] sendCombineUserMonsterPiecesMessage:userMonsterIds gemCost:0];
 }
 
-- (BOOL) combineMonsterWithSpeedup:(int)userMonsterId {
+- (BOOL) combineMonsterWithSpeedup:(uint64_t)userMonsterId {
   GameState *gs = [GameState sharedGameState];
   Globals *gl = [Globals sharedGlobals];
   UserMonster *um = [gs myMonsterWithUserMonsterId:userMonsterId];
@@ -1130,7 +1130,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
   } else {
     um.isComplete = YES;
     
-    int tag = [[SocketCommunication sharedSocketCommunication] sendCombineUserMonsterPiecesMessage:[NSArray arrayWithObject:[NSNumber numberWithInt:userMonsterId]] gemCost:goldCost];
+    int tag = [[SocketCommunication sharedSocketCommunication] sendCombineUserMonsterPiecesMessage:[NSArray arrayWithObject:[NSNumber numberWithUnsignedLongLong:userMonsterId]] gemCost:goldCost];
     [gs addUnrespondedUpdate:[GoldUpdate updateWithTag:tag change:-goldCost]];
     
     [gs beginCombineTimer];
@@ -1140,7 +1140,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
   return NO;
 }
 
-- (BOOL) addMonsterToHealingQueue:(int)userMonsterId useGems:(BOOL)useGems {
+- (BOOL) addMonsterToHealingQueue:(uint64_t)userMonsterId useGems:(BOOL)useGems {
   Globals *gl = [Globals sharedGlobals];
   GameState *gs = [GameState sharedGameState];
   UserMonster *um = [gs myMonsterWithUserMonsterId:userMonsterId];
@@ -1252,7 +1252,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
   [gs beginHealingTimer];
 }
 
-- (void) sellUserMonster:(int)userMonsterId {
+- (void) sellUserMonster:(uint64_t)userMonsterId {
   GameState *gs = [GameState sharedGameState];
   UserMonster *um = [gs myMonsterWithUserMonsterId:userMonsterId];
   
@@ -1269,7 +1269,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
   }
 }
 
-- (BOOL) setBaseEnhanceMonster:(int)userMonsterId {
+- (BOOL) setBaseEnhanceMonster:(uint64_t)userMonsterId {
   GameState *gs = [GameState sharedGameState];
   UserMonster *um = [gs myMonsterWithUserMonsterId:userMonsterId];
   
@@ -1314,7 +1314,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
   return NO;
 }
 
-- (BOOL) addMonsterToEnhancingQueue:(int)userMonsterId useGems:(BOOL)useGems {
+- (BOOL) addMonsterToEnhancingQueue:(uint64_t)userMonsterId useGems:(BOOL)useGems {
   Globals *gl = [Globals sharedGlobals];
   GameState *gs = [GameState sharedGameState];
   UserMonster *um = [gs myMonsterWithUserMonsterId:userMonsterId];
@@ -1390,7 +1390,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
     for (EnhancementItem *item in gs.userEnhancement.feeders) {
       UserMonster *um = [gs myMonsterWithUserMonsterId:item.userMonsterId];
       base.userMonster.experience += [gl calculateExperienceIncrease:base feeder:item];
-      [arr addObject:[NSNumber numberWithInt:um.userMonsterId]];
+      [arr addObject:[NSNumber numberWithUnsignedLongLong:um.userMonsterId]];
       [gs.myMonsters removeObject:um];
     }
     
@@ -1423,7 +1423,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
     } else {
       UserMonster *um = [gs myMonsterWithUserMonsterId:item.userMonsterId];
       base.userMonster.experience += [gl calculateExperienceIncrease:base feeder:item];
-      [arr addObject:[NSNumber numberWithInt:um.userMonsterId]];
+      [arr addObject:[NSNumber numberWithUnsignedLongLong:um.userMonsterId]];
       [gs.myMonsters removeObject:um];
     }
   }

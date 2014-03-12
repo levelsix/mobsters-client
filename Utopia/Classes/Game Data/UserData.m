@@ -80,7 +80,7 @@
 
 - (BOOL) isEvolving {
   GameState *gs = [GameState sharedGameState];
-  int i = self.userMonsterId;
+  uint64_t i = self.userMonsterId;
   UserEvolution *evo = gs.userEvolution;
   return evo.userMonsterId1 == i || evo.userMonsterId2 == i || evo.catalystMonsterId == i;
 }
@@ -142,7 +142,7 @@
 }
 
 - (NSUInteger) hash {
-  return self.userMonsterId;
+  return (NSUInteger)self.userMonsterId;
 }
 
 - (NSComparisonResult) compare:(UserMonster *)um {
@@ -255,11 +255,11 @@
 }
 
 - (NSUInteger) hash {
-  return self.userMonsterId;
+  return (NSUInteger)self.userMonsterId;
 }
 
 - (NSString *) description {
-  return [NSString stringWithFormat:@"%p: %d, %@", self, self.userMonsterId, self.queueTime];
+  return [NSString stringWithFormat:@"%p: %lld, %@", self, self.userMonsterId, self.queueTime];
 }
 
 @end
@@ -392,11 +392,11 @@
 }
 
 - (NSString *)description {
-  return [NSString stringWithFormat:@"1:%d, 2:%d, C:%d", self.userMonster1.userMonsterId, self.userMonster2.userMonsterId, self.catalystMonster.userMonsterId];
+  return [NSString stringWithFormat:@"1:%lld, 2:%lld, C:%lld", self.userMonster1.userMonsterId, self.userMonster2.userMonsterId, self.catalystMonster.userMonsterId];
 }
 
 - (NSUInteger) hash {
-  return self.userMonster1.userMonsterId+self.userMonster2.userMonsterId+self.catalystMonster.userMonsterId;
+  return (NSUInteger)(self.userMonster1.userMonsterId+self.userMonster2.userMonsterId+self.catalystMonster.userMonsterId);
 }
 
 @end
@@ -463,11 +463,11 @@
 }
 
 - (NSUInteger) hash {
-  return self.userMonsterId;
+  return (NSUInteger)self.userMonsterId;
 }
 
 - (NSString *) description {
-  return [NSString stringWithFormat:@"Id %d: %@", self.userMonsterId, self.expectedStartTime];
+  return [NSString stringWithFormat:@"Id %lld: %@", self.userMonsterId, self.expectedStartTime];
 }
 
 @end

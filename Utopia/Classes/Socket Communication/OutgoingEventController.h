@@ -76,7 +76,7 @@
 - (void) beginDungeon:(int)taskId withDelegate:(id)delegate;
 - (void) beginDungeon:(int)taskId enemyElement:(MonsterProto_MonsterElement)element withDelegate:(id)delegate;
 - (void) beginDungeon:(int)taskId isEvent:(BOOL)isEvent eventId:(int)eventId useGems:(BOOL)useGems withDelegate:(id)delegate;
-- (void) updateMonsterHealth:(int)userMonsterId curHealth:(int)curHealth;
+- (void) updateMonsterHealth:(uint64_t)userMonsterId curHealth:(int)curHealth;
 - (void) endDungeon:(BeginDungeonResponseProto *)dungeonInfo userWon:(BOOL)userWon delegate:(id)delegate;
 - (void) reviveInDungeon:(uint64_t)userTaskId myTeam:(NSArray *)team;
 
@@ -84,20 +84,20 @@
 - (BOOL) viewNextPvpGuy:(BOOL)useGems;
 - (void) beginPvpBattle:(PvpProto *)proto;
 
-- (BOOL) removeMonsterFromTeam:(int)userMonsterId;
-- (BOOL) addMonsterToTeam:(int)userMonsterId;
+- (BOOL) removeMonsterFromTeam:(uint64_t)userMonsterId;
+- (BOOL) addMonsterToTeam:(uint64_t)userMonsterId;
 - (void) increaseInventorySlots:(UserStruct *)us withGems:(BOOL)gems;
 - (void) combineMonsters:(NSArray *)userMonsterIds;
-- (BOOL) combineMonsterWithSpeedup:(int)userMonsterId;
-- (BOOL) addMonsterToHealingQueue:(int)userMonsterId useGems:(BOOL)useGems;
+- (BOOL) combineMonsterWithSpeedup:(uint64_t)userMonsterId;
+- (BOOL) addMonsterToHealingQueue:(uint64_t)userMonsterId useGems:(BOOL)useGems;
 - (BOOL) removeMonsterFromHealingQueue:(UserMonsterHealingItem *)item;
 - (BOOL) speedupHealingQueue;
 - (void) healQueueWaitTimeComplete:(NSArray *)healingItems;
-- (void) sellUserMonster:(int)userMonsterId;
+- (void) sellUserMonster:(uint64_t)userMonsterId;
 
-- (BOOL) setBaseEnhanceMonster:(int)userMonsterId;
+- (BOOL) setBaseEnhanceMonster:(uint64_t)userMonsterId;
 - (BOOL) removeBaseEnhanceMonster;
-- (BOOL) addMonsterToEnhancingQueue:(int)userMonsterId useGems:(BOOL)useGems;
+- (BOOL) addMonsterToEnhancingQueue:(uint64_t)userMonsterId useGems:(BOOL)useGems;
 - (BOOL) removeMonsterFromEnhancingQueue:(EnhancementItem *)item;
 - (BOOL) speedupEnhancingQueue;
 - (void) enhanceQueueWaitTimeComplete:(NSArray *)enhancingItems;

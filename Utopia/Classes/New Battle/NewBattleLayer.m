@@ -300,7 +300,7 @@
 
 - (void) createNextMyPlayerSprite {
   BattleSprite *mp = [[BattleSprite alloc] initWithPrefix:self.myPlayerObject.spritePrefix nameString:self.myPlayerObject.name animationType:self.myPlayerObject.animationType isMySprite:YES];
-  mp.healthBar.color = [self.orbLayer colorForSparkle:self.myPlayerObject.element];
+  mp.healthBar.color = [self.orbLayer colorForSparkle:(GemColorId)self.myPlayerObject.element];
   [self.bgdContainer addChild:mp z:1];
   mp.position = MY_PLAYER_LOCATION;
   if (_puzzleIsOnLeft) mp.position = ccpAdd(MY_PLAYER_LOCATION, ccp(PUZZLE_ON_LEFT_BGD_OFFSET, 0));
@@ -396,7 +396,7 @@
 
 - (void) createNextEnemySprite {
   BattleSprite *bs = [[BattleSprite alloc] initWithPrefix:self.enemyPlayerObject.spritePrefix nameString:self.enemyPlayerObject.name animationType:self.enemyPlayerObject.animationType isMySprite:NO];
-  bs.healthBar.color = [self.orbLayer colorForSparkle:self.enemyPlayerObject.element];
+  bs.healthBar.color = [self.orbLayer colorForSparkle:(GemColorId)self.enemyPlayerObject.element];
   [self.bgdContainer addChild:bs];
   self.currentEnemy = bs;
   self.currentEnemy.isFacingNear = YES;

@@ -55,7 +55,7 @@
   }
   [s appendFormat:@")"];
   
-  return [NSString stringWithFormat:@"HealingItem: %d, T: %@, P: %f, S: %@, E: %@", self.userMonsterId, s, self.healthProgress, self.startTime, self.endTime];
+  return [NSString stringWithFormat:@"HealingItem: %lld, T: %@, P: %f, S: %@, E: %@", self.userMonsterId, s, self.healthProgress, self.startTime, self.endTime];
 }
 
 @end

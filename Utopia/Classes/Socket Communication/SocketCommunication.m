@@ -986,7 +986,7 @@ static NSString *udid = nil;
   return tag;
 }
 
-- (int) sendAddMonsterToTeam:(int)userMonsterId teamSlot:(int)teamSlot {
+- (int) sendAddMonsterToTeam:(uint64_t)userMonsterId teamSlot:(int)teamSlot {
   AddMonsterToBattleTeamRequestProto *req = [[[[[AddMonsterToBattleTeamRequestProto builder]
                                                 setSender:_sender]
                                                setUserMonsterId:userMonsterId]
@@ -996,7 +996,7 @@ static NSString *udid = nil;
   return [self sendData:req withMessageType:EventProtocolRequestCAddMonsterToBattleTeamEvent];
 }
 
-- (int) sendRemoveMonsterFromTeam:(int)userMonsterId {
+- (int) sendRemoveMonsterFromTeam:(uint64_t)userMonsterId {
   RemoveMonsterFromBattleTeamRequestProto *req = [[[[RemoveMonsterFromBattleTeamRequestProto builder]
                                                     setSender:_sender]
                                                    setUserMonsterId:userMonsterId]

@@ -159,7 +159,7 @@
 - (void) addEnhancementProto:(UserEnhancementProto *)proto;
 - (void) addClanRaidUserInfo:(PersistentClanEventUserInfoProto *)info;
 
-- (UserMonster *) myMonsterWithUserMonsterId:(int)userMonsterId;
+- (UserMonster *) myMonsterWithUserMonsterId:(uint64_t)userMonsterId;
 - (UserMonster *) myMonsterWithSlotNumber:(int)slotNum;
 - (NSArray *) allMonstersOnMyTeam;
 - (NSArray *) allBattleAvailableMonstersOnTeam;

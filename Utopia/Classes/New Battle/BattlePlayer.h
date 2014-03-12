@@ -34,7 +34,7 @@
 @property (nonatomic, assign) float damageRandomnessFactor;
 
 @property (nonatomic, assign) int monsterId;
-@property (nonatomic, assign) int userMonsterId;
+@property (nonatomic, assign) uint64_t userMonsterId;
 @property (nonatomic, assign) int slotNum;
 
 + (id) playerWithMonster:(UserMonster *)monster;

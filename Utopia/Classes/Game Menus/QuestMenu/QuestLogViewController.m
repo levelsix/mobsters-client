@@ -234,7 +234,7 @@
       if (um.teamSlot > 0) {
         numOnTeam++;
       }
-      [ids addObject:[NSNumber numberWithInt:um.userMonsterId]];
+      [ids addObject:[NSNumber numberWithUnsignedLongLong:um.userMonsterId]];
     }
     
     self.userMonsterIds = ids;

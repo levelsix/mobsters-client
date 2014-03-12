@@ -265,7 +265,7 @@
   return self.queueCell;
 }
 
-- (UserMonster *) userMonsterForId:(int)userMonsterId {
+- (UserMonster *) userMonsterForId:(uint64_t)userMonsterId {
   for (UserMonster *um in self.userMonsters) {
     if (um.userMonsterId == userMonsterId) {
       return um;

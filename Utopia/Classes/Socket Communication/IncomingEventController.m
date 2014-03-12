@@ -341,11 +341,6 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
       [gs addPrivateChat:pcpp];
     }
     
-    for (RareBoosterPurchaseProto *rbp in proto.rareBoosterPurchasesList) {
-      //      NSLog(@"%@ got %@ from %@.", rbp.user.name, rbp.equip.name, rbp.booster.name);
-      //      [gs addBoosterPurchase:rbp];
-    }
-    
     AppDelegate *ad = (AppDelegate *)[[UIApplication sharedApplication] delegate];
     [ad registerForPushNotifications];
     [ad removeLocalNotifications];

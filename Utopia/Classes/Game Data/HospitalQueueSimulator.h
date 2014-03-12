@@ -21,7 +21,7 @@
 
 @interface HealingItemSim : NSObject
 
-@property (nonatomic, assign) int userMonsterId;
+@property (nonatomic, assign) uint64_t userMonsterId;
 @property (nonatomic, assign) float healthProgress;
 @property (nonatomic, assign) int totalHealthToHeal;
 @property (nonatomic, retain) NSDate *queueTime;
