@@ -1096,6 +1096,7 @@
 		CF8BA24718CF3AAD003277D1 /* TutorialDoublePowerupController.m in Sources */ = {isa = PBXBuildFile; fileRef = CF8BA24618CF3AAD003277D1 /* TutorialDoublePowerupController.m */; };
 		CF8BA24B18CF4022003277D1 /* TutorialPowerupController.m in Sources */ = {isa = PBXBuildFile; fileRef = CF8BA24A18CF4022003277D1 /* TutorialPowerupController.m */; };
 		CF8BA24E18CF4044003277D1 /* TutorialPowerupBattleLayer.m in Sources */ = {isa = PBXBuildFile; fileRef = CF8BA24D18CF4044003277D1 /* TutorialPowerupBattleLayer.m */; };
+		CF8BA25118D09C89003277D1 /* TutorialQuestLogViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CF8BA25018D09C88003277D1 /* TutorialQuestLogViewController.m */; };
 		CF8C7AB71579DAAA003A6AFE /* cityunlocked.png in Resources */ = {isa = PBXBuildFile; fileRef = CF8C7A9F1579DAAA003A6AFE /* cityunlocked.png */; };
 		CF8C7AB81579DAAA003A6AFE /* cityunlocked@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CF8C7AA01579DAAA003A6AFE /* cityunlocked@2x.png */; };
 		CF8C7AB91579DAAA003A6AFE /* cityupsquare.png in Resources */ = {isa = PBXBuildFile; fileRef = CF8C7AA11579DAAA003A6AFE /* cityupsquare.png */; };
@@ -3820,6 +3821,8 @@
 		CF8BA24A18CF4022003277D1 /* TutorialPowerupController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TutorialPowerupController.m; sourceTree = "<group>"; };
 		CF8BA24C18CF4044003277D1 /* TutorialPowerupBattleLayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TutorialPowerupBattleLayer.h; sourceTree = "<group>"; };
 		CF8BA24D18CF4044003277D1 /* TutorialPowerupBattleLayer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TutorialPowerupBattleLayer.m; sourceTree = "<group>"; };
+		CF8BA24F18D09C88003277D1 /* TutorialQuestLogViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TutorialQuestLogViewController.h; sourceTree = "<group>"; };
+		CF8BA25018D09C88003277D1 /* TutorialQuestLogViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TutorialQuestLogViewController.m; sourceTree = "<group>"; };
 		CF8C7A9F1579DAAA003A6AFE /* cityunlocked.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = cityunlocked.png; sourceTree = "<group>"; };
 		CF8C7AA01579DAAA003A6AFE /* cityunlocked@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "cityunlocked@2x.png"; sourceTree = "<group>"; };
 		CF8C7AA11579DAAA003A6AFE /* cityupsquare.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = cityupsquare.png; sourceTree = "<group>"; };
@@ -7305,6 +7308,8 @@
 				CFA7502218CAD30000AC66FC /* TutorialNameViewController.xib */,
 				CF7372A718CB7CE900EE2CBC /* TutorialAttackMapViewController.h */,
 				CF7372A818CB7CE900EE2CBC /* TutorialAttackMapViewController.m */,
+				CF8BA24F18D09C88003277D1 /* TutorialQuestLogViewController.h */,
+				CF8BA25018D09C88003277D1 /* TutorialQuestLogViewController.m */,
 			);
 			name = MenuControllers;
 			sourceTree = "<group>";
@@ -12245,6 +12250,7 @@
 				CF3764FC182DD6BD00D0A77E /* ChatViewController.m in Sources */,
 				CF126E201538ACCA00E0C1AD /* PullRefreshTableViewController.m in Sources */,
 				CFEF25DB18CAB86500FB867A /* GameCenterDelegate.m in Sources */,
+				CF8BA25118D09C89003277D1 /* TutorialQuestLogViewController.m in Sources */,
 				CF126E211538ACCA00E0C1AD /* SBDoubleSidedLayer.m in Sources */,
 				CF126E221538ACCA00E0C1AD /* SBGradientOverlayLayer.m in Sources */,
 				CF126E231538ACCA00E0C1AD /* SBTickerView.m in Sources */,

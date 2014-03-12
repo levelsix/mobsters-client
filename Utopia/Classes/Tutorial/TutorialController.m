@@ -116,11 +116,11 @@
   [self.touchView addResponder:[CCDirector sharedDirector].view];
   self.touchView.userInteractionEnabled = NO;
   
-  [self initMissionMapWithCenterOnThirdBuilding:NO];
-  [self beginBlackedOutDialogue];
+  //[self initMissionMapWithCenterOnThirdBuilding:NO];
+  //[self beginBoardYachtPhase];
   //[self beginSecondBattlePhase];
   
-  //[self yachtWentOffScene];
+  [self yachtWentOffScene];
   
   //[self initHomeMap];
   //[self initTopBar];
@@ -133,6 +133,10 @@
     TutorialMissionMap *missionMap = [[TutorialMissionMap alloc] initWithTutorialConstants:self.constants];
     missionMap.delegate = self;
     self.missionMap = missionMap;
+  } else {
+    if (self.missionMap.parent) {
+      [self.missionMap removeFromParent];
+    }
   }
   
   if (thirdBuilding) {
@@ -457,7 +461,7 @@
 }
 
 - (void) beginSecondBattleKillPhase {
-  NSArray *dialogue = @[@(TutorialDialogueSpeakerMarkL), @"Oops, let me update my Bookface status before we begin.",
+  NSArray *dialogue = @[@(TutorialDialogueSpeakerMarkL), @"Oops, let me update my BookFace status before we begin.",
                         @(TutorialDialogueSpeakerEnemyBoss), @"...",
                         @(TutorialDialogueSpeakerMarkL), @"\"Currently saving a stranger who got owned by a luchador. #LOL #GoodGuyZark\"",
                         @(TutorialDialogueSpeakerMarkL), @"Heh, 12 likes already. Alright, let’s do this."];
@@ -471,7 +475,7 @@
   
   NSArray *dialogue = @[@(TutorialDialogueSpeakerEnemyBoss), @"You win battle. Not war. We be back.",
                         @(TutorialDialogueSpeakerMarkL), @"So... is it cool if I still send you a friend request?",
-                        @(TutorialDialogueSpeakerEnemyBoss), @"... No."];
+                        @(TutorialDialogueSpeakerEnemyBoss), @"...No."];
   [self displayDialogue:dialogue allowTouch:YES useShortBubble:NO];
   
   _currentStep = TutorialStepPostSecondBattleConfrontation;
@@ -544,7 +548,7 @@
   [self.homeMap speedupPurchasedBuilding];
   
   NSArray *dialogue = @[@(TutorialDialogueSpeakerMarkL), @"Patience is a virtue, but not when you're building a Cash Printer."];
-  [self displayDialogue:dialogue allowTouch:NO useShortBubble:NO];
+  [self displayDialogue:dialogue allowTouch:NO useShortBubble:YES];
   self.touchView.userInteractionEnabled = NO;
   
   _currentStep = TutorialStepSpeedupBuildingOne;
@@ -614,8 +618,6 @@
 }
 
 - (void) beginEnterBattleThreePhase {
-  [self.missionMap moveToThirdBuilding];
-  
   NSArray *dialogue = @[@(TutorialDialogueSpeakerFriend), @"Unlike your world, we mobsters like to take the fight inside. Click on the Tea Lounge to start a fight."];
   [self displayDialogue:dialogue allowTouch:YES useShortBubble:NO];
   
@@ -636,8 +638,11 @@
 }
 
 - (void) beginClickQuestsPhase {
-  NSArray *dialogue = @[@(TutorialDialogueSpeakerFriend), @"You learn quick, but it’s easy to get side-tracked when you’re building an empire.",
-                        @(TutorialDialogueSpeakerFriend), @"I’ve created a mission list to guide you in case you get lost. Tap here now to check it out!"];
+  NSArray *dialogue = @[@(TutorialDialogueSpeakerFriend), @"You’re getting the hang of things, but it’s time to join the major leagues.",
+                        @(TutorialDialogueSpeakerFriend), @"If you can learn how to combine power-ups, I’ll give you a shiny reward.",
+                        @(TutorialDialogueSpeakerMarkR), @"Hey buddy, before you leave, I got you a present for your first mission.",
+                        @(TutorialDialogueSpeakerMarkR), @"Plotting for world domination is tough, so I’ve made you this app to help you keep track of your missions.",
+                        @(TutorialDialogueSpeakerMarkR), @"Tap here now to take a look!"];
   [self displayDialogue:dialogue allowTouch:YES useShortBubble:NO];
   
   _currentStep = TutorialStepClickQuests;
@@ -747,7 +752,10 @@
 #pragma mark - HomeMap delegate
 
 - (void) boatLanded {
-  [self beginEnterHospitalPhase];
+  [self sendUserCreate];
+  [self initTopBar];
+  [self beginAttackMapPhase];
+  //[self beginEnterHospitalPhase];
 }
 
 - (void) enterHospitalClicked {
@@ -984,31 +992,35 @@
 }
 
 - (void) dialogueViewController:(DialogueViewController *)dvc didDisplaySpeechAtIndex:(int)index {
-  if (_currentStep == TutorialStepFirstBattleFirstMove) {
-    [self.battleLayer beginFirstMove];
-  } else if (_currentStep == TutorialStepFirstBattleSecondMove ||
-             _currentStep == TutorialStepSecondBattleSecondMove) {
-    [self.battleLayer beginSecondMove];
-  } else if (_currentStep == TutorialStepFirstBattleLastMove ||
-             _currentStep == TutorialStepSecondBattleThirdMove) {
-    [self.battleLayer allowMove];
-  } else if (_currentStep == TutorialStepSecondBattleFirstMove && index == 1) {
-    [self.battleLayer beginFirstMove];
-  } else if (_currentStep == TutorialStepSecondBattleKillEnemy && index == 3) {
-    [self.battleLayer allowMove];
-  } else if (_currentStep == TutorialStepBeginHealQueue) {
+  if (index == dvc.dialogue.speechSegmentList.count-1) {
+    if (_currentStep == TutorialStepFirstBattleFirstMove) {
+      [self.battleLayer beginFirstMove];
+    } else if (_currentStep == TutorialStepFirstBattleSecondMove ||
+               _currentStep == TutorialStepSecondBattleSecondMove) {
+      [self.battleLayer beginSecondMove];
+    } else if (_currentStep == TutorialStepFirstBattleLastMove ||
+               _currentStep == TutorialStepSecondBattleThirdMove) {
+      [self.battleLayer allowMove];
+    } else if (_currentStep == TutorialStepSecondBattleFirstMove) {
+      [self.battleLayer beginFirstMove];
+    } else if (_currentStep == TutorialStepSecondBattleKillEnemy) {
+      [self.battleLayer allowMove];
+    } else if ((_currentStep == TutorialStepBeginBuildingOne) ||
+               (_currentStep == TutorialStepBeginBuildingTwo) ||
+               (_currentStep == TutorialStepBeginBuildingThree)) {
+      [self.topBarViewController allowMenuClick];
+    } else if (_currentStep == TutorialStepClickQuests && index == 4) {
+      self.dialogueViewController.view.userInteractionEnabled = NO;
+      [self.topBarViewController allowQuestsClick];
+    }
+  }
+  
+  if (_currentStep == TutorialStepBeginHealQueue) {
     [self.myCroniesViewController allowCardClick];
   } else if (_currentStep == TutorialStepSpeedupHealQueue) {
     [self.myCroniesViewController allowSpeedup];
   } else if (_currentStep == TutorialStepExitHospital) {
     [self.myCroniesViewController allowClose];
-  } else if ((_currentStep == TutorialStepBeginBuildingOne && index == 1) ||
-             (_currentStep == TutorialStepBeginBuildingTwo && index == 2) ||
-             (_currentStep == TutorialStepBeginBuildingThree && index == 3)) {
-    [self.topBarViewController allowMenuClick];
-  } else if (_currentStep == TutorialStepClickQuests && index == 1) {
-    self.dialogueViewController.view.userInteractionEnabled = NO; 
-    [self.topBarViewController allowQuestsClick];
   }
 }
 

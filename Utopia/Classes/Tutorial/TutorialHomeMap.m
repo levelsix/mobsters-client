@@ -319,7 +319,6 @@
   us.isComplete = YES;
   [self.delegate buildingWasSpedUp:0];
   self.clickableUserStructId = 0;
-  self.selected = nil;
 }
 
 - (void) sendSpeedupBuilding:(UserStruct *)us {
@@ -344,6 +343,12 @@
 - (void) drag:(UIGestureRecognizer *)recognizer {
   if (_canMove) {
     [super drag:recognizer];
+  }
+}
+
+- (void) tap:(UIGestureRecognizer *)recognizer {
+  if (self.clickableUserStructId) {
+    [super tap:recognizer];
   }
 }
 

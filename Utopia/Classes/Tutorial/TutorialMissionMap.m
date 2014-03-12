@@ -534,16 +534,12 @@
   [Globals createUIArrowForView:self.enterButton atAngle:angle];
 }
 
-- (void) drag:(UIGestureRecognizer *)recognizer {
-  // Do nothing
-}
-
-- (void) scale:(UIGestureRecognizer *)recognizer {
-  // Do nothing
-}
-
-- (void) setupTeamSprites {
-  // Do nothing
-}
+//- (void) drag:(UIGestureRecognizer *)recognizer {
+//  // Do nothing
+//}
+//
+//- (void) scale:(UIGestureRecognizer *)recognizer {
+//  // Do nothing
+//}
 
 @end

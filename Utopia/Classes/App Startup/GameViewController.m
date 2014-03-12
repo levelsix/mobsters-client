@@ -53,6 +53,13 @@
 
 @implementation GameViewController
 
+- (id) init {
+  if ((self = [super init])) {
+    _isFreshRestart = YES;
+  }
+  return self;
+}
+
 + (id) baseController {
   AppDelegate *ad = (AppDelegate *)[[UIApplication sharedApplication] delegate];
   UINavigationController *nav = (UINavigationController *)ad.window.rootViewController;
@@ -134,7 +141,7 @@
   
   [[NSBundle mainBundle] loadNibNamed:@"TravelingLoadingView" owner:self options:nil];
   
-  _isFreshRestart = YES;
+  [FacebookDelegate logout];
 }
 
 - (void) viewDidAppear:(BOOL)animated {
@@ -158,7 +165,7 @@
   gs.isTutorial = NO;
   
   [self fadeToLoadingScreenPercentage:PART_3_PERCENT animated:YES];
-  FullEvent *fe = [[FullEvent alloc] initWithEvent:startupResponse tag:0];
+  FullEvent *fe = [FullEvent createWithEvent:startupResponse tag:0];
   [[IncomingEventController sharedIncomingEventController] handleStartupResponseProto:fe];
   [self handleStartupResponseProto:fe];
   
@@ -170,7 +177,7 @@
   GameState *gs = [GameState sharedGameState];
   gs.isTutorial = NO;
   
-  FullEvent *fe = [[FullEvent alloc] initWithEvent:startupResponse tag:0];
+  FullEvent *fe = [FullEvent createWithEvent:startupResponse tag:0];
   [[IncomingEventController sharedIncomingEventController] handleStartupResponseProto:fe];
   [self handleStartupResponseProto:fe];
 }
@@ -195,9 +202,8 @@
 }
 
 - (void) handleConnectedToHost {
-  if (!self.tutController) {
+  if (!self.tutController && !_isFromFacebook) {
     [self progressTo:PART_2_PERCENT animated:YES];
-    
     [FacebookDelegate getFacebookIdAndDoAction:^(NSString *facebookId) {
       if ([SocketCommunication isForcedTutorial]) {
         NSLog(@"Forcing tutorial. Throwing away facebook id %@.", facebookId);
@@ -205,7 +211,15 @@
       }
       [[OutgoingEventController sharedOutgoingEventController] startupWithFacebookId:facebookId isFreshRestart:_isFreshRestart delegate:self];
     }];
+  } else if (_isFromFacebook) {
+    GameState *gs = [GameState sharedGameState];
+    gs.connected = YES;
+    
+    [[SocketCommunication sharedSocketCommunication] initUserIdMessageQueue];
+    [[SocketCommunication sharedSocketCommunication] reloadClanMessageQueue];
   }
+  _isFromFacebook = NO;
+  _isFreshRestart = NO;
 }
 
 - (void) handleStartupResponseProto:(FullEvent *)fe {
@@ -220,7 +234,7 @@
     if (self.loadingView.superview) {
       [self.loadingView stop];
     }
-  } else {
+  } else if (!self.tutController) {
     [self dismissViewControllerAnimated:YES completion:nil];
     [self beginTutorial:proto.tutorialConstants];
   }
@@ -559,9 +573,24 @@
 
 #pragma mark - Facebook stuff
 
+- (void) openedFromFacebook {
+  NSDate *openDate = [[FacebookDelegate sharedFacebookDelegate] timeOfLastLoginAttempt];
+  if (-openDate.timeIntervalSinceNow > 5*60) {
+    _shouldRejectFacebook = YES;
+  } else if (_isFreshRestart) {
+    _shouldRejectFacebook = YES;
+  } else {
+    _isFromFacebook = YES;
+  }
+}
+
 - (BOOL) canProceedWithFacebookId:(NSString *)facebookId {
   GameState *gs = [GameState sharedGameState];
-  if (!gs.connected || gs.isTutorial) {
+  if (_shouldRejectFacebook) {
+    _shouldRejectFacebook = NO;
+    [Globals popupMessage:@"Unable to login to Facebook. Please try again!"];
+    [FacebookDelegate logout];
+  } else if ((!_isFromFacebook && !gs.connected) || gs.isTutorial) {
     return YES;
   } else if ([gs.facebookId isEqualToString:facebookId]) {
     return YES;

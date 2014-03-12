@@ -105,7 +105,11 @@
 
 - (int) randomDamage {
   if (self.minDamage && self.maxDamage) {
-    return self.minDamage+arc4random()%(self.maxDamage-self.minDamage);
+    if (self.minDamage < self.maxDamage) {
+      return self.minDamage+arc4random()%(self.maxDamage-self.minDamage);
+    } else {
+      return self.maxDamage;
+    }
   } else {
     float rand = ((float) (arc4random() % ((unsigned)RAND_MAX + 1)) / RAND_MAX);
     float amt = 1+(rand*2-1)*self.damageRandomnessFactor;

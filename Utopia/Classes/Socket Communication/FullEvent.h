@@ -14,7 +14,9 @@
 @property (nonatomic, retain) PBGeneratedMessage *event;
 @property (nonatomic, assign) int tag;
 
+@property (nonatomic, assign) EventProtocolRequest requestType;
+
 + (id) createWithEvent:(PBGeneratedMessage *)e tag:(int)t;
-- (id) initWithEvent:(PBGeneratedMessage *)e tag:(int)t;
++ (id) createWithEvent:(PBGeneratedMessage *)e tag:(int)t requestType:(EventProtocolRequest)requestType;
 
 @end

@@ -42,6 +42,7 @@
 }
 
 + (BOOL) handleOpenURL:(NSURL *)url sourceApplication:(NSString *)sourceApplication {
+  [[GameViewController baseController] openedFromFacebook];
   [FBSession.activeSession setStateChangeHandler:
    ^(FBSession *session, FBSessionState state, NSError *error) {
      [[self sharedFacebookDelegate] sessionStateChanged:session state:state error:error];
@@ -156,6 +157,10 @@
                                                        // Call the app delegate's sessionStateChanged:state:error method to handle session state changes
                                                        [self sessionStateChanged:session state:state error:error];
                                                      }];
+    
+    if (login) {
+      self.timeOfLastLoginAttempt = [NSDate date];
+    }
     
     // If session isn't created.. it means no token was found
     // To check this, call activeSession. Since, this will create a new session if it

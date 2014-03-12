@@ -22,7 +22,20 @@
     self.event = e;
     self.tag = t;
   }
-return self;
+  return self;
+}
+
++ (id) createWithEvent:(PBGeneratedMessage *)e tag:(int)t requestType:(EventProtocolRequest)requestType {
+  return [[self alloc] initWithEvent:e tag:t requestType:requestType];
+}
+
+- (id) initWithEvent:(PBGeneratedMessage *)e tag:(int)t requestType:(EventProtocolRequest)requestType {
+  if ((self = [super init])) {
+    self.event = e;
+    self.tag = t;
+    self.requestType = requestType;
+  }
+  return self;
 }
 
 @end

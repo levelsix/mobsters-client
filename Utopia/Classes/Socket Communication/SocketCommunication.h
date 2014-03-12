@@ -25,6 +25,7 @@
   NSTimer *_flushTimer;
   
   int _numDisconnects;
+  BOOL _isCreatingQueues;
   
   BOOL _healingQueuePotentiallyChanged;
   int _healingQueueCashChange;
@@ -36,6 +37,8 @@
 }
 
 @property (nonatomic, retain) AMQPConnectionThread *connectionThread;
+
+@property (nonatomic, retain) NSMutableArray *queuedMessages;
 
 @property (nonatomic, retain) NSMutableArray *structRetrievals;
 

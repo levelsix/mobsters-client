@@ -24,6 +24,9 @@
   int _questIdAfterDialogue;
   
   BOOL _isFreshRestart;
+  
+  BOOL _isFromFacebook;
+  BOOL _shouldRejectFacebook;
 }
 
 @property (nonatomic, strong) TopBarViewController *topBarViewController;
@@ -37,6 +40,7 @@
 
 + (id) baseController;
 
+- (void) openedFromFacebook;
 - (void) handleConnectedToHost;
 - (void) reloadAccountWithStartupResponse:(StartupResponseProto *)startupResponse;
 - (void) tutorialReceivedStartupResponse:(StartupResponseProto *)startupResponse;

@@ -260,7 +260,7 @@
   clanBs.position = startPos;
   [clanBs runAction:
    [CCActionSequence actions:
-    [CCActionMoveTo actionWithDuration:ccpDistance(midPos, startPos)/MY_WALKING_SPEED position:midPos],
+    [CCActionMoveTo actionWithDuration:ccpDistance(midPos, startPos)/MY_WALKING_SPEED/2 position:midPos],
     [CCActionCallBlock actionWithBlock:
      ^{
        if (comeFromTop) {
@@ -272,7 +272,7 @@
          clanBs.sprite.flipX = NO;
        }
      }],
-    [CCActionMoveTo actionWithDuration:ccpDistance(finalPos, midPos)/MY_WALKING_SPEED position:finalPos],
+    [CCActionMoveTo actionWithDuration:ccpDistance(finalPos, midPos)/MY_WALKING_SPEED/2 position:finalPos],
     [CCActionCallBlock actionWithBlock:
      ^{
        [clanBs stopWalking];
@@ -327,7 +327,7 @@
     }
     [clanBs runAction:
      [CCActionSequence actions:
-      [CCActionMoveTo actionWithDuration:ccpDistance(midPos, startPos)/MY_WALKING_SPEED position:midPos],
+      [CCActionMoveTo actionWithDuration:ccpDistance(midPos, startPos)/MY_WALKING_SPEED/2 position:midPos],
       [CCActionCallBlock actionWithBlock:
        ^{
          if (comeFromTop) {
@@ -338,7 +338,7 @@
            clanBs.sprite.flipX = NO;
          }
        }],
-      [CCActionMoveTo actionWithDuration:ccpDistance(finalPos, midPos)/MY_WALKING_SPEED position:finalPos],
+      [CCActionMoveTo actionWithDuration:ccpDistance(finalPos, midPos)/MY_WALKING_SPEED/2 position:finalPos],
       [CCActionCallFunc actionWithTarget:clanBs selector:@selector(removeFromParent)],
       nil]];
     

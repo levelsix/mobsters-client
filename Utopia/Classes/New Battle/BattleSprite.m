@@ -237,7 +237,7 @@
     CGPoint enemyPos = enemy.position;
     CGPoint pointOffset = POINT_OFFSET_PER_SCENE;
     float distToTravel = ccpDistance(self.position, enemyPos)-50.f;
-    float moveTime = distToTravel/MY_WALKING_SPEED;
+    float moveTime = distToTravel/MY_WALKING_SPEED/2;
     float moveAmount = -distToTravel/ccpLength(pointOffset);
     
     seq = [CCActionSequence actions:
@@ -284,7 +284,7 @@
     CGPoint pointOffset = POINT_OFFSET_PER_SCENE;
     // Subtract the range from the distance
     float distToTravel = ccpDistance(self.position, enemyPos)-50.f;
-    float moveTime = distToTravel/MY_WALKING_SPEED;
+    float moveTime = distToTravel/MY_WALKING_SPEED/2;
     float moveAmount = distToTravel/ccpLength(pointOffset);
     
     seq = [CCActionSequence actions:

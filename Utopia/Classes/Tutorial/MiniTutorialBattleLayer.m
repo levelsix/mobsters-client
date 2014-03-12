@@ -71,8 +71,7 @@
 
 - (void) reachedNextScene {
   if (!_hasStarted) {
-    [self moveToNextEnemy];
-    _hasStarted = YES;
+    [super reachedNextScene];
   } else {
     [self.myPlayer stopWalking];
     if ([self.delegate respondsToSelector:@selector(battleLayerReachedEnemy)]) {

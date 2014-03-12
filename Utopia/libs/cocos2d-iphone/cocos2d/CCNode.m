@@ -207,10 +207,12 @@ static NSUInteger globalOrderOfArrival = 1;
 {
 	CCLOGINFO( @"cocos2d: deallocing %@", self);
 
+  // LVL6 Addition
+  [self removeAllChildren];
 
 	// children
-    for (CCNode* child in _children)
-		child.parent = nil;
+//    for (CCNode* child in _children)
+//		child.parent = nil;
 
 
 }
@@ -723,7 +725,7 @@ RecursivelyIncrementPausedAncestors(CCNode *node, int increment)
 
 -(void) removeChildByName:(NSString*)name cleanup:(BOOL)cleanup
 {
-  // LVL6 Additoin
+  // LVL6 Addition
 	NSAssert( name, @"Invalid name");
 
 	CCNode *child = [self getChildByName:name recursively:NO];

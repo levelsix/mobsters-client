@@ -579,11 +579,11 @@
 }
 
 - (void) onExit {
-  [super onExit];
   self.selected = nil;
   [[NSNotificationCenter defaultCenter] removeObserver:self];
   
   [self unloadGestureRecognizers];
+  [super onExit];
 }
 
 @end

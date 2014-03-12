@@ -149,6 +149,8 @@ static NSString *udid = nil;
     [self.connectionThread start];
     [self.connectionThread setName:@"AMQPConnectionThread"];
     self.connectionThread.delegate = self;
+    
+    self.queuedMessages = [NSMutableArray array];
   }
   return self;
 }
@@ -182,6 +184,7 @@ static NSString *udid = nil;
   _currentTagNum = 1;
   _shouldReconnect = YES;
   _numDisconnects = 0;
+  _isCreatingQueues = YES;
   
   self.structRetrievals = [NSMutableArray array];
   
@@ -195,6 +198,8 @@ static NSString *udid = nil;
 
 - (void) connectedToHost {
   LNLog(@"Connected to host");
+  
+  _isCreatingQueues = NO;
   
   NSObject *delegate = [self.tagDelegates objectForKey:[NSNumber numberWithInt:CONNECTED_TO_HOST_DELEGATE_TAG]];
   if (delegate) {
@@ -214,6 +219,11 @@ static NSString *udid = nil;
   [self.connectionThread startUserIdQueue];
   
   LNLog(@"Created user id queue");
+  
+  for (FullEvent *fe in self.queuedMessages) {
+    [self sendData:fe.event withMessageType:fe.requestType tagNum:fe.tag flush:YES];
+  }
+  [self.queuedMessages removeAllObjects];
 }
 
 - (void) tryReconnect {
@@ -237,22 +247,31 @@ static NSString *udid = nil;
   }
 }
 
-- (int) sendData:(PBGeneratedMessage *)msg withMessageType:(int)type flush:(BOOL)flush {
+- (void) sendData:(PBGeneratedMessage *)msg withMessageType:(int)type tagNum:(int)tagNum flush:(BOOL)flush {
   if (flush) {
     [self flush];
   }
   
-  NSMutableData *messageWithHeader = [NSMutableData data];
-  NSData *data = [msg data];
-  
-  GameState *gs = [GameState sharedGameState];
-  if (_sender.userId == 0 || !gs.connected) {
-    if (type != EventProtocolRequestCStartupEvent&& type != EventProtocolRequestCUserCreateEvent) {
-      LNLog(@"User id is 0 or GameState is not connected!!!");
-      LNLog(@"Did not send event of type %@.", NSStringFromClass(msg.class));
-      return 0;
+  if (_isCreatingQueues) {
+    FullEvent *fe = [FullEvent createWithEvent:msg tag:tagNum requestType:type];
+    [self.queuedMessages addObject:fe];
+    return;
+  } else {
+    GameState *gs = [GameState sharedGameState];
+    if (_sender.userId == 0 || !gs.connected) {
+      if (type != EventProtocolRequestCStartupEvent&& type != EventProtocolRequestCUserCreateEvent) {
+        LNLog(@"User id is 0 or GameState is not connected!!!");
+        LNLog(@"Queueing up event of type %@.", NSStringFromClass(msg.class));
+        
+        FullEvent *fe = [FullEvent createWithEvent:msg tag:tagNum requestType:type];
+        [self.queuedMessages addObject:fe];
+        return;
+      }
     }
   }
+  
+  NSMutableData *messageWithHeader = [NSMutableData data];
+  NSData *data = [msg data];
   
   // Need to reverse bytes for size and type(to account for endianness??)
   uint8_t header[HEADER_SIZE];
@@ -261,10 +280,10 @@ static NSString *udid = nil;
   header[1] = (type & 0xFF0000) >> 16;
   header[0] = (type & 0xFF000000) >> 24;
   
-  header[7] = _currentTagNum & 0xFF;
-  header[6] = (_currentTagNum & 0xFF00) >> 8;
-  header[5] = (_currentTagNum & 0xFF0000) >> 16;
-  header[4] = (_currentTagNum & 0xFF000000) >> 24;
+  header[7] = tagNum & 0xFF;
+  header[6] = (tagNum & 0xFF00) >> 8;
+  header[5] = (tagNum & 0xFF0000) >> 16;
+  header[4] = (tagNum & 0xFF000000) >> 24;
   
   int size = [data length];
   header[11] = size & 0xFF;
@@ -276,8 +295,11 @@ static NSString *udid = nil;
   [messageWithHeader appendData:data];
   
   [self.connectionThread sendData:messageWithHeader];
-  
+}
+
+- (int) sendData:(PBGeneratedMessage *)msg withMessageType:(int)type flush:(BOOL)flush {
   int tag = _currentTagNum;
+  [self sendData:msg withMessageType:type tagNum:tag flush:flush];
   _currentTagNum++;
   return tag;
 }

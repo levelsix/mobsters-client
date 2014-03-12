@@ -601,6 +601,8 @@
   } else {
     self.bottomOptionView = nil;
     _canMove = NO;
+    [self.upgradeViewController closeClicked:nil];
+    self.upgradeViewController = nil;
     if (_purchasing) {
       _purchasing = NO;
       [_purchBuilding removeFromParent];
