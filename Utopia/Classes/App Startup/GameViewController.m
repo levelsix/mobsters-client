@@ -140,8 +140,6 @@
   [self progressTo:PART_1_PERCENT animated:YES];
   
   [[NSBundle mainBundle] loadNibNamed:@"TravelingLoadingView" owner:self options:nil];
-  
-  [FacebookDelegate logout];
 }
 
 - (void) viewDidAppear:(BOOL)animated {
@@ -210,6 +208,7 @@
         facebookId = nil;
       }
       [[OutgoingEventController sharedOutgoingEventController] startupWithFacebookId:facebookId isFreshRestart:_isFreshRestart delegate:self];
+      _isFreshRestart = NO;
     }];
   } else if (_isFromFacebook) {
     GameState *gs = [GameState sharedGameState];
@@ -219,7 +218,6 @@
     [[SocketCommunication sharedSocketCommunication] reloadClanMessageQueue];
   }
   _isFromFacebook = NO;
-  _isFreshRestart = NO;
 }
 
 - (void) handleStartupResponseProto:(FullEvent *)fe {

@@ -80,6 +80,7 @@
   int _enemyDamageDealt;
   
   BOOL _hasStarted;
+  BOOL _isExiting;
 }
 
 @property (nonatomic, retain) CCSprite *movesBgd;

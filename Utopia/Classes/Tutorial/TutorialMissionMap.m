@@ -216,7 +216,8 @@
     MissionBuilding *ms = (MissionBuilding *)[self assetWithId:self.constants.cityElementIdForFirstDungeon];
     [self.friendSprite walkToTileCoord:ccp(FIRST_BUILDING_ENTER_X, FIRST_BUILDING_ENTER_Y) completionTarget:self selector:@selector(fadeOutFriendSprite) speedMultiplier:2.f];
   } else {
-    [self.delegate enteredThirdBuilding];
+    [self teamSpritesEnterBuilding:(id<TaskElement>)self.selected];
+    [(NSObject *)self.delegate performSelector:@selector(enteredMiniTutBuilding) withObject:nil afterDelay:0.5];
   }
   
   self.clickableAssetId = 0;
@@ -494,6 +495,26 @@
   int assetId = gl.miniTutorialConstants.rainbowTutorialAssetId;
   MissionBuilding *ms = (MissionBuilding *)[self assetWithId:assetId];
   
+  [self moveToSprite:ms animated:YES withOffset:ccp(0, -38)];
+  [ms displayArrow];
+  
+  self.clickableAssetId = assetId;
+}
+
+- (void) moveToFourthBuildingAndDisplayArrow {
+  Globals *gl = [Globals sharedGlobals];
+  int assetId = gl.miniTutorialConstants.powerUpComboTutorialAssetId;
+  MissionBuilding *ms = (MissionBuilding *)[self assetWithId:assetId];
+  [self moveToSprite:ms animated:YES withOffset:ccp(0, -38)];
+  [ms displayArrow];
+  
+  self.clickableAssetId = assetId;
+}
+
+- (void) moveToFifthBuildingAndDisplayArrow {
+  Globals *gl = [Globals sharedGlobals];
+  int assetId = gl.miniTutorialConstants.monsterDropTutorialAssetId;
+  MissionBuilding *ms = (MissionBuilding *)[self assetWithId:assetId];
   [self moveToSprite:ms animated:YES withOffset:ccp(0, -38)];
   [ms displayArrow];
   

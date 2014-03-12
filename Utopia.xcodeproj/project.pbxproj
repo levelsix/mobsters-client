@@ -7666,6 +7666,7 @@
 				CF8BA22918CEA8DE003277D1 /* Rainbow */,
 				CF8BA23818CF1469003277D1 /* DoublePowerup */,
 				CF7372B218CB985100EE2CBC /* Elements */,
+				CF826A2D18D10207002F7A5A /* Drop */,
 			);
 			name = MiniTutorials;
 			sourceTree = "<group>";
@@ -7699,6 +7700,13 @@
 				CF781C60161E60E900E2FF95 /* infoslot@2x.png */,
 			);
 			path = "Expansion Images";
+			sourceTree = "<group>";
+		};
+		CF826A2D18D10207002F7A5A /* Drop */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Drop;
 			sourceTree = "<group>";
 		};
 		CF8BA22918CEA8DE003277D1 /* Rainbow */ = {

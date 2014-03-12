@@ -21,6 +21,7 @@
 #import "TutorialAttackMapViewController.h"
 #import "TutorialRainbowController.h"
 #import "TutorialTouchView.h"
+#import "TutorialQuestLogViewController.h"
 
 @class GameViewController;
 
@@ -89,10 +90,21 @@ typedef enum {
   TutorialStepAttackMap,
   TutorialStepEnterBattleThree,
   TutorialStepRainbowMiniTutorial,
+  
   TutorialStepClickQuests,
+  TutorialStepQuestList,
+  TutorialStepFirstQuest,
+  TutorialStepEnterBattleFour,
+  TutorialStepDoublePowerupMiniTutorial,
+  TutorialStepFirstQuestComplete,
+  
+  TutorialStepSecondQuest,
+  TutorialStepEnterBattleFive,
+  TutorialStepDropMiniTutorial,
+  TutorialStepSecondQuestComplete,
 } TutorialStep;
 
-@interface TutorialController : NSObject <TutorialMissionMapDelegate, DialogueViewControllerDelegate, TutorialBattleLayerDelegate, TutorialHomeMapDelegate, TutorialMyCroniesDelegate, TutorialTopBarDelegate, TutorialMainMenuDelegate, TutorialCarpenterDelegate, TutorialFacebookDelegate, TutorialNameDelegate, AttackMapDelegate, MiniTutorialDelegate> {
+@interface TutorialController : NSObject <TutorialMissionMapDelegate, DialogueViewControllerDelegate, TutorialBattleLayerDelegate, TutorialHomeMapDelegate, TutorialMyCroniesDelegate, TutorialTopBarDelegate, TutorialMainMenuDelegate, TutorialCarpenterDelegate, TutorialFacebookDelegate, TutorialNameDelegate, AttackMapDelegate, MiniTutorialDelegate, TutorialQuestLogDelegate> {
   TutorialStep _currentStep;
   
   int _damageDealtToFriend;
@@ -122,12 +134,13 @@ typedef enum {
 @property (nonatomic, retain) TutorialTopBarViewController *topBarViewController;
 @property (nonatomic, retain) TutorialMainMenuController *mainMenuController;
 @property (nonatomic, retain) TutorialCarpenterViewController *carpenterViewController;
+@property (nonatomic, retain) TutorialQuestLogViewController *questLogViewController;
 
 @property (nonatomic, retain) TutorialFacebookViewController *facebookViewController;
 @property (nonatomic, retain) TutorialNameViewController *nameViewController;
 @property (nonatomic, retain) TutorialAttackMapViewController *attackMapViewController;
 
-@property (nonatomic, retain) TutorialRainbowController *rainbowController;
+@property (nonatomic, retain) MiniTutorialController *miniTutController;
 
 @property (nonatomic, retain) DialogueViewController *dialogueViewController;
 

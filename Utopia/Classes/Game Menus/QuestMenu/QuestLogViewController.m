@@ -34,9 +34,26 @@
   self.titleLabel.text = self.questListViewController.title;
   self.backView.hidden = YES;
   self.detailsContainerView.userInteractionEnabled = NO;
-  
-  [Globals bounceView:self.mainView fadeInBgdView:self.bgdView];
-  [Globals bounceView:self.questGiverImageView];
+}
+
+- (void) viewWillAppear:(BOOL)animated {
+  if (self.questDetailsViewController) {
+    self.bgdView.alpha = 0.f;
+    
+    CGPoint mainCenter = self.mainView.center;
+    self.mainView.center = ccp(self.view.frame.size.width+self.mainView.frame.size.width/2, mainCenter.y);
+    
+    CGPoint imgCenter = self.questGiverImageView.center;
+    self.questGiverImageView.center = ccp(self.view.frame.size.width+self.mainView.frame.size.width/2, imgCenter.y);
+    
+    [UIView animateWithDuration:0.4 animations:^{
+      self.bgdView.alpha = 1.f;
+      self.mainView.center = mainCenter;
+      self.questGiverImageView.center = imgCenter;
+    }];
+  } else {
+    [Globals bounceView:self.mainView fadeInBgdView:self.bgdView];
+  }
 }
 
 - (void) viewDidAppear:(BOOL)animated {
@@ -63,6 +80,10 @@
 }
 
 - (IBAction)close:(id)sender {
+  [self close];
+}
+
+- (void) close {
   [UIView animateWithDuration:0.3f animations:^{
     self.questGiverImageView.center = ccp(-self.questGiverImageView.image.size.width,
                                           self.view.frame.size.height-self.questGiverImageView.frame.size.height/2);

@@ -89,8 +89,8 @@
 - (IBAction)questsClicked:(id)sender {
   if (_allowQuestsClick) {
     _allowQuestsClick = NO;
-    [self.delegate questsClicked];
     [Globals removeUIArrowFromViewRecursively:self.view];
+    [self.delegate questsClicked];
   }
 }
 

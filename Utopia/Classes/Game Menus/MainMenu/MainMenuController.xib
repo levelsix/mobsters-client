@@ -118,23 +118,23 @@
                             <simulatedOrientationMetrics key="simulatedOrientationMetrics" orientation="landscapeRight"/>
                         </view>
                         <view contentMode="scaleToFill" id="71">
-                            <rect key="frame" x="315" y="11" width="170" height="145"/>
+                            <rect key="frame" x="328" y="20" width="157" height="136"/>
                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                             <subviews>
                                 <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="menubluebox.png" id="73">
-                                    <rect key="frame" x="0.0" y="0.0" width="170" height="145"/>
+                                    <rect key="frame" x="-13" y="-9" width="170" height="145"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                 </imageView>
                                 <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="menubuildings.png" id="78">
-                                    <rect key="frame" x="33" y="7" width="104" height="93"/>
+                                    <rect key="frame" x="20" y="-2" width="104" height="93"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                 </imageView>
                                 <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="yellowmenubar.png" id="75">
-                                    <rect key="frame" x="20" y="98" width="131" height="27"/>
+                                    <rect key="frame" x="7" y="89" width="131" height="27"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                 </imageView>
                                 <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="BUILDINGS" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" id="76" customClass="NiceFontLabel">
-                                    <rect key="frame" x="34" y="100" width="103" height="21"/>
+                                    <rect key="frame" x="21" y="91" width="103" height="21"/>
                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                     <fontDescription key="fontDescription" type="system" pointSize="13"/>
                                     <color key="textColor" white="0.0" alpha="0.69999999999999996" colorSpace="calibratedWhite"/>
@@ -143,7 +143,7 @@
                                     <size key="shadowOffset" width="0.0" height="1"/>
                                 </label>
                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="74" customClass="MaskedButton">
-                                    <rect key="frame" x="0.0" y="0.0" width="170" height="145"/>
+                                    <rect key="frame" x="-13" y="-9" width="170" height="145"/>
                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                     <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
                                     <state key="normal">

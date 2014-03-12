@@ -104,11 +104,27 @@
 
 - (void) youWon {
   [super youWon];
+  [self checkQuests];
   
-  CCSprite *spr = [CCSprite spriteWithImageNamed:@"arrow.png"];
-  [self.wonView.doneButton addChild:spr];
-  spr.position = ccp(self.wonView.doneButton.contentSize.width+spr.contentSize.width/2+5, self.wonView.doneButton.contentSize.height/2);
-  [Globals animateCCArrow:spr atAngle:M_PI];
+  int c = self.wonView.rewardsView.children.count;
+  [self runAction:
+   [CCActionSequence actions:
+    [CCActionDelay actionWithDuration:2.4+0.5*c],
+    [CCActionCallBlock actionWithBlock:
+     ^{
+       CCSprite *spr = [CCSprite spriteWithImageNamed:@"arrow.png"];
+       [self.wonView.doneButton addChild:spr];
+       spr.position = ccp(self.wonView.doneButton.contentSize.width+spr.contentSize.width/2+5, self.wonView.doneButton.contentSize.height/2);
+       [spr runAction:[CCActionFadeIn actionWithDuration:0.4]];
+       [Globals animateCCArrow:spr atAngle:M_PI];
+     }], nil]];
+}
+
+- (void) winExitClicked:(id)sender {
+  [super winExitClicked:sender];
+  
+  // Don't let it wait for the end dungeon response
+  [self exitFinal];
 }
 
 - (void) displaySwapButton {

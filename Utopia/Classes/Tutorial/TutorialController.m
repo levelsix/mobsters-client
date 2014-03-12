@@ -16,6 +16,7 @@
 #import "FacebookDelegate.h"
 #import "OutgoingEventController.h"
 #import "GenericPopupController.h"
+#import "TutorialDoublePowerupController.h"
 
 @implementation TutorialController
 
@@ -120,11 +121,13 @@
   //[self beginBoardYachtPhase];
   //[self beginSecondBattlePhase];
   
-  [self yachtWentOffScene];
+  //[self yachtWentOffScene];
   
   //[self initHomeMap];
-  //[self initTopBar];
-  //[self beginFacebookLoginPhase];
+  [self initMissionMapWithCenterOnThirdBuilding:YES];
+  [self initTopBar];
+  [self sendUserCreate];
+  [self beginEnterBattleThreePhase];
 }
 
 - (void) initMissionMapWithCenterOnThirdBuilding:(BOOL)thirdBuilding {
@@ -211,6 +214,22 @@
   self.carpenterViewController.delegate = self;
   [self.carpenterViewController allowPurchaseOfStructId:structId];
   [self.mainMenuController.navigationController pushViewController:self.carpenterViewController animated:YES];
+}
+
+- (void) initQuestLogControllerWithQuestId:(int)questId {
+  self.questLogViewController = [[TutorialQuestLogViewController alloc] init];
+  [self.gameViewController addChildViewController:self.questLogViewController];
+  self.questLogViewController.view.frame = self.gameViewController.view.bounds;
+  self.questLogViewController.delegate = self;
+  [self.gameViewController.view insertSubview:self.questLogViewController.view belowSubview:self.touchView];
+  
+  // Assumption that there is only one quest
+  if (questId) {
+    GameState *gs = [GameState sharedGameState];
+    FullQuestProto *fqp = [gs questForId:questId];
+    UserQuest *uq = [gs myQuestWithId:questId];
+    [self.questLogViewController loadDetailsViewForQuest:fqp userQuest:uq animated:NO];
+  }
 }
 
 - (void) initFacebookViewController {
@@ -626,9 +645,10 @@
 
 - (void) beginRainbowMiniTutorialPhase {
   GameState *gs = [GameState sharedGameState];
-  self.rainbowController = [[TutorialRainbowController alloc] initWithMyTeam:gs.allMonstersOnMyTeam gameViewController:self.gameViewController];
-  self.rainbowController.delegate = self;
-  [self.rainbowController begin];
+  self.miniTutController = [[TutorialRainbowController alloc] initWithMyTeam:gs.allMonstersOnMyTeam gameViewController:self.gameViewController];
+  self.miniTutController.delegate = self;
+  [self.miniTutController.battleLayer.forfeitButton removeFromSuperview];
+  [self.miniTutController begin];
   
   [UIView animateWithDuration:0.4f animations:^{
     self.topBarViewController.view.alpha = 0.f;
@@ -646,6 +666,97 @@
   [self displayDialogue:dialogue allowTouch:YES useShortBubble:NO];
   
   _currentStep = TutorialStepClickQuests;
+}
+
+- (void) beginQuestListPhase {
+  [self initQuestLogControllerWithQuestId:0];
+  
+  NSArray *dialogue = @[@(TutorialDialogueSpeakerMarkR), @"New missions will appear on this list as you complete them, so be sure to check back often.",
+                        @(TutorialDialogueSpeakerMarkR), @"You can view the progress and rewards of quests by clicking on them."];
+  [self displayDialogue:dialogue allowTouch:YES useShortBubble:NO];
+  
+  _currentStep = TutorialStepQuestList;
+}
+
+- (void) beginFirstQuestPhase {
+  [self.questLogViewController performSelector:@selector(arrowOnVisit) withObject:nil afterDelay:1.f];
+  
+  _currentStep = TutorialStepFirstQuest;
+}
+
+- (void) beginEnterBattleFourPhase {
+  [self.missionMap moveToFourthBuildingAndDisplayArrow];
+  
+  _currentStep = TutorialStepEnterBattleFour;
+}
+
+- (void) beginDoublePowerupMiniTutorialPhase {
+  GameState *gs = [GameState sharedGameState];
+  self.miniTutController = [[TutorialDoublePowerupController alloc] initWithMyTeam:gs.allMonstersOnMyTeam gameViewController:self.gameViewController];
+  self.miniTutController.delegate = self;
+  [self.miniTutController.battleLayer.forfeitButton removeFromSuperview];
+  [self.miniTutController begin];
+  
+  [UIView animateWithDuration:0.4f animations:^{
+    self.topBarViewController.view.alpha = 0.f;
+  }];
+  
+  _currentStep = TutorialStepDoublePowerupMiniTutorial;
+}
+
+- (void) beginFirstQuestCompletePhase {
+  GameState *gs = [GameState sharedGameState];
+  FullQuestProto *fqp = nil;
+  if (gs.inProgressCompleteQuests.count > 0) {
+    fqp = gs.inProgressCompleteQuests.allValues[0];
+  }
+  [self initQuestLogControllerWithQuestId:fqp.questId];
+  
+  [self.questLogViewController performSelector:@selector(arrowOnCollect) withObject:nil afterDelay:1.f];
+  
+  _currentStep = TutorialStepFirstQuestComplete;
+}
+
+- (void) beginSecondQuestPhase {
+  NSArray *dialogue = @[@(TutorialDialogueSpeakerFriend), @"Now that you have a decent handle on combat, you’ll need to assemble your squad.",
+                        @(TutorialDialogueSpeakerFriend), @"The key to taking over the world is by recruiting powerful allies to your team.",
+                        @(TutorialDialogueSpeakerFriend), @"Use your guns of persuasion and “recruit” a goonie to your team."];
+  [self displayDialogue:dialogue allowTouch:YES useShortBubble:NO];
+  
+  _currentStep = TutorialStepSecondQuest;
+}
+
+- (void) beginEnterBattleFivePhase {
+  [self.missionMap moveToFifthBuildingAndDisplayArrow];
+  
+  _currentStep = TutorialStepEnterBattleFive;
+}
+
+- (void) beginDropMiniTutorialPhase {
+  GameState *gs = [GameState sharedGameState];
+  self.miniTutController = [[TutorialDoublePowerupController alloc] initWithMyTeam:gs.allMonstersOnMyTeam gameViewController:self.gameViewController];
+  self.miniTutController.delegate = self;
+  [self.miniTutController.battleLayer.forfeitButton removeFromSuperview];
+  [self.miniTutController begin];
+  
+  [UIView animateWithDuration:0.4f animations:^{
+    self.topBarViewController.view.alpha = 0.f;
+  }];
+  
+  _currentStep = TutorialStepDropMiniTutorial;
+}
+
+- (void) beginSecondQuestCompletePhase {
+  GameState *gs = [GameState sharedGameState];
+  FullQuestProto *fqp = nil;
+  if (gs.inProgressCompleteQuests.count > 0) {
+    fqp = gs.inProgressCompleteQuests.allValues[0];
+  }
+  [self initQuestLogControllerWithQuestId:fqp.questId];
+  
+  [self.questLogViewController performSelector:@selector(arrowOnCollect) withObject:nil afterDelay:1.f];
+  
+  _currentStep = TutorialStepSecondQuestComplete;
 }
 
 #pragma mark - MissionMap delegate
@@ -690,8 +801,12 @@
   [self beginHomeMapPhase];
 }
 
-- (void) enteredThirdBuilding {
-  [self beginRainbowMiniTutorialPhase];
+- (void) enteredMiniTutBuilding {
+  if (_currentStep == TutorialStepEnterBattleThree) {
+    [self beginRainbowMiniTutorialPhase];
+  } else if (_currentStep == TutorialStepEnterBattleFour) {
+    [self beginDoublePowerupMiniTutorialPhase];
+  }
 }
 
 #pragma mark - BattleLayer delegate
@@ -752,10 +867,7 @@
 #pragma mark - HomeMap delegate
 
 - (void) boatLanded {
-  [self sendUserCreate];
-  [self initTopBar];
-  [self beginAttackMapPhase];
-  //[self beginEnterHospitalPhase];
+  [self beginEnterHospitalPhase];
 }
 
 - (void) enterHospitalClicked {
@@ -849,10 +961,8 @@
 
 - (void) questsClicked {
   [self.dialogueViewController animateNext];
-  self.dialogueViewController.delegate = nil;
   
-  [self tutorialFinished];
-  [self.gameViewController.topBarViewController questsClicked:nil];
+  [self beginQuestListPhase];
 }
 
 #pragma mark - MainMenu delegate
@@ -956,14 +1066,42 @@
   }
 }
 
-#pragma mark - Elements Tutorial delegate
+#pragma mark - MiniTutorial delegate
 
 - (void) miniTutorialComplete:(MiniTutorialController *)tut {
-  [self beginClickQuestsPhase];
+  if (_currentStep == TutorialStepRainbowMiniTutorial) {
+    [self beginClickQuestsPhase];
+  } else if (_currentStep == TutorialStepDoublePowerupMiniTutorial) {
+    [self beginFirstQuestCompletePhase];
+  }
   
   [UIView animateWithDuration:0.4f animations:^{
     self.topBarViewController.view.alpha = 1.f;
   }];
+}
+
+#pragma mark - QuestLog delegate
+
+- (void) questClickedInList {
+  if (_currentStep == TutorialStepQuestList) {
+    [self.dialogueViewController animateNext];
+    
+    [self beginFirstQuestPhase];
+  }
+}
+
+- (void) questVisitClicked {
+  if (_currentStep == TutorialStepFirstQuest) {
+    [self beginEnterBattleFourPhase];
+  } else if (_currentStep == TutorialStepSecondQuest) {
+    [self beginEnterBattleFourPhase];
+  }
+}
+
+- (void) questCollectClicked {
+  if (_currentStep == TutorialStepFirstQuestComplete) {
+    [self beginSecondQuestPhase];
+  }
 }
 
 #pragma mark - DialogueViewController delegate
@@ -1012,6 +1150,12 @@
     } else if (_currentStep == TutorialStepClickQuests && index == 4) {
       self.dialogueViewController.view.userInteractionEnabled = NO;
       [self.topBarViewController allowQuestsClick];
+    } else if (_currentStep == TutorialStepQuestList) {
+      self.dialogueViewController.view.userInteractionEnabled = NO;
+      [self.questLogViewController arrowOnFirstQuestInList];
+    } else if (_currentStep == TutorialStepFirstQuestComplete) {
+      self.dialogueViewController.view.userInteractionEnabled = NO;
+      [self.questLogViewController arrowOnCollect];
     }
   }
   
@@ -1060,6 +1204,10 @@
       [self.topBarViewController allowAttackClick];
     } else if (_currentStep == TutorialStepEnterBattleThree) {
       [self.missionMap displayArrowOverThirdBuilding];
+    } else if (_currentStep == TutorialStepSecondQuest) {
+      GameState *gs = [GameState sharedGameState];
+      FullQuestProto *fqp = gs.availableQuests.allValues[0];
+      [self initQuestLogControllerWithQuestId:fqp.questId];
     }
     
     [self.touchView removeResponder:self.dialogueViewController];

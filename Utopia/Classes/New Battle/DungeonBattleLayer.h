@@ -14,8 +14,12 @@
 @interface DungeonBattleLayer : NewBattleLayer {
   BOOL _receivedEndDungeonResponse;
   BOOL _waitingForEndDungeonResponse;
+  
+  BOOL _checkedQuests;
 }
 
 @property (nonatomic, retain) BeginDungeonResponseProto *dungeonInfo;
+
+- (void) checkQuests;
 
 @end

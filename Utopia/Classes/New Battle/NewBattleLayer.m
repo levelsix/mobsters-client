@@ -1302,13 +1302,17 @@
 }
 
 - (void) exitFinal {
-  self.swapView.hidden  = YES;
-  self.forfeitButton.hidden = YES;
-  
-  [self.delegate battleComplete:[NSDictionary dictionaryWithObjectsAndKeys:@(_manageWasClicked), BATTLE_MANAGE_CLICKED_KEY, nil]];
-  
-  // in case it hasnt stopped yet
-  [Kamcord stopRecording];
+  if (!_isExiting) {
+    _isExiting = YES;
+    
+    self.swapView.hidden  = YES;
+    self.forfeitButton.hidden = YES;
+    
+    [self.delegate battleComplete:[NSDictionary dictionaryWithObjectsAndKeys:@(_manageWasClicked), BATTLE_MANAGE_CLICKED_KEY, nil]];
+    
+    // in case it hasnt stopped yet
+    [Kamcord stopRecording];
+  }
 }
 
 - (IBAction)shareClicked:(id)sender {

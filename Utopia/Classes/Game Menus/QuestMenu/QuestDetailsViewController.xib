@@ -7,6 +7,7 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="QuestDetailsViewController">
             <connections>
+                <outlet property="collectButton" destination="VFP-Mf-bLZ" id="eMW-jd-1Cv"/>
                 <outlet property="collectLabel" destination="3Ct-JV-9Hg" id="LPY-qU-wlN"/>
                 <outlet property="collectView" destination="zvJ-Qi-1Yo" id="gKE-Pk-ze2"/>
                 <outlet property="completeView" destination="085-Rb-9Ak" id="h5u-Ou-tSC"/>
@@ -16,6 +17,7 @@
                 <outlet property="rewardsViewContainer" destination="3O4-Y5-s9u" id="QJx-yc-sfv"/>
                 <outlet property="spinner" destination="jTD-4B-jLs" id="FL2-l7-18K"/>
                 <outlet property="view" destination="0Ka-Fz-vz7" id="5Vj-Tm-zOW"/>
+                <outlet property="visitButton" destination="gNZ-7e-KG1" id="vgu-iG-oEq"/>
                 <outlet property="visitLabel" destination="K3z-m9-PDE" id="BnP-np-jki"/>
                 <outlet property="visitView" destination="kHk-q3-1bt" id="KsG-Id-aRE"/>
             </connections>
@@ -25,6 +27,26 @@
             <rect key="frame" x="0.0" y="0.0" width="366" height="244"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
+                <view contentMode="scaleToFill" id="glq-da-Jx6">
+                    <rect key="frame" x="27" y="150" width="115" height="1"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                    <color key="backgroundColor" red="1" green="1" blue="1" alpha="0.25" colorSpace="calibratedRGB"/>
+                </view>
+                <view contentMode="scaleToFill" id="uPa-do-by6">
+                    <rect key="frame" x="27" y="152" width="115" height="1"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                    <color key="backgroundColor" red="1" green="1" blue="1" alpha="0.25" colorSpace="calibratedRGB"/>
+                </view>
+                <view contentMode="scaleToFill" id="Kvg-OY-Vs3">
+                    <rect key="frame" x="238" y="150" width="115" height="1"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                    <color key="backgroundColor" red="1" green="1" blue="1" alpha="0.25" colorSpace="calibratedRGB"/>
+                </view>
+                <view contentMode="scaleToFill" id="lFH-rc-8y6">
+                    <rect key="frame" x="238" y="152" width="115" height="1"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                    <color key="backgroundColor" red="1" green="1" blue="1" alpha="0.25" colorSpace="calibratedRGB"/>
+                </view>
                 <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="quotebubble.png" id="Cn1-ml-X8F">
                     <rect key="frame" x="0.0" y="12" width="352" height="69"/>
                     <autoresizingMask key="autoresizingMask"/>
@@ -98,26 +120,6 @@
                         </label>
                     </subviews>
                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                </view>
-                <view contentMode="scaleToFill" id="glq-da-Jx6">
-                    <rect key="frame" x="27" y="150" width="115" height="1"/>
-                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                    <color key="backgroundColor" red="1" green="1" blue="1" alpha="0.25" colorSpace="calibratedRGB"/>
-                </view>
-                <view contentMode="scaleToFill" id="uPa-do-by6">
-                    <rect key="frame" x="27" y="152" width="115" height="1"/>
-                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                    <color key="backgroundColor" red="1" green="1" blue="1" alpha="0.25" colorSpace="calibratedRGB"/>
-                </view>
-                <view contentMode="scaleToFill" id="Kvg-OY-Vs3">
-                    <rect key="frame" x="238" y="150" width="115" height="1"/>
-                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                    <color key="backgroundColor" red="1" green="1" blue="1" alpha="0.25" colorSpace="calibratedRGB"/>
-                </view>
-                <view contentMode="scaleToFill" id="lFH-rc-8y6">
-                    <rect key="frame" x="238" y="152" width="115" height="1"/>
-                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                    <color key="backgroundColor" red="1" green="1" blue="1" alpha="0.25" colorSpace="calibratedRGB"/>
                 </view>
                 <view contentMode="scaleToFill" id="3O4-Y5-s9u" customClass="RewardsViewContainer">
                     <rect key="frame" x="25" y="167" width="329" height="69"/>

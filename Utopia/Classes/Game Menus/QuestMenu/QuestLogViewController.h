@@ -27,6 +27,11 @@
 @property (nonatomic, strong) IBOutlet UIView *bgdView;
 
 - (IBAction)backClicked:(id)sender;
+- (IBAction)close:(id)sender;
+- (IBAction)close;
 - (void) loadDetailsViewForQuest:(FullQuestProto *)quest userQuest:(UserQuest *)uq animated:(BOOL)animated;
+- (void) questListCellClicked:(QuestListCell *)cell;
+- (void) visitOrDonateClickedWithDetailsVC:(QuestDetailsViewController *)detailsVC;
+- (void) collectClickedWithDetailsVC:(QuestDetailsViewController *)detailsVC;
 
 @end

@@ -60,7 +60,8 @@
   
   for (FullQuestProto *quest in gs.inProgressIncompleteQuests.allValues) {
     if (quest.questType == FullQuestProto_QuestTypeKillMonster ||
-        quest.questType == FullQuestProto_QuestTypeCollectSpecialItem) {
+        quest.questType == FullQuestProto_QuestTypeCollectSpecialItem ||
+        quest.questType == FullQuestProto_QuestTypeCompleteTask) {
       [potentialQuests addObject:quest];
     }
   }
@@ -69,9 +70,20 @@
     return;
   }
   
+  // Check for complete_task quests
+  for (FullQuestProto *quest in potentialQuests) {
+    if (quest.questType == FullQuestProto_QuestTypeCompleteTask) {
+      UserQuest *uq = [gs myQuestWithId:quest.questId];
+      if (quest.staticDataId == dungeonInfo.taskId) {
+        uq.progress = MIN(uq.progress+1, quest.quantity);
+        uq.isComplete = (uq.progress >= quest.quantity);
+        [changedQuests addObject:quest];
+      }
+    }
+  }
+  
   for (TaskStageProto *tsp in dungeonInfo.tspList) {
     for (TaskStageMonsterProto *tsm in tsp.stageMonstersList) {
-      
       // Check the potential quests
       for (FullQuestProto *quest in potentialQuests) {
         if (quest.questType == FullQuestProto_QuestTypeKillMonster) {

@@ -37,6 +37,9 @@
 @property (nonatomic, strong) IBOutlet UIView *visitView;
 @property (nonatomic, strong) IBOutlet UIView *completeView;
 
+@property (nonatomic, strong) IBOutlet UIButton *collectButton;
+@property (nonatomic, strong) IBOutlet UIButton *visitButton;
+
 @property (nonatomic, weak) id<QuestDetailsViewControllerDelegate> delegate;
 
 - (void) loadWithQuest:(FullQuestProto *)quest userQuest:(UserQuest *)userQuest;

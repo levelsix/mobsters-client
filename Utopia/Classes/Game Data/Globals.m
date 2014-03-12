@@ -1546,7 +1546,6 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
 }
 
 + (void) animateCCArrow:(CCNode *)arrow atAngle:(float)angle {
-  [arrow stopAllActions];
   arrow.rotation = CC_RADIANS_TO_DEGREES(-M_PI_2-angle);
   
   float scaleX = arrow.scaleX;
@@ -1559,7 +1558,10 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
                                                                     [CCActionMoveTo actionWithDuration:ARROW_ANIMATION_DURATION position:arrow.position],
                                                                     [CCActionScaleTo actionWithDuration:ARROW_ANIMATION_DURATION scaleX:scaleX scaleY:0.9f*scaleY],
                                                                     nil]];
-  [arrow runAction:[CCActionRepeatForever actionWithAction:[CCActionSequence actions:upAction, downAction, nil]]];
+  CCAction *a = [CCActionRepeatForever actionWithAction:[CCActionSequence actions:upAction, downAction, nil]];
+  a.tag = 1953;
+  [arrow stopActionByTag:a.tag];
+  [arrow runAction:a];
 }
 
 - (BOOL) validateUserName:(NSString *)name {

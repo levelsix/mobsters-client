@@ -148,6 +148,7 @@
 - (void) setupTeamSprites {
   [super setupTeamSprites];
   for (MyTeamSprite *ts in self.myTeamSprites) {
+    [ts stopAllActions];
     [ts recursivelyApplyOpacity:1.f];
     [ts walk];
   }

@@ -30,6 +30,7 @@
 - (void) moveToAssetId:(int)a animated:(BOOL)animated;
 - (void) changeTiles: (CGRect) buildBlock canWalk:(BOOL)canWalk;
 - (void) setAllLocksAndArrowsForBuildings;
+- (void) teamSpritesEnterBuilding:(id<TaskElement>)mp;
 - (IBAction) performCurrentTask:(id)sender;
 
 @end

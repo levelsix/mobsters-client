@@ -32,7 +32,7 @@
 }
 
 - (void) beginSecondMove {
-  NSArray *dialogue = @[@"Good work! Now let’s match these 6 red orbs to create a grenade."];
+  NSArray *dialogue = @[@"Good work! Now let’s match these 4 red orbs to create a rocket."];
   [self displayDialogue:dialogue];
   
   _currentStep = TutorialDoublePowerupStepSecondMove;

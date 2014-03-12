@@ -50,12 +50,19 @@
   if (_wonBattle) {
     EndDungeonResponseProto *proto = (EndDungeonResponseProto *)fe.event;
     if (proto.status == EndDungeonResponseProto_EndDungeonStatusSuccess) {
-      [QuestUtil checkQuestsForDungeon:self.dungeonInfo];
+      [self checkQuests];
     }
   }
   
   if (_waitingForEndDungeonResponse) {
     [self exitFinal];
+  }
+}
+
+- (void) checkQuests {
+  if (!_checkedQuests) {
+    _checkedQuests = YES;
+    [QuestUtil checkQuestsForDungeon:self.dungeonInfo];
   }
 }
 

@@ -21,7 +21,7 @@
 - (void) everyoneEnteredSecondBuilding;
 - (void) enemyBossRanOffMap;
 - (void) yachtWentOffScene;
-- (void) enteredThirdBuilding;
+- (void) enteredMiniTutBuilding;
 
 @end
 
@@ -60,5 +60,8 @@
 
 - (void) moveToThirdBuilding;
 - (void) displayArrowOverThirdBuilding;
+
+- (void) moveToFourthBuildingAndDisplayArrow;
+- (void) moveToFifthBuildingAndDisplayArrow;
 
 @end
