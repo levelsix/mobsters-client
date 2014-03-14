@@ -484,16 +484,6 @@
   self.miniTutController = nil;
 }
 
-#pragma mark - CCDirectorDownloaderDelegate methods
-
-- (NSString *) filepathToFile:(NSString *)filename {
-  return [Globals pathToFile:filename];
-}
-
-- (NSString *) downloadFile:(NSString *)filename {
-  return [[Downloader sharedDownloader] syncDownloadFile:[Globals getDoubleResolutionImage:filename]];
-}
-
 #pragma mark - BattleLayerDelegate methods
 
 - (void) battleComplete:(NSDictionary *)params {
@@ -510,6 +500,16 @@
   } else {
     [self showTopBarDuration:duration completion:nil];
   }
+}
+
+#pragma mark - CCDirectorDownloaderDelegate methods
+
+- (NSString *) filepathToFile:(NSString *)filename {
+  return [Globals pathToFile:filename];
+}
+
+- (NSString *) downloadFile:(NSString *)filename {
+  return [[Downloader sharedDownloader] syncDownloadFile:[Globals getDoubleResolutionImage:filename]];
 }
 
 #pragma mark - Chat access

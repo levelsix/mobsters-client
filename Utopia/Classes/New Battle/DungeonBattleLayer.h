@@ -8,6 +8,7 @@
 
 #import "NewBattleLayer.h"
 #import "Protocols.pb.h"
+#import "FullEvent.h"
 
 #define BATTLE_MANAGE_CLICKED_KEY @"BattleManageClicked"
 
@@ -21,5 +22,6 @@
 @property (nonatomic, retain) BeginDungeonResponseProto *dungeonInfo;
 
 - (void) checkQuests;
+- (void) handleEndDungeonResponseProto:(FullEvent *)fe;
 
 @end

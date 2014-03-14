@@ -10,9 +10,11 @@
 
 @protocol TutorialTopBarDelegate <NSObject>
 
+@optional
 - (void) menuClicked;
 - (void) attackClicked;
 - (void) questsClicked;
+- (void) mobstersClicked;
 
 @end
 
@@ -20,6 +22,7 @@
   BOOL _allowMenuClick;
   BOOL _allowAttackClick;
   BOOL _allowQuestsClick;
+  BOOL _allowMobstersClick;
 }
 
 @property (nonatomic, assign) id<TutorialTopBarDelegate> delegate;
@@ -30,5 +33,6 @@
 - (void) allowMenuClick;
 - (void) allowAttackClick;
 - (void) allowQuestsClick;
+- (void) allowMobstersClick;
 
 @end

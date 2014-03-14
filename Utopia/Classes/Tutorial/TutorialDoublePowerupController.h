@@ -25,6 +25,5 @@ typedef enum {
 
 @property (nonatomic, retain) TutorialDoublePowerupBattleLayer *battleLayer;
 
-
 @end
 

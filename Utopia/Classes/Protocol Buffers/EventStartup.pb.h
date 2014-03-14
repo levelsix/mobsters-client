@@ -1131,6 +1131,7 @@ BOOL StartupResponseProto_StartupStatusIsValidValue(StartupResponseProto_Startup
   BOOL hasMonsterDropTutorialAssetId_:1;
   BOOL hasElementTutorialAssetId_:1;
   BOOL hasCityId_:1;
+  BOOL hasQuestIdForCombiningPowerUps_:1;
   int32_t matchThreeTutorialAssetId;
   int32_t firstPowerUpAssetId;
   int32_t rainbowTutorialAssetId;
@@ -1138,6 +1139,7 @@ BOOL StartupResponseProto_StartupStatusIsValidValue(StartupResponseProto_Startup
   int32_t monsterDropTutorialAssetId;
   int32_t elementTutorialAssetId;
   int32_t cityId;
+  int32_t questIdForCombiningPowerUps;
 }
 - (BOOL) hasMatchThreeTutorialAssetId;
 - (BOOL) hasFirstPowerUpAssetId;
@@ -1146,6 +1148,7 @@ BOOL StartupResponseProto_StartupStatusIsValidValue(StartupResponseProto_Startup
 - (BOOL) hasMonsterDropTutorialAssetId;
 - (BOOL) hasElementTutorialAssetId;
 - (BOOL) hasCityId;
+- (BOOL) hasQuestIdForCombiningPowerUps;
 @property (readonly) int32_t matchThreeTutorialAssetId;
 @property (readonly) int32_t firstPowerUpAssetId;
 @property (readonly) int32_t rainbowTutorialAssetId;
@@ -1153,6 +1156,7 @@ BOOL StartupResponseProto_StartupStatusIsValidValue(StartupResponseProto_Startup
 @property (readonly) int32_t monsterDropTutorialAssetId;
 @property (readonly) int32_t elementTutorialAssetId;
 @property (readonly) int32_t cityId;
+@property (readonly) int32_t questIdForCombiningPowerUps;
 
 + (StartupResponseProto_StartupConstants_MiniTutorialConstants*) defaultInstance;
 - (StartupResponseProto_StartupConstants_MiniTutorialConstants*) defaultInstance;
@@ -1222,6 +1226,11 @@ BOOL StartupResponseProto_StartupStatusIsValidValue(StartupResponseProto_Startup
 - (int32_t) cityId;
 - (StartupResponseProto_StartupConstants_MiniTutorialConstants_Builder*) setCityId:(int32_t) value;
 - (StartupResponseProto_StartupConstants_MiniTutorialConstants_Builder*) clearCityId;
+
+- (BOOL) hasQuestIdForCombiningPowerUps;
+- (int32_t) questIdForCombiningPowerUps;
+- (StartupResponseProto_StartupConstants_MiniTutorialConstants_Builder*) setQuestIdForCombiningPowerUps:(int32_t) value;
+- (StartupResponseProto_StartupConstants_MiniTutorialConstants_Builder*) clearQuestIdForCombiningPowerUps;
 @end
 
 @interface StartupResponseProto_StartupConstants_Builder : PBGeneratedMessage_Builder {

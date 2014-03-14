@@ -24,6 +24,7 @@
 #define PULSE_ONCE_THRESH 0.5
 #define PULSE_CONT_THRESH 0.3
 #define RED_TINT_TAG 6789
+#define LOOT_TAG @"Loot"
 
 #define CENTER_OF_BATTLE ccp((self.contentSize.width-self.orbBgdLayer.contentSize.width-14)/2, self.contentSize.height/2-40)
 #define PLAYER_X_DISTANCE_FROM_CENTER (CENTER_OF_BATTLE.x*0.4+4)
@@ -135,9 +136,11 @@
 
 - (void) createNextEnemyObject;
 - (int) getCurrentEnemyLoot;
+- (void) pickUpLoot:(CCSprite *)ed;
 - (void) moveToNextEnemy;
 - (void) youWon;
 - (void) youLost;
+- (BOOL) shouldShowContinueButton;
 - (IBAction)forfeitClicked:(id)sender;
 - (void) continueConfirmed;
 - (void) exitFinal;

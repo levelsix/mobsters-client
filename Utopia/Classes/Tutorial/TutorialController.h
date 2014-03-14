@@ -33,11 +33,16 @@
 @end
 
 typedef enum {
-  TutorialDialogueSpeakerFriend,
+  TutorialDialogueSpeakerFriend1,
+  TutorialDialogueSpeakerFriend2,
+  TutorialDialogueSpeakerFriend3,
+  TutorialDialogueSpeakerFriend4,
   TutorialDialogueSpeakerFriendR,
   TutorialDialogueSpeakerMarkL,
   TutorialDialogueSpeakerMarkR,
-  TutorialDialogueSpeakerEnemy,
+  TutorialDialogueSpeakerEnemy1,
+  TutorialDialogueSpeakerEnemy2,
+  TutorialDialogueSpeakerEnemy3,
   TutorialDialogueSpeakerEnemyBoss,
 } TutorialDialogueSpeaker;
 
@@ -57,6 +62,7 @@ typedef enum {
   TutorialStepEnemyRanOff,
   TutorialStepEnemyBroughtBackBoss,
   TutorialStepFriendJoke,
+  TutorialStepEnemyLookBack,
   
   TutorialStepEnteredSecondBattle,
   TutorialStepSecondBattleFirstMove,
@@ -69,6 +75,7 @@ typedef enum {
   TutorialStepBoardYacht,
   
   TutorialStepLandAtHome,
+  TutorialStepMarkLookBack,
   TutorialStepEnterHospital,
   
   TutorialStepBeginHealQueue,

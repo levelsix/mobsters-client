@@ -40,7 +40,7 @@ typedef enum {
 
 @interface AnimatedSprite : CharacterSprite
 {
-  CCAction *_curAction;
+  CCActionRepeatForever *_curAction;
   
   CGPoint _spriteOffset;
   CGPoint _oldMapPos;
@@ -48,8 +48,8 @@ typedef enum {
 }
 
 @property (nonatomic, retain) CCSprite *sprite;
-@property (nonatomic, retain) CCAction *walkActionN;
-@property (nonatomic, retain) CCAction *walkActionF;
+@property (nonatomic, retain) CCActionRepeatForever *walkActionN;
+@property (nonatomic, retain) CCActionRepeatForever *walkActionF;
 
 @property (nonatomic, retain) NSString *prefix;
 

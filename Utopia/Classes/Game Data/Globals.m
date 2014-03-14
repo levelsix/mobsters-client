@@ -130,28 +130,34 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
   __block int i = 0;
   for (NSString *spritePrefix in spritePrefixes) {
     for (NSString *str in @[@"%@RunNF.plist", @"%@AttackNF.plist", @"%@Card.png"]) {
-      i++;
       NSString *fileName = [NSString stringWithFormat:str, spritePrefix];
-      NSString *doubleRes = [self getDoubleResolutionImage:fileName];
-      [[Downloader sharedDownloader] asyncDownloadFile:doubleRes completion:^{
-        if ([fileName.pathExtension isEqualToString:@"plist"]) {
-          NSDictionary *dict = [NSDictionary dictionaryWithContentsOfFile:[Globals pathToFile:fileName]];
-          NSDictionary *metadataDict = [dict objectForKey:@"metadata"];
-          NSString *texturePath = [metadataDict objectForKey:@"textureFileName"];
-          [[Downloader sharedDownloader] asyncDownloadFile:texturePath completion:^{
+      if (![self isFileDownloaded:fileName]) {
+        i++;
+        NSString *doubleRes = [self getDoubleResolutionImage:fileName];
+        [[Downloader sharedDownloader] asyncDownloadFile:doubleRes completion:^{
+          if ([fileName.pathExtension isEqualToString:@"plist"]) {
+            NSDictionary *dict = [NSDictionary dictionaryWithContentsOfFile:[Globals pathToFile:fileName]];
+            NSDictionary *metadataDict = [dict objectForKey:@"metadata"];
+            NSString *texturePath = [metadataDict objectForKey:@"textureFileName"];
+            [[Downloader sharedDownloader] asyncDownloadFile:texturePath completion:^{
+              i--;
+              if (i == 0) {
+                completed();
+              }
+            }];
+          } else {
             i--;
             if (i == 0) {
               completed();
             }
-          }];
-        } else {
-          i--;
-          if (i == 0) {
-            completed();
           }
-        }
-      }];
+        }];
+      }
     }
+  }
+  
+  if (i == 0) {
+    completed();
   }
 }
 
@@ -773,6 +779,31 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
   [sv addSubview:view];
 }
 
++ (BOOL) isFileDownloaded:(NSString *)fileName {
+  if (!fileName) {
+    return NO;
+  }
+  
+  // prevents overloading the autorelease pool
+  NSString *resName = [self getDoubleResolutionImage:fileName];
+  NSString *fullpath = [[NSBundle mainBundle] pathForResource:resName ofType:nil];
+  
+  // Added for Utopia project
+  if (!fullpath) {
+    // Image not in NSBundle: look in documents
+    NSArray *paths = NSSearchPathForDirectoriesInDomains (NSCachesDirectory, NSUserDomainMask, YES);
+    NSString *documentsPath = [paths objectAtIndex:0];
+    fullpath = [documentsPath stringByAppendingPathComponent:resName];
+    
+    if (![[NSFileManager defaultManager] fileExistsAtPath:fullpath]) {
+      // Map not in docs: download it
+      return NO;
+    }
+  }
+  
+  return YES;
+}
+
 + (NSString *) pathToFile:(NSString *)fileName {
   if (!fileName) {
     return nil;
@@ -879,6 +910,8 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
   NSString *key = [NSString stringWithFormat:@"%p", view];
   [[gl imageViewsWaitingForDownloading] removeObjectForKey:key];
   
+  NSString *greyImageName = [imageName stringByAppendingString:@"greyscale"];
+  
   UIActivityIndicatorView *loadingView = (UIActivityIndicatorView *)[view viewWithTag:150];
   [loadingView stopAnimating];
   [loadingView removeFromSuperview];
@@ -897,18 +930,19 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
     if (color) {
       cachedImage = [self maskImage:cachedImage withColor:color];
     } else if (greyscale) {
-      cachedImage = [self greyScaleImageWithBaseImage:cachedImage];
+      // Search for the cached greyscale image
+      UIImage *greyImage = [gl.imageCache objectForKey:greyImageName];
+      if (greyImage) {
+        cachedImage = greyImage;
+      } else {
+        cachedImage = [self greyScaleImageWithBaseImage:cachedImage];
+        [gl.imageCache setObject:cachedImage forKey:greyImageName];
+      }
     }
     if ([view isKindOfClass:[UIImageView class]]) {
       [(UIImageView *)view setImage:cachedImage];
     } else if ([view isKindOfClass:[UIButton class]]) {
       [(UIButton *)view setImage:cachedImage forState:UIControlStateNormal];
-      
-      // For Armory View Controller
-      CGRect r = view.frame;
-      r.origin.y = CGRectGetMaxY(r)-cachedImage.size.height;
-      r.size = cachedImage.size;
-      view.frame = r;
     }
     
     return;
@@ -958,18 +992,13 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
             img = [self maskImage:img withColor:color];
           } else if (greyscale) {
             img = [self greyScaleImageWithBaseImage:img];
+            [gl.imageCache setObject:img forKey:greyImageName];
           }
           
           if ([view isKindOfClass:[UIImageView class]]) {
             [(UIImageView *)view setImage:img];
           } else if ([view isKindOfClass:[UIButton class]]) {
             [(UIButton *)view setImage:img forState:UIControlStateNormal];
-            
-            // For Armory View Controller
-            CGRect r = view.frame;
-            r.origin.y = CGRectGetMaxY(r)-img.size.height;
-            r.size = img.size;
-            view.frame = r;
           }
           
           UIActivityIndicatorView *loadingView = (UIActivityIndicatorView *)[view viewWithTag:150];
@@ -995,18 +1024,13 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
       image = [self maskImage:image withColor:color];
     } else if (greyscale) {
       image = [self greyScaleImageWithBaseImage:image];
+      [gl.imageCache setObject:image forKey:greyImageName];
     }
     
     if ([view isKindOfClass:[UIImageView class]]) {
       [(UIImageView *)view setImage:image];
     } else if ([view isKindOfClass:[UIButton class]]) {
       [(UIButton *)view setImage:image forState:UIControlStateNormal];
-      
-      // For Armory View Controller
-      CGRect r = view.frame;
-      r.origin.y = CGRectGetMaxY(r)-image.size.height;
-      r.size = image.size;
-      view.frame = r;
     }
     view.hidden = NO;
   }
@@ -1493,11 +1517,11 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
   
   float tl = -1, tr = -1, tu = -1, tb = -1;
   
-  if (abs(vx) > 0.1) {
+  if (ABS(vx) > 0.01) {
     tl = (pt1.x-p.x)/vx;
     tr = (pt2.x-p.x)/vx;
   }
-  if (abs(vy) > 0.1) {
+  if (ABS(vy) > 0.01) {
     tu = (pt1.y-p.y)/vy;
     tb = (pt2.y-p.y)/vy;
   }
@@ -1538,7 +1562,6 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
     } completion:^(BOOL finished) {
       [view removeFromSuperview];
     }];
-    [view removeFromSuperview];
   }
   for (UIView *v in view.subviews) {
     [self removeUIArrowFromViewRecursively:v];

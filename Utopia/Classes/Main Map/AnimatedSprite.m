@@ -195,7 +195,7 @@
   
   float angle = CC_RADIANS_TO_DEGREES(ccpToAngle(ccpSub(endPt, startPt)));
   
-  CCAction *nextAction = nil;
+  CCActionRepeatForever *nextAction = nil;
   if(angle <= -90 ){
     _sprite.flipX = NO;
     nextAction = self.walkActionN;
@@ -219,7 +219,11 @@
     }
     _curAction = nextAction;
     if (_curAction) {
-      [_sprite runAction:_curAction];
+      CCActionAnimate *anim = ((CCActionAnimate *)_curAction.innerAction);
+      if (anim.animation.frames.count > 0) {
+        [_sprite setSpriteFrame:[anim.animation.frames[0] spriteFrame]];
+        [_sprite runAction:_curAction];
+      }
     }
   }
   

@@ -53,7 +53,7 @@
   }
 }
 
-- (void) createOverlayAvoidingPositions:(NSArray *)shownGems withForcedMove:(NSSet *)forcedMove {
+- (void) createOverlayAvoidingPositions:(NSArray *)shownGems withForcedMove:(NSArray *)forcedMove {
   [self.forcedMoveLayer removeFromParent];
   self.forcedMoveLayer = [CCNode node];
   

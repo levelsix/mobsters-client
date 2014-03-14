@@ -37,6 +37,13 @@
 }
 
 - (void) viewWillAppear:(BOOL)animated {
+  self.view.hidden = YES;
+}
+
+- (void) viewDidAppear:(BOOL)animated {
+  [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(questsChanged) name:QUESTS_CHANGED_NOTIFICATION object:nil];
+  
+  self.view.hidden = NO;
   if (self.questDetailsViewController) {
     self.bgdView.alpha = 0.f;
     
@@ -44,7 +51,7 @@
     self.mainView.center = ccp(self.view.frame.size.width+self.mainView.frame.size.width/2, mainCenter.y);
     
     CGPoint imgCenter = self.questGiverImageView.center;
-    self.questGiverImageView.center = ccp(self.view.frame.size.width+self.mainView.frame.size.width/2, imgCenter.y);
+    self.questGiverImageView.center = ccp(-self.questGiverImageView.frame.size.width/2, imgCenter.y);
     
     [UIView animateWithDuration:0.4 animations:^{
       self.bgdView.alpha = 1.f;
@@ -54,10 +61,6 @@
   } else {
     [Globals bounceView:self.mainView fadeInBgdView:self.bgdView];
   }
-}
-
-- (void) viewDidAppear:(BOOL)animated {
-  [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(questsChanged) name:QUESTS_CHANGED_NOTIFICATION object:nil];
 }
 
 - (void) viewDidDisappear:(BOOL)animated {

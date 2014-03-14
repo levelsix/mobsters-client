@@ -145,6 +145,7 @@
 + (UIImage *) imageForStruct:(int)structId;
 + (NSString *) imageNameForStruct:(int)structId;
 + (NSString *) pathToFile:(NSString *)fileName;
++ (BOOL) isFileDownloaded:(NSString *)fileName;
 + (NSBundle *) bundleNamed:(NSString *)bundleName;
 + (void) asyncDownloadBundles;
 + (void) loadImageForStruct:(int)structId toView:(UIImageView *)view masked:(BOOL)mask indicator:(UIActivityIndicatorViewStyle)indicator;

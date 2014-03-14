@@ -14,27 +14,27 @@
   [super beginFirstMove];
   
   [self.orbLayer createOverlayAvoidingPositions:[NSArray arrayWithObjects:
-                                       [NSValue valueWithCGPoint:ccp(2, 1)],
-                                       [NSValue valueWithCGPoint:ccp(3, 2)],
-                                       [NSValue valueWithCGPoint:ccp(3, 1)],
-                                       [NSValue valueWithCGPoint:ccp(4, 1)],
-                                       [NSValue valueWithCGPoint:ccp(5, 1)], nil]
-                       withForcedMove:[NSSet setWithObjects:
-                                       [NSValue valueWithCGPoint:ccp(3, 1)],
-                                       [NSValue valueWithCGPoint:ccp(3, 2)], nil]];
+                                                 [NSValue valueWithCGPoint:ccp(2, 1)],
+                                                 [NSValue valueWithCGPoint:ccp(3, 1)],
+                                                 [NSValue valueWithCGPoint:ccp(4, 1)],
+                                                 [NSValue valueWithCGPoint:ccp(5, 1)],
+                                                 [NSValue valueWithCGPoint:ccp(3, 2)], nil]
+                                 withForcedMove:[NSArray arrayWithObjects:
+                                                 [NSValue valueWithCGPoint:ccp(3, 1)],
+                                                 [NSValue valueWithCGPoint:ccp(3, 2)], nil]];
 }
 
 - (void) beginSecondMove {
   [super beginSecondMove];
   
   [self.orbLayer createOverlayAvoidingPositions:[NSArray arrayWithObjects:
-                                       [NSValue valueWithCGPoint:ccp(3, 2)],
-                                       [NSValue valueWithCGPoint:ccp(3, 3)],
-                                       [NSValue valueWithCGPoint:ccp(3, 4)],
-                                       [NSValue valueWithCGPoint:ccp(3, 1)], nil]
-                       withForcedMove:[NSSet setWithObjects:
-                                       [NSValue valueWithCGPoint:ccp(3, 2)],
-                                       [NSValue valueWithCGPoint:ccp(3, 1)], nil]];
+                                                 [NSValue valueWithCGPoint:ccp(3, 1)],
+                                                 [NSValue valueWithCGPoint:ccp(3, 2)],
+                                                 [NSValue valueWithCGPoint:ccp(3, 3)],
+                                                 [NSValue valueWithCGPoint:ccp(3, 4)], nil]
+                                 withForcedMove:[NSArray arrayWithObjects:
+                                                 [NSValue valueWithCGPoint:ccp(3, 1)],
+                                                 [NSValue valueWithCGPoint:ccp(3, 2)], nil]];
 }
 
 - (CGSize) gridSize {

@@ -45,7 +45,9 @@
 
 - (void) updateLabels;
 - (void) speedupButtonClicked;
+- (void) reloadMonstersArray;
 
+- (MonsterTeamSlotView *) teamSlotViewForSlotNum:(int)num;
 - (NSMutableSet *) recentlyHealedMonsterIds;
 - (NSMutableArray *) monsterHealingQueue;
 - (UserMonster *) monsterForSlot:(int)slot;

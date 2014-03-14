@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="4514" systemVersion="12F45" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="5053" systemVersion="12F45" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none">
     <dependencies>
         <deployment defaultVersion="1536" identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="3747"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="3733"/>
     </dependencies>
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="TopBarViewController">
@@ -21,6 +21,7 @@
                 <outlet property="mailBadge" destination="GM0-8Q-nYL" id="YkU-Nl-lXa"/>
                 <outlet property="mainView" destination="1" id="6El-eA-cCl"/>
                 <outlet property="menuView" destination="ZIw-3f-99G" id="9Vb-pO-OK0"/>
+                <outlet property="monsterView" destination="Snb-Pw-AEW" id="FSk-ep-arE"/>
                 <outlet property="myCityView" destination="El6-L4-OGg" id="kwO-xs-8yo"/>
                 <outlet property="oilBar" destination="WDm-AP-aFk" id="qfW-2a-gHd"/>
                 <outlet property="oilBgd" destination="xLo-g2-HWr" id="8rk-Ga-HcB"/>

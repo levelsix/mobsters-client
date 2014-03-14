@@ -241,6 +241,14 @@
      }], nil]];
 }
 
+- (void) hideDoneLabel {
+  self.doneButton.name = nil;
+}
+
+- (void) hideManageLabel {
+  self.manageButton.name = nil;
+}
+
 @end
 
 @implementation BattleRewardNode

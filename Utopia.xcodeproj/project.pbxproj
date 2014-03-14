@@ -19,6 +19,11 @@
 		45857343157D3BB80086F70C /* libxml2.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 45857342157D3BB80086F70C /* libxml2.dylib */; };
 		45D21E43158037F500BB4D53 /* OAHMAC_SHA1SignatureProvider.m in Sources */ = {isa = PBXBuildFile; fileRef = 45D21E41158037F500BB4D53 /* OAHMAC_SHA1SignatureProvider.m */; };
 		45D21E4615803A6000BB4D53 /* Base64Transcoder.c in Sources */ = {isa = PBXBuildFile; fileRef = 45D21E4415803A6000BB4D53 /* Base64Transcoder.c */; };
+		CF012B2318D12885004C6825 /* TutorialDropBattleLayer.m in Sources */ = {isa = PBXBuildFile; fileRef = CF012B2218D12885004C6825 /* TutorialDropBattleLayer.m */; };
+		CF012B2918D1289B004C6825 /* TutorialDropController.m in Sources */ = {isa = PBXBuildFile; fileRef = CF012B2818D1289B004C6825 /* TutorialDropController.m */; };
+		CF012B2C18D13747004C6825 /* hpfont.fnt in Resources */ = {isa = PBXBuildFile; fileRef = CF012B2A18D13747004C6825 /* hpfont.fnt */; };
+		CF012B2D18D13747004C6825 /* hpfont@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CF012B2B18D13747004C6825 /* hpfont@2x.png */; };
+		CF012B2F18D2CC28004C6825 /* TutorialDropLayout.txt in Resources */ = {isa = PBXBuildFile; fileRef = CF012B2E18D2CC28004C6825 /* TutorialDropLayout.txt */; };
 		CF06067A188A92EC00A69355 /* CashMaker@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CF060675188A92EC00A69355 /* CashMaker@2x.png */; };
 		CF06067B188A92EC00A69355 /* OilCollector@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CF060676188A92EC00A69355 /* OilCollector@2x.png */; };
 		CF06067C188A92EC00A69355 /* OilMaker@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CF060677188A92EC00A69355 /* OilMaker@2x.png */; };
@@ -2517,6 +2522,13 @@
 		45D21E42158037F500BB4D53 /* OASignatureProviding.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OASignatureProviding.h; sourceTree = "<group>"; };
 		45D21E4415803A6000BB4D53 /* Base64Transcoder.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = Base64Transcoder.c; sourceTree = "<group>"; };
 		45D21E4515803A6000BB4D53 /* Base64Transcoder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Base64Transcoder.h; sourceTree = "<group>"; };
+		CF012B2118D12885004C6825 /* TutorialDropBattleLayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TutorialDropBattleLayer.h; sourceTree = "<group>"; };
+		CF012B2218D12885004C6825 /* TutorialDropBattleLayer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TutorialDropBattleLayer.m; sourceTree = "<group>"; };
+		CF012B2718D1289B004C6825 /* TutorialDropController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TutorialDropController.h; sourceTree = "<group>"; };
+		CF012B2818D1289B004C6825 /* TutorialDropController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TutorialDropController.m; sourceTree = "<group>"; };
+		CF012B2A18D13747004C6825 /* hpfont.fnt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = hpfont.fnt; sourceTree = "<group>"; };
+		CF012B2B18D13747004C6825 /* hpfont@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "hpfont@2x.png"; sourceTree = "<group>"; };
+		CF012B2E18D2CC28004C6825 /* TutorialDropLayout.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = TutorialDropLayout.txt; sourceTree = "<group>"; };
 		CF060675188A92EC00A69355 /* CashMaker@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "CashMaker@2x.png"; sourceTree = "<group>"; };
 		CF060676188A92EC00A69355 /* OilCollector@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "OilCollector@2x.png"; sourceTree = "<group>"; };
 		CF060677188A92EC00A69355 /* OilMaker@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "OilMaker@2x.png"; sourceTree = "<group>"; };
@@ -7705,6 +7717,11 @@
 		CF826A2D18D10207002F7A5A /* Drop */ = {
 			isa = PBXGroup;
 			children = (
+				CF012B2718D1289B004C6825 /* TutorialDropController.h */,
+				CF012B2818D1289B004C6825 /* TutorialDropController.m */,
+				CF012B2118D12885004C6825 /* TutorialDropBattleLayer.h */,
+				CF012B2218D12885004C6825 /* TutorialDropBattleLayer.m */,
+				CF012B2E18D2CC28004C6825 /* TutorialDropLayout.txt */,
 			);
 			name = Drop;
 			sourceTree = "<group>";
@@ -8797,6 +8814,8 @@
 		CFF1D64D17DFC43600874339 /* Puzzle Images */ = {
 			isa = PBXGroup;
 			children = (
+				CF012B2A18D13747004C6825 /* hpfont.fnt */,
+				CF012B2B18D13747004C6825 /* hpfont@2x.png */,
 				CFFA9D6C18877C5E0097AD72 /* rockorb.png */,
 				CFFA9D6D18877C5E0097AD72 /* rockorb@2x.png */,
 				CFB250951859B9C300BE0C05 /* closebattle.png */,
@@ -11321,7 +11340,9 @@
 				CFE7CD221819FC3300930847 /* buildingbar.png in Resources */,
 				CFC4D02C16E98D9E009A25DA /* totaldefenseshield@2x.png in Resources */,
 				CFCE570C18137CD400494F8C /* notificationsicon@2x.png in Resources */,
+				CF012B2D18D13747004C6825 /* hpfont@2x.png in Resources */,
 				CFC9718D182C81EB00FF1D83 /* combofire.plist in Resources */,
+				CF012B2C18D13747004C6825 /* hpfont.fnt in Resources */,
 				CFC4D02D16E98D9E009A25DA /* uncommonmini.png in Resources */,
 				CFC4D02E16E98D9E009A25DA /* uncommonmini@2x.png in Resources */,
 				CFC4D02F16E98D9E009A25DA /* youlostthebatt.png in Resources */,
@@ -11840,6 +11861,7 @@
 				CFC97129182B05CD00FF1D83 /* powermeter.png in Resources */,
 				CF3766991833022700D0A77E /* gachalegendbg@2x.png in Resources */,
 				CFE7CD4A1819FC3300930847 /* emptycard.png in Resources */,
+				CF012B2F18D2CC28004C6825 /* TutorialDropLayout.txt in Resources */,
 				CFC04CD7188D234E00F2DB59 /* enterbuilding.png in Resources */,
 				CFF3908A1828C00B0010A3BE /* friendrequest@2x.png in Resources */,
 				CF6F19F5181518C900CFF2B9 /* questnumberbg.png in Resources */,
@@ -12266,6 +12288,7 @@
 				CF126E241538ACCA00E0C1AD /* UIView+SBExtras.m in Sources */,
 				CF9AE6D418090C320013DD44 /* EventApns.pb.m in Sources */,
 				CF1273BD1538AE1E00E0C1AD /* main.m in Sources */,
+				CF012B2918D1289B004C6825 /* TutorialDropController.m in Sources */,
 				CF629326180D2AFB00C6C196 /* SettingsViewController.m in Sources */,
 				CF20F27B1811229D005551B5 /* MyCroniesMonsterViews.m in Sources */,
 				CF8C7AE1157C1F0E003A6AFE /* FullUserUpdates.m in Sources */,
@@ -12402,6 +12425,7 @@
 				CFE0E6B817E3C060002ECA84 /* BattlePlayer.m in Sources */,
 				CFF3907C1828BB810010A3BE /* RequestsViewController.m in Sources */,
 				CF9AE70718090C320013DD44 /* Structure.pb.m in Sources */,
+				CF012B2318D12885004C6825 /* TutorialDropBattleLayer.m in Sources */,
 				CF52D0AD17EA3E7D00A067A6 /* BattleViews.m in Sources */,
 				CF63F78217EC168D00FEBAA9 /* CCSoundAnimation.m in Sources */,
 				CFFA321018B421EC008B81B9 /* EvoViewController.m in Sources */,

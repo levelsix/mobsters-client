@@ -46,7 +46,7 @@
 
 - (void) updateForStructInfo:(StructureInfoProto *)structInfo townHall:(UserStruct *)townHall structs:(NSArray *)structs {
   Globals *gl = [Globals sharedGlobals];
-  TownHallProto *thp = (TownHallProto *)townHall.staticStruct;
+  TownHallProto *thp = townHall.isComplete ? (TownHallProto *)townHall.staticStruct : (TownHallProto *)townHall.staticStructForPrevLevel;
   int thLevel = thp.structInfo.level;
   
   [self.descriptionView removeFromSuperview];
@@ -76,20 +76,8 @@
   int max = [gl calculateMaxQuantityOfStructId:structInfo.structId withTownHall:thp];
   self.quantityLabel.text = [NSString stringWithFormat:@"%d/%d", cur, max];
   
-  self.bgdImageView.image = [Globals imageNamed:@"buildingbg.png"];
-  self.bgdInfoImageView.image = [Globals imageNamed:@"buildinginfobg.png"];
-  self.clockIcon.image = [Globals imageNamed:@"clock.png"];
-  self.oilIcon.image = [Globals imageNamed:@"oilicon.png"];
-  [self.infoButton setImage:[Globals imageNamed:@"chatinfoi.png"] forState:UIControlStateNormal];
-  
   // We will manually grey the struct in case it is not downloaded yet
   self.buildingImageView.image = nil;
-  
-  BOOL greyscale = structInfo.prerequisiteTownHallLvl > thLevel || cur >= max;
-  if (greyscale) {
-    [self setViewToGreyScale:self];
-    [self setViewToGreyScale:self.descriptionView];
-  }
   
   if (structInfo.prerequisiteTownHallLvl > thLevel) {
     self.unavailableLabel.text = [NSString stringWithFormat:@"Level %d City Hall Required", structInfo.prerequisiteTownHallLvl];
@@ -101,7 +89,13 @@
     self.unavailableLabel.hidden = YES;
   }
   
-  [Globals imageNamed:structInfo.imgName withView:self.buildingImageView greyscale:greyscale indicator:UIActivityIndicatorViewStyleWhite clearImageDuringDownload:YES];
+  BOOL greyscale = structInfo.prerequisiteTownHallLvl > thLevel || cur >= max;
+  [Globals imageNamed:structInfo.imgName    withView:self.buildingImageView greyscale:greyscale indicator:UIActivityIndicatorViewStyleWhite clearImageDuringDownload:YES];
+  [Globals imageNamed:@"buildingbg.png"     withView:self.bgdImageView      greyscale:greyscale indicator:UIActivityIndicatorViewStyleWhite clearImageDuringDownload:YES];
+  [Globals imageNamed:@"buildinginfobg.png" withView:self.bgdInfoImageView  greyscale:greyscale indicator:UIActivityIndicatorViewStyleWhite clearImageDuringDownload:YES];
+  [Globals imageNamed:@"clock.png"          withView:self.clockIcon         greyscale:greyscale indicator:UIActivityIndicatorViewStyleWhite clearImageDuringDownload:YES];
+  [Globals imageNamed:@"oilicon.png"        withView:self.oilIcon           greyscale:greyscale indicator:UIActivityIndicatorViewStyleWhite clearImageDuringDownload:YES];
+  [Globals imageNamed:@"chatinfoi.png"      withView:self.infoButton        greyscale:greyscale indicator:UIActivityIndicatorViewStyleWhite clearImageDuringDownload:YES];
 }
 
 @end
@@ -246,17 +240,18 @@
   if (carp.isFlipped) {
     [carp flip];
   } else {
-    TownHallProto *th = (TownHallProto *)[[self townHall] staticStruct];
-    int thLevel = th.structInfo.level;
+    UserStruct *townHall = [self townHall];
+    TownHallProto *thp = townHall.isComplete ? (TownHallProto *)townHall.staticStruct : (TownHallProto *)townHall.staticStructForPrevLevel;
+    int thLevel = thp.structInfo.level;
     int cur = [gl calculateCurrentQuantityOfStructId:fsp.structId structs:[self curStructsList]];
-    int max = [gl calculateMaxQuantityOfStructId:fsp.structId withTownHall:th];
+    int max = [gl calculateMaxQuantityOfStructId:fsp.structId withTownHall:thp];
     
     if (fsp.prerequisiteTownHallLvl > thLevel) {
-      [Globals addAlertNotification:[NSString stringWithFormat:@"Upgrade %@ to level %d to unlock!", th.structInfo.name, fsp.prerequisiteTownHallLvl]];
+      [Globals addAlertNotification:[NSString stringWithFormat:@"Upgrade %@ to level %d to unlock!", thp.structInfo.name, fsp.prerequisiteTownHallLvl]];
     } else if (cur >= max) {
       int nextThLevel = [gl calculateNextTownHallLevelForQuantityIncreaseForStructId:fsp.structId];
       if (nextThLevel) {
-        [Globals addAlertNotification:[NSString stringWithFormat:@"Upgrade %@ to level %d to build more!", th.structInfo.name, nextThLevel]];
+        [Globals addAlertNotification:[NSString stringWithFormat:@"Upgrade %@ to level %d to build more!", thp.structInfo.name, nextThLevel]];
       } else {
         [Globals addAlertNotification:@"You have already reached the max number of these buildings."];
       }

@@ -411,6 +411,18 @@
   self.spinView.hidden = NO;
 }
 
+- (IBAction)menuCloseClicked:(id)sender {
+  if (!_isSpinning) {
+    [super menuCloseClicked:sender];
+  }
+}
+
+- (IBAction)popCurrentViewController:(id)sender {
+  if (!_isSpinning) {
+    [super popCurrentViewController:sender];
+  }
+}
+
 #pragma mark - EasyTableView methods
 
 - (void) setupGachaTable {

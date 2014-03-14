@@ -144,6 +144,10 @@
   [self close:nil];
   [[NSNotificationCenter defaultCenter] postNotificationName:MONSTER_SOLD_COMPLETE_NOTIFICATION object:nil];
   [QuestUtil checkAllDonateQuests];
+  
+  if (self.monster.teamSlot > 0) {
+    [[NSNotificationCenter defaultCenter] postNotificationName:MY_TEAM_CHANGED_NOTIFICATION object:nil];
+  }
 }
 
 - (IBAction)close:(id)sender {

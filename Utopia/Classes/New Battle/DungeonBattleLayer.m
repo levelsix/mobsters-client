@@ -69,16 +69,27 @@
 #pragma mark - Waiting for response
 
 - (IBAction)winExitClicked:(id)sender {
+  if (_waitingForEndDungeonResponse) {
+    return;
+  }
+  
   if (!_wonBattle) {
     [[OutgoingEventController sharedOutgoingEventController] endDungeon:self.dungeonInfo userWon:_wonBattle delegate:self];
     [self exitFinal];
   } else if (!_receivedEndDungeonResponse) {
     _waitingForEndDungeonResponse = YES;
-    
-    _manageWasClicked = NO;
   } else {
     [self exitFinal];
   }
+}
+
+- (IBAction)manageClicked:(id)sender {
+  if (_waitingForEndDungeonResponse) {
+    return;
+  }
+  
+  _manageWasClicked = YES;
+  [self winExitClicked:nil];
 }
 
 - (void) continueConfirmed {
@@ -150,6 +161,10 @@
   } else {
     [super reachedNextScene];
   }
+}
+
+- (BOOL) shouldShowContinueButton {
+  return YES;
 }
 
 @end

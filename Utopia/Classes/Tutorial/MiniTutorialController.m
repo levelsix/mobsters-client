@@ -13,6 +13,7 @@
 #import "TutorialBasicComboController.h"
 #import "TutorialDoublePowerupController.h"
 #import "TutorialPowerupController.h"
+#import "TutorialDropController.h"
 #import "GameViewController.h"
 
 @implementation MiniTutorialController
@@ -35,6 +36,8 @@
       mtc = [[TutorialRainbowController alloc] initWithMyTeam:myTeam gameViewController:gvc];
     } else if (assetId == miniTuts.powerUpComboTutorialAssetId) {
       mtc = [[TutorialDoublePowerupController alloc] initWithMyTeam:myTeam gameViewController:gvc];
+    } else if (assetId == miniTuts.monsterDropTutorialAssetId) {
+      mtc = [[TutorialDropController alloc] initWithMyTeam:myTeam gameViewController:gvc];
     }
   }
   return mtc;

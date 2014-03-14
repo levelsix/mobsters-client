@@ -8,8 +8,54 @@
 
 #import "TutorialMyCroniesViewController.h"
 #import "Globals.h"
+#import "GameState.h"
+
+@interface RectHoleView : UIView
+
+@property (nonatomic, assign) CGRect holeRect;
+@property (nonatomic, retain) UIColor *surroundingColor;
+
+@end
+
+@implementation RectHoleView
+
+- (id) initWithFrame:(CGRect)frame holeRect:(CGRect)hole {
+  if ((self = [super initWithFrame:frame])) {
+    self.holeRect = hole;
+    self.backgroundColor = [UIColor clearColor];
+    self.opaque = NO;
+  }
+  return self;
+}
+
+- (void) drawRect:(CGRect)rect {
+  [self.surroundingColor setFill];
+  UIRectFill(rect);
+  
+  CGRect intersection = CGRectIntersection(self.holeRect, rect);
+  
+  [[UIColor clearColor] setFill];
+  UIRectFill(intersection);
+}
+
+@end
+
+@interface TutorialMyCroniesViewController ()
+
+@property (nonatomic, retain) RectHoleView *holeView;
+@property (nonatomic, retain) UIView *darkenedTopBarView;
+
+@end
 
 @implementation TutorialMyCroniesViewController
+
+- (id) init {
+  if ((self = [super initWithNibName:@"MyCroniesViewController" bundle:nil])) {
+    GameState *gs = [GameState sharedGameState];
+    self.myMonsters = gs.myMonsters;
+  }
+  return self;
+}
 
 - (id) initWithTutorialConstants:(StartupResponseProto_TutorialConstants *)constants damageDealt:(int)damageDealt hospitalHealSpeed:(float)hospSpeed {
   if ((self = [super initWithNibName:@"MyCroniesViewController" bundle:nil])) {
@@ -35,6 +81,7 @@
 }
 
 - (void) allowCardClick {
+  _allowCardClick = YES;
   self.inventoryTable.userInteractionEnabled = YES;
   
   UIView *v = self.inventoryTable.visibleViews[0];
@@ -53,12 +100,94 @@
   [Globals createUIArrowForView:self.menuCloseButton atAngle:M_PI];
 }
 
+- (NSIndexPath *) indexPathForUserMonsterId:(uint64_t)userMonsterId {
+  [self reloadMonstersArray];
+  NSArray *arrs = @[self.injuredMonsters, self.recentlyHealedMonsters, self.healthyMonsters, self.unavailableMonsters];
+  for (int i = 0; i < arrs.count; i++) {
+    NSArray *ums = arrs[i];
+    for (int j = 0; j < ums.count; j++) {
+      UserMonster *um = ums[j];
+      if (um.userMonsterId == userMonsterId) {
+        return [NSIndexPath indexPathForRow:j inSection:i];
+      }
+    }
+  }
+  return nil;
+}
+
+- (void) moveToMonster:(uint64_t)userMonsterId {
+  self.clickableUserMonsterId = userMonsterId;
+  NSIndexPath *ip = [self indexPathForUserMonsterId:userMonsterId];
+  [self.inventoryTable.tableView scrollToRowAtIndexPath:ip atScrollPosition:UITableViewScrollPositionMiddle animated:YES];
+}
+
+- (void) unequipSlotThree {
+  [self minusClickedForTeamSlotView:[self teamSlotViewForSlotNum:3]];
+}
+
+- (void) highlightTeamView {
+  CGRect hole = [self.navigationController.view convertRect:self.teamSlotsContainer.frame fromView:self.teamSlotsContainer.superview];
+  self.holeView = [[RectHoleView alloc] initWithFrame:self.view.bounds holeRect:hole];
+  self.holeView.surroundingColor = [UIColor colorWithWhite:0.f alpha:0.7f];
+  [self.view addSubview:self.holeView];
+  
+  self.darkenedTopBarView = [[UIView alloc] initWithFrame:self.navigationController.navigationBar.bounds];
+  self.darkenedTopBarView.backgroundColor = self.holeView.surroundingColor;
+  [self.navigationController.navigationBar addSubview:self.darkenedTopBarView];
+  
+  self.holeView.alpha = 0.f;
+  self.darkenedTopBarView.alpha = 0.f;
+  [UIView animateWithDuration:0.3 animations:^{
+    self.holeView.alpha = 1.f;
+    self.darkenedTopBarView.alpha = 1.f;
+  }];
+}
+
+- (void) removeHighlightView {
+  [UIView animateWithDuration:0.3 animations:^{
+    self.holeView.alpha = 0.f;
+    self.darkenedTopBarView.alpha = 0.f;
+  } completion:^(BOOL finished) {
+    [self.holeView removeFromSuperview];
+    [self.darkenedTopBarView removeFromSuperview];
+  }];
+}
+
+- (void) allowEquip:(uint64_t)userMonsterId {
+  [self removeHighlightView];
+  
+  self.clickableUserMonsterId = userMonsterId;
+  self.inventoryTable.userInteractionEnabled = YES;
+  
+  [self arrowOverMonster:userMonsterId];
+}
+
+- (void) arrowOverMonster:(uint64_t)userMonsterId {
+  if (!_arrowOverPlusCreated) {
+    [Globals removeUIArrowFromViewRecursively:self.view];
+    NSIndexPath *ip = [self indexPathForUserMonsterId:userMonsterId];
+    MyCroniesCardCell *cell = (MyCroniesCardCell *)[self.inventoryTable viewAtIndexPath:ip];
+    if (cell) {
+      _arrowOverPlusCreated = YES;
+      [Globals createUIArrowForView:cell.onTeamIcon atAngle:-M_PI_4];
+    }
+  }
+}
+
 #pragma mark - Overwritten methods
+
+- (void) easyTableViewDidEndScrollingAnimation:(EasyTableView *)easyTableView {
+  if (self.clickableUserMonsterId) {
+    [self arrowOverMonster:self.clickableUserMonsterId];
+  }
+}
 
 - (void) viewDidLoad {
   [super viewDidLoad];
   self.inventoryTable.userInteractionEnabled = NO;
+  self.inventoryTable.tableView.scrollEnabled = NO;
   self.queueView.userInteractionEnabled = NO;
+  self.queueView.queueTable.tableView.scrollEnabled = NO;
   self.teamSlotsContainer.userInteractionEnabled = NO;
 }
 
@@ -71,7 +200,12 @@
 }
 
 - (UserMonster *) monsterForSlot:(int)slot {
-  return slot == 1 ? self.myMonsters[0] : nil;
+  for (UserMonster *um in self.myMonsters) {
+    if (um.teamSlot == slot) {
+      return um;
+    }
+  }
+  return nil;
 }
 
 - (NSArray *) monsterList {
@@ -155,18 +289,29 @@
   // Do nothing
 }
 
-- (void) minusClickedForTeamSlotView:(MonsterTeamSlotView *)mv {
+- (void) cellRequestsRemovalFromHealQueue:(MyCroniesQueueCell *)cell {
   // Do nothing
 }
 
-- (void) cellRequestsRemovalFromHealQueue:(MyCroniesQueueCell *)cell {
-  // Do nothing
+- (void) cardClicked:(MyCroniesCardCell *)cell {
+  if (_allowCardClick) {
+    _allowCardClick = NO;
+    [super cardClicked:cell];
+  }
 }
 
 - (void) menuCloseClicked:(id)sender {
   if (_allowClose) {
     [super menuCloseClicked:sender];
     [self.delegate exitedMyCronies];
+  }
+}
+
+- (void) plusClicked:(MyCroniesCardCell *)cell {
+  if (cell.monster.userMonsterId == self.clickableUserMonsterId) {
+    [super plusClicked:cell];
+    [self.delegate addedMobsterToTeam];
+    [Globals removeUIArrowFromViewRecursively:self.view];
   }
 }
 

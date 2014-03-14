@@ -22,10 +22,10 @@
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Warc-performSelector-leaks"
 
-#define BALLIN_SCORE 230
-#define CANTTOUCHTHIS_SCORE 300
-#define HAMMERTIME_SCORE 420
-#define MAKEITRAIN_SCORE 600
+#define BALLIN_SCORE 400
+#define CANTTOUCHTHIS_SCORE 540
+#define HAMMERTIME_SCORE 720
+#define MAKEITRAIN_SCORE 900
 
 #define STRENGTH_FOR_MAX_SHOTS MAKEITRAIN_SCORE
 
@@ -298,12 +298,16 @@
   [self updateHealthBars];
 }
 
+- (CGPoint) myPlayerLocation {
+  return MY_PLAYER_LOCATION;
+}
+
 - (void) createNextMyPlayerSprite {
   BattleSprite *mp = [[BattleSprite alloc] initWithPrefix:self.myPlayerObject.spritePrefix nameString:self.myPlayerObject.name animationType:self.myPlayerObject.animationType isMySprite:YES];
   mp.healthBar.color = [self.orbLayer colorForSparkle:(GemColorId)self.myPlayerObject.element];
   [self.bgdContainer addChild:mp z:1];
-  mp.position = MY_PLAYER_LOCATION;
-  if (_puzzleIsOnLeft) mp.position = ccpAdd(MY_PLAYER_LOCATION, ccp(PUZZLE_ON_LEFT_BGD_OFFSET, 0));
+  mp.position = [self myPlayerLocation];
+  if (_puzzleIsOnLeft) mp.position = ccpAdd(mp.position, ccp(PUZZLE_ON_LEFT_BGD_OFFSET, 0));
   mp.isFacingNear = NO;
   self.myPlayer = mp;
   [self updateHealthBars];
@@ -578,10 +582,10 @@
   f.tag = 1015;
   [healthLabel runAction:f];
   
-  CCLabelTTF *damageLabel = [CCLabelTTF labelWithString:[NSString stringWithFormat:@"-%@", [Globals commafyNumber:damageDone]] fontName:[Globals font] fontSize:25];
+  NSString *str = [NSString stringWithFormat:@"-%@", [Globals commafyNumber:damageDone]];
+  CCLabelBMFont *damageLabel = [CCLabelBMFont labelWithString:str fntFile:@"hpfont.fnt"];
   [self.bgdContainer addChild:damageLabel z:defSpr.zOrder];
   damageLabel.position = ccpAdd(defSpr.position, ccp(0, defSpr.contentSize.height-15));
-  damageLabel.color = [CCColor colorWithCcColor3b:ccc3(255, 0, 0)];
   damageLabel.scale = 0.01;
   [damageLabel runAction:[CCActionSequence actions:
                           [CCActionSpawn actions:
@@ -713,19 +717,12 @@
   MonsterProto *mp = [gs monsterWithId:equipId];
   NSString *fileName = [Globals imageNameForRarity:mp.quality suffix:@"piece.png"];
   CCSprite *ed = [CCSprite spriteWithImageNamed:fileName];
-  [self.bgdContainer addChild:ed z:-1];
+  [self.bgdContainer addChild:ed z:-1 name:LOOT_TAG];
   ed.position = ccpAdd(self.currentEnemy.position, ccp(0,self.currentEnemy.contentSize.height/2));
   ed.scale = 0.01;
   ed.opacity = 0.1f;
   
   float scale = 25.f/ed.contentSize.width;
-  float distScale = 0.2f;
-  
-  ccBezierConfig bezier;
-  bezier.endPosition = [self.bgdContainer convertToNodeSpace:[self.lootLabel.parent.parent convertToWorldSpace:self.lootLabel.parent.position]];
-  bezier.controlPoint_1 = ccp(ed.position.x+(bezier.endPosition.x-ed.position.x)/3,bezier.endPosition.y+(ed.position.y-bezier.endPosition.y)/2+10);
-  bezier.controlPoint_2 = ccp(ed.position.x+(bezier.endPosition.x-ed.position.x)*2/3,bezier.endPosition.y+(ed.position.y-bezier.endPosition.y)/2+10);
-  CCActionBezierTo *bezierForward = [CCActionBezierTo actionWithDuration:0.3f bezier:bezier];
   
   [ed runAction:[CCActionSpawn actions:
                  [CCActionFadeIn actionWithDuration:0.1],
@@ -734,23 +731,46 @@
                   [CCActionMoveBy actionWithDuration:SILVER_STACK_BOUNCE_DURATION*0.2 position:ccp(0,20)],
                   [CCActionEaseBounceOut actionWithAction:
                    [CCActionMoveBy actionWithDuration:SILVER_STACK_BOUNCE_DURATION*0.8 position:ccp(0,-15-self.currentEnemy.contentSize.height/2)]],
-                  [CCActionMoveBy actionWithDuration:TIME_TO_SCROLL_PER_SCENE*distScale*POINT_OFFSET_PER_SCENE.y/Y_MOVEMENT_FOR_NEW_SCENE position:ccpMult(POINT_OFFSET_PER_SCENE, -distScale)],
-                  [CCActionSpawn actions:bezierForward,
-                   [CCActionScaleBy actionWithDuration:bezierForward.duration scale:0.3], nil],
                   [CCActionCallBlock actionWithBlock:
                    ^{
-                     [ed removeFromParentAndCleanup:YES];
-                     
-                     _lootCount++;
-                     CCActionScaleBy *scale = [CCActionScaleBy actionWithDuration:0.25 scale:1.4];
-                     _lootLabel.string = [Globals commafyNumber:_lootCount];
-                     [_lootLabel runAction:
-                      [CCActionSequence actions:
-                       scale,
-                       scale.reverse, nil]];
+                     [self pickUpLoot:ed];
                    }],
-                  nil],
-                 nil]];
+                  nil], nil]];
+}
+
+- (void) pickUpLoot:(CCSprite *)ed {
+  CGPoint ptOffset = POINT_OFFSET_PER_SCENE;
+  CGPoint initPos = ed.position;
+  CGFloat finalX = self.myPlayer.position.x+5;
+  CGFloat diffX = finalX-initPos.x;
+  CGPoint finalPos = ccpAdd(initPos, ccp(diffX, diffX/ptOffset.x*ptOffset.y));
+  CGFloat travelY = initPos.y-finalPos.y;
+  float distScale = travelY/Y_MOVEMENT_FOR_NEW_SCENE;
+  
+  ccBezierConfig bezier;
+  bezier.endPosition = [self.bgdContainer convertToNodeSpace:[self.lootLabel.parent.parent convertToWorldSpace:self.lootLabel.parent.position]];
+  bezier.controlPoint_1 = ccp(finalPos.x+(bezier.endPosition.x-finalPos.x)/3,bezier.endPosition.y+(finalPos.y-bezier.endPosition.y)/3+25);
+  bezier.controlPoint_2 = ccp(finalPos.x+(bezier.endPosition.x-finalPos.x)*2/3,bezier.endPosition.y+(finalPos.y-bezier.endPosition.y)*2/3+25);
+  CCActionBezierTo *bezierForward = [CCActionBezierTo actionWithDuration:0.3f bezier:bezier];
+  
+  [ed runAction:
+   [CCActionSequence actions:
+    [CCActionMoveTo actionWithDuration:TIME_TO_SCROLL_PER_SCENE*distScale position:finalPos],
+    [CCActionSpawn actions:bezierForward,
+     [CCActionScaleBy actionWithDuration:bezierForward.duration scale:0.3], nil],
+    [CCActionCallBlock actionWithBlock:
+     ^{
+       [ed removeFromParent];
+       
+       _lootCount++;
+       CCActionScaleBy *scale = [CCActionScaleBy actionWithDuration:0.25 scale:1.4];
+       _lootLabel.string = [Globals commafyNumber:_lootCount];
+       [_lootLabel runAction:
+        [CCActionSequence actions:
+         scale,
+         scale.reverse, nil]];
+     }],
+    nil]];
 }
 
 - (void) spawnPlaneWithTarget:(id)target selector:(SEL)selector {
@@ -889,13 +909,13 @@
 }
 
 - (void) youWon {
-  [self endBattle:YES];
   [CCBReader load:@"BattleWonView" owner:self];
+  [self endBattle:YES];
 }
 
 - (void) youLost {
-  [self endBattle:NO];
   [CCBReader load:@"BattleLostView" owner:self];
+  [self endBattle:NO];
 }
 
 - (void) endBattle:(BOOL)won {
@@ -914,10 +934,14 @@
     } else {
       [self addChild:self.lostView z:10000];
       self.lostView.anchorPoint = ccp(0.5, 0.5);
-      self.lostView.continueButton.visible = NO;
+      self.lostView.continueButton.visible = [self shouldShowContinueButton];
       self.lostView.position = ccp(self.contentSize.width/2, self.contentSize.height/2);
     }
   }];
+}
+
+- (BOOL) shouldShowContinueButton {
+  return NO;
 }
 
 #pragma mark - Blood Splatter
@@ -1298,7 +1322,7 @@
 
 - (IBAction)manageClicked:(id)sender {
   _manageWasClicked = YES;
-  [self winExitClicked:sender];
+  [self exitFinal];
 }
 
 - (void) exitFinal {

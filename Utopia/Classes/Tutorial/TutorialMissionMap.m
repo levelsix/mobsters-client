@@ -194,8 +194,6 @@
     [CCActionDelay actionWithDuration:delay],
     [CCActionCallBlock actionWithBlock:^{ [self.friendSprite restoreStandingFrame:MapDirectionFarLeft]; }],
     [CCActionDelay actionWithDuration:delay],
-    [CCActionCallBlock actionWithBlock:^{ [self.friendSprite restoreStandingFrame:MapDirectionNearRight]; }],
-    [CCActionDelay actionWithDuration:delay],
     [CCActionCallBlock actionWithBlock:^{ [self.friendSprite restoreStandingFrame:MapDirectionFarRight]; }],
     [CCActionDelay actionWithDuration:delay],
     [CCActionCallBlock actionWithBlock:^{ [self.friendSprite restoreStandingFrame:MapDirectionNearLeft]; }],
@@ -298,6 +296,14 @@
 
 - (void) enemyTurnToBoss {
   [self.enemySprite restoreStandingFrame:MapDirectionNearRight];
+  
+  float delay = 1.2f;
+  [self.friendSprite runAction:
+   [CCActionSequence actions:
+    [CCActionDelay actionWithDuration:delay],
+    [CCActionCallBlock actionWithBlock:^{ [self.enemySprite restoreStandingFrame:MapDirectionNearLeft]; }],
+    [CCActionCallFunc actionWithTarget:self.delegate selector:@selector(enemyTurnedToBossAndBack)],
+    nil]];
 }
 
 - (void) beginChaseIntoSecondBuilding {
@@ -323,7 +329,6 @@
 }
 
 - (void) stutterWithSelector:(SEL)selector {
-  [self.enemySprite restoreStandingFrame:MapDirectionNearLeft];
   [self.friendSprite walkToTileCoord:ccp(self.friendSprite.location.origin.x-1, self.friendSprite.location.origin.y) completionTarget:self selector:@selector(friendFaceFarRight) speedMultiplier:2.f];
   [self.enemyBossSprite runAction:
    [CCActionSequence actions:
@@ -348,8 +353,8 @@
     [CCActionCallBlock actionWithBlock:
      ^{
        [self runIntoSecondBuildingAnimatedSprite:self.friendSprite withDelay:0.f];
-       [self runIntoSecondBuildingAnimatedSprite:self.enemySprite withDelay:0.8f];
-       [self runIntoSecondBuildingAnimatedSprite:self.enemyBossSprite withDelay:0.8f];
+       [self runIntoSecondBuildingAnimatedSprite:self.enemySprite withDelay:0.3f];
+       [self runIntoSecondBuildingAnimatedSprite:self.enemyBossSprite withDelay:0.3f];
      }], nil]];
 }
 
@@ -555,12 +560,12 @@
   [Globals createUIArrowForView:self.enterButton atAngle:angle];
 }
 
-//- (void) drag:(UIGestureRecognizer *)recognizer {
-//  // Do nothing
-//}
-//
-//- (void) scale:(UIGestureRecognizer *)recognizer {
-//  // Do nothing
-//}
+- (void) drag:(UIGestureRecognizer *)recognizer {
+  // Do nothing
+}
+
+- (void) scale:(UIGestureRecognizer *)recognizer {
+  // Do nothing
+}
 
 @end

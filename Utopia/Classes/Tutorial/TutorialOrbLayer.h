@@ -20,6 +20,6 @@
 
 - (id) initWithContentSize:(CGSize)size gridSize:(CGSize)gridSize numColors:(int)numColors presetLayoutFile:(NSString *)presetLayoutFile;
 
-- (void) createOverlayAvoidingPositions:(NSArray *)shownGems withForcedMove:(NSSet *)forcedMove;
+- (void) createOverlayAvoidingPositions:(NSArray *)shownGems withForcedMove:(NSArray *)forcedMove;
 
 @end

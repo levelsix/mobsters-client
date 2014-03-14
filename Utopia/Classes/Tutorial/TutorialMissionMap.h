@@ -18,6 +18,7 @@
 - (void) enemyRanOffMap;
 - (void) enemyArrivedWithBoss;
 - (void) friendWalkedUpToBoss;
+- (void) enemyTurnedToBossAndBack;
 - (void) everyoneEnteredSecondBuilding;
 - (void) enemyBossRanOffMap;
 - (void) yachtWentOffScene;

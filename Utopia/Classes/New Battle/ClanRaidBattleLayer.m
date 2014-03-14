@@ -327,7 +327,7 @@
     }
     [clanBs runAction:
      [CCActionSequence actions:
-      [CCActionMoveTo actionWithDuration:ccpDistance(midPos, startPos)/MY_WALKING_SPEED/2 position:midPos],
+      [CCActionMoveTo actionWithDuration:ccpDistance(midPos, startPos)/MELEE_RUN_SPEED position:midPos],
       [CCActionCallBlock actionWithBlock:
        ^{
          if (comeFromTop) {
@@ -338,7 +338,7 @@
            clanBs.sprite.flipX = NO;
          }
        }],
-      [CCActionMoveTo actionWithDuration:ccpDistance(finalPos, midPos)/MY_WALKING_SPEED/2 position:finalPos],
+      [CCActionMoveTo actionWithDuration:ccpDistance(finalPos, midPos)/MELEE_RUN_SPEED position:finalPos],
       [CCActionCallFunc actionWithTarget:clanBs selector:@selector(removeFromParent)],
       nil]];
     

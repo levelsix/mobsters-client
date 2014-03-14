@@ -67,6 +67,7 @@
 
 @property (nonatomic, retain) IBOutletCollection(UIView) NSArray *topBarMonsterViewContainers;
 @property (nonatomic, retain) IBOutlet TopBarMonsterView *topBarMonsterView;
+@property (nonatomic, retain) IBOutlet UIView *monsterView;
 
 @property (nonatomic, retain) ChatViewController *chatViewController;
 

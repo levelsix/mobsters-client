@@ -34,6 +34,8 @@
 - (void) beginThirdMove;
 - (void) allowMove;
 
+- (BOOL) canSkipResponseWait;
+
 - (NSString *) presetLayoutFile;
 
 @end

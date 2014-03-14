@@ -319,13 +319,15 @@
 #pragma mark - MonsterTeamSlotDelegate methods
 
 - (void) minusClickedForTeamSlotView:(MonsterTeamSlotView *)mv {
-  BOOL success = [[OutgoingEventController sharedOutgoingEventController] removeMonsterFromTeam:mv.monster.userMonsterId];
-  
-  if (success) {
-    [self reloadTableAnimated:YES];
-    [self updateCurrentTeamAnimated:YES];
+  if (mv.monster.userMonsterId) {
+    BOOL success = [[OutgoingEventController sharedOutgoingEventController] removeMonsterFromTeam:mv.monster.userMonsterId];
     
-    [[NSNotificationCenter defaultCenter] postNotificationName:MY_TEAM_CHANGED_NOTIFICATION object:nil];
+    if (success) {
+      [self reloadTableAnimated:YES];
+      [self updateCurrentTeamAnimated:YES];
+      
+      [[NSNotificationCenter defaultCenter] postNotificationName:MY_TEAM_CHANGED_NOTIFICATION object:nil];
+    }
   }
 }
 

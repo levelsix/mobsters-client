@@ -11,6 +11,8 @@
 #import "BattleSpeechBubble.h"
 #import "Protocols.pb.h"
 
+#define MELEE_RUN_SPEED (MY_WALKING_SPEED*2/3.f)
+
 @interface BattleSprite : CCSprite
 
 @property (nonatomic, retain) NSString *prefix;

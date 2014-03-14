@@ -3761,6 +3761,7 @@ static StartupResponseProto_StartupConstants_MonsterConstants* defaultStartupRes
 @property int32_t monsterDropTutorialAssetId;
 @property int32_t elementTutorialAssetId;
 @property int32_t cityId;
+@property int32_t questIdForCombiningPowerUps;
 @end
 
 @implementation StartupResponseProto_StartupConstants_MiniTutorialConstants
@@ -3814,6 +3815,13 @@ static StartupResponseProto_StartupConstants_MonsterConstants* defaultStartupRes
   hasCityId_ = !!value;
 }
 @synthesize cityId;
+- (BOOL) hasQuestIdForCombiningPowerUps {
+  return !!hasQuestIdForCombiningPowerUps_;
+}
+- (void) setHasQuestIdForCombiningPowerUps:(BOOL) value {
+  hasQuestIdForCombiningPowerUps_ = !!value;
+}
+@synthesize questIdForCombiningPowerUps;
 - (void) dealloc {
   [super dealloc];
 }
@@ -3826,6 +3834,7 @@ static StartupResponseProto_StartupConstants_MonsterConstants* defaultStartupRes
     self.monsterDropTutorialAssetId = 0;
     self.elementTutorialAssetId = 0;
     self.cityId = 0;
+    self.questIdForCombiningPowerUps = 0;
   }
   return self;
 }
@@ -3866,6 +3875,9 @@ static StartupResponseProto_StartupConstants_MiniTutorialConstants* defaultStart
   if (self.hasCityId) {
     [output writeInt32:7 value:self.cityId];
   }
+  if (self.hasQuestIdForCombiningPowerUps) {
+    [output writeInt32:8 value:self.questIdForCombiningPowerUps];
+  }
   [self.unknownFields writeToCodedOutputStream:output];
 }
 - (int32_t) serializedSize {
@@ -3895,6 +3907,9 @@ static StartupResponseProto_StartupConstants_MiniTutorialConstants* defaultStart
   }
   if (self.hasCityId) {
     size += computeInt32Size(7, self.cityId);
+  }
+  if (self.hasQuestIdForCombiningPowerUps) {
+    size += computeInt32Size(8, self.questIdForCombiningPowerUps);
   }
   size += self.unknownFields.serializedSize;
   memoizedSerializedSize = size;
@@ -3992,6 +4007,9 @@ static StartupResponseProto_StartupConstants_MiniTutorialConstants* defaultStart
   if (other.hasCityId) {
     [self setCityId:other.cityId];
   }
+  if (other.hasQuestIdForCombiningPowerUps) {
+    [self setQuestIdForCombiningPowerUps:other.questIdForCombiningPowerUps];
+  }
   [self mergeUnknownFields:other.unknownFields];
   return self;
 }
@@ -4039,6 +4057,10 @@ static StartupResponseProto_StartupConstants_MiniTutorialConstants* defaultStart
       }
       case 56: {
         [self setCityId:[input readInt32]];
+        break;
+      }
+      case 64: {
+        [self setQuestIdForCombiningPowerUps:[input readInt32]];
         break;
       }
     }
@@ -4154,6 +4176,22 @@ static StartupResponseProto_StartupConstants_MiniTutorialConstants* defaultStart
 - (StartupResponseProto_StartupConstants_MiniTutorialConstants_Builder*) clearCityId {
   result.hasCityId = NO;
   result.cityId = 0;
+  return self;
+}
+- (BOOL) hasQuestIdForCombiningPowerUps {
+  return result.hasQuestIdForCombiningPowerUps;
+}
+- (int32_t) questIdForCombiningPowerUps {
+  return result.questIdForCombiningPowerUps;
+}
+- (StartupResponseProto_StartupConstants_MiniTutorialConstants_Builder*) setQuestIdForCombiningPowerUps:(int32_t) value {
+  result.hasQuestIdForCombiningPowerUps = YES;
+  result.questIdForCombiningPowerUps = value;
+  return self;
+}
+- (StartupResponseProto_StartupConstants_MiniTutorialConstants_Builder*) clearQuestIdForCombiningPowerUps {
+  result.hasQuestIdForCombiningPowerUps = NO;
+  result.questIdForCombiningPowerUps = 0;
   return self;
 }
 @end

@@ -20,8 +20,7 @@
 
 - (void) viewDidLoad {
   [super viewDidLoad];
-  self.mainView.hidden = YES;
-  self.chatViewController.view.hidden = YES;
+  self.mainView.userInteractionEnabled = NO;
 }
 
 - (void) displayCoinBars {
@@ -39,6 +38,10 @@
   [UIView animateWithDuration:0.2f animations:^{
     self.attackView.alpha = 1.f;
   }];
+}
+
+- (void) displayMobstersView {
+  [self.view addSubview:self.monsterView];
 }
 
 - (void) displayQuestButton {
@@ -94,15 +97,26 @@
   }
 }
 
+- (void) allowMobstersClick {
+  _allowMobstersClick = YES;
+  
+  [self displayMobstersView];
+  [Globals createUIArrowForView:self.monsterView atAngle:-M_PI_2];
+}
+
+- (IBAction)monsterViewsClicked:(id)sender {
+  if (_allowMobstersClick) {
+    _allowMobstersClick = NO;
+    [Globals removeUIArrowFromViewRecursively:self.view];
+    [self.delegate mobstersClicked];
+  }
+}
+
 - (IBAction)plusClicked:(id)sender {
   // Do nothing
 }
 
 - (IBAction)profileClicked:(id)sender {
-  // Do nothing
-}
-
-- (IBAction)monsterViewsClicked:(id)sender {
   // Do nothing
 }
 

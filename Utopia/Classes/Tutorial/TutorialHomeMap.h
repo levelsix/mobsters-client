@@ -12,6 +12,7 @@
 @protocol TutorialHomeMapDelegate <NSObject>
 
 - (void) boatLanded;
+- (void) markFacedFriendAndBack;
 - (void) enterHospitalClicked;
 
 - (void) purchasedBuildingWasSetDown:(int)structId coordinate:(CGPoint)coordinate cashCost:(int)cashCost oilCost:(int)oilCost;
@@ -44,6 +45,7 @@
 - (void) landBoatOnShore;
 - (void) walkToHospitalAndEnter;
 - (void) friendFaceMark;
+- (void) markFaceFriendAndBack;
 - (void) zoomOutMap;
 - (void) speedupPurchasedBuilding;
 - (void) moveToOilDrill;

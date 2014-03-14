@@ -53,6 +53,10 @@
   self.orbLayer = ol;
 }
 
+- (CGPoint) myPlayerLocation {
+  return ccpAdd(MY_PLAYER_LOCATION, ccpMult(POINT_OFFSET_PER_SCENE, 0.08));
+}
+
 - (void) beginMyTurn {
   if (_allowTurnBegin) {
     _allowTurnBegin = NO;
@@ -124,7 +128,13 @@
   [super winExitClicked:sender];
   
   // Don't let it wait for the end dungeon response
-  [self exitFinal];
+  if ([self canSkipResponseWait]) {
+    [self exitFinal];
+  }
+}
+
+- (BOOL) canSkipResponseWait {
+  return YES;
 }
 
 - (void) displaySwapButton {
@@ -150,6 +160,14 @@
 
 - (void) manageClicked:(id)sender {
   // Do nothing
+}
+
+- (CGSize) gridSize {
+  return CGSizeMake(6, 6);
+}
+
+- (BOOL) shouldShowContinueButton {
+  return NO;
 }
 
 @end

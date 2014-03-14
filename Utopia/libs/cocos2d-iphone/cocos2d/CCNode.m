@@ -67,7 +67,7 @@
 @end
 
 @implementation CCNode {
-
+  
 }
 
 // Suppress automatic ivar creation.
@@ -141,42 +141,42 @@ static NSUInteger globalOrderOfArrival = 1;
 {
 	if ((self=[super init]) ) {
 		_isInActiveScene = NO;
-
+    
 		_skewX = _skewY = 0.0f;
 		_rotationalSkewX = _rotationalSkewY = 0.0f;
 		_scaleX = _scaleY = 1.0f;
-        _position = CGPointZero;
-        _contentSize = CGSizeZero;
+    _position = CGPointZero;
+    _contentSize = CGSizeZero;
 		_anchorPointInPoints = _anchorPoint = CGPointZero;
-
+    
 		_isTransformDirty = _isInverseDirty = YES;
-
+    
 		_vertexZ = 0;
-
+    
 		_visible = YES;
-
+    
 		_zOrder = 0;
-
+    
 		// children (lazy allocs)
 		_children = nil;
-
+    
 		// userObject is always inited as nil
 		_userObject = nil;
-
+    
 		//initialize parent to nil
 		_parent = nil;
-
+    
 		_shaderProgram = nil;
-
+    
 		_orderOfArrival = 0;
-
+    
 		_glServerState = 0;
 		
 		// set default scheduler and actionManager
 		CCDirector *director = [CCDirector sharedDirector];
 		_actionManager = [director actionManager];
 		_scheduler = [director scheduler];
-        
+    
 		// set default touch handling
 		self.hitAreaExpansion = 0.0f;
     
@@ -184,7 +184,7 @@ static NSUInteger globalOrderOfArrival = 1;
 		_cascadeOpacityEnabled = NO;
 		_cascadeColorEnabled = NO;
 	}
-
+  
 	return self;
 }
 
@@ -193,7 +193,7 @@ static NSUInteger globalOrderOfArrival = 1;
 	// actions
 	[self stopAllActions];
 	[_scheduler unscheduleTarget:self];
-
+  
 	// timers
 	[_children makeObjectsPerformSelector:@selector(cleanup)];
 }
@@ -206,15 +206,15 @@ static NSUInteger globalOrderOfArrival = 1;
 - (void) dealloc
 {
 	CCLOGINFO( @"cocos2d: deallocing %@", self);
-
+  
   // LVL6 Addition
   [self removeAllChildren];
-
+  
 	// children
-//    for (CCNode* child in _children)
-//		child.parent = nil;
-
-
+  //    for (CCNode* child in _children)
+  //		child.parent = nil;
+  
+  
 }
 
 #pragma mark Setters
@@ -345,7 +345,7 @@ GetPositionFromBody(CCNode *node, CCPhysicsBody *body)
 {
 	if( ! CGPointEqualToPoint(point, _anchorPoint) ) {
 		_anchorPoint = point;
-        CGSize contentSizeInPoints = self.contentSizeInPoints;
+    CGSize contentSizeInPoints = self.contentSizeInPoints;
 		_anchorPointInPoints = ccp( contentSizeInPoints.width * _anchorPoint.x, contentSizeInPoints.height * _anchorPoint.y );
 		_isTransformDirty = _isInverseDirty = YES;
 	}
@@ -354,214 +354,214 @@ GetPositionFromBody(CCNode *node, CCPhysicsBody *body)
 -(void) setContentSize:(CGSize)size
 {
 	if( ! CGSizeEqualToSize(size, _contentSize) )
-    {
+  {
 		_contentSize = size;
-        [self contentSizeChanged];
+    [self contentSizeChanged];
 	}
 }
 
 - (void) setContentSizeType:(CCSizeType)contentSizeType
 {
-    _contentSizeType = contentSizeType;
-    [self contentSizeChanged];
+  _contentSizeType = contentSizeType;
+  [self contentSizeChanged];
 }
 
 - (void) contentSizeChanged
 {
-    // Update children
-    CGSize contentSizeInPoints = self.contentSizeInPoints;
-    _anchorPointInPoints = ccp( contentSizeInPoints.width * _anchorPoint.x, contentSizeInPoints.height * _anchorPoint.y );
-    _isTransformDirty = _isInverseDirty = YES;
-    
-    if ([_parent isKindOfClass:[CCLayout class]])
+  // Update children
+  CGSize contentSizeInPoints = self.contentSizeInPoints;
+  _anchorPointInPoints = ccp( contentSizeInPoints.width * _anchorPoint.x, contentSizeInPoints.height * _anchorPoint.y );
+  _isTransformDirty = _isInverseDirty = YES;
+  
+  if ([_parent isKindOfClass:[CCLayout class]])
+  {
+    CCLayout* layout = (CCLayout*)_parent;
+    [layout needsLayout];
+  }
+  
+  // Update the children (if needed)
+  for (CCNode* child in _children)
+  {
+    if (!CCPositionTypeIsBasicPoints(child->_positionType))
     {
-        CCLayout* layout = (CCLayout*)_parent;
-        [layout needsLayout];
+      // This is a position type affected by content size
+      child->_isTransformDirty = _isInverseDirty = YES;
     }
-    
-    // Update the children (if needed)
-    for (CCNode* child in _children)
-    {
-        if (!CCPositionTypeIsBasicPoints(child->_positionType))
-        {
-            // This is a position type affected by content size
-            child->_isTransformDirty = _isInverseDirty = YES;
-        }
-    }
+  }
 }
 
 - (CGSize) convertContentSizeToPoints:(CGSize)contentSize type:(CCSizeType)type
 {
-    CGSize size = CGSizeZero;
-    CCDirector* director = [CCDirector sharedDirector];
-    
-    CCSizeUnit widthUnit = type.widthUnit;
-    CCSizeUnit heightUnit = type.heightUnit;
-    
-    // Width
-    if (widthUnit == CCSizeUnitPoints)
-    {
-        size.width = contentSize.width;
-    }
-    else if (widthUnit == CCSizeUnitUIPoints)
-    {
-        size.width = director.UIScaleFactor * contentSize.width;
-    }
-    else if (widthUnit == CCSizeUnitNormalized)
-    {
-        size.width = contentSize.width * _parent.contentSizeInPoints.width;
-    }
-    else if (widthUnit == CCSizeUnitInsetPoints)
-    {
-        size.width = _parent.contentSizeInPoints.width - contentSize.width;
-    }
-    else if (widthUnit == CCSizeUnitInsetUIPoints)
-    {
-        size.width = _parent.contentSizeInPoints.width - contentSize.width * director.UIScaleFactor;
-    }
-    
-    // Height
-    if (heightUnit == CCSizeUnitPoints)
-    {
-        size.height = contentSize.height;
-    }
-    else if (heightUnit == CCSizeUnitUIPoints)
-    {
-        size.height = director.UIScaleFactor * contentSize.height;
-    }
-    else if (heightUnit == CCSizeUnitNormalized)
-    {
-        size.height = contentSize.height * _parent.contentSizeInPoints.height;
-    }
-    else if (heightUnit == CCSizeUnitInsetPoints)
-    {
-        size.height = _parent.contentSizeInPoints.height - contentSize.height;
-    }
-    else if (heightUnit == CCSizeUnitInsetUIPoints)
-    {
-        size.height = _parent.contentSizeInPoints.height - contentSize.height * director.UIScaleFactor;
-    }
-    
-    return size;
+  CGSize size = CGSizeZero;
+  CCDirector* director = [CCDirector sharedDirector];
+  
+  CCSizeUnit widthUnit = type.widthUnit;
+  CCSizeUnit heightUnit = type.heightUnit;
+  
+  // Width
+  if (widthUnit == CCSizeUnitPoints)
+  {
+    size.width = contentSize.width;
+  }
+  else if (widthUnit == CCSizeUnitUIPoints)
+  {
+    size.width = director.UIScaleFactor * contentSize.width;
+  }
+  else if (widthUnit == CCSizeUnitNormalized)
+  {
+    size.width = contentSize.width * _parent.contentSizeInPoints.width;
+  }
+  else if (widthUnit == CCSizeUnitInsetPoints)
+  {
+    size.width = _parent.contentSizeInPoints.width - contentSize.width;
+  }
+  else if (widthUnit == CCSizeUnitInsetUIPoints)
+  {
+    size.width = _parent.contentSizeInPoints.width - contentSize.width * director.UIScaleFactor;
+  }
+  
+  // Height
+  if (heightUnit == CCSizeUnitPoints)
+  {
+    size.height = contentSize.height;
+  }
+  else if (heightUnit == CCSizeUnitUIPoints)
+  {
+    size.height = director.UIScaleFactor * contentSize.height;
+  }
+  else if (heightUnit == CCSizeUnitNormalized)
+  {
+    size.height = contentSize.height * _parent.contentSizeInPoints.height;
+  }
+  else if (heightUnit == CCSizeUnitInsetPoints)
+  {
+    size.height = _parent.contentSizeInPoints.height - contentSize.height;
+  }
+  else if (heightUnit == CCSizeUnitInsetUIPoints)
+  {
+    size.height = _parent.contentSizeInPoints.height - contentSize.height * director.UIScaleFactor;
+  }
+  
+  return size;
 }
 
 - (CGSize) convertContentSizeFromPoints:(CGSize)pointSize type:(CCSizeType)type
 {
-    CGSize size = CGSizeZero;
+  CGSize size = CGSizeZero;
+  
+  CCDirector* director = [CCDirector sharedDirector];
+  
+  CCSizeUnit widthUnit = type.widthUnit;
+  CCSizeUnit heightUnit = type.heightUnit;
+  
+  // Width
+  if (widthUnit == CCSizeUnitPoints)
+  {
+    size.width = pointSize.width;
+  }
+  else if (widthUnit == CCSizeUnitUIPoints)
+  {
+    size.width = pointSize.width / director.UIScaleFactor;
+  }
+  else if (widthUnit == CCSizeUnitNormalized)
+  {
     
-    CCDirector* director = [CCDirector sharedDirector];
+    float parentWidthInPoints = _parent.contentSizeInPoints.width;
+    if (parentWidthInPoints > 0)
+    {
+      size.width = pointSize.width/parentWidthInPoints;
+    }
+    else
+    {
+      size.width = 0;
+    }
+  }
+  else if (widthUnit == CCSizeUnitInsetPoints)
+  {
+    size.width = _parent.contentSizeInPoints.width - pointSize.width;
+  }
+  else if (widthUnit == CCSizeUnitInsetUIPoints)
+  {
+    size.width = (_parent.contentSizeInPoints.width - pointSize.width) / director.UIScaleFactor;
+  }
+  
+  // Height
+  if (heightUnit == CCSizeUnitPoints)
+  {
+    size.height = pointSize.height;
+  }
+  else if (heightUnit == CCSizeUnitUIPoints)
+  {
+    size.height = pointSize.height / director.UIScaleFactor;
+  }
+  else if (heightUnit == CCSizeUnitNormalized)
+  {
     
-    CCSizeUnit widthUnit = type.widthUnit;
-    CCSizeUnit heightUnit = type.heightUnit;
-    
-    // Width
-    if (widthUnit == CCSizeUnitPoints)
+    float parentHeightInPoints = _parent.contentSizeInPoints.height;
+    if (parentHeightInPoints > 0)
     {
-        size.width = pointSize.width;
+      size.height = pointSize.height/parentHeightInPoints;
     }
-    else if (widthUnit == CCSizeUnitUIPoints)
+    else
     {
-        size.width = pointSize.width / director.UIScaleFactor;
+      size.height = 0;
     }
-    else if (widthUnit == CCSizeUnitNormalized)
-    {
-        
-        float parentWidthInPoints = _parent.contentSizeInPoints.width;
-        if (parentWidthInPoints > 0)
-        {
-            size.width = pointSize.width/parentWidthInPoints;
-        }
-        else
-        {
-            size.width = 0;
-        }
-    }
-    else if (widthUnit == CCSizeUnitInsetPoints)
-    {
-        size.width = _parent.contentSizeInPoints.width - pointSize.width;
-    }
-    else if (widthUnit == CCSizeUnitInsetUIPoints)
-    {
-        size.width = (_parent.contentSizeInPoints.width - pointSize.width) / director.UIScaleFactor;
-    }
-    
-    // Height
-    if (heightUnit == CCSizeUnitPoints)
-    {
-        size.height = pointSize.height;
-    }
-    else if (heightUnit == CCSizeUnitUIPoints)
-    {
-        size.height = pointSize.height / director.UIScaleFactor;
-    }
-    else if (heightUnit == CCSizeUnitNormalized)
-    {
-        
-        float parentHeightInPoints = _parent.contentSizeInPoints.height;
-        if (parentHeightInPoints > 0)
-        {
-            size.height = pointSize.height/parentHeightInPoints;
-        }
-        else
-        {
-            size.height = 0;
-        }
-    }
-    else if (heightUnit == CCSizeUnitInsetPoints)
-    {
-        size.height = _parent.contentSizeInPoints.height - pointSize.height;
-    }
-    else if (heightUnit == CCSizeUnitInsetUIPoints)
-    {
-        size.height = (_parent.contentSizeInPoints.height - pointSize.height) / director.UIScaleFactor;
-    }
-    
-    return size;
+  }
+  else if (heightUnit == CCSizeUnitInsetPoints)
+  {
+    size.height = _parent.contentSizeInPoints.height - pointSize.height;
+  }
+  else if (heightUnit == CCSizeUnitInsetUIPoints)
+  {
+    size.height = (_parent.contentSizeInPoints.height - pointSize.height) / director.UIScaleFactor;
+  }
+  
+  return size;
 }
 
 - (CGSize) contentSizeInPoints
 {
-    return [self convertContentSizeToPoints:self.contentSize type:_contentSizeType];
+  return [self convertContentSizeToPoints:self.contentSize type:_contentSizeType];
 }
 
 - (float) scaleInPoints
 {
-    if (_scaleType == CCScaleTypeScaled)
-    {
-        return self.scale * [CCDirector sharedDirector].UIScaleFactor;
-    }
-    return self.scale;
+  if (_scaleType == CCScaleTypeScaled)
+  {
+    return self.scale * [CCDirector sharedDirector].UIScaleFactor;
+  }
+  return self.scale;
 }
 
 - (float) scaleXInPoints
 {
-    if (_scaleType == CCScaleTypeScaled)
-    {
-        return _scaleX * [CCDirector sharedDirector].UIScaleFactor;
-    }
-    return _scaleX;
+  if (_scaleType == CCScaleTypeScaled)
+  {
+    return _scaleX * [CCDirector sharedDirector].UIScaleFactor;
+  }
+  return _scaleX;
 }
 
 - (float) scaleYInPoints
 {
-    if (_scaleType == CCScaleTypeScaled)
-    {
-        return _scaleY * [CCDirector sharedDirector].UIScaleFactor;
-    }
-    return _scaleY;
+  if (_scaleType == CCScaleTypeScaled)
+  {
+    return _scaleY * [CCDirector sharedDirector].UIScaleFactor;
+  }
+  return _scaleY;
 }
 
 - (void) setScaleType:(CCScaleType)scaleType
 {
-    _scaleType = scaleType;
-    _isTransformDirty = _isInverseDirty = YES;
+  _scaleType = scaleType;
+  _isTransformDirty = _isInverseDirty = YES;
 }
 
 - (CGRect) boundingBox
 {
-    CGSize contentSize = self.contentSizeInPoints;
-    CGRect rect = CGRectMake(0, 0, contentSize.width, contentSize.height);
-    return CGRectApplyAffineTransform(rect, [self nodeToParentTransform]);
+  CGSize contentSize = self.contentSizeInPoints;
+  CGRect rect = CGRectMake(0, 0, contentSize.width, contentSize.height);
+  return CGRectApplyAffineTransform(rect, [self nodeToParentTransform]);
 }
 
 -(void) setVertexZ:(float)vertexZ
@@ -571,10 +571,10 @@ GetPositionFromBody(CCNode *node, CCPhysicsBody *body)
 
 - (void)setVisible:(BOOL)visible
 {
-    if (visible == _visible) return;
-    
-    [[[CCDirector sharedDirector] responderManager] markAsDirty];
-    _visible = visible;
+  if (visible == _visible) return;
+  
+  [[[CCDirector sharedDirector] responderManager] markAsDirty];
+  _visible = visible;
 }
 
 -(float) scale
@@ -592,9 +592,9 @@ GetPositionFromBody(CCNode *node, CCPhysicsBody *body)
 - (void) setZOrder:(NSInteger)zOrder
 {
 	[self _setZOrder:zOrder];
-
-    if (_parent)
-        [_parent reorderChild:self z:zOrder];
+  
+  if (_parent)
+    [_parent reorderChild:self z:zOrder];
 }
 
 #pragma mark CCNode Composition
@@ -607,16 +607,16 @@ GetPositionFromBody(CCNode *node, CCPhysicsBody *body)
 -(CCNode*) getChildByName:(NSString *)name recursively:(bool)isRecursive
 {
 	NSAssert(name, @"name is NULL");
+  
+  // LVL6 Addition
+  if (isRecursive && [self.name isEqualToString:name]){
+    return self;
+  }
 	
   for (CCNode* node in _children) {
 		if(isRecursive){
 			// Recurse:
       
-      // LVL6 Addition
-      // Moved this into the recursive loop
-      if([self.name isEqualToString:name]){
-      	return self;
-      }
 			CCNode* n = [node getChildByName:name recursively:isRecursive];
 			if(n)
 				return n;
@@ -652,16 +652,16 @@ RecursivelyIncrementPausedAncestors(CCNode *node, int increment)
 {
 	NSAssert( child != nil, @"Argument must be non-nil");
 	NSAssert( child.parent == nil, @"child already added to another node. It can't be added again");
-
+  
 	if( ! _children )
 		[self childrenAlloc];
-
+  
 	[self insertChild:child z:z];
-
+  
 	child.name = name;
-
+  
 	[child setParent: self];
-
+  
 	[child setOrderOfArrival: globalOrderOfArrival++];
 	
 	// Update pausing parameters
@@ -672,8 +672,8 @@ RecursivelyIncrementPausedAncestors(CCNode *node, int increment)
 		[child onEnter];
 		[child onEnterTransitionDidFinish];
 	}
-    
-    [[[CCDirector sharedDirector] responderManager] markAsDirty];
+  
+  [[[CCDirector sharedDirector] responderManager] markAsDirty];
 }
 
 -(void) addChild: (CCNode*) child z:(NSInteger)z
@@ -712,7 +712,7 @@ RecursivelyIncrementPausedAncestors(CCNode *node, int increment)
 	// explicit nil handling
 	if (child == nil)
 		return;
-
+  
 	NSAssert([_children containsObject:child], @"This node does not contain the specified child.");
 	
 	[self detachChild:child cleanup:cleanup];
@@ -727,9 +727,9 @@ RecursivelyIncrementPausedAncestors(CCNode *node, int increment)
 {
   // LVL6 Addition
 	NSAssert( name, @"Invalid name");
-
+  
 	CCNode *child = [self getChildByName:name recursively:NO];
-
+  
 	if (child == nil)
 		CCLOG(@"cocos2d: removeChildByName: child not found!");
 	else
@@ -744,7 +744,7 @@ RecursivelyIncrementPausedAncestors(CCNode *node, int increment)
 -(void) removeAllChildrenWithCleanup:(BOOL)cleanup
 {
 	// not using detachChild improves speed here
-    for (CCNode* c in _children)
+  for (CCNode* c in _children)
 	{
 		// IMPORTANT:
 		//  -1st do onExit
@@ -760,14 +760,14 @@ RecursivelyIncrementPausedAncestors(CCNode *node, int increment)
 		
 		if (cleanup)
 			[c cleanup];
-
+    
 		// set parent nil at the end (issue #476)
 		[c setParent:nil];
-        
-        [[[CCDirector sharedDirector] responderManager] markAsDirty];
-
+    
+    [[[CCDirector sharedDirector] responderManager] markAsDirty];
+    
 	}
-
+  
 	[_children removeAllObjects];
 }
 
@@ -789,12 +789,12 @@ RecursivelyIncrementPausedAncestors(CCNode *node, int increment)
 	// its scheduledSelectors_ dict will not get released!
 	if (doCleanup)
 		[child cleanup];
-
+  
 	// set parent nil at the end (issue #476)
 	[child setParent:nil];
-
+  
 	[[[CCDirector sharedDirector] responderManager] markAsDirty];
-
+  
 	[_children removeObject:child];
 }
 
@@ -808,60 +808,60 @@ RecursivelyIncrementPausedAncestors(CCNode *node, int increment)
 -(void) insertChild:(CCNode*)child z:(NSInteger)z
 {
 	_isReorderChildDirty=YES;
-
-    [_children addObject:child];
+  
+  [_children addObject:child];
 	[child _setZOrder:z];
 }
 
 -(void) reorderChild:(CCNode*) child z:(NSInteger)z
 {
 	NSAssert( child != nil, @"Child must be non-nil");
-
+  
 	_isReorderChildDirty = YES;
-
+  
 	[child setOrderOfArrival: globalOrderOfArrival++];
 	[child _setZOrder:z];
 }
 
 - (NSComparisonResult) compareZOrderToNode:(CCNode*)node
 {
-    if (node->_zOrder == _zOrder)
+  if (node->_zOrder == _zOrder)
+  {
+    if (node->_orderOfArrival == _orderOfArrival)
     {
-        if (node->_orderOfArrival == _orderOfArrival)
-        {
-            return NSOrderedSame;
-        }
-        else if (node->_orderOfArrival < _orderOfArrival)
-        {
-            return NSOrderedDescending;
-        }
-        else
-        {
-            return NSOrderedAscending;
-        }
+      return NSOrderedSame;
     }
-    else if (node->_zOrder < _zOrder)
+    else if (node->_orderOfArrival < _orderOfArrival)
     {
-        return NSOrderedDescending;
+      return NSOrderedDescending;
     }
     else
     {
-        return NSOrderedAscending;
+      return NSOrderedAscending;
     }
+  }
+  else if (node->_zOrder < _zOrder)
+  {
+    return NSOrderedDescending;
+  }
+  else
+  {
+    return NSOrderedAscending;
+  }
 }
 
 - (void) sortAllChildren
 {
 	if (_isReorderChildDirty)
 	{
-        [_children sortUsingSelector:@selector(compareZOrderToNode:)];
-
+    [_children sortUsingSelector:@selector(compareZOrderToNode:)];
+    
 		//don't need to check children recursively, that's done in visit of each child
-        
+    
 		_isReorderChildDirty = NO;
-        
-        [[[CCDirector sharedDirector] responderManager] markAsDirty];
-
+    
+    [[[CCDirector sharedDirector] responderManager] markAsDirty];
+    
 	}
 }
 
@@ -876,17 +876,17 @@ RecursivelyIncrementPausedAncestors(CCNode *node, int increment)
 	// quick return if not visible. children won't be drawn.
 	if (!_visible)
 		return;
-    
+  
 	kmGLPushMatrix();
-
+  
 	[self transform];
-
+  
 	if(_children) {
-
+    
 		[self sortAllChildren];
-
+    
 		NSUInteger i = 0;
-
+    
 		// draw children zOrder < 0
 		for( ; i < _children.count; i++ ) {
 			CCNode *child = [_children objectAtIndex:i];
@@ -895,22 +895,22 @@ RecursivelyIncrementPausedAncestors(CCNode *node, int increment)
 			else
 				break;
 		}
-
+    
 		// self draw
 		[self draw];
-
+    
 		// draw children zOrder >= 0
 		for( ; i < _children.count; i++ ) {
 			CCNode *child = [_children objectAtIndex:i];
 			[child visit];
 		}
-
+    
 	} else
 		[self draw];
-
+  
 	// reset for next frame
 	_orderOfArrival = 0;
-
+  
 	kmGLPopMatrix();
 }
 
@@ -927,14 +927,14 @@ RecursivelyIncrementPausedAncestors(CCNode *node, int increment)
 -(void) transform
 {
 	kmMat4 transform4x4;
-
+  
 	// Convert 3x3 into 4x4 matrix
 	CGAffineTransform tmpAffine = [self nodeToParentTransform];
 	CGAffineToGL(&tmpAffine, transform4x4.mat);
-
+  
 	// Update Z vertex manually
 	transform4x4.mat[14] = _vertexZ;
-
+  
 	kmGLMultMatrix( &transform4x4 );
 }
 
@@ -1085,7 +1085,7 @@ RecursivelyIncrementPausedAncestors(CCNode *node, int increment)
 {
 	if( actionManager != _actionManager ) {
 		[self stopAllActions];
-
+    
 		_actionManager = actionManager;
 	}
 }
@@ -1098,7 +1098,7 @@ RecursivelyIncrementPausedAncestors(CCNode *node, int increment)
 -(CCAction*) runAction:(CCAction*) action
 {
 	NSAssert( action != nil, @"Argument must be non-nil");
-
+  
 	[_actionManager addAction:action target:self paused:!self.runningInActiveScene];
 	return action;
 }
@@ -1146,7 +1146,7 @@ RecursivelyIncrementPausedAncestors(CCNode *node, int increment)
 {
 	if( scheduler != _scheduler ) {
 		[_scheduler unscheduleTarget:self];
-
+    
 		_scheduler = scheduler;
 	}
 }
@@ -1237,115 +1237,115 @@ RecursivelyIncrementPausedAncestors(CCNode *node, int increment)
 
 - (CGPoint) convertPositionToPoints:(CGPoint)position type:(CCPositionType)type
 {
-    CCDirector* director = [CCDirector sharedDirector];
-    
-    CGPoint positionInPoints;
-    float x = 0;
-    float y = 0;
-    
-    // Convert position to points
-    CCPositionUnit xUnit = type.xUnit;
-    if (xUnit == CCPositionUnitPoints) x = position.x;
-    else if (xUnit == CCPositionUnitUIPoints) x = position.x * director.UIScaleFactor;
-    else if (xUnit == CCPositionUnitNormalized) x = position.x * _parent.contentSizeInPoints.width;
-    
-    CCPositionUnit yUnit = type.yUnit;
-    if (yUnit == CCPositionUnitPoints) y = position.y;
-    else if (yUnit == CCPositionUnitUIPoints) y = position.y * director.UIScaleFactor;
-    else if (yUnit == CCPositionUnitNormalized) y = position.y * _parent.contentSizeInPoints.height;
-    
-    // Account for reference corner
-    CCPositionReferenceCorner corner = type.corner;
-    if (corner == CCPositionReferenceCornerBottomLeft)
-    {
-        // Nothing needs to be done
-    }
-    else if (corner == CCPositionReferenceCornerTopLeft)
-    {
-        // Reverse y-axis
-        y = _parent.contentSizeInPoints.height - y;
-    }
-    else if (corner == CCPositionReferenceCornerTopRight)
-    {
-        // Reverse x-axis and y-axis
-        x = _parent.contentSizeInPoints.width - x;
-        y = _parent.contentSizeInPoints.height - y;
-    }
-    else if (corner == CCPositionReferenceCornerBottomRight)
-    {
-        // Reverse x-axis
-        x = _parent.contentSizeInPoints.width - x;
-    }
-    
-    positionInPoints.x = x;
-    positionInPoints.y = y;
-    
-    return positionInPoints;
+  CCDirector* director = [CCDirector sharedDirector];
+  
+  CGPoint positionInPoints;
+  float x = 0;
+  float y = 0;
+  
+  // Convert position to points
+  CCPositionUnit xUnit = type.xUnit;
+  if (xUnit == CCPositionUnitPoints) x = position.x;
+  else if (xUnit == CCPositionUnitUIPoints) x = position.x * director.UIScaleFactor;
+  else if (xUnit == CCPositionUnitNormalized) x = position.x * _parent.contentSizeInPoints.width;
+  
+  CCPositionUnit yUnit = type.yUnit;
+  if (yUnit == CCPositionUnitPoints) y = position.y;
+  else if (yUnit == CCPositionUnitUIPoints) y = position.y * director.UIScaleFactor;
+  else if (yUnit == CCPositionUnitNormalized) y = position.y * _parent.contentSizeInPoints.height;
+  
+  // Account for reference corner
+  CCPositionReferenceCorner corner = type.corner;
+  if (corner == CCPositionReferenceCornerBottomLeft)
+  {
+    // Nothing needs to be done
+  }
+  else if (corner == CCPositionReferenceCornerTopLeft)
+  {
+    // Reverse y-axis
+    y = _parent.contentSizeInPoints.height - y;
+  }
+  else if (corner == CCPositionReferenceCornerTopRight)
+  {
+    // Reverse x-axis and y-axis
+    x = _parent.contentSizeInPoints.width - x;
+    y = _parent.contentSizeInPoints.height - y;
+  }
+  else if (corner == CCPositionReferenceCornerBottomRight)
+  {
+    // Reverse x-axis
+    x = _parent.contentSizeInPoints.width - x;
+  }
+  
+  positionInPoints.x = x;
+  positionInPoints.y = y;
+  
+  return positionInPoints;
 }
 
 - (CGPoint) convertPositionFromPoints:(CGPoint)positionInPoints type:(CCPositionType)type
 {
-    CCDirector* director = [CCDirector sharedDirector];
-    
-    CGPoint position;
-    
-    float x = positionInPoints.x;
-    float y = positionInPoints.y;
-    
-    // Account for reference corner
-    CCPositionReferenceCorner corner = type.corner;
-    if (corner == CCPositionReferenceCornerBottomLeft)
+  CCDirector* director = [CCDirector sharedDirector];
+  
+  CGPoint position;
+  
+  float x = positionInPoints.x;
+  float y = positionInPoints.y;
+  
+  // Account for reference corner
+  CCPositionReferenceCorner corner = type.corner;
+  if (corner == CCPositionReferenceCornerBottomLeft)
+  {
+    // Nothing needs to be done
+  }
+  else if (corner == CCPositionReferenceCornerTopLeft)
+  {
+    // Reverse y-axis
+    y = _parent.contentSizeInPoints.height - y;
+  }
+  else if (corner == CCPositionReferenceCornerTopRight)
+  {
+    // Reverse x-axis and y-axis
+    x = _parent.contentSizeInPoints.width - x;
+    y = _parent.contentSizeInPoints.height - y;
+  }
+  else if (corner == CCPositionReferenceCornerBottomRight)
+  {
+    // Reverse x-axis
+    x = _parent.contentSizeInPoints.width - x;
+  }
+  
+  // Convert position from points
+  CCPositionUnit xUnit = type.xUnit;
+  if (xUnit == CCPositionUnitPoints) position.x = x;
+  else if (xUnit == CCPositionUnitUIPoints) position.x = x / director.UIScaleFactor;
+  else if (xUnit == CCPositionUnitNormalized)
+  {
+    float parentWidth = _parent.contentSizeInPoints.width;
+    if (parentWidth > 0)
     {
-        // Nothing needs to be done
+      position.x = x / parentWidth;
     }
-    else if (corner == CCPositionReferenceCornerTopLeft)
+  }
+  
+  CCPositionUnit yUnit = type.yUnit;
+  if (yUnit == CCPositionUnitPoints) position.y = y;
+  else if (yUnit == CCPositionUnitUIPoints) position.y = y / director.UIScaleFactor;
+  else if (yUnit == CCPositionUnitNormalized)
+  {
+    float parentHeight = _parent.contentSizeInPoints.height;
+    if (parentHeight > 0)
     {
-        // Reverse y-axis
-        y = _parent.contentSizeInPoints.height - y;
+      position.y = y / parentHeight;
     }
-    else if (corner == CCPositionReferenceCornerTopRight)
-    {
-        // Reverse x-axis and y-axis
-        x = _parent.contentSizeInPoints.width - x;
-        y = _parent.contentSizeInPoints.height - y;
-    }
-    else if (corner == CCPositionReferenceCornerBottomRight)
-    {
-        // Reverse x-axis
-        x = _parent.contentSizeInPoints.width - x;
-    }
-    
-    // Convert position from points
-    CCPositionUnit xUnit = type.xUnit;
-    if (xUnit == CCPositionUnitPoints) position.x = x;
-    else if (xUnit == CCPositionUnitUIPoints) position.x = x / director.UIScaleFactor;
-    else if (xUnit == CCPositionUnitNormalized)
-    {
-        float parentWidth = _parent.contentSizeInPoints.width;
-        if (parentWidth > 0)
-        {
-            position.x = x / parentWidth;
-        }
-    }
-    
-    CCPositionUnit yUnit = type.yUnit;
-    if (yUnit == CCPositionUnitPoints) position.y = y;
-    else if (yUnit == CCPositionUnitUIPoints) position.y = y / director.UIScaleFactor;
-    else if (yUnit == CCPositionUnitNormalized)
-    {
-        float parentHeight = _parent.contentSizeInPoints.height;
-        if (parentHeight > 0)
-        {
-            position.y = y / parentHeight;
-        }
-    }
-    
-    return position;
+  }
+  
+  return position;
 }
 
 - (CGPoint) positionInPoints
 {
-    return [self convertPositionToPoints:self.position type:_positionType];
+  return [self convertPositionToPoints:self.position type:_positionType];
 }
 
 - (CGAffineTransform)nodeToParentTransform
@@ -1355,38 +1355,38 @@ RecursivelyIncrementPausedAncestors(CCNode *node, int increment)
 		CGAffineTransform rigidTransform = RigidBodyToParentTransform(self, physicsBody);
 		_transform = cpTransformMult(rigidTransform, cpTransformScale(_scaleX, _scaleY));
 	} else if ( _isTransformDirty ) {
-        
-        // Get content size
-        CGSize contentSizeInPoints;
-        if (CCSizeTypeIsBasicPoints(_contentSizeType))
-        {
-            // Optimization for basic content sizes (most common case)
-            contentSizeInPoints = _contentSize;
-        }
-        else
-        {
-            contentSizeInPoints = self.contentSizeInPoints;
-        }
-        
-        // Calculate the anchor point in points
-        _anchorPointInPoints = ccp( contentSizeInPoints.width * _anchorPoint.x, contentSizeInPoints.height * _anchorPoint.y );
-        
-        // Convert position to points
-        CGPoint positionInPoints;
-        if (CCPositionTypeIsBasicPoints(_positionType))
-        {
-            // Optimization for basic points (most common case)
-            positionInPoints = _position;
-        }
-        else
-        {
-            positionInPoints = [self convertPositionToPoints:_position type:_positionType];
-        }
-        
-        // Get x and y
+    
+    // Get content size
+    CGSize contentSizeInPoints;
+    if (CCSizeTypeIsBasicPoints(_contentSizeType))
+    {
+      // Optimization for basic content sizes (most common case)
+      contentSizeInPoints = _contentSize;
+    }
+    else
+    {
+      contentSizeInPoints = self.contentSizeInPoints;
+    }
+    
+    // Calculate the anchor point in points
+    _anchorPointInPoints = ccp( contentSizeInPoints.width * _anchorPoint.x, contentSizeInPoints.height * _anchorPoint.y );
+    
+    // Convert position to points
+    CGPoint positionInPoints;
+    if (CCPositionTypeIsBasicPoints(_positionType))
+    {
+      // Optimization for basic points (most common case)
+      positionInPoints = _position;
+    }
+    else
+    {
+      positionInPoints = [self convertPositionToPoints:_position type:_positionType];
+    }
+    
+    // Get x and y
 		float x = positionInPoints.x;
 		float y = positionInPoints.y;
-        
+    
 		// Rotation values
 		// Change rotation code to handle X and Y
 		// If we skew with the exact same value for both x and y then we're simply just rotating
@@ -1399,12 +1399,12 @@ RecursivelyIncrementPausedAncestors(CCNode *node, int increment)
 			cy = cosf(radiansY);
 			sy = sinf(radiansY);
 		}
-
+    
 		BOOL needsSkewMatrix = ( _skewX || _skewY );
-        
-        float scaleFactor = 1;
-        if (_scaleType == CCScaleTypeScaled) scaleFactor = [CCDirector sharedDirector].UIScaleFactor;
-
+    
+    float scaleFactor = 1;
+    if (_scaleType == CCScaleTypeScaled) scaleFactor = [CCDirector sharedDirector].UIScaleFactor;
+    
 		// optimization:
 		// inline anchor point calculation if skew is not needed
 		// Adjusted transform calculation for rotational skew
@@ -1412,30 +1412,30 @@ RecursivelyIncrementPausedAncestors(CCNode *node, int increment)
 			x += cy * -_anchorPointInPoints.x * _scaleX * scaleFactor + -sx * -_anchorPointInPoints.y * _scaleY;
 			y += sy * -_anchorPointInPoints.x * _scaleX * scaleFactor +  cx * -_anchorPointInPoints.y * _scaleY;
 		}
-
-
+    
+    
 		// Build Transform Matrix
 		// Adjusted transfor m calculation for rotational skew
 		_transform = CGAffineTransformMake( cy * _scaleX * scaleFactor, sy * _scaleX * scaleFactor,
-										   -sx * _scaleY * scaleFactor, cx * _scaleY * scaleFactor,
-										   x, y );
-
+                                       -sx * _scaleY * scaleFactor, cx * _scaleY * scaleFactor,
+                                       x, y );
+    
 		// XXX: Try to inline skew
 		// If skew is needed, apply skew and then anchor point
 		if( needsSkewMatrix ) {
 			CGAffineTransform skewMatrix = CGAffineTransformMake(1.0f, tanf(CC_DEGREES_TO_RADIANS(_skewY)),
-																 tanf(CC_DEGREES_TO_RADIANS(_skewX)), 1.0f,
-																 0.0f, 0.0f );
+                                                           tanf(CC_DEGREES_TO_RADIANS(_skewX)), 1.0f,
+                                                           0.0f, 0.0f );
 			_transform = CGAffineTransformConcat(skewMatrix, _transform);
-
+      
 			// adjust anchor point
 			if( ! CGPointEqualToPoint(_anchorPointInPoints, CGPointZero) )
 				_transform = CGAffineTransformTranslate(_transform, -_anchorPointInPoints.x, -_anchorPointInPoints.y);
 		}
-
+    
 		_isTransformDirty = NO;
 	}
-
+  
 	return _transform;
 }
 
@@ -1446,17 +1446,17 @@ RecursivelyIncrementPausedAncestors(CCNode *node, int increment)
 		_inverse = CGAffineTransformInvert([self nodeToParentTransform]);
 		_isInverseDirty = NO;
 	}
-
+  
 	return _inverse;
 }
 
 - (CGAffineTransform)nodeToWorldTransform
 {
 	CGAffineTransform t = [self nodeToParentTransform];
-
+  
 	for (CCNode *p = _parent; p != nil; p = p.parent)
 		t = CGAffineTransformConcat(t, [p nodeToParentTransform]);
-
+  
 	return t;
 }
 
@@ -1491,7 +1491,7 @@ RecursivelyIncrementPausedAncestors(CCNode *node, int increment)
 
 - (CGPoint)convertToWindowSpace:(CGPoint)nodePoint
 {
-    CGPoint worldPoint = [self convertToWorldSpace:nodePoint];
+  CGPoint worldPoint = [self convertToWorldSpace:nodePoint];
 	return [[CCDirector sharedDirector] convertToUI:worldPoint];
 }
 
@@ -1504,12 +1504,12 @@ RecursivelyIncrementPausedAncestors(CCNode *node, int increment)
  */
 - (BOOL)hitTestWithWorldPos:(CGPoint)pos
 {
-    pos = [self convertToNodeSpace:pos];
-    CGPoint offset = ccp(-_hitAreaExpansion, -_hitAreaExpansion);
-    CGSize size = CGSizeMake(self.contentSizeInPoints.width - offset.x, self.contentSizeInPoints.height - offset.y);
-    if ((pos.y < offset.y) || (pos.y > size.height) || (pos.x < offset.x) || (pos.x > size.width)) return(NO);
-    
-    return(YES);
+  pos = [self convertToNodeSpace:pos];
+  CGPoint offset = ccp(-_hitAreaExpansion, -_hitAreaExpansion);
+  CGSize size = CGSizeMake(self.contentSizeInPoints.width - offset.x, self.contentSizeInPoints.height - offset.y);
+  if ((pos.y < offset.y) || (pos.y > size.height) || (pos.x < offset.x) || (pos.x > size.width)) return(NO);
+  
+  return(YES);
 }
 
 // -----------------------------------------------------------------

@@ -22,7 +22,7 @@
   if ((self = [super init])) {
     self.constants = constants;
     
-    self.scale = 1.5;
+    self.scale = 1.2;
     
     // Move to bottom right
     CCSprite *s = [CCSprite node];
@@ -165,7 +165,7 @@
   
   [self runAction:
    [CCActionSequence actions:
-    [CCActionDelay actionWithDuration:1.f],
+    [CCActionDelay actionWithDuration:0.2f],
     [CCActionCallBlock actionWithBlock:
      ^{
        [self.markZSprite restoreStandingFrame:MapDirectionFront];
@@ -175,6 +175,12 @@
 
 - (void) friendFaceMark {
   [self.friendSprite restoreStandingFrame:MapDirectionNearLeft];
+  [self.markZSprite restoreStandingFrame:MapDirectionFarRight];
+}
+
+- (void) markFaceFriendAndBack {
+  [self.markZSprite restoreStandingFrame:MapDirectionFront];
+  [self.delegate markFacedFriendAndBack];
 }
 
 - (void) walkToHospitalAndEnter {
