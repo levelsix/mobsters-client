@@ -53,6 +53,13 @@
 
 @end
 
+@interface BattleElementView : UIView
+
+- (void) open;
+- (void) close;
+
+@end
+
 @interface BattleDeployCardView : UIView
 
 @property (nonatomic, retain) IBOutlet UIView *mainView;

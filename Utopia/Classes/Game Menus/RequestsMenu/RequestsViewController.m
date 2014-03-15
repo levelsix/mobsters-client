@@ -149,11 +149,7 @@
 
 #pragma mark - UITableViewDelegate/DataSource methods
 
-- (int) numberOfSectionsInTableView:(UITableView *)tableView {
-  return 1;
-}
-
-- (int) tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
+- (NSInteger) tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
   return self.requests.count;
 }
 

@@ -93,8 +93,14 @@
         suffix = @"P4";
         isLeftSide = YES;
         break;
-      case TutorialDialogueSpeakerFriendR:
+      case TutorialDialogueSpeakerFriendR3:
         monsterId = self.constants.startingMonsterId;
+        suffix = @"P3";
+        isLeftSide = NO;
+        break;
+      case TutorialDialogueSpeakerFriendR4:
+        monsterId = self.constants.startingMonsterId;
+        suffix = @"P4";
         isLeftSide = NO;
         break;
       case TutorialDialogueSpeakerMarkL:
@@ -390,21 +396,21 @@
 }
 
 - (void) beginFirstDialoguePhase {
-  NSArray *dialogue = @[@(TutorialDialogueSpeakerFriend3), @"Stop! Just 15 minutes and you could be saving 15% or more on car insurance by switching to Guyco!"];
+  NSArray *dialogue = @[@(TutorialDialogueSpeakerFriend3), @"Come back! Just give me 15 minutes and you could be saving 15% or more on car insurance by switching to GuyCo!"];
   [self displayDialogue:dialogue allowTouch:YES useShortBubble:NO];
   
   _currentStep = TutorialStepFirstDialogue;
 }
 
 - (void) beginFirstEnemyTauntPhase {
-  NSArray *dialogue = @[@(TutorialDialogueSpeakerEnemy3), @"Leave me alone! I don’t want your stupid insurance!"];
+  NSArray *dialogue = @[@(TutorialDialogueSpeakerEnemy3), @"Leave me alone! I don’t want your stupid insurance! Stop following me."];
   [self displayDialogue:dialogue allowTouch:YES useShortBubble:NO];
   
   _currentStep = TutorialStepFirstEnemyTaunt;
 }
 
 - (void) beginFriendEnterBuildingPhase {
-  NSArray *dialogue = @[@(TutorialDialogueSpeakerFriend4), @"Did you see where that scumbag went?"];
+  NSArray *dialogue = @[@(TutorialDialogueSpeakerFriend4), @"Did you see where that... excited customer went?"];
   [self displayDialogue:dialogue allowTouch:YES useShortBubble:NO];
   
   _currentStep = TutorialStepFriendEnterBuilding;
@@ -419,7 +425,7 @@
 }
 
 - (void) beginFirstBattleFirstMovePhase {
-  NSArray *dialogue = @[@(TutorialDialogueSpeakerFriend4), @"My hands are too tiny to move the orbs, so you'll need to help me out.",
+  NSArray *dialogue = @[@(TutorialDialogueSpeakerFriend4), @"My hands are too tiny to move the orbs on the right, so you’ll need to help me out.",
                         @(TutorialDialogueSpeakerFriend4), @"This is Candy Crush on steroids. Match 3 orbs by swiping this one to the right."];
   [self displayDialogue:dialogue allowTouch:YES useShortBubble:YES];
   
@@ -443,21 +449,21 @@
 - (void) beginPostFirstBattleConfrontationPhase {
   [self.missionMap beginSecondConfrontation];
   
-  NSArray *dialogue = @[@(TutorialDialogueSpeakerEnemy3), @"Do you know who you’re messing with? Just wait till I call in back up!"];
+  NSArray *dialogue = @[@(TutorialDialogueSpeakerEnemy3), @"Do you know who you’re messing with? Just wait till I call in the back up!"];
   [self displayDialogue:dialogue allowTouch:YES useShortBubble:NO];
   
   _currentStep = TutorialStepPostFirstBattleConfrontation;
 }
 
 - (void) beginEnemyRanOffPhase {
-  NSArray *dialogue = @[@(TutorialDialogueSpeakerFriend4), @"Thanks for helping me out back there. Hopefully we’re done with..."];
+  NSArray *dialogue = @[@(TutorialDialogueSpeakerFriend4), @"Thanks for helping me out back there. Hopefully he'll reconsider..."];
   [self displayDialogue:dialogue allowTouch:YES useShortBubble:NO];
   
   _currentStep = TutorialStepEnemyRanOff;
 }
 
 - (void) beginEnemyBroughtBackBossPhase {
-  NSArray *dialogue = @[@(TutorialDialogueSpeakerEnemy3), @"Prepare to..."];
+  NSArray *dialogue = @[@(TutorialDialogueSpeakerEnemy3), @"This is the guy, boss! Let's get..."];
   [self displayDialogue:dialogue allowTouch:YES useShortBubble:NO];
   
   _currentStep = TutorialStepEnemyBroughtBackBoss;
@@ -473,7 +479,7 @@
 - (void) beginEnemyLookBackPhase {
   NSArray *dialogue = @[@(TutorialDialogueSpeakerEnemy3), @"What... Why?",
                         @(TutorialDialogueSpeakerFriend2), @"CAUSE THIS MAN IS RIPPED!",
-                        @(TutorialDialogueSpeakerEnemyBoss), @"Bad joke. You die now."];
+                        @(TutorialDialogueSpeakerEnemyBoss), @"Me no laugh. You die now."];
   [self displayDialogue:dialogue allowTouch:YES useShortBubble:NO];
   
   _currentStep = TutorialStepEnemyLookBack;
@@ -559,7 +565,7 @@
 - (void) beginMarkLookBackPhase {
   NSArray *dialogue = @[@(TutorialDialogueSpeakerMarkL), @"Welcome to one of my many private islands. You seem like a cool dude, so you can have this one.",
                         @(TutorialDialogueSpeakerMarkL), @"Your destiny is to turn this island into your secret base and to recruit the meanest mobsters around.",
-                        @(TutorialDialogueSpeakerFriendR), @"In case you didn’t notice, I’m still bleeding and..."];
+                        @(TutorialDialogueSpeakerFriendR3), @"In case you didn’t notice, I’m still bleeding and..."];
   [self displayDialogue:dialogue allowTouch:YES useShortBubble:NO];
   
   _currentStep = TutorialStepMarkLookBack;
@@ -619,7 +625,7 @@
 }
 
 - (void) beginBuildingTwoPhase {
-  NSArray *dialogue = @[@(TutorialDialogueSpeakerMarkL), @"Nice job! The Printer can only store a small amount of cash, so we’ll need a Vault to stash it.",
+  NSArray *dialogue = @[@(TutorialDialogueSpeakerMarkL), @"Nice job! The Printer can only store a small amount of cash, so we’ll need a Vault to stash the rest of it.",
                         @(TutorialDialogueSpeakerMarkL), @"Hmm... I tried to buy one on Amazon, but they don't seem to ship to secret islands yet.",
                         @(TutorialDialogueSpeakerMarkL),@"Let's build one in the meantime!"];
   [self displayDialogue:dialogue allowTouch:YES useShortBubble:NO];
@@ -650,6 +656,8 @@
 }
 
 - (void) beginFacebookLoginPhase {
+  [self.homeMap panToMark];
+  
   NSArray *dialogue = @[@(TutorialDialogueSpeakerMarkL), @"Great job! The Silo will now protect your oil from being stolen in battle.",
                         @(TutorialDialogueSpeakerMarkL), @"Your island is starting to look like a real secret base! There’s just one last thing...",
                         @(TutorialDialogueSpeakerMarkL), @"I know I just met you, and this is crazy, but here’s my friend request, so add me maybe?"];
@@ -674,8 +682,8 @@
 
 - (void) beginAttackMapPhase {
   NSArray *dialogue = @[@(TutorialDialogueSpeakerMarkL), @"Is that really on your birth certificate? Seems legit I guess.",
-                        @(TutorialDialogueSpeakerFriendR), @"Enough chit chat. There’s a world to conquer, and it’s yours for the taking.",
-                        @(TutorialDialogueSpeakerFriendR), @"Let’s head to the training grounds now so I can teach you more about battling."];
+                        @(TutorialDialogueSpeakerFriendR4), @"Enough chit chat. There’s a world to conquer, and it’s yours for the taking.",
+                        @(TutorialDialogueSpeakerFriendR4), @"Let’s head to the training grounds now so I can teach you more about battling."];
   [self displayDialogue:dialogue allowTouch:YES useShortBubble:NO];
   
   _currentStep = TutorialStepAttackMap;
@@ -719,9 +727,9 @@
   [self initQuestLogControllerWithQuestId:0];
   [self.questLogViewController arrowOnFirstQuestInList];
   
-//  NSArray *dialogue = @[@(TutorialDialogueSpeakerMarkR), @"New missions will appear on this list as you complete them, so be sure to check back often.",
-//                        @(TutorialDialogueSpeakerMarkR), @"You can view the progress and rewards of quests by clicking on them."];
-//  [self displayDialogue:dialogue allowTouch:YES useShortBubble:NO];
+  //  NSArray *dialogue = @[@(TutorialDialogueSpeakerMarkR), @"New missions will appear on this list as you complete them, so be sure to check back often.",
+  //                        @(TutorialDialogueSpeakerMarkR), @"You can view the progress and rewards of quests by clicking on them."];
+  //  [self displayDialogue:dialogue allowTouch:YES useShortBubble:NO];
   
   _currentStep = TutorialStepQuestList;
 }
@@ -1191,6 +1199,8 @@
     [self.homeMap friendFaceMark];
   } else if (_currentStep == TutorialStepBeginBuildingThree && index == 1) {
     [self.homeMap moveToOilDrill];
+  } else if (_currentStep == TutorialStepAttackMap && index == 1) {
+    [self.homeMap friendFaceForward];
   }
 }
 

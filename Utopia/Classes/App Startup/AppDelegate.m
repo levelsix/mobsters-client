@@ -58,28 +58,28 @@
 }
 
 - (void) setUpMobileAppTracker {
-  [[MobileAppTracker sharedManager] setDebugMode:NO];
-  [[MobileAppTracker sharedManager] setDelegate:self];
-  
-  [[MobileAppTracker sharedManager]  startTrackerWithMATAdvertiserId:MAT_ADVERTISER_ID MATConversionKey:MAT_APP_KEY];
-  
-  NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
-  float versionNum = [[[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleVersion"] floatValue];
-  
-  if (![userDefaults valueForKey:MAT_VERSION_KEY]) {
-    [[MobileAppTracker sharedManager] trackInstall];
-    
-    LNLog(@"MAT: Tracking install");
-    
-    [userDefaults setFloat:versionNum forKey:MAT_VERSION_KEY];
-  } else if ([userDefaults floatForKey:MAT_VERSION_KEY] != versionNum) {
-    [[MobileAppTracker sharedManager] trackUpdate];
-    
-    LNLog(@"MAT: Tracking update");
-    
-    [userDefaults setFloat:versionNum forKey:MAT_VERSION_KEY];
-  }
-} 
+//  [[MobileAppTracker sharedManager] setDebugMode:NO];
+//  [[MobileAppTracker sharedManager] setDelegate:self];
+//  
+//  [[MobileAppTracker sharedManager]  startTrackerWithMATAdvertiserId:MAT_ADVERTISER_ID MATConversionKey:MAT_APP_KEY];
+//  
+//  NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
+//  float versionNum = [[[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleVersion"] floatValue];
+//  
+//  if (![userDefaults valueForKey:MAT_VERSION_KEY]) {
+//    [[MobileAppTracker sharedManager] trackInstall];
+//    
+//    LNLog(@"MAT: Tracking install");
+//    
+//    [userDefaults setFloat:versionNum forKey:MAT_VERSION_KEY];
+//  } else if ([userDefaults floatForKey:MAT_VERSION_KEY] != versionNum) {
+//    [[MobileAppTracker sharedManager] trackUpdate];
+//    
+//    LNLog(@"MAT: Tracking update");
+//    
+//    [userDefaults setFloat:versionNum forKey:MAT_VERSION_KEY];
+//  }
+}
 
 - (void)mobileAppTracker:(MobileAppTracker *)tracker didSucceedWithData:(NSData *)data {
   LNLog(@"MAT.didSucceed:");
@@ -92,17 +92,17 @@
 }
 
 - (void) setUpChartboost {
-  Chartboost *cb = [Chartboost sharedChartboost];
-  cb.appId = CHARTBOOST_APP_ID;
-  cb.appSignature = CHARTBOOST_APP_SIG;
-  
-  [cb startSession];
-  [cb showInterstitial];
+//  Chartboost *cb = [Chartboost sharedChartboost];
+//  cb.appId = CHARTBOOST_APP_ID;
+//  cb.appSignature = CHARTBOOST_APP_SIG;
+//  
+//  [cb startSession];
+//  [cb showInterstitial];
 }
 
 - (void) setUpKamcord:(UIViewController *)vc {
-  [Kamcord setDeveloperKey:KAMCORD_DEV_KEY developerSecret:KAMCORD_SECRET appName:@"Mob Squad" parentViewController:vc];
-  [Kamcord setFacebookAppID:FACEBOOK_APP_ID];
+//  [Kamcord setDeveloperKey:KAMCORD_DEV_KEY developerSecret:KAMCORD_SECRET appName:@"Mob Squad" parentViewController:vc];
+//  [Kamcord setFacebookAppID:FACEBOOK_APP_ID];
 }
 
 - (BOOL) application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
@@ -118,8 +118,7 @@
 	[window makeKeyAndVisible];
   
 #ifndef DEBUG
-  [Amplitude initializeApiKey:GIRAFFE_GRAPH_KEY trackCampaignSource:YES];
-  //  [Apsalar startSession:APSALAR_API_KEY withKey:APSALAR_SECRET andLaunchOptions:launchOptions];
+  [Amplitude initializeApiKey:GIRAFFE_GRAPH_KEY];
 #endif
   [Analytics beganApp];
   [Analytics openedApp];

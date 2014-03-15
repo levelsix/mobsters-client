@@ -65,7 +65,7 @@
 - (void) pickUpAllDrops;
 
 - (void) moveToCenterAnimated:(BOOL)animated;
-- (void) moveToSprite:(CCSprite *)spr animated:(BOOL)animated;
+- (float) moveToSprite:(CCSprite *)spr animated:(BOOL)animated;
 - (float) moveToSprite:(CCSprite *)spr animated:(BOOL)animated withOffset:(CGPoint)offset;
 - (float) moveToSprite:(CCSprite *)spr animated:(BOOL)animated withOffset:(CGPoint)offset scale:(float)scale;
 

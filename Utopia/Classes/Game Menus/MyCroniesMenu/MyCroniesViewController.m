@@ -117,7 +117,7 @@
   return gs.monsterHealingQueue;
 }
 
-- (UserMonster *) monsterForSlot:(int)slot {
+- (UserMonster *) monsterForSlot:(NSInteger)slot {
   GameState *gs = [GameState sharedGameState];
   return [gs myMonsterWithSlotNumber:slot];
 }
@@ -144,7 +144,7 @@
 
 - (int) numValidHospitals {
   GameState *gs = [GameState sharedGameState];
-  return gs.myValidHospitals.count;
+  return (int)gs.myValidHospitals.count;
 }
 
 - (BOOL) userMonsterIsUnavailable:(UserMonster *)um {
@@ -226,8 +226,8 @@
   [self reloadMonstersArray];
   
   if (animated) {
-    int oldMax = rec.count+inj.count+full.count+unavail.count;
-    int newMax = self.monsterList.count;
+    NSInteger oldMax = rec.count+inj.count+full.count+unavail.count;
+    NSInteger newMax = self.monsterList.count;
     NSArray *oldSlots = oldMax >= self.maxInventorySlots ? nil : @[@YES];
     NSArray *newSlots = newMax >= self.maxInventorySlots ? nil : @[@YES];
     
@@ -272,7 +272,7 @@
   return 5;
 }
 
-- (NSArray *)arrayForSection:(int)section {
+- (NSArray *)arrayForSection:(NSInteger)section {
   if (section == 0) {
     return self.injuredMonsters;
   } else if (section == 1) {
@@ -305,14 +305,14 @@
     UserMonster *um = indexPath.row < arr.count ? [arr objectAtIndex:indexPath.row] : nil;
     [view updateForUserMonster:um];
   } else if (indexPath.section == 4) {
-    int numEmpty = self.maxInventorySlots - self.monsterList.count;
+    NSInteger numEmpty = self.maxInventorySlots - self.monsterList.count;
     
     [view updateForEmptySlots:numEmpty];
   }
 }
 
 - (IBAction)headerClicked:(id)sender {
-  int section = [(UIView *)sender tag];
+  NSInteger section = [(UIView *)sender tag];
   [self.inventoryTable.tableView scrollToRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:section] atScrollPosition:UITableViewScrollPositionTop animated:YES];
 }
 
@@ -474,7 +474,7 @@
   if (gs.gold < goldCost) {
     [GenericPopupController displayNotEnoughGemsView];
   } else {
-    int healingQueueSize = self.monsterHealingQueue.count;
+    NSInteger healingQueueSize = self.monsterHealingQueue.count;
     BOOL success = [self speedupHealingQueue];
     if (success) {
       [self reloadTableAnimated:YES];

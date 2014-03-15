@@ -173,8 +173,8 @@
 
 #pragma mark - UITableView methods
 
-- (int) numberOfSectionsInTableView:(UITableView *)tableView {
-  int count = self.data.count;
+- (NSInteger) numberOfSectionsInTableView:(UITableView *)tableView {
+  NSInteger count = self.data.count;
   if (count == 0 && _retrievedFriends) {
     self.noFriendsLabel.hidden = NO;
   } else {
@@ -183,7 +183,7 @@
   return count;
 }
 
-- (int) tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
+- (NSInteger) tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
   return ((NSArray *)self.data[section]).count;
 }
 

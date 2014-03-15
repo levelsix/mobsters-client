@@ -312,7 +312,7 @@
   self.position = ccpAdd(self.position, ccpMult(diff, self.scale));
 }
 
-- (CGPoint) clipPositionToBoundary:(CGPoint)position {
+- (CGPoint) clipPositionToBoundary:(CGPoint)position scale:(float)scale {
   // For y, make sure to account for anchor point being at bottom middle.
   CGPoint blPt = bottomLeftCorner;
   CGPoint trPt = topRightCorner;
@@ -321,14 +321,14 @@
   float maxX = trPt.x;
   float maxY = trPt.y;//+self.tileSizeInPoints.height/2;
   
-  float x = MAX(MIN(-minX*self.scaleX, position.x), -maxX*self.scaleX + [[CCDirector sharedDirector] viewSize].width);
-  float y = MAX(MIN(-minY*self.scaleY, position.y), -maxY*self.scaleY + [[CCDirector sharedDirector] viewSize].height);
+  float x = MAX(MIN(-minX*scale, position.x), -maxX*scale + [[CCDirector sharedDirector] viewSize].width);
+  float y = MAX(MIN(-minY*scale, position.y), -maxY*scale + [[CCDirector sharedDirector] viewSize].height);
   
   return ccp(x, y);
 }
 
 -(void) setPosition:(CGPoint)position {
-  [super setPosition:[self clipPositionToBoundary:position]];
+  [super setPosition:[self clipPositionToBoundary:position scale:self.scale]];
 }
 
 - (void) setScale:(float)scale {
@@ -526,7 +526,7 @@
     // Since all sprites have anchor point ccp(0.5,0) adjust accordingly
     float x = -pt.x*scale+size.width/2;
     float y = (-pt.y-spr.contentSize.height*0.5)*scale+size.height/2;
-    CGPoint newPos = [self clipPositionToBoundary:ccpAdd(offset,ccp(x,y))];
+    CGPoint newPos = [self clipPositionToBoundary:ccpAdd(offset,ccp(x,y)) scale:scale];
     if (animated) {
       dur = ccpDistance(newPos, self.position)/_mapMovementDivisor;
       CCAction *a = [CCActionEaseInOut actionWithAction:
@@ -537,6 +537,7 @@
       [self stopActionByTag:a.tag];
       [self runAction:a];
     } else {
+      self.scale = scale;
       self.position = newPos;
     }
   }
@@ -547,8 +548,8 @@
   return [self moveToSprite:spr animated:animated withOffset:offset scale:self.scale];
 }
 
-- (void) moveToSprite:(CCSprite *)spr animated:(BOOL)animated {
-  [self moveToSprite:spr animated:animated withOffset:ccp(0,0)];
+- (float) moveToSprite:(CCSprite *)spr animated:(BOOL)animated {
+  return [self moveToSprite:spr animated:animated withOffset:ccp(0,0)];
 }
 
 #pragma mark - Converting points

@@ -279,7 +279,7 @@ static int amqp_encode_array(amqp_bytes_t encoded,
       goto out;
   }
 
-  if (amqp_encode_32(encoded, &start, *offset - start - 4))
+  if (amqp_encode_32(encoded, &start, (int)(*offset - start - 4)))
     res = 0;
   else
     res = -ERROR_BAD_AMQP_DATA;
@@ -311,7 +311,7 @@ int amqp_encode_table(amqp_bytes_t encoded,
       goto out;
   }
 
-  if (amqp_encode_32(encoded, &start, *offset - start - 4))
+  if (amqp_encode_32(encoded, &start, (int)(*offset - start - 4)))
     res = 0;
   else
     res = -ERROR_BAD_AMQP_DATA;
@@ -374,7 +374,7 @@ static int amqp_encode_field_value(amqp_bytes_t encoded,
        same implementation, but different interpretations. */
     /* fall through */
   case AMQP_FIELD_KIND_BYTES:
-    if (!amqp_encode_32(encoded, offset, entry->value.bytes.len)
+    if (!amqp_encode_32(encoded, offset, (int)entry->value.bytes.len)
 	|| !amqp_encode_bytes(encoded, offset, entry->value.bytes))
       goto out;
     break;
@@ -420,5 +420,5 @@ int amqp_table_entry_cmp(void const *entry1, void const *entry2) {
     return d;
   }
 
-  return p1->key.len - p2->key.len;
+  return (int)(p1->key.len - p2->key.len);
 }

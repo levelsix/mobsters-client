@@ -653,14 +653,6 @@
 
 @implementation NumTransitionLabel
 
-//- (void) awakeFromNib {
-//  [Globals adjustFontSizeForUILabel:self];
-//  self.font = [UIFont fontWithName:[Globals font] size:self.font.pointSize+2];
-//  self.strokeSize = 1.f;
-//  self.strokePosition = THLabelStrokePositionOutside;
-//  self.strokeColor = [UIColor blackColor];
-//}
-
 - (void) instaMoveToNum:(int)num {
   _currentNum = num;
   _goalNum = num;
@@ -688,9 +680,9 @@
     int diff = _goalNum - _currentNum;
     int change = 0;
     if (diff > 0) {
-      change = MAX((int)(0.1*diff), 1.f);
+      change = MAX((int)(0.08*diff), 1.f);
     } else if (diff < 0) {
-      change = MIN((int)(0.1*diff), -1.f);
+      change = MIN((int)(0.08*diff), -1.f);
     }
     
     _currentNum += change;
@@ -773,11 +765,11 @@
   self.badgeNum = 0;
 }
 
-- (void) setBadgeNum:(int)badgeNum {
+- (void) setBadgeNum:(NSInteger)badgeNum {
   _badgeNum = badgeNum;
   
   if (_badgeNum > 0) {
-    self.badgeLabel.text = [NSString stringWithFormat:@"%d", _badgeNum];
+    self.badgeLabel.text = [NSString stringWithFormat:@"%d", (int)_badgeNum];
     self.hidden = NO;
   } else {
     self.hidden = YES;

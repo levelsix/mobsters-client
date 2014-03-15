@@ -192,6 +192,8 @@
     self.constants = constants;
     
     [self.forfeitButton removeFromSuperview];
+    [self.elementButton removeFromSuperview];
+    [self.elementView removeFromSuperview];
     
     BattlePlayer *mark = self.myTeam[1];
     float mult = 50;
@@ -223,6 +225,10 @@
        [self.delegate battleComplete:nil];
      }],
     nil]];
+}
+
+- (void) displayEffectivenessForAttackerElement:(MonsterProto_MonsterElement)atkElement defenderElement:(MonsterProto_MonsterElement)defElement position:(CGPoint)position {
+  // Do nothing
 }
 
 @end

@@ -59,7 +59,7 @@
 
 - (void) animateLabelsIntoPosition {
   float curBotPoint = LOWEST_LABEL_BOT_POINT;
-  for (int i = self.labels.count-1; i >= 0; i--) {
+  for (NSInteger i = self.labels.count-1; i >= 0; i--) {
     UILabel *l = self.labels[i];
     [self setPointForLabel:l botPoint:curBotPoint];
     curBotPoint = l.frame.origin.y;

@@ -196,11 +196,12 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
   }
 }
 
-- (void) retrieveFromNormStructure:(UserStruct *)userStruct {
+- (int) retrieveFromNormStructure:(UserStruct *)userStruct {
   GameState *gs = [GameState sharedGameState];
   SocketCommunication *sc = [SocketCommunication sharedSocketCommunication];
   ResourceGeneratorProto *gen = (ResourceGeneratorProto *)userStruct.staticStruct;
   StructureInfoProto *fsp = gen.structInfo;
+  int amountCollected = 0;
   
   if (userStruct.userStructId == 0) {
     [Globals popupMessage:@"Waiting for confirmation of purchase!"];
@@ -212,28 +213,27 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
     int64_t ms = [self getCurrentMilliseconds];
     int numRes = userStruct.numResourcesAvailable;
     int maxCollect = gen.resourceType == ResourceTypeCash ? gs.maxCash-gs.silver : gs.maxOil-gs.oil;
-    int amountCollected = MIN(numRes, maxCollect);
+    amountCollected = MIN(numRes, maxCollect);
     
-    if (amountCollected <= 0) {
-      return;
+    if (amountCollected > 0) {
+      ms -= (int)((numRes-amountCollected)/gen.productionRate*3600*1000);
+      
+      int tag = [sc retrieveCurrencyFromStruct:userStruct.userStructId time:ms amountCollected:amountCollected];
+      userStruct.lastRetrieved = [NSDate dateWithTimeIntervalSince1970:ms/1000.0];
+      
+      // Update game state
+      FullUserUpdate *up = nil;
+      if (gen.resourceType == ResourceTypeCash) {
+        up = [SilverUpdate updateWithTag:tag change:amountCollected];
+      } else if (gen.resourceType == ResourceTypeOil) {
+        up = [OilUpdate updateWithTag:tag change:amountCollected];
+      }
+      [gs addUnrespondedUpdate:up];
     }
-    
-    ms -= (int)((numRes-amountCollected)/gen.productionRate*3600*1000);
-    
-    int tag = [sc retrieveCurrencyFromStruct:userStruct.userStructId time:ms amountCollected:amountCollected];
-    userStruct.lastRetrieved = [NSDate dateWithTimeIntervalSince1970:ms/1000.0];
-    
-    // Update game state
-    FullUserUpdate *up = nil;
-    if (gen.resourceType == ResourceTypeCash) {
-      up = [SilverUpdate updateWithTag:tag change:amountCollected];
-    } else if (gen.resourceType == ResourceTypeOil) {
-      up = [OilUpdate updateWithTag:tag change:amountCollected];
-    }
-    [gs addUnrespondedUpdate:up];
   } else {
     [Globals popupMessage:[NSString stringWithFormat:@"Building %d is not ready to be retrieved", userStruct.userStructId]];
   }
+  return amountCollected;
 }
 
 - (void) instaUpgrade:(UserStruct *)userStruct {

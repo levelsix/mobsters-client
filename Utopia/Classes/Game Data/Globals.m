@@ -987,12 +987,12 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
           
           if (img) {
             [gl.imageCache setObject:img forKey:imageName];
-          }
-          if (color) {
-            img = [self maskImage:img withColor:color];
-          } else if (greyscale) {
-            img = [self greyScaleImageWithBaseImage:img];
-            [gl.imageCache setObject:img forKey:greyImageName];
+            if (color) {
+              img = [self maskImage:img withColor:color];
+            } else if (greyscale) {
+              img = [self greyScaleImageWithBaseImage:img];
+              [gl.imageCache setObject:img forKey:greyImageName];
+            }
           }
           
           if ([view isKindOfClass:[UIImageView class]]) {
@@ -1062,6 +1062,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
             newSprite.position = s.position;
             newSprite.anchorPoint = s.anchorPoint;
             newSprite.scale = s.scale;
+            newSprite.name = s.name;
           }
           [s removeFromParentAndCleanup:YES];
         }
@@ -1075,6 +1076,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
   newSprite.position = s.position;
   newSprite.anchorPoint = s.anchorPoint;
   newSprite.scale = s.scale;
+  newSprite.name = s.name;
   [s removeFromParentAndCleanup:YES];
   
 }
@@ -1193,14 +1195,14 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
 
 - (int) calculateNumMinutesForNewExpansion {
   GameState *gs = [GameState sharedGameState];
-  int totalExp = gs.userExpansions.count;
+  NSInteger totalExp = gs.userExpansions.count;
   CityExpansionCostProto *exp = [gs.expansionCosts objectForKey:@(totalExp)];
   return exp.numMinutesToExpand;
 }
 
 - (int) calculateSilverCostForNewExpansion {
   GameState *gs = [GameState sharedGameState];
-  int totalExp = gs.userExpansions.count;
+  NSInteger totalExp = gs.userExpansions.count;
   CityExpansionCostProto *exp = [gs.expansionCosts objectForKey:@(totalExp+1)];
   return exp.expansionCostCash;
 }
@@ -1716,7 +1718,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
   }
   
   // Check that inventory is not full
-  int curInvSize = gs.myMonsters.count;
+  NSInteger curInvSize = gs.myMonsters.count;
   if (curInvSize > gs.maxInventorySlots) {
     NSString *description = @"Uh oh, you have recruited too many mobsters. Manage your team?";
     [GenericPopupController displayConfirmationWithDescription:description title:@"Can't Begin" okayButton:@"Manage" cancelButton:@"Later" target:target selector:selector];

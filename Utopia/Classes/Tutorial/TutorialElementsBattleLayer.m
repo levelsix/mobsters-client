@@ -58,6 +58,8 @@
     [self.orbLayer.presetOrbIndices replaceObjectAtIndex:i withObject:@(0)];
   }
   [self.orbLayer initBoard];
+  
+  _isFirstHit = YES;
 }
 
 - (void) beginFirstMove {
@@ -86,6 +88,44 @@
                                                  [NSValue valueWithCGPoint:ccp(2, 4)], nil]];
 }
 
+- (void) dealDamage:(int)damageDone enemyIsAttacker:(BOOL)enemyIsAttacker withSelector:(SEL)selector {
+  if (!enemyIsAttacker) {
+    // Make sure first hit does not kill
+    if (_isFirstHit) {
+      damageDone = MIN(damageDone, self.enemyPlayerObject.curHealth*0.9);
+      _isFirstHit = NO;
+    }
+  }
+  
+  [super dealDamage:damageDone enemyIsAttacker:enemyIsAttacker withSelector:selector];
+}
+
+- (void) arrowOnMyHealthBar {
+  CCSprite *spr = [CCSprite spriteWithImageNamed:@"arrow.png"];
+  [self.myPlayer.healthBgd addChild:spr z:1000 name:@"TutorialArrow"];
+  spr.position = ccp(self.myPlayer.healthBgd.contentSize.width/2, self.myPlayer.healthBgd.contentSize.height+spr.contentSize.height/2+5);
+  [spr runAction:[CCActionFadeIn actionWithDuration:0.4]];
+  [Globals animateCCArrow:spr atAngle:-M_PI_2];
+}
+
+- (void) removeArrowOnMyHealthBar {
+  CCSprite *arrow = (CCSprite *)[self getChildByName:@"TutorialArrow" recursively:YES];
+  [arrow runAction:[CCActionFadeOut actionWithDuration:0.4]];
+}
+
+- (void) arrowOnElements {
+  self.elementButton.hidden = NO;
+  [Globals createUIArrowForView:self.elementButton atAngle:0];
+}
+
+- (void) elementButtonClicked:(id)sender {
+  [super elementButtonClicked:sender];
+  [Globals removeUIArrowFromViewRecursively:self.elementButton.superview];
+  
+  if ([self.delegate respondsToSelector:@selector(elementButtonClicked)]) {
+    [self.delegate elementButtonClicked];
+  }
+}
 
 - (NSString *) presetLayoutFile {
   return @"TutorialElementsBattleLayout.txt";

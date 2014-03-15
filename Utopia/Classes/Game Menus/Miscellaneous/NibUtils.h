@@ -290,7 +290,7 @@ typedef enum {
 @interface BadgeIcon : UIView
 
 @property (nonatomic, retain) IBOutlet UILabel *badgeLabel;
-@property (nonatomic, assign) int badgeNum;
+@property (nonatomic, assign) NSInteger badgeNum;
 
 @end
 

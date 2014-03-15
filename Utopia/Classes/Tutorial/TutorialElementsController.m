@@ -78,23 +78,23 @@
 }
 
 - (void) beginFirstMove {
-  NSArray *dialogue = @[@"We mobsters draw our strength from the different elements on the board.",
-                        [NSString stringWithFormat:@"Notice how the health bar above my head is %@? It means I’m a %@-type mobster.", [self myColor], [self myType]],
-                        [NSString stringWithFormat:@"Check this out. Swipe this orb down to match 3 %@ orbs.", [self weakType]]];
+  NSString *n = [[self strongType] characterAtIndex:0] == 'e' ? @"n" : @"";
+  NSArray *dialogue = @[[NSString stringWithFormat:@"Notice how the health bar above my head is %@? It means I’m a%@ %@-type mobster.", [self myColor], n, [self myType]],
+                        [NSString stringWithFormat:@"Because I'm a%@ %@-type, %@ orbs will give me more damage. Match 3 %@ orbs to check it out now!", n, [self myType], [self myType], [self myType]]];
   [self displayDialogue:dialogue];
   
   _currentStep = TutorialElementsStepFirstMove;
 }
 
 - (void) beginSecondMove {
-  NSArray *dialogue = @[[NSString stringWithFormat:@"Weak. We only did %d damage per orb. Now let’s see what happens when you match 3 %@ orbs.", [self weakDamage], [self myType]]];
+  NSArray *dialogue = @[[NSString stringWithFormat:@"Boom! You did %d damage per orb! Now let’s see what happens when you match 3 %@ orbs.", [self strongDamage], [self weakType]]];
   [self displayDialogue:dialogue];
   
   _currentStep = TutorialElementsStepSecondMove;
 }
 
 - (void) beginThirdMove {
-  NSArray *dialogue = @[[NSString stringWithFormat:@"Boom! You did %d damage per orb! That’s much stronger because I am %@-type.", [self strongDamage], [self myType]],
+  NSArray *dialogue = @[[NSString stringWithFormat:@"Weak. You only did %d damage per orb. That’s because %@-types are weak against %@.", [self weakDamage], [self myType], [self weakType]],
                         @"You have one move left before I attack. Choose wisely!"];
   [self displayDialogue:dialogue];
   
@@ -102,17 +102,17 @@
 }
 
 - (void) beginShowHierarchy {
-  NSArray *dialogue = @[[NSString stringWithFormat:@"Did you see that? Because I am %@-type, I also do extra damage versus %@-types.", [self myType], [self strongType]],
-                        @"Like \"Rock, Paper, Scissors\", each element has its own strength and weakness.",
-                        @"Click here to see the elemental hierarchy, and check back if you ever forget."];
+  NSString *n = [[self strongType] characterAtIndex:0] == 'e' ? @"n" : @"";
+  NSArray *dialogue = @[[NSString stringWithFormat:@"Did you see that? Because I'm a%@ %@-type mobster, I also do extra damage to %@-type mobsters.", n, [self myType], [self strongType]],
+                        @"Click here to see the elemental hierarchy, and check back if you ever forget.",
+                        @"You have 3 moves before I attack again. Finish him off!"];
   [self displayDialogue:dialogue];
   
   _currentStep = TutorialElementsStepHierarchy;
 }
 
 - (void) beginKillEnemy {
-  NSArray *dialogue = @[@"You have 3 moves before I attack again. Finish him off!"];
-  [self displayDialogue:dialogue];
+  [self.dialogueViewController animateNext];
   
   _currentStep = TutorialElementsStepKillEnemy;
 }
@@ -134,6 +134,10 @@
   }
 }
 
+- (void) elementButtonClicked {
+  [self beginKillEnemy];
+}
+
 - (void) turnFinished {
   if (_currentStep == TutorialElementsStepThirdMove) {
     [self beginShowHierarchy];
@@ -145,6 +149,14 @@
 #pragma mark - Dialogue delegate
 
 - (void) dialogueViewController:(DialogueViewController *)dvc willDisplaySpeechAtIndex:(int)index {
+  if (_currentStep == TutorialElementsStepFirstMove) {
+    if (index == 0) {
+      [self.battleLayer arrowOnMyHealthBar];
+    } else if (index == 1) {
+      [self.battleLayer removeArrowOnMyHealthBar];
+    }
+  }
+  
   if (_currentStep != TutorialElementsStepHierarchy) {
     [super dialogueViewController:dvc willDisplaySpeechAtIndex:index];
   }
@@ -158,19 +170,13 @@
       [self.battleLayer beginSecondMove];
     } else if (_currentStep == TutorialElementsStepThirdMove) {
       [self.battleLayer allowMove];
-    } else if (_currentStep == TutorialElementsStepHierarchy) {
-      
     } else if (_currentStep == TutorialElementsStepKillEnemy) {
       [self.battleLayer allowMove];
     }
+  } else if (_currentStep == TutorialElementsStepHierarchy && index == 1) {
+    self.dialogueViewController.view.userInteractionEnabled = NO;
+    [self.battleLayer arrowOnElements];
   }
-}
-
-- (void) dialogueViewControllerFinished:(DialogueViewController *)dvc {
-  if (_currentStep == TutorialElementsStepHierarchy) {
-    [self beginKillEnemy];
-  }
-  [super dialogueViewControllerFinished:dvc];
 }
 
 @end

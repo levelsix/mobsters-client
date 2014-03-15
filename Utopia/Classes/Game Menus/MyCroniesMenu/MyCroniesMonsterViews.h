@@ -45,7 +45,7 @@
 @property (nonatomic, weak) IBOutlet id<MyCroniesCardDelegate> delegate;
 
 - (void) updateForUserMonster:(UserMonster *)monster;
-- (void) updateForEmptySlots:(int)numSlots;
+- (void) updateForEmptySlots:(NSInteger)numSlots;
 
 - (void) updateForTime;
 

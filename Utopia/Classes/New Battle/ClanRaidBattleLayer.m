@@ -25,7 +25,7 @@
       int curHealth = mon.monsterHp;
       if (curMon.crsmId == mon.crsmId) {
         curHealth = [event curHealthOfActiveStageMonster];
-        _curStage = [stage.monstersList indexOfObject:mon]-1;
+        _curStage = (int)[stage.monstersList indexOfObject:mon]-1;
         _foundMon = YES;
       } else if (!_foundMon) {
         curHealth = 0;
@@ -38,7 +38,7 @@
     self.enemyTeam = enemyTeam;
     
     for (BattlePlayer *bp in self.myTeam) {
-      bp.slotNum = [self.myTeam indexOfObject:bp]+1;
+      bp.slotNum = (int)[self.myTeam indexOfObject:bp]+1;
       [set addObject:bp.spritePrefix];
     }
     
@@ -216,7 +216,7 @@
 }
 
 - (void) spawnNextClanMember {
-  int idx = self.clanSprites.count;
+  NSInteger idx = self.clanSprites.count;
   if (idx < self.clanMemberAttacks.count) {
     if (_lastOneIsCombinedAttack && idx == self.clanMemberAttacks.count-1) {
       [self spawnPlaneWithTarget:self selector:@selector(dealPlaneDamage)];

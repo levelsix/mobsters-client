@@ -240,7 +240,7 @@
   if (success) {
     NSMutableArray *mut = [NSMutableArray array];
     for (BattlePlayer *bp in self.enemyTeam) {
-      int idx = [self.enemyTeam indexOfObject:bp];
+      NSInteger idx = [self.enemyTeam indexOfObject:bp];
       BattleSprite *bs = [[BattleSprite alloc] initWithPrefix:bp.spritePrefix nameString:bp.name animationType:bp.animationType isMySprite:NO];
       bs.healthBar.color = [self.orbLayer colorForSparkle:(GemColorId)bp.element];
       [self.bgdContainer addChild:bs z:-idx];

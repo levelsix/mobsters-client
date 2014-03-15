@@ -39,7 +39,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(IAPHelper);
 }
 
 - (void)productsRequest:(SKProductsRequest *)request didReceiveResponse:(SKProductsResponse *)response {
-  LNLog(@"Received products results for %d products...", response.products.count);
+  LNLog(@"Received products results for %d products...", (int)response.products.count);
   
   NSMutableDictionary *d = [NSMutableDictionary dictionaryWithCapacity:response.products.count];
   for (SKProduct *p in response.products) {

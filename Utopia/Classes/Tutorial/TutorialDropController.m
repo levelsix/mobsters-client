@@ -102,7 +102,7 @@
   
   NSArray *dialogue = @[@YES , @"It’s your lucky day guys -- You’ve just recruited a star to your team without even knowing it.",
                         @NO, @"Wow... this is coming from the guy that didn’t even shoot back?",
-                        @YES , @"Typical noob. Any real mobsters would’ve known I was acting. Can you believe this guy?",
+                        @YES , @"Typical noob. Any real mobster would’ve known I was acting. Can you believe this guy?",
                         @NO, @"I cannot wait to use you as a meat shield. Let’s just assign this guy to your team and get it over with.",
                         @NO , @"Click on the top bar now to manage your squad."];
   [self displayLootDialogue:dialogue];

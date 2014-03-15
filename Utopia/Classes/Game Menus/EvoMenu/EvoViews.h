@@ -48,7 +48,7 @@
 @end
 
 @interface EvoBottomView : UIView {
-  int _curViewNum;
+  NSInteger _curViewNum;
 }
 
 @property (nonatomic, strong) IBOutletCollection(EvoScientistView) NSArray *scientistViews;
@@ -64,7 +64,7 @@
 @property (nonatomic, strong) IBOutletCollection(UILabel) NSArray *botLabels;
 
 - (void) updateForEvoItems;
-- (void) openView:(int)tag;
+- (void) openView:(NSInteger)tag;
 
 - (void) displayScientists;
 - (void) displayInfoLabel:(EvoItem *)item;

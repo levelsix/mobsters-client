@@ -246,7 +246,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
 - (void) addToMyMonsters:(NSArray *)monsters {
   for (FullUserMonsterProto *mon in monsters) {
     UserMonster *um = [UserMonster userMonsterWithProto:mon];
-    int index = [self.myMonsters indexOfObject:um];
+    NSInteger index = [self.myMonsters indexOfObject:um];
     if (index != NSNotFound) {
       [self.myMonsters replaceObjectAtIndex:index withObject:um];
     } else {
@@ -464,7 +464,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
 }
 
 - (void) removeUserMonsterHealingItem:(UserMonsterHealingItem *)item {
-  int index = [self.monsterHealingQueue indexOfObject:item];
+  NSInteger index = [self.monsterHealingQueue indexOfObject:item];
   [self saveHealthProgressesFromIndex:index];
   
   [self.monsterHealingQueue removeObject:item];
@@ -494,7 +494,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
   [QuestUtil checkAllDonateQuests];
 }
 
-- (void) saveHealthProgressesFromIndex:(int)index {
+- (void) saveHealthProgressesFromIndex:(NSInteger)index {
   NSMutableArray *allHospitals = [NSMutableArray array];
   for (UserStruct *us in self.myStructs) {
     if ([us.staticStruct structInfo].structType == StructureInfoProto_StructTypeHospital) {
@@ -564,8 +564,8 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
 
 - (void) removeEnhancingItem:(EnhancementItem *)item {
   NSMutableArray *feeders = self.userEnhancement.feeders;
-  int index = [feeders indexOfObject:item];
-  int total = feeders.count;
+  NSInteger index = [feeders indexOfObject:item];
+  NSInteger total = feeders.count;
   
   if (index != NSNotFound) {
     if (total > index+1) {
@@ -577,7 +577,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
         next.expectedStartTime = prev.expectedEndTime;
       }
       
-      for (int i = index+2; i < total; i++) {
+      for (NSInteger i = index+2; i < total; i++) {
         EnhancementItem *next2 = [feeders objectAtIndex:i];
         EnhancementItem *next1 = [feeders objectAtIndex:i-1];
         next2.expectedStartTime = next1.expectedEndTime;
@@ -634,7 +634,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
   return nil;
 }
 
-- (UserMonster *) myMonsterWithSlotNumber:(int)slotNum {
+- (UserMonster *) myMonsterWithSlotNumber:(NSInteger)slotNum {
   for (UserMonster *um in self.myMonsters) {
     if (um.teamSlot == slotNum) {
       return um;

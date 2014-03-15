@@ -1,13 +1,15 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="4514" systemVersion="12F45" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="5053" systemVersion="12F45" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none">
     <dependencies>
         <deployment defaultVersion="1536" identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="3747"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="3733"/>
     </dependencies>
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="DungeonBattleLayer">
             <connections>
                 <outlet property="deployView" destination="1" id="VU7-QQ-QSf"/>
+                <outlet property="elementButton" destination="vgT-qa-VJf" id="Zwx-A3-YNg"/>
+                <outlet property="elementView" destination="c24-F2-q9E" id="XLx-2V-CBI"/>
                 <outlet property="forfeitButton" destination="RMt-Hq-RNm" id="iyt-Np-Lmg"/>
                 <outlet property="swapView" destination="6Xu-Fi-vgb" id="JBe-v8-v0X"/>
             </connections>
@@ -298,7 +300,7 @@
             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
         </view>
         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="RMt-Hq-RNm" userLabel="Forfeit Button">
-            <rect key="frame" x="0.0" y="0.0" width="35" height="37"/>
+            <rect key="frame" x="0.0" y="0.0" width="35" height="41"/>
             <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxY="YES"/>
             <state key="normal" image="closebattle.png">
                 <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
@@ -307,11 +309,34 @@
                 <action selector="forfeitClicked:" destination="-1" eventType="touchUpInside" id="NaX-k5-rfH"/>
             </connections>
         </button>
+        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="vgT-qa-VJf" userLabel="Element Button">
+            <rect key="frame" x="0.0" y="0.0" width="28" height="32"/>
+            <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxY="YES"/>
+            <state key="normal" image="elementreeicon.png">
+                <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+            </state>
+            <connections>
+                <action selector="elementButtonClicked:" destination="-1" eventType="touchUpInside" id="sLe-mc-zbl"/>
+            </connections>
+        </button>
+        <view contentMode="scaleToFill" id="c24-F2-q9E" customClass="BattleElementView">
+            <rect key="frame" x="0.0" y="0.0" width="204" height="86"/>
+            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+            <subviews>
+                <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="elementtree.png" id="l0h-rs-8ZM">
+                    <rect key="frame" x="0.0" y="0.0" width="204" height="86"/>
+                    <autoresizingMask key="autoresizingMask"/>
+                </imageView>
+            </subviews>
+            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+        </view>
     </objects>
     <resources>
         <image name="Cheerleader2BazookaThumbnail.png" width="59" height="56"/>
         <image name="closebattle.png" width="27" height="27"/>
         <image name="deploybg.png" width="157" height="93"/>
+        <image name="elementreeicon.png" width="19" height="19"/>
+        <image name="elementtree.png" width="204" height="86"/>
         <image name="fireteam.png" width="42" height="42"/>
         <image name="minitimebar.png" width="40" height="7"/>
         <image name="minitimebg.png" width="44" height="11"/>

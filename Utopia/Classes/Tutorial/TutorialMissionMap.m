@@ -14,8 +14,8 @@
 
 #define FIRST_BUILDING_ENTER_X ms.location.origin.x+2.2
 #define FIRST_BUILDING_ENTER_Y ms.location.origin.y-1.8
-#define FIRST_ENEMY_CONFRONTATION_X FIRST_BUILDING_ENTER_X+1.6
-#define FIRST_FRIEND_CONFRONTATION_X FIRST_BUILDING_ENTER_X-1.6
+#define FIRST_ENEMY_CONFRONTATION_X FIRST_BUILDING_ENTER_X+2.3
+#define FIRST_FRIEND_CONFRONTATION_X FIRST_BUILDING_ENTER_X-0.9
 
 #define ENEMY_FIRST_RUN_OFF_Y ms.location.origin.y+6
 #define FIRST_TWO_GUYS_Y_ABOVE FIRST_BUILDING_ENTER_Y+0.6
@@ -197,6 +197,8 @@
     [CCActionCallBlock actionWithBlock:^{ [self.friendSprite restoreStandingFrame:MapDirectionFarRight]; }],
     [CCActionDelay actionWithDuration:delay],
     [CCActionCallBlock actionWithBlock:^{ [self.friendSprite restoreStandingFrame:MapDirectionNearLeft]; }],
+    [CCActionDelay actionWithDuration:delay],
+    [CCActionCallBlock actionWithBlock:^{ [self.friendSprite restoreStandingFrame:MapDirectionFront]; }],
     [CCActionCallFunc actionWithTarget:self.delegate selector:@selector(enemyRanIntoFirstBuilding)],
     nil]];
 }
@@ -248,9 +250,15 @@
 }
 
 - (void) enemyJumpFinishedRunOut {
+  
   MissionBuilding *ms = (MissionBuilding *)[self assetWithId:self.constants.cityElementIdForFirstDungeon];
   NSArray *tileCoords = @[[NSValue valueWithCGPoint:ccp(INITIAL_X, FIRST_BUILDING_ENTER_Y)], [NSValue valueWithCGPoint:ccp(INITIAL_X, ENEMY_FIRST_RUN_OFF_Y)]];
-  [self.enemySprite walkToTileCoords:tileCoords completionTarget:self.delegate selector:@selector(enemyRanOffMap) speedMultiplier:2.f];
+  [self.enemySprite walkToTileCoords:tileCoords completionTarget:self selector:@selector(enemyRanOut) speedMultiplier:2.f];
+}
+
+- (void) enemyRanOut {
+  [self.friendSprite restoreStandingFrame:MapDirectionFront];
+  [self.delegate enemyRanOffMap];
 }
 
 - (void) enemyComeInWithBoss {
@@ -268,6 +276,7 @@
 }
 
 - (void) enemyBossReachedConfrontation {
+  [self.friendSprite restoreStandingFrame:MapDirectionFarRight];
   [self.enemyBossSprite restoreStandingFrame:MapDirectionNearLeft];
   [self.delegate enemyArrivedWithBoss];
 }

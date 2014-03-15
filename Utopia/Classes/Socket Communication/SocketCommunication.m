@@ -285,7 +285,7 @@ static NSString *udid = nil;
   header[5] = (tagNum & 0xFF0000) >> 16;
   header[4] = (tagNum & 0xFF000000) >> 24;
   
-  int size = [data length];
+  NSInteger size = [data length];
   header[11] = size & 0xFF;
   header[10] = (size & 0xFF00) >> 8;
   header[9] = (size & 0xFF0000) >> 16;
@@ -1073,7 +1073,7 @@ static NSString *udid = nil;
                                                          addAllStructRetrievals:self.structRetrievals]
                                                         build];
   
-  LNLog(@"Sending retrieve currency message with %d structs.", self.structRetrievals.count);
+  LNLog(@"Sending retrieve currency message with %d structs.",  (int)self.structRetrievals.count);
   
   return [self sendData:req withMessageType:EventProtocolRequestCRetrieveCurrencyFromNormStructureEvent flush:NO];
 }
@@ -1134,7 +1134,7 @@ static NSString *udid = nil;
     [bldr setCashChange:_healingQueueCashChange];
     [bldr setGemCostForHealing:_healingQueueGemCost];
     
-    NSLog(@"Sending healing queue update with %d adds, %d removals, and %d updates.", added.count, removed.count, changed.count);
+    NSLog(@"Sending healing queue update with %d adds, %d removals, and %d updates.",  (int)added.count,  (int)removed.count,  (int)changed.count);
     NSLog(@"Cash change: %@, gemCost: %d", [Globals commafyNumber:_healingQueueCashChange], _healingQueueGemCost);
     
     return [self sendData:bldr.build withMessageType:EventProtocolRequestCHealMonsterEvent flush:NO];
@@ -1201,7 +1201,7 @@ static NSString *udid = nil;
     [bldr setOilChange:_enhanceQueueOilChange];
     [bldr setGemsSpent:_enhanceQueueGemCost];
     
-    NSLog(@"Sending enhancement update with %d adds, %d removals, and %d updates.", added.count, removed.count, changed.count);
+    NSLog(@"Sending enhancement update with %d adds, %d removals, and %d updates.",  (int)added.count,  (int)removed.count,  (int)changed.count);
     
     return [self sendData:bldr.build withMessageType:EventProtocolRequestCSubmitMonsterEnhancementEvent flush:NO];
   } else {

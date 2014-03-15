@@ -32,8 +32,8 @@
                                                  [NSValue valueWithCGPoint:ccp(3, 3)],
                                                  [NSValue valueWithCGPoint:ccp(3, 4)], nil]
                                  withForcedMove:[NSArray arrayWithObjects:
-                                                 [NSValue valueWithCGPoint:ccp(3, 3)],
-                                                 [NSValue valueWithCGPoint:ccp(3, 4)], nil]];
+                                                 [NSValue valueWithCGPoint:ccp(3, 4)],
+                                                 [NSValue valueWithCGPoint:ccp(3, 3)], nil]];
 }
 
 - (NSString *) presetLayoutFile {

@@ -276,7 +276,7 @@
       [self findRunFromGem:_gems[i] index:i];
     }
   }
-  return _run.count;
+  return (int)_run.count;
 }
 
 - (void) reshuffle {
@@ -296,14 +296,13 @@
 
 #pragma mark gameplay
 
--(void)findMatchesAboveGem:(Gem*)gem index:(int)index
-{
+- (void) findMatchesAboveGem:(Gem *)gem index:(NSInteger)index {
   int y = index / self.gridSize.width;
   if (y <= 0) return;
   else
   {
     [_tempRun addObject:gem];
-    int newIndex = index-self.gridSize.width;
+    NSInteger newIndex = index-self.gridSize.width;
     if (newIndex < _gems.count) {
       Gem * newGem = _gems[newIndex];
       if (newGem.color == gem.color)
@@ -315,14 +314,13 @@
   }
 }
 
--(void)findMatchesBelowGem:(Gem*)gem index:(int)index
-{
+- (void) findMatchesBelowGem:(Gem *)gem index:(NSInteger)index {
   int y = index / self.gridSize.width;
   if (y >= self.gridSize.height-1) return;
   else
   {
     [_tempRun addObject:gem];
-    int newIndex = index+self.gridSize.width;
+    NSInteger newIndex = index+self.gridSize.width;
     if (newIndex < _gems.count) {
       Gem * newGem = _gems[newIndex];
       if (newGem.color == gem.color)
@@ -334,14 +332,14 @@
   }
 }
 
--(void)findMatchesLeftGem:(Gem*)gem index:(int)index
+- (void) findMatchesLeftGem:(Gem *)gem index:(NSInteger)index
 {
   int x = index % (int)self.gridSize.width;
   if (x <= 0) return;
   else
   {
     [_tempRun addObject:gem];
-    int newIndex = index-1;
+    NSInteger newIndex = index-1;
     if (newIndex < _gems.count) {
       Gem * newGem = _gems[newIndex];
       if (newGem.color == gem.color)
@@ -353,14 +351,14 @@
   }
 }
 
--(void)findMatchesRightGem:(Gem*)gem index:(int)index
+- (void) findMatchesRightGem:(Gem *)gem index:(NSInteger)index
 {
   int x = index % (int)self.gridSize.width;
   if (x >= self.gridSize.width-1) return;
   else
   {
     [_tempRun addObject:gem];
-    int newIndex = index+1;
+    NSInteger newIndex = index+1;
     if (newIndex < _gems.count) {
       Gem * newGem = _gems[newIndex];
       if (newGem.color == gem.color)
@@ -428,7 +426,7 @@
   int numToReplace[(int)self.gridSize.width];
   for (int i = 0; i < self.gridSize.width; i++) numToReplace[i] = 0;
   for (Gem *gem in _run) {
-    int index = [_gems indexOfObject:gem];
+    int index = (int)[_gems indexOfObject:gem];
     int x = index % (int)self.gridSize.width;
     numToReplace[x]++;
   }
@@ -453,7 +451,7 @@
 
 - (CCColor *) colorForSparkle:(GemColorId)color {
   UIColor *c = [Globals colorForElementOnDarkBackground:(MonsterProto_MonsterElement)color];
-  float r = 1.f, g = 1.f, b = 1.f, a = 1.f;
+  CGFloat r = 1.f, g = 1.f, b = 1.f, a = 1.f;
   [c getRed:&r green:&g blue:&b alpha:&a];
   return [CCColor colorWithCcColor3b:ccc3(r*255, g*255, b*255)];
 }
@@ -566,11 +564,11 @@
 }
 
 - (Gem *) getPowerupGemForBatch:(NSArray *)batch {
-  int maxLength = 0;
+  NSInteger maxLength = 0;
   BOOL isHorizontal = YES;
   GemColorId color = 0;
   for (Gem *gem in batch) {
-    int index = [_gems indexOfObject:gem];
+    NSInteger index = [_gems indexOfObject:gem];
     
     [_tempRun removeAllObjects];
     [self findMatchesBelowGem:gem index:index];
@@ -619,8 +617,8 @@
     // Calculate which position it should go into
     Gem *toReplace = [batch lastObject];
     for (Gem *gem in batch) {
-      int index1 = [self.gems indexOfObject:gem];
-      int index2 = [self.oldGems indexOfObject:gem];
+      NSInteger index1 = [self.gems indexOfObject:gem];
+      NSInteger index2 = [self.oldGems indexOfObject:gem];
       
       if (index1 != index2) {
         toReplace = gem;
@@ -921,7 +919,7 @@
 }
 
 - (CGPoint) coordinateOfGem:(Gem *)gem {
-  int index = [_gems indexOfObject:gem];
+  NSInteger index = [_gems indexOfObject:gem];
   int x = index % (int)self.gridSize.width;
   int y = index / self.gridSize.width;
   return ccp(x, y);
@@ -1231,8 +1229,8 @@
         Gem *swapGem = _swapGem;
         
         [self doGemSwapAnimationWithGem:realDragGem andGem:swapGem];
-        int idxA = [_gems indexOfObject:swapGem];
-        int idxB = [_gems indexOfObject:realDragGem];
+        NSInteger idxA = [_gems indexOfObject:swapGem];
+        NSInteger idxB = [_gems indexOfObject:realDragGem];
         [_gems replaceObjectAtIndex:idxA withObject:realDragGem];
         [_gems replaceObjectAtIndex:idxB withObject:swapGem];
         
@@ -1303,8 +1301,8 @@
 
 - (void) doGemSwapAnimationWithGem:(Gem *)gem1 andGem:(Gem *)gem2 {
   // Make sure it starts in correct place
-  int index1 = [_gems indexOfObject:gem1];
-  int index2 = [_gems indexOfObject:gem2];
+  NSInteger index1 = [_gems indexOfObject:gem1];
+  NSInteger index2 = [_gems indexOfObject:gem2];
   CGPoint sq1 = ccp(0.5+(index1 % (int)self.gridSize.width), 0.5+(index1 / (int)self.gridSize.width));
   CGPoint sq2 = ccp(0.5+(index2 % (int)self.gridSize.width), 0.5+(index2 / (int)self.gridSize.width));
   CGPoint gem1Pos = ccp(sq1.x*self.squareSize.width, sq1.y*self.squareSize.height);
@@ -1494,8 +1492,8 @@
       
       
       if (_realDragGem && _swapGem) {
-        int idxA = [_gems indexOfObject:_swapGem];
-        int idxB = [_gems indexOfObject:_realDragGem];
+        NSInteger idxA = [_gems indexOfObject:_swapGem];
+        NSInteger idxB = [_gems indexOfObject:_realDragGem];
         [_gems replaceObjectAtIndex:idxA withObject:_realDragGem];
         [_gems replaceObjectAtIndex:idxB withObject:_swapGem];
         

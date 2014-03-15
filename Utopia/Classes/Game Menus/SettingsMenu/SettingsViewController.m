@@ -243,11 +243,11 @@
 
 #pragma mark - FAQ Table Data Source
 
-- (int)numberOfSectionsInTableView:(UITableView *)tableView {
+- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
   return self.textStrings.count;
 }
 
-- (int)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
   return [[self.textStrings objectAtIndex:section] count] -1;
 }
 

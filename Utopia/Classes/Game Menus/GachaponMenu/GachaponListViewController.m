@@ -43,11 +43,7 @@
 
 #pragma mark - TableView methods
 
-- (int) numberOfSectionsInTableView:(UITableView *)tableView {
-  return 1;
-}
-
-- (int) tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
+- (NSInteger) tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
   GameState *gs = [GameState sharedGameState];
   return gs.boosterPacks.count;
 }

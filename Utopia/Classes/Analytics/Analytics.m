@@ -93,7 +93,7 @@
   
 #ifndef DEBUG
 //  [Crittercism leaveBreadcrumb:event];
-  [Amplitude logEvent:event withCustomProperties:args];
+  [Amplitude logEvent:event withEventProperties:args];
 #endif
 }
 

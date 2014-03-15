@@ -67,7 +67,7 @@
 @implementation EvoScientistView
 
 - (void) awakeFromNib {
-  NSString *str = [NSString stringWithFormat:@"Scientist%dThumbnail.png", self.tag];
+  NSString *str = [NSString stringWithFormat:@"Scientist%dThumbnail.png", (int)self.tag];
   [Globals imageNamed:str withView:self.monsterIcon greyscale:NO indicator:UIActivityIndicatorViewStyleWhite clearImageDuringDownload:YES];
 }
 
@@ -106,7 +106,7 @@
   [self openView:_curViewNum];
 }
 
-- (void) openView:(int)tag {
+- (void) openView:(NSInteger)tag {
   GameState *gs = [GameState sharedGameState];
   int q1 = 0, q2 = 0, q3 = 0;
   

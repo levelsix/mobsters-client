@@ -24,6 +24,19 @@
 		CF012B2C18D13747004C6825 /* hpfont.fnt in Resources */ = {isa = PBXBuildFile; fileRef = CF012B2A18D13747004C6825 /* hpfont.fnt */; };
 		CF012B2D18D13747004C6825 /* hpfont@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CF012B2B18D13747004C6825 /* hpfont@2x.png */; };
 		CF012B2F18D2CC28004C6825 /* TutorialDropLayout.txt in Resources */ = {isa = PBXBuildFile; fileRef = CF012B2E18D2CC28004C6825 /* TutorialDropLayout.txt */; };
+		CF012B3718D32EED004C6825 /* Kamcord.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CF012B3118D32EED004C6825 /* Kamcord.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
+		CF012B3818D32EED004C6825 /* Kamcord.bundle in Resources */ = {isa = PBXBuildFile; fileRef = CF012B3318D32EED004C6825 /* Kamcord.bundle */; };
+		CF012B3918D32EED004C6825 /* KamcordiPad.storyboardc in Resources */ = {isa = PBXBuildFile; fileRef = CF012B3418D32EED004C6825 /* KamcordiPad.storyboardc */; };
+		CF012B3A18D32EED004C6825 /* KamcordiPhone.storyboardc in Resources */ = {isa = PBXBuildFile; fileRef = CF012B3518D32EED004C6825 /* KamcordiPhone.storyboardc */; };
+		CF012B3B18D32EED004C6825 /* KC_GTMOAuth2ViewTouch.nib in Resources */ = {isa = PBXBuildFile; fileRef = CF012B3618D32EED004C6825 /* KC_GTMOAuth2ViewTouch.nib */; };
+		CF012B4118D400DD004C6825 /* noteffective.png in Resources */ = {isa = PBXBuildFile; fileRef = CF012B3D18D400DD004C6825 /* noteffective.png */; };
+		CF012B4218D400DD004C6825 /* noteffective@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CF012B3E18D400DD004C6825 /* noteffective@2x.png */; };
+		CF012B4318D400DD004C6825 /* supereffective.png in Resources */ = {isa = PBXBuildFile; fileRef = CF012B3F18D400DD004C6825 /* supereffective.png */; };
+		CF012B4418D400DD004C6825 /* supereffective@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CF012B4018D400DD004C6825 /* supereffective@2x.png */; };
+		CF012B4B18D400E6004C6825 /* elementreeicon.png in Resources */ = {isa = PBXBuildFile; fileRef = CF012B4618D400E6004C6825 /* elementreeicon.png */; };
+		CF012B4C18D400E6004C6825 /* elementreeicon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CF012B4718D400E6004C6825 /* elementreeicon@2x.png */; };
+		CF012B4D18D400E6004C6825 /* elementtree.png in Resources */ = {isa = PBXBuildFile; fileRef = CF012B4818D400E6004C6825 /* elementtree.png */; };
+		CF012B4E18D400E6004C6825 /* elementtree@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CF012B4918D400E6004C6825 /* elementtree@2x.png */; };
 		CF06067A188A92EC00A69355 /* CashMaker@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CF060675188A92EC00A69355 /* CashMaker@2x.png */; };
 		CF06067B188A92EC00A69355 /* OilCollector@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CF060676188A92EC00A69355 /* OilCollector@2x.png */; };
 		CF06067C188A92EC00A69355 /* OilMaker@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CF060677188A92EC00A69355 /* OilMaker@2x.png */; };
@@ -802,7 +815,7 @@
 		CF5CD839153A616300D5D331 /* back@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CF5CD837153A616300D5D331 /* back@2x.png */; };
 		CF5FE5231726017C000B0595 /* equiplocked.png in Resources */ = {isa = PBXBuildFile; fileRef = CF5FE5211726017C000B0595 /* equiplocked.png */; };
 		CF5FE5241726017C000B0595 /* equiplocked@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CF5FE5221726017C000B0595 /* equiplocked@2x.png */; };
-		CF5FE528172607AA000B0595 /* libChartboost.a in Frameworks */ = {isa = PBXBuildFile; fileRef = CF5FE527172607AA000B0595 /* libChartboost.a */; };
+		CF5FE528172607AA000B0595 /* libChartboost.a in Frameworks */ = {isa = PBXBuildFile; fileRef = CF5FE527172607AA000B0595 /* libChartboost.a */; settings = {ATTRIBUTES = (Weak, ); }; };
 		CF5FE52B1726145D000B0595 /* equippedtag.png in Resources */ = {isa = PBXBuildFile; fileRef = CF5FE5291726145D000B0595 /* equippedtag.png */; };
 		CF5FE52C1726145D000B0595 /* equippedtag@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CF5FE52A1726145D000B0595 /* equippedtag@2x.png */; };
 		CF6292F5180D22F500C6C196 /* bagcash.png in Resources */ = {isa = PBXBuildFile; fileRef = CF6292E1180D22F500C6C196 /* bagcash.png */; };
@@ -1336,11 +1349,6 @@
 		CFC04DCA188FE8D400F2DB59 /* youlost@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CFC04D85188FE8D400F2DB59 /* youlost@2x.png */; };
 		CFC04DCC188FE8D400F2DB59 /* youwon.png in Resources */ = {isa = PBXBuildFile; fileRef = CFC04D86188FE8D400F2DB59 /* youwon.png */; };
 		CFC04DCE188FE8D400F2DB59 /* youwon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CFC04D87188FE8D400F2DB59 /* youwon@2x.png */; };
-		CFC04DDA18909DF400F2DB59 /* Kamcord.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CFC04DD418909DF400F2DB59 /* Kamcord.framework */; };
-		CFC04DDC18909DF500F2DB59 /* iPadExperienceStoryboard.storyboardc in Resources */ = {isa = PBXBuildFile; fileRef = CFC04DD618909DF400F2DB59 /* iPadExperienceStoryboard.storyboardc */; };
-		CFC04DDE18909DF500F2DB59 /* iPhoneExperienceStoryboard.storyboardc in Resources */ = {isa = PBXBuildFile; fileRef = CFC04DD718909DF400F2DB59 /* iPhoneExperienceStoryboard.storyboardc */; };
-		CFC04DE018909DF500F2DB59 /* Kamcord.bundle in Resources */ = {isa = PBXBuildFile; fileRef = CFC04DD818909DF400F2DB59 /* Kamcord.bundle */; };
-		CFC04DE218909DF500F2DB59 /* KC_GTMOAuth2ViewTouch.nib in Resources */ = {isa = PBXBuildFile; fileRef = CFC04DD918909DF400F2DB59 /* KC_GTMOAuth2ViewTouch.nib */; };
 		CFC04DE61890A92A00F2DB59 /* HealingCenter@2x.plist in Resources */ = {isa = PBXBuildFile; fileRef = CFC04DE41890A92A00F2DB59 /* HealingCenter@2x.plist */; };
 		CFC04DE81890A92A00F2DB59 /* HealingCenter@2x.pvr.ccz in Resources */ = {isa = PBXBuildFile; fileRef = CFC04DE51890A92A00F2DB59 /* HealingCenter@2x.pvr.ccz */; };
 		CFC04ED81891028D00F2DB59 /* libcocos2d.a in Frameworks */ = {isa = PBXBuildFile; fileRef = CFC04ED51890FFC800F2DB59 /* libcocos2d.a */; };
@@ -1878,7 +1886,7 @@
 		CFF390271827496D0010A3BE /* fbcheck@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CFF390241827496D0010A3BE /* fbcheck@2x.png */; };
 		CFF3902B18274CCD0010A3BE /* checkbox.png in Resources */ = {isa = PBXBuildFile; fileRef = CFF3902918274CCD0010A3BE /* checkbox.png */; };
 		CFF3902D18274CCE0010A3BE /* checkbox@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CFF3902A18274CCD0010A3BE /* checkbox@2x.png */; };
-		CFF390491827B00C0010A3BE /* MobileAppTracker.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CFF390481827B00C0010A3BE /* MobileAppTracker.framework */; };
+		CFF390491827B00C0010A3BE /* MobileAppTracker.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CFF390481827B00C0010A3BE /* MobileAppTracker.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
 		CFF3904F18284B8C0010A3BE /* m8@2x.fnt in Resources */ = {isa = PBXBuildFile; fileRef = CFF3904B18284B8C0010A3BE /* m8@2x.fnt */; };
 		CFF3905118284B8C0010A3BE /* m8@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CFF3904C18284B8C0010A3BE /* m8@2x.png */; };
 		CFF3905318284B8C0010A3BE /* testbox.png in Resources */ = {isa = PBXBuildFile; fileRef = CFF3904D18284B8C0010A3BE /* testbox.png */; };
@@ -1897,7 +1905,7 @@
 		CFF3908A1828C00B0010A3BE /* friendrequest@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CFF390851828C00B0010A3BE /* friendrequest@2x.png */; };
 		CFF3908C1828C00B0010A3BE /* mail.png in Resources */ = {isa = PBXBuildFile; fileRef = CFF390861828C00B0010A3BE /* mail.png */; };
 		CFF3908E1828C00B0010A3BE /* mail@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CFF390871828C00B0010A3BE /* mail@2x.png */; };
-		CFF390A91829BECA0010A3BE /* Carrot.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CFF390A81829BECA0010A3BE /* Carrot.framework */; };
+		CFF390A91829BECA0010A3BE /* Carrot.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CFF390A81829BECA0010A3BE /* Carrot.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
 		CFF390C91829C74A0010A3BE /* earthorb.png in Resources */ = {isa = PBXBuildFile; fileRef = CFF390AB1829C74A0010A3BE /* earthorb.png */; };
 		CFF390CB1829C74A0010A3BE /* earthorb@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CFF390AC1829C74A0010A3BE /* earthorb@2x.png */; };
 		CFF390CD1829C74A0010A3BE /* earthsideways.png in Resources */ = {isa = PBXBuildFile; fileRef = CFF390AD1829C74A0010A3BE /* earthsideways.png */; };
@@ -2529,6 +2537,19 @@
 		CF012B2A18D13747004C6825 /* hpfont.fnt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = hpfont.fnt; sourceTree = "<group>"; };
 		CF012B2B18D13747004C6825 /* hpfont@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "hpfont@2x.png"; sourceTree = "<group>"; };
 		CF012B2E18D2CC28004C6825 /* TutorialDropLayout.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = TutorialDropLayout.txt; sourceTree = "<group>"; };
+		CF012B3118D32EED004C6825 /* Kamcord.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Kamcord.framework; sourceTree = "<group>"; };
+		CF012B3318D32EED004C6825 /* Kamcord.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = Kamcord.bundle; sourceTree = "<group>"; };
+		CF012B3418D32EED004C6825 /* KamcordiPad.storyboardc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = wrapper.storyboardc; path = KamcordiPad.storyboardc; sourceTree = "<group>"; };
+		CF012B3518D32EED004C6825 /* KamcordiPhone.storyboardc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = wrapper.storyboardc; path = KamcordiPhone.storyboardc; sourceTree = "<group>"; };
+		CF012B3618D32EED004C6825 /* KC_GTMOAuth2ViewTouch.nib */ = {isa = PBXFileReference; lastKnownFileType = file.bplist; path = KC_GTMOAuth2ViewTouch.nib; sourceTree = "<group>"; };
+		CF012B3D18D400DD004C6825 /* noteffective.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = noteffective.png; sourceTree = "<group>"; };
+		CF012B3E18D400DD004C6825 /* noteffective@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "noteffective@2x.png"; sourceTree = "<group>"; };
+		CF012B3F18D400DD004C6825 /* supereffective.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = supereffective.png; sourceTree = "<group>"; };
+		CF012B4018D400DD004C6825 /* supereffective@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "supereffective@2x.png"; sourceTree = "<group>"; };
+		CF012B4618D400E6004C6825 /* elementreeicon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = elementreeicon.png; sourceTree = "<group>"; };
+		CF012B4718D400E6004C6825 /* elementreeicon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "elementreeicon@2x.png"; sourceTree = "<group>"; };
+		CF012B4818D400E6004C6825 /* elementtree.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = elementtree.png; sourceTree = "<group>"; };
+		CF012B4918D400E6004C6825 /* elementtree@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "elementtree@2x.png"; sourceTree = "<group>"; };
 		CF060675188A92EC00A69355 /* CashMaker@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "CashMaker@2x.png"; sourceTree = "<group>"; };
 		CF060676188A92EC00A69355 /* OilCollector@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "OilCollector@2x.png"; sourceTree = "<group>"; };
 		CF060677188A92EC00A69355 /* OilMaker@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "OilMaker@2x.png"; sourceTree = "<group>"; };
@@ -4125,11 +4146,6 @@
 		CFC04D85188FE8D400F2DB59 /* youlost@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "youlost@2x.png"; sourceTree = "<group>"; };
 		CFC04D86188FE8D400F2DB59 /* youwon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = youwon.png; sourceTree = "<group>"; };
 		CFC04D87188FE8D400F2DB59 /* youwon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "youwon@2x.png"; sourceTree = "<group>"; };
-		CFC04DD418909DF400F2DB59 /* Kamcord.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Kamcord.framework; sourceTree = "<group>"; };
-		CFC04DD618909DF400F2DB59 /* iPadExperienceStoryboard.storyboardc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = wrapper.storyboardc; path = iPadExperienceStoryboard.storyboardc; sourceTree = "<group>"; };
-		CFC04DD718909DF400F2DB59 /* iPhoneExperienceStoryboard.storyboardc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = wrapper.storyboardc; path = iPhoneExperienceStoryboard.storyboardc; sourceTree = "<group>"; };
-		CFC04DD818909DF400F2DB59 /* Kamcord.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = Kamcord.bundle; sourceTree = "<group>"; };
-		CFC04DD918909DF400F2DB59 /* KC_GTMOAuth2ViewTouch.nib */ = {isa = PBXFileReference; lastKnownFileType = file.bplist; path = KC_GTMOAuth2ViewTouch.nib; sourceTree = "<group>"; };
 		CFC04DE41890A92A00F2DB59 /* HealingCenter@2x.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "HealingCenter@2x.plist"; sourceTree = "<group>"; };
 		CFC04DE51890A92A00F2DB59 /* HealingCenter@2x.pvr.ccz */ = {isa = PBXFileReference; lastKnownFileType = file; path = "HealingCenter@2x.pvr.ccz"; sourceTree = "<group>"; };
 		CFC04ECE1890FFAE00F2DB59 /* cocos2d-ios.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = "cocos2d-ios.xcodeproj"; path = "cocos2d-iphone/cocos2d-ios.xcodeproj"; sourceTree = "<group>"; };
@@ -5333,6 +5349,7 @@
 				CFF390491827B00C0010A3BE /* MobileAppTracker.framework in Frameworks */,
 				CFE02D9718261F6F0016C1E2 /* libsqlite3.dylib in Frameworks */,
 				CF8E5DDC1803A019009D4F61 /* CoreImage.framework in Frameworks */,
+				CF012B3718D32EED004C6825 /* Kamcord.framework in Frameworks */,
 				454E624B15670A15004EB7E9 /* CoreTelephony.framework in Frameworks */,
 				CFEAB54616BBD34C00AEB7BD /* Social.framework in Frameworks */,
 				CF0C8752180520EE007D6E1A /* CoreText.framework in Frameworks */,
@@ -5348,7 +5365,6 @@
 				454E62411566E0D8004EB7E9 /* CoreVideo.framework in Frameworks */,
 				CF1273AE1538AD4C00E0C1AD /* Security.framework in Frameworks */,
 				CF7FEF101540C3D000716E37 /* MessageUI.framework in Frameworks */,
-				CFC04DDA18909DF400F2DB59 /* Kamcord.framework in Frameworks */,
 				CF1273D1153902E300E0C1AD /* libz.dylib in Frameworks */,
 				CF1273C21538B7AF00E0C1AD /* CoreLocation.framework in Frameworks */,
 				CF1273B81538AD8B00E0C1AD /* CFNetwork.framework in Frameworks */,
@@ -5392,6 +5408,49 @@
 			);
 			name = oauth;
 			path = oauthv2/oauth;
+			sourceTree = "<group>";
+		};
+		CF012B3018D32EED004C6825 /* Kamcord */ = {
+			isa = PBXGroup;
+			children = (
+				CF012B3118D32EED004C6825 /* Kamcord.framework */,
+				CF012B3218D32EED004C6825 /* Resources */,
+			);
+			name = Kamcord;
+			path = Kamcord2;
+			sourceTree = "<group>";
+		};
+		CF012B3218D32EED004C6825 /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				CF012B3318D32EED004C6825 /* Kamcord.bundle */,
+				CF012B3418D32EED004C6825 /* KamcordiPad.storyboardc */,
+				CF012B3518D32EED004C6825 /* KamcordiPhone.storyboardc */,
+				CF012B3618D32EED004C6825 /* KC_GTMOAuth2ViewTouch.nib */,
+			);
+			path = Resources;
+			sourceTree = "<group>";
+		};
+		CF012B3C18D400DD004C6825 /* Effectiveness */ = {
+			isa = PBXGroup;
+			children = (
+				CF012B3D18D400DD004C6825 /* noteffective.png */,
+				CF012B3E18D400DD004C6825 /* noteffective@2x.png */,
+				CF012B3F18D400DD004C6825 /* supereffective.png */,
+				CF012B4018D400DD004C6825 /* supereffective@2x.png */,
+			);
+			path = Effectiveness;
+			sourceTree = "<group>";
+		};
+		CF012B4518D400E6004C6825 /* Element tree */ = {
+			isa = PBXGroup;
+			children = (
+				CF012B4618D400E6004C6825 /* elementreeicon.png */,
+				CF012B4718D400E6004C6825 /* elementreeicon@2x.png */,
+				CF012B4818D400E6004C6825 /* elementtree.png */,
+				CF012B4918D400E6004C6825 /* elementtree@2x.png */,
+			);
+			path = "Element tree";
 			sourceTree = "<group>";
 		};
 		CF0A8D7F183AD03300B32CDC /* GenericPopup */ = {
@@ -5713,8 +5772,8 @@
 		CF1265F21538ACC400E0C1AD /* libs */ = {
 			isa = PBXGroup;
 			children = (
+				CF012B3018D32EED004C6825 /* Kamcord */,
 				CFC04ECE1890FFAE00F2DB59 /* cocos2d-ios.xcodeproj */,
-				CFC04DD318909DF400F2DB59 /* Kamcord.embeddedframework */,
 				CFF0296618629687000BF079 /* TestFlightSDK2.1.3 */,
 				CFB2508D18587BF200BE0C05 /* THLabel */,
 				CFFEB1731834C2FD007C4BA3 /* AHEasing */,
@@ -5856,6 +5915,8 @@
 		CF1267741538ACC500E0C1AD /* Utopia Images */ = {
 			isa = PBXGroup;
 			children = (
+				CF012B4518D400E6004C6825 /* Element tree */,
+				CF012B3C18D400DD004C6825 /* Effectiveness */,
 				CFF513BB18C8DE3B004B0E56 /* FB Connect */,
 				CF54942F18C5B955001E7D32 /* Tutorial */,
 				CF6A28F518C2B2F200AD676F /* News */,
@@ -7677,8 +7738,8 @@
 				CF8BA24818CF4013003277D1 /* Powerup */,
 				CF8BA22918CEA8DE003277D1 /* Rainbow */,
 				CF8BA23818CF1469003277D1 /* DoublePowerup */,
-				CF7372B218CB985100EE2CBC /* Elements */,
 				CF826A2D18D10207002F7A5A /* Drop */,
+				CF7372B218CB985100EE2CBC /* Elements */,
 			);
 			name = MiniTutorials;
 			sourceTree = "<group>";
@@ -7989,26 +8050,6 @@
 				CFC04D87188FE8D400F2DB59 /* youwon@2x.png */,
 			);
 			path = "won lost NEW";
-			sourceTree = "<group>";
-		};
-		CFC04DD318909DF400F2DB59 /* Kamcord.embeddedframework */ = {
-			isa = PBXGroup;
-			children = (
-				CFC04DD418909DF400F2DB59 /* Kamcord.framework */,
-				CFC04DD518909DF400F2DB59 /* Resources */,
-			);
-			path = Kamcord.embeddedframework;
-			sourceTree = "<group>";
-		};
-		CFC04DD518909DF400F2DB59 /* Resources */ = {
-			isa = PBXGroup;
-			children = (
-				CFC04DD618909DF400F2DB59 /* iPadExperienceStoryboard.storyboardc */,
-				CFC04DD718909DF400F2DB59 /* iPhoneExperienceStoryboard.storyboardc */,
-				CFC04DD818909DF400F2DB59 /* Kamcord.bundle */,
-				CFC04DD918909DF400F2DB59 /* KC_GTMOAuth2ViewTouch.nib */,
-			);
-			path = Resources;
 			sourceTree = "<group>";
 		};
 		CFC04ECF1890FFAE00F2DB59 /* Products */ = {
@@ -10149,6 +10190,7 @@
 				CFFBDF4C18ACA3D90090CA9A /* Scientist1Turn08@2x.png in Resources */,
 				CF126FDC1538ACCB00E0C1AD /* activityfeedbg.png in Resources */,
 				CF37669F1833022700D0A77E /* gachaultrabg.png in Resources */,
+				CF012B4218D400DD004C6825 /* noteffective@2x.png in Resources */,
 				CFFA322A18B44473008B81B9 /* bubbleright@2x.png in Resources */,
 				CFFBDF7B18ACA3D90090CA9A /* Scientist2Turn12@2x.png in Resources */,
 				CF7064DC1846CED8005B30A1 /* sale3.png in Resources */,
@@ -10207,6 +10249,7 @@
 				CFC04CE4188DC90C00F2DB59 /* oilready@2x.png in Resources */,
 				CFC97188182C74E500FF1D83 /* waterpointsfont.fnt in Resources */,
 				CF126FF91538ACCB00E0C1AD /* equipplus@2x.png in Resources */,
+				CF012B4418D400DD004C6825 /* supereffective@2x.png in Resources */,
 				CF126FFA1538ACCB00E0C1AD /* fireactive.png in Resources */,
 				CF126FFB1538ACCB00E0C1AD /* fireactive@2x.png in Resources */,
 				CFFBDF7D18ACA3D90090CA9A /* Scientist2Turn14@2x.png in Resources */,
@@ -10273,7 +10316,6 @@
 				CF12701F1538ACCB00E0C1AD /* swordsinactive@2x.png in Resources */,
 				CFFBDF8F18ACA3D90090CA9A /* Scientist3Breath02@2x.png in Resources */,
 				CF134C5E18AB006D00D7D700 /* findmatchbig@2x.png in Resources */,
-				CFC04DE018909DF500F2DB59 /* Kamcord.bundle in Resources */,
 				CF1270201538ACCB00E0C1AD /* unequipweaponbg.png in Resources */,
 				CF37651F182DD6F900D0A77E /* chatpost.png in Resources */,
 				CFFBDF5B18ACA3D90090CA9A /* Scientist2Blink06@2x.png in Resources */,
@@ -10625,11 +10667,13 @@
 				CF8C7ACE1579DAAA003A6AFE /* skillpointicons@2x.png in Resources */,
 				CF8C7AD01579DCC5003A6AFE /* refill.png in Resources */,
 				CFFEB1301834539C007C4BA3 /* nightteam.png in Resources */,
+				CF012B4B18D400E6004C6825 /* elementreeicon.png in Resources */,
 				CFC04CD9188D234F00F2DB59 /* enterbuilding@2x.png in Resources */,
 				CFFBDF7518ACA3D90090CA9A /* Scientist2Turn06@2x.png in Resources */,
 				CFF3900718273C2E0010A3BE /* emptyfriendslot.png in Resources */,
 				CFC04D23188F2D2E00F2DB59 /* firedailylab.png in Resources */,
 				CFE02D331825D9CC0016C1E2 /* clandetailbg@2x.png in Resources */,
+				CF012B4E18D400E6004C6825 /* elementtree@2x.png in Resources */,
 				CF376729183390C300D0A77E /* GachaponListViewController.xib in Resources */,
 				CFE02D391825D9CC0016C1E2 /* clanlistbg.png in Resources */,
 				CFF0B4B418AEC5BE00C13A27 /* diagradient@2x.png in Resources */,
@@ -10778,6 +10822,7 @@
 				CFF02BCD158C41980072965A /* refillgoldstack.png in Resources */,
 				CFF02BCE158C41980072965A /* refillgoldstack@2x.png in Resources */,
 				CFF02BCF158C41980072965A /* refillsilverstack.png in Resources */,
+				CF012B4D18D400E6004C6825 /* elementtree.png in Resources */,
 				CFF02BD0158C41980072965A /* refillsilverstack@2x.png in Resources */,
 				CF70651718470051005B30A1 /* diamondbar@2x.png in Resources */,
 				CFF02BD1158C41980072965A /* refillstamina.png in Resources */,
@@ -10898,6 +10943,7 @@
 				CFC04D4B188F6C1400F2DB59 /* 3x3base@2x.png in Resources */,
 				CF7F17EF15C26F47005ED86F /* TutorialGuideWalkNF.plist in Resources */,
 				CF37651D182DD6F900D0A77E /* chatblackbg@2x.png in Resources */,
+				CF012B4C18D400E6004C6825 /* elementreeicon@2x.png in Resources */,
 				CF7F17F015C26F47005ED86F /* TutorialGuideWalkNF.pvr.ccz in Resources */,
 				CFFA325718BC042B008B81B9 /* markz@2x.png in Resources */,
 				CFFA31DC18B30955008B81B9 /* openstage@2x.png in Resources */,
@@ -10906,6 +10952,7 @@
 				CFFEB1CF18384123007C4BA3 /* nightbattleringglow.png in Resources */,
 				CF12799B181F5F1600211623 /* progressquest.png in Resources */,
 				CF7F17F215C26F47005ED86F /* TutorialGuideWalkNF@2x.pvr.ccz in Resources */,
+				CF012B4118D400DD004C6825 /* noteffective.png in Resources */,
 				CFFEB0D61834539C007C4BA3 /* addteam@2x.png in Resources */,
 				CFFBDF5918ACA3D90090CA9A /* Scientist2Blink04@2x.png in Resources */,
 				CFF3900918273C2E0010A3BE /* emptyfriendslot@2x.png in Resources */,
@@ -11084,7 +11131,6 @@
 				CFFBDFB318ACA3D90090CA9A /* Scientist4Blink08@2x.png in Resources */,
 				CF629341180D312900C6C196 /* onoffswitchbg.png in Resources */,
 				CFF3904F18284B8C0010A3BE /* m8@2x.fnt in Resources */,
-				CFC04DE218909DF500F2DB59 /* KC_GTMOAuth2ViewTouch.nib in Resources */,
 				CFF3900F18273C2E0010A3BE /* fullfriendmask.png in Resources */,
 				CFFEB16218349B7D007C4BA3 /* lightteam.png in Resources */,
 				CFFBDFCB18ACA3D90090CA9A /* Scientist4Turn06@2x.png in Resources */,
@@ -11097,10 +11143,10 @@
 				CF6F1A0F181518C900CFF2B9 /* taskbg@2x.png in Resources */,
 				CFE7CDAE1819FC3300930847 /* sellicon@2x.png in Resources */,
 				CFD09C041602B2D2005D94D1 /* BrowseClanCell.xib in Resources */,
+				CF012B3A18D32EED004C6825 /* KamcordiPhone.storyboardc in Resources */,
 				CF3766AB1833022700D0A77E /* rarecapsule.png in Resources */,
 				CFFBDFED18ACA3D90090CA9A /* Scientist5Breath10@2x.png in Resources */,
 				CF3766ED1833022700D0A77E /* commongtag@2x.png in Resources */,
-				CFC04DDE18909DF500F2DB59 /* iPhoneExperienceStoryboard.storyboardc in Resources */,
 				CFD09C061602E7DF005D94D1 /* ClanMemberCell.xib in Resources */,
 				CF20F27E1811EB12005551B5 /* MyCroniesQueueCell.xib in Resources */,
 				CF20F0B1180FB6FF005551B5 /* wonbg@2x.png in Resources */,
@@ -11298,6 +11344,7 @@
 				CFC4D01516E98D9E009A25DA /* attackagain.png in Resources */,
 				CF8BA22818CE7C41003277D1 /* speechbubbleshortname@2x.png in Resources */,
 				CFC4D01616E98D9E009A25DA /* attackagain@2x.png in Resources */,
+				CF012B3B18D32EED004C6825 /* KC_GTMOAuth2ViewTouch.nib in Resources */,
 				CFC4D01716E98D9E009A25DA /* attackagainsword.png in Resources */,
 				CFC4D01816E98D9E009A25DA /* attackagainsword@2x.png in Resources */,
 				CF0AC61318A1F91600140628 /* nextmatch.png in Resources */,
@@ -11658,6 +11705,7 @@
 				CFD44CA7175D4282006E2198 /* shieldonbg@2x.png in Resources */,
 				CF376591182E0D9300D0A77E /* MonsterStuff.proto in Resources */,
 				CFE02B991821DC000016C1E2 /* minifire@2x.png in Resources */,
+				CF012B3818D32EED004C6825 /* Kamcord.bundle in Resources */,
 				CFFEB1381834539C007C4BA3 /* onteam.png in Resources */,
 				CF8A3E631767DD9600BDF639 /* citycollectablesbg.png in Resources */,
 				CF8A3E651767DD9600BDF639 /* citycollectablesbg@2x.png in Resources */,
@@ -11831,6 +11879,7 @@
 				CFFBDFBE18ACA3D90090CA9A /* Scientist4Breath06@2x.png in Resources */,
 				CFFEB16B1834A82C007C4BA3 /* MonsterTeamSlotView.xib in Resources */,
 				CFFBDF2D18ACA3D90090CA9A /* Scientist1Blink03@2x.png in Resources */,
+				CF012B3918D32EED004C6825 /* KamcordiPad.storyboardc in Resources */,
 				CFB2503018569FB800BE0C05 /* underring@2x.png in Resources */,
 				CF134A6518A5E4B500D7D700 /* FatBoy2Move09@2x.png in Resources */,
 				CFEE026217BDC76000F3BB19 /* menubuildings@2x.png in Resources */,
@@ -12009,7 +12058,6 @@
 				CFF1D79417E101C900874339 /* hammertime.png in Resources */,
 				CFF1D79617E101C900874339 /* hammertime@2x.png in Resources */,
 				CFFA324C18B6FDC0008B81B9 /* clanmembersettings@2x.png in Resources */,
-				CFC04DDC18909DF500F2DB59 /* iPadExperienceStoryboard.storyboardc in Resources */,
 				CFF1D79817E101C900874339 /* mir1.png in Resources */,
 				CFF1D79A17E101C900874339 /* mir1@2x.png in Resources */,
 				CFFA324418B6FDC0008B81B9 /* 2options@2x.png in Resources */,
@@ -12103,6 +12151,7 @@
 				CFE0E6DA17E7B886002ECA84 /* lootcollect.png in Resources */,
 				CF3766F71833022700D0A77E /* raregtag.png in Resources */,
 				CF134A6218A5E4B500D7D700 /* FatBoy2Move06@2x.png in Resources */,
+				CF012B4318D400DD004C6825 /* supereffective.png in Resources */,
 				CFE0E6DC17E7B886002ECA84 /* lootcollect@2x.png in Resources */,
 				CF52D08017E9400500A067A6 /* bloodsplatter.png in Resources */,
 				CF54943418C5B955001E7D32 /* arrow.png in Resources */,
@@ -12463,6 +12512,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = "$(ARCHS_STANDARD)";
 				CLANG_WARN_BOOL_CONVERSION = YES;
 				CLANG_WARN_CONSTANT_CONVERSION = YES;
 				CLANG_WARN_EMPTY_BODY = YES;
@@ -12490,6 +12540,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
+				VALID_ARCHS = "armv7 armv7s arm64";
 			};
 			name = Debug;
 		};
@@ -12497,6 +12548,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = "$(ARCHS_STANDARD)";
 				CLANG_WARN_BOOL_CONVERSION = YES;
 				CLANG_WARN_CONSTANT_CONVERSION = YES;
 				CLANG_WARN_EMPTY_BODY = YES;
@@ -12523,6 +12575,7 @@
 				SDKROOT = iphoneos;
 				SKIP_INSTALL = YES;
 				VALIDATE_PRODUCT = YES;
+				VALID_ARCHS = "armv7 armv7s arm64";
 			};
 			name = Release;
 		};
@@ -12530,6 +12583,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = D735B04C45CD4C97941C415D /* Pods.xcconfig */;
 			buildSettings = {
+				ARCHS = "$(ARCHS_STANDARD)";
 				ASSETCATALOG_COMPILER_APPICON_NAME = "AppIcon-2";
 				CLANG_ENABLE_OBJC_ARC = YES;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
@@ -12541,6 +12595,7 @@
 					"$(SRCROOT)/Utopia/libs",
 					"$(SRCROOT)/Utopia/libs/Kamcord.embeddedframework",
 					"/Users/Ashwin/mobsters-client/Utopia/libs",
+					"$(PROJECT_DIR)/Utopia/libs/Kamcord2",
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Utopia/Utopia-Prefix.pch";
@@ -12584,7 +12639,7 @@
 				SUPPORTED_PLATFORMS = "iphonesimulator iphoneos";
 				TARGETED_DEVICE_FAMILY = 1;
 				USER_HEADER_SEARCH_PATHS = "$(inherited) \"$(SRCROOT)/Utopia/libs/Apsalar\" \"$(SRCROOT)\"";
-				VALID_ARCHS = "arm64 armv7 armv7s";
+				VALID_ARCHS = "armv7 armv7s arm64";
 				WARNING_LDFLAGS = (
 					"-ObjC",
 					"-all_load",
@@ -12598,6 +12653,7 @@
 			baseConfigurationReference = D735B04C45CD4C97941C415D /* Pods.xcconfig */;
 			buildSettings = {
 				ALTERNATE_OWNER = "$(USER)";
+				ARCHS = "$(ARCHS_STANDARD)";
 				ASSETCATALOG_COMPILER_APPICON_NAME = "AppIcon-2";
 				CLANG_ENABLE_OBJC_ARC = YES;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
@@ -12609,6 +12665,7 @@
 					"$(SRCROOT)/Utopia/libs",
 					"$(SRCROOT)/Utopia/libs/Kamcord.embeddedframework",
 					"/Users/Ashwin/mobsters-client/Utopia/libs",
+					"$(PROJECT_DIR)/Utopia/libs/Kamcord2",
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Utopia/Utopia-Prefix.pch";
@@ -12653,7 +12710,7 @@
 				SUPPORTED_PLATFORMS = "iphonesimulator iphoneos";
 				TARGETED_DEVICE_FAMILY = 1;
 				USER_HEADER_SEARCH_PATHS = "$(inherited) \"$(SRCROOT)/Utopia/libs/Apsalar\" \"$(SRCROOT)\"";
-				VALID_ARCHS = "arm64 armv7 armv7s";
+				VALID_ARCHS = "armv7 armv7s arm64";
 				WARNING_LDFLAGS = (
 					"-ObjC",
 					"-all_load",

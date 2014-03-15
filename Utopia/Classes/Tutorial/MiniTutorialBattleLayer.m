@@ -110,7 +110,7 @@
   [super youWon];
   [self checkQuests];
   
-  int c = self.wonView.rewardsView.children.count;
+  NSInteger c = self.wonView.rewardsView.children.count;
   [self runAction:
    [CCActionSequence actions:
     [CCActionDelay actionWithDuration:2.4+0.5*c],

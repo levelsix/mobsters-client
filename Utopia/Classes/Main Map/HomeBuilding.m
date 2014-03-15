@@ -263,11 +263,11 @@
   }
 }
 
-#define ARROW_LAYER_TAG @"Arrow"
+#define ARROW_LAYER_TAG [NSString stringWithFormat:@"Arrow%p", self]
 #define ARROW_FADE_DURATION 0.2f
 
 - (void) displayMoveArrows {
-  CCNode *o = [self getChildByName:ARROW_LAYER_TAG recursively:NO];
+  CCNode *o = [_homeMap getChildByName:ARROW_LAYER_TAG recursively:NO];
   if (o) {
     // This means it was reclicked
     [o stopAllActions];
@@ -301,16 +301,16 @@
   [node addChild:nl];
   [node addChild:fr];
   [node addChild:fl];
-  node.position = ccp(self.contentSize.width/2, -self.verticalOffset);
+  node.position = ccpAdd(self.position, ccp(self.contentSize.width/2, -self.verticalOffset));
   
   [node recursivelyApplyOpacity:0];
   [node runAction:[RecursiveFadeTo actionWithDuration:ARROW_FADE_DURATION opacity:1.f]];
   
-  [self addChild:node z:-1 name:ARROW_LAYER_TAG];
+  [_homeMap addChild:node z:1000 name:ARROW_LAYER_TAG];
 }
 
 - (void) removeMoveArrows {
-  CCNode *node = [self getChildByName:ARROW_LAYER_TAG recursively:NO];
+  CCNode *node = [_homeMap getChildByName:ARROW_LAYER_TAG recursively:NO];
   [node stopAllActions];
   [node runAction:[CCActionSequence actions:[RecursiveFadeTo actionWithDuration:ARROW_FADE_DURATION opacity:0],
                    [CCActionCallBlock actionWithBlock:^{[node removeFromParentAndCleanup:YES];}], nil]];
@@ -338,6 +338,7 @@
   NSString *str = self.userStruct.staticStruct.structInfo.level == 1 ? @"Building Complete!" : @"Building Upgraded!";
   CCLabelTTF *label = [CCLabelTTF labelWithString:str fontName:[Globals font] fontSize:22.f];
   [label setFontColor:[CCColor colorWithCcColor3b:ccc3(255, 200, 0)]];
+  [label setShadowColor:[CCColor colorWithWhite:0.f alpha:0.8f]];
   [label setShadowOffset:ccp(0, -1)];
   
   [self addChild:spinner z:-1];
@@ -438,10 +439,11 @@
     if (retrievable) {
       if (!_retrieveBubble) {
         [self initializeRetrieveBubble];
+        _retrieveBubble.opacity = 0.f;
       }
-      _retrieveBubble.visible = YES;
+      [_retrieveBubble runAction:[CCActionFadeTo actionWithDuration:0.3f opacity:1.f]];
     } else {
-      _retrieveBubble.visible = NO;
+      [_retrieveBubble runAction:[CCActionFadeTo actionWithDuration:0.3f opacity:0.f]];
     }
   }
 }
@@ -479,7 +481,7 @@
 }
 
 - (void) setPercentage:(float)percentage {
-  int mult = self.anim.frames.count-1;
+  NSInteger mult = self.anim.frames.count-1;
   int imgNum = roundf(percentage*mult);
   CCSpriteFrame *frame = [self.anim.frames[imgNum] spriteFrame];
   [self.buildingSprite setSpriteFrame:frame];
@@ -580,7 +582,7 @@
 - (id) initWithUserStruct:(UserStruct *)userStruct map:(HomeMap *)map {
   if ((self = [super initWithUserStruct:userStruct map:map])) {
     StructureInfoProto *fsp = [userStruct.staticStruct structInfo];
-    self.buildingSprite.position = ccpAdd(self.buildingSprite.position, ccp(0, 3+fsp.imgVerticalPixelOffset));
+    self.buildingSprite.position = ccpAdd(self.buildingSprite.position, ccp(0, fsp.imgVerticalPixelOffset));
   }
   return self;
 }

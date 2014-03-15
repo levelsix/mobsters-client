@@ -175,7 +175,7 @@ int amqp_parse_url(char *url, struct amqp_connection_info *parsed)
 		if (port == end || *end != 0 || portnum < 0 || portnum > 65535)
 			goto out;
 
-		parsed->port = portnum;
+		parsed->port = (int)portnum;
 	}
 
 	if (delim == '/') {

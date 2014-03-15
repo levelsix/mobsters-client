@@ -229,7 +229,7 @@
   return 3;
 }
 
-- (NSArray *)arrayForSection:(int)section {
+- (NSArray *)arrayForSection:(NSInteger)section {
   if (section == 0) {
     return self.readyMonsters;
   } else if (section == 1) {
@@ -256,7 +256,7 @@
 }
 
 - (IBAction)headerClicked:(id)sender {
-  int section = [(UIView *)sender tag];
+  NSInteger section = [(UIView *)sender tag];
   [self.inventoryTable.tableView scrollToRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:section] atScrollPosition:UITableViewScrollPositionTop animated:YES];
 }
 

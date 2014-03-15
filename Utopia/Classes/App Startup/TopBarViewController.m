@@ -333,13 +333,13 @@
   GameState *gs = [GameState sharedGameState];
   if (label == self.expLabel) {
     label.text = [NSString stringWithFormat:@"%@/%@", [Globals commafyNumber:number], [Globals commafyNumber:gs.expDeltaNeededForNextLevel]];
-    self.expBar.percentage = ((float)number)/gs.expDeltaNeededForNextLevel;
+    self.expBar.percentage = number/(float)gs.expDeltaNeededForNextLevel;
   } else if (label == self.cashLabel) {
     label.text = [Globals cashStringForNumber:number];
-    self.cashBar.percentage = gs.silver/(float)gs.maxCash;
+    self.cashBar.percentage = number/(float)gs.maxCash;
   } else if (label == self.oilLabel) {
     label.text = [Globals commafyNumber:number];
-    self.oilBar.percentage = gs.oil/(float)gs.maxOil;
+    self.oilBar.percentage = number/(float)gs.maxOil;
   } else if (label == self.gemsLabel) {
     label.text = [Globals commafyNumber:number];
   }

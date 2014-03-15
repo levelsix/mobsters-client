@@ -167,7 +167,20 @@
 }
 
 - (void) moveToAssetId:(int)a animated:(BOOL)animated {
-  [self moveToSprite:[self assetWithId:a] animated:animated];
+  SelectableSprite *spr = [self assetWithId:a];
+  [self moveToSprite:spr animated:animated withOffset:ccp(0, -50)];
+  
+  if ([spr isKindOfClass:[SelectableSprite class]]) {
+    for (CCNode *n in self.children) {
+      if ([n isKindOfClass:[SelectableSprite class]]) {
+        SelectableSprite *ss = (SelectableSprite *)n;
+        [ss removeArrowAnimated:NO];
+      }
+    }
+    [spr displayArrow];
+    
+    _assetIdToDisplayArrow = a;
+  }
 }
 
 #define SPRITE_DELAY 0.6f
@@ -209,6 +222,7 @@
       GameViewController *vc = [GameViewController baseController];
       [vc enterDungeon:te.ftp.taskId withDelay:SPRITE_DELAY*(self.myTeamSprites.count-1)+0.7f];
       _enteringDungeon = YES;
+      _assetIdToDisplayArrow = 0;
     }
   }
 }
@@ -223,16 +237,18 @@
 - (void) setAllLocksAndArrowsForBuildings {
   GameState *gs = [GameState sharedGameState];
   NSArray *taskIdsWithArrows = gs.taskIdsToUnlockMoreTasks;
-  for (CCNode *n in self.children) {
-    if ([n conformsToProtocol:@protocol(TaskElement)]) {
-      id<TaskElement> asset = (id<TaskElement>)n;
-      int taskId = asset.ftp.taskId;
-      asset.isLocked = ![gs isTaskUnlocked:taskId];
-      
-      if ([taskIdsWithArrows containsObject:@(taskId)]) {
-        [asset displayArrow];
-      } else {
-        [asset removeArrowAnimated:NO];
+  if (!_assetIdToDisplayArrow) {
+    for (CCNode *n in self.children) {
+      if ([n conformsToProtocol:@protocol(TaskElement)]) {
+        id<TaskElement> asset = (id<TaskElement>)n;
+        int taskId = asset.ftp.taskId;
+        asset.isLocked = ![gs isTaskUnlocked:taskId];
+        
+        if ([taskIdsWithArrows containsObject:@(taskId)]) {
+          [asset displayArrow];
+        } else {
+          [asset removeArrowAnimated:NO];
+        }
       }
     }
   }

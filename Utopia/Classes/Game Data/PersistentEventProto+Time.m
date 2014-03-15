@@ -123,19 +123,19 @@ NSDate *startTime(int dayOfWeek, int startHour, int durationMinutes) {
   NSDate *date = [NSDate date];
   NSCalendar *gregorian = [[NSCalendar alloc] initWithCalendarIdentifier:NSGregorianCalendar];
   NSDateComponents *comps = [gregorian components:NSCalendarUnitWeekday|NSCalendarUnitHour|NSCalendarUnitMinute fromDate:date];
-  int weekday = [comps weekday];
-  int hour = [comps hour];
-  int minute = [comps minute];
+  NSInteger weekday = [comps weekday];
+  NSInteger hour = [comps hour];
+  NSInteger minute = [comps minute];
   
-  int cur1 = weekday*1440+hour*60+minute;
+  NSInteger cur1 = weekday*1440+hour*60+minute;
   
-  int startVal1 = dayOfWeek*1440+startHour*60;
-  int endVal1 = startVal1+durationMinutes;
-  int startVal2 = startVal1+10080;
-  int startVal0 = startVal1-10080;
-  int endVal0 = endVal1-10080;
+  NSInteger startVal1 = dayOfWeek*1440+startHour*60;
+  NSInteger endVal1 = startVal1+durationMinutes;
+  NSInteger startVal2 = startVal1+10080;
+  NSInteger startVal0 = startVal1-10080;
+  NSInteger endVal0 = endVal1-10080;
   
-  int diff = 0;
+  NSInteger diff = 0;
   if (endVal0 > cur1) {
     diff = startVal0-cur1;
   } else if (endVal1 > cur1) {

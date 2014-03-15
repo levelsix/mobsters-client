@@ -176,11 +176,18 @@
 @property (nonatomic, retain) IBOutlet UIButton *forfeitButton;
 @property (nonatomic, retain) IBOutlet UIButton *deployCancelButton;
 
+@property (nonatomic, retain) IBOutlet UIButton *elementButton;
+@property (nonatomic, retain) IBOutlet BattleElementView *elementView;
+
 - (void) displayDeployViewAndIsCancellable:(BOOL)cancel;
 - (void) deployBattleSprite:(BattlePlayer *)bp;
 
 - (void) loadDeployView;
 - (void) removeSwapButton;
 - (void) removeDeployView;
+
+- (IBAction)elementButtonClicked:(id)sender;
+
+- (void) displayEffectivenessForAttackerElement:(MonsterProto_MonsterElement)atkElement defenderElement:(MonsterProto_MonsterElement)defElement position:(CGPoint)position;
 
 @end

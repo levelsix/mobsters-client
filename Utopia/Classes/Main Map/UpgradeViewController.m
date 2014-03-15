@@ -147,7 +147,7 @@
 
 #pragma mark - UITableView methods
 
-- (int) tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
+- (NSInteger) tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
   return self.staticStructs.count;
 }
 

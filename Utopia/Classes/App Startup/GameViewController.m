@@ -139,6 +139,8 @@
   [self fadeToLoadingScreenPercentage:0.f animated:NO];
   [self progressTo:PART_1_PERCENT animated:YES];
   
+  [QuestUtil setDelegate:self];
+  
   [[NSBundle mainBundle] loadNibNamed:@"TravelingLoadingView" owner:self options:nil];
 }
 
@@ -344,6 +346,10 @@
 #pragma mark - Moving to other cities
 
 - (void) visitCityClicked:(int)cityId {
+  [self visitCityClicked:cityId assetId:0];
+}
+
+- (void) visitCityClicked:(int)cityId assetId:(int)assetId {
   if (!self.currentMap || self.currentMap.cityId != cityId) {
     if (cityId == 0) {
       CCScene *scene = [CCScene node];
@@ -362,6 +368,8 @@
         [[CCDirector sharedDirector] replaceScene:scene withTransition:[CCTransition transitionCrossFadeWithDuration:0.4f]];
       }
     } else {
+      _assetIdForMissionMap = assetId;
+      
       [[OutgoingEventController sharedOutgoingEventController] loadNeutralCity:cityId withDelegate:self];
       
       GameState *gs = [GameState sharedGameState];
@@ -372,6 +380,10 @@
   } else {
     if (cityId == 0) {
       [(HomeMap *)self.currentMap refresh];
+    } else {
+      if (assetId) {
+        [(MissionMap *)self.currentMap moveToAssetId:assetId animated:YES];
+      }
     }
   }
 }
@@ -382,7 +394,12 @@
   CCScene *scene = [CCScene node];
   MissionMap *mm = [[MissionMap alloc] initWithProto:proto];
   [scene addChild:mm];
-  [mm moveToCenterAnimated:NO];
+  if (_assetIdForMissionMap) {
+    [(MissionMap *)mm moveToAssetId:_assetIdForMissionMap animated:NO];
+    _assetIdForMissionMap = 0;
+  } else {
+    [mm moveToCenterAnimated:NO];
+  }
   self.currentMap = mm;
   [[CCDirector sharedDirector] replaceScene:scene withTransition:[CCTransition transitionCrossFadeWithDuration:0.4f]];
   
@@ -413,21 +430,6 @@
   }
 }
 
-- (void) crossFadeIntoBattleLayer:(NewBattleLayer *)bl {
-  float duration = 0.6;
-  
-  CCDirector *dir = [CCDirector sharedDirector];
-  CCScene *scene = [CCScene node];
-  [scene addChild:bl];
-  if (dir.runningScene) {
-    [dir pushScene:scene withTransition:[CCTransition transitionCrossFadeWithDuration:duration]];
-  } else {
-    [dir replaceScene:scene];
-  }
-  
-  [self hideTopBarDuration:duration completion:nil];
-}
-
 - (void) enterDungeon:(int)taskId isEvent:(BOOL)isEvent eventId:(int)eventId useGems:(BOOL)useGems {
   GameState *gs = [GameState sharedGameState];
   DungeonBattleLayer *bl = [[DungeonBattleLayer alloc] initWithMyUserMonsters:[gs allBattleAvailableMonstersOnTeam] puzzleIsOnLeft:NO];
@@ -448,6 +450,23 @@
   }
 }
 
+- (void) crossFadeIntoBattleLayer:(NewBattleLayer *)bl {
+  float duration = 0.6;
+  
+  CCDirector *dir = [CCDirector sharedDirector];
+  CCScene *scene = [CCScene node];
+  [scene addChild:bl];
+  if (dir.runningScene) {
+    [dir pushScene:scene withTransition:[CCTransition transitionCrossFadeWithDuration:duration]];
+  } else {
+    [dir replaceScene:scene];
+  }
+  
+  [self hideTopBarDuration:duration completion:nil];
+  
+  _isInBattle = YES;
+}
+
 - (void) blackFadeIntoBattleLayer:(NewBattleLayer *)bl {
   // Must start animation so that the scene is auto switched instead of glitching
   [[CCDirector sharedDirector] startAnimation];
@@ -465,6 +484,8 @@
   }
   
   [self hideTopBarDuration:0.f completion:nil];
+  
+  _isInBattle = YES;
 }
 
 - (void) findPvpMatch:(BOOL)useGems {
@@ -482,6 +503,10 @@
 
 - (void) miniTutorialComplete:(MiniTutorialController *)tut {
   self.miniTutController = nil;
+  
+  if (self.completedQuest) {
+    [self questComplete:self.completedQuest];
+  }
 }
 
 #pragma mark - BattleLayerDelegate methods
@@ -499,6 +524,12 @@
     }];
   } else {
     [self showTopBarDuration:duration completion:nil];
+  }
+  
+  _isInBattle = NO;
+  
+  if (self.completedQuest) {
+    [self questComplete:self.completedQuest];
   }
 }
 
@@ -543,6 +574,20 @@
 }
 
 #pragma mark - Dialogue
+
+- (void) questComplete:(FullQuestProto *)fqp {
+  if (!_isInBattle && !self.miniTutController) {
+    GameState *gs = [GameState sharedGameState];
+    QuestLogViewController *qvc = [[QuestLogViewController alloc] init];
+    [self addChildViewController:qvc];
+    [self.view addSubview:qvc.view];
+    [qvc loadDetailsViewForQuest:fqp userQuest:[gs myQuestWithId:fqp.questId] animated:NO];
+    
+    self.completedQuest = nil;
+  } else {
+    self.completedQuest = fqp;
+  }
+}
 
 - (void) beginDialogue:(DialogueProto *)proto withQuestId:(int)questId {
   _questIdAfterDialogue = questId;

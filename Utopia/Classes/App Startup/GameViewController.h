@@ -17,16 +17,21 @@
 #import "DialogueViewController.h"
 #import "ClanRaidDetailsViewController.h"
 #import "MiniTutorialController.h"
+#import "QuestUtil.h"
 
 @class TutorialController;
 
 @interface GameViewController : UIViewController <AttackMapDelegate, BattleLayerDelegate, CCDirectorDownloaderDelegate, DialogueViewControllerDelegate, ClanRaidDetailsDelegate, MiniTutorialDelegate> {
   int _questIdAfterDialogue;
   
+  int _assetIdForMissionMap;
+  
   BOOL _isFreshRestart;
   
   BOOL _isFromFacebook;
   BOOL _shouldRejectFacebook;
+  
+  BOOL _isInBattle;
 }
 
 @property (nonatomic, strong) TopBarViewController *topBarViewController;
@@ -37,6 +42,8 @@
 
 @property (nonatomic, strong) TutorialController *tutController;
 @property (nonatomic, strong) MiniTutorialController *miniTutController;
+
+@property (nonatomic, strong) FullQuestProto *completedQuest;
 
 + (id) baseController;
 
@@ -49,10 +56,14 @@
 - (void) buildingPurchased:(int)structId;
 - (void) enterDungeon:(int)taskId withDelay:(float)delay;
 
+- (void) visitCityClicked:(int)cityId assetId:(int)assetId;
+- (void) visitCityClicked:(int)cityId;
+
 - (void) openPrivateChatWithUserId:(int)userId;
 
 - (void) openGemShop;
 
+- (void) questComplete:(FullQuestProto *)fqp;
 - (void) beginDialogue:(DialogueProto *)proto withQuestId:(int)questId;
 
 - (void) crossFadeIntoBattleLayer:(NewBattleLayer *)bl;

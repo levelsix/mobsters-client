@@ -18,6 +18,8 @@
   
   BOOL _allowSelection;
   BOOL _enteringDungeon;
+  
+  int _assetIdToDisplayArrow;
 }
 
 @property (nonatomic, retain) IBOutlet MapBotView *missionBotView;

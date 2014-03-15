@@ -209,7 +209,7 @@ int amqp_handle_input(amqp_connection_state_t state,
   /* do we have target_size data yet? if not, return with the
      expectation that more will arrive */
   if (state->inbound_offset < state->target_size)
-    return bytes_consumed;
+    return (int)bytes_consumed;
 
   raw_frame = state->inbound_buffer.bytes;
 
@@ -230,7 +230,7 @@ int amqp_handle_input(amqp_connection_state_t state,
                                         = amqp_d8(raw_frame, 7);
 
       return_to_idle(state);
-      return bytes_consumed;
+      return (int)bytes_consumed;
     }
 
     /* it's not a protocol header; fall through to process it as a
@@ -247,7 +247,7 @@ int amqp_handle_input(amqp_connection_state_t state,
     /* do we have target_size data yet? if not, return with the
        expectation that more will arrive */
     if (state->inbound_offset < state->target_size)
-      return bytes_consumed;
+      return (int)bytes_consumed;
 
     /* fall through to process body */
 
@@ -311,7 +311,7 @@ int amqp_handle_input(amqp_connection_state_t state,
     }
 
     return_to_idle(state);
-    return bytes_consumed;
+    return (int)bytes_consumed;
   }
 
   default:
@@ -356,7 +356,7 @@ int amqp_send_frame(amqp_connection_state_t state,
     uint8_t frame_end_byte = AMQP_FRAME_END;
     const amqp_bytes_t *body = &frame->payload.body_fragment;
 
-    amqp_e32(out_frame, 3, body->len);
+    amqp_e32(out_frame, 3, (int)body->len);
 
     iov[0].iov_base = out_frame;
     iov[0].iov_len = HEADER_SIZE;
@@ -365,7 +365,7 @@ int amqp_send_frame(amqp_connection_state_t state,
     iov[2].iov_base = &frame_end_byte;
     iov[2].iov_len = FOOTER_SIZE;
 
-    res = amqp_socket_writev(state->sockfd, iov, 3);
+    res = (int)amqp_socket_writev(state->sockfd, iov, 3);
   }
   else {
     size_t out_frame_len;
@@ -410,9 +410,9 @@ int amqp_send_frame(amqp_connection_state_t state,
       abort();
     }
 
-    amqp_e32(out_frame, 3, out_frame_len);
+    amqp_e32(out_frame, 3, (int)out_frame_len);
     amqp_e8(out_frame, out_frame_len + HEADER_SIZE, AMQP_FRAME_END);
-    res = send(state->sockfd, out_frame,
+    res = (int)send(state->sockfd, out_frame,
                out_frame_len + HEADER_SIZE + FOOTER_SIZE, MSG_NOSIGNAL);
   }
 

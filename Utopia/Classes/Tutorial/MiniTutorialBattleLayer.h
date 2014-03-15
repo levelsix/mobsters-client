@@ -16,6 +16,7 @@
 - (void) moveMade;
 - (void) moveFinished;
 - (void) turnFinished;
+- (void) elementButtonClicked;
 
 @end
 

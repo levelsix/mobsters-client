@@ -29,7 +29,7 @@
 @property (nonatomic, retain) IBOutletCollection(UIView) NSArray *animateViews;
 
 - (void) animateWithMonsterId:(int)monsterId;
-- (void) animateWithMonsterId:(int)monsterId numPuzzlePieces:(int)numPuzzlePieces;
+- (void) animateWithMonsterId:(int)monsterId numPuzzlePieces:(NSInteger)numPuzzlePieces;
 - (IBAction)closeClicked:(id)sender;
 
 @end
@@ -63,9 +63,9 @@
 @interface GachaponViewController : GenViewController <EasyTableViewDelegate, UIScrollViewDelegate> {
   BOOL _isSpinning;
   
-  int _curPage;
+  NSInteger _curPage;
   
-  int _numPuzzlePieces;
+  NSInteger _numPuzzlePieces;
 }
 
 @property (nonatomic, retain) BoosterPackProto *boosterPack;

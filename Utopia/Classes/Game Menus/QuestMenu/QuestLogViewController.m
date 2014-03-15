@@ -34,6 +34,8 @@
   self.titleLabel.text = self.questListViewController.title;
   self.backView.hidden = YES;
   self.detailsContainerView.userInteractionEnabled = NO;
+  
+  self.view.hidden = YES;
 }
 
 - (void) viewWillAppear:(BOOL)animated {
@@ -76,8 +78,6 @@
     FullQuestProto *fqp = [gs questForId:questId];
     if (fqp) {
       [self.questDetailsViewController loadWithQuest:fqp userQuest:[gs myQuestWithId:questId]];
-    } else {
-      [self transitionToListView];
     }
   }
 }
@@ -87,16 +87,23 @@
 }
 
 - (void) close {
-  [UIView animateWithDuration:0.3f animations:^{
-    self.questGiverImageView.center = ccp(-self.questGiverImageView.image.size.width,
-                                          self.view.frame.size.height-self.questGiverImageView.frame.size.height/2);
-    self.questGiverImageView.alpha = 0.f;
-  }];
-  
-  [Globals popOutView:self.mainView fadeOutBgdView:self.bgdView completion:^{
-    [self.view removeFromSuperview];
-    [self removeFromParentViewController];
-  }];
+  if (self.questDetailsViewController) {
+    [UIView animateWithDuration:0.3f animations:^{
+      self.questGiverImageView.center = ccp(-self.questGiverImageView.image.size.width,
+                                            self.questGiverImageView.center.y);
+      self.bgdView.alpha = 0.f;
+      self.mainView.center = ccp(self.view.frame.size.width+self.mainView.frame.size.width/2,
+                                 self.mainView.center.y);
+    } completion:^(BOOL finished) {
+      [self.view removeFromSuperview];
+      [self removeFromParentViewController];
+    }];
+  } else {
+    [Globals popOutView:self.mainView fadeOutBgdView:self.bgdView completion:^{
+      [self.view removeFromSuperview];
+      [self removeFromParentViewController];
+    }];
+  }
 }
 
 #pragma mark - Transition between ViewControllers
@@ -197,6 +204,7 @@
 #pragma mark - QuestDetailsViewControllerDelegate methods
 
 - (void) visitOrDonateClickedWithDetailsVC:(QuestDetailsViewController *)detailsVC {
+  GameState *gs = [GameState sharedGameState];
   GameViewController *gvc = (GameViewController *)self.parentViewController;
   FullQuestProto *quest = detailsVC.quest;
   UserQuest *uq = detailsVC.userQuest;
@@ -204,7 +212,12 @@
     // Donate monsters
     [self doDonateForQuest:quest.questId];
   } else {
-    [gvc visitCityClicked:quest.cityId];
+    int assetId = 0;
+    if (quest.questType == FullQuestProto_QuestTypeCompleteTask) {
+      FullTaskProto *task = [gs taskWithId:quest.staticDataId];
+      assetId = task.assetNumWithinCity;
+    }
+    [gvc visitCityClicked:quest.cityId assetId:assetId];
     [self close:nil];
   }
 }
@@ -298,9 +311,9 @@
     [self close:nil];
   } else if (self.questDetailsViewController.quest.questId == proto.questId) {
     [self transitionToListView];
+    
+    [self.questListViewController reloadWithQuests:gs.allCurrentQuests userQuests:gs.myQuests];
   }
-  
-  [self.questListViewController reloadWithQuests:gs.allCurrentQuests userQuests:gs.myQuests];
   
   [[NSNotificationCenter defaultCenter] postNotificationName:QUESTS_CHANGED_NOTIFICATION object:nil];
   

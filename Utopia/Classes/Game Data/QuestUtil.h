@@ -9,7 +9,17 @@
 #import <Foundation/Foundation.h>
 #import "Protocols.pb.h"
 
+@protocol QuestUtilDelegate <NSObject>
+
+- (void) questComplete:(FullQuestProto *)fqp;
+
+@end
+
 @interface QuestUtil : NSObject
+
+@property (nonatomic, assign) id<QuestUtilDelegate> delegate;
+
++ (void) setDelegate:(id)delegate;
 
 + (int) checkQuantityForDonateQuest:(FullQuestProto *)quest;
 + (void) checkAllDonateQuests;

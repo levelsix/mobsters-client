@@ -13,7 +13,6 @@
 #import <Carrot/Carrot.h>
 #import "GenericPopupController.h"
 #import "GameViewController.h"
-#import <Kamcord/Kamcord.h>
 #import "CCBReader.h"
 #import "FacebookDelegate.h"
 
@@ -34,12 +33,12 @@
 }
 
 - (void) makeGoCarrotCalls {
-  GameState *gs = [GameState sharedGameState];
+  //GameState *gs = [GameState sharedGameState];
   for (TaskStageProto *tsp in self.dungeonInfo.tspList) {
     for (TaskStageMonsterProto *tsm in tsp.stageMonstersList) {
       if (tsm.puzzlePieceDropped) {
-        MonsterProto *mp = [gs monsterWithId:tsm.monsterId];
-        [[Carrot sharedInstance] postAction:@"recruit" forObjectInstance:mp.carrotRecruited];
+        //MonsterProto *mp = [gs monsterWithId:tsm.monsterId];
+        //[[Carrot sharedInstance] postAction:@"recruit" forObjectInstance:mp.carrotRecruited];
       }
     }
   }

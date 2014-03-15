@@ -21,7 +21,7 @@
   if (self.poster.minUserProto.userId != gs.userId) {
     NSUserDefaults *ud = [NSUserDefaults standardUserDefaults];
     NSString *key = [NSString stringWithFormat:PRIVATE_CHAT_DEFAULTS_KEY, self.poster.minUserProto.userId];
-    int curId = [ud integerForKey:key];
+    NSInteger curId = [ud integerForKey:key];
     int thisId = self.privateChatPostId;
     return curId < thisId;
   } else {
@@ -36,7 +36,7 @@
   if (self.poster.minUserProto.userId != gs.userId) {
     NSUserDefaults *ud = [NSUserDefaults standardUserDefaults];
     NSString *key = [NSString stringWithFormat:PRIVATE_CHAT_DEFAULTS_KEY, self.poster.minUserProto.userId];
-    int curId = [ud integerForKey:key];
+    NSInteger curId = [ud integerForKey:key];
     
     if (curId < self.privateChatPostId) {
       [ud setInteger:self.privateChatPostId forKey:key];

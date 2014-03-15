@@ -190,7 +190,7 @@
 - (void)insertInOpenSteps:(ShortestPathStep *)step
 {
 	int stepFScore = [step fScore]; // Compute the step's F score
-	int count = [self.spOpenSteps count];
+	NSInteger count = [self.spOpenSteps count];
 	int i = 0; // This will be the index at which we will insert the step
 	for (; i < count; i++) {
 		if (stepFScore <= [[self.spOpenSteps objectAtIndex:i] fScore]) { // If the step's F score is lower or equals to the step at index i

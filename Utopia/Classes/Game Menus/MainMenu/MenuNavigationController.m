@@ -24,7 +24,7 @@ static float imgHeight = 40.f;
 
 - (void) insertSubview:(UIView *)view atIndex:(NSInteger)index {
   if (self.bgdView) {
-    int idx = [self.subviews indexOfObject:self.bgdView];
+    NSInteger idx = [self.subviews indexOfObject:self.bgdView];
     if (idx != NSNotFound) {
       [super insertSubview:view atIndex:MAX(idx+1, index)];
     } else {

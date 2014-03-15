@@ -248,12 +248,12 @@
             [CCActionCallBlock actionWithBlock:^{ [enemy performFarFlinchAnimationWithDelay:0.3]; }],
             [CCActionAnimate actionWithAnimation:self.attackAnimationN],
             nil],
+           [CCActionCallFunc actionWithTarget:target selector:selector],
            [CCActionCallFunc actionWithTarget:self selector:@selector(faceFarWithoutUpdate)],
            [CCActionCallFunc actionWithTarget:self selector:@selector(beginWalking)],
            [CCActionMoveBy actionWithDuration:moveTime position:ccpMult(pointOffset, -moveAmount)],
            [CCActionCallFunc actionWithTarget:self selector:@selector(faceNearWithoutUpdate)],
            [CCActionCallFunc actionWithTarget:self selector:@selector(stopWalking)],
-           [CCActionCallFunc actionWithTarget:target selector:selector],
            nil];
   }
   [self runAction:seq];
@@ -295,12 +295,12 @@
             [CCActionCallBlock actionWithBlock:^{ [enemy performNearFlinchAnimationWithStrength:strength delay:0.3];}],
             [CCSoundAnimate actionWithAnimation:anim],
             nil],
+           [CCActionCallFunc actionWithTarget:target selector:selector],
            [CCActionCallFunc actionWithTarget:self selector:@selector(faceNearWithoutUpdate)],
            [CCActionCallFunc actionWithTarget:self selector:@selector(beginWalking)],
            [CCActionMoveBy actionWithDuration:moveTime position:ccpMult(pointOffset, -moveAmount)],
            [CCActionCallFunc actionWithTarget:self selector:@selector(faceFarWithoutUpdate)],
            [CCActionCallFunc actionWithTarget:self selector:@selector(stopWalking)],
-           [CCActionCallFunc actionWithTarget:target selector:selector],
            nil];
   }
   [self runAction:seq];

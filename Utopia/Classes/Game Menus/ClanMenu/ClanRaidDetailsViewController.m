@@ -105,7 +105,7 @@
   
   int status = 1;
   // Use teamNum instead of team.count in case one of the forced monsters no longer exists
-  int teamNum = forcedMonsters.count;
+  NSInteger teamNum = forcedMonsters.count;
   for (int i = 0; i < currentTeam.count; i++) {
     UserMonster *um = currentTeam[i];
     if (teamNum < 3 && ![team containsObject:um]) {

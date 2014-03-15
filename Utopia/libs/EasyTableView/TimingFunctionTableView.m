@@ -38,7 +38,7 @@ const static int maximumSteps = 10;
   [super insertSubview:view atIndex:index];
   
   if ([view isKindOfClass:[UITableViewCell class]]) {
-    int idx = [self.subviews indexOfObject:self.headerUnderlay];
+    NSInteger idx = [self.subviews indexOfObject:self.headerUnderlay];
     if (index > idx) {
       [self insertSubview:self.headerUnderlay aboveSubview:view];
     }

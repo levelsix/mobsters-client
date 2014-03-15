@@ -51,7 +51,7 @@
 }
 
 - (IBAction) buttonClicked:(id)sender {
-  int tag = [(UIView *)sender tag];
+  NSInteger tag = [(UIView *)sender tag];
   if (tag == 1) {
     [self.delegate button1Clicked];
     [self clickButton:1];

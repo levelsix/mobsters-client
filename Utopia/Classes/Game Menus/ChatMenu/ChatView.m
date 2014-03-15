@@ -14,9 +14,9 @@
 @implementation ChatView
 
 - (void) updateForChats:(NSArray *)chats animated:(BOOL)animated {
-  int oldCount = self.chats.count;
+  NSInteger oldCount = self.chats.count;
   self.chats = chats;
-  int newCount = self.chats.count;
+  NSInteger newCount = self.chats.count;
   
   if (animated && oldCount < newCount) {
     NSMutableArray *indexes = [NSMutableArray array];
@@ -71,11 +71,7 @@
 
 #pragma mark - TableView delegate methods
 
-- (int) numberOfSectionsInTableView:(UITableView *)tableView {
-  return 1;
-}
-
-- (int) tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
+- (NSInteger) tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
   return self.chats.count;
 }
 
@@ -269,16 +265,9 @@
 
 #pragma mark - TableView delegate
 
-- (int) numberOfSectionsInTableView:(UITableView *)tableView {
+- (NSInteger) tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
   if (tableView == self.chatTable) {
-    return [super numberOfSectionsInTableView:tableView];
-  }
-  return 1;
-}
-
-- (int) tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-  if (tableView == self.chatTable) {
-    int num = [super tableView:tableView numberOfRowsInSection:section];
+    NSInteger num = [super tableView:tableView numberOfRowsInSection:section];
     if (num == 0) {
       self.spinner.hidden = !_isLoading;
       self.noPostsLabel.hidden = _isLoading;

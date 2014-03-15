@@ -13,6 +13,37 @@
 
 @implementation QuestUtil
 
++ (QuestUtil *) sharedQuestUtil
+{
+  static QuestUtil *sharedSingleton;
+  
+  @synchronized(self)
+  {
+    if (!sharedSingleton)
+      sharedSingleton = [[QuestUtil alloc] init];
+    
+    return sharedSingleton;
+  }
+}
+
++ (void) setDelegate:(id)delegate {
+  QuestUtil *qu = [QuestUtil sharedQuestUtil];
+  qu.delegate = delegate;
+}
+
++ (void) sendQuestProgressForQuests:(NSArray *)quests {
+  GameState *gs = [GameState sharedGameState];
+  for (FullQuestProto *fqp in quests) {
+    [[OutgoingEventController sharedOutgoingEventController] questProgress:fqp.questId];
+    UserQuest *uq = [gs myQuestWithId:fqp.questId];
+    if (uq.isComplete) {
+      [[[QuestUtil sharedQuestUtil] delegate] questComplete:fqp];
+    }
+  }
+  
+  [[NSNotificationCenter defaultCenter] postNotificationName:QUESTS_CHANGED_NOTIFICATION object:nil];
+}
+
 + (int) checkQuantityForDonateQuest:(FullQuestProto *)quest {
   GameState *gs = [GameState sharedGameState];
   int quantity = 0;
@@ -44,11 +75,7 @@
   }
   
   if (changedQuests.count > 0) {
-    for (FullQuestProto *fqp  in changedQuests) {
-      [[OutgoingEventController sharedOutgoingEventController] questProgress:fqp.questId];
-    }
-    
-    [[NSNotificationCenter defaultCenter] postNotificationName:QUESTS_CHANGED_NOTIFICATION object:nil];
+    [self sendQuestProgressForQuests:changedQuests];
   }
 }
 
@@ -106,11 +133,7 @@
   }
   
   if (changedQuests.count > 0) {
-    for (FullQuestProto *fqp  in changedQuests) {
-      [[OutgoingEventController sharedOutgoingEventController] questProgress:fqp.questId];
-    }
-    
-    [[NSNotificationCenter defaultCenter] postNotificationName:QUESTS_CHANGED_NOTIFICATION object:nil];
+    [self sendQuestProgressForQuests:changedQuests];
   }
   
   [self checkAllDonateQuests];
@@ -124,9 +147,7 @@
     UserQuest *uq = [gs myQuestWithId:quest.questId];
     if (quantity != uq.progress) {
       uq.progress = quantity;
-      [[OutgoingEventController sharedOutgoingEventController] questProgress:quest.questId];
-      
-      [[NSNotificationCenter defaultCenter] postNotificationName:QUESTS_CHANGED_NOTIFICATION object:nil];
+      [self sendQuestProgressForQuests:[NSArray arrayWithObject:quest]];
     }
   }
 }

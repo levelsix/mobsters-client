@@ -413,7 +413,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
   NSString *key = IAP_DEFAULTS_KEY;
   NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
   NSMutableArray *arr = [[defaults arrayForKey:key] mutableCopy];
-  int origCount = arr.count;
+  NSInteger origCount = arr.count;
   NSString *x = nil;
   for (NSString *str in arr) {
     if ([str isEqualToString:proto.receipt]) {
@@ -1070,7 +1070,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
 - (void) handleRetrieveLeaderboardRankingsResponseProto:(FullEvent *)fe {
   RetrieveTournamentRankingsResponseProto *proto = (RetrieveTournamentRankingsResponseProto *)fe.event;
   int tag = fe.tag;
-  LNLog(@"Retrieve tournament response received with status %d and %d rankings.", proto.status, proto.resultPlayersList.count);
+  LNLog(@"Retrieve tournament response received with status %d and %d rankings.",  proto.status, (int)proto.resultPlayersList.count);
   
   GameState *gs = [GameState sharedGameState];
   if (proto.status == RetrieveTournamentRankingsResponseProto_RetrieveTournamentStatusSuccess) {
@@ -1147,7 +1147,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
 
 - (void) handleRetrievePrivateChatPostsResponseProto:(FullEvent *)fe {
   RetrievePrivateChatPostsResponseProto *proto = (RetrievePrivateChatPostsResponseProto *)fe.event;
-  LNLog(@"Retrieve private chats received with status %d and %d posts.", proto.status, proto.postsList.count);
+  LNLog(@"Retrieve private chats received with status %d and %d posts.", proto.status,  (int)proto.postsList.count);
 }
 
 - (void) handleBeginDungeonResponseProto:(FullEvent *)fe {

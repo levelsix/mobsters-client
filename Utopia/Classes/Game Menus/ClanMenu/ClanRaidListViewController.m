@@ -62,7 +62,7 @@
   [self.raidsTable reloadData];
 }
 
-- (NSArray *) arrayForSection:(int)section {
+- (NSArray *) arrayForSection:(NSInteger)section {
   if (section == 0) {
     return self.activeEvents;
   } else if (section == 1) {
@@ -71,11 +71,11 @@
   return nil;
 }
 
-- (int) numberOfSectionsInTableView:(UITableView *)tableView {
+- (NSInteger) numberOfSectionsInTableView:(UITableView *)tableView {
   return 2;
 }
 
-- (int) tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
+- (NSInteger) tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
   return [self arrayForSection:section].count;
 }
 
@@ -99,7 +99,7 @@
   return cell;
 }
 
-- (float) tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
+- (CGFloat) tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
   if (indexPath.section == 0) {
     return 139.f;
   } else {

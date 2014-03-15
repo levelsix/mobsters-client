@@ -50,7 +50,7 @@
 - (MonsterTeamSlotView *) teamSlotViewForSlotNum:(int)num;
 - (NSMutableSet *) recentlyHealedMonsterIds;
 - (NSMutableArray *) monsterHealingQueue;
-- (UserMonster *) monsterForSlot:(int)slot;
+- (UserMonster *) monsterForSlot:(NSInteger)slot;
 - (NSArray *) monsterList;
 - (int) maxInventorySlots;
 - (int) numValidHospitals;

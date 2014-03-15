@@ -434,7 +434,7 @@
   }
 }
 
-- (void) updateSettingsLabelsForClanStatus:(BOOL)cs myStatus:(BOOL)myStatus {
+- (void) updateSettingsLabelsForClanStatus:(UserClanStatus)cs myStatus:(UserClanStatus)myStatus {
   int numOptions = 0;
   if (myStatus == UserClanStatusLeader) {
     numOptions = 4;
@@ -486,12 +486,12 @@
 
 #pragma mark - UITableView delegate/dataSource
 
-- (int) numberOfSectionsInTableView:(UITableView *)tableView {
+- (NSInteger) numberOfSectionsInTableView:(UITableView *)tableView {
   return 1;
 }
 
-- (int) tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-  int count = self.members.count;
+- (NSInteger) tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
+  NSInteger count = self.members.count;
   self.loadingMembersView.hidden = count > 0;
   return count;
 }
@@ -587,13 +587,13 @@
 - (IBAction)sortClicked:(UIView *)sender {
   if (sender.tag) {
     NSArray *before = self.members;
-    self.sortOrder = sender.tag;
+    self.sortOrder = (int)sender.tag;
     NSArray *after = self.members;
     
     [self.infoTable beginUpdates];
     for (int i = 0; i < before.count; i++) {
       id object = [before objectAtIndex:i];
-      int newIndex = [after indexOfObject:object];
+      NSInteger newIndex = [after indexOfObject:object];
       [self.infoTable moveRowAtIndexPath:[NSIndexPath indexPathForRow:i inSection:0] toIndexPath:[NSIndexPath indexPathForRow:newIndex inSection:0]];
     }
     [self.infoTable endUpdates];

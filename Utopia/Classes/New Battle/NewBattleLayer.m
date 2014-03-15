@@ -214,7 +214,7 @@
     [self deployBattleSprite:bp];
   }
   
-  [Kamcord startRecording];
+  //  [Kamcord startRecording];
 }
 
 - (void) setupUI {
@@ -362,6 +362,8 @@
   [self removeSwapButton];
   [self removeDeployView];
   self.forfeitButton.hidden = YES;
+  self.elementButton.hidden = YES;
+  [self.elementView close];
   
   _curStage++;
   if (_curStage < self.enemyTeam.count) {
@@ -469,6 +471,7 @@
   
   [self displaySwapButton];
   self.forfeitButton.hidden = NO;
+  self.elementButton.hidden = NO;
 }
 
 - (void) beginEnemyTurn {
@@ -493,6 +496,8 @@
   [self displayNoInputLayer];
   
   self.forfeitButton.hidden = YES;
+  self.elementButton.hidden = YES;
+  [self.elementView close];
 }
 
 - (void) showHighScoreWord {
@@ -594,7 +599,42 @@
                            [CCActionMoveBy actionWithDuration:1.5f position:ccp(0,25)],nil],
                           [CCActionCallFunc actionWithTarget:damageLabel selector:@selector(removeFromParent)], nil]];
   
+  CGPoint pos = defSpr.position;
+  int val = 40*(enemyIsAttacker ? 1 : -1);
+  pos = ccpAdd(pos, ccp(val, 15));
+  [self displayEffectivenessForAttackerElement:att.element defenderElement:def.element position:pos];
+  
   def.curHealth = newHealth;
+}
+
+- (void) displayEffectivenessForAttackerElement:(MonsterProto_MonsterElement)atkElement defenderElement:(MonsterProto_MonsterElement)defElement position:(CGPoint)position {
+  Globals *gl = [Globals sharedGlobals];
+  float mult = [gl calculateDamageMultiplierForAttackElement:atkElement defenseElement:defElement];
+  CCSprite *eff = nil;
+  
+  if (mult == gl.elementalStrength) {
+    eff = [CCSprite spriteWithImageNamed:@"supereffective.png"];
+  } else if (mult == gl.elementalWeakness) {
+    eff = [CCSprite spriteWithImageNamed:@"noteffective.png"];
+  }
+  
+  if (eff) {
+    [self.bgdContainer addChild:eff z:100];
+    
+    eff.scale = 0.5f;
+    eff.position = position;
+    eff.opacity = 0.f;
+    [eff runAction:
+     [CCActionSequence actions:
+      [CCActionSpawn actions:
+       [CCActionScaleTo actionWithDuration:0.2f scale:1.f],
+       [CCActionFadeIn actionWithDuration:0.2f], nil],
+      [CCActionDelay actionWithDuration:0.7f],
+      [CCActionSpawn actions:
+       [CCActionScaleTo actionWithDuration:0.2f scale:0.5f],
+       [CCActionFadeOut actionWithDuration:0.2f], nil],
+      [CCActionCallFunc actionWithTarget:eff selector:@selector(removeFromParent)], nil]];
+  }
 }
 
 - (void) sendServerUpdatedValues {
@@ -697,7 +737,7 @@
                    [l removeFromParentAndCleanup:YES];
                  }], nil]];
   
-  CCLabelBMFont *label = [CCLabelBMFont labelWithString:[NSString stringWithFormat:@"Enemy %d/%d", _curStage+1, self.enemyTeam.count] fntFile:@"wavefont.fnt"];
+  CCLabelBMFont *label = [CCLabelBMFont labelWithString:[NSString stringWithFormat:@"Enemy %d/%d", _curStage+1, (int)self.enemyTeam.count] fntFile:@"wavefont.fnt"];
   [self addChild:label];
   label.position = ccp(CENTER_OF_BATTLE.x, -label.contentSize.height/2);
   
@@ -924,6 +964,8 @@
   [self removeSwapButton];
   [self removeDeployView];
   self.forfeitButton.hidden = YES;
+  self.elementButton.hidden = YES;
+  [self.elementView close];
   
   [self removeOrbLayerAnimated:YES withBlock:^{
     if (won) {
@@ -1190,11 +1232,16 @@
   [view addSubview:self.swapView];
   [view addSubview:self.deployView];
   [view addSubview:self.forfeitButton];
+  [view addSubview:self.elementButton];
+  [view addSubview:self.elementView];
   self.swapView.hidden = YES;
   self.deployView.hidden = YES;
   self.forfeitButton.hidden = YES;
+  self.elementButton.hidden = YES;
   
   self.forfeitButton.center = ccp(self.forfeitButton.frame.size.width/2+5, self.forfeitButton.frame.size.height/2+5);
+  self.elementButton.center = ccp(self.elementButton.frame.size.width/2+5, CGRectGetMaxY(self.forfeitButton.frame)+8);
+  self.elementView.center = ccp(CGRectGetMaxX(self.elementButton.frame)-3, self.elementButton.center.y);
   self.swapLabel.transform = CGAffineTransformMakeRotation(M_PI_2);
 }
 
@@ -1302,6 +1349,10 @@
   }
 }
 
+- (IBAction)elementButtonClicked:(id)sender {
+  [self.elementView open];
+}
+
 #pragma mark - Continue View Actions
 
 - (IBAction)forfeitClicked:(id)sender {
@@ -1331,17 +1382,19 @@
     
     self.swapView.hidden  = YES;
     self.forfeitButton.hidden = YES;
+    self.elementButton.hidden = YES;
+    [self.elementView close];
     
     [self.delegate battleComplete:[NSDictionary dictionaryWithObjectsAndKeys:@(_manageWasClicked), BATTLE_MANAGE_CLICKED_KEY, nil]];
     
     // in case it hasnt stopped yet
-    [Kamcord stopRecording];
+    //    [Kamcord stopRecording];
   }
 }
 
 - (IBAction)shareClicked:(id)sender {
-  [Kamcord stopRecording];
-  [Kamcord showView];
+  //  [Kamcord stopRecording];
+  //  [Kamcord showView];
 }
 
 - (IBAction)continueClicked:(id)sender {
@@ -1373,6 +1426,8 @@
   [self.swapView removeFromSuperview];
   [self.deployView removeFromSuperview];
   [self.deployCancelButton removeFromSuperview];
+  [self.elementButton removeFromSuperview];
+  [self.elementView removeFromSuperview];
 }
 
 @end

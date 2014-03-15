@@ -51,7 +51,7 @@
     NSMutableArray *bubbles = [NSMutableArray array];
     
     // Middle area of each bubble won't be considered part of the bar
-    int numBubbles = stage.monstersList.count;
+    NSInteger numBubbles = stage.monstersList.count;
     float effectiveWidth = width-rightCap.contentSize.width*numBubbles+HEALTH_BAR_BUBBLE_OFFSET*(2*numBubbles-1);
     // Last bubble has already been placed so subtract 1
     for (int i = 0; i < numBubbles; i++) {
@@ -150,7 +150,7 @@
 }
 
 - (void) updateForPercentage:(float)percent {
-  int numBubbles = self.bubbles.count;
+  NSInteger numBubbles = self.bubbles.count;
   float bubbleWidth = [self.bubbles[0] contentSize].width;
   float effectiveWidth = self.contentSize.width-bubbleWidth*numBubbles+HEALTH_BAR_BUBBLE_OFFSET*(2*numBubbles-1);
   

@@ -72,7 +72,7 @@
   }
 }
 
-- (void) updateForEmptySlots:(int)numSlots {
+- (void) updateForEmptySlots:(NSInteger)numSlots {
   self.monster = nil;
   
   self.plusButton.hidden = YES;
@@ -81,7 +81,7 @@
   self.combineView.hidden = YES;
   self.healthBarView.hidden = YES;
   self.genLabelView.hidden = YES;
-  [self.cardContainer.monsterCardView updateForNoMonsterWithLabel:[NSString stringWithFormat:@"%d Slot%@ Empty", numSlots, numSlots == 1 ? @"" : @"s"]];
+  [self.cardContainer.monsterCardView updateForNoMonsterWithLabel:[NSString stringWithFormat:@"%d Slot%@ Empty", (int)numSlots, numSlots == 1 ? @"" : @"s"]];
 }
 
 - (void) updateForTime {

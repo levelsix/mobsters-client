@@ -296,6 +296,35 @@
 
 @end
 
+@implementation BattleElementView
+
+- (void) awakeFromNib {
+  self.layer.anchorPoint = ccp(0, 0.5);
+  self.transform = CGAffineTransformMakeScale(0.001f, 0.001f);
+}
+
+- (BOOL) pointInside:(CGPoint)point withEvent:(UIEvent *)event {
+  BOOL inside = [super pointInside:point withEvent:event];
+  if (!inside) {
+    [self close];
+  }
+  return inside;
+}
+
+- (void) open {
+  [UIView animateWithDuration:0.15f animations:^{
+    self.transform = CGAffineTransformMakeScale(1.f, 1.f);
+  }];
+}
+
+- (void) close {
+  [UIView animateWithDuration:0.15f animations:^{
+    self.transform = CGAffineTransformMakeScale(0.001f, 0.001f);
+  }];
+}
+
+@end
+
 @implementation BattleDeployCardView
 
 - (void) updateForBattlePlayer:(BattlePlayer *)bp {

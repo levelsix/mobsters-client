@@ -41,13 +41,13 @@
   [self doAnimation];
 }
 
-- (void) animateWithMonsterId:(int)monsterId numPuzzlePieces:(int)numPuzzlePieces {
+- (void) animateWithMonsterId:(int)monsterId numPuzzlePieces:(NSInteger)numPuzzlePieces {
   GameState *gs = [GameState sharedGameState];
   MonsterProto *proto = [gs monsterWithId:monsterId];
   
   [self animateWithMonsterId:monsterId];
   self.pieceLabel.hidden = NO;
-  self.pieceLabel.text = [NSString stringWithFormat:@"Pieces: %d/%d", numPuzzlePieces, proto.numPuzzlePieces];
+  self.pieceLabel.text = [NSString stringWithFormat:@"Pieces: %d/%d", (int)numPuzzlePieces, proto.numPuzzlePieces];
 }
 
 - (void) animateWithGems:(int)numGems {
@@ -443,7 +443,7 @@
 }
 
 - (void) easyTableView:(EasyTableView *)easyTableView setDataForView:(GachaponItemCell *)view forIndexPath:(NSIndexPath *)indexPath {
-  int index = indexPath.row % self.items.count;
+  NSInteger index = indexPath.row % self.items.count;
   [view updateForGachaDisplayItem:[self.items objectAtIndex:index]];
 }
 
@@ -569,7 +569,7 @@
 - (void) scrollViewDidScroll:(UIScrollView *)scrollView {
   CGFloat pageWidth = scrollView.frame.size.width;
   float fractionalPage = scrollView.contentOffset.x / pageWidth;
-  int oldPage = _curPage;
+  NSInteger oldPage = _curPage;
   _curPage = lround(fractionalPage);
   if (oldPage < _curPage) {
     // Moved right

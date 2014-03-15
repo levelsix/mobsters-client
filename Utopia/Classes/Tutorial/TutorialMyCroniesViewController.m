@@ -199,7 +199,7 @@
   return self.healingQueue;
 }
 
-- (UserMonster *) monsterForSlot:(int)slot {
+- (UserMonster *) monsterForSlot:(NSInteger)slot {
   for (UserMonster *um in self.myMonsters) {
     if (um.teamSlot == slot) {
       return um;

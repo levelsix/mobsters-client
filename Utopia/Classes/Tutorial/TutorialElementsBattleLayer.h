@@ -8,6 +8,12 @@
 
 #import "TutorialBattleLayer.h"
 
-@interface TutorialElementsBattleLayer : MiniTutorialBattleLayer
+@interface TutorialElementsBattleLayer : MiniTutorialBattleLayer {
+  BOOL _isFirstHit;
+}
+
+- (void) arrowOnMyHealthBar;
+- (void) removeArrowOnMyHealthBar;
+- (void) arrowOnElements;
 
 @end

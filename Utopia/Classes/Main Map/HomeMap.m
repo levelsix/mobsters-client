@@ -347,7 +347,7 @@
     if ([spr isKindOfClass:[HospitalBuilding class]]) {
       HospitalBuilding *hosp = (HospitalBuilding *)spr;
       UserStruct *s = hosp.userStruct;
-      int index = [hosps indexOfObject:s];
+      NSInteger index = [hosps indexOfObject:s];
       int monsterId = 0;
       
       if (index != NSNotFound && index < gs.monsterHealingQueue.count) {
@@ -394,7 +394,7 @@
   for (NSMutableArray *arr in @[cashArr, oilArr]) {
     int curVal = arr == cashArr ? curCash : curOil;
     while (arr.count > 0) {
-      int count = arr.count;
+      NSInteger count = arr.count;
       int amount = curVal/count;
       ResourceStorageBuilding *res = arr[0];
       int capacity1 = ((ResourceStorageProto *)res.userStruct.staticStruct).capacity;
@@ -804,8 +804,24 @@
 }
 
 - (void) retrieveFromBuilding:(ResourceGeneratorBuilding *)mb {
-  [[OutgoingEventController sharedOutgoingEventController] retrieveFromNormStructure:mb.userStruct];
+  int amountCollected = [[OutgoingEventController sharedOutgoingEventController] retrieveFromNormStructure:mb.userStruct];
   mb.retrievable = NO;
+  
+  // Spawn a label on building
+  CCLabelTTF *label = [CCLabelTTF labelWithString:[Globals commafyNumber:amountCollected] fontName:[Globals font] fontSize:16.f];
+  [self addChild:label z:1000];
+  label.position = ccp(mb.position.x, mb.position.y+mb.contentSize.height*3/4);
+  UIColor *c = ((ResourceGeneratorProto *)mb.userStruct.staticStruct).resourceType == ResourceTypeCash ? [Globals greenColor] : [Globals yellowColor];
+  label.fontColor = [CCColor colorWithUIColor:c];
+  label.shadowColor = [CCColor colorWithWhite:0.f alpha:0.5f];
+  label.shadowOffset = ccp(0, -1);
+  
+  [label runAction:[CCActionSequence actions:
+                    [CCActionSpawn actions:
+                     [CCActionEaseElasticOut actionWithAction:[CCActionScaleTo actionWithDuration:1.2f scale:1]],
+                     [CCActionFadeOut actionWithDuration:1.5f],
+                     [CCActionMoveBy actionWithDuration:1.5f position:ccp(0,25)],nil],
+                    [CCActionCallFunc actionWithTarget:label selector:@selector(removeFromParent)], nil]];
   
   [self setupIncomeTimerForBuilding:mb];
 }

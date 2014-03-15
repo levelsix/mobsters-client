@@ -240,6 +240,15 @@
   [self moveToSprite:[self oilDrill] animated:YES];
 }
 
+- (void) panToMark {
+  [self moveToSprite:self.markZSprite animated:YES withOffset:ccp(0,0) scale:1.6f];
+  [self.markZSprite restoreStandingFrame:MapDirectionFront];
+}
+
+- (void) friendFaceForward {
+  [self.friendSprite restoreStandingFrame:MapDirectionFront];
+}
+
 #pragma mark - Overwritten methods
 
 - (void) createBoat {

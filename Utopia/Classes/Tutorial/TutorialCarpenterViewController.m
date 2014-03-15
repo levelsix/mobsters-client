@@ -22,7 +22,7 @@
   [super viewWillAppear:animated];
   
   // Find the struct
-  int section = -1, row = -1;
+  NSInteger section = -1, row = -1;
   for (StructureInfoProto *fsp in self.incomeStructsList) {
     if (fsp.structId == self.clickableStructId) {
       section = 0;

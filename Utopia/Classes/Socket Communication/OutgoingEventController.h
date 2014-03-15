@@ -27,7 +27,7 @@
 
 - (UserStruct *) purchaseNormStruct:(int)structId atX:(int)x atY:(int)y allowGems:(BOOL)allowGems;
 - (void) moveNormStruct:(UserStruct *)userStruct atX:(int)x atY:(int)y;
-- (void) retrieveFromNormStructure:(UserStruct *)userStruct;
+- (int) retrieveFromNormStructure:(UserStruct *)userStruct;
 - (void) instaUpgrade:(UserStruct *)userStruct;
 - (void) normStructWaitComplete:(UserStruct *)userStruct;
 - (void) upgradeNormStruct:(UserStruct *)userStruct allowGems:(BOOL)allowGems;

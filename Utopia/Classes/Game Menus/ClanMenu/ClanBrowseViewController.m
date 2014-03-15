@@ -134,12 +134,12 @@
 
 #pragma mark - UITableViewDelegate methods
 
-- (int) numberOfSectionsInTableView:(UITableView *)tableView {
+- (NSInteger) numberOfSectionsInTableView:(UITableView *)tableView {
   return 1;
 }
 
-- (int) tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-  int ct = [self arrayForCurrentState].count;
+- (NSInteger) tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
+  NSInteger ct = [self arrayForCurrentState].count;
   
   if (ct > 0 || (state == kBrowseSearch && !isSearching) || (state != kBrowseSearch && _reachedEnd)) {
     self.spinner.hidden = YES;

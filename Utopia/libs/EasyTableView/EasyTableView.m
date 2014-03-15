@@ -113,7 +113,7 @@
   self.headerContainer = [[UIView alloc] initWithFrame:CGRectZero];
   [self addSubview:self.headerContainer];
   
-  int max = [self numberOfSectionsInTableView:self.tableView];
+  NSInteger max = [self numberOfSectionsInTableView:self.tableView];
   for (int i = 0; i < max; i++) {
     NSString *headerName = nil;
     if ([self.delegate respondsToSelector:@selector(easyTableView:stringForHorizontalHeaderInDesction:)]) {
@@ -123,7 +123,7 @@
     if (headerName) {
       int headerOffsets = 0;
       int numCellsBefore = 0;
-      int numCellsAfter = [self tableView:self.tableView numberOfRowsInSection:i];
+      NSInteger numCellsAfter = [self tableView:self.tableView numberOfRowsInSection:i];
       if (numCellsAfter == 0) continue;
       
       for (int j = 0; j <= i; j++) {

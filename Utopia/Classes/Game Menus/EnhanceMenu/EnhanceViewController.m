@@ -182,7 +182,7 @@
 
 - (IBAction)headerClicked:(id)sender {
   if (self.monsterArray.count > 0) {
-    int section = [(UIView *)sender tag];
+    NSInteger section = [(UIView *)sender tag];
     [self.inventoryTable.tableView scrollToRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:section] atScrollPosition:UITableViewScrollPositionTop animated:YES];
   }
 }

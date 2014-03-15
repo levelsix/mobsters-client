@@ -151,7 +151,7 @@
 - (void) addUserMonsterHealingItemToEndOfQueue:(UserMonsterHealingItem *)item;
 - (void) removeUserMonsterHealingItem:(UserMonsterHealingItem *)item;
 - (void) addAllMonsterHealingProtos:(NSArray *)items;
-- (void) saveHealthProgressesFromIndex:(int)index;
+- (void) saveHealthProgressesFromIndex:(NSInteger)index;
 - (void) readjustAllMonsterHealingProtos;
 
 - (void) addEnhancingItemToEndOfQueue:(EnhancementItem *)item;
@@ -160,7 +160,7 @@
 - (void) addClanRaidUserInfo:(PersistentClanEventUserInfoProto *)info;
 
 - (UserMonster *) myMonsterWithUserMonsterId:(uint64_t)userMonsterId;
-- (UserMonster *) myMonsterWithSlotNumber:(int)slotNum;
+- (UserMonster *) myMonsterWithSlotNumber:(NSInteger)slotNum;
 - (NSArray *) allMonstersOnMyTeam;
 - (NSArray *) allBattleAvailableMonstersOnTeam;
 - (UserStruct *) myStructWithId:(int)structId;

@@ -49,5 +49,7 @@
 - (void) zoomOutMap;
 - (void) speedupPurchasedBuilding;
 - (void) moveToOilDrill;
+- (void) panToMark;
+- (void) friendFaceForward;
 
 @end
