@@ -629,6 +629,15 @@
 
 @end
 
+@implementation UserObstacle
+
+- (ObstacleProto *) staticObstacle {
+  GameState *gs = [GameState sharedGameState];
+  return [gs obstacleWithId:self.obstacleId];
+}
+
+@end
+
 @implementation UserNotification
 
 - (id) initReferralNotificationAtStartup:(StartupResponseProto_ReferralNotificationProto *)proto {

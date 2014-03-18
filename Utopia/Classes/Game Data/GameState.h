@@ -56,6 +56,7 @@
 @property (nonatomic, retain) NSMutableDictionary *staticTasks;
 @property (nonatomic, retain) NSMutableDictionary *staticCities;
 @property (nonatomic, retain) NSMutableDictionary *staticItems;
+@property (nonatomic, retain) NSMutableDictionary *staticObstacles;
 @property (nonatomic, retain) NSArray *persistentEvents;
 @property (nonatomic, retain) NSMutableDictionary *eventCooldownTimes;
 
@@ -123,6 +124,7 @@
 - (ItemProto *) itemForId:(int)itemId;
 - (BoosterPackProto *) boosterPackForId:(int)packId;
 - (MonsterProto *) monsterWithId:(int)monsterId;
+- (ObstacleProto *) obstacleWithId:(int)obstacleId;
 - (PersistentEventProto *) persistentEventWithId:(int)eventId;
 - (PersistentEventProto *) currentPersistentEventWithType:(PersistentEventProto_EventType)type;
 - (MonsterBattleDialogueProto *) battleDialogueForMonsterId:(int)monsterId type:(MonsterBattleDialogueProto_DialogueType)type;
@@ -180,6 +182,7 @@
 - (void) addToStaticTasks:(NSArray *)arr;
 - (void) addToStaticCities:(NSArray *)arr;
 - (void) addStaticBoosterPacks:(NSArray *)bpps;
+- (void) addToStaticObstacles:(NSArray *)arr;
 
 - (void) addUnrespondedUpdate:(id<GameStateUpdate>)up;
 - (void) addUnrespondedUpdates:(id<GameStateUpdate>)field1, ... NS_REQUIRES_NIL_TERMINATION;

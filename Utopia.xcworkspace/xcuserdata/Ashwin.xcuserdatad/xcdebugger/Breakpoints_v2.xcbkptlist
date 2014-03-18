@@ -58,11 +58,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Utopia/Classes/Game Data/GameState.m"
-            timestampString = "416656355.433502"
+            timestampString = "416824328.33815"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "175"
-            endingLineNumber = "175"
+            startingLineNumber = "176"
+            endingLineNumber = "176"
             landmarkName = "-monsterWithId:"
             landmarkType = "5">
          </BreakpointContent>
@@ -81,6 +81,80 @@
             endingLineNumber = "523"
             landmarkName = "-moveToSprite:animated:withOffset:scale:"
             landmarkType = "5">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Utopia/Classes/Main Map/MapSprite.h"
+            timestampString = "416824328.33815"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "38"
+            endingLineNumber = "38"
+            landmarkName = "-select"
+            landmarkType = "4">
+            <Locations>
+               <Location
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "-[NeutralEnemy ftp]"
+                  moduleName = "Age of Chaos"
+                  urlString = "file://localhost/Users/Ashwin/mobsters-client/Utopia/Classes/Main%20Map/MapSprite.h"
+                  timestampString = "416824822.907811"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "51"
+                  endingLineNumber = "51"
+                  offsetFromSymbolStart = "16">
+               </Location>
+               <Location
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "-[NeutralEnemy setFtp:]"
+                  moduleName = "Age of Chaos"
+                  urlString = "file://localhost/Users/Ashwin/mobsters-client/Utopia/Classes/Main%20Map/MapSprite.h"
+                  timestampString = "416824822.908064"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "51"
+                  endingLineNumber = "51"
+                  offsetFromSymbolStart = "22">
+               </Location>
+               <Location
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "-[MissionBuilding ftp]"
+                  moduleName = "Age of Chaos"
+                  urlString = "file://localhost/Users/Ashwin/mobsters-client/Utopia/Classes/Main%20Map/MapSprite.h"
+                  timestampString = "416824822.908298"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "51"
+                  endingLineNumber = "51"
+                  offsetFromSymbolStart = "16">
+               </Location>
+               <Location
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "-[MissionBuilding setFtp:]"
+                  moduleName = "Age of Chaos"
+                  urlString = "file://localhost/Users/Ashwin/mobsters-client/Utopia/Classes/Main%20Map/MapSprite.h"
+                  timestampString = "416824822.908528"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "51"
+                  endingLineNumber = "51"
+                  offsetFromSymbolStart = "22">
+               </Location>
+            </Locations>
          </BreakpointContent>
       </BreakpointProxy>
    </Breakpoints>

@@ -151,6 +151,19 @@
 
 @end
 
+@interface UserObstacle : NSObject
+
+@property (nonatomic, assign) int userObstacleId;
+@property (nonatomic, assign) int userId;
+@property (nonatomic, assign) int obstacleId;
+@property (nonatomic, assign) CGPoint coordinates;
+@property (nonatomic, retain) NSDate *purchaseTime;
+@property (nonatomic, assign) StructOrientation orientation;
+
+- (ObstacleProto *) staticObstacle;
+
+@end
+
 typedef enum {
   kNotificationBattle,
   kNotificationReferral,

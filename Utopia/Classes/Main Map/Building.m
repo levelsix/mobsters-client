@@ -25,8 +25,6 @@
   if ((self = [super initWithFile:nil location:loc map:map])) {
     if (file) self.buildingSprite = [CCSprite spriteWithImageNamed:file];
     if (self.buildingSprite) [self addChild:self.buildingSprite];
-    self.buildingSprite.anchorPoint = ccp(0.5,0);
-    self.buildingSprite.position = ccp(self.buildingSprite.contentSize.width/2, 0);
     
     self.contentSize = self.buildingSprite.contentSize;
     
@@ -82,16 +80,18 @@
   }
 }
 
-- (void) setLocation:(CGRect)location {
-  [super setLocation:location];
-  self.position = ccpAdd(self.position, ccp(0,self.verticalOffset));
-}
-
 - (void) setVerticalOffset:(float)v {
   if (v != verticalOffset) {
     verticalOffset = v;
-    self.location = self.location;
+    self.buildingSprite.position = ccp(self.buildingSprite.position.x, v);
   }
+}
+
+- (void) setBuildingSprite:(CCSprite *)buildingSprite {
+  _buildingSprite = buildingSprite;
+  _buildingSprite.anchorPoint = ccp(0.5,0);
+  _buildingSprite.position = ccp(self.buildingSprite.contentSize.width/2, self.verticalOffset);
+  self.contentSize = CGSizeMake((self.location.size.width+self.location.size.height)/2, self.verticalOffset+_buildingSprite.contentSize.height);
 }
 
 - (void) displayProgressBar {
@@ -161,7 +161,7 @@
     if (!_lockedBubble.numberOfRunningActions) {
       CCActionInterval *mov = [CCActionRotateBy actionWithDuration:0.04f angle:15];
       [_lockedBubble runAction:[CCActionRepeat actionWithAction:[CCActionSequence actions:mov.copy, mov.reverse, mov.reverse, mov.copy, nil]
-                                                    times:3]];
+                                                          times:3]];
     }
     return NO;
   } else {
@@ -190,6 +190,31 @@
     }
     self.color = [CCColor colorWithCcColor3b:ccc3(255, 255, 255)];
   }
+}
+
+@end
+
+@implementation ObstacleSprite
+
+- (id) initWithObstacle:(UserObstacle *)obstacle map:(HomeMap *)map {
+  ObstacleProto *op = obstacle.staticObstacle;
+  NSString *file = op.imgName;
+  CGRect loc = CGRectMake(obstacle.coordinates.x, obstacle.coordinates.y, op.width, op.height);
+  if ((self = [self initWithFile:file location:loc map:map])) {
+    self.obstacle = obstacle;
+    
+    self.verticalOffset = op.imgVerticalPixelOffset;
+    
+    NSString *fileName = [NSString stringWithFormat:@"%dx%ddark.png", (int)loc.size.width, (int)loc.size.height];
+    CCSprite *shadow = [CCSprite spriteWithImageNamed:fileName];
+    [self addChild:shadow z:-1 name:SHADOW_TAG];
+    shadow.anchorPoint = ccp(0.5, 0);
+    // Reassign the content size
+    self.contentSize = self.contentSize;
+    
+    [map changeTiles:self.location toBuildable:NO];
+  }
+  return self;
 }
 
 @end

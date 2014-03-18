@@ -38,6 +38,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
     _staticMonsters = [[NSMutableDictionary alloc] init];
     _staticRaids = [[NSMutableDictionary alloc] init];
     _staticItems = [[NSMutableDictionary alloc] init];
+    _staticObstacles = [[NSMutableDictionary alloc] init];
     _eventCooldownTimes = [[NSMutableDictionary alloc] init];
     _notifications = [[NSMutableArray alloc] init];
     _myStructs = [[NSMutableArray alloc] init];
@@ -217,6 +218,14 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
     return nil;
   }
   return [self getStaticDataFrom:_staticItems withId:itemId];
+}
+
+- (ObstacleProto *) obstacleWithId:(int)obstacleId {
+  if (obstacleId == 0) {
+    [Globals popupMessage:@"Attempted to access obstacle 0"];
+    return nil;
+  }
+  return [self getStaticDataFrom:_staticObstacles withId:obstacleId];
 }
 
 - (PersistentEventProto *) persistentEventWithId:(int)eventId {
@@ -804,6 +813,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
   [self addToStaticStructs:proto.allResidencesList];
   [self addToStaticStructs:proto.allLabsList];
   [self addToStaticItems:proto.itemsList];
+  [self addToStaticObstacles:proto.obstaclesList];
   
   [self addToExpansionCosts:proto.expansionCostsList];
   
@@ -840,6 +850,12 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
 - (void) addToStaticCities:(NSArray *)arr {
   for (FullCityProto *p in arr) {
     [self.staticCities setObject:p forKey:@(p.cityId)];
+  }
+}
+
+- (void) addToStaticObstacles:(NSArray *)arr {
+  for (ObstacleProto *p in arr) {
+    [self.staticObstacles setObject:p forKey:@(p.obstacleId)];
   }
 }
 

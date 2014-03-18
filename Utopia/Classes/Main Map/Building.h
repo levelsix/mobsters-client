@@ -42,3 +42,11 @@
 @property (nonatomic, assign) BOOL isLocked;
 
 @end
+
+@interface ObstacleSprite : Building
+
+@property (nonatomic, retain) UserObstacle *obstacle;
+
+- (id) initWithObstacle:(UserObstacle *)obstacle map:(HomeMap *)map;
+
+@end

@@ -296,9 +296,6 @@
     HomeBuilding *homeBuilding = [HomeBuilding buildingWithUserStruct:s map:self];
     [self addChild:homeBuilding z:0 name:STRUCT_TAG(s.userStructId)];
     
-    homeBuilding.orientation = s.orientation;
-    homeBuilding.userStruct = s;
-    
     [arr addObject:homeBuilding];
     [homeBuilding placeBlock:NO];
     
@@ -310,6 +307,8 @@
   
   [self reloadHospitals];
   [self reloadStorages];
+  
+  [arr addObjectsFromArray:[self createObstacles]];
   
   NSMutableArray *toRemove = [NSMutableArray array];
   for (CCNode *c in self.children) {
@@ -332,6 +331,31 @@
   if (self.isRunningInActiveScene) {
     [self beginTimers];
   }
+}
+
+- (NSArray *) createObstacles {
+  NSArray *vals = @[@1, [NSValue valueWithCGPoint:ccp(2,2)],
+                    @2, [NSValue valueWithCGPoint:ccp(4,2)],
+                    @3, [NSValue valueWithCGPoint:ccp(6,2)],
+                    @4, [NSValue valueWithCGPoint:ccp(4,4)],
+                    @5, [NSValue valueWithCGPoint:ccp(2,4)]];
+  
+  NSMutableArray *obstacles = [NSMutableArray array];
+  for (int i = 0; i < vals.count; i += 2) {
+    int obId = [vals[i] intValue];
+    CGPoint coords = [vals[i+1] CGPointValue];
+    
+    UserObstacle *uo = [[UserObstacle alloc] init];
+    uo.obstacleId = obId;
+    uo.coordinates = coords;
+    
+    ObstacleSprite *os = [[ObstacleSprite alloc] initWithObstacle:uo map:self];
+    [self addChild:os];
+    
+    [obstacles addObject:os];
+  }
+  
+  return obstacles;
 }
 
 - (void) reloadHospitals {
@@ -813,13 +837,10 @@
   
   if (amountCollected > 0) {
     // Spawn a label on building
-    CCLabelTTF *label = [CCLabelTTF labelWithString:[Globals commafyNumber:amountCollected] fontName:[Globals font] fontSize:22.f];
+    NSString *fnt = ((ResourceGeneratorProto *)mb.userStruct.staticStruct).resourceType == ResourceTypeCash ? @"cashcollected.fnt" : @"oilcollected.fnt";
+    CCLabelBMFont *label = [CCLabelBMFont labelWithString:[Globals commafyNumber:amountCollected] fntFile:fnt];
     [self addChild:label z:1000];
     label.position = ccp(mb.position.x, mb.position.y+mb.contentSize.height*3/4);
-    UIColor *c = ((ResourceGeneratorProto *)mb.userStruct.staticStruct).resourceType == ResourceTypeCash ? [Globals greenColor] : [Globals yellowColor];
-    label.fontColor = [CCColor colorWithUIColor:c];
-    label.shadowColor = [CCColor colorWithWhite:0.f alpha:0.8f];
-    label.shadowOffset = ccp(0, -1);
     
     [label runAction:[CCActionSequence actions:
                       [CCActionSpawn actions:

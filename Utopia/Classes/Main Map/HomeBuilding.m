@@ -20,8 +20,6 @@
   if ((self = [super initWithFile:file location:loc map:map])) {
     _homeMap = map;
     
-    self.baseScale = 1.f;
-    
     NSString *fileName = [NSString stringWithFormat:@"%dx%ddark.png", (int)loc.size.width, (int)loc.size.height];
     CCSprite *shadow = [CCSprite spriteWithImageNamed:fileName];
     [self addChild:shadow z:-1 name:SHADOW_TAG];
@@ -82,6 +80,10 @@
   CGRect loc = CGRectMake(userStruct.coordinates.x, userStruct.coordinates.y, fsp.width, fsp.height);
   if ((self = [self initWithFile:file location:loc map:map])) {
     self.userStruct = userStruct;
+    
+    self.orientation = self.userStruct.orientation;
+    
+    self.verticalOffset = fsp.imgVerticalPixelOffset;
   }
   return self;
 }

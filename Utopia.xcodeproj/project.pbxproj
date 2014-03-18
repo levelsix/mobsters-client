@@ -384,6 +384,12 @@
 		CF19088918D822C000D6F0E4 /* KamcordiPad.storyboardc in Resources */ = {isa = PBXBuildFile; fileRef = CF19088418D822C000D6F0E4 /* KamcordiPad.storyboardc */; };
 		CF19088A18D822C000D6F0E4 /* KamcordiPhone.storyboardc in Resources */ = {isa = PBXBuildFile; fileRef = CF19088518D822C000D6F0E4 /* KamcordiPhone.storyboardc */; };
 		CF19088B18D822C000D6F0E4 /* KC_GTMOAuth2ViewTouch.nib in Resources */ = {isa = PBXBuildFile; fileRef = CF19088618D822C000D6F0E4 /* KC_GTMOAuth2ViewTouch.nib */; };
+		CF19089018D8319900D6F0E4 /* cashcollected.fnt in Resources */ = {isa = PBXBuildFile; fileRef = CF19088C18D8319900D6F0E4 /* cashcollected.fnt */; };
+		CF19089118D8319900D6F0E4 /* cashcollected@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CF19088D18D8319900D6F0E4 /* cashcollected@2x.png */; };
+		CF19089218D8319900D6F0E4 /* oilcollected.fnt in Resources */ = {isa = PBXBuildFile; fileRef = CF19088E18D8319900D6F0E4 /* oilcollected.fnt */; };
+		CF19089318D8319900D6F0E4 /* oilcollected@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CF19088F18D8319900D6F0E4 /* oilcollected@2x.png */; };
+		CF19089618D8325C00D6F0E4 /* 2x2dark.png in Resources */ = {isa = PBXBuildFile; fileRef = CF19089418D8325C00D6F0E4 /* 2x2dark.png */; };
+		CF19089718D8325C00D6F0E4 /* 2x2dark@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CF19089518D8325C00D6F0E4 /* 2x2dark@2x.png */; };
 		CF192978157D9FF100D51C70 /* OtherUpdates.m in Sources */ = {isa = PBXBuildFile; fileRef = CF192977157D9FF100D51C70 /* OtherUpdates.m */; };
 		CF19F36816C20D6C00B77E7E /* iCarousel.m in Sources */ = {isa = PBXBuildFile; fileRef = CF19F36716C20D6C00B77E7E /* iCarousel.m */; };
 		CF1B4FFD167C42F400B73276 /* tournamentbanner.png in Resources */ = {isa = PBXBuildFile; fileRef = CF1B4FEB167C42F400B73276 /* tournamentbanner.png */; };
@@ -2980,6 +2986,12 @@
 		CF19088418D822C000D6F0E4 /* KamcordiPad.storyboardc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = wrapper.storyboardc; path = KamcordiPad.storyboardc; sourceTree = "<group>"; };
 		CF19088518D822C000D6F0E4 /* KamcordiPhone.storyboardc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = wrapper.storyboardc; path = KamcordiPhone.storyboardc; sourceTree = "<group>"; };
 		CF19088618D822C000D6F0E4 /* KC_GTMOAuth2ViewTouch.nib */ = {isa = PBXFileReference; lastKnownFileType = file.bplist; path = KC_GTMOAuth2ViewTouch.nib; sourceTree = "<group>"; };
+		CF19088C18D8319900D6F0E4 /* cashcollected.fnt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = cashcollected.fnt; sourceTree = "<group>"; };
+		CF19088D18D8319900D6F0E4 /* cashcollected@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "cashcollected@2x.png"; sourceTree = "<group>"; };
+		CF19088E18D8319900D6F0E4 /* oilcollected.fnt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = oilcollected.fnt; sourceTree = "<group>"; };
+		CF19088F18D8319900D6F0E4 /* oilcollected@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "oilcollected@2x.png"; sourceTree = "<group>"; };
+		CF19089418D8325C00D6F0E4 /* 2x2dark.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = 2x2dark.png; sourceTree = "<group>"; };
+		CF19089518D8325C00D6F0E4 /* 2x2dark@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "2x2dark@2x.png"; sourceTree = "<group>"; };
 		CF192976157D9FF100D51C70 /* OtherUpdates.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OtherUpdates.h; sourceTree = "<group>"; };
 		CF192977157D9FF100D51C70 /* OtherUpdates.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OtherUpdates.m; sourceTree = "<group>"; };
 		CF19F36616C20D6C00B77E7E /* iCarousel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = iCarousel.h; sourceTree = "<group>"; };
@@ -8385,6 +8397,12 @@
 		CFE7CCA21819FC3300930847 /* Home screen */ = {
 			isa = PBXGroup;
 			children = (
+				CF19088C18D8319900D6F0E4 /* cashcollected.fnt */,
+				CF19088D18D8319900D6F0E4 /* cashcollected@2x.png */,
+				CF19088E18D8319900D6F0E4 /* oilcollected.fnt */,
+				CF19088F18D8319900D6F0E4 /* oilcollected@2x.png */,
+				CF19089418D8325C00D6F0E4 /* 2x2dark.png */,
+				CF19089518D8325C00D6F0E4 /* 2x2dark@2x.png */,
 				CF19087918D8219000D6F0E4 /* 5x5dark.png */,
 				CF19087A18D8219000D6F0E4 /* 5x5dark@2x.png */,
 				CF30279418C09154009D2D25 /* 3x3dark.png */,
@@ -10409,6 +10427,7 @@
 				CF8FC844154544930082473E /* cloud1@2x.png in Resources */,
 				CF8FC845154544930082473E /* cloud1shadow.png in Resources */,
 				CF8FC846154544930082473E /* cloud1shadow@2x.png in Resources */,
+				CF19089118D8319900D6F0E4 /* cashcollected@2x.png in Resources */,
 				CFB250491858304700BE0C05 /* earthmteam.png in Resources */,
 				CFCB4D29154A3F0800470054 /* wallinputbg.png in Resources */,
 				CF3765B31831AAB200D0A77E /* ClanChatCell.xib in Resources */,
@@ -11207,6 +11226,7 @@
 				CFC4D01316E98D9E009A25DA /* analysisbutton.png in Resources */,
 				CFC4D01416E98D9E009A25DA /* analysisbutton@2x.png in Resources */,
 				CFC4D01516E98D9E009A25DA /* attackagain.png in Resources */,
+				CF19089018D8319900D6F0E4 /* cashcollected.fnt in Resources */,
 				CF8BA22818CE7C41003277D1 /* speechbubbleshortname@2x.png in Resources */,
 				CFC4D01616E98D9E009A25DA /* attackagain@2x.png in Resources */,
 				CFC4D01716E98D9E009A25DA /* attackagainsword.png in Resources */,
@@ -11390,6 +11410,7 @@
 				CF3766DB1833022700D0A77E /* gooniegrabmachine.png in Resources */,
 				CFD5E9B11716846F00FBDEA3 /* equipbg.png in Resources */,
 				CFD5E9B21716846F00FBDEA3 /* equipbg@2x.png in Resources */,
+				CF19089718D8325C00D6F0E4 /* 2x2dark@2x.png in Resources */,
 				CFD5E9B31716846F00FBDEA3 /* equipdivider.png in Resources */,
 				CFFBDF7E18ACA3D90090CA9A /* Scientist2Turn15@2x.png in Resources */,
 				CF3766E31833022700D0A77E /* mobdropbanner.png in Resources */,
@@ -11582,6 +11603,7 @@
 				CFFEB1381834539C007C4BA3 /* onteam.png in Resources */,
 				CF8A3E631767DD9600BDF639 /* citycollectablesbg.png in Resources */,
 				CF8A3E651767DD9600BDF639 /* citycollectablesbg@2x.png in Resources */,
+				CF19089618D8325C00D6F0E4 /* 2x2dark.png in Resources */,
 				CF8A3E671767DD9600BDF639 /* citycollectablesheader.png in Resources */,
 				CFFA324218B6FDC0008B81B9 /* 1option@2x.png in Resources */,
 				CF8A3E691767DD9600BDF639 /* citycollectablesheader@2x.png in Resources */,
@@ -11641,6 +11663,7 @@
 				CFFBDE3B18AC58E70090CA9A /* characterdetailheader@2x.png in Resources */,
 				CF8A3ED2176BD7CF00BDF639 /* minihealthbar@2x.png in Resources */,
 				CFEDA90B18974A7300867490 /* feederbase@2x.png in Resources */,
+				CF19089218D8319900D6F0E4 /* oilcollected.fnt in Resources */,
 				CF8A3ED4176BD7CF00BDF639 /* powerattackbutton.png in Resources */,
 				CF8A3ED6176BD7CF00BDF639 /* powerattackbutton@2x.png in Resources */,
 				CFF3905318284B8C0010A3BE /* testbox.png in Resources */,
@@ -12104,6 +12127,7 @@
 				CF22F98E17F27EDA00DFD79D /* buildingspinner.png in Resources */,
 				CF1279A1181F5F1600211623 /* sell@2x.png in Resources */,
 				CF22F99017F27EDA00DFD79D /* buildingspinner@2x.png in Resources */,
+				CF19089318D8319900D6F0E4 /* oilcollected@2x.png in Resources */,
 				CFC04D2F188F2D2E00F2DB59 /* nightbanner.png in Resources */,
 				CFC04D9E188FE8D400F2DB59 /* legendfound@2x.png in Resources */,
 				CFF740661817D3C5009DE4A4 /* RewardView.xib in Resources */,
