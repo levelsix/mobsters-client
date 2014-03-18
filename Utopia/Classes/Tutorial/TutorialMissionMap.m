@@ -565,7 +565,7 @@
 
 - (void) updateMapBotView:(MapBotView *)botView {
   [super updateMapBotView:botView];
-  float angle = [Globals isLongiPhone] ? M_PI_2 : M_PI;
+  float angle = [Globals isLongiPhone] ? M_PI_2 : 0;
   [Globals createUIArrowForView:self.enterButton atAngle:angle];
 }
 

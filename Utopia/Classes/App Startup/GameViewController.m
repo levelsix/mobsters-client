@@ -42,6 +42,7 @@
 #import "SocketCommunication.h"
 #import "IncomingEventController.h"
 #import "MiniTutorialController.h"
+#import "SoundEngine.h"
 
 #define DEFAULT_PNG_IMAGE_VIEW_TAG 103
 #define KINGDOM_PNG_IMAGE_VIEW_TAG 104
@@ -386,6 +387,8 @@
       }
     }
   }
+  
+  [[SoundEngine sharedSoundEngine] playMapMusic];
 }
 
 - (void) handleLoadCityResponseProto:(FullEvent *)fe {
@@ -464,6 +467,7 @@
   
   [self hideTopBarDuration:duration completion:nil];
   
+  [[SoundEngine sharedSoundEngine] playBattleMusic];
   _isInBattle = YES;
 }
 
@@ -485,6 +489,7 @@
   
   [self hideTopBarDuration:0.f completion:nil];
   
+  [[SoundEngine sharedSoundEngine] playBattleMusic];
   _isInBattle = YES;
 }
 
@@ -507,6 +512,11 @@
   if (self.completedQuest) {
     [self questComplete:self.completedQuest];
   }
+  if (self.progressedQuest) {
+    [self questProgress:self.progressedQuest];
+  }
+  
+  [[SoundEngine sharedSoundEngine] playMapMusic];
 }
 
 #pragma mark - BattleLayerDelegate methods
@@ -531,6 +541,11 @@
   if (self.completedQuest) {
     [self questComplete:self.completedQuest];
   }
+  if (self.progressedQuest) {
+    [self questProgress:self.progressedQuest];
+  }
+  
+  [[SoundEngine sharedSoundEngine] playMapMusic];
 }
 
 #pragma mark - CCDirectorDownloaderDelegate methods
@@ -586,6 +601,16 @@
     self.completedQuest = nil;
   } else {
     self.completedQuest = fqp;
+  }
+}
+
+- (void) questProgress:(FullQuestProto *)fqp {
+  if (!_isInBattle && !self.miniTutController) {
+    [self.topBarViewController displayQuestProgressView];
+    
+    self.progressedQuest = nil;
+  } else {
+    self.progressedQuest = fqp;
   }
 }
 

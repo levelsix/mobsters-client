@@ -42,6 +42,7 @@ static PBExtensionRegistry* extensionRegistry = nil;
 @property (retain) NSMutableArray* mutableLvlInfoList;
 @property int32_t evolutionCost;
 @property MonsterProto_AnimationType attackAnimationType;
+@property int32_t verticalPixelOffset;
 @end
 
 @implementation MonsterProto
@@ -194,6 +195,13 @@ static PBExtensionRegistry* extensionRegistry = nil;
   hasAttackAnimationType_ = !!value;
 }
 @synthesize attackAnimationType;
+- (BOOL) hasVerticalPixelOffset {
+  return !!hasVerticalPixelOffset_;
+}
+- (void) setHasVerticalPixelOffset:(BOOL) value {
+  hasVerticalPixelOffset_ = !!value;
+}
+@synthesize verticalPixelOffset;
 - (void) dealloc {
   self.name = nil;
   self.monsterGroup = nil;
@@ -229,6 +237,7 @@ static PBExtensionRegistry* extensionRegistry = nil;
     self.description = @"";
     self.evolutionCost = 0;
     self.attackAnimationType = MonsterProto_AnimationTypeMelee;
+    self.verticalPixelOffset = 0;
   }
   return self;
 }
@@ -321,6 +330,9 @@ static MonsterProto* defaultMonsterProtoInstance = nil;
   if (self.hasAttackAnimationType) {
     [output writeEnum:22 value:self.attackAnimationType];
   }
+  if (self.hasVerticalPixelOffset) {
+    [output writeInt32:23 value:self.verticalPixelOffset];
+  }
   [self.unknownFields writeToCodedOutputStream:output];
 }
 - (int32_t) serializedSize {
@@ -395,6 +407,9 @@ static MonsterProto* defaultMonsterProtoInstance = nil;
   }
   if (self.hasAttackAnimationType) {
     size += computeEnumSize(22, self.attackAnimationType);
+  }
+  if (self.hasVerticalPixelOffset) {
+    size += computeInt32Size(23, self.verticalPixelOffset);
   }
   size += self.unknownFields.serializedSize;
   memoizedSerializedSize = size;
@@ -575,6 +590,9 @@ BOOL MonsterProto_AnimationTypeIsValidValue(MonsterProto_AnimationType value) {
   if (other.hasAttackAnimationType) {
     [self setAttackAnimationType:other.attackAnimationType];
   }
+  if (other.hasVerticalPixelOffset) {
+    [self setVerticalPixelOffset:other.verticalPixelOffset];
+  }
   [self mergeUnknownFields:other.unknownFields];
   return self;
 }
@@ -699,6 +717,10 @@ BOOL MonsterProto_AnimationTypeIsValidValue(MonsterProto_AnimationType value) {
         } else {
           [unknownFields mergeVarintField:22 value:value];
         }
+        break;
+      }
+      case 184: {
+        [self setVerticalPixelOffset:[input readInt32]];
         break;
       }
     }
@@ -1067,6 +1089,22 @@ BOOL MonsterProto_AnimationTypeIsValidValue(MonsterProto_AnimationType value) {
 - (MonsterProto_Builder*) clearAttackAnimationType {
   result.hasAttackAnimationType = NO;
   result.attackAnimationType = MonsterProto_AnimationTypeMelee;
+  return self;
+}
+- (BOOL) hasVerticalPixelOffset {
+  return result.hasVerticalPixelOffset;
+}
+- (int32_t) verticalPixelOffset {
+  return result.verticalPixelOffset;
+}
+- (MonsterProto_Builder*) setVerticalPixelOffset:(int32_t) value {
+  result.hasVerticalPixelOffset = YES;
+  result.verticalPixelOffset = value;
+  return self;
+}
+- (MonsterProto_Builder*) clearVerticalPixelOffset {
+  result.hasVerticalPixelOffset = NO;
+  result.verticalPixelOffset = 0;
   return self;
 }
 @end

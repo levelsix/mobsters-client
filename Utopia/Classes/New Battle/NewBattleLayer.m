@@ -214,7 +214,7 @@
     [self deployBattleSprite:bp];
   }
   
-  //  [Kamcord startRecording];
+  [Kamcord startRecording];
 }
 
 - (void) setupUI {
@@ -313,17 +313,20 @@
   [self updateHealthBars];
 }
 
-- (void) makeMyPlayerWalkOut {
+- (float) makeMyPlayerWalkOut {
   CGPoint startPos = self.myPlayer.position;
   CGPoint offsetPerScene = POINT_OFFSET_PER_SCENE;
   float startX = -self.myPlayer.contentSize.width;
   float xDelta = startPos.x-startX;
   CGPoint endPos = ccp(startX, startPos.y-xDelta*offsetPerScene.y/offsetPerScene.x);
   
+  float dur = ccpDistance(startPos, endPos)/MY_WALKING_SPEED;
   self.myPlayer.isFacingNear = YES;
   [self.myPlayer beginWalking];
-  [self.myPlayer runAction:[CCActionMoveTo actionWithDuration:ccpDistance(startPos, endPos)/MY_WALKING_SPEED position:endPos]];
+  [self.myPlayer runAction:[CCActionMoveTo actionWithDuration:dur position:endPos]];
   [self stopPulsing];
+  
+  return dur;
 }
 
 - (void) makePlayer:(BattleSprite *)player walkInFromEntranceWithSelector:(SEL)selector {
@@ -566,12 +569,14 @@
   float newPercent = ((float)newHealth)/def.maxHealth*100;
   float percChange = ABS(healthBar.percentage-newPercent);
   
+  [SoundEngine puzzleDamageTickStart];
   [healthBar runAction:[CCActionSequence actions:
                         [CCActionEaseIn actionWithAction:[CCActionProgressTo actionWithDuration:percChange/HEALTH_BAR_SPEED percent:newPercent]],
                         [CCActionCallBlock actionWithBlock:
                          ^{
                            [healthLabel stopActionByTag:1015];
                            [self updateHealthBars];
+                           [SoundEngine puzzleDamageTickStop];
                          }],
                         [CCActionCallFunc actionWithTarget:self selector:selector],
                         nil]];
@@ -582,7 +587,7 @@
                          ^{
                            healthLabel.string = [NSString stringWithFormat:@"%@/%@", [Globals commafyNumber:(int)(healthBar.percentage/100.f*def.maxHealth)], [Globals commafyNumber:def.maxHealth]];
                          }],
-                        [CCActionDelay actionWithDuration:0.01],
+                        [CCActionDelay actionWithDuration:0.03],
                         nil]];
   f.tag = 1015;
   [healthLabel runAction:f];
@@ -653,11 +658,13 @@
   q.autoRemoveOnFinish = YES;
   q.position = ccpAdd(sprite.position, ccp(0, sprite.contentSize.height/2-5));
   [self.bgdContainer addChild:q z:2];
+  
+  [SoundEngine puzzleMonsterDefeated];
 }
 
 - (void) checkEnemyHealth {
   if (self.enemyPlayerObject.curHealth <= 0) {
-    int loot = [self getCurrentEnemyLoot];
+    CCSprite *loot = [self getCurrentEnemyLoot];
     if (loot) {
       [self dropLoot:loot];
       _lootDropped = YES;
@@ -683,9 +690,9 @@
   }
 }
 
-- (int) getCurrentEnemyLoot {
+- (CCSprite *) getCurrentEnemyLoot {
   // Should be implemented
-  return 0;
+  return nil;
 }
 
 - (void) checkMyHealth {
@@ -752,12 +759,9 @@
                      }], nil]];
 }
 
-- (void) dropLoot:(int)equipId {
-  GameState *gs = [GameState sharedGameState];
-  MonsterProto *mp = [gs monsterWithId:equipId];
-  NSString *fileName = [Globals imageNameForRarity:mp.quality suffix:@"piece.png"];
-  CCSprite *ed = [CCSprite spriteWithImageNamed:fileName];
+- (void) dropLoot:(CCSprite *)ed {
   [self.bgdContainer addChild:ed z:-1 name:LOOT_TAG];
+  ed.anchorPoint = ccp(0.5, 0);
   ed.position = ccpAdd(self.currentEnemy.position, ccp(0,self.currentEnemy.contentSize.height/2));
   ed.scale = 0.01;
   ed.opacity = 0.1f;
@@ -770,7 +774,7 @@
                  [CCActionSequence actions:
                   [CCActionMoveBy actionWithDuration:SILVER_STACK_BOUNCE_DURATION*0.2 position:ccp(0,20)],
                   [CCActionEaseBounceOut actionWithAction:
-                   [CCActionMoveBy actionWithDuration:SILVER_STACK_BOUNCE_DURATION*0.8 position:ccp(0,-15-self.currentEnemy.contentSize.height/2)]],
+                   [CCActionMoveBy actionWithDuration:SILVER_STACK_BOUNCE_DURATION*0.8 position:ccp(0,-27-self.currentEnemy.contentSize.height/2)]],
                   [CCActionCallBlock actionWithBlock:
                    ^{
                      [self pickUpLoot:ed];
@@ -789,8 +793,8 @@
   
   ccBezierConfig bezier;
   bezier.endPosition = [self.bgdContainer convertToNodeSpace:[self.lootLabel.parent.parent convertToWorldSpace:self.lootLabel.parent.position]];
-  bezier.controlPoint_1 = ccp(finalPos.x+(bezier.endPosition.x-finalPos.x)/3,bezier.endPosition.y+(finalPos.y-bezier.endPosition.y)/3+25);
-  bezier.controlPoint_2 = ccp(finalPos.x+(bezier.endPosition.x-finalPos.x)*2/3,bezier.endPosition.y+(finalPos.y-bezier.endPosition.y)*2/3+25);
+  bezier.controlPoint_1 = ccp(finalPos.x+(bezier.endPosition.x-finalPos.x)/3,bezier.endPosition.y+(finalPos.y-bezier.endPosition.y)/3+40);
+  bezier.controlPoint_2 = ccp(finalPos.x+(bezier.endPosition.x-finalPos.x)*2/3,bezier.endPosition.y+(finalPos.y-bezier.endPosition.y)*2/3+40);
   CCActionBezierTo *bezierForward = [CCActionBezierTo actionWithDuration:0.3f bezier:bezier];
   
   [ed runAction:
@@ -868,7 +872,7 @@
       nil]];
   }
   
-  [[SoundEngine sharedSoundEngine] puzzlePlane];
+  [SoundEngine puzzlePlaneDrop];
 }
 
 - (void) shakeScreenWithIntensity:(float)intensity {
@@ -943,6 +947,8 @@
       }],
      nil];
     [phrase runAction:seq];
+    
+    [SoundEngine puzzleMakeItRain];
   } else {
     [self runAction:[CCActionSequence actions:[CCActionDelay actionWithDuration:0.5f], [CCActionCallFunc actionWithTarget:target selector:selector], nil]];
   }
@@ -1085,13 +1091,16 @@
     
     _comboLabel.color = [CCColor blackColor];
     _comboBotLabel.color = [CCColor blackColor];
+    
+    [SoundEngine puzzleComboFire];
   }
   
   if (_canPlayNextComboSound) {
     _soundComboCount++;
-    [[SoundEngine sharedSoundEngine] puzzleComboSound:_soundComboCount];
+    [SoundEngine puzzleComboCreated];
+    [SoundEngine puzzleFirework];
     _canPlayNextComboSound = NO;
-    [self schedule:@selector(allowComboSound) interval:0.02 repeat:1 delay:0];
+    [self schedule:@selector(allowComboSound) interval:0.02];
   }
 }
 
@@ -1125,7 +1134,7 @@
   }
   
   if (_canPlayNextGemPop) {
-    [[SoundEngine sharedSoundEngine] puzzleGemPop];
+    [SoundEngine puzzleDestroyPiece];
     _canPlayNextGemPop = NO;
     [self schedule:@selector(allowGemPop) interval:0.02 repeat:1 delay:0];
   }
@@ -1202,6 +1211,7 @@
 
 - (void) displayOrbLayer {
   [self.orbBgdLayer runAction:[CCActionEaseOut actionWithAction:[CCActionMoveTo actionWithDuration:0.4f position:ccp(self.contentSize.width-self.orbBgdLayer.contentSize.width/2-14, self.orbBgdLayer.position.y)] rate:3]];
+  [SoundEngine puzzleOrbsSlideIn];
 }
 
 - (void) removeOrbLayerAnimated:(BOOL)animated withBlock:(void(^)())block {
@@ -1292,20 +1302,25 @@
   }];
   
   [self.orbLayer disallowInput];
+  
+  [SoundEngine puzzleSwapWindow];
 }
 
 - (void) removeDeployView {
-  [self.deployCancelButton removeFromSuperview];
-  self.deployCancelButton = nil;
-  [UIView animateWithDuration:ANIMATION_TIME animations:^{
-    self.deployView.center = ccp(-self.deployView.frame.size.width/2, DEPLOY_CENTER_Y);
-  } completion:^(BOOL finished) {
-    self.deployView.hidden = YES;
-  }];
+  if (!self.deployView.hidden) {
+    [self.deployCancelButton removeFromSuperview];
+    self.deployCancelButton = nil;
+    [UIView animateWithDuration:ANIMATION_TIME animations:^{
+      self.deployView.center = ccp(-self.deployView.frame.size.width/2, DEPLOY_CENTER_Y);
+    } completion:^(BOOL finished) {
+      self.deployView.hidden = YES;
+    }];
+  }
 }
 
 - (IBAction)cancelDeploy:(id)sender {
   [self deployBattleSprite:nil];
+  [SoundEngine puzzleSwapWindow];
 }
 
 - (IBAction)deployCardClicked:(id)sender {
@@ -1369,11 +1384,15 @@
 - (IBAction)winExitClicked:(id)sender {
   _manageWasClicked = NO;
   [self exitFinal];
+  
+  [SoundEngine generalButtonClick];
 }
 
 - (IBAction)manageClicked:(id)sender {
   _manageWasClicked = YES;
   [self exitFinal];
+  
+  [SoundEngine generalButtonClick];
 }
 
 - (void) exitFinal {
@@ -1388,13 +1407,15 @@
     [self.delegate battleComplete:[NSDictionary dictionaryWithObjectsAndKeys:@(_manageWasClicked), BATTLE_MANAGE_CLICKED_KEY, nil]];
     
     // in case it hasnt stopped yet
-    //    [Kamcord stopRecording];
+    [Kamcord stopRecording];
   }
 }
 
 - (IBAction)shareClicked:(id)sender {
-  //  [Kamcord stopRecording];
-  //  [Kamcord showView];
+  [Kamcord stopRecording];
+  [Kamcord showView];
+  
+  [SoundEngine generalButtonClick];
 }
 
 - (IBAction)continueClicked:(id)sender {
@@ -1407,6 +1428,8 @@
   } else {
     [self continueConfirmed];
   }
+  
+  [SoundEngine generalButtonClick];
 }
 
 - (void) continueConfirmed {

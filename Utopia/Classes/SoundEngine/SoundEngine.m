@@ -10,76 +10,33 @@
 #import "LNSynthesizeSingleton.h"
 #import "Globals.h"
 #import <MediaPlayer/MediaPlayer.h>
+#import <cocos2d.h>
 
 @implementation SoundEngine
 
 LN_SYNTHESIZE_SINGLETON_FOR_CLASS(SoundEngine);
 
 - (void) playBackgroundMusic:(NSString *)music loop:(BOOL)loop {
-#ifndef DEBUG
-//  NSUserDefaults *ud = [NSUserDefaults standardUserDefaults];
-//  BOOL play = ![ud boolForKey:MUSIC_DEFAULTS_KEY];
-//  if (play && [[MPMusicPlayerController iPodMusicPlayer] playbackState] != MPMusicPlaybackStatePlaying) {
-//    [[SimpleAudioEngine sharedEngine] playBackgroundMusic:music loop:loop];
-//  }
-#endif
-}
-
-- (int) playEffect:(NSString *)effect {
-#ifndef DEBUG
-//  NSUserDefaults *ud = [NSUserDefaults standardUserDefaults];
-//  BOOL play = ![ud boolForKey:SOUND_EFFECTS_DEFAULTS_KEY];
-//  if (play) {
-//    return [[SimpleAudioEngine sharedEngine] playEffect:effect];
-//  }
-#endif
-  return 0;
-}
-
-- (void) stopEffect:(int)effect {
-#ifndef DEBUG
-//  [[SimpleAudioEngine sharedEngine] stopEffect:effect];
-#endif
-}
-
-- (void) playHomeMapMusic {
-  if (_curMusic != kHomeMapMusic) {
-    _curMusic = kHomeMapMusic;
-    [self playBackgroundMusic:@"Game_Music.m4a" loop:YES];
+  NSUserDefaults *ud = [NSUserDefaults standardUserDefaults];
+  BOOL play = ![ud boolForKey:MUSIC_DEFAULTS_KEY];
+  if (play && [[MPMusicPlayerController iPodMusicPlayer] playbackState] != MPMusicPlaybackStatePlaying) {
+    [[OALSimpleAudio sharedInstance] playBg:music volume:0.5f pan:0.f loop:loop];
   }
 }
 
-- (void) playMissionMapMusic {
-  if (_curMusic != kMissionMapMusic) {
-    _curMusic = kMissionMapMusic;
-    [self playBackgroundMusic:@"Mission_Enemy_song.m4a" loop:YES];
-  }
-}
-
-- (void) playBattleMusic {
-  if (_curMusic != kBattleMusic) {
-    _curMusic = kBattleMusic;
-    [self playBackgroundMusic:@"Battle_Music.m4a" loop:YES];
-  }
-}
-
-- (void) playBazaarMusic {
-  if (_curMusic != kBazaarMusic) {
-    _curMusic = kBazaarMusic;
-    [self playBackgroundMusic:@"Medieval Market.m4a" loop:YES];
-  }
+- (void) stopBackgroundMusic {
+  _lastPlayedMusic = _curMusic;
+  _curMusic = kNoMusic;
+  [[OALSimpleAudio sharedInstance] stopBg];
 }
 
 - (void) resumeBackgroundMusic {
   switch (_lastPlayedMusic) {
-    case kHomeMapMusic:
-      [self playHomeMapMusic];
+    case kMapMusic:
+      [self playMapMusic];
       break;
     case kBattleMusic:
       [self playBattleMusic];
-      break;
-    case kBazaarMusic:
-      [self playBazaarMusic];
       break;
       
     default:
@@ -87,263 +44,170 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(SoundEngine);
   }
 }
 
-- (void) stopBackgroundMusic {
-  _lastPlayedMusic = _curMusic;
-  _curMusic = kNoMusic;
-#ifndef DEBUG
-//  [[SimpleAudioEngine sharedEngine] stopBackgroundMusic];
-#endif
+- (id<ALSoundSource>) playEffect:(NSString *)effect {
+  return [self playEffect:effect volume:1.0f pitch:1.0f pan:0.0f loop:NO];
 }
 
-- (void) archerAttack {
-  [self playEffect:@"Archer_Attack.m4a"];
+- (id<ALSoundSource>) playEffect:(NSString *)effect volume:(float)volume {
+  return [self playEffect:effect volume:volume pitch:1.0f pan:0.0f loop:NO];
 }
 
-- (void) legionMageAttack {
-  [self playEffect:@"Invoker_Attack.m4a"];
-}
-
-- (void) allianceMageAttack {
-  [self playEffect:@"Panda_Attack.m4a"];
-}
-
-- (void) warriorAttack {
-  [self playEffect:@"Warrior_Attack.m4a"];
-}
-
-- (void) archerCharge {
-  _curChargeUp = [self playEffect:@"Archer_Combo.m4a"];
-}
-
-- (void) legionMageCharge {
-  _curChargeUp = [self playEffect:@"Invoker_Combo.m4a"];
-}
-
-- (void) allianceMageCharge {
-  _curChargeUp = [self playEffect:@"Panda_Combo.m4a"];
-}
-
-- (void) warriorCharge {
-  _curChargeUp = [self playEffect:@"Warrior_Combo.m4a"];
-}
-
-- (void) warriorTaskSound {
-  [self playEffect:@"Swords_Task.m4a"];
-}
-
-- (void) archerTaskSound {
-  [self playEffect:@"Archer_Task.m4a"];
-}
-
-- (void) mageTaskSound {
-  [self playEffect:@"Panda_Punch.m4a"];
-}
-
-- (void) genericTaskSound {
-  [self playEffect:@"hand_shake.m4a"];
-}
-
-- (void) stopCharge {
-  [self stopEffect:_curChargeUp];
-}
-
-- (void) perfectAttack {
-  NSString *file = arc4random() % 2 == 0 ? @"Standard_Perfect1.m4a" : @"Standard_Perfect2.m4a";
-  [self playEffect:file];
-}
-
-- (void) goodAttack {
-  NSString *file = arc4random() % 2 == 0 ? @"Standard_Good1.m4a" : @"Standard_Good2.m4a";
-  [self playEffect:file];
-}
-
-- (void) greatAttack {
-  NSString *file = arc4random() % 2 == 0 ? @"Standard_Great1.m4a" : @"Standard_Great2.m4a";
-  [self playEffect:file];
-}
-
-- (void) missAttack {
-  NSString *file = arc4random() % 2 == 0 ? @"Standard_Miss1.m4a" : @"Standard_Miss2.m4a";
-  [self playEffect:file];
-}
-
-- (void) battleVictory {
-  [self playEffect:@"Battle_Success.m4a"];
-}
-
-- (void) battleLoss {
-  [self playEffect:@"Battle_Loss.m4a"];
-}
-
-- (void) coinDrop {
-  [self playEffect:@"Coin_drop.m4a"];
-}
-
-- (void) coinPickup {
-  [self playEffect:@"Coin_Pickup.m4a"];
-}
-
-- (void) shinyItem {
-  [self playEffect:@"shiny_item.m4a"];
-}
-
-- (void) closeDoor {
-  [self playEffect:@"DoorClosing_Final.m4a"];
-}
-
-- (void) openDoor {
-  [self playEffect:@"DoorOpening.m4a"];
-}
-
-- (void) levelUp {
-  [self playEffect:@"levelup.m4a"];
-}
-
-- (void) levelUpPopUp {
-  [self playEffect:@"level_up_pop_ups.m4a"];
-}
-
-- (void) questComplete {
-  [self playEffect:@"QuestCompleted.m4a"];
-}
-
-- (void) questAccepted {
-  [self playEffect:@"QuestNew.m4a"];
-}
-
-- (void) questLogOpened {
-  [self playEffect:@"Quest Scroll Open.m4a"];
-}
-
-- (void) armoryBuy {
-  [self playEffect:@"Armory_Buy.m4a"];
-}
-
-- (void) armoryEnter {
-  [self playEffect:@"Armory_Enter.m4a"];
-}
-
-- (void) armoryLeave {
-  [self playEffect:@"Armory_Leave.m4a"];
-}
-
-- (void) marketplaceBuy {
-  NSString *file = arc4random() % 2 == 0 ? @"Marketplace_Buy.m4a" : @"Marketplace_Buy1.m4a";
-  [self playEffect:file];
-}
-
-- (void) marketplaceEnter {
-  [self playEffect:@"Marketplace_Enter.m4a"];
-}
-
-- (void) marketplaceLeave {
-  [self playEffect:@"Marketplace_Exit.m4a"];
-}
-
-- (void) vaultWithdraw {
-  NSString *file = arc4random() % 2 == 0 ? @"Vault_Withdraw1.m4a" : @"Vault_Withdraw2.m4a";
-  [self playEffect:file];
-}
-
-- (void) vaultDeposit {
-  NSString *file = arc4random() % 2 == 0 ? @"Vault_Deposit.m4a" : @"Vault_Deposit1.m4a";
-  [self playEffect:file];
-}
-
-- (void) vaultEnter {
-  [self playEffect:@"Vault_Enter.m4a"];
-}
-
-- (void) vaultLeave {
-  [self playEffect:@"Vault_Leave.m4a"];
-}
-
-- (void) carpenterEnter {
-  int rand = arc4random() % 3;
-  NSString *file = nil;
-  if (rand == 0) {
-    file = @"Carpenter_Enter.m4a";
-  } else if (rand == 1) {
-    file = @"Carpenter_Enter2.m4a";
-  } else {
-    file = @"Carpenter_Enter3.m4a";
+- (id<ALSoundSource>) playEffect:(NSString *)effect volume:(float)volume pitch:(float)pitch pan:(float)pan loop:(bool)loop {
+  NSUserDefaults *ud = [NSUserDefaults standardUserDefaults];
+  BOOL play = ![ud boolForKey:SOUND_EFFECTS_DEFAULTS_KEY];
+  if (play) {
+    return [[OALSimpleAudio sharedInstance] playEffect:effect volume:volume pitch:pitch pan:pan loop:loop];
   }
-  [self playEffect:file];
+  return nil;
 }
 
-- (void) carpenterComplete {
-  NSString *file = arc4random() % 2 == 0 ? @"Carpenter_Complete.m4a" : @"Carpenter_Complete2.m4a";
-  [self playEffect:file];
+- (void) stopEffect:(int)effect {
+//  [[SimpleAudioEngine sharedEngine] stopEffect:effect];
 }
 
-- (void) carpenterPurchase {
-  [self playEffect:@"Carpenter_Purchase.m4a"];
+- (void) playMapMusic {
+  if (_curMusic != kMapMusic) {
+    _curMusic = kMapMusic;
+    [self playBackgroundMusic:@"mus_mobsquad_gameplay.mp3" loop:YES];
+  }
 }
 
-- (void) notificationAlert {
-  [self playEffect:@"notification_alert.m4a"];
+- (void) playBattleMusic {
+  if (_curMusic != kBattleMusic) {
+    _curMusic = kBattleMusic;
+    [self playBackgroundMusic:@"mus_mobsquad_battle.mp3" loop:YES];
+  }
 }
 
-- (void) forgeEnter {
-  [self playEffect:@"ForgeEnter.m4a"];
++ (void) dialogueBoxOpen {
+  [[SoundEngine sharedSoundEngine] playEffect:@"sfx_dialogue_box.mp3"];
 }
 
-- (void) forgeSubmit {
-  [self playEffect:@"ForgeBegin.m4a"];
++ (void) spriteJump {
+  [[SoundEngine sharedSoundEngine] playEffect:@"sfx_jump.wav" volume:1.f pitch:1.5f pan:0.f loop:NO];
 }
 
-- (void) forgeCollect {
-  [self playEffect:@"ForgeCheck.m4a"];
++ (void) tutorialBoatScene {
+  [[SoundEngine sharedSoundEngine] playEffect:@"sfx_full_boat_scene.mp3"];
 }
 
-- (void) forgeSuccess {
-  [self playEffect:@"Forge_Success.m4a"];
++ (void) closeButtonClick {
+  [[SoundEngine sharedSoundEngine] playEffect:@"sfx_cancel_x_button.mp3"];
 }
 
-- (void) forgeFailure {
-  [self playEffect:@"ForgeFail.m4a"];
++ (void) generalButtonClick {
+  [[SoundEngine sharedSoundEngine] playEffect:@"sfx_general_click.mp3"];
 }
 
-#pragma mark - Puzzle Effects
-
-- (void) puzzleBoardExplosion {
-  [self playEffect:@"boardexplosions.aif"];
++ (void) chatOpened {
+  [[SoundEngine sharedSoundEngine] playEffect:@"sfx_chat_slide_out.mp3"];
 }
 
-- (void) puzzlePlane {
-  [self playEffect:@"plane.aif"];
++ (void) chatClosed {
+  [[SoundEngine sharedSoundEngine] playEffect:@"sfx_chat_slide_in.mp3"];
 }
 
-- (void) puzzleRocket {
-  [self playEffect:@"rocket.aif"];
+#pragma mark - Home building sounds
+
++ (void) structSpeedupConstruction {
+  [[SoundEngine sharedSoundEngine] playEffect:@"sfx_time_bar_rise_completion.mp3"];
 }
 
-- (void) puzzleComboSound:(int)combo {
-  [self playEffect:[NSString stringWithFormat:@"combo%da.aif", MIN(13, combo)]];
++ (void) structUpgradeClicked {
+  [[SoundEngine sharedSoundEngine] playEffect:@"sfx_upgrade_button.mp3"];
 }
 
-- (void) puzzleGemPop {
-  [self playEffect:@"gem_blows_up.mp3"];
++ (void) structDropped {
+  [[SoundEngine sharedSoundEngine] playEffect:@"sfx_building_drop.mp3"];
 }
 
-- (void) puzzleWalking {
-  _puzzWalk = [self playEffect:@"walking.aif"];
++ (void) structCantPlace {
+  [[SoundEngine sharedSoundEngine] playEffect:@"sfx_cant_place_building.mp3"];
 }
 
-- (void) puzzleStopWalking {
-  [self stopEffect:_puzzWalk];
++ (void) structSelected {
+  [[SoundEngine sharedSoundEngine] playEffect:@"sfx_tap_on_building.mp3"];
 }
 
-- (void) puzzleWrongMove {
-  [self playEffect:@"wrongmove.aif"];
++ (void) structCompleted {
+  [[SoundEngine sharedSoundEngine] playEffect:@"sfx_building_complete.mp3"];
 }
 
-- (void) puzzlePowerUp {
-  _puzzPowerUp = [self playEffect:@"power_up.aif"];
++ (void) structCollectOil {
+  [[SoundEngine sharedSoundEngine] playEffect:@"sfx_collect_oil_doober.mp3"];
 }
 
-- (void) puzzleStopPowerUp {
-  [self stopEffect:_puzzPowerUp];
++ (void) structCollectCash {
+  [[SoundEngine sharedSoundEngine] playEffect:@"sfx_collect_money_doober.mp3"];
+}
+
+
+#pragma mark - Puzzle sounds
+
++ (void) puzzleDamageTickStart {
+  SoundEngine *se = [SoundEngine sharedSoundEngine];
+  [se.damageTick stop];
+  se.damageTick = [se playEffect:@"sfx_damage_click_lp.mp3" volume:0.2f pitch:1.f pan:0.f loop:YES];
+}
+
++ (void) puzzleDamageTickStop {
+  SoundEngine *se = [SoundEngine sharedSoundEngine];
+  [se.damageTick stop];
+  se.damageTick = nil;
+}
+
++ (void) puzzleSwapWindow {
+  [[SoundEngine sharedSoundEngine] playEffect:@"sfx_swap_mobster_window_slide_in.mp3"];
+}
+
++ (void) puzzleSwapCharacterChosen {
+  [[SoundEngine sharedSoundEngine] playEffect:@"sfx_choose_mobster_to_swap.mp3"];
+}
+
++ (void) puzzleMonsterDefeated {
+  [[SoundEngine sharedSoundEngine] playEffect:@"sfx_defeated_character_disappear.mp3"];
+}
+
++ (void) puzzleRocketMatch {
+  [[SoundEngine sharedSoundEngine] playEffect:@"sfx_stripe_bomb_match.mp3"];
+}
+
++ (void) puzzlePlaneDrop {
+  [[SoundEngine sharedSoundEngine] playEffect:@"sfx_arial_bomb_drop.mp3"];
+}
+
++ (void) puzzleDestroyPiece {
+  //[[SoundEngine sharedSoundEngine] playEffect:@"sfx_destroy_piece.mp3"];
+}
+
++ (void) puzzleComboCreated {
+  [[SoundEngine sharedSoundEngine] playEffect:@"sfx_destroy_piece.mp3" volume:1.f pitch:0.7f pan:0.f loop:NO];
+}
+
++ (void) puzzleComboFire {
+  [[SoundEngine sharedSoundEngine] playEffect:@"sfx_combo_catch_fire.mp3"];
+}
+
++ (void) puzzleSwapPiece {
+  [[SoundEngine sharedSoundEngine] playEffect:@"sfx_piece_swap.mp3"];
+}
+
++ (void) puzzleOrbsSlideIn {
+  [[SoundEngine sharedSoundEngine] playEffect:@"sfx_match_3_slide_in.mp3"];
+}
+
++ (void) puzzleFirework {
+  NSString *str = [NSString stringWithFormat:@"sfx_firework_0%d.mp3", (arc4random()%3)+1];
+  [[SoundEngine sharedSoundEngine] playEffect:str volume:0.5f];
+}
+
++ (void) puzzlePiecesDrop {
+  NSString *str = [NSString stringWithFormat:@"sfx_piece_fall_0%d.mp3", (arc4random()%3)+1];
+  [[SoundEngine sharedSoundEngine] playEffect:str];
+}
+
++ (void) puzzleMakeItRain {
+  [[SoundEngine sharedSoundEngine] playEffect:@"sfx_make_it_rain.mp3"];
 }
 
 @end

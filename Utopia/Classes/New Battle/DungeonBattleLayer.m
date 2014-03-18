@@ -18,11 +18,20 @@
 
 @implementation DungeonBattleLayer
 
-- (int) getCurrentEnemyLoot {
+- (CCSprite *) getCurrentEnemyLoot {
+  GameState *gs = [GameState sharedGameState];
   TaskStageProto *stage = [self.dungeonInfo.tspList objectAtIndex:_curStage];
   TaskStageMonsterProto *monster = [stage stageMonstersAtIndex:0];
-  
-  return monster.puzzlePieceDropped ? monster.monsterId : 0;
+  CCSprite *ed = nil;
+  if (monster.puzzlePieceDropped) {
+    MonsterProto *mp = [gs monsterWithId:monster.monsterId];
+    NSString *fileName = [Globals imageNameForRarity:mp.quality suffix:@"piece.png"];
+    ed = [CCSprite spriteWithImageNamed:fileName];
+  } else if (monster.hasItemId) {
+    ItemProto *item = [gs itemForId:monster.itemId];
+    ed = [CCSprite spriteWithImageNamed:item.imgName];
+  }
+  return ed;
 }
 
 - (void) youWon {

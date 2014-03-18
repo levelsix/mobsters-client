@@ -125,7 +125,7 @@
 - (void) checkIfAnyMovesLeft;
 - (void) currentMyPlayerDied;
 - (void) createNextMyPlayerSprite;
-- (void) makeMyPlayerWalkOut;
+- (float) makeMyPlayerWalkOut;
 - (void) makePlayer:(BattleSprite *)player walkInFromEntranceWithSelector:(SEL)selector;
 
 - (void) dealDamage:(int)damageDone enemyIsAttacker:(BOOL)enemyIsAttacker withSelector:(SEL)selector;
@@ -135,7 +135,8 @@
 - (void) displayWaveNumber;
 
 - (void) createNextEnemyObject;
-- (int) getCurrentEnemyLoot;
+- (CCSprite *) getCurrentEnemyLoot;
+- (void) dropLoot:(CCSprite *)ed;
 - (void) pickUpLoot:(CCSprite *)ed;
 - (void) moveToNextEnemy;
 - (void) youWon;

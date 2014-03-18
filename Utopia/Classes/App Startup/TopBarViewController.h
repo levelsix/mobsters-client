@@ -36,7 +36,9 @@
 
 @end
 
-@interface TopBarViewController : UIViewController <NumTransitionLabelDelegate>
+@interface TopBarViewController : UIViewController <NumTransitionLabelDelegate> {
+  CGPoint _originalProgressCenter;
+}
 
 @property (nonatomic, assign) IBOutlet SplitImageProgressBar *expBar;
 @property (nonatomic, assign) IBOutlet SplitImageProgressBar *cashBar;
@@ -56,6 +58,7 @@
 
 @property (nonatomic, retain) IBOutlet BadgeIcon *questBadge;
 @property (nonatomic, retain) IBOutlet BadgeIcon *mailBadge;
+@property (nonatomic, retain) IBOutlet UIView *questProgressView;
 
 @property (nonatomic, retain) IBOutlet UIView *myCityView;
 @property (nonatomic, retain) IBOutlet UIView *menuView;
@@ -80,5 +83,7 @@
 - (IBAction)questsClicked:(id)sender;
 - (void) replaceChatViewWithView:(MapBotView *)view;
 - (void) removeViewOverChatView;
+
+- (void) displayQuestProgressView;
 
 @end

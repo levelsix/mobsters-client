@@ -72,6 +72,7 @@ BOOL MonsterBattleDialogueProto_DialogueTypeIsValidValue(MonsterBattleDialoguePr
 
 @interface MonsterProto : PBGeneratedMessage {
 @private
+  BOOL hasVerticalPixelOffset_:1;
   BOOL hasEvolutionCost_:1;
   BOOL hasNumCatalystMonstersRequired_:1;
   BOOL hasMinutesToEvolve_:1;
@@ -85,14 +86,15 @@ BOOL MonsterBattleDialogueProto_DialogueTypeIsValidValue(MonsterBattleDialoguePr
   BOOL hasImagePrefix_:1;
   BOOL hasDisplayName_:1;
   BOOL hasMonsterGroup_:1;
-  BOOL hasName_:1;
   BOOL hasCarrotRecruited_:1;
   BOOL hasCarrotDefeated_:1;
   BOOL hasCarrotEvolved_:1;
   BOOL hasDescription_:1;
+  BOOL hasName_:1;
   BOOL hasMonsterElement_:1;
   BOOL hasQuality_:1;
   BOOL hasAttackAnimationType_:1;
+  int32_t verticalPixelOffset;
   int32_t evolutionCost;
   int32_t numCatalystMonstersRequired;
   int32_t minutesToEvolve;
@@ -106,11 +108,11 @@ BOOL MonsterBattleDialogueProto_DialogueTypeIsValidValue(MonsterBattleDialoguePr
   NSString* imagePrefix;
   NSString* displayName;
   NSString* monsterGroup;
-  NSString* name;
   NSString* carrotRecruited;
   NSString* carrotDefeated;
   NSString* carrotEvolved;
   NSString* description;
+  NSString* name;
   MonsterProto_MonsterElement monsterElement;
   MonsterProto_MonsterQuality quality;
   MonsterProto_AnimationType attackAnimationType;
@@ -137,6 +139,7 @@ BOOL MonsterBattleDialogueProto_DialogueTypeIsValidValue(MonsterBattleDialoguePr
 - (BOOL) hasDescription;
 - (BOOL) hasEvolutionCost;
 - (BOOL) hasAttackAnimationType;
+- (BOOL) hasVerticalPixelOffset;
 @property (readonly) int32_t monsterId;
 @property (readonly, retain) NSString* name;
 @property (readonly, retain) NSString* monsterGroup;
@@ -158,6 +161,7 @@ BOOL MonsterBattleDialogueProto_DialogueTypeIsValidValue(MonsterBattleDialoguePr
 @property (readonly, retain) NSString* description;
 @property (readonly) int32_t evolutionCost;
 @property (readonly) MonsterProto_AnimationType attackAnimationType;
+@property (readonly) int32_t verticalPixelOffset;
 - (NSArray*) lvlInfoList;
 - (MonsterLevelInfoProto*) lvlInfoAtIndex:(int32_t) index;
 
@@ -306,6 +310,11 @@ BOOL MonsterBattleDialogueProto_DialogueTypeIsValidValue(MonsterBattleDialoguePr
 - (MonsterProto_AnimationType) attackAnimationType;
 - (MonsterProto_Builder*) setAttackAnimationType:(MonsterProto_AnimationType) value;
 - (MonsterProto_Builder*) clearAttackAnimationType;
+
+- (BOOL) hasVerticalPixelOffset;
+- (int32_t) verticalPixelOffset;
+- (MonsterProto_Builder*) setVerticalPixelOffset:(int32_t) value;
+- (MonsterProto_Builder*) clearVerticalPixelOffset;
 @end
 
 @interface MonsterLevelInfoProto : PBGeneratedMessage {

@@ -11,6 +11,7 @@
 #import "HomeMap.h"
 #import "GameState.h"
 #import "Globals.h"
+#import "SoundEngine.h"
 
 #define BOUNCE_DURATION 0.1f // 1-way
 #define BOUNCE_SCALE 1.1
@@ -59,6 +60,8 @@
   bounce = [CCActionEaseInOut actionWithAction:bounce];
   bounce.tag = BOUNCE_ACTION_TAG;
   [self.buildingSprite runAction:bounce];
+  
+  [SoundEngine structSelected];
   
   return select;
 }

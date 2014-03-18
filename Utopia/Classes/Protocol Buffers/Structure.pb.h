@@ -10,6 +10,8 @@
 @class HospitalProto_Builder;
 @class LabProto;
 @class LabProto_Builder;
+@class ObstacleProto;
+@class ObstacleProto_Builder;
 @class ResidenceProto;
 @class ResidenceProto_Builder;
 @class ResourceGeneratorProto;
@@ -992,5 +994,143 @@ BOOL StructureInfoProto_StructTypeIsValidValue(StructureInfoProto_StructType val
 - (TutorialStructProto_Builder*) setCoordinateBuilder:(CoordinateProto_Builder*) builderForValue;
 - (TutorialStructProto_Builder*) mergeCoordinate:(CoordinateProto*) value;
 - (TutorialStructProto_Builder*) clearCoordinate;
+@end
+
+@interface ObstacleProto : PBGeneratedMessage {
+@private
+  BOOL hasImgVerticalPixelOffset_:1;
+  BOOL hasChanceToAppear_:1;
+  BOOL hasObstacleId_:1;
+  BOOL hasCost_:1;
+  BOOL hasSecondsToRemove_:1;
+  BOOL hasWidth_:1;
+  BOOL hasHeight_:1;
+  BOOL hasName_:1;
+  BOOL hasImgName_:1;
+  BOOL hasDescription_:1;
+  BOOL hasRemovalCostType_:1;
+  Float32 imgVerticalPixelOffset;
+  Float32 chanceToAppear;
+  int32_t obstacleId;
+  int32_t cost;
+  int32_t secondsToRemove;
+  int32_t width;
+  int32_t height;
+  NSString* name;
+  NSString* imgName;
+  NSString* description;
+  ResourceType removalCostType;
+}
+- (BOOL) hasObstacleId;
+- (BOOL) hasName;
+- (BOOL) hasRemovalCostType;
+- (BOOL) hasCost;
+- (BOOL) hasSecondsToRemove;
+- (BOOL) hasWidth;
+- (BOOL) hasHeight;
+- (BOOL) hasImgName;
+- (BOOL) hasImgVerticalPixelOffset;
+- (BOOL) hasDescription;
+- (BOOL) hasChanceToAppear;
+@property (readonly) int32_t obstacleId;
+@property (readonly, retain) NSString* name;
+@property (readonly) ResourceType removalCostType;
+@property (readonly) int32_t cost;
+@property (readonly) int32_t secondsToRemove;
+@property (readonly) int32_t width;
+@property (readonly) int32_t height;
+@property (readonly, retain) NSString* imgName;
+@property (readonly) Float32 imgVerticalPixelOffset;
+@property (readonly, retain) NSString* description;
+@property (readonly) Float32 chanceToAppear;
+
++ (ObstacleProto*) defaultInstance;
+- (ObstacleProto*) defaultInstance;
+
+- (BOOL) isInitialized;
+- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output;
+- (ObstacleProto_Builder*) builder;
++ (ObstacleProto_Builder*) builder;
++ (ObstacleProto_Builder*) builderWithPrototype:(ObstacleProto*) prototype;
+
++ (ObstacleProto*) parseFromData:(NSData*) data;
++ (ObstacleProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (ObstacleProto*) parseFromInputStream:(NSInputStream*) input;
++ (ObstacleProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (ObstacleProto*) parseFromCodedInputStream:(PBCodedInputStream*) input;
++ (ObstacleProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+@end
+
+@interface ObstacleProto_Builder : PBGeneratedMessage_Builder {
+@private
+  ObstacleProto* result;
+}
+
+- (ObstacleProto*) defaultInstance;
+
+- (ObstacleProto_Builder*) clear;
+- (ObstacleProto_Builder*) clone;
+
+- (ObstacleProto*) build;
+- (ObstacleProto*) buildPartial;
+
+- (ObstacleProto_Builder*) mergeFrom:(ObstacleProto*) other;
+- (ObstacleProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input;
+- (ObstacleProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+
+- (BOOL) hasObstacleId;
+- (int32_t) obstacleId;
+- (ObstacleProto_Builder*) setObstacleId:(int32_t) value;
+- (ObstacleProto_Builder*) clearObstacleId;
+
+- (BOOL) hasName;
+- (NSString*) name;
+- (ObstacleProto_Builder*) setName:(NSString*) value;
+- (ObstacleProto_Builder*) clearName;
+
+- (BOOL) hasRemovalCostType;
+- (ResourceType) removalCostType;
+- (ObstacleProto_Builder*) setRemovalCostType:(ResourceType) value;
+- (ObstacleProto_Builder*) clearRemovalCostType;
+
+- (BOOL) hasCost;
+- (int32_t) cost;
+- (ObstacleProto_Builder*) setCost:(int32_t) value;
+- (ObstacleProto_Builder*) clearCost;
+
+- (BOOL) hasSecondsToRemove;
+- (int32_t) secondsToRemove;
+- (ObstacleProto_Builder*) setSecondsToRemove:(int32_t) value;
+- (ObstacleProto_Builder*) clearSecondsToRemove;
+
+- (BOOL) hasWidth;
+- (int32_t) width;
+- (ObstacleProto_Builder*) setWidth:(int32_t) value;
+- (ObstacleProto_Builder*) clearWidth;
+
+- (BOOL) hasHeight;
+- (int32_t) height;
+- (ObstacleProto_Builder*) setHeight:(int32_t) value;
+- (ObstacleProto_Builder*) clearHeight;
+
+- (BOOL) hasImgName;
+- (NSString*) imgName;
+- (ObstacleProto_Builder*) setImgName:(NSString*) value;
+- (ObstacleProto_Builder*) clearImgName;
+
+- (BOOL) hasImgVerticalPixelOffset;
+- (Float32) imgVerticalPixelOffset;
+- (ObstacleProto_Builder*) setImgVerticalPixelOffset:(Float32) value;
+- (ObstacleProto_Builder*) clearImgVerticalPixelOffset;
+
+- (BOOL) hasDescription;
+- (NSString*) description;
+- (ObstacleProto_Builder*) setDescription:(NSString*) value;
+- (ObstacleProto_Builder*) clearDescription;
+
+- (BOOL) hasChanceToAppear;
+- (Float32) chanceToAppear;
+- (ObstacleProto_Builder*) setChanceToAppear:(Float32) value;
+- (ObstacleProto_Builder*) clearChanceToAppear;
 @end
 

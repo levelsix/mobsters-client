@@ -447,6 +447,8 @@
     }
   }
   [self updateGemPositionsAfterSwap];
+  
+  [SoundEngine puzzlePiecesDrop];
 }
 
 - (CCColor *) colorForSparkle:(GemColorId)color {
@@ -486,14 +488,14 @@
       q.position = gem.sprite.position;
       q.autoRemoveOnFinish = YES;
       
-      [[SoundEngine sharedSoundEngine] puzzleBoardExplosion];
+//      [[SoundEngine sharedSoundEngine] puzzleBoardExplosion];
     } else if (powerup == powerup_all_of_one_color) {
       CCParticleSystem *q = [CCParticleSystem particleWithFile:@"molotov.plist"];
       [self addChild:q z:100];
       q.position = gem.sprite.position;
       q.autoRemoveOnFinish = YES;
       
-      [[SoundEngine sharedSoundEngine] puzzleBoardExplosion];
+//      [[SoundEngine sharedSoundEngine] puzzleBoardExplosion];
     } else {
       CCSprite *q = [CCSprite spriteWithImageNamed:@"ring.png"];
       [self addChild:q];
@@ -743,7 +745,7 @@
     
     [r runAction:[CCActionSequence actionWithArray:seq]];
     
-    [[SoundEngine sharedSoundEngine] puzzleRocket];
+    [SoundEngine puzzleRocketMatch];
   } else if (p.powerupId == powerup_vertical_line) {
     for (Powerup *p2 in self.powerups) {
       if (p2.powerupId == powerup_vertical_line && p2.startLocation.x == p.startLocation.x) {
@@ -837,7 +839,7 @@
     
     [r runAction:[CCActionSequence actionWithArray:seq]];
     
-    [[SoundEngine sharedSoundEngine] puzzleRocket];
+//    [[SoundEngine sharedSoundEngine] puzzleRocket];
   } else if (p.powerupId == powerup_explosion) {
     NSMutableArray *blowup = [NSMutableArray array];
     for (Gem *gem in _gems) {
@@ -1234,7 +1236,7 @@
         [_gems replaceObjectAtIndex:idxA withObject:realDragGem];
         [_gems replaceObjectAtIndex:idxB withObject:swapGem];
         
-        [[SoundEngine sharedSoundEngine] puzzleWrongMove];
+//        [[SoundEngine sharedSoundEngine] puzzleWrongMove];
         
         [self runAction:
          [CCActionSequence actions:
@@ -1489,7 +1491,7 @@
     
     if (_swapGem) {
       [self doGemSwapAnimationWithGem:_realDragGem andGem:_swapGem];
-      
+      [SoundEngine puzzleSwapPiece];
       
       if (_realDragGem && _swapGem) {
         NSInteger idxA = [_gems indexOfObject:_swapGem];

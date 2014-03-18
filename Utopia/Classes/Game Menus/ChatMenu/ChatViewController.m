@@ -14,6 +14,7 @@
 #import "ClanViewController.h"
 #import "ProfileViewController.h"
 #import "PrivateChatPostProto+UnreadStatus.h"
+#import "SoundEngine.h"
 
 #define ANIMATION_SPEED 800.f
 
@@ -157,6 +158,8 @@
     self.arrow.transform = CGAffineTransformIdentity;
   }];
   
+  [SoundEngine chatOpened];
+  
   self.isOpen = YES;
 }
 
@@ -177,6 +180,7 @@
   
   if (animated) {
     [UIView animateWithDuration:dist/ANIMATION_SPEED animations:anim completion:comp];
+    [SoundEngine chatClosed];
   } else {
     anim();
     comp(YES);

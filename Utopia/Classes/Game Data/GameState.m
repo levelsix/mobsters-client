@@ -37,6 +37,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
     _staticStructs = [[NSMutableDictionary alloc] init];
     _staticMonsters = [[NSMutableDictionary alloc] init];
     _staticRaids = [[NSMutableDictionary alloc] init];
+    _staticItems = [[NSMutableDictionary alloc] init];
     _eventCooldownTimes = [[NSMutableDictionary alloc] init];
     _notifications = [[NSMutableArray alloc] init];
     _myStructs = [[NSMutableArray alloc] init];
@@ -208,6 +209,14 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
     }
   }
   return nil;
+}
+
+- (ItemProto *) itemForId:(int)itemId {
+  if (itemId == 0) {
+    [Globals popupMessage:@"Attempted to access item 0"];
+    return nil;
+  }
+  return [self getStaticDataFrom:_staticItems withId:itemId];
 }
 
 - (PersistentEventProto *) persistentEventWithId:(int)eventId {
@@ -794,6 +803,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
   [self addToStaticStructs:proto.allHospitalsList];
   [self addToStaticStructs:proto.allResidencesList];
   [self addToStaticStructs:proto.allLabsList];
+  [self addToStaticItems:proto.itemsList];
   
   [self addToExpansionCosts:proto.expansionCostsList];
   
@@ -836,6 +846,12 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
 - (void) addToStaticRaids:(NSArray *)arr {
   for (ClanRaidProto *p in arr) {
     [self.staticRaids setObject:p forKey:@(p.clanRaidId)];
+  }
+}
+
+- (void) addToStaticItems:(NSArray *)arr {
+  for (ItemProto *p in arr) {
+    [self.staticItems setObject:p forKey:@(p.itemId)];
   }
 }
 

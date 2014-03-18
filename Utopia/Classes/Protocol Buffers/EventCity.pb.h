@@ -29,6 +29,8 @@
 @class FullUserStructureProto_Builder;
 @class HospitalProto;
 @class HospitalProto_Builder;
+@class ItemProto;
+@class ItemProto_Builder;
 @class LabProto;
 @class LabProto_Builder;
 @class LoadCityRequestProto;
@@ -49,6 +51,8 @@
 @class MinimumUserProtoWithMaxResources;
 @class MinimumUserProtoWithMaxResources_Builder;
 @class MinimumUserProto_Builder;
+@class ObstacleProto;
+@class ObstacleProto_Builder;
 @class PurchaseCityExpansionRequestProto;
 @class PurchaseCityExpansionRequestProto_Builder;
 @class PurchaseCityExpansionResponseProto;

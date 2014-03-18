@@ -107,6 +107,8 @@
 @implementation TopBarViewController
 
 - (void) viewDidLoad {
+  _originalProgressCenter = self.questProgressView.center;
+  
   for (UIView *container in self.topBarMonsterViewContainers) {
     container.backgroundColor = [UIColor clearColor];
     
@@ -196,6 +198,26 @@
   }
   
   self.questBadge.badgeNum = badgeNum;
+}
+
+- (void) displayQuestProgressView {
+  [self.questProgressView.layer removeAllAnimations];
+  self.questProgressView.center = _originalProgressCenter;
+  [UIView animateWithDuration:0.3f animations:^{
+    self.questProgressView.alpha = 1.f;
+  } completion:^(BOOL finished) {
+    if (finished) {
+      [UIView animateWithDuration:0.3f delay:4.f options:UIViewAnimationOptionTransitionNone animations:^{
+        self.questProgressView.alpha = 0.f;
+      } completion:^(BOOL finished) {
+        [self.questProgressView.layer removeAllAnimations];
+      }];
+    }
+  }];
+  UIViewAnimationOptions opt = UIViewAnimationOptionCurveEaseInOut|UIViewAnimationOptionAutoreverse|UIViewAnimationOptionRepeat;
+  [UIView animateWithDuration:0.7 delay:0.f options:opt animations:^{
+    self.questProgressView.center = CGPointMake(self.questProgressView.center.x+14, self.questProgressView.center.y);
+  } completion:nil];
 }
 
 #pragma mark - Bottom view methods

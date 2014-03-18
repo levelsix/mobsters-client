@@ -55,6 +55,7 @@
 @property (nonatomic, retain) NSMutableDictionary *staticMonsters;
 @property (nonatomic, retain) NSMutableDictionary *staticTasks;
 @property (nonatomic, retain) NSMutableDictionary *staticCities;
+@property (nonatomic, retain) NSMutableDictionary *staticItems;
 @property (nonatomic, retain) NSArray *persistentEvents;
 @property (nonatomic, retain) NSMutableDictionary *eventCooldownTimes;
 
@@ -119,6 +120,7 @@
 - (FullTaskProto *) taskWithId:(int)taskId;
 - (FullTaskProto *) taskWithCityId:(int)cityId assetId:(int)assetId;
 - (FullQuestProto *) questForId:(int)questId;
+- (ItemProto *) itemForId:(int)itemId;
 - (BoosterPackProto *) boosterPackForId:(int)packId;
 - (MonsterProto *) monsterWithId:(int)monsterId;
 - (PersistentEventProto *) persistentEventWithId:(int)eventId;

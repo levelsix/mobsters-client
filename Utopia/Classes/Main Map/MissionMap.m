@@ -237,6 +237,7 @@
 - (void) setAllLocksAndArrowsForBuildings {
   GameState *gs = [GameState sharedGameState];
   NSArray *taskIdsWithArrows = gs.taskIdsToUnlockMoreTasks;
+  NSArray *curQuestIds = gs.inProgressIncompleteQuests.allKeys;
   if (!_assetIdToDisplayArrow) {
     for (CCNode *n in self.children) {
       if ([n conformsToProtocol:@protocol(TaskElement)]) {
@@ -244,10 +245,20 @@
         int taskId = asset.ftp.taskId;
         asset.isLocked = ![gs isTaskUnlocked:taskId];
         
+        if (!asset.ftp) {
+          asset.visible = NO;
+        } else {
+          asset.visible = YES;
+        }
+        
         if ([taskIdsWithArrows containsObject:@(taskId)]) {
           [asset displayArrow];
         } else {
           [asset removeArrowAnimated:NO];
+        }
+        
+        if (asset.ftp.hasPrerequisiteQuestId) {
+          asset.visible = [curQuestIds containsObject:@(asset.ftp.prerequisiteQuestId)];
         }
       }
     }
@@ -258,6 +269,7 @@
   [super onEnter];
   _enteringDungeon = NO;
   
+  [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(setAllLocksAndArrowsForBuildings) name:QUESTS_CHANGED_NOTIFICATION object:nil];
   [self setAllLocksAndArrowsForBuildings];
 }
 

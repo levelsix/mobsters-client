@@ -17,6 +17,7 @@
 #import "OutgoingEventController.h"
 #import "GenericPopupController.h"
 #import "TutorialDoublePowerupController.h"
+#import "SoundEngine.h"
 
 @implementation TutorialController
 
@@ -128,6 +129,7 @@
   dvc.delegate = self;
   [vc addChildViewController:dvc];
   [vc.view insertSubview:dvc.view belowSubview:self.touchView];
+  dvc.view.frame = vc.view.bounds;
   self.dialogueViewController = dvc;
   
   [self.touchView addResponder:self.dialogueViewController];
@@ -162,7 +164,9 @@
   //[self initMissionMapWithCenterOnThirdBuilding:YES];
   //[self initTopBar];
   //[self sendUserCreate];
-  //[self beginEnterBattleThreePhase];
+  //[self beginFacebookLoginPhase];
+  
+  [[SoundEngine sharedSoundEngine] playMapMusic];
 }
 
 - (void) initMissionMapWithCenterOnThirdBuilding:(BOOL)thirdBuilding {
@@ -310,6 +314,16 @@
   nav.navigationBarHidden = YES;
   [self.gameViewController presentViewController:nav animated:YES completion:nil];
   [nav pushViewController:self.attackMapViewController animated:YES];
+}
+
+- (void) cacheKeyboard {
+  dispatch_after(dispatch_time(DISPATCH_TIME_NOW, 0.0), dispatch_get_main_queue(), ^(void){
+    UITextField *field = [UITextField new];
+    [self.gameViewController.view addSubview:field];
+    [field becomeFirstResponder];
+    [field resignFirstResponder];
+    [field removeFromSuperview];
+  });
 }
 
 - (void) cleanup {
@@ -656,8 +670,6 @@
 }
 
 - (void) beginFacebookLoginPhase {
-  [self.homeMap panToMark];
-  
   NSArray *dialogue = @[@(TutorialDialogueSpeakerMarkL), @"Great job! The Silo will now protect your oil from being stolen in battle.",
                         @(TutorialDialogueSpeakerMarkL), @"Your island is starting to look like a real secret base! There’s just one last thing...",
                         @(TutorialDialogueSpeakerMarkL), @"I know I just met you, and this is crazy, but here’s my friend request, so add me maybe?"];
@@ -667,6 +679,7 @@
 }
 
 - (void) beginFacebookRejectedNamingPhase {
+  [self cacheKeyboard];
   NSArray *dialogue = @[@(TutorialDialogueSpeakerMarkL), @"Playing hard to get huh? I can play that game too. What was your name again?"];
   [self displayDialogue:dialogue allowTouch:YES useShortBubble:NO];
   
@@ -674,7 +687,8 @@
 }
 
 - (void) beginFacebookAcceptedNamingPhase {
-  NSArray *dialogue = @[@(TutorialDialogueSpeakerMarkL), @"Hurray! I know we’re besties now, but what was your name again?"];
+  [self cacheKeyboard];
+  NSArray *dialogue = @[@(TutorialDialogueSpeakerMarkL), @"Hurray! I know that we’re besties now, but what was your name again?"];
   [self displayDialogue:dialogue allowTouch:YES useShortBubble:NO];
   
   _currentStep = TutorialStepEnterName;
@@ -716,8 +730,7 @@
                         @(TutorialDialogueSpeakerFriend4), @"No... Anyway, to defeat a stronger enemy, you’ll need to learn how to create a Rainbow Orb.",
                         @(TutorialDialogueSpeakerFriend4), @"Meet me at the Tea Lounge and I’ll show you how it’s done.",
                         @(TutorialDialogueSpeakerMarkR), @"Hey buddy, before you go, I got you something!",
-                        @(TutorialDialogueSpeakerMarkR), @"Plotting for world domination is confusing, so I made you this mission log to guide you to success. ",
-                        @(TutorialDialogueSpeakerMarkR), @"Tap here now to check it out!"];
+                        @(TutorialDialogueSpeakerMarkR), @"I made you this mission log to guide you to success. Tap here now to check it out!"];
   [self displayDialogue:dialogue allowTouch:YES useShortBubble:NO];
   
   _currentStep = TutorialStepClickQuests;
@@ -921,7 +934,9 @@
     [self beginPostSecondBattleConfrontationPhase];
   }
   [[CCDirector sharedDirector] popSceneWithTransition:[CCTransition transitionCrossFadeWithDuration:0.6f]];
-  [self.gameViewController showTopBarDuration:0.f completion:nil] ;
+  [self.gameViewController showTopBarDuration:0.f completion:nil];
+  
+  [[SoundEngine sharedSoundEngine] playMapMusic];
 }
 
 #pragma mark - HomeMap delegate
@@ -1201,6 +1216,8 @@
     [self.homeMap moveToOilDrill];
   } else if (_currentStep == TutorialStepAttackMap && index == 1) {
     [self.homeMap friendFaceForward];
+  } else if (_currentStep == TutorialStepFacebookLogin && index == 1) {
+    [self.homeMap panToMark];
   }
 }
 
@@ -1271,6 +1288,7 @@
       [self.missionMap runOutEnemyBoss];
     } else if (_currentStep == TutorialStepBoardYacht) {
       [self.missionMap moveToYacht];
+      [SoundEngine tutorialBoatScene];
     } else if (_currentStep == TutorialStepMarkLookBack) {
       [self.homeMap markFaceFriendAndBack];
     } else if (_currentStep == TutorialStepEnterHospital) {

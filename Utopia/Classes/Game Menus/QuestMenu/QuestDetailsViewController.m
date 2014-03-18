@@ -23,7 +23,7 @@
   
   self.title = self.quest.name;
   
-  self.descriptionLabel.text = self.quest.description;
+  self.descriptionLabel.text = userQuest.isComplete ? self.quest.doneResponse : self.quest.description;
   self.jobLabel.text = self.quest.jobDescription;
   
   if (quest.quantity < 100) {

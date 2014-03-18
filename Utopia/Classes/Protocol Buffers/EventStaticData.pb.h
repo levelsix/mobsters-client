@@ -50,6 +50,8 @@
 @class FullUserStructureProto_Builder;
 @class HospitalProto;
 @class HospitalProto_Builder;
+@class ItemProto;
+@class ItemProto_Builder;
 @class LabProto;
 @class LabProto_Builder;
 @class MinimumClanProto;
@@ -78,6 +80,8 @@
 @class MonsterLevelInfoProto_Builder;
 @class MonsterProto;
 @class MonsterProto_Builder;
+@class ObstacleProto;
+@class ObstacleProto_Builder;
 @class PersistentClanEventClanInfoProto;
 @class PersistentClanEventClanInfoProto_Builder;
 @class PersistentClanEventProto;

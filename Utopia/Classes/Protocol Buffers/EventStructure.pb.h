@@ -48,6 +48,8 @@
 @class NormStructWaitCompleteRequestProto_Builder;
 @class NormStructWaitCompleteResponseProto;
 @class NormStructWaitCompleteResponseProto_Builder;
+@class ObstacleProto;
+@class ObstacleProto_Builder;
 @class PurchaseNormStructureRequestProto;
 @class PurchaseNormStructureRequestProto_Builder;
 @class PurchaseNormStructureResponseProto;

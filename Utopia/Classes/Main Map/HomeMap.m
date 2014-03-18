@@ -300,7 +300,7 @@
     homeBuilding.userStruct = s;
     
     [arr addObject:homeBuilding];
-    [homeBuilding placeBlock];
+    [homeBuilding placeBlock:NO];
     
     if (!s.isComplete) {
       homeBuilding.isConstructing = YES;
@@ -320,12 +320,6 @@
   
   for (SelectableSprite *c in toRemove) {
     [c removeFromParent];
-  }
-  
-  for (CCNode *node in arr) {
-    if ([node isKindOfClass:[HomeBuilding class]]) {
-      [(HomeBuilding *)node placeBlock];
-    }
   }
   
   if (_constrBuilding) {
@@ -556,7 +550,7 @@
   _purchBuilding.isPurchasing = YES;
   
   [self addChild:_purchBuilding];
-  [_purchBuilding placeBlock];
+  [_purchBuilding placeBlock:YES];
   
   _canMove = YES;
   _purchasing = YES;
@@ -631,7 +625,7 @@
       BOOL showsEnterButton = YES;
       switch (fsp.structType) {
         case StructureInfoProto_StructTypeHospital:
-          self.enterTopLabel.text = @"Manage";
+          self.enterTopLabel.text = @"Heal";
           self.enterBottomLabel.text = @"Mobsters";
           break;
           
@@ -660,6 +654,16 @@
         self.buildingEnterView.hidden = YES;
       }
       self.buildingTextView.frame = r;
+      
+      if (![Globals isLongiPhone]) {
+        CGPoint pt = self.buildingUpgradeView.center;
+        if (showsEnterButton) {
+          pt.x = self.buildingUpgradeView.superview.frame.size.width-self.buildingEnterView.center.x;
+        } else {
+          pt.x = self.buildingUpgradeView.superview.frame.size.width/2;
+        }
+        self.buildingUpgradeView.center = pt;
+      }
       
       self.buildingUpgradeOilView.hidden = !isOil;
       [Globals adjustViewForCentering:self.buildingUpgradeOilCostLabel.superview withLabel:self.buildingUpgradeOilCostLabel];
@@ -724,7 +728,7 @@
         [homeBuilding updateMeta];
         return;
       } else if (_isMoving && ([recognizer state] == UIGestureRecognizerStateEnded || [recognizer state] == UIGestureRecognizerStateCancelled)) {
-        [homeBuilding placeBlock];
+        [homeBuilding placeBlock:YES];
         _isMoving = NO;
         [self doReorder];
         
@@ -807,21 +811,23 @@
   int amountCollected = [[OutgoingEventController sharedOutgoingEventController] retrieveFromNormStructure:mb.userStruct];
   mb.retrievable = NO;
   
-  // Spawn a label on building
-  CCLabelTTF *label = [CCLabelTTF labelWithString:[Globals commafyNumber:amountCollected] fontName:[Globals font] fontSize:16.f];
-  [self addChild:label z:1000];
-  label.position = ccp(mb.position.x, mb.position.y+mb.contentSize.height*3/4);
-  UIColor *c = ((ResourceGeneratorProto *)mb.userStruct.staticStruct).resourceType == ResourceTypeCash ? [Globals greenColor] : [Globals yellowColor];
-  label.fontColor = [CCColor colorWithUIColor:c];
-  label.shadowColor = [CCColor colorWithWhite:0.f alpha:0.5f];
-  label.shadowOffset = ccp(0, -1);
-  
-  [label runAction:[CCActionSequence actions:
-                    [CCActionSpawn actions:
-                     [CCActionEaseElasticOut actionWithAction:[CCActionScaleTo actionWithDuration:1.2f scale:1]],
-                     [CCActionFadeOut actionWithDuration:1.5f],
-                     [CCActionMoveBy actionWithDuration:1.5f position:ccp(0,25)],nil],
-                    [CCActionCallFunc actionWithTarget:label selector:@selector(removeFromParent)], nil]];
+  if (amountCollected > 0) {
+    // Spawn a label on building
+    CCLabelTTF *label = [CCLabelTTF labelWithString:[Globals commafyNumber:amountCollected] fontName:[Globals font] fontSize:22.f];
+    [self addChild:label z:1000];
+    label.position = ccp(mb.position.x, mb.position.y+mb.contentSize.height*3/4);
+    UIColor *c = ((ResourceGeneratorProto *)mb.userStruct.staticStruct).resourceType == ResourceTypeCash ? [Globals greenColor] : [Globals yellowColor];
+    label.fontColor = [CCColor colorWithUIColor:c];
+    label.shadowColor = [CCColor colorWithWhite:0.f alpha:0.8f];
+    label.shadowOffset = ccp(0, -1);
+    
+    [label runAction:[CCActionSequence actions:
+                      [CCActionSpawn actions:
+                       [CCActionEaseElasticOut actionWithAction:[CCActionScaleTo actionWithDuration:1.2f scale:1]],
+                       [CCActionFadeOut actionWithDuration:1.5f],
+                       [CCActionMoveBy actionWithDuration:1.5f position:ccp(0,25)],nil],
+                      [CCActionCallFunc actionWithTarget:label selector:@selector(removeFromParent)], nil]];
+  }
   
   [self setupIncomeTimerForBuilding:mb];
 }
@@ -842,6 +848,8 @@
     [self reselectCurrentSelection];
   }
   _constrBuilding = nil;
+  
+  [SoundEngine structCompleted];
   
   [[NSNotificationCenter defaultCenter] postNotificationName:GAMESTATE_UPDATE_NOTIFICATION object:nil];
 }
@@ -876,6 +884,11 @@
         [self purchaseBuildingAllowGems:NO];
       }
     }
+    
+    [SoundEngine generalButtonClick];
+  } else {
+    [Globals addAlertNotification:@"You can't build a building on top of another building, silly!"];
+    [SoundEngine structCantPlace];
   }
 }
 
@@ -910,8 +923,6 @@
     homeBuilding.name = STRUCT_TAG(us.userStructId);
     
     [_constrBuilding displayProgressBar];
-    
-    [[SoundEngine sharedSoundEngine] carpenterPurchase];
     
     [homeBuilding removeChildByName:PURCHASE_CONFIRM_MENU_TAG cleanup:YES];
     
@@ -949,6 +960,8 @@
     self.selected = nil;
     [self doReorder];
   }
+  
+  [SoundEngine closeButtonClick];
 }
 
 #pragma mark - IBActions
@@ -1085,6 +1098,8 @@
       if (us.isComplete) {
         _isSpeedingUp = YES;
         
+        [SoundEngine structSpeedupConstruction];
+        
         // Only animate it, if it is currently selected
         // It might not be selected if trying to speed up by building a new building
         void (^comp)(void) = ^{
@@ -1099,6 +1114,8 @@
             _constrBuilding = nil;
           }
           [self updateTimersForBuilding:mb];
+          
+          [SoundEngine structCompleted];
           
           _isSpeedingUp = NO;
         };

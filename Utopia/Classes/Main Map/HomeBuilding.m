@@ -12,13 +12,13 @@
 #import "GameState.h"
 #import "Globals.h"
 #import "CCSoundAnimation.h"
+#import "SoundEngine.h"
 
 @implementation HomeBuilding
 
 - (id) initWithFile:(NSString *)file location:(CGRect)loc map:(HomeMap *)map {
   if ((self = [super initWithFile:file location:loc map:map])) {
     _homeMap = map;
-    [self placeBlock];
     
     self.baseScale = 1.f;
     
@@ -155,10 +155,10 @@
   CGRect x = self.location;
   x.origin = _startMoveCoordinate;
   self.location = x;
-  [self placeBlock];
+  [self placeBlock:YES];
 }
 
--(void) updateMeta {
+- (void) updateMeta {
   CCTiledMapLayer *meta = [_homeMap layerNamed:@"MetaLayer"];
   int red = _homeMap.redGid;
   int green = _homeMap.greenGid;
@@ -180,7 +180,7 @@
   }
 }
 
--(void) clearMeta {
+- (void) clearMeta {
   CCTiledMapLayer *meta = [_homeMap layerNamed:@"MetaLayer"];
   for (int i = 0; i < self.location.size.width; i++) {
     for (int j = 0; j < self.location.size.height; j++) {
@@ -193,7 +193,7 @@
   }
 }
 
--(void) placeBlock {
+- (void) placeBlock:(BOOL)shouldPlaySound {
   if (_isSetDown) {
     return;
   }
@@ -208,8 +208,16 @@
     _isSetDown = YES;
     _startMoveCoordinate = _location.origin;
     _startOrientation = self.orientation;
+    
+    if (shouldPlaySound) {
+      [SoundEngine structDropped];
+    }
   } else {
     sprite.opacity = 0.6f;
+    
+    if (shouldPlaySound) {
+      [SoundEngine structCantPlace];
+    }
   }
 }
 
@@ -224,7 +232,7 @@
   self.isSetDown = NO;
 }
 
--(void) locationAfterTouch: (CGPoint) touchLocation {
+- (void) locationAfterTouch: (CGPoint) touchLocation {
   // Subtract the touch location from the start location to find the distance moved
   CGPoint vector = ccpSub(touchLocation, _startTouchLocation);
   CGSize ts = _homeMap.tileSizeInPoints;
@@ -263,11 +271,11 @@
   }
 }
 
-#define ARROW_LAYER_TAG [NSString stringWithFormat:@"Arrow%p", self]
+#define ARROW_LAYER_TAG @"Arrow"
 #define ARROW_FADE_DURATION 0.2f
 
 - (void) displayMoveArrows {
-  CCNode *o = [_homeMap getChildByName:ARROW_LAYER_TAG recursively:NO];
+  CCNode *o = [self getChildByName:ARROW_LAYER_TAG recursively:NO];
   if (o) {
     // This means it was reclicked
     [o stopAllActions];
@@ -301,16 +309,16 @@
   [node addChild:nl];
   [node addChild:fr];
   [node addChild:fl];
-  node.position = ccpAdd(self.position, ccp(self.contentSize.width/2, -self.verticalOffset));
+  node.position = ccp(self.contentSize.width/2, -self.verticalOffset);
   
   [node recursivelyApplyOpacity:0];
   [node runAction:[RecursiveFadeTo actionWithDuration:ARROW_FADE_DURATION opacity:1.f]];
   
-  [_homeMap addChild:node z:1000 name:ARROW_LAYER_TAG];
+  [self addChild:node z:-1 name:ARROW_LAYER_TAG];
 }
 
 - (void) removeMoveArrows {
-  CCNode *node = [_homeMap getChildByName:ARROW_LAYER_TAG recursively:NO];
+  CCNode *node = [self getChildByName:ARROW_LAYER_TAG recursively:NO];
   [node stopAllActions];
   [node runAction:[CCActionSequence actions:[RecursiveFadeTo actionWithDuration:ARROW_FADE_DURATION opacity:0],
                    [CCActionCallBlock actionWithBlock:^{[node removeFromParentAndCleanup:YES];}], nil]];
@@ -419,6 +427,14 @@
 - (BOOL) select {
   if (self.retrievable) {
     [_homeMap retrieveFromBuilding:self];
+    
+    ResourceGeneratorProto *res = (ResourceGeneratorProto *)self.userStruct.staticStruct;
+    if (res.resourceType == ResourceTypeCash) {
+      [SoundEngine structCollectCash];
+    } else if (res.resourceType == ResourceTypeOil) {
+      [SoundEngine structCollectOil];
+    }
+    
     return NO;
   } else {
     return [super select];
@@ -570,7 +586,7 @@
   if ((self = [super initWithUserStruct:userStruct map:map])) {
     StructureInfoProto *fsp = [userStruct.staticStruct structInfo];
     self.verticalOffset = 0;
-    self.buildingSprite.position = ccpAdd(self.buildingSprite.position, ccp(-2, 5+fsp.imgVerticalPixelOffset));
+    self.buildingSprite.position = ccpAdd(self.buildingSprite.position, ccp(0, fsp.imgVerticalPixelOffset));
   }
   return self;
 }

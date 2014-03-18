@@ -7,105 +7,63 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "cocos2d.h"
 
 typedef enum {
   kNoMusic = 0,
-  kHomeMapMusic,
-  kMissionMapMusic,
-  kBattleMusic,
-  kBazaarMusic
+  kMapMusic,
+  kBattleMusic
 } BackgroundMusic;
 
 @interface SoundEngine : NSObject {
   BackgroundMusic _curMusic;
   BackgroundMusic _lastPlayedMusic;
-  
-  int _curChargeUp;
-  int _puzzWalk;
-  int _puzzPowerUp;
 }
+
+@property (nonatomic, retain) id<ALSoundSource> damageTick;
 
 + (SoundEngine *)sharedSoundEngine;
 
-- (int) playEffect:(NSString *)effect;
-
-- (void) playHomeMapMusic;
-- (void) playMissionMapMusic;
-- (void) playBattleMusic;
-- (void) playBazaarMusic;
-- (void) resumeBackgroundMusic;
 - (void) stopBackgroundMusic;
+- (void) resumeBackgroundMusic;
+- (id<ALSoundSource>) playEffect:(NSString *)effect;
 
-- (void) archerAttack;
-- (void) legionMageAttack;
-- (void) allianceMageAttack;
-- (void) warriorAttack;
-- (void) archerCharge;
-- (void) legionMageCharge;
-- (void) allianceMageCharge;
-- (void) warriorCharge;
-- (void) stopCharge;
-- (void) perfectAttack;
-- (void) goodAttack;
-- (void) greatAttack;
-- (void) missAttack;
-- (void) battleVictory;
-- (void) battleLoss;
+- (void) playMapMusic;
+- (void) playBattleMusic;
 
-- (void) warriorTaskSound;
-- (void) archerTaskSound;
-- (void) mageTaskSound;
-- (void) genericTaskSound;
++ (void) dialogueBoxOpen;
++ (void) spriteJump;
++ (void) tutorialBoatScene;
 
-- (void) coinDrop;
-- (void) coinPickup;
-- (void) shinyItem;
++ (void) closeButtonClick;
++ (void) generalButtonClick;
 
-- (void) closeDoor;
-- (void) openDoor;
++ (void) chatOpened;
++ (void) chatClosed;
 
-- (void) levelUp;
-- (void) levelUpPopUp;
++ (void) structSpeedupConstruction;
++ (void) structUpgradeClicked;
++ (void) structDropped;
++ (void) structCantPlace;
++ (void) structSelected;
++ (void) structCompleted;
++ (void) structCollectOil;
++ (void) structCollectCash;
 
-- (void) questComplete;
-- (void) questAccepted;
-- (void) questLogOpened;
-
-- (void) armoryBuy;
-- (void) armoryEnter;
-- (void) armoryLeave;
-
-- (void) marketplaceBuy;
-- (void) marketplaceEnter;
-- (void) marketplaceLeave;
-
-- (void) vaultWithdraw;
-- (void) vaultDeposit;
-- (void) vaultEnter;
-- (void) vaultLeave;
-
-- (void) carpenterEnter;
-- (void) carpenterComplete;
-- (void) carpenterPurchase;
-
-- (void) forgeEnter;
-- (void) forgeSubmit;
-- (void) forgeCollect;
-- (void) forgeSuccess;
-- (void) forgeFailure;
-
-- (void) notificationAlert;
-
-// Puzzle
-- (void) puzzleBoardExplosion;
-- (void) puzzlePlane;
-- (void) puzzleRocket;
-- (void) puzzleComboSound:(int)combo;
-- (void) puzzleGemPop;
-- (void) puzzleWrongMove;
-- (void) puzzleWalking;
-- (void) puzzleStopWalking;
-- (void) puzzlePowerUp;
-- (void) puzzleStopPowerUp;
++ (void) puzzleDamageTickStart;
++ (void) puzzleDamageTickStop;
++ (void) puzzleSwapWindow;
++ (void) puzzleSwapCharacterChosen;
++ (void) puzzleMonsterDefeated;
++ (void) puzzleRocketMatch;
++ (void) puzzlePlaneDrop;
++ (void) puzzleDestroyPiece;
++ (void) puzzleComboCreated;
++ (void) puzzleComboFire;
++ (void) puzzleSwapPiece;
++ (void) puzzleOrbsSlideIn;
++ (void) puzzleFirework;
++ (void) puzzlePiecesDrop;
++ (void) puzzleMakeItRain;
 
 @end

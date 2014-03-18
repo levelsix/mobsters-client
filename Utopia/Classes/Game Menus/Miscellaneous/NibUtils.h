@@ -35,13 +35,31 @@ typedef enum {
 @interface NiceFontLabel6 : UILabel
 @end
 
-@interface NiceFontButton : UIButton
+@interface SoundButton : UIButton
+
+- (void) playSound;
+
 @end
 
-@interface NiceFontButton2 : UIButton
+@interface CloseButton : SoundButton
+
 @end
 
-@interface NiceFontButton3 : UIButton
+@interface UpgradeButton : SoundButton
+
+@end
+
+@interface GeneralButton : SoundButton
+
+@end
+
+@interface NiceFontButton : GeneralButton
+@end
+
+@interface NiceFontButton2 : GeneralButton
+@end
+
+@interface NiceFontButton3 : GeneralButton
 @end
 
 @interface LabelButton : UIButton {
@@ -198,12 +216,16 @@ typedef enum {
 
 @end
 
-@interface MaskedButton : UIButton
+@interface MaskedButton : GeneralButton
 
 // Will take snapshot of view if it is not a uiimageView
 @property (nonatomic, assign) IBOutlet UIView *baseImage;
 
 - (void) remakeImage;
+
+@end
+
+@interface DeployCardButton : MaskedButton
 
 @end
 

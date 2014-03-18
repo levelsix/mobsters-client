@@ -933,6 +933,7 @@ static MinimumUserTaskProto* defaultMinimumUserTaskProtoInstance = nil;
 @property TaskStageMonsterProto_MonsterType monsterType;
 @property int32_t expReward;
 @property int32_t cashReward;
+@property int32_t oilReward;
 @property BOOL puzzlePieceDropped;
 @property int32_t level;
 @property int32_t itemId;
@@ -968,6 +969,13 @@ static MinimumUserTaskProto* defaultMinimumUserTaskProtoInstance = nil;
   hasCashReward_ = !!value;
 }
 @synthesize cashReward;
+- (BOOL) hasOilReward {
+  return !!hasOilReward_;
+}
+- (void) setHasOilReward:(BOOL) value {
+  hasOilReward_ = !!value;
+}
+@synthesize oilReward;
 - (BOOL) hasPuzzlePieceDropped {
   return !!hasPuzzlePieceDropped_;
 }
@@ -1003,6 +1011,7 @@ static MinimumUserTaskProto* defaultMinimumUserTaskProtoInstance = nil;
     self.monsterType = TaskStageMonsterProto_MonsterTypeRegular;
     self.expReward = 0;
     self.cashReward = 0;
+    self.oilReward = 0;
     self.puzzlePieceDropped = NO;
     self.level = 0;
     self.itemId = 0;
@@ -1046,6 +1055,9 @@ static TaskStageMonsterProto* defaultTaskStageMonsterProtoInstance = nil;
   if (self.hasItemId) {
     [output writeInt32:7 value:self.itemId];
   }
+  if (self.hasOilReward) {
+    [output writeInt32:8 value:self.oilReward];
+  }
   [self.unknownFields writeToCodedOutputStream:output];
 }
 - (int32_t) serializedSize {
@@ -1075,6 +1087,9 @@ static TaskStageMonsterProto* defaultTaskStageMonsterProtoInstance = nil;
   }
   if (self.hasItemId) {
     size += computeInt32Size(7, self.itemId);
+  }
+  if (self.hasOilReward) {
+    size += computeInt32Size(8, self.oilReward);
   }
   size += self.unknownFields.serializedSize;
   memoizedSerializedSize = size;
@@ -1173,6 +1188,9 @@ BOOL TaskStageMonsterProto_MonsterTypeIsValidValue(TaskStageMonsterProto_Monster
   if (other.hasCashReward) {
     [self setCashReward:other.cashReward];
   }
+  if (other.hasOilReward) {
+    [self setOilReward:other.oilReward];
+  }
   if (other.hasPuzzlePieceDropped) {
     [self setPuzzlePieceDropped:other.puzzlePieceDropped];
   }
@@ -1234,6 +1252,10 @@ BOOL TaskStageMonsterProto_MonsterTypeIsValidValue(TaskStageMonsterProto_Monster
       }
       case 56: {
         [self setItemId:[input readInt32]];
+        break;
+      }
+      case 64: {
+        [self setOilReward:[input readInt32]];
         break;
       }
     }
@@ -1301,6 +1323,22 @@ BOOL TaskStageMonsterProto_MonsterTypeIsValidValue(TaskStageMonsterProto_Monster
 - (TaskStageMonsterProto_Builder*) clearCashReward {
   result.hasCashReward = NO;
   result.cashReward = 0;
+  return self;
+}
+- (BOOL) hasOilReward {
+  return result.hasOilReward;
+}
+- (int32_t) oilReward {
+  return result.oilReward;
+}
+- (TaskStageMonsterProto_Builder*) setOilReward:(int32_t) value {
+  result.hasOilReward = YES;
+  result.oilReward = value;
+  return self;
+}
+- (TaskStageMonsterProto_Builder*) clearOilReward {
+  result.hasOilReward = NO;
+  result.oilReward = 0;
   return self;
 }
 - (BOOL) hasPuzzlePieceDropped {

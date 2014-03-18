@@ -8,20 +8,19 @@
 
 #import <UIKit/UIKit.h>
 #import "UserData.h"
-#import <FacebookSDK/FacebookSDK.h>
 
-@interface RequestTableCell : UITableViewCell
+@class RequestsFacebookTableController;
 
-@property (nonatomic, retain) IBOutlet FBProfilePictureView *pfPic;
-@property (nonatomic, retain) IBOutlet UILabel *titleLabel;
-@property (nonatomic, retain) IBOutlet UILabel *subtitleLabel;
-@property (nonatomic, retain) IBOutlet UIImageView *checkmark;
+@protocol RequestsTableController <UITableViewDataSource, UITableViewDelegate>
 
-@property (nonatomic, retain) RequestFromFriend *request;
+- (void) becameDelegate:(UITableView *)requestsTable noRequestsLabel:(UILabel *)noRequestsLabel spinner:(UIActivityIndicatorView *)spinner;
+- (void) resignDelegate;
 
 @end
 
-@interface RequestsViewController : UIViewController
+@interface RequestsViewController : UIViewController {
+  id<RequestsTableController> _curTableController;
+}
 
 @property (nonatomic, retain) IBOutlet UIView *mainView;
 @property (nonatomic, retain) IBOutlet UIView *bgdView;
@@ -29,14 +28,7 @@
 @property (nonatomic, retain) IBOutlet UITableView *requestsTable;
 @property (nonatomic, retain) IBOutlet UIActivityIndicatorView *spinner;
 @property (nonatomic, retain) IBOutlet UILabel *noRequestsLabel;
-@property (nonatomic, retain) IBOutlet UIButton *unselectButton;
 
-@property (nonatomic, retain) NSMutableArray *requests;
-@property (nonatomic, retain) NSMutableSet *unselectedRequests;
-@property (nonatomic, retain) NSDictionary *fbInfo;
-
-@property (nonatomic, retain) IBOutlet RequestTableCell *requestCell;
-
-- (IBAction)acceptClicked:(id)sender;
+@property (nonatomic, retain) RequestsFacebookTableController *facebookController;
 
 @end

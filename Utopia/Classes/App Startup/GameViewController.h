@@ -21,7 +21,7 @@
 
 @class TutorialController;
 
-@interface GameViewController : UIViewController <AttackMapDelegate, BattleLayerDelegate, CCDirectorDownloaderDelegate, DialogueViewControllerDelegate, ClanRaidDetailsDelegate, MiniTutorialDelegate> {
+@interface GameViewController : UIViewController <AttackMapDelegate, BattleLayerDelegate, CCDirectorDownloaderDelegate, DialogueViewControllerDelegate, ClanRaidDetailsDelegate, MiniTutorialDelegate, QuestUtilDelegate> {
   int _questIdAfterDialogue;
   
   int _assetIdForMissionMap;
@@ -44,6 +44,7 @@
 @property (nonatomic, strong) MiniTutorialController *miniTutController;
 
 @property (nonatomic, strong) FullQuestProto *completedQuest;
+@property (nonatomic, strong) FullQuestProto *progressedQuest;
 
 + (id) baseController;
 

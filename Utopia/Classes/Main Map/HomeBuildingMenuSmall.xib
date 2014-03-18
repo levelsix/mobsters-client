@@ -1,24 +1,30 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="4514" systemVersion="12F45" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="5053" systemVersion="12F45" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none">
     <dependencies>
         <deployment defaultVersion="1536" identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="3747"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="3733"/>
     </dependencies>
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="HomeMap">
             <connections>
                 <outlet property="buildBotView" destination="Ri3-6y-626" id="nrF-jI-1bv"/>
+                <outlet property="buildingEnterView" destination="zPl-fE-081" id="Qdf-bK-LOi"/>
                 <outlet property="buildingIncomeLabel" destination="HkO-DO-0Xu" id="RWX-l2-9xc"/>
                 <outlet property="buildingNameLabel" destination="f8a-kT-QFn" id="ASZ-PF-LAt"/>
                 <outlet property="buildingUpgradeCashCostLabel" destination="95" id="Rvo-9k-Sh3"/>
                 <outlet property="buildingUpgradeOilCostLabel" destination="Dxd-q7-7fb" id="JMt-2o-3Gq"/>
                 <outlet property="buildingUpgradeOilView" destination="HNx-Bh-pZ7" id="mdv-JT-Qih"/>
+                <outlet property="buildingUpgradeView" destination="cTb-Mb-5eM" id="tJ7-Ro-22x"/>
+                <outlet property="enterBottomLabel" destination="m2r-W1-dVS" id="JgH-MA-sxS"/>
+                <outlet property="enterButton" destination="X1h-Bc-9mx" id="saa-To-TUo"/>
+                <outlet property="enterTopLabel" destination="5S7-Z9-wEw" id="Ydp-B8-bFq"/>
                 <outlet property="expandBotView" destination="rBI-qQ-j6P" id="1nl-0F-Wjx"/>
                 <outlet property="expandCostLabel" destination="NAz-92-yz5" id="mfr-uj-5yu"/>
                 <outlet property="expandSubtitleLabel" destination="aq0-aW-rB5" id="kTh-dz-ho2"/>
                 <outlet property="expandingBotView" destination="GWN-65-ohU" id="vd3-Me-ef8"/>
                 <outlet property="expandingSpeedupCostLabel" destination="B8s-hn-kfs" id="EbW-xx-c38"/>
                 <outlet property="expandingSubtitleLabel" destination="D7n-Tv-yFg" id="Rer-53-MYk"/>
+                <outlet property="speedupButton" destination="b8N-ck-Uwb" id="X4E-kL-MzL"/>
                 <outlet property="upgradeBotView" destination="bZw-HN-uKE" id="VKM-Tu-rsE"/>
                 <outlet property="upgradingIncomeLabel" destination="lyh-r1-yqx" id="vdn-rt-exR"/>
                 <outlet property="upgradingNameLabel" destination="3dO-aY-w49" id="u7L-oU-D7N"/>
@@ -56,11 +62,44 @@
                             <color key="shadowColor" red="0.0" green="0.0" blue="0.0" alpha="0.90000000000000002" colorSpace="calibratedRGB"/>
                             <size key="shadowOffset" width="1" height="1"/>
                         </label>
-                        <view contentMode="scaleToFill" id="cTb-Mb-5eM">
-                            <rect key="frame" x="67" y="50" width="84" height="60"/>
+                        <view contentMode="scaleToFill" id="zPl-fE-081">
+                            <rect key="frame" x="21" y="50" width="84" height="60"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             <subviews>
-                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="6Ut-Og-8OW">
+                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="X1h-Bc-9mx" customClass="GeneralButton">
+                                    <rect key="frame" x="0.0" y="9" width="84" height="40"/>
+                                    <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxY="YES"/>
+                                    <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                                    <state key="normal" backgroundImage="enterbuilding.png">
+                                        <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                    </state>
+                                </button>
+                                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Top" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="8" id="5S7-Z9-wEw" customClass="NiceFontLabel">
+                                    <rect key="frame" x="12" y="10" width="61" height="22"/>
+                                    <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxY="YES"/>
+                                    <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                    <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                    <nil key="highlightedColor"/>
+                                    <color key="shadowColor" red="0.15686274510000001" green="0.0" blue="0.3921568627" alpha="0.75" colorSpace="calibratedRGB"/>
+                                    <size key="shadowOffset" width="0.0" height="1"/>
+                                </label>
+                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" text="Bot" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" id="m2r-W1-dVS" customClass="NiceFontLabel">
+                                    <rect key="frame" x="12" y="27" width="61" height="18"/>
+                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                    <fontDescription key="fontDescription" type="system" pointSize="11"/>
+                                    <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                    <nil key="highlightedColor"/>
+                                    <color key="shadowColor" red="0.15686274510000001" green="0.0" blue="0.3921568627" alpha="0.75" colorSpace="calibratedRGB"/>
+                                    <size key="shadowOffset" width="0.0" height="1"/>
+                                </label>
+                            </subviews>
+                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                        </view>
+                        <view contentMode="scaleToFill" id="cTb-Mb-5eM">
+                            <rect key="frame" x="113" y="50" width="84" height="60"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <subviews>
+                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="6Ut-Og-8OW" customClass="UpgradeButton">
                                     <rect key="frame" x="0.0" y="9" width="84" height="40"/>
                                     <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxY="YES"/>
                                     <fontDescription key="fontDescription" type="system" pointSize="15"/>
@@ -93,7 +132,7 @@
                                     <rect key="frame" x="0.0" y="0.0" width="84" height="60"/>
                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                     <subviews>
-                                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="ChW-vO-BR3">
+                                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="ChW-vO-BR3" customClass="UpgradeButton">
                                             <rect key="frame" x="0.0" y="9" width="84" height="40"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxY="YES"/>
                                             <fontDescription key="fontDescription" type="system" pointSize="15"/>
@@ -184,7 +223,7 @@
                             <rect key="frame" x="66" y="50" width="87" height="60"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             <subviews>
-                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="h98-lg-hEc">
+                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="h98-lg-hEc" customClass="GeneralButton">
                                     <rect key="frame" x="0.0" y="9" width="84" height="40"/>
                                     <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxY="YES"/>
                                     <fontDescription key="fontDescription" type="system" pointSize="15"/>
@@ -261,7 +300,7 @@
                             <rect key="frame" x="67" y="50" width="84" height="60"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             <subviews>
-                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="b8N-ck-Uwb">
+                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="b8N-ck-Uwb" customClass="GeneralButton">
                                     <rect key="frame" x="0.0" y="9" width="84" height="40"/>
                                     <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxY="YES"/>
                                     <fontDescription key="fontDescription" type="system" pointSize="15"/>
@@ -342,7 +381,7 @@
                             <rect key="frame" x="66" y="50" width="87" height="60"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             <subviews>
-                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="QXi-bd-Zrj">
+                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="QXi-bd-Zrj" customClass="GeneralButton">
                                     <rect key="frame" x="0.0" y="9" width="84" height="40"/>
                                     <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxY="YES"/>
                                     <fontDescription key="fontDescription" type="system" pointSize="15"/>
@@ -393,6 +432,7 @@
     <resources>
         <image name="confirm.png" width="84" height="40"/>
         <image name="diamond.png" width="44" height="41"/>
+        <image name="enterbuilding.png" width="84" height="40"/>
         <image name="finishbuild.png" width="84" height="40"/>
         <image name="oilicon.png" width="26" height="32"/>
         <image name="oilupgradebutton.png" width="84" height="40"/>

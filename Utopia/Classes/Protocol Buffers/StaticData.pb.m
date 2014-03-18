@@ -48,6 +48,8 @@ static PBExtensionRegistry* extensionRegistry = nil;
 @property (retain) NSMutableArray* mutableMbdsList;
 @property (retain) NSMutableArray* mutableRaidsList;
 @property (retain) NSMutableArray* mutablePersistentClanEventsList;
+@property (retain) NSMutableArray* mutableItemsList;
+@property (retain) NSMutableArray* mutableObstaclesList;
 @end
 
 @implementation StaticDataProto
@@ -78,6 +80,8 @@ static PBExtensionRegistry* extensionRegistry = nil;
 @synthesize mutableMbdsList;
 @synthesize mutableRaidsList;
 @synthesize mutablePersistentClanEventsList;
+@synthesize mutableItemsList;
+@synthesize mutableObstaclesList;
 - (void) dealloc {
   self.sender = nil;
   self.mutableExpansionCostsList = nil;
@@ -99,6 +103,8 @@ static PBExtensionRegistry* extensionRegistry = nil;
   self.mutableMbdsList = nil;
   self.mutableRaidsList = nil;
   self.mutablePersistentClanEventsList = nil;
+  self.mutableItemsList = nil;
+  self.mutableObstaclesList = nil;
   [super dealloc];
 }
 - (id) init {
@@ -252,6 +258,20 @@ static StaticDataProto* defaultStaticDataProtoInstance = nil;
   id value = [mutablePersistentClanEventsList objectAtIndex:index];
   return value;
 }
+- (NSArray*) itemsList {
+  return mutableItemsList;
+}
+- (ItemProto*) itemsAtIndex:(int32_t) index {
+  id value = [mutableItemsList objectAtIndex:index];
+  return value;
+}
+- (NSArray*) obstaclesList {
+  return mutableObstaclesList;
+}
+- (ObstacleProto*) obstaclesAtIndex:(int32_t) index {
+  id value = [mutableObstaclesList objectAtIndex:index];
+  return value;
+}
 - (BOOL) isInitialized {
   return YES;
 }
@@ -315,6 +335,12 @@ static StaticDataProto* defaultStaticDataProtoInstance = nil;
   }
   for (PersistentClanEventProto* element in self.persistentClanEventsList) {
     [output writeMessage:21 value:element];
+  }
+  for (ItemProto* element in self.itemsList) {
+    [output writeMessage:22 value:element];
+  }
+  for (ObstacleProto* element in self.obstaclesList) {
+    [output writeMessage:23 value:element];
   }
   [self.unknownFields writeToCodedOutputStream:output];
 }
@@ -384,6 +410,12 @@ static StaticDataProto* defaultStaticDataProtoInstance = nil;
   }
   for (PersistentClanEventProto* element in self.persistentClanEventsList) {
     size += computeMessageSize(21, element);
+  }
+  for (ItemProto* element in self.itemsList) {
+    size += computeMessageSize(22, element);
+  }
+  for (ObstacleProto* element in self.obstaclesList) {
+    size += computeMessageSize(23, element);
   }
   size += self.unknownFields.serializedSize;
   memoizedSerializedSize = size;
@@ -577,6 +609,18 @@ static StaticDataProto* defaultStaticDataProtoInstance = nil;
     }
     [result.mutablePersistentClanEventsList addObjectsFromArray:other.mutablePersistentClanEventsList];
   }
+  if (other.mutableItemsList.count > 0) {
+    if (result.mutableItemsList == nil) {
+      result.mutableItemsList = [NSMutableArray array];
+    }
+    [result.mutableItemsList addObjectsFromArray:other.mutableItemsList];
+  }
+  if (other.mutableObstaclesList.count > 0) {
+    if (result.mutableObstaclesList == nil) {
+      result.mutableObstaclesList = [NSMutableArray array];
+    }
+    [result.mutableObstaclesList addObjectsFromArray:other.mutableObstaclesList];
+  }
   [self mergeUnknownFields:other.unknownFields];
   return self;
 }
@@ -719,6 +763,18 @@ static StaticDataProto* defaultStaticDataProtoInstance = nil;
         PersistentClanEventProto_Builder* subBuilder = [PersistentClanEventProto builder];
         [input readMessage:subBuilder extensionRegistry:extensionRegistry];
         [self addPersistentClanEvents:[subBuilder buildPartial]];
+        break;
+      }
+      case 178: {
+        ItemProto_Builder* subBuilder = [ItemProto builder];
+        [input readMessage:subBuilder extensionRegistry:extensionRegistry];
+        [self addItems:[subBuilder buildPartial]];
+        break;
+      }
+      case 186: {
+        ObstacleProto_Builder* subBuilder = [ObstacleProto builder];
+        [input readMessage:subBuilder extensionRegistry:extensionRegistry];
+        [self addObstacles:[subBuilder buildPartial]];
         break;
       }
     }
@@ -1303,6 +1359,64 @@ static StaticDataProto* defaultStaticDataProtoInstance = nil;
     result.mutablePersistentClanEventsList = [NSMutableArray array];
   }
   [result.mutablePersistentClanEventsList addObject:value];
+  return self;
+}
+- (NSArray*) itemsList {
+  if (result.mutableItemsList == nil) { return [NSArray array]; }
+  return result.mutableItemsList;
+}
+- (ItemProto*) itemsAtIndex:(int32_t) index {
+  return [result itemsAtIndex:index];
+}
+- (StaticDataProto_Builder*) replaceItemsAtIndex:(int32_t) index with:(ItemProto*) value {
+  [result.mutableItemsList replaceObjectAtIndex:index withObject:value];
+  return self;
+}
+- (StaticDataProto_Builder*) addAllItems:(NSArray*) values {
+  if (result.mutableItemsList == nil) {
+    result.mutableItemsList = [NSMutableArray array];
+  }
+  [result.mutableItemsList addObjectsFromArray:values];
+  return self;
+}
+- (StaticDataProto_Builder*) clearItemsList {
+  result.mutableItemsList = nil;
+  return self;
+}
+- (StaticDataProto_Builder*) addItems:(ItemProto*) value {
+  if (result.mutableItemsList == nil) {
+    result.mutableItemsList = [NSMutableArray array];
+  }
+  [result.mutableItemsList addObject:value];
+  return self;
+}
+- (NSArray*) obstaclesList {
+  if (result.mutableObstaclesList == nil) { return [NSArray array]; }
+  return result.mutableObstaclesList;
+}
+- (ObstacleProto*) obstaclesAtIndex:(int32_t) index {
+  return [result obstaclesAtIndex:index];
+}
+- (StaticDataProto_Builder*) replaceObstaclesAtIndex:(int32_t) index with:(ObstacleProto*) value {
+  [result.mutableObstaclesList replaceObjectAtIndex:index withObject:value];
+  return self;
+}
+- (StaticDataProto_Builder*) addAllObstacles:(NSArray*) values {
+  if (result.mutableObstaclesList == nil) {
+    result.mutableObstaclesList = [NSMutableArray array];
+  }
+  [result.mutableObstaclesList addObjectsFromArray:values];
+  return self;
+}
+- (StaticDataProto_Builder*) clearObstaclesList {
+  result.mutableObstaclesList = nil;
+  return self;
+}
+- (StaticDataProto_Builder*) addObstacles:(ObstacleProto*) value {
+  if (result.mutableObstaclesList == nil) {
+    result.mutableObstaclesList = [NSMutableArray array];
+  }
+  [result.mutableObstaclesList addObject:value];
   return self;
 }
 @end

@@ -216,10 +216,10 @@
 }
 
 - (void) youWon {
-  [self makeMyPlayerWalkOut];
+  float dur = [self makeMyPlayerWalkOut];
   [self runAction:
    [CCActionSequence actions:
-    [CCActionDelay actionWithDuration:0.4f],
+    [CCActionDelay actionWithDuration:dur],
     [CCActionCallBlock actionWithBlock:
      ^{
        [self.delegate battleComplete:nil];

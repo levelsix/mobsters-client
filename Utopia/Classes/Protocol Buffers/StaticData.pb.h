@@ -57,6 +57,8 @@
 @class FullUserStructureProto_Builder;
 @class HospitalProto;
 @class HospitalProto_Builder;
+@class ItemProto;
+@class ItemProto_Builder;
 @class LabProto;
 @class LabProto_Builder;
 @class MinimumClanProto;
@@ -85,6 +87,8 @@
 @class MonsterLevelInfoProto_Builder;
 @class MonsterProto;
 @class MonsterProto_Builder;
+@class ObstacleProto;
+@class ObstacleProto_Builder;
 @class PersistentClanEventClanInfoProto;
 @class PersistentClanEventClanInfoProto_Builder;
 @class PersistentClanEventProto;
@@ -154,6 +158,8 @@
 @private
   BOOL hasSender_:1;
   MinimumUserProto* sender;
+  NSMutableArray* mutableObstaclesList;
+  NSMutableArray* mutableItemsList;
   NSMutableArray* mutablePersistentClanEventsList;
   NSMutableArray* mutableRaidsList;
   NSMutableArray* mutableMbdsList;
@@ -214,6 +220,10 @@
 - (ClanRaidProto*) raidsAtIndex:(int32_t) index;
 - (NSArray*) persistentClanEventsList;
 - (PersistentClanEventProto*) persistentClanEventsAtIndex:(int32_t) index;
+- (NSArray*) itemsList;
+- (ItemProto*) itemsAtIndex:(int32_t) index;
+- (NSArray*) obstaclesList;
+- (ObstacleProto*) obstaclesAtIndex:(int32_t) index;
 
 + (StaticDataProto*) defaultInstance;
 - (StaticDataProto*) defaultInstance;
@@ -388,5 +398,19 @@
 - (StaticDataProto_Builder*) addPersistentClanEvents:(PersistentClanEventProto*) value;
 - (StaticDataProto_Builder*) addAllPersistentClanEvents:(NSArray*) values;
 - (StaticDataProto_Builder*) clearPersistentClanEventsList;
+
+- (NSArray*) itemsList;
+- (ItemProto*) itemsAtIndex:(int32_t) index;
+- (StaticDataProto_Builder*) replaceItemsAtIndex:(int32_t) index with:(ItemProto*) value;
+- (StaticDataProto_Builder*) addItems:(ItemProto*) value;
+- (StaticDataProto_Builder*) addAllItems:(NSArray*) values;
+- (StaticDataProto_Builder*) clearItemsList;
+
+- (NSArray*) obstaclesList;
+- (ObstacleProto*) obstaclesAtIndex:(int32_t) index;
+- (StaticDataProto_Builder*) replaceObstaclesAtIndex:(int32_t) index with:(ObstacleProto*) value;
+- (StaticDataProto_Builder*) addObstacles:(ObstacleProto*) value;
+- (StaticDataProto_Builder*) addAllObstacles:(NSArray*) values;
+- (StaticDataProto_Builder*) clearObstaclesList;
 @end
 

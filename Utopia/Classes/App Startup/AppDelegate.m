@@ -101,8 +101,8 @@
 }
 
 - (void) setUpKamcord:(UIViewController *)vc {
-//  [Kamcord setDeveloperKey:KAMCORD_DEV_KEY developerSecret:KAMCORD_SECRET appName:@"Mob Squad" parentViewController:vc];
-//  [Kamcord setFacebookAppID:FACEBOOK_APP_ID];
+  [Kamcord setDeveloperKey:KAMCORD_DEV_KEY developerSecret:KAMCORD_SECRET appName:@"Mob Squad" parentViewController:vc];
+  [Kamcord setFacebookAppID:FACEBOOK_APP_ID];
 }
 
 - (BOOL) application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions

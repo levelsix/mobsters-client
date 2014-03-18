@@ -62,6 +62,8 @@
 @class MonsterLevelInfoProto_Builder;
 @class MonsterProto;
 @class MonsterProto_Builder;
+@class ObstacleProto;
+@class ObstacleProto_Builder;
 @class PersistentClanEventClanInfoProto;
 @class PersistentClanEventClanInfoProto_Builder;
 @class PersistentClanEventProto;

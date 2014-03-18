@@ -31,6 +31,8 @@
 + (void) getFacebookFriendsWithLoginUI:(BOOL)openLoginUI callback:(void (^)(NSArray *fbFriends))completion;
 + (void) initiateRequestToFacebookIds:(NSArray *)fbIds withMessage:(NSString *)message completionBlock:(void(^)(BOOL success, NSArray *friendIds))completion;
 
++ (void) getFacebookUsersWithIds:(NSArray *)idsArr handler:(void (^)(id result))handler;
+
 + (void) getFacebookIdAndDoAction:(void (^)(NSString *facebookId))handler;
 + (void) getFacebookUsernameAndDoAction:(void (^)(NSString *username))handler;
 

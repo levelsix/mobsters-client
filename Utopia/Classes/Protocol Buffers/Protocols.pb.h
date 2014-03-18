@@ -198,6 +198,8 @@
 @class InviteFbFriendsForSlotsRequestProto_FacebookInviteStructure_Builder;
 @class InviteFbFriendsForSlotsResponseProto;
 @class InviteFbFriendsForSlotsResponseProto_Builder;
+@class ItemProto;
+@class ItemProto_Builder;
 @class LabProto;
 @class LabProto_Builder;
 @class LeaveClanRequestProto;
@@ -254,6 +256,8 @@
 @class NormStructWaitCompleteRequestProto_Builder;
 @class NormStructWaitCompleteResponseProto;
 @class NormStructWaitCompleteResponseProto_Builder;
+@class ObstacleProto;
+@class ObstacleProto_Builder;
 @class PersistentClanEventClanInfoProto;
 @class PersistentClanEventClanInfoProto_Builder;
 @class PersistentClanEventProto;

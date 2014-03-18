@@ -1891,3 +1891,258 @@ static FullUserQuestProto* defaultFullUserQuestProtoInstance = nil;
 }
 @end
 
+@interface ItemProto ()
+@property int32_t itemId;
+@property (retain) NSString* name;
+@property (retain) NSString* imgName;
+@end
+
+@implementation ItemProto
+
+- (BOOL) hasItemId {
+  return !!hasItemId_;
+}
+- (void) setHasItemId:(BOOL) value {
+  hasItemId_ = !!value;
+}
+@synthesize itemId;
+- (BOOL) hasName {
+  return !!hasName_;
+}
+- (void) setHasName:(BOOL) value {
+  hasName_ = !!value;
+}
+@synthesize name;
+- (BOOL) hasImgName {
+  return !!hasImgName_;
+}
+- (void) setHasImgName:(BOOL) value {
+  hasImgName_ = !!value;
+}
+@synthesize imgName;
+- (void) dealloc {
+  self.name = nil;
+  self.imgName = nil;
+  [super dealloc];
+}
+- (id) init {
+  if ((self = [super init])) {
+    self.itemId = 0;
+    self.name = @"";
+    self.imgName = @"";
+  }
+  return self;
+}
+static ItemProto* defaultItemProtoInstance = nil;
++ (void) initialize {
+  if (self == [ItemProto class]) {
+    defaultItemProtoInstance = [[ItemProto alloc] init];
+  }
+}
++ (ItemProto*) defaultInstance {
+  return defaultItemProtoInstance;
+}
+- (ItemProto*) defaultInstance {
+  return defaultItemProtoInstance;
+}
+- (BOOL) isInitialized {
+  return YES;
+}
+- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output {
+  if (self.hasItemId) {
+    [output writeInt32:1 value:self.itemId];
+  }
+  if (self.hasName) {
+    [output writeString:2 value:self.name];
+  }
+  if (self.hasImgName) {
+    [output writeString:3 value:self.imgName];
+  }
+  [self.unknownFields writeToCodedOutputStream:output];
+}
+- (int32_t) serializedSize {
+  int32_t size = memoizedSerializedSize;
+  if (size != -1) {
+    return size;
+  }
+
+  size = 0;
+  if (self.hasItemId) {
+    size += computeInt32Size(1, self.itemId);
+  }
+  if (self.hasName) {
+    size += computeStringSize(2, self.name);
+  }
+  if (self.hasImgName) {
+    size += computeStringSize(3, self.imgName);
+  }
+  size += self.unknownFields.serializedSize;
+  memoizedSerializedSize = size;
+  return size;
+}
++ (ItemProto*) parseFromData:(NSData*) data {
+  return (ItemProto*)[[[ItemProto builder] mergeFromData:data] build];
+}
++ (ItemProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (ItemProto*)[[[ItemProto builder] mergeFromData:data extensionRegistry:extensionRegistry] build];
+}
++ (ItemProto*) parseFromInputStream:(NSInputStream*) input {
+  return (ItemProto*)[[[ItemProto builder] mergeFromInputStream:input] build];
+}
++ (ItemProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (ItemProto*)[[[ItemProto builder] mergeFromInputStream:input extensionRegistry:extensionRegistry] build];
+}
++ (ItemProto*) parseFromCodedInputStream:(PBCodedInputStream*) input {
+  return (ItemProto*)[[[ItemProto builder] mergeFromCodedInputStream:input] build];
+}
++ (ItemProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (ItemProto*)[[[ItemProto builder] mergeFromCodedInputStream:input extensionRegistry:extensionRegistry] build];
+}
++ (ItemProto_Builder*) builder {
+  return [[[ItemProto_Builder alloc] init] autorelease];
+}
++ (ItemProto_Builder*) builderWithPrototype:(ItemProto*) prototype {
+  return [[ItemProto builder] mergeFrom:prototype];
+}
+- (ItemProto_Builder*) builder {
+  return [ItemProto builder];
+}
+@end
+
+@interface ItemProto_Builder()
+@property (retain) ItemProto* result;
+@end
+
+@implementation ItemProto_Builder
+@synthesize result;
+- (void) dealloc {
+  self.result = nil;
+  [super dealloc];
+}
+- (id) init {
+  if ((self = [super init])) {
+    self.result = [[[ItemProto alloc] init] autorelease];
+  }
+  return self;
+}
+- (PBGeneratedMessage*) internalGetResult {
+  return result;
+}
+- (ItemProto_Builder*) clear {
+  self.result = [[[ItemProto alloc] init] autorelease];
+  return self;
+}
+- (ItemProto_Builder*) clone {
+  return [ItemProto builderWithPrototype:result];
+}
+- (ItemProto*) defaultInstance {
+  return [ItemProto defaultInstance];
+}
+- (ItemProto*) build {
+  [self checkInitialized];
+  return [self buildPartial];
+}
+- (ItemProto*) buildPartial {
+  ItemProto* returnMe = [[result retain] autorelease];
+  self.result = nil;
+  return returnMe;
+}
+- (ItemProto_Builder*) mergeFrom:(ItemProto*) other {
+  if (other == [ItemProto defaultInstance]) {
+    return self;
+  }
+  if (other.hasItemId) {
+    [self setItemId:other.itemId];
+  }
+  if (other.hasName) {
+    [self setName:other.name];
+  }
+  if (other.hasImgName) {
+    [self setImgName:other.imgName];
+  }
+  [self mergeUnknownFields:other.unknownFields];
+  return self;
+}
+- (ItemProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input {
+  return [self mergeFromCodedInputStream:input extensionRegistry:[PBExtensionRegistry emptyRegistry]];
+}
+- (ItemProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  PBUnknownFieldSet_Builder* unknownFields = [PBUnknownFieldSet builderWithUnknownFields:self.unknownFields];
+  while (YES) {
+    int32_t tag = [input readTag];
+    switch (tag) {
+      case 0:
+        [self setUnknownFields:[unknownFields build]];
+        return self;
+      default: {
+        if (![self parseUnknownField:input unknownFields:unknownFields extensionRegistry:extensionRegistry tag:tag]) {
+          [self setUnknownFields:[unknownFields build]];
+          return self;
+        }
+        break;
+      }
+      case 8: {
+        [self setItemId:[input readInt32]];
+        break;
+      }
+      case 18: {
+        [self setName:[input readString]];
+        break;
+      }
+      case 26: {
+        [self setImgName:[input readString]];
+        break;
+      }
+    }
+  }
+}
+- (BOOL) hasItemId {
+  return result.hasItemId;
+}
+- (int32_t) itemId {
+  return result.itemId;
+}
+- (ItemProto_Builder*) setItemId:(int32_t) value {
+  result.hasItemId = YES;
+  result.itemId = value;
+  return self;
+}
+- (ItemProto_Builder*) clearItemId {
+  result.hasItemId = NO;
+  result.itemId = 0;
+  return self;
+}
+- (BOOL) hasName {
+  return result.hasName;
+}
+- (NSString*) name {
+  return result.name;
+}
+- (ItemProto_Builder*) setName:(NSString*) value {
+  result.hasName = YES;
+  result.name = value;
+  return self;
+}
+- (ItemProto_Builder*) clearName {
+  result.hasName = NO;
+  result.name = @"";
+  return self;
+}
+- (BOOL) hasImgName {
+  return result.hasImgName;
+}
+- (NSString*) imgName {
+  return result.imgName;
+}
+- (ItemProto_Builder*) setImgName:(NSString*) value {
+  result.hasImgName = YES;
+  result.imgName = value;
+  return self;
+}
+- (ItemProto_Builder*) clearImgName {
+  result.hasImgName = NO;
+  result.imgName = @"";
+  return self;
+}
+@end
+

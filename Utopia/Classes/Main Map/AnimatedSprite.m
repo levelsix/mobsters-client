@@ -13,6 +13,7 @@
 #import "GameState.h"
 #import "Globals.h"
 #import "CCAnimation+SpriteLoading.h"
+#import "SoundEngine.h"
 
 @implementation CharacterSprite
 
@@ -249,8 +250,13 @@
   [spr runAction:
    [CCActionRepeat actionWithAction:
     [CCActionSequence actions:
+     [CCActionCallBlock actionWithBlock:
+      ^{
+        [SoundEngine spriteJump];
+      }],
      [CCActionScaleTo actionWithDuration:dur/2.f scale:0.9],
-     [CCActionScaleTo actionWithDuration:dur/2.f scale:1.f], nil]
+     [CCActionScaleTo actionWithDuration:dur/2.f scale:1.f],
+     nil]
                               times:numTimes]];
 }
 

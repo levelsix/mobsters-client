@@ -820,12 +820,14 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
 }
 
 - (void) beginDungeon:(int)taskId withDelegate:(id)delegate {
-  int tag = [[SocketCommunication sharedSocketCommunication] sendBeginDungeonMessage:[self getCurrentMilliseconds] taskId:taskId isEvent:NO eventId:0 gems:0 enemyElement:MonsterProto_MonsterElementFire shouldForceElem:NO questIds:nil];
+  GameState *gs = [GameState sharedGameState];
+  int tag = [[SocketCommunication sharedSocketCommunication] sendBeginDungeonMessage:[self getCurrentMilliseconds] taskId:taskId isEvent:NO eventId:0 gems:0 enemyElement:MonsterProto_MonsterElementFire shouldForceElem:NO questIds:gs.inProgressIncompleteQuests.allKeys];
   [[SocketCommunication sharedSocketCommunication] setDelegate:delegate forTag:tag];
 }
 
 - (void) beginDungeon:(int)taskId enemyElement:(MonsterProto_MonsterElement)element withDelegate:(id)delegate {
-  int tag = [[SocketCommunication sharedSocketCommunication] sendBeginDungeonMessage:[self getCurrentMilliseconds] taskId:taskId isEvent:NO eventId:0 gems:0 enemyElement:element shouldForceElem:YES questIds:nil];
+  GameState *gs = [GameState sharedGameState];
+  int tag = [[SocketCommunication sharedSocketCommunication] sendBeginDungeonMessage:[self getCurrentMilliseconds] taskId:taskId isEvent:NO eventId:0 gems:0 enemyElement:element shouldForceElem:YES questIds:gs.inProgressIncompleteQuests.allKeys];
   [[SocketCommunication sharedSocketCommunication] setDelegate:delegate forTag:tag];
 }
 

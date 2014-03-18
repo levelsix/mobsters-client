@@ -11,47 +11,25 @@
 #import "GameState.h"
 #import "UserData.h"
 #import "OutgoingEventController.h"
-
-@implementation RequestTableCell
-
-- (void) awakeFromNib {
-  UIImage *maskImage = [UIImage imageNamed:@"fullfriendmask.png"];
-  CALayer *mask = [CALayer layer];
-  mask.contents = (id)[maskImage CGImage];
-  mask.frame = CGRectMake(0, 0, self.pfPic.frame.size.width, self.pfPic.frame.size.height);
-  self.pfPic.layer.mask = mask;
-}
-
-- (void) updateForRequest:(RequestFromFriend *)request andFbInfo:(NSDictionary *)fbInfo {
-  self.hidden = !fbInfo;
-  if (request.type == RequestFromFriendInventorySlots) {
-    self.pfPic.profileID = request.invite.inviter.facebookId;
-    self.titleLabel.text = [NSString stringWithFormat:@"%@ needs your help!", fbInfo[@"first_name"]];
-    self.subtitleLabel.text = [NSString stringWithFormat:@"Your friend %@ needs help unlocking more mobster slots", fbInfo[@"first_name"]];
-  }
-  
-  self.request = request;
-}
-
-@end
+#import "FacebookDelegate.h"
+#import "RequestsFacebookTableController.h"
 
 @implementation RequestsViewController
 
 - (void) viewDidLoad {
-  self.unselectButton.superview.layer.cornerRadius = 5.f;
-  
   [Globals bounceView:self.mainView fadeInBgdView:self.bgdView];
   
-  self.unselectedRequests = [NSMutableSet set];
-  [self reloadRequestsArray];
+  self.facebookController = [[RequestsFacebookTableController alloc] init];
+  
+  [self changeTableController:self.facebookController];
 }
 
-- (void) viewDidAppear:(BOOL)animated {
-  [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(reloadRequestsArray) name:NEW_FB_INVITE_NOTIFICATION object:nil];
-}
-
-- (void) viewDidDisappear:(BOOL)animated {
-  [[NSNotificationCenter defaultCenter] removeObserver:self];
+- (void) changeTableController:(id<RequestsTableController>)newController {
+  [_curTableController resignDelegate];
+  self.requestsTable.delegate = newController;
+  self.requestsTable.dataSource = newController;
+  [newController becameDelegate:self.requestsTable noRequestsLabel:self.noRequestsLabel spinner:self.spinner];
+  _curTableController = newController;
 }
 
 - (IBAction)closeClicked:(id)sender {
@@ -59,112 +37,6 @@
     [self.view removeFromSuperview];
     [self removeFromParentViewController];
   }];
-}
-
-- (IBAction)acceptClicked:(id)sender {
-  NSMutableArray *accept = [NSMutableArray array];
-  NSMutableArray *reject = [NSMutableArray array];
-  
-  for (RequestFromFriend *req in self.requests) {
-    if ([self.unselectedRequests containsObject:req]) {
-      [reject addObject:[NSNumber numberWithInt:req.invite.inviteId]];
-    } else {
-      [accept addObject:[NSNumber numberWithInt:req.invite.inviteId]];
-    }
-  }
-  
-  [[OutgoingEventController sharedOutgoingEventController] acceptAndRejectInvitesWithAcceptIds:accept rejectIds:reject];
-  
-  [self closeClicked:nil];
-  
-  [[NSNotificationCenter defaultCenter] postNotificationName:FB_INVITE_RESPONDED_NOTIFICATION object:nil];
-}
-
-- (IBAction)unselectAllClicked:(id)sender {
-  [self.unselectedRequests addObjectsFromArray:self.requests];
-  
-  for (RequestTableCell *cell in self.requestsTable.visibleCells) {
-    cell.checkmark.hidden = YES;
-  }
-}
-
-- (IBAction)rowClicked:(id)sender {
-  while (![sender isKindOfClass:[RequestTableCell class]]) {
-    sender = [sender superview];
-  }
-  RequestTableCell *cell = (RequestTableCell *)sender;
-  
-  if ([self.unselectedRequests containsObject:cell.request]) {
-    [self.unselectedRequests removeObject:cell.request];
-    cell.checkmark.hidden = NO;
-  } else {
-    [self.unselectedRequests addObject:cell.request];
-    cell.checkmark.hidden = YES;
-  }
-}
-
-- (void) reloadRequestsArray {
-  GameState *gs = [GameState sharedGameState];
-  self.requests = [NSMutableArray arrayWithArray:gs.fbUnacceptedRequestsFromFriends.allObjects];
-  self.fbInfo = nil;
-  
-  [self.requestsTable reloadData];
-  
-  if (self.requests.count == 0) {
-    self.noRequestsLabel.hidden = NO;
-    self.spinner.hidden = YES;
-  } else {
-    [self getFacebookInfo];
-    self.noRequestsLabel.hidden = YES;
-    self.spinner.hidden = NO;
-  }
-}
-
-- (void) getFacebookInfo {
-  if (self.requests.count == 0) {
-    return;
-  }
-  
-  FBRequestConnection *conn = [[FBRequestConnection alloc] init];
-  
-  NSMutableString *ids = [NSMutableString stringWithFormat:@"%@", [(RequestFromFriend *)self.requests[0] invite].inviter.facebookId];
-  for (int i = 1; i < self.requests.count; i++) {
-    RequestFromFriend *req = self.requests[i];
-    [ids appendFormat:@",%@", req.invite.inviter.facebookId];
-  }
-  
-  NSDictionary *params = [NSDictionary dictionaryWithObjectsAndKeys:ids, @"ids", nil];
-  if (![FBSession activeSession]) {
-    [FBSession openActiveSessionWithAllowLoginUI:NO];
-  }
-  FBRequest *req = [[FBRequest alloc] initWithSession:nil graphPath:@"" parameters:params HTTPMethod:nil];
-  [conn addRequest:req completionHandler:^(FBRequestConnection *connection, NSDictionary *result, NSError *error) {
-    self.fbInfo = result;
-    
-    [self.requestsTable reloadData];
-    self.spinner.hidden = YES;
-  }];
-  [conn start];
-}
-
-#pragma mark - UITableViewDelegate/DataSource methods
-
-- (NSInteger) tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-  return self.requests.count;
-}
-
-- (UITableViewCell *) tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-  RequestTableCell *cell = [tableView dequeueReusableCellWithIdentifier:@"RequestTableCell"];
-  if (cell == nil) {
-    [[NSBundle mainBundle] loadNibNamed:@"RequestTableCell" owner:self options:nil];
-    cell = self.requestCell;
-  }
-  
-  RequestFromFriend *req = self.requests[indexPath.row];
-  [cell updateForRequest:req andFbInfo:self.fbInfo[req.invite.inviter.facebookId]];
-  cell.checkmark.hidden = [self.unselectedRequests containsObject:req];
-  
-  return cell;
 }
 
 @end

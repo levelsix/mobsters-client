@@ -254,12 +254,12 @@
 @implementation BattleRewardNode
 
 - (id) initWithReward:(Reward *)reward {
+  GameState *gs = [GameState sharedGameState];
   NSString *imgName = nil;
   NSString *labelName = nil;
   NSString *bgdName = nil;
   UIColor *color = nil;
   if (reward.type == RewardTypeMonster) {
-    GameState *gs = [GameState sharedGameState];
     MonsterProto *mp = [gs monsterWithId:reward.monsterId];
     imgName = [Globals imageNameForRarity:mp.quality suffix:@"piece.png"];
     bgdName = [Globals imageNameForRarity:mp.quality suffix:@"found.png"];
@@ -279,6 +279,12 @@
     imgName = @"diamond.png";
     labelName = [Globals commafyNumber:reward.goldAmount];
     color = [Globals purplishPinkColor];
+  } else if (reward.type == RewardTypeItem) {
+    ItemProto *item = [gs itemForId:reward.itemId];
+    imgName = item.imgName;
+    labelName = item.name;
+    bgdName = @"commonfound.png";
+    color = [Globals creamColor];
   }
   
   if ((self = [super initWithImageNamed:bgdName])) {

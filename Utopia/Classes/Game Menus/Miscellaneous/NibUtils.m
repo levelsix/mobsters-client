@@ -9,6 +9,7 @@
 #import "NibUtils.h"
 #import "Globals.h"
 #import "GameState.h"
+#import "SoundEngine.h"
 
 @implementation NiceFontLabel
 
@@ -67,6 +68,7 @@
 @implementation NiceFontButton
 
 - (void) awakeFromNib {
+  [super awakeFromNib];
   [Globals adjustFontSizeForSize:self.titleLabel.font.pointSize withUIView:self];
   self.titleLabel.font = [UIFont fontWithName:[Globals font] size:self.titleLabel.font.pointSize];
 }
@@ -76,6 +78,7 @@
 @implementation NiceFontButton2
 
 - (void) awakeFromNib {
+  [super awakeFromNib];
   [Globals adjustFontSizeForSize:self.titleLabel.font.pointSize withUIView:self];
   self.titleLabel.font = [UIFont fontWithName:@"Gotham-Book" size:self.titleLabel.font.pointSize];
 }
@@ -85,6 +88,7 @@
 @implementation NiceFontButton3
 
 - (void) awakeFromNib {
+  [super awakeFromNib];
   [Globals adjustFontSizeForSize:self.titleLabel.font.pointSize withUIView:self];
   self.titleLabel.font = [UIFont fontWithName:@"Klavika Bold" size:self.titleLabel.font.pointSize];
 }
@@ -514,6 +518,7 @@
 @implementation MaskedButton
 
 - (void) awakeFromNib {
+  [super awakeFromNib];
   [self remakeImage];
 }
 
@@ -531,6 +536,14 @@
   } else {
     [self setImage:nil forState:UIControlStateNormal];
   }
+}
+
+@end
+
+@implementation DeployCardButton
+
+- (void) playSound {
+  [SoundEngine puzzleSwapCharacterChosen];
 }
 
 @end
@@ -738,6 +751,7 @@
 
 - (IBAction)buttonClicked:(id)sender {
   [self.delegate labelClicked:self];
+  [SoundEngine generalButtonClick];
 }
 
 @end
@@ -795,3 +809,43 @@
 }
 
 @end
+
+#pragma mark - Sound buttons
+
+@implementation SoundButton
+
+- (void) awakeFromNib {
+  [self addTarget:self action:@selector(playSound) forControlEvents:UIControlEventTouchUpInside];
+}
+
+- (void) playSound {
+  NSLog(@"Implement this..");
+}
+
+@end
+
+@implementation CloseButton
+
+- (void) playSound {
+  [SoundEngine closeButtonClick];
+}
+
+@end
+
+@implementation UpgradeButton
+
+- (void) playSound {
+  [SoundEngine structUpgradeClicked];
+}
+
+@end
+
+@implementation GeneralButton
+
+- (void) playSound {
+  [SoundEngine generalButtonClick];
+}
+
+@end
+
+

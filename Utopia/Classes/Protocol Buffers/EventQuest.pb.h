@@ -31,6 +31,8 @@
 @class FullUserStructureProto_Builder;
 @class HospitalProto;
 @class HospitalProto_Builder;
+@class ItemProto;
+@class ItemProto_Builder;
 @class LabProto;
 @class LabProto_Builder;
 @class MinimumClanProto;
@@ -53,6 +55,8 @@
 @class MonsterLevelInfoProto_Builder;
 @class MonsterProto;
 @class MonsterProto_Builder;
+@class ObstacleProto;
+@class ObstacleProto_Builder;
 @class QuestAcceptRequestProto;
 @class QuestAcceptRequestProto_Builder;
 @class QuestAcceptResponseProto;

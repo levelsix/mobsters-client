@@ -203,7 +203,7 @@
     CCActionSequence *seq = [CCActionSequence actions:
                              [CCActionCallBlock actionWithBlock:
                               ^{
-                                [[SoundEngine sharedSoundEngine] puzzleWalking];
+//                                [[SoundEngine sharedSoundEngine] puzzleWalking];
                               }],
                              [CCActionDelay actionWithDuration:0.9], nil];
     CCActionRepeatForever *r = [CCActionRepeatForever actionWithAction:seq];
@@ -219,21 +219,27 @@
   [self restoreStandingFrame];
   
   [self stopActionByTag:7654];
-  [[SoundEngine sharedSoundEngine] puzzleStopWalking];
+//  [[SoundEngine sharedSoundEngine] puzzleStopWalking];
 }
 
 - (void) performNearAttackAnimationWithEnemy:(BattleSprite *)enemy target:(id)target selector:(SEL)selector {
+  CCAnimation *anim = self.attackAnimationN.copy;
+  
   CCActionSequence *seq;
   if (self.animationType == MonsterProto_AnimationTypeRanged) {
+    [anim addSoundEffect:@"sfx_handgun.wav" atIndex:4];
+    
     seq = [CCActionSequence actions:
            [CCActionSpawn actions:
             [CCActionCallBlock actionWithBlock:^{ [enemy performFarFlinchAnimationWithDelay:0.5];}],
-            [CCActionAnimate actionWithAnimation:self.attackAnimationN],
+            [CCSoundAnimate actionWithAnimation:anim],
             nil],
            [CCActionCallFunc actionWithTarget:self selector:@selector(restoreStandingFrame)],
            [CCActionCallFunc actionWithTarget:target selector:selector],
            nil];
   } else if (self.animationType == MonsterProto_AnimationTypeMelee) {
+    [anim addSoundEffect:@"sfx_muckerburg_hit_luchador.mp3" atIndex:2];
+    
     CGPoint enemyPos = enemy.position;
     CGPoint pointOffset = POINT_OFFSET_PER_SCENE;
     float distToTravel = ccpDistance(self.position, enemyPos)-50.f;
@@ -246,7 +252,7 @@
            [CCActionCallFunc actionWithTarget:self selector:@selector(stopWalking)],
            [CCActionSpawn actions:
             [CCActionCallBlock actionWithBlock:^{ [enemy performFarFlinchAnimationWithDelay:0.3]; }],
-            [CCActionAnimate actionWithAnimation:self.attackAnimationN],
+            [CCSoundAnimate actionWithAnimation:anim],
             nil],
            [CCActionCallFunc actionWithTarget:target selector:selector],
            [CCActionCallFunc actionWithTarget:self selector:@selector(faceFarWithoutUpdate)],
@@ -267,7 +273,8 @@
   
   CCActionSequence *seq;
   if (self.animationType == MonsterProto_AnimationTypeRanged) {
-    [anim repeatFrames:NSMakeRange(4, 5) numTimes:numTimes];
+    [anim addSoundEffect:@"sfx_handgun.wav" atIndex:4];
+    [anim repeatFrames:NSMakeRange(4, 6) numTimes:numTimes];
     
     seq = [CCActionSequence actions:
            [CCActionSpawn actions:
@@ -278,6 +285,7 @@
            [CCActionCallFunc actionWithTarget:target selector:selector],
            nil];
   } else if (self.animationType == MonsterProto_AnimationTypeMelee) {
+    [anim addSoundEffect:@"sfx_muckerburg_hit_luchador.mp3" atIndex:2];
     [anim repeatFrames:NSMakeRange(2, 5) numTimes:numTimes];
     
     CGPoint enemyPos = enemy.position;

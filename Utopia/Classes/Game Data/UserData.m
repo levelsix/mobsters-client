@@ -715,7 +715,7 @@
 + (NSArray *) createRewardsForDungeon:(BeginDungeonResponseProto *)proto {
   NSMutableArray *rewards = [NSMutableArray array];
   
-  int silverAmount = 0, expAmount = 0;
+  int silverAmount = 0, oilAmount = 0, expAmount = 0;
   for (TaskStageProto *tsp in proto.tspList) {
     for (TaskStageMonsterProto *tsm in tsp.stageMonstersList) {
       silverAmount += tsm.cashReward;
@@ -724,12 +724,19 @@
       if (tsm.puzzlePieceDropped) {
         Reward *r = [[Reward alloc] initWithMonsterId:tsm.monsterId isPuzzlePiece:YES];
         [rewards addObject:r];
+      } else if (tsm.hasItemId) {
+        Reward *r = [[Reward alloc] initWithItemId:tsm.itemId];
+        [rewards addObject:r];
       }
     }
   }
   
   if (silverAmount) {
     Reward *r = [[Reward alloc] initWithSilverAmount:silverAmount];
+    [rewards addObject:r];
+  }
+  if (oilAmount) {
+    Reward *r = [[Reward alloc] initWithOilAmount:oilAmount];
     [rewards addObject:r];
   }
   
@@ -788,6 +795,14 @@
     self.type = RewardTypeMonster;
     self.monsterId = monsterId;
     self.isPuzzlePiece = isPuzzlePiece;
+  }
+  return self;
+}
+
+- (id) initWithItemId:(int)itemId {
+  if ((self = [super init])) {
+    self.type = RewardTypeItem;
+    self.itemId = itemId;
   }
   return self;
 }

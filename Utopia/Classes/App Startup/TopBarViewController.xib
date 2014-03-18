@@ -28,6 +28,7 @@
                 <outlet property="oilLabel" destination="wSx-RL-WsB" id="SUB-ad-QPr"/>
                 <outlet property="oilMaxLabel" destination="fr0-h4-lfj" id="NTP-UZ-JMW"/>
                 <outlet property="questBadge" destination="FXC-S5-i6S" id="a7P-HJ-eWz"/>
+                <outlet property="questProgressView" destination="kzO-vH-AE3" id="gsO-wX-DvS"/>
                 <outlet property="questView" destination="cL0-yI-Pkw" id="aZS-VR-shA"/>
                 <outlet property="view" destination="IGI-Vp-uSZ" id="Gyn-sw-ged"/>
                 <outletCollection property="topBarMonsterViewContainers" destination="6tb-41-kWt" id="28O-jJ-GWg"/>
@@ -48,7 +49,7 @@
                             <rect key="frame" x="0.0" y="-4" width="568" height="114"/>
                             <autoresizingMask key="autoresizingMask"/>
                         </imageView>
-                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="3ef-TM-6z9">
+                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="3ef-TM-6z9" customClass="GeneralButton">
                             <rect key="frame" x="2" y="272" width="106" height="47"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                             <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
@@ -63,7 +64,7 @@
                                 <action selector="attackClicked:" destination="-1" eventType="touchUpInside" id="Uck-oT-YsS"/>
                             </connections>
                         </button>
-                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="ZIw-3f-99G">
+                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="ZIw-3f-99G" customClass="GeneralButton">
                             <rect key="frame" x="460" y="272" width="106" height="47"/>
                             <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMinY="YES"/>
                             <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
@@ -82,7 +83,7 @@
                             <rect key="frame" x="506" y="195" width="53" height="64"/>
                             <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMinY="YES"/>
                             <subviews>
-                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="59Z-cS-Cz1">
+                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="59Z-cS-Cz1" customClass="GeneralButton">
                                     <rect key="frame" x="0.0" y="0.0" width="53" height="64"/>
                                     <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMinY="YES"/>
                                     <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
@@ -113,7 +114,7 @@
                             <rect key="frame" x="6" y="220" width="41" height="39"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             <subviews>
-                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="SL2-6E-5kP">
+                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="SL2-6E-5kP" customClass="GeneralButton">
                                     <rect key="frame" x="-4" y="2" width="45" height="40"/>
                                     <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMinY="YES"/>
                                     <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
@@ -198,7 +199,7 @@
                                         <outlet property="transitionDelegate" destination="-1" id="ec1-kq-j2l"/>
                                     </connections>
                                 </label>
-                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="brI-SK-kHP">
+                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="brI-SK-kHP" customClass="GeneralButton">
                                     <rect key="frame" x="0.0" y="0.0" width="32" height="32"/>
                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                     <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
@@ -375,7 +376,7 @@
                                                 <outlet property="transitionDelegate" destination="-1" id="hxZ-I7-2mA"/>
                                             </connections>
                                         </label>
-                                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="YAI-uJ-sL0">
+                                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="YAI-uJ-sL0" customClass="GeneralButton">
                                             <rect key="frame" x="6" y="4" width="24" height="24"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                             <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
@@ -404,7 +405,7 @@
                             <rect key="frame" x="6" y="37" width="60" height="65"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             <subviews>
-                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="8Kk-oa-rxb">
+                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="8Kk-oa-rxb" customClass="GeneralButton">
                                     <rect key="frame" x="2" y="0.0" width="53" height="65"/>
                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                     <state key="normal" backgroundImage="questbutton.png">
@@ -494,6 +495,26 @@
                             </subviews>
                             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                         </view>
+                        <view alpha="0.0" contentMode="scaleToFill" id="kzO-vH-AE3">
+                            <rect key="frame" x="63" y="71" width="74" height="17"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <subviews>
+                                <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="progressquest.png" id="H5R-tv-yZD">
+                                    <rect key="frame" x="0.0" y="0.0" width="74" height="17"/>
+                                    <autoresizingMask key="autoresizingMask"/>
+                                </imageView>
+                                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Progress" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" id="Vpw-S5-bZQ" customClass="NiceFontLabel">
+                                    <rect key="frame" x="-1" y="-5" width="85" height="26"/>
+                                    <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxY="YES"/>
+                                    <fontDescription key="fontDescription" type="system" pointSize="11"/>
+                                    <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                    <nil key="highlightedColor"/>
+                                    <color key="shadowColor" red="0.0" green="0.0" blue="0.0" alpha="0.80000000000000004" colorSpace="calibratedRGB"/>
+                                    <size key="shadowOffset" width="0.0" height="1"/>
+                                </label>
+                            </subviews>
+                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                        </view>
                     </subviews>
                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                     <simulatedOrientationMetrics key="simulatedOrientationMetrics" orientation="landscapeRight"/>
@@ -523,6 +544,7 @@
         <image name="oilcap.png" width="5" height="18"/>
         <image name="oilicon.png" width="26" height="32"/>
         <image name="oilmiddle.png" width="1" height="18"/>
+        <image name="progressquest.png" width="74" height="17"/>
         <image name="questbutton.png" width="53" height="65"/>
         <image name="topbartest2.png" width="568" height="114"/>
         <image name="xpcap.png" width="5" height="18"/>

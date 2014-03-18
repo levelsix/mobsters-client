@@ -38,6 +38,8 @@
     UserQuest *uq = [gs myQuestWithId:fqp.questId];
     if (uq.isComplete) {
       [[[QuestUtil sharedQuestUtil] delegate] questComplete:fqp];
+    } else {
+      [[[QuestUtil sharedQuestUtil] delegate] questProgress:fqp];
     }
   }
   
@@ -82,8 +84,8 @@
 + (void) checkQuestsForDungeon:(BeginDungeonResponseProto *)dungeonInfo {
   // Check kill quests
   GameState *gs = [GameState sharedGameState];
-  NSMutableArray *changedQuests = [NSMutableArray array];
-  NSMutableArray *potentialQuests = [NSMutableArray array];
+  NSMutableSet *changedQuests = [NSMutableSet set];
+  NSMutableSet *potentialQuests = [NSMutableSet set];
   
   for (FullQuestProto *quest in gs.inProgressIncompleteQuests.allValues) {
     if (quest.questType == FullQuestProto_QuestTypeKillMonster ||
@@ -115,7 +117,7 @@
       for (FullQuestProto *quest in potentialQuests) {
         if (quest.questType == FullQuestProto_QuestTypeKillMonster) {
           UserQuest *uq = [gs myQuestWithId:quest.questId];
-          if (quest.staticDataId == tsm.monsterId) {
+          if (!tsm.monsterId || quest.staticDataId == tsm.monsterId) {
             uq.progress = MIN(uq.progress+1, quest.quantity);
             uq.isComplete = (uq.progress >= quest.quantity);
             [changedQuests addObject:quest];
@@ -133,7 +135,7 @@
   }
   
   if (changedQuests.count > 0) {
-    [self sendQuestProgressForQuests:changedQuests];
+    [self sendQuestProgressForQuests:changedQuests.allObjects];
   }
   
   [self checkAllDonateQuests];

@@ -10,6 +10,7 @@
 #import <cocos2d.h>
 #import "CAKeyframeAnimation+AHEasing.h"
 #import "Globals.h"
+#import "SoundEngine.h"
 
 @implementation DialogueViewController
 
@@ -179,6 +180,8 @@
   [UIView animateWithDuration:duration/2 animations:^{
     self.speechBubble.alpha = 1.f;
   }];
+  
+  [SoundEngine dialogueBoxOpen];
 }
 
 - (void) animationDidStop:(CAAnimation *)anim finished:(BOOL)flag {

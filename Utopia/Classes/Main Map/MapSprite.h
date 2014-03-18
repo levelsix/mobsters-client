@@ -55,6 +55,7 @@
 @property (nonatomic, assign) CGPoint position;
 @property (nonatomic, assign) CGSize contentSize;
 @property (nonatomic, assign) BOOL isLocked;
+@property (nonatomic, assign) BOOL visible;
 
 - (void) displayArrow;
 - (void) removeArrowAnimated:(BOOL)animated;

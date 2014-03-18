@@ -3880,3 +3880,568 @@ static TutorialStructProto* defaultTutorialStructProtoInstance = nil;
 }
 @end
 
+@interface ObstacleProto ()
+@property int32_t obstacleId;
+@property (retain) NSString* name;
+@property ResourceType removalCostType;
+@property int32_t cost;
+@property int32_t secondsToRemove;
+@property int32_t width;
+@property int32_t height;
+@property (retain) NSString* imgName;
+@property Float32 imgVerticalPixelOffset;
+@property (retain) NSString* description;
+@property Float32 chanceToAppear;
+@end
+
+@implementation ObstacleProto
+
+- (BOOL) hasObstacleId {
+  return !!hasObstacleId_;
+}
+- (void) setHasObstacleId:(BOOL) value {
+  hasObstacleId_ = !!value;
+}
+@synthesize obstacleId;
+- (BOOL) hasName {
+  return !!hasName_;
+}
+- (void) setHasName:(BOOL) value {
+  hasName_ = !!value;
+}
+@synthesize name;
+- (BOOL) hasRemovalCostType {
+  return !!hasRemovalCostType_;
+}
+- (void) setHasRemovalCostType:(BOOL) value {
+  hasRemovalCostType_ = !!value;
+}
+@synthesize removalCostType;
+- (BOOL) hasCost {
+  return !!hasCost_;
+}
+- (void) setHasCost:(BOOL) value {
+  hasCost_ = !!value;
+}
+@synthesize cost;
+- (BOOL) hasSecondsToRemove {
+  return !!hasSecondsToRemove_;
+}
+- (void) setHasSecondsToRemove:(BOOL) value {
+  hasSecondsToRemove_ = !!value;
+}
+@synthesize secondsToRemove;
+- (BOOL) hasWidth {
+  return !!hasWidth_;
+}
+- (void) setHasWidth:(BOOL) value {
+  hasWidth_ = !!value;
+}
+@synthesize width;
+- (BOOL) hasHeight {
+  return !!hasHeight_;
+}
+- (void) setHasHeight:(BOOL) value {
+  hasHeight_ = !!value;
+}
+@synthesize height;
+- (BOOL) hasImgName {
+  return !!hasImgName_;
+}
+- (void) setHasImgName:(BOOL) value {
+  hasImgName_ = !!value;
+}
+@synthesize imgName;
+- (BOOL) hasImgVerticalPixelOffset {
+  return !!hasImgVerticalPixelOffset_;
+}
+- (void) setHasImgVerticalPixelOffset:(BOOL) value {
+  hasImgVerticalPixelOffset_ = !!value;
+}
+@synthesize imgVerticalPixelOffset;
+- (BOOL) hasDescription {
+  return !!hasDescription_;
+}
+- (void) setHasDescription:(BOOL) value {
+  hasDescription_ = !!value;
+}
+@synthesize description;
+- (BOOL) hasChanceToAppear {
+  return !!hasChanceToAppear_;
+}
+- (void) setHasChanceToAppear:(BOOL) value {
+  hasChanceToAppear_ = !!value;
+}
+@synthesize chanceToAppear;
+- (void) dealloc {
+  self.name = nil;
+  self.imgName = nil;
+  self.description = nil;
+  [super dealloc];
+}
+- (id) init {
+  if ((self = [super init])) {
+    self.obstacleId = 0;
+    self.name = @"";
+    self.removalCostType = ResourceTypeCash;
+    self.cost = 0;
+    self.secondsToRemove = 0;
+    self.width = 0;
+    self.height = 0;
+    self.imgName = @"";
+    self.imgVerticalPixelOffset = 0;
+    self.description = @"";
+    self.chanceToAppear = 0;
+  }
+  return self;
+}
+static ObstacleProto* defaultObstacleProtoInstance = nil;
++ (void) initialize {
+  if (self == [ObstacleProto class]) {
+    defaultObstacleProtoInstance = [[ObstacleProto alloc] init];
+  }
+}
++ (ObstacleProto*) defaultInstance {
+  return defaultObstacleProtoInstance;
+}
+- (ObstacleProto*) defaultInstance {
+  return defaultObstacleProtoInstance;
+}
+- (BOOL) isInitialized {
+  return YES;
+}
+- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output {
+  if (self.hasObstacleId) {
+    [output writeInt32:1 value:self.obstacleId];
+  }
+  if (self.hasName) {
+    [output writeString:2 value:self.name];
+  }
+  if (self.hasRemovalCostType) {
+    [output writeEnum:3 value:self.removalCostType];
+  }
+  if (self.hasCost) {
+    [output writeInt32:4 value:self.cost];
+  }
+  if (self.hasSecondsToRemove) {
+    [output writeInt32:5 value:self.secondsToRemove];
+  }
+  if (self.hasWidth) {
+    [output writeInt32:6 value:self.width];
+  }
+  if (self.hasHeight) {
+    [output writeInt32:7 value:self.height];
+  }
+  if (self.hasImgName) {
+    [output writeString:8 value:self.imgName];
+  }
+  if (self.hasImgVerticalPixelOffset) {
+    [output writeFloat:9 value:self.imgVerticalPixelOffset];
+  }
+  if (self.hasDescription) {
+    [output writeString:10 value:self.description];
+  }
+  if (self.hasChanceToAppear) {
+    [output writeFloat:11 value:self.chanceToAppear];
+  }
+  [self.unknownFields writeToCodedOutputStream:output];
+}
+- (int32_t) serializedSize {
+  int32_t size = memoizedSerializedSize;
+  if (size != -1) {
+    return size;
+  }
+
+  size = 0;
+  if (self.hasObstacleId) {
+    size += computeInt32Size(1, self.obstacleId);
+  }
+  if (self.hasName) {
+    size += computeStringSize(2, self.name);
+  }
+  if (self.hasRemovalCostType) {
+    size += computeEnumSize(3, self.removalCostType);
+  }
+  if (self.hasCost) {
+    size += computeInt32Size(4, self.cost);
+  }
+  if (self.hasSecondsToRemove) {
+    size += computeInt32Size(5, self.secondsToRemove);
+  }
+  if (self.hasWidth) {
+    size += computeInt32Size(6, self.width);
+  }
+  if (self.hasHeight) {
+    size += computeInt32Size(7, self.height);
+  }
+  if (self.hasImgName) {
+    size += computeStringSize(8, self.imgName);
+  }
+  if (self.hasImgVerticalPixelOffset) {
+    size += computeFloatSize(9, self.imgVerticalPixelOffset);
+  }
+  if (self.hasDescription) {
+    size += computeStringSize(10, self.description);
+  }
+  if (self.hasChanceToAppear) {
+    size += computeFloatSize(11, self.chanceToAppear);
+  }
+  size += self.unknownFields.serializedSize;
+  memoizedSerializedSize = size;
+  return size;
+}
++ (ObstacleProto*) parseFromData:(NSData*) data {
+  return (ObstacleProto*)[[[ObstacleProto builder] mergeFromData:data] build];
+}
++ (ObstacleProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (ObstacleProto*)[[[ObstacleProto builder] mergeFromData:data extensionRegistry:extensionRegistry] build];
+}
++ (ObstacleProto*) parseFromInputStream:(NSInputStream*) input {
+  return (ObstacleProto*)[[[ObstacleProto builder] mergeFromInputStream:input] build];
+}
++ (ObstacleProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (ObstacleProto*)[[[ObstacleProto builder] mergeFromInputStream:input extensionRegistry:extensionRegistry] build];
+}
++ (ObstacleProto*) parseFromCodedInputStream:(PBCodedInputStream*) input {
+  return (ObstacleProto*)[[[ObstacleProto builder] mergeFromCodedInputStream:input] build];
+}
++ (ObstacleProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (ObstacleProto*)[[[ObstacleProto builder] mergeFromCodedInputStream:input extensionRegistry:extensionRegistry] build];
+}
++ (ObstacleProto_Builder*) builder {
+  return [[[ObstacleProto_Builder alloc] init] autorelease];
+}
++ (ObstacleProto_Builder*) builderWithPrototype:(ObstacleProto*) prototype {
+  return [[ObstacleProto builder] mergeFrom:prototype];
+}
+- (ObstacleProto_Builder*) builder {
+  return [ObstacleProto builder];
+}
+@end
+
+@interface ObstacleProto_Builder()
+@property (retain) ObstacleProto* result;
+@end
+
+@implementation ObstacleProto_Builder
+@synthesize result;
+- (void) dealloc {
+  self.result = nil;
+  [super dealloc];
+}
+- (id) init {
+  if ((self = [super init])) {
+    self.result = [[[ObstacleProto alloc] init] autorelease];
+  }
+  return self;
+}
+- (PBGeneratedMessage*) internalGetResult {
+  return result;
+}
+- (ObstacleProto_Builder*) clear {
+  self.result = [[[ObstacleProto alloc] init] autorelease];
+  return self;
+}
+- (ObstacleProto_Builder*) clone {
+  return [ObstacleProto builderWithPrototype:result];
+}
+- (ObstacleProto*) defaultInstance {
+  return [ObstacleProto defaultInstance];
+}
+- (ObstacleProto*) build {
+  [self checkInitialized];
+  return [self buildPartial];
+}
+- (ObstacleProto*) buildPartial {
+  ObstacleProto* returnMe = [[result retain] autorelease];
+  self.result = nil;
+  return returnMe;
+}
+- (ObstacleProto_Builder*) mergeFrom:(ObstacleProto*) other {
+  if (other == [ObstacleProto defaultInstance]) {
+    return self;
+  }
+  if (other.hasObstacleId) {
+    [self setObstacleId:other.obstacleId];
+  }
+  if (other.hasName) {
+    [self setName:other.name];
+  }
+  if (other.hasRemovalCostType) {
+    [self setRemovalCostType:other.removalCostType];
+  }
+  if (other.hasCost) {
+    [self setCost:other.cost];
+  }
+  if (other.hasSecondsToRemove) {
+    [self setSecondsToRemove:other.secondsToRemove];
+  }
+  if (other.hasWidth) {
+    [self setWidth:other.width];
+  }
+  if (other.hasHeight) {
+    [self setHeight:other.height];
+  }
+  if (other.hasImgName) {
+    [self setImgName:other.imgName];
+  }
+  if (other.hasImgVerticalPixelOffset) {
+    [self setImgVerticalPixelOffset:other.imgVerticalPixelOffset];
+  }
+  if (other.hasDescription) {
+    [self setDescription:other.description];
+  }
+  if (other.hasChanceToAppear) {
+    [self setChanceToAppear:other.chanceToAppear];
+  }
+  [self mergeUnknownFields:other.unknownFields];
+  return self;
+}
+- (ObstacleProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input {
+  return [self mergeFromCodedInputStream:input extensionRegistry:[PBExtensionRegistry emptyRegistry]];
+}
+- (ObstacleProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  PBUnknownFieldSet_Builder* unknownFields = [PBUnknownFieldSet builderWithUnknownFields:self.unknownFields];
+  while (YES) {
+    int32_t tag = [input readTag];
+    switch (tag) {
+      case 0:
+        [self setUnknownFields:[unknownFields build]];
+        return self;
+      default: {
+        if (![self parseUnknownField:input unknownFields:unknownFields extensionRegistry:extensionRegistry tag:tag]) {
+          [self setUnknownFields:[unknownFields build]];
+          return self;
+        }
+        break;
+      }
+      case 8: {
+        [self setObstacleId:[input readInt32]];
+        break;
+      }
+      case 18: {
+        [self setName:[input readString]];
+        break;
+      }
+      case 24: {
+        int32_t value = [input readEnum];
+        if (ResourceTypeIsValidValue(value)) {
+          [self setRemovalCostType:value];
+        } else {
+          [unknownFields mergeVarintField:3 value:value];
+        }
+        break;
+      }
+      case 32: {
+        [self setCost:[input readInt32]];
+        break;
+      }
+      case 40: {
+        [self setSecondsToRemove:[input readInt32]];
+        break;
+      }
+      case 48: {
+        [self setWidth:[input readInt32]];
+        break;
+      }
+      case 56: {
+        [self setHeight:[input readInt32]];
+        break;
+      }
+      case 66: {
+        [self setImgName:[input readString]];
+        break;
+      }
+      case 77: {
+        [self setImgVerticalPixelOffset:[input readFloat]];
+        break;
+      }
+      case 82: {
+        [self setDescription:[input readString]];
+        break;
+      }
+      case 93: {
+        [self setChanceToAppear:[input readFloat]];
+        break;
+      }
+    }
+  }
+}
+- (BOOL) hasObstacleId {
+  return result.hasObstacleId;
+}
+- (int32_t) obstacleId {
+  return result.obstacleId;
+}
+- (ObstacleProto_Builder*) setObstacleId:(int32_t) value {
+  result.hasObstacleId = YES;
+  result.obstacleId = value;
+  return self;
+}
+- (ObstacleProto_Builder*) clearObstacleId {
+  result.hasObstacleId = NO;
+  result.obstacleId = 0;
+  return self;
+}
+- (BOOL) hasName {
+  return result.hasName;
+}
+- (NSString*) name {
+  return result.name;
+}
+- (ObstacleProto_Builder*) setName:(NSString*) value {
+  result.hasName = YES;
+  result.name = value;
+  return self;
+}
+- (ObstacleProto_Builder*) clearName {
+  result.hasName = NO;
+  result.name = @"";
+  return self;
+}
+- (BOOL) hasRemovalCostType {
+  return result.hasRemovalCostType;
+}
+- (ResourceType) removalCostType {
+  return result.removalCostType;
+}
+- (ObstacleProto_Builder*) setRemovalCostType:(ResourceType) value {
+  result.hasRemovalCostType = YES;
+  result.removalCostType = value;
+  return self;
+}
+- (ObstacleProto_Builder*) clearRemovalCostType {
+  result.hasRemovalCostType = NO;
+  result.removalCostType = ResourceTypeCash;
+  return self;
+}
+- (BOOL) hasCost {
+  return result.hasCost;
+}
+- (int32_t) cost {
+  return result.cost;
+}
+- (ObstacleProto_Builder*) setCost:(int32_t) value {
+  result.hasCost = YES;
+  result.cost = value;
+  return self;
+}
+- (ObstacleProto_Builder*) clearCost {
+  result.hasCost = NO;
+  result.cost = 0;
+  return self;
+}
+- (BOOL) hasSecondsToRemove {
+  return result.hasSecondsToRemove;
+}
+- (int32_t) secondsToRemove {
+  return result.secondsToRemove;
+}
+- (ObstacleProto_Builder*) setSecondsToRemove:(int32_t) value {
+  result.hasSecondsToRemove = YES;
+  result.secondsToRemove = value;
+  return self;
+}
+- (ObstacleProto_Builder*) clearSecondsToRemove {
+  result.hasSecondsToRemove = NO;
+  result.secondsToRemove = 0;
+  return self;
+}
+- (BOOL) hasWidth {
+  return result.hasWidth;
+}
+- (int32_t) width {
+  return result.width;
+}
+- (ObstacleProto_Builder*) setWidth:(int32_t) value {
+  result.hasWidth = YES;
+  result.width = value;
+  return self;
+}
+- (ObstacleProto_Builder*) clearWidth {
+  result.hasWidth = NO;
+  result.width = 0;
+  return self;
+}
+- (BOOL) hasHeight {
+  return result.hasHeight;
+}
+- (int32_t) height {
+  return result.height;
+}
+- (ObstacleProto_Builder*) setHeight:(int32_t) value {
+  result.hasHeight = YES;
+  result.height = value;
+  return self;
+}
+- (ObstacleProto_Builder*) clearHeight {
+  result.hasHeight = NO;
+  result.height = 0;
+  return self;
+}
+- (BOOL) hasImgName {
+  return result.hasImgName;
+}
+- (NSString*) imgName {
+  return result.imgName;
+}
+- (ObstacleProto_Builder*) setImgName:(NSString*) value {
+  result.hasImgName = YES;
+  result.imgName = value;
+  return self;
+}
+- (ObstacleProto_Builder*) clearImgName {
+  result.hasImgName = NO;
+  result.imgName = @"";
+  return self;
+}
+- (BOOL) hasImgVerticalPixelOffset {
+  return result.hasImgVerticalPixelOffset;
+}
+- (Float32) imgVerticalPixelOffset {
+  return result.imgVerticalPixelOffset;
+}
+- (ObstacleProto_Builder*) setImgVerticalPixelOffset:(Float32) value {
+  result.hasImgVerticalPixelOffset = YES;
+  result.imgVerticalPixelOffset = value;
+  return self;
+}
+- (ObstacleProto_Builder*) clearImgVerticalPixelOffset {
+  result.hasImgVerticalPixelOffset = NO;
+  result.imgVerticalPixelOffset = 0;
+  return self;
+}
+- (BOOL) hasDescription {
+  return result.hasDescription;
+}
+- (NSString*) description {
+  return result.description;
+}
+- (ObstacleProto_Builder*) setDescription:(NSString*) value {
+  result.hasDescription = YES;
+  result.description = value;
+  return self;
+}
+- (ObstacleProto_Builder*) clearDescription {
+  result.hasDescription = NO;
+  result.description = @"";
+  return self;
+}
+- (BOOL) hasChanceToAppear {
+  return result.hasChanceToAppear;
+}
+- (Float32) chanceToAppear {
+  return result.chanceToAppear;
+}
+- (ObstacleProto_Builder*) setChanceToAppear:(Float32) value {
+  result.hasChanceToAppear = YES;
+  result.chanceToAppear = value;
+  return self;
+}
+- (ObstacleProto_Builder*) clearChanceToAppear {
+  result.hasChanceToAppear = NO;
+  result.chanceToAppear = 0;
+  return self;
+}
+@end
+

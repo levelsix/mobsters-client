@@ -29,7 +29,7 @@
 + (id) buildingWithUserStruct:(UserStruct *)us map:(HomeMap *)map;
 - (id) initWithUserStruct:(UserStruct *)userStruct map:(HomeMap *)map;
 - (void) locationAfterTouch:(CGPoint)touchLocation;
-- (void) placeBlock;
+- (void) placeBlock:(BOOL)shouldPlaySound;
 - (void) liftBlock;
 - (void) updateMeta;
 - (void) clearMeta;

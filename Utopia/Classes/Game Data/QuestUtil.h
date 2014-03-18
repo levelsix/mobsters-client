@@ -12,6 +12,7 @@
 @protocol QuestUtilDelegate <NSObject>
 
 - (void) questComplete:(FullQuestProto *)fqp;
+- (void) questProgress:(FullQuestProto *)fqp;
 
 @end
 

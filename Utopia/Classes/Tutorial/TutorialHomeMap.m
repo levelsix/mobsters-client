@@ -287,11 +287,13 @@
   [super updateMapBotView:botView];
   
   if (botView == self.buildBotView) {
+    float angle = [Globals isLongiPhone] ? M_PI_2 : M_PI;
     [Globals removeUIArrowFromViewRecursively:self.buildBotView];
-    [Globals createUIArrowForView:self.enterButton atAngle:M_PI_2];
+    [Globals createUIArrowForView:self.enterButton atAngle:angle];
   } else if (botView == self.upgradeBotView) {
+    float angle = [Globals isLongiPhone] ? M_PI_2 : 0;
     [Globals removeUIArrowFromViewRecursively:self.upgradeBotView];
-    [Globals createUIArrowForView:self.speedupButton atAngle:M_PI_2];
+    [Globals createUIArrowForView:self.speedupButton atAngle:angle];
   }
 }
 

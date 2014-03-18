@@ -98,7 +98,7 @@
   
   // Handle errors
   if (error){
-    NSLog(@"Error");
+    LNLog(@"Error");
     NSString *alertText;
     NSString *alertTitle;
     // If the error requires people using an app to make an action outside of the app in order to recover
@@ -110,7 +110,7 @@
       
       // If the user cancelled login, do nothing
       if ([FBErrorUtility errorCategoryForError:error] == FBErrorCategoryUserCancelled) {
-        NSLog(@"User cancelled login");
+        LNLog(@"User cancelled login");
         
         // Handle session closures that happen outside of the app
       } else if ([FBErrorUtility errorCategoryForError:error] == FBErrorCategoryAuthenticationReopenSession){
@@ -194,7 +194,7 @@
                                                 id result,
                                                 NSError *error) {
                               if (error) {
-                                NSLog(@"Error: %@", [error localizedDescription]);
+                                LNLog(@"Error: %@", [error localizedDescription]);
                                 completion(nil);
                               } else {
                                 completion(result[@"data"]);
@@ -225,19 +225,19 @@
                                                       BOOL success = NO;
                                                       if (error) {
                                                         // Case A: Error launching the dialog or sending request.
-                                                        NSLog(@"Error sending request.");
+                                                        LNLog(@"Error sending request.");
                                                       } else {
                                                         if (result == FBWebDialogResultDialogNotCompleted) {
                                                           // Case B: User clicked the "x" icon
-                                                          NSLog(@"User closed request.");
+                                                          LNLog(@"User closed request.");
                                                         } else {
                                                           NSString *urlParams = resultURL.query;
                                                           if (!urlParams || [urlParams rangeOfString:@"request"].location == NSNotFound) {
                                                             // User clicked the Cancel button
-                                                            NSLog(@"User canceled request.");
+                                                            LNLog(@"User canceled request.");
                                                           } else {
                                                             // Completed
-                                                            NSLog(@"User sent request.");
+                                                            LNLog(@"User sent request.");
                                                             success = YES;
                                                           }
                                                         }
@@ -256,6 +256,36 @@
 
 + (void) initiateRequestToFacebookIds:(NSArray *)fbIds withMessage:(NSString *)message completionBlock:(void(^)(BOOL success, NSArray *friendIds))completion {
   [[FacebookDelegate sharedFacebookDelegate] initiateRequestToFacebookIds:fbIds withMessage:message completionBlock:completion];
+}
+
+- (void) getFacebookUsersWithIds:(NSArray *)idsArr handler:(void (^)(id result))handler {
+  if (idsArr.count > 0) {
+    [self openSessionWithReadPermissionsWithLoginUI:NO completionHandler:^(BOOL success) {
+      if (success) {
+        NSMutableString *ids = [NSMutableString stringWithFormat:@"%@", idsArr[0]];
+        for (int i = 1; i < idsArr.count; i++) {
+          [ids appendFormat:@",%@", idsArr[i]];
+        }
+        
+        NSDictionary *params = [NSDictionary dictionaryWithObjectsAndKeys:ids, @"ids", nil];
+        [FBRequestConnection startWithGraphPath:@"" parameters:params HTTPMethod:nil completionHandler:^(FBRequestConnection *connection, id result, NSError *error) {
+          if (error) {
+            handler(nil);
+          } else {
+            handler(result);
+          }
+        }];
+      } else {
+        handler(nil);
+      }
+    }];
+  } else {
+    handler (nil);
+  }
+}
+
++ (void) getFacebookUsersWithIds:(NSArray *)idsArr handler:(void (^)(id result))handler {
+  [[FacebookDelegate sharedFacebookDelegate] getFacebookUsersWithIds:idsArr handler:handler];
 }
 
 - (void) getMyFacebookUser:(void (^)(NSDictionary<FBGraphUser> *facebookUser))handler {

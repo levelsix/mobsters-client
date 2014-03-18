@@ -514,6 +514,10 @@
         [self.bonusView updateForUserStruct:self.userStruct];
         [self loadHireView];
       }
+      
+      self.sendSpinner.hidden = YES;
+      self.sendLabel.hidden = NO;
+      _sendingFbInvites = NO;
     }];
   }
 }
