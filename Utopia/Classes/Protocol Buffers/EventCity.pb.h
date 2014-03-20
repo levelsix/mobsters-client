@@ -75,6 +75,8 @@
 @class UserCityExpansionDataProto_Builder;
 @class UserFacebookInviteForSlotProto;
 @class UserFacebookInviteForSlotProto_Builder;
+@class UserObstacleProto;
+@class UserObstacleProto_Builder;
 typedef enum {
   LoadPlayerCityResponseProto_LoadPlayerCityStatusSuccess = 1,
   LoadPlayerCityResponseProto_LoadPlayerCityStatusFailNoSuchPlayer = 2,

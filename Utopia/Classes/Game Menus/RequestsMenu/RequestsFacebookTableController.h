@@ -11,9 +11,7 @@
 #import "UserData.h"
 #import "RequestsViewController.h"
 
-@protocol RequestsTableController;
-
-@interface RequestFacebookCell : UITableViewCell
+@interface RequestsFacebookCell : UITableViewCell
 
 @property (nonatomic, retain) IBOutlet FBProfilePictureView *pfPic;
 @property (nonatomic, retain) IBOutlet UILabel *titleLabel;
@@ -36,8 +34,9 @@
 @property (nonatomic, retain) NSMutableArray *acceptedRequestIds;
 @property (nonatomic, retain) NSMutableArray *rejectedRequestIds;
 
-@property (nonatomic, retain) IBOutlet RequestFacebookCell *requestCell;
+@property (nonatomic, retain) IBOutlet RequestsFacebookCell *requestCell;
 
 - (IBAction)acceptClicked:(id)sender;
+- (IBAction)rejectClicked:(id)sender;
 
 @end

@@ -39,6 +39,8 @@
 @class MonsterLevelInfoProto_Builder;
 @class MonsterProto;
 @class MonsterProto_Builder;
+@class PvpHistoryProto;
+@class PvpHistoryProto_Builder;
 @class PvpProto;
 @class PvpProto_Builder;
 @class QueueUpRequestProto;
@@ -244,11 +246,15 @@ BOOL EndPvpBattleResponseProto_EndPvpBattleStatusIsValidValue(EndPvpBattleRespon
 
 @interface BeginPvpBattleRequestProto : PBGeneratedMessage {
 @private
+  BOOL hasExactingRevenge_:1;
   BOOL hasAttackStartTime_:1;
+  BOOL hasPreviousBattleEndTime_:1;
   BOOL hasSenderElo_:1;
   BOOL hasSender_:1;
   BOOL hasEnemy_:1;
+  BOOL exactingRevenge_:1;
   int64_t attackStartTime;
+  int64_t previousBattleEndTime;
   int32_t senderElo;
   MinimumUserProto* sender;
   PvpProto* enemy;
@@ -257,10 +263,14 @@ BOOL EndPvpBattleResponseProto_EndPvpBattleStatusIsValidValue(EndPvpBattleRespon
 - (BOOL) hasSenderElo;
 - (BOOL) hasAttackStartTime;
 - (BOOL) hasEnemy;
+- (BOOL) hasExactingRevenge;
+- (BOOL) hasPreviousBattleEndTime;
 @property (readonly, retain) MinimumUserProto* sender;
 @property (readonly) int32_t senderElo;
 @property (readonly) int64_t attackStartTime;
 @property (readonly, retain) PvpProto* enemy;
+- (BOOL) exactingRevenge;
+@property (readonly) int64_t previousBattleEndTime;
 
 + (BeginPvpBattleRequestProto*) defaultInstance;
 - (BeginPvpBattleRequestProto*) defaultInstance;
@@ -319,6 +329,16 @@ BOOL EndPvpBattleResponseProto_EndPvpBattleStatusIsValidValue(EndPvpBattleRespon
 - (BeginPvpBattleRequestProto_Builder*) setEnemyBuilder:(PvpProto_Builder*) builderForValue;
 - (BeginPvpBattleRequestProto_Builder*) mergeEnemy:(PvpProto*) value;
 - (BeginPvpBattleRequestProto_Builder*) clearEnemy;
+
+- (BOOL) hasExactingRevenge;
+- (BOOL) exactingRevenge;
+- (BeginPvpBattleRequestProto_Builder*) setExactingRevenge:(BOOL) value;
+- (BeginPvpBattleRequestProto_Builder*) clearExactingRevenge;
+
+- (BOOL) hasPreviousBattleEndTime;
+- (int64_t) previousBattleEndTime;
+- (BeginPvpBattleRequestProto_Builder*) setPreviousBattleEndTime:(int64_t) value;
+- (BeginPvpBattleRequestProto_Builder*) clearPreviousBattleEndTime;
 @end
 
 @interface BeginPvpBattleResponseProto : PBGeneratedMessage {

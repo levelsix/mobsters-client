@@ -51,6 +51,8 @@
 @class UserCityExpansionDataProto_Builder;
 @class UserFacebookInviteForSlotProto;
 @class UserFacebookInviteForSlotProto_Builder;
+@class UserObstacleProto;
+@class UserObstacleProto_Builder;
 typedef enum {
   CityElementProto_CityElemTypeBuilding = 1,
   CityElementProto_CityElemTypeDecoration = 2,

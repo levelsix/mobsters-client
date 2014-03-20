@@ -154,11 +154,11 @@
   [self.touchView addResponder:[CCDirector sharedDirector].view];
   self.touchView.userInteractionEnabled = NO;
   
-  [self initMissionMapWithCenterOnThirdBuilding:NO];
-  [self beginBlackedOutDialogue];
+  //[self initMissionMapWithCenterOnThirdBuilding:NO];
+  //[self beginBlackedOutDialogue];
   //[self beginPostFirstBattleConfrontationPhase];
   
-  //[self yachtWentOffScene];
+  [self yachtWentOffScene];
   
   //[self initHomeMap];
   //[self initMissionMapWithCenterOnThirdBuilding:YES];
@@ -166,7 +166,7 @@
   //[self sendUserCreate];
   //[self beginFacebookLoginPhase];
   
-  [[SoundEngine sharedSoundEngine] playMapMusic];
+  [[SoundEngine sharedSoundEngine] playMissionMapMusic];
 }
 
 - (void) initMissionMapWithCenterOnThirdBuilding:(BOOL)thirdBuilding {
@@ -276,6 +276,7 @@
 - (void) initFacebookViewController {
   self.facebookViewController = [[TutorialFacebookViewController alloc] init];
   self.facebookViewController.delegate = self;
+  self.facebookViewController.view.frame = self.gameViewController.view.bounds;
   [self.gameViewController addChildViewController:self.facebookViewController];
   [self.gameViewController.view addSubview:self.facebookViewController.view];
 }
@@ -302,6 +303,7 @@
 - (void) initNameViewController:(NSString *)name {
   self.nameViewController = [[TutorialNameViewController alloc] initWithName:name];
   self.nameViewController.delegate = self;
+  self.nameViewController.view.frame = self.gameViewController.view.bounds;
   [self.gameViewController addChildViewController:self.nameViewController];
   [self.gameViewController.view addSubview:self.nameViewController.view];
 }
@@ -572,6 +574,7 @@
 - (void) beginHomeMapPhase {
   [self initHomeMap];
   [self.homeMap landBoatOnShore];
+  [[SoundEngine sharedSoundEngine] playHomeMapMusic];
   
   _currentStep = TutorialStepLandAtHome;
 }
@@ -632,7 +635,8 @@
   [self.homeMap speedupPurchasedBuilding];
   
   NSArray *dialogue = @[@(TutorialDialogueSpeakerMarkL), @"Patience is a virtue, but not when you're building a Cash Printer."];
-  [self displayDialogue:dialogue allowTouch:NO useShortBubble:YES];
+  BOOL allowTouch = ![Globals isLongiPhone];
+  [self displayDialogue:dialogue allowTouch:allowTouch useShortBubble:YES];
   self.touchView.userInteractionEnabled = NO;
   
   _currentStep = TutorialStepSpeedupBuildingOne;
@@ -936,7 +940,7 @@
   [[CCDirector sharedDirector] popSceneWithTransition:[CCTransition transitionCrossFadeWithDuration:0.6f]];
   [self.gameViewController showTopBarDuration:0.f completion:nil];
   
-  [[SoundEngine sharedSoundEngine] playMapMusic];
+  [[SoundEngine sharedSoundEngine] playMissionMapMusic];
 }
 
 #pragma mark - HomeMap delegate

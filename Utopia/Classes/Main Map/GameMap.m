@@ -117,10 +117,7 @@
     MyTeamSprite *ts = (MyTeamSprite *)[self getChildByName:name recursively:NO];
     
     if (!ts) {
-      MonsterProto *mp = [gs monsterWithId:um.monsterId];
-      CGRect r = CGRectMake(0, 0, 1, 1);
-      r.origin = [self randomWalkablePosition];
-      ts = [[MyTeamSprite alloc] initWithFile:mp.imagePrefix location:r map:self];
+      ts = [[MyTeamSprite alloc] initWithMonsterId:um.monsterId map:self];
       ts.name = name;
       [self addChild:ts];
     } else {

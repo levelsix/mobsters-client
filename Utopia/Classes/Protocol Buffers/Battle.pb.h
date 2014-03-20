@@ -31,6 +31,8 @@
 @class MonsterLevelInfoProto_Builder;
 @class MonsterProto;
 @class MonsterProto_Builder;
+@class PvpHistoryProto;
+@class PvpHistoryProto_Builder;
 @class PvpProto;
 @class PvpProto_Builder;
 @class StaticUserLevelInfoProto;
@@ -228,5 +230,128 @@ BOOL BattleResultIsValidValue(BattleResult value);
 - (int32_t) prospectiveOilWinnings;
 - (PvpProto_Builder*) setProspectiveOilWinnings:(int32_t) value;
 - (PvpProto_Builder*) clearProspectiveOilWinnings;
+@end
+
+@interface PvpHistoryProto : PBGeneratedMessage {
+@private
+  BOOL hasAttackerWon_:1;
+  BOOL hasExactedRevenge_:1;
+  BOOL hasBattleEndTime_:1;
+  BOOL hasProspectiveCashWinnings_:1;
+  BOOL hasProspectiveOilWinnings_:1;
+  BOOL hasAttacker_:1;
+  BOOL hasDefenderCashChange_:1;
+  BOOL hasDefenderOilChange_:1;
+  BOOL attackerWon_:1;
+  BOOL exactedRevenge_:1;
+  int64_t battleEndTime;
+  int32_t prospectiveCashWinnings;
+  int32_t prospectiveOilWinnings;
+  FullUserProto* attacker;
+  int32_t defenderCashChange;
+  int32_t defenderOilChange;
+  NSMutableArray* mutableAttackersMonstersList;
+}
+- (BOOL) hasBattleEndTime;
+- (BOOL) hasAttacker;
+- (BOOL) hasAttackerWon;
+- (BOOL) hasDefenderCashChange;
+- (BOOL) hasDefenderOilChange;
+- (BOOL) hasExactedRevenge;
+- (BOOL) hasProspectiveCashWinnings;
+- (BOOL) hasProspectiveOilWinnings;
+@property (readonly) int64_t battleEndTime;
+@property (readonly, retain) FullUserProto* attacker;
+- (BOOL) attackerWon;
+@property (readonly) int32_t defenderCashChange;
+@property (readonly) int32_t defenderOilChange;
+- (BOOL) exactedRevenge;
+@property (readonly) int32_t prospectiveCashWinnings;
+@property (readonly) int32_t prospectiveOilWinnings;
+- (NSArray*) attackersMonstersList;
+- (MinimumUserMonsterProto*) attackersMonstersAtIndex:(int32_t) index;
+
++ (PvpHistoryProto*) defaultInstance;
+- (PvpHistoryProto*) defaultInstance;
+
+- (BOOL) isInitialized;
+- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output;
+- (PvpHistoryProto_Builder*) builder;
++ (PvpHistoryProto_Builder*) builder;
++ (PvpHistoryProto_Builder*) builderWithPrototype:(PvpHistoryProto*) prototype;
+
++ (PvpHistoryProto*) parseFromData:(NSData*) data;
++ (PvpHistoryProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (PvpHistoryProto*) parseFromInputStream:(NSInputStream*) input;
++ (PvpHistoryProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (PvpHistoryProto*) parseFromCodedInputStream:(PBCodedInputStream*) input;
++ (PvpHistoryProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+@end
+
+@interface PvpHistoryProto_Builder : PBGeneratedMessage_Builder {
+@private
+  PvpHistoryProto* result;
+}
+
+- (PvpHistoryProto*) defaultInstance;
+
+- (PvpHistoryProto_Builder*) clear;
+- (PvpHistoryProto_Builder*) clone;
+
+- (PvpHistoryProto*) build;
+- (PvpHistoryProto*) buildPartial;
+
+- (PvpHistoryProto_Builder*) mergeFrom:(PvpHistoryProto*) other;
+- (PvpHistoryProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input;
+- (PvpHistoryProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+
+- (BOOL) hasBattleEndTime;
+- (int64_t) battleEndTime;
+- (PvpHistoryProto_Builder*) setBattleEndTime:(int64_t) value;
+- (PvpHistoryProto_Builder*) clearBattleEndTime;
+
+- (BOOL) hasAttacker;
+- (FullUserProto*) attacker;
+- (PvpHistoryProto_Builder*) setAttacker:(FullUserProto*) value;
+- (PvpHistoryProto_Builder*) setAttackerBuilder:(FullUserProto_Builder*) builderForValue;
+- (PvpHistoryProto_Builder*) mergeAttacker:(FullUserProto*) value;
+- (PvpHistoryProto_Builder*) clearAttacker;
+
+- (NSArray*) attackersMonstersList;
+- (MinimumUserMonsterProto*) attackersMonstersAtIndex:(int32_t) index;
+- (PvpHistoryProto_Builder*) replaceAttackersMonstersAtIndex:(int32_t) index with:(MinimumUserMonsterProto*) value;
+- (PvpHistoryProto_Builder*) addAttackersMonsters:(MinimumUserMonsterProto*) value;
+- (PvpHistoryProto_Builder*) addAllAttackersMonsters:(NSArray*) values;
+- (PvpHistoryProto_Builder*) clearAttackersMonstersList;
+
+- (BOOL) hasAttackerWon;
+- (BOOL) attackerWon;
+- (PvpHistoryProto_Builder*) setAttackerWon:(BOOL) value;
+- (PvpHistoryProto_Builder*) clearAttackerWon;
+
+- (BOOL) hasDefenderCashChange;
+- (int32_t) defenderCashChange;
+- (PvpHistoryProto_Builder*) setDefenderCashChange:(int32_t) value;
+- (PvpHistoryProto_Builder*) clearDefenderCashChange;
+
+- (BOOL) hasDefenderOilChange;
+- (int32_t) defenderOilChange;
+- (PvpHistoryProto_Builder*) setDefenderOilChange:(int32_t) value;
+- (PvpHistoryProto_Builder*) clearDefenderOilChange;
+
+- (BOOL) hasExactedRevenge;
+- (BOOL) exactedRevenge;
+- (PvpHistoryProto_Builder*) setExactedRevenge:(BOOL) value;
+- (PvpHistoryProto_Builder*) clearExactedRevenge;
+
+- (BOOL) hasProspectiveCashWinnings;
+- (int32_t) prospectiveCashWinnings;
+- (PvpHistoryProto_Builder*) setProspectiveCashWinnings:(int32_t) value;
+- (PvpHistoryProto_Builder*) clearProspectiveCashWinnings;
+
+- (BOOL) hasProspectiveOilWinnings;
+- (int32_t) prospectiveOilWinnings;
+- (PvpHistoryProto_Builder*) setProspectiveOilWinnings:(int32_t) value;
+- (PvpHistoryProto_Builder*) clearProspectiveOilWinnings;
 @end
 

@@ -25,15 +25,21 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(SoundEngine);
 }
 
 - (void) stopBackgroundMusic {
+  if (_curMusic != kNoMusic) {
+    [[OALSimpleAudio sharedInstance] stopBg];
+    [self playAmbientMusic:nil];
+  }
   _lastPlayedMusic = _curMusic;
   _curMusic = kNoMusic;
-  [[OALSimpleAudio sharedInstance] stopBg];
 }
 
 - (void) resumeBackgroundMusic {
   switch (_lastPlayedMusic) {
-    case kMapMusic:
-      [self playMapMusic];
+    case kMissionMapMusic:
+      [self playMissionMapMusic];
+      break;
+    case kHomeMapMusic:
+      [self playHomeMapMusic];
       break;
     case kBattleMusic:
       [self playBattleMusic];
@@ -61,14 +67,33 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(SoundEngine);
   return nil;
 }
 
-- (void) stopEffect:(int)effect {
-//  [[SimpleAudioEngine sharedEngine] stopEffect:effect];
+- (void) playAmbientMusic:(NSString *)ambient {
+  [self.ambientNoise stop];
+  
+  if (ambient) {
+    self.ambientNoise = [self playEffect:ambient volume:0.5f pitch:1.f pan:0.f loop:YES];
+  } else {
+    self.ambientNoise = nil;
+  }
 }
 
-- (void) playMapMusic {
-  if (_curMusic != kMapMusic) {
-    _curMusic = kMapMusic;
-    [self playBackgroundMusic:@"mus_mobsquad_gameplay.mp3" loop:YES];
+- (void) playHomeMapMusic {
+  if (_curMusic != kHomeMapMusic) {
+    _curMusic = kHomeMapMusic;
+    if (_curMusic != kMissionMapMusic) {
+      [self playBackgroundMusic:@"mus_mobsquad_gameplay.mp3" loop:YES];
+    }
+    [self playAmbientMusic:@"lp_beach_forest_amb.mp3"];
+  }
+}
+
+- (void) playMissionMapMusic {
+  if (_curMusic != kMissionMapMusic) {
+    _curMusic = kMissionMapMusic;
+    if (_curMusic != kHomeMapMusic) {
+      [self playBackgroundMusic:@"mus_mobsquad_gameplay.mp3" loop:YES];
+    }
+    [self playAmbientMusic:@"lp_city_amb.mp3"];
   }
 }
 
@@ -76,6 +101,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(SoundEngine);
   if (_curMusic != kBattleMusic) {
     _curMusic = kBattleMusic;
     [self playBackgroundMusic:@"mus_mobsquad_battle.mp3" loop:YES];
+    [self playAmbientMusic:nil];
   }
 }
 
@@ -97,6 +123,10 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(SoundEngine);
 
 + (void) generalButtonClick {
   [[SoundEngine sharedSoundEngine] playEffect:@"sfx_general_click.mp3"];
+}
+
++ (void) menuPopUp {
+  [[SoundEngine sharedSoundEngine] playEffect:@"sfx_notification_box_pop_up.mp3"];
 }
 
 + (void) chatOpened {
@@ -180,6 +210,10 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(SoundEngine);
   //[[SoundEngine sharedSoundEngine] playEffect:@"sfx_destroy_piece.mp3"];
 }
 
++ (void) puzzleBoardExplosion {
+  [[SoundEngine sharedSoundEngine] playEffect:@"boardexplosions.aif"];
+}
+
 + (void) puzzleComboCreated {
   [[SoundEngine sharedSoundEngine] playEffect:@"sfx_destroy_piece.mp3" volume:1.f pitch:0.7f pan:0.f loop:NO];
 }
@@ -208,6 +242,26 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(SoundEngine);
 
 + (void) puzzleMakeItRain {
   [[SoundEngine sharedSoundEngine] playEffect:@"sfx_make_it_rain.mp3"];
+}
+
++ (void) puzzlePvpQueueUISlideIn {
+  [[SoundEngine sharedSoundEngine] playEffect:@"sfx_attack_ui_slide_in.mp3"];
+}
+
++ (void) puzzlePvpQueueUISlideOut {
+  [[SoundEngine sharedSoundEngine] playEffect:@"sfx_attack_ui_slide_out.mp3"];
+}
+
++ (void) puzzleWinLoseUI {
+  [[SoundEngine sharedSoundEngine] playEffect:@"sfx_win_lose_ui.mp3"];
+}
+
++ (void) puzzleYouWon {
+  [[SoundEngine sharedSoundEngine] playEffect:@"stg_win.mp3"];
+}
+
++ (void) puzzleYouLose {
+  [[SoundEngine sharedSoundEngine] playEffect:@"stg_lose.mp3"];
 }
 
 @end

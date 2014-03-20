@@ -669,6 +669,8 @@ BOOL QueueUpResponseProto_QueueUpStatusIsValidValue(QueueUpResponseProto_QueueUp
 @property int32_t senderElo;
 @property int64_t attackStartTime;
 @property (retain) PvpProto* enemy;
+@property BOOL exactingRevenge;
+@property int64_t previousBattleEndTime;
 @end
 
 @implementation BeginPvpBattleRequestProto
@@ -701,6 +703,25 @@ BOOL QueueUpResponseProto_QueueUpStatusIsValidValue(QueueUpResponseProto_QueueUp
   hasEnemy_ = !!value;
 }
 @synthesize enemy;
+- (BOOL) hasExactingRevenge {
+  return !!hasExactingRevenge_;
+}
+- (void) setHasExactingRevenge:(BOOL) value {
+  hasExactingRevenge_ = !!value;
+}
+- (BOOL) exactingRevenge {
+  return !!exactingRevenge_;
+}
+- (void) setExactingRevenge:(BOOL) value {
+  exactingRevenge_ = !!value;
+}
+- (BOOL) hasPreviousBattleEndTime {
+  return !!hasPreviousBattleEndTime_;
+}
+- (void) setHasPreviousBattleEndTime:(BOOL) value {
+  hasPreviousBattleEndTime_ = !!value;
+}
+@synthesize previousBattleEndTime;
 - (void) dealloc {
   self.sender = nil;
   self.enemy = nil;
@@ -712,6 +733,8 @@ BOOL QueueUpResponseProto_QueueUpStatusIsValidValue(QueueUpResponseProto_QueueUp
     self.senderElo = 0;
     self.attackStartTime = 0L;
     self.enemy = [PvpProto defaultInstance];
+    self.exactingRevenge = NO;
+    self.previousBattleEndTime = 0L;
   }
   return self;
 }
@@ -743,6 +766,12 @@ static BeginPvpBattleRequestProto* defaultBeginPvpBattleRequestProtoInstance = n
   if (self.hasEnemy) {
     [output writeMessage:4 value:self.enemy];
   }
+  if (self.hasExactingRevenge) {
+    [output writeBool:5 value:self.exactingRevenge];
+  }
+  if (self.hasPreviousBattleEndTime) {
+    [output writeInt64:6 value:self.previousBattleEndTime];
+  }
   [self.unknownFields writeToCodedOutputStream:output];
 }
 - (int32_t) serializedSize {
@@ -763,6 +792,12 @@ static BeginPvpBattleRequestProto* defaultBeginPvpBattleRequestProtoInstance = n
   }
   if (self.hasEnemy) {
     size += computeMessageSize(4, self.enemy);
+  }
+  if (self.hasExactingRevenge) {
+    size += computeBoolSize(5, self.exactingRevenge);
+  }
+  if (self.hasPreviousBattleEndTime) {
+    size += computeInt64Size(6, self.previousBattleEndTime);
   }
   size += self.unknownFields.serializedSize;
   memoizedSerializedSize = size;
@@ -851,6 +886,12 @@ static BeginPvpBattleRequestProto* defaultBeginPvpBattleRequestProtoInstance = n
   if (other.hasEnemy) {
     [self mergeEnemy:other.enemy];
   }
+  if (other.hasExactingRevenge) {
+    [self setExactingRevenge:other.exactingRevenge];
+  }
+  if (other.hasPreviousBattleEndTime) {
+    [self setPreviousBattleEndTime:other.previousBattleEndTime];
+  }
   [self mergeUnknownFields:other.unknownFields];
   return self;
 }
@@ -896,6 +937,14 @@ static BeginPvpBattleRequestProto* defaultBeginPvpBattleRequestProtoInstance = n
         }
         [input readMessage:subBuilder extensionRegistry:extensionRegistry];
         [self setEnemy:[subBuilder buildPartial]];
+        break;
+      }
+      case 40: {
+        [self setExactingRevenge:[input readBool]];
+        break;
+      }
+      case 48: {
+        [self setPreviousBattleEndTime:[input readInt64]];
         break;
       }
     }
@@ -991,6 +1040,38 @@ static BeginPvpBattleRequestProto* defaultBeginPvpBattleRequestProtoInstance = n
 - (BeginPvpBattleRequestProto_Builder*) clearEnemy {
   result.hasEnemy = NO;
   result.enemy = [PvpProto defaultInstance];
+  return self;
+}
+- (BOOL) hasExactingRevenge {
+  return result.hasExactingRevenge;
+}
+- (BOOL) exactingRevenge {
+  return result.exactingRevenge;
+}
+- (BeginPvpBattleRequestProto_Builder*) setExactingRevenge:(BOOL) value {
+  result.hasExactingRevenge = YES;
+  result.exactingRevenge = value;
+  return self;
+}
+- (BeginPvpBattleRequestProto_Builder*) clearExactingRevenge {
+  result.hasExactingRevenge = NO;
+  result.exactingRevenge = NO;
+  return self;
+}
+- (BOOL) hasPreviousBattleEndTime {
+  return result.hasPreviousBattleEndTime;
+}
+- (int64_t) previousBattleEndTime {
+  return result.previousBattleEndTime;
+}
+- (BeginPvpBattleRequestProto_Builder*) setPreviousBattleEndTime:(int64_t) value {
+  result.hasPreviousBattleEndTime = YES;
+  result.previousBattleEndTime = value;
+  return self;
+}
+- (BeginPvpBattleRequestProto_Builder*) clearPreviousBattleEndTime {
+  result.hasPreviousBattleEndTime = NO;
+  result.previousBattleEndTime = 0L;
   return self;
 }
 @end

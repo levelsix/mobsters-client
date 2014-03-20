@@ -15,15 +15,59 @@
 #import "GameState.h"
 #import "Globals.h"
 #import <cocos2d-ui.h>
+#import "SoundEngine.h"
 
 @implementation PvpBattleLayer
+
+- (id) initWithMyUserMonsters:(NSArray *)monsters puzzleIsOnLeft:(BOOL)puzzleIsOnLeft pvpHistoryForRevenge:(PvpHistoryProto *)hist {
+  if ((self = [super initWithMyUserMonsters:monsters puzzleIsOnLeft:puzzleIsOnLeft])) {
+    PvpProto_Builder *pvp = [PvpProto builder];
+    MinimumUserProto *mup = [[[[[MinimumUserProto builder] setName:hist.attacker.name] setUserId:hist.attacker.userId] setClan:hist.attacker.clan] build];
+    pvp.defender = [[[[MinimumUserProtoWithLevel builder] setLevel:hist.attacker.level] setMinUserProto:mup] build];
+    pvp.curElo = hist.attacker.elo;
+    pvp.prospectiveCashWinnings = hist.prospectiveCashWinnings;
+    pvp.prospectiveOilWinnings = hist.prospectiveOilWinnings;
+    [pvp addAllDefenderMonsters:hist.attackersMonstersList];
+    
+    self.defendersList = @[pvp.build];
+    _curQueueNum = -1;
+    
+    _isRevenge = YES;
+    _prevBattleStartTime = hist.battleEndTime;
+  }
+  return self;
+}
+
+- (void) moveBegan {
+  [super moveBegan];
+  _userAttacked = YES;
+}
 
 #pragma mark - Continue View Actions
 
 - (void) youWon {
   [super youWon];
-  PvpProto *pvp = self.queueInfo.defenderInfoListList[_curQueueNum];
+  
+  PvpProto *pvp = self.defendersList[_curQueueNum];
   [self.wonView updateForRewards:[Reward createRewardsForPvpProto:pvp]];
+  [[OutgoingEventController sharedOutgoingEventController] endPvpBattleMessage:pvp userAttacked:_userAttacked userWon:YES delegate:self];
+}
+
+- (void) youLost {
+  [super youLost];
+  
+  PvpProto *pvp = self.defendersList[_curQueueNum];
+  [self.wonView updateForRewards:[Reward createRewardsForPvpProto:pvp]];
+  [[OutgoingEventController sharedOutgoingEventController] endPvpBattleMessage:pvp userAttacked:_userAttacked userWon:NO delegate:self];
+}
+
+- (IBAction)manageClicked:(id)sender {
+  if (_waitingForEndPvpResponse) {
+    return;
+  }
+  
+  _manageWasClicked = YES;
+  [self winExitClicked:nil];
 }
 
 - (IBAction)forfeitClicked:(id)sender {
@@ -42,15 +86,17 @@
 }
 
 - (IBAction)winExitClicked:(id)sender {
-  if (!_wonBattle) {
-    [self exitFinal];
-  } else if (!_receivedEndPvpResponse) {
+  if (!_receivedEndPvpResponse) {
     _waitingForEndPvpResponse = YES;
-    
-    _manageWasClicked = NO;
-#warning fix this
-    [self exitFinal];
   } else {
+    [self exitFinal];
+  }
+}
+
+- (void) handleEndPvpBattleResponseProto:(FullEvent *)fe {
+  _receivedEndPvpResponse = YES;
+  
+  if (_waitingForEndPvpResponse) {
     [self exitFinal];
   }
 }
@@ -64,20 +110,24 @@
 }
 
 - (void) displayQueueNode {
-  if (self.queueInfo.defenderInfoListList.count > _curQueueNum && _curQueueNum >= 0) {
+  if (self.defendersList.count > _curQueueNum && _curQueueNum >= 0) {
     if (!self.queueNode) {
       [self loadQueueNode];
     }
     
-    PvpProto *pvp = self.queueInfo.defenderInfoListList[_curQueueNum];
+    PvpProto *pvp = self.defendersList[_curQueueNum];
     [self.queueNode updateForPvpProto:pvp];
     self.queueNode.position = ccp(self.contentSize.width-self.queueNode.contentSize.width,0);
     [self.queueNode fadeInAnimation];
+    
+    [SoundEngine puzzlePvpQueueUISlideIn];
   }
 }
 
 - (void) removeQueueNode {
   [self.queueNode fadeOutAnimation];
+  
+  [SoundEngine puzzlePvpQueueUISlideOut];
 }
 
 - (void) nextMatchClicked {
@@ -139,8 +189,8 @@
 - (void) startMatchClicked {
   if (!self.queueNode.userInteractionEnabled) return;
   
-  PvpProto *pvp = self.queueInfo.defenderInfoListList[_curQueueNum];
-  [[OutgoingEventController sharedOutgoingEventController] beginPvpBattle:pvp];
+  PvpProto *pvp = self.defendersList[_curQueueNum];
+  [[OutgoingEventController sharedOutgoingEventController] beginPvpBattle:pvp isRevenge:_isRevenge previousBattleTime:_prevBattleStartTime];
   
   [self removeQueueNode];
   [self runAction:
@@ -183,7 +233,7 @@
   
   if (proto.status == QueueUpResponseProto_QueueUpStatusSuccess && proto.defenderInfoListList.count > 0) {
     _curQueueNum = -1;
-    self.queueInfo = proto;
+    self.defendersList = proto.defenderInfoListList;
   } else {
     [self performSelector:@selector(exitFinal) withObject:nil afterDelay:2.f];
   }
@@ -199,20 +249,22 @@
 
 - (void) prepareNextEnemyTeam {
   _curQueueNum++;
-  if (self.queueInfo.defenderInfoListList.count <= _curQueueNum) {
+  if (self.defendersList.count <= _curQueueNum) {
     if (!self.seenUserIds) self.seenUserIds = [NSMutableArray array];
-    for (PvpProto *pvp in self.queueInfo.defenderInfoListList) {
+    for (PvpProto *pvp in self.defendersList) {
       [self.seenUserIds addObject:@(pvp.defender.minUserProto.userId)];
     }
     [[OutgoingEventController sharedOutgoingEventController] queueUpEvent:self.seenUserIds withDelegate:self];
-    self.queueInfo = nil;
+    self.defendersList = nil;
+    
+    _isRevenge = NO;
     
     _numTimesNotResponded = 0;
   } else {
     NSMutableSet *set = [NSMutableSet set];
     NSMutableArray *enemyTeam = [NSMutableArray array];
     
-    PvpProto *enemy = self.queueInfo.defenderInfoListList[_curQueueNum];
+    PvpProto *enemy = self.defendersList[_curQueueNum];
     for (MinimumUserMonsterProto *mon in enemy.defenderMonstersList) {
       UserMonster *um = [UserMonster userMonsterWithMinProto:mon];
       BattlePlayer *bp = [BattlePlayer playerWithMonster:um];
@@ -234,14 +286,17 @@
 }
 
 - (void) spawnNextEnemyTeam {
-  int success = [[OutgoingEventController sharedOutgoingEventController] viewNextPvpGuy:_useGemsForQueue];
-  _useGemsForQueue = NO;
+  int success = YES;
+  if (!_isRevenge) {
+    success = [[OutgoingEventController sharedOutgoingEventController] viewNextPvpGuy:_useGemsForQueue];
+    _useGemsForQueue = NO;
+  }
   
   if (success) {
     NSMutableArray *mut = [NSMutableArray array];
     for (BattlePlayer *bp in self.enemyTeam) {
       NSInteger idx = [self.enemyTeam indexOfObject:bp];
-      BattleSprite *bs = [[BattleSprite alloc] initWithPrefix:bp.spritePrefix nameString:bp.name animationType:bp.animationType isMySprite:NO];
+      BattleSprite *bs = [[BattleSprite alloc] initWithPrefix:bp.spritePrefix nameString:bp.name animationType:bp.animationType isMySprite:NO verticalOffset:bp.verticalOffset];
       bs.healthBar.color = [self.orbLayer colorForSparkle:(GemColorId)bp.element];
       [self.bgdContainer addChild:bs z:-idx];
       bs.isFacingNear = YES;
@@ -284,7 +339,7 @@
 }
 
 - (void) reachedNextScene {
-  if (!self.queueInfo) {
+  if (!self.defendersList) {
     _numTimesNotResponded++;
     if (_numTimesNotResponded < 5) {
       [self.myPlayer beginWalking];
@@ -299,12 +354,13 @@
         [self.myPlayer beginWalking];
         [self.bgdLayer scrollToNewScene];
         
+        if (!self.enemyTeam && !_waitingForDownload) {
+          [self prepareNextEnemyTeam];
+        }
         if (self.enemyTeam) {
           // Spawn the new team
           [self spawnNextEnemyTeam];
           _spawnedNewTeam = YES;
-        } else if (!_waitingForDownload) {
-          [self prepareNextEnemyTeam];
         }
       } else {
         [self.myPlayer stopWalking];

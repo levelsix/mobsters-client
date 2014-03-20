@@ -27,9 +27,14 @@ message StructureInfoProto {
 	
 	optional string imgName = 14;
 	optional float imgVerticalPixelOffset = 15;
+	optional float imgHorizontalPixelOffset = 18;
 	optional string description = 16; //text field in db 
 	optional string shortDescription = 17;  
 	
+	//optional float imgHorizontalPixelOffset = 18; //defined above
+	optional string shadowImgName = 19;
+	optional float shadowVerticalOffset = 20;
+	optional float shadowHorizontalOfffset = 21;
 	
 	enum StructType {
 		RESOURCE_GENERATOR = 1;
@@ -191,4 +196,15 @@ message ObstacleProto {
 	optional string description = 10;
 	optional float chanceToAppear = 11;
 }
+
+message UserObstacleProto {
+	optional int64 userObstacleId = 1;
+	optional int32 userId = 2;
+	optional int32 obstacleId = 3;
+	optional CoordinateProto coordinates = 4;
+	optional StructOrientation orientation = 5;
+	optional int64 removalStartTime = 6;
+}
+
+//------------------------------------------------------------------------------------------
 

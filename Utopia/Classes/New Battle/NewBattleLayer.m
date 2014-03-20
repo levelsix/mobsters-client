@@ -303,7 +303,7 @@
 }
 
 - (void) createNextMyPlayerSprite {
-  BattleSprite *mp = [[BattleSprite alloc] initWithPrefix:self.myPlayerObject.spritePrefix nameString:self.myPlayerObject.name animationType:self.myPlayerObject.animationType isMySprite:YES];
+  BattleSprite *mp = [[BattleSprite alloc] initWithPrefix:self.myPlayerObject.spritePrefix nameString:self.myPlayerObject.name animationType:self.myPlayerObject.animationType isMySprite:YES verticalOffset:self.myPlayerObject.verticalOffset];
   mp.healthBar.color = [self.orbLayer colorForSparkle:(GemColorId)self.myPlayerObject.element];
   [self.bgdContainer addChild:mp z:1];
   mp.position = [self myPlayerLocation];
@@ -404,7 +404,7 @@
 }
 
 - (void) createNextEnemySprite {
-  BattleSprite *bs = [[BattleSprite alloc] initWithPrefix:self.enemyPlayerObject.spritePrefix nameString:self.enemyPlayerObject.name animationType:self.enemyPlayerObject.animationType isMySprite:NO];
+  BattleSprite *bs = [[BattleSprite alloc] initWithPrefix:self.enemyPlayerObject.spritePrefix nameString:self.enemyPlayerObject.name animationType:self.enemyPlayerObject.animationType isMySprite:NO verticalOffset:self.enemyPlayerObject.verticalOffset];
   bs.healthBar.color = [self.orbLayer colorForSparkle:(GemColorId)self.enemyPlayerObject.element];
   [self.bgdContainer addChild:bs];
   self.currentEnemy = bs;
@@ -514,7 +514,7 @@
     [self spawnPlaneWithTarget:nil selector:nil];
   }
   
-  float strength = MIN(1, currentScore/STRENGTH_FOR_MAX_SHOTS);
+  float strength = MIN(1, currentScore/(float)STRENGTH_FOR_MAX_SHOTS);
   [self.myPlayer performFarAttackAnimationWithStrength:strength enemy:self.currentEnemy target:self selector:@selector(dealMyDamage)];
 }
 
@@ -974,16 +974,21 @@
   [self.elementView close];
   
   [self removeOrbLayerAnimated:YES withBlock:^{
+    [SoundEngine puzzleWinLoseUI];
     if (won) {
       [self addChild:self.wonView z:10000];
       
       self.wonView.anchorPoint = ccp(0.5, 0.5);
       self.wonView.position = ccp(self.contentSize.width/2, self.contentSize.height/2);
+      
+      [SoundEngine puzzleYouWon];
     } else {
       [self addChild:self.lostView z:10000];
       self.lostView.anchorPoint = ccp(0.5, 0.5);
       self.lostView.continueButton.visible = [self shouldShowContinueButton];
       self.lostView.position = ccp(self.contentSize.width/2, self.contentSize.height/2);
+      
+      [SoundEngine puzzleYouLose];
     }
   }];
 }

@@ -14,6 +14,8 @@
 #import "OutgoingEventController.h"
 #import "GameViewController.h"
 
+#define PUBLISH_PERMISSIONS @[@"publish_actions"]
+
 @implementation FacebookDelegate
 
 + (FacebookDelegate *) sharedFacebookDelegate
@@ -60,6 +62,7 @@
 
 - (void) facebookIdIsValid {
   // Will be called by game view controller
+  LNLog(@"Facebook id verified.. Calling handler.");
   if (_loginCompletionHandler) {
     _loginCompletionHandler(YES);
     _loginCompletionHandler = nil;
@@ -72,16 +75,14 @@
 
 - (void) sessionStateChanged:(FBSession *)session state:(FBSessionState)state error:(NSError *)error {
   // If the session was opened successfully
-  if (!error && state == FBSessionStateOpen){
+  if (!error && state == FBSessionStateOpen) {
     LNLog(@"Facebook session opened.");
     // Show the user the logged-in UI
     
     [self getMyFacebookUser:^(NSDictionary<FBGraphUser> *facebookUser) {
+      LNLog(@"Got facebook user.. Checking if okay to use.");
       if ([[GameViewController baseController] canProceedWithFacebookId:facebookUser.id]) {
-        if (_loginCompletionHandler) {
-          _loginCompletionHandler(YES);
-          _loginCompletionHandler = nil;
-        }
+        [self facebookIdIsValid];
       }
     }];
   } else {
@@ -136,7 +137,7 @@
   }
 }
 
-- (void) openSessionWithReadPermissionsWithLoginUI:(BOOL)login completionHandler:(void (^)(BOOL success))completionHandler {
+- (void) openSessionWithLoginUI:(BOOL)login completionHandler:(void (^)(BOOL success))completionHandler {
   // If the session state is any of the two "open" states when the button is clicked
   if (FBSession.activeSession.state == FBSessionStateOpen
       || FBSession.activeSession.state == FBSessionStateOpenTokenExtended) {
@@ -151,12 +152,21 @@
     
     // Open a session showing the user the login UI
     // You must ALWAYS ask for basic_info permissions when opening a session
-    BOOL triedToOpen = [FBSession openActiveSessionWithReadPermissions:@[@"basic_info", @"email"]
+    BOOL triedToOpen = NO;
+    if (login) {
+      triedToOpen = [FBSession openActiveSessionWithPublishPermissions:PUBLISH_PERMISSIONS
+                                                       defaultAudience:FBSessionDefaultAudienceFriends
                                                           allowLoginUI:login
                                                      completionHandler:^(FBSession *session, FBSessionState state, NSError *error) {
-                                                       // Call the app delegate's sessionStateChanged:state:error method to handle session state changes
                                                        [self sessionStateChanged:session state:state error:error];
                                                      }];
+    } else {
+      triedToOpen = [FBSession openActiveSessionWithReadPermissions:@[@"basic_info", @"email"]
+                                                       allowLoginUI:login
+                                                  completionHandler:^(FBSession *session, FBSessionState state, NSError *error) {
+                                                    [self sessionStateChanged:session state:state error:error];
+                                                  }];
+    }
     
     if (login) {
       self.timeOfLastLoginAttempt = [NSDate date];
@@ -174,12 +184,12 @@
   }
 }
 
-+ (void) openSessionWithReadPermissionsWithLoginUI:(BOOL)login completionHandler:(void (^)(BOOL success))completionHandler {
-  [[self sharedFacebookDelegate] openSessionWithReadPermissionsWithLoginUI:login completionHandler:completionHandler];
++ (void) openSessionWithLoginUI:(BOOL)login completionHandler:(void (^)(BOOL success))completionHandler {
+  [[self sharedFacebookDelegate] openSessionWithLoginUI:login completionHandler:completionHandler];
 }
 
 + (void) getFacebookFriendsWithLoginUI:(BOOL)openLoginUI callback:(void (^)(NSArray *fbFriends))completion {
-  [FacebookDelegate openSessionWithReadPermissionsWithLoginUI:openLoginUI completionHandler:^(BOOL success) {
+  [FacebookDelegate openSessionWithLoginUI:openLoginUI completionHandler:^(BOOL success) {
     if (success) {
       NSString *query =
       @"SELECT uid, name, pic, is_app_user FROM user WHERE uid IN "
@@ -209,7 +219,7 @@
 - (void) initiateRequestToFacebookIds:(NSArray *)fbIds withMessage:(NSString *)message completionBlock:(void(^)(BOOL success, NSArray *friendIds))completion {
   if (fbIds.count == 0) return;
   
-  [self openSessionWithReadPermissionsWithLoginUI:YES completionHandler:^(BOOL success) {
+  [self openSessionWithLoginUI:YES completionHandler:^(BOOL success) {
     if (success) {
       NSMutableString *str = [NSMutableString stringWithFormat:@"%@", fbIds[0]];
       for (int i = 1; i < fbIds.count; i++) {
@@ -260,7 +270,7 @@
 
 - (void) getFacebookUsersWithIds:(NSArray *)idsArr handler:(void (^)(id result))handler {
   if (idsArr.count > 0) {
-    [self openSessionWithReadPermissionsWithLoginUI:NO completionHandler:^(BOOL success) {
+    [self openSessionWithLoginUI:NO completionHandler:^(BOOL success) {
       if (success) {
         NSMutableString *ids = [NSMutableString stringWithFormat:@"%@", idsArr[0]];
         for (int i = 1; i < idsArr.count; i++) {
@@ -290,8 +300,11 @@
 
 - (void) getMyFacebookUser:(void (^)(NSDictionary<FBGraphUser> *facebookUser))handler {
   if (!self.myFacebookUser) {
-    [self openSessionWithReadPermissionsWithLoginUI:NO completionHandler:^(BOOL success) {
+    LNLog(@"Attempting login for my facebook user.");
+    [self openSessionWithLoginUI:NO completionHandler:^(BOOL success) {
+      LNLog(@"Getting my facebook user.");
       [FBRequestConnection startForMeWithCompletionHandler:^(FBRequestConnection *connection, NSDictionary<FBGraphUser> *result, NSError *error) {
+        LNLog(@"Received my facebook user.");
         if (!error) {
           self.myFacebookUser = result;
           handler(result);

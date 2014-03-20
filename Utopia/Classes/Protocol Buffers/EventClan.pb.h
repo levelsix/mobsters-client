@@ -114,6 +114,8 @@
 @class PromoteDemoteClanMemberRequestProto_Builder;
 @class PromoteDemoteClanMemberResponseProto;
 @class PromoteDemoteClanMemberResponseProto_Builder;
+@class PvpHistoryProto;
+@class PvpHistoryProto_Builder;
 @class PvpProto;
 @class PvpProto_Builder;
 @class RecordClanRaidStatsRequestProto;
@@ -170,6 +172,8 @@
 @class UserMonsterEvolutionProto_Builder;
 @class UserMonsterHealingProto;
 @class UserMonsterHealingProto_Builder;
+@class UserObstacleProto;
+@class UserObstacleProto_Builder;
 @class UserPersistentEventProto;
 @class UserPersistentEventProto_Builder;
 typedef enum {

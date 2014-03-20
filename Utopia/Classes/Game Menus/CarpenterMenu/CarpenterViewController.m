@@ -80,7 +80,7 @@
   self.buildingImageView.image = nil;
   
   if (structInfo.prerequisiteTownHallLvl > thLevel) {
-    self.unavailableLabel.text = [NSString stringWithFormat:@"Level %d City Hall Required", structInfo.prerequisiteTownHallLvl];
+    self.unavailableLabel.text = [NSString stringWithFormat:@"Level %d %@ Required", structInfo.prerequisiteTownHallLvl, thp.structInfo.name];
     
     self.unavailableLabel.hidden = NO;
     self.availableView.hidden = YES;

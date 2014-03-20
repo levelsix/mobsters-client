@@ -54,8 +54,8 @@
 #define GAME_NAME @"Legends of Chaos"
 #define GAME_ABBREV @"LoC"
 #else
-#define GAME_NAME @"Age of Chaos"
-#define GAME_ABBREV @"AoC"
+#define GAME_NAME @"Mob Squad"
+#define GAME_ABBREV @"MS"
 #endif
 
 #define POINT_OFFSET_PER_SCENE ccp(512,360)

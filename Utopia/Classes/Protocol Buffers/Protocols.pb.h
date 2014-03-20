@@ -296,6 +296,8 @@
 @class PurchaseNormStructureResponseProto_Builder;
 @class PurgeClientStaticDataResponseProto;
 @class PurgeClientStaticDataResponseProto_Builder;
+@class PvpHistoryProto;
+@class PvpHistoryProto_Builder;
 @class PvpProto;
 @class PvpProto_Builder;
 @class QuestAcceptRequestProto;
@@ -476,6 +478,8 @@
 @class UserMonsterEvolutionProto_Builder;
 @class UserMonsterHealingProto;
 @class UserMonsterHealingProto_Builder;
+@class UserObstacleProto;
+@class UserObstacleProto_Builder;
 @class UserPersistentEventProto;
 @class UserPersistentEventProto_Builder;
 typedef enum {

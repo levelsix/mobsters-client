@@ -1415,6 +1415,8 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
     } completion:completed];
   }];
   [self bounceView:view];
+  
+  [SoundEngine menuPopUp];
 }
 
 + (void) bounceView:(UIView *)view fadeInBgdView:(UIView *)bgdView {

@@ -23,24 +23,20 @@
 
 - (id) initWithFile:(NSString *)file location:(CGRect)loc map:(GameMap *)map {
   if ((self = [super initWithFile:nil location:loc map:map])) {
-    if (file) self.buildingSprite = [CCSprite spriteWithImageNamed:file];
-    if (self.buildingSprite) [self addChild:self.buildingSprite];
-    
-    self.contentSize = self.buildingSprite.contentSize;
-    
     self.baseScale = 1.f;
+    if (file) [self setupBuildingSprite:file];
   }
   return self;
 }
 
 - (void) setContentSize:(CGSize)contentSize {
   [super setContentSize:contentSize];
-  [[self getChildByName:SHADOW_TAG recursively:NO] setPosition:ccp(self.contentSize.width/2, 3)];
+  [[self getChildByName:SHADOW_TAG recursively:NO] setPosition:ccp(self.contentSize.width/2, 1)];
 }
 
 - (void) setBaseScale:(float)baseScale {
   _baseScale = baseScale;
-  self.buildingSprite.scale = baseScale;
+  [self adjustBuildingSprite];
 }
 
 - (void) setColor:(CCColor *)color {
@@ -80,18 +76,28 @@
   }
 }
 
-- (void) setVerticalOffset:(float)v {
-  if (v != verticalOffset) {
-    verticalOffset = v;
-    self.buildingSprite.position = ccp(self.buildingSprite.position.x, v);
-  }
+- (void) adjustBuildingSprite {
+  self.buildingSprite.anchorPoint = ccp(0.5,0);
+  self.buildingSprite.scale = self.baseScale;
+  
+  float width = (self.location.size.width+self.location.size.height)/2*_map.tileSizeInPoints.width;
+  float height = MAX((self.location.size.width+self.location.size.height)/2*_map.tileSizeInPoints.height,
+                     self.verticalOffset+_buildingSprite.contentSize.height*self.baseScale);
+  self.contentSize = CGSizeMake(width, height);
+  self.buildingSprite.position = ccp(self.contentSize.width/2, self.verticalOffset);
+  self.orientation = self.orientation;
 }
 
-- (void) setBuildingSprite:(CCSprite *)buildingSprite {
-  _buildingSprite = buildingSprite;
-  _buildingSprite.anchorPoint = ccp(0.5,0);
-  _buildingSprite.position = ccp(self.buildingSprite.contentSize.width/2, self.verticalOffset);
-  self.contentSize = CGSizeMake((self.location.size.width+self.location.size.height)/2, self.verticalOffset+_buildingSprite.contentSize.height);
+- (void) setupBuildingSprite:(NSString *)fileName {
+  if (self.buildingSprite) {
+    [self removeChild:self.buildingSprite];
+    self.buildingSprite = nil;
+  }
+  if (fileName) {
+    self.buildingSprite = [CCSprite spriteWithImageNamed:fileName];
+    if (self.buildingSprite) [self addChild:self.buildingSprite];
+    [self adjustBuildingSprite];
+  }
 }
 
 - (void) displayProgressBar {
@@ -204,11 +210,18 @@
     self.obstacle = obstacle;
     
     self.verticalOffset = op.imgVerticalPixelOffset;
+    [self adjustBuildingSprite];
     
     NSString *fileName = [NSString stringWithFormat:@"%dx%ddark.png", (int)loc.size.width, (int)loc.size.height];
     CCSprite *shadow = [CCSprite spriteWithImageNamed:fileName];
     [self addChild:shadow z:-1 name:SHADOW_TAG];
     shadow.anchorPoint = ccp(0.5, 0);
+    
+    fileName = [NSString stringWithFormat:@"%dx%dshadow.png", (int)loc.size.width, (int)loc.size.height];
+    CCSprite *dark = [CCSprite spriteWithImageNamed:fileName];
+    [shadow addChild:dark z:-1 name:SHADOW_TAG];
+    dark.position = ccp(shadow.contentSize.width/3, shadow.contentSize.height/2);
+    
     // Reassign the content size
     self.contentSize = self.contentSize;
     

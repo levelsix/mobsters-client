@@ -174,10 +174,8 @@
   [self registerLocalNotifications];
   
   [[OutgoingEventController sharedOutgoingEventController] logout];
-  [[SocketCommunication sharedSocketCommunication] closeDownConnection];
+//  [[SocketCommunication sharedSocketCommunication] closeDownConnection];
   [[GameState sharedGameState] setConnected:NO];
-  
-  [[SoundEngine sharedSoundEngine] stopBackgroundMusic];
 
   [Analytics suspendedApp];
 #ifndef DEBUG

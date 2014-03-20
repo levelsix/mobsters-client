@@ -24,6 +24,8 @@
 @class TownHallProto_Builder;
 @class TutorialStructProto;
 @class TutorialStructProto_Builder;
+@class UserObstacleProto;
+@class UserObstacleProto_Builder;
 typedef enum {
   ResourceTypeCash = 1,
   ResourceTypeOil = 2,
@@ -61,38 +63,46 @@ BOOL StructureInfoProto_StructTypeIsValidValue(StructureInfoProto_StructType val
 
 @interface StructureInfoProto : PBGeneratedMessage {
 @private
+  BOOL hasShadowHorizontalOfffset_:1;
+  BOOL hasShadowVerticalOffset_:1;
+  BOOL hasImgHorizontalPixelOffset_:1;
   BOOL hasImgVerticalPixelOffset_:1;
-  BOOL hasStructId_:1;
-  BOOL hasLevel_:1;
-  BOOL hasBuildCost_:1;
-  BOOL hasMinutesToBuild_:1;
-  BOOL hasPrerequisiteTownHallLvl_:1;
-  BOOL hasWidth_:1;
-  BOOL hasHeight_:1;
-  BOOL hasPredecessorStructId_:1;
   BOOL hasSuccessorStructId_:1;
-  BOOL hasName_:1;
+  BOOL hasPredecessorStructId_:1;
+  BOOL hasHeight_:1;
+  BOOL hasWidth_:1;
+  BOOL hasPrerequisiteTownHallLvl_:1;
+  BOOL hasMinutesToBuild_:1;
+  BOOL hasBuildCost_:1;
+  BOOL hasLevel_:1;
+  BOOL hasStructId_:1;
   BOOL hasImgName_:1;
   BOOL hasDescription_:1;
   BOOL hasShortDescription_:1;
-  BOOL hasStructType_:1;
+  BOOL hasShadowImgName_:1;
+  BOOL hasName_:1;
   BOOL hasBuildResourceType_:1;
+  BOOL hasStructType_:1;
+  Float32 shadowHorizontalOfffset;
+  Float32 shadowVerticalOffset;
+  Float32 imgHorizontalPixelOffset;
   Float32 imgVerticalPixelOffset;
-  int32_t structId;
-  int32_t level;
-  int32_t buildCost;
-  int32_t minutesToBuild;
-  int32_t prerequisiteTownHallLvl;
-  int32_t width;
-  int32_t height;
-  int32_t predecessorStructId;
   int32_t successorStructId;
-  NSString* name;
+  int32_t predecessorStructId;
+  int32_t height;
+  int32_t width;
+  int32_t prerequisiteTownHallLvl;
+  int32_t minutesToBuild;
+  int32_t buildCost;
+  int32_t level;
+  int32_t structId;
   NSString* imgName;
   NSString* description;
   NSString* shortDescription;
-  StructureInfoProto_StructType structType;
+  NSString* shadowImgName;
+  NSString* name;
   ResourceType buildResourceType;
+  StructureInfoProto_StructType structType;
 }
 - (BOOL) hasStructId;
 - (BOOL) hasName;
@@ -108,8 +118,12 @@ BOOL StructureInfoProto_StructTypeIsValidValue(StructureInfoProto_StructType val
 - (BOOL) hasSuccessorStructId;
 - (BOOL) hasImgName;
 - (BOOL) hasImgVerticalPixelOffset;
+- (BOOL) hasImgHorizontalPixelOffset;
 - (BOOL) hasDescription;
 - (BOOL) hasShortDescription;
+- (BOOL) hasShadowImgName;
+- (BOOL) hasShadowVerticalOffset;
+- (BOOL) hasShadowHorizontalOfffset;
 @property (readonly) int32_t structId;
 @property (readonly, retain) NSString* name;
 @property (readonly) int32_t level;
@@ -124,8 +138,12 @@ BOOL StructureInfoProto_StructTypeIsValidValue(StructureInfoProto_StructType val
 @property (readonly) int32_t successorStructId;
 @property (readonly, retain) NSString* imgName;
 @property (readonly) Float32 imgVerticalPixelOffset;
+@property (readonly) Float32 imgHorizontalPixelOffset;
 @property (readonly, retain) NSString* description;
 @property (readonly, retain) NSString* shortDescription;
+@property (readonly, retain) NSString* shadowImgName;
+@property (readonly) Float32 shadowVerticalOffset;
+@property (readonly) Float32 shadowHorizontalOfffset;
 
 + (StructureInfoProto*) defaultInstance;
 - (StructureInfoProto*) defaultInstance;
@@ -231,6 +249,11 @@ BOOL StructureInfoProto_StructTypeIsValidValue(StructureInfoProto_StructType val
 - (StructureInfoProto_Builder*) setImgVerticalPixelOffset:(Float32) value;
 - (StructureInfoProto_Builder*) clearImgVerticalPixelOffset;
 
+- (BOOL) hasImgHorizontalPixelOffset;
+- (Float32) imgHorizontalPixelOffset;
+- (StructureInfoProto_Builder*) setImgHorizontalPixelOffset:(Float32) value;
+- (StructureInfoProto_Builder*) clearImgHorizontalPixelOffset;
+
 - (BOOL) hasDescription;
 - (NSString*) description;
 - (StructureInfoProto_Builder*) setDescription:(NSString*) value;
@@ -240,6 +263,21 @@ BOOL StructureInfoProto_StructTypeIsValidValue(StructureInfoProto_StructType val
 - (NSString*) shortDescription;
 - (StructureInfoProto_Builder*) setShortDescription:(NSString*) value;
 - (StructureInfoProto_Builder*) clearShortDescription;
+
+- (BOOL) hasShadowImgName;
+- (NSString*) shadowImgName;
+- (StructureInfoProto_Builder*) setShadowImgName:(NSString*) value;
+- (StructureInfoProto_Builder*) clearShadowImgName;
+
+- (BOOL) hasShadowVerticalOffset;
+- (Float32) shadowVerticalOffset;
+- (StructureInfoProto_Builder*) setShadowVerticalOffset:(Float32) value;
+- (StructureInfoProto_Builder*) clearShadowVerticalOffset;
+
+- (BOOL) hasShadowHorizontalOfffset;
+- (Float32) shadowHorizontalOfffset;
+- (StructureInfoProto_Builder*) setShadowHorizontalOfffset:(Float32) value;
+- (StructureInfoProto_Builder*) clearShadowHorizontalOfffset;
 @end
 
 @interface ResourceGeneratorProto : PBGeneratedMessage {
@@ -1132,5 +1170,100 @@ BOOL StructureInfoProto_StructTypeIsValidValue(StructureInfoProto_StructType val
 - (Float32) chanceToAppear;
 - (ObstacleProto_Builder*) setChanceToAppear:(Float32) value;
 - (ObstacleProto_Builder*) clearChanceToAppear;
+@end
+
+@interface UserObstacleProto : PBGeneratedMessage {
+@private
+  BOOL hasUserObstacleId_:1;
+  BOOL hasRemovalStartTime_:1;
+  BOOL hasUserId_:1;
+  BOOL hasObstacleId_:1;
+  BOOL hasCoordinates_:1;
+  BOOL hasOrientation_:1;
+  int64_t userObstacleId;
+  int64_t removalStartTime;
+  int32_t userId;
+  int32_t obstacleId;
+  CoordinateProto* coordinates;
+  StructOrientation orientation;
+}
+- (BOOL) hasUserObstacleId;
+- (BOOL) hasUserId;
+- (BOOL) hasObstacleId;
+- (BOOL) hasCoordinates;
+- (BOOL) hasOrientation;
+- (BOOL) hasRemovalStartTime;
+@property (readonly) int64_t userObstacleId;
+@property (readonly) int32_t userId;
+@property (readonly) int32_t obstacleId;
+@property (readonly, retain) CoordinateProto* coordinates;
+@property (readonly) StructOrientation orientation;
+@property (readonly) int64_t removalStartTime;
+
++ (UserObstacleProto*) defaultInstance;
+- (UserObstacleProto*) defaultInstance;
+
+- (BOOL) isInitialized;
+- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output;
+- (UserObstacleProto_Builder*) builder;
++ (UserObstacleProto_Builder*) builder;
++ (UserObstacleProto_Builder*) builderWithPrototype:(UserObstacleProto*) prototype;
+
++ (UserObstacleProto*) parseFromData:(NSData*) data;
++ (UserObstacleProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (UserObstacleProto*) parseFromInputStream:(NSInputStream*) input;
++ (UserObstacleProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (UserObstacleProto*) parseFromCodedInputStream:(PBCodedInputStream*) input;
++ (UserObstacleProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+@end
+
+@interface UserObstacleProto_Builder : PBGeneratedMessage_Builder {
+@private
+  UserObstacleProto* result;
+}
+
+- (UserObstacleProto*) defaultInstance;
+
+- (UserObstacleProto_Builder*) clear;
+- (UserObstacleProto_Builder*) clone;
+
+- (UserObstacleProto*) build;
+- (UserObstacleProto*) buildPartial;
+
+- (UserObstacleProto_Builder*) mergeFrom:(UserObstacleProto*) other;
+- (UserObstacleProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input;
+- (UserObstacleProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+
+- (BOOL) hasUserObstacleId;
+- (int64_t) userObstacleId;
+- (UserObstacleProto_Builder*) setUserObstacleId:(int64_t) value;
+- (UserObstacleProto_Builder*) clearUserObstacleId;
+
+- (BOOL) hasUserId;
+- (int32_t) userId;
+- (UserObstacleProto_Builder*) setUserId:(int32_t) value;
+- (UserObstacleProto_Builder*) clearUserId;
+
+- (BOOL) hasObstacleId;
+- (int32_t) obstacleId;
+- (UserObstacleProto_Builder*) setObstacleId:(int32_t) value;
+- (UserObstacleProto_Builder*) clearObstacleId;
+
+- (BOOL) hasCoordinates;
+- (CoordinateProto*) coordinates;
+- (UserObstacleProto_Builder*) setCoordinates:(CoordinateProto*) value;
+- (UserObstacleProto_Builder*) setCoordinatesBuilder:(CoordinateProto_Builder*) builderForValue;
+- (UserObstacleProto_Builder*) mergeCoordinates:(CoordinateProto*) value;
+- (UserObstacleProto_Builder*) clearCoordinates;
+
+- (BOOL) hasOrientation;
+- (StructOrientation) orientation;
+- (UserObstacleProto_Builder*) setOrientation:(StructOrientation) value;
+- (UserObstacleProto_Builder*) clearOrientation;
+
+- (BOOL) hasRemovalStartTime;
+- (int64_t) removalStartTime;
+- (UserObstacleProto_Builder*) setRemovalStartTime:(int64_t) value;
+- (UserObstacleProto_Builder*) clearRemovalStartTime;
 @end
 

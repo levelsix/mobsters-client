@@ -67,6 +67,9 @@
 @property (nonatomic, retain) CCSprite *tubeSprite;
 @property (nonatomic, retain) CCSprite *monsterSprite;
 
+@property (nonatomic, retain) CCAnimation *baseAnimation;
+@property (nonatomic, retain) CCAnimation *tubeAnimation;
+
 - (void) beginAnimatingWithMonsterId:(int)monsterId;
 - (void) stopAnimating;
 
@@ -77,6 +80,8 @@
 @end
 
 @interface LabBuilding : HomeBuilding
+
+@property (nonatomic, retain) CCAnimation *anim;
 
 @end
 

@@ -233,6 +233,12 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
     case EventProtocolResponseSSetFacebookIdEvent:
       responseClass = [SetFacebookIdResponseProto class];
       break;
+    case EventProtocolResponseSEndPvpBattleEvent:
+      responseClass = [EndPvpBattleResponseProto class];
+      break;
+    case EventProtocolResponseSForceLogoutEvent:
+      responseClass = [ForceLogoutResponseProto class];
+      break;
       
     default:
       responseClass = nil;
@@ -340,6 +346,8 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
     for (PrivateChatPostProto *pcpp in proto.pcppList) {
       [gs addPrivateChat:pcpp];
     }
+    
+    gs.battleHistory = [proto.recentNbattlesList mutableCopy];
     
     AppDelegate *ad = (AppDelegate *)[[UIApplication sharedApplication] delegate];
     [ad registerForPushNotifications];
@@ -1411,6 +1419,22 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
     [gs removeNonFullUserUpdatesForTag:tag];
   } else {
     [Globals popupMessage:@"Server failed to begin pvp battle."];
+    
+    [gs removeAndUndoAllUpdatesForTag:tag];
+  }
+}
+
+- (void) handleEndPvpBattleResponseProto:(FullEvent *)fe {
+  EndPvpBattleResponseProto *proto = (EndPvpBattleResponseProto *)fe.event;
+  int tag = fe.tag;
+  
+  LNLog(@"End pvp battle response received with status %d.", proto.status);
+  
+  GameState *gs = [GameState sharedGameState];
+  if (proto.status == BeginPvpBattleResponseProto_BeginPvpBattleStatusSuccess) {
+    [gs removeNonFullUserUpdatesForTag:tag];
+  } else {
+    [Globals popupMessage:@"Server failed to end pvp battle."];
     
     [gs removeAndUndoAllUpdatesForTag:tag];
   }

@@ -72,6 +72,9 @@ BOOL MonsterBattleDialogueProto_DialogueTypeIsValidValue(MonsterBattleDialoguePr
 
 @interface MonsterProto : PBGeneratedMessage {
 @private
+  BOOL hasAtkAnimationRepeatedFramesEnd_:1;
+  BOOL hasAtkAnimationRepeatedFramesStart_:1;
+  BOOL hasAtkSoundAnimationFrame_:1;
   BOOL hasVerticalPixelOffset_:1;
   BOOL hasEvolutionCost_:1;
   BOOL hasNumCatalystMonstersRequired_:1;
@@ -79,21 +82,25 @@ BOOL MonsterBattleDialogueProto_DialogueTypeIsValidValue(MonsterBattleDialoguePr
   BOOL hasEvolutionCatalystMonsterId_:1;
   BOOL hasEvolutionMonsterId_:1;
   BOOL hasMaxLevel_:1;
-  BOOL hasMinutesToCombinePieces_:1;
-  BOOL hasNumPuzzlePieces_:1;
-  BOOL hasEvolutionLevel_:1;
   BOOL hasMonsterId_:1;
+  BOOL hasEvolutionLevel_:1;
+  BOOL hasNumPuzzlePieces_:1;
+  BOOL hasMinutesToCombinePieces_:1;
   BOOL hasImagePrefix_:1;
   BOOL hasDisplayName_:1;
-  BOOL hasMonsterGroup_:1;
   BOOL hasCarrotRecruited_:1;
   BOOL hasCarrotDefeated_:1;
   BOOL hasCarrotEvolved_:1;
   BOOL hasDescription_:1;
+  BOOL hasAtkSoundFile_:1;
+  BOOL hasMonsterGroup_:1;
   BOOL hasName_:1;
   BOOL hasMonsterElement_:1;
-  BOOL hasQuality_:1;
   BOOL hasAttackAnimationType_:1;
+  BOOL hasQuality_:1;
+  int32_t atkAnimationRepeatedFramesEnd;
+  int32_t atkAnimationRepeatedFramesStart;
+  int32_t atkSoundAnimationFrame;
   int32_t verticalPixelOffset;
   int32_t evolutionCost;
   int32_t numCatalystMonstersRequired;
@@ -101,21 +108,22 @@ BOOL MonsterBattleDialogueProto_DialogueTypeIsValidValue(MonsterBattleDialoguePr
   int32_t evolutionCatalystMonsterId;
   int32_t evolutionMonsterId;
   int32_t maxLevel;
-  int32_t minutesToCombinePieces;
-  int32_t numPuzzlePieces;
-  int32_t evolutionLevel;
   int32_t monsterId;
+  int32_t evolutionLevel;
+  int32_t numPuzzlePieces;
+  int32_t minutesToCombinePieces;
   NSString* imagePrefix;
   NSString* displayName;
-  NSString* monsterGroup;
   NSString* carrotRecruited;
   NSString* carrotDefeated;
   NSString* carrotEvolved;
   NSString* description;
+  NSString* atkSoundFile;
+  NSString* monsterGroup;
   NSString* name;
   MonsterProto_MonsterElement monsterElement;
-  MonsterProto_MonsterQuality quality;
   MonsterProto_AnimationType attackAnimationType;
+  MonsterProto_MonsterQuality quality;
   NSMutableArray* mutableLvlInfoList;
 }
 - (BOOL) hasMonsterId;
@@ -140,6 +148,10 @@ BOOL MonsterBattleDialogueProto_DialogueTypeIsValidValue(MonsterBattleDialoguePr
 - (BOOL) hasEvolutionCost;
 - (BOOL) hasAttackAnimationType;
 - (BOOL) hasVerticalPixelOffset;
+- (BOOL) hasAtkSoundFile;
+- (BOOL) hasAtkSoundAnimationFrame;
+- (BOOL) hasAtkAnimationRepeatedFramesStart;
+- (BOOL) hasAtkAnimationRepeatedFramesEnd;
 @property (readonly) int32_t monsterId;
 @property (readonly, retain) NSString* name;
 @property (readonly, retain) NSString* monsterGroup;
@@ -162,6 +174,10 @@ BOOL MonsterBattleDialogueProto_DialogueTypeIsValidValue(MonsterBattleDialoguePr
 @property (readonly) int32_t evolutionCost;
 @property (readonly) MonsterProto_AnimationType attackAnimationType;
 @property (readonly) int32_t verticalPixelOffset;
+@property (readonly, retain) NSString* atkSoundFile;
+@property (readonly) int32_t atkSoundAnimationFrame;
+@property (readonly) int32_t atkAnimationRepeatedFramesStart;
+@property (readonly) int32_t atkAnimationRepeatedFramesEnd;
 - (NSArray*) lvlInfoList;
 - (MonsterLevelInfoProto*) lvlInfoAtIndex:(int32_t) index;
 
@@ -315,6 +331,26 @@ BOOL MonsterBattleDialogueProto_DialogueTypeIsValidValue(MonsterBattleDialoguePr
 - (int32_t) verticalPixelOffset;
 - (MonsterProto_Builder*) setVerticalPixelOffset:(int32_t) value;
 - (MonsterProto_Builder*) clearVerticalPixelOffset;
+
+- (BOOL) hasAtkSoundFile;
+- (NSString*) atkSoundFile;
+- (MonsterProto_Builder*) setAtkSoundFile:(NSString*) value;
+- (MonsterProto_Builder*) clearAtkSoundFile;
+
+- (BOOL) hasAtkSoundAnimationFrame;
+- (int32_t) atkSoundAnimationFrame;
+- (MonsterProto_Builder*) setAtkSoundAnimationFrame:(int32_t) value;
+- (MonsterProto_Builder*) clearAtkSoundAnimationFrame;
+
+- (BOOL) hasAtkAnimationRepeatedFramesStart;
+- (int32_t) atkAnimationRepeatedFramesStart;
+- (MonsterProto_Builder*) setAtkAnimationRepeatedFramesStart:(int32_t) value;
+- (MonsterProto_Builder*) clearAtkAnimationRepeatedFramesStart;
+
+- (BOOL) hasAtkAnimationRepeatedFramesEnd;
+- (int32_t) atkAnimationRepeatedFramesEnd;
+- (MonsterProto_Builder*) setAtkAnimationRepeatedFramesEnd:(int32_t) value;
+- (MonsterProto_Builder*) clearAtkAnimationRepeatedFramesEnd;
 @end
 
 @interface MonsterLevelInfoProto : PBGeneratedMessage {

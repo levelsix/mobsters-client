@@ -52,8 +52,8 @@
 }
 
 - (void)loadProfile {
-  self.winsLabel.text = [NSString stringWithFormat:@"%d wins", self.fup.battlesWon];
-  self.lossesLabel.text = [NSString stringWithFormat:@"%d wins", self.fup.battlesLost];
+  self.winsLabel.text = [NSString stringWithFormat:@"%d wins", self.fup.attacksWon];
+  self.lossesLabel.text = [NSString stringWithFormat:@"%d wins", self.fup.defensesWon];
   self.nameLabel.text = self.fup ? [NSString stringWithFormat:@"%@ (LVL %d)", self.fup.name,self.fup.level] : @"Loading...";
   
   if (self.fup.hasClan) {
@@ -107,7 +107,8 @@
   GameViewController *gvc = [GameViewController baseController];
   [gvc openPrivateChatWithUserId:self.fup.userId];
   
-  [self close:nil];
+  // Will close automatically
+  // [self close:nil];
 }
 
 - (IBAction)close:(id)sender {

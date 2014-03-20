@@ -101,6 +101,8 @@
 @class UserMonsterEvolutionProto_Builder;
 @class UserMonsterHealingProto;
 @class UserMonsterHealingProto_Builder;
+@class UserObstacleProto;
+@class UserObstacleProto_Builder;
 typedef enum {
   QuestAcceptResponseProto_QuestAcceptStatusSuccess = 1,
   QuestAcceptResponseProto_QuestAcceptStatusFailNotAvailToUser = 2,

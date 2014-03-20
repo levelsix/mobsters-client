@@ -54,8 +54,12 @@ BOOL StructOrientationIsValidValue(StructOrientation value) {
 @property int32_t successorStructId;
 @property (retain) NSString* imgName;
 @property Float32 imgVerticalPixelOffset;
+@property Float32 imgHorizontalPixelOffset;
 @property (retain) NSString* description;
 @property (retain) NSString* shortDescription;
+@property (retain) NSString* shadowImgName;
+@property Float32 shadowVerticalOffset;
+@property Float32 shadowHorizontalOfffset;
 @end
 
 @implementation StructureInfoProto
@@ -158,6 +162,13 @@ BOOL StructOrientationIsValidValue(StructOrientation value) {
   hasImgVerticalPixelOffset_ = !!value;
 }
 @synthesize imgVerticalPixelOffset;
+- (BOOL) hasImgHorizontalPixelOffset {
+  return !!hasImgHorizontalPixelOffset_;
+}
+- (void) setHasImgHorizontalPixelOffset:(BOOL) value {
+  hasImgHorizontalPixelOffset_ = !!value;
+}
+@synthesize imgHorizontalPixelOffset;
 - (BOOL) hasDescription {
   return !!hasDescription_;
 }
@@ -172,11 +183,33 @@ BOOL StructOrientationIsValidValue(StructOrientation value) {
   hasShortDescription_ = !!value;
 }
 @synthesize shortDescription;
+- (BOOL) hasShadowImgName {
+  return !!hasShadowImgName_;
+}
+- (void) setHasShadowImgName:(BOOL) value {
+  hasShadowImgName_ = !!value;
+}
+@synthesize shadowImgName;
+- (BOOL) hasShadowVerticalOffset {
+  return !!hasShadowVerticalOffset_;
+}
+- (void) setHasShadowVerticalOffset:(BOOL) value {
+  hasShadowVerticalOffset_ = !!value;
+}
+@synthesize shadowVerticalOffset;
+- (BOOL) hasShadowHorizontalOfffset {
+  return !!hasShadowHorizontalOfffset_;
+}
+- (void) setHasShadowHorizontalOfffset:(BOOL) value {
+  hasShadowHorizontalOfffset_ = !!value;
+}
+@synthesize shadowHorizontalOfffset;
 - (void) dealloc {
   self.name = nil;
   self.imgName = nil;
   self.description = nil;
   self.shortDescription = nil;
+  self.shadowImgName = nil;
   [super dealloc];
 }
 - (id) init {
@@ -195,8 +228,12 @@ BOOL StructOrientationIsValidValue(StructOrientation value) {
     self.successorStructId = 0;
     self.imgName = @"";
     self.imgVerticalPixelOffset = 0;
+    self.imgHorizontalPixelOffset = 0;
     self.description = @"";
     self.shortDescription = @"";
+    self.shadowImgName = @"";
+    self.shadowVerticalOffset = 0;
+    self.shadowHorizontalOfffset = 0;
   }
   return self;
 }
@@ -264,6 +301,18 @@ static StructureInfoProto* defaultStructureInfoProtoInstance = nil;
   if (self.hasShortDescription) {
     [output writeString:17 value:self.shortDescription];
   }
+  if (self.hasImgHorizontalPixelOffset) {
+    [output writeFloat:18 value:self.imgHorizontalPixelOffset];
+  }
+  if (self.hasShadowImgName) {
+    [output writeString:19 value:self.shadowImgName];
+  }
+  if (self.hasShadowVerticalOffset) {
+    [output writeFloat:20 value:self.shadowVerticalOffset];
+  }
+  if (self.hasShadowHorizontalOfffset) {
+    [output writeFloat:21 value:self.shadowHorizontalOfffset];
+  }
   [self.unknownFields writeToCodedOutputStream:output];
 }
 - (int32_t) serializedSize {
@@ -320,6 +369,18 @@ static StructureInfoProto* defaultStructureInfoProtoInstance = nil;
   }
   if (self.hasShortDescription) {
     size += computeStringSize(17, self.shortDescription);
+  }
+  if (self.hasImgHorizontalPixelOffset) {
+    size += computeFloatSize(18, self.imgHorizontalPixelOffset);
+  }
+  if (self.hasShadowImgName) {
+    size += computeStringSize(19, self.shadowImgName);
+  }
+  if (self.hasShadowVerticalOffset) {
+    size += computeFloatSize(20, self.shadowVerticalOffset);
+  }
+  if (self.hasShadowHorizontalOfffset) {
+    size += computeFloatSize(21, self.shadowHorizontalOfffset);
   }
   size += self.unknownFields.serializedSize;
   memoizedSerializedSize = size;
@@ -452,11 +513,23 @@ BOOL StructureInfoProto_StructTypeIsValidValue(StructureInfoProto_StructType val
   if (other.hasImgVerticalPixelOffset) {
     [self setImgVerticalPixelOffset:other.imgVerticalPixelOffset];
   }
+  if (other.hasImgHorizontalPixelOffset) {
+    [self setImgHorizontalPixelOffset:other.imgHorizontalPixelOffset];
+  }
   if (other.hasDescription) {
     [self setDescription:other.description];
   }
   if (other.hasShortDescription) {
     [self setShortDescription:other.shortDescription];
+  }
+  if (other.hasShadowImgName) {
+    [self setShadowImgName:other.shadowImgName];
+  }
+  if (other.hasShadowVerticalOffset) {
+    [self setShadowVerticalOffset:other.shadowVerticalOffset];
+  }
+  if (other.hasShadowHorizontalOfffset) {
+    [self setShadowHorizontalOfffset:other.shadowHorizontalOfffset];
   }
   [self mergeUnknownFields:other.unknownFields];
   return self;
@@ -551,6 +624,22 @@ BOOL StructureInfoProto_StructTypeIsValidValue(StructureInfoProto_StructType val
       }
       case 138: {
         [self setShortDescription:[input readString]];
+        break;
+      }
+      case 149: {
+        [self setImgHorizontalPixelOffset:[input readFloat]];
+        break;
+      }
+      case 154: {
+        [self setShadowImgName:[input readString]];
+        break;
+      }
+      case 165: {
+        [self setShadowVerticalOffset:[input readFloat]];
+        break;
+      }
+      case 173: {
+        [self setShadowHorizontalOfffset:[input readFloat]];
         break;
       }
     }
@@ -780,6 +869,22 @@ BOOL StructureInfoProto_StructTypeIsValidValue(StructureInfoProto_StructType val
   result.imgVerticalPixelOffset = 0;
   return self;
 }
+- (BOOL) hasImgHorizontalPixelOffset {
+  return result.hasImgHorizontalPixelOffset;
+}
+- (Float32) imgHorizontalPixelOffset {
+  return result.imgHorizontalPixelOffset;
+}
+- (StructureInfoProto_Builder*) setImgHorizontalPixelOffset:(Float32) value {
+  result.hasImgHorizontalPixelOffset = YES;
+  result.imgHorizontalPixelOffset = value;
+  return self;
+}
+- (StructureInfoProto_Builder*) clearImgHorizontalPixelOffset {
+  result.hasImgHorizontalPixelOffset = NO;
+  result.imgHorizontalPixelOffset = 0;
+  return self;
+}
 - (BOOL) hasDescription {
   return result.hasDescription;
 }
@@ -810,6 +915,54 @@ BOOL StructureInfoProto_StructTypeIsValidValue(StructureInfoProto_StructType val
 - (StructureInfoProto_Builder*) clearShortDescription {
   result.hasShortDescription = NO;
   result.shortDescription = @"";
+  return self;
+}
+- (BOOL) hasShadowImgName {
+  return result.hasShadowImgName;
+}
+- (NSString*) shadowImgName {
+  return result.shadowImgName;
+}
+- (StructureInfoProto_Builder*) setShadowImgName:(NSString*) value {
+  result.hasShadowImgName = YES;
+  result.shadowImgName = value;
+  return self;
+}
+- (StructureInfoProto_Builder*) clearShadowImgName {
+  result.hasShadowImgName = NO;
+  result.shadowImgName = @"";
+  return self;
+}
+- (BOOL) hasShadowVerticalOffset {
+  return result.hasShadowVerticalOffset;
+}
+- (Float32) shadowVerticalOffset {
+  return result.shadowVerticalOffset;
+}
+- (StructureInfoProto_Builder*) setShadowVerticalOffset:(Float32) value {
+  result.hasShadowVerticalOffset = YES;
+  result.shadowVerticalOffset = value;
+  return self;
+}
+- (StructureInfoProto_Builder*) clearShadowVerticalOffset {
+  result.hasShadowVerticalOffset = NO;
+  result.shadowVerticalOffset = 0;
+  return self;
+}
+- (BOOL) hasShadowHorizontalOfffset {
+  return result.hasShadowHorizontalOfffset;
+}
+- (Float32) shadowHorizontalOfffset {
+  return result.shadowHorizontalOfffset;
+}
+- (StructureInfoProto_Builder*) setShadowHorizontalOfffset:(Float32) value {
+  result.hasShadowHorizontalOfffset = YES;
+  result.shadowHorizontalOfffset = value;
+  return self;
+}
+- (StructureInfoProto_Builder*) clearShadowHorizontalOfffset {
+  result.hasShadowHorizontalOfffset = NO;
+  result.shadowHorizontalOfffset = 0;
   return self;
 }
 @end
@@ -4441,6 +4594,398 @@ static ObstacleProto* defaultObstacleProtoInstance = nil;
 - (ObstacleProto_Builder*) clearChanceToAppear {
   result.hasChanceToAppear = NO;
   result.chanceToAppear = 0;
+  return self;
+}
+@end
+
+@interface UserObstacleProto ()
+@property int64_t userObstacleId;
+@property int32_t userId;
+@property int32_t obstacleId;
+@property (retain) CoordinateProto* coordinates;
+@property StructOrientation orientation;
+@property int64_t removalStartTime;
+@end
+
+@implementation UserObstacleProto
+
+- (BOOL) hasUserObstacleId {
+  return !!hasUserObstacleId_;
+}
+- (void) setHasUserObstacleId:(BOOL) value {
+  hasUserObstacleId_ = !!value;
+}
+@synthesize userObstacleId;
+- (BOOL) hasUserId {
+  return !!hasUserId_;
+}
+- (void) setHasUserId:(BOOL) value {
+  hasUserId_ = !!value;
+}
+@synthesize userId;
+- (BOOL) hasObstacleId {
+  return !!hasObstacleId_;
+}
+- (void) setHasObstacleId:(BOOL) value {
+  hasObstacleId_ = !!value;
+}
+@synthesize obstacleId;
+- (BOOL) hasCoordinates {
+  return !!hasCoordinates_;
+}
+- (void) setHasCoordinates:(BOOL) value {
+  hasCoordinates_ = !!value;
+}
+@synthesize coordinates;
+- (BOOL) hasOrientation {
+  return !!hasOrientation_;
+}
+- (void) setHasOrientation:(BOOL) value {
+  hasOrientation_ = !!value;
+}
+@synthesize orientation;
+- (BOOL) hasRemovalStartTime {
+  return !!hasRemovalStartTime_;
+}
+- (void) setHasRemovalStartTime:(BOOL) value {
+  hasRemovalStartTime_ = !!value;
+}
+@synthesize removalStartTime;
+- (void) dealloc {
+  self.coordinates = nil;
+  [super dealloc];
+}
+- (id) init {
+  if ((self = [super init])) {
+    self.userObstacleId = 0L;
+    self.userId = 0;
+    self.obstacleId = 0;
+    self.coordinates = [CoordinateProto defaultInstance];
+    self.orientation = StructOrientationPosition1;
+    self.removalStartTime = 0L;
+  }
+  return self;
+}
+static UserObstacleProto* defaultUserObstacleProtoInstance = nil;
++ (void) initialize {
+  if (self == [UserObstacleProto class]) {
+    defaultUserObstacleProtoInstance = [[UserObstacleProto alloc] init];
+  }
+}
++ (UserObstacleProto*) defaultInstance {
+  return defaultUserObstacleProtoInstance;
+}
+- (UserObstacleProto*) defaultInstance {
+  return defaultUserObstacleProtoInstance;
+}
+- (BOOL) isInitialized {
+  return YES;
+}
+- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output {
+  if (self.hasUserObstacleId) {
+    [output writeInt64:1 value:self.userObstacleId];
+  }
+  if (self.hasUserId) {
+    [output writeInt32:2 value:self.userId];
+  }
+  if (self.hasObstacleId) {
+    [output writeInt32:3 value:self.obstacleId];
+  }
+  if (self.hasCoordinates) {
+    [output writeMessage:4 value:self.coordinates];
+  }
+  if (self.hasOrientation) {
+    [output writeEnum:5 value:self.orientation];
+  }
+  if (self.hasRemovalStartTime) {
+    [output writeInt64:6 value:self.removalStartTime];
+  }
+  [self.unknownFields writeToCodedOutputStream:output];
+}
+- (int32_t) serializedSize {
+  int32_t size = memoizedSerializedSize;
+  if (size != -1) {
+    return size;
+  }
+
+  size = 0;
+  if (self.hasUserObstacleId) {
+    size += computeInt64Size(1, self.userObstacleId);
+  }
+  if (self.hasUserId) {
+    size += computeInt32Size(2, self.userId);
+  }
+  if (self.hasObstacleId) {
+    size += computeInt32Size(3, self.obstacleId);
+  }
+  if (self.hasCoordinates) {
+    size += computeMessageSize(4, self.coordinates);
+  }
+  if (self.hasOrientation) {
+    size += computeEnumSize(5, self.orientation);
+  }
+  if (self.hasRemovalStartTime) {
+    size += computeInt64Size(6, self.removalStartTime);
+  }
+  size += self.unknownFields.serializedSize;
+  memoizedSerializedSize = size;
+  return size;
+}
++ (UserObstacleProto*) parseFromData:(NSData*) data {
+  return (UserObstacleProto*)[[[UserObstacleProto builder] mergeFromData:data] build];
+}
++ (UserObstacleProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (UserObstacleProto*)[[[UserObstacleProto builder] mergeFromData:data extensionRegistry:extensionRegistry] build];
+}
++ (UserObstacleProto*) parseFromInputStream:(NSInputStream*) input {
+  return (UserObstacleProto*)[[[UserObstacleProto builder] mergeFromInputStream:input] build];
+}
++ (UserObstacleProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (UserObstacleProto*)[[[UserObstacleProto builder] mergeFromInputStream:input extensionRegistry:extensionRegistry] build];
+}
++ (UserObstacleProto*) parseFromCodedInputStream:(PBCodedInputStream*) input {
+  return (UserObstacleProto*)[[[UserObstacleProto builder] mergeFromCodedInputStream:input] build];
+}
++ (UserObstacleProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (UserObstacleProto*)[[[UserObstacleProto builder] mergeFromCodedInputStream:input extensionRegistry:extensionRegistry] build];
+}
++ (UserObstacleProto_Builder*) builder {
+  return [[[UserObstacleProto_Builder alloc] init] autorelease];
+}
++ (UserObstacleProto_Builder*) builderWithPrototype:(UserObstacleProto*) prototype {
+  return [[UserObstacleProto builder] mergeFrom:prototype];
+}
+- (UserObstacleProto_Builder*) builder {
+  return [UserObstacleProto builder];
+}
+@end
+
+@interface UserObstacleProto_Builder()
+@property (retain) UserObstacleProto* result;
+@end
+
+@implementation UserObstacleProto_Builder
+@synthesize result;
+- (void) dealloc {
+  self.result = nil;
+  [super dealloc];
+}
+- (id) init {
+  if ((self = [super init])) {
+    self.result = [[[UserObstacleProto alloc] init] autorelease];
+  }
+  return self;
+}
+- (PBGeneratedMessage*) internalGetResult {
+  return result;
+}
+- (UserObstacleProto_Builder*) clear {
+  self.result = [[[UserObstacleProto alloc] init] autorelease];
+  return self;
+}
+- (UserObstacleProto_Builder*) clone {
+  return [UserObstacleProto builderWithPrototype:result];
+}
+- (UserObstacleProto*) defaultInstance {
+  return [UserObstacleProto defaultInstance];
+}
+- (UserObstacleProto*) build {
+  [self checkInitialized];
+  return [self buildPartial];
+}
+- (UserObstacleProto*) buildPartial {
+  UserObstacleProto* returnMe = [[result retain] autorelease];
+  self.result = nil;
+  return returnMe;
+}
+- (UserObstacleProto_Builder*) mergeFrom:(UserObstacleProto*) other {
+  if (other == [UserObstacleProto defaultInstance]) {
+    return self;
+  }
+  if (other.hasUserObstacleId) {
+    [self setUserObstacleId:other.userObstacleId];
+  }
+  if (other.hasUserId) {
+    [self setUserId:other.userId];
+  }
+  if (other.hasObstacleId) {
+    [self setObstacleId:other.obstacleId];
+  }
+  if (other.hasCoordinates) {
+    [self mergeCoordinates:other.coordinates];
+  }
+  if (other.hasOrientation) {
+    [self setOrientation:other.orientation];
+  }
+  if (other.hasRemovalStartTime) {
+    [self setRemovalStartTime:other.removalStartTime];
+  }
+  [self mergeUnknownFields:other.unknownFields];
+  return self;
+}
+- (UserObstacleProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input {
+  return [self mergeFromCodedInputStream:input extensionRegistry:[PBExtensionRegistry emptyRegistry]];
+}
+- (UserObstacleProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  PBUnknownFieldSet_Builder* unknownFields = [PBUnknownFieldSet builderWithUnknownFields:self.unknownFields];
+  while (YES) {
+    int32_t tag = [input readTag];
+    switch (tag) {
+      case 0:
+        [self setUnknownFields:[unknownFields build]];
+        return self;
+      default: {
+        if (![self parseUnknownField:input unknownFields:unknownFields extensionRegistry:extensionRegistry tag:tag]) {
+          [self setUnknownFields:[unknownFields build]];
+          return self;
+        }
+        break;
+      }
+      case 8: {
+        [self setUserObstacleId:[input readInt64]];
+        break;
+      }
+      case 16: {
+        [self setUserId:[input readInt32]];
+        break;
+      }
+      case 24: {
+        [self setObstacleId:[input readInt32]];
+        break;
+      }
+      case 34: {
+        CoordinateProto_Builder* subBuilder = [CoordinateProto builder];
+        if (self.hasCoordinates) {
+          [subBuilder mergeFrom:self.coordinates];
+        }
+        [input readMessage:subBuilder extensionRegistry:extensionRegistry];
+        [self setCoordinates:[subBuilder buildPartial]];
+        break;
+      }
+      case 40: {
+        int32_t value = [input readEnum];
+        if (StructOrientationIsValidValue(value)) {
+          [self setOrientation:value];
+        } else {
+          [unknownFields mergeVarintField:5 value:value];
+        }
+        break;
+      }
+      case 48: {
+        [self setRemovalStartTime:[input readInt64]];
+        break;
+      }
+    }
+  }
+}
+- (BOOL) hasUserObstacleId {
+  return result.hasUserObstacleId;
+}
+- (int64_t) userObstacleId {
+  return result.userObstacleId;
+}
+- (UserObstacleProto_Builder*) setUserObstacleId:(int64_t) value {
+  result.hasUserObstacleId = YES;
+  result.userObstacleId = value;
+  return self;
+}
+- (UserObstacleProto_Builder*) clearUserObstacleId {
+  result.hasUserObstacleId = NO;
+  result.userObstacleId = 0L;
+  return self;
+}
+- (BOOL) hasUserId {
+  return result.hasUserId;
+}
+- (int32_t) userId {
+  return result.userId;
+}
+- (UserObstacleProto_Builder*) setUserId:(int32_t) value {
+  result.hasUserId = YES;
+  result.userId = value;
+  return self;
+}
+- (UserObstacleProto_Builder*) clearUserId {
+  result.hasUserId = NO;
+  result.userId = 0;
+  return self;
+}
+- (BOOL) hasObstacleId {
+  return result.hasObstacleId;
+}
+- (int32_t) obstacleId {
+  return result.obstacleId;
+}
+- (UserObstacleProto_Builder*) setObstacleId:(int32_t) value {
+  result.hasObstacleId = YES;
+  result.obstacleId = value;
+  return self;
+}
+- (UserObstacleProto_Builder*) clearObstacleId {
+  result.hasObstacleId = NO;
+  result.obstacleId = 0;
+  return self;
+}
+- (BOOL) hasCoordinates {
+  return result.hasCoordinates;
+}
+- (CoordinateProto*) coordinates {
+  return result.coordinates;
+}
+- (UserObstacleProto_Builder*) setCoordinates:(CoordinateProto*) value {
+  result.hasCoordinates = YES;
+  result.coordinates = value;
+  return self;
+}
+- (UserObstacleProto_Builder*) setCoordinatesBuilder:(CoordinateProto_Builder*) builderForValue {
+  return [self setCoordinates:[builderForValue build]];
+}
+- (UserObstacleProto_Builder*) mergeCoordinates:(CoordinateProto*) value {
+  if (result.hasCoordinates &&
+      result.coordinates != [CoordinateProto defaultInstance]) {
+    result.coordinates =
+      [[[CoordinateProto builderWithPrototype:result.coordinates] mergeFrom:value] buildPartial];
+  } else {
+    result.coordinates = value;
+  }
+  result.hasCoordinates = YES;
+  return self;
+}
+- (UserObstacleProto_Builder*) clearCoordinates {
+  result.hasCoordinates = NO;
+  result.coordinates = [CoordinateProto defaultInstance];
+  return self;
+}
+- (BOOL) hasOrientation {
+  return result.hasOrientation;
+}
+- (StructOrientation) orientation {
+  return result.orientation;
+}
+- (UserObstacleProto_Builder*) setOrientation:(StructOrientation) value {
+  result.hasOrientation = YES;
+  result.orientation = value;
+  return self;
+}
+- (UserObstacleProto_Builder*) clearOrientation {
+  result.hasOrientation = NO;
+  result.orientation = StructOrientationPosition1;
+  return self;
+}
+- (BOOL) hasRemovalStartTime {
+  return result.hasRemovalStartTime;
+}
+- (int64_t) removalStartTime {
+  return result.removalStartTime;
+}
+- (UserObstacleProto_Builder*) setRemovalStartTime:(int64_t) value {
+  result.hasRemovalStartTime = YES;
+  result.removalStartTime = value;
+  return self;
+}
+- (UserObstacleProto_Builder*) clearRemovalStartTime {
+  result.hasRemovalStartTime = NO;
+  result.removalStartTime = 0L;
   return self;
 }
 @end

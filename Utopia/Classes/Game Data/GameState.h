@@ -32,6 +32,10 @@
 @property (nonatomic, assign) int battlesWon;
 @property (nonatomic, assign) int battlesLost;
 @property (nonatomic, assign) int flees;
+@property (nonatomic, assign) int attacksWon;
+@property (nonatomic, assign) int attacksLost;
+@property (nonatomic, assign) int defensesWon;
+@property (nonatomic, assign) int defensesLost;
 @property (nonatomic, assign) CLLocationCoordinate2D location;
 @property (nonatomic, assign) int skillPoints;
 @property (nonatomic, assign) int experience;
@@ -80,6 +84,8 @@
 @property (nonatomic, retain) NSMutableDictionary *inProgressCompleteQuests;
 @property (nonatomic, retain) NSMutableDictionary *inProgressIncompleteQuests;
 @property (nonatomic, retain) NSMutableDictionary *availableQuests;
+
+@property (nonatomic, retain) NSMutableArray *battleHistory;
 
 @property (nonatomic, retain) NSMutableArray *notifications;
 @property (nonatomic, retain) NSMutableArray *globalChatMessages;

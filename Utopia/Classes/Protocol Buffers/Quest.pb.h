@@ -36,6 +36,8 @@
 @class TownHallProto_Builder;
 @class TutorialStructProto;
 @class TutorialStructProto_Builder;
+@class UserObstacleProto;
+@class UserObstacleProto_Builder;
 typedef enum {
   FullQuestProto_QuestTypeKillMonster = 1,
   FullQuestProto_QuestTypeDonateMonster = 2,

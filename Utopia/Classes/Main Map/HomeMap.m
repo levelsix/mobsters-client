@@ -200,8 +200,8 @@
   [wave recursivelyApplyOpacity:0.f];
   [wave runAction:
    [CCActionSequence actions:
-     [RecursiveFadeTo actionWithDuration:dur1 opacity:1.f],
-     [RecursiveFadeTo actionWithDuration:dur2 opacity:0.f],
+    [RecursiveFadeTo actionWithDuration:dur1 opacity:1.f],
+    [RecursiveFadeTo actionWithDuration:dur2 opacity:0.f],
     nil]];
   [wave runAction:
    [CCActionSequence actions:
@@ -334,11 +334,24 @@
 }
 
 - (NSArray *) createObstacles {
-  NSArray *vals = @[@1, [NSValue valueWithCGPoint:ccp(2,2)],
-                    @2, [NSValue valueWithCGPoint:ccp(4,2)],
-                    @3, [NSValue valueWithCGPoint:ccp(6,2)],
+  NSArray *vals = @[@2, [NSValue valueWithCGPoint:ccp(4,8)],
+                    @2, [NSValue valueWithCGPoint:ccp(2,2)],
+                    @2, [NSValue valueWithCGPoint:ccp(1,20)],
+                    @2, [NSValue valueWithCGPoint:ccp(17,3)],
+                    @2, [NSValue valueWithCGPoint:ccp(21,14)],
+                    @2, [NSValue valueWithCGPoint:ccp(12,20)],
                     @4, [NSValue valueWithCGPoint:ccp(4,4)],
-                    @5, [NSValue valueWithCGPoint:ccp(2,4)]];
+                    @4, [NSValue valueWithCGPoint:ccp(5,19)],
+                    @4, [NSValue valueWithCGPoint:ccp(20,5)],
+                    @4, [NSValue valueWithCGPoint:ccp(15,22)],
+                    @4, [NSValue valueWithCGPoint:ccp(22,21)],
+                    @4, [NSValue valueWithCGPoint:ccp(2,13)],
+                    @4, [NSValue valueWithCGPoint:ccp(10,2)],
+                    @5, [NSValue valueWithCGPoint:ccp(4,15)],
+                    @5, [NSValue valueWithCGPoint:ccp(9,21)],
+                    @5, [NSValue valueWithCGPoint:ccp(21,2)],
+                    @5, [NSValue valueWithCGPoint:ccp(22,9)],
+                    @5, [NSValue valueWithCGPoint:ccp(18,20)]];
   
   NSMutableArray *obstacles = [NSMutableArray array];
   for (int i = 0; i < vals.count; i += 2) {
@@ -588,7 +601,7 @@
   PurchaseConfirmMenu *m = [[PurchaseConfirmMenu alloc] initWithCheckTarget:self checkSelector:@selector(moveCheckClicked:) cancelTarget:self cancelSelector:@selector(cancelMoveClicked:)];
   m.name = PURCHASE_CONFIRM_MENU_TAG;
   [_purchBuilding addChild:m];
-  m.position = ccp(_purchBuilding.contentSize.width/2, (_purchBuilding.contentSize.height+10)*_purchBuilding.baseScale);
+  m.position = ccp(_purchBuilding.contentSize.width/2, _purchBuilding.contentSize.height+10);
 }
 
 - (void) setSelected:(SelectableSprite *)selected {
@@ -624,6 +637,7 @@
     if (_purchasing) {
       _purchasing = NO;
       [_purchBuilding removeFromParent];
+      [_purchBuilding liftBlock];
     }
   }
 }
@@ -840,13 +854,15 @@
     NSString *fnt = ((ResourceGeneratorProto *)mb.userStruct.staticStruct).resourceType == ResourceTypeCash ? @"cashcollected.fnt" : @"oilcollected.fnt";
     CCLabelBMFont *label = [CCLabelBMFont labelWithString:[Globals commafyNumber:amountCollected] fntFile:fnt];
     [self addChild:label z:1000];
-    label.position = ccp(mb.position.x, mb.position.y+mb.contentSize.height*3/4);
+    label.position = ccp(mb.position.x, mb.position.y+mb.contentSize.height*4/5);
     
     [label runAction:[CCActionSequence actions:
                       [CCActionSpawn actions:
                        [CCActionEaseElasticOut actionWithAction:[CCActionScaleTo actionWithDuration:1.2f scale:1]],
-                       [CCActionFadeOut actionWithDuration:1.5f],
-                       [CCActionMoveBy actionWithDuration:1.5f position:ccp(0,25)],nil],
+                       [CCActionSequence actions:
+                        [CCActionDelay actionWithDuration:1.f],
+                        [CCActionFadeOut actionWithDuration:1.f], nil],
+                       [CCActionMoveBy actionWithDuration:2.f position:ccp(0,40)],nil],
                       [CCActionCallFunc actionWithTarget:label selector:@selector(removeFromParent)], nil]];
   }
   
@@ -908,7 +924,7 @@
     
     [SoundEngine generalButtonClick];
   } else {
-    [Globals addAlertNotification:@"You can't build a building on top of another building, silly!"];
+    [Globals addAlertNotification:@"You can't build a building there, silly!"];
     [SoundEngine structCantPlace];
   }
 }
@@ -970,19 +986,10 @@
 
 - (IBAction)cancelMoveClicked:(id)sender {
   if (_purchasing) {
-    [_purchBuilding liftBlock];
     self.selected = nil;
-    _canMove = NO;
-    _purchasing = NO;
-  } else {
-    HomeBuilding *hb = (HomeBuilding *)self.selected;
-    [hb cancelMove];
-    _canMove = NO;
-    self.selected = nil;
-    [self doReorder];
+    
+    [SoundEngine closeButtonClick];
   }
-  
-  [SoundEngine closeButtonClick];
 }
 
 #pragma mark - IBActions
@@ -1018,6 +1025,7 @@
     UpgradeViewController *uvc = [[UpgradeViewController alloc] initWithUserStruct:us];
     uvc.delegate = self;
     [gvc addChildViewController:uvc];
+    uvc.view.frame = gvc.view.bounds;
     [gvc.view addSubview:uvc.view];
     self.upgradeViewController = uvc;
   } else {

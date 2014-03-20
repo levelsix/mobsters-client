@@ -82,7 +82,8 @@
 
 - (void) queueUpEvent:(NSArray *)seenUserIds withDelegate:(id)delegate;
 - (BOOL) viewNextPvpGuy:(BOOL)useGems;
-- (void) beginPvpBattle:(PvpProto *)proto;
+- (void) beginPvpBattle:(PvpProto *)proto isRevenge:(BOOL)isRevenge previousBattleTime:(uint64_t)previousBattleTime;
+- (void) endPvpBattleMessage:(PvpProto *)proto userAttacked:(BOOL)userAttacked userWon:(BOOL)userWon delegate:(id)delegate;
 
 - (BOOL) removeMonsterFromTeam:(uint64_t)userMonsterId;
 - (BOOL) addMonsterToTeam:(uint64_t)userMonsterId;

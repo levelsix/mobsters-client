@@ -17,10 +17,15 @@
   BOOL _waitingForDownload;
   BOOL _spawnedNewTeam;
   
+  BOOL _userAttacked;
+  
   BOOL _useGemsForQueue;
+  
+  BOOL _isRevenge;
+  uint64_t _prevBattleStartTime;
 }
 
-@property (nonatomic, retain) QueueUpResponseProto *queueInfo;
+@property (nonatomic, retain) NSArray *defendersList;
 
 @property (nonatomic, retain) BattleLostView *lostView;
 @property (nonatomic, retain) BattleWonView *wonView;
@@ -37,5 +42,7 @@
 @property (nonatomic, retain) IBOutlet NSArray *enemyTeamSprites;
 
 @property (nonatomic, assign) BOOL useGemsForQueue;
+
+- (id) initWithMyUserMonsters:(NSArray *)monsters puzzleIsOnLeft:(BOOL)puzzleIsOnLeft pvpHistoryForRevenge:(PvpHistoryProto *)hist;
 
 @end

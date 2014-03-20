@@ -49,7 +49,7 @@
 
 @implementation AnimatedSprite
 
--(id) initWithFile:(NSString *)prefix location:(CGRect)loc map:(GameMap *)map {
+- (id) initWithFile:(NSString *)prefix location:(CGRect)loc map:(GameMap *)map {
   if((self = [super initWithFile:nil location:loc map:map])) {
     self.prefix = prefix.stringByDeletingPathExtension;
     
@@ -65,6 +65,17 @@
     s.position = ccp(self.contentSize.width/2, 0);
     
     [self walk];
+  }
+  return self;
+}
+
+- (id) initWithMonsterId:(int)monsterId map:(GameMap *)map {
+  GameState *gs = [GameState sharedGameState];
+  MonsterProto *mp = [gs monsterWithId:monsterId];
+  CGPoint pt = [map randomWalkablePosition];
+  CGRect loc = CGRectMake(pt.x, pt.y, 1, 1);
+  if ((self = [self initWithFile:mp.imagePrefix location:loc map:map])) {
+    self.sprite.position = ccpAdd(self.sprite.position, ccp(0, mp.verticalPixelOffset));
   }
   return self;
 }

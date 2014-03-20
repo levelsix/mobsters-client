@@ -26,7 +26,7 @@
 + (BOOL) handleOpenURL:(NSURL *)url sourceApplication:(NSString *)sourceApplication;
 + (void) handleDidBecomeActive;
 
-+ (void) openSessionWithReadPermissionsWithLoginUI:(BOOL)login completionHandler:(void (^)(BOOL success))completionHandler;
++ (void) openSessionWithLoginUI:(BOOL)login completionHandler:(void (^)(BOOL success))completionHandler;
 
 + (void) getFacebookFriendsWithLoginUI:(BOOL)openLoginUI callback:(void (^)(NSArray *fbFriends))completion;
 + (void) initiateRequestToFacebookIds:(NSArray *)fbIds withMessage:(NSString *)message completionBlock:(void(^)(BOOL success, NSArray *friendIds))completion;

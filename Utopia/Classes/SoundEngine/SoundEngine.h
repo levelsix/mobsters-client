@@ -11,7 +11,8 @@
 
 typedef enum {
   kNoMusic = 0,
-  kMapMusic,
+  kMissionMapMusic,
+  kHomeMapMusic,
   kBattleMusic
 } BackgroundMusic;
 
@@ -21,6 +22,7 @@ typedef enum {
 }
 
 @property (nonatomic, retain) id<ALSoundSource> damageTick;
+@property (nonatomic, retain) id<ALSoundSource> ambientNoise;
 
 + (SoundEngine *)sharedSoundEngine;
 
@@ -28,7 +30,8 @@ typedef enum {
 - (void) resumeBackgroundMusic;
 - (id<ALSoundSource>) playEffect:(NSString *)effect;
 
-- (void) playMapMusic;
+- (void) playHomeMapMusic;
+- (void) playMissionMapMusic;
 - (void) playBattleMusic;
 
 + (void) dialogueBoxOpen;
@@ -37,6 +40,7 @@ typedef enum {
 
 + (void) closeButtonClick;
 + (void) generalButtonClick;
++ (void) menuPopUp;
 
 + (void) chatOpened;
 + (void) chatClosed;
@@ -58,6 +62,7 @@ typedef enum {
 + (void) puzzleRocketMatch;
 + (void) puzzlePlaneDrop;
 + (void) puzzleDestroyPiece;
++ (void) puzzleBoardExplosion;
 + (void) puzzleComboCreated;
 + (void) puzzleComboFire;
 + (void) puzzleSwapPiece;
@@ -65,5 +70,10 @@ typedef enum {
 + (void) puzzleFirework;
 + (void) puzzlePiecesDrop;
 + (void) puzzleMakeItRain;
++ (void) puzzlePvpQueueUISlideIn;
++ (void) puzzlePvpQueueUISlideOut;
++ (void) puzzleWinLoseUI;
++ (void) puzzleYouWon;
++ (void) puzzleYouLose;
 
 @end

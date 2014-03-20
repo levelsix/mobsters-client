@@ -12,6 +12,7 @@ static PBExtensionRegistry* extensionRegistry = nil;
   if (self == [EventStartupRoot class]) {
     PBMutableExtensionRegistry* registry = [PBMutableExtensionRegistry registry];
     [self registerAllExtensions:registry];
+    [BattleRoot registerAllExtensions:registry];
     [BoosterPackStuffRoot registerAllExtensions:registry];
     [ChatRoot registerAllExtensions:registry];
     [CityRoot registerAllExtensions:registry];
@@ -561,6 +562,7 @@ static StartupRequestProto* defaultStartupRequestProtoInstance = nil;
 @property (retain) PersistentClanEventClanInfoProto* curRaidClanInfo;
 @property (retain) NSMutableArray* mutableCurRaidClanUserInfoList;
 @property (retain) NSMutableArray* mutableRaidStageHistoryList;
+@property (retain) NSMutableArray* mutableRecentNbattlesList;
 @end
 
 @implementation StartupResponseProto
@@ -694,6 +696,7 @@ static StartupRequestProto* defaultStartupRequestProtoInstance = nil;
 @synthesize curRaidClanInfo;
 @synthesize mutableCurRaidClanUserInfoList;
 @synthesize mutableRaidStageHistoryList;
+@synthesize mutableRecentNbattlesList;
 - (void) dealloc {
   self.sender = nil;
   self.startupConstants = nil;
@@ -725,6 +728,7 @@ static StartupRequestProto* defaultStartupRequestProtoInstance = nil;
   self.curRaidClanInfo = nil;
   self.mutableCurRaidClanUserInfoList = nil;
   self.mutableRaidStageHistoryList = nil;
+  self.mutableRecentNbattlesList = nil;
   [super dealloc];
 }
 - (id) init {
@@ -892,6 +896,13 @@ static StartupResponseProto* defaultStartupResponseProtoInstance = nil;
   id value = [mutableRaidStageHistoryList objectAtIndex:index];
   return value;
 }
+- (NSArray*) recentNbattlesList {
+  return mutableRecentNbattlesList;
+}
+- (PvpHistoryProto*) recentNbattlesAtIndex:(int32_t) index {
+  id value = [mutableRecentNbattlesList objectAtIndex:index];
+  return value;
+}
 - (BOOL) isInitialized {
   return YES;
 }
@@ -997,6 +1008,9 @@ static StartupResponseProto* defaultStartupResponseProtoInstance = nil;
   }
   if (self.hasTutorialConstants) {
     [output writeMessage:34 value:self.tutorialConstants];
+  }
+  for (PvpHistoryProto* element in self.recentNbattlesList) {
+    [output writeMessage:35 value:element];
   }
   [self.unknownFields writeToCodedOutputStream:output];
 }
@@ -1128,6 +1142,9 @@ static StartupResponseProto* defaultStartupResponseProtoInstance = nil;
   }
   if (self.hasTutorialConstants) {
     size += computeMessageSize(34, self.tutorialConstants);
+  }
+  for (PvpHistoryProto* element in self.recentNbattlesList) {
+    size += computeMessageSize(35, element);
   }
   size += self.unknownFields.serializedSize;
   memoizedSerializedSize = size;
@@ -5881,6 +5898,12 @@ static StartupResponseProto_TutorialConstants* defaultStartupResponseProto_Tutor
     }
     [result.mutableRaidStageHistoryList addObjectsFromArray:other.mutableRaidStageHistoryList];
   }
+  if (other.mutableRecentNbattlesList.count > 0) {
+    if (result.mutableRecentNbattlesList == nil) {
+      result.mutableRecentNbattlesList = [NSMutableArray array];
+    }
+    [result.mutableRecentNbattlesList addObjectsFromArray:other.mutableRecentNbattlesList];
+  }
   [self mergeUnknownFields:other.unknownFields];
   return self;
 }
@@ -6111,6 +6134,12 @@ static StartupResponseProto_TutorialConstants* defaultStartupResponseProto_Tutor
         }
         [input readMessage:subBuilder extensionRegistry:extensionRegistry];
         [self setTutorialConstants:[subBuilder buildPartial]];
+        break;
+      }
+      case 282: {
+        PvpHistoryProto_Builder* subBuilder = [PvpHistoryProto builder];
+        [input readMessage:subBuilder extensionRegistry:extensionRegistry];
+        [self addRecentNbattles:[subBuilder buildPartial]];
         break;
       }
     }
@@ -7011,6 +7040,35 @@ static StartupResponseProto_TutorialConstants* defaultStartupResponseProto_Tutor
     result.mutableRaidStageHistoryList = [NSMutableArray array];
   }
   [result.mutableRaidStageHistoryList addObject:value];
+  return self;
+}
+- (NSArray*) recentNbattlesList {
+  if (result.mutableRecentNbattlesList == nil) { return [NSArray array]; }
+  return result.mutableRecentNbattlesList;
+}
+- (PvpHistoryProto*) recentNbattlesAtIndex:(int32_t) index {
+  return [result recentNbattlesAtIndex:index];
+}
+- (StartupResponseProto_Builder*) replaceRecentNbattlesAtIndex:(int32_t) index with:(PvpHistoryProto*) value {
+  [result.mutableRecentNbattlesList replaceObjectAtIndex:index withObject:value];
+  return self;
+}
+- (StartupResponseProto_Builder*) addAllRecentNbattles:(NSArray*) values {
+  if (result.mutableRecentNbattlesList == nil) {
+    result.mutableRecentNbattlesList = [NSMutableArray array];
+  }
+  [result.mutableRecentNbattlesList addObjectsFromArray:values];
+  return self;
+}
+- (StartupResponseProto_Builder*) clearRecentNbattlesList {
+  result.mutableRecentNbattlesList = nil;
+  return self;
+}
+- (StartupResponseProto_Builder*) addRecentNbattles:(PvpHistoryProto*) value {
+  if (result.mutableRecentNbattlesList == nil) {
+    result.mutableRecentNbattlesList = [NSMutableArray array];
+  }
+  [result.mutableRecentNbattlesList addObject:value];
   return self;
 }
 @end

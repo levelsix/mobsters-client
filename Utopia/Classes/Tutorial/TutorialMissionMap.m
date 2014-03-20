@@ -65,10 +65,7 @@
 #pragma mark - Create animated sprites on the fly
 
 - (AnimatedSprite *) createSpriteWithId:(int)monsterId {
-  GameState *gs = [GameState sharedGameState];
-  MonsterProto *mp = [gs monsterWithId:monsterId];
-  CGRect r = CGRectMake(0, 0, 1, 1);
-  AnimatedSprite *as = [[AnimatedSprite alloc] initWithFile:mp.imagePrefix location:r map:self];
+  AnimatedSprite *as = [[AnimatedSprite alloc] initWithMonsterId:monsterId map:self];
   as.constrainedToBoundary = NO;
   [as stopWalking];
   [self addChild:as];

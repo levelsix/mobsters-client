@@ -27,7 +27,7 @@
   self.spinner.hidden = NO;
   self.connectLabel.hidden = YES;
   self.view.userInteractionEnabled = NO;
-  [FacebookDelegate openSessionWithReadPermissionsWithLoginUI:YES completionHandler:^(BOOL success) {
+  [FacebookDelegate openSessionWithLoginUI:YES completionHandler:^(BOOL success) {
     if (success) {
       [self.delegate facebookConnectAccepted];
     } else {

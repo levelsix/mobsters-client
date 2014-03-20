@@ -154,6 +154,24 @@
   [self.notifViewController.view removeFromSuperview];
 }
 
+- (void) removeAllViewControllers {
+  NSArray *acceptable = @[self.topBarViewController, [CCDirector sharedDirector]];
+  for (UIViewController *vc in self.childViewControllers) {
+    if (![acceptable containsObject:vc]) {
+      if ([vc respondsToSelector:@selector(close)]) {
+        [vc performSelector:@selector(close)];
+      } else if ([vc respondsToSelector:@selector(close:)]) {
+        [vc performSelector:@selector(close:) withObject:nil];
+      } else if ([vc respondsToSelector:@selector(closeClicked:)]) {
+        [vc performSelector:@selector(closeClicked:) withObject:nil];
+      } else {
+        [vc.view removeFromSuperview];
+        [vc removeFromParentViewController];
+      }
+    }
+  }
+}
+
 - (void) fadeToLoadingScreenPercentage:(float)percentage animated:(BOOL)animated {
   LoadingViewController *lvc = [[LoadingViewController alloc] initWithPercentage:percentage];
   UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:lvc];
@@ -205,7 +223,9 @@
 - (void) handleConnectedToHost {
   if (!self.tutController && !_isFromFacebook) {
     [self progressTo:PART_2_PERCENT animated:YES];
+    LNLog(@"Retrieving facebook id.");
     [FacebookDelegate getFacebookIdAndDoAction:^(NSString *facebookId) {
+      LNLog(@"Received facebook id: %@", facebookId);
       if ([SocketCommunication isForcedTutorial]) {
         NSLog(@"Forcing tutorial. Throwing away facebook id %@.", facebookId);
         facebookId = nil;
@@ -350,12 +370,19 @@
   [self visitCityClicked:cityId assetId:0];
 }
 
+- (void) playMapMusic {
+  if (self.currentMap.cityId == 0) {
+    [[SoundEngine sharedSoundEngine] playHomeMapMusic];
+  } else if (self.currentMap.cityId > 0) {
+    [[SoundEngine sharedSoundEngine] playMissionMapMusic];
+  }
+}
+
 - (void) visitCityClicked:(int)cityId assetId:(int)assetId {
   if (!self.currentMap || self.currentMap.cityId != cityId) {
     if (cityId == 0) {
       CCScene *scene = [CCScene node];
       HomeMap *hm = [HomeMap node];
-      [hm refresh];
       [scene addChild:hm];
       [hm moveToCenterAnimated:NO];
       self.currentMap = hm;
@@ -368,6 +395,8 @@
       } else {
         [[CCDirector sharedDirector] replaceScene:scene withTransition:[CCTransition transitionCrossFadeWithDuration:0.4f]];
       }
+      
+      [self playMapMusic];
     } else {
       _assetIdForMissionMap = assetId;
       
@@ -387,8 +416,6 @@
       }
     }
   }
-  
-  [[SoundEngine sharedSoundEngine] playMapMusic];
 }
 
 - (void) handleLoadCityResponseProto:(FullEvent *)fe {
@@ -409,6 +436,8 @@
   [self.topBarViewController performSelector:@selector(showMyCityView) withObject:nil afterDelay:0.4];
   
   [self.loadingView stop];
+  
+  [self playMapMusic];
 }
 
 - (BOOL) miniTutorialControllerForTaskId:(int)taskId {
@@ -466,6 +495,7 @@
   }
   
   [self hideTopBarDuration:duration completion:nil];
+  [self removeAllViewControllers];
   
   [[SoundEngine sharedSoundEngine] playBattleMusic];
   _isInBattle = YES;
@@ -488,6 +518,7 @@
   }
   
   [self hideTopBarDuration:0.f completion:nil];
+  [self removeAllViewControllers];
   
   [[SoundEngine sharedSoundEngine] playBattleMusic];
   _isInBattle = YES;
@@ -504,6 +535,14 @@
   [self blackFadeIntoBattleLayer:bl];
 }
 
+- (void) beginPvpMatch:(PvpHistoryProto *)history {
+  GameState *gs = [GameState sharedGameState];
+  PvpBattleLayer *bl = [[PvpBattleLayer alloc] initWithMyUserMonsters:[gs allBattleAvailableMonstersOnTeam] puzzleIsOnLeft:NO pvpHistoryForRevenge:history];
+  bl.delegate = self;
+  
+  [self crossFadeIntoBattleLayer:bl];
+}
+
 #pragma mark - MiniTutorial delegate
 
 - (void) miniTutorialComplete:(MiniTutorialController *)tut {
@@ -516,7 +555,7 @@
     [self questProgress:self.progressedQuest];
   }
   
-  [[SoundEngine sharedSoundEngine] playMapMusic];
+  [self playMapMusic];
 }
 
 #pragma mark - BattleLayerDelegate methods
@@ -545,7 +584,7 @@
     [self questProgress:self.progressedQuest];
   }
   
-  [[SoundEngine sharedSoundEngine] playMapMusic];
+  [self playMapMusic];
 }
 
 #pragma mark - CCDirectorDownloaderDelegate methods
@@ -569,6 +608,8 @@
   } else {
     openChat();
   }
+  
+  [self removeAllViewControllers];
 }
 
 #pragma mark - Gem Shop access

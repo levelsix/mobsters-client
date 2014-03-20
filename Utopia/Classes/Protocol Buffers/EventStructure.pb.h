@@ -82,6 +82,8 @@
 @class UserCityExpansionDataProto_Builder;
 @class UserFacebookInviteForSlotProto;
 @class UserFacebookInviteForSlotProto_Builder;
+@class UserObstacleProto;
+@class UserObstacleProto_Builder;
 typedef enum {
   PurchaseNormStructureResponseProto_PurchaseNormStructureStatusSuccess = 1,
   PurchaseNormStructureResponseProto_PurchaseNormStructureStatusFailInsufficientCash = 2,

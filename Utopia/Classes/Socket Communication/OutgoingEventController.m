@@ -961,9 +961,18 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
   return NO;
 }
 
-- (void) beginPvpBattle:(PvpProto *)proto {
+- (void) beginPvpBattle:(PvpProto *)proto isRevenge:(BOOL)isRevenge previousBattleTime:(uint64_t)previousBattleTime {
   GameState *gs = [GameState sharedGameState];
-  [[SocketCommunication sharedSocketCommunication] sendBeginPvpBattleMessage:proto senderElo:gs.elo clientTime:[self getCurrentMilliseconds]];
+  [[SocketCommunication sharedSocketCommunication] sendBeginPvpBattleMessage:proto senderElo:gs.elo isRevenge:isRevenge previousBattleTime:previousBattleTime clientTime:[self getCurrentMilliseconds]];
+}
+
+- (void) endPvpBattleMessage:(PvpProto *)proto userAttacked:(BOOL)userAttacked userWon:(BOOL)userWon delegate:(id)delegate {
+  GameState *gs = [GameState sharedGameState];
+  int oilGained = userWon ? proto.prospectiveOilWinnings : 0;
+  int cashGained = userWon ? proto.prospectiveCashWinnings : 0;
+  int tag = [[SocketCommunication sharedSocketCommunication] sendEndPvpBattleMessage:proto.defender.minUserProto.userId userAttacked:userAttacked userWon:userWon oilChange:oilGained cashChange:cashGained clientTime:[self getCurrentMilliseconds]];
+  [[SocketCommunication sharedSocketCommunication] setDelegate:delegate forTag:tag];
+  [gs addUnrespondedUpdates:[OilUpdate updateWithTag:tag change:oilGained], [SilverUpdate updateWithTag:tag change:cashGained], nil];
 }
 
 - (BOOL) removeMonsterFromTeam:(uint64_t)userMonsterId {

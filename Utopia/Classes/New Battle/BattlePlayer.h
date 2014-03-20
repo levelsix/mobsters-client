@@ -19,6 +19,7 @@
 @property (nonatomic, retain) NSString *name;
 @property (nonatomic, retain) NSString *spritePrefix;
 @property (nonatomic, assign) MonsterProto_AnimationType animationType;
+@property (nonatomic, assign) float verticalOffset;
 
 @property (nonatomic, assign) MonsterProto_MonsterElement element;
 

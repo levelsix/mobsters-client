@@ -28,6 +28,9 @@
 
 @property (nonatomic, assign) float baseScale;
 
+- (void) setupBuildingSprite:(NSString *)fileName;
+- (void) adjustBuildingSprite;
+
 - (void) displayProgressBar;
 - (void) updateUpgradeBar;
 - (void) removeProgressBar;

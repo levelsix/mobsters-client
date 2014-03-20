@@ -48,6 +48,8 @@
 
 + (id) baseController;
 
+- (void) removeAllViewControllers;
+
 - (void) openedFromFacebook;
 - (void) handleConnectedToHost;
 - (void) reloadAccountWithStartupResponse:(StartupResponseProto *)startupResponse;

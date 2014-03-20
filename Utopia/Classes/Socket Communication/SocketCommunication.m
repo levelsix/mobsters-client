@@ -207,6 +207,8 @@ static NSString *udid = nil;
     if ([delegate respondsToSelector:selector]) {
       [delegate performSelectorOnMainThread:selector withObject:nil waitUntilDone:NO];
     }
+  } else {
+    LNLog(@"Unable to find delegate for connectedToHost");
   }
   
   _flushTimer = [NSTimer timerWithTimeInterval:10.f target:self selector:@selector(flush) userInfo:nil repeats:YES];
@@ -361,6 +363,8 @@ static NSString *udid = nil;
     [self.tagDelegates setObject:delegate forKey:@(tag)];
   }
 }
+
+#pragma mark - Events
 
 - (int) sendUserCreateMessageWithName:(NSString *)name facebookId:(NSString *)facebookId structs:(NSArray *)structs cash:(int)cash oil:(int)oil gems:(int)gems {
   UserCreateRequestProto_Builder *bldr = [UserCreateRequestProto builder];
@@ -916,15 +920,31 @@ static NSString *udid = nil;
   return [self sendData:req withMessageType:EventProtocolRequestCUpdateUserCurrencyEvent];
 }
 
-- (int) sendBeginPvpBattleMessage:(PvpProto *)enemy senderElo:(int)elo clientTime:(uint64_t)clientTime {
-  BeginPvpBattleRequestProto *req = [[[[[[BeginPvpBattleRequestProto builder]
-                                         setSender:_sender]
-                                        setEnemy:enemy]
-                                       setSenderElo:elo]
-                                      setAttackStartTime:clientTime]
+- (int) sendBeginPvpBattleMessage:(PvpProto *)enemy senderElo:(int)elo isRevenge:(BOOL)isRevenge previousBattleTime:(uint64_t)previousBattleTime clientTime:(uint64_t)clientTime {
+  BeginPvpBattleRequestProto *req = [[[[[[[[BeginPvpBattleRequestProto builder]
+                                           setSender:_sender]
+                                          setEnemy:enemy]
+                                         setSenderElo:elo]
+                                        setAttackStartTime:clientTime]
+                                       setPreviousBattleEndTime:previousBattleTime]
+                                      setExactingRevenge:isRevenge]
                                      build];
   
   return [self sendData:req withMessageType:EventProtocolRequestCBeginPvpBattleEvent];
+}
+
+- (int) sendEndPvpBattleMessage:(int)defenderId userAttacked:(BOOL)userAttacked userWon:(BOOL)userWon oilChange:(int)oilChange cashChange:(int)cashChange clientTime:(uint64_t)clientTime {
+  EndPvpBattleRequestProto *req = [[[[[[[[[EndPvpBattleRequestProto builder]
+                                          setSender:[self senderWithMaxResources]]
+                                         setDefenderId:defenderId]
+                                        setUserAttacked:userAttacked]
+                                       setUserWon:userWon]
+                                      setOilChange:oilChange]
+                                     setCashChange:cashChange]
+                                    setClientTime:clientTime]
+                                   build];
+  
+  return [self sendData:req withMessageType:EventProtocolRequestCEndPvpBattleEvent];
 }
 
 - (int) sendBeginClanRaidMessage:(int)raidId eventId:(int)eventId isFirstStage:(BOOL)isFirstStage curTime:(uint64_t)curTime userMonsters:(NSArray *)userMonsters {

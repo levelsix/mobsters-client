@@ -53,6 +53,8 @@ typedef enum {
 
 @property (nonatomic, retain) NSString *prefix;
 
+- (id) initWithMonsterId:(int)monsterId map:(GameMap *)map;
+
 - (void) walk;
 - (void) stopWalking;
 - (void) walkToTileCoords:(NSArray *)tileCoords completionTarget:(id)target selector:(SEL)completion speedMultiplier:(float)speedMultiplier;

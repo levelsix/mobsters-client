@@ -277,7 +277,6 @@
 
 - (IBAction)findMatchClicked:(id)sender {
   if (!_buttonClicked && [Globals checkEnteringDungeonWithTarget:self selector:@selector(visitTeamPage)]) {
-    _buttonClicked = YES;
     GameState *gs = [GameState sharedGameState];
     TownHallProto *thp = (TownHallProto *)gs.myTownHall.staticStruct;
     if (gs.silver < thp.pvpQueueCashCost) {
@@ -289,17 +288,20 @@
 }
 
 - (void) nextMatchUseGems {
-  GameState *gs = [GameState sharedGameState];
-  Globals *gl = [Globals sharedGlobals];
-  TownHallProto *thp = (TownHallProto *)gs.myTownHall.staticStruct;
-  int cost = thp.pvpQueueCashCost;
-  int curAmount = gs.silver;
-  int gemCost = [gl calculateGemConversionForResourceType:ResourceTypeCash amount:cost-curAmount];
-  
-  if (gemCost > gs.gold) {
-    [GenericPopupController displayNotEnoughGemsView];
-  } else {
-    [self nextMatch:YES];
+  if (!_buttonClicked) {
+    GameState *gs = [GameState sharedGameState];
+    Globals *gl = [Globals sharedGlobals];
+    TownHallProto *thp = (TownHallProto *)gs.myTownHall.staticStruct;
+    int cost = thp.pvpQueueCashCost;
+    int curAmount = gs.silver;
+    int gemCost = [gl calculateGemConversionForResourceType:ResourceTypeCash amount:cost-curAmount];
+    
+    if (gemCost > gs.gold) {
+      [GenericPopupController displayNotEnoughGemsView];
+    } else {
+      _buttonClicked = YES;
+      [self nextMatch:YES];
+    }
   }
 }
 

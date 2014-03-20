@@ -21,7 +21,7 @@
 
 @implementation BattleSprite
 
-- (id) initWithPrefix:(NSString *)prefix nameString:(NSString *)name animationType:(MonsterProto_AnimationType)animationType isMySprite:(BOOL)isMySprite {
+- (id) initWithPrefix:(NSString *)prefix nameString:(NSString *)name animationType:(MonsterProto_AnimationType)animationType isMySprite:(BOOL)isMySprite verticalOffset:(float)verticalOffset {
   if ((self = [super init])) {
     self.prefix = prefix;
     self.contentSize = CGSizeMake(40, 55);
@@ -29,7 +29,7 @@
     
     self.sprite = [CCSprite node];
     [self addChild:_sprite z:5];
-    self.sprite.position = ccp(self.contentSize.width/2, self.contentSize.height/2-3);
+    self.sprite.position = ccp(self.contentSize.width/2, self.contentSize.height/2-3+verticalOffset);
     
     CCSprite *s = [CCSprite spriteWithImageNamed:@"shadow.png"];
     [self addChild:s];

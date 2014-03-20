@@ -116,10 +116,9 @@
   self.backView.alpha = 0.f;
   float duration = animated ? 0.3f : 0.f;
   [UIView animateWithDuration:duration animations:^{
-    int val = [Globals isLongiPhone] ? 0 : 44;
+    int val = [Globals isLongiPhone] ? 0 : 22;
     self.questGiverImageView.center = ccp(self.questGiverImageView.frame.size.width/2-val, self.view.frame.size.height-self.questGiverImageView.frame.size.height/2);
-    self.mainView.center = ccp(44-val+self.mainView.center.x,
-                               self.view.frame.size.height/2);
+    self.mainView.center = ccp(44+self.mainView.center.x, self.view.frame.size.height/2);
     
     self.questDetailsViewController.view.center = ccp(self.detailsContainerView.frame.size.width/2,
                                                       self.questDetailsViewController.view.center.y);

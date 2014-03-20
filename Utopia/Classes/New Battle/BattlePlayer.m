@@ -37,6 +37,7 @@
     self.userMonsterId = monster.userMonsterId;
     self.slotNum = monster.teamSlot;
     self.animationType = mp.attackAnimationType;
+    self.verticalOffset = mp.verticalPixelOffset;
     
     self.damageRandomnessFactor = 0.2;
   }
@@ -60,6 +61,7 @@
     self.animationType = mp.attackAnimationType;
     self.monsterId = monster.monsterId;
     self.userMonsterId = monster.crsmId;
+    self.verticalOffset = mp.verticalPixelOffset;
   }
   return self;
 }

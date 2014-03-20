@@ -43,6 +43,10 @@ static PBExtensionRegistry* extensionRegistry = nil;
 @property int32_t evolutionCost;
 @property MonsterProto_AnimationType attackAnimationType;
 @property int32_t verticalPixelOffset;
+@property (retain) NSString* atkSoundFile;
+@property int32_t atkSoundAnimationFrame;
+@property int32_t atkAnimationRepeatedFramesStart;
+@property int32_t atkAnimationRepeatedFramesEnd;
 @end
 
 @implementation MonsterProto
@@ -202,6 +206,34 @@ static PBExtensionRegistry* extensionRegistry = nil;
   hasVerticalPixelOffset_ = !!value;
 }
 @synthesize verticalPixelOffset;
+- (BOOL) hasAtkSoundFile {
+  return !!hasAtkSoundFile_;
+}
+- (void) setHasAtkSoundFile:(BOOL) value {
+  hasAtkSoundFile_ = !!value;
+}
+@synthesize atkSoundFile;
+- (BOOL) hasAtkSoundAnimationFrame {
+  return !!hasAtkSoundAnimationFrame_;
+}
+- (void) setHasAtkSoundAnimationFrame:(BOOL) value {
+  hasAtkSoundAnimationFrame_ = !!value;
+}
+@synthesize atkSoundAnimationFrame;
+- (BOOL) hasAtkAnimationRepeatedFramesStart {
+  return !!hasAtkAnimationRepeatedFramesStart_;
+}
+- (void) setHasAtkAnimationRepeatedFramesStart:(BOOL) value {
+  hasAtkAnimationRepeatedFramesStart_ = !!value;
+}
+@synthesize atkAnimationRepeatedFramesStart;
+- (BOOL) hasAtkAnimationRepeatedFramesEnd {
+  return !!hasAtkAnimationRepeatedFramesEnd_;
+}
+- (void) setHasAtkAnimationRepeatedFramesEnd:(BOOL) value {
+  hasAtkAnimationRepeatedFramesEnd_ = !!value;
+}
+@synthesize atkAnimationRepeatedFramesEnd;
 - (void) dealloc {
   self.name = nil;
   self.monsterGroup = nil;
@@ -212,6 +244,7 @@ static PBExtensionRegistry* extensionRegistry = nil;
   self.carrotEvolved = nil;
   self.description = nil;
   self.mutableLvlInfoList = nil;
+  self.atkSoundFile = nil;
   [super dealloc];
 }
 - (id) init {
@@ -238,6 +271,10 @@ static PBExtensionRegistry* extensionRegistry = nil;
     self.evolutionCost = 0;
     self.attackAnimationType = MonsterProto_AnimationTypeMelee;
     self.verticalPixelOffset = 0;
+    self.atkSoundFile = @"";
+    self.atkSoundAnimationFrame = 0;
+    self.atkAnimationRepeatedFramesStart = 0;
+    self.atkAnimationRepeatedFramesEnd = 0;
   }
   return self;
 }
@@ -333,6 +370,18 @@ static MonsterProto* defaultMonsterProtoInstance = nil;
   if (self.hasVerticalPixelOffset) {
     [output writeInt32:23 value:self.verticalPixelOffset];
   }
+  if (self.hasAtkSoundFile) {
+    [output writeString:24 value:self.atkSoundFile];
+  }
+  if (self.hasAtkSoundAnimationFrame) {
+    [output writeInt32:25 value:self.atkSoundAnimationFrame];
+  }
+  if (self.hasAtkAnimationRepeatedFramesStart) {
+    [output writeInt32:26 value:self.atkAnimationRepeatedFramesStart];
+  }
+  if (self.hasAtkAnimationRepeatedFramesEnd) {
+    [output writeInt32:27 value:self.atkAnimationRepeatedFramesEnd];
+  }
   [self.unknownFields writeToCodedOutputStream:output];
 }
 - (int32_t) serializedSize {
@@ -410,6 +459,18 @@ static MonsterProto* defaultMonsterProtoInstance = nil;
   }
   if (self.hasVerticalPixelOffset) {
     size += computeInt32Size(23, self.verticalPixelOffset);
+  }
+  if (self.hasAtkSoundFile) {
+    size += computeStringSize(24, self.atkSoundFile);
+  }
+  if (self.hasAtkSoundAnimationFrame) {
+    size += computeInt32Size(25, self.atkSoundAnimationFrame);
+  }
+  if (self.hasAtkAnimationRepeatedFramesStart) {
+    size += computeInt32Size(26, self.atkAnimationRepeatedFramesStart);
+  }
+  if (self.hasAtkAnimationRepeatedFramesEnd) {
+    size += computeInt32Size(27, self.atkAnimationRepeatedFramesEnd);
   }
   size += self.unknownFields.serializedSize;
   memoizedSerializedSize = size;
@@ -593,6 +654,18 @@ BOOL MonsterProto_AnimationTypeIsValidValue(MonsterProto_AnimationType value) {
   if (other.hasVerticalPixelOffset) {
     [self setVerticalPixelOffset:other.verticalPixelOffset];
   }
+  if (other.hasAtkSoundFile) {
+    [self setAtkSoundFile:other.atkSoundFile];
+  }
+  if (other.hasAtkSoundAnimationFrame) {
+    [self setAtkSoundAnimationFrame:other.atkSoundAnimationFrame];
+  }
+  if (other.hasAtkAnimationRepeatedFramesStart) {
+    [self setAtkAnimationRepeatedFramesStart:other.atkAnimationRepeatedFramesStart];
+  }
+  if (other.hasAtkAnimationRepeatedFramesEnd) {
+    [self setAtkAnimationRepeatedFramesEnd:other.atkAnimationRepeatedFramesEnd];
+  }
   [self mergeUnknownFields:other.unknownFields];
   return self;
 }
@@ -721,6 +794,22 @@ BOOL MonsterProto_AnimationTypeIsValidValue(MonsterProto_AnimationType value) {
       }
       case 184: {
         [self setVerticalPixelOffset:[input readInt32]];
+        break;
+      }
+      case 194: {
+        [self setAtkSoundFile:[input readString]];
+        break;
+      }
+      case 200: {
+        [self setAtkSoundAnimationFrame:[input readInt32]];
+        break;
+      }
+      case 208: {
+        [self setAtkAnimationRepeatedFramesStart:[input readInt32]];
+        break;
+      }
+      case 216: {
+        [self setAtkAnimationRepeatedFramesEnd:[input readInt32]];
         break;
       }
     }
@@ -1105,6 +1194,70 @@ BOOL MonsterProto_AnimationTypeIsValidValue(MonsterProto_AnimationType value) {
 - (MonsterProto_Builder*) clearVerticalPixelOffset {
   result.hasVerticalPixelOffset = NO;
   result.verticalPixelOffset = 0;
+  return self;
+}
+- (BOOL) hasAtkSoundFile {
+  return result.hasAtkSoundFile;
+}
+- (NSString*) atkSoundFile {
+  return result.atkSoundFile;
+}
+- (MonsterProto_Builder*) setAtkSoundFile:(NSString*) value {
+  result.hasAtkSoundFile = YES;
+  result.atkSoundFile = value;
+  return self;
+}
+- (MonsterProto_Builder*) clearAtkSoundFile {
+  result.hasAtkSoundFile = NO;
+  result.atkSoundFile = @"";
+  return self;
+}
+- (BOOL) hasAtkSoundAnimationFrame {
+  return result.hasAtkSoundAnimationFrame;
+}
+- (int32_t) atkSoundAnimationFrame {
+  return result.atkSoundAnimationFrame;
+}
+- (MonsterProto_Builder*) setAtkSoundAnimationFrame:(int32_t) value {
+  result.hasAtkSoundAnimationFrame = YES;
+  result.atkSoundAnimationFrame = value;
+  return self;
+}
+- (MonsterProto_Builder*) clearAtkSoundAnimationFrame {
+  result.hasAtkSoundAnimationFrame = NO;
+  result.atkSoundAnimationFrame = 0;
+  return self;
+}
+- (BOOL) hasAtkAnimationRepeatedFramesStart {
+  return result.hasAtkAnimationRepeatedFramesStart;
+}
+- (int32_t) atkAnimationRepeatedFramesStart {
+  return result.atkAnimationRepeatedFramesStart;
+}
+- (MonsterProto_Builder*) setAtkAnimationRepeatedFramesStart:(int32_t) value {
+  result.hasAtkAnimationRepeatedFramesStart = YES;
+  result.atkAnimationRepeatedFramesStart = value;
+  return self;
+}
+- (MonsterProto_Builder*) clearAtkAnimationRepeatedFramesStart {
+  result.hasAtkAnimationRepeatedFramesStart = NO;
+  result.atkAnimationRepeatedFramesStart = 0;
+  return self;
+}
+- (BOOL) hasAtkAnimationRepeatedFramesEnd {
+  return result.hasAtkAnimationRepeatedFramesEnd;
+}
+- (int32_t) atkAnimationRepeatedFramesEnd {
+  return result.atkAnimationRepeatedFramesEnd;
+}
+- (MonsterProto_Builder*) setAtkAnimationRepeatedFramesEnd:(int32_t) value {
+  result.hasAtkAnimationRepeatedFramesEnd = YES;
+  result.atkAnimationRepeatedFramesEnd = value;
+  return self;
+}
+- (MonsterProto_Builder*) clearAtkAnimationRepeatedFramesEnd {
+  result.hasAtkAnimationRepeatedFramesEnd = NO;
+  result.atkAnimationRepeatedFramesEnd = 0;
   return self;
 }
 @end

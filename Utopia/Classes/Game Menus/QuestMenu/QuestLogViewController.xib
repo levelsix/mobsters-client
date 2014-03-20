@@ -27,6 +27,17 @@
                     <autoresizingMask key="autoresizingMask"/>
                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                 </imageView>
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="rCn-kj-mbk" customClass="CloseButton">
+                    <rect key="frame" x="0.0" y="0.0" width="568" height="320"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                    <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                    <state key="normal">
+                        <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                    </state>
+                    <connections>
+                        <action selector="close:" destination="-1" eventType="touchUpInside" id="XAS-4B-llp"/>
+                    </connections>
+                </button>
                 <imageView opaque="NO" multipleTouchEnabled="YES" contentMode="bottomLeft" id="ac8-3z-TNx">
                     <rect key="frame" x="-200" y="0.0" width="152" height="320"/>
                     <autoresizingMask key="autoresizingMask"/>

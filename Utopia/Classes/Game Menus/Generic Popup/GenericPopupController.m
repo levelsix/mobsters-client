@@ -19,6 +19,9 @@
 
 - (void) viewDidLoad {
   self.mainView.layer.cornerRadius = 6.f;
+  
+  // Retain the targets so it will never access null object
+  self.targets = [NSMutableArray array];
 }
 
 - (void) displayPopup {
@@ -40,7 +43,10 @@
   
   gp.notifButtonLabel.text = okay;
   
-	if (target) [gp.notifButton addTarget:target action:selector forControlEvents:UIControlEventTouchUpInside];
+	if (target) {
+    [gp.notifButton addTarget:target action:selector forControlEvents:UIControlEventTouchUpInside];
+    [gp.targets addObject:target];
+  }
   
   return gp;
 }
@@ -68,7 +74,10 @@
   gp.confOkayButtonLabel.text = okay;
   gp.confCancelButtonLabel.text = cancel;
   
-  if (target) [gp.confOkayButton addTarget:target action:selector forControlEvents:UIControlEventTouchUpInside];
+  if (target) {
+    [gp.confOkayButton addTarget:target action:selector forControlEvents:UIControlEventTouchUpInside];
+    [gp.targets addObject:target];
+  }
   
   return gp;
 }
@@ -76,7 +85,10 @@
 + (GenericPopupController *) displayConfirmationWithDescription:(NSString *)description title:(NSString *)title okayButton:(NSString *)okay cancelButton:(NSString *)cancel okTarget:(id)okTarget okSelector:(SEL)okSelector cancelTarget:(id)cancelTarget cancelSelector:(SEL)cancelSelector {
   GenericPopupController *gp = [GenericPopupController displayConfirmationWithDescription:description title:title okayButton:okay cancelButton:cancel target:okTarget selector:okSelector];
   
-  if (cancelTarget) [gp.confCancelButton addTarget:cancelTarget action:cancelSelector forControlEvents:UIControlEventTouchUpInside];
+  if (cancelTarget) {
+    [gp.confCancelButton addTarget:cancelTarget action:cancelSelector forControlEvents:UIControlEventTouchUpInside];
+    [gp.targets addObject:cancelTarget];
+  }
   
   return gp;
 }
@@ -110,7 +122,10 @@
   gp.descriptionLabel.text = description;
   gp.gemButtonLabel.text = [Globals commafyNumber:gemCost];
   
-  if (target) [gp.gemButton addTarget:target action:selector forControlEvents:UIControlEventTouchUpInside];
+  if (target) {
+    [gp.gemButton addTarget:target action:selector forControlEvents:UIControlEventTouchUpInside];
+    [gp.targets addObject:target];
+  }
   
   gp.closeButton.hidden = NO;
   

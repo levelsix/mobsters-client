@@ -48,6 +48,8 @@
 @property (nonatomic, retain) IBOutlet UIView *mainView;
 @property (nonatomic, retain) IBOutlet UIView *bgdView;
 
+@property (nonatomic, retain) NSMutableArray *targets;
+
 - (IBAction)close:(id)sender;
 
 @end

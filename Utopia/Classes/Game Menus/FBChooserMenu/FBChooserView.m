@@ -127,8 +127,9 @@
     NSMutableArray *toRemoveOuter = [NSMutableArray array];
     for (NSMutableArray *arr in data) {
       NSMutableArray *toRemove = [NSMutableArray array];
-      for (NSDictionary *fbObj in arr) {
-        if ([self.blacklistFriendIds containsObject:fbObj[@"uid"]]) {
+      for (FBGraphObject *fbObj in arr) {
+        NSString *uid = [NSString stringWithFormat:@"%@", fbObj[@"uid"]];
+        if ([self.blacklistFriendIds containsObject:uid]) {
           [toRemove addObject:fbObj];
         }
       }

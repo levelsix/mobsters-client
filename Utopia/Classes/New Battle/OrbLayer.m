@@ -97,11 +97,8 @@
     case color_red:
     case color_green:
     case color_blue:
-      colorPrefix = [Globals imageNameForElement:(MonsterProto_MonsterElement)gemColor suffix:@""];
-      break;
     case color_filler:
-      colorPrefix = @"rock";
-      powerupId = powerup_none;
+      colorPrefix = [Globals imageNameForElement:(MonsterProto_MonsterElement)gemColor suffix:@""];
       break;
     case color_all:
       colorPrefix = @"all";
@@ -488,14 +485,14 @@
       q.position = gem.sprite.position;
       q.autoRemoveOnFinish = YES;
       
-//      [[SoundEngine sharedSoundEngine] puzzleBoardExplosion];
+      [SoundEngine puzzleBoardExplosion];
     } else if (powerup == powerup_all_of_one_color) {
       CCParticleSystem *q = [CCParticleSystem particleWithFile:@"molotov.plist"];
       [self addChild:q z:100];
       q.position = gem.sprite.position;
       q.autoRemoveOnFinish = YES;
       
-//      [[SoundEngine sharedSoundEngine] puzzleBoardExplosion];
+      [SoundEngine puzzleBoardExplosion];
     } else {
       CCSprite *q = [CCSprite spriteWithImageNamed:@"ring.png"];
       [self addChild:q];
@@ -839,7 +836,7 @@
     
     [r runAction:[CCActionSequence actionWithArray:seq]];
     
-//    [[SoundEngine sharedSoundEngine] puzzleRocket];
+    [SoundEngine puzzleRocketMatch];
   } else if (p.powerupId == powerup_explosion) {
     NSMutableArray *blowup = [NSMutableArray array];
     for (Gem *gem in _gems) {

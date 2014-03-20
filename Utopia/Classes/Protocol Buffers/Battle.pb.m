@@ -710,3 +710,533 @@ static PvpProto* defaultPvpProtoInstance = nil;
 }
 @end
 
+@interface PvpHistoryProto ()
+@property int64_t battleEndTime;
+@property (retain) FullUserProto* attacker;
+@property (retain) NSMutableArray* mutableAttackersMonstersList;
+@property BOOL attackerWon;
+@property int32_t defenderCashChange;
+@property int32_t defenderOilChange;
+@property BOOL exactedRevenge;
+@property int32_t prospectiveCashWinnings;
+@property int32_t prospectiveOilWinnings;
+@end
+
+@implementation PvpHistoryProto
+
+- (BOOL) hasBattleEndTime {
+  return !!hasBattleEndTime_;
+}
+- (void) setHasBattleEndTime:(BOOL) value {
+  hasBattleEndTime_ = !!value;
+}
+@synthesize battleEndTime;
+- (BOOL) hasAttacker {
+  return !!hasAttacker_;
+}
+- (void) setHasAttacker:(BOOL) value {
+  hasAttacker_ = !!value;
+}
+@synthesize attacker;
+@synthesize mutableAttackersMonstersList;
+- (BOOL) hasAttackerWon {
+  return !!hasAttackerWon_;
+}
+- (void) setHasAttackerWon:(BOOL) value {
+  hasAttackerWon_ = !!value;
+}
+- (BOOL) attackerWon {
+  return !!attackerWon_;
+}
+- (void) setAttackerWon:(BOOL) value {
+  attackerWon_ = !!value;
+}
+- (BOOL) hasDefenderCashChange {
+  return !!hasDefenderCashChange_;
+}
+- (void) setHasDefenderCashChange:(BOOL) value {
+  hasDefenderCashChange_ = !!value;
+}
+@synthesize defenderCashChange;
+- (BOOL) hasDefenderOilChange {
+  return !!hasDefenderOilChange_;
+}
+- (void) setHasDefenderOilChange:(BOOL) value {
+  hasDefenderOilChange_ = !!value;
+}
+@synthesize defenderOilChange;
+- (BOOL) hasExactedRevenge {
+  return !!hasExactedRevenge_;
+}
+- (void) setHasExactedRevenge:(BOOL) value {
+  hasExactedRevenge_ = !!value;
+}
+- (BOOL) exactedRevenge {
+  return !!exactedRevenge_;
+}
+- (void) setExactedRevenge:(BOOL) value {
+  exactedRevenge_ = !!value;
+}
+- (BOOL) hasProspectiveCashWinnings {
+  return !!hasProspectiveCashWinnings_;
+}
+- (void) setHasProspectiveCashWinnings:(BOOL) value {
+  hasProspectiveCashWinnings_ = !!value;
+}
+@synthesize prospectiveCashWinnings;
+- (BOOL) hasProspectiveOilWinnings {
+  return !!hasProspectiveOilWinnings_;
+}
+- (void) setHasProspectiveOilWinnings:(BOOL) value {
+  hasProspectiveOilWinnings_ = !!value;
+}
+@synthesize prospectiveOilWinnings;
+- (void) dealloc {
+  self.attacker = nil;
+  self.mutableAttackersMonstersList = nil;
+  [super dealloc];
+}
+- (id) init {
+  if ((self = [super init])) {
+    self.battleEndTime = 0L;
+    self.attacker = [FullUserProto defaultInstance];
+    self.attackerWon = NO;
+    self.defenderCashChange = 0;
+    self.defenderOilChange = 0;
+    self.exactedRevenge = NO;
+    self.prospectiveCashWinnings = 0;
+    self.prospectiveOilWinnings = 0;
+  }
+  return self;
+}
+static PvpHistoryProto* defaultPvpHistoryProtoInstance = nil;
++ (void) initialize {
+  if (self == [PvpHistoryProto class]) {
+    defaultPvpHistoryProtoInstance = [[PvpHistoryProto alloc] init];
+  }
+}
++ (PvpHistoryProto*) defaultInstance {
+  return defaultPvpHistoryProtoInstance;
+}
+- (PvpHistoryProto*) defaultInstance {
+  return defaultPvpHistoryProtoInstance;
+}
+- (NSArray*) attackersMonstersList {
+  return mutableAttackersMonstersList;
+}
+- (MinimumUserMonsterProto*) attackersMonstersAtIndex:(int32_t) index {
+  id value = [mutableAttackersMonstersList objectAtIndex:index];
+  return value;
+}
+- (BOOL) isInitialized {
+  return YES;
+}
+- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output {
+  if (self.hasAttacker) {
+    [output writeMessage:1 value:self.attacker];
+  }
+  for (MinimumUserMonsterProto* element in self.attackersMonstersList) {
+    [output writeMessage:2 value:element];
+  }
+  if (self.hasAttackerWon) {
+    [output writeBool:3 value:self.attackerWon];
+  }
+  if (self.hasDefenderCashChange) {
+    [output writeSInt32:4 value:self.defenderCashChange];
+  }
+  if (self.hasDefenderOilChange) {
+    [output writeSInt32:5 value:self.defenderOilChange];
+  }
+  if (self.hasExactedRevenge) {
+    [output writeBool:6 value:self.exactedRevenge];
+  }
+  if (self.hasProspectiveCashWinnings) {
+    [output writeInt32:7 value:self.prospectiveCashWinnings];
+  }
+  if (self.hasProspectiveOilWinnings) {
+    [output writeInt32:8 value:self.prospectiveOilWinnings];
+  }
+  if (self.hasBattleEndTime) {
+    [output writeInt64:9 value:self.battleEndTime];
+  }
+  [self.unknownFields writeToCodedOutputStream:output];
+}
+- (int32_t) serializedSize {
+  int32_t size = memoizedSerializedSize;
+  if (size != -1) {
+    return size;
+  }
+
+  size = 0;
+  if (self.hasAttacker) {
+    size += computeMessageSize(1, self.attacker);
+  }
+  for (MinimumUserMonsterProto* element in self.attackersMonstersList) {
+    size += computeMessageSize(2, element);
+  }
+  if (self.hasAttackerWon) {
+    size += computeBoolSize(3, self.attackerWon);
+  }
+  if (self.hasDefenderCashChange) {
+    size += computeSInt32Size(4, self.defenderCashChange);
+  }
+  if (self.hasDefenderOilChange) {
+    size += computeSInt32Size(5, self.defenderOilChange);
+  }
+  if (self.hasExactedRevenge) {
+    size += computeBoolSize(6, self.exactedRevenge);
+  }
+  if (self.hasProspectiveCashWinnings) {
+    size += computeInt32Size(7, self.prospectiveCashWinnings);
+  }
+  if (self.hasProspectiveOilWinnings) {
+    size += computeInt32Size(8, self.prospectiveOilWinnings);
+  }
+  if (self.hasBattleEndTime) {
+    size += computeInt64Size(9, self.battleEndTime);
+  }
+  size += self.unknownFields.serializedSize;
+  memoizedSerializedSize = size;
+  return size;
+}
++ (PvpHistoryProto*) parseFromData:(NSData*) data {
+  return (PvpHistoryProto*)[[[PvpHistoryProto builder] mergeFromData:data] build];
+}
++ (PvpHistoryProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (PvpHistoryProto*)[[[PvpHistoryProto builder] mergeFromData:data extensionRegistry:extensionRegistry] build];
+}
++ (PvpHistoryProto*) parseFromInputStream:(NSInputStream*) input {
+  return (PvpHistoryProto*)[[[PvpHistoryProto builder] mergeFromInputStream:input] build];
+}
++ (PvpHistoryProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (PvpHistoryProto*)[[[PvpHistoryProto builder] mergeFromInputStream:input extensionRegistry:extensionRegistry] build];
+}
++ (PvpHistoryProto*) parseFromCodedInputStream:(PBCodedInputStream*) input {
+  return (PvpHistoryProto*)[[[PvpHistoryProto builder] mergeFromCodedInputStream:input] build];
+}
++ (PvpHistoryProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (PvpHistoryProto*)[[[PvpHistoryProto builder] mergeFromCodedInputStream:input extensionRegistry:extensionRegistry] build];
+}
++ (PvpHistoryProto_Builder*) builder {
+  return [[[PvpHistoryProto_Builder alloc] init] autorelease];
+}
++ (PvpHistoryProto_Builder*) builderWithPrototype:(PvpHistoryProto*) prototype {
+  return [[PvpHistoryProto builder] mergeFrom:prototype];
+}
+- (PvpHistoryProto_Builder*) builder {
+  return [PvpHistoryProto builder];
+}
+@end
+
+@interface PvpHistoryProto_Builder()
+@property (retain) PvpHistoryProto* result;
+@end
+
+@implementation PvpHistoryProto_Builder
+@synthesize result;
+- (void) dealloc {
+  self.result = nil;
+  [super dealloc];
+}
+- (id) init {
+  if ((self = [super init])) {
+    self.result = [[[PvpHistoryProto alloc] init] autorelease];
+  }
+  return self;
+}
+- (PBGeneratedMessage*) internalGetResult {
+  return result;
+}
+- (PvpHistoryProto_Builder*) clear {
+  self.result = [[[PvpHistoryProto alloc] init] autorelease];
+  return self;
+}
+- (PvpHistoryProto_Builder*) clone {
+  return [PvpHistoryProto builderWithPrototype:result];
+}
+- (PvpHistoryProto*) defaultInstance {
+  return [PvpHistoryProto defaultInstance];
+}
+- (PvpHistoryProto*) build {
+  [self checkInitialized];
+  return [self buildPartial];
+}
+- (PvpHistoryProto*) buildPartial {
+  PvpHistoryProto* returnMe = [[result retain] autorelease];
+  self.result = nil;
+  return returnMe;
+}
+- (PvpHistoryProto_Builder*) mergeFrom:(PvpHistoryProto*) other {
+  if (other == [PvpHistoryProto defaultInstance]) {
+    return self;
+  }
+  if (other.hasBattleEndTime) {
+    [self setBattleEndTime:other.battleEndTime];
+  }
+  if (other.hasAttacker) {
+    [self mergeAttacker:other.attacker];
+  }
+  if (other.mutableAttackersMonstersList.count > 0) {
+    if (result.mutableAttackersMonstersList == nil) {
+      result.mutableAttackersMonstersList = [NSMutableArray array];
+    }
+    [result.mutableAttackersMonstersList addObjectsFromArray:other.mutableAttackersMonstersList];
+  }
+  if (other.hasAttackerWon) {
+    [self setAttackerWon:other.attackerWon];
+  }
+  if (other.hasDefenderCashChange) {
+    [self setDefenderCashChange:other.defenderCashChange];
+  }
+  if (other.hasDefenderOilChange) {
+    [self setDefenderOilChange:other.defenderOilChange];
+  }
+  if (other.hasExactedRevenge) {
+    [self setExactedRevenge:other.exactedRevenge];
+  }
+  if (other.hasProspectiveCashWinnings) {
+    [self setProspectiveCashWinnings:other.prospectiveCashWinnings];
+  }
+  if (other.hasProspectiveOilWinnings) {
+    [self setProspectiveOilWinnings:other.prospectiveOilWinnings];
+  }
+  [self mergeUnknownFields:other.unknownFields];
+  return self;
+}
+- (PvpHistoryProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input {
+  return [self mergeFromCodedInputStream:input extensionRegistry:[PBExtensionRegistry emptyRegistry]];
+}
+- (PvpHistoryProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  PBUnknownFieldSet_Builder* unknownFields = [PBUnknownFieldSet builderWithUnknownFields:self.unknownFields];
+  while (YES) {
+    int32_t tag = [input readTag];
+    switch (tag) {
+      case 0:
+        [self setUnknownFields:[unknownFields build]];
+        return self;
+      default: {
+        if (![self parseUnknownField:input unknownFields:unknownFields extensionRegistry:extensionRegistry tag:tag]) {
+          [self setUnknownFields:[unknownFields build]];
+          return self;
+        }
+        break;
+      }
+      case 10: {
+        FullUserProto_Builder* subBuilder = [FullUserProto builder];
+        if (self.hasAttacker) {
+          [subBuilder mergeFrom:self.attacker];
+        }
+        [input readMessage:subBuilder extensionRegistry:extensionRegistry];
+        [self setAttacker:[subBuilder buildPartial]];
+        break;
+      }
+      case 18: {
+        MinimumUserMonsterProto_Builder* subBuilder = [MinimumUserMonsterProto builder];
+        [input readMessage:subBuilder extensionRegistry:extensionRegistry];
+        [self addAttackersMonsters:[subBuilder buildPartial]];
+        break;
+      }
+      case 24: {
+        [self setAttackerWon:[input readBool]];
+        break;
+      }
+      case 32: {
+        [self setDefenderCashChange:[input readSInt32]];
+        break;
+      }
+      case 40: {
+        [self setDefenderOilChange:[input readSInt32]];
+        break;
+      }
+      case 48: {
+        [self setExactedRevenge:[input readBool]];
+        break;
+      }
+      case 56: {
+        [self setProspectiveCashWinnings:[input readInt32]];
+        break;
+      }
+      case 64: {
+        [self setProspectiveOilWinnings:[input readInt32]];
+        break;
+      }
+      case 72: {
+        [self setBattleEndTime:[input readInt64]];
+        break;
+      }
+    }
+  }
+}
+- (BOOL) hasBattleEndTime {
+  return result.hasBattleEndTime;
+}
+- (int64_t) battleEndTime {
+  return result.battleEndTime;
+}
+- (PvpHistoryProto_Builder*) setBattleEndTime:(int64_t) value {
+  result.hasBattleEndTime = YES;
+  result.battleEndTime = value;
+  return self;
+}
+- (PvpHistoryProto_Builder*) clearBattleEndTime {
+  result.hasBattleEndTime = NO;
+  result.battleEndTime = 0L;
+  return self;
+}
+- (BOOL) hasAttacker {
+  return result.hasAttacker;
+}
+- (FullUserProto*) attacker {
+  return result.attacker;
+}
+- (PvpHistoryProto_Builder*) setAttacker:(FullUserProto*) value {
+  result.hasAttacker = YES;
+  result.attacker = value;
+  return self;
+}
+- (PvpHistoryProto_Builder*) setAttackerBuilder:(FullUserProto_Builder*) builderForValue {
+  return [self setAttacker:[builderForValue build]];
+}
+- (PvpHistoryProto_Builder*) mergeAttacker:(FullUserProto*) value {
+  if (result.hasAttacker &&
+      result.attacker != [FullUserProto defaultInstance]) {
+    result.attacker =
+      [[[FullUserProto builderWithPrototype:result.attacker] mergeFrom:value] buildPartial];
+  } else {
+    result.attacker = value;
+  }
+  result.hasAttacker = YES;
+  return self;
+}
+- (PvpHistoryProto_Builder*) clearAttacker {
+  result.hasAttacker = NO;
+  result.attacker = [FullUserProto defaultInstance];
+  return self;
+}
+- (NSArray*) attackersMonstersList {
+  if (result.mutableAttackersMonstersList == nil) { return [NSArray array]; }
+  return result.mutableAttackersMonstersList;
+}
+- (MinimumUserMonsterProto*) attackersMonstersAtIndex:(int32_t) index {
+  return [result attackersMonstersAtIndex:index];
+}
+- (PvpHistoryProto_Builder*) replaceAttackersMonstersAtIndex:(int32_t) index with:(MinimumUserMonsterProto*) value {
+  [result.mutableAttackersMonstersList replaceObjectAtIndex:index withObject:value];
+  return self;
+}
+- (PvpHistoryProto_Builder*) addAllAttackersMonsters:(NSArray*) values {
+  if (result.mutableAttackersMonstersList == nil) {
+    result.mutableAttackersMonstersList = [NSMutableArray array];
+  }
+  [result.mutableAttackersMonstersList addObjectsFromArray:values];
+  return self;
+}
+- (PvpHistoryProto_Builder*) clearAttackersMonstersList {
+  result.mutableAttackersMonstersList = nil;
+  return self;
+}
+- (PvpHistoryProto_Builder*) addAttackersMonsters:(MinimumUserMonsterProto*) value {
+  if (result.mutableAttackersMonstersList == nil) {
+    result.mutableAttackersMonstersList = [NSMutableArray array];
+  }
+  [result.mutableAttackersMonstersList addObject:value];
+  return self;
+}
+- (BOOL) hasAttackerWon {
+  return result.hasAttackerWon;
+}
+- (BOOL) attackerWon {
+  return result.attackerWon;
+}
+- (PvpHistoryProto_Builder*) setAttackerWon:(BOOL) value {
+  result.hasAttackerWon = YES;
+  result.attackerWon = value;
+  return self;
+}
+- (PvpHistoryProto_Builder*) clearAttackerWon {
+  result.hasAttackerWon = NO;
+  result.attackerWon = NO;
+  return self;
+}
+- (BOOL) hasDefenderCashChange {
+  return result.hasDefenderCashChange;
+}
+- (int32_t) defenderCashChange {
+  return result.defenderCashChange;
+}
+- (PvpHistoryProto_Builder*) setDefenderCashChange:(int32_t) value {
+  result.hasDefenderCashChange = YES;
+  result.defenderCashChange = value;
+  return self;
+}
+- (PvpHistoryProto_Builder*) clearDefenderCashChange {
+  result.hasDefenderCashChange = NO;
+  result.defenderCashChange = 0;
+  return self;
+}
+- (BOOL) hasDefenderOilChange {
+  return result.hasDefenderOilChange;
+}
+- (int32_t) defenderOilChange {
+  return result.defenderOilChange;
+}
+- (PvpHistoryProto_Builder*) setDefenderOilChange:(int32_t) value {
+  result.hasDefenderOilChange = YES;
+  result.defenderOilChange = value;
+  return self;
+}
+- (PvpHistoryProto_Builder*) clearDefenderOilChange {
+  result.hasDefenderOilChange = NO;
+  result.defenderOilChange = 0;
+  return self;
+}
+- (BOOL) hasExactedRevenge {
+  return result.hasExactedRevenge;
+}
+- (BOOL) exactedRevenge {
+  return result.exactedRevenge;
+}
+- (PvpHistoryProto_Builder*) setExactedRevenge:(BOOL) value {
+  result.hasExactedRevenge = YES;
+  result.exactedRevenge = value;
+  return self;
+}
+- (PvpHistoryProto_Builder*) clearExactedRevenge {
+  result.hasExactedRevenge = NO;
+  result.exactedRevenge = NO;
+  return self;
+}
+- (BOOL) hasProspectiveCashWinnings {
+  return result.hasProspectiveCashWinnings;
+}
+- (int32_t) prospectiveCashWinnings {
+  return result.prospectiveCashWinnings;
+}
+- (PvpHistoryProto_Builder*) setProspectiveCashWinnings:(int32_t) value {
+  result.hasProspectiveCashWinnings = YES;
+  result.prospectiveCashWinnings = value;
+  return self;
+}
+- (PvpHistoryProto_Builder*) clearProspectiveCashWinnings {
+  result.hasProspectiveCashWinnings = NO;
+  result.prospectiveCashWinnings = 0;
+  return self;
+}
+- (BOOL) hasProspectiveOilWinnings {
+  return result.hasProspectiveOilWinnings;
+}
+- (int32_t) prospectiveOilWinnings {
+  return result.prospectiveOilWinnings;
+}
+- (PvpHistoryProto_Builder*) setProspectiveOilWinnings:(int32_t) value {
+  result.hasProspectiveOilWinnings = YES;
+  result.prospectiveOilWinnings = value;
+  return self;
+}
+- (PvpHistoryProto_Builder*) clearProspectiveOilWinnings {
+  result.hasProspectiveOilWinnings = NO;
+  result.prospectiveOilWinnings = 0;
+  return self;
+}
+@end
+

@@ -12,7 +12,7 @@
 #import "FacebookDelegate.h"
 #import "OutgoingEventController.h"
 
-@implementation RequestFacebookCell
+@implementation RequestsFacebookCell
 
 - (void) awakeFromNib {
   UIImage *maskImage = [UIImage imageNamed:@"fullfriendmask.png"];
@@ -23,11 +23,11 @@
 }
 
 - (void) updateForRequest:(RequestFromFriend *)request andFbInfo:(NSDictionary *)fbInfo {
-  self.hidden = !fbInfo;
   if (request.type == RequestFromFriendInventorySlots) {
     self.pfPic.profileID = request.invite.inviter.facebookId;
-    self.titleLabel.text = [NSString stringWithFormat:@"%@ needs your help!", fbInfo[@"first_name"]];
-    self.subtitleLabel.text = [NSString stringWithFormat:@"Your friend %@ needs help unlocking more mobster slots", fbInfo[@"first_name"]];
+    NSString *name = fbInfo ? fbInfo[@"first_name"] : request.invite.inviter.minUserProto.name;
+    self.titleLabel.text = [NSString stringWithFormat:@"%@ needs your help!", name];
+    self.subtitleLabel.text = @"Be a helper at his residence.";
   }
   
   self.request = request;
@@ -37,12 +37,20 @@
 
 @implementation RequestsFacebookTableController
 
+- (id) init {
+  if ((self = [super init])) {
+    [self reloadRequestsArray];
+  }
+  return self;
+}
+
 - (void) becameDelegate:(UITableView *)requestsTable noRequestsLabel:(UILabel *)noRequestsLabel spinner:(UIActivityIndicatorView *)spinner {
   [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(reloadRequestsArray) name:NEW_FB_INVITE_NOTIFICATION object:nil];
   self.requestsTable = requestsTable;
   self.noRequestsLabel = noRequestsLabel;
   self.spinner = spinner;
   [self reloadRequestsArray];
+  self.spinner.hidden = YES;
   
   self.acceptedRequestIds = [NSMutableArray array];
   self.rejectedRequestIds = [NSMutableArray array];
@@ -62,13 +70,8 @@
   
   [self.requestsTable reloadData];
   
-  if (self.requests.count == 0) {
-    self.noRequestsLabel.hidden = NO;
-    self.spinner.hidden = YES;
-  } else {
+  if (self.requests.count > 0) {
     [self getFacebookInfo];
-    self.noRequestsLabel.hidden = YES;
-    self.spinner.hidden = NO;
   }
 }
 
@@ -79,41 +82,46 @@
   
   NSMutableArray *ids = [NSMutableArray array];
   for (RequestFromFriend *req in self.requests) {
-    [ids addObject:req.invite.inviter.facebookId];
+    if (req.invite.inviter.facebookId.length > 0) {
+      [ids addObject:req.invite.inviter.facebookId];
+    }
   }
   
   [FacebookDelegate getFacebookUsersWithIds:ids handler:^(id result) {
     self.fbInfo = result;
     
     [self.requestsTable reloadData];
-    self.spinner.hidden = YES;
   }];
 }
 
 - (IBAction)acceptClicked:(id)sender {
-  while (![sender isKindOfClass:[RequestFacebookCell class]]) {
+  while (![sender isKindOfClass:[RequestsFacebookCell class]]) {
     sender = [sender superview];
   }
-  RequestFacebookCell *cell = (RequestFacebookCell *)sender;
+  RequestsFacebookCell *cell = (RequestsFacebookCell *)sender;
   [self.acceptedRequestIds addObject:@(cell.request.invite.inviteId)];
   
   [self removeRequestCell:cell];
 }
 
 - (IBAction)rejectClicked:(id)sender {
-  while (![sender isKindOfClass:[RequestFacebookCell class]]) {
+  while (![sender isKindOfClass:[RequestsFacebookCell class]]) {
     sender = [sender superview];
   }
-  RequestFacebookCell *cell = (RequestFacebookCell *)sender;
+  RequestsFacebookCell *cell = (RequestsFacebookCell *)sender;
   [self.rejectedRequestIds addObject:@(cell.request.invite.inviteId)];
   
   [self removeRequestCell:cell];
 }
 
-- (void) removeRequestCell:(RequestFacebookCell *)cell {
+- (void) removeRequestCell:(RequestsFacebookCell *)cell {
   NSIndexPath *ip = [self.requestsTable indexPathForCell:cell];
   [self.requests removeObject:cell.request];
   [self.requestsTable deleteRowsAtIndexPaths:@[ip] withRowAnimation:UITableViewRowAnimationFade];
+  
+  if (self.requests.count == 0) {
+    [self sendInviteResponses];
+  }
 }
 
 - (void) sendInviteResponses {
@@ -126,6 +134,11 @@
 #pragma mark - UITableViewDelegate/DataSource methods
 
 - (NSInteger) tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
+  if (self.requests.count == 0) {
+    self.noRequestsLabel.hidden = NO;
+  } else {
+    self.noRequestsLabel.hidden = YES;
+  }
   return self.requests.count;
 }
 
@@ -134,9 +147,9 @@
 }
 
 - (UITableViewCell *) tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-  RequestFacebookCell *cell = [tableView dequeueReusableCellWithIdentifier:@"RequestFacebookCell"];
+  RequestsFacebookCell *cell = [tableView dequeueReusableCellWithIdentifier:@"RequestsFacebookCell"];
   if (cell == nil) {
-    [[NSBundle mainBundle] loadNibNamed:@"RequestFacebookCell" owner:self options:nil];
+    [[NSBundle mainBundle] loadNibNamed:@"RequestsFacebookCell" owner:self options:nil];
     cell = self.requestCell;
   }
   

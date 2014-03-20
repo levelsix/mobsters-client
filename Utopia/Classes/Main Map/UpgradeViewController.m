@@ -10,6 +10,7 @@
 #import "Globals.h"
 #import "GameState.h"
 #import "OutgoingEventController.h"
+#import "GenericPopupController.h"
 
 @implementation FriendAcceptView
 
@@ -202,7 +203,8 @@
   // Town hall too low
   [self.greyscaleView removeFromSuperview];
   self.greyscaleView = nil;
-  int thLevel = [[[[gs myTownHall] staticStruct] structInfo] level];
+  TownHallProto *thp = (TownHallProto *)[[gs myTownHall] staticStruct];
+  int thLevel = thp.structInfo.level;
   if (nextSS.structInfo.prerequisiteTownHallLvl > thLevel) {
     UIImage *grey = [Globals greyScaleImageWithBaseImage:[Globals snapShotView:self.oilButtonView.superview]];
     self.greyscaleView = [[UIImageView alloc] initWithImage:grey];
@@ -211,7 +213,7 @@
     self.oilButtonView.hidden = YES;
     self.cashButtonView.hidden = YES;
     
-    self.cityHallTooLowLabel.text = [NSString stringWithFormat:@"This upgrade requires City Hall Lvl %d", nextSS.structInfo.prerequisiteTownHallLvl];
+    self.cityHallTooLowLabel.text = [NSString stringWithFormat:@"This upgrade requires %@ Lvl %d", thp.structInfo.name, nextSS.structInfo.prerequisiteTownHallLvl];
     
     self.cityHallTooLowLabel.hidden = NO;
   } else {
@@ -486,7 +488,7 @@
   GameState *gs = [GameState sharedGameState];
   ResidenceProto *res = (ResidenceProto *)self.userStruct.staticStructForNextFbLevel;
   if (gs.gold < res.numGemsRequired) {
-    //[RefillMenuController
+    [GenericPopupController displayNotEnoughGemsView];
   } else {
     [[OutgoingEventController sharedOutgoingEventController] increaseInventorySlots:self.userStruct withGems:YES];
     [self.bonusView updateForUserStruct:self.userStruct];

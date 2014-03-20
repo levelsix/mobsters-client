@@ -98,6 +98,8 @@
 @class UserMonsterEvolutionProto_Builder;
 @class UserMonsterHealingProto;
 @class UserMonsterHealingProto_Builder;
+@class UserObstacleProto;
+@class UserObstacleProto_Builder;
 typedef enum {
   UserCreateResponseProto_UserCreateStatusSuccess = 1,
   UserCreateResponseProto_UserCreateStatusFailInvalidName = 2,

@@ -68,6 +68,7 @@
 - (void) visitCityClicked:(int)cityId;
 - (void) enterDungeon:(int)taskId isEvent:(BOOL)isEvent eventId:(int)eventId useGems:(BOOL)useGems;
 - (void) findPvpMatch:(BOOL)useGems;
+- (void) beginPvpMatch:(PvpHistoryProto *)history;
 
 @end
 

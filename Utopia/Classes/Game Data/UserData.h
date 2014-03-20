@@ -42,6 +42,7 @@
 - (int) timeLeftForCombining;
 
 - (FullUserMonsterProto *) convertToProto;
+- (MinimumUserMonsterProto *) convertToMinimumProto;
 
 - (NSComparisonResult) compare:(UserMonster *)um;
 

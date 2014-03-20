@@ -133,7 +133,7 @@
                                 <outlet property="baseImage" destination="csi-t9-NHu" id="wSB-gn-6cH"/>
                             </connections>
                         </button>
-                        <button opaque="NO" contentMode="top" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="hZo-Cw-y6X">
+                        <button opaque="NO" contentMode="top" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="hZo-Cw-y6X" customClass="GeneralButton">
                             <rect key="frame" x="105" y="-1" width="39" height="33"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             <fontDescription key="fontDescription" type="system" pointSize="15"/>
