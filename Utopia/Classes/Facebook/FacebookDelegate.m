@@ -169,7 +169,7 @@
     }
     
     if (login) {
-      self.timeOfLastLoginAttempt = [NSDate date];
+      self.timeOfLastLoginAttempt = [MSDate date];
     }
     
     // If session isn't created.. it means no token was found

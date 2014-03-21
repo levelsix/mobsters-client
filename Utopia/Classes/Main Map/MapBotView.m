@@ -43,7 +43,7 @@
       v.alpha = 1.f;
       v.center = ccp(v.center.x, v.superview.frame.size.height-v.frame.size.height/2);
     } completion:^(BOOL finished) {
-      if (block && isLast) {
+      if (block && isLast && finished) {
         block();
       }
     }];
@@ -62,7 +62,7 @@
       v.alpha = 0.f;
       v.center = ccp(v.center.x, v.superview.frame.size.height);
     } completion:^(BOOL finished) {
-      if (block && isLast) {
+      if (block && isLast && finished) {
         block();
       }
     }];

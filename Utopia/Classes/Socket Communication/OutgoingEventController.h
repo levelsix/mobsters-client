@@ -111,4 +111,8 @@
 
 - (void) updateUserCurrencyWithCashChange:(int)cashChange oilChange:(int)oilChange gemChange:(int)gemChange reason:(NSString *)reason;
 
+- (void) spawnObstacles:(NSArray *)obstacles;
+- (void) beginObstacleRemoval:(UserObstacle *)obstacle spendGems:(BOOL)spendGems;
+- (BOOL) obstacleRemovalComplete:(UserObstacle *)obstacle speedup:(BOOL)speedup;
+
 @end

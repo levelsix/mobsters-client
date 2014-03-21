@@ -182,12 +182,29 @@
   [self setupInventoryTable];
 }
 
-- (void) reloadTableWithHealingQueue:(NSArray *)healingQueue userMonster:(NSArray *)userMonsters timeLeft:(int)timeLeft hospitalCount:(int)hospitalCount {
-  self.healingQueue = healingQueue;
+- (void) reloadTableAnimated:(BOOL)animated healingQueue:(NSArray *)healingQueue userMonster:(NSArray *)userMonsters timeLeft:(int)timeLeft hospitalCount:(int)hospitalCount {
+  NSArray *oldQueue = self.healingQueue;
+  self.healingQueue = healingQueue.copy;
   self.userMonsters = userMonsters;
   _numHospitals = hospitalCount;
-  [self.queueTable reloadData];
   [self updateTimeWithTimeLeft:timeLeft hospitalCount:hospitalCount];
+  
+  if (animated) {
+    NSMutableArray *additions = [NSMutableArray array];
+    NSMutableArray *remove = [NSMutableArray array];
+    [Globals calculateDifferencesBetweenOldArray:oldQueue newArray:self.healingQueue removalIps:remove additionIps:additions section:0];
+    
+    [self.queueTable.tableView beginUpdates];
+    if (remove.count > 0) {
+      [self.queueTable.tableView deleteRowsAtIndexPaths:remove withRowAnimation:UITableViewRowAnimationTop];
+    }
+    if (additions.count > 0) {
+      [self.queueTable.tableView insertRowsAtIndexPaths:additions withRowAnimation:UITableViewRowAnimationTop];
+    }
+    [self.queueTable.tableView endUpdates];
+  } else {
+    [self.queueTable reloadData];
+  }
 }
 
 - (void) updateTimeWithTimeLeft:(int)timeLeft hospitalCount:(int)hospitalCount {

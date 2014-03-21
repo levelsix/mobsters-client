@@ -10,10 +10,12 @@
 #import "AppDelegate.h"
 #import <Carrot/Carrot.h>
 
+void SigPipeHandler(int s);
+
 int main(int argc, char *argv[]) {
   int retVal = -1;
   @try {
-    signal(SIGPIPE, SIG_IGN); 
+    signal(SIGPIPE, SigPipeHandler);
 //    [Carrot plantInApplication:[AppDelegate class] withSecret:@"e245245bcaa1df6fd12d313abf118434"];
     retVal = UIApplicationMain(argc, argv, nil, NSStringFromClass([AppDelegate class]));
   }
@@ -23,4 +25,10 @@ int main(int argc, char *argv[]) {
   }
   NSLog(@"Return Val: %d", retVal);
   return retVal;
+}
+
+void SigPipeHandler(int s)
+{
+  // do your handling
+  NSLog(@"GOT SIGPIPE!! %d", s);
 }

@@ -4045,6 +4045,9 @@ static TutorialStructProto* defaultTutorialStructProtoInstance = nil;
 @property Float32 imgVerticalPixelOffset;
 @property (retain) NSString* description;
 @property Float32 chanceToAppear;
+@property (retain) NSString* shadowImgName;
+@property Float32 shadowVerticalOffset;
+@property Float32 shadowHorizontalOfffset;
 @end
 
 @implementation ObstacleProto
@@ -4126,10 +4129,32 @@ static TutorialStructProto* defaultTutorialStructProtoInstance = nil;
   hasChanceToAppear_ = !!value;
 }
 @synthesize chanceToAppear;
+- (BOOL) hasShadowImgName {
+  return !!hasShadowImgName_;
+}
+- (void) setHasShadowImgName:(BOOL) value {
+  hasShadowImgName_ = !!value;
+}
+@synthesize shadowImgName;
+- (BOOL) hasShadowVerticalOffset {
+  return !!hasShadowVerticalOffset_;
+}
+- (void) setHasShadowVerticalOffset:(BOOL) value {
+  hasShadowVerticalOffset_ = !!value;
+}
+@synthesize shadowVerticalOffset;
+- (BOOL) hasShadowHorizontalOfffset {
+  return !!hasShadowHorizontalOfffset_;
+}
+- (void) setHasShadowHorizontalOfffset:(BOOL) value {
+  hasShadowHorizontalOfffset_ = !!value;
+}
+@synthesize shadowHorizontalOfffset;
 - (void) dealloc {
   self.name = nil;
   self.imgName = nil;
   self.description = nil;
+  self.shadowImgName = nil;
   [super dealloc];
 }
 - (id) init {
@@ -4145,6 +4170,9 @@ static TutorialStructProto* defaultTutorialStructProtoInstance = nil;
     self.imgVerticalPixelOffset = 0;
     self.description = @"";
     self.chanceToAppear = 0;
+    self.shadowImgName = @"";
+    self.shadowVerticalOffset = 0;
+    self.shadowHorizontalOfffset = 0;
   }
   return self;
 }
@@ -4197,6 +4225,15 @@ static ObstacleProto* defaultObstacleProtoInstance = nil;
   if (self.hasChanceToAppear) {
     [output writeFloat:11 value:self.chanceToAppear];
   }
+  if (self.hasShadowImgName) {
+    [output writeString:12 value:self.shadowImgName];
+  }
+  if (self.hasShadowVerticalOffset) {
+    [output writeFloat:13 value:self.shadowVerticalOffset];
+  }
+  if (self.hasShadowHorizontalOfffset) {
+    [output writeFloat:14 value:self.shadowHorizontalOfffset];
+  }
   [self.unknownFields writeToCodedOutputStream:output];
 }
 - (int32_t) serializedSize {
@@ -4238,6 +4275,15 @@ static ObstacleProto* defaultObstacleProtoInstance = nil;
   }
   if (self.hasChanceToAppear) {
     size += computeFloatSize(11, self.chanceToAppear);
+  }
+  if (self.hasShadowImgName) {
+    size += computeStringSize(12, self.shadowImgName);
+  }
+  if (self.hasShadowVerticalOffset) {
+    size += computeFloatSize(13, self.shadowVerticalOffset);
+  }
+  if (self.hasShadowHorizontalOfffset) {
+    size += computeFloatSize(14, self.shadowHorizontalOfffset);
   }
   size += self.unknownFields.serializedSize;
   memoizedSerializedSize = size;
@@ -4347,6 +4393,15 @@ static ObstacleProto* defaultObstacleProtoInstance = nil;
   if (other.hasChanceToAppear) {
     [self setChanceToAppear:other.chanceToAppear];
   }
+  if (other.hasShadowImgName) {
+    [self setShadowImgName:other.shadowImgName];
+  }
+  if (other.hasShadowVerticalOffset) {
+    [self setShadowVerticalOffset:other.shadowVerticalOffset];
+  }
+  if (other.hasShadowHorizontalOfffset) {
+    [self setShadowHorizontalOfffset:other.shadowHorizontalOfffset];
+  }
   [self mergeUnknownFields:other.unknownFields];
   return self;
 }
@@ -4415,6 +4470,18 @@ static ObstacleProto* defaultObstacleProtoInstance = nil;
       }
       case 93: {
         [self setChanceToAppear:[input readFloat]];
+        break;
+      }
+      case 98: {
+        [self setShadowImgName:[input readString]];
+        break;
+      }
+      case 109: {
+        [self setShadowVerticalOffset:[input readFloat]];
+        break;
+      }
+      case 117: {
+        [self setShadowHorizontalOfffset:[input readFloat]];
         break;
       }
     }
@@ -4596,10 +4663,336 @@ static ObstacleProto* defaultObstacleProtoInstance = nil;
   result.chanceToAppear = 0;
   return self;
 }
+- (BOOL) hasShadowImgName {
+  return result.hasShadowImgName;
+}
+- (NSString*) shadowImgName {
+  return result.shadowImgName;
+}
+- (ObstacleProto_Builder*) setShadowImgName:(NSString*) value {
+  result.hasShadowImgName = YES;
+  result.shadowImgName = value;
+  return self;
+}
+- (ObstacleProto_Builder*) clearShadowImgName {
+  result.hasShadowImgName = NO;
+  result.shadowImgName = @"";
+  return self;
+}
+- (BOOL) hasShadowVerticalOffset {
+  return result.hasShadowVerticalOffset;
+}
+- (Float32) shadowVerticalOffset {
+  return result.shadowVerticalOffset;
+}
+- (ObstacleProto_Builder*) setShadowVerticalOffset:(Float32) value {
+  result.hasShadowVerticalOffset = YES;
+  result.shadowVerticalOffset = value;
+  return self;
+}
+- (ObstacleProto_Builder*) clearShadowVerticalOffset {
+  result.hasShadowVerticalOffset = NO;
+  result.shadowVerticalOffset = 0;
+  return self;
+}
+- (BOOL) hasShadowHorizontalOfffset {
+  return result.hasShadowHorizontalOfffset;
+}
+- (Float32) shadowHorizontalOfffset {
+  return result.shadowHorizontalOfffset;
+}
+- (ObstacleProto_Builder*) setShadowHorizontalOfffset:(Float32) value {
+  result.hasShadowHorizontalOfffset = YES;
+  result.shadowHorizontalOfffset = value;
+  return self;
+}
+- (ObstacleProto_Builder*) clearShadowHorizontalOfffset {
+  result.hasShadowHorizontalOfffset = NO;
+  result.shadowHorizontalOfffset = 0;
+  return self;
+}
+@end
+
+@interface MinimumObstacleProto ()
+@property int32_t obstacleId;
+@property (retain) CoordinateProto* coordinate;
+@property StructOrientation orientation;
+@end
+
+@implementation MinimumObstacleProto
+
+- (BOOL) hasObstacleId {
+  return !!hasObstacleId_;
+}
+- (void) setHasObstacleId:(BOOL) value {
+  hasObstacleId_ = !!value;
+}
+@synthesize obstacleId;
+- (BOOL) hasCoordinate {
+  return !!hasCoordinate_;
+}
+- (void) setHasCoordinate:(BOOL) value {
+  hasCoordinate_ = !!value;
+}
+@synthesize coordinate;
+- (BOOL) hasOrientation {
+  return !!hasOrientation_;
+}
+- (void) setHasOrientation:(BOOL) value {
+  hasOrientation_ = !!value;
+}
+@synthesize orientation;
+- (void) dealloc {
+  self.coordinate = nil;
+  [super dealloc];
+}
+- (id) init {
+  if ((self = [super init])) {
+    self.obstacleId = 0;
+    self.coordinate = [CoordinateProto defaultInstance];
+    self.orientation = StructOrientationPosition1;
+  }
+  return self;
+}
+static MinimumObstacleProto* defaultMinimumObstacleProtoInstance = nil;
++ (void) initialize {
+  if (self == [MinimumObstacleProto class]) {
+    defaultMinimumObstacleProtoInstance = [[MinimumObstacleProto alloc] init];
+  }
+}
++ (MinimumObstacleProto*) defaultInstance {
+  return defaultMinimumObstacleProtoInstance;
+}
+- (MinimumObstacleProto*) defaultInstance {
+  return defaultMinimumObstacleProtoInstance;
+}
+- (BOOL) isInitialized {
+  return YES;
+}
+- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output {
+  if (self.hasObstacleId) {
+    [output writeInt32:1 value:self.obstacleId];
+  }
+  if (self.hasCoordinate) {
+    [output writeMessage:2 value:self.coordinate];
+  }
+  if (self.hasOrientation) {
+    [output writeEnum:5 value:self.orientation];
+  }
+  [self.unknownFields writeToCodedOutputStream:output];
+}
+- (int32_t) serializedSize {
+  int32_t size = memoizedSerializedSize;
+  if (size != -1) {
+    return size;
+  }
+
+  size = 0;
+  if (self.hasObstacleId) {
+    size += computeInt32Size(1, self.obstacleId);
+  }
+  if (self.hasCoordinate) {
+    size += computeMessageSize(2, self.coordinate);
+  }
+  if (self.hasOrientation) {
+    size += computeEnumSize(5, self.orientation);
+  }
+  size += self.unknownFields.serializedSize;
+  memoizedSerializedSize = size;
+  return size;
+}
++ (MinimumObstacleProto*) parseFromData:(NSData*) data {
+  return (MinimumObstacleProto*)[[[MinimumObstacleProto builder] mergeFromData:data] build];
+}
++ (MinimumObstacleProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (MinimumObstacleProto*)[[[MinimumObstacleProto builder] mergeFromData:data extensionRegistry:extensionRegistry] build];
+}
++ (MinimumObstacleProto*) parseFromInputStream:(NSInputStream*) input {
+  return (MinimumObstacleProto*)[[[MinimumObstacleProto builder] mergeFromInputStream:input] build];
+}
++ (MinimumObstacleProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (MinimumObstacleProto*)[[[MinimumObstacleProto builder] mergeFromInputStream:input extensionRegistry:extensionRegistry] build];
+}
++ (MinimumObstacleProto*) parseFromCodedInputStream:(PBCodedInputStream*) input {
+  return (MinimumObstacleProto*)[[[MinimumObstacleProto builder] mergeFromCodedInputStream:input] build];
+}
++ (MinimumObstacleProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (MinimumObstacleProto*)[[[MinimumObstacleProto builder] mergeFromCodedInputStream:input extensionRegistry:extensionRegistry] build];
+}
++ (MinimumObstacleProto_Builder*) builder {
+  return [[[MinimumObstacleProto_Builder alloc] init] autorelease];
+}
++ (MinimumObstacleProto_Builder*) builderWithPrototype:(MinimumObstacleProto*) prototype {
+  return [[MinimumObstacleProto builder] mergeFrom:prototype];
+}
+- (MinimumObstacleProto_Builder*) builder {
+  return [MinimumObstacleProto builder];
+}
+@end
+
+@interface MinimumObstacleProto_Builder()
+@property (retain) MinimumObstacleProto* result;
+@end
+
+@implementation MinimumObstacleProto_Builder
+@synthesize result;
+- (void) dealloc {
+  self.result = nil;
+  [super dealloc];
+}
+- (id) init {
+  if ((self = [super init])) {
+    self.result = [[[MinimumObstacleProto alloc] init] autorelease];
+  }
+  return self;
+}
+- (PBGeneratedMessage*) internalGetResult {
+  return result;
+}
+- (MinimumObstacleProto_Builder*) clear {
+  self.result = [[[MinimumObstacleProto alloc] init] autorelease];
+  return self;
+}
+- (MinimumObstacleProto_Builder*) clone {
+  return [MinimumObstacleProto builderWithPrototype:result];
+}
+- (MinimumObstacleProto*) defaultInstance {
+  return [MinimumObstacleProto defaultInstance];
+}
+- (MinimumObstacleProto*) build {
+  [self checkInitialized];
+  return [self buildPartial];
+}
+- (MinimumObstacleProto*) buildPartial {
+  MinimumObstacleProto* returnMe = [[result retain] autorelease];
+  self.result = nil;
+  return returnMe;
+}
+- (MinimumObstacleProto_Builder*) mergeFrom:(MinimumObstacleProto*) other {
+  if (other == [MinimumObstacleProto defaultInstance]) {
+    return self;
+  }
+  if (other.hasObstacleId) {
+    [self setObstacleId:other.obstacleId];
+  }
+  if (other.hasCoordinate) {
+    [self mergeCoordinate:other.coordinate];
+  }
+  if (other.hasOrientation) {
+    [self setOrientation:other.orientation];
+  }
+  [self mergeUnknownFields:other.unknownFields];
+  return self;
+}
+- (MinimumObstacleProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input {
+  return [self mergeFromCodedInputStream:input extensionRegistry:[PBExtensionRegistry emptyRegistry]];
+}
+- (MinimumObstacleProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  PBUnknownFieldSet_Builder* unknownFields = [PBUnknownFieldSet builderWithUnknownFields:self.unknownFields];
+  while (YES) {
+    int32_t tag = [input readTag];
+    switch (tag) {
+      case 0:
+        [self setUnknownFields:[unknownFields build]];
+        return self;
+      default: {
+        if (![self parseUnknownField:input unknownFields:unknownFields extensionRegistry:extensionRegistry tag:tag]) {
+          [self setUnknownFields:[unknownFields build]];
+          return self;
+        }
+        break;
+      }
+      case 8: {
+        [self setObstacleId:[input readInt32]];
+        break;
+      }
+      case 18: {
+        CoordinateProto_Builder* subBuilder = [CoordinateProto builder];
+        if (self.hasCoordinate) {
+          [subBuilder mergeFrom:self.coordinate];
+        }
+        [input readMessage:subBuilder extensionRegistry:extensionRegistry];
+        [self setCoordinate:[subBuilder buildPartial]];
+        break;
+      }
+      case 40: {
+        int32_t value = [input readEnum];
+        if (StructOrientationIsValidValue(value)) {
+          [self setOrientation:value];
+        } else {
+          [unknownFields mergeVarintField:5 value:value];
+        }
+        break;
+      }
+    }
+  }
+}
+- (BOOL) hasObstacleId {
+  return result.hasObstacleId;
+}
+- (int32_t) obstacleId {
+  return result.obstacleId;
+}
+- (MinimumObstacleProto_Builder*) setObstacleId:(int32_t) value {
+  result.hasObstacleId = YES;
+  result.obstacleId = value;
+  return self;
+}
+- (MinimumObstacleProto_Builder*) clearObstacleId {
+  result.hasObstacleId = NO;
+  result.obstacleId = 0;
+  return self;
+}
+- (BOOL) hasCoordinate {
+  return result.hasCoordinate;
+}
+- (CoordinateProto*) coordinate {
+  return result.coordinate;
+}
+- (MinimumObstacleProto_Builder*) setCoordinate:(CoordinateProto*) value {
+  result.hasCoordinate = YES;
+  result.coordinate = value;
+  return self;
+}
+- (MinimumObstacleProto_Builder*) setCoordinateBuilder:(CoordinateProto_Builder*) builderForValue {
+  return [self setCoordinate:[builderForValue build]];
+}
+- (MinimumObstacleProto_Builder*) mergeCoordinate:(CoordinateProto*) value {
+  if (result.hasCoordinate &&
+      result.coordinate != [CoordinateProto defaultInstance]) {
+    result.coordinate =
+      [[[CoordinateProto builderWithPrototype:result.coordinate] mergeFrom:value] buildPartial];
+  } else {
+    result.coordinate = value;
+  }
+  result.hasCoordinate = YES;
+  return self;
+}
+- (MinimumObstacleProto_Builder*) clearCoordinate {
+  result.hasCoordinate = NO;
+  result.coordinate = [CoordinateProto defaultInstance];
+  return self;
+}
+- (BOOL) hasOrientation {
+  return result.hasOrientation;
+}
+- (StructOrientation) orientation {
+  return result.orientation;
+}
+- (MinimumObstacleProto_Builder*) setOrientation:(StructOrientation) value {
+  result.hasOrientation = YES;
+  result.orientation = value;
+  return self;
+}
+- (MinimumObstacleProto_Builder*) clearOrientation {
+  result.hasOrientation = NO;
+  result.orientation = StructOrientationPosition1;
+  return self;
+}
 @end
 
 @interface UserObstacleProto ()
-@property int64_t userObstacleId;
+@property int32_t userObstacleId;
 @property int32_t userId;
 @property int32_t obstacleId;
 @property (retain) CoordinateProto* coordinates;
@@ -4657,7 +5050,7 @@ static ObstacleProto* defaultObstacleProtoInstance = nil;
 }
 - (id) init {
   if ((self = [super init])) {
-    self.userObstacleId = 0L;
+    self.userObstacleId = 0;
     self.userId = 0;
     self.obstacleId = 0;
     self.coordinates = [CoordinateProto defaultInstance];
@@ -4683,7 +5076,7 @@ static UserObstacleProto* defaultUserObstacleProtoInstance = nil;
 }
 - (void) writeToCodedOutputStream:(PBCodedOutputStream*) output {
   if (self.hasUserObstacleId) {
-    [output writeInt64:1 value:self.userObstacleId];
+    [output writeInt32:1 value:self.userObstacleId];
   }
   if (self.hasUserId) {
     [output writeInt32:2 value:self.userId];
@@ -4710,7 +5103,7 @@ static UserObstacleProto* defaultUserObstacleProtoInstance = nil;
 
   size = 0;
   if (self.hasUserObstacleId) {
-    size += computeInt64Size(1, self.userObstacleId);
+    size += computeInt32Size(1, self.userObstacleId);
   }
   if (self.hasUserId) {
     size += computeInt32Size(2, self.userId);
@@ -4842,7 +5235,7 @@ static UserObstacleProto* defaultUserObstacleProtoInstance = nil;
         break;
       }
       case 8: {
-        [self setUserObstacleId:[input readInt64]];
+        [self setUserObstacleId:[input readInt32]];
         break;
       }
       case 16: {
@@ -4881,17 +5274,17 @@ static UserObstacleProto* defaultUserObstacleProtoInstance = nil;
 - (BOOL) hasUserObstacleId {
   return result.hasUserObstacleId;
 }
-- (int64_t) userObstacleId {
+- (int32_t) userObstacleId {
   return result.userObstacleId;
 }
-- (UserObstacleProto_Builder*) setUserObstacleId:(int64_t) value {
+- (UserObstacleProto_Builder*) setUserObstacleId:(int32_t) value {
   result.hasUserObstacleId = YES;
   result.userObstacleId = value;
   return self;
 }
 - (UserObstacleProto_Builder*) clearUserObstacleId {
   result.hasUserObstacleId = NO;
-  result.userObstacleId = 0L;
+  result.userObstacleId = 0;
   return self;
 }
 - (BOOL) hasUserId {

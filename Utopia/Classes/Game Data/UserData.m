@@ -24,7 +24,7 @@
     self.teamSlot = proto.teamSlotNum;
     self.numPieces = proto.numPieces;
     self.isComplete = proto.isComplete;
-    self.combineStartTime = [NSDate dateWithTimeIntervalSince1970:proto.combineStartTime/1000.];
+    self.combineStartTime = [MSDate dateWithTimeIntervalSince1970:proto.combineStartTime/1000.];
   }
   return self;
 }
@@ -222,7 +222,7 @@
   if ((self = [super init])){
     self.userId = proto.userId;
     self.userMonsterId = proto.userMonsterId;
-    self.queueTime = proto.hasQueuedTimeMillis ? [NSDate dateWithTimeIntervalSince1970:proto.queuedTimeMillis/1000.0] : nil;
+    self.queueTime = proto.hasQueuedTimeMillis ? [MSDate dateWithTimeIntervalSince1970:proto.queuedTimeMillis/1000.0] : nil;
     self.healthProgress = proto.healthProgress;
     self.priority = proto.priority;
   }
@@ -342,7 +342,7 @@
   return [[self alloc] initWithUserEvolutionProto:proto];
 }
 
-+ (id) evolutionWithEvoItem:(EvoItem *)evo time:(NSDate *)time {
++ (id) evolutionWithEvoItem:(EvoItem *)evo time:(MSDate *)time {
   return [[self alloc] initWithEvoItem:evo time:time];
 }
 
@@ -351,12 +351,12 @@
     self.userMonsterId1 = proto.userMonsterIdsList.count > 0 ? [proto.userMonsterIdsList[0] intValue] : 0;
     self.userMonsterId2 = proto.userMonsterIdsList.count > 1 ? [proto.userMonsterIdsList[1] intValue] : 0;
     self.catalystMonsterId = proto.catalystUserMonsterId;
-    self.startTime = [NSDate dateWithTimeIntervalSince1970:proto.startTime/1000.];
+    self.startTime = [MSDate dateWithTimeIntervalSince1970:proto.startTime/1000.];
   }
   return self;
 }
 
-- (id) initWithEvoItem:(EvoItem *)evo time:(NSDate *)time {
+- (id) initWithEvoItem:(EvoItem *)evo time:(MSDate *)time {
   if ((self = [super init])) {
     self.userMonsterId1 = evo.userMonster1.userMonsterId;
     self.userMonsterId2 = evo.userMonster2.userMonsterId;
@@ -366,7 +366,7 @@
   return self;
 }
 
-- (NSDate *) endTime {
+- (MSDate *) endTime {
   GameState *gs = [GameState sharedGameState];
   UserMonster *um = [gs myMonsterWithUserMonsterId:self.userMonsterId1];
   return [self.startTime dateByAddingTimeInterval:um.staticMonster.minutesToEvolve*60];
@@ -417,7 +417,7 @@
 - (id) initWithUserEnhancementItemProto:(UserEnhancementItemProto *)proto {
   if ((self = [super init])) {
     self.userMonsterId = proto.userMonsterId;
-    self.expectedStartTime = proto.hasExpectedStartTimeMillis ? [NSDate dateWithTimeIntervalSince1970:proto.expectedStartTimeMillis/1000.] : nil;
+    self.expectedStartTime = proto.hasExpectedStartTimeMillis ? [MSDate dateWithTimeIntervalSince1970:proto.expectedStartTimeMillis/1000.] : nil;
     self.enhancementCost = proto.enhancingCost;
   }
   return self;
@@ -435,7 +435,7 @@
   return [gl calculateSecondsForEnhancement:gs.userEnhancement.baseMonster feeder:self];
 }
 
-- (NSDate *) expectedEndTime {
+- (MSDate *) expectedEndTime {
   return [self.expectedStartTime dateByAddingTimeInterval:self.secondsForCompletion];
 }
 
@@ -489,8 +489,8 @@
     self.isComplete = proto.isComplete;
     self.coordinates = CGPointMake(proto.coordinates.x, proto.coordinates.y);
     self.orientation = proto.orientation;
-    self.purchaseTime = proto.hasPurchaseTime ? [NSDate dateWithTimeIntervalSince1970:proto.purchaseTime/1000.0] : nil;
-    self.lastRetrieved = proto.hasLastRetrieved ? [NSDate dateWithTimeIntervalSince1970:proto.lastRetrieved/1000.0] : nil;
+    self.purchaseTime = proto.hasPurchaseTime ? [MSDate dateWithTimeIntervalSince1970:proto.purchaseTime/1000.0] : nil;
+    self.lastRetrieved = proto.hasLastRetrieved ? [MSDate dateWithTimeIntervalSince1970:proto.lastRetrieved/1000.0] : nil;
     self.fbInviteStructLvl = proto.fbInviteStructLvl;
   }
   return self;
@@ -610,7 +610,7 @@
   return slots;
 }
 
-- (NSDate *) buildCompleteDate {
+- (MSDate *) buildCompleteDate {
   int minutes = self.staticStruct.structInfo.minutesToBuild;
   return [self.purchaseTime dateByAddingTimeInterval:minutes*60.f];
 }
@@ -638,9 +638,26 @@
 
 @implementation UserObstacle
 
+- (id) initWithObstacleProto:(UserObstacleProto *)obstacle {
+  if ((self = [super init])) {
+    self.userObstacleId = obstacle.userObstacleId;
+    self.userId = obstacle.userId;
+    self.obstacleId = obstacle.obstacleId;
+    self.coordinates = ccp(obstacle.coordinates.x, obstacle.coordinates.y);
+    self.removalTime = obstacle.hasRemovalStartTime ? [MSDate dateWithTimeIntervalSince1970:obstacle.removalStartTime/1000.] : nil;
+    self.orientation = obstacle.orientation;
+  }
+  return self;
+}
+
 - (ObstacleProto *) staticObstacle {
   GameState *gs = [GameState sharedGameState];
   return [gs obstacleWithId:self.obstacleId];
+}
+
+- (MSDate *) endTime {
+  ObstacleProto *op = self.staticObstacle;
+  return [self.removalTime dateByAddingTimeInterval:op.secondsToRemove];
 }
 
 @end
@@ -650,7 +667,7 @@
 - (id) initReferralNotificationAtStartup:(StartupResponseProto_ReferralNotificationProto *)proto {
   if ((self = [super init])) {
     self.otherPlayer = proto.referred;
-    self.time = [NSDate dateWithTimeIntervalSince1970:proto.recruitTime/1000.0];
+    self.time = [MSDate dateWithTimeIntervalSince1970:proto.recruitTime/1000.0];
     self.type = kNotificationReferral;
   }
   return self;
@@ -659,7 +676,7 @@
 - (id) initWithReferralResponse:(ReferralCodeUsedResponseProto *)proto {
   if ((self = [super init])) {
     self.otherPlayer = proto.referredPlayer;
-    self.time = [NSDate date];
+    self.time = [MSDate date];
     self.type = kNotificationReferral;
   }
   return self;
@@ -668,7 +685,7 @@
 - (id) initWithPrivateChatPost:(PrivateChatPostProto *)proto {
   if ((self = [super init])) {
     self.otherPlayer = proto.poster.minUserProto;
-    self.time = [NSDate dateWithTimeIntervalSince1970:proto.timeOfPost/1000.];
+    self.time = [MSDate dateWithTimeIntervalSince1970:proto.timeOfPost/1000.];
     self.type = kNotificationPrivateChat;
     self.wallPost = proto.content;
   }
@@ -699,7 +716,7 @@
   if ((self = [super init])) {
     self.message = p.content;
     self.sender = p.sender;
-    self.date = [NSDate dateWithTimeIntervalSince1970:p.timeOfChat/1000.];
+    self.date = [MSDate dateWithTimeIntervalSince1970:p.timeOfChat/1000.];
     self.isAdmin = p.isAdmin;
   }
   return self;
@@ -714,7 +731,7 @@
     self.userId = proto.userId;
     self.xPosition = proto.xPosition;
     self.yPosition = proto.yPosition;
-    self.lastExpandTime = proto.hasExpandStartTime ? [NSDate dateWithTimeIntervalSince1970:proto.expandStartTime/1000.0] : nil;
+    self.lastExpandTime = proto.hasExpandStartTime ? [MSDate dateWithTimeIntervalSince1970:proto.expandStartTime/1000.0] : nil;
     self.isExpanding = proto.isExpanding;
   }
   return self;

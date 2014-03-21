@@ -8,12 +8,12 @@
 #import "City.pb.h"
 #import "Clan.pb.h"
 #import "InAppPurchase.pb.h"
+#import "MonsterStuff.pb.h"
 #import "Quest.pb.h"
 #import "StaticData.pb.h"
 #import "Structure.pb.h"
 #import "Task.pb.h"
 #import "User.pb.h"
-#import "MonsterStuff.pb.h"
 
 @class BoosterDisplayItemProto;
 @class BoosterDisplayItemProto_Builder;
@@ -77,6 +77,8 @@
 @class LabProto_Builder;
 @class MinimumClanProto;
 @class MinimumClanProto_Builder;
+@class MinimumObstacleProto;
+@class MinimumObstacleProto_Builder;
 @class MinimumUserMonsterProto;
 @class MinimumUserMonsterProto_Builder;
 @class MinimumUserMonsterSellProto;
@@ -204,6 +206,7 @@ BOOL StartupResponseProto_UpdateStatusIsValidValue(StartupResponseProto_UpdateSt
 typedef enum {
   StartupResponseProto_StartupStatusUserInDb = 1,
   StartupResponseProto_StartupStatusUserNotInDb = 2,
+  StartupResponseProto_StartupStatusServerInMaintenance = 3,
 } StartupResponseProto_StartupStatus;
 
 BOOL StartupResponseProto_StartupStatusIsValidValue(StartupResponseProto_StartupStatus value);
@@ -618,46 +621,50 @@ BOOL StartupResponseProto_StartupStatusIsValidValue(StartupResponseProto_Startup
   BOOL hasContinueBattleGemCostMultiplier_:1;
   BOOL hasGemsPerResource_:1;
   BOOL hasMinutesPerGem_:1;
+  BOOL hasMinutesPerObstacle_:1;
   BOOL hasMaxLevelForUser_:1;
   BOOL hasMaxNumOfSingleStruct_:1;
+  BOOL hasMaxObstacles_:1;
   BOOL hasMinNameLength_:1;
   BOOL hasMaxNameLength_:1;
   BOOL hasMaxLengthOfChatString_:1;
   BOOL hasNumHoursBeforeReshowingGoldSale_:1;
   BOOL hasLevelToShowRateUsPopup_:1;
-  BOOL hasPvpRequiredMinLvl_:1;
   BOOL hasFbConnectRewardDiamonds_:1;
+  BOOL hasPvpRequiredMinLvl_:1;
   BOOL hasNumBeginnerSalesAllowed_:1;
   BOOL hasFaqFileName_:1;
-  BOOL hasMonsterConstants_:1;
-  BOOL hasMiniTuts_:1;
   BOOL hasUserMonsterConstants_:1;
+  BOOL hasMonsterConstants_:1;
   BOOL hasAdminChatUserProto_:1;
   BOOL hasTouramentConstants_:1;
   BOOL hasDownloadableNibConstants_:1;
   BOOL hasClanConstants_:1;
+  BOOL hasMiniTuts_:1;
   BOOL addAllFbFriends_:1;
   Float32 continueBattleGemCostMultiplier;
   Float32 gemsPerResource;
   Float32 minutesPerGem;
+  int32_t minutesPerObstacle;
   int32_t maxLevelForUser;
   int32_t maxNumOfSingleStruct;
+  int32_t maxObstacles;
   int32_t minNameLength;
   int32_t maxNameLength;
   int32_t maxLengthOfChatString;
   int32_t numHoursBeforeReshowingGoldSale;
   int32_t levelToShowRateUsPopup;
-  int32_t pvpRequiredMinLvl;
   int32_t fbConnectRewardDiamonds;
+  int32_t pvpRequiredMinLvl;
   int32_t numBeginnerSalesAllowed;
   NSString* faqFileName;
-  StartupResponseProto_StartupConstants_MonsterConstants* monsterConstants;
-  StartupResponseProto_StartupConstants_MiniTutorialConstants* miniTuts;
   StartupResponseProto_StartupConstants_UserMonsterConstants* userMonsterConstants;
+  StartupResponseProto_StartupConstants_MonsterConstants* monsterConstants;
   MinimumUserProto* adminChatUserProto;
   StartupResponseProto_StartupConstants_TournamentConstants* touramentConstants;
   StartupResponseProto_StartupConstants_DownloadableNibConstants* downloadableNibConstants;
   StartupResponseProto_StartupConstants_ClanConstants* clanConstants;
+  StartupResponseProto_StartupConstants_MiniTutorialConstants* miniTuts;
   NSMutableArray* mutableAnimatedSpriteOffsetsList;
   NSMutableArray* mutableInAppPurchasePackagesList;
 }
@@ -683,6 +690,8 @@ BOOL StartupResponseProto_StartupStatusIsValidValue(StartupResponseProto_Startup
 - (BOOL) hasContinueBattleGemCostMultiplier;
 - (BOOL) hasAddAllFbFriends;
 - (BOOL) hasMiniTuts;
+- (BOOL) hasMaxObstacles;
+- (BOOL) hasMinutesPerObstacle;
 @property (readonly) int32_t maxLevelForUser;
 @property (readonly) int32_t maxNumOfSingleStruct;
 @property (readonly) int32_t minNameLength;
@@ -705,6 +714,8 @@ BOOL StartupResponseProto_StartupStatusIsValidValue(StartupResponseProto_Startup
 @property (readonly) Float32 continueBattleGemCostMultiplier;
 - (BOOL) addAllFbFriends;
 @property (readonly, retain) StartupResponseProto_StartupConstants_MiniTutorialConstants* miniTuts;
+@property (readonly) int32_t maxObstacles;
+@property (readonly) int32_t minutesPerObstacle;
 - (NSArray*) inAppPurchasePackagesList;
 - (InAppPurchasePackageProto*) inAppPurchasePackagesAtIndex:(int32_t) index;
 - (NSArray*) animatedSpriteOffsetsList;
@@ -1399,6 +1410,16 @@ BOOL StartupResponseProto_StartupStatusIsValidValue(StartupResponseProto_Startup
 - (StartupResponseProto_StartupConstants_Builder*) setMiniTutsBuilder:(StartupResponseProto_StartupConstants_MiniTutorialConstants_Builder*) builderForValue;
 - (StartupResponseProto_StartupConstants_Builder*) mergeMiniTuts:(StartupResponseProto_StartupConstants_MiniTutorialConstants*) value;
 - (StartupResponseProto_StartupConstants_Builder*) clearMiniTuts;
+
+- (BOOL) hasMaxObstacles;
+- (int32_t) maxObstacles;
+- (StartupResponseProto_StartupConstants_Builder*) setMaxObstacles:(int32_t) value;
+- (StartupResponseProto_StartupConstants_Builder*) clearMaxObstacles;
+
+- (BOOL) hasMinutesPerObstacle;
+- (int32_t) minutesPerObstacle;
+- (StartupResponseProto_StartupConstants_Builder*) setMinutesPerObstacle:(int32_t) value;
+- (StartupResponseProto_StartupConstants_Builder*) clearMinutesPerObstacle;
 @end
 
 @interface StartupResponseProto_TutorialConstants : PBGeneratedMessage {
@@ -1426,6 +1447,7 @@ BOOL StartupResponseProto_StartupStatusIsValidValue(StartupResponseProto_Startup
   NSMutableArray* mutableStructureIdsToBeBuilltList;
   NSMutableArray* mutableTutorialStructuresList;
   NSMutableArray* mutableCityOneElementsList;
+  NSMutableArray* mutableTutorialObstaclesList;
 }
 - (BOOL) hasStartingMonsterId;
 - (BOOL) hasEnemyMonsterId;
@@ -1453,6 +1475,8 @@ BOOL StartupResponseProto_StartupStatusIsValidValue(StartupResponseProto_Startup
 - (int32_t) structureIdsToBeBuilltAtIndex:(int32_t) index;
 - (NSArray*) cityOneElementsList;
 - (CityElementProto*) cityOneElementsAtIndex:(int32_t) index;
+- (NSArray*) tutorialObstaclesList;
+- (MinimumObstacleProto*) tutorialObstaclesAtIndex:(int32_t) index;
 
 + (StartupResponseProto_TutorialConstants*) defaultInstance;
 - (StartupResponseProto_TutorialConstants*) defaultInstance;
@@ -1558,6 +1582,13 @@ BOOL StartupResponseProto_StartupStatusIsValidValue(StartupResponseProto_Startup
 - (int32_t) gemsInit;
 - (StartupResponseProto_TutorialConstants_Builder*) setGemsInit:(int32_t) value;
 - (StartupResponseProto_TutorialConstants_Builder*) clearGemsInit;
+
+- (NSArray*) tutorialObstaclesList;
+- (MinimumObstacleProto*) tutorialObstaclesAtIndex:(int32_t) index;
+- (StartupResponseProto_TutorialConstants_Builder*) replaceTutorialObstaclesAtIndex:(int32_t) index with:(MinimumObstacleProto*) value;
+- (StartupResponseProto_TutorialConstants_Builder*) addTutorialObstacles:(MinimumObstacleProto*) value;
+- (StartupResponseProto_TutorialConstants_Builder*) addAllTutorialObstacles:(NSArray*) values;
+- (StartupResponseProto_TutorialConstants_Builder*) clearTutorialObstaclesList;
 @end
 
 @interface StartupResponseProto_Builder : PBGeneratedMessage_Builder {
@@ -1811,13 +1842,17 @@ BOOL StartupResponseProto_StartupStatusIsValidValue(StartupResponseProto_Startup
 @private
   BOOL hasLoginTime_:1;
   BOOL hasPreviousLoginTime_:1;
+  BOOL hasTimeClientSent_:1;
   int64_t loginTime;
   int64_t previousLoginTime;
+  int64_t timeClientSent;
 }
 - (BOOL) hasLoginTime;
 - (BOOL) hasPreviousLoginTime;
+- (BOOL) hasTimeClientSent;
 @property (readonly) int64_t loginTime;
 @property (readonly) int64_t previousLoginTime;
+@property (readonly) int64_t timeClientSent;
 
 + (ForceLogoutResponseProto*) defaultInstance;
 - (ForceLogoutResponseProto*) defaultInstance;
@@ -1862,5 +1897,10 @@ BOOL StartupResponseProto_StartupStatusIsValidValue(StartupResponseProto_Startup
 - (int64_t) previousLoginTime;
 - (ForceLogoutResponseProto_Builder*) setPreviousLoginTime:(int64_t) value;
 - (ForceLogoutResponseProto_Builder*) clearPreviousLoginTime;
+
+- (BOOL) hasTimeClientSent;
+- (int64_t) timeClientSent;
+- (ForceLogoutResponseProto_Builder*) setTimeClientSent:(int64_t) value;
+- (ForceLogoutResponseProto_Builder*) clearTimeClientSent;
 @end
 

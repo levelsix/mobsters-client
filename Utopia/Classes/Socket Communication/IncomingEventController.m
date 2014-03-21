@@ -239,6 +239,15 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
     case EventProtocolResponseSForceLogoutEvent:
       responseClass = [ForceLogoutResponseProto class];
       break;
+    case EventProtocolResponseSSpawnObstacleEvent:
+      responseClass = [SpawnObstacleResponseProto class];
+      break;
+    case EventProtocolResponseSBeginObstacleRemovalEvent:
+      responseClass = [BeginObstacleRemovalResponseProto class];
+      break;
+    case EventProtocolResponseSObstacleRemovalCompleteEvent:
+      responseClass = [ObstacleRemovalCompleteResponseProto class];
+      break;
       
     default:
       responseClass = nil;
@@ -264,6 +273,8 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
   
   Globals *gl = [Globals sharedGlobals];
   GameState *gs = [GameState sharedGameState];
+  
+  [MSDate setServerTime:proto.serverTimeMillis];
   
   if (gs.isTutorial) {
     return;
@@ -597,6 +608,9 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
       [gs.myStructs removeAllObjects];
       [gs addToMyStructs:proto.ownerNormStructsList];
       
+      [gs.myObstacles removeAllObjects];
+      [gs addToMyObstacles:proto.obstaclesList];
+      
       [gs readjustAllMonsterHealingProtos];
       [gs beginHealingTimer];
       [gs beginEnhanceTimer];
@@ -611,8 +625,6 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
       [gs beginExpansionTimer];
       
       [gs removeNonFullUserUpdatesForTag:tag];
-      
-      //      [[GameLayer sharedGameLayer] performBattleLossTutorial];
       
       // Check for unresponded in app purchases
       NSString *key = IAP_DEFAULTS_KEY;
@@ -1485,6 +1497,55 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
     [gs removeNonFullUserUpdatesForTag:tag];
   } else {
     [Globals popupMessage:@"Server failed to attack clan raid monster."];
+    
+    [gs removeAndUndoAllUpdatesForTag:tag];
+  }
+}
+
+- (void) handleSpawnObstacleResponseProto:(FullEvent *)fe {
+  SpawnObstacleResponseProto *proto = (SpawnObstacleResponseProto *)fe.event;
+  int tag = fe.tag;
+  
+  LNLog(@"Spawn obstacle response received with status %d.", proto.status);
+  
+  GameState *gs = [GameState sharedGameState];
+  if (proto.status == SpawnObstacleResponseProto_SpawnObstacleStatusSuccess) {
+    [gs addToMyObstacles:proto.spawnedObstaclesList];
+    [gs removeNonFullUserUpdatesForTag:tag];
+  } else {
+    [Globals popupMessage:@"Server failed to spawn obstacles."];
+    
+    [gs removeAndUndoAllUpdatesForTag:tag];
+  }
+}
+
+- (void) handleBeginObstacleRemovalResponseProto:(FullEvent *)fe {
+  BeginObstacleRemovalResponseProto *proto = (BeginObstacleRemovalResponseProto *)fe.event;
+  int tag = fe.tag;
+  
+  LNLog(@"Begin obstacle removal response received with status %d.", proto.status);
+  
+  GameState *gs = [GameState sharedGameState];
+  if (proto.status == BeginObstacleRemovalResponseProto_BeginObstacleRemovalStatusSuccess) {
+    [gs removeNonFullUserUpdatesForTag:tag];
+  } else {
+    [Globals popupMessage:@"Server failed to begin obstacle removal."];
+    
+    [gs removeAndUndoAllUpdatesForTag:tag];
+  }
+}
+
+- (void) handleObstacleRemovalCompleteResponseProto:(FullEvent *)fe {
+  ObstacleRemovalCompleteResponseProto *proto = (ObstacleRemovalCompleteResponseProto *)fe.event;
+  int tag = fe.tag;
+  
+  LNLog(@"Obstacle removal complete response received with status %d.", proto.status);
+  
+  GameState *gs = [GameState sharedGameState];
+  if (proto.status == ObstacleRemovalCompleteResponseProto_ObstacleRemovalCompleteStatusSuccess) {
+    [gs removeNonFullUserUpdatesForTag:tag];
+  } else {
+    [Globals popupMessage:@"Server failed to complete obstacle removal."];
     
     [gs removeAndUndoAllUpdatesForTag:tag];
   }

@@ -63,7 +63,7 @@ static float buttonInitialWidth = 159.f;
   self.privateChat = pcpp;
   
   self.msgLabel.text = pcpp.content;
-  self.timeLabel.text = [Globals stringForTimeSinceNow:[NSDate dateWithTimeIntervalSince1970:pcpp.timeOfPost/1000.] shortened:NO];
+  self.timeLabel.text = [Globals stringForTimeSinceNow:[MSDate dateWithTimeIntervalSince1970:pcpp.timeOfPost/1000.] shortened:NO];
   self.nameLabel.text = pcpp.poster.minUserProto.name;
   self.unreadIcon.hidden = ![pcpp isUnread];
 }

@@ -530,9 +530,14 @@
   
   self.baseScale = 0.85;
   [self adjustBuildingSprite];
+  
+  if (_monsterId) {
+    [self beginAnimatingWithMonsterId:_monsterId];
+  }
 }
 
 - (void) beginAnimatingWithMonsterId:(int)monsterId {
+  [self stopAnimating];
   [self.monsterSprite removeFromParent];
   
   [self.buildingSprite runAction:[CCActionRepeatForever actionWithAction:[CCActionAnimate actionWithAnimation:self.baseAnimation]]];
@@ -553,6 +558,8 @@
       [self.buildingSprite addChild:self.monsterSprite z:1];
     }
   }
+  
+  _monsterId = monsterId;
 }
 
 - (void) stopAnimating {
@@ -563,6 +570,8 @@
   
   [self.buildingSprite setSpriteFrame:[self.baseAnimation.frames[0] spriteFrame]];
   [self.tubeSprite setSpriteFrame:[self.tubeAnimation.frames[0] spriteFrame]];
+  
+  _monsterId = 0;
 }
 
 @end
@@ -599,6 +608,7 @@
 }
 
 - (void) beginAnimating {
+  [self stopAnimating];
   [self.buildingSprite runAction:[CCActionRepeatForever actionWithAction:[CCActionAnimate actionWithAnimation:self.anim]]];
 }
 
@@ -656,7 +666,7 @@
     UserExpansion *ue = [gs getExpansionForX:self.expandSpot.x y:self.expandSpot.y];
     
     int totalTime = [gl calculateNumMinutesForNewExpansion]*60;
-    NSTimeInterval time = [[NSDate dateWithTimeInterval:totalTime sinceDate:ue.lastExpandTime] timeIntervalSinceNow];
+    NSTimeInterval time = [[MSDate dateWithTimeInterval:totalTime sinceDate:ue.lastExpandTime] timeIntervalSinceNow];
     
     if (_percentage) {
       time = totalTime*(100.f-_percentage)/100.f;

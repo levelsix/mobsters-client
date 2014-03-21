@@ -170,8 +170,8 @@
     
     NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
     [dateFormatter setDateStyle:NSDateFormatterShortStyle];
-    NSDate *date = [NSDate dateWithTimeIntervalSince1970:c.clan.createTime/1000.0];
-    self.foundedLabel.text = [NSString stringWithFormat:@"Founded: %@", [dateFormatter stringFromDate:date]];
+    MSDate *date = [MSDate dateWithTimeIntervalSince1970:c.clan.createTime/1000.0];
+    self.foundedLabel.text = [NSString stringWithFormat:@"Founded: %@", [dateFormatter stringFromDate:date.relativeNSDate]];
     
     if (c.clan.requestToJoinRequired) {
       self.typeLabel.text = @"By Request Only";

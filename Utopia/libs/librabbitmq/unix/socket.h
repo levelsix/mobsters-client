@@ -59,8 +59,8 @@ amqp_socket_error(void);
 # define MSG_NOSIGNAL 0x0
 #endif
 
-#if defined(SO_NOSIGPIPE) && !defined(MSG_NOSIGNAL)
+//#if defined(SO_NOSIGPIPE) && !defined(MSG_NOSIGNAL)
 # define DISABLE_SIGPIPE_WITH_SETSOCKOPT
-#endif
+//#endif
 
 #endif

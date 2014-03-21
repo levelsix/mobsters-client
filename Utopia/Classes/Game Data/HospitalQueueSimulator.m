@@ -86,7 +86,7 @@
   return self;
 }
 
-- (void) simulateUntilDate:(NSDate *)date {
+- (void) simulateUntilDate:(MSDate *)date {
   if (!self.healingItems.count) {
     return;
   }
@@ -98,7 +98,7 @@
   SimLog(@"-------------------------------------");
   
   int i = 0;
-  for (NSDate *next = self.getNextDate; next && [date compare:next] != NSOrderedAscending; next = self.getNextDate) {
+  for (MSDate *next = self.getNextDate; next && [date compare:next] != NSOrderedAscending; next = self.getNextDate) {
     SimLog(@"Round %d: %@", i, next);
     i++;
     [self readjustAllItemsForDate:next];
@@ -133,7 +133,7 @@
   return nil;
 }
 
-- (NSDate *) getNextDate {
+- (MSDate *) getNextDate {
   NSMutableArray *dates = [NSMutableArray array];
   for (HospitalSim *hosp in self.hospitals) {
     if (hosp.upgradeCompleteDate) {
@@ -152,16 +152,16 @@
   return dates.count ? dates[0] : nil;
 }
 
-- (void) readjustAllItemsForDate:(NSDate *)date {
+- (void) readjustAllItemsForDate:(MSDate *)date {
   // First unschedule all monsters
   for (HealingItemSim *item in self.healingItems) {
     if (item.userStructId) {
       HospitalSim *hs = [self hospitalWithId:item.userStructId];
-      NSDate *startDate = item.startTime;
+      MSDate *startDate = item.startTime;
       float seconds = [date timeIntervalSinceDate:startDate];
       
       if ([item.endTime isEqualToDate:date]) {
-        SimLog(@"Item %d finished", item.userMonsterId);
+        SimLog(@"Item %lld finished", item.userMonsterId);
         item.isFinished = YES;
         item.userStructId = 0;
         item.totalSeconds += seconds;

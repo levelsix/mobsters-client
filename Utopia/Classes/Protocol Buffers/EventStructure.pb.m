@@ -4668,3 +4668,1891 @@ BOOL ExpansionWaitCompleteResponseProto_ExpansionWaitCompleteStatusIsValidValue(
 }
 @end
 
+@interface SpawnObstacleRequestProto ()
+@property (retain) MinimumUserProto* sender;
+@property (retain) NSMutableArray* mutableProspectiveObstaclesList;
+@property int64_t curTime;
+@end
+
+@implementation SpawnObstacleRequestProto
+
+- (BOOL) hasSender {
+  return !!hasSender_;
+}
+- (void) setHasSender:(BOOL) value {
+  hasSender_ = !!value;
+}
+@synthesize sender;
+@synthesize mutableProspectiveObstaclesList;
+- (BOOL) hasCurTime {
+  return !!hasCurTime_;
+}
+- (void) setHasCurTime:(BOOL) value {
+  hasCurTime_ = !!value;
+}
+@synthesize curTime;
+- (void) dealloc {
+  self.sender = nil;
+  self.mutableProspectiveObstaclesList = nil;
+  [super dealloc];
+}
+- (id) init {
+  if ((self = [super init])) {
+    self.sender = [MinimumUserProto defaultInstance];
+    self.curTime = 0L;
+  }
+  return self;
+}
+static SpawnObstacleRequestProto* defaultSpawnObstacleRequestProtoInstance = nil;
++ (void) initialize {
+  if (self == [SpawnObstacleRequestProto class]) {
+    defaultSpawnObstacleRequestProtoInstance = [[SpawnObstacleRequestProto alloc] init];
+  }
+}
++ (SpawnObstacleRequestProto*) defaultInstance {
+  return defaultSpawnObstacleRequestProtoInstance;
+}
+- (SpawnObstacleRequestProto*) defaultInstance {
+  return defaultSpawnObstacleRequestProtoInstance;
+}
+- (NSArray*) prospectiveObstaclesList {
+  return mutableProspectiveObstaclesList;
+}
+- (MinimumObstacleProto*) prospectiveObstaclesAtIndex:(int32_t) index {
+  id value = [mutableProspectiveObstaclesList objectAtIndex:index];
+  return value;
+}
+- (BOOL) isInitialized {
+  return YES;
+}
+- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output {
+  if (self.hasSender) {
+    [output writeMessage:1 value:self.sender];
+  }
+  for (MinimumObstacleProto* element in self.prospectiveObstaclesList) {
+    [output writeMessage:2 value:element];
+  }
+  if (self.hasCurTime) {
+    [output writeInt64:3 value:self.curTime];
+  }
+  [self.unknownFields writeToCodedOutputStream:output];
+}
+- (int32_t) serializedSize {
+  int32_t size = memoizedSerializedSize;
+  if (size != -1) {
+    return size;
+  }
+
+  size = 0;
+  if (self.hasSender) {
+    size += computeMessageSize(1, self.sender);
+  }
+  for (MinimumObstacleProto* element in self.prospectiveObstaclesList) {
+    size += computeMessageSize(2, element);
+  }
+  if (self.hasCurTime) {
+    size += computeInt64Size(3, self.curTime);
+  }
+  size += self.unknownFields.serializedSize;
+  memoizedSerializedSize = size;
+  return size;
+}
++ (SpawnObstacleRequestProto*) parseFromData:(NSData*) data {
+  return (SpawnObstacleRequestProto*)[[[SpawnObstacleRequestProto builder] mergeFromData:data] build];
+}
++ (SpawnObstacleRequestProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (SpawnObstacleRequestProto*)[[[SpawnObstacleRequestProto builder] mergeFromData:data extensionRegistry:extensionRegistry] build];
+}
++ (SpawnObstacleRequestProto*) parseFromInputStream:(NSInputStream*) input {
+  return (SpawnObstacleRequestProto*)[[[SpawnObstacleRequestProto builder] mergeFromInputStream:input] build];
+}
++ (SpawnObstacleRequestProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (SpawnObstacleRequestProto*)[[[SpawnObstacleRequestProto builder] mergeFromInputStream:input extensionRegistry:extensionRegistry] build];
+}
++ (SpawnObstacleRequestProto*) parseFromCodedInputStream:(PBCodedInputStream*) input {
+  return (SpawnObstacleRequestProto*)[[[SpawnObstacleRequestProto builder] mergeFromCodedInputStream:input] build];
+}
++ (SpawnObstacleRequestProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (SpawnObstacleRequestProto*)[[[SpawnObstacleRequestProto builder] mergeFromCodedInputStream:input extensionRegistry:extensionRegistry] build];
+}
++ (SpawnObstacleRequestProto_Builder*) builder {
+  return [[[SpawnObstacleRequestProto_Builder alloc] init] autorelease];
+}
++ (SpawnObstacleRequestProto_Builder*) builderWithPrototype:(SpawnObstacleRequestProto*) prototype {
+  return [[SpawnObstacleRequestProto builder] mergeFrom:prototype];
+}
+- (SpawnObstacleRequestProto_Builder*) builder {
+  return [SpawnObstacleRequestProto builder];
+}
+@end
+
+@interface SpawnObstacleRequestProto_Builder()
+@property (retain) SpawnObstacleRequestProto* result;
+@end
+
+@implementation SpawnObstacleRequestProto_Builder
+@synthesize result;
+- (void) dealloc {
+  self.result = nil;
+  [super dealloc];
+}
+- (id) init {
+  if ((self = [super init])) {
+    self.result = [[[SpawnObstacleRequestProto alloc] init] autorelease];
+  }
+  return self;
+}
+- (PBGeneratedMessage*) internalGetResult {
+  return result;
+}
+- (SpawnObstacleRequestProto_Builder*) clear {
+  self.result = [[[SpawnObstacleRequestProto alloc] init] autorelease];
+  return self;
+}
+- (SpawnObstacleRequestProto_Builder*) clone {
+  return [SpawnObstacleRequestProto builderWithPrototype:result];
+}
+- (SpawnObstacleRequestProto*) defaultInstance {
+  return [SpawnObstacleRequestProto defaultInstance];
+}
+- (SpawnObstacleRequestProto*) build {
+  [self checkInitialized];
+  return [self buildPartial];
+}
+- (SpawnObstacleRequestProto*) buildPartial {
+  SpawnObstacleRequestProto* returnMe = [[result retain] autorelease];
+  self.result = nil;
+  return returnMe;
+}
+- (SpawnObstacleRequestProto_Builder*) mergeFrom:(SpawnObstacleRequestProto*) other {
+  if (other == [SpawnObstacleRequestProto defaultInstance]) {
+    return self;
+  }
+  if (other.hasSender) {
+    [self mergeSender:other.sender];
+  }
+  if (other.mutableProspectiveObstaclesList.count > 0) {
+    if (result.mutableProspectiveObstaclesList == nil) {
+      result.mutableProspectiveObstaclesList = [NSMutableArray array];
+    }
+    [result.mutableProspectiveObstaclesList addObjectsFromArray:other.mutableProspectiveObstaclesList];
+  }
+  if (other.hasCurTime) {
+    [self setCurTime:other.curTime];
+  }
+  [self mergeUnknownFields:other.unknownFields];
+  return self;
+}
+- (SpawnObstacleRequestProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input {
+  return [self mergeFromCodedInputStream:input extensionRegistry:[PBExtensionRegistry emptyRegistry]];
+}
+- (SpawnObstacleRequestProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  PBUnknownFieldSet_Builder* unknownFields = [PBUnknownFieldSet builderWithUnknownFields:self.unknownFields];
+  while (YES) {
+    int32_t tag = [input readTag];
+    switch (tag) {
+      case 0:
+        [self setUnknownFields:[unknownFields build]];
+        return self;
+      default: {
+        if (![self parseUnknownField:input unknownFields:unknownFields extensionRegistry:extensionRegistry tag:tag]) {
+          [self setUnknownFields:[unknownFields build]];
+          return self;
+        }
+        break;
+      }
+      case 10: {
+        MinimumUserProto_Builder* subBuilder = [MinimumUserProto builder];
+        if (self.hasSender) {
+          [subBuilder mergeFrom:self.sender];
+        }
+        [input readMessage:subBuilder extensionRegistry:extensionRegistry];
+        [self setSender:[subBuilder buildPartial]];
+        break;
+      }
+      case 18: {
+        MinimumObstacleProto_Builder* subBuilder = [MinimumObstacleProto builder];
+        [input readMessage:subBuilder extensionRegistry:extensionRegistry];
+        [self addProspectiveObstacles:[subBuilder buildPartial]];
+        break;
+      }
+      case 24: {
+        [self setCurTime:[input readInt64]];
+        break;
+      }
+    }
+  }
+}
+- (BOOL) hasSender {
+  return result.hasSender;
+}
+- (MinimumUserProto*) sender {
+  return result.sender;
+}
+- (SpawnObstacleRequestProto_Builder*) setSender:(MinimumUserProto*) value {
+  result.hasSender = YES;
+  result.sender = value;
+  return self;
+}
+- (SpawnObstacleRequestProto_Builder*) setSenderBuilder:(MinimumUserProto_Builder*) builderForValue {
+  return [self setSender:[builderForValue build]];
+}
+- (SpawnObstacleRequestProto_Builder*) mergeSender:(MinimumUserProto*) value {
+  if (result.hasSender &&
+      result.sender != [MinimumUserProto defaultInstance]) {
+    result.sender =
+      [[[MinimumUserProto builderWithPrototype:result.sender] mergeFrom:value] buildPartial];
+  } else {
+    result.sender = value;
+  }
+  result.hasSender = YES;
+  return self;
+}
+- (SpawnObstacleRequestProto_Builder*) clearSender {
+  result.hasSender = NO;
+  result.sender = [MinimumUserProto defaultInstance];
+  return self;
+}
+- (NSArray*) prospectiveObstaclesList {
+  if (result.mutableProspectiveObstaclesList == nil) { return [NSArray array]; }
+  return result.mutableProspectiveObstaclesList;
+}
+- (MinimumObstacleProto*) prospectiveObstaclesAtIndex:(int32_t) index {
+  return [result prospectiveObstaclesAtIndex:index];
+}
+- (SpawnObstacleRequestProto_Builder*) replaceProspectiveObstaclesAtIndex:(int32_t) index with:(MinimumObstacleProto*) value {
+  [result.mutableProspectiveObstaclesList replaceObjectAtIndex:index withObject:value];
+  return self;
+}
+- (SpawnObstacleRequestProto_Builder*) addAllProspectiveObstacles:(NSArray*) values {
+  if (result.mutableProspectiveObstaclesList == nil) {
+    result.mutableProspectiveObstaclesList = [NSMutableArray array];
+  }
+  [result.mutableProspectiveObstaclesList addObjectsFromArray:values];
+  return self;
+}
+- (SpawnObstacleRequestProto_Builder*) clearProspectiveObstaclesList {
+  result.mutableProspectiveObstaclesList = nil;
+  return self;
+}
+- (SpawnObstacleRequestProto_Builder*) addProspectiveObstacles:(MinimumObstacleProto*) value {
+  if (result.mutableProspectiveObstaclesList == nil) {
+    result.mutableProspectiveObstaclesList = [NSMutableArray array];
+  }
+  [result.mutableProspectiveObstaclesList addObject:value];
+  return self;
+}
+- (BOOL) hasCurTime {
+  return result.hasCurTime;
+}
+- (int64_t) curTime {
+  return result.curTime;
+}
+- (SpawnObstacleRequestProto_Builder*) setCurTime:(int64_t) value {
+  result.hasCurTime = YES;
+  result.curTime = value;
+  return self;
+}
+- (SpawnObstacleRequestProto_Builder*) clearCurTime {
+  result.hasCurTime = NO;
+  result.curTime = 0L;
+  return self;
+}
+@end
+
+@interface SpawnObstacleResponseProto ()
+@property (retain) MinimumUserProto* sender;
+@property (retain) NSMutableArray* mutableSpawnedObstaclesList;
+@property SpawnObstacleResponseProto_SpawnObstacleStatus status;
+@end
+
+@implementation SpawnObstacleResponseProto
+
+- (BOOL) hasSender {
+  return !!hasSender_;
+}
+- (void) setHasSender:(BOOL) value {
+  hasSender_ = !!value;
+}
+@synthesize sender;
+@synthesize mutableSpawnedObstaclesList;
+- (BOOL) hasStatus {
+  return !!hasStatus_;
+}
+- (void) setHasStatus:(BOOL) value {
+  hasStatus_ = !!value;
+}
+@synthesize status;
+- (void) dealloc {
+  self.sender = nil;
+  self.mutableSpawnedObstaclesList = nil;
+  [super dealloc];
+}
+- (id) init {
+  if ((self = [super init])) {
+    self.sender = [MinimumUserProto defaultInstance];
+    self.status = SpawnObstacleResponseProto_SpawnObstacleStatusSuccess;
+  }
+  return self;
+}
+static SpawnObstacleResponseProto* defaultSpawnObstacleResponseProtoInstance = nil;
++ (void) initialize {
+  if (self == [SpawnObstacleResponseProto class]) {
+    defaultSpawnObstacleResponseProtoInstance = [[SpawnObstacleResponseProto alloc] init];
+  }
+}
++ (SpawnObstacleResponseProto*) defaultInstance {
+  return defaultSpawnObstacleResponseProtoInstance;
+}
+- (SpawnObstacleResponseProto*) defaultInstance {
+  return defaultSpawnObstacleResponseProtoInstance;
+}
+- (NSArray*) spawnedObstaclesList {
+  return mutableSpawnedObstaclesList;
+}
+- (UserObstacleProto*) spawnedObstaclesAtIndex:(int32_t) index {
+  id value = [mutableSpawnedObstaclesList objectAtIndex:index];
+  return value;
+}
+- (BOOL) isInitialized {
+  return YES;
+}
+- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output {
+  if (self.hasSender) {
+    [output writeMessage:1 value:self.sender];
+  }
+  for (UserObstacleProto* element in self.spawnedObstaclesList) {
+    [output writeMessage:2 value:element];
+  }
+  if (self.hasStatus) {
+    [output writeEnum:3 value:self.status];
+  }
+  [self.unknownFields writeToCodedOutputStream:output];
+}
+- (int32_t) serializedSize {
+  int32_t size = memoizedSerializedSize;
+  if (size != -1) {
+    return size;
+  }
+
+  size = 0;
+  if (self.hasSender) {
+    size += computeMessageSize(1, self.sender);
+  }
+  for (UserObstacleProto* element in self.spawnedObstaclesList) {
+    size += computeMessageSize(2, element);
+  }
+  if (self.hasStatus) {
+    size += computeEnumSize(3, self.status);
+  }
+  size += self.unknownFields.serializedSize;
+  memoizedSerializedSize = size;
+  return size;
+}
++ (SpawnObstacleResponseProto*) parseFromData:(NSData*) data {
+  return (SpawnObstacleResponseProto*)[[[SpawnObstacleResponseProto builder] mergeFromData:data] build];
+}
++ (SpawnObstacleResponseProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (SpawnObstacleResponseProto*)[[[SpawnObstacleResponseProto builder] mergeFromData:data extensionRegistry:extensionRegistry] build];
+}
++ (SpawnObstacleResponseProto*) parseFromInputStream:(NSInputStream*) input {
+  return (SpawnObstacleResponseProto*)[[[SpawnObstacleResponseProto builder] mergeFromInputStream:input] build];
+}
++ (SpawnObstacleResponseProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (SpawnObstacleResponseProto*)[[[SpawnObstacleResponseProto builder] mergeFromInputStream:input extensionRegistry:extensionRegistry] build];
+}
++ (SpawnObstacleResponseProto*) parseFromCodedInputStream:(PBCodedInputStream*) input {
+  return (SpawnObstacleResponseProto*)[[[SpawnObstacleResponseProto builder] mergeFromCodedInputStream:input] build];
+}
++ (SpawnObstacleResponseProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (SpawnObstacleResponseProto*)[[[SpawnObstacleResponseProto builder] mergeFromCodedInputStream:input extensionRegistry:extensionRegistry] build];
+}
++ (SpawnObstacleResponseProto_Builder*) builder {
+  return [[[SpawnObstacleResponseProto_Builder alloc] init] autorelease];
+}
++ (SpawnObstacleResponseProto_Builder*) builderWithPrototype:(SpawnObstacleResponseProto*) prototype {
+  return [[SpawnObstacleResponseProto builder] mergeFrom:prototype];
+}
+- (SpawnObstacleResponseProto_Builder*) builder {
+  return [SpawnObstacleResponseProto builder];
+}
+@end
+
+BOOL SpawnObstacleResponseProto_SpawnObstacleStatusIsValidValue(SpawnObstacleResponseProto_SpawnObstacleStatus value) {
+  switch (value) {
+    case SpawnObstacleResponseProto_SpawnObstacleStatusSuccess:
+    case SpawnObstacleResponseProto_SpawnObstacleStatusFailOther:
+      return YES;
+    default:
+      return NO;
+  }
+}
+@interface SpawnObstacleResponseProto_Builder()
+@property (retain) SpawnObstacleResponseProto* result;
+@end
+
+@implementation SpawnObstacleResponseProto_Builder
+@synthesize result;
+- (void) dealloc {
+  self.result = nil;
+  [super dealloc];
+}
+- (id) init {
+  if ((self = [super init])) {
+    self.result = [[[SpawnObstacleResponseProto alloc] init] autorelease];
+  }
+  return self;
+}
+- (PBGeneratedMessage*) internalGetResult {
+  return result;
+}
+- (SpawnObstacleResponseProto_Builder*) clear {
+  self.result = [[[SpawnObstacleResponseProto alloc] init] autorelease];
+  return self;
+}
+- (SpawnObstacleResponseProto_Builder*) clone {
+  return [SpawnObstacleResponseProto builderWithPrototype:result];
+}
+- (SpawnObstacleResponseProto*) defaultInstance {
+  return [SpawnObstacleResponseProto defaultInstance];
+}
+- (SpawnObstacleResponseProto*) build {
+  [self checkInitialized];
+  return [self buildPartial];
+}
+- (SpawnObstacleResponseProto*) buildPartial {
+  SpawnObstacleResponseProto* returnMe = [[result retain] autorelease];
+  self.result = nil;
+  return returnMe;
+}
+- (SpawnObstacleResponseProto_Builder*) mergeFrom:(SpawnObstacleResponseProto*) other {
+  if (other == [SpawnObstacleResponseProto defaultInstance]) {
+    return self;
+  }
+  if (other.hasSender) {
+    [self mergeSender:other.sender];
+  }
+  if (other.mutableSpawnedObstaclesList.count > 0) {
+    if (result.mutableSpawnedObstaclesList == nil) {
+      result.mutableSpawnedObstaclesList = [NSMutableArray array];
+    }
+    [result.mutableSpawnedObstaclesList addObjectsFromArray:other.mutableSpawnedObstaclesList];
+  }
+  if (other.hasStatus) {
+    [self setStatus:other.status];
+  }
+  [self mergeUnknownFields:other.unknownFields];
+  return self;
+}
+- (SpawnObstacleResponseProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input {
+  return [self mergeFromCodedInputStream:input extensionRegistry:[PBExtensionRegistry emptyRegistry]];
+}
+- (SpawnObstacleResponseProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  PBUnknownFieldSet_Builder* unknownFields = [PBUnknownFieldSet builderWithUnknownFields:self.unknownFields];
+  while (YES) {
+    int32_t tag = [input readTag];
+    switch (tag) {
+      case 0:
+        [self setUnknownFields:[unknownFields build]];
+        return self;
+      default: {
+        if (![self parseUnknownField:input unknownFields:unknownFields extensionRegistry:extensionRegistry tag:tag]) {
+          [self setUnknownFields:[unknownFields build]];
+          return self;
+        }
+        break;
+      }
+      case 10: {
+        MinimumUserProto_Builder* subBuilder = [MinimumUserProto builder];
+        if (self.hasSender) {
+          [subBuilder mergeFrom:self.sender];
+        }
+        [input readMessage:subBuilder extensionRegistry:extensionRegistry];
+        [self setSender:[subBuilder buildPartial]];
+        break;
+      }
+      case 18: {
+        UserObstacleProto_Builder* subBuilder = [UserObstacleProto builder];
+        [input readMessage:subBuilder extensionRegistry:extensionRegistry];
+        [self addSpawnedObstacles:[subBuilder buildPartial]];
+        break;
+      }
+      case 24: {
+        int32_t value = [input readEnum];
+        if (SpawnObstacleResponseProto_SpawnObstacleStatusIsValidValue(value)) {
+          [self setStatus:value];
+        } else {
+          [unknownFields mergeVarintField:3 value:value];
+        }
+        break;
+      }
+    }
+  }
+}
+- (BOOL) hasSender {
+  return result.hasSender;
+}
+- (MinimumUserProto*) sender {
+  return result.sender;
+}
+- (SpawnObstacleResponseProto_Builder*) setSender:(MinimumUserProto*) value {
+  result.hasSender = YES;
+  result.sender = value;
+  return self;
+}
+- (SpawnObstacleResponseProto_Builder*) setSenderBuilder:(MinimumUserProto_Builder*) builderForValue {
+  return [self setSender:[builderForValue build]];
+}
+- (SpawnObstacleResponseProto_Builder*) mergeSender:(MinimumUserProto*) value {
+  if (result.hasSender &&
+      result.sender != [MinimumUserProto defaultInstance]) {
+    result.sender =
+      [[[MinimumUserProto builderWithPrototype:result.sender] mergeFrom:value] buildPartial];
+  } else {
+    result.sender = value;
+  }
+  result.hasSender = YES;
+  return self;
+}
+- (SpawnObstacleResponseProto_Builder*) clearSender {
+  result.hasSender = NO;
+  result.sender = [MinimumUserProto defaultInstance];
+  return self;
+}
+- (NSArray*) spawnedObstaclesList {
+  if (result.mutableSpawnedObstaclesList == nil) { return [NSArray array]; }
+  return result.mutableSpawnedObstaclesList;
+}
+- (UserObstacleProto*) spawnedObstaclesAtIndex:(int32_t) index {
+  return [result spawnedObstaclesAtIndex:index];
+}
+- (SpawnObstacleResponseProto_Builder*) replaceSpawnedObstaclesAtIndex:(int32_t) index with:(UserObstacleProto*) value {
+  [result.mutableSpawnedObstaclesList replaceObjectAtIndex:index withObject:value];
+  return self;
+}
+- (SpawnObstacleResponseProto_Builder*) addAllSpawnedObstacles:(NSArray*) values {
+  if (result.mutableSpawnedObstaclesList == nil) {
+    result.mutableSpawnedObstaclesList = [NSMutableArray array];
+  }
+  [result.mutableSpawnedObstaclesList addObjectsFromArray:values];
+  return self;
+}
+- (SpawnObstacleResponseProto_Builder*) clearSpawnedObstaclesList {
+  result.mutableSpawnedObstaclesList = nil;
+  return self;
+}
+- (SpawnObstacleResponseProto_Builder*) addSpawnedObstacles:(UserObstacleProto*) value {
+  if (result.mutableSpawnedObstaclesList == nil) {
+    result.mutableSpawnedObstaclesList = [NSMutableArray array];
+  }
+  [result.mutableSpawnedObstaclesList addObject:value];
+  return self;
+}
+- (BOOL) hasStatus {
+  return result.hasStatus;
+}
+- (SpawnObstacleResponseProto_SpawnObstacleStatus) status {
+  return result.status;
+}
+- (SpawnObstacleResponseProto_Builder*) setStatus:(SpawnObstacleResponseProto_SpawnObstacleStatus) value {
+  result.hasStatus = YES;
+  result.status = value;
+  return self;
+}
+- (SpawnObstacleResponseProto_Builder*) clearStatus {
+  result.hasStatus = NO;
+  result.status = SpawnObstacleResponseProto_SpawnObstacleStatusSuccess;
+  return self;
+}
+@end
+
+@interface BeginObstacleRemovalRequestProto ()
+@property (retain) MinimumUserProto* sender;
+@property int64_t curTime;
+@property int32_t gemsSpent;
+@property int32_t resourceChange;
+@property ResourceType resourceType;
+@property int32_t userObstacleId;
+@end
+
+@implementation BeginObstacleRemovalRequestProto
+
+- (BOOL) hasSender {
+  return !!hasSender_;
+}
+- (void) setHasSender:(BOOL) value {
+  hasSender_ = !!value;
+}
+@synthesize sender;
+- (BOOL) hasCurTime {
+  return !!hasCurTime_;
+}
+- (void) setHasCurTime:(BOOL) value {
+  hasCurTime_ = !!value;
+}
+@synthesize curTime;
+- (BOOL) hasGemsSpent {
+  return !!hasGemsSpent_;
+}
+- (void) setHasGemsSpent:(BOOL) value {
+  hasGemsSpent_ = !!value;
+}
+@synthesize gemsSpent;
+- (BOOL) hasResourceChange {
+  return !!hasResourceChange_;
+}
+- (void) setHasResourceChange:(BOOL) value {
+  hasResourceChange_ = !!value;
+}
+@synthesize resourceChange;
+- (BOOL) hasResourceType {
+  return !!hasResourceType_;
+}
+- (void) setHasResourceType:(BOOL) value {
+  hasResourceType_ = !!value;
+}
+@synthesize resourceType;
+- (BOOL) hasUserObstacleId {
+  return !!hasUserObstacleId_;
+}
+- (void) setHasUserObstacleId:(BOOL) value {
+  hasUserObstacleId_ = !!value;
+}
+@synthesize userObstacleId;
+- (void) dealloc {
+  self.sender = nil;
+  [super dealloc];
+}
+- (id) init {
+  if ((self = [super init])) {
+    self.sender = [MinimumUserProto defaultInstance];
+    self.curTime = 0L;
+    self.gemsSpent = 0;
+    self.resourceChange = 0;
+    self.resourceType = ResourceTypeCash;
+    self.userObstacleId = 0;
+  }
+  return self;
+}
+static BeginObstacleRemovalRequestProto* defaultBeginObstacleRemovalRequestProtoInstance = nil;
++ (void) initialize {
+  if (self == [BeginObstacleRemovalRequestProto class]) {
+    defaultBeginObstacleRemovalRequestProtoInstance = [[BeginObstacleRemovalRequestProto alloc] init];
+  }
+}
++ (BeginObstacleRemovalRequestProto*) defaultInstance {
+  return defaultBeginObstacleRemovalRequestProtoInstance;
+}
+- (BeginObstacleRemovalRequestProto*) defaultInstance {
+  return defaultBeginObstacleRemovalRequestProtoInstance;
+}
+- (BOOL) isInitialized {
+  return YES;
+}
+- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output {
+  if (self.hasSender) {
+    [output writeMessage:1 value:self.sender];
+  }
+  if (self.hasCurTime) {
+    [output writeInt64:2 value:self.curTime];
+  }
+  if (self.hasGemsSpent) {
+    [output writeInt32:3 value:self.gemsSpent];
+  }
+  if (self.hasResourceChange) {
+    [output writeSInt32:4 value:self.resourceChange];
+  }
+  if (self.hasResourceType) {
+    [output writeEnum:5 value:self.resourceType];
+  }
+  if (self.hasUserObstacleId) {
+    [output writeInt32:6 value:self.userObstacleId];
+  }
+  [self.unknownFields writeToCodedOutputStream:output];
+}
+- (int32_t) serializedSize {
+  int32_t size = memoizedSerializedSize;
+  if (size != -1) {
+    return size;
+  }
+
+  size = 0;
+  if (self.hasSender) {
+    size += computeMessageSize(1, self.sender);
+  }
+  if (self.hasCurTime) {
+    size += computeInt64Size(2, self.curTime);
+  }
+  if (self.hasGemsSpent) {
+    size += computeInt32Size(3, self.gemsSpent);
+  }
+  if (self.hasResourceChange) {
+    size += computeSInt32Size(4, self.resourceChange);
+  }
+  if (self.hasResourceType) {
+    size += computeEnumSize(5, self.resourceType);
+  }
+  if (self.hasUserObstacleId) {
+    size += computeInt32Size(6, self.userObstacleId);
+  }
+  size += self.unknownFields.serializedSize;
+  memoizedSerializedSize = size;
+  return size;
+}
++ (BeginObstacleRemovalRequestProto*) parseFromData:(NSData*) data {
+  return (BeginObstacleRemovalRequestProto*)[[[BeginObstacleRemovalRequestProto builder] mergeFromData:data] build];
+}
++ (BeginObstacleRemovalRequestProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (BeginObstacleRemovalRequestProto*)[[[BeginObstacleRemovalRequestProto builder] mergeFromData:data extensionRegistry:extensionRegistry] build];
+}
++ (BeginObstacleRemovalRequestProto*) parseFromInputStream:(NSInputStream*) input {
+  return (BeginObstacleRemovalRequestProto*)[[[BeginObstacleRemovalRequestProto builder] mergeFromInputStream:input] build];
+}
++ (BeginObstacleRemovalRequestProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (BeginObstacleRemovalRequestProto*)[[[BeginObstacleRemovalRequestProto builder] mergeFromInputStream:input extensionRegistry:extensionRegistry] build];
+}
++ (BeginObstacleRemovalRequestProto*) parseFromCodedInputStream:(PBCodedInputStream*) input {
+  return (BeginObstacleRemovalRequestProto*)[[[BeginObstacleRemovalRequestProto builder] mergeFromCodedInputStream:input] build];
+}
++ (BeginObstacleRemovalRequestProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (BeginObstacleRemovalRequestProto*)[[[BeginObstacleRemovalRequestProto builder] mergeFromCodedInputStream:input extensionRegistry:extensionRegistry] build];
+}
++ (BeginObstacleRemovalRequestProto_Builder*) builder {
+  return [[[BeginObstacleRemovalRequestProto_Builder alloc] init] autorelease];
+}
++ (BeginObstacleRemovalRequestProto_Builder*) builderWithPrototype:(BeginObstacleRemovalRequestProto*) prototype {
+  return [[BeginObstacleRemovalRequestProto builder] mergeFrom:prototype];
+}
+- (BeginObstacleRemovalRequestProto_Builder*) builder {
+  return [BeginObstacleRemovalRequestProto builder];
+}
+@end
+
+@interface BeginObstacleRemovalRequestProto_Builder()
+@property (retain) BeginObstacleRemovalRequestProto* result;
+@end
+
+@implementation BeginObstacleRemovalRequestProto_Builder
+@synthesize result;
+- (void) dealloc {
+  self.result = nil;
+  [super dealloc];
+}
+- (id) init {
+  if ((self = [super init])) {
+    self.result = [[[BeginObstacleRemovalRequestProto alloc] init] autorelease];
+  }
+  return self;
+}
+- (PBGeneratedMessage*) internalGetResult {
+  return result;
+}
+- (BeginObstacleRemovalRequestProto_Builder*) clear {
+  self.result = [[[BeginObstacleRemovalRequestProto alloc] init] autorelease];
+  return self;
+}
+- (BeginObstacleRemovalRequestProto_Builder*) clone {
+  return [BeginObstacleRemovalRequestProto builderWithPrototype:result];
+}
+- (BeginObstacleRemovalRequestProto*) defaultInstance {
+  return [BeginObstacleRemovalRequestProto defaultInstance];
+}
+- (BeginObstacleRemovalRequestProto*) build {
+  [self checkInitialized];
+  return [self buildPartial];
+}
+- (BeginObstacleRemovalRequestProto*) buildPartial {
+  BeginObstacleRemovalRequestProto* returnMe = [[result retain] autorelease];
+  self.result = nil;
+  return returnMe;
+}
+- (BeginObstacleRemovalRequestProto_Builder*) mergeFrom:(BeginObstacleRemovalRequestProto*) other {
+  if (other == [BeginObstacleRemovalRequestProto defaultInstance]) {
+    return self;
+  }
+  if (other.hasSender) {
+    [self mergeSender:other.sender];
+  }
+  if (other.hasCurTime) {
+    [self setCurTime:other.curTime];
+  }
+  if (other.hasGemsSpent) {
+    [self setGemsSpent:other.gemsSpent];
+  }
+  if (other.hasResourceChange) {
+    [self setResourceChange:other.resourceChange];
+  }
+  if (other.hasResourceType) {
+    [self setResourceType:other.resourceType];
+  }
+  if (other.hasUserObstacleId) {
+    [self setUserObstacleId:other.userObstacleId];
+  }
+  [self mergeUnknownFields:other.unknownFields];
+  return self;
+}
+- (BeginObstacleRemovalRequestProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input {
+  return [self mergeFromCodedInputStream:input extensionRegistry:[PBExtensionRegistry emptyRegistry]];
+}
+- (BeginObstacleRemovalRequestProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  PBUnknownFieldSet_Builder* unknownFields = [PBUnknownFieldSet builderWithUnknownFields:self.unknownFields];
+  while (YES) {
+    int32_t tag = [input readTag];
+    switch (tag) {
+      case 0:
+        [self setUnknownFields:[unknownFields build]];
+        return self;
+      default: {
+        if (![self parseUnknownField:input unknownFields:unknownFields extensionRegistry:extensionRegistry tag:tag]) {
+          [self setUnknownFields:[unknownFields build]];
+          return self;
+        }
+        break;
+      }
+      case 10: {
+        MinimumUserProto_Builder* subBuilder = [MinimumUserProto builder];
+        if (self.hasSender) {
+          [subBuilder mergeFrom:self.sender];
+        }
+        [input readMessage:subBuilder extensionRegistry:extensionRegistry];
+        [self setSender:[subBuilder buildPartial]];
+        break;
+      }
+      case 16: {
+        [self setCurTime:[input readInt64]];
+        break;
+      }
+      case 24: {
+        [self setGemsSpent:[input readInt32]];
+        break;
+      }
+      case 32: {
+        [self setResourceChange:[input readSInt32]];
+        break;
+      }
+      case 40: {
+        int32_t value = [input readEnum];
+        if (ResourceTypeIsValidValue(value)) {
+          [self setResourceType:value];
+        } else {
+          [unknownFields mergeVarintField:5 value:value];
+        }
+        break;
+      }
+      case 48: {
+        [self setUserObstacleId:[input readInt32]];
+        break;
+      }
+    }
+  }
+}
+- (BOOL) hasSender {
+  return result.hasSender;
+}
+- (MinimumUserProto*) sender {
+  return result.sender;
+}
+- (BeginObstacleRemovalRequestProto_Builder*) setSender:(MinimumUserProto*) value {
+  result.hasSender = YES;
+  result.sender = value;
+  return self;
+}
+- (BeginObstacleRemovalRequestProto_Builder*) setSenderBuilder:(MinimumUserProto_Builder*) builderForValue {
+  return [self setSender:[builderForValue build]];
+}
+- (BeginObstacleRemovalRequestProto_Builder*) mergeSender:(MinimumUserProto*) value {
+  if (result.hasSender &&
+      result.sender != [MinimumUserProto defaultInstance]) {
+    result.sender =
+      [[[MinimumUserProto builderWithPrototype:result.sender] mergeFrom:value] buildPartial];
+  } else {
+    result.sender = value;
+  }
+  result.hasSender = YES;
+  return self;
+}
+- (BeginObstacleRemovalRequestProto_Builder*) clearSender {
+  result.hasSender = NO;
+  result.sender = [MinimumUserProto defaultInstance];
+  return self;
+}
+- (BOOL) hasCurTime {
+  return result.hasCurTime;
+}
+- (int64_t) curTime {
+  return result.curTime;
+}
+- (BeginObstacleRemovalRequestProto_Builder*) setCurTime:(int64_t) value {
+  result.hasCurTime = YES;
+  result.curTime = value;
+  return self;
+}
+- (BeginObstacleRemovalRequestProto_Builder*) clearCurTime {
+  result.hasCurTime = NO;
+  result.curTime = 0L;
+  return self;
+}
+- (BOOL) hasGemsSpent {
+  return result.hasGemsSpent;
+}
+- (int32_t) gemsSpent {
+  return result.gemsSpent;
+}
+- (BeginObstacleRemovalRequestProto_Builder*) setGemsSpent:(int32_t) value {
+  result.hasGemsSpent = YES;
+  result.gemsSpent = value;
+  return self;
+}
+- (BeginObstacleRemovalRequestProto_Builder*) clearGemsSpent {
+  result.hasGemsSpent = NO;
+  result.gemsSpent = 0;
+  return self;
+}
+- (BOOL) hasResourceChange {
+  return result.hasResourceChange;
+}
+- (int32_t) resourceChange {
+  return result.resourceChange;
+}
+- (BeginObstacleRemovalRequestProto_Builder*) setResourceChange:(int32_t) value {
+  result.hasResourceChange = YES;
+  result.resourceChange = value;
+  return self;
+}
+- (BeginObstacleRemovalRequestProto_Builder*) clearResourceChange {
+  result.hasResourceChange = NO;
+  result.resourceChange = 0;
+  return self;
+}
+- (BOOL) hasResourceType {
+  return result.hasResourceType;
+}
+- (ResourceType) resourceType {
+  return result.resourceType;
+}
+- (BeginObstacleRemovalRequestProto_Builder*) setResourceType:(ResourceType) value {
+  result.hasResourceType = YES;
+  result.resourceType = value;
+  return self;
+}
+- (BeginObstacleRemovalRequestProto_Builder*) clearResourceType {
+  result.hasResourceType = NO;
+  result.resourceType = ResourceTypeCash;
+  return self;
+}
+- (BOOL) hasUserObstacleId {
+  return result.hasUserObstacleId;
+}
+- (int32_t) userObstacleId {
+  return result.userObstacleId;
+}
+- (BeginObstacleRemovalRequestProto_Builder*) setUserObstacleId:(int32_t) value {
+  result.hasUserObstacleId = YES;
+  result.userObstacleId = value;
+  return self;
+}
+- (BeginObstacleRemovalRequestProto_Builder*) clearUserObstacleId {
+  result.hasUserObstacleId = NO;
+  result.userObstacleId = 0;
+  return self;
+}
+@end
+
+@interface BeginObstacleRemovalResponseProto ()
+@property (retain) MinimumUserProto* sender;
+@property BeginObstacleRemovalResponseProto_BeginObstacleRemovalStatus status;
+@end
+
+@implementation BeginObstacleRemovalResponseProto
+
+- (BOOL) hasSender {
+  return !!hasSender_;
+}
+- (void) setHasSender:(BOOL) value {
+  hasSender_ = !!value;
+}
+@synthesize sender;
+- (BOOL) hasStatus {
+  return !!hasStatus_;
+}
+- (void) setHasStatus:(BOOL) value {
+  hasStatus_ = !!value;
+}
+@synthesize status;
+- (void) dealloc {
+  self.sender = nil;
+  [super dealloc];
+}
+- (id) init {
+  if ((self = [super init])) {
+    self.sender = [MinimumUserProto defaultInstance];
+    self.status = BeginObstacleRemovalResponseProto_BeginObstacleRemovalStatusSuccess;
+  }
+  return self;
+}
+static BeginObstacleRemovalResponseProto* defaultBeginObstacleRemovalResponseProtoInstance = nil;
++ (void) initialize {
+  if (self == [BeginObstacleRemovalResponseProto class]) {
+    defaultBeginObstacleRemovalResponseProtoInstance = [[BeginObstacleRemovalResponseProto alloc] init];
+  }
+}
++ (BeginObstacleRemovalResponseProto*) defaultInstance {
+  return defaultBeginObstacleRemovalResponseProtoInstance;
+}
+- (BeginObstacleRemovalResponseProto*) defaultInstance {
+  return defaultBeginObstacleRemovalResponseProtoInstance;
+}
+- (BOOL) isInitialized {
+  return YES;
+}
+- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output {
+  if (self.hasSender) {
+    [output writeMessage:1 value:self.sender];
+  }
+  if (self.hasStatus) {
+    [output writeEnum:2 value:self.status];
+  }
+  [self.unknownFields writeToCodedOutputStream:output];
+}
+- (int32_t) serializedSize {
+  int32_t size = memoizedSerializedSize;
+  if (size != -1) {
+    return size;
+  }
+
+  size = 0;
+  if (self.hasSender) {
+    size += computeMessageSize(1, self.sender);
+  }
+  if (self.hasStatus) {
+    size += computeEnumSize(2, self.status);
+  }
+  size += self.unknownFields.serializedSize;
+  memoizedSerializedSize = size;
+  return size;
+}
++ (BeginObstacleRemovalResponseProto*) parseFromData:(NSData*) data {
+  return (BeginObstacleRemovalResponseProto*)[[[BeginObstacleRemovalResponseProto builder] mergeFromData:data] build];
+}
++ (BeginObstacleRemovalResponseProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (BeginObstacleRemovalResponseProto*)[[[BeginObstacleRemovalResponseProto builder] mergeFromData:data extensionRegistry:extensionRegistry] build];
+}
++ (BeginObstacleRemovalResponseProto*) parseFromInputStream:(NSInputStream*) input {
+  return (BeginObstacleRemovalResponseProto*)[[[BeginObstacleRemovalResponseProto builder] mergeFromInputStream:input] build];
+}
++ (BeginObstacleRemovalResponseProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (BeginObstacleRemovalResponseProto*)[[[BeginObstacleRemovalResponseProto builder] mergeFromInputStream:input extensionRegistry:extensionRegistry] build];
+}
++ (BeginObstacleRemovalResponseProto*) parseFromCodedInputStream:(PBCodedInputStream*) input {
+  return (BeginObstacleRemovalResponseProto*)[[[BeginObstacleRemovalResponseProto builder] mergeFromCodedInputStream:input] build];
+}
++ (BeginObstacleRemovalResponseProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (BeginObstacleRemovalResponseProto*)[[[BeginObstacleRemovalResponseProto builder] mergeFromCodedInputStream:input extensionRegistry:extensionRegistry] build];
+}
++ (BeginObstacleRemovalResponseProto_Builder*) builder {
+  return [[[BeginObstacleRemovalResponseProto_Builder alloc] init] autorelease];
+}
++ (BeginObstacleRemovalResponseProto_Builder*) builderWithPrototype:(BeginObstacleRemovalResponseProto*) prototype {
+  return [[BeginObstacleRemovalResponseProto builder] mergeFrom:prototype];
+}
+- (BeginObstacleRemovalResponseProto_Builder*) builder {
+  return [BeginObstacleRemovalResponseProto builder];
+}
+@end
+
+BOOL BeginObstacleRemovalResponseProto_BeginObstacleRemovalStatusIsValidValue(BeginObstacleRemovalResponseProto_BeginObstacleRemovalStatus value) {
+  switch (value) {
+    case BeginObstacleRemovalResponseProto_BeginObstacleRemovalStatusSuccess:
+    case BeginObstacleRemovalResponseProto_BeginObstacleRemovalStatusFailInsufficientGems:
+    case BeginObstacleRemovalResponseProto_BeginObstacleRemovalStatusFailInsufficientResource:
+    case BeginObstacleRemovalResponseProto_BeginObstacleRemovalStatusFailOther:
+      return YES;
+    default:
+      return NO;
+  }
+}
+@interface BeginObstacleRemovalResponseProto_Builder()
+@property (retain) BeginObstacleRemovalResponseProto* result;
+@end
+
+@implementation BeginObstacleRemovalResponseProto_Builder
+@synthesize result;
+- (void) dealloc {
+  self.result = nil;
+  [super dealloc];
+}
+- (id) init {
+  if ((self = [super init])) {
+    self.result = [[[BeginObstacleRemovalResponseProto alloc] init] autorelease];
+  }
+  return self;
+}
+- (PBGeneratedMessage*) internalGetResult {
+  return result;
+}
+- (BeginObstacleRemovalResponseProto_Builder*) clear {
+  self.result = [[[BeginObstacleRemovalResponseProto alloc] init] autorelease];
+  return self;
+}
+- (BeginObstacleRemovalResponseProto_Builder*) clone {
+  return [BeginObstacleRemovalResponseProto builderWithPrototype:result];
+}
+- (BeginObstacleRemovalResponseProto*) defaultInstance {
+  return [BeginObstacleRemovalResponseProto defaultInstance];
+}
+- (BeginObstacleRemovalResponseProto*) build {
+  [self checkInitialized];
+  return [self buildPartial];
+}
+- (BeginObstacleRemovalResponseProto*) buildPartial {
+  BeginObstacleRemovalResponseProto* returnMe = [[result retain] autorelease];
+  self.result = nil;
+  return returnMe;
+}
+- (BeginObstacleRemovalResponseProto_Builder*) mergeFrom:(BeginObstacleRemovalResponseProto*) other {
+  if (other == [BeginObstacleRemovalResponseProto defaultInstance]) {
+    return self;
+  }
+  if (other.hasSender) {
+    [self mergeSender:other.sender];
+  }
+  if (other.hasStatus) {
+    [self setStatus:other.status];
+  }
+  [self mergeUnknownFields:other.unknownFields];
+  return self;
+}
+- (BeginObstacleRemovalResponseProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input {
+  return [self mergeFromCodedInputStream:input extensionRegistry:[PBExtensionRegistry emptyRegistry]];
+}
+- (BeginObstacleRemovalResponseProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  PBUnknownFieldSet_Builder* unknownFields = [PBUnknownFieldSet builderWithUnknownFields:self.unknownFields];
+  while (YES) {
+    int32_t tag = [input readTag];
+    switch (tag) {
+      case 0:
+        [self setUnknownFields:[unknownFields build]];
+        return self;
+      default: {
+        if (![self parseUnknownField:input unknownFields:unknownFields extensionRegistry:extensionRegistry tag:tag]) {
+          [self setUnknownFields:[unknownFields build]];
+          return self;
+        }
+        break;
+      }
+      case 10: {
+        MinimumUserProto_Builder* subBuilder = [MinimumUserProto builder];
+        if (self.hasSender) {
+          [subBuilder mergeFrom:self.sender];
+        }
+        [input readMessage:subBuilder extensionRegistry:extensionRegistry];
+        [self setSender:[subBuilder buildPartial]];
+        break;
+      }
+      case 16: {
+        int32_t value = [input readEnum];
+        if (BeginObstacleRemovalResponseProto_BeginObstacleRemovalStatusIsValidValue(value)) {
+          [self setStatus:value];
+        } else {
+          [unknownFields mergeVarintField:2 value:value];
+        }
+        break;
+      }
+    }
+  }
+}
+- (BOOL) hasSender {
+  return result.hasSender;
+}
+- (MinimumUserProto*) sender {
+  return result.sender;
+}
+- (BeginObstacleRemovalResponseProto_Builder*) setSender:(MinimumUserProto*) value {
+  result.hasSender = YES;
+  result.sender = value;
+  return self;
+}
+- (BeginObstacleRemovalResponseProto_Builder*) setSenderBuilder:(MinimumUserProto_Builder*) builderForValue {
+  return [self setSender:[builderForValue build]];
+}
+- (BeginObstacleRemovalResponseProto_Builder*) mergeSender:(MinimumUserProto*) value {
+  if (result.hasSender &&
+      result.sender != [MinimumUserProto defaultInstance]) {
+    result.sender =
+      [[[MinimumUserProto builderWithPrototype:result.sender] mergeFrom:value] buildPartial];
+  } else {
+    result.sender = value;
+  }
+  result.hasSender = YES;
+  return self;
+}
+- (BeginObstacleRemovalResponseProto_Builder*) clearSender {
+  result.hasSender = NO;
+  result.sender = [MinimumUserProto defaultInstance];
+  return self;
+}
+- (BOOL) hasStatus {
+  return result.hasStatus;
+}
+- (BeginObstacleRemovalResponseProto_BeginObstacleRemovalStatus) status {
+  return result.status;
+}
+- (BeginObstacleRemovalResponseProto_Builder*) setStatus:(BeginObstacleRemovalResponseProto_BeginObstacleRemovalStatus) value {
+  result.hasStatus = YES;
+  result.status = value;
+  return self;
+}
+- (BeginObstacleRemovalResponseProto_Builder*) clearStatus {
+  result.hasStatus = NO;
+  result.status = BeginObstacleRemovalResponseProto_BeginObstacleRemovalStatusSuccess;
+  return self;
+}
+@end
+
+@interface ObstacleRemovalCompleteRequestProto ()
+@property (retain) MinimumUserProto* sender;
+@property int64_t curTime;
+@property BOOL speedUp;
+@property int32_t gemsSpent;
+@property int32_t userObstacleId;
+@property BOOL atMaxObstacles;
+@end
+
+@implementation ObstacleRemovalCompleteRequestProto
+
+- (BOOL) hasSender {
+  return !!hasSender_;
+}
+- (void) setHasSender:(BOOL) value {
+  hasSender_ = !!value;
+}
+@synthesize sender;
+- (BOOL) hasCurTime {
+  return !!hasCurTime_;
+}
+- (void) setHasCurTime:(BOOL) value {
+  hasCurTime_ = !!value;
+}
+@synthesize curTime;
+- (BOOL) hasSpeedUp {
+  return !!hasSpeedUp_;
+}
+- (void) setHasSpeedUp:(BOOL) value {
+  hasSpeedUp_ = !!value;
+}
+- (BOOL) speedUp {
+  return !!speedUp_;
+}
+- (void) setSpeedUp:(BOOL) value {
+  speedUp_ = !!value;
+}
+- (BOOL) hasGemsSpent {
+  return !!hasGemsSpent_;
+}
+- (void) setHasGemsSpent:(BOOL) value {
+  hasGemsSpent_ = !!value;
+}
+@synthesize gemsSpent;
+- (BOOL) hasUserObstacleId {
+  return !!hasUserObstacleId_;
+}
+- (void) setHasUserObstacleId:(BOOL) value {
+  hasUserObstacleId_ = !!value;
+}
+@synthesize userObstacleId;
+- (BOOL) hasAtMaxObstacles {
+  return !!hasAtMaxObstacles_;
+}
+- (void) setHasAtMaxObstacles:(BOOL) value {
+  hasAtMaxObstacles_ = !!value;
+}
+- (BOOL) atMaxObstacles {
+  return !!atMaxObstacles_;
+}
+- (void) setAtMaxObstacles:(BOOL) value {
+  atMaxObstacles_ = !!value;
+}
+- (void) dealloc {
+  self.sender = nil;
+  [super dealloc];
+}
+- (id) init {
+  if ((self = [super init])) {
+    self.sender = [MinimumUserProto defaultInstance];
+    self.curTime = 0L;
+    self.speedUp = NO;
+    self.gemsSpent = 0;
+    self.userObstacleId = 0;
+    self.atMaxObstacles = NO;
+  }
+  return self;
+}
+static ObstacleRemovalCompleteRequestProto* defaultObstacleRemovalCompleteRequestProtoInstance = nil;
++ (void) initialize {
+  if (self == [ObstacleRemovalCompleteRequestProto class]) {
+    defaultObstacleRemovalCompleteRequestProtoInstance = [[ObstacleRemovalCompleteRequestProto alloc] init];
+  }
+}
++ (ObstacleRemovalCompleteRequestProto*) defaultInstance {
+  return defaultObstacleRemovalCompleteRequestProtoInstance;
+}
+- (ObstacleRemovalCompleteRequestProto*) defaultInstance {
+  return defaultObstacleRemovalCompleteRequestProtoInstance;
+}
+- (BOOL) isInitialized {
+  return YES;
+}
+- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output {
+  if (self.hasSender) {
+    [output writeMessage:1 value:self.sender];
+  }
+  if (self.hasCurTime) {
+    [output writeInt64:2 value:self.curTime];
+  }
+  if (self.hasSpeedUp) {
+    [output writeBool:3 value:self.speedUp];
+  }
+  if (self.hasGemsSpent) {
+    [output writeInt32:4 value:self.gemsSpent];
+  }
+  if (self.hasUserObstacleId) {
+    [output writeInt32:5 value:self.userObstacleId];
+  }
+  if (self.hasAtMaxObstacles) {
+    [output writeBool:6 value:self.atMaxObstacles];
+  }
+  [self.unknownFields writeToCodedOutputStream:output];
+}
+- (int32_t) serializedSize {
+  int32_t size = memoizedSerializedSize;
+  if (size != -1) {
+    return size;
+  }
+
+  size = 0;
+  if (self.hasSender) {
+    size += computeMessageSize(1, self.sender);
+  }
+  if (self.hasCurTime) {
+    size += computeInt64Size(2, self.curTime);
+  }
+  if (self.hasSpeedUp) {
+    size += computeBoolSize(3, self.speedUp);
+  }
+  if (self.hasGemsSpent) {
+    size += computeInt32Size(4, self.gemsSpent);
+  }
+  if (self.hasUserObstacleId) {
+    size += computeInt32Size(5, self.userObstacleId);
+  }
+  if (self.hasAtMaxObstacles) {
+    size += computeBoolSize(6, self.atMaxObstacles);
+  }
+  size += self.unknownFields.serializedSize;
+  memoizedSerializedSize = size;
+  return size;
+}
++ (ObstacleRemovalCompleteRequestProto*) parseFromData:(NSData*) data {
+  return (ObstacleRemovalCompleteRequestProto*)[[[ObstacleRemovalCompleteRequestProto builder] mergeFromData:data] build];
+}
++ (ObstacleRemovalCompleteRequestProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (ObstacleRemovalCompleteRequestProto*)[[[ObstacleRemovalCompleteRequestProto builder] mergeFromData:data extensionRegistry:extensionRegistry] build];
+}
++ (ObstacleRemovalCompleteRequestProto*) parseFromInputStream:(NSInputStream*) input {
+  return (ObstacleRemovalCompleteRequestProto*)[[[ObstacleRemovalCompleteRequestProto builder] mergeFromInputStream:input] build];
+}
++ (ObstacleRemovalCompleteRequestProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (ObstacleRemovalCompleteRequestProto*)[[[ObstacleRemovalCompleteRequestProto builder] mergeFromInputStream:input extensionRegistry:extensionRegistry] build];
+}
++ (ObstacleRemovalCompleteRequestProto*) parseFromCodedInputStream:(PBCodedInputStream*) input {
+  return (ObstacleRemovalCompleteRequestProto*)[[[ObstacleRemovalCompleteRequestProto builder] mergeFromCodedInputStream:input] build];
+}
++ (ObstacleRemovalCompleteRequestProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (ObstacleRemovalCompleteRequestProto*)[[[ObstacleRemovalCompleteRequestProto builder] mergeFromCodedInputStream:input extensionRegistry:extensionRegistry] build];
+}
++ (ObstacleRemovalCompleteRequestProto_Builder*) builder {
+  return [[[ObstacleRemovalCompleteRequestProto_Builder alloc] init] autorelease];
+}
++ (ObstacleRemovalCompleteRequestProto_Builder*) builderWithPrototype:(ObstacleRemovalCompleteRequestProto*) prototype {
+  return [[ObstacleRemovalCompleteRequestProto builder] mergeFrom:prototype];
+}
+- (ObstacleRemovalCompleteRequestProto_Builder*) builder {
+  return [ObstacleRemovalCompleteRequestProto builder];
+}
+@end
+
+@interface ObstacleRemovalCompleteRequestProto_Builder()
+@property (retain) ObstacleRemovalCompleteRequestProto* result;
+@end
+
+@implementation ObstacleRemovalCompleteRequestProto_Builder
+@synthesize result;
+- (void) dealloc {
+  self.result = nil;
+  [super dealloc];
+}
+- (id) init {
+  if ((self = [super init])) {
+    self.result = [[[ObstacleRemovalCompleteRequestProto alloc] init] autorelease];
+  }
+  return self;
+}
+- (PBGeneratedMessage*) internalGetResult {
+  return result;
+}
+- (ObstacleRemovalCompleteRequestProto_Builder*) clear {
+  self.result = [[[ObstacleRemovalCompleteRequestProto alloc] init] autorelease];
+  return self;
+}
+- (ObstacleRemovalCompleteRequestProto_Builder*) clone {
+  return [ObstacleRemovalCompleteRequestProto builderWithPrototype:result];
+}
+- (ObstacleRemovalCompleteRequestProto*) defaultInstance {
+  return [ObstacleRemovalCompleteRequestProto defaultInstance];
+}
+- (ObstacleRemovalCompleteRequestProto*) build {
+  [self checkInitialized];
+  return [self buildPartial];
+}
+- (ObstacleRemovalCompleteRequestProto*) buildPartial {
+  ObstacleRemovalCompleteRequestProto* returnMe = [[result retain] autorelease];
+  self.result = nil;
+  return returnMe;
+}
+- (ObstacleRemovalCompleteRequestProto_Builder*) mergeFrom:(ObstacleRemovalCompleteRequestProto*) other {
+  if (other == [ObstacleRemovalCompleteRequestProto defaultInstance]) {
+    return self;
+  }
+  if (other.hasSender) {
+    [self mergeSender:other.sender];
+  }
+  if (other.hasCurTime) {
+    [self setCurTime:other.curTime];
+  }
+  if (other.hasSpeedUp) {
+    [self setSpeedUp:other.speedUp];
+  }
+  if (other.hasGemsSpent) {
+    [self setGemsSpent:other.gemsSpent];
+  }
+  if (other.hasUserObstacleId) {
+    [self setUserObstacleId:other.userObstacleId];
+  }
+  if (other.hasAtMaxObstacles) {
+    [self setAtMaxObstacles:other.atMaxObstacles];
+  }
+  [self mergeUnknownFields:other.unknownFields];
+  return self;
+}
+- (ObstacleRemovalCompleteRequestProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input {
+  return [self mergeFromCodedInputStream:input extensionRegistry:[PBExtensionRegistry emptyRegistry]];
+}
+- (ObstacleRemovalCompleteRequestProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  PBUnknownFieldSet_Builder* unknownFields = [PBUnknownFieldSet builderWithUnknownFields:self.unknownFields];
+  while (YES) {
+    int32_t tag = [input readTag];
+    switch (tag) {
+      case 0:
+        [self setUnknownFields:[unknownFields build]];
+        return self;
+      default: {
+        if (![self parseUnknownField:input unknownFields:unknownFields extensionRegistry:extensionRegistry tag:tag]) {
+          [self setUnknownFields:[unknownFields build]];
+          return self;
+        }
+        break;
+      }
+      case 10: {
+        MinimumUserProto_Builder* subBuilder = [MinimumUserProto builder];
+        if (self.hasSender) {
+          [subBuilder mergeFrom:self.sender];
+        }
+        [input readMessage:subBuilder extensionRegistry:extensionRegistry];
+        [self setSender:[subBuilder buildPartial]];
+        break;
+      }
+      case 16: {
+        [self setCurTime:[input readInt64]];
+        break;
+      }
+      case 24: {
+        [self setSpeedUp:[input readBool]];
+        break;
+      }
+      case 32: {
+        [self setGemsSpent:[input readInt32]];
+        break;
+      }
+      case 40: {
+        [self setUserObstacleId:[input readInt32]];
+        break;
+      }
+      case 48: {
+        [self setAtMaxObstacles:[input readBool]];
+        break;
+      }
+    }
+  }
+}
+- (BOOL) hasSender {
+  return result.hasSender;
+}
+- (MinimumUserProto*) sender {
+  return result.sender;
+}
+- (ObstacleRemovalCompleteRequestProto_Builder*) setSender:(MinimumUserProto*) value {
+  result.hasSender = YES;
+  result.sender = value;
+  return self;
+}
+- (ObstacleRemovalCompleteRequestProto_Builder*) setSenderBuilder:(MinimumUserProto_Builder*) builderForValue {
+  return [self setSender:[builderForValue build]];
+}
+- (ObstacleRemovalCompleteRequestProto_Builder*) mergeSender:(MinimumUserProto*) value {
+  if (result.hasSender &&
+      result.sender != [MinimumUserProto defaultInstance]) {
+    result.sender =
+      [[[MinimumUserProto builderWithPrototype:result.sender] mergeFrom:value] buildPartial];
+  } else {
+    result.sender = value;
+  }
+  result.hasSender = YES;
+  return self;
+}
+- (ObstacleRemovalCompleteRequestProto_Builder*) clearSender {
+  result.hasSender = NO;
+  result.sender = [MinimumUserProto defaultInstance];
+  return self;
+}
+- (BOOL) hasCurTime {
+  return result.hasCurTime;
+}
+- (int64_t) curTime {
+  return result.curTime;
+}
+- (ObstacleRemovalCompleteRequestProto_Builder*) setCurTime:(int64_t) value {
+  result.hasCurTime = YES;
+  result.curTime = value;
+  return self;
+}
+- (ObstacleRemovalCompleteRequestProto_Builder*) clearCurTime {
+  result.hasCurTime = NO;
+  result.curTime = 0L;
+  return self;
+}
+- (BOOL) hasSpeedUp {
+  return result.hasSpeedUp;
+}
+- (BOOL) speedUp {
+  return result.speedUp;
+}
+- (ObstacleRemovalCompleteRequestProto_Builder*) setSpeedUp:(BOOL) value {
+  result.hasSpeedUp = YES;
+  result.speedUp = value;
+  return self;
+}
+- (ObstacleRemovalCompleteRequestProto_Builder*) clearSpeedUp {
+  result.hasSpeedUp = NO;
+  result.speedUp = NO;
+  return self;
+}
+- (BOOL) hasGemsSpent {
+  return result.hasGemsSpent;
+}
+- (int32_t) gemsSpent {
+  return result.gemsSpent;
+}
+- (ObstacleRemovalCompleteRequestProto_Builder*) setGemsSpent:(int32_t) value {
+  result.hasGemsSpent = YES;
+  result.gemsSpent = value;
+  return self;
+}
+- (ObstacleRemovalCompleteRequestProto_Builder*) clearGemsSpent {
+  result.hasGemsSpent = NO;
+  result.gemsSpent = 0;
+  return self;
+}
+- (BOOL) hasUserObstacleId {
+  return result.hasUserObstacleId;
+}
+- (int32_t) userObstacleId {
+  return result.userObstacleId;
+}
+- (ObstacleRemovalCompleteRequestProto_Builder*) setUserObstacleId:(int32_t) value {
+  result.hasUserObstacleId = YES;
+  result.userObstacleId = value;
+  return self;
+}
+- (ObstacleRemovalCompleteRequestProto_Builder*) clearUserObstacleId {
+  result.hasUserObstacleId = NO;
+  result.userObstacleId = 0;
+  return self;
+}
+- (BOOL) hasAtMaxObstacles {
+  return result.hasAtMaxObstacles;
+}
+- (BOOL) atMaxObstacles {
+  return result.atMaxObstacles;
+}
+- (ObstacleRemovalCompleteRequestProto_Builder*) setAtMaxObstacles:(BOOL) value {
+  result.hasAtMaxObstacles = YES;
+  result.atMaxObstacles = value;
+  return self;
+}
+- (ObstacleRemovalCompleteRequestProto_Builder*) clearAtMaxObstacles {
+  result.hasAtMaxObstacles = NO;
+  result.atMaxObstacles = NO;
+  return self;
+}
+@end
+
+@interface ObstacleRemovalCompleteResponseProto ()
+@property (retain) MinimumUserProto* sender;
+@property ObstacleRemovalCompleteResponseProto_ObstacleRemovalCompleteStatus status;
+@end
+
+@implementation ObstacleRemovalCompleteResponseProto
+
+- (BOOL) hasSender {
+  return !!hasSender_;
+}
+- (void) setHasSender:(BOOL) value {
+  hasSender_ = !!value;
+}
+@synthesize sender;
+- (BOOL) hasStatus {
+  return !!hasStatus_;
+}
+- (void) setHasStatus:(BOOL) value {
+  hasStatus_ = !!value;
+}
+@synthesize status;
+- (void) dealloc {
+  self.sender = nil;
+  [super dealloc];
+}
+- (id) init {
+  if ((self = [super init])) {
+    self.sender = [MinimumUserProto defaultInstance];
+    self.status = ObstacleRemovalCompleteResponseProto_ObstacleRemovalCompleteStatusSuccess;
+  }
+  return self;
+}
+static ObstacleRemovalCompleteResponseProto* defaultObstacleRemovalCompleteResponseProtoInstance = nil;
++ (void) initialize {
+  if (self == [ObstacleRemovalCompleteResponseProto class]) {
+    defaultObstacleRemovalCompleteResponseProtoInstance = [[ObstacleRemovalCompleteResponseProto alloc] init];
+  }
+}
++ (ObstacleRemovalCompleteResponseProto*) defaultInstance {
+  return defaultObstacleRemovalCompleteResponseProtoInstance;
+}
+- (ObstacleRemovalCompleteResponseProto*) defaultInstance {
+  return defaultObstacleRemovalCompleteResponseProtoInstance;
+}
+- (BOOL) isInitialized {
+  return YES;
+}
+- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output {
+  if (self.hasSender) {
+    [output writeMessage:1 value:self.sender];
+  }
+  if (self.hasStatus) {
+    [output writeEnum:2 value:self.status];
+  }
+  [self.unknownFields writeToCodedOutputStream:output];
+}
+- (int32_t) serializedSize {
+  int32_t size = memoizedSerializedSize;
+  if (size != -1) {
+    return size;
+  }
+
+  size = 0;
+  if (self.hasSender) {
+    size += computeMessageSize(1, self.sender);
+  }
+  if (self.hasStatus) {
+    size += computeEnumSize(2, self.status);
+  }
+  size += self.unknownFields.serializedSize;
+  memoizedSerializedSize = size;
+  return size;
+}
++ (ObstacleRemovalCompleteResponseProto*) parseFromData:(NSData*) data {
+  return (ObstacleRemovalCompleteResponseProto*)[[[ObstacleRemovalCompleteResponseProto builder] mergeFromData:data] build];
+}
++ (ObstacleRemovalCompleteResponseProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (ObstacleRemovalCompleteResponseProto*)[[[ObstacleRemovalCompleteResponseProto builder] mergeFromData:data extensionRegistry:extensionRegistry] build];
+}
++ (ObstacleRemovalCompleteResponseProto*) parseFromInputStream:(NSInputStream*) input {
+  return (ObstacleRemovalCompleteResponseProto*)[[[ObstacleRemovalCompleteResponseProto builder] mergeFromInputStream:input] build];
+}
++ (ObstacleRemovalCompleteResponseProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (ObstacleRemovalCompleteResponseProto*)[[[ObstacleRemovalCompleteResponseProto builder] mergeFromInputStream:input extensionRegistry:extensionRegistry] build];
+}
++ (ObstacleRemovalCompleteResponseProto*) parseFromCodedInputStream:(PBCodedInputStream*) input {
+  return (ObstacleRemovalCompleteResponseProto*)[[[ObstacleRemovalCompleteResponseProto builder] mergeFromCodedInputStream:input] build];
+}
++ (ObstacleRemovalCompleteResponseProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (ObstacleRemovalCompleteResponseProto*)[[[ObstacleRemovalCompleteResponseProto builder] mergeFromCodedInputStream:input extensionRegistry:extensionRegistry] build];
+}
++ (ObstacleRemovalCompleteResponseProto_Builder*) builder {
+  return [[[ObstacleRemovalCompleteResponseProto_Builder alloc] init] autorelease];
+}
++ (ObstacleRemovalCompleteResponseProto_Builder*) builderWithPrototype:(ObstacleRemovalCompleteResponseProto*) prototype {
+  return [[ObstacleRemovalCompleteResponseProto builder] mergeFrom:prototype];
+}
+- (ObstacleRemovalCompleteResponseProto_Builder*) builder {
+  return [ObstacleRemovalCompleteResponseProto builder];
+}
+@end
+
+BOOL ObstacleRemovalCompleteResponseProto_ObstacleRemovalCompleteStatusIsValidValue(ObstacleRemovalCompleteResponseProto_ObstacleRemovalCompleteStatus value) {
+  switch (value) {
+    case ObstacleRemovalCompleteResponseProto_ObstacleRemovalCompleteStatusSuccess:
+    case ObstacleRemovalCompleteResponseProto_ObstacleRemovalCompleteStatusFailInsufficientGems:
+    case ObstacleRemovalCompleteResponseProto_ObstacleRemovalCompleteStatusFailOther:
+      return YES;
+    default:
+      return NO;
+  }
+}
+@interface ObstacleRemovalCompleteResponseProto_Builder()
+@property (retain) ObstacleRemovalCompleteResponseProto* result;
+@end
+
+@implementation ObstacleRemovalCompleteResponseProto_Builder
+@synthesize result;
+- (void) dealloc {
+  self.result = nil;
+  [super dealloc];
+}
+- (id) init {
+  if ((self = [super init])) {
+    self.result = [[[ObstacleRemovalCompleteResponseProto alloc] init] autorelease];
+  }
+  return self;
+}
+- (PBGeneratedMessage*) internalGetResult {
+  return result;
+}
+- (ObstacleRemovalCompleteResponseProto_Builder*) clear {
+  self.result = [[[ObstacleRemovalCompleteResponseProto alloc] init] autorelease];
+  return self;
+}
+- (ObstacleRemovalCompleteResponseProto_Builder*) clone {
+  return [ObstacleRemovalCompleteResponseProto builderWithPrototype:result];
+}
+- (ObstacleRemovalCompleteResponseProto*) defaultInstance {
+  return [ObstacleRemovalCompleteResponseProto defaultInstance];
+}
+- (ObstacleRemovalCompleteResponseProto*) build {
+  [self checkInitialized];
+  return [self buildPartial];
+}
+- (ObstacleRemovalCompleteResponseProto*) buildPartial {
+  ObstacleRemovalCompleteResponseProto* returnMe = [[result retain] autorelease];
+  self.result = nil;
+  return returnMe;
+}
+- (ObstacleRemovalCompleteResponseProto_Builder*) mergeFrom:(ObstacleRemovalCompleteResponseProto*) other {
+  if (other == [ObstacleRemovalCompleteResponseProto defaultInstance]) {
+    return self;
+  }
+  if (other.hasSender) {
+    [self mergeSender:other.sender];
+  }
+  if (other.hasStatus) {
+    [self setStatus:other.status];
+  }
+  [self mergeUnknownFields:other.unknownFields];
+  return self;
+}
+- (ObstacleRemovalCompleteResponseProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input {
+  return [self mergeFromCodedInputStream:input extensionRegistry:[PBExtensionRegistry emptyRegistry]];
+}
+- (ObstacleRemovalCompleteResponseProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  PBUnknownFieldSet_Builder* unknownFields = [PBUnknownFieldSet builderWithUnknownFields:self.unknownFields];
+  while (YES) {
+    int32_t tag = [input readTag];
+    switch (tag) {
+      case 0:
+        [self setUnknownFields:[unknownFields build]];
+        return self;
+      default: {
+        if (![self parseUnknownField:input unknownFields:unknownFields extensionRegistry:extensionRegistry tag:tag]) {
+          [self setUnknownFields:[unknownFields build]];
+          return self;
+        }
+        break;
+      }
+      case 10: {
+        MinimumUserProto_Builder* subBuilder = [MinimumUserProto builder];
+        if (self.hasSender) {
+          [subBuilder mergeFrom:self.sender];
+        }
+        [input readMessage:subBuilder extensionRegistry:extensionRegistry];
+        [self setSender:[subBuilder buildPartial]];
+        break;
+      }
+      case 16: {
+        int32_t value = [input readEnum];
+        if (ObstacleRemovalCompleteResponseProto_ObstacleRemovalCompleteStatusIsValidValue(value)) {
+          [self setStatus:value];
+        } else {
+          [unknownFields mergeVarintField:2 value:value];
+        }
+        break;
+      }
+    }
+  }
+}
+- (BOOL) hasSender {
+  return result.hasSender;
+}
+- (MinimumUserProto*) sender {
+  return result.sender;
+}
+- (ObstacleRemovalCompleteResponseProto_Builder*) setSender:(MinimumUserProto*) value {
+  result.hasSender = YES;
+  result.sender = value;
+  return self;
+}
+- (ObstacleRemovalCompleteResponseProto_Builder*) setSenderBuilder:(MinimumUserProto_Builder*) builderForValue {
+  return [self setSender:[builderForValue build]];
+}
+- (ObstacleRemovalCompleteResponseProto_Builder*) mergeSender:(MinimumUserProto*) value {
+  if (result.hasSender &&
+      result.sender != [MinimumUserProto defaultInstance]) {
+    result.sender =
+      [[[MinimumUserProto builderWithPrototype:result.sender] mergeFrom:value] buildPartial];
+  } else {
+    result.sender = value;
+  }
+  result.hasSender = YES;
+  return self;
+}
+- (ObstacleRemovalCompleteResponseProto_Builder*) clearSender {
+  result.hasSender = NO;
+  result.sender = [MinimumUserProto defaultInstance];
+  return self;
+}
+- (BOOL) hasStatus {
+  return result.hasStatus;
+}
+- (ObstacleRemovalCompleteResponseProto_ObstacleRemovalCompleteStatus) status {
+  return result.status;
+}
+- (ObstacleRemovalCompleteResponseProto_Builder*) setStatus:(ObstacleRemovalCompleteResponseProto_ObstacleRemovalCompleteStatus) value {
+  result.hasStatus = YES;
+  result.status = value;
+  return self;
+}
+- (ObstacleRemovalCompleteResponseProto_Builder*) clearStatus {
+  result.hasStatus = NO;
+  result.status = ObstacleRemovalCompleteResponseProto_ObstacleRemovalCompleteStatusSuccess;
+  return self;
+}
+@end
+

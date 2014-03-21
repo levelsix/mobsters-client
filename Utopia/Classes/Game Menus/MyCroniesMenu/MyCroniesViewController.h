@@ -55,7 +55,7 @@
 - (int) maxInventorySlots;
 - (int) numValidHospitals;
 - (BOOL) userMonsterIsUnavailable:(UserMonster *)um;
-- (NSDate *) monsterHealingQueueEndTime;
+- (MSDate *) monsterHealingQueueEndTime;
 - (int) maxQueueSize;
 
 @end

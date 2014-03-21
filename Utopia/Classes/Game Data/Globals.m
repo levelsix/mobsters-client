@@ -79,6 +79,8 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
   self.gemsPerResource = constants.gemsPerResource;
   self.continueBattleGemCostMultiplier = constants.continueBattleGemCostMultiplier;
   self.addAllFbFriends = constants.addAllFbFriends;
+  self.maxObstacles = constants.maxObstacles;
+  self.minutesPerObstacle = constants.minutesPerObstacle;
   
   self.miniTutorialConstants = constants.miniTuts;
   
@@ -478,7 +480,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
   return [base stringByAppendingString:str];
 }
 
-+ (NSString *) stringForTimeSinceNow:(NSDate *)date shortened:(BOOL)shortened {
++ (NSString *) stringForTimeSinceNow:(MSDate *)date shortened:(BOOL)shortened {
   int time = -1*[date timeIntervalSinceNow];
   
   
@@ -1631,10 +1633,10 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
 
 + (void) checkRateUsPopup {
   NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
-  NSDate *lastSeen = [defaults objectForKey:RATE_US_POPUP_DEFAULT_KEY];
+  MSDate *lastSeen = [defaults objectForKey:RATE_US_POPUP_DEFAULT_KEY];
   if (!lastSeen) {
     [[Globals sharedGlobals] displayRateUsPopup];
-    [defaults setObject:[NSDate date] forKey:RATE_US_POPUP_DEFAULT_KEY];
+    [defaults setObject:[MSDate date] forKey:RATE_US_POPUP_DEFAULT_KEY];
   }
 }
 
@@ -1689,7 +1691,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
     return NO;
   }
   
-  uint64_t curTime = [[NSDate date] timeIntervalSince1970]*1000.;
+  uint64_t curTime = [[MSDate date] timeIntervalSince1970]*1000.;
   uint64_t shieldEndTime = createTime + sharedGlobals.defaultDaysBattleShieldIsActive*24*60*60*1000;
   
   return curTime < shieldEndTime;
@@ -1744,14 +1746,14 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
   NSMutableArray *fakeQueue = [NSMutableArray array];
   for (BattlePlayer *bp in team) {
     UserMonsterHealingItem *heal = [[UserMonsterHealingItem alloc] init];
-    heal.queueTime = [NSDate date];
+    heal.queueTime = [MSDate date];
     heal.userMonsterId = bp.userMonsterId;
     [fakeQueue addObject:heal];
   }
   HospitalQueueSimulator *sim = [[HospitalQueueSimulator alloc] initWithHospitals:[gs allHospitals] healingItems:fakeQueue];
   [sim simulate];
   
-  NSDate *lastDate = nil;
+  MSDate *lastDate = nil;
   for (HealingItemSim *hi in sim.healingItems) {
     if (!lastDate || [lastDate compare:hi.endTime] == NSOrderedAscending) {
       lastDate = hi.endTime;

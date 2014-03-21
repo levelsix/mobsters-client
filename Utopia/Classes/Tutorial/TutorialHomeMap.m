@@ -230,7 +230,7 @@
 }
 
 - (void) speedupPurchasedBuilding {
-  self.clickableUserStructId = _constrBuilding.userStruct.userStructId;
+  self.clickableUserStructId = ((HomeBuilding *)_constrBuilding).userStruct.userStructId;
 }
 
 - (void) moveToOilDrill {
@@ -258,6 +258,24 @@
 
 - (void) cancelMoveClicked:(id)sender {
   // Do nothing
+}
+
+- (NSArray *) reloadObstacles {
+  NSArray *obstacles = self.constants.tutorialObstaclesList;
+  NSMutableArray *sprites = [NSMutableArray array];
+  
+  for (MinimumObstacleProto *ob in obstacles) {
+    UserObstacle *uo = [[UserObstacle alloc] init];
+    uo.obstacleId = ob.obstacleId;
+    uo.orientation = ob.orientation;
+    uo.coordinates = ccp(ob.coordinate.x, ob.coordinate.y);
+    
+    ObstacleSprite *os = [[ObstacleSprite alloc] initWithObstacle:uo map:self];
+    [self addChild:os];
+    
+    [sprites addObject:os];
+  }
+  return sprites;
 }
 
 - (SelectableSprite *) selectableForPt:(CGPoint)pt {
@@ -300,10 +318,10 @@
   UserStruct *us = [[UserStruct alloc] init];
   us.userStructId = _purchStructId;
   us.structId = _purchStructId;
-  us.purchaseTime = [NSDate date];
+  us.purchaseTime = [MSDate date];
   us.orientation = StructOrientationPosition1;
   us.coordinates = homeBuilding.location.origin;
-  us.lastRetrieved = [NSDate date];
+  us.lastRetrieved = [MSDate date];
   [self.myStructs addObject:us];
   
   self.clickableUserStructId = _purchStructId;
@@ -315,14 +333,15 @@
   [super purchaseBuildingAllowGems:allowGems];
   [self moveToSprite:_constrBuilding animated:YES];
   
+  HomeBuilding *hb = (HomeBuilding *)_constrBuilding;
   int cashCost = 0, oilCost = 0;
-  StructureInfoProto *fsp = _constrBuilding.userStruct.staticStruct.structInfo;
+  StructureInfoProto *fsp = hb.userStruct.staticStruct.structInfo;
   if (fsp.buildResourceType == ResourceTypeCash) {
     cashCost = fsp.buildCost;
   } else if (fsp.buildResourceType == ResourceTypeOil) {
     oilCost = fsp.buildCost;
   }
-  [self.delegate purchasedBuildingWasSetDown:_constrBuilding.userStruct.structId coordinate:_constrBuilding.location.origin cashCost:cashCost oilCost:oilCost];
+  [self.delegate purchasedBuildingWasSetDown:hb.userStruct.structId coordinate:hb.location.origin cashCost:cashCost oilCost:oilCost];
 }
 
 - (IBAction)finishNowClicked:(id)sender {

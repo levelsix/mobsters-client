@@ -95,7 +95,7 @@
 
 @property (nonatomic, weak) IBOutlet id<MyCroniesQueueDelegate> delegate;
 
-- (void) reloadTableWithHealingQueue:(NSArray *)healingQueue userMonster:(NSArray *)userMonsters timeLeft:(int)timeLeft hospitalCount:(int)hospitalCount;
+- (void) reloadTableAnimated:(BOOL)animated healingQueue:(NSArray *)healingQueue userMonster:(NSArray *)userMonsters timeLeft:(int)timeLeft hospitalCount:(int)hospitalCount;
 - (void) updateTimeWithTimeLeft:(int)timeLeft hospitalCount:(int)hospitalCount;
 
 - (IBAction)speedupClicked:(id)sender;

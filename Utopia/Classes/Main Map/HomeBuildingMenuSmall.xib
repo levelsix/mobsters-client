@@ -11,6 +11,7 @@
                 <outlet property="buildingEnterView" destination="zPl-fE-081" id="Qdf-bK-LOi"/>
                 <outlet property="buildingIncomeLabel" destination="HkO-DO-0Xu" id="RWX-l2-9xc"/>
                 <outlet property="buildingNameLabel" destination="f8a-kT-QFn" id="ASZ-PF-LAt"/>
+                <outlet property="buildingUpgradeButtonTopLabel" destination="lki-6O-TLo" id="ocG-fw-yky"/>
                 <outlet property="buildingUpgradeCashCostLabel" destination="95" id="Rvo-9k-Sh3"/>
                 <outlet property="buildingUpgradeOilCostLabel" destination="Dxd-q7-7fb" id="JMt-2o-3Gq"/>
                 <outlet property="buildingUpgradeOilView" destination="HNx-Bh-pZ7" id="mdv-JT-Qih"/>
@@ -113,15 +114,6 @@
                                         <action selector="littleUpgradeClicked:" destination="-1" eventType="touchUpInside" id="Dbd-vB-flF"/>
                                     </connections>
                                 </button>
-                                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Upgrade" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="8" id="lki-6O-TLo" customClass="NiceFontLabel">
-                                    <rect key="frame" x="9" y="10" width="67" height="22"/>
-                                    <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxY="YES"/>
-                                    <fontDescription key="fontDescription" type="system" pointSize="11"/>
-                                    <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                    <nil key="highlightedColor"/>
-                                    <color key="shadowColor" red="0.23529411764705882" green="0.39215686274509803" blue="0.0" alpha="0.75" colorSpace="calibratedRGB"/>
-                                    <size key="shadowOffset" width="0.0" height="1"/>
-                                </label>
                                 <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="$32,000" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" id="95" customClass="NiceFontLabel">
                                     <rect key="frame" x="12" y="27" width="60" height="17"/>
                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
@@ -146,15 +138,6 @@
                                                 <action selector="littleUpgradeClicked:" destination="-1" eventType="touchUpInside" id="qzK-S6-y1t"/>
                                             </connections>
                                         </button>
-                                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Upgrade" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="8" id="0oO-0g-WIY" customClass="NiceFontLabel">
-                                            <rect key="frame" x="21" y="9" width="45" height="22"/>
-                                            <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxY="YES"/>
-                                            <fontDescription key="fontDescription" type="system" pointSize="11"/>
-                                            <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                            <nil key="highlightedColor"/>
-                                            <color key="shadowColor" red="0.15686274510000001" green="0.0" blue="0.3921568627" alpha="0.75" colorSpace="calibratedRGB"/>
-                                            <size key="shadowOffset" width="0.0" height="1"/>
-                                        </label>
                                         <view userInteractionEnabled="NO" contentMode="scaleToFill" id="l3f-mz-Iz3">
                                             <rect key="frame" x="22" y="27" width="42" height="18"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
@@ -178,6 +161,15 @@
                                     </subviews>
                                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                 </view>
+                                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Upgrade" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="8" id="lki-6O-TLo" customClass="NiceFontLabel">
+                                    <rect key="frame" x="9" y="10" width="67" height="22"/>
+                                    <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxY="YES"/>
+                                    <fontDescription key="fontDescription" type="system" pointSize="11"/>
+                                    <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                    <nil key="highlightedColor"/>
+                                    <color key="shadowColor" red="0.23529411764705882" green="0.39215686274509803" blue="0.0" alpha="0.75" colorSpace="calibratedRGB"/>
+                                    <size key="shadowOffset" width="0.0" height="1"/>
+                                </label>
                             </subviews>
                             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                         </view>

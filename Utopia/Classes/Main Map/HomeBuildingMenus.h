@@ -31,6 +31,6 @@
 @property (nonatomic, retain) CCProgressNode *progressBar;
 
 - (id) initBar;
-- (void) updateForSecsLeft:(int)secs totalSecs:(int)totalSecs;
+- (void) updateForSecsLeft:(float)secs totalSecs:(int)totalSecs;
 
 @end

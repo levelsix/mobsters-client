@@ -35,7 +35,7 @@
 LN_SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
 
 - (uint64_t) getCurrentMilliseconds {
-  return ((uint64_t)[[NSDate date] timeIntervalSince1970])*1000;
+  return ((uint64_t)[[MSDate date] timeIntervalSince1970])*1000;
 }
 
 - (void) createUserWithName:(NSString *)name facebookId:(NSString *)facebookId structs:(NSArray *)structs cash:(int)cash oil:(int)oil gems:(int)gems delegate:(id)delegate {
@@ -87,6 +87,12 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
       return us;
     }
   }
+  for (UserObstacle *u in gs.myObstacles) {
+    if (u.endTime) {
+      [Globals popupMessage:@"You are removing an obstacle at the moment!"];
+      return us;
+    }
+  }
   
   int cost = fsp.buildCost;
   BOOL isOilBuilding = fsp.buildResourceType == ResourceTypeOil;
@@ -112,7 +118,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
     us.isComplete = NO;
     us.coordinates = CGPointMake(x, y);
     us.orientation = 0;
-    us.purchaseTime = [NSDate date];
+    us.purchaseTime = [MSDate date];
     us.lastRetrieved = nil;
     
     AddStructUpdate *asu = [AddStructUpdate updateWithTag:tag userStruct:us];
@@ -173,7 +179,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
       [gs saveHealthProgressesFromIndex:0];
       
       userStruct.isComplete = NO;
-      userStruct.purchaseTime = [NSDate dateWithTimeIntervalSince1970:ms/1000.0];
+      userStruct.purchaseTime = [MSDate dateWithTimeIntervalSince1970:ms/1000.0];
       userStruct.structId = nextFsp.structId;
       
       // Update game state
@@ -219,7 +225,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
       ms -= (int)((numRes-amountCollected)/gen.productionRate*3600*1000);
       
       int tag = [sc retrieveCurrencyFromStruct:userStruct.userStructId time:ms amountCollected:amountCollected];
-      userStruct.lastRetrieved = [NSDate dateWithTimeIntervalSince1970:ms/1000.0];
+      userStruct.lastRetrieved = [MSDate dateWithTimeIntervalSince1970:ms/1000.0];
       
       // Update game state
       FullUserUpdate *up = nil;
@@ -257,7 +263,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
     [gs saveHealthProgressesFromIndex:0];
     
     userStruct.isComplete = YES;
-    userStruct.lastRetrieved = [NSDate dateWithTimeIntervalSince1970:ms/1000.0];
+    userStruct.lastRetrieved = [MSDate dateWithTimeIntervalSince1970:ms/1000.0];
     
     // Update game state
     [gs addUnrespondedUpdate:[GoldUpdate updateWithTag:tag change:-[gl calculateGemSpeedupCostForTimeLeft:timeLeft]]];
@@ -277,9 +283,9 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
   } else if (userStruct.userId != gs.userId) {
     [Globals popupMessage:@"This is not your building!"];
   } else if (!userStruct.isComplete) {
-    NSDate *date = userStruct.buildCompleteDate;
+    MSDate *date = userStruct.buildCompleteDate;
     
-    if ([date compare:[NSDate date]] == NSOrderedDescending) {
+    if ([date compare:[MSDate date]] == NSOrderedDescending) {
       [Globals popupMessage:@"Something went wrong, building should still be waiting"];
       return;
     }
@@ -760,7 +766,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
     ue.isExpanding = YES;
     ue.xPosition = x;
     ue.yPosition = y;
-    ue.lastExpandTime = [NSDate dateWithTimeIntervalSince1970:ms/1000.0];
+    ue.lastExpandTime = [MSDate dateWithTimeIntervalSince1970:ms/1000.0];
     [gs.userExpansions addObject:ue];
     
     [gs beginExpansionTimer];
@@ -778,7 +784,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
     [Globals popupMessage:@"Attempting to speedup without enough gold"];
   } else if (!ue.isExpanding) {
     [Globals popupMessage:@"Attempting to complete expansion while not expanding"];
-  } else if (!speedUp && [[NSDate date] compare:[ue.lastExpandTime dateByAddingTimeInterval:[gl calculateNumMinutesForNewExpansion]*60]] == NSOrderedAscending) {
+  } else if (!speedUp && [[MSDate date] compare:[ue.lastExpandTime dateByAddingTimeInterval:[gl calculateNumMinutesForNewExpansion]*60]] == NSOrderedAscending) {
     [Globals popupMessage:@"Attempting to complete expansion before it is ready"];
   } else {
     uint64_t ms = [self getCurrentMilliseconds];
@@ -862,7 +868,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
   [[SocketCommunication sharedSocketCommunication] setDelegate:delegate forTag:tag];
   [gs addUnrespondedUpdate:[GoldUpdate updateWithTag:tag change:-gems]];
   
-  [gs.eventCooldownTimes setObject:[NSDate date] forKey:@(eventId)];
+  [gs.eventCooldownTimes setObject:[MSDate date] forKey:@(eventId)];
 }
 
 - (void) updateMonsterHealth:(uint64_t)userMonsterId curHealth:(int)curHealth {
@@ -1461,7 +1467,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
   GameState *gs = [GameState sharedGameState];
   Globals *gl = [Globals sharedGlobals];
   
-  UserEvolution *evo = [UserEvolution evolutionWithEvoItem:evoItem time:[NSDate date]];
+  UserEvolution *evo = [UserEvolution evolutionWithEvoItem:evoItem time:[MSDate date]];
   int oilCost = evoItem.userMonster1.staticMonster.evolutionCost;
   
   if (!evoItem.userMonster1 || !evoItem.userMonster2 || !evoItem.catalystMonster) {
@@ -1534,6 +1540,111 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
   OilUpdate *ou = [OilUpdate updateWithTag:tag change:oilChange];
   GoldUpdate *gu = [GoldUpdate updateWithTag:tag change:gemChange];
   [gs addUnrespondedUpdates:su, ou, gu, nil];
+}
+
+- (void) spawnObstacles:(NSArray *)obstacles {
+  if (obstacles.count) {
+    GameState *gs = [GameState sharedGameState];
+    
+    NSMutableArray *mins = [NSMutableArray array];
+    for (UserObstacle *ob in obstacles) {
+      MinimumObstacleProto_Builder *min = [MinimumObstacleProto builder];
+      min.obstacleId = ob.obstacleId;
+      min.coordinate = [[[[CoordinateProto builder] setX:ob.coordinates.x] setY:ob.coordinates.y] build];
+      min.orientation = ob.orientation;
+      [mins addObject:min.build];
+    }
+    [gs.myObstacles addObjectsFromArray:obstacles];
+    
+    int64_t ms = [self getCurrentMilliseconds];
+    [[SocketCommunication sharedSocketCommunication] sendSpawnObstacleMessage:mins clientTime:ms];
+    gs.lastObstacleCreateTime = [MSDate dateWithTimeIntervalSince1970:ms/1000.];
+  }
+}
+
+- (void) beginObstacleRemoval:(UserObstacle *)obstacle spendGems:(BOOL)spendGems {
+  GameState *gs = [GameState sharedGameState];
+  Globals *gl = [Globals sharedGlobals];
+  ObstacleProto *op = obstacle.staticObstacle;
+  
+  for (UserStruct *u in gs.myStructs) {
+    if (!u.isComplete) {
+      [Globals popupMessage:@"You can only construct one building at a time!"];
+      return;
+    }
+  }
+  for (UserObstacle *u in gs.myObstacles) {
+    if (u.endTime) {
+      [Globals popupMessage:@"You are removing an obstacle at the moment!"];
+      return;
+    }
+  }
+  
+  if (!obstacle.userObstacleId) {
+    [Globals popupMessage:@"Attempting to remove obstacle without id."];
+  } else {
+    int cost = op.cost;
+    BOOL isOilBuilding = op.removalCostType == ResourceTypeOil;
+    int curAmount = isOilBuilding ? gs.oil : gs.silver;
+    int gemCost = 0;
+    
+    if (spendGems && cost > curAmount) {
+      gemCost = [gl calculateGemConversionForResourceType:op.removalCostType amount:cost-curAmount];
+      cost = curAmount;
+    }
+    
+    if (cost > curAmount || gemCost > gs.gold) {
+      [Globals popupMessage:@"Trying to build without enough resources."];
+    } else {
+      uint64_t ms = [self getCurrentMilliseconds];
+      int tag = [[SocketCommunication sharedSocketCommunication] sendBeginObstacleRemovalMessage:obstacle.userObstacleId resType:op.removalCostType resChange:-cost gemsSpent:gemCost clientTime:ms];
+      
+      obstacle.removalTime = [MSDate dateWithTimeIntervalSince1970:ms/1000.];
+      
+      // Update game state
+      FullUserUpdate *su = [(isOilBuilding ? [OilUpdate class] : [SilverUpdate class]) updateWithTag:tag change:-cost];
+      GoldUpdate *gu = [GoldUpdate updateWithTag:tag change:-gemCost];
+      [gs addUnrespondedUpdates:su, gu, nil];
+    }
+  }
+}
+
+- (BOOL) obstacleRemovalComplete:(UserObstacle *)obstacle speedup:(BOOL)speedup {
+  GameState *gs = [GameState sharedGameState];
+  Globals *gl = [Globals sharedGlobals];
+  
+  int timeLeft = obstacle.endTime.timeIntervalSinceNow;
+  if (!obstacle.userObstacleId) {
+    [Globals popupMessage:@"Attempting to complete obstacle removal without id."];
+  } else if (timeLeft > 0 && !speedup) {
+    [Globals popupMessage:@"Attempting to complete obstacle before time."];
+  } else {
+    int numGems = 0;
+    if (speedup) {
+      numGems = [gl calculateGemSpeedupCostForTimeLeft:timeLeft];
+    }
+    
+    if (gs.gold < numGems) {
+      [Globals popupMessage:@"Attempting to speedup without enough gold"];
+    } else {
+      int64_t ms = [self getCurrentMilliseconds];
+      
+      BOOL shouldResetTime = gs.myObstacles.count >= gl.maxObstacles;
+      
+      int tag = [[SocketCommunication sharedSocketCommunication] sendObstacleRemovalCompleteMessage:obstacle.userObstacleId speedup:numGems > 0 gemsSpent:numGems clientTime:ms];
+      [gs addUnrespondedUpdate:[GoldUpdate updateWithTag:tag change:-numGems]];
+      
+      obstacle.removalTime = nil;
+      [gs.myObstacles removeObject:obstacle];
+      
+      if (shouldResetTime) {
+        gs.lastObstacleCreateTime = [MSDate dateWithTimeIntervalSince1970:ms/1000.];
+      }
+      
+      return YES;
+    }
+  }
+  return NO;
 }
 
 @end

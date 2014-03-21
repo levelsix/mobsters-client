@@ -58,6 +58,10 @@
 @class BeginDungeonRequestProto_Builder;
 @class BeginDungeonResponseProto;
 @class BeginDungeonResponseProto_Builder;
+@class BeginObstacleRemovalRequestProto;
+@class BeginObstacleRemovalRequestProto_Builder;
+@class BeginObstacleRemovalResponseProto;
+@class BeginObstacleRemovalResponseProto_Builder;
 @class BeginPvpBattleRequestProto;
 @class BeginPvpBattleRequestProto_Builder;
 @class BeginPvpBattleResponseProto;
@@ -222,6 +226,8 @@
 @class LogoutRequestProto_Builder;
 @class MinimumClanProto;
 @class MinimumClanProto_Builder;
+@class MinimumObstacleProto;
+@class MinimumObstacleProto_Builder;
 @class MinimumUserMonsterProto;
 @class MinimumUserMonsterProto_Builder;
 @class MinimumUserMonsterSellProto;
@@ -258,6 +264,10 @@
 @class NormStructWaitCompleteResponseProto_Builder;
 @class ObstacleProto;
 @class ObstacleProto_Builder;
+@class ObstacleRemovalCompleteRequestProto;
+@class ObstacleRemovalCompleteRequestProto_Builder;
+@class ObstacleRemovalCompleteResponseProto;
+@class ObstacleRemovalCompleteResponseProto_Builder;
 @class PersistentClanEventClanInfoProto;
 @class PersistentClanEventClanInfoProto_Builder;
 @class PersistentClanEventProto;
@@ -390,6 +400,10 @@
 @class SetGameCenterIdRequestProto_Builder;
 @class SetGameCenterIdResponseProto;
 @class SetGameCenterIdResponseProto_Builder;
+@class SpawnObstacleRequestProto;
+@class SpawnObstacleRequestProto_Builder;
+@class SpawnObstacleResponseProto;
+@class SpawnObstacleResponseProto_Builder;
 @class StartupRequestProto;
 @class StartupRequestProto_Builder;
 @class StartupResponseProto;
@@ -547,6 +561,9 @@ typedef enum {
   EventProtocolRequestCRecordClanRaidStatsEvent = 64,
   EventProtocolRequestCPromoteDemoteClanMemberEvent = 65,
   EventProtocolRequestCSetGameCenterIdEvent = 66,
+  EventProtocolRequestCSpawnObstacleEvent = 67,
+  EventProtocolRequestCBeginObstacleRemovalEvent = 68,
+  EventProtocolRequestCObstacleRemovalCompleteEvent = 69,
   EventProtocolRequestCLogoutEvent = 101,
 } EventProtocolRequest;
 
@@ -617,6 +634,9 @@ typedef enum {
   EventProtocolResponseSRecordClanRaidStatsEvent = 64,
   EventProtocolResponseSPromoteDemoteClanMemberEvent = 65,
   EventProtocolResponseSSetGameCenterIdEvent = 66,
+  EventProtocolResponseSSpawnObstacleEvent = 67,
+  EventProtocolResponseSBeginObstacleRemovalEvent = 68,
+  EventProtocolResponseSObstacleRemovalCompleteEvent = 69,
   EventProtocolResponseSUpdateClientUserEvent = 101,
   EventProtocolResponseSReferralCodeUsedEvent = 102,
   EventProtocolResponseSPurgeStaticDataEvent = 103,

@@ -10,6 +10,8 @@
 @class HospitalProto_Builder;
 @class LabProto;
 @class LabProto_Builder;
+@class MinimumObstacleProto;
+@class MinimumObstacleProto_Builder;
 @class ObstacleProto;
 @class ObstacleProto_Builder;
 @class ResidenceProto;
@@ -1038,6 +1040,8 @@ BOOL StructureInfoProto_StructTypeIsValidValue(StructureInfoProto_StructType val
 @private
   BOOL hasImgVerticalPixelOffset_:1;
   BOOL hasChanceToAppear_:1;
+  BOOL hasShadowVerticalOffset_:1;
+  BOOL hasShadowHorizontalOfffset_:1;
   BOOL hasObstacleId_:1;
   BOOL hasCost_:1;
   BOOL hasSecondsToRemove_:1;
@@ -1046,9 +1050,12 @@ BOOL StructureInfoProto_StructTypeIsValidValue(StructureInfoProto_StructType val
   BOOL hasName_:1;
   BOOL hasImgName_:1;
   BOOL hasDescription_:1;
+  BOOL hasShadowImgName_:1;
   BOOL hasRemovalCostType_:1;
   Float32 imgVerticalPixelOffset;
   Float32 chanceToAppear;
+  Float32 shadowVerticalOffset;
+  Float32 shadowHorizontalOfffset;
   int32_t obstacleId;
   int32_t cost;
   int32_t secondsToRemove;
@@ -1057,6 +1064,7 @@ BOOL StructureInfoProto_StructTypeIsValidValue(StructureInfoProto_StructType val
   NSString* name;
   NSString* imgName;
   NSString* description;
+  NSString* shadowImgName;
   ResourceType removalCostType;
 }
 - (BOOL) hasObstacleId;
@@ -1070,6 +1078,9 @@ BOOL StructureInfoProto_StructTypeIsValidValue(StructureInfoProto_StructType val
 - (BOOL) hasImgVerticalPixelOffset;
 - (BOOL) hasDescription;
 - (BOOL) hasChanceToAppear;
+- (BOOL) hasShadowImgName;
+- (BOOL) hasShadowVerticalOffset;
+- (BOOL) hasShadowHorizontalOfffset;
 @property (readonly) int32_t obstacleId;
 @property (readonly, retain) NSString* name;
 @property (readonly) ResourceType removalCostType;
@@ -1081,6 +1092,9 @@ BOOL StructureInfoProto_StructTypeIsValidValue(StructureInfoProto_StructType val
 @property (readonly) Float32 imgVerticalPixelOffset;
 @property (readonly, retain) NSString* description;
 @property (readonly) Float32 chanceToAppear;
+@property (readonly, retain) NSString* shadowImgName;
+@property (readonly) Float32 shadowVerticalOffset;
+@property (readonly) Float32 shadowHorizontalOfffset;
 
 + (ObstacleProto*) defaultInstance;
 - (ObstacleProto*) defaultInstance;
@@ -1170,18 +1184,101 @@ BOOL StructureInfoProto_StructTypeIsValidValue(StructureInfoProto_StructType val
 - (Float32) chanceToAppear;
 - (ObstacleProto_Builder*) setChanceToAppear:(Float32) value;
 - (ObstacleProto_Builder*) clearChanceToAppear;
+
+- (BOOL) hasShadowImgName;
+- (NSString*) shadowImgName;
+- (ObstacleProto_Builder*) setShadowImgName:(NSString*) value;
+- (ObstacleProto_Builder*) clearShadowImgName;
+
+- (BOOL) hasShadowVerticalOffset;
+- (Float32) shadowVerticalOffset;
+- (ObstacleProto_Builder*) setShadowVerticalOffset:(Float32) value;
+- (ObstacleProto_Builder*) clearShadowVerticalOffset;
+
+- (BOOL) hasShadowHorizontalOfffset;
+- (Float32) shadowHorizontalOfffset;
+- (ObstacleProto_Builder*) setShadowHorizontalOfffset:(Float32) value;
+- (ObstacleProto_Builder*) clearShadowHorizontalOfffset;
+@end
+
+@interface MinimumObstacleProto : PBGeneratedMessage {
+@private
+  BOOL hasObstacleId_:1;
+  BOOL hasCoordinate_:1;
+  BOOL hasOrientation_:1;
+  int32_t obstacleId;
+  CoordinateProto* coordinate;
+  StructOrientation orientation;
+}
+- (BOOL) hasObstacleId;
+- (BOOL) hasCoordinate;
+- (BOOL) hasOrientation;
+@property (readonly) int32_t obstacleId;
+@property (readonly, retain) CoordinateProto* coordinate;
+@property (readonly) StructOrientation orientation;
+
++ (MinimumObstacleProto*) defaultInstance;
+- (MinimumObstacleProto*) defaultInstance;
+
+- (BOOL) isInitialized;
+- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output;
+- (MinimumObstacleProto_Builder*) builder;
++ (MinimumObstacleProto_Builder*) builder;
++ (MinimumObstacleProto_Builder*) builderWithPrototype:(MinimumObstacleProto*) prototype;
+
++ (MinimumObstacleProto*) parseFromData:(NSData*) data;
++ (MinimumObstacleProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (MinimumObstacleProto*) parseFromInputStream:(NSInputStream*) input;
++ (MinimumObstacleProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (MinimumObstacleProto*) parseFromCodedInputStream:(PBCodedInputStream*) input;
++ (MinimumObstacleProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+@end
+
+@interface MinimumObstacleProto_Builder : PBGeneratedMessage_Builder {
+@private
+  MinimumObstacleProto* result;
+}
+
+- (MinimumObstacleProto*) defaultInstance;
+
+- (MinimumObstacleProto_Builder*) clear;
+- (MinimumObstacleProto_Builder*) clone;
+
+- (MinimumObstacleProto*) build;
+- (MinimumObstacleProto*) buildPartial;
+
+- (MinimumObstacleProto_Builder*) mergeFrom:(MinimumObstacleProto*) other;
+- (MinimumObstacleProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input;
+- (MinimumObstacleProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+
+- (BOOL) hasObstacleId;
+- (int32_t) obstacleId;
+- (MinimumObstacleProto_Builder*) setObstacleId:(int32_t) value;
+- (MinimumObstacleProto_Builder*) clearObstacleId;
+
+- (BOOL) hasCoordinate;
+- (CoordinateProto*) coordinate;
+- (MinimumObstacleProto_Builder*) setCoordinate:(CoordinateProto*) value;
+- (MinimumObstacleProto_Builder*) setCoordinateBuilder:(CoordinateProto_Builder*) builderForValue;
+- (MinimumObstacleProto_Builder*) mergeCoordinate:(CoordinateProto*) value;
+- (MinimumObstacleProto_Builder*) clearCoordinate;
+
+- (BOOL) hasOrientation;
+- (StructOrientation) orientation;
+- (MinimumObstacleProto_Builder*) setOrientation:(StructOrientation) value;
+- (MinimumObstacleProto_Builder*) clearOrientation;
 @end
 
 @interface UserObstacleProto : PBGeneratedMessage {
 @private
-  BOOL hasUserObstacleId_:1;
   BOOL hasRemovalStartTime_:1;
+  BOOL hasUserObstacleId_:1;
   BOOL hasUserId_:1;
   BOOL hasObstacleId_:1;
   BOOL hasCoordinates_:1;
   BOOL hasOrientation_:1;
-  int64_t userObstacleId;
   int64_t removalStartTime;
+  int32_t userObstacleId;
   int32_t userId;
   int32_t obstacleId;
   CoordinateProto* coordinates;
@@ -1193,7 +1290,7 @@ BOOL StructureInfoProto_StructTypeIsValidValue(StructureInfoProto_StructType val
 - (BOOL) hasCoordinates;
 - (BOOL) hasOrientation;
 - (BOOL) hasRemovalStartTime;
-@property (readonly) int64_t userObstacleId;
+@property (readonly) int32_t userObstacleId;
 @property (readonly) int32_t userId;
 @property (readonly) int32_t obstacleId;
 @property (readonly, retain) CoordinateProto* coordinates;
@@ -1235,8 +1332,8 @@ BOOL StructureInfoProto_StructTypeIsValidValue(StructureInfoProto_StructType val
 - (UserObstacleProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
 
 - (BOOL) hasUserObstacleId;
-- (int64_t) userObstacleId;
-- (UserObstacleProto_Builder*) setUserObstacleId:(int64_t) value;
+- (int32_t) userObstacleId;
+- (UserObstacleProto_Builder*) setUserObstacleId:(int32_t) value;
 - (UserObstacleProto_Builder*) clearUserObstacleId;
 
 - (BOOL) hasUserId;

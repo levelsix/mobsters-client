@@ -142,7 +142,7 @@
     int timeLeft = [pe.endTime timeIntervalSinceNow];
     self.timeLeftLabel.text = [NSString stringWithFormat:@"Time Left: %@", [Globals convertTimeToShortString:timeLeft]];
     
-    NSDate *cdTime = pe.cooldownEndTime;
+    MSDate *cdTime = pe.cooldownEndTime;
     timeLeft = [cdTime timeIntervalSinceNow];
     if (timeLeft <= 0) {
       self.enterView.hidden = NO;

@@ -42,6 +42,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
     _eventCooldownTimes = [[NSMutableDictionary alloc] init];
     _notifications = [[NSMutableArray alloc] init];
     _myStructs = [[NSMutableArray alloc] init];
+    _myObstacles = [[NSMutableArray alloc] init];
     _myMonsters = [[NSMutableArray alloc] init];
     _myQuests = [[NSMutableDictionary alloc] init];
     _globalChatMessages = [[NSMutableArray alloc] init];
@@ -96,13 +97,14 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
   self.hasReceivedfbReward = user.hasReceivedfbReward;
   self.numBeginnerSalesPurchased = user.numBeginnerSalesPurchased;
   self.hasActiveShield = user.hasActiveShield;
-  self.createTime = [NSDate dateWithTimeIntervalSince1970:user.createTime/1000.0];
+  self.createTime = [MSDate dateWithTimeIntervalSince1970:user.createTime/1000.0];
+  self.lastObstacleCreateTime = [MSDate dateWithTimeIntervalSince1970:user.lastObstacleSpawnedTime/1000.0];
   if (user.hasFacebookId) self.facebookId = user.facebookId;
   if (user.hasGameCenterId) self.gameCenterId = user.gameCenterId;
   if (user.hasDeviceToken) self.deviceToken = user.deviceToken;
   self.elo = user.elo;
   
-  self.lastLogoutTime = [NSDate dateWithTimeIntervalSince1970:user.lastLogoutTime/1000.0];
+  self.lastLogoutTime = [MSDate dateWithTimeIntervalSince1970:user.lastLogoutTime/1000.0];
   
   for (id<GameStateUpdate> gsu in _unrespondedUpdates) {
     if ([gsu respondsToSelector:@selector(update)]) {
@@ -138,6 +140,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
   fup.hasActiveShield = self.hasActiveShield;
   fup.createTime = self.createTime.timeIntervalSince1970*1000.;
   fup.lastLogoutTime = self.lastLogoutTime.timeIntervalSince1970*1000.;
+  fup.lastObstacleSpawnedTime = self.lastObstacleCreateTime.timeIntervalSince1970*1000.;
   fup.facebookId = self.facebookId;
   fup.elo = self.elo;
   
@@ -293,6 +296,21 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
   [[NSNotificationCenter defaultCenter] postNotificationName:GAMESTATE_UPDATE_NOTIFICATION object:nil];
 }
 
+- (void) addToMyObstacles:(NSArray *)obstacles {
+  NSMutableArray *toRemove = [NSMutableArray array];
+  for (UserObstacle *uo in self.myObstacles) {
+    if (uo.userObstacleId == 0) {
+      [toRemove addObject:uo];
+    }
+  }
+  [self.myObstacles removeObjectsInArray:toRemove];
+  
+  for (UserObstacleProto *p in obstacles) {
+    [self.myObstacles addObject:[[UserObstacle alloc] initWithObstacleProto:p]];
+  }
+  [[NSNotificationCenter defaultCenter] postNotificationName:NEW_OBSTACLES_CREATED_NOTIFICATION object:nil];
+}
+
 - (void) addToMyQuests:(NSArray *)quests {
   for (FullUserQuestProto *uq in quests) {
     [self.myQuests setObject:[UserQuest questWithProto:uq] forKey:[NSNumber numberWithInt:uq.questId]];
@@ -365,7 +383,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
 
 - (void) addToEventCooldownTimes:(NSArray *)arr {
   for (UserPersistentEventProto *u in arr) {
-    NSDate *date = [NSDate dateWithTimeIntervalSince1970:u.coolDownStartTime/1000.];
+    MSDate *date = [MSDate dateWithTimeIntervalSince1970:u.coolDownStartTime/1000.];
     [self.eventCooldownTimes setObject:date forKey:@(u.eventId)];
   }
 }
@@ -444,7 +462,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
   ChatMessage *cm = [[ChatMessage alloc] init];
   cm.sender = sender;
   cm.message = msg;
-  cm.date = [NSDate date];
+  cm.date = [MSDate date];
   cm.isAdmin = isAdmin;
   [self addChatMessage:cm scope:scope];
 }
@@ -481,7 +499,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
 - (void) addUserMonsterHealingItemToEndOfQueue:(UserMonsterHealingItem *)item {
   UserMonsterHealingItem *prevItem = [self.monsterHealingQueue lastObject];
   item.priority = prevItem.priority+1;
-  item.queueTime = [NSDate date];
+  item.queueTime = [MSDate date];
   
   [self.monsterHealingQueue addObject:item];
   [self readjustAllMonsterHealingProtos];
@@ -529,7 +547,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
   }
   
   HospitalQueueSimulator *sim = [[HospitalQueueSimulator alloc] initWithHospitals:allHospitals healingItems:self.monsterHealingQueue];
-  [sim simulateUntilDate:[NSDate date]];
+  [sim simulateUntilDate:[MSDate date]];
   
   for (HealingItemSim *hi in sim.healingItems) {
     UserMonsterHealingItem *item = nil;
@@ -539,7 +557,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
       }
     }
     item.healthProgress = hi.healthProgress;
-    item.queueTime = [NSDate date];
+    item.queueTime = [MSDate date];
   }
 }
 
@@ -549,7 +567,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
   HospitalQueueSimulator *sim = [[HospitalQueueSimulator alloc] initWithHospitals:allHospitals healingItems:self.monsterHealingQueue];
   [sim simulate];
   
-  NSDate *lastDate = nil;
+  MSDate *lastDate = nil;
   for (HealingItemSim *hi in sim.healingItems) {
     UserMonsterHealingItem *item = nil;
     for (UserMonsterHealingItem *i in self.monsterHealingQueue) {
@@ -575,7 +593,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
 
 - (void) addEnhancingItemToEndOfQueue:(EnhancementItem *)item {
   if (self.userEnhancement.feeders.count == 0) {
-    item.expectedStartTime = [NSDate date];
+    item.expectedStartTime = [MSDate date];
   } else {
     EnhancementItem *prevItem = [self.userEnhancement.feeders lastObject];
     item.expectedStartTime = prevItem.expectedEndTime;
@@ -597,7 +615,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
     if (total > index+1) {
       EnhancementItem *next = [feeders objectAtIndex:index+1];
       if (index == 0) {
-        next.expectedStartTime = [NSDate date];
+        next.expectedStartTime = [MSDate date];
       } else {
         EnhancementItem *prev = [feeders objectAtIndex:index-1];
         next.expectedStartTime = prev.expectedEndTime;
@@ -1113,10 +1131,10 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
   for (UserExpansion *ue in self.userExpansions) {
     if (ue.isExpanding) {
       float seconds = [gl calculateNumMinutesForNewExpansion]*60;
-      NSDate *endTime = [ue.lastExpandTime dateByAddingTimeInterval:seconds];
+      MSDate *endTime = [ue.lastExpandTime dateByAddingTimeInterval:seconds];
       
       _expansionTimer = [NSTimer timerWithTimeInterval:endTime.timeIntervalSinceNow target:self selector:@selector(expansionWaitTimeComplete:) userInfo:ue repeats:NO];
-      if ([endTime compare:[NSDate date]] == NSOrderedDescending) {
+      if ([endTime compare:[MSDate date]] == NSOrderedDescending) {
         [[NSRunLoop mainRunLoop] addTimer:_expansionTimer forMode:NSRunLoopCommonModes];
       } else {
         [self expansionWaitTimeComplete:_expansionTimer];
@@ -1144,9 +1162,9 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
   [self stopHealingTimer];
   
   BOOL healWait = NO;
-  NSDate *earliest = nil;
+  MSDate *earliest = nil;
   for (UserMonsterHealingItem *item in self.monsterHealingQueue) {
-    NSDate *endTime = item.endTime;
+    MSDate *endTime = item.endTime;
     if (endTime && [endTime timeIntervalSinceNow] <= 0) {
       healWait = YES;
       break;
@@ -1168,7 +1186,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
 - (void) healingWaitTimeComplete {
   NSMutableArray *arr = [NSMutableArray array];
   for (UserMonsterHealingItem *item in self.monsterHealingQueue) {
-    NSDate *endTime = item.endTime;
+    MSDate *endTime = item.endTime;
     if (endTime && [endTime timeIntervalSinceNow] <= 0) {
       [arr addObject:item];
     }

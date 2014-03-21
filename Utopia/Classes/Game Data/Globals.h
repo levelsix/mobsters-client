@@ -45,6 +45,7 @@
 #define QUESTS_CHANGED_NOTIFICATION @"QuestsChangedNotification"
 #define MY_CLAN_MEMBERS_LIST_NOTIFICATION @"MyClanMembersListNotification"
 #define CLAN_RAID_ATTACK_NOTIFICATION @"ClanRaidAttackNotification"
+#define NEW_OBSTACLES_CREATED_NOTIFICATION @"NewObstaclesCreatedNotification"
 
 #define MY_CLAN_MEMBERS_LIST_KEY @"MyMembersList"
 #define CLAN_RAID_ATTACK_KEY @"ClanRaidAttackKey"
@@ -90,6 +91,9 @@
 @property (nonatomic, assign) float continueBattleGemCostMultiplier;
 
 @property (nonatomic, assign) BOOL addAllFbFriends;
+
+@property (nonatomic, assign) int maxObstacles;
+@property (nonatomic, assign) int minutesPerObstacle;
 
 @property (nonatomic, retain) StartupResponseProto_StartupConstants_MiniTutorialConstants *miniTutorialConstants;
 
@@ -165,7 +169,7 @@
 + (MonsterProto_MonsterElement) elementForSuperEffective:(MonsterProto_MonsterElement)element;
 + (MonsterProto_MonsterElement) elementForNotVeryEffective:(MonsterProto_MonsterElement)element;
 
-+ (NSString *) stringForTimeSinceNow:(NSDate *)date shortened:(BOOL)shortened ;
++ (NSString *) stringForTimeSinceNow:(MSDate *)date shortened:(BOOL)shortened ;
 
 + (NSDictionary *) convertUserTeamArrayToDictionary:(NSArray *)array;
 

@@ -112,7 +112,7 @@
   NSMutableArray *monsters = [NSMutableArray array];
   for (MinimumUserMonsterProto *mon in cell.battleHistory.attackersMonstersList) {
     UserMonster *um = [UserMonster userMonsterWithMinProto:mon];
-    um.teamSlot = [cell.battleHistory.attackersMonstersList indexOfObject:mon];
+    um.teamSlot = (int)[cell.battleHistory.attackersMonstersList indexOfObject:mon];
     [monsters addObject:um];
   }
   
@@ -161,7 +161,7 @@
 #pragma mark - UITableViewDelegate/DataSource methods
 
 - (NSInteger) tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-  int ct = self.battles.count;
+  NSInteger ct = self.battles.count;
   if (ct == 0) {
     self.noRequestsLabel.text = @"You have never been attacked.";
     self.noRequestsLabel.hidden = NO;

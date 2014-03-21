@@ -62,7 +62,9 @@
 
 @end
 
-@interface HospitalBuilding : HomeBuilding
+@interface HospitalBuilding : HomeBuilding {
+  int _monsterId;
+}
 
 @property (nonatomic, retain) CCSprite *tubeSprite;
 @property (nonatomic, retain) CCSprite *monsterSprite;

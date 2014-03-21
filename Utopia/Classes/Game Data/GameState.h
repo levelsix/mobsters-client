@@ -44,10 +44,11 @@
 @property (nonatomic, assign) int elo;
 @property (nonatomic, assign) int playerHasBoughtInAppPurchase;
 @property (nonatomic, assign) BOOL isAdmin;
-@property (nonatomic, retain) NSDate *createTime;
+@property (nonatomic, retain) MSDate *createTime;
 @property (nonatomic, assign) BOOL hasReceivedfbReward;
 @property (nonatomic, assign) int numBeginnerSalesPurchased;
 @property (nonatomic, assign) BOOL hasActiveShield;
+@property (nonatomic, retain) MSDate *lastObstacleCreateTime;
 
 @property (nonatomic, retain) NSString *kabamNaid;
 @property (nonatomic, retain) NSString *facebookId;
@@ -75,10 +76,11 @@
 
 @property (nonatomic, retain) NSMutableArray *myMonsters;
 @property (nonatomic, retain) NSMutableArray *myStructs;
+@property (nonatomic, retain) NSMutableArray *myObstacles;
 @property (nonatomic, retain) NSMutableDictionary *myQuests;
 
 @property (nonatomic, retain) NSMutableArray *monsterHealingQueue;
-@property (nonatomic, retain) NSDate *monsterHealingQueueEndTime;
+@property (nonatomic, retain) MSDate *monsterHealingQueueEndTime;
 @property (nonatomic, retain) NSMutableSet *recentlyHealedMonsterIds;
 
 @property (nonatomic, retain) NSMutableDictionary *inProgressCompleteQuests;
@@ -98,7 +100,7 @@
 
 @property (nonatomic, retain) NSMutableArray *unrespondedUpdates;
 
-@property (nonatomic, retain) NSDate *lastLogoutTime;
+@property (nonatomic, retain) MSDate *lastLogoutTime;
 
 @property (nonatomic, retain) MinimumClanProto *clan;
 @property (nonatomic, retain) NSMutableArray *requestedClans;
@@ -140,6 +142,7 @@
 - (NSArray *) taskIdsToUnlockMoreTasks;
 
 - (void) addToMyStructs:(NSArray *)myStructs;
+- (void) addToMyObstacles:(NSArray *)myObstacles;
 - (void) addToMyMonsters:(NSArray *)myMonsters;
 - (void) addToMyQuests:(NSArray *)quests;
 - (void) addToAvailableQuests:(NSArray *)quests;

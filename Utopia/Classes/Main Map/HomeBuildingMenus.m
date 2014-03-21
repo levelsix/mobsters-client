@@ -60,9 +60,9 @@
   return self;
 }
 
-- (void) updateForSecsLeft:(int)secs totalSecs:(int)totalSecs {
-  _timeLabel.string = [Globals convertTimeToShortString:secs];
-  _progressBar.percentage = (1.f-((float)secs)/totalSecs)*100;
+- (void) updateForSecsLeft:(float)secs totalSecs:(int)totalSecs {
+  _timeLabel.string = [Globals convertTimeToShortString:roundf(secs)];
+  _progressBar.percentage = (1.f-secs/totalSecs)*100;
 }
 
 @end

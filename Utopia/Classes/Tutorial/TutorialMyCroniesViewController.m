@@ -216,7 +216,7 @@
   return 1;
 }
 
-- (NSDate *) monsterHealingQueueEndTime {
+- (MSDate *) monsterHealingQueueEndTime {
   if (self.healingQueue.count > 0) {
     UserMonsterHealingItem *hi = self.healingQueue[0];
     return hi.endTime;
@@ -247,7 +247,7 @@
   int maxHp = [gl calculateMaxHealthForMonster:um];
   UserMonsterHealingItem *hi = [[UserMonsterHealingItem alloc] init];
   hi.userMonsterId = umId;
-  hi.queueTime = [NSDate date];
+  hi.queueTime = [MSDate date];
   hi.endTime = [hi.queueTime dateByAddingTimeInterval:(maxHp-um.curHealth)/_hospitalHealSpeed];
   hi.timeDistribution = @[@(hi.endTime.timeIntervalSinceNow), @(maxHp-um.curHealth)];
   [self.healingQueue addObject:hi];

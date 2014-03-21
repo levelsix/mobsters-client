@@ -11,17 +11,17 @@
 
 @interface PersistentEventProto (Time)
 
-- (NSDate *) startTime;
-- (NSDate *) endTime;
-- (NSDate *) cooldownEndTime;
+- (MSDate *) startTime;
+- (MSDate *) endTime;
+- (MSDate *) cooldownEndTime;
 - (BOOL) isRunning;
 
 @end
 
 @interface PersistentClanEventProto (Time)
 
-- (NSDate *) startTime;
-- (NSDate *) endTime;
+- (MSDate *) startTime;
+- (MSDate *) endTime;
 - (BOOL) isRunning;
 
 @end
@@ -31,7 +31,7 @@
 - (ClanRaidStageProto *) currentStage;
 - (ClanRaidStageMonsterProto *) currentMonster;
 - (float) percentOfStageComplete;
-- (NSDate *) stageEndTime;
+- (MSDate *) stageEndTime;
 - (int) curHealthOfActiveStageMonster;
 - (float) raidContributionForUserInfo:(PersistentClanEventUserInfoProto *)userInfo;
 

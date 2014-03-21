@@ -264,6 +264,7 @@ static LoadPlayerCityRequestProto* defaultLoadPlayerCityRequestProtoInstance = n
 @property LoadPlayerCityResponseProto_LoadPlayerCityStatus status;
 @property (retain) NSMutableArray* mutableOwnerNormStructsList;
 @property (retain) NSMutableArray* mutableUserCityExpansionDataProtoListList;
+@property (retain) NSMutableArray* mutableObstaclesList;
 @end
 
 @implementation LoadPlayerCityResponseProto
@@ -291,11 +292,13 @@ static LoadPlayerCityRequestProto* defaultLoadPlayerCityRequestProtoInstance = n
 @synthesize status;
 @synthesize mutableOwnerNormStructsList;
 @synthesize mutableUserCityExpansionDataProtoListList;
+@synthesize mutableObstaclesList;
 - (void) dealloc {
   self.sender = nil;
   self.cityOwner = nil;
   self.mutableOwnerNormStructsList = nil;
   self.mutableUserCityExpansionDataProtoListList = nil;
+  self.mutableObstaclesList = nil;
   [super dealloc];
 }
 - (id) init {
@@ -332,6 +335,13 @@ static LoadPlayerCityResponseProto* defaultLoadPlayerCityResponseProtoInstance =
   id value = [mutableUserCityExpansionDataProtoListList objectAtIndex:index];
   return value;
 }
+- (NSArray*) obstaclesList {
+  return mutableObstaclesList;
+}
+- (UserObstacleProto*) obstaclesAtIndex:(int32_t) index {
+  id value = [mutableObstaclesList objectAtIndex:index];
+  return value;
+}
 - (BOOL) isInitialized {
   return YES;
 }
@@ -350,6 +360,9 @@ static LoadPlayerCityResponseProto* defaultLoadPlayerCityResponseProtoInstance =
   }
   for (UserCityExpansionDataProto* element in self.userCityExpansionDataProtoListList) {
     [output writeMessage:5 value:element];
+  }
+  for (UserObstacleProto* element in self.obstaclesList) {
+    [output writeMessage:6 value:element];
   }
   [self.unknownFields writeToCodedOutputStream:output];
 }
@@ -374,6 +387,9 @@ static LoadPlayerCityResponseProto* defaultLoadPlayerCityResponseProtoInstance =
   }
   for (UserCityExpansionDataProto* element in self.userCityExpansionDataProtoListList) {
     size += computeMessageSize(5, element);
+  }
+  for (UserObstacleProto* element in self.obstaclesList) {
+    size += computeMessageSize(6, element);
   }
   size += self.unknownFields.serializedSize;
   memoizedSerializedSize = size;
@@ -481,6 +497,12 @@ BOOL LoadPlayerCityResponseProto_LoadPlayerCityStatusIsValidValue(LoadPlayerCity
     }
     [result.mutableUserCityExpansionDataProtoListList addObjectsFromArray:other.mutableUserCityExpansionDataProtoListList];
   }
+  if (other.mutableObstaclesList.count > 0) {
+    if (result.mutableObstaclesList == nil) {
+      result.mutableObstaclesList = [NSMutableArray array];
+    }
+    [result.mutableObstaclesList addObjectsFromArray:other.mutableObstaclesList];
+  }
   [self mergeUnknownFields:other.unknownFields];
   return self;
 }
@@ -539,6 +561,12 @@ BOOL LoadPlayerCityResponseProto_LoadPlayerCityStatusIsValidValue(LoadPlayerCity
         UserCityExpansionDataProto_Builder* subBuilder = [UserCityExpansionDataProto builder];
         [input readMessage:subBuilder extensionRegistry:extensionRegistry];
         [self addUserCityExpansionDataProtoList:[subBuilder buildPartial]];
+        break;
+      }
+      case 50: {
+        UserObstacleProto_Builder* subBuilder = [UserObstacleProto builder];
+        [input readMessage:subBuilder extensionRegistry:extensionRegistry];
+        [self addObstacles:[subBuilder buildPartial]];
         break;
       }
     }
@@ -676,6 +704,35 @@ BOOL LoadPlayerCityResponseProto_LoadPlayerCityStatusIsValidValue(LoadPlayerCity
     result.mutableUserCityExpansionDataProtoListList = [NSMutableArray array];
   }
   [result.mutableUserCityExpansionDataProtoListList addObject:value];
+  return self;
+}
+- (NSArray*) obstaclesList {
+  if (result.mutableObstaclesList == nil) { return [NSArray array]; }
+  return result.mutableObstaclesList;
+}
+- (UserObstacleProto*) obstaclesAtIndex:(int32_t) index {
+  return [result obstaclesAtIndex:index];
+}
+- (LoadPlayerCityResponseProto_Builder*) replaceObstaclesAtIndex:(int32_t) index with:(UserObstacleProto*) value {
+  [result.mutableObstaclesList replaceObjectAtIndex:index withObject:value];
+  return self;
+}
+- (LoadPlayerCityResponseProto_Builder*) addAllObstacles:(NSArray*) values {
+  if (result.mutableObstaclesList == nil) {
+    result.mutableObstaclesList = [NSMutableArray array];
+  }
+  [result.mutableObstaclesList addObjectsFromArray:values];
+  return self;
+}
+- (LoadPlayerCityResponseProto_Builder*) clearObstaclesList {
+  result.mutableObstaclesList = nil;
+  return self;
+}
+- (LoadPlayerCityResponseProto_Builder*) addObstacles:(UserObstacleProto*) value {
+  if (result.mutableObstaclesList == nil) {
+    result.mutableObstaclesList = [NSMutableArray array];
+  }
+  [result.mutableObstaclesList addObject:value];
   return self;
 }
 @end

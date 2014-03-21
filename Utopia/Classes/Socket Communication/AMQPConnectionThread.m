@@ -126,7 +126,7 @@ static int sessionId;
     _topicExchange = nil;
     _connection = nil;
   } @catch (NSException *e) {
-//    LNLog(@"%@", e);
+    LNLog(@"%@", e);
   }
 }
 

@@ -233,7 +233,7 @@
   
   ChatMessage *cm = [[ChatMessage alloc] init];
   cm.sender = post.poster;
-  cm.date = [NSDate dateWithTimeIntervalSince1970:post.timeOfPost/1000.];
+  cm.date = [MSDate dateWithTimeIntervalSince1970:post.timeOfPost/1000.];
   cm.message = post.content;
   [self addChatMessage:cm];
 }
@@ -251,7 +251,7 @@
       dispatch_after(dispatch_time(DISPATCH_TIME_NOW, 0.35f * NSEC_PER_SEC), dispatch_get_main_queue(), ^{
         GameState *gs = [GameState sharedGameState];
         ChatMessage *cm = [ChatMessage new];
-        cm.date = [NSDate date];
+        cm.date = [MSDate date];
         cm.message = msg;
         cm.sender = gs.minUserWithLevel;
         [self addChatMessage:cm];

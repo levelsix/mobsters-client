@@ -45,8 +45,8 @@
   [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(healWaitTimeComplete) name:MONSTER_SOLD_COMPLETE_NOTIFICATION object:nil];
   
   [self reloadTableAnimated:NO];
-  [self.queueView reloadTableWithHealingQueue:self.monsterHealingQueue userMonster:self.monsterList timeLeft:self.monsterHealingQueueEndTime.timeIntervalSinceNow hospitalCount:self.numValidHospitals];
   [self updateCurrentTeamAnimated:NO];
+  [self updateQueueViewAnimated:NO];
 }
 
 - (void) viewDidDisappear:(BOOL)animated {
@@ -73,12 +73,7 @@
 - (void) healWaitTimeComplete {
   [self reloadTableAnimated:YES];
   [self updateCurrentTeamAnimated:YES];
-  
-  NSMutableArray *remove = [NSMutableArray array];
-  [Globals calculateDifferencesBetweenOldArray:self.queueView.healingQueue newArray:self.monsterHealingQueue removalIps:remove additionIps:nil section:0];
-  if (remove.count > 0) {
-    [self.queueView.queueTable.tableView deleteRowsAtIndexPaths:remove withRowAnimation:UITableViewRowAnimationTop];
-  }
+  [self updateQueueViewAnimated:YES];
 }
 
 - (void) updateLabels {
@@ -103,6 +98,10 @@
     }
     container.teamSlotView.delegate = self;
   }
+}
+
+- (void) updateQueueViewAnimated:(BOOL)animated {
+  [self.queueView reloadTableAnimated:animated healingQueue:self.monsterHealingQueue userMonster:self.monsterList timeLeft:self.monsterHealingQueueEndTime.timeIntervalSinceNow hospitalCount:self.numValidHospitals];
 }
 
 #pragma mark - Potentially rewritable methods
@@ -132,7 +131,7 @@
   return [gs maxInventorySlots];
 }
 
-- (NSDate *) monsterHealingQueueEndTime {
+- (MSDate *) monsterHealingQueueEndTime {
   GameState *gs = [GameState sharedGameState];
   return gs.monsterHealingQueueEndTime;
 }
@@ -429,11 +428,7 @@
   BOOL success = [self addMonsterToHealingQueue:um.userMonsterId useGems:allowGems];
   if (success) {
     [self reloadTableAnimated:YES];
-    
-    NSArray *arr = [NSArray arrayWithObject:[NSIndexPath indexPathForRow:self.monsterHealingQueue.count-1 inSection:0]];
-    [self.queueView.queueTable.tableView insertRowsAtIndexPaths:arr withRowAnimation:UITableViewRowAnimationLeft];
-    
-    [self.queueView updateTimeWithTimeLeft:self.monsterHealingQueueEndTime.timeIntervalSinceNow hospitalCount:self.numValidHospitals];
+    [self updateQueueViewAnimated:YES];
     
     if (um.teamSlot) {
       [[NSNotificationCenter defaultCenter] postNotificationName:MY_TEAM_CHANGED_NOTIFICATION object:nil];
@@ -449,11 +444,7 @@
   BOOL success = [[OutgoingEventController sharedOutgoingEventController] removeMonsterFromHealingQueue:cell.healingItem];
   if (success) {
     [self reloadTableAnimated:YES];
-    
-    NSArray *arr = [NSArray arrayWithObject:[self.queueView.queueTable indexPathForView:cell]];
-    [self.queueView.queueTable.tableView deleteRowsAtIndexPaths:arr withRowAnimation:UITableViewRowAnimationLeft];
-    
-    [self.queueView updateTimeWithTimeLeft:self.monsterHealingQueueEndTime.timeIntervalSinceNow hospitalCount:self.numValidHospitals];
+    [self updateQueueViewAnimated:YES];
     
     GameState *gs = [GameState sharedGameState];
     UserMonster *um = [gs myMonsterWithUserMonsterId:cell.healingItem.userMonsterId];
@@ -471,19 +462,15 @@
   int timeLeft = self.monsterHealingQueueEndTime.timeIntervalSinceNow;
   int goldCost = [gl calculateGemSpeedupCostForTimeLeft:timeLeft];
   
-  if (gs.gold < goldCost) {
+  if (gs.myValidHospitals.count == 0) {
+    [Globals addAlertNotification:@"Your hospital is still upgrading! Finish it first."];
+  } else if (gs.gold < goldCost) {
     [GenericPopupController displayNotEnoughGemsView];
   } else {
-    NSInteger healingQueueSize = self.monsterHealingQueue.count;
     BOOL success = [self speedupHealingQueue];
     if (success) {
       [self reloadTableAnimated:YES];
-      
-      NSMutableArray *arr = [NSMutableArray array];
-      for (int i = 0; i < healingQueueSize; i++) {
-        [arr addObject:[NSIndexPath indexPathForRow:i inSection:0]];
-      }
-      [self.queueView.queueTable.tableView deleteRowsAtIndexPaths:arr withRowAnimation:UITableViewRowAnimationFade];
+      [self updateQueueViewAnimated:YES];
       
       [self updateCurrentTeamAnimated:YES];
       [[NSNotificationCenter defaultCenter] postNotificationName:MY_TEAM_CHANGED_NOTIFICATION object:nil];

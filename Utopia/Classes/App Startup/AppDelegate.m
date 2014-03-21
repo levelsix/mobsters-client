@@ -218,6 +218,12 @@
 - (void)applicationSignificantTimeChange:(UIApplication *)application {
   LNLog(@"sig time change");
 	[[CCDirector sharedDirector] setNextDeltaTimeZero:YES];
+  
+  GameState *gs = [GameState sharedGameState];
+  if (!gs.connected) {
+    GameViewController *gvc = [GameViewController baseController];
+    [gvc fadeToLoadingScreenPercentage:0 animated:NO];
+  }
 }
 
 - (void)application:(UIApplication*)application didRegisterForRemoteNotificationsWithDeviceToken:(NSData*)deviceToken
@@ -239,12 +245,12 @@
   [[OutgoingEventController sharedOutgoingEventController] enableApns:nil];
 }
 
-- (void) scheduleNotificationWithText:(NSString *)text badge:(int)badge date:(NSDate *)date {
+- (void) scheduleNotificationWithText:(NSString *)text badge:(int)badge date:(MSDate *)date {
   UILocalNotification *ln = [[UILocalNotification alloc] init];
   ln.alertBody = text;
   ln.applicationIconBadgeNumber = badge;
   ln.soundName = UILocalNotificationDefaultSoundName;
-  ln.fireDate = date;
+  ln.fireDate = date.actualNSDate;
   [[UIApplication sharedApplication] scheduleLocalNotification:ln];
 }
 

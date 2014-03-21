@@ -50,6 +50,8 @@
 
 - (void) removeAllViewControllers;
 
+- (void) fadeToLoadingScreenPercentage:(float)percentage animated:(BOOL)animated;
+
 - (void) openedFromFacebook;
 - (void) handleConnectedToHost;
 - (void) reloadAccountWithStartupResponse:(StartupResponseProto *)startupResponse;

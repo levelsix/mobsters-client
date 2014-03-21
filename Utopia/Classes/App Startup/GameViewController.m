@@ -173,6 +173,10 @@
 }
 
 - (void) fadeToLoadingScreenPercentage:(float)percentage animated:(BOOL)animated {
+  if (self.presentedViewController) {
+    [self.presentedViewController dismissViewControllerAnimated:NO completion:nil];
+  }
+  
   LoadingViewController *lvc = [[LoadingViewController alloc] initWithPercentage:percentage];
   UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:lvc];
   nav.navigationBarHidden = YES;
@@ -255,9 +259,14 @@
     if (self.loadingView.superview) {
       [self.loadingView stop];
     }
-  } else if (!self.tutController) {
-    [self dismissViewControllerAnimated:YES completion:nil];
-    [self beginTutorial:proto.tutorialConstants];
+  } else if (proto.startupStatus == StartupResponseProto_StartupStatusUserNotInDb) {
+    if (!self.tutController) {
+      [self dismissViewControllerAnimated:YES completion:nil];
+      [self beginTutorial:proto.tutorialConstants];
+    }
+  } else if (proto.startupStatus == StartupResponseProto_StartupStatusServerInMaintenance) {
+    [self fadeToLoadingScreenPercentage:PART_2_PERCENT animated:YES];
+    [GenericPopupController displayNotificationViewWithText:@"Sorry, the server is undergoing maintenance right now. Try again?" title:@"Server Maintenance" okayButton:@"Retry" target:self selector:@selector(handleConnectedToHost)];
   }
 }
 
@@ -683,7 +692,7 @@
 #pragma mark - Facebook stuff
 
 - (void) openedFromFacebook {
-  NSDate *openDate = [[FacebookDelegate sharedFacebookDelegate] timeOfLastLoginAttempt];
+  MSDate *openDate = [[FacebookDelegate sharedFacebookDelegate] timeOfLastLoginAttempt];
   if (-openDate.timeIntervalSinceNow > 5*60) {
     _shouldRejectFacebook = YES;
   } else if (_isFreshRestart) {

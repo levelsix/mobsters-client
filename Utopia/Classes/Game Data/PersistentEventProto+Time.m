@@ -9,26 +9,26 @@
 #import "PersistentEventProto+Time.h"
 #import "GameState.h"
 
-NSDate* startTime(int dayOfWeek, int startHour, int durationMinutes);
+MSDate* startTime(int dayOfWeek, int startHour, int durationMinutes);
 
 @implementation PersistentEventProto (Time)
 
-- (NSDate *) startTime {
+- (MSDate *) startTime {
   return startTime(self.dayOfWeek, self.startHour, self.eventDurationMinutes);
 }
 
-- (NSDate *) endTime {
+- (MSDate *) endTime {
   return [self.startTime dateByAddingTimeInterval:self.eventDurationMinutes*60];
 }
 
-- (NSDate *) cooldownEndTime {
+- (MSDate *) cooldownEndTime {
   GameState *gs = [GameState sharedGameState];
-  NSDate *date = gs.eventCooldownTimes[@(self.eventId)];
+  MSDate *date = gs.eventCooldownTimes[@(self.eventId)];
   return [date dateByAddingTimeInterval:self.cooldownMinutes*60];
 }
 
 - (BOOL) isRunning {
-  NSDate *date = [NSDate date];
+  MSDate *date = [MSDate date];
   if ([self.startTime compare:date] != NSOrderedDescending &&
       [self.endTime compare:date] == NSOrderedDescending) {
     return YES;
@@ -40,16 +40,16 @@ NSDate* startTime(int dayOfWeek, int startHour, int durationMinutes);
 
 @implementation PersistentClanEventProto (Time)
 
-- (NSDate *) startTime {
+- (MSDate *) startTime {
   return startTime(self.dayOfWeek, self.startHour, self.eventDurationMinutes);
 }
 
-- (NSDate *) endTime {
+- (MSDate *) endTime {
   return [self.startTime dateByAddingTimeInterval:self.eventDurationMinutes*60];
 }
 
 - (BOOL) isRunning {
-  NSDate *date = [NSDate date];
+  MSDate *date = [MSDate date];
   if ([self.startTime compare:date] != NSOrderedDescending &&
       [self.endTime compare:date] == NSOrderedDescending) {
     return YES;
@@ -111,18 +111,18 @@ NSDate* startTime(int dayOfWeek, int startHour, int durationMinutes);
   return thisUserDmg/(float)totalDmgDealt;
 }
 
-- (NSDate *) stageEndTime {
+- (MSDate *) stageEndTime {
   ClanRaidStageProto *stage = [self currentStage];
-  NSDate *date = [NSDate dateWithTimeIntervalSince1970:self.stageStartTime/1000.];
+  MSDate *date = [MSDate dateWithTimeIntervalSince1970:self.stageStartTime/1000.];
   return [date dateByAddingTimeInterval:stage.durationMinutes*60];
 }
 
 @end
 
-NSDate *startTime(int dayOfWeek, int startHour, int durationMinutes) {
-  NSDate *date = [NSDate date];
+MSDate *startTime(int dayOfWeek, int startHour, int durationMinutes) {
+  MSDate *date = [MSDate date];
   NSCalendar *gregorian = [[NSCalendar alloc] initWithCalendarIdentifier:NSGregorianCalendar];
-  NSDateComponents *comps = [gregorian components:NSCalendarUnitWeekday|NSCalendarUnitHour|NSCalendarUnitMinute fromDate:date];
+  NSDateComponents *comps = [gregorian components:NSCalendarUnitWeekday|NSCalendarUnitHour|NSCalendarUnitMinute fromDate:date.relativeNSDate];
   NSInteger weekday = [comps weekday];
   NSInteger hour = [comps hour];
   NSInteger minute = [comps minute];
@@ -147,6 +147,6 @@ NSDate *startTime(int dayOfWeek, int startHour, int durationMinutes) {
   int64_t ti = date.timeIntervalSince1970;
   ti = ti-ti%60;
   ti += diff*60;
-  NSDate *start = [NSDate dateWithTimeIntervalSince1970:ti];
+  MSDate *start = [MSDate dateWithTimeIntervalSince1970:ti];
   return start;
 }

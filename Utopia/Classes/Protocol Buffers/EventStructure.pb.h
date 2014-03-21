@@ -6,6 +6,10 @@
 #import "Structure.pb.h"
 #import "User.pb.h"
 
+@class BeginObstacleRemovalRequestProto;
+@class BeginObstacleRemovalRequestProto_Builder;
+@class BeginObstacleRemovalResponseProto;
+@class BeginObstacleRemovalResponseProto_Builder;
 @class CityElementProto;
 @class CityElementProto_Builder;
 @class CityExpansionCostProto;
@@ -32,6 +36,8 @@
 @class LabProto_Builder;
 @class MinimumClanProto;
 @class MinimumClanProto_Builder;
+@class MinimumObstacleProto;
+@class MinimumObstacleProto_Builder;
 @class MinimumUserProto;
 @class MinimumUserProtoWithFacebookId;
 @class MinimumUserProtoWithFacebookId_Builder;
@@ -50,6 +56,10 @@
 @class NormStructWaitCompleteResponseProto_Builder;
 @class ObstacleProto;
 @class ObstacleProto_Builder;
+@class ObstacleRemovalCompleteRequestProto;
+@class ObstacleRemovalCompleteRequestProto_Builder;
+@class ObstacleRemovalCompleteResponseProto;
+@class ObstacleRemovalCompleteResponseProto_Builder;
 @class PurchaseNormStructureRequestProto;
 @class PurchaseNormStructureRequestProto_Builder;
 @class PurchaseNormStructureResponseProto;
@@ -66,6 +76,10 @@
 @class RetrieveCurrencyFromNormStructureRequestProto_StructRetrieval_Builder;
 @class RetrieveCurrencyFromNormStructureResponseProto;
 @class RetrieveCurrencyFromNormStructureResponseProto_Builder;
+@class SpawnObstacleRequestProto;
+@class SpawnObstacleRequestProto_Builder;
+@class SpawnObstacleResponseProto;
+@class SpawnObstacleResponseProto_Builder;
 @class StaticUserLevelInfoProto;
 @class StaticUserLevelInfoProto_Builder;
 @class StructureInfoProto;
@@ -152,6 +166,30 @@ typedef enum {
 } ExpansionWaitCompleteResponseProto_ExpansionWaitCompleteStatus;
 
 BOOL ExpansionWaitCompleteResponseProto_ExpansionWaitCompleteStatusIsValidValue(ExpansionWaitCompleteResponseProto_ExpansionWaitCompleteStatus value);
+
+typedef enum {
+  SpawnObstacleResponseProto_SpawnObstacleStatusSuccess = 1,
+  SpawnObstacleResponseProto_SpawnObstacleStatusFailOther = 2,
+} SpawnObstacleResponseProto_SpawnObstacleStatus;
+
+BOOL SpawnObstacleResponseProto_SpawnObstacleStatusIsValidValue(SpawnObstacleResponseProto_SpawnObstacleStatus value);
+
+typedef enum {
+  BeginObstacleRemovalResponseProto_BeginObstacleRemovalStatusSuccess = 1,
+  BeginObstacleRemovalResponseProto_BeginObstacleRemovalStatusFailInsufficientGems = 2,
+  BeginObstacleRemovalResponseProto_BeginObstacleRemovalStatusFailInsufficientResource = 3,
+  BeginObstacleRemovalResponseProto_BeginObstacleRemovalStatusFailOther = 4,
+} BeginObstacleRemovalResponseProto_BeginObstacleRemovalStatus;
+
+BOOL BeginObstacleRemovalResponseProto_BeginObstacleRemovalStatusIsValidValue(BeginObstacleRemovalResponseProto_BeginObstacleRemovalStatus value);
+
+typedef enum {
+  ObstacleRemovalCompleteResponseProto_ObstacleRemovalCompleteStatusSuccess = 1,
+  ObstacleRemovalCompleteResponseProto_ObstacleRemovalCompleteStatusFailInsufficientGems = 2,
+  ObstacleRemovalCompleteResponseProto_ObstacleRemovalCompleteStatusFailOther = 3,
+} ObstacleRemovalCompleteResponseProto_ObstacleRemovalCompleteStatus;
+
+BOOL ObstacleRemovalCompleteResponseProto_ObstacleRemovalCompleteStatusIsValidValue(ObstacleRemovalCompleteResponseProto_ObstacleRemovalCompleteStatus value);
 
 
 @interface EventStructureRoot : NSObject {
@@ -1257,5 +1295,451 @@ BOOL ExpansionWaitCompleteResponseProto_ExpansionWaitCompleteStatusIsValidValue(
 - (ExpansionWaitCompleteResponseProto_Builder*) setUcedpBuilder:(UserCityExpansionDataProto_Builder*) builderForValue;
 - (ExpansionWaitCompleteResponseProto_Builder*) mergeUcedp:(UserCityExpansionDataProto*) value;
 - (ExpansionWaitCompleteResponseProto_Builder*) clearUcedp;
+@end
+
+@interface SpawnObstacleRequestProto : PBGeneratedMessage {
+@private
+  BOOL hasCurTime_:1;
+  BOOL hasSender_:1;
+  int64_t curTime;
+  MinimumUserProto* sender;
+  NSMutableArray* mutableProspectiveObstaclesList;
+}
+- (BOOL) hasSender;
+- (BOOL) hasCurTime;
+@property (readonly, retain) MinimumUserProto* sender;
+@property (readonly) int64_t curTime;
+- (NSArray*) prospectiveObstaclesList;
+- (MinimumObstacleProto*) prospectiveObstaclesAtIndex:(int32_t) index;
+
++ (SpawnObstacleRequestProto*) defaultInstance;
+- (SpawnObstacleRequestProto*) defaultInstance;
+
+- (BOOL) isInitialized;
+- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output;
+- (SpawnObstacleRequestProto_Builder*) builder;
++ (SpawnObstacleRequestProto_Builder*) builder;
++ (SpawnObstacleRequestProto_Builder*) builderWithPrototype:(SpawnObstacleRequestProto*) prototype;
+
++ (SpawnObstacleRequestProto*) parseFromData:(NSData*) data;
++ (SpawnObstacleRequestProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (SpawnObstacleRequestProto*) parseFromInputStream:(NSInputStream*) input;
++ (SpawnObstacleRequestProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (SpawnObstacleRequestProto*) parseFromCodedInputStream:(PBCodedInputStream*) input;
++ (SpawnObstacleRequestProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+@end
+
+@interface SpawnObstacleRequestProto_Builder : PBGeneratedMessage_Builder {
+@private
+  SpawnObstacleRequestProto* result;
+}
+
+- (SpawnObstacleRequestProto*) defaultInstance;
+
+- (SpawnObstacleRequestProto_Builder*) clear;
+- (SpawnObstacleRequestProto_Builder*) clone;
+
+- (SpawnObstacleRequestProto*) build;
+- (SpawnObstacleRequestProto*) buildPartial;
+
+- (SpawnObstacleRequestProto_Builder*) mergeFrom:(SpawnObstacleRequestProto*) other;
+- (SpawnObstacleRequestProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input;
+- (SpawnObstacleRequestProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+
+- (BOOL) hasSender;
+- (MinimumUserProto*) sender;
+- (SpawnObstacleRequestProto_Builder*) setSender:(MinimumUserProto*) value;
+- (SpawnObstacleRequestProto_Builder*) setSenderBuilder:(MinimumUserProto_Builder*) builderForValue;
+- (SpawnObstacleRequestProto_Builder*) mergeSender:(MinimumUserProto*) value;
+- (SpawnObstacleRequestProto_Builder*) clearSender;
+
+- (NSArray*) prospectiveObstaclesList;
+- (MinimumObstacleProto*) prospectiveObstaclesAtIndex:(int32_t) index;
+- (SpawnObstacleRequestProto_Builder*) replaceProspectiveObstaclesAtIndex:(int32_t) index with:(MinimumObstacleProto*) value;
+- (SpawnObstacleRequestProto_Builder*) addProspectiveObstacles:(MinimumObstacleProto*) value;
+- (SpawnObstacleRequestProto_Builder*) addAllProspectiveObstacles:(NSArray*) values;
+- (SpawnObstacleRequestProto_Builder*) clearProspectiveObstaclesList;
+
+- (BOOL) hasCurTime;
+- (int64_t) curTime;
+- (SpawnObstacleRequestProto_Builder*) setCurTime:(int64_t) value;
+- (SpawnObstacleRequestProto_Builder*) clearCurTime;
+@end
+
+@interface SpawnObstacleResponseProto : PBGeneratedMessage {
+@private
+  BOOL hasSender_:1;
+  BOOL hasStatus_:1;
+  MinimumUserProto* sender;
+  SpawnObstacleResponseProto_SpawnObstacleStatus status;
+  NSMutableArray* mutableSpawnedObstaclesList;
+}
+- (BOOL) hasSender;
+- (BOOL) hasStatus;
+@property (readonly, retain) MinimumUserProto* sender;
+@property (readonly) SpawnObstacleResponseProto_SpawnObstacleStatus status;
+- (NSArray*) spawnedObstaclesList;
+- (UserObstacleProto*) spawnedObstaclesAtIndex:(int32_t) index;
+
++ (SpawnObstacleResponseProto*) defaultInstance;
+- (SpawnObstacleResponseProto*) defaultInstance;
+
+- (BOOL) isInitialized;
+- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output;
+- (SpawnObstacleResponseProto_Builder*) builder;
++ (SpawnObstacleResponseProto_Builder*) builder;
++ (SpawnObstacleResponseProto_Builder*) builderWithPrototype:(SpawnObstacleResponseProto*) prototype;
+
++ (SpawnObstacleResponseProto*) parseFromData:(NSData*) data;
++ (SpawnObstacleResponseProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (SpawnObstacleResponseProto*) parseFromInputStream:(NSInputStream*) input;
++ (SpawnObstacleResponseProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (SpawnObstacleResponseProto*) parseFromCodedInputStream:(PBCodedInputStream*) input;
++ (SpawnObstacleResponseProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+@end
+
+@interface SpawnObstacleResponseProto_Builder : PBGeneratedMessage_Builder {
+@private
+  SpawnObstacleResponseProto* result;
+}
+
+- (SpawnObstacleResponseProto*) defaultInstance;
+
+- (SpawnObstacleResponseProto_Builder*) clear;
+- (SpawnObstacleResponseProto_Builder*) clone;
+
+- (SpawnObstacleResponseProto*) build;
+- (SpawnObstacleResponseProto*) buildPartial;
+
+- (SpawnObstacleResponseProto_Builder*) mergeFrom:(SpawnObstacleResponseProto*) other;
+- (SpawnObstacleResponseProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input;
+- (SpawnObstacleResponseProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+
+- (BOOL) hasSender;
+- (MinimumUserProto*) sender;
+- (SpawnObstacleResponseProto_Builder*) setSender:(MinimumUserProto*) value;
+- (SpawnObstacleResponseProto_Builder*) setSenderBuilder:(MinimumUserProto_Builder*) builderForValue;
+- (SpawnObstacleResponseProto_Builder*) mergeSender:(MinimumUserProto*) value;
+- (SpawnObstacleResponseProto_Builder*) clearSender;
+
+- (NSArray*) spawnedObstaclesList;
+- (UserObstacleProto*) spawnedObstaclesAtIndex:(int32_t) index;
+- (SpawnObstacleResponseProto_Builder*) replaceSpawnedObstaclesAtIndex:(int32_t) index with:(UserObstacleProto*) value;
+- (SpawnObstacleResponseProto_Builder*) addSpawnedObstacles:(UserObstacleProto*) value;
+- (SpawnObstacleResponseProto_Builder*) addAllSpawnedObstacles:(NSArray*) values;
+- (SpawnObstacleResponseProto_Builder*) clearSpawnedObstaclesList;
+
+- (BOOL) hasStatus;
+- (SpawnObstacleResponseProto_SpawnObstacleStatus) status;
+- (SpawnObstacleResponseProto_Builder*) setStatus:(SpawnObstacleResponseProto_SpawnObstacleStatus) value;
+- (SpawnObstacleResponseProto_Builder*) clearStatus;
+@end
+
+@interface BeginObstacleRemovalRequestProto : PBGeneratedMessage {
+@private
+  BOOL hasCurTime_:1;
+  BOOL hasGemsSpent_:1;
+  BOOL hasUserObstacleId_:1;
+  BOOL hasSender_:1;
+  BOOL hasResourceType_:1;
+  BOOL hasResourceChange_:1;
+  int64_t curTime;
+  int32_t gemsSpent;
+  int32_t userObstacleId;
+  MinimumUserProto* sender;
+  ResourceType resourceType;
+  int32_t resourceChange;
+}
+- (BOOL) hasSender;
+- (BOOL) hasCurTime;
+- (BOOL) hasGemsSpent;
+- (BOOL) hasResourceChange;
+- (BOOL) hasResourceType;
+- (BOOL) hasUserObstacleId;
+@property (readonly, retain) MinimumUserProto* sender;
+@property (readonly) int64_t curTime;
+@property (readonly) int32_t gemsSpent;
+@property (readonly) int32_t resourceChange;
+@property (readonly) ResourceType resourceType;
+@property (readonly) int32_t userObstacleId;
+
++ (BeginObstacleRemovalRequestProto*) defaultInstance;
+- (BeginObstacleRemovalRequestProto*) defaultInstance;
+
+- (BOOL) isInitialized;
+- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output;
+- (BeginObstacleRemovalRequestProto_Builder*) builder;
++ (BeginObstacleRemovalRequestProto_Builder*) builder;
++ (BeginObstacleRemovalRequestProto_Builder*) builderWithPrototype:(BeginObstacleRemovalRequestProto*) prototype;
+
++ (BeginObstacleRemovalRequestProto*) parseFromData:(NSData*) data;
++ (BeginObstacleRemovalRequestProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (BeginObstacleRemovalRequestProto*) parseFromInputStream:(NSInputStream*) input;
++ (BeginObstacleRemovalRequestProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (BeginObstacleRemovalRequestProto*) parseFromCodedInputStream:(PBCodedInputStream*) input;
++ (BeginObstacleRemovalRequestProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+@end
+
+@interface BeginObstacleRemovalRequestProto_Builder : PBGeneratedMessage_Builder {
+@private
+  BeginObstacleRemovalRequestProto* result;
+}
+
+- (BeginObstacleRemovalRequestProto*) defaultInstance;
+
+- (BeginObstacleRemovalRequestProto_Builder*) clear;
+- (BeginObstacleRemovalRequestProto_Builder*) clone;
+
+- (BeginObstacleRemovalRequestProto*) build;
+- (BeginObstacleRemovalRequestProto*) buildPartial;
+
+- (BeginObstacleRemovalRequestProto_Builder*) mergeFrom:(BeginObstacleRemovalRequestProto*) other;
+- (BeginObstacleRemovalRequestProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input;
+- (BeginObstacleRemovalRequestProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+
+- (BOOL) hasSender;
+- (MinimumUserProto*) sender;
+- (BeginObstacleRemovalRequestProto_Builder*) setSender:(MinimumUserProto*) value;
+- (BeginObstacleRemovalRequestProto_Builder*) setSenderBuilder:(MinimumUserProto_Builder*) builderForValue;
+- (BeginObstacleRemovalRequestProto_Builder*) mergeSender:(MinimumUserProto*) value;
+- (BeginObstacleRemovalRequestProto_Builder*) clearSender;
+
+- (BOOL) hasCurTime;
+- (int64_t) curTime;
+- (BeginObstacleRemovalRequestProto_Builder*) setCurTime:(int64_t) value;
+- (BeginObstacleRemovalRequestProto_Builder*) clearCurTime;
+
+- (BOOL) hasGemsSpent;
+- (int32_t) gemsSpent;
+- (BeginObstacleRemovalRequestProto_Builder*) setGemsSpent:(int32_t) value;
+- (BeginObstacleRemovalRequestProto_Builder*) clearGemsSpent;
+
+- (BOOL) hasResourceChange;
+- (int32_t) resourceChange;
+- (BeginObstacleRemovalRequestProto_Builder*) setResourceChange:(int32_t) value;
+- (BeginObstacleRemovalRequestProto_Builder*) clearResourceChange;
+
+- (BOOL) hasResourceType;
+- (ResourceType) resourceType;
+- (BeginObstacleRemovalRequestProto_Builder*) setResourceType:(ResourceType) value;
+- (BeginObstacleRemovalRequestProto_Builder*) clearResourceType;
+
+- (BOOL) hasUserObstacleId;
+- (int32_t) userObstacleId;
+- (BeginObstacleRemovalRequestProto_Builder*) setUserObstacleId:(int32_t) value;
+- (BeginObstacleRemovalRequestProto_Builder*) clearUserObstacleId;
+@end
+
+@interface BeginObstacleRemovalResponseProto : PBGeneratedMessage {
+@private
+  BOOL hasSender_:1;
+  BOOL hasStatus_:1;
+  MinimumUserProto* sender;
+  BeginObstacleRemovalResponseProto_BeginObstacleRemovalStatus status;
+}
+- (BOOL) hasSender;
+- (BOOL) hasStatus;
+@property (readonly, retain) MinimumUserProto* sender;
+@property (readonly) BeginObstacleRemovalResponseProto_BeginObstacleRemovalStatus status;
+
++ (BeginObstacleRemovalResponseProto*) defaultInstance;
+- (BeginObstacleRemovalResponseProto*) defaultInstance;
+
+- (BOOL) isInitialized;
+- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output;
+- (BeginObstacleRemovalResponseProto_Builder*) builder;
++ (BeginObstacleRemovalResponseProto_Builder*) builder;
++ (BeginObstacleRemovalResponseProto_Builder*) builderWithPrototype:(BeginObstacleRemovalResponseProto*) prototype;
+
++ (BeginObstacleRemovalResponseProto*) parseFromData:(NSData*) data;
++ (BeginObstacleRemovalResponseProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (BeginObstacleRemovalResponseProto*) parseFromInputStream:(NSInputStream*) input;
++ (BeginObstacleRemovalResponseProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (BeginObstacleRemovalResponseProto*) parseFromCodedInputStream:(PBCodedInputStream*) input;
++ (BeginObstacleRemovalResponseProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+@end
+
+@interface BeginObstacleRemovalResponseProto_Builder : PBGeneratedMessage_Builder {
+@private
+  BeginObstacleRemovalResponseProto* result;
+}
+
+- (BeginObstacleRemovalResponseProto*) defaultInstance;
+
+- (BeginObstacleRemovalResponseProto_Builder*) clear;
+- (BeginObstacleRemovalResponseProto_Builder*) clone;
+
+- (BeginObstacleRemovalResponseProto*) build;
+- (BeginObstacleRemovalResponseProto*) buildPartial;
+
+- (BeginObstacleRemovalResponseProto_Builder*) mergeFrom:(BeginObstacleRemovalResponseProto*) other;
+- (BeginObstacleRemovalResponseProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input;
+- (BeginObstacleRemovalResponseProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+
+- (BOOL) hasSender;
+- (MinimumUserProto*) sender;
+- (BeginObstacleRemovalResponseProto_Builder*) setSender:(MinimumUserProto*) value;
+- (BeginObstacleRemovalResponseProto_Builder*) setSenderBuilder:(MinimumUserProto_Builder*) builderForValue;
+- (BeginObstacleRemovalResponseProto_Builder*) mergeSender:(MinimumUserProto*) value;
+- (BeginObstacleRemovalResponseProto_Builder*) clearSender;
+
+- (BOOL) hasStatus;
+- (BeginObstacleRemovalResponseProto_BeginObstacleRemovalStatus) status;
+- (BeginObstacleRemovalResponseProto_Builder*) setStatus:(BeginObstacleRemovalResponseProto_BeginObstacleRemovalStatus) value;
+- (BeginObstacleRemovalResponseProto_Builder*) clearStatus;
+@end
+
+@interface ObstacleRemovalCompleteRequestProto : PBGeneratedMessage {
+@private
+  BOOL hasSpeedUp_:1;
+  BOOL hasAtMaxObstacles_:1;
+  BOOL hasCurTime_:1;
+  BOOL hasGemsSpent_:1;
+  BOOL hasUserObstacleId_:1;
+  BOOL hasSender_:1;
+  BOOL speedUp_:1;
+  BOOL atMaxObstacles_:1;
+  int64_t curTime;
+  int32_t gemsSpent;
+  int32_t userObstacleId;
+  MinimumUserProto* sender;
+}
+- (BOOL) hasSender;
+- (BOOL) hasCurTime;
+- (BOOL) hasSpeedUp;
+- (BOOL) hasGemsSpent;
+- (BOOL) hasUserObstacleId;
+- (BOOL) hasAtMaxObstacles;
+@property (readonly, retain) MinimumUserProto* sender;
+@property (readonly) int64_t curTime;
+- (BOOL) speedUp;
+@property (readonly) int32_t gemsSpent;
+@property (readonly) int32_t userObstacleId;
+- (BOOL) atMaxObstacles;
+
++ (ObstacleRemovalCompleteRequestProto*) defaultInstance;
+- (ObstacleRemovalCompleteRequestProto*) defaultInstance;
+
+- (BOOL) isInitialized;
+- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output;
+- (ObstacleRemovalCompleteRequestProto_Builder*) builder;
++ (ObstacleRemovalCompleteRequestProto_Builder*) builder;
++ (ObstacleRemovalCompleteRequestProto_Builder*) builderWithPrototype:(ObstacleRemovalCompleteRequestProto*) prototype;
+
++ (ObstacleRemovalCompleteRequestProto*) parseFromData:(NSData*) data;
++ (ObstacleRemovalCompleteRequestProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (ObstacleRemovalCompleteRequestProto*) parseFromInputStream:(NSInputStream*) input;
++ (ObstacleRemovalCompleteRequestProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (ObstacleRemovalCompleteRequestProto*) parseFromCodedInputStream:(PBCodedInputStream*) input;
++ (ObstacleRemovalCompleteRequestProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+@end
+
+@interface ObstacleRemovalCompleteRequestProto_Builder : PBGeneratedMessage_Builder {
+@private
+  ObstacleRemovalCompleteRequestProto* result;
+}
+
+- (ObstacleRemovalCompleteRequestProto*) defaultInstance;
+
+- (ObstacleRemovalCompleteRequestProto_Builder*) clear;
+- (ObstacleRemovalCompleteRequestProto_Builder*) clone;
+
+- (ObstacleRemovalCompleteRequestProto*) build;
+- (ObstacleRemovalCompleteRequestProto*) buildPartial;
+
+- (ObstacleRemovalCompleteRequestProto_Builder*) mergeFrom:(ObstacleRemovalCompleteRequestProto*) other;
+- (ObstacleRemovalCompleteRequestProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input;
+- (ObstacleRemovalCompleteRequestProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+
+- (BOOL) hasSender;
+- (MinimumUserProto*) sender;
+- (ObstacleRemovalCompleteRequestProto_Builder*) setSender:(MinimumUserProto*) value;
+- (ObstacleRemovalCompleteRequestProto_Builder*) setSenderBuilder:(MinimumUserProto_Builder*) builderForValue;
+- (ObstacleRemovalCompleteRequestProto_Builder*) mergeSender:(MinimumUserProto*) value;
+- (ObstacleRemovalCompleteRequestProto_Builder*) clearSender;
+
+- (BOOL) hasCurTime;
+- (int64_t) curTime;
+- (ObstacleRemovalCompleteRequestProto_Builder*) setCurTime:(int64_t) value;
+- (ObstacleRemovalCompleteRequestProto_Builder*) clearCurTime;
+
+- (BOOL) hasSpeedUp;
+- (BOOL) speedUp;
+- (ObstacleRemovalCompleteRequestProto_Builder*) setSpeedUp:(BOOL) value;
+- (ObstacleRemovalCompleteRequestProto_Builder*) clearSpeedUp;
+
+- (BOOL) hasGemsSpent;
+- (int32_t) gemsSpent;
+- (ObstacleRemovalCompleteRequestProto_Builder*) setGemsSpent:(int32_t) value;
+- (ObstacleRemovalCompleteRequestProto_Builder*) clearGemsSpent;
+
+- (BOOL) hasUserObstacleId;
+- (int32_t) userObstacleId;
+- (ObstacleRemovalCompleteRequestProto_Builder*) setUserObstacleId:(int32_t) value;
+- (ObstacleRemovalCompleteRequestProto_Builder*) clearUserObstacleId;
+
+- (BOOL) hasAtMaxObstacles;
+- (BOOL) atMaxObstacles;
+- (ObstacleRemovalCompleteRequestProto_Builder*) setAtMaxObstacles:(BOOL) value;
+- (ObstacleRemovalCompleteRequestProto_Builder*) clearAtMaxObstacles;
+@end
+
+@interface ObstacleRemovalCompleteResponseProto : PBGeneratedMessage {
+@private
+  BOOL hasSender_:1;
+  BOOL hasStatus_:1;
+  MinimumUserProto* sender;
+  ObstacleRemovalCompleteResponseProto_ObstacleRemovalCompleteStatus status;
+}
+- (BOOL) hasSender;
+- (BOOL) hasStatus;
+@property (readonly, retain) MinimumUserProto* sender;
+@property (readonly) ObstacleRemovalCompleteResponseProto_ObstacleRemovalCompleteStatus status;
+
++ (ObstacleRemovalCompleteResponseProto*) defaultInstance;
+- (ObstacleRemovalCompleteResponseProto*) defaultInstance;
+
+- (BOOL) isInitialized;
+- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output;
+- (ObstacleRemovalCompleteResponseProto_Builder*) builder;
++ (ObstacleRemovalCompleteResponseProto_Builder*) builder;
++ (ObstacleRemovalCompleteResponseProto_Builder*) builderWithPrototype:(ObstacleRemovalCompleteResponseProto*) prototype;
+
++ (ObstacleRemovalCompleteResponseProto*) parseFromData:(NSData*) data;
++ (ObstacleRemovalCompleteResponseProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (ObstacleRemovalCompleteResponseProto*) parseFromInputStream:(NSInputStream*) input;
++ (ObstacleRemovalCompleteResponseProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (ObstacleRemovalCompleteResponseProto*) parseFromCodedInputStream:(PBCodedInputStream*) input;
++ (ObstacleRemovalCompleteResponseProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+@end
+
+@interface ObstacleRemovalCompleteResponseProto_Builder : PBGeneratedMessage_Builder {
+@private
+  ObstacleRemovalCompleteResponseProto* result;
+}
+
+- (ObstacleRemovalCompleteResponseProto*) defaultInstance;
+
+- (ObstacleRemovalCompleteResponseProto_Builder*) clear;
+- (ObstacleRemovalCompleteResponseProto_Builder*) clone;
+
+- (ObstacleRemovalCompleteResponseProto*) build;
+- (ObstacleRemovalCompleteResponseProto*) buildPartial;
+
+- (ObstacleRemovalCompleteResponseProto_Builder*) mergeFrom:(ObstacleRemovalCompleteResponseProto*) other;
+- (ObstacleRemovalCompleteResponseProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input;
+- (ObstacleRemovalCompleteResponseProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+
+- (BOOL) hasSender;
+- (MinimumUserProto*) sender;
+- (ObstacleRemovalCompleteResponseProto_Builder*) setSender:(MinimumUserProto*) value;
+- (ObstacleRemovalCompleteResponseProto_Builder*) setSenderBuilder:(MinimumUserProto_Builder*) builderForValue;
+- (ObstacleRemovalCompleteResponseProto_Builder*) mergeSender:(MinimumUserProto*) value;
+- (ObstacleRemovalCompleteResponseProto_Builder*) clearSender;
+
+- (BOOL) hasStatus;
+- (ObstacleRemovalCompleteResponseProto_ObstacleRemovalCompleteStatus) status;
+- (ObstacleRemovalCompleteResponseProto_Builder*) setStatus:(ObstacleRemovalCompleteResponseProto_ObstacleRemovalCompleteStatus) value;
+- (ObstacleRemovalCompleteResponseProto_Builder*) clearStatus;
 @end
 

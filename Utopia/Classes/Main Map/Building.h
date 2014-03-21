@@ -51,5 +51,6 @@
 @property (nonatomic, retain) UserObstacle *obstacle;
 
 - (id) initWithObstacle:(UserObstacle *)obstacle map:(HomeMap *)map;
+- (void) disappear;
 
 @end

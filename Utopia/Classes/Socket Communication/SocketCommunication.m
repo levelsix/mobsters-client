@@ -976,6 +976,41 @@ static NSString *udid = nil;
   return [self sendData:bldr.build withMessageType:EventProtocolRequestCAttackClanRaidMonsterEvent];
 }
 
+- (int) sendSpawnObstacleMessage:(NSArray *)obstacles clientTime:(uint64_t)clientTime {
+  SpawnObstacleRequestProto *req = [[[[[SpawnObstacleRequestProto builder]
+                                       setSender:_sender]
+                                      addAllProspectiveObstacles:obstacles]
+                                     setCurTime:clientTime]
+                                    build];
+  
+  return [self sendData:req withMessageType:EventProtocolRequestCSpawnObstacleEvent];
+}
+
+- (int) sendBeginObstacleRemovalMessage:(int)userObstacleId resType:(ResourceType)resType resChange:(int)resChange gemsSpent:(int)gemsSpent clientTime:(uint64_t)clientTime {
+  BeginObstacleRemovalRequestProto *req = [[[[[[[[BeginObstacleRemovalRequestProto builder]
+                                                 setSender:_sender]
+                                                setUserObstacleId:userObstacleId]
+                                               setResourceType:resType]
+                                              setResourceChange:resChange]
+                                             setGemsSpent:gemsSpent]
+                                            setCurTime:clientTime]
+                                           build];
+  
+  return [self sendData:req withMessageType:EventProtocolRequestCBeginObstacleRemovalEvent];
+}
+
+- (int) sendObstacleRemovalCompleteMessage:(int)userObstacleId speedup:(BOOL)speedUp gemsSpent:(int)gemsSpent clientTime:(uint64_t)clientTime {
+  ObstacleRemovalCompleteRequestProto *req = [[[[[[[ObstacleRemovalCompleteRequestProto builder]
+                                                   setUserObstacleId:userObstacleId]
+                                                  setSender:_sender]
+                                                 setSpeedUp:speedUp]
+                                                setGemsSpent:gemsSpent]
+                                               setCurTime:clientTime]
+                                              build];
+  
+  return [self sendData:req withMessageType:EventProtocolRequestCObstacleRemovalCompleteEvent];
+}
+
 #pragma mark - Batch/Flush events
 
 - (int) sendHealQueueWaitTimeComplete:(NSArray *)monsterHealths {

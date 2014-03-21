@@ -18,12 +18,12 @@ static PBExtensionRegistry* extensionRegistry = nil;
     [CityRoot registerAllExtensions:registry];
     [ClanRoot registerAllExtensions:registry];
     [InAppPurchaseRoot registerAllExtensions:registry];
+    [MonsterStuffRoot registerAllExtensions:registry];
     [QuestRoot registerAllExtensions:registry];
     [StaticDataRoot registerAllExtensions:registry];
     [StructureRoot registerAllExtensions:registry];
     [TaskRoot registerAllExtensions:registry];
     [UserRoot registerAllExtensions:registry];
-    [MonsterStuffRoot registerAllExtensions:registry];
     extensionRegistry = [registry retain];
   }
 }
@@ -1193,6 +1193,7 @@ BOOL StartupResponseProto_StartupStatusIsValidValue(StartupResponseProto_Startup
   switch (value) {
     case StartupResponseProto_StartupStatusUserInDb:
     case StartupResponseProto_StartupStatusUserNotInDb:
+    case StartupResponseProto_StartupStatusServerInMaintenance:
       return YES;
     default:
       return NO;
@@ -1769,6 +1770,8 @@ static StartupResponseProto_ReferralNotificationProto* defaultStartupResponsePro
 @property Float32 continueBattleGemCostMultiplier;
 @property BOOL addAllFbFriends;
 @property (retain) StartupResponseProto_StartupConstants_MiniTutorialConstants* miniTuts;
+@property int32_t maxObstacles;
+@property int32_t minutesPerObstacle;
 @end
 
 @implementation StartupResponseProto_StartupConstants
@@ -1934,6 +1937,20 @@ static StartupResponseProto_ReferralNotificationProto* defaultStartupResponsePro
   hasMiniTuts_ = !!value;
 }
 @synthesize miniTuts;
+- (BOOL) hasMaxObstacles {
+  return !!hasMaxObstacles_;
+}
+- (void) setHasMaxObstacles:(BOOL) value {
+  hasMaxObstacles_ = !!value;
+}
+@synthesize maxObstacles;
+- (BOOL) hasMinutesPerObstacle {
+  return !!hasMinutesPerObstacle_;
+}
+- (void) setHasMinutesPerObstacle:(BOOL) value {
+  hasMinutesPerObstacle_ = !!value;
+}
+@synthesize minutesPerObstacle;
 - (void) dealloc {
   self.mutableInAppPurchasePackagesList = nil;
   self.mutableAnimatedSpriteOffsetsList = nil;
@@ -1971,6 +1988,8 @@ static StartupResponseProto_ReferralNotificationProto* defaultStartupResponsePro
     self.continueBattleGemCostMultiplier = 0;
     self.addAllFbFriends = NO;
     self.miniTuts = [StartupResponseProto_StartupConstants_MiniTutorialConstants defaultInstance];
+    self.maxObstacles = 0;
+    self.minutesPerObstacle = 0;
   }
   return self;
 }
@@ -2076,6 +2095,12 @@ static StartupResponseProto_StartupConstants* defaultStartupResponseProto_Startu
   if (self.hasMiniTuts) {
     [output writeMessage:24 value:self.miniTuts];
   }
+  if (self.hasMaxObstacles) {
+    [output writeInt32:25 value:self.maxObstacles];
+  }
+  if (self.hasMinutesPerObstacle) {
+    [output writeInt32:26 value:self.minutesPerObstacle];
+  }
   [self.unknownFields writeToCodedOutputStream:output];
 }
 - (int32_t) serializedSize {
@@ -2156,6 +2181,12 @@ static StartupResponseProto_StartupConstants* defaultStartupResponseProto_Startu
   }
   if (self.hasMiniTuts) {
     size += computeMessageSize(24, self.miniTuts);
+  }
+  if (self.hasMaxObstacles) {
+    size += computeInt32Size(25, self.maxObstacles);
+  }
+  if (self.hasMinutesPerObstacle) {
+    size += computeInt32Size(26, self.minutesPerObstacle);
   }
   size += self.unknownFields.serializedSize;
   memoizedSerializedSize = size;
@@ -4333,6 +4364,12 @@ static StartupResponseProto_StartupConstants_MiniTutorialConstants* defaultStart
   if (other.hasMiniTuts) {
     [self mergeMiniTuts:other.miniTuts];
   }
+  if (other.hasMaxObstacles) {
+    [self setMaxObstacles:other.maxObstacles];
+  }
+  if (other.hasMinutesPerObstacle) {
+    [self setMinutesPerObstacle:other.minutesPerObstacle];
+  }
   [self mergeUnknownFields:other.unknownFields];
   return self;
 }
@@ -4487,6 +4524,14 @@ static StartupResponseProto_StartupConstants_MiniTutorialConstants* defaultStart
         }
         [input readMessage:subBuilder extensionRegistry:extensionRegistry];
         [self setMiniTuts:[subBuilder buildPartial]];
+        break;
+      }
+      case 200: {
+        [self setMaxObstacles:[input readInt32]];
+        break;
+      }
+      case 208: {
+        [self setMinutesPerObstacle:[input readInt32]];
         break;
       }
     }
@@ -5000,6 +5045,38 @@ static StartupResponseProto_StartupConstants_MiniTutorialConstants* defaultStart
   result.miniTuts = [StartupResponseProto_StartupConstants_MiniTutorialConstants defaultInstance];
   return self;
 }
+- (BOOL) hasMaxObstacles {
+  return result.hasMaxObstacles;
+}
+- (int32_t) maxObstacles {
+  return result.maxObstacles;
+}
+- (StartupResponseProto_StartupConstants_Builder*) setMaxObstacles:(int32_t) value {
+  result.hasMaxObstacles = YES;
+  result.maxObstacles = value;
+  return self;
+}
+- (StartupResponseProto_StartupConstants_Builder*) clearMaxObstacles {
+  result.hasMaxObstacles = NO;
+  result.maxObstacles = 0;
+  return self;
+}
+- (BOOL) hasMinutesPerObstacle {
+  return result.hasMinutesPerObstacle;
+}
+- (int32_t) minutesPerObstacle {
+  return result.minutesPerObstacle;
+}
+- (StartupResponseProto_StartupConstants_Builder*) setMinutesPerObstacle:(int32_t) value {
+  result.hasMinutesPerObstacle = YES;
+  result.minutesPerObstacle = value;
+  return self;
+}
+- (StartupResponseProto_StartupConstants_Builder*) clearMinutesPerObstacle {
+  result.hasMinutesPerObstacle = NO;
+  result.minutesPerObstacle = 0;
+  return self;
+}
 @end
 
 @interface StartupResponseProto_TutorialConstants ()
@@ -5016,6 +5093,7 @@ static StartupResponseProto_StartupConstants_MiniTutorialConstants* defaultStart
 @property int32_t cashInit;
 @property int32_t oilInit;
 @property int32_t gemsInit;
+@property (retain) NSMutableArray* mutableTutorialObstaclesList;
 @end
 
 @implementation StartupResponseProto_TutorialConstants
@@ -5093,10 +5171,12 @@ static StartupResponseProto_StartupConstants_MiniTutorialConstants* defaultStart
   hasGemsInit_ = !!value;
 }
 @synthesize gemsInit;
+@synthesize mutableTutorialObstaclesList;
 - (void) dealloc {
   self.mutableTutorialStructuresList = nil;
   self.mutableStructureIdsToBeBuilltList = nil;
   self.mutableCityOneElementsList = nil;
+  self.mutableTutorialObstaclesList = nil;
   [super dealloc];
 }
 - (id) init {
@@ -5147,6 +5227,13 @@ static StartupResponseProto_TutorialConstants* defaultStartupResponseProto_Tutor
   id value = [mutableCityOneElementsList objectAtIndex:index];
   return value;
 }
+- (NSArray*) tutorialObstaclesList {
+  return mutableTutorialObstaclesList;
+}
+- (MinimumObstacleProto*) tutorialObstaclesAtIndex:(int32_t) index {
+  id value = [mutableTutorialObstaclesList objectAtIndex:index];
+  return value;
+}
 - (BOOL) isInitialized {
   return YES;
 }
@@ -5189,6 +5276,9 @@ static StartupResponseProto_TutorialConstants* defaultStartupResponseProto_Tutor
   }
   if (self.hasGemsInit) {
     [output writeInt32:13 value:self.gemsInit];
+  }
+  for (MinimumObstacleProto* element in self.tutorialObstaclesList) {
+    [output writeMessage:14 value:element];
   }
   [self.unknownFields writeToCodedOutputStream:output];
 }
@@ -5242,6 +5332,9 @@ static StartupResponseProto_TutorialConstants* defaultStartupResponseProto_Tutor
   }
   if (self.hasGemsInit) {
     size += computeInt32Size(13, self.gemsInit);
+  }
+  for (MinimumObstacleProto* element in self.tutorialObstaclesList) {
+    size += computeMessageSize(14, element);
   }
   size += self.unknownFields.serializedSize;
   memoizedSerializedSize = size;
@@ -5366,6 +5459,12 @@ static StartupResponseProto_TutorialConstants* defaultStartupResponseProto_Tutor
   if (other.hasGemsInit) {
     [self setGemsInit:other.gemsInit];
   }
+  if (other.mutableTutorialObstaclesList.count > 0) {
+    if (result.mutableTutorialObstaclesList == nil) {
+      result.mutableTutorialObstaclesList = [NSMutableArray array];
+    }
+    [result.mutableTutorialObstaclesList addObjectsFromArray:other.mutableTutorialObstaclesList];
+  }
   [self mergeUnknownFields:other.unknownFields];
   return self;
 }
@@ -5441,6 +5540,12 @@ static StartupResponseProto_TutorialConstants* defaultStartupResponseProto_Tutor
       }
       case 104: {
         [self setGemsInit:[input readInt32]];
+        break;
+      }
+      case 114: {
+        MinimumObstacleProto_Builder* subBuilder = [MinimumObstacleProto builder];
+        [input readMessage:subBuilder extensionRegistry:extensionRegistry];
+        [self addTutorialObstacles:[subBuilder buildPartial]];
         break;
       }
     }
@@ -5693,6 +5798,35 @@ static StartupResponseProto_TutorialConstants* defaultStartupResponseProto_Tutor
 - (StartupResponseProto_TutorialConstants_Builder*) clearGemsInit {
   result.hasGemsInit = NO;
   result.gemsInit = 0;
+  return self;
+}
+- (NSArray*) tutorialObstaclesList {
+  if (result.mutableTutorialObstaclesList == nil) { return [NSArray array]; }
+  return result.mutableTutorialObstaclesList;
+}
+- (MinimumObstacleProto*) tutorialObstaclesAtIndex:(int32_t) index {
+  return [result tutorialObstaclesAtIndex:index];
+}
+- (StartupResponseProto_TutorialConstants_Builder*) replaceTutorialObstaclesAtIndex:(int32_t) index with:(MinimumObstacleProto*) value {
+  [result.mutableTutorialObstaclesList replaceObjectAtIndex:index withObject:value];
+  return self;
+}
+- (StartupResponseProto_TutorialConstants_Builder*) addAllTutorialObstacles:(NSArray*) values {
+  if (result.mutableTutorialObstaclesList == nil) {
+    result.mutableTutorialObstaclesList = [NSMutableArray array];
+  }
+  [result.mutableTutorialObstaclesList addObjectsFromArray:values];
+  return self;
+}
+- (StartupResponseProto_TutorialConstants_Builder*) clearTutorialObstaclesList {
+  result.mutableTutorialObstaclesList = nil;
+  return self;
+}
+- (StartupResponseProto_TutorialConstants_Builder*) addTutorialObstacles:(MinimumObstacleProto*) value {
+  if (result.mutableTutorialObstaclesList == nil) {
+    result.mutableTutorialObstaclesList = [NSMutableArray array];
+  }
+  [result.mutableTutorialObstaclesList addObject:value];
   return self;
 }
 @end
@@ -7076,6 +7210,7 @@ static StartupResponseProto_TutorialConstants* defaultStartupResponseProto_Tutor
 @interface ForceLogoutResponseProto ()
 @property int64_t loginTime;
 @property int64_t previousLoginTime;
+@property int64_t timeClientSent;
 @end
 
 @implementation ForceLogoutResponseProto
@@ -7094,6 +7229,13 @@ static StartupResponseProto_TutorialConstants* defaultStartupResponseProto_Tutor
   hasPreviousLoginTime_ = !!value;
 }
 @synthesize previousLoginTime;
+- (BOOL) hasTimeClientSent {
+  return !!hasTimeClientSent_;
+}
+- (void) setHasTimeClientSent:(BOOL) value {
+  hasTimeClientSent_ = !!value;
+}
+@synthesize timeClientSent;
 - (void) dealloc {
   [super dealloc];
 }
@@ -7101,6 +7243,7 @@ static StartupResponseProto_TutorialConstants* defaultStartupResponseProto_Tutor
   if ((self = [super init])) {
     self.loginTime = 0L;
     self.previousLoginTime = 0L;
+    self.timeClientSent = 0L;
   }
   return self;
 }
@@ -7126,6 +7269,9 @@ static ForceLogoutResponseProto* defaultForceLogoutResponseProtoInstance = nil;
   if (self.hasPreviousLoginTime) {
     [output writeInt64:2 value:self.previousLoginTime];
   }
+  if (self.hasTimeClientSent) {
+    [output writeInt64:3 value:self.timeClientSent];
+  }
   [self.unknownFields writeToCodedOutputStream:output];
 }
 - (int32_t) serializedSize {
@@ -7140,6 +7286,9 @@ static ForceLogoutResponseProto* defaultForceLogoutResponseProtoInstance = nil;
   }
   if (self.hasPreviousLoginTime) {
     size += computeInt64Size(2, self.previousLoginTime);
+  }
+  if (self.hasTimeClientSent) {
+    size += computeInt64Size(3, self.timeClientSent);
   }
   size += self.unknownFields.serializedSize;
   memoizedSerializedSize = size;
@@ -7222,6 +7371,9 @@ static ForceLogoutResponseProto* defaultForceLogoutResponseProtoInstance = nil;
   if (other.hasPreviousLoginTime) {
     [self setPreviousLoginTime:other.previousLoginTime];
   }
+  if (other.hasTimeClientSent) {
+    [self setTimeClientSent:other.timeClientSent];
+  }
   [self mergeUnknownFields:other.unknownFields];
   return self;
 }
@@ -7249,6 +7401,10 @@ static ForceLogoutResponseProto* defaultForceLogoutResponseProtoInstance = nil;
       }
       case 16: {
         [self setPreviousLoginTime:[input readInt64]];
+        break;
+      }
+      case 24: {
+        [self setTimeClientSent:[input readInt64]];
         break;
       }
     }
@@ -7284,6 +7440,22 @@ static ForceLogoutResponseProto* defaultForceLogoutResponseProtoInstance = nil;
 - (ForceLogoutResponseProto_Builder*) clearPreviousLoginTime {
   result.hasPreviousLoginTime = NO;
   result.previousLoginTime = 0L;
+  return self;
+}
+- (BOOL) hasTimeClientSent {
+  return result.hasTimeClientSent;
+}
+- (int64_t) timeClientSent {
+  return result.timeClientSent;
+}
+- (ForceLogoutResponseProto_Builder*) setTimeClientSent:(int64_t) value {
+  result.hasTimeClientSent = YES;
+  result.timeClientSent = value;
+  return self;
+}
+- (ForceLogoutResponseProto_Builder*) clearTimeClientSent {
+  result.hasTimeClientSent = NO;
+  result.timeClientSent = 0L;
   return self;
 }
 @end

@@ -32,7 +32,7 @@
   BOOL _isSpeedingUp;
   int _purchStructId;
   
-  HomeBuilding *_constrBuilding;
+  Building *_constrBuilding;
   HomeBuilding *_purchBuilding;
   
   NSMutableArray *_timers;
@@ -47,6 +47,7 @@
 
 @property (nonatomic, assign) IBOutlet UILabel *buildingNameLabel;
 @property (nonatomic, assign) IBOutlet UILabel *buildingIncomeLabel;
+@property (nonatomic, assign) IBOutlet UILabel *buildingUpgradeButtonTopLabel;
 @property (nonatomic, assign) IBOutlet UILabel *buildingUpgradeCashCostLabel;
 @property (nonatomic, assign) IBOutlet UILabel *buildingUpgradeOilCostLabel;
 @property (nonatomic, assign) IBOutlet UIView *buildingUpgradeOilView;
@@ -84,8 +85,10 @@
 - (BOOL) speedUpBuilding;
 - (void) scrollScreenForTouch:(CGPoint)pt;
 - (void) retrieveFromBuilding:(HomeBuilding *)hb;
-- (void) updateTimersForBuilding:(HomeBuilding *)hb;
+- (void) updateTimersForBuilding:(MapSprite *)ms;
 - (void) invalidateAllTimers;
+
+- (NSArray *) reloadObstacles;
 
 - (void) reselectCurrentSelection;
 

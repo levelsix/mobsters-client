@@ -18,7 +18,7 @@
 @property (nonatomic, retain) FBFrictionlessRecipientCache *friendCache;
 @property (nonatomic, retain) NSDictionary<FBGraphUser> *myFacebookUser;
 
-@property (nonatomic, retain) NSDate *timeOfLastLoginAttempt;
+@property (nonatomic, retain) MSDate *timeOfLastLoginAttempt;
 
 + (FacebookDelegate *) sharedFacebookDelegate;
 

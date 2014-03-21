@@ -23,7 +23,7 @@
 @property (nonatomic, assign) int teamSlot;
 @property (nonatomic, assign) int isComplete;
 @property (nonatomic, assign) int numPieces;
-@property (nonatomic, retain) NSDate *combineStartTime;
+@property (nonatomic, retain) MSDate *combineStartTime;
 
 + (id) userMonsterWithProto:(FullUserMonsterProto *)proto;
 + (id) userMonsterWithMinProto:(MinimumUserMonsterProto *)proto;
@@ -52,8 +52,8 @@
 
 @property (nonatomic, assign) uint64_t userMonsterId;
 @property (nonatomic, assign) int userId;
-@property (nonatomic, retain) NSDate *queueTime;
-@property (nonatomic, retain) NSDate *endTime;
+@property (nonatomic, retain) MSDate *queueTime;
+@property (nonatomic, retain) MSDate *endTime;
 
 @property (nonatomic, assign) float healthProgress;
 @property (nonatomic, assign) int priority;
@@ -82,11 +82,11 @@
 
 @property (nonatomic, assign) uint64_t userMonsterId;
 @property (nonatomic, assign) int enhancementCost;
-@property (nonatomic, retain) NSDate *expectedStartTime;
+@property (nonatomic, retain) MSDate *expectedStartTime;
 
 - (float) currentPercentage;
 - (int) secondsForCompletion;
-- (NSDate *) expectedEndTime;
+- (MSDate *) expectedEndTime;
 - (UserMonster *)userMonster;
 - (UserEnhancementItemProto *) convertToProto;
 
@@ -111,11 +111,11 @@
 @property (nonatomic, assign) uint64_t userMonsterId1;
 @property (nonatomic, assign) uint64_t userMonsterId2;
 @property (nonatomic, assign) uint64_t catalystMonsterId;
-@property (nonatomic, retain) NSDate *startTime;
+@property (nonatomic, retain) MSDate *startTime;
 
 + (id) evolutionWithUserEvolutionProto:(UserMonsterEvolutionProto *)proto;
-+ (id) evolutionWithEvoItem:(EvoItem *)evo time:(NSDate *)time;
-- (NSDate *) endTime;
++ (id) evolutionWithEvoItem:(EvoItem *)evo time:(MSDate *)time;
+- (MSDate *) endTime;
 - (UserMonsterEvolutionProto *) convertToProto;
 
 @end
@@ -126,9 +126,9 @@
 @property (nonatomic, assign) int userId;
 @property (nonatomic, assign) int structId;
 @property (nonatomic, assign) int fbInviteStructLvl;
-@property (nonatomic, retain) NSDate *lastRetrieved;
+@property (nonatomic, retain) MSDate *lastRetrieved;
 @property (nonatomic, assign) CGPoint coordinates;
-@property (nonatomic, retain) NSDate *purchaseTime;
+@property (nonatomic, retain) MSDate *purchaseTime;
 @property (nonatomic, assign) BOOL isComplete;
 @property (nonatomic, assign) StructOrientation orientation;
 
@@ -147,7 +147,7 @@
 
 - (int) numResourcesAvailable;
 
-- (NSDate *) buildCompleteDate;
+- (MSDate *) buildCompleteDate;
 - (NSTimeInterval) timeLeftForBuildComplete;
 
 @end
@@ -158,10 +158,12 @@
 @property (nonatomic, assign) int userId;
 @property (nonatomic, assign) int obstacleId;
 @property (nonatomic, assign) CGPoint coordinates;
-@property (nonatomic, retain) NSDate *purchaseTime;
+@property (nonatomic, retain) MSDate *removalTime;
 @property (nonatomic, assign) StructOrientation orientation;
 
+- (id) initWithObstacleProto:(UserObstacleProto *)obstacle;
 - (ObstacleProto *) staticObstacle;
+- (MSDate *) endTime;
 
 @end
 
@@ -176,7 +178,7 @@ typedef enum {
 
 @property (nonatomic, retain) MinimumUserProto *otherPlayer;
 @property (nonatomic, assign) NotificationType type;
-@property (nonatomic, retain) NSDate *time;
+@property (nonatomic, retain) MSDate *time;
 @property (nonatomic, assign) BOOL sellerHadLicense;
 @property (nonatomic, assign) BattleResult battleResult;
 @property (nonatomic, assign) int coinsStolen;
@@ -197,7 +199,7 @@ typedef enum {
 
 @property (nonatomic, retain) MinimumUserProtoWithLevel *sender;
 @property (nonatomic, copy) NSString *message;
-@property (nonatomic, retain) NSDate *date;
+@property (nonatomic, retain) MSDate *date;
 @property (nonatomic, assign) BOOL isAdmin;
 
 - (id) initWithProto:(GroupChatMessageProto *)p;
@@ -210,7 +212,7 @@ typedef enum {
 @property (nonatomic, assign) int xPosition;
 @property (nonatomic, assign) int yPosition;
 @property (nonatomic, assign) BOOL isExpanding;
-@property (nonatomic, retain) NSDate *lastExpandTime;
+@property (nonatomic, retain) MSDate *lastExpandTime;
 
 + (id) userExpansionWithUserCityExpansionDataProto:(UserCityExpansionDataProto *)proto;
 

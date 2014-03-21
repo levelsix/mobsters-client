@@ -114,6 +114,9 @@ BOOL EventProtocolRequestIsValidValue(EventProtocolRequest value) {
     case EventProtocolRequestCRecordClanRaidStatsEvent:
     case EventProtocolRequestCPromoteDemoteClanMemberEvent:
     case EventProtocolRequestCSetGameCenterIdEvent:
+    case EventProtocolRequestCSpawnObstacleEvent:
+    case EventProtocolRequestCBeginObstacleRemovalEvent:
+    case EventProtocolRequestCObstacleRemovalCompleteEvent:
     case EventProtocolRequestCLogoutEvent:
       return YES;
     default:
@@ -186,6 +189,9 @@ BOOL EventProtocolResponseIsValidValue(EventProtocolResponse value) {
     case EventProtocolResponseSRecordClanRaidStatsEvent:
     case EventProtocolResponseSPromoteDemoteClanMemberEvent:
     case EventProtocolResponseSSetGameCenterIdEvent:
+    case EventProtocolResponseSSpawnObstacleEvent:
+    case EventProtocolResponseSBeginObstacleRemovalEvent:
+    case EventProtocolResponseSObstacleRemovalCompleteEvent:
     case EventProtocolResponseSUpdateClientUserEvent:
     case EventProtocolResponseSReferralCodeUsedEvent:
     case EventProtocolResponseSPurgeStaticDataEvent:

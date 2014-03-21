@@ -43,6 +43,8 @@
 @class LoadPlayerCityResponseProto_Builder;
 @class MinimumClanProto;
 @class MinimumClanProto_Builder;
+@class MinimumObstacleProto;
+@class MinimumObstacleProto_Builder;
 @class MinimumUserProto;
 @class MinimumUserProtoWithFacebookId;
 @class MinimumUserProtoWithFacebookId_Builder;
@@ -179,6 +181,7 @@ BOOL LoadCityResponseProto_LoadCityStatusIsValidValue(LoadCityResponseProto_Load
   LoadPlayerCityResponseProto_LoadPlayerCityStatus status;
   NSMutableArray* mutableOwnerNormStructsList;
   NSMutableArray* mutableUserCityExpansionDataProtoListList;
+  NSMutableArray* mutableObstaclesList;
 }
 - (BOOL) hasSender;
 - (BOOL) hasCityOwner;
@@ -190,6 +193,8 @@ BOOL LoadCityResponseProto_LoadCityStatusIsValidValue(LoadCityResponseProto_Load
 - (FullUserStructureProto*) ownerNormStructsAtIndex:(int32_t) index;
 - (NSArray*) userCityExpansionDataProtoListList;
 - (UserCityExpansionDataProto*) userCityExpansionDataProtoListAtIndex:(int32_t) index;
+- (NSArray*) obstaclesList;
+- (UserObstacleProto*) obstaclesAtIndex:(int32_t) index;
 
 + (LoadPlayerCityResponseProto*) defaultInstance;
 - (LoadPlayerCityResponseProto*) defaultInstance;
@@ -257,6 +262,13 @@ BOOL LoadCityResponseProto_LoadCityStatusIsValidValue(LoadCityResponseProto_Load
 - (LoadPlayerCityResponseProto_Builder*) addUserCityExpansionDataProtoList:(UserCityExpansionDataProto*) value;
 - (LoadPlayerCityResponseProto_Builder*) addAllUserCityExpansionDataProtoList:(NSArray*) values;
 - (LoadPlayerCityResponseProto_Builder*) clearUserCityExpansionDataProtoListList;
+
+- (NSArray*) obstaclesList;
+- (UserObstacleProto*) obstaclesAtIndex:(int32_t) index;
+- (LoadPlayerCityResponseProto_Builder*) replaceObstaclesAtIndex:(int32_t) index with:(UserObstacleProto*) value;
+- (LoadPlayerCityResponseProto_Builder*) addObstacles:(UserObstacleProto*) value;
+- (LoadPlayerCityResponseProto_Builder*) addAllObstacles:(NSArray*) values;
+- (LoadPlayerCityResponseProto_Builder*) clearObstaclesList;
 @end
 
 @interface PurchaseCityExpansionRequestProto : PBGeneratedMessage {

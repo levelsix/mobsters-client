@@ -22,6 +22,8 @@
 @class ItemProto_Builder;
 @class LabProto;
 @class LabProto_Builder;
+@class MinimumObstacleProto;
+@class MinimumObstacleProto_Builder;
 @class ObstacleProto;
 @class ObstacleProto_Builder;
 @class ResidenceProto;

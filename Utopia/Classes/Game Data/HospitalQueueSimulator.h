@@ -12,7 +12,7 @@
 @interface HospitalSim : NSObject
 
 @property (nonatomic, assign) float healthPerSecond;
-@property (nonatomic, retain) NSDate *upgradeCompleteDate;
+@property (nonatomic, retain) MSDate *upgradeCompleteDate;
 @property (nonatomic, assign) int userStructId;
 
 - (id) initWithHospital:(UserStruct *)hospital;
@@ -24,14 +24,14 @@
 @property (nonatomic, assign) uint64_t userMonsterId;
 @property (nonatomic, assign) float healthProgress;
 @property (nonatomic, assign) int totalHealthToHeal;
-@property (nonatomic, retain) NSDate *queueTime;
-@property (nonatomic, retain) NSDate *startTime;
+@property (nonatomic, retain) MSDate *queueTime;
+@property (nonatomic, retain) MSDate *startTime;
 @property (nonatomic, assign) int userStructId;
 
 @property (nonatomic, assign) int isFinished;
 @property (nonatomic, assign) float totalSeconds;
 @property (nonatomic, retain) NSMutableArray *timeDistribution;
-@property (nonatomic, retain) NSDate *endTime;
+@property (nonatomic, retain) MSDate *endTime;
 
 - (id) initWithHealingItem:(UserMonsterHealingItem *)healingItem;
 
@@ -44,7 +44,7 @@
 
 - (id) initWithHospitals:(NSArray *)hospitals healingItems:(NSArray *)healingItems;
 
-- (void) simulateUntilDate:(NSDate *)date;
+- (void) simulateUntilDate:(MSDate *)date;
 - (void) simulate;
 
 @end

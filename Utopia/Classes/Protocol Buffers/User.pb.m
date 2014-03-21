@@ -1909,6 +1909,7 @@ static UserFacebookInviteForSlotProto* defaultUserFacebookInviteForSlotProtoInst
 @property int32_t defensesLost;
 @property (retain) NSString* facebookId;
 @property (retain) NSString* gameCenterId;
+@property int64_t lastObstacleSpawnedTime;
 @property (retain) NSString* udidForHistory;
 @property (retain) NSString* deviceToken;
 @property int64_t lastBattleNotificationTime;
@@ -2169,6 +2170,13 @@ static UserFacebookInviteForSlotProto* defaultUserFacebookInviteForSlotProtoInst
   hasGameCenterId_ = !!value;
 }
 @synthesize gameCenterId;
+- (BOOL) hasLastObstacleSpawnedTime {
+  return !!hasLastObstacleSpawnedTime_;
+}
+- (void) setHasLastObstacleSpawnedTime:(BOOL) value {
+  hasLastObstacleSpawnedTime_ = !!value;
+}
+@synthesize lastObstacleSpawnedTime;
 - (BOOL) hasUdidForHistory {
   return !!hasUdidForHistory_;
 }
@@ -2305,6 +2313,7 @@ static UserFacebookInviteForSlotProto* defaultUserFacebookInviteForSlotProtoInst
     self.defensesLost = 0;
     self.facebookId = @"";
     self.gameCenterId = @"";
+    self.lastObstacleSpawnedTime = 0L;
     self.udidForHistory = @"";
     self.deviceToken = @"";
     self.lastBattleNotificationTime = 0L;
@@ -2468,6 +2477,9 @@ static FullUserProto* defaultFullUserProtoInstance = nil;
   if (self.hasUdidForHistory) {
     [output writeString:46 value:self.udidForHistory];
   }
+  if (self.hasLastObstacleSpawnedTime) {
+    [output writeInt64:47 value:self.lastObstacleSpawnedTime];
+  }
   [self.unknownFields writeToCodedOutputStream:output];
 }
 - (int32_t) serializedSize {
@@ -2608,6 +2620,9 @@ static FullUserProto* defaultFullUserProtoInstance = nil;
   }
   if (self.hasUdidForHistory) {
     size += computeStringSize(46, self.udidForHistory);
+  }
+  if (self.hasLastObstacleSpawnedTime) {
+    size += computeInt64Size(47, self.lastObstacleSpawnedTime);
   }
   size += self.unknownFields.serializedSize;
   memoizedSerializedSize = size;
@@ -2779,6 +2794,9 @@ static FullUserProto* defaultFullUserProtoInstance = nil;
   }
   if (other.hasGameCenterId) {
     [self setGameCenterId:other.gameCenterId];
+  }
+  if (other.hasLastObstacleSpawnedTime) {
+    [self setLastObstacleSpawnedTime:other.lastObstacleSpawnedTime];
   }
   if (other.hasUdidForHistory) {
     [self setUdidForHistory:other.udidForHistory];
@@ -3016,6 +3034,10 @@ static FullUserProto* defaultFullUserProtoInstance = nil;
       }
       case 370: {
         [self setUdidForHistory:[input readString]];
+        break;
+      }
+      case 376: {
+        [self setLastObstacleSpawnedTime:[input readInt64]];
         break;
       }
     }
@@ -3545,6 +3567,22 @@ static FullUserProto* defaultFullUserProtoInstance = nil;
 - (FullUserProto_Builder*) clearGameCenterId {
   result.hasGameCenterId = NO;
   result.gameCenterId = @"";
+  return self;
+}
+- (BOOL) hasLastObstacleSpawnedTime {
+  return result.hasLastObstacleSpawnedTime;
+}
+- (int64_t) lastObstacleSpawnedTime {
+  return result.lastObstacleSpawnedTime;
+}
+- (FullUserProto_Builder*) setLastObstacleSpawnedTime:(int64_t) value {
+  result.hasLastObstacleSpawnedTime = YES;
+  result.lastObstacleSpawnedTime = value;
+  return self;
+}
+- (FullUserProto_Builder*) clearLastObstacleSpawnedTime {
+  result.hasLastObstacleSpawnedTime = NO;
+  result.lastObstacleSpawnedTime = 0L;
   return self;
 }
 - (BOOL) hasUdidForHistory {
