@@ -338,7 +338,7 @@
                    [CCActionCallBlock actionWithBlock:^{[node removeFromParentAndCleanup:YES];}], nil]];
 }
 
-- (void) updateUpgradeBar {
+- (void) updateProgressBar {
   CCNode *n = [self getChildByName:UPGRADING_TAG recursively:NO];
   if (n && [n isKindOfClass:[UpgradeProgressBar class]]) {
     UpgradeProgressBar *bar = (UpgradeProgressBar *)n;
@@ -347,10 +347,10 @@
     int totalTime = self.userStruct.staticStruct.structInfo.minutesToBuild*60;
     
     if (_percentage) {
-      time = totalTime*(100.f-_percentage)/100.f;
+      time = totalTime*(1.f-_percentage);
     }
     
-    [bar updateForSecsLeft:(int)time totalSecs:totalTime];
+    [bar updateForSecsLeft:time totalSecs:totalTime];
   }
 }
 
@@ -358,12 +358,8 @@
   CCSprite *spinner = [CCSprite spriteWithImageNamed:@"spinnertest.png"];
   spinner.blendFunc = (ccBlendFunc){GL_SRC_ALPHA, GL_ONE};
   
-//  NSString *str = self.userStruct.staticStruct.structInfo.level == 1 ? @"Building Complete!" : @"Building Upgraded!";
-//  CCLabelTTF *label = [CCLabelTTF labelWithString:str fontName:[Globals font] fontSize:22.f];
-//  [label setFontColor:[CCColor colorWithCcColor3b:ccc3(255, 200, 0)]];
-//  [label setShadowColor:[CCColor colorWithWhite:0.f alpha:0.8f]];
-//  [label setShadowOffset:ccp(0, -1)];
-  CCSprite *label = [CCSprite spriteWithImageNamed:@"buildingupgraded.png"];
+  NSString *str = self.userStruct.staticStruct.structInfo.level == 1 ? @"buildingcomplete.png" : @"buildingupgraded.png";
+  CCSprite *label = [CCSprite spriteWithImageNamed:str];
   
   [self addChild:spinner z:-1];
   [self addChild:label];
@@ -408,7 +404,8 @@
   
   ResourceGeneratorProto *res = (ResourceGeneratorProto *)self.userStruct.staticStruct;
   if (res.resourceType == ResourceTypeOil) {
-    [anim repeatFrames:NSMakeRange(3,2) numTimes:5];
+    //    [anim repeatFrames:NSMakeRange(3,2) numTimes:5];
+    anim.delayPerUnit = 0.1;
   }
   
   CCSprite *spr = [CCSprite spriteWithSpriteFrame:[anim.frames[0] spriteFrame]];
@@ -426,8 +423,14 @@
     // Make sure to cleanup just in case
     [_retrieveBubble removeFromParent];
   }
+  GameState *gs = [GameState sharedGameState];
   ResourceType type = ((ResourceGeneratorProto *)self.userStruct.staticStruct).resourceType;
-  _retrieveBubble = [CCSprite spriteWithImageNamed:type == ResourceTypeCash ? @"cashready.png" : @"oilready.png"];
+  NSString *res = type == ResourceTypeCash ? @"cash" : @"oil";
+  int amount = type == ResourceTypeCash ? gs.silver : gs.oil;
+  int max = type == ResourceTypeCash ? gs.maxCash : gs.maxOil;
+  NSString *end = amount >= max ? @"overflow" : @"ready";
+  
+  _retrieveBubble = [CCSprite spriteWithImageNamed:[NSString stringWithFormat:@"%@%@.png", res, end]];
   [self addChild:_retrieveBubble];
   _retrieveBubble.anchorPoint = ccp(0.5, 0);
   _retrieveBubble.position = ccp(self.contentSize.width/2,self.contentSize.height-OVER_HOME_BUILDING_MENU_OFFSET);
@@ -458,18 +461,21 @@
 }
 
 - (void) setRetrievable:(BOOL)retrievable {
-  if (retrievable != _retrievable) {
-    _retrievable = retrievable;
-    
-    if (retrievable) {
-      if (!_retrieveBubble) {
-        [self initializeRetrieveBubble];
-        _retrieveBubble.opacity = 0.f;
-      }
+  _retrievable = retrievable;
+  
+  if (retrievable) {
+    BOOL shouldFade = _retrieveBubble == nil;
+    [self initializeRetrieveBubble];
+    if (shouldFade) {
+      _retrieveBubble.opacity = 0.f;
       [_retrieveBubble runAction:[CCActionFadeTo actionWithDuration:0.3f opacity:1.f]];
-    } else {
-      [_retrieveBubble runAction:[CCActionFadeTo actionWithDuration:0.3f opacity:0.f]];
     }
+  } else {
+    [_retrieveBubble runAction:
+     [CCActionSequence actions:
+      [CCActionFadeTo actionWithDuration:0.3f opacity:0.f],
+      [CCActionRemove action], nil]];
+    _retrieveBubble = nil;
   }
 }
 
@@ -531,35 +537,38 @@
   self.baseScale = 0.85;
   [self adjustBuildingSprite];
   
-  if (_monsterId) {
-    [self beginAnimatingWithMonsterId:_monsterId];
+  if (_healingItem) {
+    [self beginAnimatingWithHealingItem:_healingItem];
   }
 }
 
-- (void) beginAnimatingWithMonsterId:(int)monsterId {
+- (void) beginAnimatingWithHealingItem:(UserMonsterHealingItem *)hi {
   [self stopAnimating];
   [self.monsterSprite removeFromParent];
   
   [self.buildingSprite runAction:[CCActionRepeatForever actionWithAction:[CCActionAnimate actionWithAnimation:self.baseAnimation]]];
   [self.tubeSprite runAction:[CCActionRepeatForever actionWithAction:[CCActionAnimate actionWithAnimation:self.tubeAnimation]]];
   
-  if (monsterId) {
+  if (hi) {
     GameState *gs = [GameState sharedGameState];
-    MonsterProto *mp = [gs monsterWithId:monsterId];
+    UserMonster *um = [gs myMonsterWithUserMonsterId:hi.userMonsterId];
+    MonsterProto *mp = [gs monsterWithId:um.monsterId];
     
     [[CCSpriteFrameCache sharedSpriteFrameCache] addSpriteFramesWithFile:[NSString stringWithFormat:@"%@AttackNF.plist", mp.imagePrefix]];
     NSString *file = [NSString stringWithFormat:@"%@AttackN00.png", mp.imagePrefix];
     if ([[CCSpriteFrameCache sharedSpriteFrameCache] containsFrame:file]) {
       self.monsterSprite = [CCSprite spriteWithImageNamed:file];
       self.monsterSprite.anchorPoint = ccp(0.5, 0);
-      self.monsterSprite.position = ccp(self.buildingSprite.contentSize.width/2, 1);
       self.monsterSprite.scale = 0.8;
+      self.monsterSprite.position = ccpAdd(ccp(self.buildingSprite.contentSize.width/2, 1), ccp(0, mp.verticalPixelOffset));
       self.monsterSprite.flipX = YES;
       [self.buildingSprite addChild:self.monsterSprite z:1];
     }
+    
+    [self displayProgressBar];
   }
   
-  _monsterId = monsterId;
+  _healingItem = hi;
 }
 
 - (void) stopAnimating {
@@ -571,7 +580,38 @@
   [self.buildingSprite setSpriteFrame:[self.baseAnimation.frames[0] spriteFrame]];
   [self.tubeSprite setSpriteFrame:[self.tubeAnimation.frames[0] spriteFrame]];
   
-  _monsterId = 0;
+  if (!self.isConstructing) {
+    [self removeProgressBar];
+  }
+  _healingItem = nil;
+}
+
+- (NSString *) progressBarPrefix {
+  if (self.isConstructing) {
+    return [super progressBarPrefix];
+  } else {
+    return @"healing";
+  }
+}
+
+- (void) displayProgressBar {
+  [self removeProgressBar];
+  [super displayProgressBar];
+}
+
+- (void) updateProgressBar {
+  if (self.isConstructing) {
+    [super updateProgressBar];
+  } else {
+    CCNode *n = [self getChildByName:UPGRADING_TAG recursively:NO];
+    if (n && [n isKindOfClass:[UpgradeProgressBar class]]) {
+      UpgradeProgressBar *bar = (UpgradeProgressBar *)n;
+      
+      NSTimeInterval time = _healingItem.endTime.timeIntervalSinceNow;
+      [bar updateTimeLabel:time];
+      [bar updateForPercentage:_healingItem.currentPercentage];
+    }
+  }
 }
 
 @end
@@ -603,7 +643,6 @@
   self.buildingSprite = [CCSprite spriteWithSpriteFrame:[self.anim.frames[0] spriteFrame]];
   [self addChild:self.buildingSprite];
   
-  self.baseScale = 0.85;
   [self adjustBuildingSprite];
 }
 
@@ -636,14 +675,6 @@
   return self;
 }
 
-//- (BOOL) select {
-//  BOOL select = [super select];
-//
-//  [self.buildingSprite stopActionByTag:BOUNCE_ACTION_TAG];
-//
-//  return select;
-//}
-
 - (BOOL) hitTestWithWorldPos:(CGPoint)pt {
   pt = [_map convertToNodeSpace:pt];
   
@@ -657,7 +688,7 @@
   n.position = ccpAdd(ccp(self.contentSize.width/2, self.contentSize.height/2), ccp(0, 5));
 }
 
-- (void) updateUpgradeBar {
+- (void) updateProgressBar {
   CCNode *n = [self getChildByName:UPGRADING_TAG recursively:NO];
   if (n && [n isKindOfClass:[UpgradeProgressBar class]]) {
     UpgradeProgressBar *bar = (UpgradeProgressBar *)n;
@@ -669,10 +700,10 @@
     NSTimeInterval time = [[MSDate dateWithTimeInterval:totalTime sinceDate:ue.lastExpandTime] timeIntervalSinceNow];
     
     if (_percentage) {
-      time = totalTime*(100.f-_percentage)/100.f;
+      time = totalTime*(1.f-_percentage);
     }
     
-    [bar updateForSecsLeft:(int)time totalSecs:totalTime];
+    [bar updateForSecsLeft:time totalSecs:totalTime];
   }
 }
 

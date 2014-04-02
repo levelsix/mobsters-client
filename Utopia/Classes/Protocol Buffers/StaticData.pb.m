@@ -12,6 +12,7 @@ static PBExtensionRegistry* extensionRegistry = nil;
   if (self == [StaticDataRoot class]) {
     PBMutableExtensionRegistry* registry = [PBMutableExtensionRegistry registry];
     [self registerAllExtensions:registry];
+    [BattleRoot registerAllExtensions:registry];
     [BoosterPackStuffRoot registerAllExtensions:registry];
     [CityRoot registerAllExtensions:registry];
     [ClanRoot registerAllExtensions:registry];
@@ -50,6 +51,8 @@ static PBExtensionRegistry* extensionRegistry = nil;
 @property (retain) NSMutableArray* mutablePersistentClanEventsList;
 @property (retain) NSMutableArray* mutableItemsList;
 @property (retain) NSMutableArray* mutableObstaclesList;
+@property (retain) NSMutableArray* mutableClanIconsList;
+@property (retain) NSMutableArray* mutableLeaguesList;
 @end
 
 @implementation StaticDataProto
@@ -82,6 +85,8 @@ static PBExtensionRegistry* extensionRegistry = nil;
 @synthesize mutablePersistentClanEventsList;
 @synthesize mutableItemsList;
 @synthesize mutableObstaclesList;
+@synthesize mutableClanIconsList;
+@synthesize mutableLeaguesList;
 - (void) dealloc {
   self.sender = nil;
   self.mutableExpansionCostsList = nil;
@@ -105,6 +110,8 @@ static PBExtensionRegistry* extensionRegistry = nil;
   self.mutablePersistentClanEventsList = nil;
   self.mutableItemsList = nil;
   self.mutableObstaclesList = nil;
+  self.mutableClanIconsList = nil;
+  self.mutableLeaguesList = nil;
   [super dealloc];
 }
 - (id) init {
@@ -272,6 +279,20 @@ static StaticDataProto* defaultStaticDataProtoInstance = nil;
   id value = [mutableObstaclesList objectAtIndex:index];
   return value;
 }
+- (NSArray*) clanIconsList {
+  return mutableClanIconsList;
+}
+- (ClanIconProto*) clanIconsAtIndex:(int32_t) index {
+  id value = [mutableClanIconsList objectAtIndex:index];
+  return value;
+}
+- (NSArray*) leaguesList {
+  return mutableLeaguesList;
+}
+- (PvpLeagueProto*) leaguesAtIndex:(int32_t) index {
+  id value = [mutableLeaguesList objectAtIndex:index];
+  return value;
+}
 - (BOOL) isInitialized {
   return YES;
 }
@@ -341,6 +362,12 @@ static StaticDataProto* defaultStaticDataProtoInstance = nil;
   }
   for (ObstacleProto* element in self.obstaclesList) {
     [output writeMessage:23 value:element];
+  }
+  for (ClanIconProto* element in self.clanIconsList) {
+    [output writeMessage:24 value:element];
+  }
+  for (PvpLeagueProto* element in self.leaguesList) {
+    [output writeMessage:25 value:element];
   }
   [self.unknownFields writeToCodedOutputStream:output];
 }
@@ -416,6 +443,12 @@ static StaticDataProto* defaultStaticDataProtoInstance = nil;
   }
   for (ObstacleProto* element in self.obstaclesList) {
     size += computeMessageSize(23, element);
+  }
+  for (ClanIconProto* element in self.clanIconsList) {
+    size += computeMessageSize(24, element);
+  }
+  for (PvpLeagueProto* element in self.leaguesList) {
+    size += computeMessageSize(25, element);
   }
   size += self.unknownFields.serializedSize;
   memoizedSerializedSize = size;
@@ -621,6 +654,18 @@ static StaticDataProto* defaultStaticDataProtoInstance = nil;
     }
     [result.mutableObstaclesList addObjectsFromArray:other.mutableObstaclesList];
   }
+  if (other.mutableClanIconsList.count > 0) {
+    if (result.mutableClanIconsList == nil) {
+      result.mutableClanIconsList = [NSMutableArray array];
+    }
+    [result.mutableClanIconsList addObjectsFromArray:other.mutableClanIconsList];
+  }
+  if (other.mutableLeaguesList.count > 0) {
+    if (result.mutableLeaguesList == nil) {
+      result.mutableLeaguesList = [NSMutableArray array];
+    }
+    [result.mutableLeaguesList addObjectsFromArray:other.mutableLeaguesList];
+  }
   [self mergeUnknownFields:other.unknownFields];
   return self;
 }
@@ -775,6 +820,18 @@ static StaticDataProto* defaultStaticDataProtoInstance = nil;
         ObstacleProto_Builder* subBuilder = [ObstacleProto builder];
         [input readMessage:subBuilder extensionRegistry:extensionRegistry];
         [self addObstacles:[subBuilder buildPartial]];
+        break;
+      }
+      case 194: {
+        ClanIconProto_Builder* subBuilder = [ClanIconProto builder];
+        [input readMessage:subBuilder extensionRegistry:extensionRegistry];
+        [self addClanIcons:[subBuilder buildPartial]];
+        break;
+      }
+      case 202: {
+        PvpLeagueProto_Builder* subBuilder = [PvpLeagueProto builder];
+        [input readMessage:subBuilder extensionRegistry:extensionRegistry];
+        [self addLeagues:[subBuilder buildPartial]];
         break;
       }
     }
@@ -1417,6 +1474,64 @@ static StaticDataProto* defaultStaticDataProtoInstance = nil;
     result.mutableObstaclesList = [NSMutableArray array];
   }
   [result.mutableObstaclesList addObject:value];
+  return self;
+}
+- (NSArray*) clanIconsList {
+  if (result.mutableClanIconsList == nil) { return [NSArray array]; }
+  return result.mutableClanIconsList;
+}
+- (ClanIconProto*) clanIconsAtIndex:(int32_t) index {
+  return [result clanIconsAtIndex:index];
+}
+- (StaticDataProto_Builder*) replaceClanIconsAtIndex:(int32_t) index with:(ClanIconProto*) value {
+  [result.mutableClanIconsList replaceObjectAtIndex:index withObject:value];
+  return self;
+}
+- (StaticDataProto_Builder*) addAllClanIcons:(NSArray*) values {
+  if (result.mutableClanIconsList == nil) {
+    result.mutableClanIconsList = [NSMutableArray array];
+  }
+  [result.mutableClanIconsList addObjectsFromArray:values];
+  return self;
+}
+- (StaticDataProto_Builder*) clearClanIconsList {
+  result.mutableClanIconsList = nil;
+  return self;
+}
+- (StaticDataProto_Builder*) addClanIcons:(ClanIconProto*) value {
+  if (result.mutableClanIconsList == nil) {
+    result.mutableClanIconsList = [NSMutableArray array];
+  }
+  [result.mutableClanIconsList addObject:value];
+  return self;
+}
+- (NSArray*) leaguesList {
+  if (result.mutableLeaguesList == nil) { return [NSArray array]; }
+  return result.mutableLeaguesList;
+}
+- (PvpLeagueProto*) leaguesAtIndex:(int32_t) index {
+  return [result leaguesAtIndex:index];
+}
+- (StaticDataProto_Builder*) replaceLeaguesAtIndex:(int32_t) index with:(PvpLeagueProto*) value {
+  [result.mutableLeaguesList replaceObjectAtIndex:index withObject:value];
+  return self;
+}
+- (StaticDataProto_Builder*) addAllLeagues:(NSArray*) values {
+  if (result.mutableLeaguesList == nil) {
+    result.mutableLeaguesList = [NSMutableArray array];
+  }
+  [result.mutableLeaguesList addObjectsFromArray:values];
+  return self;
+}
+- (StaticDataProto_Builder*) clearLeaguesList {
+  result.mutableLeaguesList = nil;
+  return self;
+}
+- (StaticDataProto_Builder*) addLeagues:(PvpLeagueProto*) value {
+  if (result.mutableLeaguesList == nil) {
+    result.mutableLeaguesList = [NSMutableArray array];
+  }
+  [result.mutableLeaguesList addObject:value];
   return self;
 }
 @end

@@ -9,7 +9,48 @@
 #import "OneLineNotificationViewController.h"
 #import "Globals.h"
 
-#define LOWEST_LABEL_BOT_POINT 100.f
+#define LOWEST_LABEL_BOT_POINT 20.f
+
+@implementation OneLineNotificationView
+
+- (void) updateForString:(NSString *)str isGreen:(BOOL)isGreen {
+  self.label.text = str;
+  
+  for (UIImageView *img in self.imgViews) {
+    img.highlighted = isGreen;
+  }
+  
+  CGSize size = [self.label.text sizeWithFont:self.label.font constrainedToSize:self.label.frame.size];
+  CGRect r = self.frame;
+  r.size.width = (int)(size.width+self.label.frame.origin.x*2);
+  self.frame = r;
+  
+  if (isGreen) {
+    self.label.shadowColor = [UIColor colorWithRed:81/255.f green:111/255.f blue:5/255.f alpha:0.8];
+  }
+}
+
+- (void) animateIn:(void (^)(void))completion {
+  CGPoint pt = self.center;
+  self.center = ccp(self.center.x, -self.frame.size.height/2);
+  [UIView animateWithDuration:0.3f animations:^{
+    self.center = pt;
+  } completion:^(BOOL finished) {
+    if (completion) {
+      completion();
+    }
+  }];
+}
+
+- (void) animateOut {
+  [UIView animateWithDuration:0.3f animations:^{
+    self.center = ccp(self.center.x, -self.frame.size.height/2);
+  } completion:^(BOOL finished) {
+    [self removeFromSuperview];
+  }];
+}
+
+@end
 
 @implementation OneLineNotificationViewController
 
@@ -20,57 +61,30 @@
   self.view = view;
 }
 
-- (void) viewDidLoad {
-  self.labels = [NSMutableArray array];
-}
-
 - (void) displayView {
   [super displayView];
   self.view.frame = self.view.superview.bounds;
 }
 
-- (void) addNotification:(NSString *)string color:(UIColor *)color {
-  UILabel *label = [[UILabel alloc] initWithFrame:CGRectZero];
-  label.font = [UIFont fontWithName:[Globals font] size:20.f];
-  label.text = string;
-  label.textColor = color;
-  label.backgroundColor = [UIColor clearColor];
-  label.textAlignment = NSTextAlignmentCenter;
-  label.shadowColor = [UIColor colorWithWhite:0.f alpha:0.6f];
-  label.shadowOffset = CGSizeMake(0, 1);
-  label.numberOfLines = 0;
-  label.lineBreakMode = NSLineBreakByWordWrapping;
+- (void) addNotification:(NSString *)string isGreen:(BOOL)isGreen {
+  [self animateCurrentNotificationViewOut];
   
-  CGSize size = [label.text sizeWithFont:label.font constrainedToSize:CGSizeMake(self.view.frame.size.height*5/6, 9999) lineBreakMode:NSLineBreakByWordWrapping];
-  label.frame = CGRectMake(0, 0, size.width, size.height);
+  [[NSBundle mainBundle] loadNibNamed:@"OneLineNotificationView" owner:self options:nil];
+  [self.notificationView updateForString:string isGreen:isGreen];
+  [self.view addSubview:self.notificationView];
   
-  [self.view addSubview:label];
-  [self.labels addObject:label];
+  // Have to use height because omnipresent views don't have proper orientation
+  self.notificationView.center = ccp(self.view.frame.size.height/2, LOWEST_LABEL_BOT_POINT);
   
-  [self animateLabelsIntoPosition];
-  
-  [UIView animateWithDuration:2.f delay:2.f options:UIViewAnimationOptionTransitionNone animations:^{
-    label.alpha = 0.f;
-  } completion:^(BOOL finished) {
-    [label removeFromSuperview];
-    [self.labels removeObject:label];
+  [self.notificationView animateIn:^{
+    [self performSelector:@selector(animateCurrentNotificationViewOut) withObject:nil afterDelay:3.f];
   }];
 }
 
-- (void) animateLabelsIntoPosition {
-  float curBotPoint = LOWEST_LABEL_BOT_POINT;
-  for (NSInteger i = self.labels.count-1; i >= 0; i--) {
-    UILabel *l = self.labels[i];
-    [self setPointForLabel:l botPoint:curBotPoint];
-    curBotPoint = l.frame.origin.y;
-  }
-}
-
-- (void) setPointForLabel:(UILabel *)l botPoint:(float)botPoint {
-  CGRect r = l.frame;
-  r.origin.y = botPoint-l.frame.size.height;
-  r.origin.x = self.view.frame.size.height/2-l.frame.size.width/2;
-  l.frame = r;
+- (void) animateCurrentNotificationViewOut {
+  [NSObject cancelPreviousPerformRequestsWithTarget:self];
+  [self.notificationView animateOut];
+  self.notificationView = nil;
 }
 
 @end

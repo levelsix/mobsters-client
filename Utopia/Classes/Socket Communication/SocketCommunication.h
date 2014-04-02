@@ -16,6 +16,8 @@
 #import "AMQPConnectionThread.h"
 #import "AMQPConnectionThreadDelegate.h"
 
+#import "GenericPopupController.h"
+
 @interface SocketCommunication : NSObject <UIAlertViewDelegate, AMQPConnectionThreadDelegate> {
   BOOL _shouldReconnect;
   MinimumUserProto *_sender;
@@ -36,6 +38,9 @@
   int _enhanceQueueGemCost;
 }
 
+
+@property (nonatomic, retain) GenericPopupController *popupController;
+
 @property (nonatomic, retain) AMQPConnectionThread *connectionThread;
 
 @property (nonatomic, retain) NSMutableArray *queuedMessages;
@@ -46,8 +51,10 @@
 @property (nonatomic, retain) UserEnhancement *enhancementSnapshot;
 
 @property (nonatomic, retain) NSMutableDictionary *tagDelegates;
+@property (nonatomic, retain) NSMutableArray *clanEventDelegates;
 
 + (BOOL) isForcedTutorial;
++ (NSString *) getUdid;
 
 - (NSString *) getIFA;
 - (NSString *) getIPAddress;
@@ -62,6 +69,9 @@
 - (void) closeDownConnection;
 - (void) messageReceived:(NSData *)buffer withType:(EventProtocolResponse)eventType tag:(int)tag;
 - (void) setDelegate:(id)delegate forTag:(int)tag;
+
+- (void) addClanEventObserver:(id)object;
+- (void) removeClanEventObserver:(id)object;
 
 // Send different event messages
 - (int) sendUserCreateMessageWithName:(NSString *)name facebookId:(NSString *)facebookId structs:(NSArray *)structs cash:(int)cash oil:(int)oil gems:(int)gems;
@@ -82,7 +92,7 @@
 - (int) sendLoadPlayerCityMessage:(int)userId;
 - (int) sendLoadCityMessage:(int)cityId;
 
-- (int) sendLevelUpMessage;
+- (int) sendLevelUpMessage:(int)level;
 
 - (int) sendQuestAcceptMessage:(int)questId;
 - (int) sendQuestProgressMessage:(int)questId progress:(int)progress isComplete:(BOOL)isComplete userMonsterIds:(NSArray *)userMonsterIds;
@@ -98,15 +108,15 @@
 
 - (int) sendGroupChatMessage:(GroupChatScope)scope message:(NSString *)msg clientTime:(uint64_t)clientTime;
 
-- (int) sendCreateClanMessage:(NSString *)clanName tag:(NSString *)tag description:(NSString *)description requestOnly:(BOOL)requestOnly;
+- (int) sendCreateClanMessage:(NSString *)clanName tag:(NSString *)tag description:(NSString *)description requestOnly:(BOOL)requestOnly iconId:(int)iconId cashChange:(int)cashChange gemsSpent:(int)gemsSpent;
 - (int) sendLeaveClanMessage;
 - (int) sendRequestJoinClanMessage:(int)clanId;
 - (int) sendRetractRequestJoinClanMessage:(int)clanId;
 - (int) sendApproveOrRejectRequestToJoinClan:(int)requesterId accept:(BOOL)accept;
 - (int) sendTransferClanOwnership:(int)newClanOwnerId;
-- (int) sendChangeClanDescription:(NSString *)description;
-- (int) sendChangeClanJoinType:(BOOL)requestToJoinRequired;
+- (int) sendChangeClanDescription:(BOOL)isDescription description:(NSString *)description isRequestType:(BOOL)isRequestType requestRequired:(BOOL)requestRequired isIcon:(BOOL)isIcon iconId:(int)iconId;
 - (int) sendRetrieveClanInfoMessage:(NSString *)clanName clanId:(int)clanId grabType:(RetrieveClanInfoRequestProto_ClanInfoGrabType)grabType isForBrowsingList:(BOOL)isForBrowsingList beforeClanId:(int)beforeClanId;
+- (int) sendPromoteDemoteClanMemberMessage:(int)victimId newStatus:(UserClanStatus)status;
 - (int) sendBootPlayerFromClan:(int)playerId;
 
 - (int) sendPurchaseCityExpansionMessageAtX:(int)x atY:(int)y timeOfPurchase:(uint64_t)time;

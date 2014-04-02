@@ -314,7 +314,8 @@
 
 - (void) beginChaseIntoSecondBuilding {
   [self followSprite:self.friendSprite];
-  [self firstStutter];
+  //  [self firstStutter];
+  [self.friendSprite jumpNumTimes:1 completionTarget:self selector:@selector(runToSecondBuilding)];
 }
 
 - (void) firstStutter {
@@ -352,16 +353,10 @@
 
 - (void) runToSecondBuilding {
   [self.enemyBossSprite restoreStandingFrame:MapDirectionNearLeft];
-
-  [self runAction:
-   [CCActionSequence actions:
-    [CCActionDelay actionWithDuration:0.5f],
-    [CCActionCallBlock actionWithBlock:
-     ^{
-       [self runIntoSecondBuildingAnimatedSprite:self.friendSprite withDelay:0.f];
-       [self runIntoSecondBuildingAnimatedSprite:self.enemySprite withDelay:0.3f];
-       [self runIntoSecondBuildingAnimatedSprite:self.enemyBossSprite withDelay:0.3f];
-     }], nil]];
+  
+  [self runIntoSecondBuildingAnimatedSprite:self.friendSprite withDelay:0.f];
+  [self runIntoSecondBuildingAnimatedSprite:self.enemySprite withDelay:0.3f];
+  [self runIntoSecondBuildingAnimatedSprite:self.enemyBossSprite withDelay:0.3f];
 }
 
 - (void) runIntoSecondBuildingAnimatedSprite:(AnimatedSprite *)as withDelay:(float)delay {

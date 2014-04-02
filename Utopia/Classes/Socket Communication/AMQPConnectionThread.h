@@ -15,10 +15,12 @@
   AMQPExchange *_topicExchange;
   AMQPConnection *_connection;
   AMQPQueue *_udidQueue;
+  AMQPQueue *_facebookQueue;
   AMQPQueue *_useridQueue;
   AMQPQueue *_chatQueue;
   AMQPQueue *_clanQueue;
   AMQPConsumer *_udidConsumer;
+  AMQPConsumer *_facebookConsumer;
   AMQPConsumer *_useridConsumer;
   AMQPConsumer *_chatConsumer;
   AMQPConsumer *_clanConsumer;
@@ -29,10 +31,11 @@
 @property (assign) NSObject<AMQPConnectionThreadDelegate> *delegate;
 
 @property (copy) NSString *udid;
-@property (retain) NSString *lastClanKey;
+@property (copy) NSString *facebookId;
+@property (copy) NSString *lastClanKey;
 
 - (void) reloadClanMessageQueue;
-- (void) connect:(NSString *)udid;
+- (void) connectWithUdid:(NSString *)udid facebookId:(NSString *)facebookId;
 - (void) sendData:(NSData *)data;
 - (void) startUserIdQueue;
 - (void) closeDownConnection;

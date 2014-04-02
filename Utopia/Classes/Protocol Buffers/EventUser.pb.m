@@ -743,6 +743,7 @@ BOOL UserCreateResponseProto_UserCreateStatusIsValidValue(UserCreateResponseProt
 
 @interface LevelUpRequestProto ()
 @property (retain) MinimumUserProto* sender;
+@property int32_t nextLevel;
 @end
 
 @implementation LevelUpRequestProto
@@ -754,6 +755,13 @@ BOOL UserCreateResponseProto_UserCreateStatusIsValidValue(UserCreateResponseProt
   hasSender_ = !!value;
 }
 @synthesize sender;
+- (BOOL) hasNextLevel {
+  return !!hasNextLevel_;
+}
+- (void) setHasNextLevel:(BOOL) value {
+  hasNextLevel_ = !!value;
+}
+@synthesize nextLevel;
 - (void) dealloc {
   self.sender = nil;
   [super dealloc];
@@ -761,6 +769,7 @@ BOOL UserCreateResponseProto_UserCreateStatusIsValidValue(UserCreateResponseProt
 - (id) init {
   if ((self = [super init])) {
     self.sender = [MinimumUserProto defaultInstance];
+    self.nextLevel = 0;
   }
   return self;
 }
@@ -783,6 +792,9 @@ static LevelUpRequestProto* defaultLevelUpRequestProtoInstance = nil;
   if (self.hasSender) {
     [output writeMessage:1 value:self.sender];
   }
+  if (self.hasNextLevel) {
+    [output writeInt32:2 value:self.nextLevel];
+  }
   [self.unknownFields writeToCodedOutputStream:output];
 }
 - (int32_t) serializedSize {
@@ -794,6 +806,9 @@ static LevelUpRequestProto* defaultLevelUpRequestProtoInstance = nil;
   size = 0;
   if (self.hasSender) {
     size += computeMessageSize(1, self.sender);
+  }
+  if (self.hasNextLevel) {
+    size += computeInt32Size(2, self.nextLevel);
   }
   size += self.unknownFields.serializedSize;
   memoizedSerializedSize = size;
@@ -873,6 +888,9 @@ static LevelUpRequestProto* defaultLevelUpRequestProtoInstance = nil;
   if (other.hasSender) {
     [self mergeSender:other.sender];
   }
+  if (other.hasNextLevel) {
+    [self setNextLevel:other.nextLevel];
+  }
   [self mergeUnknownFields:other.unknownFields];
   return self;
 }
@@ -901,6 +919,10 @@ static LevelUpRequestProto* defaultLevelUpRequestProtoInstance = nil;
         }
         [input readMessage:subBuilder extensionRegistry:extensionRegistry];
         [self setSender:[subBuilder buildPartial]];
+        break;
+      }
+      case 16: {
+        [self setNextLevel:[input readInt32]];
         break;
       }
     }
@@ -934,6 +956,22 @@ static LevelUpRequestProto* defaultLevelUpRequestProtoInstance = nil;
 - (LevelUpRequestProto_Builder*) clearSender {
   result.hasSender = NO;
   result.sender = [MinimumUserProto defaultInstance];
+  return self;
+}
+- (BOOL) hasNextLevel {
+  return result.hasNextLevel;
+}
+- (int32_t) nextLevel {
+  return result.nextLevel;
+}
+- (LevelUpRequestProto_Builder*) setNextLevel:(int32_t) value {
+  result.hasNextLevel = YES;
+  result.nextLevel = value;
+  return self;
+}
+- (LevelUpRequestProto_Builder*) clearNextLevel {
+  result.hasNextLevel = NO;
+  result.nextLevel = 0;
   return self;
 }
 @end
@@ -1043,9 +1081,7 @@ static LevelUpResponseProto* defaultLevelUpResponseProtoInstance = nil;
 BOOL LevelUpResponseProto_LevelUpStatusIsValidValue(LevelUpResponseProto_LevelUpStatus value) {
   switch (value) {
     case LevelUpResponseProto_LevelUpStatusSuccess:
-    case LevelUpResponseProto_LevelUpStatusNotEnoughExpToNextLevel:
-    case LevelUpResponseProto_LevelUpStatusAlreadyAtMaxLevel:
-    case LevelUpResponseProto_LevelUpStatusOtherFail:
+    case LevelUpResponseProto_LevelUpStatusFailOther:
       return YES;
     default:
       return NO;

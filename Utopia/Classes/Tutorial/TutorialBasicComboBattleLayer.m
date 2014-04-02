@@ -19,8 +19,8 @@
                                                  [NSValue valueWithCGPoint:ccp(3, 3)],
                                                  [NSValue valueWithCGPoint:ccp(4, 2)], nil]
                                  withForcedMove:[NSArray arrayWithObjects:
-                                                 [NSValue valueWithCGPoint:ccp(3, 2)],
-                                                 [NSValue valueWithCGPoint:ccp(4, 2)], nil]];
+                                                 [NSValue valueWithCGPoint:ccp(4, 2)],
+                                                 [NSValue valueWithCGPoint:ccp(3, 2)], nil]];
 }
 
 - (void) beginSecondMove {

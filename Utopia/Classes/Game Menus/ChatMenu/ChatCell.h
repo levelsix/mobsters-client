@@ -16,7 +16,10 @@
 @property (nonatomic, retain) IBOutlet UILabel *timeLabel;
 @property (nonatomic, retain) IBOutlet UILabel *levelLabel;
 
+@property (nonatomic, retain) IBOutlet UIImageView *shieldIcon;
 @property (nonatomic, retain) IBOutlet UIButton *clanButton;
+
+@property (nonatomic, retain) IBOutlet UIView *mainView;
 
 @property (nonatomic, retain) ChatMessage *chatMessage;
 

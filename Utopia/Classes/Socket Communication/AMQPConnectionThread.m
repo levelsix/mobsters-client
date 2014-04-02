@@ -14,6 +14,7 @@
 #import "ClientProperties.h"
 
 #define UDID_KEY [NSString stringWithFormat:@"client_udid_%@", _udid]
+#define FACEBOOK_KEY [NSString stringWithFormat:@"client_facebookid_%@", self.facebookId]
 #define USER_ID_KEY [NSString stringWithFormat:@"client_userid_%d", gs.userId]
 #define CHAT_KEY @"chat_global"
 #define CLAN_KEY [NSString stringWithFormat:@"clan_%d", gs.clan.clanId]
@@ -22,8 +23,9 @@
 
 static int sessionId;
 
-- (void) connect:(NSString *)udid {
+- (void) connectWithUdid:(NSString *)udid facebookId:(NSString *)facebookId {
   self.udid = udid;
+  self.facebookId = facebookId;
   [self performSelector:@selector(initConnection) onThread:self withObject:nil waitUntilDone:NO];
 }
 
@@ -46,6 +48,13 @@ static int sessionId;
     [_udidQueue bindToExchange:_directExchange withKey:udidKey];
     _udidConsumer = [_udidQueue startConsumerWithAcknowledgements:NO isExclusive:NO receiveLocalMessages:YES];
     
+    if (self.facebookId) {
+      NSString *facebookKey = FACEBOOK_KEY;
+      _facebookQueue = [[AMQPQueue alloc] initWithName:[facebookKey stringByAppendingFormat:@"_%d_queue", sessionId] onChannel:channel isPassive:NO isExclusive:NO isDurable:YES getsAutoDeleted:YES];
+      [_facebookQueue bindToExchange:_directExchange withKey:facebookKey];
+      _facebookConsumer = [_facebookQueue startConsumerWithAcknowledgements:NO isExclusive:NO receiveLocalMessages:YES];
+    }
+    
     if ([_delegate respondsToSelector:@selector(connectedToHost)]) {
       [_delegate performSelectorOnMainThread:@selector(connectedToHost) withObject:nil waitUntilDone:NO];
     }
@@ -64,7 +73,7 @@ static int sessionId;
   [self performSelector:@selector(initUserIdMessageQueue) onThread:self withObject:nil waitUntilDone:NO];
 }
 
-- (void) initUserIdMessageQueue {
+- (void) initUserIdMessageQueue { 
   GameState *gs = [GameState sharedGameState];
   NSString *useridKey = USER_ID_KEY;
   _useridQueue = [[AMQPQueue alloc] initWithName:[useridKey stringByAppendingFormat:@"_%d_queue", sessionId]  onChannel:_udidConsumer.channel  isPassive:NO isExclusive:NO isDurable:YES getsAutoDeleted:YES];
@@ -122,6 +131,8 @@ static int sessionId;
     _udidConsumer = nil;
     _useridQueue = nil;
     _udidQueue = nil;
+    _facebookConsumer = nil;
+    _facebookQueue = nil;
     _directExchange = nil;
     _topicExchange = nil;
     _connection = nil;
@@ -160,7 +171,11 @@ static int sessionId;
   [NSTimer scheduledTimerWithTimeInterval:0.1f target:self selector:@selector(readData) userInfo:nil repeats:YES];
 	while(!_shouldStop)
 	{
+    @try {
     [[NSRunLoop currentRunLoop] runUntilDate:[NSDate dateWithTimeIntervalSinceNow:1.f]];
+    } @catch (NSException *exception) {
+      NSLog(@"Exception in AMQP thread: %@", exception);
+    }
 	}
 }
 

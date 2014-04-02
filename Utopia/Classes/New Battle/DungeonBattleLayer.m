@@ -77,27 +77,32 @@
 #pragma mark - Waiting for response
 
 - (IBAction)winExitClicked:(id)sender {
-  if (_waitingForEndDungeonResponse) {
-    return;
-  }
-  
-  if (!_wonBattle) {
-    [[OutgoingEventController sharedOutgoingEventController] endDungeon:self.dungeonInfo userWon:_wonBattle delegate:self];
-    [self exitFinal];
-  } else if (!_receivedEndDungeonResponse) {
-    _waitingForEndDungeonResponse = YES;
-  } else {
-    [self exitFinal];
+  if (!_waitingForEndDungeonResponse) {
+    if (!_wonBattle) {
+      [[OutgoingEventController sharedOutgoingEventController] endDungeon:self.dungeonInfo userWon:_wonBattle delegate:self];
+    }
+    
+    if (!_receivedEndDungeonResponse) {
+      _waitingForEndDungeonResponse = YES;
+      
+      if (_manageWasClicked) {
+        [self.wonView spinnerOnManage];
+        [self.lostView spinnerOnManage];
+      } else {
+        [self.wonView spinnerOnDone];
+        [self.lostView spinnerOnDone];
+      }
+    } else {
+      [self exitFinal];
+    }
   }
 }
 
 - (IBAction)manageClicked:(id)sender {
-  if (_waitingForEndDungeonResponse) {
-    return;
+  if (!_waitingForEndDungeonResponse) {
+    _manageWasClicked = YES;
+    [self winExitClicked:nil];
   }
-  
-  _manageWasClicked = YES;
-  [self winExitClicked:nil];
 }
 
 - (void) continueConfirmed {

@@ -124,11 +124,11 @@
   }
   
   self.quantity1Label.text = [NSString stringWithFormat:@"%d", q1];
-  self.quantity1Label.textColor = q1 ? [UIColor whiteColor] : [UIColor colorWithWhite:1.f alpha:0.5f];
   self.quantity2Label.text = [NSString stringWithFormat:@"%d", q2];
-  self.quantity2Label.textColor = q2 ? [UIColor whiteColor] : [UIColor colorWithWhite:1.f alpha:0.5f];
   self.quantity3Label.text = [NSString stringWithFormat:@"%d", q3];
-  self.quantity3Label.textColor = q3 ? [UIColor whiteColor] : [UIColor colorWithWhite:1.f alpha:0.5f];
+//  self.quantity1Label.textColor = q1 ? [UIColor whiteColor] : [UIColor colorWithWhite:1.f alpha:0.5f];
+//  self.quantity2Label.textColor = q2 ? [UIColor whiteColor] : [UIColor colorWithWhite:1.f alpha:0.5f];
+//  self.quantity3Label.textColor = q3 ? [UIColor whiteColor] : [UIColor colorWithWhite:1.f alpha:0.5f];
   
   if (_curViewNum != tag) {
     float width = self.quantityView.frame.size.width;
@@ -330,7 +330,7 @@
   }
   
   NSString *fileName = [um1.staticEvolutionMonster.imagePrefix stringByAppendingString:@"Character.png"];
-  [Globals imageNamed:fileName withView:self.evolvedMonsterIcon maskedColor:[UIColor blackColor] indicator:UIActivityIndicatorViewStyleWhite clearImageDuringDownload:YES];
+  [Globals imageNamed:fileName withView:self.evolvedMonsterIcon maskedColor:[UIColor whiteColor] indicator:UIActivityIndicatorViewStyleWhite clearImageDuringDownload:YES];
   
   self.nameLabel.text = um1.staticEvolutionMonster.name;
   self.timeLabel.text = [Globals convertTimeToShortString:um1.staticMonster.minutesToEvolve*60];

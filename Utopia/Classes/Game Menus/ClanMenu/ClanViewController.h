@@ -16,6 +16,8 @@
 @interface ClanViewController : GenViewController {
   UIViewController *_controller1;
   UIViewController *_controller2;
+  
+  BOOL _shouldLoadFirstController;
 }
 
 @property (nonatomic, retain) ClanBrowseViewController *clanBrowseViewController;

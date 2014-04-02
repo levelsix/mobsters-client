@@ -191,6 +191,11 @@
   self.teamSlotsContainer.userInteractionEnabled = NO;
 }
 
+- (void) viewDidDisappear:(BOOL)animated {
+  [super viewDidDisappear:animated];
+  [self.delegate exitedMyCronies];
+}
+
 - (NSMutableSet *) recentlyHealedMonsterIds {
   return nil;
 }
@@ -303,7 +308,6 @@
 - (void) menuCloseClicked:(id)sender {
   if (_allowClose) {
     [super menuCloseClicked:sender];
-    [self.delegate exitedMyCronies];
   }
 }
 

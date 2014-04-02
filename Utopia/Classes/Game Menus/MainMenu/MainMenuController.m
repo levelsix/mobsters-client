@@ -9,14 +9,13 @@
 #import "MainMenuController.h"
 #import "Globals.h"
 #import "ClanViewController.h"
-#import "EnhanceViewController.h"
 #import "DiamondShopViewController.h"
 #import "SettingsViewController.h"
 #import "CarpenterViewController.h"
 #import "MyCroniesViewController.h"
 #import "GachaponListViewController.h"
 #import "GameState.h"
-#import "EvoViewController.h"
+#import "LabViewController.h"
 
 @implementation MainMenuController
 
@@ -35,8 +34,10 @@
   
   GameState *gs = [GameState sharedGameState];
   if (!gs.myLaboratory.isComplete) {
+    [[self.labButtonView viewWithTag:5] removeFromSuperview];
     UIImage *img = [Globals greyScaleImageWithBaseImage:[Globals snapShotView:self.labButtonView]];
     UIImageView *imgView = [[UIImageView alloc] initWithImage:img];
+    imgView.tag = 5;
     [self.labButtonView insertSubview:imgView belowSubview:self.labButton];
   }
 }
@@ -56,7 +57,7 @@
 - (IBAction)labClicked:(id)sender {
   GameState *gs = [GameState sharedGameState];
   if (gs.myLaboratory.isComplete) {
-    [self.navigationController pushViewController:[[EvoViewController alloc] init] animated:YES];
+    [self.navigationController pushViewController:[[LabViewController alloc] init] animated:YES];
   } else {
     [Globals addAlertNotification:@"You must own a completed Laboratory before you can enter."];
   }

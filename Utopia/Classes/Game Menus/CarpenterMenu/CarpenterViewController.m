@@ -13,7 +13,7 @@
 #import "DiamondShopViewController.h"
 #import "GameViewController.h"
 
-#define TABLE_CELL_WIDTH 150
+#define TABLE_CELL_WIDTH 142
 
 @implementation CarpenterListing
 

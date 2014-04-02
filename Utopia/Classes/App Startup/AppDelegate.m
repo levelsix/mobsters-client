@@ -174,7 +174,7 @@
   [self registerLocalNotifications];
   
   [[OutgoingEventController sharedOutgoingEventController] logout];
-//  [[SocketCommunication sharedSocketCommunication] closeDownConnection];
+  [[SocketCommunication sharedSocketCommunication] closeDownConnection];
   [[GameState sharedGameState] setConnected:NO];
 
   [Analytics suspendedApp];
@@ -219,11 +219,8 @@
   LNLog(@"sig time change");
 	[[CCDirector sharedDirector] setNextDeltaTimeZero:YES];
   
-  GameState *gs = [GameState sharedGameState];
-  if (!gs.connected) {
-    GameViewController *gvc = [GameViewController baseController];
-    [gvc fadeToLoadingScreenPercentage:0 animated:NO];
-  }
+  GameViewController *gvc = [GameViewController baseController];
+  [gvc handleSignificantTimeChange];
 }
 
 - (void)application:(UIApplication*)application didRegisterForRemoteNotificationsWithDeviceToken:(NSData*)deviceToken

@@ -40,7 +40,7 @@
   self.dialogueViewController = dvc;
   
   [self.touchView addResponder:self.dialogueViewController];
-}
+} 
 
 - (void) initTopBar {
   self.topBarViewController = [[TutorialTopBarViewController alloc] init];

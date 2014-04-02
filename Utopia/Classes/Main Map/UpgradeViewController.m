@@ -15,11 +15,13 @@
 @implementation FriendAcceptView
 
 - (void) awakeFromNib {
-  UIImage *maskImage = [UIImage imageNamed:@"fullfriendmask.png"];
-  CALayer *mask = [CALayer layer];
-  mask.contents = (id)[maskImage CGImage];
-  mask.frame = CGRectMake(0, 0, self.profPicView.frame.size.width, self.profPicView.frame.size.height);
-  self.profPicView.layer.mask = mask;
+//  UIImage *maskImage = [UIImage imageNamed:@"fullfriendmask.png"];
+//  CALayer *mask = [CALayer layer];
+//  mask.contents = (id)[maskImage CGImage];
+//  mask.frame = CGRectMake(0, 0, self.profPicView.frame.size.width, self.profPicView.frame.size.height);
+//  self.profPicView.layer.mask = mask;
+  
+  self.profPicView.layer.cornerRadius = self.profPicView.frame.size.width/2.f;
 }
 
 - (void) updateForFacebookId:(NSString *)uid {
@@ -35,6 +37,10 @@
     self.slotNumLabel.hidden = NO;
     self.profPicView.hidden = YES;
   }
+  
+  // Delete all the empty guys
+  self.bgdView.hidden = YES;
+  self.slotNumLabel.hidden = YES;
 }
 
 @end
@@ -45,9 +51,10 @@
   GameState *gs = [GameState sharedGameState];
   
   self.occupationLabel.text = res.occupationName;
-  self.slotsLabel.text = [NSString stringWithFormat:@"%d Bonus Slots", res.numBonusMonsterSlots];
+  self.slotsLabel.text = [NSString stringWithFormat:@"Adds %d Slots", res.numBonusMonsterSlots];
   
   self.userInteractionEnabled = NO;
+  self.bgdImage.highlighted = YES;
   
   int resLevel = res.structInfo.level;
   int usFbLevel = us.fbInviteStructLvl;
@@ -55,26 +62,26 @@
   if (resLevel <= usFbLevel) {
     self.claimedIcon.hidden = NO;
     self.arrowIcon.hidden = YES;
-    self.requiresLabel.hidden = YES;
     self.acceptViewsContainer.hidden = NO;
+    
+    self.bgdImage.highlighted = NO;
   } else if (resLevel <= usCurLevel && resLevel == usFbLevel+1) {
     self.claimedIcon.hidden = YES;
     self.arrowIcon.hidden = NO;
-    self.requiresLabel.hidden = YES;
     self.acceptViewsContainer.hidden = NO;
     
+    self.bgdImage.highlighted = NO;
     self.userInteractionEnabled = YES;
   } else {
     self.claimedIcon.hidden = YES;
     self.arrowIcon.hidden = YES;
-    self.requiresLabel.hidden = NO;
     self.acceptViewsContainer.hidden = YES;
     
     if (resLevel <= usCurLevel) {
       ResidenceProto *prev = (ResidenceProto *)[gs structWithId:res.structInfo.predecessorStructId];
-      self.requiresLabel.text = [NSString stringWithFormat:@"Requires %@", prev.occupationName];
+      self.slotsLabel.text = [NSString stringWithFormat:@"Requires %@ to unlock", prev.occupationName];
     } else {
-      self.requiresLabel.text = [NSString stringWithFormat:@"Requires Lvl %d %@", res.structInfo.level, res.structInfo.name];
+      self.slotsLabel.text = [NSString stringWithFormat:@"Requires Lvl %d %@ to unlock", res.structInfo.level, res.structInfo.name];
     }
   }
   
@@ -84,7 +91,7 @@
       FriendAcceptView *av = self.acceptViews[i];
       RequestFromFriend *req = i < accepted.count ? accepted[i] : nil;
       
-      av.hidden = i >= res.numAcceptedFbInvites;
+      av.hidden = i >= res.numAcceptedFbInvites || i >= accepted.count;
       [av updateForFacebookId:req.invite.recipientFacebookId];
     }
   }
@@ -102,7 +109,7 @@
 
 - (void) updateAddSlotsViewForResidence:(ResidenceProto *)res {
   self.gemCostLabel.text = [Globals commafyNumber:res.numGemsRequired];
-  self.numSlotsLabel.text = [NSString stringWithFormat:@"Add %d slot%@ to your team reserves!", res.numBonusMonsterSlots, res.numBonusMonsterSlots == 1 ? @"" : @"s"];
+  self.numSlotsLabel.text = [NSString stringWithFormat:@"Add %d slot%@ to your team reserves by hiring %@!", res.numBonusMonsterSlots, res.numBonusMonsterSlots == 1 ? @"" : @"s", res.occupationName];
   
   GameState *gs = [GameState sharedGameState];
   self.chooserView.blacklistFriendIds = [gs facebookIdsAlreadyUsed];
@@ -112,7 +119,7 @@
 - (void) updateAcceptViewsForFbLevel:(int)level friendSlots:(int)slots {
   GameState *gs = [GameState sharedGameState];
   NSArray *accepted = [gs acceptedFbRequestsForUserStructId:self.userStruct.userStructId fbStructLevel:level];
-  for (int i = 0; i < self.acceptViews.count; i++) {
+  for (int i = 0; i < accepted.count && i < self.acceptViews.count; i++) {
     FriendAcceptView *av = self.acceptViews[i];
     RequestFromFriend *req = i < accepted.count ? accepted[i] : nil;
     
@@ -146,6 +153,16 @@
   [self.chooserView retrieveFacebookFriends:YES];
 }
 
+- (void) spinnerOnGems {
+  self.gemSpinner.hidden = NO;
+  self.gemView.hidden = YES;
+}
+
+- (void) removeSpinner {
+  self.gemSpinner.hidden = YES;
+  self.gemView.hidden = NO;
+}
+
 #pragma mark - UITableView methods
 
 - (NSInteger) tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
@@ -165,15 +182,17 @@
   return cell;
 }
 
+- (IBAction) rowSelected:(UITableViewCell *)sender {
+  while (sender && ![sender isKindOfClass:[UITableViewCell class]]) {
+    sender = (UITableViewCell *)[sender superview];
+  }
+  
+  [self.hireTable.delegate tableView:self.hireTable didSelectRowAtIndexPath:[self.hireTable indexPathForCell:sender]];
+}
+
 @end
 
 @implementation UpgradeBuildingMenu
-
-- (void) awakeFromNib {
-  self.buttonContainerView.layer.cornerRadius = 6.f;
-  self.buttonContainerView.layer.borderColor = [UIColor blackColor].CGColor;
-  self.buttonContainerView.layer.borderWidth = 1.f;
-}
 
 - (void) loadForUserStruct:(UserStruct *)us {
   if (us == nil) {
@@ -185,17 +204,19 @@
   id<StaticStructure> curSS = us.staticStruct;
   id<StaticStructure> nextSS = us.staticStructForNextLevel;
   id<StaticStructure> maxSS = us.maxStaticStruct;
+  if (curSS == maxSS) {
+    nextSS = maxSS;
+  }
   
-  self.nameLabel.text = [NSString stringWithFormat:@"%@ (Lvl %d)", curSS.structInfo.name, curSS.structInfo.level];
-  
-  self.upgradeTimeLabel.text = [Globals convertTimeToLongString:nextSS.structInfo.minutesToBuild*60];
+  self.nameLabel.text = curSS.structInfo.name;
+  self.upgradeTimeLabel.text = curSS != nextSS ? [Globals convertTimeToLongString:nextSS.structInfo.minutesToBuild*60] : @"N/A";
   
   [Globals imageNamed:nextSS.structInfo.imgName withView:self.structIcon maskedColor:nil indicator:UIActivityIndicatorViewStyleWhite clearImageDuringDownload:YES];
   
   // Button view
   BOOL isOil = nextSS.structInfo.buildResourceType == ResourceTypeOil;
-  self.upgradeCashLabel.text = [Globals cashStringForNumber:nextSS.structInfo.buildCost];
-  self.upgradeOilLabel.text = [Globals commafyNumber:nextSS.structInfo.buildCost];
+  self.upgradeCashLabel.text = curSS != nextSS ? [Globals cashStringForNumber:nextSS.structInfo.buildCost] : @"N/A";
+  self.upgradeOilLabel.text = curSS != nextSS ? [Globals commafyNumber:nextSS.structInfo.buildCost] : @"N/A";
   [Globals adjustViewForCentering:self.upgradeOilLabel.superview withLabel:self.upgradeOilLabel];
   self.oilButtonView.hidden = !isOil;
   self.cashButtonView.hidden = isOil;
@@ -213,18 +234,135 @@
     self.oilButtonView.hidden = YES;
     self.cashButtonView.hidden = YES;
     
-    self.cityHallTooLowLabel.text = [NSString stringWithFormat:@"This upgrade requires %@ Lvl %d", thp.structInfo.name, nextSS.structInfo.prerequisiteTownHallLvl];
+    self.tooLowLevelLabel.text = [NSString stringWithFormat:@"Requires Level %d %@", nextSS.structInfo.prerequisiteTownHallLvl, thp.structInfo.name];
     
-    self.cityHallTooLowLabel.hidden = NO;
+    self.tooLowLevelView.hidden = NO;
   } else {
-    self.cityHallTooLowLabel.hidden = YES;
+    self.tooLowLevelView.hidden = YES;
   }
   
+  if (nextSS.structInfo.structType != StructureInfoProto_StructTypeTownHall) {
+    [self loadStatBarsForUserStruct:us];
+    self.cityHallUnlocksView.hidden = YES;
+  } else {
+    [self loadCityHallUnlocksViewForUserStruct:us];
+    [self.statBarView1 removeFromSuperview];
+    [self.statBarView2 removeFromSuperview];
+  }
+}
+
+- (NSArray *) buildingsThatChangedInQuantityWithCurTH:(TownHallProto *)curTh nextTh:(TownHallProto *)nextTh {
+  NSMutableArray *arr = [NSMutableArray array];
+  
+  GameState *gs = [GameState sharedGameState];
+  Globals *gl = [Globals sharedGlobals];
+  for (id<StaticStructure> ss in gs.staticStructs.allValues) {
+    StructureInfoProto *sip = ss.structInfo;
+    if (sip.level == 1) {
+      int before = [gl calculateMaxQuantityOfStructId:sip.structId withTownHall:curTh];
+      int after = [gl calculateMaxQuantityOfStructId:sip.structId withTownHall:nextTh];
+      
+      if (before < after) {
+        [arr addObject:sip];
+      }
+    } else {
+      if (sip.prerequisiteTownHallLvl != curTh.structInfo.level && sip.prerequisiteTownHallLvl == nextTh.structInfo.level) {
+        // Make sure a lower lvl one isn't in the array already
+        
+        [arr addObject:sip];
+      }
+    }
+  }
+  
+  NSMutableArray *toRemove = [NSMutableArray array];
+  for (StructureInfoProto *sip in arr) {
+    StructureInfoProto *check = sip;
+    while (check.predecessorStructId) {
+      check = [[gs structWithId:check.predecessorStructId] structInfo];
+      if ([arr containsObject:check]) {
+        [toRemove addObject:check];
+      }
+    }
+  }
+  [arr removeObjectsInArray:toRemove];
+  
+  return arr;
+}
+
+#define UNLOCK_VIEW_SPACING 7
+#define NUM_PER_ROW 4
+
+- (void) loadCityHallUnlocksViewForUserStruct:(UserStruct *)us {
+  Globals *gl = [Globals sharedGlobals];
+  TownHallProto *curSS = (TownHallProto *)us.staticStruct;
+  TownHallProto *nextSS = (TownHallProto *)us.staticStructForNextLevel;
+  
+  self.cityHallUnlocksLabel.text = [NSString stringWithFormat:@"%@ Level %d Unlocks", curSS.structInfo.name, curSS.structInfo.level+1];
+  
+  // Find new buildings, then find buildings that increase in quantity, then level
+  NSMutableArray *unlockViews = [NSMutableArray array];
+  
+  NSArray *changedQuant = [self buildingsThatChangedInQuantityWithCurTH:curSS nextTh:nextSS];
+  for (StructureInfoProto *sip in changedQuant) {
+    int before = [gl calculateMaxQuantityOfStructId:sip.structId withTownHall:curSS];
+    if (sip.level == 1 && before == 0) {
+      [unlockViews addObject:[self unlockViewWithImageName:sip.imgName text:@"NEW!" useBigTextBgd:YES]];
+    }
+  }
+  for (StructureInfoProto *sip in changedQuant) {
+    int before = [gl calculateMaxQuantityOfStructId:sip.structId withTownHall:curSS];
+    int after = [gl calculateMaxQuantityOfStructId:sip.structId withTownHall:nextSS];
+    if (sip.level == 1 && before != 0) {
+      [unlockViews addObject:[self unlockViewWithImageName:sip.imgName text:[NSString stringWithFormat:@"x%d", after-before] useBigTextBgd:NO]];
+    }
+  }
+  for (StructureInfoProto *sip in changedQuant) {
+    if (sip.level > 1) {
+      [unlockViews addObject:[self unlockViewWithImageName:sip.imgName text:[NSString stringWithFormat:@"LVL %d", sip.level] useBigTextBgd:YES]];
+    }
+  }
+  
+  int maxY = 0;
+  for (int i = 0; i < unlockViews.count; i++) {
+    UIView *v = unlockViews[i];
+    float x = self.cityHallUnlocksScrollView.frame.size.width/2+((i%NUM_PER_ROW)-NUM_PER_ROW/2.f+0.5)*(v.frame.size.width+UNLOCK_VIEW_SPACING);
+    float y = (i/NUM_PER_ROW+0.5)*v.frame.size.height+(i/NUM_PER_ROW+1)*UNLOCK_VIEW_SPACING;
+    v.center = ccp(x, y);
+    
+    [self.cityHallUnlocksScrollView addSubview:v];
+    
+    maxY = y+v.frame.size.height/2+UNLOCK_VIEW_SPACING;
+  }
+  
+  self.cityHallUnlocksScrollView.contentSize = CGSizeMake(self.cityHallUnlocksScrollView.frame.size.width, maxY);
+}
+
+- (UIView *) unlockViewWithImageName:(NSString *)imgName text:(NSString *)text useBigTextBgd:(BOOL)bigTextBgd {
+  [[NSBundle mainBundle] loadNibNamed:@"UpgradeUnlockView" owner:self options:nil];
+  
+  self.nibUnlocksLabelBgd.highlighted = !bigTextBgd;
+  [Globals imageNamed:imgName withView:self.nibUnlocksStructIcon greyscale:NO indicator:UIActivityIndicatorViewStyleWhite clearImageDuringDownload:YES];
+  self.nibUnlocksLabel.text = text;
+  
+  UIImage *img = bigTextBgd ? self.nibUnlocksLabelBgd.image : self.nibUnlocksLabelBgd.highlightedImage;
+  self.nibUnlocksLabel.center = ccp(self.nibUnlocksLabelBgd.frame.origin.x+img.size.width/2, self.nibUnlocksLabel.center.y);
+  
+  return self.nibUnlocksView;
+}
+
+- (void) loadStatBarsForUserStruct:(UserStruct *)us {
+  id<StaticStructure> curSS = us.staticStruct;
+  id<StaticStructure> nextSS = us.staticStructForNextLevel;
+  id<StaticStructure> maxSS = us.maxStaticStruct;
+  if (curSS == maxSS) {
+    nextSS = maxSS;
+  }
   
   // The stat bars
   StructureInfoProto_StructType structType = nextSS.structInfo.structType;
   BOOL requiresTwoBars = NO;
   BOOL showsCashSymbol1 = NO, showsCashSymbol2 = NO;
+  BOOL useSqrt1 = NO, useSqrt2 = NO;
   float curStat1 = 0, newStat1 = 0, maxStat1 = 0;
   float curStat2 = 0, newStat2 = 0, maxStat2 = 0;
   NSString *statName1 = nil, *statName2 = nil;
@@ -247,6 +385,7 @@
     maxStat2 = max.capacity;
     statName2 = @"Capacity:";
     
+    useSqrt2 = YES;
     showsCashSymbol1 = showsCashSymbol2 = (cur.resourceType == ResourceTypeCash);
   } else if (structType == StructureInfoProto_StructTypeResourceStorage) {
     ResourceStorageProto *cur = (ResourceStorageProto *)curSS;
@@ -258,6 +397,7 @@
     maxStat1 = max.capacity;
     statName1 = @"Capacity:";
     
+    useSqrt1 = YES;
     showsCashSymbol1 = (cur.resourceType == ResourceTypeCash);
   } else if (structType == StructureInfoProto_StructTypeHospital) {
     HospitalProto *cur = (HospitalProto *)curSS;
@@ -305,39 +445,35 @@
   }
   
   NSString *dollarSign = showsCashSymbol1 ? @"$" : @"";
-  self.statNameLabel1.text = statName1;
   NSString *increase = newStat1 > curStat1 ? [NSString stringWithFormat:@" + %@%@", dollarSign, [Globals commafyNumber:newStat1-curStat1]] : @"";
-  self.statIncreaseLabel1.text = [NSString stringWithFormat:@"%@%@%@ %@", dollarSign, [Globals commafyNumber:curStat1], increase, suffix1];
-  self.statNewBar1.percentage = newStat1/maxStat1;
-  self.statCurrentBar1.percentage = curStat1/maxStat1;
+  self.statNameLabel1.text = [NSString stringWithFormat:@"%@ %@%@%@ %@", statName1, dollarSign, [Globals commafyNumber:curStat1], increase, suffix1];
+  
+  float powVal = 0.75;
+  if (useSqrt1) {
+    self.statNewBar1.percentage = powf(newStat1/maxStat1, powVal);
+    self.statCurrentBar1.percentage = powf(curStat1/maxStat1, powVal);
+  } else {
+    self.statNewBar1.percentage = newStat1/maxStat1;
+    self.statCurrentBar1.percentage = curStat1/maxStat1;
+  }
   
   if (requiresTwoBars) {
     dollarSign = showsCashSymbol2 ? @"$" : @"";
-    self.statNameLabel2.text = statName2;
     increase = newStat2 > curStat2 ? [NSString stringWithFormat:@" + %@%@", dollarSign, [Globals commafyNumber:newStat2-curStat2]] : @"";
-    self.statIncreaseLabel2.text = [NSString stringWithFormat:@"%@%@%@ %@", dollarSign, [Globals commafyNumber:curStat2], increase, suffix2];
-    self.statNewBar2.percentage = newStat2/maxStat2;
-    self.statCurrentBar2.percentage = curStat2/maxStat2;
-  }
-  
-  // Adjust the views
-  CGRect r = self.statContainerView.frame;
-  if (requiresTwoBars) {
-    r.size.height = CGRectGetMaxY(self.statBarView2.frame);
+    self.statNameLabel2.text = [NSString stringWithFormat:@"%@ %@%@%@ %@", statName2, dollarSign, [Globals commafyNumber:curStat2], increase, suffix2];
+    
+    if (useSqrt2) {
+      self.statNewBar2.percentage = powf(newStat2/maxStat2, powVal);
+      self.statCurrentBar2.percentage = powf(curStat2/maxStat2, powVal);
+    } else {
+      self.statNewBar2.percentage = newStat2/maxStat2;
+      self.statCurrentBar2.percentage = curStat2/maxStat2;
+    }
+    
+    self.statBarView2.hidden = NO;
   } else {
-    r.size.height = CGRectGetMaxY(self.statBarView1.frame);
+    self.statBarView2.hidden = YES;
   }
-  self.statContainerView.frame = r;
-  
-  r = self.timeView.frame;
-  r.origin.y = CGRectGetMaxY(self.statContainerView.frame);
-  self.timeView.frame = r;
-  
-  r = self.rightDescriptionView.frame;
-  r.size.height = CGRectGetMaxY(self.timeView.frame);
-  self.rightDescriptionView.frame = r;
-  
-  self.rightDescriptionView.center = ccp(self.rightDescriptionView.center.x, self.structIcon.center.y);
 }
 
 @end
@@ -351,19 +487,29 @@
   return self;
 }
 
+- (id) initHireViewWithUserStruct:(UserStruct *)us {
+  if ((self = [super init])) {
+    self.userStruct = us;
+    _isHire = YES;
+  }
+  return self;
+}
+
 - (void) viewDidLoad {
-  [self.upgradeView loadForUserStruct:self.userStruct];
-  [self loadUpgradeView];
   
-  if (self.userStruct.staticStruct.structInfo.structType == StructureInfoProto_StructTypeResidence) {
-    [self loadTopForResidence];
+  if (_isHire) {
+    [self.bonusView updateForUserStruct:self.userStruct];
+    [self loadHireView];
   } else {
-    [self loadTopForNonResidence];
+    [self.upgradeView loadForUserStruct:self.userStruct];
+    [self loadUpgradeView];
   }
   
-  self.menuContainer.layer.cornerRadius = 6.f;
+  self.menuContainer.layer.cornerRadius = 4.f;
   
   [Globals bounceView:self.mainView fadeInBgdView:self.bgdView];
+  
+  _canClick = YES;
 }
 
 - (void) viewDidAppear:(BOOL)animated {
@@ -400,15 +546,19 @@
   self.backView.alpha = 0.f;
   self.sendView.alpha = 0.f;
   self.bonusTopBar.alpha = 0.f;
-  self.titleLabel.text = [NSString stringWithFormat:@"Upgrade to Level %d?", self.userStruct.staticStructForNextLevel.structInfo.level];
+  
+  int level = self.userStruct.staticStruct.structInfo.level;
+  int maxLevel = self.userStruct.maxLevel;
+  self.titleLabel.text = level != maxLevel ? [NSString stringWithFormat:@"Upgrade to Level %d?", level+1] : @"Building at Max";
 }
 
 - (void) loadTopForResidence {
-  self.titleLabel.alpha = 0.f;
+  self.titleLabel.alpha = 1.f;
   self.closeView.alpha = 1.f;
   self.backView.alpha = 0.f;
   self.sendView.alpha = 0.f;
-  self.bonusTopBar.alpha = 1.f;
+  self.bonusTopBar.alpha = 0.f;
+  self.titleLabel.text = @"Hire Workers";
 }
 
 - (void) loadTopForAddSlots {
@@ -419,16 +569,15 @@
   self.bonusTopBar.alpha = 0.f;
   
   ResidenceProto *res = (ResidenceProto *)self.userStruct.staticStructForNextFbLevel;
-  self.titleLabel.text = res.occupationName;
+  self.titleLabel.text = [NSString stringWithFormat:@"Hire %@", res.occupationName];
 }
 
 - (void) loadTopForFriendFinder {
-  self.titleLabel.alpha = 1.f;
+  self.titleLabel.alpha = 0.f;
   self.closeView.alpha = 0.f;
   self.backView.alpha = 1.f;
   self.sendView.alpha = 1.f;
-  self.bonusTopBar.alpha = 0.f;
-  self.titleLabel.text = @"Hire Friends";
+  self.bonusTopBar.alpha = 1.f;
   
   self.sendSpinner.hidden = YES;
   self.sendLabel.hidden = NO;
@@ -440,6 +589,8 @@
 - (void) loadUpgradeView {
   [self.bonusView removeFromSuperview];
   [self.menuContainer addSubview:self.upgradeView];
+  
+  [self loadTopForNonResidence];
 }
 
 - (void) loadHireView {
@@ -490,10 +641,18 @@
   if (gs.gold < res.numGemsRequired) {
     [GenericPopupController displayNotEnoughGemsView];
   } else {
-    [[OutgoingEventController sharedOutgoingEventController] increaseInventorySlots:self.userStruct withGems:YES];
-    [self.bonusView updateForUserStruct:self.userStruct];
-    [self loadHireView];
+    [[OutgoingEventController sharedOutgoingEventController] increaseInventorySlots:self.userStruct withGems:YES delegate:self];
+    [self.bonusView spinnerOnGems];
+    _canClick = NO;
   }
+}
+
+- (void) handleIncreaseMonsterInventorySlotResponseProto:(FullEvent *)fe {
+  [self.bonusView updateForUserStruct:self.userStruct];
+  [self.bonusView removeSpinner];
+  _canClick = YES;
+  
+  [self loadHireView];
 }
 
 - (IBAction) viewFriendsClicked:(id)sender {
@@ -525,10 +684,12 @@
 }
 
 - (IBAction) backClicked:(id)sender {
-  if (_isOnFriendFinder) {
-    [self loadAddSlotsView];
-  } else {
-    [self loadHireView];
+  if (_canClick) {
+    if (_isOnFriendFinder) {
+      [self loadAddSlotsView];
+    } else {
+      [self loadHireView];
+    }
   }
 }
 
@@ -542,10 +703,12 @@
 }
 
 - (IBAction) closeClicked:(id)sender {
-  [Globals popOutView:self.mainView fadeOutBgdView:self.bgdView completion:^{
-    [self.view removeFromSuperview];
-    [self removeFromParentViewController];
-  }];
+  if (_canClick) {
+    [Globals popOutView:self.mainView fadeOutBgdView:self.bgdView completion:^{
+      [self.view removeFromSuperview];
+      [self removeFromParentViewController];
+    }];
+  }
 }
 
 @end

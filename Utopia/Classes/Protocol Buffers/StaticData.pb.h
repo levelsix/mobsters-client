@@ -2,6 +2,7 @@
 
 #import "ProtocolBuffers.h"
 
+#import "Battle.pb.h"
 #import "BoosterPackStuff.pb.h"
 #import "City.pb.h"
 #import "Clan.pb.h"
@@ -21,6 +22,8 @@
 @class CityElementProto_Builder;
 @class CityExpansionCostProto;
 @class CityExpansionCostProto_Builder;
+@class ClanIconProto;
+@class ClanIconProto_Builder;
 @class ClanRaidProto;
 @class ClanRaidProto_Builder;
 @class ClanRaidStageMonsterProto;
@@ -107,6 +110,8 @@
 @class PersistentEventProto_Builder;
 @class PvpHistoryProto;
 @class PvpHistoryProto_Builder;
+@class PvpLeagueProto;
+@class PvpLeagueProto_Builder;
 @class PvpProto;
 @class PvpProto_Builder;
 @class RareBoosterPurchaseProto;
@@ -153,6 +158,8 @@
 @class UserObstacleProto_Builder;
 @class UserPersistentEventProto;
 @class UserPersistentEventProto_Builder;
+@class UserPvpLeagueProto;
+@class UserPvpLeagueProto_Builder;
 
 @interface StaticDataRoot : NSObject {
 }
@@ -164,6 +171,8 @@
 @private
   BOOL hasSender_:1;
   MinimumUserProto* sender;
+  NSMutableArray* mutableLeaguesList;
+  NSMutableArray* mutableClanIconsList;
   NSMutableArray* mutableObstaclesList;
   NSMutableArray* mutableItemsList;
   NSMutableArray* mutablePersistentClanEventsList;
@@ -230,6 +239,10 @@
 - (ItemProto*) itemsAtIndex:(int32_t) index;
 - (NSArray*) obstaclesList;
 - (ObstacleProto*) obstaclesAtIndex:(int32_t) index;
+- (NSArray*) clanIconsList;
+- (ClanIconProto*) clanIconsAtIndex:(int32_t) index;
+- (NSArray*) leaguesList;
+- (PvpLeagueProto*) leaguesAtIndex:(int32_t) index;
 
 + (StaticDataProto*) defaultInstance;
 - (StaticDataProto*) defaultInstance;
@@ -418,5 +431,19 @@
 - (StaticDataProto_Builder*) addObstacles:(ObstacleProto*) value;
 - (StaticDataProto_Builder*) addAllObstacles:(NSArray*) values;
 - (StaticDataProto_Builder*) clearObstaclesList;
+
+- (NSArray*) clanIconsList;
+- (ClanIconProto*) clanIconsAtIndex:(int32_t) index;
+- (StaticDataProto_Builder*) replaceClanIconsAtIndex:(int32_t) index with:(ClanIconProto*) value;
+- (StaticDataProto_Builder*) addClanIcons:(ClanIconProto*) value;
+- (StaticDataProto_Builder*) addAllClanIcons:(NSArray*) values;
+- (StaticDataProto_Builder*) clearClanIconsList;
+
+- (NSArray*) leaguesList;
+- (PvpLeagueProto*) leaguesAtIndex:(int32_t) index;
+- (StaticDataProto_Builder*) replaceLeaguesAtIndex:(int32_t) index with:(PvpLeagueProto*) value;
+- (StaticDataProto_Builder*) addLeagues:(PvpLeagueProto*) value;
+- (StaticDataProto_Builder*) addAllLeagues:(NSArray*) values;
+- (StaticDataProto_Builder*) clearLeaguesList;
 @end
 

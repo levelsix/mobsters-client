@@ -19,11 +19,11 @@
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
                     <view contentMode="scaleToFill" id="8fi-Tf-ERb">
-                        <rect key="frame" x="0.0" y="0.0" width="568" height="140"/>
+                        <rect key="frame" x="0.0" y="0.0" width="568" height="144"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
                         <subviews>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="n5y-BW-2xj" customClass="GeneralButton">
-                                <rect key="frame" x="0.0" y="-8" width="568" height="140"/>
+                                <rect key="frame" x="0.0" y="-4" width="568" height="140"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="15"/>
                                 <state key="normal" image="gooniegrabbanner.png">
@@ -34,7 +34,7 @@
                                 </connections>
                             </button>
                             <view userInteractionEnabled="NO" contentMode="scaleToFill" id="m8n-PG-Y2O">
-                                <rect key="frame" x="44" y="-3" width="480" height="140"/>
+                                <rect key="frame" x="44" y="1" width="480" height="140"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <subviews>
                                     <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="questarrow.png" id="DQr-Kf-2OF">

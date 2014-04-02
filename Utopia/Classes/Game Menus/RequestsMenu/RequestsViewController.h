@@ -20,18 +20,7 @@
 
 @end
 
-@interface RequestsTopBar : UIView
-
-@property (nonatomic, retain) IBOutlet UIImageView *selectedView;
-
-@property (nonatomic, retain) IBOutlet UILabel *label1;
-@property (nonatomic, retain) IBOutlet UILabel *label2;
-@property (nonatomic, retain) IBOutlet UILabel *label3;
-
-@property (nonatomic, assign) IBOutlet id<TabBarDelegate> delegate;
-
-- (void) clickButton:(int)button;
-- (IBAction) buttonClicked:(id)sender;
+@interface RequestsTopBar : ButtonTopBar
 
 @end
 
@@ -47,6 +36,9 @@
 @property (nonatomic, retain) IBOutlet UITableView *requestsTable;
 @property (nonatomic, retain) IBOutlet UIActivityIndicatorView *spinner;
 @property (nonatomic, retain) IBOutlet UILabel *noRequestsLabel;
+
+@property (nonatomic, retain) IBOutlet BadgeIcon *facebookBadgeIcon;
+@property (nonatomic, retain) IBOutlet BadgeIcon *battleBadgeIcon;
 
 @property (nonatomic, retain) RequestsFacebookTableController *facebookController;
 @property (nonatomic, retain) RequestsBattleTableController *battleController;

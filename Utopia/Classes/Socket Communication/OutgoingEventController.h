@@ -17,6 +17,9 @@
 
 + (OutgoingEventController *) sharedOutgoingEventController;
 
+- (void) registerClanEventDelegate:(id)delegate;
+- (void) unregisterClanEventDelegate:(id)delegate;
+
 - (void) createUserWithName:(NSString *)name facebookId:(NSString *)facebookId structs:(NSArray *)structs cash:(int)cash oil:(int)oil gems:(int)gems delegate:(id)delegate;
 
 - (void) startupWithFacebookId:(NSString *)facebookId isFreshRestart:(BOOL)isFreshRestart delegate:(id)delegate;
@@ -50,14 +53,14 @@
 
 - (void) sendGroupChat:(GroupChatScope)scope message:(NSString *)msg;
 
-- (void) createClan:(NSString *)clanName tag:(NSString *)clanTag description:(NSString *)description requestOnly:(BOOL)requestOnly delegate:(id)delegate;
+- (void) createClan:(NSString *)clanName tag:(NSString *)clanTag description:(NSString *)description requestOnly:(BOOL)requestOnly iconId:(int)iconId useGems:(BOOL)useGems delegate:(id)delegate;
 - (void) leaveClanWithDelegate:(id)delegate;
 - (void) requestJoinClan:(int)clanId delegate:(id)delegate;
 - (void) retractRequestToJoinClan:(int)clanId delegate:(id)delegate;
 - (void) approveOrRejectRequestToJoinClan:(int)requesterId accept:(BOOL)accept delegate:(id)delegate;
 - (void) transferClanOwnership:(int)newClanOwnerId delegate:(id)delegate;
-- (void) changeClanDescription:(NSString *)description delegate:(id)delegate;
-- (void) changeClanJoinType:(BOOL)requestRequired delegate:(id)delegate;
+- (void) changeClanSettingsIsDescription:(BOOL)isDescription description:(NSString *)description isRequestType:(BOOL)isRequestType requestRequired:(BOOL)requestRequired isIcon:(BOOL)isIcon iconId:(int)iconId delegate:(id)delegate;
+- (void) promoteOrDemoteMember:(int)memberId newStatus:(UserClanStatus)status delegate:(id)delegate;
 - (void) bootPlayerFromClan:(int)playerId delegate:(id)delegate;
 - (void) retrieveClanInfo:(NSString *)clanName clanId:(int)clanId grabType:(RetrieveClanInfoRequestProto_ClanInfoGrabType)grabType isForBrowsingList:(BOOL)isForBrowsingList beforeClanId:(int)beforeClanId delegate:(id)delegate;
 
@@ -87,7 +90,7 @@
 
 - (BOOL) removeMonsterFromTeam:(uint64_t)userMonsterId;
 - (BOOL) addMonsterToTeam:(uint64_t)userMonsterId;
-- (void) increaseInventorySlots:(UserStruct *)us withGems:(BOOL)gems;
+- (void) increaseInventorySlots:(UserStruct *)us withGems:(BOOL)gems delegate:(id)delegate;
 - (void) combineMonsters:(NSArray *)userMonsterIds;
 - (BOOL) combineMonsterWithSpeedup:(uint64_t)userMonsterId;
 - (BOOL) addMonsterToHealingQueue:(uint64_t)userMonsterId useGems:(BOOL)useGems;
@@ -111,7 +114,7 @@
 
 - (void) updateUserCurrencyWithCashChange:(int)cashChange oilChange:(int)oilChange gemChange:(int)gemChange reason:(NSString *)reason;
 
-- (void) spawnObstacles:(NSArray *)obstacles;
+- (void) spawnObstacles:(NSArray *)obstacles delegate:(id)delegate;
 - (void) beginObstacleRemoval:(UserObstacle *)obstacle spendGems:(BOOL)spendGems;
 - (BOOL) obstacleRemovalComplete:(UserObstacle *)obstacle speedup:(BOOL)speedup;
 

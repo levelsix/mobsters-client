@@ -119,9 +119,7 @@
   [self.requests removeObject:cell.request];
   [self.requestsTable deleteRowsAtIndexPaths:@[ip] withRowAnimation:UITableViewRowAnimationFade];
   
-  if (self.requests.count == 0) {
-    [self sendInviteResponses];
-  }
+  [self sendInviteResponses];
 }
 
 - (void) sendInviteResponses {
@@ -135,6 +133,7 @@
 
 - (NSInteger) tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
   if (self.requests.count == 0) {
+    self.noRequestsLabel.text = @"You have no pending requests.";
     self.noRequestsLabel.hidden = NO;
   } else {
     self.noRequestsLabel.hidden = YES;

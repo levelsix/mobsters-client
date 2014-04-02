@@ -44,8 +44,11 @@
   }
 }
 
-- (IBAction)popCurrentViewController:(id)sender
-{
+- (IBAction)menuBackClicked:(id)sender {
+  [self popCurrentViewController];
+}
+
+- (void) popCurrentViewController {
   [self.navigationController popViewControllerAnimated:YES];
 }
 

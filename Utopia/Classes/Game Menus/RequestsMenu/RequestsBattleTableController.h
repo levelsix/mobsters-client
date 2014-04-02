@@ -23,6 +23,7 @@
 @property (nonatomic, retain) IBOutlet UIImageView *rankIcon;
 @property (nonatomic, retain) IBOutlet UIImageView *bgdImage;
 @property (nonatomic, retain) IBOutlet UIImageView *shieldIcon;
+@property (nonatomic, retain) IBOutlet UIImageView *leagueIcon;
 
 @property (nonatomic, retain) IBOutlet UIView *lootLostView;
 @property (nonatomic, retain) IBOutlet UIView *revengeButtonView;
@@ -31,7 +32,9 @@
 
 @end
 
-@interface RequestsBattleTableController : NSObject <RequestsTableController>
+@interface RequestsBattleTableController : NSObject <RequestsTableController> {
+  RequestsBattleCell *_curClickedCell;
+}
 
 @property (nonatomic, retain) UITableView *requestsTable;
 @property (nonatomic, retain) UIActivityIndicatorView *spinner;

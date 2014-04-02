@@ -13,6 +13,7 @@
 
 - (void) profileClicked:(int)userId;
 - (void) clanClicked:(MinimumClanProto *)clan;
+- (void) viewedPrivateChat;
 
 @end
 
@@ -47,7 +48,7 @@
 @property (nonatomic, retain) IBOutlet UIImageView *shieldIcon;
 @property (nonatomic, retain) IBOutlet UILabel *clanLabel;
 
-@property (nonatomic, retain) IBOutlet UILabel *noClanLabel;
+@property (nonatomic, retain) IBOutlet UIView *noClanView;
 @property (nonatomic, retain) IBOutlet UIView *mainView;
 
 @property (nonatomic, retain) MinimumClanProto *clan;

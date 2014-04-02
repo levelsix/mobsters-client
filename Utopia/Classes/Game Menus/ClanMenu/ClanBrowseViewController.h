@@ -30,6 +30,8 @@ typedef enum {
 @property (nonatomic, assign) IBOutlet UIView *buttonView;
 @property (nonatomic, assign) IBOutlet UILabel *buttonLabel;
 @property (nonatomic, assign) IBOutlet UIButton *redButton;
+@property (nonatomic, assign) IBOutlet UIImageView *iconImage;
+@property (nonatomic, assign) IBOutlet UIActivityIndicatorView *spinner;
 
 @end
 

@@ -40,7 +40,6 @@ static PBExtensionRegistry* extensionRegistry = nil;
 @property BOOL isForceTutorial;
 @property (retain) NSString* fbId;
 @property BOOL isFreshRestart;
-@property int64_t clientTime;
 @end
 
 @implementation StartupRequestProto
@@ -111,13 +110,6 @@ static PBExtensionRegistry* extensionRegistry = nil;
 - (void) setIsFreshRestart:(BOOL) value {
   isFreshRestart_ = !!value;
 }
-- (BOOL) hasClientTime {
-  return !!hasClientTime_;
-}
-- (void) setHasClientTime:(BOOL) value {
-  hasClientTime_ = !!value;
-}
-@synthesize clientTime;
 - (void) dealloc {
   self.udid = nil;
   self.apsalarId = nil;
@@ -136,7 +128,6 @@ static PBExtensionRegistry* extensionRegistry = nil;
     self.isForceTutorial = NO;
     self.fbId = @"";
     self.isFreshRestart = NO;
-    self.clientTime = 0L;
   }
   return self;
 }
@@ -180,9 +171,6 @@ static StartupRequestProto* defaultStartupRequestProtoInstance = nil;
   if (self.hasIsFreshRestart) {
     [output writeBool:8 value:self.isFreshRestart];
   }
-  if (self.hasClientTime) {
-    [output writeInt64:9 value:self.clientTime];
-  }
   [self.unknownFields writeToCodedOutputStream:output];
 }
 - (int32_t) serializedSize {
@@ -215,9 +203,6 @@ static StartupRequestProto* defaultStartupRequestProtoInstance = nil;
   }
   if (self.hasIsFreshRestart) {
     size += computeBoolSize(8, self.isFreshRestart);
-  }
-  if (self.hasClientTime) {
-    size += computeInt64Size(9, self.clientTime);
   }
   size += self.unknownFields.serializedSize;
   memoizedSerializedSize = size;
@@ -318,9 +303,6 @@ static StartupRequestProto* defaultStartupRequestProtoInstance = nil;
   if (other.hasIsFreshRestart) {
     [self setIsFreshRestart:other.isFreshRestart];
   }
-  if (other.hasClientTime) {
-    [self setClientTime:other.clientTime];
-  }
   [self mergeUnknownFields:other.unknownFields];
   return self;
 }
@@ -372,10 +354,6 @@ static StartupRequestProto* defaultStartupRequestProtoInstance = nil;
       }
       case 64: {
         [self setIsFreshRestart:[input readBool]];
-        break;
-      }
-      case 72: {
-        [self setClientTime:[input readInt64]];
         break;
       }
     }
@@ -509,22 +487,6 @@ static StartupRequestProto* defaultStartupRequestProtoInstance = nil;
   result.isFreshRestart = NO;
   return self;
 }
-- (BOOL) hasClientTime {
-  return result.hasClientTime;
-}
-- (int64_t) clientTime {
-  return result.clientTime;
-}
-- (StartupRequestProto_Builder*) setClientTime:(int64_t) value {
-  result.hasClientTime = YES;
-  result.clientTime = value;
-  return self;
-}
-- (StartupRequestProto_Builder*) clearClientTime {
-  result.hasClientTime = NO;
-  result.clientTime = 0L;
-  return self;
-}
 @end
 
 @interface StartupResponseProto ()
@@ -563,6 +525,7 @@ static StartupRequestProto* defaultStartupRequestProtoInstance = nil;
 @property (retain) NSMutableArray* mutableCurRaidClanUserInfoList;
 @property (retain) NSMutableArray* mutableRaidStageHistoryList;
 @property (retain) NSMutableArray* mutableRecentNbattlesList;
+@property (retain) UserPvpLeagueProto* pvpLeagueInfo;
 @end
 
 @implementation StartupResponseProto
@@ -697,6 +660,13 @@ static StartupRequestProto* defaultStartupRequestProtoInstance = nil;
 @synthesize mutableCurRaidClanUserInfoList;
 @synthesize mutableRaidStageHistoryList;
 @synthesize mutableRecentNbattlesList;
+- (BOOL) hasPvpLeagueInfo {
+  return !!hasPvpLeagueInfo_;
+}
+- (void) setHasPvpLeagueInfo:(BOOL) value {
+  hasPvpLeagueInfo_ = !!value;
+}
+@synthesize pvpLeagueInfo;
 - (void) dealloc {
   self.sender = nil;
   self.startupConstants = nil;
@@ -729,6 +699,7 @@ static StartupRequestProto* defaultStartupRequestProtoInstance = nil;
   self.mutableCurRaidClanUserInfoList = nil;
   self.mutableRaidStageHistoryList = nil;
   self.mutableRecentNbattlesList = nil;
+  self.pvpLeagueInfo = nil;
   [super dealloc];
 }
 - (id) init {
@@ -748,6 +719,7 @@ static StartupRequestProto* defaultStartupRequestProtoInstance = nil;
     self.kabamNaid = @"";
     self.staticDataStuffProto = [StaticDataProto defaultInstance];
     self.curRaidClanInfo = [PersistentClanEventClanInfoProto defaultInstance];
+    self.pvpLeagueInfo = [UserPvpLeagueProto defaultInstance];
   }
   return self;
 }
@@ -1012,6 +984,9 @@ static StartupResponseProto* defaultStartupResponseProtoInstance = nil;
   for (PvpHistoryProto* element in self.recentNbattlesList) {
     [output writeMessage:35 value:element];
   }
+  if (self.hasPvpLeagueInfo) {
+    [output writeMessage:36 value:self.pvpLeagueInfo];
+  }
   [self.unknownFields writeToCodedOutputStream:output];
 }
 - (int32_t) serializedSize {
@@ -1145,6 +1120,9 @@ static StartupResponseProto* defaultStartupResponseProtoInstance = nil;
   }
   for (PvpHistoryProto* element in self.recentNbattlesList) {
     size += computeMessageSize(35, element);
+  }
+  if (self.hasPvpLeagueInfo) {
+    size += computeMessageSize(36, self.pvpLeagueInfo);
   }
   size += self.unknownFields.serializedSize;
   memoizedSerializedSize = size;
@@ -2462,6 +2440,7 @@ static StartupResponseProto_StartupConstants_AnimatedSpriteOffsetProto* defaultS
 @property int32_t maxCharLengthForClanName;
 @property int32_t maxCharLengthForClanDescription;
 @property int32_t maxCharLengthForClanTag;
+@property int32_t maxClanSize;
 @end
 
 @implementation StartupResponseProto_StartupConstants_ClanConstants
@@ -2494,6 +2473,13 @@ static StartupResponseProto_StartupConstants_AnimatedSpriteOffsetProto* defaultS
   hasMaxCharLengthForClanTag_ = !!value;
 }
 @synthesize maxCharLengthForClanTag;
+- (BOOL) hasMaxClanSize {
+  return !!hasMaxClanSize_;
+}
+- (void) setHasMaxClanSize:(BOOL) value {
+  hasMaxClanSize_ = !!value;
+}
+@synthesize maxClanSize;
 - (void) dealloc {
   [super dealloc];
 }
@@ -2503,6 +2489,7 @@ static StartupResponseProto_StartupConstants_AnimatedSpriteOffsetProto* defaultS
     self.maxCharLengthForClanName = 0;
     self.maxCharLengthForClanDescription = 0;
     self.maxCharLengthForClanTag = 0;
+    self.maxClanSize = 0;
   }
   return self;
 }
@@ -2534,6 +2521,9 @@ static StartupResponseProto_StartupConstants_ClanConstants* defaultStartupRespon
   if (self.hasMaxCharLengthForClanTag) {
     [output writeInt32:4 value:self.maxCharLengthForClanTag];
   }
+  if (self.hasMaxClanSize) {
+    [output writeInt32:5 value:self.maxClanSize];
+  }
   [self.unknownFields writeToCodedOutputStream:output];
 }
 - (int32_t) serializedSize {
@@ -2554,6 +2544,9 @@ static StartupResponseProto_StartupConstants_ClanConstants* defaultStartupRespon
   }
   if (self.hasMaxCharLengthForClanTag) {
     size += computeInt32Size(4, self.maxCharLengthForClanTag);
+  }
+  if (self.hasMaxClanSize) {
+    size += computeInt32Size(5, self.maxClanSize);
   }
   size += self.unknownFields.serializedSize;
   memoizedSerializedSize = size;
@@ -2642,6 +2635,9 @@ static StartupResponseProto_StartupConstants_ClanConstants* defaultStartupRespon
   if (other.hasMaxCharLengthForClanTag) {
     [self setMaxCharLengthForClanTag:other.maxCharLengthForClanTag];
   }
+  if (other.hasMaxClanSize) {
+    [self setMaxClanSize:other.maxClanSize];
+  }
   [self mergeUnknownFields:other.unknownFields];
   return self;
 }
@@ -2677,6 +2673,10 @@ static StartupResponseProto_StartupConstants_ClanConstants* defaultStartupRespon
       }
       case 32: {
         [self setMaxCharLengthForClanTag:[input readInt32]];
+        break;
+      }
+      case 40: {
+        [self setMaxClanSize:[input readInt32]];
         break;
       }
     }
@@ -2744,6 +2744,22 @@ static StartupResponseProto_StartupConstants_ClanConstants* defaultStartupRespon
 - (StartupResponseProto_StartupConstants_ClanConstants_Builder*) clearMaxCharLengthForClanTag {
   result.hasMaxCharLengthForClanTag = NO;
   result.maxCharLengthForClanTag = 0;
+  return self;
+}
+- (BOOL) hasMaxClanSize {
+  return result.hasMaxClanSize;
+}
+- (int32_t) maxClanSize {
+  return result.maxClanSize;
+}
+- (StartupResponseProto_StartupConstants_ClanConstants_Builder*) setMaxClanSize:(int32_t) value {
+  result.hasMaxClanSize = YES;
+  result.maxClanSize = value;
+  return self;
+}
+- (StartupResponseProto_StartupConstants_ClanConstants_Builder*) clearMaxClanSize {
+  result.hasMaxClanSize = NO;
+  result.maxClanSize = 0;
   return self;
 }
 @end
@@ -6038,6 +6054,9 @@ static StartupResponseProto_TutorialConstants* defaultStartupResponseProto_Tutor
     }
     [result.mutableRecentNbattlesList addObjectsFromArray:other.mutableRecentNbattlesList];
   }
+  if (other.hasPvpLeagueInfo) {
+    [self mergePvpLeagueInfo:other.pvpLeagueInfo];
+  }
   [self mergeUnknownFields:other.unknownFields];
   return self;
 }
@@ -6274,6 +6293,15 @@ static StartupResponseProto_TutorialConstants* defaultStartupResponseProto_Tutor
         PvpHistoryProto_Builder* subBuilder = [PvpHistoryProto builder];
         [input readMessage:subBuilder extensionRegistry:extensionRegistry];
         [self addRecentNbattles:[subBuilder buildPartial]];
+        break;
+      }
+      case 290: {
+        UserPvpLeagueProto_Builder* subBuilder = [UserPvpLeagueProto builder];
+        if (self.hasPvpLeagueInfo) {
+          [subBuilder mergeFrom:self.pvpLeagueInfo];
+        }
+        [input readMessage:subBuilder extensionRegistry:extensionRegistry];
+        [self setPvpLeagueInfo:[subBuilder buildPartial]];
         break;
       }
     }
@@ -7205,23 +7233,45 @@ static StartupResponseProto_TutorialConstants* defaultStartupResponseProto_Tutor
   [result.mutableRecentNbattlesList addObject:value];
   return self;
 }
+- (BOOL) hasPvpLeagueInfo {
+  return result.hasPvpLeagueInfo;
+}
+- (UserPvpLeagueProto*) pvpLeagueInfo {
+  return result.pvpLeagueInfo;
+}
+- (StartupResponseProto_Builder*) setPvpLeagueInfo:(UserPvpLeagueProto*) value {
+  result.hasPvpLeagueInfo = YES;
+  result.pvpLeagueInfo = value;
+  return self;
+}
+- (StartupResponseProto_Builder*) setPvpLeagueInfoBuilder:(UserPvpLeagueProto_Builder*) builderForValue {
+  return [self setPvpLeagueInfo:[builderForValue build]];
+}
+- (StartupResponseProto_Builder*) mergePvpLeagueInfo:(UserPvpLeagueProto*) value {
+  if (result.hasPvpLeagueInfo &&
+      result.pvpLeagueInfo != [UserPvpLeagueProto defaultInstance]) {
+    result.pvpLeagueInfo =
+      [[[UserPvpLeagueProto builderWithPrototype:result.pvpLeagueInfo] mergeFrom:value] buildPartial];
+  } else {
+    result.pvpLeagueInfo = value;
+  }
+  result.hasPvpLeagueInfo = YES;
+  return self;
+}
+- (StartupResponseProto_Builder*) clearPvpLeagueInfo {
+  result.hasPvpLeagueInfo = NO;
+  result.pvpLeagueInfo = [UserPvpLeagueProto defaultInstance];
+  return self;
+}
 @end
 
 @interface ForceLogoutResponseProto ()
-@property int64_t loginTime;
 @property int64_t previousLoginTime;
-@property int64_t timeClientSent;
+@property (retain) NSString* udid;
 @end
 
 @implementation ForceLogoutResponseProto
 
-- (BOOL) hasLoginTime {
-  return !!hasLoginTime_;
-}
-- (void) setHasLoginTime:(BOOL) value {
-  hasLoginTime_ = !!value;
-}
-@synthesize loginTime;
 - (BOOL) hasPreviousLoginTime {
   return !!hasPreviousLoginTime_;
 }
@@ -7229,21 +7279,21 @@ static StartupResponseProto_TutorialConstants* defaultStartupResponseProto_Tutor
   hasPreviousLoginTime_ = !!value;
 }
 @synthesize previousLoginTime;
-- (BOOL) hasTimeClientSent {
-  return !!hasTimeClientSent_;
+- (BOOL) hasUdid {
+  return !!hasUdid_;
 }
-- (void) setHasTimeClientSent:(BOOL) value {
-  hasTimeClientSent_ = !!value;
+- (void) setHasUdid:(BOOL) value {
+  hasUdid_ = !!value;
 }
-@synthesize timeClientSent;
+@synthesize udid;
 - (void) dealloc {
+  self.udid = nil;
   [super dealloc];
 }
 - (id) init {
   if ((self = [super init])) {
-    self.loginTime = 0L;
     self.previousLoginTime = 0L;
-    self.timeClientSent = 0L;
+    self.udid = @"";
   }
   return self;
 }
@@ -7263,14 +7313,11 @@ static ForceLogoutResponseProto* defaultForceLogoutResponseProtoInstance = nil;
   return YES;
 }
 - (void) writeToCodedOutputStream:(PBCodedOutputStream*) output {
-  if (self.hasLoginTime) {
-    [output writeInt64:1 value:self.loginTime];
-  }
   if (self.hasPreviousLoginTime) {
-    [output writeInt64:2 value:self.previousLoginTime];
+    [output writeInt64:1 value:self.previousLoginTime];
   }
-  if (self.hasTimeClientSent) {
-    [output writeInt64:3 value:self.timeClientSent];
+  if (self.hasUdid) {
+    [output writeString:2 value:self.udid];
   }
   [self.unknownFields writeToCodedOutputStream:output];
 }
@@ -7281,14 +7328,11 @@ static ForceLogoutResponseProto* defaultForceLogoutResponseProtoInstance = nil;
   }
 
   size = 0;
-  if (self.hasLoginTime) {
-    size += computeInt64Size(1, self.loginTime);
-  }
   if (self.hasPreviousLoginTime) {
-    size += computeInt64Size(2, self.previousLoginTime);
+    size += computeInt64Size(1, self.previousLoginTime);
   }
-  if (self.hasTimeClientSent) {
-    size += computeInt64Size(3, self.timeClientSent);
+  if (self.hasUdid) {
+    size += computeStringSize(2, self.udid);
   }
   size += self.unknownFields.serializedSize;
   memoizedSerializedSize = size;
@@ -7365,14 +7409,11 @@ static ForceLogoutResponseProto* defaultForceLogoutResponseProtoInstance = nil;
   if (other == [ForceLogoutResponseProto defaultInstance]) {
     return self;
   }
-  if (other.hasLoginTime) {
-    [self setLoginTime:other.loginTime];
-  }
   if (other.hasPreviousLoginTime) {
     [self setPreviousLoginTime:other.previousLoginTime];
   }
-  if (other.hasTimeClientSent) {
-    [self setTimeClientSent:other.timeClientSent];
+  if (other.hasUdid) {
+    [self setUdid:other.udid];
   }
   [self mergeUnknownFields:other.unknownFields];
   return self;
@@ -7396,35 +7437,15 @@ static ForceLogoutResponseProto* defaultForceLogoutResponseProtoInstance = nil;
         break;
       }
       case 8: {
-        [self setLoginTime:[input readInt64]];
-        break;
-      }
-      case 16: {
         [self setPreviousLoginTime:[input readInt64]];
         break;
       }
-      case 24: {
-        [self setTimeClientSent:[input readInt64]];
+      case 18: {
+        [self setUdid:[input readString]];
         break;
       }
     }
   }
-}
-- (BOOL) hasLoginTime {
-  return result.hasLoginTime;
-}
-- (int64_t) loginTime {
-  return result.loginTime;
-}
-- (ForceLogoutResponseProto_Builder*) setLoginTime:(int64_t) value {
-  result.hasLoginTime = YES;
-  result.loginTime = value;
-  return self;
-}
-- (ForceLogoutResponseProto_Builder*) clearLoginTime {
-  result.hasLoginTime = NO;
-  result.loginTime = 0L;
-  return self;
 }
 - (BOOL) hasPreviousLoginTime {
   return result.hasPreviousLoginTime;
@@ -7442,20 +7463,20 @@ static ForceLogoutResponseProto* defaultForceLogoutResponseProtoInstance = nil;
   result.previousLoginTime = 0L;
   return self;
 }
-- (BOOL) hasTimeClientSent {
-  return result.hasTimeClientSent;
+- (BOOL) hasUdid {
+  return result.hasUdid;
 }
-- (int64_t) timeClientSent {
-  return result.timeClientSent;
+- (NSString*) udid {
+  return result.udid;
 }
-- (ForceLogoutResponseProto_Builder*) setTimeClientSent:(int64_t) value {
-  result.hasTimeClientSent = YES;
-  result.timeClientSent = value;
+- (ForceLogoutResponseProto_Builder*) setUdid:(NSString*) value {
+  result.hasUdid = YES;
+  result.udid = value;
   return self;
 }
-- (ForceLogoutResponseProto_Builder*) clearTimeClientSent {
-  result.hasTimeClientSent = NO;
-  result.timeClientSent = 0L;
+- (ForceLogoutResponseProto_Builder*) clearUdid {
+  result.hasUdid = NO;
+  result.udid = @"";
   return self;
 }
 @end

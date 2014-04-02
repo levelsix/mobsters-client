@@ -20,9 +20,9 @@
                 <subviews>
                     <view contentMode="scaleToFill" id="2hY-CT-yFu">
                         <rect key="frame" x="0.0" y="0.0" width="350" height="91"/>
-                        <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
-                            <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="teamlostbg.png" id="jy7-na-RfL">
+                            <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="teamwonbg.png" highlightedImage="teamlostbg.png" id="jy7-na-RfL">
                                 <rect key="frame" x="7" y="6" width="334" height="80"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             </imageView>
@@ -34,15 +34,15 @@
                                         <rect key="frame" x="0.0" y="0.0" width="42" height="42"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                     </imageView>
-                                    <imageView userInteractionEnabled="NO" contentMode="top" image="Cheerleader2BazookaThumbnail.png" id="rtZ-RQ-ASK">
-                                        <rect key="frame" x="-8" y="4" width="59" height="59"/>
-                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                    <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleAspectFit" image="BryanGoslingT1Thumbnail.png" id="InL-mO-u2P">
+                                        <rect key="frame" x="0.0" y="0.0" width="42" height="42"/>
+                                        <autoresizingMask key="autoresizingMask"/>
                                     </imageView>
                                 </subviews>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                 <connections>
                                     <outlet property="bgdIcon" destination="dVV-YW-j4a" id="qJM-2W-tn7"/>
-                                    <outlet property="monsterIcon" destination="rtZ-RQ-ASK" id="3BS-Oc-mul"/>
+                                    <outlet property="monsterIcon" destination="InL-mO-u2P" id="ryQ-73-cJp"/>
                                 </connections>
                             </view>
                             <view clipsSubviews="YES" tag="2" contentMode="scaleToFill" id="bp0-Sq-uoJ" customClass="ClanTeamMonsterView">
@@ -53,15 +53,15 @@
                                         <rect key="frame" x="0.0" y="0.0" width="42" height="42"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                     </imageView>
-                                    <imageView userInteractionEnabled="NO" contentMode="top" image="Cheerleader2BazookaThumbnail.png" id="P5t-aa-0sg">
-                                        <rect key="frame" x="-8" y="4" width="59" height="59"/>
-                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                    <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleAspectFit" image="BryanGoslingT1Thumbnail.png" id="gsJ-jE-chb">
+                                        <rect key="frame" x="0.0" y="0.0" width="42" height="42"/>
+                                        <autoresizingMask key="autoresizingMask"/>
                                     </imageView>
                                 </subviews>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                 <connections>
                                     <outlet property="bgdIcon" destination="AO1-C7-Li0" id="6w1-oK-rCJ"/>
-                                    <outlet property="monsterIcon" destination="P5t-aa-0sg" id="i63-Em-ZO3"/>
+                                    <outlet property="monsterIcon" destination="gsJ-jE-chb" id="xVk-l0-iG6"/>
                                 </connections>
                             </view>
                             <view clipsSubviews="YES" tag="3" contentMode="scaleToFill" id="khl-s4-Y28" customClass="ClanTeamMonsterView">
@@ -72,25 +72,25 @@
                                         <rect key="frame" x="0.0" y="0.0" width="42" height="42"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                     </imageView>
-                                    <imageView userInteractionEnabled="NO" contentMode="top" image="Cheerleader2BazookaThumbnail.png" id="rqX-yy-DUs">
-                                        <rect key="frame" x="-8" y="4" width="59" height="59"/>
-                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                    <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleAspectFit" image="BryanGoslingT1Thumbnail.png" id="TsV-0n-BME">
+                                        <rect key="frame" x="0.0" y="0.0" width="42" height="42"/>
+                                        <autoresizingMask key="autoresizingMask"/>
                                     </imageView>
                                 </subviews>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                 <connections>
                                     <outlet property="bgdIcon" destination="ii6-bH-Eeq" id="8eL-Wu-XcE"/>
-                                    <outlet property="monsterIcon" destination="rqX-yy-DUs" id="tHO-av-d4j"/>
+                                    <outlet property="monsterIcon" destination="TsV-0n-BME" id="mwb-pX-Pqr"/>
                                 </connections>
                             </view>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" lineBreakMode="tailTruncation" id="tNR-2J-wfr" customClass="NiceFontButton">
-                                <rect key="frame" x="15" y="10" width="128" height="23"/>
+                                <rect key="frame" x="16" y="10" width="128" height="23"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <fontDescription key="fontDescription" type="boldSystem" pointSize="14"/>
                                 <size key="titleShadowOffset" width="0.0" height="1"/>
                                 <state key="normal" title="CoopaLoopa">
-                                    <color key="titleColor" red="0.20000000000000001" green="0.20000000000000001" blue="0.20000000000000001" alpha="1" colorSpace="deviceRGB"/>
-                                    <color key="titleShadowColor" white="1" alpha="0.75" colorSpace="calibratedWhite"/>
+                                    <color key="titleColor" red="1" green="1" blue="1" alpha="1" colorSpace="deviceRGB"/>
+                                    <color key="titleShadowColor" red="0.0" green="0.0" blue="0.0" alpha="0.5" colorSpace="calibratedRGB"/>
                                 </state>
                                 <connections>
                                     <action selector="nameClicked:" destination="-1" eventType="touchUpInside" id="OV4-8x-0tw"/>
@@ -119,12 +119,12 @@
                                         <fontDescription key="fontDescription" type="boldSystem" pointSize="12"/>
                                         <size key="titleShadowOffset" width="0.0" height="1"/>
                                         <state key="normal" title="Clan Ratta">
-                                            <color key="titleColor" red="0.023529414087533951" green="0.47058826684951782" blue="0.64313727617263794" alpha="1" colorSpace="deviceRGB"/>
-                                            <color key="titleShadowColor" white="1" alpha="0.5" colorSpace="calibratedWhite"/>
+                                            <color key="titleColor" red="1" green="1" blue="1" alpha="1" colorSpace="deviceRGB"/>
+                                            <color key="titleShadowColor" red="0.0" green="0.0" blue="0.0" alpha="0.5" colorSpace="calibratedRGB"/>
                                         </state>
                                         <state key="disabled" title="No Clan">
-                                            <color key="titleColor" red="0.20000000000000001" green="0.20000000000000001" blue="0.20000000000000001" alpha="1" colorSpace="deviceRGB"/>
-                                            <color key="titleShadowColor" red="1" green="1" blue="1" alpha="0.75" colorSpace="deviceRGB"/>
+                                            <color key="titleColor" red="1" green="1" blue="1" alpha="1" colorSpace="deviceRGB"/>
+                                            <color key="titleShadowColor" red="0.0" green="0.0" blue="0.0" alpha="0.29999999999999999" colorSpace="calibratedRGB"/>
                                         </state>
                                         <connections>
                                             <action selector="clanClicked:" destination="-1" eventType="touchUpInside" id="VvW-Gc-70G"/>
@@ -179,9 +179,9 @@
                                 <autoresizingMask key="autoresizingMask"/>
                             </imageView>
                             <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="-3 spots" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" id="llw-0Z-Njd" customClass="NiceFontLabel">
-                                <rect key="frame" x="269" y="20" width="54" height="23"/>
+                                <rect key="frame" x="279" y="19" width="44" height="23"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="11"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="10"/>
                                 <color key="textColor" red="0.38431372549999998" green="0.4941176471" blue="0.050980392159999999" alpha="1" colorSpace="deviceRGB"/>
                                 <color key="highlightedColor" red="0.50980392159999999" green="0.090196078430000007" blue="0.054901960780000002" alpha="1" colorSpace="deviceRGB"/>
                                 <size key="shadowOffset" width="0.0" height="0.0"/>
@@ -212,6 +212,10 @@
                                 </subviews>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                             </view>
+                            <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleAspectFit" image="bronzeicon.png" id="Mwm-Av-aOs">
+                                <rect key="frame" x="257" y="19" width="22" height="26"/>
+                                <autoresizingMask key="autoresizingMask"/>
+                            </imageView>
                         </subviews>
                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                     </view>
@@ -222,6 +226,7 @@
                 <outlet property="bgdImage" destination="jy7-na-RfL" id="DSH-HX-QPx"/>
                 <outlet property="cashLabel" destination="G0M-Io-dHg" id="1yY-YC-Eqt"/>
                 <outlet property="clanButton" destination="iWO-3c-nXI" id="OYK-d1-blM"/>
+                <outlet property="leagueIcon" destination="Mwm-Av-aOs" id="kfq-za-qQv"/>
                 <outlet property="lootLostView" destination="Vpo-pB-Vpy" id="oJ4-Iz-9ox"/>
                 <outlet property="nameButton" destination="tNR-2J-wfr" id="4T3-6Q-Pda"/>
                 <outlet property="oilLabel" destination="T6v-HU-kfh" id="1Ln-S6-23u"/>
@@ -237,14 +242,16 @@
         </tableViewCell>
     </objects>
     <resources>
-        <image name="Cheerleader2BazookaThumbnail.png" width="59" height="56"/>
+        <image name="BryanGoslingT1Thumbnail.png" width="33" height="42"/>
+        <image name="bronzeicon.png" width="37" height="42"/>
         <image name="firemteam.png" width="21" height="21"/>
         <image name="heal.png" width="71" height="28"/>
         <image name="lostamount.png" width="76" height="16"/>
         <image name="moneystack.png" width="43" height="34"/>
         <image name="oilicon.png" width="26" height="32"/>
         <image name="shield.png" width="31" height="34"/>
-        <image name="spotsmovedbg.png" width="76" height="19"/>
+        <image name="spotsmovedbg.png" width="71" height="19"/>
         <image name="teamlostbg.png" width="334" height="80"/>
+        <image name="teamwonbg.png" width="334" height="80"/>
     </resources>
 </document>

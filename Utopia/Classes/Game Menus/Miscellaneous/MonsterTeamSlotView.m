@@ -62,7 +62,7 @@
     self.healthView.hidden = YES;
     
     self.titleLabel.text = @"Team Slot Open";
-    self.titleLabel.textColor = [UIColor whiteColor];
+    self.titleLabel.textColor = [UIColor colorWithWhite:0.23 alpha:0.75f];
     
     self.subtitleLabel.text = @"Tap     to Add";
     
@@ -85,18 +85,16 @@
     
     if ([um isHealing] || [um isEnhancing] || [um isSacrificing]) {
       self.titleLabel.text = [NSString stringWithFormat:@"%@ (%@)", mp.displayName, [um isHealing] ? @"Healing" : @"Enhancing"];
-      self.titleLabel.textColor = [UIColor colorWithWhite:1.f alpha:0.5f];
+      self.titleLabel.textColor = [UIColor colorWithWhite:0.23 alpha:0.75f];
       self.subtitleLabel.text = @"Slot Open";
       
       self.subtitleLabel.hidden = NO;
       self.darkOverlay.hidden = NO;
     } else {
-      NSString *fileName = @"earthteamhealthbar.png";
-      [Globals imageNamed:fileName withView:self.healthBar maskedColor:nil indicator:UIActivityIndicatorViewStyleWhite clearImageDuringDownload:YES];
       self.healthBar.percentage = um.curHealth/(float)[gl calculateMaxHealthForMonster:um];
       
       self.titleLabel.text = mp.displayName;
-      self.titleLabel.textColor = [UIColor whiteColor];
+      self.titleLabel.textColor = [UIColor colorWithWhite:0.23 alpha:1.f];
       
       self.subtitleLabel.hidden = YES;
       self.darkOverlay.hidden = YES;
@@ -125,7 +123,7 @@
   self.subtitleLabel.hidden = YES;
   
   if (!um) {
-    self.titleLabel.textColor = [UIColor colorWithWhite:1.f alpha:0.5f];
+    self.titleLabel.textColor = [UIColor colorWithWhite:0.23f alpha:0.75f];
   }
 }
 

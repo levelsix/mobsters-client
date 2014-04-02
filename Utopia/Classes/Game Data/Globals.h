@@ -37,9 +37,13 @@
 #define MONSTER_SOLD_COMPLETE_NOTIFICATION @"MonsterSoldNotification"
 #define GAMESTATE_UPDATE_NOTIFICATION @"GameStateUpdateNotification"
 #define MY_TEAM_CHANGED_NOTIFICATION @"MyTeamChangedNotification"
-#define CHAT_RECEIVED_NOTIFICATION @"ChatReceivedNotification"
+#define GLOBAL_CHAT_RECEIVED_NOTIFICATION @"GlobalChatReceivedNotification"
+#define CLAN_CHAT_RECEIVED_NOTIFICATION @"ClanChatReceivedNotification"
+#define PRIVATE_CHAT_RECEIVED_NOTIFICATION @"PrivateChatReceivedNotification"
 #define NEW_FB_INVITE_NOTIFICATION @"NewFbInviteNotification"
 #define FB_INVITE_RESPONDED_NOTIFICATION @"FbInviteRespondedNotification"
+#define NEW_BATTLE_HISTORY_NOTIFICATION @"NewBattleHistoryNotification"
+#define BATTLE_HISTORY_VIEWED_NOTIFICATION @"BattleHistoryViewedNotification"
 #define FB_INVITE_ACCEPTED_NOTIFICATION @"FbInviteAcceptedNotification"
 #define FB_INCREASE_SLOTS_NOTIFICATION @"FbIncreaseSlotsNotification"
 #define QUESTS_CHANGED_NOTIFICATION @"QuestsChangedNotification"
@@ -112,6 +116,7 @@
 @property (nonatomic, assign) int maxCharLengthForClanName;
 @property (nonatomic, assign) int maxCharLengthForClanDescription;
 @property (nonatomic, assign) int maxCharLengthForClanTag;
+@property (nonatomic, assign) int maxClanSize;
 
 // Tournament Constants
 @property (nonatomic, assign) int tournamentWinsWeight;
@@ -143,6 +148,7 @@
 + (NSString *) convertTimeToLongString:(int)secs;
 
 + (void) downloadAllFilesForSpritePrefixes:(NSArray *)spritePrefixes completion:(void (^)(void))completed;
++ (void) downloadFile:(NSString *)file completion:(void (^)(void))completed;
 
 + (UIImage *) imageNamed:(NSString *)path;
 + (NSString *) imageNameForConstructionWithSize:(CGSize)size;
@@ -169,8 +175,10 @@
 + (MonsterProto_MonsterElement) elementForSuperEffective:(MonsterProto_MonsterElement)element;
 + (MonsterProto_MonsterElement) elementForNotVeryEffective:(MonsterProto_MonsterElement)element;
 
-+ (NSString *) stringForTimeSinceNow:(MSDate *)date shortened:(BOOL)shortened ;
++ (NSString *) stringForTimeSinceNow:(MSDate *)date shortened:(BOOL)shortened;
++ (NSString *) stringForClanStatus:(UserClanStatus)status;
 
++ (NSArray *) convertCurrentTeamToArray:(UserCurrentMonsterTeamProto *)team;
 + (NSDictionary *) convertUserTeamArrayToDictionary:(NSArray *)array;
 
 + (void) adjustFontSizeForSize:(int)size withUIView:(UIView *)somethingWithText;
@@ -183,13 +191,15 @@
 + (void) adjustFontSizeForSize:(int)size CCLabelTTFs:(CCLabelTTF *)field1, ... NS_REQUIRES_NIL_TERMINATION;
 
 + (NSString *) cashStringForNumber:(int)n;
-+ (NSString *) commafyNumber:(float) n;
++ (NSString *) commafyNumber:(float)n;
++ (NSString *) qualifierStringForNumber:(int)rank;
 
 + (void) calculateDifferencesBetweenOldArray:(NSArray *)oArr newArray:(NSArray *)nArr removalIps:(NSMutableArray *)removals additionIps:(NSMutableArray *)additions section:(int)section;
 
 + (void) setFrameForView:(UIView *)view forPoint:(CGPoint)pt;
 + (void) popupMessage: (NSString *)msg;
 + (void) addAlertNotification:(NSString *)msg;
++ (void) addGreenAlertNotification:(NSString *)msg;
 
 + (void) bounceView:(UIView *)view;
 + (void) bounceView:(UIView *)view fadeInBgdView: (UIView *)bgdView;
@@ -235,8 +245,6 @@
 + (void) checkRateUsPopup;
 
 + (UIColor *) colorForColorProto:(ColorProto *)cp;
-
-+ (BOOL) userHasBeginnerShield:(uint64_t)createTime hasActiveShield:(BOOL)hasActiveShield;
 
 +(NSString*) getDoubleResolutionImage:(NSString*)path;
 

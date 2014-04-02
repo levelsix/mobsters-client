@@ -76,6 +76,21 @@
   } else {
     [super addSubview:view];
   }
+  
+  for (UIView *view in self.omnipresentViews) {
+    [self bringSubviewToFront:view];
+  }
+}
+
+- (void) displayOmnipresentView:(UIView *)v {
+  if (!self.omnipresentViews) self.omnipresentViews = [NSMutableArray array];
+  [self.omnipresentViews addObject:v];
+  [self addSubview:v];
+}
+
+- (void) removeOmniPresentView:(UIView *)v {
+  [self.omnipresentViews removeObject:v];
+  [v removeFromSuperview];
 }
 
 @end

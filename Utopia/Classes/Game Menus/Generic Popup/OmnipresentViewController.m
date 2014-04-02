@@ -8,6 +8,7 @@
 
 #import "OmnipresentViewController.h"
 #import "GameViewController.h"
+#import "MSWindow.h"
 
 @interface OmnipresentViewController ()
 
@@ -20,8 +21,15 @@
 }
 
 - (void) displayView {
-  [[[UIApplication sharedApplication] keyWindow] addSubview:self.view];
+  MSWindow *window = (MSWindow *)[[UIApplication sharedApplication] keyWindow];
+  [window displayOmnipresentView:self.view];
   [[GameViewController baseController] addChildViewController:self];
+}
+
+- (void) removeView {
+  MSWindow *window = (MSWindow *)[[UIApplication sharedApplication] keyWindow];
+  [window removeOmniPresentView:self.view];
+  [self removeFromParentViewController];
 }
 
 #pragma mark -

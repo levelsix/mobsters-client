@@ -26,6 +26,7 @@ static PBExtensionRegistry* extensionRegistry = nil;
 @property (retain) NSString* description;
 @property (retain) NSString* tag;
 @property BOOL requestToJoinRequired;
+@property int32_t clanIconId;
 @end
 
 @implementation MinimumClanProto
@@ -77,6 +78,13 @@ static PBExtensionRegistry* extensionRegistry = nil;
 - (void) setRequestToJoinRequired:(BOOL) value {
   requestToJoinRequired_ = !!value;
 }
+- (BOOL) hasClanIconId {
+  return !!hasClanIconId_;
+}
+- (void) setHasClanIconId:(BOOL) value {
+  hasClanIconId_ = !!value;
+}
+@synthesize clanIconId;
 - (void) dealloc {
   self.name = nil;
   self.description = nil;
@@ -91,6 +99,7 @@ static PBExtensionRegistry* extensionRegistry = nil;
     self.description = @"";
     self.tag = @"";
     self.requestToJoinRequired = NO;
+    self.clanIconId = 0;
   }
   return self;
 }
@@ -128,6 +137,9 @@ static MinimumClanProto* defaultMinimumClanProtoInstance = nil;
   if (self.hasRequestToJoinRequired) {
     [output writeBool:7 value:self.requestToJoinRequired];
   }
+  if (self.hasClanIconId) {
+    [output writeInt32:8 value:self.clanIconId];
+  }
   [self.unknownFields writeToCodedOutputStream:output];
 }
 - (int32_t) serializedSize {
@@ -154,6 +166,9 @@ static MinimumClanProto* defaultMinimumClanProtoInstance = nil;
   }
   if (self.hasRequestToJoinRequired) {
     size += computeBoolSize(7, self.requestToJoinRequired);
+  }
+  if (self.hasClanIconId) {
+    size += computeInt32Size(8, self.clanIconId);
   }
   size += self.unknownFields.serializedSize;
   memoizedSerializedSize = size;
@@ -248,6 +263,9 @@ static MinimumClanProto* defaultMinimumClanProtoInstance = nil;
   if (other.hasRequestToJoinRequired) {
     [self setRequestToJoinRequired:other.requestToJoinRequired];
   }
+  if (other.hasClanIconId) {
+    [self setClanIconId:other.clanIconId];
+  }
   [self mergeUnknownFields:other.unknownFields];
   return self;
 }
@@ -291,6 +309,10 @@ static MinimumClanProto* defaultMinimumClanProtoInstance = nil;
       }
       case 56: {
         [self setRequestToJoinRequired:[input readBool]];
+        break;
+      }
+      case 64: {
+        [self setClanIconId:[input readInt32]];
         break;
       }
     }
@@ -390,6 +412,22 @@ static MinimumClanProto* defaultMinimumClanProtoInstance = nil;
 - (MinimumClanProto_Builder*) clearRequestToJoinRequired {
   result.hasRequestToJoinRequired = NO;
   result.requestToJoinRequired = NO;
+  return self;
+}
+- (BOOL) hasClanIconId {
+  return result.hasClanIconId;
+}
+- (int32_t) clanIconId {
+  return result.clanIconId;
+}
+- (MinimumClanProto_Builder*) setClanIconId:(int32_t) value {
+  result.hasClanIconId = YES;
+  result.clanIconId = value;
+  return self;
+}
+- (MinimumClanProto_Builder*) clearClanIconId {
+  result.hasClanIconId = NO;
+  result.clanIconId = 0;
   return self;
 }
 @end

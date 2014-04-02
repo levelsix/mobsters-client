@@ -76,18 +76,16 @@
 @class BootPlayerFromClanRequestProto_Builder;
 @class BootPlayerFromClanResponseProto;
 @class BootPlayerFromClanResponseProto_Builder;
-@class ChangeClanDescriptionRequestProto;
-@class ChangeClanDescriptionRequestProto_Builder;
-@class ChangeClanDescriptionResponseProto;
-@class ChangeClanDescriptionResponseProto_Builder;
-@class ChangeClanJoinTypeRequestProto;
-@class ChangeClanJoinTypeRequestProto_Builder;
-@class ChangeClanJoinTypeResponseProto;
-@class ChangeClanJoinTypeResponseProto_Builder;
+@class ChangeClanSettingsRequestProto;
+@class ChangeClanSettingsRequestProto_Builder;
+@class ChangeClanSettingsResponseProto;
+@class ChangeClanSettingsResponseProto_Builder;
 @class CityElementProto;
 @class CityElementProto_Builder;
 @class CityExpansionCostProto;
 @class CityExpansionCostProto_Builder;
+@class ClanIconProto;
+@class ClanIconProto_Builder;
 @class ClanRaidProto;
 @class ClanRaidProto_Builder;
 @class ClanRaidStageMonsterProto;
@@ -308,6 +306,8 @@
 @class PurgeClientStaticDataResponseProto_Builder;
 @class PvpHistoryProto;
 @class PvpHistoryProto_Builder;
+@class PvpLeagueProto;
+@class PvpLeagueProto_Builder;
 @class PvpProto;
 @class PvpProto_Builder;
 @class QuestAcceptRequestProto;
@@ -496,6 +496,8 @@
 @class UserObstacleProto_Builder;
 @class UserPersistentEventProto;
 @class UserPersistentEventProto_Builder;
+@class UserPvpLeagueProto;
+@class UserPvpLeagueProto_Builder;
 typedef enum {
   EventProtocolRequestCStartupEvent = 1,
   EventProtocolRequestCInAppPurchaseEvent = 2,
@@ -527,7 +529,7 @@ typedef enum {
   EventProtocolRequestCApproveOrRejectRequestToJoinClanEvent = 28,
   EventProtocolRequestCTransferClanOwnership = 29,
   EventProtocolRequestCRetrieveClanInfoEvent = 30,
-  EventProtocolRequestCChangeClanDescriptionEvent = 31,
+  EventProtocolRequestCChangeClanSettingsEvent = 31,
   EventProtocolRequestCBootPlayerFromClanEvent = 32,
   EventProtocolRequestCPickLockBoxEvent = 33,
   EventProtocolRequestCRetrieveTournamentRankingsEvent = 34,
@@ -535,7 +537,6 @@ typedef enum {
   EventProtocolRequestCEvolveMonsterEvent = 36,
   EventProtocolRequestCPurchaseBoosterPackEvent = 37,
   EventProtocolRequestCEvolutionFinishedEvent = 38,
-  EventProtocolRequestCChangeClanJoinTypeEvent = 39,
   EventProtocolRequestCPrivateChatPostEvent = 40,
   EventProtocolRequestCRetrievePrivateChatPostEvent = 41,
   EventProtocolRequestCRedeemUserLockBoxItemsEvent = 42,
@@ -600,7 +601,7 @@ typedef enum {
   EventProtocolResponseSApproveOrRejectRequestToJoinClanEvent = 28,
   EventProtocolResponseSTransferClanOwnership = 29,
   EventProtocolResponseSRetrieveClanInfoEvent = 30,
-  EventProtocolResponseSChangeClanDescriptionEvent = 31,
+  EventProtocolResponseSChangeClanSettingsEvent = 31,
   EventProtocolResponseSBootPlayerFromClanEvent = 32,
   EventProtocolResponseSPickLockBoxEvent = 33,
   EventProtocolResponseSRetrieveTournamentRankingsEvent = 34,
@@ -608,7 +609,6 @@ typedef enum {
   EventProtocolResponseSEvolveMonsterEvent = 36,
   EventProtocolResponseSPurchaseBoosterPackEvent = 37,
   EventProtocolResponseSEvolutionFinishedEvent = 38,
-  EventProtocolResponseSChangeClanJoinTypeEvent = 39,
   EventProtocolResponseSPrivateChatPostEvent = 40,
   EventProtocolResponseSRetrievePrivateChatPostEvent = 41,
   EventProtocolResponseSRedeemUserLockBoxItemsEvent = 42,

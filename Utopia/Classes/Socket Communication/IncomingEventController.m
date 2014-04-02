@@ -24,6 +24,7 @@
 #import "DungeonBattleLayer.h"
 #import "GameCenterDelegate.h"
 #import "FacebookDelegate.h"
+#import "UnreadNotifications.h"
 
 #define QUEST_REDEEM_KIIP_REWARD @"quest_redeem"
 
@@ -125,8 +126,11 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
     case EventProtocolResponseSTransferClanOwnership:
       responseClass = [TransferClanOwnershipResponseProto class];
       break;
-    case EventProtocolResponseSChangeClanDescriptionEvent:
-      responseClass = [ChangeClanDescriptionResponseProto class];
+    case EventProtocolResponseSChangeClanSettingsEvent:
+      responseClass = [ChangeClanSettingsResponseProto class];
+      break;
+    case EventProtocolResponseSPromoteDemoteClanMemberEvent:
+      responseClass = [PromoteDemoteClanMemberResponseProto class];
       break;
     case EventProtocolResponseSBootPlayerFromClanEvent:
       responseClass = [BootPlayerFromClanResponseProto class];
@@ -154,9 +158,6 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
       break;
     case EventProtocolResponseSPurchaseBoosterPackEvent:
       responseClass = [PurchaseBoosterPackResponseProto class];
-      break;
-    case EventProtocolResponseSChangeClanJoinTypeEvent:
-      responseClass = [ChangeClanJoinTypeResponseProto class];
       break;
     case EventProtocolResponseSReceivedRareBoosterPurchaseEvent:
       responseClass = [ReceivedRareBoosterPurchaseResponseProto class];
@@ -301,6 +302,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
     }
     
     // Update user before creating map
+    [gs.unrespondedUpdates removeAllObjects];
     [gs updateUser:proto.sender timestamp:0];
     
     // Setup the userid queue
@@ -333,6 +335,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
     
     [gs addToEventCooldownTimes:proto.userEventsList];
     
+    [gs.requestedClans removeAllObjects];
     [gs addToRequestedClans:proto.userClanInfoList];
     
     if (proto.hasCurRaidClanInfo) {
@@ -404,6 +407,14 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
   }
   
   [gs removeNonFullUserUpdatesForTag:tag];
+}
+
+- (void) handleForceLogoutResponseProto:(FullEvent *)fe {
+  ForceLogoutResponseProto *proto = (ForceLogoutResponseProto *)fe.event;
+  
+  LNLog(@"Force logout response received with udid %@.", proto.udid);
+  GameViewController *gvc = [GameViewController baseController];
+  [gvc handleForceLogoutResponseProto:proto];
 }
 
 - (void) handleLevelUpResponseProto:(FullEvent *)fe {
@@ -809,6 +820,9 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
   GameState *gs = [GameState sharedGameState];
   if (proto.sender.minUserProto.userId != gs.userId) {
     [gs addChatMessage:proto.sender message:proto.chatMessage scope:proto.scope isAdmin:proto.isAdmin];
+    
+    NSString *key = proto.scope == GroupChatScopeClan ? CLAN_CHAT_RECEIVED_NOTIFICATION : GLOBAL_CHAT_RECEIVED_NOTIFICATION;
+    [[NSNotificationCenter defaultCenter] postNotificationName:key object:nil];
   }
 }
 
@@ -824,6 +838,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
       gs.clan = proto.clanInfo;
       [[SocketCommunication sharedSocketCommunication] rebuildSender];
       [gs.requestedClans removeAllObjects];
+      gs.myClanStatus = UserClanStatusLeader;
     }
     
     [gs removeNonFullUserUpdatesForTag:tag];
@@ -856,20 +871,31 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
   
   GameState *gs = [GameState sharedGameState];
   if (proto.status == ApproveOrRejectRequestToJoinClanResponseProto_ApproveOrRejectRequestToJoinClanStatusSuccess) {
-    if (proto.requesterId == gs.userId) {
+    if (proto.requester.userId == gs.userId) {
       [gs.requestedClans removeAllObjects];
       if (proto.accept) {
         gs.clan = proto.minClan;
         [[SocketCommunication sharedSocketCommunication] rebuildSender];
+        gs.myClanStatus = UserClanStatusMember;
         
-        // Spur clan chat to reload
-        [[NSNotificationCenter defaultCenter] postNotificationName:CHAT_RECEIVED_NOTIFICATION object:nil];
+        [Globals addAlertNotification:[NSString stringWithFormat:@"You have just been accepted to %@!", proto.minClan.name]];
+      }
+    } else {
+      if (proto.accept) {
+        [Globals addAlertNotification:[NSString stringWithFormat:@"%@ has just joined your clan. Go say hi!", proto.requester.name]];
       }
     }
     
     [gs removeNonFullUserUpdatesForTag:tag];
   } else {
-    [Globals popupMessage:@"Server failed to respond to clan request."];
+    if (proto.status == ApproveOrRejectRequestToJoinClanResponseProto_ApproveOrRejectRequestToJoinClanStatusFailAlreadyInAClan ||
+        proto.status == ApproveOrRejectRequestToJoinClanResponseProto_ApproveOrRejectRequestToJoinClanStatusFailNotAuthorized) {
+      [Globals popupMessage:@"Hmm, it seems that this user has already joined another clan."];
+    } else if (proto.status == ApproveOrRejectRequestToJoinClanResponseProto_ApproveOrRejectRequestToJoinClanStatusFailClanIsFull) {
+      [Globals popupMessage:@"Your clan is full. Boot a member and try again."];
+    } else {
+      [Globals popupMessage:@"Server failed to respond to clan request."];
+    }
     
     [gs removeAndUndoAllUpdatesForTag:tag];
   }
@@ -886,9 +912,12 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
       [gs.requestedClans removeAllObjects];
       gs.clan = nil;
       [[SocketCommunication sharedSocketCommunication] rebuildSender];
+      gs.myClanStatus = 0;
       
       [gs.clanChatMessages removeAllObjects];
-      [[NSNotificationCenter defaultCenter] postNotificationName:CHAT_RECEIVED_NOTIFICATION object:nil];
+      [[NSNotificationCenter defaultCenter] postNotificationName:CLAN_CHAT_RECEIVED_NOTIFICATION object:nil];
+    } else {
+      [Globals addAlertNotification:[NSString stringWithFormat:@"%@ has just left your clan.", proto.sender.name]];
     }
     
     [gs removeNonFullUserUpdatesForTag:tag];
@@ -905,23 +934,27 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
   LNLog(@"Request join clan response received with status %d.", proto.status);
   
   GameState *gs = [GameState sharedGameState];
-  if (proto.status == RequestJoinClanResponseProto_RequestJoinClanStatusRequestSuccess) {
+  if (proto.status == RequestJoinClanResponseProto_RequestJoinClanStatusSuccessRequest) {
     if (proto.sender.userId == gs.userId) {
       [gs.requestedClans addObject:[NSNumber numberWithInt:proto.clanId]];
+    } else {
+      if (gs.myClanStatus == UserClanStatusLeader || gs.myClanStatus == UserClanStatusJuniorLeader) {
+        [Globals addAlertNotification:[NSString stringWithFormat:@"%@ has just requested to join your clan!", proto.sender.name]];
+      }
     }
     
     [gs removeNonFullUserUpdatesForTag:tag];
-  } else if (proto.status == RequestJoinClanResponseProto_RequestJoinClanStatusJoinSuccess) {
+  } else if (proto.status == RequestJoinClanResponseProto_RequestJoinClanStatusSuccessJoin) {
     if (proto.sender.userId == gs.userId) {
       [gs.requestedClans removeAllObjects];
       gs.clan = proto.minClan;
       [[SocketCommunication sharedSocketCommunication] rebuildSender];
-      
-      // Spur the clan chat to update
-      [[NSNotificationCenter defaultCenter] postNotificationName:CHAT_RECEIVED_NOTIFICATION object:nil];
+      gs.myClanStatus = UserClanStatusMember;
+    } else {
+      [Globals addAlertNotification:[NSString stringWithFormat:@"%@ has just joined your clan. Go say hi!", proto.requester.minUserProto.minUserProtoWithLevel.minUserProto.name]];
     }
   } else {
-    if (proto.status == RequestJoinClanResponseProto_RequestJoinClanStatusClanIsFull) {
+    if (proto.status == RequestJoinClanResponseProto_RequestJoinClanStatusFailClanIsFull) {
       [Globals popupMessage:@"Sorry, this clan is full. Please try another."];
     } else {
       [Globals popupMessage:@"Server failed to request to join clan request."];
@@ -962,6 +995,18 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
       [[SocketCommunication sharedSocketCommunication] rebuildSender];
     }
     
+    if (proto.clanOwnerNew.userId == gs.userId) {
+      gs.myClanStatus = UserClanStatusLeader;
+    } else if (proto.sender.userId == gs.userId) {
+      gs.myClanStatus = UserClanStatusJuniorLeader;
+    }
+    
+    if (proto.clanOwnerNew.userId == gs.userId) {
+      [Globals addAlertNotification:[NSString stringWithFormat:@"You have just become the new clan leader!"]];
+    } else {
+      [Globals addAlertNotification:[NSString stringWithFormat:@"%@ has just become the new clan leader!", proto.clanOwnerNew.name]];
+    }
+    
     [gs removeNonFullUserUpdatesForTag:tag];
   } else {
     [Globals popupMessage:@"Server failed to transfer clan ownership."];
@@ -970,13 +1015,13 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
   }
 }
 
-- (void) handleChangeClanDescriptionResponseProto:(FullEvent *)fe {
-  ChangeClanDescriptionResponseProto *proto = (ChangeClanDescriptionResponseProto *)fe.event;
+- (void) handleChangeClanSettingsResponseProto:(FullEvent *)fe {
+  ChangeClanSettingsResponseProto *proto = (ChangeClanSettingsResponseProto *)fe.event;
   int tag = fe.tag;
   LNLog(@"Change clan description response received with status %d.", proto.status);
   
   GameState *gs = [GameState sharedGameState];
-  if (proto.status == ChangeClanDescriptionResponseProto_ChangeClanDescriptionStatusSuccess) {
+  if (proto.status == ChangeClanSettingsResponseProto_ChangeClanSettingsStatusSuccess) {
     if (proto.hasMinClan) {
       gs.clan = proto.minClan;
       [[SocketCommunication sharedSocketCommunication] rebuildSender];
@@ -984,27 +1029,36 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
     
     [gs removeNonFullUserUpdatesForTag:tag];
   } else {
-    [Globals popupMessage:@"Server failed to change clan description."];
+    if (proto.status == ChangeClanSettingsResponseProto_ChangeClanSettingsStatusFailNotAuthorized) {
+      [Globals popupMessage:@"You do not have the permissions to change clan settings!"];
+    } else if (proto.status == ChangeClanSettingsResponseProto_ChangeClanSettingsStatusFailNotInClan) {
+      [Globals popupMessage:@"You can't change the settings of a clan you don't belong to!"];
+    }
     
     [gs removeAndUndoAllUpdatesForTag:tag];
   }
 }
 
-- (void) handleChangeClanJoinTypeResponseProto:(FullEvent *)fe {
-  ChangeClanJoinTypeResponseProto *proto = (ChangeClanJoinTypeResponseProto *)fe.event;
+- (void) handlePromoteDemoteClanMemberResponseProto:(FullEvent *)fe {
+  PromoteDemoteClanMemberResponseProto *proto = (PromoteDemoteClanMemberResponseProto *)fe.event;
   int tag = fe.tag;
-  LNLog(@"Change clan join type response received with status %d.", proto.status);
+  LNLog(@"Promote demote clan member response received with status %d.", proto.status);
   
   GameState *gs = [GameState sharedGameState];
-  if (proto.status == ChangeClanJoinTypeResponseProto_ChangeClanJoinTypeStatusSuccess) {
-    if (proto.hasMinClan) {
-      gs.clan = proto.minClan;
-      [[SocketCommunication sharedSocketCommunication] rebuildSender];
+  if (proto.status == PromoteDemoteClanMemberResponseProto_PromoteDemoteClanMemberStatusSuccess) {
+    BOOL isDemotion = proto.prevUserClanStatus < proto.userClanStatus;
+    NSString *promoteOrDemote = isDemotion ? @"demoted" : @"promoted";
+    NSString *position = [NSString stringWithFormat:@"%@%@", [Globals stringForClanStatus:proto.userClanStatus], isDemotion ? @"." : @"!"];
+    if (proto.victim.userId == gs.userId) {
+      [Globals addAlertNotification:[NSString stringWithFormat:@"You have just been %@ to %@", promoteOrDemote, position]];
+      gs.myClanStatus = proto.userClanStatus;
+    } else {
+      [Globals addAlertNotification:[NSString stringWithFormat:@"%@ has just been %@ to %@", proto.victim.name, promoteOrDemote, position]];
     }
     
     [gs removeNonFullUserUpdatesForTag:tag];
   } else {
-    [Globals popupMessage:@"Server failed to change clan join type."];
+    [Globals popupMessage:@"Server failed to promote or demote player from clan."];
     
     [gs removeAndUndoAllUpdatesForTag:tag];
   }
@@ -1017,12 +1071,20 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
   
   GameState *gs = [GameState sharedGameState];
   if (proto.status == BootPlayerFromClanResponseProto_BootPlayerFromClanStatusSuccess) {
-    if (proto.playerToBoot == gs.userId) {
+    if (proto.playerToBoot.userId == gs.userId) {
+      NSString *clanName = gs.clan.name;
       gs.clan = nil;
       [[SocketCommunication sharedSocketCommunication] rebuildSender];
+      gs.myClanStatus = 0;
       
       [gs.clanChatMessages removeAllObjects];
-      [[NSNotificationCenter defaultCenter] postNotificationName:CHAT_RECEIVED_NOTIFICATION object:nil];
+      [[NSNotificationCenter defaultCenter] postNotificationName:CLAN_CHAT_RECEIVED_NOTIFICATION object:nil];
+      
+      if (clanName) {
+        [Globals addAlertNotification:[NSString stringWithFormat:@"You have just been booted from %@.", clanName]];
+      }
+    } else {
+      [Globals addAlertNotification:[NSString stringWithFormat:@"%@ has just been booted from the clan.", proto.playerToBoot.name]];
     }
     
     [gs removeNonFullUserUpdatesForTag:tag];
@@ -1162,6 +1224,9 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
   if (proto.status == PrivateChatPostResponseProto_PrivateChatPostStatusSuccess) {
     GameState *gs = [GameState sharedGameState];
     [gs addPrivateChat:proto.post];
+    
+    [[NSNotificationCenter defaultCenter] postNotificationName:PRIVATE_CHAT_RECEIVED_NOTIFICATION object:nil userInfo:
+     [NSDictionary dictionaryWithObject:proto.post forKey:[NSString stringWithFormat:PRIVATE_CHAT_DEFAULTS_KEY, proto.post.otherUserId]]];
   }
 }
 

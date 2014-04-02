@@ -8,6 +8,8 @@
 #import "Task.pb.h"
 #import "User.pb.h"
 
+@class ClanIconProto;
+@class ClanIconProto_Builder;
 @class ClanRaidProto;
 @class ClanRaidProto_Builder;
 @class ClanRaidStageMonsterProto;
@@ -82,6 +84,8 @@
 @class PersistentEventProto_Builder;
 @class PvpHistoryProto;
 @class PvpHistoryProto_Builder;
+@class PvpLeagueProto;
+@class PvpLeagueProto_Builder;
 @class PvpProto;
 @class PvpProto_Builder;
 @class ResidenceProto;
@@ -122,6 +126,8 @@
 @class UserObstacleProto_Builder;
 @class UserPersistentEventProto;
 @class UserPersistentEventProto_Builder;
+@class UserPvpLeagueProto;
+@class UserPvpLeagueProto_Builder;
 typedef enum {
   UserClanStatusLeader = 1,
   UserClanStatusJuniorLeader = 2,
@@ -144,12 +150,14 @@ BOOL UserClanStatusIsValidValue(UserClanStatus value);
   BOOL hasRequestToJoinRequired_:1;
   BOOL hasCreateTime_:1;
   BOOL hasClanId_:1;
+  BOOL hasClanIconId_:1;
   BOOL hasName_:1;
   BOOL hasDescription_:1;
   BOOL hasTag_:1;
   BOOL requestToJoinRequired_:1;
   int64_t createTime;
   int32_t clanId;
+  int32_t clanIconId;
   NSString* name;
   NSString* description;
   NSString* tag;
@@ -160,12 +168,14 @@ BOOL UserClanStatusIsValidValue(UserClanStatus value);
 - (BOOL) hasDescription;
 - (BOOL) hasTag;
 - (BOOL) hasRequestToJoinRequired;
+- (BOOL) hasClanIconId;
 @property (readonly) int32_t clanId;
 @property (readonly, retain) NSString* name;
 @property (readonly) int64_t createTime;
 @property (readonly, retain) NSString* description;
 @property (readonly, retain) NSString* tag;
 - (BOOL) requestToJoinRequired;
+@property (readonly) int32_t clanIconId;
 
 + (FullClanProto*) defaultInstance;
 - (FullClanProto*) defaultInstance;
@@ -230,6 +240,11 @@ BOOL UserClanStatusIsValidValue(UserClanStatus value);
 - (BOOL) requestToJoinRequired;
 - (FullClanProto_Builder*) setRequestToJoinRequired:(BOOL) value;
 - (FullClanProto_Builder*) clearRequestToJoinRequired;
+
+- (BOOL) hasClanIconId;
+- (int32_t) clanIconId;
+- (FullClanProto_Builder*) setClanIconId:(int32_t) value;
+- (FullClanProto_Builder*) clearClanIconId;
 @end
 
 @interface FullUserClanProto : PBGeneratedMessage {
@@ -1404,5 +1419,71 @@ BOOL UserClanStatusIsValidValue(UserClanStatus value);
 - (int32_t) clanCrDmg;
 - (PersistentClanEventRaidHistoryProto_Builder*) setClanCrDmg:(int32_t) value;
 - (PersistentClanEventRaidHistoryProto_Builder*) clearClanCrDmg;
+@end
+
+@interface ClanIconProto : PBGeneratedMessage {
+@private
+  BOOL hasIsAvailable_:1;
+  BOOL hasClanIconId_:1;
+  BOOL hasImgName_:1;
+  BOOL isAvailable_:1;
+  int32_t clanIconId;
+  NSString* imgName;
+}
+- (BOOL) hasClanIconId;
+- (BOOL) hasImgName;
+- (BOOL) hasIsAvailable;
+@property (readonly) int32_t clanIconId;
+@property (readonly, retain) NSString* imgName;
+- (BOOL) isAvailable;
+
++ (ClanIconProto*) defaultInstance;
+- (ClanIconProto*) defaultInstance;
+
+- (BOOL) isInitialized;
+- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output;
+- (ClanIconProto_Builder*) builder;
++ (ClanIconProto_Builder*) builder;
++ (ClanIconProto_Builder*) builderWithPrototype:(ClanIconProto*) prototype;
+
++ (ClanIconProto*) parseFromData:(NSData*) data;
++ (ClanIconProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (ClanIconProto*) parseFromInputStream:(NSInputStream*) input;
++ (ClanIconProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (ClanIconProto*) parseFromCodedInputStream:(PBCodedInputStream*) input;
++ (ClanIconProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+@end
+
+@interface ClanIconProto_Builder : PBGeneratedMessage_Builder {
+@private
+  ClanIconProto* result;
+}
+
+- (ClanIconProto*) defaultInstance;
+
+- (ClanIconProto_Builder*) clear;
+- (ClanIconProto_Builder*) clone;
+
+- (ClanIconProto*) build;
+- (ClanIconProto*) buildPartial;
+
+- (ClanIconProto_Builder*) mergeFrom:(ClanIconProto*) other;
+- (ClanIconProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input;
+- (ClanIconProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+
+- (BOOL) hasClanIconId;
+- (int32_t) clanIconId;
+- (ClanIconProto_Builder*) setClanIconId:(int32_t) value;
+- (ClanIconProto_Builder*) clearClanIconId;
+
+- (BOOL) hasImgName;
+- (NSString*) imgName;
+- (ClanIconProto_Builder*) setImgName:(NSString*) value;
+- (ClanIconProto_Builder*) clearImgName;
+
+- (BOOL) hasIsAvailable;
+- (BOOL) isAvailable;
+- (ClanIconProto_Builder*) setIsAvailable:(BOOL) value;
+- (ClanIconProto_Builder*) clearIsAvailable;
 @end
 

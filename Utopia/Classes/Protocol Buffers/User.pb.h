@@ -30,12 +30,14 @@
   BOOL hasRequestToJoinRequired_:1;
   BOOL hasCreateTime_:1;
   BOOL hasClanId_:1;
+  BOOL hasClanIconId_:1;
   BOOL hasName_:1;
   BOOL hasDescription_:1;
   BOOL hasTag_:1;
   BOOL requestToJoinRequired_:1;
   int64_t createTime;
   int32_t clanId;
+  int32_t clanIconId;
   NSString* name;
   NSString* description;
   NSString* tag;
@@ -46,12 +48,14 @@
 - (BOOL) hasDescription;
 - (BOOL) hasTag;
 - (BOOL) hasRequestToJoinRequired;
+- (BOOL) hasClanIconId;
 @property (readonly) int32_t clanId;
 @property (readonly, retain) NSString* name;
 @property (readonly) int64_t createTime;
 @property (readonly, retain) NSString* description;
 @property (readonly, retain) NSString* tag;
 - (BOOL) requestToJoinRequired;
+@property (readonly) int32_t clanIconId;
 
 + (MinimumClanProto*) defaultInstance;
 - (MinimumClanProto*) defaultInstance;
@@ -116,6 +120,11 @@
 - (BOOL) requestToJoinRequired;
 - (MinimumClanProto_Builder*) setRequestToJoinRequired:(BOOL) value;
 - (MinimumClanProto_Builder*) clearRequestToJoinRequired;
+
+- (BOOL) hasClanIconId;
+- (int32_t) clanIconId;
+- (MinimumClanProto_Builder*) setClanIconId:(int32_t) value;
+- (MinimumClanProto_Builder*) clearClanIconId;
 @end
 
 @interface MinimumUserProto : PBGeneratedMessage {

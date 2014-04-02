@@ -12,21 +12,24 @@
 #import "ProfileViewController.h"
 #import "MenuNavigationController.h"
 #import "MyCroniesViewController.h"
+#import "UnreadNotifications.h"
+#import "GenericPopupController.h"
 
 @implementation RequestsBattleCell
 
 - (void) awakeFromNib {
   for (ClanTeamMonsterView *mv in self.monsterViews) {
-    mv.transform = CGAffineTransformMakeScale(0.7, 0.7);
+    mv.transform = CGAffineTransformMakeScale(0.64, 0.64);
   }
 }
 
 - (void) updateForBattleHistory:(PvpHistoryProto *)history {
+  GameState *gs = [GameState sharedGameState];
   self.battleHistory = history;
   
   if (history.attackerWon) {
     // You lost
-    self.bgdImage.image = [Globals imageNamed:@"teamlostbg.png"];
+    self.bgdImage.highlighted = YES;
     
     self.titleLabel.text = @"Your team lost";
     self.titleLabel.highlighted = YES;
@@ -38,7 +41,7 @@
     self.cashLabel.text = [Globals cashStringForNumber:ABS(history.defenderCashChange)];
   } else {
     // You won
-    self.bgdImage.image = [Globals imageNamed:@"teamwonbg.png"];
+    self.bgdImage.highlighted = NO;
     
     self.titleLabel.text = @"Your team won";
     self.titleLabel.highlighted = NO;
@@ -54,11 +57,14 @@
     [self.clanButton setTitle:history.attacker.clan.name forState:UIControlStateNormal];
     self.clanButton.enabled = YES;
     
+    self.shieldIcon.hidden = NO;
+    ClanIconProto *icon = [gs clanIconWithId:history.attacker.clan.clanIconId];
+    [Globals imageNamed:icon.imgName withView:self.shieldIcon greyscale:NO indicator:UIActivityIndicatorViewStyleWhite clearImageDuringDownload:YES];
+    
     CGRect r = self.clanButton.frame;
     r.origin.x = self.shieldIcon.frame.size.width+3;
     self.clanButton.frame = r;
     
-    self.shieldIcon.hidden = NO;
   } else {
     self.clanButton.enabled = NO;
     self.shieldIcon.hidden = YES;
@@ -100,6 +106,11 @@
   GameState *gs = [GameState sharedGameState];
   self.battles = [gs.battleHistory mutableCopy];
   
+  for (PvpHistoryProto *pvp in self.battles) {
+    [pvp markAsRead];
+  }
+  [[NSNotificationCenter defaultCenter] postNotificationName:BATTLE_HISTORY_VIEWED_NOTIFICATION object:nil];
+  
   [self.requestsTable reloadData];
 }
 
@@ -112,7 +123,7 @@
   NSMutableArray *monsters = [NSMutableArray array];
   for (MinimumUserMonsterProto *mon in cell.battleHistory.attackersMonstersList) {
     UserMonster *um = [UserMonster userMonsterWithMinProto:mon];
-    um.teamSlot = (int)[cell.battleHistory.attackersMonstersList indexOfObject:mon];
+    um.teamSlot = (int)[cell.battleHistory.attackersMonstersList indexOfObject:mon]+1;
     [monsters addObject:um];
   }
   
@@ -140,15 +151,32 @@
 }
 
 - (IBAction) revengeClicked:(id)sender {
-  while (![sender isKindOfClass:[RequestsBattleCell class]]) {
-    sender = [sender superview];
+  if (!_curClickedCell) {
+    while (![sender isKindOfClass:[RequestsBattleCell class]]) {
+      sender = [sender superview];
+    }
+    RequestsBattleCell *cell = (RequestsBattleCell *)sender;
+    _curClickedCell = cell;
+    
+    if ([Globals checkEnteringDungeonWithTarget:self selector:@selector(visitTeamPage)]) {
+      GameState *gs = [GameState sharedGameState];
+      if (gs.hasActiveShield) {
+        NSString *desc = @"Attacking will disable your shield, and other players will be able to attack you. Are you sure?";
+        [GenericPopupController displayNegativeConfirmationWithDescription:desc title:@"Shield is active" okayButton:@"Attack" cancelButton:@"Cancel" okTarget:self okSelector:@selector(performRevenge) cancelTarget:self cancelSelector:@selector(deniedRevenge)];
+      } else {
+        [self performRevenge];
+      }
+    }
   }
-  RequestsBattleCell *cell = (RequestsBattleCell *)sender;
-  
-  if ([Globals checkEnteringDungeonWithTarget:self selector:@selector(visitTeamPage)]) {
-    GameViewController *gvc = [GameViewController baseController];
-    [gvc beginPvpMatch:cell.battleHistory];
-  }
+}
+
+- (void) performRevenge {
+  GameViewController *gvc = [GameViewController baseController];
+  [gvc beginPvpMatch:_curClickedCell.battleHistory];
+}
+
+- (void) deniedRevenge {
+  _curClickedCell = nil;
 }
 
 - (void) visitTeamPage {
@@ -172,7 +200,7 @@
 }
 
 - (CGFloat) tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
-  return 92.f;
+  return 90.f;
 }
 
 - (UITableViewCell *) tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {

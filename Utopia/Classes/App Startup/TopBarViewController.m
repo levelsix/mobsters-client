@@ -20,6 +20,7 @@
 #import "MyCroniesViewController.h"
 #import "RequestsViewController.h"
 #import "DialogueViewController.h"
+#import "UnreadNotifications.h"
 
 @implementation SplitImageProgressBar
 
@@ -63,7 +64,7 @@
 @implementation TopBarMonsterView
 
 - (void) awakeFromNib {
-  self.iconView.transform = CGAffineTransformMakeScale(0.55, 0.55);
+  self.iconView.transform = CGAffineTransformMakeScale(0.5, 0.5);
 }
 
 - (void) updateForUserMonster:(UserMonster *)um {
@@ -83,7 +84,7 @@
     BOOL greyscale = (um.curHealth <= 0);
     NSString *file = [mp.imagePrefix stringByAppendingString:@"Thumbnail.png"];
     [Globals imageNamed:file withView:self.monsterIcon greyscale:greyscale indicator:UIActivityIndicatorViewStyleWhite clearImageDuringDownload:YES];
-    file = [Globals imageNameForElement:mp.monsterElement suffix:@"mteam.png"];
+    file = [Globals imageNameForElement:mp.monsterElement suffix:@"team.png"];
     [Globals imageNamed:file withView:self.bgdIcon greyscale:greyscale indicator:UIActivityIndicatorViewStyleWhite clearImageDuringDownload:YES];
     
     self.topLabel.text = mp.displayName;
@@ -122,8 +123,6 @@
   [self.view addSubview:self.chatViewController.view];
   [self.chatViewController closeAnimated:NO];
   
-  self.myCityView.hidden = YES;
-  
   self.cashBar.isRightToLeft = YES;
   self.oilBar.isRightToLeft = YES;
   
@@ -159,27 +158,51 @@
   
   [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(updateMailBadge) name:NEW_FB_INVITE_NOTIFICATION object:nil];
   [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(updateMailBadge) name:FB_INVITE_RESPONDED_NOTIFICATION object:nil];
+  [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(updateMailBadge) name:NEW_BATTLE_HISTORY_NOTIFICATION object:nil];
+  [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(updateMailBadge) name:BATTLE_HISTORY_VIEWED_NOTIFICATION object:nil];
   [self updateMailBadge];
   
   [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(updateQuestBadge) name:QUESTS_CHANGED_NOTIFICATION object:nil];
   [self updateQuestBadge];
+  
+  self.updateTimer = [NSTimer timerWithTimeInterval:1.f target:self selector:@selector(updateLabels) userInfo:nil repeats:YES];
+  [[NSRunLoop mainRunLoop] addTimer:self.updateTimer forMode:NSRunLoopCommonModes];
+  [self updateLabels];
 }
 
 - (void) viewDidDisappear:(BOOL)animated {
   [[NSNotificationCenter defaultCenter] removeObserver:self];
+  
+  [self.updateTimer invalidate];
+  self.updateTimer = nil;
 }
 
 - (void) showMyCityView {
-  self.myCityView.hidden = NO;
+  self.myCityView.alpha = 1.f;
 }
 
 - (void) removeMyCityView {
-  self.myCityView.hidden = YES;
+  self.myCityView.alpha = 0.f;
+}
+
+- (void) showClanView {
+  self.clanView.alpha = 1.f;
+}
+
+- (void) removeClanView {
+  self.clanView.alpha = 0.f;
 }
 
 - (void) updateMailBadge {
   GameState *gs = [GameState sharedGameState];
-  self.mailBadge.badgeNum = gs.fbUnacceptedRequestsFromFriends.count;
+  
+  NSInteger requestsBadge = gs.fbUnacceptedRequestsFromFriends.count;
+  for (PvpHistoryProto *pvp in gs.battleHistory) {
+    if (pvp.isUnread) {
+      requestsBadge++;
+    }
+  }
+  self.mailBadge.badgeNum = requestsBadge;
 }
 
 - (void) updateQuestBadge {
@@ -200,24 +223,21 @@
   self.questBadge.badgeNum = badgeNum;
 }
 
-- (void) displayQuestProgressView {
-  [self.questProgressView.layer removeAllAnimations];
-  self.questProgressView.center = _originalProgressCenter;
-  [UIView animateWithDuration:0.3f animations:^{
-    self.questProgressView.alpha = 1.f;
-  } completion:^(BOOL finished) {
-    if (finished) {
-      [UIView animateWithDuration:0.3f delay:4.f options:UIViewAnimationOptionTransitionNone animations:^{
-        self.questProgressView.alpha = 0.f;
-      } completion:^(BOOL finished) {
-        [self.questProgressView.layer removeAllAnimations];
-      }];
-    }
-  }];
-  UIViewAnimationOptions opt = UIViewAnimationOptionCurveEaseInOut|UIViewAnimationOptionAutoreverse|UIViewAnimationOptionRepeat;
-  [UIView animateWithDuration:0.7 delay:0.f options:opt animations:^{
-    self.questProgressView.center = CGPointMake(self.questProgressView.center.x+14, self.questProgressView.center.y);
-  } completion:nil];
+- (void) displayQuestProgressViewForQuest:(FullQuestProto *)fqp userQuest:(UserQuest *)uq {
+  [[NSBundle mainBundle] loadNibNamed:@"TopBarQuestProgressView" owner:self options:nil];
+  [self.view addSubview:self.questProgressView];
+  
+  self.questProgressView.center = ccp(self.view.frame.size.width/2, self.view.frame.size.height-self.questProgressView.frame.size.height/2-10);
+  
+  [self.questProgressView displayForQuest:fqp userQuest:uq];
+  
+  self.questProgressView = nil;
+}
+
+- (void) updateLabels {
+  GameState *gs = [GameState sharedGameState];
+  int shieldTimeLeft = gs.shieldEndTime.timeIntervalSinceNow;
+  self.shieldLabel.text = shieldTimeLeft > 0 ? [Globals convertTimeToShortString:shieldTimeLeft] : @"None";
 }
 
 #pragma mark - Bottom view methods
@@ -315,8 +335,16 @@
   [gvc addChildViewController:rvc];
   rvc.view.frame = gvc.view.bounds;
   [gvc.view addSubview:rvc.view];
+}
+
+- (IBAction)clanClicked:(id)sender {
+  MenuNavigationController *m = [[MenuNavigationController alloc] init];
+  UIViewController *gvc = (UIViewController *)self.parentViewController;
+  [gvc presentViewController:m animated:YES completion:nil];
   
-  [self updateMailBadge];
+  ClanInfoViewController *cvc = [[ClanInfoViewController alloc] init];
+  [cvc loadForMyClan];
+  [m pushViewController:cvc animated:NO];
 }
 
 #pragma mark - Updating HUD Stuff
@@ -333,10 +361,21 @@
     [self.expLabel instaMoveToNum:gs.currentExpForLevel];
   }
   
+  self.nameLabel.text = gs.name;
   self.levelLabel.text = [Globals commafyNumber:gs.level];
   
   self.cashMaxLabel.text = [NSString stringWithFormat:@"MAX: %@", [Globals cashStringForNumber:[gs maxCash]]];
   self.oilMaxLabel.text = [NSString stringWithFormat:@"MAX: %@", [Globals commafyNumber:[gs maxOil]]];
+  
+  ClanIconProto *icon = [gs clanIconWithId:gs.clan.clanIconId];
+  if (gs.clan) {
+    [Globals imageNamed:icon.imgName withView:self.clanIcon greyscale:NO indicator:UIActivityIndicatorViewStyleWhite clearImageDuringDownload:YES];
+    self.clanView.hidden = NO;
+  } else {
+    self.clanView.hidden = YES;
+  }
+  
+  [self updateLabels];
 }
 
 - (void) updateMonsterViews {

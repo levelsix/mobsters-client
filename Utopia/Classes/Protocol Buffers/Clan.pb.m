@@ -43,6 +43,7 @@ BOOL UserClanStatusIsValidValue(UserClanStatus value) {
 @property (retain) NSString* description;
 @property (retain) NSString* tag;
 @property BOOL requestToJoinRequired;
+@property int32_t clanIconId;
 @end
 
 @implementation FullClanProto
@@ -94,6 +95,13 @@ BOOL UserClanStatusIsValidValue(UserClanStatus value) {
 - (void) setRequestToJoinRequired:(BOOL) value {
   requestToJoinRequired_ = !!value;
 }
+- (BOOL) hasClanIconId {
+  return !!hasClanIconId_;
+}
+- (void) setHasClanIconId:(BOOL) value {
+  hasClanIconId_ = !!value;
+}
+@synthesize clanIconId;
 - (void) dealloc {
   self.name = nil;
   self.description = nil;
@@ -108,6 +116,7 @@ BOOL UserClanStatusIsValidValue(UserClanStatus value) {
     self.description = @"";
     self.tag = @"";
     self.requestToJoinRequired = NO;
+    self.clanIconId = 0;
   }
   return self;
 }
@@ -145,6 +154,9 @@ static FullClanProto* defaultFullClanProtoInstance = nil;
   if (self.hasRequestToJoinRequired) {
     [output writeBool:7 value:self.requestToJoinRequired];
   }
+  if (self.hasClanIconId) {
+    [output writeInt32:8 value:self.clanIconId];
+  }
   [self.unknownFields writeToCodedOutputStream:output];
 }
 - (int32_t) serializedSize {
@@ -171,6 +183,9 @@ static FullClanProto* defaultFullClanProtoInstance = nil;
   }
   if (self.hasRequestToJoinRequired) {
     size += computeBoolSize(7, self.requestToJoinRequired);
+  }
+  if (self.hasClanIconId) {
+    size += computeInt32Size(8, self.clanIconId);
   }
   size += self.unknownFields.serializedSize;
   memoizedSerializedSize = size;
@@ -265,6 +280,9 @@ static FullClanProto* defaultFullClanProtoInstance = nil;
   if (other.hasRequestToJoinRequired) {
     [self setRequestToJoinRequired:other.requestToJoinRequired];
   }
+  if (other.hasClanIconId) {
+    [self setClanIconId:other.clanIconId];
+  }
   [self mergeUnknownFields:other.unknownFields];
   return self;
 }
@@ -308,6 +326,10 @@ static FullClanProto* defaultFullClanProtoInstance = nil;
       }
       case 56: {
         [self setRequestToJoinRequired:[input readBool]];
+        break;
+      }
+      case 64: {
+        [self setClanIconId:[input readInt32]];
         break;
       }
     }
@@ -407,6 +429,22 @@ static FullClanProto* defaultFullClanProtoInstance = nil;
 - (FullClanProto_Builder*) clearRequestToJoinRequired {
   result.hasRequestToJoinRequired = NO;
   result.requestToJoinRequired = NO;
+  return self;
+}
+- (BOOL) hasClanIconId {
+  return result.hasClanIconId;
+}
+- (int32_t) clanIconId {
+  return result.clanIconId;
+}
+- (FullClanProto_Builder*) setClanIconId:(int32_t) value {
+  result.hasClanIconId = YES;
+  result.clanIconId = value;
+  return self;
+}
+- (FullClanProto_Builder*) clearClanIconId {
+  result.hasClanIconId = NO;
+  result.clanIconId = 0;
   return self;
 }
 @end
@@ -5153,6 +5191,265 @@ static PersistentClanEventRaidHistoryProto* defaultPersistentClanEventRaidHistor
 - (PersistentClanEventRaidHistoryProto_Builder*) clearClanCrDmg {
   result.hasClanCrDmg = NO;
   result.clanCrDmg = 0;
+  return self;
+}
+@end
+
+@interface ClanIconProto ()
+@property int32_t clanIconId;
+@property (retain) NSString* imgName;
+@property BOOL isAvailable;
+@end
+
+@implementation ClanIconProto
+
+- (BOOL) hasClanIconId {
+  return !!hasClanIconId_;
+}
+- (void) setHasClanIconId:(BOOL) value {
+  hasClanIconId_ = !!value;
+}
+@synthesize clanIconId;
+- (BOOL) hasImgName {
+  return !!hasImgName_;
+}
+- (void) setHasImgName:(BOOL) value {
+  hasImgName_ = !!value;
+}
+@synthesize imgName;
+- (BOOL) hasIsAvailable {
+  return !!hasIsAvailable_;
+}
+- (void) setHasIsAvailable:(BOOL) value {
+  hasIsAvailable_ = !!value;
+}
+- (BOOL) isAvailable {
+  return !!isAvailable_;
+}
+- (void) setIsAvailable:(BOOL) value {
+  isAvailable_ = !!value;
+}
+- (void) dealloc {
+  self.imgName = nil;
+  [super dealloc];
+}
+- (id) init {
+  if ((self = [super init])) {
+    self.clanIconId = 0;
+    self.imgName = @"";
+    self.isAvailable = NO;
+  }
+  return self;
+}
+static ClanIconProto* defaultClanIconProtoInstance = nil;
++ (void) initialize {
+  if (self == [ClanIconProto class]) {
+    defaultClanIconProtoInstance = [[ClanIconProto alloc] init];
+  }
+}
++ (ClanIconProto*) defaultInstance {
+  return defaultClanIconProtoInstance;
+}
+- (ClanIconProto*) defaultInstance {
+  return defaultClanIconProtoInstance;
+}
+- (BOOL) isInitialized {
+  return YES;
+}
+- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output {
+  if (self.hasClanIconId) {
+    [output writeInt32:1 value:self.clanIconId];
+  }
+  if (self.hasImgName) {
+    [output writeString:2 value:self.imgName];
+  }
+  if (self.hasIsAvailable) {
+    [output writeBool:3 value:self.isAvailable];
+  }
+  [self.unknownFields writeToCodedOutputStream:output];
+}
+- (int32_t) serializedSize {
+  int32_t size = memoizedSerializedSize;
+  if (size != -1) {
+    return size;
+  }
+
+  size = 0;
+  if (self.hasClanIconId) {
+    size += computeInt32Size(1, self.clanIconId);
+  }
+  if (self.hasImgName) {
+    size += computeStringSize(2, self.imgName);
+  }
+  if (self.hasIsAvailable) {
+    size += computeBoolSize(3, self.isAvailable);
+  }
+  size += self.unknownFields.serializedSize;
+  memoizedSerializedSize = size;
+  return size;
+}
++ (ClanIconProto*) parseFromData:(NSData*) data {
+  return (ClanIconProto*)[[[ClanIconProto builder] mergeFromData:data] build];
+}
++ (ClanIconProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (ClanIconProto*)[[[ClanIconProto builder] mergeFromData:data extensionRegistry:extensionRegistry] build];
+}
++ (ClanIconProto*) parseFromInputStream:(NSInputStream*) input {
+  return (ClanIconProto*)[[[ClanIconProto builder] mergeFromInputStream:input] build];
+}
++ (ClanIconProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (ClanIconProto*)[[[ClanIconProto builder] mergeFromInputStream:input extensionRegistry:extensionRegistry] build];
+}
++ (ClanIconProto*) parseFromCodedInputStream:(PBCodedInputStream*) input {
+  return (ClanIconProto*)[[[ClanIconProto builder] mergeFromCodedInputStream:input] build];
+}
++ (ClanIconProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (ClanIconProto*)[[[ClanIconProto builder] mergeFromCodedInputStream:input extensionRegistry:extensionRegistry] build];
+}
++ (ClanIconProto_Builder*) builder {
+  return [[[ClanIconProto_Builder alloc] init] autorelease];
+}
++ (ClanIconProto_Builder*) builderWithPrototype:(ClanIconProto*) prototype {
+  return [[ClanIconProto builder] mergeFrom:prototype];
+}
+- (ClanIconProto_Builder*) builder {
+  return [ClanIconProto builder];
+}
+@end
+
+@interface ClanIconProto_Builder()
+@property (retain) ClanIconProto* result;
+@end
+
+@implementation ClanIconProto_Builder
+@synthesize result;
+- (void) dealloc {
+  self.result = nil;
+  [super dealloc];
+}
+- (id) init {
+  if ((self = [super init])) {
+    self.result = [[[ClanIconProto alloc] init] autorelease];
+  }
+  return self;
+}
+- (PBGeneratedMessage*) internalGetResult {
+  return result;
+}
+- (ClanIconProto_Builder*) clear {
+  self.result = [[[ClanIconProto alloc] init] autorelease];
+  return self;
+}
+- (ClanIconProto_Builder*) clone {
+  return [ClanIconProto builderWithPrototype:result];
+}
+- (ClanIconProto*) defaultInstance {
+  return [ClanIconProto defaultInstance];
+}
+- (ClanIconProto*) build {
+  [self checkInitialized];
+  return [self buildPartial];
+}
+- (ClanIconProto*) buildPartial {
+  ClanIconProto* returnMe = [[result retain] autorelease];
+  self.result = nil;
+  return returnMe;
+}
+- (ClanIconProto_Builder*) mergeFrom:(ClanIconProto*) other {
+  if (other == [ClanIconProto defaultInstance]) {
+    return self;
+  }
+  if (other.hasClanIconId) {
+    [self setClanIconId:other.clanIconId];
+  }
+  if (other.hasImgName) {
+    [self setImgName:other.imgName];
+  }
+  if (other.hasIsAvailable) {
+    [self setIsAvailable:other.isAvailable];
+  }
+  [self mergeUnknownFields:other.unknownFields];
+  return self;
+}
+- (ClanIconProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input {
+  return [self mergeFromCodedInputStream:input extensionRegistry:[PBExtensionRegistry emptyRegistry]];
+}
+- (ClanIconProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  PBUnknownFieldSet_Builder* unknownFields = [PBUnknownFieldSet builderWithUnknownFields:self.unknownFields];
+  while (YES) {
+    int32_t tag = [input readTag];
+    switch (tag) {
+      case 0:
+        [self setUnknownFields:[unknownFields build]];
+        return self;
+      default: {
+        if (![self parseUnknownField:input unknownFields:unknownFields extensionRegistry:extensionRegistry tag:tag]) {
+          [self setUnknownFields:[unknownFields build]];
+          return self;
+        }
+        break;
+      }
+      case 8: {
+        [self setClanIconId:[input readInt32]];
+        break;
+      }
+      case 18: {
+        [self setImgName:[input readString]];
+        break;
+      }
+      case 24: {
+        [self setIsAvailable:[input readBool]];
+        break;
+      }
+    }
+  }
+}
+- (BOOL) hasClanIconId {
+  return result.hasClanIconId;
+}
+- (int32_t) clanIconId {
+  return result.clanIconId;
+}
+- (ClanIconProto_Builder*) setClanIconId:(int32_t) value {
+  result.hasClanIconId = YES;
+  result.clanIconId = value;
+  return self;
+}
+- (ClanIconProto_Builder*) clearClanIconId {
+  result.hasClanIconId = NO;
+  result.clanIconId = 0;
+  return self;
+}
+- (BOOL) hasImgName {
+  return result.hasImgName;
+}
+- (NSString*) imgName {
+  return result.imgName;
+}
+- (ClanIconProto_Builder*) setImgName:(NSString*) value {
+  result.hasImgName = YES;
+  result.imgName = value;
+  return self;
+}
+- (ClanIconProto_Builder*) clearImgName {
+  result.hasImgName = NO;
+  result.imgName = @"";
+  return self;
+}
+- (BOOL) hasIsAvailable {
+  return result.hasIsAvailable;
+}
+- (BOOL) isAvailable {
+  return result.isAvailable;
+}
+- (ClanIconProto_Builder*) setIsAvailable:(BOOL) value {
+  result.hasIsAvailable = YES;
+  result.isAvailable = value;
+  return self;
+}
+- (ClanIconProto_Builder*) clearIsAvailable {
+  result.hasIsAvailable = NO;
+  result.isAvailable = NO;
   return self;
 }
 @end

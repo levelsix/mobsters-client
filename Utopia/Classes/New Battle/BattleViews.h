@@ -24,8 +24,13 @@
 @property (nonatomic, retain) CCSprite *stickerHead;
 @property (nonatomic, retain) CCNode *shareButton;
 @property (nonatomic, retain) CCNode *continueButton;
-@property (nonatomic, retain) CCNode *doneButton;
-@property (nonatomic, retain) CCNode *manageButton;
+@property (nonatomic, retain) CCButton *doneButton;
+@property (nonatomic, retain) CCButton *manageButton;
+
+@property (nonatomic, retain) UIActivityIndicatorView *loadingSpinner;
+
+- (void) spinnerOnDone;
+- (void) spinnerOnManage;
 
 @end
 
@@ -33,8 +38,8 @@
 
 @property (nonatomic, retain) CCNode *bgdNode;
 @property (nonatomic, retain) CCNode *shareButton;
-@property (nonatomic, retain) CCNode *doneButton;
-@property (nonatomic, retain) CCNode *manageButton;
+@property (nonatomic, retain) CCButton *doneButton;
+@property (nonatomic, retain) CCButton *manageButton;
 @property (nonatomic, retain) CCNode *headerView;
 @property (nonatomic, retain) CCSprite *youWonHeader;
 @property (nonatomic, retain) CCSprite *spinner;
@@ -42,8 +47,12 @@
 @property (nonatomic, retain) CCNode *rewardsView;
 
 @property (nonatomic, retain) UIScrollView *rewardsScrollView;
+@property (nonatomic, retain) UIActivityIndicatorView *loadingSpinner;
 
 - (void) updateForRewards:(NSArray *)rewards;
+
+- (void) spinnerOnDone;
+- (void) spinnerOnManage;
 
 @end
 
@@ -80,14 +89,14 @@
 
 @end
 
-@interface BattleQueueNode : CCNode
+@interface BattleQueueNode : CCNode {
+  CGPoint _originalRankCenter;
+}
 
 @property (nonatomic, retain) IBOutlet CCLabelTTF *nameLabel;
 @property (nonatomic, retain) IBOutlet CCLabelTTF *cashLabel;
 @property (nonatomic, retain) IBOutlet CCLabelTTF *oilLabel;
 @property (nonatomic, retain) IBOutlet CCLabelTTF *nextMatchCostLabel;
-@property (nonatomic, retain) IBOutlet CCLabelTTF *leagueLabel;
-@property (nonatomic, retain) IBOutlet CCLabelTTF *rankLabel;
 
 @property (nonatomic, retain) IBOutlet CCNode *cashNode;
 @property (nonatomic, retain) IBOutlet CCNode *oilNode;
@@ -96,8 +105,15 @@
 @property (nonatomic, retain) IBOutlet CCNode *attackButtonNode;
 @property (nonatomic, retain) IBOutlet CCNode *gradientNode;
 
+@property (nonatomic, retain) IBOutlet CCSprite *leagueBgd;
+@property (nonatomic, retain) IBOutlet CCSprite *leagueIcon;
+@property (nonatomic, retain) IBOutlet CCLabelTTF *rankLabel;
+@property (nonatomic, retain) IBOutlet CCLabelTTF *rankQualifierLabel;
+@property (nonatomic, retain) IBOutlet CCLabelTTF *leagueLabel;
+@property (nonatomic, retain) IBOutlet CCLabelTTF *placeLabel;
+
 - (void) updateForPvpProto:(PvpProto *)pvp;
-- (void) fadeInAnimation;
+- (void) fadeInAnimationForIsRevenge:(BOOL)isRevenge;
 - (void) fadeOutAnimation;
 
 @end

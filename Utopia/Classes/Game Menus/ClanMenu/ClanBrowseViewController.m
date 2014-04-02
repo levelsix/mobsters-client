@@ -31,10 +31,14 @@
 
 - (void) loadForClan:(FullClanProtoWithClanSize *)c {
   GameState *gs = [GameState sharedGameState];
+  Globals *gl = [Globals sharedGlobals];
   
   self.clan = c;
   self.topLabel.text = [NSString stringWithFormat:@"[%@] %@", c.clan.tag, c.clan.name];
-  self.membersLabel.text = [NSString stringWithFormat:@"%d/%d", c.clanSize, 5];
+  self.membersLabel.text = [NSString stringWithFormat:@"%d/%d", c.clanSize, gl.maxClanSize];
+  
+  ClanIconProto *icon = [gs clanIconWithId:c.clan.clanIconId];
+  [Globals imageNamed:icon.imgName withView:self.iconImage greyscale:NO indicator:UIActivityIndicatorViewStyleWhite clearImageDuringDownload:YES];
   
   if (c.clan.requestToJoinRequired) {
     self.typeLabel.text = @"By Request Only";
@@ -61,6 +65,9 @@
   } else {
     self.buttonView.hidden = YES;
   }
+  
+  self.buttonLabel.hidden = NO;
+  self.spinner.hidden = YES;
 }
 
 @end
@@ -81,10 +88,18 @@
   self.browseClansTable.tableFooterView = [[UIView alloc] init];
   
   [self reload];
+  
+  [[OutgoingEventController sharedOutgoingEventController] registerClanEventDelegate:self];
 }
 
 - (void) viewWillAppear:(BOOL)animated {
   [self.browseClansTable reloadData];
+}
+
+- (void) willMoveToParentViewController:(UIViewController *)parent {
+  if (!parent) {
+    [[OutgoingEventController sharedOutgoingEventController] unregisterClanEventDelegate:self];
+  }
 }
 
 - (void) setState:(ClanBrowseState)s {
@@ -96,6 +111,7 @@
 - (void) reload {
   [self.clanList removeAllObjects];
   [[OutgoingEventController sharedOutgoingEventController] retrieveClanInfo:nil clanId:0 grabType:RetrieveClanInfoRequestProto_ClanInfoGrabTypeClanInfo isForBrowsingList:YES beforeClanId:0 delegate:self];
+  _reachedEnd = NO;
 }
 
 - (void) handleRetrieveClanInfoResponseProto:(FullEvent *)e {
@@ -173,7 +189,7 @@
     sender = [sender superview];
   }
   BrowseClanCell *cell = (BrowseClanCell *)sender;
-  [self.parentViewController.navigationController pushViewController:[[ClanInfoViewController alloc] initWithClan:cell.clan] animated:YES];
+  [self.navigationController pushViewController:[[ClanInfoViewController alloc] initWithClan:cell.clan] animated:YES];
 }
 
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView {
@@ -191,22 +207,14 @@
 
 - (IBAction)searchClicked:(id)sender {
   [self.searchField resignFirstResponder];
-}
-
-- (BOOL) textFieldShouldReturn:(UITextField *)textField {
-  [textField resignFirstResponder];
-  return YES;
-}
-
-- (void) textFieldDidEndEditing:(UITextField *)textField {
-  if (textField.text.length > 0) {
-    [[OutgoingEventController sharedOutgoingEventController] retrieveClanInfo:textField.text clanId:0 grabType:RetrieveClanInfoRequestProto_ClanInfoGrabTypeClanInfo isForBrowsingList:YES beforeClanId:0 delegate:self];
+  if (self.searchField.text.length > 0 && ![self.searchField.text isEqualToString:self.searchString]) {
+    [[OutgoingEventController sharedOutgoingEventController] retrieveClanInfo:self.searchField.text clanId:0 grabType:RetrieveClanInfoRequestProto_ClanInfoGrabTypeClanInfo isForBrowsingList:YES beforeClanId:0 delegate:self];
     [self.clanList removeAllObjects];
     isSearching = YES;
-    self.searchString = textField.text;
+    self.searchString = self.searchField.text;
     _reachedEnd = NO;
     [self.browseClansTable reloadData];
-  } else {
+  } else if (self.searchString && self.searchField.text.length == 0) {
     [[OutgoingEventController sharedOutgoingEventController] retrieveClanInfo:nil clanId:0 grabType:RetrieveClanInfoRequestProto_ClanInfoGrabTypeClanInfo isForBrowsingList:YES beforeClanId:0 delegate:self];
     [self.clanList removeAllObjects];
     isSearching = NO;
@@ -214,6 +222,11 @@
     _reachedEnd = NO;
     [self.browseClansTable reloadData];
   }
+}
+
+- (BOOL) textFieldShouldReturn:(UITextField *)textField {
+  [self searchClicked:nil];
+  return YES;
 }
 
 #pragma mark -
@@ -227,14 +240,35 @@
   GameState *gs = [GameState sharedGameState];
   int clanId = cell.clan.clan.clanId;
   if ([gs.requestedClans containsObject:[NSNumber numberWithInt:clanId]]) {
-    [[OutgoingEventController sharedOutgoingEventController] retractRequestToJoinClan:clanId delegate:self.parentViewController];
+    [[OutgoingEventController sharedOutgoingEventController] retractRequestToJoinClan:clanId delegate:self];
   } else {
-    [[OutgoingEventController sharedOutgoingEventController] requestJoinClan:clanId delegate:self.parentViewController];
+    [[OutgoingEventController sharedOutgoingEventController] requestJoinClan:clanId delegate:self];
   }
+  cell.buttonLabel.hidden = YES;
+  cell.spinner.hidden = NO;
+  [cell.spinner startAnimating];
 }
 
 - (void) touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event {
   [self.view endEditing:YES];
+}
+
+#pragma mark - Event handlers
+
+- (void) handleRetractRequestJoinClanResponseProto:(FullEvent *)fe {
+  [self.browseClansTable reloadData];
+}
+
+- (void) handleRequestJoinClanResponseProto:(FullEvent *)fe {
+  [self.browseClansTable reloadData];
+}
+
+- (void) handleClanEventApproveOrRejectRequestToJoinClanResponseProto:(ApproveOrRejectRequestToJoinClanResponseProto *)proto {
+  [self.browseClansTable reloadData];
+}
+
+- (void) handleClanEventBootPlayerFromClanResponseProto:(BootPlayerFromClanResponseProto *)proto {
+  [self.browseClansTable reloadData];
 }
 
 @end

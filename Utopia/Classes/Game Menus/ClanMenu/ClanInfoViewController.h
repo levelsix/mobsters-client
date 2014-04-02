@@ -27,10 +27,10 @@
 @property (nonatomic, assign) IBOutlet UILabel *typeLabel;
 @property (nonatomic, assign) IBOutlet UILabel *levelLabel;
 @property (nonatomic, assign) IBOutlet UILabel *raidContributionLabel;
+@property (nonatomic, assign) IBOutlet UILabel *battleWinsLabel;
 
 @property (nonatomic, assign) IBOutlet UIView *profileView;
 @property (nonatomic, assign) IBOutlet UIView *editMemberView;
-@property (nonatomic, assign) IBOutlet UIView *respondInviteView;
 
 @property (nonatomic, retain) IBOutletCollection(ClanTeamMonsterView) NSArray *monsterViews;
 
@@ -45,7 +45,7 @@
 @property (nonatomic, assign) IBOutlet UILabel *typeLabel;
 @property (nonatomic, assign) IBOutlet UILabel *foundedLabel;
 @property (nonatomic, assign) IBOutlet UITextView *descriptionView;
-@property (nonatomic, assign) IBOutlet UIButton *buttonOverlay;
+@property (nonatomic, retain) IBOutlet UIImageView *iconImage;
 
 @property (nonatomic, retain) IBOutlet UIView *requestView;
 @property (nonatomic, retain) IBOutlet UIView *cancelView;
@@ -56,18 +56,22 @@
 
 @end
 
+@class ClanInfoSettingsButtonView;
+
 typedef enum {
   ClanSettingTransferLeader = 1,
   ClanSettingPromoteToJrLeader,
   ClanSettingPromoteToCaptain,
   ClanSettingDemoteToCaptain,
   ClanSettingDemoteToMember,
-  ClanSettingBoot
+  ClanSettingBoot,
+  ClanSettingAcceptMember,
+  ClanSettingRejectMember,
 } ClanSetting;
 
 @protocol ClanInfoSettingsDelegate
 
-- (void) settingClicked:(ClanSetting)setting;
+- (void) settingClicked:(ClanInfoSettingsButtonView *)button;
 
 @end
 
@@ -75,6 +79,7 @@ typedef enum {
 
 @property (nonatomic, retain) IBOutlet UILabel *topLabel;
 @property (nonatomic, retain) IBOutlet UILabel *botLabel;
+@property (nonatomic, retain) IBOutlet UIActivityIndicatorView *spinner;
 
 @property (nonatomic, assign) ClanSetting setting;
 
@@ -82,28 +87,37 @@ typedef enum {
 
 - (IBAction) buttonClicked:(id)sender;
 
+- (void) beginSpinning;
+- (void) stopSpinning;
+
 @end
 
 typedef enum {
   ClanInfoSortOrderLevel = 1,
   ClanInfoSortOrderMember,
   ClanInfoSortOrderTeam,
-  ClanInfoSortOrderRaid
+  ClanInfoSortOrderRaid,
+  ClanInfoSortOrderBattleWins,
 } ClanInfoSortOrder;
 
 @interface ClanInfoViewController : GenViewController <UITableViewDataSource, UITableViewDelegate, ClanInfoSettingsDelegate> {
   ClanMemberCell *_curClickedCell;
+  ClanInfoSettingsButtonView *_clickedButton;
+  
+  BOOL _waitingForResponse;
+  BOOL _isMyClan;
 }
 
-@property (nonatomic, assign) IBOutlet ClanInfoView *infoView;
-@property (nonatomic, assign) IBOutlet UIView *headerButtonsView;
-@property (nonatomic, assign) IBOutlet ClanMemberCell *memberCell;
-@property (nonatomic, assign) IBOutlet UITableView *infoTable;
-@property (nonatomic, assign) IBOutlet UIView *loadingMembersView;
+@property (nonatomic, retain) IBOutlet ClanInfoView *infoView;
+@property (nonatomic, retain) IBOutlet UIView *headerButtonsView;
+@property (nonatomic, retain) IBOutlet ClanMemberCell *memberCell;
+@property (nonatomic, retain) IBOutlet UITableView *infoTable;
+@property (nonatomic, retain) IBOutlet UIView *loadingMembersView;
 
 @property (nonatomic, retain) FullClanProtoWithClanSize *clan;
-@property (nonatomic, retain) NSArray *members;
-@property (nonatomic, retain) NSDictionary *curTeams;
+@property (nonatomic, retain) NSArray *allMembers;
+@property (nonatomic, retain) NSArray *shownMembers;
+@property (nonatomic, retain) NSMutableDictionary *curTeams;
 @property (nonatomic, retain) NSArray *requesters;
 @property (nonatomic, retain) MinimumUserProtoForClans *myUser;
 @property (nonatomic, assign) ClanInfoSortOrder sortOrder;

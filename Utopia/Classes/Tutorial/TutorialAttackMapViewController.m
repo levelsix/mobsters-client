@@ -23,6 +23,8 @@
   if (self.clickableCityId) {
     [self allowClickOnCityId:self.clickableCityId];
   }
+  
+  self.multiplayerView.userInteractionEnabled = NO;
 }
 
 - (void) allowClickOnCityId:(int)cityId {

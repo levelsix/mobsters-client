@@ -182,12 +182,67 @@
 
 - (void) awakeFromNib {
   Globals *gl = [Globals sharedGlobals];
-  self.multiplayerUnlockLabel.superview.layer.cornerRadius = 5.f;
+  self.multiplayerUnlockLabel.superview.layer.cornerRadius = 8.f;
   self.multiplayerUnlockLabel.text = [NSString stringWithFormat:@"Multiplayer play\n unlocks at level %d", gl.pvpRequiredMinLvl];
   
   GameState *gs = [GameState sharedGameState];
   TownHallProto *thp = (TownHallProto *)gs.myTownHall.staticStruct;
   self.cashCostLabel.text = [NSString stringWithFormat:@"Match Cost: %@", [Globals cashStringForNumber:thp.pvpQueueCashCost]];
+  
+  self.backButton.alpha = 0.f;
+  self.titleLabel.text = @"Multiplayer";
+  
+  self.layer.cornerRadius = 8.f;
+}
+
+- (void) updateForLeague {
+  NSMutableArray *leagues = [NSMutableArray arrayWithArray:@[@"bronze", @"silver", @"gold", @"diamond", @"platinum", @"champion"]];
+  [leagues shuffle];
+  NSString *league = leagues[0];
+  int rank = arc4random()%2 ? arc4random()%9+1 : arc4random()%2 ? arc4random()%1000+1 : arc4random()%100+1;
+  [Globals imageNamed:[league stringByAppendingString:@"leaguebg.png"] withView:self.leagueBgd greyscale:NO indicator:UIActivityIndicatorViewStyleWhiteLarge clearImageDuringDownload:YES];
+  [Globals imageNamed:[league stringByAppendingString:@"icon.png"] withView:self.leagueIcon greyscale:NO indicator:UIActivityIndicatorViewStyleWhiteLarge clearImageDuringDownload:YES];
+  self.leagueLabel.text = [NSString stringWithFormat:@"%@ League", league.capitalizedString];
+  self.rankLabel.text = [Globals commafyNumber:rank];
+  self.rankQualifierLabel.text = [Globals qualifierStringForNumber:rank];
+  
+  CGSize size = [self.rankLabel.text sizeWithFont:self.rankLabel.font constrainedToSize:self.rankLabel.frame.size];
+  float leftSide = CGRectGetMaxX(self.rankLabel.frame)-size.width;
+  size = [self.placeLabel.text sizeWithFont:self.placeLabel.font];
+  float rightSide = CGRectGetMinX(self.placeLabel.frame)+size.width;
+  float midX = leftSide+(rightSide-leftSide)/2;
+  
+  float distFromCenter = midX-self.rankLabel.superview.frame.size.width/2;
+  CGPoint curCenter = self.rankLabel.superview.center;
+  self.rankLabel.superview.center = ccp(curCenter.x-distFromCenter, curCenter.y);
+}
+
+- (IBAction)leagueSelected:(id)sender {
+  [UIView animateWithDuration:0.3f animations:^{
+    self.containerView.center = ccp(0, self.containerView.center.y);
+    self.backButton.alpha = 1.f;
+  }];
+  
+  CATransition *animation = [CATransition animation];
+  animation.duration = 0.3f;
+  animation.type = kCATransitionFade;
+  animation.timingFunction = [CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseInEaseOut];
+  [self.titleLabel.layer addAnimation:animation forKey:@"changeTextTransition"];
+  self.titleLabel.text = @"Rank";
+}
+
+- (IBAction)backClicked:(id)sender {
+  [UIView animateWithDuration:0.3f animations:^{
+    self.containerView.center = ccp(self.containerView.frame.size.width/2, self.containerView.center.y);
+    self.backButton.alpha = 0.f;
+  }];
+  
+  CATransition *animation = [CATransition animation];
+  animation.duration = 0.3f;
+  animation.type = kCATransitionFade;
+  animation.timingFunction = [CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseInEaseOut];
+  [self.titleLabel.layer addAnimation:animation forKey:@"changeTextTransition"];
+  self.titleLabel.text = @"Multiplayer";
 }
 
 @end
@@ -198,7 +253,7 @@
 {
   [super viewDidLoad];
   [self loadCities];
-  self.mapScrollView.layer.cornerRadius = 5.f;
+  self.mapScrollView.layer.cornerRadius = 8.f;
   
   [self.mapScrollView addSubview:self.mapView];
   self.mapScrollView.contentSize = CGSizeMake(self.mapScrollView.frame.size.width, self.mapView.frame.size.height);
@@ -213,8 +268,7 @@
     self.eventView.monsterImage = nil;
   }
   
-  GameState *gs = [GameState sharedGameState];
-  [gs currentPersistentEventWithType:PersistentEventProto_EventTypeEnhance];
+  [self.multiplayerView updateForLeague];
 }
 
 - (void) viewWillAppear:(BOOL)animated {
@@ -278,12 +332,22 @@
 - (IBAction)findMatchClicked:(id)sender {
   if (!_buttonClicked && [Globals checkEnteringDungeonWithTarget:self selector:@selector(visitTeamPage)]) {
     GameState *gs = [GameState sharedGameState];
-    TownHallProto *thp = (TownHallProto *)gs.myTownHall.staticStruct;
-    if (gs.silver < thp.pvpQueueCashCost) {
-      [GenericPopupController displayExchangeForGemsViewWithResourceType:ResourceTypeCash amount:thp.pvpQueueCashCost-gs.silver target:self selector:@selector(nextMatchUseGems)];
+    if (gs.hasActiveShield) {
+      NSString *desc = @"Attacking will disable your shield, and other players will be able to attack you. Are you sure?";
+      [GenericPopupController displayNegativeConfirmationWithDescription:desc title:@"Shield is active" okayButton:@"Attack" cancelButton:@"Cancel" okTarget:self okSelector:@selector(findMatch) cancelTarget:nil cancelSelector:nil];
     } else {
-      [self nextMatch:NO];
+      [self findMatch];
     }
+  }
+}
+
+- (void) findMatch {
+  GameState *gs = [GameState sharedGameState];
+  TownHallProto *thp = (TownHallProto *)gs.myTownHall.staticStruct;
+  if (gs.silver < thp.pvpQueueCashCost) {
+    [GenericPopupController displayExchangeForGemsViewWithResourceType:ResourceTypeCash amount:thp.pvpQueueCashCost-gs.silver target:self selector:@selector(nextMatchUseGems)];
+  } else {
+    [self nextMatch:NO];
   }
 }
 

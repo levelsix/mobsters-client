@@ -24,6 +24,7 @@
 @property (nonatomic, strong) FullQuestProto *quest;
 @property (nonatomic, strong) UserQuest *userQuest;
 
+@property (nonatomic, strong) IBOutlet UILabel *questGiverNameLabel;
 @property (nonatomic, strong) IBOutlet UILabel *descriptionLabel;
 @property (nonatomic, strong) IBOutlet UILabel *jobLabel;
 @property (nonatomic, strong) IBOutlet UILabel *progressLabel;

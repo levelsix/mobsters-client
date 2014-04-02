@@ -44,7 +44,11 @@
   [super viewDidLoad];
   [self loadProfile];
   
-  [Globals bounceView:self.mainView fadeInBgdView:self.bgdView];
+  // Prevent closing button
+  self.bgdView.userInteractionEnabled = NO;
+  [Globals bounceView:self.mainView fadeInBgdView:self.bgdView completion:^(BOOL finished) {
+    self.bgdView.userInteractionEnabled = YES;
+  }];
   
   self.monsterSlotOne.monsterCardView.delegate = self;
   self.monsterSlotTwo.monsterCardView.delegate = self;
@@ -52,17 +56,33 @@
 }
 
 - (void)loadProfile {
-  self.winsLabel.text = [NSString stringWithFormat:@"%d wins", self.fup.attacksWon];
-  self.lossesLabel.text = [NSString stringWithFormat:@"%d wins", self.fup.defensesWon];
+  GameState *gs = [GameState sharedGameState];
+  
+  self.winsLabel.text = [Globals commafyNumber:self.fup.attacksWon+self.fup.defensesWon];
+  self.lossesLabel.text = [Globals commafyNumber:self.fup.attacksLost+self.fup.defensesLost];
   self.nameLabel.text = self.fup ? [NSString stringWithFormat:@"%@ (LVL %d)", self.fup.name,self.fup.level] : @"Loading...";
   
   if (self.fup.hasClan) {
-    self.clanView.label.textColor = [Globals goldColor];
-    [self.clanView setString:self.fup.clan.name isEnabled:YES];
+    [self.clanButton setTitle:self.fup.clan.name forState:UIControlStateNormal];
+    self.clanButton.enabled = YES;
+    
+    self.shieldIcon.hidden = NO;
+    ClanIconProto *icon = [gs clanIconWithId:self.fup.clan.clanIconId];
+    [Globals imageNamed:icon.imgName withView:self.shieldIcon greyscale:NO indicator:UIActivityIndicatorViewStyleWhite clearImageDuringDownload:YES];
+    
+    CGRect r = self.clanButton.frame;
+    r.origin.x = self.shieldIcon.frame.size.width+3;
+    self.clanButton.frame = r;
   } else {
-    self.clanView.label.textColor = [UIColor whiteColor];
-    [self.clanView setString:@"No Clan" isEnabled:NO];
+    self.clanButton.enabled = NO;
+    self.shieldIcon.hidden = YES;
+    
+    CGRect r = self.clanButton.frame;
+    r.origin.x = 0;
+    self.clanButton.frame = r;
   }
+  
+  [Globals adjustViewForCentering:self.clanButton.superview withLabel:self.clanButton.titleLabel];
   
   [self.monsterSlotOne.monsterCardView updateForNoMonsterWithLabel:@"Team Slot Empty"];
   [self.monsterSlotTwo.monsterCardView updateForNoMonsterWithLabel:@"Team Slot Empty"];
@@ -76,6 +96,30 @@
       [self.monsterSlotThree.monsterCardView updateForMonster:um];
     }
   }
+  
+  [self updateForLeague];
+}
+
+- (void) updateForLeague {
+  NSMutableArray *leagues = [NSMutableArray arrayWithArray:@[@"bronze", @"silver", @"gold", @"diamond", @"platinum", @"champion"]];
+  [leagues shuffle];
+  NSString *league = leagues[0];
+  int rank = arc4random()%2 ? arc4random()%9+1 : arc4random()%2 ? arc4random()%1000+1 : arc4random()%100+1;
+  [Globals imageNamed:[league stringByAppendingString:@"leaguebg.png"] withView:self.leagueBgd greyscale:NO indicator:UIActivityIndicatorViewStyleWhiteLarge clearImageDuringDownload:YES];
+  [Globals imageNamed:[league stringByAppendingString:@"icon.png"] withView:self.leagueIcon greyscale:NO indicator:UIActivityIndicatorViewStyleWhiteLarge clearImageDuringDownload:YES];
+  self.leagueLabel.text = [NSString stringWithFormat:@"%@ League", league.capitalizedString];
+  self.rankLabel.text = [Globals commafyNumber:rank];
+  self.rankQualifierLabel.text = [Globals qualifierStringForNumber:rank];
+  
+  CGSize size = [self.rankLabel.text sizeWithFont:self.rankLabel.font constrainedToSize:self.rankLabel.frame.size];
+  float leftSide = CGRectGetMaxX(self.rankLabel.frame)-size.width;
+  size = [self.placeLabel.text sizeWithFont:self.placeLabel.font];
+  float rightSide = CGRectGetMinX(self.placeLabel.frame)+size.width;
+  float midX = leftSide+(rightSide-leftSide)/2;
+  
+  float distFromCenter = midX-self.rankLabel.superview.frame.size.width/2;
+  CGPoint curCenter = self.rankLabel.superview.center;
+  self.rankLabel.superview.center = ccp(curCenter.x-distFromCenter, curCenter.y);
 }
 
 - (void) infoClicked:(MonsterCardView *)view {
@@ -85,10 +129,19 @@
   [self.view addSubview:mpvc.view];
 }
 
-- (void) labelClicked:(UnderlinedLabelView *)label {
+- (IBAction)clanClicked:(id)sender {
   // Go visit clan
   UIViewController *gvc = (UIViewController *)self.parentViewController;
-  ClanInfoViewController *cvc = [[ClanInfoViewController alloc] initWithClanId:self.fup.clan.clanId andName:self.fup.clan.name];
+  
+  GameState *gs = [GameState sharedGameState];
+  MinimumClanProto *clan = self.fup.clan;
+  ClanInfoViewController *cvc = nil;
+  if (gs.clan.clanId == clan.clanId) {
+    cvc = [[ClanInfoViewController alloc] init];
+    [cvc loadForMyClan];
+  } else {
+    cvc = [[ClanInfoViewController alloc] initWithClanId:clan.clanId andName:clan.name];
+  }
   
   // Call close first so that the block will retain this controller
   [self close:nil];

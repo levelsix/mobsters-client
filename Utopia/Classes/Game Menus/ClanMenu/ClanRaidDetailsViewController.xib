@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="4514" systemVersion="12F45" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="5053" systemVersion="12F45" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none">
     <dependencies>
         <deployment defaultVersion="1536" identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="3747"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="3733"/>
     </dependencies>
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="ClanRaidDetailsViewController">
@@ -19,7 +19,7 @@
             <rect key="frame" x="0.0" y="0.0" width="480" height="280"/>
             <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES"/>
             <subviews>
-                <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="mainmenubg.png" id="Mpr-4O-Erl">
+                <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="bottom" image="mainmenubg.png" id="Mpr-4O-Erl">
                     <rect key="frame" x="0.0" y="-40" width="480" height="320"/>
                     <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES"/>
                 </imageView>
@@ -68,13 +68,25 @@
                                 <view contentMode="scaleToFill" id="0hh-XQ-QMM">
                                     <rect key="frame" x="15" y="12" width="35" height="1"/>
                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
-                                    <color key="backgroundColor" white="1" alpha="0.25" colorSpace="calibratedWhite"/>
+                                    <color key="backgroundColor" red="0.7019608021" green="0.67450982329999998" blue="0.36470589040000001" alpha="1" colorSpace="deviceRGB"/>
                                     <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
                                 </view>
                                 <view contentMode="scaleToFill" id="NQ2-hX-naM">
                                     <rect key="frame" x="15" y="15" width="35" height="1"/>
                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
-                                    <color key="backgroundColor" white="1" alpha="0.25" colorSpace="calibratedWhite"/>
+                                    <color key="backgroundColor" red="0.7019608021" green="0.67450982329999998" blue="0.36470589040000001" alpha="1" colorSpace="deviceRGB"/>
+                                    <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
+                                </view>
+                                <view contentMode="scaleToFill" id="7aH-nf-aBA">
+                                    <rect key="frame" x="119" y="12" width="35" height="1"/>
+                                    <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
+                                    <color key="backgroundColor" red="0.7019608021" green="0.67450982329999998" blue="0.36470589040000001" alpha="1" colorSpace="deviceRGB"/>
+                                    <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
+                                </view>
+                                <view contentMode="scaleToFill" id="41a-HC-W3m">
+                                    <rect key="frame" x="119" y="15" width="35" height="1"/>
+                                    <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
+                                    <color key="backgroundColor" red="0.7019608021" green="0.67450982329999998" blue="0.36470589040000001" alpha="1" colorSpace="deviceRGB"/>
                                     <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
                                 </view>
                                 <button opaque="NO" tag="3" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="Dkv-98-E3D" customClass="NiceFontButton">
@@ -83,24 +95,13 @@
                                     <fontDescription key="fontDescription" type="system" pointSize="13"/>
                                     <size key="titleShadowOffset" width="0.0" height="1"/>
                                     <state key="normal" title="Raid Stages">
-                                        <color key="titleShadowColor" white="0.0" alpha="0.29999999999999999" colorSpace="calibratedWhite"/>
+                                        <color key="titleColor" red="0.20000000000000001" green="0.20000000000000001" blue="0.20000000000000001" alpha="1" colorSpace="calibratedRGB"/>
+                                        <color key="titleShadowColor" red="1" green="1" blue="1" alpha="0.75" colorSpace="calibratedRGB"/>
                                     </state>
                                     <connections>
                                         <action selector="headerClicked:" destination="-1" eventType="touchUpInside" id="Hwy-qy-snf"/>
                                     </connections>
                                 </button>
-                                <view contentMode="scaleToFill" id="7aH-nf-aBA">
-                                    <rect key="frame" x="119" y="12" width="35" height="1"/>
-                                    <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
-                                    <color key="backgroundColor" white="1" alpha="0.25" colorSpace="calibratedWhite"/>
-                                    <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
-                                </view>
-                                <view contentMode="scaleToFill" id="41a-HC-W3m">
-                                    <rect key="frame" x="119" y="15" width="35" height="1"/>
-                                    <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
-                                    <color key="backgroundColor" white="1" alpha="0.25" colorSpace="calibratedWhite"/>
-                                    <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
-                                </view>
                             </subviews>
                             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                         </view>
@@ -117,7 +118,7 @@
         </view>
     </objects>
     <resources>
-        <image name="mainmenubg.png" width="568" height="320"/>
+        <image name="mainmenubg.png" width="568" height="282"/>
         <image name="markz.png" width="169" height="231"/>
         <image name="raidbottombar.png" width="1" height="30"/>
         <image name="raidlairbubble.png" width="339" height="71"/>

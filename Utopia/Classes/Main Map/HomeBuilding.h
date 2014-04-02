@@ -63,7 +63,7 @@
 @end
 
 @interface HospitalBuilding : HomeBuilding {
-  int _monsterId;
+  UserMonsterHealingItem *_healingItem;
 }
 
 @property (nonatomic, retain) CCSprite *tubeSprite;
@@ -72,7 +72,7 @@
 @property (nonatomic, retain) CCAnimation *baseAnimation;
 @property (nonatomic, retain) CCAnimation *tubeAnimation;
 
-- (void) beginAnimatingWithMonsterId:(int)monsterId;
+- (void) beginAnimatingWithHealingItem:(UserMonsterHealingItem *)hi;
 - (void) stopAnimating;
 
 @end

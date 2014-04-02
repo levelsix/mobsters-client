@@ -12,6 +12,7 @@ static PBExtensionRegistry* extensionRegistry = nil;
   if (self == [QuestRoot class]) {
     PBMutableExtensionRegistry* registry = [PBMutableExtensionRegistry registry];
     [self registerAllExtensions:registry];
+    [MonsterStuffRoot registerAllExtensions:registry];
     [StructureRoot registerAllExtensions:registry];
     extensionRegistry = [registry retain];
   }
@@ -31,17 +32,20 @@ static PBExtensionRegistry* extensionRegistry = nil;
 @property (retain) NSString* jobDescription;
 @property int32_t staticDataId;
 @property int32_t quantity;
-@property int32_t coinReward;
-@property int32_t diamondReward;
+@property int32_t cashReward;
+@property int32_t oilReward;
+@property int32_t gemReward;
 @property int32_t expReward;
 @property int32_t monsterIdReward;
 @property BOOL isCompleteMonster;
 @property (retain) NSMutableArray* mutableQuestsRequiredForThisList;
-@property (retain) NSString* questGiverImageSuffix;
+@property (retain) NSString* questGiverName;
+@property (retain) NSString* questGiverImagePrefix;
 @property int32_t priority;
 @property (retain) NSString* carrotId;
 @property BOOL isAchievement;
 @property (retain) CoordinateProto* questGiverImgOffset;
+@property MonsterProto_MonsterElement monsterElement;
 @end
 
 @implementation FullQuestProto
@@ -116,20 +120,27 @@ static PBExtensionRegistry* extensionRegistry = nil;
   hasQuantity_ = !!value;
 }
 @synthesize quantity;
-- (BOOL) hasCoinReward {
-  return !!hasCoinReward_;
+- (BOOL) hasCashReward {
+  return !!hasCashReward_;
 }
-- (void) setHasCoinReward:(BOOL) value {
-  hasCoinReward_ = !!value;
+- (void) setHasCashReward:(BOOL) value {
+  hasCashReward_ = !!value;
 }
-@synthesize coinReward;
-- (BOOL) hasDiamondReward {
-  return !!hasDiamondReward_;
+@synthesize cashReward;
+- (BOOL) hasOilReward {
+  return !!hasOilReward_;
 }
-- (void) setHasDiamondReward:(BOOL) value {
-  hasDiamondReward_ = !!value;
+- (void) setHasOilReward:(BOOL) value {
+  hasOilReward_ = !!value;
 }
-@synthesize diamondReward;
+@synthesize oilReward;
+- (BOOL) hasGemReward {
+  return !!hasGemReward_;
+}
+- (void) setHasGemReward:(BOOL) value {
+  hasGemReward_ = !!value;
+}
+@synthesize gemReward;
 - (BOOL) hasExpReward {
   return !!hasExpReward_;
 }
@@ -157,13 +168,20 @@ static PBExtensionRegistry* extensionRegistry = nil;
   isCompleteMonster_ = !!value;
 }
 @synthesize mutableQuestsRequiredForThisList;
-- (BOOL) hasQuestGiverImageSuffix {
-  return !!hasQuestGiverImageSuffix_;
+- (BOOL) hasQuestGiverName {
+  return !!hasQuestGiverName_;
 }
-- (void) setHasQuestGiverImageSuffix:(BOOL) value {
-  hasQuestGiverImageSuffix_ = !!value;
+- (void) setHasQuestGiverName:(BOOL) value {
+  hasQuestGiverName_ = !!value;
 }
-@synthesize questGiverImageSuffix;
+@synthesize questGiverName;
+- (BOOL) hasQuestGiverImagePrefix {
+  return !!hasQuestGiverImagePrefix_;
+}
+- (void) setHasQuestGiverImagePrefix:(BOOL) value {
+  hasQuestGiverImagePrefix_ = !!value;
+}
+@synthesize questGiverImagePrefix;
 - (BOOL) hasPriority {
   return !!hasPriority_;
 }
@@ -197,6 +215,13 @@ static PBExtensionRegistry* extensionRegistry = nil;
   hasQuestGiverImgOffset_ = !!value;
 }
 @synthesize questGiverImgOffset;
+- (BOOL) hasMonsterElement {
+  return !!hasMonsterElement_;
+}
+- (void) setHasMonsterElement:(BOOL) value {
+  hasMonsterElement_ = !!value;
+}
+@synthesize monsterElement;
 - (void) dealloc {
   self.name = nil;
   self.description = nil;
@@ -204,7 +229,8 @@ static PBExtensionRegistry* extensionRegistry = nil;
   self.acceptDialogue = nil;
   self.jobDescription = nil;
   self.mutableQuestsRequiredForThisList = nil;
-  self.questGiverImageSuffix = nil;
+  self.questGiverName = nil;
+  self.questGiverImagePrefix = nil;
   self.carrotId = nil;
   self.questGiverImgOffset = nil;
   [super dealloc];
@@ -221,16 +247,19 @@ static PBExtensionRegistry* extensionRegistry = nil;
     self.jobDescription = @"";
     self.staticDataId = 0;
     self.quantity = 0;
-    self.coinReward = 0;
-    self.diamondReward = 0;
+    self.cashReward = 0;
+    self.oilReward = 0;
+    self.gemReward = 0;
     self.expReward = 0;
     self.monsterIdReward = 0;
     self.isCompleteMonster = NO;
-    self.questGiverImageSuffix = @"";
+    self.questGiverName = @"";
+    self.questGiverImagePrefix = @"";
     self.priority = 0;
     self.carrotId = @"";
     self.isAchievement = NO;
     self.questGiverImgOffset = [CoordinateProto defaultInstance];
+    self.monsterElement = MonsterProto_MonsterElementFire;
   }
   return self;
 }
@@ -287,11 +316,11 @@ static FullQuestProto* defaultFullQuestProtoInstance = nil;
   if (self.hasQuantity) {
     [output writeInt32:10 value:self.quantity];
   }
-  if (self.hasCoinReward) {
-    [output writeInt32:11 value:self.coinReward];
+  if (self.hasCashReward) {
+    [output writeInt32:11 value:self.cashReward];
   }
-  if (self.hasDiamondReward) {
-    [output writeInt32:12 value:self.diamondReward];
+  if (self.hasGemReward) {
+    [output writeInt32:12 value:self.gemReward];
   }
   if (self.hasExpReward) {
     [output writeInt32:13 value:self.expReward];
@@ -305,8 +334,8 @@ static FullQuestProto* defaultFullQuestProtoInstance = nil;
   for (NSNumber* value in self.mutableQuestsRequiredForThisList) {
     [output writeInt32:16 value:[value intValue]];
   }
-  if (self.hasQuestGiverImageSuffix) {
-    [output writeString:17 value:self.questGiverImageSuffix];
+  if (self.hasQuestGiverImagePrefix) {
+    [output writeString:17 value:self.questGiverImagePrefix];
   }
   if (self.hasPriority) {
     [output writeInt32:18 value:self.priority];
@@ -319,6 +348,15 @@ static FullQuestProto* defaultFullQuestProtoInstance = nil;
   }
   if (self.hasQuestGiverImgOffset) {
     [output writeMessage:21 value:self.questGiverImgOffset];
+  }
+  if (self.hasOilReward) {
+    [output writeInt32:22 value:self.oilReward];
+  }
+  if (self.hasMonsterElement) {
+    [output writeEnum:23 value:self.monsterElement];
+  }
+  if (self.hasQuestGiverName) {
+    [output writeString:24 value:self.questGiverName];
   }
   [self.unknownFields writeToCodedOutputStream:output];
 }
@@ -359,11 +397,11 @@ static FullQuestProto* defaultFullQuestProtoInstance = nil;
   if (self.hasQuantity) {
     size += computeInt32Size(10, self.quantity);
   }
-  if (self.hasCoinReward) {
-    size += computeInt32Size(11, self.coinReward);
+  if (self.hasCashReward) {
+    size += computeInt32Size(11, self.cashReward);
   }
-  if (self.hasDiamondReward) {
-    size += computeInt32Size(12, self.diamondReward);
+  if (self.hasGemReward) {
+    size += computeInt32Size(12, self.gemReward);
   }
   if (self.hasExpReward) {
     size += computeInt32Size(13, self.expReward);
@@ -382,8 +420,8 @@ static FullQuestProto* defaultFullQuestProtoInstance = nil;
     size += dataSize;
     size += 2 * self.mutableQuestsRequiredForThisList.count;
   }
-  if (self.hasQuestGiverImageSuffix) {
-    size += computeStringSize(17, self.questGiverImageSuffix);
+  if (self.hasQuestGiverImagePrefix) {
+    size += computeStringSize(17, self.questGiverImagePrefix);
   }
   if (self.hasPriority) {
     size += computeInt32Size(18, self.priority);
@@ -396,6 +434,15 @@ static FullQuestProto* defaultFullQuestProtoInstance = nil;
   }
   if (self.hasQuestGiverImgOffset) {
     size += computeMessageSize(21, self.questGiverImgOffset);
+  }
+  if (self.hasOilReward) {
+    size += computeInt32Size(22, self.oilReward);
+  }
+  if (self.hasMonsterElement) {
+    size += computeEnumSize(23, self.monsterElement);
+  }
+  if (self.hasQuestGiverName) {
+    size += computeStringSize(24, self.questGiverName);
   }
   size += self.unknownFields.serializedSize;
   memoizedSerializedSize = size;
@@ -517,11 +564,14 @@ BOOL FullQuestProto_QuestTypeIsValidValue(FullQuestProto_QuestType value) {
   if (other.hasQuantity) {
     [self setQuantity:other.quantity];
   }
-  if (other.hasCoinReward) {
-    [self setCoinReward:other.coinReward];
+  if (other.hasCashReward) {
+    [self setCashReward:other.cashReward];
   }
-  if (other.hasDiamondReward) {
-    [self setDiamondReward:other.diamondReward];
+  if (other.hasOilReward) {
+    [self setOilReward:other.oilReward];
+  }
+  if (other.hasGemReward) {
+    [self setGemReward:other.gemReward];
   }
   if (other.hasExpReward) {
     [self setExpReward:other.expReward];
@@ -538,8 +588,11 @@ BOOL FullQuestProto_QuestTypeIsValidValue(FullQuestProto_QuestType value) {
     }
     [result.mutableQuestsRequiredForThisList addObjectsFromArray:other.mutableQuestsRequiredForThisList];
   }
-  if (other.hasQuestGiverImageSuffix) {
-    [self setQuestGiverImageSuffix:other.questGiverImageSuffix];
+  if (other.hasQuestGiverName) {
+    [self setQuestGiverName:other.questGiverName];
+  }
+  if (other.hasQuestGiverImagePrefix) {
+    [self setQuestGiverImagePrefix:other.questGiverImagePrefix];
   }
   if (other.hasPriority) {
     [self setPriority:other.priority];
@@ -552,6 +605,9 @@ BOOL FullQuestProto_QuestTypeIsValidValue(FullQuestProto_QuestType value) {
   }
   if (other.hasQuestGiverImgOffset) {
     [self mergeQuestGiverImgOffset:other.questGiverImgOffset];
+  }
+  if (other.hasMonsterElement) {
+    [self setMonsterElement:other.monsterElement];
   }
   [self mergeUnknownFields:other.unknownFields];
   return self;
@@ -625,11 +681,11 @@ BOOL FullQuestProto_QuestTypeIsValidValue(FullQuestProto_QuestType value) {
         break;
       }
       case 88: {
-        [self setCoinReward:[input readInt32]];
+        [self setCashReward:[input readInt32]];
         break;
       }
       case 96: {
-        [self setDiamondReward:[input readInt32]];
+        [self setGemReward:[input readInt32]];
         break;
       }
       case 104: {
@@ -649,7 +705,7 @@ BOOL FullQuestProto_QuestTypeIsValidValue(FullQuestProto_QuestType value) {
         break;
       }
       case 138: {
-        [self setQuestGiverImageSuffix:[input readString]];
+        [self setQuestGiverImagePrefix:[input readString]];
         break;
       }
       case 144: {
@@ -671,6 +727,23 @@ BOOL FullQuestProto_QuestTypeIsValidValue(FullQuestProto_QuestType value) {
         }
         [input readMessage:subBuilder extensionRegistry:extensionRegistry];
         [self setQuestGiverImgOffset:[subBuilder buildPartial]];
+        break;
+      }
+      case 176: {
+        [self setOilReward:[input readInt32]];
+        break;
+      }
+      case 184: {
+        int32_t value = [input readEnum];
+        if (MonsterProto_MonsterElementIsValidValue(value)) {
+          [self setMonsterElement:value];
+        } else {
+          [unknownFields mergeVarintField:23 value:value];
+        }
+        break;
+      }
+      case 194: {
+        [self setQuestGiverName:[input readString]];
         break;
       }
     }
@@ -850,36 +923,52 @@ BOOL FullQuestProto_QuestTypeIsValidValue(FullQuestProto_QuestType value) {
   result.quantity = 0;
   return self;
 }
-- (BOOL) hasCoinReward {
-  return result.hasCoinReward;
+- (BOOL) hasCashReward {
+  return result.hasCashReward;
 }
-- (int32_t) coinReward {
-  return result.coinReward;
+- (int32_t) cashReward {
+  return result.cashReward;
 }
-- (FullQuestProto_Builder*) setCoinReward:(int32_t) value {
-  result.hasCoinReward = YES;
-  result.coinReward = value;
+- (FullQuestProto_Builder*) setCashReward:(int32_t) value {
+  result.hasCashReward = YES;
+  result.cashReward = value;
   return self;
 }
-- (FullQuestProto_Builder*) clearCoinReward {
-  result.hasCoinReward = NO;
-  result.coinReward = 0;
+- (FullQuestProto_Builder*) clearCashReward {
+  result.hasCashReward = NO;
+  result.cashReward = 0;
   return self;
 }
-- (BOOL) hasDiamondReward {
-  return result.hasDiamondReward;
+- (BOOL) hasOilReward {
+  return result.hasOilReward;
 }
-- (int32_t) diamondReward {
-  return result.diamondReward;
+- (int32_t) oilReward {
+  return result.oilReward;
 }
-- (FullQuestProto_Builder*) setDiamondReward:(int32_t) value {
-  result.hasDiamondReward = YES;
-  result.diamondReward = value;
+- (FullQuestProto_Builder*) setOilReward:(int32_t) value {
+  result.hasOilReward = YES;
+  result.oilReward = value;
   return self;
 }
-- (FullQuestProto_Builder*) clearDiamondReward {
-  result.hasDiamondReward = NO;
-  result.diamondReward = 0;
+- (FullQuestProto_Builder*) clearOilReward {
+  result.hasOilReward = NO;
+  result.oilReward = 0;
+  return self;
+}
+- (BOOL) hasGemReward {
+  return result.hasGemReward;
+}
+- (int32_t) gemReward {
+  return result.gemReward;
+}
+- (FullQuestProto_Builder*) setGemReward:(int32_t) value {
+  result.hasGemReward = YES;
+  result.gemReward = value;
+  return self;
+}
+- (FullQuestProto_Builder*) clearGemReward {
+  result.hasGemReward = NO;
+  result.gemReward = 0;
   return self;
 }
 - (BOOL) hasExpReward {
@@ -961,20 +1050,36 @@ BOOL FullQuestProto_QuestTypeIsValidValue(FullQuestProto_QuestType value) {
   result.mutableQuestsRequiredForThisList = nil;
   return self;
 }
-- (BOOL) hasQuestGiverImageSuffix {
-  return result.hasQuestGiverImageSuffix;
+- (BOOL) hasQuestGiverName {
+  return result.hasQuestGiverName;
 }
-- (NSString*) questGiverImageSuffix {
-  return result.questGiverImageSuffix;
+- (NSString*) questGiverName {
+  return result.questGiverName;
 }
-- (FullQuestProto_Builder*) setQuestGiverImageSuffix:(NSString*) value {
-  result.hasQuestGiverImageSuffix = YES;
-  result.questGiverImageSuffix = value;
+- (FullQuestProto_Builder*) setQuestGiverName:(NSString*) value {
+  result.hasQuestGiverName = YES;
+  result.questGiverName = value;
   return self;
 }
-- (FullQuestProto_Builder*) clearQuestGiverImageSuffix {
-  result.hasQuestGiverImageSuffix = NO;
-  result.questGiverImageSuffix = @"";
+- (FullQuestProto_Builder*) clearQuestGiverName {
+  result.hasQuestGiverName = NO;
+  result.questGiverName = @"";
+  return self;
+}
+- (BOOL) hasQuestGiverImagePrefix {
+  return result.hasQuestGiverImagePrefix;
+}
+- (NSString*) questGiverImagePrefix {
+  return result.questGiverImagePrefix;
+}
+- (FullQuestProto_Builder*) setQuestGiverImagePrefix:(NSString*) value {
+  result.hasQuestGiverImagePrefix = YES;
+  result.questGiverImagePrefix = value;
+  return self;
+}
+- (FullQuestProto_Builder*) clearQuestGiverImagePrefix {
+  result.hasQuestGiverImagePrefix = NO;
+  result.questGiverImagePrefix = @"";
   return self;
 }
 - (BOOL) hasPriority {
@@ -1053,6 +1158,22 @@ BOOL FullQuestProto_QuestTypeIsValidValue(FullQuestProto_QuestType value) {
 - (FullQuestProto_Builder*) clearQuestGiverImgOffset {
   result.hasQuestGiverImgOffset = NO;
   result.questGiverImgOffset = [CoordinateProto defaultInstance];
+  return self;
+}
+- (BOOL) hasMonsterElement {
+  return result.hasMonsterElement;
+}
+- (MonsterProto_MonsterElement) monsterElement {
+  return result.monsterElement;
+}
+- (FullQuestProto_Builder*) setMonsterElement:(MonsterProto_MonsterElement) value {
+  result.hasMonsterElement = YES;
+  result.monsterElement = value;
+  return self;
+}
+- (FullQuestProto_Builder*) clearMonsterElement {
+  result.hasMonsterElement = NO;
+  result.monsterElement = MonsterProto_MonsterElementFire;
   return self;
 }
 @end

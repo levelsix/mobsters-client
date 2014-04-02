@@ -13,6 +13,15 @@
 
 @implementation BattleLostView
 
+- (void) didLoadFromCCB {
+  self.spinner.blendFunc = (ccBlendFunc){GL_SRC_ALPHA, GL_ONE};
+}
+
+- (void) onExitTransitionDidStart {
+  [self.loadingSpinner removeFromSuperview];
+  [super onExitTransitionDidStart];
+}
+
 - (void) onEnterTransitionDidFinish {
   [super onEnterTransitionDidFinish];
   float firstDur = 0.4f;
@@ -85,17 +94,40 @@
      }], nil]];
 }
 
+- (void) loadSpinnerAtCenter:(CGPoint)center {
+  self.loadingSpinner = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleWhite];
+  [self.loadingSpinner startAnimating];
+  [Globals displayUIView:self.loadingSpinner];
+  self.loadingSpinner.center = [[CCDirector sharedDirector] convertToUI:center];
+}
+
+- (void) spinnerOnDone {
+  self.doneButton.title = @"";
+  [self loadSpinnerAtCenter:[self.doneButton.parent convertToWorldSpace:self.doneButton.position]];
+}
+
+- (void) spinnerOnManage {
+  self.manageButton.title = @"";
+  [self loadSpinnerAtCenter:[self.manageButton.parent convertToWorldSpace:self.manageButton.position]];
+}
+
 @end
 
 @implementation BattleWonView
 
 #define REWARDSVIEW_OFFSET 50
 
+- (void) didLoadFromCCB {
+  self.spinner.blendFunc = (ccBlendFunc){GL_SRC_ALPHA, GL_ONE};
+}
+
 - (void) onExitTransitionDidStart {
   [self.rewardsScrollView removeFromSuperview];
+  [self.loadingSpinner removeFromSuperview];
   
   CCClippingNode *clip = (CCClippingNode *)self.rewardsView.parent;
   clip.stencil = nil;
+  
   [super onExitTransitionDidStart];
 }
 
@@ -241,12 +273,21 @@
      }], nil]];
 }
 
-- (void) hideDoneLabel {
-  self.doneButton.name = nil;
+- (void) loadSpinnerAtCenter:(CGPoint)center {
+  self.loadingSpinner = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleWhite];
+  [self.loadingSpinner startAnimating];
+  [Globals displayUIView:self.loadingSpinner];
+  self.loadingSpinner.center = [[CCDirector sharedDirector] convertToUI:center];
 }
 
-- (void) hideManageLabel {
-  self.manageButton.name = nil;
+- (void) spinnerOnDone {
+  self.doneButton.title = @"";
+  [self loadSpinnerAtCenter:[self.doneButton.parent convertToWorldSpace:self.doneButton.position]];
+}
+
+- (void) spinnerOnManage {
+  self.manageButton.title = @"";
+  [self loadSpinnerAtCenter:[self.manageButton.parent convertToWorldSpace:self.manageButton.position]];
 }
 
 @end
@@ -380,10 +421,33 @@
   GameState *gs = [GameState sharedGameState];
   TownHallProto *thp = (TownHallProto *)gs.myTownHall.staticStruct;
   self.nextMatchCostLabel.string = [Globals cashStringForNumber:thp.pvpQueueCashCost];
+  
+  NSMutableArray *leagues = [NSMutableArray arrayWithArray:@[@"bronze", @"silver", @"gold", @"diamond", @"platinum", @"champion"]];
+  [leagues shuffle];
+  NSString *league = leagues[0];
+  int rank = arc4random()%2 ? arc4random()%9+1 : arc4random()%2 ? arc4random()%1000+1 : arc4random()%100+1;
+  [self.leagueBgd setSpriteFrame:[CCSpriteFrame frameWithImageNamed:[league stringByAppendingString:@"leaguebg.png"]]];
+  [self.leagueIcon setSpriteFrame:[CCSpriteFrame frameWithImageNamed:[league stringByAppendingString:@"icon.png"]]];
+  self.leagueLabel.string = [NSString stringWithFormat:@"%@ League", league.capitalizedString];
+  self.rankLabel.string = [Globals commafyNumber:rank];
+  self.rankQualifierLabel.string = [Globals qualifierStringForNumber:rank];
+  
+  float leftSide = self.rankLabel.position.x-self.rankLabel.contentSize.width;
+  float rightSide = self.placeLabel.position.x+self.placeLabel.contentSize.width;
+  float midX = leftSide+(rightSide-leftSide)/2;
+  
+  self.rankLabel.parent.position = ccp(-midX, self.rankLabel.parent.position.y);
 }
 
-- (void) fadeInAnimation {
+- (void) fadeInAnimationForIsRevenge:(BOOL)isRevenge {
   float dur = 0.2f;
+  
+  if (isRevenge) {
+    float left = self.nextButtonNode.position.x-self.nextButtonNode.contentSize.width/2;
+    float right = self.attackButtonNode.position.x+self.attackButtonNode.contentSize.width/2;
+    [self.nextButtonNode removeFromParent];
+    self.attackButtonNode.position = ccp(left+(right-left)/2, self.attackButtonNode.position.y);
+  }
   
   NSArray *nodes = @[self.nameLabel, self.cashNode, self.oilNode, self.leagueNode, self.nextButtonNode, self.attackButtonNode];
   for (int i = 0; i < nodes.count; i++) {

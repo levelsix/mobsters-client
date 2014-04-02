@@ -10,7 +10,7 @@
 #import "cocos2d.h"
 #import "Globals.h"
 
-static float imgHeight = 40.f;
+static float imgHeight = 42.f;
 
 @implementation CustomNavBar
 
@@ -44,11 +44,11 @@ static float imgHeight = 40.f;
   imgHeight = image.size.height;
   [image drawInRect:CGRectMake(0, 0, self.frame.size.width, imgHeight)];
   
-  [self setTitleVerticalPositionAdjustment:3.f forBarMetrics:UIBarMetricsDefault];
+  [self setTitleVerticalPositionAdjustment:0.f forBarMetrics:UIBarMetricsDefault];
   
   UIFont *font = [UIFont fontWithName:[Globals font] size:24.f];
-  UIColor *color = [UIColor colorWithWhite:0.f alpha:0.8f];
-  UIColor *shadow = [UIColor colorWithWhite:1.f alpha:0.5f];
+  UIColor *color = [UIColor colorWithWhite:1.f alpha:1.f];
+  UIColor *shadow = [UIColor colorWithWhite:0.f alpha:0.75f];
   NSValue *offset = [NSValue valueWithUIOffset:UIOffsetMake(0, 1)];
   NSDictionary *dict = [NSDictionary dictionaryWithObjectsAndKeys:
                         font, UITextAttributeFont,

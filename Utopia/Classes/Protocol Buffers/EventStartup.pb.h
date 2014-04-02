@@ -25,6 +25,8 @@
 @class CityElementProto_Builder;
 @class CityExpansionCostProto;
 @class CityExpansionCostProto_Builder;
+@class ClanIconProto;
+@class ClanIconProto_Builder;
 @class ClanRaidProto;
 @class ClanRaidProto_Builder;
 @class ClanRaidStageMonsterProto;
@@ -123,6 +125,8 @@
 @class PrivateChatPostProto_Builder;
 @class PvpHistoryProto;
 @class PvpHistoryProto_Builder;
+@class PvpLeagueProto;
+@class PvpLeagueProto_Builder;
 @class PvpProto;
 @class PvpProto_Builder;
 @class RareBoosterPurchaseProto;
@@ -195,6 +199,8 @@
 @class UserObstacleProto_Builder;
 @class UserPersistentEventProto;
 @class UserPersistentEventProto_Builder;
+@class UserPvpLeagueProto;
+@class UserPvpLeagueProto_Builder;
 typedef enum {
   StartupResponseProto_UpdateStatusNoUpdate = 1,
   StartupResponseProto_UpdateStatusMinorUpdate = 2,
@@ -223,7 +229,6 @@ BOOL StartupResponseProto_StartupStatusIsValidValue(StartupResponseProto_Startup
   BOOL hasIsForceTutorial_:1;
   BOOL hasIsFreshRestart_:1;
   BOOL hasVersionNum_:1;
-  BOOL hasClientTime_:1;
   BOOL hasUdid_:1;
   BOOL hasApsalarId_:1;
   BOOL hasMacAddress_:1;
@@ -232,7 +237,6 @@ BOOL StartupResponseProto_StartupStatusIsValidValue(StartupResponseProto_Startup
   BOOL isForceTutorial_:1;
   BOOL isFreshRestart_:1;
   Float32 versionNum;
-  int64_t clientTime;
   NSString* udid;
   NSString* apsalarId;
   NSString* macAddress;
@@ -247,7 +251,6 @@ BOOL StartupResponseProto_StartupStatusIsValidValue(StartupResponseProto_Startup
 - (BOOL) hasIsForceTutorial;
 - (BOOL) hasFbId;
 - (BOOL) hasIsFreshRestart;
-- (BOOL) hasClientTime;
 @property (readonly, retain) NSString* udid;
 @property (readonly) Float32 versionNum;
 @property (readonly, retain) NSString* apsalarId;
@@ -256,7 +259,6 @@ BOOL StartupResponseProto_StartupStatusIsValidValue(StartupResponseProto_Startup
 - (BOOL) isForceTutorial;
 @property (readonly, retain) NSString* fbId;
 - (BOOL) isFreshRestart;
-@property (readonly) int64_t clientTime;
 
 + (StartupRequestProto*) defaultInstance;
 - (StartupRequestProto*) defaultInstance;
@@ -331,11 +333,6 @@ BOOL StartupResponseProto_StartupStatusIsValidValue(StartupResponseProto_Startup
 - (BOOL) isFreshRestart;
 - (StartupRequestProto_Builder*) setIsFreshRestart:(BOOL) value;
 - (StartupRequestProto_Builder*) clearIsFreshRestart;
-
-- (BOOL) hasClientTime;
-- (int64_t) clientTime;
-- (StartupRequestProto_Builder*) setClientTime:(int64_t) value;
-- (StartupRequestProto_Builder*) clearClientTime;
 @end
 
 @interface StartupResponseProto : PBGeneratedMessage {
@@ -346,41 +343,45 @@ BOOL StartupResponseProto_StartupStatusIsValidValue(StartupResponseProto_Startup
   BOOL hasReviewPageConfirmationMessage_:1;
   BOOL hasReviewPageUrl_:1;
   BOOL hasAppStoreUrl_:1;
-  BOOL hasSender_:1;
+  BOOL hasPvpLeagueInfo_:1;
+  BOOL hasCurRaidClanInfo_:1;
+  BOOL hasStaticDataStuffProto_:1;
   BOOL hasEvolution_:1;
   BOOL hasEnhancements_:1;
-  BOOL hasStaticDataStuffProto_:1;
-  BOOL hasCurRaidClanInfo_:1;
+  BOOL hasSender_:1;
   BOOL hasStartupConstants_:1;
   BOOL hasTutorialConstants_:1;
-  BOOL hasUpdateStatus_:1;
   BOOL hasStartupStatus_:1;
+  BOOL hasUpdateStatus_:1;
   BOOL playerHasBoughtInAppPurchase_:1;
   int64_t serverTimeMillis;
   NSString* kabamNaid;
   NSString* reviewPageConfirmationMessage;
   NSString* reviewPageUrl;
   NSString* appStoreUrl;
-  FullUserProto* sender;
+  UserPvpLeagueProto* pvpLeagueInfo;
+  PersistentClanEventClanInfoProto* curRaidClanInfo;
+  StaticDataProto* staticDataStuffProto;
   UserMonsterEvolutionProto* evolution;
   UserEnhancementProto* enhancements;
-  StaticDataProto* staticDataStuffProto;
-  PersistentClanEventClanInfoProto* curRaidClanInfo;
+  FullUserProto* sender;
   StartupResponseProto_StartupConstants* startupConstants;
   StartupResponseProto_TutorialConstants* tutorialConstants;
-  StartupResponseProto_UpdateStatus updateStatus;
   StartupResponseProto_StartupStatus startupStatus;
-  NSMutableArray* mutableTaskIdForCurrentCityBossList;
+  StartupResponseProto_UpdateStatus updateStatus;
   NSMutableArray* mutableCompletedTaskIdsList;
+  NSMutableArray* mutableTaskIdForCurrentCityBossList;
   NSMutableArray* mutableRedeemedQuestIdsList;
   NSMutableArray* mutableNoticesToPlayersList;
+  NSMutableArray* mutableRecentNbattlesList;
+  NSMutableArray* mutableRaidStageHistoryList;
   NSMutableArray* mutableCurRaidClanUserInfoList;
   NSMutableArray* mutableUserEventsList;
   NSMutableArray* mutableInvitesFromMeForSlotsList;
   NSMutableArray* mutableInvitesToMeForSlotsList;
-  NSMutableArray* mutableRaidStageHistoryList;
-  NSMutableArray* mutableRecentNbattlesList;
+  NSMutableArray* mutableUserClanInfoList;
   NSMutableArray* mutableRareBoosterPurchasesList;
+  NSMutableArray* mutableUserQuestsList;
   NSMutableArray* mutableMonstersHealingList;
   NSMutableArray* mutableUsersMonstersList;
   NSMutableArray* mutablePcppList;
@@ -388,8 +389,6 @@ BOOL StartupResponseProto_StartupStatusIsValidValue(StartupResponseProto_Startup
   NSMutableArray* mutableGlobalChatsList;
   NSMutableArray* mutableReferralNotificationsList;
   NSMutableArray* mutableAttackNotificationsList;
-  NSMutableArray* mutableUserClanInfoList;
-  NSMutableArray* mutableUserQuestsList;
 }
 - (BOOL) hasServerTimeMillis;
 - (BOOL) hasSender;
@@ -406,6 +405,7 @@ BOOL StartupResponseProto_StartupStatusIsValidValue(StartupResponseProto_Startup
 - (BOOL) hasKabamNaid;
 - (BOOL) hasStaticDataStuffProto;
 - (BOOL) hasCurRaidClanInfo;
+- (BOOL) hasPvpLeagueInfo;
 @property (readonly) int64_t serverTimeMillis;
 @property (readonly, retain) FullUserProto* sender;
 @property (readonly) StartupResponseProto_StartupStatus startupStatus;
@@ -421,6 +421,7 @@ BOOL StartupResponseProto_StartupStatusIsValidValue(StartupResponseProto_Startup
 @property (readonly, retain) NSString* kabamNaid;
 @property (readonly, retain) StaticDataProto* staticDataStuffProto;
 @property (readonly, retain) PersistentClanEventClanInfoProto* curRaidClanInfo;
+@property (readonly, retain) UserPvpLeagueProto* pvpLeagueInfo;
 - (NSArray*) userQuestsList;
 - (FullUserQuestProto*) userQuestsAtIndex:(int32_t) index;
 - (NSArray*) redeemedQuestIdsList;
@@ -803,19 +804,23 @@ BOOL StartupResponseProto_StartupStatusIsValidValue(StartupResponseProto_Startup
   BOOL hasMaxCharLengthForClanName_:1;
   BOOL hasMaxCharLengthForClanDescription_:1;
   BOOL hasMaxCharLengthForClanTag_:1;
+  BOOL hasMaxClanSize_:1;
   int32_t coinPriceToCreateClan;
   int32_t maxCharLengthForClanName;
   int32_t maxCharLengthForClanDescription;
   int32_t maxCharLengthForClanTag;
+  int32_t maxClanSize;
 }
 - (BOOL) hasCoinPriceToCreateClan;
 - (BOOL) hasMaxCharLengthForClanName;
 - (BOOL) hasMaxCharLengthForClanDescription;
 - (BOOL) hasMaxCharLengthForClanTag;
+- (BOOL) hasMaxClanSize;
 @property (readonly) int32_t coinPriceToCreateClan;
 @property (readonly) int32_t maxCharLengthForClanName;
 @property (readonly) int32_t maxCharLengthForClanDescription;
 @property (readonly) int32_t maxCharLengthForClanTag;
+@property (readonly) int32_t maxClanSize;
 
 + (StartupResponseProto_StartupConstants_ClanConstants*) defaultInstance;
 - (StartupResponseProto_StartupConstants_ClanConstants*) defaultInstance;
@@ -870,6 +875,11 @@ BOOL StartupResponseProto_StartupStatusIsValidValue(StartupResponseProto_Startup
 - (int32_t) maxCharLengthForClanTag;
 - (StartupResponseProto_StartupConstants_ClanConstants_Builder*) setMaxCharLengthForClanTag:(int32_t) value;
 - (StartupResponseProto_StartupConstants_ClanConstants_Builder*) clearMaxCharLengthForClanTag;
+
+- (BOOL) hasMaxClanSize;
+- (int32_t) maxClanSize;
+- (StartupResponseProto_StartupConstants_ClanConstants_Builder*) setMaxClanSize:(int32_t) value;
+- (StartupResponseProto_StartupConstants_ClanConstants_Builder*) clearMaxClanSize;
 @end
 
 @interface StartupResponseProto_StartupConstants_DownloadableNibConstants : PBGeneratedMessage {
@@ -1836,23 +1846,26 @@ BOOL StartupResponseProto_StartupStatusIsValidValue(StartupResponseProto_Startup
 - (StartupResponseProto_Builder*) addRecentNbattles:(PvpHistoryProto*) value;
 - (StartupResponseProto_Builder*) addAllRecentNbattles:(NSArray*) values;
 - (StartupResponseProto_Builder*) clearRecentNbattlesList;
+
+- (BOOL) hasPvpLeagueInfo;
+- (UserPvpLeagueProto*) pvpLeagueInfo;
+- (StartupResponseProto_Builder*) setPvpLeagueInfo:(UserPvpLeagueProto*) value;
+- (StartupResponseProto_Builder*) setPvpLeagueInfoBuilder:(UserPvpLeagueProto_Builder*) builderForValue;
+- (StartupResponseProto_Builder*) mergePvpLeagueInfo:(UserPvpLeagueProto*) value;
+- (StartupResponseProto_Builder*) clearPvpLeagueInfo;
 @end
 
 @interface ForceLogoutResponseProto : PBGeneratedMessage {
 @private
-  BOOL hasLoginTime_:1;
   BOOL hasPreviousLoginTime_:1;
-  BOOL hasTimeClientSent_:1;
-  int64_t loginTime;
+  BOOL hasUdid_:1;
   int64_t previousLoginTime;
-  int64_t timeClientSent;
+  NSString* udid;
 }
-- (BOOL) hasLoginTime;
 - (BOOL) hasPreviousLoginTime;
-- (BOOL) hasTimeClientSent;
-@property (readonly) int64_t loginTime;
+- (BOOL) hasUdid;
 @property (readonly) int64_t previousLoginTime;
-@property (readonly) int64_t timeClientSent;
+@property (readonly, retain) NSString* udid;
 
 + (ForceLogoutResponseProto*) defaultInstance;
 - (ForceLogoutResponseProto*) defaultInstance;
@@ -1888,19 +1901,14 @@ BOOL StartupResponseProto_StartupStatusIsValidValue(StartupResponseProto_Startup
 - (ForceLogoutResponseProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input;
 - (ForceLogoutResponseProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
 
-- (BOOL) hasLoginTime;
-- (int64_t) loginTime;
-- (ForceLogoutResponseProto_Builder*) setLoginTime:(int64_t) value;
-- (ForceLogoutResponseProto_Builder*) clearLoginTime;
-
 - (BOOL) hasPreviousLoginTime;
 - (int64_t) previousLoginTime;
 - (ForceLogoutResponseProto_Builder*) setPreviousLoginTime:(int64_t) value;
 - (ForceLogoutResponseProto_Builder*) clearPreviousLoginTime;
 
-- (BOOL) hasTimeClientSent;
-- (int64_t) timeClientSent;
-- (ForceLogoutResponseProto_Builder*) setTimeClientSent:(int64_t) value;
-- (ForceLogoutResponseProto_Builder*) clearTimeClientSent;
+- (BOOL) hasUdid;
+- (NSString*) udid;
+- (ForceLogoutResponseProto_Builder*) setUdid:(NSString*) value;
+- (ForceLogoutResponseProto_Builder*) clearUdid;
 @end
 

@@ -42,7 +42,9 @@
 }
 
 - (void) viewWillAppear:(BOOL)animated {
-  [self waitTimeComplete];
+  [self reloadTableAnimated:NO];
+  [self updateCurrentTeam];
+  [self.bottomView updateForEvoItems];
   
   [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(waitTimeComplete) name:HEAL_WAIT_COMPLETE_NOTIFICATION object:nil];
   [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(waitTimeComplete) name:COMBINE_WAIT_COMPLETE_NOTIFICATION object:nil];
@@ -347,7 +349,7 @@
 
 #pragma mark - IBActions
 
-- (IBAction)popCurrentViewController:(id)sender {
+- (IBAction)menuBackClicked:(id)sender {
   // The back button should just return to main screen if we are viewing something
   GameState *gs = [GameState sharedGameState];
   if (self.middleView.alpha > 0.f && !gs.userEvolution) {
@@ -361,7 +363,7 @@
     }
     self.backButton.hidden = YES;
   } else {
-    [super popCurrentViewController:sender];
+    [super menuBackClicked:sender];
   }
 }
 

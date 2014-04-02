@@ -79,7 +79,7 @@
   // Do nothing
 }
 
-- (void) popCurrentViewController:(id)sender {
+- (void) menuBackClicked:(id)sender {
   // Do nothing
 }
 

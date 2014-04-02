@@ -35,6 +35,18 @@ typedef enum {
 @interface NiceFontLabel6 : UILabel
 @end
 
+@interface NiceFontLabel7 : UILabel
+@end
+
+@interface NiceFontLabel8 : UILabel
+@end
+
+@interface NiceFontLabel9 : UILabel
+@end
+
+@interface NiceFontLabel10 : UILabel
+@end
+
 @interface SoundButton : UIButton
 
 - (void) playSound;
@@ -79,6 +91,10 @@ typedef enum {
 @end
 
 @interface NiceFontTextField : UITextField
+
+@end
+
+@interface NiceFontTextField2 : UITextField
 
 @end
 
@@ -256,6 +272,26 @@ typedef enum {
 
 - (void) clickButton:(BarButton)button;
 - (void) unclickButton:(BarButton)button;
+
+@end
+
+@interface ButtonTopBar : UIView
+
+@property (nonatomic, retain) IBOutlet UIImageView *selectedView;
+
+@property (nonatomic, retain) IBOutlet UILabel *label1;
+@property (nonatomic, retain) IBOutlet UILabel *label2;
+@property (nonatomic, retain) IBOutlet UILabel *label3;
+
+@property (nonatomic, retain) UIColor *inactiveTextColor;
+@property (nonatomic, retain) UIColor *inactiveShadowColor;
+@property (nonatomic, retain) UIColor *activeTextColor;
+@property (nonatomic, retain) UIColor *activeShadowColor;
+
+@property (nonatomic, assign) IBOutlet id<TabBarDelegate> delegate;
+
+- (void) clickButton:(int)button;
+- (IBAction) buttonClicked:(id)sender;
 
 @end
 

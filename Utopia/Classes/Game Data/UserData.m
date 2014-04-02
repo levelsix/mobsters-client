@@ -244,6 +244,41 @@
   return [bldr build];
 }
 
+- (float) totalSeconds {
+  float secs = 0;
+  for (int i = 0; i < self.timeDistribution.count; i += 2) {
+    secs += [self.timeDistribution[i] floatValue];
+  }
+  return secs;
+}
+
+- (float) currentPercentage {
+  GameState *gs = [GameState sharedGameState];
+  Globals *gl = [Globals sharedGlobals];
+  UserMonster *um = [gs myMonsterWithUserMonsterId:self.userMonsterId];
+  
+  float totalSecs = [self totalSeconds];
+  float timeLeft = [self.endTime timeIntervalSinceNow];
+  float timeCompleted = MAX(totalSecs-timeLeft, 0);
+  float healthToHeal = [gl calculateMaxHealthForMonster:um]-um.curHealth;
+  float percentage = self.healthProgress/healthToHeal;
+  
+  for (int i = 0; i < self.timeDistribution.count; i += 2) {
+    float secs = [self.timeDistribution[i] floatValue];
+    float health = [self.timeDistribution[i+1] floatValue];
+    
+    if (timeCompleted > secs) {
+      timeCompleted -= secs;
+      percentage += health/healthToHeal;
+    } else {
+      percentage += health/healthToHeal*timeCompleted/secs;
+      break;
+    }
+  }
+  
+  return percentage;
+}
+
 - (id) copy {
   UserMonsterHealingItem *item = [[UserMonsterHealingItem alloc] init];
   item.userId = self.userId;
@@ -784,8 +819,8 @@
 + (NSArray *) createRewardsForQuest:(FullQuestProto *)quest {
   NSMutableArray *rewards = [NSMutableArray array];
   
-  if (quest.diamondReward) {
-    Reward *r = [[Reward alloc] initWithGoldAmount:quest.diamondReward];
+  if (quest.gemReward) {
+    Reward *r = [[Reward alloc] initWithGoldAmount:quest.gemReward];
     [rewards addObject:r];
   }
   
@@ -794,8 +829,13 @@
     [rewards addObject:r];
   }
   
-  if (quest.coinReward) {
-    Reward *r = [[Reward alloc] initWithSilverAmount:quest.coinReward];
+  if (quest.cashReward) {
+    Reward *r = [[Reward alloc] initWithSilverAmount:quest.cashReward];
+    [rewards addObject:r];
+  }
+  
+  if (quest.oilReward) {
+    Reward *r = [[Reward alloc] initWithOilAmount:quest.oilReward];
     [rewards addObject:r];
   }
   

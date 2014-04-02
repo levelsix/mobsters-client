@@ -15,17 +15,17 @@
             <rect key="frame" x="0.0" y="0.0" width="50" height="51"/>
             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
             <subviews>
-                <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="fireteam.png" id="aRM-tX-3Pc">
-                    <rect key="frame" x="4" y="3" width="42" height="42"/>
-                    <autoresizingMask key="autoresizingMask"/>
-                </imageView>
                 <view clipsSubviews="YES" contentMode="scaleToFill" id="7dw-AJ-6f4">
                     <rect key="frame" x="4" y="3" width="42" height="42"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                     <subviews>
-                        <imageView userInteractionEnabled="NO" contentMode="top" image="Cheerleader2BazookaThumbnail.png" id="hTg-n3-Phd">
-                            <rect key="frame" x="-8" y="4" width="59" height="59"/>
-                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                        <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="fireteam.png" id="aRM-tX-3Pc">
+                            <rect key="frame" x="0.0" y="0.0" width="42" height="42"/>
+                            <autoresizingMask key="autoresizingMask"/>
+                        </imageView>
+                        <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleAspectFit" image="BryanGoslingT1Thumbnail.png" id="rKv-zv-ee5">
+                            <rect key="frame" x="0.0" y="0.0" width="42" height="42"/>
+                            <autoresizingMask key="autoresizingMask"/>
                         </imageView>
                     </subviews>
                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
@@ -74,14 +74,14 @@
             <connections>
                 <outlet property="bgdIcon" destination="aRM-tX-3Pc" id="5mV-Ps-vyr"/>
                 <outlet property="healthBar" destination="e7F-dx-rNn" id="ffH-vS-FrL"/>
-                <outlet property="monsterIcon" destination="hTg-n3-Phd" id="IgJ-Yl-Z0s"/>
+                <outlet property="monsterIcon" destination="rKv-zv-ee5" id="ZOy-fh-ZrY"/>
                 <outlet property="timeLabel" destination="Jju-Ql-7n6" id="Ea5-xk-Mij"/>
                 <outlet property="timerView" destination="Pyk-uU-Q3D" id="pH5-Ri-BMY"/>
             </connections>
         </view>
     </objects>
     <resources>
-        <image name="Cheerleader2BazookaThumbnail.png" width="59" height="56"/>
+        <image name="BryanGoslingT1Thumbnail.png" width="33" height="42"/>
         <image name="fireteam.png" width="42" height="42"/>
         <image name="minitimebar.png" width="40" height="7"/>
         <image name="minitimebg.png" width="44" height="11"/>

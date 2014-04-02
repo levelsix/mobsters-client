@@ -38,6 +38,14 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
   return ((uint64_t)[[MSDate date] timeIntervalSince1970])*1000;
 }
 
+- (void) registerClanEventDelegate:(id)delegate {
+  [[SocketCommunication sharedSocketCommunication] addClanEventObserver:delegate];
+}
+
+- (void) unregisterClanEventDelegate:(id)delegate {
+  [[SocketCommunication sharedSocketCommunication] removeClanEventObserver:delegate];
+}
+
 - (void) createUserWithName:(NSString *)name facebookId:(NSString *)facebookId structs:(NSArray *)structs cash:(int)cash oil:(int)oil gems:(int)gems delegate:(id)delegate {
   GameState *gs = [GameState sharedGameState];
   SocketCommunication *sc = [SocketCommunication sharedSocketCommunication];
@@ -324,9 +332,14 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
   if (gs.level >= gl.maxLevelForUser) {
     [Globals popupMessage:@"Trying to level up when already at maximum level."];
   } else if (gs.experience >= [gs expNeededForLevel:gs.level+1]) {
-    int tag = [[SocketCommunication sharedSocketCommunication] sendLevelUpMessage];
+    int nextLevel = gs.level+1;
+    while (gs.experience >= [gs expNeededForLevel:nextLevel+1]) {
+      nextLevel++;
+    }
     
-    LevelUpdate *lu = [LevelUpdate updateWithTag:tag change:1];
+    int tag = [[SocketCommunication sharedSocketCommunication] sendLevelUpMessage:nextLevel];
+    
+    LevelUpdate *lu = [LevelUpdate updateWithTag:tag change:nextLevel-gs.level];
     [gs addUnrespondedUpdate:lu];
   } else {
     [Globals popupMessage:@"Trying to level up without enough experience"];
@@ -426,11 +439,12 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
     [[SocketCommunication sharedSocketCommunication] setDelegate:delegate forTag:tag];
     
     [gs.inProgressCompleteQuests removeObjectForKey:questIdNum];
-    SilverUpdate *su = [SilverUpdate updateWithTag:tag change:fqp.coinReward];
-    GoldUpdate *gu = [GoldUpdate updateWithTag:tag change:fqp.diamondReward];
+    SilverUpdate *su = [SilverUpdate updateWithTag:tag change:fqp.cashReward];
+    GoldUpdate *gu = [GoldUpdate updateWithTag:tag change:fqp.gemReward];
+    OilUpdate *ou = [OilUpdate updateWithTag:tag change:fqp.oilReward];
     ExperienceUpdate *eu = [ExperienceUpdate updateWithTag:tag change:fqp.expReward];
     
-    [gs addUnrespondedUpdates:su, gu, eu, nil];
+    [gs addUnrespondedUpdates:su, ou, gu, eu, nil];
     
     [Analytics questRedeem:questId];
   } else {
@@ -574,11 +588,14 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
     
     dispatch_after(dispatch_time(DISPATCH_TIME_NOW, 0.35f * NSEC_PER_SEC), dispatch_get_main_queue(), ^{
       [gs addChatMessage:gs.minUserWithLevel message:msg scope:scope isAdmin:(scope == GroupChatScopeGlobal ? gs.isAdmin : NO)];
+      
+      NSString *key = scope == GroupChatScopeClan ? CLAN_CHAT_RECEIVED_NOTIFICATION : GLOBAL_CHAT_RECEIVED_NOTIFICATION;
+      [[NSNotificationCenter defaultCenter] postNotificationName:key object:nil];
     });
   }
 }
 
-- (void) createClan:(NSString *)clanName tag:(NSString *)clanTag description:(NSString *)description requestOnly:(BOOL)requestOnly delegate:(id)delegate {
+- (void) createClan:(NSString *)clanName tag:(NSString *)clanTag description:(NSString *)description requestOnly:(BOOL)requestOnly iconId:(int)iconId useGems:(BOOL)useGems delegate:(id)delegate {
   Globals *gl = [Globals sharedGlobals];
   GameState *gs = [GameState sharedGameState];
   
@@ -586,12 +603,25 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
     [Globals popupMessage:@"Attempting to create clan with inappropriate clan name length."];
   } else if (clanTag.length <= 0 || clanTag.length > gl.maxCharLengthForClanTag) {
     [Globals popupMessage:@"Attempting to create clan with inappropriate clan tag length."];
-  } else if (gs.gold < gl.coinPriceToCreateClan) {
-    [Globals popupMessage:@"Attempting to create clan without enough gold."];
+  } else if (!useGems && gs.silver < gl.coinPriceToCreateClan) {
+    [Globals popupMessage:@"Attempting to create clan without enough cash."];
   } else {
-    int tag = [[SocketCommunication sharedSocketCommunication] sendCreateClanMessage:clanName tag:clanTag description:description requestOnly:requestOnly];
-    [gs addUnrespondedUpdate:[SilverUpdate updateWithTag:tag change:-gl.coinPriceToCreateClan]];
-    [[SocketCommunication sharedSocketCommunication] setDelegate:delegate forTag:tag];
+    int cost = gl.coinPriceToCreateClan;
+    int curAmount = gs.silver;
+    int gemCost = 0;
+    
+    if (useGems && cost > curAmount) {
+      gemCost = [gl calculateGemConversionForResourceType:ResourceTypeCash amount:cost-curAmount];
+      cost = curAmount;
+    }
+    
+    if (cost > curAmount || gemCost > gs.gold) {
+      [Globals popupMessage:@"Trying to create clan without enough resources."];
+    } else {
+      int tag = [[SocketCommunication sharedSocketCommunication] sendCreateClanMessage:clanName tag:clanTag description:description requestOnly:requestOnly iconId:iconId cashChange:-cost gemsSpent:gemCost];
+      [gs addUnrespondedUpdates:[SilverUpdate updateWithTag:tag change:-cost], [GoldUpdate updateWithTag:tag change:-gemCost], nil];
+      [[SocketCommunication sharedSocketCommunication] setDelegate:delegate forTag:tag];
+    }
   }
 }
 
@@ -611,9 +641,9 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
   GameState *gs = [GameState sharedGameState];
   
   if (gs.clan) {
-    [Globals popupMessage:@"Attempting to request to join clan while in a clan."];
+    [Globals popupMessage:@"You can't submit a clan request while you're already in a clan."];
   } else if ([gs.requestedClans containsObject:[NSNumber numberWithInt:clanId]]) {
-    [Globals popupMessage:@"Attempting to send multiple requests to join clan."];
+    [Globals popupMessage:@"You already have a pending request with this clan!"];
   } else {
     int tag = [[SocketCommunication sharedSocketCommunication] sendRequestJoinClanMessage:clanId];
     [[SocketCommunication sharedSocketCommunication] setDelegate:delegate forTag:tag];
@@ -623,10 +653,8 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
 - (void) retractRequestToJoinClan:(int)clanId delegate:(id)delegate {
   GameState *gs = [GameState sharedGameState];
   
-  if (gs.clan) {
-    [Globals popupMessage:@"Attempting to retract clan request while in a clan."];
-  } else if (![gs.requestedClans containsObject:[NSNumber numberWithInt:clanId]]) {
-    [Globals popupMessage:@"Attempting to retract invalid clan request."];
+  if (gs.clan || ![gs.requestedClans containsObject:[NSNumber numberWithInt:clanId]]) {
+    [Globals popupMessage:@"You no longer have a request pending to this clan!"];
   } else {
     int tag = [[SocketCommunication sharedSocketCommunication] sendRetractRequestJoinClanMessage:clanId];
     [[SocketCommunication sharedSocketCommunication] setDelegate:delegate forTag:tag];
@@ -655,27 +683,27 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
   }
 }
 
-- (void) changeClanDescription:(NSString *)description delegate:(id)delegate {
+- (void) changeClanSettingsIsDescription:(BOOL)isDescription description:(NSString *)description isRequestType:(BOOL)isRequestType requestRequired:(BOOL)requestRequired isIcon:(BOOL)isIcon iconId:(int)iconId delegate:(id)delegate {
   GameState *gs = [GameState sharedGameState];
   Globals *gl = [Globals sharedGlobals];
   
   if (!gs.clan) {
-    [Globals popupMessage:@"Attempting to change clan description while not clan leader."];
-  } else if (description.length <= 0 || description.length > gl.maxCharLengthForClanDescription) {
+    [Globals popupMessage:@"Attempting to change clan settings while not in a clan."];
+  } else if (isDescription && (description.length <= 0 || description.length > gl.maxCharLengthForClanDescription)) {
     [Globals popupMessage:@"Attempting to change clan description with inappropriate length"];
   } else {
-    int tag = [[SocketCommunication sharedSocketCommunication] sendChangeClanDescription:description];
+    int tag = [[SocketCommunication sharedSocketCommunication] sendChangeClanDescription:isDescription description:description isRequestType:isRequestType requestRequired:requestRequired isIcon:isIcon iconId:iconId];
     [[SocketCommunication sharedSocketCommunication] setDelegate:delegate forTag:tag];
   }
 }
 
-- (void) changeClanJoinType:(BOOL)requestRequired delegate:(id)delegate {
+- (void) promoteOrDemoteMember:(int)memberId newStatus:(UserClanStatus)status delegate:(id)delegate {
   GameState *gs = [GameState sharedGameState];
   
   if (!gs.clan) {
-    [Globals popupMessage:@"Attempting to change clan join type while not clan leader."];
+    [Globals popupMessage:@"Attempting to change member status while not in a clan."];
   } else {
-    int tag = [[SocketCommunication sharedSocketCommunication] sendChangeClanJoinType:requestRequired];
+    int tag = [[SocketCommunication sharedSocketCommunication] sendPromoteDemoteClanMemberMessage:memberId newStatus:status];
     [[SocketCommunication sharedSocketCommunication] setDelegate:delegate forTag:tag];
   }
 }
@@ -970,6 +998,22 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
 - (void) beginPvpBattle:(PvpProto *)proto isRevenge:(BOOL)isRevenge previousBattleTime:(uint64_t)previousBattleTime {
   GameState *gs = [GameState sharedGameState];
   [[SocketCommunication sharedSocketCommunication] sendBeginPvpBattleMessage:proto senderElo:gs.elo isRevenge:isRevenge previousBattleTime:previousBattleTime clientTime:[self getCurrentMilliseconds]];
+  
+  if (isRevenge) {
+    PvpHistoryProto *pvp = nil;
+    for (PvpHistoryProto *potential in gs.battleHistory) {
+      if (potential.attacker.userId == proto.defender.minUserProto.userId &&
+          potential.battleEndTime == previousBattleTime) {
+        pvp = potential;
+      }
+    }
+    
+    if (pvp) {
+      PvpHistoryProto_Builder *bldr = [PvpHistoryProto builderWithPrototype:pvp];
+      bldr.exactedRevenge = YES;
+      [gs.battleHistory replaceObjectAtIndex:[gs.battleHistory indexOfObject:pvp] withObject:bldr.build];
+    }
+  }
 }
 
 - (void) endPvpBattleMessage:(PvpProto *)proto userAttacked:(BOOL)userAttacked userWon:(BOOL)userWon delegate:(id)delegate {
@@ -1034,13 +1078,13 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
       [[SocketCommunication sharedSocketCommunication] sendAddMonsterToTeam:userMonsterId teamSlot:teamSlot];
       return YES;
     } else {
-      [Globals popupMessage:@"Team is already at max size!"];
+      [Globals addAlertNotification:@"Team is already at max size!"];
     }
   }
   return NO;
 }
 
-- (void) increaseInventorySlots:(UserStruct *)us withGems:(BOOL)gems {
+- (void) increaseInventorySlots:(UserStruct *)us withGems:(BOOL)gems delegate:(id)delegate {
   GameState *gs = [GameState sharedGameState];
   ResidenceProto *curRes = (ResidenceProto *)us.staticStruct;
   ResidenceProto *fbRes = (ResidenceProto *)us.staticStructForNextFbLevel;
@@ -1092,6 +1136,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
     us.fbInviteStructLvl++;
     
     [gs addUnrespondedUpdate:[GoldUpdate updateWithTag:tag change:-fbRes.numGemsRequired]];
+    [[SocketCommunication sharedSocketCommunication] setDelegate:delegate forTag:tag];
   }
 }
 
@@ -1200,6 +1245,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
   } else {
     [gs removeUserMonsterHealingItem:item];
     
+    silverCost = MIN(silverCost, MAX(0, gs.maxCash-gs.silver));
     int tag = [[SocketCommunication sharedSocketCommunication] setHealQueueDirtyWithCoinChange:silverCost gemCost:0];
     [gs addUnrespondedUpdate:[SilverUpdate updateWithTag:tag change:silverCost]];
     return YES;
@@ -1273,8 +1319,17 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
   GameState *gs = [GameState sharedGameState];
   UserMonster *um = [gs myMonsterWithUserMonsterId:userMonsterId];
   
-  if (um) {
-    int price = um.sellPrice;
+  int numCompleteMonsters = 0;
+  for (UserMonster *um in gs.myMonsters) {
+    if (um.isComplete) {
+      numCompleteMonsters++;
+    }
+  }
+  if (um.isComplete && numCompleteMonsters <= 1) {
+    [Globals popupMessage:@"You can't sell your last monster!"];
+  } else if (um) {
+    float fraction = um.isComplete ? 1 : um.numPieces/(float)um.staticMonster.numPuzzlePieces;
+    int price = MAX(1, um.sellPrice*fraction);
     
     MinimumUserMonsterSellProto *sell = [[[[MinimumUserMonsterSellProto builder] setUserMonsterId:userMonsterId] setCashAmount:price] build];
     int tag = [[SocketCommunication sharedSocketCommunication] sendSellUserMonstersMessage:@[sell]];
@@ -1384,6 +1439,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
     [gs removeEnhancingItem:item];
     
     int oilChange = item.enhancementCost;
+    oilChange = MIN(oilChange, MAX(0, gs.maxOil-gs.oil));
     int tag = [[SocketCommunication sharedSocketCommunication] setEnhanceQueueDirtyWithCoinChange:oilChange gemCost:0];
     [gs addUnrespondedUpdate:[OilUpdate updateWithTag:tag change:oilChange]];
     
@@ -1542,7 +1598,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
   [gs addUnrespondedUpdates:su, ou, gu, nil];
 }
 
-- (void) spawnObstacles:(NSArray *)obstacles {
+- (void) spawnObstacles:(NSArray *)obstacles delegate:(id)delegate {
   if (obstacles.count) {
     GameState *gs = [GameState sharedGameState];
     
@@ -1557,7 +1613,8 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
     [gs.myObstacles addObjectsFromArray:obstacles];
     
     int64_t ms = [self getCurrentMilliseconds];
-    [[SocketCommunication sharedSocketCommunication] sendSpawnObstacleMessage:mins clientTime:ms];
+    int tag = [[SocketCommunication sharedSocketCommunication] sendSpawnObstacleMessage:mins clientTime:ms];
+    [[SocketCommunication sharedSocketCommunication] setDelegate:delegate forTag:tag];
     gs.lastObstacleCreateTime = [MSDate dateWithTimeIntervalSince1970:ms/1000.];
   }
 }
@@ -1625,7 +1682,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
     }
     
     if (gs.gold < numGems) {
-      [Globals popupMessage:@"Attempting to speedup without enough gold"];
+      [Globals popupMessage:@"Attempting to speedup without enough gems."];
     } else {
       int64_t ms = [self getCurrentMilliseconds];
       

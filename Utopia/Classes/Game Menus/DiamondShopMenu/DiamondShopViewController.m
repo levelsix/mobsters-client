@@ -10,7 +10,7 @@
 #import "GameState.h"
 #import "IAPHelper.h"
 
-#define TABLE_CELL_WIDTH 150
+#define TABLE_CELL_WIDTH 142
 
 @implementation DiamondListing
 
@@ -83,7 +83,10 @@
   self.gemAmtIcon.image = [Globals imageNamed:@"diamond.png"];
   self.oilAmtIcon.image = [Globals imageNamed:@"oilicon.png"];
   self.packageIcon.image = nil;
-  if (greyscale) [self setViewToGreyScale:self];
+  if (greyscale) {
+    [self setViewToGreyScale:self];
+    self.nameLabel.textColor = [UIColor colorWithWhite:0.3 alpha:1.f];
+  }
   [Globals imageNamed:product.rewardPicName withView:self.packageIcon greyscale:greyscale indicator:UIActivityIndicatorViewStyleWhite clearImageDuringDownload:YES];
   
   self.productData = product;

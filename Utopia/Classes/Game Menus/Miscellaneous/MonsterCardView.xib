@@ -19,10 +19,6 @@
                     <rect key="frame" x="0.0" y="0.0" width="95" height="120"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                     <subviews>
-                        <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="cardshadow.png" id="v0G-8B-yQG">
-                            <rect key="frame" x="-3" y="-3" width="101" height="126"/>
-                            <autoresizingMask key="autoresizingMask"/>
-                        </imageView>
                         <imageView opaque="NO" multipleTouchEnabled="YES" contentMode="center" image="watercard.png" id="qgc-sy-EWw">
                             <rect key="frame" x="0.0" y="0.0" width="95" height="120"/>
                             <autoresizingMask key="autoresizingMask"/>
@@ -87,9 +83,9 @@
                     <rect key="frame" x="2" y="123" width="90" height="21"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                     <fontDescription key="fontDescription" type="system" pointSize="13"/>
-                    <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="calibratedRGB"/>
+                    <color key="textColor" red="0.20000000000000001" green="0.20000000000000001" blue="0.20000000000000001" alpha="1" colorSpace="calibratedRGB"/>
                     <nil key="highlightedColor"/>
-                    <color key="shadowColor" red="0.0" green="0.0" blue="0.0" alpha="0.29999999999999999" colorSpace="calibratedRGB"/>
+                    <color key="shadowColor" white="1" alpha="0.5" colorSpace="calibratedWhite"/>
                     <size key="shadowOffset" width="0.0" height="1"/>
                 </label>
             </subviews>
@@ -122,9 +118,8 @@
     </objects>
     <resources>
         <image name="Cheerleader1UziCard.png" width="103" height="105"/>
-        <image name="cardshadow.png" width="101" height="126"/>
         <image name="chatinfoi.png" width="17" height="17"/>
-        <image name="emptyslot.png" width="95" height="120"/>
+        <image name="emptyslot.png" width="95" height="121"/>
         <image name="epictag.png" width="44" height="44"/>
         <image name="watercard.png" width="95" height="120"/>
     </resources>

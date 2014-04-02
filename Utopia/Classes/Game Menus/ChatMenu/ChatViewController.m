@@ -13,15 +13,16 @@
 #import "MenuNavigationController.h"
 #import "ClanViewController.h"
 #import "ProfileViewController.h"
-#import "PrivateChatPostProto+UnreadStatus.h"
+#import "UnreadNotifications.h"
 #import "SoundEngine.h"
+#import "GameViewController.h"
 
 #define ANIMATION_SPEED 800.f
 
 @implementation ChatMainView
 
 - (BOOL) pointInside:(CGPoint)point withEvent:(UIEvent *)event {
-  [self endEditing:YES];
+  [self endEditing:NO];
   return [self.insideView pointInside:[self convertPoint:point toView:self.insideView] withEvent:event] ||
          [self.openButton pointInside:[self convertPoint:point toView:self.openButton] withEvent:event];
 }
@@ -30,39 +31,12 @@
 
 @implementation ChatTopBar
 
-- (void) clickButton:(int)button {
-  self.label1.highlighted = NO;
-  self.label1.shadowColor = [UIColor colorWithWhite:1.f alpha:0.5f];
-  self.label2.highlighted = NO;
-  self.label2.shadowColor = [UIColor colorWithWhite:1.f alpha:0.5f];
-  self.label3.highlighted = NO;
-  self.label3.shadowColor = [UIColor colorWithWhite:1.f alpha:0.5f];
-  
-  UILabel *label = nil;
-  if (button == 1) {
-    label = self.label1;
-  } else if (button == 2) {
-    label = self.label2;
-  } else if (button == 3) {
-    label = self.label3;
-  }
-  label.highlighted = YES;
-  self.selectedView.center = ccp(label.center.x, self.selectedView.center.y);
-  label.shadowColor = [UIColor colorWithWhite:0.f alpha:0.3f];
-}
-
-- (IBAction) buttonClicked:(id)sender {
-  NSInteger tag = [(UIView *)sender tag];
-  if (tag == 1) {
-    [self.delegate button1Clicked];
-    [self clickButton:1];
-  } else if (tag == 2) {
-    [self.delegate button2Clicked];
-    [self clickButton:2];
-  } else if (tag == 3) {
-    [self.delegate button3Clicked];
-    [self clickButton:3];
-  }
+- (void) awakeFromNib {
+  self.inactiveTextColor = [UIColor colorWithWhite:1.f alpha:1.f];
+  self.inactiveShadowColor = [UIColor colorWithWhite:0.f alpha:0.5f];
+  self.activeTextColor = [UIColor colorWithRed:8/255.f green:70/255.f blue:107/255.f alpha:1.f];
+  self.activeShadowColor = [UIColor colorWithWhite:1.f alpha:0.75f];
+  [super awakeFromNib];
 }
 
 @end
@@ -81,7 +55,7 @@
   self.privateChatView.frame = r;
   [self.globalChatView.superview addSubview:self.privateChatView];
   
-  [self button1Clicked];
+  [self button1Clicked:nil];
 }
 
 - (void) viewWillAppear:(BOOL)animated {
@@ -92,11 +66,36 @@
   
   [self reloadTables:nil];
   
-  [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(reloadTables:) name:CHAT_RECEIVED_NOTIFICATION object:nil];
+  [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(reloadTables:) name:GLOBAL_CHAT_RECEIVED_NOTIFICATION object:nil];
+  [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(reloadTables:) name:PRIVATE_CHAT_RECEIVED_NOTIFICATION object:nil];
+  [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(reloadTables:) name:CLAN_CHAT_RECEIVED_NOTIFICATION object:nil];
+  [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(incrementClanBadge) name:CLAN_CHAT_RECEIVED_NOTIFICATION object:nil];
 }
 
 - (void) viewDidDisappear:(BOOL)animated {
   [[NSNotificationCenter defaultCenter] removeObserver:self];
+}
+
+- (void) updateBadges {
+  GameState *gs = [GameState sharedGameState];
+  int privBadge = 0;
+  for (PrivateChatPostProto *p in gs.privateChats) {
+    if (p.isUnread) {
+      privBadge++;
+    }
+  }
+  self.privateBadgeIcon.badgeNum = privBadge;
+  
+  if (!self.isOpen) {
+    self.overallBadgeIcon.badgeNum = self.clanBadgeIcon.badgeNum+self.privateBadgeIcon.badgeNum;
+  }
+}
+
+- (void) incrementClanBadge {
+  if (!self.isOpen || self.clanChatView.hidden) {
+    self.clanBadgeIcon.badgeNum++;
+  }
+  [self updateBadges];
 }
 
 - (void) reloadTables:(NSNotification *)notification {
@@ -110,6 +109,8 @@
   if (pcpp.recipient.minUserProto.userId == gs.userId && pcpp.poster.minUserProto.userId == self.privateChatView.curUserId) {
     [self.privateChatView addPrivateChat:pcpp];
   }
+  
+  [self updateBadges];
 }
 
 - (IBAction)buttonDragged:(id)sender forEvent:(UIEvent*)event {
@@ -137,19 +138,29 @@
     if (posX < -self.containerView.frame.size.width/2) {
       [self closeAnimated:YES];
     } else {
-      [self open];
+      [self openToViewWithBadge];
     }
   } else {
     if (self.isOpen) {
       [self closeAnimated:YES];
     } else {
-      [self open];
+      [self openToViewWithBadge];
     }
   }
   _passedThreshold = NO;
 }
 
+- (void) openToViewWithBadge {
+  if (self.clanBadgeIcon.badgeNum) {
+    [self button2Clicked:nil];
+  } else if (self.privateBadgeIcon.badgeNum) {
+    [self button3Clicked:nil];
+  }
+  [self open];
+}
+
 - (void) open {
+  [self reloadTables:nil];
   [UIView animateWithDuration:-self.view.frame.origin.x/ANIMATION_SPEED animations:^{
     CGRect r = self.view.frame;
     r.origin.x = 0;
@@ -157,6 +168,8 @@
     
     self.arrow.transform = CGAffineTransformIdentity;
   }];
+  
+  self.overallBadgeIcon.badgeNum = 0;
   
   [SoundEngine chatOpened];
   
@@ -168,11 +181,14 @@
   
   void (^anim)(void) = ^{
     CGRect r = self.view.frame;
-    r.origin.x = -self.containerView.frame.size.width-1;
+    r.origin.x = -self.containerView.frame.size.width-2;
     self.view.frame = r;
     
     self.arrow.transform = CGAffineTransformMakeScale(-1, 1);
   };
+  
+  self.isOpen = NO;
+  [self updateBadges];
   
   void (^comp)(BOOL finished) = ^(BOOL finished){
     [self.privateChatView loadListViewAnimated:NO];
@@ -186,18 +202,18 @@
     comp(YES);
   }
   
-  self.isOpen = NO;
+  
 }
 
 - (void) openWithConversationForUserId:(int)userId {
-  [self button3Clicked];
+  [self button3Clicked:nil];
   [self.privateChatView openConversationWithUserId:userId animated:NO];
   [self open];
 }
 
 #pragma mark - ChatTopBar delegate
 
-- (void) button1Clicked {
+- (void) button1Clicked:(id)sender {
   self.globalChatView.hidden = NO;
   self.clanChatView.hidden = YES;
   self.privateChatView.hidden = YES;
@@ -205,15 +221,17 @@
   [self.topBar clickButton:1];
 }
 
-- (void) button2Clicked {
+- (void) button2Clicked:(id)sender {
   self.globalChatView.hidden = YES;
   self.clanChatView.hidden = NO;
   self.privateChatView.hidden = YES;
   
   [self.topBar clickButton:2];
+  
+  self.clanBadgeIcon.badgeNum = 0;
 }
 
-- (void) button3Clicked {
+- (void) button3Clicked:(id)sender {
   self.globalChatView.hidden = YES;
   self.clanChatView.hidden = YES;
   self.privateChatView.hidden = NO;
@@ -228,19 +246,42 @@
 
 - (void) clanClicked:(MinimumClanProto *)clan {
   MenuNavigationController *m = [[MenuNavigationController alloc] init];
-  UIViewController *gvc = (UIViewController *)self.parentViewController;
+  UIViewController *gvc = [GameViewController baseController];
   [gvc presentViewController:m animated:YES completion:nil];
-  [m pushViewController:[[ClanInfoViewController alloc] initWithClanId:clan.clanId andName:clan.name] animated:NO];
+  
+  GameState *gs = [GameState sharedGameState];
+  ClanInfoViewController *cvc = nil;
+  if (gs.clan.clanId == clan.clanId) {
+    cvc = [[ClanInfoViewController alloc] init];
+    [cvc loadForMyClan];
+  } else {
+    cvc = [[ClanInfoViewController alloc] initWithClanId:clan.clanId andName:clan.name];
+  }
+  [m pushViewController:cvc animated:NO];
   
   [self closeAnimated:YES];
 }
 
 - (void) profileClicked:(int)userId {
-  UIViewController *gvc = (UIViewController *)self.parentViewController;
+  UIViewController *gvc = [GameViewController baseController];
   ProfileViewController *pvc = [[ProfileViewController alloc] initWithUserId:userId];
   [gvc addChildViewController:pvc];
   pvc.view.frame = gvc.view.bounds;
   [gvc.view addSubview:pvc.view];
+}
+
+- (IBAction)findClanClicked:(id)sender {
+  UIViewController *gvc = [GameViewController baseController];
+  MenuNavigationController *m = [[MenuNavigationController alloc] init];
+  [gvc presentViewController:m animated:YES completion:nil];
+  ClanViewController *cvc = [[ClanViewController alloc] init];
+  [m pushViewController:cvc animated:NO];
+  
+  [self closeAnimated:YES];
+}
+
+- (void) viewedPrivateChat {
+  [self updateBadges];
 }
 
 @end

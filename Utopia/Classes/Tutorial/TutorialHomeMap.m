@@ -393,4 +393,9 @@
   // Do nothing
 }
 
+- (void) onEnter {
+  [super onEnter];
+  [[NSNotificationCenter defaultCenter] removeObserver:self];
+}
+
 @end

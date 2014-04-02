@@ -43,6 +43,8 @@
 #import "IncomingEventController.h"
 #import "MiniTutorialController.h"
 #import "SoundEngine.h"
+#import <cocos2d-ui.h>
+#import "LevelUpNode.h"
 
 #define DEFAULT_PNG_IMAGE_VIEW_TAG 103
 #define KINGDOM_PNG_IMAGE_VIEW_TAG 104
@@ -131,8 +133,10 @@
 }
 
 - (void) setupNotificationViewController {
-  self.notifViewController = [[OneLineNotificationViewController alloc] init];
-  [self.notifViewController displayView];
+  if (!self.notifViewController) {
+    self.notifViewController = [[OneLineNotificationViewController alloc] init];
+    [self.notifViewController displayView];
+  }
 }
 
 - (void) viewDidLoad {
@@ -143,6 +147,8 @@
   [QuestUtil setDelegate:self];
   
   [[NSBundle mainBundle] loadNibNamed:@"TravelingLoadingView" owner:self options:nil];
+  
+  [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(checkLevelUp) name:GAMESTATE_UPDATE_NOTIFICATION object:nil];
 }
 
 - (void) viewDidAppear:(BOOL)animated {
@@ -172,28 +178,66 @@
   }
 }
 
-- (void) fadeToLoadingScreenPercentage:(float)percentage animated:(BOOL)animated {
-  if (self.presentedViewController) {
-    [self.presentedViewController dismissViewControllerAnimated:NO completion:nil];
+- (void) fadeToLoadingScreenAnimated:(BOOL)animated {
+  LoadingViewController *lvc = (LoadingViewController *)[(UINavigationController *)self.presentedViewController visibleViewController];
+  if (![lvc isKindOfClass:[LoadingViewController class]]) {
+    if (self.presentedViewController) {
+      [self.presentedViewController dismissViewControllerAnimated:NO completion:nil];
+    }
+    
+    if (!self.tutController) {
+      LoadingViewController *lvc = [[LoadingViewController alloc] initWithPercentage:0];
+      UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:lvc];
+      nav.navigationBarHidden = YES;
+      [self presentViewController:nav animated:animated completion:nil];
+    }
   }
-  
-  LoadingViewController *lvc = [[LoadingViewController alloc] initWithPercentage:percentage];
-  UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:lvc];
-  nav.navigationBarHidden = YES;
-  [self presentViewController:nav animated:animated completion:nil];
+}
+
+- (void) fadeToLoadingScreenPercentage:(float)percentage animated:(BOOL)animated {
+  [self fadeToLoadingScreenAnimated:animated];
+  [self progressTo:percentage animated:NO];
+}
+
+- (void) handleSignificantTimeChange {
+  GameState *gs = [GameState sharedGameState];
+  if (!gs.connected) {
+    // App delegate will have already initialized network connection
+    [self fadeToLoadingScreenPercentage:0 animated:NO];
+    _isFreshRestart = YES;
+  }
+}
+
+- (void) handleForceLogoutResponseProto:(ForceLogoutResponseProto *)proto {
+  GameState *gs = [GameState sharedGameState];
+  if ([proto.udid isEqualToString:[SocketCommunication getUdid]]) {
+    if (gs.lastLoginTimeNum != proto.previousLoginTime) {
+      [self fadeToLoadingScreenAnimated:YES];
+    }
+  } else {
+    gs.connected = NO;
+    [[SocketCommunication sharedSocketCommunication] closeDownConnection];
+    [GenericPopupController displayNotificationViewWithText:@"You have been logged in on another device. Would you like to reconnect?" title:@"Reconnect?" okayButton:@"Reconnect" target:self selector:@selector(doFreshRestart)];
+  }
+}
+
+- (void) doFreshRestart {
+  _isFreshRestart = YES;
+  [self fadeToLoadingScreenPercentage:0 animated:YES];
+  [[SocketCommunication sharedSocketCommunication] initNetworkCommunicationWithDelegate:self];
 }
 
 - (void) reloadAccountWithStartupResponse:(StartupResponseProto *)startupResponse {
   GameState *gs = [GameState sharedGameState];
   gs.isTutorial = NO;
   
+  // For tutorial
+  self.tutController = nil;
+  
   [self fadeToLoadingScreenPercentage:PART_3_PERCENT animated:YES];
   FullEvent *fe = [FullEvent createWithEvent:startupResponse tag:0];
   [[IncomingEventController sharedIncomingEventController] handleStartupResponseProto:fe];
   [self handleStartupResponseProto:fe];
-  
-  // For tutorial
-  self.tutController = nil;
 }
 
 - (void) tutorialReceivedStartupResponse:(StartupResponseProto *)startupResponse {
@@ -227,9 +271,21 @@
 - (void) handleConnectedToHost {
   if (!self.tutController && !_isFromFacebook) {
     [self progressTo:PART_2_PERCENT animated:YES];
-    LNLog(@"Retrieving facebook id.");
+    
+    if (_isFreshRestart) {
+      CCDirector *dir = [CCDirector sharedDirector];
+      if (dir.runningScene) {
+        [dir popToRootScene];
+      }
+      [self showTopBarDuration:0.f completion:nil];
+      
+      if (self.miniTutController) {
+        [self.miniTutController stop];
+        self.miniTutController = nil;
+      }
+    }
+    
     [FacebookDelegate getFacebookIdAndDoAction:^(NSString *facebookId) {
-      LNLog(@"Received facebook id: %@", facebookId);
       if ([SocketCommunication isForcedTutorial]) {
         NSLog(@"Forcing tutorial. Throwing away facebook id %@.", facebookId);
         facebookId = nil;
@@ -242,7 +298,6 @@
     gs.connected = YES;
     
     [[SocketCommunication sharedSocketCommunication] initUserIdMessageQueue];
-    [[SocketCommunication sharedSocketCommunication] reloadClanMessageQueue];
   }
   _isFromFacebook = NO;
 }
@@ -274,7 +329,9 @@
   if ([self.navigationController.visibleViewController isKindOfClass:[LoadingViewController class]]) {
     [self progressTo:1.f animated:NO];
     
-    [self dismissViewControllerAnimated:YES completion:nil];
+    [self dismissViewControllerAnimated:YES completion:^{
+      [self checkLevelUp];
+    }];
     
     // Load the home map
     [self visitCityClicked:0];
@@ -323,6 +380,8 @@
     } completion:^(BOOL finished) {
       [self.topBarViewController viewDidAppear:YES];
       
+      [self checkLevelUp];
+      
       if (completion) {
         completion();
       }
@@ -330,6 +389,8 @@
   } else {
     self.topBarViewController.view.alpha = 1.f;
     [self.topBarViewController viewDidAppear:NO];
+    
+    [self checkLevelUp];
     
     if (completion) {
       completion();
@@ -396,13 +457,19 @@
       [hm moveToCenterAnimated:NO];
       self.currentMap = hm;
       
-      [self.topBarViewController removeMyCityView];
       
       CCDirector *dir = [CCDirector sharedDirector];
       if (![dir runningScene]) {
         [dir pushScene:scene];
+        [self.topBarViewController removeMyCityView];
+        [self.topBarViewController showClanView];
       } else {
+        float dur = 0.4f;
         [[CCDirector sharedDirector] replaceScene:scene withTransition:[CCTransition transitionCrossFadeWithDuration:0.4f]];
+        [UIView animateWithDuration:dur animations:^{
+          [self.topBarViewController removeMyCityView];
+          [self.topBarViewController showClanView];
+        }];
       }
       
       [self playMapMusic];
@@ -440,9 +507,13 @@
     [mm moveToCenterAnimated:NO];
   }
   self.currentMap = mm;
-  [[CCDirector sharedDirector] replaceScene:scene withTransition:[CCTransition transitionCrossFadeWithDuration:0.4f]];
   
-  [self.topBarViewController performSelector:@selector(showMyCityView) withObject:nil afterDelay:0.4];
+  float dur = 0.4f;
+  [[CCDirector sharedDirector] replaceScene:scene withTransition:[CCTransition transitionCrossFadeWithDuration:dur]];
+  [UIView animateWithDuration:dur animations:^{
+    [self.topBarViewController showMyCityView];
+    [self.topBarViewController removeClanView];
+  }];
   
   [self.loadingView stop];
   
@@ -564,6 +635,8 @@
     [self questProgress:self.progressedQuest];
   }
   
+  [self checkLevelUp];
+  
   [self playMapMusic];
 }
 
@@ -572,7 +645,8 @@
 - (void) battleComplete:(NSDictionary *)params {
   float duration = 0.6;
   
-  [[CCDirector sharedDirector] popSceneWithTransition:[CCTransition transitionCrossFadeWithDuration:duration]];
+  _isInBattle = NO;
+  [[CCDirector sharedDirector] popSceneWithTransition:[CCTransition transitionCrossFadeWithDuration:duration] ];
   
   if ([[params objectForKey:BATTLE_MANAGE_CLICKED_KEY] boolValue]) {
     MenuNavigationController *m = [[MenuNavigationController alloc] init];
@@ -584,7 +658,6 @@
     [self showTopBarDuration:duration completion:nil];
   }
   
-  _isInBattle = NO;
   
   if (self.completedQuest) {
     [self questComplete:self.completedQuest];
@@ -655,12 +728,15 @@
 }
 
 - (void) questProgress:(FullQuestProto *)fqp {
-  if (!_isInBattle && !self.miniTutController) {
-    [self.topBarViewController displayQuestProgressView];
-    
-    self.progressedQuest = nil;
-  } else {
-    self.progressedQuest = fqp;
+  if (!fqp.isAchievement) {
+    if (!_isInBattle && !self.miniTutController) {
+      GameState *gs = [GameState sharedGameState];
+      [self.topBarViewController displayQuestProgressViewForQuest:fqp userQuest:[gs myQuestWithId:fqp.questId]];
+      
+      self.progressedQuest = nil;
+    } else {
+      self.progressedQuest = fqp;
+    }
   }
 }
 
@@ -679,6 +755,7 @@
   
   if (_questIdAfterDialogue) {
     QuestLogViewController *qvc = [[QuestLogViewController alloc] init];
+    qvc.delegate = self;
     [self addChildViewController:qvc];
     qvc.view.frame = self.view.bounds;
     [self.view addSubview:qvc.view];
@@ -687,6 +764,29 @@
     FullQuestProto *fqp = [gs questForId:_questIdAfterDialogue];
     [qvc loadDetailsViewForQuest:fqp userQuest:nil animated:NO];
   }
+}
+
+- (void) questLogClosed {
+  [self checkLevelUp];
+}
+
+#pragma mark - Level Up
+
+- (void) checkLevelUp {
+  if (!_isInBattle && !self.miniTutController && !self.completedQuest && [CCDirector sharedDirector].isAnimating) {
+    GameState *gs = [GameState sharedGameState];
+    Globals *gl = [Globals sharedGlobals];
+    if (gs.level < gl.maxLevelForUser && gs.experience >= [gs expNeededForLevel:gs.level+1]) {
+      [[OutgoingEventController sharedOutgoingEventController] levelUp];
+      [self spawnLevelUp];
+    }
+  }
+}
+
+- (void) spawnLevelUp {
+  LevelUpNode *levelUp = (LevelUpNode *)[CCBReader load:@"LevelUpNode"];
+  [[[CCDirector sharedDirector] runningScene] addChild:levelUp];
+  levelUp.position = ccp(levelUp.parent.contentSize.width/2, levelUp.parent.contentSize.height/2);
 }
 
 #pragma mark - Facebook stuff

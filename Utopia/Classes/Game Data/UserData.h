@@ -64,6 +64,9 @@
 
 - (UserMonsterHealingProto *) convertToProto;
 
+- (float) totalSeconds;
+- (float) currentPercentage;
+
 @end
 
 @interface EvoItem : NSObject

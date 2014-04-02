@@ -8,10 +8,17 @@
 
 #import "OmnipresentViewController.h"
 
+@interface OneLineNotificationView : UIView
+
+@property (nonatomic, retain) IBOutlet UILabel *label;
+@property (nonatomic, retain) IBOutletCollection(UIImageView) NSArray *imgViews;
+
+@end
+
 @interface OneLineNotificationViewController : OmnipresentViewController
 
-@property (nonatomic, retain) NSMutableArray *labels;
+@property (nonatomic, retain) IBOutlet OneLineNotificationView *notificationView;
 
-- (void) addNotification:(NSString *)string color:(UIColor *)color;
+- (void) addNotification:(NSString *)string isGreen:(BOOL)isGreen;
 
 @end

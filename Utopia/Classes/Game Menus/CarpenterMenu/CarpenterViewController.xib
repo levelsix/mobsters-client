@@ -17,30 +17,30 @@
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
                 <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="mainmenubg.png" id="Jjn-Um-6aw">
-                    <rect key="frame" x="0.0" y="-40" width="568" height="320"/>
+                    <rect key="frame" x="0.0" y="-2" width="568" height="282"/>
                     <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES"/>
                 </imageView>
                 <view clipsSubviews="YES" contentMode="scaleToFill" id="43">
-                    <rect key="frame" x="0.0" y="0.0" width="568" height="240"/>
+                    <rect key="frame" x="0.0" y="0.0" width="568" height="232"/>
                     <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES"/>
                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                     <simulatedOrientationMetrics key="simulatedOrientationMetrics" orientation="landscapeRight"/>
                     <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
                 </view>
                 <view contentMode="scaleToFill" id="enu-lK-5Q3" customClass="CoinBar">
-                    <rect key="frame" x="0.0" y="240" width="568" height="40"/>
+                    <rect key="frame" x="0.0" y="234" width="568" height="46"/>
                     <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
                     <subviews>
-                        <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" image="moneybottombar.png" id="qjI-R9-MRC">
-                            <rect key="frame" x="0.0" y="0.0" width="568" height="40"/>
-                            <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES"/>
+                        <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" image="mobstersbottombarbg.png" id="dog-xg-Zx2">
+                            <rect key="frame" x="0.0" y="0.0" width="568" height="58"/>
+                            <autoresizingMask key="autoresizingMask"/>
                         </imageView>
                         <view contentMode="scaleToFill" id="fuB-HL-8KZ">
-                            <rect key="frame" x="44" y="0.0" width="480" height="40"/>
+                            <rect key="frame" x="44" y="5" width="480" height="40"/>
                             <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             <subviews>
                                 <view contentMode="scaleToFill" id="1Be-lQ-Vkm">
-                                    <rect key="frame" x="316" y="5" width="88" height="29"/>
+                                    <rect key="frame" x="316" y="6" width="88" height="29"/>
                                     <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                     <subviews>
                                         <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="menuresourcebg.png" id="Kbx-Fg-Vig">
@@ -130,9 +130,9 @@
     </objects>
     <resources>
         <image name="diamond.png" width="44" height="41"/>
-        <image name="mainmenubg.png" width="568" height="320"/>
+        <image name="mainmenubg.png" width="568" height="282"/>
         <image name="menuresourcebg.png" width="82" height="19"/>
-        <image name="moneybottombar.png" width="568" height="40"/>
+        <image name="mobstersbottombarbg.png" width="1" height="58"/>
         <image name="moneystack.png" width="43" height="34"/>
         <image name="oilicon.png" width="26" height="32"/>
     </resources>

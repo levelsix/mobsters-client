@@ -104,6 +104,16 @@
   self.speakerMonsterId = self.battleLayer.myPlayerObject.monsterId;
 }
 
+- (void) stop {
+  [self.dialogueViewController removeFromParentViewController];
+  [self.dialogueViewController.view removeFromSuperview];
+  [self.touchView removeFromSuperview];
+  
+  if (self.battleLayer.isRunningInActiveScene) {
+    [[CCDirector sharedDirector] popScene];
+  }
+}
+
 #pragma mark - Dialogue delegate
 
 - (void) dialogueViewController:(DialogueViewController *)dvc willDisplaySpeechAtIndex:(int)index {

@@ -80,7 +80,7 @@ BOOL EventProtocolRequestIsValidValue(EventProtocolRequest value) {
     case EventProtocolRequestCApproveOrRejectRequestToJoinClanEvent:
     case EventProtocolRequestCTransferClanOwnership:
     case EventProtocolRequestCRetrieveClanInfoEvent:
-    case EventProtocolRequestCChangeClanDescriptionEvent:
+    case EventProtocolRequestCChangeClanSettingsEvent:
     case EventProtocolRequestCBootPlayerFromClanEvent:
     case EventProtocolRequestCPickLockBoxEvent:
     case EventProtocolRequestCRetrieveTournamentRankingsEvent:
@@ -88,7 +88,6 @@ BOOL EventProtocolRequestIsValidValue(EventProtocolRequest value) {
     case EventProtocolRequestCEvolveMonsterEvent:
     case EventProtocolRequestCPurchaseBoosterPackEvent:
     case EventProtocolRequestCEvolutionFinishedEvent:
-    case EventProtocolRequestCChangeClanJoinTypeEvent:
     case EventProtocolRequestCPrivateChatPostEvent:
     case EventProtocolRequestCRetrievePrivateChatPostEvent:
     case EventProtocolRequestCRedeemUserLockBoxItemsEvent:
@@ -155,7 +154,7 @@ BOOL EventProtocolResponseIsValidValue(EventProtocolResponse value) {
     case EventProtocolResponseSApproveOrRejectRequestToJoinClanEvent:
     case EventProtocolResponseSTransferClanOwnership:
     case EventProtocolResponseSRetrieveClanInfoEvent:
-    case EventProtocolResponseSChangeClanDescriptionEvent:
+    case EventProtocolResponseSChangeClanSettingsEvent:
     case EventProtocolResponseSBootPlayerFromClanEvent:
     case EventProtocolResponseSPickLockBoxEvent:
     case EventProtocolResponseSRetrieveTournamentRankingsEvent:
@@ -163,7 +162,6 @@ BOOL EventProtocolResponseIsValidValue(EventProtocolResponse value) {
     case EventProtocolResponseSEvolveMonsterEvent:
     case EventProtocolResponseSPurchaseBoosterPackEvent:
     case EventProtocolResponseSEvolutionFinishedEvent:
-    case EventProtocolResponseSChangeClanJoinTypeEvent:
     case EventProtocolResponseSPrivateChatPostEvent:
     case EventProtocolResponseSRetrievePrivateChatPostEvent:
     case EventProtocolResponseSRedeemUserLockBoxItemsEvent:

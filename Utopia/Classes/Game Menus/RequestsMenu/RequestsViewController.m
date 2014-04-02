@@ -14,47 +14,16 @@
 #import "FacebookDelegate.h"
 #import "RequestsFacebookTableController.h"
 #import "RequestsBattleTableController.h"
+#import "UnreadNotifications.h"
 
 @implementation RequestsTopBar
 
-- (void) clickButton:(int)button {
-  UIColor *inactiveText = [UIColor colorWithRed:228/255.f green:243/255.f blue:248/255.f alpha:1.f];
-  UIColor *inactiveShadow = [UIColor colorWithRed:21/255.f green:96/255.f blue:150/255.f alpha:0.75f];
-  self.label1.highlighted = NO;
-  self.label1.textColor = inactiveText;
-  self.label1.shadowColor = inactiveShadow;
-  self.label2.highlighted = NO;
-  self.label2.textColor = inactiveText;
-  self.label2.shadowColor = inactiveShadow;
-  self.label3.highlighted = NO;
-  self.label3.textColor = inactiveText;
-  self.label3.shadowColor = inactiveShadow;
-  
-  UILabel *label = nil;
-  if (button == 1) {
-    label = self.label1;
-  } else if (button == 2) {
-    label = self.label2;
-  } else if (button == 3) {
-    label = self.label3;
-  }
-  self.selectedView.center = ccp(label.center.x, self.selectedView.center.y);
-  label.textColor = [UIColor colorWithRed:71/255.f green:81/255.f blue:87/255.f alpha:1.f];
-  label.shadowColor = [UIColor colorWithWhite:1.f alpha:0.75f];
-}
-
-- (IBAction) buttonClicked:(id)sender {
-  NSInteger tag = [(UIView *)sender tag];
-  if (tag == 1) {
-    [self.delegate button1Clicked:sender];
-    [self clickButton:1];
-  } else if (tag == 2) {
-    [self.delegate button2Clicked:sender];
-    [self clickButton:2];
-  } else if (tag == 3) {
-    [self.delegate button3Clicked:sender];
-    [self clickButton:3];
-  }
+- (void) awakeFromNib {
+  self.inactiveTextColor = [UIColor colorWithRed:228/255.f green:243/255.f blue:248/255.f alpha:1.f];
+  self.inactiveShadowColor = [UIColor colorWithRed:21/255.f green:96/255.f blue:150/255.f alpha:0.75f];
+  self.activeTextColor = [UIColor colorWithRed:71/255.f green:81/255.f blue:87/255.f alpha:1.f];
+  self.activeShadowColor = [UIColor colorWithWhite:1.f alpha:0.75f];
+  [super awakeFromNib];
 }
 
 @end
@@ -67,8 +36,28 @@
   self.facebookController = [[RequestsFacebookTableController alloc] init];
   self.battleController = [[RequestsBattleTableController alloc] init];
   
-  [self.topBar clickButton:1];
-  [self button1Clicked:nil];
+  [self updateBadgeIcons];
+  
+  [self updateBadgeIcons];
+}
+
+- (void) viewWillAppear:(BOOL)animated {
+  [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(updateBadgeIcons) name:NEW_FB_INVITE_NOTIFICATION object:nil];
+  [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(updateBadgeIcons) name:FB_INVITE_RESPONDED_NOTIFICATION object:nil];
+  [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(updateBadgeIcons) name:NEW_BATTLE_HISTORY_NOTIFICATION object:nil];
+  [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(updateBadgeIcons) name:BATTLE_HISTORY_VIEWED_NOTIFICATION object:nil];
+  
+  if (self.battleBadgeIcon.badgeNum) {
+    [self button1Clicked:nil];
+  } else if (self.facebookBadgeIcon.badgeNum) {
+    [self button3Clicked:nil];
+  } else {
+    [self button1Clicked:nil];
+  }
+}
+
+- (void) viewDidDisappear:(BOOL)animated {
+  [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
 - (void) changeTableController:(id<RequestsTableController>)newController {
@@ -87,10 +76,24 @@
   }];
 }
 
+- (void) updateBadgeIcons {
+  GameState *gs = [GameState sharedGameState];
+  self.facebookBadgeIcon.badgeNum = gs.fbUnacceptedRequestsFromFriends.count;
+  
+  int requestsBadge = 0;
+  for (PvpHistoryProto *pvp in gs.battleHistory) {
+    if (pvp.isUnread) {
+      requestsBadge++;
+    }
+  }
+  self.battleBadgeIcon.badgeNum = requestsBadge;
+}
+
 #pragma mark - Tab bar delegate
 
 - (void) button1Clicked:(id)sender {
   [self changeTableController:self.battleController];
+  [self.topBar clickButton:1];
 }
 
 - (void) button2Clicked:(id)sender {
@@ -99,6 +102,7 @@
 
 - (void) button3Clicked:(id)sender {
   [self changeTableController:self.facebookController];
+  [self.topBar clickButton:3];
 }
 
 @end

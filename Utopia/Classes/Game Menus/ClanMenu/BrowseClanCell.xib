@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="4514" systemVersion="12F45" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="5053" systemVersion="12F45" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none">
     <dependencies>
         <deployment defaultVersion="1536" identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="3747"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="3733"/>
     </dependencies>
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="ClanBrowseViewController">
@@ -69,6 +69,10 @@
                                 <color key="shadowColor" red="0.031372549019607843" green="0.30588235294117649" blue="0.5725490196078431" alpha="0.80000000000000004" colorSpace="calibratedRGB"/>
                                 <size key="shadowOffset" width="0.0" height="1"/>
                             </label>
+                            <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="shield.png" id="dIG-vS-th0">
+                                <rect key="frame" x="17" y="6" width="31" height="34"/>
+                                <autoresizingMask key="autoresizingMask"/>
+                            </imageView>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="39" customClass="MaskedButton">
                                 <rect key="frame" x="7" y="0.0" width="465" height="46"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
@@ -89,11 +93,11 @@
                                 <rect key="frame" x="348" y="5" width="85" height="36"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxY="YES"/>
                                 <subviews>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="28">
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="28" customClass="GeneralButton">
                                         <rect key="frame" x="7" y="4" width="71" height="28"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
-                                        <state key="normal" backgroundImage="heal.png">
+                                        <state key="normal" image="heal.png">
                                             <color key="titleColor" red="0.19607843459999999" green="0.30980393290000002" blue="0.52156865600000002" alpha="1" colorSpace="calibratedRGB"/>
                                             <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                         </state>
@@ -113,6 +117,10 @@
                                         <color key="shadowColor" red="0.0" green="0.0" blue="0.0" alpha="0.29999999999999999" colorSpace="calibratedRGB"/>
                                         <size key="shadowOffset" width="0.0" height="1"/>
                                     </label>
+                                    <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" animating="YES" style="white" id="Zys-44-A4D">
+                                        <rect key="frame" x="32" y="8" width="20" height="20"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                    </activityIndicatorView>
                                 </subviews>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                             </view>
@@ -125,8 +133,10 @@
             <connections>
                 <outlet property="buttonLabel" destination="27" id="30"/>
                 <outlet property="buttonView" destination="26" id="29"/>
+                <outlet property="iconImage" destination="dIG-vS-th0" id="CyR-4G-UdN"/>
                 <outlet property="membersLabel" destination="kkB-FI-Cai" id="Asc-er-t32"/>
                 <outlet property="redButton" destination="28" id="33"/>
+                <outlet property="spinner" destination="Zys-44-A4D" id="KCv-Ca-ziQ"/>
                 <outlet property="topLabel" destination="6" id="18"/>
                 <outlet property="typeLabel" destination="22" id="25"/>
             </connections>
@@ -135,5 +145,6 @@
     <resources>
         <image name="clanlistbg.png" width="465" height="46"/>
         <image name="heal.png" width="71" height="28"/>
+        <image name="shield.png" width="31" height="34"/>
     </resources>
 </document>

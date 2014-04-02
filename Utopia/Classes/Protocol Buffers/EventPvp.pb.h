@@ -41,6 +41,8 @@
 @class MonsterProto_Builder;
 @class PvpHistoryProto;
 @class PvpHistoryProto_Builder;
+@class PvpLeagueProto;
+@class PvpLeagueProto_Builder;
 @class PvpProto;
 @class PvpProto_Builder;
 @class QueueUpRequestProto;
@@ -65,6 +67,8 @@
 @class UserMonsterEvolutionProto_Builder;
 @class UserMonsterHealingProto;
 @class UserMonsterHealingProto_Builder;
+@class UserPvpLeagueProto;
+@class UserPvpLeagueProto_Builder;
 typedef enum {
   QueueUpResponseProto_QueueUpStatusSuccess = 1,
   QueueUpResponseProto_QueueUpStatusFailNotEnoughCash = 2,

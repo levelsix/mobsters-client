@@ -8,7 +8,7 @@
 
 #import "QuestLogViewController.h"
 
-@protocol TutorialQuestLogDelegate <NSObject>
+@protocol TutorialQuestLogDelegate <QuestLogDelegate>
 
 - (void) questClickedInList;
 - (void) questVisitClicked;

@@ -18,5 +18,9 @@
 
 @property (nonatomic, assign) BOOL silentlyAcceptFacebookRequests;
 @property (nonatomic, retain) NSMutableArray *facebookDelegates;
+@property (nonatomic, retain) NSMutableArray *omnipresentViews;
+
+- (void) displayOmnipresentView:(UIView *)v;
+- (void) removeOmniPresentView:(UIView *)v;
 
 @end

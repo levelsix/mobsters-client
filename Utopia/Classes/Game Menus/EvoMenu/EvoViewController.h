@@ -14,7 +14,7 @@
 @interface EvoViewController : GenViewController <EasyTableViewDelegate, EvoCardCellDelegate>
 
 @property (nonatomic, strong) IBOutlet UIView *tableContainerView;
-@property (nonatomic, strong) IBOutlet UIImageView *leftHeaderUnderlay;
+@property (nonatomic, strong) IBOutlet UIView *leftHeaderUnderlay;
 
 @property (nonatomic, strong) IBOutlet UIView *readyHeaderView;
 @property (nonatomic, strong) IBOutlet UIView *missingCataHeaderView;

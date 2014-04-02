@@ -11,5 +11,6 @@
 @interface OmnipresentViewController : UIViewController
 
 - (void) displayView;
+- (void) removeView;
 
 @end

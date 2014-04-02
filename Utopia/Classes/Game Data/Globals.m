@@ -91,10 +91,11 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
   self.elementalStrength = constants.monsterConstants.elementalStrength;
   self.elementalWeakness = constants.monsterConstants.elementalWeakness;
   
-  self.coinPriceToCreateClan = constants.clanConstants.hasCoinPriceToCreateClan;
+  self.coinPriceToCreateClan = constants.clanConstants.coinPriceToCreateClan;
   self.maxCharLengthForClanName = constants.clanConstants.maxCharLengthForClanName;
   self.maxCharLengthForClanDescription = constants.clanConstants.maxCharLengthForClanDescription;
   self.maxCharLengthForClanTag = constants.clanConstants.maxCharLengthForClanTag;
+  self.maxClanSize = constants.clanConstants.maxClanSize;
   
   self.tournamentWinsWeight = constants.touramentConstants.winsWeight;
   self.tournamentLossesWeight = constants.touramentConstants.lossesWeight;
@@ -159,6 +160,14 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
   }
   
   if (i == 0) {
+    completed();
+  }
+}
+
++ (void) downloadFile:(NSString *)file completion:(void (^)(void))completed {
+  if ([self isFileDownloaded:file]) {
+    [[Downloader sharedDownloader] asyncDownloadFile:file completion:completed];
+  } else if (completed) {
     completed();
   }
 }
@@ -475,6 +484,28 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
   }
 }
 
++ (NSString *) stringForClanStatus:(UserClanStatus)status {
+  NSString *typeText = @"";
+  switch (status) {
+    case UserClanStatusLeader:
+      typeText = @"Clan Leader";
+      break;
+    case UserClanStatusJuniorLeader:
+      typeText = @"Jr. Leader";
+      break;
+    case UserClanStatusCaptain:
+      typeText = @"Clan Captain";
+      break;
+    case UserClanStatusMember:
+      typeText = @"Clan Member";
+      break;
+    case UserClanStatusRequesting:
+      typeText = @"Requestee";
+      break;
+  }
+  return typeText;
+}
+
 + (NSString *) imageNameForElement:(MonsterProto_MonsterElement)element suffix:(NSString *)str {
   NSString *base = [[self stringForElement:element] lowercaseString];
   return [base stringByAppendingString:str];
@@ -530,7 +561,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
     
     // Move frame down to account for this font
     CGRect tmp = somethingWithText.frame;
-    tmp.origin.y += FONT_LABEL_OFFSET * size / [self fontSize];
+    tmp.origin.y += FONT_LABEL_OFFSET;
     somethingWithText.frame = tmp;
   }
 }
@@ -624,6 +655,22 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
   }
   
   return toRet;
+}
+
++ (NSString *) qualifierStringForNumber:(int)rank {
+  int lastDigit = rank % 10;
+  int secondDigit = (rank / 10) % 10;
+  NSString *qualifier = @"th";
+  if (secondDigit != 1 && lastDigit >= 1 && lastDigit <= 3) {
+    if (lastDigit == 1) {
+      qualifier = @"st";
+    } else if (lastDigit == 2) {
+      qualifier = @"nd";
+    } else if (lastDigit == 3) {
+      qualifier = @"rd";
+    }
+  }
+  return qualifier;
 }
 
 + (void) calculateDifferencesBetweenOldArray:(NSArray *)oArr newArray:(NSArray *)nArr removalIps:(NSMutableArray *)removals additionIps:(NSMutableArray *)additions section:(int)section {
@@ -1091,14 +1138,18 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
   view.frame = CGRectMake(pt.x-width/2, ([[CCDirector sharedDirector] viewSize].height - pt.y)-height, width, height);
 }
 
++ (NSArray *) convertCurrentTeamToArray:(UserCurrentMonsterTeamProto *)team {
+  NSMutableArray *arr = [NSMutableArray array];
+  for (FullUserMonsterProto *m in team.currentTeamList) {
+    [arr addObject:[UserMonster userMonsterWithProto:m]];
+  }
+  return arr;
+}
+
 + (NSDictionary *) convertUserTeamArrayToDictionary:(NSArray *)array {
   NSMutableDictionary *dict = [NSMutableDictionary dictionary];
   for (UserCurrentMonsterTeamProto *team in array) {
-    NSMutableArray *arr = [NSMutableArray array];
-    for (FullUserMonsterProto *m in team.currentTeamList) {
-      [arr addObject:[UserMonster userMonsterWithProto:m]];
-    }
-    [dict setObject:arr forKey:@(team.userId)];
+    [dict setObject:[self convertCurrentTeamToArray:team] forKey:@(team.userId)];
   }
   return dict;
 }
@@ -1371,12 +1422,17 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
 + (void) addAlertNotification:(NSString *)msg {
   GameViewController *gvc = [GameViewController baseController];
   OneLineNotificationViewController *oln = gvc.notifViewController;
-  [oln addNotification:msg color:[self lightRedColor]];
+  [oln addNotification:msg isGreen:NO];
+}
+
++ (void) addGreenAlertNotification:(NSString *)msg {
+  GameViewController *gvc = [GameViewController baseController];
+  OneLineNotificationViewController *oln = gvc.notifViewController;
+  [oln addNotification:msg isGreen:YES];
 }
 
 #pragma mark Bounce View
-+ (void) bounceView:(UIView *)view
-{
++ (void) bounceView:(UIView *)view {
   view.layer.transform = CATransform3DMakeScale(0.3, 0.3, 1.0);
   
   CAKeyframeAnimation *bounceAnimation = [CAKeyframeAnimation animationWithKeyPath:@"transform.scale"];
@@ -1404,7 +1460,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
   view.layer.transform = CATransform3DIdentity;
 }
 
-+ (void) bounceView:(UIView *)view fadeInBgdView:(UIView *)bgdView completion:(void (^)(BOOL))completed {
++ (void) bounceView:(UIView *)view fadeInBgdView:(UIView *)bgdView completion:(void (^)(BOOL finished))completed {
   view.alpha = 0;
   bgdView.alpha = 0;
   [UIView animateWithDuration:0.15 animations:^{
@@ -1432,7 +1488,8 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
     view.transform = CGAffineTransformMakeScale(2.0, 2.0);
   } completion:^(BOOL finished) {
     view.transform = CGAffineTransformIdentity;
-    if (finished && completed) {
+    // Don't check finished.. ruins the upgrade popup
+    if (completed) {
       completed();
     }
   }];
@@ -1684,17 +1741,6 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
 
 - (InAppPurchasePackageProto *) packageForProductId:(NSString *)pid {
   return [self.productIdsToPackages objectForKey:pid];
-}
-
-+ (BOOL) userHasBeginnerShield:(uint64_t)createTime hasActiveShield:(BOOL)hasActiveShield {
-  if (!hasActiveShield) {
-    return NO;
-  }
-  
-  uint64_t curTime = [[MSDate date] timeIntervalSince1970]*1000.;
-  uint64_t shieldEndTime = createTime + sharedGlobals.defaultDaysBattleShieldIsActive*24*60*60*1000;
-  
-  return curTime < shieldEndTime;
 }
 
 + (BOOL) checkEnteringDungeonWithTarget:(id)target selector:(SEL)selector {

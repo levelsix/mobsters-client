@@ -42,6 +42,8 @@
 - (void) initBattleLayer;
 - (void) begin;
 
+- (void) stop;
+
 - (void) displayDialogue:(NSArray *)dialogue;
 
 @end

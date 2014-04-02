@@ -18,10 +18,11 @@
 #import "ClanRaidDetailsViewController.h"
 #import "MiniTutorialController.h"
 #import "QuestUtil.h"
+#import "QuestLogViewController.h"
 
 @class TutorialController;
 
-@interface GameViewController : UIViewController <AttackMapDelegate, BattleLayerDelegate, CCDirectorDownloaderDelegate, DialogueViewControllerDelegate, ClanRaidDetailsDelegate, MiniTutorialDelegate, QuestUtilDelegate> {
+@interface GameViewController : UIViewController <AttackMapDelegate, BattleLayerDelegate, CCDirectorDownloaderDelegate, DialogueViewControllerDelegate, ClanRaidDetailsDelegate, MiniTutorialDelegate, QuestUtilDelegate, QuestLogDelegate> {
   int _questIdAfterDialogue;
   
   int _assetIdForMissionMap;
@@ -51,6 +52,8 @@
 - (void) removeAllViewControllers;
 
 - (void) fadeToLoadingScreenPercentage:(float)percentage animated:(BOOL)animated;
+- (void) handleSignificantTimeChange;
+- (void) handleForceLogoutResponseProto:(ForceLogoutResponseProto *)proto;
 
 - (void) openedFromFacebook;
 - (void) handleConnectedToHost;

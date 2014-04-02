@@ -13,6 +13,12 @@
 #import "MonsterTeamSlotView.h"
 #import "CoinBar.h"
 
+@interface AttributedTextView : UIView
+
+@property (nonatomic, retain) NSAttributedString *attrString;
+
+@end
+
 @interface MyCroniesViewController : GenViewController <EasyTableViewDelegate, MyCroniesCardDelegate, MyCroniesQueueDelegate, MonsterTeamSlotDelegate> {
   float _baseMyReservesHeaderX;
   
@@ -20,7 +26,7 @@
 }
 
 @property (nonatomic, strong) IBOutlet UIView *tableContainerView;
-@property (nonatomic, strong) IBOutlet UIImageView *leftHeaderUnderlay;
+@property (nonatomic, strong) IBOutlet UIView *leftHeaderUnderlay;
 
 @property (nonatomic, strong) IBOutlet UIView *injuredMobstersHeaderView;
 @property (nonatomic, strong) IBOutlet UIView *healthyMobstersHeaderView;
@@ -31,6 +37,9 @@
 @property (nonatomic, strong) IBOutlet UIView *teamSlotsContainer;
 
 @property (nonatomic, strong) IBOutlet MyCroniesCardCell *monsterCardCell;
+
+@property (nonatomic, strong) IBOutlet AttributedTextView *titleView;
+@property (nonatomic, strong) IBOutlet UILabel *titleLabel;
 
 @property (nonatomic, strong) EasyTableView *inventoryTable;
 

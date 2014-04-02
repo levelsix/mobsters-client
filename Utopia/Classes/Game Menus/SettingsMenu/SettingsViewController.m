@@ -128,8 +128,23 @@
 }
 
 - (void)parseFile:(NSString *)faqFile {
+  [self parseFile:faqFile shouldAttemptDownload:YES];
+}
+
+- (void)parseFile:(NSString *)faqFile shouldAttemptDownload:(BOOL)shouldAttemptDownload {
   NSError *e;
-  NSString *fileRoot = [Globals pathToFile:faqFile];
+  NSString *fileRoot;
+  if ([Globals isFileDownloaded:faqFile]) {
+    faqFile = [Globals pathToFile:faqFile];
+  } else {
+    if (shouldAttemptDownload) {
+      [Globals downloadFile:faqFile completion:^{
+        [self parseFile:faqFile shouldAttemptDownload:NO];
+      }];
+    }
+    return;
+  }
+  
   NSString *fileContents = [NSString stringWithContentsOfFile:fileRoot encoding:NSUTF8StringEncoding error:&e];
   
   if (!fileContents) {

@@ -13,7 +13,15 @@
 #import "GenericPopupController.h"
 #import "QuestUtil.h"
 
-@interface QuestLogViewController ()
+@implementation QuestTopBar
+
+- (void) awakeFromNib {
+  self.inactiveTextColor = [UIColor colorWithWhite:1.f alpha:1.f];
+  self.inactiveShadowColor = [UIColor colorWithWhite:0.f alpha:0.75f];
+  self.activeTextColor = [UIColor colorWithWhite:51.f/255.f alpha:1.f];
+  self.activeShadowColor = [UIColor colorWithWhite:1.f alpha:0.75f];
+  [super awakeFromNib];
+}
 
 @end
 
@@ -31,6 +39,7 @@
   GameState *gs = [GameState sharedGameState];
   [self.questListViewController reloadWithQuests:gs.allCurrentQuests userQuests:gs.myQuests];
   
+  self.titleLabel.alpha = 0.f;
   self.titleLabel.text = self.questListViewController.title;
   self.backView.hidden = YES;
   self.detailsContainerView.userInteractionEnabled = NO;
@@ -97,11 +106,19 @@
     } completion:^(BOOL finished) {
       [self.view removeFromSuperview];
       [self removeFromParentViewController];
+      
+      if ([self.delegate respondsToSelector:@selector(questLogClosed)]) {
+        [self.delegate questLogClosed];
+      }
     }];
   } else {
     [Globals popOutView:self.mainView fadeOutBgdView:self.bgdView completion:^{
       [self.view removeFromSuperview];
       [self removeFromParentViewController];
+      
+      if ([self.delegate respondsToSelector:@selector(questLogClosed)]) {
+        [self.delegate questLogClosed];
+      }
     }];
   }
 }
@@ -125,15 +142,12 @@
     self.questListViewController.view.center = ccp(-self.questListViewController.view.center.x,
                                                    self.questListViewController.view.center.y);
     self.backView.alpha = 1.f;
+    
+    self.topBar.alpha = 0.f;
+    self.titleLabel.alpha = 1.f;
   } completion:^(BOOL finished) {
     self.detailsContainerView.userInteractionEnabled = YES;
   }];
-  
-  CATransition *animation = [CATransition animation];
-  animation.duration = duration;
-  animation.type = kCATransitionFade;
-  animation.timingFunction = [CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseInEaseOut];
-  [self.titleLabel.layer addAnimation:animation forKey:@"changeTextTransition"];
   self.titleLabel.text = self.questDetailsViewController.title;
 }
 
@@ -152,6 +166,9 @@
                                                       qdvc.view.frame.size.width/2,
                                                       qdvc.view.center.y);
     self.backView.alpha = 0.f;
+    
+    self.topBar.alpha = 1.f;
+    self.titleLabel.alpha = 0.f;
   } completion:^(BOOL finished) {
     self.backView.hidden = YES;
     
@@ -160,13 +177,6 @@
     
     self.detailsContainerView.userInteractionEnabled = NO;
   }];
-  
-  CATransition *animation = [CATransition animation];
-  animation.duration = 0.3f;
-  animation.type = kCATransitionFade;
-  animation.timingFunction = [CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseInEaseOut];
-  [self.titleLabel.layer addAnimation:animation forKey:@"changeTextTransition"];
-  self.titleLabel.text = self.questListViewController.title;
 }
 
 #pragma mark - QuestListCellDelegate methods
@@ -182,7 +192,7 @@
   [self.detailsContainerView addSubview:self.questDetailsViewController.view];
   [self.questDetailsViewController loadWithQuest:quest userQuest:uq];
   
-  NSString *file = [quest.questGiverImageSuffix stringByAppendingString:@"Big.png"];
+  NSString *file = [quest.questGiverImagePrefix stringByAppendingString:@"Big.png"];
   [Globals imageNamed:file withView:self.questGiverImageView maskedColor:nil indicator:UIActivityIndicatorViewStyleWhiteLarge clearImageDuringDownload:YES];
   
   [self transitionToDetailsViewAnimated:animated];

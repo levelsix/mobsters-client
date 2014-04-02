@@ -24,7 +24,7 @@
   
   self.nameLabel.text = quest.name;
   
-  NSString *file = [quest.questGiverImageSuffix stringByAppendingString:@"Thumbnail.png"];
+  NSString *file = [quest.questGiverImagePrefix stringByAppendingString:@"Thumbnail.png"];
   [Globals imageNamed:file withView:self.questGiverImageView maskedColor:nil indicator:UIActivityIndicatorViewStyleWhiteLarge clearImageDuringDownload:YES];
   
   if (quest.quantity < 100) {

@@ -136,40 +136,10 @@
   self.userMonster = um;
 }
 
-- (float) totalSeconds {
-  float secs = 0;
-  for (int i = 0; i < self.healingItem.timeDistribution.count; i += 2) {
-    secs += [self.healingItem.timeDistribution[i] floatValue];
-  }
-  return secs;
-}
-
 - (void) updateForTime {
-  Globals *gl = [Globals sharedGlobals];
-  UserMonster *um = self.userMonster;
-  float totalSecs = [self totalSeconds];
   float timeLeft = [self.healingItem.endTime timeIntervalSinceNow];
-  float timeCompleted = MAX(totalSecs-timeLeft, 0);
-  float healthToHeal = [gl calculateMaxHealthForMonster:um]-um.curHealth;
-  
   self.timeLabel.text = [Globals convertTimeToShortString:timeLeft];
-  
-  float percentage = self.healingItem.healthProgress/healthToHeal;
-  
-  for (int i = 0; i < self.healingItem.timeDistribution.count; i += 2) {
-    float secs = [self.healingItem.timeDistribution[i] floatValue];
-    float health = [self.healingItem.timeDistribution[i+1] floatValue];
-    
-    if (timeCompleted > secs) {
-      timeCompleted -= secs;
-      percentage += health/healthToHeal;
-    } else {
-      percentage += health/healthToHeal*timeCompleted/secs;
-      break;
-    }
-  }
-  
-  self.healthBar.percentage = percentage;
+  self.healthBar.percentage = [self.healingItem currentPercentage];
   
   self.timerView.hidden = NO;
 }

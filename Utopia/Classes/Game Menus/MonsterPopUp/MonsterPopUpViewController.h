@@ -50,6 +50,7 @@
 
 @property (nonatomic, strong) IBOutlet UIImageView *monsterImageView;
 @property (nonatomic, strong) IBOutlet UIImageView *elementType;
+@property (nonatomic, strong) IBOutlet UIImageView *rarityTag;
 
 @property (nonatomic, strong) IBOutlet ProgressBar *progressBar;
 @property (nonatomic, strong) IBOutlet UIButton *infoButton;

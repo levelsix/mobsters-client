@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="4514" systemVersion="12F45" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="5053" systemVersion="12F45" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none">
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="3747"/>
+        <deployment defaultVersion="1536" identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="3733"/>
     </dependencies>
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="RewardsView">
@@ -14,16 +15,20 @@
             <rect key="frame" x="0.0" y="0.0" width="54" height="81"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
-                <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="expfound.png" id="40C-hb-yDW">
-                    <rect key="frame" x="0.0" y="9" width="55" height="55"/>
+                <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="itemfoundbg.png" id="sjq-3Y-oSa">
+                    <rect key="frame" x="0.0" y="1" width="54" height="56"/>
                     <autoresizingMask key="autoresizingMask"/>
                 </imageView>
                 <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="diamond.png" id="ynJ-9f-IsB">
-                    <rect key="frame" x="13" y="20" width="29" height="28"/>
+                    <rect key="frame" x="13" y="12" width="29" height="28"/>
+                    <autoresizingMask key="autoresizingMask"/>
+                </imageView>
+                <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="rewardlabelbg.png" id="7Ys-Sh-sr4">
+                    <rect key="frame" x="0.0" y="61" width="54" height="17"/>
                     <autoresizingMask key="autoresizingMask"/>
                 </imageView>
                 <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="bEQ-Bl-TbT" customClass="NiceFontLabel">
-                    <rect key="frame" x="6" y="60" width="42" height="21"/>
+                    <rect key="frame" x="6" y="59" width="42" height="21"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                     <fontDescription key="fontDescription" type="system" pointSize="10"/>
                     <color key="textColor" red="0.61176470589999998" green="0.79215686269999996" blue="0.062745098040000002" alpha="1" colorSpace="calibratedRGB"/>
@@ -34,7 +39,6 @@
             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
             <simulatedOrientationMetrics key="simulatedOrientationMetrics" orientation="landscapeRight"/>
             <connections>
-                <outlet property="rewardBgd" destination="40C-hb-yDW" id="3OG-qc-922"/>
                 <outlet property="rewardIcon" destination="ynJ-9f-IsB" id="l7P-kq-21T"/>
                 <outlet property="rewardLabel" destination="bEQ-Bl-TbT" id="WVO-vD-bZ2"/>
             </connections>
@@ -42,6 +46,7 @@
     </objects>
     <resources>
         <image name="diamond.png" width="44" height="41"/>
-        <image name="expfound.png" width="55" height="55"/>
+        <image name="itemfoundbg.png" width="54" height="56"/>
+        <image name="rewardlabelbg.png" width="54" height="17"/>
     </resources>
 </document>

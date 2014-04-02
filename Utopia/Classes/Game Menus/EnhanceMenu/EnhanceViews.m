@@ -161,10 +161,14 @@
   self.enhancingQueue = [gs.userEnhancement.feeders copy];
   if (self.enhancingQueue.count == 0) {
     if (self.alpha == 1.f) {
-      [UIView animateWithDuration:0.3f animations:^{
+      if (self.instructionLabel.alpha == 0.f) {
+        [UIView animateWithDuration:0.3f animations:^{
+          self.alpha = 0.f;
+          self.instructionLabel.alpha = 1.f;
+        }];
+      } else {
         self.alpha = 0.f;
-        self.instructionLabel.alpha = 1.f;
-      }];
+      }
     }
     
     if (!gs.userEnhancement.baseMonster) {
@@ -229,6 +233,7 @@
     
     self.onTeamIcon.hidden = um.teamSlot == 0;
   }
+  self.cardContainer.monsterCardView.delegate = self;
   self.cardContainer.monsterCardView.overlayButton.userInteractionEnabled = NO;
   self.monster = ue.baseMonster.userMonster;
 }

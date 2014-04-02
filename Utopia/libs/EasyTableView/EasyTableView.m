@@ -530,8 +530,11 @@
   if ((self = [super initWithFrame:frame])) {
     self.label = [[UILabel alloc] initWithFrame:frame];
     self.label.font = [UIFont fontWithName:[Globals font] size:15.f];
-    self.label.textColor = [UIColor whiteColor];
+    self.label.textColor = [UIColor colorWithWhite:0.23f alpha:1.f];
+    self.label.shadowColor = [UIColor colorWithWhite:1.f alpha:0.25f];
+    self.label.shadowOffset = CGSizeMake(0, 1);
     self.label.textAlignment = NSTextAlignmentCenter;
+    self.label.backgroundColor = [UIColor clearColor];
     [self addSubview:self.label];
     
     self.leftView1 = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 0, 1)];
@@ -539,7 +542,7 @@
     self.rightView1 = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 0, 1)];
     self.rightView2 = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 0, 1)];
     
-    UIColor *color = [UIColor colorWithWhite:1.f alpha:0.5f];
+    UIColor *color = [UIColor colorWithRed:179/255. green:172/255.f blue:93/255.f alpha:0.5f];
     self.leftView1.backgroundColor = color;
     self.leftView2.backgroundColor = color;
     self.rightView1.backgroundColor = color;

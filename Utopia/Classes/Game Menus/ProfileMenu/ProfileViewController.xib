@@ -7,14 +7,22 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="ProfileViewController">
             <connections>
-                <outlet property="bgdView" destination="7xW-jp-RkA" id="Ym8-EV-AuD"/>
-                <outlet property="clanView" destination="aRh-w3-b92" id="b6S-ME-A4G"/>
+                <outlet property="bgdView" destination="uoP-X0-Pqi" id="f8P-nT-DCU"/>
+                <outlet property="clanButton" destination="GFr-lg-Esk" id="Nth-kp-pzj"/>
+                <outlet property="leagueBgd" destination="nDs-fA-a4e" id="INY-1F-CSX"/>
+                <outlet property="leagueIcon" destination="miC-tw-pUC" id="aOn-CB-vNS"/>
+                <outlet property="leagueLabel" destination="t3A-kx-YN3" id="Lg0-p8-C1X"/>
+                <outlet property="leagueView" destination="CKZ-Ez-Kte" id="VME-fb-kyq"/>
                 <outlet property="lossesLabel" destination="acs-1P-B3E" id="gZt-TU-Wo8"/>
                 <outlet property="mainView" destination="cmt-HA-zQP" id="SSH-4X-mGG"/>
                 <outlet property="monsterSlotOne" destination="rER-iL-Vll" id="Wi5-3b-efs"/>
                 <outlet property="monsterSlotThree" destination="eIs-zX-4TQ" id="nWy-SI-rBa"/>
                 <outlet property="monsterSlotTwo" destination="wxj-hw-rtM" id="uFl-YX-uTk"/>
                 <outlet property="nameLabel" destination="6Wh-dD-joo" id="D9p-Cr-SeP"/>
+                <outlet property="placeLabel" destination="VVb-pb-meE" id="0yE-dD-qFh"/>
+                <outlet property="rankLabel" destination="G6O-TF-Gpo" id="bpj-f0-1uO"/>
+                <outlet property="rankQualifierLabel" destination="ZPG-wY-hbe" id="lRc-4r-FyC"/>
+                <outlet property="shieldIcon" destination="Gaa-Lb-neX" id="WI4-VX-KIS"/>
                 <outlet property="view" destination="1" id="3"/>
                 <outlet property="winsLabel" destination="nye-sM-eNZ" id="Ebe-pp-olg"/>
             </connections>
@@ -24,172 +32,257 @@
             <rect key="frame" x="0.0" y="0.0" width="568" height="320"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
-                <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" image="popupglow.png" id="7xW-jp-RkA">
-                    <rect key="frame" x="0.0" y="0.0" width="568" height="320"/>
-                    <autoresizingMask key="autoresizingMask"/>
-                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                </imageView>
-                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="TQM-vF-onx" customClass="CloseButton">
+                <view contentMode="scaleToFill" id="uoP-X0-Pqi">
                     <rect key="frame" x="0.0" y="0.0" width="568" height="320"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                    <fontDescription key="fontDescription" type="system" pointSize="15"/>
-                    <state key="normal">
-                        <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                    </state>
-                    <connections>
-                        <action selector="close:" destination="-1" eventType="touchUpInside" id="5yS-YF-9XN"/>
-                    </connections>
-                </button>
-                <view contentMode="scaleToFill" id="cmt-HA-zQP">
-                    <rect key="frame" x="97" y="7" width="371" height="305"/>
-                    <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES"/>
                     <subviews>
-                        <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="notifcationsbg.png" id="n7h-EU-b7x">
-                            <rect key="frame" x="0.0" y="0.0" width="374" height="305"/>
+                        <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" image="popupglow.png" id="7xW-jp-RkA">
+                            <rect key="frame" x="0.0" y="0.0" width="568" height="320"/>
                             <autoresizingMask key="autoresizingMask"/>
                             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                         </imageView>
+                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="TQM-vF-onx" customClass="CloseButton">
+                            <rect key="frame" x="187" y="114" width="194" height="92"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                            <state key="normal" backgroundImage="goldleaguebg.png">
+                                <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                            </state>
+                            <connections>
+                                <action selector="close:" destination="-1" eventType="touchUpInside" id="5yS-YF-9XN"/>
+                            </connections>
+                        </button>
+                    </subviews>
+                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                </view>
+                <view contentMode="scaleToFill" id="cmt-HA-zQP">
+                    <rect key="frame" x="121" y="14" width="322" height="292"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES"/>
+                    <subviews>
+                        <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="profilebg.png" id="T35-qq-QgZ">
+                            <rect key="frame" x="0.0" y="0.0" width="322" height="292"/>
+                            <autoresizingMask key="autoresizingMask"/>
+                        </imageView>
                         <view contentMode="scaleToFill" id="zqj-t5-neT" userLabel="TeamView">
-                            <rect key="frame" x="9" y="117" width="357" height="176"/>
+                            <rect key="frame" x="11" y="132" width="301" height="156"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             <subviews>
                                 <view clipsSubviews="YES" contentMode="scaleToFill" id="rER-iL-Vll" customClass="MonsterCardContainerView">
-                                    <rect key="frame" x="16" y="36" width="95" height="120"/>
+                                    <rect key="frame" x="0.0" y="30" width="95" height="121"/>
                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                     <color key="backgroundColor" red="0.37254902719999999" green="0.9215686917" blue="1" alpha="1" colorSpace="deviceRGB"/>
                                     <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
                                 </view>
                                 <view clipsSubviews="YES" contentMode="scaleToFill" id="wxj-hw-rtM" customClass="MonsterCardContainerView">
-                                    <rect key="frame" x="131" y="36" width="95" height="120"/>
+                                    <rect key="frame" x="103" y="30" width="95" height="121"/>
                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                     <color key="backgroundColor" red="0.37254902719999999" green="0.9215686917" blue="1" alpha="1" colorSpace="deviceRGB"/>
                                     <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
                                 </view>
                                 <view clipsSubviews="YES" contentMode="scaleToFill" id="eIs-zX-4TQ" customClass="MonsterCardContainerView">
-                                    <rect key="frame" x="246" y="36" width="95" height="120"/>
+                                    <rect key="frame" x="206" y="30" width="95" height="121"/>
                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                     <color key="backgroundColor" red="0.37254902719999999" green="0.9215686917" blue="1" alpha="1" colorSpace="deviceRGB"/>
                                     <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
                                 </view>
                                 <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Team" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="10" id="VYP-8H-RRe" customClass="NiceFontLabel">
-                                    <rect key="frame" x="131" y="-5" width="95" height="31"/>
+                                    <rect key="frame" x="103" y="0.0" width="95" height="31"/>
                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                     <fontDescription key="fontDescription" type="system" pointSize="18"/>
-                                    <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="calibratedRGB"/>
-                                    <color key="highlightedColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                    <color key="textColor" red="0.20000000000000001" green="0.20000000000000001" blue="0.20000000000000001" alpha="1" colorSpace="calibratedRGB"/>
+                                    <color key="highlightedColor" white="1" alpha="0.5" colorSpace="calibratedWhite"/>
                                 </label>
                                 <view contentMode="scaleToFill" id="U6n-Vi-UIo">
-                                    <rect key="frame" x="5" y="11" width="140" height="1"/>
+                                    <rect key="frame" x="0.0" y="16" width="117" height="1"/>
                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                    <color key="backgroundColor" red="1" green="1" blue="1" alpha="0.5" colorSpace="calibratedRGB"/>
+                                    <color key="backgroundColor" red="0.7019608021" green="0.67450982329999998" blue="0.36470589040000001" alpha="1" colorSpace="deviceRGB"/>
                                     <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
                                 </view>
                                 <view contentMode="scaleToFill" id="Zyc-Vg-cah">
-                                    <rect key="frame" x="5" y="14" width="140" height="1"/>
+                                    <rect key="frame" x="0.0" y="19" width="117" height="1"/>
                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                    <color key="backgroundColor" red="1" green="1" blue="1" alpha="0.5" colorSpace="calibratedRGB"/>
+                                    <color key="backgroundColor" red="0.7019608021" green="0.67450982329999998" blue="0.36470589040000001" alpha="1" colorSpace="deviceRGB"/>
                                     <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
                                 </view>
                                 <view contentMode="scaleToFill" id="dhx-C7-WEa">
-                                    <rect key="frame" x="211" y="11" width="140" height="1"/>
+                                    <rect key="frame" x="183" y="16" width="117" height="1"/>
                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                    <color key="backgroundColor" red="1" green="1" blue="1" alpha="0.5" colorSpace="calibratedRGB"/>
+                                    <color key="backgroundColor" red="0.7019608021" green="0.67450982329999998" blue="0.36470589040000001" alpha="1" colorSpace="deviceRGB"/>
                                     <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
                                 </view>
                                 <view contentMode="scaleToFill" id="TJ2-Ma-ltJ">
-                                    <rect key="frame" x="211" y="14" width="140" height="1"/>
+                                    <rect key="frame" x="183" y="19" width="117" height="1"/>
                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                    <color key="backgroundColor" red="1" green="1" blue="1" alpha="0.5" colorSpace="calibratedRGB"/>
+                                    <color key="backgroundColor" red="0.7019608021" green="0.67450982329999998" blue="0.36470589040000001" alpha="1" colorSpace="deviceRGB"/>
                                     <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
                                 </view>
                             </subviews>
                             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                             <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
                         </view>
-                        <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="profiletop.png" id="M9d-Os-2D7">
-                            <rect key="frame" x="20" y="59" width="335" height="55"/>
+                        <view contentMode="scaleToFill" id="CKZ-Ez-Kte" userLabel="LeagueView">
+                            <rect key="frame" x="118" y="44" width="194" height="92"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <subviews>
+                                <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="goldleaguebg.png" id="nDs-fA-a4e">
+                                    <rect key="frame" x="0.0" y="0.0" width="194" height="92"/>
+                                    <autoresizingMask key="autoresizingMask"/>
+                                </imageView>
+                                <view contentMode="scaleToFill" id="hDc-zv-GWe">
+                                    <rect key="frame" x="80" y="36" width="97" height="46"/>
+                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                    <subviews>
+                                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="27" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" id="G6O-TF-Gpo" customClass="NiceFontLabel">
+                                            <rect key="frame" x="-10" y="-3" width="64" height="51"/>
+                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                            <fontDescription key="fontDescription" type="system" pointSize="42"/>
+                                            <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="calibratedRGB"/>
+                                            <nil key="highlightedColor"/>
+                                            <color key="shadowColor" white="0.0" alpha="0.40000000000000002" colorSpace="calibratedWhite"/>
+                                            <size key="shadowOffset" width="0.0" height="1"/>
+                                        </label>
+                                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="th" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" id="ZPG-wY-hbe" customClass="NiceFontLabel">
+                                            <rect key="frame" x="57" y="0.0" width="54" height="31"/>
+                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                            <fontDescription key="fontDescription" type="system" pointSize="20"/>
+                                            <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="calibratedRGB"/>
+                                            <nil key="highlightedColor"/>
+                                            <color key="shadowColor" white="0.0" alpha="0.40000000000000002" colorSpace="calibratedWhite"/>
+                                            <size key="shadowOffset" width="0.0" height="1"/>
+                                        </label>
+                                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="place" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" id="VVb-pb-meE" customClass="NiceFontLabel">
+                                            <rect key="frame" x="57" y="16" width="54" height="31"/>
+                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                            <fontDescription key="fontDescription" type="system" pointSize="13"/>
+                                            <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="calibratedRGB"/>
+                                            <nil key="highlightedColor"/>
+                                            <color key="shadowColor" white="0.0" alpha="0.40000000000000002" colorSpace="calibratedWhite"/>
+                                            <size key="shadowOffset" width="0.0" height="1"/>
+                                        </label>
+                                    </subviews>
+                                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                </view>
+                                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Gold League" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" id="t3A-kx-YN3" customClass="NiceFontLabel">
+                                    <rect key="frame" x="34" y="-1" width="124" height="31"/>
+                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                    <fontDescription key="fontDescription" type="system" pointSize="16"/>
+                                    <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="calibratedRGB"/>
+                                    <nil key="highlightedColor"/>
+                                    <color key="shadowColor" white="0.0" alpha="0.40000000000000002" colorSpace="calibratedWhite"/>
+                                    <size key="shadowOffset" width="0.0" height="1"/>
+                                </label>
+                                <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="goldicon.png" id="miC-tw-pUC">
+                                    <rect key="frame" x="16" y="38" width="37" height="42"/>
+                                    <autoresizingMask key="autoresizingMask"/>
+                                </imageView>
+                            </subviews>
+                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                        </view>
+                        <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="profilegrid.png" id="jek-bq-HSw">
+                            <rect key="frame" x="12" y="50" width="95" height="54"/>
                             <autoresizingMask key="autoresizingMask"/>
                         </imageView>
-                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Attacking:" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="9" id="25w-CF-04o" customClass="NiceFontLabel">
-                            <rect key="frame" x="28" y="64" width="74" height="21"/>
+                        <view contentMode="scaleToFill" id="rNt-Av-g7Y">
+                            <rect key="frame" x="26" y="82" width="67" height="22"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                            <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                            <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
-                            <nil key="highlightedColor"/>
-                        </label>
-                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Defending:" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="9" id="8da-Ei-Gdh" customClass="NiceFontLabel">
-                            <rect key="frame" x="109" y="64" width="74" height="21"/>
+                            <subviews>
+                                <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleAspectFit" image="shield.png" id="Gaa-Lb-neX">
+                                    <rect key="frame" x="0.0" y="2" width="16" height="17"/>
+                                    <autoresizingMask key="autoresizingMask"/>
+                                </imageView>
+                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" lineBreakMode="tailTruncation" id="GFr-lg-Esk" customClass="NiceFontButton">
+                                    <rect key="frame" x="18" y="0.0" width="62" height="22"/>
+                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                    <fontDescription key="fontDescription" type="boldSystem" pointSize="11"/>
+                                    <size key="titleShadowOffset" width="0.0" height="1"/>
+                                    <state key="normal" title="Clan Ratta">
+                                        <color key="titleColor" red="0.31764705879999999" green="0.66274509800000003" blue="0.75686274509999996" alpha="1" colorSpace="deviceRGB"/>
+                                        <color key="titleShadowColor" red="1" green="1" blue="1" alpha="0.75" colorSpace="calibratedRGB"/>
+                                    </state>
+                                    <state key="disabled" title="No Clan">
+                                        <color key="titleColor" red="0.20000000000000001" green="0.20000000000000001" blue="0.20000000000000001" alpha="1" colorSpace="calibratedRGB"/>
+                                        <color key="titleShadowColor" white="1" alpha="0.5" colorSpace="calibratedWhite"/>
+                                    </state>
+                                    <state key="highlighted">
+                                        <color key="titleColor" red="0.0" green="0.59215688710000003" blue="0.7607843876" alpha="1" colorSpace="deviceRGB"/>
+                                        <color key="titleShadowColor" red="1" green="1" blue="1" alpha="0.75" colorSpace="calibratedRGB"/>
+                                    </state>
+                                    <connections>
+                                        <action selector="clanClicked:" destination="-1" eventType="touchUpInside" id="7d8-XC-uP8"/>
+                                    </connections>
+                                </button>
+                            </subviews>
+                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                        </view>
+                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="wins" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="9" id="25w-CF-04o" customClass="NiceFontLabel">
+                            <rect key="frame" x="15" y="61" width="40" height="21"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                            <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                            <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
+                            <fontDescription key="fontDescription" type="system" pointSize="12"/>
+                            <color key="textColor" red="0.7019608021" green="0.67450982329999998" blue="0.36470589040000001" alpha="1" colorSpace="deviceRGB"/>
                             <nil key="highlightedColor"/>
+                            <color key="shadowColor" white="1" alpha="0.5" colorSpace="calibratedWhite"/>
+                            <size key="shadowOffset" width="0.0" height="1"/>
                         </label>
-                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Member of:" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="9" id="nwv-dA-0b5" customClass="NiceFontLabel">
-                            <rect key="frame" x="193" y="64" width="74" height="21"/>
+                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="losses" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="9" id="QRT-ev-fwk" customClass="NiceFontLabel">
+                            <rect key="frame" x="63" y="61" width="41" height="21"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                            <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                            <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
+                            <fontDescription key="fontDescription" type="system" pointSize="12"/>
+                            <color key="textColor" red="0.7019608021" green="0.67450982329999998" blue="0.36470589040000001" alpha="1" colorSpace="deviceRGB"/>
                             <nil key="highlightedColor"/>
+                            <color key="shadowColor" white="1" alpha="0.5" colorSpace="calibratedWhite"/>
+                            <size key="shadowOffset" width="0.0" height="1"/>
                         </label>
-                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="238 Wins" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="10" id="nye-sM-eNZ" customClass="NiceFontLabel">
-                            <rect key="frame" x="27" y="86" width="74" height="21"/>
+                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="238" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="10" id="nye-sM-eNZ" customClass="NiceFontLabel">
+                            <rect key="frame" x="11" y="46" width="49" height="21"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                            <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="calibratedRGB"/>
+                            <color key="textColor" red="0.20000000000000001" green="0.20000000000000001" blue="0.20000000000000001" alpha="1" colorSpace="calibratedRGB"/>
                             <nil key="highlightedColor"/>
+                            <color key="shadowColor" white="1" alpha="0.5" colorSpace="calibratedWhite"/>
+                            <size key="shadowOffset" width="0.0" height="1"/>
                         </label>
-                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="238 Wins" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="10" id="acs-1P-B3E" customClass="NiceFontLabel">
-                            <rect key="frame" x="109" y="86" width="74" height="21"/>
+                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="238" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="10" id="acs-1P-B3E" customClass="NiceFontLabel">
+                            <rect key="frame" x="59" y="46" width="49" height="21"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                            <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="calibratedRGB"/>
+                            <color key="textColor" red="0.20000000000000001" green="0.20000000000000001" blue="0.20000000000000001" alpha="1" colorSpace="calibratedRGB"/>
                             <nil key="highlightedColor"/>
+                            <color key="shadowColor" white="1" alpha="0.5" colorSpace="calibratedWhite"/>
+                            <size key="shadowOffset" width="0.0" height="1"/>
                         </label>
-                        <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="minivertdivider.png" id="Qc8-Eo-vzw">
-                            <rect key="frame" x="103" y="64" width="1" height="46"/>
-                            <autoresizingMask key="autoresizingMask"/>
-                        </imageView>
-                        <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="minivertdivider.png" id="jTb-tq-bOX">
-                            <rect key="frame" x="187" y="64" width="1" height="46"/>
-                            <autoresizingMask key="autoresizingMask"/>
-                        </imageView>
-                        <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="minivertdivider.png" id="KPX-Y1-qIF">
-                            <rect key="frame" x="272" y="64" width="1" height="46"/>
-                            <autoresizingMask key="autoresizingMask"/>
-                        </imageView>
                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="bgL-r0-Pt6" customClass="GeneralButton">
-                            <rect key="frame" x="278" y="69" width="73" height="35"/>
+                            <rect key="frame" x="11" y="109" width="97" height="27"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                             <fontDescription key="fontDescription" type="system" pointSize="15"/>
-                            <state key="normal" image="privatemessage.png">
+                            <state key="normal" image="sendmessagebutton.png">
                                 <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                             </state>
                             <connections>
                                 <action selector="message:" destination="-1" eventType="touchUpInside" id="aDZ-9f-vSX"/>
                             </connections>
                         </button>
-                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Message" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="9" id="z1u-Tn-nQl" customClass="NiceFontLabel">
-                            <rect key="frame" x="282" y="71" width="64" height="28"/>
+                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Send a Message" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="9" id="z1u-Tn-nQl" customClass="NiceFontLabel">
+                            <rect key="frame" x="14" y="108" width="91" height="28"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                            <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="calibratedRGB"/>
-                            <nil key="highlightedColor"/>
-                            <color key="shadowColor" red="0.0" green="0.0" blue="0.0" alpha="0.29999999999999999" colorSpace="calibratedRGB"/>
-                            <size key="shadowOffset" width="0.0" height="1"/>
-                        </label>
-                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="CoopaTroopa(Lvl 23)" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="11" id="6Wh-dD-joo" customClass="NiceFontLabel">
-                            <rect key="frame" x="52" y="12" width="271" height="31"/>
-                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                            <fontDescription key="fontDescription" type="system" pointSize="22"/>
-                            <color key="textColor" white="0.0" alpha="0.80000000000000004" colorSpace="calibratedWhite"/>
+                            <fontDescription key="fontDescription" type="system" pointSize="11"/>
+                            <color key="textColor" red="0.94117653369903564" green="0.0" blue="0.0039215688593685627" alpha="1" colorSpace="deviceRGB"/>
                             <nil key="highlightedColor"/>
                             <color key="shadowColor" white="1" alpha="0.5" colorSpace="calibratedWhite"/>
                             <size key="shadowOffset" width="0.0" height="1"/>
                         </label>
+                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="CoopaTroopa(Lvl 23)" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="11" id="6Wh-dD-joo" customClass="NiceFontLabel">
+                            <rect key="frame" x="26" y="3" width="271" height="31"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <fontDescription key="fontDescription" type="system" pointSize="22"/>
+                            <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="deviceRGB"/>
+                            <nil key="highlightedColor"/>
+                            <color key="shadowColor" red="0.0" green="0.0" blue="0.0" alpha="0.75" colorSpace="calibratedRGB"/>
+                            <size key="shadowOffset" width="0.0" height="1"/>
+                        </label>
                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="lmg-8O-du1" customClass="CloseButton">
-                            <rect key="frame" x="329" y="14" width="30" height="29"/>
+                            <rect key="frame" x="289" y="4" width="30" height="29"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             <fontDescription key="fontDescription" type="system" pointSize="15"/>
                             <state key="normal" image="close1.png">
@@ -199,24 +292,6 @@
                                 <action selector="close:" destination="-1" eventType="touchUpInside" id="m62-zO-JJ9"/>
                             </connections>
                         </button>
-                        <view contentMode="scaleToFill" id="aRh-w3-b92" customClass="UnderlinedLabelView">
-                            <rect key="frame" x="193" y="84" width="74" height="23"/>
-                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                            <subviews>
-                                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="MEEP" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="7" id="9Wd-3t-bb9" customClass="NiceFontLabel">
-                                    <rect key="frame" x="0.0" y="1" width="74" height="21"/>
-                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                    <color key="textColor" red="1" green="0.81176477670669556" blue="0.0" alpha="1" colorSpace="deviceRGB"/>
-                                    <nil key="highlightedColor"/>
-                                </label>
-                            </subviews>
-                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                            <connections>
-                                <outlet property="delegate" destination="-1" id="AeC-2s-fzw"/>
-                                <outlet property="label" destination="9Wd-3t-bb9" id="uEa-Sv-lkW"/>
-                            </connections>
-                        </view>
                     </subviews>
                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                 </view>
@@ -228,10 +303,12 @@
     </objects>
     <resources>
         <image name="close1.png" width="30" height="29"/>
-        <image name="minivertdivider.png" width="1" height="46"/>
-        <image name="notifcationsbg.png" width="374" height="305"/>
+        <image name="goldicon.png" width="38" height="43"/>
+        <image name="goldleaguebg.png" width="194" height="92"/>
         <image name="popupglow.png" width="480" height="320"/>
-        <image name="privatemessage.png" width="73" height="35"/>
-        <image name="profiletop.png" width="335" height="55"/>
+        <image name="profilebg.png" width="322" height="292"/>
+        <image name="profilegrid.png" width="95" height="54"/>
+        <image name="sendmessagebutton.png" width="97" height="27"/>
+        <image name="shield.png" width="31" height="34"/>
     </resources>
 </document>

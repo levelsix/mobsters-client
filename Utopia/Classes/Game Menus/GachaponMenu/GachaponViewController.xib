@@ -26,8 +26,8 @@
             <rect key="frame" x="0.0" y="0.0" width="568" height="280"/>
             <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES"/>
             <subviews>
-                <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="mainmenubg.png" id="DK1-Z2-9W1">
-                    <rect key="frame" x="0.0" y="-24" width="568" height="320"/>
+                <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="bottom" image="mainmenubg.png" id="DK1-Z2-9W1">
+                    <rect key="frame" x="0.0" y="-2" width="568" height="282"/>
                     <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES"/>
                 </imageView>
                 <view tag="5" contentMode="scaleToFill" id="4VP-Od-GFZ">
@@ -38,8 +38,12 @@
                             <rect key="frame" x="0.0" y="0.0" width="196" height="209"/>
                             <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             <subviews>
+                                <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="behindgachasunflare.png" id="1Q2-9E-hCq">
+                                    <rect key="frame" x="-13" y="-47" width="217" height="217"/>
+                                    <autoresizingMask key="autoresizingMask"/>
+                                </imageView>
                                 <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="gooniegrabmachine.png" id="9dS-qh-pNp">
-                                    <rect key="frame" x="50" y="5" width="96" height="151"/>
+                                    <rect key="frame" x="48" y="2" width="101" height="157"/>
                                     <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 </imageView>
                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="ndZ-mb-fAJ">
@@ -61,7 +65,7 @@
                                     <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                     <subviews>
                                         <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="SPIN" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="Hxk-z3-Ekv" customClass="NiceFontLabel">
-                                            <rect key="frame" x="52" y="2" width="43" height="28"/>
+                                            <rect key="frame" x="53" y="2" width="43" height="28"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                             <fontDescription key="fontDescription" type="system" pointSize="12"/>
                                             <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="calibratedRGB"/>
@@ -73,8 +77,8 @@
                                             <rect key="frame" x="29" y="5" width="22" height="20"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                         </imageView>
-                                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="25" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="VDe-lu-wWD" customClass="NiceFontLabel">
-                                            <rect key="frame" x="2" y="1" width="24" height="28"/>
+                                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="25" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="VDe-lu-wWD" customClass="NiceFontLabel">
+                                            <rect key="frame" x="6" y="1" width="24" height="28"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                             <fontDescription key="fontDescription" type="system" pointSize="12"/>
                                             <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="calibratedRGB"/>
@@ -100,9 +104,9 @@
                                             <rect key="frame" x="16" y="6" width="211" height="28"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                             <fontDescription key="fontDescription" type="system" pointSize="16"/>
-                                            <color key="textColor" red="0.94117647058823528" green="0.92941176470588238" blue="0.83529411764705885" alpha="1" colorSpace="calibratedRGB"/>
+                                            <color key="textColor" red="0.84705882352941175" green="0.16470588235294117" blue="0.56862745098039214" alpha="1" colorSpace="deviceRGB"/>
                                             <color key="highlightedColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
-                                            <color key="shadowColor" red="0.0" green="0.0" blue="0.0" alpha="0.29999999999999999" colorSpace="calibratedRGB"/>
+                                            <color key="shadowColor" red="1" green="1" blue="1" alpha="0.75" colorSpace="calibratedRGB"/>
                                             <size key="shadowOffset" width="0.0" height="1"/>
                                         </label>
                                         <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="featuredstars.png" id="cKM-NK-ppJ">
@@ -128,9 +132,9 @@
                                             <rect key="frame" x="21" y="0.0" width="160" height="189"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                             <subviews>
-                                                <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="spotlight.png" id="Yg2-qq-4LD">
-                                                    <rect key="frame" x="14" y="-10" width="134" height="209"/>
-                                                    <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" alpha="0.60000002384185791" contentMode="center" image="characterdetailshadow.png" id="2vr-92-dDg">
+                                                    <rect key="frame" x="36" y="142" width="94" height="45"/>
+                                                    <autoresizingMask key="autoresizingMask"/>
                                                 </imageView>
                                             </subviews>
                                             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
@@ -140,19 +144,19 @@
                                             <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                             <subviews>
                                                 <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" image="detaildivider.png" id="uB3-26-fnL">
-                                                    <rect key="frame" x="14" y="37" width="126" height="2"/>
+                                                    <rect key="frame" x="21" y="37" width="119" height="2"/>
                                                     <autoresizingMask key="autoresizingMask"/>
                                                 </imageView>
                                                 <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" image="detaildivider.png" id="90v-GR-JKu">
-                                                    <rect key="frame" x="14" y="124" width="126" height="2"/>
+                                                    <rect key="frame" x="21" y="124" width="119" height="2"/>
                                                     <autoresizingMask key="autoresizingMask"/>
                                                 </imageView>
                                                 <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" image="detaildivider.png" id="rWe-iF-gWt">
-                                                    <rect key="frame" x="14" y="95" width="126" height="2"/>
+                                                    <rect key="frame" x="21" y="95" width="119" height="2"/>
                                                     <autoresizingMask key="autoresizingMask"/>
                                                 </imageView>
                                                 <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" image="detaildivider.png" id="Sp9-Th-0aH">
-                                                    <rect key="frame" x="14" y="66" width="126" height="2"/>
+                                                    <rect key="frame" x="21" y="66" width="119" height="2"/>
                                                     <autoresizingMask key="autoresizingMask"/>
                                                 </imageView>
                                             </subviews>
@@ -194,14 +198,14 @@
                             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                         </view>
                         <view contentMode="scaleToFill" id="uZU-xc-fTc" userLabel="Table Container">
-                            <rect key="frame" x="0.0" y="209" width="568" height="72"/>
+                            <rect key="frame" x="0.0" y="208" width="569" height="73"/>
                             <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
-                            <color key="backgroundColor" white="0.0" alpha="0.20000000000000001" colorSpace="calibratedWhite"/>
-                        </view>
-                        <view contentMode="scaleToFill" id="QKQ-Ov-dcL" userLabel="Border">
-                            <rect key="frame" x="0.0" y="208" width="568" height="1"/>
-                            <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
-                            <color key="backgroundColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
+                            <subviews>
+                                <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" image="gachaprizesbg.png" id="XrR-Go-yjH">
+                                    <rect key="frame" x="0.0" y="0.0" width="568" height="73"/>
+                                    <autoresizingMask key="autoresizingMask"/>
+                                </imageView>
+                            </subviews>
                         </view>
                         <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="ticker.png" id="Zng-fg-6NL">
                             <rect key="frame" x="274" y="193" width="21" height="29"/>
@@ -238,7 +242,7 @@
                     <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES" flexibleMaxY="YES"/>
                     <subviews>
                         <view contentMode="scaleToFill" id="sCV-s9-ex1">
-                            <rect key="frame" x="39" y="60" width="110" height="18"/>
+                            <rect key="frame" x="39" y="74" width="110" height="18"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             <subviews>
                                 <imageView opaque="NO" multipleTouchEnabled="YES" contentMode="left" image="epicgtag.png" id="4WC-FL-4u7">
@@ -258,7 +262,7 @@
                             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                         </view>
                         <view contentMode="scaleToFill" id="R3D-dd-fM1">
-                            <rect key="frame" x="39" y="80" width="205" height="37"/>
+                            <rect key="frame" x="39" y="94" width="205" height="37"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             <subviews>
                                 <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Zark Muckerburg" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="9" id="7i2-fy-dTX" customClass="NiceFontLabel">
@@ -279,7 +283,7 @@
                             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                         </view>
                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" text="meep meep meep" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" id="mcg-qG-Ncj" customClass="NiceFontLabel5">
-                            <rect key="frame" x="39" y="125" width="197" height="60"/>
+                            <rect key="frame" x="39" y="139" width="197" height="60"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             <fontDescription key="fontDescription" type="system" pointSize="12"/>
                             <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -288,8 +292,8 @@
                             <size key="shadowOffset" width="0.0" height="1"/>
                         </label>
                         <view multipleTouchEnabled="YES" contentMode="scaleToFill" id="n1L-do-Zng">
-                            <rect key="frame" x="39" y="193" width="86" height="31"/>
-                            <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <rect key="frame" x="39" y="207" width="86" height="31"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             <subviews>
                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="JaG-Er-WKa" customClass="GeneralButton">
                                     <rect key="frame" x="0.0" y="0.0" width="86" height="31"/>
@@ -303,7 +307,7 @@
                                     </connections>
                                 </button>
                                 <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="SPIN" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="zvz-Oq-VgU" customClass="NiceFontLabel">
-                                    <rect key="frame" x="52" y="2" width="43" height="28"/>
+                                    <rect key="frame" x="53" y="2" width="43" height="28"/>
                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                     <fontDescription key="fontDescription" type="system" pointSize="12"/>
                                     <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="calibratedRGB"/>
@@ -315,8 +319,8 @@
                                     <rect key="frame" x="29" y="5" width="22" height="20"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                 </imageView>
-                                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="25" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="ISb-Gv-IxD" customClass="NiceFontLabel">
-                                    <rect key="frame" x="2" y="1" width="24" height="28"/>
+                                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="25" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="ISb-Gv-IxD" customClass="NiceFontLabel">
+                                    <rect key="frame" x="8" y="1" width="24" height="28"/>
                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                     <fontDescription key="fontDescription" type="system" pointSize="12"/>
                                     <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="calibratedRGB"/>
@@ -340,13 +344,13 @@
                     </subviews>
                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                 </view>
-                <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="gacharevealspinner.png" id="Fd6-eq-6k6">
-                    <rect key="frame" x="31" y="25" width="268" height="269"/>
+                <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" alpha="0.20000000000000001" contentMode="scaleAspectFit" image="spinnerbg.png" id="Fd6-eq-6k6">
+                    <rect key="frame" x="49" y="39" width="229" height="229"/>
                     <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMaxY="YES"/>
                 </imageView>
                 <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="PIECE: 2/20" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="UnX-tf-Lrl" customClass="NiceFontLabel">
                     <rect key="frame" x="115" y="242" width="101" height="28"/>
-                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMaxY="YES"/>
                     <fontDescription key="fontDescription" type="system" pointSize="14"/>
                     <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="calibratedRGB"/>
                     <color key="highlightedColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
@@ -383,59 +387,73 @@
             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
             <subviews>
                 <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Mob Drop" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" id="xwO-MB-Esm" customClass="NiceFontLabel">
-                    <rect key="frame" x="165" y="4" width="93" height="32"/>
+                    <rect key="frame" x="128" y="4" width="167" height="32"/>
                     <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES" flexibleMaxY="YES"/>
                     <fontDescription key="fontDescription" type="system" pointSize="21"/>
-                    <color key="textColor" white="0.0" alpha="0.80000000000000004" colorSpace="calibratedWhite"/>
+                    <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="deviceRGB"/>
                     <nil key="highlightedColor"/>
-                    <color key="shadowColor" white="1" alpha="0.5" colorSpace="calibratedWhite"/>
+                    <color key="shadowColor" red="0.0" green="0.0" blue="0.0" alpha="0.75" colorSpace="calibratedRGB"/>
                     <size key="shadowOffset" width="0.0" height="1"/>
                 </label>
                 <view contentMode="scaleToFill" id="Bz4-RX-IHB">
-                    <rect key="frame" x="315" y="7" width="88" height="29"/>
-                    <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                    <rect key="frame" x="257" y="7" width="166" height="29"/>
+                    <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
                     <subviews>
-                        <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="menuresourcebg.png" id="eVo-Nf-uZt">
-                            <rect key="frame" x="6" y="5" width="82" height="19"/>
-                            <autoresizingMask key="autoresizingMask"/>
-                        </imageView>
-                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="250" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" id="xNq-az-Oba" customClass="NiceFontLabel">
-                            <rect key="frame" x="30" y="1" width="52" height="24"/>
-                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                            <fontDescription key="fontDescription" type="system" pointSize="13"/>
-                            <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="calibratedRGB"/>
-                            <nil key="highlightedColor"/>
-                            <color key="shadowColor" white="0.0" alpha="0.80000000000000004" colorSpace="calibratedWhite"/>
-                            <size key="shadowOffset" width="0.0" height="1"/>
-                        </label>
-                        <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleAspectFit" image="diamond.png" id="biD-EU-zHr">
-                            <rect key="frame" x="0.0" y="1" width="27" height="27"/>
-                            <autoresizingMask key="autoresizingMask"/>
-                        </imageView>
+                        <view contentMode="scaleToFill" id="36r-hl-AUi">
+                            <rect key="frame" x="58" y="0.0" width="88" height="29"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <subviews>
+                                <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="menuresourcebg.png" id="eVo-Nf-uZt">
+                                    <rect key="frame" x="6" y="5" width="82" height="19"/>
+                                    <autoresizingMask key="autoresizingMask"/>
+                                </imageView>
+                                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="250" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" id="xNq-az-Oba" customClass="NiceFontLabel">
+                                    <rect key="frame" x="30" y="1" width="52" height="24"/>
+                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                    <fontDescription key="fontDescription" type="system" pointSize="13"/>
+                                    <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="calibratedRGB"/>
+                                    <nil key="highlightedColor"/>
+                                    <color key="shadowColor" white="0.0" alpha="0.80000000000000004" colorSpace="calibratedWhite"/>
+                                    <size key="shadowOffset" width="0.0" height="1"/>
+                                </label>
+                                <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleAspectFit" image="diamond.png" id="biD-EU-zHr">
+                                    <rect key="frame" x="0.0" y="1" width="27" height="27"/>
+                                    <autoresizingMask key="autoresizingMask"/>
+                                </imageView>
+                            </subviews>
+                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                        </view>
                     </subviews>
                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                 </view>
-                <view contentMode="scaleToFill" id="0E9-jq-hhX">
-                    <rect key="frame" x="20" y="7" width="89" height="28"/>
-                    <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                <view contentMode="scaleToFill" id="uex-Xb-13s">
+                    <rect key="frame" x="0.0" y="7" width="166" height="29"/>
+                    <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
                     <subviews>
-                        <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="menuresourcebg.png" id="mfO-AG-jVA">
-                            <rect key="frame" x="7" y="5" width="82" height="19"/>
-                            <autoresizingMask key="autoresizingMask"/>
-                        </imageView>
-                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="250" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" id="WXy-rh-jK8" customClass="NiceFontLabel">
-                            <rect key="frame" x="29" y="1" width="56" height="24"/>
-                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                            <fontDescription key="fontDescription" type="system" pointSize="13"/>
-                            <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="calibratedRGB"/>
-                            <nil key="highlightedColor"/>
-                            <color key="shadowColor" white="0.0" alpha="0.80000000000000004" colorSpace="calibratedWhite"/>
-                            <size key="shadowOffset" width="0.0" height="1"/>
-                        </label>
-                        <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleAspectFit" image="moneystack.png" id="7fi-m9-mQd">
-                            <rect key="frame" x="0.0" y="0.0" width="29" height="28"/>
-                            <autoresizingMask key="autoresizingMask"/>
-                        </imageView>
+                        <view contentMode="scaleToFill" id="0E9-jq-hhX">
+                            <rect key="frame" x="20" y="0.0" width="89" height="29"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <subviews>
+                                <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="menuresourcebg.png" id="mfO-AG-jVA">
+                                    <rect key="frame" x="7" y="5" width="82" height="19"/>
+                                    <autoresizingMask key="autoresizingMask"/>
+                                </imageView>
+                                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="250" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" id="WXy-rh-jK8" customClass="NiceFontLabel">
+                                    <rect key="frame" x="29" y="1" width="56" height="24"/>
+                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                    <fontDescription key="fontDescription" type="system" pointSize="13"/>
+                                    <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="calibratedRGB"/>
+                                    <nil key="highlightedColor"/>
+                                    <color key="shadowColor" white="0.0" alpha="0.80000000000000004" colorSpace="calibratedWhite"/>
+                                    <size key="shadowOffset" width="0.0" height="1"/>
+                                </label>
+                                <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleAspectFit" image="moneystack.png" id="7fi-m9-mQd">
+                                    <rect key="frame" x="0.0" y="0.0" width="29" height="28"/>
+                                    <autoresizingMask key="autoresizingMask"/>
+                                </imageView>
+                            </subviews>
+                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                        </view>
                     </subviews>
                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                 </view>
@@ -448,21 +466,23 @@
         </view>
     </objects>
     <resources>
+        <image name="behindgachasunflare.png" width="217" height="217"/>
+        <image name="characterdetailshadow.png" width="94" height="45"/>
         <image name="detaildivider.png" width="1" height="2"/>
         <image name="diamond.png" width="44" height="41"/>
         <image name="epicgtag.png" width="25" height="15"/>
         <image name="featureddivider.png" width="308" height="29"/>
-        <image name="featuredstars.png" width="26" height="10"/>
+        <image name="featuredstars.png" width="25" height="9"/>
         <image name="gachaarrow.png" width="26" height="26"/>
+        <image name="gachaprizesbg.png" width="1" height="73"/>
         <image name="gacharevealbg.png" width="480" height="320"/>
         <image name="gacharevealclosex.png" width="16" height="17"/>
-        <image name="gacharevealspinner.png" width="268" height="269"/>
-        <image name="gooniegrabmachine.png" width="104" height="157"/>
-        <image name="mainmenubg.png" width="568" height="320"/>
+        <image name="gooniegrabmachine.png" width="83" height="134"/>
+        <image name="mainmenubg.png" width="568" height="282"/>
         <image name="menuresourcebg.png" width="82" height="19"/>
         <image name="moneystack.png" width="43" height="34"/>
         <image name="spinbutton.png" width="86" height="31"/>
-        <image name="spotlight.png" width="134" height="209"/>
+        <image name="spinnerbg.png" width="309" height="309"/>
         <image name="ticker.png" width="21" height="29"/>
     </resources>
 </document>

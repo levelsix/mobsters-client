@@ -8,6 +8,7 @@
 
 #import <UIKit/UIKit.h>
 #import "ChatView.h"
+#import "NibUtils.h"
 
 @interface ChatMainView : UIView
 
@@ -16,30 +17,11 @@
 
 @end
 
-@protocol ChatTopBarDelegate <NSObject>
-
-- (void) button1Clicked;
-- (void) button2Clicked;
-- (void) button3Clicked;
+@interface ChatTopBar : ButtonTopBar
 
 @end
 
-@interface ChatTopBar : UIView
-
-@property (nonatomic, retain) IBOutlet UIImageView *selectedView;
-
-@property (nonatomic, retain) IBOutlet UILabel *label1;
-@property (nonatomic, retain) IBOutlet UILabel *label2;
-@property (nonatomic, retain) IBOutlet UILabel *label3;
-
-@property (nonatomic, assign) IBOutlet id<ChatTopBarDelegate> delegate;
-
-- (void) clickButton:(int)button;
-- (IBAction) buttonClicked:(id)sender;
-
-@end
-
-@interface ChatViewController : UIViewController <ChatTopBarDelegate, UITextFieldDelegate, ChatViewDelegate> {
+@interface ChatViewController : UIViewController <TabBarDelegate, UITextFieldDelegate, ChatViewDelegate> {
   BOOL _passedThreshold;
 }
 
@@ -50,6 +32,10 @@
 @property (nonatomic, retain) IBOutlet GlobalChatView *globalChatView;
 @property (nonatomic, retain) IBOutlet ClanChatView *clanChatView;
 @property (nonatomic, retain) IBOutlet PrivateChatView *privateChatView;
+
+@property (nonatomic, retain) IBOutlet BadgeIcon *clanBadgeIcon;
+@property (nonatomic, retain) IBOutlet BadgeIcon *privateBadgeIcon;
+@property (nonatomic, retain) IBOutlet BadgeIcon *overallBadgeIcon;
 
 @property (nonatomic, assign) BOOL isOpen;
 

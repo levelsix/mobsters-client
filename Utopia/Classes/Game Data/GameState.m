@@ -15,7 +15,7 @@
 #import "ClanViewController.h"
 #import "Downloader.h"
 #import "SocketCommunication.h"
-#import "PrivateChatPostProto+UnreadStatus.h"
+#import "UnreadNotifications.h"
 #import "StaticStructure.h"
 #import "QuestUtil.h"
 #import "HospitalQueueSimulator.h"
@@ -96,7 +96,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
   self.isAdmin = user.isAdmin;
   self.hasReceivedfbReward = user.hasReceivedfbReward;
   self.numBeginnerSalesPurchased = user.numBeginnerSalesPurchased;
-  self.hasActiveShield = user.hasActiveShield;
+  self.shieldEndTime = [MSDate dateWithTimeIntervalSince1970:user.shieldEndTime/1000.0];
   self.createTime = [MSDate dateWithTimeIntervalSince1970:user.createTime/1000.0];
   self.lastObstacleCreateTime = [MSDate dateWithTimeIntervalSince1970:user.lastObstacleSpawnedTime/1000.0];
   if (user.hasFacebookId) self.facebookId = user.facebookId;
@@ -105,6 +105,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
   self.elo = user.elo;
   
   self.lastLogoutTime = [MSDate dateWithTimeIntervalSince1970:user.lastLogoutTime/1000.0];
+  self.lastLoginTimeNum = user.lastLoginTime;
   
   for (id<GameStateUpdate> gsu in _unrespondedUpdates) {
     if ([gsu respondsToSelector:@selector(update)]) {
@@ -137,12 +138,13 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
   fup.isAdmin = self.isAdmin;
   fup.hasReceivedfbReward = self.hasReceivedfbReward;
   fup.numBeginnerSalesPurchased = self.numBeginnerSalesPurchased;
-  fup.hasActiveShield = self.hasActiveShield;
+  fup.shieldEndTime = self.shieldEndTime.timeIntervalSince1970*1000.;
   fup.createTime = self.createTime.timeIntervalSince1970*1000.;
   fup.lastLogoutTime = self.lastLogoutTime.timeIntervalSince1970*1000.;
   fup.lastObstacleSpawnedTime = self.lastObstacleCreateTime.timeIntervalSince1970*1000.;
   fup.facebookId = self.facebookId;
   fup.elo = self.elo;
+  fup.lastLoginTime = self.lastLoginTimeNum;
   
   return [fup build];
 }
@@ -237,6 +239,15 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
     return nil;
   }
   return [self getStaticDataFrom:_staticObstacles withId:obstacleId];
+}
+
+- (ClanIconProto *) clanIconWithId:(int)iconId {
+  for (ClanIconProto *ci in self.staticClanIcons) {
+    if (ci.clanIconId == iconId) {
+      return ci;
+    }
+  }
+  return nil;
 }
 
 - (PersistentEventProto *) persistentEventWithId:(int)eventId {
@@ -419,7 +430,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
       ResidenceProto *res = (ResidenceProto *)us.staticStructForNextFbLevel;
       NSArray *arr = [self acceptedFbRequestsForUserStructId:us.userStructId fbStructLevel:us.fbInviteStructLvl+1];
       if (res.numAcceptedFbInvites <= arr.count) {
-        [[OutgoingEventController sharedOutgoingEventController] increaseInventorySlots:us withGems:NO];
+        [[OutgoingEventController sharedOutgoingEventController] increaseInventorySlots:us withGems:NO delegate:nil];
         [[NSNotificationCenter defaultCenter] postNotificationName:FB_INCREASE_SLOTS_NOTIFICATION object:nil userInfo:[NSDictionary dictionaryWithObjectsAndKeys:@(us.userStructId), @"UserStructId", nil]];
       }
     }
@@ -473,7 +484,6 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
   } else {
     [self.clanChatMessages addObject:cm];
   }
-  [[NSNotificationCenter defaultCenter] postNotificationName:CHAT_RECEIVED_NOTIFICATION object:nil];
 }
 
 - (void) addPrivateChat:(PrivateChatPostProto *)post {
@@ -487,9 +497,6 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
   }
   [self.privateChats removeObject:privChat];
   [self.privateChats insertObject:post atIndex:0];
-  
-  [[NSNotificationCenter defaultCenter] postNotificationName:CHAT_RECEIVED_NOTIFICATION object:nil userInfo:
-   [NSDictionary dictionaryWithObject:post forKey:[NSString stringWithFormat:PRIVATE_CHAT_DEFAULTS_KEY, userId]]];
 }
 
 - (void) addBoosterPurchase:(RareBoosterPurchaseProto *)bp {
@@ -853,6 +860,8 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
   
   self.persistentEvents = proto.persistentEventsList;
   self.persistentClanEvents = proto.persistentClanEventsList;
+  
+  self.staticClanIcons = proto.clanIconsList;
 }
 
 - (void) addToStaticMonsters:(NSArray *)arr {
@@ -1061,12 +1070,17 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
 
 - (int) expNeededForLevel:(int)level {
   StaticUserLevelInfoProto *slip = [self.staticLevelInfos objectForKey:[NSNumber numberWithInt:level]];
-  return slip.requiredExperience;
+  if (slip) {
+    return slip.requiredExperience;
+  } else {
+    return RAND_MAX;
+  }
 }
 
 - (int) currentExpForLevel {
   int thisLevel = [self expNeededForLevel:self.level];
-  return self.experience-thisLevel;
+  int nextLevel = [self expNeededForLevel:self.level+1];
+  return MAX(0, MIN(nextLevel-thisLevel, self.experience-thisLevel));
 }
 
 - (int) expDeltaNeededForNextLevel {
@@ -1119,6 +1133,10 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
     }
   }
   return nil;
+}
+
+- (BOOL) hasActiveShield {
+  return self.shieldEndTime.timeIntervalSinceNow > 0;
 }
 
 #pragma mark -
@@ -1330,6 +1348,8 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
   for (FullUserClanProto *uc in arr) {
     if (uc.status == UserClanStatusRequesting) {
       [self.requestedClans addObject:[NSNumber numberWithInt:uc.clanId]];
+    } else {
+      self.myClanStatus = uc.status;
     }
   }
 }
@@ -1345,44 +1365,6 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
     }
   }
   return nil;
-}
-
-- (BOOL) hasBeginnerShield {
-  return [Globals userHasBeginnerShield:self.createTime.timeIntervalSince1970*1000 hasActiveShield:self.hasActiveShield];
-}
-
-- (void) clearAllData {
-  _connected = NO;
-  self.staticTasks = [[NSMutableDictionary alloc] init];
-  self.staticCities = [[NSMutableDictionary alloc] init];
-  self.staticStructs = [[NSMutableDictionary alloc] init];
-  self.eventCooldownTimes = [[NSMutableDictionary alloc] init];
-  self.notifications = [[NSMutableArray alloc] init];
-  self.myStructs = [[NSMutableArray alloc] init];
-  self.clanChatMessages = [[NSMutableArray alloc] init];
-  self.globalChatMessages = [[NSMutableArray alloc] init];
-  self.rareBoosterPurchases = [[NSMutableArray alloc] init];
-  self.monsterHealingQueue = [[NSMutableArray alloc] init];
-  self.fbAcceptedRequestsFromMe = [[NSMutableSet alloc] init];
-  self.fbUnacceptedRequestsFromFriends = [[NSMutableSet alloc] init];
-  
-  self.availableQuests = [[NSMutableDictionary alloc] init];
-  self.inProgressCompleteQuests = [[NSMutableDictionary alloc] init];
-  self.inProgressIncompleteQuests = [[NSMutableDictionary alloc] init];
-  
-  self.boosterPacks = nil;
-  
-  self.unrespondedUpdates = [[NSMutableArray alloc] init];
-  
-  self.requestedClans = [[NSMutableArray alloc] init];
-  
-  [self stopExpansionTimer];
-  [self stopHealingTimer];
-  
-  self.userExpansions = nil;
-  
-  self.clan = nil;
-  self.userId = 0;
 }
 
 @end

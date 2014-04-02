@@ -9,7 +9,7 @@
 #import "ChatView.h"
 #import "OutgoingEventController.h"
 #import "GameState.h"
-#import "PrivateChatPostProto+UnreadStatus.h"
+#import "UnreadNotifications.h"
 
 @implementation ChatView
 
@@ -79,12 +79,22 @@
   return @"ChatCell";
 }
 
+- (BOOL) showsClanButton {
+  return YES;
+}
+
 - (UITableViewCell *) tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
   ChatCell *cell = [tableView dequeueReusableCellWithIdentifier:[self cellClassName]];
   
   if (!cell) {
     [[NSBundle mainBundle] loadNibNamed:[self cellClassName] owner:self options:nil];
     cell = self.chatCell;
+    
+    if (![self showsClanButton]) {
+      [cell.clanButton.superview removeFromSuperview];
+      cell.clanButton = nil;
+      cell.shieldIcon = nil;
+    }
   }
   
   [cell updateForChat:self.chats[indexPath.row]];
@@ -109,7 +119,7 @@
   [self checkIfDimensionsLoaded];
   NSString *msg = [self.chats[indexPath.row] message];
   CGSize size = [msg sizeWithFont:msgLabelFont constrainedToSize:CGSizeMake(msgLabelInitialFrame.size.width, 999) lineBreakMode:NSLineBreakByWordWrapping];
-  float height = size.height+msgLabelInitialFrame.origin.y+8.f;
+  float height = size.height+msgLabelInitialFrame.origin.y+20.f;
   return height;
 }
 
@@ -134,13 +144,18 @@
 @implementation ClanChatView
 
 - (void) updateForChats:(NSArray *)chats andClan:(MinimumClanProto *)clan {
+  GameState *gs = [GameState sharedGameState];
+  
   [self updateForChats:chats animated:YES];
   
   self.clan = clan;
   
   self.clanLabel.text = clan.name;
   
-  self.noClanLabel.hidden = clan != nil;
+  ClanIconProto *icon = [gs clanIconWithId:clan.clanIconId];
+  [Globals imageNamed:icon.imgName withView:self.shieldIcon greyscale:NO indicator:UIActivityIndicatorViewStyleWhite clearImageDuringDownload:YES];
+  
+  self.noClanView.hidden = clan != nil;
   self.mainView.hidden = clan == nil;
 }
 
@@ -155,8 +170,8 @@
   [super sendChatClicked:sender];
 }
 
-- (NSString *) cellClassName {
-  return @"ClanChatCell";
+- (BOOL) showsClanButton {
+  return NO;
 }
 
 @end
@@ -208,11 +223,16 @@
 }
 
 - (void) openConversationWithUserId:(int)userId animated:(BOOL)animated {
-  [[OutgoingEventController sharedOutgoingEventController] retrievePrivateChatPosts:userId delegate:self];
-  [self loadConversationViewAnimated:animated];
-  self.curUserId = userId;
-  _isLoading = YES;
-  [self.chatTable reloadData];
+  GameState *gs = [GameState sharedGameState];
+  if (gs.userId != userId) {
+    [[OutgoingEventController sharedOutgoingEventController] retrievePrivateChatPosts:userId delegate:self];
+    [self loadConversationViewAnimated:animated];
+    self.curUserId = userId;
+    _isLoading = YES;
+    [self.chatTable reloadData];
+  } else {
+    [self loadListViewAnimated:animated];
+  }
 }
 
 - (void) handleRetrievePrivateChatPostsResponseProto:(FullEvent *)fe {
@@ -261,6 +281,10 @@
   } else {
     [Globals popupMessage:@"Hold on! We are still loading this conversation."];
   }
+}
+
+- (BOOL) showsClanButton {
+  return NO;
 }
 
 #pragma mark - TableView delegate
@@ -320,6 +344,8 @@
     PrivateChatPostProto *post = self.privateChatList[indexPath.row];
     [self openConversationWithUserId:post.otherUserId animated:YES];
     [post markAsRead];
+    
+    [self.delegate viewedPrivateChat];
   }
 }
 

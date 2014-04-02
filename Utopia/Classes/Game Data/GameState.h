@@ -47,7 +47,7 @@
 @property (nonatomic, retain) MSDate *createTime;
 @property (nonatomic, assign) BOOL hasReceivedfbReward;
 @property (nonatomic, assign) int numBeginnerSalesPurchased;
-@property (nonatomic, assign) BOOL hasActiveShield;
+@property (nonatomic, retain) MSDate *shieldEndTime;
 @property (nonatomic, retain) MSDate *lastObstacleCreateTime;
 
 @property (nonatomic, retain) NSString *kabamNaid;
@@ -64,6 +64,7 @@
 @property (nonatomic, retain) NSMutableDictionary *staticObstacles;
 @property (nonatomic, retain) NSArray *persistentEvents;
 @property (nonatomic, retain) NSMutableDictionary *eventCooldownTimes;
+@property (nonatomic, retain) NSArray *staticClanIcons;
 
 @property (nonatomic, retain) NSArray *persistentClanEvents;
 @property (nonatomic, retain) PersistentClanEventClanInfoProto *curClanRaidInfo;
@@ -101,9 +102,11 @@
 @property (nonatomic, retain) NSMutableArray *unrespondedUpdates;
 
 @property (nonatomic, retain) MSDate *lastLogoutTime;
+@property (nonatomic, assign) int64_t lastLoginTimeNum;
 
 @property (nonatomic, retain) MinimumClanProto *clan;
 @property (nonatomic, retain) NSMutableArray *requestedClans;
+@property (nonatomic, assign) UserClanStatus myClanStatus;
 
 @property (nonatomic, retain) NSMutableArray *userExpansions;
 @property (nonatomic, retain) NSMutableDictionary *expansionCosts;
@@ -133,6 +136,7 @@
 - (BoosterPackProto *) boosterPackForId:(int)packId;
 - (MonsterProto *) monsterWithId:(int)monsterId;
 - (ObstacleProto *) obstacleWithId:(int)obstacleId;
+- (ClanIconProto *) clanIconWithId:(int)iconId;
 - (PersistentEventProto *) persistentEventWithId:(int)eventId;
 - (PersistentEventProto *) currentPersistentEventWithType:(PersistentEventProto_EventType)type;
 - (MonsterBattleDialogueProto *) battleDialogueForMonsterId:(int)monsterId type:(MonsterBattleDialogueProto_DialogueType)type;
@@ -228,8 +232,8 @@
 
 - (void) addToRequestedClans:(NSArray *)arr;
 
-- (BOOL) hasBeginnerShield;
-
 - (PersistentClanEventUserInfoProto *) myClanRaidInfo;
+
+- (BOOL) hasActiveShield;
 
 @end

@@ -115,9 +115,7 @@ BOOL UserCreateResponseProto_UserCreateStatusIsValidValue(UserCreateResponseProt
 
 typedef enum {
   LevelUpResponseProto_LevelUpStatusSuccess = 1,
-  LevelUpResponseProto_LevelUpStatusNotEnoughExpToNextLevel = 2,
-  LevelUpResponseProto_LevelUpStatusAlreadyAtMaxLevel = 3,
-  LevelUpResponseProto_LevelUpStatusOtherFail = 4,
+  LevelUpResponseProto_LevelUpStatusFailOther = 2,
 } LevelUpResponseProto_LevelUpStatus;
 
 BOOL LevelUpResponseProto_LevelUpStatusIsValidValue(LevelUpResponseProto_LevelUpStatus value);
@@ -328,11 +326,15 @@ BOOL SetGameCenterIdResponseProto_SetGameCenterIdStatusIsValidValue(SetGameCente
 
 @interface LevelUpRequestProto : PBGeneratedMessage {
 @private
+  BOOL hasNextLevel_:1;
   BOOL hasSender_:1;
+  int32_t nextLevel;
   MinimumUserProto* sender;
 }
 - (BOOL) hasSender;
+- (BOOL) hasNextLevel;
 @property (readonly, retain) MinimumUserProto* sender;
+@property (readonly) int32_t nextLevel;
 
 + (LevelUpRequestProto*) defaultInstance;
 - (LevelUpRequestProto*) defaultInstance;
@@ -374,6 +376,11 @@ BOOL SetGameCenterIdResponseProto_SetGameCenterIdStatusIsValidValue(SetGameCente
 - (LevelUpRequestProto_Builder*) setSenderBuilder:(MinimumUserProto_Builder*) builderForValue;
 - (LevelUpRequestProto_Builder*) mergeSender:(MinimumUserProto*) value;
 - (LevelUpRequestProto_Builder*) clearSender;
+
+- (BOOL) hasNextLevel;
+- (int32_t) nextLevel;
+- (LevelUpRequestProto_Builder*) setNextLevel:(int32_t) value;
+- (LevelUpRequestProto_Builder*) clearNextLevel;
 @end
 
 @interface LevelUpResponseProto : PBGeneratedMessage {

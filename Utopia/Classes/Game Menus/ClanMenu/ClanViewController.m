@@ -30,18 +30,26 @@
   self.navigationItem.titleView = self.menuTopBar;
   [self setUpCloseButton];
   [self setUpImageBackButton];
+  
+  _shouldLoadFirstController = YES;
+  
+  [[OutgoingEventController sharedOutgoingEventController] registerClanEventDelegate:self];
 }
 
 - (void) viewWillAppear:(BOOL)animated {
-  BOOL _firstTime = !_controller1;
-  [self updateConfiguration];
-  
-  if (_firstTime) {
+  if (_shouldLoadFirstController) {
+    [self updateConfiguration];
     [self button1Clicked:nil];
+    _shouldLoadFirstController = NO;
+    
+    [self.clanBrowseViewController reload];
   }
-  
-  // Do this so it reloads the list when it comes back from other view
-  [self.clanBrowseViewController reload];
+}
+
+- (void) willMoveToParentViewController:(UIViewController *)parent {
+  if (!parent) {
+    [[OutgoingEventController sharedOutgoingEventController] unregisterClanEventDelegate:self];
+  }
 }
 
 - (void) updateConfiguration {
@@ -56,18 +64,18 @@
 
 - (void) loadInClanConfiguration {
   _controller1 = self.clanInfoViewController;
-  _controller2 = self.clanRaidViewController;
+  _controller2 = self.clanBrowseViewController;
   
   self.menuTopBar.label1.text = @"MY CLAN";
-  self.menuTopBar.label2.text = @"RAIDS";
+  self.menuTopBar.label2.text = @"BROWSE";
 }
 
 - (void) loadNotInClanConfiguration {
   _controller1 = self.clanBrowseViewController;
   _controller2 = self.clanCreateViewController;
   
-  self.menuTopBar.label1.text = @"JOIN CLAN";
-  self.menuTopBar.label2.text = @"CREATE CLAN";
+  self.menuTopBar.label1.text = @"JOIN";
+  self.menuTopBar.label2.text = @"CREATE";
 }
 
 - (void) button1Clicked:(id)sender {
@@ -96,28 +104,49 @@
 
 #pragma mark - Response handlers
 
-- (void) handleCreateClanResponseProto:(FullEvent *)e {
-  [self updateConfiguration];
-  [self button1Clicked:nil];
-}
-
-- (void) handleLeaveClanResponseProto:(FullEvent *)e {
-  [self updateConfiguration];
-  [self button1Clicked:nil];
-}
-
-- (void) handleRequestJoinClanResponseProto:(FullEvent *)e {
-  RequestJoinClanResponseProto *proto = (RequestJoinClanResponseProto *)e.event;
-  if (proto.status == RequestJoinClanResponseProto_RequestJoinClanStatusJoinSuccess) {
+- (void) handleClanEventCreateClanResponseProto:(CreateClanResponseProto *)proto {
+  if (proto.status == CreateClanResponseProto_CreateClanStatusSuccess) {
     [self updateConfiguration];
     [self button1Clicked:nil];
+  } else if (proto.status == CreateClanResponseProto_CreateClanStatusFailNameTaken) {
+    [Globals popupMessage:@"Sorry, this name is already in use."];
+  } else if (proto.status == CreateClanResponseProto_CreateClanStatusFailTagTaken) {
+    [Globals popupMessage:@"Sorry, this tag is already in use."];
   } else {
-    [self.clanBrowseViewController.browseClansTable reloadData];
+    [Globals popupMessage:@"Sorry, something went wrong! Please try again."];
   }
 }
 
-- (void) handleRetractRequestJoinClanResponseProto:(FullEvent *)e {
-  [self.clanBrowseViewController.browseClansTable reloadData];
+- (void) handleClanEventLeaveClanResponseProto:(LeaveClanResponseProto *)proto {
+  GameState *gs = [GameState sharedGameState];
+  if (proto.sender.userId == gs.userId && proto.status == LeaveClanResponseProto_LeaveClanStatusSuccess) {
+    [self updateConfiguration];
+    [self button1Clicked:nil];
+  }
+}
+
+- (void) handleClanEventApproveOrRejectRequestToJoinClanResponseProto:(ApproveOrRejectRequestToJoinClanResponseProto *)proto {
+  GameState *gs = [GameState sharedGameState];
+  if (proto.requester.userId == gs.userId && proto.accept && proto.status == ApproveOrRejectRequestToJoinClanResponseProto_ApproveOrRejectRequestToJoinClanStatusSuccess) {
+    [self updateConfiguration];
+    [self button1Clicked:nil];
+  }
+}
+
+- (void) handleClanEventBootPlayerFromClanResponseProto:(BootPlayerFromClanResponseProto *)proto {
+  GameState *gs = [GameState sharedGameState];
+  if (proto.playerToBoot.userId == gs.userId && proto.status == BootPlayerFromClanResponseProto_BootPlayerFromClanStatusSuccess) {
+    [self updateConfiguration];
+    [self button1Clicked:nil];
+  }
+}
+
+- (void) handleClanEventRequestJoinClanResponseProto:(LeaveClanResponseProto *)proto {
+  GameState *gs = [GameState sharedGameState];
+  if (proto.sender.userId == gs.userId && proto.status == RequestJoinClanResponseProto_RequestJoinClanStatusSuccessJoin) {
+    [self updateConfiguration];
+    [self button1Clicked:nil];
+  }
 }
 
 - (void) handleRetrieveClanInfoResponseProto:(FullEvent *)fe {
@@ -126,7 +155,7 @@
   GameState *gs = [GameState sharedGameState];
   RetrieveClanInfoResponseProto *proto = (RetrieveClanInfoResponseProto *)fe.event;
   if (proto.clanInfoList.count == 1 && ((FullClanProtoWithClanSize *)proto.clanInfoList[0]).clan.clanId == gs.clan.clanId) {
-    if (!self.clanRaidViewController.raidViewController.leaderboardViewController.members) {
+    if (!self.clanRaidViewController.raidViewController.leaderboardViewController.allMembers) {
       [self.clanRaidViewController.raidViewController.leaderboardViewController createMembersListFromClanMembers:proto.membersList];
     }
     self.myClanMembersList = proto.membersList;

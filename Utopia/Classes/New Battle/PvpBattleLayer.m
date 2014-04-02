@@ -24,7 +24,6 @@
     PvpProto_Builder *pvp = [PvpProto builder];
     MinimumUserProto *mup = [[[[[MinimumUserProto builder] setName:hist.attacker.name] setUserId:hist.attacker.userId] setClan:hist.attacker.clan] build];
     pvp.defender = [[[[MinimumUserProtoWithLevel builder] setLevel:hist.attacker.level] setMinUserProto:mup] build];
-    pvp.curElo = hist.attacker.elo;
     pvp.prospectiveCashWinnings = hist.prospectiveCashWinnings;
     pvp.prospectiveOilWinnings = hist.prospectiveOilWinnings;
     [pvp addAllDefenderMonsters:hist.attackersMonstersList];
@@ -62,12 +61,10 @@
 }
 
 - (IBAction)manageClicked:(id)sender {
-  if (_waitingForEndPvpResponse) {
-    return;
+  if (!_waitingForEndPvpResponse) {
+    _manageWasClicked = YES;
+    [self winExitClicked:nil];
   }
-  
-  _manageWasClicked = YES;
-  [self winExitClicked:nil];
 }
 
 - (IBAction)forfeitClicked:(id)sender {
@@ -86,10 +83,20 @@
 }
 
 - (IBAction)winExitClicked:(id)sender {
-  if (!_receivedEndPvpResponse) {
-    _waitingForEndPvpResponse = YES;
-  } else {
-    [self exitFinal];
+  if (!_waitingForEndPvpResponse) {
+    if (!_receivedEndPvpResponse) {
+      _waitingForEndPvpResponse = YES;
+      
+      if (_manageWasClicked) {
+        [self.wonView spinnerOnManage];
+        [self.lostView spinnerOnManage];
+      } else {
+        [self.wonView spinnerOnDone];
+        [self.lostView spinnerOnDone];
+      }
+    } else {
+      [self exitFinal];
+    }
   }
 }
 
@@ -118,7 +125,7 @@
     PvpProto *pvp = self.defendersList[_curQueueNum];
     [self.queueNode updateForPvpProto:pvp];
     self.queueNode.position = ccp(self.contentSize.width-self.queueNode.contentSize.width,0);
-    [self.queueNode fadeInAnimation];
+    [self.queueNode fadeInAnimationForIsRevenge:_isRevenge];
     
     [SoundEngine puzzlePvpQueueUISlideIn];
   }

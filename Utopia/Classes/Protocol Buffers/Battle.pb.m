@@ -344,10 +344,10 @@ static MinimumUserProtoWithBattleHistory* defaultMinimumUserProtoWithBattleHisto
 
 @interface PvpProto ()
 @property (retain) MinimumUserProtoWithLevel* defender;
-@property int32_t curElo;
 @property (retain) NSMutableArray* mutableDefenderMonstersList;
 @property int32_t prospectiveCashWinnings;
 @property int32_t prospectiveOilWinnings;
+@property (retain) UserPvpLeagueProto* pvpLeagueStats;
 @end
 
 @implementation PvpProto
@@ -359,13 +359,6 @@ static MinimumUserProtoWithBattleHistory* defaultMinimumUserProtoWithBattleHisto
   hasDefender_ = !!value;
 }
 @synthesize defender;
-- (BOOL) hasCurElo {
-  return !!hasCurElo_;
-}
-- (void) setHasCurElo:(BOOL) value {
-  hasCurElo_ = !!value;
-}
-@synthesize curElo;
 @synthesize mutableDefenderMonstersList;
 - (BOOL) hasProspectiveCashWinnings {
   return !!hasProspectiveCashWinnings_;
@@ -381,17 +374,25 @@ static MinimumUserProtoWithBattleHistory* defaultMinimumUserProtoWithBattleHisto
   hasProspectiveOilWinnings_ = !!value;
 }
 @synthesize prospectiveOilWinnings;
+- (BOOL) hasPvpLeagueStats {
+  return !!hasPvpLeagueStats_;
+}
+- (void) setHasPvpLeagueStats:(BOOL) value {
+  hasPvpLeagueStats_ = !!value;
+}
+@synthesize pvpLeagueStats;
 - (void) dealloc {
   self.defender = nil;
   self.mutableDefenderMonstersList = nil;
+  self.pvpLeagueStats = nil;
   [super dealloc];
 }
 - (id) init {
   if ((self = [super init])) {
     self.defender = [MinimumUserProtoWithLevel defaultInstance];
-    self.curElo = 0;
     self.prospectiveCashWinnings = 0;
     self.prospectiveOilWinnings = 0;
+    self.pvpLeagueStats = [UserPvpLeagueProto defaultInstance];
   }
   return self;
 }
@@ -421,9 +422,6 @@ static PvpProto* defaultPvpProtoInstance = nil;
   if (self.hasDefender) {
     [output writeMessage:1 value:self.defender];
   }
-  if (self.hasCurElo) {
-    [output writeInt32:2 value:self.curElo];
-  }
   for (MinimumUserMonsterProto* element in self.defenderMonstersList) {
     [output writeMessage:3 value:element];
   }
@@ -432,6 +430,9 @@ static PvpProto* defaultPvpProtoInstance = nil;
   }
   if (self.hasProspectiveOilWinnings) {
     [output writeInt32:5 value:self.prospectiveOilWinnings];
+  }
+  if (self.hasPvpLeagueStats) {
+    [output writeMessage:6 value:self.pvpLeagueStats];
   }
   [self.unknownFields writeToCodedOutputStream:output];
 }
@@ -445,9 +446,6 @@ static PvpProto* defaultPvpProtoInstance = nil;
   if (self.hasDefender) {
     size += computeMessageSize(1, self.defender);
   }
-  if (self.hasCurElo) {
-    size += computeInt32Size(2, self.curElo);
-  }
   for (MinimumUserMonsterProto* element in self.defenderMonstersList) {
     size += computeMessageSize(3, element);
   }
@@ -456,6 +454,9 @@ static PvpProto* defaultPvpProtoInstance = nil;
   }
   if (self.hasProspectiveOilWinnings) {
     size += computeInt32Size(5, self.prospectiveOilWinnings);
+  }
+  if (self.hasPvpLeagueStats) {
+    size += computeMessageSize(6, self.pvpLeagueStats);
   }
   size += self.unknownFields.serializedSize;
   memoizedSerializedSize = size;
@@ -535,9 +536,6 @@ static PvpProto* defaultPvpProtoInstance = nil;
   if (other.hasDefender) {
     [self mergeDefender:other.defender];
   }
-  if (other.hasCurElo) {
-    [self setCurElo:other.curElo];
-  }
   if (other.mutableDefenderMonstersList.count > 0) {
     if (result.mutableDefenderMonstersList == nil) {
       result.mutableDefenderMonstersList = [NSMutableArray array];
@@ -549,6 +547,9 @@ static PvpProto* defaultPvpProtoInstance = nil;
   }
   if (other.hasProspectiveOilWinnings) {
     [self setProspectiveOilWinnings:other.prospectiveOilWinnings];
+  }
+  if (other.hasPvpLeagueStats) {
+    [self mergePvpLeagueStats:other.pvpLeagueStats];
   }
   [self mergeUnknownFields:other.unknownFields];
   return self;
@@ -580,10 +581,6 @@ static PvpProto* defaultPvpProtoInstance = nil;
         [self setDefender:[subBuilder buildPartial]];
         break;
       }
-      case 16: {
-        [self setCurElo:[input readInt32]];
-        break;
-      }
       case 26: {
         MinimumUserMonsterProto_Builder* subBuilder = [MinimumUserMonsterProto builder];
         [input readMessage:subBuilder extensionRegistry:extensionRegistry];
@@ -596,6 +593,15 @@ static PvpProto* defaultPvpProtoInstance = nil;
       }
       case 40: {
         [self setProspectiveOilWinnings:[input readInt32]];
+        break;
+      }
+      case 50: {
+        UserPvpLeagueProto_Builder* subBuilder = [UserPvpLeagueProto builder];
+        if (self.hasPvpLeagueStats) {
+          [subBuilder mergeFrom:self.pvpLeagueStats];
+        }
+        [input readMessage:subBuilder extensionRegistry:extensionRegistry];
+        [self setPvpLeagueStats:[subBuilder buildPartial]];
         break;
       }
     }
@@ -629,22 +635,6 @@ static PvpProto* defaultPvpProtoInstance = nil;
 - (PvpProto_Builder*) clearDefender {
   result.hasDefender = NO;
   result.defender = [MinimumUserProtoWithLevel defaultInstance];
-  return self;
-}
-- (BOOL) hasCurElo {
-  return result.hasCurElo;
-}
-- (int32_t) curElo {
-  return result.curElo;
-}
-- (PvpProto_Builder*) setCurElo:(int32_t) value {
-  result.hasCurElo = YES;
-  result.curElo = value;
-  return self;
-}
-- (PvpProto_Builder*) clearCurElo {
-  result.hasCurElo = NO;
-  result.curElo = 0;
   return self;
 }
 - (NSArray*) defenderMonstersList {
@@ -708,6 +698,36 @@ static PvpProto* defaultPvpProtoInstance = nil;
   result.prospectiveOilWinnings = 0;
   return self;
 }
+- (BOOL) hasPvpLeagueStats {
+  return result.hasPvpLeagueStats;
+}
+- (UserPvpLeagueProto*) pvpLeagueStats {
+  return result.pvpLeagueStats;
+}
+- (PvpProto_Builder*) setPvpLeagueStats:(UserPvpLeagueProto*) value {
+  result.hasPvpLeagueStats = YES;
+  result.pvpLeagueStats = value;
+  return self;
+}
+- (PvpProto_Builder*) setPvpLeagueStatsBuilder:(UserPvpLeagueProto_Builder*) builderForValue {
+  return [self setPvpLeagueStats:[builderForValue build]];
+}
+- (PvpProto_Builder*) mergePvpLeagueStats:(UserPvpLeagueProto*) value {
+  if (result.hasPvpLeagueStats &&
+      result.pvpLeagueStats != [UserPvpLeagueProto defaultInstance]) {
+    result.pvpLeagueStats =
+      [[[UserPvpLeagueProto builderWithPrototype:result.pvpLeagueStats] mergeFrom:value] buildPartial];
+  } else {
+    result.pvpLeagueStats = value;
+  }
+  result.hasPvpLeagueStats = YES;
+  return self;
+}
+- (PvpProto_Builder*) clearPvpLeagueStats {
+  result.hasPvpLeagueStats = NO;
+  result.pvpLeagueStats = [UserPvpLeagueProto defaultInstance];
+  return self;
+}
 @end
 
 @interface PvpHistoryProto ()
@@ -720,6 +740,10 @@ static PvpProto* defaultPvpProtoInstance = nil;
 @property BOOL exactedRevenge;
 @property int32_t prospectiveCashWinnings;
 @property int32_t prospectiveOilWinnings;
+@property (retain) UserPvpLeagueProto* attackerBefore;
+@property (retain) UserPvpLeagueProto* attackerAfter;
+@property (retain) UserPvpLeagueProto* defenderBefore;
+@property (retain) UserPvpLeagueProto* defenderAfter;
 @end
 
 @implementation PvpHistoryProto
@@ -791,9 +815,41 @@ static PvpProto* defaultPvpProtoInstance = nil;
   hasProspectiveOilWinnings_ = !!value;
 }
 @synthesize prospectiveOilWinnings;
+- (BOOL) hasAttackerBefore {
+  return !!hasAttackerBefore_;
+}
+- (void) setHasAttackerBefore:(BOOL) value {
+  hasAttackerBefore_ = !!value;
+}
+@synthesize attackerBefore;
+- (BOOL) hasAttackerAfter {
+  return !!hasAttackerAfter_;
+}
+- (void) setHasAttackerAfter:(BOOL) value {
+  hasAttackerAfter_ = !!value;
+}
+@synthesize attackerAfter;
+- (BOOL) hasDefenderBefore {
+  return !!hasDefenderBefore_;
+}
+- (void) setHasDefenderBefore:(BOOL) value {
+  hasDefenderBefore_ = !!value;
+}
+@synthesize defenderBefore;
+- (BOOL) hasDefenderAfter {
+  return !!hasDefenderAfter_;
+}
+- (void) setHasDefenderAfter:(BOOL) value {
+  hasDefenderAfter_ = !!value;
+}
+@synthesize defenderAfter;
 - (void) dealloc {
   self.attacker = nil;
   self.mutableAttackersMonstersList = nil;
+  self.attackerBefore = nil;
+  self.attackerAfter = nil;
+  self.defenderBefore = nil;
+  self.defenderAfter = nil;
   [super dealloc];
 }
 - (id) init {
@@ -806,6 +862,10 @@ static PvpProto* defaultPvpProtoInstance = nil;
     self.exactedRevenge = NO;
     self.prospectiveCashWinnings = 0;
     self.prospectiveOilWinnings = 0;
+    self.attackerBefore = [UserPvpLeagueProto defaultInstance];
+    self.attackerAfter = [UserPvpLeagueProto defaultInstance];
+    self.defenderBefore = [UserPvpLeagueProto defaultInstance];
+    self.defenderAfter = [UserPvpLeagueProto defaultInstance];
   }
   return self;
 }
@@ -859,6 +919,18 @@ static PvpHistoryProto* defaultPvpHistoryProtoInstance = nil;
   if (self.hasBattleEndTime) {
     [output writeInt64:9 value:self.battleEndTime];
   }
+  if (self.hasAttackerBefore) {
+    [output writeMessage:10 value:self.attackerBefore];
+  }
+  if (self.hasAttackerAfter) {
+    [output writeMessage:11 value:self.attackerAfter];
+  }
+  if (self.hasDefenderBefore) {
+    [output writeMessage:12 value:self.defenderBefore];
+  }
+  if (self.hasDefenderAfter) {
+    [output writeMessage:13 value:self.defenderAfter];
+  }
   [self.unknownFields writeToCodedOutputStream:output];
 }
 - (int32_t) serializedSize {
@@ -894,6 +966,18 @@ static PvpHistoryProto* defaultPvpHistoryProtoInstance = nil;
   }
   if (self.hasBattleEndTime) {
     size += computeInt64Size(9, self.battleEndTime);
+  }
+  if (self.hasAttackerBefore) {
+    size += computeMessageSize(10, self.attackerBefore);
+  }
+  if (self.hasAttackerAfter) {
+    size += computeMessageSize(11, self.attackerAfter);
+  }
+  if (self.hasDefenderBefore) {
+    size += computeMessageSize(12, self.defenderBefore);
+  }
+  if (self.hasDefenderAfter) {
+    size += computeMessageSize(13, self.defenderAfter);
   }
   size += self.unknownFields.serializedSize;
   memoizedSerializedSize = size;
@@ -1000,6 +1084,18 @@ static PvpHistoryProto* defaultPvpHistoryProtoInstance = nil;
   if (other.hasProspectiveOilWinnings) {
     [self setProspectiveOilWinnings:other.prospectiveOilWinnings];
   }
+  if (other.hasAttackerBefore) {
+    [self mergeAttackerBefore:other.attackerBefore];
+  }
+  if (other.hasAttackerAfter) {
+    [self mergeAttackerAfter:other.attackerAfter];
+  }
+  if (other.hasDefenderBefore) {
+    [self mergeDefenderBefore:other.defenderBefore];
+  }
+  if (other.hasDefenderAfter) {
+    [self mergeDefenderAfter:other.defenderAfter];
+  }
   [self mergeUnknownFields:other.unknownFields];
   return self;
 }
@@ -1062,6 +1158,42 @@ static PvpHistoryProto* defaultPvpHistoryProtoInstance = nil;
       }
       case 72: {
         [self setBattleEndTime:[input readInt64]];
+        break;
+      }
+      case 82: {
+        UserPvpLeagueProto_Builder* subBuilder = [UserPvpLeagueProto builder];
+        if (self.hasAttackerBefore) {
+          [subBuilder mergeFrom:self.attackerBefore];
+        }
+        [input readMessage:subBuilder extensionRegistry:extensionRegistry];
+        [self setAttackerBefore:[subBuilder buildPartial]];
+        break;
+      }
+      case 90: {
+        UserPvpLeagueProto_Builder* subBuilder = [UserPvpLeagueProto builder];
+        if (self.hasAttackerAfter) {
+          [subBuilder mergeFrom:self.attackerAfter];
+        }
+        [input readMessage:subBuilder extensionRegistry:extensionRegistry];
+        [self setAttackerAfter:[subBuilder buildPartial]];
+        break;
+      }
+      case 98: {
+        UserPvpLeagueProto_Builder* subBuilder = [UserPvpLeagueProto builder];
+        if (self.hasDefenderBefore) {
+          [subBuilder mergeFrom:self.defenderBefore];
+        }
+        [input readMessage:subBuilder extensionRegistry:extensionRegistry];
+        [self setDefenderBefore:[subBuilder buildPartial]];
+        break;
+      }
+      case 106: {
+        UserPvpLeagueProto_Builder* subBuilder = [UserPvpLeagueProto builder];
+        if (self.hasDefenderAfter) {
+          [subBuilder mergeFrom:self.defenderAfter];
+        }
+        [input readMessage:subBuilder extensionRegistry:extensionRegistry];
+        [self setDefenderAfter:[subBuilder buildPartial]];
         break;
       }
     }
@@ -1236,6 +1368,825 @@ static PvpHistoryProto* defaultPvpHistoryProtoInstance = nil;
 - (PvpHistoryProto_Builder*) clearProspectiveOilWinnings {
   result.hasProspectiveOilWinnings = NO;
   result.prospectiveOilWinnings = 0;
+  return self;
+}
+- (BOOL) hasAttackerBefore {
+  return result.hasAttackerBefore;
+}
+- (UserPvpLeagueProto*) attackerBefore {
+  return result.attackerBefore;
+}
+- (PvpHistoryProto_Builder*) setAttackerBefore:(UserPvpLeagueProto*) value {
+  result.hasAttackerBefore = YES;
+  result.attackerBefore = value;
+  return self;
+}
+- (PvpHistoryProto_Builder*) setAttackerBeforeBuilder:(UserPvpLeagueProto_Builder*) builderForValue {
+  return [self setAttackerBefore:[builderForValue build]];
+}
+- (PvpHistoryProto_Builder*) mergeAttackerBefore:(UserPvpLeagueProto*) value {
+  if (result.hasAttackerBefore &&
+      result.attackerBefore != [UserPvpLeagueProto defaultInstance]) {
+    result.attackerBefore =
+      [[[UserPvpLeagueProto builderWithPrototype:result.attackerBefore] mergeFrom:value] buildPartial];
+  } else {
+    result.attackerBefore = value;
+  }
+  result.hasAttackerBefore = YES;
+  return self;
+}
+- (PvpHistoryProto_Builder*) clearAttackerBefore {
+  result.hasAttackerBefore = NO;
+  result.attackerBefore = [UserPvpLeagueProto defaultInstance];
+  return self;
+}
+- (BOOL) hasAttackerAfter {
+  return result.hasAttackerAfter;
+}
+- (UserPvpLeagueProto*) attackerAfter {
+  return result.attackerAfter;
+}
+- (PvpHistoryProto_Builder*) setAttackerAfter:(UserPvpLeagueProto*) value {
+  result.hasAttackerAfter = YES;
+  result.attackerAfter = value;
+  return self;
+}
+- (PvpHistoryProto_Builder*) setAttackerAfterBuilder:(UserPvpLeagueProto_Builder*) builderForValue {
+  return [self setAttackerAfter:[builderForValue build]];
+}
+- (PvpHistoryProto_Builder*) mergeAttackerAfter:(UserPvpLeagueProto*) value {
+  if (result.hasAttackerAfter &&
+      result.attackerAfter != [UserPvpLeagueProto defaultInstance]) {
+    result.attackerAfter =
+      [[[UserPvpLeagueProto builderWithPrototype:result.attackerAfter] mergeFrom:value] buildPartial];
+  } else {
+    result.attackerAfter = value;
+  }
+  result.hasAttackerAfter = YES;
+  return self;
+}
+- (PvpHistoryProto_Builder*) clearAttackerAfter {
+  result.hasAttackerAfter = NO;
+  result.attackerAfter = [UserPvpLeagueProto defaultInstance];
+  return self;
+}
+- (BOOL) hasDefenderBefore {
+  return result.hasDefenderBefore;
+}
+- (UserPvpLeagueProto*) defenderBefore {
+  return result.defenderBefore;
+}
+- (PvpHistoryProto_Builder*) setDefenderBefore:(UserPvpLeagueProto*) value {
+  result.hasDefenderBefore = YES;
+  result.defenderBefore = value;
+  return self;
+}
+- (PvpHistoryProto_Builder*) setDefenderBeforeBuilder:(UserPvpLeagueProto_Builder*) builderForValue {
+  return [self setDefenderBefore:[builderForValue build]];
+}
+- (PvpHistoryProto_Builder*) mergeDefenderBefore:(UserPvpLeagueProto*) value {
+  if (result.hasDefenderBefore &&
+      result.defenderBefore != [UserPvpLeagueProto defaultInstance]) {
+    result.defenderBefore =
+      [[[UserPvpLeagueProto builderWithPrototype:result.defenderBefore] mergeFrom:value] buildPartial];
+  } else {
+    result.defenderBefore = value;
+  }
+  result.hasDefenderBefore = YES;
+  return self;
+}
+- (PvpHistoryProto_Builder*) clearDefenderBefore {
+  result.hasDefenderBefore = NO;
+  result.defenderBefore = [UserPvpLeagueProto defaultInstance];
+  return self;
+}
+- (BOOL) hasDefenderAfter {
+  return result.hasDefenderAfter;
+}
+- (UserPvpLeagueProto*) defenderAfter {
+  return result.defenderAfter;
+}
+- (PvpHistoryProto_Builder*) setDefenderAfter:(UserPvpLeagueProto*) value {
+  result.hasDefenderAfter = YES;
+  result.defenderAfter = value;
+  return self;
+}
+- (PvpHistoryProto_Builder*) setDefenderAfterBuilder:(UserPvpLeagueProto_Builder*) builderForValue {
+  return [self setDefenderAfter:[builderForValue build]];
+}
+- (PvpHistoryProto_Builder*) mergeDefenderAfter:(UserPvpLeagueProto*) value {
+  if (result.hasDefenderAfter &&
+      result.defenderAfter != [UserPvpLeagueProto defaultInstance]) {
+    result.defenderAfter =
+      [[[UserPvpLeagueProto builderWithPrototype:result.defenderAfter] mergeFrom:value] buildPartial];
+  } else {
+    result.defenderAfter = value;
+  }
+  result.hasDefenderAfter = YES;
+  return self;
+}
+- (PvpHistoryProto_Builder*) clearDefenderAfter {
+  result.hasDefenderAfter = NO;
+  result.defenderAfter = [UserPvpLeagueProto defaultInstance];
+  return self;
+}
+@end
+
+@interface PvpLeagueProto ()
+@property int32_t leagueId;
+@property (retain) NSString* leagueName;
+@property (retain) NSString* imgPrefix;
+@property int32_t numRanks;
+@property (retain) NSString* description;
+@property int32_t minElo;
+@property int32_t maxElo;
+@end
+
+@implementation PvpLeagueProto
+
+- (BOOL) hasLeagueId {
+  return !!hasLeagueId_;
+}
+- (void) setHasLeagueId:(BOOL) value {
+  hasLeagueId_ = !!value;
+}
+@synthesize leagueId;
+- (BOOL) hasLeagueName {
+  return !!hasLeagueName_;
+}
+- (void) setHasLeagueName:(BOOL) value {
+  hasLeagueName_ = !!value;
+}
+@synthesize leagueName;
+- (BOOL) hasImgPrefix {
+  return !!hasImgPrefix_;
+}
+- (void) setHasImgPrefix:(BOOL) value {
+  hasImgPrefix_ = !!value;
+}
+@synthesize imgPrefix;
+- (BOOL) hasNumRanks {
+  return !!hasNumRanks_;
+}
+- (void) setHasNumRanks:(BOOL) value {
+  hasNumRanks_ = !!value;
+}
+@synthesize numRanks;
+- (BOOL) hasDescription {
+  return !!hasDescription_;
+}
+- (void) setHasDescription:(BOOL) value {
+  hasDescription_ = !!value;
+}
+@synthesize description;
+- (BOOL) hasMinElo {
+  return !!hasMinElo_;
+}
+- (void) setHasMinElo:(BOOL) value {
+  hasMinElo_ = !!value;
+}
+@synthesize minElo;
+- (BOOL) hasMaxElo {
+  return !!hasMaxElo_;
+}
+- (void) setHasMaxElo:(BOOL) value {
+  hasMaxElo_ = !!value;
+}
+@synthesize maxElo;
+- (void) dealloc {
+  self.leagueName = nil;
+  self.imgPrefix = nil;
+  self.description = nil;
+  [super dealloc];
+}
+- (id) init {
+  if ((self = [super init])) {
+    self.leagueId = 0;
+    self.leagueName = @"";
+    self.imgPrefix = @"";
+    self.numRanks = 0;
+    self.description = @"";
+    self.minElo = 0;
+    self.maxElo = 0;
+  }
+  return self;
+}
+static PvpLeagueProto* defaultPvpLeagueProtoInstance = nil;
++ (void) initialize {
+  if (self == [PvpLeagueProto class]) {
+    defaultPvpLeagueProtoInstance = [[PvpLeagueProto alloc] init];
+  }
+}
++ (PvpLeagueProto*) defaultInstance {
+  return defaultPvpLeagueProtoInstance;
+}
+- (PvpLeagueProto*) defaultInstance {
+  return defaultPvpLeagueProtoInstance;
+}
+- (BOOL) isInitialized {
+  return YES;
+}
+- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output {
+  if (self.hasLeagueId) {
+    [output writeInt32:1 value:self.leagueId];
+  }
+  if (self.hasLeagueName) {
+    [output writeString:2 value:self.leagueName];
+  }
+  if (self.hasImgPrefix) {
+    [output writeString:3 value:self.imgPrefix];
+  }
+  if (self.hasNumRanks) {
+    [output writeInt32:4 value:self.numRanks];
+  }
+  if (self.hasDescription) {
+    [output writeString:5 value:self.description];
+  }
+  if (self.hasMinElo) {
+    [output writeInt32:6 value:self.minElo];
+  }
+  if (self.hasMaxElo) {
+    [output writeInt32:7 value:self.maxElo];
+  }
+  [self.unknownFields writeToCodedOutputStream:output];
+}
+- (int32_t) serializedSize {
+  int32_t size = memoizedSerializedSize;
+  if (size != -1) {
+    return size;
+  }
+
+  size = 0;
+  if (self.hasLeagueId) {
+    size += computeInt32Size(1, self.leagueId);
+  }
+  if (self.hasLeagueName) {
+    size += computeStringSize(2, self.leagueName);
+  }
+  if (self.hasImgPrefix) {
+    size += computeStringSize(3, self.imgPrefix);
+  }
+  if (self.hasNumRanks) {
+    size += computeInt32Size(4, self.numRanks);
+  }
+  if (self.hasDescription) {
+    size += computeStringSize(5, self.description);
+  }
+  if (self.hasMinElo) {
+    size += computeInt32Size(6, self.minElo);
+  }
+  if (self.hasMaxElo) {
+    size += computeInt32Size(7, self.maxElo);
+  }
+  size += self.unknownFields.serializedSize;
+  memoizedSerializedSize = size;
+  return size;
+}
++ (PvpLeagueProto*) parseFromData:(NSData*) data {
+  return (PvpLeagueProto*)[[[PvpLeagueProto builder] mergeFromData:data] build];
+}
++ (PvpLeagueProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (PvpLeagueProto*)[[[PvpLeagueProto builder] mergeFromData:data extensionRegistry:extensionRegistry] build];
+}
++ (PvpLeagueProto*) parseFromInputStream:(NSInputStream*) input {
+  return (PvpLeagueProto*)[[[PvpLeagueProto builder] mergeFromInputStream:input] build];
+}
++ (PvpLeagueProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (PvpLeagueProto*)[[[PvpLeagueProto builder] mergeFromInputStream:input extensionRegistry:extensionRegistry] build];
+}
++ (PvpLeagueProto*) parseFromCodedInputStream:(PBCodedInputStream*) input {
+  return (PvpLeagueProto*)[[[PvpLeagueProto builder] mergeFromCodedInputStream:input] build];
+}
++ (PvpLeagueProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (PvpLeagueProto*)[[[PvpLeagueProto builder] mergeFromCodedInputStream:input extensionRegistry:extensionRegistry] build];
+}
++ (PvpLeagueProto_Builder*) builder {
+  return [[[PvpLeagueProto_Builder alloc] init] autorelease];
+}
++ (PvpLeagueProto_Builder*) builderWithPrototype:(PvpLeagueProto*) prototype {
+  return [[PvpLeagueProto builder] mergeFrom:prototype];
+}
+- (PvpLeagueProto_Builder*) builder {
+  return [PvpLeagueProto builder];
+}
+@end
+
+@interface PvpLeagueProto_Builder()
+@property (retain) PvpLeagueProto* result;
+@end
+
+@implementation PvpLeagueProto_Builder
+@synthesize result;
+- (void) dealloc {
+  self.result = nil;
+  [super dealloc];
+}
+- (id) init {
+  if ((self = [super init])) {
+    self.result = [[[PvpLeagueProto alloc] init] autorelease];
+  }
+  return self;
+}
+- (PBGeneratedMessage*) internalGetResult {
+  return result;
+}
+- (PvpLeagueProto_Builder*) clear {
+  self.result = [[[PvpLeagueProto alloc] init] autorelease];
+  return self;
+}
+- (PvpLeagueProto_Builder*) clone {
+  return [PvpLeagueProto builderWithPrototype:result];
+}
+- (PvpLeagueProto*) defaultInstance {
+  return [PvpLeagueProto defaultInstance];
+}
+- (PvpLeagueProto*) build {
+  [self checkInitialized];
+  return [self buildPartial];
+}
+- (PvpLeagueProto*) buildPartial {
+  PvpLeagueProto* returnMe = [[result retain] autorelease];
+  self.result = nil;
+  return returnMe;
+}
+- (PvpLeagueProto_Builder*) mergeFrom:(PvpLeagueProto*) other {
+  if (other == [PvpLeagueProto defaultInstance]) {
+    return self;
+  }
+  if (other.hasLeagueId) {
+    [self setLeagueId:other.leagueId];
+  }
+  if (other.hasLeagueName) {
+    [self setLeagueName:other.leagueName];
+  }
+  if (other.hasImgPrefix) {
+    [self setImgPrefix:other.imgPrefix];
+  }
+  if (other.hasNumRanks) {
+    [self setNumRanks:other.numRanks];
+  }
+  if (other.hasDescription) {
+    [self setDescription:other.description];
+  }
+  if (other.hasMinElo) {
+    [self setMinElo:other.minElo];
+  }
+  if (other.hasMaxElo) {
+    [self setMaxElo:other.maxElo];
+  }
+  [self mergeUnknownFields:other.unknownFields];
+  return self;
+}
+- (PvpLeagueProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input {
+  return [self mergeFromCodedInputStream:input extensionRegistry:[PBExtensionRegistry emptyRegistry]];
+}
+- (PvpLeagueProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  PBUnknownFieldSet_Builder* unknownFields = [PBUnknownFieldSet builderWithUnknownFields:self.unknownFields];
+  while (YES) {
+    int32_t tag = [input readTag];
+    switch (tag) {
+      case 0:
+        [self setUnknownFields:[unknownFields build]];
+        return self;
+      default: {
+        if (![self parseUnknownField:input unknownFields:unknownFields extensionRegistry:extensionRegistry tag:tag]) {
+          [self setUnknownFields:[unknownFields build]];
+          return self;
+        }
+        break;
+      }
+      case 8: {
+        [self setLeagueId:[input readInt32]];
+        break;
+      }
+      case 18: {
+        [self setLeagueName:[input readString]];
+        break;
+      }
+      case 26: {
+        [self setImgPrefix:[input readString]];
+        break;
+      }
+      case 32: {
+        [self setNumRanks:[input readInt32]];
+        break;
+      }
+      case 42: {
+        [self setDescription:[input readString]];
+        break;
+      }
+      case 48: {
+        [self setMinElo:[input readInt32]];
+        break;
+      }
+      case 56: {
+        [self setMaxElo:[input readInt32]];
+        break;
+      }
+    }
+  }
+}
+- (BOOL) hasLeagueId {
+  return result.hasLeagueId;
+}
+- (int32_t) leagueId {
+  return result.leagueId;
+}
+- (PvpLeagueProto_Builder*) setLeagueId:(int32_t) value {
+  result.hasLeagueId = YES;
+  result.leagueId = value;
+  return self;
+}
+- (PvpLeagueProto_Builder*) clearLeagueId {
+  result.hasLeagueId = NO;
+  result.leagueId = 0;
+  return self;
+}
+- (BOOL) hasLeagueName {
+  return result.hasLeagueName;
+}
+- (NSString*) leagueName {
+  return result.leagueName;
+}
+- (PvpLeagueProto_Builder*) setLeagueName:(NSString*) value {
+  result.hasLeagueName = YES;
+  result.leagueName = value;
+  return self;
+}
+- (PvpLeagueProto_Builder*) clearLeagueName {
+  result.hasLeagueName = NO;
+  result.leagueName = @"";
+  return self;
+}
+- (BOOL) hasImgPrefix {
+  return result.hasImgPrefix;
+}
+- (NSString*) imgPrefix {
+  return result.imgPrefix;
+}
+- (PvpLeagueProto_Builder*) setImgPrefix:(NSString*) value {
+  result.hasImgPrefix = YES;
+  result.imgPrefix = value;
+  return self;
+}
+- (PvpLeagueProto_Builder*) clearImgPrefix {
+  result.hasImgPrefix = NO;
+  result.imgPrefix = @"";
+  return self;
+}
+- (BOOL) hasNumRanks {
+  return result.hasNumRanks;
+}
+- (int32_t) numRanks {
+  return result.numRanks;
+}
+- (PvpLeagueProto_Builder*) setNumRanks:(int32_t) value {
+  result.hasNumRanks = YES;
+  result.numRanks = value;
+  return self;
+}
+- (PvpLeagueProto_Builder*) clearNumRanks {
+  result.hasNumRanks = NO;
+  result.numRanks = 0;
+  return self;
+}
+- (BOOL) hasDescription {
+  return result.hasDescription;
+}
+- (NSString*) description {
+  return result.description;
+}
+- (PvpLeagueProto_Builder*) setDescription:(NSString*) value {
+  result.hasDescription = YES;
+  result.description = value;
+  return self;
+}
+- (PvpLeagueProto_Builder*) clearDescription {
+  result.hasDescription = NO;
+  result.description = @"";
+  return self;
+}
+- (BOOL) hasMinElo {
+  return result.hasMinElo;
+}
+- (int32_t) minElo {
+  return result.minElo;
+}
+- (PvpLeagueProto_Builder*) setMinElo:(int32_t) value {
+  result.hasMinElo = YES;
+  result.minElo = value;
+  return self;
+}
+- (PvpLeagueProto_Builder*) clearMinElo {
+  result.hasMinElo = NO;
+  result.minElo = 0;
+  return self;
+}
+- (BOOL) hasMaxElo {
+  return result.hasMaxElo;
+}
+- (int32_t) maxElo {
+  return result.maxElo;
+}
+- (PvpLeagueProto_Builder*) setMaxElo:(int32_t) value {
+  result.hasMaxElo = YES;
+  result.maxElo = value;
+  return self;
+}
+- (PvpLeagueProto_Builder*) clearMaxElo {
+  result.hasMaxElo = NO;
+  result.maxElo = 0;
+  return self;
+}
+@end
+
+@interface UserPvpLeagueProto ()
+@property int32_t userId;
+@property int32_t leagueId;
+@property int32_t rank;
+@property int32_t elo;
+@end
+
+@implementation UserPvpLeagueProto
+
+- (BOOL) hasUserId {
+  return !!hasUserId_;
+}
+- (void) setHasUserId:(BOOL) value {
+  hasUserId_ = !!value;
+}
+@synthesize userId;
+- (BOOL) hasLeagueId {
+  return !!hasLeagueId_;
+}
+- (void) setHasLeagueId:(BOOL) value {
+  hasLeagueId_ = !!value;
+}
+@synthesize leagueId;
+- (BOOL) hasRank {
+  return !!hasRank_;
+}
+- (void) setHasRank:(BOOL) value {
+  hasRank_ = !!value;
+}
+@synthesize rank;
+- (BOOL) hasElo {
+  return !!hasElo_;
+}
+- (void) setHasElo:(BOOL) value {
+  hasElo_ = !!value;
+}
+@synthesize elo;
+- (void) dealloc {
+  [super dealloc];
+}
+- (id) init {
+  if ((self = [super init])) {
+    self.userId = 0;
+    self.leagueId = 0;
+    self.rank = 0;
+    self.elo = 0;
+  }
+  return self;
+}
+static UserPvpLeagueProto* defaultUserPvpLeagueProtoInstance = nil;
++ (void) initialize {
+  if (self == [UserPvpLeagueProto class]) {
+    defaultUserPvpLeagueProtoInstance = [[UserPvpLeagueProto alloc] init];
+  }
+}
++ (UserPvpLeagueProto*) defaultInstance {
+  return defaultUserPvpLeagueProtoInstance;
+}
+- (UserPvpLeagueProto*) defaultInstance {
+  return defaultUserPvpLeagueProtoInstance;
+}
+- (BOOL) isInitialized {
+  return YES;
+}
+- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output {
+  if (self.hasUserId) {
+    [output writeInt32:1 value:self.userId];
+  }
+  if (self.hasLeagueId) {
+    [output writeInt32:2 value:self.leagueId];
+  }
+  if (self.hasRank) {
+    [output writeInt32:3 value:self.rank];
+  }
+  if (self.hasElo) {
+    [output writeInt32:4 value:self.elo];
+  }
+  [self.unknownFields writeToCodedOutputStream:output];
+}
+- (int32_t) serializedSize {
+  int32_t size = memoizedSerializedSize;
+  if (size != -1) {
+    return size;
+  }
+
+  size = 0;
+  if (self.hasUserId) {
+    size += computeInt32Size(1, self.userId);
+  }
+  if (self.hasLeagueId) {
+    size += computeInt32Size(2, self.leagueId);
+  }
+  if (self.hasRank) {
+    size += computeInt32Size(3, self.rank);
+  }
+  if (self.hasElo) {
+    size += computeInt32Size(4, self.elo);
+  }
+  size += self.unknownFields.serializedSize;
+  memoizedSerializedSize = size;
+  return size;
+}
++ (UserPvpLeagueProto*) parseFromData:(NSData*) data {
+  return (UserPvpLeagueProto*)[[[UserPvpLeagueProto builder] mergeFromData:data] build];
+}
++ (UserPvpLeagueProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (UserPvpLeagueProto*)[[[UserPvpLeagueProto builder] mergeFromData:data extensionRegistry:extensionRegistry] build];
+}
++ (UserPvpLeagueProto*) parseFromInputStream:(NSInputStream*) input {
+  return (UserPvpLeagueProto*)[[[UserPvpLeagueProto builder] mergeFromInputStream:input] build];
+}
++ (UserPvpLeagueProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (UserPvpLeagueProto*)[[[UserPvpLeagueProto builder] mergeFromInputStream:input extensionRegistry:extensionRegistry] build];
+}
++ (UserPvpLeagueProto*) parseFromCodedInputStream:(PBCodedInputStream*) input {
+  return (UserPvpLeagueProto*)[[[UserPvpLeagueProto builder] mergeFromCodedInputStream:input] build];
+}
++ (UserPvpLeagueProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (UserPvpLeagueProto*)[[[UserPvpLeagueProto builder] mergeFromCodedInputStream:input extensionRegistry:extensionRegistry] build];
+}
++ (UserPvpLeagueProto_Builder*) builder {
+  return [[[UserPvpLeagueProto_Builder alloc] init] autorelease];
+}
++ (UserPvpLeagueProto_Builder*) builderWithPrototype:(UserPvpLeagueProto*) prototype {
+  return [[UserPvpLeagueProto builder] mergeFrom:prototype];
+}
+- (UserPvpLeagueProto_Builder*) builder {
+  return [UserPvpLeagueProto builder];
+}
+@end
+
+@interface UserPvpLeagueProto_Builder()
+@property (retain) UserPvpLeagueProto* result;
+@end
+
+@implementation UserPvpLeagueProto_Builder
+@synthesize result;
+- (void) dealloc {
+  self.result = nil;
+  [super dealloc];
+}
+- (id) init {
+  if ((self = [super init])) {
+    self.result = [[[UserPvpLeagueProto alloc] init] autorelease];
+  }
+  return self;
+}
+- (PBGeneratedMessage*) internalGetResult {
+  return result;
+}
+- (UserPvpLeagueProto_Builder*) clear {
+  self.result = [[[UserPvpLeagueProto alloc] init] autorelease];
+  return self;
+}
+- (UserPvpLeagueProto_Builder*) clone {
+  return [UserPvpLeagueProto builderWithPrototype:result];
+}
+- (UserPvpLeagueProto*) defaultInstance {
+  return [UserPvpLeagueProto defaultInstance];
+}
+- (UserPvpLeagueProto*) build {
+  [self checkInitialized];
+  return [self buildPartial];
+}
+- (UserPvpLeagueProto*) buildPartial {
+  UserPvpLeagueProto* returnMe = [[result retain] autorelease];
+  self.result = nil;
+  return returnMe;
+}
+- (UserPvpLeagueProto_Builder*) mergeFrom:(UserPvpLeagueProto*) other {
+  if (other == [UserPvpLeagueProto defaultInstance]) {
+    return self;
+  }
+  if (other.hasUserId) {
+    [self setUserId:other.userId];
+  }
+  if (other.hasLeagueId) {
+    [self setLeagueId:other.leagueId];
+  }
+  if (other.hasRank) {
+    [self setRank:other.rank];
+  }
+  if (other.hasElo) {
+    [self setElo:other.elo];
+  }
+  [self mergeUnknownFields:other.unknownFields];
+  return self;
+}
+- (UserPvpLeagueProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input {
+  return [self mergeFromCodedInputStream:input extensionRegistry:[PBExtensionRegistry emptyRegistry]];
+}
+- (UserPvpLeagueProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  PBUnknownFieldSet_Builder* unknownFields = [PBUnknownFieldSet builderWithUnknownFields:self.unknownFields];
+  while (YES) {
+    int32_t tag = [input readTag];
+    switch (tag) {
+      case 0:
+        [self setUnknownFields:[unknownFields build]];
+        return self;
+      default: {
+        if (![self parseUnknownField:input unknownFields:unknownFields extensionRegistry:extensionRegistry tag:tag]) {
+          [self setUnknownFields:[unknownFields build]];
+          return self;
+        }
+        break;
+      }
+      case 8: {
+        [self setUserId:[input readInt32]];
+        break;
+      }
+      case 16: {
+        [self setLeagueId:[input readInt32]];
+        break;
+      }
+      case 24: {
+        [self setRank:[input readInt32]];
+        break;
+      }
+      case 32: {
+        [self setElo:[input readInt32]];
+        break;
+      }
+    }
+  }
+}
+- (BOOL) hasUserId {
+  return result.hasUserId;
+}
+- (int32_t) userId {
+  return result.userId;
+}
+- (UserPvpLeagueProto_Builder*) setUserId:(int32_t) value {
+  result.hasUserId = YES;
+  result.userId = value;
+  return self;
+}
+- (UserPvpLeagueProto_Builder*) clearUserId {
+  result.hasUserId = NO;
+  result.userId = 0;
+  return self;
+}
+- (BOOL) hasLeagueId {
+  return result.hasLeagueId;
+}
+- (int32_t) leagueId {
+  return result.leagueId;
+}
+- (UserPvpLeagueProto_Builder*) setLeagueId:(int32_t) value {
+  result.hasLeagueId = YES;
+  result.leagueId = value;
+  return self;
+}
+- (UserPvpLeagueProto_Builder*) clearLeagueId {
+  result.hasLeagueId = NO;
+  result.leagueId = 0;
+  return self;
+}
+- (BOOL) hasRank {
+  return result.hasRank;
+}
+- (int32_t) rank {
+  return result.rank;
+}
+- (UserPvpLeagueProto_Builder*) setRank:(int32_t) value {
+  result.hasRank = YES;
+  result.rank = value;
+  return self;
+}
+- (UserPvpLeagueProto_Builder*) clearRank {
+  result.hasRank = NO;
+  result.rank = 0;
+  return self;
+}
+- (BOOL) hasElo {
+  return result.hasElo;
+}
+- (int32_t) elo {
+  return result.elo;
+}
+- (UserPvpLeagueProto_Builder*) setElo:(int32_t) value {
+  result.hasElo = YES;
+  result.elo = value;
+  return self;
+}
+- (UserPvpLeagueProto_Builder*) clearElo {
+  result.hasElo = NO;
+  result.elo = 0;
   return self;
 }
 @end

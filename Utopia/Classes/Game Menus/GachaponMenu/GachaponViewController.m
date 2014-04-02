@@ -14,6 +14,7 @@
 #import "OutgoingEventController.h"
 #import "IAPHelper.h"
 #import "GenericPopupController.h"
+#import "MyCroniesViewController.h"
 
 @implementation GachaponPrizeView
 
@@ -92,7 +93,7 @@
     self.pieceLabel.alpha = 1.f;
   } completion:^(BOOL finished) {
     [UIView animateWithDuration:0.3f animations:^{
-      self.monsterSpinner.alpha = 1.f;
+      self.monsterSpinner.alpha = 0.2f;
     }];
   }];
   
@@ -368,6 +369,8 @@
   GameState *gs = [GameState sharedGameState];
   if (gs.gold < self.boosterPack.gemPrice) {
     [GenericPopupController displayNotEnoughGemsView];
+  } else if (gs.myMonsters.count >= gs.maxInventorySlots) {
+    [GenericPopupController displayConfirmationWithDescription:@"Uh oh, your inventory is full. Manage your team?" title:@"Can't Spin" okayButton:@"Manage" cancelButton:@"Cancel" target:self selector:@selector(manageTeam)];
   } else {
     [[OutgoingEventController sharedOutgoingEventController] purchaseBoosterPack:self.boosterPack.boosterPackId delegate:self];
     [self.coinBar updateLabels];
@@ -378,6 +381,10 @@
     self.gachaTable.userInteractionEnabled = NO;
     _isSpinning = YES;
   }
+}
+
+- (void) manageTeam {
+  [self.navigationController pushViewController:[[MyCroniesViewController alloc] init] animated:YES];
 }
 
 - (void) handlePurchaseBoosterPackResponseProto:(FullEvent *)fe {
@@ -417,9 +424,9 @@
   }
 }
 
-- (IBAction)popCurrentViewController:(id)sender {
+- (IBAction)menuBackClicked:(id)sender {
   if (!_isSpinning) {
-    [super popCurrentViewController:sender];
+    [super menuBackClicked:sender];
   }
 }
 
@@ -463,6 +470,7 @@
         [cell shakeIconNumTimes:3 durationPerShake:0.15 delay:0.5f completion:^{
           [cell shakeIconNumTimes:8 durationPerShake:0.1 delay:0.5f completion:^{
             [self displayWhiteFlash];
+            [cell shakeIconNumTimes:4 durationPerShake:0.1 delay:0.f completion:nil];
           }];
         }];
       }];

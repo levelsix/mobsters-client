@@ -10,6 +10,7 @@
 #import "NibUtils.h"
 #import "GameMap.h"
 #import "ChatViewController.h"
+#import "TopBarQuestProgressView.h"
 
 @interface SplitImageProgressBar : UIView
 
@@ -44,6 +45,7 @@
 @property (nonatomic, assign) IBOutlet SplitImageProgressBar *cashBar;
 @property (nonatomic, assign) IBOutlet SplitImageProgressBar *oilBar;
 
+@property (nonatomic, assign) IBOutlet UILabel *nameLabel;
 @property (nonatomic, assign) IBOutlet UILabel *levelLabel;
 @property (nonatomic, assign) IBOutlet NumTransitionLabel *expLabel;
 @property (nonatomic, assign) IBOutlet NumTransitionLabel *cashLabel;
@@ -51,6 +53,10 @@
 @property (nonatomic, assign) IBOutlet NumTransitionLabel *cashMaxLabel;
 @property (nonatomic, assign) IBOutlet NumTransitionLabel *oilMaxLabel;
 @property (nonatomic, assign) IBOutlet NumTransitionLabel *gemsLabel;
+@property (nonatomic, assign) IBOutlet UIImageView *clanIcon;
+
+@property (nonatomic, assign) IBOutlet UILabel *shieldLabel;
+@property (nonatomic, retain) NSTimer *updateTimer;
 
 @property (nonatomic, assign) IBOutlet UIImageView *expBgd;
 @property (nonatomic, assign) IBOutlet UIImageView *cashBgd;
@@ -58,9 +64,9 @@
 
 @property (nonatomic, retain) IBOutlet BadgeIcon *questBadge;
 @property (nonatomic, retain) IBOutlet BadgeIcon *mailBadge;
-@property (nonatomic, retain) IBOutlet UIView *questProgressView;
 
 @property (nonatomic, retain) IBOutlet UIView *myCityView;
+@property (nonatomic, retain) IBOutlet UIView *clanView;
 @property (nonatomic, retain) IBOutlet UIView *menuView;
 @property (nonatomic, retain) IBOutlet UIView *attackView;
 
@@ -72,18 +78,22 @@
 @property (nonatomic, retain) IBOutlet TopBarMonsterView *topBarMonsterView;
 @property (nonatomic, retain) IBOutlet UIView *monsterView;
 
+@property (nonatomic, retain) IBOutlet TopBarQuestProgressView *questProgressView;
+
 @property (nonatomic, retain) ChatViewController *chatViewController;
 
 @property (nonatomic, assign) MapBotView *curViewOverChatView;
 
 - (void) showMyCityView;
 - (void) removeMyCityView;
+- (void) showClanView;
+- (void) removeClanView;
 
 - (IBAction)menuClicked:(id)sender;
 - (IBAction)questsClicked:(id)sender;
 - (void) replaceChatViewWithView:(MapBotView *)view;
 - (void) removeViewOverChatView;
 
-- (void) displayQuestProgressView;
+- (void) displayQuestProgressViewForQuest:(FullQuestProto *)fqp userQuest:(UserQuest *)uq;
 
 @end

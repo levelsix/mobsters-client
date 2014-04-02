@@ -18,7 +18,7 @@
 #import "GameViewController.h"
 #import "MyCroniesViewController.h"
 #import "MenuNavigationController.h"
-#import "EnhanceViewController.h"
+#import "LabViewController.h"
 #import "CCAnimation+SpriteLoading.h"
 #import "CCSoundAnimation.h"
 
@@ -36,7 +36,7 @@
 
 #define PURCHASE_CONFIRM_MENU_TAG @"PurchConfirm"
 
-#define RESOURCE_GEN_MIN_RES 10
+#define RESOURCE_GEN_MIN_AMT 10
 
 @implementation HomeMap
 
@@ -119,6 +119,8 @@
     
     bottomLeftCorner = ccp(map.position.x-map.contentSize.width/2, map.position.y-map.contentSize.height/2);
     topRightCorner = ccp(map.position.x+map.contentSize.width/2, map.position.y+map.contentSize.height/2);
+    
+    [self refresh];
   }
   return self;
 }
@@ -336,45 +338,6 @@
 
 #pragma mark - Obstacles
 
-- (NSArray *) createObstacles {
-  NSArray *vals = @[@2, [NSValue valueWithCGPoint:ccp(4,8)],
-                    @2, [NSValue valueWithCGPoint:ccp(2,2)],
-                    @2, [NSValue valueWithCGPoint:ccp(1,20)],
-                    @2, [NSValue valueWithCGPoint:ccp(17,3)],
-                    @2, [NSValue valueWithCGPoint:ccp(21,14)],
-                    @2, [NSValue valueWithCGPoint:ccp(12,20)],
-                    @4, [NSValue valueWithCGPoint:ccp(4,4)],
-                    @4, [NSValue valueWithCGPoint:ccp(5,19)],
-                    @4, [NSValue valueWithCGPoint:ccp(20,5)],
-                    @4, [NSValue valueWithCGPoint:ccp(15,22)],
-                    @4, [NSValue valueWithCGPoint:ccp(22,21)],
-                    @4, [NSValue valueWithCGPoint:ccp(2,13)],
-                    @4, [NSValue valueWithCGPoint:ccp(10,2)],
-                    @5, [NSValue valueWithCGPoint:ccp(4,15)],
-                    @5, [NSValue valueWithCGPoint:ccp(9,21)],
-                    @5, [NSValue valueWithCGPoint:ccp(21,2)],
-                    @5, [NSValue valueWithCGPoint:ccp(22,9)],
-                    @5, [NSValue valueWithCGPoint:ccp(18,20)]];
-  
-  NSMutableArray *obstacles = [NSMutableArray array];
-  for (int i = 0; i < vals.count; i += 2) {
-    int obId = [vals[i] intValue];
-    CGPoint coords = [vals[i+1] CGPointValue];
-    
-    UserObstacle *uo = [[UserObstacle alloc] init];
-    uo.userObstacleId = i;
-    uo.obstacleId = obId;
-    uo.coordinates = coords;
-    
-    ObstacleSprite *os = [[ObstacleSprite alloc] initWithObstacle:uo map:self];
-    [self addChild:os];
-    
-    [obstacles addObject:os];
-  }
-  
-  return obstacles;
-}
-
 - (ObstacleProto *) randomObstacle {
   GameState *gs = [GameState sharedGameState];
   NSArray *obstacles = gs.staticObstacles.allValues;
@@ -464,12 +427,26 @@
     }
     
     if (newObstacles.count > 0) {
-      [[OutgoingEventController sharedOutgoingEventController] spawnObstacles:newObstacles];
+      [[OutgoingEventController sharedOutgoingEventController] spawnObstacles:newObstacles delegate:self];
     }
   }
   
-  
   return sprites;
+}
+
+- (void) handleSpawnObstacleResponseProto:(FullEvent *)fe {
+  NSMutableArray *toRemove = [NSMutableArray array];
+  for (ObstacleSprite *ob in self.children) {
+    if ([ob isKindOfClass:[ObstacleSprite class]]) {
+      [toRemove addObject:ob];
+    }
+  }
+  
+  for (ObstacleSprite *ob in toRemove) {
+    [ob removeFromParent];
+  }
+  
+  [self reloadObstacles];
 }
 
 - (void) reloadHospitals {
@@ -480,16 +457,14 @@
       HospitalBuilding *hosp = (HospitalBuilding *)spr;
       UserStruct *s = hosp.userStruct;
       NSInteger index = [hosps indexOfObject:s];
-      int monsterId = 0;
+      UserMonsterHealingItem *hi = nil;
       
       if (index != NSNotFound && index < gs.monsterHealingQueue.count) {
-        UserMonsterHealingItem *item = gs.monsterHealingQueue[index];
-        UserMonster *um = [gs myMonsterWithUserMonsterId:item.userMonsterId];
-        monsterId = um.monsterId;
+        hi = gs.monsterHealingQueue[index];
       }
       
-      if (monsterId) {
-        [hosp beginAnimatingWithMonsterId:monsterId];
+      if (hi) {
+        [hosp beginAnimatingWithHealingItem:hi];
       } else {
         [hosp stopAnimating];
       }
@@ -763,6 +738,7 @@
       _purchasing = NO;
       [_purchBuilding removeFromParent];
       [_purchBuilding liftBlock];
+      [_purchBuilding clearMeta];
     }
   }
 }
@@ -800,6 +776,10 @@
           break;
           
         case StructureInfoProto_StructTypeResidence:
+          self.enterTopLabel.text = @"Hire";
+          self.enterBottomLabel.text = @"Workers";
+          break;
+          
         case StructureInfoProto_StructTypeTownHall:
         case StructureInfoProto_StructTypeResourceStorage:
         case StructureInfoProto_StructTypeResourceGenerator:
@@ -969,7 +949,7 @@
     } else {
       if ([mb isKindOfClass:[ResourceGeneratorBuilding class]]) {
         ResourceGeneratorBuilding *rb = (ResourceGeneratorBuilding *)mb;
-        if (rb.userStruct.numResourcesAvailable >= RESOURCE_GEN_MIN_RES) {
+        if (rb.userStruct.numResourcesAvailable >= RESOURCE_GEN_MIN_AMT) {
           rb.retrievable = YES;
         } else {
           [self setupIncomeTimerForBuilding:rb];
@@ -987,7 +967,7 @@
 }
 
 - (void) setupIncomeTimerForBuilding:(ResourceGeneratorBuilding *)mb {
-  int numRes = RESOURCE_GEN_MIN_RES;
+  int numRes = RESOURCE_GEN_MIN_AMT;
   
   NSTimer *timer = nil;
   // Set timer for when building has x resources
@@ -1003,6 +983,14 @@
   }
   [_timers addObject:timer];
   [[NSRunLoop mainRunLoop] addTimer:timer forMode:NSRunLoopCommonModes];
+}
+
+- (void) reloadRetrievableIcons {
+  for (ResourceGeneratorBuilding *res in self.children) {
+    if ([res isKindOfClass:[ResourceGeneratorBuilding class]] && res.retrievable) {
+      res.retrievable = YES;
+    }
+  }
 }
 
 - (void) retrieveFromBuilding:(ResourceGeneratorBuilding *)mb {
@@ -1024,8 +1012,10 @@
                         [CCActionFadeOut actionWithDuration:1.f], nil],
                        [CCActionMoveBy actionWithDuration:2.f position:ccp(0,40)],nil],
                       [CCActionCallFunc actionWithTarget:label selector:@selector(removeFromParent)], nil]];
+  } else {
+    ResourceType resType = ((ResourceGeneratorProto *)mb.userStruct.staticStruct).resourceType;
+    [Globals addAlertNotification:[NSString stringWithFormat:@"Your %@ storages are full. Time to upgrade your city!", resType == ResourceTypeOil ? @"oil" : @"cash"]];
   }
-  
   [self setupIncomeTimerForBuilding:mb];
 }
 
@@ -1082,7 +1072,8 @@
     if (_constrBuilding) {
       int timeLeft = [self timeLeftForConstructionBuilding];
       int gemCost = [gl calculateGemSpeedupCostForTimeLeft:timeLeft];
-      [GenericPopupController displayConfirmationWithDescription:[NSString stringWithFormat:@"A building is already constructing. Speed it up for %@ gem%@ and purchase this building?", [Globals commafyNumber:gemCost], gemCost == 1 ? @"" : @"s"] title:@"Already Constructing" okayButton:@"Speed Up" cancelButton:@"Cancel" target:self selector:@selector(speedupBuildingAndUpgradeOrPurchase)];
+      NSString *desc = [NSString stringWithFormat:@"A building is already constructing. Speed it up for %@ gem%@ and purchase this building?", [Globals commafyNumber:gemCost], gemCost == 1 ? @"" : @"s"];
+      [GenericPopupController displayGemConfirmViewWithDescription:desc title:@"Already Constructing" gemCost:gemCost target:self selector:@selector(speedupBuildingAndUpgradeOrPurchase)];
     } else {
       int cost = fsp.buildCost;
       BOOL isOilBuilding = fsp.buildResourceType == ResourceTypeOil;
@@ -1173,17 +1164,20 @@
   
   GameViewController *gvc = [GameViewController baseController];
   MenuNavigationController *m = [[MenuNavigationController alloc] init];
-  [gvc presentViewController:m animated:YES completion:nil];
   
   switch (fsp.structType) {
     case StructureInfoProto_StructTypeHospital:
-    case StructureInfoProto_StructTypeResidence:
+      [gvc presentViewController:m animated:YES completion:nil];
       [m pushViewController:[[MyCroniesViewController alloc] init] animated:YES];
       break;
       
     case StructureInfoProto_StructTypeLab:
-      [m pushViewController:[[EnhanceViewController alloc] init] animated:YES];
+      [gvc presentViewController:m animated:YES completion:nil];
+      [m pushViewController:[[LabViewController alloc] init] animated:YES];
       break;
+      
+    case StructureInfoProto_StructTypeResidence:
+      [self loadUpgradeViewControllerForIsHire:YES];
       
     default:
       break;
@@ -1192,22 +1186,28 @@
 
 - (IBAction)littleUpgradeClicked:(id)sender {
   if ([self.selected isKindOfClass:[HomeBuilding class]]) {
-    UserStruct *us = ((HomeBuilding *)self.selected).userStruct;
-    int maxLevel = us.maxLevel;
-    if (us.staticStruct.structInfo.level < maxLevel) {
-      GameViewController *gvc = [GameViewController baseController];
-      UpgradeViewController *uvc = [[UpgradeViewController alloc] initWithUserStruct:us];
-      uvc.delegate = self;
-      [gvc addChildViewController:uvc];
-      uvc.view.frame = gvc.view.bounds;
-      [gvc.view addSubview:uvc.view];
-      self.upgradeViewController = uvc;
-    } else {
-      [Globals popupMessage:[NSString stringWithFormat:@"The maximum level for the %@ is %d.", us.staticStruct.structInfo.name, maxLevel]];
-    }
+    [self loadUpgradeViewControllerForIsHire:NO];
   } else if ([self.selected isKindOfClass:[ObstacleSprite class]]) {
     [self bigUpgradeClicked];
   }
+}
+
+- (void) loadUpgradeViewControllerForIsHire:(BOOL)isHire {
+  UserStruct *us = ((HomeBuilding *)self.selected).userStruct;
+  GameViewController *gvc = [GameViewController baseController];
+  UpgradeViewController *uvc;
+  
+  if (!isHire) {
+    uvc = [[UpgradeViewController alloc] initWithUserStruct:us];
+  } else {
+    uvc = [[UpgradeViewController alloc] initHireViewWithUserStruct:us];
+  }
+  
+  uvc.delegate = self;
+  [gvc addChildViewController:uvc];
+  uvc.view.frame = gvc.view.bounds;
+  [gvc.view addSubview:uvc.view];
+  self.upgradeViewController = uvc;
 }
 
 - (int) timeLeftForConstructionBuilding {
@@ -1250,7 +1250,8 @@
   if (_constrBuilding) {
     int timeLeft = [self timeLeftForConstructionBuilding];
     int gemCost = [gl calculateGemSpeedupCostForTimeLeft:timeLeft];
-    [GenericPopupController displayConfirmationWithDescription:[NSString stringWithFormat:@"Your builder is busy! Speed him up for %@ gem%@ and upgrade this building?", [Globals commafyNumber:gemCost], gemCost == 1 ? @"" : @"s"] title:@"Already Constructing" okayButton:@"Speed Up" cancelButton:@"Cancel" target:self selector:@selector(speedupBuildingAndUpgradeOrPurchase)];
+    NSString *desc = [NSString stringWithFormat:@"Your builder is busy! Speed him up for %@ gem%@ and upgrade this building?", [Globals commafyNumber:gemCost], gemCost == 1 ? @"" : @"s"];
+    [GenericPopupController displayGemConfirmViewWithDescription:desc title:@"Already Constructing" gemCost:gemCost target:self selector:@selector(speedupBuildingAndUpgradeOrPurchase)];
   } else if (cost) {
     if (cost > curAmount) {
       [GenericPopupController displayExchangeForGemsViewWithResourceType:isOilBuilding ? ResourceTypeOil : ResourceTypeCash amount:cost-curAmount target:self selector:@selector(useGemsForUpgrade)];
@@ -1266,15 +1267,27 @@
 }
 
 - (void) useGemsForUpgrade {
-  UserStruct *us = ((HomeBuilding *)self.selected).userStruct;
   GameState *gs = [GameState sharedGameState];
   Globals *gl = [Globals sharedGlobals];
-  StructureInfoProto *nextFsp = us.staticStructForNextLevel.structInfo;
   
-  int cost = nextFsp.buildCost;
-  BOOL isOilBuilding = nextFsp.buildResourceType == ResourceTypeOil;
+  int cost = 0;
+  BOOL isOilBuilding = NO;
+  if ([self.selected isKindOfClass:[HomeBuilding class]]) {
+    UserStruct *us = ((HomeBuilding *)self.selected).userStruct;
+    StructureInfoProto *nextFsp = us.staticStructForNextLevel.structInfo;
+    
+    cost = nextFsp.buildCost;
+    isOilBuilding = nextFsp.buildResourceType == ResourceTypeOil;
+  } else if ([self.selected isKindOfClass:[ObstacleSprite class]]) {
+    UserObstacle *ub = ((ObstacleSprite *)self.selected).obstacle;
+    ObstacleProto *op = ub.staticObstacle;
+    
+    cost = op.cost;
+    isOilBuilding = op.removalCostType == ResourceTypeOil;
+  }
+  
   int curAmount = isOilBuilding ? gs.oil : gs.silver;
-  int gemCost = [gl calculateGemConversionForResourceType:nextFsp.buildResourceType amount:cost-curAmount];
+  int gemCost = [gl calculateGemConversionForResourceType:isOilBuilding ? ResourceTypeOil : ResourceTypeCash amount:cost-curAmount];
   
   if (gemCost > gs.gold) {
     [GenericPopupController displayNotEnoughGemsView];
@@ -1529,8 +1542,11 @@
 - (void) changeTiles:(CGRect)buildBlock toBuildable:(BOOL)canBuild {
   for (float i = floorf(buildBlock.origin.x); i < ceilf(buildBlock.size.width+buildBlock.origin.x); i++) {
     for (float j = floorf(buildBlock.origin.y); j < ceilf(buildBlock.size.height+buildBlock.origin.y); j++) {
-      [[self.buildableData objectAtIndex:i] replaceObjectAtIndex:j withObject:[NSNumber numberWithBool:canBuild]];
-      [[self.walkableData objectAtIndex:i] replaceObjectAtIndex:j withObject:[NSNumber numberWithBool:canBuild]];
+      // Account for the border for obstacles
+      if (!canBuild || !(i < 2 || j < 2 || i > self.mapSize.width-3 || j > self.mapSize.height-3)) {
+        [[self.buildableData objectAtIndex:i] replaceObjectAtIndex:j withObject:[NSNumber numberWithBool:canBuild]];
+        [[self.walkableData objectAtIndex:i] replaceObjectAtIndex:j withObject:[NSNumber numberWithBool:canBuild]];
+      }
     }
   }
 }
@@ -1584,12 +1600,11 @@
 }
 
 - (void) onEnter {
-  [self refresh];
   [super onEnter];
   [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(reloadStorages) name:GAMESTATE_UPDATE_NOTIFICATION object:nil];
+  [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(reloadRetrievableIcons) name:GAMESTATE_UPDATE_NOTIFICATION object:nil];
   [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(reloadHospitals) name:MONSTER_QUEUE_CHANGED_NOTIFICATION object:nil];
   [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(setupTeamSprites) name:MONSTER_QUEUE_CHANGED_NOTIFICATION object:nil];
-  [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(refresh) name:NEW_OBSTACLES_CREATED_NOTIFICATION object:nil];
 }
 
 - (void) onExitTransitionDidStart {

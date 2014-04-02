@@ -2,6 +2,7 @@
 
 #import "ProtocolBuffers.h"
 
+#import "MonsterStuff.pb.h"
 #import "Structure.pb.h"
 
 @class CoordinateProto;
@@ -12,6 +13,8 @@
 @class DialogueProto_SpeechSegmentProto_Builder;
 @class FullQuestProto;
 @class FullQuestProto_Builder;
+@class FullUserMonsterProto;
+@class FullUserMonsterProto_Builder;
 @class FullUserQuestProto;
 @class FullUserQuestProto_Builder;
 @class FullUserStructureProto;
@@ -24,6 +27,16 @@
 @class LabProto_Builder;
 @class MinimumObstacleProto;
 @class MinimumObstacleProto_Builder;
+@class MinimumUserMonsterProto;
+@class MinimumUserMonsterProto_Builder;
+@class MinimumUserMonsterSellProto;
+@class MinimumUserMonsterSellProto_Builder;
+@class MonsterBattleDialogueProto;
+@class MonsterBattleDialogueProto_Builder;
+@class MonsterLevelInfoProto;
+@class MonsterLevelInfoProto_Builder;
+@class MonsterProto;
+@class MonsterProto_Builder;
 @class ObstacleProto;
 @class ObstacleProto_Builder;
 @class ResidenceProto;
@@ -38,6 +51,20 @@
 @class TownHallProto_Builder;
 @class TutorialStructProto;
 @class TutorialStructProto_Builder;
+@class UserCurrentMonsterTeamProto;
+@class UserCurrentMonsterTeamProto_Builder;
+@class UserEnhancementItemProto;
+@class UserEnhancementItemProto_Builder;
+@class UserEnhancementProto;
+@class UserEnhancementProto_Builder;
+@class UserMonsterCurrentExpProto;
+@class UserMonsterCurrentExpProto_Builder;
+@class UserMonsterCurrentHealthProto;
+@class UserMonsterCurrentHealthProto_Builder;
+@class UserMonsterEvolutionProto;
+@class UserMonsterEvolutionProto_Builder;
+@class UserMonsterHealingProto;
+@class UserMonsterHealingProto_Builder;
 @class UserObstacleProto;
 @class UserObstacleProto_Builder;
 typedef enum {
@@ -67,8 +94,9 @@ BOOL FullQuestProto_QuestTypeIsValidValue(FullQuestProto_QuestType value);
   BOOL hasPriority_:1;
   BOOL hasMonsterIdReward_:1;
   BOOL hasExpReward_:1;
-  BOOL hasDiamondReward_:1;
-  BOOL hasCoinReward_:1;
+  BOOL hasGemReward_:1;
+  BOOL hasOilReward_:1;
+  BOOL hasCashReward_:1;
   BOOL hasQuantity_:1;
   BOOL hasStaticDataId_:1;
   BOOL hasCityId_:1;
@@ -77,18 +105,21 @@ BOOL FullQuestProto_QuestTypeIsValidValue(FullQuestProto_QuestType value);
   BOOL hasDoneResponse_:1;
   BOOL hasDescription_:1;
   BOOL hasName_:1;
-  BOOL hasQuestGiverImageSuffix_:1;
+  BOOL hasQuestGiverName_:1;
+  BOOL hasQuestGiverImagePrefix_:1;
   BOOL hasCarrotId_:1;
   BOOL hasAcceptDialogue_:1;
   BOOL hasQuestGiverImgOffset_:1;
   BOOL hasQuestType_:1;
+  BOOL hasMonsterElement_:1;
   BOOL isAchievement_:1;
   BOOL isCompleteMonster_:1;
   int32_t priority;
   int32_t monsterIdReward;
   int32_t expReward;
-  int32_t diamondReward;
-  int32_t coinReward;
+  int32_t gemReward;
+  int32_t oilReward;
+  int32_t cashReward;
   int32_t quantity;
   int32_t staticDataId;
   int32_t cityId;
@@ -97,11 +128,13 @@ BOOL FullQuestProto_QuestTypeIsValidValue(FullQuestProto_QuestType value);
   NSString* doneResponse;
   NSString* description;
   NSString* name;
-  NSString* questGiverImageSuffix;
+  NSString* questGiverName;
+  NSString* questGiverImagePrefix;
   NSString* carrotId;
   DialogueProto* acceptDialogue;
   CoordinateProto* questGiverImgOffset;
   FullQuestProto_QuestType questType;
+  MonsterProto_MonsterElement monsterElement;
   NSMutableArray* mutableQuestsRequiredForThisList;
 }
 - (BOOL) hasQuestId;
@@ -114,16 +147,19 @@ BOOL FullQuestProto_QuestTypeIsValidValue(FullQuestProto_QuestType value);
 - (BOOL) hasJobDescription;
 - (BOOL) hasStaticDataId;
 - (BOOL) hasQuantity;
-- (BOOL) hasCoinReward;
-- (BOOL) hasDiamondReward;
+- (BOOL) hasCashReward;
+- (BOOL) hasOilReward;
+- (BOOL) hasGemReward;
 - (BOOL) hasExpReward;
 - (BOOL) hasMonsterIdReward;
 - (BOOL) hasIsCompleteMonster;
-- (BOOL) hasQuestGiverImageSuffix;
+- (BOOL) hasQuestGiverName;
+- (BOOL) hasQuestGiverImagePrefix;
 - (BOOL) hasPriority;
 - (BOOL) hasCarrotId;
 - (BOOL) hasIsAchievement;
 - (BOOL) hasQuestGiverImgOffset;
+- (BOOL) hasMonsterElement;
 @property (readonly) int32_t questId;
 @property (readonly) int32_t cityId;
 @property (readonly, retain) NSString* name;
@@ -134,16 +170,19 @@ BOOL FullQuestProto_QuestTypeIsValidValue(FullQuestProto_QuestType value);
 @property (readonly, retain) NSString* jobDescription;
 @property (readonly) int32_t staticDataId;
 @property (readonly) int32_t quantity;
-@property (readonly) int32_t coinReward;
-@property (readonly) int32_t diamondReward;
+@property (readonly) int32_t cashReward;
+@property (readonly) int32_t oilReward;
+@property (readonly) int32_t gemReward;
 @property (readonly) int32_t expReward;
 @property (readonly) int32_t monsterIdReward;
 - (BOOL) isCompleteMonster;
-@property (readonly, retain) NSString* questGiverImageSuffix;
+@property (readonly, retain) NSString* questGiverName;
+@property (readonly, retain) NSString* questGiverImagePrefix;
 @property (readonly) int32_t priority;
 @property (readonly, retain) NSString* carrotId;
 - (BOOL) isAchievement;
 @property (readonly, retain) CoordinateProto* questGiverImgOffset;
+@property (readonly) MonsterProto_MonsterElement monsterElement;
 - (NSArray*) questsRequiredForThisList;
 - (int32_t) questsRequiredForThisAtIndex:(int32_t) index;
 
@@ -233,15 +272,20 @@ BOOL FullQuestProto_QuestTypeIsValidValue(FullQuestProto_QuestType value);
 - (FullQuestProto_Builder*) setQuantity:(int32_t) value;
 - (FullQuestProto_Builder*) clearQuantity;
 
-- (BOOL) hasCoinReward;
-- (int32_t) coinReward;
-- (FullQuestProto_Builder*) setCoinReward:(int32_t) value;
-- (FullQuestProto_Builder*) clearCoinReward;
+- (BOOL) hasCashReward;
+- (int32_t) cashReward;
+- (FullQuestProto_Builder*) setCashReward:(int32_t) value;
+- (FullQuestProto_Builder*) clearCashReward;
 
-- (BOOL) hasDiamondReward;
-- (int32_t) diamondReward;
-- (FullQuestProto_Builder*) setDiamondReward:(int32_t) value;
-- (FullQuestProto_Builder*) clearDiamondReward;
+- (BOOL) hasOilReward;
+- (int32_t) oilReward;
+- (FullQuestProto_Builder*) setOilReward:(int32_t) value;
+- (FullQuestProto_Builder*) clearOilReward;
+
+- (BOOL) hasGemReward;
+- (int32_t) gemReward;
+- (FullQuestProto_Builder*) setGemReward:(int32_t) value;
+- (FullQuestProto_Builder*) clearGemReward;
 
 - (BOOL) hasExpReward;
 - (int32_t) expReward;
@@ -265,10 +309,15 @@ BOOL FullQuestProto_QuestTypeIsValidValue(FullQuestProto_QuestType value);
 - (FullQuestProto_Builder*) addAllQuestsRequiredForThis:(NSArray*) values;
 - (FullQuestProto_Builder*) clearQuestsRequiredForThisList;
 
-- (BOOL) hasQuestGiverImageSuffix;
-- (NSString*) questGiverImageSuffix;
-- (FullQuestProto_Builder*) setQuestGiverImageSuffix:(NSString*) value;
-- (FullQuestProto_Builder*) clearQuestGiverImageSuffix;
+- (BOOL) hasQuestGiverName;
+- (NSString*) questGiverName;
+- (FullQuestProto_Builder*) setQuestGiverName:(NSString*) value;
+- (FullQuestProto_Builder*) clearQuestGiverName;
+
+- (BOOL) hasQuestGiverImagePrefix;
+- (NSString*) questGiverImagePrefix;
+- (FullQuestProto_Builder*) setQuestGiverImagePrefix:(NSString*) value;
+- (FullQuestProto_Builder*) clearQuestGiverImagePrefix;
 
 - (BOOL) hasPriority;
 - (int32_t) priority;
@@ -291,6 +340,11 @@ BOOL FullQuestProto_QuestTypeIsValidValue(FullQuestProto_QuestType value);
 - (FullQuestProto_Builder*) setQuestGiverImgOffsetBuilder:(CoordinateProto_Builder*) builderForValue;
 - (FullQuestProto_Builder*) mergeQuestGiverImgOffset:(CoordinateProto*) value;
 - (FullQuestProto_Builder*) clearQuestGiverImgOffset;
+
+- (BOOL) hasMonsterElement;
+- (MonsterProto_MonsterElement) monsterElement;
+- (FullQuestProto_Builder*) setMonsterElement:(MonsterProto_MonsterElement) value;
+- (FullQuestProto_Builder*) clearMonsterElement;
 @end
 
 @interface DialogueProto : PBGeneratedMessage {

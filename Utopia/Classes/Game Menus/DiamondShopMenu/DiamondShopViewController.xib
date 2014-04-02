@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="4514" systemVersion="12F45" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="5053" systemVersion="12F45" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none">
     <dependencies>
         <deployment defaultVersion="1536" identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="3747"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="3733"/>
     </dependencies>
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="DiamondShopViewController">
@@ -17,8 +17,8 @@
             <rect key="frame" x="0.0" y="0.0" width="568" height="280"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
-                <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="mainmenubg.png" id="DEU-5F-t4s">
-                    <rect key="frame" x="-52" y="-24" width="672" height="320"/>
+                <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="bottom" image="mainmenubg.png" id="DEU-5F-t4s">
+                    <rect key="frame" x="0.0" y="-2" width="568" height="282"/>
                     <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES"/>
                 </imageView>
                 <view contentMode="scaleToFill" id="47">
@@ -26,15 +26,15 @@
                     <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES"/>
                     <subviews>
                         <view contentMode="scaleToFill" id="wYR-VH-o59" customClass="CoinBar">
-                            <rect key="frame" x="0.0" y="240" width="568" height="40"/>
+                            <rect key="frame" x="0.0" y="234" width="568" height="46"/>
                             <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
                             <subviews>
-                                <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" image="moneybottombar.png" id="79m-Hd-bPH">
-                                    <rect key="frame" x="0.0" y="0.0" width="568" height="40"/>
-                                    <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" image="mobstersbottombarbg.png" id="E0j-9w-34S">
+                                    <rect key="frame" x="0.0" y="0.0" width="568" height="58"/>
+                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 </imageView>
                                 <view contentMode="scaleToFill" id="u2G-rs-OgZ">
-                                    <rect key="frame" x="44" y="0.0" width="480" height="40"/>
+                                    <rect key="frame" x="44" y="3" width="480" height="40"/>
                                     <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                     <subviews>
                                         <view contentMode="scaleToFill" id="Exg-ms-URb">
@@ -62,7 +62,7 @@
                                             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                         </view>
                                         <view contentMode="scaleToFill" id="F4x-wZ-TLc">
-                                            <rect key="frame" x="196" y="6" width="89" height="28"/>
+                                            <rect key="frame" x="196" y="5" width="89" height="28"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                             <subviews>
                                                 <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="menuresourcebg.png" id="00q-cg-sui">
@@ -86,7 +86,7 @@
                                             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                         </view>
                                         <view contentMode="scaleToFill" id="jOJ-gI-dtf">
-                                            <rect key="frame" x="76" y="6" width="89" height="28"/>
+                                            <rect key="frame" x="76" y="5" width="89" height="28"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                             <subviews>
                                                 <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="menuresourcebg.png" id="ytK-LX-eAH">
@@ -121,7 +121,7 @@
                             </connections>
                         </view>
                         <view clipsSubviews="YES" contentMode="scaleToFill" id="l0l-gL-4Et">
-                            <rect key="frame" x="0.0" y="1" width="568" height="240"/>
+                            <rect key="frame" x="0.0" y="1" width="568" height="222"/>
                             <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES"/>
                             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                             <simulatedOrientationMetrics key="simulatedOrientationMetrics" orientation="landscapeRight"/>
@@ -166,10 +166,10 @@
     </objects>
     <resources>
         <image name="diamond.png" width="44" height="41"/>
-        <image name="mainmenubg.png" width="568" height="320"/>
+        <image name="mainmenubg.png" width="568" height="282"/>
         <image name="menuresourcebg.png" width="82" height="19"/>
-        <image name="menutopbar.png" width="568" height="40"/>
-        <image name="moneybottombar.png" width="568" height="40"/>
+        <image name="menutopbar.png" width="568" height="42"/>
+        <image name="mobstersbottombarbg.png" width="1" height="58"/>
         <image name="moneystack.png" width="43" height="34"/>
         <image name="oilicon.png" width="26" height="32"/>
     </resources>

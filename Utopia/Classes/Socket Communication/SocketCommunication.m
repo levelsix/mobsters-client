@@ -26,6 +26,7 @@
 #import "GenericPopupController.h"
 #import "GameState.h"
 #import <AdSupport/AdSupport.h>
+#import "FacebookDelegate.h"
 
 // Tags for keeping state
 #define READING_HEADER_TAG -1
@@ -34,7 +35,8 @@
 #define RECONNECT_TIMEOUT 0.5f
 #define NUM_SILENT_RECONNECTS 1
 
-#define CONNECTED_TO_HOST_DELEGATE_TAG 9999
+#define CONNECTED_TO_HOST_DELEGATE_TAG 999998
+#define CLAN_EVENT_DELEGATE_TAG 999999
 
 @implementation SocketCommunication
 
@@ -137,6 +139,10 @@ static NSString *udid = nil;
 #endif
 }
 
++ (NSString *) getUdid {
+  return udid;
+}
+
 - (id) init {
   if ((self = [super init])) {
     if ([SocketCommunication isForcedTutorial]) {
@@ -151,6 +157,8 @@ static NSString *udid = nil;
     self.connectionThread.delegate = self;
     
     self.queuedMessages = [NSMutableArray array];
+    
+    self.clanEventDelegates = [NSMutableArray array];
   }
   return self;
 }
@@ -175,13 +183,24 @@ static NSString *udid = nil;
   return res.build;
 }
 
+- (void) tryConnect {
+  [FacebookDelegate getFacebookIdAndDoAction:^(NSString *facebookId) {
+    [self.connectionThread connectWithUdid:udid facebookId:facebookId];
+  }];
+}
+
 - (void) initNetworkCommunicationWithDelegate:(id)delegate {
-  [self.connectionThread connect:udid];
+  if (self.popupController) {
+    [self.popupController close:nil];
+    self.popupController = nil;
+  }
+  
+  [self tryConnect];
   
   // In case we just came from inactive state
   _sender = nil;
   [self rebuildSender];
-  _currentTagNum = 1;
+  _currentTagNum = arc4random();
   _shouldReconnect = YES;
   _numDisconnects = 0;
   _isCreatingQueues = YES;
@@ -214,6 +233,16 @@ static NSString *udid = nil;
   _flushTimer = [NSTimer timerWithTimeInterval:10.f target:self selector:@selector(flush) userInfo:nil repeats:YES];
   [[NSRunLoop mainRunLoop] addTimer:_flushTimer forMode:NSRunLoopCommonModes];
   
+  NSMutableArray *toRemove = [NSMutableArray array];
+  for (FullEvent *fe in self.queuedMessages) {
+    if ([self isPreDbEventType:fe.requestType]) {
+      [self sendData:fe.event withMessageType:fe.requestType tagNum:fe.tag flush:YES];
+      NSLog(@"Sending queued event of type %@.", NSStringFromClass(fe.event.class));
+      [toRemove addObject:fe];
+    }
+  }
+  [self.queuedMessages removeObjectsInArray:toRemove];
+  
   _numDisconnects = 0;
 }
 
@@ -224,12 +253,14 @@ static NSString *udid = nil;
   
   for (FullEvent *fe in self.queuedMessages) {
     [self sendData:fe.event withMessageType:fe.requestType tagNum:fe.tag flush:YES];
+    NSLog(@"Sending queued event of type %@.", NSStringFromClass(fe.event.class));
   }
   [self.queuedMessages removeAllObjects];
 }
 
 - (void) tryReconnect {
-  [self.connectionThread connect:udid];
+  self.popupController = nil;
+  [self tryConnect];
 }
 
 - (void) unableToConnectToHost:(NSString *)error
@@ -240,13 +271,17 @@ static NSString *udid = nil;
     _numDisconnects++;
     if (_numDisconnects > NUM_SILENT_RECONNECTS) {
       LNLog(@"Asking to reconnect..");
-      [GenericPopupController displayNotificationViewWithText:@"Sorry, we are unable to connect to the server. Please try again." title:@"Disconnected!" okayButton:@"Reconnect" target:self selector:@selector(tryReconnect)];
+      self.popupController = [GenericPopupController displayNotificationViewWithText:@"Sorry, we are unable to connect to the server. Please try again." title:@"Disconnected!" okayButton:@"Reconnect" target:self selector:@selector(tryReconnect)];
       _numDisconnects = 0;
     } else {
       LNLog(@"Silently reconnecting..");
       [self tryReconnect];
     }
   }
+}
+
+- (BOOL) isPreDbEventType:(EventProtocolRequest)type {
+  return type == EventProtocolRequestCStartupEvent || type == EventProtocolRequestCUserCreateEvent;
 }
 
 - (void) sendData:(PBGeneratedMessage *)msg withMessageType:(int)type tagNum:(int)tagNum flush:(BOOL)flush {
@@ -257,11 +292,12 @@ static NSString *udid = nil;
   if (_isCreatingQueues) {
     FullEvent *fe = [FullEvent createWithEvent:msg tag:tagNum requestType:type];
     [self.queuedMessages addObject:fe];
+    LNLog(@"Queueing up event of type %@.", NSStringFromClass(msg.class));
     return;
   } else {
     GameState *gs = [GameState sharedGameState];
     if (_sender.userId == 0 || !gs.connected) {
-      if (type != EventProtocolRequestCStartupEvent&& type != EventProtocolRequestCUserCreateEvent) {
+      if (![self isPreDbEventType:type]) {
         LNLog(@"User id is 0 or GameState is not connected!!!");
         LNLog(@"Queueing up event of type %@.", NSStringFromClass(msg.class));
         
@@ -303,6 +339,7 @@ static NSString *udid = nil;
   int tag = _currentTagNum;
   [self sendData:msg withMessageType:type tagNum:tag flush:flush];
   _currentTagNum++;
+  _currentTagNum %= RAND_MAX;
   return tag;
 }
 
@@ -332,14 +369,14 @@ static NSString *udid = nil;
     return;
   }
   
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Warc-performSelector-leaks"
   // Call handle<Proto Class> method in event controller
   NSString *selectorStr = [NSString stringWithFormat:@"handle%@:", [typeClass description]];
   SEL handleMethod = NSSelectorFromString(selectorStr);
   if ([iec respondsToSelector:handleMethod]) {
     FullEvent *fe = [FullEvent createWithEvent:(PBGeneratedMessage *)[typeClass parseFromData:data] tag:tag];
     
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Warc-performSelector-leaks"
     [iec performSelector:handleMethod withObject:fe];
     
     NSNumber *num = [NSNumber numberWithInt:tag];
@@ -347,20 +384,62 @@ static NSString *udid = nil;
     if (delegate) {
       if ([delegate respondsToSelector:handleMethod]) {
         [delegate performSelector:handleMethod withObject:fe];
-#pragma clang diagnostic pop
       } else {
         LNLog(@"Unable to find %@ in %@", selectorStr, NSStringFromClass(delegate.class));
       }
       [self.tagDelegates removeObjectForKey:num];
     }
+    
+    BOOL isClanEvent = [self isEventTypeClanEvent:eventType];
+    if (isClanEvent) {
+      NSString *selectorStr = [NSString stringWithFormat:@"handleClanEvent%@:", [typeClass description]];
+      SEL handleMethod = NSSelectorFromString(selectorStr);
+      
+      // Copy the delegates array in case it is mutated
+      NSArray *curDelegates = [self.clanEventDelegates copy];
+      for (id delegate in curDelegates) {
+        if ([delegate respondsToSelector:handleMethod]) {
+          [delegate performSelector:handleMethod withObject:fe.event];
+        }
+      }
+    }
   } else {
     LNLog(@"Unable to find %@ in IncomingEventController", selectorStr);
   }
+#pragma clang diagnostic pop
 }
 
 - (void) setDelegate:(id)delegate forTag:(int)tag {
   if (delegate && tag) {
     [self.tagDelegates setObject:delegate forKey:@(tag)];
+  }
+}
+
+- (void) addClanEventObserver:(id)object {
+  [self.clanEventDelegates addObject:object];
+}
+
+- (void) removeClanEventObserver:(id)object {
+  [self.clanEventDelegates removeObject:object];
+}
+
+- (BOOL) isEventTypeClanEvent:(EventProtocolResponse)eventType {
+  switch (eventType) {
+    case EventProtocolResponseSApproveOrRejectRequestToJoinClanEvent:
+    case EventProtocolResponseSPromoteDemoteClanMemberEvent:
+    case EventProtocolResponseSCreateClanEvent:
+    case EventProtocolResponseSChangeClanSettingsEvent:
+    case EventProtocolResponseSLeaveClanEvent:
+    case EventProtocolResponseSRequestJoinClanEvent:
+    case EventProtocolResponseSRetractRequestJoinClanEvent:
+    case EventProtocolResponseSBootPlayerFromClanEvent:
+    case EventProtocolResponseSTransferClanOwnership:
+      return YES;
+      break;
+      
+    default:
+      return NO;
+      break;
   }
 }
 
@@ -519,9 +598,10 @@ static NSString *udid = nil;
   return [self sendData:req withMessageType:EventProtocolRequestCLoadCityEvent];
 }
 
-- (int) sendLevelUpMessage {
-  LevelUpRequestProto *req = [[[LevelUpRequestProto builder]
-                               setSender:_sender]
+- (int) sendLevelUpMessage:(int)level {
+  LevelUpRequestProto *req = [[[[LevelUpRequestProto builder]
+                                setSender:_sender]
+                               setNextLevel:level]
                               build];
   
   return [self sendData:req withMessageType:EventProtocolRequestCLevelUpEvent];
@@ -615,13 +695,16 @@ static NSString *udid = nil;
   return [self sendData:req withMessageType:EventProtocolRequestCSendGroupChatEvent];
 }
 
-- (int) sendCreateClanMessage:(NSString *)clanName tag:(NSString *)tag description:(NSString *)description requestOnly:(BOOL)requestOnly {
-  CreateClanRequestProto *req = [[[[[[[CreateClanRequestProto builder]
-                                      setSender:_sender]
-                                     setName:clanName]
-                                    setTag:tag]
-                                   setDescription:description]
-                                  setRequestToJoinClanRequired:requestOnly]
+- (int) sendCreateClanMessage:(NSString *)clanName tag:(NSString *)tag description:(NSString *)description requestOnly:(BOOL)requestOnly iconId:(int)iconId cashChange:(int)cashChange gemsSpent:(int)gemsSpent {
+  CreateClanRequestProto *req = [[[[[[[[[[CreateClanRequestProto builder]
+                                         setSender:_sender]
+                                        setName:clanName]
+                                       setTag:tag]
+                                      setDescription:description]
+                                     setRequestToJoinClanRequired:requestOnly]
+                                    setClanIconId:iconId]
+                                   setCashChange:cashChange]
+                                  setGemsSpent:gemsSpent]
                                  build];
   
   return [self sendData:req withMessageType:EventProtocolRequestCCreateClanEvent];
@@ -666,28 +749,29 @@ static NSString *udid = nil;
 - (int) sendTransferClanOwnership:(int)newClanOwnerId {
   TransferClanOwnershipRequestProto *req = [[[[TransferClanOwnershipRequestProto builder]
                                               setSender:_sender]
-                                             setNewClanOwnerId:newClanOwnerId]
+                                             setClanOwnerIdNew:newClanOwnerId]
                                             build];
   
   return [self sendData:req withMessageType:EventProtocolRequestCTransferClanOwnership];
 }
 
-- (int) sendChangeClanDescription:(NSString *)description {
-  ChangeClanDescriptionRequestProto *req = [[[[ChangeClanDescriptionRequestProto builder]
-                                              setSender:_sender]
-                                             setDescription:description]
-                                            build];
+- (int) sendChangeClanDescription:(BOOL)isDescription description:(NSString *)description isRequestType:(BOOL)isRequestType requestRequired:(BOOL)requestRequired isIcon:(BOOL)isIcon iconId:(int)iconId {
+  ChangeClanSettingsRequestProto_Builder *bldr = [[ChangeClanSettingsRequestProto builder] setSender:_sender];
   
-  return [self sendData:req withMessageType:EventProtocolRequestCChangeClanDescriptionEvent];
-}
-
-- (int) sendChangeClanJoinType:(BOOL)requestToJoinRequired {
-  ChangeClanJoinTypeRequestProto *req = [[[[ChangeClanJoinTypeRequestProto builder]
-                                           setSender:_sender]
-                                          setRequestToJoinRequired:requestToJoinRequired]
-                                         build];
+  if (isDescription) {
+    bldr.isChangeDescription = isDescription;
+    bldr.descriptionNow = description;
+  }
+  if (isRequestType) {
+    bldr.isChangeJoinType = isRequestType;
+    bldr.requestToJoinRequired = requestRequired;
+  }
+  if (isIcon) {
+    bldr.isChangeIcon = isIcon;
+    bldr.iconId = iconId;
+  }
   
-  return [self sendData:req withMessageType:EventProtocolRequestCChangeClanJoinTypeEvent];
+  return [self sendData:bldr.build withMessageType:EventProtocolRequestCChangeClanSettingsEvent];
 }
 
 - (int) sendRetrieveClanInfoMessage:(NSString *)clanName clanId:(int)clanId grabType:(RetrieveClanInfoRequestProto_ClanInfoGrabType)grabType isForBrowsingList:(BOOL)isForBrowsingList beforeClanId:(int)beforeClanId {
@@ -703,6 +787,16 @@ static NSString *udid = nil;
   RetrieveClanInfoRequestProto *req = [bldr build];
   
   return [self sendData:req withMessageType:EventProtocolRequestCRetrieveClanInfoEvent];
+}
+
+- (int) sendPromoteDemoteClanMemberMessage:(int)victimId newStatus:(UserClanStatus)status {
+  PromoteDemoteClanMemberRequestProto *req = [[[[[PromoteDemoteClanMemberRequestProto builder]
+                                                 setSender:_sender]
+                                                setVictimId:victimId]
+                                               setUserClanStatus:status]
+                                              build];
+  
+  return [self sendData:req withMessageType:EventProtocolRequestCPromoteDemoteClanMemberEvent];
 }
 
 - (int) sendBootPlayerFromClan:(int)playerId {

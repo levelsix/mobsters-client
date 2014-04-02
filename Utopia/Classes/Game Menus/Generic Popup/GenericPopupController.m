@@ -156,8 +156,7 @@
     self.mainView.center = CGPointMake(self.mainView.center.x-70, self.mainView.center.y+350);
     self.bgdView.alpha = 0.f;
   } completion:^(BOOL finished) {
-    [self removeFromParentViewController];
-    [self.view removeFromSuperview];
+    [self removeView];
   }];
 }
 

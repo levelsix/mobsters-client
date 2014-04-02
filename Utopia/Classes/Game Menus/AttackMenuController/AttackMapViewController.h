@@ -59,6 +59,24 @@
 
 @property (nonatomic, strong) IBOutlet UILabel *multiplayerUnlockLabel;
 @property (nonatomic, strong) IBOutlet UILabel *cashCostLabel;
+@property (nonatomic, strong) IBOutlet UILabel *titleLabel;
+@property (nonatomic, strong) IBOutlet UIView *backButton;
+
+@property (nonatomic, strong) IBOutlet UIView *containerView;
+@property (nonatomic, strong) IBOutlet UIView *findMatchView;
+@property (nonatomic, strong) IBOutlet UIView *rankView;
+
+@property (nonatomic, strong) IBOutlet UIView *leagueView;
+@property (nonatomic, strong) IBOutlet UIImageView *leagueBgd;
+@property (nonatomic, strong) IBOutlet UIImageView *leagueIcon;
+@property (nonatomic, strong) IBOutlet UILabel *leagueLabel;
+@property (nonatomic, strong) IBOutlet UILabel *rankLabel;
+@property (nonatomic, strong) IBOutlet UILabel *rankQualifierLabel;
+@property (nonatomic, strong) IBOutlet UILabel *placeLabel;
+
+
+- (IBAction) leagueSelected:(id)sender;
+- (IBAction) backClicked:(id)sender;
 
 @end
 

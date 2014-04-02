@@ -18,6 +18,15 @@
 #define HEADER_OFFSET 8
 #define LEFT_SIDE_OFFSET 18
 
+@implementation AttributedTextView
+
+- (void) drawRect:(CGRect)rect {
+  [super drawRect:rect];
+  [self.attrString drawInRect:rect];
+}
+
+@end
+
 @implementation MyCroniesViewController
 
 - (void)viewDidLoad
@@ -47,6 +56,7 @@
   [self reloadTableAnimated:NO];
   [self updateCurrentTeamAnimated:NO];
   [self updateQueueViewAnimated:NO];
+  [self reloadTitleView];
 }
 
 - (void) viewDidDisappear:(BOOL)animated {
@@ -64,8 +74,8 @@
   [self.recentlyHealedMonsterIds removeAllObjects];
 }
 
-- (IBAction)popCurrentViewController:(id)sender {
-  [super popCurrentViewController:sender];
+- (IBAction)menuBackClicked:(id)sender {
+  [super menuBackClicked:sender];
   
   [self.recentlyHealedMonsterIds removeAllObjects];
 }
@@ -74,6 +84,26 @@
   [self reloadTableAnimated:YES];
   [self updateCurrentTeamAnimated:YES];
   [self updateQueueViewAnimated:YES];
+  [self reloadTitleView];
+}
+
+- (void) reloadTitleView {
+  GameState *gs = [GameState sharedGameState];
+  NSMutableParagraphStyle *paragrapStyle = [[NSMutableParagraphStyle alloc] init];
+  paragrapStyle.alignment = NSTextAlignmentCenter;
+  
+  NSShadow *shadow = [[NSShadow alloc] init];
+  shadow.shadowColor = [UIColor colorWithWhite:0.f alpha:0.75f];
+  shadow.shadowOffset = CGSizeMake(0, 1);
+  
+  NSString *str = [NSString stringWithFormat:@"My Mobsters (%d/%d)", (int)gs.myMonsters.count, gs.maxInventorySlots];
+  NSMutableAttributedString *attrStr = [[NSMutableAttributedString alloc] initWithString:str attributes:nil];
+  
+  if (gs.myMonsters.count >= gs.maxInventorySlots) {
+    [attrStr addAttribute:NSForegroundColorAttributeName value:[UIColor colorWithRed:1.f green:192/255.f blue:0.f alpha:1.f] range:NSMakeRange(13, attrStr.length-14)];
+  }
+  self.titleView.attrString = attrStr;
+  self.titleLabel.attributedText = attrStr;
 }
 
 - (void) updateLabels {

@@ -31,8 +31,6 @@
   
   self.enhancingHeader.transform = CGAffineTransformMakeRotation(-M_PI_2);
   self.myMobstersHeader.transform = CGAffineTransformMakeRotation(-M_PI_2);
-  
-  self.baseView.delegate = self;
 }
 
 - (void) viewWillAppear:(BOOL)animated {

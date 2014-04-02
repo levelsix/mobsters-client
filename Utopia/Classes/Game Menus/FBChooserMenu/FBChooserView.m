@@ -31,7 +31,6 @@
   [self retrieveFacebookFriends:NO];
   
   self.unselectAllButton.superview.layer.cornerRadius = 5.f;
-  
   self.chooserTable.tableFooterView = [[UIView alloc] init];
   
   self.state = FBChooserStateAllFriends;
@@ -189,17 +188,14 @@
 }
 
 - (UIView *) tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section {
-  UIImageView *img = [[UIImageView alloc] initWithImage:[Globals imageNamed:@"letterheader.png"]];
+  UIImageView *img = [[UIImageView alloc] initWithImage:[Globals imageNamed:@"friendletterbar.png"]];
   img.contentMode = UIViewContentModeScaleToFill;
   
-  UILabel *label = [[NiceFontLabel2 alloc] initWithFrame:CGRectMake(10, -1, 100, img.frame.size.height)];
+  UILabel *label = [[NiceFontLabel2 alloc] initWithFrame:CGRectMake(12, 1, 100, img.frame.size.height)];
   [img addSubview:label];
-  label.font = [UIFont systemFontOfSize:9];
-  [label awakeFromNib];
+  label.font = [UIFont fontWithName:@"Gotham-UltraItalic" size:10.f];
   label.text = [[self.data[section] lastObject][@"name"] substringToIndex:1];
-  label.textColor = [UIColor whiteColor];
-  label.shadowColor = [UIColor colorWithWhite:0.f alpha:0.7f];
-  label.shadowOffset = CGSizeMake(0, 1);
+  label.textColor = [UIColor colorWithWhite:0.24f alpha:0.7f];
   
   return img;
 }

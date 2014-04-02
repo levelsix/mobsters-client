@@ -31,8 +31,9 @@
 - (void) setupBuildingSprite:(NSString *)fileName;
 - (void) adjustBuildingSprite;
 
+- (NSString *) progressBarPrefix;
 - (void) displayProgressBar;
-- (void) updateUpgradeBar;
+- (void) updateProgressBar;
 - (void) removeProgressBar;
 - (void) instaFinishUpgradeWithCompletionBlock:(void(^)(void))completed;
 

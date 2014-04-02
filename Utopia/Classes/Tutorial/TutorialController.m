@@ -154,11 +154,11 @@
   [self.touchView addResponder:[CCDirector sharedDirector].view];
   self.touchView.userInteractionEnabled = NO;
   
-  //[self initMissionMapWithCenterOnThirdBuilding:NO];
-  //[self beginBlackedOutDialogue];
+  [self initMissionMapWithCenterOnThirdBuilding:NO];
+  [self beginBlackedOutDialogue];
   //[self beginPostFirstBattleConfrontationPhase];
   
-  [self yachtWentOffScene];
+  //[self yachtWentOffScene];
   
   //[self initHomeMap];
   //[self initMissionMapWithCenterOnThirdBuilding:YES];
@@ -479,23 +479,27 @@
 }
 
 - (void) beginEnemyBroughtBackBossPhase {
-  NSArray *dialogue = @[@(TutorialDialogueSpeakerEnemy3), @"This is the guy, boss! Let's get..."];
-  [self displayDialogue:dialogue allowTouch:YES useShortBubble:NO];
-  
-  _currentStep = TutorialStepEnemyBroughtBackBoss;
+//  NSArray *dialogue = @[@(TutorialDialogueSpeakerEnemy3), @"This is the guy, boss! Let's get..."];
+//  [self displayDialogue:dialogue allowTouch:YES useShortBubble:NO];
+//  
+//  _currentStep = TutorialStepEnemyBroughtBackBoss;
+  [self beginEnemyLookBackPhase];
 }
 
 - (void) beginFriendJokePhase {
   NSArray *dialogue = @[@(TutorialDialogueSpeakerFriend3), @"HURRY! SOMEONE GET THIS MAN SOME DUCT TAPE."];
   [self displayDialogue:dialogue allowTouch:YES useShortBubble:NO];
-  
+
   _currentStep = TutorialStepFriendJoke;
 }
 
 - (void) beginEnemyLookBackPhase {
-  NSArray *dialogue = @[@(TutorialDialogueSpeakerEnemy3), @"What... Why?",
-                        @(TutorialDialogueSpeakerFriend2), @"CAUSE THIS MAN IS RIPPED!",
-                        @(TutorialDialogueSpeakerEnemyBoss), @"Me no laugh. You die now."];
+  //  NSArray *dialogue = @[@(TutorialDialogueSpeakerEnemy3), @"What... Why?",
+  //                        @(TutorialDialogueSpeakerFriend2), @"CAUSE THIS MAN IS RIPPED!",
+  //                        @(TutorialDialogueSpeakerEnemyBoss), @"Me no laugh. You die now."];
+  NSArray *dialogue = @[@(TutorialDialogueSpeakerEnemy3), @"This is the guy, boss!",
+                        @(TutorialDialogueSpeakerEnemyBoss), @"Me crush tiny peasant.",
+                        @(TutorialDialogueSpeakerFriend2), @"Run!"];
   [self displayDialogue:dialogue allowTouch:YES useShortBubble:NO];
   
   _currentStep = TutorialStepEnemyLookBack;

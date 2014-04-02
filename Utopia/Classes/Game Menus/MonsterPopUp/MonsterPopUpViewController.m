@@ -59,10 +59,13 @@
   Globals *gl = [Globals sharedGlobals];
   MonsterProto *proto = [gs monsterWithId:self.monster.monsterId];
   self.monsterNameLabel.text = proto.displayName;
-  self.rarityLabel.text = [Globals stringForRarity:proto.quality];
-  self.rarityLabel.textColor = [Globals colorForRarity:proto.quality];
   self.enhanceLabel.text = [NSString stringWithFormat:@"Lvl. %d", self.monster.level];
   self.monsterDescription.text = proto.description;
+  
+  self.rarityLabel.text = [Globals stringForRarity:proto.quality];
+  self.rarityTag.image = [Globals imageNamed:[Globals imageNameForRarity:proto.quality suffix:@"gtag.png"]];
+  self.rarityTag.frame = CGRectMake(self.rarityTag.frame.origin.x, self.rarityTag.frame.origin.y, self.rarityTag.image.size.width, self.rarityTag.frame.size.height);
+  self.rarityLabel.frame = self.rarityTag.frame;
   
   if (!_allowSell) {
     self.sellButtonView.hidden = YES;
@@ -115,7 +118,6 @@
     self.descriptionView.center = CGPointMake(self.descriptionView.center.x-self.descriptionView.frame.size.width, self.descriptionView.center.y);
     self.elementView.center = mainViewCenter;
     self.backButtonView.alpha = 1.0f;
-    self.sellButtonView.alpha = 0.f;
   }completion:^(BOOL finished) {
     self.descriptionView.hidden = YES;
   }];
@@ -128,7 +130,6 @@
     self.descriptionView.center = mainViewCenter;
     self.elementView.center = CGPointMake(self.elementView.center.x+self.elementView.frame.size.width, self.elementView.center.y);
     self.backButtonView.alpha = 0.0f;
-    self.sellButtonView.alpha = 1.f;
   } completion:^(BOOL finished) {
     [self.elementView removeFromSuperview];
     self.backButtonView.hidden = YES;

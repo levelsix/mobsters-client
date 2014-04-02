@@ -100,18 +100,22 @@
   }
 }
 
-- (void) displayProgressBar {
-  if (![self getChildByName:UPGRADING_TAG recursively:NO]) {
-    UpgradeProgressBar *upgrIcon = [[UpgradeProgressBar alloc] initBar];
-    [self addChild:upgrIcon z:5 name:UPGRADING_TAG];
-    upgrIcon.position = ccp(self.contentSize.width/2, self.contentSize.height);
-    [self schedule:@selector(updateUpgradeBar) interval:0.05f];
-  }
-  _percentage = 0;
-  [self updateUpgradeBar];
+- (NSString *) progressBarPrefix {
+  return @"building";
 }
 
-- (void) updateUpgradeBar {
+- (void) displayProgressBar {
+  if (![self getChildByName:UPGRADING_TAG recursively:NO]) {
+    UpgradeProgressBar *upgrIcon = [[UpgradeProgressBar alloc] initBarWithPrefix:[self progressBarPrefix]];
+    [self addChild:upgrIcon z:5 name:UPGRADING_TAG];
+    upgrIcon.position = ccp(self.contentSize.width/2, self.contentSize.height);
+    [self schedule:@selector(updateProgressBar) interval:0.05f];
+  }
+  _percentage = 0;
+  [self updateProgressBar];
+}
+
+- (void) updateProgressBar {
   
 }
 
@@ -119,7 +123,7 @@
   CCNode *n = [self getChildByName:UPGRADING_TAG recursively:NO];
   if (n) {
     [n removeFromParent];
-    [self unschedule:@selector(updateUpgradeBar)];
+    [self unschedule:@selector(updateProgressBar)];
   }
 }
 
@@ -127,15 +131,15 @@
   CCNode *n = [self getChildByName:UPGRADING_TAG recursively:NO];
   if (n && [n isKindOfClass:[UpgradeProgressBar class]]) {
     UpgradeProgressBar *u = (UpgradeProgressBar *)n;
-    [self unschedule:@selector(updateUpgradeBar)];
+    [self unschedule:@selector(updateProgressBar)];
     
-    float interval = 1.5;
+    float interval = 0.015;
     float timestep = 0.02;
-    _percentage = u.progressBar.percentage;
-    int numTimes = (100-_percentage)/interval;
+    _percentage = u.percentage;
+    int numTimes = (1-_percentage)/interval;
     CCActionCallBlock *b = [CCActionCallBlock actionWithBlock:^{
       _percentage += interval;
-      [self updateUpgradeBar];
+      [self updateProgressBar];
     }];
     CCActionSequence *cycle = [CCActionSequence actions:b, [CCActionDelay actionWithDuration:timestep], nil];
     CCActionRepeat *r = [CCActionRepeat actionWithAction:cycle times:numTimes];
@@ -144,8 +148,8 @@
       r,
       [CCActionCallBlock actionWithBlock:
        ^{
-         _percentage = 100;
-         [self updateUpgradeBar];
+         _percentage = 1;
+         [self updateProgressBar];
          
          [self removeProgressBar];
          if (completed) {
@@ -230,7 +234,7 @@
   return self;
 }
 
-- (void) updateUpgradeBar {
+- (void) updateProgressBar {
   CCNode *n = [self getChildByName:UPGRADING_TAG recursively:NO];
   if (n && [n isKindOfClass:[UpgradeProgressBar class]]) {
     UpgradeProgressBar *bar = (UpgradeProgressBar *)n;
@@ -239,7 +243,7 @@
     int totalTime = self.obstacle.staticObstacle.secondsToRemove;
     
     if (_percentage) {
-      time = totalTime*(100.f-_percentage)/100.f;
+      time = totalTime*(1.f-_percentage);
     }
     
     [bar updateForSecsLeft:time totalSecs:totalTime];
@@ -252,6 +256,7 @@
     [RecursiveFadeTo actionWithDuration:0.5f opacity:0.f],
     [CCActionRemove action],
     nil]];
+  [(HomeMap *)_map changeTiles:self.location toBuildable:YES];
 }
 
 @end

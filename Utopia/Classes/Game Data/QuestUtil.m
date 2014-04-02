@@ -117,7 +117,7 @@
       for (FullQuestProto *quest in potentialQuests) {
         if (quest.questType == FullQuestProto_QuestTypeKillMonster) {
           UserQuest *uq = [gs myQuestWithId:quest.questId];
-          if (!tsm.monsterId || quest.staticDataId == tsm.monsterId) {
+          if (!quest.staticDataId || quest.staticDataId == tsm.monsterId) {
             uq.progress = MIN(uq.progress+1, quest.quantity);
             uq.isComplete = (uq.progress >= quest.quantity);
             [changedQuests addObject:quest];

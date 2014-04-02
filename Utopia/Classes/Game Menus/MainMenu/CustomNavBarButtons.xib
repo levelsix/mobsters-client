@@ -14,11 +14,11 @@
         </placeholder>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
         <view contentMode="scaleToFill" id="3">
-            <rect key="frame" x="0.0" y="0.0" width="38" height="39"/>
+            <rect key="frame" x="0.0" y="0.0" width="38" height="29"/>
             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
             <subviews>
                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="7" customClass="CloseButton">
-                    <rect key="frame" x="4" y="8" width="30" height="29"/>
+                    <rect key="frame" x="4" y="0.0" width="30" height="29"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                     <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
                     <state key="normal" backgroundImage="close1.png">
@@ -36,11 +36,11 @@
             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
         </view>
         <view contentMode="scaleToFill" id="4">
-            <rect key="frame" x="0.0" y="0.0" width="71" height="36"/>
+            <rect key="frame" x="0.0" y="0.0" width="71" height="32"/>
             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
             <subviews>
                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="5" customClass="GeneralButton">
-                    <rect key="frame" x="0.0" y="4" width="71" height="32"/>
+                    <rect key="frame" x="0.0" y="0.0" width="71" height="32"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                     <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
                     <state key="normal" backgroundImage="menuback.png">
@@ -51,11 +51,11 @@
                         <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     </state>
                     <connections>
-                        <action selector="popCurrentViewController:" destination="-1" eventType="touchUpInside" id="47"/>
+                        <action selector="menuBackClicked:" destination="-1" eventType="touchUpInside" id="7n7-GQ-xBJ"/>
                     </connections>
                 </button>
                 <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="BACK" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" id="6" customClass="NiceFontLabel">
-                    <rect key="frame" x="12" y="8" width="55" height="21"/>
+                    <rect key="frame" x="12" y="4" width="55" height="21"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                     <fontDescription key="fontDescription" type="system" pointSize="13"/>
                     <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>

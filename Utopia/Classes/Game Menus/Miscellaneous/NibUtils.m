@@ -65,6 +65,42 @@
 
 @end
 
+@implementation NiceFontLabel7
+
+- (void) awakeFromNib {
+  [Globals adjustFontSizeForUILabel:self];
+  self.font = [UIFont fontWithName:@"Gotham-UltraItalic" size:self.font.pointSize];
+}
+
+@end
+
+@implementation NiceFontLabel8
+
+- (void) awakeFromNib {
+  [Globals adjustFontSizeForUILabel:self];
+  self.font = [UIFont fontWithName:@"Gotham-Ultra" size:self.font.pointSize];
+}
+
+@end
+
+@implementation NiceFontLabel9
+
+- (void) awakeFromNib {
+  [Globals adjustFontSizeForUILabel:self];
+  self.font = [UIFont fontWithName:@"Gotham-Bold" size:self.font.pointSize];
+}
+
+@end
+
+@implementation NiceFontLabel10
+
+- (void) awakeFromNib {
+  [Globals adjustFontSizeForUILabel:self];
+  self.font = [UIFont fontWithName:@"GothamBlack" size:self.font.pointSize];
+}
+
+@end
+
 @implementation NiceFontButton
 
 - (void) awakeFromNib {
@@ -149,6 +185,14 @@
   NSDictionary *dict = [NSDictionary dictionaryWithObjectsAndKeys:self.font, NSFontAttributeName, c, NSForegroundColorAttributeName, nil];
   NSAttributedString *attr = [[NSAttributedString alloc] initWithString:self.placeholder attributes:dict];
   [attr drawInRect:rect];
+}
+
+@end
+
+@implementation NiceFontTextField2
+
+- (void) awakeFromNib {
+  self.font =  [UIFont fontWithName:@"Aller-BoldItalic" size:self.font.pointSize];
 }
 
 @end
@@ -635,6 +679,8 @@
       [self clickButton:kButton1];
       [self unclickButton:kButton2];
       [self.delegate button1Clicked:self];
+      
+      [SoundEngine generalButtonClick];
     } else {
       [self unclickButton:kButton1];
     }
@@ -646,6 +692,8 @@
       [self clickButton:kButton2];
       [self unclickButton:kButton1];
       [self.delegate button2Clicked:self];
+      
+      [SoundEngine generalButtonClick];
     } else {
       [self unclickButton:kButton2];
     }
@@ -660,6 +708,51 @@
   [self unclickButton:kButton2];
   _trackingButton1 = NO;
   _trackingButton2 = NO;
+}
+
+@end
+
+@implementation ButtonTopBar
+
+- (void) awakeFromNib {
+  [self clickButton:1];
+}
+
+- (void) clickButton:(int)button {
+  UIColor *inactiveText = self.inactiveTextColor;
+  UIColor *inactiveShadow = self.inactiveShadowColor;
+  self.label1.textColor = inactiveText;
+  self.label1.shadowColor = inactiveShadow;
+  self.label2.textColor = inactiveText;
+  self.label2.shadowColor = inactiveShadow;
+  self.label3.textColor = inactiveText;
+  self.label3.shadowColor = inactiveShadow;
+  
+  UILabel *label = nil;
+  if (button == 1) {
+    label = self.label1;
+  } else if (button == 2) {
+    label = self.label2;
+  } else if (button == 3) {
+    label = self.label3;
+  }
+  self.selectedView.center = ccp(label.center.x, self.selectedView.center.y);
+  label.textColor = self.activeTextColor;
+  label.shadowColor = self.activeShadowColor;
+}
+
+- (IBAction) buttonClicked:(id)sender {
+  NSInteger tag = [(UIView *)sender tag];
+  if (tag == 1) {
+    [self.delegate button1Clicked:sender];
+    [self clickButton:1];
+  } else if (tag == 2) {
+    [self.delegate button2Clicked:sender];
+    [self clickButton:2];
+  } else if (tag == 3) {
+    [self.delegate button3Clicked:sender];
+    [self clickButton:3];
+  }
 }
 
 @end
@@ -777,17 +870,20 @@
 
 - (void) awakeFromNib {
   self.badgeNum = 0;
+  self.userInteractionEnabled = NO;
 }
 
 - (void) setBadgeNum:(NSInteger)badgeNum {
   _badgeNum = badgeNum;
   
-  if (_badgeNum > 0) {
-    self.badgeLabel.text = [NSString stringWithFormat:@"%d", (int)_badgeNum];
-    self.hidden = NO;
-  } else {
-    self.hidden = YES;
-  }
+  [UIView animateWithDuration:0.2f animations:^{
+    if (_badgeNum > 0) {
+      self.badgeLabel.text = [NSString stringWithFormat:@"%d", (int)_badgeNum];
+      self.alpha = 1.f;
+    } else {
+      self.alpha = 0.f;
+    }
+  }];
 }
 
 @end
@@ -801,7 +897,8 @@
   
   // Allow all subviews to receive touch.
   for (UIView * foundView in self.subviews) {
-    if (!foundView.hidden && [foundView pointInside:[self convertPoint:point toView:foundView] withEvent:event]) {
+    if (!foundView.hidden && foundView.alpha != 0.f && foundView.userInteractionEnabled &&
+        [foundView pointInside:[self convertPoint:point toView:foundView] withEvent:event]) {
       return YES;
     }
   }

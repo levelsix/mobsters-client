@@ -49,6 +49,8 @@
 		<string>Akko-Bold.ttf</string>
 		<string>Aller_BdIt.ttf</string>
 		<string>klavika bold bold.ttf</string>
+		<string>Gotham-Bold.otf</string>
+		<string>GothamBlack.otf</string>
 	</array>
 	<key>UIPrerenderedIcon</key>
 	<true/>

@@ -28,9 +28,16 @@
   CCLabelTTF *_timeLabel;
 }
 
-@property (nonatomic, retain) CCProgressNode *progressBar;
+@property (nonatomic, retain) CCSprite *leftCap;
+@property (nonatomic, retain) CCSprite *middleBar;
+@property (nonatomic, retain) CCSprite *rightCap;
 
-- (id) initBar;
+@property (nonatomic, assign) float percentage;
+
+- (id) initBarWithPrefix:(NSString *)prefix;
+
 - (void) updateForSecsLeft:(float)secs totalSecs:(int)totalSecs;
+- (void) updateTimeLabel:(float)secs;
+- (void) updateForPercentage:(float)percentage;
 
 @end

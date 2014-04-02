@@ -23,6 +23,7 @@
   
   self.title = self.quest.name;
   
+  self.questGiverNameLabel.text = self.quest.questGiverName;
   self.descriptionLabel.text = userQuest.isComplete ? self.quest.doneResponse : self.quest.description;
   self.jobLabel.text = self.quest.jobDescription;
   

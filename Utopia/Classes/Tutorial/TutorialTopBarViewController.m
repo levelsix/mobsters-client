@@ -21,6 +21,9 @@
 - (void) viewDidLoad {
   [super viewDidLoad];
   self.mainView.userInteractionEnabled = NO;
+  
+  [self removeClanView];
+  [self removeMyCityView];
 }
 
 - (void) displayCoinBars {

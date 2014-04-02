@@ -22,7 +22,7 @@
 - (void)loadCustomNavBarButtons;
 - (void)setUpImageBackButton;
 - (void)setUpCloseButton;
-- (IBAction)popCurrentViewController:(id)sender;
+- (IBAction)menuBackClicked:(id)sender;
 - (IBAction)menuCloseClicked:(id)sender;
 
 @end

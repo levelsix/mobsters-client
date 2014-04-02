@@ -19,36 +19,36 @@
             <simulatedOrientationMetrics key="simulatedOrientationMetrics" orientation="landscapeRight"/>
         </view>
         <view contentMode="scaleToFill" id="780" customClass="FlipTabBar">
-            <rect key="frame" x="0.0" y="0.0" width="187" height="26"/>
+            <rect key="frame" x="0.0" y="0.0" width="143" height="27"/>
             <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
             <subviews>
-                <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="2sidenav.png" id="782">
-                    <rect key="frame" x="0.0" y="0.0" width="187" height="26"/>
+                <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="menutab.png" id="teE-Fs-QCS">
+                    <rect key="frame" x="0.0" y="0.0" width="143" height="27"/>
                     <autoresizingMask key="autoresizingMask"/>
                 </imageView>
                 <view userInteractionEnabled="NO" contentMode="scaleToFill" id="784">
-                    <rect key="frame" x="0.0" y="0.0" width="94" height="27"/>
+                    <rect key="frame" x="0.0" y="0.0" width="72" height="27"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                 </view>
                 <view userInteractionEnabled="NO" contentMode="scaleToFill" id="785">
-                    <rect key="frame" x="89" y="0.0" width="90" height="27"/>
+                    <rect key="frame" x="71" y="0.0" width="72" height="25"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                 </view>
-                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="JOIN CLAN" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="10" id="781" customClass="NiceFontLabel">
-                    <rect key="frame" x="8" y="2" width="79" height="21"/>
+                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="JOIN" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="10" id="781" customClass="NiceFontLabel">
+                    <rect key="frame" x="11" y="2" width="48" height="21"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                    <fontDescription key="fontDescription" type="system" pointSize="12"/>
+                    <fontDescription key="fontDescription" type="system" pointSize="11"/>
                     <color key="textColor" white="1" alpha="0.90000000000000002" colorSpace="calibratedWhite"/>
                     <nil key="highlightedColor"/>
                     <color key="shadowColor" red="0.0" green="0.0" blue="0.0" alpha="0.52000000000000002" colorSpace="calibratedRGB"/>
                     <size key="shadowOffset" width="0.0" height="1"/>
                 </label>
-                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="CREATE CLAN" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="10" id="783" customClass="NiceFontLabel">
-                    <rect key="frame" x="95" y="2" width="92" height="21"/>
+                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="CREATE" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="10" id="783" customClass="NiceFontLabel">
+                    <rect key="frame" x="80" y="2" width="56" height="21"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                    <fontDescription key="fontDescription" type="system" pointSize="12"/>
+                    <fontDescription key="fontDescription" type="system" pointSize="11"/>
                     <color key="textColor" white="1" alpha="0.90000000000000002" colorSpace="calibratedWhite"/>
                     <nil key="highlightedColor"/>
                     <color key="shadowColor" red="0.0" green="0.0" blue="0.0" alpha="0.52000000000000002" colorSpace="calibratedRGB"/>
@@ -57,7 +57,7 @@
             </subviews>
             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
             <connections>
-                <outlet property="bgdImage" destination="782" id="788"/>
+                <outlet property="bgdImage" destination="teE-Fs-QCS" id="4Lt-e5-dAr"/>
                 <outlet property="button1" destination="784" id="786"/>
                 <outlet property="button2" destination="785" id="787"/>
                 <outlet property="delegate" destination="-1" id="791"/>
@@ -67,6 +67,6 @@
         </view>
     </objects>
     <resources>
-        <image name="2sidenav.png" width="187" height="26"/>
+        <image name="menutab.png" width="143" height="27"/>
     </resources>
 </document>
