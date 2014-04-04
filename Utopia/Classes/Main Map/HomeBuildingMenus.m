@@ -63,11 +63,12 @@
     self.middleBar.position = ccp(self.leftCap.contentSize.width, 0);
     self.middleBar.scaleX = (self.contentSize.width-self.leftCap.contentSize.width-self.rightCap.contentSize.width)/self.middleBar.contentSize.width;
     
-    _timeLabel = [CCLabelTTF labelWithString:@"" fontName:[Globals font] fontSize:12.f];
+    _timeLabel = [CCLabelTTF labelWithString:@"" fontName:@"Gotham-Ultra" fontSize:9.f];
     _timeLabel.horizontalAlignment = CCTextAlignmentCenter;
     [_timeLabel setFontColor:[CCColor colorWithCcColor3b:ccc3(255, 255, 255)]];
     [_timeLabel setShadowOffset:ccp(0, -1)];
     _timeLabel.shadowColor = [CCColor colorWithWhite:0.f alpha:0.5f];
+    _timeLabel.shadowBlurRadius = 0.8f;
     [self addChild:_timeLabel];
     _timeLabel.position = ccp(self.contentSize.width/2, self.contentSize.height);
   }
@@ -80,7 +81,7 @@
 }
 
 - (void) updateTimeLabel:(float)secs {
-  _timeLabel.string = [Globals convertTimeToShortString:roundf(secs)];
+  _timeLabel.string = [[Globals convertTimeToShortString:roundf(secs)] uppercaseString];
 }
 
 - (void) updateForPercentage:(float)percentage {

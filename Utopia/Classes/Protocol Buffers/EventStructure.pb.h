@@ -98,6 +98,8 @@
 @class UserFacebookInviteForSlotProto_Builder;
 @class UserObstacleProto;
 @class UserObstacleProto_Builder;
+@class UserPvpLeagueProto;
+@class UserPvpLeagueProto_Builder;
 typedef enum {
   PurchaseNormStructureResponseProto_PurchaseNormStructureStatusSuccess = 1,
   PurchaseNormStructureResponseProto_PurchaseNormStructureStatusFailInsufficientCash = 2,

@@ -9,6 +9,7 @@
             <connections>
                 <outlet property="borderView" destination="15" id="KLO-rG-N7y"/>
                 <outlet property="eventView" destination="46d-PG-a4Y" id="tRO-Aa-Veg"/>
+                <outlet property="leaguePromotionView" destination="iGB-ZX-6bj" id="dgY-RO-9g1"/>
                 <outlet property="mapScrollView" destination="CFt-Yw-fOW" id="Q7M-3w-8Z8"/>
                 <outlet property="mapView" destination="KKb-Zi-REw" id="mn7-54-mDA"/>
                 <outlet property="multiplayerView" destination="60" id="64"/>
@@ -44,7 +45,7 @@
                                                     <rect key="frame" x="0.0" y="-35" width="218" height="317"/>
                                                     <autoresizingMask key="autoresizingMask"/>
                                                 </imageView>
-                                                <view contentMode="scaleToFill" id="Uyb-05-Awh">
+                                                <view contentMode="scaleToFill" id="Uyb-05-Awh" customClass="LeagueView">
                                                     <rect key="frame" x="12" y="11" width="194" height="92"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                     <subviews>
@@ -112,6 +113,14 @@
                                                         </button>
                                                     </subviews>
                                                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                                    <connections>
+                                                        <outlet property="leagueBgd" destination="qSO-PF-8s2" id="Qvy-6e-SWv"/>
+                                                        <outlet property="leagueIcon" destination="Jou-pI-lro" id="MTe-n4-91q"/>
+                                                        <outlet property="leagueLabel" destination="weX-ku-5Q1" id="1Ji-ay-0Ah"/>
+                                                        <outlet property="placeLabel" destination="c1c-e1-brA" id="CcS-2C-Wi6"/>
+                                                        <outlet property="rankLabel" destination="hhc-kt-UOi" id="WfV-s9-Nyr"/>
+                                                        <outlet property="rankQualifierLabel" destination="sH6-R9-pMf" id="qPP-m1-h21"/>
+                                                    </connections>
                                                 </view>
                                                 <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="bottom" image="pvpguys.png" id="iJB-Qt-S82">
                                                     <rect key="frame" x="11" y="123" width="203" height="86"/>
@@ -152,7 +161,7 @@
                                             <rect key="frame" x="218" y="0.0" width="218" height="282"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                             <subviews>
-                                                <view contentMode="scaleToFill" id="4zN-7l-Tgk" userLabel="Bronze">
+                                                <view tag="1" contentMode="scaleToFill" id="4zN-7l-Tgk" userLabel="Bronze" customClass="LeagueDescriptionView">
                                                     <rect key="frame" x="11" y="8" width="196" height="38"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                     <subviews>
@@ -184,8 +193,14 @@
                                                         </imageView>
                                                     </subviews>
                                                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                                    <connections>
+                                                        <outlet property="descriptionLabel" destination="MY7-9c-w7v" id="lJL-dv-qwm"/>
+                                                        <outlet property="leagueBgd" destination="fRs-xS-dm2" id="JsE-0T-EBe"/>
+                                                        <outlet property="leagueIcon" destination="Qd5-VM-XHJ" id="V7A-w1-4L8"/>
+                                                        <outlet property="nameLabel" destination="ZMu-Ip-zUa" id="afV-U2-ITH"/>
+                                                    </connections>
                                                 </view>
-                                                <view contentMode="scaleToFill" id="qOU-P2-yps" userLabel="Silver">
+                                                <view tag="2" contentMode="scaleToFill" id="qOU-P2-yps" userLabel="Silver" customClass="LeagueDescriptionView">
                                                     <rect key="frame" x="11" y="54" width="196" height="38"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                     <subviews>
@@ -217,8 +232,14 @@
                                                         </imageView>
                                                     </subviews>
                                                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                                    <connections>
+                                                        <outlet property="descriptionLabel" destination="mjE-Bs-M87" id="meq-Bq-jVw"/>
+                                                        <outlet property="leagueBgd" destination="5A3-pL-ffE" id="4ZX-v4-iKj"/>
+                                                        <outlet property="leagueIcon" destination="dS5-oI-AbE" id="Bfh-QK-mUj"/>
+                                                        <outlet property="nameLabel" destination="5Pi-Bl-jNq" id="Upq-NY-Z62"/>
+                                                    </connections>
                                                 </view>
-                                                <view contentMode="scaleToFill" id="9zT-4t-MZ6" userLabel="Gold">
+                                                <view tag="3" contentMode="scaleToFill" id="9zT-4t-MZ6" userLabel="Gold" customClass="LeagueDescriptionView">
                                                     <rect key="frame" x="11" y="100" width="196" height="38"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                     <subviews>
@@ -250,8 +271,14 @@
                                                         </imageView>
                                                     </subviews>
                                                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                                    <connections>
+                                                        <outlet property="descriptionLabel" destination="1z1-M8-qdH" id="JDO-bX-hU5"/>
+                                                        <outlet property="leagueBgd" destination="Z0S-os-fqq" id="ILz-PT-2ll"/>
+                                                        <outlet property="leagueIcon" destination="Sfu-7k-1zC" id="qBq-Qc-D8F"/>
+                                                        <outlet property="nameLabel" destination="hPk-Ke-xZw" id="kV3-xL-pEV"/>
+                                                    </connections>
                                                 </view>
-                                                <view contentMode="scaleToFill" id="LJs-le-d3H" userLabel="Platinum">
+                                                <view tag="4" contentMode="scaleToFill" id="LJs-le-d3H" userLabel="Platinum" customClass="LeagueDescriptionView">
                                                     <rect key="frame" x="11" y="145" width="196" height="38"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                     <subviews>
@@ -283,8 +310,14 @@
                                                         </imageView>
                                                     </subviews>
                                                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                                    <connections>
+                                                        <outlet property="descriptionLabel" destination="scu-fc-b9T" id="Nbr-7t-QWy"/>
+                                                        <outlet property="leagueBgd" destination="nwq-wa-vUh" id="co3-X1-2Cc"/>
+                                                        <outlet property="leagueIcon" destination="4gq-cn-fZi" id="2bm-Em-hiy"/>
+                                                        <outlet property="nameLabel" destination="gch-VJ-r5T" id="0Hd-hM-JAm"/>
+                                                    </connections>
                                                 </view>
-                                                <view contentMode="scaleToFill" id="zgQ-Oq-3RY" userLabel="Diamond">
+                                                <view tag="5" contentMode="scaleToFill" id="zgQ-Oq-3RY" userLabel="Diamond" customClass="LeagueDescriptionView">
                                                     <rect key="frame" x="11" y="191" width="196" height="38"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                     <subviews>
@@ -316,8 +349,14 @@
                                                         </imageView>
                                                     </subviews>
                                                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                                    <connections>
+                                                        <outlet property="descriptionLabel" destination="a1U-Cm-zde" id="fiK-Q7-m7x"/>
+                                                        <outlet property="leagueBgd" destination="YGZ-qe-TQE" id="Zod-se-zAC"/>
+                                                        <outlet property="leagueIcon" destination="WUR-yq-us9" id="3o0-8v-bqU"/>
+                                                        <outlet property="nameLabel" destination="fdB-Q5-7Nj" id="tlW-7b-DeP"/>
+                                                    </connections>
                                                 </view>
-                                                <view contentMode="scaleToFill" id="ZJM-vU-Pn9" userLabel="Champion">
+                                                <view tag="6" contentMode="scaleToFill" id="ZJM-vU-Pn9" userLabel="Champion" customClass="LeagueDescriptionView">
                                                     <rect key="frame" x="11" y="237" width="196" height="38"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                     <subviews>
@@ -349,6 +388,12 @@
                                                         </imageView>
                                                     </subviews>
                                                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                                    <connections>
+                                                        <outlet property="descriptionLabel" destination="kPr-an-3Bl" id="ZFy-n8-Acx"/>
+                                                        <outlet property="leagueBgd" destination="UWX-jV-CVI" id="cna-n1-him"/>
+                                                        <outlet property="leagueIcon" destination="wy6-hO-Sll" id="Gbj-WN-Y2M"/>
+                                                        <outlet property="nameLabel" destination="D7v-re-sbW" id="7M7-He-kCf"/>
+                                                    </connections>
                                                 </view>
                                             </subviews>
                                             <color key="backgroundColor" red="0.7450980544090271" green="0.78431379795074463" blue="0.80392163991928101" alpha="1" colorSpace="deviceRGB"/>
@@ -364,15 +409,15 @@
                                 <outlet property="cashCostLabel" destination="h1t-BB-HD2" id="8Cb-Cc-Ao6"/>
                                 <outlet property="containerView" destination="hPY-cb-oJr" id="lqc-5y-yQI"/>
                                 <outlet property="findMatchView" destination="PnG-nz-EPc" id="jSa-6f-1ku"/>
-                                <outlet property="leagueBgd" destination="qSO-PF-8s2" id="B7y-Cp-Ilk"/>
-                                <outlet property="leagueIcon" destination="Jou-pI-lro" id="KKr-WC-ggS"/>
-                                <outlet property="leagueLabel" destination="weX-ku-5Q1" id="ZRM-dd-q4p"/>
-                                <outlet property="leagueView" destination="Uyb-05-Awh" id="zqm-88-638"/>
-                                <outlet property="placeLabel" destination="c1c-e1-brA" id="AMz-hi-Img"/>
-                                <outlet property="rankLabel" destination="hhc-kt-UOi" id="7SH-Lt-9HD"/>
-                                <outlet property="rankQualifierLabel" destination="sH6-R9-pMf" id="ylr-2x-cN2"/>
+                                <outlet property="leagueView" destination="Uyb-05-Awh" id="3CX-ev-MFU"/>
                                 <outlet property="rankView" destination="nFi-nL-J74" id="02v-HS-UNb"/>
                                 <outlet property="titleLabel" destination="XaX-qk-L3W" id="TuC-Kw-uPY"/>
+                                <outletCollection property="leagueDescriptionViews" destination="4zN-7l-Tgk" id="5YC-BW-0x0"/>
+                                <outletCollection property="leagueDescriptionViews" destination="qOU-P2-yps" id="nBJ-Ea-j7n"/>
+                                <outletCollection property="leagueDescriptionViews" destination="9zT-4t-MZ6" id="MfY-RG-Vza"/>
+                                <outletCollection property="leagueDescriptionViews" destination="LJs-le-d3H" id="rgn-dJ-zC8"/>
+                                <outletCollection property="leagueDescriptionViews" destination="zgQ-Oq-3RY" id="6MN-nm-rMh"/>
+                                <outletCollection property="leagueDescriptionViews" destination="ZJM-vU-Pn9" id="ynQ-e1-7vJ"/>
                             </connections>
                         </view>
                         <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" bounces="NO" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" id="CFt-Yw-fOW">
@@ -666,7 +711,7 @@
                             <size key="shadowOffset" width="0.0" height="1"/>
                         </label>
                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="33" customClass="CloseButton">
-                            <rect key="frame" x="444" y="6" width="30" height="30"/>
+                            <rect key="frame" x="441" y="2" width="39" height="35"/>
                             <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxY="YES"/>
                             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                             <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
@@ -747,16 +792,85 @@
             <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
             <simulatedOrientationMetrics key="simulatedOrientationMetrics" orientation="landscapeRight"/>
         </view>
+        <view contentMode="scaleToFill" id="iGB-ZX-6bj" customClass="LeaguePromotionView">
+            <rect key="frame" x="0.0" y="0.0" width="218" height="282"/>
+            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+            <subviews>
+                <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="promotedbg.png" id="YyN-0L-NBD">
+                    <rect key="frame" x="0.0" y="-30" width="218" height="312"/>
+                    <autoresizingMask key="autoresizingMask"/>
+                </imageView>
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="kR3-RJ-q1c">
+                    <rect key="frame" x="44" y="218" width="131" height="50"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                    <state key="normal" image="leaguechangeokay.png">
+                        <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                    </state>
+                    <connections>
+                        <action selector="okayClicked:" destination="iGB-ZX-6bj" eventType="touchUpInside" id="dAk-iW-4aN"/>
+                    </connections>
+                </button>
+                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="OKAY" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="wjw-ym-F26" customClass="NiceFontLabel">
+                    <rect key="frame" x="63" y="228" width="93" height="29"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                    <fontDescription key="fontDescription" type="system" pointSize="18"/>
+                    <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="calibratedRGB"/>
+                    <nil key="highlightedColor"/>
+                    <color key="shadowColor" white="0.0" alpha="0.75" colorSpace="calibratedWhite"/>
+                    <size key="shadowOffset" width="0.0" height="1"/>
+                </label>
+                <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="spinnertest.png" id="qpB-FU-f5o">
+                    <rect key="frame" x="27" y="20" width="164" height="164"/>
+                    <autoresizingMask key="autoresizingMask"/>
+                </imageView>
+                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Diamond League" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="NGt-yk-i6H" customClass="NiceFontLabel">
+                    <rect key="frame" x="13" y="164" width="193" height="29"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                    <fontDescription key="fontDescription" type="system" pointSize="18"/>
+                    <color key="textColor" white="0.29999999999999999" alpha="1" colorSpace="calibratedWhite"/>
+                    <nil key="highlightedColor"/>
+                    <color key="shadowColor" white="1" alpha="0.5" colorSpace="calibratedWhite"/>
+                    <size key="shadowOffset" width="0.0" height="1"/>
+                </label>
+                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="You've been promoted!" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="oRE-N8-tXJ" customClass="NiceFontLabel">
+                    <rect key="frame" x="13" y="12" width="193" height="29"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                    <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                    <color key="textColor" white="0.29999999999999999" alpha="1" colorSpace="calibratedWhite"/>
+                    <nil key="highlightedColor"/>
+                    <color key="shadowColor" white="1" alpha="0.5" colorSpace="calibratedWhite"/>
+                    <size key="shadowOffset" width="0.0" height="1"/>
+                </label>
+                <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="bigdiamond.png" id="42h-EN-dbD">
+                    <rect key="frame" x="55" y="52" width="109" height="100"/>
+                    <autoresizingMask key="autoresizingMask"/>
+                </imageView>
+                <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="bigchampion.png" id="DgY-m6-fe8">
+                    <rect key="frame" x="55" y="52" width="109" height="100"/>
+                    <autoresizingMask key="autoresizingMask"/>
+                </imageView>
+            </subviews>
+            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+            <connections>
+                <outlet property="botLabel" destination="NGt-yk-i6H" id="yhO-Qj-FZG"/>
+                <outlet property="curLeagueIcon" destination="DgY-m6-fe8" id="5IH-re-l9B"/>
+                <outlet property="oldLeagueIcon" destination="42h-EN-dbD" id="cqI-uM-3IL"/>
+                <outlet property="spinner" destination="qpB-FU-f5o" id="KLh-XQ-Vfq"/>
+                <outlet property="topLabel" destination="oRE-N8-tXJ" id="O52-xZ-bC2"/>
+            </connections>
+        </view>
     </objects>
     <resources>
         <image name="attackmapborder.png" width="480" height="320"/>
+        <image name="bigchampion.png" width="107" height="100"/>
+        <image name="bigdiamond.png" width="109" height="100"/>
         <image name="blackandwhitebanner.png" width="349" height="60"/>
         <image name="bronzeicon.png" width="37" height="42"/>
         <image name="bronzerankbg.png" width="196" height="38"/>
         <image name="championicon.png" width="46" height="42"/>
         <image name="championrankbg.png" width="196" height="38"/>
         <image name="close1.png" width="30" height="29"/>
-        <image name="diamond.png" width="44" height="41"/>
+        <image name="diamond.png" width="37" height="35"/>
         <image name="diamondicon.png" width="45" height="41"/>
         <image name="diamondrankbg.png" width="196" height="38"/>
         <image name="earthbanner.png" width="349" height="60"/>
@@ -768,15 +882,18 @@
         <image name="goldicon.png" width="38" height="43"/>
         <image name="goldleaguebg.png" width="194" height="92"/>
         <image name="goldrankbg.png" width="196" height="38"/>
+        <image name="leaguechangeokay.png" width="131" height="50"/>
         <image name="menuback.png" width="71" height="32"/>
         <image name="navmap.png" width="352" height="476"/>
         <image name="platinumicon.png" width="47" height="41"/>
         <image name="platinumrankbg.png" width="196" height="38"/>
         <image name="popupglow.png" width="480" height="320"/>
+        <image name="promotedbg.png" width="218" height="312"/>
         <image name="pvpactivebg.png" width="218" height="317"/>
         <image name="pvpguys.png" width="182" height="75"/>
         <image name="scienceguy.png" width="57" height="81"/>
         <image name="silvericon.png" width="39" height="43"/>
         <image name="silverrankbg.png" width="196" height="38"/>
+        <image name="spinnertest.png" width="164" height="164"/>
     </resources>
 </document>

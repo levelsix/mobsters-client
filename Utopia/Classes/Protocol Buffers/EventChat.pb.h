@@ -45,6 +45,8 @@
 @class StaticUserLevelInfoProto_Builder;
 @class UserFacebookInviteForSlotProto;
 @class UserFacebookInviteForSlotProto_Builder;
+@class UserPvpLeagueProto;
+@class UserPvpLeagueProto_Builder;
 typedef enum {
   SendGroupChatResponseProto_SendGroupChatStatusSuccess = 1,
   SendGroupChatResponseProto_SendGroupChatStatusTooLong = 2,

@@ -16,8 +16,8 @@ typedef enum {
   color_red = MonsterProto_MonsterElementFire,
   color_green = MonsterProto_MonsterElementGrass,
   color_blue = MonsterProto_MonsterElementWater,
-  color_white = MonsterProto_MonsterElementLightning,
-  color_purple = MonsterProto_MonsterElementDarkness,
+  color_white = MonsterProto_MonsterElementLight,
+  color_purple = MonsterProto_MonsterElementDark,
   color_filler = MonsterProto_MonsterElementRock,
   color_all = 100
 } GemColorId;

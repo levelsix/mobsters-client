@@ -101,6 +101,8 @@
 @class UserMonsterEvolutionProto_Builder;
 @class UserMonsterHealingProto;
 @class UserMonsterHealingProto_Builder;
+@class UserPvpLeagueProto;
+@class UserPvpLeagueProto_Builder;
 typedef enum {
   EvolveMonsterResponseProto_EvolveMonsterStatusSuccess = 1,
   EvolveMonsterResponseProto_EvolveMonsterStatusFailInsufficientGems = 2,
@@ -803,16 +805,28 @@ BOOL SellUserMonsterResponseProto_SellUserMonsterStatusIsValidValue(SellUserMons
 
 @interface UpdateMonsterHealthRequestProto : PBGeneratedMessage {
 @private
+  BOOL hasIsUpdateTaskStageForUser_:1;
   BOOL hasClientTime_:1;
+  BOOL hasUserTaskId_:1;
+  BOOL hasNuTaskStageId_:1;
   BOOL hasSender_:1;
+  BOOL isUpdateTaskStageForUser_:1;
   int64_t clientTime;
+  int64_t userTaskId;
+  int32_t nuTaskStageId;
   MinimumUserProto* sender;
   NSMutableArray* mutableUmchpList;
 }
 - (BOOL) hasSender;
 - (BOOL) hasClientTime;
+- (BOOL) hasUserTaskId;
+- (BOOL) hasIsUpdateTaskStageForUser;
+- (BOOL) hasNuTaskStageId;
 @property (readonly, retain) MinimumUserProto* sender;
 @property (readonly) int64_t clientTime;
+@property (readonly) int64_t userTaskId;
+- (BOOL) isUpdateTaskStageForUser;
+@property (readonly) int32_t nuTaskStageId;
 - (NSArray*) umchpList;
 - (UserMonsterCurrentHealthProto*) umchpAtIndex:(int32_t) index;
 
@@ -868,6 +882,21 @@ BOOL SellUserMonsterResponseProto_SellUserMonsterStatusIsValidValue(SellUserMons
 - (int64_t) clientTime;
 - (UpdateMonsterHealthRequestProto_Builder*) setClientTime:(int64_t) value;
 - (UpdateMonsterHealthRequestProto_Builder*) clearClientTime;
+
+- (BOOL) hasUserTaskId;
+- (int64_t) userTaskId;
+- (UpdateMonsterHealthRequestProto_Builder*) setUserTaskId:(int64_t) value;
+- (UpdateMonsterHealthRequestProto_Builder*) clearUserTaskId;
+
+- (BOOL) hasIsUpdateTaskStageForUser;
+- (BOOL) isUpdateTaskStageForUser;
+- (UpdateMonsterHealthRequestProto_Builder*) setIsUpdateTaskStageForUser:(BOOL) value;
+- (UpdateMonsterHealthRequestProto_Builder*) clearIsUpdateTaskStageForUser;
+
+- (BOOL) hasNuTaskStageId;
+- (int32_t) nuTaskStageId;
+- (UpdateMonsterHealthRequestProto_Builder*) setNuTaskStageId:(int32_t) value;
+- (UpdateMonsterHealthRequestProto_Builder*) clearNuTaskStageId;
 @end
 
 @interface UpdateMonsterHealthResponseProto : PBGeneratedMessage {

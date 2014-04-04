@@ -8,6 +8,7 @@
 
 #import <UIKit/UIKit.h>
 #import "THLabel.h"
+#import "Protocols.pb.h"
 
 typedef enum {
   kButton1 = 1,
@@ -306,7 +307,7 @@ typedef enum {
 
 @end
 
-@interface NumTransitionLabel : NiceFontLabel
+@interface NumTransitionLabel : THLabel
 
 @property (nonatomic, weak) IBOutlet id<NumTransitionLabelDelegate> transitionDelegate;
 @property (nonatomic, strong) NSTimer *timer;
@@ -353,5 +354,18 @@ typedef enum {
 @end
 
 @interface TouchableSubviewsView : UIView
+
+@end
+
+@interface LeagueView : UIView
+
+@property (nonatomic, strong) IBOutlet UIImageView *leagueBgd;
+@property (nonatomic, strong) IBOutlet UIImageView *leagueIcon;
+@property (nonatomic, strong) IBOutlet UILabel *leagueLabel;
+@property (nonatomic, strong) IBOutlet UILabel *rankLabel;
+@property (nonatomic, strong) IBOutlet UILabel *rankQualifierLabel;
+@property (nonatomic, strong) IBOutlet UILabel *placeLabel;
+
+- (void) updateForUserLeague:(UserPvpLeagueProto *)upvp;
 
 @end

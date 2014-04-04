@@ -489,19 +489,11 @@ static UserCreateRequestProto* defaultUserCreateRequestProtoInstance = nil;
 @end
 
 @interface UserCreateResponseProto ()
-@property (retain) FullUserProto* sender;
 @property UserCreateResponseProto_UserCreateStatus status;
 @end
 
 @implementation UserCreateResponseProto
 
-- (BOOL) hasSender {
-  return !!hasSender_;
-}
-- (void) setHasSender:(BOOL) value {
-  hasSender_ = !!value;
-}
-@synthesize sender;
 - (BOOL) hasStatus {
   return !!hasStatus_;
 }
@@ -510,12 +502,10 @@ static UserCreateRequestProto* defaultUserCreateRequestProtoInstance = nil;
 }
 @synthesize status;
 - (void) dealloc {
-  self.sender = nil;
   [super dealloc];
 }
 - (id) init {
   if ((self = [super init])) {
-    self.sender = [FullUserProto defaultInstance];
     self.status = UserCreateResponseProto_UserCreateStatusSuccess;
   }
   return self;
@@ -536,9 +526,6 @@ static UserCreateResponseProto* defaultUserCreateResponseProtoInstance = nil;
   return YES;
 }
 - (void) writeToCodedOutputStream:(PBCodedOutputStream*) output {
-  if (self.hasSender) {
-    [output writeMessage:1 value:self.sender];
-  }
   if (self.hasStatus) {
     [output writeEnum:2 value:self.status];
   }
@@ -551,9 +538,6 @@ static UserCreateResponseProto* defaultUserCreateResponseProtoInstance = nil;
   }
 
   size = 0;
-  if (self.hasSender) {
-    size += computeMessageSize(1, self.sender);
-  }
   if (self.hasStatus) {
     size += computeEnumSize(2, self.status);
   }
@@ -645,9 +629,6 @@ BOOL UserCreateResponseProto_UserCreateStatusIsValidValue(UserCreateResponseProt
   if (other == [UserCreateResponseProto defaultInstance]) {
     return self;
   }
-  if (other.hasSender) {
-    [self mergeSender:other.sender];
-  }
   if (other.hasStatus) {
     [self setStatus:other.status];
   }
@@ -672,15 +653,6 @@ BOOL UserCreateResponseProto_UserCreateStatusIsValidValue(UserCreateResponseProt
         }
         break;
       }
-      case 10: {
-        FullUserProto_Builder* subBuilder = [FullUserProto builder];
-        if (self.hasSender) {
-          [subBuilder mergeFrom:self.sender];
-        }
-        [input readMessage:subBuilder extensionRegistry:extensionRegistry];
-        [self setSender:[subBuilder buildPartial]];
-        break;
-      }
       case 16: {
         int32_t value = [input readEnum];
         if (UserCreateResponseProto_UserCreateStatusIsValidValue(value)) {
@@ -692,36 +664,6 @@ BOOL UserCreateResponseProto_UserCreateStatusIsValidValue(UserCreateResponseProt
       }
     }
   }
-}
-- (BOOL) hasSender {
-  return result.hasSender;
-}
-- (FullUserProto*) sender {
-  return result.sender;
-}
-- (UserCreateResponseProto_Builder*) setSender:(FullUserProto*) value {
-  result.hasSender = YES;
-  result.sender = value;
-  return self;
-}
-- (UserCreateResponseProto_Builder*) setSenderBuilder:(FullUserProto_Builder*) builderForValue {
-  return [self setSender:[builderForValue build]];
-}
-- (UserCreateResponseProto_Builder*) mergeSender:(FullUserProto*) value {
-  if (result.hasSender &&
-      result.sender != [FullUserProto defaultInstance]) {
-    result.sender =
-      [[[FullUserProto builderWithPrototype:result.sender] mergeFrom:value] buildPartial];
-  } else {
-    result.sender = value;
-  }
-  result.hasSender = YES;
-  return self;
-}
-- (UserCreateResponseProto_Builder*) clearSender {
-  result.hasSender = NO;
-  result.sender = [FullUserProto defaultInstance];
-  return self;
 }
 - (BOOL) hasStatus {
   return result.hasStatus;

@@ -49,8 +49,6 @@
 @class MinimumUserProto;
 @class MinimumUserProtoForClans;
 @class MinimumUserProtoForClans_Builder;
-@class MinimumUserProtoWithBattleHistory;
-@class MinimumUserProtoWithBattleHistory_Builder;
 @class MinimumUserProtoWithFacebookId;
 @class MinimumUserProtoWithFacebookId_Builder;
 @class MinimumUserProtoWithLevel;
@@ -384,18 +382,22 @@ BOOL UserClanStatusIsValidValue(UserClanStatus value);
 @interface MinimumUserProtoForClans : PBGeneratedMessage {
 @private
   BOOL hasRaidContribution_:1;
-  BOOL hasMinUserProto_:1;
+  BOOL hasBattlesWon_:1;
+  BOOL hasMinUserProtoWithLevel_:1;
   BOOL hasClanStatus_:1;
   Float32 raidContribution;
-  MinimumUserProtoWithBattleHistory* minUserProto;
+  int32_t battlesWon;
+  MinimumUserProtoWithLevel* minUserProtoWithLevel;
   UserClanStatus clanStatus;
 }
-- (BOOL) hasMinUserProto;
+- (BOOL) hasMinUserProtoWithLevel;
 - (BOOL) hasClanStatus;
 - (BOOL) hasRaidContribution;
-@property (readonly, retain) MinimumUserProtoWithBattleHistory* minUserProto;
+- (BOOL) hasBattlesWon;
+@property (readonly, retain) MinimumUserProtoWithLevel* minUserProtoWithLevel;
 @property (readonly) UserClanStatus clanStatus;
 @property (readonly) Float32 raidContribution;
+@property (readonly) int32_t battlesWon;
 
 + (MinimumUserProtoForClans*) defaultInstance;
 - (MinimumUserProtoForClans*) defaultInstance;
@@ -431,12 +433,12 @@ BOOL UserClanStatusIsValidValue(UserClanStatus value);
 - (MinimumUserProtoForClans_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input;
 - (MinimumUserProtoForClans_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
 
-- (BOOL) hasMinUserProto;
-- (MinimumUserProtoWithBattleHistory*) minUserProto;
-- (MinimumUserProtoForClans_Builder*) setMinUserProto:(MinimumUserProtoWithBattleHistory*) value;
-- (MinimumUserProtoForClans_Builder*) setMinUserProtoBuilder:(MinimumUserProtoWithBattleHistory_Builder*) builderForValue;
-- (MinimumUserProtoForClans_Builder*) mergeMinUserProto:(MinimumUserProtoWithBattleHistory*) value;
-- (MinimumUserProtoForClans_Builder*) clearMinUserProto;
+- (BOOL) hasMinUserProtoWithLevel;
+- (MinimumUserProtoWithLevel*) minUserProtoWithLevel;
+- (MinimumUserProtoForClans_Builder*) setMinUserProtoWithLevel:(MinimumUserProtoWithLevel*) value;
+- (MinimumUserProtoForClans_Builder*) setMinUserProtoWithLevelBuilder:(MinimumUserProtoWithLevel_Builder*) builderForValue;
+- (MinimumUserProtoForClans_Builder*) mergeMinUserProtoWithLevel:(MinimumUserProtoWithLevel*) value;
+- (MinimumUserProtoForClans_Builder*) clearMinUserProtoWithLevel;
 
 - (BOOL) hasClanStatus;
 - (UserClanStatus) clanStatus;
@@ -447,6 +449,11 @@ BOOL UserClanStatusIsValidValue(UserClanStatus value);
 - (Float32) raidContribution;
 - (MinimumUserProtoForClans_Builder*) setRaidContribution:(Float32) value;
 - (MinimumUserProtoForClans_Builder*) clearRaidContribution;
+
+- (BOOL) hasBattlesWon;
+- (int32_t) battlesWon;
+- (MinimumUserProtoForClans_Builder*) setBattlesWon:(int32_t) value;
+- (MinimumUserProtoForClans_Builder*) clearBattlesWon;
 @end
 
 @interface ClanRaidProto : PBGeneratedMessage {

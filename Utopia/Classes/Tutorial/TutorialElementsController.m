@@ -42,9 +42,9 @@
       return @"green";
     case MonsterProto_MonsterElementWater:
       return @"blue";
-    case MonsterProto_MonsterElementLightning:
+    case MonsterProto_MonsterElementLight:
       return @"yellow";
-    case MonsterProto_MonsterElementDarkness:
+    case MonsterProto_MonsterElementDark:
       return @"purple";
     case MonsterProto_MonsterElementFire:
       return @"red";

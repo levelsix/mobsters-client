@@ -84,28 +84,24 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
   self.oil = user.oil;
   self.experience = user.experience;
   self.tasksCompleted = user.tasksCompleted;
-  self.battlesWon = user.battlesWon;
-  self.battlesLost = user.battlesLost;
-  self.flees = user.flees;
-  self.attacksWon = user.attacksWon;
-  self.attacksLost = user.attacksLost;
-  self.defensesWon = user.defensesWon;
-  self.defensesLost = user.defensesLost;
   self.referralCode = user.referralCode;
   self.numReferrals = user.numReferrals;
   self.isAdmin = user.isAdmin;
   self.hasReceivedfbReward = user.hasReceivedfbReward;
   self.numBeginnerSalesPurchased = user.numBeginnerSalesPurchased;
-  self.shieldEndTime = [MSDate dateWithTimeIntervalSince1970:user.shieldEndTime/1000.0];
   self.createTime = [MSDate dateWithTimeIntervalSince1970:user.createTime/1000.0];
   self.lastObstacleCreateTime = [MSDate dateWithTimeIntervalSince1970:user.lastObstacleSpawnedTime/1000.0];
   if (user.hasFacebookId) self.facebookId = user.facebookId;
   if (user.hasGameCenterId) self.gameCenterId = user.gameCenterId;
   if (user.hasDeviceToken) self.deviceToken = user.deviceToken;
-  self.elo = user.elo;
   
   self.lastLogoutTime = [MSDate dateWithTimeIntervalSince1970:user.lastLogoutTime/1000.0];
   self.lastLoginTimeNum = user.lastLoginTime;
+  
+  if (user.hasPvpLeagueInfo) {
+    self.pvpLeague = user.pvpLeagueInfo;
+    self.shieldEndTime = [MSDate dateWithTimeIntervalSince1970:user.pvpLeagueInfo.shieldEndTime/1000.0];
+  }
   
   for (id<GameStateUpdate> gsu in _unrespondedUpdates) {
     if ([gsu respondsToSelector:@selector(update)]) {
@@ -126,24 +122,16 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
   fup.cash = self.silver;
   fup.experience = self.experience;
   fup.tasksCompleted = self.tasksCompleted;
-  fup.battlesWon = self.battlesWon;
-  fup.battlesLost = self.battlesLost;
-  fup.flees = self.flees;
-  fup.attacksLost = self.attacksLost;
-  fup.attacksWon = self.attacksWon;
-  fup.defensesLost = self.defensesLost;
-  fup.defensesWon = self.defensesWon;
+  fup.pvpLeagueInfo = self.pvpLeague;
   fup.referralCode = self.referralCode;
   fup.numReferrals = self.numReferrals;
   fup.isAdmin = self.isAdmin;
   fup.hasReceivedfbReward = self.hasReceivedfbReward;
   fup.numBeginnerSalesPurchased = self.numBeginnerSalesPurchased;
-  fup.shieldEndTime = self.shieldEndTime.timeIntervalSince1970*1000.;
   fup.createTime = self.createTime.timeIntervalSince1970*1000.;
   fup.lastLogoutTime = self.lastLogoutTime.timeIntervalSince1970*1000.;
   fup.lastObstacleSpawnedTime = self.lastObstacleCreateTime.timeIntervalSince1970*1000.;
   fup.facebookId = self.facebookId;
-  fup.elo = self.elo;
   fup.lastLoginTime = self.lastLoginTimeNum;
   
   return [fup build];
@@ -245,6 +233,15 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
   for (ClanIconProto *ci in self.staticClanIcons) {
     if (ci.clanIconId == iconId) {
       return ci;
+    }
+  }
+  return nil;
+}
+
+- (PvpLeagueProto *) leagueForId:(int)leagueId {
+  for (PvpLeagueProto *pvp in self.staticLeagues) {
+    if (pvp.leagueId == leagueId) {
+      return pvp;
     }
   }
   return nil;
@@ -862,6 +859,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
   self.persistentClanEvents = proto.persistentClanEventsList;
   
   self.staticClanIcons = proto.clanIconsList;
+  self.staticLeagues = proto.leaguesList;
 }
 
 - (void) addToStaticMonsters:(NSArray *)arr {

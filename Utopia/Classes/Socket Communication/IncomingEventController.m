@@ -951,7 +951,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
       [[SocketCommunication sharedSocketCommunication] rebuildSender];
       gs.myClanStatus = UserClanStatusMember;
     } else {
-      [Globals addAlertNotification:[NSString stringWithFormat:@"%@ has just joined your clan. Go say hi!", proto.requester.minUserProto.minUserProtoWithLevel.minUserProto.name]];
+      [Globals addAlertNotification:[NSString stringWithFormat:@"%@ has just joined your clan. Go say hi!", proto.requester.minUserProtoWithLevel.minUserProto.name]];
     }
   } else {
     if (proto.status == RequestJoinClanResponseProto_RequestJoinClanStatusFailClanIsFull) {
@@ -1509,6 +1509,8 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
   
   GameState *gs = [GameState sharedGameState];
   if (proto.status == BeginPvpBattleResponseProto_BeginPvpBattleStatusSuccess) {
+    //gs.pvpLeague = proto.pvpLeagueInfo;
+    
     [gs removeNonFullUserUpdatesForTag:tag];
   } else {
     [Globals popupMessage:@"Server failed to end pvp battle."];

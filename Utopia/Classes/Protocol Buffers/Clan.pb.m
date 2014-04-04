@@ -981,20 +981,21 @@ static FullClanProtoWithClanSize* defaultFullClanProtoWithClanSizeInstance = nil
 @end
 
 @interface MinimumUserProtoForClans ()
-@property (retain) MinimumUserProtoWithBattleHistory* minUserProto;
+@property (retain) MinimumUserProtoWithLevel* minUserProtoWithLevel;
 @property UserClanStatus clanStatus;
 @property Float32 raidContribution;
+@property int32_t battlesWon;
 @end
 
 @implementation MinimumUserProtoForClans
 
-- (BOOL) hasMinUserProto {
-  return !!hasMinUserProto_;
+- (BOOL) hasMinUserProtoWithLevel {
+  return !!hasMinUserProtoWithLevel_;
 }
-- (void) setHasMinUserProto:(BOOL) value {
-  hasMinUserProto_ = !!value;
+- (void) setHasMinUserProtoWithLevel:(BOOL) value {
+  hasMinUserProtoWithLevel_ = !!value;
 }
-@synthesize minUserProto;
+@synthesize minUserProtoWithLevel;
 - (BOOL) hasClanStatus {
   return !!hasClanStatus_;
 }
@@ -1009,15 +1010,23 @@ static FullClanProtoWithClanSize* defaultFullClanProtoWithClanSizeInstance = nil
   hasRaidContribution_ = !!value;
 }
 @synthesize raidContribution;
+- (BOOL) hasBattlesWon {
+  return !!hasBattlesWon_;
+}
+- (void) setHasBattlesWon:(BOOL) value {
+  hasBattlesWon_ = !!value;
+}
+@synthesize battlesWon;
 - (void) dealloc {
-  self.minUserProto = nil;
+  self.minUserProtoWithLevel = nil;
   [super dealloc];
 }
 - (id) init {
   if ((self = [super init])) {
-    self.minUserProto = [MinimumUserProtoWithBattleHistory defaultInstance];
+    self.minUserProtoWithLevel = [MinimumUserProtoWithLevel defaultInstance];
     self.clanStatus = UserClanStatusLeader;
     self.raidContribution = 0;
+    self.battlesWon = 0;
   }
   return self;
 }
@@ -1037,14 +1046,17 @@ static MinimumUserProtoForClans* defaultMinimumUserProtoForClansInstance = nil;
   return YES;
 }
 - (void) writeToCodedOutputStream:(PBCodedOutputStream*) output {
-  if (self.hasMinUserProto) {
-    [output writeMessage:1 value:self.minUserProto];
+  if (self.hasMinUserProtoWithLevel) {
+    [output writeMessage:1 value:self.minUserProtoWithLevel];
   }
   if (self.hasClanStatus) {
     [output writeEnum:2 value:self.clanStatus];
   }
   if (self.hasRaidContribution) {
     [output writeFloat:3 value:self.raidContribution];
+  }
+  if (self.hasBattlesWon) {
+    [output writeInt32:4 value:self.battlesWon];
   }
   [self.unknownFields writeToCodedOutputStream:output];
 }
@@ -1055,14 +1067,17 @@ static MinimumUserProtoForClans* defaultMinimumUserProtoForClansInstance = nil;
   }
 
   size = 0;
-  if (self.hasMinUserProto) {
-    size += computeMessageSize(1, self.minUserProto);
+  if (self.hasMinUserProtoWithLevel) {
+    size += computeMessageSize(1, self.minUserProtoWithLevel);
   }
   if (self.hasClanStatus) {
     size += computeEnumSize(2, self.clanStatus);
   }
   if (self.hasRaidContribution) {
     size += computeFloatSize(3, self.raidContribution);
+  }
+  if (self.hasBattlesWon) {
+    size += computeInt32Size(4, self.battlesWon);
   }
   size += self.unknownFields.serializedSize;
   memoizedSerializedSize = size;
@@ -1139,14 +1154,17 @@ static MinimumUserProtoForClans* defaultMinimumUserProtoForClansInstance = nil;
   if (other == [MinimumUserProtoForClans defaultInstance]) {
     return self;
   }
-  if (other.hasMinUserProto) {
-    [self mergeMinUserProto:other.minUserProto];
+  if (other.hasMinUserProtoWithLevel) {
+    [self mergeMinUserProtoWithLevel:other.minUserProtoWithLevel];
   }
   if (other.hasClanStatus) {
     [self setClanStatus:other.clanStatus];
   }
   if (other.hasRaidContribution) {
     [self setRaidContribution:other.raidContribution];
+  }
+  if (other.hasBattlesWon) {
+    [self setBattlesWon:other.battlesWon];
   }
   [self mergeUnknownFields:other.unknownFields];
   return self;
@@ -1170,12 +1188,12 @@ static MinimumUserProtoForClans* defaultMinimumUserProtoForClansInstance = nil;
         break;
       }
       case 10: {
-        MinimumUserProtoWithBattleHistory_Builder* subBuilder = [MinimumUserProtoWithBattleHistory builder];
-        if (self.hasMinUserProto) {
-          [subBuilder mergeFrom:self.minUserProto];
+        MinimumUserProtoWithLevel_Builder* subBuilder = [MinimumUserProtoWithLevel builder];
+        if (self.hasMinUserProtoWithLevel) {
+          [subBuilder mergeFrom:self.minUserProtoWithLevel];
         }
         [input readMessage:subBuilder extensionRegistry:extensionRegistry];
-        [self setMinUserProto:[subBuilder buildPartial]];
+        [self setMinUserProtoWithLevel:[subBuilder buildPartial]];
         break;
       }
       case 16: {
@@ -1191,37 +1209,41 @@ static MinimumUserProtoForClans* defaultMinimumUserProtoForClansInstance = nil;
         [self setRaidContribution:[input readFloat]];
         break;
       }
+      case 32: {
+        [self setBattlesWon:[input readInt32]];
+        break;
+      }
     }
   }
 }
-- (BOOL) hasMinUserProto {
-  return result.hasMinUserProto;
+- (BOOL) hasMinUserProtoWithLevel {
+  return result.hasMinUserProtoWithLevel;
 }
-- (MinimumUserProtoWithBattleHistory*) minUserProto {
-  return result.minUserProto;
+- (MinimumUserProtoWithLevel*) minUserProtoWithLevel {
+  return result.minUserProtoWithLevel;
 }
-- (MinimumUserProtoForClans_Builder*) setMinUserProto:(MinimumUserProtoWithBattleHistory*) value {
-  result.hasMinUserProto = YES;
-  result.minUserProto = value;
+- (MinimumUserProtoForClans_Builder*) setMinUserProtoWithLevel:(MinimumUserProtoWithLevel*) value {
+  result.hasMinUserProtoWithLevel = YES;
+  result.minUserProtoWithLevel = value;
   return self;
 }
-- (MinimumUserProtoForClans_Builder*) setMinUserProtoBuilder:(MinimumUserProtoWithBattleHistory_Builder*) builderForValue {
-  return [self setMinUserProto:[builderForValue build]];
+- (MinimumUserProtoForClans_Builder*) setMinUserProtoWithLevelBuilder:(MinimumUserProtoWithLevel_Builder*) builderForValue {
+  return [self setMinUserProtoWithLevel:[builderForValue build]];
 }
-- (MinimumUserProtoForClans_Builder*) mergeMinUserProto:(MinimumUserProtoWithBattleHistory*) value {
-  if (result.hasMinUserProto &&
-      result.minUserProto != [MinimumUserProtoWithBattleHistory defaultInstance]) {
-    result.minUserProto =
-      [[[MinimumUserProtoWithBattleHistory builderWithPrototype:result.minUserProto] mergeFrom:value] buildPartial];
+- (MinimumUserProtoForClans_Builder*) mergeMinUserProtoWithLevel:(MinimumUserProtoWithLevel*) value {
+  if (result.hasMinUserProtoWithLevel &&
+      result.minUserProtoWithLevel != [MinimumUserProtoWithLevel defaultInstance]) {
+    result.minUserProtoWithLevel =
+      [[[MinimumUserProtoWithLevel builderWithPrototype:result.minUserProtoWithLevel] mergeFrom:value] buildPartial];
   } else {
-    result.minUserProto = value;
+    result.minUserProtoWithLevel = value;
   }
-  result.hasMinUserProto = YES;
+  result.hasMinUserProtoWithLevel = YES;
   return self;
 }
-- (MinimumUserProtoForClans_Builder*) clearMinUserProto {
-  result.hasMinUserProto = NO;
-  result.minUserProto = [MinimumUserProtoWithBattleHistory defaultInstance];
+- (MinimumUserProtoForClans_Builder*) clearMinUserProtoWithLevel {
+  result.hasMinUserProtoWithLevel = NO;
+  result.minUserProtoWithLevel = [MinimumUserProtoWithLevel defaultInstance];
   return self;
 }
 - (BOOL) hasClanStatus {
@@ -1254,6 +1276,22 @@ static MinimumUserProtoForClans* defaultMinimumUserProtoForClansInstance = nil;
 - (MinimumUserProtoForClans_Builder*) clearRaidContribution {
   result.hasRaidContribution = NO;
   result.raidContribution = 0;
+  return self;
+}
+- (BOOL) hasBattlesWon {
+  return result.hasBattlesWon;
+}
+- (int32_t) battlesWon {
+  return result.battlesWon;
+}
+- (MinimumUserProtoForClans_Builder*) setBattlesWon:(int32_t) value {
+  result.hasBattlesWon = YES;
+  result.battlesWon = value;
+  return self;
+}
+- (MinimumUserProtoForClans_Builder*) clearBattlesWon {
+  result.hasBattlesWon = NO;
+  result.battlesWon = 0;
   return self;
 }
 @end

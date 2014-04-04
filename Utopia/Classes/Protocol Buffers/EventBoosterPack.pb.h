@@ -62,6 +62,8 @@
 @class UserMonsterEvolutionProto_Builder;
 @class UserMonsterHealingProto;
 @class UserMonsterHealingProto_Builder;
+@class UserPvpLeagueProto;
+@class UserPvpLeagueProto_Builder;
 typedef enum {
   PurchaseBoosterPackResponseProto_PurchaseBoosterPackStatusSuccess = 1,
   PurchaseBoosterPackResponseProto_PurchaseBoosterPackStatusFailInsufficientGems = 2,

@@ -18,6 +18,8 @@
 @class StaticUserLevelInfoProto_Builder;
 @class UserFacebookInviteForSlotProto;
 @class UserFacebookInviteForSlotProto_Builder;
+@class UserPvpLeagueProto;
+@class UserPvpLeagueProto_Builder;
 
 @interface UserRoot : NSObject {
 }
@@ -497,94 +499,70 @@
 @interface FullUserProto : PBGeneratedMessage {
 @private
   BOOL hasHasReceivedfbReward_:1;
-  BOOL hasHasActiveShield_:1;
-  BOOL hasIsAdmin_:1;
-  BOOL hasIsFake_:1;
   BOOL hasFbIdSetOnUserCreate_:1;
+  BOOL hasIsFake_:1;
+  BOOL hasIsAdmin_:1;
   BOOL hasCreateTime_:1;
-  BOOL hasInBattleShieldEndTime_:1;
-  BOOL hasLastBattleNotificationTime_:1;
   BOOL hasLastObstacleSpawnedTime_:1;
-  BOOL hasShieldEndTime_:1;
   BOOL hasLastWallPostNotificationTime_:1;
   BOOL hasLastLoginTime_:1;
   BOOL hasLastLogoutTime_:1;
-  BOOL hasElo_:1;
-  BOOL hasNumConsecutiveDaysPlayed_:1;
-  BOOL hasAttacksWon_:1;
-  BOOL hasDefensesWon_:1;
-  BOOL hasAttacksLost_:1;
-  BOOL hasDefensesLost_:1;
   BOOL hasNumBadges_:1;
   BOOL hasApsalarId_:1;
-  BOOL hasOil_:1;
-  BOOL hasExperience_:1;
+  BOOL hasNumConsecutiveDaysPlayed_:1;
+  BOOL hasNumBeginnerSalesPurchased_:1;
+  BOOL hasNumOilRetrievedFromStructs_:1;
+  BOOL hasNumCoinsRetrievedFromStructs_:1;
+  BOOL hasNumReferrals_:1;
   BOOL hasTasksCompleted_:1;
+  BOOL hasExperience_:1;
+  BOOL hasOil_:1;
   BOOL hasCash_:1;
   BOOL hasGems_:1;
-  BOOL hasBattlesWon_:1;
   BOOL hasLevel_:1;
-  BOOL hasBattlesLost_:1;
-  BOOL hasFlees_:1;
-  BOOL hasNumReferrals_:1;
   BOOL hasUserId_:1;
-  BOOL hasNumCoinsRetrievedFromStructs_:1;
-  BOOL hasNumOilRetrievedFromStructs_:1;
-  BOOL hasNumBeginnerSalesPurchased_:1;
   BOOL hasKabamNaid_:1;
-  BOOL hasName_:1;
   BOOL hasUdid_:1;
   BOOL hasDeviceToken_:1;
   BOOL hasUdidForHistory_:1;
   BOOL hasGameCenterId_:1;
   BOOL hasFacebookId_:1;
   BOOL hasReferralCode_:1;
-  BOOL hasRank_:1;
+  BOOL hasName_:1;
+  BOOL hasPvpLeagueInfo_:1;
   BOOL hasClan_:1;
   BOOL hasReceivedfbReward_:1;
-  BOOL hasActiveShield_:1;
-  BOOL isAdmin_:1;
-  BOOL isFake_:1;
   BOOL fbIdSetOnUserCreate_:1;
+  BOOL isFake_:1;
+  BOOL isAdmin_:1;
   int64_t createTime;
-  int64_t inBattleShieldEndTime;
-  int64_t lastBattleNotificationTime;
   int64_t lastObstacleSpawnedTime;
-  int64_t shieldEndTime;
   int64_t lastWallPostNotificationTime;
   int64_t lastLoginTime;
   int64_t lastLogoutTime;
-  int32_t elo;
-  int32_t numConsecutiveDaysPlayed;
-  int32_t attacksWon;
-  int32_t defensesWon;
-  int32_t attacksLost;
-  int32_t defensesLost;
   int32_t numBadges;
   int32_t apsalarId;
-  int32_t oil;
-  int32_t experience;
+  int32_t numConsecutiveDaysPlayed;
+  int32_t numBeginnerSalesPurchased;
+  int32_t numOilRetrievedFromStructs;
+  int32_t numCoinsRetrievedFromStructs;
+  int32_t numReferrals;
   int32_t tasksCompleted;
+  int32_t experience;
+  int32_t oil;
   int32_t cash;
   int32_t gems;
-  int32_t battlesWon;
   int32_t level;
-  int32_t battlesLost;
-  int32_t flees;
-  int32_t numReferrals;
   int32_t userId;
-  int32_t numCoinsRetrievedFromStructs;
-  int32_t numOilRetrievedFromStructs;
-  int32_t numBeginnerSalesPurchased;
   NSString* kabamNaid;
-  NSString* name;
   NSString* udid;
   NSString* deviceToken;
   NSString* udidForHistory;
   NSString* gameCenterId;
   NSString* facebookId;
   NSString* referralCode;
-  NSString* rank;
+  NSString* name;
+  UserPvpLeagueProto* pvpLeagueInfo;
   MinimumClanProto* clan;
 }
 - (BOOL) hasUserId;
@@ -595,9 +573,6 @@
 - (BOOL) hasOil;
 - (BOOL) hasExperience;
 - (BOOL) hasTasksCompleted;
-- (BOOL) hasBattlesWon;
-- (BOOL) hasBattlesLost;
-- (BOOL) hasFlees;
 - (BOOL) hasReferralCode;
 - (BOOL) hasNumReferrals;
 - (BOOL) hasLastLoginTime;
@@ -609,27 +584,18 @@
 - (BOOL) hasClan;
 - (BOOL) hasHasReceivedfbReward;
 - (BOOL) hasNumBeginnerSalesPurchased;
-- (BOOL) hasHasActiveShield;
-- (BOOL) hasShieldEndTime;
-- (BOOL) hasElo;
-- (BOOL) hasRank;
-- (BOOL) hasAttacksWon;
-- (BOOL) hasDefensesWon;
-- (BOOL) hasAttacksLost;
-- (BOOL) hasDefensesLost;
 - (BOOL) hasFacebookId;
 - (BOOL) hasGameCenterId;
 - (BOOL) hasLastObstacleSpawnedTime;
+- (BOOL) hasPvpLeagueInfo;
 - (BOOL) hasUdidForHistory;
 - (BOOL) hasDeviceToken;
-- (BOOL) hasLastBattleNotificationTime;
 - (BOOL) hasNumBadges;
 - (BOOL) hasCreateTime;
 - (BOOL) hasApsalarId;
 - (BOOL) hasNumConsecutiveDaysPlayed;
 - (BOOL) hasLastWallPostNotificationTime;
 - (BOOL) hasKabamNaid;
-- (BOOL) hasInBattleShieldEndTime;
 - (BOOL) hasFbIdSetOnUserCreate;
 - (BOOL) hasUdid;
 @property (readonly) int32_t userId;
@@ -640,9 +606,6 @@
 @property (readonly) int32_t oil;
 @property (readonly) int32_t experience;
 @property (readonly) int32_t tasksCompleted;
-@property (readonly) int32_t battlesWon;
-@property (readonly) int32_t battlesLost;
-@property (readonly) int32_t flees;
 @property (readonly, retain) NSString* referralCode;
 @property (readonly) int32_t numReferrals;
 @property (readonly) int64_t lastLoginTime;
@@ -654,27 +617,18 @@
 @property (readonly, retain) MinimumClanProto* clan;
 - (BOOL) hasReceivedfbReward;
 @property (readonly) int32_t numBeginnerSalesPurchased;
-- (BOOL) hasActiveShield;
-@property (readonly) int64_t shieldEndTime;
-@property (readonly) int32_t elo;
-@property (readonly, retain) NSString* rank;
-@property (readonly) int32_t attacksWon;
-@property (readonly) int32_t defensesWon;
-@property (readonly) int32_t attacksLost;
-@property (readonly) int32_t defensesLost;
 @property (readonly, retain) NSString* facebookId;
 @property (readonly, retain) NSString* gameCenterId;
 @property (readonly) int64_t lastObstacleSpawnedTime;
+@property (readonly, retain) UserPvpLeagueProto* pvpLeagueInfo;
 @property (readonly, retain) NSString* udidForHistory;
 @property (readonly, retain) NSString* deviceToken;
-@property (readonly) int64_t lastBattleNotificationTime;
 @property (readonly) int32_t numBadges;
 @property (readonly) int64_t createTime;
 @property (readonly) int32_t apsalarId;
 @property (readonly) int32_t numConsecutiveDaysPlayed;
 @property (readonly) int64_t lastWallPostNotificationTime;
 @property (readonly, retain) NSString* kabamNaid;
-@property (readonly) int64_t inBattleShieldEndTime;
 - (BOOL) fbIdSetOnUserCreate;
 @property (readonly, retain) NSString* udid;
 
@@ -752,21 +706,6 @@
 - (FullUserProto_Builder*) setTasksCompleted:(int32_t) value;
 - (FullUserProto_Builder*) clearTasksCompleted;
 
-- (BOOL) hasBattlesWon;
-- (int32_t) battlesWon;
-- (FullUserProto_Builder*) setBattlesWon:(int32_t) value;
-- (FullUserProto_Builder*) clearBattlesWon;
-
-- (BOOL) hasBattlesLost;
-- (int32_t) battlesLost;
-- (FullUserProto_Builder*) setBattlesLost:(int32_t) value;
-- (FullUserProto_Builder*) clearBattlesLost;
-
-- (BOOL) hasFlees;
-- (int32_t) flees;
-- (FullUserProto_Builder*) setFlees:(int32_t) value;
-- (FullUserProto_Builder*) clearFlees;
-
 - (BOOL) hasReferralCode;
 - (NSString*) referralCode;
 - (FullUserProto_Builder*) setReferralCode:(NSString*) value;
@@ -824,46 +763,6 @@
 - (FullUserProto_Builder*) setNumBeginnerSalesPurchased:(int32_t) value;
 - (FullUserProto_Builder*) clearNumBeginnerSalesPurchased;
 
-- (BOOL) hasHasActiveShield;
-- (BOOL) hasActiveShield;
-- (FullUserProto_Builder*) setHasActiveShield:(BOOL) value;
-- (FullUserProto_Builder*) clearHasActiveShield;
-
-- (BOOL) hasShieldEndTime;
-- (int64_t) shieldEndTime;
-- (FullUserProto_Builder*) setShieldEndTime:(int64_t) value;
-- (FullUserProto_Builder*) clearShieldEndTime;
-
-- (BOOL) hasElo;
-- (int32_t) elo;
-- (FullUserProto_Builder*) setElo:(int32_t) value;
-- (FullUserProto_Builder*) clearElo;
-
-- (BOOL) hasRank;
-- (NSString*) rank;
-- (FullUserProto_Builder*) setRank:(NSString*) value;
-- (FullUserProto_Builder*) clearRank;
-
-- (BOOL) hasAttacksWon;
-- (int32_t) attacksWon;
-- (FullUserProto_Builder*) setAttacksWon:(int32_t) value;
-- (FullUserProto_Builder*) clearAttacksWon;
-
-- (BOOL) hasDefensesWon;
-- (int32_t) defensesWon;
-- (FullUserProto_Builder*) setDefensesWon:(int32_t) value;
-- (FullUserProto_Builder*) clearDefensesWon;
-
-- (BOOL) hasAttacksLost;
-- (int32_t) attacksLost;
-- (FullUserProto_Builder*) setAttacksLost:(int32_t) value;
-- (FullUserProto_Builder*) clearAttacksLost;
-
-- (BOOL) hasDefensesLost;
-- (int32_t) defensesLost;
-- (FullUserProto_Builder*) setDefensesLost:(int32_t) value;
-- (FullUserProto_Builder*) clearDefensesLost;
-
 - (BOOL) hasFacebookId;
 - (NSString*) facebookId;
 - (FullUserProto_Builder*) setFacebookId:(NSString*) value;
@@ -879,6 +778,13 @@
 - (FullUserProto_Builder*) setLastObstacleSpawnedTime:(int64_t) value;
 - (FullUserProto_Builder*) clearLastObstacleSpawnedTime;
 
+- (BOOL) hasPvpLeagueInfo;
+- (UserPvpLeagueProto*) pvpLeagueInfo;
+- (FullUserProto_Builder*) setPvpLeagueInfo:(UserPvpLeagueProto*) value;
+- (FullUserProto_Builder*) setPvpLeagueInfoBuilder:(UserPvpLeagueProto_Builder*) builderForValue;
+- (FullUserProto_Builder*) mergePvpLeagueInfo:(UserPvpLeagueProto*) value;
+- (FullUserProto_Builder*) clearPvpLeagueInfo;
+
 - (BOOL) hasUdidForHistory;
 - (NSString*) udidForHistory;
 - (FullUserProto_Builder*) setUdidForHistory:(NSString*) value;
@@ -888,11 +794,6 @@
 - (NSString*) deviceToken;
 - (FullUserProto_Builder*) setDeviceToken:(NSString*) value;
 - (FullUserProto_Builder*) clearDeviceToken;
-
-- (BOOL) hasLastBattleNotificationTime;
-- (int64_t) lastBattleNotificationTime;
-- (FullUserProto_Builder*) setLastBattleNotificationTime:(int64_t) value;
-- (FullUserProto_Builder*) clearLastBattleNotificationTime;
 
 - (BOOL) hasNumBadges;
 - (int32_t) numBadges;
@@ -923,11 +824,6 @@
 - (NSString*) kabamNaid;
 - (FullUserProto_Builder*) setKabamNaid:(NSString*) value;
 - (FullUserProto_Builder*) clearKabamNaid;
-
-- (BOOL) hasInBattleShieldEndTime;
-- (int64_t) inBattleShieldEndTime;
-- (FullUserProto_Builder*) setInBattleShieldEndTime:(int64_t) value;
-- (FullUserProto_Builder*) clearInBattleShieldEndTime;
 
 - (BOOL) hasFbIdSetOnUserCreate;
 - (BOOL) fbIdSetOnUserCreate;
@@ -995,5 +891,107 @@
 - (int32_t) requiredExperience;
 - (StaticUserLevelInfoProto_Builder*) setRequiredExperience:(int32_t) value;
 - (StaticUserLevelInfoProto_Builder*) clearRequiredExperience;
+@end
+
+@interface UserPvpLeagueProto : PBGeneratedMessage {
+@private
+  BOOL hasShieldEndTime_:1;
+  BOOL hasUserId_:1;
+  BOOL hasLeagueId_:1;
+  BOOL hasRank_:1;
+  BOOL hasElo_:1;
+  BOOL hasBattlesWon_:1;
+  BOOL hasBattlesLost_:1;
+  int64_t shieldEndTime;
+  int32_t userId;
+  int32_t leagueId;
+  int32_t rank;
+  int32_t elo;
+  int32_t battlesWon;
+  int32_t battlesLost;
+}
+- (BOOL) hasUserId;
+- (BOOL) hasLeagueId;
+- (BOOL) hasRank;
+- (BOOL) hasElo;
+- (BOOL) hasBattlesWon;
+- (BOOL) hasBattlesLost;
+- (BOOL) hasShieldEndTime;
+@property (readonly) int32_t userId;
+@property (readonly) int32_t leagueId;
+@property (readonly) int32_t rank;
+@property (readonly) int32_t elo;
+@property (readonly) int32_t battlesWon;
+@property (readonly) int32_t battlesLost;
+@property (readonly) int64_t shieldEndTime;
+
++ (UserPvpLeagueProto*) defaultInstance;
+- (UserPvpLeagueProto*) defaultInstance;
+
+- (BOOL) isInitialized;
+- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output;
+- (UserPvpLeagueProto_Builder*) builder;
++ (UserPvpLeagueProto_Builder*) builder;
++ (UserPvpLeagueProto_Builder*) builderWithPrototype:(UserPvpLeagueProto*) prototype;
+
++ (UserPvpLeagueProto*) parseFromData:(NSData*) data;
++ (UserPvpLeagueProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (UserPvpLeagueProto*) parseFromInputStream:(NSInputStream*) input;
++ (UserPvpLeagueProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (UserPvpLeagueProto*) parseFromCodedInputStream:(PBCodedInputStream*) input;
++ (UserPvpLeagueProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+@end
+
+@interface UserPvpLeagueProto_Builder : PBGeneratedMessage_Builder {
+@private
+  UserPvpLeagueProto* result;
+}
+
+- (UserPvpLeagueProto*) defaultInstance;
+
+- (UserPvpLeagueProto_Builder*) clear;
+- (UserPvpLeagueProto_Builder*) clone;
+
+- (UserPvpLeagueProto*) build;
+- (UserPvpLeagueProto*) buildPartial;
+
+- (UserPvpLeagueProto_Builder*) mergeFrom:(UserPvpLeagueProto*) other;
+- (UserPvpLeagueProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input;
+- (UserPvpLeagueProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+
+- (BOOL) hasUserId;
+- (int32_t) userId;
+- (UserPvpLeagueProto_Builder*) setUserId:(int32_t) value;
+- (UserPvpLeagueProto_Builder*) clearUserId;
+
+- (BOOL) hasLeagueId;
+- (int32_t) leagueId;
+- (UserPvpLeagueProto_Builder*) setLeagueId:(int32_t) value;
+- (UserPvpLeagueProto_Builder*) clearLeagueId;
+
+- (BOOL) hasRank;
+- (int32_t) rank;
+- (UserPvpLeagueProto_Builder*) setRank:(int32_t) value;
+- (UserPvpLeagueProto_Builder*) clearRank;
+
+- (BOOL) hasElo;
+- (int32_t) elo;
+- (UserPvpLeagueProto_Builder*) setElo:(int32_t) value;
+- (UserPvpLeagueProto_Builder*) clearElo;
+
+- (BOOL) hasBattlesWon;
+- (int32_t) battlesWon;
+- (UserPvpLeagueProto_Builder*) setBattlesWon:(int32_t) value;
+- (UserPvpLeagueProto_Builder*) clearBattlesWon;
+
+- (BOOL) hasBattlesLost;
+- (int32_t) battlesLost;
+- (UserPvpLeagueProto_Builder*) setBattlesLost:(int32_t) value;
+- (UserPvpLeagueProto_Builder*) clearBattlesLost;
+
+- (BOOL) hasShieldEndTime;
+- (int64_t) shieldEndTime;
+- (UserPvpLeagueProto_Builder*) setShieldEndTime:(int64_t) value;
+- (UserPvpLeagueProto_Builder*) clearShieldEndTime;
 @end
 

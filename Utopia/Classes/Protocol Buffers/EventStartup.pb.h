@@ -88,8 +88,6 @@
 @class MinimumUserProto;
 @class MinimumUserProtoForClans;
 @class MinimumUserProtoForClans_Builder;
-@class MinimumUserProtoWithBattleHistory;
-@class MinimumUserProtoWithBattleHistory_Builder;
 @class MinimumUserProtoWithFacebookId;
 @class MinimumUserProtoWithFacebookId_Builder;
 @class MinimumUserProtoWithLevel;
@@ -343,45 +341,41 @@ BOOL StartupResponseProto_StartupStatusIsValidValue(StartupResponseProto_Startup
   BOOL hasReviewPageConfirmationMessage_:1;
   BOOL hasReviewPageUrl_:1;
   BOOL hasAppStoreUrl_:1;
-  BOOL hasPvpLeagueInfo_:1;
-  BOOL hasCurRaidClanInfo_:1;
-  BOOL hasStaticDataStuffProto_:1;
+  BOOL hasSender_:1;
   BOOL hasEvolution_:1;
   BOOL hasEnhancements_:1;
-  BOOL hasSender_:1;
+  BOOL hasStaticDataStuffProto_:1;
+  BOOL hasCurRaidClanInfo_:1;
   BOOL hasStartupConstants_:1;
   BOOL hasTutorialConstants_:1;
-  BOOL hasStartupStatus_:1;
   BOOL hasUpdateStatus_:1;
+  BOOL hasStartupStatus_:1;
   BOOL playerHasBoughtInAppPurchase_:1;
   int64_t serverTimeMillis;
   NSString* kabamNaid;
   NSString* reviewPageConfirmationMessage;
   NSString* reviewPageUrl;
   NSString* appStoreUrl;
-  UserPvpLeagueProto* pvpLeagueInfo;
-  PersistentClanEventClanInfoProto* curRaidClanInfo;
-  StaticDataProto* staticDataStuffProto;
+  FullUserProto* sender;
   UserMonsterEvolutionProto* evolution;
   UserEnhancementProto* enhancements;
-  FullUserProto* sender;
+  StaticDataProto* staticDataStuffProto;
+  PersistentClanEventClanInfoProto* curRaidClanInfo;
   StartupResponseProto_StartupConstants* startupConstants;
   StartupResponseProto_TutorialConstants* tutorialConstants;
-  StartupResponseProto_StartupStatus startupStatus;
   StartupResponseProto_UpdateStatus updateStatus;
-  NSMutableArray* mutableCompletedTaskIdsList;
+  StartupResponseProto_StartupStatus startupStatus;
   NSMutableArray* mutableTaskIdForCurrentCityBossList;
+  NSMutableArray* mutableCompletedTaskIdsList;
   NSMutableArray* mutableRedeemedQuestIdsList;
   NSMutableArray* mutableNoticesToPlayersList;
-  NSMutableArray* mutableRecentNbattlesList;
-  NSMutableArray* mutableRaidStageHistoryList;
   NSMutableArray* mutableCurRaidClanUserInfoList;
   NSMutableArray* mutableUserEventsList;
   NSMutableArray* mutableInvitesFromMeForSlotsList;
   NSMutableArray* mutableInvitesToMeForSlotsList;
-  NSMutableArray* mutableUserClanInfoList;
+  NSMutableArray* mutableRaidStageHistoryList;
+  NSMutableArray* mutableRecentNbattlesList;
   NSMutableArray* mutableRareBoosterPurchasesList;
-  NSMutableArray* mutableUserQuestsList;
   NSMutableArray* mutableMonstersHealingList;
   NSMutableArray* mutableUsersMonstersList;
   NSMutableArray* mutablePcppList;
@@ -389,6 +383,8 @@ BOOL StartupResponseProto_StartupStatusIsValidValue(StartupResponseProto_Startup
   NSMutableArray* mutableGlobalChatsList;
   NSMutableArray* mutableReferralNotificationsList;
   NSMutableArray* mutableAttackNotificationsList;
+  NSMutableArray* mutableUserClanInfoList;
+  NSMutableArray* mutableUserQuestsList;
 }
 - (BOOL) hasServerTimeMillis;
 - (BOOL) hasSender;
@@ -405,7 +401,6 @@ BOOL StartupResponseProto_StartupStatusIsValidValue(StartupResponseProto_Startup
 - (BOOL) hasKabamNaid;
 - (BOOL) hasStaticDataStuffProto;
 - (BOOL) hasCurRaidClanInfo;
-- (BOOL) hasPvpLeagueInfo;
 @property (readonly) int64_t serverTimeMillis;
 @property (readonly, retain) FullUserProto* sender;
 @property (readonly) StartupResponseProto_StartupStatus startupStatus;
@@ -421,7 +416,6 @@ BOOL StartupResponseProto_StartupStatusIsValidValue(StartupResponseProto_Startup
 @property (readonly, retain) NSString* kabamNaid;
 @property (readonly, retain) StaticDataProto* staticDataStuffProto;
 @property (readonly, retain) PersistentClanEventClanInfoProto* curRaidClanInfo;
-@property (readonly, retain) UserPvpLeagueProto* pvpLeagueInfo;
 - (NSArray*) userQuestsList;
 - (FullUserQuestProto*) userQuestsAtIndex:(int32_t) index;
 - (NSArray*) redeemedQuestIdsList;
@@ -1846,13 +1840,6 @@ BOOL StartupResponseProto_StartupStatusIsValidValue(StartupResponseProto_Startup
 - (StartupResponseProto_Builder*) addRecentNbattles:(PvpHistoryProto*) value;
 - (StartupResponseProto_Builder*) addAllRecentNbattles:(NSArray*) values;
 - (StartupResponseProto_Builder*) clearRecentNbattlesList;
-
-- (BOOL) hasPvpLeagueInfo;
-- (UserPvpLeagueProto*) pvpLeagueInfo;
-- (StartupResponseProto_Builder*) setPvpLeagueInfo:(UserPvpLeagueProto*) value;
-- (StartupResponseProto_Builder*) setPvpLeagueInfoBuilder:(UserPvpLeagueProto_Builder*) builderForValue;
-- (StartupResponseProto_Builder*) mergePvpLeagueInfo:(UserPvpLeagueProto*) value;
-- (StartupResponseProto_Builder*) clearPvpLeagueInfo;
 @end
 
 @interface ForceLogoutResponseProto : PBGeneratedMessage {

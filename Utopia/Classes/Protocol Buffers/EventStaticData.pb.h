@@ -24,6 +24,8 @@
 @class ClanRaidStageProto_Builder;
 @class ClanRaidStageRewardProto;
 @class ClanRaidStageRewardProto_Builder;
+@class ColorProto;
+@class ColorProto_Builder;
 @class CoordinateProto;
 @class CoordinateProto_Builder;
 @class DialogueProto;
@@ -50,6 +52,8 @@
 @class FullUserQuestProto_Builder;
 @class FullUserStructureProto;
 @class FullUserStructureProto_Builder;
+@class GroupChatMessageProto;
+@class GroupChatMessageProto_Builder;
 @class HospitalProto;
 @class HospitalProto_Builder;
 @class ItemProto;
@@ -67,8 +71,6 @@
 @class MinimumUserProto;
 @class MinimumUserProtoForClans;
 @class MinimumUserProtoForClans_Builder;
-@class MinimumUserProtoWithBattleHistory;
-@class MinimumUserProtoWithBattleHistory_Builder;
 @class MinimumUserProtoWithFacebookId;
 @class MinimumUserProtoWithFacebookId_Builder;
 @class MinimumUserProtoWithLevel;
@@ -100,6 +102,8 @@
 @class PersistentClanEventUserRewardProto_Builder;
 @class PersistentEventProto;
 @class PersistentEventProto_Builder;
+@class PrivateChatPostProto;
+@class PrivateChatPostProto_Builder;
 @class PurgeClientStaticDataResponseProto;
 @class PurgeClientStaticDataResponseProto_Builder;
 @class PvpHistoryProto;

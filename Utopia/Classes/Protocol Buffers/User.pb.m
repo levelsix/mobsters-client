@@ -1923,9 +1923,6 @@ static UserFacebookInviteForSlotProto* defaultUserFacebookInviteForSlotProtoInst
 @property int32_t oil;
 @property int32_t experience;
 @property int32_t tasksCompleted;
-@property int32_t battlesWon;
-@property int32_t battlesLost;
-@property int32_t flees;
 @property (retain) NSString* referralCode;
 @property int32_t numReferrals;
 @property int64_t lastLoginTime;
@@ -1937,27 +1934,18 @@ static UserFacebookInviteForSlotProto* defaultUserFacebookInviteForSlotProtoInst
 @property (retain) MinimumClanProto* clan;
 @property BOOL hasReceivedfbReward;
 @property int32_t numBeginnerSalesPurchased;
-@property BOOL hasActiveShield;
-@property int64_t shieldEndTime;
-@property int32_t elo;
-@property (retain) NSString* rank;
-@property int32_t attacksWon;
-@property int32_t defensesWon;
-@property int32_t attacksLost;
-@property int32_t defensesLost;
 @property (retain) NSString* facebookId;
 @property (retain) NSString* gameCenterId;
 @property int64_t lastObstacleSpawnedTime;
+@property (retain) UserPvpLeagueProto* pvpLeagueInfo;
 @property (retain) NSString* udidForHistory;
 @property (retain) NSString* deviceToken;
-@property int64_t lastBattleNotificationTime;
 @property int32_t numBadges;
 @property int64_t createTime;
 @property int32_t apsalarId;
 @property int32_t numConsecutiveDaysPlayed;
 @property int64_t lastWallPostNotificationTime;
 @property (retain) NSString* kabamNaid;
-@property int64_t inBattleShieldEndTime;
 @property BOOL fbIdSetOnUserCreate;
 @property (retain) NSString* udid;
 @end
@@ -2020,27 +2008,6 @@ static UserFacebookInviteForSlotProto* defaultUserFacebookInviteForSlotProtoInst
   hasTasksCompleted_ = !!value;
 }
 @synthesize tasksCompleted;
-- (BOOL) hasBattlesWon {
-  return !!hasBattlesWon_;
-}
-- (void) setHasBattlesWon:(BOOL) value {
-  hasBattlesWon_ = !!value;
-}
-@synthesize battlesWon;
-- (BOOL) hasBattlesLost {
-  return !!hasBattlesLost_;
-}
-- (void) setHasBattlesLost:(BOOL) value {
-  hasBattlesLost_ = !!value;
-}
-@synthesize battlesLost;
-- (BOOL) hasFlees {
-  return !!hasFlees_;
-}
-- (void) setHasFlees:(BOOL) value {
-  hasFlees_ = !!value;
-}
-@synthesize flees;
 - (BOOL) hasReferralCode {
   return !!hasReferralCode_;
 }
@@ -2133,67 +2100,6 @@ static UserFacebookInviteForSlotProto* defaultUserFacebookInviteForSlotProtoInst
   hasNumBeginnerSalesPurchased_ = !!value;
 }
 @synthesize numBeginnerSalesPurchased;
-- (BOOL) hasHasActiveShield {
-  return !!hasHasActiveShield_;
-}
-- (void) setHasHasActiveShield:(BOOL) value {
-  hasHasActiveShield_ = !!value;
-}
-- (BOOL) hasActiveShield {
-  return !!hasActiveShield_;
-}
-- (void) setHasActiveShield:(BOOL) value {
-  hasActiveShield_ = !!value;
-}
-- (BOOL) hasShieldEndTime {
-  return !!hasShieldEndTime_;
-}
-- (void) setHasShieldEndTime:(BOOL) value {
-  hasShieldEndTime_ = !!value;
-}
-@synthesize shieldEndTime;
-- (BOOL) hasElo {
-  return !!hasElo_;
-}
-- (void) setHasElo:(BOOL) value {
-  hasElo_ = !!value;
-}
-@synthesize elo;
-- (BOOL) hasRank {
-  return !!hasRank_;
-}
-- (void) setHasRank:(BOOL) value {
-  hasRank_ = !!value;
-}
-@synthesize rank;
-- (BOOL) hasAttacksWon {
-  return !!hasAttacksWon_;
-}
-- (void) setHasAttacksWon:(BOOL) value {
-  hasAttacksWon_ = !!value;
-}
-@synthesize attacksWon;
-- (BOOL) hasDefensesWon {
-  return !!hasDefensesWon_;
-}
-- (void) setHasDefensesWon:(BOOL) value {
-  hasDefensesWon_ = !!value;
-}
-@synthesize defensesWon;
-- (BOOL) hasAttacksLost {
-  return !!hasAttacksLost_;
-}
-- (void) setHasAttacksLost:(BOOL) value {
-  hasAttacksLost_ = !!value;
-}
-@synthesize attacksLost;
-- (BOOL) hasDefensesLost {
-  return !!hasDefensesLost_;
-}
-- (void) setHasDefensesLost:(BOOL) value {
-  hasDefensesLost_ = !!value;
-}
-@synthesize defensesLost;
 - (BOOL) hasFacebookId {
   return !!hasFacebookId_;
 }
@@ -2215,6 +2121,13 @@ static UserFacebookInviteForSlotProto* defaultUserFacebookInviteForSlotProtoInst
   hasLastObstacleSpawnedTime_ = !!value;
 }
 @synthesize lastObstacleSpawnedTime;
+- (BOOL) hasPvpLeagueInfo {
+  return !!hasPvpLeagueInfo_;
+}
+- (void) setHasPvpLeagueInfo:(BOOL) value {
+  hasPvpLeagueInfo_ = !!value;
+}
+@synthesize pvpLeagueInfo;
 - (BOOL) hasUdidForHistory {
   return !!hasUdidForHistory_;
 }
@@ -2229,13 +2142,6 @@ static UserFacebookInviteForSlotProto* defaultUserFacebookInviteForSlotProtoInst
   hasDeviceToken_ = !!value;
 }
 @synthesize deviceToken;
-- (BOOL) hasLastBattleNotificationTime {
-  return !!hasLastBattleNotificationTime_;
-}
-- (void) setHasLastBattleNotificationTime:(BOOL) value {
-  hasLastBattleNotificationTime_ = !!value;
-}
-@synthesize lastBattleNotificationTime;
 - (BOOL) hasNumBadges {
   return !!hasNumBadges_;
 }
@@ -2278,13 +2184,6 @@ static UserFacebookInviteForSlotProto* defaultUserFacebookInviteForSlotProtoInst
   hasKabamNaid_ = !!value;
 }
 @synthesize kabamNaid;
-- (BOOL) hasInBattleShieldEndTime {
-  return !!hasInBattleShieldEndTime_;
-}
-- (void) setHasInBattleShieldEndTime:(BOOL) value {
-  hasInBattleShieldEndTime_ = !!value;
-}
-@synthesize inBattleShieldEndTime;
 - (BOOL) hasFbIdSetOnUserCreate {
   return !!hasFbIdSetOnUserCreate_;
 }
@@ -2308,9 +2207,9 @@ static UserFacebookInviteForSlotProto* defaultUserFacebookInviteForSlotProtoInst
   self.name = nil;
   self.referralCode = nil;
   self.clan = nil;
-  self.rank = nil;
   self.facebookId = nil;
   self.gameCenterId = nil;
+  self.pvpLeagueInfo = nil;
   self.udidForHistory = nil;
   self.deviceToken = nil;
   self.kabamNaid = nil;
@@ -2327,9 +2226,6 @@ static UserFacebookInviteForSlotProto* defaultUserFacebookInviteForSlotProtoInst
     self.oil = 0;
     self.experience = 0;
     self.tasksCompleted = 0;
-    self.battlesWon = 0;
-    self.battlesLost = 0;
-    self.flees = 0;
     self.referralCode = @"";
     self.numReferrals = 0;
     self.lastLoginTime = 0L;
@@ -2341,27 +2237,18 @@ static UserFacebookInviteForSlotProto* defaultUserFacebookInviteForSlotProtoInst
     self.clan = [MinimumClanProto defaultInstance];
     self.hasReceivedfbReward = NO;
     self.numBeginnerSalesPurchased = 0;
-    self.hasActiveShield = NO;
-    self.shieldEndTime = 0L;
-    self.elo = 0;
-    self.rank = @"";
-    self.attacksWon = 0;
-    self.defensesWon = 0;
-    self.attacksLost = 0;
-    self.defensesLost = 0;
     self.facebookId = @"";
     self.gameCenterId = @"";
     self.lastObstacleSpawnedTime = 0L;
+    self.pvpLeagueInfo = [UserPvpLeagueProto defaultInstance];
     self.udidForHistory = @"";
     self.deviceToken = @"";
-    self.lastBattleNotificationTime = 0L;
     self.numBadges = 0;
     self.createTime = 0L;
     self.apsalarId = 0;
     self.numConsecutiveDaysPlayed = 0;
     self.lastWallPostNotificationTime = 0L;
     self.kabamNaid = @"";
-    self.inBattleShieldEndTime = 0L;
     self.fbIdSetOnUserCreate = NO;
     self.udid = @"";
   }
@@ -2404,15 +2291,6 @@ static FullUserProto* defaultFullUserProtoInstance = nil;
   if (self.hasTasksCompleted) {
     [output writeInt32:7 value:self.tasksCompleted];
   }
-  if (self.hasBattlesWon) {
-    [output writeInt32:8 value:self.battlesWon];
-  }
-  if (self.hasBattlesLost) {
-    [output writeInt32:9 value:self.battlesLost];
-  }
-  if (self.hasFlees) {
-    [output writeInt32:10 value:self.flees];
-  }
   if (self.hasReferralCode) {
     [output writeString:11 value:self.referralCode];
   }
@@ -2430,9 +2308,6 @@ static FullUserProto* defaultFullUserProtoInstance = nil;
   }
   if (self.hasDeviceToken) {
     [output writeString:16 value:self.deviceToken];
-  }
-  if (self.hasLastBattleNotificationTime) {
-    [output writeInt64:17 value:self.lastBattleNotificationTime];
   }
   if (self.hasNumBadges) {
     [output writeInt32:18 value:self.numBadges];
@@ -2470,33 +2345,6 @@ static FullUserProto* defaultFullUserProtoInstance = nil;
   if (self.hasNumBeginnerSalesPurchased) {
     [output writeInt32:30 value:self.numBeginnerSalesPurchased];
   }
-  if (self.hasHasActiveShield) {
-    [output writeBool:31 value:self.hasActiveShield];
-  }
-  if (self.hasShieldEndTime) {
-    [output writeInt64:32 value:self.shieldEndTime];
-  }
-  if (self.hasElo) {
-    [output writeInt32:33 value:self.elo];
-  }
-  if (self.hasRank) {
-    [output writeString:34 value:self.rank];
-  }
-  if (self.hasInBattleShieldEndTime) {
-    [output writeInt64:35 value:self.inBattleShieldEndTime];
-  }
-  if (self.hasAttacksWon) {
-    [output writeInt32:36 value:self.attacksWon];
-  }
-  if (self.hasDefensesWon) {
-    [output writeInt32:37 value:self.defensesWon];
-  }
-  if (self.hasAttacksLost) {
-    [output writeInt32:38 value:self.attacksLost];
-  }
-  if (self.hasDefensesLost) {
-    [output writeInt32:39 value:self.defensesLost];
-  }
   if (self.hasFacebookId) {
     [output writeString:40 value:self.facebookId];
   }
@@ -2517,6 +2365,9 @@ static FullUserProto* defaultFullUserProtoInstance = nil;
   }
   if (self.hasLastObstacleSpawnedTime) {
     [output writeInt64:47 value:self.lastObstacleSpawnedTime];
+  }
+  if (self.hasPvpLeagueInfo) {
+    [output writeMessage:48 value:self.pvpLeagueInfo];
   }
   [self.unknownFields writeToCodedOutputStream:output];
 }
@@ -2548,15 +2399,6 @@ static FullUserProto* defaultFullUserProtoInstance = nil;
   if (self.hasTasksCompleted) {
     size += computeInt32Size(7, self.tasksCompleted);
   }
-  if (self.hasBattlesWon) {
-    size += computeInt32Size(8, self.battlesWon);
-  }
-  if (self.hasBattlesLost) {
-    size += computeInt32Size(9, self.battlesLost);
-  }
-  if (self.hasFlees) {
-    size += computeInt32Size(10, self.flees);
-  }
   if (self.hasReferralCode) {
     size += computeStringSize(11, self.referralCode);
   }
@@ -2574,9 +2416,6 @@ static FullUserProto* defaultFullUserProtoInstance = nil;
   }
   if (self.hasDeviceToken) {
     size += computeStringSize(16, self.deviceToken);
-  }
-  if (self.hasLastBattleNotificationTime) {
-    size += computeInt64Size(17, self.lastBattleNotificationTime);
   }
   if (self.hasNumBadges) {
     size += computeInt32Size(18, self.numBadges);
@@ -2614,33 +2453,6 @@ static FullUserProto* defaultFullUserProtoInstance = nil;
   if (self.hasNumBeginnerSalesPurchased) {
     size += computeInt32Size(30, self.numBeginnerSalesPurchased);
   }
-  if (self.hasHasActiveShield) {
-    size += computeBoolSize(31, self.hasActiveShield);
-  }
-  if (self.hasShieldEndTime) {
-    size += computeInt64Size(32, self.shieldEndTime);
-  }
-  if (self.hasElo) {
-    size += computeInt32Size(33, self.elo);
-  }
-  if (self.hasRank) {
-    size += computeStringSize(34, self.rank);
-  }
-  if (self.hasInBattleShieldEndTime) {
-    size += computeInt64Size(35, self.inBattleShieldEndTime);
-  }
-  if (self.hasAttacksWon) {
-    size += computeInt32Size(36, self.attacksWon);
-  }
-  if (self.hasDefensesWon) {
-    size += computeInt32Size(37, self.defensesWon);
-  }
-  if (self.hasAttacksLost) {
-    size += computeInt32Size(38, self.attacksLost);
-  }
-  if (self.hasDefensesLost) {
-    size += computeInt32Size(39, self.defensesLost);
-  }
   if (self.hasFacebookId) {
     size += computeStringSize(40, self.facebookId);
   }
@@ -2661,6 +2473,9 @@ static FullUserProto* defaultFullUserProtoInstance = nil;
   }
   if (self.hasLastObstacleSpawnedTime) {
     size += computeInt64Size(47, self.lastObstacleSpawnedTime);
+  }
+  if (self.hasPvpLeagueInfo) {
+    size += computeMessageSize(48, self.pvpLeagueInfo);
   }
   size += self.unknownFields.serializedSize;
   memoizedSerializedSize = size;
@@ -2761,15 +2576,6 @@ static FullUserProto* defaultFullUserProtoInstance = nil;
   if (other.hasTasksCompleted) {
     [self setTasksCompleted:other.tasksCompleted];
   }
-  if (other.hasBattlesWon) {
-    [self setBattlesWon:other.battlesWon];
-  }
-  if (other.hasBattlesLost) {
-    [self setBattlesLost:other.battlesLost];
-  }
-  if (other.hasFlees) {
-    [self setFlees:other.flees];
-  }
   if (other.hasReferralCode) {
     [self setReferralCode:other.referralCode];
   }
@@ -2803,30 +2609,6 @@ static FullUserProto* defaultFullUserProtoInstance = nil;
   if (other.hasNumBeginnerSalesPurchased) {
     [self setNumBeginnerSalesPurchased:other.numBeginnerSalesPurchased];
   }
-  if (other.hasHasActiveShield) {
-    [self setHasActiveShield:other.hasActiveShield];
-  }
-  if (other.hasShieldEndTime) {
-    [self setShieldEndTime:other.shieldEndTime];
-  }
-  if (other.hasElo) {
-    [self setElo:other.elo];
-  }
-  if (other.hasRank) {
-    [self setRank:other.rank];
-  }
-  if (other.hasAttacksWon) {
-    [self setAttacksWon:other.attacksWon];
-  }
-  if (other.hasDefensesWon) {
-    [self setDefensesWon:other.defensesWon];
-  }
-  if (other.hasAttacksLost) {
-    [self setAttacksLost:other.attacksLost];
-  }
-  if (other.hasDefensesLost) {
-    [self setDefensesLost:other.defensesLost];
-  }
   if (other.hasFacebookId) {
     [self setFacebookId:other.facebookId];
   }
@@ -2836,14 +2618,14 @@ static FullUserProto* defaultFullUserProtoInstance = nil;
   if (other.hasLastObstacleSpawnedTime) {
     [self setLastObstacleSpawnedTime:other.lastObstacleSpawnedTime];
   }
+  if (other.hasPvpLeagueInfo) {
+    [self mergePvpLeagueInfo:other.pvpLeagueInfo];
+  }
   if (other.hasUdidForHistory) {
     [self setUdidForHistory:other.udidForHistory];
   }
   if (other.hasDeviceToken) {
     [self setDeviceToken:other.deviceToken];
-  }
-  if (other.hasLastBattleNotificationTime) {
-    [self setLastBattleNotificationTime:other.lastBattleNotificationTime];
   }
   if (other.hasNumBadges) {
     [self setNumBadges:other.numBadges];
@@ -2862,9 +2644,6 @@ static FullUserProto* defaultFullUserProtoInstance = nil;
   }
   if (other.hasKabamNaid) {
     [self setKabamNaid:other.kabamNaid];
-  }
-  if (other.hasInBattleShieldEndTime) {
-    [self setInBattleShieldEndTime:other.inBattleShieldEndTime];
   }
   if (other.hasFbIdSetOnUserCreate) {
     [self setFbIdSetOnUserCreate:other.fbIdSetOnUserCreate];
@@ -2921,18 +2700,6 @@ static FullUserProto* defaultFullUserProtoInstance = nil;
         [self setTasksCompleted:[input readInt32]];
         break;
       }
-      case 64: {
-        [self setBattlesWon:[input readInt32]];
-        break;
-      }
-      case 72: {
-        [self setBattlesLost:[input readInt32]];
-        break;
-      }
-      case 80: {
-        [self setFlees:[input readInt32]];
-        break;
-      }
       case 90: {
         [self setReferralCode:[input readString]];
         break;
@@ -2955,10 +2722,6 @@ static FullUserProto* defaultFullUserProtoInstance = nil;
       }
       case 130: {
         [self setDeviceToken:[input readString]];
-        break;
-      }
-      case 136: {
-        [self setLastBattleNotificationTime:[input readInt64]];
         break;
       }
       case 144: {
@@ -3014,42 +2777,6 @@ static FullUserProto* defaultFullUserProtoInstance = nil;
         [self setNumBeginnerSalesPurchased:[input readInt32]];
         break;
       }
-      case 248: {
-        [self setHasActiveShield:[input readBool]];
-        break;
-      }
-      case 256: {
-        [self setShieldEndTime:[input readInt64]];
-        break;
-      }
-      case 264: {
-        [self setElo:[input readInt32]];
-        break;
-      }
-      case 274: {
-        [self setRank:[input readString]];
-        break;
-      }
-      case 280: {
-        [self setInBattleShieldEndTime:[input readInt64]];
-        break;
-      }
-      case 288: {
-        [self setAttacksWon:[input readInt32]];
-        break;
-      }
-      case 296: {
-        [self setDefensesWon:[input readInt32]];
-        break;
-      }
-      case 304: {
-        [self setAttacksLost:[input readInt32]];
-        break;
-      }
-      case 312: {
-        [self setDefensesLost:[input readInt32]];
-        break;
-      }
       case 322: {
         [self setFacebookId:[input readString]];
         break;
@@ -3076,6 +2803,15 @@ static FullUserProto* defaultFullUserProtoInstance = nil;
       }
       case 376: {
         [self setLastObstacleSpawnedTime:[input readInt64]];
+        break;
+      }
+      case 386: {
+        UserPvpLeagueProto_Builder* subBuilder = [UserPvpLeagueProto builder];
+        if (self.hasPvpLeagueInfo) {
+          [subBuilder mergeFrom:self.pvpLeagueInfo];
+        }
+        [input readMessage:subBuilder extensionRegistry:extensionRegistry];
+        [self setPvpLeagueInfo:[subBuilder buildPartial]];
         break;
       }
     }
@@ -3207,54 +2943,6 @@ static FullUserProto* defaultFullUserProtoInstance = nil;
 - (FullUserProto_Builder*) clearTasksCompleted {
   result.hasTasksCompleted = NO;
   result.tasksCompleted = 0;
-  return self;
-}
-- (BOOL) hasBattlesWon {
-  return result.hasBattlesWon;
-}
-- (int32_t) battlesWon {
-  return result.battlesWon;
-}
-- (FullUserProto_Builder*) setBattlesWon:(int32_t) value {
-  result.hasBattlesWon = YES;
-  result.battlesWon = value;
-  return self;
-}
-- (FullUserProto_Builder*) clearBattlesWon {
-  result.hasBattlesWon = NO;
-  result.battlesWon = 0;
-  return self;
-}
-- (BOOL) hasBattlesLost {
-  return result.hasBattlesLost;
-}
-- (int32_t) battlesLost {
-  return result.battlesLost;
-}
-- (FullUserProto_Builder*) setBattlesLost:(int32_t) value {
-  result.hasBattlesLost = YES;
-  result.battlesLost = value;
-  return self;
-}
-- (FullUserProto_Builder*) clearBattlesLost {
-  result.hasBattlesLost = NO;
-  result.battlesLost = 0;
-  return self;
-}
-- (BOOL) hasFlees {
-  return result.hasFlees;
-}
-- (int32_t) flees {
-  return result.flees;
-}
-- (FullUserProto_Builder*) setFlees:(int32_t) value {
-  result.hasFlees = YES;
-  result.flees = value;
-  return self;
-}
-- (FullUserProto_Builder*) clearFlees {
-  result.hasFlees = NO;
-  result.flees = 0;
   return self;
 }
 - (BOOL) hasReferralCode {
@@ -3447,134 +3135,6 @@ static FullUserProto* defaultFullUserProtoInstance = nil;
   result.numBeginnerSalesPurchased = 0;
   return self;
 }
-- (BOOL) hasHasActiveShield {
-  return result.hasHasActiveShield;
-}
-- (BOOL) hasActiveShield {
-  return result.hasActiveShield;
-}
-- (FullUserProto_Builder*) setHasActiveShield:(BOOL) value {
-  result.hasHasActiveShield = YES;
-  result.hasActiveShield = value;
-  return self;
-}
-- (FullUserProto_Builder*) clearHasActiveShield {
-  result.hasHasActiveShield = NO;
-  result.hasActiveShield = NO;
-  return self;
-}
-- (BOOL) hasShieldEndTime {
-  return result.hasShieldEndTime;
-}
-- (int64_t) shieldEndTime {
-  return result.shieldEndTime;
-}
-- (FullUserProto_Builder*) setShieldEndTime:(int64_t) value {
-  result.hasShieldEndTime = YES;
-  result.shieldEndTime = value;
-  return self;
-}
-- (FullUserProto_Builder*) clearShieldEndTime {
-  result.hasShieldEndTime = NO;
-  result.shieldEndTime = 0L;
-  return self;
-}
-- (BOOL) hasElo {
-  return result.hasElo;
-}
-- (int32_t) elo {
-  return result.elo;
-}
-- (FullUserProto_Builder*) setElo:(int32_t) value {
-  result.hasElo = YES;
-  result.elo = value;
-  return self;
-}
-- (FullUserProto_Builder*) clearElo {
-  result.hasElo = NO;
-  result.elo = 0;
-  return self;
-}
-- (BOOL) hasRank {
-  return result.hasRank;
-}
-- (NSString*) rank {
-  return result.rank;
-}
-- (FullUserProto_Builder*) setRank:(NSString*) value {
-  result.hasRank = YES;
-  result.rank = value;
-  return self;
-}
-- (FullUserProto_Builder*) clearRank {
-  result.hasRank = NO;
-  result.rank = @"";
-  return self;
-}
-- (BOOL) hasAttacksWon {
-  return result.hasAttacksWon;
-}
-- (int32_t) attacksWon {
-  return result.attacksWon;
-}
-- (FullUserProto_Builder*) setAttacksWon:(int32_t) value {
-  result.hasAttacksWon = YES;
-  result.attacksWon = value;
-  return self;
-}
-- (FullUserProto_Builder*) clearAttacksWon {
-  result.hasAttacksWon = NO;
-  result.attacksWon = 0;
-  return self;
-}
-- (BOOL) hasDefensesWon {
-  return result.hasDefensesWon;
-}
-- (int32_t) defensesWon {
-  return result.defensesWon;
-}
-- (FullUserProto_Builder*) setDefensesWon:(int32_t) value {
-  result.hasDefensesWon = YES;
-  result.defensesWon = value;
-  return self;
-}
-- (FullUserProto_Builder*) clearDefensesWon {
-  result.hasDefensesWon = NO;
-  result.defensesWon = 0;
-  return self;
-}
-- (BOOL) hasAttacksLost {
-  return result.hasAttacksLost;
-}
-- (int32_t) attacksLost {
-  return result.attacksLost;
-}
-- (FullUserProto_Builder*) setAttacksLost:(int32_t) value {
-  result.hasAttacksLost = YES;
-  result.attacksLost = value;
-  return self;
-}
-- (FullUserProto_Builder*) clearAttacksLost {
-  result.hasAttacksLost = NO;
-  result.attacksLost = 0;
-  return self;
-}
-- (BOOL) hasDefensesLost {
-  return result.hasDefensesLost;
-}
-- (int32_t) defensesLost {
-  return result.defensesLost;
-}
-- (FullUserProto_Builder*) setDefensesLost:(int32_t) value {
-  result.hasDefensesLost = YES;
-  result.defensesLost = value;
-  return self;
-}
-- (FullUserProto_Builder*) clearDefensesLost {
-  result.hasDefensesLost = NO;
-  result.defensesLost = 0;
-  return self;
-}
 - (BOOL) hasFacebookId {
   return result.hasFacebookId;
 }
@@ -3623,6 +3183,36 @@ static FullUserProto* defaultFullUserProtoInstance = nil;
   result.lastObstacleSpawnedTime = 0L;
   return self;
 }
+- (BOOL) hasPvpLeagueInfo {
+  return result.hasPvpLeagueInfo;
+}
+- (UserPvpLeagueProto*) pvpLeagueInfo {
+  return result.pvpLeagueInfo;
+}
+- (FullUserProto_Builder*) setPvpLeagueInfo:(UserPvpLeagueProto*) value {
+  result.hasPvpLeagueInfo = YES;
+  result.pvpLeagueInfo = value;
+  return self;
+}
+- (FullUserProto_Builder*) setPvpLeagueInfoBuilder:(UserPvpLeagueProto_Builder*) builderForValue {
+  return [self setPvpLeagueInfo:[builderForValue build]];
+}
+- (FullUserProto_Builder*) mergePvpLeagueInfo:(UserPvpLeagueProto*) value {
+  if (result.hasPvpLeagueInfo &&
+      result.pvpLeagueInfo != [UserPvpLeagueProto defaultInstance]) {
+    result.pvpLeagueInfo =
+      [[[UserPvpLeagueProto builderWithPrototype:result.pvpLeagueInfo] mergeFrom:value] buildPartial];
+  } else {
+    result.pvpLeagueInfo = value;
+  }
+  result.hasPvpLeagueInfo = YES;
+  return self;
+}
+- (FullUserProto_Builder*) clearPvpLeagueInfo {
+  result.hasPvpLeagueInfo = NO;
+  result.pvpLeagueInfo = [UserPvpLeagueProto defaultInstance];
+  return self;
+}
 - (BOOL) hasUdidForHistory {
   return result.hasUdidForHistory;
 }
@@ -3653,22 +3243,6 @@ static FullUserProto* defaultFullUserProtoInstance = nil;
 - (FullUserProto_Builder*) clearDeviceToken {
   result.hasDeviceToken = NO;
   result.deviceToken = @"";
-  return self;
-}
-- (BOOL) hasLastBattleNotificationTime {
-  return result.hasLastBattleNotificationTime;
-}
-- (int64_t) lastBattleNotificationTime {
-  return result.lastBattleNotificationTime;
-}
-- (FullUserProto_Builder*) setLastBattleNotificationTime:(int64_t) value {
-  result.hasLastBattleNotificationTime = YES;
-  result.lastBattleNotificationTime = value;
-  return self;
-}
-- (FullUserProto_Builder*) clearLastBattleNotificationTime {
-  result.hasLastBattleNotificationTime = NO;
-  result.lastBattleNotificationTime = 0L;
   return self;
 }
 - (BOOL) hasNumBadges {
@@ -3765,22 +3339,6 @@ static FullUserProto* defaultFullUserProtoInstance = nil;
 - (FullUserProto_Builder*) clearKabamNaid {
   result.hasKabamNaid = NO;
   result.kabamNaid = @"";
-  return self;
-}
-- (BOOL) hasInBattleShieldEndTime {
-  return result.hasInBattleShieldEndTime;
-}
-- (int64_t) inBattleShieldEndTime {
-  return result.inBattleShieldEndTime;
-}
-- (FullUserProto_Builder*) setInBattleShieldEndTime:(int64_t) value {
-  result.hasInBattleShieldEndTime = YES;
-  result.inBattleShieldEndTime = value;
-  return self;
-}
-- (FullUserProto_Builder*) clearInBattleShieldEndTime {
-  result.hasInBattleShieldEndTime = NO;
-  result.inBattleShieldEndTime = 0L;
   return self;
 }
 - (BOOL) hasFbIdSetOnUserCreate {
@@ -4028,6 +3586,411 @@ static StaticUserLevelInfoProto* defaultStaticUserLevelInfoProtoInstance = nil;
 - (StaticUserLevelInfoProto_Builder*) clearRequiredExperience {
   result.hasRequiredExperience = NO;
   result.requiredExperience = 0;
+  return self;
+}
+@end
+
+@interface UserPvpLeagueProto ()
+@property int32_t userId;
+@property int32_t leagueId;
+@property int32_t rank;
+@property int32_t elo;
+@property int32_t battlesWon;
+@property int32_t battlesLost;
+@property int64_t shieldEndTime;
+@end
+
+@implementation UserPvpLeagueProto
+
+- (BOOL) hasUserId {
+  return !!hasUserId_;
+}
+- (void) setHasUserId:(BOOL) value {
+  hasUserId_ = !!value;
+}
+@synthesize userId;
+- (BOOL) hasLeagueId {
+  return !!hasLeagueId_;
+}
+- (void) setHasLeagueId:(BOOL) value {
+  hasLeagueId_ = !!value;
+}
+@synthesize leagueId;
+- (BOOL) hasRank {
+  return !!hasRank_;
+}
+- (void) setHasRank:(BOOL) value {
+  hasRank_ = !!value;
+}
+@synthesize rank;
+- (BOOL) hasElo {
+  return !!hasElo_;
+}
+- (void) setHasElo:(BOOL) value {
+  hasElo_ = !!value;
+}
+@synthesize elo;
+- (BOOL) hasBattlesWon {
+  return !!hasBattlesWon_;
+}
+- (void) setHasBattlesWon:(BOOL) value {
+  hasBattlesWon_ = !!value;
+}
+@synthesize battlesWon;
+- (BOOL) hasBattlesLost {
+  return !!hasBattlesLost_;
+}
+- (void) setHasBattlesLost:(BOOL) value {
+  hasBattlesLost_ = !!value;
+}
+@synthesize battlesLost;
+- (BOOL) hasShieldEndTime {
+  return !!hasShieldEndTime_;
+}
+- (void) setHasShieldEndTime:(BOOL) value {
+  hasShieldEndTime_ = !!value;
+}
+@synthesize shieldEndTime;
+- (void) dealloc {
+  [super dealloc];
+}
+- (id) init {
+  if ((self = [super init])) {
+    self.userId = 0;
+    self.leagueId = 0;
+    self.rank = 0;
+    self.elo = 0;
+    self.battlesWon = 0;
+    self.battlesLost = 0;
+    self.shieldEndTime = 0L;
+  }
+  return self;
+}
+static UserPvpLeagueProto* defaultUserPvpLeagueProtoInstance = nil;
++ (void) initialize {
+  if (self == [UserPvpLeagueProto class]) {
+    defaultUserPvpLeagueProtoInstance = [[UserPvpLeagueProto alloc] init];
+  }
+}
++ (UserPvpLeagueProto*) defaultInstance {
+  return defaultUserPvpLeagueProtoInstance;
+}
+- (UserPvpLeagueProto*) defaultInstance {
+  return defaultUserPvpLeagueProtoInstance;
+}
+- (BOOL) isInitialized {
+  return YES;
+}
+- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output {
+  if (self.hasUserId) {
+    [output writeInt32:1 value:self.userId];
+  }
+  if (self.hasLeagueId) {
+    [output writeInt32:2 value:self.leagueId];
+  }
+  if (self.hasRank) {
+    [output writeInt32:3 value:self.rank];
+  }
+  if (self.hasElo) {
+    [output writeInt32:4 value:self.elo];
+  }
+  if (self.hasBattlesWon) {
+    [output writeInt32:5 value:self.battlesWon];
+  }
+  if (self.hasBattlesLost) {
+    [output writeInt32:6 value:self.battlesLost];
+  }
+  if (self.hasShieldEndTime) {
+    [output writeInt64:7 value:self.shieldEndTime];
+  }
+  [self.unknownFields writeToCodedOutputStream:output];
+}
+- (int32_t) serializedSize {
+  int32_t size = memoizedSerializedSize;
+  if (size != -1) {
+    return size;
+  }
+
+  size = 0;
+  if (self.hasUserId) {
+    size += computeInt32Size(1, self.userId);
+  }
+  if (self.hasLeagueId) {
+    size += computeInt32Size(2, self.leagueId);
+  }
+  if (self.hasRank) {
+    size += computeInt32Size(3, self.rank);
+  }
+  if (self.hasElo) {
+    size += computeInt32Size(4, self.elo);
+  }
+  if (self.hasBattlesWon) {
+    size += computeInt32Size(5, self.battlesWon);
+  }
+  if (self.hasBattlesLost) {
+    size += computeInt32Size(6, self.battlesLost);
+  }
+  if (self.hasShieldEndTime) {
+    size += computeInt64Size(7, self.shieldEndTime);
+  }
+  size += self.unknownFields.serializedSize;
+  memoizedSerializedSize = size;
+  return size;
+}
++ (UserPvpLeagueProto*) parseFromData:(NSData*) data {
+  return (UserPvpLeagueProto*)[[[UserPvpLeagueProto builder] mergeFromData:data] build];
+}
++ (UserPvpLeagueProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (UserPvpLeagueProto*)[[[UserPvpLeagueProto builder] mergeFromData:data extensionRegistry:extensionRegistry] build];
+}
++ (UserPvpLeagueProto*) parseFromInputStream:(NSInputStream*) input {
+  return (UserPvpLeagueProto*)[[[UserPvpLeagueProto builder] mergeFromInputStream:input] build];
+}
++ (UserPvpLeagueProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (UserPvpLeagueProto*)[[[UserPvpLeagueProto builder] mergeFromInputStream:input extensionRegistry:extensionRegistry] build];
+}
++ (UserPvpLeagueProto*) parseFromCodedInputStream:(PBCodedInputStream*) input {
+  return (UserPvpLeagueProto*)[[[UserPvpLeagueProto builder] mergeFromCodedInputStream:input] build];
+}
++ (UserPvpLeagueProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (UserPvpLeagueProto*)[[[UserPvpLeagueProto builder] mergeFromCodedInputStream:input extensionRegistry:extensionRegistry] build];
+}
++ (UserPvpLeagueProto_Builder*) builder {
+  return [[[UserPvpLeagueProto_Builder alloc] init] autorelease];
+}
++ (UserPvpLeagueProto_Builder*) builderWithPrototype:(UserPvpLeagueProto*) prototype {
+  return [[UserPvpLeagueProto builder] mergeFrom:prototype];
+}
+- (UserPvpLeagueProto_Builder*) builder {
+  return [UserPvpLeagueProto builder];
+}
+@end
+
+@interface UserPvpLeagueProto_Builder()
+@property (retain) UserPvpLeagueProto* result;
+@end
+
+@implementation UserPvpLeagueProto_Builder
+@synthesize result;
+- (void) dealloc {
+  self.result = nil;
+  [super dealloc];
+}
+- (id) init {
+  if ((self = [super init])) {
+    self.result = [[[UserPvpLeagueProto alloc] init] autorelease];
+  }
+  return self;
+}
+- (PBGeneratedMessage*) internalGetResult {
+  return result;
+}
+- (UserPvpLeagueProto_Builder*) clear {
+  self.result = [[[UserPvpLeagueProto alloc] init] autorelease];
+  return self;
+}
+- (UserPvpLeagueProto_Builder*) clone {
+  return [UserPvpLeagueProto builderWithPrototype:result];
+}
+- (UserPvpLeagueProto*) defaultInstance {
+  return [UserPvpLeagueProto defaultInstance];
+}
+- (UserPvpLeagueProto*) build {
+  [self checkInitialized];
+  return [self buildPartial];
+}
+- (UserPvpLeagueProto*) buildPartial {
+  UserPvpLeagueProto* returnMe = [[result retain] autorelease];
+  self.result = nil;
+  return returnMe;
+}
+- (UserPvpLeagueProto_Builder*) mergeFrom:(UserPvpLeagueProto*) other {
+  if (other == [UserPvpLeagueProto defaultInstance]) {
+    return self;
+  }
+  if (other.hasUserId) {
+    [self setUserId:other.userId];
+  }
+  if (other.hasLeagueId) {
+    [self setLeagueId:other.leagueId];
+  }
+  if (other.hasRank) {
+    [self setRank:other.rank];
+  }
+  if (other.hasElo) {
+    [self setElo:other.elo];
+  }
+  if (other.hasBattlesWon) {
+    [self setBattlesWon:other.battlesWon];
+  }
+  if (other.hasBattlesLost) {
+    [self setBattlesLost:other.battlesLost];
+  }
+  if (other.hasShieldEndTime) {
+    [self setShieldEndTime:other.shieldEndTime];
+  }
+  [self mergeUnknownFields:other.unknownFields];
+  return self;
+}
+- (UserPvpLeagueProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input {
+  return [self mergeFromCodedInputStream:input extensionRegistry:[PBExtensionRegistry emptyRegistry]];
+}
+- (UserPvpLeagueProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  PBUnknownFieldSet_Builder* unknownFields = [PBUnknownFieldSet builderWithUnknownFields:self.unknownFields];
+  while (YES) {
+    int32_t tag = [input readTag];
+    switch (tag) {
+      case 0:
+        [self setUnknownFields:[unknownFields build]];
+        return self;
+      default: {
+        if (![self parseUnknownField:input unknownFields:unknownFields extensionRegistry:extensionRegistry tag:tag]) {
+          [self setUnknownFields:[unknownFields build]];
+          return self;
+        }
+        break;
+      }
+      case 8: {
+        [self setUserId:[input readInt32]];
+        break;
+      }
+      case 16: {
+        [self setLeagueId:[input readInt32]];
+        break;
+      }
+      case 24: {
+        [self setRank:[input readInt32]];
+        break;
+      }
+      case 32: {
+        [self setElo:[input readInt32]];
+        break;
+      }
+      case 40: {
+        [self setBattlesWon:[input readInt32]];
+        break;
+      }
+      case 48: {
+        [self setBattlesLost:[input readInt32]];
+        break;
+      }
+      case 56: {
+        [self setShieldEndTime:[input readInt64]];
+        break;
+      }
+    }
+  }
+}
+- (BOOL) hasUserId {
+  return result.hasUserId;
+}
+- (int32_t) userId {
+  return result.userId;
+}
+- (UserPvpLeagueProto_Builder*) setUserId:(int32_t) value {
+  result.hasUserId = YES;
+  result.userId = value;
+  return self;
+}
+- (UserPvpLeagueProto_Builder*) clearUserId {
+  result.hasUserId = NO;
+  result.userId = 0;
+  return self;
+}
+- (BOOL) hasLeagueId {
+  return result.hasLeagueId;
+}
+- (int32_t) leagueId {
+  return result.leagueId;
+}
+- (UserPvpLeagueProto_Builder*) setLeagueId:(int32_t) value {
+  result.hasLeagueId = YES;
+  result.leagueId = value;
+  return self;
+}
+- (UserPvpLeagueProto_Builder*) clearLeagueId {
+  result.hasLeagueId = NO;
+  result.leagueId = 0;
+  return self;
+}
+- (BOOL) hasRank {
+  return result.hasRank;
+}
+- (int32_t) rank {
+  return result.rank;
+}
+- (UserPvpLeagueProto_Builder*) setRank:(int32_t) value {
+  result.hasRank = YES;
+  result.rank = value;
+  return self;
+}
+- (UserPvpLeagueProto_Builder*) clearRank {
+  result.hasRank = NO;
+  result.rank = 0;
+  return self;
+}
+- (BOOL) hasElo {
+  return result.hasElo;
+}
+- (int32_t) elo {
+  return result.elo;
+}
+- (UserPvpLeagueProto_Builder*) setElo:(int32_t) value {
+  result.hasElo = YES;
+  result.elo = value;
+  return self;
+}
+- (UserPvpLeagueProto_Builder*) clearElo {
+  result.hasElo = NO;
+  result.elo = 0;
+  return self;
+}
+- (BOOL) hasBattlesWon {
+  return result.hasBattlesWon;
+}
+- (int32_t) battlesWon {
+  return result.battlesWon;
+}
+- (UserPvpLeagueProto_Builder*) setBattlesWon:(int32_t) value {
+  result.hasBattlesWon = YES;
+  result.battlesWon = value;
+  return self;
+}
+- (UserPvpLeagueProto_Builder*) clearBattlesWon {
+  result.hasBattlesWon = NO;
+  result.battlesWon = 0;
+  return self;
+}
+- (BOOL) hasBattlesLost {
+  return result.hasBattlesLost;
+}
+- (int32_t) battlesLost {
+  return result.battlesLost;
+}
+- (UserPvpLeagueProto_Builder*) setBattlesLost:(int32_t) value {
+  result.hasBattlesLost = YES;
+  result.battlesLost = value;
+  return self;
+}
+- (UserPvpLeagueProto_Builder*) clearBattlesLost {
+  result.hasBattlesLost = NO;
+  result.battlesLost = 0;
+  return self;
+}
+- (BOOL) hasShieldEndTime {
+  return result.hasShieldEndTime;
+}
+- (int64_t) shieldEndTime {
+  return result.shieldEndTime;
+}
+- (UserPvpLeagueProto_Builder*) setShieldEndTime:(int64_t) value {
+  result.hasShieldEndTime = YES;
+  result.shieldEndTime = value;
+  return self;
+}
+- (UserPvpLeagueProto_Builder*) clearShieldEndTime {
+  result.hasShieldEndTime = NO;
+  result.shieldEndTime = 0L;
   return self;
 }
 @end

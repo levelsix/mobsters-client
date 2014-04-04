@@ -9,9 +9,6 @@
             <connections>
                 <outlet property="bgdView" destination="uoP-X0-Pqi" id="f8P-nT-DCU"/>
                 <outlet property="clanButton" destination="GFr-lg-Esk" id="Nth-kp-pzj"/>
-                <outlet property="leagueBgd" destination="nDs-fA-a4e" id="INY-1F-CSX"/>
-                <outlet property="leagueIcon" destination="miC-tw-pUC" id="aOn-CB-vNS"/>
-                <outlet property="leagueLabel" destination="t3A-kx-YN3" id="Lg0-p8-C1X"/>
                 <outlet property="leagueView" destination="CKZ-Ez-Kte" id="VME-fb-kyq"/>
                 <outlet property="lossesLabel" destination="acs-1P-B3E" id="gZt-TU-Wo8"/>
                 <outlet property="mainView" destination="cmt-HA-zQP" id="SSH-4X-mGG"/>
@@ -19,9 +16,6 @@
                 <outlet property="monsterSlotThree" destination="eIs-zX-4TQ" id="nWy-SI-rBa"/>
                 <outlet property="monsterSlotTwo" destination="wxj-hw-rtM" id="uFl-YX-uTk"/>
                 <outlet property="nameLabel" destination="6Wh-dD-joo" id="D9p-Cr-SeP"/>
-                <outlet property="placeLabel" destination="VVb-pb-meE" id="0yE-dD-qFh"/>
-                <outlet property="rankLabel" destination="G6O-TF-Gpo" id="bpj-f0-1uO"/>
-                <outlet property="rankQualifierLabel" destination="ZPG-wY-hbe" id="lRc-4r-FyC"/>
                 <outlet property="shieldIcon" destination="Gaa-Lb-neX" id="WI4-VX-KIS"/>
                 <outlet property="view" destination="1" id="3"/>
                 <outlet property="winsLabel" destination="nye-sM-eNZ" id="Ebe-pp-olg"/>
@@ -42,10 +36,10 @@
                             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                         </imageView>
                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="TQM-vF-onx" customClass="CloseButton">
-                            <rect key="frame" x="187" y="114" width="194" height="92"/>
+                            <rect key="frame" x="0.0" y="0.0" width="568" height="320"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             <fontDescription key="fontDescription" type="system" pointSize="15"/>
-                            <state key="normal" backgroundImage="goldleaguebg.png">
+                            <state key="normal">
                                 <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                             </state>
                             <connections>
@@ -121,7 +115,7 @@
                             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                             <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
                         </view>
-                        <view contentMode="scaleToFill" id="CKZ-Ez-Kte" userLabel="LeagueView">
+                        <view contentMode="scaleToFill" id="CKZ-Ez-Kte" customClass="LeagueView">
                             <rect key="frame" x="118" y="44" width="194" height="92"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             <subviews>
@@ -178,6 +172,14 @@
                                 </imageView>
                             </subviews>
                             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                            <connections>
+                                <outlet property="leagueBgd" destination="nDs-fA-a4e" id="pVo-vQ-HaZ"/>
+                                <outlet property="leagueIcon" destination="miC-tw-pUC" id="Hfq-3U-ocL"/>
+                                <outlet property="leagueLabel" destination="t3A-kx-YN3" id="WUn-fd-Pjp"/>
+                                <outlet property="placeLabel" destination="VVb-pb-meE" id="32J-Lj-4Hg"/>
+                                <outlet property="rankLabel" destination="G6O-TF-Gpo" id="p8K-uq-0gN"/>
+                                <outlet property="rankQualifierLabel" destination="ZPG-wY-hbe" id="8L8-WL-29i"/>
+                            </connections>
                         </view>
                         <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="profilegrid.png" id="jek-bq-HSw">
                             <rect key="frame" x="12" y="50" width="95" height="54"/>

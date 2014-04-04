@@ -22,6 +22,7 @@ static PBExtensionRegistry* extensionRegistry = nil;
 @interface MonsterProto ()
 @property int32_t monsterId;
 @property (retain) NSString* name;
+@property (retain) NSString* shorterName;
 @property (retain) NSString* monsterGroup;
 @property MonsterProto_MonsterQuality quality;
 @property int32_t evolutionLevel;
@@ -65,6 +66,13 @@ static PBExtensionRegistry* extensionRegistry = nil;
   hasName_ = !!value;
 }
 @synthesize name;
+- (BOOL) hasShorterName {
+  return !!hasShorterName_;
+}
+- (void) setHasShorterName:(BOOL) value {
+  hasShorterName_ = !!value;
+}
+@synthesize shorterName;
 - (BOOL) hasMonsterGroup {
   return !!hasMonsterGroup_;
 }
@@ -236,6 +244,7 @@ static PBExtensionRegistry* extensionRegistry = nil;
 @synthesize atkAnimationRepeatedFramesEnd;
 - (void) dealloc {
   self.name = nil;
+  self.shorterName = nil;
   self.monsterGroup = nil;
   self.displayName = nil;
   self.imagePrefix = nil;
@@ -251,6 +260,7 @@ static PBExtensionRegistry* extensionRegistry = nil;
   if ((self = [super init])) {
     self.monsterId = 0;
     self.name = @"";
+    self.shorterName = @"";
     self.monsterGroup = @"";
     self.quality = MonsterProto_MonsterQualityCommon;
     self.evolutionLevel = 0;
@@ -382,6 +392,9 @@ static MonsterProto* defaultMonsterProtoInstance = nil;
   if (self.hasAtkAnimationRepeatedFramesEnd) {
     [output writeInt32:27 value:self.atkAnimationRepeatedFramesEnd];
   }
+  if (self.hasShorterName) {
+    [output writeString:28 value:self.shorterName];
+  }
   [self.unknownFields writeToCodedOutputStream:output];
 }
 - (int32_t) serializedSize {
@@ -472,6 +485,9 @@ static MonsterProto* defaultMonsterProtoInstance = nil;
   if (self.hasAtkAnimationRepeatedFramesEnd) {
     size += computeInt32Size(27, self.atkAnimationRepeatedFramesEnd);
   }
+  if (self.hasShorterName) {
+    size += computeStringSize(28, self.shorterName);
+  }
   size += self.unknownFields.serializedSize;
   memoizedSerializedSize = size;
   return size;
@@ -523,8 +539,8 @@ BOOL MonsterProto_MonsterElementIsValidValue(MonsterProto_MonsterElement value) 
     case MonsterProto_MonsterElementFire:
     case MonsterProto_MonsterElementGrass:
     case MonsterProto_MonsterElementWater:
-    case MonsterProto_MonsterElementLightning:
-    case MonsterProto_MonsterElementDarkness:
+    case MonsterProto_MonsterElementLight:
+    case MonsterProto_MonsterElementDark:
     case MonsterProto_MonsterElementRock:
       return YES;
     default:
@@ -587,6 +603,9 @@ BOOL MonsterProto_AnimationTypeIsValidValue(MonsterProto_AnimationType value) {
   }
   if (other.hasName) {
     [self setName:other.name];
+  }
+  if (other.hasShorterName) {
+    [self setShorterName:other.shorterName];
   }
   if (other.hasMonsterGroup) {
     [self setMonsterGroup:other.monsterGroup];
@@ -812,6 +831,10 @@ BOOL MonsterProto_AnimationTypeIsValidValue(MonsterProto_AnimationType value) {
         [self setAtkAnimationRepeatedFramesEnd:[input readInt32]];
         break;
       }
+      case 226: {
+        [self setShorterName:[input readString]];
+        break;
+      }
     }
   }
 }
@@ -845,6 +868,22 @@ BOOL MonsterProto_AnimationTypeIsValidValue(MonsterProto_AnimationType value) {
 - (MonsterProto_Builder*) clearName {
   result.hasName = NO;
   result.name = @"";
+  return self;
+}
+- (BOOL) hasShorterName {
+  return result.hasShorterName;
+}
+- (NSString*) shorterName {
+  return result.shorterName;
+}
+- (MonsterProto_Builder*) setShorterName:(NSString*) value {
+  result.hasShorterName = YES;
+  result.shorterName = value;
+  return self;
+}
+- (MonsterProto_Builder*) clearShorterName {
+  result.hasShorterName = NO;
+  result.shorterName = @"";
   return self;
 }
 - (BOOL) hasMonsterGroup {

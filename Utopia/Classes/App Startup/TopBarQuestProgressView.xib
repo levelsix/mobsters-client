@@ -19,7 +19,7 @@
                     <rect key="frame" x="-2" y="-2" width="42" height="42"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                     <subviews>
-                        <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleAspectFit" image="firemteam.png" id="ck9-2p-C4Y">
+                        <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleAspectFit" image="fireteam.png" id="ck9-2p-C4Y">
                             <rect key="frame" x="0.0" y="0.0" width="42" height="42"/>
                             <autoresizingMask key="autoresizingMask"/>
                         </imageView>
@@ -77,6 +77,6 @@
     </objects>
     <resources>
         <image name="BryanGoslingT1Thumbnail.png" width="33" height="42"/>
-        <image name="firemteam.png" width="21" height="21"/>
+        <image name="fireteam.png" width="42" height="42"/>
     </resources>
 </document>

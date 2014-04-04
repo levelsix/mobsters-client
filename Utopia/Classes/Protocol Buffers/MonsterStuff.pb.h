@@ -43,8 +43,8 @@ typedef enum {
   MonsterProto_MonsterElementFire = 1,
   MonsterProto_MonsterElementGrass = 2,
   MonsterProto_MonsterElementWater = 3,
-  MonsterProto_MonsterElementLightning = 4,
-  MonsterProto_MonsterElementDarkness = 5,
+  MonsterProto_MonsterElementLight = 4,
+  MonsterProto_MonsterElementDark = 5,
   MonsterProto_MonsterElementRock = 6,
 } MonsterProto_MonsterElement;
 
@@ -92,12 +92,13 @@ BOOL MonsterBattleDialogueProto_DialogueTypeIsValidValue(MonsterBattleDialoguePr
   BOOL hasCarrotDefeated_:1;
   BOOL hasCarrotEvolved_:1;
   BOOL hasDescription_:1;
-  BOOL hasAtkSoundFile_:1;
   BOOL hasMonsterGroup_:1;
+  BOOL hasAtkSoundFile_:1;
+  BOOL hasShorterName_:1;
   BOOL hasName_:1;
   BOOL hasMonsterElement_:1;
-  BOOL hasAttackAnimationType_:1;
   BOOL hasQuality_:1;
+  BOOL hasAttackAnimationType_:1;
   int32_t atkAnimationRepeatedFramesEnd;
   int32_t atkAnimationRepeatedFramesStart;
   int32_t atkSoundAnimationFrame;
@@ -118,16 +119,18 @@ BOOL MonsterBattleDialogueProto_DialogueTypeIsValidValue(MonsterBattleDialoguePr
   NSString* carrotDefeated;
   NSString* carrotEvolved;
   NSString* description;
-  NSString* atkSoundFile;
   NSString* monsterGroup;
+  NSString* atkSoundFile;
+  NSString* shorterName;
   NSString* name;
   MonsterProto_MonsterElement monsterElement;
-  MonsterProto_AnimationType attackAnimationType;
   MonsterProto_MonsterQuality quality;
+  MonsterProto_AnimationType attackAnimationType;
   NSMutableArray* mutableLvlInfoList;
 }
 - (BOOL) hasMonsterId;
 - (BOOL) hasName;
+- (BOOL) hasShorterName;
 - (BOOL) hasMonsterGroup;
 - (BOOL) hasQuality;
 - (BOOL) hasEvolutionLevel;
@@ -154,6 +157,7 @@ BOOL MonsterBattleDialogueProto_DialogueTypeIsValidValue(MonsterBattleDialoguePr
 - (BOOL) hasAtkAnimationRepeatedFramesEnd;
 @property (readonly) int32_t monsterId;
 @property (readonly, retain) NSString* name;
+@property (readonly, retain) NSString* shorterName;
 @property (readonly, retain) NSString* monsterGroup;
 @property (readonly) MonsterProto_MonsterQuality quality;
 @property (readonly) int32_t evolutionLevel;
@@ -224,6 +228,11 @@ BOOL MonsterBattleDialogueProto_DialogueTypeIsValidValue(MonsterBattleDialoguePr
 - (NSString*) name;
 - (MonsterProto_Builder*) setName:(NSString*) value;
 - (MonsterProto_Builder*) clearName;
+
+- (BOOL) hasShorterName;
+- (NSString*) shorterName;
+- (MonsterProto_Builder*) setShorterName:(NSString*) value;
+- (MonsterProto_Builder*) clearShorterName;
 
 - (BOOL) hasMonsterGroup;
 - (NSString*) monsterGroup;

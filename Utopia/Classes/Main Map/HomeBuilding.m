@@ -27,15 +27,10 @@
     
     fileName = [NSString stringWithFormat:@"%dx%dshadow.png", (int)loc.size.width, (int)loc.size.height];
     CCSprite *dark = [CCSprite spriteWithImageNamed:fileName];
-    [shadow addChild:dark z:1 name:SHADOW_TAG];
+    [shadow addChild:dark z:1];
     dark.position = ccp(shadow.contentSize.width/3, shadow.contentSize.height/2);
   }
   return self;
-}
-
-- (void) setBaseScale:(float)baseScale {
-  [super setBaseScale:baseScale];
-  [(CCSprite *)[self getChildByName:CONSTRUCTION_TAG recursively:NO] setScale:baseScale];
 }
 
 + (id) buildingWithUserStruct:(UserStruct *)us map:(HomeMap *)map {
@@ -96,23 +91,8 @@
   [super adjustBuildingSprite];
 }
 
-- (void) setColor:(CCColor *)color {
-  [super setColor:color];
-  
-  if (self.isConstructing) {
-    [(CCSprite *)[self getChildByName:CONSTRUCTION_TAG recursively:NO] setColor:color];
-  }
-}
-
 - (BOOL) select {
   BOOL ret = [super select];
-  
-  if (self.isConstructing) {
-    CCAction *action = [self.buildingSprite getActionByTag:BOUNCE_ACTION_TAG];
-    CCNode *constr = [self getChildByName:CONSTRUCTION_TAG recursively:NO];
-    [constr runAction:[action copy]];
-  }
-  
   _startMoveCoordinate = _location.origin;
   _startOrientation = self.orientation;
   [self displayMoveArrows];
@@ -125,35 +105,19 @@
     [self cancelMove];
   }
   [self removeMoveArrows];
-  
-  if (self.isConstructing) {
-    CCNode *constr = [self getChildByName:CONSTRUCTION_TAG recursively:NO];
-    [constr stopActionByTag:GLOW_ACTION_TAG];
-  }
 }
 
 - (void) setIsConstructing:(BOOL)isConstructing {
   if (_isConstructing != isConstructing) {
+    _isConstructing = isConstructing;
     if (isConstructing) {
-      self.buildingSprite.visible = NO;
-      _isConstructing = isConstructing;
-      
-      [[CCSpriteFrameCache sharedSpriteFrameCache] addSpriteFramesWithFile:@"Construction.plist"];
-      CCSprite *sprite = [CCSprite spriteWithImageNamed:@"Construction.png"];
-      sprite.anchorPoint = ccp(0.462, 0.165);
-      sprite.position = ccp(self.contentSize.width/2, -2);
-      sprite.scale = self.baseScale;
+      NSString *poles = self.location.size.width == 3 ? @"3x3poles.png" : @"4x4poles.png";
+      CCSprite *sprite = [CCSprite spriteWithImageNamed:poles];
+      sprite.anchorPoint = ccp(0.5, 0);
+      sprite.position = ccp(self.contentSize.width/2, 1);
       [self addChild:sprite z:1 name:CONSTRUCTION_TAG];
-      
-      CCAnimation *anim = [CCAnimation animationWithSpritePrefix:@"Construction" delay:1];
-      CCSprite *spr = [CCSprite spriteWithSpriteFrame:[[anim.frames objectAtIndex:0] spriteFrame]];
-      [spr runAction:[CCActionRepeatForever actionWithAction:[CCActionAnimate actionWithAnimation:anim]]];
-      [sprite addChild:spr];
-      spr.position = ccp(sprite.contentSize.width/2, sprite.contentSize.height/2);
     } else {
       // This means we just finished constructing, so reload the building sprite
-      _isConstructing = isConstructing;
-      
       StructureInfoProto *fsp = self.userStruct.staticStruct.structInfo;
       [self setupBuildingSprite:fsp.imgName];
       
@@ -212,8 +176,7 @@
     return;
   }
   
-  CCSprite *sprite = (CCSprite *)[self getChildByName:CONSTRUCTION_TAG recursively:NO];
-  sprite = sprite ? sprite : self.buildingSprite;
+  CCSprite *sprite = self.buildingSprite;
   
   if ([_homeMap isBlockBuildable:self.location]) {
     [self clearMeta];
@@ -236,8 +199,7 @@
 }
 
 - (void) liftBlock {
-  CCSprite *sprite = (CCSprite *)[self getChildByName:CONSTRUCTION_TAG recursively:NO];
-  sprite = sprite ? sprite : self.buildingSprite;
+  CCSprite *sprite = self.buildingSprite;
   
   if (self.isSetDown) {
     sprite.opacity = 0.6f;

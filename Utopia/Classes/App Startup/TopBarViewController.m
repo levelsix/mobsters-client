@@ -78,7 +78,6 @@
     GameState *gs = [GameState sharedGameState];
     Globals *gl = [Globals sharedGlobals];
     MonsterProto *mp = [gs monsterWithId:um.monsterId];
-    self.healthBar.image = [Globals imageNamed:@"earthhteambar.png"];
     self.healthBar.percentage = ((float)um.curHealth)/[gl calculateMaxHealthForMonster:um];
     
     BOOL greyscale = (um.curHealth <= 0);
@@ -237,7 +236,7 @@
 - (void) updateLabels {
   GameState *gs = [GameState sharedGameState];
   int shieldTimeLeft = gs.shieldEndTime.timeIntervalSinceNow;
-  self.shieldLabel.text = shieldTimeLeft > 0 ? [Globals convertTimeToShortString:shieldTimeLeft] : @"None";
+  self.shieldLabel.text = shieldTimeLeft > 0 ? [Globals convertTimeToShortString:shieldTimeLeft] : @"NONE";
 }
 
 #pragma mark - Bottom view methods

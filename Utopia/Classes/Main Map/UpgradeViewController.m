@@ -234,7 +234,7 @@
     self.oilButtonView.hidden = YES;
     self.cashButtonView.hidden = YES;
     
-    self.tooLowLevelLabel.text = [NSString stringWithFormat:@"Requires Level %d %@", nextSS.structInfo.prerequisiteTownHallLvl, thp.structInfo.name];
+    self.tooLowLevelLabel.text = [NSString stringWithFormat:@"Requires Lvl %d %@", nextSS.structInfo.prerequisiteTownHallLvl, thp.structInfo.name];
     
     self.tooLowLevelView.hidden = NO;
   } else {

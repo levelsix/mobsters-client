@@ -11,6 +11,8 @@
 @class CityElementProto_Builder;
 @class CityExpansionCostProto;
 @class CityExpansionCostProto_Builder;
+@class ColorProto;
+@class ColorProto_Builder;
 @class CoordinateProto;
 @class CoordinateProto_Builder;
 @class DialogueProto;
@@ -29,6 +31,8 @@
 @class FullUserQuestProto_Builder;
 @class FullUserStructureProto;
 @class FullUserStructureProto_Builder;
+@class GroupChatMessageProto;
+@class GroupChatMessageProto_Builder;
 @class HospitalProto;
 @class HospitalProto_Builder;
 @class ItemProto;
@@ -67,6 +71,8 @@
 @class MonsterProto_Builder;
 @class ObstacleProto;
 @class ObstacleProto_Builder;
+@class PrivateChatPostProto;
+@class PrivateChatPostProto_Builder;
 @class PurchaseCityExpansionRequestProto;
 @class PurchaseCityExpansionRequestProto_Builder;
 @class PurchaseCityExpansionResponseProto;
@@ -105,6 +111,8 @@
 @class UserMonsterHealingProto_Builder;
 @class UserObstacleProto;
 @class UserObstacleProto_Builder;
+@class UserPvpLeagueProto;
+@class UserPvpLeagueProto_Builder;
 typedef enum {
   LoadPlayerCityResponseProto_LoadPlayerCityStatusSuccess = 1,
   LoadPlayerCityResponseProto_LoadPlayerCityStatusFailNoSuchPlayer = 2,

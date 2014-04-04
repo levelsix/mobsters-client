@@ -26,6 +26,8 @@
 @class StaticUserLevelInfoProto_Builder;
 @class UserFacebookInviteForSlotProto;
 @class UserFacebookInviteForSlotProto_Builder;
+@class UserPvpLeagueProto;
+@class UserPvpLeagueProto_Builder;
 typedef enum {
   GroupChatScopeClan = 1,
   GroupChatScopeGlobal = 2,

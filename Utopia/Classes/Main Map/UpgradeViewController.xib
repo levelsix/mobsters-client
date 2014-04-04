@@ -945,7 +945,7 @@
                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                 </view>
                 <view contentMode="scaleToFill" id="DAL-kh-5bM">
-                    <rect key="frame" x="156" y="130" width="182" height="26"/>
+                    <rect key="frame" x="161" y="130" width="173" height="26"/>
                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                     <subviews>
                         <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="notendcap.png" highlightedImage="notendcapgreen.png" id="Xwc-sR-fO4">
@@ -953,15 +953,15 @@
                             <autoresizingMask key="autoresizingMask"/>
                         </imageView>
                         <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" image="notmiddle.png" highlightedImage="notmiddlegreen.png" id="voy-Uf-Wnl">
-                            <rect key="frame" x="6" y="0.0" width="170" height="26"/>
+                            <rect key="frame" x="6" y="0.0" width="161" height="26"/>
                             <autoresizingMask key="autoresizingMask" widthSizable="YES"/>
                         </imageView>
                         <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="notendcap.png" highlightedImage="notendcapgreen.png" id="bd0-f9-pEQ" customClass="FlipImageView">
-                            <rect key="frame" x="176" y="0.0" width="6" height="26"/>
+                            <rect key="frame" x="167" y="0.0" width="6" height="26"/>
                             <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxY="YES"/>
                         </imageView>
                         <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Requires level 3 Command Center" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" id="Vdj-ZM-sxC" customClass="NiceFontLabel10">
-                            <rect key="frame" x="10" y="1" width="162" height="21"/>
+                            <rect key="frame" x="10" y="1" width="153" height="21"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             <fontDescription key="fontDescription" type="system" pointSize="10"/>
                             <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="deviceRGB"/>
@@ -1015,7 +1015,7 @@
         <image name="confirm.png" width="84" height="40"/>
         <image name="currentamountbar.png" width="4" height="13"/>
         <image name="currentamountbarmiddle.png" width="1" height="13"/>
-        <image name="diamond.png" width="44" height="41"/>
+        <image name="diamond.png" width="37" height="35"/>
         <image name="emptyfriendslot.png" width="38" height="38"/>
         <image name="fullfriendborder.png" width="38" height="38"/>
         <image name="inactivenewstab.png" width="70" height="30"/>
@@ -1026,7 +1026,7 @@
         <image name="notendcapgreen.png" width="6" height="26"/>
         <image name="notmiddle.png" width="1" height="26"/>
         <image name="notmiddlegreen.png" width="1" height="26"/>
-        <image name="oilicon.png" width="26" height="32"/>
+        <image name="oilicon.png" width="27" height="32"/>
         <image name="oilupgradebutton.png" width="84" height="40"/>
         <image name="popupglow.png" width="480" height="320"/>
         <image name="profilebutton.png" width="71" height="28"/>

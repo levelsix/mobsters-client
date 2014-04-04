@@ -337,9 +337,9 @@ static NSString *udid = nil;
 
 - (int) sendData:(PBGeneratedMessage *)msg withMessageType:(int)type flush:(BOOL)flush {
   int tag = _currentTagNum;
-  [self sendData:msg withMessageType:type tagNum:tag flush:flush];
   _currentTagNum++;
   _currentTagNum %= RAND_MAX;
+  [self sendData:msg withMessageType:type tagNum:tag flush:flush];
   return tag;
 }
 

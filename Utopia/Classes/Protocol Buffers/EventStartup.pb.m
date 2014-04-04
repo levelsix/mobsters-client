@@ -525,7 +525,6 @@ static StartupRequestProto* defaultStartupRequestProtoInstance = nil;
 @property (retain) NSMutableArray* mutableCurRaidClanUserInfoList;
 @property (retain) NSMutableArray* mutableRaidStageHistoryList;
 @property (retain) NSMutableArray* mutableRecentNbattlesList;
-@property (retain) UserPvpLeagueProto* pvpLeagueInfo;
 @end
 
 @implementation StartupResponseProto
@@ -660,13 +659,6 @@ static StartupRequestProto* defaultStartupRequestProtoInstance = nil;
 @synthesize mutableCurRaidClanUserInfoList;
 @synthesize mutableRaidStageHistoryList;
 @synthesize mutableRecentNbattlesList;
-- (BOOL) hasPvpLeagueInfo {
-  return !!hasPvpLeagueInfo_;
-}
-- (void) setHasPvpLeagueInfo:(BOOL) value {
-  hasPvpLeagueInfo_ = !!value;
-}
-@synthesize pvpLeagueInfo;
 - (void) dealloc {
   self.sender = nil;
   self.startupConstants = nil;
@@ -699,7 +691,6 @@ static StartupRequestProto* defaultStartupRequestProtoInstance = nil;
   self.mutableCurRaidClanUserInfoList = nil;
   self.mutableRaidStageHistoryList = nil;
   self.mutableRecentNbattlesList = nil;
-  self.pvpLeagueInfo = nil;
   [super dealloc];
 }
 - (id) init {
@@ -719,7 +710,6 @@ static StartupRequestProto* defaultStartupRequestProtoInstance = nil;
     self.kabamNaid = @"";
     self.staticDataStuffProto = [StaticDataProto defaultInstance];
     self.curRaidClanInfo = [PersistentClanEventClanInfoProto defaultInstance];
-    self.pvpLeagueInfo = [UserPvpLeagueProto defaultInstance];
   }
   return self;
 }
@@ -984,9 +974,6 @@ static StartupResponseProto* defaultStartupResponseProtoInstance = nil;
   for (PvpHistoryProto* element in self.recentNbattlesList) {
     [output writeMessage:35 value:element];
   }
-  if (self.hasPvpLeagueInfo) {
-    [output writeMessage:36 value:self.pvpLeagueInfo];
-  }
   [self.unknownFields writeToCodedOutputStream:output];
 }
 - (int32_t) serializedSize {
@@ -1120,9 +1107,6 @@ static StartupResponseProto* defaultStartupResponseProtoInstance = nil;
   }
   for (PvpHistoryProto* element in self.recentNbattlesList) {
     size += computeMessageSize(35, element);
-  }
-  if (self.hasPvpLeagueInfo) {
-    size += computeMessageSize(36, self.pvpLeagueInfo);
   }
   size += self.unknownFields.serializedSize;
   memoizedSerializedSize = size;
@@ -6054,9 +6038,6 @@ static StartupResponseProto_TutorialConstants* defaultStartupResponseProto_Tutor
     }
     [result.mutableRecentNbattlesList addObjectsFromArray:other.mutableRecentNbattlesList];
   }
-  if (other.hasPvpLeagueInfo) {
-    [self mergePvpLeagueInfo:other.pvpLeagueInfo];
-  }
   [self mergeUnknownFields:other.unknownFields];
   return self;
 }
@@ -6293,15 +6274,6 @@ static StartupResponseProto_TutorialConstants* defaultStartupResponseProto_Tutor
         PvpHistoryProto_Builder* subBuilder = [PvpHistoryProto builder];
         [input readMessage:subBuilder extensionRegistry:extensionRegistry];
         [self addRecentNbattles:[subBuilder buildPartial]];
-        break;
-      }
-      case 290: {
-        UserPvpLeagueProto_Builder* subBuilder = [UserPvpLeagueProto builder];
-        if (self.hasPvpLeagueInfo) {
-          [subBuilder mergeFrom:self.pvpLeagueInfo];
-        }
-        [input readMessage:subBuilder extensionRegistry:extensionRegistry];
-        [self setPvpLeagueInfo:[subBuilder buildPartial]];
         break;
       }
     }
@@ -7231,36 +7203,6 @@ static StartupResponseProto_TutorialConstants* defaultStartupResponseProto_Tutor
     result.mutableRecentNbattlesList = [NSMutableArray array];
   }
   [result.mutableRecentNbattlesList addObject:value];
-  return self;
-}
-- (BOOL) hasPvpLeagueInfo {
-  return result.hasPvpLeagueInfo;
-}
-- (UserPvpLeagueProto*) pvpLeagueInfo {
-  return result.pvpLeagueInfo;
-}
-- (StartupResponseProto_Builder*) setPvpLeagueInfo:(UserPvpLeagueProto*) value {
-  result.hasPvpLeagueInfo = YES;
-  result.pvpLeagueInfo = value;
-  return self;
-}
-- (StartupResponseProto_Builder*) setPvpLeagueInfoBuilder:(UserPvpLeagueProto_Builder*) builderForValue {
-  return [self setPvpLeagueInfo:[builderForValue build]];
-}
-- (StartupResponseProto_Builder*) mergePvpLeagueInfo:(UserPvpLeagueProto*) value {
-  if (result.hasPvpLeagueInfo &&
-      result.pvpLeagueInfo != [UserPvpLeagueProto defaultInstance]) {
-    result.pvpLeagueInfo =
-      [[[UserPvpLeagueProto builderWithPrototype:result.pvpLeagueInfo] mergeFrom:value] buildPartial];
-  } else {
-    result.pvpLeagueInfo = value;
-  }
-  result.hasPvpLeagueInfo = YES;
-  return self;
-}
-- (StartupResponseProto_Builder*) clearPvpLeagueInfo {
-  result.hasPvpLeagueInfo = NO;
-  result.pvpLeagueInfo = [UserPvpLeagueProto defaultInstance];
   return self;
 }
 @end

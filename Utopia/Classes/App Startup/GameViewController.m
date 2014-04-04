@@ -161,7 +161,7 @@
 }
 
 - (void) removeAllViewControllers {
-  NSArray *acceptable = @[self.topBarViewController, [CCDirector sharedDirector]];
+  NSArray *acceptable = @[self.topBarViewController, [CCDirector sharedDirector], self.notifViewController];
   for (UIViewController *vc in self.childViewControllers) {
     if (![acceptable containsObject:vc]) {
       if ([vc respondsToSelector:@selector(close)]) {

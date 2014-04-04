@@ -52,9 +52,9 @@
                                             <rect key="frame" x="0.0" y="0.0" width="42" height="42"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                         </imageView>
-                                        <imageView userInteractionEnabled="NO" contentMode="top" image="Cheerleader2BazookaThumbnail.png" id="a6t-rN-S4t">
-                                            <rect key="frame" x="-8" y="4" width="59" height="59"/>
-                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleAspectFit" image="BryanGoslingT1Thumbnail.png" id="T9Z-xW-zSy">
+                                            <rect key="frame" x="0.0" y="0.0" width="42" height="42"/>
+                                            <autoresizingMask key="autoresizingMask"/>
                                         </imageView>
                                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="1Zr-k8-jk4" customClass="DeployCardButton">
                                             <rect key="frame" x="0.0" y="0.0" width="42" height="42"/>
@@ -103,7 +103,7 @@
                         <outlet property="healthLabel" destination="NkA-vJ-vpG" id="Ydp-rY-Tyk"/>
                         <outlet property="healthbar" destination="RYV-m8-ci1" id="mSb-el-fDu"/>
                         <outlet property="mainView" destination="BYH-k9-fPu" id="fbT-hr-kmD"/>
-                        <outlet property="monsterIcon" destination="a6t-rN-S4t" id="GZ3-dJ-muY"/>
+                        <outlet property="monsterIcon" destination="T9Z-xW-zSy" id="TVu-c5-unM"/>
                     </connections>
                 </view>
                 <view clipsSubviews="YES" tag="2" contentMode="scaleToFill" id="l5o-4Q-gAf" customClass="BattleDeployCardView">
@@ -126,9 +126,9 @@
                                             <rect key="frame" x="0.0" y="0.0" width="42" height="42"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                         </imageView>
-                                        <imageView userInteractionEnabled="NO" contentMode="top" image="Cheerleader2BazookaThumbnail.png" id="ckB-67-dHg">
-                                            <rect key="frame" x="-8" y="4" width="59" height="59"/>
-                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleAspectFit" image="BryanGoslingT1Thumbnail.png" id="dbJ-CQ-L7y">
+                                            <rect key="frame" x="0.0" y="0.0" width="42" height="42"/>
+                                            <autoresizingMask key="autoresizingMask"/>
                                         </imageView>
                                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="aCK-kO-58S" customClass="DeployCardButton">
                                             <rect key="frame" x="0.0" y="0.0" width="42" height="42"/>
@@ -177,7 +177,7 @@
                         <outlet property="healthLabel" destination="ErA-9x-igO" id="lqG-v0-eK2"/>
                         <outlet property="healthbar" destination="1UH-in-8kN" id="n2G-bC-rZy"/>
                         <outlet property="mainView" destination="c2q-Qu-pX4" id="eYe-QV-uRu"/>
-                        <outlet property="monsterIcon" destination="ckB-67-dHg" id="vaS-Up-lJp"/>
+                        <outlet property="monsterIcon" destination="dbJ-CQ-L7y" id="A2B-cC-p7z"/>
                     </connections>
                 </view>
                 <view clipsSubviews="YES" tag="3" contentMode="scaleToFill" id="Thh-60-9JV" customClass="BattleDeployCardView">
@@ -200,9 +200,9 @@
                                             <rect key="frame" x="0.0" y="0.0" width="42" height="42"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                         </imageView>
-                                        <imageView userInteractionEnabled="NO" contentMode="top" image="Cheerleader2BazookaThumbnail.png" id="Lux-DC-CYP">
-                                            <rect key="frame" x="-8" y="4" width="59" height="59"/>
-                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleAspectFit" image="BryanGoslingT1Thumbnail.png" id="UNu-bT-BMp">
+                                            <rect key="frame" x="0.0" y="0.0" width="42" height="42"/>
+                                            <autoresizingMask key="autoresizingMask"/>
                                         </imageView>
                                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="up0-B2-0rT" customClass="DeployCardButton">
                                             <rect key="frame" x="0.0" y="0.0" width="42" height="42"/>
@@ -251,7 +251,7 @@
                         <outlet property="healthLabel" destination="IrW-e4-BBl" id="eJi-Sj-sNT"/>
                         <outlet property="healthbar" destination="hN4-Xe-oGv" id="plj-IW-1Q4"/>
                         <outlet property="mainView" destination="KWS-Vr-YFS" id="q4T-VA-ddF"/>
-                        <outlet property="monsterIcon" destination="Lux-DC-CYP" id="VQE-ef-i6s"/>
+                        <outlet property="monsterIcon" destination="UNu-bT-BMp" id="7SC-Gs-tTx"/>
                     </connections>
                 </view>
             </subviews>
@@ -332,7 +332,7 @@
         </view>
     </objects>
     <resources>
-        <image name="Cheerleader2BazookaThumbnail.png" width="59" height="56"/>
+        <image name="BryanGoslingT1Thumbnail.png" width="33" height="42"/>
         <image name="closebattle.png" width="27" height="27"/>
         <image name="deploybg.png" width="157" height="93"/>
         <image name="elementreeicon.png" width="19" height="19"/>

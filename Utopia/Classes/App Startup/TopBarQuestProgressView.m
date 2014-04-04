@@ -21,7 +21,7 @@
 - (void) displayForQuest:(FullQuestProto *)quest userQuest:(UserQuest *)userQuest {
   NSString *file = [quest.questGiverImagePrefix stringByAppendingString:@"Thumbnail.png"];
   [Globals imageNamed:file withView:self.monsterIcon greyscale:NO indicator:UIActivityIndicatorViewStyleWhite clearImageDuringDownload:YES];
-  file = [Globals imageNameForElement:quest.monsterElement suffix:@"mteam.png"];
+  file = [Globals imageNameForElement:quest.monsterElement suffix:@"team.png"];
   [Globals imageNamed:file withView:self.bgdIcon greyscale:NO indicator:UIActivityIndicatorViewStyleWhite clearImageDuringDownload:YES];
   
   if (quest.quantity < 100) {

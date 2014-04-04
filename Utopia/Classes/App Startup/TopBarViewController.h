@@ -32,7 +32,7 @@
 @property (nonatomic, retain) IBOutlet UILabel *topLabel;
 @property (nonatomic, retain) IBOutlet UILabel *botLabel;
 
-@property (nonatomic, retain) IBOutlet ProgressBar *healthBar;
+@property (nonatomic, retain) IBOutlet SplitImageProgressBar *healthBar;
 @property (nonatomic, retain) IBOutlet UIView *healthBarView;
 
 @end
@@ -50,9 +50,9 @@
 @property (nonatomic, assign) IBOutlet NumTransitionLabel *expLabel;
 @property (nonatomic, assign) IBOutlet NumTransitionLabel *cashLabel;
 @property (nonatomic, assign) IBOutlet NumTransitionLabel *oilLabel;
-@property (nonatomic, assign) IBOutlet NumTransitionLabel *cashMaxLabel;
-@property (nonatomic, assign) IBOutlet NumTransitionLabel *oilMaxLabel;
 @property (nonatomic, assign) IBOutlet NumTransitionLabel *gemsLabel;
+@property (nonatomic, assign) IBOutlet UILabel *cashMaxLabel;
+@property (nonatomic, assign) IBOutlet UILabel *oilMaxLabel;
 @property (nonatomic, assign) IBOutlet UIImageView *clanIcon;
 
 @property (nonatomic, assign) IBOutlet UILabel *shieldLabel;

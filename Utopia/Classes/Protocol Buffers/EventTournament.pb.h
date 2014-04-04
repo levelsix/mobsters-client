@@ -37,6 +37,8 @@
 @class TournamentEventRewardProto_Builder;
 @class UserFacebookInviteForSlotProto;
 @class UserFacebookInviteForSlotProto_Builder;
+@class UserPvpLeagueProto;
+@class UserPvpLeagueProto_Builder;
 typedef enum {
   RetrieveTournamentRankingsResponseProto_RetrieveTournamentStatusSuccess = 1,
   RetrieveTournamentRankingsResponseProto_RetrieveTournamentStatusOtherFail = 2,

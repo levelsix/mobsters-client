@@ -12,6 +12,7 @@ static PBExtensionRegistry* extensionRegistry = nil;
   if (self == [QuestRoot class]) {
     PBMutableExtensionRegistry* registry = [PBMutableExtensionRegistry registry];
     [self registerAllExtensions:registry];
+    [ChatRoot registerAllExtensions:registry];
     [MonsterStuffRoot registerAllExtensions:registry];
     [StructureRoot registerAllExtensions:registry];
     extensionRegistry = [registry retain];
@@ -2016,6 +2017,8 @@ static FullUserQuestProto* defaultFullUserQuestProtoInstance = nil;
 @property int32_t itemId;
 @property (retain) NSString* name;
 @property (retain) NSString* imgName;
+@property (retain) NSString* borderImgName;
+@property (retain) ColorProto* color;
 @end
 
 @implementation ItemProto
@@ -2041,9 +2044,25 @@ static FullUserQuestProto* defaultFullUserQuestProtoInstance = nil;
   hasImgName_ = !!value;
 }
 @synthesize imgName;
+- (BOOL) hasBorderImgName {
+  return !!hasBorderImgName_;
+}
+- (void) setHasBorderImgName:(BOOL) value {
+  hasBorderImgName_ = !!value;
+}
+@synthesize borderImgName;
+- (BOOL) hasColor {
+  return !!hasColor_;
+}
+- (void) setHasColor:(BOOL) value {
+  hasColor_ = !!value;
+}
+@synthesize color;
 - (void) dealloc {
   self.name = nil;
   self.imgName = nil;
+  self.borderImgName = nil;
+  self.color = nil;
   [super dealloc];
 }
 - (id) init {
@@ -2051,6 +2070,8 @@ static FullUserQuestProto* defaultFullUserQuestProtoInstance = nil;
     self.itemId = 0;
     self.name = @"";
     self.imgName = @"";
+    self.borderImgName = @"";
+    self.color = [ColorProto defaultInstance];
   }
   return self;
 }
@@ -2079,6 +2100,12 @@ static ItemProto* defaultItemProtoInstance = nil;
   if (self.hasImgName) {
     [output writeString:3 value:self.imgName];
   }
+  if (self.hasBorderImgName) {
+    [output writeString:4 value:self.borderImgName];
+  }
+  if (self.hasColor) {
+    [output writeMessage:5 value:self.color];
+  }
   [self.unknownFields writeToCodedOutputStream:output];
 }
 - (int32_t) serializedSize {
@@ -2096,6 +2123,12 @@ static ItemProto* defaultItemProtoInstance = nil;
   }
   if (self.hasImgName) {
     size += computeStringSize(3, self.imgName);
+  }
+  if (self.hasBorderImgName) {
+    size += computeStringSize(4, self.borderImgName);
+  }
+  if (self.hasColor) {
+    size += computeMessageSize(5, self.color);
   }
   size += self.unknownFields.serializedSize;
   memoizedSerializedSize = size;
@@ -2181,6 +2214,12 @@ static ItemProto* defaultItemProtoInstance = nil;
   if (other.hasImgName) {
     [self setImgName:other.imgName];
   }
+  if (other.hasBorderImgName) {
+    [self setBorderImgName:other.borderImgName];
+  }
+  if (other.hasColor) {
+    [self mergeColor:other.color];
+  }
   [self mergeUnknownFields:other.unknownFields];
   return self;
 }
@@ -2212,6 +2251,19 @@ static ItemProto* defaultItemProtoInstance = nil;
       }
       case 26: {
         [self setImgName:[input readString]];
+        break;
+      }
+      case 34: {
+        [self setBorderImgName:[input readString]];
+        break;
+      }
+      case 42: {
+        ColorProto_Builder* subBuilder = [ColorProto builder];
+        if (self.hasColor) {
+          [subBuilder mergeFrom:self.color];
+        }
+        [input readMessage:subBuilder extensionRegistry:extensionRegistry];
+        [self setColor:[subBuilder buildPartial]];
         break;
       }
     }
@@ -2263,6 +2315,52 @@ static ItemProto* defaultItemProtoInstance = nil;
 - (ItemProto_Builder*) clearImgName {
   result.hasImgName = NO;
   result.imgName = @"";
+  return self;
+}
+- (BOOL) hasBorderImgName {
+  return result.hasBorderImgName;
+}
+- (NSString*) borderImgName {
+  return result.borderImgName;
+}
+- (ItemProto_Builder*) setBorderImgName:(NSString*) value {
+  result.hasBorderImgName = YES;
+  result.borderImgName = value;
+  return self;
+}
+- (ItemProto_Builder*) clearBorderImgName {
+  result.hasBorderImgName = NO;
+  result.borderImgName = @"";
+  return self;
+}
+- (BOOL) hasColor {
+  return result.hasColor;
+}
+- (ColorProto*) color {
+  return result.color;
+}
+- (ItemProto_Builder*) setColor:(ColorProto*) value {
+  result.hasColor = YES;
+  result.color = value;
+  return self;
+}
+- (ItemProto_Builder*) setColorBuilder:(ColorProto_Builder*) builderForValue {
+  return [self setColor:[builderForValue build]];
+}
+- (ItemProto_Builder*) mergeColor:(ColorProto*) value {
+  if (result.hasColor &&
+      result.color != [ColorProto defaultInstance]) {
+    result.color =
+      [[[ColorProto builderWithPrototype:result.color] mergeFrom:value] buildPartial];
+  } else {
+    result.color = value;
+  }
+  result.hasColor = YES;
+  return self;
+}
+- (ItemProto_Builder*) clearColor {
+  result.hasColor = NO;
+  result.color = [ColorProto defaultInstance];
   return self;
 }
 @end

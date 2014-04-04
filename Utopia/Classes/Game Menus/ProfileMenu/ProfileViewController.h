@@ -25,13 +25,7 @@
 @property (nonatomic, strong) IBOutlet UIButton *clanButton;
 @property (nonatomic, strong) IBOutlet UIImageView *shieldIcon;
 
-@property (nonatomic, strong) IBOutlet UIView *leagueView;
-@property (nonatomic, strong) IBOutlet UIImageView *leagueBgd;
-@property (nonatomic, strong) IBOutlet UIImageView *leagueIcon;
-@property (nonatomic, strong) IBOutlet UILabel *leagueLabel;
-@property (nonatomic, strong) IBOutlet UILabel *rankLabel;
-@property (nonatomic, strong) IBOutlet UILabel *rankQualifierLabel;
-@property (nonatomic, strong) IBOutlet UILabel *placeLabel;
+@property (nonatomic, strong) IBOutlet LeagueView *leagueView;
 
 @property (nonatomic, strong) FullUserProto *fup;
 @property (nonatomic, copy) NSArray *curTeam;

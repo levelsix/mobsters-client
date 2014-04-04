@@ -49,17 +49,37 @@
                     <size key="shadowOffset" width="0.0" height="1"/>
                 </label>
                 <view contentMode="scaleToFill" id="4NV-7V-bTf">
-                    <rect key="frame" x="29" y="18" width="47" height="8"/>
+                    <rect key="frame" x="30" y="18" width="44" height="8"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                     <subviews>
-                        <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="hteambarbg.png" id="TqI-H9-rdr">
-                            <rect key="frame" x="0.0" y="0.0" width="47" height="8"/>
+                        <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="teamhealthbarbg.png" id="g4N-Bc-ICO">
+                            <rect key="frame" x="0.0" y="0.0" width="44" height="8"/>
                             <autoresizingMask key="autoresizingMask"/>
                         </imageView>
-                        <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="lighthteambar.png" id="hKY-uP-xbb" customClass="ProgressBar">
-                            <rect key="frame" x="1" y="1" width="45" height="6"/>
-                            <autoresizingMask key="autoresizingMask"/>
-                        </imageView>
+                        <view contentMode="scaleToFill" id="t1W-ke-djt" customClass="SplitImageProgressBar">
+                            <rect key="frame" x="0.0" y="0.0" width="44" height="8"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <subviews>
+                                <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="left" image="teamhealthbarcap.png" id="vDe-Z5-BdX">
+                                    <rect key="frame" x="0.0" y="0.0" width="3" height="8"/>
+                                    <autoresizingMask key="autoresizingMask"/>
+                                </imageView>
+                                <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" image="teamhealthbarmiddle.png" id="aDh-rN-oPD">
+                                    <rect key="frame" x="3" y="0.0" width="38" height="8"/>
+                                    <autoresizingMask key="autoresizingMask"/>
+                                </imageView>
+                                <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="left" image="teamhealthbarcap.png" id="BBl-ns-wYt" customClass="FlipImageView">
+                                    <rect key="frame" x="41" y="0.0" width="3" height="8"/>
+                                    <autoresizingMask key="autoresizingMask"/>
+                                </imageView>
+                            </subviews>
+                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                            <connections>
+                                <outlet property="leftCap" destination="vDe-Z5-BdX" id="0K9-bk-LWR"/>
+                                <outlet property="middleBar" destination="aDh-rN-oPD" id="d5g-Bc-Khp"/>
+                                <outlet property="rightCap" destination="BBl-ns-wYt" id="oY4-Cg-wks"/>
+                            </connections>
+                        </view>
                     </subviews>
                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                 </view>
@@ -67,8 +87,9 @@
             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
             <simulatedOrientationMetrics key="simulatedOrientationMetrics" orientation="landscapeRight"/>
             <connections>
+                <outlet property="bgdIcon" destination="duj-Ym-TjZ" id="MZv-9R-xNS"/>
                 <outlet property="botLabel" destination="laS-nS-0zD" id="jBt-Ls-tLY"/>
-                <outlet property="healthBar" destination="hKY-uP-xbb" id="2E0-tJ-RYU"/>
+                <outlet property="healthBar" destination="t1W-ke-djt" id="LV5-xv-WBV"/>
                 <outlet property="healthBarView" destination="4NV-7V-bTf" id="sFQ-e2-hhq"/>
                 <outlet property="iconView" destination="PDn-2W-qLR" id="7ZO-ED-yQq"/>
                 <outlet property="monsterIcon" destination="jFF-ne-OWx" id="rXD-zh-VHO"/>
@@ -79,7 +100,8 @@
     <resources>
         <image name="BryanGoslingT1Thumbnail.png" width="33" height="42"/>
         <image name="fireteam.png" width="42" height="42"/>
-        <image name="hteambarbg.png" width="47" height="8"/>
-        <image name="lighthteambar.png" width="45" height="6"/>
+        <image name="teamhealthbarbg.png" width="44" height="8"/>
+        <image name="teamhealthbarcap.png" width="3" height="8"/>
+        <image name="teamhealthbarmiddle.png" width="1" height="8"/>
     </resources>
 </document>

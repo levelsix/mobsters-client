@@ -2,9 +2,12 @@
 
 #import "ProtocolBuffers.h"
 
+#import "Chat.pb.h"
 #import "MonsterStuff.pb.h"
 #import "Structure.pb.h"
 
+@class ColorProto;
+@class ColorProto_Builder;
 @class CoordinateProto;
 @class CoordinateProto_Builder;
 @class DialogueProto;
@@ -15,22 +18,36 @@
 @class FullQuestProto_Builder;
 @class FullUserMonsterProto;
 @class FullUserMonsterProto_Builder;
+@class FullUserProto;
+@class FullUserProto_Builder;
 @class FullUserQuestProto;
 @class FullUserQuestProto_Builder;
 @class FullUserStructureProto;
 @class FullUserStructureProto_Builder;
+@class GroupChatMessageProto;
+@class GroupChatMessageProto_Builder;
 @class HospitalProto;
 @class HospitalProto_Builder;
 @class ItemProto;
 @class ItemProto_Builder;
 @class LabProto;
 @class LabProto_Builder;
+@class MinimumClanProto;
+@class MinimumClanProto_Builder;
 @class MinimumObstacleProto;
 @class MinimumObstacleProto_Builder;
 @class MinimumUserMonsterProto;
 @class MinimumUserMonsterProto_Builder;
 @class MinimumUserMonsterSellProto;
 @class MinimumUserMonsterSellProto_Builder;
+@class MinimumUserProto;
+@class MinimumUserProtoWithFacebookId;
+@class MinimumUserProtoWithFacebookId_Builder;
+@class MinimumUserProtoWithLevel;
+@class MinimumUserProtoWithLevel_Builder;
+@class MinimumUserProtoWithMaxResources;
+@class MinimumUserProtoWithMaxResources_Builder;
+@class MinimumUserProto_Builder;
 @class MonsterBattleDialogueProto;
 @class MonsterBattleDialogueProto_Builder;
 @class MonsterLevelInfoProto;
@@ -39,12 +56,16 @@
 @class MonsterProto_Builder;
 @class ObstacleProto;
 @class ObstacleProto_Builder;
+@class PrivateChatPostProto;
+@class PrivateChatPostProto_Builder;
 @class ResidenceProto;
 @class ResidenceProto_Builder;
 @class ResourceGeneratorProto;
 @class ResourceGeneratorProto_Builder;
 @class ResourceStorageProto;
 @class ResourceStorageProto_Builder;
+@class StaticUserLevelInfoProto;
+@class StaticUserLevelInfoProto_Builder;
 @class StructureInfoProto;
 @class StructureInfoProto_Builder;
 @class TownHallProto;
@@ -57,6 +78,8 @@
 @class UserEnhancementItemProto_Builder;
 @class UserEnhancementProto;
 @class UserEnhancementProto_Builder;
+@class UserFacebookInviteForSlotProto;
+@class UserFacebookInviteForSlotProto_Builder;
 @class UserMonsterCurrentExpProto;
 @class UserMonsterCurrentExpProto_Builder;
 @class UserMonsterCurrentHealthProto;
@@ -67,6 +90,8 @@
 @class UserMonsterHealingProto_Builder;
 @class UserObstacleProto;
 @class UserObstacleProto_Builder;
+@class UserPvpLeagueProto;
+@class UserPvpLeagueProto_Builder;
 typedef enum {
   FullQuestProto_QuestTypeKillMonster = 1,
   FullQuestProto_QuestTypeDonateMonster = 2,
@@ -560,16 +585,24 @@ BOOL FullQuestProto_QuestTypeIsValidValue(FullQuestProto_QuestType value);
   BOOL hasItemId_:1;
   BOOL hasName_:1;
   BOOL hasImgName_:1;
+  BOOL hasBorderImgName_:1;
+  BOOL hasColor_:1;
   int32_t itemId;
   NSString* name;
   NSString* imgName;
+  NSString* borderImgName;
+  ColorProto* color;
 }
 - (BOOL) hasItemId;
 - (BOOL) hasName;
 - (BOOL) hasImgName;
+- (BOOL) hasBorderImgName;
+- (BOOL) hasColor;
 @property (readonly) int32_t itemId;
 @property (readonly, retain) NSString* name;
 @property (readonly, retain) NSString* imgName;
+@property (readonly, retain) NSString* borderImgName;
+@property (readonly, retain) ColorProto* color;
 
 + (ItemProto*) defaultInstance;
 - (ItemProto*) defaultInstance;
@@ -619,5 +652,17 @@ BOOL FullQuestProto_QuestTypeIsValidValue(FullQuestProto_QuestType value);
 - (NSString*) imgName;
 - (ItemProto_Builder*) setImgName:(NSString*) value;
 - (ItemProto_Builder*) clearImgName;
+
+- (BOOL) hasBorderImgName;
+- (NSString*) borderImgName;
+- (ItemProto_Builder*) setBorderImgName:(NSString*) value;
+- (ItemProto_Builder*) clearBorderImgName;
+
+- (BOOL) hasColor;
+- (ColorProto*) color;
+- (ItemProto_Builder*) setColor:(ColorProto*) value;
+- (ItemProto_Builder*) setColorBuilder:(ColorProto_Builder*) builderForValue;
+- (ItemProto_Builder*) mergeColor:(ColorProto*) value;
+- (ItemProto_Builder*) clearColor;
 @end
 

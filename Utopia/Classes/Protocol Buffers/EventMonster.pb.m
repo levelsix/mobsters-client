@@ -2497,6 +2497,9 @@ BOOL EnhancementWaitTimeCompleteResponseProto_EnhancementWaitTimeCompleteStatusI
 @property (retain) MinimumUserProto* sender;
 @property (retain) NSMutableArray* mutableUmchpList;
 @property int64_t clientTime;
+@property int64_t userTaskId;
+@property BOOL isUpdateTaskStageForUser;
+@property int32_t nuTaskStageId;
 @end
 
 @implementation UpdateMonsterHealthRequestProto
@@ -2516,6 +2519,32 @@ BOOL EnhancementWaitTimeCompleteResponseProto_EnhancementWaitTimeCompleteStatusI
   hasClientTime_ = !!value;
 }
 @synthesize clientTime;
+- (BOOL) hasUserTaskId {
+  return !!hasUserTaskId_;
+}
+- (void) setHasUserTaskId:(BOOL) value {
+  hasUserTaskId_ = !!value;
+}
+@synthesize userTaskId;
+- (BOOL) hasIsUpdateTaskStageForUser {
+  return !!hasIsUpdateTaskStageForUser_;
+}
+- (void) setHasIsUpdateTaskStageForUser:(BOOL) value {
+  hasIsUpdateTaskStageForUser_ = !!value;
+}
+- (BOOL) isUpdateTaskStageForUser {
+  return !!isUpdateTaskStageForUser_;
+}
+- (void) setIsUpdateTaskStageForUser:(BOOL) value {
+  isUpdateTaskStageForUser_ = !!value;
+}
+- (BOOL) hasNuTaskStageId {
+  return !!hasNuTaskStageId_;
+}
+- (void) setHasNuTaskStageId:(BOOL) value {
+  hasNuTaskStageId_ = !!value;
+}
+@synthesize nuTaskStageId;
 - (void) dealloc {
   self.sender = nil;
   self.mutableUmchpList = nil;
@@ -2525,6 +2554,9 @@ BOOL EnhancementWaitTimeCompleteResponseProto_EnhancementWaitTimeCompleteStatusI
   if ((self = [super init])) {
     self.sender = [MinimumUserProto defaultInstance];
     self.clientTime = 0L;
+    self.userTaskId = 0L;
+    self.isUpdateTaskStageForUser = NO;
+    self.nuTaskStageId = 0;
   }
   return self;
 }
@@ -2560,6 +2592,15 @@ static UpdateMonsterHealthRequestProto* defaultUpdateMonsterHealthRequestProtoIn
   if (self.hasClientTime) {
     [output writeInt64:3 value:self.clientTime];
   }
+  if (self.hasUserTaskId) {
+    [output writeInt64:4 value:self.userTaskId];
+  }
+  if (self.hasIsUpdateTaskStageForUser) {
+    [output writeBool:5 value:self.isUpdateTaskStageForUser];
+  }
+  if (self.hasNuTaskStageId) {
+    [output writeInt32:6 value:self.nuTaskStageId];
+  }
   [self.unknownFields writeToCodedOutputStream:output];
 }
 - (int32_t) serializedSize {
@@ -2577,6 +2618,15 @@ static UpdateMonsterHealthRequestProto* defaultUpdateMonsterHealthRequestProtoIn
   }
   if (self.hasClientTime) {
     size += computeInt64Size(3, self.clientTime);
+  }
+  if (self.hasUserTaskId) {
+    size += computeInt64Size(4, self.userTaskId);
+  }
+  if (self.hasIsUpdateTaskStageForUser) {
+    size += computeBoolSize(5, self.isUpdateTaskStageForUser);
+  }
+  if (self.hasNuTaskStageId) {
+    size += computeInt32Size(6, self.nuTaskStageId);
   }
   size += self.unknownFields.serializedSize;
   memoizedSerializedSize = size;
@@ -2665,6 +2715,15 @@ static UpdateMonsterHealthRequestProto* defaultUpdateMonsterHealthRequestProtoIn
   if (other.hasClientTime) {
     [self setClientTime:other.clientTime];
   }
+  if (other.hasUserTaskId) {
+    [self setUserTaskId:other.userTaskId];
+  }
+  if (other.hasIsUpdateTaskStageForUser) {
+    [self setIsUpdateTaskStageForUser:other.isUpdateTaskStageForUser];
+  }
+  if (other.hasNuTaskStageId) {
+    [self setNuTaskStageId:other.nuTaskStageId];
+  }
   [self mergeUnknownFields:other.unknownFields];
   return self;
 }
@@ -2703,6 +2762,18 @@ static UpdateMonsterHealthRequestProto* defaultUpdateMonsterHealthRequestProtoIn
       }
       case 24: {
         [self setClientTime:[input readInt64]];
+        break;
+      }
+      case 32: {
+        [self setUserTaskId:[input readInt64]];
+        break;
+      }
+      case 40: {
+        [self setIsUpdateTaskStageForUser:[input readBool]];
+        break;
+      }
+      case 48: {
+        [self setNuTaskStageId:[input readInt32]];
         break;
       }
     }
@@ -2781,6 +2852,54 @@ static UpdateMonsterHealthRequestProto* defaultUpdateMonsterHealthRequestProtoIn
 - (UpdateMonsterHealthRequestProto_Builder*) clearClientTime {
   result.hasClientTime = NO;
   result.clientTime = 0L;
+  return self;
+}
+- (BOOL) hasUserTaskId {
+  return result.hasUserTaskId;
+}
+- (int64_t) userTaskId {
+  return result.userTaskId;
+}
+- (UpdateMonsterHealthRequestProto_Builder*) setUserTaskId:(int64_t) value {
+  result.hasUserTaskId = YES;
+  result.userTaskId = value;
+  return self;
+}
+- (UpdateMonsterHealthRequestProto_Builder*) clearUserTaskId {
+  result.hasUserTaskId = NO;
+  result.userTaskId = 0L;
+  return self;
+}
+- (BOOL) hasIsUpdateTaskStageForUser {
+  return result.hasIsUpdateTaskStageForUser;
+}
+- (BOOL) isUpdateTaskStageForUser {
+  return result.isUpdateTaskStageForUser;
+}
+- (UpdateMonsterHealthRequestProto_Builder*) setIsUpdateTaskStageForUser:(BOOL) value {
+  result.hasIsUpdateTaskStageForUser = YES;
+  result.isUpdateTaskStageForUser = value;
+  return self;
+}
+- (UpdateMonsterHealthRequestProto_Builder*) clearIsUpdateTaskStageForUser {
+  result.hasIsUpdateTaskStageForUser = NO;
+  result.isUpdateTaskStageForUser = NO;
+  return self;
+}
+- (BOOL) hasNuTaskStageId {
+  return result.hasNuTaskStageId;
+}
+- (int32_t) nuTaskStageId {
+  return result.nuTaskStageId;
+}
+- (UpdateMonsterHealthRequestProto_Builder*) setNuTaskStageId:(int32_t) value {
+  result.hasNuTaskStageId = YES;
+  result.nuTaskStageId = value;
+  return self;
+}
+- (UpdateMonsterHealthRequestProto_Builder*) clearNuTaskStageId {
+  result.hasNuTaskStageId = NO;
+  result.nuTaskStageId = 0;
   return self;
 }
 @end

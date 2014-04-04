@@ -29,13 +29,6 @@
 @property (nonatomic, assign) int silver;
 @property (nonatomic, assign) int oil;
 @property (nonatomic, retain) NSString *referralCode;
-@property (nonatomic, assign) int battlesWon;
-@property (nonatomic, assign) int battlesLost;
-@property (nonatomic, assign) int flees;
-@property (nonatomic, assign) int attacksWon;
-@property (nonatomic, assign) int attacksLost;
-@property (nonatomic, assign) int defensesWon;
-@property (nonatomic, assign) int defensesLost;
 @property (nonatomic, assign) CLLocationCoordinate2D location;
 @property (nonatomic, assign) int skillPoints;
 @property (nonatomic, assign) int experience;
@@ -49,6 +42,8 @@
 @property (nonatomic, assign) int numBeginnerSalesPurchased;
 @property (nonatomic, retain) MSDate *shieldEndTime;
 @property (nonatomic, retain) MSDate *lastObstacleCreateTime;
+
+@property (nonatomic, retain) UserPvpLeagueProto *pvpLeague;
 
 @property (nonatomic, retain) NSString *kabamNaid;
 @property (nonatomic, retain) NSString *facebookId;
@@ -65,6 +60,7 @@
 @property (nonatomic, retain) NSArray *persistentEvents;
 @property (nonatomic, retain) NSMutableDictionary *eventCooldownTimes;
 @property (nonatomic, retain) NSArray *staticClanIcons;
+@property (nonatomic, retain) NSArray *staticLeagues;
 
 @property (nonatomic, retain) NSArray *persistentClanEvents;
 @property (nonatomic, retain) PersistentClanEventClanInfoProto *curClanRaidInfo;
@@ -137,6 +133,7 @@
 - (MonsterProto *) monsterWithId:(int)monsterId;
 - (ObstacleProto *) obstacleWithId:(int)obstacleId;
 - (ClanIconProto *) clanIconWithId:(int)iconId;
+- (PvpLeagueProto *) leagueForId:(int)leagueId;
 - (PersistentEventProto *) persistentEventWithId:(int)eventId;
 - (PersistentEventProto *) currentPersistentEventWithType:(PersistentEventProto_EventType)type;
 - (MonsterBattleDialogueProto *) battleDialogueForMonsterId:(int)monsterId type:(MonsterBattleDialogueProto_DialogueType)type;

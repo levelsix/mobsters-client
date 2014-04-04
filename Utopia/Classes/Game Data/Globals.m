@@ -310,7 +310,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
 + (UIColor *) colorForElementOnDarkBackground:(MonsterProto_MonsterElement)element {
   ccColor3B c;
   switch (element) {
-    case MonsterProto_MonsterElementDarkness:
+    case MonsterProto_MonsterElementDark:
       c = ccc3(129, 7, 181);
       break;
       
@@ -322,7 +322,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
       c = ccc3(220, 40, 0);
       break;
       
-    case MonsterProto_MonsterElementLightning:
+    case MonsterProto_MonsterElementLight:
       c = ccc3(255, 215, 0);
       break;
       
@@ -344,7 +344,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
 + (UIColor *) colorForElementOnLightBackground:(MonsterProto_MonsterElement)element {
   ccColor3B c;
   switch (element) {
-    case MonsterProto_MonsterElementDarkness:
+    case MonsterProto_MonsterElementDark:
       c = ccc3(128, 59, 185);
       break;
       
@@ -356,7 +356,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
       c = ccc3(209, 63, 37);
       break;
       
-    case MonsterProto_MonsterElementLightning:
+    case MonsterProto_MonsterElementLight:
       c = ccc3(177, 121, 71);
       break;
       
@@ -414,7 +414,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
 
 + (NSString *) stringForElement:(MonsterProto_MonsterElement)element {
   switch (element) {
-    case MonsterProto_MonsterElementDarkness:
+    case MonsterProto_MonsterElementDark:
       return @"Night";
       
     case MonsterProto_MonsterElementFire:
@@ -423,7 +423,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
     case MonsterProto_MonsterElementGrass:
       return @"Earth";
       
-    case MonsterProto_MonsterElementLightning:
+    case MonsterProto_MonsterElementLight:
       return @"Light";
       
     case MonsterProto_MonsterElementWater:
@@ -440,11 +440,11 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
 
 + (MonsterProto_MonsterElement) elementForSuperEffective:(MonsterProto_MonsterElement)element {
   switch (element) {
-    case MonsterProto_MonsterElementDarkness:
-      return MonsterProto_MonsterElementLightning;
+    case MonsterProto_MonsterElementDark:
+      return MonsterProto_MonsterElementLight;
       
-    case MonsterProto_MonsterElementLightning:
-      return MonsterProto_MonsterElementDarkness;
+    case MonsterProto_MonsterElementLight:
+      return MonsterProto_MonsterElementDark;
       
     case MonsterProto_MonsterElementFire:
       return MonsterProto_MonsterElementGrass;
@@ -463,11 +463,11 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
 
 + (MonsterProto_MonsterElement) elementForNotVeryEffective:(MonsterProto_MonsterElement)element {
   switch (element) {
-    case MonsterProto_MonsterElementDarkness:
-      return MonsterProto_MonsterElementLightning;
+    case MonsterProto_MonsterElementDark:
+      return MonsterProto_MonsterElementLight;
       
-    case MonsterProto_MonsterElementLightning:
-      return MonsterProto_MonsterElementDarkness;
+    case MonsterProto_MonsterElementLight:
+      return MonsterProto_MonsterElementDark;
       
     case MonsterProto_MonsterElementFire:
       return MonsterProto_MonsterElementWater;
@@ -1280,8 +1280,8 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
   int fire = [self calculateElementalDamageForMonster:um element:MonsterProto_MonsterElementFire];
   int water = [self calculateElementalDamageForMonster:um element:MonsterProto_MonsterElementWater];
   int earth = [self calculateElementalDamageForMonster:um element:MonsterProto_MonsterElementGrass];
-  int light = [self calculateElementalDamageForMonster:um element:MonsterProto_MonsterElementLightning];
-  int night = [self calculateElementalDamageForMonster:um element:MonsterProto_MonsterElementDarkness];
+  int light = [self calculateElementalDamageForMonster:um element:MonsterProto_MonsterElementLight];
+  int night = [self calculateElementalDamageForMonster:um element:MonsterProto_MonsterElementDark];
   
   return fire+water+earth+light+night;
 }
@@ -1300,10 +1300,10 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
     case MonsterProto_MonsterElementWater:
       base = li.waterDmg;
       break;
-    case MonsterProto_MonsterElementLightning:
+    case MonsterProto_MonsterElementLight:
       base = li.lightningDmg;
       break;
-    case MonsterProto_MonsterElementDarkness:
+    case MonsterProto_MonsterElementDark:
       base = li.darknessDmg;
       break;
     case MonsterProto_MonsterElementRock:
@@ -1401,12 +1401,12 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
       if (dElement == MonsterProto_MonsterElementFire) return self.elementalWeakness;
       break;
       
-    case MonsterProto_MonsterElementLightning:
-      if (dElement == MonsterProto_MonsterElementDarkness) return self.elementalStrength;
+    case MonsterProto_MonsterElementLight:
+      if (dElement == MonsterProto_MonsterElementDark) return self.elementalStrength;
       break;
       
-    case MonsterProto_MonsterElementDarkness:
-      if (dElement == MonsterProto_MonsterElementLightning) return self.elementalStrength;
+    case MonsterProto_MonsterElementDark:
+      if (dElement == MonsterProto_MonsterElementLight) return self.elementalStrength;
       break;
       
     default:

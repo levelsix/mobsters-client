@@ -102,6 +102,8 @@
 @class UserMonsterHealingProto_Builder;
 @class UserObstacleProto;
 @class UserObstacleProto_Builder;
+@class UserPvpLeagueProto;
+@class UserPvpLeagueProto_Builder;
 typedef enum {
   UserCreateResponseProto_UserCreateStatusSuccess = 1,
   UserCreateResponseProto_UserCreateStatusFailInvalidName = 2,
@@ -267,14 +269,10 @@ BOOL SetGameCenterIdResponseProto_SetGameCenterIdStatusIsValidValue(SetGameCente
 
 @interface UserCreateResponseProto : PBGeneratedMessage {
 @private
-  BOOL hasSender_:1;
   BOOL hasStatus_:1;
-  FullUserProto* sender;
   UserCreateResponseProto_UserCreateStatus status;
 }
-- (BOOL) hasSender;
 - (BOOL) hasStatus;
-@property (readonly, retain) FullUserProto* sender;
 @property (readonly) UserCreateResponseProto_UserCreateStatus status;
 
 + (UserCreateResponseProto*) defaultInstance;
@@ -310,13 +308,6 @@ BOOL SetGameCenterIdResponseProto_SetGameCenterIdStatusIsValidValue(SetGameCente
 - (UserCreateResponseProto_Builder*) mergeFrom:(UserCreateResponseProto*) other;
 - (UserCreateResponseProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input;
 - (UserCreateResponseProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
-
-- (BOOL) hasSender;
-- (FullUserProto*) sender;
-- (UserCreateResponseProto_Builder*) setSender:(FullUserProto*) value;
-- (UserCreateResponseProto_Builder*) setSenderBuilder:(FullUserProto_Builder*) builderForValue;
-- (UserCreateResponseProto_Builder*) mergeSender:(FullUserProto*) value;
-- (UserCreateResponseProto_Builder*) clearSender;
 
 - (BOOL) hasStatus;
 - (UserCreateResponseProto_UserCreateStatus) status;

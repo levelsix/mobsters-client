@@ -253,7 +253,7 @@
       if (nextThLevel) {
         [Globals addAlertNotification:[NSString stringWithFormat:@"Upgrade %@ to level %d to build more!", thp.structInfo.name, nextThLevel]];
       } else {
-        [Globals addAlertNotification:@"You have already reached the max number of these buildings."];
+        [Globals addAlertNotification:@"You have already reached the max number of this building."];
       }
     } else {
       [self buildingPurchased:fsp.structId];

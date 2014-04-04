@@ -414,7 +414,6 @@
 
 - (void) updateForPvpProto:(PvpProto *)pvp {
   self.nameLabel.string = pvp.defender.minUserProto.name;
-  self.rankLabel.string = [NSString stringWithFormat:@"%d.  %@", 22, pvp.defender.minUserProto.name];
   self.cashLabel.string = [Globals cashStringForNumber:pvp.prospectiveCashWinnings];
   self.oilLabel.string = [Globals commafyNumber:pvp.prospectiveOilWinnings];
   
@@ -422,13 +421,12 @@
   TownHallProto *thp = (TownHallProto *)gs.myTownHall.staticStruct;
   self.nextMatchCostLabel.string = [Globals cashStringForNumber:thp.pvpQueueCashCost];
   
-  NSMutableArray *leagues = [NSMutableArray arrayWithArray:@[@"bronze", @"silver", @"gold", @"diamond", @"platinum", @"champion"]];
-  [leagues shuffle];
-  NSString *league = leagues[0];
-  int rank = arc4random()%2 ? arc4random()%9+1 : arc4random()%2 ? arc4random()%1000+1 : arc4random()%100+1;
+  PvpLeagueProto *pvpLeague = [gs leagueForId:pvp.pvpLeagueStats.leagueId];
+  NSString *league = pvpLeague.imgPrefix;
+  int rank = pvp.pvpLeagueStats.rank;
   [self.leagueBgd setSpriteFrame:[CCSpriteFrame frameWithImageNamed:[league stringByAppendingString:@"leaguebg.png"]]];
   [self.leagueIcon setSpriteFrame:[CCSpriteFrame frameWithImageNamed:[league stringByAppendingString:@"icon.png"]]];
-  self.leagueLabel.string = [NSString stringWithFormat:@"%@ League", league.capitalizedString];
+  self.leagueLabel.string = pvpLeague.leagueName;
   self.rankLabel.string = [Globals commafyNumber:rank];
   self.rankQualifierLabel.string = [Globals qualifierStringForNumber:rank];
   

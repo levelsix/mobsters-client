@@ -58,8 +58,8 @@
 - (void)loadProfile {
   GameState *gs = [GameState sharedGameState];
   
-  self.winsLabel.text = [Globals commafyNumber:self.fup.attacksWon+self.fup.defensesWon];
-  self.lossesLabel.text = [Globals commafyNumber:self.fup.attacksLost+self.fup.defensesLost];
+  self.winsLabel.text = [Globals commafyNumber:self.fup.pvpLeagueInfo.battlesWon];
+  self.lossesLabel.text = [Globals commafyNumber:self.fup.pvpLeagueInfo.battlesLost];
   self.nameLabel.text = self.fup ? [NSString stringWithFormat:@"%@ (LVL %d)", self.fup.name,self.fup.level] : @"Loading...";
   
   if (self.fup.hasClan) {
@@ -97,29 +97,7 @@
     }
   }
   
-  [self updateForLeague];
-}
-
-- (void) updateForLeague {
-  NSMutableArray *leagues = [NSMutableArray arrayWithArray:@[@"bronze", @"silver", @"gold", @"diamond", @"platinum", @"champion"]];
-  [leagues shuffle];
-  NSString *league = leagues[0];
-  int rank = arc4random()%2 ? arc4random()%9+1 : arc4random()%2 ? arc4random()%1000+1 : arc4random()%100+1;
-  [Globals imageNamed:[league stringByAppendingString:@"leaguebg.png"] withView:self.leagueBgd greyscale:NO indicator:UIActivityIndicatorViewStyleWhiteLarge clearImageDuringDownload:YES];
-  [Globals imageNamed:[league stringByAppendingString:@"icon.png"] withView:self.leagueIcon greyscale:NO indicator:UIActivityIndicatorViewStyleWhiteLarge clearImageDuringDownload:YES];
-  self.leagueLabel.text = [NSString stringWithFormat:@"%@ League", league.capitalizedString];
-  self.rankLabel.text = [Globals commafyNumber:rank];
-  self.rankQualifierLabel.text = [Globals qualifierStringForNumber:rank];
-  
-  CGSize size = [self.rankLabel.text sizeWithFont:self.rankLabel.font constrainedToSize:self.rankLabel.frame.size];
-  float leftSide = CGRectGetMaxX(self.rankLabel.frame)-size.width;
-  size = [self.placeLabel.text sizeWithFont:self.placeLabel.font];
-  float rightSide = CGRectGetMinX(self.placeLabel.frame)+size.width;
-  float midX = leftSide+(rightSide-leftSide)/2;
-  
-  float distFromCenter = midX-self.rankLabel.superview.frame.size.width/2;
-  CGPoint curCenter = self.rankLabel.superview.center;
-  self.rankLabel.superview.center = ccp(curCenter.x-distFromCenter, curCenter.y);
+  [self.leagueView updateForUserLeague:self.fup.pvpLeagueInfo];
 }
 
 - (void) infoClicked:(MonsterCardView *)view {

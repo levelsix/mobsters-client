@@ -55,6 +55,8 @@
 @class UserMonsterEvolutionProto_Builder;
 @class UserMonsterHealingProto;
 @class UserMonsterHealingProto_Builder;
+@class UserPvpLeagueProto;
+@class UserPvpLeagueProto_Builder;
 
 @interface BoosterPackStuffRoot : NSObject {
 }

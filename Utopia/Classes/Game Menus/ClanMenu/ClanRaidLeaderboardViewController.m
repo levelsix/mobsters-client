@@ -43,7 +43,7 @@
     // Grab the original member
     MinimumUserProtoForClans *mupc = nil;
     for (MinimumUserProtoForClans *m in originalClanMembers) {
-      if (m.minUserProto.minUserProtoWithLevel.minUserProto.userId == userInfo.userId) {
+      if (m.minUserProtoWithLevel.minUserProto.userId == userInfo.userId) {
         mupc = m;
         break;
       }

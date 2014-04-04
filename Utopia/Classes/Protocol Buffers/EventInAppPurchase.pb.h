@@ -64,6 +64,8 @@
 @class UserFacebookInviteForSlotProto_Builder;
 @class UserObstacleProto;
 @class UserObstacleProto_Builder;
+@class UserPvpLeagueProto;
+@class UserPvpLeagueProto_Builder;
 typedef enum {
   InAppPurchaseResponseProto_InAppPurchaseStatusSuccess = 1,
   InAppPurchaseResponseProto_InAppPurchaseStatusFail = 2,

@@ -94,9 +94,9 @@
   [self.waterView updateStatsWithElementType:elem andDamage:[gl calculateElementalDamageForMonster:self.monster element:elem]];
   elem = MonsterProto_MonsterElementGrass;
   [self.earthView updateStatsWithElementType:elem andDamage:[gl calculateElementalDamageForMonster:self.monster element:elem]];
-  elem = MonsterProto_MonsterElementLightning;
+  elem = MonsterProto_MonsterElementLight;
   [self.lightView updateStatsWithElementType:elem andDamage:[gl calculateElementalDamageForMonster:self.monster element:elem]];
-  elem = MonsterProto_MonsterElementDarkness;
+  elem = MonsterProto_MonsterElementDark;
   [self.nightView updateStatsWithElementType:elem andDamage:[gl calculateElementalDamageForMonster:self.monster element:elem]];
   elem = MonsterProto_MonsterElementRock;
   [self.rockView updateStatsWithElementType:elem andDamage:[gl calculateElementalDamageForMonster:self.monster element:elem]];

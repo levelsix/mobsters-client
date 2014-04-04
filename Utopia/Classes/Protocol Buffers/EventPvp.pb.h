@@ -24,8 +24,6 @@
 @class MinimumUserMonsterSellProto;
 @class MinimumUserMonsterSellProto_Builder;
 @class MinimumUserProto;
-@class MinimumUserProtoWithBattleHistory;
-@class MinimumUserProtoWithBattleHistory_Builder;
 @class MinimumUserProtoWithFacebookId;
 @class MinimumUserProtoWithFacebookId_Builder;
 @class MinimumUserProtoWithLevel;

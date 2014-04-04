@@ -72,6 +72,8 @@
 @class UserMonsterHealingProto_Builder;
 @class UserPersistentEventProto;
 @class UserPersistentEventProto_Builder;
+@class UserPvpLeagueProto;
+@class UserPvpLeagueProto_Builder;
 typedef enum {
   BeginDungeonResponseProto_BeginDungeonStatusSuccess = 1,
   BeginDungeonResponseProto_BeginDungeonStatusFailOther = 2,
