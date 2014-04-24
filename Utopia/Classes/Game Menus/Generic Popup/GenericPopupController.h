@@ -25,6 +25,7 @@
 + (GenericPopupController *) displayExchangeForGemsViewWithResourceType:(ResourceType)resourceType amount:(int)amount target:(id)target selector:(SEL)selector;
 
 @property (nonatomic, retain) IBOutlet UILabel *titleLabel;
+@property (nonatomic, retain) IBOutlet UIImageView *titleBgd;
 
 @property (nonatomic, retain) IBOutlet UIView *descriptionView;
 @property (nonatomic, retain) IBOutlet UILabel *descriptionLabel;

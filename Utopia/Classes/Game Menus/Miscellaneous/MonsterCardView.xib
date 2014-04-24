@@ -104,11 +104,11 @@
             </connections>
         </view>
         <view contentMode="scaleToFill" id="uzP-Kc-Yzl" userLabel="Empty View">
-            <rect key="frame" x="0.0" y="0.0" width="95" height="120"/>
+            <rect key="frame" x="0.0" y="0.0" width="95" height="121"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
                 <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="emptyslot.png" id="Yb6-gq-pfq">
-                    <rect key="frame" x="0.0" y="0.0" width="95" height="120"/>
+                    <rect key="frame" x="0.0" y="0.0" width="95" height="121"/>
                     <autoresizingMask key="autoresizingMask"/>
                 </imageView>
             </subviews>

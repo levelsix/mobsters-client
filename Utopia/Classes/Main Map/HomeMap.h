@@ -47,8 +47,9 @@
 
 @property (nonatomic, assign) IBOutlet UILabel *buildingNameLabel;
 @property (nonatomic, assign) IBOutlet UILabel *buildingIncomeLabel;
-@property (nonatomic, assign) IBOutlet UILabel *buildingUpgradeButtonTopLabel;
+@property (nonatomic, assign) IBOutlet UILabel *buildingUpgradeCashButtonTopLabel;
 @property (nonatomic, assign) IBOutlet UILabel *buildingUpgradeCashCostLabel;
+@property (nonatomic, assign) IBOutlet UILabel *buildingUpgradeOilButtonTopLabel;
 @property (nonatomic, assign) IBOutlet UILabel *buildingUpgradeOilCostLabel;
 @property (nonatomic, assign) IBOutlet UIView *buildingUpgradeOilView;
 @property (nonatomic, assign) IBOutlet UILabel *enterTopLabel;

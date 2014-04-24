@@ -275,10 +275,12 @@
     [self reloadTableAnimated:YES];
     
     GameState *gs = [GameState sharedGameState];
-    NSArray *arr = [NSArray arrayWithObject:[NSIndexPath indexPathForRow:gs.userEnhancement.feeders.count-1 inSection:0]];
-    [self.queueView.queueTable.tableView insertRowsAtIndexPaths:arr withRowAnimation:UITableViewRowAnimationLeft];
-    
-    [self.queueView updateTimes];
+    if (gs.userEnhancement.feeders.count > 0) {
+      NSArray *arr = [NSArray arrayWithObject:[NSIndexPath indexPathForRow:gs.userEnhancement.feeders.count-1 inSection:0]];
+      [self.queueView.queueTable.tableView insertRowsAtIndexPaths:arr withRowAnimation:UITableViewRowAnimationLeft];
+      
+      [self.queueView updateTimes];
+    }
     
     [self updateCurrentTeam];
   }

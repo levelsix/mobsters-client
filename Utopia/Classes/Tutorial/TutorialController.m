@@ -329,6 +329,8 @@
 }
 
 - (void) cleanup {
+  self.questLogViewController.delegate = nil;
+  
   [self.topBarViewController.view removeFromSuperview];
   [self.topBarViewController removeFromParentViewController];
   

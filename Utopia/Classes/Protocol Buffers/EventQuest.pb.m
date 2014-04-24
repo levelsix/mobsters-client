@@ -261,7 +261,6 @@ static QuestAcceptRequestProto* defaultQuestAcceptRequestProtoInstance = nil;
 @interface QuestAcceptResponseProto ()
 @property (retain) MinimumUserProto* sender;
 @property QuestAcceptResponseProto_QuestAcceptStatus status;
-@property int32_t cityIdOfAcceptedQuest;
 @end
 
 @implementation QuestAcceptResponseProto
@@ -280,13 +279,6 @@ static QuestAcceptRequestProto* defaultQuestAcceptRequestProtoInstance = nil;
   hasStatus_ = !!value;
 }
 @synthesize status;
-- (BOOL) hasCityIdOfAcceptedQuest {
-  return !!hasCityIdOfAcceptedQuest_;
-}
-- (void) setHasCityIdOfAcceptedQuest:(BOOL) value {
-  hasCityIdOfAcceptedQuest_ = !!value;
-}
-@synthesize cityIdOfAcceptedQuest;
 - (void) dealloc {
   self.sender = nil;
   [super dealloc];
@@ -295,7 +287,6 @@ static QuestAcceptRequestProto* defaultQuestAcceptRequestProtoInstance = nil;
   if ((self = [super init])) {
     self.sender = [MinimumUserProto defaultInstance];
     self.status = QuestAcceptResponseProto_QuestAcceptStatusSuccess;
-    self.cityIdOfAcceptedQuest = 0;
   }
   return self;
 }
@@ -321,9 +312,6 @@ static QuestAcceptResponseProto* defaultQuestAcceptResponseProtoInstance = nil;
   if (self.hasStatus) {
     [output writeEnum:2 value:self.status];
   }
-  if (self.hasCityIdOfAcceptedQuest) {
-    [output writeInt32:3 value:self.cityIdOfAcceptedQuest];
-  }
   [self.unknownFields writeToCodedOutputStream:output];
 }
 - (int32_t) serializedSize {
@@ -338,9 +326,6 @@ static QuestAcceptResponseProto* defaultQuestAcceptResponseProtoInstance = nil;
   }
   if (self.hasStatus) {
     size += computeEnumSize(2, self.status);
-  }
-  if (self.hasCityIdOfAcceptedQuest) {
-    size += computeInt32Size(3, self.cityIdOfAcceptedQuest);
   }
   size += self.unknownFields.serializedSize;
   memoizedSerializedSize = size;
@@ -434,9 +419,6 @@ BOOL QuestAcceptResponseProto_QuestAcceptStatusIsValidValue(QuestAcceptResponseP
   if (other.hasStatus) {
     [self setStatus:other.status];
   }
-  if (other.hasCityIdOfAcceptedQuest) {
-    [self setCityIdOfAcceptedQuest:other.cityIdOfAcceptedQuest];
-  }
   [self mergeUnknownFields:other.unknownFields];
   return self;
 }
@@ -474,10 +456,6 @@ BOOL QuestAcceptResponseProto_QuestAcceptStatusIsValidValue(QuestAcceptResponseP
         } else {
           [unknownFields mergeVarintField:2 value:value];
         }
-        break;
-      }
-      case 24: {
-        [self setCityIdOfAcceptedQuest:[input readInt32]];
         break;
       }
     }
@@ -529,29 +507,15 @@ BOOL QuestAcceptResponseProto_QuestAcceptStatusIsValidValue(QuestAcceptResponseP
   result.status = QuestAcceptResponseProto_QuestAcceptStatusSuccess;
   return self;
 }
-- (BOOL) hasCityIdOfAcceptedQuest {
-  return result.hasCityIdOfAcceptedQuest;
-}
-- (int32_t) cityIdOfAcceptedQuest {
-  return result.cityIdOfAcceptedQuest;
-}
-- (QuestAcceptResponseProto_Builder*) setCityIdOfAcceptedQuest:(int32_t) value {
-  result.hasCityIdOfAcceptedQuest = YES;
-  result.cityIdOfAcceptedQuest = value;
-  return self;
-}
-- (QuestAcceptResponseProto_Builder*) clearCityIdOfAcceptedQuest {
-  result.hasCityIdOfAcceptedQuest = NO;
-  result.cityIdOfAcceptedQuest = 0;
-  return self;
-}
 @end
 
 @interface QuestProgressRequestProto ()
 @property (retain) MinimumUserProto* sender;
 @property int32_t questId;
-@property int32_t currentProgress;
 @property BOOL isComplete;
+@property int32_t questJobId;
+@property int32_t currentProgress;
+@property BOOL isQuestJobComplete;
 @property (retain) NSMutableArray* mutableDeleteUserMonsterIdsList;
 @end
 
@@ -571,13 +535,6 @@ BOOL QuestAcceptResponseProto_QuestAcceptStatusIsValidValue(QuestAcceptResponseP
   hasQuestId_ = !!value;
 }
 @synthesize questId;
-- (BOOL) hasCurrentProgress {
-  return !!hasCurrentProgress_;
-}
-- (void) setHasCurrentProgress:(BOOL) value {
-  hasCurrentProgress_ = !!value;
-}
-@synthesize currentProgress;
 - (BOOL) hasIsComplete {
   return !!hasIsComplete_;
 }
@@ -590,6 +547,32 @@ BOOL QuestAcceptResponseProto_QuestAcceptStatusIsValidValue(QuestAcceptResponseP
 - (void) setIsComplete:(BOOL) value {
   isComplete_ = !!value;
 }
+- (BOOL) hasQuestJobId {
+  return !!hasQuestJobId_;
+}
+- (void) setHasQuestJobId:(BOOL) value {
+  hasQuestJobId_ = !!value;
+}
+@synthesize questJobId;
+- (BOOL) hasCurrentProgress {
+  return !!hasCurrentProgress_;
+}
+- (void) setHasCurrentProgress:(BOOL) value {
+  hasCurrentProgress_ = !!value;
+}
+@synthesize currentProgress;
+- (BOOL) hasIsQuestJobComplete {
+  return !!hasIsQuestJobComplete_;
+}
+- (void) setHasIsQuestJobComplete:(BOOL) value {
+  hasIsQuestJobComplete_ = !!value;
+}
+- (BOOL) isQuestJobComplete {
+  return !!isQuestJobComplete_;
+}
+- (void) setIsQuestJobComplete:(BOOL) value {
+  isQuestJobComplete_ = !!value;
+}
 @synthesize mutableDeleteUserMonsterIdsList;
 - (void) dealloc {
   self.sender = nil;
@@ -600,8 +583,10 @@ BOOL QuestAcceptResponseProto_QuestAcceptStatusIsValidValue(QuestAcceptResponseP
   if ((self = [super init])) {
     self.sender = [MinimumUserProto defaultInstance];
     self.questId = 0;
-    self.currentProgress = 0;
     self.isComplete = NO;
+    self.questJobId = 0;
+    self.currentProgress = 0;
+    self.isQuestJobComplete = NO;
   }
   return self;
 }
@@ -634,14 +619,20 @@ static QuestProgressRequestProto* defaultQuestProgressRequestProtoInstance = nil
   if (self.hasQuestId) {
     [output writeInt32:2 value:self.questId];
   }
-  if (self.hasCurrentProgress) {
-    [output writeInt32:3 value:self.currentProgress];
-  }
   if (self.hasIsComplete) {
-    [output writeBool:4 value:self.isComplete];
+    [output writeBool:3 value:self.isComplete];
+  }
+  if (self.hasQuestJobId) {
+    [output writeInt32:4 value:self.questJobId];
+  }
+  if (self.hasCurrentProgress) {
+    [output writeInt32:5 value:self.currentProgress];
+  }
+  if (self.hasIsQuestJobComplete) {
+    [output writeBool:6 value:self.isQuestJobComplete];
   }
   for (NSNumber* value in self.mutableDeleteUserMonsterIdsList) {
-    [output writeInt64:5 value:[value longLongValue]];
+    [output writeInt64:7 value:[value longLongValue]];
   }
   [self.unknownFields writeToCodedOutputStream:output];
 }
@@ -658,11 +649,17 @@ static QuestProgressRequestProto* defaultQuestProgressRequestProtoInstance = nil
   if (self.hasQuestId) {
     size += computeInt32Size(2, self.questId);
   }
-  if (self.hasCurrentProgress) {
-    size += computeInt32Size(3, self.currentProgress);
-  }
   if (self.hasIsComplete) {
-    size += computeBoolSize(4, self.isComplete);
+    size += computeBoolSize(3, self.isComplete);
+  }
+  if (self.hasQuestJobId) {
+    size += computeInt32Size(4, self.questJobId);
+  }
+  if (self.hasCurrentProgress) {
+    size += computeInt32Size(5, self.currentProgress);
+  }
+  if (self.hasIsQuestJobComplete) {
+    size += computeBoolSize(6, self.isQuestJobComplete);
   }
   {
     int32_t dataSize = 0;
@@ -753,11 +750,17 @@ static QuestProgressRequestProto* defaultQuestProgressRequestProtoInstance = nil
   if (other.hasQuestId) {
     [self setQuestId:other.questId];
   }
+  if (other.hasIsComplete) {
+    [self setIsComplete:other.isComplete];
+  }
+  if (other.hasQuestJobId) {
+    [self setQuestJobId:other.questJobId];
+  }
   if (other.hasCurrentProgress) {
     [self setCurrentProgress:other.currentProgress];
   }
-  if (other.hasIsComplete) {
-    [self setIsComplete:other.isComplete];
+  if (other.hasIsQuestJobComplete) {
+    [self setIsQuestJobComplete:other.isQuestJobComplete];
   }
   if (other.mutableDeleteUserMonsterIdsList.count > 0) {
     if (result.mutableDeleteUserMonsterIdsList == nil) {
@@ -800,14 +803,22 @@ static QuestProgressRequestProto* defaultQuestProgressRequestProtoInstance = nil
         break;
       }
       case 24: {
-        [self setCurrentProgress:[input readInt32]];
-        break;
-      }
-      case 32: {
         [self setIsComplete:[input readBool]];
         break;
       }
+      case 32: {
+        [self setQuestJobId:[input readInt32]];
+        break;
+      }
       case 40: {
+        [self setCurrentProgress:[input readInt32]];
+        break;
+      }
+      case 48: {
+        [self setIsQuestJobComplete:[input readBool]];
+        break;
+      }
+      case 56: {
         [self addDeleteUserMonsterIds:[input readInt64]];
         break;
       }
@@ -860,6 +871,38 @@ static QuestProgressRequestProto* defaultQuestProgressRequestProtoInstance = nil
   result.questId = 0;
   return self;
 }
+- (BOOL) hasIsComplete {
+  return result.hasIsComplete;
+}
+- (BOOL) isComplete {
+  return result.isComplete;
+}
+- (QuestProgressRequestProto_Builder*) setIsComplete:(BOOL) value {
+  result.hasIsComplete = YES;
+  result.isComplete = value;
+  return self;
+}
+- (QuestProgressRequestProto_Builder*) clearIsComplete {
+  result.hasIsComplete = NO;
+  result.isComplete = NO;
+  return self;
+}
+- (BOOL) hasQuestJobId {
+  return result.hasQuestJobId;
+}
+- (int32_t) questJobId {
+  return result.questJobId;
+}
+- (QuestProgressRequestProto_Builder*) setQuestJobId:(int32_t) value {
+  result.hasQuestJobId = YES;
+  result.questJobId = value;
+  return self;
+}
+- (QuestProgressRequestProto_Builder*) clearQuestJobId {
+  result.hasQuestJobId = NO;
+  result.questJobId = 0;
+  return self;
+}
 - (BOOL) hasCurrentProgress {
   return result.hasCurrentProgress;
 }
@@ -876,20 +919,20 @@ static QuestProgressRequestProto* defaultQuestProgressRequestProtoInstance = nil
   result.currentProgress = 0;
   return self;
 }
-- (BOOL) hasIsComplete {
-  return result.hasIsComplete;
+- (BOOL) hasIsQuestJobComplete {
+  return result.hasIsQuestJobComplete;
 }
-- (BOOL) isComplete {
-  return result.isComplete;
+- (BOOL) isQuestJobComplete {
+  return result.isQuestJobComplete;
 }
-- (QuestProgressRequestProto_Builder*) setIsComplete:(BOOL) value {
-  result.hasIsComplete = YES;
-  result.isComplete = value;
+- (QuestProgressRequestProto_Builder*) setIsQuestJobComplete:(BOOL) value {
+  result.hasIsQuestJobComplete = YES;
+  result.isQuestJobComplete = value;
   return self;
 }
-- (QuestProgressRequestProto_Builder*) clearIsComplete {
-  result.hasIsComplete = NO;
-  result.isComplete = NO;
+- (QuestProgressRequestProto_Builder*) clearIsQuestJobComplete {
+  result.hasIsQuestJobComplete = NO;
+  result.isQuestJobComplete = NO;
   return self;
 }
 - (NSArray*) deleteUserMonsterIdsList {
@@ -1034,6 +1077,7 @@ BOOL QuestProgressResponseProto_QuestProgressStatusIsValidValue(QuestProgressRes
     case QuestProgressResponseProto_QuestProgressStatusFailDeleteAmountDoesNotMatchQuest:
     case QuestProgressResponseProto_QuestProgressStatusFailNonexistentUserMonsters:
     case QuestProgressResponseProto_QuestProgressStatusFailIncompleteUserMonsters:
+    case QuestProgressResponseProto_QuestProgressStatusFailQuestJobIncomplete:
     case QuestProgressResponseProto_QuestProgressStatusFailOther:
       return YES;
     default:

@@ -102,8 +102,7 @@
 
 @implementation CarpenterViewController
 
-- (void)viewDidLoad
-{
+- (void)viewDidLoad {
   [super viewDidLoad];
   self.incomeStructsList = [NSMutableArray array];
   self.mobsterStructsList = [NSMutableArray array];

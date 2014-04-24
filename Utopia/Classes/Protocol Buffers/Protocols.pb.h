@@ -312,6 +312,8 @@
 @class QuestAcceptRequestProto_Builder;
 @class QuestAcceptResponseProto;
 @class QuestAcceptResponseProto_Builder;
+@class QuestJobProto;
+@class QuestJobProto_Builder;
 @class QuestProgressRequestProto;
 @class QuestProgressRequestProto_Builder;
 @class QuestProgressResponseProto;
@@ -496,6 +498,8 @@
 @class UserPersistentEventProto_Builder;
 @class UserPvpLeagueProto;
 @class UserPvpLeagueProto_Builder;
+@class UserQuestJobProto;
+@class UserQuestJobProto_Builder;
 typedef enum {
   EventProtocolRequestCStartupEvent = 1,
   EventProtocolRequestCInAppPurchaseEvent = 2,

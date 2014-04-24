@@ -45,6 +45,7 @@
   [self reloadTableAnimated:NO];
   [self updateCurrentTeam];
   [self.bottomView updateForEvoItems];
+  [self.bottomView displayScientists];
   
   [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(waitTimeComplete) name:HEAL_WAIT_COMPLETE_NOTIFICATION object:nil];
   [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(waitTimeComplete) name:COMBINE_WAIT_COMPLETE_NOTIFICATION object:nil];
@@ -73,7 +74,7 @@
   UIBarButtonItem *v = self.navigationItem.leftBarButtonItem;
   [v.customView.superview addSubview:self.backButton];
   self.backButton.frame = v.customView.frame;
-  self.backButton.hidden = YES;
+  self.backButton.alpha = 0.f;
 }
 
 - (void) viewWillDisappear:(BOOL)animated {
@@ -102,7 +103,7 @@
     self.middleView.alpha = 0.f;
     self.tableContainerView.alpha = 1.f;
   }];
-  self.backButton.hidden = YES;
+  self.backButton.alpha = 0.f;
 }
 
 - (void) waitTimeComplete {
@@ -343,7 +344,9 @@
     [self.bottomView displayInfoLabel:self.curEvoItem];
   }
   
-  self.backButton.hidden = NO;
+  [UIView animateWithDuration:0.3f animations:^{
+    self.backButton.alpha = 1.f;
+  }];
 }
 
 
@@ -361,7 +364,10 @@
     if (!self.curEvoItem.userMonster2 || !self.curEvoItem.catalystMonster) {
       [self.bottomView displayScientists];
     }
-    self.backButton.hidden = YES;
+    
+    [UIView animateWithDuration:0.3f animations:^{
+      self.backButton.alpha = 0.f;
+    }];
   } else {
     [super menuBackClicked:sender];
   }
@@ -403,7 +409,7 @@
     [self.middleView updateForEvolution:gs.userEvolution];
     [self.bottomView updateForEvoItems];
     
-    self.backButton.hidden = YES;
+    self.backButton.alpha = 0.f;
   }
 }
 

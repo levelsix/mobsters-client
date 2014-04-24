@@ -25,6 +25,7 @@
 @property (nonatomic, retain) CCSprite *buildingSprite;
 @property (nonatomic, assign) StructOrientation orientation;
 @property (nonatomic, assign) float verticalOffset;
+@property (nonatomic, assign) float horizontalOffset;
 
 @property (nonatomic, assign) float baseScale;
 

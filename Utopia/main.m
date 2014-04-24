@@ -27,8 +27,7 @@ int main(int argc, char *argv[]) {
   return retVal;
 }
 
-void SigPipeHandler(int s)
-{
+void SigPipeHandler(int s) {
   // do your handling
   NSLog(@"GOT SIGPIPE!! %d", s);
 }

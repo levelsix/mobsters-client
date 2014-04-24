@@ -24,6 +24,8 @@
 
 #define IAP_DEFAULTS_KEY @"Unresponded In Apps"
 
+#define LAST_LEAGUE_SHOWN_DEFAULTS_KEY @"LastLeagueShownKey"
+
 #define MUSIC_DEFAULTS_KEY @"MusicDefaultsKey"
 #define SOUND_EFFECTS_DEFAULTS_KEY @"SoundEffectsDefaultsKey"
 #define SHAKE_DEFAULTS_KEY @"ShakeDefaultsKey"
@@ -265,6 +267,7 @@
 - (int) calculateTotalDamageForMonster:(UserMonster *)um;
 - (int) calculateElementalDamageForMonster:(UserMonster *)um element:(MonsterProto_MonsterElement)element;
 - (int) calculateMaxHealthForMonster:(UserMonster *)um;
+- (int) calculateSpeedForMonster:(UserMonster *)um;
 - (int) calculateCostToHealMonster:(UserMonster *)um;
 - (float) calculateDamageMultiplierForAttackElement:(MonsterProto_MonsterElement)aElement defenseElement:(MonsterProto_MonsterElement)dElement;
 

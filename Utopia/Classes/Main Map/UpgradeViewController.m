@@ -209,7 +209,7 @@
   }
   
   self.nameLabel.text = curSS.structInfo.name;
-  self.upgradeTimeLabel.text = curSS != nextSS ? [Globals convertTimeToLongString:nextSS.structInfo.minutesToBuild*60] : @"N/A";
+  self.upgradeTimeLabel.text = curSS != nextSS ? [[Globals convertTimeToLongString:nextSS.structInfo.minutesToBuild*60] uppercaseString] : @"N/A";
   
   [Globals imageNamed:nextSS.structInfo.imgName withView:self.structIcon maskedColor:nil indicator:UIActivityIndicatorViewStyleWhite clearImageDuringDownload:YES];
   
@@ -446,7 +446,8 @@
   
   NSString *dollarSign = showsCashSymbol1 ? @"$" : @"";
   NSString *increase = newStat1 > curStat1 ? [NSString stringWithFormat:@" + %@%@", dollarSign, [Globals commafyNumber:newStat1-curStat1]] : @"";
-  self.statNameLabel1.text = [NSString stringWithFormat:@"%@ %@%@%@ %@", statName1, dollarSign, [Globals commafyNumber:curStat1], increase, suffix1];
+  self.statNameLabel1.text = statName1;
+  self.statDescriptionLabel1.text = [NSString stringWithFormat:@"%@%@%@ %@", dollarSign, [Globals commafyNumber:curStat1], increase, suffix1];
   
   float powVal = 0.75;
   if (useSqrt1) {
@@ -460,7 +461,8 @@
   if (requiresTwoBars) {
     dollarSign = showsCashSymbol2 ? @"$" : @"";
     increase = newStat2 > curStat2 ? [NSString stringWithFormat:@" + %@%@", dollarSign, [Globals commafyNumber:newStat2-curStat2]] : @"";
-    self.statNameLabel2.text = [NSString stringWithFormat:@"%@ %@%@%@ %@", statName2, dollarSign, [Globals commafyNumber:curStat2], increase, suffix2];
+    self.statNameLabel2.text = statName2;
+    self.statDescriptionLabel2.text = [NSString stringWithFormat:@"%@%@%@ %@", dollarSign, [Globals commafyNumber:curStat2], increase, suffix2];
     
     if (useSqrt2) {
       self.statNewBar2.percentage = powf(newStat2/maxStat2, powVal);
@@ -558,7 +560,7 @@
   self.backView.alpha = 0.f;
   self.sendView.alpha = 0.f;
   self.bonusTopBar.alpha = 0.f;
-  self.titleLabel.text = @"Hire Workers";
+  self.titleLabel.text = @"Bonus Slots";
 }
 
 - (void) loadTopForAddSlots {

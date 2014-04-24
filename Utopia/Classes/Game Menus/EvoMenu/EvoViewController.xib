@@ -24,10 +24,6 @@
             <rect key="frame" x="0.0" y="0.0" width="568" height="282"/>
             <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES"/>
             <subviews>
-                <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" image="mainmenubg.png" id="fFy-DQ-Eqd">
-                    <rect key="frame" x="0.0" y="0.0" width="568" height="282"/>
-                    <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES"/>
-                </imageView>
                 <view contentMode="scaleToFill" id="fEn-kt-DKi">
                     <rect key="frame" x="0.0" y="0.0" width="568" height="282"/>
                     <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
@@ -39,13 +35,7 @@
                                 <view clipsSubviews="YES" contentMode="scaleToFill" id="jo3-Uv-YpR">
                                     <rect key="frame" x="0.0" y="0.0" width="30" height="168"/>
                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                    <subviews>
-                                        <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" image="mainmenubg.png" id="Q97-ww-jc3">
-                                            <rect key="frame" x="0.0" y="-56" width="568" height="282"/>
-                                            <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES"/>
-                                        </imageView>
-                                    </subviews>
-                                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                    <color key="backgroundColor" red="0.97254901959999995" green="0.92156862750000001" blue="0.78039215689999997" alpha="1" colorSpace="calibratedRGB"/>
                                     <simulatedOrientationMetrics key="simulatedOrientationMetrics" orientation="landscapeRight"/>
                                     <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
                                 </view>
@@ -78,7 +68,7 @@
                                                             <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                             <color key="textColor" red="0.20000000000000001" green="0.20000000000000001" blue="0.20000000000000001" alpha="1" colorSpace="calibratedRGB"/>
                                                             <nil key="highlightedColor"/>
-                                                            <color key="shadowColor" white="1" alpha="0.5" colorSpace="calibratedWhite"/>
+                                                            <color key="shadowColor" red="1" green="1" blue="1" alpha="0.5" colorSpace="calibratedRGB"/>
                                                             <size key="shadowOffset" width="0.0" height="1"/>
                                                         </label>
                                                         <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="2 lvl 15 Lil' Kims" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" id="th7-9B-upF" customClass="NiceFontLabel">
@@ -87,7 +77,7 @@
                                                             <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                             <color key="textColor" red="0.45470010080000001" green="0.80953881049999998" blue="0.73333334920000004" alpha="1" colorSpace="deviceRGB"/>
                                                             <nil key="highlightedColor"/>
-                                                            <color key="shadowColor" white="0.0" alpha="0.40000000000000002" colorSpace="calibratedWhite"/>
+                                                            <color key="shadowColor" red="1" green="1" blue="1" alpha="0.5" colorSpace="calibratedRGB"/>
                                                             <size key="shadowOffset" width="0.0" height="1"/>
                                                         </label>
                                                         <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text=" and " lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" id="CZ7-rs-jAO" customClass="NiceFontLabel">
@@ -96,7 +86,7 @@
                                                             <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                             <color key="textColor" red="0.20000000000000001" green="0.20000000000000001" blue="0.20000000000000001" alpha="1" colorSpace="calibratedRGB"/>
                                                             <nil key="highlightedColor"/>
-                                                            <color key="shadowColor" white="1" alpha="0.5" colorSpace="calibratedWhite"/>
+                                                            <color key="shadowColor" red="1" green="1" blue="1" alpha="0.5" colorSpace="calibratedRGB"/>
                                                             <size key="shadowOffset" width="0.0" height="1"/>
                                                         </label>
                                                         <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="1 Mr. Unagi (Evo 3)" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" id="qWr-Rf-r4r" customClass="NiceFontLabel">
@@ -105,7 +95,7 @@
                                                             <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                             <color key="textColor" red="1" green="0.44705885649999999" blue="0.46666669849999998" alpha="1" colorSpace="deviceRGB"/>
                                                             <nil key="highlightedColor"/>
-                                                            <color key="shadowColor" white="0.0" alpha="0.40000000000000002" colorSpace="calibratedWhite"/>
+                                                            <color key="shadowColor" red="1" green="1" blue="1" alpha="0.5" colorSpace="calibratedRGB"/>
                                                             <size key="shadowOffset" width="0.0" height="1"/>
                                                         </label>
                                                     </subviews>
@@ -121,7 +111,7 @@
                                                             <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                             <color key="textColor" red="0.20000000000000001" green="0.20000000000000001" blue="0.20000000000000001" alpha="1" colorSpace="calibratedRGB"/>
                                                             <nil key="highlightedColor"/>
-                                                            <color key="shadowColor" white="1" alpha="0.5" colorSpace="calibratedWhite"/>
+                                                            <color key="shadowColor" red="1" green="1" blue="1" alpha="0.5" colorSpace="calibratedRGB"/>
                                                             <size key="shadowOffset" width="0.0" height="1"/>
                                                         </label>
                                                         <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Mao Z." lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" id="JvQ-yX-AEB" customClass="NiceFontLabel">
@@ -130,7 +120,7 @@
                                                             <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                             <color key="textColor" red="0.022858408342305792" green="0.30095214097032652" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                                             <nil key="highlightedColor"/>
-                                                            <color key="shadowColor" white="0.0" alpha="0.40000000000000002" colorSpace="calibratedWhite"/>
+                                                            <color key="shadowColor" red="1" green="1" blue="1" alpha="0.5" colorSpace="calibratedRGB"/>
                                                             <size key="shadowOffset" width="0.0" height="1"/>
                                                         </label>
                                                     </subviews>
@@ -530,7 +520,7 @@
                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                 </view>
             </subviews>
-            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+            <color key="backgroundColor" red="0.97254901959999995" green="0.92156862750000001" blue="0.78039215689999997" alpha="1" colorSpace="calibratedRGB"/>
             <simulatedOrientationMetrics key="simulatedOrientationMetrics" orientation="landscapeRight"/>
             <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
         </view>
@@ -960,7 +950,7 @@
     </objects>
     <resources>
         <image name="characterdetailshadow.png" width="94" height="45"/>
-        <image name="diamond.png" width="44" height="41"/>
+        <image name="diamond.png" width="29" height="27"/>
         <image name="earthteam.png" width="42" height="42"/>
         <image name="evolveequals.png" width="27" height="23"/>
         <image name="evolveplus.png" width="28" height="27"/>
@@ -968,13 +958,12 @@
         <image name="finishheal.png" width="71" height="28"/>
         <image name="fireteam.png" width="42" height="42"/>
         <image name="lightteam.png" width="42" height="42"/>
-        <image name="mainmenubg.png" width="568" height="282"/>
         <image name="menuresourcebg.png" width="82" height="19"/>
         <image name="minusteam.png" width="17" height="17"/>
         <image name="mobstersbottombarbg.png" width="1" height="58"/>
         <image name="mobsterstopbarbg.png" width="1" height="56"/>
         <image name="nightteam.png" width="42" height="42"/>
-        <image name="oilicon.png" width="26" height="32"/>
+        <image name="oilicon.png" width="25" height="30"/>
         <image name="oilupgradebutton.png" width="84" height="40"/>
         <image name="waterteam.png" width="42" height="42"/>
     </resources>

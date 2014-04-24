@@ -28,10 +28,6 @@
             <rect key="frame" x="0.0" y="0.0" width="568" height="280"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
-                <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="bottom" image="mainmenubg.png" id="hBh-05-Wqt">
-                    <rect key="frame" x="0.0" y="-40" width="568" height="320"/>
-                    <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES"/>
-                </imageView>
                 <view contentMode="scaleToFill" id="35">
                     <rect key="frame" x="44" y="0.0" width="480" height="280"/>
                     <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES"/>
@@ -244,7 +240,7 @@
                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                 </view>
             </subviews>
-            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+            <color key="backgroundColor" red="0.97254901959999995" green="0.92156862750000001" blue="0.78039215689999997" alpha="1" colorSpace="calibratedRGB"/>
             <simulatedOrientationMetrics key="simulatedOrientationMetrics" orientation="landscapeRight"/>
         </view>
         <view contentMode="scaleToFill" id="lZk-0k-6eC" customClass="ClanIconChooserView">
@@ -337,7 +333,6 @@
         <image name="close1.png" width="30" height="29"/>
         <image name="confirm.png" width="84" height="40"/>
         <image name="enhancebutton.png" width="71" height="28"/>
-        <image name="mainmenubg.png" width="568" height="282"/>
         <image name="notifcationsbg.png" width="374" height="305"/>
         <image name="popupglow.png" width="480" height="320"/>
         <image name="shield.png" width="31" height="34"/>

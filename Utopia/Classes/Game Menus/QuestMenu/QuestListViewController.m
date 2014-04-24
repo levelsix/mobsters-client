@@ -25,21 +25,20 @@
   self.nameLabel.text = quest.name;
   
   NSString *file = [quest.questGiverImagePrefix stringByAppendingString:@"Thumbnail.png"];
-  [Globals imageNamed:file withView:self.questGiverImageView maskedColor:nil indicator:UIActivityIndicatorViewStyleWhiteLarge clearImageDuringDownload:YES];
+  [Globals imageNamed:file withView:self.questGiverImageView greyscale:NO indicator:UIActivityIndicatorViewStyleWhite clearImageDuringDownload:YES];
+  file = [Globals imageNameForElement:quest.monsterElement suffix:@"team.png"];
+  [Globals imageNamed:file withView:self.bgdIcon greyscale:NO indicator:UIActivityIndicatorViewStyleWhite clearImageDuringDownload:YES];
   
-  if (quest.quantity < 100) {
-    int progress = userQuest.progress;
-    
-    if (!userQuest && quest.questType == FullQuestProto_QuestTypeDonateMonster) {
-      progress = [QuestUtil checkQuantityForDonateQuest:quest];
+  int progress = 0;
+  for (QuestJobProto *job in quest.jobsList) {
+    UserQuestJob *qj = [userQuest jobForId:job.questJobId];
+    if (qj.isComplete) {
+      progress++;
     }
-    
-    self.progressLabel.text = [NSString stringWithFormat:@"%d/%d", progress, quest.quantity];
-  } else {
-    self.progressLabel.text = [NSString stringWithFormat:@"%@", [Globals commafyNumber:userQuest.progress]];
   }
+  self.progressLabel.text = [NSString stringWithFormat:@"%d/%d", progress, quest.jobsList.count];
   
-  self.badgeView.hidden = self.userQuest != nil;
+  self.questNewView.hidden = self.userQuest != nil;
   
   if (!userQuest.isComplete) {
     self.inProgressView.hidden = NO;
@@ -48,14 +47,6 @@
     self.completeView.hidden = NO;
     self.inProgressView.hidden = YES;
   }
-  
-  // For some reason if we screw with the rotation imediately, it screws up
-  [self performSelector:@selector(rotate) withObject:nil afterDelay:0.01];
-}
-
-- (void) rotate {
-  self.completeView.transform = CGAffineTransformMakeRotation(-M_PI/18);
-  self.badgeView.transform = CGAffineTransformMakeRotation(-M_PI/18);
 }
 
 - (IBAction)darkOverlayClicked:(id)sender {

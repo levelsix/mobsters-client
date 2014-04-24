@@ -1313,6 +1313,10 @@ BOOL MonsterProto_AnimationTypeIsValidValue(MonsterProto_AnimationType value) {
 @property int32_t darknessDmg;
 @property int32_t rockDmg;
 @property int32_t speed;
+@property Float32 hpExponentBase;
+@property Float32 dmgExponentBase;
+@property Float32 expLvlDivisor;
+@property Float32 expLvlExponent;
 @end
 
 @implementation MonsterLevelInfoProto
@@ -1394,6 +1398,34 @@ BOOL MonsterProto_AnimationTypeIsValidValue(MonsterProto_AnimationType value) {
   hasSpeed_ = !!value;
 }
 @synthesize speed;
+- (BOOL) hasHpExponentBase {
+  return !!hasHpExponentBase_;
+}
+- (void) setHasHpExponentBase:(BOOL) value {
+  hasHpExponentBase_ = !!value;
+}
+@synthesize hpExponentBase;
+- (BOOL) hasDmgExponentBase {
+  return !!hasDmgExponentBase_;
+}
+- (void) setHasDmgExponentBase:(BOOL) value {
+  hasDmgExponentBase_ = !!value;
+}
+@synthesize dmgExponentBase;
+- (BOOL) hasExpLvlDivisor {
+  return !!hasExpLvlDivisor_;
+}
+- (void) setHasExpLvlDivisor:(BOOL) value {
+  hasExpLvlDivisor_ = !!value;
+}
+@synthesize expLvlDivisor;
+- (BOOL) hasExpLvlExponent {
+  return !!hasExpLvlExponent_;
+}
+- (void) setHasExpLvlExponent:(BOOL) value {
+  hasExpLvlExponent_ = !!value;
+}
+@synthesize expLvlExponent;
 - (void) dealloc {
   [super dealloc];
 }
@@ -1410,6 +1442,10 @@ BOOL MonsterProto_AnimationTypeIsValidValue(MonsterProto_AnimationType value) {
     self.darknessDmg = 0;
     self.rockDmg = 0;
     self.speed = 0;
+    self.hpExponentBase = 0;
+    self.dmgExponentBase = 0;
+    self.expLvlDivisor = 0;
+    self.expLvlExponent = 0;
   }
   return self;
 }
@@ -1462,6 +1498,18 @@ static MonsterLevelInfoProto* defaultMonsterLevelInfoProtoInstance = nil;
   if (self.hasSpeed) {
     [output writeInt32:11 value:self.speed];
   }
+  if (self.hasHpExponentBase) {
+    [output writeFloat:12 value:self.hpExponentBase];
+  }
+  if (self.hasDmgExponentBase) {
+    [output writeFloat:13 value:self.dmgExponentBase];
+  }
+  if (self.hasExpLvlDivisor) {
+    [output writeFloat:14 value:self.expLvlDivisor];
+  }
+  if (self.hasExpLvlExponent) {
+    [output writeFloat:15 value:self.expLvlExponent];
+  }
   [self.unknownFields writeToCodedOutputStream:output];
 }
 - (int32_t) serializedSize {
@@ -1503,6 +1551,18 @@ static MonsterLevelInfoProto* defaultMonsterLevelInfoProtoInstance = nil;
   }
   if (self.hasSpeed) {
     size += computeInt32Size(11, self.speed);
+  }
+  if (self.hasHpExponentBase) {
+    size += computeFloatSize(12, self.hpExponentBase);
+  }
+  if (self.hasDmgExponentBase) {
+    size += computeFloatSize(13, self.dmgExponentBase);
+  }
+  if (self.hasExpLvlDivisor) {
+    size += computeFloatSize(14, self.expLvlDivisor);
+  }
+  if (self.hasExpLvlExponent) {
+    size += computeFloatSize(15, self.expLvlExponent);
   }
   size += self.unknownFields.serializedSize;
   memoizedSerializedSize = size;
@@ -1612,6 +1672,18 @@ static MonsterLevelInfoProto* defaultMonsterLevelInfoProtoInstance = nil;
   if (other.hasSpeed) {
     [self setSpeed:other.speed];
   }
+  if (other.hasHpExponentBase) {
+    [self setHpExponentBase:other.hpExponentBase];
+  }
+  if (other.hasDmgExponentBase) {
+    [self setDmgExponentBase:other.dmgExponentBase];
+  }
+  if (other.hasExpLvlDivisor) {
+    [self setExpLvlDivisor:other.expLvlDivisor];
+  }
+  if (other.hasExpLvlExponent) {
+    [self setExpLvlExponent:other.expLvlExponent];
+  }
   [self mergeUnknownFields:other.unknownFields];
   return self;
 }
@@ -1675,6 +1747,22 @@ static MonsterLevelInfoProto* defaultMonsterLevelInfoProtoInstance = nil;
       }
       case 88: {
         [self setSpeed:[input readInt32]];
+        break;
+      }
+      case 101: {
+        [self setHpExponentBase:[input readFloat]];
+        break;
+      }
+      case 109: {
+        [self setDmgExponentBase:[input readFloat]];
+        break;
+      }
+      case 117: {
+        [self setExpLvlDivisor:[input readFloat]];
+        break;
+      }
+      case 125: {
+        [self setExpLvlExponent:[input readFloat]];
         break;
       }
     }
@@ -1854,6 +1942,70 @@ static MonsterLevelInfoProto* defaultMonsterLevelInfoProtoInstance = nil;
 - (MonsterLevelInfoProto_Builder*) clearSpeed {
   result.hasSpeed = NO;
   result.speed = 0;
+  return self;
+}
+- (BOOL) hasHpExponentBase {
+  return result.hasHpExponentBase;
+}
+- (Float32) hpExponentBase {
+  return result.hpExponentBase;
+}
+- (MonsterLevelInfoProto_Builder*) setHpExponentBase:(Float32) value {
+  result.hasHpExponentBase = YES;
+  result.hpExponentBase = value;
+  return self;
+}
+- (MonsterLevelInfoProto_Builder*) clearHpExponentBase {
+  result.hasHpExponentBase = NO;
+  result.hpExponentBase = 0;
+  return self;
+}
+- (BOOL) hasDmgExponentBase {
+  return result.hasDmgExponentBase;
+}
+- (Float32) dmgExponentBase {
+  return result.dmgExponentBase;
+}
+- (MonsterLevelInfoProto_Builder*) setDmgExponentBase:(Float32) value {
+  result.hasDmgExponentBase = YES;
+  result.dmgExponentBase = value;
+  return self;
+}
+- (MonsterLevelInfoProto_Builder*) clearDmgExponentBase {
+  result.hasDmgExponentBase = NO;
+  result.dmgExponentBase = 0;
+  return self;
+}
+- (BOOL) hasExpLvlDivisor {
+  return result.hasExpLvlDivisor;
+}
+- (Float32) expLvlDivisor {
+  return result.expLvlDivisor;
+}
+- (MonsterLevelInfoProto_Builder*) setExpLvlDivisor:(Float32) value {
+  result.hasExpLvlDivisor = YES;
+  result.expLvlDivisor = value;
+  return self;
+}
+- (MonsterLevelInfoProto_Builder*) clearExpLvlDivisor {
+  result.hasExpLvlDivisor = NO;
+  result.expLvlDivisor = 0;
+  return self;
+}
+- (BOOL) hasExpLvlExponent {
+  return result.hasExpLvlExponent;
+}
+- (Float32) expLvlExponent {
+  return result.expLvlExponent;
+}
+- (MonsterLevelInfoProto_Builder*) setExpLvlExponent:(Float32) value {
+  result.hasExpLvlExponent = YES;
+  result.expLvlExponent = value;
+  return self;
+}
+- (MonsterLevelInfoProto_Builder*) clearExpLvlExponent {
+  result.hasExpLvlExponent = NO;
+  result.expLvlExponent = 0;
   return self;
 }
 @end

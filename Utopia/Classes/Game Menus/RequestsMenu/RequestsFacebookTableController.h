@@ -35,6 +35,7 @@
 @property (nonatomic, retain) NSMutableArray *rejectedRequestIds;
 
 @property (nonatomic, retain) IBOutlet RequestsFacebookCell *requestCell;
+@property (nonatomic, retain) IBOutlet UIView *headerView;
 
 - (IBAction)acceptClicked:(id)sender;
 - (IBAction)rejectClicked:(id)sender;

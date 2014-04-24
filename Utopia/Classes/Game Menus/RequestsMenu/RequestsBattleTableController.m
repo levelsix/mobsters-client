@@ -19,7 +19,7 @@
 
 - (void) awakeFromNib {
   for (ClanTeamMonsterView *mv in self.monsterViews) {
-    mv.transform = CGAffineTransformMakeScale(0.64, 0.64);
+    mv.transform = CGAffineTransformMakeScale(0.5, 0.5);
   }
 }
 
@@ -29,10 +29,8 @@
   
   if (history.attackerWon) {
     // You lost
-    self.bgdImage.highlighted = YES;
-    
-    self.titleLabel.text = @"Your team lost";
-    self.titleLabel.highlighted = YES;
+    self.resultLabel.text = @"Defeat";
+    self.resultLabel.highlighted = YES;
     
     self.rankChangeLabel.highlighted = YES;
     
@@ -41,38 +39,21 @@
     self.cashLabel.text = [Globals cashStringForNumber:ABS(history.defenderCashChange)];
   } else {
     // You won
-    self.bgdImage.highlighted = NO;
-    
-    self.titleLabel.text = @"Your team won";
-    self.titleLabel.highlighted = NO;
+    self.resultLabel.text = @"Victory";
+    self.resultLabel.highlighted = NO;
     
     self.rankChangeLabel.highlighted = NO;
     
     self.lootLostView.hidden = YES;
   }
   
-  [self.nameButton setTitle:history.attacker.name forState:UIControlStateNormal];
+  self.nameLabel.text = history.attacker.name;
+  self.timeLabel.text = [Globals stringForTimeSinceNow:[MSDate dateWithTimeIntervalSince1970:history.battleEndTime/1000.] shortened:YES];
   
-  if (history.attacker.hasClan) {
-    [self.clanButton setTitle:history.attacker.clan.name forState:UIControlStateNormal];
-    self.clanButton.enabled = YES;
-    
-    self.shieldIcon.hidden = NO;
-    ClanIconProto *icon = [gs clanIconWithId:history.attacker.clan.clanIconId];
-    [Globals imageNamed:icon.imgName withView:self.shieldIcon greyscale:NO indicator:UIActivityIndicatorViewStyleWhite clearImageDuringDownload:YES];
-    
-    CGRect r = self.clanButton.frame;
-    r.origin.x = self.shieldIcon.frame.size.width+3;
-    self.clanButton.frame = r;
-    
-  } else {
-    self.clanButton.enabled = NO;
-    self.shieldIcon.hidden = YES;
-    
-    CGRect r = self.clanButton.frame;
-    r.origin.x = 0;
-    self.clanButton.frame = r;
-  }
+  CGSize s = [self.resultLabel.text sizeWithFont:self.resultLabel.font];
+  CGRect r = self.timeLabel.frame;
+  r.origin.x = self.resultLabel.frame.origin.x+s.width+5;
+  self.timeLabel.frame = r;
   
   for (int i = 0; i < self.monsterViews.count; i++) {
     FullUserMonsterProto *um = i < history.attackersMonstersList.count ? history.attackersMonstersList[i] : nil;
@@ -81,6 +62,19 @@
   }
   
   self.revengeButtonView.hidden = history.exactedRevenge;
+  
+  UserPvpLeagueProto *pvpBefore = history.defenderBefore;
+  UserPvpLeagueProto *pvpAfter = history.defenderAfter;
+  
+  if (pvpBefore.leagueId != pvpAfter.leagueId) {
+    self.rankChangeLabel.text = @"New!";
+  } else {
+    int change = pvpAfter.rank-pvpBefore.rank;
+    self.rankChangeLabel.text = [NSString stringWithFormat:@"%+d", -change];
+  }
+  PvpLeagueProto *pvp = [gs leagueForId:pvpAfter.leagueId];
+  NSString *icon = [pvp.imgPrefix stringByAppendingString:@"icon.png"];
+  [Globals imageNamed:icon withView:self.rankIcon greyscale:NO indicator:UIActivityIndicatorViewStyleWhite clearImageDuringDownload:YES];
 }
 
 @end
@@ -188,6 +182,20 @@
 
 #pragma mark - UITableViewDelegate/DataSource methods
 
+- (UIView *) tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section {
+  if (self.battles.count > 0) {
+    if (!self.headerView) {
+      [[NSBundle mainBundle] loadNibNamed:@"RequestsBattleHeader" owner:self options:nil];
+    }
+    return self.headerView;
+  }
+  return nil;
+}
+
+- (CGFloat) tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {
+  return self.battles.count ? tableView.sectionHeaderHeight :  0.f;
+}
+
 - (NSInteger) tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
   NSInteger ct = self.battles.count;
   if (ct == 0) {
@@ -200,7 +208,7 @@
 }
 
 - (CGFloat) tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
-  return 90.f;
+  return 45.f;
 }
 
 - (UITableViewCell *) tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -208,18 +216,6 @@
   if (cell == nil) {
     [[NSBundle mainBundle] loadNibNamed:@"RequestsBattleCell" owner:self options:nil];
     cell = self.requestCell;
-  }
-  GameState *gs = [GameState sharedGameState];
-  PvpHistoryProto_Builder *bldr = [PvpHistoryProto builder];
-  FullUserProto *fup = [gs convertToFullUserProto];
-  bldr.attacker = fup;
-  bldr.attackerWon = arc4random() %2;
-  bldr.defenderOilChange = -12421;
-  bldr.defenderCashChange = -5932;
-  bldr.exactedRevenge = arc4random() %2;
-  
-  for (UserMonster *um in gs.allMonstersOnMyTeam) {
-    [bldr addAttackersMonsters:[um convertToMinimumProto]];
   }
 
   PvpHistoryProto *req = self.battles[indexPath.row];

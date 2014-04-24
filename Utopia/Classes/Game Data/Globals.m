@@ -357,7 +357,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
       break;
       
     case MonsterProto_MonsterElementLight:
-      c = ccc3(177, 121, 71);
+      c = ccc3(255, 171, 0);
       break;
       
     case MonsterProto_MonsterElementGrass:
@@ -521,37 +521,37 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
   
   int interval = 1;
   if (time < interval*60) {
-    return [NSString stringWithFormat:@"%d %@%@ ago", time / interval, shortened ? @"sec" : @"second", time / interval != 1 ? @"s" : @""];
+    return [NSString stringWithFormat:@"%d%@%@ ago", time / interval, shortened ? @"s" : @" second", !shortened && time / interval != 1 ? @"s" : @""];
   }
   
   interval *= 60;
   if (time < interval*60) {
-    return [NSString stringWithFormat:@"%d %@%@ ago", time / interval, shortened ? @"min" : @"minute", time / interval != 1 ? @"s" : @""];
+    return [NSString stringWithFormat:@"%d%@%@ ago", time / interval, shortened ? @"m" : @" minute", !shortened && time / interval != 1 ? @"s" : @""];
   }
   
   interval *= 60;
   if (time < interval*24) {
-    return [NSString stringWithFormat:@"%d %@%@ ago", time / interval, shortened ? @"hr" : @"hour", time / interval != 1 ? @"s" : @""];
+    return [NSString stringWithFormat:@"%d%@%@ ago", time / interval, shortened ? @"h" : @" hour", !shortened && time / interval != 1 ? @"s" : @""];
   }
   
   interval *= 24;
   if (time < interval*7) {
-    return [NSString stringWithFormat:@"%d day%@ ago", time / interval, time / interval != 1 ? @"s" : @""];
+    return [NSString stringWithFormat:@"%d%@%@ ago", time / interval, shortened ? @"d" : @" day", !shortened && time / interval != 1 ? @"s" : @""];
   }
   
   interval *= 7;
-  if (time < interval*4) {
-    return [NSString stringWithFormat:@"%d week%@ ago", time / interval, time / interval != 1 ? @"s" : @""];
+  if (time < interval*5) {
+    return [NSString stringWithFormat:@"%d%@%@ ago", time / interval, shortened ? @"w" : @" week", !shortened && time / interval != 1 ? @"s" : @""];
   }
   
   // Approximate the size of a month to 30 days
   interval = interval/7*30;
-  if (time < interval*12) {
-    return [NSString stringWithFormat:@"%d month%@ ago", time / interval, time / interval != 1 ? @"s" : @""];
+  if (time < interval*13) {
+    return [NSString stringWithFormat:@"%d%@%@ ago", time / interval, shortened ? @"mo" : @" month", !shortened && time / interval != 1 ? @"s" : @""];
   }
   
   interval = interval/30*365;
-  return [NSString stringWithFormat:@"%d year%@ ago", time / interval, time / interval != 1 ? @"s" : @""];
+  return [NSString stringWithFormat:@"%d%@%@ ago", time / interval, shortened ? @"y" : @" year", !shortened && time / interval != 1 ? @"s" : @""];
 }
 
 + (void) adjustFontSizeForSize:(int)size withUIView:(UIView *)somethingWithText {
@@ -1081,7 +1081,6 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
     } else if ([view isKindOfClass:[UIButton class]]) {
       [(UIButton *)view setImage:image forState:UIControlStateNormal];
     }
-    view.hidden = NO;
   }
 }
 
@@ -1287,7 +1286,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
 }
 
 - (int) calculateElementalDamageForMonster:(UserMonster *)um element:(MonsterProto_MonsterElement)element {
-  MonsterLevelInfoProto *li = um.currentLevelInfo;
+  MonsterLevelInfoProto *li = um.levelInfo;
   
   int base = 0;
   switch (element) {
@@ -1310,11 +1309,15 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
       base = li.rockDmg;
       break;
   }
-  return base;
+  return base*powf(um.levelInfo.dmgExponentBase, um.level-1);
 }
 
 - (int) calculateMaxHealthForMonster:(UserMonster *)um {
-  return um.currentLevelInfo.hp;
+  return um.levelInfo.hp*powf(um.levelInfo.hpExponentBase, um.level-1);
+}
+
+- (int) calculateSpeedForMonster:(UserMonster *)um {
+  return um.levelInfo.speed;
 }
 
 - (int) calculateCostToHealMonster:(UserMonster *)um {
@@ -1358,7 +1361,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
 
 - (int) calculateExperienceIncrease:(EnhancementItem *)baseMonster feeder:(EnhancementItem *)feeder {
   UserMonster *um = feeder.userMonster;
-  return um.currentLevelInfo.feederExp;
+  return um.levelInfo.feederExp*um.level;
 }
 
 - (float) calculateLevelForMonster:(int)monsterId experience:(int)experience {
@@ -1366,6 +1369,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
   GameState *gs = [GameState sharedGameState];
   MonsterProto *mp = [gs monsterWithId:monsterId];
   
+  // This for loop is basically not being used at the moment..
   for (int i = 1; i < mp.lvlInfoList.count; i++) {
     MonsterLevelInfoProto *info = mp.lvlInfoList[i];
     if (experience < info.curLvlRequiredExp) {
@@ -1376,12 +1380,13 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
     }
   }
   
-  int maxFromList = 1;
+  float level = 1;
   if (mp.lvlInfoList.count > 0) {
-    MonsterLevelInfoProto *info = [mp.lvlInfoList lastObject];;
-    maxFromList = info.lvl;
+    MonsterLevelInfoProto *info = [mp.lvlInfoList lastObject];
+    float maxExp = info.curLvlRequiredExp;
+    level = powf(experience/maxExp, 1.f/info.expLvlExponent)*info.expLvlDivisor+1;
   }
-  return MIN(mp.maxLevel, maxFromList);
+  return MIN(mp.maxLevel, level);
 }
 
 - (float) calculateDamageMultiplierForAttackElement:(MonsterProto_MonsterElement)aElement defenseElement:(MonsterProto_MonsterElement)dElement {
@@ -1509,11 +1514,11 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
 }
 
 + (UIColor *)goldColor {
-  return [UIColor colorWithRed:255/255.f green:200/255.f blue:0/255.f alpha:1.f];
+  return [UIColor colorWithRed:255/255.f green:195/255.f blue:0/255.f alpha:1.f];
 }
 
 + (UIColor *)greenColor {
-  return [UIColor colorWithRed:89/255.f green:145/255.f blue:17/255.f alpha:1.f];
+  return [UIColor colorWithRed:154/255.f green:205/255.f blue:43/255.f alpha:1.f];
 }
 
 + (UIColor *)orangeColor {

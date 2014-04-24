@@ -10,6 +10,7 @@
 #import "GameState.h"
 #import "OutgoingEventController.h"
 #import "Globals.h"
+#import "FullQuestProto+JobAccess.h"
 
 @implementation QuestUtil
 
@@ -31,29 +32,48 @@
   qu.delegate = delegate;
 }
 
-+ (void) sendQuestProgressForQuests:(NSArray *)quests {
++ (void) addJob:(QuestJobProto *)job toDict:(NSMutableDictionary *)dict {
+  NSMutableArray *arr = dict[@(job.questId)];
+  
+  if (!arr) {
+    arr = [NSMutableArray array];
+    [dict setObject:arr forKey:@(job.questId)];
+  }
+  
+  [arr addObject:@(job.questJobId)];
+}
+
++ (void) sendQuestProgressForQuests:(NSDictionary *)questIdToJobIds {
   GameState *gs = [GameState sharedGameState];
-  for (FullQuestProto *fqp in quests) {
-    [[OutgoingEventController sharedOutgoingEventController] questProgress:fqp.questId];
-    UserQuest *uq = [gs myQuestWithId:fqp.questId];
+  for (NSNumber *questId in questIdToJobIds) {
+    UserQuest *uq = [gs myQuestWithId:questId.intValue];
+    FullQuestProto *fqp = [gs questForId:questId.intValue];
+    NSArray *jobIds = questIdToJobIds[questId];
+    
+    for (NSNumber *jobId in jobIds) {
+      [[OutgoingEventController sharedOutgoingEventController] questProgress:fqp.questId jobId:jobId.intValue];
+      
+      if (!uq.isComplete) {
+        [[[QuestUtil sharedQuestUtil] delegate] jobProgress:[fqp jobForId:jobId.intValue]];
+      }
+    }
+    
     if (uq.isComplete) {
       [[[QuestUtil sharedQuestUtil] delegate] questComplete:fqp];
-    } else {
-      [[[QuestUtil sharedQuestUtil] delegate] questProgress:fqp];
     }
   }
   
   [[NSNotificationCenter defaultCenter] postNotificationName:QUESTS_CHANGED_NOTIFICATION object:nil];
 }
 
-+ (int) checkQuantityForDonateQuest:(FullQuestProto *)quest {
++ (int) checkQuantityForDonateQuestJob:(QuestJobProto *)job {
   GameState *gs = [GameState sharedGameState];
   int quantity = 0;
-  if (quest.questType == FullQuestProto_QuestTypeDonateMonster) {
+  if (job.questJobType == QuestJobProto_QuestJobTypeDonateMonster) {
     for (UserMonster *um in gs.myMonsters) {
       // Make sure it is complete and not in any queue
-      if (um.monsterId == quest.staticDataId && um.isDonatable) {
-        quantity = MIN(quantity+1, quest.quantity);
+      if (um.monsterId == job.staticDataId && um.isDonatable) {
+        quantity = MIN(quantity+1, job.quantity);
       }
     }
   }
@@ -62,51 +82,57 @@
 
 + (void) checkAllDonateQuests {
   GameState *gs = [GameState sharedGameState];
-  NSMutableArray *changedQuests = [NSMutableArray array];
+  NSMutableDictionary *questIdToJobIds = [NSMutableDictionary dictionary];
   
   for (FullQuestProto *quest in gs.inProgressIncompleteQuests.allValues) {
-    if (quest.questType == FullQuestProto_QuestTypeDonateMonster) {
-      int quantity = [self checkQuantityForDonateQuest:quest];
-      
-      UserQuest *uq = [gs myQuestWithId:quest.questId];
-      if (uq && quantity != uq.progress) {
-        uq.progress = quantity;
-        [changedQuests addObject:quest];
+    for (QuestJobProto *job in quest.jobsList) {
+      if (job.questJobType == QuestJobProto_QuestJobTypeDonateMonster) {
+        int quantity = [self checkQuantityForDonateQuestJob:job];
+        
+        UserQuest *uq = [gs myQuestWithId:quest.questId];
+        UserQuestJob *uqj = [uq jobForId:job.questJobId];
+        if (uqj && quantity != uqj.progress) {
+          uqj.progress = quantity;
+          [self addJob:job toDict:questIdToJobIds];
+        }
       }
     }
   }
   
-  if (changedQuests.count > 0) {
-    [self sendQuestProgressForQuests:changedQuests];
+  if (questIdToJobIds.count > 0) {
+    [self sendQuestProgressForQuests:questIdToJobIds];
   }
 }
 
 + (void) checkQuestsForDungeon:(BeginDungeonResponseProto *)dungeonInfo {
   // Check kill quests
   GameState *gs = [GameState sharedGameState];
-  NSMutableSet *changedQuests = [NSMutableSet set];
-  NSMutableSet *potentialQuests = [NSMutableSet set];
+  NSMutableDictionary *questIdToJobIds = [NSMutableDictionary dictionary];
+  NSMutableSet *potentialJobs = [NSMutableSet set];
   
   for (FullQuestProto *quest in gs.inProgressIncompleteQuests.allValues) {
-    if (quest.questType == FullQuestProto_QuestTypeKillMonster ||
-        quest.questType == FullQuestProto_QuestTypeCollectSpecialItem ||
-        quest.questType == FullQuestProto_QuestTypeCompleteTask) {
-      [potentialQuests addObject:quest];
+    for (QuestJobProto *job in quest.jobsList) {
+      if (job.questJobType == QuestJobProto_QuestJobTypeKillSpecificMonster ||
+          job.questJobType == QuestJobProto_QuestJobTypeCollectSpecialItem ||
+          job.questJobType == QuestJobProto_QuestJobTypeCompleteTask) {
+        [potentialJobs addObject:job];
+      }
     }
   }
   
-  if (potentialQuests.count == 0) {
+  if (potentialJobs.count == 0) {
     return;
   }
   
   // Check for complete_task quests
-  for (FullQuestProto *quest in potentialQuests) {
-    if (quest.questType == FullQuestProto_QuestTypeCompleteTask) {
-      UserQuest *uq = [gs myQuestWithId:quest.questId];
-      if (quest.staticDataId == dungeonInfo.taskId) {
-        uq.progress = MIN(uq.progress+1, quest.quantity);
-        uq.isComplete = (uq.progress >= quest.quantity);
-        [changedQuests addObject:quest];
+  for (QuestJobProto *job in potentialJobs) {
+    if (job.questJobType == QuestJobProto_QuestJobTypeCompleteTask) {
+      UserQuest *uq = [gs myQuestWithId:job.questId];
+      UserQuestJob *uqj = [uq jobForId:job.questJobId];
+      if (job.staticDataId == dungeonInfo.taskId) {
+        uqj.progress = MIN(uqj.progress+1, job.quantity);
+        uqj.isComplete = (uqj.progress >= job.quantity);
+        [self addJob:job toDict:questIdToJobIds];
       }
     }
   }
@@ -114,28 +140,28 @@
   for (TaskStageProto *tsp in dungeonInfo.tspList) {
     for (TaskStageMonsterProto *tsm in tsp.stageMonstersList) {
       // Check the potential quests
-      for (FullQuestProto *quest in potentialQuests) {
-        if (quest.questType == FullQuestProto_QuestTypeKillMonster) {
-          UserQuest *uq = [gs myQuestWithId:quest.questId];
-          if (!quest.staticDataId || quest.staticDataId == tsm.monsterId) {
-            uq.progress = MIN(uq.progress+1, quest.quantity);
-            uq.isComplete = (uq.progress >= quest.quantity);
-            [changedQuests addObject:quest];
+      for (QuestJobProto *job in potentialJobs) {
+        UserQuest *uq = [gs myQuestWithId:job.questId];
+        UserQuestJob *uqj = [uq jobForId:job.questJobId];
+        if (job.questJobType == QuestJobProto_QuestJobTypeKillSpecificMonster) {
+          if (!job.staticDataId || job.staticDataId == tsm.monsterId) {
+            uqj.progress = MIN(uqj.progress+1, job.quantity);
+            uqj.isComplete = (uqj.progress >= job.quantity);
+            [self addJob:job toDict:questIdToJobIds];
           }
-        } else if (quest.questType == FullQuestProto_QuestTypeCollectSpecialItem) {
-          UserQuest *uq = [gs myQuestWithId:quest.questId];
-          if (quest.staticDataId == tsm.itemId) {
-            uq.progress = MIN(uq.progress+1, quest.quantity);
-            uq.isComplete = (uq.progress >= quest.quantity);
-            [changedQuests addObject:quest];
+        } else if (job.questJobType == QuestJobProto_QuestJobTypeCollectSpecialItem) {
+          if (job.staticDataId == tsm.itemId) {
+            uqj.progress = MIN(uqj.progress+1, job.quantity);
+            uqj.isComplete = (uqj.progress >= job.quantity);
+            [self addJob:job toDict:questIdToJobIds];
           }
         }
       }
     }
   }
   
-  if (changedQuests.count > 0) {
-    [self sendQuestProgressForQuests:changedQuests.allObjects];
+  if (questIdToJobIds.count > 0) {
+    [self sendQuestProgressForQuests:questIdToJobIds];
   }
   
   [self checkAllDonateQuests];
@@ -143,14 +169,22 @@
 
 + (void) checkNewlyAcceptedQuest:(FullQuestProto *)quest {
   GameState *gs = [GameState sharedGameState];
-  if (quest.questType == FullQuestProto_QuestTypeDonateMonster) {
-    int quantity = [self checkQuantityForDonateQuest:quest];
-    
-    UserQuest *uq = [gs myQuestWithId:quest.questId];
-    if (quantity != uq.progress) {
-      uq.progress = quantity;
-      [self sendQuestProgressForQuests:[NSArray arrayWithObject:quest]];
+  NSMutableDictionary *questIdToJobIds = [NSMutableDictionary dictionary];
+  for (QuestJobProto *job in quest.jobsList) {
+    if (job.questJobType == QuestJobProto_QuestJobTypeDonateMonster) {
+      int quantity = [self checkQuantityForDonateQuestJob:job];
+      
+      UserQuest *uq = [gs myQuestWithId:quest.questId];
+      UserQuestJob *uqj = [uq jobForId:job.questJobId];
+      if (uqj && quantity != uqj.progress) {
+        uqj.progress = quantity;
+        [self addJob:job toDict:questIdToJobIds];
+      }
     }
+  }
+  
+  if (questIdToJobIds.count > 0) {
+    [self sendQuestProgressForQuests:questIdToJobIds];
   }
 }
 

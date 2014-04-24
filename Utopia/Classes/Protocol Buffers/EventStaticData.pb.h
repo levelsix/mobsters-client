@@ -112,6 +112,8 @@
 @class PvpLeagueProto_Builder;
 @class PvpProto;
 @class PvpProto_Builder;
+@class QuestJobProto;
+@class QuestJobProto_Builder;
 @class RareBoosterPurchaseProto;
 @class RareBoosterPurchaseProto_Builder;
 @class ResidenceProto;
@@ -158,6 +160,8 @@
 @class UserPersistentEventProto_Builder;
 @class UserPvpLeagueProto;
 @class UserPvpLeagueProto_Builder;
+@class UserQuestJobProto;
+@class UserQuestJobProto_Builder;
 
 @interface EventStaticDataRoot : NSObject {
 }

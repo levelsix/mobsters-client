@@ -41,7 +41,6 @@
 
 @property (nonatomic, strong) IBOutlet UILabel *monsterNameLabel;
 @property (nonatomic, strong) IBOutlet UILabel *hpLabel;
-@property (nonatomic, strong) IBOutlet UILabel *rarityLabel;
 @property (nonatomic, strong) IBOutlet UILabel *attackLabel;
 @property (nonatomic, strong) IBOutlet UILabel *enhanceLabel;
 @property (nonatomic, strong) IBOutlet UILabel *elementLabel;

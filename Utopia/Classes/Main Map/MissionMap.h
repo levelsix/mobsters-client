@@ -14,8 +14,6 @@
 #define DRAGON_TAG 5456
 
 @interface MissionMap : GameMap <MapBotViewDelegate> {
-  NSMutableArray *_jobs;
-  
   BOOL _allowSelection;
   BOOL _enteringDungeon;
   

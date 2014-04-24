@@ -20,10 +20,6 @@
 
 @end
 
-@interface RequestsTopBar : ButtonTopBar
-
-@end
-
 @interface RequestsViewController : UIViewController <TabBarDelegate> {
   id<RequestsTableController> _curTableController;
 }
@@ -31,7 +27,7 @@
 @property (nonatomic, retain) IBOutlet UIView *mainView;
 @property (nonatomic, retain) IBOutlet UIView *bgdView;
 
-@property (nonatomic, retain) IBOutlet RequestsTopBar *topBar;
+@property (nonatomic, retain) IBOutlet ButtonTopBar *topBar;
 
 @property (nonatomic, retain) IBOutlet UITableView *requestsTable;
 @property (nonatomic, retain) IBOutlet UIActivityIndicatorView *spinner;

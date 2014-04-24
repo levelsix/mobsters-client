@@ -18,8 +18,6 @@
 @implementation GenericPopupController
 
 - (void) viewDidLoad {
-  self.mainView.layer.cornerRadius = 6.f;
-  
   // Retain the targets so it will never access null object
   self.targets = [NSMutableArray array];
 }
@@ -96,14 +94,23 @@
 + (GenericPopupController *) displayNegativeConfirmationWithDescription:(NSString *)description title:(NSString *)title okayButton:(NSString *)okay cancelButton:(NSString *)cancel okTarget:(id)okTarget okSelector:(SEL)okSelector cancelTarget:(id)cancelTarget cancelSelector:(SEL)cancelSelector {
   GenericPopupController *gp = [GenericPopupController displayConfirmationWithDescription:description title:title okayButton:okay cancelButton:cancel okTarget:okTarget okSelector:okSelector cancelTarget:cancelTarget cancelSelector:cancelSelector];
   
-  [gp.confOkayButton setImage:[Globals imageNamed:@"orangebutton.png"] forState:UIControlStateNormal];
+  [gp.confOkayButton setImage:[Globals imageNamed:@"orangemenuoption.png"] forState:UIControlStateNormal];
+  gp.titleBgd.image = [Globals imageNamed:@"orangenotificationheader.png"];
+  
+  gp.confOkayButtonLabel.textColor = [UIColor colorWithRed:193/255.f green:38/255.f blue:12/255.f alpha:1.f];
+  gp.confOkayButtonLabel.shadowColor = [UIColor colorWithRed:250/255.f green:199/255.f blue:72/255.f alpha:0.75f];
+  
   return gp;
 }
 
 + (GenericPopupController *) displayNotEnoughGemsView {
   GenericPopupController *gp = [GenericPopupController displayNotificationViewWithText:@"You don't have enough gems. Want more?" title:@"Not Enough Gems" okayButton:@"Enter Shop" target:[GameViewController baseController] selector:@selector(openGemShop)];
   
-  [gp.notifButton setImage:[Globals imageNamed:@"finishbuild.png"] forState:UIControlStateNormal];
+  [gp.notifButton setImage:[Globals imageNamed:@"purplemenuoption.png"] forState:UIControlStateNormal];
+  gp.titleBgd.image = [Globals imageNamed:@"purplenotificationheader.png"];
+  
+  gp.notifButtonLabel.textColor = [UIColor whiteColor];
+  gp.notifButtonLabel.shadowColor = [UIColor colorWithRed:40/255.f green:0/255.f blue:100/255.f alpha:0.75f];
   
   gp.closeButton.hidden = NO;
   
@@ -119,6 +126,7 @@
   [gp.notificationView removeFromSuperview];
   
   gp.titleLabel.text = title;
+  gp.titleBgd.image = [Globals imageNamed:@"purplenotificationheader.png"];
   gp.descriptionLabel.text = description;
   gp.gemButtonLabel.text = [Globals commafyNumber:gemCost];
   
@@ -138,7 +146,7 @@
   BOOL isCash = resourceType == ResourceTypeCash;
   NSString *type = isCash ? @"cash" : @"oil";
   NSString *title = [NSString stringWithFormat:@"You need more %@", type];
-  NSString *resources = isCash ? [Globals cashStringForNumber:amount] : [NSString stringWithFormat:@"%d %@", amount, type];
+  NSString *resources = isCash ? [Globals cashStringForNumber:amount] : [NSString stringWithFormat:@"%@ %@", [Globals commafyNumber:amount], type];
   NSString *description = [NSString stringWithFormat:@"Buy the missing %@?", resources];
   int gemCost = [gl calculateGemConversionForResourceType:resourceType amount:amount];
   

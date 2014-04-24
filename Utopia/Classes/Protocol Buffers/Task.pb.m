@@ -678,7 +678,8 @@ static FullTaskProto* defaultFullTaskProtoInstance = nil;
 @interface MinimumUserTaskProto ()
 @property int32_t userId;
 @property int32_t taskId;
-@property int32_t numTimesActed;
+@property int32_t curTaskStageId;
+@property int64_t userTaskId;
 @end
 
 @implementation MinimumUserTaskProto
@@ -697,13 +698,20 @@ static FullTaskProto* defaultFullTaskProtoInstance = nil;
   hasTaskId_ = !!value;
 }
 @synthesize taskId;
-- (BOOL) hasNumTimesActed {
-  return !!hasNumTimesActed_;
+- (BOOL) hasCurTaskStageId {
+  return !!hasCurTaskStageId_;
 }
-- (void) setHasNumTimesActed:(BOOL) value {
-  hasNumTimesActed_ = !!value;
+- (void) setHasCurTaskStageId:(BOOL) value {
+  hasCurTaskStageId_ = !!value;
 }
-@synthesize numTimesActed;
+@synthesize curTaskStageId;
+- (BOOL) hasUserTaskId {
+  return !!hasUserTaskId_;
+}
+- (void) setHasUserTaskId:(BOOL) value {
+  hasUserTaskId_ = !!value;
+}
+@synthesize userTaskId;
 - (void) dealloc {
   [super dealloc];
 }
@@ -711,7 +719,8 @@ static FullTaskProto* defaultFullTaskProtoInstance = nil;
   if ((self = [super init])) {
     self.userId = 0;
     self.taskId = 0;
-    self.numTimesActed = 0;
+    self.curTaskStageId = 0;
+    self.userTaskId = 0L;
   }
   return self;
 }
@@ -737,8 +746,11 @@ static MinimumUserTaskProto* defaultMinimumUserTaskProtoInstance = nil;
   if (self.hasTaskId) {
     [output writeInt32:2 value:self.taskId];
   }
-  if (self.hasNumTimesActed) {
-    [output writeInt32:3 value:self.numTimesActed];
+  if (self.hasCurTaskStageId) {
+    [output writeInt32:3 value:self.curTaskStageId];
+  }
+  if (self.hasUserTaskId) {
+    [output writeInt64:4 value:self.userTaskId];
   }
   [self.unknownFields writeToCodedOutputStream:output];
 }
@@ -755,8 +767,11 @@ static MinimumUserTaskProto* defaultMinimumUserTaskProtoInstance = nil;
   if (self.hasTaskId) {
     size += computeInt32Size(2, self.taskId);
   }
-  if (self.hasNumTimesActed) {
-    size += computeInt32Size(3, self.numTimesActed);
+  if (self.hasCurTaskStageId) {
+    size += computeInt32Size(3, self.curTaskStageId);
+  }
+  if (self.hasUserTaskId) {
+    size += computeInt64Size(4, self.userTaskId);
   }
   size += self.unknownFields.serializedSize;
   memoizedSerializedSize = size;
@@ -839,8 +854,11 @@ static MinimumUserTaskProto* defaultMinimumUserTaskProtoInstance = nil;
   if (other.hasTaskId) {
     [self setTaskId:other.taskId];
   }
-  if (other.hasNumTimesActed) {
-    [self setNumTimesActed:other.numTimesActed];
+  if (other.hasCurTaskStageId) {
+    [self setCurTaskStageId:other.curTaskStageId];
+  }
+  if (other.hasUserTaskId) {
+    [self setUserTaskId:other.userTaskId];
   }
   [self mergeUnknownFields:other.unknownFields];
   return self;
@@ -872,7 +890,11 @@ static MinimumUserTaskProto* defaultMinimumUserTaskProtoInstance = nil;
         break;
       }
       case 24: {
-        [self setNumTimesActed:[input readInt32]];
+        [self setCurTaskStageId:[input readInt32]];
+        break;
+      }
+      case 32: {
+        [self setUserTaskId:[input readInt64]];
         break;
       }
     }
@@ -910,20 +932,36 @@ static MinimumUserTaskProto* defaultMinimumUserTaskProtoInstance = nil;
   result.taskId = 0;
   return self;
 }
-- (BOOL) hasNumTimesActed {
-  return result.hasNumTimesActed;
+- (BOOL) hasCurTaskStageId {
+  return result.hasCurTaskStageId;
 }
-- (int32_t) numTimesActed {
-  return result.numTimesActed;
+- (int32_t) curTaskStageId {
+  return result.curTaskStageId;
 }
-- (MinimumUserTaskProto_Builder*) setNumTimesActed:(int32_t) value {
-  result.hasNumTimesActed = YES;
-  result.numTimesActed = value;
+- (MinimumUserTaskProto_Builder*) setCurTaskStageId:(int32_t) value {
+  result.hasCurTaskStageId = YES;
+  result.curTaskStageId = value;
   return self;
 }
-- (MinimumUserTaskProto_Builder*) clearNumTimesActed {
-  result.hasNumTimesActed = NO;
-  result.numTimesActed = 0;
+- (MinimumUserTaskProto_Builder*) clearCurTaskStageId {
+  result.hasCurTaskStageId = NO;
+  result.curTaskStageId = 0;
+  return self;
+}
+- (BOOL) hasUserTaskId {
+  return result.hasUserTaskId;
+}
+- (int64_t) userTaskId {
+  return result.userTaskId;
+}
+- (MinimumUserTaskProto_Builder*) setUserTaskId:(int64_t) value {
+  result.hasUserTaskId = YES;
+  result.userTaskId = value;
+  return self;
+}
+- (MinimumUserTaskProto_Builder*) clearUserTaskId {
+  result.hasUserTaskId = NO;
+  result.userTaskId = 0L;
   return self;
 }
 @end

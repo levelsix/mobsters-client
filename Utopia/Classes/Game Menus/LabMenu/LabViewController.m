@@ -15,6 +15,8 @@
 @implementation LabViewController
 
 - (void) viewDidLoad {
+  [super viewDidLoad];
+  
   self.enhanceViewController = [[EnhanceViewController alloc] initWithNibName:nil bundle:nil];
   self.evoViewController = [[EvoViewController alloc] initWithNibName:nil bundle:nil];
   
@@ -22,7 +24,6 @@
   [self addChildViewController:self.evoViewController];
   
   self.title = @"Lab";
-  self.navigationItem.titleView = self.menuTopBar;
   [self setUpCloseButton];
   [self setUpImageBackButton];
   
@@ -37,6 +38,8 @@
   
   [self.menuTopBar clickButton:kButton1];
   [self.menuTopBar unclickButton:kButton2];
+  
+  self.navigationItem.leftBarButtonItem = self.enhanceViewController.navigationItem.leftBarButtonItem;
 }
 
 - (void) button2Clicked:(id)sender {
@@ -47,6 +50,8 @@
   
   [self.menuTopBar clickButton:kButton2];
   [self.menuTopBar unclickButton:kButton1];
+  
+  self.navigationItem.leftBarButtonItem = self.evoViewController.navigationItem.leftBarButtonItem;
 }
 
 @end

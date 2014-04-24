@@ -14,8 +14,8 @@
 #import "BattleViews.h"
 #import "OrbBgdLayer.h"
 
-#define Y_MOVEMENT_FOR_NEW_SCENE 100
-#define TIME_TO_SCROLL_PER_SCENE 1.8f
+#define Y_MOVEMENT_FOR_NEW_SCENE 120
+#define TIME_TO_SCROLL_PER_SCENE 2.4f
 #define HEALTH_BAR_SPEED 40
 #define MY_WALKING_SPEED 250.f
 
@@ -125,7 +125,7 @@
 - (void) checkIfAnyMovesLeft;
 - (void) currentMyPlayerDied;
 - (void) createNextMyPlayerSprite;
-- (float) makeMyPlayerWalkOut;
+- (float) makeMyPlayerWalkOutWithBlock:(void (^)(void))completion;
 - (void) makePlayer:(BattleSprite *)player walkInFromEntranceWithSelector:(SEL)selector;
 
 - (void) dealDamage:(int)damageDone enemyIsAttacker:(BOOL)enemyIsAttacker withSelector:(SEL)selector;
@@ -133,6 +133,8 @@
 
 - (void) updateHealthBars;
 - (void) displayWaveNumber;
+
+- (void) removeButtons;
 
 - (void) createNextEnemyObject;
 - (CCSprite *) getCurrentEnemyLoot;

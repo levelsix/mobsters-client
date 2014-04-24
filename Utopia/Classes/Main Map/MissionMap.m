@@ -102,21 +102,10 @@
     for (NSNumber *taskId in fcp.taskIdsList) {
       FullTaskProto *ftp = [gs taskWithId:taskId.intValue];
       id<TaskElement> asset = (id<TaskElement>)[self assetWithId:ftp.assetNumWithinCity];
-      if (asset) {
+      if ([asset conformsToProtocol:@protocol(TaskElement)]) {
         asset.ftp = ftp;
       } else {
         LNLog(@"Could not find asset number %d.", ftp.assetNumWithinCity);
-      }
-    }
-    
-    // Just use jobs for defeat type jobs, tasks are tracked on their own
-    _jobs = [[NSMutableArray alloc] init];
-    
-    for (FullUserQuestProto *questData in proto.inProgressUserQuestDataInCityList) {
-      FullQuestProto *fqp = [gs.inProgressIncompleteQuests objectForKey:[NSNumber numberWithInt:questData.questId]];
-      fqp = fqp ? fqp : [gs.inProgressCompleteQuests objectForKey:[NSNumber numberWithInt:questData.questId]];
-      if (fqp.cityId != proto.cityId) {
-        continue;
       }
     }
     

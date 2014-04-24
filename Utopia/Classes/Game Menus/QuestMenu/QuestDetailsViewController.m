@@ -9,12 +9,11 @@
 #import "QuestDetailsViewController.h"
 #import "Globals.h"
 
-@implementation QuestDetailsViewController
+@implementation QuestDetailsCell
 
-- (void) viewDidLoad {
-  self.completeView.frame = self.visitView.frame;
-  [self.view addSubview:self.completeView];
-}
+@end
+
+@implementation QuestDetailsViewController
 
 - (void) loadWithQuest:(FullQuestProto *)quest userQuest:(UserQuest *)userQuest {
   BOOL reloadRewards = ![quest.data isEqualToData:self.quest.data];
@@ -23,45 +22,51 @@
   
   self.title = self.quest.name;
   
+  NSString *file = [quest.questGiverImagePrefix stringByAppendingString:@"Thumbnail.png"];
+  [Globals imageNamed:file withView:self.questGiverIcon greyscale:NO indicator:UIActivityIndicatorViewStyleWhite clearImageDuringDownload:YES];
+  file = [Globals imageNameForElement:quest.monsterElement suffix:@"team.png"];
+  [Globals imageNamed:file withView:self.bgdIcon greyscale:NO indicator:UIActivityIndicatorViewStyleWhite clearImageDuringDownload:YES];
+  
   self.questGiverNameLabel.text = self.quest.questGiverName;
-  self.descriptionLabel.text = userQuest.isComplete ? self.quest.doneResponse : self.quest.description;
-  self.jobLabel.text = self.quest.jobDescription;
+  [self setDescriptionString:self.quest.description];
+//  self.jobLabel.text = self.quest.jobDescription;
+//  
+//    self.progressLabel.text = [NSString stringWithFormat:@"%d/%d", userQuest.progress, quest.quantity];
+//  
+//  if (quest.questType == FullQuestProto_QuestTypeDonateMonster && userQuest.progress >= quest.quantity) {
+//    self.visitLabel.text = @"Donate";
+//  } else {
+//    self.visitLabel.text = @"Visit";
+//  }
+}
+
+- (void) setDescriptionString:(NSString *)labelText {
+  self.descriptionLabel.text = labelText;
   
-  if (quest.quantity < 100) {
-    self.progressLabel.text = [NSString stringWithFormat:@"%d/%d", userQuest.progress, quest.quantity];
-  } else {
-    self.progressLabel.text = [NSString stringWithFormat:@"%@", [Globals commafyNumber:userQuest.progress]];
+  CGRect r = self.descriptionLabel.frame;
+  CGSize s = [labelText sizeWithFont:self.descriptionLabel.font constrainedToSize:CGSizeMake(r.size.width, 999)];
+  r.size.height = s.height+2;
+  self.descriptionLabel.frame = r;
+}
+
+#pragma mark - UITableView dataSource/delegate
+
+- (int) tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
+  return 2;
+}
+
+- (UITableViewCell *) tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
+  QuestDetailsCell *cell = [tableView dequeueReusableCellWithIdentifier:@"QuestDetailsCell"];
+  if (cell == nil) {
+    [[NSBundle mainBundle] loadNibNamed:@"QuestDetailsCell" owner:self options:nil];
+    cell = self.taskCell;
   }
   
-  if (quest.questType == FullQuestProto_QuestTypeDonateMonster && userQuest.progress >= quest.quantity) {
-    self.visitLabel.text = @"Donate";
-  } else {
-    self.visitLabel.text = @"Visit";
-  }
-  
-  // Only reload if necessary so that animation can work
-  if (reloadRewards) {
-    NSArray *rewards = [Reward createRewardsForQuest:quest];
-    [self.rewardsViewContainer.rewardsView updateForRewards:rewards];
-  }
-  
-  if (userQuest.isComplete) {
-    self.completeView.alpha = 1.f;
-    self.collectView.alpha = 1.f;
-    self.visitView.alpha = 0.f;
-    
-    CGRect r = self.rewardsViewContainer.frame;
-    r.size.width = self.collectView.frame.origin.x-r.origin.x;
-    self.rewardsViewContainer.frame = r;
-  } else {
-    self.completeView.alpha = 0.f;
-    self.collectView.alpha = 0.f;
-    self.visitView.alpha = 1.f;
-    
-    CGRect r = self.rewardsViewContainer.frame;
-    r.size.width = CGRectGetMaxX(self.collectView.frame)-r.origin.x;
-    self.rewardsViewContainer.frame = r;
-  }
+  return cell;
+}
+
+- (UIView *) tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section {
+  return self.headerView;
 }
 
 #pragma mark - IBAction methods
@@ -71,7 +76,8 @@
 }
 
 - (IBAction)visitClicked:(id)sender {
-  [self.delegate visitOrDonateClickedWithDetailsVC:self];
+#warning fix this
+//  [self.delegate visitOrDonateClickedWithDetailsVC:self];
 }
 
 @end

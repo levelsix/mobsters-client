@@ -216,15 +216,9 @@
 }
 
 - (void) youWon {
-  float dur = [self makeMyPlayerWalkOut];
-  [self runAction:
-   [CCActionSequence actions:
-    [CCActionDelay actionWithDuration:dur],
-    [CCActionCallBlock actionWithBlock:
-     ^{
-       [self.delegate battleComplete:nil];
-     }],
-    nil]];
+  [self makeMyPlayerWalkOutWithBlock:^{
+    [self.delegate battleComplete:nil];
+  }];
 }
 
 - (void) displayEffectivenessForAttackerElement:(MonsterProto_MonsterElement)atkElement defenderElement:(MonsterProto_MonsterElement)defElement position:(CGPoint)position {

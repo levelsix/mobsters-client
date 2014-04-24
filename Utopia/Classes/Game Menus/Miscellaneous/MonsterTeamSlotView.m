@@ -14,24 +14,23 @@
 
 @implementation MonsterTeamSlotView
 
-- (void) awakeFromNib {
-  self.darkOverlay = [[UIImageView alloc] initWithFrame:self.bgdIcon.frame];
-  self.darkOverlay.image = [Globals maskImage:self.bgdIcon.image withColor:[UIColor colorWithWhite:0.f alpha:0.4f]];
-  [self.bgdIcon.superview addSubview:self.darkOverlay];
-}
-
 - (void) updateLeftViewForUserMonster:(UserMonster *)um {
   GameState *gs = [GameState sharedGameState];
   if (!um) {
     self.emptyIcon.hidden = NO;
     self.bgdIcon.hidden = YES;
-    self.darkOverlay.hidden = YES;
     self.monsterIcon.hidden = YES;
+    
+    self.monsterIcon.alpha = 0.6f;
+    self.bgdIcon.alpha = 0.6f;
   } else {
     MonsterProto *mp = [gs monsterWithId:um.monsterId];
     
     self.monsterIcon.hidden = NO;
     self.bgdIcon.hidden = NO;
+    
+    self.monsterIcon.alpha = 1.f;
+    self.bgdIcon.alpha = 1.f;
     
     NSString *fileName = [mp.imagePrefix stringByAppendingString:@"Thumbnail.png"];
     [Globals imageNamed:fileName withView:self.monsterIcon maskedColor:nil indicator:UIActivityIndicatorViewStyleWhite clearImageDuringDownload:YES];
@@ -89,7 +88,9 @@
       self.subtitleLabel.text = @"Slot Open";
       
       self.subtitleLabel.hidden = NO;
-      self.darkOverlay.hidden = NO;
+      
+      self.monsterIcon.alpha = 0.6f;
+      self.bgdIcon.alpha = 0.6f;
     } else {
       self.healthBar.percentage = um.curHealth/(float)[gl calculateMaxHealthForMonster:um];
       
@@ -97,7 +98,9 @@
       self.titleLabel.textColor = [UIColor colorWithWhite:0.23 alpha:1.f];
       
       self.subtitleLabel.hidden = YES;
-      self.darkOverlay.hidden = YES;
+      
+      self.monsterIcon.alpha = 1.f;
+      self.bgdIcon.alpha = 1.f;
     }
   }
 }
@@ -147,7 +150,7 @@
     self.emptyIcon.hidden = NO;
     self.minusButton.hidden = YES;
     
-    CAKeyframeAnimation *kf = [CAKeyframeAnimation animationWithKeyPath:@"position" function:BounceEaseOut fromPoint:ccpAdd(center, ccp(0, -35)) toPoint:center keyframeCount:150];
+    CAKeyframeAnimation *kf = [CAKeyframeAnimation animationWithKeyPath:@"position" function:BounceEaseOut fromPoint:ccpAdd(self.emptyIcon.center, ccp(0, -35)) toPoint:center keyframeCount:150];
     kf.duration = 0.5f;
 //    CAKeyframeAnimation *kf = [CAKeyframeAnimation dockBounceAnimationWithIconHeight:40.f];
     kf.delegate = self;

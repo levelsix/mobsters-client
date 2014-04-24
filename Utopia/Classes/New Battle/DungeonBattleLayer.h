@@ -17,11 +17,16 @@
   BOOL _waitingForEndDungeonResponse;
   
   BOOL _checkedQuests;
+  
+  BOOL _isResumingState;
+  BOOL _isDownloading;
+  BOOL _damageWasDealt;
 }
 
 @property (nonatomic, retain) BeginDungeonResponseProto *dungeonInfo;
 
 - (void) checkQuests;
+- (void) resumeFromUserTask:(MinimumUserTaskProto *)task stages:(NSArray *)stages;
 - (void) handleEndDungeonResponseProto:(FullEvent *)fe;
 
 @end

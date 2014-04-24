@@ -7,251 +7,201 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="RequestsBattleTableController">
             <connections>
-                <outlet property="requestCell" destination="5kH-1E-o5T" id="7rm-PN-ZCN"/>
+                <outlet property="requestCell" destination="uot-r1-kew" id="Rt7-H8-9ck"/>
             </connections>
         </placeholder>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
-        <tableViewCell contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" reuseIdentifier="RequestsBattleCell" id="5kH-1E-o5T" customClass="RequestsBattleCell">
-            <rect key="frame" x="0.0" y="0.0" width="350" height="92"/>
+        <tableViewCell contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" reuseIdentifier="RequestsBattleCell" id="uot-r1-kew" customClass="RequestsBattleCell">
+            <rect key="frame" x="0.0" y="0.0" width="435" height="45"/>
             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-            <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="5kH-1E-o5T" id="qG4-Qf-rSh">
-                <rect key="frame" x="0.0" y="0.0" width="350" height="91"/>
+            <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="uot-r1-kew" id="sNT-fV-Niv">
+                <rect key="frame" x="0.0" y="0.0" width="435" height="44"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
-                    <view contentMode="scaleToFill" id="2hY-CT-yFu">
-                        <rect key="frame" x="0.0" y="0.0" width="350" height="91"/>
-                        <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                    <view contentMode="scaleToFill" id="Qhi-pc-kl3">
+                        <rect key="frame" x="0.0" y="0.0" width="435" height="45"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES" heightSizable="YES" flexibleMaxY="YES"/>
                         <subviews>
-                            <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="teamwonbg.png" highlightedImage="teamlostbg.png" id="jy7-na-RfL">
-                                <rect key="frame" x="7" y="6" width="334" height="80"/>
+                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Meepsicle" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" id="Ux6-K6-C6B" customClass="NiceFontLabel7">
+                                <rect key="frame" x="13" y="3" width="76" height="23"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                            </imageView>
-                            <view clipsSubviews="YES" tag="1" contentMode="scaleToFill" id="PgN-q3-ptU" customClass="ClanTeamMonsterView">
-                                <rect key="frame" x="10" y="43" width="42" height="42"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <subviews>
-                                    <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleAspectFit" image="firemteam.png" id="dVV-YW-j4a">
-                                        <rect key="frame" x="0.0" y="0.0" width="42" height="42"/>
-                                        <autoresizingMask key="autoresizingMask"/>
-                                    </imageView>
-                                    <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleAspectFit" image="BryanGoslingT1Thumbnail.png" id="InL-mO-u2P">
-                                        <rect key="frame" x="0.0" y="0.0" width="42" height="42"/>
-                                        <autoresizingMask key="autoresizingMask"/>
-                                    </imageView>
-                                </subviews>
-                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                                <connections>
-                                    <outlet property="bgdIcon" destination="dVV-YW-j4a" id="qJM-2W-tn7"/>
-                                    <outlet property="monsterIcon" destination="InL-mO-u2P" id="ryQ-73-cJp"/>
-                                </connections>
-                            </view>
-                            <view clipsSubviews="YES" tag="2" contentMode="scaleToFill" id="bp0-Sq-uoJ" customClass="ClanTeamMonsterView">
-                                <rect key="frame" x="44" y="43" width="42" height="42"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <subviews>
-                                    <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleAspectFit" image="firemteam.png" id="AO1-C7-Li0">
-                                        <rect key="frame" x="0.0" y="0.0" width="42" height="42"/>
-                                        <autoresizingMask key="autoresizingMask"/>
-                                    </imageView>
-                                    <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleAspectFit" image="BryanGoslingT1Thumbnail.png" id="gsJ-jE-chb">
-                                        <rect key="frame" x="0.0" y="0.0" width="42" height="42"/>
-                                        <autoresizingMask key="autoresizingMask"/>
-                                    </imageView>
-                                </subviews>
-                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                                <connections>
-                                    <outlet property="bgdIcon" destination="AO1-C7-Li0" id="6w1-oK-rCJ"/>
-                                    <outlet property="monsterIcon" destination="gsJ-jE-chb" id="xVk-l0-iG6"/>
-                                </connections>
-                            </view>
-                            <view clipsSubviews="YES" tag="3" contentMode="scaleToFill" id="khl-s4-Y28" customClass="ClanTeamMonsterView">
-                                <rect key="frame" x="78" y="43" width="42" height="42"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <subviews>
-                                    <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleAspectFit" image="firemteam.png" id="ii6-bH-Eeq">
-                                        <rect key="frame" x="0.0" y="0.0" width="42" height="42"/>
-                                        <autoresizingMask key="autoresizingMask"/>
-                                    </imageView>
-                                    <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleAspectFit" image="BryanGoslingT1Thumbnail.png" id="TsV-0n-BME">
-                                        <rect key="frame" x="0.0" y="0.0" width="42" height="42"/>
-                                        <autoresizingMask key="autoresizingMask"/>
-                                    </imageView>
-                                </subviews>
-                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                                <connections>
-                                    <outlet property="bgdIcon" destination="ii6-bH-Eeq" id="8eL-Wu-XcE"/>
-                                    <outlet property="monsterIcon" destination="TsV-0n-BME" id="mwb-pX-Pqr"/>
-                                </connections>
-                            </view>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" lineBreakMode="tailTruncation" id="tNR-2J-wfr" customClass="NiceFontButton">
-                                <rect key="frame" x="16" y="10" width="128" height="23"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <fontDescription key="fontDescription" type="boldSystem" pointSize="14"/>
-                                <size key="titleShadowOffset" width="0.0" height="1"/>
-                                <state key="normal" title="CoopaLoopa">
-                                    <color key="titleColor" red="1" green="1" blue="1" alpha="1" colorSpace="deviceRGB"/>
-                                    <color key="titleShadowColor" red="0.0" green="0.0" blue="0.0" alpha="0.5" colorSpace="calibratedRGB"/>
-                                </state>
-                                <connections>
-                                    <action selector="nameClicked:" destination="-1" eventType="touchUpInside" id="OV4-8x-0tw"/>
-                                </connections>
-                            </button>
-                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Your team lost" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" id="dbC-AW-d7K" customClass="NiceFontLabel">
-                                <rect key="frame" x="119" y="10" width="128" height="23"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                <color key="textColor" red="0.38431372549019605" green="0.49411764705882355" blue="0.050980392156862744" alpha="1" colorSpace="deviceRGB"/>
-                                <color key="highlightedColor" red="0.50980392156862742" green="0.090196078431372548" blue="0.054901960784313725" alpha="1" colorSpace="deviceRGB"/>
-                                <color key="shadowColor" white="1" alpha="0.5" colorSpace="calibratedWhite"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="12"/>
+                                <color key="textColor" red="0.20000000000000001" green="0.20000000000000001" blue="0.20000000000000001" alpha="1" colorSpace="calibratedRGB"/>
+                                <nil key="highlightedColor"/>
                                 <size key="shadowOffset" width="0.0" height="1"/>
                             </label>
-                            <view contentMode="scaleToFill" id="MUo-wW-Plk">
-                                <rect key="frame" x="16" y="28" width="81" height="22"/>
+                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Victory" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" id="dbC-AW-d7K" customClass="NiceFontLabel5">
+                                <rect key="frame" x="13" y="21" width="71" height="23"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <subviews>
-                                    <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleAspectFit" image="shield.png" id="OEi-v1-qLr">
-                                        <rect key="frame" x="0.0" y="2" width="16" height="17"/>
-                                        <autoresizingMask key="autoresizingMask"/>
-                                    </imageView>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" lineBreakMode="tailTruncation" id="iWO-3c-nXI" customClass="NiceFontButton">
-                                        <rect key="frame" x="19" y="0.0" width="62" height="22"/>
-                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                        <fontDescription key="fontDescription" type="boldSystem" pointSize="12"/>
-                                        <size key="titleShadowOffset" width="0.0" height="1"/>
-                                        <state key="normal" title="Clan Ratta">
-                                            <color key="titleColor" red="1" green="1" blue="1" alpha="1" colorSpace="deviceRGB"/>
-                                            <color key="titleShadowColor" red="0.0" green="0.0" blue="0.0" alpha="0.5" colorSpace="calibratedRGB"/>
-                                        </state>
-                                        <state key="disabled" title="No Clan">
-                                            <color key="titleColor" red="1" green="1" blue="1" alpha="1" colorSpace="deviceRGB"/>
-                                            <color key="titleShadowColor" red="0.0" green="0.0" blue="0.0" alpha="0.29999999999999999" colorSpace="calibratedRGB"/>
-                                        </state>
-                                        <connections>
-                                            <action selector="clanClicked:" destination="-1" eventType="touchUpInside" id="VvW-Gc-70G"/>
-                                        </connections>
-                                    </button>
-                                </subviews>
-                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                            </view>
-                            <view contentMode="scaleToFill" id="Vpo-pB-Vpy">
-                                <rect key="frame" x="138" y="29" width="90" height="54"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="9"/>
+                                <color key="textColor" red="0.364705890417099" green="0.69803923368453979" blue="0.0" alpha="1" colorSpace="deviceRGB"/>
+                                <color key="highlightedColor" red="0.92941182851791382" green="0.0078431377187371254" blue="0.0" alpha="1" colorSpace="deviceRGB"/>
+                                <size key="shadowOffset" width="0.0" height="1"/>
+                            </label>
+                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="12m ago" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" id="41U-5L-Qfj" customClass="NiceFontLabel5">
+                                <rect key="frame" x="46" y="21" width="55" height="23"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <subviews>
-                                    <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="lostamount.png" id="tm8-Wc-0ak">
-                                        <rect key="frame" x="14" y="7" width="76" height="16"/>
-                                        <autoresizingMask key="autoresizingMask"/>
-                                    </imageView>
-                                    <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="lostamount.png" id="Zbp-ZP-hXu">
-                                        <rect key="frame" x="14" y="32" width="76" height="16"/>
-                                        <autoresizingMask key="autoresizingMask"/>
-                                    </imageView>
-                                    <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="$500" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" id="T6v-HU-kfh" customClass="NiceFontLabel">
-                                        <rect key="frame" x="29" y="3" width="54" height="23"/>
-                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                        <fontDescription key="fontDescription" type="system" pointSize="10"/>
-                                        <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
-                                        <nil key="highlightedColor"/>
-                                        <color key="shadowColor" red="0.76862745098039209" green="0.49019607843137253" blue="0.38431372549019605" alpha="0.75" colorSpace="deviceRGB"/>
-                                        <size key="shadowOffset" width="0.0" height="1"/>
-                                    </label>
-                                    <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="$500" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" id="G0M-Io-dHg" customClass="NiceFontLabel">
-                                        <rect key="frame" x="29" y="28" width="54" height="23"/>
-                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                        <fontDescription key="fontDescription" type="system" pointSize="10"/>
-                                        <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
-                                        <nil key="highlightedColor"/>
-                                        <color key="shadowColor" red="0.76862745099999996" green="0.49019607840000001" blue="0.38431372549999998" alpha="0.75" colorSpace="deviceRGB"/>
-                                        <size key="shadowOffset" width="0.0" height="1"/>
-                                    </label>
-                                    <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleAspectFit" image="moneystack.png" id="Kos-bu-uk0">
-                                        <rect key="frame" x="0.0" y="28" width="36" height="26"/>
-                                        <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxY="YES"/>
-                                    </imageView>
-                                    <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleAspectFit" image="oilicon.png" id="GNh-XB-Qlk">
-                                        <rect key="frame" x="-2" y="2" width="36" height="26"/>
-                                        <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxY="YES"/>
-                                    </imageView>
-                                </subviews>
-                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                            </view>
-                            <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="spotsmovedbg.png" id="h3P-hE-3IY">
-                                <rect key="frame" x="251" y="22" width="76" height="19"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="9"/>
+                                <color key="textColor" red="0.52549022436141968" green="0.52549022436141968" blue="0.52549022436141968" alpha="1" colorSpace="deviceRGB"/>
+                                <nil key="highlightedColor"/>
+                                <size key="shadowOffset" width="0.0" height="1"/>
+                            </label>
+                            <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" image="popupline.png" id="cIU-zI-Ezh">
+                                <rect key="frame" x="0.0" y="44" width="435" height="1"/>
                                 <autoresizingMask key="autoresizingMask"/>
                             </imageView>
-                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="-3 spots" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" id="llw-0Z-Njd" customClass="NiceFontLabel">
-                                <rect key="frame" x="279" y="19" width="44" height="23"/>
+                            <view clipsSubviews="YES" tag="1" contentMode="scaleToFill" id="W7r-eh-qLQ" customClass="ClanTeamMonsterView">
+                                <rect key="frame" x="97" y="2" width="42" height="42"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="10"/>
-                                <color key="textColor" red="0.38431372549999998" green="0.4941176471" blue="0.050980392159999999" alpha="1" colorSpace="deviceRGB"/>
-                                <color key="highlightedColor" red="0.50980392159999999" green="0.090196078430000007" blue="0.054901960780000002" alpha="1" colorSpace="deviceRGB"/>
+                                <subviews>
+                                    <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="fireteam.png" id="M5u-V8-DdS">
+                                        <rect key="frame" x="0.0" y="0.0" width="42" height="42"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                    </imageView>
+                                    <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleAspectFit" image="BryanGoslingT1Thumbnail.png" id="CKw-Lw-coH">
+                                        <rect key="frame" x="0.0" y="0.0" width="42" height="42"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                    </imageView>
+                                </subviews>
+                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                <connections>
+                                    <outlet property="bgdIcon" destination="M5u-V8-DdS" id="zis-TE-Xq6"/>
+                                    <outlet property="monsterIcon" destination="CKw-Lw-coH" id="Z4s-uI-Zxd"/>
+                                </connections>
+                            </view>
+                            <view clipsSubviews="YES" tag="2" contentMode="scaleToFill" id="0tP-iH-wMW" customClass="ClanTeamMonsterView">
+                                <rect key="frame" x="122" y="2" width="42" height="42"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <subviews>
+                                    <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="fireteam.png" id="Shr-fD-wiQ">
+                                        <rect key="frame" x="0.0" y="0.0" width="42" height="42"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                    </imageView>
+                                    <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleAspectFit" image="BryanGoslingT1Thumbnail.png" id="5RL-J7-8E6">
+                                        <rect key="frame" x="0.0" y="0.0" width="42" height="42"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                    </imageView>
+                                </subviews>
+                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                <connections>
+                                    <outlet property="bgdIcon" destination="Shr-fD-wiQ" id="pht-Qw-sY2"/>
+                                    <outlet property="monsterIcon" destination="5RL-J7-8E6" id="6JY-uE-PMN"/>
+                                </connections>
+                            </view>
+                            <view clipsSubviews="YES" tag="3" contentMode="scaleToFill" id="Bmc-w4-HNN" customClass="ClanTeamMonsterView">
+                                <rect key="frame" x="147" y="2" width="42" height="42"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <subviews>
+                                    <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="fireteam.png" id="hJs-TA-fWz">
+                                        <rect key="frame" x="0.0" y="0.0" width="42" height="42"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                    </imageView>
+                                    <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleAspectFit" image="BryanGoslingT1Thumbnail.png" id="mNW-6H-gsP">
+                                        <rect key="frame" x="0.0" y="0.0" width="42" height="42"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                    </imageView>
+                                </subviews>
+                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                <connections>
+                                    <outlet property="bgdIcon" destination="hJs-TA-fWz" id="mjt-gE-egG"/>
+                                    <outlet property="monsterIcon" destination="mNW-6H-gsP" id="DWH-wx-hSX"/>
+                                </connections>
+                            </view>
+                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="-3" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" id="tUK-WU-Lad" customClass="NiceFontLabel8">
+                                <rect key="frame" x="223" y="10" width="41" height="23"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="16"/>
+                                <color key="textColor" red="0.36470589040000001" green="0.69803923369999998" blue="0.0" alpha="1" colorSpace="deviceRGB"/>
+                                <color key="highlightedColor" red="0.92941182850000004" green="0.0078431377190000002" blue="0.0" alpha="1" colorSpace="deviceRGB"/>
                                 <size key="shadowOffset" width="0.0" height="0.0"/>
                             </label>
-                            <view contentMode="scaleToFill" id="pKS-10-dUe">
-                                <rect key="frame" x="251" y="47" width="76" height="28"/>
+                            <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleAspectFit" image="bronzeicon.png" id="wi9-JA-sqZ">
+                                <rect key="frame" x="198" y="10" width="22" height="26"/>
+                                <autoresizingMask key="autoresizingMask"/>
+                            </imageView>
+                            <view contentMode="scaleToFill" id="Hwx-Hh-6Ae">
+                                <rect key="frame" x="267" y="0.0" width="80" height="45"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <subviews>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="JWD-xr-UQb">
-                                        <rect key="frame" x="2" y="0.0" width="71" height="28"/>
+                                    <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="$500" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" id="Ezp-Ag-IoN" customClass="NiceFontLabel10">
+                                        <rect key="frame" x="26" y="20" width="54" height="23"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                        <state key="normal" backgroundImage="heal.png">
+                                        <fontDescription key="fontDescription" type="system" pointSize="10"/>
+                                        <color key="textColor" red="0.87058830261230469" green="0.69411766529083252" blue="0.0" alpha="1" colorSpace="deviceRGB"/>
+                                        <nil key="highlightedColor"/>
+                                        <size key="shadowOffset" width="0.0" height="1"/>
+                                    </label>
+                                    <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="$500" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" id="j70-CY-Eja" customClass="NiceFontLabel10">
+                                        <rect key="frame" x="26" y="1" width="54" height="23"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="10"/>
+                                        <color key="textColor" red="0.5058823823928833" green="0.70588237047195435" blue="0.22352942824363708" alpha="1" colorSpace="deviceRGB"/>
+                                        <nil key="highlightedColor"/>
+                                        <size key="shadowOffset" width="0.0" height="1"/>
+                                    </label>
+                                    <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleAspectFit" image="moneystack.png" id="Xe6-Vf-fmt">
+                                        <rect key="frame" x="3" y="4" width="17" height="17"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxY="YES"/>
+                                    </imageView>
+                                    <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleAspectFit" image="oilicon.png" id="P5Y-xS-GMN">
+                                        <rect key="frame" x="3" y="23" width="17" height="17"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxY="YES"/>
+                                    </imageView>
+                                </subviews>
+                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                            </view>
+                            <view contentMode="scaleToFill" id="YeH-fL-NkV">
+                                <rect key="frame" x="367" y="8" width="60" height="29"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <subviews>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="lZl-dj-PJh">
+                                        <rect key="frame" x="0.0" y="0.0" width="60" height="29"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <state key="normal" image="revenge.png">
                                             <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                         </state>
-                                        <connections>
-                                            <action selector="revengeClicked:" destination="-1" eventType="touchUpInside" id="wlM-u8-jDy"/>
-                                        </connections>
                                     </button>
-                                    <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Revenge" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" id="M1e-4a-dbS" customClass="NiceFontLabel">
-                                        <rect key="frame" x="11" y="2" width="54" height="23"/>
-                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                        <fontDescription key="fontDescription" type="system" pointSize="13"/>
-                                        <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                    <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Revenge" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="Ihq-ak-z5M" customClass="NiceFontLabel">
+                                        <rect key="frame" x="2" y="3" width="57" height="21"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxY="YES"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="11"/>
+                                        <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                         <nil key="highlightedColor"/>
-                                        <color key="shadowColor" white="0.0" alpha="0.29999999999999999" colorSpace="calibratedWhite"/>
+                                        <color key="shadowColor" white="0.0" alpha="0.5" colorSpace="calibratedWhite"/>
                                         <size key="shadowOffset" width="0.0" height="1"/>
                                     </label>
                                 </subviews>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                             </view>
-                            <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleAspectFit" image="bronzeicon.png" id="Mwm-Av-aOs">
-                                <rect key="frame" x="257" y="19" width="22" height="26"/>
-                                <autoresizingMask key="autoresizingMask"/>
-                            </imageView>
                         </subviews>
                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                     </view>
                 </subviews>
             </tableViewCellContentView>
-            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+            <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
             <connections>
-                <outlet property="bgdImage" destination="jy7-na-RfL" id="DSH-HX-QPx"/>
-                <outlet property="cashLabel" destination="G0M-Io-dHg" id="1yY-YC-Eqt"/>
-                <outlet property="clanButton" destination="iWO-3c-nXI" id="OYK-d1-blM"/>
-                <outlet property="leagueIcon" destination="Mwm-Av-aOs" id="kfq-za-qQv"/>
-                <outlet property="lootLostView" destination="Vpo-pB-Vpy" id="oJ4-Iz-9ox"/>
-                <outlet property="nameButton" destination="tNR-2J-wfr" id="4T3-6Q-Pda"/>
-                <outlet property="oilLabel" destination="T6v-HU-kfh" id="1Ln-S6-23u"/>
-                <outlet property="rankChangeLabel" destination="llw-0Z-Njd" id="0wp-A3-1Cc"/>
-                <outlet property="revengeButton" destination="JWD-xr-UQb" id="Mmt-Ax-Cys"/>
-                <outlet property="revengeButtonView" destination="pKS-10-dUe" id="rMN-tm-3cP"/>
-                <outlet property="shieldIcon" destination="OEi-v1-qLr" id="lVo-7L-kkc"/>
-                <outlet property="titleLabel" destination="dbC-AW-d7K" id="pfN-lA-kwD"/>
-                <outletCollection property="monsterViews" destination="PgN-q3-ptU" id="mU7-iy-bv3"/>
-                <outletCollection property="monsterViews" destination="bp0-Sq-uoJ" id="SIj-27-p8e"/>
-                <outletCollection property="monsterViews" destination="khl-s4-Y28" id="l0s-4k-dhU"/>
+                <outlet property="cashLabel" destination="j70-CY-Eja" id="Gwe-De-hjZ"/>
+                <outlet property="lootLostView" destination="Hwx-Hh-6Ae" id="nuN-Jj-GjL"/>
+                <outlet property="nameLabel" destination="Ux6-K6-C6B" id="Pqz-uG-C9I"/>
+                <outlet property="oilLabel" destination="Ezp-Ag-IoN" id="S37-tT-vAh"/>
+                <outlet property="rankChangeLabel" destination="tUK-WU-Lad" id="eTd-go-T14"/>
+                <outlet property="rankIcon" destination="wi9-JA-sqZ" id="10I-2A-tfy"/>
+                <outlet property="resultLabel" destination="dbC-AW-d7K" id="p6H-mN-Jbb"/>
+                <outlet property="revengeButton" destination="lZl-dj-PJh" id="7EW-rB-PbA"/>
+                <outlet property="timeLabel" destination="41U-5L-Qfj" id="PT1-Oh-FUc"/>
+                <outletCollection property="monsterViews" destination="W7r-eh-qLQ" id="KXf-YG-xCB"/>
+                <outletCollection property="monsterViews" destination="0tP-iH-wMW" id="DKs-Ch-SB1"/>
+                <outletCollection property="monsterViews" destination="Bmc-w4-HNN" id="ChG-qF-YwW"/>
             </connections>
         </tableViewCell>
     </objects>
     <resources>
         <image name="BryanGoslingT1Thumbnail.png" width="33" height="42"/>
         <image name="bronzeicon.png" width="37" height="42"/>
-        <image name="firemteam.png" width="21" height="21"/>
-        <image name="heal.png" width="71" height="28"/>
-        <image name="lostamount.png" width="76" height="16"/>
-        <image name="moneystack.png" width="43" height="34"/>
-        <image name="oilicon.png" width="26" height="32"/>
-        <image name="shield.png" width="31" height="34"/>
-        <image name="spotsmovedbg.png" width="71" height="19"/>
-        <image name="teamlostbg.png" width="334" height="80"/>
-        <image name="teamwonbg.png" width="334" height="80"/>
+        <image name="fireteam.png" width="42" height="42"/>
+        <image name="moneystack.png" width="31" height="30"/>
+        <image name="oilicon.png" width="25" height="30"/>
+        <image name="popupline.png" width="1" height="1"/>
+        <image name="revenge.png" width="60" height="29"/>
     </resources>
 </document>

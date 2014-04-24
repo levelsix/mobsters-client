@@ -69,7 +69,7 @@ static float buttonInitialWidth = 159.f;
 //  frame = self.mainView.frame;
 //  frame.size.width = size.width;
 //  self.mainView.frame = frame;
-  
+//  
 //  if (msg.sender.minUserProto.userId == gs.userId) {
 //    self.transform = CGAffineTransformMakeScale(-1, 1);
 //    self.nameButton.transform = CGAffineTransformMakeScale(-1, 1);
@@ -100,7 +100,7 @@ static float buttonInitialWidth = 159.f;
   
   self.msgLabel.text = pcpp.content;
   self.timeLabel.text = [Globals stringForTimeSinceNow:[MSDate dateWithTimeIntervalSince1970:pcpp.timeOfPost/1000.] shortened:NO];
-  self.nameLabel.text = pcpp.poster.minUserProto.name;
+  self.nameLabel.text = pcpp.otherUserName;
   self.unreadIcon.hidden = ![pcpp isUnread];
 }
 

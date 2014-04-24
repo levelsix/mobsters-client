@@ -238,19 +238,23 @@ BOOL PersistentEventProto_EventTypeIsValidValue(PersistentEventProto_EventType v
 
 @interface MinimumUserTaskProto : PBGeneratedMessage {
 @private
+  BOOL hasUserTaskId_:1;
   BOOL hasUserId_:1;
   BOOL hasTaskId_:1;
-  BOOL hasNumTimesActed_:1;
+  BOOL hasCurTaskStageId_:1;
+  int64_t userTaskId;
   int32_t userId;
   int32_t taskId;
-  int32_t numTimesActed;
+  int32_t curTaskStageId;
 }
 - (BOOL) hasUserId;
 - (BOOL) hasTaskId;
-- (BOOL) hasNumTimesActed;
+- (BOOL) hasCurTaskStageId;
+- (BOOL) hasUserTaskId;
 @property (readonly) int32_t userId;
 @property (readonly) int32_t taskId;
-@property (readonly) int32_t numTimesActed;
+@property (readonly) int32_t curTaskStageId;
+@property (readonly) int64_t userTaskId;
 
 + (MinimumUserTaskProto*) defaultInstance;
 - (MinimumUserTaskProto*) defaultInstance;
@@ -296,10 +300,15 @@ BOOL PersistentEventProto_EventTypeIsValidValue(PersistentEventProto_EventType v
 - (MinimumUserTaskProto_Builder*) setTaskId:(int32_t) value;
 - (MinimumUserTaskProto_Builder*) clearTaskId;
 
-- (BOOL) hasNumTimesActed;
-- (int32_t) numTimesActed;
-- (MinimumUserTaskProto_Builder*) setNumTimesActed:(int32_t) value;
-- (MinimumUserTaskProto_Builder*) clearNumTimesActed;
+- (BOOL) hasCurTaskStageId;
+- (int32_t) curTaskStageId;
+- (MinimumUserTaskProto_Builder*) setCurTaskStageId:(int32_t) value;
+- (MinimumUserTaskProto_Builder*) clearCurTaskStageId;
+
+- (BOOL) hasUserTaskId;
+- (int64_t) userTaskId;
+- (MinimumUserTaskProto_Builder*) setUserTaskId:(int64_t) value;
+- (MinimumUserTaskProto_Builder*) clearUserTaskId;
 @end
 
 @interface TaskStageMonsterProto : PBGeneratedMessage {

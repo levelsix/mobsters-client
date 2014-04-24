@@ -60,6 +60,7 @@ BOOL StructOrientationIsValidValue(StructOrientation value) {
 @property (retain) NSString* shadowImgName;
 @property Float32 shadowVerticalOffset;
 @property Float32 shadowHorizontalOfffset;
+@property Float32 shadowScale;
 @end
 
 @implementation StructureInfoProto
@@ -204,6 +205,13 @@ BOOL StructOrientationIsValidValue(StructOrientation value) {
   hasShadowHorizontalOfffset_ = !!value;
 }
 @synthesize shadowHorizontalOfffset;
+- (BOOL) hasShadowScale {
+  return !!hasShadowScale_;
+}
+- (void) setHasShadowScale:(BOOL) value {
+  hasShadowScale_ = !!value;
+}
+@synthesize shadowScale;
 - (void) dealloc {
   self.name = nil;
   self.imgName = nil;
@@ -234,6 +242,7 @@ BOOL StructOrientationIsValidValue(StructOrientation value) {
     self.shadowImgName = @"";
     self.shadowVerticalOffset = 0;
     self.shadowHorizontalOfffset = 0;
+    self.shadowScale = 0;
   }
   return self;
 }
@@ -313,6 +322,9 @@ static StructureInfoProto* defaultStructureInfoProtoInstance = nil;
   if (self.hasShadowHorizontalOfffset) {
     [output writeFloat:21 value:self.shadowHorizontalOfffset];
   }
+  if (self.hasShadowScale) {
+    [output writeFloat:22 value:self.shadowScale];
+  }
   [self.unknownFields writeToCodedOutputStream:output];
 }
 - (int32_t) serializedSize {
@@ -381,6 +393,9 @@ static StructureInfoProto* defaultStructureInfoProtoInstance = nil;
   }
   if (self.hasShadowHorizontalOfffset) {
     size += computeFloatSize(21, self.shadowHorizontalOfffset);
+  }
+  if (self.hasShadowScale) {
+    size += computeFloatSize(22, self.shadowScale);
   }
   size += self.unknownFields.serializedSize;
   memoizedSerializedSize = size;
@@ -531,6 +546,9 @@ BOOL StructureInfoProto_StructTypeIsValidValue(StructureInfoProto_StructType val
   if (other.hasShadowHorizontalOfffset) {
     [self setShadowHorizontalOfffset:other.shadowHorizontalOfffset];
   }
+  if (other.hasShadowScale) {
+    [self setShadowScale:other.shadowScale];
+  }
   [self mergeUnknownFields:other.unknownFields];
   return self;
 }
@@ -640,6 +658,10 @@ BOOL StructureInfoProto_StructTypeIsValidValue(StructureInfoProto_StructType val
       }
       case 173: {
         [self setShadowHorizontalOfffset:[input readFloat]];
+        break;
+      }
+      case 181: {
+        [self setShadowScale:[input readFloat]];
         break;
       }
     }
@@ -963,6 +985,22 @@ BOOL StructureInfoProto_StructTypeIsValidValue(StructureInfoProto_StructType val
 - (StructureInfoProto_Builder*) clearShadowHorizontalOfffset {
   result.hasShadowHorizontalOfffset = NO;
   result.shadowHorizontalOfffset = 0;
+  return self;
+}
+- (BOOL) hasShadowScale {
+  return result.hasShadowScale;
+}
+- (Float32) shadowScale {
+  return result.shadowScale;
+}
+- (StructureInfoProto_Builder*) setShadowScale:(Float32) value {
+  result.hasShadowScale = YES;
+  result.shadowScale = value;
+  return self;
+}
+- (StructureInfoProto_Builder*) clearShadowScale {
+  result.hasShadowScale = NO;
+  result.shadowScale = 0;
   return self;
 }
 @end

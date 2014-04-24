@@ -14,15 +14,11 @@
         </placeholder>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
         <view contentMode="scaleToFill" id="1">
-            <rect key="frame" x="0.0" y="0.0" width="568" height="280"/>
+            <rect key="frame" x="0.0" y="0.0" width="568" height="282"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
-                <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="bottom" image="mainmenubg.png" id="DEU-5F-t4s">
-                    <rect key="frame" x="0.0" y="-2" width="568" height="282"/>
-                    <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES"/>
-                </imageView>
                 <view contentMode="scaleToFill" id="47">
-                    <rect key="frame" x="0.0" y="0.0" width="568" height="280"/>
+                    <rect key="frame" x="0.0" y="2" width="568" height="280"/>
                     <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES"/>
                     <subviews>
                         <view contentMode="scaleToFill" id="wYR-VH-o59" customClass="CoinBar">
@@ -136,7 +132,7 @@
                     <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
                 </view>
             </subviews>
-            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+            <color key="backgroundColor" red="0.97254901959999995" green="0.92156862750000001" blue="0.78039215689999997" alpha="1" colorSpace="calibratedRGB"/>
             <simulatedOrientationMetrics key="simulatedOrientationMetrics" orientation="landscapeRight"/>
             <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
         </view>
@@ -165,12 +161,11 @@
         </view>
     </objects>
     <resources>
-        <image name="diamond.png" width="44" height="41"/>
-        <image name="mainmenubg.png" width="568" height="282"/>
+        <image name="diamond.png" width="29" height="27"/>
         <image name="menuresourcebg.png" width="82" height="19"/>
         <image name="menutopbar.png" width="568" height="42"/>
         <image name="mobstersbottombarbg.png" width="1" height="58"/>
-        <image name="moneystack.png" width="43" height="34"/>
-        <image name="oilicon.png" width="26" height="32"/>
+        <image name="moneystack.png" width="31" height="30"/>
+        <image name="oilicon.png" width="25" height="30"/>
     </resources>
 </document>

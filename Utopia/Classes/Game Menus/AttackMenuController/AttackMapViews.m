@@ -180,6 +180,26 @@
   self.curLeagueIcon.hidden = YES;
 }
 
+- (void) updateForOldLeagueId:(int)oldLeagueId newLeagueId:(int)newLeagueId {
+  GameState *gs = [GameState sharedGameState];
+  PvpLeagueProto *oldLeague = [gs leagueForId:oldLeagueId];
+  PvpLeagueProto *newLeague = [gs leagueForId:newLeagueId];
+  
+  if (oldLeagueId < newLeagueId) {
+    self.topLabel.text = @"You've been promoted!";
+  } else {
+    self.topLabel.text = @"You've been demoted.";
+  }
+  
+  self.botLabel.text = newLeague.leagueName;
+  
+  NSString *old = [oldLeague.imgPrefix stringByAppendingString:@"big.png"];
+  [Globals imageNamed:old withView:self.oldLeagueIcon greyscale:NO indicator:UIActivityIndicatorViewStyleGray clearImageDuringDownload:YES];
+  
+  NSString *new = [newLeague.imgPrefix stringByAppendingString:@"big.png"];
+  [Globals imageNamed:new withView:self.curLeagueIcon greyscale:NO indicator:UIActivityIndicatorViewStyleGray clearImageDuringDownload:YES];
+}
+
 - (void) dropLeagueIcon {
   self.curLeagueIcon.center = ccp(self.curLeagueIcon.center.x, -self.curLeagueIcon.frame.size.height/2);
   CAKeyframeAnimation *kf = [CAKeyframeAnimation animationWithKeyPath:@"position" function:BounceEaseOut fromPoint:self.curLeagueIcon.center toPoint:self.oldLeagueIcon.center keyframeCount:150];
@@ -258,9 +278,13 @@
   self.layer.cornerRadius = 8.f;
   
   for (LeagueDescriptionView *dv in self.leagueDescriptionViews) {
-    PvpLeagueProto *pvp = [gs leagueForId:dv.tag];
+    PvpLeagueProto *pvp = [gs leagueForId:(int)dv.tag];
     [dv updateForLeague:pvp];
   }
+}
+
+- (void) updateForLeague {
+  GameState *gs = [GameState sharedGameState];
   [self.leagueView updateForUserLeague:gs.pvpLeague];
 }
 

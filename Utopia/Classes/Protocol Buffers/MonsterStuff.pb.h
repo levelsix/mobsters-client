@@ -364,6 +364,10 @@ BOOL MonsterBattleDialogueProto_DialogueTypeIsValidValue(MonsterBattleDialoguePr
 
 @interface MonsterLevelInfoProto : PBGeneratedMessage {
 @private
+  BOOL hasHpExponentBase_:1;
+  BOOL hasDmgExponentBase_:1;
+  BOOL hasExpLvlDivisor_:1;
+  BOOL hasExpLvlExponent_:1;
   BOOL hasLvl_:1;
   BOOL hasHp_:1;
   BOOL hasCurLvlRequiredExp_:1;
@@ -375,6 +379,10 @@ BOOL MonsterBattleDialogueProto_DialogueTypeIsValidValue(MonsterBattleDialoguePr
   BOOL hasLightningDmg_:1;
   BOOL hasDarknessDmg_:1;
   BOOL hasRockDmg_:1;
+  Float32 hpExponentBase;
+  Float32 dmgExponentBase;
+  Float32 expLvlDivisor;
+  Float32 expLvlExponent;
   int32_t lvl;
   int32_t hp;
   int32_t curLvlRequiredExp;
@@ -398,6 +406,10 @@ BOOL MonsterBattleDialogueProto_DialogueTypeIsValidValue(MonsterBattleDialoguePr
 - (BOOL) hasDarknessDmg;
 - (BOOL) hasRockDmg;
 - (BOOL) hasSpeed;
+- (BOOL) hasHpExponentBase;
+- (BOOL) hasDmgExponentBase;
+- (BOOL) hasExpLvlDivisor;
+- (BOOL) hasExpLvlExponent;
 @property (readonly) int32_t lvl;
 @property (readonly) int32_t hp;
 @property (readonly) int32_t curLvlRequiredExp;
@@ -409,6 +421,10 @@ BOOL MonsterBattleDialogueProto_DialogueTypeIsValidValue(MonsterBattleDialoguePr
 @property (readonly) int32_t darknessDmg;
 @property (readonly) int32_t rockDmg;
 @property (readonly) int32_t speed;
+@property (readonly) Float32 hpExponentBase;
+@property (readonly) Float32 dmgExponentBase;
+@property (readonly) Float32 expLvlDivisor;
+@property (readonly) Float32 expLvlExponent;
 
 + (MonsterLevelInfoProto*) defaultInstance;
 - (MonsterLevelInfoProto*) defaultInstance;
@@ -498,6 +514,26 @@ BOOL MonsterBattleDialogueProto_DialogueTypeIsValidValue(MonsterBattleDialoguePr
 - (int32_t) speed;
 - (MonsterLevelInfoProto_Builder*) setSpeed:(int32_t) value;
 - (MonsterLevelInfoProto_Builder*) clearSpeed;
+
+- (BOOL) hasHpExponentBase;
+- (Float32) hpExponentBase;
+- (MonsterLevelInfoProto_Builder*) setHpExponentBase:(Float32) value;
+- (MonsterLevelInfoProto_Builder*) clearHpExponentBase;
+
+- (BOOL) hasDmgExponentBase;
+- (Float32) dmgExponentBase;
+- (MonsterLevelInfoProto_Builder*) setDmgExponentBase:(Float32) value;
+- (MonsterLevelInfoProto_Builder*) clearDmgExponentBase;
+
+- (BOOL) hasExpLvlDivisor;
+- (Float32) expLvlDivisor;
+- (MonsterLevelInfoProto_Builder*) setExpLvlDivisor:(Float32) value;
+- (MonsterLevelInfoProto_Builder*) clearExpLvlDivisor;
+
+- (BOOL) hasExpLvlExponent;
+- (Float32) expLvlExponent;
+- (MonsterLevelInfoProto_Builder*) setExpLvlExponent:(Float32) value;
+- (MonsterLevelInfoProto_Builder*) clearExpLvlExponent;
 @end
 
 @interface FullUserMonsterProto : PBGeneratedMessage {

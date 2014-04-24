@@ -34,6 +34,8 @@
 @property (nonatomic, retain) CCSprite *healthBgd;
 @property (nonatomic, retain) CCLabelTTF *nameLabel;
 
+@property (nonatomic, retain) CCSprite *rarityTag;
+
 @property (nonatomic, assign) BOOL isFacingNear;
 @property (nonatomic, assign) BOOL isWalking;
 
@@ -55,6 +57,9 @@
 - (void) performNearFlinchAnimationWithStrength:(float)strength delay:(float)delay;
 - (void) performFarFlinchAnimationWithDelay:(float)delay;
 
-- (id) initWithPrefix:(NSString *)prefix nameString:(NSString *)name animationType:(MonsterProto_AnimationType)animationType isMySprite:(BOOL)isMySprite verticalOffset:(float)verticalOffset;
+- (id) initWithPrefix:(NSString *)prefix nameString:(NSString *)name rarity:(MonsterProto_MonsterQuality)rarity animationType:(MonsterProto_AnimationType)animationType isMySprite:(BOOL)isMySprite verticalOffset:(float)verticalOffset;
+
+- (void) showRarityTag;
+- (void) doRarityTagShine;
 
 @end

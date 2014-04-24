@@ -20,6 +20,16 @@
 
 @end
 
+@implementation NiceFontLabelB
+
+- (void) awakeFromNib {
+  [Globals adjustFontSizeForUILabel:self];
+  self.font = [UIFont fontWithName:[Globals font] size:self.font.pointSize+2];
+  self.shadowBlur = 0.9f;
+}
+
+@end
+
 @implementation NiceFontLabel2
 
 - (void) awakeFromNib {
@@ -83,6 +93,16 @@
 
 @end
 
+@implementation NiceFontLabel8B
+
+- (void) awakeFromNib {
+  [Globals adjustFontSizeForUILabel:self];
+  self.font = [UIFont fontWithName:@"Gotham-Ultra" size:self.font.pointSize];
+  self.shadowBlur = 0.9f;
+}
+
+@end
+
 @implementation NiceFontLabel9
 
 - (void) awakeFromNib {
@@ -97,6 +117,24 @@
 - (void) awakeFromNib {
   [Globals adjustFontSizeForUILabel:self];
   self.font = [UIFont fontWithName:@"GothamBlack" size:self.font.pointSize];
+}
+
+@end
+
+@implementation NiceFontLabel11
+
+- (void) awakeFromNib {
+  [Globals adjustFontSizeForUILabel:self];
+  self.font = [UIFont fontWithName:@"GothamMedium-Italic" size:self.font.pointSize];
+}
+
+@end
+
+@implementation NiceFontLabel12
+
+- (void) awakeFromNib {
+  [Globals adjustFontSizeForUILabel:self];
+  self.font = [UIFont fontWithName:@"Ziggurat-HTF-Black" size:self.font.pointSize];
 }
 
 @end
@@ -127,6 +165,16 @@
   [super awakeFromNib];
   [Globals adjustFontSizeForSize:self.titleLabel.font.pointSize withUIView:self];
   self.titleLabel.font = [UIFont fontWithName:@"Klavika Bold" size:self.titleLabel.font.pointSize];
+}
+
+@end
+
+@implementation NiceFontButton9
+
+- (void) awakeFromNib {
+  [super awakeFromNib];
+  [Globals adjustFontSizeForSize:self.titleLabel.font.pointSize withUIView:self];
+  self.titleLabel.font = [UIFont fontWithName:@"Gotham-Bold" size:self.titleLabel.font.pointSize];
 }
 
 @end
@@ -572,6 +620,7 @@
     if ([self.baseImage isKindOfClass:[UIImageView class]]) {
       img = [(UIImageView *)self.baseImage image];
     } else {
+      // In case this button is inside the view
       self.hidden = YES;
       img = [Globals snapShotView:self.baseImage];
       self.hidden = NO;
@@ -715,6 +764,11 @@
 @implementation ButtonTopBar
 
 - (void) awakeFromNib {
+  if (!self.inactiveTextColor && !self.activeTextColor) {
+    self.inactiveTextColor = [UIColor colorWithRed:8/255.f green:114/255.f blue:161/255.f alpha:1.f];
+    self.activeTextColor = [UIColor colorWithRed:19/255.f green:170/255.f blue:238/255.f alpha:1.f];
+  }
+  
   [self clickButton:1];
 }
 
@@ -728,42 +782,48 @@
   self.label3.textColor = inactiveText;
   self.label3.shadowColor = inactiveShadow;
   
+  self.icon1.highlighted = NO;
+  self.icon2.highlighted = NO;
+  self.icon3.highlighted = NO;
+  
   UILabel *label = nil;
+  UIImageView *icon = nil;
   if (button == 1) {
     label = self.label1;
+    icon = self.icon1;
   } else if (button == 2) {
     label = self.label2;
+    icon = self.icon2;
   } else if (button == 3) {
     label = self.label3;
+    icon = self.icon3;
   }
   self.selectedView.center = ccp(label.center.x, self.selectedView.center.y);
   label.textColor = self.activeTextColor;
   label.shadowColor = self.activeShadowColor;
+  icon.highlighted = YES;
 }
 
 - (IBAction) buttonClicked:(id)sender {
   NSInteger tag = [(UIView *)sender tag];
   if (tag == 1) {
-    [self.delegate button1Clicked:sender];
-    [self clickButton:1];
+    if ([self.delegate respondsToSelector:@selector(button1Clicked:)]) {
+      [self.delegate button1Clicked:sender];
+    }
   } else if (tag == 2) {
-    [self.delegate button2Clicked:sender];
-    [self clickButton:2];
+    if ([self.delegate respondsToSelector:@selector(button2Clicked:)]) {
+      [self.delegate button2Clicked:sender];
+    }
   } else if (tag == 3) {
-    [self.delegate button3Clicked:sender];
-    [self clickButton:3];
+    if ([self.delegate respondsToSelector:@selector(button3Clicked:)]) {
+      [self.delegate button3Clicked:sender];
+    }
   }
 }
 
 @end
 
 @implementation NumTransitionLabel
-
-- (void) awakeFromNib {
-  [Globals adjustFontSizeForUILabel:self];
-  self.font = [UIFont fontWithName:@"Gotham-Ultra" size:self.font.pointSize];
-  self.shadowBlur = 0.9f;
-}
 
 - (void) instaMoveToNum:(int)num {
   _currentNum = num;
@@ -918,7 +978,7 @@
 @implementation SoundButton
 
 - (void) awakeFromNib {
-  [self addTarget:self action:@selector(playSound) forControlEvents:UIControlEventTouchUpInside];
+  [self addTarget:self action:@selector(playSound) forControlEvents:UIControlEventTouchDown];
 }
 
 - (void) playSound {
@@ -974,6 +1034,19 @@
   float distFromCenter = midX-self.rankLabel.superview.frame.size.width/2;
   CGPoint curCenter = self.rankLabel.superview.center;
   self.rankLabel.superview.center = ccp(curCenter.x-distFromCenter, curCenter.y);
+}
+
+@end
+
+@implementation PopupShadowView
+
+- (void) awakeFromNib {
+  self.layer.cornerRadius = 5.f;
+  
+  self.layer.shadowColor = [UIColor blackColor].CGColor;
+  self.layer.shadowOpacity = 0.8;
+  self.layer.shadowOffset = CGSizeMake(0, 1);
+  self.layer.shadowRadius = 2.f;
 }
 
 @end

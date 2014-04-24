@@ -97,7 +97,12 @@
     }
   }
   
-  [self.leagueView updateForUserLeague:self.fup.pvpLeagueInfo];
+  if (self.fup.hasPvpLeagueInfo) {
+    [self.leagueView updateForUserLeague:self.fup.pvpLeagueInfo];
+    self.leagueView.hidden = NO;
+  } else {
+    self.leagueView.hidden = YES;
+  }
 }
 
 - (void) infoClicked:(MonsterCardView *)view {

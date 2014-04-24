@@ -116,4 +116,7 @@ typedef enum {
 - (void) pulseValidMove;
 - (void) reshuffle;
 
+- (id) serialize;
+- (void) deserialize:(id)object;
+
 @end

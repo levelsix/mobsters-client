@@ -42,8 +42,8 @@
 
 - (UserQuest *) acceptQuest:(int)questId;
 - (void) redeemQuest:(int)questId delegate:(id)delegate;
-- (void) questProgress:(int)questId;
-- (UserQuest *) donateForQuest:(int)questId monsterIds:(NSArray *)monsterIds;
+- (void) questProgress:(int)questId jobId:(int)jobId;
+- (UserQuest *) donateForQuest:(int)questId jobId:(int)jobId monsterIds:(NSArray *)monsterIds;
 
 - (void) retrieveUsersForUserIds:(NSArray *)userIds includeCurMonsterTeam:(BOOL)includeCurMonsterTeam delegate:(id)delegate;
 
@@ -80,6 +80,7 @@
 - (void) beginDungeon:(int)taskId enemyElement:(MonsterProto_MonsterElement)element withDelegate:(id)delegate;
 - (void) beginDungeon:(int)taskId isEvent:(BOOL)isEvent eventId:(int)eventId useGems:(BOOL)useGems withDelegate:(id)delegate;
 - (void) updateMonsterHealth:(uint64_t)userMonsterId curHealth:(int)curHealth;
+- (void) progressDungeon:(NSArray *)curHealths dungeonInfo:(BeginDungeonResponseProto *)dungeonInfo newStageNum:(int)newStageNum;
 - (void) endDungeon:(BeginDungeonResponseProto *)dungeonInfo userWon:(BOOL)userWon delegate:(id)delegate;
 - (void) reviveInDungeon:(uint64_t)userTaskId myTeam:(NSArray *)team;
 

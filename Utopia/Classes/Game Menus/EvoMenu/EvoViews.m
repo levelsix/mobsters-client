@@ -187,9 +187,9 @@
   [l1 setText:str1];
   [l2 setText:str2];
   [l3 setText:str3];
-  l1.textColor = item.userMonster2 ? [Globals greenColor] : [Globals redColor];
-  l2.textColor = item.catalystMonster ? [Globals greenColor] : [Globals redColor];
-  l3.textColor = [Globals colorForElementOnDarkBackground:evo.monsterElement];
+  l1.textColor = item.userMonster2 ? [Globals colorForElementOnLightBackground:MonsterProto_MonsterElementGrass] : [Globals colorForElementOnLightBackground:MonsterProto_MonsterElementFire];
+  l2.textColor = item.catalystMonster ? [Globals colorForElementOnLightBackground:MonsterProto_MonsterElementGrass] : [Globals colorForElementOnLightBackground:MonsterProto_MonsterElementFire];
+  l3.textColor = [Globals colorForElementOnLightBackground:evo.monsterElement];
   
   for (NSArray *arr in @[self.topLabels, self.botLabels]) {
     UIView *sup = [arr[0] superview];
@@ -241,23 +241,29 @@
 }
 
 - (void) displayScientists {
-  NSArray *labels = [self.topLabels arrayByAddingObjectsFromArray:self.botLabels];
-  for (int i = 0; i < labels.count; i++) {
-    UIView *v = labels[labels.count-i-1];
-    [UIView animateWithDuration:ANIMATION_TIME delay:i*DELAY_TIME options:UIViewAnimationOptionCurveEaseOut animations:^{
-      v.center = ccpAdd(v.center, ccp(0, 40));
-      v.alpha = 0.f;
-    } completion:nil];
-  }
-  
-  NSArray *views = [self animationViews];
-  float baseDelay = (labels.count-2)*DELAY_TIME;
-  for (int i = 0; i < views.count; i++) {
-    UIView *v = views[views.count-i-1];
-    [UIView animateWithDuration:ANIMATION_TIME delay:baseDelay+i*DELAY_TIME options:UIViewAnimationOptionCurveEaseIn animations:^{
-      v.center = ccpAdd(v.center, ccp(0, -40));
-      v.alpha = 1.f;
-    } completion:nil];
+  if (!self.infoLabelView.hidden) {
+    NSArray *labels = [self.topLabels arrayByAddingObjectsFromArray:self.botLabels];
+    for (int i = 0; i < labels.count; i++) {
+      UIView *v = labels[labels.count-i-1];
+      [UIView animateWithDuration:ANIMATION_TIME delay:i*DELAY_TIME options:UIViewAnimationOptionCurveEaseOut animations:^{
+        v.center = ccpAdd(v.center, ccp(0, 40));
+        v.alpha = 0.f;
+      } completion:^(BOOL finished) {
+        if (i == labels.count-1) {
+          self.infoLabelView.hidden = YES;
+        }
+      }];
+    }
+    
+    NSArray *views = [self animationViews];
+    float baseDelay = (labels.count-2)*DELAY_TIME;
+    for (int i = 0; i < views.count; i++) {
+      UIView *v = views[views.count-i-1];
+      [UIView animateWithDuration:ANIMATION_TIME delay:baseDelay+i*DELAY_TIME options:UIViewAnimationOptionCurveEaseIn animations:^{
+        v.center = ccpAdd(v.center, ccp(0, -40));
+        v.alpha = 1.f;
+      } completion:nil];
+    }
   }
 }
 
@@ -322,7 +328,7 @@
   if (!cata) {
     GameState *gs = [GameState sharedGameState];
     MonsterProto *mp = [gs monsterWithId:um1.staticMonster.evolutionCatalystMonsterId];
-    NSString *desc = [NSString stringWithFormat:@"%@ (Evo %d)\nRequired to Evolve", mp.name, mp.evolutionLevel];
+    NSString *desc = [NSString stringWithFormat:@"%@ (Evo %d) Required to Evolve", mp.name, mp.evolutionLevel];
     self.missingCataLabel.text = desc;
     self.missingCataLabel.hidden = NO;
   } else {
@@ -330,12 +336,20 @@
   }
   
   NSString *fileName = [um1.staticEvolutionMonster.imagePrefix stringByAppendingString:@"Character.png"];
-  [Globals imageNamed:fileName withView:self.evolvedMonsterIcon maskedColor:[UIColor whiteColor] indicator:UIActivityIndicatorViewStyleWhite clearImageDuringDownload:YES];
+  [Globals imageNamed:fileName withView:self.evolvedMonsterIcon maskedColor:[UIColor colorWithWhite:0.f alpha:0.8f] indicator:UIActivityIndicatorViewStyleWhite clearImageDuringDownload:YES];
   
   self.nameLabel.text = um1.staticEvolutionMonster.name;
   self.timeLabel.text = [Globals convertTimeToShortString:um1.staticMonster.minutesToEvolve*60];
   self.oilCostLabel.text = [Globals commafyNumber:um1.staticMonster.evolutionCost];
   [Globals adjustViewForCentering:self.oilCostLabel.superview withLabel:self.oilCostLabel];
+  
+  [[self.oilCostLabel.superview.superview viewWithTag:1523] removeFromSuperview];
+  if (!cata || !um2) {
+    UIImage *grey = [Globals greyScaleImageWithBaseImage:[Globals snapShotView:self.oilCostLabel.superview.superview]];
+    UIImageView *greyImg = [[UIImageView alloc] initWithImage:grey];
+    [self.oilCostLabel.superview.superview addSubview:greyImg];
+    greyImg.tag = 1523;
+  }
   
   // Adjust labels
   MonsterCardView *rCard = self.evoContainer1.monsterCardView;

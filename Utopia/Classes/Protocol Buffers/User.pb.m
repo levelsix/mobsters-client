@@ -1937,6 +1937,7 @@ static UserFacebookInviteForSlotProto* defaultUserFacebookInviteForSlotProtoInst
 @property (retain) NSString* facebookId;
 @property (retain) NSString* gameCenterId;
 @property int64_t lastObstacleSpawnedTime;
+@property int32_t numObstaclesRemoved;
 @property (retain) UserPvpLeagueProto* pvpLeagueInfo;
 @property (retain) NSString* udidForHistory;
 @property (retain) NSString* deviceToken;
@@ -2121,6 +2122,13 @@ static UserFacebookInviteForSlotProto* defaultUserFacebookInviteForSlotProtoInst
   hasLastObstacleSpawnedTime_ = !!value;
 }
 @synthesize lastObstacleSpawnedTime;
+- (BOOL) hasNumObstaclesRemoved {
+  return !!hasNumObstaclesRemoved_;
+}
+- (void) setHasNumObstaclesRemoved:(BOOL) value {
+  hasNumObstaclesRemoved_ = !!value;
+}
+@synthesize numObstaclesRemoved;
 - (BOOL) hasPvpLeagueInfo {
   return !!hasPvpLeagueInfo_;
 }
@@ -2240,6 +2248,7 @@ static UserFacebookInviteForSlotProto* defaultUserFacebookInviteForSlotProtoInst
     self.facebookId = @"";
     self.gameCenterId = @"";
     self.lastObstacleSpawnedTime = 0L;
+    self.numObstaclesRemoved = 0;
     self.pvpLeagueInfo = [UserPvpLeagueProto defaultInstance];
     self.udidForHistory = @"";
     self.deviceToken = @"";
@@ -2369,6 +2378,9 @@ static FullUserProto* defaultFullUserProtoInstance = nil;
   if (self.hasPvpLeagueInfo) {
     [output writeMessage:48 value:self.pvpLeagueInfo];
   }
+  if (self.hasNumObstaclesRemoved) {
+    [output writeInt32:49 value:self.numObstaclesRemoved];
+  }
   [self.unknownFields writeToCodedOutputStream:output];
 }
 - (int32_t) serializedSize {
@@ -2476,6 +2488,9 @@ static FullUserProto* defaultFullUserProtoInstance = nil;
   }
   if (self.hasPvpLeagueInfo) {
     size += computeMessageSize(48, self.pvpLeagueInfo);
+  }
+  if (self.hasNumObstaclesRemoved) {
+    size += computeInt32Size(49, self.numObstaclesRemoved);
   }
   size += self.unknownFields.serializedSize;
   memoizedSerializedSize = size;
@@ -2617,6 +2632,9 @@ static FullUserProto* defaultFullUserProtoInstance = nil;
   }
   if (other.hasLastObstacleSpawnedTime) {
     [self setLastObstacleSpawnedTime:other.lastObstacleSpawnedTime];
+  }
+  if (other.hasNumObstaclesRemoved) {
+    [self setNumObstaclesRemoved:other.numObstaclesRemoved];
   }
   if (other.hasPvpLeagueInfo) {
     [self mergePvpLeagueInfo:other.pvpLeagueInfo];
@@ -2812,6 +2830,10 @@ static FullUserProto* defaultFullUserProtoInstance = nil;
         }
         [input readMessage:subBuilder extensionRegistry:extensionRegistry];
         [self setPvpLeagueInfo:[subBuilder buildPartial]];
+        break;
+      }
+      case 392: {
+        [self setNumObstaclesRemoved:[input readInt32]];
         break;
       }
     }
@@ -3181,6 +3203,22 @@ static FullUserProto* defaultFullUserProtoInstance = nil;
 - (FullUserProto_Builder*) clearLastObstacleSpawnedTime {
   result.hasLastObstacleSpawnedTime = NO;
   result.lastObstacleSpawnedTime = 0L;
+  return self;
+}
+- (BOOL) hasNumObstaclesRemoved {
+  return result.hasNumObstaclesRemoved;
+}
+- (int32_t) numObstaclesRemoved {
+  return result.numObstaclesRemoved;
+}
+- (FullUserProto_Builder*) setNumObstaclesRemoved:(int32_t) value {
+  result.hasNumObstaclesRemoved = YES;
+  result.numObstaclesRemoved = value;
+  return self;
+}
+- (FullUserProto_Builder*) clearNumObstaclesRemoved {
+  result.hasNumObstaclesRemoved = NO;
+  result.numObstaclesRemoved = 0;
   return self;
 }
 - (BOOL) hasPvpLeagueInfo {

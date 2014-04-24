@@ -211,10 +211,13 @@
   badgeNum += gs.inProgressCompleteQuests.count;
   
   for (FullQuestProto *q in gs.inProgressIncompleteQuests.allValues) {
-    if (q.questType == FullQuestProto_QuestTypeDonateMonster) {
-      UserQuest *uq = [gs myQuestWithId:q.questId];
-      if (q.quantity == uq.progress) {
-        badgeNum++;
+    for (QuestJobProto *j in q.jobsList) {
+      if (j.questJobType == QuestJobProto_QuestJobTypeDonateMonster) {
+        UserQuest *uq = [gs myQuestWithId:q.questId];
+        UserQuestJob *uqj = [uq jobForId:j.questJobId];
+        if (j.quantity == uqj.progress) {
+          badgeNum++;
+        }
       }
     }
   }
@@ -222,13 +225,13 @@
   self.questBadge.badgeNum = badgeNum;
 }
 
-- (void) displayQuestProgressViewForQuest:(FullQuestProto *)fqp userQuest:(UserQuest *)uq {
+- (void) displayQuestProgressViewForQuest:(FullQuestProto *)fqp userQuest:(UserQuest *)uq jobId:(int)jobId {
   [[NSBundle mainBundle] loadNibNamed:@"TopBarQuestProgressView" owner:self options:nil];
   [self.view addSubview:self.questProgressView];
   
   self.questProgressView.center = ccp(self.view.frame.size.width/2, self.view.frame.size.height-self.questProgressView.frame.size.height/2-10);
   
-  [self.questProgressView displayForQuest:fqp userQuest:uq];
+  [self.questProgressView displayForQuest:fqp userQuest:uq jobId:jobId];
   
   self.questProgressView = nil;
 }
@@ -375,6 +378,8 @@
   }
   
   [self updateLabels];
+  
+  self.attackBadge.badgeNum = ![gs hasShownCurrentLeague];
 }
 
 - (void) updateMonsterViews {

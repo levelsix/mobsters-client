@@ -321,7 +321,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
 
 - (void) addToMyQuests:(NSArray *)quests {
   for (FullUserQuestProto *uq in quests) {
-    [self.myQuests setObject:[UserQuest questWithProto:uq] forKey:[NSNumber numberWithInt:uq.questId]];
+    [self.myQuests setObject:[UserQuest questWithProto:uq] forKey:@(uq.questId)];
   }
 }
 
@@ -1363,6 +1363,22 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
     }
   }
   return nil;
+}
+
+- (int) lastLeagueShown {
+  NSUserDefaults *def = [NSUserDefaults standardUserDefaults];
+  return (int)[def integerForKey:LAST_LEAGUE_SHOWN_DEFAULTS_KEY];
+}
+
+- (void) currentLeagueWasShown {
+  NSUserDefaults *def = [NSUserDefaults standardUserDefaults];
+  [def setInteger:self.pvpLeague.leagueId forKey:LAST_LEAGUE_SHOWN_DEFAULTS_KEY];
+  
+  [[NSNotificationCenter defaultCenter] postNotificationName:GAMESTATE_UPDATE_NOTIFICATION object:nil];
+}
+
+- (BOOL) hasShownCurrentLeague {
+  return [self lastLeagueShown] == self.pvpLeague.leagueId;
 }
 
 @end

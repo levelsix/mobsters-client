@@ -32,15 +32,18 @@
 - (void)setUpImageBackButton
 {
   self.navigationItem.hidesBackButton = YES;
+  
+  [self loadCustomNavBarButtons];
+  self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:self.menuBackButton];
+  
   if (self.navigationController.viewControllers.count > 1) {
-    [self loadCustomNavBarButtons];
-    self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:self.menuBackButton];
-    
     NSArray *vcs = self.navigationController.viewControllers;
     GenViewController *gvc = [vcs objectAtIndex:vcs.count-2];
     if ([gvc isKindOfClass:[GenViewController class]]) {
       self.menuBackLabel.text = gvc.shortTitle ? gvc.shortTitle : gvc.title;
     }
+  } else {
+    self.menuBackButton.hidden = YES;
   }
 }
 

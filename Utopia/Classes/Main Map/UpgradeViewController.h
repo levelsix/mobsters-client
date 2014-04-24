@@ -86,10 +86,12 @@
 
 @property (nonatomic, assign) IBOutlet UIView *statBarView1;
 @property (nonatomic, assign) IBOutlet UILabel *statNameLabel1;
+@property (nonatomic, assign) IBOutlet UILabel *statDescriptionLabel1;
 @property (nonatomic, assign) IBOutlet SplitImageProgressBar *statNewBar1;
 @property (nonatomic, assign) IBOutlet SplitImageProgressBar *statCurrentBar1;
 @property (nonatomic, assign) IBOutlet UIView *statBarView2;
 @property (nonatomic, assign) IBOutlet UILabel *statNameLabel2;
+@property (nonatomic, assign) IBOutlet UILabel *statDescriptionLabel2;
 @property (nonatomic, assign) IBOutlet SplitImageProgressBar *statNewBar2;
 @property (nonatomic, assign) IBOutlet SplitImageProgressBar *statCurrentBar2;
 
@@ -118,7 +120,7 @@
 }
 
 @property (nonatomic, assign) IBOutlet UILabel *titleLabel;
-@property (nonatomic, assign) IBOutlet RequestsTopBar *bonusTopBar;
+@property (nonatomic, assign) IBOutlet ButtonTopBar *bonusTopBar;
 @property (nonatomic, retain) IBOutlet UIView *backView;
 @property (nonatomic, retain) IBOutlet UIView *sendView;
 @property (nonatomic, retain) IBOutlet UIView *closeView;

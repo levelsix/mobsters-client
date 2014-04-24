@@ -58,9 +58,11 @@
   
   self.rewardIcon.image = [Globals imageNamed:imgName];
   self.rewardBgd.image = [Globals imageNamed:bgdName];
-  CGPoint center = self.rewardIcon.center;
-  self.rewardIcon.frame = CGRectMake(0, 0, self.rewardIcon.image.size.width, self.rewardIcon.image.size.height);
-  self.rewardIcon.center = center;
+  
+  //CGPoint center = self.rewardIcon.center;
+  //self.rewardIcon.frame = CGRectMake(0, 0, self.rewardIcon.image.size.width, self.rewardIcon.image.size.height);
+  //self.rewardIcon.center = center;
+  
   self.rewardLabel.text = labelName;
   self.rewardLabel.textColor = color;
 }

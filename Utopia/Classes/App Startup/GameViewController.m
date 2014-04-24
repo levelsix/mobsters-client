@@ -45,6 +45,7 @@
 #import "SoundEngine.h"
 #import <cocos2d-ui.h>
 #import "LevelUpNode.h"
+#import "QuestCompleteLayer.h"
 
 #define DEFAULT_PNG_IMAGE_VIEW_TAG 103
 #define KINGDOM_PNG_IMAGE_VIEW_TAG 104
@@ -153,6 +154,13 @@
 
 - (void) viewDidAppear:(BOOL)animated {
   [self setupNotificationViewController];
+  
+  [self checkQuests];
+  
+  //GameState *gs = [GameState sharedGameState];
+  //NSMutableArray *arr = gs.inProgressIncompleteQuests.allValues.mutableCopy;
+  //[arr shuffle];
+  //[self questComplete:arr[0]];
 }
 
 - (void) dealloc {
@@ -161,18 +169,20 @@
 }
 
 - (void) removeAllViewControllers {
-  NSArray *acceptable = @[self.topBarViewController, [CCDirector sharedDirector], self.notifViewController];
-  for (UIViewController *vc in self.childViewControllers) {
-    if (![acceptable containsObject:vc]) {
-      if ([vc respondsToSelector:@selector(close)]) {
-        [vc performSelector:@selector(close)];
-      } else if ([vc respondsToSelector:@selector(close:)]) {
-        [vc performSelector:@selector(close:) withObject:nil];
-      } else if ([vc respondsToSelector:@selector(closeClicked:)]) {
-        [vc performSelector:@selector(closeClicked:) withObject:nil];
-      } else {
-        [vc.view removeFromSuperview];
-        [vc removeFromParentViewController];
+  if (self.view.superview) {
+    NSArray *acceptable = @[self.topBarViewController, [CCDirector sharedDirector], self.notifViewController];
+    for (UIViewController *vc in self.childViewControllers) {
+      if (![acceptable containsObject:vc]) {
+        if ([vc respondsToSelector:@selector(close)]) {
+          [vc performSelector:@selector(close)];
+        } else if ([vc respondsToSelector:@selector(close:)]) {
+          [vc performSelector:@selector(close:) withObject:nil];
+        } else if ([vc respondsToSelector:@selector(closeClicked:)]) {
+          [vc performSelector:@selector(closeClicked:) withObject:nil];
+        } else {
+          [vc.view removeFromSuperview];
+          [vc removeFromParentViewController];
+        }
       }
     }
   }
@@ -186,6 +196,8 @@
     }
     
     if (!self.tutController) {
+      [self removeAllViewControllers];
+      
       LoadingViewController *lvc = [[LoadingViewController alloc] initWithPercentage:0];
       UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:lvc];
       nav.navigationBarHidden = YES;
@@ -201,7 +213,7 @@
 
 - (void) handleSignificantTimeChange {
   GameState *gs = [GameState sharedGameState];
-  if (!gs.connected) {
+  if (!gs.connected && !gs.isTutorial && !_isFromFacebook) {
     // App delegate will have already initialized network connection
     [self fadeToLoadingScreenPercentage:0 animated:NO];
     _isFreshRestart = YES;
@@ -274,14 +286,14 @@
     
     if (_isFreshRestart) {
       CCDirector *dir = [CCDirector sharedDirector];
-      if (dir.runningScene) {
-        [dir popToRootScene];
-      }
       [self showTopBarDuration:0.f completion:nil];
       
       if (self.miniTutController) {
         [self.miniTutController stop];
         self.miniTutController = nil;
+      }
+      if (dir.runningScene) {
+        [dir popToRootScene];
       }
     }
     
@@ -310,9 +322,11 @@
     GameState *gs = [GameState sharedGameState];
     [[OutgoingEventController sharedOutgoingEventController] loadPlayerCity:gs.userId withDelegate:self];
     
-    // Stop the map spinner view
-    if (self.loadingView.superview) {
-      [self.loadingView stop];
+    [self.loadingView stop];
+    
+    if (proto.hasCurTask) {
+      self.resumeUserTask = proto.curTask;
+      self.resumeTaskStages = proto.curTaskStagesList;
     }
   } else if (proto.startupStatus == StartupResponseProto_StartupStatusUserNotInDb) {
     if (!self.tutController) {
@@ -334,7 +348,18 @@
     }];
     
     // Load the home map
-    [self visitCityClicked:0];
+    [self visitCityClicked:0 assetId:0 animated:NO];
+    
+    if (self.resumeUserTask) {
+      GameState *gs = [GameState sharedGameState];
+      DungeonBattleLayer *bl = [[DungeonBattleLayer alloc] initWithMyUserMonsters:[gs allBattleAvailableMonstersOnTeam] puzzleIsOnLeft:NO];
+      [bl resumeFromUserTask:self.resumeUserTask stages:self.resumeTaskStages];
+      bl.delegate = self;
+      [self beginBattleLayer:bl];
+      
+      self.resumeUserTask = nil;
+      self.resumeTaskStages = nil;
+    }
   } else if (self.currentMap.cityId == 0 && [self.currentMap isKindOfClass:[HomeMap class]]) {
     [(HomeMap *)self.currentMap refresh];
   }
@@ -404,8 +429,10 @@
     [UIView animateWithDuration:duration animations:^{
       self.topBarViewController.view.alpha = 0.f;
     } completion:^(BOOL finished) {
-      self.topBarViewController.view.hidden = YES;
-      [self.topBarViewController viewDidDisappear:YES];
+      if (finished) {
+        self.topBarViewController.view.hidden = YES;
+        [self.topBarViewController viewDidDisappear:YES];
+      }
       
       if (completion) {
         completion();
@@ -437,7 +464,11 @@
 #pragma mark - Moving to other cities
 
 - (void) visitCityClicked:(int)cityId {
-  [self visitCityClicked:cityId assetId:0];
+  [self visitCityClicked:cityId assetId:0 animated:YES];
+}
+
+- (void) visitCityClicked:(int)cityId assetId:(int)assetId {
+  [self visitCityClicked:cityId assetId:assetId animated:YES];
 }
 
 - (void) playMapMusic {
@@ -448,7 +479,7 @@
   }
 }
 
-- (void) visitCityClicked:(int)cityId assetId:(int)assetId {
+- (void) visitCityClicked:(int)cityId assetId:(int)assetId animated:(BOOL)animated {
   if (!self.currentMap || self.currentMap.cityId != cityId) {
     if (cityId == 0) {
       CCScene *scene = [CCScene node];
@@ -457,19 +488,18 @@
       [hm moveToCenterAnimated:NO];
       self.currentMap = hm;
       
-      
       CCDirector *dir = [CCDirector sharedDirector];
-      if (![dir runningScene]) {
-        [dir pushScene:scene];
-        [self.topBarViewController removeMyCityView];
-        [self.topBarViewController showClanView];
-      } else {
-        float dur = 0.4f;
-        [[CCDirector sharedDirector] replaceScene:scene withTransition:[CCTransition transitionCrossFadeWithDuration:0.4f]];
+      float dur = 0.4f;
+      if (animated) {
+        [dir presentScene:scene withTransition:[CCTransition transitionCrossFadeWithDuration:dur]];
         [UIView animateWithDuration:dur animations:^{
           [self.topBarViewController removeMyCityView];
           [self.topBarViewController showClanView];
         }];
+      } else {
+        [dir presentScene:scene];
+        [self.topBarViewController removeMyCityView];
+        [self.topBarViewController showClanView];
       }
       
       [self playMapMusic];
@@ -581,6 +611,23 @@
   _isInBattle = YES;
 }
 
+- (void) beginBattleLayer:(NewBattleLayer *)bl {
+  CCDirector *dir = [CCDirector sharedDirector];
+  CCScene *scene = [CCScene node];
+  [scene addChild:bl];
+  if (dir.runningScene) {
+    [dir pushScene:scene];
+  } else {
+    [dir replaceScene:scene];
+  }
+  
+  [self hideTopBarDuration:0.f completion:nil];
+  [self removeAllViewControllers];
+  
+  [[SoundEngine sharedSoundEngine] playBattleMusic];
+  _isInBattle = YES;
+}
+
 - (void) blackFadeIntoBattleLayer:(NewBattleLayer *)bl {
   // Must start animation so that the scene is auto switched instead of glitching
   [[CCDirector sharedDirector] startAnimation];
@@ -628,12 +675,7 @@
 - (void) miniTutorialComplete:(MiniTutorialController *)tut {
   self.miniTutController = nil;
   
-  if (self.completedQuest) {
-    [self questComplete:self.completedQuest];
-  }
-  if (self.progressedQuest) {
-    [self questProgress:self.progressedQuest];
-  }
+  [self performSelector:@selector(checkQuests) withObject:nil afterDelay:0.7];
   
   [self checkLevelUp];
   
@@ -646,7 +688,7 @@
   float duration = 0.6;
   
   _isInBattle = NO;
-  [[CCDirector sharedDirector] popSceneWithTransition:[CCTransition transitionCrossFadeWithDuration:duration] ];
+  [[CCDirector sharedDirector] popSceneWithTransition:[CCTransition transitionCrossFadeWithDuration:duration]];
   
   if ([[params objectForKey:BATTLE_MANAGE_CLICKED_KEY] boolValue]) {
     MenuNavigationController *m = [[MenuNavigationController alloc] init];
@@ -655,15 +697,14 @@
       [self showTopBarDuration:0.f completion:nil];
     }];
   } else {
-    [self showTopBarDuration:duration completion:nil];
-  }
-  
-  
-  if (self.completedQuest) {
-    [self questComplete:self.completedQuest];
-  }
-  if (self.progressedQuest) {
-    [self questProgress:self.progressedQuest];
+    // Don't show top bar if theres a completed quest because it will just be faded out immediately
+    if (self.completedQuest) {
+      [self performSelector:@selector(checkQuests) withObject:nil afterDelay:duration+0.1];
+    } else {
+      [self showTopBarDuration:duration completion:^{
+        [self checkQuests];
+      }];
+    }
   }
   
   [self playMapMusic];
@@ -711,32 +752,52 @@
   }
 }
 
-#pragma mark - Dialogue
+#pragma mark - Quests
+
+- (void) checkQuests {
+  if (self.completedQuest) {
+    [self questComplete:self.completedQuest];
+  }
+  if (self.progressedJob) {
+    [self jobProgress:self.progressedJob];
+  }
+}
 
 - (void) questComplete:(FullQuestProto *)fqp {
-  if (!_isInBattle && !self.miniTutController) {
-    GameState *gs = [GameState sharedGameState];
-    QuestLogViewController *qvc = [[QuestLogViewController alloc] init];
-    [self addChildViewController:qvc];
-    [self.view addSubview:qvc.view];
-    [qvc loadDetailsViewForQuest:fqp userQuest:[gs myQuestWithId:fqp.questId] animated:NO];
-    
+  if (!_isInBattle && !self.miniTutController && !self.presentedViewController) {
+    [self hideTopBarDuration:0.3f completion:^{
+      CCBReader *reader = [CCBReader reader];
+      QuestCompleteLayer *questComplete = (QuestCompleteLayer *)[reader load:@"QuestCompleteLayer"];
+      [[[CCDirector sharedDirector] runningScene] addChild:questComplete];
+      questComplete.anchorPoint = ccp(0.5, 0.5);
+      questComplete.position = ccp(questComplete.parent.contentSize.width/2, questComplete.parent.contentSize.height/2);
+      [questComplete animateForQuest:fqp];
+      reader.animationManager.delegate = questComplete;
+      questComplete.delegate = self;
+    }];
     self.completedQuest = nil;
   } else {
     self.completedQuest = fqp;
   }
 }
 
-- (void) questProgress:(FullQuestProto *)fqp {
-  if (!fqp.isAchievement) {
-    if (!_isInBattle && !self.miniTutController) {
-      GameState *gs = [GameState sharedGameState];
-      [self.topBarViewController displayQuestProgressViewForQuest:fqp userQuest:[gs myQuestWithId:fqp.questId]];
-      
-      self.progressedQuest = nil;
-    } else {
-      self.progressedQuest = fqp;
-    }
+- (void) questCompleteLayerCompleted:(QuestCompleteLayer *)questComplete withNewQuest:(FullQuestProto *)quest {
+  if (quest && quest.hasAcceptDialogue) {
+    [self beginDialogue:quest.acceptDialogue withQuestId:quest.questId];
+  } else {
+    [self showTopBarDuration:0.3f completion:nil];
+  }
+}
+
+- (void) jobProgress:(QuestJobProto *)qjp {
+  if (!_isInBattle && !self.miniTutController && !self.presentedViewController) {
+    GameState *gs = [GameState sharedGameState];
+    FullQuestProto *fqp = [gs questForId:qjp.questId];
+    [self.topBarViewController displayQuestProgressViewForQuest:fqp userQuest:[gs myQuestWithId:fqp.questId] jobId:qjp.questJobId];
+    
+    self.progressedJob = nil;
+  } else {
+    self.progressedJob = qjp;
   }
 }
 
@@ -786,7 +847,7 @@
 - (void) spawnLevelUp {
   LevelUpNode *levelUp = (LevelUpNode *)[CCBReader load:@"LevelUpNode"];
   [[[CCDirector sharedDirector] runningScene] addChild:levelUp];
-  levelUp.position = ccp(levelUp.parent.contentSize.width/2, levelUp.parent.contentSize.height/2);
+  levelUp.position = ccp(0, 0);
 }
 
 #pragma mark - Facebook stuff

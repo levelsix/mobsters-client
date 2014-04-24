@@ -19,7 +19,6 @@
 @implementation Building
 
 @synthesize orientation;
-@synthesize verticalOffset;
 
 - (id) initWithFile:(NSString *)file location:(CGRect)loc map:(GameMap *)map {
   if ((self = [super initWithFile:nil location:loc map:map])) {
@@ -84,7 +83,7 @@
   float height = MAX((self.location.size.width+self.location.size.height)/2*_map.tileSizeInPoints.height,
                      self.verticalOffset+_buildingSprite.contentSize.height*self.baseScale);
   self.contentSize = CGSizeMake(width, height);
-  self.buildingSprite.position = ccp(self.contentSize.width/2, self.verticalOffset);
+  self.buildingSprite.position = ccp(self.contentSize.width/2+self.horizontalOffset, self.verticalOffset);
   self.orientation = self.orientation;
 }
 
@@ -221,8 +220,7 @@
     [self addChild:shadow z:-1 name:SHADOW_TAG];
     shadow.anchorPoint = ccp(0.5, 0);
     
-    fileName = [NSString stringWithFormat:@"%dx%dshadow.png", (int)loc.size.width, (int)loc.size.height];
-    CCSprite *dark = [CCSprite spriteWithImageNamed:fileName];
+    CCSprite *dark = [CCSprite spriteWithImageNamed:@"minishadow.png"];
     [shadow addChild:dark z:-1 name:SHADOW_TAG];
     dark.position = ccp(shadow.contentSize.width/3, shadow.contentSize.height/2);
     

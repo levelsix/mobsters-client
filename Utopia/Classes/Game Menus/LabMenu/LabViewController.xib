@@ -8,6 +8,7 @@
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="LabViewController">
             <connections>
                 <outlet property="menuTopBar" destination="gsZ-tb-2Zv" id="JVP-Xe-Emd"/>
+                <outlet property="topBar" destination="zSr-1o-o5g" id="V9w-Rv-m0N"/>
                 <outlet property="view" destination="ciA-UN-iBf" id="lPC-pK-hcv"/>
             </connections>
         </placeholder>
@@ -18,55 +19,117 @@
             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
             <simulatedOrientationMetrics key="simulatedOrientationMetrics" orientation="landscapeRight"/>
         </view>
-        <view contentMode="scaleToFill" id="gsZ-tb-2Zv" customClass="FlipTabBar">
-            <rect key="frame" x="0.0" y="0.0" width="143" height="27"/>
-            <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
+        <view contentMode="scaleToFill" id="zSr-1o-o5g" userLabel="Title View" customClass="CoinBar">
+            <rect key="frame" x="0.0" y="0.0" width="345" height="42"/>
+            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
             <subviews>
-                <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="menutab.png" id="Xv3-D3-iFZ">
-                    <rect key="frame" x="0.0" y="0.0" width="143" height="27"/>
-                    <autoresizingMask key="autoresizingMask"/>
-                </imageView>
-                <view userInteractionEnabled="NO" contentMode="scaleToFill" id="qzF-io-FUQ">
-                    <rect key="frame" x="0.0" y="0.0" width="72" height="27"/>
-                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                <view contentMode="scaleToFill" id="cTp-tK-pNm">
+                    <rect key="frame" x="257" y="6" width="88" height="29"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                    <subviews>
+                        <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="menuresourcebg.png" id="Hm6-0a-Rhy">
+                            <rect key="frame" x="6" y="5" width="82" height="19"/>
+                            <autoresizingMask key="autoresizingMask"/>
+                        </imageView>
+                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="250" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" id="3Fw-O7-heu" customClass="NiceFontLabel">
+                            <rect key="frame" x="30" y="1" width="52" height="24"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <fontDescription key="fontDescription" type="system" pointSize="13"/>
+                            <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="calibratedRGB"/>
+                            <nil key="highlightedColor"/>
+                            <color key="shadowColor" white="0.0" alpha="0.80000000000000004" colorSpace="calibratedWhite"/>
+                            <size key="shadowOffset" width="0.0" height="1"/>
+                        </label>
+                        <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleAspectFit" image="diamond.png" id="p8C-RR-PYP">
+                            <rect key="frame" x="0.0" y="1" width="27" height="27"/>
+                            <autoresizingMask key="autoresizingMask"/>
+                        </imageView>
+                    </subviews>
                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                 </view>
-                <view userInteractionEnabled="NO" contentMode="scaleToFill" id="mgP-gE-odq">
-                    <rect key="frame" x="71" y="0.0" width="72" height="27"/>
-                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                <view contentMode="scaleToFill" id="Hqc-CZ-yi2">
+                    <rect key="frame" x="0.0" y="7" width="89" height="28"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                    <subviews>
+                        <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="menuresourcebg.png" id="hGB-RR-Hpv">
+                            <rect key="frame" x="7" y="5" width="82" height="19"/>
+                            <autoresizingMask key="autoresizingMask"/>
+                        </imageView>
+                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="250" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" id="7g1-xm-RhH" customClass="NiceFontLabel">
+                            <rect key="frame" x="29" y="1" width="56" height="24"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <fontDescription key="fontDescription" type="system" pointSize="13"/>
+                            <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="calibratedRGB"/>
+                            <nil key="highlightedColor"/>
+                            <color key="shadowColor" white="0.0" alpha="0.80000000000000004" colorSpace="calibratedWhite"/>
+                            <size key="shadowOffset" width="0.0" height="1"/>
+                        </label>
+                        <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleAspectFit" image="oilicon.png" id="rgN-lT-cV3">
+                            <rect key="frame" x="-1" y="0.0" width="29" height="28"/>
+                            <autoresizingMask key="autoresizingMask"/>
+                        </imageView>
+                    </subviews>
                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                 </view>
-                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="ENHANCE" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" id="Ley-Pr-Rm5" customClass="NiceFontLabel">
-                    <rect key="frame" x="2" y="3" width="68" height="21"/>
-                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                    <fontDescription key="fontDescription" type="system" pointSize="11"/>
-                    <color key="textColor" white="1" alpha="0.90000000000000002" colorSpace="calibratedWhite"/>
-                    <nil key="highlightedColor"/>
-                    <color key="shadowColor" red="0.0" green="0.0" blue="0.0" alpha="0.22" colorSpace="calibratedRGB"/>
-                    <size key="shadowOffset" width="0.0" height="1"/>
-                </label>
-                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="EVOLVE" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="10" id="qzn-Eu-kLI" customClass="NiceFontLabel">
-                    <rect key="frame" x="79" y="3" width="56" height="21"/>
-                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                    <fontDescription key="fontDescription" type="system" pointSize="11"/>
-                    <color key="textColor" white="1" alpha="0.90000000000000002" colorSpace="calibratedWhite"/>
-                    <nil key="highlightedColor"/>
-                    <color key="shadowColor" red="0.0" green="0.0" blue="0.0" alpha="0.22" colorSpace="calibratedRGB"/>
-                    <size key="shadowOffset" width="0.0" height="1"/>
-                </label>
+                <view contentMode="scaleToFill" id="gsZ-tb-2Zv" customClass="FlipTabBar">
+                    <rect key="frame" x="101" y="8" width="143" height="27"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
+                    <subviews>
+                        <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="menutab.png" id="Xv3-D3-iFZ">
+                            <rect key="frame" x="0.0" y="0.0" width="143" height="27"/>
+                            <autoresizingMask key="autoresizingMask"/>
+                        </imageView>
+                        <view userInteractionEnabled="NO" contentMode="scaleToFill" id="qzF-io-FUQ">
+                            <rect key="frame" x="0.0" y="0.0" width="72" height="27"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                        </view>
+                        <view userInteractionEnabled="NO" contentMode="scaleToFill" id="mgP-gE-odq">
+                            <rect key="frame" x="71" y="0.0" width="72" height="27"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                        </view>
+                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="ENHANCE" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" id="Ley-Pr-Rm5" customClass="NiceFontLabel">
+                            <rect key="frame" x="2" y="3" width="68" height="21"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <fontDescription key="fontDescription" type="system" pointSize="11"/>
+                            <color key="textColor" white="1" alpha="0.90000000000000002" colorSpace="calibratedWhite"/>
+                            <nil key="highlightedColor"/>
+                            <color key="shadowColor" red="0.0" green="0.0" blue="0.0" alpha="0.22" colorSpace="calibratedRGB"/>
+                            <size key="shadowOffset" width="0.0" height="1"/>
+                        </label>
+                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="EVOLVE" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="10" id="qzn-Eu-kLI" customClass="NiceFontLabel">
+                            <rect key="frame" x="79" y="3" width="56" height="21"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <fontDescription key="fontDescription" type="system" pointSize="11"/>
+                            <color key="textColor" white="1" alpha="0.90000000000000002" colorSpace="calibratedWhite"/>
+                            <nil key="highlightedColor"/>
+                            <color key="shadowColor" red="0.0" green="0.0" blue="0.0" alpha="0.22" colorSpace="calibratedRGB"/>
+                            <size key="shadowOffset" width="0.0" height="1"/>
+                        </label>
+                    </subviews>
+                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                    <connections>
+                        <outlet property="bgdImage" destination="Xv3-D3-iFZ" id="Kor-tp-i44"/>
+                        <outlet property="button1" destination="qzF-io-FUQ" id="wce-la-dcZ"/>
+                        <outlet property="button2" destination="mgP-gE-odq" id="L7L-WD-T4g"/>
+                        <outlet property="delegate" destination="-1" id="ZHg-4t-aXx"/>
+                        <outlet property="label1" destination="Ley-Pr-Rm5" id="WAh-tf-T6G"/>
+                        <outlet property="label2" destination="qzn-Eu-kLI" id="uzu-4x-iPh"/>
+                    </connections>
+                </view>
             </subviews>
             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
             <connections>
-                <outlet property="bgdImage" destination="Xv3-D3-iFZ" id="Kor-tp-i44"/>
-                <outlet property="button1" destination="qzF-io-FUQ" id="wce-la-dcZ"/>
-                <outlet property="button2" destination="mgP-gE-odq" id="L7L-WD-T4g"/>
-                <outlet property="delegate" destination="-1" id="ZHg-4t-aXx"/>
-                <outlet property="label1" destination="Ley-Pr-Rm5" id="WAh-tf-T6G"/>
-                <outlet property="label2" destination="qzn-Eu-kLI" id="uzu-4x-iPh"/>
+                <outlet property="gemsLabel" destination="3Fw-O7-heu" id="Isa-NE-kzQ"/>
+                <outlet property="oilLabel" destination="7g1-xm-RhH" id="wDy-r6-vx9"/>
             </connections>
         </view>
     </objects>
     <resources>
+        <image name="diamond.png" width="29" height="27"/>
+        <image name="menuresourcebg.png" width="82" height="19"/>
         <image name="menutab.png" width="143" height="27"/>
+        <image name="oilicon.png" width="25" height="30"/>
     </resources>
 </document>

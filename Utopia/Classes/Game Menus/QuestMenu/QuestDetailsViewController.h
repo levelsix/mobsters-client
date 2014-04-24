@@ -12,34 +12,33 @@
 
 @class QuestDetailsViewController;
 
-@protocol QuestDetailsViewControllerDelegate <NSObject>
+@interface QuestDetailsCell : UITableViewCell
 
-- (void) collectClickedWithDetailsVC:(QuestDetailsViewController *)detailsVC;
-- (void) visitOrDonateClickedWithDetailsVC:(QuestDetailsViewController *)detailsVC;
+@property (nonatomic, strong) IBOutlet UILabel *taskNumLabel;
+@property (nonatomic, strong) IBOutlet UILabel *descriptionLabel;
+@property (nonatomic, strong) IBOutlet UILabel *progressLabel;
 
 @end
 
-@interface QuestDetailsViewController : UIViewController
+@protocol QuestDetailsViewControllerDelegate <NSObject>
+
+- (void) collectClickedWithDetailsVC:(QuestDetailsViewController *)detailsVC;
+- (void) visitOrDonateClickedWithDetailsVC:(QuestDetailsViewController *)detailsVC jobId:(int)jobId;
+
+@end
+
+@interface QuestDetailsViewController : UIViewController <UITableViewDataSource, UITableViewDelegate>
 
 @property (nonatomic, strong) FullQuestProto *quest;
 @property (nonatomic, strong) UserQuest *userQuest;
 
 @property (nonatomic, strong) IBOutlet UILabel *questGiverNameLabel;
 @property (nonatomic, strong) IBOutlet UILabel *descriptionLabel;
-@property (nonatomic, strong) IBOutlet UILabel *jobLabel;
-@property (nonatomic, strong) IBOutlet UILabel *progressLabel;
-@property (nonatomic, strong) IBOutlet UILabel *visitLabel;
-@property (nonatomic, strong) IBOutlet RewardsViewContainer *rewardsViewContainer;
+@property (nonatomic, strong) IBOutlet UIImageView *questGiverIcon;
+@property (nonatomic, strong) IBOutlet UIImageView *bgdIcon;
 
-@property (nonatomic, strong) IBOutlet UILabel *collectLabel;
-@property (nonatomic, strong) IBOutlet UIActivityIndicatorView *spinner;
-
-@property (nonatomic, strong) IBOutlet UIView *collectView;
-@property (nonatomic, strong) IBOutlet UIView *visitView;
-@property (nonatomic, strong) IBOutlet UIView *completeView;
-
-@property (nonatomic, strong) IBOutlet UIButton *collectButton;
-@property (nonatomic, strong) IBOutlet UIButton *visitButton;
+@property (nonatomic, strong) IBOutlet UIView *headerView;
+@property (nonatomic, strong) IBOutlet QuestDetailsCell *taskCell;
 
 @property (nonatomic, weak) id<QuestDetailsViewControllerDelegate> delegate;
 

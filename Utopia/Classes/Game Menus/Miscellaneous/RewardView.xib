@@ -19,8 +19,8 @@
                     <rect key="frame" x="0.0" y="1" width="54" height="56"/>
                     <autoresizingMask key="autoresizingMask"/>
                 </imageView>
-                <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="diamond.png" id="ynJ-9f-IsB">
-                    <rect key="frame" x="13" y="12" width="29" height="28"/>
+                <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleAspectFit" image="diamond.png" id="ynJ-9f-IsB">
+                    <rect key="frame" x="12" y="13" width="30" height="30"/>
                     <autoresizingMask key="autoresizingMask"/>
                 </imageView>
                 <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="rewardlabelbg.png" id="7Ys-Sh-sr4">
@@ -45,7 +45,7 @@
         </view>
     </objects>
     <resources>
-        <image name="diamond.png" width="44" height="41"/>
+        <image name="diamond.png" width="37" height="35"/>
         <image name="itemfoundbg.png" width="54" height="56"/>
         <image name="rewardlabelbg.png" width="54" height="17"/>
     </resources>

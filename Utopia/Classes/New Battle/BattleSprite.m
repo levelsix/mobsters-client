@@ -19,9 +19,11 @@
 #define ANIMATATION_DELAY 0.07f
 #define MAX_SHOTS 3
 
+#define BATTLE_SPRITE_INFO_DISPLAYED_NOTIFICATION @"BSInfoDisplayed"
+
 @implementation BattleSprite
 
-- (id) initWithPrefix:(NSString *)prefix nameString:(NSString *)name animationType:(MonsterProto_AnimationType)animationType isMySprite:(BOOL)isMySprite verticalOffset:(float)verticalOffset {
+- (id) initWithPrefix:(NSString *)prefix nameString:(NSString *)name rarity:(MonsterProto_MonsterQuality)rarity animationType:(MonsterProto_AnimationType)animationType isMySprite:(BOOL)isMySprite verticalOffset:(float)verticalOffset {
   if ((self = [super init])) {
     self.prefix = prefix;
     self.contentSize = CGSizeMake(40, 55);
@@ -41,7 +43,7 @@
     
     self.healthBgd = [CCSprite spriteWithImageNamed:@"minitimebg.png"];
     [self addChild:self.healthBgd z:6];
-    self.healthBgd.position = ccp(self.contentSize.width/2, self.contentSize.height+3);
+    self.healthBgd.position = ccp(self.contentSize.width/2, self.contentSize.height);
     
     self.healthBar = [CCProgressNode progressWithSprite:[CCSprite spriteWithImageNamed:@"minihpbar.png"]];
     [self.healthBgd addChild:self.healthBar];
@@ -51,14 +53,132 @@
     self.healthBar.barChangeRate = ccp(1,0);
     self.healthBar.percentage = 90;
     
-    self.healthLabel = [CCLabelTTF labelWithString:@"31/100" fontName:[Globals font] fontSize:12];
+    self.healthLabel = [CCLabelTTF labelWithString:@"31/100" fontName:[Globals font] fontSize:13];
     [self.healthBgd addChild:self.healthLabel];
     self.healthLabel.position = ccp(self.healthBgd.contentSize.width/2, self.healthBgd.contentSize.height);
     self.healthLabel.color = [CCColor whiteColor];
     self.healthLabel.shadowOffset = ccp(0, -1);
+    self.healthLabel.shadowBlurRadius = 1.5f;
     self.healthLabel.shadowColor = [CCColor colorWithWhite:0.f alpha:0.7f];
+    
+    if (rarity != MonsterProto_MonsterQualityCommon) {
+      NSString *rarityStr = [@"battle" stringByAppendingString:[Globals imageNameForRarity:rarity suffix:@"tag.png"]];
+      self.rarityTag = [CCSprite spriteWithImageNamed:rarityStr];
+      [self.healthBgd addChild:self.rarityTag];
+      self.rarityTag.opacity = 0.f;
+    }
+    
+    self.nameLabel = [CCLabelTTF labelWithString:name fontName:[Globals font] fontSize:14];
+    [self.healthBgd addChild:self.nameLabel];
+    self.nameLabel.position = ccp(self.healthBgd.contentSize.width/2, 26);
+    self.nameLabel.color = [CCColor whiteColor];
+    self.nameLabel.shadowOffset = ccp(0, -1);
+    self.nameLabel.shadowColor = [CCColor colorWithWhite:0.f alpha:0.7f];
+    self.nameLabel.shadowBlurRadius = 1.5f;
+    self.nameLabel.opacity = 0.f;
+    
+    self.userInteractionEnabled = YES;
   }
   return self;
+}
+
+- (void) onEnter {
+  [super onEnter];
+  [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(forceCloseRarityTagAndNameLabel:) name:BATTLE_SPRITE_INFO_DISPLAYED_NOTIFICATION object:nil];
+}
+
+- (void) onExitTransitionDidStart {
+  [super onExitTransitionDidStart];
+  [[NSNotificationCenter defaultCenter] removeObserver:self];
+}
+
+- (void) setParent:(CCNode *)parent {
+  [super setParent:parent];
+  
+  float newScale = 1/parent.scale;
+  self.healthBgd.scale = newScale;
+}
+
+- (void) recursivelyApplyOpacity:(CGFloat)opacity {
+  float nameOp = self.nameLabel.opacity;
+  float rarOp = self.rarityTag.opacity;
+  [super recursivelyApplyOpacity:opacity];
+  self.nameLabel.opacity = MIN(nameOp, self.nameLabel.opacity);
+  self.rarityTag.opacity = MIN(rarOp, self.rarityTag.opacity);
+}
+
+- (void) showRarityTag {
+  if (self.rarityTag.opacity == 0.f) {
+    self.rarityTag.opacity = 1.f;
+    [self.rarityTag runAction:
+     [CCActionSequence actions:
+      [CCActionDelay actionWithDuration:5.f],
+      [CCActionFadeTo actionWithDuration:0.3 opacity:0.f],
+      nil]];
+    
+    self.rarityTag.position = ccp(self.healthBgd.contentSize.width/2, 28);
+  }
+}
+
+- (void) showRarityTagAndNameLabel {
+  if (self.rarityTag.opacity == 0.f) {
+    [self.nameLabel stopAllActions];
+    [self.rarityTag stopAllActions];
+    
+    CCActionSequence *seq = [CCActionSequence actions:
+                             [CCActionFadeTo actionWithDuration:0.3 opacity:1.f],
+                             [CCActionDelay actionWithDuration:2.5f],
+                             [CCActionFadeTo actionWithDuration:0.3 opacity:0.f],
+                             nil];
+    [self.nameLabel runAction:seq.copy];
+    [self.rarityTag runAction:seq.copy];
+    
+    self.rarityTag.position = ccp(self.healthBgd.contentSize.width/2, 43);
+    
+    [[NSNotificationCenter defaultCenter] postNotificationName:BATTLE_SPRITE_INFO_DISPLAYED_NOTIFICATION object:self];
+  }
+}
+
+- (void) forceCloseRarityTagAndNameLabel:(NSNotification *)notification {
+  BattleSprite *bs = notification.object;
+  if (bs != self && bs.isFacingNear == self.isFacingNear && ![self.rarityTag getActionByTag:1423]) {
+    [self.nameLabel stopAllActions];
+    [self.rarityTag stopAllActions];
+    
+    CCAction *act = [CCActionFadeTo actionWithDuration:0.3 opacity:0.f];
+    [self.nameLabel runAction:act.copy];
+    [self.rarityTag runAction:act.copy];
+    act.tag = 1423;
+  }
+}
+
+- (void) doRarityTagShine {
+  if (self.rarityTag) {
+    CCSprite *stencil = [CCSprite spriteWithSpriteFrame:self.rarityTag.spriteFrame];
+    CCClippingNode *clip = [CCClippingNode clippingNodeWithStencil:stencil];
+    clip.contentSize = stencil.contentSize;
+    stencil.position = ccp(stencil.contentSize.width/2, stencil.contentSize.height/2);
+    clip.alphaThreshold = 0.5;
+    
+    CCSprite *lines = [CCSprite spriteWithImageNamed:@"tagshine.png"];
+    [clip addChild:lines];
+    lines.blendFunc = (ccBlendFunc){GL_SRC_ALPHA, GL_ONE};
+    lines.position = ccp(-lines.contentSize.width/2, clip.contentSize.height/2);
+    lines.opacity = 0.5f;
+    
+    [lines runAction:
+     [CCActionSequence actions:
+      [CCActionDelay actionWithDuration:0.3],
+      [CCActionEaseIn actionWithAction:[CCActionMoveTo actionWithDuration:0.45f position:ccp(clip.contentSize.width+lines.contentSize.width/2, clip.contentSize.height/2)]
+                                  rate:5.f],
+      [CCActionCallBlock actionWithBlock:^{ [clip removeFromParent]; }], nil]];
+    
+    [self.rarityTag addChild:clip];
+  }
+}
+
+- (void) touchBegan:(UITouch *)touch withEvent:(UIEvent *)event {
+  [self showRarityTagAndNameLabel];
 }
 
 #define FADE_DURATION 0.2f
@@ -203,7 +323,7 @@
     CCActionSequence *seq = [CCActionSequence actions:
                              [CCActionCallBlock actionWithBlock:
                               ^{
-//                                [[SoundEngine sharedSoundEngine] puzzleWalking];
+                                //                                [[SoundEngine sharedSoundEngine] puzzleWalking];
                               }],
                              [CCActionDelay actionWithDuration:0.9], nil];
     CCActionRepeatForever *r = [CCActionRepeatForever actionWithAction:seq];
@@ -219,7 +339,7 @@
   [self restoreStandingFrame];
   
   [self stopActionByTag:7654];
-//  [[SoundEngine sharedSoundEngine] puzzleStopWalking];
+  //  [[SoundEngine sharedSoundEngine] puzzleStopWalking];
 }
 
 - (void) performNearAttackAnimationWithEnemy:(BattleSprite *)enemy target:(id)target selector:(SEL)selector {

@@ -525,6 +525,8 @@ static StartupRequestProto* defaultStartupRequestProtoInstance = nil;
 @property (retain) NSMutableArray* mutableCurRaidClanUserInfoList;
 @property (retain) NSMutableArray* mutableRaidStageHistoryList;
 @property (retain) NSMutableArray* mutableRecentNbattlesList;
+@property (retain) MinimumUserTaskProto* curTask;
+@property (retain) NSMutableArray* mutableCurTaskStagesList;
 @end
 
 @implementation StartupResponseProto
@@ -659,6 +661,14 @@ static StartupRequestProto* defaultStartupRequestProtoInstance = nil;
 @synthesize mutableCurRaidClanUserInfoList;
 @synthesize mutableRaidStageHistoryList;
 @synthesize mutableRecentNbattlesList;
+- (BOOL) hasCurTask {
+  return !!hasCurTask_;
+}
+- (void) setHasCurTask:(BOOL) value {
+  hasCurTask_ = !!value;
+}
+@synthesize curTask;
+@synthesize mutableCurTaskStagesList;
 - (void) dealloc {
   self.sender = nil;
   self.startupConstants = nil;
@@ -691,6 +701,8 @@ static StartupRequestProto* defaultStartupRequestProtoInstance = nil;
   self.mutableCurRaidClanUserInfoList = nil;
   self.mutableRaidStageHistoryList = nil;
   self.mutableRecentNbattlesList = nil;
+  self.curTask = nil;
+  self.mutableCurTaskStagesList = nil;
   [super dealloc];
 }
 - (id) init {
@@ -710,6 +722,7 @@ static StartupRequestProto* defaultStartupRequestProtoInstance = nil;
     self.kabamNaid = @"";
     self.staticDataStuffProto = [StaticDataProto defaultInstance];
     self.curRaidClanInfo = [PersistentClanEventClanInfoProto defaultInstance];
+    self.curTask = [MinimumUserTaskProto defaultInstance];
   }
   return self;
 }
@@ -865,6 +878,13 @@ static StartupResponseProto* defaultStartupResponseProtoInstance = nil;
   id value = [mutableRecentNbattlesList objectAtIndex:index];
   return value;
 }
+- (NSArray*) curTaskStagesList {
+  return mutableCurTaskStagesList;
+}
+- (TaskStageProto*) curTaskStagesAtIndex:(int32_t) index {
+  id value = [mutableCurTaskStagesList objectAtIndex:index];
+  return value;
+}
 - (BOOL) isInitialized {
   return YES;
 }
@@ -973,6 +993,12 @@ static StartupResponseProto* defaultStartupResponseProtoInstance = nil;
   }
   for (PvpHistoryProto* element in self.recentNbattlesList) {
     [output writeMessage:35 value:element];
+  }
+  if (self.hasCurTask) {
+    [output writeMessage:36 value:self.curTask];
+  }
+  for (TaskStageProto* element in self.curTaskStagesList) {
+    [output writeMessage:37 value:element];
   }
   [self.unknownFields writeToCodedOutputStream:output];
 }
@@ -1107,6 +1133,12 @@ static StartupResponseProto* defaultStartupResponseProtoInstance = nil;
   }
   for (PvpHistoryProto* element in self.recentNbattlesList) {
     size += computeMessageSize(35, element);
+  }
+  if (self.hasCurTask) {
+    size += computeMessageSize(36, self.curTask);
+  }
+  for (TaskStageProto* element in self.curTaskStagesList) {
+    size += computeMessageSize(37, element);
   }
   size += self.unknownFields.serializedSize;
   memoizedSerializedSize = size;
@@ -6038,6 +6070,15 @@ static StartupResponseProto_TutorialConstants* defaultStartupResponseProto_Tutor
     }
     [result.mutableRecentNbattlesList addObjectsFromArray:other.mutableRecentNbattlesList];
   }
+  if (other.hasCurTask) {
+    [self mergeCurTask:other.curTask];
+  }
+  if (other.mutableCurTaskStagesList.count > 0) {
+    if (result.mutableCurTaskStagesList == nil) {
+      result.mutableCurTaskStagesList = [NSMutableArray array];
+    }
+    [result.mutableCurTaskStagesList addObjectsFromArray:other.mutableCurTaskStagesList];
+  }
   [self mergeUnknownFields:other.unknownFields];
   return self;
 }
@@ -6274,6 +6315,21 @@ static StartupResponseProto_TutorialConstants* defaultStartupResponseProto_Tutor
         PvpHistoryProto_Builder* subBuilder = [PvpHistoryProto builder];
         [input readMessage:subBuilder extensionRegistry:extensionRegistry];
         [self addRecentNbattles:[subBuilder buildPartial]];
+        break;
+      }
+      case 290: {
+        MinimumUserTaskProto_Builder* subBuilder = [MinimumUserTaskProto builder];
+        if (self.hasCurTask) {
+          [subBuilder mergeFrom:self.curTask];
+        }
+        [input readMessage:subBuilder extensionRegistry:extensionRegistry];
+        [self setCurTask:[subBuilder buildPartial]];
+        break;
+      }
+      case 298: {
+        TaskStageProto_Builder* subBuilder = [TaskStageProto builder];
+        [input readMessage:subBuilder extensionRegistry:extensionRegistry];
+        [self addCurTaskStages:[subBuilder buildPartial]];
         break;
       }
     }
@@ -7203,6 +7259,65 @@ static StartupResponseProto_TutorialConstants* defaultStartupResponseProto_Tutor
     result.mutableRecentNbattlesList = [NSMutableArray array];
   }
   [result.mutableRecentNbattlesList addObject:value];
+  return self;
+}
+- (BOOL) hasCurTask {
+  return result.hasCurTask;
+}
+- (MinimumUserTaskProto*) curTask {
+  return result.curTask;
+}
+- (StartupResponseProto_Builder*) setCurTask:(MinimumUserTaskProto*) value {
+  result.hasCurTask = YES;
+  result.curTask = value;
+  return self;
+}
+- (StartupResponseProto_Builder*) setCurTaskBuilder:(MinimumUserTaskProto_Builder*) builderForValue {
+  return [self setCurTask:[builderForValue build]];
+}
+- (StartupResponseProto_Builder*) mergeCurTask:(MinimumUserTaskProto*) value {
+  if (result.hasCurTask &&
+      result.curTask != [MinimumUserTaskProto defaultInstance]) {
+    result.curTask =
+      [[[MinimumUserTaskProto builderWithPrototype:result.curTask] mergeFrom:value] buildPartial];
+  } else {
+    result.curTask = value;
+  }
+  result.hasCurTask = YES;
+  return self;
+}
+- (StartupResponseProto_Builder*) clearCurTask {
+  result.hasCurTask = NO;
+  result.curTask = [MinimumUserTaskProto defaultInstance];
+  return self;
+}
+- (NSArray*) curTaskStagesList {
+  if (result.mutableCurTaskStagesList == nil) { return [NSArray array]; }
+  return result.mutableCurTaskStagesList;
+}
+- (TaskStageProto*) curTaskStagesAtIndex:(int32_t) index {
+  return [result curTaskStagesAtIndex:index];
+}
+- (StartupResponseProto_Builder*) replaceCurTaskStagesAtIndex:(int32_t) index with:(TaskStageProto*) value {
+  [result.mutableCurTaskStagesList replaceObjectAtIndex:index withObject:value];
+  return self;
+}
+- (StartupResponseProto_Builder*) addAllCurTaskStages:(NSArray*) values {
+  if (result.mutableCurTaskStagesList == nil) {
+    result.mutableCurTaskStagesList = [NSMutableArray array];
+  }
+  [result.mutableCurTaskStagesList addObjectsFromArray:values];
+  return self;
+}
+- (StartupResponseProto_Builder*) clearCurTaskStagesList {
+  result.mutableCurTaskStagesList = nil;
+  return self;
+}
+- (StartupResponseProto_Builder*) addCurTaskStages:(TaskStageProto*) value {
+  if (result.mutableCurTaskStagesList == nil) {
+    result.mutableCurTaskStagesList = [NSMutableArray array];
+  }
+  [result.mutableCurTaskStagesList addObject:value];
   return self;
 }
 @end

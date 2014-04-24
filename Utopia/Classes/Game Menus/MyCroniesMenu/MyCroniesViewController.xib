@@ -25,7 +25,7 @@
             <rect key="frame" x="0.0" y="0.0" width="568" height="282"/>
             <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES"/>
             <subviews>
-                <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" image="mainmenubg.png" id="6ll-Ab-xRn">
+                <imageView hidden="YES" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" image="mainmenubg.png" id="6ll-Ab-xRn">
                     <rect key="frame" x="0.0" y="0.0" width="568" height="282"/>
                     <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES"/>
                 </imageView>
@@ -40,13 +40,7 @@
                                 <view clipsSubviews="YES" contentMode="scaleToFill" id="cqz-r5-EJM">
                                     <rect key="frame" x="0.0" y="0.0" width="30" height="168"/>
                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                    <subviews>
-                                        <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" image="mainmenubg.png" id="drD-3f-CBW">
-                                            <rect key="frame" x="0.0" y="-56" width="568" height="282"/>
-                                            <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES"/>
-                                        </imageView>
-                                    </subviews>
-                                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                    <color key="backgroundColor" red="0.97254901959999995" green="0.92156862750000001" blue="0.78039215689999997" alpha="1" colorSpace="calibratedRGB"/>
                                     <simulatedOrientationMetrics key="simulatedOrientationMetrics" orientation="landscapeRight"/>
                                     <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
                                 </view>
@@ -184,7 +178,7 @@
                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                 </view>
             </subviews>
-            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+            <color key="backgroundColor" red="0.97254901959999995" green="0.92156862750000001" blue="0.78039215689999997" alpha="1" colorSpace="calibratedRGB"/>
             <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
         </view>
         <view contentMode="scaleToFill" id="CQg-FE-9HC" userLabel="Injured Header">
@@ -236,25 +230,25 @@
             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
             <subviews>
                 <view contentMode="scaleToFill" id="SVY-vM-LSd">
-                    <rect key="frame" x="15" y="12" width="23" height="1"/>
+                    <rect key="frame" x="15" y="12" width="26" height="1"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
                     <color key="backgroundColor" red="0.7019608021" green="0.67450982329999998" blue="0.36470589040000001" alpha="1" colorSpace="deviceRGB"/>
                     <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
                 </view>
                 <view contentMode="scaleToFill" id="kCH-v4-G3R">
-                    <rect key="frame" x="15" y="15" width="23" height="1"/>
+                    <rect key="frame" x="15" y="15" width="26" height="1"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
                     <color key="backgroundColor" red="0.7019608021" green="0.67450982329999998" blue="0.36470589040000001" alpha="1" colorSpace="deviceRGB"/>
                     <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
                 </view>
                 <view contentMode="scaleToFill" id="aq4-v4-mYt">
-                    <rect key="frame" x="131" y="12" width="23" height="1"/>
+                    <rect key="frame" x="128" y="12" width="26" height="1"/>
                     <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
                     <color key="backgroundColor" red="0.7019608021" green="0.67450982329999998" blue="0.36470589040000001" alpha="1" colorSpace="deviceRGB"/>
                     <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
                 </view>
                 <view contentMode="scaleToFill" id="g5Z-z2-NWl">
-                    <rect key="frame" x="131" y="15" width="23" height="1"/>
+                    <rect key="frame" x="128" y="15" width="26" height="1"/>
                     <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
                     <color key="backgroundColor" red="0.7019608021" green="0.67450982329999998" blue="0.36470589040000001" alpha="1" colorSpace="deviceRGB"/>
                     <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
@@ -433,13 +427,13 @@
         </view>
     </objects>
     <resources>
-        <image name="diamond.png" width="44" height="41"/>
+        <image name="diamond.png" width="29" height="27"/>
         <image name="finishheal.png" width="71" height="28"/>
         <image name="fixarrow.png" width="185" height="39"/>
         <image name="mainmenubg.png" width="568" height="282"/>
         <image name="menuresourcebg.png" width="82" height="19"/>
         <image name="mobstersbottombarbg.png" width="1" height="58"/>
         <image name="mobsterstopbarbg.png" width="1" height="56"/>
-        <image name="moneystack.png" width="43" height="34"/>
+        <image name="moneystack.png" width="31" height="30"/>
     </resources>
 </document>

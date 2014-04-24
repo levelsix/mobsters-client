@@ -303,17 +303,17 @@
     NSMutableArray *mut = [NSMutableArray array];
     for (BattlePlayer *bp in self.enemyTeam) {
       NSInteger idx = [self.enemyTeam indexOfObject:bp];
-      BattleSprite *bs = [[BattleSprite alloc] initWithPrefix:bp.spritePrefix nameString:bp.name animationType:bp.animationType isMySprite:NO verticalOffset:bp.verticalOffset];
+      BattleSprite *bs = [[BattleSprite alloc] initWithPrefix:bp.spritePrefix nameString:bp.name rarity:bp.rarity animationType:bp.animationType isMySprite:NO verticalOffset:bp.verticalOffset];
       bs.healthBar.color = [self.orbLayer colorForSparkle:(GemColorId)bp.element];
       [self.bgdContainer addChild:bs z:-idx];
       bs.isFacingNear = YES;
       
-      CGPoint finalPos = ENEMY_PLAYER_LOCATION;
+      CGPoint finalPos = ccpAdd(ENEMY_PLAYER_LOCATION, ccp(-9, -11));
       
       if (idx == 1) {
-        finalPos = ccpAdd(finalPos, ccp(53, 6));
+        finalPos = ccpAdd(finalPos, ccp(46, 3));
       } else if (idx == 2) {
-        finalPos = ccpAdd(finalPos, ccp(-7, 40));
+        finalPos = ccpAdd(finalPos, ccp(-7, 35));
       }
       
       if (_puzzleIsOnLeft) finalPos = ccpAdd(finalPos, ccp(PUZZLE_ON_LEFT_BGD_OFFSET, 0));

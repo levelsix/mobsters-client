@@ -16,18 +16,6 @@
 #import "RequestsBattleTableController.h"
 #import "UnreadNotifications.h"
 
-@implementation RequestsTopBar
-
-- (void) awakeFromNib {
-  self.inactiveTextColor = [UIColor colorWithRed:228/255.f green:243/255.f blue:248/255.f alpha:1.f];
-  self.inactiveShadowColor = [UIColor colorWithRed:21/255.f green:96/255.f blue:150/255.f alpha:0.75f];
-  self.activeTextColor = [UIColor colorWithRed:71/255.f green:81/255.f blue:87/255.f alpha:1.f];
-  self.activeShadowColor = [UIColor colorWithWhite:1.f alpha:0.75f];
-  [super awakeFromNib];
-}
-
-@end
-
 @implementation RequestsViewController
 
 - (void) viewDidLoad {
@@ -50,7 +38,7 @@
   if (self.battleBadgeIcon.badgeNum) {
     [self button1Clicked:nil];
   } else if (self.facebookBadgeIcon.badgeNum) {
-    [self button3Clicked:nil];
+    [self button2Clicked:nil];
   } else {
     [self button1Clicked:nil];
   }
@@ -97,11 +85,11 @@
 }
 
 - (void) button2Clicked:(id)sender {
-  
+  [self changeTableController:self.facebookController];
+  [self.topBar clickButton:2];
 }
 
 - (void) button3Clicked:(id)sender {
-  [self changeTableController:self.facebookController];
   [self.topBar clickButton:3];
 }
 

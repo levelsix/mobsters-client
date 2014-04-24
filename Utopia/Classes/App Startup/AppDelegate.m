@@ -102,7 +102,7 @@
 
 - (void) setUpKamcord:(UIViewController *)vc {
   [Kamcord setDeveloperKey:KAMCORD_DEV_KEY developerSecret:KAMCORD_SECRET appName:@"Mob Squad" parentViewController:vc];
-  [Kamcord setFacebookAppID:FACEBOOK_APP_ID];
+  [Kamcord setFacebookAppID:FACEBOOK_APP_ID sharedAuth:YES];
 }
 
 - (BOOL) application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
@@ -158,6 +158,10 @@
     GameViewController *gvc = [GameViewController baseController];
     [[SocketCommunication sharedSocketCommunication] initNetworkCommunicationWithDelegate:gvc];
   }
+  
+  // This will restart loading screen
+  GameViewController *gvc = [GameViewController baseController];
+  [gvc handleSignificantTimeChange];
   
   [FacebookDelegate handleDidBecomeActive];
 }

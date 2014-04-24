@@ -23,15 +23,11 @@
         </placeholder>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
         <view contentMode="scaleToFill" id="j7g-Uq-6OJ" userLabel="Main View">
-            <rect key="frame" x="0.0" y="0.0" width="568" height="280"/>
+            <rect key="frame" x="0.0" y="0.0" width="568" height="282"/>
             <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES"/>
             <subviews>
-                <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="bottom" image="mainmenubg.png" id="DK1-Z2-9W1">
-                    <rect key="frame" x="0.0" y="-2" width="568" height="282"/>
-                    <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES"/>
-                </imageView>
                 <view tag="5" contentMode="scaleToFill" id="4VP-Od-GFZ">
-                    <rect key="frame" x="0.0" y="-1" width="568" height="281"/>
+                    <rect key="frame" x="0.0" y="1" width="568" height="281"/>
                     <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES"/>
                     <subviews>
                         <view contentMode="scaleToFill" id="7T8-TF-AHe" userLabel="Machine View">
@@ -225,7 +221,7 @@
                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                 </view>
             </subviews>
-            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+            <color key="backgroundColor" red="0.97254901959999995" green="0.92156862750000001" blue="0.78039215689999997" alpha="1" colorSpace="calibratedRGB"/>
             <simulatedOrientationMetrics key="simulatedOrientationMetrics" orientation="landscapeRight"/>
             <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
         </view>
@@ -469,7 +465,7 @@
         <image name="behindgachasunflare.png" width="217" height="217"/>
         <image name="characterdetailshadow.png" width="94" height="45"/>
         <image name="detaildivider.png" width="1" height="2"/>
-        <image name="diamond.png" width="44" height="41"/>
+        <image name="diamond.png" width="29" height="27"/>
         <image name="epicgtag.png" width="25" height="15"/>
         <image name="featureddivider.png" width="308" height="29"/>
         <image name="featuredstars.png" width="25" height="9"/>
@@ -478,9 +474,8 @@
         <image name="gacharevealbg.png" width="480" height="320"/>
         <image name="gacharevealclosex.png" width="16" height="17"/>
         <image name="gooniegrabmachine.png" width="83" height="134"/>
-        <image name="mainmenubg.png" width="568" height="282"/>
         <image name="menuresourcebg.png" width="82" height="19"/>
-        <image name="moneystack.png" width="43" height="34"/>
+        <image name="moneystack.png" width="31" height="30"/>
         <image name="spinbutton.png" width="86" height="31"/>
         <image name="spinnerbg.png" width="309" height="309"/>
         <image name="ticker.png" width="21" height="29"/>

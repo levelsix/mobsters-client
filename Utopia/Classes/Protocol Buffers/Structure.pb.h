@@ -65,6 +65,7 @@ BOOL StructureInfoProto_StructTypeIsValidValue(StructureInfoProto_StructType val
 
 @interface StructureInfoProto : PBGeneratedMessage {
 @private
+  BOOL hasShadowScale_:1;
   BOOL hasShadowHorizontalOfffset_:1;
   BOOL hasShadowVerticalOffset_:1;
   BOOL hasImgHorizontalPixelOffset_:1;
@@ -85,6 +86,7 @@ BOOL StructureInfoProto_StructTypeIsValidValue(StructureInfoProto_StructType val
   BOOL hasName_:1;
   BOOL hasBuildResourceType_:1;
   BOOL hasStructType_:1;
+  Float32 shadowScale;
   Float32 shadowHorizontalOfffset;
   Float32 shadowVerticalOffset;
   Float32 imgHorizontalPixelOffset;
@@ -126,6 +128,7 @@ BOOL StructureInfoProto_StructTypeIsValidValue(StructureInfoProto_StructType val
 - (BOOL) hasShadowImgName;
 - (BOOL) hasShadowVerticalOffset;
 - (BOOL) hasShadowHorizontalOfffset;
+- (BOOL) hasShadowScale;
 @property (readonly) int32_t structId;
 @property (readonly, retain) NSString* name;
 @property (readonly) int32_t level;
@@ -146,6 +149,7 @@ BOOL StructureInfoProto_StructTypeIsValidValue(StructureInfoProto_StructType val
 @property (readonly, retain) NSString* shadowImgName;
 @property (readonly) Float32 shadowVerticalOffset;
 @property (readonly) Float32 shadowHorizontalOfffset;
+@property (readonly) Float32 shadowScale;
 
 + (StructureInfoProto*) defaultInstance;
 - (StructureInfoProto*) defaultInstance;
@@ -280,6 +284,11 @@ BOOL StructureInfoProto_StructTypeIsValidValue(StructureInfoProto_StructType val
 - (Float32) shadowHorizontalOfffset;
 - (StructureInfoProto_Builder*) setShadowHorizontalOfffset:(Float32) value;
 - (StructureInfoProto_Builder*) clearShadowHorizontalOfffset;
+
+- (BOOL) hasShadowScale;
+- (Float32) shadowScale;
+- (StructureInfoProto_Builder*) setShadowScale:(Float32) value;
+- (StructureInfoProto_Builder*) clearShadowScale;
 @end
 
 @interface ResourceGeneratorProto : PBGeneratedMessage {

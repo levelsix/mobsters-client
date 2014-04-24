@@ -59,13 +59,10 @@
   Globals *gl = [Globals sharedGlobals];
   MonsterProto *proto = [gs monsterWithId:self.monster.monsterId];
   self.monsterNameLabel.text = proto.displayName;
-  self.enhanceLabel.text = [NSString stringWithFormat:@"Lvl. %d", self.monster.level];
-  self.monsterDescription.text = proto.description;
+  self.enhanceLabel.text = [NSString stringWithFormat:@"%d", self.monster.level];
+  [self setDescriptionLabelString:proto.description];
   
-  self.rarityLabel.text = [Globals stringForRarity:proto.quality];
-  self.rarityTag.image = [Globals imageNamed:[Globals imageNameForRarity:proto.quality suffix:@"gtag.png"]];
-  self.rarityTag.frame = CGRectMake(self.rarityTag.frame.origin.x, self.rarityTag.frame.origin.y, self.rarityTag.image.size.width, self.rarityTag.frame.size.height);
-  self.rarityLabel.frame = self.rarityTag.frame;
+  self.rarityTag.image = [Globals imageNamed:[@"battle" stringByAppendingString:[Globals imageNameForRarity:proto.quality suffix:@"tag.png"]]];
   
   if (!_allowSell) {
     self.sellButtonView.hidden = YES;
@@ -79,8 +76,8 @@
     self.sellLabel.text = [Globals cashStringForNumber:self.monster.sellPrice];
   }
   
-  self.attackLabel.text = [Globals commafyNumber:[gl calculateTotalDamageForMonster:self.monster]];
-  self.speedLabel.text = [Globals commafyNumber:self.monster.currentLevelInfo.speed];
+  self.attackLabel.text = [NSString stringWithFormat:@"%@  ", [Globals commafyNumber:[gl calculateTotalDamageForMonster:self.monster]]];
+  self.speedLabel.text = [Globals commafyNumber:[gl calculateSpeedForMonster:self.monster]];
   CGSize size = [self.attackLabel.text sizeWithFont:self.attackLabel.font];
   self.infoButton.center = CGPointMake(self.attackLabel.frame.origin.x+size.width+self.infoButton.frame.size.width/2, self.infoButton.center.y);
   
@@ -109,6 +106,15 @@
   [Globals imageNamed:[Globals imageNameForElement:proto.monsterElement suffix:@"orb.png"] withView:self.elementType maskedColor:nil indicator:UIActivityIndicatorViewStyleWhite clearImageDuringDownload:YES];
 }
 
+- (void) setDescriptionLabelString:(NSString *)labelText {
+  NSMutableAttributedString *attributedString = [[NSMutableAttributedString alloc] initWithString:labelText];
+  NSMutableParagraphStyle *paragraphStyle = [[NSMutableParagraphStyle alloc] init];
+  [paragraphStyle setLineSpacing:3];
+  [paragraphStyle setAlignment:NSTextAlignmentCenter];
+  [attributedString addAttribute:NSParagraphStyleAttributeName value:paragraphStyle range:NSMakeRange(0, [labelText length])];
+  self.monsterDescription.attributedText = attributedString;
+}
+
 - (IBAction)infoClicked:(id)sender {
   [self.container addSubview:self.elementView];
   self.elementView.center = CGPointMake(self.descriptionView.center.x+self.elementView.frame.size.height, self.descriptionView.center.y);
@@ -121,6 +127,13 @@
   }completion:^(BOOL finished) {
     self.descriptionView.hidden = YES;
   }];
+  
+  CATransition *animation = [CATransition animation];
+  animation.duration = 0.3;
+  animation.type = kCATransitionFade;
+  animation.timingFunction = [CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseInEaseOut];
+  [self.monsterDescription.layer addAnimation:animation forKey:@"changeTextTransition"];
+  [self setDescriptionLabelString:@"Attack numbers represent the damage done by each orb destroyed in battle."];
 }
 
 - (IBAction)backClicked:(id)sender {
@@ -134,6 +147,16 @@
     [self.elementView removeFromSuperview];
     self.backButtonView.hidden = YES;
   }];
+  
+  CATransition *animation = [CATransition animation];
+  animation.duration = 0.3;
+  animation.type = kCATransitionFade;
+  animation.timingFunction = [CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseInEaseOut];
+  [self.monsterDescription.layer addAnimation:animation forKey:@"changeTextTransition"];
+  
+  GameState *gs = [GameState sharedGameState];
+  MonsterProto *proto = [gs monsterWithId:self.monster.monsterId];
+  [self setDescriptionLabelString:proto.description];
 }
 
 - (IBAction)sellClicked:(id)sender {

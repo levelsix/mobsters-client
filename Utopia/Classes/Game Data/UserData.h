@@ -37,7 +37,7 @@
 
 - (MonsterProto *) staticMonster;
 - (MonsterProto *) staticEvolutionMonster;
-- (MonsterLevelInfoProto *) currentLevelInfo;
+- (MonsterLevelInfoProto *) levelInfo;
 - (BOOL) isCombining;
 - (int) timeLeftForCombining;
 
@@ -66,6 +66,7 @@
 
 - (float) totalSeconds;
 - (float) currentPercentage;
+- (float) currentPercentageWithUserMonster:(UserMonster *)um;
 
 @end
 
@@ -254,16 +255,32 @@ typedef enum {
 
 @end
 
+@interface UserQuestJob : NSObject
+
+@property (nonatomic, assign) int questId;
+@property (nonatomic, assign) int questJobId;
+@property (nonatomic, assign) int progress;
+@property (nonatomic, assign) BOOL isComplete;
+
++ (id) questJobWithProto:(UserQuestJobProto *)proto;
+
+@end
+
 @interface UserQuest : NSObject
 
 @property (nonatomic, assign) int userId;
 @property (nonatomic, assign) int questId;
 @property (nonatomic, assign) BOOL isRedeemed;
 @property (nonatomic, assign) BOOL isComplete;
-@property (nonatomic, assign) int progress;
+@property (nonatomic, retain) NSMutableDictionary *progressDict;
 
 + (id) questWithProto:(FullUserQuestProto *)proto;
 - (id) initWithProto:(FullUserQuestProto *)proto;
+
+- (void) setProgress:(int)progress forQuestJobId:(int)questJobId;
+- (void) setIsCompleteForQuestJobId:(int)questJobId;
+- (int) getProgressForQuestJobId:(int)questJobId;
+- (UserQuestJob *) jobForId:(int)questJobId;
 
 @end
 

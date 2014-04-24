@@ -185,7 +185,16 @@
   
   [self begin];
   
-  CCClippingNode *clip = (CCClippingNode *)_comboBgd.parent;
+  CCClippingNode *clip = [CCClippingNode clippingNode];
+  [self.orbBgdLayer addChild:clip z:self.orbLayer.zOrder];
+  clip.contentSize = CGSizeMake(_comboBgd.contentSize.width*2, _comboBgd.contentSize.height*3);
+  clip.anchorPoint = ccp(1, 0.5);
+  clip.position = ccp(self.orbLayer.position.x+self.orbLayer.contentSize.width, 54);
+  clip.scale = 1.5;
+  
+  [clip addChild:_comboBgd];
+  _comboBgd.position = ccp(clip.contentSize.width+2*_comboBgd.contentSize.width, _comboBgd.parent.contentSize.height/2);
+  
   CCDrawNode *stencil = [CCDrawNode node];
   CGPoint rectangle[] = {{0, 0}, {clip.contentSize.width, 0}, {clip.contentSize.width, clip.contentSize.height}, {0, clip.contentSize.height}};
   [stencil drawPolyWithVerts:rectangle count:4 fillColor:[CCColor whiteColor] borderWidth:1 borderColor:[CCColor whiteColor]];
@@ -196,6 +205,13 @@
   CCClippingNode *clip = (CCClippingNode *)_comboBgd.parent;
   clip.stencil = nil;
   [super onExitTransitionDidStart];
+  
+  [self.forfeitButton removeFromSuperview];
+  [self.swapView removeFromSuperview];
+  [self.deployView removeFromSuperview];
+  [self.deployCancelButton removeFromSuperview];
+  [self.elementButton removeFromSuperview];
+  [self.elementView removeFromSuperview];
 }
 
 - (BattlePlayer *) firstMyPlayer {
@@ -272,16 +288,6 @@
   _comboBgd = [CCSprite spriteWithImageNamed:@"combobg.png"];
   _comboBgd.anchorPoint = ccp(1, 0.5);
   
-  CCClippingNode *clip = [CCClippingNode clippingNode];
-  [self.orbBgdLayer addChild:clip z:self.orbLayer.zOrder];
-  clip.contentSize = CGSizeMake(_comboBgd.contentSize.width*2, _comboBgd.contentSize.height*3);
-  clip.anchorPoint = ccp(1, 0.5);
-  clip.position = ccp(self.orbLayer.position.x+self.orbLayer.contentSize.width, 54);
-  clip.scale = 1.5;
-  
-  [clip addChild:_comboBgd];
-  _comboBgd.position = ccp(clip.contentSize.width+2*_comboBgd.contentSize.width, _comboBgd.parent.contentSize.height/2);
-  
   _comboLabel = [CCLabelTTF labelWithString:@"2x" fontName:@"Gotham-UltraItalic" fontSize:23];
   _comboLabel.anchorPoint = ccp(1, 0.5);
   _comboLabel.position = ccp(_comboBgd.contentSize.width-5, 32);
@@ -303,7 +309,7 @@
 }
 
 - (void) createNextMyPlayerSprite {
-  BattleSprite *mp = [[BattleSprite alloc] initWithPrefix:self.myPlayerObject.spritePrefix nameString:self.myPlayerObject.name animationType:self.myPlayerObject.animationType isMySprite:YES verticalOffset:self.myPlayerObject.verticalOffset];
+  BattleSprite *mp = [[BattleSprite alloc] initWithPrefix:self.myPlayerObject.spritePrefix nameString:self.myPlayerObject.name rarity:self.myPlayerObject.rarity animationType:self.myPlayerObject.animationType isMySprite:YES verticalOffset:self.myPlayerObject.verticalOffset];
   mp.healthBar.color = [self.orbLayer colorForSparkle:(GemColorId)self.myPlayerObject.element];
   [self.bgdContainer addChild:mp z:1];
   mp.position = [self myPlayerLocation];
@@ -313,7 +319,7 @@
   [self updateHealthBars];
 }
 
-- (float) makeMyPlayerWalkOut {
+- (float) makeMyPlayerWalkOutWithBlock:(void (^)(void))completion {
   CGPoint startPos = self.myPlayer.position;
   CGPoint offsetPerScene = POINT_OFFSET_PER_SCENE;
   float startX = -self.myPlayer.contentSize.width;
@@ -323,7 +329,16 @@
   float dur = ccpDistance(startPos, endPos)/MY_WALKING_SPEED;
   self.myPlayer.isFacingNear = YES;
   [self.myPlayer beginWalking];
-  [self.myPlayer runAction:[CCActionMoveTo actionWithDuration:dur position:endPos]];
+  [self.myPlayer runAction:
+   [CCActionSequence actions:
+    [CCActionMoveTo actionWithDuration:dur position:endPos],
+    [CCActionCallBlock actionWithBlock:
+     ^{
+       if (completion) {
+         completion();
+       }
+     }],
+    [CCActionRemove action], nil]];
   [self stopPulsing];
   
   return dur;
@@ -404,8 +419,9 @@
 }
 
 - (void) createNextEnemySprite {
-  BattleSprite *bs = [[BattleSprite alloc] initWithPrefix:self.enemyPlayerObject.spritePrefix nameString:self.enemyPlayerObject.name animationType:self.enemyPlayerObject.animationType isMySprite:NO verticalOffset:self.enemyPlayerObject.verticalOffset];
+  BattleSprite *bs = [[BattleSprite alloc] initWithPrefix:self.enemyPlayerObject.spritePrefix nameString:self.enemyPlayerObject.name rarity:self.enemyPlayerObject.rarity animationType:self.enemyPlayerObject.animationType isMySprite:NO verticalOffset:self.enemyPlayerObject.verticalOffset];
   bs.healthBar.color = [self.orbLayer colorForSparkle:(GemColorId)self.enemyPlayerObject.element];
+  [bs showRarityTag];
   [self.bgdContainer addChild:bs];
   self.currentEnemy = bs;
   self.currentEnemy.isFacingNear = YES;
@@ -486,7 +502,7 @@
 }
 
 - (void) checkIfAnyMovesLeft {
-  if (_movesLeft == 0) {
+  if (_movesLeft <= 0) {
     [self myTurnEnded];
   } else {
     [self.orbLayer allowInput];
@@ -494,13 +510,20 @@
   }
 }
 
-- (void) myTurnEnded {
-  [self showHighScoreWord];
-  [self displayNoInputLayer];
-  
+- (void) removeButtons {
+  [self removeSwapButton];
+  [self removeDeployView];
   self.forfeitButton.hidden = YES;
   self.elementButton.hidden = YES;
   [self.elementView close];
+}
+
+- (void) myTurnEnded {
+  [self showHighScoreWord];
+  [self displayNoInputLayer];
+  [self removeButtons];
+  
+  self.movesLeftLabel.string = [NSString stringWithFormat:@"%d", _movesLeft];
 }
 
 - (void) showHighScoreWord {
@@ -509,13 +532,18 @@
 
 - (void) doMyAttackAnimation {
   int currentScore = _myDamageDealt/(float)[self.myPlayerObject totalAttackPower]*100.f;
-  if (currentScore > MAKEITRAIN_SCORE) {
-    [self.myPlayer restoreStandingFrame];
-    [self spawnPlaneWithTarget:nil selector:nil];
-  }
   
-  float strength = MIN(1, currentScore/(float)STRENGTH_FOR_MAX_SHOTS);
-  [self.myPlayer performFarAttackAnimationWithStrength:strength enemy:self.currentEnemy target:self selector:@selector(dealMyDamage)];
+  if (currentScore > 0) {
+    if (currentScore > MAKEITRAIN_SCORE) {
+      [self.myPlayer restoreStandingFrame];
+      [self spawnPlaneWithTarget:nil selector:nil];
+    }
+    
+    float strength = MIN(1, currentScore/(float)STRENGTH_FOR_MAX_SHOTS);
+    [self.myPlayer performFarAttackAnimationWithStrength:strength enemy:self.currentEnemy target:self selector:@selector(dealMyDamage)];
+  } else {
+    [self beginEnemyTurn];
+  }
 }
 
 - (void) dealMyDamage {
@@ -649,7 +677,8 @@
 }
 
 - (void) blowupBattleSprite:(BattleSprite *)sprite withBlock:(void(^)())block {
-  [sprite runAction:[CCActionSequence actions:[RecursiveFadeTo actionWithDuration:0.3f opacity:0],
+  [sprite runAction:[CCActionSequence actions:
+                     [RecursiveFadeTo actionWithDuration:0.3f opacity:0],
                      [CCActionDelay actionWithDuration:0.7f],
                      [CCActionCallFunc actionWithTarget:sprite selector:@selector(removeFromParent)],
                      [CCActionCallBlock actionWithBlock:block], nil]];
@@ -728,35 +757,91 @@
 }
 
 - (void) displayWaveNumber {
-  float initDelay = TIME_TO_SCROLL_PER_SCENE-1.6;
-  float fadeTime = 0.2;
-  float delayTime = 1.05;
+  float initDelay = TIME_TO_SCROLL_PER_SCENE-2.2;
+  float fadeTime = 0.35;
+  float delayTime = 1.8;
   
-  CCNodeColor *l = [CCNodeColor nodeWithColor:[CCColor colorWithCcColor4b:ccc4(0, 0, 0, 0)] width:self.contentSize.width height:self.contentSize.height];
-  [self addChild:l];
-  [l runAction:[CCActionSequence actions:
+  CCNodeColor *bgd = [CCNodeColor nodeWithColor:[CCColor colorWithCcColor4b:ccc4(0, 0, 0, 0)] width:self.contentSize.width height:self.contentSize.height];
+  [self addChild:bgd];
+  
+  CCLabelBMFont *label = [CCLabelBMFont labelWithString:[NSString stringWithFormat:@"Enemy %d/%d", _curStage+1, (int)self.enemyTeam.count] fntFile:@"wavefont.fnt"];
+  [self addChild:label];
+  label.position = ccp(35, self.contentSize.height/2+30);
+  label.anchorPoint = ccp(0, 0.5);
+  
+  CCSprite *spr = [CCSprite spriteWithImageNamed:@"enemydivider.png"];
+  [self addChild:spr];
+  spr.scaleX = label.contentSize.width;
+  spr.anchorPoint = ccp(0, 0.5);
+  spr.position = ccpAdd(label.position, ccp(0, -label.contentSize.height/2-3));
+  
+  CCLabelTTF *nameLabel = [CCLabelTTF labelWithString:self.enemyPlayerObject.name fontName:[Globals font] fontSize:20];
+  [self addChild:nameLabel];
+  nameLabel.color = [CCColor whiteColor];
+  nameLabel.shadowOffset = ccp(0, -1);
+  nameLabel.shadowColor = [CCColor colorWithWhite:0.f alpha:0.7f];
+  nameLabel.shadowBlurRadius = 1.5f;
+  nameLabel.anchorPoint = ccp(0, 0.5);
+  
+  CCSprite *elem = [CCSprite spriteWithImageNamed:[Globals imageNameForElement:self.enemyPlayerObject.element suffix:@"orb.png"]];
+  elem.scale = 0.55;
+  elem.anchorPoint = ccp(0, 0.5);
+  [nameLabel addChild:elem];
+  
+  elem.position = ccp(-elem.contentSize.width*elem.scale-3, nameLabel.contentSize.height/2);
+  
+  NSMutableArray *arr = [NSMutableArray array];
+  [arr addObject:label];
+  if (self.enemyPlayerObject.rarity != MonsterProto_MonsterQualityCommon) {
+    NSString *rarityStr = [@"battle" stringByAppendingString:[Globals imageNameForRarity:self.enemyPlayerObject.rarity suffix:@"tag.png"]];
+    CCSprite *rarityTag = [CCSprite spriteWithImageNamed:rarityStr];
+    [self addChild:rarityTag];
+    rarityTag.anchorPoint = ccp(0, 0.5);
+    rarityTag.position = ccpAdd(label.position, ccp(0, -35));
+    
+    nameLabel.position = ccpAdd(label.position, ccp(-elem.position.x, -60));
+    
+    [arr addObject:rarityTag];
+  } else {
+    nameLabel.position = ccpAdd(label.position, ccp(-elem.position.x, -42));
+  }
+  [arr addObject:nameLabel];
+  
+  int moveAmt = 50;//s.contentSize.width/2;
+  for (int i = 0; i < arr.count; i++) {
+    CCNode *s = arr[i];
+    [s recursivelyApplyOpacity:0];
+    s.position = ccpAdd(s.position, ccp(-moveAmt, 0));
+    
+    CCAction *a =
+    [CCActionSequence actions:
+     [CCActionDelay actionWithDuration:initDelay+fadeTime+i*0.09],
+     [CCActionSpawn actions:
+      [CCActionMoveBy actionWithDuration:0.3f position:ccp(moveAmt, 0)],
+      [RecursiveFadeTo actionWithDuration:0.3f opacity:1.f], nil],
+     [CCActionDelay actionWithDuration:delayTime-1.f+i*0.09],
+     [CCActionSpawn actions:
+      [CCActionMoveBy actionWithDuration:0.3f position:ccp(-moveAmt, 0)],
+      [RecursiveFadeTo actionWithDuration:0.3f opacity:0.f], nil],
+     [CCActionRemove action],
+     nil];
+    a.tag = 12;
+    [s runAction:a];
+  }
+  
+  spr.opacity = 0.f;
+  spr.position = ccpAdd(spr.position, ccp(-moveAmt, 0));
+  [spr runAction:[label getActionByTag:12].copy];
+  
+  [bgd runAction:[CCActionSequence actions:
                 [CCActionDelay actionWithDuration:initDelay],
                 [CCActionFadeTo actionWithDuration:fadeTime opacity:0.65f],
                 [CCActionDelay actionWithDuration:delayTime],
                 [CCActionFadeTo actionWithDuration:fadeTime opacity:0.f],
                 [CCActionCallBlock actionWithBlock:
                  ^{
-                   [l removeFromParentAndCleanup:YES];
+                   [bgd removeFromParentAndCleanup:YES];
                  }], nil]];
-  
-  CCLabelBMFont *label = [CCLabelBMFont labelWithString:[NSString stringWithFormat:@"Enemy %d/%d", _curStage+1, (int)self.enemyTeam.count] fntFile:@"wavefont.fnt"];
-  [self addChild:label];
-  label.position = ccp(CENTER_OF_BATTLE.x, -label.contentSize.height/2);
-  
-  [label runAction:[CCActionSequence actions:
-                    [CCActionDelay actionWithDuration:initDelay],
-                    [CCActionEaseOut actionWithAction:[CCActionMoveTo actionWithDuration:fadeTime position:ccp(label.position.x, self.contentSize.height/2)]],
-                    [CCActionDelay actionWithDuration:delayTime],
-                    [CCActionEaseIn actionWithAction:[CCActionMoveTo actionWithDuration:fadeTime position:ccp(label.position.x, self.contentSize.height+label.contentSize.height)]],
-                    [CCActionCallBlock actionWithBlock:
-                     ^{
-                       [label removeFromParentAndCleanup:YES];
-                     }], nil]];
 }
 
 - (void) dropLoot:(CCSprite *)ed {
@@ -766,7 +851,7 @@
   ed.scale = 0.01;
   ed.opacity = 0.1f;
   
-  float scale = 25.f/ed.contentSize.width;
+  float scale = 1.f;
   
   [ed runAction:[CCActionSpawn actions:
                  [CCActionFadeIn actionWithDuration:0.1],
@@ -1200,6 +1285,7 @@
   if (self.enemyPlayerObject) {
     [self beginMyTurn];
     [self updateHealthBars];
+    [self.currentEnemy doRarityTagShine];
   }
 }
 
@@ -1353,7 +1439,7 @@
     self.myPlayerObject = bp;
     
     if (isSwap) {
-      [self makeMyPlayerWalkOut];
+      [self makeMyPlayerWalkOutWithBlock:nil];
     }
     [self createNextMyPlayerSprite];
     
@@ -1440,22 +1526,8 @@
 - (void) continueConfirmed {
   [self.lostView removeFromParent];
   
-  if (!self.myPlayer) {
-    [self displayDeployViewAndIsCancellable:NO];
-  } else {
-    [self beginMyTurn];
-  }
+  [self displayDeployViewAndIsCancellable:NO];
   [self displayOrbLayer];
-}
-
-
-- (void) dealloc {
-  [self.forfeitButton removeFromSuperview];
-  [self.swapView removeFromSuperview];
-  [self.deployView removeFromSuperview];
-  [self.deployCancelButton removeFromSuperview];
-  [self.elementButton removeFromSuperview];
-  [self.elementView removeFromSuperview];
 }
 
 @end

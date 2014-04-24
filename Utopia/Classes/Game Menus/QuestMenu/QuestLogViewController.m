@@ -13,18 +13,6 @@
 #import "GenericPopupController.h"
 #import "QuestUtil.h"
 
-@implementation QuestTopBar
-
-- (void) awakeFromNib {
-  self.inactiveTextColor = [UIColor colorWithWhite:1.f alpha:1.f];
-  self.inactiveShadowColor = [UIColor colorWithWhite:0.f alpha:0.75f];
-  self.activeTextColor = [UIColor colorWithWhite:51.f/255.f alpha:1.f];
-  self.activeShadowColor = [UIColor colorWithWhite:1.f alpha:0.75f];
-  [super awakeFromNib];
-}
-
-@end
-
 @implementation QuestLogViewController
 
 - (void)viewDidLoad
@@ -34,7 +22,7 @@
   
   self.questListViewController = [[QuestListViewController alloc] init];
   [self addChildViewController:self.questListViewController];
-  [self.listContainerView addSubview:self.questListViewController.view];
+  [self.containerView addSubview:self.questListViewController.view];
   
   GameState *gs = [GameState sharedGameState];
   [self.questListViewController reloadWithQuests:gs.allCurrentQuests userQuests:gs.myQuests];
@@ -42,36 +30,12 @@
   self.titleLabel.alpha = 0.f;
   self.titleLabel.text = self.questListViewController.title;
   self.backView.hidden = YES;
-  self.detailsContainerView.userInteractionEnabled = NO;
-  
-  self.view.hidden = YES;
-}
-
-- (void) viewWillAppear:(BOOL)animated {
-  self.view.hidden = YES;
 }
 
 - (void) viewDidAppear:(BOOL)animated {
   [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(questsChanged) name:QUESTS_CHANGED_NOTIFICATION object:nil];
   
-  self.view.hidden = NO;
-  if (self.questDetailsViewController) {
-    self.bgdView.alpha = 0.f;
-    
-    CGPoint mainCenter = self.mainView.center;
-    self.mainView.center = ccp(self.view.frame.size.width+self.mainView.frame.size.width/2, mainCenter.y);
-    
-    CGPoint imgCenter = self.questGiverImageView.center;
-    self.questGiverImageView.center = ccp(-self.questGiverImageView.frame.size.width/2, imgCenter.y);
-    
-    [UIView animateWithDuration:0.4 animations:^{
-      self.bgdView.alpha = 1.f;
-      self.mainView.center = mainCenter;
-      self.questGiverImageView.center = imgCenter;
-    }];
-  } else {
-    [Globals bounceView:self.mainView fadeInBgdView:self.bgdView];
-  }
+  [Globals bounceView:self.mainView fadeInBgdView:self.bgdView];
 }
 
 - (void) viewDidDisappear:(BOOL)animated {
@@ -96,48 +60,27 @@
 }
 
 - (void) close {
-  if (self.questDetailsViewController) {
-    [UIView animateWithDuration:0.3f animations:^{
-      self.questGiverImageView.center = ccp(-self.questGiverImageView.image.size.width,
-                                            self.questGiverImageView.center.y);
-      self.bgdView.alpha = 0.f;
-      self.mainView.center = ccp(self.view.frame.size.width+self.mainView.frame.size.width/2,
-                                 self.mainView.center.y);
-    } completion:^(BOOL finished) {
-      [self.view removeFromSuperview];
-      [self removeFromParentViewController];
-      
-      if ([self.delegate respondsToSelector:@selector(questLogClosed)]) {
-        [self.delegate questLogClosed];
-      }
-    }];
-  } else {
-    [Globals popOutView:self.mainView fadeOutBgdView:self.bgdView completion:^{
-      [self.view removeFromSuperview];
-      [self removeFromParentViewController];
-      
-      if ([self.delegate respondsToSelector:@selector(questLogClosed)]) {
-        [self.delegate questLogClosed];
-      }
-    }];
-  }
+  [Globals popOutView:self.mainView fadeOutBgdView:self.bgdView completion:^{
+    [self.view removeFromSuperview];
+    [self removeFromParentViewController];
+    
+    if ([self.delegate respondsToSelector:@selector(questLogClosed)]) {
+      [self.delegate questLogClosed];
+    }
+  }];
 }
 
 #pragma mark - Transition between ViewControllers
 
 - (void) transitionToDetailsViewAnimated:(BOOL)animated {
-  self.questDetailsViewController.view.center = ccp(self.detailsContainerView.frame.size.width+
+  self.questDetailsViewController.view.center = ccp(self.containerView.frame.size.width+
                                                     self.questDetailsViewController.view.frame.size.width/2,
                                                     self.questDetailsViewController.view.center.y);
   self.backView.hidden = NO;
   self.backView.alpha = 0.f;
   float duration = animated ? 0.3f : 0.f;
   [UIView animateWithDuration:duration animations:^{
-    int val = [Globals isLongiPhone] ? 0 : 22;
-    self.questGiverImageView.center = ccp(self.questGiverImageView.frame.size.width/2-val, self.view.frame.size.height-self.questGiverImageView.frame.size.height/2);
-    self.mainView.center = ccp(44+self.mainView.center.x, self.view.frame.size.height/2);
-    
-    self.questDetailsViewController.view.center = ccp(self.detailsContainerView.frame.size.width/2,
+    self.questDetailsViewController.view.center = ccp(self.containerView.frame.size.width/2,
                                                       self.questDetailsViewController.view.center.y);
     self.questListViewController.view.center = ccp(-self.questListViewController.view.center.x,
                                                    self.questListViewController.view.center.y);
@@ -145,8 +88,6 @@
     
     self.topBar.alpha = 0.f;
     self.titleLabel.alpha = 1.f;
-  } completion:^(BOOL finished) {
-    self.detailsContainerView.userInteractionEnabled = YES;
   }];
   self.titleLabel.text = self.questDetailsViewController.title;
 }
@@ -157,14 +98,11 @@
   self.questDetailsViewController = nil;
   
   [UIView animateWithDuration:0.3f animations:^{
-    self.questGiverImageView.center = ccp(-self.questGiverImageView.image.size.width, self.view.frame.size.height-self.questGiverImageView.frame.size.height/2);
-    self.mainView.center = ccp(self.view.frame.size.width/2, self.view.frame.size.height/2);
-    
-    self.questListViewController.view.center = ccp(self.listContainerView.frame.size.width/2,
+    self.questListViewController.view.center = ccp(self.containerView.frame.size.width/2,
                                                    self.questListViewController.view.center.y);
-    qdvc.view.center = ccp(self.detailsContainerView.frame.size.width+
-                                                      qdvc.view.frame.size.width/2,
-                                                      qdvc.view.center.y);
+    qdvc.view.center = ccp(self.containerView.frame.size.width+
+                           qdvc.view.frame.size.width/2,
+                           qdvc.view.center.y);
     self.backView.alpha = 0.f;
     
     self.topBar.alpha = 1.f;
@@ -174,8 +112,6 @@
     
     [qdvc.view removeFromSuperview];
     [qdvc removeFromParentViewController];
-    
-    self.detailsContainerView.userInteractionEnabled = NO;
   }];
 }
 
@@ -189,11 +125,8 @@
   self.questDetailsViewController = [[QuestDetailsViewController alloc] init];
   self.questDetailsViewController.delegate = self;
   [self addChildViewController:self.questDetailsViewController];
-  [self.detailsContainerView addSubview:self.questDetailsViewController.view];
+  [self.containerView addSubview:self.questDetailsViewController.view];
   [self.questDetailsViewController loadWithQuest:quest userQuest:uq];
-  
-  NSString *file = [quest.questGiverImagePrefix stringByAppendingString:@"Big.png"];
-  [Globals imageNamed:file withView:self.questGiverImageView maskedColor:nil indicator:UIActivityIndicatorViewStyleWhiteLarge clearImageDuringDownload:YES];
   
   [self transitionToDetailsViewAnimated:animated];
   
@@ -212,31 +145,28 @@
 
 #pragma mark - QuestDetailsViewControllerDelegate methods
 
-- (void) visitOrDonateClickedWithDetailsVC:(QuestDetailsViewController *)detailsVC {
-  GameState *gs = [GameState sharedGameState];
+- (void) visitOrDonateClickedWithDetailsVC:(QuestDetailsViewController *)detailsVC jobId:(int)jobId {
   GameViewController *gvc = (GameViewController *)self.parentViewController;
   FullQuestProto *quest = detailsVC.quest;
   UserQuest *uq = detailsVC.userQuest;
-  if (quest.questType == FullQuestProto_QuestTypeDonateMonster && quest.quantity == uq.progress) {
+  QuestJobProto *jp = [quest jobForId:jobId];
+  UserQuestJob *uj = [uq jobForId:jobId];
+  if (jp.questJobType == QuestJobProto_QuestJobTypeDonateMonster && jp.quantity == uj.progress) {
     // Donate monsters
-    [self doDonateForQuest:quest.questId];
+    [self doDonateForQuest:quest.questId jobId:jobId];
   } else {
-    int assetId = 0;
-    if (quest.questType == FullQuestProto_QuestTypeCompleteTask) {
-      FullTaskProto *task = [gs taskWithId:quest.staticDataId];
-      assetId = task.assetNumWithinCity;
-    }
-    [gvc visitCityClicked:quest.cityId assetId:assetId];
+    [gvc visitCityClicked:jp.cityId assetId:jp.cityAssetNum];
     [self close:nil];
   }
 }
 
-- (void) doDonateForQuest:(int)questId {
+- (void) doDonateForQuest:(int)questId jobId:(int)jobId {
   GameState *gs = [GameState sharedGameState];
   FullQuestProto *fqp = [gs questForId:questId];
+  QuestJobProto *jp = [fqp jobForId:jobId];
   NSMutableArray *potentials = [NSMutableArray array];
   for (UserMonster *um in gs.myMonsters) {
-    if (um.monsterId == fqp.staticDataId && um.isDonatable) {
+    if (um.monsterId == jp.staticDataId && um.isDonatable) {
       [potentials addObject:um];
     }
   }
@@ -251,8 +181,8 @@
     }
   }];
   
-  if (potentials.count >= fqp.quantity) {
-    NSArray *ums = [potentials subarrayWithRange:NSMakeRange(0, fqp.quantity)];
+  if (potentials.count >= jp.quantity) {
+    NSArray *ums = [potentials subarrayWithRange:NSMakeRange(0, jp.quantity)];
     NSMutableArray *ids = [NSMutableArray array];
     int numOnTeam = 0;
     for (UserMonster *um in ums) {
@@ -264,6 +194,7 @@
     
     self.userMonsterIds = ids;
     
+    _donateJobId = jobId;
     if (numOnTeam) {
       NSString *desc = [NSString stringWithFormat:@"%@ of these mobsters %@ on your team. Would you still like to donate?", numOnTeam == 1 ? @"One" : numOnTeam == 2 ? @"Two" : @"Three", numOnTeam == 1 ? @"is" : @"are"];
       [GenericPopupController displayConfirmationWithDescription:desc title:@"Mobsters on Team" okayButton:@"Donate" cancelButton:@"Cancel" target:self selector:@selector(donateConfirmed)];
@@ -276,7 +207,7 @@
 - (void) donateConfirmed {
   GameState *gs = [GameState sharedGameState];
   FullQuestProto *quest = self.questDetailsViewController.quest;
-  UserQuest *uqNew = [[OutgoingEventController sharedOutgoingEventController] donateForQuest:quest.questId monsterIds:self.userMonsterIds];
+  UserQuest *uqNew = [[OutgoingEventController sharedOutgoingEventController] donateForQuest:quest.questId jobId:_donateJobId monsterIds:self.userMonsterIds];
   self.userMonsterIds = nil;
   if (uqNew.isComplete) {
     [UIView animateWithDuration:0.5f animations:^{
@@ -294,10 +225,6 @@
   GameState *gs = [GameState sharedGameState];
   [[OutgoingEventController sharedOutgoingEventController] redeemQuest:detailsVC.quest.questId delegate:self];
   [self.questListViewController reloadWithQuests:gs.allCurrentQuests userQuests:gs.myQuests];
-  
-  self.questDetailsViewController.spinner.hidden = NO;
-  self.questDetailsViewController.collectLabel.hidden = YES;
-  self.questDetailsViewController.completeView.userInteractionEnabled = NO;
 }
 
 #pragma mark - Redeem quest delegate

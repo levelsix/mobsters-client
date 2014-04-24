@@ -19,10 +19,11 @@
 #import "MiniTutorialController.h"
 #import "QuestUtil.h"
 #import "QuestLogViewController.h"
+#import "QuestCompleteLayer.h"
 
 @class TutorialController;
 
-@interface GameViewController : UIViewController <AttackMapDelegate, BattleLayerDelegate, CCDirectorDownloaderDelegate, DialogueViewControllerDelegate, ClanRaidDetailsDelegate, MiniTutorialDelegate, QuestUtilDelegate, QuestLogDelegate> {
+@interface GameViewController : UIViewController <AttackMapDelegate, BattleLayerDelegate, CCDirectorDownloaderDelegate, DialogueViewControllerDelegate, ClanRaidDetailsDelegate, MiniTutorialDelegate, QuestUtilDelegate, QuestLogDelegate, QuestCompleteDelegate> {
   int _questIdAfterDialogue;
   
   int _assetIdForMissionMap;
@@ -44,8 +45,11 @@
 @property (nonatomic, strong) TutorialController *tutController;
 @property (nonatomic, strong) MiniTutorialController *miniTutController;
 
+@property (nonatomic, strong) MinimumUserTaskProto *resumeUserTask;
+@property (nonatomic, strong) NSArray *resumeTaskStages;
+
 @property (nonatomic, strong) FullQuestProto *completedQuest;
-@property (nonatomic, strong) FullQuestProto *progressedQuest;
+@property (nonatomic, strong) QuestJobProto *progressedJob;
 
 + (id) baseController;
 

@@ -17,6 +17,6 @@
 @property (nonatomic, retain) IBOutlet UILabel *questLabel;
 @property (nonatomic, retain) IBOutlet UILabel *progressLabel;
 
-- (void) displayForQuest:(FullQuestProto *)quest userQuest:(UserQuest *)userQuest;
+- (void) displayForQuest:(FullQuestProto *)quest userQuest:(UserQuest *)userQuest jobId:(int)jobId;
 
 @end

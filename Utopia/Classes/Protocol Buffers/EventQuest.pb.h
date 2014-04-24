@@ -69,6 +69,8 @@
 @class QuestAcceptRequestProto_Builder;
 @class QuestAcceptResponseProto;
 @class QuestAcceptResponseProto_Builder;
+@class QuestJobProto;
+@class QuestJobProto_Builder;
 @class QuestProgressRequestProto;
 @class QuestProgressRequestProto_Builder;
 @class QuestProgressResponseProto;
@@ -113,6 +115,8 @@
 @class UserObstacleProto_Builder;
 @class UserPvpLeagueProto;
 @class UserPvpLeagueProto_Builder;
+@class UserQuestJobProto;
+@class UserQuestJobProto_Builder;
 typedef enum {
   QuestAcceptResponseProto_QuestAcceptStatusSuccess = 1,
   QuestAcceptResponseProto_QuestAcceptStatusFailNotAvailToUser = 2,
@@ -128,6 +132,7 @@ typedef enum {
   QuestProgressResponseProto_QuestProgressStatusFailDeleteAmountDoesNotMatchQuest = 3,
   QuestProgressResponseProto_QuestProgressStatusFailNonexistentUserMonsters = 4,
   QuestProgressResponseProto_QuestProgressStatusFailIncompleteUserMonsters = 5,
+  QuestProgressResponseProto_QuestProgressStatusFailQuestJobIncomplete = 7,
   QuestProgressResponseProto_QuestProgressStatusFailOther = 6,
 } QuestProgressResponseProto_QuestProgressStatus;
 
@@ -209,19 +214,15 @@ BOOL QuestRedeemResponseProto_QuestRedeemStatusIsValidValue(QuestRedeemResponseP
 
 @interface QuestAcceptResponseProto : PBGeneratedMessage {
 @private
-  BOOL hasCityIdOfAcceptedQuest_:1;
   BOOL hasSender_:1;
   BOOL hasStatus_:1;
-  int32_t cityIdOfAcceptedQuest;
   MinimumUserProto* sender;
   QuestAcceptResponseProto_QuestAcceptStatus status;
 }
 - (BOOL) hasSender;
 - (BOOL) hasStatus;
-- (BOOL) hasCityIdOfAcceptedQuest;
 @property (readonly, retain) MinimumUserProto* sender;
 @property (readonly) QuestAcceptResponseProto_QuestAcceptStatus status;
-@property (readonly) int32_t cityIdOfAcceptedQuest;
 
 + (QuestAcceptResponseProto*) defaultInstance;
 - (QuestAcceptResponseProto*) defaultInstance;
@@ -268,33 +269,36 @@ BOOL QuestRedeemResponseProto_QuestRedeemStatusIsValidValue(QuestRedeemResponseP
 - (QuestAcceptResponseProto_QuestAcceptStatus) status;
 - (QuestAcceptResponseProto_Builder*) setStatus:(QuestAcceptResponseProto_QuestAcceptStatus) value;
 - (QuestAcceptResponseProto_Builder*) clearStatus;
-
-- (BOOL) hasCityIdOfAcceptedQuest;
-- (int32_t) cityIdOfAcceptedQuest;
-- (QuestAcceptResponseProto_Builder*) setCityIdOfAcceptedQuest:(int32_t) value;
-- (QuestAcceptResponseProto_Builder*) clearCityIdOfAcceptedQuest;
 @end
 
 @interface QuestProgressRequestProto : PBGeneratedMessage {
 @private
   BOOL hasIsComplete_:1;
+  BOOL hasIsQuestJobComplete_:1;
   BOOL hasQuestId_:1;
+  BOOL hasQuestJobId_:1;
   BOOL hasCurrentProgress_:1;
   BOOL hasSender_:1;
   BOOL isComplete_:1;
+  BOOL isQuestJobComplete_:1;
   int32_t questId;
+  int32_t questJobId;
   int32_t currentProgress;
   MinimumUserProto* sender;
   NSMutableArray* mutableDeleteUserMonsterIdsList;
 }
 - (BOOL) hasSender;
 - (BOOL) hasQuestId;
-- (BOOL) hasCurrentProgress;
 - (BOOL) hasIsComplete;
+- (BOOL) hasQuestJobId;
+- (BOOL) hasCurrentProgress;
+- (BOOL) hasIsQuestJobComplete;
 @property (readonly, retain) MinimumUserProto* sender;
 @property (readonly) int32_t questId;
-@property (readonly) int32_t currentProgress;
 - (BOOL) isComplete;
+@property (readonly) int32_t questJobId;
+@property (readonly) int32_t currentProgress;
+- (BOOL) isQuestJobComplete;
 - (NSArray*) deleteUserMonsterIdsList;
 - (int64_t) deleteUserMonsterIdsAtIndex:(int32_t) index;
 
@@ -344,15 +348,25 @@ BOOL QuestRedeemResponseProto_QuestRedeemStatusIsValidValue(QuestRedeemResponseP
 - (QuestProgressRequestProto_Builder*) setQuestId:(int32_t) value;
 - (QuestProgressRequestProto_Builder*) clearQuestId;
 
+- (BOOL) hasIsComplete;
+- (BOOL) isComplete;
+- (QuestProgressRequestProto_Builder*) setIsComplete:(BOOL) value;
+- (QuestProgressRequestProto_Builder*) clearIsComplete;
+
+- (BOOL) hasQuestJobId;
+- (int32_t) questJobId;
+- (QuestProgressRequestProto_Builder*) setQuestJobId:(int32_t) value;
+- (QuestProgressRequestProto_Builder*) clearQuestJobId;
+
 - (BOOL) hasCurrentProgress;
 - (int32_t) currentProgress;
 - (QuestProgressRequestProto_Builder*) setCurrentProgress:(int32_t) value;
 - (QuestProgressRequestProto_Builder*) clearCurrentProgress;
 
-- (BOOL) hasIsComplete;
-- (BOOL) isComplete;
-- (QuestProgressRequestProto_Builder*) setIsComplete:(BOOL) value;
-- (QuestProgressRequestProto_Builder*) clearIsComplete;
+- (BOOL) hasIsQuestJobComplete;
+- (BOOL) isQuestJobComplete;
+- (QuestProgressRequestProto_Builder*) setIsQuestJobComplete:(BOOL) value;
+- (QuestProgressRequestProto_Builder*) clearIsQuestJobComplete;
 
 - (NSArray*) deleteUserMonsterIdsList;
 - (int64_t) deleteUserMonsterIdsAtIndex:(int32_t) index;

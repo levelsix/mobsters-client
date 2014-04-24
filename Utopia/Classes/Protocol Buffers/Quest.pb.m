@@ -24,15 +24,10 @@ static PBExtensionRegistry* extensionRegistry = nil;
 
 @interface FullQuestProto ()
 @property int32_t questId;
-@property int32_t cityId;
 @property (retain) NSString* name;
 @property (retain) NSString* description;
 @property (retain) NSString* doneResponse;
 @property (retain) DialogueProto* acceptDialogue;
-@property FullQuestProto_QuestType questType;
-@property (retain) NSString* jobDescription;
-@property int32_t staticDataId;
-@property int32_t quantity;
 @property int32_t cashReward;
 @property int32_t oilReward;
 @property int32_t gemReward;
@@ -44,9 +39,9 @@ static PBExtensionRegistry* extensionRegistry = nil;
 @property (retain) NSString* questGiverImagePrefix;
 @property int32_t priority;
 @property (retain) NSString* carrotId;
-@property BOOL isAchievement;
 @property (retain) CoordinateProto* questGiverImgOffset;
 @property MonsterProto_MonsterElement monsterElement;
+@property (retain) NSMutableArray* mutableJobsList;
 @end
 
 @implementation FullQuestProto
@@ -58,13 +53,6 @@ static PBExtensionRegistry* extensionRegistry = nil;
   hasQuestId_ = !!value;
 }
 @synthesize questId;
-- (BOOL) hasCityId {
-  return !!hasCityId_;
-}
-- (void) setHasCityId:(BOOL) value {
-  hasCityId_ = !!value;
-}
-@synthesize cityId;
 - (BOOL) hasName {
   return !!hasName_;
 }
@@ -93,34 +81,6 @@ static PBExtensionRegistry* extensionRegistry = nil;
   hasAcceptDialogue_ = !!value;
 }
 @synthesize acceptDialogue;
-- (BOOL) hasQuestType {
-  return !!hasQuestType_;
-}
-- (void) setHasQuestType:(BOOL) value {
-  hasQuestType_ = !!value;
-}
-@synthesize questType;
-- (BOOL) hasJobDescription {
-  return !!hasJobDescription_;
-}
-- (void) setHasJobDescription:(BOOL) value {
-  hasJobDescription_ = !!value;
-}
-@synthesize jobDescription;
-- (BOOL) hasStaticDataId {
-  return !!hasStaticDataId_;
-}
-- (void) setHasStaticDataId:(BOOL) value {
-  hasStaticDataId_ = !!value;
-}
-@synthesize staticDataId;
-- (BOOL) hasQuantity {
-  return !!hasQuantity_;
-}
-- (void) setHasQuantity:(BOOL) value {
-  hasQuantity_ = !!value;
-}
-@synthesize quantity;
 - (BOOL) hasCashReward {
   return !!hasCashReward_;
 }
@@ -197,18 +157,6 @@ static PBExtensionRegistry* extensionRegistry = nil;
   hasCarrotId_ = !!value;
 }
 @synthesize carrotId;
-- (BOOL) hasIsAchievement {
-  return !!hasIsAchievement_;
-}
-- (void) setHasIsAchievement:(BOOL) value {
-  hasIsAchievement_ = !!value;
-}
-- (BOOL) isAchievement {
-  return !!isAchievement_;
-}
-- (void) setIsAchievement:(BOOL) value {
-  isAchievement_ = !!value;
-}
 - (BOOL) hasQuestGiverImgOffset {
   return !!hasQuestGiverImgOffset_;
 }
@@ -223,31 +171,27 @@ static PBExtensionRegistry* extensionRegistry = nil;
   hasMonsterElement_ = !!value;
 }
 @synthesize monsterElement;
+@synthesize mutableJobsList;
 - (void) dealloc {
   self.name = nil;
   self.description = nil;
   self.doneResponse = nil;
   self.acceptDialogue = nil;
-  self.jobDescription = nil;
   self.mutableQuestsRequiredForThisList = nil;
   self.questGiverName = nil;
   self.questGiverImagePrefix = nil;
   self.carrotId = nil;
   self.questGiverImgOffset = nil;
+  self.mutableJobsList = nil;
   [super dealloc];
 }
 - (id) init {
   if ((self = [super init])) {
     self.questId = 0;
-    self.cityId = 0;
     self.name = @"";
     self.description = @"";
     self.doneResponse = @"";
     self.acceptDialogue = [DialogueProto defaultInstance];
-    self.questType = FullQuestProto_QuestTypeKillMonster;
-    self.jobDescription = @"";
-    self.staticDataId = 0;
-    self.quantity = 0;
     self.cashReward = 0;
     self.oilReward = 0;
     self.gemReward = 0;
@@ -258,7 +202,6 @@ static PBExtensionRegistry* extensionRegistry = nil;
     self.questGiverImagePrefix = @"";
     self.priority = 0;
     self.carrotId = @"";
-    self.isAchievement = NO;
     self.questGiverImgOffset = [CoordinateProto defaultInstance];
     self.monsterElement = MonsterProto_MonsterElementFire;
   }
@@ -283,6 +226,13 @@ static FullQuestProto* defaultFullQuestProtoInstance = nil;
   id value = [mutableQuestsRequiredForThisList objectAtIndex:index];
   return [value intValue];
 }
+- (NSArray*) jobsList {
+  return mutableJobsList;
+}
+- (QuestJobProto*) jobsAtIndex:(int32_t) index {
+  id value = [mutableJobsList objectAtIndex:index];
+  return value;
+}
 - (BOOL) isInitialized {
   return YES;
 }
@@ -290,74 +240,59 @@ static FullQuestProto* defaultFullQuestProtoInstance = nil;
   if (self.hasQuestId) {
     [output writeInt32:1 value:self.questId];
   }
-  if (self.hasCityId) {
-    [output writeInt32:2 value:self.cityId];
-  }
   if (self.hasName) {
-    [output writeString:3 value:self.name];
+    [output writeString:2 value:self.name];
   }
   if (self.hasDescription) {
-    [output writeString:4 value:self.description];
+    [output writeString:3 value:self.description];
   }
   if (self.hasDoneResponse) {
-    [output writeString:5 value:self.doneResponse];
+    [output writeString:4 value:self.doneResponse];
   }
   if (self.hasAcceptDialogue) {
-    [output writeMessage:6 value:self.acceptDialogue];
-  }
-  if (self.hasQuestType) {
-    [output writeEnum:7 value:self.questType];
-  }
-  if (self.hasJobDescription) {
-    [output writeString:8 value:self.jobDescription];
-  }
-  if (self.hasStaticDataId) {
-    [output writeInt32:9 value:self.staticDataId];
-  }
-  if (self.hasQuantity) {
-    [output writeInt32:10 value:self.quantity];
+    [output writeMessage:5 value:self.acceptDialogue];
   }
   if (self.hasCashReward) {
-    [output writeInt32:11 value:self.cashReward];
-  }
-  if (self.hasGemReward) {
-    [output writeInt32:12 value:self.gemReward];
-  }
-  if (self.hasExpReward) {
-    [output writeInt32:13 value:self.expReward];
-  }
-  if (self.hasMonsterIdReward) {
-    [output writeInt32:14 value:self.monsterIdReward];
-  }
-  if (self.hasIsCompleteMonster) {
-    [output writeBool:15 value:self.isCompleteMonster];
-  }
-  for (NSNumber* value in self.mutableQuestsRequiredForThisList) {
-    [output writeInt32:16 value:[value intValue]];
-  }
-  if (self.hasQuestGiverImagePrefix) {
-    [output writeString:17 value:self.questGiverImagePrefix];
-  }
-  if (self.hasPriority) {
-    [output writeInt32:18 value:self.priority];
-  }
-  if (self.hasCarrotId) {
-    [output writeString:19 value:self.carrotId];
-  }
-  if (self.hasIsAchievement) {
-    [output writeBool:20 value:self.isAchievement];
-  }
-  if (self.hasQuestGiverImgOffset) {
-    [output writeMessage:21 value:self.questGiverImgOffset];
+    [output writeInt32:6 value:self.cashReward];
   }
   if (self.hasOilReward) {
-    [output writeInt32:22 value:self.oilReward];
+    [output writeInt32:7 value:self.oilReward];
   }
-  if (self.hasMonsterElement) {
-    [output writeEnum:23 value:self.monsterElement];
+  if (self.hasGemReward) {
+    [output writeInt32:8 value:self.gemReward];
+  }
+  if (self.hasExpReward) {
+    [output writeInt32:9 value:self.expReward];
+  }
+  if (self.hasMonsterIdReward) {
+    [output writeInt32:10 value:self.monsterIdReward];
+  }
+  if (self.hasIsCompleteMonster) {
+    [output writeBool:11 value:self.isCompleteMonster];
+  }
+  for (NSNumber* value in self.mutableQuestsRequiredForThisList) {
+    [output writeInt32:12 value:[value intValue]];
   }
   if (self.hasQuestGiverName) {
-    [output writeString:24 value:self.questGiverName];
+    [output writeString:13 value:self.questGiverName];
+  }
+  if (self.hasQuestGiverImagePrefix) {
+    [output writeString:14 value:self.questGiverImagePrefix];
+  }
+  if (self.hasPriority) {
+    [output writeInt32:15 value:self.priority];
+  }
+  if (self.hasCarrotId) {
+    [output writeString:16 value:self.carrotId];
+  }
+  if (self.hasQuestGiverImgOffset) {
+    [output writeMessage:17 value:self.questGiverImgOffset];
+  }
+  if (self.hasMonsterElement) {
+    [output writeEnum:19 value:self.monsterElement];
+  }
+  for (QuestJobProto* element in self.jobsList) {
+    [output writeMessage:21 value:element];
   }
   [self.unknownFields writeToCodedOutputStream:output];
 }
@@ -371,47 +306,35 @@ static FullQuestProto* defaultFullQuestProtoInstance = nil;
   if (self.hasQuestId) {
     size += computeInt32Size(1, self.questId);
   }
-  if (self.hasCityId) {
-    size += computeInt32Size(2, self.cityId);
-  }
   if (self.hasName) {
-    size += computeStringSize(3, self.name);
+    size += computeStringSize(2, self.name);
   }
   if (self.hasDescription) {
-    size += computeStringSize(4, self.description);
+    size += computeStringSize(3, self.description);
   }
   if (self.hasDoneResponse) {
-    size += computeStringSize(5, self.doneResponse);
+    size += computeStringSize(4, self.doneResponse);
   }
   if (self.hasAcceptDialogue) {
-    size += computeMessageSize(6, self.acceptDialogue);
-  }
-  if (self.hasQuestType) {
-    size += computeEnumSize(7, self.questType);
-  }
-  if (self.hasJobDescription) {
-    size += computeStringSize(8, self.jobDescription);
-  }
-  if (self.hasStaticDataId) {
-    size += computeInt32Size(9, self.staticDataId);
-  }
-  if (self.hasQuantity) {
-    size += computeInt32Size(10, self.quantity);
+    size += computeMessageSize(5, self.acceptDialogue);
   }
   if (self.hasCashReward) {
-    size += computeInt32Size(11, self.cashReward);
+    size += computeInt32Size(6, self.cashReward);
+  }
+  if (self.hasOilReward) {
+    size += computeInt32Size(7, self.oilReward);
   }
   if (self.hasGemReward) {
-    size += computeInt32Size(12, self.gemReward);
+    size += computeInt32Size(8, self.gemReward);
   }
   if (self.hasExpReward) {
-    size += computeInt32Size(13, self.expReward);
+    size += computeInt32Size(9, self.expReward);
   }
   if (self.hasMonsterIdReward) {
-    size += computeInt32Size(14, self.monsterIdReward);
+    size += computeInt32Size(10, self.monsterIdReward);
   }
   if (self.hasIsCompleteMonster) {
-    size += computeBoolSize(15, self.isCompleteMonster);
+    size += computeBoolSize(11, self.isCompleteMonster);
   }
   {
     int32_t dataSize = 0;
@@ -419,31 +342,28 @@ static FullQuestProto* defaultFullQuestProtoInstance = nil;
       dataSize += computeInt32SizeNoTag([value intValue]);
     }
     size += dataSize;
-    size += 2 * self.mutableQuestsRequiredForThisList.count;
-  }
-  if (self.hasQuestGiverImagePrefix) {
-    size += computeStringSize(17, self.questGiverImagePrefix);
-  }
-  if (self.hasPriority) {
-    size += computeInt32Size(18, self.priority);
-  }
-  if (self.hasCarrotId) {
-    size += computeStringSize(19, self.carrotId);
-  }
-  if (self.hasIsAchievement) {
-    size += computeBoolSize(20, self.isAchievement);
-  }
-  if (self.hasQuestGiverImgOffset) {
-    size += computeMessageSize(21, self.questGiverImgOffset);
-  }
-  if (self.hasOilReward) {
-    size += computeInt32Size(22, self.oilReward);
-  }
-  if (self.hasMonsterElement) {
-    size += computeEnumSize(23, self.monsterElement);
+    size += 1 * self.mutableQuestsRequiredForThisList.count;
   }
   if (self.hasQuestGiverName) {
-    size += computeStringSize(24, self.questGiverName);
+    size += computeStringSize(13, self.questGiverName);
+  }
+  if (self.hasQuestGiverImagePrefix) {
+    size += computeStringSize(14, self.questGiverImagePrefix);
+  }
+  if (self.hasPriority) {
+    size += computeInt32Size(15, self.priority);
+  }
+  if (self.hasCarrotId) {
+    size += computeStringSize(16, self.carrotId);
+  }
+  if (self.hasQuestGiverImgOffset) {
+    size += computeMessageSize(17, self.questGiverImgOffset);
+  }
+  if (self.hasMonsterElement) {
+    size += computeEnumSize(19, self.monsterElement);
+  }
+  for (QuestJobProto* element in self.jobsList) {
+    size += computeMessageSize(21, element);
   }
   size += self.unknownFields.serializedSize;
   memoizedSerializedSize = size;
@@ -478,21 +398,6 @@ static FullQuestProto* defaultFullQuestProtoInstance = nil;
 }
 @end
 
-BOOL FullQuestProto_QuestTypeIsValidValue(FullQuestProto_QuestType value) {
-  switch (value) {
-    case FullQuestProto_QuestTypeKillMonster:
-    case FullQuestProto_QuestTypeDonateMonster:
-    case FullQuestProto_QuestTypeCompleteTask:
-    case FullQuestProto_QuestTypeCollectCoinsFromHome:
-    case FullQuestProto_QuestTypeBuildStruct:
-    case FullQuestProto_QuestTypeUpgradeStruct:
-    case FullQuestProto_QuestTypeMonsterAppear:
-    case FullQuestProto_QuestTypeCollectSpecialItem:
-      return YES;
-    default:
-      return NO;
-  }
-}
 @interface FullQuestProto_Builder()
 @property (retain) FullQuestProto* result;
 @end
@@ -538,9 +443,6 @@ BOOL FullQuestProto_QuestTypeIsValidValue(FullQuestProto_QuestType value) {
   if (other.hasQuestId) {
     [self setQuestId:other.questId];
   }
-  if (other.hasCityId) {
-    [self setCityId:other.cityId];
-  }
   if (other.hasName) {
     [self setName:other.name];
   }
@@ -552,18 +454,6 @@ BOOL FullQuestProto_QuestTypeIsValidValue(FullQuestProto_QuestType value) {
   }
   if (other.hasAcceptDialogue) {
     [self mergeAcceptDialogue:other.acceptDialogue];
-  }
-  if (other.hasQuestType) {
-    [self setQuestType:other.questType];
-  }
-  if (other.hasJobDescription) {
-    [self setJobDescription:other.jobDescription];
-  }
-  if (other.hasStaticDataId) {
-    [self setStaticDataId:other.staticDataId];
-  }
-  if (other.hasQuantity) {
-    [self setQuantity:other.quantity];
   }
   if (other.hasCashReward) {
     [self setCashReward:other.cashReward];
@@ -601,14 +491,17 @@ BOOL FullQuestProto_QuestTypeIsValidValue(FullQuestProto_QuestType value) {
   if (other.hasCarrotId) {
     [self setCarrotId:other.carrotId];
   }
-  if (other.hasIsAchievement) {
-    [self setIsAchievement:other.isAchievement];
-  }
   if (other.hasQuestGiverImgOffset) {
     [self mergeQuestGiverImgOffset:other.questGiverImgOffset];
   }
   if (other.hasMonsterElement) {
     [self setMonsterElement:other.monsterElement];
+  }
+  if (other.mutableJobsList.count > 0) {
+    if (result.mutableJobsList == nil) {
+      result.mutableJobsList = [NSMutableArray array];
+    }
+    [result.mutableJobsList addObjectsFromArray:other.mutableJobsList];
   }
   [self mergeUnknownFields:other.unknownFields];
   return self;
@@ -635,23 +528,19 @@ BOOL FullQuestProto_QuestTypeIsValidValue(FullQuestProto_QuestType value) {
         [self setQuestId:[input readInt32]];
         break;
       }
-      case 16: {
-        [self setCityId:[input readInt32]];
-        break;
-      }
-      case 26: {
+      case 18: {
         [self setName:[input readString]];
         break;
       }
-      case 34: {
+      case 26: {
         [self setDescription:[input readString]];
         break;
       }
-      case 42: {
+      case 34: {
         [self setDoneResponse:[input readString]];
         break;
       }
-      case 50: {
+      case 42: {
         DialogueProto_Builder* subBuilder = [DialogueProto builder];
         if (self.hasAcceptDialogue) {
           [subBuilder mergeFrom:self.acceptDialogue];
@@ -660,68 +549,51 @@ BOOL FullQuestProto_QuestTypeIsValidValue(FullQuestProto_QuestType value) {
         [self setAcceptDialogue:[subBuilder buildPartial]];
         break;
       }
-      case 56: {
-        int32_t value = [input readEnum];
-        if (FullQuestProto_QuestTypeIsValidValue(value)) {
-          [self setQuestType:value];
-        } else {
-          [unknownFields mergeVarintField:7 value:value];
-        }
-        break;
-      }
-      case 66: {
-        [self setJobDescription:[input readString]];
-        break;
-      }
-      case 72: {
-        [self setStaticDataId:[input readInt32]];
-        break;
-      }
-      case 80: {
-        [self setQuantity:[input readInt32]];
-        break;
-      }
-      case 88: {
+      case 48: {
         [self setCashReward:[input readInt32]];
         break;
       }
-      case 96: {
+      case 56: {
+        [self setOilReward:[input readInt32]];
+        break;
+      }
+      case 64: {
         [self setGemReward:[input readInt32]];
         break;
       }
-      case 104: {
+      case 72: {
         [self setExpReward:[input readInt32]];
         break;
       }
-      case 112: {
+      case 80: {
         [self setMonsterIdReward:[input readInt32]];
         break;
       }
-      case 120: {
+      case 88: {
         [self setIsCompleteMonster:[input readBool]];
         break;
       }
-      case 128: {
+      case 96: {
         [self addQuestsRequiredForThis:[input readInt32]];
         break;
       }
-      case 138: {
+      case 106: {
+        [self setQuestGiverName:[input readString]];
+        break;
+      }
+      case 114: {
         [self setQuestGiverImagePrefix:[input readString]];
         break;
       }
-      case 144: {
+      case 120: {
         [self setPriority:[input readInt32]];
         break;
       }
-      case 154: {
+      case 130: {
         [self setCarrotId:[input readString]];
         break;
       }
-      case 160: {
-        [self setIsAchievement:[input readBool]];
-        break;
-      }
-      case 170: {
+      case 138: {
         CoordinateProto_Builder* subBuilder = [CoordinateProto builder];
         if (self.hasQuestGiverImgOffset) {
           [subBuilder mergeFrom:self.questGiverImgOffset];
@@ -730,21 +602,19 @@ BOOL FullQuestProto_QuestTypeIsValidValue(FullQuestProto_QuestType value) {
         [self setQuestGiverImgOffset:[subBuilder buildPartial]];
         break;
       }
-      case 176: {
-        [self setOilReward:[input readInt32]];
-        break;
-      }
-      case 184: {
+      case 152: {
         int32_t value = [input readEnum];
         if (MonsterProto_MonsterElementIsValidValue(value)) {
           [self setMonsterElement:value];
         } else {
-          [unknownFields mergeVarintField:23 value:value];
+          [unknownFields mergeVarintField:19 value:value];
         }
         break;
       }
-      case 194: {
-        [self setQuestGiverName:[input readString]];
+      case 170: {
+        QuestJobProto_Builder* subBuilder = [QuestJobProto builder];
+        [input readMessage:subBuilder extensionRegistry:extensionRegistry];
+        [self addJobs:[subBuilder buildPartial]];
         break;
       }
     }
@@ -764,22 +634,6 @@ BOOL FullQuestProto_QuestTypeIsValidValue(FullQuestProto_QuestType value) {
 - (FullQuestProto_Builder*) clearQuestId {
   result.hasQuestId = NO;
   result.questId = 0;
-  return self;
-}
-- (BOOL) hasCityId {
-  return result.hasCityId;
-}
-- (int32_t) cityId {
-  return result.cityId;
-}
-- (FullQuestProto_Builder*) setCityId:(int32_t) value {
-  result.hasCityId = YES;
-  result.cityId = value;
-  return self;
-}
-- (FullQuestProto_Builder*) clearCityId {
-  result.hasCityId = NO;
-  result.cityId = 0;
   return self;
 }
 - (BOOL) hasName {
@@ -858,70 +712,6 @@ BOOL FullQuestProto_QuestTypeIsValidValue(FullQuestProto_QuestType value) {
 - (FullQuestProto_Builder*) clearAcceptDialogue {
   result.hasAcceptDialogue = NO;
   result.acceptDialogue = [DialogueProto defaultInstance];
-  return self;
-}
-- (BOOL) hasQuestType {
-  return result.hasQuestType;
-}
-- (FullQuestProto_QuestType) questType {
-  return result.questType;
-}
-- (FullQuestProto_Builder*) setQuestType:(FullQuestProto_QuestType) value {
-  result.hasQuestType = YES;
-  result.questType = value;
-  return self;
-}
-- (FullQuestProto_Builder*) clearQuestType {
-  result.hasQuestType = NO;
-  result.questType = FullQuestProto_QuestTypeKillMonster;
-  return self;
-}
-- (BOOL) hasJobDescription {
-  return result.hasJobDescription;
-}
-- (NSString*) jobDescription {
-  return result.jobDescription;
-}
-- (FullQuestProto_Builder*) setJobDescription:(NSString*) value {
-  result.hasJobDescription = YES;
-  result.jobDescription = value;
-  return self;
-}
-- (FullQuestProto_Builder*) clearJobDescription {
-  result.hasJobDescription = NO;
-  result.jobDescription = @"";
-  return self;
-}
-- (BOOL) hasStaticDataId {
-  return result.hasStaticDataId;
-}
-- (int32_t) staticDataId {
-  return result.staticDataId;
-}
-- (FullQuestProto_Builder*) setStaticDataId:(int32_t) value {
-  result.hasStaticDataId = YES;
-  result.staticDataId = value;
-  return self;
-}
-- (FullQuestProto_Builder*) clearStaticDataId {
-  result.hasStaticDataId = NO;
-  result.staticDataId = 0;
-  return self;
-}
-- (BOOL) hasQuantity {
-  return result.hasQuantity;
-}
-- (int32_t) quantity {
-  return result.quantity;
-}
-- (FullQuestProto_Builder*) setQuantity:(int32_t) value {
-  result.hasQuantity = YES;
-  result.quantity = value;
-  return self;
-}
-- (FullQuestProto_Builder*) clearQuantity {
-  result.hasQuantity = NO;
-  result.quantity = 0;
   return self;
 }
 - (BOOL) hasCashReward {
@@ -1115,22 +905,6 @@ BOOL FullQuestProto_QuestTypeIsValidValue(FullQuestProto_QuestType value) {
   result.carrotId = @"";
   return self;
 }
-- (BOOL) hasIsAchievement {
-  return result.hasIsAchievement;
-}
-- (BOOL) isAchievement {
-  return result.isAchievement;
-}
-- (FullQuestProto_Builder*) setIsAchievement:(BOOL) value {
-  result.hasIsAchievement = YES;
-  result.isAchievement = value;
-  return self;
-}
-- (FullQuestProto_Builder*) clearIsAchievement {
-  result.hasIsAchievement = NO;
-  result.isAchievement = NO;
-  return self;
-}
 - (BOOL) hasQuestGiverImgOffset {
   return result.hasQuestGiverImgOffset;
 }
@@ -1175,6 +949,535 @@ BOOL FullQuestProto_QuestTypeIsValidValue(FullQuestProto_QuestType value) {
 - (FullQuestProto_Builder*) clearMonsterElement {
   result.hasMonsterElement = NO;
   result.monsterElement = MonsterProto_MonsterElementFire;
+  return self;
+}
+- (NSArray*) jobsList {
+  if (result.mutableJobsList == nil) { return [NSArray array]; }
+  return result.mutableJobsList;
+}
+- (QuestJobProto*) jobsAtIndex:(int32_t) index {
+  return [result jobsAtIndex:index];
+}
+- (FullQuestProto_Builder*) replaceJobsAtIndex:(int32_t) index with:(QuestJobProto*) value {
+  [result.mutableJobsList replaceObjectAtIndex:index withObject:value];
+  return self;
+}
+- (FullQuestProto_Builder*) addAllJobs:(NSArray*) values {
+  if (result.mutableJobsList == nil) {
+    result.mutableJobsList = [NSMutableArray array];
+  }
+  [result.mutableJobsList addObjectsFromArray:values];
+  return self;
+}
+- (FullQuestProto_Builder*) clearJobsList {
+  result.mutableJobsList = nil;
+  return self;
+}
+- (FullQuestProto_Builder*) addJobs:(QuestJobProto*) value {
+  if (result.mutableJobsList == nil) {
+    result.mutableJobsList = [NSMutableArray array];
+  }
+  [result.mutableJobsList addObject:value];
+  return self;
+}
+@end
+
+@interface QuestJobProto ()
+@property int32_t questJobId;
+@property int32_t questId;
+@property QuestJobProto_QuestJobType questJobType;
+@property (retain) NSString* description;
+@property int32_t staticDataId;
+@property int32_t quantity;
+@property int32_t priority;
+@property int32_t cityId;
+@property int32_t cityAssetNum;
+@end
+
+@implementation QuestJobProto
+
+- (BOOL) hasQuestJobId {
+  return !!hasQuestJobId_;
+}
+- (void) setHasQuestJobId:(BOOL) value {
+  hasQuestJobId_ = !!value;
+}
+@synthesize questJobId;
+- (BOOL) hasQuestId {
+  return !!hasQuestId_;
+}
+- (void) setHasQuestId:(BOOL) value {
+  hasQuestId_ = !!value;
+}
+@synthesize questId;
+- (BOOL) hasQuestJobType {
+  return !!hasQuestJobType_;
+}
+- (void) setHasQuestJobType:(BOOL) value {
+  hasQuestJobType_ = !!value;
+}
+@synthesize questJobType;
+- (BOOL) hasDescription {
+  return !!hasDescription_;
+}
+- (void) setHasDescription:(BOOL) value {
+  hasDescription_ = !!value;
+}
+@synthesize description;
+- (BOOL) hasStaticDataId {
+  return !!hasStaticDataId_;
+}
+- (void) setHasStaticDataId:(BOOL) value {
+  hasStaticDataId_ = !!value;
+}
+@synthesize staticDataId;
+- (BOOL) hasQuantity {
+  return !!hasQuantity_;
+}
+- (void) setHasQuantity:(BOOL) value {
+  hasQuantity_ = !!value;
+}
+@synthesize quantity;
+- (BOOL) hasPriority {
+  return !!hasPriority_;
+}
+- (void) setHasPriority:(BOOL) value {
+  hasPriority_ = !!value;
+}
+@synthesize priority;
+- (BOOL) hasCityId {
+  return !!hasCityId_;
+}
+- (void) setHasCityId:(BOOL) value {
+  hasCityId_ = !!value;
+}
+@synthesize cityId;
+- (BOOL) hasCityAssetNum {
+  return !!hasCityAssetNum_;
+}
+- (void) setHasCityAssetNum:(BOOL) value {
+  hasCityAssetNum_ = !!value;
+}
+@synthesize cityAssetNum;
+- (void) dealloc {
+  self.description = nil;
+  [super dealloc];
+}
+- (id) init {
+  if ((self = [super init])) {
+    self.questJobId = 0;
+    self.questId = 0;
+    self.questJobType = QuestJobProto_QuestJobTypeKillSpecificMonster;
+    self.description = @"";
+    self.staticDataId = 0;
+    self.quantity = 0;
+    self.priority = 0;
+    self.cityId = 0;
+    self.cityAssetNum = 0;
+  }
+  return self;
+}
+static QuestJobProto* defaultQuestJobProtoInstance = nil;
++ (void) initialize {
+  if (self == [QuestJobProto class]) {
+    defaultQuestJobProtoInstance = [[QuestJobProto alloc] init];
+  }
+}
++ (QuestJobProto*) defaultInstance {
+  return defaultQuestJobProtoInstance;
+}
+- (QuestJobProto*) defaultInstance {
+  return defaultQuestJobProtoInstance;
+}
+- (BOOL) isInitialized {
+  return YES;
+}
+- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output {
+  if (self.hasQuestJobId) {
+    [output writeInt32:1 value:self.questJobId];
+  }
+  if (self.hasQuestId) {
+    [output writeInt32:2 value:self.questId];
+  }
+  if (self.hasQuestJobType) {
+    [output writeEnum:3 value:self.questJobType];
+  }
+  if (self.hasDescription) {
+    [output writeString:4 value:self.description];
+  }
+  if (self.hasStaticDataId) {
+    [output writeInt32:5 value:self.staticDataId];
+  }
+  if (self.hasQuantity) {
+    [output writeInt32:6 value:self.quantity];
+  }
+  if (self.hasPriority) {
+    [output writeInt32:7 value:self.priority];
+  }
+  if (self.hasCityId) {
+    [output writeInt32:8 value:self.cityId];
+  }
+  if (self.hasCityAssetNum) {
+    [output writeInt32:9 value:self.cityAssetNum];
+  }
+  [self.unknownFields writeToCodedOutputStream:output];
+}
+- (int32_t) serializedSize {
+  int32_t size = memoizedSerializedSize;
+  if (size != -1) {
+    return size;
+  }
+
+  size = 0;
+  if (self.hasQuestJobId) {
+    size += computeInt32Size(1, self.questJobId);
+  }
+  if (self.hasQuestId) {
+    size += computeInt32Size(2, self.questId);
+  }
+  if (self.hasQuestJobType) {
+    size += computeEnumSize(3, self.questJobType);
+  }
+  if (self.hasDescription) {
+    size += computeStringSize(4, self.description);
+  }
+  if (self.hasStaticDataId) {
+    size += computeInt32Size(5, self.staticDataId);
+  }
+  if (self.hasQuantity) {
+    size += computeInt32Size(6, self.quantity);
+  }
+  if (self.hasPriority) {
+    size += computeInt32Size(7, self.priority);
+  }
+  if (self.hasCityId) {
+    size += computeInt32Size(8, self.cityId);
+  }
+  if (self.hasCityAssetNum) {
+    size += computeInt32Size(9, self.cityAssetNum);
+  }
+  size += self.unknownFields.serializedSize;
+  memoizedSerializedSize = size;
+  return size;
+}
++ (QuestJobProto*) parseFromData:(NSData*) data {
+  return (QuestJobProto*)[[[QuestJobProto builder] mergeFromData:data] build];
+}
++ (QuestJobProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (QuestJobProto*)[[[QuestJobProto builder] mergeFromData:data extensionRegistry:extensionRegistry] build];
+}
++ (QuestJobProto*) parseFromInputStream:(NSInputStream*) input {
+  return (QuestJobProto*)[[[QuestJobProto builder] mergeFromInputStream:input] build];
+}
++ (QuestJobProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (QuestJobProto*)[[[QuestJobProto builder] mergeFromInputStream:input extensionRegistry:extensionRegistry] build];
+}
++ (QuestJobProto*) parseFromCodedInputStream:(PBCodedInputStream*) input {
+  return (QuestJobProto*)[[[QuestJobProto builder] mergeFromCodedInputStream:input] build];
+}
++ (QuestJobProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (QuestJobProto*)[[[QuestJobProto builder] mergeFromCodedInputStream:input extensionRegistry:extensionRegistry] build];
+}
++ (QuestJobProto_Builder*) builder {
+  return [[[QuestJobProto_Builder alloc] init] autorelease];
+}
++ (QuestJobProto_Builder*) builderWithPrototype:(QuestJobProto*) prototype {
+  return [[QuestJobProto builder] mergeFrom:prototype];
+}
+- (QuestJobProto_Builder*) builder {
+  return [QuestJobProto builder];
+}
+@end
+
+BOOL QuestJobProto_QuestJobTypeIsValidValue(QuestJobProto_QuestJobType value) {
+  switch (value) {
+    case QuestJobProto_QuestJobTypeKillSpecificMonster:
+    case QuestJobProto_QuestJobTypeKillMonsterInCity:
+    case QuestJobProto_QuestJobTypeDonateMonster:
+    case QuestJobProto_QuestJobTypeCompleteTask:
+    case QuestJobProto_QuestJobTypeUpgradeStruct:
+    case QuestJobProto_QuestJobTypeCollectSpecialItem:
+      return YES;
+    default:
+      return NO;
+  }
+}
+@interface QuestJobProto_Builder()
+@property (retain) QuestJobProto* result;
+@end
+
+@implementation QuestJobProto_Builder
+@synthesize result;
+- (void) dealloc {
+  self.result = nil;
+  [super dealloc];
+}
+- (id) init {
+  if ((self = [super init])) {
+    self.result = [[[QuestJobProto alloc] init] autorelease];
+  }
+  return self;
+}
+- (PBGeneratedMessage*) internalGetResult {
+  return result;
+}
+- (QuestJobProto_Builder*) clear {
+  self.result = [[[QuestJobProto alloc] init] autorelease];
+  return self;
+}
+- (QuestJobProto_Builder*) clone {
+  return [QuestJobProto builderWithPrototype:result];
+}
+- (QuestJobProto*) defaultInstance {
+  return [QuestJobProto defaultInstance];
+}
+- (QuestJobProto*) build {
+  [self checkInitialized];
+  return [self buildPartial];
+}
+- (QuestJobProto*) buildPartial {
+  QuestJobProto* returnMe = [[result retain] autorelease];
+  self.result = nil;
+  return returnMe;
+}
+- (QuestJobProto_Builder*) mergeFrom:(QuestJobProto*) other {
+  if (other == [QuestJobProto defaultInstance]) {
+    return self;
+  }
+  if (other.hasQuestJobId) {
+    [self setQuestJobId:other.questJobId];
+  }
+  if (other.hasQuestId) {
+    [self setQuestId:other.questId];
+  }
+  if (other.hasQuestJobType) {
+    [self setQuestJobType:other.questJobType];
+  }
+  if (other.hasDescription) {
+    [self setDescription:other.description];
+  }
+  if (other.hasStaticDataId) {
+    [self setStaticDataId:other.staticDataId];
+  }
+  if (other.hasQuantity) {
+    [self setQuantity:other.quantity];
+  }
+  if (other.hasPriority) {
+    [self setPriority:other.priority];
+  }
+  if (other.hasCityId) {
+    [self setCityId:other.cityId];
+  }
+  if (other.hasCityAssetNum) {
+    [self setCityAssetNum:other.cityAssetNum];
+  }
+  [self mergeUnknownFields:other.unknownFields];
+  return self;
+}
+- (QuestJobProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input {
+  return [self mergeFromCodedInputStream:input extensionRegistry:[PBExtensionRegistry emptyRegistry]];
+}
+- (QuestJobProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  PBUnknownFieldSet_Builder* unknownFields = [PBUnknownFieldSet builderWithUnknownFields:self.unknownFields];
+  while (YES) {
+    int32_t tag = [input readTag];
+    switch (tag) {
+      case 0:
+        [self setUnknownFields:[unknownFields build]];
+        return self;
+      default: {
+        if (![self parseUnknownField:input unknownFields:unknownFields extensionRegistry:extensionRegistry tag:tag]) {
+          [self setUnknownFields:[unknownFields build]];
+          return self;
+        }
+        break;
+      }
+      case 8: {
+        [self setQuestJobId:[input readInt32]];
+        break;
+      }
+      case 16: {
+        [self setQuestId:[input readInt32]];
+        break;
+      }
+      case 24: {
+        int32_t value = [input readEnum];
+        if (QuestJobProto_QuestJobTypeIsValidValue(value)) {
+          [self setQuestJobType:value];
+        } else {
+          [unknownFields mergeVarintField:3 value:value];
+        }
+        break;
+      }
+      case 34: {
+        [self setDescription:[input readString]];
+        break;
+      }
+      case 40: {
+        [self setStaticDataId:[input readInt32]];
+        break;
+      }
+      case 48: {
+        [self setQuantity:[input readInt32]];
+        break;
+      }
+      case 56: {
+        [self setPriority:[input readInt32]];
+        break;
+      }
+      case 64: {
+        [self setCityId:[input readInt32]];
+        break;
+      }
+      case 72: {
+        [self setCityAssetNum:[input readInt32]];
+        break;
+      }
+    }
+  }
+}
+- (BOOL) hasQuestJobId {
+  return result.hasQuestJobId;
+}
+- (int32_t) questJobId {
+  return result.questJobId;
+}
+- (QuestJobProto_Builder*) setQuestJobId:(int32_t) value {
+  result.hasQuestJobId = YES;
+  result.questJobId = value;
+  return self;
+}
+- (QuestJobProto_Builder*) clearQuestJobId {
+  result.hasQuestJobId = NO;
+  result.questJobId = 0;
+  return self;
+}
+- (BOOL) hasQuestId {
+  return result.hasQuestId;
+}
+- (int32_t) questId {
+  return result.questId;
+}
+- (QuestJobProto_Builder*) setQuestId:(int32_t) value {
+  result.hasQuestId = YES;
+  result.questId = value;
+  return self;
+}
+- (QuestJobProto_Builder*) clearQuestId {
+  result.hasQuestId = NO;
+  result.questId = 0;
+  return self;
+}
+- (BOOL) hasQuestJobType {
+  return result.hasQuestJobType;
+}
+- (QuestJobProto_QuestJobType) questJobType {
+  return result.questJobType;
+}
+- (QuestJobProto_Builder*) setQuestJobType:(QuestJobProto_QuestJobType) value {
+  result.hasQuestJobType = YES;
+  result.questJobType = value;
+  return self;
+}
+- (QuestJobProto_Builder*) clearQuestJobType {
+  result.hasQuestJobType = NO;
+  result.questJobType = QuestJobProto_QuestJobTypeKillSpecificMonster;
+  return self;
+}
+- (BOOL) hasDescription {
+  return result.hasDescription;
+}
+- (NSString*) description {
+  return result.description;
+}
+- (QuestJobProto_Builder*) setDescription:(NSString*) value {
+  result.hasDescription = YES;
+  result.description = value;
+  return self;
+}
+- (QuestJobProto_Builder*) clearDescription {
+  result.hasDescription = NO;
+  result.description = @"";
+  return self;
+}
+- (BOOL) hasStaticDataId {
+  return result.hasStaticDataId;
+}
+- (int32_t) staticDataId {
+  return result.staticDataId;
+}
+- (QuestJobProto_Builder*) setStaticDataId:(int32_t) value {
+  result.hasStaticDataId = YES;
+  result.staticDataId = value;
+  return self;
+}
+- (QuestJobProto_Builder*) clearStaticDataId {
+  result.hasStaticDataId = NO;
+  result.staticDataId = 0;
+  return self;
+}
+- (BOOL) hasQuantity {
+  return result.hasQuantity;
+}
+- (int32_t) quantity {
+  return result.quantity;
+}
+- (QuestJobProto_Builder*) setQuantity:(int32_t) value {
+  result.hasQuantity = YES;
+  result.quantity = value;
+  return self;
+}
+- (QuestJobProto_Builder*) clearQuantity {
+  result.hasQuantity = NO;
+  result.quantity = 0;
+  return self;
+}
+- (BOOL) hasPriority {
+  return result.hasPriority;
+}
+- (int32_t) priority {
+  return result.priority;
+}
+- (QuestJobProto_Builder*) setPriority:(int32_t) value {
+  result.hasPriority = YES;
+  result.priority = value;
+  return self;
+}
+- (QuestJobProto_Builder*) clearPriority {
+  result.hasPriority = NO;
+  result.priority = 0;
+  return self;
+}
+- (BOOL) hasCityId {
+  return result.hasCityId;
+}
+- (int32_t) cityId {
+  return result.cityId;
+}
+- (QuestJobProto_Builder*) setCityId:(int32_t) value {
+  result.hasCityId = YES;
+  result.cityId = value;
+  return self;
+}
+- (QuestJobProto_Builder*) clearCityId {
+  result.hasCityId = NO;
+  result.cityId = 0;
+  return self;
+}
+- (BOOL) hasCityAssetNum {
+  return result.hasCityAssetNum;
+}
+- (int32_t) cityAssetNum {
+  return result.cityAssetNum;
+}
+- (QuestJobProto_Builder*) setCityAssetNum:(int32_t) value {
+  result.hasCityAssetNum = YES;
+  result.cityAssetNum = value;
+  return self;
+}
+- (QuestJobProto_Builder*) clearCityAssetNum {
+  result.hasCityAssetNum = NO;
+  result.cityAssetNum = 0;
   return self;
 }
 @end
@@ -1679,7 +1982,7 @@ static DialogueProto_SpeechSegmentProto* defaultDialogueProto_SpeechSegmentProto
 @property int32_t questId;
 @property BOOL isRedeemed;
 @property BOOL isComplete;
-@property int32_t progress;
+@property (retain) NSMutableArray* mutableUserQuestJobsList;
 @end
 
 @implementation FullUserQuestProto
@@ -1722,14 +2025,9 @@ static DialogueProto_SpeechSegmentProto* defaultDialogueProto_SpeechSegmentProto
 - (void) setIsComplete:(BOOL) value {
   isComplete_ = !!value;
 }
-- (BOOL) hasProgress {
-  return !!hasProgress_;
-}
-- (void) setHasProgress:(BOOL) value {
-  hasProgress_ = !!value;
-}
-@synthesize progress;
+@synthesize mutableUserQuestJobsList;
 - (void) dealloc {
+  self.mutableUserQuestJobsList = nil;
   [super dealloc];
 }
 - (id) init {
@@ -1738,7 +2036,6 @@ static DialogueProto_SpeechSegmentProto* defaultDialogueProto_SpeechSegmentProto
     self.questId = 0;
     self.isRedeemed = NO;
     self.isComplete = NO;
-    self.progress = 0;
   }
   return self;
 }
@@ -1753,6 +2050,13 @@ static FullUserQuestProto* defaultFullUserQuestProtoInstance = nil;
 }
 - (FullUserQuestProto*) defaultInstance {
   return defaultFullUserQuestProtoInstance;
+}
+- (NSArray*) userQuestJobsList {
+  return mutableUserQuestJobsList;
+}
+- (UserQuestJobProto*) userQuestJobsAtIndex:(int32_t) index {
+  id value = [mutableUserQuestJobsList objectAtIndex:index];
+  return value;
 }
 - (BOOL) isInitialized {
   return YES;
@@ -1770,8 +2074,8 @@ static FullUserQuestProto* defaultFullUserQuestProtoInstance = nil;
   if (self.hasIsComplete) {
     [output writeBool:4 value:self.isComplete];
   }
-  if (self.hasProgress) {
-    [output writeInt32:5 value:self.progress];
+  for (UserQuestJobProto* element in self.userQuestJobsList) {
+    [output writeMessage:5 value:element];
   }
   [self.unknownFields writeToCodedOutputStream:output];
 }
@@ -1794,8 +2098,8 @@ static FullUserQuestProto* defaultFullUserQuestProtoInstance = nil;
   if (self.hasIsComplete) {
     size += computeBoolSize(4, self.isComplete);
   }
-  if (self.hasProgress) {
-    size += computeInt32Size(5, self.progress);
+  for (UserQuestJobProto* element in self.userQuestJobsList) {
+    size += computeMessageSize(5, element);
   }
   size += self.unknownFields.serializedSize;
   memoizedSerializedSize = size;
@@ -1884,8 +2188,11 @@ static FullUserQuestProto* defaultFullUserQuestProtoInstance = nil;
   if (other.hasIsComplete) {
     [self setIsComplete:other.isComplete];
   }
-  if (other.hasProgress) {
-    [self setProgress:other.progress];
+  if (other.mutableUserQuestJobsList.count > 0) {
+    if (result.mutableUserQuestJobsList == nil) {
+      result.mutableUserQuestJobsList = [NSMutableArray array];
+    }
+    [result.mutableUserQuestJobsList addObjectsFromArray:other.mutableUserQuestJobsList];
   }
   [self mergeUnknownFields:other.unknownFields];
   return self;
@@ -1924,8 +2231,10 @@ static FullUserQuestProto* defaultFullUserQuestProtoInstance = nil;
         [self setIsComplete:[input readBool]];
         break;
       }
-      case 40: {
-        [self setProgress:[input readInt32]];
+      case 42: {
+        UserQuestJobProto_Builder* subBuilder = [UserQuestJobProto builder];
+        [input readMessage:subBuilder extensionRegistry:extensionRegistry];
+        [self addUserQuestJobs:[subBuilder buildPartial]];
         break;
       }
     }
@@ -1995,18 +2304,327 @@ static FullUserQuestProto* defaultFullUserQuestProtoInstance = nil;
   result.isComplete = NO;
   return self;
 }
+- (NSArray*) userQuestJobsList {
+  if (result.mutableUserQuestJobsList == nil) { return [NSArray array]; }
+  return result.mutableUserQuestJobsList;
+}
+- (UserQuestJobProto*) userQuestJobsAtIndex:(int32_t) index {
+  return [result userQuestJobsAtIndex:index];
+}
+- (FullUserQuestProto_Builder*) replaceUserQuestJobsAtIndex:(int32_t) index with:(UserQuestJobProto*) value {
+  [result.mutableUserQuestJobsList replaceObjectAtIndex:index withObject:value];
+  return self;
+}
+- (FullUserQuestProto_Builder*) addAllUserQuestJobs:(NSArray*) values {
+  if (result.mutableUserQuestJobsList == nil) {
+    result.mutableUserQuestJobsList = [NSMutableArray array];
+  }
+  [result.mutableUserQuestJobsList addObjectsFromArray:values];
+  return self;
+}
+- (FullUserQuestProto_Builder*) clearUserQuestJobsList {
+  result.mutableUserQuestJobsList = nil;
+  return self;
+}
+- (FullUserQuestProto_Builder*) addUserQuestJobs:(UserQuestJobProto*) value {
+  if (result.mutableUserQuestJobsList == nil) {
+    result.mutableUserQuestJobsList = [NSMutableArray array];
+  }
+  [result.mutableUserQuestJobsList addObject:value];
+  return self;
+}
+@end
+
+@interface UserQuestJobProto ()
+@property int32_t questId;
+@property int32_t questJobId;
+@property BOOL isComplete;
+@property int32_t progress;
+@end
+
+@implementation UserQuestJobProto
+
+- (BOOL) hasQuestId {
+  return !!hasQuestId_;
+}
+- (void) setHasQuestId:(BOOL) value {
+  hasQuestId_ = !!value;
+}
+@synthesize questId;
+- (BOOL) hasQuestJobId {
+  return !!hasQuestJobId_;
+}
+- (void) setHasQuestJobId:(BOOL) value {
+  hasQuestJobId_ = !!value;
+}
+@synthesize questJobId;
+- (BOOL) hasIsComplete {
+  return !!hasIsComplete_;
+}
+- (void) setHasIsComplete:(BOOL) value {
+  hasIsComplete_ = !!value;
+}
+- (BOOL) isComplete {
+  return !!isComplete_;
+}
+- (void) setIsComplete:(BOOL) value {
+  isComplete_ = !!value;
+}
+- (BOOL) hasProgress {
+  return !!hasProgress_;
+}
+- (void) setHasProgress:(BOOL) value {
+  hasProgress_ = !!value;
+}
+@synthesize progress;
+- (void) dealloc {
+  [super dealloc];
+}
+- (id) init {
+  if ((self = [super init])) {
+    self.questId = 0;
+    self.questJobId = 0;
+    self.isComplete = NO;
+    self.progress = 0;
+  }
+  return self;
+}
+static UserQuestJobProto* defaultUserQuestJobProtoInstance = nil;
++ (void) initialize {
+  if (self == [UserQuestJobProto class]) {
+    defaultUserQuestJobProtoInstance = [[UserQuestJobProto alloc] init];
+  }
+}
++ (UserQuestJobProto*) defaultInstance {
+  return defaultUserQuestJobProtoInstance;
+}
+- (UserQuestJobProto*) defaultInstance {
+  return defaultUserQuestJobProtoInstance;
+}
+- (BOOL) isInitialized {
+  return YES;
+}
+- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output {
+  if (self.hasQuestId) {
+    [output writeInt32:1 value:self.questId];
+  }
+  if (self.hasQuestJobId) {
+    [output writeInt32:2 value:self.questJobId];
+  }
+  if (self.hasIsComplete) {
+    [output writeBool:3 value:self.isComplete];
+  }
+  if (self.hasProgress) {
+    [output writeInt32:4 value:self.progress];
+  }
+  [self.unknownFields writeToCodedOutputStream:output];
+}
+- (int32_t) serializedSize {
+  int32_t size = memoizedSerializedSize;
+  if (size != -1) {
+    return size;
+  }
+
+  size = 0;
+  if (self.hasQuestId) {
+    size += computeInt32Size(1, self.questId);
+  }
+  if (self.hasQuestJobId) {
+    size += computeInt32Size(2, self.questJobId);
+  }
+  if (self.hasIsComplete) {
+    size += computeBoolSize(3, self.isComplete);
+  }
+  if (self.hasProgress) {
+    size += computeInt32Size(4, self.progress);
+  }
+  size += self.unknownFields.serializedSize;
+  memoizedSerializedSize = size;
+  return size;
+}
++ (UserQuestJobProto*) parseFromData:(NSData*) data {
+  return (UserQuestJobProto*)[[[UserQuestJobProto builder] mergeFromData:data] build];
+}
++ (UserQuestJobProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (UserQuestJobProto*)[[[UserQuestJobProto builder] mergeFromData:data extensionRegistry:extensionRegistry] build];
+}
++ (UserQuestJobProto*) parseFromInputStream:(NSInputStream*) input {
+  return (UserQuestJobProto*)[[[UserQuestJobProto builder] mergeFromInputStream:input] build];
+}
++ (UserQuestJobProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (UserQuestJobProto*)[[[UserQuestJobProto builder] mergeFromInputStream:input extensionRegistry:extensionRegistry] build];
+}
++ (UserQuestJobProto*) parseFromCodedInputStream:(PBCodedInputStream*) input {
+  return (UserQuestJobProto*)[[[UserQuestJobProto builder] mergeFromCodedInputStream:input] build];
+}
++ (UserQuestJobProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (UserQuestJobProto*)[[[UserQuestJobProto builder] mergeFromCodedInputStream:input extensionRegistry:extensionRegistry] build];
+}
++ (UserQuestJobProto_Builder*) builder {
+  return [[[UserQuestJobProto_Builder alloc] init] autorelease];
+}
++ (UserQuestJobProto_Builder*) builderWithPrototype:(UserQuestJobProto*) prototype {
+  return [[UserQuestJobProto builder] mergeFrom:prototype];
+}
+- (UserQuestJobProto_Builder*) builder {
+  return [UserQuestJobProto builder];
+}
+@end
+
+@interface UserQuestJobProto_Builder()
+@property (retain) UserQuestJobProto* result;
+@end
+
+@implementation UserQuestJobProto_Builder
+@synthesize result;
+- (void) dealloc {
+  self.result = nil;
+  [super dealloc];
+}
+- (id) init {
+  if ((self = [super init])) {
+    self.result = [[[UserQuestJobProto alloc] init] autorelease];
+  }
+  return self;
+}
+- (PBGeneratedMessage*) internalGetResult {
+  return result;
+}
+- (UserQuestJobProto_Builder*) clear {
+  self.result = [[[UserQuestJobProto alloc] init] autorelease];
+  return self;
+}
+- (UserQuestJobProto_Builder*) clone {
+  return [UserQuestJobProto builderWithPrototype:result];
+}
+- (UserQuestJobProto*) defaultInstance {
+  return [UserQuestJobProto defaultInstance];
+}
+- (UserQuestJobProto*) build {
+  [self checkInitialized];
+  return [self buildPartial];
+}
+- (UserQuestJobProto*) buildPartial {
+  UserQuestJobProto* returnMe = [[result retain] autorelease];
+  self.result = nil;
+  return returnMe;
+}
+- (UserQuestJobProto_Builder*) mergeFrom:(UserQuestJobProto*) other {
+  if (other == [UserQuestJobProto defaultInstance]) {
+    return self;
+  }
+  if (other.hasQuestId) {
+    [self setQuestId:other.questId];
+  }
+  if (other.hasQuestJobId) {
+    [self setQuestJobId:other.questJobId];
+  }
+  if (other.hasIsComplete) {
+    [self setIsComplete:other.isComplete];
+  }
+  if (other.hasProgress) {
+    [self setProgress:other.progress];
+  }
+  [self mergeUnknownFields:other.unknownFields];
+  return self;
+}
+- (UserQuestJobProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input {
+  return [self mergeFromCodedInputStream:input extensionRegistry:[PBExtensionRegistry emptyRegistry]];
+}
+- (UserQuestJobProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  PBUnknownFieldSet_Builder* unknownFields = [PBUnknownFieldSet builderWithUnknownFields:self.unknownFields];
+  while (YES) {
+    int32_t tag = [input readTag];
+    switch (tag) {
+      case 0:
+        [self setUnknownFields:[unknownFields build]];
+        return self;
+      default: {
+        if (![self parseUnknownField:input unknownFields:unknownFields extensionRegistry:extensionRegistry tag:tag]) {
+          [self setUnknownFields:[unknownFields build]];
+          return self;
+        }
+        break;
+      }
+      case 8: {
+        [self setQuestId:[input readInt32]];
+        break;
+      }
+      case 16: {
+        [self setQuestJobId:[input readInt32]];
+        break;
+      }
+      case 24: {
+        [self setIsComplete:[input readBool]];
+        break;
+      }
+      case 32: {
+        [self setProgress:[input readInt32]];
+        break;
+      }
+    }
+  }
+}
+- (BOOL) hasQuestId {
+  return result.hasQuestId;
+}
+- (int32_t) questId {
+  return result.questId;
+}
+- (UserQuestJobProto_Builder*) setQuestId:(int32_t) value {
+  result.hasQuestId = YES;
+  result.questId = value;
+  return self;
+}
+- (UserQuestJobProto_Builder*) clearQuestId {
+  result.hasQuestId = NO;
+  result.questId = 0;
+  return self;
+}
+- (BOOL) hasQuestJobId {
+  return result.hasQuestJobId;
+}
+- (int32_t) questJobId {
+  return result.questJobId;
+}
+- (UserQuestJobProto_Builder*) setQuestJobId:(int32_t) value {
+  result.hasQuestJobId = YES;
+  result.questJobId = value;
+  return self;
+}
+- (UserQuestJobProto_Builder*) clearQuestJobId {
+  result.hasQuestJobId = NO;
+  result.questJobId = 0;
+  return self;
+}
+- (BOOL) hasIsComplete {
+  return result.hasIsComplete;
+}
+- (BOOL) isComplete {
+  return result.isComplete;
+}
+- (UserQuestJobProto_Builder*) setIsComplete:(BOOL) value {
+  result.hasIsComplete = YES;
+  result.isComplete = value;
+  return self;
+}
+- (UserQuestJobProto_Builder*) clearIsComplete {
+  result.hasIsComplete = NO;
+  result.isComplete = NO;
+  return self;
+}
 - (BOOL) hasProgress {
   return result.hasProgress;
 }
 - (int32_t) progress {
   return result.progress;
 }
-- (FullUserQuestProto_Builder*) setProgress:(int32_t) value {
+- (UserQuestJobProto_Builder*) setProgress:(int32_t) value {
   result.hasProgress = YES;
   result.progress = value;
   return self;
 }
-- (FullUserQuestProto_Builder*) clearProgress {
+- (UserQuestJobProto_Builder*) clearProgress {
   result.hasProgress = NO;
   result.progress = 0;
   return self;

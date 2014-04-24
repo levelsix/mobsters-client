@@ -299,10 +299,10 @@ static NSString *udid = nil;
     if (_sender.userId == 0 || !gs.connected) {
       if (![self isPreDbEventType:type]) {
         LNLog(@"User id is 0 or GameState is not connected!!!");
-        LNLog(@"Queueing up event of type %@.", NSStringFromClass(msg.class));
+        LNLog(@"Ignoring event of type %@.", NSStringFromClass(msg.class));
         
-        FullEvent *fe = [FullEvent createWithEvent:msg tag:tagNum requestType:type];
-        [self.queuedMessages addObject:fe];
+        //FullEvent *fe = [FullEvent createWithEvent:msg tag:tagNum requestType:type];
+        //[self.queuedMessages addObject:fe];
         return;
       }
     }
@@ -616,12 +616,14 @@ static NSString *udid = nil;
   return [self sendData:req withMessageType:EventProtocolRequestCQuestAcceptEvent];
 }
 
-- (int) sendQuestProgressMessage:(int)questId progress:(int)progress isComplete:(BOOL)isComplete userMonsterIds:(NSArray *)userMonsterIds {
-  QuestProgressRequestProto *req = [[[[[[[QuestProgressRequestProto builder]
-                                         setSender:_sender]
-                                        setQuestId:questId]
+- (int) sendQuestProgressMessage:(int)questId isComplete:(BOOL)isComplete jobId:(int)jobId jobProgress:(int)progress isJobComplete:(BOOL)isJobComplete userMonsterIds:(NSArray *)userMonsterIds {
+  QuestProgressRequestProto *req = [[[[[[[[[QuestProgressRequestProto builder]
+                                           setSender:_sender]
+                                          setQuestId:questId]
+                                         setIsComplete:isComplete]
+                                        setQuestJobId:jobId]
                                        setCurrentProgress:progress]
-                                      setIsComplete:isComplete]
+                                      setIsQuestJobComplete:isJobComplete]
                                      addAllDeleteUserMonsterIds:userMonsterIds]
                                     build];
   
@@ -885,11 +887,14 @@ static NSString *udid = nil;
   return [self sendData:req withMessageType:EventProtocolRequestCBeginDungeonEvent];
 }
 
-- (int) sendUpdateMonsterHealthMessage:(uint64_t)clientTime monsterHealth:(UserMonsterCurrentHealthProto *)monsterHealth {
-  UpdateMonsterHealthRequestProto *req = [[[[[UpdateMonsterHealthRequestProto builder]
-                                             setSender:_sender]
-                                            setClientTime:clientTime]
-                                           addUmchp:monsterHealth]
+- (int) sendUpdateMonsterHealthMessage:(uint64_t)clientTime monsterHealths:(NSArray *)monsterHealths isForTask:(BOOL)isForTask userTaskId:(int64_t)userTaskId taskStageId:(int)taskStageId {
+  UpdateMonsterHealthRequestProto *req = [[[[[[[[UpdateMonsterHealthRequestProto builder]
+                                                setSender:_sender]
+                                               setClientTime:clientTime]
+                                              addAllUmchp:monsterHealths]
+                                             setIsUpdateTaskStageForUser:isForTask]
+                                            setUserTaskId:userTaskId]
+                                           setNuTaskStageId:taskStageId]
                                           build];
   
   return [self sendData:req withMessageType:EventProtocolRequestCUpdateMonsterHealthEvent];
@@ -1093,12 +1098,13 @@ static NSString *udid = nil;
   return [self sendData:req withMessageType:EventProtocolRequestCBeginObstacleRemovalEvent];
 }
 
-- (int) sendObstacleRemovalCompleteMessage:(int)userObstacleId speedup:(BOOL)speedUp gemsSpent:(int)gemsSpent clientTime:(uint64_t)clientTime {
-  ObstacleRemovalCompleteRequestProto *req = [[[[[[[ObstacleRemovalCompleteRequestProto builder]
-                                                   setUserObstacleId:userObstacleId]
-                                                  setSender:_sender]
-                                                 setSpeedUp:speedUp]
-                                                setGemsSpent:gemsSpent]
+- (int) sendObstacleRemovalCompleteMessage:(int)userObstacleId speedup:(BOOL)speedUp gemsSpent:(int)gemsSpent maxObstacles:(BOOL)maxObstacles clientTime:(uint64_t)clientTime {
+  ObstacleRemovalCompleteRequestProto *req = [[[[[[[[ObstacleRemovalCompleteRequestProto builder]
+                                                    setUserObstacleId:userObstacleId]
+                                                   setSender:_sender]
+                                                  setSpeedUp:speedUp]
+                                                 setGemsSpent:gemsSpent]
+                                                setAtMaxObstacles:maxObstacles]
                                                setCurTime:clientTime]
                                               build];
   

@@ -26,8 +26,8 @@
     [self addChild:self.check];
     [self addChild:self.cancel];
     
-    self.check.position = ccp(self.check.contentSize.width-3, 0);
-    self.cancel.position = ccp(-self.cancel.contentSize.width+3, 0);
+    self.check.position = ccp(self.check.contentSize.width*0.68, 0);
+    self.cancel.position = ccp(-self.cancel.contentSize.width*0.68, 0);
   }
   return self;
 }

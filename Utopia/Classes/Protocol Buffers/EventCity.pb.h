@@ -77,6 +77,8 @@
 @class PurchaseCityExpansionRequestProto_Builder;
 @class PurchaseCityExpansionResponseProto;
 @class PurchaseCityExpansionResponseProto_Builder;
+@class QuestJobProto;
+@class QuestJobProto_Builder;
 @class ResidenceProto;
 @class ResidenceProto_Builder;
 @class ResourceGeneratorProto;
@@ -113,6 +115,8 @@
 @class UserObstacleProto_Builder;
 @class UserPvpLeagueProto;
 @class UserPvpLeagueProto_Builder;
+@class UserQuestJobProto;
+@class UserQuestJobProto_Builder;
 typedef enum {
   LoadPlayerCityResponseProto_LoadPlayerCityStatusSuccess = 1,
   LoadPlayerCityResponseProto_LoadPlayerCityStatusFailNoSuchPlayer = 2,
@@ -520,7 +524,6 @@ BOOL LoadCityResponseProto_LoadCityStatusIsValidValue(LoadCityResponseProto_Load
   MinimumUserProto* sender;
   LoadCityResponseProto_LoadCityStatus status;
   NSMutableArray* mutableCityElementsList;
-  NSMutableArray* mutableInProgressUserQuestDataInCityList;
 }
 - (BOOL) hasSender;
 - (BOOL) hasStatus;
@@ -530,8 +533,6 @@ BOOL LoadCityResponseProto_LoadCityStatusIsValidValue(LoadCityResponseProto_Load
 @property (readonly) int32_t cityId;
 - (NSArray*) cityElementsList;
 - (CityElementProto*) cityElementsAtIndex:(int32_t) index;
-- (NSArray*) inProgressUserQuestDataInCityList;
-- (FullUserQuestProto*) inProgressUserQuestDataInCityAtIndex:(int32_t) index;
 
 + (LoadCityResponseProto*) defaultInstance;
 - (LoadCityResponseProto*) defaultInstance;
@@ -590,12 +591,5 @@ BOOL LoadCityResponseProto_LoadCityStatusIsValidValue(LoadCityResponseProto_Load
 - (int32_t) cityId;
 - (LoadCityResponseProto_Builder*) setCityId:(int32_t) value;
 - (LoadCityResponseProto_Builder*) clearCityId;
-
-- (NSArray*) inProgressUserQuestDataInCityList;
-- (FullUserQuestProto*) inProgressUserQuestDataInCityAtIndex:(int32_t) index;
-- (LoadCityResponseProto_Builder*) replaceInProgressUserQuestDataInCityAtIndex:(int32_t) index with:(FullUserQuestProto*) value;
-- (LoadCityResponseProto_Builder*) addInProgressUserQuestDataInCity:(FullUserQuestProto*) value;
-- (LoadCityResponseProto_Builder*) addAllInProgressUserQuestDataInCity:(NSArray*) values;
-- (LoadCityResponseProto_Builder*) clearInProgressUserQuestDataInCityList;
 @end
 

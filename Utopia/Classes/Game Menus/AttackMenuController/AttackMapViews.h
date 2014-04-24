@@ -68,6 +68,7 @@
 @property (nonatomic, retain) IBOutlet UIImageView *curLeagueIcon;
 @property (nonatomic, retain) IBOutlet UIImageView *spinner;
 
+- (void) updateForOldLeagueId:(int)oldLeagueId newLeagueId:(int)newLeagueId;
 - (void) dropLeagueIcon;
 
 @end
@@ -98,6 +99,7 @@
 
 @property (nonatomic, strong) IBOutletCollection(LeagueDescriptionView) NSArray *leagueDescriptionViews;
 
+- (void) updateForLeague;
 - (IBAction) leagueSelected:(id)sender;
 - (IBAction) backClicked:(id)sender;
 

@@ -64,6 +64,7 @@
 
 @property (nonatomic, retain) IBOutlet BadgeIcon *questBadge;
 @property (nonatomic, retain) IBOutlet BadgeIcon *mailBadge;
+@property (nonatomic, retain) IBOutlet BadgeIcon *attackBadge;
 
 @property (nonatomic, retain) IBOutlet UIView *myCityView;
 @property (nonatomic, retain) IBOutlet UIView *clanView;
@@ -94,6 +95,6 @@
 - (void) replaceChatViewWithView:(MapBotView *)view;
 - (void) removeViewOverChatView;
 
-- (void) displayQuestProgressViewForQuest:(FullQuestProto *)fqp userQuest:(UserQuest *)uq;
+- (void) displayQuestProgressViewForQuest:(FullQuestProto *)fqp userQuest:(UserQuest *)uq jobId:(int)jobId;
 
 @end

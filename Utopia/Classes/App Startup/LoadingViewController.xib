@@ -66,7 +66,7 @@
     <resources>
         <image name="loadingbar.png" width="135" height="13"/>
         <image name="loadingbarbg.png" width="137" height="15"/>
-        <image name="loadingbg.png" width="568" height="320"/>
+        <image name="loadingbg.png" width="480" height="320"/>
         <image name="tipbg.png" width="463" height="32"/>
     </resources>
 </document>

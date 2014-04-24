@@ -233,4 +233,8 @@
 
 - (BOOL) hasActiveShield;
 
+- (int) lastLeagueShown;
+- (void) currentLeagueWasShown;
+- (BOOL) hasShownCurrentLeague;
+
 @end

@@ -43,10 +43,20 @@
   
   // In case we come from back button on gem view
   self.navigationController.navigationBarHidden = YES;
+  
+  [self.multiplayerView updateForLeague];
+  
+  GameState *gs = [GameState sharedGameState];
+  if (![gs hasShownCurrentLeague]) {
+    [self dropLeagueIcon];
+    [gs currentLeagueWasShown];
+  }
 }
 
 - (void) dropLeagueIcon {
+  GameState *gs = [GameState sharedGameState];
   [self.multiplayerView addSubview:self.leaguePromotionView];
+  [self.leaguePromotionView updateForOldLeagueId:[gs lastLeagueShown] newLeagueId:gs.pvpLeague.leagueId];
   [self.leaguePromotionView performSelector:@selector(dropLeagueIcon) withObject:nil afterDelay:1.f];
 }
 

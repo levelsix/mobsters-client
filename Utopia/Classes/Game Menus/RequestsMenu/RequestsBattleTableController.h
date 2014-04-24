@@ -12,18 +12,15 @@
 
 @interface RequestsBattleCell : UITableViewCell
 
-@property (nonatomic, retain) IBOutlet UILabel *titleLabel;
-@property (nonatomic, retain) IBOutlet UIButton *nameButton;
-@property (nonatomic, retain) IBOutlet UIButton *clanButton;
+@property (nonatomic, retain) IBOutlet UILabel *nameLabel;
+@property (nonatomic, retain) IBOutlet UILabel *resultLabel;
+@property (nonatomic, retain) IBOutlet UILabel *timeLabel;
 @property (nonatomic, retain) IBOutlet UIButton *revengeButton;
 @property (nonatomic, retain) IBOutletCollection(ClanTeamMonsterView) NSArray *monsterViews;
 @property (nonatomic, retain) IBOutlet UILabel *oilLabel;
 @property (nonatomic, retain) IBOutlet UILabel *cashLabel;
 @property (nonatomic, retain) IBOutlet UILabel *rankChangeLabel;
 @property (nonatomic, retain) IBOutlet UIImageView *rankIcon;
-@property (nonatomic, retain) IBOutlet UIImageView *bgdImage;
-@property (nonatomic, retain) IBOutlet UIImageView *shieldIcon;
-@property (nonatomic, retain) IBOutlet UIImageView *leagueIcon;
 
 @property (nonatomic, retain) IBOutlet UIView *lootLostView;
 @property (nonatomic, retain) IBOutlet UIView *revengeButtonView;
@@ -41,6 +38,7 @@
 @property (nonatomic, retain) UILabel *noRequestsLabel;
 
 @property (nonatomic, retain) IBOutlet RequestsBattleCell *requestCell;
+@property (nonatomic, retain) IBOutlet UIView *headerView;
 
 @property (nonatomic, retain) NSMutableArray *battles;
 

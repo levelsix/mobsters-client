@@ -234,7 +234,7 @@
 - (void) spawnClanBattleSpriteForClanMemberAttack:(ClanMemberAttack *)cma comeFromTop:(BOOL)comeFromTop {
   GameState *gs = [GameState sharedGameState];
   MonsterProto *mp = [gs monsterWithId:cma.monsterId];
-  BattleSprite *clanBs = [[BattleSprite alloc] initWithPrefix:mp.imagePrefix nameString:mp.name animationType:mp.attackAnimationType isMySprite:NO verticalOffset:mp.verticalPixelOffset];
+  BattleSprite *clanBs = [[BattleSprite alloc] initWithPrefix:mp.imagePrefix nameString:mp.name rarity:mp.quality animationType:mp.attackAnimationType isMySprite:NO verticalOffset:mp.verticalPixelOffset];
   clanBs.isFacingNear = NO;
   clanBs.healthBgd.visible = NO;
   clanBs.cameFromTop = comeFromTop;

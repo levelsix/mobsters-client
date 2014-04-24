@@ -21,6 +21,9 @@ typedef enum {
 @interface NiceFontLabel : UILabel
 @end
 
+@interface NiceFontLabelB : THLabel
+@end
+
 @interface NiceFontLabel2 : UILabel
 @end
 
@@ -42,10 +45,19 @@ typedef enum {
 @interface NiceFontLabel8 : UILabel
 @end
 
+@interface NiceFontLabel8B : THLabel
+@end
+
 @interface NiceFontLabel9 : UILabel
 @end
 
 @interface NiceFontLabel10 : UILabel
+@end
+
+@interface NiceFontLabel11 : UILabel
+@end
+
+@interface NiceFontLabel12 : UILabel
 @end
 
 @interface SoundButton : UIButton
@@ -73,6 +85,9 @@ typedef enum {
 @end
 
 @interface NiceFontButton3 : GeneralButton
+@end
+
+@interface NiceFontButton9 : GeneralButton
 @end
 
 @interface LabelButton : UIButton {
@@ -284,6 +299,10 @@ typedef enum {
 @property (nonatomic, retain) IBOutlet UILabel *label2;
 @property (nonatomic, retain) IBOutlet UILabel *label3;
 
+@property (nonatomic, retain) IBOutlet UIImageView *icon1;
+@property (nonatomic, retain) IBOutlet UIImageView *icon2;
+@property (nonatomic, retain) IBOutlet UIImageView *icon3;
+
 @property (nonatomic, retain) UIColor *inactiveTextColor;
 @property (nonatomic, retain) UIColor *inactiveShadowColor;
 @property (nonatomic, retain) UIColor *activeTextColor;
@@ -307,7 +326,7 @@ typedef enum {
 
 @end
 
-@interface NumTransitionLabel : THLabel
+@interface NumTransitionLabel : NiceFontLabel8B
 
 @property (nonatomic, weak) IBOutlet id<NumTransitionLabelDelegate> transitionDelegate;
 @property (nonatomic, strong) NSTimer *timer;
@@ -367,5 +386,9 @@ typedef enum {
 @property (nonatomic, strong) IBOutlet UILabel *placeLabel;
 
 - (void) updateForUserLeague:(UserPvpLeagueProto *)upvp;
+
+@end
+
+@interface PopupShadowView : UIView
 
 @end

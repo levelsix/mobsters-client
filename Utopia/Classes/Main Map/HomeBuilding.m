@@ -14,6 +14,8 @@
 #import "CCSoundAnimation.h"
 #import "SoundEngine.h"
 
+#define DARK_SHADOW_TAG @"DarkShadow"
+
 @implementation HomeBuilding
 
 - (id) initWithFile:(NSString *)file location:(CGRect)loc map:(HomeMap *)map {
@@ -24,11 +26,6 @@
     CCSprite *shadow = [CCSprite spriteWithImageNamed:fileName];
     [self addChild:shadow z:-1 name:SHADOW_TAG];
     shadow.anchorPoint = ccp(0.5, 0);
-    
-    fileName = [NSString stringWithFormat:@"%dx%dshadow.png", (int)loc.size.width, (int)loc.size.height];
-    CCSprite *dark = [CCSprite spriteWithImageNamed:fileName];
-    [shadow addChild:dark z:1];
-    dark.position = ccp(shadow.contentSize.width/3, shadow.contentSize.height/2);
   }
   return self;
 }
@@ -88,7 +85,18 @@
 - (void) adjustBuildingSprite {
   StructureInfoProto *fsp = self.userStruct.staticStruct.structInfo;
   self.verticalOffset = fsp.imgVerticalPixelOffset;
+  self.horizontalOffset = fsp.imgHorizontalPixelOffset;
   [super adjustBuildingSprite];
+  
+  CCNode *n = [self getChildByName:DARK_SHADOW_TAG recursively:YES];
+  [n removeFromParent];
+  if (fsp.hasShadowImgName) {
+    CCNode *grass = [self getChildByName:SHADOW_TAG recursively:YES];
+    CCSprite *shadow = [CCSprite spriteWithImageNamed:fsp.shadowImgName];
+    [grass addChild:shadow z:1 name:DARK_SHADOW_TAG];
+    shadow.scale = fsp.shadowScale;
+    shadow.position = ccp(grass.contentSize.width/2+fsp.shadowHorizontalOfffset, grass.contentSize.height/2+fsp.shadowVerticalOffset);
+  }
 }
 
 - (BOOL) select {
@@ -276,10 +284,11 @@
   
   CGRect r = self.location;
   CGPoint relativeTo = [_map convertTilePointToCCPoint:r.origin];
-  nr.position = ccpSub([_map convertTilePointToCCPoint:ccp(CGRectGetMidX(r), CGRectGetMinY(r))], relativeTo);
-  nl.position = ccpSub([_map convertTilePointToCCPoint:ccp(CGRectGetMinX(r), CGRectGetMidY(r))], relativeTo);
-  fr.position = ccpSub([_map convertTilePointToCCPoint:ccp(CGRectGetMaxX(r), CGRectGetMidY(r))], relativeTo);
-  fl.position = ccpSub([_map convertTilePointToCCPoint:ccp(CGRectGetMidX(r), CGRectGetMaxY(r))], relativeTo);
+  float inset = 0.18;
+  nr.position = ccpSub([_map convertTilePointToCCPoint:ccp(CGRectGetMidX(r), CGRectGetMinY(r)+inset)], relativeTo);
+  nl.position = ccpSub([_map convertTilePointToCCPoint:ccp(CGRectGetMinX(r)+inset, CGRectGetMidY(r))], relativeTo);
+  fr.position = ccpSub([_map convertTilePointToCCPoint:ccp(CGRectGetMaxX(r)-inset, CGRectGetMidY(r))], relativeTo);
+  fl.position = ccpSub([_map convertTilePointToCCPoint:ccp(CGRectGetMidX(r), CGRectGetMaxY(r)-inset)], relativeTo);
   
   [node addChild:nr];
   [node addChild:nl];
@@ -374,8 +383,6 @@
   [spr runAction:[CCActionRepeatForever actionWithAction:[CCActionAnimate actionWithAnimation:anim]]];
   [self addChild:spr];
   self.buildingSprite = spr;
-  
-  self.baseScale = 0.75;
   
   [self adjustBuildingSprite];
 }
@@ -485,18 +492,21 @@
   [anim repeatFrames:NSMakeRange(0,1) numTimes:5];
   self.baseAnimation = anim;
   
-  self.buildingSprite = [CCSprite spriteWithSpriteFrame:[anim.frames[0] spriteFrame]];
-  [self addChild:self.buildingSprite];
+  if (anim.frames.count) {
+    self.buildingSprite = [CCSprite spriteWithSpriteFrame:[anim.frames[0] spriteFrame]];
+    [self addChild:self.buildingSprite];
+  }
   
   anim = [CCAnimation animationWithSpritePrefix:[NSString stringWithFormat:@"%@Tube", fileName] delay:0.1];
   [anim repeatFrames:NSMakeRange(0,1) numTimes:5];
   self.tubeAnimation = anim;
   
-  self.tubeSprite = [CCSprite spriteWithSpriteFrame:[anim.frames[0] spriteFrame]];
-  self.tubeSprite.position = ccp(self.buildingSprite.contentSize.width/2, self.buildingSprite.contentSize.height/2);
-  [self.buildingSprite addChild:self.tubeSprite z:2];
+  if (anim.frames.count) {
+    self.tubeSprite = [CCSprite spriteWithSpriteFrame:[anim.frames[0] spriteFrame]];
+    self.tubeSprite.position = ccp(self.buildingSprite.contentSize.width/2, self.buildingSprite.contentSize.height/2);
+    [self.buildingSprite addChild:self.tubeSprite z:2];
+  }
   
-  self.baseScale = 0.85;
   [self adjustBuildingSprite];
   
   if (_healingItem) {
@@ -522,7 +532,7 @@
       self.monsterSprite = [CCSprite spriteWithImageNamed:file];
       self.monsterSprite.anchorPoint = ccp(0.5, 0);
       self.monsterSprite.scale = 0.8;
-      self.monsterSprite.position = ccpAdd(ccp(self.buildingSprite.contentSize.width/2, 1), ccp(0, mp.verticalPixelOffset));
+      self.monsterSprite.position = ccpAdd(ccp(self.buildingSprite.contentSize.width/2, -5), ccp(0, mp.verticalPixelOffset));
       self.monsterSprite.flipX = YES;
       [self.buildingSprite addChild:self.monsterSprite z:1];
     }
@@ -539,8 +549,10 @@
   [self.buildingSprite stopAllActions];
   [self.tubeSprite stopAllActions];
   
-  [self.buildingSprite setSpriteFrame:[self.baseAnimation.frames[0] spriteFrame]];
-  [self.tubeSprite setSpriteFrame:[self.tubeAnimation.frames[0] spriteFrame]];
+  if (self.baseAnimation.frames.count) {
+    [self.buildingSprite setSpriteFrame:[self.baseAnimation.frames[0] spriteFrame]];
+    [self.tubeSprite setSpriteFrame:[self.tubeAnimation.frames[0] spriteFrame]];
+  }
   
   if (!self.isConstructing) {
     [self removeProgressBar];
@@ -588,35 +600,35 @@
 
 @implementation LabBuilding
 
-- (id) initWithUserStruct:(UserStruct *)userStruct map:(HomeMap *)map {
-  if ((self = [super initWithUserStruct:userStruct map:map])) {
-    [self beginAnimating];
-  }
-  return self;
-}
-
-- (void) setupBuildingSprite:(NSString *)fileName {
-  [self.buildingSprite removeFromParent];
-  
-  fileName = fileName.stringByDeletingPathExtension;
-  [[CCSpriteFrameCache sharedSpriteFrameCache] addSpriteFramesWithFile:[NSString stringWithFormat:@"%@.plist", fileName]];
-  self.anim = [CCAnimation animationWithSpritePrefix:fileName delay:0.1];
-  
-  self.buildingSprite = [CCSprite spriteWithSpriteFrame:[self.anim.frames[0] spriteFrame]];
-  [self addChild:self.buildingSprite];
-  
-  [self adjustBuildingSprite];
-}
-
-- (void) beginAnimating {
-  [self stopAnimating];
-  [self.buildingSprite runAction:[CCActionRepeatForever actionWithAction:[CCActionAnimate actionWithAnimation:self.anim]]];
-}
-
-- (void) stopAnimating {
-  [self.buildingSprite stopAllActions];
-  [self.buildingSprite setSpriteFrame:[self.anim.frames[0] spriteFrame]];
-}
+//- (id) initWithUserStruct:(UserStruct *)userStruct map:(HomeMap *)map {
+//  if ((self = [super initWithUserStruct:userStruct map:map])) {
+//    [self beginAnimating];
+//  }
+//  return self;
+//}
+//
+//- (void) setupBuildingSprite:(NSString *)fileName {
+//  [self.buildingSprite removeFromParent];
+//  
+//  fileName = fileName.stringByDeletingPathExtension;
+//  [[CCSpriteFrameCache sharedSpriteFrameCache] addSpriteFramesWithFile:[NSString stringWithFormat:@"%@.plist", fileName]];
+//  self.anim = [CCAnimation animationWithSpritePrefix:fileName delay:0.1];
+//  
+//  self.buildingSprite = [CCSprite spriteWithSpriteFrame:[self.anim.frames[0] spriteFrame]];
+//  [self addChild:self.buildingSprite];
+//  
+//  [self adjustBuildingSprite];
+//}
+//
+//- (void) beginAnimating {
+//  [self stopAnimating];
+//  [self.buildingSprite runAction:[CCActionRepeatForever actionWithAction:[CCActionAnimate actionWithAnimation:self.anim]]];
+//}
+//
+//- (void) stopAnimating {
+//  [self.buildingSprite stopAllActions];
+//  [self.buildingSprite setSpriteFrame:[self.anim.frames[0] spriteFrame]];
+//}
 
 @end
 

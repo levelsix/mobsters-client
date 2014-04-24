@@ -8,11 +8,12 @@
 
 #import <Foundation/Foundation.h>
 #import "Protocols.pb.h"
+#import "FullQuestProto+JobAccess.h"
 
 @protocol QuestUtilDelegate <NSObject>
 
 - (void) questComplete:(FullQuestProto *)fqp;
-- (void) questProgress:(FullQuestProto *)fqp;
+- (void) jobProgress:(QuestJobProto *)qjp;
 
 @end
 
@@ -22,7 +23,7 @@
 
 + (void) setDelegate:(id)delegate;
 
-+ (int) checkQuantityForDonateQuest:(FullQuestProto *)quest;
++ (int) checkQuantityForDonateQuestJob:(QuestJobProto *)job;
 + (void) checkAllDonateQuests;
 + (void) checkQuestsForDungeon:(BeginDungeonResponseProto *)dungeonInfo;
 + (void) checkNewlyAcceptedQuest:(FullQuestProto *)quest;

@@ -16,6 +16,11 @@
   return self.recipient.minUserProto.userId == gs.userId ? self.poster.minUserProto.userId : self.recipient.minUserProto.userId;
 }
 
+- (NSString *) otherUserName {
+  GameState *gs = [GameState sharedGameState];
+  return self.recipient.minUserProto.userId == gs.userId ? self.poster.minUserProto.name : self.recipient.minUserProto.name;
+}
+
 - (BOOL) isUnread {
   GameState *gs = [GameState sharedGameState];
   if (self.poster.minUserProto.userId != gs.userId) {

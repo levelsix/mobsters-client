@@ -15,10 +15,15 @@
 
 - (void) didLoadFromCCB {
   self.spinner.blendFunc = (ccBlendFunc){GL_SRC_ALPHA, GL_ONE};
+  
+  self.doneButton.title = @"DONE";
+  self.manageButton.title = @"MANAGE MOBSTERS";
 }
 
 - (void) onExitTransitionDidStart {
   [self.loadingSpinner removeFromSuperview];
+  self.doneButton.title = @"DONE";
+  self.manageButton.title = @"MANAGE MOBSTERS";
   [super onExitTransitionDidStart];
 }
 
@@ -119,6 +124,9 @@
 
 - (void) didLoadFromCCB {
   self.spinner.blendFunc = (ccBlendFunc){GL_SRC_ALPHA, GL_ONE};
+  
+  self.doneButton.title = @"DONE";
+  self.manageButton.title = @"MANAGE MOBSTERS";
 }
 
 - (void) onExitTransitionDidStart {
@@ -128,6 +136,8 @@
   CCClippingNode *clip = (CCClippingNode *)self.rewardsView.parent;
   clip.stencil = nil;
   
+  self.doneButton.title = @"DONE";
+  self.manageButton.title = @"MANAGE MOBSTERS";
   [super onExitTransitionDidStart];
 }
 
@@ -300,6 +310,7 @@
   NSString *labelName = nil;
   NSString *bgdName = nil;
   UIColor *color = nil;
+  float scale = 1.f;
   if (reward.type == RewardTypeMonster) {
     MonsterProto *mp = [gs monsterWithId:reward.monsterId];
     imgName = [Globals imageNameForRarity:mp.quality suffix:@"piece.png"];
@@ -318,6 +329,7 @@
     color = [Globals goldColor];
   } else if (reward.type == RewardTypeGold) {
     imgName = @"diamond.png";
+    bgdName = @"commonfound.png";
     labelName = [Globals commafyNumber:reward.goldAmount];
     color = [Globals purplishPinkColor];
   } else if (reward.type == RewardTypeItem) {
@@ -332,6 +344,7 @@
     CCSprite *inside = [CCSprite spriteWithImageNamed:imgName];
     [self addChild:inside];
     inside.position = ccp(self.contentSize.width/2, self.contentSize.height/2);
+    inside.scale = scale;
     
     CCLabelTTF *label = [CCLabelTTF labelWithString:labelName fontName:[Globals font] fontSize:13.f];
     label.color = [CCColor colorWithUIColor:color];

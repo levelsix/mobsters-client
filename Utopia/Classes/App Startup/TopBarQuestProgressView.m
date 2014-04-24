@@ -18,26 +18,25 @@
   self.monsterIcon.superview.transform = CGAffineTransformMakeScale(0.64, 0.64);
 }
 
-- (void) displayForQuest:(FullQuestProto *)quest userQuest:(UserQuest *)userQuest {
+- (void) displayForQuest:(FullQuestProto *)quest userQuest:(UserQuest *)userQuest jobId:(int)jobId {
   NSString *file = [quest.questGiverImagePrefix stringByAppendingString:@"Thumbnail.png"];
   [Globals imageNamed:file withView:self.monsterIcon greyscale:NO indicator:UIActivityIndicatorViewStyleWhite clearImageDuringDownload:YES];
   file = [Globals imageNameForElement:quest.monsterElement suffix:@"team.png"];
   [Globals imageNamed:file withView:self.bgdIcon greyscale:NO indicator:UIActivityIndicatorViewStyleWhite clearImageDuringDownload:YES];
   
-  if (quest.quantity < 100) {
-    int progress = userQuest.progress;
-    
-    if (!userQuest && quest.questType == FullQuestProto_QuestTypeDonateMonster) {
-      progress = [QuestUtil checkQuantityForDonateQuest:quest];
-    }
-    
-    self.progressLabel.text = [NSString stringWithFormat:@"%d/%d", progress, quest.quantity];
-  } else {
-    self.progressLabel.text = [NSString stringWithFormat:@"%@", [Globals commafyNumber:userQuest.progress]];
+  QuestJobProto *jp = [quest jobForId:jobId];
+  UserQuestJob *uj = [userQuest jobForId:jobId];
+  
+  int progress = uj.progress;
+  
+  if (!uj && jp.questJobType == QuestJobProto_QuestJobTypeDonateMonster) {
+    progress = [QuestUtil checkQuantityForDonateQuestJob:jp];
   }
   
-  self.questLabel.text = [NSString stringWithFormat:@"Quest: %@", quest.name];
-
+  self.progressLabel.text = [NSString stringWithFormat:@"%d/%d", progress, jp.quantity];
+  
+  self.questLabel.text = [NSString stringWithFormat:@"%@%@", quest.name, quest.jobsList.count > 1 ? [NSString stringWithFormat:@": Task %d", jp.priority] : @""];
+  
   [self animateIn];
 }
 

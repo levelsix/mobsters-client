@@ -95,7 +95,7 @@
 - (int) sendLevelUpMessage:(int)level;
 
 - (int) sendQuestAcceptMessage:(int)questId;
-- (int) sendQuestProgressMessage:(int)questId progress:(int)progress isComplete:(BOOL)isComplete userMonsterIds:(NSArray *)userMonsterIds;
+- (int) sendQuestProgressMessage:(int)questId isComplete:(BOOL)isComplete jobId:(int)jobId jobProgress:(int)progress isJobComplete:(BOOL)isJobComplete userMonsterIds:(NSArray *)userMonsterIds;
 - (int) sendQuestRedeemMessage:(int)questId;
 
 - (int) sendRetrieveUsersForUserIds:(NSArray *)userIds includeCurMonsterTeam:(BOOL)includeCurMonsterTeam;
@@ -130,7 +130,7 @@
 - (int) sendRetrievePrivateChatPostsMessage:(int)otherUserId;
 
 - (int) sendBeginDungeonMessage:(uint64_t)clientTime taskId:(int)taskId isEvent:(BOOL)isEvent eventId:(int)eventId gems:(int)gems enemyElement:(MonsterProto_MonsterElement)element shouldForceElem:(BOOL)shouldForceElem questIds:(NSArray *)questIds;
-- (int) sendUpdateMonsterHealthMessage:(uint64_t)clientTime monsterHealth:(UserMonsterCurrentHealthProto *)monsterHealth;
+- (int) sendUpdateMonsterHealthMessage:(uint64_t)clientTime monsterHealths:(NSArray *)monsterHealths isForTask:(BOOL)isForTask userTaskId:(int64_t)userTaskId taskStageId:(int)taskStageId;
 - (int) sendEndDungeonMessage:(uint64_t)userTaskId userWon:(BOOL)userWon isFirstTimeCompleted:(BOOL)isFirstTimeCompleted time:(uint64_t)time;
 - (int) sendReviveInDungeonMessage:(uint64_t)userTaskId clientTime:(uint64_t)clientTime userHealths:(NSArray *)healths gems:(int)gems;
 
@@ -146,7 +146,7 @@
 
 - (int) sendSpawnObstacleMessage:(NSArray *)obstacles clientTime:(uint64_t)clientTime;
 - (int) sendBeginObstacleRemovalMessage:(int)userObstacleId resType:(ResourceType)resType resChange:(int)resChange gemsSpent:(int)gemsSpent clientTime:(uint64_t)clientTime;
-- (int) sendObstacleRemovalCompleteMessage:(int)userObstacleId speedup:(BOOL)speedUp gemsSpent:(int)gemsSpent clientTime:(uint64_t)clientTime;
+- (int) sendObstacleRemovalCompleteMessage:(int)userObstacleId speedup:(BOOL)speedUp gemsSpent:(int)gemsSpent maxObstacles:(BOOL)maxObstacles clientTime:(uint64_t)clientTime;
 
 - (int) sendEvolveMonsterMessageWithEvolution:(UserMonsterEvolutionProto *)evo gemCost:(int)gemCost oilChange:(int)oilChange;
 - (int) sendEvolutionFinishedMessageWithGems:(int)gems;

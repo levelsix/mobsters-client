@@ -51,6 +51,8 @@
 		<string>klavika bold bold.ttf</string>
 		<string>Gotham-Bold.otf</string>
 		<string>GothamBlack.otf</string>
+		<string>GothamMedium-Italic.otf</string>
+		<string>Ziggurat-HTF-Black.otf</string>
 	</array>
 	<key>UIPrerenderedIcon</key>
 	<true/>

@@ -60,6 +60,8 @@
 }
 
 - (void) loadGestureRecognizers {
+  [self unloadGestureRecognizers];
+  
   UIPanGestureRecognizer *pan = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(drag:)];
   pan.delegate = self;
   pan.maximumNumberOfTouches = 1;
@@ -80,6 +82,12 @@
 
 - (BOOL) gestureRecognizer:(UIGestureRecognizer *)gestureRecognizer shouldRecognizeSimultaneouslyWithGestureRecognizer:(UIGestureRecognizer *)otherGestureRecognizer {
   return YES;
+}
+
+- (BOOL) gestureRecognizer:(UIGestureRecognizer *)gestureRecognizer shouldReceiveTouch:(UITouch *)touch {
+  CCResponderManager *resp = [CCDirector sharedDirector].responderManager;
+  BOOL shouldReceive = [resp nodeAtPoint:[touch locationInWorld]] == nil;
+  return shouldReceive;
 }
 
 - (void) unloadGestureRecognizers {

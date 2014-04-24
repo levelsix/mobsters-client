@@ -1266,14 +1266,11 @@
   float startY = squareSize.height/2;
   float startX = squareSize.width/2;
   
-  for (int y = 0; y < self.gridSize.height; y++)
-  {
-    for (int x = 0; x < self.gridSize.width; x++)
-    {
+  for (int y = 0; y < self.gridSize.height; y++) {
+    for (int x = 0; x < self.gridSize.width; x++) {
       int idx = x+(y*self.gridSize.width);
       Gem *container = _gems[idx];
-      if (container.sprite.position.x != startX || container.sprite.position.y != startY)
-      {
+      if (container.sprite.position.x != startX || container.sprite.position.y != startY) {
         _gemsBouncing++;
         int numSquares = (container.sprite.position.y - startY) / squareSize.height;
         CCActionMoveTo * moveTo = [CCActionMoveTo actionWithDuration:0.4+0.1*numSquares position:CGPointMake(startX, startY)];
@@ -1535,6 +1532,50 @@
 
 - (void) touchCancelled:(UITouch *)touch withEvent:(UIEvent *)event {
   [self touchEnded:touch withEvent:event];
+}
+
+#pragma mark - Serialization
+
+#define POSITION_X_KEY @"PositionXKey"
+#define POSITION_Y_KEY @"PositionYKey"
+#define POWERUP_KEY @"PowerupKey"
+#define GEM_COLOR_KEY @"GemColorKey"
+
+- (id) serialize {
+  NSMutableArray *arr = [NSMutableArray array];
+  for (Gem *gem in self.gems) {
+    NSMutableDictionary *gemInfo = [NSMutableDictionary dictionary];
+    [gemInfo setObject:@(gem.powerup) forKey:POWERUP_KEY];
+    [gemInfo setObject:@(gem.color) forKey:GEM_COLOR_KEY];
+    
+    CGPoint pt = [self coordinateOfGem:gem];
+    [gemInfo setObject:@((int)pt.x) forKey:POSITION_X_KEY];
+    [gemInfo setObject:@((int)pt.y) forKey:POSITION_Y_KEY];
+    
+    [arr addObject:gemInfo];
+  }
+  return arr;
+}
+
+- (void) deserialize:(NSArray *)arr {
+  for (NSDictionary *gemInfo in arr) {
+    PowerupId powerup = (int)[[gemInfo objectForKey:POWERUP_KEY] integerValue];
+    GemColorId color = (int)[[gemInfo objectForKey:GEM_COLOR_KEY] integerValue];
+    Gem *gem = [self createGemWithColor:color powerup:powerup];
+    
+    int x = (int)[[gemInfo objectForKey:POSITION_X_KEY] integerValue];
+    int y = (int)[[gemInfo objectForKey:POSITION_Y_KEY] integerValue];
+    if (x < self.gridSize.width && y < self.gridSize.height) {
+      int idx = x+(y*self.gridSize.width);
+      
+      Gem *oldGem = [self.gems objectAtIndex:idx];
+      [self.gems replaceObjectAtIndex:idx withObject:gem];
+      [oldGem.sprite removeFromParent];
+      
+      [self addChild:gem.sprite z:9];
+      gem.sprite.position = [self pointForGridPosition:[self coordinateOfGem:gem]];
+    }
+  }
 }
 
 @end

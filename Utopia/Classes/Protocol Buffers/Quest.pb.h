@@ -58,6 +58,8 @@
 @class ObstacleProto_Builder;
 @class PrivateChatPostProto;
 @class PrivateChatPostProto_Builder;
+@class QuestJobProto;
+@class QuestJobProto_Builder;
 @class ResidenceProto;
 @class ResidenceProto_Builder;
 @class ResourceGeneratorProto;
@@ -92,18 +94,18 @@
 @class UserObstacleProto_Builder;
 @class UserPvpLeagueProto;
 @class UserPvpLeagueProto_Builder;
+@class UserQuestJobProto;
+@class UserQuestJobProto_Builder;
 typedef enum {
-  FullQuestProto_QuestTypeKillMonster = 1,
-  FullQuestProto_QuestTypeDonateMonster = 2,
-  FullQuestProto_QuestTypeCompleteTask = 3,
-  FullQuestProto_QuestTypeCollectCoinsFromHome = 4,
-  FullQuestProto_QuestTypeBuildStruct = 5,
-  FullQuestProto_QuestTypeUpgradeStruct = 6,
-  FullQuestProto_QuestTypeMonsterAppear = 7,
-  FullQuestProto_QuestTypeCollectSpecialItem = 8,
-} FullQuestProto_QuestType;
+  QuestJobProto_QuestJobTypeKillSpecificMonster = 1,
+  QuestJobProto_QuestJobTypeKillMonsterInCity = 2,
+  QuestJobProto_QuestJobTypeDonateMonster = 3,
+  QuestJobProto_QuestJobTypeCompleteTask = 4,
+  QuestJobProto_QuestJobTypeUpgradeStruct = 5,
+  QuestJobProto_QuestJobTypeCollectSpecialItem = 6,
+} QuestJobProto_QuestJobType;
 
-BOOL FullQuestProto_QuestTypeIsValidValue(FullQuestProto_QuestType value);
+BOOL QuestJobProto_QuestJobTypeIsValidValue(QuestJobProto_QuestJobType value);
 
 
 @interface QuestRoot : NSObject {
@@ -114,7 +116,6 @@ BOOL FullQuestProto_QuestTypeIsValidValue(FullQuestProto_QuestType value);
 
 @interface FullQuestProto : PBGeneratedMessage {
 @private
-  BOOL hasIsAchievement_:1;
   BOOL hasIsCompleteMonster_:1;
   BOOL hasPriority_:1;
   BOOL hasMonsterIdReward_:1;
@@ -122,11 +123,7 @@ BOOL FullQuestProto_QuestTypeIsValidValue(FullQuestProto_QuestType value);
   BOOL hasGemReward_:1;
   BOOL hasOilReward_:1;
   BOOL hasCashReward_:1;
-  BOOL hasQuantity_:1;
-  BOOL hasStaticDataId_:1;
-  BOOL hasCityId_:1;
   BOOL hasQuestId_:1;
-  BOOL hasJobDescription_:1;
   BOOL hasDoneResponse_:1;
   BOOL hasDescription_:1;
   BOOL hasName_:1;
@@ -135,9 +132,7 @@ BOOL FullQuestProto_QuestTypeIsValidValue(FullQuestProto_QuestType value);
   BOOL hasCarrotId_:1;
   BOOL hasAcceptDialogue_:1;
   BOOL hasQuestGiverImgOffset_:1;
-  BOOL hasQuestType_:1;
   BOOL hasMonsterElement_:1;
-  BOOL isAchievement_:1;
   BOOL isCompleteMonster_:1;
   int32_t priority;
   int32_t monsterIdReward;
@@ -145,11 +140,7 @@ BOOL FullQuestProto_QuestTypeIsValidValue(FullQuestProto_QuestType value);
   int32_t gemReward;
   int32_t oilReward;
   int32_t cashReward;
-  int32_t quantity;
-  int32_t staticDataId;
-  int32_t cityId;
   int32_t questId;
-  NSString* jobDescription;
   NSString* doneResponse;
   NSString* description;
   NSString* name;
@@ -158,20 +149,15 @@ BOOL FullQuestProto_QuestTypeIsValidValue(FullQuestProto_QuestType value);
   NSString* carrotId;
   DialogueProto* acceptDialogue;
   CoordinateProto* questGiverImgOffset;
-  FullQuestProto_QuestType questType;
   MonsterProto_MonsterElement monsterElement;
   NSMutableArray* mutableQuestsRequiredForThisList;
+  NSMutableArray* mutableJobsList;
 }
 - (BOOL) hasQuestId;
-- (BOOL) hasCityId;
 - (BOOL) hasName;
 - (BOOL) hasDescription;
 - (BOOL) hasDoneResponse;
 - (BOOL) hasAcceptDialogue;
-- (BOOL) hasQuestType;
-- (BOOL) hasJobDescription;
-- (BOOL) hasStaticDataId;
-- (BOOL) hasQuantity;
 - (BOOL) hasCashReward;
 - (BOOL) hasOilReward;
 - (BOOL) hasGemReward;
@@ -182,19 +168,13 @@ BOOL FullQuestProto_QuestTypeIsValidValue(FullQuestProto_QuestType value);
 - (BOOL) hasQuestGiverImagePrefix;
 - (BOOL) hasPriority;
 - (BOOL) hasCarrotId;
-- (BOOL) hasIsAchievement;
 - (BOOL) hasQuestGiverImgOffset;
 - (BOOL) hasMonsterElement;
 @property (readonly) int32_t questId;
-@property (readonly) int32_t cityId;
 @property (readonly, retain) NSString* name;
 @property (readonly, retain) NSString* description;
 @property (readonly, retain) NSString* doneResponse;
 @property (readonly, retain) DialogueProto* acceptDialogue;
-@property (readonly) FullQuestProto_QuestType questType;
-@property (readonly, retain) NSString* jobDescription;
-@property (readonly) int32_t staticDataId;
-@property (readonly) int32_t quantity;
 @property (readonly) int32_t cashReward;
 @property (readonly) int32_t oilReward;
 @property (readonly) int32_t gemReward;
@@ -205,11 +185,12 @@ BOOL FullQuestProto_QuestTypeIsValidValue(FullQuestProto_QuestType value);
 @property (readonly, retain) NSString* questGiverImagePrefix;
 @property (readonly) int32_t priority;
 @property (readonly, retain) NSString* carrotId;
-- (BOOL) isAchievement;
 @property (readonly, retain) CoordinateProto* questGiverImgOffset;
 @property (readonly) MonsterProto_MonsterElement monsterElement;
 - (NSArray*) questsRequiredForThisList;
 - (int32_t) questsRequiredForThisAtIndex:(int32_t) index;
+- (NSArray*) jobsList;
+- (QuestJobProto*) jobsAtIndex:(int32_t) index;
 
 + (FullQuestProto*) defaultInstance;
 - (FullQuestProto*) defaultInstance;
@@ -250,11 +231,6 @@ BOOL FullQuestProto_QuestTypeIsValidValue(FullQuestProto_QuestType value);
 - (FullQuestProto_Builder*) setQuestId:(int32_t) value;
 - (FullQuestProto_Builder*) clearQuestId;
 
-- (BOOL) hasCityId;
-- (int32_t) cityId;
-- (FullQuestProto_Builder*) setCityId:(int32_t) value;
-- (FullQuestProto_Builder*) clearCityId;
-
 - (BOOL) hasName;
 - (NSString*) name;
 - (FullQuestProto_Builder*) setName:(NSString*) value;
@@ -276,26 +252,6 @@ BOOL FullQuestProto_QuestTypeIsValidValue(FullQuestProto_QuestType value);
 - (FullQuestProto_Builder*) setAcceptDialogueBuilder:(DialogueProto_Builder*) builderForValue;
 - (FullQuestProto_Builder*) mergeAcceptDialogue:(DialogueProto*) value;
 - (FullQuestProto_Builder*) clearAcceptDialogue;
-
-- (BOOL) hasQuestType;
-- (FullQuestProto_QuestType) questType;
-- (FullQuestProto_Builder*) setQuestType:(FullQuestProto_QuestType) value;
-- (FullQuestProto_Builder*) clearQuestType;
-
-- (BOOL) hasJobDescription;
-- (NSString*) jobDescription;
-- (FullQuestProto_Builder*) setJobDescription:(NSString*) value;
-- (FullQuestProto_Builder*) clearJobDescription;
-
-- (BOOL) hasStaticDataId;
-- (int32_t) staticDataId;
-- (FullQuestProto_Builder*) setStaticDataId:(int32_t) value;
-- (FullQuestProto_Builder*) clearStaticDataId;
-
-- (BOOL) hasQuantity;
-- (int32_t) quantity;
-- (FullQuestProto_Builder*) setQuantity:(int32_t) value;
-- (FullQuestProto_Builder*) clearQuantity;
 
 - (BOOL) hasCashReward;
 - (int32_t) cashReward;
@@ -354,11 +310,6 @@ BOOL FullQuestProto_QuestTypeIsValidValue(FullQuestProto_QuestType value);
 - (FullQuestProto_Builder*) setCarrotId:(NSString*) value;
 - (FullQuestProto_Builder*) clearCarrotId;
 
-- (BOOL) hasIsAchievement;
-- (BOOL) isAchievement;
-- (FullQuestProto_Builder*) setIsAchievement:(BOOL) value;
-- (FullQuestProto_Builder*) clearIsAchievement;
-
 - (BOOL) hasQuestGiverImgOffset;
 - (CoordinateProto*) questGiverImgOffset;
 - (FullQuestProto_Builder*) setQuestGiverImgOffset:(CoordinateProto*) value;
@@ -370,6 +321,133 @@ BOOL FullQuestProto_QuestTypeIsValidValue(FullQuestProto_QuestType value);
 - (MonsterProto_MonsterElement) monsterElement;
 - (FullQuestProto_Builder*) setMonsterElement:(MonsterProto_MonsterElement) value;
 - (FullQuestProto_Builder*) clearMonsterElement;
+
+- (NSArray*) jobsList;
+- (QuestJobProto*) jobsAtIndex:(int32_t) index;
+- (FullQuestProto_Builder*) replaceJobsAtIndex:(int32_t) index with:(QuestJobProto*) value;
+- (FullQuestProto_Builder*) addJobs:(QuestJobProto*) value;
+- (FullQuestProto_Builder*) addAllJobs:(NSArray*) values;
+- (FullQuestProto_Builder*) clearJobsList;
+@end
+
+@interface QuestJobProto : PBGeneratedMessage {
+@private
+  BOOL hasQuestJobId_:1;
+  BOOL hasQuestId_:1;
+  BOOL hasStaticDataId_:1;
+  BOOL hasQuantity_:1;
+  BOOL hasPriority_:1;
+  BOOL hasCityId_:1;
+  BOOL hasCityAssetNum_:1;
+  BOOL hasDescription_:1;
+  BOOL hasQuestJobType_:1;
+  int32_t questJobId;
+  int32_t questId;
+  int32_t staticDataId;
+  int32_t quantity;
+  int32_t priority;
+  int32_t cityId;
+  int32_t cityAssetNum;
+  NSString* description;
+  QuestJobProto_QuestJobType questJobType;
+}
+- (BOOL) hasQuestJobId;
+- (BOOL) hasQuestId;
+- (BOOL) hasQuestJobType;
+- (BOOL) hasDescription;
+- (BOOL) hasStaticDataId;
+- (BOOL) hasQuantity;
+- (BOOL) hasPriority;
+- (BOOL) hasCityId;
+- (BOOL) hasCityAssetNum;
+@property (readonly) int32_t questJobId;
+@property (readonly) int32_t questId;
+@property (readonly) QuestJobProto_QuestJobType questJobType;
+@property (readonly, retain) NSString* description;
+@property (readonly) int32_t staticDataId;
+@property (readonly) int32_t quantity;
+@property (readonly) int32_t priority;
+@property (readonly) int32_t cityId;
+@property (readonly) int32_t cityAssetNum;
+
++ (QuestJobProto*) defaultInstance;
+- (QuestJobProto*) defaultInstance;
+
+- (BOOL) isInitialized;
+- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output;
+- (QuestJobProto_Builder*) builder;
++ (QuestJobProto_Builder*) builder;
++ (QuestJobProto_Builder*) builderWithPrototype:(QuestJobProto*) prototype;
+
++ (QuestJobProto*) parseFromData:(NSData*) data;
++ (QuestJobProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (QuestJobProto*) parseFromInputStream:(NSInputStream*) input;
++ (QuestJobProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (QuestJobProto*) parseFromCodedInputStream:(PBCodedInputStream*) input;
++ (QuestJobProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+@end
+
+@interface QuestJobProto_Builder : PBGeneratedMessage_Builder {
+@private
+  QuestJobProto* result;
+}
+
+- (QuestJobProto*) defaultInstance;
+
+- (QuestJobProto_Builder*) clear;
+- (QuestJobProto_Builder*) clone;
+
+- (QuestJobProto*) build;
+- (QuestJobProto*) buildPartial;
+
+- (QuestJobProto_Builder*) mergeFrom:(QuestJobProto*) other;
+- (QuestJobProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input;
+- (QuestJobProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+
+- (BOOL) hasQuestJobId;
+- (int32_t) questJobId;
+- (QuestJobProto_Builder*) setQuestJobId:(int32_t) value;
+- (QuestJobProto_Builder*) clearQuestJobId;
+
+- (BOOL) hasQuestId;
+- (int32_t) questId;
+- (QuestJobProto_Builder*) setQuestId:(int32_t) value;
+- (QuestJobProto_Builder*) clearQuestId;
+
+- (BOOL) hasQuestJobType;
+- (QuestJobProto_QuestJobType) questJobType;
+- (QuestJobProto_Builder*) setQuestJobType:(QuestJobProto_QuestJobType) value;
+- (QuestJobProto_Builder*) clearQuestJobType;
+
+- (BOOL) hasDescription;
+- (NSString*) description;
+- (QuestJobProto_Builder*) setDescription:(NSString*) value;
+- (QuestJobProto_Builder*) clearDescription;
+
+- (BOOL) hasStaticDataId;
+- (int32_t) staticDataId;
+- (QuestJobProto_Builder*) setStaticDataId:(int32_t) value;
+- (QuestJobProto_Builder*) clearStaticDataId;
+
+- (BOOL) hasQuantity;
+- (int32_t) quantity;
+- (QuestJobProto_Builder*) setQuantity:(int32_t) value;
+- (QuestJobProto_Builder*) clearQuantity;
+
+- (BOOL) hasPriority;
+- (int32_t) priority;
+- (QuestJobProto_Builder*) setPriority:(int32_t) value;
+- (QuestJobProto_Builder*) clearPriority;
+
+- (BOOL) hasCityId;
+- (int32_t) cityId;
+- (QuestJobProto_Builder*) setCityId:(int32_t) value;
+- (QuestJobProto_Builder*) clearCityId;
+
+- (BOOL) hasCityAssetNum;
+- (int32_t) cityAssetNum;
+- (QuestJobProto_Builder*) setCityAssetNum:(int32_t) value;
+- (QuestJobProto_Builder*) clearCityAssetNum;
 @end
 
 @interface DialogueProto : PBGeneratedMessage {
@@ -502,23 +580,22 @@ BOOL FullQuestProto_QuestTypeIsValidValue(FullQuestProto_QuestType value);
   BOOL hasIsComplete_:1;
   BOOL hasUserId_:1;
   BOOL hasQuestId_:1;
-  BOOL hasProgress_:1;
   BOOL isRedeemed_:1;
   BOOL isComplete_:1;
   int32_t userId;
   int32_t questId;
-  int32_t progress;
+  NSMutableArray* mutableUserQuestJobsList;
 }
 - (BOOL) hasUserId;
 - (BOOL) hasQuestId;
 - (BOOL) hasIsRedeemed;
 - (BOOL) hasIsComplete;
-- (BOOL) hasProgress;
 @property (readonly) int32_t userId;
 @property (readonly) int32_t questId;
 - (BOOL) isRedeemed;
 - (BOOL) isComplete;
-@property (readonly) int32_t progress;
+- (NSArray*) userQuestJobsList;
+- (UserQuestJobProto*) userQuestJobsAtIndex:(int32_t) index;
 
 + (FullUserQuestProto*) defaultInstance;
 - (FullUserQuestProto*) defaultInstance;
@@ -574,10 +651,87 @@ BOOL FullQuestProto_QuestTypeIsValidValue(FullQuestProto_QuestType value);
 - (FullUserQuestProto_Builder*) setIsComplete:(BOOL) value;
 - (FullUserQuestProto_Builder*) clearIsComplete;
 
+- (NSArray*) userQuestJobsList;
+- (UserQuestJobProto*) userQuestJobsAtIndex:(int32_t) index;
+- (FullUserQuestProto_Builder*) replaceUserQuestJobsAtIndex:(int32_t) index with:(UserQuestJobProto*) value;
+- (FullUserQuestProto_Builder*) addUserQuestJobs:(UserQuestJobProto*) value;
+- (FullUserQuestProto_Builder*) addAllUserQuestJobs:(NSArray*) values;
+- (FullUserQuestProto_Builder*) clearUserQuestJobsList;
+@end
+
+@interface UserQuestJobProto : PBGeneratedMessage {
+@private
+  BOOL hasIsComplete_:1;
+  BOOL hasQuestId_:1;
+  BOOL hasQuestJobId_:1;
+  BOOL hasProgress_:1;
+  BOOL isComplete_:1;
+  int32_t questId;
+  int32_t questJobId;
+  int32_t progress;
+}
+- (BOOL) hasQuestId;
+- (BOOL) hasQuestJobId;
+- (BOOL) hasIsComplete;
+- (BOOL) hasProgress;
+@property (readonly) int32_t questId;
+@property (readonly) int32_t questJobId;
+- (BOOL) isComplete;
+@property (readonly) int32_t progress;
+
++ (UserQuestJobProto*) defaultInstance;
+- (UserQuestJobProto*) defaultInstance;
+
+- (BOOL) isInitialized;
+- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output;
+- (UserQuestJobProto_Builder*) builder;
++ (UserQuestJobProto_Builder*) builder;
++ (UserQuestJobProto_Builder*) builderWithPrototype:(UserQuestJobProto*) prototype;
+
++ (UserQuestJobProto*) parseFromData:(NSData*) data;
++ (UserQuestJobProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (UserQuestJobProto*) parseFromInputStream:(NSInputStream*) input;
++ (UserQuestJobProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (UserQuestJobProto*) parseFromCodedInputStream:(PBCodedInputStream*) input;
++ (UserQuestJobProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+@end
+
+@interface UserQuestJobProto_Builder : PBGeneratedMessage_Builder {
+@private
+  UserQuestJobProto* result;
+}
+
+- (UserQuestJobProto*) defaultInstance;
+
+- (UserQuestJobProto_Builder*) clear;
+- (UserQuestJobProto_Builder*) clone;
+
+- (UserQuestJobProto*) build;
+- (UserQuestJobProto*) buildPartial;
+
+- (UserQuestJobProto_Builder*) mergeFrom:(UserQuestJobProto*) other;
+- (UserQuestJobProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input;
+- (UserQuestJobProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+
+- (BOOL) hasQuestId;
+- (int32_t) questId;
+- (UserQuestJobProto_Builder*) setQuestId:(int32_t) value;
+- (UserQuestJobProto_Builder*) clearQuestId;
+
+- (BOOL) hasQuestJobId;
+- (int32_t) questJobId;
+- (UserQuestJobProto_Builder*) setQuestJobId:(int32_t) value;
+- (UserQuestJobProto_Builder*) clearQuestJobId;
+
+- (BOOL) hasIsComplete;
+- (BOOL) isComplete;
+- (UserQuestJobProto_Builder*) setIsComplete:(BOOL) value;
+- (UserQuestJobProto_Builder*) clearIsComplete;
+
 - (BOOL) hasProgress;
 - (int32_t) progress;
-- (FullUserQuestProto_Builder*) setProgress:(int32_t) value;
-- (FullUserQuestProto_Builder*) clearProgress;
+- (UserQuestJobProto_Builder*) setProgress:(int32_t) value;
+- (UserQuestJobProto_Builder*) clearProgress;
 @end
 
 @interface ItemProto : PBGeneratedMessage {

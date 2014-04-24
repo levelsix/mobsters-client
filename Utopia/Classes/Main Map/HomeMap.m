@@ -245,15 +245,6 @@
     nil]];
 }
 
-- (BOOL) gestureRecognizer:(UIGestureRecognizer *)gestureRecognizer shouldReceiveTouch:(UITouch *)touch {
-  PurchaseConfirmMenu *menu = (PurchaseConfirmMenu *)[self getChildByName:PURCHASE_CONFIRM_MENU_TAG recursively:YES];
-  
-  if ([menu hitTestWithWorldPos:[touch locationInWorld]]) {
-    return NO;
-  }
-  return YES;
-}
-
 - (void) invalidateAllTimers {
   // Invalidate all timers
   [_timers enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
@@ -754,7 +745,8 @@
       self.buildingNameLabel.text = [NSString stringWithFormat:@"%@ (lvl %d)", fsp.name, fsp.level];
       self.buildingIncomeLabel.text = fsp.shortDescription;
       isOil = nextFsp ? nextFsp.buildResourceType == ResourceTypeOil : fsp.buildResourceType == ResourceTypeOil;
-      self.buildingUpgradeButtonTopLabel.text = @"Upgrade";
+      self.buildingUpgradeCashButtonTopLabel.text = @"Upgrade";
+      self.buildingUpgradeOilButtonTopLabel.text = @"Upgrade";
       
       if (nextFsp) {
         self.buildingUpgradeCashCostLabel.text = [Globals cashStringForNumber:nextFsp.buildCost];
@@ -776,8 +768,8 @@
           break;
           
         case StructureInfoProto_StructTypeResidence:
-          self.enterTopLabel.text = @"Hire";
-          self.enterBottomLabel.text = @"Workers";
+          self.enterTopLabel.text = @"Bonus";
+          self.enterBottomLabel.text = @"Slots";
           break;
           
         case StructureInfoProto_StructTypeTownHall:
@@ -799,7 +791,8 @@
       self.buildingUpgradeCashCostLabel.text = [Globals cashStringForNumber:op.cost];
       self.buildingUpgradeOilCostLabel.text = [Globals commafyNumber:op.cost];
       
-      self.buildingUpgradeButtonTopLabel.text = @"Remove";
+      self.buildingUpgradeCashButtonTopLabel.text = @"Remove";
+      self.buildingUpgradeOilButtonTopLabel.text = @"Remove";
       
       self.buildingNameLabel.text = op.name;
       self.buildingIncomeLabel.text = op.description;

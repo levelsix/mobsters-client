@@ -157,7 +157,7 @@
         <image name="addteam.png" width="17" height="17"/>
         <image name="cardbottomoverlay.png" width="95" height="22"/>
         <image name="cardhealthbg.png" width="46" height="9"/>
-        <image name="diamond.png" width="44" height="41"/>
+        <image name="diamond.png" width="29" height="27"/>
         <image name="earthcardhealthbar.png" width="44" height="7"/>
         <image name="finishheal.png" width="71" height="28"/>
         <image name="onteam.png" width="17" height="17"/>

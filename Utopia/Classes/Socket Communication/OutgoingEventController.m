@@ -20,6 +20,7 @@
 #import "GameViewController.h"
 #import "Downloader.h"
 #import "PersistentEventProto+Time.h"
+#import "FullQuestProto+JobAccess.h"
 
 #define CODE_PREFIX @"#~#"
 #define PURGE_CODE @"purgecache"
@@ -361,8 +362,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
     UserQuest *uq = [[UserQuest alloc] init];
     uq.userId = gs.userId;
     uq.questId = questId;
-    uq.progress = 0;
-    [gs addToMyQuests:[NSArray arrayWithObject:uq]];
+    [gs.myQuests setObject:uq forKey:@(questId)];
     
     [Analytics questAccept:questId];
     
@@ -373,12 +373,13 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
   return nil;
 }
 
-- (void) questProgress:(int)questId {
+- (void) questProgress:(int)questId jobId:(int)jobId {
   GameState *gs = [GameState sharedGameState];
   UserQuest *uq = [gs myQuestWithId:questId];
   
   if (uq) {
-    [[SocketCommunication sharedSocketCommunication] sendQuestProgressMessage:questId progress:uq.progress isComplete:uq.isComplete userMonsterIds:nil];
+    UserQuestJob *uqj = [uq jobForId:jobId];
+    [[SocketCommunication sharedSocketCommunication] sendQuestProgressMessage:questId isComplete:uq.isComplete jobId:jobId jobProgress:uqj.progress isJobComplete:uqj.isComplete userMonsterIds:nil];
     
     if (uq.isComplete) {
       NSNumber *questIdNum = [NSNumber numberWithInt:questId];
@@ -393,12 +394,13 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
   }
 }
 
-- (UserQuest *) donateForQuest:(int)questId monsterIds:(NSArray *)monsterIds {
+- (UserQuest *) donateForQuest:(int)questId jobId:(int)jobId monsterIds:(NSArray *)monsterIds {
   GameState *gs = [GameState sharedGameState];
   UserQuest *uq = [gs myQuestWithId:questId];
   FullQuestProto *fqp = [gs questForId:uq.questId];
+  QuestJobProto *jp = [fqp jobForId:jobId];
   
-  if (monsterIds.count < fqp.quantity) {
+  if (monsterIds.count < jp.quantity) {
     [Globals popupMessage:@"Attempting to donate without enough of monster."];
   } else if (uq) {
     for (NSNumber *num in monsterIds) {
@@ -411,7 +413,16 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
       }
     }
     
-    uq.isComplete = YES;
+    [uq setIsCompleteForQuestJobId:jobId];
+    
+    BOOL isQuestComplete = YES;
+    for (QuestJobProto *qj in fqp.jobsList) {
+      UserQuestJob *uqj = [uq jobForId:qj.questJobId];
+      if (!uqj.isComplete) {
+        isQuestComplete = NO;
+      }
+    }
+    uq.isComplete = isQuestComplete;
     
     NSNumber *questIdNum = [NSNumber numberWithInt:questId];
     FullQuestProto *fqp = [gs.inProgressIncompleteQuests objectForKey:questIdNum];
@@ -420,7 +431,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
       [gs.inProgressCompleteQuests setObject:fqp forKey:questIdNum];
     }
     
-    [[SocketCommunication sharedSocketCommunication] sendQuestProgressMessage:questId progress:uq.progress isComplete:uq.isComplete userMonsterIds:monsterIds];
+    [[SocketCommunication sharedSocketCommunication] sendQuestProgressMessage:questId isComplete:uq.isComplete jobId:jobId jobProgress:jp.quantity isJobComplete:YES userMonsterIds:monsterIds];
     return uq;
   } else {
     [Globals popupMessage:@"Attempting to donate for quest"];
@@ -912,7 +923,25 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
                                           setCurrentHealth:userMonster.curHealth]
                                          setUserMonsterId:userMonster.userMonsterId]
                                         build];
-    [[SocketCommunication sharedSocketCommunication] sendUpdateMonsterHealthMessage:[self getCurrentMilliseconds] monsterHealth:m];
+    [[SocketCommunication sharedSocketCommunication] sendUpdateMonsterHealthMessage:[self getCurrentMilliseconds] monsterHealths:@[m] isForTask:NO userTaskId:0 taskStageId:0];
+  }
+}
+
+- (void) progressDungeon:(NSArray *)curHealths dungeonInfo:(BeginDungeonResponseProto *)dungeonInfo newStageNum:(int)newStageNum {
+  NSMutableArray *arr = [NSMutableArray array];
+  for (BattlePlayer *bp in curHealths) {
+    UserMonsterCurrentHealthProto *m = [[[[UserMonsterCurrentHealthProto builder]
+                                          setCurrentHealth:bp.curHealth]
+                                         setUserMonsterId:bp.userMonsterId]
+                                        build];
+    [arr addObject:m];
+  }
+  
+  if (newStageNum < dungeonInfo.tspList.count) {
+    TaskStageProto *tsp = dungeonInfo.tspList[newStageNum];
+    [[SocketCommunication sharedSocketCommunication] sendUpdateMonsterHealthMessage:[self getCurrentMilliseconds] monsterHealths:arr isForTask:YES userTaskId:dungeonInfo.userTaskId taskStageId:tsp.stageId];
+  } else {
+    [Globals popupMessage:@"Attempting to progress dungeon with invalid stage num."];
   }
 }
 
@@ -1688,7 +1717,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
       
       BOOL shouldResetTime = gs.myObstacles.count >= gl.maxObstacles;
       
-      int tag = [[SocketCommunication sharedSocketCommunication] sendObstacleRemovalCompleteMessage:obstacle.userObstacleId speedup:numGems > 0 gemsSpent:numGems clientTime:ms];
+      int tag = [[SocketCommunication sharedSocketCommunication] sendObstacleRemovalCompleteMessage:obstacle.userObstacleId speedup:numGems > 0 gemsSpent:numGems maxObstacles:shouldResetTime clientTime:ms];
       [gs addUnrespondedUpdate:[GoldUpdate updateWithTag:tag change:-numGems]];
       
       obstacle.removalTime = nil;

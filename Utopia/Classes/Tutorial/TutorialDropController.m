@@ -69,6 +69,14 @@
   [[OutgoingEventController sharedOutgoingEventController] beginDungeon:ftp.taskId withDelegate:self.battleLayer];
 }
 
+- (void) stop {
+  [super stop];
+  [self.topBarViewController removeFromParentViewController];
+  [self.topBarViewController.view removeFromSuperview];
+  [self.myCroniesViewController.presentingViewController dismissViewControllerAnimated:NO completion:nil];
+  [CCDirector sharedDirector].view.userInteractionEnabled = YES;
+}
+
 - (void) beginFirstMove {
   NSArray *dialogue = @[@"Unlike your world, we mobsters find violence more civil than words when resolving issues.",
                         @"Earn the respect of this Goonie and recruit him to your squad by defeating him now!"];

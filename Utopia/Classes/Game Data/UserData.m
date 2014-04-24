@@ -121,9 +121,9 @@
   return [gs monsterWithId:self.staticMonster.evolutionMonsterId];
 }
 
-- (MonsterLevelInfoProto *) currentLevelInfo {
+- (MonsterLevelInfoProto *) levelInfo {
   NSArray *arr = self.staticMonster.lvlInfoList;
-  return arr.count > self.level-1 ? arr[self.level-1] : nil;
+  return arr.count > 0 ? arr[0] : nil;
 }
 
 - (BOOL) isCombining {
@@ -254,8 +254,11 @@
 
 - (float) currentPercentage {
   GameState *gs = [GameState sharedGameState];
+  return [self currentPercentageWithUserMonster:[gs myMonsterWithUserMonsterId:self.userMonsterId]];
+}
+
+- (float) currentPercentageWithUserMonster:(UserMonster *)um {
   Globals *gl = [Globals sharedGlobals];
-  UserMonster *um = [gs myMonsterWithUserMonsterId:self.userMonsterId];
   
   float totalSecs = [self totalSeconds];
   float timeLeft = [self.endTime timeIntervalSinceNow];
@@ -808,11 +811,6 @@
     [rewards addObject:r];
   }
   
-//  if (expAmount) {
-//    Reward *r = [[Reward alloc] initWithExpAmount:expAmount];
-//    [rewards addObject:r];
-//  }
-  
   return rewards;
 }
 
@@ -836,11 +834,6 @@
   
   if (quest.oilReward) {
     Reward *r = [[Reward alloc] initWithOilAmount:quest.oilReward];
-    [rewards addObject:r];
-  }
-  
-  if (quest.expReward) {
-    Reward *r = [[Reward alloc] initWithExpAmount:quest.expReward];
     [rewards addObject:r];
   }
   
@@ -914,15 +907,43 @@
 
 @end
 
+@implementation UserQuestJob
+
+- (id) initWithProto:(UserQuestJobProto *)proto {
+  if ((self = [super init])) {
+    self.questId = proto.questId;
+    self.questJobId = proto.questJobId;
+    self.progress = proto.progress;
+    self.isComplete = proto.isComplete;
+  }
+  return self;
+}
+
++ (id) questJobWithProto:(UserQuestJobProto *)proto {
+  return [[UserQuestJob alloc] initWithProto:proto];
+}
+
+@end
+
 @implementation UserQuest
 
-- (id) initWithProto:(FullUserQuestProto *)proto {
+- (id) init {
   if ((self = [super init])) {
+    self.progressDict = [NSMutableDictionary dictionary];
+  }
+  return self;
+}
+
+- (id) initWithProto:(FullUserQuestProto *)proto {
+  if ((self = [self init])) {
     self.userId = proto.userId;
     self.questId = proto.questId;
     self.isRedeemed = proto.isRedeemed;
     self.isComplete = proto.isComplete;
-    self.progress = proto.progress;
+    
+    for (UserQuestJobProto *uq in proto.userQuestJobsList) {
+      [self.progressDict setObject:[UserQuestJob questJobWithProto:uq] forKey:@(uq.questJobId)];
+    }
   }
   return self;
 }
@@ -934,6 +955,50 @@
 - (FullQuestProto *) quest {
   GameState *gs = [GameState sharedGameState];
   return [gs questForId:self.questId];
+}
+
+- (void) setProgress:(int)progress forQuestJobId:(int)questJobId {
+  UserQuestJob *job = self.progressDict[@(questJobId)];
+  
+  if (job) {
+    job.progress = progress;
+  } else {
+    job = [[UserQuestJob alloc] init];
+    job.questId = self.questId;
+    job.questJobId = questJobId;
+    job.progress = progress;
+    [self.progressDict setObject:job forKey:@(questJobId)];
+  }
+}
+
+- (void) setIsCompleteForQuestJobId:(int)questJobId {
+  UserQuestJob *job = self.progressDict[@(questJobId)];
+  
+  if (job) {
+    job.isComplete = YES;
+  } else {
+    job = [[UserQuestJob alloc] init];
+    job.questId = self.questId;
+    job.questJobId = questJobId;
+    job.isComplete = YES;
+    [self.progressDict setObject:job forKey:@(questJobId)];
+  }
+}
+
+- (int) getProgressForQuestJobId:(int)questJobId {
+  UserQuestJob *job = self.progressDict[@(questJobId)];
+  return job.progress;
+}
+
+- (UserQuestJob *) jobForId:(int)questJobId {
+  UserQuestJob *job = self.progressDict[@(questJobId)];
+  if (!job) {
+    job = [[UserQuestJob alloc] init];
+    job.questId = self.questId;
+    job.questJobId = questJobId;
+    [self.progressDict setObject:job forKey:@(questJobId)];
+  }
+  return job;
 }
 
 @end

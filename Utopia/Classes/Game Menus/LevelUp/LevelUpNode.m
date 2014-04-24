@@ -17,4 +17,8 @@
   self.spinner.blendFunc = (ccBlendFunc){GL_SRC_ALPHA, GL_ONE};
 }
 
+- (void) completedAnimationSequenceNamed:(NSString *)name {
+  [self removeFromParent];
+}
+
 @end

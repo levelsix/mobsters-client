@@ -25,13 +25,14 @@
     self.maxHealth = [gl calculateMaxHealthForMonster:monster];
     self.curHealth = MIN(self.maxHealth, monster.curHealth);
     self.element = mp.monsterElement;
+    self.rarity = mp.quality;
     self.fireDamage = [gl calculateElementalDamageForMonster:monster element:MonsterProto_MonsterElementFire];
     self.waterDamage = [gl calculateElementalDamageForMonster:monster element:MonsterProto_MonsterElementWater];
     self.earthDamage = [gl calculateElementalDamageForMonster:monster element:MonsterProto_MonsterElementGrass];
     self.lightDamage = [gl calculateElementalDamageForMonster:monster element:MonsterProto_MonsterElementLight];
     self.nightDamage = [gl calculateElementalDamageForMonster:monster element:MonsterProto_MonsterElementDark];
     self.rockDamage = [gl calculateElementalDamageForMonster:monster element:MonsterProto_MonsterElementRock];
-    self.name = [NSString stringWithFormat:@"%@ (lvl %d)", mp.displayName, monster.level];
+    self.name = [NSString stringWithFormat:@"%@ (Lvl %d)", mp.displayName, monster.level];
     self.spritePrefix = mp.imagePrefix;
     self.monsterId = monster.monsterId;
     self.userMonsterId = monster.userMonsterId;
@@ -55,6 +56,7 @@
     self.maxHealth = monster.monsterHp;
     self.curHealth = MIN(self.maxHealth, curHealth);
     self.element = mp.monsterElement;
+    self.rarity = mp.quality;
     self.minDamage = monster.minDmg;
     self.maxDamage = monster.maxDmg;
     self.spritePrefix = mp.imagePrefix;

@@ -25,11 +25,11 @@
 }
 
 - (void) arrowOnVisit {
-  [Globals createUIArrowForView:self.questDetailsViewController.visitButton atAngle:-M_PI_2];
+//  [Globals createUIArrowForView:self.questDetailsViewController.visitButton atAngle:-M_PI_2];
 }
 
 - (void) arrowOnCollect {
-  [Globals createUIArrowForView:self.questDetailsViewController.collectButton atAngle:M_PI];
+//  [Globals createUIArrowForView:self.questDetailsViewController.collectButton atAngle:M_PI];
 }
 
 #pragma mark - Overwritten methods

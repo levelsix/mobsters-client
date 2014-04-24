@@ -730,6 +730,10 @@
                             <rect key="frame" x="385" y="216" width="100" height="100"/>
                             <autoresizingMask key="autoresizingMask"/>
                         </imageView>
+                        <imageView opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="center" image="testflat.png" id="Ch7-QR-UGq">
+                            <rect key="frame" x="-44" y="0.0" width="568" height="320"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
+                        </imageView>
                     </subviews>
                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                 </view>
@@ -841,11 +845,11 @@
                     <color key="shadowColor" white="1" alpha="0.5" colorSpace="calibratedWhite"/>
                     <size key="shadowOffset" width="0.0" height="1"/>
                 </label>
-                <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="bigdiamond.png" id="42h-EN-dbD">
+                <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="diamondbig.png" id="42h-EN-dbD">
                     <rect key="frame" x="55" y="52" width="109" height="100"/>
                     <autoresizingMask key="autoresizingMask"/>
                 </imageView>
-                <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="bigchampion.png" id="DgY-m6-fe8">
+                <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="championbig.png" id="DgY-m6-fe8">
                     <rect key="frame" x="55" y="52" width="109" height="100"/>
                     <autoresizingMask key="autoresizingMask"/>
                 </imageView>
@@ -862,15 +866,15 @@
     </objects>
     <resources>
         <image name="attackmapborder.png" width="480" height="320"/>
-        <image name="bigchampion.png" width="107" height="100"/>
-        <image name="bigdiamond.png" width="109" height="100"/>
         <image name="blackandwhitebanner.png" width="349" height="60"/>
         <image name="bronzeicon.png" width="37" height="42"/>
         <image name="bronzerankbg.png" width="196" height="38"/>
+        <image name="championbig.png" width="107" height="100"/>
         <image name="championicon.png" width="46" height="42"/>
         <image name="championrankbg.png" width="196" height="38"/>
         <image name="close1.png" width="30" height="29"/>
-        <image name="diamond.png" width="37" height="35"/>
+        <image name="diamond.png" width="29" height="27"/>
+        <image name="diamondbig.png" width="109" height="100"/>
         <image name="diamondicon.png" width="45" height="41"/>
         <image name="diamondrankbg.png" width="196" height="38"/>
         <image name="earthbanner.png" width="349" height="60"/>
@@ -895,5 +899,6 @@
         <image name="silvericon.png" width="39" height="43"/>
         <image name="silverrankbg.png" width="196" height="38"/>
         <image name="spinnertest.png" width="164" height="164"/>
+        <image name="testflat.png" width="568" height="320"/>
     </resources>
 </document>
