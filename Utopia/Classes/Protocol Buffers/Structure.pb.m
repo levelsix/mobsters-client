@@ -21,6 +21,7 @@ static PBExtensionRegistry* extensionRegistry = nil;
 
 BOOL ResourceTypeIsValidValue(ResourceType value) {
   switch (value) {
+    case ResourceTypeNoResource:
     case ResourceTypeCash:
     case ResourceTypeOil:
     case ResourceTypeGems:
@@ -32,6 +33,7 @@ BOOL ResourceTypeIsValidValue(ResourceType value) {
 }
 BOOL StructOrientationIsValidValue(StructOrientation value) {
   switch (value) {
+    case StructOrientationNoOrientation:
     case StructOrientationPosition1:
     case StructOrientationPosition2:
       return YES;
@@ -225,8 +227,8 @@ BOOL StructOrientationIsValidValue(StructOrientation value) {
     self.structId = 0;
     self.name = @"";
     self.level = 0;
-    self.structType = StructureInfoProto_StructTypeResourceGenerator;
-    self.buildResourceType = ResourceTypeCash;
+    self.structType = StructureInfoProto_StructTypeNoStruct;
+    self.buildResourceType = ResourceTypeNoResource;
     self.buildCost = 0;
     self.minutesToBuild = 0;
     self.prerequisiteTownHallLvl = 0;
@@ -432,6 +434,7 @@ static StructureInfoProto* defaultStructureInfoProtoInstance = nil;
 
 BOOL StructureInfoProto_StructTypeIsValidValue(StructureInfoProto_StructType value) {
   switch (value) {
+    case StructureInfoProto_StructTypeNoStruct:
     case StructureInfoProto_StructTypeResourceGenerator:
     case StructureInfoProto_StructTypeResourceStorage:
     case StructureInfoProto_StructTypeHospital:
@@ -728,7 +731,7 @@ BOOL StructureInfoProto_StructTypeIsValidValue(StructureInfoProto_StructType val
 }
 - (StructureInfoProto_Builder*) clearStructType {
   result.hasStructType = NO;
-  result.structType = StructureInfoProto_StructTypeResourceGenerator;
+  result.structType = StructureInfoProto_StructTypeNoStruct;
   return self;
 }
 - (BOOL) hasBuildResourceType {
@@ -744,7 +747,7 @@ BOOL StructureInfoProto_StructTypeIsValidValue(StructureInfoProto_StructType val
 }
 - (StructureInfoProto_Builder*) clearBuildResourceType {
   result.hasBuildResourceType = NO;
-  result.buildResourceType = ResourceTypeCash;
+  result.buildResourceType = ResourceTypeNoResource;
   return self;
 }
 - (BOOL) hasBuildCost {
@@ -1049,7 +1052,7 @@ BOOL StructureInfoProto_StructTypeIsValidValue(StructureInfoProto_StructType val
 - (id) init {
   if ((self = [super init])) {
     self.structInfo = [StructureInfoProto defaultInstance];
-    self.resourceType = ResourceTypeCash;
+    self.resourceType = ResourceTypeNoResource;
     self.productionRate = 0;
     self.capacity = 0;
   }
@@ -1284,7 +1287,7 @@ static ResourceGeneratorProto* defaultResourceGeneratorProtoInstance = nil;
 }
 - (ResourceGeneratorProto_Builder*) clearResourceType {
   result.hasResourceType = NO;
-  result.resourceType = ResourceTypeCash;
+  result.resourceType = ResourceTypeNoResource;
   return self;
 }
 - (BOOL) hasProductionRate {
@@ -1357,7 +1360,7 @@ static ResourceGeneratorProto* defaultResourceGeneratorProtoInstance = nil;
 - (id) init {
   if ((self = [super init])) {
     self.structInfo = [StructureInfoProto defaultInstance];
-    self.resourceType = ResourceTypeCash;
+    self.resourceType = ResourceTypeNoResource;
     self.capacity = 0;
   }
   return self;
@@ -1578,7 +1581,7 @@ static ResourceStorageProto* defaultResourceStorageProtoInstance = nil;
 }
 - (ResourceStorageProto_Builder*) clearResourceType {
   result.hasResourceType = NO;
-  result.resourceType = ResourceTypeCash;
+  result.resourceType = ResourceTypeNoResource;
   return self;
 }
 - (BOOL) hasCapacity {
@@ -3205,7 +3208,7 @@ static TownHallProto* defaultTownHallProtoInstance = nil;
     self.purchaseTime = 0L;
     self.isComplete = NO;
     self.coordinates = [CoordinateProto defaultInstance];
-    self.orientation = StructOrientationPosition1;
+    self.orientation = StructOrientationNoOrientation;
     self.fbInviteStructLvl = 0;
   }
   return self;
@@ -3600,7 +3603,7 @@ static FullUserStructureProto* defaultFullUserStructureProtoInstance = nil;
 }
 - (FullUserStructureProto_Builder*) clearOrientation {
   result.hasOrientation = NO;
-  result.orientation = StructOrientationPosition1;
+  result.orientation = StructOrientationNoOrientation;
   return self;
 }
 - (BOOL) hasFbInviteStructLvl {
@@ -4199,7 +4202,7 @@ static TutorialStructProto* defaultTutorialStructProtoInstance = nil;
   if ((self = [super init])) {
     self.obstacleId = 0;
     self.name = @"";
-    self.removalCostType = ResourceTypeCash;
+    self.removalCostType = ResourceTypeNoResource;
     self.cost = 0;
     self.secondsToRemove = 0;
     self.width = 0;
@@ -4570,7 +4573,7 @@ static ObstacleProto* defaultObstacleProtoInstance = nil;
 }
 - (ObstacleProto_Builder*) clearRemovalCostType {
   result.hasRemovalCostType = NO;
-  result.removalCostType = ResourceTypeCash;
+  result.removalCostType = ResourceTypeNoResource;
   return self;
 }
 - (BOOL) hasCost {
@@ -4788,7 +4791,7 @@ static ObstacleProto* defaultObstacleProtoInstance = nil;
   if ((self = [super init])) {
     self.obstacleId = 0;
     self.coordinate = [CoordinateProto defaultInstance];
-    self.orientation = StructOrientationPosition1;
+    self.orientation = StructOrientationNoOrientation;
   }
   return self;
 }
@@ -5024,7 +5027,7 @@ static MinimumObstacleProto* defaultMinimumObstacleProtoInstance = nil;
 }
 - (MinimumObstacleProto_Builder*) clearOrientation {
   result.hasOrientation = NO;
-  result.orientation = StructOrientationPosition1;
+  result.orientation = StructOrientationNoOrientation;
   return self;
 }
 @end
@@ -5092,7 +5095,7 @@ static MinimumObstacleProto* defaultMinimumObstacleProtoInstance = nil;
     self.userId = 0;
     self.obstacleId = 0;
     self.coordinates = [CoordinateProto defaultInstance];
-    self.orientation = StructOrientationPosition1;
+    self.orientation = StructOrientationNoOrientation;
     self.removalStartTime = 0L;
   }
   return self;
@@ -5400,7 +5403,7 @@ static UserObstacleProto* defaultUserObstacleProtoInstance = nil;
 }
 - (UserObstacleProto_Builder*) clearOrientation {
   result.hasOrientation = NO;
-  result.orientation = StructOrientationPosition1;
+  result.orientation = StructOrientationNoOrientation;
   return self;
 }
 - (BOOL) hasRemovalStartTime {

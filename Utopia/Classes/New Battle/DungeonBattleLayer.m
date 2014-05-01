@@ -15,6 +15,7 @@
 #import "GameViewController.h"
 #import "CCBReader.h"
 #import "FacebookDelegate.h"
+#import "AchievementUtil.h"
 
 @implementation DungeonBattleLayer
 
@@ -55,11 +56,9 @@
 
 - (void) handleEndDungeonResponseProto:(FullEvent *)fe {
   _receivedEndDungeonResponse = YES;
-  if (_wonBattle) {
-    EndDungeonResponseProto *proto = (EndDungeonResponseProto *)fe.event;
-    if (proto.status == EndDungeonResponseProto_EndDungeonStatusSuccess) {
-      [self checkQuests];
-    }
+  EndDungeonResponseProto *proto = (EndDungeonResponseProto *)fe.event;
+  if (proto.status == EndDungeonResponseProto_EndDungeonStatusSuccess) {
+    [self checkQuests];
   }
   
   if (_waitingForEndDungeonResponse) {
@@ -70,7 +69,10 @@
 - (void) checkQuests {
   if (!_checkedQuests) {
     _checkedQuests = YES;
-    [QuestUtil checkQuestsForDungeon:self.dungeonInfo];
+    if (_wonBattle) {
+      [QuestUtil checkQuestsForDungeon:self.dungeonInfo];
+    }
+    [AchievementUtil checkAchievementsForDungeonBattleWithOrbCounts:_orbCounts powerupCounts:_powerupCounts comboCount:_totalComboCount damageTaken:_totalDamageTaken dungeonInfo:self.dungeonInfo wonBattle:_wonBattle];
   }
 }
 
@@ -89,7 +91,7 @@
 
 - (void) attemptRunaway {
   BOOL success = arc4random()%2 == 0;
-   success = 1;
+  success = 1;
   if (success) {
     [self runawaySuccess];
   } else {
@@ -344,6 +346,10 @@
 #define BOARD_CONFIG_KEY @"BoardConfigKey"
 #define DAMAGE_STORED_KEY @"DamageStoredKey"
 #define DAMAGE_DEALT_KEY @"DamageDealtKey"
+#define TOTAL_DAMAGE_TAKEN_KEY @"TotalDamageTakenKey"
+#define TOTAL_COMBO_COUNT_KEY @"TotalComboCountKey"
+#define ORB_COUNTS_KEY @"OrbCountsKey"
+#define POWERUP_COUNTS_KEY @"PowerupCountsKey"
 
 - (void) saveCurrentState {
   NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
@@ -376,6 +382,16 @@
   [dict setObject:@(_curStage) forKey:CUR_STAGE_KEY];
   [dict setObject:@(self.dungeonInfo.userTaskId) forKey:USER_TASK_KEY];
   
+  // Achievement info
+  [dict setObject:@(_totalDamageTaken) forKey:TOTAL_DAMAGE_TAKEN_KEY];
+  [dict setObject:@(_totalComboCount) forKey:TOTAL_COMBO_COUNT_KEY];
+  
+  NSData *orbCounts = [NSData dataWithBytes:_orbCounts length:sizeof(_orbCounts)];
+  [dict setObject:orbCounts forKey:ORB_COUNTS_KEY];
+  
+  NSData *powerupCounts = [NSData dataWithBytes:_powerupCounts length:sizeof(_powerupCounts)];
+  [dict setObject:powerupCounts forKey:POWERUP_COUNTS_KEY];
+  
   return dict;
 }
 
@@ -391,6 +407,16 @@
     BattlePlayer *bp = self.enemyTeam[curStage];
     bp.curHealth = enemyHealth;
   }
+  
+  _totalDamageTaken = (int)[[stateDict objectForKey:TOTAL_DAMAGE_TAKEN_KEY] integerValue];
+  _totalComboCount = (int)[[stateDict objectForKey:TOTAL_COMBO_COUNT_KEY] integerValue];
+  
+  // Use the c array's length as opposed to the NSData's in case the c array is shorter
+  NSData *orbCounts = [stateDict objectForKey:ORB_COUNTS_KEY];
+  [orbCounts getBytes:_orbCounts length:sizeof(_orbCounts)];
+  
+  NSData *powerupCounts = [stateDict objectForKey:POWERUP_COUNTS_KEY];
+  [powerupCounts getBytes:_powerupCounts length:sizeof(_powerupCounts)];
 }
 
 @end

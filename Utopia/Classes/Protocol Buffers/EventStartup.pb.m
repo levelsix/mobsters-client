@@ -12,6 +12,7 @@ static PBExtensionRegistry* extensionRegistry = nil;
   if (self == [EventStartupRoot class]) {
     PBMutableExtensionRegistry* registry = [PBMutableExtensionRegistry registry];
     [self registerAllExtensions:registry];
+    [AchievementStuffRoot registerAllExtensions:registry];
     [BattleRoot registerAllExtensions:registry];
     [BoosterPackStuffRoot registerAllExtensions:registry];
     [ChatRoot registerAllExtensions:registry];
@@ -527,6 +528,7 @@ static StartupRequestProto* defaultStartupRequestProtoInstance = nil;
 @property (retain) NSMutableArray* mutableRecentNbattlesList;
 @property (retain) MinimumUserTaskProto* curTask;
 @property (retain) NSMutableArray* mutableCurTaskStagesList;
+@property (retain) NSMutableArray* mutableUserAchievementsList;
 @end
 
 @implementation StartupResponseProto
@@ -669,6 +671,7 @@ static StartupRequestProto* defaultStartupRequestProtoInstance = nil;
 }
 @synthesize curTask;
 @synthesize mutableCurTaskStagesList;
+@synthesize mutableUserAchievementsList;
 - (void) dealloc {
   self.sender = nil;
   self.startupConstants = nil;
@@ -703,6 +706,7 @@ static StartupRequestProto* defaultStartupRequestProtoInstance = nil;
   self.mutableRecentNbattlesList = nil;
   self.curTask = nil;
   self.mutableCurTaskStagesList = nil;
+  self.mutableUserAchievementsList = nil;
   [super dealloc];
 }
 - (id) init {
@@ -885,6 +889,13 @@ static StartupResponseProto* defaultStartupResponseProtoInstance = nil;
   id value = [mutableCurTaskStagesList objectAtIndex:index];
   return value;
 }
+- (NSArray*) userAchievementsList {
+  return mutableUserAchievementsList;
+}
+- (UserAchievementProto*) userAchievementsAtIndex:(int32_t) index {
+  id value = [mutableUserAchievementsList objectAtIndex:index];
+  return value;
+}
 - (BOOL) isInitialized {
   return YES;
 }
@@ -999,6 +1010,9 @@ static StartupResponseProto* defaultStartupResponseProtoInstance = nil;
   }
   for (TaskStageProto* element in self.curTaskStagesList) {
     [output writeMessage:37 value:element];
+  }
+  for (UserAchievementProto* element in self.userAchievementsList) {
+    [output writeMessage:38 value:element];
   }
   [self.unknownFields writeToCodedOutputStream:output];
 }
@@ -1139,6 +1153,9 @@ static StartupResponseProto* defaultStartupResponseProtoInstance = nil;
   }
   for (TaskStageProto* element in self.curTaskStagesList) {
     size += computeMessageSize(37, element);
+  }
+  for (UserAchievementProto* element in self.userAchievementsList) {
+    size += computeMessageSize(38, element);
   }
   size += self.unknownFields.serializedSize;
   memoizedSerializedSize = size;
@@ -6079,6 +6096,12 @@ static StartupResponseProto_TutorialConstants* defaultStartupResponseProto_Tutor
     }
     [result.mutableCurTaskStagesList addObjectsFromArray:other.mutableCurTaskStagesList];
   }
+  if (other.mutableUserAchievementsList.count > 0) {
+    if (result.mutableUserAchievementsList == nil) {
+      result.mutableUserAchievementsList = [NSMutableArray array];
+    }
+    [result.mutableUserAchievementsList addObjectsFromArray:other.mutableUserAchievementsList];
+  }
   [self mergeUnknownFields:other.unknownFields];
   return self;
 }
@@ -6330,6 +6353,12 @@ static StartupResponseProto_TutorialConstants* defaultStartupResponseProto_Tutor
         TaskStageProto_Builder* subBuilder = [TaskStageProto builder];
         [input readMessage:subBuilder extensionRegistry:extensionRegistry];
         [self addCurTaskStages:[subBuilder buildPartial]];
+        break;
+      }
+      case 306: {
+        UserAchievementProto_Builder* subBuilder = [UserAchievementProto builder];
+        [input readMessage:subBuilder extensionRegistry:extensionRegistry];
+        [self addUserAchievements:[subBuilder buildPartial]];
         break;
       }
     }
@@ -7318,6 +7347,35 @@ static StartupResponseProto_TutorialConstants* defaultStartupResponseProto_Tutor
     result.mutableCurTaskStagesList = [NSMutableArray array];
   }
   [result.mutableCurTaskStagesList addObject:value];
+  return self;
+}
+- (NSArray*) userAchievementsList {
+  if (result.mutableUserAchievementsList == nil) { return [NSArray array]; }
+  return result.mutableUserAchievementsList;
+}
+- (UserAchievementProto*) userAchievementsAtIndex:(int32_t) index {
+  return [result userAchievementsAtIndex:index];
+}
+- (StartupResponseProto_Builder*) replaceUserAchievementsAtIndex:(int32_t) index with:(UserAchievementProto*) value {
+  [result.mutableUserAchievementsList replaceObjectAtIndex:index withObject:value];
+  return self;
+}
+- (StartupResponseProto_Builder*) addAllUserAchievements:(NSArray*) values {
+  if (result.mutableUserAchievementsList == nil) {
+    result.mutableUserAchievementsList = [NSMutableArray array];
+  }
+  [result.mutableUserAchievementsList addObjectsFromArray:values];
+  return self;
+}
+- (StartupResponseProto_Builder*) clearUserAchievementsList {
+  result.mutableUserAchievementsList = nil;
+  return self;
+}
+- (StartupResponseProto_Builder*) addUserAchievements:(UserAchievementProto*) value {
+  if (result.mutableUserAchievementsList == nil) {
+    result.mutableUserAchievementsList = [NSMutableArray array];
+  }
+  [result.mutableUserAchievementsList addObject:value];
   return self;
 }
 @end

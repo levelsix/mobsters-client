@@ -72,7 +72,7 @@ static float imgHeight = 42.f;
 {
   self = [super initWithNavigationBarClass:[CustomNavBar class] toolbarClass:nil];
   if (self) {
-    self.modalTransitionStyle = UIModalTransitionStyleCoverVertical;
+    self.modalTransitionStyle = UIModalTransitionStyleCrossDissolve;
   }
   return self;
 }

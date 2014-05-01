@@ -10,6 +10,7 @@
 #import "QuestListViewController.h"
 #import "QuestDetailsViewController.h"
 #import "NibUtils.h"
+#import "AchievementsViewController.h"
 
 @protocol QuestLogDelegate <NSObject>
 
@@ -18,7 +19,7 @@
 
 @end
 
-@interface QuestLogViewController : UIViewController <QuestListCellDelegate, QuestDetailsViewControllerDelegate> {
+@interface QuestLogViewController : UIViewController <QuestListCellDelegate, QuestDetailsViewControllerDelegate, TabBarDelegate> {
   int _donateJobId;
 }
 
@@ -26,6 +27,7 @@
 
 @property (nonatomic, strong) QuestListViewController *questListViewController;
 @property (nonatomic, strong) QuestDetailsViewController *questDetailsViewController;
+@property (nonatomic, strong) AchievementsViewController *achievementsViewController;
 
 @property (nonatomic, strong) IBOutlet UILabel *titleLabel;
 @property (nonatomic, strong) IBOutlet UIView *containerView;
@@ -35,6 +37,8 @@
 @property (nonatomic, strong) IBOutlet UIView *bgdView;
 
 @property (nonatomic, strong) IBOutlet ButtonTopBar *topBar;
+@property (nonatomic, strong) IBOutlet BadgeIcon *questBadge;
+@property (nonatomic, strong) IBOutlet BadgeIcon *achievementBadge;
 
 @property (nonatomic, assign) id<QuestLogDelegate> delegate;
 

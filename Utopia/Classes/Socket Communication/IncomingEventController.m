@@ -249,6 +249,12 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
     case EventProtocolResponseSObstacleRemovalCompleteEvent:
       responseClass = [ObstacleRemovalCompleteResponseProto class];
       break;
+    case EventProtocolResponseSAchievementProgressEvent:
+      responseClass = [AchievementProgressResponseProto class];
+      break;
+    case EventProtocolResponseSAchievementRedeemEvent:
+      responseClass = [AchievementRedeemResponseProto class];
+      break;
       
     default:
       responseClass = nil;
@@ -327,6 +333,9 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
     gs.completedTasks = [NSMutableSet setWithArray:proto.completedTaskIdsList];
     [gs.myQuests removeAllObjects];
     [gs addToMyQuests:proto.userQuestsList];
+    
+    [gs.myAchievements removeAllObjects];
+    [gs addToMyAchievements:proto.userAchievementsList];
     
     [gs.fbUnacceptedRequestsFromFriends removeAllObjects];
     [gs.fbAcceptedRequestsFromMe removeAllObjects];
@@ -1612,6 +1621,38 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
     [gs removeNonFullUserUpdatesForTag:tag];
   } else {
     [Globals popupMessage:@"Server failed to complete obstacle removal."];
+    
+    [gs removeAndUndoAllUpdatesForTag:tag];
+  }
+}
+
+- (void) handleAchievementProgressResponseProto:(FullEvent *)fe {
+  AchievementProgressResponseProto *proto = (AchievementProgressResponseProto *)fe.event;
+  int tag = fe.tag;
+  
+  LNLog(@"Achievement progress response received with status %d.", proto.status);
+  
+  GameState *gs = [GameState sharedGameState];
+  if (proto.status == AchievementProgressResponseProto_AchievementProgressStatusSuccess) {
+    [gs removeNonFullUserUpdatesForTag:tag];
+  } else {
+    [Globals popupMessage:@"Server failed to progress achievement."];
+    
+    [gs removeAndUndoAllUpdatesForTag:tag];
+  }
+}
+
+- (void) handleAchievementRedeemResponseProto:(FullEvent *)fe {
+  AchievementRedeemResponseProto *proto = (AchievementRedeemResponseProto *)fe.event;
+  int tag = fe.tag;
+  
+  LNLog(@"Achievement redeem response received with status %d.", proto.status);
+  
+  GameState *gs = [GameState sharedGameState];
+  if (proto.status == AchievementRedeemResponseProto_AchievementRedeemStatusSuccess) {
+    [gs removeNonFullUserUpdatesForTag:tag];
+  } else {
+    [Globals popupMessage:@"Server failed to redeems achievement."];
     
     [gs removeAndUndoAllUpdatesForTag:tag];
   }

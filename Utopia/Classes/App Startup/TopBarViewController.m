@@ -21,13 +21,15 @@
 #import "RequestsViewController.h"
 #import "DialogueViewController.h"
 #import "UnreadNotifications.h"
+#import "MiniJobsViewController.h"
 
 @implementation SplitImageProgressBar
 
 - (void) setPercentage:(float)percentage {
   _percentage = clampf(percentage, 0.f, 1.f);
   
-  float totalWidth = (int)roundf(_percentage*self.frame.size.width);
+  // Always add 2 pixels because edges of caps are usually empty
+  float totalWidth = (int)roundf(_percentage*(self.frame.size.width-2))+2;
   CGRect r;
   
   r = self.leftCap.frame;
@@ -162,6 +164,7 @@
   [self updateMailBadge];
   
   [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(updateQuestBadge) name:QUESTS_CHANGED_NOTIFICATION object:nil];
+  [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(updateQuestBadge) name:ACHIEVEMENTS_CHANGED_NOTIFICATION object:nil];
   [self updateQuestBadge];
   
   self.updateTimer = [NSTimer timerWithTimeInterval:1.f target:self selector:@selector(updateLabels) userInfo:nil repeats:YES];
@@ -222,16 +225,32 @@
     }
   }
   
+  // Check for completed achievements
+  for (UserAchievement *ua in gs.myAchievements.allValues) {
+    if (ua.isComplete && !ua.isRedeemed) {
+      // Check that it's prereq is done
+      AchievementProto *ap = [gs achievementWithId:ua.achievementId];
+      if (ap.prerequisiteId) {
+        UserAchievement *pre = [gs.myAchievements objectForKey:@(ap.prerequisiteId)];
+        if (pre.isRedeemed) {
+          badgeNum++;
+        }
+      } else {
+        badgeNum++;
+      }
+    }
+  }
+  
   self.questBadge.badgeNum = badgeNum;
 }
 
-- (void) displayQuestProgressViewForQuest:(FullQuestProto *)fqp userQuest:(UserQuest *)uq jobId:(int)jobId {
+- (void) displayQuestProgressViewForQuest:(FullQuestProto *)fqp userQuest:(UserQuest *)uq jobId:(int)jobId completion:(void (^)(void))completion {
   [[NSBundle mainBundle] loadNibNamed:@"TopBarQuestProgressView" owner:self options:nil];
   [self.view addSubview:self.questProgressView];
   
   self.questProgressView.center = ccp(self.view.frame.size.width/2, self.view.frame.size.height-self.questProgressView.frame.size.height/2-10);
   
-  [self.questProgressView displayForQuest:fqp userQuest:uq jobId:jobId];
+  [self.questProgressView displayForQuest:fqp userQuest:uq jobId:jobId completion:completion];
   
   self.questProgressView = nil;
 }
@@ -334,6 +353,7 @@
 - (IBAction)mailClicked:(id)sender {
   GameViewController *gvc = (GameViewController *)self.parentViewController;
   RequestsViewController *rvc = [[RequestsViewController alloc] init];
+//  MiniJobsViewController *rvc = [[MiniJobsViewController alloc] init];
   [gvc addChildViewController:rvc];
   rvc.view.frame = gvc.view.bounds;
   [gvc.view addSubview:rvc.view];

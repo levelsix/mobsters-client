@@ -42,8 +42,8 @@
 
 @interface QuestListViewController : UIViewController <UITableViewDataSource, UITableViewDelegate>
 
-@property (nonatomic, strong) NSArray *quests;
-@property (nonatomic, strong) NSDictionary *userQuests;
+@property (nonatomic, copy) NSArray *quests;
+@property (nonatomic, copy) NSDictionary *userQuests;
 
 @property (nonatomic, strong) IBOutlet UITableView *questListTable;
 

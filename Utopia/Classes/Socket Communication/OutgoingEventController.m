@@ -16,7 +16,6 @@
 #import "GenericPopupController.h"
 #import "SoundEngine.h"
 #import "OtherUpdates.h"
-#import "OAHMAC_SHA1SignatureProvider.h"
 #import "GameViewController.h"
 #import "Downloader.h"
 #import "PersistentEventProto+Time.h"
@@ -364,8 +363,6 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
     uq.questId = questId;
     [gs.myQuests setObject:uq forKey:@(questId)];
     
-    [Analytics questAccept:questId];
-    
     return uq;
   } else {
     [Globals popupMessage:@"Attempting to accept unavailable quest"];
@@ -456,10 +453,36 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
     ExperienceUpdate *eu = [ExperienceUpdate updateWithTag:tag change:fqp.expReward];
     
     [gs addUnrespondedUpdates:su, ou, gu, eu, nil];
-    
-    [Analytics questRedeem:questId];
   } else {
     [Globals popupMessage:@"Attempting to redeem quest that is not in progress"];
+  }
+}
+
+- (void) achievementProgress:(NSArray *)userAchievements {
+  NSMutableArray *arr = [NSMutableArray array];
+  for (UserAchievement *ua in userAchievements) {
+    [arr addObject:[ua convertToProto]];
+  }
+  [[SocketCommunication sharedSocketCommunication] sendAchievementProgressMessage:arr clientTime:[self getCurrentMilliseconds]];
+}
+
+- (void) redeemAchievement:(int)achievementId delegate:(id)delegate {
+  GameState *gs = [GameState sharedGameState];
+  AchievementProto *ap = [gs achievementWithId:achievementId];
+  UserAchievement *ua = [gs.myAchievements objectForKey:@(achievementId)];
+  
+  if (!ua.isComplete) {
+    [Globals popupMessage:@"Attempting to redeem achievement that is not complete."];
+  } else if (ua.isRedeemed) {
+    [Globals popupMessage:@"Attempting to redeem achievement that has already been redeemed."];
+  } else {
+    int tag = [[SocketCommunication sharedSocketCommunication] sendAchievementRedeemMessage:achievementId clientTime:[self getCurrentMilliseconds]];
+    [[SocketCommunication sharedSocketCommunication] setDelegate:delegate forTag:tag];
+    
+    ua.isRedeemed = YES;
+    
+    GoldUpdate *gu = [GoldUpdate updateWithTag:tag change:ap.gemReward];
+    [gs addUnrespondedUpdate:gu];
   }
 }
 
@@ -952,17 +975,19 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
   [[SocketCommunication sharedSocketCommunication] setDelegate:delegate forTag:tag];
   
   if (userWon) {
-    int silverAmount = 0, expAmount = 0;
+    int silverAmount = 0, oilAmount = 0, expAmount = 0;
     for (TaskStageProto *tsp in dungeonInfo.tspList) {
       for (TaskStageMonsterProto *tsm in tsp.stageMonstersList) {
         silverAmount += tsm.cashReward;
+        oilAmount += tsm.oilReward;
         expAmount += tsm.expReward;
       }
     }
     
     SilverUpdate *su = [SilverUpdate updateWithTag:tag change:silverAmount];
+    OilUpdate *ou = [OilUpdate updateWithTag:tag change:oilAmount];
     ExperienceUpdate *eu = [ExperienceUpdate updateWithTag:tag change:expAmount];
-    [gs addUnrespondedUpdates: su, eu, nil];
+    [gs addUnrespondedUpdates: su, ou, eu, nil];
   }
 }
 
@@ -1732,5 +1757,6 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
   }
   return NO;
 }
+
 
 @end

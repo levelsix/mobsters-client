@@ -28,10 +28,19 @@
   [Globals bounceView:self.mainView fadeInBgdView:self.bgdView];
 }
 
+- (void) setDescriptionString:(NSString *)labelText {
+  NSMutableAttributedString *attributedString = [[NSMutableAttributedString alloc] initWithString:labelText];
+  NSMutableParagraphStyle *paragraphStyle = [[NSMutableParagraphStyle alloc] init];
+  [paragraphStyle setLineSpacing:1.5];
+  [paragraphStyle setAlignment:NSTextAlignmentCenter];
+  [attributedString addAttribute:NSParagraphStyleAttributeName value:paragraphStyle range:NSMakeRange(0, [labelText length])];
+  self.descriptionLabel.attributedText = attributedString;
+}
+
 + (GenericPopupController *) displayNotificationViewWithText:(NSString *)string title:(NSString *)title {
   GenericPopupController *gp = [[GenericPopupController alloc] init];
   [gp displayPopup];
-  gp.descriptionLabel.text = string;
+  [gp setDescriptionString:string];
   gp.titleLabel.text = title;
   return gp;
 }
@@ -68,7 +77,7 @@
   [gp.notificationView removeFromSuperview];
   
   gp.titleLabel.text = title;
-  gp.descriptionLabel.text = description;
+  [gp setDescriptionString:description];
   gp.confOkayButtonLabel.text = okay;
   gp.confCancelButtonLabel.text = cancel;
   
@@ -127,7 +136,7 @@
   
   gp.titleLabel.text = title;
   gp.titleBgd.image = [Globals imageNamed:@"purplenotificationheader.png"];
-  gp.descriptionLabel.text = description;
+  [gp setDescriptionString:description];
   gp.gemButtonLabel.text = [Globals commafyNumber:gemCost];
   
   if (target) {

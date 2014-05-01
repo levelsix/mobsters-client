@@ -2,6 +2,7 @@
 
 #import "ProtocolBuffers.h"
 
+#import "AchievementStuff.pb.h"
 #import "Battle.pb.h"
 #import "BoosterPackStuff.pb.h"
 #import "Chat.pb.h"
@@ -15,6 +16,8 @@
 #import "Task.pb.h"
 #import "User.pb.h"
 
+@class AchievementProto;
+@class AchievementProto_Builder;
 @class BoosterDisplayItemProto;
 @class BoosterDisplayItemProto_Builder;
 @class BoosterItemProto;
@@ -177,6 +180,8 @@
 @class TownHallProto_Builder;
 @class TutorialStructProto;
 @class TutorialStructProto_Builder;
+@class UserAchievementProto;
+@class UserAchievementProto_Builder;
 @class UserCityExpansionDataProto;
 @class UserCityExpansionDataProto_Builder;
 @class UserCurrentMonsterTeamProto;
@@ -345,14 +350,14 @@ BOOL StartupResponseProto_StartupStatusIsValidValue(StartupResponseProto_Startup
   BOOL hasReviewPageConfirmationMessage_:1;
   BOOL hasReviewPageUrl_:1;
   BOOL hasAppStoreUrl_:1;
-  BOOL hasSender_:1;
+  BOOL hasStaticDataStuffProto_:1;
+  BOOL hasEvolution_:1;
+  BOOL hasEnhancements_:1;
+  BOOL hasCurRaidClanInfo_:1;
   BOOL hasCurTask_:1;
   BOOL hasTutorialConstants_:1;
   BOOL hasStartupConstants_:1;
-  BOOL hasEvolution_:1;
-  BOOL hasEnhancements_:1;
-  BOOL hasStaticDataStuffProto_:1;
-  BOOL hasCurRaidClanInfo_:1;
+  BOOL hasSender_:1;
   BOOL hasUpdateStatus_:1;
   BOOL hasStartupStatus_:1;
   BOOL playerHasBoughtInAppPurchase_:1;
@@ -361,26 +366,27 @@ BOOL StartupResponseProto_StartupStatusIsValidValue(StartupResponseProto_Startup
   NSString* reviewPageConfirmationMessage;
   NSString* reviewPageUrl;
   NSString* appStoreUrl;
-  FullUserProto* sender;
+  StaticDataProto* staticDataStuffProto;
+  UserMonsterEvolutionProto* evolution;
+  UserEnhancementProto* enhancements;
+  PersistentClanEventClanInfoProto* curRaidClanInfo;
   MinimumUserTaskProto* curTask;
   StartupResponseProto_TutorialConstants* tutorialConstants;
   StartupResponseProto_StartupConstants* startupConstants;
-  UserMonsterEvolutionProto* evolution;
-  UserEnhancementProto* enhancements;
-  StaticDataProto* staticDataStuffProto;
-  PersistentClanEventClanInfoProto* curRaidClanInfo;
+  FullUserProto* sender;
   StartupResponseProto_UpdateStatus updateStatus;
   StartupResponseProto_StartupStatus startupStatus;
-  NSMutableArray* mutableRedeemedQuestIdsList;
   NSMutableArray* mutableCompletedTaskIdsList;
+  NSMutableArray* mutableRedeemedQuestIdsList;
   NSMutableArray* mutableTaskIdForCurrentCityBossList;
   NSMutableArray* mutableNoticesToPlayersList;
-  NSMutableArray* mutableUserEventsList;
-  NSMutableArray* mutableCurRaidClanUserInfoList;
-  NSMutableArray* mutableRaidStageHistoryList;
-  NSMutableArray* mutableRecentNbattlesList;
-  NSMutableArray* mutableInvitesFromMeForSlotsList;
   NSMutableArray* mutableCurTaskStagesList;
+  NSMutableArray* mutableUserAchievementsList;
+  NSMutableArray* mutableRecentNbattlesList;
+  NSMutableArray* mutableRaidStageHistoryList;
+  NSMutableArray* mutableCurRaidClanUserInfoList;
+  NSMutableArray* mutableUserEventsList;
+  NSMutableArray* mutableInvitesFromMeForSlotsList;
   NSMutableArray* mutableInvitesToMeForSlotsList;
   NSMutableArray* mutableRareBoosterPurchasesList;
   NSMutableArray* mutableMonstersHealingList;
@@ -467,6 +473,8 @@ BOOL StartupResponseProto_StartupStatusIsValidValue(StartupResponseProto_Startup
 - (PvpHistoryProto*) recentNbattlesAtIndex:(int32_t) index;
 - (NSArray*) curTaskStagesList;
 - (TaskStageProto*) curTaskStagesAtIndex:(int32_t) index;
+- (NSArray*) userAchievementsList;
+- (UserAchievementProto*) userAchievementsAtIndex:(int32_t) index;
 
 + (StartupResponseProto*) defaultInstance;
 - (StartupResponseProto*) defaultInstance;
@@ -1865,6 +1873,13 @@ BOOL StartupResponseProto_StartupStatusIsValidValue(StartupResponseProto_Startup
 - (StartupResponseProto_Builder*) addCurTaskStages:(TaskStageProto*) value;
 - (StartupResponseProto_Builder*) addAllCurTaskStages:(NSArray*) values;
 - (StartupResponseProto_Builder*) clearCurTaskStagesList;
+
+- (NSArray*) userAchievementsList;
+- (UserAchievementProto*) userAchievementsAtIndex:(int32_t) index;
+- (StartupResponseProto_Builder*) replaceUserAchievementsAtIndex:(int32_t) index with:(UserAchievementProto*) value;
+- (StartupResponseProto_Builder*) addUserAchievements:(UserAchievementProto*) value;
+- (StartupResponseProto_Builder*) addAllUserAchievements:(NSArray*) values;
+- (StartupResponseProto_Builder*) clearUserAchievementsList;
 @end
 
 @interface ForceLogoutResponseProto : PBGeneratedMessage {

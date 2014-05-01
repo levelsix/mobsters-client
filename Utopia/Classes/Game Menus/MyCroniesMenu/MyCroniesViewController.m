@@ -13,6 +13,7 @@
 #import "SocketCommunication.h"
 #import "MonsterPopUpViewController.h"
 #import "GenericPopupController.h"
+#import "AchievementUtil.h"
 
 #define TABLE_CELL_WIDTH 108
 #define HEADER_OFFSET 8
@@ -185,7 +186,12 @@
 }
 
 - (BOOL) speedupHealingQueue {
-  return [[OutgoingEventController sharedOutgoingEventController] speedupHealingQueue];
+  int queueSize = self.monsterHealingQueue.count;
+  BOOL success = [[OutgoingEventController sharedOutgoingEventController] speedupHealingQueue];
+  if (success) {
+    [AchievementUtil checkMonstersHealed:queueSize];
+  }
+  return success;
 }
 
 #pragma mark - EasyTableViewDelegate and Methods

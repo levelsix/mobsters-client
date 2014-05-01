@@ -206,6 +206,7 @@ static NSString *udid = nil;
   _isCreatingQueues = YES;
   
   self.structRetrievals = [NSMutableArray array];
+  self.structRetrievalAchievements = [NSMutableDictionary dictionary];
   
   self.tagDelegates = [NSMutableDictionary dictionary];
   [self setDelegate:delegate forTag:CONNECTED_TO_HOST_DELEGATE_TAG];
@@ -1111,6 +1112,37 @@ static NSString *udid = nil;
   return [self sendData:req withMessageType:EventProtocolRequestCObstacleRemovalCompleteEvent];
 }
 
+- (int) sendAchievementProgressMessage:(NSArray *)userAchievements clientTime:(uint64_t)clientTime {
+  // If we are currently batching struct retrievals, save all achievements till the struct retrievals completes
+  if (self.structRetrievals.count == 0) {
+  AchievementProgressRequestProto *req = [[[[[AchievementProgressRequestProto builder]
+                                             setSender:_sender]
+                                            setClientTime:clientTime]
+                                           addAllUapList:userAchievements]
+                                          build];
+  
+    return [self sendData:req withMessageType:EventProtocolRequestCAchievementProgressEvent];
+  } else {
+    // Use a dictionary so that repeats will be replaced (i.e. 2 retrievals of cash)
+    for (UserAchievementProto *uap in userAchievements) {
+      [self.structRetrievalAchievements setObject:uap forKey:@(uap.achievementId)];
+    }
+    
+    self.lastClientTime = clientTime;
+    return _currentTagNum+1;
+  }
+}
+
+- (int) sendAchievementRedeemMessage:(int)achievementId clientTime:(uint64_t)clientTime {
+    AchievementRedeemRequestProto *req = [[[[[AchievementRedeemRequestProto builder]
+                                             setSender:_sender]
+                                            setAchievementId:achievementId]
+                                           setClientTime:clientTime]
+                                          build];
+    
+    return [self sendData:req withMessageType:EventProtocolRequestCAchievementRedeemEvent];
+}
+
 #pragma mark - Batch/Flush events
 
 - (int) sendHealQueueWaitTimeComplete:(NSArray *)monsterHealths {
@@ -1378,6 +1410,11 @@ static NSString *udid = nil;
     if (self.structRetrievals.count > 0) {
       [self sendRetrieveCurrencyFromNormStructureMessage];
       [self.structRetrievals removeAllObjects];
+      
+      if (self.structRetrievalAchievements.count) {
+        [self sendAchievementProgressMessage:self.structRetrievalAchievements.allValues clientTime:self.lastClientTime];
+        [self.structRetrievalAchievements removeAllObjects];
+      }
     }
   }
   

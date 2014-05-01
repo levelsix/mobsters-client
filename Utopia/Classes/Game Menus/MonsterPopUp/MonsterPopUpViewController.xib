@@ -114,8 +114,8 @@
                             <color key="shadowColor" red="0.0" green="0.0" blue="0.0" alpha="0.5" colorSpace="deviceRGB"/>
                             <size key="shadowOffset" width="0.0" height="1"/>
                         </label>
-                        <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="mobsterdescriptionbg.png" id="KPf-Fu-15P">
-                            <rect key="frame" x="4" y="234" width="363" height="43"/>
+                        <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" image="mobsterdescriptionbg.png" id="KPf-Fu-15P">
+                            <rect key="frame" x="3" y="234" width="364" height="43"/>
                             <autoresizingMask key="autoresizingMask"/>
                         </imageView>
                         <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="3" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" id="9" customClass="NiceFontLabel11">

@@ -20,6 +20,7 @@
 #import "QuestUtil.h"
 #import "HospitalQueueSimulator.h"
 #import "PersistentEventProto+Time.h"
+#import "AchievementUtil.h"
 
 #define TagLog(...) //LNLog(__VA_ARGS__)
 
@@ -39,12 +40,14 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
     _staticRaids = [[NSMutableDictionary alloc] init];
     _staticItems = [[NSMutableDictionary alloc] init];
     _staticObstacles = [[NSMutableDictionary alloc] init];
+    _staticAchievements = [[NSMutableDictionary alloc] init];
     _eventCooldownTimes = [[NSMutableDictionary alloc] init];
     _notifications = [[NSMutableArray alloc] init];
     _myStructs = [[NSMutableArray alloc] init];
     _myObstacles = [[NSMutableArray alloc] init];
     _myMonsters = [[NSMutableArray alloc] init];
     _myQuests = [[NSMutableDictionary alloc] init];
+    _myAchievements = [[NSMutableDictionary alloc] init];
     _globalChatMessages = [[NSMutableArray alloc] init];
     _clanChatMessages = [[NSMutableArray alloc] init];
     _rareBoosterPurchases = [[NSMutableArray alloc] init];
@@ -204,6 +207,14 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
   return [self getStaticDataFrom:_staticTasks withId:taskId];
 }
 
+- (AchievementProto *) achievementWithId:(int)achievementId {
+  if (achievementId == 0) {
+    [Globals popupMessage:@"Attempted to access achievement 0"];
+    return nil;
+  }
+  return [self getStaticDataFrom:_staticAchievements withId:achievementId];
+}
+
 - (FullTaskProto *) taskWithCityId:(int)cityId assetId:(int)assetId {
   for (FullTaskProto *ftp in self.staticTasks.allValues) {
     if (ftp.cityId == cityId && ftp.assetNumWithinCity == assetId) {
@@ -322,6 +333,12 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
 - (void) addToMyQuests:(NSArray *)quests {
   for (FullUserQuestProto *uq in quests) {
     [self.myQuests setObject:[UserQuest questWithProto:uq] forKey:@(uq.questId)];
+  }
+}
+
+- (void) addToMyAchievements:(NSArray *)achievements {
+  for (UserAchievementProto *ua in achievements) {
+    [self.myAchievements setObject:[UserAchievement userAchievementWithProto:ua] forKey:@(ua.achievementId)];
   }
 }
 
@@ -845,6 +862,9 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
   [self addToStaticItems:proto.itemsList];
   [self addToStaticObstacles:proto.obstaclesList];
   
+  [self.staticAchievements removeAllObjects];
+  [self addToStaticAchievements:proto.achievementsList];
+  
   [self addToExpansionCosts:proto.expansionCostsList];
   
   [self.staticMonsters removeAllObjects];
@@ -901,6 +921,12 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
 - (void) addToStaticItems:(NSArray *)arr {
   for (ItemProto *p in arr) {
     [self.staticItems setObject:p forKey:@(p.itemId)];
+  }
+}
+
+- (void) addToStaticAchievements:(NSArray *)arr {
+  for (AchievementProto *p in arr) {
+    [self.staticAchievements setObject:p forKey:@(p.achievementId)];
   }
 }
 
@@ -1216,6 +1242,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
     [[NSNotificationCenter defaultCenter] postNotificationName:MONSTER_QUEUE_CHANGED_NOTIFICATION object:nil];
     [[NSNotificationCenter defaultCenter] postNotificationName:MY_TEAM_CHANGED_NOTIFICATION object:nil];
     [self beginHealingTimer];
+    [AchievementUtil checkMonstersHealed:arr.count];
   }
 }
 
@@ -1373,6 +1400,8 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
 - (void) currentLeagueWasShown {
   NSUserDefaults *def = [NSUserDefaults standardUserDefaults];
   [def setInteger:self.pvpLeague.leagueId forKey:LAST_LEAGUE_SHOWN_DEFAULTS_KEY];
+  
+  [AchievementUtil checkLeagueJoined:self.pvpLeague.leagueId];
   
   [[NSNotificationCenter defaultCenter] postNotificationName:GAMESTATE_UPDATE_NOTIFICATION object:nil];
 }

@@ -49,6 +49,7 @@
 #define FB_INVITE_ACCEPTED_NOTIFICATION @"FbInviteAcceptedNotification"
 #define FB_INCREASE_SLOTS_NOTIFICATION @"FbIncreaseSlotsNotification"
 #define QUESTS_CHANGED_NOTIFICATION @"QuestsChangedNotification"
+#define ACHIEVEMENTS_CHANGED_NOTIFICATION @"AchievementsChangedNotification"
 #define MY_CLAN_MEMBERS_LIST_NOTIFICATION @"MyClanMembersListNotification"
 #define CLAN_RAID_ATTACK_NOTIFICATION @"ClanRaidAttackNotification"
 #define NEW_OBSTACLES_CREATED_NOTIFICATION @"NewObstaclesCreatedNotification"

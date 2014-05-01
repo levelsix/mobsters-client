@@ -14,6 +14,7 @@
 #import "MenuNavigationController.h"
 #import "MyCroniesViewController.h"
 #import "GenericPopupController.h"
+#import "AchievementUtil.h"
 
 #define NUM_CITIES 10
 
@@ -121,6 +122,14 @@
       [self findMatch];
     }
   }
+}
+
+- (IBAction) leaguePromotionOkayClicked:(id)sender {
+  [UIView animateWithDuration:0.3f animations:^{
+    self.leaguePromotionView.alpha = 0.f;
+  } completion:^(BOOL finished) {
+    [self.leaguePromotionView removeFromSuperview];
+  }];
 }
 
 - (void) findMatch {

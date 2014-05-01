@@ -36,7 +36,7 @@
       progress++;
     }
   }
-  self.progressLabel.text = [NSString stringWithFormat:@"%d/%d", progress, quest.jobsList.count];
+  self.progressLabel.text = [NSString stringWithFormat:@"%d/%d", progress, (int)quest.jobsList.count];
   
   self.questNewView.hidden = self.userQuest != nil;
   
@@ -90,6 +90,13 @@
   [cell updateForQuest:quest withUserQuestData:userQuest];
   
   return cell;
+}
+
+- (void) tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+  [tableView deselectRowAtIndexPath:indexPath animated:NO];
+  
+  QuestListCell *cell = (QuestListCell *)[tableView cellForRowAtIndexPath:indexPath];
+  [cell.delegate questListCellClicked:cell];
 }
 
 @end

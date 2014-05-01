@@ -19,7 +19,7 @@ typedef enum {
   color_white = MonsterProto_MonsterElementLight,
   color_purple = MonsterProto_MonsterElementDark,
   color_filler = MonsterProto_MonsterElementRock,
-  color_all = 100
+  color_all = 20
 } GemColorId;
 
 typedef enum {
@@ -27,7 +27,8 @@ typedef enum {
   powerup_horizontal_line,
   powerup_vertical_line,
   powerup_explosion,
-  powerup_all_of_one_color
+  powerup_all_of_one_color,
+  powerup_end = 20
 } PowerupId;
 
 @interface Powerup : NSObject
@@ -59,6 +60,7 @@ typedef enum {
 - (void) newComboFound;
 - (void) gemKilled:(Gem *)gem;
 - (void) gemReachedFlyLocation:(Gem *)gem;
+- (void) powerupCreated:(Gem *)gem;
 - (void) moveComplete;
 - (void) reshuffle;
 

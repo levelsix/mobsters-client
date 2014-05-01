@@ -29,6 +29,7 @@
 @class UserObstacleProto;
 @class UserObstacleProto_Builder;
 typedef enum {
+  ResourceTypeNoResource = 4,
   ResourceTypeCash = 1,
   ResourceTypeOil = 2,
   ResourceTypeGems = 3,
@@ -38,6 +39,7 @@ typedef enum {
 BOOL ResourceTypeIsValidValue(ResourceType value);
 
 typedef enum {
+  StructOrientationNoOrientation = 3,
   StructOrientationPosition1 = 1,
   StructOrientationPosition2 = 2,
 } StructOrientation;
@@ -45,6 +47,7 @@ typedef enum {
 BOOL StructOrientationIsValidValue(StructOrientation value);
 
 typedef enum {
+  StructureInfoProto_StructTypeNoStruct = 8,
   StructureInfoProto_StructTypeResourceGenerator = 1,
   StructureInfoProto_StructTypeResourceStorage = 2,
   StructureInfoProto_StructTypeHospital = 3,

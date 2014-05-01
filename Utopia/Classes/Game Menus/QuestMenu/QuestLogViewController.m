@@ -22,27 +22,43 @@
   
   self.questListViewController = [[QuestListViewController alloc] init];
   [self addChildViewController:self.questListViewController];
-  [self.containerView addSubview:self.questListViewController.view];
+  
+  self.achievementsViewController = [[AchievementsViewController alloc] init];
+  [self addChildViewController:self.achievementsViewController];
   
   GameState *gs = [GameState sharedGameState];
   [self.questListViewController reloadWithQuests:gs.allCurrentQuests userQuests:gs.myQuests];
+  [self.achievementsViewController reloadWithAchievements:gs.staticAchievements userAchievements:gs.myAchievements];
   
   self.titleLabel.alpha = 0.f;
   self.titleLabel.text = self.questListViewController.title;
   self.backView.hidden = YES;
-}
-
-- (void) viewDidAppear:(BOOL)animated {
-  [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(questsChanged) name:QUESTS_CHANGED_NOTIFICATION object:nil];
   
   [Globals bounceView:self.mainView fadeInBgdView:self.bgdView];
+}
+
+- (void) viewWillAppear:(BOOL)animated {
+  [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(questsChanged:) name:QUESTS_CHANGED_NOTIFICATION object:nil];
+  [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(achievementsChanged:) name:ACHIEVEMENTS_CHANGED_NOTIFICATION object:nil];
+  [self updateBadges];
+  
+  // Move to tab with badge if we are not specifically trying to view details page
+  if (!self.questDetailsViewController) {
+    if (self.questBadge.badgeNum) {
+      [self button1Clicked:nil];
+    } else if (self.achievementBadge.badgeNum) {
+      [self button2Clicked:nil];
+    } else {
+      [self button1Clicked:nil];
+    }
+  }
 }
 
 - (void) viewDidDisappear:(BOOL)animated {
   [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
-- (void) questsChanged {
+- (void) questsChanged:(NSNotification *)notif {
   GameState *gs = [GameState sharedGameState];
   [self.questListViewController reloadWithQuests:gs.allCurrentQuests userQuests:gs.myQuests];
   
@@ -53,6 +69,55 @@
       [self.questDetailsViewController loadWithQuest:fqp userQuest:[gs myQuestWithId:questId]];
     }
   }
+  
+  [self updateBadges];
+}
+
+- (void) achievementsChanged:(NSNotification *)notif {
+  if (notif.object != self.achievementsViewController) {
+    GameState *gs = [GameState sharedGameState];
+    [self.achievementsViewController reloadWithAchievements:gs.staticAchievements userAchievements:gs.myAchievements];
+  }
+  
+  [self updateBadges];
+}
+
+- (void) updateBadges {
+  GameState *gs = [GameState sharedGameState];
+  int badgeNum = 0;
+  badgeNum += gs.availableQuests.count;
+  badgeNum += gs.inProgressCompleteQuests.count;
+  
+  for (FullQuestProto *q in gs.inProgressIncompleteQuests.allValues) {
+    for (QuestJobProto *j in q.jobsList) {
+      if (j.questJobType == QuestJobProto_QuestJobTypeDonateMonster) {
+        UserQuest *uq = [gs myQuestWithId:q.questId];
+        UserQuestJob *uqj = [uq jobForId:j.questJobId];
+        if (j.quantity == uqj.progress) {
+          badgeNum++;
+        }
+      }
+    }
+  }
+  
+  self.questBadge.badgeNum = badgeNum;
+  
+  badgeNum = 0;
+  for (UserAchievement *ua in gs.myAchievements.allValues) {
+    if (ua.isComplete && !ua.isRedeemed) {
+      // Check that it's prereq is done
+      AchievementProto *ap = [gs achievementWithId:ua.achievementId];
+      if (ap.prerequisiteId) {
+        UserAchievement *pre = [gs.myAchievements objectForKey:@(ap.prerequisiteId)];
+        if (pre.isRedeemed) {
+          badgeNum++;
+        }
+      } else {
+        badgeNum++;
+      }
+    }
+  }
+  self.achievementBadge.badgeNum = badgeNum;
 }
 
 - (IBAction)close:(id)sender {
@@ -68,6 +133,26 @@
       [self.delegate questLogClosed];
     }
   }];
+}
+
+#pragma mark - TabBarDelegate methods
+
+- (void) button1Clicked:(id)sender {
+  if (!self.questDetailsViewController) {
+    [self.topBar clickButton:1];
+    
+    [self.achievementsViewController.view removeFromSuperview];
+    [self.containerView addSubview:self.questListViewController.view];
+  }
+}
+
+- (void) button2Clicked:(id)sender {
+  if (!self.questDetailsViewController) {
+    [self.topBar clickButton:2];
+    
+    [self.questListViewController.view removeFromSuperview];
+    [self.containerView addSubview:self.achievementsViewController.view];
+  }
 }
 
 #pragma mark - Transition between ViewControllers
@@ -118,7 +203,12 @@
 #pragma mark - QuestListCellDelegate methods
 
 - (void) questListCellClicked:(QuestListCell *)cell {
-  [self loadDetailsViewForQuest:cell.quest userQuest:cell.userQuest animated:YES];
+  if (cell.userQuest.isComplete) {
+    [[GameViewController baseController] questComplete:cell.quest];
+    [self close];
+  } else {
+    [self loadDetailsViewForQuest:cell.quest userQuest:cell.userQuest animated:YES];
+  }
 }
 
 - (void) loadDetailsViewForQuest:(FullQuestProto *)quest userQuest:(UserQuest *)uq animated:(BOOL)animated {

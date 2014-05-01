@@ -12,6 +12,7 @@ static PBExtensionRegistry* extensionRegistry = nil;
   if (self == [StaticDataRoot class]) {
     PBMutableExtensionRegistry* registry = [PBMutableExtensionRegistry registry];
     [self registerAllExtensions:registry];
+    [AchievementStuffRoot registerAllExtensions:registry];
     [BattleRoot registerAllExtensions:registry];
     [BoosterPackStuffRoot registerAllExtensions:registry];
     [CityRoot registerAllExtensions:registry];
@@ -53,6 +54,7 @@ static PBExtensionRegistry* extensionRegistry = nil;
 @property (retain) NSMutableArray* mutableObstaclesList;
 @property (retain) NSMutableArray* mutableClanIconsList;
 @property (retain) NSMutableArray* mutableLeaguesList;
+@property (retain) NSMutableArray* mutableAchievementsList;
 @end
 
 @implementation StaticDataProto
@@ -87,6 +89,7 @@ static PBExtensionRegistry* extensionRegistry = nil;
 @synthesize mutableObstaclesList;
 @synthesize mutableClanIconsList;
 @synthesize mutableLeaguesList;
+@synthesize mutableAchievementsList;
 - (void) dealloc {
   self.sender = nil;
   self.mutableExpansionCostsList = nil;
@@ -112,6 +115,7 @@ static PBExtensionRegistry* extensionRegistry = nil;
   self.mutableObstaclesList = nil;
   self.mutableClanIconsList = nil;
   self.mutableLeaguesList = nil;
+  self.mutableAchievementsList = nil;
   [super dealloc];
 }
 - (id) init {
@@ -293,6 +297,13 @@ static StaticDataProto* defaultStaticDataProtoInstance = nil;
   id value = [mutableLeaguesList objectAtIndex:index];
   return value;
 }
+- (NSArray*) achievementsList {
+  return mutableAchievementsList;
+}
+- (AchievementProto*) achievementsAtIndex:(int32_t) index {
+  id value = [mutableAchievementsList objectAtIndex:index];
+  return value;
+}
 - (BOOL) isInitialized {
   return YES;
 }
@@ -368,6 +379,9 @@ static StaticDataProto* defaultStaticDataProtoInstance = nil;
   }
   for (PvpLeagueProto* element in self.leaguesList) {
     [output writeMessage:25 value:element];
+  }
+  for (AchievementProto* element in self.achievementsList) {
+    [output writeMessage:26 value:element];
   }
   [self.unknownFields writeToCodedOutputStream:output];
 }
@@ -449,6 +463,9 @@ static StaticDataProto* defaultStaticDataProtoInstance = nil;
   }
   for (PvpLeagueProto* element in self.leaguesList) {
     size += computeMessageSize(25, element);
+  }
+  for (AchievementProto* element in self.achievementsList) {
+    size += computeMessageSize(26, element);
   }
   size += self.unknownFields.serializedSize;
   memoizedSerializedSize = size;
@@ -666,6 +683,12 @@ static StaticDataProto* defaultStaticDataProtoInstance = nil;
     }
     [result.mutableLeaguesList addObjectsFromArray:other.mutableLeaguesList];
   }
+  if (other.mutableAchievementsList.count > 0) {
+    if (result.mutableAchievementsList == nil) {
+      result.mutableAchievementsList = [NSMutableArray array];
+    }
+    [result.mutableAchievementsList addObjectsFromArray:other.mutableAchievementsList];
+  }
   [self mergeUnknownFields:other.unknownFields];
   return self;
 }
@@ -832,6 +855,12 @@ static StaticDataProto* defaultStaticDataProtoInstance = nil;
         PvpLeagueProto_Builder* subBuilder = [PvpLeagueProto builder];
         [input readMessage:subBuilder extensionRegistry:extensionRegistry];
         [self addLeagues:[subBuilder buildPartial]];
+        break;
+      }
+      case 210: {
+        AchievementProto_Builder* subBuilder = [AchievementProto builder];
+        [input readMessage:subBuilder extensionRegistry:extensionRegistry];
+        [self addAchievements:[subBuilder buildPartial]];
         break;
       }
     }
@@ -1532,6 +1561,35 @@ static StaticDataProto* defaultStaticDataProtoInstance = nil;
     result.mutableLeaguesList = [NSMutableArray array];
   }
   [result.mutableLeaguesList addObject:value];
+  return self;
+}
+- (NSArray*) achievementsList {
+  if (result.mutableAchievementsList == nil) { return [NSArray array]; }
+  return result.mutableAchievementsList;
+}
+- (AchievementProto*) achievementsAtIndex:(int32_t) index {
+  return [result achievementsAtIndex:index];
+}
+- (StaticDataProto_Builder*) replaceAchievementsAtIndex:(int32_t) index with:(AchievementProto*) value {
+  [result.mutableAchievementsList replaceObjectAtIndex:index withObject:value];
+  return self;
+}
+- (StaticDataProto_Builder*) addAllAchievements:(NSArray*) values {
+  if (result.mutableAchievementsList == nil) {
+    result.mutableAchievementsList = [NSMutableArray array];
+  }
+  [result.mutableAchievementsList addObjectsFromArray:values];
+  return self;
+}
+- (StaticDataProto_Builder*) clearAchievementsList {
+  result.mutableAchievementsList = nil;
+  return self;
+}
+- (StaticDataProto_Builder*) addAchievements:(AchievementProto*) value {
+  if (result.mutableAchievementsList == nil) {
+    result.mutableAchievementsList = [NSMutableArray array];
+  }
+  [result.mutableAchievementsList addObject:value];
   return self;
 }
 @end

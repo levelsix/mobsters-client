@@ -169,7 +169,7 @@
                             <color key="shadowColor" red="0.0" green="0.0" blue="0.0" alpha="0.5" colorSpace="deviceRGB"/>
                             <size key="shadowOffset" width="0.0" height="1"/>
                         </label>
-                        <view contentMode="scaleToFill" id="FyP-wF-LWt" customClass="RequestsTopBar">
+                        <view contentMode="scaleToFill" id="FyP-wF-LWt" customClass="ButtonTopBar">
                             <rect key="frame" x="62" y="7" width="240" height="34"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             <subviews>

@@ -33,14 +33,14 @@
 }
 
 + (void) addJob:(QuestJobProto *)job toDict:(NSMutableDictionary *)dict {
-  NSMutableArray *arr = dict[@(job.questId)];
+  NSMutableSet *set = dict[@(job.questId)];
   
-  if (!arr) {
-    arr = [NSMutableArray array];
-    [dict setObject:arr forKey:@(job.questId)];
+  if (!set) {
+    set = [NSMutableSet set];
+    [dict setObject:set forKey:@(job.questId)];
   }
   
-  [arr addObject:@(job.questJobId)];
+  [set addObject:@(job.questJobId)];
 }
 
 + (void) sendQuestProgressForQuests:(NSDictionary *)questIdToJobIds {
@@ -49,6 +49,16 @@
     UserQuest *uq = [gs myQuestWithId:questId.intValue];
     FullQuestProto *fqp = [gs questForId:questId.intValue];
     NSArray *jobIds = questIdToJobIds[questId];
+    
+    // Check if all the jobs are complete
+    BOOL questIsComplete = YES;
+    for (QuestJobProto *qj in fqp.jobsList) {
+      UserQuestJob *uqj = [uq jobForId:qj.questJobId];
+      if (!uqj.isComplete) {
+        questIsComplete = NO;
+      }
+    }
+    uq.isComplete = questIsComplete;
     
     for (NSNumber *jobId in jobIds) {
       [[OutgoingEventController sharedOutgoingEventController] questProgress:fqp.questId jobId:jobId.intValue];
@@ -91,7 +101,7 @@
         
         UserQuest *uq = [gs myQuestWithId:quest.questId];
         UserQuestJob *uqj = [uq jobForId:job.questJobId];
-        if (uqj && quantity != uqj.progress) {
+        if (!uq.isComplete && !uqj.isComplete && quantity != uqj.progress) {
           uqj.progress = quantity;
           [self addJob:job toDict:questIdToJobIds];
         }
@@ -115,7 +125,11 @@
       if (job.questJobType == QuestJobProto_QuestJobTypeKillSpecificMonster ||
           job.questJobType == QuestJobProto_QuestJobTypeCollectSpecialItem ||
           job.questJobType == QuestJobProto_QuestJobTypeCompleteTask) {
-        [potentialJobs addObject:job];
+        UserQuest *uq = [gs myQuestWithId:job.questId];
+        UserQuestJob *uqj = [uq jobForId:job.questJobId];
+        if (!uq.isComplete && !uqj.isComplete) {
+          [potentialJobs addObject:job];
+        }
       }
     }
   }
@@ -176,7 +190,7 @@
       
       UserQuest *uq = [gs myQuestWithId:quest.questId];
       UserQuestJob *uqj = [uq jobForId:job.questJobId];
-      if (uqj && quantity != uqj.progress) {
+      if (quantity != uqj.progress) {
         uqj.progress = quantity;
         [self addJob:job toDict:questIdToJobIds];
       }

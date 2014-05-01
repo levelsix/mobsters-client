@@ -236,14 +236,6 @@
   }];
 }
 
-- (IBAction) okayClicked:(id)sender {
-  [UIView animateWithDuration:0.3f animations:^{
-    self.alpha = 0.f;
-  } completion:^(BOOL finished) {
-    [self removeFromSuperview];
-  }];
-}
-
 @end
 
 @implementation LeagueDescriptionView

@@ -13,59 +13,40 @@
 @implementation RewardView
 
 - (void) loadForReward:(Reward *)reward {
+  GameState *gs = [GameState sharedGameState];
   NSString *imgName = nil;
   NSString *labelName = nil;
-  NSString *bgdName = nil;
   UIColor *color = nil;
   if (reward.type == RewardTypeMonster) {
-    GameState *gs = [GameState sharedGameState];
     MonsterProto *mp = [gs monsterWithId:reward.monsterId];
     imgName = [Globals imageNameForRarity:mp.quality suffix:@"piece.png"];
-    bgdName = [Globals imageNameForRarity:mp.quality suffix:@"found.png"];
-    labelName = [Globals shortenedStringForRarity:mp.quality];
+    labelName = [Globals stringForRarity:mp.quality];
     color = [Globals colorForRarity:mp.quality];
   } else if (reward.type == RewardTypeSilver) {
     imgName = @"moneystack.png";
-    bgdName = @"cashfound.png";
     labelName = [Globals cashStringForNumber:reward.silverAmount];
-    color = [Globals greenColor];
+    color = [UIColor colorWithRed:105/255. green:141/255. blue:7/255.f alpha:1.f];
   } else if (reward.type == RewardTypeOil) {
     imgName = @"oilicon.png";
-    bgdName = @"ultrafound.png";
     labelName = [Globals commafyNumber:reward.oilAmount];
-    color = [Globals goldColor];
+    color = [UIColor colorWithRed:225/255. green:137/255. blue:11/255.f alpha:1.f];
   } else if (reward.type == RewardTypeGold) {
     imgName = @"diamond.png";
     labelName = [Globals commafyNumber:reward.goldAmount];
-    color = [Globals purplishPinkColor];
-  } else if (reward.type == RewardTypeExperience) {
-    imgName = @"levelnumber.png";
-    bgdName = @"expfound.png";
-    labelName = [NSString stringWithFormat:@"+%@", [Globals commafyNumber:reward.expAmount]];
-    color = [Globals orangeColor];
-    
-    UILabel *l = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, 30, 10)];
-    [self addSubview:l];
-    l.textColor = [UIColor whiteColor];
-    l.backgroundColor = [UIColor clearColor];
-    l.shadowColor = [UIColor colorWithWhite:0.f alpha:0.3f];
-    l.font = [UIFont fontWithName:[Globals font] size:11.f];
-    l.center = self.rewardIcon.center;
-    l.textAlignment = NSTextAlignmentCenter;
-    l.shadowOffset = CGSizeMake(0, 1);
-    l.text = @"EXP";
+    color = [UIColor colorWithRed:186/255. green:47/255. blue:255/255.f alpha:1.f];
+  } else if (reward.type == RewardTypeItem) {
+    ItemProto *item = [gs itemForId:reward.itemId];
+    imgName = item.imgName;
+    labelName = item.name;
+    color = [Globals creamColor];
   }
   
   self.rewardIcon.image = [Globals imageNamed:imgName];
-  self.rewardBgd.image = [Globals imageNamed:bgdName];
-  
-  //CGPoint center = self.rewardIcon.center;
-  //self.rewardIcon.frame = CGRectMake(0, 0, self.rewardIcon.image.size.width, self.rewardIcon.image.size.height);
-  //self.rewardIcon.center = center;
   
   self.rewardLabel.text = labelName;
   self.rewardLabel.textColor = color;
 }
+
 
 @end
 

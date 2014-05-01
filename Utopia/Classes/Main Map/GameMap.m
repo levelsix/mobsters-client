@@ -22,7 +22,6 @@
 @implementation GameMap
 
 @synthesize tileSizeInPoints;
-@synthesize silverOnMap, goldOnMap;
 
 -(void) addChild:(CCNode *)node z:(NSInteger)z name:(NSString *)name {
   if ([[node class] isSubclassOfClass:[MapSprite class]]) {

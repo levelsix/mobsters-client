@@ -262,10 +262,10 @@ static PBExtensionRegistry* extensionRegistry = nil;
     self.name = @"";
     self.shorterName = @"";
     self.monsterGroup = @"";
-    self.quality = MonsterProto_MonsterQualityCommon;
+    self.quality = MonsterProto_MonsterQualityNoQuality;
     self.evolutionLevel = 0;
     self.displayName = @"";
-    self.monsterElement = MonsterProto_MonsterElementFire;
+    self.monsterElement = MonsterProto_MonsterElementNoElement;
     self.imagePrefix = @"";
     self.numPuzzlePieces = 0;
     self.minutesToCombinePieces = 0;
@@ -279,7 +279,7 @@ static PBExtensionRegistry* extensionRegistry = nil;
     self.carrotEvolved = @"";
     self.description = @"";
     self.evolutionCost = 0;
-    self.attackAnimationType = MonsterProto_AnimationTypeMelee;
+    self.attackAnimationType = MonsterProto_AnimationTypeNoAnimation;
     self.verticalPixelOffset = 0;
     self.atkSoundFile = @"";
     self.atkSoundAnimationFrame = 0;
@@ -523,6 +523,7 @@ static MonsterProto* defaultMonsterProtoInstance = nil;
 
 BOOL MonsterProto_MonsterQualityIsValidValue(MonsterProto_MonsterQuality value) {
   switch (value) {
+    case MonsterProto_MonsterQualityNoQuality:
     case MonsterProto_MonsterQualityCommon:
     case MonsterProto_MonsterQualityRare:
     case MonsterProto_MonsterQualityUltra:
@@ -536,6 +537,7 @@ BOOL MonsterProto_MonsterQualityIsValidValue(MonsterProto_MonsterQuality value) 
 }
 BOOL MonsterProto_MonsterElementIsValidValue(MonsterProto_MonsterElement value) {
   switch (value) {
+    case MonsterProto_MonsterElementNoElement:
     case MonsterProto_MonsterElementFire:
     case MonsterProto_MonsterElementGrass:
     case MonsterProto_MonsterElementWater:
@@ -549,6 +551,7 @@ BOOL MonsterProto_MonsterElementIsValidValue(MonsterProto_MonsterElement value) 
 }
 BOOL MonsterProto_AnimationTypeIsValidValue(MonsterProto_AnimationType value) {
   switch (value) {
+    case MonsterProto_AnimationTypeNoAnimation:
     case MonsterProto_AnimationTypeMelee:
     case MonsterProto_AnimationTypeRanged:
       return YES;
@@ -915,7 +918,7 @@ BOOL MonsterProto_AnimationTypeIsValidValue(MonsterProto_AnimationType value) {
 }
 - (MonsterProto_Builder*) clearQuality {
   result.hasQuality = NO;
-  result.quality = MonsterProto_MonsterQualityCommon;
+  result.quality = MonsterProto_MonsterQualityNoQuality;
   return self;
 }
 - (BOOL) hasEvolutionLevel {
@@ -963,7 +966,7 @@ BOOL MonsterProto_AnimationTypeIsValidValue(MonsterProto_AnimationType value) {
 }
 - (MonsterProto_Builder*) clearMonsterElement {
   result.hasMonsterElement = NO;
-  result.monsterElement = MonsterProto_MonsterElementFire;
+  result.monsterElement = MonsterProto_MonsterElementNoElement;
   return self;
 }
 - (BOOL) hasImagePrefix {
@@ -1216,7 +1219,7 @@ BOOL MonsterProto_AnimationTypeIsValidValue(MonsterProto_AnimationType value) {
 }
 - (MonsterProto_Builder*) clearAttackAnimationType {
   result.hasAttackAnimationType = NO;
-  result.attackAnimationType = MonsterProto_AnimationTypeMelee;
+  result.attackAnimationType = MonsterProto_AnimationTypeNoAnimation;
   return self;
 }
 - (BOOL) hasVerticalPixelOffset {
@@ -4861,7 +4864,7 @@ static UserMonsterEvolutionProto* defaultUserMonsterEvolutionProtoInstance = nil
 - (id) init {
   if ((self = [super init])) {
     self.monsterId = 0;
-    self.dialogueType = MonsterBattleDialogueProto_DialogueTypeEnterBattle;
+    self.dialogueType = MonsterBattleDialogueProto_DialogueTypeNoDialogue;
     self.dialogue = @"";
     self.probabilityUttered = 0;
   }
@@ -4951,6 +4954,7 @@ static MonsterBattleDialogueProto* defaultMonsterBattleDialogueProtoInstance = n
 
 BOOL MonsterBattleDialogueProto_DialogueTypeIsValidValue(MonsterBattleDialogueProto_DialogueType value) {
   switch (value) {
+    case MonsterBattleDialogueProto_DialogueTypeNoDialogue:
     case MonsterBattleDialogueProto_DialogueTypeEnterBattle:
       return YES;
     default:
@@ -5085,7 +5089,7 @@ BOOL MonsterBattleDialogueProto_DialogueTypeIsValidValue(MonsterBattleDialoguePr
 }
 - (MonsterBattleDialogueProto_Builder*) clearDialogueType {
   result.hasDialogueType = NO;
-  result.dialogueType = MonsterBattleDialogueProto_DialogueTypeEnterBattle;
+  result.dialogueType = MonsterBattleDialogueProto_DialogueTypeNoDialogue;
   return self;
 }
 - (BOOL) hasDialogue {

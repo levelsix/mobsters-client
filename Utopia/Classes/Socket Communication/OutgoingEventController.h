@@ -44,6 +44,8 @@
 - (void) redeemQuest:(int)questId delegate:(id)delegate;
 - (void) questProgress:(int)questId jobId:(int)jobId;
 - (UserQuest *) donateForQuest:(int)questId jobId:(int)jobId monsterIds:(NSArray *)monsterIds;
+- (void) achievementProgress:(NSArray *)userAchievements;
+- (void) redeemAchievement:(int)achievementId delegate:(id)delegate;
 
 - (void) retrieveUsersForUserIds:(NSArray *)userIds includeCurMonsterTeam:(BOOL)includeCurMonsterTeam delegate:(id)delegate;
 

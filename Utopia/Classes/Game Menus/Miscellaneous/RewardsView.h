@@ -11,9 +11,10 @@
 
 @interface RewardView : UIView
 
-@property (nonatomic, strong) IBOutlet UIImageView *rewardBgd;
 @property (nonatomic, strong) IBOutlet UIImageView *rewardIcon;
 @property (nonatomic, strong) IBOutlet UILabel *rewardLabel;
+
+- (void) loadForReward:(Reward *)reward;
 
 @end
 

@@ -82,6 +82,11 @@
   
   BOOL _hasStarted;
   BOOL _isExiting;
+  
+  int _orbCounts[color_all];
+  int _powerupCounts[powerup_end];
+  int _totalComboCount;
+  int _totalDamageTaken;
 }
 
 @property (nonatomic, retain) CCSprite *movesBgd;

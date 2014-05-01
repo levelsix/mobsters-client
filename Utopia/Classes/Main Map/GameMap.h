@@ -10,7 +10,6 @@
 #import "NibUtils.h"
 #import "Building.h"
 #import "AnimatedSprite.h"
-#import "Drops.h"
 #import "MyTeamSprite.h"
 #import "MapBotView.h"
 
@@ -45,9 +44,6 @@
 @property (nonatomic, retain) NSMutableArray *walkableData;
 
 @property (nonatomic, assign) CGSize tileSizeInPoints;
-
-@property (nonatomic, assign) int silverOnMap;
-@property (nonatomic, assign) int goldOnMap;
 
 @property (nonatomic, assign) int cityId;
 

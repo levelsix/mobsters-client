@@ -305,6 +305,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
     default:
       break;
   }
+  return nil;
 }
 
 + (UIColor *) colorForElementOnDarkBackground:(MonsterProto_MonsterElement)element {
@@ -1307,6 +1308,8 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
       break;
     case MonsterProto_MonsterElementRock:
       base = li.rockDmg;
+      break;
+    default:
       break;
   }
   return base*powf(um.levelInfo.dmgExponentBase, um.level-1);

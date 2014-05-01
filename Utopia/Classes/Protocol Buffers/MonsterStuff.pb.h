@@ -29,6 +29,7 @@
 @class UserMonsterHealingProto;
 @class UserMonsterHealingProto_Builder;
 typedef enum {
+  MonsterProto_MonsterQualityNoQuality = 7,
   MonsterProto_MonsterQualityCommon = 1,
   MonsterProto_MonsterQualityRare = 2,
   MonsterProto_MonsterQualityUltra = 3,
@@ -40,6 +41,7 @@ typedef enum {
 BOOL MonsterProto_MonsterQualityIsValidValue(MonsterProto_MonsterQuality value);
 
 typedef enum {
+  MonsterProto_MonsterElementNoElement = 7,
   MonsterProto_MonsterElementFire = 1,
   MonsterProto_MonsterElementGrass = 2,
   MonsterProto_MonsterElementWater = 3,
@@ -51,6 +53,7 @@ typedef enum {
 BOOL MonsterProto_MonsterElementIsValidValue(MonsterProto_MonsterElement value);
 
 typedef enum {
+  MonsterProto_AnimationTypeNoAnimation = 3,
   MonsterProto_AnimationTypeMelee = 1,
   MonsterProto_AnimationTypeRanged = 2,
 } MonsterProto_AnimationType;
@@ -58,6 +61,7 @@ typedef enum {
 BOOL MonsterProto_AnimationTypeIsValidValue(MonsterProto_AnimationType value);
 
 typedef enum {
+  MonsterBattleDialogueProto_DialogueTypeNoDialogue = 2,
   MonsterBattleDialogueProto_DialogueTypeEnterBattle = 1,
 } MonsterBattleDialogueProto_DialogueType;
 

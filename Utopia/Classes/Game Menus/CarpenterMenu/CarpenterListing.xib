@@ -108,7 +108,7 @@
                             <color key="shadowColor" white="1" alpha="0.5" colorSpace="calibratedWhite"/>
                             <size key="shadowOffset" width="0.0" height="1"/>
                         </label>
-                        <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" id="4">
+                        <imageView userInteractionEnabled="NO" contentMode="center" id="4">
                             <rect key="frame" x="15" y="36" width="111" height="88"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         </imageView>
@@ -217,6 +217,6 @@
         <image name="buildinginfobg.png" width="136" height="192"/>
         <image name="chatinfoi.png" width="17" height="17"/>
         <image name="clock.png" width="10" height="10"/>
-        <image name="oilicon.png" width="26" height="32"/>
+        <image name="oilicon.png" width="25" height="30"/>
     </resources>
 </document>

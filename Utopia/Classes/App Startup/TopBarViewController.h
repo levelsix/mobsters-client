@@ -95,6 +95,6 @@
 - (void) replaceChatViewWithView:(MapBotView *)view;
 - (void) removeViewOverChatView;
 
-- (void) displayQuestProgressViewForQuest:(FullQuestProto *)fqp userQuest:(UserQuest *)uq jobId:(int)jobId;
+- (void) displayQuestProgressViewForQuest:(FullQuestProto *)fqp userQuest:(UserQuest *)uq jobId:(int)jobId completion:(void (^)(void))completion;
 
 @end

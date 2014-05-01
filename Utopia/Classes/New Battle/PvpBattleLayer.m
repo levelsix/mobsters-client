@@ -16,6 +16,7 @@
 #import "Globals.h"
 #import <cocos2d-ui.h>
 #import "SoundEngine.h"
+#import "AchievementUtil.h"
 
 @implementation PvpBattleLayer
 
@@ -103,9 +104,16 @@
 - (void) handleEndPvpBattleResponseProto:(FullEvent *)fe {
   _receivedEndPvpResponse = YES;
   
+  [self checkQuests];
+  
   if (_waitingForEndPvpResponse) {
     [self exitFinal];
   }
+}
+
+- (void) checkQuests {
+  PvpProto *pvp = self.defendersList[_curQueueNum];
+  [AchievementUtil checkAchievementsForPvpBattleWithOrbCounts:_orbCounts powerupCounts:_powerupCounts comboCount:_totalComboCount damageTaken:_totalDamageTaken pvpInfo:pvp wonBattle:_wonBattle];
 }
 
 #pragma mark - Queue Node Methods

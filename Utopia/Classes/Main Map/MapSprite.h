@@ -19,7 +19,6 @@
 }
 
 @property (nonatomic, assign) CGRect location;
-@property (nonatomic, assign) BOOL isFlying;
 @property (nonatomic, assign) BOOL constrainedToBoundary;
 
 -(id) initWithFile:(NSString *)file  location:(CGRect)loc map:(GameMap *) map;

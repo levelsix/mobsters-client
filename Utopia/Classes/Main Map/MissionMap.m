@@ -13,7 +13,6 @@
 #import "OutgoingEventController.h"
 #import "AnimatedSprite.h"
 #import <AudioToolbox/AudioServices.h>
-#import "Drops.h"
 #import "GameViewController.h"
 #import "GenericPopupController.h"
 #import "MenuNavigationController.h"

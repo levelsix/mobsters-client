@@ -2,6 +2,7 @@
 
 #import "ProtocolBuffers.h"
 
+#import "AchievementStuff.pb.h"
 #import "Battle.pb.h"
 #import "BoosterPackStuff.pb.h"
 #import "City.pb.h"
@@ -12,6 +13,8 @@
 #import "Task.pb.h"
 #import "User.pb.h"
 
+@class AchievementProto;
+@class AchievementProto_Builder;
 @class BoosterDisplayItemProto;
 @class BoosterDisplayItemProto_Builder;
 @class BoosterItemProto;
@@ -142,6 +145,8 @@
 @class TownHallProto_Builder;
 @class TutorialStructProto;
 @class TutorialStructProto_Builder;
+@class UserAchievementProto;
+@class UserAchievementProto_Builder;
 @class UserCityExpansionDataProto;
 @class UserCityExpansionDataProto_Builder;
 @class UserCurrentMonsterTeamProto;
@@ -179,6 +184,7 @@
 @private
   BOOL hasSender_:1;
   MinimumUserProto* sender;
+  NSMutableArray* mutableAchievementsList;
   NSMutableArray* mutableLeaguesList;
   NSMutableArray* mutableClanIconsList;
   NSMutableArray* mutableObstaclesList;
@@ -251,6 +257,8 @@
 - (ClanIconProto*) clanIconsAtIndex:(int32_t) index;
 - (NSArray*) leaguesList;
 - (PvpLeagueProto*) leaguesAtIndex:(int32_t) index;
+- (NSArray*) achievementsList;
+- (AchievementProto*) achievementsAtIndex:(int32_t) index;
 
 + (StaticDataProto*) defaultInstance;
 - (StaticDataProto*) defaultInstance;
@@ -453,5 +461,12 @@
 - (StaticDataProto_Builder*) addLeagues:(PvpLeagueProto*) value;
 - (StaticDataProto_Builder*) addAllLeagues:(NSArray*) values;
 - (StaticDataProto_Builder*) clearLeaguesList;
+
+- (NSArray*) achievementsList;
+- (AchievementProto*) achievementsAtIndex:(int32_t) index;
+- (StaticDataProto_Builder*) replaceAchievementsAtIndex:(int32_t) index with:(AchievementProto*) value;
+- (StaticDataProto_Builder*) addAchievements:(AchievementProto*) value;
+- (StaticDataProto_Builder*) addAllAchievements:(NSArray*) values;
+- (StaticDataProto_Builder*) clearAchievementsList;
 @end
 

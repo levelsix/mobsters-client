@@ -21,6 +21,7 @@
 #import "LabViewController.h"
 #import "CCAnimation+SpriteLoading.h"
 #import "CCSoundAnimation.h"
+#import "AchievementUtil.h"
 
 #define FAR_LEFT_EXPANSION_START 58
 #define FAR_RIGHT_EXPANSION_START 58
@@ -992,7 +993,8 @@
   
   if (amountCollected > 0) {
     // Spawn a label on building
-    NSString *fnt = ((ResourceGeneratorProto *)mb.userStruct.staticStruct).resourceType == ResourceTypeCash ? @"cashcollected.fnt" : @"oilcollected.fnt";
+    ResourceType resType = ((ResourceGeneratorProto *)mb.userStruct.staticStruct).resourceType;
+    NSString *fnt = resType == ResourceTypeCash ? @"cashcollected.fnt" : @"oilcollected.fnt";
     CCLabelBMFont *label = [CCLabelBMFont labelWithString:[Globals commafyNumber:amountCollected] fntFile:fnt];
     [self addChild:label z:1000];
     label.position = ccp(mb.position.x, mb.position.y+mb.contentSize.height*4/5);
@@ -1005,6 +1007,8 @@
                         [CCActionFadeOut actionWithDuration:1.f], nil],
                        [CCActionMoveBy actionWithDuration:2.f position:ccp(0,40)],nil],
                       [CCActionCallFunc actionWithTarget:label selector:@selector(removeFromParent)], nil]];
+    
+    [AchievementUtil checkCollectResource:resType amount:amountCollected];
   } else {
     ResourceType resType = ((ResourceGeneratorProto *)mb.userStruct.staticStruct).resourceType;
     [Globals addAlertNotification:[NSString stringWithFormat:@"Your %@ storages are full. Time to upgrade your city!", resType == ResourceTypeOil ? @"oil" : @"cash"]];
@@ -1029,6 +1033,7 @@
   }
   _constrBuilding = nil;
   
+  [AchievementUtil checkBuildingUpgrade:mb.userStruct.structId];
   [[NSNotificationCenter defaultCenter] postNotificationName:GAMESTATE_UPDATE_NOTIFICATION object:nil];
 }
 
@@ -1045,6 +1050,7 @@
   
   [SoundEngine structCompleted];
   
+  [AchievementUtil checkObstacleRemoved];
   [[NSNotificationCenter defaultCenter] postNotificationName:GAMESTATE_UPDATE_NOTIFICATION object:nil];
 }
 
@@ -1383,6 +1389,8 @@
           [mb removeProgressBar];
         }
         
+        [AchievementUtil checkBuildingUpgrade:us.structId];
+        
         return YES;
       }
     } else if ([_constrBuilding isKindOfClass:[ObstacleSprite class]]) {
@@ -1419,6 +1427,8 @@
           comp();
           [os removeProgressBar];
         }
+        
+        [AchievementUtil checkObstacleRemoved];
         
         return YES;
       }

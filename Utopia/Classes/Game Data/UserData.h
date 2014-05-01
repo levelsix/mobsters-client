@@ -284,6 +284,18 @@ typedef enum {
 
 @end
 
+@interface UserAchievement : NSObject
+
+@property (nonatomic, assign) int achievementId;
+@property (nonatomic, assign) BOOL isRedeemed;
+@property (nonatomic, assign) BOOL isComplete;
+@property (nonatomic, assign) int progress;
+
++ (id) userAchievementWithProto:(UserAchievementProto *)achievement;
+- (UserAchievementProto *) convertToProto;
+
+@end
+
 typedef enum {
   RequestFromFriendInventorySlots = 1,
 

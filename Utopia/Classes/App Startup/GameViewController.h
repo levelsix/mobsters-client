@@ -20,10 +20,11 @@
 #import "QuestUtil.h"
 #import "QuestLogViewController.h"
 #import "QuestCompleteLayer.h"
+#import "AchievementUtil.h"
 
 @class TutorialController;
 
-@interface GameViewController : UIViewController <AttackMapDelegate, BattleLayerDelegate, CCDirectorDownloaderDelegate, DialogueViewControllerDelegate, ClanRaidDetailsDelegate, MiniTutorialDelegate, QuestUtilDelegate, QuestLogDelegate, QuestCompleteDelegate> {
+@interface GameViewController : UIViewController <AttackMapDelegate, BattleLayerDelegate, CCDirectorDownloaderDelegate, DialogueViewControllerDelegate, ClanRaidDetailsDelegate, MiniTutorialDelegate, QuestUtilDelegate, QuestLogDelegate, QuestCompleteDelegate, AchievementUtilDelegate> {
   int _questIdAfterDialogue;
   
   int _assetIdForMissionMap;
@@ -48,8 +49,12 @@
 @property (nonatomic, strong) MinimumUserTaskProto *resumeUserTask;
 @property (nonatomic, strong) NSArray *resumeTaskStages;
 
-@property (nonatomic, strong) FullQuestProto *completedQuest;
-@property (nonatomic, strong) QuestJobProto *progressedJob;
+@property (nonatomic, strong) QuestCompleteLayer *questCompleteLayer;
+@property (nonatomic, strong) TopBarQuestProgressView *topBarQuestProgressView;
+@property (nonatomic, strong) NSMutableArray *completedQuests;
+@property (nonatomic, strong) NSMutableArray *progressedJobs;
+@property (nonatomic, strong) AchievementProto *completedAchievement;
+@property (nonatomic, assign) int numAchievementsComplete;
 
 + (id) baseController;
 

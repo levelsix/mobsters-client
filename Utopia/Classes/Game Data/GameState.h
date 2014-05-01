@@ -61,6 +61,7 @@
 @property (nonatomic, retain) NSMutableDictionary *eventCooldownTimes;
 @property (nonatomic, retain) NSArray *staticClanIcons;
 @property (nonatomic, retain) NSArray *staticLeagues;
+@property (nonatomic, retain) NSMutableDictionary *staticAchievements;
 
 @property (nonatomic, retain) NSArray *persistentClanEvents;
 @property (nonatomic, retain) PersistentClanEventClanInfoProto *curClanRaidInfo;
@@ -75,6 +76,7 @@
 @property (nonatomic, retain) NSMutableArray *myStructs;
 @property (nonatomic, retain) NSMutableArray *myObstacles;
 @property (nonatomic, retain) NSMutableDictionary *myQuests;
+@property (nonatomic, retain) NSMutableDictionary *myAchievements;
 
 @property (nonatomic, retain) NSMutableArray *monsterHealingQueue;
 @property (nonatomic, retain) MSDate *monsterHealingQueueEndTime;
@@ -126,6 +128,7 @@
 - (FullCityProto *)cityWithId:(int)cityId;
 - (ClanRaidProto *) raidWithId:(int)raidId;
 - (FullTaskProto *) taskWithId:(int)taskId;
+- (AchievementProto *) achievementWithId:(int)achievementId;
 - (FullTaskProto *) taskWithCityId:(int)cityId assetId:(int)assetId;
 - (FullQuestProto *) questForId:(int)questId;
 - (ItemProto *) itemForId:(int)itemId;
@@ -146,6 +149,7 @@
 - (void) addToMyObstacles:(NSArray *)myObstacles;
 - (void) addToMyMonsters:(NSArray *)myMonsters;
 - (void) addToMyQuests:(NSArray *)quests;
+- (void) addToMyAchievements:(NSArray *)achievements;
 - (void) addToAvailableQuests:(NSArray *)quests;
 - (void) addToInProgressCompleteQuests:(NSArray *)quests;
 - (void) addToInProgressIncompleteQuests:(NSArray *)quests;

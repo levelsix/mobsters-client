@@ -38,7 +38,6 @@
   int _enhanceQueueGemCost;
 }
 
-
 @property (nonatomic, retain) GenericPopupController *popupController;
 
 @property (nonatomic, retain) AMQPConnectionThread *connectionThread;
@@ -46,6 +45,8 @@
 @property (nonatomic, retain) NSMutableArray *queuedMessages;
 
 @property (nonatomic, retain) NSMutableArray *structRetrievals;
+@property (nonatomic, retain) NSMutableDictionary *structRetrievalAchievements;
+@property (nonatomic, assign) uint64_t lastClientTime;
 
 @property (nonatomic, retain) NSArray *healingQueueSnapshot;
 @property (nonatomic, retain) UserEnhancement *enhancementSnapshot;
@@ -97,6 +98,9 @@
 - (int) sendQuestAcceptMessage:(int)questId;
 - (int) sendQuestProgressMessage:(int)questId isComplete:(BOOL)isComplete jobId:(int)jobId jobProgress:(int)progress isJobComplete:(BOOL)isJobComplete userMonsterIds:(NSArray *)userMonsterIds;
 - (int) sendQuestRedeemMessage:(int)questId;
+
+- (int) sendAchievementProgressMessage:(NSArray *)userAchievements clientTime:(uint64_t)clientTime;
+- (int) sendAchievementRedeemMessage:(int)achievementId clientTime:(uint64_t)clientTime;
 
 - (int) sendRetrieveUsersForUserIds:(NSArray *)userIds includeCurMonsterTeam:(BOOL)includeCurMonsterTeam;
 

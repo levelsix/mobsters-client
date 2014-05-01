@@ -146,10 +146,14 @@
   [self progressTo:PART_1_PERCENT animated:YES];
   
   [QuestUtil setDelegate:self];
+  [AchievementUtil setDelegate:self];
   
   [[NSBundle mainBundle] loadNibNamed:@"TravelingLoadingView" owner:self options:nil];
   
   [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(checkLevelUp) name:GAMESTATE_UPDATE_NOTIFICATION object:nil];
+  
+  self.completedQuests = [NSMutableArray array];
+  self.progressedJobs = [NSMutableArray array];
 }
 
 - (void) viewDidAppear:(BOOL)animated {
@@ -480,7 +484,8 @@
 }
 
 - (void) visitCityClicked:(int)cityId assetId:(int)assetId animated:(BOOL)animated {
-  if (!self.currentMap || self.currentMap.cityId != cityId) {
+  // If not animated, create new scene in case there are leftover artifacts.
+  if (!self.currentMap || self.currentMap.cityId != cityId || !animated) {
     if (cityId == 0) {
       CCScene *scene = [CCScene node];
       HomeMap *hm = [HomeMap node];
@@ -698,7 +703,7 @@
     }];
   } else {
     // Don't show top bar if theres a completed quest because it will just be faded out immediately
-    if (self.completedQuest) {
+    if (self.completedQuests.count) {
       [self performSelector:@selector(checkQuests) withObject:nil afterDelay:duration+0.1];
     } else {
       [self showTopBarDuration:duration completion:^{
@@ -752,14 +757,36 @@
   }
 }
 
-#pragma mark - Quests
+#pragma mark - Quests and Achievements
 
 - (void) checkQuests {
-  if (self.completedQuest) {
-    [self questComplete:self.completedQuest];
+  if (self.completedQuests.count) {
+    [self questComplete:self.completedQuests[0]];
+  } else {
+    if (self.progressedJobs.count) {
+      [self jobProgress:self.progressedJobs[0]];
+    }
+    if (self.completedAchievement) {
+      [self achievementComplete:self.completedAchievement];
+    }
   }
-  if (self.progressedJob) {
-    [self jobProgress:self.progressedJob];
+}
+
+- (void) achievementComplete:(AchievementProto *)ap {
+  if (!_isInBattle && !self.miniTutController && !self.presentedViewController) {
+    if (self.numAchievementsComplete > 1 || (self.completedAchievement && ap != self.completedAchievement)) {
+      if (self.completedAchievement && ap != self.completedAchievement) {
+        self.numAchievementsComplete++;
+      }
+      [Globals addGreenAlertNotification:[NSString stringWithFormat:@"%d Achievements Complete! Tap on the Jobs button to collect your rewards.", self.numAchievementsComplete]];
+    } else {
+      [Globals addGreenAlertNotification:[NSString stringWithFormat:@"Achievement Complete! %@: Rank %d", ap.name, ap.lvl]];
+    }
+    self.completedAchievement = nil;
+    self.numAchievementsComplete = 0;
+  } else {
+    self.numAchievementsComplete++;
+    self.completedAchievement = ap;
   }
 }
 
@@ -771,13 +798,15 @@
       [[[CCDirector sharedDirector] runningScene] addChild:questComplete];
       questComplete.anchorPoint = ccp(0.5, 0.5);
       questComplete.position = ccp(questComplete.parent.contentSize.width/2, questComplete.parent.contentSize.height/2);
-      [questComplete animateForQuest:fqp];
+      [questComplete animateForQuest:fqp completion:^{
+        [self checkQuests];
+      }];
       reader.animationManager.delegate = questComplete;
       questComplete.delegate = self;
     }];
-    self.completedQuest = nil;
+    [self.completedQuests removeObject:fqp];
   } else {
-    self.completedQuest = fqp;
+    [self.completedQuests addObject:fqp];
   }
 }
 
@@ -793,11 +822,13 @@
   if (!_isInBattle && !self.miniTutController && !self.presentedViewController) {
     GameState *gs = [GameState sharedGameState];
     FullQuestProto *fqp = [gs questForId:qjp.questId];
-    [self.topBarViewController displayQuestProgressViewForQuest:fqp userQuest:[gs myQuestWithId:fqp.questId] jobId:qjp.questJobId];
+    [self.topBarViewController displayQuestProgressViewForQuest:fqp userQuest:[gs myQuestWithId:fqp.questId] jobId:qjp.questJobId completion:^{
+      [self checkQuests];
+    }];
     
-    self.progressedJob = nil;
+    [self.progressedJobs removeObject:qjp];
   } else {
-    self.progressedJob = qjp;
+    [self.progressedJobs addObject:qjp];
   }
 }
 
@@ -834,7 +865,7 @@
 #pragma mark - Level Up
 
 - (void) checkLevelUp {
-  if (!_isInBattle && !self.miniTutController && !self.completedQuest && [CCDirector sharedDirector].isAnimating) {
+  if (!_isInBattle && !self.miniTutController && !self.completedQuests.count && [CCDirector sharedDirector].isAnimating) {
     GameState *gs = [GameState sharedGameState];
     Globals *gl = [Globals sharedGlobals];
     if (gs.level < gl.maxLevelForUser && gs.experience >= [gs expNeededForLevel:gs.level+1]) {

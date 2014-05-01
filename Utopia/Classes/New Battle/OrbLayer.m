@@ -588,16 +588,18 @@
     }
   }
   
+  Gem *gem = nil;
   if (batch.count == 4 && maxLength == 4) {
-    return [self createGemWithColor:color powerup:isHorizontal ? powerup_vertical_line : powerup_horizontal_line];
+    gem = [self createGemWithColor:color powerup:isHorizontal ? powerup_vertical_line : powerup_horizontal_line];
   } else if (batch.count > 4) {
     if (maxLength >= 5) {
-      return [self createGemWithColor:color_all powerup:powerup_all_of_one_color];
+      gem = [self createGemWithColor:color_all powerup:powerup_all_of_one_color];
     } else {
-      return [self createGemWithColor:color powerup:powerup_explosion];
+      gem = [self createGemWithColor:color powerup:powerup_explosion];
     }
   }
-  return nil;
+  if (gem) [self.delegate powerupCreated:gem];
+  return gem;
 }
 
 - (void) processBatches:(NSMutableArray*)batches

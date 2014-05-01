@@ -1003,6 +1003,33 @@
 
 @end
 
+@implementation UserAchievement
+
++ (id) userAchievementWithProto:(UserAchievementProto *)achievement {
+  return [[UserAchievement alloc] initWithProto:achievement];
+}
+
+- (id) initWithProto:(UserAchievementProto *)proto {
+  if ((self = [super init])) {
+    self.achievementId = proto.achievementId;
+    self.isRedeemed = proto.isRedeemed;
+    self.isComplete = proto.isComplete;
+    self.progress = proto.progress;
+  }
+  return self;
+}
+
+- (UserAchievementProto *) convertToProto {
+  UserAchievementProto_Builder *uap = [UserAchievementProto builder];
+  uap.achievementId = self.achievementId;
+  uap.isComplete = self.isComplete;
+  uap.isRedeemed = self.isRedeemed;
+  uap.progress = self.progress;
+  return uap.build;
+}
+
+@end
+
 @implementation RequestFromFriend
 
 + (id) requestForInventorySlotsWithInvite:(UserFacebookInviteForSlotProto *)invite {

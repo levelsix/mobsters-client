@@ -2,11 +2,13 @@
 
 #import "ProtocolBuffers.h"
 
+#import "AchievementStuff.pb.h"
 #import "Battle.pb.h"
 #import "BoosterPackStuff.pb.h"
 #import "Chat.pb.h"
 #import "City.pb.h"
 #import "Clan.pb.h"
+#import "EventAchievement.pb.h"
 #import "EventApns.pb.h"
 #import "EventBoosterPack.pb.h"
 #import "EventChat.pb.h"
@@ -36,6 +38,16 @@
 @class AcceptAndRejectFbInviteForSlotsRequestProto_Builder;
 @class AcceptAndRejectFbInviteForSlotsResponseProto;
 @class AcceptAndRejectFbInviteForSlotsResponseProto_Builder;
+@class AchievementProgressRequestProto;
+@class AchievementProgressRequestProto_Builder;
+@class AchievementProgressResponseProto;
+@class AchievementProgressResponseProto_Builder;
+@class AchievementProto;
+@class AchievementProto_Builder;
+@class AchievementRedeemRequestProto;
+@class AchievementRedeemRequestProto_Builder;
+@class AchievementRedeemResponseProto;
+@class AchievementRedeemResponseProto_Builder;
 @class AddMonsterToBattleTeamRequestProto;
 @class AddMonsterToBattleTeamRequestProto_Builder;
 @class AddMonsterToBattleTeamResponseProto;
@@ -470,6 +482,8 @@
 @class UpgradeNormStructureRequestProto_Builder;
 @class UpgradeNormStructureResponseProto;
 @class UpgradeNormStructureResponseProto_Builder;
+@class UserAchievementProto;
+@class UserAchievementProto_Builder;
 @class UserCityExpansionDataProto;
 @class UserCityExpansionDataProto_Builder;
 @class UserCreateRequestProto;
@@ -539,6 +553,7 @@ typedef enum {
   EventProtocolRequestCEvolveMonsterEvent = 36,
   EventProtocolRequestCPurchaseBoosterPackEvent = 37,
   EventProtocolRequestCEvolutionFinishedEvent = 38,
+  EventProtocolRequestCAchievementProgressEvent = 39,
   EventProtocolRequestCPrivateChatPostEvent = 40,
   EventProtocolRequestCRetrievePrivateChatPostEvent = 41,
   EventProtocolRequestCRedeemUserLockBoxItemsEvent = 42,
@@ -548,6 +563,7 @@ typedef enum {
   EventProtocolRequestCQueueUpEvent = 46,
   EventProtocolRequestCUpdateMonsterHealthEvent = 47,
   EventProtocolRequestCHealMonsterEvent = 48,
+  EventProtocolRequestCAchievementRedeemEvent = 49,
   EventProtocolRequestCAddMonsterToBattleTeamEvent = 50,
   EventProtocolRequestCRemoveMonsterFromBattleTeamEvent = 51,
   EventProtocolRequestCIncreaseMonsterInventorySlotEvent = 52,
@@ -611,6 +627,7 @@ typedef enum {
   EventProtocolResponseSEvolveMonsterEvent = 36,
   EventProtocolResponseSPurchaseBoosterPackEvent = 37,
   EventProtocolResponseSEvolutionFinishedEvent = 38,
+  EventProtocolResponseSAchievementProgressEvent = 39,
   EventProtocolResponseSPrivateChatPostEvent = 40,
   EventProtocolResponseSRetrievePrivateChatPostEvent = 41,
   EventProtocolResponseSRedeemUserLockBoxItemsEvent = 42,
@@ -620,6 +637,7 @@ typedef enum {
   EventProtocolResponseSQueueUpEvent = 46,
   EventProtocolResponseSUpdateMonsterHealthEvent = 47,
   EventProtocolResponseSHealMonsterEvent = 48,
+  EventProtocolResponseSAchievementRedeemEvent = 49,
   EventProtocolResponseSAddMonsterToBattleTeamEvent = 50,
   EventProtocolResponseSRemoveMonsterFromBattleTeamEvent = 51,
   EventProtocolResponseSIncreaseMonsterInventorySlotEvent = 52,

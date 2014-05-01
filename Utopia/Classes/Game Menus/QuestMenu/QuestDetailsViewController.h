@@ -36,9 +36,13 @@
 @property (nonatomic, strong) IBOutlet UILabel *descriptionLabel;
 @property (nonatomic, strong) IBOutlet UIImageView *questGiverIcon;
 @property (nonatomic, strong) IBOutlet UIImageView *bgdIcon;
+@property (nonatomic, strong) IBOutlet UIView *rewardsBox;
 
 @property (nonatomic, strong) IBOutlet UIView *headerView;
+@property (nonatomic, strong) IBOutlet UITableView *taskTable;
 @property (nonatomic, strong) IBOutlet QuestDetailsCell *taskCell;
+
+@property (nonatomic, strong) IBOutlet RewardView *rewardView;
 
 @property (nonatomic, weak) id<QuestDetailsViewControllerDelegate> delegate;
 

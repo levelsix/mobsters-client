@@ -1510,7 +1510,7 @@ BOOL TaskStageMonsterProto_MonsterTypeIsValidValue(TaskStageMonsterProto_Monster
     self.taskId = 0;
     self.cooldownMinutes = 0;
     self.type = PersistentEventProto_EventTypeEnhance;
-    self.monsterElement = MonsterProto_MonsterElementFire;
+    self.monsterElement = MonsterProto_MonsterElementNoElement;
   }
   return self;
 }
@@ -1891,7 +1891,7 @@ BOOL PersistentEventProto_EventTypeIsValidValue(PersistentEventProto_EventType v
 }
 - (PersistentEventProto_Builder*) clearMonsterElement {
   result.hasMonsterElement = NO;
-  result.monsterElement = MonsterProto_MonsterElementFire;
+  result.monsterElement = MonsterProto_MonsterElementNoElement;
   return self;
 }
 @end

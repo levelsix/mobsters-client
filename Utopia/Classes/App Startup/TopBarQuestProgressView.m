@@ -18,7 +18,7 @@
   self.monsterIcon.superview.transform = CGAffineTransformMakeScale(0.64, 0.64);
 }
 
-- (void) displayForQuest:(FullQuestProto *)quest userQuest:(UserQuest *)userQuest jobId:(int)jobId {
+- (void) displayForQuest:(FullQuestProto *)quest userQuest:(UserQuest *)userQuest jobId:(int)jobId completion:(void (^)(void))completion {
   NSString *file = [quest.questGiverImagePrefix stringByAppendingString:@"Thumbnail.png"];
   [Globals imageNamed:file withView:self.monsterIcon greyscale:NO indicator:UIActivityIndicatorViewStyleWhite clearImageDuringDownload:YES];
   file = [Globals imageNameForElement:quest.monsterElement suffix:@"team.png"];
@@ -38,6 +38,8 @@
   self.questLabel.text = [NSString stringWithFormat:@"%@%@", quest.name, quest.jobsList.count > 1 ? [NSString stringWithFormat:@": Task %d", jp.priority] : @""];
   
   [self animateIn];
+  
+  _completionBlock = completion;
 }
 
 - (void) animateIn {
@@ -59,6 +61,10 @@
     self.center = ccp(self.center.x, self.superview.frame.size.height+self.frame.size.height/2);
   } completion:^(BOOL finished) {
     [self removeFromSuperview];
+    
+    if (_completionBlock) {
+      _completionBlock();
+    }
   }];
 }
 

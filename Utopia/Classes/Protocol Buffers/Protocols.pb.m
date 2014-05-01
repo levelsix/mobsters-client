@@ -12,11 +12,13 @@ static PBExtensionRegistry* extensionRegistry = nil;
   if (self == [ProtocolsRoot class]) {
     PBMutableExtensionRegistry* registry = [PBMutableExtensionRegistry registry];
     [self registerAllExtensions:registry];
+    [AchievementStuffRoot registerAllExtensions:registry];
     [BattleRoot registerAllExtensions:registry];
     [BoosterPackStuffRoot registerAllExtensions:registry];
     [ChatRoot registerAllExtensions:registry];
     [CityRoot registerAllExtensions:registry];
     [ClanRoot registerAllExtensions:registry];
+    [EventAchievementRoot registerAllExtensions:registry];
     [EventApnsRoot registerAllExtensions:registry];
     [EventBoosterPackRoot registerAllExtensions:registry];
     [EventChatRoot registerAllExtensions:registry];
@@ -88,6 +90,7 @@ BOOL EventProtocolRequestIsValidValue(EventProtocolRequest value) {
     case EventProtocolRequestCEvolveMonsterEvent:
     case EventProtocolRequestCPurchaseBoosterPackEvent:
     case EventProtocolRequestCEvolutionFinishedEvent:
+    case EventProtocolRequestCAchievementProgressEvent:
     case EventProtocolRequestCPrivateChatPostEvent:
     case EventProtocolRequestCRetrievePrivateChatPostEvent:
     case EventProtocolRequestCRedeemUserLockBoxItemsEvent:
@@ -97,6 +100,7 @@ BOOL EventProtocolRequestIsValidValue(EventProtocolRequest value) {
     case EventProtocolRequestCQueueUpEvent:
     case EventProtocolRequestCUpdateMonsterHealthEvent:
     case EventProtocolRequestCHealMonsterEvent:
+    case EventProtocolRequestCAchievementRedeemEvent:
     case EventProtocolRequestCAddMonsterToBattleTeamEvent:
     case EventProtocolRequestCRemoveMonsterFromBattleTeamEvent:
     case EventProtocolRequestCIncreaseMonsterInventorySlotEvent:
@@ -162,6 +166,7 @@ BOOL EventProtocolResponseIsValidValue(EventProtocolResponse value) {
     case EventProtocolResponseSEvolveMonsterEvent:
     case EventProtocolResponseSPurchaseBoosterPackEvent:
     case EventProtocolResponseSEvolutionFinishedEvent:
+    case EventProtocolResponseSAchievementProgressEvent:
     case EventProtocolResponseSPrivateChatPostEvent:
     case EventProtocolResponseSRetrievePrivateChatPostEvent:
     case EventProtocolResponseSRedeemUserLockBoxItemsEvent:
@@ -171,6 +176,7 @@ BOOL EventProtocolResponseIsValidValue(EventProtocolResponse value) {
     case EventProtocolResponseSQueueUpEvent:
     case EventProtocolResponseSUpdateMonsterHealthEvent:
     case EventProtocolResponseSHealMonsterEvent:
+    case EventProtocolResponseSAchievementRedeemEvent:
     case EventProtocolResponseSAddMonsterToBattleTeamEvent:
     case EventProtocolResponseSRemoveMonsterFromBattleTeamEvent:
     case EventProtocolResponseSIncreaseMonsterInventorySlotEvent:

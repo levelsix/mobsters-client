@@ -562,6 +562,7 @@
 }
 
 - (void) dealEnemyDamage {
+  _totalDamageTaken += _enemyDamageDealt;
   [self dealDamage:_enemyDamageDealt enemyIsAttacker:YES withSelector:@selector(checkMyHealth)];
   
   float perc = ((float)self.myPlayerObject.curHealth)/self.myPlayerObject.maxHealth;
@@ -1144,6 +1145,7 @@
 
 - (void) newComboFound {
   _comboCount++;
+  _totalComboCount++;
   
   // Update combo count label but do it somewhat slowly
   __block int base = MAX(2, [_comboLabel.string intValue]);
@@ -1200,6 +1202,7 @@
 
 - (void) gemKilled:(Gem *)gem {
   _orbCount++;
+  _orbCounts[gem.color]++;
   
   int dmg = [self.myPlayerObject damageForColor:gem.color];
   _myDamageDealt += dmg;
@@ -1235,6 +1238,10 @@
 }
 
 - (void) gemReachedFlyLocation:(Gem *)gem {
+}
+
+- (void) powerupCreated:(Gem *)gem {
+  _powerupCounts[gem.powerup]++;
 }
 
 - (void) moveComplete {

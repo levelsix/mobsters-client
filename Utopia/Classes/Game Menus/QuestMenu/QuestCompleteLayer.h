@@ -25,6 +25,7 @@
 
 @interface QuestCompleteLayer : CCNode <CCBAnimationManagerDelegate> {
   int _questId;
+  void (^_completionBlock)(void);
 }
 
 @property (nonatomic, retain) CCNode *spinner;
@@ -42,6 +43,6 @@
 
 @property (nonatomic, assign) id<QuestCompleteDelegate> delegate;
 
-- (void) animateForQuest:(FullQuestProto *)fqp;
+- (void) animateForQuest:(FullQuestProto *)fqp completion:(void (^)(void))completion;
 
 @end

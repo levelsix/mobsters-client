@@ -7,10 +7,12 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="QuestLogViewController">
             <connections>
+                <outlet property="achievementBadge" destination="o2h-kB-Kwb" id="ujH-uB-1sJ"/>
                 <outlet property="backView" destination="hS9-5D-tTO" id="kmp-MB-SEx"/>
                 <outlet property="bgdView" destination="ILy-eL-mUi" id="seA-c8-iiq"/>
                 <outlet property="containerView" destination="AbA-hR-gOT" id="jRv-Am-qUD"/>
                 <outlet property="mainView" destination="RPw-ay-XRb" id="VAn-Wp-yp0"/>
+                <outlet property="questBadge" destination="Q6a-Ol-7ug" id="6cq-aD-TlV"/>
                 <outlet property="titleLabel" destination="8Ca-Od-Php" id="KYc-jN-Qge"/>
                 <outlet property="topBar" destination="R6e-3Y-S5P" id="Mtx-03-9kl"/>
                 <outlet property="view" destination="1" id="3"/>
@@ -170,15 +172,15 @@
                                     <color key="highlightedColor" white="1" alpha="0.5" colorSpace="calibratedWhite"/>
                                     <size key="shadowOffset" width="0.0" height="1"/>
                                 </label>
-                                <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="questiconinactive.png" highlightedImage="questiconactive.png" id="zGw-Ra-3rw">
+                                <imageView opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="center" image="questiconinactive.png" highlightedImage="questiconactive.png" id="zGw-Ra-3rw">
                                     <rect key="frame" x="65" y="14" width="12" height="11"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                 </imageView>
-                                <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="achievementsiconinactive.png" highlightedImage="achievementsiconactive.png" id="V6o-nK-7wn">
+                                <imageView opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="center" image="achievementsiconinactive.png" highlightedImage="achievementsiconactive.png" id="V6o-nK-7wn">
                                     <rect key="frame" x="152" y="13" width="22" height="13"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                 </imageView>
-                                <view contentMode="scaleToFill" id="Q6a-Ol-7ug" customClass="BadgeIcon">
+                                <view userInteractionEnabled="NO" contentMode="scaleToFill" id="Q6a-Ol-7ug" customClass="BadgeIcon">
                                     <rect key="frame" x="103" y="2" width="18" height="18"/>
                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                     <subviews>
@@ -201,7 +203,7 @@
                                         <outlet property="badgeLabel" destination="Cpc-Dy-2xq" id="Vl6-Nw-tbT"/>
                                     </connections>
                                 </view>
-                                <view contentMode="scaleToFill" id="o2h-kB-Kwb" customClass="BadgeIcon">
+                                <view userInteractionEnabled="NO" contentMode="scaleToFill" id="o2h-kB-Kwb" customClass="BadgeIcon">
                                     <rect key="frame" x="194" y="2" width="18" height="18"/>
                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                     <subviews>

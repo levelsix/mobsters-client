@@ -4,6 +4,8 @@
 
 #import "StaticData.pb.h"
 
+@class AchievementProto;
+@class AchievementProto_Builder;
 @class BoosterDisplayItemProto;
 @class BoosterDisplayItemProto_Builder;
 @class BoosterItemProto;
@@ -136,6 +138,8 @@
 @class TownHallProto_Builder;
 @class TutorialStructProto;
 @class TutorialStructProto_Builder;
+@class UserAchievementProto;
+@class UserAchievementProto_Builder;
 @class UserCityExpansionDataProto;
 @class UserCityExpansionDataProto_Builder;
 @class UserCurrentMonsterTeamProto;

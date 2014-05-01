@@ -20,7 +20,6 @@
   NSString *imgName = nil;
   NSString *labelName = nil;
   UIColor *color = nil;
-  float scale = 1.f;
   if (reward.type == RewardTypeMonster) {
     MonsterProto *mp = [gs monsterWithId:reward.monsterId];
     imgName = [Globals imageNameForRarity:mp.quality suffix:@"piece.png"];
@@ -49,7 +48,6 @@
     CCSprite *inside = [CCSprite spriteWithImageNamed:imgName];
     [self addChild:inside];
     inside.position = ccp(0, 9);
-    inside.scale = scale;
     
     CCLabelTTF *label = [CCLabelTTF labelWithString:labelName fontName:@"GothamBlack" fontSize:13.f];
     label.color = [CCColor colorWithUIColor:color];
@@ -75,7 +73,7 @@
   self.bgdNode.zOrder = -2;
 }
 
-- (void) animateForQuest:(FullQuestProto *)fqp {
+- (void) animateForQuest:(FullQuestProto *)fqp completion:(void (^)(void))completion {
   self.questNameLabel.string = [fqp.name uppercaseString];
   
   NSArray *rewards = [Reward createRewardsForQuest:fqp];
@@ -110,6 +108,8 @@
   self.questNameLabel.parent.zOrder = 1;
   
   _questId = fqp.questId;
+  
+  _completionBlock = completion;
 }
 
 - (void) completedAnimationSequenceNamed:(NSString *)name {
@@ -176,9 +176,6 @@
 }
 
 - (void) continueClicked:(id)sender {
-  [self fakeClose];
-  return;
-  
   [[OutgoingEventController sharedOutgoingEventController] redeemQuest:_questId delegate:self];
   
   self.continueButton.title = @"";
@@ -229,6 +226,10 @@
   
   [self closeWithBlock:^{
     [self.delegate questCompleteLayerCompleted:self withNewQuest:quest];
+    
+    if (_completionBlock) {
+      _completionBlock();
+    }
   }];
   
   [[NSNotificationCenter defaultCenter] postNotificationName:QUESTS_CHANGED_NOTIFICATION object:nil];
