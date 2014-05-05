@@ -44,7 +44,7 @@
                             <rect key="frame" x="0.0" y="0.0" width="55" height="69"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             <subviews>
-                                <view clipsSubviews="YES" contentMode="scaleToFill" id="nlC-5n-WO6">
+                                <view clipsSubviews="YES" contentMode="scaleToFill" id="nlC-5n-WO6" customClass="MiniMonsterView">
                                     <rect key="frame" x="6" y="6" width="42" height="42"/>
                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                     <subviews>
@@ -74,6 +74,10 @@
                                         </button>
                                     </subviews>
                                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                    <connections>
+                                        <outlet property="bgdIcon" destination="x2J-U4-4M6" id="SeY-mb-k3s"/>
+                                        <outlet property="monsterIcon" destination="T9Z-xW-zSy" id="vV3-g5-K8I"/>
+                                    </connections>
                                 </view>
                                 <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="minitimebg.png" id="a6n-5L-gBF">
                                     <rect key="frame" x="5" y="54" width="44" height="11"/>
@@ -98,12 +102,11 @@
                     </subviews>
                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                     <connections>
-                        <outlet property="bgdIcon" destination="x2J-U4-4M6" id="Z75-WV-OMb"/>
                         <outlet property="emptyView" destination="dkT-60-mLk" id="aL7-AU-MBj"/>
                         <outlet property="healthLabel" destination="NkA-vJ-vpG" id="Ydp-rY-Tyk"/>
                         <outlet property="healthbar" destination="RYV-m8-ci1" id="mSb-el-fDu"/>
                         <outlet property="mainView" destination="BYH-k9-fPu" id="fbT-hr-kmD"/>
-                        <outlet property="monsterIcon" destination="T9Z-xW-zSy" id="TVu-c5-unM"/>
+                        <outlet property="monsterView" destination="nlC-5n-WO6" id="Tft-Q4-Ga6"/>
                     </connections>
                 </view>
                 <view clipsSubviews="YES" tag="2" contentMode="scaleToFill" id="l5o-4Q-gAf" customClass="BattleDeployCardView">
@@ -118,7 +121,7 @@
                             <rect key="frame" x="0.0" y="0.0" width="55" height="69"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             <subviews>
-                                <view clipsSubviews="YES" contentMode="scaleToFill" id="mFL-3q-msg">
+                                <view clipsSubviews="YES" contentMode="scaleToFill" id="mFL-3q-msg" customClass="MiniMonsterView">
                                     <rect key="frame" x="6" y="6" width="42" height="42"/>
                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                     <subviews>
@@ -148,6 +151,10 @@
                                         </button>
                                     </subviews>
                                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                    <connections>
+                                        <outlet property="bgdIcon" destination="PB2-yc-ZWS" id="1i7-V0-rSM"/>
+                                        <outlet property="monsterIcon" destination="dbJ-CQ-L7y" id="M45-WF-05n"/>
+                                    </connections>
                                 </view>
                                 <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="minitimebg.png" id="cYk-Hh-qPF">
                                     <rect key="frame" x="5" y="54" width="44" height="11"/>
@@ -172,12 +179,11 @@
                     </subviews>
                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                     <connections>
-                        <outlet property="bgdIcon" destination="PB2-yc-ZWS" id="HKm-rd-c7a"/>
                         <outlet property="emptyView" destination="dbL-uM-MM7" id="PLx-DR-RNj"/>
                         <outlet property="healthLabel" destination="ErA-9x-igO" id="lqG-v0-eK2"/>
                         <outlet property="healthbar" destination="1UH-in-8kN" id="n2G-bC-rZy"/>
                         <outlet property="mainView" destination="c2q-Qu-pX4" id="eYe-QV-uRu"/>
-                        <outlet property="monsterIcon" destination="dbJ-CQ-L7y" id="A2B-cC-p7z"/>
+                        <outlet property="monsterView" destination="mFL-3q-msg" id="baA-8w-3eT"/>
                     </connections>
                 </view>
                 <view clipsSubviews="YES" tag="3" contentMode="scaleToFill" id="Thh-60-9JV" customClass="BattleDeployCardView">
@@ -192,7 +198,7 @@
                             <rect key="frame" x="0.0" y="0.0" width="55" height="69"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             <subviews>
-                                <view clipsSubviews="YES" contentMode="scaleToFill" id="cit-zS-KO1">
+                                <view clipsSubviews="YES" contentMode="scaleToFill" id="cit-zS-KO1" customClass="MiniMonsterView">
                                     <rect key="frame" x="6" y="6" width="42" height="42"/>
                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                     <subviews>
@@ -222,6 +228,10 @@
                                         </button>
                                     </subviews>
                                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                    <connections>
+                                        <outlet property="bgdIcon" destination="v2G-h3-IXg" id="9om-CX-5om"/>
+                                        <outlet property="monsterIcon" destination="UNu-bT-BMp" id="mPO-C0-HHL"/>
+                                    </connections>
                                 </view>
                                 <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="minitimebg.png" id="UpC-wh-byW">
                                     <rect key="frame" x="5" y="54" width="44" height="11"/>
@@ -246,12 +256,11 @@
                     </subviews>
                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                     <connections>
-                        <outlet property="bgdIcon" destination="v2G-h3-IXg" id="sh8-No-zmI"/>
                         <outlet property="emptyView" destination="3iQ-HQ-dj9" id="6QT-VL-M2k"/>
                         <outlet property="healthLabel" destination="IrW-e4-BBl" id="eJi-Sj-sNT"/>
                         <outlet property="healthbar" destination="hN4-Xe-oGv" id="plj-IW-1Q4"/>
                         <outlet property="mainView" destination="KWS-Vr-YFS" id="q4T-VA-ddF"/>
-                        <outlet property="monsterIcon" destination="UNu-bT-BMp" id="7SC-Gs-tTx"/>
+                        <outlet property="monsterView" destination="cit-zS-KO1" id="bae-4a-GJQ"/>
                     </connections>
                 </view>
             </subviews>
