@@ -8,6 +8,7 @@
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="MiniJobsListViewController">
             <connections>
                 <outlet property="headerView" destination="MwW-rg-xMr" id="dq2-cW-7up"/>
+                <outlet property="listTable" destination="eC6-9C-elJ" id="O1t-rk-QjA"/>
                 <outlet property="returnsInLabel" destination="luB-Ji-gnR" id="4nR-Rk-cor"/>
                 <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
             </connections>
@@ -17,11 +18,14 @@
             <rect key="frame" x="0.0" y="0.0" width="364" height="238"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
-                <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" delaysContentTouches="NO" style="plain" separatorStyle="none" rowHeight="60" sectionHeaderHeight="22" sectionFooterHeight="22" id="eC6-9C-elJ" customClass="CancellableTableView">
+                <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" delaysContentTouches="NO" style="plain" separatorStyle="none" rowHeight="60" sectionHeaderHeight="27" sectionFooterHeight="22" id="eC6-9C-elJ" customClass="CancellableTableView">
                     <rect key="frame" x="0.0" y="0.0" width="364" height="192"/>
                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                    <inset key="contentInset" minX="0.0" minY="3" maxX="0.0" maxY="0.0"/>
+                    <connections>
+                        <outlet property="dataSource" destination="-1" id="SbE-Ga-a1d"/>
+                        <outlet property="delegate" destination="-1" id="rq6-IJ-moA"/>
+                    </connections>
                 </tableView>
                 <view contentMode="scaleToFill" id="cXA-6V-zUe">
                     <rect key="frame" x="0.0" y="192" width="364" height="43"/>
@@ -65,7 +69,7 @@
                     <size key="shadowOffset" width="0.0" height="1"/>
                 </label>
                 <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="REWARDS" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" id="VZw-y2-s6d" customClass="NiceFontLabel10">
-                    <rect key="frame" x="161" y="1" width="69" height="23"/>
+                    <rect key="frame" x="159" y="1" width="69" height="23"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                     <fontDescription key="fontDescription" type="system" pointSize="10"/>
                     <color key="textColor" white="0.0" alpha="0.59999999999999998" colorSpace="calibratedWhite"/>
@@ -73,7 +77,7 @@
                     <size key="shadowOffset" width="0.0" height="1"/>
                 </label>
                 <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" image="popupline.png" id="6qg-8y-uXZ">
-                    <rect key="frame" x="0.0" y="27" width="435" height="1"/>
+                    <rect key="frame" x="0.0" y="27" width="364" height="1"/>
                     <autoresizingMask key="autoresizingMask"/>
                 </imageView>
                 <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="RETURNS IN" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" id="luB-Ji-gnR" customClass="NiceFontLabel10">

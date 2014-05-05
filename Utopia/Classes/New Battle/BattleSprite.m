@@ -23,7 +23,7 @@
 
 @implementation BattleSprite
 
-- (id) initWithPrefix:(NSString *)prefix nameString:(NSString *)name rarity:(MonsterProto_MonsterQuality)rarity animationType:(MonsterProto_AnimationType)animationType isMySprite:(BOOL)isMySprite verticalOffset:(float)verticalOffset {
+- (id) initWithPrefix:(NSString *)prefix nameString:(NSString *)name rarity:(Quality)rarity animationType:(MonsterProto_AnimationType)animationType isMySprite:(BOOL)isMySprite verticalOffset:(float)verticalOffset {
   if ((self = [super init])) {
     self.prefix = prefix;
     self.contentSize = CGSizeMake(40, 55);
@@ -61,7 +61,7 @@
     self.healthLabel.shadowBlurRadius = 1.5f;
     self.healthLabel.shadowColor = [CCColor colorWithWhite:0.f alpha:0.7f];
     
-    if (rarity != MonsterProto_MonsterQualityCommon) {
+    if (rarity != QualityCommon) {
       NSString *rarityStr = [@"battle" stringByAppendingString:[Globals imageNameForRarity:rarity suffix:@"tag.png"]];
       self.rarityTag = [CCSprite spriteWithImageNamed:rarityStr];
       [self.healthBgd addChild:self.rarityTag];

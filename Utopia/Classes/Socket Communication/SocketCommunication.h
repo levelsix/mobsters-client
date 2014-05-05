@@ -96,7 +96,7 @@
 - (int) sendLevelUpMessage:(int)level;
 
 - (int) sendQuestAcceptMessage:(int)questId;
-- (int) sendQuestProgressMessage:(int)questId isComplete:(BOOL)isComplete jobId:(int)jobId jobProgress:(int)progress isJobComplete:(BOOL)isJobComplete userMonsterIds:(NSArray *)userMonsterIds;
+- (int) sendQuestProgressMessage:(int)questId isComplete:(BOOL)isComplete userQuestJobs:(NSArray *)userQuestJobs userMonsterIds:(NSArray *)userMonsterIds;
 - (int) sendQuestRedeemMessage:(int)questId;
 
 - (int) sendAchievementProgressMessage:(NSArray *)userAchievements clientTime:(uint64_t)clientTime;
@@ -133,7 +133,7 @@
 - (int) sendPrivateChatPostMessage:(int)recipientId content:(NSString *)content;
 - (int) sendRetrievePrivateChatPostsMessage:(int)otherUserId;
 
-- (int) sendBeginDungeonMessage:(uint64_t)clientTime taskId:(int)taskId isEvent:(BOOL)isEvent eventId:(int)eventId gems:(int)gems enemyElement:(MonsterProto_MonsterElement)element shouldForceElem:(BOOL)shouldForceElem questIds:(NSArray *)questIds;
+- (int) sendBeginDungeonMessage:(uint64_t)clientTime taskId:(int)taskId isEvent:(BOOL)isEvent eventId:(int)eventId gems:(int)gems enemyElement:(Element)element shouldForceElem:(BOOL)shouldForceElem questIds:(NSArray *)questIds;
 - (int) sendUpdateMonsterHealthMessage:(uint64_t)clientTime monsterHealths:(NSArray *)monsterHealths isForTask:(BOOL)isForTask userTaskId:(int64_t)userTaskId taskStageId:(int)taskStageId;
 - (int) sendEndDungeonMessage:(uint64_t)userTaskId userWon:(BOOL)userWon isFirstTimeCompleted:(BOOL)isFirstTimeCompleted time:(uint64_t)time;
 - (int) sendReviveInDungeonMessage:(uint64_t)userTaskId clientTime:(uint64_t)clientTime userHealths:(NSArray *)healths gems:(int)gems;

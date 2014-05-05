@@ -8,9 +8,9 @@
 
 #import <UIKit/UIKit.h>
 #import "UserData.h"
-#import "NibUtils.h"
 
 @class MonsterCardView;
+@class MaskedButton;
 
 @protocol MonsterCardViewDelegate <NSObject>
 
@@ -49,5 +49,15 @@
 @interface MonsterCardContainerView : UIView
 
 @property (nonatomic, retain) IBOutlet MonsterCardView *monsterCardView;
+
+@end
+
+@interface MiniMonsterView : UIView
+
+@property (nonatomic, assign) IBOutlet UIImageView *monsterIcon;
+@property (nonatomic, assign) IBOutlet UIImageView *bgdIcon;
+
+- (void) updateForMonsterId:(int)monsterId;
+- (void) updateForElement:(Element)element imgPrefix:(NSString *)imgPrefix greyscale:(BOOL)greyscale;
 
 @end

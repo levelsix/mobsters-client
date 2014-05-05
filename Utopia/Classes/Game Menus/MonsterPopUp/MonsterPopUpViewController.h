@@ -17,7 +17,7 @@
 @property (nonatomic, strong) IBOutlet UILabel *statLabel;
 @property (nonatomic, strong) IBOutlet UILabel *elementLabel;
 
-- (void) updateStatsWithElementType:(MonsterProto_MonsterElement)element andDamage:(int)damage;
+- (void) updateStatsWithElementType:(Element)element andDamage:(int)damage;
 
 @end
 

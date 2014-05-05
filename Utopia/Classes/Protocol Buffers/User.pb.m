@@ -1939,6 +1939,7 @@ static UserFacebookInviteForSlotProto* defaultUserFacebookInviteForSlotProtoInst
 @property int64_t lastObstacleSpawnedTime;
 @property int32_t numObstaclesRemoved;
 @property (retain) UserPvpLeagueProto* pvpLeagueInfo;
+@property int64_t lastMiniJobSpawnedTime;
 @property (retain) NSString* udidForHistory;
 @property (retain) NSString* deviceToken;
 @property int32_t numBadges;
@@ -2136,6 +2137,13 @@ static UserFacebookInviteForSlotProto* defaultUserFacebookInviteForSlotProtoInst
   hasPvpLeagueInfo_ = !!value;
 }
 @synthesize pvpLeagueInfo;
+- (BOOL) hasLastMiniJobSpawnedTime {
+  return !!hasLastMiniJobSpawnedTime_;
+}
+- (void) setHasLastMiniJobSpawnedTime:(BOOL) value {
+  hasLastMiniJobSpawnedTime_ = !!value;
+}
+@synthesize lastMiniJobSpawnedTime;
 - (BOOL) hasUdidForHistory {
   return !!hasUdidForHistory_;
 }
@@ -2250,6 +2258,7 @@ static UserFacebookInviteForSlotProto* defaultUserFacebookInviteForSlotProtoInst
     self.lastObstacleSpawnedTime = 0L;
     self.numObstaclesRemoved = 0;
     self.pvpLeagueInfo = [UserPvpLeagueProto defaultInstance];
+    self.lastMiniJobSpawnedTime = 0L;
     self.udidForHistory = @"";
     self.deviceToken = @"";
     self.numBadges = 0;
@@ -2381,6 +2390,9 @@ static FullUserProto* defaultFullUserProtoInstance = nil;
   if (self.hasNumObstaclesRemoved) {
     [output writeInt32:49 value:self.numObstaclesRemoved];
   }
+  if (self.hasLastMiniJobSpawnedTime) {
+    [output writeInt64:50 value:self.lastMiniJobSpawnedTime];
+  }
   [self.unknownFields writeToCodedOutputStream:output];
 }
 - (int32_t) serializedSize {
@@ -2491,6 +2503,9 @@ static FullUserProto* defaultFullUserProtoInstance = nil;
   }
   if (self.hasNumObstaclesRemoved) {
     size += computeInt32Size(49, self.numObstaclesRemoved);
+  }
+  if (self.hasLastMiniJobSpawnedTime) {
+    size += computeInt64Size(50, self.lastMiniJobSpawnedTime);
   }
   size += self.unknownFields.serializedSize;
   memoizedSerializedSize = size;
@@ -2638,6 +2653,9 @@ static FullUserProto* defaultFullUserProtoInstance = nil;
   }
   if (other.hasPvpLeagueInfo) {
     [self mergePvpLeagueInfo:other.pvpLeagueInfo];
+  }
+  if (other.hasLastMiniJobSpawnedTime) {
+    [self setLastMiniJobSpawnedTime:other.lastMiniJobSpawnedTime];
   }
   if (other.hasUdidForHistory) {
     [self setUdidForHistory:other.udidForHistory];
@@ -2834,6 +2852,10 @@ static FullUserProto* defaultFullUserProtoInstance = nil;
       }
       case 392: {
         [self setNumObstaclesRemoved:[input readInt32]];
+        break;
+      }
+      case 400: {
+        [self setLastMiniJobSpawnedTime:[input readInt64]];
         break;
       }
     }
@@ -3249,6 +3271,22 @@ static FullUserProto* defaultFullUserProtoInstance = nil;
 - (FullUserProto_Builder*) clearPvpLeagueInfo {
   result.hasPvpLeagueInfo = NO;
   result.pvpLeagueInfo = [UserPvpLeagueProto defaultInstance];
+  return self;
+}
+- (BOOL) hasLastMiniJobSpawnedTime {
+  return result.hasLastMiniJobSpawnedTime;
+}
+- (int64_t) lastMiniJobSpawnedTime {
+  return result.lastMiniJobSpawnedTime;
+}
+- (FullUserProto_Builder*) setLastMiniJobSpawnedTime:(int64_t) value {
+  result.hasLastMiniJobSpawnedTime = YES;
+  result.lastMiniJobSpawnedTime = value;
+  return self;
+}
+- (FullUserProto_Builder*) clearLastMiniJobSpawnedTime {
+  result.hasLastMiniJobSpawnedTime = NO;
+  result.lastMiniJobSpawnedTime = 0L;
   return self;
 }
 - (BOOL) hasUdidForHistory {

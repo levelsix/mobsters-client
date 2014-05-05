@@ -513,9 +513,7 @@ BOOL QuestAcceptResponseProto_QuestAcceptStatusIsValidValue(QuestAcceptResponseP
 @property (retain) MinimumUserProto* sender;
 @property int32_t questId;
 @property BOOL isComplete;
-@property int32_t questJobId;
-@property int32_t currentProgress;
-@property BOOL isQuestJobComplete;
+@property (retain) NSMutableArray* mutableUserQuestJobsList;
 @property (retain) NSMutableArray* mutableDeleteUserMonsterIdsList;
 @end
 
@@ -547,35 +545,11 @@ BOOL QuestAcceptResponseProto_QuestAcceptStatusIsValidValue(QuestAcceptResponseP
 - (void) setIsComplete:(BOOL) value {
   isComplete_ = !!value;
 }
-- (BOOL) hasQuestJobId {
-  return !!hasQuestJobId_;
-}
-- (void) setHasQuestJobId:(BOOL) value {
-  hasQuestJobId_ = !!value;
-}
-@synthesize questJobId;
-- (BOOL) hasCurrentProgress {
-  return !!hasCurrentProgress_;
-}
-- (void) setHasCurrentProgress:(BOOL) value {
-  hasCurrentProgress_ = !!value;
-}
-@synthesize currentProgress;
-- (BOOL) hasIsQuestJobComplete {
-  return !!hasIsQuestJobComplete_;
-}
-- (void) setHasIsQuestJobComplete:(BOOL) value {
-  hasIsQuestJobComplete_ = !!value;
-}
-- (BOOL) isQuestJobComplete {
-  return !!isQuestJobComplete_;
-}
-- (void) setIsQuestJobComplete:(BOOL) value {
-  isQuestJobComplete_ = !!value;
-}
+@synthesize mutableUserQuestJobsList;
 @synthesize mutableDeleteUserMonsterIdsList;
 - (void) dealloc {
   self.sender = nil;
+  self.mutableUserQuestJobsList = nil;
   self.mutableDeleteUserMonsterIdsList = nil;
   [super dealloc];
 }
@@ -584,9 +558,6 @@ BOOL QuestAcceptResponseProto_QuestAcceptStatusIsValidValue(QuestAcceptResponseP
     self.sender = [MinimumUserProto defaultInstance];
     self.questId = 0;
     self.isComplete = NO;
-    self.questJobId = 0;
-    self.currentProgress = 0;
-    self.isQuestJobComplete = NO;
   }
   return self;
 }
@@ -601,6 +572,13 @@ static QuestProgressRequestProto* defaultQuestProgressRequestProtoInstance = nil
 }
 - (QuestProgressRequestProto*) defaultInstance {
   return defaultQuestProgressRequestProtoInstance;
+}
+- (NSArray*) userQuestJobsList {
+  return mutableUserQuestJobsList;
+}
+- (UserQuestJobProto*) userQuestJobsAtIndex:(int32_t) index {
+  id value = [mutableUserQuestJobsList objectAtIndex:index];
+  return value;
 }
 - (NSArray*) deleteUserMonsterIdsList {
   return mutableDeleteUserMonsterIdsList;
@@ -622,17 +600,11 @@ static QuestProgressRequestProto* defaultQuestProgressRequestProtoInstance = nil
   if (self.hasIsComplete) {
     [output writeBool:3 value:self.isComplete];
   }
-  if (self.hasQuestJobId) {
-    [output writeInt32:4 value:self.questJobId];
-  }
-  if (self.hasCurrentProgress) {
-    [output writeInt32:5 value:self.currentProgress];
-  }
-  if (self.hasIsQuestJobComplete) {
-    [output writeBool:6 value:self.isQuestJobComplete];
+  for (UserQuestJobProto* element in self.userQuestJobsList) {
+    [output writeMessage:4 value:element];
   }
   for (NSNumber* value in self.mutableDeleteUserMonsterIdsList) {
-    [output writeInt64:7 value:[value longLongValue]];
+    [output writeInt64:5 value:[value longLongValue]];
   }
   [self.unknownFields writeToCodedOutputStream:output];
 }
@@ -652,14 +624,8 @@ static QuestProgressRequestProto* defaultQuestProgressRequestProtoInstance = nil
   if (self.hasIsComplete) {
     size += computeBoolSize(3, self.isComplete);
   }
-  if (self.hasQuestJobId) {
-    size += computeInt32Size(4, self.questJobId);
-  }
-  if (self.hasCurrentProgress) {
-    size += computeInt32Size(5, self.currentProgress);
-  }
-  if (self.hasIsQuestJobComplete) {
-    size += computeBoolSize(6, self.isQuestJobComplete);
+  for (UserQuestJobProto* element in self.userQuestJobsList) {
+    size += computeMessageSize(4, element);
   }
   {
     int32_t dataSize = 0;
@@ -753,14 +719,11 @@ static QuestProgressRequestProto* defaultQuestProgressRequestProtoInstance = nil
   if (other.hasIsComplete) {
     [self setIsComplete:other.isComplete];
   }
-  if (other.hasQuestJobId) {
-    [self setQuestJobId:other.questJobId];
-  }
-  if (other.hasCurrentProgress) {
-    [self setCurrentProgress:other.currentProgress];
-  }
-  if (other.hasIsQuestJobComplete) {
-    [self setIsQuestJobComplete:other.isQuestJobComplete];
+  if (other.mutableUserQuestJobsList.count > 0) {
+    if (result.mutableUserQuestJobsList == nil) {
+      result.mutableUserQuestJobsList = [NSMutableArray array];
+    }
+    [result.mutableUserQuestJobsList addObjectsFromArray:other.mutableUserQuestJobsList];
   }
   if (other.mutableDeleteUserMonsterIdsList.count > 0) {
     if (result.mutableDeleteUserMonsterIdsList == nil) {
@@ -806,19 +769,13 @@ static QuestProgressRequestProto* defaultQuestProgressRequestProtoInstance = nil
         [self setIsComplete:[input readBool]];
         break;
       }
-      case 32: {
-        [self setQuestJobId:[input readInt32]];
+      case 34: {
+        UserQuestJobProto_Builder* subBuilder = [UserQuestJobProto builder];
+        [input readMessage:subBuilder extensionRegistry:extensionRegistry];
+        [self addUserQuestJobs:[subBuilder buildPartial]];
         break;
       }
       case 40: {
-        [self setCurrentProgress:[input readInt32]];
-        break;
-      }
-      case 48: {
-        [self setIsQuestJobComplete:[input readBool]];
-        break;
-      }
-      case 56: {
         [self addDeleteUserMonsterIds:[input readInt64]];
         break;
       }
@@ -887,52 +844,33 @@ static QuestProgressRequestProto* defaultQuestProgressRequestProtoInstance = nil
   result.isComplete = NO;
   return self;
 }
-- (BOOL) hasQuestJobId {
-  return result.hasQuestJobId;
+- (NSArray*) userQuestJobsList {
+  if (result.mutableUserQuestJobsList == nil) { return [NSArray array]; }
+  return result.mutableUserQuestJobsList;
 }
-- (int32_t) questJobId {
-  return result.questJobId;
+- (UserQuestJobProto*) userQuestJobsAtIndex:(int32_t) index {
+  return [result userQuestJobsAtIndex:index];
 }
-- (QuestProgressRequestProto_Builder*) setQuestJobId:(int32_t) value {
-  result.hasQuestJobId = YES;
-  result.questJobId = value;
+- (QuestProgressRequestProto_Builder*) replaceUserQuestJobsAtIndex:(int32_t) index with:(UserQuestJobProto*) value {
+  [result.mutableUserQuestJobsList replaceObjectAtIndex:index withObject:value];
   return self;
 }
-- (QuestProgressRequestProto_Builder*) clearQuestJobId {
-  result.hasQuestJobId = NO;
-  result.questJobId = 0;
+- (QuestProgressRequestProto_Builder*) addAllUserQuestJobs:(NSArray*) values {
+  if (result.mutableUserQuestJobsList == nil) {
+    result.mutableUserQuestJobsList = [NSMutableArray array];
+  }
+  [result.mutableUserQuestJobsList addObjectsFromArray:values];
   return self;
 }
-- (BOOL) hasCurrentProgress {
-  return result.hasCurrentProgress;
-}
-- (int32_t) currentProgress {
-  return result.currentProgress;
-}
-- (QuestProgressRequestProto_Builder*) setCurrentProgress:(int32_t) value {
-  result.hasCurrentProgress = YES;
-  result.currentProgress = value;
+- (QuestProgressRequestProto_Builder*) clearUserQuestJobsList {
+  result.mutableUserQuestJobsList = nil;
   return self;
 }
-- (QuestProgressRequestProto_Builder*) clearCurrentProgress {
-  result.hasCurrentProgress = NO;
-  result.currentProgress = 0;
-  return self;
-}
-- (BOOL) hasIsQuestJobComplete {
-  return result.hasIsQuestJobComplete;
-}
-- (BOOL) isQuestJobComplete {
-  return result.isQuestJobComplete;
-}
-- (QuestProgressRequestProto_Builder*) setIsQuestJobComplete:(BOOL) value {
-  result.hasIsQuestJobComplete = YES;
-  result.isQuestJobComplete = value;
-  return self;
-}
-- (QuestProgressRequestProto_Builder*) clearIsQuestJobComplete {
-  result.hasIsQuestJobComplete = NO;
-  result.isQuestJobComplete = NO;
+- (QuestProgressRequestProto_Builder*) addUserQuestJobs:(UserQuestJobProto*) value {
+  if (result.mutableUserQuestJobsList == nil) {
+    result.mutableUserQuestJobsList = [NSMutableArray array];
+  }
+  [result.mutableUserQuestJobsList addObject:value];
   return self;
 }
 - (NSArray*) deleteUserMonsterIdsList {

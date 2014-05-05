@@ -12,7 +12,7 @@
 #import "MiniJobsDetailsViewController.h"
 #import "NibUtils.h"
 
-@interface MiniJobsViewController : UIViewController
+@interface MiniJobsViewController : UIViewController <MiniJobsListDelegate, MiniJobsDetailsDelegate>
 
 @property (nonatomic, retain) IBOutlet UILabel *titleLabel;
 @property (nonatomic, retain) IBOutlet UIView *backView;
@@ -23,5 +23,7 @@
 
 @property (nonatomic, retain) MiniJobsListViewController *listViewController;
 @property (nonatomic, retain) MiniJobsDetailsViewController *detailsViewController;
+
+- (IBAction)backClicked:(id)sender;
 
 @end

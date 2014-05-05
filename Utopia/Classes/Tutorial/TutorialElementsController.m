@@ -38,15 +38,15 @@
   GameState *gs = [GameState sharedGameState];
   MonsterProto *mp = [gs monsterWithId:self.speakerMonsterId];
   switch (mp.monsterElement) {
-    case MonsterProto_MonsterElementGrass:
+    case ElementEarth:
       return @"green";
-    case MonsterProto_MonsterElementWater:
+    case ElementWater:
       return @"blue";
-    case MonsterProto_MonsterElementLight:
+    case ElementLight:
       return @"yellow";
-    case MonsterProto_MonsterElementDark:
+    case ElementDark:
       return @"purple";
-    case MonsterProto_MonsterElementFire:
+    case ElementFire:
       return @"red";
     default:
       return @"";
@@ -72,8 +72,8 @@
   GameState *gs = [GameState sharedGameState];
   Globals *gl = [Globals sharedGlobals];
   FullTaskProto *ftp = [gs taskWithCityId:1 assetId:gl.miniTutorialConstants.elementTutorialAssetId];
-  MonsterProto_MonsterElement elem = [self.battleLayer firstMyPlayer].element;
-  MonsterProto_MonsterElement enemyElem = [Globals elementForSuperEffective:elem];
+  Element elem = [self.battleLayer firstMyPlayer].element;
+  Element enemyElem = [Globals elementForSuperEffective:elem];
   [[OutgoingEventController sharedOutgoingEventController] beginDungeon:ftp.taskId enemyElement:enemyElem withDelegate:self.battleLayer];
 }
 

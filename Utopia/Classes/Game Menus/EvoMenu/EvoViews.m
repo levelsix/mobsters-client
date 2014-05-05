@@ -187,8 +187,8 @@
   [l1 setText:str1];
   [l2 setText:str2];
   [l3 setText:str3];
-  l1.textColor = item.userMonster2 ? [Globals colorForElementOnLightBackground:MonsterProto_MonsterElementGrass] : [Globals colorForElementOnLightBackground:MonsterProto_MonsterElementFire];
-  l2.textColor = item.catalystMonster ? [Globals colorForElementOnLightBackground:MonsterProto_MonsterElementGrass] : [Globals colorForElementOnLightBackground:MonsterProto_MonsterElementFire];
+  l1.textColor = item.userMonster2 ? [Globals colorForElementOnLightBackground:ElementEarth] : [Globals colorForElementOnLightBackground:ElementFire];
+  l2.textColor = item.catalystMonster ? [Globals colorForElementOnLightBackground:ElementEarth] : [Globals colorForElementOnLightBackground:ElementFire];
   l3.textColor = [Globals colorForElementOnLightBackground:evo.monsterElement];
   
   for (NSArray *arr in @[self.topLabels, self.botLabels]) {

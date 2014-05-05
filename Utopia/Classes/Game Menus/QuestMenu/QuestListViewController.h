@@ -9,6 +9,7 @@
 #import <UIKit/UIKit.h>
 #import "Protocols.pb.h"
 #import "UserData.h"
+#import "NibUtils.h"
 
 @class QuestListCell;
 
@@ -22,8 +23,7 @@
 
 @property (nonatomic, strong) IBOutlet UILabel *nameLabel;
 @property (nonatomic, strong) IBOutlet UILabel *progressLabel;
-@property (nonatomic, strong) IBOutlet UIImageView *bgdIcon;
-@property (nonatomic, strong) IBOutlet UIImageView *questGiverImageView;
+@property (nonatomic, strong) IBOutlet MiniMonsterView *monsterView;
 
 @property (nonatomic, strong) IBOutlet UIView *questNewView;
 

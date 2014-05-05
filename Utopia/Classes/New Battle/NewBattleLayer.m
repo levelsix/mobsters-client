@@ -641,7 +641,7 @@
   def.curHealth = newHealth;
 }
 
-- (void) displayEffectivenessForAttackerElement:(MonsterProto_MonsterElement)atkElement defenderElement:(MonsterProto_MonsterElement)defElement position:(CGPoint)position {
+- (void) displayEffectivenessForAttackerElement:(Element)atkElement defenderElement:(Element)defElement position:(CGPoint)position {
   Globals *gl = [Globals sharedGlobals];
   float mult = [gl calculateDamageMultiplierForAttackElement:atkElement defenseElement:defElement];
   CCSprite *eff = nil;
@@ -793,7 +793,7 @@
   
   NSMutableArray *arr = [NSMutableArray array];
   [arr addObject:label];
-  if (self.enemyPlayerObject.rarity != MonsterProto_MonsterQualityCommon) {
+  if (self.enemyPlayerObject.rarity != QualityCommon) {
     NSString *rarityStr = [@"battle" stringByAppendingString:[Globals imageNameForRarity:self.enemyPlayerObject.rarity suffix:@"tag.png"]];
     CCSprite *rarityTag = [CCSprite spriteWithImageNamed:rarityStr];
     [self addChild:rarityTag];
@@ -1207,9 +1207,9 @@
   int dmg = [self.myPlayerObject damageForColor:gem.color];
   _myDamageDealt += dmg;
   _myDamageForThisTurn += dmg;
-  if (MonsterProto_MonsterElementIsValidValue((MonsterProto_MonsterElement)gem.color)) {
+  if (ElementIsValidValue((Element)gem.color)) {
     NSString *dmgStr = [NSString stringWithFormat:@"%@", [Globals commafyNumber:dmg]];
-    NSString *fntFile = [Globals imageNameForElement:(MonsterProto_MonsterElement)gem.color suffix:@"pointsfont.fnt"];
+    NSString *fntFile = [Globals imageNameForElement:(Element)gem.color suffix:@"pointsfont.fnt"];
     fntFile = gem.color != color_filler ? fntFile : @"nightpointsfont.fnt";
     if (fntFile) {
       CCLabelBMFont *dmgLabel = [CCLabelBMFont labelWithString:dmgStr fntFile:fntFile];

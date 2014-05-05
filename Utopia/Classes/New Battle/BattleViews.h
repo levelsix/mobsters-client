@@ -74,8 +74,7 @@
 @property (nonatomic, retain) IBOutlet UIView *mainView;
 @property (nonatomic, retain) IBOutlet UIView *emptyView;
 
-@property (nonatomic, retain) IBOutlet UIImageView *bgdIcon;
-@property (nonatomic, retain) IBOutlet UIImageView *monsterIcon;
+@property (nonatomic, retain) IBOutlet MiniMonsterView *monsterView;
 @property (nonatomic, retain) IBOutlet ProgressBar *healthbar;
 @property (nonatomic, retain) IBOutlet UILabel *healthLabel;
 

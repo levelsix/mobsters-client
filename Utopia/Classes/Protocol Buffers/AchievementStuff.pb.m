@@ -13,6 +13,7 @@ static PBExtensionRegistry* extensionRegistry = nil;
     PBMutableExtensionRegistry* registry = [PBMutableExtensionRegistry registry];
     [self registerAllExtensions:registry];
     [MonsterStuffRoot registerAllExtensions:registry];
+    [SharedEnumConfigRoot registerAllExtensions:registry];
     [StructureRoot registerAllExtensions:registry];
     extensionRegistry = [registry retain];
   }
@@ -29,8 +30,8 @@ static PBExtensionRegistry* extensionRegistry = nil;
 @property int32_t lvl;
 @property AchievementProto_AchievementType achievementType;
 @property ResourceType resourceType;
-@property MonsterProto_MonsterElement element;
-@property MonsterProto_MonsterQuality quality;
+@property Element element;
+@property Quality quality;
 @property int32_t staticDataId;
 @property int32_t quantity;
 @property int32_t priority;
@@ -152,8 +153,8 @@ static PBExtensionRegistry* extensionRegistry = nil;
     self.lvl = 0;
     self.achievementType = AchievementProto_AchievementTypeNoAchievement;
     self.resourceType = ResourceTypeNoResource;
-    self.element = MonsterProto_MonsterElementNoElement;
-    self.quality = MonsterProto_MonsterQualityNoQuality;
+    self.element = ElementNoElement;
+    self.quality = QualityNoQuality;
     self.staticDataId = 0;
     self.quantity = 0;
     self.priority = 0;
@@ -473,7 +474,7 @@ BOOL AchievementProto_AchievementTypeIsValidValue(AchievementProto_AchievementTy
       }
       case 64: {
         int32_t value = [input readEnum];
-        if (MonsterProto_MonsterElementIsValidValue(value)) {
+        if (ElementIsValidValue(value)) {
           [self setElement:value];
         } else {
           [unknownFields mergeVarintField:8 value:value];
@@ -482,7 +483,7 @@ BOOL AchievementProto_AchievementTypeIsValidValue(AchievementProto_AchievementTy
       }
       case 72: {
         int32_t value = [input readEnum];
-        if (MonsterProto_MonsterQualityIsValidValue(value)) {
+        if (QualityIsValidValue(value)) {
           [self setQuality:value];
         } else {
           [unknownFields mergeVarintField:9 value:value];
@@ -627,33 +628,33 @@ BOOL AchievementProto_AchievementTypeIsValidValue(AchievementProto_AchievementTy
 - (BOOL) hasElement {
   return result.hasElement;
 }
-- (MonsterProto_MonsterElement) element {
+- (Element) element {
   return result.element;
 }
-- (AchievementProto_Builder*) setElement:(MonsterProto_MonsterElement) value {
+- (AchievementProto_Builder*) setElement:(Element) value {
   result.hasElement = YES;
   result.element = value;
   return self;
 }
 - (AchievementProto_Builder*) clearElement {
   result.hasElement = NO;
-  result.element = MonsterProto_MonsterElementNoElement;
+  result.element = ElementNoElement;
   return self;
 }
 - (BOOL) hasQuality {
   return result.hasQuality;
 }
-- (MonsterProto_MonsterQuality) quality {
+- (Quality) quality {
   return result.quality;
 }
-- (AchievementProto_Builder*) setQuality:(MonsterProto_MonsterQuality) value {
+- (AchievementProto_Builder*) setQuality:(Quality) value {
   result.hasQuality = YES;
   result.quality = value;
   return self;
 }
 - (AchievementProto_Builder*) clearQuality {
   result.hasQuality = NO;
-  result.quality = MonsterProto_MonsterQualityNoQuality;
+  result.quality = QualityNoQuality;
   return self;
 }
 - (BOOL) hasStaticDataId {

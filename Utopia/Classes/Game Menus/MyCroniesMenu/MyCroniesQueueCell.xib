@@ -15,7 +15,7 @@
             <rect key="frame" x="0.0" y="0.0" width="50" height="51"/>
             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
             <subviews>
-                <view clipsSubviews="YES" contentMode="scaleToFill" id="7dw-AJ-6f4">
+                <view clipsSubviews="YES" contentMode="scaleToFill" id="7dw-AJ-6f4" customClass="MiniMonsterView">
                     <rect key="frame" x="4" y="3" width="42" height="42"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                     <subviews>
@@ -72,9 +72,8 @@
             </subviews>
             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
             <connections>
-                <outlet property="bgdIcon" destination="aRM-tX-3Pc" id="5mV-Ps-vyr"/>
                 <outlet property="healthBar" destination="e7F-dx-rNn" id="ffH-vS-FrL"/>
-                <outlet property="monsterIcon" destination="rKv-zv-ee5" id="ZOy-fh-ZrY"/>
+                <outlet property="monsterView" destination="7dw-AJ-6f4" id="D6b-zW-Xer"/>
                 <outlet property="timeLabel" destination="Jju-Ql-7n6" id="Ea5-xk-Mij"/>
                 <outlet property="timerView" destination="Pyk-uU-Q3D" id="pH5-Ri-BMY"/>
             </connections>

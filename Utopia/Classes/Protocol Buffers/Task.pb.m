@@ -13,6 +13,7 @@ static PBExtensionRegistry* extensionRegistry = nil;
     PBMutableExtensionRegistry* registry = [PBMutableExtensionRegistry registry];
     [self registerAllExtensions:registry];
     [MonsterStuffRoot registerAllExtensions:registry];
+    [SharedEnumConfigRoot registerAllExtensions:registry];
     extensionRegistry = [registry retain];
   }
 }
@@ -20,20 +21,6 @@ static PBExtensionRegistry* extensionRegistry = nil;
 }
 @end
 
-BOOL DayOfWeekIsValidValue(DayOfWeek value) {
-  switch (value) {
-    case DayOfWeekSunday:
-    case DayOfWeekMonday:
-    case DayOfWeekTuesday:
-    case DayOfWeekWednesday:
-    case DayOfWeekThursday:
-    case DayOfWeekFriday:
-    case DayOfWeekSaturday:
-      return YES;
-    default:
-      return NO;
-  }
-}
 @interface TaskStageProto ()
 @property int32_t stageId;
 @property (retain) NSMutableArray* mutableStageMonstersList;
@@ -1437,7 +1424,7 @@ BOOL TaskStageMonsterProto_MonsterTypeIsValidValue(TaskStageMonsterProto_Monster
 @property int32_t taskId;
 @property int32_t cooldownMinutes;
 @property PersistentEventProto_EventType type;
-@property MonsterProto_MonsterElement monsterElement;
+@property Element monsterElement;
 @end
 
 @implementation PersistentEventProto
@@ -1504,13 +1491,13 @@ BOOL TaskStageMonsterProto_MonsterTypeIsValidValue(TaskStageMonsterProto_Monster
 - (id) init {
   if ((self = [super init])) {
     self.eventId = 0;
-    self.dayOfWeek = DayOfWeekSunday;
+    self.dayOfWeek = DayOfWeekMonday;
     self.startHour = 0;
     self.eventDurationMinutes = 0;
     self.taskId = 0;
     self.cooldownMinutes = 0;
     self.type = PersistentEventProto_EventTypeEnhance;
-    self.monsterElement = MonsterProto_MonsterElementNoElement;
+    self.monsterElement = ElementNoElement;
   }
   return self;
 }
@@ -1756,7 +1743,7 @@ BOOL PersistentEventProto_EventTypeIsValidValue(PersistentEventProto_EventType v
       }
       case 64: {
         int32_t value = [input readEnum];
-        if (MonsterProto_MonsterElementIsValidValue(value)) {
+        if (ElementIsValidValue(value)) {
           [self setMonsterElement:value];
         } else {
           [unknownFields mergeVarintField:8 value:value];
@@ -1795,7 +1782,7 @@ BOOL PersistentEventProto_EventTypeIsValidValue(PersistentEventProto_EventType v
 }
 - (PersistentEventProto_Builder*) clearDayOfWeek {
   result.hasDayOfWeek = NO;
-  result.dayOfWeek = DayOfWeekSunday;
+  result.dayOfWeek = DayOfWeekMonday;
   return self;
 }
 - (BOOL) hasStartHour {
@@ -1881,17 +1868,17 @@ BOOL PersistentEventProto_EventTypeIsValidValue(PersistentEventProto_EventType v
 - (BOOL) hasMonsterElement {
   return result.hasMonsterElement;
 }
-- (MonsterProto_MonsterElement) monsterElement {
+- (Element) monsterElement {
   return result.monsterElement;
 }
-- (PersistentEventProto_Builder*) setMonsterElement:(MonsterProto_MonsterElement) value {
+- (PersistentEventProto_Builder*) setMonsterElement:(Element) value {
   result.hasMonsterElement = YES;
   result.monsterElement = value;
   return self;
 }
 - (PersistentEventProto_Builder*) clearMonsterElement {
   result.hasMonsterElement = NO;
-  result.monsterElement = MonsterProto_MonsterElementNoElement;
+  result.monsterElement = ElementNoElement;
   return self;
 }
 @end

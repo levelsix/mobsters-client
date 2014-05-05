@@ -36,8 +36,10 @@ static PBExtensionRegistry* extensionRegistry = nil;
     [EventTournamentRoot registerAllExtensions:registry];
     [EventUserRoot registerAllExtensions:registry];
     [InAppPurchaseRoot registerAllExtensions:registry];
+    [MiniJobConfigRoot registerAllExtensions:registry];
     [MonsterStuffRoot registerAllExtensions:registry];
     [QuestRoot registerAllExtensions:registry];
+    [SharedEnumConfigRoot registerAllExtensions:registry];
     [StaticDataRoot registerAllExtensions:registry];
     [StructureRoot registerAllExtensions:registry];
     [TaskRoot registerAllExtensions:registry];
@@ -120,6 +122,10 @@ BOOL EventProtocolRequestIsValidValue(EventProtocolRequest value) {
     case EventProtocolRequestCSpawnObstacleEvent:
     case EventProtocolRequestCBeginObstacleRemovalEvent:
     case EventProtocolRequestCObstacleRemovalCompleteEvent:
+    case EventProtocolRequestCSpawnMiniJobEvent:
+    case EventProtocolRequestCBeginMiniJobEvent:
+    case EventProtocolRequestCCompleteMiniJobEvent:
+    case EventProtocolRequestCRedeemMiniJobEvent:
     case EventProtocolRequestCLogoutEvent:
       return YES;
     default:
@@ -196,6 +202,10 @@ BOOL EventProtocolResponseIsValidValue(EventProtocolResponse value) {
     case EventProtocolResponseSSpawnObstacleEvent:
     case EventProtocolResponseSBeginObstacleRemovalEvent:
     case EventProtocolResponseSObstacleRemovalCompleteEvent:
+    case EventProtocolResponseSSpawnMiniJobEvent:
+    case EventProtocolResponseSBeginMiniJobEvent:
+    case EventProtocolResponseSCompleteMiniJobEvent:
+    case EventProtocolResponseSRedeemMiniJobEvent:
     case EventProtocolResponseSUpdateClientUserEvent:
     case EventProtocolResponseSReferralCodeUsedEvent:
     case EventProtocolResponseSPurgeStaticDataEvent:

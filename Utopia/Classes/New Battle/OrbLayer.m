@@ -98,7 +98,7 @@
     case color_green:
     case color_blue:
     case color_filler:
-      colorPrefix = [Globals imageNameForElement:(MonsterProto_MonsterElement)gemColor suffix:@""];
+      colorPrefix = [Globals imageNameForElement:(Element)gemColor suffix:@""];
       break;
     case color_all:
       colorPrefix = @"all";
@@ -449,7 +449,7 @@
 }
 
 - (CCColor *) colorForSparkle:(GemColorId)color {
-  UIColor *c = [Globals colorForElementOnDarkBackground:(MonsterProto_MonsterElement)color];
+  UIColor *c = [Globals colorForElementOnDarkBackground:(Element)color];
   CGFloat r = 1.f, g = 1.f, b = 1.f, a = 1.f;
   [c getRed:&r green:&g blue:&b alpha:&a];
   return [CCColor colorWithCcColor3b:ccc3(r*255, g*255, b*255)];

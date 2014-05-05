@@ -26,8 +26,10 @@
 #import "EventTournament.pb.h"
 #import "EventUser.pb.h"
 #import "InAppPurchase.pb.h"
+#import "MiniJobConfig.pb.h"
 #import "MonsterStuff.pb.h"
 #import "Quest.pb.h"
+#import "SharedEnumConfig.pb.h"
 #import "StaticData.pb.h"
 #import "Structure.pb.h"
 #import "Task.pb.h"
@@ -234,6 +236,8 @@
 @class LoadPlayerCityResponseProto_Builder;
 @class LogoutRequestProto;
 @class LogoutRequestProto_Builder;
+@class MiniJobProto;
+@class MiniJobProto_Builder;
 @class MinimumClanProto;
 @class MinimumClanProto_Builder;
 @class MinimumObstacleProto;
@@ -498,6 +502,8 @@
 @class UserEnhancementProto_Builder;
 @class UserFacebookInviteForSlotProto;
 @class UserFacebookInviteForSlotProto_Builder;
+@class UserMiniJobProto;
+@class UserMiniJobProto_Builder;
 @class UserMonsterCurrentExpProto;
 @class UserMonsterCurrentExpProto_Builder;
 @class UserMonsterCurrentHealthProto;
@@ -583,6 +589,10 @@ typedef enum {
   EventProtocolRequestCSpawnObstacleEvent = 67,
   EventProtocolRequestCBeginObstacleRemovalEvent = 68,
   EventProtocolRequestCObstacleRemovalCompleteEvent = 69,
+  EventProtocolRequestCSpawnMiniJobEvent = 70,
+  EventProtocolRequestCBeginMiniJobEvent = 71,
+  EventProtocolRequestCCompleteMiniJobEvent = 72,
+  EventProtocolRequestCRedeemMiniJobEvent = 73,
   EventProtocolRequestCLogoutEvent = 101,
 } EventProtocolRequest;
 
@@ -657,6 +667,10 @@ typedef enum {
   EventProtocolResponseSSpawnObstacleEvent = 67,
   EventProtocolResponseSBeginObstacleRemovalEvent = 68,
   EventProtocolResponseSObstacleRemovalCompleteEvent = 69,
+  EventProtocolResponseSSpawnMiniJobEvent = 70,
+  EventProtocolResponseSBeginMiniJobEvent = 71,
+  EventProtocolResponseSCompleteMiniJobEvent = 72,
+  EventProtocolResponseSRedeemMiniJobEvent = 73,
   EventProtocolResponseSUpdateClientUserEvent = 101,
   EventProtocolResponseSReferralCodeUsedEvent = 102,
   EventProtocolResponseSPurgeStaticDataEvent = 103,

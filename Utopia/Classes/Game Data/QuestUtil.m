@@ -60,15 +60,12 @@
     }
     uq.isComplete = questIsComplete;
     
-    for (NSNumber *jobId in jobIds) {
-      [[OutgoingEventController sharedOutgoingEventController] questProgress:fqp.questId jobId:jobId.intValue];
-      
-      if (!uq.isComplete) {
+    [[OutgoingEventController sharedOutgoingEventController] questProgress:fqp.questId jobIds:jobIds];
+    if (!uq.isComplete) {
+      for (NSNumber *jobId in jobIds) {
         [[[QuestUtil sharedQuestUtil] delegate] jobProgress:[fqp jobForId:jobId.intValue]];
       }
-    }
-    
-    if (uq.isComplete) {
+    } else {
       [[[QuestUtil sharedQuestUtil] delegate] questComplete:fqp];
     }
   }

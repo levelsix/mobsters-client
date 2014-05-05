@@ -196,6 +196,6 @@
 
 - (IBAction)elementButtonClicked:(id)sender;
 
-- (void) displayEffectivenessForAttackerElement:(MonsterProto_MonsterElement)atkElement defenderElement:(MonsterProto_MonsterElement)defElement position:(CGPoint)position;
+- (void) displayEffectivenessForAttackerElement:(Element)atkElement defenderElement:(Element)defElement position:(CGPoint)position;
 
 @end

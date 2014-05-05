@@ -24,8 +24,10 @@ import "EventStructure.proto";
 import "EventTournament.proto";
 import "EventUser.proto";
 import "InAppPurchase.proto";
+import "MiniJobConfig.proto";
 import "MonsterStuff.proto";
 import "Quest.proto";
+import "SharedEnumConfig.proto";
 import "StaticData.proto";
 import "Structure.proto";
 import "Task.proto";
@@ -121,6 +123,11 @@ enum EventProtocolRequest {
 	C_BEGIN_OBSTACLE_REMOVAL_EVENT = 68;
 	C_OBSTACLE_REMOVAL_COMPLETE_EVENT = 69;
 	
+	C_SPAWN_MINI_JOB_EVENT = 70;
+	C_BEGIN_MINI_JOB_EVENT = 71;
+	C_COMPLETE_MINI_JOB_EVENT = 72;
+	C_REDEEM_MINI_JOB_EVENT = 73;
+	
 	//STOP AT 99, SKIP TO 200
 	C_LOGOUT_EVENT = 101;
 }
@@ -207,6 +214,11 @@ enum EventProtocolResponse {
 	S_SPAWN_OBSTACLE_EVENT = 67;
 	S_BEGIN_OBSTACLE_REMOVAL_EVENT = 68;
 	S_OBSTACLE_REMOVAL_COMPLETE_EVENT = 69;
+	
+	S_SPAWN_MINI_JOB_EVENT = 70;
+	S_BEGIN_MINI_JOB_EVENT = 71;
+	S_COMPLETE_MINI_JOB_EVENT = 72;
+	S_REDEEM_MINI_JOB_EVENT = 73;
 			
 	//STOP AT 99, SKIP TO 200
 	S_UPDATE_CLIENT_USER_EVENT = 101;

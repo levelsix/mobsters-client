@@ -15,7 +15,7 @@
 
 @implementation ElementDisplayView
 
-- (void) updateStatsWithElementType:(MonsterProto_MonsterElement)element andDamage:(int)damage {
+- (void) updateStatsWithElementType:(Element)element andDamage:(int)damage {
   NSString *name = [Globals imageNameForElement:element suffix:@"orb.png"];
   [Globals imageNamed:name withView:self.elementIcon maskedColor:nil indicator:UIActivityIndicatorViewStyleWhite clearImageDuringDownload:YES];
   self.statLabel.text = [Globals commafyNumber:damage];
@@ -85,17 +85,17 @@
   self.hpLabel.text = [NSString stringWithFormat:@"%@/%@", [Globals commafyNumber:self.monster.curHealth], [Globals commafyNumber:maxHealth]];
   self.progressBar.percentage = ((float)self.monster.curHealth)/maxHealth;
   
-  MonsterProto_MonsterElement elem = MonsterProto_MonsterElementFire;
+  Element elem = ElementFire;
   [self.fireView updateStatsWithElementType:elem andDamage:[gl calculateElementalDamageForMonster:self.monster element:elem]];
-  elem = MonsterProto_MonsterElementWater;
+  elem = ElementWater;
   [self.waterView updateStatsWithElementType:elem andDamage:[gl calculateElementalDamageForMonster:self.monster element:elem]];
-  elem = MonsterProto_MonsterElementGrass;
+  elem = ElementEarth;
   [self.earthView updateStatsWithElementType:elem andDamage:[gl calculateElementalDamageForMonster:self.monster element:elem]];
-  elem = MonsterProto_MonsterElementLight;
+  elem = ElementLight;
   [self.lightView updateStatsWithElementType:elem andDamage:[gl calculateElementalDamageForMonster:self.monster element:elem]];
-  elem = MonsterProto_MonsterElementDark;
+  elem = ElementDark;
   [self.nightView updateStatsWithElementType:elem andDamage:[gl calculateElementalDamageForMonster:self.monster element:elem]];
-  elem = MonsterProto_MonsterElementRock;
+  elem = ElementRock;
   [self.rockView updateStatsWithElementType:elem andDamage:[gl calculateElementalDamageForMonster:self.monster element:elem]];
   
   self.elementLabel.text = [Globals stringForElement:proto.monsterElement];

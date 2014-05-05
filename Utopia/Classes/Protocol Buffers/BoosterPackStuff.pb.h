@@ -3,6 +3,7 @@
 #import "ProtocolBuffers.h"
 
 #import "MonsterStuff.pb.h"
+#import "SharedEnumConfig.pb.h"
 #import "User.pb.h"
 
 @class BoosterDisplayItemProto;
@@ -407,7 +408,7 @@
   int32_t boosterPackId;
   int32_t gemReward;
   int32_t quantity;
-  MonsterProto_MonsterQuality quality;
+  Quality quality;
 }
 - (BOOL) hasBoosterPackId;
 - (BOOL) hasIsMonster;
@@ -418,7 +419,7 @@
 @property (readonly) int32_t boosterPackId;
 - (BOOL) isMonster;
 - (BOOL) isComplete;
-@property (readonly) MonsterProto_MonsterQuality quality;
+@property (readonly) Quality quality;
 @property (readonly) int32_t gemReward;
 @property (readonly) int32_t quantity;
 
@@ -472,8 +473,8 @@
 - (BoosterDisplayItemProto_Builder*) clearIsComplete;
 
 - (BOOL) hasQuality;
-- (MonsterProto_MonsterQuality) quality;
-- (BoosterDisplayItemProto_Builder*) setQuality:(MonsterProto_MonsterQuality) value;
+- (Quality) quality;
+- (BoosterDisplayItemProto_Builder*) setQuality:(Quality) value;
 - (BoosterDisplayItemProto_Builder*) clearQuality;
 
 - (BOOL) hasGemReward;

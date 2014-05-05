@@ -2,6 +2,8 @@
 
 #import "ProtocolBuffers.h"
 
+#import "SharedEnumConfig.pb.h"
+
 @class FullUserMonsterProto;
 @class FullUserMonsterProto_Builder;
 @class MinimumUserMonsterProto;
@@ -28,30 +30,6 @@
 @class UserMonsterEvolutionProto_Builder;
 @class UserMonsterHealingProto;
 @class UserMonsterHealingProto_Builder;
-typedef enum {
-  MonsterProto_MonsterQualityNoQuality = 7,
-  MonsterProto_MonsterQualityCommon = 1,
-  MonsterProto_MonsterQualityRare = 2,
-  MonsterProto_MonsterQualityUltra = 3,
-  MonsterProto_MonsterQualityEpic = 4,
-  MonsterProto_MonsterQualityLegendary = 5,
-  MonsterProto_MonsterQualityEvo = 6,
-} MonsterProto_MonsterQuality;
-
-BOOL MonsterProto_MonsterQualityIsValidValue(MonsterProto_MonsterQuality value);
-
-typedef enum {
-  MonsterProto_MonsterElementNoElement = 7,
-  MonsterProto_MonsterElementFire = 1,
-  MonsterProto_MonsterElementGrass = 2,
-  MonsterProto_MonsterElementWater = 3,
-  MonsterProto_MonsterElementLight = 4,
-  MonsterProto_MonsterElementDark = 5,
-  MonsterProto_MonsterElementRock = 6,
-} MonsterProto_MonsterElement;
-
-BOOL MonsterProto_MonsterElementIsValidValue(MonsterProto_MonsterElement value);
-
 typedef enum {
   MonsterProto_AnimationTypeNoAnimation = 3,
   MonsterProto_AnimationTypeMelee = 1,
@@ -127,8 +105,8 @@ BOOL MonsterBattleDialogueProto_DialogueTypeIsValidValue(MonsterBattleDialoguePr
   NSString* atkSoundFile;
   NSString* shorterName;
   NSString* name;
-  MonsterProto_MonsterElement monsterElement;
-  MonsterProto_MonsterQuality quality;
+  Element monsterElement;
+  Quality quality;
   MonsterProto_AnimationType attackAnimationType;
   NSMutableArray* mutableLvlInfoList;
 }
@@ -163,10 +141,10 @@ BOOL MonsterBattleDialogueProto_DialogueTypeIsValidValue(MonsterBattleDialoguePr
 @property (readonly, retain) NSString* name;
 @property (readonly, retain) NSString* shorterName;
 @property (readonly, retain) NSString* monsterGroup;
-@property (readonly) MonsterProto_MonsterQuality quality;
+@property (readonly) Quality quality;
 @property (readonly) int32_t evolutionLevel;
 @property (readonly, retain) NSString* displayName;
-@property (readonly) MonsterProto_MonsterElement monsterElement;
+@property (readonly) Element monsterElement;
 @property (readonly, retain) NSString* imagePrefix;
 @property (readonly) int32_t numPuzzlePieces;
 @property (readonly) int32_t minutesToCombinePieces;
@@ -244,8 +222,8 @@ BOOL MonsterBattleDialogueProto_DialogueTypeIsValidValue(MonsterBattleDialoguePr
 - (MonsterProto_Builder*) clearMonsterGroup;
 
 - (BOOL) hasQuality;
-- (MonsterProto_MonsterQuality) quality;
-- (MonsterProto_Builder*) setQuality:(MonsterProto_MonsterQuality) value;
+- (Quality) quality;
+- (MonsterProto_Builder*) setQuality:(Quality) value;
 - (MonsterProto_Builder*) clearQuality;
 
 - (BOOL) hasEvolutionLevel;
@@ -259,8 +237,8 @@ BOOL MonsterBattleDialogueProto_DialogueTypeIsValidValue(MonsterBattleDialoguePr
 - (MonsterProto_Builder*) clearDisplayName;
 
 - (BOOL) hasMonsterElement;
-- (MonsterProto_MonsterElement) monsterElement;
-- (MonsterProto_Builder*) setMonsterElement:(MonsterProto_MonsterElement) value;
+- (Element) monsterElement;
+- (MonsterProto_Builder*) setMonsterElement:(Element) value;
 - (MonsterProto_Builder*) clearMonsterElement;
 
 - (BOOL) hasImagePrefix;

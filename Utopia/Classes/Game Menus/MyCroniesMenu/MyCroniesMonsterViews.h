@@ -55,8 +55,7 @@
 
 @interface MyCroniesQueueCell : UIView
 
-@property (nonatomic, strong) IBOutlet UIImageView *bgdIcon;
-@property (nonatomic, strong) IBOutlet UIImageView *monsterIcon;
+@property (nonatomic, strong) IBOutlet MiniMonsterView *monsterView;
 @property (nonatomic, strong) IBOutlet UIView *timerView;
 @property (nonatomic, strong) IBOutlet ProgressBar *healthBar;
 @property (nonatomic, strong) IBOutlet UILabel *timeLabel;

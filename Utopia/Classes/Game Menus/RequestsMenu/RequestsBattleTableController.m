@@ -14,11 +14,12 @@
 #import "MyCroniesViewController.h"
 #import "UnreadNotifications.h"
 #import "GenericPopupController.h"
+#import "ClanInfoViewController.h"
 
 @implementation RequestsBattleCell
 
 - (void) awakeFromNib {
-  for (ClanTeamMonsterView *mv in self.monsterViews) {
+  for (MiniMonsterView *mv in self.monsterViews) {
     mv.transform = CGAffineTransformMakeScale(0.5, 0.5);
   }
 }
@@ -57,7 +58,7 @@
   
   for (int i = 0; i < self.monsterViews.count; i++) {
     FullUserMonsterProto *um = i < history.attackersMonstersList.count ? history.attackersMonstersList[i] : nil;
-    ClanTeamMonsterView *mv = self.monsterViews[i];
+    MiniMonsterView *mv = self.monsterViews[i];
     [mv updateForMonsterId:um.monsterId];
   }
   

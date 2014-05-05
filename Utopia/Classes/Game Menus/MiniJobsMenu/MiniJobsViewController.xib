@@ -98,7 +98,7 @@
                                 <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Mini Jobs" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="10" id="XIk-UE-0sG" customClass="NiceFontLabel8B">
                                     <rect key="frame" x="20" y="4" width="53" height="21"/>
                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                    <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                    <fontDescription key="fontDescription" type="system" pointSize="11"/>
                                     <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                     <nil key="highlightedColor"/>
                                     <color key="shadowColor" red="0.0" green="0.0" blue="0.0" alpha="0.5" colorSpace="deviceRGB"/>
@@ -109,12 +109,13 @@
                                     <autoresizingMask key="autoresizingMask"/>
                                 </imageView>
                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="fyJ-8R-8zV" customClass="MaskedButton">
-                                    <rect key="frame" x="0.0" y="2" width="78" height="30"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="78" height="30"/>
                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                     <state key="normal">
                                         <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                     </state>
                                     <connections>
+                                        <action selector="backClicked:" destination="-1" eventType="touchUpInside" id="o2o-J1-kw1"/>
                                         <outlet property="baseImage" destination="Uds-xO-aJB" id="RgM-2W-dO3"/>
                                     </connections>
                                 </button>

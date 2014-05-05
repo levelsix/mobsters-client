@@ -15,7 +15,7 @@
             <rect key="frame" x="0.0" y="0.0" width="250" height="37"/>
             <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES"/>
             <subviews>
-                <view contentMode="scaleToFill" id="1He-iz-c6C">
+                <view contentMode="scaleToFill" id="1He-iz-c6C" customClass="MiniMonsterView">
                     <rect key="frame" x="-2" y="-2" width="42" height="42"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                     <subviews>
@@ -29,6 +29,10 @@
                         </imageView>
                     </subviews>
                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                    <connections>
+                        <outlet property="bgdIcon" destination="ck9-2p-C4Y" id="RMl-Iu-Uq7"/>
+                        <outlet property="monsterIcon" destination="0Sd-S8-aju" id="f9o-dd-H5A"/>
+                    </connections>
                 </view>
                 <view contentMode="scaleToFill" id="QiV-pP-mG9">
                     <rect key="frame" x="196" y="5" width="48" height="27"/>
@@ -70,6 +74,7 @@
             <connections>
                 <outlet property="bgdIcon" destination="ck9-2p-C4Y" id="i9X-q4-2O7"/>
                 <outlet property="monsterIcon" destination="0Sd-S8-aju" id="S5u-WL-Ekn"/>
+                <outlet property="monsterView" destination="1He-iz-c6C" id="2KL-qi-Lcd"/>
                 <outlet property="progressLabel" destination="Wxs-OV-CCn" id="tXR-sd-wQn"/>
                 <outlet property="questLabel" destination="JWb-Ep-GGo" id="dya-nc-UwD"/>
             </connections>

@@ -12,11 +12,20 @@
 
 @end
 
+@protocol MiniJobsListDelegate <NSObject>
+
+- (void) miniJobsListCellClicked:(MiniJobsListCell *)listCell;
+
+@end
+
 @interface MiniJobsListViewController : UIViewController <UITableViewDelegate, UITableViewDataSource>
 
 @property (nonatomic, retain) IBOutlet UIView *headerView;
 @property (nonatomic, retain) IBOutlet UILabel *returnsInLabel;
+@property (nonatomic, retain) IBOutlet UITableView *listTable;
 
 @property (nonatomic, retain) IBOutlet MiniJobsListCell *listCell;
+
+@property (nonatomic, assign) id<MiniJobsListDelegate> delegate;
 
 @end

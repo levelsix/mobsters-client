@@ -617,14 +617,12 @@ static NSString *udid = nil;
   return [self sendData:req withMessageType:EventProtocolRequestCQuestAcceptEvent];
 }
 
-- (int) sendQuestProgressMessage:(int)questId isComplete:(BOOL)isComplete jobId:(int)jobId jobProgress:(int)progress isJobComplete:(BOOL)isJobComplete userMonsterIds:(NSArray *)userMonsterIds {
-  QuestProgressRequestProto *req = [[[[[[[[[QuestProgressRequestProto builder]
-                                           setSender:_sender]
-                                          setQuestId:questId]
-                                         setIsComplete:isComplete]
-                                        setQuestJobId:jobId]
-                                       setCurrentProgress:progress]
-                                      setIsQuestJobComplete:isJobComplete]
+- (int) sendQuestProgressMessage:(int)questId isComplete:(BOOL)isComplete userQuestJobs:(NSArray *)userQuestJobs userMonsterIds:(NSArray *)userMonsterIds {
+  QuestProgressRequestProto *req = [[[[[[[QuestProgressRequestProto builder]
+                                         setSender:_sender]
+                                        setQuestId:questId]
+                                       setIsComplete:isComplete]
+                                      addAllUserQuestJobs:userQuestJobs]
                                      addAllDeleteUserMonsterIds:userMonsterIds]
                                     build];
   
@@ -873,7 +871,7 @@ static NSString *udid = nil;
   return [self sendData:req withMessageType:EventProtocolRequestCRetrievePrivateChatPostEvent];
 }
 
-- (int) sendBeginDungeonMessage:(uint64_t)clientTime taskId:(int)taskId isEvent:(BOOL)isEvent eventId:(int)eventId gems:(int)gems enemyElement:(MonsterProto_MonsterElement)element shouldForceElem:(BOOL)shouldForceElem questIds:(NSArray *)questIds {
+- (int) sendBeginDungeonMessage:(uint64_t)clientTime taskId:(int)taskId isEvent:(BOOL)isEvent eventId:(int)eventId gems:(int)gems enemyElement:(Element)element shouldForceElem:(BOOL)shouldForceElem questIds:(NSArray *)questIds {
   BeginDungeonRequestProto *req = [[[[[[[[[[[BeginDungeonRequestProto builder]
                                             setSender:_sender]
                                            setClientTime:clientTime]
@@ -1115,12 +1113,12 @@ static NSString *udid = nil;
 - (int) sendAchievementProgressMessage:(NSArray *)userAchievements clientTime:(uint64_t)clientTime {
   // If we are currently batching struct retrievals, save all achievements till the struct retrievals completes
   if (self.structRetrievals.count == 0) {
-  AchievementProgressRequestProto *req = [[[[[AchievementProgressRequestProto builder]
-                                             setSender:_sender]
-                                            setClientTime:clientTime]
-                                           addAllUapList:userAchievements]
-                                          build];
-  
+    AchievementProgressRequestProto *req = [[[[[AchievementProgressRequestProto builder]
+                                               setSender:_sender]
+                                              setClientTime:clientTime]
+                                             addAllUapList:userAchievements]
+                                            build];
+    
     return [self sendData:req withMessageType:EventProtocolRequestCAchievementProgressEvent];
   } else {
     // Use a dictionary so that repeats will be replaced (i.e. 2 retrievals of cash)
@@ -1134,13 +1132,13 @@ static NSString *udid = nil;
 }
 
 - (int) sendAchievementRedeemMessage:(int)achievementId clientTime:(uint64_t)clientTime {
-    AchievementRedeemRequestProto *req = [[[[[AchievementRedeemRequestProto builder]
-                                             setSender:_sender]
-                                            setAchievementId:achievementId]
-                                           setClientTime:clientTime]
-                                          build];
-    
-    return [self sendData:req withMessageType:EventProtocolRequestCAchievementRedeemEvent];
+  AchievementRedeemRequestProto *req = [[[[[AchievementRedeemRequestProto builder]
+                                           setSender:_sender]
+                                          setAchievementId:achievementId]
+                                         setClientTime:clientTime]
+                                        build];
+  
+  return [self sendData:req withMessageType:EventProtocolRequestCAchievementRedeemEvent];
 }
 
 #pragma mark - Batch/Flush events

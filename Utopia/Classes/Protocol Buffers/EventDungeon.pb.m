@@ -13,6 +13,7 @@ static PBExtensionRegistry* extensionRegistry = nil;
     PBMutableExtensionRegistry* registry = [PBMutableExtensionRegistry registry];
     [self registerAllExtensions:registry];
     [MonsterStuffRoot registerAllExtensions:registry];
+    [SharedEnumConfigRoot registerAllExtensions:registry];
     [TaskRoot registerAllExtensions:registry];
     [UserRoot registerAllExtensions:registry];
     extensionRegistry = [registry retain];
@@ -31,7 +32,7 @@ static PBExtensionRegistry* extensionRegistry = nil;
 @property int32_t persistentEventId;
 @property int32_t gemsSpent;
 @property (retain) NSMutableArray* mutableQuestIdsList;
-@property MonsterProto_MonsterElement elem;
+@property Element elem;
 @property BOOL forceEnemyElem;
 @end
 
@@ -130,7 +131,7 @@ static PBExtensionRegistry* extensionRegistry = nil;
     self.isEvent = NO;
     self.persistentEventId = 0;
     self.gemsSpent = 0;
-    self.elem = MonsterProto_MonsterElementFire;
+    self.elem = ElementNoElement;
     self.forceEnemyElem = NO;
   }
   return self;
@@ -400,7 +401,7 @@ static BeginDungeonRequestProto* defaultBeginDungeonRequestProtoInstance = nil;
       }
       case 72: {
         int32_t value = [input readEnum];
-        if (MonsterProto_MonsterElementIsValidValue(value)) {
+        if (ElementIsValidValue(value)) {
           [self setElem:value];
         } else {
           [unknownFields mergeVarintField:9 value:value];
@@ -574,17 +575,17 @@ static BeginDungeonRequestProto* defaultBeginDungeonRequestProtoInstance = nil;
 - (BOOL) hasElem {
   return result.hasElem;
 }
-- (MonsterProto_MonsterElement) elem {
+- (Element) elem {
   return result.elem;
 }
-- (BeginDungeonRequestProto_Builder*) setElem:(MonsterProto_MonsterElement) value {
+- (BeginDungeonRequestProto_Builder*) setElem:(Element) value {
   result.hasElem = YES;
   result.elem = value;
   return self;
 }
 - (BeginDungeonRequestProto_Builder*) clearElem {
   result.hasElem = NO;
-  result.elem = MonsterProto_MonsterElementFire;
+  result.elem = ElementNoElement;
   return self;
 }
 - (BOOL) hasForceEnemyElem {

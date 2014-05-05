@@ -10,6 +10,7 @@
 #import "Globals.h"
 #import "GameState.h"
 #import "OutgoingEventController.h"
+#import "NibUtils.h"
 
 @implementation MonsterCardView
 
@@ -100,6 +101,28 @@ static UIImage *img = nil;
   [self addSubview:self.monsterCardView];
   self.monsterCardView.frame = self.bounds;
   self.backgroundColor = [UIColor clearColor];
+}
+
+@end
+
+@implementation MiniMonsterView
+
+- (void) updateForMonsterId:(int)monsterId {
+  if (monsterId) {
+    GameState *gs = [GameState sharedGameState];
+    MonsterProto *mp = [gs monsterWithId:monsterId];
+    [self updateForElement:mp.monsterElement imgPrefix:mp.imagePrefix greyscale:NO];
+  } else {
+    self.bgdIcon.image = [Globals imageNamed:@"teamempty.png"];
+    self.monsterIcon.image = nil;
+  }
+}
+
+- (void) updateForElement:(Element)element imgPrefix:(NSString *)imgPrefix greyscale:(BOOL)greyscale {
+  NSString *file = [imgPrefix stringByAppendingString:@"Thumbnail.png"];
+  [Globals imageNamed:file withView:self.monsterIcon greyscale:greyscale indicator:UIActivityIndicatorViewStyleWhite clearImageDuringDownload:YES];
+  file = [Globals imageNameForElement:element suffix:@"team.png"];
+  [Globals imageNamed:file withView:self.bgdIcon greyscale:greyscale indicator:UIActivityIndicatorViewStyleWhite clearImageDuringDownload:YES];
 }
 
 @end

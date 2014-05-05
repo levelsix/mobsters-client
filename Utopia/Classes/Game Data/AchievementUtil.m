@@ -66,7 +66,7 @@
   }
 }
 
-+ (NSSet *) incrementAllAchievementsWithType:(AchievementProto_AchievementType)type resType:(ResourceType)resType element:(MonsterProto_MonsterElement)element quality:(MonsterProto_MonsterQuality)quality staticDataId:(int)staticDataId byAmount:(int)increment {
++ (NSSet *) incrementAllAchievementsWithType:(AchievementProto_AchievementType)type resType:(ResourceType)resType element:(Element)element quality:(Quality)quality staticDataId:(int)staticDataId byAmount:(int)increment {
   GameState *gs = [GameState sharedGameState];
   NSMutableSet *changedAchievements = [NSMutableSet set];
   
@@ -81,15 +81,15 @@
 }
 
 + (NSSet *) incrementAllAchievementsWithType:(AchievementProto_AchievementType)type byAmount:(int)increment {
-  return [self incrementAllAchievementsWithType:type resType:ResourceTypeNoResource element:MonsterProto_MonsterElementNoElement quality:MonsterProto_MonsterQualityNoQuality staticDataId:0 byAmount:increment];
+  return [self incrementAllAchievementsWithType:type resType:ResourceTypeNoResource element:ElementNoElement quality:QualityNoQuality staticDataId:0 byAmount:increment];
 }
 
 + (NSSet *) incrementAllAchievementsWithType:(AchievementProto_AchievementType)type resType:(ResourceType)resType byAmount:(int)increment {
-  return [self incrementAllAchievementsWithType:type resType:resType element:MonsterProto_MonsterElementNoElement quality:MonsterProto_MonsterQualityNoQuality staticDataId:0 byAmount:increment];
+  return [self incrementAllAchievementsWithType:type resType:resType element:ElementNoElement quality:QualityNoQuality staticDataId:0 byAmount:increment];
 }
 
 + (NSSet *) incrementAllAchievementsWithType:(AchievementProto_AchievementType)type staticDataId:(int)staticDataId byAmount:(int)increment {
-  return [self incrementAllAchievementsWithType:type resType:ResourceTypeNoResource element:MonsterProto_MonsterElementNoElement quality:MonsterProto_MonsterQualityNoQuality staticDataId:staticDataId byAmount:increment];
+  return [self incrementAllAchievementsWithType:type resType:ResourceTypeNoResource element:ElementNoElement quality:QualityNoQuality staticDataId:staticDataId byAmount:increment];
 }
 
 #pragma mark - Individual Achievement Types
@@ -102,7 +102,7 @@
     UserAchievement *ua = gs.myAchievements[@(ap.achievementId)];
     if (!ua.isComplete && ap.achievementType == AchievementProto_AchievementTypeDestroyOrbs) {
       int increment = 0;
-      if (ap.element != MonsterProto_MonsterElementNoElement) {
+      if (ap.element != ElementNoElement) {
         increment = orbCounts[ap.element];
       } else {
         for (int i = 0; i < color_all; i++) {

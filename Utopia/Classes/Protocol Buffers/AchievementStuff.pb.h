@@ -3,6 +3,7 @@
 #import "ProtocolBuffers.h"
 
 #import "MonsterStuff.pb.h"
+#import "SharedEnumConfig.pb.h"
 #import "Structure.pb.h"
 
 @class AchievementProto;
@@ -118,8 +119,8 @@ BOOL AchievementProto_AchievementTypeIsValidValue(AchievementProto_AchievementTy
   NSString* description;
   AchievementProto_AchievementType achievementType;
   ResourceType resourceType;
-  MonsterProto_MonsterElement element;
-  MonsterProto_MonsterQuality quality;
+  Element element;
+  Quality quality;
 }
 - (BOOL) hasAchievementId;
 - (BOOL) hasName;
@@ -142,8 +143,8 @@ BOOL AchievementProto_AchievementTypeIsValidValue(AchievementProto_AchievementTy
 @property (readonly) int32_t lvl;
 @property (readonly) AchievementProto_AchievementType achievementType;
 @property (readonly) ResourceType resourceType;
-@property (readonly) MonsterProto_MonsterElement element;
-@property (readonly) MonsterProto_MonsterQuality quality;
+@property (readonly) Element element;
+@property (readonly) Quality quality;
 @property (readonly) int32_t staticDataId;
 @property (readonly) int32_t quantity;
 @property (readonly) int32_t priority;
@@ -220,13 +221,13 @@ BOOL AchievementProto_AchievementTypeIsValidValue(AchievementProto_AchievementTy
 - (AchievementProto_Builder*) clearResourceType;
 
 - (BOOL) hasElement;
-- (MonsterProto_MonsterElement) element;
-- (AchievementProto_Builder*) setElement:(MonsterProto_MonsterElement) value;
+- (Element) element;
+- (AchievementProto_Builder*) setElement:(Element) value;
 - (AchievementProto_Builder*) clearElement;
 
 - (BOOL) hasQuality;
-- (MonsterProto_MonsterQuality) quality;
-- (AchievementProto_Builder*) setQuality:(MonsterProto_MonsterQuality) value;
+- (Quality) quality;
+- (AchievementProto_Builder*) setQuality:(Quality) value;
 - (AchievementProto_Builder*) clearQuality;
 
 - (BOOL) hasStaticDataId;

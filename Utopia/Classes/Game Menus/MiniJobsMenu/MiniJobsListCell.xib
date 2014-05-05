@@ -14,7 +14,7 @@
         <tableViewCell contentMode="scaleToFill" selectionStyle="gray" indentationWidth="10" reuseIdentifier="MiniJobsListCell" id="0TZ-OT-pvx" customClass="MiniJobsListCell">
             <rect key="frame" x="0.0" y="0.0" width="364" height="60"/>
             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-            <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="0TZ-OT-pvx" id="alT-h7-I9P">
+            <tableViewCellContentView key="contentView" opaque="NO" multipleTouchEnabled="YES" contentMode="center" tableViewCell="0TZ-OT-pvx" id="alT-h7-I9P">
                 <rect key="frame" x="0.0" y="0.0" width="364" height="59"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
@@ -37,7 +37,7 @@
                             </label>
                             <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" image="popupline.png" id="Mhe-jN-xjy">
                                 <rect key="frame" x="0.0" y="59" width="370" height="1"/>
-                                <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
+                                <autoresizingMask key="autoresizingMask"/>
                             </imageView>
                             <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="openquestarrow.png" id="gEE-Ji-ewH">
                                 <rect key="frame" x="341" y="18" width="13" height="21"/>
@@ -47,10 +47,14 @@
                                 <rect key="frame" x="10" y="35" width="109" height="14"/>
                                 <autoresizingMask key="autoresizingMask"/>
                             </imageView>
+                            <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="minijobsrewardbg.png" id="bY1-E0-zMD">
+                                <rect key="frame" x="138" y="8" width="113" height="43"/>
+                                <autoresizingMask key="autoresizingMask"/>
+                            </imageView>
                             <view contentMode="scaleToFill" id="ufj-A5-hf8">
-                                <rect key="frame" x="138" y="6" width="128" height="45"/>
+                                <rect key="frame" x="138" y="8" width="113" height="43"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                             </view>
                         </subviews>
                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
@@ -59,13 +63,13 @@
             </tableViewCellContentView>
             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
             <connections>
-                <outlet property="nameLabel" destination="dNr-1f-m4j" id="RdQ-1J-Z3x"/>
                 <outlet property="selectedBackgroundView" destination="e8t-Dd-qgq" id="yZz-H1-Enp"/>
             </connections>
         </tableViewCell>
     </objects>
     <resources>
         <image name="epicjob.png" width="48" height="14"/>
+        <image name="minijobsrewardbg.png" width="113" height="43"/>
         <image name="openquestarrow.png" width="13" height="21"/>
         <image name="popupline.png" width="1" height="1"/>
     </resources>

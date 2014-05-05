@@ -66,11 +66,11 @@
                                 <color key="shadowColor" red="0.0" green="0.0" blue="0.0" alpha="0.29999999999999999" colorSpace="calibratedRGB"/>
                                 <size key="shadowOffset" width="0.0" height="1"/>
                             </label>
-                            <view clipsSubviews="YES" tag="1" contentMode="scaleToFill" id="8Pt-QQ-E09" customClass="ClanTeamMonsterView">
+                            <view clipsSubviews="YES" tag="1" contentMode="scaleToFill" id="8Pt-QQ-E09" customClass="MiniMonsterView">
                                 <rect key="frame" x="145" y="2" width="42" height="42"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <subviews>
-                                    <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleAspectFit" image="firemteam.png" id="43L-BG-kFJ">
+                                    <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="fireteam.png" id="43L-BG-kFJ">
                                         <rect key="frame" x="0.0" y="0.0" width="42" height="42"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                     </imageView>
@@ -85,11 +85,11 @@
                                     <outlet property="monsterIcon" destination="0x7-li-VNK" id="dzj-Mt-ZxZ"/>
                                 </connections>
                             </view>
-                            <view clipsSubviews="YES" tag="2" contentMode="scaleToFill" id="DJQ-eq-cnH" customClass="ClanTeamMonsterView">
+                            <view clipsSubviews="YES" tag="2" contentMode="scaleToFill" id="DJQ-eq-cnH" customClass="MiniMonsterView">
                                 <rect key="frame" x="184" y="2" width="42" height="42"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <subviews>
-                                    <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleAspectFit" image="firemteam.png" id="BHg-hd-VDf">
+                                    <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="fireteam.png" id="BHg-hd-VDf">
                                         <rect key="frame" x="0.0" y="0.0" width="42" height="42"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                     </imageView>
@@ -104,11 +104,11 @@
                                     <outlet property="monsterIcon" destination="YfB-T8-wcA" id="oVR-jw-agl"/>
                                 </connections>
                             </view>
-                            <view clipsSubviews="YES" tag="3" contentMode="scaleToFill" id="aXm-tl-rFo" customClass="ClanTeamMonsterView">
+                            <view clipsSubviews="YES" tag="3" contentMode="scaleToFill" id="aXm-tl-rFo" customClass="MiniMonsterView">
                                 <rect key="frame" x="223" y="2" width="42" height="42"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <subviews>
-                                    <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleAspectFit" image="firemteam.png" id="QCi-Is-5ML">
+                                    <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="fireteam.png" id="QCi-Is-5ML">
                                         <rect key="frame" x="0.0" y="0.0" width="42" height="42"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                     </imageView>
@@ -199,7 +199,7 @@
         <image name="BryanGoslingT1Thumbnail.png" width="33" height="42"/>
         <image name="clanmemberprofile.png" width="28" height="28"/>
         <image name="clanmembersettings.png" width="28" height="28"/>
-        <image name="firemteam.png" width="21" height="21"/>
+        <image name="fireteam.png" width="42" height="42"/>
         <image name="levelnumber.png" width="30" height="30"/>
         <image name="memberrow.png" width="465" height="41"/>
         <image name="profilebutton.png" width="71" height="28"/>

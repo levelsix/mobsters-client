@@ -50,7 +50,7 @@
                                 <rect key="frame" x="0.0" y="44" width="435" height="1"/>
                                 <autoresizingMask key="autoresizingMask"/>
                             </imageView>
-                            <view clipsSubviews="YES" tag="1" contentMode="scaleToFill" id="W7r-eh-qLQ" customClass="ClanTeamMonsterView">
+                            <view clipsSubviews="YES" tag="1" contentMode="scaleToFill" id="W7r-eh-qLQ" customClass="MiniMonsterView">
                                 <rect key="frame" x="97" y="2" width="42" height="42"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <subviews>
@@ -69,7 +69,7 @@
                                     <outlet property="monsterIcon" destination="CKw-Lw-coH" id="Z4s-uI-Zxd"/>
                                 </connections>
                             </view>
-                            <view clipsSubviews="YES" tag="2" contentMode="scaleToFill" id="0tP-iH-wMW" customClass="ClanTeamMonsterView">
+                            <view clipsSubviews="YES" tag="2" contentMode="scaleToFill" id="0tP-iH-wMW" customClass="MiniMonsterView">
                                 <rect key="frame" x="122" y="2" width="42" height="42"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <subviews>
@@ -88,7 +88,7 @@
                                     <outlet property="monsterIcon" destination="5RL-J7-8E6" id="6JY-uE-PMN"/>
                                 </connections>
                             </view>
-                            <view clipsSubviews="YES" tag="3" contentMode="scaleToFill" id="Bmc-w4-HNN" customClass="ClanTeamMonsterView">
+                            <view clipsSubviews="YES" tag="3" contentMode="scaleToFill" id="Bmc-w4-HNN" customClass="MiniMonsterView">
                                 <rect key="frame" x="147" y="2" width="42" height="42"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <subviews>

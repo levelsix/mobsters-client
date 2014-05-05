@@ -8,9 +8,17 @@
 
 #import "MiniJobsListViewController.h"
 
+@implementation MiniJobsListCell
+
+@end
+
 @implementation MiniJobsListViewController
 
 #pragma mark - UITableView delegate/dataSource
+
+- (UIView *) tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section {
+  return self.headerView;
+}
 
 - (int) tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
   return 2;
@@ -24,6 +32,13 @@
   }
   
   return cell;
+}
+
+- (void) tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+  [tableView deselectRowAtIndexPath:indexPath animated:NO];
+  
+  MiniJobsListCell *cell = (MiniJobsListCell *)[tableView cellForRowAtIndexPath:indexPath];
+  [self.delegate miniJobsListCellClicked:cell];
 }
 
 @end

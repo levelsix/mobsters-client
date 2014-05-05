@@ -81,15 +81,8 @@
 @implementation EnhanceQueueCell
 
 - (void) updateForEnhanceItem:(EnhancementItem *)item {
-  GameState *gs = [GameState sharedGameState];
   UserMonster *um = item.userMonster;
-  MonsterProto *mp = [gs monsterWithId:um.monsterId];
-  
-  NSString *fileName = [mp.imagePrefix stringByAppendingString:@"Thumbnail.png"];
-  [Globals imageNamed:fileName withView:self.monsterIcon maskedColor:nil indicator:UIActivityIndicatorViewStyleWhite clearImageDuringDownload:YES];
-  
-  fileName = [Globals imageNameForElement:mp.monsterElement suffix:@"team.png"];
-  [Globals imageNamed:fileName withView:self.bgdIcon maskedColor:nil indicator:UIActivityIndicatorViewStyleWhite clearImageDuringDownload:YES];
+  [self.monsterView updateForMonsterId:um.monsterId];
   
   self.timerView.hidden = YES;
   

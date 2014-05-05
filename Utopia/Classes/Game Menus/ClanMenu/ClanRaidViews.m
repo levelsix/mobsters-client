@@ -39,8 +39,8 @@
     UserMonster *mon = nil;
     if (i < team.count) {
       mon = team[i];
-      self.monsterView.lvlLabel.hidden = NO;
-      self.monsterView.lvlLabel.text = [NSString stringWithFormat:@"Lvl %d", mon.level];
+//      self.monsterView.lvlLabel.hidden = NO;
+//      self.monsterView.lvlLabel.text = [NSString stringWithFormat:@"Lvl %d", mon.level];
     }
     [self.monsterView updateForMonsterId:mon.monsterId];
     

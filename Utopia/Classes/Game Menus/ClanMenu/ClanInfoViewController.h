@@ -10,16 +10,6 @@
 #import "Protocols.pb.h"
 #import "Globals.h"
 
-@interface ClanTeamMonsterView : UIView
-
-@property (nonatomic, retain) IBOutlet UIImageView *bgdIcon;
-@property (nonatomic, retain) IBOutlet UIImageView *monsterIcon;
-@property (nonatomic, retain) IBOutlet UILabel *lvlLabel;
-
-- (void) updateForMonsterId:(int)monsterId;
-
-@end
-
 @interface ClanMemberCell : UITableViewCell
 
 @property (nonatomic, assign) IBOutlet UIImageView *userIcon;
@@ -32,7 +22,7 @@
 @property (nonatomic, assign) IBOutlet UIView *profileView;
 @property (nonatomic, assign) IBOutlet UIView *editMemberView;
 
-@property (nonatomic, retain) IBOutletCollection(ClanTeamMonsterView) NSArray *monsterViews;
+@property (nonatomic, retain) IBOutletCollection(MiniMonsterView) NSArray *monsterViews;
 
 @property (nonatomic, retain) MinimumUserProtoForClans *user;
 

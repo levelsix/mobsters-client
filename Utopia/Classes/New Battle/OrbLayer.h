@@ -13,12 +13,12 @@
 #define TIME_LIMIT 100
 
 typedef enum {
-  color_red = MonsterProto_MonsterElementFire,
-  color_green = MonsterProto_MonsterElementGrass,
-  color_blue = MonsterProto_MonsterElementWater,
-  color_white = MonsterProto_MonsterElementLight,
-  color_purple = MonsterProto_MonsterElementDark,
-  color_filler = MonsterProto_MonsterElementRock,
+  color_red = ElementFire,
+  color_green = ElementEarth,
+  color_blue = ElementWater,
+  color_white = ElementLight,
+  color_purple = ElementDark,
+  color_filler = ElementRock,
   color_all = 20
 } GemColorId;
 

@@ -499,11 +499,12 @@
 @interface FullUserProto : PBGeneratedMessage {
 @private
   BOOL hasFbIdSetOnUserCreate_:1;
-  BOOL hasHasReceivedfbReward_:1;
   BOOL hasIsFake_:1;
   BOOL hasIsAdmin_:1;
+  BOOL hasHasReceivedfbReward_:1;
   BOOL hasLastWallPostNotificationTime_:1;
   BOOL hasCreateTime_:1;
+  BOOL hasLastMiniJobSpawnedTime_:1;
   BOOL hasLastObstacleSpawnedTime_:1;
   BOOL hasLastLoginTime_:1;
   BOOL hasLastLogoutTime_:1;
@@ -517,8 +518,8 @@
   BOOL hasNumReferrals_:1;
   BOOL hasUserId_:1;
   BOOL hasTasksCompleted_:1;
-  BOOL hasExperience_:1;
   BOOL hasLevel_:1;
+  BOOL hasExperience_:1;
   BOOL hasGems_:1;
   BOOL hasCash_:1;
   BOOL hasOil_:1;
@@ -527,17 +528,18 @@
   BOOL hasName_:1;
   BOOL hasDeviceToken_:1;
   BOOL hasUdidForHistory_:1;
+  BOOL hasReferralCode_:1;
   BOOL hasGameCenterId_:1;
   BOOL hasFacebookId_:1;
-  BOOL hasReferralCode_:1;
   BOOL hasPvpLeagueInfo_:1;
   BOOL hasClan_:1;
   BOOL fbIdSetOnUserCreate_:1;
-  BOOL hasReceivedfbReward_:1;
   BOOL isFake_:1;
   BOOL isAdmin_:1;
+  BOOL hasReceivedfbReward_:1;
   int64_t lastWallPostNotificationTime;
   int64_t createTime;
+  int64_t lastMiniJobSpawnedTime;
   int64_t lastObstacleSpawnedTime;
   int64_t lastLoginTime;
   int64_t lastLogoutTime;
@@ -551,8 +553,8 @@
   int32_t numReferrals;
   int32_t userId;
   int32_t tasksCompleted;
-  int32_t experience;
   int32_t level;
+  int32_t experience;
   int32_t gems;
   int32_t cash;
   int32_t oil;
@@ -561,9 +563,9 @@
   NSString* name;
   NSString* deviceToken;
   NSString* udidForHistory;
+  NSString* referralCode;
   NSString* gameCenterId;
   NSString* facebookId;
-  NSString* referralCode;
   UserPvpLeagueProto* pvpLeagueInfo;
   MinimumClanProto* clan;
 }
@@ -591,6 +593,7 @@
 - (BOOL) hasLastObstacleSpawnedTime;
 - (BOOL) hasNumObstaclesRemoved;
 - (BOOL) hasPvpLeagueInfo;
+- (BOOL) hasLastMiniJobSpawnedTime;
 - (BOOL) hasUdidForHistory;
 - (BOOL) hasDeviceToken;
 - (BOOL) hasNumBadges;
@@ -625,6 +628,7 @@
 @property (readonly) int64_t lastObstacleSpawnedTime;
 @property (readonly) int32_t numObstaclesRemoved;
 @property (readonly, retain) UserPvpLeagueProto* pvpLeagueInfo;
+@property (readonly) int64_t lastMiniJobSpawnedTime;
 @property (readonly, retain) NSString* udidForHistory;
 @property (readonly, retain) NSString* deviceToken;
 @property (readonly) int32_t numBadges;
@@ -793,6 +797,11 @@
 - (FullUserProto_Builder*) setPvpLeagueInfoBuilder:(UserPvpLeagueProto_Builder*) builderForValue;
 - (FullUserProto_Builder*) mergePvpLeagueInfo:(UserPvpLeagueProto*) value;
 - (FullUserProto_Builder*) clearPvpLeagueInfo;
+
+- (BOOL) hasLastMiniJobSpawnedTime;
+- (int64_t) lastMiniJobSpawnedTime;
+- (FullUserProto_Builder*) setLastMiniJobSpawnedTime:(int64_t) value;
+- (FullUserProto_Builder*) clearLastMiniJobSpawnedTime;
 
 - (BOOL) hasUdidForHistory;
 - (NSString*) udidForHistory;

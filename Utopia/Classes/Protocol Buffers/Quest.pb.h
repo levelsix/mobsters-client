@@ -4,6 +4,7 @@
 
 #import "Chat.pb.h"
 #import "MonsterStuff.pb.h"
+#import "SharedEnumConfig.pb.h"
 #import "Structure.pb.h"
 
 @class ColorProto;
@@ -149,7 +150,7 @@ BOOL QuestJobProto_QuestJobTypeIsValidValue(QuestJobProto_QuestJobType value);
   NSString* carrotId;
   DialogueProto* acceptDialogue;
   CoordinateProto* questGiverImgOffset;
-  MonsterProto_MonsterElement monsterElement;
+  Element monsterElement;
   NSMutableArray* mutableQuestsRequiredForThisList;
   NSMutableArray* mutableJobsList;
 }
@@ -186,7 +187,7 @@ BOOL QuestJobProto_QuestJobTypeIsValidValue(QuestJobProto_QuestJobType value);
 @property (readonly) int32_t priority;
 @property (readonly, retain) NSString* carrotId;
 @property (readonly, retain) CoordinateProto* questGiverImgOffset;
-@property (readonly) MonsterProto_MonsterElement monsterElement;
+@property (readonly) Element monsterElement;
 - (NSArray*) questsRequiredForThisList;
 - (int32_t) questsRequiredForThisAtIndex:(int32_t) index;
 - (NSArray*) jobsList;
@@ -318,8 +319,8 @@ BOOL QuestJobProto_QuestJobTypeIsValidValue(QuestJobProto_QuestJobType value);
 - (FullQuestProto_Builder*) clearQuestGiverImgOffset;
 
 - (BOOL) hasMonsterElement;
-- (MonsterProto_MonsterElement) monsterElement;
-- (FullQuestProto_Builder*) setMonsterElement:(MonsterProto_MonsterElement) value;
+- (Element) monsterElement;
+- (FullQuestProto_Builder*) setMonsterElement:(Element) value;
 - (FullQuestProto_Builder*) clearMonsterElement;
 
 - (NSArray*) jobsList;

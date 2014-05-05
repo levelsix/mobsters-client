@@ -13,6 +13,7 @@ static PBExtensionRegistry* extensionRegistry = nil;
     PBMutableExtensionRegistry* registry = [PBMutableExtensionRegistry registry];
     [self registerAllExtensions:registry];
     [MonsterStuffRoot registerAllExtensions:registry];
+    [SharedEnumConfigRoot registerAllExtensions:registry];
     [UserRoot registerAllExtensions:registry];
     extensionRegistry = [registry retain];
   }
@@ -1410,7 +1411,7 @@ static BoosterItemProto* defaultBoosterItemProtoInstance = nil;
 @property int32_t boosterPackId;
 @property BOOL isMonster;
 @property BOOL isComplete;
-@property MonsterProto_MonsterQuality quality;
+@property Quality quality;
 @property int32_t gemReward;
 @property int32_t quantity;
 @end
@@ -1477,7 +1478,7 @@ static BoosterItemProto* defaultBoosterItemProtoInstance = nil;
     self.boosterPackId = 0;
     self.isMonster = NO;
     self.isComplete = NO;
-    self.quality = MonsterProto_MonsterQualityCommon;
+    self.quality = QualityNoQuality;
     self.gemReward = 0;
     self.quantity = 0;
   }
@@ -1672,7 +1673,7 @@ static BoosterDisplayItemProto* defaultBoosterDisplayItemProtoInstance = nil;
       }
       case 32: {
         int32_t value = [input readEnum];
-        if (MonsterProto_MonsterQualityIsValidValue(value)) {
+        if (QualityIsValidValue(value)) {
           [self setQuality:value];
         } else {
           [unknownFields mergeVarintField:4 value:value];
@@ -1741,17 +1742,17 @@ static BoosterDisplayItemProto* defaultBoosterDisplayItemProtoInstance = nil;
 - (BOOL) hasQuality {
   return result.hasQuality;
 }
-- (MonsterProto_MonsterQuality) quality {
+- (Quality) quality {
   return result.quality;
 }
-- (BoosterDisplayItemProto_Builder*) setQuality:(MonsterProto_MonsterQuality) value {
+- (BoosterDisplayItemProto_Builder*) setQuality:(Quality) value {
   result.hasQuality = YES;
   result.quality = value;
   return self;
 }
 - (BoosterDisplayItemProto_Builder*) clearQuality {
   result.hasQuality = NO;
-  result.quality = MonsterProto_MonsterQualityCommon;
+  result.quality = QualityNoQuality;
   return self;
 }
 - (BOOL) hasGemReward {

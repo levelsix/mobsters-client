@@ -54,7 +54,7 @@
                                 </subviews>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                             </view>
-                            <view clipsSubviews="YES" tag="1" contentMode="scaleToFill" id="dhp-DI-NiE">
+                            <view clipsSubviews="YES" tag="1" contentMode="scaleToFill" id="dhp-DI-NiE" customClass="MiniMonsterView">
                                 <rect key="frame" x="8" y="8" width="42" height="42"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <subviews>
@@ -68,6 +68,10 @@
                                     </imageView>
                                 </subviews>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                <connections>
+                                    <outlet property="bgdIcon" destination="eH2-XI-55e" id="RlP-26-xV3"/>
+                                    <outlet property="monsterIcon" destination="DME-tn-ca6" id="olN-h1-f6O"/>
+                                </connections>
                             </view>
                             <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" image="popupline.png" id="Ok5-cC-ATg">
                                 <rect key="frame" x="0.0" y="57" width="370" height="1"/>
@@ -88,12 +92,11 @@
             </tableViewCellContentView>
             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
             <connections>
-                <outlet property="bgdIcon" destination="eH2-XI-55e" id="Iwv-hS-9YG"/>
                 <outlet property="completeView" destination="YGt-iz-0eB" id="cWe-Lu-Pg5"/>
                 <outlet property="inProgressView" destination="q7b-3z-wgo" id="BXA-PL-byg"/>
+                <outlet property="monsterView" destination="dhp-DI-NiE" id="NXK-M7-AXo"/>
                 <outlet property="nameLabel" destination="SU5-MW-GES" id="8Ec-8h-1yw"/>
                 <outlet property="progressLabel" destination="9X9-Tx-n5t" id="ZPj-L3-P97"/>
-                <outlet property="questGiverImageView" destination="DME-tn-ca6" id="zsk-ha-dVe"/>
                 <outlet property="questNewView" destination="CWH-Rt-eAT" id="5su-RL-MNu"/>
                 <outlet property="selectedBackgroundView" destination="ID4-TF-1mY" id="vFF-yX-5mY"/>
             </connections>

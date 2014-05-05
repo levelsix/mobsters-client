@@ -31,10 +31,7 @@
   
   self.title = self.quest.name;
   
-  NSString *file = [quest.questGiverImagePrefix stringByAppendingString:@"Thumbnail.png"];
-  [Globals imageNamed:file withView:self.questGiverIcon greyscale:NO indicator:UIActivityIndicatorViewStyleWhite clearImageDuringDownload:YES];
-  file = [Globals imageNameForElement:quest.monsterElement suffix:@"team.png"];
-  [Globals imageNamed:file withView:self.bgdIcon greyscale:NO indicator:UIActivityIndicatorViewStyleWhite clearImageDuringDownload:YES];
+  [self.monsterView updateForElement:quest.monsterElement imgPrefix:quest.questGiverImagePrefix greyscale:NO];
   
   self.questGiverNameLabel.text = self.quest.questGiverName;
   [self setDescriptionString:self.quest.description];

@@ -3,6 +3,7 @@
 #import "ProtocolBuffers.h"
 
 #import "MonsterStuff.pb.h"
+#import "SharedEnumConfig.pb.h"
 
 @class FullTaskProto;
 @class FullTaskProto_Builder;
@@ -42,18 +43,6 @@
 @class UserMonsterHealingProto_Builder;
 @class UserPersistentEventProto;
 @class UserPersistentEventProto_Builder;
-typedef enum {
-  DayOfWeekSunday = 1,
-  DayOfWeekMonday = 2,
-  DayOfWeekTuesday = 3,
-  DayOfWeekWednesday = 4,
-  DayOfWeekThursday = 5,
-  DayOfWeekFriday = 6,
-  DayOfWeekSaturday = 7,
-} DayOfWeek;
-
-BOOL DayOfWeekIsValidValue(DayOfWeek value);
-
 typedef enum {
   TaskStageMonsterProto_MonsterTypeRegular = 1,
   TaskStageMonsterProto_MonsterTypeMiniBoss = 2,
@@ -439,7 +428,7 @@ BOOL PersistentEventProto_EventTypeIsValidValue(PersistentEventProto_EventType v
   int32_t cooldownMinutes;
   DayOfWeek dayOfWeek;
   PersistentEventProto_EventType type;
-  MonsterProto_MonsterElement monsterElement;
+  Element monsterElement;
 }
 - (BOOL) hasEventId;
 - (BOOL) hasDayOfWeek;
@@ -456,7 +445,7 @@ BOOL PersistentEventProto_EventTypeIsValidValue(PersistentEventProto_EventType v
 @property (readonly) int32_t taskId;
 @property (readonly) int32_t cooldownMinutes;
 @property (readonly) PersistentEventProto_EventType type;
-@property (readonly) MonsterProto_MonsterElement monsterElement;
+@property (readonly) Element monsterElement;
 
 + (PersistentEventProto*) defaultInstance;
 - (PersistentEventProto*) defaultInstance;
@@ -528,8 +517,8 @@ BOOL PersistentEventProto_EventTypeIsValidValue(PersistentEventProto_EventType v
 - (PersistentEventProto_Builder*) clearType;
 
 - (BOOL) hasMonsterElement;
-- (MonsterProto_MonsterElement) monsterElement;
-- (PersistentEventProto_Builder*) setMonsterElement:(MonsterProto_MonsterElement) value;
+- (Element) monsterElement;
+- (PersistentEventProto_Builder*) setMonsterElement:(Element) value;
 - (PersistentEventProto_Builder*) clearMonsterElement;
 @end
 

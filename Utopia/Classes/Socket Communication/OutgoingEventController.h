@@ -42,7 +42,7 @@
 
 - (UserQuest *) acceptQuest:(int)questId;
 - (void) redeemQuest:(int)questId delegate:(id)delegate;
-- (void) questProgress:(int)questId jobId:(int)jobId;
+- (void) questProgress:(int)questId jobIds:(NSArray *)jobIds;
 - (UserQuest *) donateForQuest:(int)questId jobId:(int)jobId monsterIds:(NSArray *)monsterIds;
 - (void) achievementProgress:(NSArray *)userAchievements;
 - (void) redeemAchievement:(int)achievementId delegate:(id)delegate;
@@ -79,7 +79,7 @@
 - (void) retrievePrivateChatPosts:(int)otherUserId delegate:(id)delegate;
 
 - (void) beginDungeon:(int)taskId withDelegate:(id)delegate;
-- (void) beginDungeon:(int)taskId enemyElement:(MonsterProto_MonsterElement)element withDelegate:(id)delegate;
+- (void) beginDungeon:(int)taskId enemyElement:(Element)element withDelegate:(id)delegate;
 - (void) beginDungeon:(int)taskId isEvent:(BOOL)isEvent eventId:(int)eventId useGems:(BOOL)useGems withDelegate:(id)delegate;
 - (void) updateMonsterHealth:(uint64_t)userMonsterId curHealth:(int)curHealth;
 - (void) progressDungeon:(NSArray *)curHealths dungeonInfo:(BeginDungeonResponseProto *)dungeonInfo newStageNum:(int)newStageNum;

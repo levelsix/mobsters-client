@@ -166,17 +166,17 @@
 + (void) imageNamed:(NSString *)imageName withView:(UIView *)view greyscale:(BOOL)greyscale indicator: (UIActivityIndicatorViewStyle)indicatorStyle clearImageDuringDownload:(BOOL)clear;
 + (void) imageNamed:(NSString *)imageName toReplaceSprite:(CCSprite *)s;
 
-+ (UIColor *) colorForRarity:(MonsterProto_MonsterQuality)rarity;
-+ (NSString *) stringForRarity:(MonsterProto_MonsterQuality)rarity;
-+ (NSString *) shortenedStringForRarity:(MonsterProto_MonsterQuality)rarity;
-+ (NSString *) imageNameForRarity:(MonsterProto_MonsterQuality)rarity suffix:(NSString *)str;
-+ (NSString *) stringForElement:(MonsterProto_MonsterElement)element;
-+ (NSString *) imageNameForElement:(MonsterProto_MonsterElement)element suffix:(NSString *)str;
-+ (UIColor *) colorForElementOnDarkBackground:(MonsterProto_MonsterElement)element;
-+ (UIColor *) colorForElementOnLightBackground:(MonsterProto_MonsterElement)element;
++ (UIColor *) colorForRarity:(Quality)rarity;
++ (NSString *) stringForRarity:(Quality)rarity;
++ (NSString *) shortenedStringForRarity:(Quality)rarity;
++ (NSString *) imageNameForRarity:(Quality)rarity suffix:(NSString *)str;
++ (NSString *) stringForElement:(Element)element;
++ (NSString *) imageNameForElement:(Element)element suffix:(NSString *)str;
++ (UIColor *) colorForElementOnDarkBackground:(Element)element;
++ (UIColor *) colorForElementOnLightBackground:(Element)element;
 
-+ (MonsterProto_MonsterElement) elementForSuperEffective:(MonsterProto_MonsterElement)element;
-+ (MonsterProto_MonsterElement) elementForNotVeryEffective:(MonsterProto_MonsterElement)element;
++ (Element) elementForSuperEffective:(Element)element;
++ (Element) elementForNotVeryEffective:(Element)element;
 
 + (NSString *) stringForTimeSinceNow:(MSDate *)date shortened:(BOOL)shortened;
 + (NSString *) stringForClanStatus:(UserClanStatus)status;
@@ -266,11 +266,11 @@
 
 // Monster formulas
 - (int) calculateTotalDamageForMonster:(UserMonster *)um;
-- (int) calculateElementalDamageForMonster:(UserMonster *)um element:(MonsterProto_MonsterElement)element;
+- (int) calculateElementalDamageForMonster:(UserMonster *)um element:(Element)element;
 - (int) calculateMaxHealthForMonster:(UserMonster *)um;
 - (int) calculateSpeedForMonster:(UserMonster *)um;
 - (int) calculateCostToHealMonster:(UserMonster *)um;
-- (float) calculateDamageMultiplierForAttackElement:(MonsterProto_MonsterElement)aElement defenseElement:(MonsterProto_MonsterElement)dElement;
+- (float) calculateDamageMultiplierForAttackElement:(Element)aElement defenseElement:(Element)dElement;
 
 // Enhancement formulas
 - (int) calculateOilCostForEnhancement:(EnhancementItem *)baseMonster feeder:(EnhancementItem *)feeder;

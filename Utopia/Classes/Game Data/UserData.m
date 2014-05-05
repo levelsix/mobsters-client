@@ -923,6 +923,15 @@
   return [[UserQuestJob alloc] initWithProto:proto];
 }
 
+- (UserQuestJobProto *) convertToProto {
+  UserQuestJobProto_Builder *bldr = [UserQuestJobProto builder];
+  bldr.questId = self.questId;
+  bldr.questJobId = self.questJobId;
+  bldr.progress = self.progress;
+  bldr.isComplete = self.isComplete;
+  return bldr.build;
+}
+
 @end
 
 @implementation UserQuest

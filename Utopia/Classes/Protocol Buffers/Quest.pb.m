@@ -14,6 +14,7 @@ static PBExtensionRegistry* extensionRegistry = nil;
     [self registerAllExtensions:registry];
     [ChatRoot registerAllExtensions:registry];
     [MonsterStuffRoot registerAllExtensions:registry];
+    [SharedEnumConfigRoot registerAllExtensions:registry];
     [StructureRoot registerAllExtensions:registry];
     extensionRegistry = [registry retain];
   }
@@ -40,7 +41,7 @@ static PBExtensionRegistry* extensionRegistry = nil;
 @property int32_t priority;
 @property (retain) NSString* carrotId;
 @property (retain) CoordinateProto* questGiverImgOffset;
-@property MonsterProto_MonsterElement monsterElement;
+@property Element monsterElement;
 @property (retain) NSMutableArray* mutableJobsList;
 @end
 
@@ -203,7 +204,7 @@ static PBExtensionRegistry* extensionRegistry = nil;
     self.priority = 0;
     self.carrotId = @"";
     self.questGiverImgOffset = [CoordinateProto defaultInstance];
-    self.monsterElement = MonsterProto_MonsterElementFire;
+    self.monsterElement = ElementNoElement;
   }
   return self;
 }
@@ -604,7 +605,7 @@ static FullQuestProto* defaultFullQuestProtoInstance = nil;
       }
       case 152: {
         int32_t value = [input readEnum];
-        if (MonsterProto_MonsterElementIsValidValue(value)) {
+        if (ElementIsValidValue(value)) {
           [self setMonsterElement:value];
         } else {
           [unknownFields mergeVarintField:19 value:value];
@@ -938,17 +939,17 @@ static FullQuestProto* defaultFullQuestProtoInstance = nil;
 - (BOOL) hasMonsterElement {
   return result.hasMonsterElement;
 }
-- (MonsterProto_MonsterElement) monsterElement {
+- (Element) monsterElement {
   return result.monsterElement;
 }
-- (FullQuestProto_Builder*) setMonsterElement:(MonsterProto_MonsterElement) value {
+- (FullQuestProto_Builder*) setMonsterElement:(Element) value {
   result.hasMonsterElement = YES;
   result.monsterElement = value;
   return self;
 }
 - (FullQuestProto_Builder*) clearMonsterElement {
   result.hasMonsterElement = NO;
-  result.monsterElement = MonsterProto_MonsterElementFire;
+  result.monsterElement = ElementNoElement;
   return self;
 }
 - (NSArray*) jobsList {

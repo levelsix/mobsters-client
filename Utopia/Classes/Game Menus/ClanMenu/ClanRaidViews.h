@@ -9,7 +9,6 @@
 #import <UIKit/UIKit.h>
 #import "NibUtils.h"
 #import "Protocols.pb.h"
-#import "ClanInfoViewController.h"
 
 @interface ClanRaidTeamEnterView : UIView
 
@@ -21,7 +20,7 @@
 
 @property (nonatomic, retain) IBOutlet UIView *teamContainer;
 
-@property (nonatomic, retain) IBOutlet ClanTeamMonsterView *monsterView;
+@property (nonatomic, retain) IBOutlet MiniMonsterView *monsterView;
 
 - (void) updateForSetTeam:(NSArray *)team;
 - (void) updateForSwitchTeam:(NSArray *)team;
@@ -45,7 +44,7 @@
 @property (nonatomic, retain) IBOutlet UIView *progressView;
 @property (nonatomic, retain) IBOutlet UILabel *bottomLabel;
 
-@property (nonatomic, retain) IBOutlet ClanTeamMonsterView *monsterView;
+@property (nonatomic, retain) IBOutlet MiniMonsterView *monsterView;
 
 @property (nonatomic, retain) ClanRaidStageProto *raidStage;
 

@@ -7,7 +7,7 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "ClanInfoViewController.h"
+#import "NibUtils.h"
 #import "RequestsViewController.h"
 
 @interface RequestsBattleCell : UITableViewCell
@@ -16,7 +16,7 @@
 @property (nonatomic, retain) IBOutlet UILabel *resultLabel;
 @property (nonatomic, retain) IBOutlet UILabel *timeLabel;
 @property (nonatomic, retain) IBOutlet UIButton *revengeButton;
-@property (nonatomic, retain) IBOutletCollection(ClanTeamMonsterView) NSArray *monsterViews;
+@property (nonatomic, retain) IBOutletCollection(MiniMonsterView) NSArray *monsterViews;
 @property (nonatomic, retain) IBOutlet UILabel *oilLabel;
 @property (nonatomic, retain) IBOutlet UILabel *cashLabel;
 @property (nonatomic, retain) IBOutlet UILabel *rankChangeLabel;

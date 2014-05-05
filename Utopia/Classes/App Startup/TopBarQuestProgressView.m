@@ -15,14 +15,11 @@
 - (void) awakeFromNib {
   self.progressLabel.superview.layer.cornerRadius = 6.f;
   self.layer.cornerRadius = 6.f;
-  self.monsterIcon.superview.transform = CGAffineTransformMakeScale(0.64, 0.64);
+  self.monsterView.transform = CGAffineTransformMakeScale(0.64, 0.64);
 }
 
 - (void) displayForQuest:(FullQuestProto *)quest userQuest:(UserQuest *)userQuest jobId:(int)jobId completion:(void (^)(void))completion {
-  NSString *file = [quest.questGiverImagePrefix stringByAppendingString:@"Thumbnail.png"];
-  [Globals imageNamed:file withView:self.monsterIcon greyscale:NO indicator:UIActivityIndicatorViewStyleWhite clearImageDuringDownload:YES];
-  file = [Globals imageNameForElement:quest.monsterElement suffix:@"team.png"];
-  [Globals imageNamed:file withView:self.bgdIcon greyscale:NO indicator:UIActivityIndicatorViewStyleWhite clearImageDuringDownload:YES];
+  [self.monsterView updateForElement:quest.monsterElement imgPrefix:quest.questGiverImagePrefix greyscale:NO];
   
   QuestJobProto *jp = [quest jobForId:jobId];
   UserQuestJob *uj = [userQuest jobForId:jobId];

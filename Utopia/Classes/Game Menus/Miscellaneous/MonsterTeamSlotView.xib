@@ -26,7 +26,7 @@
                         <action selector="healAreaClicked:" destination="1" eventType="touchUpInside" id="Zuh-tE-Q5b"/>
                     </connections>
                 </button>
-                <view clipsSubviews="YES" contentMode="scaleToFill" id="jyv-un-7wU">
+                <view clipsSubviews="YES" contentMode="scaleToFill" id="jyv-un-7wU" customClass="MiniMonsterView">
                     <rect key="frame" x="6" y="4" width="42" height="42"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                     <subviews>
@@ -40,6 +40,10 @@
                         </imageView>
                     </subviews>
                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                    <connections>
+                        <outlet property="bgdIcon" destination="aSD-Fx-T4Z" id="12A-DM-Xau"/>
+                        <outlet property="monsterIcon" destination="MLz-uX-qIl" id="JOM-u9-T1O"/>
+                    </connections>
                 </view>
                 <view userInteractionEnabled="NO" contentMode="scaleToFill" id="RIg-Qr-6ep">
                     <rect key="frame" x="48" y="0.0" width="109" height="49"/>
@@ -104,13 +108,12 @@
             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
             <simulatedOrientationMetrics key="simulatedOrientationMetrics" orientation="landscapeRight"/>
             <connections>
-                <outlet property="bgdIcon" destination="aSD-Fx-T4Z" id="A9U-MQ-Rra"/>
                 <outlet property="cardView" destination="jyv-un-7wU" id="2od-jy-04h"/>
                 <outlet property="emptyIcon" destination="fRR-NR-H24" id="qKv-9X-2Nk"/>
                 <outlet property="healthBar" destination="BjA-49-1oH" id="FXS-za-kWK"/>
                 <outlet property="healthView" destination="4Ua-UV-YKv" id="jCK-ag-5JJ"/>
                 <outlet property="minusButton" destination="O5K-s9-8Zj" id="FEL-x4-Osw"/>
-                <outlet property="monsterIcon" destination="MLz-uX-qIl" id="zxK-2v-5wv"/>
+                <outlet property="monsterView" destination="jyv-un-7wU" id="dpp-Qh-CRj"/>
                 <outlet property="rightView" destination="RIg-Qr-6ep" id="prL-vD-eCH"/>
                 <outlet property="subtitleLabel" destination="yaO-pr-y8n" id="yBJ-cw-yGz"/>
                 <outlet property="titleLabel" destination="IsJ-sg-l0H" id="Eup-fh-Ccc"/>

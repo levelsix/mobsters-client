@@ -370,13 +370,18 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
   return nil;
 }
 
-- (void) questProgress:(int)questId jobId:(int)jobId {
+- (void) questProgress:(int)questId jobIds:(NSArray *)jobIds {
   GameState *gs = [GameState sharedGameState];
   UserQuest *uq = [gs myQuestWithId:questId];
   
   if (uq) {
-    UserQuestJob *uqj = [uq jobForId:jobId];
-    [[SocketCommunication sharedSocketCommunication] sendQuestProgressMessage:questId isComplete:uq.isComplete jobId:jobId jobProgress:uqj.progress isJobComplete:uqj.isComplete userMonsterIds:nil];
+    NSMutableArray *arr = [NSMutableArray array];
+    for (NSNumber *num in jobIds) {
+      UserQuestJob *uqj = [uq jobForId:num.intValue];
+      UserQuestJobProto *proto = [uqj convertToProto];
+      [arr addObject:proto];
+    }
+    [[SocketCommunication sharedSocketCommunication] sendQuestProgressMessage:questId isComplete:uq.isComplete userQuestJobs:arr userMonsterIds:nil];
     
     if (uq.isComplete) {
       NSNumber *questIdNum = [NSNumber numberWithInt:questId];
@@ -428,7 +433,8 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
       [gs.inProgressCompleteQuests setObject:fqp forKey:questIdNum];
     }
     
-    [[SocketCommunication sharedSocketCommunication] sendQuestProgressMessage:questId isComplete:uq.isComplete jobId:jobId jobProgress:jp.quantity isJobComplete:YES userMonsterIds:monsterIds];
+    UserQuestJob *uqj = [uq jobForId:jobId];
+    [[SocketCommunication sharedSocketCommunication] sendQuestProgressMessage:questId isComplete:uq.isComplete userQuestJobs:@[[uqj convertToProto]] userMonsterIds:monsterIds];
     return uq;
   } else {
     [Globals popupMessage:@"Attempting to donate for quest"];
@@ -889,11 +895,11 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
 
 - (void) beginDungeon:(int)taskId withDelegate:(id)delegate {
   GameState *gs = [GameState sharedGameState];
-  int tag = [[SocketCommunication sharedSocketCommunication] sendBeginDungeonMessage:[self getCurrentMilliseconds] taskId:taskId isEvent:NO eventId:0 gems:0 enemyElement:MonsterProto_MonsterElementFire shouldForceElem:NO questIds:gs.inProgressIncompleteQuests.allKeys];
+  int tag = [[SocketCommunication sharedSocketCommunication] sendBeginDungeonMessage:[self getCurrentMilliseconds] taskId:taskId isEvent:NO eventId:0 gems:0 enemyElement:ElementFire shouldForceElem:NO questIds:gs.inProgressIncompleteQuests.allKeys];
   [[SocketCommunication sharedSocketCommunication] setDelegate:delegate forTag:tag];
 }
 
-- (void) beginDungeon:(int)taskId enemyElement:(MonsterProto_MonsterElement)element withDelegate:(id)delegate {
+- (void) beginDungeon:(int)taskId enemyElement:(Element)element withDelegate:(id)delegate {
   GameState *gs = [GameState sharedGameState];
   int tag = [[SocketCommunication sharedSocketCommunication] sendBeginDungeonMessage:[self getCurrentMilliseconds] taskId:taskId isEvent:NO eventId:0 gems:0 enemyElement:element shouldForceElem:YES questIds:gs.inProgressIncompleteQuests.allKeys];
   [[SocketCommunication sharedSocketCommunication] setDelegate:delegate forTag:tag];
@@ -926,7 +932,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
     }
   }
   
-  int tag = [[SocketCommunication sharedSocketCommunication] sendBeginDungeonMessage:[self getCurrentMilliseconds] taskId:taskId isEvent:isEvent eventId:eventId gems:gems enemyElement:MonsterProto_MonsterElementFire shouldForceElem:NO questIds:nil];
+  int tag = [[SocketCommunication sharedSocketCommunication] sendBeginDungeonMessage:[self getCurrentMilliseconds] taskId:taskId isEvent:isEvent eventId:eventId gems:gems enemyElement:ElementFire shouldForceElem:NO questIds:nil];
   [[SocketCommunication sharedSocketCommunication] setDelegate:delegate forTag:tag];
   [gs addUnrespondedUpdate:[GoldUpdate updateWithTag:tag change:-gems]];
   

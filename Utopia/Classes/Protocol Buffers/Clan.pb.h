@@ -4,6 +4,7 @@
 
 #import "Battle.pb.h"
 #import "MonsterStuff.pb.h"
+#import "SharedEnumConfig.pb.h"
 #import "Structure.pb.h"
 #import "Task.pb.h"
 #import "User.pb.h"

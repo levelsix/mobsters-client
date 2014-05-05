@@ -9,6 +9,7 @@
 #import <UIKit/UIKit.h>
 #import "THLabel.h"
 #import "Protocols.pb.h"
+#import "MonsterCardView.h"
 
 typedef enum {
   kButton1 = 1,
@@ -393,5 +394,16 @@ typedef enum {
 @end
 
 @interface PopupShadowView : UIView
+
+@end
+
+@interface SplitImageProgressBar : UIView
+
+@property (nonatomic, retain) IBOutlet UIImageView *leftCap;
+@property (nonatomic, retain) IBOutlet UIImageView *rightCap;
+@property (nonatomic, retain) IBOutlet UIImageView *middleBar;
+
+@property (nonatomic, assign) float percentage;
+@property (nonatomic, assign) BOOL isRightToLeft;
 
 @end

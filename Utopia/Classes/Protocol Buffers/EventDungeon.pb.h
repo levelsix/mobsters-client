@@ -3,6 +3,7 @@
 #import "ProtocolBuffers.h"
 
 #import "MonsterStuff.pb.h"
+#import "SharedEnumConfig.pb.h"
 #import "Task.pb.h"
 #import "User.pb.h"
 
@@ -122,7 +123,7 @@ BOOL ReviveInDungeonResponseProto_ReviveInDungeonStatusIsValidValue(ReviveInDung
   int32_t persistentEventId;
   int32_t gemsSpent;
   MinimumUserProto* sender;
-  MonsterProto_MonsterElement elem;
+  Element elem;
   NSMutableArray* mutableQuestIdsList;
 }
 - (BOOL) hasSender;
@@ -141,7 +142,7 @@ BOOL ReviveInDungeonResponseProto_ReviveInDungeonStatusIsValidValue(ReviveInDung
 - (BOOL) isEvent;
 @property (readonly) int32_t persistentEventId;
 @property (readonly) int32_t gemsSpent;
-@property (readonly) MonsterProto_MonsterElement elem;
+@property (readonly) Element elem;
 - (BOOL) forceEnemyElem;
 - (NSArray*) questIdsList;
 - (int32_t) questIdsAtIndex:(int32_t) index;
@@ -225,8 +226,8 @@ BOOL ReviveInDungeonResponseProto_ReviveInDungeonStatusIsValidValue(ReviveInDung
 - (BeginDungeonRequestProto_Builder*) clearQuestIdsList;
 
 - (BOOL) hasElem;
-- (MonsterProto_MonsterElement) elem;
-- (BeginDungeonRequestProto_Builder*) setElem:(MonsterProto_MonsterElement) value;
+- (Element) elem;
+- (BeginDungeonRequestProto_Builder*) setElem:(Element) value;
 - (BeginDungeonRequestProto_Builder*) clearElem;
 
 - (BOOL) hasForceEnemyElem;

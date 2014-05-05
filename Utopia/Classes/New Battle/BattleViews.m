@@ -395,11 +395,8 @@
     self.healthbar.percentage = bp.curHealth/(float)bp.maxHealth;
     self.healthLabel.text = [NSString stringWithFormat:@"%@/%@", [Globals commafyNumber:bp.curHealth], [Globals commafyNumber:bp.maxHealth]];
     
-    BOOL grayscale = bp.curHealth == 0;
-    NSString *mini = [Globals imageNameForElement:bp.element suffix:@"team.png"];
-    [Globals imageNamed:mini withView:self.bgdIcon greyscale:grayscale indicator:UIActivityIndicatorViewStyleWhite clearImageDuringDownload:YES];
-    NSString *monster = [bp.spritePrefix stringByAppendingString:@"Thumbnail.png"];
-    [Globals imageNamed:monster withView:self.monsterIcon greyscale:grayscale indicator:UIActivityIndicatorViewStyleWhite clearImageDuringDownload:YES];
+    BOOL greyscale = bp.curHealth == 0;
+    [self.monsterView updateForElement:bp.element imgPrefix:bp.spritePrefix greyscale:greyscale];
     
     self.emptyView.hidden = YES;
     self.mainView.hidden = NO;

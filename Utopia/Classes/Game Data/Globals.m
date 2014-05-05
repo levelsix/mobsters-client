@@ -282,24 +282,24 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
   [self imageNamed:[self imageNameForStruct:structId] withView:view greyscale:mask indicator:indicator clearImageDuringDownload:YES];
 }
 
-+ (UIColor *) colorForRarity:(MonsterProto_MonsterQuality)rarity {
++ (UIColor *) colorForRarity:(Quality)rarity {
   switch (rarity) {
-    case MonsterProto_MonsterQualityCommon:
+    case QualityCommon:
       return [self creamColor];
       
-    case MonsterProto_MonsterQualityRare:
+    case QualityRare:
       return [self blueColor];
       
-    case MonsterProto_MonsterQualityUltra:
+    case QualityUltra:
       return [self yellowColor];
       
-    case MonsterProto_MonsterQualityEpic:
+    case QualityEpic:
       return [self purpleColor];
       
-    case MonsterProto_MonsterQualityLegendary:
+    case QualityLegendary:
       return [self redColor];
       
-    case MonsterProto_MonsterQualityEvo:
+    case QualityEvo:
       return [self orangeColor];
       
     default:
@@ -308,30 +308,30 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
   return nil;
 }
 
-+ (UIColor *) colorForElementOnDarkBackground:(MonsterProto_MonsterElement)element {
++ (UIColor *) colorForElementOnDarkBackground:(Element)element {
   ccColor3B c;
   switch (element) {
-    case MonsterProto_MonsterElementDark:
+    case ElementDark:
       c = ccc3(129, 7, 181);
       break;
       
-    case MonsterProto_MonsterElementWater:
+    case ElementWater:
       c = ccc3(10, 220, 210);
       break;
       
-    case MonsterProto_MonsterElementFire:
+    case ElementFire:
       c = ccc3(220, 40, 0);
       break;
       
-    case MonsterProto_MonsterElementLight:
+    case ElementLight:
       c = ccc3(255, 215, 0);
       break;
       
-    case MonsterProto_MonsterElementGrass:
+    case ElementEarth:
       c = ccc3(100, 220, 20);
       break;
       
-    case MonsterProto_MonsterElementRock:
+    case ElementRock:
       c = ccc3(100, 100, 100);
       break;
       
@@ -342,30 +342,30 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
   return [UIColor colorWithRed:c.r/255.f green:c.g/255.f blue:c.b/255.f alpha:1.f];
 }
 
-+ (UIColor *) colorForElementOnLightBackground:(MonsterProto_MonsterElement)element {
++ (UIColor *) colorForElementOnLightBackground:(Element)element {
   ccColor3B c;
   switch (element) {
-    case MonsterProto_MonsterElementDark:
+    case ElementDark:
       c = ccc3(128, 59, 185);
       break;
       
-    case MonsterProto_MonsterElementWater:
+    case ElementWater:
       c = ccc3(36, 158, 195);
       break;
       
-    case MonsterProto_MonsterElementFire:
+    case ElementFire:
       c = ccc3(209, 63, 37);
       break;
       
-    case MonsterProto_MonsterElementLight:
+    case ElementLight:
       c = ccc3(255, 171, 0);
       break;
       
-    case MonsterProto_MonsterElementGrass:
+    case ElementEarth:
       c = ccc3(96, 146, 25);
       break;
       
-    case MonsterProto_MonsterElementRock:
+    case ElementRock:
       c = ccc3(77, 82, 84);
       break;
       
@@ -376,21 +376,21 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
   return [UIColor colorWithRed:c.r/255.f green:c.g/255.f blue:c.b/255.f alpha:1.f];
 }
 
-+ (NSString *) stringForRarity:(MonsterProto_MonsterQuality)rarity {
++ (NSString *) stringForRarity:(Quality)rarity {
   switch (rarity) {
-    case MonsterProto_MonsterQualityCommon:
+    case QualityCommon:
       return @"Common";
       
-    case MonsterProto_MonsterQualityRare:
+    case QualityRare:
       return @"Rare";
       
-    case MonsterProto_MonsterQualityUltra:
+    case QualityUltra:
       return @"Ultra";
       
-    case MonsterProto_MonsterQualityEpic:
+    case QualityEpic:
       return @"Epic";
       
-    case MonsterProto_MonsterQualityLegendary:
+    case QualityLegendary:
       return @"Legend";
       
     default:
@@ -399,12 +399,12 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
   }
 }
 
-+ (NSString *) imageNameForRarity:(MonsterProto_MonsterQuality)rarity suffix:(NSString *)str {
++ (NSString *) imageNameForRarity:(Quality)rarity suffix:(NSString *)str {
   NSString *base = [[[self stringForRarity:rarity] stringByReplacingOccurrencesOfString:@" " withString:@""] lowercaseString];
   return [base stringByAppendingString:str];
 }
 
-+ (NSString *) shortenedStringForRarity:(MonsterProto_MonsterQuality)rarity {
++ (NSString *) shortenedStringForRarity:(Quality)rarity {
   NSString *str = [self stringForRarity:rarity];
   
   if (str.length > 4) {
@@ -413,24 +413,24 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
   return [str uppercaseString];
 }
 
-+ (NSString *) stringForElement:(MonsterProto_MonsterElement)element {
++ (NSString *) stringForElement:(Element)element {
   switch (element) {
-    case MonsterProto_MonsterElementDark:
+    case ElementDark:
       return @"Night";
       
-    case MonsterProto_MonsterElementFire:
+    case ElementFire:
       return @"Fire";
       
-    case MonsterProto_MonsterElementGrass:
+    case ElementEarth:
       return @"Earth";
       
-    case MonsterProto_MonsterElementLight:
+    case ElementLight:
       return @"Light";
       
-    case MonsterProto_MonsterElementWater:
+    case ElementWater:
       return @"Water";
       
-    case MonsterProto_MonsterElementRock:
+    case ElementRock:
       return @"Rock";
       
     default:
@@ -439,48 +439,48 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
   }
 }
 
-+ (MonsterProto_MonsterElement) elementForSuperEffective:(MonsterProto_MonsterElement)element {
++ (Element) elementForSuperEffective:(Element)element {
   switch (element) {
-    case MonsterProto_MonsterElementDark:
-      return MonsterProto_MonsterElementLight;
+    case ElementDark:
+      return ElementLight;
       
-    case MonsterProto_MonsterElementLight:
-      return MonsterProto_MonsterElementDark;
+    case ElementLight:
+      return ElementDark;
       
-    case MonsterProto_MonsterElementFire:
-      return MonsterProto_MonsterElementGrass;
+    case ElementFire:
+      return ElementEarth;
       
-    case MonsterProto_MonsterElementGrass:
-      return MonsterProto_MonsterElementWater;
+    case ElementEarth:
+      return ElementWater;
       
-    case MonsterProto_MonsterElementWater:
-      return MonsterProto_MonsterElementFire;
+    case ElementWater:
+      return ElementFire;
       
     default:
-      return MonsterProto_MonsterElementRock;
+      return ElementRock;
       break;
   }
 }
 
-+ (MonsterProto_MonsterElement) elementForNotVeryEffective:(MonsterProto_MonsterElement)element {
++ (Element) elementForNotVeryEffective:(Element)element {
   switch (element) {
-    case MonsterProto_MonsterElementDark:
-      return MonsterProto_MonsterElementLight;
+    case ElementDark:
+      return ElementLight;
       
-    case MonsterProto_MonsterElementLight:
-      return MonsterProto_MonsterElementDark;
+    case ElementLight:
+      return ElementDark;
       
-    case MonsterProto_MonsterElementFire:
-      return MonsterProto_MonsterElementWater;
+    case ElementFire:
+      return ElementWater;
       
-    case MonsterProto_MonsterElementGrass:
-      return MonsterProto_MonsterElementFire;
+    case ElementEarth:
+      return ElementFire;
       
-    case MonsterProto_MonsterElementWater:
-      return MonsterProto_MonsterElementGrass;
+    case ElementWater:
+      return ElementEarth;
       
     default:
-      return MonsterProto_MonsterElementRock;
+      return ElementRock;
       break;
   }
 }
@@ -507,7 +507,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
   return typeText;
 }
 
-+ (NSString *) imageNameForElement:(MonsterProto_MonsterElement)element suffix:(NSString *)str {
++ (NSString *) imageNameForElement:(Element)element suffix:(NSString *)str {
   NSString *base = [[self stringForElement:element] lowercaseString];
   return [base stringByAppendingString:str];
 }
@@ -1277,36 +1277,36 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
 }
 
 - (int) calculateTotalDamageForMonster:(UserMonster *)um {
-  int fire = [self calculateElementalDamageForMonster:um element:MonsterProto_MonsterElementFire];
-  int water = [self calculateElementalDamageForMonster:um element:MonsterProto_MonsterElementWater];
-  int earth = [self calculateElementalDamageForMonster:um element:MonsterProto_MonsterElementGrass];
-  int light = [self calculateElementalDamageForMonster:um element:MonsterProto_MonsterElementLight];
-  int night = [self calculateElementalDamageForMonster:um element:MonsterProto_MonsterElementDark];
+  int fire = [self calculateElementalDamageForMonster:um element:ElementFire];
+  int water = [self calculateElementalDamageForMonster:um element:ElementWater];
+  int earth = [self calculateElementalDamageForMonster:um element:ElementEarth];
+  int light = [self calculateElementalDamageForMonster:um element:ElementLight];
+  int night = [self calculateElementalDamageForMonster:um element:ElementDark];
   
   return fire+water+earth+light+night;
 }
 
-- (int) calculateElementalDamageForMonster:(UserMonster *)um element:(MonsterProto_MonsterElement)element {
+- (int) calculateElementalDamageForMonster:(UserMonster *)um element:(Element)element {
   MonsterLevelInfoProto *li = um.levelInfo;
   
   int base = 0;
   switch (element) {
-    case MonsterProto_MonsterElementFire:
+    case ElementFire:
       base = li.fireDmg;
       break;
-    case MonsterProto_MonsterElementGrass:
+    case ElementEarth:
       base = li.grassDmg;
       break;
-    case MonsterProto_MonsterElementWater:
+    case ElementWater:
       base = li.waterDmg;
       break;
-    case MonsterProto_MonsterElementLight:
+    case ElementLight:
       base = li.lightningDmg;
       break;
-    case MonsterProto_MonsterElementDark:
+    case ElementDark:
       base = li.darknessDmg;
       break;
-    case MonsterProto_MonsterElementRock:
+    case ElementRock:
       base = li.rockDmg;
       break;
     default:
@@ -1392,29 +1392,29 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
   return MIN(mp.maxLevel, level);
 }
 
-- (float) calculateDamageMultiplierForAttackElement:(MonsterProto_MonsterElement)aElement defenseElement:(MonsterProto_MonsterElement)dElement {
+- (float) calculateDamageMultiplierForAttackElement:(Element)aElement defenseElement:(Element)dElement {
   switch (aElement) {
-    case MonsterProto_MonsterElementFire:
-      if (dElement == MonsterProto_MonsterElementGrass) return self.elementalStrength;
-      if (dElement == MonsterProto_MonsterElementWater) return self.elementalWeakness;
+    case ElementFire:
+      if (dElement == ElementEarth) return self.elementalStrength;
+      if (dElement == ElementWater) return self.elementalWeakness;
       break;
       
-    case MonsterProto_MonsterElementWater:
-      if (dElement == MonsterProto_MonsterElementFire) return self.elementalStrength;
-      if (dElement == MonsterProto_MonsterElementGrass) return self.elementalWeakness;
+    case ElementWater:
+      if (dElement == ElementFire) return self.elementalStrength;
+      if (dElement == ElementEarth) return self.elementalWeakness;
       break;
       
-    case MonsterProto_MonsterElementGrass:
-      if (dElement == MonsterProto_MonsterElementWater) return self.elementalStrength;
-      if (dElement == MonsterProto_MonsterElementFire) return self.elementalWeakness;
+    case ElementEarth:
+      if (dElement == ElementWater) return self.elementalStrength;
+      if (dElement == ElementFire) return self.elementalWeakness;
       break;
       
-    case MonsterProto_MonsterElementLight:
-      if (dElement == MonsterProto_MonsterElementDark) return self.elementalStrength;
+    case ElementLight:
+      if (dElement == ElementDark) return self.elementalStrength;
       break;
       
-    case MonsterProto_MonsterElementDark:
-      if (dElement == MonsterProto_MonsterElementLight) return self.elementalStrength;
+    case ElementDark:
+      if (dElement == ElementLight) return self.elementalStrength;
       break;
       
     default:

@@ -23,9 +23,8 @@
 
 @interface MonsterTeamSlotView : UIView
 
-@property (nonatomic, retain) IBOutlet UIImageView *monsterIcon;
+@property (nonatomic, retain) IBOutlet MiniMonsterView *monsterView;
 @property (nonatomic, retain) IBOutlet UIImageView *emptyIcon;
-@property (nonatomic, retain) IBOutlet UIImageView *bgdIcon;
 
 @property (nonatomic, retain) IBOutlet UILabel *titleLabel;
 @property (nonatomic, retain) IBOutlet UILabel *subtitleLabel;

@@ -16,14 +16,14 @@
   [super initOrbLayer];
   
   BattlePlayer *bp = [self firstMyPlayer];
-  MonsterProto_MonsterElement strongElem = bp.element;
-  MonsterProto_MonsterElement strongSwap = MonsterProto_MonsterElementFire;
-  MonsterProto_MonsterElement weakElem = [Globals elementForNotVeryEffective:bp.element];
-  MonsterProto_MonsterElement weakSwap = MonsterProto_MonsterElementWater;
+  Element strongElem = bp.element;
+  Element strongSwap = ElementFire;
+  Element weakElem = [Globals elementForNotVeryEffective:bp.element];
+  Element weakSwap = ElementWater;
   
   BOOL useThirdElem = NO;
-  MonsterProto_MonsterElement thirdElem = 0;
-  MonsterProto_MonsterElement thirdSwap = MonsterProto_MonsterElementGrass;
+  Element thirdElem = 0;
+  Element thirdSwap = ElementEarth;
   if (strongElem == weakSwap) {
     thirdElem = strongSwap;
     useThirdElem = YES;
@@ -35,8 +35,8 @@
   for (int i = 0; i < self.orbLayer.presetOrbs.count; i++) {
     NSMutableArray *row = self.orbLayer.presetOrbs[i];
     for (int j = 0; j < row.count; j++) {
-      MonsterProto_MonsterElement val = [row[j] intValue];
-      MonsterProto_MonsterElement newColor = val;
+      Element val = [row[j] intValue];
+      Element newColor = val;
       if (val == strongSwap) {
         newColor = strongElem;
       } else if (val == weakSwap) {

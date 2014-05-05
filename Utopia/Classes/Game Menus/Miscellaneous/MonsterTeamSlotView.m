@@ -15,28 +15,14 @@
 @implementation MonsterTeamSlotView
 
 - (void) updateLeftViewForUserMonster:(UserMonster *)um {
-  GameState *gs = [GameState sharedGameState];
   if (!um) {
     self.emptyIcon.hidden = NO;
-    self.bgdIcon.hidden = YES;
-    self.monsterIcon.hidden = YES;
-    
-    self.monsterIcon.alpha = 0.6f;
-    self.bgdIcon.alpha = 0.6f;
+    self.monsterView.hidden = YES;
   } else {
-    MonsterProto *mp = [gs monsterWithId:um.monsterId];
+    self.monsterView.hidden = NO;
+    self.monsterView.alpha = 1.f;
     
-    self.monsterIcon.hidden = NO;
-    self.bgdIcon.hidden = NO;
-    
-    self.monsterIcon.alpha = 1.f;
-    self.bgdIcon.alpha = 1.f;
-    
-    NSString *fileName = [mp.imagePrefix stringByAppendingString:@"Thumbnail.png"];
-    [Globals imageNamed:fileName withView:self.monsterIcon maskedColor:nil indicator:UIActivityIndicatorViewStyleWhite clearImageDuringDownload:YES];
-    
-    fileName = [Globals imageNameForElement:mp.monsterElement suffix:@"team.png"];
-    [Globals imageNamed:fileName withView:self.bgdIcon maskedColor:nil indicator:UIActivityIndicatorViewStyleWhite clearImageDuringDownload:YES];
+    [self.monsterView updateForMonsterId:um.monsterId];
     
     if ([um isHealing] || [um isEnhancing] || [um isSacrificing]) {
       self.emptyIcon.hidden = NO;
@@ -89,8 +75,7 @@
       
       self.subtitleLabel.hidden = NO;
       
-      self.monsterIcon.alpha = 0.6f;
-      self.bgdIcon.alpha = 0.6f;
+      self.monsterView.alpha = 0.6f;
     } else {
       self.healthBar.percentage = um.curHealth/(float)[gl calculateMaxHealthForMonster:um];
       
@@ -99,8 +84,7 @@
       
       self.subtitleLabel.hidden = YES;
       
-      self.monsterIcon.alpha = 1.f;
-      self.bgdIcon.alpha = 1.f;
+      self.monsterView.alpha = 1.f;
     }
   }
 }

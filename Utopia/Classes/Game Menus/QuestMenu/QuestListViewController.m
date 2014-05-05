@@ -24,10 +24,7 @@
   
   self.nameLabel.text = quest.name;
   
-  NSString *file = [quest.questGiverImagePrefix stringByAppendingString:@"Thumbnail.png"];
-  [Globals imageNamed:file withView:self.questGiverImageView greyscale:NO indicator:UIActivityIndicatorViewStyleWhite clearImageDuringDownload:YES];
-  file = [Globals imageNameForElement:quest.monsterElement suffix:@"team.png"];
-  [Globals imageNamed:file withView:self.bgdIcon greyscale:NO indicator:UIActivityIndicatorViewStyleWhite clearImageDuringDownload:YES];
+  [self.monsterView updateForElement:quest.monsterElement imgPrefix:quest.questGiverImagePrefix greyscale:NO];
   
   int progress = 0;
   for (QuestJobProto *job in quest.jobsList) {

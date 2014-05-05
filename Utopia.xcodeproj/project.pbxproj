@@ -849,6 +849,15 @@
 		CF68905B1912E7B500FF1F71 /* timerclock.png in Resources */ = {isa = PBXBuildFile; fileRef = CF68902D1912E7B500FF1F71 /* timerclock.png */; };
 		CF68905C1912E7B500FF1F71 /* timerclock@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CF68902E1912E7B500FF1F71 /* timerclock@2x.png */; };
 		CF6890601912F49000FF1F71 /* MiniJobsListCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = CF68905F1912F49000FF1F71 /* MiniJobsListCell.xib */; };
+		CF6890631912FD7E00FF1F71 /* minijobsrewardbg.png in Resources */ = {isa = PBXBuildFile; fileRef = CF6890611912FD7E00FF1F71 /* minijobsrewardbg.png */; };
+		CF6890641912FD7E00FF1F71 /* minijobsrewardbg@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CF6890621912FD7E00FF1F71 /* minijobsrewardbg@2x.png */; };
+		CF689068191300F100FF1F71 /* MiniJobsDetailsCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = CF689067191300F100FF1F71 /* MiniJobsDetailsCell.xib */; };
+		CF68906C19145DA400FF1F71 /* EventMiniJob.proto in Resources */ = {isa = PBXBuildFile; fileRef = CF68906919145DA300FF1F71 /* EventMiniJob.proto */; };
+		CF68906D19145DA400FF1F71 /* MiniJobConfig.proto in Resources */ = {isa = PBXBuildFile; fileRef = CF68906A19145DA400FF1F71 /* MiniJobConfig.proto */; };
+		CF68906E19145DA400FF1F71 /* SharedEnumConfig.proto in Resources */ = {isa = PBXBuildFile; fileRef = CF68906B19145DA400FF1F71 /* SharedEnumConfig.proto */; };
+		CF68907519145DC300FF1F71 /* EventMiniJob.pb.m in Sources */ = {isa = PBXBuildFile; fileRef = CF68907019145DC300FF1F71 /* EventMiniJob.pb.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		CF68907619145DC300FF1F71 /* MiniJobConfig.pb.m in Sources */ = {isa = PBXBuildFile; fileRef = CF68907219145DC300FF1F71 /* MiniJobConfig.pb.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		CF68907719145DC300FF1F71 /* SharedEnumConfig.pb.m in Sources */ = {isa = PBXBuildFile; fileRef = CF68907419145DC300FF1F71 /* SharedEnumConfig.pb.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		CF689C1915C3B89400F2E50E /* NSObject+SBJSON.m in Sources */ = {isa = PBXBuildFile; fileRef = CF689C0E15C3B89400F2E50E /* NSObject+SBJSON.m */; };
 		CF689C1A15C3B89400F2E50E /* NSString+SBJSON.m in Sources */ = {isa = PBXBuildFile; fileRef = CF689C1015C3B89400F2E50E /* NSString+SBJSON.m */; };
 		CF689C1B15C3B89400F2E50E /* SBJSON.m in Sources */ = {isa = PBXBuildFile; fileRef = CF689C1215C3B89400F2E50E /* SBJSON.m */; };
@@ -3514,6 +3523,18 @@
 		CF68902D1912E7B500FF1F71 /* timerclock.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = timerclock.png; sourceTree = "<group>"; };
 		CF68902E1912E7B500FF1F71 /* timerclock@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "timerclock@2x.png"; sourceTree = "<group>"; };
 		CF68905F1912F49000FF1F71 /* MiniJobsListCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MiniJobsListCell.xib; sourceTree = "<group>"; };
+		CF6890611912FD7E00FF1F71 /* minijobsrewardbg.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = minijobsrewardbg.png; sourceTree = "<group>"; };
+		CF6890621912FD7E00FF1F71 /* minijobsrewardbg@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "minijobsrewardbg@2x.png"; sourceTree = "<group>"; };
+		CF689067191300F100FF1F71 /* MiniJobsDetailsCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MiniJobsDetailsCell.xib; sourceTree = "<group>"; };
+		CF68906919145DA300FF1F71 /* EventMiniJob.proto */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = EventMiniJob.proto; sourceTree = "<group>"; };
+		CF68906A19145DA400FF1F71 /* MiniJobConfig.proto */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = MiniJobConfig.proto; sourceTree = "<group>"; };
+		CF68906B19145DA400FF1F71 /* SharedEnumConfig.proto */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = SharedEnumConfig.proto; sourceTree = "<group>"; };
+		CF68906F19145DC300FF1F71 /* EventMiniJob.pb.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EventMiniJob.pb.h; sourceTree = "<group>"; };
+		CF68907019145DC300FF1F71 /* EventMiniJob.pb.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EventMiniJob.pb.m; sourceTree = "<group>"; };
+		CF68907119145DC300FF1F71 /* MiniJobConfig.pb.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MiniJobConfig.pb.h; sourceTree = "<group>"; };
+		CF68907219145DC300FF1F71 /* MiniJobConfig.pb.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MiniJobConfig.pb.m; sourceTree = "<group>"; };
+		CF68907319145DC300FF1F71 /* SharedEnumConfig.pb.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SharedEnumConfig.pb.h; sourceTree = "<group>"; };
+		CF68907419145DC300FF1F71 /* SharedEnumConfig.pb.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SharedEnumConfig.pb.m; sourceTree = "<group>"; };
 		CF689C0C15C3B89400F2E50E /* JSON.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JSON.h; sourceTree = "<group>"; };
 		CF689C0D15C3B89400F2E50E /* NSObject+SBJSON.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSObject+SBJSON.h"; sourceTree = "<group>"; };
 		CF689C0E15C3B89400F2E50E /* NSObject+SBJSON.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSObject+SBJSON.m"; sourceTree = "<group>"; };
@@ -6845,6 +6866,12 @@
 		CF4DB9651808AE9100062258 /* Protocol Buffers */ = {
 			isa = PBXGroup;
 			children = (
+				CF68906F19145DC300FF1F71 /* EventMiniJob.pb.h */,
+				CF68907019145DC300FF1F71 /* EventMiniJob.pb.m */,
+				CF68907119145DC300FF1F71 /* MiniJobConfig.pb.h */,
+				CF68907219145DC300FF1F71 /* MiniJobConfig.pb.m */,
+				CF68907319145DC300FF1F71 /* SharedEnumConfig.pb.h */,
+				CF68907419145DC300FF1F71 /* SharedEnumConfig.pb.m */,
 				CF6574451909CAF100ABF1F4 /* AchievementStuff.pb.h */,
 				CF6574461909CAF100ABF1F4 /* AchievementStuff.pb.m */,
 				CF6574471909CAF100ABF1F4 /* Battle.pb.h */,
@@ -7063,6 +7090,9 @@
 		CF6574771909CAF100ABF1F4 /* Proto files */ = {
 			isa = PBXGroup;
 			children = (
+				CF68906919145DA300FF1F71 /* EventMiniJob.proto */,
+				CF68906A19145DA400FF1F71 /* MiniJobConfig.proto */,
+				CF68906B19145DA400FF1F71 /* SharedEnumConfig.proto */,
 				CF6574781909CAF100ABF1F4 /* AchievementStuff.proto */,
 				CF6574791909CAF100ABF1F4 /* Battle.proto */,
 				CF65747A1909CAF100ABF1F4 /* BoosterPackStuff.proto */,
@@ -7144,6 +7174,8 @@
 				CF6890181912E7B400FF1F71 /* epicjob@2x.png */,
 				CF6890191912E7B400FF1F71 /* finishminitask.png */,
 				CF68901A1912E7B400FF1F71 /* finishminitask@2x.png */,
+				CF6890611912FD7E00FF1F71 /* minijobsrewardbg.png */,
+				CF6890621912FD7E00FF1F71 /* minijobsrewardbg@2x.png */,
 				CF68901B1912E7B400FF1F71 /* menubottombatresourcebg.png */,
 				CF68901C1912E7B400FF1F71 /* menubottombatresourcebg@2x.png */,
 				CF68901D1912E7B400FF1F71 /* newjobstimerbg.png */,
@@ -7200,6 +7232,7 @@
 				CF688FFA1912E5D000FF1F71 /* MiniJobsDetailsViewController.h */,
 				CF688FFB1912E5D000FF1F71 /* MiniJobsDetailsViewController.m */,
 				CF688FFC1912E5D000FF1F71 /* MiniJobsDetailsViewController.xib */,
+				CF689067191300F100FF1F71 /* MiniJobsDetailsCell.xib */,
 			);
 			name = Details;
 			sourceTree = "<group>";
@@ -10232,6 +10265,7 @@
 				CF2A4B0A1901B8F500B2D7D7 /* rankbg@2x.png in Resources */,
 				CFBB379818F483BF00FD6C8C /* QuestCompleteLayer.ccbi in Resources */,
 				CFFBDF4918ACA3D90090CA9A /* Scientist1Turn05@2x.png in Resources */,
+				CF68906E19145DA400FF1F71 /* SharedEnumConfig.proto in Resources */,
 				CFFBDFA218ACA3D90090CA9A /* Scientist3Turn08@2x.png in Resources */,
 				CF2A4B3F1905FBC600B2D7D7 /* RequestsFacebookHeader.xib in Resources */,
 				CFFBDFDA18ACA3D90090CA9A /* Scientist5Blink04@2x.png in Resources */,
@@ -10517,6 +10551,7 @@
 				CFBB376B18EF792400FD6C8C /* Mafia1T1P3Big.png in Resources */,
 				CFFBDFBA18ACA3D90090CA9A /* Scientist4Breath02@2x.png in Resources */,
 				CFFA31FA18B3F055008B81B9 /* ClanRaidDetailsViewController.xib in Resources */,
+				CF6890641912FD7E00FF1F71 /* minijobsrewardbg@2x.png in Resources */,
 				CFFBE00A18ACA8160090CA9A /* swapbutton.png in Resources */,
 				CFFBDF4618ACA3D90090CA9A /* Scientist1Turn02@2x.png in Resources */,
 				CF3766C31833022700D0A77E /* gacharevealbg.png in Resources */,
@@ -11270,6 +11305,7 @@
 				CFF740611817AF09009DE4A4 /* vase.png in Resources */,
 				CF629317180D22F600C6C196 /* vaultcash@2x.png in Resources */,
 				CF2A4B101901B8F500B2D7D7 /* requestsinactive@2x.png in Resources */,
+				CF6890631912FD7E00FF1F71 /* minijobsrewardbg.png in Resources */,
 				CF8BA22518CE7C41003277D1 /* speechbubblename.png in Resources */,
 				CF40D04718DFCC6C0034A721 /* silverrankbg@2x.png in Resources */,
 				CF68903F1912E7B500FF1F71 /* engagebutton.png in Resources */,
@@ -11705,6 +11741,7 @@
 				CFF1D74117DFC43700874339 /* timeryellow@2x.png in Resources */,
 				CFFBDFE818ACA3D90090CA9A /* Scientist5Breath05@2x.png in Resources */,
 				CFCE570E18137CD400494F8C /* orangenot.png in Resources */,
+				CF68906D19145DA400FF1F71 /* MiniJobConfig.proto in Resources */,
 				CF20F20C180FCBC1005551B5 /* buybutton.png in Resources */,
 				CF2A4A4719009CD500B2D7D7 /* settingsoundfx@2x.png in Resources */,
 				CF4DB8F61807DA1F00062258 /* WelcomeView.xib in Resources */,
@@ -11809,6 +11846,7 @@
 				CFEE897418EA0ED200047CA4 /* questcompletionnumber.png in Resources */,
 				CF6890371912E7B500FF1F71 /* mjadditionalbg.png in Resources */,
 				CFFF6B0818DA78A5003A320C /* homebutton.png in Resources */,
+				CF689068191300F100FF1F71 /* MiniJobsDetailsCell.xib in Resources */,
 				CFE0E69817E2BFD3002ECA84 /* damagelabel@2x.png in Resources */,
 				CFE0E69917E2BFD3002ECA84 /* percent.png in Resources */,
 				CFE0E69A17E2BFD3002ECA84 /* percent@2x.png in Resources */,
@@ -11989,6 +12027,7 @@
 				CF19089318D8319900D6F0E4 /* oilcollected@2x.png in Resources */,
 				CF6890341912E7B500FF1F71 /* hpbarcapmj@2x.png in Resources */,
 				CFC04D2F188F2D2E00F2DB59 /* nightbanner.png in Resources */,
+				CF68906C19145DA400FF1F71 /* EventMiniJob.proto in Resources */,
 				CFC04D9E188FE8D400F2DB59 /* legendfound@2x.png in Resources */,
 				CFF740661817D3C5009DE4A4 /* RewardView.xib in Resources */,
 				CFF3905118284B8C0010A3BE /* m8@2x.png in Resources */,
@@ -12116,6 +12155,7 @@
 				CF126E211538ACCA00E0C1AD /* SBDoubleSidedLayer.m in Sources */,
 				CF126E221538ACCA00E0C1AD /* SBGradientOverlayLayer.m in Sources */,
 				CF126E231538ACCA00E0C1AD /* SBTickerView.m in Sources */,
+				CF68907619145DC300FF1F71 /* MiniJobConfig.pb.m in Sources */,
 				CFFA31F918B3F055008B81B9 /* ClanRaidDetailsViewController.m in Sources */,
 				CF126E241538ACCA00E0C1AD /* UIView+SBExtras.m in Sources */,
 				CF1273BD1538AE1E00E0C1AD /* main.m in Sources */,
@@ -12150,6 +12190,7 @@
 				CF20F2601810EEEC005551B5 /* MyCroniesViewController.m in Sources */,
 				CF6574B61909CAF200ABF1F4 /* EventQuest.pb.m in Sources */,
 				CFEB284715951ADC00B622FC /* FullEvent.m in Sources */,
+				CF68907719145DC300FF1F71 /* SharedEnumConfig.pb.m in Sources */,
 				CF689C1915C3B89400F2E50E /* NSObject+SBJSON.m in Sources */,
 				CF4DB8DC1807DA1F00062258 /* Building.m in Sources */,
 				CF688FF31912E4D800FF1F71 /* MiniJobsViewController.m in Sources */,
@@ -12215,6 +12256,7 @@
 				CFC141FE1658B70D0060188D /* amqp_connection.c in Sources */,
 				CF6F1A23181521FF00CFF2B9 /* QuestDetailsViewController.m in Sources */,
 				CFC141FF1658B70D0060188D /* amqp_framing.c in Sources */,
+				CF68907519145DC300FF1F71 /* EventMiniJob.pb.m in Sources */,
 				CF6574E01909CAF200ABF1F4 /* Quest.pb.m in Sources */,
 				CFC142001658B70D0060188D /* amqp_mem.c in Sources */,
 				CF6574B71909CAF200ABF1F4 /* EventReferral.pb.m in Sources */,

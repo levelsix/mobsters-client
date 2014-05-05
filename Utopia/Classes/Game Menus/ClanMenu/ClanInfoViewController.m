@@ -26,35 +26,13 @@
 
 @end
 
-@implementation ClanTeamMonsterView
-
-- (void) awakeFromNib {
-  self.layer.cornerRadius = 4.f;
-}
-
-- (void) updateForMonsterId:(int)monsterId {
-  if (monsterId) {
-    GameState *gs = [GameState sharedGameState];
-    MonsterProto *mp = [gs monsterWithId:monsterId];
-    NSString *file = [mp.imagePrefix stringByAppendingString:@"Thumbnail.png"];
-    [Globals imageNamed:file withView:self.monsterIcon greyscale:NO indicator:UIActivityIndicatorViewStyleWhite clearImageDuringDownload:YES];
-    file = [Globals imageNameForElement:mp.monsterElement suffix:@"team.png"];
-    [Globals imageNamed:file withView:self.bgdIcon greyscale:NO indicator:UIActivityIndicatorViewStyleWhite clearImageDuringDownload:YES];
-  } else {
-    self.bgdIcon.image = [Globals imageNamed:@"teamempty.png"];
-    self.monsterIcon.image = nil;
-  }
-}
-
-@end
-
 @implementation ClanMemberCell
 
 - (void) awakeFromNib {
   CGRect r = self.editMemberView.frame;
   self.editMemberView.frame = r;
   
-  for (ClanTeamMonsterView *mv in self.monsterViews) {
+  for (MiniMonsterView *mv in self.monsterViews) {
     mv.transform = CGAffineTransformMakeScale(0.8, 0.8);
   }
 }
@@ -72,7 +50,7 @@
   self.levelLabel.text = [Globals commafyNumber:mupl.level];
   
   for (int i = 0; i < self.monsterViews.count; i++) {
-    ClanTeamMonsterView *mv = self.monsterViews[i];
+    MiniMonsterView *mv = self.monsterViews[i];
     UserMonster *um = i < currentTeam.count ? currentTeam[i] : nil;
     
     [mv updateForMonsterId:um.monsterId];

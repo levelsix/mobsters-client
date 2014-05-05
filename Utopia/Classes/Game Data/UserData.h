@@ -263,6 +263,7 @@ typedef enum {
 @property (nonatomic, assign) BOOL isComplete;
 
 + (id) questJobWithProto:(UserQuestJobProto *)proto;
+- (UserQuestJobProto *) convertToProto;
 
 @end
 

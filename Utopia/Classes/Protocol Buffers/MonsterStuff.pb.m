@@ -12,6 +12,7 @@ static PBExtensionRegistry* extensionRegistry = nil;
   if (self == [MonsterStuffRoot class]) {
     PBMutableExtensionRegistry* registry = [PBMutableExtensionRegistry registry];
     [self registerAllExtensions:registry];
+    [SharedEnumConfigRoot registerAllExtensions:registry];
     extensionRegistry = [registry retain];
   }
 }
@@ -24,10 +25,10 @@ static PBExtensionRegistry* extensionRegistry = nil;
 @property (retain) NSString* name;
 @property (retain) NSString* shorterName;
 @property (retain) NSString* monsterGroup;
-@property MonsterProto_MonsterQuality quality;
+@property Quality quality;
 @property int32_t evolutionLevel;
 @property (retain) NSString* displayName;
-@property MonsterProto_MonsterElement monsterElement;
+@property Element monsterElement;
 @property (retain) NSString* imagePrefix;
 @property int32_t numPuzzlePieces;
 @property int32_t minutesToCombinePieces;
@@ -262,10 +263,10 @@ static PBExtensionRegistry* extensionRegistry = nil;
     self.name = @"";
     self.shorterName = @"";
     self.monsterGroup = @"";
-    self.quality = MonsterProto_MonsterQualityNoQuality;
+    self.quality = QualityNoQuality;
     self.evolutionLevel = 0;
     self.displayName = @"";
-    self.monsterElement = MonsterProto_MonsterElementNoElement;
+    self.monsterElement = ElementNoElement;
     self.imagePrefix = @"";
     self.numPuzzlePieces = 0;
     self.minutesToCombinePieces = 0;
@@ -521,34 +522,6 @@ static MonsterProto* defaultMonsterProtoInstance = nil;
 }
 @end
 
-BOOL MonsterProto_MonsterQualityIsValidValue(MonsterProto_MonsterQuality value) {
-  switch (value) {
-    case MonsterProto_MonsterQualityNoQuality:
-    case MonsterProto_MonsterQualityCommon:
-    case MonsterProto_MonsterQualityRare:
-    case MonsterProto_MonsterQualityUltra:
-    case MonsterProto_MonsterQualityEpic:
-    case MonsterProto_MonsterQualityLegendary:
-    case MonsterProto_MonsterQualityEvo:
-      return YES;
-    default:
-      return NO;
-  }
-}
-BOOL MonsterProto_MonsterElementIsValidValue(MonsterProto_MonsterElement value) {
-  switch (value) {
-    case MonsterProto_MonsterElementNoElement:
-    case MonsterProto_MonsterElementFire:
-    case MonsterProto_MonsterElementGrass:
-    case MonsterProto_MonsterElementWater:
-    case MonsterProto_MonsterElementLight:
-    case MonsterProto_MonsterElementDark:
-    case MonsterProto_MonsterElementRock:
-      return YES;
-    default:
-      return NO;
-  }
-}
 BOOL MonsterProto_AnimationTypeIsValidValue(MonsterProto_AnimationType value) {
   switch (value) {
     case MonsterProto_AnimationTypeNoAnimation:
@@ -723,7 +696,7 @@ BOOL MonsterProto_AnimationTypeIsValidValue(MonsterProto_AnimationType value) {
       }
       case 32: {
         int32_t value = [input readEnum];
-        if (MonsterProto_MonsterQualityIsValidValue(value)) {
+        if (QualityIsValidValue(value)) {
           [self setQuality:value];
         } else {
           [unknownFields mergeVarintField:4 value:value];
@@ -740,7 +713,7 @@ BOOL MonsterProto_AnimationTypeIsValidValue(MonsterProto_AnimationType value) {
       }
       case 56: {
         int32_t value = [input readEnum];
-        if (MonsterProto_MonsterElementIsValidValue(value)) {
+        if (ElementIsValidValue(value)) {
           [self setMonsterElement:value];
         } else {
           [unknownFields mergeVarintField:7 value:value];
@@ -908,17 +881,17 @@ BOOL MonsterProto_AnimationTypeIsValidValue(MonsterProto_AnimationType value) {
 - (BOOL) hasQuality {
   return result.hasQuality;
 }
-- (MonsterProto_MonsterQuality) quality {
+- (Quality) quality {
   return result.quality;
 }
-- (MonsterProto_Builder*) setQuality:(MonsterProto_MonsterQuality) value {
+- (MonsterProto_Builder*) setQuality:(Quality) value {
   result.hasQuality = YES;
   result.quality = value;
   return self;
 }
 - (MonsterProto_Builder*) clearQuality {
   result.hasQuality = NO;
-  result.quality = MonsterProto_MonsterQualityNoQuality;
+  result.quality = QualityNoQuality;
   return self;
 }
 - (BOOL) hasEvolutionLevel {
@@ -956,17 +929,17 @@ BOOL MonsterProto_AnimationTypeIsValidValue(MonsterProto_AnimationType value) {
 - (BOOL) hasMonsterElement {
   return result.hasMonsterElement;
 }
-- (MonsterProto_MonsterElement) monsterElement {
+- (Element) monsterElement {
   return result.monsterElement;
 }
-- (MonsterProto_Builder*) setMonsterElement:(MonsterProto_MonsterElement) value {
+- (MonsterProto_Builder*) setMonsterElement:(Element) value {
   result.hasMonsterElement = YES;
   result.monsterElement = value;
   return self;
 }
 - (MonsterProto_Builder*) clearMonsterElement {
   result.hasMonsterElement = NO;
-  result.monsterElement = MonsterProto_MonsterElementNoElement;
+  result.monsterElement = ElementNoElement;
   return self;
 }
 - (BOOL) hasImagePrefix {

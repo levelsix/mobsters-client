@@ -9,13 +9,13 @@
 #import <UIKit/UIKit.h>
 #import "Protocols.pb.h"
 #import "UserData.h"
+#import "NibUtils.h"
 
 @interface TopBarQuestProgressView : UIView {
   void (^_completionBlock)(void);
 }
 
-@property (nonatomic, retain) IBOutlet UIImageView *bgdIcon;
-@property (nonatomic, retain) IBOutlet UIImageView *monsterIcon;
+@property (nonatomic, retain) IBOutlet MiniMonsterView *monsterView;
 @property (nonatomic, retain) IBOutlet UILabel *questLabel;
 @property (nonatomic, retain) IBOutlet UILabel *progressLabel;
 

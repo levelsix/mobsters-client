@@ -274,31 +274,22 @@ BOOL QuestRedeemResponseProto_QuestRedeemStatusIsValidValue(QuestRedeemResponseP
 @interface QuestProgressRequestProto : PBGeneratedMessage {
 @private
   BOOL hasIsComplete_:1;
-  BOOL hasIsQuestJobComplete_:1;
   BOOL hasQuestId_:1;
-  BOOL hasQuestJobId_:1;
-  BOOL hasCurrentProgress_:1;
   BOOL hasSender_:1;
   BOOL isComplete_:1;
-  BOOL isQuestJobComplete_:1;
   int32_t questId;
-  int32_t questJobId;
-  int32_t currentProgress;
   MinimumUserProto* sender;
   NSMutableArray* mutableDeleteUserMonsterIdsList;
+  NSMutableArray* mutableUserQuestJobsList;
 }
 - (BOOL) hasSender;
 - (BOOL) hasQuestId;
 - (BOOL) hasIsComplete;
-- (BOOL) hasQuestJobId;
-- (BOOL) hasCurrentProgress;
-- (BOOL) hasIsQuestJobComplete;
 @property (readonly, retain) MinimumUserProto* sender;
 @property (readonly) int32_t questId;
 - (BOOL) isComplete;
-@property (readonly) int32_t questJobId;
-@property (readonly) int32_t currentProgress;
-- (BOOL) isQuestJobComplete;
+- (NSArray*) userQuestJobsList;
+- (UserQuestJobProto*) userQuestJobsAtIndex:(int32_t) index;
 - (NSArray*) deleteUserMonsterIdsList;
 - (int64_t) deleteUserMonsterIdsAtIndex:(int32_t) index;
 
@@ -353,20 +344,12 @@ BOOL QuestRedeemResponseProto_QuestRedeemStatusIsValidValue(QuestRedeemResponseP
 - (QuestProgressRequestProto_Builder*) setIsComplete:(BOOL) value;
 - (QuestProgressRequestProto_Builder*) clearIsComplete;
 
-- (BOOL) hasQuestJobId;
-- (int32_t) questJobId;
-- (QuestProgressRequestProto_Builder*) setQuestJobId:(int32_t) value;
-- (QuestProgressRequestProto_Builder*) clearQuestJobId;
-
-- (BOOL) hasCurrentProgress;
-- (int32_t) currentProgress;
-- (QuestProgressRequestProto_Builder*) setCurrentProgress:(int32_t) value;
-- (QuestProgressRequestProto_Builder*) clearCurrentProgress;
-
-- (BOOL) hasIsQuestJobComplete;
-- (BOOL) isQuestJobComplete;
-- (QuestProgressRequestProto_Builder*) setIsQuestJobComplete:(BOOL) value;
-- (QuestProgressRequestProto_Builder*) clearIsQuestJobComplete;
+- (NSArray*) userQuestJobsList;
+- (UserQuestJobProto*) userQuestJobsAtIndex:(int32_t) index;
+- (QuestProgressRequestProto_Builder*) replaceUserQuestJobsAtIndex:(int32_t) index with:(UserQuestJobProto*) value;
+- (QuestProgressRequestProto_Builder*) addUserQuestJobs:(UserQuestJobProto*) value;
+- (QuestProgressRequestProto_Builder*) addAllUserQuestJobs:(NSArray*) values;
+- (QuestProgressRequestProto_Builder*) clearUserQuestJobsList;
 
 - (NSArray*) deleteUserMonsterIdsList;
 - (int64_t) deleteUserMonsterIdsAtIndex:(int32_t) index;

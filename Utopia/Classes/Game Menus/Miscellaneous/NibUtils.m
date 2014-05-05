@@ -1060,3 +1060,43 @@
 }
 
 @end
+
+@implementation SplitImageProgressBar
+
+- (void) setPercentage:(float)percentage {
+  _percentage = clampf(percentage, 0.f, 1.f);
+  
+  // Always add 2 pixels because edges of caps are usually empty
+  float totalWidth = (int)roundf(_percentage*(self.frame.size.width-2))+2;
+  CGRect r;
+  
+  r = self.leftCap.frame;
+  r.size.width = MIN(ceilf(totalWidth/2), self.leftCap.image.size.width);
+  self.leftCap.frame = r;
+  
+  r = self.rightCap.frame;
+  r.size.width = self.leftCap.frame.size.width;
+  if (totalWidth >= self.leftCap.image.size.width*2) {
+    r.origin.x = totalWidth-r.size.width;
+  } else {
+    r.origin.x = CGRectGetMaxX(self.leftCap.frame);
+  }
+  self.rightCap.frame = r;
+  
+  r = self.middleBar.frame;
+  r.origin.x = CGRectGetMaxX(self.leftCap.frame);
+  if (totalWidth >= self.leftCap.image.size.width*2) {
+    r.size.width = self.rightCap.frame.origin.x-r.origin.x;
+  } else {
+    r.size.width = 0;
+  }
+  self.middleBar.frame = r;
+  
+  if (self.isRightToLeft) {
+    self.transform = CGAffineTransformMakeScale(-1, 1);
+  } else {
+    self.transform = CGAffineTransformIdentity;
+  }
+}
+
+@end

@@ -21,8 +21,8 @@
 @property (nonatomic, assign) MonsterProto_AnimationType animationType;
 @property (nonatomic, assign) float verticalOffset;
 
-@property (nonatomic, assign) MonsterProto_MonsterElement element;
-@property (nonatomic, assign) MonsterProto_MonsterQuality rarity;
+@property (nonatomic, assign) Element element;
+@property (nonatomic, assign) Quality rarity;
 
 @property (nonatomic, assign) int fireDamage;
 @property (nonatomic, assign) int waterDamage;

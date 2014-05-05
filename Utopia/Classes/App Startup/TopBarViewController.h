@@ -12,17 +12,6 @@
 #import "ChatViewController.h"
 #import "TopBarQuestProgressView.h"
 
-@interface SplitImageProgressBar : UIView
-
-@property (nonatomic, retain) IBOutlet UIImageView *leftCap;
-@property (nonatomic, retain) IBOutlet UIImageView *rightCap;
-@property (nonatomic, retain) IBOutlet UIImageView *middleBar;
-
-@property (nonatomic, assign) float percentage;
-@property (nonatomic, assign) BOOL isRightToLeft;
-
-@end
-
 @interface TopBarMonsterView : UIView
 
 @property (nonatomic, retain) IBOutlet UIView *iconView;

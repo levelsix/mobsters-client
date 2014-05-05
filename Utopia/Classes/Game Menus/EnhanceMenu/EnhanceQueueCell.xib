@@ -15,7 +15,7 @@
             <rect key="frame" x="0.0" y="0.0" width="50" height="51"/>
             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
             <subviews>
-                <view clipsSubviews="YES" contentMode="scaleToFill" id="Tho-XA-nLv">
+                <view clipsSubviews="YES" contentMode="scaleToFill" id="Tho-XA-nLv" customClass="MiniMonsterView">
                     <rect key="frame" x="4" y="3" width="42" height="42"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                     <subviews>
@@ -29,6 +29,10 @@
                         </imageView>
                     </subviews>
                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                    <connections>
+                        <outlet property="bgdIcon" destination="Mgz-sG-nej" id="etk-QF-NKB"/>
+                        <outlet property="monsterIcon" destination="QZm-9F-HyF" id="oYa-R5-Kcq"/>
+                    </connections>
                 </view>
                 <view contentMode="scaleToFill" id="JRj-dh-ayU">
                     <rect key="frame" x="3" y="35" width="44" height="16"/>
@@ -72,8 +76,7 @@
             </subviews>
             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
             <connections>
-                <outlet property="bgdIcon" destination="Mgz-sG-nej" id="So7-s5-khq"/>
-                <outlet property="monsterIcon" destination="QZm-9F-HyF" id="N8M-tF-dlZ"/>
+                <outlet property="monsterView" destination="Tho-XA-nLv" id="wQQ-kx-aA9"/>
                 <outlet property="progressBar" destination="R5m-l7-QyF" id="pFX-FI-7IQ"/>
                 <outlet property="timeLabel" destination="fJf-gC-M8W" id="oMa-c3-vEx"/>
                 <outlet property="timerView" destination="JRj-dh-ayU" id="xGF-K7-JSm"/>

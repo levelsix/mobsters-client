@@ -9,6 +9,7 @@
 #import <UIKit/UIKit.h>
 #import "Protocols.pb.h"
 #import "RewardsView.h"
+#import "NibUtils.h"
 
 @class QuestDetailsViewController;
 
@@ -34,8 +35,7 @@
 
 @property (nonatomic, strong) IBOutlet UILabel *questGiverNameLabel;
 @property (nonatomic, strong) IBOutlet UILabel *descriptionLabel;
-@property (nonatomic, strong) IBOutlet UIImageView *questGiverIcon;
-@property (nonatomic, strong) IBOutlet UIImageView *bgdIcon;
+@property (nonatomic, strong) IBOutlet MiniMonsterView *monsterView;
 @property (nonatomic, strong) IBOutlet UIView *rewardsBox;
 
 @property (nonatomic, strong) IBOutlet UIView *headerView;
