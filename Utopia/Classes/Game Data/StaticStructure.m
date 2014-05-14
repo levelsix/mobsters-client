@@ -32,3 +32,7 @@
 @implementation LabProto (StaticStructureImpl)
 
 @end
+
+@implementation MiniJobCenterProto (StaticStructureImpl)
+
+@end

@@ -189,6 +189,16 @@
 
 @end
 
+@implementation NiceFontButton10
+
+- (void) awakeFromNib {
+  [super awakeFromNib];
+  [Globals adjustFontSizeForSize:self.titleLabel.font.pointSize withUIView:self];
+  self.titleLabel.font = [UIFont fontWithName:@"GothamBlack" size:self.titleLabel.font.pointSize];
+}
+
+@end
+
 @implementation LabelButton
 
 @synthesize label = _label;

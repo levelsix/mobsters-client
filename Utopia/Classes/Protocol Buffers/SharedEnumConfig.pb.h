@@ -16,13 +16,13 @@ typedef enum {
 BOOL DayOfWeekIsValidValue(DayOfWeek value);
 
 typedef enum {
-  ElementNoElement = 1,
-  ElementFire = 2,
-  ElementEarth = 3,
-  ElementWater = 4,
-  ElementLight = 5,
-  ElementDark = 6,
-  ElementRock = 7,
+  ElementFire = 1,
+  ElementEarth = 2,
+  ElementWater = 3,
+  ElementLight = 4,
+  ElementDark = 5,
+  ElementRock = 6,
+  ElementNoElement = 7,
 } Element;
 
 BOOL ElementIsValidValue(Element value);

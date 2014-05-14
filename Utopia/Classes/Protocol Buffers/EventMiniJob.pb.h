@@ -26,6 +26,8 @@
 @class HospitalProto_Builder;
 @class LabProto;
 @class LabProto_Builder;
+@class MiniJobCenterProto;
+@class MiniJobCenterProto_Builder;
 @class MiniJobProto;
 @class MiniJobProto_Builder;
 @class MinimumClanProto;

@@ -17,7 +17,7 @@
 
 #define BUTTON_CLICKED_LEEWAY 30
 
-#define LNLog(...) CCLOG(__VA_ARGS__)
+#define LNLog(...) NSLog(__VA_ARGS__)
 
 #define FULL_SCREEN_APPEAR_ANIMATION_DURATION 0.4f
 #define FULL_SCREEN_DISAPPEAR_ANIMATION_DURATION 0.7f
@@ -36,6 +36,7 @@
 #define ENHANCE_WAIT_COMPLETE_NOTIFICATION @"EnhanceWaitCompleteNotification"
 #define EVOLUTION_WAIT_COMPLETE_NOTIFICATION @"EvolutionWaitCompleteNotification"
 #define COMBINE_WAIT_COMPLETE_NOTIFICATION @"CombineWaitCompleteNotification"
+#define MINI_JOB_WAIT_COMPLETE_NOTIFICATION @"MiniJobWaitCompleteNotification"
 #define MONSTER_SOLD_COMPLETE_NOTIFICATION @"MonsterSoldNotification"
 #define GAMESTATE_UPDATE_NOTIFICATION @"GameStateUpdateNotification"
 #define MY_TEAM_CHANGED_NOTIFICATION @"MyTeamChangedNotification"

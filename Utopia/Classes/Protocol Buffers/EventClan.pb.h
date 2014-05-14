@@ -66,6 +66,8 @@
 @class LeaveClanRequestProto_Builder;
 @class LeaveClanResponseProto;
 @class LeaveClanResponseProto_Builder;
+@class MiniJobCenterProto;
+@class MiniJobCenterProto_Builder;
 @class MinimumClanProto;
 @class MinimumClanProto_Builder;
 @class MinimumObstacleProto;

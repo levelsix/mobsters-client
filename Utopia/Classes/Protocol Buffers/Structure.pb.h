@@ -10,6 +10,8 @@
 @class HospitalProto_Builder;
 @class LabProto;
 @class LabProto_Builder;
+@class MiniJobCenterProto;
+@class MiniJobCenterProto_Builder;
 @class MinimumObstacleProto;
 @class MinimumObstacleProto_Builder;
 @class ObstacleProto;
@@ -55,6 +57,7 @@ typedef enum {
   StructureInfoProto_StructTypeTownHall = 5,
   StructureInfoProto_StructTypeLab = 6,
   StructureInfoProto_StructTypeEvo = 7,
+  StructureInfoProto_StructTypeMiniJob = 9,
 } StructureInfoProto_StructType;
 
 BOOL StructureInfoProto_StructTypeIsValidValue(StructureInfoProto_StructType value);
@@ -808,6 +811,74 @@ BOOL StructureInfoProto_StructTypeIsValidValue(StructureInfoProto_StructType val
 - (int32_t) resourceCapacity;
 - (TownHallProto_Builder*) setResourceCapacity:(int32_t) value;
 - (TownHallProto_Builder*) clearResourceCapacity;
+@end
+
+@interface MiniJobCenterProto : PBGeneratedMessage {
+@private
+  BOOL hasGeneratedJobLimit_:1;
+  BOOL hasHoursBetweenJobGeneration_:1;
+  BOOL hasStructInfo_:1;
+  int32_t generatedJobLimit;
+  int32_t hoursBetweenJobGeneration;
+  StructureInfoProto* structInfo;
+}
+- (BOOL) hasStructInfo;
+- (BOOL) hasGeneratedJobLimit;
+- (BOOL) hasHoursBetweenJobGeneration;
+@property (readonly, retain) StructureInfoProto* structInfo;
+@property (readonly) int32_t generatedJobLimit;
+@property (readonly) int32_t hoursBetweenJobGeneration;
+
++ (MiniJobCenterProto*) defaultInstance;
+- (MiniJobCenterProto*) defaultInstance;
+
+- (BOOL) isInitialized;
+- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output;
+- (MiniJobCenterProto_Builder*) builder;
++ (MiniJobCenterProto_Builder*) builder;
++ (MiniJobCenterProto_Builder*) builderWithPrototype:(MiniJobCenterProto*) prototype;
+
++ (MiniJobCenterProto*) parseFromData:(NSData*) data;
++ (MiniJobCenterProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (MiniJobCenterProto*) parseFromInputStream:(NSInputStream*) input;
++ (MiniJobCenterProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (MiniJobCenterProto*) parseFromCodedInputStream:(PBCodedInputStream*) input;
++ (MiniJobCenterProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+@end
+
+@interface MiniJobCenterProto_Builder : PBGeneratedMessage_Builder {
+@private
+  MiniJobCenterProto* result;
+}
+
+- (MiniJobCenterProto*) defaultInstance;
+
+- (MiniJobCenterProto_Builder*) clear;
+- (MiniJobCenterProto_Builder*) clone;
+
+- (MiniJobCenterProto*) build;
+- (MiniJobCenterProto*) buildPartial;
+
+- (MiniJobCenterProto_Builder*) mergeFrom:(MiniJobCenterProto*) other;
+- (MiniJobCenterProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input;
+- (MiniJobCenterProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+
+- (BOOL) hasStructInfo;
+- (StructureInfoProto*) structInfo;
+- (MiniJobCenterProto_Builder*) setStructInfo:(StructureInfoProto*) value;
+- (MiniJobCenterProto_Builder*) setStructInfoBuilder:(StructureInfoProto_Builder*) builderForValue;
+- (MiniJobCenterProto_Builder*) mergeStructInfo:(StructureInfoProto*) value;
+- (MiniJobCenterProto_Builder*) clearStructInfo;
+
+- (BOOL) hasGeneratedJobLimit;
+- (int32_t) generatedJobLimit;
+- (MiniJobCenterProto_Builder*) setGeneratedJobLimit:(int32_t) value;
+- (MiniJobCenterProto_Builder*) clearGeneratedJobLimit;
+
+- (BOOL) hasHoursBetweenJobGeneration;
+- (int32_t) hoursBetweenJobGeneration;
+- (MiniJobCenterProto_Builder*) setHoursBetweenJobGeneration:(int32_t) value;
+- (MiniJobCenterProto_Builder*) clearHoursBetweenJobGeneration;
 @end
 
 @interface FullUserStructureProto : PBGeneratedMessage {

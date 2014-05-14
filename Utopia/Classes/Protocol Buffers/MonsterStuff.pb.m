@@ -22,7 +22,7 @@ static PBExtensionRegistry* extensionRegistry = nil;
 
 @interface MonsterProto ()
 @property int32_t monsterId;
-@property (retain) NSString* name;
+@property (retain) NSString* evolutionGroup;
 @property (retain) NSString* shorterName;
 @property (retain) NSString* monsterGroup;
 @property Quality quality;
@@ -60,13 +60,13 @@ static PBExtensionRegistry* extensionRegistry = nil;
   hasMonsterId_ = !!value;
 }
 @synthesize monsterId;
-- (BOOL) hasName {
-  return !!hasName_;
+- (BOOL) hasEvolutionGroup {
+  return !!hasEvolutionGroup_;
 }
-- (void) setHasName:(BOOL) value {
-  hasName_ = !!value;
+- (void) setHasEvolutionGroup:(BOOL) value {
+  hasEvolutionGroup_ = !!value;
 }
-@synthesize name;
+@synthesize evolutionGroup;
 - (BOOL) hasShorterName {
   return !!hasShorterName_;
 }
@@ -244,7 +244,7 @@ static PBExtensionRegistry* extensionRegistry = nil;
 }
 @synthesize atkAnimationRepeatedFramesEnd;
 - (void) dealloc {
-  self.name = nil;
+  self.evolutionGroup = nil;
   self.shorterName = nil;
   self.monsterGroup = nil;
   self.displayName = nil;
@@ -260,7 +260,7 @@ static PBExtensionRegistry* extensionRegistry = nil;
 - (id) init {
   if ((self = [super init])) {
     self.monsterId = 0;
-    self.name = @"";
+    self.evolutionGroup = @"";
     self.shorterName = @"";
     self.monsterGroup = @"";
     self.quality = QualityNoQuality;
@@ -315,8 +315,8 @@ static MonsterProto* defaultMonsterProtoInstance = nil;
   if (self.hasMonsterId) {
     [output writeInt32:1 value:self.monsterId];
   }
-  if (self.hasName) {
-    [output writeString:2 value:self.name];
+  if (self.hasEvolutionGroup) {
+    [output writeString:2 value:self.evolutionGroup];
   }
   if (self.hasMonsterGroup) {
     [output writeString:3 value:self.monsterGroup];
@@ -408,8 +408,8 @@ static MonsterProto* defaultMonsterProtoInstance = nil;
   if (self.hasMonsterId) {
     size += computeInt32Size(1, self.monsterId);
   }
-  if (self.hasName) {
-    size += computeStringSize(2, self.name);
+  if (self.hasEvolutionGroup) {
+    size += computeStringSize(2, self.evolutionGroup);
   }
   if (self.hasMonsterGroup) {
     size += computeStringSize(3, self.monsterGroup);
@@ -577,8 +577,8 @@ BOOL MonsterProto_AnimationTypeIsValidValue(MonsterProto_AnimationType value) {
   if (other.hasMonsterId) {
     [self setMonsterId:other.monsterId];
   }
-  if (other.hasName) {
-    [self setName:other.name];
+  if (other.hasEvolutionGroup) {
+    [self setEvolutionGroup:other.evolutionGroup];
   }
   if (other.hasShorterName) {
     [self setShorterName:other.shorterName];
@@ -687,7 +687,7 @@ BOOL MonsterProto_AnimationTypeIsValidValue(MonsterProto_AnimationType value) {
         break;
       }
       case 18: {
-        [self setName:[input readString]];
+        [self setEvolutionGroup:[input readString]];
         break;
       }
       case 26: {
@@ -830,20 +830,20 @@ BOOL MonsterProto_AnimationTypeIsValidValue(MonsterProto_AnimationType value) {
   result.monsterId = 0;
   return self;
 }
-- (BOOL) hasName {
-  return result.hasName;
+- (BOOL) hasEvolutionGroup {
+  return result.hasEvolutionGroup;
 }
-- (NSString*) name {
-  return result.name;
+- (NSString*) evolutionGroup {
+  return result.evolutionGroup;
 }
-- (MonsterProto_Builder*) setName:(NSString*) value {
-  result.hasName = YES;
-  result.name = value;
+- (MonsterProto_Builder*) setEvolutionGroup:(NSString*) value {
+  result.hasEvolutionGroup = YES;
+  result.evolutionGroup = value;
   return self;
 }
-- (MonsterProto_Builder*) clearName {
-  result.hasName = NO;
-  result.name = @"";
+- (MonsterProto_Builder*) clearEvolutionGroup {
+  result.hasEvolutionGroup = NO;
+  result.evolutionGroup = @"";
   return self;
 }
 - (BOOL) hasShorterName {

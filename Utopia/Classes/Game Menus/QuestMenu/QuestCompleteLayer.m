@@ -176,14 +176,18 @@
 }
 
 - (void) continueClicked:(id)sender {
-  [[OutgoingEventController sharedOutgoingEventController] redeemQuest:_questId delegate:self];
-  
-  self.continueButton.title = @"";
-  CGPoint center = [self.continueButton.parent convertToWorldSpace:self.continueButton.position];
-  self.loadingSpinner = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleWhite];
-  [self.loadingSpinner startAnimating];
-  [Globals displayUIView:self.loadingSpinner];
-  self.loadingSpinner.center = [[CCDirector sharedDirector] convertToUI:center];
+  if (!_clickedButton) {
+    _clickedButton = YES;
+    
+    [[OutgoingEventController sharedOutgoingEventController] redeemQuest:_questId delegate:self];
+    
+    self.continueButton.title = @"";
+    CGPoint center = [self.continueButton.parent convertToWorldSpace:self.continueButton.position];
+    self.loadingSpinner = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleWhite];
+    [self.loadingSpinner startAnimating];
+    [Globals displayUIView:self.loadingSpinner];
+    self.loadingSpinner.center = [[CCDirector sharedDirector] convertToUI:center];
+  }
 }
 
 - (void) fakeClose {

@@ -47,6 +47,8 @@
 @class LoadPlayerCityRequestProto_Builder;
 @class LoadPlayerCityResponseProto;
 @class LoadPlayerCityResponseProto_Builder;
+@class MiniJobCenterProto;
+@class MiniJobCenterProto_Builder;
 @class MinimumClanProto;
 @class MinimumClanProto_Builder;
 @class MinimumObstacleProto;

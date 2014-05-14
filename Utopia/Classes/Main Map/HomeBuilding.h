@@ -24,6 +24,8 @@
 @property (nonatomic, assign) BOOL isConstructing;
 @property (nonatomic, assign) BOOL isPurchasing;
 
+@property (nonatomic, retain) CCSprite *statusSprite;
+
 @property (nonatomic, retain) UserStruct *userStruct;
 
 + (id) buildingWithUserStruct:(UserStruct *)us map:(HomeMap *)map;
@@ -91,11 +93,10 @@
 
 @end
 
-@interface ExpansionBoard : Building
+@interface MiniJobCenterBuilding : HomeBuilding
 
-@property (nonatomic, assign) CGPoint expandSpot;
+@property (nonatomic, retain) UserMiniJob *activeMiniJob;
 
-- (id) initWithExpansionBlock:(CGPoint)block location:(CGRect)location map:(GameMap *)map isExpanding:(BOOL)isExpanding;
-- (void) beginExpanding;
+- (void) updateForActiveMiniJob:(UserMiniJob *)activeMiniJob;
 
 @end

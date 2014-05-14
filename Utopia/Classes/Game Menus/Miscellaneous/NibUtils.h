@@ -94,6 +94,9 @@ typedef enum {
 @interface NiceFontButton9 : GeneralButton
 @end
 
+@interface NiceFontButton10 : GeneralButton
+@end
+
 @interface LabelButton : UIButton {
   UILabel *_label;
   NSString *_text;

@@ -79,7 +79,7 @@
   if (job.questJobType == QuestJobProto_QuestJobTypeDonateMonster) {
     for (UserMonster *um in gs.myMonsters) {
       // Make sure it is complete and not in any queue
-      if (um.monsterId == job.staticDataId && um.isDonatable) {
+      if (um.monsterId == job.staticDataId && um.isAvailable) {
         quantity = MIN(quantity+1, job.quantity);
       }
     }

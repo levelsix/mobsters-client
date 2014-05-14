@@ -26,6 +26,7 @@
 @interface QuestCompleteLayer : CCNode <CCBAnimationManagerDelegate> {
   int _questId;
   void (^_completionBlock)(void);
+  BOOL _clickedButton;
 }
 
 @property (nonatomic, retain) CCNode *spinner;

@@ -131,7 +131,7 @@
     nextAp = ap;
   }
   
-  int index = [self.activeAchievements indexOfObject:ap];
+  NSUInteger index = [self.activeAchievements indexOfObject:ap];
   if (index != NSNotFound) {
     [self.activeAchievements replaceObjectAtIndex:index withObject:nextAp];
     

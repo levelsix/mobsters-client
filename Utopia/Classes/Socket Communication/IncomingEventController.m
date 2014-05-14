@@ -255,6 +255,18 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
     case EventProtocolResponseSAchievementRedeemEvent:
       responseClass = [AchievementRedeemResponseProto class];
       break;
+    case EventProtocolResponseSSpawnMiniJobEvent:
+      responseClass = [SpawnMiniJobResponseProto class];
+      break;
+    case EventProtocolResponseSBeginMiniJobEvent:
+      responseClass = [BeginMiniJobResponseProto class];
+      break;
+    case EventProtocolResponseSCompleteMiniJobEvent:
+      responseClass = [CompleteMiniJobResponseProto class];
+      break;
+    case EventProtocolResponseSRedeemMiniJobEvent:
+      responseClass = [RedeemMiniJobResponseProto class];
+      break;
       
     default:
       responseClass = nil;
@@ -336,6 +348,9 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
     
     [gs.myAchievements removeAllObjects];
     [gs addToMyAchievements:proto.userAchievementsList];
+    
+    [gs.myMiniJobs removeAllObjects];
+    [gs addToMiniJobs:proto.userMiniJobProtosList];
     
     [gs.fbUnacceptedRequestsFromFriends removeAllObjects];
     [gs.fbAcceptedRequestsFromMe removeAllObjects];
@@ -634,6 +649,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
       [gs readjustAllMonsterHealingProtos];
       [gs beginHealingTimer];
       [gs beginEnhanceTimer];
+      [gs beginMiniJobTimer];
       
       NSMutableArray *exp = [NSMutableArray array];
       if (proto.userCityExpansionDataProtoListList.count > 0) {
@@ -1652,7 +1668,77 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
   if (proto.status == AchievementRedeemResponseProto_AchievementRedeemStatusSuccess) {
     [gs removeNonFullUserUpdatesForTag:tag];
   } else {
-    [Globals popupMessage:@"Server failed to redeems achievement."];
+    [Globals popupMessage:@"Server failed to redeem achievement."];
+    
+    [gs removeAndUndoAllUpdatesForTag:tag];
+  }
+}
+
+- (void) handleSpawnMiniJobResponseProto:(FullEvent *)fe {
+  SpawnMiniJobResponseProto *proto = (SpawnMiniJobResponseProto *)fe.event;
+  int tag = fe.tag;
+  
+  LNLog(@"Spawn mini job response received with status %d.", proto.status);
+  
+  GameState *gs = [GameState sharedGameState];
+  if (proto.status == SpawnMiniJobResponseProto_SpawnMiniJobStatusSuccess) {
+    [gs addToMiniJobs:proto.miniJobsList];
+    
+    [gs removeNonFullUserUpdatesForTag:tag];
+  } else {
+    [Globals popupMessage:@"Server failed to spawn mini job."];
+    
+    [gs removeAndUndoAllUpdatesForTag:tag];
+  }
+}
+
+- (void) handleBeginMiniJobResponseProto:(FullEvent *)fe {
+  BeginMiniJobResponseProto *proto = (BeginMiniJobResponseProto *)fe.event;
+  int tag = fe.tag;
+  
+  LNLog(@"Begin mini job response received with status %d.", proto.status);
+  
+  GameState *gs = [GameState sharedGameState];
+  if (proto.status == BeginMiniJobResponseProto_BeginMiniJobStatusSuccess) {
+    [gs removeNonFullUserUpdatesForTag:tag];
+  } else {
+    [Globals popupMessage:@"Server failed to begin mini job."];
+    
+    [gs removeAndUndoAllUpdatesForTag:tag];
+  }
+}
+
+- (void) handleCompleteMiniJobResponseProto:(FullEvent *)fe {
+  CompleteMiniJobResponseProto *proto = (CompleteMiniJobResponseProto *)fe.event;
+  int tag = fe.tag;
+  
+  LNLog(@"Complete mini job response received with status %d.", proto.status);
+  
+  GameState *gs = [GameState sharedGameState];
+  if (proto.status == CompleteMiniJobResponseProto_CompleteMiniJobStatusSuccess) {
+    [gs removeNonFullUserUpdatesForTag:tag];
+  } else {
+    [Globals popupMessage:@"Server failed to complete mini job."];
+    
+    [gs removeAndUndoAllUpdatesForTag:tag];
+  }
+}
+
+- (void) handleRedeemMiniJobResponseProto:(FullEvent *)fe {
+  RedeemMiniJobResponseProto *proto = (RedeemMiniJobResponseProto *)fe.event;
+  int tag = fe.tag;
+  
+  LNLog(@"Redeem mini job response received with status %d.", proto.status);
+  
+  GameState *gs = [GameState sharedGameState];
+  if (proto.status == RedeemMiniJobResponseProto_RedeemMiniJobStatusSuccess) {
+    if (proto.hasFump) {
+      [gs addToMyMonsters:@[proto.fump]];
+    }
+    
+    [gs removeNonFullUserUpdatesForTag:tag];
+  } else {
+    [Globals popupMessage:@"Server failed to redeem mini job."];
     
     [gs removeAndUndoAllUpdatesForTag:tag];
   }

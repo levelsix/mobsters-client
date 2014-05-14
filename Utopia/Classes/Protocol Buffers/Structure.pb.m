@@ -442,6 +442,7 @@ BOOL StructureInfoProto_StructTypeIsValidValue(StructureInfoProto_StructType val
     case StructureInfoProto_StructTypeTownHall:
     case StructureInfoProto_StructTypeLab:
     case StructureInfoProto_StructTypeEvo:
+    case StructureInfoProto_StructTypeMiniJob:
       return YES;
     default:
       return NO;
@@ -3109,6 +3110,279 @@ static TownHallProto* defaultTownHallProtoInstance = nil;
 - (TownHallProto_Builder*) clearResourceCapacity {
   result.hasResourceCapacity = NO;
   result.resourceCapacity = 0;
+  return self;
+}
+@end
+
+@interface MiniJobCenterProto ()
+@property (retain) StructureInfoProto* structInfo;
+@property int32_t generatedJobLimit;
+@property int32_t hoursBetweenJobGeneration;
+@end
+
+@implementation MiniJobCenterProto
+
+- (BOOL) hasStructInfo {
+  return !!hasStructInfo_;
+}
+- (void) setHasStructInfo:(BOOL) value {
+  hasStructInfo_ = !!value;
+}
+@synthesize structInfo;
+- (BOOL) hasGeneratedJobLimit {
+  return !!hasGeneratedJobLimit_;
+}
+- (void) setHasGeneratedJobLimit:(BOOL) value {
+  hasGeneratedJobLimit_ = !!value;
+}
+@synthesize generatedJobLimit;
+- (BOOL) hasHoursBetweenJobGeneration {
+  return !!hasHoursBetweenJobGeneration_;
+}
+- (void) setHasHoursBetweenJobGeneration:(BOOL) value {
+  hasHoursBetweenJobGeneration_ = !!value;
+}
+@synthesize hoursBetweenJobGeneration;
+- (void) dealloc {
+  self.structInfo = nil;
+  [super dealloc];
+}
+- (id) init {
+  if ((self = [super init])) {
+    self.structInfo = [StructureInfoProto defaultInstance];
+    self.generatedJobLimit = 0;
+    self.hoursBetweenJobGeneration = 0;
+  }
+  return self;
+}
+static MiniJobCenterProto* defaultMiniJobCenterProtoInstance = nil;
++ (void) initialize {
+  if (self == [MiniJobCenterProto class]) {
+    defaultMiniJobCenterProtoInstance = [[MiniJobCenterProto alloc] init];
+  }
+}
++ (MiniJobCenterProto*) defaultInstance {
+  return defaultMiniJobCenterProtoInstance;
+}
+- (MiniJobCenterProto*) defaultInstance {
+  return defaultMiniJobCenterProtoInstance;
+}
+- (BOOL) isInitialized {
+  return YES;
+}
+- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output {
+  if (self.hasStructInfo) {
+    [output writeMessage:1 value:self.structInfo];
+  }
+  if (self.hasGeneratedJobLimit) {
+    [output writeInt32:2 value:self.generatedJobLimit];
+  }
+  if (self.hasHoursBetweenJobGeneration) {
+    [output writeInt32:3 value:self.hoursBetweenJobGeneration];
+  }
+  [self.unknownFields writeToCodedOutputStream:output];
+}
+- (int32_t) serializedSize {
+  int32_t size = memoizedSerializedSize;
+  if (size != -1) {
+    return size;
+  }
+
+  size = 0;
+  if (self.hasStructInfo) {
+    size += computeMessageSize(1, self.structInfo);
+  }
+  if (self.hasGeneratedJobLimit) {
+    size += computeInt32Size(2, self.generatedJobLimit);
+  }
+  if (self.hasHoursBetweenJobGeneration) {
+    size += computeInt32Size(3, self.hoursBetweenJobGeneration);
+  }
+  size += self.unknownFields.serializedSize;
+  memoizedSerializedSize = size;
+  return size;
+}
++ (MiniJobCenterProto*) parseFromData:(NSData*) data {
+  return (MiniJobCenterProto*)[[[MiniJobCenterProto builder] mergeFromData:data] build];
+}
++ (MiniJobCenterProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (MiniJobCenterProto*)[[[MiniJobCenterProto builder] mergeFromData:data extensionRegistry:extensionRegistry] build];
+}
++ (MiniJobCenterProto*) parseFromInputStream:(NSInputStream*) input {
+  return (MiniJobCenterProto*)[[[MiniJobCenterProto builder] mergeFromInputStream:input] build];
+}
++ (MiniJobCenterProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (MiniJobCenterProto*)[[[MiniJobCenterProto builder] mergeFromInputStream:input extensionRegistry:extensionRegistry] build];
+}
++ (MiniJobCenterProto*) parseFromCodedInputStream:(PBCodedInputStream*) input {
+  return (MiniJobCenterProto*)[[[MiniJobCenterProto builder] mergeFromCodedInputStream:input] build];
+}
++ (MiniJobCenterProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (MiniJobCenterProto*)[[[MiniJobCenterProto builder] mergeFromCodedInputStream:input extensionRegistry:extensionRegistry] build];
+}
++ (MiniJobCenterProto_Builder*) builder {
+  return [[[MiniJobCenterProto_Builder alloc] init] autorelease];
+}
++ (MiniJobCenterProto_Builder*) builderWithPrototype:(MiniJobCenterProto*) prototype {
+  return [[MiniJobCenterProto builder] mergeFrom:prototype];
+}
+- (MiniJobCenterProto_Builder*) builder {
+  return [MiniJobCenterProto builder];
+}
+@end
+
+@interface MiniJobCenterProto_Builder()
+@property (retain) MiniJobCenterProto* result;
+@end
+
+@implementation MiniJobCenterProto_Builder
+@synthesize result;
+- (void) dealloc {
+  self.result = nil;
+  [super dealloc];
+}
+- (id) init {
+  if ((self = [super init])) {
+    self.result = [[[MiniJobCenterProto alloc] init] autorelease];
+  }
+  return self;
+}
+- (PBGeneratedMessage*) internalGetResult {
+  return result;
+}
+- (MiniJobCenterProto_Builder*) clear {
+  self.result = [[[MiniJobCenterProto alloc] init] autorelease];
+  return self;
+}
+- (MiniJobCenterProto_Builder*) clone {
+  return [MiniJobCenterProto builderWithPrototype:result];
+}
+- (MiniJobCenterProto*) defaultInstance {
+  return [MiniJobCenterProto defaultInstance];
+}
+- (MiniJobCenterProto*) build {
+  [self checkInitialized];
+  return [self buildPartial];
+}
+- (MiniJobCenterProto*) buildPartial {
+  MiniJobCenterProto* returnMe = [[result retain] autorelease];
+  self.result = nil;
+  return returnMe;
+}
+- (MiniJobCenterProto_Builder*) mergeFrom:(MiniJobCenterProto*) other {
+  if (other == [MiniJobCenterProto defaultInstance]) {
+    return self;
+  }
+  if (other.hasStructInfo) {
+    [self mergeStructInfo:other.structInfo];
+  }
+  if (other.hasGeneratedJobLimit) {
+    [self setGeneratedJobLimit:other.generatedJobLimit];
+  }
+  if (other.hasHoursBetweenJobGeneration) {
+    [self setHoursBetweenJobGeneration:other.hoursBetweenJobGeneration];
+  }
+  [self mergeUnknownFields:other.unknownFields];
+  return self;
+}
+- (MiniJobCenterProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input {
+  return [self mergeFromCodedInputStream:input extensionRegistry:[PBExtensionRegistry emptyRegistry]];
+}
+- (MiniJobCenterProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  PBUnknownFieldSet_Builder* unknownFields = [PBUnknownFieldSet builderWithUnknownFields:self.unknownFields];
+  while (YES) {
+    int32_t tag = [input readTag];
+    switch (tag) {
+      case 0:
+        [self setUnknownFields:[unknownFields build]];
+        return self;
+      default: {
+        if (![self parseUnknownField:input unknownFields:unknownFields extensionRegistry:extensionRegistry tag:tag]) {
+          [self setUnknownFields:[unknownFields build]];
+          return self;
+        }
+        break;
+      }
+      case 10: {
+        StructureInfoProto_Builder* subBuilder = [StructureInfoProto builder];
+        if (self.hasStructInfo) {
+          [subBuilder mergeFrom:self.structInfo];
+        }
+        [input readMessage:subBuilder extensionRegistry:extensionRegistry];
+        [self setStructInfo:[subBuilder buildPartial]];
+        break;
+      }
+      case 16: {
+        [self setGeneratedJobLimit:[input readInt32]];
+        break;
+      }
+      case 24: {
+        [self setHoursBetweenJobGeneration:[input readInt32]];
+        break;
+      }
+    }
+  }
+}
+- (BOOL) hasStructInfo {
+  return result.hasStructInfo;
+}
+- (StructureInfoProto*) structInfo {
+  return result.structInfo;
+}
+- (MiniJobCenterProto_Builder*) setStructInfo:(StructureInfoProto*) value {
+  result.hasStructInfo = YES;
+  result.structInfo = value;
+  return self;
+}
+- (MiniJobCenterProto_Builder*) setStructInfoBuilder:(StructureInfoProto_Builder*) builderForValue {
+  return [self setStructInfo:[builderForValue build]];
+}
+- (MiniJobCenterProto_Builder*) mergeStructInfo:(StructureInfoProto*) value {
+  if (result.hasStructInfo &&
+      result.structInfo != [StructureInfoProto defaultInstance]) {
+    result.structInfo =
+      [[[StructureInfoProto builderWithPrototype:result.structInfo] mergeFrom:value] buildPartial];
+  } else {
+    result.structInfo = value;
+  }
+  result.hasStructInfo = YES;
+  return self;
+}
+- (MiniJobCenterProto_Builder*) clearStructInfo {
+  result.hasStructInfo = NO;
+  result.structInfo = [StructureInfoProto defaultInstance];
+  return self;
+}
+- (BOOL) hasGeneratedJobLimit {
+  return result.hasGeneratedJobLimit;
+}
+- (int32_t) generatedJobLimit {
+  return result.generatedJobLimit;
+}
+- (MiniJobCenterProto_Builder*) setGeneratedJobLimit:(int32_t) value {
+  result.hasGeneratedJobLimit = YES;
+  result.generatedJobLimit = value;
+  return self;
+}
+- (MiniJobCenterProto_Builder*) clearGeneratedJobLimit {
+  result.hasGeneratedJobLimit = NO;
+  result.generatedJobLimit = 0;
+  return self;
+}
+- (BOOL) hasHoursBetweenJobGeneration {
+  return result.hasHoursBetweenJobGeneration;
+}
+- (int32_t) hoursBetweenJobGeneration {
+  return result.hoursBetweenJobGeneration;
+}
+- (MiniJobCenterProto_Builder*) setHoursBetweenJobGeneration:(int32_t) value {
+  result.hasHoursBetweenJobGeneration = YES;
+  result.hoursBetweenJobGeneration = value;
+  return self;
+}
+- (MiniJobCenterProto_Builder*) clearHoursBetweenJobGeneration {
+  result.hasHoursBetweenJobGeneration = NO;
+  result.hoursBetweenJobGeneration = 0;
   return self;
 }
 @end

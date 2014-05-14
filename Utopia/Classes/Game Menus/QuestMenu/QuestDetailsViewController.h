@@ -19,6 +19,8 @@
 @property (nonatomic, strong) IBOutlet UILabel *descriptionLabel;
 @property (nonatomic, strong) IBOutlet UILabel *progressLabel;
 
+@property (nonatomic, strong) IBOutlet UIView *goView;
+
 @end
 
 @protocol QuestDetailsViewControllerDelegate <NSObject>

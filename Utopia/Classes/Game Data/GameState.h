@@ -18,6 +18,7 @@
   NSTimer *_evolutionTimer;
   NSTimer *_healingTimer;
   NSTimer *_combineTimer;
+  NSTimer *_miniJobTimer;
 }
 
 @property (nonatomic, assign) BOOL isTutorial;
@@ -42,6 +43,7 @@
 @property (nonatomic, assign) int numBeginnerSalesPurchased;
 @property (nonatomic, retain) MSDate *shieldEndTime;
 @property (nonatomic, retain) MSDate *lastObstacleCreateTime;
+@property (nonatomic, retain) MSDate *lastMiniJobSpawnTime;
 
 @property (nonatomic, retain) UserPvpLeagueProto *pvpLeague;
 
@@ -77,6 +79,7 @@
 @property (nonatomic, retain) NSMutableArray *myObstacles;
 @property (nonatomic, retain) NSMutableDictionary *myQuests;
 @property (nonatomic, retain) NSMutableDictionary *myAchievements;
+@property (nonatomic, retain) NSMutableArray *myMiniJobs;
 
 @property (nonatomic, retain) NSMutableArray *monsterHealingQueue;
 @property (nonatomic, retain) MSDate *monsterHealingQueueEndTime;
@@ -154,6 +157,7 @@
 - (void) addToInProgressCompleteQuests:(NSArray *)quests;
 - (void) addToInProgressIncompleteQuests:(NSArray *)quests;
 - (void) addNotification:(UserNotification *)un;
+- (void) addToMiniJobs:(NSArray *)miniJobs;
 - (void) addChatMessage:(MinimumUserProtoWithLevel *)sender message:(NSString *)msg scope:(GroupChatScope)scope isAdmin:(BOOL)isAdmin;
 - (void) addChatMessage:(ChatMessage *)cm scope:(GroupChatScope) scope;
 - (void) addPrivateChat:(PrivateChatPostProto *)post;
@@ -184,6 +188,7 @@
 - (UserStruct *) myStructWithId:(int)structId;
 - (UserStruct *) myTownHall;
 - (UserStruct *) myLaboratory;
+- (UserStruct *) myMiniJobCenter;
 - (NSArray *) allHospitals;
 - (NSArray *) myValidHospitals;
 - (int) maxHospitalQueueSize;
@@ -223,6 +228,9 @@
 
 - (void) beginCombineTimer;
 - (void) stopCombineTimer;
+
+- (void) beginMiniJobTimer;
+- (void) stopMiniJobTimer;
 
 - (UserExpansion *) getExpansionForX:(int)x y:(int)y;
 - (int) numCompletedExpansions;

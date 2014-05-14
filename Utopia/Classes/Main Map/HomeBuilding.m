@@ -22,10 +22,12 @@
   if ((self = [super initWithFile:file location:loc map:map])) {
     _homeMap = map;
     
-    NSString *fileName = [NSString stringWithFormat:@"%dx%ddark.png", (int)loc.size.width, (int)loc.size.height];
-    CCSprite *shadow = [CCSprite spriteWithImageNamed:fileName];
-    [self addChild:shadow z:-1 name:SHADOW_TAG];
-    shadow.anchorPoint = ccp(0.5, 0);
+    if (loc.size.width == loc.size.height) {
+      NSString *fileName = [NSString stringWithFormat:@"%dx%ddark.png", (int)loc.size.width, (int)loc.size.height];
+      CCSprite *shadow = [CCSprite spriteWithImageNamed:fileName];
+      [self addChild:shadow z:-1 name:SHADOW_TAG];
+      shadow.anchorPoint = ccp(0.5, 0);
+    }
   }
   return self;
 }
@@ -62,7 +64,12 @@
       buildingClass = [EvoBuilding class];
       break;
       
+    case StructureInfoProto_StructTypeMiniJob:
+      buildingClass = [MiniJobCenterBuilding class];
+      break;
+      
     default:
+      buildingClass = [HomeBuilding class];
       break;
   }
   
@@ -609,14 +616,14 @@
 //
 //- (void) setupBuildingSprite:(NSString *)fileName {
 //  [self.buildingSprite removeFromParent];
-//  
+//
 //  fileName = fileName.stringByDeletingPathExtension;
 //  [[CCSpriteFrameCache sharedSpriteFrameCache] addSpriteFramesWithFile:[NSString stringWithFormat:@"%@.plist", fileName]];
 //  self.anim = [CCAnimation animationWithSpritePrefix:fileName delay:0.1];
-//  
+//
 //  self.buildingSprite = [CCSprite spriteWithSpriteFrame:[self.anim.frames[0] spriteFrame]];
 //  [self addChild:self.buildingSprite];
-//  
+//
 //  [self adjustBuildingSprite];
 //}
 //
@@ -636,49 +643,120 @@
 
 @end
 
-@implementation ExpansionBoard
+@implementation MiniJobCenterBuilding
 
-- (id) initWithExpansionBlock:(CGPoint)block location:(CGRect)location map:(GameMap *)map isExpanding:(BOOL)isExpanding {
-  int blockSum = abs(block.x)+abs(block.y);
-  NSString *file = [NSString stringWithFormat:@"sale%d.png", (blockSum%3)+1];
-  if ((self = [super initWithFile:file location:location map:map])) {
-    self.expandSpot = block;
-    
-    [self removeChildByName:SHADOW_TAG cleanup:YES];
+- (void) updateMeta {
+  // Do nothing
+}
+
+- (void) liftBlock {
+  // Do nothing
+}
+
+- (void) cancelMove {
+  // Do nothing
+}
+
+- (void) placeBlock:(BOOL)shouldPlaySound {
+  self.opacity = 1.f;
+}
+
+- (void) displayMoveArrows {
+  // Do nothing
+}
+
+- (void) locationAfterTouch:(CGPoint)touchLocation {
+  // Do nothing
+}
+
+- (void) updateForActiveMiniJob:(UserMiniJob *)activeMiniJob {
+  if (self.isConstructing) {
+    return;
   }
-  return self;
-}
-
-- (BOOL) hitTestWithWorldPos:(CGPoint)pt {
-  pt = [_map convertToNodeSpace:pt];
   
-  CGPoint tilePt = [_map convertCCPointToTilePoint:pt];
-  return CGRectContainsPoint(self.location, tilePt);
+  self.activeMiniJob = activeMiniJob;
+  
+  [self.statusSprite removeFromParent];
+  self.statusSprite = nil;
+  
+  [self removeProgressBar];
+  CCSprite *arrow = nil;
+  if (activeMiniJob.timeCompleted) {
+    arrow = [CCSprite spriteWithImageNamed:@"mjdone.png"];
+  } else if (activeMiniJob.timeStarted) {
+    [self displayProgressBar];
+  } else if (activeMiniJob) {
+    arrow = [CCSprite spriteWithImageNamed:@"mjnew.png"];
+  }
+  
+  if (arrow) {
+    self.statusSprite = [CCSprite spriteWithImageNamed:@"dockshadow.png"];
+    [self.statusSprite addChild:arrow];
+    arrow.anchorPoint = ccp(0.5, 0);
+    arrow.position = ccp(self.statusSprite.contentSize.width/2, self.statusSprite.contentSize.height/2);
+    
+    [self addChild:self.statusSprite z:5];
+    self.statusSprite.anchorPoint = ccp(0.5, 0);
+    self.statusSprite.position = ccp(self.contentSize.width/2-2, self.contentSize.height/2-10);
+    
+    [arrow runAction:
+     [CCActionRepeatForever actionWithAction:
+      [CCActionSequence actions:
+       [CCActionJumpBy actionWithDuration:0.7 position:ccp(0,0) height:10.f jumps:1], nil]]];
+  }
 }
 
-- (void) beginExpanding {
-  [self displayProgressBar];
+- (void) setIsConstructing:(BOOL)isConstructing {
+  if (!isConstructing) {
+    [super setIsConstructing:isConstructing];
+    [self updateForActiveMiniJob:self.activeMiniJob];
+  } else {
+    [self.statusSprite removeFromParent];
+    self.statusSprite = nil;
+    _isConstructing = isConstructing;
+  }
+}
+
+- (NSString *) progressBarPrefix {
+  if (self.isConstructing) {
+    return [super progressBarPrefix];
+  } else {
+    return @"healing";
+  }
+}
+
+- (void) displayProgressBar {
+  [self removeProgressBar];
+  [super displayProgressBar];
+  
   CCNode *n = [self getChildByName:UPGRADING_TAG recursively:NO];
-  n.position = ccpAdd(ccp(self.contentSize.width/2, self.contentSize.height/2), ccp(0, 5));
+  n.position = ccp(self.contentSize.width/2, self.contentSize.height/2+15);
+  
+  if (!self.isConstructing && self.activeMiniJob) {
+    NSString *rarityStr = [@"battle" stringByAppendingString:[Globals imageNameForRarity:self.activeMiniJob.miniJob.quality suffix:@"tag.png"]];
+    CCSprite *rarityTag = [CCSprite spriteWithImageNamed:rarityStr];
+    [n addChild:rarityTag];
+    rarityTag.position = ccp(n.contentSize.width/2-2, n.contentSize.height+rarityTag.contentSize.height/2+10);
+  }
 }
 
 - (void) updateProgressBar {
-  CCNode *n = [self getChildByName:UPGRADING_TAG recursively:NO];
-  if (n && [n isKindOfClass:[UpgradeProgressBar class]]) {
-    UpgradeProgressBar *bar = (UpgradeProgressBar *)n;
-    Globals *gl = [Globals sharedGlobals];
-    GameState *gs = [GameState sharedGameState];
-    UserExpansion *ue = [gs getExpansionForX:self.expandSpot.x y:self.expandSpot.y];
-    
-    int totalTime = [gl calculateNumMinutesForNewExpansion]*60;
-    NSTimeInterval time = [[MSDate dateWithTimeInterval:totalTime sinceDate:ue.lastExpandTime] timeIntervalSinceNow];
-    
-    if (_percentage) {
-      time = totalTime*(1.f-_percentage);
+  if (self.isConstructing) {
+    [super updateProgressBar];
+  } else {
+    CCNode *n = [self getChildByName:UPGRADING_TAG recursively:NO];
+    if (n && [n isKindOfClass:[UpgradeProgressBar class]]) {
+      UpgradeProgressBar *bar = (UpgradeProgressBar *)n;
+      
+      float dur = self.activeMiniJob.durationMinutes*60;
+      MSDate *endDate = [self.activeMiniJob.timeStarted dateByAddingTimeInterval:dur];
+      [bar updateForSecsLeft:endDate.timeIntervalSinceNow totalSecs:dur];
     }
-    
-    [bar updateForSecsLeft:time totalSecs:totalTime];
   }
+}
+
+- (BOOL) isExemptFromReorder {
+  return YES;
 }
 
 @end

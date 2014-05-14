@@ -29,6 +29,10 @@
                         </imageView>
                     </subviews>
                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                    <connections>
+                        <outlet property="bgdIcon" destination="aRM-tX-3Pc" id="n5E-ii-Nol"/>
+                        <outlet property="monsterIcon" destination="rKv-zv-ee5" id="AXj-bi-OKD"/>
+                    </connections>
                 </view>
                 <view contentMode="scaleToFill" id="Pyk-uU-Q3D">
                     <rect key="frame" x="3" y="35" width="44" height="16"/>

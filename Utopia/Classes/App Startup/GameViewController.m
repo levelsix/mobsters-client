@@ -773,7 +773,7 @@
 }
 
 - (void) achievementComplete:(AchievementProto *)ap {
-  if (!_isInBattle && !self.miniTutController && !self.presentedViewController) {
+  if (!_isInBattle && !self.miniTutController && !self.presentedViewController && !self.questCompleteLayer) {
     if (self.numAchievementsComplete > 1 || (self.completedAchievement && ap != self.completedAchievement)) {
       if (self.completedAchievement && ap != self.completedAchievement) {
         self.numAchievementsComplete++;
@@ -785,13 +785,15 @@
     self.completedAchievement = nil;
     self.numAchievementsComplete = 0;
   } else {
-    self.numAchievementsComplete++;
-    self.completedAchievement = ap;
+    if (ap != self.completedAchievement) {
+      self.numAchievementsComplete++;
+      self.completedAchievement = ap;
+    }
   }
 }
 
 - (void) questComplete:(FullQuestProto *)fqp {
-  if (!_isInBattle && !self.miniTutController && !self.presentedViewController) {
+  if (!_isInBattle && !self.miniTutController && !self.presentedViewController && !self.questCompleteLayer) {
     [self hideTopBarDuration:0.3f completion:^{
       CCBReader *reader = [CCBReader reader];
       QuestCompleteLayer *questComplete = (QuestCompleteLayer *)[reader load:@"QuestCompleteLayer"];
@@ -803,6 +805,7 @@
       }];
       reader.animationManager.delegate = questComplete;
       questComplete.delegate = self;
+      self.questCompleteLayer = questComplete;
     }];
     [self.completedQuests removeObject:fqp];
   } else {
@@ -816,10 +819,11 @@
   } else {
     [self showTopBarDuration:0.3f completion:nil];
   }
+  self.questCompleteLayer = nil;
 }
 
 - (void) jobProgress:(QuestJobProto *)qjp {
-  if (!_isInBattle && !self.miniTutController && !self.presentedViewController) {
+  if (!_isInBattle && !self.miniTutController && !self.presentedViewController && !self.questCompleteLayer) {
     GameState *gs = [GameState sharedGameState];
     FullQuestProto *fqp = [gs questForId:qjp.questId];
     [self.topBarViewController displayQuestProgressViewForQuest:fqp userQuest:[gs myQuestWithId:fqp.questId] jobId:qjp.questJobId completion:^{
@@ -839,6 +843,7 @@
     dvc.delegate = self;
     [self addChildViewController:dvc];
     [self.view addSubview:dvc.view];
+    dvc.view.frame = self.view.bounds;
   }];
 }
 
@@ -865,7 +870,7 @@
 #pragma mark - Level Up
 
 - (void) checkLevelUp {
-  if (!_isInBattle && !self.miniTutController && !self.completedQuests.count && [CCDirector sharedDirector].isAnimating) {
+  if (!_isInBattle && !self.miniTutController && !self.completedQuests.count && [CCDirector sharedDirector].isAnimating && !self.questCompleteLayer) {
     GameState *gs = [GameState sharedGameState];
     Globals *gl = [Globals sharedGlobals];
     if (gs.level < gl.maxLevelForUser && gs.experience >= [gs expNeededForLevel:gs.level+1]) {
@@ -878,12 +883,13 @@
 - (void) spawnLevelUp {
   LevelUpNode *levelUp = (LevelUpNode *)[CCBReader load:@"LevelUpNode"];
   [[[CCDirector sharedDirector] runningScene] addChild:levelUp];
-  levelUp.position = ccp(0, 0);
+  levelUp.position = ccp(levelUp.parent.contentSize.width/2-levelUp.contentSize.width/2, 0);
 }
 
 #pragma mark - Facebook stuff
 
 - (void) openedFromFacebook {
+  // Give them 5 mins to come back into the game
   MSDate *openDate = [[FacebookDelegate sharedFacebookDelegate] timeOfLastLoginAttempt];
   if (-openDate.timeIntervalSinceNow > 5*60) {
     _shouldRejectFacebook = YES;

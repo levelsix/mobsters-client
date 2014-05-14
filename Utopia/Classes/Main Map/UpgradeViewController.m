@@ -442,6 +442,16 @@
     newStat1 = next.numMonsterSlots;
     maxStat1 = max.numMonsterSlots;
     statName1 = @"Slots:";
+  } else if (structType == StructureInfoProto_StructTypeMiniJob) {
+    MiniJobCenterProto *cur = (MiniJobCenterProto *)curSS;
+    MiniJobCenterProto *next = (MiniJobCenterProto *)nextSS;
+    MiniJobCenterProto *max = (MiniJobCenterProto *)maxSS;
+    
+    curStat1 = cur.generatedJobLimit;
+    newStat1 = next.generatedJobLimit;
+    maxStat1 = max.generatedJobLimit;
+    
+    statName1 = @"Mini Jobs:";
   }
   
   NSString *dollarSign = showsCashSymbol1 ? @"$" : @"";
@@ -552,6 +562,7 @@
   int level = self.userStruct.staticStruct.structInfo.level;
   int maxLevel = self.userStruct.maxLevel;
   self.titleLabel.text = level != maxLevel ? [NSString stringWithFormat:@"Upgrade to Level %d?", level+1] : @"Building at Max";
+  if (level == 0) self.titleLabel.text = [NSString stringWithFormat:@"Fix %@?", self.userStruct.staticStruct.structInfo.name];
 }
 
 - (void) loadTopForResidence {

@@ -16,6 +16,8 @@
 @class HospitalProto_Builder;
 @class LabProto;
 @class LabProto_Builder;
+@class MiniJobCenterProto;
+@class MiniJobCenterProto_Builder;
 @class MiniJobProto;
 @class MiniJobProto_Builder;
 @class MinimumObstacleProto;
@@ -83,6 +85,8 @@
   BOOL hasAtkRequired_:1;
   BOOL hasMinDmgDealt_:1;
   BOOL hasMaxDmgDealt_:1;
+  BOOL hasDurationMinMinutes_:1;
+  BOOL hasDurationMaxMinutes_:1;
   BOOL hasName_:1;
   BOOL hasQuality_:1;
   Float32 chanceToAppear;
@@ -97,6 +101,8 @@
   int32_t atkRequired;
   int32_t minDmgDealt;
   int32_t maxDmgDealt;
+  int32_t durationMinMinutes;
+  int32_t durationMaxMinutes;
   NSString* name;
   Quality quality;
 }
@@ -114,6 +120,8 @@
 - (BOOL) hasAtkRequired;
 - (BOOL) hasMinDmgDealt;
 - (BOOL) hasMaxDmgDealt;
+- (BOOL) hasDurationMinMinutes;
+- (BOOL) hasDurationMaxMinutes;
 @property (readonly) int32_t miniJobId;
 @property (readonly) int32_t requiredStructId;
 @property (readonly, retain) NSString* name;
@@ -128,6 +136,8 @@
 @property (readonly) int32_t atkRequired;
 @property (readonly) int32_t minDmgDealt;
 @property (readonly) int32_t maxDmgDealt;
+@property (readonly) int32_t durationMinMinutes;
+@property (readonly) int32_t durationMaxMinutes;
 
 + (MiniJobProto*) defaultInstance;
 - (MiniJobProto*) defaultInstance;
@@ -232,6 +242,16 @@
 - (int32_t) maxDmgDealt;
 - (MiniJobProto_Builder*) setMaxDmgDealt:(int32_t) value;
 - (MiniJobProto_Builder*) clearMaxDmgDealt;
+
+- (BOOL) hasDurationMinMinutes;
+- (int32_t) durationMinMinutes;
+- (MiniJobProto_Builder*) setDurationMinMinutes:(int32_t) value;
+- (MiniJobProto_Builder*) clearDurationMinMinutes;
+
+- (BOOL) hasDurationMaxMinutes;
+- (int32_t) durationMaxMinutes;
+- (MiniJobProto_Builder*) setDurationMaxMinutes:(int32_t) value;
+- (MiniJobProto_Builder*) clearDurationMaxMinutes;
 @end
 
 @interface UserMiniJobProto : PBGeneratedMessage {
@@ -240,11 +260,13 @@
   BOOL hasTimeStarted_:1;
   BOOL hasTimeCompleted_:1;
   BOOL hasBaseDmgReceived_:1;
+  BOOL hasDurationMinutes_:1;
   BOOL hasMiniJob_:1;
   int64_t userMiniJobId;
   int64_t timeStarted;
   int64_t timeCompleted;
   int32_t baseDmgReceived;
+  int32_t durationMinutes;
   MiniJobProto* miniJob;
   NSMutableArray* mutableUserMonsterIdsList;
 }
@@ -252,11 +274,13 @@
 - (BOOL) hasBaseDmgReceived;
 - (BOOL) hasTimeStarted;
 - (BOOL) hasTimeCompleted;
+- (BOOL) hasDurationMinutes;
 - (BOOL) hasMiniJob;
 @property (readonly) int64_t userMiniJobId;
 @property (readonly) int32_t baseDmgReceived;
 @property (readonly) int64_t timeStarted;
 @property (readonly) int64_t timeCompleted;
+@property (readonly) int32_t durationMinutes;
 @property (readonly, retain) MiniJobProto* miniJob;
 - (NSArray*) userMonsterIdsList;
 - (int64_t) userMonsterIdsAtIndex:(int32_t) index;
@@ -321,6 +345,11 @@
 - (int64_t) timeCompleted;
 - (UserMiniJobProto_Builder*) setTimeCompleted:(int64_t) value;
 - (UserMiniJobProto_Builder*) clearTimeCompleted;
+
+- (BOOL) hasDurationMinutes;
+- (int32_t) durationMinutes;
+- (UserMiniJobProto_Builder*) setDurationMinutes:(int32_t) value;
+- (UserMiniJobProto_Builder*) clearDurationMinutes;
 
 - (BOOL) hasMiniJob;
 - (MiniJobProto*) miniJob;

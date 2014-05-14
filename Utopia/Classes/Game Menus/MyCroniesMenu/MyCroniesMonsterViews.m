@@ -42,18 +42,16 @@
     self.genLabelView.hidden = NO;
     self.combineView.hidden = YES;
     self.cardContainer.monsterCardView.monsterIcon.alpha = 1.f;
-    if ([monster isHealing]) {
-      self.genLabel.text = @"Healing";
-    } else if ([monster isEnhancing] || [monster isSacrificing]) {
-      self.genLabel.text = @"Enhancing";
-    } else if (!monster.isComplete) {
-      self.plusButton.hidden = YES;
-      self.cardContainer.monsterCardView.monsterIcon.alpha = 0.5f;
-      if (monster.numPieces < mp.numPuzzlePieces) {
-        self.genLabel.text = [NSString stringWithFormat:@"Pieces: %d/%d", monster.numPieces, mp.numPuzzlePieces];
-      } else {
-        self.combineView.hidden = NO;
-        [self updateForTime];
+    
+    self.genLabel.text = [monster statusString];
+    if (![monster isAvailable]) {
+      if (!monster.isComplete) {
+        self.plusButton.hidden = YES;
+        self.cardContainer.monsterCardView.monsterIcon.alpha = 0.5f;
+        if (monster.numPieces >= mp.numPuzzlePieces) {
+          self.combineView.hidden = NO;
+          [self updateForTime];
+        }
       }
     } else {
       self.healthBarView.hidden = NO;

@@ -61,6 +61,10 @@
   return self;
 }
 
+- (void) viewDidLoad {
+  [self.questListTable reloadData];
+}
+
 - (void) reloadWithQuests:(NSArray *)quests userQuests:(NSDictionary *)userQuests {
   self.quests = quests;
   self.userQuests = userQuests;

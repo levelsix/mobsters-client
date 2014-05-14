@@ -27,8 +27,6 @@
 #import "MSWindow.h"
 #import "GameCenterDelegate.h"
 
-#define APSALAR_API_KEY      @"lvl6"
-#define APSALAR_SECRET       @"K7kbMwwF"
 #define TEST_FLIGHT_APP_TOKEN  @"13d8fb3e-81ac-4d22-842f-1fd7dd4a512b"
 
 #define MAT_ADVERTISER_ID    @"885"
@@ -43,8 +41,6 @@
 
 #define CHARTBOOST_APP_ID    @"50d29b2216ba47b230000046"
 #define CHARTBOOST_APP_SIG   @"5f72ac2d97bf7a6d7835b8a72b207f50bba0d68b"
-
-#define PA_INSTALL_KEY       @"PxlAddictInstallKey"
 
 #define KAMCORD_DEV_KEY      @"whYswvPukXavib0gs7RbrWE3BU9TXdxAbpIbHF8v15W"
 #define KAMCORD_SECRET       @"AjmSH6fWejpFdnzGTOBItZHAOE91tEOUr7AxkspVUOZ"
@@ -167,7 +163,7 @@
 }
 
 - (void)applicationDidReceiveMemoryWarning:(UIApplication *)application {
-  LNLog(@"did receive mem warning");
+  NSLog(@"did receive mem warning");
 	[[CCDirector sharedDirector] purgeCachedData];
   [[[Globals sharedGlobals] imageCache] removeAllObjects];
 }

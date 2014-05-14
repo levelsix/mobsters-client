@@ -65,12 +65,6 @@
 @property (nonatomic, assign) IBOutlet UILabel *upgradingIncomeLabel;
 @property (nonatomic, assign) IBOutlet UILabel *upgradingSpeedupCostLabel;
 
-@property (nonatomic, assign) IBOutlet UILabel *expandSubtitleLabel;
-@property (nonatomic, assign) IBOutlet UILabel *expandCostLabel;
-
-@property (nonatomic, assign) IBOutlet UILabel *expandingSubtitleLabel;
-@property (nonatomic, assign) IBOutlet UILabel *expandingSpeedupCostLabel;
-
 @property (nonatomic, retain) UpgradeViewController *upgradeViewController;
 
 @property (nonatomic, assign, readonly) BOOL loading;
@@ -102,7 +96,6 @@
 
 - (void) collectAllIncome;
 
-- (IBAction)finishExpansionClicked:(id)sender;
 - (IBAction)littleUpgradeClicked:(id)sender;
 - (IBAction)enterClicked:(id)sender;
 

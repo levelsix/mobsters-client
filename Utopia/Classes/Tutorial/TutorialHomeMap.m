@@ -32,6 +32,10 @@
     self.myStructs = [NSMutableArray array];
     for (TutorialStructProto *str in self.constants.tutorialStructuresList) {
       UserStruct *us = [UserStruct userStructWithTutorialStructProto:str];
+      if (us.staticStruct.structInfo.structType == StructureInfoProto_StructTypeMiniJob) {
+        // Make the mini job center fixed
+        us.structId = us.staticStructForNextLevel.structInfo.structId;
+      }
       [self.myStructs addObject:us];
     }
     

@@ -173,6 +173,11 @@
 - (int) setEnhanceQueueDirtyWithCoinChange:(int)coinChange gemCost:(int)gemCost;
 - (void) reloadEnhancementSnapshot;
 
+- (int) sendSpawnMiniJobMessage:(int)numToSpawn clientTime:(uint64_t)clientTime structId:(int)structId;
+- (int) sendBeginMiniJobMessage:(uint64_t)userMiniJobId userMonsterIds:(NSArray *)userMonsterIds clientTime:(uint64_t)clientTime;
+- (int) sendCompleteMiniJobMessage:(uint64_t)userMiniJobId isSpeedUp:(BOOL)isSpeedUp gemCost:(int)gemCost clientTime:(uint64_t)clientTime monsterHealths:(NSArray *)monsterHealths;
+- (int) sendRedeemMiniJobMessage:(uint64_t)userMiniJobId clientTime:(uint64_t)clientTime;
+
 - (void) flush;
 - (void) flushAllExceptEventType:(int)val;
 - (void) flushAllExcept:(NSNumber *)type;

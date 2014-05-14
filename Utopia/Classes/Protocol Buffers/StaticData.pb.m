@@ -46,6 +46,7 @@ static PBExtensionRegistry* extensionRegistry = nil;
 @property (retain) NSMutableArray* mutableAllResidencesList;
 @property (retain) NSMutableArray* mutableAllLabsList;
 @property (retain) NSMutableArray* mutableAllTownHallsList;
+@property (retain) NSMutableArray* mutableAllMiniJobCentersList;
 @property (retain) NSMutableArray* mutablePersistentEventsList;
 @property (retain) NSMutableArray* mutableMbdsList;
 @property (retain) NSMutableArray* mutableRaidsList;
@@ -81,6 +82,7 @@ static PBExtensionRegistry* extensionRegistry = nil;
 @synthesize mutableAllResidencesList;
 @synthesize mutableAllLabsList;
 @synthesize mutableAllTownHallsList;
+@synthesize mutableAllMiniJobCentersList;
 @synthesize mutablePersistentEventsList;
 @synthesize mutableMbdsList;
 @synthesize mutableRaidsList;
@@ -107,6 +109,7 @@ static PBExtensionRegistry* extensionRegistry = nil;
   self.mutableAllResidencesList = nil;
   self.mutableAllLabsList = nil;
   self.mutableAllTownHallsList = nil;
+  self.mutableAllMiniJobCentersList = nil;
   self.mutablePersistentEventsList = nil;
   self.mutableMbdsList = nil;
   self.mutableRaidsList = nil;
@@ -239,6 +242,13 @@ static StaticDataProto* defaultStaticDataProtoInstance = nil;
 }
 - (TownHallProto*) allTownHallsAtIndex:(int32_t) index {
   id value = [mutableAllTownHallsList objectAtIndex:index];
+  return value;
+}
+- (NSArray*) allMiniJobCentersList {
+  return mutableAllMiniJobCentersList;
+}
+- (MiniJobCenterProto*) allMiniJobCentersAtIndex:(int32_t) index {
+  id value = [mutableAllMiniJobCentersList objectAtIndex:index];
   return value;
 }
 - (NSArray*) persistentEventsList {
@@ -383,6 +393,9 @@ static StaticDataProto* defaultStaticDataProtoInstance = nil;
   for (AchievementProto* element in self.achievementsList) {
     [output writeMessage:26 value:element];
   }
+  for (MiniJobCenterProto* element in self.allMiniJobCentersList) {
+    [output writeMessage:27 value:element];
+  }
   [self.unknownFields writeToCodedOutputStream:output];
 }
 - (int32_t) serializedSize {
@@ -466,6 +479,9 @@ static StaticDataProto* defaultStaticDataProtoInstance = nil;
   }
   for (AchievementProto* element in self.achievementsList) {
     size += computeMessageSize(26, element);
+  }
+  for (MiniJobCenterProto* element in self.allMiniJobCentersList) {
+    size += computeMessageSize(27, element);
   }
   size += self.unknownFields.serializedSize;
   memoizedSerializedSize = size;
@@ -634,6 +650,12 @@ static StaticDataProto* defaultStaticDataProtoInstance = nil;
       result.mutableAllTownHallsList = [NSMutableArray array];
     }
     [result.mutableAllTownHallsList addObjectsFromArray:other.mutableAllTownHallsList];
+  }
+  if (other.mutableAllMiniJobCentersList.count > 0) {
+    if (result.mutableAllMiniJobCentersList == nil) {
+      result.mutableAllMiniJobCentersList = [NSMutableArray array];
+    }
+    [result.mutableAllMiniJobCentersList addObjectsFromArray:other.mutableAllMiniJobCentersList];
   }
   if (other.mutablePersistentEventsList.count > 0) {
     if (result.mutablePersistentEventsList == nil) {
@@ -861,6 +883,12 @@ static StaticDataProto* defaultStaticDataProtoInstance = nil;
         AchievementProto_Builder* subBuilder = [AchievementProto builder];
         [input readMessage:subBuilder extensionRegistry:extensionRegistry];
         [self addAchievements:[subBuilder buildPartial]];
+        break;
+      }
+      case 218: {
+        MiniJobCenterProto_Builder* subBuilder = [MiniJobCenterProto builder];
+        [input readMessage:subBuilder extensionRegistry:extensionRegistry];
+        [self addAllMiniJobCenters:[subBuilder buildPartial]];
         break;
       }
     }
@@ -1329,6 +1357,35 @@ static StaticDataProto* defaultStaticDataProtoInstance = nil;
     result.mutableAllTownHallsList = [NSMutableArray array];
   }
   [result.mutableAllTownHallsList addObject:value];
+  return self;
+}
+- (NSArray*) allMiniJobCentersList {
+  if (result.mutableAllMiniJobCentersList == nil) { return [NSArray array]; }
+  return result.mutableAllMiniJobCentersList;
+}
+- (MiniJobCenterProto*) allMiniJobCentersAtIndex:(int32_t) index {
+  return [result allMiniJobCentersAtIndex:index];
+}
+- (StaticDataProto_Builder*) replaceAllMiniJobCentersAtIndex:(int32_t) index with:(MiniJobCenterProto*) value {
+  [result.mutableAllMiniJobCentersList replaceObjectAtIndex:index withObject:value];
+  return self;
+}
+- (StaticDataProto_Builder*) addAllAllMiniJobCenters:(NSArray*) values {
+  if (result.mutableAllMiniJobCentersList == nil) {
+    result.mutableAllMiniJobCentersList = [NSMutableArray array];
+  }
+  [result.mutableAllMiniJobCentersList addObjectsFromArray:values];
+  return self;
+}
+- (StaticDataProto_Builder*) clearAllMiniJobCentersList {
+  result.mutableAllMiniJobCentersList = nil;
+  return self;
+}
+- (StaticDataProto_Builder*) addAllMiniJobCenters:(MiniJobCenterProto*) value {
+  if (result.mutableAllMiniJobCentersList == nil) {
+    result.mutableAllMiniJobCentersList = [NSMutableArray array];
+  }
+  [result.mutableAllMiniJobCentersList addObject:value];
   return self;
 }
 - (NSArray*) persistentEventsList {

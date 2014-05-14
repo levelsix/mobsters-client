@@ -1141,6 +1141,51 @@ static NSString *udid = nil;
   return [self sendData:req withMessageType:EventProtocolRequestCAchievementRedeemEvent];
 }
 
+- (int) sendSpawnMiniJobMessage:(int)numToSpawn clientTime:(uint64_t)clientTime structId:(int)structId {
+  SpawnMiniJobRequestProto *req = [[[[[[SpawnMiniJobRequestProto builder]
+                                      setSender:_sender]
+                                      setNumToSpawn:numToSpawn]
+                                     setClientTime:clientTime]
+                                    setStructId:structId]
+                                   build];
+  
+  return [self sendData:req withMessageType:EventProtocolRequestCSpawnMiniJobEvent];
+}
+
+- (int) sendBeginMiniJobMessage:(uint64_t)userMiniJobId userMonsterIds:(NSArray *)userMonsterIds clientTime:(uint64_t)clientTime {
+  BeginMiniJobRequestProto *req = [[[[[[BeginMiniJobRequestProto builder]
+                                       setSender:_sender]
+                                      setUserMiniJobId:userMiniJobId]
+                                     addAllUserMonsterIds:userMonsterIds]
+                                    setClientTime:clientTime]
+                                   build];
+  
+  return [self sendData:req withMessageType:EventProtocolRequestCBeginMiniJobEvent];
+}
+
+- (int) sendCompleteMiniJobMessage:(uint64_t)userMiniJobId isSpeedUp:(BOOL)isSpeedUp gemCost:(int)gemCost clientTime:(uint64_t)clientTime monsterHealths:(NSArray *)monsterHealths {
+  CompleteMiniJobRequestProto *req = [[[[[[[[CompleteMiniJobRequestProto builder]
+                                            setSender:_sender]
+                                           setUserMiniJobId:userMiniJobId]
+                                          setIsSpeedUp:isSpeedUp]
+                                         setGemCost:gemCost]
+                                        setClientTime:clientTime]
+                                       addAllUmchp:monsterHealths]
+                                      build];
+  
+  return [self sendData:req withMessageType:EventProtocolRequestCCompleteMiniJobEvent];
+}
+
+- (int) sendRedeemMiniJobMessage:(uint64_t)userMiniJobId clientTime:(uint64_t)clientTime {
+  RedeemMiniJobRequestProto *req = [[[[[RedeemMiniJobRequestProto builder]
+                                       setSender:[self senderWithMaxResources]]
+                                      setUserMiniJobId:userMiniJobId]
+                                     setClientTime:clientTime]
+                                    build];
+  
+  return [self sendData:req withMessageType:EventProtocolRequestCRedeemMiniJobEvent];
+}
+
 #pragma mark - Batch/Flush events
 
 - (int) sendHealQueueWaitTimeComplete:(NSArray *)monsterHealths {

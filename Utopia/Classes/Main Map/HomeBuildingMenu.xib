@@ -73,7 +73,7 @@
                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                 </view>
                 <view contentMode="scaleToFill" id="IGF-qp-1rl">
-                    <rect key="frame" x="172" y="0.0" width="84" height="60"/>
+                    <rect key="frame" x="260" y="0.0" width="84" height="60"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                     <subviews>
                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="GWW-6c-rmS" customClass="GeneralButton">
@@ -109,7 +109,7 @@
                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                 </view>
                 <view contentMode="scaleToFill" id="cTb-Mb-5eM">
-                    <rect key="frame" x="260" y="0.0" width="84" height="60"/>
+                    <rect key="frame" x="172" y="0.0" width="84" height="60"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                     <subviews>
                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="6Ut-Og-8OW" customClass="UpgradeButton">
@@ -296,10 +296,10 @@
     </objects>
     <resources>
         <image name="confirm.png" width="84" height="40"/>
-        <image name="diamond.png" width="37" height="35"/>
+        <image name="diamond.png" width="29" height="27"/>
         <image name="enterbuilding.png" width="84" height="40"/>
         <image name="finishbuild.png" width="84" height="40"/>
-        <image name="oilicon.png" width="27" height="32"/>
+        <image name="oilicon.png" width="25" height="30"/>
         <image name="oilupgradebutton.png" width="84" height="40"/>
         <image name="taskgradient.png" width="1" height="50"/>
     </resources>

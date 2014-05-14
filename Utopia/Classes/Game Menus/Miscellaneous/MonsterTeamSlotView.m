@@ -24,7 +24,7 @@
     
     [self.monsterView updateForMonsterId:um.monsterId];
     
-    if ([um isHealing] || [um isEnhancing] || [um isSacrificing]) {
+    if (![um isAvailable]) {
       self.emptyIcon.hidden = NO;
       self.healthView.hidden = YES;
       [self sendSubviewToBack:self.cardView];
@@ -68,8 +68,8 @@
   } else {
     MonsterProto *mp = [gs monsterWithId:um.monsterId];
     
-    if ([um isHealing] || [um isEnhancing] || [um isSacrificing]) {
-      self.titleLabel.text = [NSString stringWithFormat:@"%@ (%@)", mp.displayName, [um isHealing] ? @"Healing" : @"Enhancing"];
+    if (![um isAvailable]) {
+      self.titleLabel.text = [NSString stringWithFormat:@"%@ (%@)", mp.displayName, [um statusString]];
       self.titleLabel.textColor = [UIColor colorWithWhite:0.23 alpha:0.75f];
       self.subtitleLabel.text = @"Slot Open";
       

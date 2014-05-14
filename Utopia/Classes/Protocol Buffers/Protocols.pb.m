@@ -26,6 +26,7 @@ static PBExtensionRegistry* extensionRegistry = nil;
     [EventClanRoot registerAllExtensions:registry];
     [EventDungeonRoot registerAllExtensions:registry];
     [EventInAppPurchaseRoot registerAllExtensions:registry];
+    [EventMiniJobRoot registerAllExtensions:registry];
     [EventMonsterRoot registerAllExtensions:registry];
     [EventPvpRoot registerAllExtensions:registry];
     [EventQuestRoot registerAllExtensions:registry];

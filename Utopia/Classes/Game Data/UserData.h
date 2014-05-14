@@ -32,10 +32,12 @@
 - (BOOL) isEnhancing;
 - (BOOL) isEvolving;
 - (BOOL) isSacrificing;
-- (BOOL) isDonatable;
+- (BOOL) isOnAMiniJob;
+- (BOOL) isAvailable;
 - (int) sellPrice;
 
 - (MonsterProto *) staticMonster;
+- (NSString *) statusString;
 - (MonsterProto *) staticEvolutionMonster;
 - (MonsterLevelInfoProto *) levelInfo;
 - (BOOL) isCombining;
@@ -244,6 +246,7 @@ typedef enum {
 
 + (NSArray *) createRewardsForDungeon:(BeginDungeonResponseProto *)proto;
 + (NSArray *) createRewardsForQuest:(FullQuestProto *)quest;
++ (NSArray *) createRewardsForMiniJob:(MiniJobProto *)miniJob;
 + (NSArray *) createRewardsForPvpProto:(PvpProto *)pvp;
 
 - (id) initWithMonsterId:(int)monsterId isPuzzlePiece:(BOOL)isPuzzlePiece;
@@ -308,5 +311,19 @@ typedef enum {
 @property (nonatomic, assign) RequestFromFriendType type;
 
 + (id) requestForInventorySlotsWithInvite:(UserFacebookInviteForSlotProto *)invite;
+
+@end
+
+@interface UserMiniJob : NSObject
+
+@property (nonatomic, assign) uint64_t userMiniJobId;
+@property (nonatomic, assign) int baseDmgReceived;
+@property (nonatomic, assign) int durationMinutes;
+@property (nonatomic, retain) MSDate *timeStarted;
+@property (nonatomic, retain) NSArray *userMonsterIds;
+@property (nonatomic, retain) MSDate *timeCompleted;
+@property (nonatomic, retain) MiniJobProto *miniJob;
+
++ (id) userMiniJobWithProto:(UserMiniJobProto *)proto;
 
 @end

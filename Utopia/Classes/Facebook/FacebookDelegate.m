@@ -13,6 +13,7 @@
 #import "GameState.h"
 #import "OutgoingEventController.h"
 #import "GameViewController.h"
+#import "SocketCommunication.h"
 
 #define PUBLISH_PERMISSIONS @[@"publish_actions"]
 
@@ -299,7 +300,9 @@
 }
 
 - (void) getMyFacebookUser:(void (^)(NSDictionary<FBGraphUser> *facebookUser))handler {
-  if (!self.myFacebookUser) {
+  if ([SocketCommunication isForcedTutorial]) {
+    handler(nil);
+  } else if (!self.myFacebookUser) {
     LNLog(@"Attempting login for my facebook user.");
     [self openSessionWithLoginUI:NO completionHandler:^(BOOL success) {
       LNLog(@"Getting my facebook user.");

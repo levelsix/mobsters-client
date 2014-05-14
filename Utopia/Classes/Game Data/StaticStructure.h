@@ -37,3 +37,7 @@
 @interface LabProto (StaticStructureImpl) <StaticStructure>
 
 @end
+
+@interface MiniJobCenterProto (StaticStructureImpl) <StaticStructure>
+
+@end

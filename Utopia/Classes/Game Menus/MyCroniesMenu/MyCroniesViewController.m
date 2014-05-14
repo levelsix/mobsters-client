@@ -97,7 +97,7 @@
   shadow.shadowColor = [UIColor colorWithWhite:0.f alpha:0.75f];
   shadow.shadowOffset = CGSizeMake(0, 1);
   
-  NSString *str = [NSString stringWithFormat:@"My Mobsters (%d/%d)", (int)gs.myMonsters.count, gs.maxInventorySlots];
+  NSString *str = [NSString stringWithFormat:@"My Mobsters (%d/%d)", (int)self.monsterList.count, self.maxInventorySlots];
   NSMutableAttributedString *attrStr = [[NSMutableAttributedString alloc] initWithString:str attributes:nil];
   
   if (gs.myMonsters.count >= gs.maxInventorySlots) {
@@ -178,7 +178,7 @@
 }
 
 - (BOOL) userMonsterIsUnavailable:(UserMonster *)um {
-  return !um.isComplete || [um isHealing] || [um isEnhancing] || [um isSacrificing];
+  return !um.isAvailable;
 }
 
 - (BOOL) addMonsterToHealingQueue:(uint64_t)umId useGems:(BOOL)useGems {
@@ -186,7 +186,7 @@
 }
 
 - (BOOL) speedupHealingQueue {
-  int queueSize = self.monsterHealingQueue.count;
+  int queueSize = (int)self.monsterHealingQueue.count;
   BOOL success = [[OutgoingEventController sharedOutgoingEventController] speedupHealingQueue];
   if (success) {
     [AchievementUtil checkMonstersHealed:queueSize];
@@ -422,12 +422,8 @@
 - (void) addMonsterToQueue:(UserMonster *)um {
   GameState *gs = [GameState sharedGameState];
   Globals *gl = [Globals sharedGlobals];
-  if ([um isHealing]) {
-    [Globals addAlertNotification:@"This mobster is already healing!"];
-  } else if ([um isEnhancing] || [um isSacrificing]) {
-    [Globals addAlertNotification:@"This mobster is currently enhancing!"];
-  } else if (!um.isComplete) {
-    [Globals addAlertNotification:@"This mobster is not yet complete!"];
+  if (![um isAvailable]) {
+    [Globals addAlertNotification:@"This mobster is not available!"];
   } else if (um.curHealth >= [gl calculateMaxHealthForMonster:um]) {
     [Globals addAlertNotification:@"This mobster is already healthy!"];
   } else if (self.monsterHealingQueue.count >= self.maxQueueSize) {

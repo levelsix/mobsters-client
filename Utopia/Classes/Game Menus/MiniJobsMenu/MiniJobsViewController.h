@@ -12,7 +12,10 @@
 #import "MiniJobsDetailsViewController.h"
 #import "NibUtils.h"
 
-@interface MiniJobsViewController : UIViewController <MiniJobsListDelegate, MiniJobsDetailsDelegate>
+@interface MiniJobsViewController : UIViewController <MiniJobsListDelegate, MiniJobsDetailsDelegate>  {
+  MiniJobsListCell *_selectedCell;
+  BOOL _isBeginningJob;
+}
 
 @property (nonatomic, retain) IBOutlet UILabel *titleLabel;
 @property (nonatomic, retain) IBOutlet UIView *backView;

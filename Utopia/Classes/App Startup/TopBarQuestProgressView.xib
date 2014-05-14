@@ -72,8 +72,6 @@
             <color key="backgroundColor" white="0.0" alpha="0.5" colorSpace="calibratedWhite"/>
             <simulatedOrientationMetrics key="simulatedOrientationMetrics" orientation="landscapeRight"/>
             <connections>
-                <outlet property="bgdIcon" destination="ck9-2p-C4Y" id="i9X-q4-2O7"/>
-                <outlet property="monsterIcon" destination="0Sd-S8-aju" id="S5u-WL-Ekn"/>
                 <outlet property="monsterView" destination="1He-iz-c6C" id="2KL-qi-Lcd"/>
                 <outlet property="progressLabel" destination="Wxs-OV-CCn" id="tXR-sd-wQn"/>
                 <outlet property="questLabel" destination="JWb-Ep-GGo" id="dya-nc-UwD"/>

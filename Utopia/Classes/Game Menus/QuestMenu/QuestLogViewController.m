@@ -256,7 +256,7 @@
   QuestJobProto *jp = [fqp jobForId:jobId];
   NSMutableArray *potentials = [NSMutableArray array];
   for (UserMonster *um in gs.myMonsters) {
-    if (um.monsterId == jp.staticDataId && um.isDonatable) {
+    if (um.monsterId == jp.staticDataId && um.isAvailable) {
       [potentials addObject:um];
     }
   }

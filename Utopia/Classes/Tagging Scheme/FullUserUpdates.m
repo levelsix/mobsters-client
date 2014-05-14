@@ -24,6 +24,10 @@
   return self;
 }
 
+- (void) undo {
+  [[NSNotificationCenter defaultCenter] postNotificationName:GAMESTATE_UPDATE_NOTIFICATION object:nil];
+}
+
 @end
 
 @implementation GoldUpdate
@@ -34,6 +38,8 @@
 }
 
 - (void) undo {
+  [super undo];
+  
   GameState *gs = [GameState sharedGameState];
   gs.gold -= _change;
 }
@@ -54,6 +60,8 @@
 }
 
 - (void) undo {
+  [super undo];
+  
   GameState *gs = [GameState sharedGameState];
   gs.silver -= _change;
 }
@@ -74,6 +82,8 @@
 }
 
 - (void) undo {
+  [super undo];
+  
   GameState *gs = [GameState sharedGameState];
   gs.oil -= _change;
 }
@@ -88,6 +98,8 @@
 }
 
 - (void) undo {
+  [super undo];
+  
   GameState *gs = [GameState sharedGameState];
   gs.level -= _change;
 }
@@ -102,6 +114,8 @@
 }
 
 - (void) undo {
+  [super undo];
+  
   GameState *gs = [GameState sharedGameState];
   gs.experience -= _change;
 }

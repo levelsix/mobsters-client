@@ -32,6 +32,7 @@
     gs.silver = _cash = constants.cashInit;
     gs.oil = _oil = constants.oilInit;
     gs.gold = _gems = constants.gemsInit;
+    [gs.myMonsters removeAllObjects];
     
     _structs = [NSMutableDictionary dictionary];
     for (NSNumber *structId in constants.structureIdsToBeBuilltList) {
@@ -154,6 +155,7 @@
   [self.touchView addResponder:[CCDirector sharedDirector].view];
   self.touchView.userInteractionEnabled = NO;
   
+#ifdef DEBUG
   [self initMissionMapWithCenterOnThirdBuilding:NO];
   [self beginBlackedOutDialogue];
   //[self beginPostFirstBattleConfrontationPhase];
@@ -161,10 +163,12 @@
   //[self yachtWentOffScene];
   
   //[self initHomeMap];
-  //[self initMissionMapWithCenterOnThirdBuilding:YES];
   //[self initTopBar];
-  //[self sendUserCreate];
   //[self beginFacebookLoginPhase];
+#else
+  [self initMissionMapWithCenterOnThirdBuilding:NO];
+  [self beginBlackedOutDialogue];
+#endif
   
   [[SoundEngine sharedSoundEngine] playMissionMapMusic];
 }
@@ -258,19 +262,12 @@
   [self.mainMenuController.navigationController pushViewController:self.carpenterViewController animated:YES];
 }
 
-- (void) initQuestLogControllerWithQuestId:(int)questId {
+- (void) initQuestLogController {
   self.questLogViewController = [[TutorialQuestLogViewController alloc] init];
   [self.gameViewController addChildViewController:self.questLogViewController];
   self.questLogViewController.view.frame = self.gameViewController.view.bounds;
   self.questLogViewController.delegate = self;
   [self.gameViewController.view insertSubview:self.questLogViewController.view belowSubview:self.touchView];
-  
-  if (questId) {
-    GameState *gs = [GameState sharedGameState];
-    FullQuestProto *fqp = [gs questForId:questId];
-    UserQuest *uq = [gs myQuestWithId:questId];
-    [self.questLogViewController loadDetailsViewForQuest:fqp userQuest:uq animated:NO];
-  }
 }
 
 - (void) initFacebookViewController {
@@ -747,7 +744,7 @@
 }
 
 - (void) beginQuestListPhase {
-  [self initQuestLogControllerWithQuestId:0];
+  [self initQuestLogController];
   [self.questLogViewController arrowOnFirstQuestInList];
   
   //  NSArray *dialogue = @[@(TutorialDialogueSpeakerMarkR), @"New missions will appear on this list as you complete them, so be sure to check back often.",
@@ -789,7 +786,7 @@
   if (gs.inProgressCompleteQuests.count > 0) {
     fqp = gs.inProgressCompleteQuests.allValues[0];
   }
-  [self initQuestLogControllerWithQuestId:fqp.questId];
+  [self initQuestLogController];
   
   [self.questLogViewController performSelector:@selector(arrowOnCollect) withObject:nil afterDelay:1.f];
   
@@ -831,7 +828,7 @@
   if (gs.inProgressCompleteQuests.count > 0) {
     fqp = gs.inProgressCompleteQuests.allValues[0];
   }
-  [self initQuestLogControllerWithQuestId:fqp.questId];
+  [self initQuestLogController];
   
   [self.questLogViewController performSelector:@selector(arrowOnCollect) withObject:nil afterDelay:1.f];
   
@@ -1312,9 +1309,7 @@
     } else if (_currentStep == TutorialStepEnterBattleThree) {
       [self.missionMap displayArrowOverThirdBuilding];
     } else if (_currentStep == TutorialStepSecondQuest) {
-      GameState *gs = [GameState sharedGameState];
-      FullQuestProto *fqp = gs.availableQuests.allValues[0];
-      [self initQuestLogControllerWithQuestId:fqp.questId];
+      [self initQuestLogController];
     }
     
     [self.touchView removeResponder:self.dialogueViewController];

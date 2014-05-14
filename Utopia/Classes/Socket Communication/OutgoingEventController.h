@@ -121,4 +121,9 @@
 - (void) beginObstacleRemoval:(UserObstacle *)obstacle spendGems:(BOOL)spendGems;
 - (BOOL) obstacleRemovalComplete:(UserObstacle *)obstacle speedup:(BOOL)speedup;
 
+- (void) spawnMiniJob:(int)numToSpawn structId:(int)structId;
+- (void) beginMiniJob:(UserMiniJob *)userMiniJob userMonsterIds:(NSArray *)userMonsterIds delegate:(id)delegate;
+- (void) completeMiniJob:(UserMiniJob *)userMiniJob isSpeedup:(BOOL)isSpeedup gemCost:(int)gemCost delegate:(id)delegate;
+- (void) redeemMiniJob:(UserMiniJob *)userMiniJob delegate:(id)delegate;
+
 @end

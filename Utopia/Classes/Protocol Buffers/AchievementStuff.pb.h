@@ -18,6 +18,8 @@
 @class HospitalProto_Builder;
 @class LabProto;
 @class LabProto_Builder;
+@class MiniJobCenterProto;
+@class MiniJobCenterProto_Builder;
 @class MinimumObstacleProto;
 @class MinimumObstacleProto_Builder;
 @class MinimumUserMonsterProto;

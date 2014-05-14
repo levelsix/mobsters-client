@@ -36,13 +36,13 @@ BOOL DayOfWeekIsValidValue(DayOfWeek value) {
 }
 BOOL ElementIsValidValue(Element value) {
   switch (value) {
-    case ElementNoElement:
     case ElementFire:
     case ElementEarth:
     case ElementWater:
     case ElementLight:
     case ElementDark:
     case ElementRock:
+    case ElementNoElement:
       return YES;
     default:
       return NO;

@@ -19,6 +19,7 @@ static PBExtensionRegistry* extensionRegistry = nil;
     [CityRoot registerAllExtensions:registry];
     [ClanRoot registerAllExtensions:registry];
     [InAppPurchaseRoot registerAllExtensions:registry];
+    [MiniJobConfigRoot registerAllExtensions:registry];
     [MonsterStuffRoot registerAllExtensions:registry];
     [QuestRoot registerAllExtensions:registry];
     [StaticDataRoot registerAllExtensions:registry];
@@ -529,6 +530,7 @@ static StartupRequestProto* defaultStartupRequestProtoInstance = nil;
 @property (retain) MinimumUserTaskProto* curTask;
 @property (retain) NSMutableArray* mutableCurTaskStagesList;
 @property (retain) NSMutableArray* mutableUserAchievementsList;
+@property (retain) NSMutableArray* mutableUserMiniJobProtosList;
 @end
 
 @implementation StartupResponseProto
@@ -672,6 +674,7 @@ static StartupRequestProto* defaultStartupRequestProtoInstance = nil;
 @synthesize curTask;
 @synthesize mutableCurTaskStagesList;
 @synthesize mutableUserAchievementsList;
+@synthesize mutableUserMiniJobProtosList;
 - (void) dealloc {
   self.sender = nil;
   self.startupConstants = nil;
@@ -707,6 +710,7 @@ static StartupRequestProto* defaultStartupRequestProtoInstance = nil;
   self.curTask = nil;
   self.mutableCurTaskStagesList = nil;
   self.mutableUserAchievementsList = nil;
+  self.mutableUserMiniJobProtosList = nil;
   [super dealloc];
 }
 - (id) init {
@@ -896,6 +900,13 @@ static StartupResponseProto* defaultStartupResponseProtoInstance = nil;
   id value = [mutableUserAchievementsList objectAtIndex:index];
   return value;
 }
+- (NSArray*) userMiniJobProtosList {
+  return mutableUserMiniJobProtosList;
+}
+- (UserMiniJobProto*) userMiniJobProtosAtIndex:(int32_t) index {
+  id value = [mutableUserMiniJobProtosList objectAtIndex:index];
+  return value;
+}
 - (BOOL) isInitialized {
   return YES;
 }
@@ -1013,6 +1024,9 @@ static StartupResponseProto* defaultStartupResponseProtoInstance = nil;
   }
   for (UserAchievementProto* element in self.userAchievementsList) {
     [output writeMessage:38 value:element];
+  }
+  for (UserMiniJobProto* element in self.userMiniJobProtosList) {
+    [output writeMessage:39 value:element];
   }
   [self.unknownFields writeToCodedOutputStream:output];
 }
@@ -1156,6 +1170,9 @@ static StartupResponseProto* defaultStartupResponseProtoInstance = nil;
   }
   for (UserAchievementProto* element in self.userAchievementsList) {
     size += computeMessageSize(38, element);
+  }
+  for (UserMiniJobProto* element in self.userMiniJobProtosList) {
+    size += computeMessageSize(39, element);
   }
   size += self.unknownFields.serializedSize;
   memoizedSerializedSize = size;
@@ -6102,6 +6119,12 @@ static StartupResponseProto_TutorialConstants* defaultStartupResponseProto_Tutor
     }
     [result.mutableUserAchievementsList addObjectsFromArray:other.mutableUserAchievementsList];
   }
+  if (other.mutableUserMiniJobProtosList.count > 0) {
+    if (result.mutableUserMiniJobProtosList == nil) {
+      result.mutableUserMiniJobProtosList = [NSMutableArray array];
+    }
+    [result.mutableUserMiniJobProtosList addObjectsFromArray:other.mutableUserMiniJobProtosList];
+  }
   [self mergeUnknownFields:other.unknownFields];
   return self;
 }
@@ -6359,6 +6382,12 @@ static StartupResponseProto_TutorialConstants* defaultStartupResponseProto_Tutor
         UserAchievementProto_Builder* subBuilder = [UserAchievementProto builder];
         [input readMessage:subBuilder extensionRegistry:extensionRegistry];
         [self addUserAchievements:[subBuilder buildPartial]];
+        break;
+      }
+      case 314: {
+        UserMiniJobProto_Builder* subBuilder = [UserMiniJobProto builder];
+        [input readMessage:subBuilder extensionRegistry:extensionRegistry];
+        [self addUserMiniJobProtos:[subBuilder buildPartial]];
         break;
       }
     }
@@ -7376,6 +7405,35 @@ static StartupResponseProto_TutorialConstants* defaultStartupResponseProto_Tutor
     result.mutableUserAchievementsList = [NSMutableArray array];
   }
   [result.mutableUserAchievementsList addObject:value];
+  return self;
+}
+- (NSArray*) userMiniJobProtosList {
+  if (result.mutableUserMiniJobProtosList == nil) { return [NSArray array]; }
+  return result.mutableUserMiniJobProtosList;
+}
+- (UserMiniJobProto*) userMiniJobProtosAtIndex:(int32_t) index {
+  return [result userMiniJobProtosAtIndex:index];
+}
+- (StartupResponseProto_Builder*) replaceUserMiniJobProtosAtIndex:(int32_t) index with:(UserMiniJobProto*) value {
+  [result.mutableUserMiniJobProtosList replaceObjectAtIndex:index withObject:value];
+  return self;
+}
+- (StartupResponseProto_Builder*) addAllUserMiniJobProtos:(NSArray*) values {
+  if (result.mutableUserMiniJobProtosList == nil) {
+    result.mutableUserMiniJobProtosList = [NSMutableArray array];
+  }
+  [result.mutableUserMiniJobProtosList addObjectsFromArray:values];
+  return self;
+}
+- (StartupResponseProto_Builder*) clearUserMiniJobProtosList {
+  result.mutableUserMiniJobProtosList = nil;
+  return self;
+}
+- (StartupResponseProto_Builder*) addUserMiniJobProtos:(UserMiniJobProto*) value {
+  if (result.mutableUserMiniJobProtosList == nil) {
+    result.mutableUserMiniJobProtosList = [NSMutableArray array];
+  }
+  [result.mutableUserMiniJobProtosList addObject:value];
   return self;
 }
 @end

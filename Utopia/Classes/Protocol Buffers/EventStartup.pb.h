@@ -9,6 +9,7 @@
 #import "City.pb.h"
 #import "Clan.pb.h"
 #import "InAppPurchase.pb.h"
+#import "MiniJobConfig.pb.h"
 #import "MonsterStuff.pb.h"
 #import "Quest.pb.h"
 #import "StaticData.pb.h"
@@ -80,6 +81,10 @@
 @class ItemProto_Builder;
 @class LabProto;
 @class LabProto_Builder;
+@class MiniJobCenterProto;
+@class MiniJobCenterProto_Builder;
+@class MiniJobProto;
+@class MiniJobProto_Builder;
 @class MinimumClanProto;
 @class MinimumClanProto_Builder;
 @class MinimumObstacleProto;
@@ -192,6 +197,8 @@
 @class UserEnhancementProto_Builder;
 @class UserFacebookInviteForSlotProto;
 @class UserFacebookInviteForSlotProto_Builder;
+@class UserMiniJobProto;
+@class UserMiniJobProto_Builder;
 @class UserMonsterCurrentExpProto;
 @class UserMonsterCurrentExpProto_Builder;
 @class UserMonsterCurrentHealthProto;
@@ -380,8 +387,9 @@ BOOL StartupResponseProto_StartupStatusIsValidValue(StartupResponseProto_Startup
   NSMutableArray* mutableRedeemedQuestIdsList;
   NSMutableArray* mutableTaskIdForCurrentCityBossList;
   NSMutableArray* mutableNoticesToPlayersList;
-  NSMutableArray* mutableCurTaskStagesList;
   NSMutableArray* mutableUserAchievementsList;
+  NSMutableArray* mutableCurTaskStagesList;
+  NSMutableArray* mutableUserMiniJobProtosList;
   NSMutableArray* mutableRecentNbattlesList;
   NSMutableArray* mutableRaidStageHistoryList;
   NSMutableArray* mutableCurRaidClanUserInfoList;
@@ -475,6 +483,8 @@ BOOL StartupResponseProto_StartupStatusIsValidValue(StartupResponseProto_Startup
 - (TaskStageProto*) curTaskStagesAtIndex:(int32_t) index;
 - (NSArray*) userAchievementsList;
 - (UserAchievementProto*) userAchievementsAtIndex:(int32_t) index;
+- (NSArray*) userMiniJobProtosList;
+- (UserMiniJobProto*) userMiniJobProtosAtIndex:(int32_t) index;
 
 + (StartupResponseProto*) defaultInstance;
 - (StartupResponseProto*) defaultInstance;
@@ -1880,6 +1890,13 @@ BOOL StartupResponseProto_StartupStatusIsValidValue(StartupResponseProto_Startup
 - (StartupResponseProto_Builder*) addUserAchievements:(UserAchievementProto*) value;
 - (StartupResponseProto_Builder*) addAllUserAchievements:(NSArray*) values;
 - (StartupResponseProto_Builder*) clearUserAchievementsList;
+
+- (NSArray*) userMiniJobProtosList;
+- (UserMiniJobProto*) userMiniJobProtosAtIndex:(int32_t) index;
+- (StartupResponseProto_Builder*) replaceUserMiniJobProtosAtIndex:(int32_t) index with:(UserMiniJobProto*) value;
+- (StartupResponseProto_Builder*) addUserMiniJobProtos:(UserMiniJobProto*) value;
+- (StartupResponseProto_Builder*) addAllUserMiniJobProtos:(NSArray*) values;
+- (StartupResponseProto_Builder*) clearUserMiniJobProtosList;
 @end
 
 @interface ForceLogoutResponseProto : PBGeneratedMessage {

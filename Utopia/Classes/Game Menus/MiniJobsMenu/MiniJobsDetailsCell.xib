@@ -157,7 +157,7 @@
                     </view>
                 </subviews>
             </tableViewCellContentView>
-            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+            <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
             <connections>
                 <outlet property="attackLabel" destination="jFB-Ed-V7r" id="Daq-Go-B6D"/>
                 <outlet property="attackProgressBar" destination="Nzd-Q9-iEk" id="Xyh-hN-Ypn"/>

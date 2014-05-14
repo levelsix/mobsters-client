@@ -140,7 +140,7 @@
     if (fsp.structType == StructureInfoProto_StructTypeResourceGenerator ||
         fsp.structType == StructureInfoProto_StructTypeResourceStorage) {
       [self.incomeStructsList addObject:fsp];
-    } else {
+    } else if (fsp.structType != StructureInfoProto_StructTypeMiniJob) {
       [self.mobsterStructsList addObject:fsp];
     }
   }

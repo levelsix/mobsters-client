@@ -277,6 +277,11 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
     [gs addUnrespondedUpdate:[GoldUpdate updateWithTag:tag change:-[gl calculateGemSpeedupCostForTimeLeft:timeLeft]]];
     
     [gs readjustAllMonsterHealingProtos];
+    
+    if (userStruct.staticStruct.structInfo.structType == StructureInfoProto_StructTypeMiniJob) {
+      gs.lastMiniJobSpawnTime = nil;
+      [gs beginMiniJobTimer];
+    }
   } else {
     [Globals popupMessage:[NSString stringWithFormat:@"Building %d is not upgrading", userStruct.userStructId]];
   }
@@ -304,6 +309,11 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
     int tag = [sc sendNormStructBuildsCompleteMessage:[NSArray arrayWithObject:[NSNumber numberWithInt:userStruct.userStructId]] time:ms];
     
     [gs addUnrespondedUpdate:[NoUpdate updateWithTag:tag]];
+    
+    if (userStruct.staticStruct.structInfo.structType == StructureInfoProto_StructTypeMiniJob) {
+      gs.lastMiniJobSpawnTime = nil;
+      [gs beginMiniJobTimer];
+    }
   } else {
     [Globals popupMessage:[NSString stringWithFormat:@"Building %d is not upgrading or constructing", userStruct.userStructId]];
   }
@@ -1115,7 +1125,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
       BOOL found = NO;
       for (UserMonster *m in curMembers) {
         if (m.teamSlot == teamSlot) {
-          if ([m isHealing] || [m isEnhancing] || [m isSacrificing]) {
+          if (![m isAvailable]) {
             potentialUm = m;
           }
           found = YES;
@@ -1407,8 +1417,8 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
   
   if (gs.userEnhancement) {
     [Globals popupMessage:@"Trying to set base monster while already enhancing."];
-  } else if ([um isHealing]) {
-    [Globals popupMessage:@"Trying to enhance item that is healing."];
+  } else if (![um isAvailable]) {
+    [Globals popupMessage:@"Trying to enhance item that is unavailable."];
   } else {
     EnhancementItem *ei = [[EnhancementItem alloc] init];
     ei.userMonsterId = userMonsterId;
@@ -1461,8 +1471,8 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
   
   if (!ue) {
     [Globals popupMessage:@"Trying to add feeder without base monster."];
-  } else if ([um isHealing]) {
-    [Globals popupMessage:@"Trying to sacrifice item that is healing."];
+  } else if (![um isAvailable]) {
+    [Globals popupMessage:@"Trying to sacrifice monster that is not available."];
   } else if (!useGems && gs.oil < oilCost) {
     [Globals popupMessage:@"Trying to enhance item without enough oil."];
   } else {
@@ -1764,5 +1774,131 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
   return NO;
 }
 
+- (void) spawnMiniJob:(int)numToSpawn structId:(int)structId {
+  uint64_t ms = [self getCurrentMilliseconds];
+  [[SocketCommunication sharedSocketCommunication] sendSpawnMiniJobMessage:numToSpawn clientTime:ms structId:structId];
+  
+  GameState *gs = [GameState sharedGameState];
+  gs.lastMiniJobSpawnTime = [MSDate dateWithTimeIntervalSince1970:ms/1000.];
+}
+
+- (void) beginMiniJob:(UserMiniJob *)userMiniJob userMonsterIds:(NSArray *)userMonsterIds delegate:(id)delegate {
+  GameState *gs = [GameState sharedGameState];
+  uint64_t ms = [self getCurrentMilliseconds];
+  int tag = [[SocketCommunication sharedSocketCommunication] sendBeginMiniJobMessage:userMiniJob.userMiniJobId userMonsterIds:userMonsterIds clientTime:ms];
+  [[SocketCommunication sharedSocketCommunication] setDelegate:delegate forTag:tag];
+  
+  userMiniJob.timeStarted = [MSDate dateWithTimeIntervalSince1970:ms/1000.];
+  userMiniJob.userMonsterIds = userMonsterIds;
+  
+  [gs beginMiniJobTimer];
+}
+
+- (void) completeMiniJob:(UserMiniJob *)userMiniJob isSpeedup:(BOOL)isSpeedup gemCost:(int)gemCost delegate:(id)delegate {
+  GameState *gs = [GameState sharedGameState];
+  Globals *gl = [Globals sharedGlobals];
+  
+  if (!(userMiniJob.timeStarted && !userMiniJob.timeCompleted)) {
+    [Globals popupMessage:@"Trying to complete invalid mini job."];
+    return;
+  }
+  
+  if (gs.gold < gemCost) {
+    [Globals popupMessage:@"Trying to speedup without enough gems."];
+  }
+  
+  NSMutableArray *userMonsters = [NSMutableArray array];
+  int totalAttack = 0;
+  for (NSNumber *umId in userMiniJob.userMonsterIds) {
+    UserMonster *um = [gs myMonsterWithUserMonsterId:umId.longLongValue];
+    if (um) {
+      [userMonsters addObject:um];
+      totalAttack += [gl calculateTotalDamageForMonster:um];
+    } else {
+      [Globals popupMessage:@"Unable to find mobster on mini job."];
+      return;
+    }
+  }
+  
+  // Deal damage evenly
+  float multiplier = 1.f;//userMiniJob.miniJob.atkRequired/(float)totalAttack;
+  int damageToDeal = ceilf(userMiniJob.baseDmgReceived*multiplier);
+  NSMutableArray *aliveMonsters = [userMonsters mutableCopy];
+  while (damageToDeal && aliveMonsters.count > 0) {
+    // Find lowest health
+    int lowestHealth = [aliveMonsters[0] curHealth];
+    for (UserMonster *um in aliveMonsters) {
+      if (um.curHealth < lowestHealth) {
+        lowestHealth = um.curHealth;
+      }
+    }
+    
+    int dmgThisRound = lowestHealth * (int)aliveMonsters.count;
+    if (dmgThisRound < damageToDeal) {
+      for (UserMonster *um in aliveMonsters) {
+        um.curHealth -= lowestHealth;
+      }
+      damageToDeal -= dmgThisRound;
+    } else {
+      int dmgPerChar = damageToDeal/aliveMonsters.count;
+      
+      for (UserMonster *um in aliveMonsters) {
+        um.curHealth -= dmgPerChar;
+      }
+      
+      // Deal remaining damage (i.e. 2 monsters-7 dmg to deal: 1 dmg needs to be dealt to someone)
+      damageToDeal -= dmgPerChar * aliveMonsters.count;
+      for (int i = 0; i < damageToDeal; i++) {
+        UserMonster *um = aliveMonsters[i];
+        um.curHealth -= 1;
+      }
+      damageToDeal = 0;
+    }
+    
+    // Clear out all dead monsters
+    for (UserMonster *um in userMonsters) {
+      if (um.curHealth <= 0) {
+        [aliveMonsters removeObject:um];
+      }
+    }
+  }
+  
+  // Create monster healths
+  NSMutableArray *monsterHealths = [NSMutableArray array];
+  for (UserMonster *um in userMonsters) {
+    UserMonsterCurrentHealthProto_Builder *bldr = [UserMonsterCurrentHealthProto builder];
+    bldr.userMonsterId = um.userMonsterId;
+    bldr.currentHealth = um.curHealth;
+    [monsterHealths addObject:bldr.build];
+  }
+  
+  uint64_t ms = [self getCurrentMilliseconds];
+  int tag = [[SocketCommunication sharedSocketCommunication] sendCompleteMiniJobMessage:userMiniJob.userMiniJobId isSpeedUp:isSpeedup gemCost:gemCost clientTime:ms monsterHealths:monsterHealths];
+  [[SocketCommunication sharedSocketCommunication] setDelegate:delegate forTag:tag];
+  
+  userMiniJob.timeCompleted = [MSDate dateWithTimeIntervalSince1970:ms/1000.];
+  
+  [gs addUnrespondedUpdate:[GoldUpdate updateWithTag:tag change:-gemCost]];
+  
+  [gs beginMiniJobTimer];
+}
+
+- (void) redeemMiniJob:(UserMiniJob *)userMiniJob delegate:(id)delegate {
+  if (userMiniJob.timeCompleted) {
+    uint64_t ms = [self getCurrentMilliseconds];
+    int tag = [[SocketCommunication sharedSocketCommunication] sendRedeemMiniJobMessage:userMiniJob.userMiniJobId clientTime:ms];
+    [[SocketCommunication sharedSocketCommunication] setDelegate:delegate forTag:tag];
+    
+    GameState *gs = [GameState sharedGameState];
+    [gs.myMiniJobs removeObject:userMiniJob];
+    
+    GoldUpdate *gu = [GoldUpdate updateWithTag:tag change:userMiniJob.miniJob.gemReward];
+    SilverUpdate *su = [SilverUpdate updateWithTag:tag change:userMiniJob.miniJob.cashReward];
+    OilUpdate *ou = [OilUpdate updateWithTag:tag change:userMiniJob.miniJob.oilReward];
+    [gs addUnrespondedUpdates:gu, su, ou, nil];
+    
+    [gs beginMiniJobTimer];
+  }
+}
 
 @end

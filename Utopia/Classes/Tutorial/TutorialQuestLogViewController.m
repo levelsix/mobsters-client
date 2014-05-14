@@ -25,7 +25,8 @@
 }
 
 - (void) arrowOnVisit {
-//  [Globals createUIArrowForView:self.questDetailsViewController.visitButton atAngle:-M_PI_2];
+  QuestDetailsCell *cell = (QuestDetailsCell *)[self.questDetailsViewController.taskTable cellForRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:0]];
+  [Globals createUIArrowForView:cell.goView atAngle:M_PI];
 }
 
 - (void) arrowOnCollect {
@@ -40,7 +41,7 @@
   [self.delegate questClickedInList];
 }
 
-- (void) visitOrDonateClickedWithDetailsVC:(QuestDetailsViewController *)detailsVC {
+- (void) visitOrDonateClickedWithDetailsVC:(QuestDetailsViewController *)detailsVC jobId:(int)jobId {
   [self close];
   [Globals removeUIArrowFromViewRecursively:self.view];
   [self.delegate questVisitClicked];
@@ -51,6 +52,10 @@
   [Globals removeUIArrowFromViewRecursively:self.view];
   [self close];
   [self.delegate questCollectClicked];
+}
+
+- (void) button2Clicked:(id)sender {
+  // Do nothing
 }
 
 - (void) close:(id)sender {

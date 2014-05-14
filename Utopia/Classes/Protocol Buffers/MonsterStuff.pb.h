@@ -77,7 +77,7 @@ BOOL MonsterBattleDialogueProto_DialogueTypeIsValidValue(MonsterBattleDialoguePr
   BOOL hasMonsterGroup_:1;
   BOOL hasAtkSoundFile_:1;
   BOOL hasShorterName_:1;
-  BOOL hasName_:1;
+  BOOL hasEvolutionGroup_:1;
   BOOL hasMonsterElement_:1;
   BOOL hasQuality_:1;
   BOOL hasAttackAnimationType_:1;
@@ -104,14 +104,14 @@ BOOL MonsterBattleDialogueProto_DialogueTypeIsValidValue(MonsterBattleDialoguePr
   NSString* monsterGroup;
   NSString* atkSoundFile;
   NSString* shorterName;
-  NSString* name;
+  NSString* evolutionGroup;
   Element monsterElement;
   Quality quality;
   MonsterProto_AnimationType attackAnimationType;
   NSMutableArray* mutableLvlInfoList;
 }
 - (BOOL) hasMonsterId;
-- (BOOL) hasName;
+- (BOOL) hasEvolutionGroup;
 - (BOOL) hasShorterName;
 - (BOOL) hasMonsterGroup;
 - (BOOL) hasQuality;
@@ -138,7 +138,7 @@ BOOL MonsterBattleDialogueProto_DialogueTypeIsValidValue(MonsterBattleDialoguePr
 - (BOOL) hasAtkAnimationRepeatedFramesStart;
 - (BOOL) hasAtkAnimationRepeatedFramesEnd;
 @property (readonly) int32_t monsterId;
-@property (readonly, retain) NSString* name;
+@property (readonly, retain) NSString* evolutionGroup;
 @property (readonly, retain) NSString* shorterName;
 @property (readonly, retain) NSString* monsterGroup;
 @property (readonly) Quality quality;
@@ -206,10 +206,10 @@ BOOL MonsterBattleDialogueProto_DialogueTypeIsValidValue(MonsterBattleDialoguePr
 - (MonsterProto_Builder*) setMonsterId:(int32_t) value;
 - (MonsterProto_Builder*) clearMonsterId;
 
-- (BOOL) hasName;
-- (NSString*) name;
-- (MonsterProto_Builder*) setName:(NSString*) value;
-- (MonsterProto_Builder*) clearName;
+- (BOOL) hasEvolutionGroup;
+- (NSString*) evolutionGroup;
+- (MonsterProto_Builder*) setEvolutionGroup:(NSString*) value;
+- (MonsterProto_Builder*) clearEvolutionGroup;
 
 - (BOOL) hasShorterName;
 - (NSString*) shorterName;

@@ -15,8 +15,7 @@
 @interface TopBarMonsterView : UIView
 
 @property (nonatomic, retain) IBOutlet UIView *iconView;
-@property (nonatomic, retain) IBOutlet UIImageView *bgdIcon;
-@property (nonatomic, retain) IBOutlet UIImageView *monsterIcon;
+@property (nonatomic, retain) IBOutlet MiniMonsterView *monsterView;
 
 @property (nonatomic, retain) IBOutlet UILabel *topLabel;
 @property (nonatomic, retain) IBOutlet UILabel *botLabel;

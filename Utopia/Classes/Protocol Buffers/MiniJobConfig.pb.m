@@ -37,6 +37,8 @@ static PBExtensionRegistry* extensionRegistry = nil;
 @property int32_t atkRequired;
 @property int32_t minDmgDealt;
 @property int32_t maxDmgDealt;
+@property int32_t durationMinMinutes;
+@property int32_t durationMaxMinutes;
 @end
 
 @implementation MiniJobProto
@@ -139,6 +141,20 @@ static PBExtensionRegistry* extensionRegistry = nil;
   hasMaxDmgDealt_ = !!value;
 }
 @synthesize maxDmgDealt;
+- (BOOL) hasDurationMinMinutes {
+  return !!hasDurationMinMinutes_;
+}
+- (void) setHasDurationMinMinutes:(BOOL) value {
+  hasDurationMinMinutes_ = !!value;
+}
+@synthesize durationMinMinutes;
+- (BOOL) hasDurationMaxMinutes {
+  return !!hasDurationMaxMinutes_;
+}
+- (void) setHasDurationMaxMinutes:(BOOL) value {
+  hasDurationMaxMinutes_ = !!value;
+}
+@synthesize durationMaxMinutes;
 - (void) dealloc {
   self.name = nil;
   [super dealloc];
@@ -159,6 +175,8 @@ static PBExtensionRegistry* extensionRegistry = nil;
     self.atkRequired = 0;
     self.minDmgDealt = 0;
     self.maxDmgDealt = 0;
+    self.durationMinMinutes = 0;
+    self.durationMaxMinutes = 0;
   }
   return self;
 }
@@ -220,6 +238,12 @@ static MiniJobProto* defaultMiniJobProtoInstance = nil;
   if (self.hasMaxDmgDealt) {
     [output writeInt32:14 value:self.maxDmgDealt];
   }
+  if (self.hasDurationMinMinutes) {
+    [output writeInt32:15 value:self.durationMinMinutes];
+  }
+  if (self.hasDurationMaxMinutes) {
+    [output writeInt32:16 value:self.durationMaxMinutes];
+  }
   [self.unknownFields writeToCodedOutputStream:output];
 }
 - (int32_t) serializedSize {
@@ -270,6 +294,12 @@ static MiniJobProto* defaultMiniJobProtoInstance = nil;
   }
   if (self.hasMaxDmgDealt) {
     size += computeInt32Size(14, self.maxDmgDealt);
+  }
+  if (self.hasDurationMinMinutes) {
+    size += computeInt32Size(15, self.durationMinMinutes);
+  }
+  if (self.hasDurationMaxMinutes) {
+    size += computeInt32Size(16, self.durationMaxMinutes);
   }
   size += self.unknownFields.serializedSize;
   memoizedSerializedSize = size;
@@ -388,6 +418,12 @@ static MiniJobProto* defaultMiniJobProtoInstance = nil;
   if (other.hasMaxDmgDealt) {
     [self setMaxDmgDealt:other.maxDmgDealt];
   }
+  if (other.hasDurationMinMinutes) {
+    [self setDurationMinMinutes:other.durationMinMinutes];
+  }
+  if (other.hasDurationMaxMinutes) {
+    [self setDurationMaxMinutes:other.durationMaxMinutes];
+  }
   [self mergeUnknownFields:other.unknownFields];
   return self;
 }
@@ -468,6 +504,14 @@ static MiniJobProto* defaultMiniJobProtoInstance = nil;
       }
       case 112: {
         [self setMaxDmgDealt:[input readInt32]];
+        break;
+      }
+      case 120: {
+        [self setDurationMinMinutes:[input readInt32]];
+        break;
+      }
+      case 128: {
+        [self setDurationMaxMinutes:[input readInt32]];
         break;
       }
     }
@@ -697,6 +741,38 @@ static MiniJobProto* defaultMiniJobProtoInstance = nil;
   result.maxDmgDealt = 0;
   return self;
 }
+- (BOOL) hasDurationMinMinutes {
+  return result.hasDurationMinMinutes;
+}
+- (int32_t) durationMinMinutes {
+  return result.durationMinMinutes;
+}
+- (MiniJobProto_Builder*) setDurationMinMinutes:(int32_t) value {
+  result.hasDurationMinMinutes = YES;
+  result.durationMinMinutes = value;
+  return self;
+}
+- (MiniJobProto_Builder*) clearDurationMinMinutes {
+  result.hasDurationMinMinutes = NO;
+  result.durationMinMinutes = 0;
+  return self;
+}
+- (BOOL) hasDurationMaxMinutes {
+  return result.hasDurationMaxMinutes;
+}
+- (int32_t) durationMaxMinutes {
+  return result.durationMaxMinutes;
+}
+- (MiniJobProto_Builder*) setDurationMaxMinutes:(int32_t) value {
+  result.hasDurationMaxMinutes = YES;
+  result.durationMaxMinutes = value;
+  return self;
+}
+- (MiniJobProto_Builder*) clearDurationMaxMinutes {
+  result.hasDurationMaxMinutes = NO;
+  result.durationMaxMinutes = 0;
+  return self;
+}
 @end
 
 @interface UserMiniJobProto ()
@@ -705,6 +781,7 @@ static MiniJobProto* defaultMiniJobProtoInstance = nil;
 @property int64_t timeStarted;
 @property (retain) NSMutableArray* mutableUserMonsterIdsList;
 @property int64_t timeCompleted;
+@property int32_t durationMinutes;
 @property (retain) MiniJobProto* miniJob;
 @end
 
@@ -739,6 +816,13 @@ static MiniJobProto* defaultMiniJobProtoInstance = nil;
   hasTimeCompleted_ = !!value;
 }
 @synthesize timeCompleted;
+- (BOOL) hasDurationMinutes {
+  return !!hasDurationMinutes_;
+}
+- (void) setHasDurationMinutes:(BOOL) value {
+  hasDurationMinutes_ = !!value;
+}
+@synthesize durationMinutes;
 - (BOOL) hasMiniJob {
   return !!hasMiniJob_;
 }
@@ -757,6 +841,7 @@ static MiniJobProto* defaultMiniJobProtoInstance = nil;
     self.baseDmgReceived = 0;
     self.timeStarted = 0L;
     self.timeCompleted = 0L;
+    self.durationMinutes = 0;
     self.miniJob = [MiniJobProto defaultInstance];
   }
   return self;
@@ -802,6 +887,9 @@ static UserMiniJobProto* defaultUserMiniJobProtoInstance = nil;
   if (self.hasMiniJob) {
     [output writeMessage:6 value:self.miniJob];
   }
+  if (self.hasDurationMinutes) {
+    [output writeInt32:7 value:self.durationMinutes];
+  }
   [self.unknownFields writeToCodedOutputStream:output];
 }
 - (int32_t) serializedSize {
@@ -833,6 +921,9 @@ static UserMiniJobProto* defaultUserMiniJobProtoInstance = nil;
   }
   if (self.hasMiniJob) {
     size += computeMessageSize(6, self.miniJob);
+  }
+  if (self.hasDurationMinutes) {
+    size += computeInt32Size(7, self.durationMinutes);
   }
   size += self.unknownFields.serializedSize;
   memoizedSerializedSize = size;
@@ -927,6 +1018,9 @@ static UserMiniJobProto* defaultUserMiniJobProtoInstance = nil;
   if (other.hasTimeCompleted) {
     [self setTimeCompleted:other.timeCompleted];
   }
+  if (other.hasDurationMinutes) {
+    [self setDurationMinutes:other.durationMinutes];
+  }
   if (other.hasMiniJob) {
     [self mergeMiniJob:other.miniJob];
   }
@@ -978,6 +1072,10 @@ static UserMiniJobProto* defaultUserMiniJobProtoInstance = nil;
         }
         [input readMessage:subBuilder extensionRegistry:extensionRegistry];
         [self setMiniJob:[subBuilder buildPartial]];
+        break;
+      }
+      case 56: {
+        [self setDurationMinutes:[input readInt32]];
         break;
       }
     }
@@ -1076,6 +1174,22 @@ static UserMiniJobProto* defaultUserMiniJobProtoInstance = nil;
 - (UserMiniJobProto_Builder*) clearTimeCompleted {
   result.hasTimeCompleted = NO;
   result.timeCompleted = 0L;
+  return self;
+}
+- (BOOL) hasDurationMinutes {
+  return result.hasDurationMinutes;
+}
+- (int32_t) durationMinutes {
+  return result.durationMinutes;
+}
+- (UserMiniJobProto_Builder*) setDurationMinutes:(int32_t) value {
+  result.hasDurationMinutes = YES;
+  result.durationMinutes = value;
+  return self;
+}
+- (UserMiniJobProto_Builder*) clearDurationMinutes {
+  result.hasDurationMinutes = NO;
+  result.durationMinutes = 0;
   return self;
 }
 - (BOOL) hasMiniJob {

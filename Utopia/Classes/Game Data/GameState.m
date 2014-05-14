@@ -46,6 +46,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
     _myStructs = [[NSMutableArray alloc] init];
     _myObstacles = [[NSMutableArray alloc] init];
     _myMonsters = [[NSMutableArray alloc] init];
+    _myMiniJobs = [[NSMutableArray alloc] init];
     _myQuests = [[NSMutableDictionary alloc] init];
     _myAchievements = [[NSMutableDictionary alloc] init];
     _globalChatMessages = [[NSMutableArray alloc] init];
@@ -94,6 +95,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
   self.numBeginnerSalesPurchased = user.numBeginnerSalesPurchased;
   self.createTime = [MSDate dateWithTimeIntervalSince1970:user.createTime/1000.0];
   self.lastObstacleCreateTime = [MSDate dateWithTimeIntervalSince1970:user.lastObstacleSpawnedTime/1000.0];
+  self.lastMiniJobSpawnTime = [MSDate dateWithTimeIntervalSince1970:user.lastMiniJobSpawnedTime/1000.0];
   if (user.hasFacebookId) self.facebookId = user.facebookId;
   if (user.hasGameCenterId) self.gameCenterId = user.gameCenterId;
   if (user.hasDeviceToken) self.deviceToken = user.deviceToken;
@@ -134,6 +136,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
   fup.createTime = self.createTime.timeIntervalSince1970*1000.;
   fup.lastLogoutTime = self.lastLogoutTime.timeIntervalSince1970*1000.;
   fup.lastObstacleSpawnedTime = self.lastObstacleCreateTime.timeIntervalSince1970*1000.;
+  fup.lastMiniJobSpawnedTime = self.lastMiniJobSpawnTime.timeIntervalSince1970*1000.;
   fup.facebookId = self.facebookId;
   fup.lastLoginTime = self.lastLoginTimeNum;
   
@@ -370,6 +373,13 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
     
     [[NSNotificationCenter defaultCenter] postNotificationName:QUESTS_CHANGED_NOTIFICATION object:nil];
   }
+}
+
+- (void) addToMiniJobs:(NSArray *)miniJobs {
+  for (UserMiniJobProto *p in miniJobs) {
+    [self.myMiniJobs addObject:[UserMiniJob userMiniJobWithProto:p]];
+  }
+  [[NSNotificationCenter defaultCenter] postNotificationName:MINI_JOB_WAIT_COMPLETE_NOTIFICATION object:nil];
 }
 
 - (void) addToStaticLevelInfos:(NSArray *)lurep {
@@ -731,7 +741,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
   NSArray *arr = [self allMonstersOnMyTeam];
   NSMutableArray *m = [NSMutableArray array];
   for (UserMonster *um in arr) {
-    if (![um isHealing] && ![um isEnhancing] && ![um isSacrificing]) {
+    if (um.isAvailable) {
       [m addObject:um];
     }
   }
@@ -762,6 +772,15 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
 - (UserStruct *) myLaboratory {
   for (UserStruct *us in self.myStructs) {
     if (us.staticStruct.structInfo.structType == StructureInfoProto_StructTypeLab) {
+      return us;
+    }
+  }
+  return nil;
+}
+
+- (UserStruct *) myMiniJobCenter {
+  for (UserStruct *us in self.myStructs) {
+    if (us.staticStruct.structInfo.structType == StructureInfoProto_StructTypeMiniJob) {
       return us;
     }
   }
@@ -859,6 +878,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
   [self addToStaticStructs:proto.allHospitalsList];
   [self addToStaticStructs:proto.allResidencesList];
   [self addToStaticStructs:proto.allLabsList];
+  [self addToStaticStructs:proto.allMiniJobCentersList];
   [self addToStaticItems:proto.itemsList];
   [self addToStaticObstacles:proto.obstaclesList];
   
@@ -1089,6 +1109,10 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
       slots += us.numBonusSlots;
     }
   }
+  
+  UserStruct *th = [self myTownHall];
+  TownHallProto *thp = (TownHallProto *)th.staticStruct;
+  slots += thp.numMonsterSlots;
   return slots;
 }
 
@@ -1242,7 +1266,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
     [[NSNotificationCenter defaultCenter] postNotificationName:MONSTER_QUEUE_CHANGED_NOTIFICATION object:nil];
     [[NSNotificationCenter defaultCenter] postNotificationName:MY_TEAM_CHANGED_NOTIFICATION object:nil];
     [self beginHealingTimer];
-    [AchievementUtil checkMonstersHealed:arr.count];
+    [AchievementUtil checkMonstersHealed:(int)arr.count];
   }
 }
 
@@ -1294,7 +1318,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
 #pragma mark Evolution Timer
 
 - (void) beginEvolutionTimer {
-  [self stopEnhanceTimer];
+  [self stopEvolutionTimer];
   
   if (self.userEvolution) {
     if ([self.userEvolution.endTime timeIntervalSinceNow] <= 0) {
@@ -1368,6 +1392,66 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
     _combineTimer = nil;
   }
 }
+
+#pragma mark Mini Job Timer
+
+- (void) beginMiniJobTimer {
+  [self stopMiniJobTimer];
+  
+  UserStruct *mjc = [self myMiniJobCenter];
+  MiniJobCenterProto *fsp = (MiniJobCenterProto *)mjc.staticStruct;
+  
+  MSDate *time = [self.lastMiniJobSpawnTime dateByAddingTimeInterval:fsp.hoursBetweenJobGeneration*60*60];
+  for (UserMiniJob *umj in self.myMiniJobs) {
+    if (umj.timeStarted && !umj.timeCompleted) {
+      MSDate *finishTime = [umj.timeStarted dateByAddingTimeInterval:umj.durationMinutes*60];
+      if (finishTime.timeIntervalSinceNow < time.timeIntervalSinceNow) {
+        time = finishTime;
+      }
+    }
+  }
+  
+  if (mjc && fsp.hoursBetweenJobGeneration) {
+    if ([time timeIntervalSinceNow] <= 0) {
+      [self miniJobWaitTimeComplete];
+    } else {
+      _miniJobTimer = [NSTimer timerWithTimeInterval:time.timeIntervalSinceNow target:self selector:@selector(miniJobWaitTimeComplete) userInfo:nil repeats:NO];
+      [[NSRunLoop mainRunLoop] addTimer:_miniJobTimer forMode:NSRunLoopCommonModes];
+    }
+  }
+}
+
+- (void) miniJobWaitTimeComplete {
+  for (UserMiniJob *umj in self.myMiniJobs) {
+    if (umj.timeStarted && !umj.timeCompleted) {
+      MSDate *finishTime = [umj.timeStarted dateByAddingTimeInterval:umj.durationMinutes*60];
+      if (finishTime.timeIntervalSinceNow <= 0) {
+        [[OutgoingEventController sharedOutgoingEventController] completeMiniJob:umj isSpeedup:NO gemCost:0 delegate:nil];
+      }
+    }
+  }
+  
+  UserStruct *mjc = [self myMiniJobCenter];
+  MiniJobCenterProto *fsp = (MiniJobCenterProto *)mjc.staticStruct;
+  MSDate *spawnTime = [self.lastMiniJobSpawnTime dateByAddingTimeInterval:fsp.hoursBetweenJobGeneration*60*60];
+  if (spawnTime.timeIntervalSinceNow <= 0) {
+    int numToSpawn = MAX(0, fsp.generatedJobLimit-(int)self.myMiniJobs.count);
+    LNLog(@"Spawning %d mini jobs..", numToSpawn);
+    [[OutgoingEventController sharedOutgoingEventController] spawnMiniJob:numToSpawn structId:fsp.structInfo.structId];
+  }
+  
+  [[NSNotificationCenter defaultCenter] postNotificationName:MINI_JOB_WAIT_COMPLETE_NOTIFICATION object:nil];
+  [self beginMiniJobTimer];
+}
+
+- (void) stopMiniJobTimer {
+  if (_miniJobTimer) {
+    [_miniJobTimer invalidate];
+    _miniJobTimer = nil;
+  }
+}
+
+#pragma mark
 
 - (void) addToRequestedClans:(NSArray *)arr {
   for (FullUserClanProto *uc in arr) {

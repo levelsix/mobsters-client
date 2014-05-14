@@ -71,6 +71,8 @@
 @class ItemProto_Builder;
 @class LabProto;
 @class LabProto_Builder;
+@class MiniJobCenterProto;
+@class MiniJobCenterProto_Builder;
 @class MinimumClanProto;
 @class MinimumClanProto_Builder;
 @class MinimumObstacleProto;
@@ -193,6 +195,7 @@
   NSMutableArray* mutableRaidsList;
   NSMutableArray* mutableMbdsList;
   NSMutableArray* mutablePersistentEventsList;
+  NSMutableArray* mutableAllMiniJobCentersList;
   NSMutableArray* mutableAllTownHallsList;
   NSMutableArray* mutableAllLabsList;
   NSMutableArray* mutableAllResidencesList;
@@ -241,6 +244,8 @@
 - (LabProto*) allLabsAtIndex:(int32_t) index;
 - (NSArray*) allTownHallsList;
 - (TownHallProto*) allTownHallsAtIndex:(int32_t) index;
+- (NSArray*) allMiniJobCentersList;
+- (MiniJobCenterProto*) allMiniJobCentersAtIndex:(int32_t) index;
 - (NSArray*) persistentEventsList;
 - (PersistentEventProto*) persistentEventsAtIndex:(int32_t) index;
 - (NSArray*) mbdsList;
@@ -405,6 +410,13 @@
 - (StaticDataProto_Builder*) addAllTownHalls:(TownHallProto*) value;
 - (StaticDataProto_Builder*) addAllAllTownHalls:(NSArray*) values;
 - (StaticDataProto_Builder*) clearAllTownHallsList;
+
+- (NSArray*) allMiniJobCentersList;
+- (MiniJobCenterProto*) allMiniJobCentersAtIndex:(int32_t) index;
+- (StaticDataProto_Builder*) replaceAllMiniJobCentersAtIndex:(int32_t) index with:(MiniJobCenterProto*) value;
+- (StaticDataProto_Builder*) addAllMiniJobCenters:(MiniJobCenterProto*) value;
+- (StaticDataProto_Builder*) addAllAllMiniJobCenters:(NSArray*) values;
+- (StaticDataProto_Builder*) clearAllMiniJobCentersList;
 
 - (NSArray*) persistentEventsList;
 - (PersistentEventProto*) persistentEventsAtIndex:(int32_t) index;

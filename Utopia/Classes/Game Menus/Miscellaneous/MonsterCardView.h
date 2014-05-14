@@ -54,8 +54,10 @@
 
 @interface MiniMonsterView : UIView
 
-@property (nonatomic, assign) IBOutlet UIImageView *monsterIcon;
-@property (nonatomic, assign) IBOutlet UIImageView *bgdIcon;
+@property (nonatomic, retain) IBOutlet UIImageView *monsterIcon;
+@property (nonatomic, retain) IBOutlet UIImageView *bgdIcon;
+
+@property (nonatomic, assign) int monsterId;
 
 - (void) updateForMonsterId:(int)monsterId;
 - (void) updateForElement:(Element)element imgPrefix:(NSString *)imgPrefix greyscale:(BOOL)greyscale;

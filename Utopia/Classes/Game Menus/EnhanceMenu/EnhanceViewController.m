@@ -102,7 +102,7 @@
   NSMutableArray *arr = [NSMutableArray array];
   
   for (UserMonster *um in gs.myMonsters) {
-    if (um.isDonatable) {
+    if (um.isAvailable) {
       [arr addObject:um];
     }
   }

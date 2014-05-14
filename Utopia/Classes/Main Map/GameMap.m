@@ -116,7 +116,7 @@
   
   NSMutableArray *newArr = [NSMutableArray array];
   for (UserMonster *um in gs.allMonstersOnMyTeam) {
-    if (um.isHealing || um.isEnhancing || um.isSacrificing) {
+    if (!um.isAvailable) {
       continue;
     }
     

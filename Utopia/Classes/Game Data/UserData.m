@@ -95,8 +95,32 @@
   return NO;
 }
 
-- (BOOL) isDonatable {
-  return self.isComplete && !self.isHealing && !self.isEnhancing && !self.isSacrificing;
+- (BOOL) isOnAMiniJob {
+  GameState *gs = [GameState sharedGameState];
+  for (UserMiniJob *mj in gs.myMiniJobs) {
+    if ([mj.userMonsterIds containsObject:@(self.userMonsterId)]) {
+      return YES;
+    }
+  }
+  return NO;
+}
+
+- (NSString *) statusString {
+  NSString *str = @"";
+  if (self.isHealing) {
+    str = @"Healing";
+  } else if (self.isEnhancing || self.isSacrificing) {
+    str = @"Enhancing";
+  } else if (self.isOnAMiniJob) {
+    str = @"Mini Job";
+  } else if (!self.isComplete) {
+    str = [NSString stringWithFormat:@"Pieces: %d/%d", self.numPieces, self.staticMonster.numPuzzlePieces];
+  }
+  return str;
+}
+
+- (BOOL) isAvailable {
+  return self.isComplete && !self.isHealing && !self.isEnhancing && !self.isSacrificing && !self.isOnAMiniJob;
 }
 
 - (int) sellPrice {
@@ -164,8 +188,8 @@
   }
   
   // Both are complete; check if healing or enhancing, then compare stats
-  int selfScore = [self isHealing] ? 3 : [self isEnhancing] ? 2 : [self isSacrificing] ? 1 : 0;
-  int umScore = [um isHealing] ? 3 : [um isEnhancing] ? 2 : [um isSacrificing] ? 1 : 0;
+  int selfScore = [self isOnAMiniJob] ? 4 : [self isHealing] ? 3 : [self isEnhancing] ? 2 : [self isSacrificing] ? 1 : 0;
+  int umScore = [um isOnAMiniJob] ? 4 : [um isHealing] ? 3 : [um isEnhancing] ? 2 : [um isSacrificing] ? 1 : 0;
   
   if (selfScore != umScore) {
     return [@(umScore) compare:@(selfScore)];
@@ -840,6 +864,32 @@
   return rewards;
 }
 
++ (NSArray *) createRewardsForMiniJob:(MiniJobProto *)miniJob {
+  NSMutableArray *rewards = [NSMutableArray array];
+  
+  if (miniJob.gemReward) {
+    Reward *r = [[Reward alloc] initWithGoldAmount:miniJob.gemReward];
+    [rewards addObject:r];
+  }
+  
+  if (miniJob.monsterIdReward) {
+    Reward *r = [[Reward alloc] initWithMonsterId:miniJob.monsterIdReward isPuzzlePiece:YES];
+    [rewards addObject:r];
+  }
+  
+  if (miniJob.cashReward) {
+    Reward *r = [[Reward alloc] initWithSilverAmount:miniJob.cashReward];
+    [rewards addObject:r];
+  }
+  
+  if (miniJob.oilReward) {
+    Reward *r = [[Reward alloc] initWithOilAmount:miniJob.oilReward];
+    [rewards addObject:r];
+  }
+  
+  return rewards;
+}
+
 + (NSArray *) createRewardsForPvpProto:(PvpProto *)pvp {
   NSMutableArray *rewards = [NSMutableArray array];
   
@@ -1059,6 +1109,35 @@
 
 - (NSUInteger) hash {
   return self.invite.inviteId;
+}
+
+@end
+
+@implementation UserMiniJob
+
++ (id) userMiniJobWithProto:(UserMiniJobProto *)proto {
+  return [[UserMiniJob alloc] initWithProto:proto];
+}
+
+- (id) initWithProto:(UserMiniJobProto *)proto {
+  if ((self = [super init])) {
+    self.userMiniJobId = proto.userMiniJobId;
+    self.miniJob = proto.miniJob;
+    self.baseDmgReceived = proto.baseDmgReceived;
+    self.durationMinutes = proto.durationMinutes;
+    self.timeStarted = proto.hasTimeStarted ? [MSDate dateWithTimeIntervalSince1970:proto.timeStarted/1000.] : nil;
+    self.timeCompleted = proto.hasTimeCompleted ? [MSDate dateWithTimeIntervalSince1970:proto.timeCompleted/1000.] : nil;
+    self.userMonsterIds = proto.userMonsterIdsList;
+  }
+  return self;
+}
+
+- (BOOL) isEqual:(UserMiniJob *)object {
+  return self.userMiniJobId == object.userMiniJobId;
+}
+
+- (NSUInteger) hash {
+  return (NSUInteger)self.userMiniJobId;
 }
 
 @end

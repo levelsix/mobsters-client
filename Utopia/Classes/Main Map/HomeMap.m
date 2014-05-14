@@ -22,6 +22,7 @@
 #import "CCAnimation+SpriteLoading.h"
 #import "CCSoundAnimation.h"
 #import "AchievementUtil.h"
+#import "MiniJobsViewController.h"
 
 #define FAR_LEFT_EXPANSION_START 58
 #define FAR_RIGHT_EXPANSION_START 58
@@ -107,7 +108,7 @@
     
     [self moveToCenterAnimated:NO];
     
-    CCSprite *map = [CCSprite spriteWithImageNamed:@"missionmap2.png"];
+    CCSprite *map = [CCSprite spriteWithImageNamed:@"mapnopier.jpg"];
     [self addChild:map z:-1000];
     
     map.position = ccp(map.contentSize.width/2-33, map.contentSize.height/2-50);
@@ -287,7 +288,8 @@
   
   for (UserStruct *s in self.myStructsList) {
     StructureInfoProto *fsp = s.staticStruct.structInfo;
-    if (!fsp) {return;}
+    if (!fsp)
+      return;
     HomeBuilding *homeBuilding = [HomeBuilding buildingWithUserStruct:s map:self];
     [self addChild:homeBuilding z:0 name:STRUCT_TAG(s.userStructId)];
     
@@ -302,6 +304,7 @@
   
   [self reloadHospitals];
   [self reloadStorages];
+  [self reloadPier];
   
   [arr addObjectsFromArray:[self reloadObstacles]];
   
@@ -316,9 +319,7 @@
     [c removeFromParent];
   }
   
-  if (_constrBuilding) {
-    [_constrBuilding displayProgressBar];
-  }
+  [_constrBuilding displayProgressBar];
   
   [self doReorder];
   _loading = NO;
@@ -464,6 +465,29 @@
   }
 }
 
+- (void) reloadPier {
+  GameState *gs = [GameState sharedGameState];
+  MiniJobCenterBuilding *mjcb = nil;
+  for (CCSprite *spr in self.children) {
+    if ([spr isKindOfClass:[MiniJobCenterBuilding class]]) {
+      mjcb = (MiniJobCenterBuilding *)spr;
+    }
+  }
+  
+  UserMiniJob *active = nil;
+  for (UserMiniJob *mj in gs.myMiniJobs) {
+    if (mj.timeStarted || mj.timeCompleted) {
+      active = mj;
+    }
+  }
+  
+  if (!active && gs.myMiniJobs.count > 0) {
+    active = gs.myMiniJobs[0];
+  }
+  
+  [mjcb updateForActiveMiniJob:active];
+}
+
 - (void) reloadStorages {
   GameState *gs = [GameState sharedGameState];
   NSMutableArray *oilArr = [NSMutableArray array];
@@ -514,7 +538,6 @@
 }
 
 - (NSArray *) refreshForExpansion {
-  GameState *gs = [GameState sharedGameState];
   NSMutableArray *arr = [NSMutableArray array];
   
   CCTiledMapLayer *buildLayer = [self layerNamed:BUILDABLE_LAYER_NAME];
@@ -544,45 +567,7 @@
     }
   }
   
-  for (int i = -1; i <= 1; i++) {
-    for (int j = -1; j <= 1; j++) {
-      if (i == 0 && j == 0) {
-        continue;
-      }
-      
-      UserExpansion *ue = [gs getExpansionForX:i y:j];
-      
-      if (false) {//(!ue || ue.isExpanding) {
-        CGPoint offset = ccp(0,0);
-        
-        CGRect r = CGRectZero;
-        r.size.width = i == 0 ? EXPANSION_MID_SQUARE_SIZE : EXPANSION_BLOCK_SIZE;
-        r.size.height = j == 0 ? EXPANSION_MID_SQUARE_SIZE : EXPANSION_BLOCK_SIZE;
-        r.origin = ccp(CENTER_TILE_X, CENTER_TILE_Y);
-        r.origin.x += i*(EXPANSION_MID_SQUARE_SIZE/2+EXPANSION_ROAD_SIZE+EXPANSION_BLOCK_SIZE/2)-r.size.width/2+offset.x;
-        r.origin.y += j*(EXPANSION_MID_SQUARE_SIZE/2+EXPANSION_ROAD_SIZE+EXPANSION_BLOCK_SIZE/2)-r.size.height/2+offset.y;
-        ExpansionBoard *eb = [[ExpansionBoard alloc] initWithExpansionBlock:ccp(i,j) location:r map:self isExpanding:NO];
-        [self addChild:eb z:-999];
-        [arr addObject:eb];
-        
-        r.origin.x -= offset.x;
-        r.origin.y -= offset.y;
-        for (int i = r.origin.x; i < r.origin.x+r.size.width; i++) {
-          for (int j = r.origin.y; j < r.origin.y+r.size.height; j++) {
-            [[self.buildableData objectAtIndex:i] replaceObjectAtIndex:j withObject:[NSNumber numberWithBool:NO]];
-            [[self.walkableData objectAtIndex:i] replaceObjectAtIndex:j withObject:[NSNumber numberWithBool:NO]];
-          }
-        }
-        
-        if (ue.isExpanding) {
-          [eb beginExpanding];
-        }
-      }
-    }
-  }
-  
   return arr;
-  //return [NSArray array];
 }
 
 - (void) moveToStruct:(int)structId showArrow:(BOOL)showArrow animated:(BOOL)animated {
@@ -709,18 +694,6 @@
     _canMove = NO;
     
     self.bottomOptionView = !ue.endTime ? self.buildBotView : self.upgradeBotView;
-  } else if ([self.selected isKindOfClass:[ExpansionBoard class]]) {
-    GameState *gs = [GameState sharedGameState];
-    ExpansionBoard *exp = (ExpansionBoard *)self.selected;
-    UserExpansion *ue = [gs getExpansionForX:exp.expandSpot.x y:exp.expandSpot.y];
-    
-    _canMove = NO;
-    
-    if (!ue.isExpanding) {
-      self.bottomOptionView = self.expandBotView;
-    } else {
-      self.bottomOptionView = self.expandingBotView;
-    }
   } else {
     self.bottomOptionView = nil;
     _canMove = NO;
@@ -743,7 +716,7 @@
       HomeBuilding *mb = (HomeBuilding *)self.selected;
       StructureInfoProto *fsp = mb.userStruct.staticStruct.structInfo;
       StructureInfoProto *nextFsp = mb.userStruct.staticStructForNextLevel.structInfo;
-      self.buildingNameLabel.text = [NSString stringWithFormat:@"%@ (lvl %d)", fsp.name, fsp.level];
+      self.buildingNameLabel.text = [NSString stringWithFormat:@"%@ (%@)", fsp.name, fsp.level ? [NSString stringWithFormat:@"lvl %d", fsp.level] : @"Broken"];
       self.buildingIncomeLabel.text = fsp.shortDescription;
       isOil = nextFsp ? nextFsp.buildResourceType == ResourceTypeOil : fsp.buildResourceType == ResourceTypeOil;
       self.buildingUpgradeCashButtonTopLabel.text = @"Upgrade";
@@ -771,6 +744,17 @@
         case StructureInfoProto_StructTypeResidence:
           self.enterTopLabel.text = @"Bonus";
           self.enterBottomLabel.text = @"Slots";
+          break;
+          
+        case StructureInfoProto_StructTypeMiniJob:
+          if (fsp.level == 0) {
+            showsEnterButton = NO;
+            self.buildingUpgradeCashButtonTopLabel.text = @"Fix";
+            self.buildingUpgradeOilButtonTopLabel.text = @"Fix";
+          } else {
+            self.enterTopLabel.text = @"View";
+            self.enterBottomLabel.text = @"Mini Jobs";
+          }
           break;
           
         case StructureInfoProto_StructTypeTownHall:
@@ -801,16 +785,6 @@
       showsEnterButton = NO;
     }
     
-    CGRect r = self.buildingTextView.frame;
-    if (showsEnterButton) {
-      r.size.width = self.buildingEnterView.frame.origin.x-4;
-      self.buildingEnterView.hidden = NO;
-    } else {
-      r.size.width = self.buildingUpgradeView.frame.origin.x-4;
-      self.buildingEnterView.hidden = YES;
-    }
-    self.buildingTextView.frame = r;
-    
     if (![Globals isLongiPhone]) {
       CGPoint pt = self.buildingUpgradeView.center;
       if (showsEnterButton) {
@@ -819,7 +793,20 @@
         pt.x = self.buildingUpgradeView.superview.frame.size.width/2;
       }
       self.buildingUpgradeView.center = pt;
+    } else {
+      CGPoint pt = self.buildingUpgradeView.center;
+      if (showsEnterButton) {
+        pt.x = self.buildingEnterView.frame.origin.x-self.buildingUpgradeView.frame.size.width/2-4;
+      } else {
+        pt.x = self.buildingEnterView.center.x;
+      }
+      self.buildingUpgradeView.center = pt;
+      
+      CGRect r = self.buildingTextView.frame;
+      r.size.width = self.buildingUpgradeView.frame.origin.x-4;
+      self.buildingTextView.frame = r;
     }
+    self.buildingEnterView.hidden = !showsEnterButton;
     
     self.buildingUpgradeOilView.hidden = !isOil;
     [Globals adjustViewForCentering:self.buildingUpgradeOilCostLabel.superview withLabel:self.buildingUpgradeOilCostLabel];
@@ -840,24 +827,6 @@
     
     int timeLeft = [self timeLeftForConstructionBuilding];
     self.upgradingSpeedupCostLabel.text = [Globals commafyNumber:[gl calculateGemSpeedupCostForTimeLeft:timeLeft]];
-    
-  } else if (botView == self.expandBotView) {
-    if ([self.selected isKindOfClass:[ExpansionBoard class]]) {
-      Globals *gl = [Globals sharedGlobals];
-      ExpansionBoard *ep = (ExpansionBoard *)self.selected;
-      self.expandSubtitleLabel.text = [gl expansionPhraseForExpandSpot:ep.expandSpot];
-      self.expandCostLabel.text = [Globals cashStringForNumber:[gl calculateSilverCostForNewExpansion]];
-    }
-  } else if (botView == self.expandingBotView) {
-    if ([self.selected isKindOfClass:[ExpansionBoard class]]) {
-      GameState *gs = [GameState sharedGameState];
-      Globals *gl = [Globals sharedGlobals];
-      ExpansionBoard *ep = (ExpansionBoard *)self.selected;
-      UserExpansion *exp = [gs currentExpansion];
-      int timeLeft = exp.lastExpandTime.timeIntervalSinceNow + [gl calculateNumMinutesForNewExpansion]*60;
-      self.expandingSubtitleLabel.text = [gl expansionPhraseForExpandSpot:ep.expandSpot];
-      self.expandingSpeedupCostLabel.text = [Globals commafyNumber:[gl calculateGemSpeedupCostForTimeLeft:timeLeft]];
-    }
   }
 }
 
@@ -1177,6 +1146,11 @@
       
     case StructureInfoProto_StructTypeResidence:
       [self loadUpgradeViewControllerForIsHire:YES];
+      break;
+      
+    case StructureInfoProto_StructTypeMiniJob:
+      [self loadMiniJobsView];
+      break;
       
     default:
       break;
@@ -1209,6 +1183,14 @@
   self.upgradeViewController = uvc;
 }
 
+- (void) loadMiniJobsView {
+  GameViewController *gvc = [GameViewController baseController];
+  MiniJobsViewController *rvc = [[MiniJobsViewController alloc] init];
+  [gvc addChildViewController:rvc];
+  rvc.view.frame = gvc.view.bounds;
+  [gvc.view addSubview:rvc.view];
+}
+
 - (int) timeLeftForConstructionBuilding {
   if ([_constrBuilding isKindOfClass:[HomeBuilding class]]) {
     UserStruct *cus = ((HomeBuilding *)_constrBuilding).userStruct;
@@ -1236,6 +1218,18 @@
     if (nextFsp.structType == StructureInfoProto_StructTypeLab && gs.userEnhancement) {
       [GenericPopupController displayConfirmationWithDescription:@"Your current enhancement will be cancelled. Continue?" title:@"Cancel Enhancement" okayButton:@"Continue" cancelButton:@"Cancel" target:self selector:@selector(cancelEnhancementAndUpgrade)];
       return;
+    } else if (nextFsp.structType == StructureInfoProto_StructTypeMiniJob) {
+      BOOL activeQuest = NO;
+      for (UserMiniJob *mj in gs.myMiniJobs) {
+        if (mj.timeStarted || mj.timeCompleted) {
+          activeQuest = YES;
+        }
+      }
+      
+      if (activeQuest) {
+        [GenericPopupController displayNotificationViewWithText:@"You have a currently active mini job. Complete it before upgrading." title:@"Active Mini Job"];
+        return;
+      }
     }
   } else if ([self.selected isKindOfClass:[ObstacleSprite class]]) {
     UserObstacle *ub = ((ObstacleSprite *)self.selected).obstacle;
@@ -1304,8 +1298,8 @@
     if (!us.isComplete) {
       _constrBuilding = hb;
       [self updateTimersForBuilding:hb];
-      [hb displayProgressBar];
       hb.isConstructing = YES;
+      [hb displayProgressBar];
       
       [self reselectCurrentSelection];
     }
@@ -1447,101 +1441,6 @@
   }
 }
 
-- (IBAction)expandClicked:(id)sender {
-  GameState *gs = [GameState sharedGameState];
-  Globals *gl = [Globals sharedGlobals];
-  if (gs.isExpanding) {
-    UserExpansion *exp = [gs currentExpansion];
-    int timeLeft = exp.lastExpandTime.timeIntervalSinceNow + [gl calculateNumMinutesForNewExpansion]*60;
-    NSString *desc = [NSString stringWithFormat:@"A block is already expanding. Speed it up for %d gems and start new expansion?", [gl calculateGemSpeedupCostForTimeLeft:timeLeft]];
-    [GenericPopupController displayConfirmationWithDescription:desc title:@"Already Expanding" okayButton:@"Speed Up" cancelButton:@"Cancel" target:self selector:@selector(speedupExpansionAndStartNewOne)];
-  } else {
-    NSString *desc = [NSString stringWithFormat:@"Would you like to expand to this block for %@?", [Globals cashStringForNumber:[gl calculateSilverCostForNewExpansion]]];
-    [GenericPopupController displayConfirmationWithDescription:desc title:@"Expand?" okayButton:@"Expand" cancelButton:@"Cancel" target:self selector:@selector(expandAccepted)];
-  }
-}
-
-- (void) expandAccepted {
-  Globals *gl = [Globals sharedGlobals];
-  GameState *gs = [GameState sharedGameState];
-  ExpansionBoard *exp = (ExpansionBoard *)self.selected;
-  
-  int silverCost = [gl calculateSilverCostForNewExpansion];
-  if (gs.silver < silverCost) {
-    [Globals popupMessage:@"Not enough cash to expand."];
-  } else {
-    [[OutgoingEventController sharedOutgoingEventController] purchaseCityExpansionAtX:exp.expandSpot.x atY:exp.expandSpot.y];
-    [exp beginExpanding];
-    [self reselectCurrentSelection];
-  }
-}
-
-- (IBAction)finishExpansionClicked:(id)sender {
-  if (_isSpeedingUp) return;
-  GameState *gs = [GameState sharedGameState];
-  Globals *gl = [Globals sharedGlobals];
-  UserExpansion *exp = [gs currentExpansion];
-  int timeLeft = exp.lastExpandTime.timeIntervalSinceNow + [gl calculateNumMinutesForNewExpansion]*60;
-  NSString *desc = [NSString stringWithFormat:@"Would you like to speed up this expansion for %d gold?", [gl calculateGemSpeedupCostForTimeLeft:timeLeft]];
-  [GenericPopupController displayConfirmationWithDescription:desc title:@"Speed Up?" okayButton:@"Speed Up" cancelButton:@"Cancel" target:self selector:@selector(speedupExpansion)];
-}
-
-- (void) speedupExpansion {
-  if (_isSpeedingUp) return;
-  Globals *gl = [Globals sharedGlobals];
-  GameState *gs = [GameState sharedGameState];
-  UserExpansion *exp = [gs currentExpansion];
-  
-  int timeLeft = exp.lastExpandTime.timeIntervalSinceNow + [gl calculateNumMinutesForNewExpansion]*60;
-  int goldCost = [gl calculateGemSpeedupCostForTimeLeft:timeLeft];
-  if (gs.gold < goldCost) {
-    //    [[RefillMenuController sharedRefillMenuController] displayBuyGoldView:goldCost];
-  } else {
-    [[OutgoingEventController sharedOutgoingEventController] expansionWaitComplete:YES atX:exp.xPosition atY:exp.yPosition];
-    
-    // Get the expansion board
-    ExpansionBoard *expBoard = nil;
-    for (CCNode *n in self.children) {
-      if ([n isKindOfClass:[ExpansionBoard class]]) {
-        ExpansionBoard *b = (ExpansionBoard *)n;
-        if (b.expandSpot.x == exp.xPosition && b.expandSpot.y == exp.yPosition) {
-          expBoard = b;
-          break;
-        }
-      }
-    }
-    
-    _isSpeedingUp = YES;
-    void (^comp)(void) = ^{
-      _isSpeedingUp = NO;
-      if (expBoard == self.selected) {
-        self.selected = nil;
-      }
-      
-      [expBoard removeFromParent];
-      
-      CGRect r = expBoard.location;
-      for (int i = r.origin.x; i < r.origin.x+r.size.width; i++) {
-        for (int j = r.origin.y; j < r.origin.y+r.size.height; j++) {
-          [[self.buildableData objectAtIndex:i] replaceObjectAtIndex:j withObject:[NSNumber numberWithBool:YES]];
-          [[self.walkableData objectAtIndex:i] replaceObjectAtIndex:j withObject:[NSNumber numberWithBool:YES]];
-        }
-      }
-    };
-    
-    if (expBoard == self.selected) {
-      [expBoard instaFinishUpgradeWithCompletionBlock:comp];
-    } else {
-      comp();
-    }
-  }
-}
-
-- (void) speedupExpansionAndStartNewOne {
-  [self speedupExpansion];
-  [self expandAccepted];
-}
-
 - (void) changeTiles:(CGRect)buildBlock toBuildable:(BOOL)canBuild {
   for (float i = floorf(buildBlock.origin.x); i < ceilf(buildBlock.size.width+buildBlock.origin.x); i++) {
     for (float j = floorf(buildBlock.origin.y); j < ceilf(buildBlock.size.height+buildBlock.origin.y); j++) {
@@ -1608,6 +1507,7 @@
   [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(reloadRetrievableIcons) name:GAMESTATE_UPDATE_NOTIFICATION object:nil];
   [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(reloadHospitals) name:MONSTER_QUEUE_CHANGED_NOTIFICATION object:nil];
   [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(setupTeamSprites) name:MONSTER_QUEUE_CHANGED_NOTIFICATION object:nil];
+  [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(reloadPier) name:MINI_JOB_WAIT_COMPLETE_NOTIFICATION object:nil];
 }
 
 - (void) onExitTransitionDidStart {

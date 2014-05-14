@@ -59,7 +59,7 @@
                             <size key="shadowOffset" width="0.0" height="1"/>
                         </label>
                         <view contentMode="scaleToFill" id="WaB-7L-maT">
-                            <rect key="frame" x="111" y="50" width="84" height="60"/>
+                            <rect key="frame" x="23" y="50" width="84" height="60"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             <subviews>
                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="OYD-yh-gbL" customClass="UpgradeButton">
@@ -142,7 +142,7 @@
                             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                         </view>
                         <view contentMode="scaleToFill" id="eG3-t2-PgP">
-                            <rect key="frame" x="23" y="50" width="84" height="60"/>
+                            <rect key="frame" x="111" y="50" width="84" height="60"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             <subviews>
                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="OJB-YR-26g" customClass="GeneralButton">

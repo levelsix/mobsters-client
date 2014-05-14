@@ -24,6 +24,8 @@
 @class LevelUpResponseProto_Builder;
 @class LogoutRequestProto;
 @class LogoutRequestProto_Builder;
+@class MiniJobCenterProto;
+@class MiniJobCenterProto_Builder;
 @class MinimumClanProto;
 @class MinimumClanProto_Builder;
 @class MinimumObstacleProto;

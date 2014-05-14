@@ -116,6 +116,7 @@ static UIImage *img = nil;
     self.bgdIcon.image = [Globals imageNamed:@"teamempty.png"];
     self.monsterIcon.image = nil;
   }
+  self.monsterId = monsterId;
 }
 
 - (void) updateForElement:(Element)element imgPrefix:(NSString *)imgPrefix greyscale:(BOOL)greyscale {

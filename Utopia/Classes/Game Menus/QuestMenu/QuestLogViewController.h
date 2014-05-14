@@ -44,7 +44,7 @@
 
 - (IBAction)backClicked:(id)sender;
 - (IBAction)close:(id)sender;
-- (IBAction)close;
+- (void) close;
 - (void) loadDetailsViewForQuest:(FullQuestProto *)quest userQuest:(UserQuest *)uq animated:(BOOL)animated;
 - (void) questListCellClicked:(QuestListCell *)cell;
 

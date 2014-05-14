@@ -177,9 +177,9 @@
   MonsterProto *base = item.userMonster1.staticMonster;
   MonsterProto *cata = [gs monsterWithId:base.evolutionCatalystMonsterId];
   MonsterProto *evo = [gs monsterWithId:base.evolutionMonsterId];
-  NSString *str1 = [NSString stringWithFormat:@"2 lvl %d %@s", base.maxLevel, base.name];
-  NSString *str2 = [NSString stringWithFormat:@"1 %@ (Evo %d)", cata.name, cata.evolutionLevel];
-  NSString *str3 = [NSString stringWithFormat:@"%@.", evo.name];
+  NSString *str1 = [NSString stringWithFormat:@"2 lvl %d %@s", base.maxLevel, base.displayName];
+  NSString *str2 = [NSString stringWithFormat:@"1 %@ (Evo %d)", cata.displayName, cata.evolutionLevel];
+  NSString *str3 = [NSString stringWithFormat:@"%@.", evo.displayName];
   
   UILabel *l1 = self.topLabels[1];
   UILabel *l2 = self.topLabels[3];
@@ -328,7 +328,7 @@
   if (!cata) {
     GameState *gs = [GameState sharedGameState];
     MonsterProto *mp = [gs monsterWithId:um1.staticMonster.evolutionCatalystMonsterId];
-    NSString *desc = [NSString stringWithFormat:@"%@ (Evo %d) Required to Evolve", mp.name, mp.evolutionLevel];
+    NSString *desc = [NSString stringWithFormat:@"%@ (Evo %d) Required to Evolve", mp.displayName, mp.evolutionLevel];
     self.missingCataLabel.text = desc;
     self.missingCataLabel.hidden = NO;
   } else {
@@ -338,7 +338,7 @@
   NSString *fileName = [um1.staticEvolutionMonster.imagePrefix stringByAppendingString:@"Character.png"];
   [Globals imageNamed:fileName withView:self.evolvedMonsterIcon maskedColor:[UIColor colorWithWhite:0.f alpha:0.8f] indicator:UIActivityIndicatorViewStyleWhite clearImageDuringDownload:YES];
   
-  self.nameLabel.text = um1.staticEvolutionMonster.name;
+  self.nameLabel.text = um1.staticEvolutionMonster.displayName;
   self.timeLabel.text = [Globals convertTimeToShortString:um1.staticMonster.minutesToEvolve*60];
   self.oilCostLabel.text = [Globals commafyNumber:um1.staticMonster.evolutionCost];
   [Globals adjustViewForCentering:self.oilCostLabel.superview withLabel:self.oilCostLabel];

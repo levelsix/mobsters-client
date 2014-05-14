@@ -15,7 +15,7 @@
             <rect key="frame" x="0.0" y="0.0" width="80" height="33"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
-                <view clipsSubviews="YES" contentMode="scaleToFill" id="PDn-2W-qLR">
+                <view clipsSubviews="YES" contentMode="scaleToFill" id="PDn-2W-qLR" customClass="MiniMonsterView">
                     <rect key="frame" x="-6" y="-4" width="42" height="42"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                     <subviews>
@@ -29,6 +29,10 @@
                         </imageView>
                     </subviews>
                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                    <connections>
+                        <outlet property="bgdIcon" destination="duj-Ym-TjZ" id="coz-ob-b8y"/>
+                        <outlet property="monsterIcon" destination="jFF-ne-OWx" id="kHQ-TM-HVQ"/>
+                    </connections>
                 </view>
                 <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Lil Kim" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" id="qg5-8p-Zuq" customClass="NiceFontLabel">
                     <rect key="frame" x="30" y="-1" width="45" height="21"/>
@@ -87,12 +91,11 @@
             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
             <simulatedOrientationMetrics key="simulatedOrientationMetrics" orientation="landscapeRight"/>
             <connections>
-                <outlet property="bgdIcon" destination="duj-Ym-TjZ" id="MZv-9R-xNS"/>
                 <outlet property="botLabel" destination="laS-nS-0zD" id="jBt-Ls-tLY"/>
                 <outlet property="healthBar" destination="t1W-ke-djt" id="LV5-xv-WBV"/>
                 <outlet property="healthBarView" destination="4NV-7V-bTf" id="sFQ-e2-hhq"/>
                 <outlet property="iconView" destination="PDn-2W-qLR" id="7ZO-ED-yQq"/>
-                <outlet property="monsterIcon" destination="jFF-ne-OWx" id="rXD-zh-VHO"/>
+                <outlet property="monsterView" destination="PDn-2W-qLR" id="vMl-Lh-e1j"/>
                 <outlet property="topLabel" destination="qg5-8p-Zuq" id="c5C-lx-NQK"/>
             </connections>
         </view>

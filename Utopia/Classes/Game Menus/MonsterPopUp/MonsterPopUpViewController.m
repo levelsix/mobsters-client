@@ -160,7 +160,7 @@
 }
 
 - (IBAction)sellClicked:(id)sender {
-  [GenericPopupController displayConfirmationWithDescription:[NSString stringWithFormat:@"Are you sure you would like to sell %@?", self.monster.staticMonster.name] title:@"Sell?" okayButton:@"Sell" cancelButton:@"Cancel" target:self selector:@selector(sell)];
+  [GenericPopupController displayConfirmationWithDescription:[NSString stringWithFormat:@"Are you sure you would like to sell %@?", self.monster.staticMonster.displayName] title:@"Sell?" okayButton:@"Sell" cancelButton:@"Cancel" target:self selector:@selector(sell)];
 }
 
 - (void) sell {

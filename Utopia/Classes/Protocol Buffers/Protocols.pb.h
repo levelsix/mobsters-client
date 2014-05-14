@@ -16,6 +16,7 @@
 #import "EventClan.pb.h"
 #import "EventDungeon.pb.h"
 #import "EventInAppPurchase.pb.h"
+#import "EventMiniJob.pb.h"
 #import "EventMonster.pb.h"
 #import "EventPvp.pb.h"
 #import "EventQuest.pb.h"
@@ -72,6 +73,10 @@
 @class BeginDungeonRequestProto_Builder;
 @class BeginDungeonResponseProto;
 @class BeginDungeonResponseProto_Builder;
+@class BeginMiniJobRequestProto;
+@class BeginMiniJobRequestProto_Builder;
+@class BeginMiniJobResponseProto;
+@class BeginMiniJobResponseProto_Builder;
 @class BeginObstacleRemovalRequestProto;
 @class BeginObstacleRemovalRequestProto_Builder;
 @class BeginObstacleRemovalResponseProto;
@@ -114,6 +119,10 @@
 @class CombineUserMonsterPiecesRequestProto_Builder;
 @class CombineUserMonsterPiecesResponseProto;
 @class CombineUserMonsterPiecesResponseProto_Builder;
+@class CompleteMiniJobRequestProto;
+@class CompleteMiniJobRequestProto_Builder;
+@class CompleteMiniJobResponseProto;
+@class CompleteMiniJobResponseProto_Builder;
 @class CoordinateProto;
 @class CoordinateProto_Builder;
 @class CreateClanRequestProto;
@@ -236,6 +245,8 @@
 @class LoadPlayerCityResponseProto_Builder;
 @class LogoutRequestProto;
 @class LogoutRequestProto_Builder;
+@class MiniJobCenterProto;
+@class MiniJobCenterProto_Builder;
 @class MiniJobProto;
 @class MiniJobProto_Builder;
 @class MinimumClanProto;
@@ -352,6 +363,10 @@
 @class RecordClanRaidStatsRequestProto_Builder;
 @class RecordClanRaidStatsResponseProto;
 @class RecordClanRaidStatsResponseProto_Builder;
+@class RedeemMiniJobRequestProto;
+@class RedeemMiniJobRequestProto_Builder;
+@class RedeemMiniJobResponseProto;
+@class RedeemMiniJobResponseProto_Builder;
 @class ReferralCodeUsedResponseProto;
 @class ReferralCodeUsedResponseProto_Builder;
 @class RemoveMonsterFromBattleTeamRequestProto;
@@ -416,6 +431,10 @@
 @class SetGameCenterIdRequestProto_Builder;
 @class SetGameCenterIdResponseProto;
 @class SetGameCenterIdResponseProto_Builder;
+@class SpawnMiniJobRequestProto;
+@class SpawnMiniJobRequestProto_Builder;
+@class SpawnMiniJobResponseProto;
+@class SpawnMiniJobResponseProto_Builder;
 @class SpawnObstacleRequestProto;
 @class SpawnObstacleRequestProto_Builder;
 @class SpawnObstacleResponseProto;

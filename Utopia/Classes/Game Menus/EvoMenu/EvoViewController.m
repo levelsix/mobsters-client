@@ -142,7 +142,7 @@
   NSMutableArray *notReady = [NSMutableArray array];
   
   for (UserMonster *um in gs.myMonsters) {
-    if (um.isComplete && ![um isHealing] && ![um isEnhancing] && ![um isSacrificing] && um.staticMonster.evolutionMonsterId) {
+    if (um.isAvailable && um.staticMonster.evolutionMonsterId) {
       [validMonsters addObject:um];
     }
   }

@@ -32,8 +32,7 @@
 
 - (void) updateForUserMonster:(UserMonster *)um {
   if (!um) {
-    self.bgdIcon.image = [Globals imageNamed:@"teamempty.png"];
-    self.monsterIcon.image = nil;
+    [self.monsterView updateForMonsterId:0];
     self.topLabel.text = @"Slot Empty";
     self.botLabel.hidden = YES;
     self.healthBarView.hidden = YES;
@@ -44,16 +43,15 @@
     self.healthBar.percentage = ((float)um.curHealth)/[gl calculateMaxHealthForMonster:um];
     
     BOOL greyscale = (um.curHealth <= 0);
-    NSString *file = [mp.imagePrefix stringByAppendingString:@"Thumbnail.png"];
-    [Globals imageNamed:file withView:self.monsterIcon greyscale:greyscale indicator:UIActivityIndicatorViewStyleWhite clearImageDuringDownload:YES];
-    file = [Globals imageNameForElement:mp.monsterElement suffix:@"team.png"];
-    [Globals imageNamed:file withView:self.bgdIcon greyscale:greyscale indicator:UIActivityIndicatorViewStyleWhite clearImageDuringDownload:YES];
+    [self.monsterView updateForElement:mp.monsterElement imgPrefix:mp.imagePrefix greyscale:greyscale];
     
     self.topLabel.text = mp.displayName;
     
-    if ([um isHealing]) {
+    if (![um isAvailable]) {
       self.botLabel.hidden = NO;
       self.healthBarView.hidden = YES;
+      
+      self.botLabel.text = [um statusString];
       
       self.iconView.alpha = 0.5;
     } else {
@@ -314,7 +312,6 @@
 - (IBAction)mailClicked:(id)sender {
   GameViewController *gvc = (GameViewController *)self.parentViewController;
   RequestsViewController *rvc = [[RequestsViewController alloc] init];
-//  MiniJobsViewController *rvc = [[MiniJobsViewController alloc] init];
   [gvc addChildViewController:rvc];
   rvc.view.frame = gvc.view.bounds;
   [gvc.view addSubview:rvc.view];
