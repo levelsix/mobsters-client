@@ -411,7 +411,8 @@ static CCTexturePixelFormat defaultAlphaPixel_format = CCTexturePixelFormat_Defa
 			
 			NSUInteger neededBytes = (4 - mod ) / (bpp/8);
             
-			CCLOGWARN(@"cocos2d: WARNING converting size=(%lu,%lu) to size=(%lu,%lu) due to iOS 5.x memory BUG. See: http://www.cocos2d-iphone.org/forum/topic/31092", (unsigned long)textureWidth, (unsigned long)textureHeight, (unsigned long)(textureWidth + neededBytes), (unsigned long)textureHeight );
+			CCLOGWARN(@"cocos2d: WARNING converting size=(%d,%d) to size=(%d,%d) due to iOS 5.x memory BUG. See: http://www.cocos2d-iphone.org/forum/topic/31092",
+				(unsigned int)textureWidth, (unsigned int)textureHeight, (unsigned int)(textureWidth + neededBytes), (unsigned int)textureHeight );
 			textureWidth = textureWidth + neededBytes;
 		}
 	}

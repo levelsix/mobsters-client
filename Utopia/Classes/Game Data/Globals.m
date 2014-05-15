@@ -1755,7 +1755,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
   // Check that team is valid
   GameState *gs = [GameState sharedGameState];
   //  Globals *gl = [Globals sharedGlobals];
-  NSArray *team = [gs allMonstersOnMyTeam];
+  NSArray *team = [gs allBattleAvailableMonstersOnTeam];
   BOOL hasValidTeam = NO;
   for (UserMonster *um in team) {
     if (um.curHealth > 0) {

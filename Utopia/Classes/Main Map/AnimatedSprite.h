@@ -70,6 +70,8 @@ typedef enum {
   CCSprite *_lockedBubble;
 }
 
+@property (nonatomic, assign) BOOL isBoss;
+
 @end
 
 @interface MoveToLocation : CCActionInterval <NSCopying> {

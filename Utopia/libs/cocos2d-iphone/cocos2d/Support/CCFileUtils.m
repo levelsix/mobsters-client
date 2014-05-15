@@ -30,6 +30,7 @@
 #import "../ccMacros.h"
 #import "../ccConfig.h"
 #import "../ccTypes.h"
+
 #import "CCDirector+Downloader.h"
 
 NSString *CCFileUtilsSuffixDefault = @"default";
@@ -155,6 +156,7 @@ static CCFileUtils *fileUtils = nil;
     NSArray *paths = NSSearchPathForDirectoriesInDomains (NSCachesDirectory, NSUserDomainMask, YES);
     NSString *documentsPath = [paths objectAtIndex:0];
 		_searchPath = [[NSMutableArray alloc] initWithObjects:@"", documentsPath, nil];
+		//_searchPath = [[NSMutableArray alloc] initWithObjects:@"", nil];
 		
 		_filenameLookup = [[NSMutableDictionary alloc] initWithCapacity:10];
 								  

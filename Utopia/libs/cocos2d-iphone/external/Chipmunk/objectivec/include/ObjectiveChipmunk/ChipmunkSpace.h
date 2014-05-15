@@ -19,14 +19,12 @@
  * SOFTWARE.
  */
 
+
 /**
 	Chipmunk spaces are simulation containers. You add a bunch of physics objects to a space (rigid bodies, collision shapes, and joints) and step the entire space forward through time as a whole.
 	If you have Chipmunk Pro, you'll want to use the ChipmunkHastySpace subclass instead as it has iPhone specific optimizations.
 	Unfortunately because of how Objective-C code is linked I can't dynamically substitute a ChipmunkHastySpace from a static library.
 */
-
-struct cpSpace;
-
 @interface ChipmunkSpace : NSObject {
 @protected
 	struct cpSpace *_space;
@@ -84,13 +82,6 @@ struct cpSpace;
 */
 @property(nonatomic, assign) cpTimestamp collisionPersistence;
 
-/**
-	@deprecated 6.0.4
-	Does nothing, and is a no-op. The contact graph is always enabled now.
-*/
-@property(nonatomic, assign) bool enableContactGraph
-__attribute__((__deprecated__));
-
 /// Returns a pointer to the underlying cpSpace C struct
 @property(nonatomic, readonly) cpSpace *space;
 
@@ -104,6 +95,11 @@ __attribute__((__deprecated__));
 	Retrieves the current (if you are in a callback from [ChipmunkSpace step:]) or most recent (outside of a [ChipmunkSpace step:] call) timestep.
 */
 @property(nonatomic, readonly) cpFloat currentTimeStep;
+
+/**
+	Returns true if the space is currently executing a timestep.
+*/
+@property(nonatomic, readonly) BOOL locked;
 
 /**
 	An object that this space is associated with. You can use this get a reference to your game state or controller object from within callbacks.
@@ -127,7 +123,11 @@ __attribute__((__deprecated__));
 - (void)separate:(cpArbiter *)arbiter space:(ChipmunkSpace*)space
 	@endcode
 */
-// TODO
+- (void)setDefaultCollisionHandler:(id)delegate
+	begin:(SEL)begin
+	preSolve:(SEL)preSolve
+	postSolve:(SEL)postSolve
+	separate:(SEL)separate;
 
 /**
   Set a collision handler to handle specific collision types.
@@ -144,7 +144,13 @@ __attribute__((__deprecated__));
 - (void)separate:(cpArbiter *)arbiter space:(ChipmunkSpace*)space
 	@endcode
 */
-// TODO
+- (void)addCollisionHandler:(id)delegate
+	typeA:(cpCollisionType)a typeB:(cpCollisionType)b
+	begin:(SEL)begin
+	preSolve:(SEL)preSolve
+	postSolve:(SEL)postSolve
+	separate:(SEL)separate;
+
 
 /**
   Add an object to the space.
@@ -173,7 +179,7 @@ __attribute__((__deprecated__));
 
 /// Handy utility method to add a border of collision segments around a box. See ChipmunkShape for more information on the other parameters.
 /// Returns an NSArray of the shapes. Since NSArray implements the ChipmunkObject protocol, you can use the [ChipmunkSpace remove:] method to remove the bounds.
-- (NSArray *)addBounds:(CGRect)bounds thickness:(cpFloat)radius
+- (NSArray *)addBounds:(cpBB)bounds thickness:(cpFloat)radius
 	elasticity:(cpFloat)elasticity friction:(cpFloat)friction
 	filter:(cpShapeFilter)filter collisionType:(id)collisionType;
 

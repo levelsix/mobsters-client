@@ -81,7 +81,8 @@
         
         // Don't take it off for decs
         //[self changeTiles:s.location canWalk:NO];
-      } else if (ncep.type == CityElementProto_CityElemTypePersonNeutralEnemy) {
+      } else if (ncep.type == CityElementProto_CityElemTypePersonNeutralEnemy ||
+                 ncep.type == CityElementProto_CityElemTypeBoss) {
         CGRect r = CGRectZero;
         r.origin = [self randomWalkablePosition];
         r.size = CGSizeMake(1, 1);
@@ -91,6 +92,7 @@
           continue;
         }
         ne.name = ASSET_TAG(ncep.assetId);
+        ne.isBoss = ncep.type == CityElementProto_CityElemTypeBoss;
         [self addChild:ne z:1];
       }
     }

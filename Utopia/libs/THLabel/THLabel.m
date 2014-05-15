@@ -385,6 +385,10 @@
 - (CGRect)textRectFromContentRect:(CGRect)contentRect framesetterRef:(CTFramesetterRef)framesetterRef {
 	CGRect textRect = contentRect;
 	textRect.size = CTFramesetterSuggestFrameSizeWithConstraints(framesetterRef, CFRangeMake(0, [self.text length]), NULL, contentRect.size, NULL);
+  
+  // LVL6 Addition
+  // Sometimes things get truncated
+  textRect.size.width = textRect.size.width+1;
 	
 	// Horizontal alignment.
 	switch (self.textAlignment) {

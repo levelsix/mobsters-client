@@ -256,6 +256,7 @@
       
       // LVL6 Addition
 			CCTexture *tex = [[CCTextureCache sharedTextureCache] textureForKey:textureName];
+			//CCTexture *tex = [[CCTextureCache sharedTextureCache] addImage:textureName];
 
 			if( tex )
 				[self setTexture:tex];

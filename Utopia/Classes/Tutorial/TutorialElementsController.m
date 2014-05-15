@@ -78,7 +78,7 @@
 }
 
 - (void) beginFirstMove {
-  NSString *n = [[self strongType] characterAtIndex:0] == 'e' ? @"n" : @"";
+  NSString *n = [[self myType] characterAtIndex:0] == 'e' ? @"n" : @"";
   NSArray *dialogue = @[[NSString stringWithFormat:@"Notice how the health bar above my head is %@? It means I’m a%@ %@-type mobster.", [self myColor], n, [self myType]],
                         [NSString stringWithFormat:@"Because I'm a%@ %@-type, %@ orbs will give me more damage. Match 3 %@ orbs to check it out now!", n, [self myType], [self myType], [self myType]]];
   [self displayDialogue:dialogue];

@@ -58,7 +58,7 @@
 {
 	if( (self=[super init]) ) {
 		_duration = d;
-    
+
 		// prevent division by 0
 		// This comparison could be in step:, but it might decrease the performance
 		// by 3% in heavy based action games.
@@ -88,13 +88,13 @@
 		_elapsed = 0;
 	} else
 		_elapsed += dt;
-  
-  
+
+
 	[self update: MAX(0,					// needed for rewind. elapsed could be negative
-                    MIN(1, _elapsed/
-                        MAX(_duration,FLT_EPSILON)	// division by 0
-                        )
-                    )
+					  MIN(1, _elapsed/
+						  MAX(_duration,FLT_EPSILON)	// division by 0
+						  )
+					  )
 	 ];
 }
 
@@ -121,11 +121,11 @@
 {
 	va_list args;
 	va_start(args, action1);
-  
+
 	id ret = [self actions:action1 vaList:args];
-  
+
 	va_end(args);
-  
+
 	return  ret;
 }
 
@@ -141,7 +141,7 @@
 		else
 			break;
 	}
-  
+
 	return prev;
 }
 
@@ -199,13 +199,13 @@
 	// Issue #1305
 	if( _last != - 1)
 		[_actions[_last] stop];
-  
+
 	[super stop];
 }
 
 -(void) update: (CCTime) t
 {
-  
+
 	int found = 0;
 	CCTime new_t = 0.0f;
 	
@@ -216,7 +216,7 @@
 			new_t = t / _split;
 		else
 			new_t = 1;
-    
+
 	} else {
 		// action[1]
 		found = 1;
@@ -255,7 +255,7 @@
 	if( found == _last && [_actions[found] isDone] ) {
 		return;
 	}
-  
+
 	// New action. Start it.
 	if( found != _last )
 		[_actions[found] startWithTarget:_target];
@@ -285,12 +285,12 @@
 -(id) initWithAction:(CCActionFiniteTime*)action times:(NSUInteger)times
 {
 	CCTime d = [action duration] * times;
-  
+
 	if( (self=[super initWithDuration: d ]) ) {
 		_times = times;
 		self.innerAction = action;
 		_isActionInstant = ([action isKindOfClass:[CCActionInstant class]]) ? YES : NO;
-    
+
 		//a instant action needs to be executed one time less in the update method since it uses startWithTarget to execute the action
 		if (_isActionInstant) _times -=1;
 		_total = 0;
@@ -315,7 +315,7 @@
 
 -(void) stop
 {
-  [_innerAction stop];
+    [_innerAction stop];
 	[super stop];
 }
 
@@ -328,17 +328,17 @@
 	{
 		while (dt > _nextDt && _total < _times)
 		{
-      
+
 			[_innerAction update:1.0f];
 			_total++;
-      
+
 			[_innerAction stop];
 			[_innerAction startWithTarget:_target];
 			_nextDt += [_innerAction duration]/_duration;
 		}
 		
 		// fix for issue #1288, incorrect end value of repeat
-		if(dt >= 1.0f && _total < _times)
+		if(dt >= 1.0f && _total < _times) 
 		{
 			_total++;
 		}
@@ -385,9 +385,9 @@
 {
 	va_list args;
 	va_start(args, action1);
-  
+
 	id ret = [self actions:action1 vaList:args];
-  
+
 	va_end(args);
 	return ret;
 }
@@ -404,7 +404,7 @@
 		else
 			break;
 	}
-  
+
 	return prev;
 }
 
@@ -412,10 +412,10 @@
 +(id) actionWithArray: (NSArray*) actions
 {
 	CCActionFiniteTime *prev = [actions objectAtIndex:0];
-  
+
 	for (NSUInteger i = 1; i < [actions count]; i++)
 		prev = [self actionOne:prev two:[actions objectAtIndex:i]];
-  
+
 	return prev;
 }
 
@@ -429,22 +429,22 @@
 	NSAssert( one!=nil && two!=nil, @"Spawn: arguments must be non-nil");
 	NSAssert( one!=_one && one!=_two, @"Spawn: reinit using same parameters is not supported");
 	NSAssert( two!=_two && two!=_one, @"Spawn: reinit using same parameters is not supported");
-  
+
 	CCTime d1 = [one duration];
 	CCTime d2 = [two duration];
-  
+
 	if( (self=[super initWithDuration: MAX(d1,d2)] ) ) {
-    
+
 		// XXX: Supports re-init without leaking. Fails if one==_one || two==_two
-    
+
 		_one = one;
 		_two = two;
-    
+
 		if( d1 > d2 )
 			_two = [CCActionSequence actionOne:two two:[CCActionDelay actionWithDuration: (d1-d2)] ];
 		else if( d1 < d2)
 			_one = [CCActionSequence actionOne:one two: [CCActionDelay actionWithDuration: (d2-d1)] ];
-    
+
 	}
 	return self;
 }
@@ -497,7 +497,7 @@
 {
 	if( (self=[super initWithDuration: t]) )
 		_dstAngleX = _dstAngleY = a;
-  
+
 	return self;
 }
 
@@ -524,14 +524,14 @@
 -(void) startWithTarget:(CCNode *)aTarget
 {
 	[super startWithTarget:aTarget];
-  
+
   //Calculate X
 	_startAngleX = [_target rotationalSkewX];
 	if (_startAngleX > 0)
 		_startAngleX = fmodf(_startAngleX, 360.0f);
 	else
 		_startAngleX = fmodf(_startAngleX, -360.0f);
-  
+
 	_diffAngleX = _dstAngleX - _startAngleX;
 	if (_diffAngleX > 180)
 		_diffAngleX -= 360;
@@ -554,17 +554,16 @@
 }
 -(void) update: (CCTime) t
 {
-  // LVL6 Addition
-  // added to support overriding setRotation only
-  if ((_startAngleX == _startAngleY) && (_diffAngleX == _diffAngleY))
-  {
-    [(CCNode *)_target setRotation:(_startAngleX + (_diffAngleX * t))];
-  }
-  else
-  {
-    [(CCNode *)_target setRotationalSkewX: _startAngleX + _diffAngleX * t];
-    [(CCNode *)_target setRotationalSkewY: _startAngleY + _diffAngleY * t];
-  }
+    // added to support overriding setRotation only
+    if ((_startAngleX == _startAngleY) && (_diffAngleX == _diffAngleY))
+    {
+        [(CCNode *)_target setRotation:(_startAngleX + (_diffAngleX * t))];
+    }
+    else
+    {
+        [_target setRotationalSkewX: _startAngleX + _diffAngleX * t];
+        [_target setRotationalSkewY: _startAngleY + _diffAngleY * t];
+    }
 }
 @end
 
@@ -584,7 +583,7 @@
 {
 	if( (self=[super initWithDuration: t]) )
 		_angleX = _angleY = a;
-  
+
 	return self;
 }
 
@@ -597,8 +596,8 @@
 {
 	if( (self=[super initWithDuration: t]) ){
 		_angleX = aX;
-    _angleY = aY;
-  }
+        _angleY = aY;
+    }
 	return self;
 }
 
@@ -617,18 +616,17 @@
 
 -(void) update: (CCTime) t
 {
-  // LVL6 Addition
 	// XXX: shall I add % 360
-  // added to support overriding setRotation only
-  if ((_startAngleX == _startAngleY) && (_angleX == _angleY))
-  {
-    [(CCNode *)_target setRotation:(_startAngleX + (_angleX * t))];
-  }
-  else
-  {
-    [_target setRotationalSkewX: (_startAngleX + _angleX * t )];
-    [_target setRotationalSkewY: (_startAngleY + _angleY * t )];
-  }
+    // added to support overriding setRotation only
+    if ((_startAngleX == _startAngleY) && (_angleX == _angleY))
+    {
+        [(CCNode *)_target setRotation:(_startAngleX + (_angleX * t))];
+    }
+    else
+    {
+        [_target setRotationalSkewX: (_startAngleX + _angleX * t )];
+        [_target setRotationalSkewY: (_startAngleY + _angleY * t )];
+    }
 }
 
 -(CCActionInterval*) reverse
@@ -674,9 +672,9 @@
 
 -(void) update: (CCTime) t
 {
-  
+
 	CCNode *node = (CCNode*)_target;
-  
+
 #if CC_ENABLE_STACKABLE_ACTIONS
 	CGPoint currentPos = [node position];
 	CGPoint diff = ccpSub(currentPos, _previousPos);
@@ -706,8 +704,8 @@
 {
 	if( (self=[super initWithDuration: t]) ) {
 		_endPosition = p;
-  }
-  
+    }
+
 	return self;
 }
 
@@ -754,32 +752,32 @@
 -(void) startWithTarget:(CCNode *)aTarget
 {
 	[super startWithTarget:aTarget];
-  
+
 	_startSkewX = [_target skewX];
-  
+
 	if (_startSkewX > 0)
 		_startSkewX = fmodf(_startSkewX, 180.0f);
 	else
 		_startSkewX = fmodf(_startSkewX, -180.0f);
-  
+
 	_deltaX = _endSkewX - _startSkewX;
-  
+
 	if ( _deltaX > 180 ) {
 		_deltaX -= 360;
 	}
 	if ( _deltaX < -180 ) {
 		_deltaX += 360;
 	}
-  
+
 	_startSkewY = [_target skewY];
-  
+
 	if (_startSkewY > 0)
 		_startSkewY = fmodf(_startSkewY, 360.0f);
 	else
 		_startSkewY = fmodf(_startSkewY, -360.0f);
-  
+
 	_deltaY = _endSkewY - _startSkewY;
-  
+
 	if ( _deltaY > 180 ) {
 		_deltaY -= 360;
 	}
@@ -864,18 +862,18 @@
 -(void) update: (CCTime) t
 {
 	// Sin jump. Less realistic
-  //	ccTime y = _height * fabsf( sinf(t * (CGFloat)M_PI * _jumps ) );
-  //	y += _delta.y * dt;
+//	ccTime y = _height * fabsf( sinf(t * (CGFloat)M_PI * _jumps ) );
+//	y += _delta.y * dt;
 	
-  //	// parabolic jump (since v0.8.2)
+//	// parabolic jump (since v0.8.2)
 	CGFloat frac = fmodf( t * _jumps, 1.0f );
 	CGFloat y = _height * 4 * frac * (1 - frac);
 	y += _delta.y * t;
-  
+
 	CGFloat x = _delta.x * t;
 	
 	CCNode *node = (CCNode*)_target;
-  
+
 #if CC_ENABLE_STACKABLE_ACTIONS
 	CGPoint currentPos = [node position];
 	
@@ -920,9 +918,9 @@
 static inline CGFloat bezierat( float a, float b, float c, float d, CCTime t )
 {
 	return (powf(1-t,3) * a +
-          3*t*(powf(1-t,2))*b +
-          3*powf(t,2)*(1-t)*c +
-          powf(t,3)*d );
+			3*t*(powf(1-t,2))*b +
+			3*powf(t,2)*(1-t)*c +
+			powf(t,3)*d );
 }
 
 //
@@ -959,22 +957,22 @@ static inline CGFloat bezierat( float a, float b, float c, float d, CCTime t )
 	CGFloat xb = _config.controlPoint_1.x;
 	CGFloat xc = _config.controlPoint_2.x;
 	CGFloat xd = _config.endPosition.x;
-  
+
 	CGFloat ya = 0;
 	CGFloat yb = _config.controlPoint_1.y;
 	CGFloat yc = _config.controlPoint_2.y;
 	CGFloat yd = _config.endPosition.y;
-  
+
 	CGFloat x = bezierat(xa, xb, xc, xd, t);
 	CGFloat y = bezierat(ya, yb, yc, yd, t);
 	
 	CCNode *node = (CCNode*)_target;
-  
+
 #if CC_ENABLE_STACKABLE_ACTIONS
 	CGPoint currentPos = [node position];
 	CGPoint diff = ccpSub(currentPos, _previousPosition);
 	_startPosition = ccpAdd( _startPosition, diff);
-  
+
 	CGPoint newPos = ccpAdd( _startPosition, ccp(x,y));
 	[node setPosition: newPos];
 	
@@ -987,11 +985,11 @@ static inline CGFloat bezierat( float a, float b, float c, float d, CCTime t )
 - (CCActionInterval*) reverse
 {
 	ccBezierConfig r;
-  
+
 	r.endPosition	 = ccpNeg(_config.endPosition);
 	r.controlPoint_1 = ccpAdd(_config.controlPoint_2, ccpNeg(_config.endPosition));
 	r.controlPoint_2 = ccpAdd(_config.controlPoint_1, ccpNeg(_config.endPosition));
-  
+
 	CCActionBezierBy *action = [[self class] actionWithDuration:[self duration] bezier:r];
 	return action;
 }
@@ -1076,17 +1074,16 @@ static inline CGFloat bezierat( float a, float b, float c, float d, CCTime t )
 
 -(void) update: (CCTime) t
 {
-  // LVL6 Addition
-  // added to support overriding setScale only
-  if ((_startScaleX == _startScaleY) && (_endScaleX == _endScaleY))
-  {
-    [(CCNode *)_target setScale:(_startScaleX + (_deltaX * t))];
-  }
-  else
-  {
-    [(CCNode *)_target setScaleX: (_startScaleX + _deltaX * t ) ];
-    [(CCNode *)_target setScaleY: (_startScaleY + _deltaY * t ) ];
-  }
+    // added to support overriding setScale only
+    if ((_startScaleX == _startScaleY) && (_endScaleX == _endScaleY))
+    {
+        [(CCNode *)_target setScale:(_startScaleX + (_deltaX * t))];
+    }
+    else
+    {
+        [_target setScaleX: (_startScaleX + _deltaX * t ) ];
+        [_target setScaleY: (_startScaleY + _deltaY * t ) ];
+    }
 }
 @end
 
@@ -1122,7 +1119,7 @@ static inline CGFloat bezierat( float a, float b, float c, float d, CCTime t )
 {
 	if( (self=[super initWithDuration: t] ) )
 		_times = b;
-  
+
 	return self;
 }
 
@@ -1206,7 +1203,7 @@ static inline CGFloat bezierat( float a, float b, float c, float d, CCTime t )
 {
 	if( (self=[super initWithDuration: t] ) )
 		_toOpacity = o;
-  
+
 	return self;
 }
 
@@ -1242,7 +1239,7 @@ static inline CGFloat bezierat( float a, float b, float c, float d, CCTime t )
 {
 	if( (self=[super initWithDuration:t] ) )
 		_to = color;
-  
+
 	return self;
 }
 
@@ -1255,7 +1252,7 @@ static inline CGFloat bezierat( float a, float b, float c, float d, CCTime t )
 -(void) startWithTarget:(CCNode*)aTarget
 {
 	[super startWithTarget:aTarget];
-  
+
 	CCNode* tn = (CCNode*) _target;
 	_from = [tn color];
 }
@@ -1263,10 +1260,10 @@ static inline CGFloat bezierat( float a, float b, float c, float d, CCTime t )
 -(void) update: (CCTime) t
 {
 	CCNode* tn = (CCNode*) _target;
-  
+    
 	ccColor4F fc = _from.ccColor4f;
 	ccColor4F tc = _to.ccColor4f;
-  
+    
 	[tn setColor:[CCColor colorWithRed:fc.r + (tc.r - fc.r) * t green:fc.g + (tc.g - fc.g) * t blue:fc.b + (tc.b - fc.b) * t alpha:1]];
 }
 @end
@@ -1299,10 +1296,10 @@ static inline CGFloat bezierat( float a, float b, float c, float d, CCTime t )
 -(void) startWithTarget:(id)aTarget
 {
 	[super startWithTarget:aTarget];
-  
+
 	CCNode* tn = (CCNode*) _target;
 	CCColor* color = [tn color];
-  
+    
 	_fromR = color.red;
 	_fromG = color.green;
 	_fromB = color.blue;
@@ -1352,12 +1349,12 @@ static inline CGFloat bezierat( float a, float b, float c, float d, CCTime t )
 {
 	NSAssert(action != nil, @"CCReverseTime: action should not be nil");
 	NSAssert(action != _other, @"CCReverseTime: re-init doesn't support using the same arguments");
-  
+
 	if( (self=[super initWithDuration: [action duration]]) ) {
 		// Don't leak if action is reused
 		_other = action;
 	}
-  
+
 	return self;
 }
 
@@ -1410,9 +1407,9 @@ static inline CGFloat bezierat( float a, float b, float c, float d, CCTime t )
 	NSAssert( anim!=nil, @"Animate: argument Animation must be non-nil");
 	
 	float singleDuration = anim.duration;
-  
+
 	if( (self=[super initWithDuration:singleDuration * anim.loops] ) ) {
-    
+
 		_nextFrame = 0;
 		self.animation = anim;
 		_origFrame = nil;
@@ -1424,12 +1421,12 @@ static inline CGFloat bezierat( float a, float b, float c, float d, CCTime t )
 		float newUnitOfTimeValue = singleDuration / anim.totalDelayUnits;
 		
 		for( CCAnimationFrame *frame in anim.frames ) {
-      
+
 			NSNumber *value = [NSNumber numberWithFloat: (accumUnitsOfTime * newUnitOfTimeValue) / singleDuration];
 			accumUnitsOfTime += frame.delayUnits;
-      
+
 			[_splitTimes addObject:value];
-		}
+		}		
 	}
 	return self;
 }
@@ -1445,8 +1442,8 @@ static inline CGFloat bezierat( float a, float b, float c, float d, CCTime t )
 {
 	[super startWithTarget:aTarget];
 	CCSprite *sprite = _target;
-  
-  
+
+
 	if( _animation.restoreOriginalFrame )
 		_origFrame = sprite.spriteFrame;
 	
@@ -1458,9 +1455,9 @@ static inline CGFloat bezierat( float a, float b, float c, float d, CCTime t )
 {
 	if( _animation.restoreOriginalFrame ) {
 		CCSprite *sprite = _target;
-    sprite.spriteFrame = _origFrame;
+        sprite.spriteFrame = _origFrame;
 	}
-  
+
 	[super stop];
 }
 
@@ -1485,10 +1482,10 @@ static inline CGFloat bezierat( float a, float b, float c, float d, CCTime t )
 	NSArray *frames = [_animation frames];
 	NSUInteger numberOfFrames = [frames count];
 	CCSpriteFrame *frameToDisplay = nil;
-  
+
 	for( NSUInteger i=_nextFrame; i < numberOfFrames; i++ ) {
 		NSNumber *splitTime = [_splitTimes objectAtIndex:i];
-    
+
 		if( [splitTime floatValue] <= t ) {
 			CCAnimationFrame *frame = [frames objectAtIndex:i];
 			frameToDisplay = [frame spriteFrame];
@@ -1497,7 +1494,7 @@ static inline CGFloat bezierat( float a, float b, float c, float d, CCTime t )
 			NSDictionary *dict = [frame userInfo];
 			if( dict )
 				[[NSNotificationCenter defaultCenter] postNotificationName:CCAnimationFrameDisplayedNotification object:_target userInfo:dict];
-      
+
 			_nextFrame = i+1;
 		}
 		// Issue 1438. Could be more than one frame per tick, due to low frame rate or frame delta < 1/FPS
@@ -1510,10 +1507,10 @@ static inline CGFloat bezierat( float a, float b, float c, float d, CCTime t )
 {
 	NSArray *oldArray = [_animation frames];
 	NSMutableArray *newArray = [NSMutableArray arrayWithCapacity:[oldArray count]];
-  NSEnumerator *enumerator = [oldArray reverseObjectEnumerator];
-  for (id element in enumerator)
-    [newArray addObject:[element copy]];
-  
+    NSEnumerator *enumerator = [oldArray reverseObjectEnumerator];
+    for (id element in enumerator)
+        [newArray addObject:[element copy]];
+
 	CCAnimation *newAnim = [CCAnimation animationWithAnimationFrames:newArray delayPerUnit:_animation.delayPerUnit loops:_animation.loops];
 	newAnim.restoreOriginalFrame = _animation.restoreOriginalFrame;
 	return [[self class] actionWithAnimation:newAnim];

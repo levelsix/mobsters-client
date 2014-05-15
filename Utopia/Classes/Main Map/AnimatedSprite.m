@@ -305,7 +305,8 @@
       // Make sure to cleanup just in case
       [_lockedBubble removeFromParent];
     }
-    _lockedBubble = [CCSprite spriteWithImageNamed:@"bosslock.png"];
+    NSString *str = self.isBoss ? @"bosslock.png" : @"lockedup.png";
+    _lockedBubble = [CCSprite spriteWithImageNamed:str];
     [self addChild:_lockedBubble];
     _lockedBubble.position = ccp(self.contentSize.width/2,self.contentSize.height-5);
     _lockedBubble.anchorPoint = ccp(0.5, 0);

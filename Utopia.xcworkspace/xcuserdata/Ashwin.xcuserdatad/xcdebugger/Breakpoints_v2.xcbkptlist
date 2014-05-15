@@ -73,13 +73,13 @@
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "Utopia/libs/cocos2d-iphone/cocos2d-ui/CCBReader/CCBReader.m"
-            timestampString = "421798241.887795"
+            filePath = "Utopia/Classes/Main Map/MissionMap.m"
+            timestampString = "421803606.651942"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "646"
-            endingLineNumber = "646"
-            landmarkName = "-readPropertyForNode:parent:isExtraProp:"
+            startingLineNumber = "202"
+            endingLineNumber = "202"
+            landmarkName = "-performCurrentTask:"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>

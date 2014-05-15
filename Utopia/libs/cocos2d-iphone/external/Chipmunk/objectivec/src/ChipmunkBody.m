@@ -20,7 +20,7 @@
  */
 
 #define CP_ALLOW_PRIVATE_ACCESS 1
-#import "ObjectiveChipmunk.h"
+#import "ObjectiveChipmunk/ObjectiveChipmunk.h"
 
 @interface ChipmunkSpace(DoubleDispatch)
 
@@ -142,6 +142,7 @@ setter(type, lower, upper)
 both(cpBodyType, type, Type)
 both(cpFloat, mass, Mass)
 both(cpFloat, moment, Moment)
+both(cpVect, centerOfGravity, CenterOfGravity)
 both(cpVect, position, Position)
 both(cpVect, velocity, Velocity)
 both(cpVect, force, Force)
