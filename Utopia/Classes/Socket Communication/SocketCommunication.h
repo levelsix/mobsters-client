@@ -57,7 +57,7 @@
 + (BOOL) isForcedTutorial;
 + (NSString *) getUdid;
 
-- (NSString *) getIFA;
+//- (NSString *) getIFA;
 - (NSString *) getIPAddress;
 - (NSString *) getMacAddress;
 

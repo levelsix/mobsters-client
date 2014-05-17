@@ -82,7 +82,7 @@
     
     [self getMyFacebookUser:^(NSDictionary<FBGraphUser> *facebookUser) {
       LNLog(@"Got facebook user.. Checking if okay to use.");
-      if ([[GameViewController baseController] canProceedWithFacebookId:facebookUser.id]) {
+      if ([[GameViewController baseController] canProceedWithFacebookId:facebookUser[@"id"]]) {
         [self facebookIdIsValid];
       }
     }];
@@ -323,7 +323,7 @@
 
 + (void) getFacebookIdAndDoAction:(void (^)(NSString *facebookId))handler {
   [[FacebookDelegate sharedFacebookDelegate] getMyFacebookUser:^(NSDictionary<FBGraphUser> *facebookUser) {
-    handler(facebookUser.id);
+    handler(facebookUser[@"id"]);
   }];
 }
 

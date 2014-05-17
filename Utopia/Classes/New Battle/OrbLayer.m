@@ -1235,7 +1235,7 @@
         [_gems replaceObjectAtIndex:idxA withObject:realDragGem];
         [_gems replaceObjectAtIndex:idxB withObject:swapGem];
         
-//        [[SoundEngine sharedSoundEngine] puzzleWrongMove];
+        //        [[SoundEngine sharedSoundEngine] puzzleWrongMove];
         
         [self runAction:
          [CCActionSequence actions:
@@ -1256,7 +1256,10 @@
   }
   
   if (_foundMatch) {
-    [self unschedule:@selector(pulseValidMove)];
+    if (_isPulseScheduled) {
+      [self unschedule:@selector(pulseValidMove)];
+      _isPulseScheduled = NO;
+    }
     [self stopValidMovePulsing];
   }
 }
@@ -1346,6 +1349,7 @@
   }
   
   [self scheduleOnce:@selector(pulseValidMove) delay:3.f];
+  _isPulseScheduled = YES;
   
   _allowInput = YES;
 }
@@ -1509,7 +1513,6 @@
   if (!_allowInput) return;
   
   if (_realDragGem) {
-    [self unschedule:@selector(timedOut)];
     [_dragGem.sprite removeFromParent];
     
     _allowInput = NO;

@@ -677,7 +677,6 @@
 		CF54944A18C818DC001E7D32 /* TutorialMyCroniesViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CF54944918C818DB001E7D32 /* TutorialMyCroniesViewController.m */; };
 		CF5CD838153A616300D5D331 /* back.png in Resources */ = {isa = PBXBuildFile; fileRef = CF5CD836153A616300D5D331 /* back.png */; };
 		CF5CD839153A616300D5D331 /* back@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CF5CD837153A616300D5D331 /* back@2x.png */; };
-		CF5FE528172607AA000B0595 /* libChartboost.a in Frameworks */ = {isa = PBXBuildFile; fileRef = CF5FE527172607AA000B0595 /* libChartboost.a */; settings = {ATTRIBUTES = (Weak, ); }; };
 		CF6292F5180D22F500C6C196 /* bagcash.png in Resources */ = {isa = PBXBuildFile; fileRef = CF6292E1180D22F500C6C196 /* bagcash.png */; };
 		CF6292F7180D22F600C6C196 /* bagcash@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CF6292E2180D22F500C6C196 /* bagcash@2x.png */; };
 		CF6292F9180D22F600C6C196 /* baggems.png in Resources */ = {isa = PBXBuildFile; fileRef = CF6292E3180D22F500C6C196 /* baggems.png */; };
@@ -1850,7 +1849,6 @@
 		CFF2162F18FDEA200057B5CE /* imgtestupgrade@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CFF2162518FDEA200057B5CE /* imgtestupgrade@2x.png */; };
 		CFF3901F18273C470010A3BE /* Gotham-Book.otf in Resources */ = {isa = PBXBuildFile; fileRef = CFF3901D18273C470010A3BE /* Gotham-Book.otf */; };
 		CFF3902118273C470010A3BE /* Gotham-Medium.otf in Resources */ = {isa = PBXBuildFile; fileRef = CFF3901E18273C470010A3BE /* Gotham-Medium.otf */; };
-		CFF390491827B00C0010A3BE /* MobileAppTracker.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CFF390481827B00C0010A3BE /* MobileAppTracker.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
 		CFF3904F18284B8C0010A3BE /* m8@2x.fnt in Resources */ = {isa = PBXBuildFile; fileRef = CFF3904B18284B8C0010A3BE /* m8@2x.fnt */; };
 		CFF3905118284B8C0010A3BE /* m8@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CFF3904C18284B8C0010A3BE /* m8@2x.png */; };
 		CFF3905318284B8C0010A3BE /* testbox.png in Resources */ = {isa = PBXBuildFile; fileRef = CFF3904D18284B8C0010A3BE /* testbox.png */; };
@@ -1869,7 +1867,6 @@
 		CFF3908A1828C00B0010A3BE /* friendrequest@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CFF390851828C00B0010A3BE /* friendrequest@2x.png */; };
 		CFF3908C1828C00B0010A3BE /* mail.png in Resources */ = {isa = PBXBuildFile; fileRef = CFF390861828C00B0010A3BE /* mail.png */; };
 		CFF3908E1828C00B0010A3BE /* mail@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CFF390871828C00B0010A3BE /* mail@2x.png */; };
-		CFF390A91829BECA0010A3BE /* Carrot.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CFF390A81829BECA0010A3BE /* Carrot.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
 		CFF390C91829C74A0010A3BE /* earthorb.png in Resources */ = {isa = PBXBuildFile; fileRef = CFF390AB1829C74A0010A3BE /* earthorb.png */; };
 		CFF390CB1829C74A0010A3BE /* earthorb@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CFF390AC1829C74A0010A3BE /* earthorb@2x.png */; };
 		CFF390CD1829C74A0010A3BE /* earthsideways.png in Resources */ = {isa = PBXBuildFile; fileRef = CFF390AD1829C74A0010A3BE /* earthsideways.png */; };
@@ -3324,8 +3321,6 @@
 		CF5876A7162964EB006DCD3B /* Default@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default@2x.png"; sourceTree = "<group>"; };
 		CF5CD836153A616300D5D331 /* back.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = back.png; sourceTree = "<group>"; };
 		CF5CD837153A616300D5D331 /* back@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "back@2x.png"; sourceTree = "<group>"; };
-		CF5FE526172607AA000B0595 /* Chartboost.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Chartboost.h; sourceTree = "<group>"; };
-		CF5FE527172607AA000B0595 /* libChartboost.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libChartboost.a; sourceTree = "<group>"; };
 		CF6292E1180D22F500C6C196 /* bagcash.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = bagcash.png; sourceTree = "<group>"; };
 		CF6292E2180D22F500C6C196 /* bagcash@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "bagcash@2x.png"; sourceTree = "<group>"; };
 		CF6292E3180D22F500C6C196 /* baggems.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = baggems.png; sourceTree = "<group>"; };
@@ -4642,7 +4637,6 @@
 		CFF2162518FDEA200057B5CE /* imgtestupgrade@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "imgtestupgrade@2x.png"; sourceTree = "<group>"; };
 		CFF3901D18273C470010A3BE /* Gotham-Book.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Gotham-Book.otf"; sourceTree = "<group>"; };
 		CFF3901E18273C470010A3BE /* Gotham-Medium.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Gotham-Medium.otf"; sourceTree = "<group>"; };
-		CFF390481827B00C0010A3BE /* MobileAppTracker.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = MobileAppTracker.framework; sourceTree = "<group>"; };
 		CFF3904B18284B8C0010A3BE /* m8@2x.fnt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "m8@2x.fnt"; sourceTree = "<group>"; };
 		CFF3904C18284B8C0010A3BE /* m8@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "m8@2x.png"; sourceTree = "<group>"; };
 		CFF3904D18284B8C0010A3BE /* testbox.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = testbox.png; sourceTree = "<group>"; };
@@ -4663,7 +4657,6 @@
 		CFF390851828C00B0010A3BE /* friendrequest@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "friendrequest@2x.png"; sourceTree = "<group>"; };
 		CFF390861828C00B0010A3BE /* mail.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = mail.png; sourceTree = "<group>"; };
 		CFF390871828C00B0010A3BE /* mail@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "mail@2x.png"; sourceTree = "<group>"; };
-		CFF390A81829BECA0010A3BE /* Carrot.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Carrot.framework; sourceTree = "<group>"; };
 		CFF390AB1829C74A0010A3BE /* earthorb.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = earthorb.png; sourceTree = "<group>"; };
 		CFF390AC1829C74A0010A3BE /* earthorb@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "earthorb@2x.png"; sourceTree = "<group>"; };
 		CFF390AD1829C74A0010A3BE /* earthsideways.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = earthsideways.png; sourceTree = "<group>"; };
@@ -5322,7 +5315,6 @@
 				CFEF25DD18CAB8B200FB867A /* GameKit.framework in Frameworks */,
 				CFC04ED81891028D00F2DB59 /* libcocos2d.a in Frameworks */,
 				CFEF25C018C9ADC300FB867A /* FacebookSDK.framework in Frameworks */,
-				CFF390491827B00C0010A3BE /* MobileAppTracker.framework in Frameworks */,
 				CFE02D9718261F6F0016C1E2 /* libsqlite3.dylib in Frameworks */,
 				CF8E5DDC1803A019009D4F61 /* CoreImage.framework in Frameworks */,
 				CF19088718D822C000D6F0E4 /* Kamcord.framework in Frameworks */,
@@ -5332,7 +5324,6 @@
 				CFEAB54416BBD32900AEB7BD /* Accounts.framework in Frameworks */,
 				CF7F27D8165EC8CB00D967DC /* AdSupport.framework in Frameworks */,
 				45857343157D3BB80086F70C /* libxml2.dylib in Frameworks */,
-				CFF390A91829BECA0010A3BE /* Carrot.framework in Frameworks */,
 				45857341157D3B6A0086F70C /* MobileCoreServices.framework in Frameworks */,
 				4509ABB01577EE1900EC9B44 /* Twitter.framework in Frameworks */,
 				CF1273C41538B7ED00E0C1AD /* QuartzCore.framework in Frameworks */,
@@ -5356,7 +5347,6 @@
 				CF1256471538A94D00E0C1AD /* UIKit.framework in Frameworks */,
 				CF1256491538A94D00E0C1AD /* Foundation.framework in Frameworks */,
 				CF12564B1538A94D00E0C1AD /* CoreGraphics.framework in Frameworks */,
-				CF5FE528172607AA000B0595 /* libChartboost.a in Frameworks */,
 				2636AB3AF3AA4E51B6778221 /* libPods.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -5686,10 +5676,7 @@
 				CFFEB1731834C2FD007C4BA3 /* AHEasing */,
 				CFF39139182A10CD0010A3BE /* DBFBProfilePictureView */,
 				CFEF25BF18C9ADC300FB867A /* FacebookSDK.framework */,
-				CFF390A81829BECA0010A3BE /* Carrot.framework */,
-				CFF390481827B00C0010A3BE /* MobileAppTracker.framework */,
 				CF3B01CB174AEE2A00A3A4F2 /* ODIN */,
-				CF5FE525172607AA000B0595 /* Chartboost */,
 				CF20F22C180FCDCB005551B5 /* EasyTableView */,
 				CF26A88A16FD58E50020D508 /* Amplitude-iOS-master */,
 				CFC1414D1657484A0060188D /* librabbitmq */,
@@ -7043,15 +7030,6 @@
 				CF8BA25018D09C88003277D1 /* TutorialQuestLogViewController.m */,
 			);
 			name = MenuControllers;
-			sourceTree = "<group>";
-		};
-		CF5FE525172607AA000B0595 /* Chartboost */ = {
-			isa = PBXGroup;
-			children = (
-				CF5FE526172607AA000B0595 /* Chartboost.h */,
-				CF5FE527172607AA000B0595 /* libChartboost.a */,
-			);
-			path = Chartboost;
 			sourceTree = "<group>";
 		};
 		CF629320180D2AFB00C6C196 /* SettingsMenu */ = {
@@ -12570,8 +12548,8 @@
 				ARCHS = "$(ARCHS_STANDARD)";
 				ASSETCATALOG_COMPILER_APPICON_NAME = "AppIcon-3";
 				CLANG_ENABLE_OBJC_ARC = YES;
-				CODE_SIGN_IDENTITY = "iPhone Developer";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CODE_SIGN_IDENTITY = "iPhone Distribution";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(SRCROOT)",

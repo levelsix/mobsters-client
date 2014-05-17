@@ -10,6 +10,7 @@
 
 @interface TutorialElementsBattleLayer : MiniTutorialBattleLayer {
   BOOL _isFirstHit;
+  BOOL _allowElementsClick;
 }
 
 - (void) arrowOnMyHealthBar;

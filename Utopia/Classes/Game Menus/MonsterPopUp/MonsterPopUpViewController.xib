@@ -29,6 +29,7 @@
                 <outlet property="progressBar" destination="y5u-CF-vVy" id="wky-Jk-xz4"/>
                 <outlet property="rarityTag" destination="Ubv-eZ-E9j" id="RfK-T2-c9x"/>
                 <outlet property="rockView" destination="eRb-l0-Hoh" id="wCi-CZ-shD"/>
+                <outlet property="sellButtonView" destination="htO-cu-iUw" id="OKW-Dn-9Oj"/>
                 <outlet property="speedLabel" destination="PF7-bJ-lcr" id="kC2-ci-d2P"/>
                 <outlet property="view" destination="1" id="3"/>
                 <outlet property="waterView" destination="ouW-th-ZhY" id="2Vp-r6-dWw"/>
@@ -325,6 +326,16 @@
                             </subviews>
                             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                         </view>
+                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="htO-cu-iUw">
+                            <rect key="frame" x="13" y="7" width="30" height="30"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <state key="normal" backgroundImage="sell.png">
+                                <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                            </state>
+                            <connections>
+                                <action selector="sellClicked:" destination="-1" eventType="touchUpInside" id="IUV-w1-Ovp"/>
+                            </connections>
+                        </button>
                     </subviews>
                     <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                     <simulatedOrientationMetrics key="simulatedOrientationMetrics" orientation="landscapeRight"/>
@@ -579,6 +590,7 @@
         <image name="popupheadercap.png" width="5" height="39"/>
         <image name="popupheadermiddle.png" width="1" height="39"/>
         <image name="popupline.png" width="1" height="1"/>
+        <image name="sell.png" width="40" height="40"/>
         <image name="whitebackbutton.png" width="14" height="21"/>
     </resources>
 </document>

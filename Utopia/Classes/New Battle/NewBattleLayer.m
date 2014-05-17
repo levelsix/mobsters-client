@@ -1192,7 +1192,7 @@
     [SoundEngine puzzleComboCreated];
     [SoundEngine puzzleFirework];
     _canPlayNextComboSound = NO;
-    [self schedule:@selector(allowComboSound) interval:0.02];
+    [self scheduleOnce:@selector(allowComboSound) delay:0.02];
   }
 }
 
@@ -1229,7 +1229,7 @@
   if (_canPlayNextGemPop) {
     [SoundEngine puzzleDestroyPiece];
     _canPlayNextGemPop = NO;
-    [self schedule:@selector(allowGemPop) interval:0.02 repeat:1 delay:0];
+    [self scheduleOnce:@selector(allowGemPop) delay:0.02];
   }
 }
 

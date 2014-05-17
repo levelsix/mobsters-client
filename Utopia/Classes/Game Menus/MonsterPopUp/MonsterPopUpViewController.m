@@ -123,7 +123,8 @@
   [UIView animateWithDuration:0.3f animations:^{
     self.descriptionView.center = CGPointMake(self.descriptionView.center.x-self.descriptionView.frame.size.width, self.descriptionView.center.y);
     self.elementView.center = mainViewCenter;
-    self.backButtonView.alpha = 1.0f;
+    self.backButtonView.alpha = 1.f;
+    self.sellButtonView.alpha = 0.f;
   }completion:^(BOOL finished) {
     self.descriptionView.hidden = YES;
   }];
@@ -142,7 +143,8 @@
   [UIView animateWithDuration:0.3f animations:^{
     self.descriptionView.center = mainViewCenter;
     self.elementView.center = CGPointMake(self.elementView.center.x+self.elementView.frame.size.width, self.elementView.center.y);
-    self.backButtonView.alpha = 0.0f;
+    self.backButtonView.alpha = 0.f;
+    self.sellButtonView.alpha = 1.f;
   } completion:^(BOOL finished) {
     [self.elementView removeFromSuperview];
     self.backButtonView.hidden = YES;
@@ -160,7 +162,7 @@
 }
 
 - (IBAction)sellClicked:(id)sender {
-  [GenericPopupController displayConfirmationWithDescription:[NSString stringWithFormat:@"Are you sure you would like to sell %@?", self.monster.staticMonster.displayName] title:@"Sell?" okayButton:@"Sell" cancelButton:@"Cancel" target:self selector:@selector(sell)];
+  [GenericPopupController displayConfirmationWithDescription:[NSString stringWithFormat:@"Are you sure you would like to sell %@ for %@?", self.monster.staticMonster.displayName, [Globals cashStringForNumber:self.monster.sellPrice]] title:@"Sell?" okayButton:@"Sell" cancelButton:@"Cancel" target:self selector:@selector(sell)];
 }
 
 - (void) sell {

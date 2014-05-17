@@ -1194,6 +1194,8 @@ static NSString *udid = nil;
                                    addAllUmchp:monsterHealths]
                                   build];
   
+  // Must manually flush in case heal is being batched
+  [self flush];
   int tag = [self sendData:req withMessageType:EventProtocolRequestCHealMonsterEvent];
   
   [self reloadHealQueueSnapshot];

@@ -116,14 +116,19 @@
 - (void) arrowOnElements {
   self.elementButton.hidden = NO;
   [Globals createUIArrowForView:self.elementButton atAngle:0];
+  _allowElementsClick = YES;
 }
 
 - (void) elementButtonClicked:(id)sender {
-  [super elementButtonClicked:sender];
-  [Globals removeUIArrowFromViewRecursively:self.elementButton.superview];
-  
-  if ([self.delegate respondsToSelector:@selector(elementButtonClicked)]) {
-    [self.delegate elementButtonClicked];
+  if (_allowElementsClick) {
+    _allowElementsClick = NO;
+    
+    [super elementButtonClicked:sender];
+    [Globals removeUIArrowFromViewRecursively:self.elementButton.superview];
+    
+    if ([self.delegate respondsToSelector:@selector(elementButtonClicked)]) {
+      [self.delegate elementButtonClicked];
+    }
   }
 }
 

@@ -814,6 +814,7 @@
   for (TaskStageProto *tsp in proto.tspList) {
     for (TaskStageMonsterProto *tsm in tsp.stageMonstersList) {
       silverAmount += tsm.cashReward;
+      oilAmount += tsm.oilReward;
       expAmount += tsm.expReward;
       
       if (tsm.puzzlePieceDropped) {

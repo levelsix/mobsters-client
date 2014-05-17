@@ -10,7 +10,6 @@
 #import "GameState.h"
 #import "OutgoingEventController.h"
 #import "QuestUtil.h"
-#import <Carrot/Carrot.h>
 #import "GenericPopupController.h"
 #import "GameViewController.h"
 #import "CCBReader.h"

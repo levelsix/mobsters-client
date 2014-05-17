@@ -19,8 +19,6 @@
 #import "SoundEngine.h"
 #import "Downloader.h"
 #import "Amplitude.h"
-#import <MobileAppTracker/MobileAppTracker.h>
-#import "Chartboost.h"
 #import "TestFlight.h"
 #import <Kamcord/Kamcord.h>
 #import "FacebookDelegate.h"
@@ -77,15 +75,15 @@
 //  }
 }
 
-- (void)mobileAppTracker:(MobileAppTracker *)tracker didSucceedWithData:(NSData *)data {
-  LNLog(@"MAT.didSucceed:");
-  LNLog(@"%@", [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding]);
-}
-
-- (void)mobileAppTracker:(MobileAppTracker *)tracker didFailWithError:(NSError *)error {
-  LNLog(@"MAT.didFail:");
-  LNLog(@"%@", error);
-}
+//- (void)mobileAppTracker:(MobileAppTracker *)tracker didSucceedWithData:(NSData *)data {
+//  LNLog(@"MAT.didSucceed:");
+//  LNLog(@"%@", [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding]);
+//}
+//
+//- (void)mobileAppTracker:(MobileAppTracker *)tracker didFailWithError:(NSError *)error {
+//  LNLog(@"MAT.didFail:");
+//  LNLog(@"%@", error);
+//}
 
 - (void) setUpChartboost {
 //  Chartboost *cb = [Chartboost sharedChartboost];

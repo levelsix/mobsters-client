@@ -28,7 +28,6 @@
 #import "AppDelegate.h"
 #import "DungeonBattleLayer.h"
 #import "Downloader.h"
-#import <Carrot/Carrot.h>
 #import "DiamondShopViewController.h"
 #import "MenuNavigationController.h"
 #import "MyCroniesViewController.h"
@@ -299,6 +298,8 @@
       if (dir.runningScene) {
         [dir popToRootScene];
       }
+      self.questCompleteLayer = nil;
+      _isInBattle = NO;
     }
     
     [FacebookDelegate getFacebookIdAndDoAction:^(NSString *facebookId) {

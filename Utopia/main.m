@@ -8,7 +8,6 @@
 
 #import <UIKit/UIKit.h>
 #import "AppDelegate.h"
-#import <Carrot/Carrot.h>
 
 void SigPipeHandler(int s);
 

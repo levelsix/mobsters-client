@@ -79,7 +79,9 @@ typedef enum {
   CGPoint _lastGridPt;
   BOOL _foundMatch;
   int _gemsBouncing;
+  
   BOOL _isPulsing;
+  BOOL _isPulseScheduled;
 }
 
 @property (nonatomic, readonly) CGSize gridSize;

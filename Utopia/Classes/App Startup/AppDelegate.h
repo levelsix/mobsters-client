@@ -8,7 +8,6 @@
 
 #import <UIKit/UIKit.h>
 #import <CoreLocation/CoreLocation.h>
-#import <MobileAppTracker/MobileAppTracker.h>
 
 #ifdef LEGENDS_OF_CHAOS
 #define FACEBOOK_APP_ID      @"160187864152452"
@@ -16,7 +15,7 @@
 #define FACEBOOK_APP_ID      @"626969100686621"
 #endif
 
-@interface AppDelegate : NSObject <UIApplicationDelegate, CLLocationManagerDelegate, MobileAppTrackerDelegate> {
+@interface AppDelegate : NSObject <UIApplicationDelegate, CLLocationManagerDelegate> {
 	UIWindow *window;
 }
 
