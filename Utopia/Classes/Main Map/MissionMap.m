@@ -228,7 +228,6 @@
   GameState *gs = [GameState sharedGameState];
   NSArray *taskIdsWithArrows = gs.taskIdsToUnlockMoreTasks;
   NSArray *curQuestIds = gs.inProgressIncompleteQuests.allKeys;
-  if (!_assetIdToDisplayArrow) {
     for (CCNode *n in self.children) {
       if ([n conformsToProtocol:@protocol(TaskElement)]) {
         id<TaskElement> asset = (id<TaskElement>)n;
@@ -241,7 +240,7 @@
           asset.visible = YES;
         }
         
-        if ([taskIdsWithArrows containsObject:@(taskId)]) {
+        if (!_assetIdToDisplayArrow && [taskIdsWithArrows containsObject:@(taskId)]) {
           [asset displayArrow];
         } else {
           [asset removeArrowAnimated:NO];
@@ -252,7 +251,6 @@
         }
       }
     }
-  }
 }
 
 - (void) onEnter {

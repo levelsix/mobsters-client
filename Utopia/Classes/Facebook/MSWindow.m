@@ -8,6 +8,7 @@
 
 #import "MSWindow.h"
 #import "FBDialog.h"
+#import <FacebookSDK/FBDialogs.h>
 
 @implementation FacebookWebViewDelegate
 

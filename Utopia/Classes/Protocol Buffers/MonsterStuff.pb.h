@@ -355,6 +355,7 @@ BOOL MonsterBattleDialogueProto_DialogueTypeIsValidValue(MonsterBattleDialoguePr
   BOOL hasCurLvlRequiredExp_:1;
   BOOL hasFeederExp_:1;
   BOOL hasSpeed_:1;
+  BOOL hasSellAmount_:1;
   BOOL hasFireDmg_:1;
   BOOL hasGrassDmg_:1;
   BOOL hasWaterDmg_:1;
@@ -370,6 +371,7 @@ BOOL MonsterBattleDialogueProto_DialogueTypeIsValidValue(MonsterBattleDialoguePr
   int32_t curLvlRequiredExp;
   int32_t feederExp;
   int32_t speed;
+  int32_t sellAmount;
   int32_t fireDmg;
   int32_t grassDmg;
   int32_t waterDmg;
@@ -392,6 +394,7 @@ BOOL MonsterBattleDialogueProto_DialogueTypeIsValidValue(MonsterBattleDialoguePr
 - (BOOL) hasDmgExponentBase;
 - (BOOL) hasExpLvlDivisor;
 - (BOOL) hasExpLvlExponent;
+- (BOOL) hasSellAmount;
 @property (readonly) int32_t lvl;
 @property (readonly) int32_t hp;
 @property (readonly) int32_t curLvlRequiredExp;
@@ -407,6 +410,7 @@ BOOL MonsterBattleDialogueProto_DialogueTypeIsValidValue(MonsterBattleDialoguePr
 @property (readonly) Float32 dmgExponentBase;
 @property (readonly) Float32 expLvlDivisor;
 @property (readonly) Float32 expLvlExponent;
+@property (readonly) int32_t sellAmount;
 
 + (MonsterLevelInfoProto*) defaultInstance;
 - (MonsterLevelInfoProto*) defaultInstance;
@@ -516,6 +520,11 @@ BOOL MonsterBattleDialogueProto_DialogueTypeIsValidValue(MonsterBattleDialoguePr
 - (Float32) expLvlExponent;
 - (MonsterLevelInfoProto_Builder*) setExpLvlExponent:(Float32) value;
 - (MonsterLevelInfoProto_Builder*) clearExpLvlExponent;
+
+- (BOOL) hasSellAmount;
+- (int32_t) sellAmount;
+- (MonsterLevelInfoProto_Builder*) setSellAmount:(int32_t) value;
+- (MonsterLevelInfoProto_Builder*) clearSellAmount;
 @end
 
 @interface FullUserMonsterProto : PBGeneratedMessage {

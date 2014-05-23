@@ -156,15 +156,15 @@
   self.touchView.userInteractionEnabled = NO;
   
 #ifdef DEBUG
-  [self initMissionMapWithCenterOnThirdBuilding:NO];
-  [self beginBlackedOutDialogue];
+  //[self initMissionMapWithCenterOnThirdBuilding:NO];
+  //[self beginBlackedOutDialogue];
   //[self beginPostFirstBattleConfrontationPhase];
   
   //[self yachtWentOffScene];
   
-  //[self initHomeMap];
+  [self initHomeMap];
   //[self initTopBar];
-  //[self beginFacebookLoginPhase];
+  [self beginFacebookLoginPhase];
 #else
   [self initMissionMapWithCenterOnThirdBuilding:NO];
   [self beginBlackedOutDialogue];

@@ -8,12 +8,9 @@
 
 #import "FacebookDelegate.h"
 #import <FacebookSDK/FacebookSDK.h>
-#import "Globals.h"
 #import "GenericPopupController.h"
-#import "GameState.h"
-#import "OutgoingEventController.h"
-#import "GameViewController.h"
 #import "SocketCommunication.h"
+#import "GameViewController.h"
 
 #define PUBLISH_PERMISSIONS @[@"publish_actions"]
 
@@ -36,8 +33,17 @@
   if ((self = [super init])) {
     self.friendCache = [[FBFrictionlessRecipientCache alloc] init];
     [self.friendCache prefetchAndCacheForSession:nil];
+    
+    _completionHandlers = [NSMutableArray array];
   }
   return self;
+}
+
+- (void) respondToCompletionHandlersWithSuccess:(BOOL)success {
+  for (void (^completionHandler)(BOOL success) in _completionHandlers) {
+    completionHandler(success);
+  }
+  [_completionHandlers removeAllObjects];
 }
 
 + (void) activateApp {
@@ -45,7 +51,6 @@
 }
 
 + (BOOL) handleOpenURL:(NSURL *)url sourceApplication:(NSString *)sourceApplication {
-  [[GameViewController baseController] openedFromFacebook];
   [FBSession.activeSession setStateChangeHandler:
    ^(FBSession *session, FBSessionState state, NSError *error) {
      [[self sharedFacebookDelegate] sessionStateChanged:session state:state error:error];
@@ -64,10 +69,7 @@
 - (void) facebookIdIsValid {
   // Will be called by game view controller
   LNLog(@"Facebook id verified.. Calling handler.");
-  if (_loginCompletionHandler) {
-    _loginCompletionHandler(YES);
-    _loginCompletionHandler = nil;
-  }
+  [self respondToCompletionHandlersWithSuccess:YES];
 }
 
 + (void) facebookIdIsValid {
@@ -87,10 +89,7 @@
       }
     }];
   } else {
-    if (_loginCompletionHandler) {
-      _loginCompletionHandler(NO);
-      _loginCompletionHandler = nil;
-    }
+    [self respondToCompletionHandlersWithSuccess:NO];
   }
   if (state == FBSessionStateClosed || state == FBSessionStateClosedLoginFailed){
     // If the session is closed
@@ -148,7 +147,7 @@
     }
   } else {
     if (completionHandler) {
-      _loginCompletionHandler = completionHandler;
+      [_completionHandlers addObject:completionHandler];
     }
     
     // Open a session showing the user the login UI
@@ -178,9 +177,8 @@
     // is not already set, we must check if it's current state is created, since that
     // means it hasn't attempted logging in or anything.
     FBSession *session = [FBSession activeSession];
-    if (!triedToOpen && session.state == FBSessionStateCreated && _loginCompletionHandler) {
-      _loginCompletionHandler(NO);
-      _loginCompletionHandler = nil;
+    if (!triedToOpen && session.state == FBSessionStateCreated) {
+      [self respondToCompletionHandlersWithSuccess:NO];
     }
   }
 }
@@ -334,10 +332,7 @@
 }
 
 - (void) logout {
-  if (_loginCompletionHandler) {
-    _loginCompletionHandler(NO);
-    _loginCompletionHandler = nil;
-  }
+  [self respondToCompletionHandlersWithSuccess:NO];
   [FBSession.activeSession closeAndClearTokenInformation];
   self.myFacebookUser = nil;
   [FBSession setActiveSession:nil];

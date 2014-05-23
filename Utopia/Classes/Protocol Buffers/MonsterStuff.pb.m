@@ -1293,6 +1293,7 @@ BOOL MonsterProto_AnimationTypeIsValidValue(MonsterProto_AnimationType value) {
 @property Float32 dmgExponentBase;
 @property Float32 expLvlDivisor;
 @property Float32 expLvlExponent;
+@property int32_t sellAmount;
 @end
 
 @implementation MonsterLevelInfoProto
@@ -1402,6 +1403,13 @@ BOOL MonsterProto_AnimationTypeIsValidValue(MonsterProto_AnimationType value) {
   hasExpLvlExponent_ = !!value;
 }
 @synthesize expLvlExponent;
+- (BOOL) hasSellAmount {
+  return !!hasSellAmount_;
+}
+- (void) setHasSellAmount:(BOOL) value {
+  hasSellAmount_ = !!value;
+}
+@synthesize sellAmount;
 - (void) dealloc {
   [super dealloc];
 }
@@ -1422,6 +1430,7 @@ BOOL MonsterProto_AnimationTypeIsValidValue(MonsterProto_AnimationType value) {
     self.dmgExponentBase = 0;
     self.expLvlDivisor = 0;
     self.expLvlExponent = 0;
+    self.sellAmount = 0;
   }
   return self;
 }
@@ -1486,6 +1495,9 @@ static MonsterLevelInfoProto* defaultMonsterLevelInfoProtoInstance = nil;
   if (self.hasExpLvlExponent) {
     [output writeFloat:15 value:self.expLvlExponent];
   }
+  if (self.hasSellAmount) {
+    [output writeInt32:16 value:self.sellAmount];
+  }
   [self.unknownFields writeToCodedOutputStream:output];
 }
 - (int32_t) serializedSize {
@@ -1539,6 +1551,9 @@ static MonsterLevelInfoProto* defaultMonsterLevelInfoProtoInstance = nil;
   }
   if (self.hasExpLvlExponent) {
     size += computeFloatSize(15, self.expLvlExponent);
+  }
+  if (self.hasSellAmount) {
+    size += computeInt32Size(16, self.sellAmount);
   }
   size += self.unknownFields.serializedSize;
   memoizedSerializedSize = size;
@@ -1660,6 +1675,9 @@ static MonsterLevelInfoProto* defaultMonsterLevelInfoProtoInstance = nil;
   if (other.hasExpLvlExponent) {
     [self setExpLvlExponent:other.expLvlExponent];
   }
+  if (other.hasSellAmount) {
+    [self setSellAmount:other.sellAmount];
+  }
   [self mergeUnknownFields:other.unknownFields];
   return self;
 }
@@ -1739,6 +1757,10 @@ static MonsterLevelInfoProto* defaultMonsterLevelInfoProtoInstance = nil;
       }
       case 125: {
         [self setExpLvlExponent:[input readFloat]];
+        break;
+      }
+      case 128: {
+        [self setSellAmount:[input readInt32]];
         break;
       }
     }
@@ -1982,6 +2004,22 @@ static MonsterLevelInfoProto* defaultMonsterLevelInfoProtoInstance = nil;
 - (MonsterLevelInfoProto_Builder*) clearExpLvlExponent {
   result.hasExpLvlExponent = NO;
   result.expLvlExponent = 0;
+  return self;
+}
+- (BOOL) hasSellAmount {
+  return result.hasSellAmount;
+}
+- (int32_t) sellAmount {
+  return result.sellAmount;
+}
+- (MonsterLevelInfoProto_Builder*) setSellAmount:(int32_t) value {
+  result.hasSellAmount = YES;
+  result.sellAmount = value;
+  return self;
+}
+- (MonsterLevelInfoProto_Builder*) clearSellAmount {
+  result.hasSellAmount = NO;
+  result.sellAmount = 0;
   return self;
 }
 @end

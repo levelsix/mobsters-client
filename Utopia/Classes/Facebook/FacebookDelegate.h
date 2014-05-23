@@ -12,7 +12,7 @@
 @protocol FBGraphUser;
 
 @interface FacebookDelegate : NSObject {
-  void (^_loginCompletionHandler)(BOOL success);
+  NSMutableArray *_completionHandlers;
 }
 
 @property (nonatomic, retain) FBFrictionlessRecipientCache *friendCache;
