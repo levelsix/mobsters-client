@@ -178,6 +178,30 @@
   [self checkAllDonateQuests];
 }
 
++ (void) checkAllStructQuests {
+  GameState *gs = [GameState sharedGameState];
+  NSMutableDictionary *questIdToJobIds = [NSMutableDictionary dictionary];
+  
+  for (FullQuestProto *quest in gs.inProgressIncompleteQuests.allValues) {
+    for (QuestJobProto *job in quest.jobsList) {
+      if (job.questJobType == QuestJobProto_QuestJobTypeUpgradeStruct) {
+        int quantity = [self checkQuantityForDonateQuestJob:job];
+        
+        UserQuest *uq = [gs myQuestWithId:quest.questId];
+        UserQuestJob *uqj = [uq jobForId:job.questJobId];
+        if (!uq.isComplete && !uqj.isComplete && quantity != uqj.progress) {
+          uqj.progress = quantity;
+          [self addJob:job toDict:questIdToJobIds];
+        }
+      }
+    }
+  }
+  
+  if (questIdToJobIds.count > 0) {
+    [self sendQuestProgressForQuests:questIdToJobIds];
+  }
+}
+
 + (void) checkNewlyAcceptedQuest:(FullQuestProto *)quest {
   GameState *gs = [GameState sharedGameState];
   NSMutableDictionary *questIdToJobIds = [NSMutableDictionary dictionary];
