@@ -91,6 +91,9 @@ typedef enum {
 @interface NiceFontButton3 : GeneralButton
 @end
 
+@interface NiceFontButton8 : GeneralButton
+@end
+
 @interface NiceFontButton9 : GeneralButton
 @end
 
@@ -300,7 +303,7 @@ typedef enum {
 
 @interface ButtonTopBar : UIView
 
-@property (nonatomic, retain) IBOutlet UIImageView *selectedView;
+@property (nonatomic, retain) IBOutlet UIView *selectedView;
 
 @property (nonatomic, retain) IBOutlet UILabel *label1;
 @property (nonatomic, retain) IBOutlet UILabel *label2;

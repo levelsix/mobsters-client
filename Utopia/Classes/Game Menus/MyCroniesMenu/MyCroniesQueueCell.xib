@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="5053" systemVersion="12F45" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="5056" systemVersion="12F45" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none">
     <dependencies>
         <deployment defaultVersion="1536" identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="3733"/>
@@ -35,21 +35,41 @@
                     </connections>
                 </view>
                 <view contentMode="scaleToFill" id="Pyk-uU-Q3D">
-                    <rect key="frame" x="3" y="35" width="44" height="16"/>
+                    <rect key="frame" x="3" y="29" width="44" height="16"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                     <subviews>
-                        <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="minitimebg.png" id="S5C-zK-qlI">
-                            <rect key="frame" x="0.0" y="5" width="44" height="11"/>
+                        <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="hospitaltimeleftbg.png" id="S5C-zK-qlI">
+                            <rect key="frame" x="3" y="6" width="37" height="8"/>
                             <autoresizingMask key="autoresizingMask"/>
                         </imageView>
-                        <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="minitimebar.png" id="e7F-dx-rNn" customClass="ProgressBar">
-                            <rect key="frame" x="2" y="7" width="40" height="7"/>
-                            <autoresizingMask key="autoresizingMask"/>
-                        </imageView>
-                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="12m 22s" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="Jju-Ql-7n6" customClass="NiceFontLabel">
-                            <rect key="frame" x="2" y="-5" width="42" height="21"/>
+                        <view contentMode="scaleToFill" id="uZT-oq-NnM" customClass="SplitImageProgressBar">
+                            <rect key="frame" x="3" y="6" width="37" height="8"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                            <fontDescription key="fontDescription" type="system" pointSize="9"/>
+                            <subviews>
+                                <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="left" image="teamhealthbarcap.png" id="Cnu-6q-CKr">
+                                    <rect key="frame" x="0.0" y="0.0" width="3" height="8"/>
+                                    <autoresizingMask key="autoresizingMask"/>
+                                </imageView>
+                                <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" image="teamhealthbarmiddle.png" id="RBM-HK-TSb">
+                                    <rect key="frame" x="3" y="0.0" width="38" height="8"/>
+                                    <autoresizingMask key="autoresizingMask"/>
+                                </imageView>
+                                <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="left" image="teamhealthbarcap.png" id="Fl9-PP-U02" customClass="FlipImageView">
+                                    <rect key="frame" x="41" y="0.0" width="3" height="8"/>
+                                    <autoresizingMask key="autoresizingMask"/>
+                                </imageView>
+                            </subviews>
+                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                            <connections>
+                                <outlet property="leftCap" destination="Cnu-6q-CKr" id="gbi-Ex-A8q"/>
+                                <outlet property="middleBar" destination="RBM-HK-TSb" id="DBi-rN-zQa"/>
+                                <outlet property="rightCap" destination="Fl9-PP-U02" id="0qa-S2-uin"/>
+                            </connections>
+                        </view>
+                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="12m 22s" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="Jju-Ql-7n6" customClass="NiceFontLabel">
+                            <rect key="frame" x="1" y="-5" width="42" height="21"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <fontDescription key="fontDescription" type="system" pointSize="8"/>
                             <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                             <nil key="highlightedColor"/>
                             <color key="shadowColor" red="0.0" green="0.0" blue="0.0" alpha="0.29999999999999999" colorSpace="calibratedRGB"/>
@@ -76,7 +96,7 @@
             </subviews>
             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
             <connections>
-                <outlet property="healthBar" destination="e7F-dx-rNn" id="ffH-vS-FrL"/>
+                <outlet property="healthBar" destination="uZT-oq-NnM" id="fyF-A7-sAU"/>
                 <outlet property="monsterView" destination="7dw-AJ-6f4" id="D6b-zW-Xer"/>
                 <outlet property="timeLabel" destination="Jju-Ql-7n6" id="Ea5-xk-Mij"/>
                 <outlet property="timerView" destination="Pyk-uU-Q3D" id="pH5-Ri-BMY"/>
@@ -86,8 +106,9 @@
     <resources>
         <image name="BryanGoslingT1Thumbnail.png" width="33" height="42"/>
         <image name="fireteam.png" width="42" height="42"/>
-        <image name="minitimebar.png" width="40" height="7"/>
-        <image name="minitimebg.png" width="44" height="11"/>
-        <image name="minusteam.png" width="17" height="17"/>
+        <image name="hospitaltimeleftbg.png" width="37" height="8"/>
+        <image name="minusteam.png" width="18" height="18"/>
+        <image name="teamhealthbarcap.png" width="3" height="8"/>
+        <image name="teamhealthbarmiddle.png" width="1" height="8"/>
     </resources>
 </document>

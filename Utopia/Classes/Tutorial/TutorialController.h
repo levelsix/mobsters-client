@@ -158,6 +158,8 @@ typedef enum {
 
 @property (nonatomic, retain) TutorialTouchView *touchView;
 
+@property (nonatomic, retain) UIButton *closeButton;
+
 - (id) initWithTutorialConstants:(StartupResponseProto_TutorialConstants *)constants gameViewController:(GameViewController *)gvc;
 - (void) beginTutorial;
 

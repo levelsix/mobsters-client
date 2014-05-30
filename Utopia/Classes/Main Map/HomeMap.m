@@ -1002,6 +1002,7 @@
   }
   _constrBuilding = nil;
   
+  [QuestUtil checkAllStructQuests];
   [AchievementUtil checkBuildingUpgrade:mb.userStruct.structId];
   [[NSNotificationCenter defaultCenter] postNotificationName:GAMESTATE_UPDATE_NOTIFICATION object:nil];
 }
@@ -1383,6 +1384,7 @@
           [mb removeProgressBar];
         }
         
+        [QuestUtil checkAllStructQuests];
         [AchievementUtil checkBuildingUpgrade:us.structId];
         
         return YES;

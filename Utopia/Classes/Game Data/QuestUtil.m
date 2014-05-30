@@ -87,6 +87,27 @@
   return quantity;
 }
 
++ (int) checkQuantityForStructQuestJob:(QuestJobProto *)job {
+  GameState *gs = [GameState sharedGameState];
+  int quantity = 0;
+  if (job.questJobType == QuestJobProto_QuestJobTypeUpgradeStruct) {
+    for (UserStruct *us in gs.myStructs) {
+      // Make sure it is complete and not in any queue
+      id<StaticStructure> usSS = us.staticStruct;
+      NSArray *ssArr = [us allStaticStructs];
+      for (id<StaticStructure> ss in ssArr) {
+        if (ss.structInfo.structId == job.staticDataId) {
+          if (ss.structInfo.level < usSS.structInfo.level ||
+              (ss.structInfo.level == usSS.structInfo.level && us.isComplete)) {
+            quantity = MIN(quantity+1, job.quantity);
+          }
+        }
+      }
+    }
+  }
+  return quantity;
+}
+
 + (void) checkAllDonateQuests {
   GameState *gs = [GameState sharedGameState];
   NSMutableDictionary *questIdToJobIds = [NSMutableDictionary dictionary];
@@ -185,12 +206,13 @@
   for (FullQuestProto *quest in gs.inProgressIncompleteQuests.allValues) {
     for (QuestJobProto *job in quest.jobsList) {
       if (job.questJobType == QuestJobProto_QuestJobTypeUpgradeStruct) {
-        int quantity = [self checkQuantityForDonateQuestJob:job];
+        int quantity = [self checkQuantityForStructQuestJob:job];
         
         UserQuest *uq = [gs myQuestWithId:quest.questId];
         UserQuestJob *uqj = [uq jobForId:job.questJobId];
-        if (!uq.isComplete && !uqj.isComplete && quantity != uqj.progress) {
+        if (!uqj.isComplete && quantity != uqj.progress) {
           uqj.progress = quantity;
+          uqj.isComplete = (uqj.progress >= job.quantity);
           [self addJob:job toDict:questIdToJobIds];
         }
       }
@@ -213,6 +235,17 @@
       UserQuestJob *uqj = [uq jobForId:job.questJobId];
       if (quantity != uqj.progress) {
         uqj.progress = quantity;
+        [self addJob:job toDict:questIdToJobIds];
+      }
+    }
+    if (job.questJobType == QuestJobProto_QuestJobTypeUpgradeStruct) {
+      int quantity = [self checkQuantityForStructQuestJob:job];
+      
+      UserQuest *uq = [gs myQuestWithId:quest.questId];
+      UserQuestJob *uqj = [uq jobForId:job.questJobId];
+      if (!uqj.isComplete && quantity != uqj.progress) {
+        uqj.progress = quantity;
+        uqj.isComplete = (uqj.progress >= job.quantity);
         [self addJob:job toDict:questIdToJobIds];
       }
     }

@@ -25,6 +25,7 @@
 
 + (int) checkQuantityForDonateQuestJob:(QuestJobProto *)job;
 + (void) checkAllDonateQuests;
++ (void) checkAllStructQuests;
 + (void) checkQuestsForDungeon:(BeginDungeonResponseProto *)dungeonInfo;
 + (void) checkNewlyAcceptedQuest:(FullQuestProto *)quest;
 

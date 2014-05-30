@@ -27,6 +27,7 @@
 #define OIL_CODE @"oilspill"
 #define CASH_AND_OIL_CODE @"greedisgood"
 #define GEMS_CODE @"gemsgalore"
+#define RESET_CODE @"cleanslate"
 
 #define  LVL6_SHARED_SECRET @"mister8conrad3chan9is1a2very4great5man"
 
@@ -402,7 +403,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
       }
     }
   } else {
-    [Globals popupMessage:@"Attempting to progress nonexistant quest"];
+    [Globals popupMessage:@"Attempting to progress nonexistent quest"];
   }
 }
 
@@ -627,6 +628,9 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
         int amt = code.intValue;
         msg = [NSString stringWithFormat:@"Awarded %d gems.", amt];
         [[OutgoingEventController sharedOutgoingEventController] updateUserCurrencyWithCashChange:0 oilChange:0 gemChange:amt reason:GEMS_CODE];
+      } else if ([code isEqualToString:RESET_CODE]) {
+        msg = @"Resetting account...";
+        [[OutgoingEventController sharedOutgoingEventController] updateUserCurrencyWithCashChange:1234 oilChange:1234 gemChange:1234 reason:RESET_CODE];
       }
       
       else {
@@ -1385,9 +1389,8 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
   [gs beginHealingTimer];
 }
 
-- (void) sellUserMonster:(uint64_t)userMonsterId {
+- (void) sellUserMonsters:(NSArray *)userMonsterIds {
   GameState *gs = [GameState sharedGameState];
-  UserMonster *um = [gs myMonsterWithUserMonsterId:userMonsterId];
   
   int numCompleteMonsters = 0;
   for (UserMonster *um in gs.myMonsters) {
@@ -1395,19 +1398,37 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
       numCompleteMonsters++;
     }
   }
-  if (um.isComplete && numCompleteMonsters <= 1) {
+  int numCompleteTryingToSell = 0;
+  NSMutableArray *sellProtos = [NSMutableArray array];
+  NSMutableArray *monstersToRemove = [NSMutableArray array];
+  int moneyGained = 0;
+  for (NSNumber *umId in userMonsterIds) {
+    uint64_t userMonsterId = umId.longLongValue;
+    UserMonster *um = [gs myMonsterWithUserMonsterId:userMonsterId];
+    
+    if (um) {
+      if (um.isComplete) {
+        numCompleteTryingToSell++;
+      }
+      
+      moneyGained += um.sellPrice;
+      
+      MinimumUserMonsterSellProto *sell = [[[[MinimumUserMonsterSellProto builder] setUserMonsterId:userMonsterId] setCashAmount:um.sellPrice] build];
+      [sellProtos addObject:sell];
+      [monstersToRemove addObject:um];
+    } else {
+      [Globals popupMessage:@"Trying to sell nonexistant monster"];
+      return;
+    }
+  }
+  
+  if (numCompleteTryingToSell == numCompleteMonsters) {
     [Globals popupMessage:@"You can't sell your last monster!"];
-  } else if (um) {
-    float fraction = um.isComplete ? 1 : um.numPieces/(float)um.staticMonster.numPuzzlePieces;
-    int price = MAX(1, um.sellPrice*fraction);
-    
-    MinimumUserMonsterSellProto *sell = [[[[MinimumUserMonsterSellProto builder] setUserMonsterId:userMonsterId] setCashAmount:price] build];
-    int tag = [[SocketCommunication sharedSocketCommunication] sendSellUserMonstersMessage:@[sell]];
-    [gs addUnrespondedUpdate:[SilverUpdate updateWithTag:tag change:price]];
-    
-    [gs.myMonsters removeObject:um];
   } else {
-    [Globals popupMessage:@"Trying to sell nonexistant monster"];
+    int tag = [[SocketCommunication sharedSocketCommunication] sendSellUserMonstersMessage:sellProtos];
+    [gs addUnrespondedUpdate:[SilverUpdate updateWithTag:tag change:moneyGained]];
+    
+    [gs.myMonsters removeObjectsInArray:monstersToRemove];
   }
 }
 

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="5053" systemVersion="12F45" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="5056" systemVersion="12F45" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none">
     <dependencies>
         <deployment defaultVersion="1536" identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="3733"/>
@@ -23,7 +23,7 @@
                             <rect key="frame" x="0.0" y="0.0" width="42" height="42"/>
                             <autoresizingMask key="autoresizingMask"/>
                         </imageView>
-                        <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleAspectFit" image="BryanGoslingT1Thumbnail.png" id="jFF-ne-OWx">
+                        <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleAspectFit" id="jFF-ne-OWx">
                             <rect key="frame" x="0.0" y="0.0" width="42" height="42"/>
                             <autoresizingMask key="autoresizingMask"/>
                         </imageView>
@@ -101,7 +101,6 @@
         </view>
     </objects>
     <resources>
-        <image name="BryanGoslingT1Thumbnail.png" width="33" height="42"/>
         <image name="fireteam.png" width="42" height="42"/>
         <image name="teamhealthbarbg.png" width="44" height="8"/>
         <image name="teamhealthbarcap.png" width="3" height="8"/>

@@ -196,7 +196,7 @@
   return [[UIView alloc] initWithFrame:CGRectMake(0, 0, 15, easyTableView.frame.size.height)];
 }
 
-- (NSString *) easyTableView:(EasyTableView *)easyTableView stringForHorizontalHeaderInDesction:(NSInteger)section {
+- (NSString *) easyTableView:(EasyTableView *)easyTableView stringForHorizontalHeaderInSection:(NSInteger)section {
   if (section == 0) {
     return @"Gems";
   } else if (section == 1) {

@@ -324,9 +324,16 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
     [gs updateUser:proto.sender timestamp:0];
     
     // Setup the userid queue
+    [[SocketCommunication sharedSocketCommunication] rebuildSender];
     [[SocketCommunication sharedSocketCommunication] initUserIdMessageQueue];
     
     [gs setPlayerHasBoughtInAppPurchase:proto.playerHasBoughtInAppPurchase];
+    
+    [gs.myQuests removeAllObjects];
+    [gs addToMyQuests:proto.userQuestsList];
+    
+    [gs.myAchievements removeAllObjects];
+    [gs addToMyAchievements:proto.userAchievementsList];
     
     //    [Globals asyncDownloadBundles];
     [gs.myMonsters removeAllObjects];
@@ -343,11 +350,6 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
     }
     
     gs.completedTasks = [NSMutableSet setWithArray:proto.completedTaskIdsList];
-    [gs.myQuests removeAllObjects];
-    [gs addToMyQuests:proto.userQuestsList];
-    
-    [gs.myAchievements removeAllObjects];
-    [gs addToMyAchievements:proto.userAchievementsList];
     
     [gs.myMiniJobs removeAllObjects];
     [gs addToMiniJobs:proto.userMiniJobProtosList];

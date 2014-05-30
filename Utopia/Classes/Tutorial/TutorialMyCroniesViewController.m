@@ -189,6 +189,7 @@
   self.queueView.userInteractionEnabled = NO;
   self.queueView.queueTable.tableView.scrollEnabled = NO;
   self.teamSlotsContainer.userInteractionEnabled = NO;
+  [self.tabBar removeFromSuperview];
 }
 
 - (void) viewDidDisappear:(BOOL)animated {

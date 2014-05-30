@@ -34,6 +34,7 @@
 - (BOOL) isSacrificing;
 - (BOOL) isOnAMiniJob;
 - (BOOL) isAvailable;
+- (BOOL) isAvailableForSelling;
 - (int) sellPrice;
 
 - (MonsterProto *) staticMonster;

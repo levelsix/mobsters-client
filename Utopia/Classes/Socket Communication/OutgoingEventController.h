@@ -100,7 +100,7 @@
 - (BOOL) removeMonsterFromHealingQueue:(UserMonsterHealingItem *)item;
 - (BOOL) speedupHealingQueue;
 - (void) healQueueWaitTimeComplete:(NSArray *)healingItems;
-- (void) sellUserMonster:(uint64_t)userMonsterId;
+- (void) sellUserMonsters:(NSArray *)userMonsterIds;
 
 - (BOOL) setBaseEnhanceMonster:(uint64_t)userMonsterId;
 - (BOOL) removeBaseEnhanceMonster;

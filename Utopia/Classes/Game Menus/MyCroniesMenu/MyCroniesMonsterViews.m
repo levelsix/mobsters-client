@@ -12,6 +12,42 @@
 
 #define TABLE_CELL_WIDTH 54
 
+@implementation MyCroniesTabBar
+
+- (void) clickButton:(int)button {
+  self.label1.highlighted = NO;
+  self.label2.highlighted = NO;
+  self.label3.highlighted = NO;
+  
+  self.icon1.highlighted = NO;
+  self.icon2.highlighted = NO;
+  self.icon3.highlighted = NO;
+  
+  UILabel *label = nil;
+  UIImageView *icon = nil;
+  if (button == 1) {
+    label = self.label1;
+    icon = self.icon1;
+  } else if (button == 2) {
+    label = self.label2;
+    icon = self.icon2;
+  }
+  label.highlighted = YES;
+  icon.highlighted = YES;
+  
+  if (button == 1) {
+    self.selectedView.center = ccp(self.selectedView.center.x, self.frame.size.height*3/4);
+    self.selectedView.transform = CGAffineTransformIdentity;
+    self.selectedView.tag = 2;
+  } else if (button == 2) {
+    self.selectedView.center = ccp(self.selectedView.center.x, self.frame.size.height/4);
+    self.selectedView.transform = CGAffineTransformMakeScale(1, -1);
+    self.selectedView.tag = 1;
+  }
+}
+
+@end
+
 @implementation MyCroniesCardCell
 
 - (void) awakeFromNib {
@@ -22,7 +58,7 @@
   [self.genLabelView.superview addSubview:self.healthBarView];
 }
 
-- (void) updateForUserMonster:(UserMonster *)monster {
+- (void) updateForUserMonster:(UserMonster *)monster showSellCost:(BOOL)showSellCost {
   if (!monster) {
     [self updateForEmptySlots:0];
   } else {
@@ -57,14 +93,18 @@
       self.healthBarView.hidden = NO;
       self.genLabelView.hidden = YES;
       
-      self.healthBar.image = [Globals imageNamed:@"earthcardhealthbar.png"];
+      self.healthLabel.text = [NSString stringWithFormat:@"%@/%@", [Globals commafyNumber:monster.curHealth], [Globals commafyNumber:[gl calculateMaxHealthForMonster:monster]]];
       self.healthBar.percentage = monster.curHealth/(float)[gl calculateMaxHealthForMonster:monster];
       
-      BOOL isFullHealth = monster.curHealth >= [gl calculateMaxHealthForMonster:monster];
-      if (isFullHealth) {
-        self.healCostLabel.text = @"Healthy";
+      if (!showSellCost) {
+        BOOL isFullHealth = monster.curHealth >= [gl calculateMaxHealthForMonster:monster];
+        if (isFullHealth) {
+          self.healCostLabel.text = @"Healthy";
+        } else {
+          self.healCostLabel.text = [Globals cashStringForNumber:[gl calculateCostToHealMonster:monster]];
+        }
       } else {
-        self.healCostLabel.text = [Globals cashStringForNumber:[gl calculateCostToHealMonster:monster]];
+        self.healCostLabel.text = [Globals cashStringForNumber:monster.sellPrice];
       }
     }
   }
@@ -127,6 +167,13 @@
   self.userMonster = um;
 }
 
+- (void) updateForSellMonster:(UserMonster *)um {
+  [self.monsterView updateForMonsterId:um.monsterId];
+  
+  self.timerView.hidden = YES;
+  self.userMonster = um;
+}
+
 - (void) updateForTime {
   float timeLeft = [self.healingItem.endTime timeIntervalSinceNow];
   self.timeLabel.text = [Globals convertTimeToShortString:timeLeft];
@@ -141,19 +188,16 @@
 
 - (void) awakeFromNib {
   [self setupInventoryTable];
+  
+  self.sellButtonView.frame = self.healButtonView.frame;
+  [self.healButtonView.superview addSubview:self.sellButtonView];
 }
 
-- (void) reloadTableAnimated:(BOOL)animated healingQueue:(NSArray *)healingQueue userMonster:(NSArray *)userMonsters timeLeft:(int)timeLeft hospitalCount:(int)hospitalCount {
-  NSArray *oldQueue = self.healingQueue;
-  self.healingQueue = healingQueue.copy;
-  self.userMonsters = userMonsters;
-  _numHospitals = hospitalCount;
-  [self updateTimeWithTimeLeft:timeLeft hospitalCount:hospitalCount];
-  
+- (void) reloadTableAnimated:(BOOL)animated oldArr:(NSArray *)oldArr newArr:(NSArray *)newArr {
   if (animated) {
     NSMutableArray *additions = [NSMutableArray array];
     NSMutableArray *remove = [NSMutableArray array];
-    [Globals calculateDifferencesBetweenOldArray:oldQueue newArray:self.healingQueue removalIps:remove additionIps:additions section:0];
+    [Globals calculateDifferencesBetweenOldArray:oldArr newArray:newArr removalIps:remove additionIps:additions section:0];
     
     [self.queueTable.tableView beginUpdates];
     if (remove.count > 0) {
@@ -166,6 +210,44 @@
   } else {
     [self.queueTable reloadData];
   }
+  [self getQueueCountAndUpdateOpacitiesAnimated:animated];
+}
+
+- (void) reloadTableAnimated:(BOOL)animated healingQueue:(NSArray *)healingQueue userMonster:(NSArray *)userMonsters timeLeft:(int)timeLeft hospitalCount:(int)hospitalCount {
+  self.instructionLabel.text = @"Tap an injured mobster to begin healing.";
+  _isInSellMode = NO;
+  
+  NSArray *oldQueue = self.healingQueue;
+  self.healingQueue = healingQueue.copy;
+  self.userMonsters = userMonsters;
+  _numHospitals = hospitalCount;
+  [self updateTimeWithTimeLeft:timeLeft hospitalCount:hospitalCount];
+  
+  [self reloadTableAnimated:animated oldArr:oldQueue newArr:self.healingQueue];
+  
+  self.sellButtonView.hidden = YES;
+  self.healButtonView.hidden = NO;
+}
+
+- (void) reloadTableAnimated:(BOOL)animated sellMonsters:(NSArray *)userMonsters {
+  self.instructionLabel.text = @"Tap a mobster to sell.";
+  _isInSellMode = YES;
+  
+  NSArray *oldQueue = self.sellQueue;
+  self.healingQueue = nil;
+  self.userMonsters = nil;
+  self.sellQueue = userMonsters.copy;
+  
+  [self reloadTableAnimated:animated oldArr:oldQueue newArr:self.sellQueue];
+  
+  self.sellButtonView.hidden = NO;
+  self.healButtonView.hidden = YES;
+  
+  int sellAmt = 0;
+  for (UserMonster *um in self.sellQueue) {
+    sellAmt += um.sellPrice;
+  }
+  self.sellCostLabel.text = [Globals cashStringForNumber:sellAmt];
 }
 
 - (void) updateTimeWithTimeLeft:(int)timeLeft hospitalCount:(int)hospitalCount {
@@ -200,6 +282,10 @@
   [self.delegate speedupButtonClicked];
 }
 
+- (IBAction)sellClicked:(id)sender {
+  [self.delegate sellButtonClicked];
+}
+
 #pragma mark - EasyTableViewDelegate and Methods
 
 - (void)setupInventoryTable {
@@ -211,29 +297,48 @@
   [self.tableContainerView addSubview:self.queueTable];
 }
 
-- (NSUInteger) numberOfCellsForEasyTableView:(EasyTableView *)view inSection:(NSInteger)section {
-  if (self.healingQueue.count == 0) {
-    if (self.instructionLabel.alpha == 0.f) {
-      [UIView animateWithDuration:0.3f animations:^{
+- (int) getQueueCountAndUpdateOpacitiesAnimated:(BOOL)animated {
+  NSArray *queue = !_isInSellMode ? self.healingQueue : self.sellQueue;
+  if (queue.count == 0) {
+    if (animated) {
+      if (self.instructionLabel.alpha == 0.f) {
+        [UIView animateWithDuration:0.3f animations:^{
+          self.alpha = 0.f;
+          self.instructionLabel.alpha = 1.f;
+        }];
+      } else {
+        // Have to do this in case queue starts without items
         self.alpha = 0.f;
-        self.instructionLabel.alpha = 1.f;
-      }];
+      }
     } else {
-      // Have to do this in case queue starts without items
+      [self.layer removeAllAnimations];
+      [self.instructionLabel.layer removeAllAnimations];
       self.alpha = 0.f;
+      self.instructionLabel.alpha = 1.f;
     }
   } else {
-    if (self.alpha == 0.f) {
-      [UIView animateWithDuration:0.3f animations:^{
-        self.alpha = 1.f;
+    if (animated) {
+      if (self.alpha == 0.f) {
+        [UIView animateWithDuration:0.3f animations:^{
+          self.alpha = 1.f;
+          self.instructionLabel.alpha = 0.f;
+        }];
+      } else if (self.instructionLabel.alpha == 1.f) {
+        // Have to do this in case queue starts with items
         self.instructionLabel.alpha = 0.f;
-      }];
-    } else if (self.instructionLabel.alpha == 1.f) {
-      // Have to do this in case queue starts with items
+      }
+    } else {
+      [self.layer removeAllAnimations];
+      [self.instructionLabel.layer removeAllAnimations];
+      self.alpha = 1.f;
       self.instructionLabel.alpha = 0.f;
     }
   }
-  return self.healingQueue.count;
+  return (int)queue.count;
+}
+
+- (NSUInteger) numberOfCellsForEasyTableView:(EasyTableView *)view inSection:(NSInteger)section {
+  return [self getQueueCountAndUpdateOpacitiesAnimated:YES];
 }
 
 - (UIView *)easyTableView:(EasyTableView *)easyTableView viewForRect:(CGRect)rect withIndexPath:(NSIndexPath *)indexPath {
@@ -253,11 +358,16 @@
 }
 
 - (void)easyTableView:(EasyTableView *)easyTableView setDataForView:(MyCroniesQueueCell *)view forIndexPath:(NSIndexPath *)indexPath {
-  UserMonsterHealingItem *item = [self.healingQueue objectAtIndex:indexPath.row];
-  [view updateForHealingItem:item userMonster:[self userMonsterForId:item.userMonsterId]];
-  
-  if (indexPath.row < _numHospitals) {
-    [view updateForTime];
+  if (!_isInSellMode) {
+    UserMonsterHealingItem *item = self.healingQueue[indexPath.row];
+    [view updateForHealingItem:item userMonster:[self userMonsterForId:item.userMonsterId]];
+    
+    if (indexPath.row < _numHospitals) {
+      [view updateForTime];
+    }
+  } else {
+    UserMonster *um = self.sellQueue[indexPath.row];
+    [view updateForSellMonster:um];
   }
 }
 

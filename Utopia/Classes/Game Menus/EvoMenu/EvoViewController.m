@@ -29,10 +29,6 @@
   
   [self setupInventoryTable];
   
-  self.readyHeaderView.transform = CGAffineTransformMakeRotation(-M_PI_2);
-  self.missingCataHeaderView.transform = CGAffineTransformMakeRotation(-M_PI_2);
-  self.notReadyHeaderView.transform = CGAffineTransformMakeRotation(-M_PI_2);
-  
   self.middleView.frame = self.tableContainerView.frame;
   [self.tableContainerView.superview addSubview:self.middleView];
   
@@ -217,13 +213,13 @@
   [self easyTableView:self.inventoryTable scrolledToOffset:self.inventoryTable.contentOffset];
 }
 
-- (UIView *) easyTableView:(EasyTableView *)easyTableView viewForHeaderInSection:(NSInteger)section {
+- (NSString *) easyTableView:(EasyTableView *)easyTableView stringForVerticalHeaderInSection:(NSInteger)section {
   if (section == 0) {
-    return self.readyHeaderView;
+    return @"Ready To Evolve";
   } else if (section == 1) {
-    return self.missingCataHeaderView;
+    return @"Missing Scientist";
   } else if (section == 2) {
-    return self.notReadyHeaderView;
+    return @"Not Ready";
   }
   return nil;
 }

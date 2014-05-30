@@ -16,10 +16,6 @@
 @property (nonatomic, strong) IBOutlet UIView *tableContainerView;
 @property (nonatomic, strong) IBOutlet UIView *leftHeaderUnderlay;
 
-@property (nonatomic, strong) IBOutlet UIView *readyHeaderView;
-@property (nonatomic, strong) IBOutlet UIView *missingCataHeaderView;
-@property (nonatomic, strong) IBOutlet UIView *notReadyHeaderView;
-
 @property (nonatomic, strong) IBOutlet UIView *teamSlotsContainer;
 @property (nonatomic, strong) IBOutlet EvoBottomView *bottomView;
 @property (nonatomic, strong) IBOutlet EvoMiddleView *middleView;

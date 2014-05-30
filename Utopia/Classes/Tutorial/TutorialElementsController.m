@@ -102,7 +102,7 @@
 }
 
 - (void) beginShowHierarchy {
-  NSString *n = [[self strongType] characterAtIndex:0] == 'e' ? @"n" : @"";
+  NSString *n = [[self myType] characterAtIndex:0] == 'e' ? @"n" : @"";
   NSArray *dialogue = @[[NSString stringWithFormat:@"Did you see that? Because I'm a%@ %@-type mobster, I also do extra damage to %@-type mobsters.", n, [self myType], [self strongType]],
                         @"Click here to see the elemental hierarchy, and check back if you ever forget.",
                         @"You have 3 moves before I attack again. Finish him off!"];
@@ -113,6 +113,7 @@
 
 - (void) beginKillEnemy {
   [self.dialogueViewController animateNext];
+  [self.battleLayer allowMove];
   
   _currentStep = TutorialElementsStepKillEnemy;
 }
@@ -159,6 +160,10 @@
   
   if (_currentStep != TutorialElementsStepHierarchy) {
     [super dialogueViewController:dvc willDisplaySpeechAtIndex:index];
+  } else {
+    if (index == 1) {
+      self.dialogueViewController.view.userInteractionEnabled = NO;
+    }
   }
 }
 
@@ -174,7 +179,6 @@
       [self.battleLayer allowMove];
     }
   } else if (_currentStep == TutorialElementsStepHierarchy && index == 1) {
-    self.dialogueViewController.view.userInteractionEnabled = NO;
     [self.battleLayer arrowOnElements];
   }
 }

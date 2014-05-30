@@ -228,29 +228,34 @@
   GameState *gs = [GameState sharedGameState];
   NSArray *taskIdsWithArrows = gs.taskIdsToUnlockMoreTasks;
   NSArray *curQuestIds = gs.inProgressIncompleteQuests.allKeys;
-    for (CCNode *n in self.children) {
-      if ([n conformsToProtocol:@protocol(TaskElement)]) {
-        id<TaskElement> asset = (id<TaskElement>)n;
-        int taskId = asset.ftp.taskId;
-        asset.isLocked = ![gs isTaskUnlocked:taskId];
-        
-        if (!asset.ftp) {
-          asset.visible = NO;
-        } else {
-          asset.visible = YES;
-        }
-        
-        if (!_assetIdToDisplayArrow && [taskIdsWithArrows containsObject:@(taskId)]) {
-          [asset displayArrow];
-        } else {
-          [asset removeArrowAnimated:NO];
-        }
-        
-        if (asset.ftp.hasPrerequisiteQuestId) {
-          asset.visible = [curQuestIds containsObject:@(asset.ftp.prerequisiteQuestId)];
-        }
+  for (CCNode *n in self.children) {
+    if ([n conformsToProtocol:@protocol(TaskElement)]) {
+      id<TaskElement> asset = (id<TaskElement>)n;
+      int taskId = asset.ftp.taskId;
+      asset.isLocked = ![gs isTaskUnlocked:taskId];
+      
+      if (!asset.ftp) {
+        asset.visible = NO;
+      } else {
+        asset.visible = YES;
+      }
+      
+      if (!_assetIdToDisplayArrow && [taskIdsWithArrows containsObject:@(taskId)]) {
+        [asset displayArrow];
+      } else {
+        [asset removeArrowAnimated:NO];
+      }
+      
+      if (asset.ftp.hasPrerequisiteQuestId) {
+        asset.visible = [curQuestIds containsObject:@(asset.ftp.prerequisiteQuestId)];
       }
     }
+  }
+  
+  if (_assetIdToDisplayArrow) {
+    SelectableSprite *spr = [self assetWithId:_assetIdToDisplayArrow];
+    [spr displayArrow];
+  }
 }
 
 - (void) onEnter {

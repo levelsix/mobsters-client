@@ -66,7 +66,13 @@
     int questId = self.questDetailsViewController.quest.questId;
     FullQuestProto *fqp = [gs questForId:questId];
     if (fqp) {
-      [self.questDetailsViewController loadWithQuest:fqp userQuest:[gs myQuestWithId:questId]];
+      UserQuest *uq = [gs myQuestWithId:questId];
+      if (uq.isComplete) {
+        // This means an accepted quest just completed so let the quest complete layer be displayed
+        [self close];
+      } else {
+        [self.questDetailsViewController loadWithQuest:fqp userQuest:uq];
+      }
     }
   }
   

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="5053" systemVersion="12F45" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="5056" systemVersion="12F45" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none">
     <dependencies>
         <deployment defaultVersion="1536" identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="3733"/>
@@ -23,7 +23,7 @@
                             <rect key="frame" x="0.0" y="0.0" width="95" height="120"/>
                             <autoresizingMask key="autoresizingMask"/>
                         </imageView>
-                        <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="bottom" image="Cheerleader1UziCard.png" id="4uQ-Hf-ucP">
+                        <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="bottom" image="Mafia1T1Card.png" id="4uQ-Hf-ucP">
                             <rect key="frame" x="0.0" y="0.0" width="95" height="120"/>
                             <autoresizingMask key="autoresizingMask"/>
                         </imageView>
@@ -39,11 +39,11 @@
                                     <rect key="frame" x="-22" y="5" width="79" height="22"/>
                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                     <subviews>
-                                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="EPIC" textAlignment="center" lineBreakMode="tailTruncation" minimumFontSize="7" id="Ec8-l9-ieO" customClass="NiceFontLabel">
+                                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="EPIC" textAlignment="center" lineBreakMode="tailTruncation" minimumFontSize="7" id="Ec8-l9-ieO" customClass="NiceFontLabel7">
                                             <rect key="frame" x="-2" y="0.0" width="83" height="22"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
                                             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                                            <fontDescription key="fontDescription" type="system" pointSize="10"/>
+                                            <fontDescription key="fontDescription" type="system" pointSize="8"/>
                                             <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                                             <nil key="highlightedColor"/>
                                             <size key="shadowOffset" width="0.0" height="1"/>
@@ -69,7 +69,7 @@
                             <rect key="frame" x="67" y="-1" width="31" height="30"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             <fontDescription key="fontDescription" type="system" pointSize="15"/>
-                            <state key="normal" image="chatinfoi.png">
+                            <state key="normal" image="teaminfoi.png">
                                 <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                             </state>
                             <connections>
@@ -79,10 +79,10 @@
                     </subviews>
                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                 </view>
-                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Riki Minaj (lvl 5)" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" id="sOg-SV-g8B" customClass="NiceFontLabel">
-                    <rect key="frame" x="2" y="123" width="90" height="21"/>
+                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Riki Minaj (lvl 5)" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" id="sOg-SV-g8B" customClass="NiceFontLabel8">
+                    <rect key="frame" x="-2" y="121" width="99" height="21"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                    <fontDescription key="fontDescription" type="system" pointSize="13"/>
+                    <fontDescription key="fontDescription" type="system" pointSize="10"/>
                     <color key="textColor" red="0.20000000000000001" green="0.20000000000000001" blue="0.20000000000000001" alpha="1" colorSpace="calibratedRGB"/>
                     <nil key="highlightedColor"/>
                     <color key="shadowColor" white="1" alpha="0.5" colorSpace="calibratedWhite"/>
@@ -117,10 +117,10 @@
         </view>
     </objects>
     <resources>
-        <image name="Cheerleader1UziCard.png" width="103" height="105"/>
-        <image name="chatinfoi.png" width="17" height="17"/>
+        <image name="Mafia1T1Card.png" width="95" height="120"/>
         <image name="emptyslot.png" width="95" height="121"/>
         <image name="epictag.png" width="44" height="44"/>
+        <image name="teaminfoi.png" width="18" height="18"/>
         <image name="watercard.png" width="95" height="120"/>
     </resources>
 </document>

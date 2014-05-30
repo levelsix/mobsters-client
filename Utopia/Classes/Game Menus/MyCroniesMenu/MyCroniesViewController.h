@@ -19,19 +19,16 @@
 
 @end
 
-@interface MyCroniesViewController : GenViewController <EasyTableViewDelegate, MyCroniesCardDelegate, MyCroniesQueueDelegate, MonsterTeamSlotDelegate> {
+@interface MyCroniesViewController : GenViewController <EasyTableViewDelegate, MyCroniesCardDelegate, MyCroniesQueueDelegate, MonsterTeamSlotDelegate, TabBarDelegate> {
   float _baseMyReservesHeaderX;
   
   UserMonster *_tempMonster;
+  
+  BOOL _isInSellMode;
 }
 
 @property (nonatomic, strong) IBOutlet UIView *tableContainerView;
 @property (nonatomic, strong) IBOutlet UIView *leftHeaderUnderlay;
-
-@property (nonatomic, strong) IBOutlet UIView *injuredMobstersHeaderView;
-@property (nonatomic, strong) IBOutlet UIView *healthyMobstersHeaderView;
-@property (nonatomic, strong) IBOutlet UIView *unavailMobstersHeaderView;
-@property (nonatomic, strong) IBOutlet UIView *recentlyHealedHeaderView;
 
 @property (nonatomic, strong) IBOutlet MyCroniesQueueView *queueView;
 @property (nonatomic, strong) IBOutlet UIView *teamSlotsContainer;
@@ -41,16 +38,21 @@
 @property (nonatomic, strong) IBOutlet AttributedTextView *titleView;
 @property (nonatomic, strong) IBOutlet UILabel *titleLabel;
 
+@property (nonatomic, strong) IBOutlet MyCroniesTabBar *tabBar;
+
+@property (nonatomic, strong) IBOutlet MonsterCardView *monsterCardView;
+
 @property (nonatomic, strong) EasyTableView *inventoryTable;
 
 @property (nonatomic, strong) NSArray *recentlyHealedMonsters;
 @property (nonatomic, strong) NSArray *injuredMonsters;
 @property (nonatomic, strong) NSArray *healthyMonsters;
 @property (nonatomic, strong) NSArray *unavailableMonsters;
+@property (nonatomic, strong) NSArray *availableMonsters;
+
+@property (nonatomic, strong) NSMutableArray *sellQueue;
 
 @property (nonatomic, strong) NSTimer *updateTimer;
-
-- (IBAction)headerClicked:(id)sender;
 
 - (void) updateLabels;
 - (void) speedupButtonClicked;

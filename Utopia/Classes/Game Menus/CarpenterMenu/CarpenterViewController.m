@@ -217,7 +217,7 @@
   [view updateForStructInfo:arr[indexPath.row] townHall:[self townHall] structs:[self curStructsList]];
 }
 
-- (NSString *) easyTableView:(EasyTableView *)easyTableView stringForHorizontalHeaderInDesction:(NSInteger)section {
+- (NSString *) easyTableView:(EasyTableView *)easyTableView stringForHorizontalHeaderInSection:(NSInteger)section {
   if (section == 0) {
     return @"Income Buildings";
   } else {

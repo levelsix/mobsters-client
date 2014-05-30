@@ -45,6 +45,7 @@ typedef enum {
 } EasyTableViewOrientation;
 
 @class EasyTableView;
+@class EasyTableHeaderView;
 
 @protocol EasyTableViewDelegate <NSObject>
 - (UIView *)easyTableView:(EasyTableView *)easyTableView viewForRect:(CGRect)rect withIndexPath:(NSIndexPath*)indexPath;
@@ -55,12 +56,15 @@ typedef enum {
 - (void)easyTableView:(EasyTableView *)easyTableView scrolledToFraction:(CGFloat)fraction;
 - (NSUInteger)numberOfSectionsInEasyTableView:(EasyTableView*)easyTableView;
 - (NSUInteger)numberOfCellsForEasyTableView:(EasyTableView *)view inSection:(NSInteger)section;
-- (NSString *)easyTableView:(EasyTableView*)easyTableView stringForHorizontalHeaderInDesction:(NSInteger)section;
 - (UIView *)easyTableView:(EasyTableView*)easyTableView viewForHeaderInSection:(NSInteger)section;
 - (UIView *)easyTableView:(EasyTableView*)easyTableView viewForFooterInSection:(NSInteger)section;
 - (CGFloat)easyTableView:(EasyTableView *)easyTableView heightOrWidthForCellAtIndexPath:(NSIndexPath *)indexPath;
 - (void) easyTableViewWillEndDragging:(EasyTableView *)easyTableView withVelocity:(CGPoint)velocity targetContentOffset:(inout CGPoint *)targetContentOffset;
 - (void) easyTableViewDidEndScrollingAnimation:(EasyTableView *)easyTableView;
+
+- (NSString *)easyTableView:(EasyTableView*)easyTableView stringForHorizontalHeaderInSection:(NSInteger)section;
+- (NSString *)easyTableView:(EasyTableView*)easyTableView stringForVerticalHeaderInSection:(NSInteger)section;
+
 @end
 
 
@@ -80,7 +84,7 @@ typedef enum {
 @property (nonatomic, assign) NSUInteger numberOfCells;
 
 @property (nonatomic, retain) UIView *headerContainer;
-
+@property (nonatomic, retain) IBOutlet EasyTableHeaderView *headerView;
 
 - (id)initWithFrame:(CGRect)frame numberOfColumns:(NSUInteger)numCells ofWidth:(CGFloat)cellWidth;
 - (id)initWithFrame:(CGRect)frame numberOfRows:(NSUInteger)numCells ofHeight:(CGFloat)cellHeight;
@@ -92,9 +96,11 @@ typedef enum {
 - (NSIndexPath*)indexPathForView:(UIView *)cell;
 - (void)reloadData;
 
+- (IBAction) verticalHeaderClicked:(id)sender;
+
 @end
 
-@interface EasyTableHeaderView : UIView
+@interface EasyTableTopHeaderView : UIView
 
 @property (nonatomic, strong) UILabel *label;
 @property (nonatomic, strong) UIView *leftView1;
@@ -104,5 +110,17 @@ typedef enum {
 
 - (void) setLabelText:(NSString *)labelText;
 - (void) moveLabelToXPosition:(float)x;
+
+@end
+
+@interface EasyTableHeaderView : UIView
+
+@property (nonatomic, strong) IBOutlet UIButton *button;
+@property (nonatomic, strong) IBOutlet UIView *leftView1;
+@property (nonatomic, strong) IBOutlet UIView *leftView2;
+@property (nonatomic, strong) IBOutlet UIView *rightView1;
+@property (nonatomic, strong) IBOutlet UIView *rightView2;
+
+- (void) setLabelText:(NSString *)labelText;
 
 @end

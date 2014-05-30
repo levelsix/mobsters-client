@@ -155,16 +155,18 @@
   [self.touchView addResponder:[CCDirector sharedDirector].view];
   self.touchView.userInteractionEnabled = NO;
   
+  [self createCloseButton];
+  
 #ifdef DEBUG
-  //[self initMissionMapWithCenterOnThirdBuilding:NO];
-  //[self beginBlackedOutDialogue];
+  [self initMissionMapWithCenterOnThirdBuilding:NO];
+  [self beginBlackedOutDialogue];
   //[self beginPostFirstBattleConfrontationPhase];
   
   //[self yachtWentOffScene];
   
-  [self initHomeMap];
+  //[self initHomeMap];
   //[self initTopBar];
-  [self beginFacebookLoginPhase];
+  //[self beginFacebookLoginPhase];
 #else
   [self initMissionMapWithCenterOnThirdBuilding:NO];
   [self beginBlackedOutDialogue];
@@ -393,6 +395,39 @@
     [self facebookStartupReceived:proto];
   }
 }
+
+#pragma mark - Skipping Tutorial
+
+- (void) createCloseButton {
+  self.closeButton = [UIButton buttonWithType:UIButtonTypeCustom];
+  [self.closeButton setImage:[Globals imageNamed:@"close1.png"] forState:UIControlStateNormal];
+  self.closeButton.frame = CGRectMake(4, 4, 30, 30);
+  [self.gameViewController.view addSubview:self.closeButton];
+  [self.closeButton addTarget:self action:@selector(skipToNamePhase) forControlEvents:UIControlEventTouchUpInside];
+  
+  [self performSelector:@selector(removeCloseButton) withObject:nil afterDelay:10.f];
+}
+
+- (void) removeCloseButton {
+  [self.closeButton removeFromSuperview];
+}
+
+- (void) skipToNamePhase {
+  [GenericPopupController displayConfirmationWithDescription:@"Would you like to skip the tutorial?" title:@"Skip Tutorial?" okayButton:@"Skip" cancelButton:@"Cancel" target:self selector:@selector(doSkip)];
+}
+
+- (void) doSkip {
+  [self removeCloseButton];
+  
+  [self.dialogueViewController.view removeFromSuperview];
+  [self.dialogueViewController removeFromParentViewController];
+  
+  [self initHomeMap];
+  [self initTopBar];
+  [self beginFacebookRejectedNamingPhase];
+}
+
+
 
 #pragma mark - Tutorial Sequence
 

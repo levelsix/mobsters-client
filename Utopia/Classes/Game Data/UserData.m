@@ -123,8 +123,15 @@
   return self.isComplete && !self.isHealing && !self.isEnhancing && !self.isSacrificing && !self.isOnAMiniJob;
 }
 
+- (BOOL) isAvailableForSelling {
+  return self.isAvailable || !self.isComplete;
+}
+
 - (int) sellPrice {
-  return self.experience+self.level;
+  float base = self.experience+self.level;
+  float fraction = self.isComplete ? 1 : self.numPieces/(float)self.staticMonster.numPuzzlePieces;
+  int price = MAX(1, base*fraction);
+  return price;
 }
 
 - (void) setExperience:(int)experience {

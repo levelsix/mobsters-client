@@ -166,7 +166,7 @@
 }
 
 - (void) sell {
-  [[OutgoingEventController sharedOutgoingEventController] sellUserMonster:self.monster.userMonsterId];
+  [[OutgoingEventController sharedOutgoingEventController] sellUserMonsters:@[@(self.monster.userMonsterId)]];
   [self close:nil];
   [[NSNotificationCenter defaultCenter] postNotificationName:MONSTER_SOLD_COMPLETE_NOTIFICATION object:nil];
   [QuestUtil checkAllDonateQuests];

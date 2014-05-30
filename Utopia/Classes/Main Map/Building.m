@@ -122,7 +122,10 @@
   CCNode *n = [self getChildByName:UPGRADING_TAG recursively:NO];
   if (n) {
     [n removeFromParent];
-    [self unschedule:@selector(updateProgressBar)];
+    
+    if (!_percentage) {
+      [self unschedule:@selector(updateProgressBar)];
+    }
   }
 }
 

@@ -55,8 +55,8 @@ static UIImage *img = nil;
   
   NSString *fileName = [mp.imagePrefix stringByAppendingString:@"Card.png"];
   [Globals imageNamed:fileName withView:self.monsterIcon maskedColor:nil indicator:UIActivityIndicatorViewStyleWhite clearImageDuringDownload:YES];
-  self.nameLabel.text = [NSString stringWithFormat:@"%@ (LVL %d)", mp.displayName, um.level];
-  self.qualityLabel.text = [[Globals stringForRarity:mp.quality] lowercaseString];
+  self.nameLabel.text = [NSString stringWithFormat:@"%@ (LVL %d)", mp.hasShorterName ? mp.shorterName : mp.displayName, um.level];
+  self.qualityLabel.text = [[Globals stringForRarity:mp.quality] uppercaseString];
   
   NSString *bgdImgName = [Globals imageNameForElement:mp.monsterElement suffix:@"card.png"];
   [Globals imageNamed:bgdImgName withView:self.cardBgdView maskedColor:nil indicator:UIActivityIndicatorViewStyleWhite clearImageDuringDownload:YES];

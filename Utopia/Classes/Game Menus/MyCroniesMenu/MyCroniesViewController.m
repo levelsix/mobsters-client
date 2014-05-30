@@ -38,11 +38,6 @@
   [self setUpImageBackButton];
   
   [self setupInventoryTable];
-  
-  self.injuredMobstersHeaderView.transform = CGAffineTransformMakeRotation(-M_PI_2);
-  self.healthyMobstersHeaderView.transform = CGAffineTransformMakeRotation(-M_PI_2);
-  self.unavailMobstersHeaderView.transform = CGAffineTransformMakeRotation(-M_PI_2);
-  self.recentlyHealedHeaderView.transform = CGAffineTransformMakeRotation(-M_PI_2);
 }
 
 - (void) viewWillAppear:(BOOL)animated {
@@ -112,7 +107,9 @@
     [cell updateForTime];
   }
   
-  [self.queueView updateTimeWithTimeLeft:self.monsterHealingQueueEndTime.timeIntervalSinceNow hospitalCount:self.numValidHospitals];
+  if (!_isInSellMode) {
+    [self.queueView updateTimeWithTimeLeft:self.monsterHealingQueueEndTime.timeIntervalSinceNow hospitalCount:self.numValidHospitals];
+  }
 }
 
 - (MonsterTeamSlotView *) teamSlotViewForSlotNum:(int)num {
@@ -132,7 +129,11 @@
 }
 
 - (void) updateQueueViewAnimated:(BOOL)animated {
-  [self.queueView reloadTableAnimated:animated healingQueue:self.monsterHealingQueue userMonster:self.monsterList timeLeft:self.monsterHealingQueueEndTime.timeIntervalSinceNow hospitalCount:self.numValidHospitals];
+  if (!_isInSellMode) {
+    [self.queueView reloadTableAnimated:animated healingQueue:self.monsterHealingQueue userMonster:self.monsterList timeLeft:self.monsterHealingQueueEndTime.timeIntervalSinceNow hospitalCount:self.numValidHospitals];
+  } else {
+    [self.queueView reloadTableAnimated:animated sellMonsters:self.sellQueue];
+  }
 }
 
 #pragma mark - Potentially rewritable methods
@@ -181,6 +182,10 @@
   return !um.isAvailable;
 }
 
+- (BOOL) userMonsterIsUnavailableForSale:(UserMonster *)um {
+  return !um.isAvailableForSelling;
+}
+
 - (BOOL) addMonsterToHealingQueue:(uint64_t)umId useGems:(BOOL)useGems {
   return [[OutgoingEventController sharedOutgoingEventController] addMonsterToHealingQueue:umId useGems:useGems];
 }
@@ -192,6 +197,24 @@
     [AchievementUtil checkMonstersHealed:queueSize];
   }
   return success;
+}
+
+#pragma mark - Tab Bar delegate
+
+- (void) button1Clicked:(id)sender {
+  [self.tabBar clickButton:1];
+  _isInSellMode = NO;
+  [self reloadTableAnimated:NO];
+  [self updateQueueViewAnimated:NO];
+}
+
+- (void) button2Clicked:(id)sender {
+  [self.tabBar clickButton:2];
+  _isInSellMode = YES;
+  
+  self.sellQueue = [NSMutableArray array];
+  [self reloadTableAnimated:NO];
+  [self updateQueueViewAnimated:NO];
 }
 
 #pragma mark - EasyTableViewDelegate and Methods
@@ -222,19 +245,28 @@
   NSMutableArray *inj = [NSMutableArray array];
   NSMutableArray *full = [NSMutableArray array];
   NSMutableArray *unavail = [NSMutableArray array];
+  NSMutableArray *avail = [NSMutableArray array];
   
   for (UserMonster *um in self.monsterList) {
-    if ([self userMonsterIsUnavailable:um]) {
-      [unavail addObject:um];
-    } else {
-      if ([self.recentlyHealedMonsterIds containsObject:@(um.userMonsterId)]) {
-        [recent addObject:um];
+    if (!_isInSellMode) {
+      if ([self userMonsterIsUnavailable:um]) {
+        [unavail addObject:um];
       } else {
         if (um.curHealth < [gl calculateMaxHealthForMonster:um]) {
           [inj addObject:um];
         } else {
-          [full addObject:um];
+          if ([self.recentlyHealedMonsterIds containsObject:@(um.userMonsterId)]) {
+            [recent addObject:um];
+          } else {
+            [full addObject:um];
+          }
         }
+      }
+    } else {
+      if ([self userMonsterIsUnavailableForSale:um]) {
+        [unavail addObject:um];
+      } else {
+        [avail addObject:um];
       }
     }
   }
@@ -247,15 +279,17 @@
   [inj sortUsingComparator:comp];
   [full sortUsingComparator:comp];
   [unavail sortUsingComparator:comp];
+  [avail sortUsingComparator:comp];
   
   self.recentlyHealedMonsters = recent;
   self.injuredMonsters = inj;
   self.healthyMonsters = full;
   self.unavailableMonsters = unavail;
+  self.availableMonsters = avail;
 }
 
 - (void) reloadTableAnimated:(BOOL)animated {
-  NSArray *rec = self.recentlyHealedMonsters, *inj = self.injuredMonsters, *full = self.healthyMonsters, *unavail = self.unavailableMonsters;
+  NSArray *rec = self.recentlyHealedMonsters, *inj = self.injuredMonsters, *full = self.healthyMonsters, *unavail = self.unavailableMonsters, *avail = self.availableMonsters;
   NSMutableArray *remove = [NSMutableArray array], *add = [NSMutableArray array];
   
   [self reloadMonstersArray];
@@ -266,10 +300,15 @@
     NSArray *oldSlots = oldMax >= self.maxInventorySlots ? nil : @[@YES];
     NSArray *newSlots = newMax >= self.maxInventorySlots ? nil : @[@YES];
     
-    [Globals calculateDifferencesBetweenOldArray:inj newArray:self.injuredMonsters removalIps:remove additionIps:add section:0];
-    [Globals calculateDifferencesBetweenOldArray:rec newArray:self.recentlyHealedMonsters removalIps:remove additionIps:add section:1];
-    [Globals calculateDifferencesBetweenOldArray:full newArray:self.healthyMonsters removalIps:remove additionIps:add section:2];
-    [Globals calculateDifferencesBetweenOldArray:unavail newArray:self.unavailableMonsters removalIps:remove additionIps:add section:3];
+    if (!_isInSellMode) {
+      [Globals calculateDifferencesBetweenOldArray:inj newArray:self.injuredMonsters removalIps:remove additionIps:add section:0];
+      [Globals calculateDifferencesBetweenOldArray:rec newArray:self.recentlyHealedMonsters removalIps:remove additionIps:add section:1];
+      [Globals calculateDifferencesBetweenOldArray:full newArray:self.healthyMonsters removalIps:remove additionIps:add section:2];
+      [Globals calculateDifferencesBetweenOldArray:unavail newArray:self.unavailableMonsters removalIps:remove additionIps:add section:3];
+    } else {
+      [Globals calculateDifferencesBetweenOldArray:avail newArray:self.availableMonsters removalIps:remove additionIps:add section:0];
+      [Globals calculateDifferencesBetweenOldArray:unavail newArray:self.unavailableMonsters removalIps:remove additionIps:add section:1];
+    }
     [Globals calculateDifferencesBetweenOldArray:oldSlots newArray:newSlots removalIps:remove additionIps:add section:4];
     
     [self.inventoryTable.tableView beginUpdates];
@@ -290,15 +329,23 @@
   [self easyTableView:self.inventoryTable scrolledToOffset:self.inventoryTable.contentOffset];
 }
 
-- (UIView *) easyTableView:(EasyTableView *)easyTableView viewForHeaderInSection:(NSInteger)section {
-  if (section == 0) {
-    return self.injuredMobstersHeaderView;
-  } else if (section == 1) {
-    return self.recentlyHealedHeaderView;
-  } else if (section == 2) {
-    return self.healthyMobstersHeaderView;
-  } else if (section == 3) {
-    return self.unavailMobstersHeaderView;
+- (NSString *) easyTableView:(EasyTableView *)easyTableView stringForVerticalHeaderInSection:(NSInteger)section {
+  if (!_isInSellMode) {
+    if (section == 0) {
+      return @"Injured";
+    } else if (section == 1) {
+      return @"Recently Healed";
+    } else if (section == 2) {
+      return @"Healthy";
+    } else if (section == 3) {
+      return @"Unavailable";
+    }
+  } else {
+    if (section == 0) {
+      return @"Available For Sale";
+    } else if (section == 1) {
+      return @"Unavailable For Sale";
+    }
   }
   return nil;
 }
@@ -308,14 +355,22 @@
 }
 
 - (NSArray *)arrayForSection:(NSInteger)section {
-  if (section == 0) {
-    return self.injuredMonsters;
-  } else if (section == 1) {
-    return self.recentlyHealedMonsters;
-  } else if (section == 2) {
-    return self.healthyMonsters;
-  } else if (section == 3) {
-    return self.unavailableMonsters;
+  if (!_isInSellMode) {
+    if (section == 0) {
+      return self.injuredMonsters;
+    } else if (section == 1) {
+      return self.recentlyHealedMonsters;
+    } else if (section == 2) {
+      return self.healthyMonsters;
+    } else if (section == 3) {
+      return self.unavailableMonsters;
+    }
+  } else {
+    if (section == 0) {
+      return self.availableMonsters;
+    } else if (section == 1) {
+      return self.unavailableMonsters;
+    }
   }
   return nil;
 }
@@ -338,17 +393,12 @@
   if (indexPath.section < 4) {
     NSArray *arr = [self arrayForSection:indexPath.section];
     UserMonster *um = indexPath.row < arr.count ? [arr objectAtIndex:indexPath.row] : nil;
-    [view updateForUserMonster:um];
+    [view updateForUserMonster:um showSellCost:_isInSellMode];
   } else if (indexPath.section == 4) {
     NSInteger numEmpty = self.maxInventorySlots - self.monsterList.count;
     
     [view updateForEmptySlots:numEmpty];
   }
-}
-
-- (IBAction)headerClicked:(id)sender {
-  NSInteger section = [(UIView *)sender tag];
-  [self.inventoryTable.tableView scrollToRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:section] atScrollPosition:UITableViewScrollPositionTop animated:YES];
 }
 
 #pragma mark - MonsterTeamSlotDelegate methods
@@ -367,8 +417,10 @@
 }
 
 - (void) healAreaClicked:(MonsterTeamSlotView *)mv {
-  UserMonster *um = mv.monster;
-  [self addMonsterToQueue:um];
+  if (!_isInSellMode) {
+    UserMonster *um = mv.monster;
+    [self addMonsterToHealQueue:um];
+  }
 }
 
 #pragma mark - MyCroniesCellDelegate methods
@@ -416,10 +468,18 @@
 
 - (void) cardClicked:(MyCroniesCardCell *)cell {
   UserMonster *um = cell.monster;
-  [self addMonsterToQueue:um];
+  
+  if (!_isInSellMode) {
+    [self addMonsterToHealQueue:um];
+  } else {
+    [self addMonsterToSellQueue:um];
+  }
 }
 
-- (void) addMonsterToQueue:(UserMonster *)um {
+#pragma mark -
+#pragma mark Heal Queue
+
+- (void) addMonsterToHealQueue:(UserMonster *)um {
   GameState *gs = [GameState sharedGameState];
   Globals *gl = [Globals sharedGlobals];
   if (![um isAvailable]) {
@@ -459,8 +519,10 @@
 - (void) sendHeal:(UserMonster *)um allowGems:(BOOL)allowGems {
   BOOL success = [self addMonsterToHealingQueue:um.userMonsterId useGems:allowGems];
   if (success) {
-    [self reloadTableAnimated:YES];
+    // Use this ordering so the new one appears in the queue, then table is reloaded after animation begins
     [self updateQueueViewAnimated:YES];
+    [self animateUserMonsterId:um];
+    [self reloadTableAnimated:YES];
     
     if (um.teamSlot) {
       [[NSNotificationCenter defaultCenter] postNotificationName:MY_TEAM_CHANGED_NOTIFICATION object:nil];
@@ -470,20 +532,87 @@
   }
 }
 
+- (void) animateUserMonsterId:(UserMonster *)um {
+  int monsterIndex = [self.injuredMonsters indexOfObject:um];
+  MyCroniesCardCell *cardCell = (MyCroniesCardCell *)[self.inventoryTable viewAtIndexPath:[NSIndexPath indexPathForRow:monsterIndex inSection:0]];
+  
+  int hiIdx = -1;
+  for (UserMonsterHealingItem *hi in self.monsterHealingQueue) {
+    if (hi.userMonsterId == um.userMonsterId) {
+      hiIdx = [self.monsterHealingQueue indexOfObject:hi];
+    }
+  }
+  MyCroniesQueueCell *queueCell = (MyCroniesQueueCell *)[self.queueView.queueTable viewAtIndexPath:[NSIndexPath indexPathForRow:hiIdx inSection:0]];
+  
+  [[NSBundle mainBundle] loadNibNamed:@"MonsterCardView" owner:self options:nil];
+  MonsterCardView *mcv = self.monsterCardView;
+  [mcv updateForMonster:um];
+  [self.view addSubview:mcv];
+  
+  UIView *qv = [[UIView alloc] initWithFrame:CGRectZero];
+  [self.view addSubview:qv];
+  
+  UIImageView *bgd = [[UIImageView alloc] initWithImage:queueCell.monsterView.bgdIcon.image];
+  UIImageView *main = [[UIImageView alloc] initWithImage:queueCell.monsterView.monsterIcon.image];
+  [qv addSubview:bgd];
+  [qv addSubview:main];
+  main.center = bgd.center;
+  
+  mcv.center = [self.view convertPoint:cardCell.cardContainer.monsterCardView.center fromView:cardCell.cardContainer.monsterCardView.superview];
+  qv.frame = queueCell.monsterView.frame;
+  qv.center = mcv.center;
+  qv.alpha = 0.f;
+  
+  cardCell.hidden = YES;
+  queueCell.hidden = YES;
+  [UIView animateWithDuration:0.3f animations:^{
+    qv.alpha = 1.f;
+    qv.center = [self.view convertPoint:queueCell.monsterView.center fromView:queueCell.monsterView.superview];
+    
+    mcv.transform = CGAffineTransformMakeScale(0.2f, 0.2f);
+    mcv.center = qv.center;
+    mcv.alpha = 0.f;
+  } completion:^(BOOL finished) {
+    [mcv removeFromSuperview];
+    [qv removeFromSuperview];
+    
+    cardCell.hidden = NO;
+    queueCell.hidden = NO;
+  }];
+}
+
+#pragma mark Sell Queue
+
+- (void) addMonsterToSellQueue:(UserMonster *)um {
+  if ([self.sellQueue containsObject:um]) {
+    [Globals addAlertNotification:@"This mobster is already in the sell queue."];
+  } else if (!um.isAvailableForSelling) {
+    [Globals addAlertNotification:@"This mobster cannot be sold at this time."];
+  } else {
+    [self.sellQueue addObject:um];
+    [self updateQueueViewAnimated:YES];
+  }
+}
+
 #pragma mark - MyCroniesQueueDelegate methods
 
 - (void) cellRequestsRemovalFromHealQueue:(MyCroniesQueueCell *)cell {
-  BOOL success = [[OutgoingEventController sharedOutgoingEventController] removeMonsterFromHealingQueue:cell.healingItem];
-  if (success) {
-    [self reloadTableAnimated:YES];
-    [self updateQueueViewAnimated:YES];
-    
-    GameState *gs = [GameState sharedGameState];
-    UserMonster *um = [gs myMonsterWithUserMonsterId:cell.healingItem.userMonsterId];
-    if (um.teamSlot) {
-      [self updateCurrentTeamAnimated:YES];
-      [[NSNotificationCenter defaultCenter] postNotificationName:MY_TEAM_CHANGED_NOTIFICATION object:nil];
+  if (!_isInSellMode) {
+    BOOL success = [[OutgoingEventController sharedOutgoingEventController] removeMonsterFromHealingQueue:cell.healingItem];
+    if (success) {
+      [self reloadTableAnimated:YES];
+      [self updateQueueViewAnimated:YES];
+      
+      GameState *gs = [GameState sharedGameState];
+      UserMonster *um = [gs myMonsterWithUserMonsterId:cell.healingItem.userMonsterId];
+      if (um.teamSlot) {
+        [self updateCurrentTeamAnimated:YES];
+        [[NSNotificationCenter defaultCenter] postNotificationName:MY_TEAM_CHANGED_NOTIFICATION object:nil];
+      }
     }
+  } else {
+    [self.sellQueue removeObject:cell.userMonster];
+    [self updateQueueViewAnimated:YES];
   }
 }
 
@@ -509,6 +638,34 @@
       [[NSNotificationCenter defaultCenter] postNotificationName:MONSTER_QUEUE_CHANGED_NOTIFICATION object:nil];
     }
   }
+}
+
+- (void) sellButtonClicked {
+  if (self.sellQueue.count) {
+    int sellAmt = 0;
+    for (UserMonster *um in self.sellQueue) {
+      sellAmt += um.sellPrice;
+    }
+    
+    NSString *text = [NSString stringWithFormat:@"Would you like to sell these %d mobsters for %@?", (int)self.sellQueue.count, [Globals cashStringForNumber:sellAmt]];
+    [GenericPopupController displayConfirmationWithDescription:text title:@"Sell Mobsters?" okayButton:@"Sell" cancelButton:@"Cancel" target:self selector:@selector(sell)];
+  }
+}
+
+- (void) sell {
+  NSMutableArray *arr = [NSMutableArray array];
+  for (UserMonster *um in self.sellQueue) {
+    [arr addObject:@(um.userMonsterId)];
+  }
+  
+  [[OutgoingEventController sharedOutgoingEventController] sellUserMonsters:arr];
+  [self.sellQueue removeAllObjects];
+  
+  [self reloadTableAnimated:YES];
+  [self updateQueueViewAnimated:YES];
+  [self updateCurrentTeamAnimated:YES];
+  [[NSNotificationCenter defaultCenter] postNotificationName:MY_TEAM_CHANGED_NOTIFICATION object:nil];
+  [[NSNotificationCenter defaultCenter] postNotificationName:MONSTER_SOLD_COMPLETE_NOTIFICATION object:nil];
 }
 
 @end

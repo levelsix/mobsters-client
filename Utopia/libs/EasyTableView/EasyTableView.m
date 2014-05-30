@@ -116,8 +116,8 @@
   NSInteger max = [self numberOfSectionsInTableView:self.tableView];
   for (int i = 0; i < max; i++) {
     NSString *headerName = nil;
-    if ([self.delegate respondsToSelector:@selector(easyTableView:stringForHorizontalHeaderInDesction:)]) {
-      headerName = [self.delegate easyTableView:self stringForHorizontalHeaderInDesction:i];
+    if ([self.delegate respondsToSelector:@selector(easyTableView:stringForHorizontalHeaderInSection:)]) {
+      headerName = [self.delegate easyTableView:self stringForHorizontalHeaderInSection:i];
     }
     
     if (headerName) {
@@ -137,7 +137,7 @@
       r.size.width = numCellsAfter*_cellWidthOrHeight-HEADER_OFFSET*2;
       r.size.height = 30;
       
-      EasyTableHeaderView *header = [[EasyTableHeaderView alloc] initWithFrame:r];
+      EasyTableTopHeaderView *header = [[EasyTableTopHeaderView alloc] initWithFrame:r];
       header.tag = i;
       [header setLabelText:headerName];
       [self.headerContainer addSubview:header];
@@ -249,9 +249,13 @@
 #pragma mark -
 #pragma mark Multiple Sections
 
--(CGFloat)tableView:(UITableView*)tableView heightForHeaderInSection:(NSInteger)section {
+- (CGFloat) tableView:(UITableView*)tableView heightForHeaderInSection:(NSInteger)section {
   if ([self tableView:tableView numberOfRowsInSection:section] > 0) {
-    if ([delegate respondsToSelector:@selector(easyTableView:viewForHeaderInSection:)]) {
+    if ([delegate respondsToSelector:@selector(easyTableView:stringForVerticalHeaderInSection:)]) {
+      if ([delegate easyTableView:self stringForVerticalHeaderInSection:section]) {
+        return 30.f;
+      }
+    } else if ([delegate respondsToSelector:@selector(easyTableView:viewForHeaderInSection:)]) {
       UIView *headerView = [delegate easyTableView:self viewForHeaderInSection:section];
       if (_orientation == EasyTableViewOrientationHorizontal)
         return headerView.frame.size.width;
@@ -262,7 +266,7 @@
   return 0.0;
 }
 
--(CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section {
+- (CGFloat) tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section {
   if ([delegate respondsToSelector:@selector(easyTableView:viewForFooterInSection:)]) {
     UIView *footerView = [delegate easyTableView:self viewForFooterInSection:section];
 		if (_orientation == EasyTableViewOrientationHorizontal)
@@ -292,9 +296,18 @@
 	return rotatedView;
 }
 
--(UIView*)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section {
+- (UIView *) tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section {
   if ([self tableView:tableView numberOfRowsInSection:section] > 0) {
-    if ([delegate respondsToSelector:@selector(easyTableView:viewForHeaderInSection:)]) {
+    if ([delegate respondsToSelector:@selector(easyTableView:stringForVerticalHeaderInSection:)]) {
+      NSString *s = [delegate easyTableView:self stringForVerticalHeaderInSection:section];
+      
+      if (s) {
+        [[NSBundle mainBundle] loadNibNamed:@"EasyTableHeaderView" owner:self options:nil];
+        [self.headerView setLabelText:s];
+        self.headerView.button.tag = section;
+        return self.headerView;
+      }
+    } else if ([delegate respondsToSelector:@selector(easyTableView:viewForHeaderInSection:)]) {
       UIView *sectionView = [delegate easyTableView:self viewForHeaderInSection:section];
       return [self viewToHoldSectionView:sectionView];
     }
@@ -302,7 +315,7 @@
   return nil;
 }
 
--(UIView*)tableView:(UITableView *)tableView viewForFooterInSection:(NSInteger)section {
+- (UIView *) tableView:(UITableView *)tableView viewForFooterInSection:(NSInteger)section {
   if ([delegate respondsToSelector:@selector(easyTableView:viewForFooterInSection:)]) {
 		UIView *sectionView = [delegate easyTableView:self viewForFooterInSection:section];
 		return [self viewToHoldSectionView:sectionView];
@@ -310,7 +323,7 @@
   return nil;
 }
 
--(NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
+- (NSInteger) numberOfSectionsInTableView:(UITableView *)tableView {
   
   if ([delegate respondsToSelector:@selector(numberOfSectionsInEasyTableView:)]) {
     return [delegate numberOfSectionsInEasyTableView:self];
@@ -394,7 +407,7 @@
 		[delegate easyTableView:self scrolledToFraction:amountScrolled/maxScrollAmount];
   
   self.headerContainer.frame = CGRectMake(-self.contentOffset.x, 0, 0, 0);
-  for (EasyTableHeaderView *header in self.headerContainer.subviews) {
+  for (EasyTableTopHeaderView *header in self.headerContainer.subviews) {
     float mid = [self convertPoint:ccp(self.frame.size.width/2, 0) toView:header].x;
     float baseX = 1.5*_cellWidthOrHeight-HEADER_OFFSET;
     if (header.frame.size.width > baseX*2) {
@@ -522,9 +535,14 @@
   [self.tableView reloadData];
 }
 
+- (IBAction) verticalHeaderClicked:(id)sender {
+  NSInteger section = [(UIView *)sender tag];
+  [self.tableView scrollToRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:section] atScrollPosition:UITableViewScrollPositionTop animated:YES];
+}
+
 @end
 
-@implementation EasyTableHeaderView
+@implementation EasyTableTopHeaderView
 
 - (id) initWithFrame:(CGRect)frame {
   if ((self = [super initWithFrame:frame])) {
@@ -614,6 +632,47 @@
   r = self.rightView2.frame;
   r.origin.x += diff;
   r.size.width -= diff;
+  self.rightView2.frame = r;
+}
+
+@end
+
+@implementation EasyTableHeaderView
+
+- (void) setFrame:(CGRect)frame {
+  [super setFrame:frame];
+  [self setLabelText:[self.button titleForState:UIControlStateNormal]];
+}
+
+- (void) setLabelText:(NSString *)labelText {
+  [self.button setTitle:labelText forState:UIControlStateNormal];
+  
+  CGSize size = [labelText sizeWithFont:self.button.titleLabel.font];
+  
+  CGRect r;
+  
+  r = self.leftView1.frame;
+  r.origin.x = 8;
+  r.size.width = self.button.center.x-size.width/2-5-r.origin.x;
+  r.origin.y = self.button.center.y-1;
+  self.leftView1.frame = r;
+  
+  r = self.leftView2.frame;
+  r.size.width = self.leftView1.frame.size.width;
+  r.origin.x = self.leftView1.frame.origin.x;
+  r.origin.y = self.button.center.y+1;
+  self.leftView2.frame = r;
+  
+  r = self.rightView1.frame;
+  r.size.width = self.leftView1.frame.size.width;
+  r.origin.x = self.frame.size.width-self.leftView1.frame.origin.x-r.size.width;
+  r.origin.y = self.leftView1.frame.origin.y;
+  self.rightView1.frame = r;
+  
+  r = self.rightView2.frame;
+  r.size.width = self.leftView1.frame.size.width;
+  r.origin.x = self.rightView1.frame.origin.x;
+  r.origin.y = self.leftView2.frame.origin.y;
   self.rightView2.frame = r;
 }
 
