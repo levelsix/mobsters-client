@@ -468,6 +468,11 @@
 
 #pragma mark - Moving to other cities
 
+- (void) visitCityClicked:(int)cityId attackMapViewController:(id)vc {
+  _amvc = vc;
+  [self visitCityClicked:cityId assetId:0 animated:NO];
+}
+
 - (void) visitCityClicked:(int)cityId {
   [self visitCityClicked:cityId assetId:0 animated:YES];
 }
@@ -514,10 +519,18 @@
       
       [[OutgoingEventController sharedOutgoingEventController] loadNeutralCity:cityId withDelegate:self];
       
-      GameState *gs = [GameState sharedGameState];
-      FullCityProto *city = [gs cityWithId:cityId];
-      self.loadingView.label.text = [NSString stringWithFormat:@"Traveling to\n%@", city.name];
-      [self.loadingView display:self.view];
+      if (!_amvc) {
+        GameState *gs = [GameState sharedGameState];
+        FullCityProto *city = [gs cityWithId:cityId];
+        NSString *labelText = [NSString stringWithFormat:@"Traveling to\n%@", city.name];
+        NSMutableAttributedString *attributedString = [[NSMutableAttributedString alloc] initWithString:labelText];
+        NSMutableParagraphStyle *paragraphStyle = [[NSMutableParagraphStyle alloc] init];
+        [paragraphStyle setLineSpacing:3];
+        [paragraphStyle setAlignment:NSTextAlignmentCenter];
+        [attributedString addAttribute:NSParagraphStyleAttributeName value:paragraphStyle range:NSMakeRange(0, [labelText length])];
+        self.loadingView.label.attributedText = attributedString;
+        [self.loadingView display:self.view];
+      }
     }
   } else {
     if (cityId == 0) {
@@ -544,12 +557,29 @@
   }
   self.currentMap = mm;
   
-  float dur = 0.4f;
-  [[CCDirector sharedDirector] replaceScene:scene withTransition:[CCTransition transitionCrossFadeWithDuration:dur]];
-  [UIView animateWithDuration:dur animations:^{
+  if (_amvc) {
+    [[CCDirector sharedDirector] replaceScene:scene];
     [self.topBarViewController showMyCityView];
     [self.topBarViewController removeClanView];
-  }];
+    
+    [_amvc close];
+    _amvc = nil;
+    
+    UIView *white = [[UIView alloc] initWithFrame:self.view.bounds];
+    [self.view insertSubview:white belowSubview:_amvc.view];
+    [UIView animateWithDuration:1.f animations:^{
+      white.alpha = 0.f;
+    } completion:^(BOOL finished) {
+      [white removeFromSuperview];
+    }];
+  } else {
+    float dur = 0.4f;
+    [[CCDirector sharedDirector] replaceScene:scene withTransition:[CCTransition transitionCrossFadeWithDuration:dur]];
+    [UIView animateWithDuration:dur animations:^{
+      [self.topBarViewController showMyCityView];
+      [self.topBarViewController removeClanView];
+    }];
+  }
   
   [self.loadingView stop];
   

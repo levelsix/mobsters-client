@@ -26,6 +26,9 @@
   [self loadCities];
   
   [self.mapScrollView addSubview:self.mapView];
+  if (![Globals isLongiPhone]) {
+    self.mapView.center = ccp(self.mapScrollView.frame.size.width/2-22.f, self.mapView.frame.size.height/2);
+  }
   
   GameState *gs = [GameState sharedGameState];
   if (gs.myLaboratory) {
@@ -135,8 +138,13 @@
     [icon doShake];
   } else if (!_buttonClicked) {
     _buttonClicked = YES;
-    [self.delegate visitCityClicked:icon.cityNumber];
-    [self close];
+    [self.delegate visitCityClicked:icon.cityNumber attackMapViewController:self];
+    
+    icon.cityButton.hidden = YES;
+    icon.cityNumLabel.hidden = YES;
+    icon.shadowIcon.hidden = YES;
+    icon.spinner.hidden = NO;
+    [icon.spinner startAnimating];
   }
 }
 
@@ -151,7 +159,7 @@
     _buttonClicked = YES;
     [self.timer invalidate];
     [self.delegate enterDungeon:eventView.taskId isEvent:YES eventId:eventView.persistentEventId useGems:tag];
-    [self performSelector:@selector(close:) withObject:nil afterDelay:0.1f];
+    [self performSelector:@selector(close) withObject:nil afterDelay:0.1f];
   }
 }
 
@@ -204,8 +212,8 @@
 }
 
 - (void) nextMatch:(BOOL)useGems {
+  // GameViewController will close
   [self.delegate findPvpMatch:useGems];
-  [self close:nil];
 }
 
 - (void) visitTeamPage {
@@ -215,7 +223,9 @@
 }
 
 - (IBAction)close:(id)sender {
-  [self close];
+  if (!_buttonClicked) {
+    [self close];
+  }
 }
 
 - (void) close {

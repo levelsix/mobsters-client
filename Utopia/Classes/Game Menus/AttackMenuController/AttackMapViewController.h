@@ -14,7 +14,7 @@
 @protocol AttackMapDelegate <NSObject>
 
 @optional
-- (void) visitCityClicked:(int)cityId;
+- (void) visitCityClicked:(int)cityId attackMapViewController:(id)vc;
 - (void) enterDungeon:(int)taskId isEvent:(BOOL)isEvent eventId:(int)eventId useGems:(BOOL)useGems;
 - (void) findPvpMatch:(BOOL)useGems;
 - (void) beginPvpMatch:(PvpHistoryProto *)history;
@@ -47,5 +47,6 @@
 - (IBAction)enterEventClicked:(id)sender;
 - (IBAction)findMatchClicked:(id)sender;
 - (IBAction)close:(id)sender;
+- (IBAction)close;
 
 @end

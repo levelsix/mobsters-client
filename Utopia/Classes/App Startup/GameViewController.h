@@ -35,6 +35,8 @@
   BOOL _shouldRejectFacebook;
   
   BOOL _isInBattle;
+  
+  AttackMapViewController *_amvc;
 }
 
 @property (nonatomic, strong) TopBarViewController *topBarViewController;

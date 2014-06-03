@@ -59,6 +59,7 @@
                 <outlet property="cityButton" destination="7" id="37"/>
                 <outlet property="cityNumLabel" destination="NAT-Nq-Vq0" id="3Fg-Ha-wte"/>
                 <outlet property="nameLabel" destination="nIm-6t-wKY" id="LMF-mK-WMW"/>
+                <outlet property="shadowIcon" destination="saJ-Li-SmG" id="zFc-5d-PlL"/>
                 <outlet property="spinner" destination="Zum-Ep-RIx" id="PE9-LI-i0Y"/>
             </connections>
         </view>

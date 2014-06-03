@@ -16,6 +16,7 @@
 @property (nonatomic, strong) IBOutlet THLabel *nameLabel;
 @property (nonatomic, strong) IBOutlet UIButton *cityButton;
 @property (nonatomic, strong) IBOutlet UILabel *cityNumLabel;
+@property (nonatomic, strong) IBOutlet UIImageView *shadowIcon;
 @property (nonatomic, assign) BOOL isLocked;
 @property (nonatomic, strong) FullCityProto *fcp;
 @property (nonatomic, assign) int cityNumber;

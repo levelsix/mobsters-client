@@ -46,6 +46,11 @@
 
 @implementation AttackEventView
 
+- (void) awakeFromNib {
+  self.cooldownView.frame = self.enterView.frame;
+  [self.enterView.superview addSubview:self.cooldownView];
+}
+
 - (void) updateForEvo {
   GameState *gs = [GameState sharedGameState];
   _eventType = PersistentEventProto_EventTypeEvolution;
@@ -149,6 +154,7 @@
       self.cooldownLabel.text = [[Globals convertTimeToShortString:timeLeft] uppercaseString];
       int speedupCost = [gl calculateGemSpeedupCostForTimeLeft:timeLeft];
       self.speedupGemsLabel.text = [Globals commafyNumber:speedupCost];
+      [Globals adjustViewForCentering:self.speedupGemsLabel.superview withLabel:self.speedupGemsLabel];
       
       self.enterView.hidden = YES;
       self.cooldownView.hidden = NO;
