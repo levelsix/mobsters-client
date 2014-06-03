@@ -41,6 +41,7 @@
     GenViewController *gvc = [vcs objectAtIndex:vcs.count-2];
     if ([gvc isKindOfClass:[GenViewController class]]) {
       self.menuBackLabel.text = gvc.shortTitle ? gvc.shortTitle : gvc.title;
+      [self.menuBackMaskedButton remakeImage];
     }
   } else {
     self.menuBackButton.hidden = YES;
@@ -51,7 +52,7 @@
   [self popCurrentViewController];
 }
 
-- (void) popCurrentViewController {
+- (void)popCurrentViewController {
   [self.navigationController popViewControllerAnimated:YES];
 }
 

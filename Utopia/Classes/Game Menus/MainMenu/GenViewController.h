@@ -8,10 +8,12 @@
 
 #import <UIKit/UIKit.h>
 #import "CoinBar.h"
+#import "NibUtils.h"
 
 @interface GenViewController : UIViewController
 
 @property (nonatomic, retain) IBOutlet UIView *menuBackButton;
+@property (nonatomic, retain) IBOutlet MaskedButton *menuBackMaskedButton;
 @property (nonatomic, retain) IBOutlet UILabel *menuBackLabel;
 @property (nonatomic, retain) IBOutlet UIView *menuCloseButton;
 

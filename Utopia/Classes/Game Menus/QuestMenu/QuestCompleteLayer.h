@@ -27,6 +27,7 @@
   int _questId;
   void (^_completionBlock)(void);
   BOOL _clickedButton;
+  BOOL _allowInput;
 }
 
 @property (nonatomic, retain) CCNode *spinner;

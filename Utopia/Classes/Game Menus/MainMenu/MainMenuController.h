@@ -13,8 +13,8 @@
 
 @property (nonatomic, retain) IBOutlet UIView *menuSettingsButton;
 
-@property (nonatomic, retain) IBOutlet UIView *labButtonView;
-@property (nonatomic, retain) IBOutlet UIButton *labButton;
+@property (nonatomic, retain) IBOutlet UIView *enhanceButtonView;
+@property (nonatomic, retain) IBOutlet UIView *evolveButtonView;
 
 @property (nonatomic, retain) IBOutlet UIView *buildingsButtonView;
 

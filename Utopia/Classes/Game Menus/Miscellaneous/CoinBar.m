@@ -13,16 +13,46 @@
 @implementation CoinBar
 
 - (void) awakeFromNib {
+  if ([self.cashLabel isKindOfClass:[NumTransitionLabel class]]) {
+    self.cashLabel.transitionDelegate = self;
+    self.oilLabel.transitionDelegate = self;
+    self.gemsLabel.transitionDelegate = self;
+  }
+  
   [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(updateLabels) name:GAMESTATE_UPDATE_NOTIFICATION object:nil];
-  [self updateLabels];
+  [self updateLabelsAnim:NO];
 }
 
 - (void) updateLabels {
+  [self updateLabelsAnim:YES];
+}
+
+- (void) updateLabelsAnim:(BOOL)animated {
   GameState *gs = [GameState sharedGameState];
   
-  self.cashLabel.text = [Globals commafyNumber:gs.silver];
-  self.oilLabel.text = [Globals commafyNumber:gs.oil];
-  self.gemsLabel.text = [Globals commafyNumber:gs.gold];
+  if (![self.cashLabel isKindOfClass:[NumTransitionLabel class]]) {
+    self.cashLabel.text = [Globals cashStringForNumber:gs.silver];
+    self.oilLabel.text = [Globals commafyNumber:gs.oil];
+    self.gemsLabel.text = [Globals commafyNumber:gs.gold];
+  } else {
+    if (animated) {
+      [self.cashLabel transitionToNum:gs.silver];
+      [self.oilLabel transitionToNum:gs.oil];
+      [self.gemsLabel transitionToNum:gs.gold];
+    } else {
+      [self.cashLabel instaMoveToNum:gs.silver];
+      [self.oilLabel instaMoveToNum:gs.oil];
+      [self.gemsLabel instaMoveToNum:gs.gold];
+    }
+  }
+}
+
+- (void) updateLabel:(NumTransitionLabel *)label forNumber:(int)number {
+  if (label == self.cashLabel) {
+    label.text = [Globals cashStringForNumber:number];
+  } else {
+    label.text = [Globals commafyNumber:number];
+  }
 }
 
 - (void) dealloc {

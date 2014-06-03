@@ -46,7 +46,7 @@ static float imgHeight = 42.f;
   
   [self setTitleVerticalPositionAdjustment:0.f forBarMetrics:UIBarMetricsDefault];
   
-  UIFont *font = [UIFont fontWithName:[Globals font] size:24.f];
+  UIFont *font = [UIFont fontWithName:@"Ziggurat-HTF-Black" size:13.f];
   UIColor *color = [UIColor colorWithWhite:1.f alpha:1.f];
   UIColor *shadow = [UIColor colorWithWhite:0.f alpha:0.75f];
   NSValue *offset = [NSValue valueWithUIOffset:UIOffsetMake(0, 1)];

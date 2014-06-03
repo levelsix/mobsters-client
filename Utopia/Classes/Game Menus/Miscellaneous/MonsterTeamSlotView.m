@@ -36,8 +36,11 @@
 }
 
 - (void) updateRightViewForMyCronies:(UserMonster *)um {
-  if (self.subtitleLabel.subviews.count > 0) {
+  while (self.subtitleLabel.subviews.count > 0) {
     [self.subtitleLabel.subviews[0] removeFromSuperview];
+  }
+  while (self.titleLabel.subviews.count > 0) {
+    [self.titleLabel.subviews[0] removeFromSuperview];
   }
   
   GameState *gs = [GameState sharedGameState];
@@ -49,28 +52,37 @@
     self.titleLabel.text = @"Team Slot Open";
     self.titleLabel.textColor = [UIColor colorWithWhite:0.23 alpha:0.75f];
     
-    self.subtitleLabel.text = @"Tap     to Add";
+    self.subtitleLabel.text = @"Tap      to Add";
     
     // Create green +
-    UIFont *font = self.subtitleLabel.font;
-    UILabel *label = [[UILabel alloc] init];
-    label.font = font;
-    label.backgroundColor = [UIColor clearColor];
-    label.textColor = [UIColor colorWithRed:176/255.f green:223/255.f blue:33/255.f alpha:1.f];
-    label.text = @"+";
-    [self.subtitleLabel addSubview:label];
+    UIImageView *plus = [[UIImageView alloc] initWithImage:[Globals imageNamed:@"addteam.png"]];
+    plus.contentMode = UIViewContentModeScaleAspectFit;
+    [self.subtitleLabel addSubview:plus];
     
-    CGRect r = CGRectZero;
-    r.origin.x = [@"Tap " sizeWithFont:font].width-1;
-    r.size.width = [@"+" sizeWithFont:font].width;
-    r.size.height = self.subtitleLabel.frame.size.height;
-    label.frame = r;
+    CGRect r = plus.frame;
+    r.origin.x = [@"Tap " sizeWithFont:self.subtitleLabel.font].width-1;
+    r.origin.y = self.subtitleLabel.frame.size.height/2-plus.frame.size.height/2;
+    r.size.width *= 0.6;
+    plus.frame = r;
   } else {
     MonsterProto *mp = [gs monsterWithId:um.monsterId];
     
+    self.titleLabel.text = mp.hasShorterName ? mp.shorterName : mp.displayName;
+    if (self.titleLabel.subviews.count > 0) {
+      [self.titleLabel.subviews[0] removeFromSuperview];
+    }
     if (![um isAvailable]) {
-      self.titleLabel.text = [NSString stringWithFormat:@"%@ (%@)", mp.displayName, [um statusString]];
       self.titleLabel.textColor = [UIColor colorWithWhite:0.23 alpha:0.75f];
+      
+      UIImageView *img = [[UIImageView alloc] initWithImage:[Globals imageNamed:um.statusImageName]];
+      [self.titleLabel addSubview:img];
+      CGSize s = [self.titleLabel.text sizeWithFont:self.titleLabel.font constrainedToSize:self.titleLabel.frame.size];
+      img.center = ccp(s.width+img.frame.size.width/2+3, self.titleLabel.frame.size.height/2);
+      
+      [UIView animateWithDuration:0.75 delay:0 options:UIViewAnimationOptionAutoreverse|UIViewAnimationOptionRepeat animations:^{
+        img.alpha = 0.6;
+      } completion:nil];
+      
       self.subtitleLabel.text = @"Slot Open";
       
       self.subtitleLabel.hidden = NO;
@@ -79,7 +91,6 @@
     } else {
       self.healthBar.percentage = um.curHealth/(float)[gl calculateMaxHealthForMonster:um];
       
-      self.titleLabel.text = mp.displayName;
       self.titleLabel.textColor = [UIColor colorWithWhite:0.23 alpha:1.f];
       
       self.subtitleLabel.hidden = YES;

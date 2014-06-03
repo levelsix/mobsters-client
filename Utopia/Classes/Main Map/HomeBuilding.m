@@ -533,16 +533,20 @@
     UserMonster *um = [gs myMonsterWithUserMonsterId:hi.userMonsterId];
     MonsterProto *mp = [gs monsterWithId:um.monsterId];
     
-    [[CCSpriteFrameCache sharedSpriteFrameCache] addSpriteFramesWithFile:[NSString stringWithFormat:@"%@AttackNF.plist", mp.imagePrefix]];
-    NSString *file = [NSString stringWithFormat:@"%@AttackN00.png", mp.imagePrefix];
-    if ([[CCSpriteFrameCache sharedSpriteFrameCache] containsFrame:file]) {
-      self.monsterSprite = [CCSprite spriteWithImageNamed:file];
-      self.monsterSprite.anchorPoint = ccp(0.5, 0);
-      self.monsterSprite.scale = 0.8;
-      self.monsterSprite.position = ccpAdd(ccp(self.buildingSprite.contentSize.width/2, -5), ccp(0, mp.verticalPixelOffset));
-      self.monsterSprite.flipX = YES;
-      [self.buildingSprite addChild:self.monsterSprite z:1];
-    }
+    [Globals downloadAllFilesForSpritePrefixes:@[mp.imagePrefix] completion:^{
+      if (!self.monsterSprite) {
+        [[CCSpriteFrameCache sharedSpriteFrameCache] addSpriteFramesWithFile:[NSString stringWithFormat:@"%@AttackNF.plist", mp.imagePrefix]];
+        NSString *file = [NSString stringWithFormat:@"%@AttackN00.png", mp.imagePrefix];
+        if ([[CCSpriteFrameCache sharedSpriteFrameCache] containsFrame:file]) {
+          self.monsterSprite = [CCSprite spriteWithImageNamed:file];
+          self.monsterSprite.anchorPoint = ccp(0.5, 0);
+          self.monsterSprite.scale = 0.8;
+          self.monsterSprite.position = ccpAdd(ccp(self.buildingSprite.contentSize.width/2, -5), ccp(0, mp.verticalPixelOffset));
+          self.monsterSprite.flipX = YES;
+          [self.buildingSprite addChild:self.monsterSprite z:1];
+        }
+      }
+    }];
     
     [self displayProgressBar];
   }

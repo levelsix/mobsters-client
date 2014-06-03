@@ -14,14 +14,28 @@
 
 @implementation AttackMapIconView
 
+- (void) awakeFromNib {
+  self.nameLabel.strokeSize = 1.2f;
+  self.nameLabel.gradientStartColor = [UIColor colorWithRed:240/255.f green:253/255.f blue:152/255.f alpha:1.f];
+  self.nameLabel.gradientEndColor = [UIColor colorWithRed:222/255.f green:251/255.f blue:72/255.f alpha:1.f];
+  
+  self.spinner.hidden = YES;
+}
+
 - (void)setIsLocked:(BOOL)isLocked {
   _isLocked = isLocked;
   if (isLocked) {
-    [self.cityButton setImage:[UIImage imageNamed:@"closedcity.png"] forState:UIControlStateNormal];
+    [self.cityButton setImage:[UIImage imageNamed:@"lockedcitypin.png"] forState:UIControlStateNormal];
+    self.cityNumLabel.hidden = YES;
+  } else {
+    [self.cityButton setImage:[UIImage imageNamed:@"opencitypin.png"] forState:UIControlStateNormal];
+    self.cityNumLabel.hidden = NO;
   }
-  else {
-    [self.cityButton setImage:[UIImage imageNamed:@"opencity.png"] forState:UIControlStateNormal];
-  }
+}
+
+- (void) setCityNumber:(int)cityNumber {
+  _cityNumber = cityNumber;
+  self.cityNumLabel.text = [NSString stringWithFormat:@"%d", cityNumber];
 }
 
 - (void) doShake {
@@ -37,7 +51,6 @@
   _eventType = PersistentEventProto_EventTypeEvolution;
   PersistentEventProto *pe = [gs currentPersistentEventWithType:PersistentEventProto_EventTypeEvolution];
   [self updateForPersistentEvent:pe];
-  [self.tabBar clickButton:kButton1];
 }
 
 - (void) updateForEnhance {
@@ -45,13 +58,13 @@
   _eventType = PersistentEventProto_EventTypeEnhance;
   PersistentEventProto *pe = [gs currentPersistentEventWithType:PersistentEventProto_EventTypeEnhance];
   [self updateForPersistentEvent:pe];
-  [self.tabBar clickButton:kButton2];
 }
 
 - (void) updateForPersistentEvent:(PersistentEventProto *)pe {
   GameState *gs = [GameState sharedGameState];
   
   NSMutableArray *imgs = [NSMutableArray array];
+  float speed = 0.1;
   if (pe.type == PersistentEventProto_EventTypeEvolution) {
     for (int i = 0; i <= 12; i++) {
       NSString *str = [NSString stringWithFormat:@"Scientist%dBreath%02d.png", pe.monsterElement, i];
@@ -59,9 +72,8 @@
       [imgs addObject:img];
     }
     for (int i = 0; i <= 12; i++) {
-      NSString *str = [NSString stringWithFormat:@"Scientist%dBreath%02d.png", pe.monsterElement, i];
-      UIImage *img = [Globals imageNamed:str];
-      [imgs addObject:img];
+      // Repeat breath
+      [imgs addObject:imgs[i]];
     }
     for (int i = 0; i <= 12; i++) {
       NSString *str = [NSString stringWithFormat:@"Scientist%dBlink%02d.png", pe.monsterElement, i];
@@ -69,20 +81,19 @@
       [imgs addObject:img];
     }
     for (int i = 0; i <= 12; i++) {
-      NSString *str = [NSString stringWithFormat:@"Scientist%dBreath%02d.png", pe.monsterElement, i];
-      UIImage *img = [Globals imageNamed:str];
-      [imgs addObject:img];
+      // Repeat breath
+      [imgs addObject:imgs[i]];
     }
     for (int i = 0; i <= 12; i++) {
-      NSString *str = [NSString stringWithFormat:@"Scientist%dBreath%02d.png", pe.monsterElement, i];
-      UIImage *img = [Globals imageNamed:str];
-      [imgs addObject:img];
+      // Repeat breath
+      [imgs addObject:imgs[i]];
     }
     for (int i = 0; i <= 16; i++) {
       NSString *str = [NSString stringWithFormat:@"Scientist%dTurn%02d.png", pe.monsterElement, i];
       UIImage *img = [Globals imageNamed:str];
       [imgs addObject:img];
     }
+    speed = 0.08;
   } else if (pe.type == PersistentEventProto_EventTypeEnhance) {
     for (int i = 0; i <= 12; i++) {
       NSString *str = [NSString stringWithFormat:@"FatBoy%dMove%02d.png", pe.monsterElement, i];
@@ -92,36 +103,28 @@
   }
   
   self.monsterImage.animationImages = imgs;
+  if (imgs.count > 0) self.monsterImage.image = imgs[0];
   
-  self.monsterImage.animationDuration = imgs.count*0.1;
-  [self.monsterImage startAnimating];
+  self.monsterImage.animationDuration = imgs.count*speed;
   
   if (pe) {
     FullTaskProto *task = [gs taskWithId:pe.taskId];
     
-    self.topRibbonLabel.text = pe.type == PersistentEventProto_EventTypeEnhance ? @"FEEDER" : @"DAILY";
-    self.botRibbonLabel.text = pe.type == PersistentEventProto_EventTypeEvolution ? @"event now!" : @"laboratory";
-    
-    NSString *file = [Globals imageNameForElement:pe.monsterElement suffix:@"banner.png"];
+    NSString *file = [Globals imageNameForElement:pe.monsterElement suffix:@"dailylab.png"];
     self.bgdImage.image = [Globals imageNamed:file];
-    file = [Globals imageNameForElement:pe.monsterElement suffix:@"dailylab.png"];
-    self.ribbonImage.image = [Globals imageNamed:file];
     
     self.nameLabel.text = task.name;
     
     _persistentEventId = pe.eventId;
     self.taskId = pe.taskId;
     
-    self.mainView.hidden = NO;
-    self.noEventView.hidden = YES;
-    self.monsterImage.hidden = NO;
+    if (self.enhanceBubbleImage) {
+      file = [Globals imageNameForElement:pe.monsterElement suffix:@"feederevent.png"];
+      self.enhanceBubbleImage.image = [Globals imageNamed:file];
+    }
+    self.hidden = NO;
   } else {
-    _persistentEventId = 0;
-    self.taskId = 0;
-    
-    self.mainView.hidden = YES;
-    self.noEventView.hidden = NO;
-    self.monsterImage.hidden = YES;
+    self.hidden = YES;
   }
   [self updateLabels];
 }
@@ -135,7 +138,7 @@
     [self updateForPersistentEvent:pe];
   } else {
     int timeLeft = [pe.endTime timeIntervalSinceNow];
-    self.timeLeftLabel.text = [NSString stringWithFormat:@"Time Left: %@", [Globals convertTimeToShortString:timeLeft]];
+    self.timeLeftLabel.text = [[Globals convertTimeToShortString:timeLeft] uppercaseString];
     
     MSDate *cdTime = pe.cooldownEndTime;
     timeLeft = [cdTime timeIntervalSinceNow];
@@ -143,7 +146,7 @@
       self.enterView.hidden = NO;
       self.cooldownView.hidden = YES;
     } else {
-      self.cooldownLabel.text = [NSString stringWithFormat:@"Opens In: %@", [Globals convertTimeToShortString:timeLeft]];
+      self.cooldownLabel.text = [[Globals convertTimeToShortString:timeLeft] uppercaseString];
       int speedupCost = [gl calculateGemSpeedupCostForTimeLeft:timeLeft];
       self.speedupGemsLabel.text = [Globals commafyNumber:speedupCost];
       
@@ -153,12 +156,8 @@
   }
 }
 
-- (void) button1Clicked:(id)sender {
-  [self updateForEvo];
-}
-
-- (void) button2Clicked:(id)sender {
-  [self updateForEnhance];
+- (void) touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event {
+  [self.delegate eventViewSelected:self];
 }
 
 @end
@@ -257,7 +256,6 @@
 
 - (void) awakeFromNib {
   Globals *gl = [Globals sharedGlobals];
-  self.multiplayerUnlockLabel.superview.layer.cornerRadius = 8.f;
   self.multiplayerUnlockLabel.text = [NSString stringWithFormat:@"Multiplayer play\n unlocks at level %d", gl.pvpRequiredMinLvl];
   
   GameState *gs = [GameState sharedGameState];
@@ -267,8 +265,6 @@
   self.backButton.alpha = 0.f;
   self.titleLabel.text = @"Multiplayer";
   
-  self.layer.cornerRadius = 8.f;
-  
   for (LeagueDescriptionView *dv in self.leagueDescriptionViews) {
     PvpLeagueProto *pvp = [gs leagueForId:(int)dv.tag];
     [dv updateForLeague:pvp];
@@ -277,7 +273,7 @@
 
 - (void) updateForLeague {
   GameState *gs = [GameState sharedGameState];
-  [self.leagueView updateForUserLeague:gs.pvpLeague];
+  [self.leagueView updateForUserLeague:gs.pvpLeague ribbonSuffix:@"ribbon.png"];
 }
 
 - (IBAction)leagueSelected:(id)sender {

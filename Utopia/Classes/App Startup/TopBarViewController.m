@@ -45,7 +45,7 @@
     BOOL greyscale = (um.curHealth <= 0);
     [self.monsterView updateForElement:mp.monsterElement imgPrefix:mp.imagePrefix greyscale:greyscale];
     
-    self.topLabel.text = mp.displayName;
+    self.topLabel.text = mp.hasShorterName ? mp.shorterName : mp.displayName;
     
     if (![um isAvailable]) {
       self.botLabel.hidden = NO;
@@ -217,7 +217,7 @@
 - (void) updateLabels {
   GameState *gs = [GameState sharedGameState];
   int shieldTimeLeft = gs.shieldEndTime.timeIntervalSinceNow;
-  self.shieldLabel.text = shieldTimeLeft > 0 ? [Globals convertTimeToShortString:shieldTimeLeft] : @"NONE";
+  self.shieldLabel.text = shieldTimeLeft > 0 ? [[Globals convertTimeToShortString:shieldTimeLeft] uppercaseString] : @"NONE";
 }
 
 #pragma mark - Bottom view methods
@@ -267,10 +267,9 @@
   GameViewController *gvc = (GameViewController *)self.parentViewController;
   AttackMapViewController *amvc = [[AttackMapViewController alloc] init];
   amvc.delegate = gvc;
-  MenuNavigationController *nav = [[MenuNavigationController alloc] init];
-  nav.navigationBarHidden = YES;
-  [gvc presentViewController:nav animated:YES completion:nil];
-  [nav pushViewController:amvc animated:YES];
+  [gvc addChildViewController:amvc];
+  amvc.view.frame = gvc.view.bounds;
+  [gvc.view addSubview:amvc.view];
 }
 
 - (IBAction)plusClicked:(id)sender {

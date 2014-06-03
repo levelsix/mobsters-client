@@ -32,9 +32,13 @@
   self.middleView.frame = self.tableContainerView.frame;
   [self.tableContainerView.superview addSubview:self.middleView];
   
+  UIView *oldBack = self.menuBackButton;
   [[NSBundle mainBundle] loadNibNamed:@"CustomNavBarButtons" owner:self options:nil];
   self.backButton = self.menuBackButton;
+  self.menuBackButton = oldBack;
+  
   self.menuBackLabel.text = @"Back";
+  [self.menuBackMaskedButton remakeImage];
 }
 
 - (void) viewWillAppear:(BOOL)animated {
@@ -71,6 +75,7 @@
   [v.customView.superview addSubview:self.backButton];
   self.backButton.frame = v.customView.frame;
   self.backButton.alpha = 0.f;
+  self.menuBackButton.alpha = 1.f;
 }
 
 - (void) viewWillDisappear:(BOOL)animated {
@@ -100,6 +105,7 @@
     self.tableContainerView.alpha = 1.f;
   }];
   self.backButton.alpha = 0.f;
+  self.menuBackButton.alpha = 1.f;
 }
 
 - (void) waitTimeComplete {
@@ -342,6 +348,7 @@
   
   [UIView animateWithDuration:0.3f animations:^{
     self.backButton.alpha = 1.f;
+    self.menuBackButton.alpha = 0.f;
   }];
 }
 
@@ -363,6 +370,7 @@
     
     [UIView animateWithDuration:0.3f animations:^{
       self.backButton.alpha = 0.f;
+      self.menuBackButton.alpha = 1.f;
     }];
   } else {
     [super menuBackClicked:sender];
@@ -406,6 +414,7 @@
     [self.bottomView updateForEvoItems];
     
     self.backButton.alpha = 0.f;
+    self.menuBackButton.alpha = 1.f;
   }
 }
 

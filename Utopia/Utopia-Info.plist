@@ -53,6 +53,7 @@
 		<string>GothamBlack.otf</string>
 		<string>GothamMedium-Italic.otf</string>
 		<string>Ziggurat-HTF-Black.otf</string>
+		<string>Ziggurat-HTF-Black-Italic.otf</string>
 	</array>
 	<key>UIPrerenderedIcon</key>
 	<true/>

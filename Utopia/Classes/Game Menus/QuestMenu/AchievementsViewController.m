@@ -26,19 +26,22 @@
   self.rankLabel.text = [NSString stringWithFormat:@"%d", ap.lvl];
   self.gemRewardLabel.text = [Globals commafyNumber:ap.gemReward];
   
-  for (int i = 0; i < self.starViews.count; i++) {
-    UIImageView *img = self.starViews[i];
-    img.highlighted = i >= ap.lvl;
-  }
-  
+  int numStars = 0;
   if (!ua.isRedeemed) {
     NSString *str1 = ap.resourceType == ResourceTypeCash ? [Globals cashStringForNumber:ua.progress] : [Globals commafyNumber:ua.progress];
     NSString *str2 = ap.resourceType == ResourceTypeCash ? [Globals cashStringForNumber:ap.quantity] : [Globals commafyNumber:ap.quantity];
     self.progressLabel.text = [NSString stringWithFormat:@"%@ / %@", str1, str2];
     self.progressBar.percentage = ua.progress/(float)ap.quantity;
+    numStars = ap.lvl-1;
   } else {
     self.progressLabel.text = @"Complete";
     self.progressBar.percentage = 1.f;
+    numStars = ap.lvl;
+  }
+  
+  for (int i = 0; i < self.starViews.count; i++) {
+    UIImageView *img = self.starViews[i];
+    img.highlighted = i >= numStars;
   }
   
   self.collectView.hidden = (!ua.isComplete || ua.isRedeemed);

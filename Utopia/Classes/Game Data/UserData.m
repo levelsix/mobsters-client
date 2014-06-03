@@ -111,10 +111,24 @@
     str = @"Healing";
   } else if (self.isEnhancing || self.isSacrificing) {
     str = @"Enhancing";
+  } else if (self.isEvolving) {
+    str = @"Evolving";
   } else if (self.isOnAMiniJob) {
     str = @"Mini Job";
   } else if (!self.isComplete) {
     str = [NSString stringWithFormat:@"Pieces: %d/%d", self.numPieces, self.staticMonster.numPuzzlePieces];
+  }
+  return str;
+}
+
+- (NSString *) statusImageName {
+  NSString *str = nil;
+  if (self.isHealing) {
+    str = @"healingicon.png";
+  } else if (self.isEnhancing || self.isSacrificing || self.isEvolving) {
+    str = @"labbingicon.png";
+  } else if (self.isOnAMiniJob) {
+    str = @"jobbingicon.png";
   }
   return str;
 }

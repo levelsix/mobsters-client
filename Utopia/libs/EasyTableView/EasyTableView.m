@@ -303,7 +303,7 @@
       
       if (s) {
         [[NSBundle mainBundle] loadNibNamed:@"EasyTableHeaderView" owner:self options:nil];
-        [self.headerView setLabelText:s];
+        [self.headerView setLabelText:s.uppercaseString];
         self.headerView.button.tag = section;
         return self.headerView;
       }
@@ -652,15 +652,15 @@
   CGRect r;
   
   r = self.leftView1.frame;
-  r.origin.x = 8;
+  r.origin.x = 10;
   r.size.width = self.button.center.x-size.width/2-5-r.origin.x;
-  r.origin.y = self.button.center.y-1;
+  r.origin.y = self.button.center.y-2;
   self.leftView1.frame = r;
   
   r = self.leftView2.frame;
   r.size.width = self.leftView1.frame.size.width;
   r.origin.x = self.leftView1.frame.origin.x;
-  r.origin.y = self.button.center.y+1;
+  r.origin.y = self.leftView1.frame.origin.y+2;
   self.leftView2.frame = r;
   
   r = self.rightView1.frame;

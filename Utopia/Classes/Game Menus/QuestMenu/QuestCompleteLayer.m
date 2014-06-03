@@ -113,6 +113,7 @@
 }
 
 - (void) completedAnimationSequenceNamed:(NSString *)name {
+  _allowInput = YES;
   [self.rewardsBgd runAction:
    [CCActionSequence actions:
     [CCActionMoveBy actionWithDuration:0.3 position:ccp(0, -self.rewardsBgd.contentSize.height)],
@@ -172,11 +173,13 @@
 }
 
 - (void) checkmarkClicked:(id)sender {
-  self.checkmark.visible = !self.checkmark.visible;
+  if (_allowInput) {
+    self.checkmark.visible = !self.checkmark.visible;
+  }
 }
 
 - (void) continueClicked:(id)sender {
-  if (!_clickedButton) {
+  if (!_clickedButton && _allowInput) {
     _clickedButton = YES;
     
     [[OutgoingEventController sharedOutgoingEventController] redeemQuest:_questId delegate:self];
@@ -205,6 +208,7 @@
 
 - (void) closeWithBlock:(void (^)(void))completion {
   [self.loadingSpinner removeFromSuperview];
+  [self.spinner removeFromParent];
   [self runAction:
    [CCActionSequence actions:
     [RecursiveFadeTo actionWithDuration:0.5 opacity:0.f],

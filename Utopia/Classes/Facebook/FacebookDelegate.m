@@ -304,15 +304,19 @@
     LNLog(@"Attempting login for my facebook user.");
     [self openSessionWithLoginUI:NO completionHandler:^(BOOL success) {
       LNLog(@"Getting my facebook user.");
-      [FBRequestConnection startForMeWithCompletionHandler:^(FBRequestConnection *connection, NSDictionary<FBGraphUser> *result, NSError *error) {
-        LNLog(@"Received my facebook user.");
-        if (!error) {
-          self.myFacebookUser = result;
-          handler(result);
-        } else {
-          handler(nil);
-        }
-      }];
+      if (success) {
+        [FBRequestConnection startForMeWithCompletionHandler:^(FBRequestConnection *connection, NSDictionary<FBGraphUser> *result, NSError *error) {
+          LNLog(@"Received my facebook user.");
+          if (!error) {
+            self.myFacebookUser = result;
+            handler(result);
+          } else {
+            handler(nil);
+          }
+        }];
+      } else {
+        handler(nil);
+      }
     }];
   } else {
     handler(self.myFacebookUser);

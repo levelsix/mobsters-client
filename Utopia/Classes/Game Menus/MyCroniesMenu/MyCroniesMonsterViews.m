@@ -10,7 +10,7 @@
 #import "Globals.h"
 #import "GameState.h"
 
-#define TABLE_CELL_WIDTH 54
+#define TABLE_CELL_WIDTH 51
 
 @implementation MyCroniesTabBar
 
@@ -255,8 +255,9 @@
   int speedupCost = [gl calculateGemSpeedupCostForTimeLeft:timeLeft];
   
   if (hospitalCount > 0) {
-    self.totalTimeLabel.text = [Globals convertTimeToShortString:timeLeft];
+    self.totalTimeLabel.text = [[Globals convertTimeToShortString:timeLeft] uppercaseString];
     self.speedupCostLabel.text = [Globals commafyNumber:speedupCost];
+    [Globals adjustViewForCentering:self.speedupCostLabel.superview withLabel:self.speedupCostLabel];
     
     for (int i = 0; i < hospitalCount; i++) {
       MyCroniesQueueCell *cell = (MyCroniesQueueCell *)[self.queueTable viewAtIndexPath:[NSIndexPath indexPathForRow:i inSection:0]];

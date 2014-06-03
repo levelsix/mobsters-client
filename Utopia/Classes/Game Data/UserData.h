@@ -39,6 +39,7 @@
 
 - (MonsterProto *) staticMonster;
 - (NSString *) statusString;
+- (NSString *) statusImageName;
 - (MonsterProto *) staticEvolutionMonster;
 - (MonsterLevelInfoProto *) levelInfo;
 - (BOOL) isCombining;

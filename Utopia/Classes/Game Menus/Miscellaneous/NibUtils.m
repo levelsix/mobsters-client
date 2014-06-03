@@ -39,6 +39,16 @@
 
 @end
 
+@implementation NiceFontLabel2B
+
+- (void) awakeFromNib {
+  [Globals adjustFontSizeForUILabel:self];
+  self.font = [UIFont fontWithName:@"Gotham-Medium" size:self.font.pointSize];
+  self.shadowBlur = 0.9f;
+}
+
+@end
+
 @implementation NiceFontLabel3
 
 - (void) awakeFromNib {
@@ -80,6 +90,16 @@
 - (void) awakeFromNib {
   [Globals adjustFontSizeForUILabel:self];
   self.font = [UIFont fontWithName:@"Gotham-UltraItalic" size:self.font.pointSize];
+}
+
+@end
+
+@implementation NiceFontLabel7B
+
+- (void) awakeFromNib {
+  [Globals adjustFontSizeForUILabel:self];
+  self.font = [UIFont fontWithName:@"Gotham-UltraItalic" size:self.font.pointSize];
+  self.shadowBlur = 0.9f;
 }
 
 @end
@@ -131,6 +151,17 @@
 
 @end
 
+@implementation NiceFontLabel10S
+
+- (void) awakeFromNib {
+  [Globals adjustFontSizeForUILabel:self];
+  self.font = [UIFont fontWithName:@"GothamBlack" size:self.font.pointSize];
+  self.strokeSize = 0.5f;
+  self.strokeColor = [UIColor blackColor];
+}
+
+@end
+
 @implementation NiceFontLabel11
 
 - (void) awakeFromNib {
@@ -145,6 +176,35 @@
 - (void) awakeFromNib {
   [Globals adjustFontSizeForUILabel:self];
   self.font = [UIFont fontWithName:@"Ziggurat-HTF-Black" size:self.font.pointSize];
+}
+
+@end
+
+@implementation NiceFontLabel12B
+
+- (void) awakeFromNib {
+  [Globals adjustFontSizeForUILabel:self];
+  self.font = [UIFont fontWithName:@"Ziggurat-HTF-Black" size:self.font.pointSize];
+  self.shadowBlur = 0.9f;
+}
+
+@end
+
+@implementation NiceFontLabel13
+
+- (void) awakeFromNib {
+  [Globals adjustFontSizeForUILabel:self];
+  self.font = [UIFont fontWithName:@"Ziggurat-HTF-Black-Italic" size:self.font.pointSize];
+}
+
+@end
+
+@implementation NiceFontLabel13S
+
+- (void) awakeFromNib {
+  [Globals adjustFontSizeForUILabel:self];
+  self.font = [UIFont fontWithName:@"Ziggurat-HTF-Black-Italic" size:self.font.pointSize];
+  self.strokeColor = [UIColor blackColor];
 }
 
 @end
@@ -311,6 +371,15 @@
 
 - (void) awakeFromNib {
   self.layer.transform = CATransform3DMakeRotation(M_PI, 0.0f, 1.0f, 0.0f);
+}
+
+@end
+
+@implementation RotateLabel8
+
+- (void) awakeFromNib {
+  [super awakeFromNib];
+  self.superview.transform = CGAffineTransformMakeRotation(-M_PI_2);
 }
 
 @end
@@ -1043,27 +1112,35 @@
 
 @implementation LeagueView
 
-- (void) updateForUserLeague:(UserPvpLeagueProto *)upvp {
+- (void) updateForUserLeague:(UserPvpLeagueProto *)upvp ribbonSuffix:(NSString *)ribbonSuffix {
   GameState *gs = [GameState sharedGameState];
   PvpLeagueProto *pvp = [gs leagueForId:upvp.leagueId];
   
   NSString *league = pvp.imgPrefix;
   int rank = upvp.rank;
-  [Globals imageNamed:[league stringByAppendingString:@"leaguebg.png"] withView:self.leagueBgd greyscale:NO indicator:UIActivityIndicatorViewStyleWhiteLarge clearImageDuringDownload:YES];
+  [Globals imageNamed:[league stringByAppendingString:ribbonSuffix] withView:self.leagueBgd greyscale:NO indicator:UIActivityIndicatorViewStyleWhiteLarge clearImageDuringDownload:YES];
   [Globals imageNamed:[league stringByAppendingString:@"icon.png"] withView:self.leagueIcon greyscale:NO indicator:UIActivityIndicatorViewStyleWhiteLarge clearImageDuringDownload:YES];
   self.leagueLabel.text = pvp.leagueName;
   self.rankLabel.text = [Globals commafyNumber:rank];
   self.rankQualifierLabel.text = [Globals qualifierStringForNumber:rank];
   
   CGSize size = [self.rankLabel.text sizeWithFont:self.rankLabel.font constrainedToSize:self.rankLabel.frame.size];
-  float leftSide = CGRectGetMaxX(self.rankLabel.frame)-size.width;
-  size = [self.placeLabel.text sizeWithFont:self.placeLabel.font];
-  float rightSide = CGRectGetMinX(self.placeLabel.frame)+size.width;
-  float midX = leftSide+(rightSide-leftSide)/2;
+  CGRect r = self.rankQualifierLabel.frame;
+  r.origin.x = self.rankLabel.frame.origin.x+size.width+5;
+  self.rankQualifierLabel.frame = r;
   
-  float distFromCenter = midX-self.rankLabel.superview.frame.size.width/2;
-  CGPoint curCenter = self.rankLabel.superview.center;
-  self.rankLabel.superview.center = ccp(curCenter.x-distFromCenter, curCenter.y);
+  r = self.placeLabel.frame;
+  r.origin.x = self.rankQualifierLabel.frame.origin.x;
+  self.placeLabel.frame = r;
+  
+  //float leftSide = CGRectGetMaxX(self.rankLabel.frame)-size.width;
+  //size = [self.placeLabel.text sizeWithFont:self.placeLabel.font];
+  //float rightSide = CGRectGetMinX(self.placeLabel.frame)+size.width;
+  //float midX = leftSide+(rightSide-leftSide)/2;
+  
+  //float distFromCenter = midX-self.rankLabel.superview.frame.size.width/2;
+  //CGPoint curCenter = self.rankLabel.superview.center;
+  //self.rankLabel.superview.center = ccp(curCenter.x-distFromCenter, curCenter.y);
 }
 
 @end

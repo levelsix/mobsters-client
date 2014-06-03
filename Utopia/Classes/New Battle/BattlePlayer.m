@@ -40,7 +40,8 @@
     self.animationType = mp.attackAnimationType;
     self.verticalOffset = mp.verticalPixelOffset;
     
-    self.damageRandomnessFactor = 0.2;
+    self.lowerBound = 0.6;
+    self.upperBound = 1.;
   }
   return self;
 }
@@ -116,7 +117,7 @@
     }
   } else {
     float rand = ((float) (arc4random() % ((unsigned)RAND_MAX + 1)) / RAND_MAX);
-    float amt = 1+(rand*2-1)*self.damageRandomnessFactor;
+    float amt = self.lowerBound+(rand*(self.upperBound-self.lowerBound));
     return amt*self.totalAttackPower*NUM_MOVES_PER_TURN;
   }
 }

@@ -15,6 +15,7 @@
 #import "MyCroniesViewController.h"
 #import "GenericPopupController.h"
 #import "AchievementUtil.h"
+#import "CAKeyframeAnimation+AHEasing.h"
 
 #define NUM_CITIES 10
 
@@ -23,27 +24,37 @@
 - (void)viewDidLoad {
   [super viewDidLoad];
   [self loadCities];
-  self.mapScrollView.layer.cornerRadius = 8.f;
   
   [self.mapScrollView addSubview:self.mapView];
-  self.mapScrollView.contentSize = CGSizeMake(self.mapScrollView.frame.size.width, self.mapView.frame.size.height);
   
-  if ([Globals isLongiPhone]) {
-    self.borderView.image = [Globals imageNamed:@"attackmapborderwide.png"];
-    self.mapView.center = ccp(self.mapView.frame.size.width/2, self.mapView.frame.size.height/2);
-  } else {
-    self.borderView.image = [Globals imageNamed:@"attackmapborder.png"];
-    self.mapView.center = ccp(self.mapScrollView.frame.size.width/2-22.f, self.mapView.frame.size.height/2);
-    [self.eventView.monsterImage removeFromSuperview];
-    self.eventView.monsterImage = nil;
+  GameState *gs = [GameState sharedGameState];
+  if (gs.myLaboratory) {
+    NSString *nibFile = [Globals isLongiPhone] ? @"AttackEventView" : @"AttackEventViewSmall";
+    [[NSBundle mainBundle] loadNibNamed:nibFile owner:self options:nil];
+    
+    [self.pveView addSubview:self.enhanceEventView];
+    [self.pveView addSubview:self.evoEventView];
+    
+    self.enhanceEventView.center = ccp(self.enhanceEventView.frame.size.width/2, self.pveView.frame.size.height-self.enhanceEventView.frame.size.height/2);
+    self.evoEventView.center = ccp(self.evoEventView.frame.size.width/2, self.pveView.frame.size.height-self.evoEventView.frame.size.height/2);
   }
+  
+  self.multiplayerView.center = ccp(-self.multiplayerView.frame.size.width/2, self.multiplayerView.center.y);
+  self.pveView.center = ccp(self.view.frame.size.width+self.pveView.frame.size.width, self.pveView.center.y);
+  [UIView animateWithDuration:0.3f delay:0.f options:UIViewAnimationOptionCurveEaseIn animations:^{
+    self.multiplayerView.center = ccp(self.multiplayerView.frame.size.width/2, self.multiplayerView.center.y);
+    self.pveView.center = ccp(self.view.frame.size.width-self.pveView.frame.size.width/2, self.pveView.center.y);
+  } completion:nil];
 }
 
 - (void) viewWillAppear:(BOOL)animated {
-  [self.eventView updateForEvo];
-  
-  // In case we come from back button on gem view
-  self.navigationController.navigationBarHidden = YES;
+  [self.evoEventView updateForEvo];
+  [self.enhanceEventView updateForEnhance];
+  if (!self.evoEventView.hidden) {
+    [self.evoEventView.monsterImage startAnimating];
+  } else if (!self.enhanceEventView) {
+    [self.enhanceEventView.monsterImage startAnimating];
+  }
   
   [self.multiplayerView updateForLeague];
   
@@ -52,6 +63,20 @@
     [self dropLeagueIcon];
     [gs currentLeagueWasShown];
   }
+  
+//    CAKeyframeAnimation *kf = [CAKeyframeAnimation animationWithKeyPath:@"position" function:BounceEaseOut
+//                                                              fromPoint:ccp(-self.multiplayerView.frame.size.width/2, self.multiplayerView.center.y)
+//                                                                toPoint:ccp(self.multiplayerView.frame.size.width/2, self.multiplayerView.center.y) keyframeCount:150];
+//    kf.duration = 1.6f;
+//    kf.delegate = self;
+//    [self.multiplayerView.layer addAnimation:kf forKey:@"bounce"];
+//    
+//    kf = [CAKeyframeAnimation animationWithKeyPath:@"position" function:BounceEaseOut
+//                                         fromPoint:ccp(self.view.frame.size.width+self.pveView.frame.size.width/2, self.pveView.center.y)
+//                                           toPoint:ccp(self.view.frame.size.width-self.pveView.frame.size.width/2, self.pveView.center.y) keyframeCount:150];
+//    kf.duration = 1.6f;
+//    kf.delegate = self;
+//    [self.pveView.layer addAnimation:kf forKey:@"bounce"];
 }
 
 - (void) dropLeagueIcon {
@@ -62,8 +87,19 @@
 }
 
 - (void) viewDidAppear:(BOOL)animated {
-  self.timer = [NSTimer timerWithTimeInterval:1.f target:self.eventView selector:@selector(updateLabels) userInfo:Nil repeats:YES];
+  self.timer = [NSTimer timerWithTimeInterval:1.f target:self selector:@selector(updateLabels) userInfo:Nil repeats:YES];
   [[NSRunLoop mainRunLoop] addTimer:self.timer forMode:NSRunLoopCommonModes];
+}
+
+- (void) updateLabels {
+  [self.evoEventView updateLabels];
+  [self.enhanceEventView updateLabels];
+  
+  if (self.evoEventView.hidden && self.enhanceEventView.hidden) {
+    self.mapScrollView.contentSize = CGSizeMake(self.mapScrollView.frame.size.width, self.mapView.frame.size.height);
+  } else {
+    self.mapScrollView.contentSize = CGSizeMake(self.mapScrollView.frame.size.width, self.mapView.frame.size.height+self.evoEventView.bgdImage.frame.size.height);
+  }
 }
 
 - (void) viewDidDisappear:(BOOL)animated {
@@ -82,6 +118,7 @@
     amvc.iconView.fcp = fcp;
     amvc.iconView.isLocked = ![gs isCityUnlocked:i];
     amvc.iconView.cityNumber = i;
+    amvc.iconView.nameLabel.text = [NSString stringWithFormat:@"%@ »", fcp.name];
     [Globals imageNamed:fcp.attackMapLabelImgName withView:amvc.iconView.cityNameIcon greyscale:NO indicator:UIActivityIndicatorViewStyleWhite clearImageDuringDownload:YES];
     
     [amvc.iconView.cityButton addTarget:self action:@selector(cityClicked:) forControlEvents:UIControlEventTouchUpInside];
@@ -103,11 +140,17 @@
   }
 }
 
-- (IBAction)enterEventClicked:(UIButton *)sender {
+- (IBAction)enterEventClicked:(UIView *)sender {
+  int tag = (int)sender.tag;
+  while (sender && ![sender isKindOfClass:[AttackEventView class]]) {
+    sender = [sender superview];
+  }
+  
+  AttackEventView *eventView = (AttackEventView *)sender;
   if (!_buttonClicked && [Globals checkEnteringDungeonWithTarget:self selector:@selector(visitTeamPage)]) {
     _buttonClicked = YES;
     [self.timer invalidate];
-    [self.delegate enterDungeon:self.eventView.taskId isEvent:YES eventId:self.eventView.persistentEventId useGems:[sender tag]];
+    [self.delegate enterDungeon:eventView.taskId isEvent:YES eventId:eventView.persistentEventId useGems:tag];
     [self performSelector:@selector(close:) withObject:nil afterDelay:0.1f];
   }
 }
@@ -166,8 +209,9 @@
 }
 
 - (void) visitTeamPage {
-  [self.navigationController pushViewController:[[MyCroniesViewController alloc] init] animated:YES];
-  self.navigationController.navigationBarHidden = NO;
+  MenuNavigationController *mnc = [[MenuNavigationController alloc] init];
+  [mnc pushViewController:[[MyCroniesViewController alloc] init] animated:YES];
+  [self presentViewController:mnc animated:YES completion:nil];
 }
 
 - (IBAction)close:(id)sender {
@@ -175,7 +219,25 @@
 }
 
 - (void) close {
-  [self.presentingViewController dismissViewControllerAnimated:YES completion:nil];
+  [UIView animateWithDuration:0.3f delay:0.f options:UIViewAnimationOptionCurveEaseOut animations:^{
+    self.multiplayerView.center = ccp(-self.multiplayerView.frame.size.width/2, self.multiplayerView.center.y);
+    self.pveView.center = ccp(self.view.frame.size.width+self.pveView.frame.size.width/2, self.pveView.center.y);
+  } completion:^(BOOL finished) {
+    [self.view removeFromSuperview];
+    [self removeFromParentViewController];
+  }];
+}
+
+#pragma mark - Event View Delegate
+
+- (void) eventViewSelected:(AttackEventView *)eventView {
+  if (!_buttonClicked && _curEventView != eventView) {
+    [eventView.superview bringSubviewToFront:eventView];
+    [eventView.monsterImage startAnimating];
+    
+    [_curEventView.monsterImage stopAnimating];
+    _curEventView = eventView;
+  }
 }
 
 @end

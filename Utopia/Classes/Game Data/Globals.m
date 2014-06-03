@@ -285,7 +285,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
 + (UIColor *) colorForRarity:(Quality)rarity {
   switch (rarity) {
     case QualityCommon:
-      return [self creamColor];
+      return [UIColor colorWithRed:156/255.f green:131/255.f blue:29/255.f alpha:1.f];
       
     case QualityRare:
       return [self blueColor];

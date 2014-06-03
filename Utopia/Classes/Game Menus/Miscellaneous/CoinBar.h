@@ -8,11 +8,13 @@
 
 #import <UIKit/UIKit.h>
 
-@interface CoinBar : UIView
+#import "NibUtils.h"
 
-@property (nonatomic, retain) IBOutlet UILabel *cashLabel;
-@property (nonatomic, retain) IBOutlet UILabel *oilLabel;
-@property (nonatomic, retain) IBOutlet UILabel *gemsLabel;
+@interface CoinBar : UIView <NumTransitionLabelDelegate>
+
+@property (nonatomic, retain) IBOutlet NumTransitionLabel *cashLabel;
+@property (nonatomic, retain) IBOutlet NumTransitionLabel *oilLabel;
+@property (nonatomic, retain) IBOutlet NumTransitionLabel *gemsLabel;
 
 - (void) updateLabels;
 

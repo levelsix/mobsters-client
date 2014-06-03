@@ -112,7 +112,7 @@
 	[window makeKeyAndVisible];
   
 #ifndef DEBUG
-  [Amplitude initializeApiKey:GIRAFFE_GRAPH_KEY];
+  //[Amplitude initializeApiKey:GIRAFFE_GRAPH_KEY];
 #endif
   [Analytics beganApp];
   [Analytics openedApp];

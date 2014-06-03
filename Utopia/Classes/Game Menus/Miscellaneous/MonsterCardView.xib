@@ -36,17 +36,18 @@
                                     <autoresizingMask key="autoresizingMask"/>
                                 </imageView>
                                 <view contentMode="scaleToFill" id="SyW-Xe-8RP">
-                                    <rect key="frame" x="-22" y="5" width="79" height="22"/>
+                                    <rect key="frame" x="-23" y="4" width="79" height="22"/>
                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                     <subviews>
-                                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="EPIC" textAlignment="center" lineBreakMode="tailTruncation" minimumFontSize="7" id="Ec8-l9-ieO" customClass="NiceFontLabel7">
+                                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="EPIC" textAlignment="center" lineBreakMode="tailTruncation" minimumFontSize="7" id="Ec8-l9-ieO" customClass="NiceFontLabel7B">
                                             <rect key="frame" x="-2" y="0.0" width="83" height="22"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
                                             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                             <fontDescription key="fontDescription" type="system" pointSize="8"/>
                                             <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                                             <nil key="highlightedColor"/>
-                                            <size key="shadowOffset" width="0.0" height="1"/>
+                                            <color key="shadowColor" red="0.0" green="0.0" blue="0.0" alpha="0.29999999999999999" colorSpace="calibratedRGB"/>
+                                            <size key="shadowOffset" width="0.0" height="0.0"/>
                                         </label>
                                     </subviews>
                                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
@@ -104,11 +105,11 @@
             </connections>
         </view>
         <view contentMode="scaleToFill" id="uzP-Kc-Yzl" userLabel="Empty View">
-            <rect key="frame" x="0.0" y="0.0" width="95" height="121"/>
+            <rect key="frame" x="0.0" y="0.0" width="95" height="120"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
                 <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="emptyslot.png" id="Yb6-gq-pfq">
-                    <rect key="frame" x="0.0" y="0.0" width="95" height="121"/>
+                    <rect key="frame" x="0.0" y="0.0" width="95" height="120"/>
                     <autoresizingMask key="autoresizingMask"/>
                 </imageView>
             </subviews>
@@ -118,7 +119,7 @@
     </objects>
     <resources>
         <image name="Mafia1T1Card.png" width="95" height="120"/>
-        <image name="emptyslot.png" width="95" height="121"/>
+        <image name="emptyslot.png" width="95" height="120"/>
         <image name="epictag.png" width="44" height="44"/>
         <image name="teaminfoi.png" width="18" height="18"/>
         <image name="watercard.png" width="95" height="120"/>

@@ -34,11 +34,18 @@
   
   GameState *gs = [GameState sharedGameState];
   if (!gs.myLaboratory.isComplete) {
-    [[self.labButtonView viewWithTag:5] removeFromSuperview];
-    UIImage *img = [Globals greyScaleImageWithBaseImage:[Globals snapShotView:self.labButtonView]];
+    [[self.enhanceButtonView viewWithTag:5] removeFromSuperview];
+    UIImage *img = [Globals greyScaleImageWithBaseImage:[Globals snapShotView:self.enhanceButtonView]];
     UIImageView *imgView = [[UIImageView alloc] initWithImage:img];
     imgView.tag = 5;
-    [self.labButtonView insertSubview:imgView belowSubview:self.labButton];
+    [self.enhanceButtonView insertSubview:imgView atIndex:self.enhanceButtonView.subviews.count-1];
+  }
+  if (!gs.myLaboratory.isComplete) {
+    [[self.evolveButtonView viewWithTag:5] removeFromSuperview];
+    UIImage *img = [Globals greyScaleImageWithBaseImage:[Globals snapShotView:self.evolveButtonView]];
+    UIImageView *imgView = [[UIImageView alloc] initWithImage:img];
+    imgView.tag = 5;
+    [self.evolveButtonView insertSubview:imgView atIndex:self.evolveButtonView.subviews.count-1];
   }
 }
 
@@ -58,6 +65,24 @@
   GameState *gs = [GameState sharedGameState];
   if (gs.myLaboratory.isComplete) {
     [self.navigationController pushViewController:[[LabViewController alloc] init] animated:YES];
+  } else {
+    [Globals addAlertNotification:@"You must own a completed Laboratory before you can enter."];
+  }
+}
+
+- (IBAction)enhanceClicked:(id)sender {
+  GameState *gs = [GameState sharedGameState];
+  if (gs.myLaboratory.isComplete) {
+    [self.navigationController pushViewController:[[EnhanceViewController alloc] init] animated:YES];
+  } else {
+    [Globals addAlertNotification:@"You must own a completed Laboratory before you can enter."];
+  }
+}
+
+- (IBAction)evolveClicked:(id)sender {
+  GameState *gs = [GameState sharedGameState];
+  if (gs.myLaboratory.isComplete) {
+    [self.navigationController pushViewController:[[EvoViewController alloc] init] animated:YES];
   } else {
     [Globals addAlertNotification:@"You must own a completed Laboratory before you can enter."];
   }

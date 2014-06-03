@@ -19,15 +19,6 @@
 #define HEADER_OFFSET 8
 #define LEFT_SIDE_OFFSET 18
 
-@implementation AttributedTextView
-
-- (void) drawRect:(CGRect)rect {
-  [super drawRect:rect];
-  [self.attrString drawInRect:rect];
-}
-
-@end
-
 @implementation MyCroniesViewController
 
 - (void)viewDidLoad
@@ -92,13 +83,12 @@
   shadow.shadowColor = [UIColor colorWithWhite:0.f alpha:0.75f];
   shadow.shadowOffset = CGSizeMake(0, 1);
   
-  NSString *str = [NSString stringWithFormat:@"My Mobsters (%d/%d)", (int)self.monsterList.count, self.maxInventorySlots];
+  NSString *str = [NSString stringWithFormat:@"Mobsters (%d/%d)", (int)self.monsterList.count, self.maxInventorySlots];
   NSMutableAttributedString *attrStr = [[NSMutableAttributedString alloc] initWithString:str attributes:nil];
   
   if (gs.myMonsters.count >= gs.maxInventorySlots) {
-    [attrStr addAttribute:NSForegroundColorAttributeName value:[UIColor colorWithRed:1.f green:192/255.f blue:0.f alpha:1.f] range:NSMakeRange(13, attrStr.length-14)];
+    [attrStr addAttribute:NSForegroundColorAttributeName value:[UIColor colorWithRed:1.f green:192/255.f blue:0.f alpha:1.f] range:NSMakeRange(10, attrStr.length-11)];
   }
-  self.titleView.attrString = attrStr;
   self.titleLabel.attributedText = attrStr;
 }
 
@@ -295,7 +285,7 @@
   [self reloadMonstersArray];
   
   if (animated) {
-    NSInteger oldMax = rec.count+inj.count+full.count+unavail.count;
+    NSInteger oldMax = rec.count+inj.count+full.count+unavail.count+avail.count;
     NSInteger newMax = self.monsterList.count;
     NSArray *oldSlots = oldMax >= self.maxInventorySlots ? nil : @[@YES];
     NSArray *newSlots = newMax >= self.maxInventorySlots ? nil : @[@YES];
@@ -533,13 +523,17 @@
 }
 
 - (void) animateUserMonsterId:(UserMonster *)um {
-  int monsterIndex = [self.injuredMonsters indexOfObject:um];
+  int monsterIndex = (int)[self.injuredMonsters indexOfObject:um];
   MyCroniesCardCell *cardCell = (MyCroniesCardCell *)[self.inventoryTable viewAtIndexPath:[NSIndexPath indexPathForRow:monsterIndex inSection:0]];
+  
+  if (!cardCell) {
+    return;
+  }
   
   int hiIdx = -1;
   for (UserMonsterHealingItem *hi in self.monsterHealingQueue) {
     if (hi.userMonsterId == um.userMonsterId) {
-      hiIdx = [self.monsterHealingQueue indexOfObject:hi];
+      hiIdx = (int)[self.monsterHealingQueue indexOfObject:hi];
     }
   }
   MyCroniesQueueCell *queueCell = (MyCroniesQueueCell *)[self.queueView.queueTable viewAtIndexPath:[NSIndexPath indexPathForRow:hiIdx inSection:0]];

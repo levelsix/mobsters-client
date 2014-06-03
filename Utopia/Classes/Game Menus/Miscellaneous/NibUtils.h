@@ -28,6 +28,9 @@ typedef enum {
 @interface NiceFontLabel2 : UILabel
 @end
 
+@interface NiceFontLabel2B : THLabel
+@end
+
 @interface NiceFontLabel3 : UILabel
 @end
 
@@ -41,6 +44,9 @@ typedef enum {
 @end
 
 @interface NiceFontLabel7 : UILabel
+@end
+
+@interface NiceFontLabel7B : THLabel
 @end
 
 @interface NiceFontLabel8 : UILabel
@@ -58,10 +64,22 @@ typedef enum {
 @interface NiceFontLabel10B : THLabel
 @end
 
+@interface NiceFontLabel10S : THLabel
+@end
+
 @interface NiceFontLabel11 : UILabel
 @end
 
 @interface NiceFontLabel12 : UILabel
+@end
+
+@interface NiceFontLabel12B : THLabel
+@end
+
+@interface NiceFontLabel13 : UILabel
+@end
+
+@interface NiceFontLabel13S : THLabel
 @end
 
 @interface SoundButton : UIButton
@@ -141,6 +159,10 @@ typedef enum {
 @end
 
 @interface FlipButton : UIButton
+
+@end
+
+@interface RotateLabel8 : NiceFontLabel8
 
 @end
 
@@ -395,7 +417,7 @@ typedef enum {
 @property (nonatomic, strong) IBOutlet UILabel *rankQualifierLabel;
 @property (nonatomic, strong) IBOutlet UILabel *placeLabel;
 
-- (void) updateForUserLeague:(UserPvpLeagueProto *)upvp;
+- (void) updateForUserLeague:(UserPvpLeagueProto *)upvp ribbonSuffix:(NSString *)ribbonSuffix;
 
 @end
 

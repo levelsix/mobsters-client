@@ -33,6 +33,9 @@
     gs.oil = _oil = constants.oilInit;
     gs.gold = _gems = constants.gemsInit;
     [gs.myMonsters removeAllObjects];
+    [gs.myMiniJobs removeAllObjects];
+    [gs.monsterHealingQueue removeAllObjects];
+    [gs.myStructs removeAllObjects];
     
     _structs = [NSMutableDictionary dictionary];
     for (NSNumber *structId in constants.structureIdsToBeBuilltList) {

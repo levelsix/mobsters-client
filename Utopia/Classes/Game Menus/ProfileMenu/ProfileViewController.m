@@ -98,7 +98,7 @@
   }
   
   if (self.fup.hasPvpLeagueInfo) {
-    [self.leagueView updateForUserLeague:self.fup.pvpLeagueInfo];
+    [self.leagueView updateForUserLeague:self.fup.pvpLeagueInfo ribbonSuffix:@"ribbon.png"];
     self.leagueView.hidden = NO;
   } else {
     self.leagueView.hidden = YES;
