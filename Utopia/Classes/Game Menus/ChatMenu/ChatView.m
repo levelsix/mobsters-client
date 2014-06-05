@@ -368,7 +368,7 @@
     for (GroupChatMessageProto *chat in proto.postsList) {
       [arr addObject:[[ChatMessage alloc] initWithProto:chat]];
     }
-    [self updateForChats:arr animated:NO];
+    [self updateForChats:[arr reversedArray] animated:NO];
   }
 }
 
@@ -383,7 +383,7 @@
 }
 
 - (void) addChatMessage:(ChatMessage *)cm {
-  [self updateForChats:[[NSArray arrayWithObject:cm] arrayByAddingObjectsFromArray:self.chats] animated:YES];
+  [self updateForChats:[self.chats arrayByAddingObject:cm] animated:YES];
 }
 
 - (IBAction)sendChatClicked:(id)sender {
@@ -409,6 +409,13 @@
 
 - (BOOL) showsClanTag {
   return NO;
+}
+
+- (BOOL) textFieldShouldBeginEditing:(UITextField *)textField {
+  if (_isLoading) {
+    [Globals addAlertNotification:@"Oops, wait for the messages to load."];
+  }
+  return !_isLoading;
 }
 
 #pragma mark - TableView delegate
@@ -462,6 +469,8 @@
     [post markAsRead];
     
     [self.delegate viewedPrivateChat];
+  } else if (tableView == self.chatTable) {
+    [super tableView:tableView didSelectRowAtIndexPath:indexPath];
   }
 }
 

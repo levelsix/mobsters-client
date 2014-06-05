@@ -22,8 +22,9 @@ typedef enum {
 @property (nonatomic, retain) IBOutlet CircleMonsterView *monsterView;
 @property (nonatomic, retain) IBOutlet UILabel *nameLabel;
 @property (nonatomic, retain) IBOutlet UILabel *msgLabel;
+@property (nonatomic, retain) IBOutlet UIImageView *dotIcon;
 
-- (void) updateForChatMessage:(ChatMessage *)cm;
+- (void) updateForChatMessage:(ChatMessage *)cm shouldShowDot:(BOOL)showDot;
 
 @end
 
@@ -31,6 +32,7 @@ typedef enum {
 
 - (int) numChatsAvailableForScope:(ChatScope)scope;
 - (ChatMessage *) chatMessageForLineNum:(int)lineNum scope:(ChatScope)scope;
+- (BOOL) shouldShowUnreadDotForLineNum:(int)lineNum scope:(ChatScope)scope;
 - (void) bottomViewClicked;
 - (BOOL) shouldShowNotificationDotForScope:(ChatScope)scope;
 - (void) willSwitchToScope:(ChatScope)scope;

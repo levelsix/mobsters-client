@@ -85,10 +85,16 @@ typedef enum {
 @interface NiceFontLabel14 : UILabel
 @end
 
+@interface NiceFontLabel14B : THLabel
+@end
+
 @interface NiceFontLabel15 : UILabel
 @end
 
 @interface NiceFontLabel16 : UILabel
+@end
+
+@interface NiceFontLabel16B : THLabel
 @end
 
 @interface NiceFontLabel17 : UILabel
@@ -154,7 +160,7 @@ typedef enum {
 
 @end
 
-@interface NiceFontTextField11 : UITextField
+@interface NiceFontTextField17 : UITextField
 
 @end
 

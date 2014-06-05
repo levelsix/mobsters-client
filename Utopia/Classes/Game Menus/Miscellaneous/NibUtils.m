@@ -219,6 +219,16 @@
 
 @end
 
+@implementation NiceFontLabel14B
+
+- (void) awakeFromNib {
+  [Globals adjustFontSizeForUILabel:self];
+  self.font = [UIFont fontWithName:@"Whitney-Black" size:self.font.pointSize];
+  self.shadowBlur = 1.2f;
+}
+
+@end
+
 @implementation NiceFontLabel15
 
 - (void) awakeFromNib {
@@ -233,6 +243,16 @@
 - (void) awakeFromNib {
   [Globals adjustFontSizeForUILabel:self];
   self.font = [UIFont fontWithName:@"Whitney-Semibold" size:self.font.pointSize];
+}
+
+@end
+
+@implementation NiceFontLabel16B
+
+- (void) awakeFromNib {
+  [Globals adjustFontSizeForUILabel:self];
+  self.font = [UIFont fontWithName:@"Whitney-Semibold" size:self.font.pointSize];
+  self.shadowBlur = 1.2f;
 }
 
 @end
@@ -372,10 +392,10 @@
 
 @end
 
-@implementation NiceFontTextField11
+@implementation NiceFontTextField17
 
 - (void) awakeFromNib {
-  self.font =  [UIFont fontWithName:@"GothamMedium-Italic" size:self.font.pointSize];
+  self.font =  [UIFont fontWithName:@"Whitney-SemiboldItalic" size:self.font.pointSize];
 }
 
 @end

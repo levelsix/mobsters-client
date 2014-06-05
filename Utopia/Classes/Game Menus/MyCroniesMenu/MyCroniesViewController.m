@@ -262,7 +262,16 @@
   }
   
   NSComparator comp = ^NSComparisonResult(UserMonster *obj1, UserMonster *obj2) {
-    return [obj1 compare:obj2];
+    if (!_isInSellMode) {
+      return [obj1 compare:obj2];
+    } else {
+      if (!obj1.isAvailableForSelling || !obj2.isAvailableForSelling ||
+          !obj1.isComplete || !obj2.isComplete) {
+        return [obj1 compare:obj2];
+      } else {
+        return [obj2 compare:obj1];
+      }
+    }
   };
   
   [recent sortUsingComparator:comp];

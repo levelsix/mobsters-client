@@ -258,7 +258,9 @@
 
 - (void) replaceChatViewWithView:(MapBotView *)view {
   if (self.curViewOverChatView) {
-    if (self.curViewOverChatView != view) {
+    if (self.curViewOverChatView == view && view == self.chatBottomView) {
+      [view update];
+    } else {
       MapBotView *v = self.curViewOverChatView;
       [v animateOut:^{
         [v removeFromSuperview];
@@ -267,8 +269,6 @@
           [self addNewView:view];
         }
       }];
-    } else {
-      [view update];
     }
   } else {
     [self addNewView:view];
@@ -327,13 +327,22 @@
     PrivateChatPostProto *post = gs.privateChats[lineNum];
     
     ChatMessage *cm = [[ChatMessage alloc] init];
-    cm.sender = post.poster;
+    cm.sender = post.otherUserWithLevel;
     cm.date = [MSDate dateWithTimeIntervalSince1970:post.timeOfPost/1000.];
     cm.message = post.content;
     
     return cm;
   }
   return nil;
+}
+
+- (BOOL) shouldShowUnreadDotForLineNum:(int)lineNum scope:(ChatScope)scope {
+  GameState *gs = [GameState sharedGameState];
+  if (scope == ChatScopePrivate) {
+    PrivateChatPostProto *post = gs.privateChats[lineNum];
+    return [post isUnread];
+  }
+  return NO;
 }
 
 - (BOOL) shouldShowNotificationDotForScope:(ChatScope)scope {

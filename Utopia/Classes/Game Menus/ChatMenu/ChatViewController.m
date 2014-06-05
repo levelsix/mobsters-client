@@ -70,13 +70,6 @@
   
   [self.view addSubview:self.popoverView];
   self.popoverView.hidden = YES;
-  
-  self.mainView.center = ccp(self.view.frame.size.width/2, self.view.frame.size.height*3/2);
-  self.bgdView.alpha = 0.f;
-  [UIView animateWithDuration:0.3f animations:^{
-    self.mainView.center = ccp(self.view.frame.size.width/2, self.view.frame.size.height/2);
-    self.bgdView.alpha = 1.f;
-  }];
 }
 
 - (void) viewWillAppear:(BOOL)animated {
@@ -90,6 +83,18 @@
   
   [center addObserver:self selector:@selector(keyboardWillShow:) name:UIKeyboardWillShowNotification object:nil];
   [center addObserver:self selector:@selector(keyboardWillHide:) name:UIKeyboardWillHideNotification object:nil];
+  
+  self.view.hidden = YES;
+}
+
+- (void) viewDidAppear:(BOOL)animated {
+  self.view.hidden = NO;
+  self.mainView.center = ccp(self.view.frame.size.width/2, self.view.frame.size.height*3/2);
+  self.bgdView.alpha = 0.f;
+  [UIView animateWithDuration:0.18f animations:^{
+    self.mainView.center = ccp(self.view.frame.size.width/2, self.view.frame.size.height/2);
+    self.bgdView.alpha = 1.f;
+  }];
 }
 
 - (void) viewDidDisappear:(BOOL)animated {
@@ -110,6 +115,8 @@
 - (void) incrementClanBadge {
   if (self.clanChatView.hidden) {
     self.clanBadgeIcon.badgeNum++;
+  } else {
+    [[NSNotificationCenter defaultCenter] postNotificationName:CLAN_CHAT_VIEWED_NOTIFICATION object:nil];
   }
   [self updateBadges];
 }
@@ -149,15 +156,17 @@
 }
 
 - (IBAction)closeClicked:(id)sender {
-  [UIView animateWithDuration:0.3f animations:^{
-    self.mainView.center = ccp(self.view.frame.size.width/2, self.view.frame.size.height*3/2);
-    self.bgdView.alpha = 0.f;
-  } completion:^(BOOL finished) {
-    [self.view removeFromSuperview];
-    [self removeFromParentViewController];
-  }];
-  
-  [self.popoverView close];
+  if (!self.view.hidden) {
+    [UIView animateWithDuration:0.18f animations:^{
+      self.mainView.center = ccp(self.view.frame.size.width/2, self.view.frame.size.height*3/2);
+      self.bgdView.alpha = 0.f;
+    } completion:^(BOOL finished) {
+      [self.view removeFromSuperview];
+      [self removeFromParentViewController];
+    }];
+    
+    [self.popoverView close];
+  }
 }
 
 #pragma mark - ChatTopBar delegate

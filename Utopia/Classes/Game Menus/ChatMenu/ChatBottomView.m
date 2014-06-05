@@ -10,22 +10,23 @@
 #import "cocos2d.h"
 #import "Globals.h"
 
-#define NUM_ROWS_DISPLAYED 3
+#define NUM_ROWS_DISPLAYED 2
 
 @implementation ChatBottomLineView
 
 - (void) awakeFromNib {
-  self.monsterView.transform = CGAffineTransformMakeScale(0.55, 0.55);
+  self.monsterView.transform = CGAffineTransformMakeScale(0.45, 0.45);
 }
 
-- (void) updateForChatMessage:(ChatMessage *)cm {
+- (void) updateForChatMessage:(ChatMessage *)cm shouldShowDot:(BOOL)showDot {
   [self.monsterView updateForMonsterId:cm.sender.minUserProto.avatarMonsterId];
-  self.nameLabel.text = [cm.sender.minUserProto.name stringByAppendingString:@": "];
+  self.nameLabel.text = [NSString stringWithFormat:@"%@%@: ", showDot ? @"    " : @"", cm.sender.minUserProto.name];
   self.msgLabel.text = cm.message;
+  self.dotIcon.hidden = !showDot;
   
   CGSize s = [self.nameLabel.text sizeWithFont:self.nameLabel.font constrainedToSize:self.nameLabel.frame.size];
   CGRect r = self.msgLabel.frame;
-  r.origin.x = self.nameLabel.frame.origin.x+s.width+2;
+  r.origin.x = self.nameLabel.frame.origin.x+s.width+1;
   r.size.width = self.frame.size.width-r.origin.x;
   self.msgLabel.frame = r;
 }
@@ -151,18 +152,18 @@
 - (ChatBottomLineView *) getLineViewForLineNum:(int)lineNum {
   ChatMessage *cm = [self.delegate chatMessageForLineNum:lineNum scope:_chatScope];
   ChatBottomLineView *lv = [self getUnusedLineView];
-  [lv updateForChatMessage:cm];
+  [lv updateForChatMessage:cm shouldShowDot:[self.delegate shouldShowUnreadDotForLineNum:lineNum scope:_chatScope]];
   [self.lineViewContainer addSubview:lv];
   return lv;
 }
 
 - (CGPoint) centerForLineView:(ChatBottomLineView *)lineView lineNum:(int)lineNum {
   if (_chatScope == ChatScopePrivate) {
-    lineNum = NUM_ROWS_DISPLAYED-lineNum;
+    lineNum = NUM_ROWS_DISPLAYED-lineNum-1;
   } else {
     lineNum += NUM_ROWS_DISPLAYED-_numToDisplay;
   }
-  CGPoint pt = ccp(self.lineViewContainer.frame.size.width/2, self.lineViewContainer.frame.size.height-(2*lineNum+1)/2*lineView.frame.size.height);
+  CGPoint pt = ccp(self.lineViewContainer.frame.size.width/2, self.lineViewContainer.frame.size.height-(2*lineNum+1)/2.f*lineView.frame.size.height);
   return pt;
 }
 
@@ -232,8 +233,8 @@
     }
     
     [self animateNewLinesInAndPhaseOutOldOnes];
-  } else if (numNew < 0) {
-    // Leaving clan..
+  } else {
+    // Leaving clan or private chat from someone you've talked to before..
     [self reloadData];
   }
   

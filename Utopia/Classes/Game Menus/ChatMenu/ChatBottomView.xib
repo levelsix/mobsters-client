@@ -15,48 +15,14 @@
             <rect key="frame" x="0.0" y="0.0" width="568" height="60"/>
             <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
             <subviews>
-                <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" alpha="0.89999997615814209" contentMode="scaleToFill" image="taskgradient.png" id="Jfc-vN-Klg">
+                <view userInteractionEnabled="NO" alpha="0.81999999999999995" contentMode="scaleToFill" id="1Ux-Lp-mbO">
                     <rect key="frame" x="0.0" y="10" width="568" height="50"/>
-                    <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
-                </imageView>
-                <view clipsSubviews="YES" contentMode="scaleToFill" id="62o-FA-emJ" userLabel="Open View">
-                    <rect key="frame" x="84" y="-79" width="400" height="139"/>
-                    <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                     <subviews>
-                        <view contentMode="scaleToFill" id="Y5W-sV-GM1">
-                            <rect key="frame" x="177" y="126" width="45" height="13"/>
-                            <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES"/>
-                            <subviews>
-                                <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" tag="1" contentMode="center" image="chatinactivedot.png" id="wB1-YZ-7Fr">
-                                    <rect key="frame" x="4" y="0.0" width="13" height="13"/>
-                                    <autoresizingMask key="autoresizingMask"/>
-                                </imageView>
-                                <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" tag="2" contentMode="center" image="chatactivedot.png" id="Rci-Rj-Z5e">
-                                    <rect key="frame" x="16" y="0.0" width="13" height="13"/>
-                                    <autoresizingMask key="autoresizingMask"/>
-                                </imageView>
-                                <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" tag="3" contentMode="center" image="chatnotificationdot.png" id="6wJ-mj-0mV">
-                                    <rect key="frame" x="28" y="0.0" width="13" height="13"/>
-                                    <autoresizingMask key="autoresizingMask"/>
-                                </imageView>
-                            </subviews>
-                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                        </view>
-                        <view contentMode="scaleToFill" id="Q0a-Gv-e7L">
-                            <rect key="frame" x="19" y="78" width="314" height="42"/>
-                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                        </view>
-                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="89Y-A2-JjT">
-                            <rect key="frame" x="338" y="88" width="27" height="22"/>
-                            <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxY="YES"/>
-                            <state key="normal" image="minimizechatx.png">
-                                <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                            </state>
-                            <connections>
-                                <action selector="closeClicked:" destination="L2Z-lb-HRG" eventType="touchUpInside" id="dBx-Qe-4Rq"/>
-                            </connections>
-                        </button>
+                        <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" image="taskgradient.png" id="Jfc-vN-Klg">
+                            <rect key="frame" x="0.0" y="0.0" width="568" height="50"/>
+                            <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
+                        </imageView>
                     </subviews>
                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                 </view>
@@ -72,6 +38,47 @@
                             </state>
                             <connections>
                                 <action selector="openClicked:" destination="L2Z-lb-HRG" eventType="touchUpInside" id="gT4-PS-VQC"/>
+                            </connections>
+                        </button>
+                    </subviews>
+                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                </view>
+                <view clipsSubviews="YES" contentMode="scaleToFill" id="62o-FA-emJ" userLabel="Open View">
+                    <rect key="frame" x="84" y="-79" width="400" height="139"/>
+                    <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                    <subviews>
+                        <view contentMode="scaleToFill" id="Y5W-sV-GM1">
+                            <rect key="frame" x="177" y="125" width="45" height="13"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES"/>
+                            <subviews>
+                                <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" tag="1" contentMode="center" image="chatinactivedot.png" id="wB1-YZ-7Fr">
+                                    <rect key="frame" x="6" y="0.0" width="13" height="13"/>
+                                    <autoresizingMask key="autoresizingMask"/>
+                                </imageView>
+                                <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" tag="2" contentMode="center" image="chatactivedot.png" id="Rci-Rj-Z5e">
+                                    <rect key="frame" x="16" y="0.0" width="13" height="13"/>
+                                    <autoresizingMask key="autoresizingMask"/>
+                                </imageView>
+                                <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" tag="3" contentMode="center" image="chatnotificationdot.png" id="6wJ-mj-0mV">
+                                    <rect key="frame" x="26" y="0.0" width="13" height="13"/>
+                                    <autoresizingMask key="autoresizingMask"/>
+                                </imageView>
+                            </subviews>
+                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                        </view>
+                        <view contentMode="scaleToFill" id="Q0a-Gv-e7L">
+                            <rect key="frame" x="19" y="87" width="314" height="42"/>
+                            <autoresizingMask key="autoresizingMask" widthSizable="YES"/>
+                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                        </view>
+                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="89Y-A2-JjT">
+                            <rect key="frame" x="330" y="86" width="35" height="29"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxY="YES"/>
+                            <state key="normal" image="minimizechatx.png">
+                                <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                            </state>
+                            <connections>
+                                <action selector="closeClicked:" destination="L2Z-lb-HRG" eventType="touchUpInside" id="dBx-Qe-4Rq"/>
                             </connections>
                         </button>
                     </subviews>

@@ -11,9 +11,13 @@
 
 @implementation PrivateChatPostProto (UnreadStatus)
 
-- (MinimumUserProto *) otherUser {
+- (MinimumUserProtoWithLevel *) otherUserWithLevel {
   GameState *gs = [GameState sharedGameState];
-  return self.recipient.minUserProto.userId == gs.userId ? self.poster.minUserProto : self.recipient.minUserProto;
+  return self.recipient.minUserProto.userId == gs.userId ? self.poster : self.recipient;
+}
+
+- (MinimumUserProto *) otherUser {
+  return [self otherUserWithLevel].minUserProto;
 }
 
 - (BOOL) isUnread {
