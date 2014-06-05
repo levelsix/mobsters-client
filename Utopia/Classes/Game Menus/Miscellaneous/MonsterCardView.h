@@ -63,3 +63,14 @@
 - (void) updateForElement:(Element)element imgPrefix:(NSString *)imgPrefix greyscale:(BOOL)greyscale;
 
 @end
+
+@interface CircleMonsterView : UIView
+
+@property (nonatomic, retain) IBOutlet UIImageView *monsterIcon;
+@property (nonatomic, retain) IBOutlet UIImageView *bgdIcon;
+
+@property (nonatomic, assign) int monsterId;
+
+- (void) updateForMonsterId:(int)monsterId;
+
+@end

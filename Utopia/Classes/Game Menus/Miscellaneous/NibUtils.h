@@ -82,6 +82,18 @@ typedef enum {
 @interface NiceFontLabel13S : THLabel
 @end
 
+@interface NiceFontLabel14 : UILabel
+@end
+
+@interface NiceFontLabel15 : UILabel
+@end
+
+@interface NiceFontLabel16 : UILabel
+@end
+
+@interface NiceFontLabel17 : UILabel
+@end
+
 @interface SoundButton : UIButton
 
 - (void) playSound;
@@ -142,6 +154,10 @@ typedef enum {
 
 @end
 
+@interface NiceFontTextField11 : UITextField
+
+@end
+
 @interface NiceFontTextView : UITextView
 
 @end
@@ -155,6 +171,10 @@ typedef enum {
 @end
 
 @interface VerticalFlipImageView : UIImageView
+
+@end
+
+@interface DoubleFlipImageView : UIImageView
 
 @end
 

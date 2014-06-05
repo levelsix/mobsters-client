@@ -45,6 +45,7 @@
 #import <cocos2d-ui.h>
 #import "LevelUpNode.h"
 #import "QuestCompleteLayer.h"
+#import "ChatViewController.h"
 
 #define DEFAULT_PNG_IMAGE_VIEW_TAG 103
 #define KINGDOM_PNG_IMAGE_VIEW_TAG 104
@@ -562,16 +563,17 @@
     [self.topBarViewController showMyCityView];
     [self.topBarViewController removeClanView];
     
-    [_amvc close];
-    _amvc = nil;
-    
     UIView *white = [[UIView alloc] initWithFrame:self.view.bounds];
+    white.backgroundColor = [UIColor whiteColor];
     [self.view insertSubview:white belowSubview:_amvc.view];
-    [UIView animateWithDuration:1.f animations:^{
+    [UIView animateWithDuration:2.1f animations:^{
       white.alpha = 0.f;
     } completion:^(BOOL finished) {
       [white removeFromSuperview];
     }];
+    
+    [_amvc close];
+    _amvc = nil;
   } else {
     float dur = 0.4f;
     [[CCDirector sharedDirector] replaceScene:scene withTransition:[CCTransition transitionCrossFadeWithDuration:dur]];
@@ -758,9 +760,9 @@
 
 #pragma mark - Chat access
 
-- (void) openPrivateChatWithUserId:(int)userId {
+- (void) openPrivateChatWithUserId:(int)userId name:(NSString *)name {
   void (^openChat)(void) = ^{
-    [self.topBarViewController.chatViewController openWithConversationForUserId:userId];
+    //[self.topBarViewController.chatViewController openWithConversationForUserId:userId name:name];
   };
   if (self.presentedViewController) {
     [self dismissViewControllerAnimated:YES completion:openChat];

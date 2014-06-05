@@ -436,6 +436,7 @@ static MinimumClanProto* defaultMinimumClanProtoInstance = nil;
 @property int32_t userId;
 @property (retain) NSString* name;
 @property (retain) MinimumClanProto* clan;
+@property int32_t avatarMonsterId;
 @end
 
 @implementation MinimumUserProto
@@ -461,6 +462,13 @@ static MinimumClanProto* defaultMinimumClanProtoInstance = nil;
   hasClan_ = !!value;
 }
 @synthesize clan;
+- (BOOL) hasAvatarMonsterId {
+  return !!hasAvatarMonsterId_;
+}
+- (void) setHasAvatarMonsterId:(BOOL) value {
+  hasAvatarMonsterId_ = !!value;
+}
+@synthesize avatarMonsterId;
 - (void) dealloc {
   self.name = nil;
   self.clan = nil;
@@ -471,6 +479,7 @@ static MinimumClanProto* defaultMinimumClanProtoInstance = nil;
     self.userId = 0;
     self.name = @"";
     self.clan = [MinimumClanProto defaultInstance];
+    self.avatarMonsterId = 0;
   }
   return self;
 }
@@ -499,6 +508,9 @@ static MinimumUserProto* defaultMinimumUserProtoInstance = nil;
   if (self.hasClan) {
     [output writeMessage:3 value:self.clan];
   }
+  if (self.hasAvatarMonsterId) {
+    [output writeInt32:4 value:self.avatarMonsterId];
+  }
   [self.unknownFields writeToCodedOutputStream:output];
 }
 - (int32_t) serializedSize {
@@ -516,6 +528,9 @@ static MinimumUserProto* defaultMinimumUserProtoInstance = nil;
   }
   if (self.hasClan) {
     size += computeMessageSize(3, self.clan);
+  }
+  if (self.hasAvatarMonsterId) {
+    size += computeInt32Size(4, self.avatarMonsterId);
   }
   size += self.unknownFields.serializedSize;
   memoizedSerializedSize = size;
@@ -601,6 +616,9 @@ static MinimumUserProto* defaultMinimumUserProtoInstance = nil;
   if (other.hasClan) {
     [self mergeClan:other.clan];
   }
+  if (other.hasAvatarMonsterId) {
+    [self setAvatarMonsterId:other.avatarMonsterId];
+  }
   [self mergeUnknownFields:other.unknownFields];
   return self;
 }
@@ -637,6 +655,10 @@ static MinimumUserProto* defaultMinimumUserProtoInstance = nil;
         }
         [input readMessage:subBuilder extensionRegistry:extensionRegistry];
         [self setClan:[subBuilder buildPartial]];
+        break;
+      }
+      case 32: {
+        [self setAvatarMonsterId:[input readInt32]];
         break;
       }
     }
@@ -702,6 +724,22 @@ static MinimumUserProto* defaultMinimumUserProtoInstance = nil;
 - (MinimumUserProto_Builder*) clearClan {
   result.hasClan = NO;
   result.clan = [MinimumClanProto defaultInstance];
+  return self;
+}
+- (BOOL) hasAvatarMonsterId {
+  return result.hasAvatarMonsterId;
+}
+- (int32_t) avatarMonsterId {
+  return result.avatarMonsterId;
+}
+- (MinimumUserProto_Builder*) setAvatarMonsterId:(int32_t) value {
+  result.hasAvatarMonsterId = YES;
+  result.avatarMonsterId = value;
+  return self;
+}
+- (MinimumUserProto_Builder*) clearAvatarMonsterId {
+  result.hasAvatarMonsterId = NO;
+  result.avatarMonsterId = 0;
   return self;
 }
 @end
@@ -1938,6 +1976,7 @@ static UserFacebookInviteForSlotProto* defaultUserFacebookInviteForSlotProtoInst
 @property (retain) NSString* gameCenterId;
 @property int64_t lastObstacleSpawnedTime;
 @property int32_t numObstaclesRemoved;
+@property int32_t avatarMonsterId;
 @property (retain) UserPvpLeagueProto* pvpLeagueInfo;
 @property int64_t lastMiniJobSpawnedTime;
 @property (retain) NSString* udidForHistory;
@@ -2130,6 +2169,13 @@ static UserFacebookInviteForSlotProto* defaultUserFacebookInviteForSlotProtoInst
   hasNumObstaclesRemoved_ = !!value;
 }
 @synthesize numObstaclesRemoved;
+- (BOOL) hasAvatarMonsterId {
+  return !!hasAvatarMonsterId_;
+}
+- (void) setHasAvatarMonsterId:(BOOL) value {
+  hasAvatarMonsterId_ = !!value;
+}
+@synthesize avatarMonsterId;
 - (BOOL) hasPvpLeagueInfo {
   return !!hasPvpLeagueInfo_;
 }
@@ -2257,6 +2303,7 @@ static UserFacebookInviteForSlotProto* defaultUserFacebookInviteForSlotProtoInst
     self.gameCenterId = @"";
     self.lastObstacleSpawnedTime = 0L;
     self.numObstaclesRemoved = 0;
+    self.avatarMonsterId = 0;
     self.pvpLeagueInfo = [UserPvpLeagueProto defaultInstance];
     self.lastMiniJobSpawnedTime = 0L;
     self.udidForHistory = @"";
@@ -2393,6 +2440,9 @@ static FullUserProto* defaultFullUserProtoInstance = nil;
   if (self.hasLastMiniJobSpawnedTime) {
     [output writeInt64:50 value:self.lastMiniJobSpawnedTime];
   }
+  if (self.hasAvatarMonsterId) {
+    [output writeInt32:51 value:self.avatarMonsterId];
+  }
   [self.unknownFields writeToCodedOutputStream:output];
 }
 - (int32_t) serializedSize {
@@ -2506,6 +2556,9 @@ static FullUserProto* defaultFullUserProtoInstance = nil;
   }
   if (self.hasLastMiniJobSpawnedTime) {
     size += computeInt64Size(50, self.lastMiniJobSpawnedTime);
+  }
+  if (self.hasAvatarMonsterId) {
+    size += computeInt32Size(51, self.avatarMonsterId);
   }
   size += self.unknownFields.serializedSize;
   memoizedSerializedSize = size;
@@ -2650,6 +2703,9 @@ static FullUserProto* defaultFullUserProtoInstance = nil;
   }
   if (other.hasNumObstaclesRemoved) {
     [self setNumObstaclesRemoved:other.numObstaclesRemoved];
+  }
+  if (other.hasAvatarMonsterId) {
+    [self setAvatarMonsterId:other.avatarMonsterId];
   }
   if (other.hasPvpLeagueInfo) {
     [self mergePvpLeagueInfo:other.pvpLeagueInfo];
@@ -2856,6 +2912,10 @@ static FullUserProto* defaultFullUserProtoInstance = nil;
       }
       case 400: {
         [self setLastMiniJobSpawnedTime:[input readInt64]];
+        break;
+      }
+      case 408: {
+        [self setAvatarMonsterId:[input readInt32]];
         break;
       }
     }
@@ -3241,6 +3301,22 @@ static FullUserProto* defaultFullUserProtoInstance = nil;
 - (FullUserProto_Builder*) clearNumObstaclesRemoved {
   result.hasNumObstaclesRemoved = NO;
   result.numObstaclesRemoved = 0;
+  return self;
+}
+- (BOOL) hasAvatarMonsterId {
+  return result.hasAvatarMonsterId;
+}
+- (int32_t) avatarMonsterId {
+  return result.avatarMonsterId;
+}
+- (FullUserProto_Builder*) setAvatarMonsterId:(int32_t) value {
+  result.hasAvatarMonsterId = YES;
+  result.avatarMonsterId = value;
+  return self;
+}
+- (FullUserProto_Builder*) clearAvatarMonsterId {
+  result.hasAvatarMonsterId = NO;
+  result.avatarMonsterId = 0;
   return self;
 }
 - (BOOL) hasPvpLeagueInfo {

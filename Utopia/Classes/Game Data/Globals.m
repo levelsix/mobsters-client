@@ -1682,7 +1682,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
 
 + (NSString *) fullNameWithName:(NSString *)name clanTag:(NSString *)tag {
   if (tag.length > 0) {
-    return [NSString stringWithFormat:@"[%@] %@", tag, name];
+    return [NSString stringWithFormat:@"%@ [%@]", name, tag];
   } else {
     return name;
   }
@@ -1846,6 +1846,34 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
 	}
 	
 	return path;
+}
+
+#pragma mark - Muting Players
+
+- (void) muteUserId:(int)userId {
+  NSUserDefaults *def = [NSUserDefaults standardUserDefaults];
+  NSMutableDictionary *dict = [[def dictionaryForKey:MUTED_PLAYERS_KEY] mutableCopy];
+  
+  if (!dict) {
+    dict = [NSMutableDictionary dictionary];
+  }
+  
+  [dict setObject:[NSDate date] forKey:[NSString stringWithFormat:@"%d", userId]];
+  [def setObject:dict forKey:MUTED_PLAYERS_KEY];
+}
+
+- (BOOL) isUserIdMuted:(int)userId {
+  NSUserDefaults *def = [NSUserDefaults standardUserDefaults];
+  NSMutableDictionary *dict = [[def dictionaryForKey:MUTED_PLAYERS_KEY] mutableCopy];
+  NSDate *date = [dict objectForKey:[NSString stringWithFormat:@"%d", userId]];
+  date = [date dateByAddingTimeInterval:24*60*60];
+  
+  return date && date.timeIntervalSinceNow > 0;
+}
+
+- (void) unmuteAllPlayers {
+  NSUserDefaults *def = [NSUserDefaults standardUserDefaults];
+  [def removeObjectForKey:MUTED_PLAYERS_KEY];
 }
 
 @end

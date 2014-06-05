@@ -26,6 +26,13 @@
   [self removeMyCityView];
 }
 
+- (void) viewDidAppear:(BOOL)animated {
+  [super viewDidAppear:animated];
+  
+  [self.chatBottomView removeFromSuperview];
+  self.chatBottomView = nil;
+}
+
 - (void) displayCoinBars {
   [self.view addSubview:self.coinBarsView];
 }

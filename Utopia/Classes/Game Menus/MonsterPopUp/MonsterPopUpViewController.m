@@ -64,17 +64,8 @@
   
   self.rarityTag.image = [Globals imageNamed:[@"battle" stringByAppendingString:[Globals imageNameForRarity:proto.quality suffix:@"tag.png"]]];
   
-  if (!_allowSell) {
-    self.sellButtonView.hidden = YES;
-    
-    CGRect r = self.monsterDescription.frame;
-    int maxX = CGRectGetMaxX(r);
-    r.origin.x = self.monsterDescription.superview.frame.size.width-maxX;
-    r.size.width = maxX-r.origin.x;
-    self.monsterDescription.frame = r;
-  } else {
-    self.sellLabel.text = [Globals cashStringForNumber:self.monster.sellPrice];
-  }
+  self.avatarButton.hidden = self.monster.userId != gs.userId;
+  self.avatarButton.enabled = self.monster.monsterId != gs.avatarMonsterId;
   
   self.attackLabel.text = [NSString stringWithFormat:@"%@  ", [Globals commafyNumber:[gl calculateTotalDamageForMonster:self.monster]]];
   self.speedLabel.text = [Globals commafyNumber:[gl calculateSpeedForMonster:self.monster]];
@@ -125,6 +116,7 @@
     self.elementView.center = mainViewCenter;
     self.backButtonView.alpha = 1.f;
     self.sellButtonView.alpha = 0.f;
+    self.avatarButton.alpha = 0.f;
   }completion:^(BOOL finished) {
     self.descriptionView.hidden = YES;
   }];
@@ -145,6 +137,7 @@
     self.elementView.center = CGPointMake(self.elementView.center.x+self.elementView.frame.size.width, self.elementView.center.y);
     self.backButtonView.alpha = 0.f;
     self.sellButtonView.alpha = 1.f;
+    self.avatarButton.alpha = 1.f;
   } completion:^(BOOL finished) {
     [self.elementView removeFromSuperview];
     self.backButtonView.hidden = YES;
@@ -173,6 +166,18 @@
   
   if (self.monster.teamSlot > 0) {
     [[NSNotificationCenter defaultCenter] postNotificationName:MY_TEAM_CHANGED_NOTIFICATION object:nil];
+  }
+}
+
+- (IBAction)heartClicked:(id)sender {
+  [GenericPopupController displayConfirmationWithDescription:[NSString stringWithFormat:@"Would you like to make %@ your avatar?", self.monster.staticMonster.displayName] title:@"Set Avatar?" okayButton:@"Yup!" cancelButton:@"Cancel" target:self selector:@selector(changeAvatar)];
+}
+
+- (void) changeAvatar {
+  GameState *gs = [GameState sharedGameState];
+  if (self.monster.userId == gs.userId) {
+    [[OutgoingEventController sharedOutgoingEventController] setAvatarMonster:self.monster.monsterId];
+    self.avatarButton.enabled = NO;
   }
 }
 

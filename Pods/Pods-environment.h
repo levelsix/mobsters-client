@@ -48,3 +48,9 @@
 #define COCOAPODS_VERSION_MINOR_AFNetworking_UIKit 2
 #define COCOAPODS_VERSION_PATCH_AFNetworking_UIKit 0
 
+// NRTouchPoints
+#define COCOAPODS_POD_AVAILABLE_NRTouchPoints
+#define COCOAPODS_VERSION_MAJOR_NRTouchPoints 0
+#define COCOAPODS_VERSION_MINOR_NRTouchPoints 1
+#define COCOAPODS_VERSION_PATCH_NRTouchPoints 0
+

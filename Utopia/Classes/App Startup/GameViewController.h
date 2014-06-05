@@ -78,7 +78,7 @@
 - (void) visitCityClicked:(int)cityId assetId:(int)assetId;
 - (void) visitCityClicked:(int)cityId;
 
-- (void) openPrivateChatWithUserId:(int)userId;
+- (void) openPrivateChatWithUserId:(int)userId name:(NSString *)name;
 
 - (void) openGemShop;
 

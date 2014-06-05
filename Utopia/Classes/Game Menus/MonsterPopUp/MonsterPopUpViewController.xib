@@ -8,6 +8,7 @@
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="MonsterPopUpViewController">
             <connections>
                 <outlet property="attackLabel" destination="gra-au-GTo" id="ORY-np-uiU"/>
+                <outlet property="avatarButton" destination="kkH-Yh-Jb1" id="cql-z9-UQm"/>
                 <outlet property="backButtonView" destination="cuZ-cY-UIH" id="fe7-yt-r6R"/>
                 <outlet property="bgdView" destination="lMC-OL-ZPt" id="r7s-WG-LKM"/>
                 <outlet property="container" destination="Jaw-hG-ITL" id="VWy-Vc-kJy"/>
@@ -325,6 +326,17 @@
                             </subviews>
                             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                         </view>
+                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="kkH-Yh-Jb1">
+                            <rect key="frame" x="8" y="6" width="37" height="34"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <state key="normal" image="inactiveheart.png">
+                                <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                            </state>
+                            <state key="disabled" image="activeheart.png"/>
+                            <connections>
+                                <action selector="heartClicked:" destination="-1" eventType="touchUpInside" id="f4W-pV-yTc"/>
+                            </connections>
+                        </button>
                     </subviews>
                     <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                     <simulatedOrientationMetrics key="simulatedOrientationMetrics" orientation="landscapeRight"/>
@@ -570,9 +582,11 @@
         </view>
     </objects>
     <resources>
+        <image name="activeheart.png" width="17" height="15"/>
         <image name="battleepictag.png" width="29" height="14"/>
         <image name="closepopupx.png" width="25" height="26"/>
-        <image name="detailshadow.png" width="76" height="38"/>
+        <image name="detailshadow.png" width="66" height="31"/>
+        <image name="inactiveheart.png" width="17" height="15"/>
         <image name="menuteamhealthbar.png" width="87" height="11"/>
         <image name="menuteamhealthbarbg.png" width="87" height="11"/>
         <image name="mobsterdescriptionbg.png" width="363" height="43"/>

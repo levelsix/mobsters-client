@@ -138,7 +138,7 @@
                                         <outlet property="totalTimeLabel" destination="0Nx-O9-5DJ" id="RG4-vO-UVi"/>
                                     </connections>
                                 </view>
-                                <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" image="greywhite.png" id="VqT-8w-1jO">
+                                <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" image="greywhite1.png" id="VqT-8w-1jO">
                                     <rect key="frame" x="0.0" y="-2" width="568" height="2"/>
                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 </imageView>
@@ -231,7 +231,7 @@
                             </subviews>
                             <color key="backgroundColor" red="0.95686280727386475" green="0.95686280727386475" blue="0.95686280727386475" alpha="1" colorSpace="deviceRGB"/>
                         </view>
-                        <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" image="greywhite.png" id="y8w-8E-0ng">
+                        <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" image="greywhite1.png" id="y8w-8E-0ng">
                             <rect key="frame" x="0.0" y="55" width="568" height="2"/>
                             <autoresizingMask key="autoresizingMask"/>
                         </imageView>
@@ -356,7 +356,7 @@
     <resources>
         <image name="diamond.png" width="29" height="27"/>
         <image name="fullhospitalarrow.png" width="185" height="39"/>
-        <image name="greywhite.png" width="2" height="2"/>
+        <image name="greywhite1.png" width="2" height="2"/>
         <image name="healblue.png" width="14" height="13"/>
         <image name="healgrey.png" width="14" height="13"/>
         <image name="healsellinactive.png" width="39" height="34"/>

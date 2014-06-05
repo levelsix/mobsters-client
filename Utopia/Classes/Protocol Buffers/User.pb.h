@@ -132,18 +132,22 @@
 @interface MinimumUserProto : PBGeneratedMessage {
 @private
   BOOL hasUserId_:1;
+  BOOL hasAvatarMonsterId_:1;
   BOOL hasName_:1;
   BOOL hasClan_:1;
   int32_t userId;
+  int32_t avatarMonsterId;
   NSString* name;
   MinimumClanProto* clan;
 }
 - (BOOL) hasUserId;
 - (BOOL) hasName;
 - (BOOL) hasClan;
+- (BOOL) hasAvatarMonsterId;
 @property (readonly) int32_t userId;
 @property (readonly, retain) NSString* name;
 @property (readonly, retain) MinimumClanProto* clan;
+@property (readonly) int32_t avatarMonsterId;
 
 + (MinimumUserProto*) defaultInstance;
 - (MinimumUserProto*) defaultInstance;
@@ -195,6 +199,11 @@
 - (MinimumUserProto_Builder*) setClanBuilder:(MinimumClanProto_Builder*) builderForValue;
 - (MinimumUserProto_Builder*) mergeClan:(MinimumClanProto*) value;
 - (MinimumUserProto_Builder*) clearClan;
+
+- (BOOL) hasAvatarMonsterId;
+- (int32_t) avatarMonsterId;
+- (MinimumUserProto_Builder*) setAvatarMonsterId:(int32_t) value;
+- (MinimumUserProto_Builder*) clearAvatarMonsterId;
 @end
 
 @interface MinimumUserProtoWithLevel : PBGeneratedMessage {
@@ -511,12 +520,13 @@
   BOOL hasNumConsecutiveDaysPlayed_:1;
   BOOL hasApsalarId_:1;
   BOOL hasNumBadges_:1;
+  BOOL hasAvatarMonsterId_:1;
   BOOL hasNumObstaclesRemoved_:1;
   BOOL hasNumBeginnerSalesPurchased_:1;
   BOOL hasNumOilRetrievedFromStructs_:1;
   BOOL hasNumCoinsRetrievedFromStructs_:1;
-  BOOL hasNumReferrals_:1;
   BOOL hasUserId_:1;
+  BOOL hasNumReferrals_:1;
   BOOL hasTasksCompleted_:1;
   BOOL hasLevel_:1;
   BOOL hasExperience_:1;
@@ -546,12 +556,13 @@
   int32_t numConsecutiveDaysPlayed;
   int32_t apsalarId;
   int32_t numBadges;
+  int32_t avatarMonsterId;
   int32_t numObstaclesRemoved;
   int32_t numBeginnerSalesPurchased;
   int32_t numOilRetrievedFromStructs;
   int32_t numCoinsRetrievedFromStructs;
-  int32_t numReferrals;
   int32_t userId;
+  int32_t numReferrals;
   int32_t tasksCompleted;
   int32_t level;
   int32_t experience;
@@ -592,6 +603,7 @@
 - (BOOL) hasGameCenterId;
 - (BOOL) hasLastObstacleSpawnedTime;
 - (BOOL) hasNumObstaclesRemoved;
+- (BOOL) hasAvatarMonsterId;
 - (BOOL) hasPvpLeagueInfo;
 - (BOOL) hasLastMiniJobSpawnedTime;
 - (BOOL) hasUdidForHistory;
@@ -627,6 +639,7 @@
 @property (readonly, retain) NSString* gameCenterId;
 @property (readonly) int64_t lastObstacleSpawnedTime;
 @property (readonly) int32_t numObstaclesRemoved;
+@property (readonly) int32_t avatarMonsterId;
 @property (readonly, retain) UserPvpLeagueProto* pvpLeagueInfo;
 @property (readonly) int64_t lastMiniJobSpawnedTime;
 @property (readonly, retain) NSString* udidForHistory;
@@ -790,6 +803,11 @@
 - (int32_t) numObstaclesRemoved;
 - (FullUserProto_Builder*) setNumObstaclesRemoved:(int32_t) value;
 - (FullUserProto_Builder*) clearNumObstaclesRemoved;
+
+- (BOOL) hasAvatarMonsterId;
+- (int32_t) avatarMonsterId;
+- (FullUserProto_Builder*) setAvatarMonsterId:(int32_t) value;
+- (FullUserProto_Builder*) clearAvatarMonsterId;
 
 - (BOOL) hasPvpLeagueInfo;
 - (UserPvpLeagueProto*) pvpLeagueInfo;

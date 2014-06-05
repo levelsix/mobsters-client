@@ -72,7 +72,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
 
 - (void) updateUser:(FullUserProto *)user timestamp:(uint64_t)time {
   // Copy over data from full user proto
-  if (_userId != user.userId || ![_name isEqualToString:user.name] || (user.hasClan && ![self.clan.data isEqualToData:user.clan.data]) || (!user.hasClan && self.clan)) {
+  if (_userId != user.userId || ![_name isEqualToString:user.name] || (user.hasClan && ![self.clan.data isEqualToData:user.clan.data]) || (!user.hasClan && self.clan) || self.avatarMonsterId != user.avatarMonsterId) {
     self.userId = user.userId;
     self.name = user.name;
     if (user.hasClan) {
@@ -80,6 +80,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
     } else {
       self.clan = nil;
     }
+    self.avatarMonsterId = user.avatarMonsterId;
     [[SocketCommunication sharedSocketCommunication] rebuildSender];
   }
   self.level = user.level;
@@ -139,6 +140,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
   fup.lastMiniJobSpawnedTime = self.lastMiniJobSpawnTime.timeIntervalSince1970*1000.;
   fup.facebookId = self.facebookId;
   fup.lastLoginTime = self.lastLoginTimeNum;
+  fup.avatarMonsterId = self.avatarMonsterId;
   
   return [fup build];
 }
@@ -148,15 +150,12 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
   if (_clan != nil) {
     mup.clan = _clan;
   }
+  mup.avatarMonsterId = self.avatarMonsterId;
   return mup.build;
 }
 
 - (MinimumUserProtoWithLevel *) minUserWithLevel {
-  MinimumUserProto_Builder *mup = [[[MinimumUserProto builder] setName:_name] setUserId:_userId];
-  if (_clan != nil) {
-    mup.clan = _clan;
-  }
-  MinimumUserProtoWithLevel *mupl = [[[[MinimumUserProtoWithLevel builder] setMinUserProto:mup.build] setLevel:_level] build];
+  MinimumUserProtoWithLevel *mupl = [[[[MinimumUserProtoWithLevel builder] setMinUserProto:[self minUser]] setLevel:_level] build];
   return mupl;
 }
 
@@ -503,24 +502,30 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
 }
 
 - (void) addChatMessage:(ChatMessage *)cm scope:(GroupChatScope) scope {
-  if (scope == GroupChatScopeGlobal) {
-    [self.globalChatMessages addObject:cm];
-  } else {
-    [self.clanChatMessages addObject:cm];
+  Globals *gl = [Globals sharedGlobals];
+  if (![gl isUserIdMuted:cm.sender.minUserProto.userId]) {
+    if (scope == GroupChatScopeGlobal) {
+      [self.globalChatMessages addObject:cm];
+    } else {
+      [self.clanChatMessages addObject:cm];
+    }
   }
 }
 
 - (void) addPrivateChat:(PrivateChatPostProto *)post {
-  int userId = post.otherUserId;
-  PrivateChatPostProto *privChat = nil;
-  for (PrivateChatPostProto *pcpp in self.privateChats) {
-    int otherUserId = pcpp.otherUserId;
-    if (userId == otherUserId) {
-      privChat = pcpp;
+  int userId = post.otherUser.userId;
+  Globals *gl = [Globals sharedGlobals];
+  if (![gl isUserIdMuted:userId]) {
+    PrivateChatPostProto *privChat = nil;
+    for (PrivateChatPostProto *pcpp in self.privateChats) {
+      int otherUserId = pcpp.otherUser.userId;
+      if (userId == otherUserId) {
+        privChat = pcpp;
+      }
     }
+    [self.privateChats removeObject:privChat];
+    [self.privateChats insertObject:post atIndex:0];
   }
-  [self.privateChats removeObject:privChat];
-  [self.privateChats insertObject:post atIndex:0];
 }
 
 - (void) addBoosterPurchase:(RareBoosterPurchaseProto *)bp {

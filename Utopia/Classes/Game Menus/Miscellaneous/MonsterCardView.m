@@ -127,3 +127,30 @@ static UIImage *img = nil;
 }
 
 @end
+
+@implementation CircleMonsterView
+
+- (void) awakeFromNib {
+  self.monsterIcon.layer.cornerRadius = self.monsterIcon.frame.size.width/2;
+}
+
+- (void) updateForMonsterId:(int)monsterId {
+  if (monsterId) {
+    GameState *gs = [GameState sharedGameState];
+    MonsterProto *mp = [gs monsterWithId:monsterId];
+    [self updateForElement:mp.monsterElement imgPrefix:mp.imagePrefix greyscale:NO];
+  } else {
+    self.bgdIcon.image = nil;
+    self.monsterIcon.image = nil;
+  }
+  self.monsterId = monsterId;
+}
+
+- (void) updateForElement:(Element)element imgPrefix:(NSString *)imgPrefix greyscale:(BOOL)greyscale {
+  NSString *file = [imgPrefix stringByAppendingString:@"Thumbnail.png"];
+  [Globals imageNamed:file withView:self.monsterIcon greyscale:greyscale indicator:UIActivityIndicatorViewStyleWhite clearImageDuringDownload:YES];
+  file = [Globals imageNameForElement:element suffix:@"avatar.png"];
+  [Globals imageNamed:file withView:self.bgdIcon greyscale:greyscale indicator:UIActivityIndicatorViewStyleWhite clearImageDuringDownload:YES];
+}
+
+@end

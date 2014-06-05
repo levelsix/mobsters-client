@@ -10,11 +10,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Utopia/Classes/Game Data/GameState.m"
-            timestampString = "421287043.367619"
+            timestampString = "423538507.099183"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "183"
-            endingLineNumber = "183"
+            startingLineNumber = "182"
+            endingLineNumber = "182"
             landmarkName = "-monsterWithId:"
             landmarkType = "5">
          </BreakpointContent>
@@ -58,11 +58,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Utopia/Classes/Game Data/GameState.m"
-            timestampString = "421291047.805407"
+            timestampString = "423538507.099183"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "175"
-            endingLineNumber = "175"
+            startingLineNumber = "174"
+            endingLineNumber = "174"
             landmarkName = "-structWithId:"
             landmarkType = "5">
          </BreakpointContent>
@@ -122,11 +122,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Utopia/Classes/Socket Communication/OutgoingEventController.m"
-            timestampString = "423112225.69188"
+            timestampString = "423643007.509471"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "406"
-            endingLineNumber = "406"
+            startingLineNumber = "407"
+            endingLineNumber = "407"
             landmarkName = "-questProgress:jobIds:"
             landmarkType = "5">
          </BreakpointContent>
@@ -137,29 +137,13 @@
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "Utopia/Classes/New Battle/CCAnimation+SpriteLoading.m"
-            timestampString = "423443286.344314"
+            filePath = "Utopia/Classes/Game Menus/RequestsMenu/RequestsBattleTableController.m"
+            timestampString = "423524997.261653"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "50"
-            endingLineNumber = "50"
-            landmarkName = "-initWithSpritePrefix:delay:"
-            landmarkType = "5">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "Utopia/Classes/App Startup/GameViewController.m"
-            timestampString = "423518296.510354"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "568"
-            endingLineNumber = "568"
-            landmarkName = "-handleLoadCityResponseProto:"
+            startingLineNumber = "149"
+            endingLineNumber = "149"
+            landmarkName = "-revengeClicked:"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>

@@ -47,6 +47,8 @@
 @property (nonatomic, strong) IBOutlet UILabel *speedLabel;
 @property (nonatomic, strong) IBOutlet UILabel *monsterDescription;
 
+@property (nonatomic, strong) IBOutlet UIButton *avatarButton;
+
 @property (nonatomic, strong) IBOutlet UIImageView *monsterImageView;
 @property (nonatomic, strong) IBOutlet UIImageView *elementType;
 @property (nonatomic, strong) IBOutlet UIImageView *rarityTag;
@@ -65,5 +67,6 @@
 - (IBAction)close:(id)sender;
 - (IBAction)backClicked:(id)sender;
 - (IBAction)sellClicked:(id)sender;
+- (IBAction)heartClicked:(id)sender;
 
 @end

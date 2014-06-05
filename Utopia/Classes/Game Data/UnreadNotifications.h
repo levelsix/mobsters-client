@@ -13,8 +13,7 @@
 
 @interface PrivateChatPostProto (UnreadStatus)
 
-- (int) otherUserId;
-- (NSString *) otherUserName;
+- (MinimumUserProto *) otherUser;
 - (BOOL) isUnread;
 - (void) markAsRead;
 

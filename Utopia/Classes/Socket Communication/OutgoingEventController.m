@@ -28,6 +28,7 @@
 #define CASH_AND_OIL_CODE @"greedisgood"
 #define GEMS_CODE @"gemsgalore"
 #define RESET_CODE @"cleanslate"
+#define UNMUTE_CODE @"openears"
 
 #define  LVL6_SHARED_SECRET @"mister8conrad3chan9is1a2very4great5man"
 
@@ -631,6 +632,9 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
       } else if ([code isEqualToString:RESET_CODE]) {
         msg = @"Resetting account...";
         [[OutgoingEventController sharedOutgoingEventController] updateUserCurrencyWithCashChange:1234 oilChange:1234 gemChange:1234 reason:RESET_CODE];
+      } else if ([code isEqualToString:UNMUTE_CODE]) {
+        msg = @"Unmuted all players.";
+        [gl unmuteAllPlayers];
       }
       
       else {
@@ -1919,6 +1923,16 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
     [gs addUnrespondedUpdates:gu, su, ou, nil];
     
     [gs beginMiniJobTimer];
+  }
+}
+
+- (void) setAvatarMonster:(int)avatarMonsterId {
+  GameState *gs = [GameState sharedGameState];
+  if (gs.avatarMonsterId != avatarMonsterId) {
+    [[SocketCommunication sharedSocketCommunication] sendSetAvatarMonsterMessage:avatarMonsterId];
+    
+    gs.avatarMonsterId = avatarMonsterId;
+    [[SocketCommunication sharedSocketCommunication] rebuildSender];
   }
 }
 

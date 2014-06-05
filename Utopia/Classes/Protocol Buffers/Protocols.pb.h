@@ -423,6 +423,10 @@
 @class SendGroupChatRequestProto_Builder;
 @class SendGroupChatResponseProto;
 @class SendGroupChatResponseProto_Builder;
+@class SetAvatarMonsterRequestProto;
+@class SetAvatarMonsterRequestProto_Builder;
+@class SetAvatarMonsterResponseProto;
+@class SetAvatarMonsterResponseProto_Builder;
 @class SetFacebookIdRequestProto;
 @class SetFacebookIdRequestProto_Builder;
 @class SetFacebookIdResponseProto;
@@ -612,6 +616,7 @@ typedef enum {
   EventProtocolRequestCBeginMiniJobEvent = 71,
   EventProtocolRequestCCompleteMiniJobEvent = 72,
   EventProtocolRequestCRedeemMiniJobEvent = 73,
+  EventProtocolRequestCSetAvatarMonsterEvent = 74,
   EventProtocolRequestCLogoutEvent = 101,
 } EventProtocolRequest;
 
@@ -690,6 +695,7 @@ typedef enum {
   EventProtocolResponseSBeginMiniJobEvent = 71,
   EventProtocolResponseSCompleteMiniJobEvent = 72,
   EventProtocolResponseSRedeemMiniJobEvent = 73,
+  EventProtocolResponseSSetAvatarMonsterEvent = 74,
   EventProtocolResponseSUpdateClientUserEvent = 101,
   EventProtocolResponseSReferralCodeUsedEvent = 102,
   EventProtocolResponseSPurgeStaticDataEvent = 103,

@@ -9,7 +9,7 @@
 #import <UIKit/UIKit.h>
 #import "NibUtils.h"
 #import "GameMap.h"
-#import "ChatViewController.h"
+#import "ChatBottomView.h"
 #import "TopBarQuestProgressView.h"
 
 @interface TopBarMonsterView : UIView
@@ -25,8 +25,11 @@
 
 @end
 
-@interface TopBarViewController : UIViewController <NumTransitionLabelDelegate> {
+@interface TopBarViewController : UIViewController <NumTransitionLabelDelegate, ChatBottomViewDelegate> {
   CGPoint _originalProgressCenter;
+  
+  int _clanChatBadgeNum;
+  BOOL _shouldShowClanDotOnBotView;
 }
 
 @property (nonatomic, assign) IBOutlet SplitImageProgressBar *expBar;
@@ -69,7 +72,7 @@
 
 @property (nonatomic, retain) IBOutlet TopBarQuestProgressView *questProgressView;
 
-@property (nonatomic, retain) ChatViewController *chatViewController;
+@property (nonatomic, retain) IBOutlet ChatBottomView *chatBottomView;
 
 @property (nonatomic, assign) MapBotView *curViewOverChatView;
 

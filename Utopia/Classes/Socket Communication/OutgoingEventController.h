@@ -78,6 +78,8 @@
 - (void) privateChatPost:(int)recipientId content:(NSString *)content;
 - (void) retrievePrivateChatPosts:(int)otherUserId delegate:(id)delegate;
 
+- (void) setAvatarMonster:(int)avatarMonsterId;
+
 - (void) beginDungeon:(int)taskId withDelegate:(id)delegate;
 - (void) beginDungeon:(int)taskId enemyElement:(Element)element withDelegate:(id)delegate;
 - (void) beginDungeon:(int)taskId isEvent:(BOOL)isEvent eventId:(int)eventId useGems:(BOOL)useGems withDelegate:(id)delegate;

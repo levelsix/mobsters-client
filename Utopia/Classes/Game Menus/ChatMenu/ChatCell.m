@@ -16,10 +16,10 @@
 static float buttonInitialWidth = 159.f;
 
 - (void) awakeFromNib {
-  buttonInitialWidth = self.nameButton.frame.size.width;
+  buttonInitialWidth = self.nameLabel.frame.size.width;
 }
 
-- (void) updateForChat:(ChatMessage *)msg {
+- (void) updateForChat:(ChatMessage *)msg showsClanTag:(BOOL)showsClanTag {
   GameState *gs = [GameState sharedGameState];
   self.chatMessage = msg;
   
@@ -28,19 +28,10 @@ static float buttonInitialWidth = 159.f;
   self.levelLabel.text = [Globals commafyNumber:msg.sender.level];
   self.timeLabel.text = [Globals stringForTimeSinceNow:msg.date shortened:NO];
   
-  if (msg.sender.minUserProto.clan.clanId) {
-    [self.clanButton setTitle:msg.sender.minUserProto.clan.name forState:UIControlStateNormal];
-    [Globals adjustViewForCentering:self.clanButton.superview withLabel:self.clanButton.titleLabel];
-    
-    ClanIconProto *icon = [gs clanIconWithId:msg.sender.minUserProto.clan.clanIconId];
-    [Globals imageNamed:icon.imgName withView:self.shieldIcon greyscale:NO indicator:UIActivityIndicatorViewStyleWhite clearImageDuringDownload:YES];
-    
-    self.clanButton.superview.hidden = NO;
-  } else {
-    self.clanButton.superview.hidden = YES;
+  NSString *buttonText = [Globals fullNameWithName:msg.sender.minUserProto.name clanTag:msg.sender.minUserProto.clan.tag];
+  if (!showsClanTag) {
+    buttonText = msg.sender.minUserProto.name;
   }
-  
-  NSString *buttonText = msg.sender.minUserProto.name;
   
 //  if (msg.isAdmin) {
 //    [self.nameButton setTitleColor:[Globals redColor] forState:UIControlStateNormal];
@@ -48,47 +39,59 @@ static float buttonInitialWidth = 159.f;
 //    [self.nameButton setTitleColor:[Globals goldColor] forState:UIControlStateNormal];
 //  }
   
-  [self.nameButton setTitle:buttonText forState:UIControlStateNormal];
-  CGSize buttonSize = [buttonText sizeWithFont:self.nameButton.titleLabel.font constrainedToSize:CGSizeMake(buttonInitialWidth, 999) lineBreakMode:self.nameButton.titleLabel.lineBreakMode];
+  self.nameLabel.text = buttonText;
+  CGSize buttonSize = [buttonText sizeWithFont:self.nameLabel.font constrainedToSize:CGSizeMake(buttonInitialWidth, 999) lineBreakMode:self.nameLabel.lineBreakMode];
   
-  CGRect r = self.nameButton.frame;
+  [self.monsterView updateForMonsterId:msg.sender.minUserProto.avatarMonsterId];
+  
+  CGRect r = self.nameLabel.frame;
   r.size.width = buttonSize.width+7.f;
-  self.nameButton.frame = r;
-  
-  r = self.clanButton.superview.frame;
-  r.origin.x = CGRectGetMaxX(self.nameButton.frame);
-  self.clanButton.superview.frame = r;
+  self.nameLabel.frame = r;
   
   CGSize size = [msg.message sizeWithFont:self.msgLabel.font constrainedToSize:CGSizeMake(self.msgLabel.frame.size.width, 999)];
   CGRect frame = self.msgLabel.frame;
   frame.size.height = size.height+1.f;
   self.msgLabel.frame = frame;
   
-//  int clanWidth = msg.sender.minUserProto.clan.clanId ? self.clanButton.superview.frame.size.width : 0;
-//  size.width = MAX(size.width+33.f, buttonSize.width+clanWidth+self.timeLabel.frame.size.width+14.f);
-//  frame = self.mainView.frame;
-//  frame.size.width = size.width;
-//  self.mainView.frame = frame;
-//  
-//  if (msg.sender.minUserProto.userId == gs.userId) {
-//    self.transform = CGAffineTransformMakeScale(-1, 1);
-//    self.nameButton.transform = CGAffineTransformMakeScale(-1, 1);
-//    self.msgLabel.transform = CGAffineTransformMakeScale(-1, 1);
-//    self.timeLabel.transform = CGAffineTransformMakeScale(-1, 1);
-//    self.clanButton.superview.transform = CGAffineTransformMakeScale(-1, 1);
-//    self.nameButton.contentHorizontalAlignment = UIControlContentHorizontalAlignmentRight;
-//    self.msgLabel.textAlignment = NSTextAlignmentRight;
-//    self.timeLabel.textAlignment = NSTextAlignmentLeft;
-//  } else {
-//    self.transform = CGAffineTransformIdentity;
-//    self.nameButton.transform = CGAffineTransformIdentity;
-//    self.msgLabel.transform = CGAffineTransformIdentity;
-//    self.timeLabel.transform = CGAffineTransformIdentity;
-//    self.clanButton.superview.transform = CGAffineTransformIdentity;
-//    self.nameButton.contentHorizontalAlignment = UIControlContentHorizontalAlignmentLeft;
-//    self.msgLabel.textAlignment = NSTextAlignmentLeft;
-//    self.timeLabel.textAlignment = NSTextAlignmentRight;
-//  }
+  size.width = MAX(size.width+66.f, buttonSize.width+self.timeLabel.frame.size.width+50.f);
+  frame = self.mainView.frame;
+  frame.size.width = size.width;
+  self.mainView.frame = frame;
+
+  BOOL shouldHighlight;
+  if (msg.sender.minUserProto.userId == gs.userId) {
+    self.transform = CGAffineTransformMakeScale(-1, 1);
+    self.nameLabel.transform = CGAffineTransformMakeScale(-1, 1);
+    self.msgLabel.transform = CGAffineTransformMakeScale(-1, 1);
+    self.timeLabel.transform = CGAffineTransformMakeScale(-1, 1);
+    self.nameLabel.textAlignment = NSTextAlignmentRight;
+    self.msgLabel.textAlignment = NSTextAlignmentRight;
+    self.timeLabel.textAlignment = NSTextAlignmentLeft;
+    shouldHighlight = NO;
+  } else {
+    self.transform = CGAffineTransformIdentity;
+    self.nameLabel.transform = CGAffineTransformIdentity;
+    self.msgLabel.transform = CGAffineTransformIdentity;
+    self.timeLabel.transform = CGAffineTransformIdentity;
+    self.nameLabel.textAlignment = NSTextAlignmentLeft;
+    self.msgLabel.textAlignment = NSTextAlignmentLeft;
+    self.timeLabel.textAlignment = NSTextAlignmentRight;
+    shouldHighlight = YES;
+  }
+  
+  [self highlightSubviews:self.mainView shouldHighlight:shouldHighlight];
+}
+
+- (void) highlightSubviews:(UIView *)v shouldHighlight:(BOOL)h {
+  if ([v isKindOfClass:[UILabel class]]) {
+    [(UILabel *)v setHighlighted:h];
+  } else if ([v isKindOfClass:[UIImageView class]]) {
+    [(UIImageView *)v setHighlighted:h];
+  }
+  
+  for (UIView *sv in v.subviews) {
+    [self highlightSubviews:sv shouldHighlight:h];
+  }
 }
 
 @end
@@ -100,8 +103,9 @@ static float buttonInitialWidth = 159.f;
   
   self.msgLabel.text = pcpp.content;
   self.timeLabel.text = [Globals stringForTimeSinceNow:[MSDate dateWithTimeIntervalSince1970:pcpp.timeOfPost/1000.] shortened:NO];
-  self.nameLabel.text = pcpp.otherUserName;
+  self.nameLabel.text = pcpp.otherUser.name;
   self.unreadIcon.hidden = ![pcpp isUnread];
+  [self.monsterView updateForMonsterId:pcpp.otherUser.avatarMonsterId];
 }
 
 @end

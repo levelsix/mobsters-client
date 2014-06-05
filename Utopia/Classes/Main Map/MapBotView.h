@@ -23,6 +23,7 @@
 @property (nonatomic, assign) IBOutlet UIView *bgdView;
 @property (nonatomic, retain) IBOutletCollection(UIView) NSArray *animateViews;
 
+- (void) update;
 - (void) animateIn:(void(^)())block;
 - (void) animateOut:(void(^)())block;
 

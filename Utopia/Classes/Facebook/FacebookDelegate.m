@@ -51,6 +51,7 @@
 }
 
 + (BOOL) handleOpenURL:(NSURL *)url sourceApplication:(NSString *)sourceApplication {
+  [[GameViewController baseController] openedFromFacebook];
   [FBSession.activeSession setStateChangeHandler:
    ^(FBSession *session, FBSessionState state, NSError *error) {
      [[self sharedFacebookDelegate] sessionStateChanged:session state:state error:error];

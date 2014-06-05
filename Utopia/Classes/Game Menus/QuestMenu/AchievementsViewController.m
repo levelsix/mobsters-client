@@ -23,7 +23,6 @@
 - (void) loadForAchievement:(AchievementProto *)ap userAchievement:(UserAchievement *)ua {
   self.titleLabel.text = ap.name;
   self.descriptionLabel.text = ap.description;
-  self.rankLabel.text = [NSString stringWithFormat:@"%d", ap.lvl];
   self.gemRewardLabel.text = [Globals commafyNumber:ap.gemReward];
   
   int numStars = 0;
@@ -43,6 +42,7 @@
     UIImageView *img = self.starViews[i];
     img.highlighted = i >= numStars;
   }
+  self.rankLabel.text = [NSString stringWithFormat:@"%d", numStars];
   
   self.collectView.hidden = (!ua.isComplete || ua.isRedeemed);
   self.progressView.hidden = !self.collectView.hidden;

@@ -10,14 +10,13 @@
 #import "ChatView.h"
 #import "NibUtils.h"
 
-@interface ChatMainView : UIView
-
-@property (nonatomic, retain) IBOutlet UIView *insideView;
-@property (nonatomic, retain) IBOutlet UIView *openButton;
+@interface ChatTopBar : ButtonTopBar
 
 @end
 
-@interface ChatTopBar : ButtonTopBar
+@interface ChatMainView : PopupShadowView
+
+@property (nonatomic, retain) IBOutletCollection(UIView) NSArray *allowedViews;
 
 @end
 
@@ -26,8 +25,7 @@
 }
 
 @property (nonatomic, retain) IBOutlet UIView *containerView;
-@property (nonatomic, retain) IBOutlet UIImageView *arrow;
-@property (nonatomic, retain) IBOutlet ChatTopBar *topBar;
+@property (nonatomic, retain) IBOutlet ButtonTopBar *topBar;
 
 @property (nonatomic, retain) IBOutlet GlobalChatView *globalChatView;
 @property (nonatomic, retain) IBOutlet ClanChatView *clanChatView;
@@ -35,12 +33,11 @@
 
 @property (nonatomic, retain) IBOutlet BadgeIcon *clanBadgeIcon;
 @property (nonatomic, retain) IBOutlet BadgeIcon *privateBadgeIcon;
-@property (nonatomic, retain) IBOutlet BadgeIcon *overallBadgeIcon;
 
-@property (nonatomic, assign) BOOL isOpen;
+@property (nonatomic, retain) IBOutlet UIView *mainView;
+@property (nonatomic, retain) IBOutlet UIView *bgdView;
+@property (nonatomic, retain) IBOutlet ChatPopoverView *popoverView;
 
-- (void) open;
-- (void) openWithConversationForUserId:(int)userId;
-- (void) closeAnimated:(BOOL)animated;
+- (void) openWithConversationForUserId:(int)userId name:(NSString *)name;
 
 @end

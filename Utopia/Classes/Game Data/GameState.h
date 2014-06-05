@@ -44,6 +44,7 @@
 @property (nonatomic, retain) MSDate *shieldEndTime;
 @property (nonatomic, retain) MSDate *lastObstacleCreateTime;
 @property (nonatomic, retain) MSDate *lastMiniJobSpawnTime;
+@property (nonatomic, assign) int avatarMonsterId;
 
 @property (nonatomic, retain) UserPvpLeagueProto *pvpLeague;
 

@@ -1185,6 +1185,15 @@ static NSString *udid = nil;
   return [self sendData:req withMessageType:EventProtocolRequestCRedeemMiniJobEvent];
 }
 
+- (int) sendSetAvatarMonsterMessage:(int)avatarMonsterId {
+  SetAvatarMonsterRequestProto *req = [[[[SetAvatarMonsterRequestProto builder]
+                                         setSender:_sender]
+                                        setMonsterId:avatarMonsterId]
+                                       build];
+  
+  return [self sendData:req withMessageType:EventProtocolRequestCSetAvatarMonsterEvent];
+}
+
 #pragma mark - Batch/Flush events
 
 - (int) sendHealQueueWaitTimeComplete:(NSArray *)monsterHealths {

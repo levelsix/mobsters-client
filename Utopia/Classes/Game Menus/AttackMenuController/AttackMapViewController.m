@@ -55,8 +55,10 @@
   [self.enhanceEventView updateForEnhance];
   if (!self.evoEventView.hidden) {
     [self.evoEventView.monsterImage startAnimating];
+    _curEventView = self.evoEventView;
   } else if (!self.enhanceEventView) {
     [self.enhanceEventView.monsterImage startAnimating];
+    _curEventView = self.enhanceEventView;
   }
   
   [self.multiplayerView updateForLeague];
@@ -159,7 +161,6 @@
     _buttonClicked = YES;
     [self.timer invalidate];
     [self.delegate enterDungeon:eventView.taskId isEvent:YES eventId:eventView.persistentEventId useGems:tag];
-    [self performSelector:@selector(close) withObject:nil afterDelay:0.1f];
   }
 }
 
@@ -229,7 +230,7 @@
 }
 
 - (void) close {
-  [UIView animateWithDuration:0.3f delay:0.f options:UIViewAnimationOptionCurveEaseOut animations:^{
+  [UIView animateWithDuration:0.75f delay:0.f options:UIViewAnimationOptionCurveEaseIn animations:^{
     self.multiplayerView.center = ccp(-self.multiplayerView.frame.size.width/2, self.multiplayerView.center.y);
     self.pveView.center = ccp(self.view.frame.size.width+self.pveView.frame.size.width/2, self.pveView.center.y);
   } completion:^(BOOL finished) {

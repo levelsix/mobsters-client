@@ -46,7 +46,6 @@
   self.topBarViewController = [[TutorialTopBarViewController alloc] init];
   self.topBarViewController.delegate = self;
   self.topBarViewController.view.frame = self.gameViewController.view.bounds;
-  self.topBarViewController.chatViewController.view.userInteractionEnabled = NO;
   [self.gameViewController addChildViewController:self.topBarViewController];
   [self.gameViewController.view insertSubview:self.topBarViewController.view belowSubview:self.touchView];
 }

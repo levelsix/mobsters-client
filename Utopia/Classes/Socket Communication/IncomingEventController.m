@@ -267,6 +267,9 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
     case EventProtocolResponseSRedeemMiniJobEvent:
       responseClass = [RedeemMiniJobResponseProto class];
       break;
+    case EventProtocolResponseSSetAvatarMonsterEvent:
+      responseClass = [SetAvatarMonsterResponseProto class];
+      break;
       
     default:
       responseClass = nil;
@@ -848,8 +851,11 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
   if (proto.sender.minUserProto.userId != gs.userId) {
     [gs addChatMessage:proto.sender message:proto.chatMessage scope:proto.scope isAdmin:proto.isAdmin];
     
-    NSString *key = proto.scope == GroupChatScopeClan ? CLAN_CHAT_RECEIVED_NOTIFICATION : GLOBAL_CHAT_RECEIVED_NOTIFICATION;
-    [[NSNotificationCenter defaultCenter] postNotificationName:key object:nil];
+    Globals *gl = [Globals sharedGlobals];
+    if (![gl isUserIdMuted:proto.sender.minUserProto.userId]) {
+      NSString *key = proto.scope == GroupChatScopeClan ? CLAN_CHAT_RECEIVED_NOTIFICATION : GLOBAL_CHAT_RECEIVED_NOTIFICATION;
+      [[NSNotificationCenter defaultCenter] postNotificationName:key object:nil];
+    }
   }
 }
 
@@ -1253,7 +1259,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
     [gs addPrivateChat:proto.post];
     
     [[NSNotificationCenter defaultCenter] postNotificationName:PRIVATE_CHAT_RECEIVED_NOTIFICATION object:nil userInfo:
-     [NSDictionary dictionaryWithObject:proto.post forKey:[NSString stringWithFormat:PRIVATE_CHAT_DEFAULTS_KEY, proto.post.otherUserId]]];
+     [NSDictionary dictionaryWithObject:proto.post forKey:[NSString stringWithFormat:PRIVATE_CHAT_DEFAULTS_KEY, proto.post.otherUser.userId]]];
   }
 }
 
@@ -1741,6 +1747,22 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
     [gs removeNonFullUserUpdatesForTag:tag];
   } else {
     [Globals popupMessage:@"Server failed to redeem mini job."];
+    
+    [gs removeAndUndoAllUpdatesForTag:tag];
+  }
+}
+
+- (void) handleSetAvatarMonsterResponseProto:(FullEvent *)fe {
+  SetAvatarMonsterResponseProto *proto = (SetAvatarMonsterResponseProto *)fe.event;
+  int tag = fe.tag;
+  
+  LNLog(@"Set avatar monster response received with status %d.", proto.status);
+  
+  GameState *gs = [GameState sharedGameState];
+  if (proto.status == SetAvatarMonsterResponseProto_SetAvatarMonsterStatusSuccess) {
+    [gs removeNonFullUserUpdatesForTag:tag];
+  } else {
+    [Globals popupMessage:@"Server failed to set avatar monster."];
     
     [gs removeAndUndoAllUpdatesForTag:tag];
   }

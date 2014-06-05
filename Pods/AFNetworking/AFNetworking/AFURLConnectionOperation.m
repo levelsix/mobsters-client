@@ -707,7 +707,7 @@ didReceiveResponse:(NSURLResponse *)response
     self.response = [decoder decodeObjectForKey:NSStringFromSelector(@selector(response))];
     self.error = [decoder decodeObjectForKey:NSStringFromSelector(@selector(error))];
     self.responseData = [decoder decodeObjectForKey:NSStringFromSelector(@selector(responseData))];
-    self.totalBytesRead = (NSInteger)[decoder decodeInt64ForKey:NSStringFromSelector(@selector(totalBytesRead))];
+    self.totalBytesRead = [decoder decodeInt64ForKey:NSStringFromSelector(@selector(totalBytesRead))];
 
     return self;
 }

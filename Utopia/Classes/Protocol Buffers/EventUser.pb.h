@@ -60,6 +60,10 @@
 @class RetrieveUsersForUserIdsRequestProto_Builder;
 @class RetrieveUsersForUserIdsResponseProto;
 @class RetrieveUsersForUserIdsResponseProto_Builder;
+@class SetAvatarMonsterRequestProto;
+@class SetAvatarMonsterRequestProto_Builder;
+@class SetAvatarMonsterResponseProto;
+@class SetAvatarMonsterResponseProto_Builder;
 @class SetFacebookIdRequestProto;
 @class SetFacebookIdRequestProto_Builder;
 @class SetFacebookIdResponseProto;
@@ -149,6 +153,13 @@ typedef enum {
 } SetGameCenterIdResponseProto_SetGameCenterIdStatus;
 
 BOOL SetGameCenterIdResponseProto_SetGameCenterIdStatusIsValidValue(SetGameCenterIdResponseProto_SetGameCenterIdStatus value);
+
+typedef enum {
+  SetAvatarMonsterResponseProto_SetAvatarMonsterStatusSuccess = 1,
+  SetAvatarMonsterResponseProto_SetAvatarMonsterStatusFailOther = 2,
+} SetAvatarMonsterResponseProto_SetAvatarMonsterStatus;
+
+BOOL SetAvatarMonsterResponseProto_SetAvatarMonsterStatusIsValidValue(SetAvatarMonsterResponseProto_SetAvatarMonsterStatus value);
 
 
 @interface EventUserRoot : NSObject {
@@ -1109,5 +1120,123 @@ BOOL SetGameCenterIdResponseProto_SetGameCenterIdStatusIsValidValue(SetGameCente
 - (SetGameCenterIdResponseProto_SetGameCenterIdStatus) status;
 - (SetGameCenterIdResponseProto_Builder*) setStatus:(SetGameCenterIdResponseProto_SetGameCenterIdStatus) value;
 - (SetGameCenterIdResponseProto_Builder*) clearStatus;
+@end
+
+@interface SetAvatarMonsterRequestProto : PBGeneratedMessage {
+@private
+  BOOL hasMonsterId_:1;
+  BOOL hasSender_:1;
+  int32_t monsterId;
+  MinimumUserProto* sender;
+}
+- (BOOL) hasSender;
+- (BOOL) hasMonsterId;
+@property (readonly, retain) MinimumUserProto* sender;
+@property (readonly) int32_t monsterId;
+
++ (SetAvatarMonsterRequestProto*) defaultInstance;
+- (SetAvatarMonsterRequestProto*) defaultInstance;
+
+- (BOOL) isInitialized;
+- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output;
+- (SetAvatarMonsterRequestProto_Builder*) builder;
++ (SetAvatarMonsterRequestProto_Builder*) builder;
++ (SetAvatarMonsterRequestProto_Builder*) builderWithPrototype:(SetAvatarMonsterRequestProto*) prototype;
+
++ (SetAvatarMonsterRequestProto*) parseFromData:(NSData*) data;
++ (SetAvatarMonsterRequestProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (SetAvatarMonsterRequestProto*) parseFromInputStream:(NSInputStream*) input;
++ (SetAvatarMonsterRequestProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (SetAvatarMonsterRequestProto*) parseFromCodedInputStream:(PBCodedInputStream*) input;
++ (SetAvatarMonsterRequestProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+@end
+
+@interface SetAvatarMonsterRequestProto_Builder : PBGeneratedMessage_Builder {
+@private
+  SetAvatarMonsterRequestProto* result;
+}
+
+- (SetAvatarMonsterRequestProto*) defaultInstance;
+
+- (SetAvatarMonsterRequestProto_Builder*) clear;
+- (SetAvatarMonsterRequestProto_Builder*) clone;
+
+- (SetAvatarMonsterRequestProto*) build;
+- (SetAvatarMonsterRequestProto*) buildPartial;
+
+- (SetAvatarMonsterRequestProto_Builder*) mergeFrom:(SetAvatarMonsterRequestProto*) other;
+- (SetAvatarMonsterRequestProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input;
+- (SetAvatarMonsterRequestProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+
+- (BOOL) hasSender;
+- (MinimumUserProto*) sender;
+- (SetAvatarMonsterRequestProto_Builder*) setSender:(MinimumUserProto*) value;
+- (SetAvatarMonsterRequestProto_Builder*) setSenderBuilder:(MinimumUserProto_Builder*) builderForValue;
+- (SetAvatarMonsterRequestProto_Builder*) mergeSender:(MinimumUserProto*) value;
+- (SetAvatarMonsterRequestProto_Builder*) clearSender;
+
+- (BOOL) hasMonsterId;
+- (int32_t) monsterId;
+- (SetAvatarMonsterRequestProto_Builder*) setMonsterId:(int32_t) value;
+- (SetAvatarMonsterRequestProto_Builder*) clearMonsterId;
+@end
+
+@interface SetAvatarMonsterResponseProto : PBGeneratedMessage {
+@private
+  BOOL hasSender_:1;
+  BOOL hasStatus_:1;
+  MinimumUserProto* sender;
+  SetAvatarMonsterResponseProto_SetAvatarMonsterStatus status;
+}
+- (BOOL) hasSender;
+- (BOOL) hasStatus;
+@property (readonly, retain) MinimumUserProto* sender;
+@property (readonly) SetAvatarMonsterResponseProto_SetAvatarMonsterStatus status;
+
++ (SetAvatarMonsterResponseProto*) defaultInstance;
+- (SetAvatarMonsterResponseProto*) defaultInstance;
+
+- (BOOL) isInitialized;
+- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output;
+- (SetAvatarMonsterResponseProto_Builder*) builder;
++ (SetAvatarMonsterResponseProto_Builder*) builder;
++ (SetAvatarMonsterResponseProto_Builder*) builderWithPrototype:(SetAvatarMonsterResponseProto*) prototype;
+
++ (SetAvatarMonsterResponseProto*) parseFromData:(NSData*) data;
++ (SetAvatarMonsterResponseProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (SetAvatarMonsterResponseProto*) parseFromInputStream:(NSInputStream*) input;
++ (SetAvatarMonsterResponseProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (SetAvatarMonsterResponseProto*) parseFromCodedInputStream:(PBCodedInputStream*) input;
++ (SetAvatarMonsterResponseProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+@end
+
+@interface SetAvatarMonsterResponseProto_Builder : PBGeneratedMessage_Builder {
+@private
+  SetAvatarMonsterResponseProto* result;
+}
+
+- (SetAvatarMonsterResponseProto*) defaultInstance;
+
+- (SetAvatarMonsterResponseProto_Builder*) clear;
+- (SetAvatarMonsterResponseProto_Builder*) clone;
+
+- (SetAvatarMonsterResponseProto*) build;
+- (SetAvatarMonsterResponseProto*) buildPartial;
+
+- (SetAvatarMonsterResponseProto_Builder*) mergeFrom:(SetAvatarMonsterResponseProto*) other;
+- (SetAvatarMonsterResponseProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input;
+- (SetAvatarMonsterResponseProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+
+- (BOOL) hasSender;
+- (MinimumUserProto*) sender;
+- (SetAvatarMonsterResponseProto_Builder*) setSender:(MinimumUserProto*) value;
+- (SetAvatarMonsterResponseProto_Builder*) setSenderBuilder:(MinimumUserProto_Builder*) builderForValue;
+- (SetAvatarMonsterResponseProto_Builder*) mergeSender:(MinimumUserProto*) value;
+- (SetAvatarMonsterResponseProto_Builder*) clearSender;
+
+- (BOOL) hasStatus;
+- (SetAvatarMonsterResponseProto_SetAvatarMonsterStatus) status;
+- (SetAvatarMonsterResponseProto_Builder*) setStatus:(SetAvatarMonsterResponseProto_SetAvatarMonsterStatus) value;
+- (SetAvatarMonsterResponseProto_Builder*) clearStatus;
 @end
 

@@ -141,7 +141,7 @@
 
 - (IBAction)message:(id)sender {
   GameViewController *gvc = [GameViewController baseController];
-  [gvc openPrivateChatWithUserId:self.fup.userId];
+  [gvc openPrivateChatWithUserId:self.fup.userId name:self.fup.name];
   
   // Will close automatically
   // [self close:nil];

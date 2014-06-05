@@ -71,7 +71,8 @@
 
 - (void) awakeFromNib {
   [Globals adjustFontSizeForUILabel:self];
-  self.font = [UIFont fontWithName:@"Aller-BoldItalic" size:self.font.pointSize];
+  // Changed from Aller to Whitney
+  self.font = [UIFont fontWithName:@"Whitney-SemiboldItalic" size:self.font.pointSize];
 }
 
 @end
@@ -209,6 +210,42 @@
 
 @end
 
+@implementation NiceFontLabel14
+
+- (void) awakeFromNib {
+  [Globals adjustFontSizeForUILabel:self];
+  self.font = [UIFont fontWithName:@"Whitney-Black" size:self.font.pointSize];
+}
+
+@end
+
+@implementation NiceFontLabel15
+
+- (void) awakeFromNib {
+  [Globals adjustFontSizeForUILabel:self];
+  self.font = [UIFont fontWithName:@"Whitney-Bold" size:self.font.pointSize];
+}
+
+@end
+
+@implementation NiceFontLabel16
+
+- (void) awakeFromNib {
+  [Globals adjustFontSizeForUILabel:self];
+  self.font = [UIFont fontWithName:@"Whitney-Semibold" size:self.font.pointSize];
+}
+
+@end
+
+@implementation NiceFontLabel17
+
+- (void) awakeFromNib {
+  [Globals adjustFontSizeForUILabel:self];
+  self.font = [UIFont fontWithName:@"Whitney-SemiboldItalic" size:self.font.pointSize];
+}
+
+@end
+
 @implementation NiceFontButton
 
 - (void) awakeFromNib {
@@ -335,6 +372,14 @@
 
 @end
 
+@implementation NiceFontTextField11
+
+- (void) awakeFromNib {
+  self.font =  [UIFont fontWithName:@"GothamMedium-Italic" size:self.font.pointSize];
+}
+
+@end
+
 @implementation NiceFontTextView
 
 - (void) awakeFromNib {
@@ -363,6 +408,14 @@
 
 - (void) awakeFromNib {
   self.transform = CGAffineTransformMakeScale(1, -1);
+}
+
+@end
+
+@implementation DoubleFlipImageView
+
+- (void) awakeFromNib {
+  self.transform = CGAffineTransformMakeScale(-1, -1);
 }
 
 @end

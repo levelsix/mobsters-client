@@ -7,6 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
+#import <NRTouchPoints/NRWindow.h>
 
 @interface FacebookWebViewDelegate : NSObject <UIWebViewDelegate>
 

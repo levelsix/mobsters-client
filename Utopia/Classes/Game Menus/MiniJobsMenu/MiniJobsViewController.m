@@ -233,6 +233,7 @@
   _selectedCell = nil;
   
   [[NSNotificationCenter defaultCenter] postNotificationName:MINI_JOB_WAIT_COMPLETE_NOTIFICATION object:self];
+  [[NSNotificationCenter defaultCenter] postNotificationName:MY_TEAM_CHANGED_NOTIFICATION object:self];
 }
 
 - (void) handleCompleteMiniJobResponseProto:(FullEvent *)fe {
@@ -256,6 +257,7 @@
   [self.listViewController reloadTableAnimated:YES];
   
   [[NSNotificationCenter defaultCenter] postNotificationName:MINI_JOB_WAIT_COMPLETE_NOTIFICATION object:self];
+  [[NSNotificationCenter defaultCenter] postNotificationName:MY_TEAM_CHANGED_NOTIFICATION object:self];
 }
 
 @end

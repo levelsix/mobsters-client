@@ -23,6 +23,7 @@
 #import "UnreadNotifications.h"
 #import "MiniJobsViewController.h"
 #import "ClanInfoViewController.h"
+#import "ChatViewController.h"
 
 @implementation TopBarMonsterView
 
@@ -78,11 +79,6 @@
     self.topBarMonsterView.center = ccp(container.frame.size.width/2, container.frame.size.height/2);
   }
   
-  self.chatViewController = [[ChatViewController alloc] init];
-  [self addChildViewController:self.chatViewController];
-  [self.view addSubview:self.chatViewController.view];
-  [self.chatViewController closeAnimated:NO];
-  
   self.cashBar.isRightToLeft = YES;
   self.oilBar.isRightToLeft = YES;
   
@@ -110,25 +106,44 @@
 }
 
 - (void) viewWillAppear:(BOOL)animated {
-  [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(gameStateUpdated) name:GAMESTATE_UPDATE_NOTIFICATION object:nil];
+  [[NSNotificationCenter defaultCenter] removeObserver:self];
+  
+  NSNotificationCenter *center = [NSNotificationCenter defaultCenter];
+  [center addObserver:self selector:@selector(gameStateUpdated) name:GAMESTATE_UPDATE_NOTIFICATION object:nil];
   [self gameStateUpdated];
   
-  [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(updateMonsterViews) name:MY_TEAM_CHANGED_NOTIFICATION object:nil];
+  [center addObserver:self selector:@selector(updateMonsterViews) name:MY_TEAM_CHANGED_NOTIFICATION object:nil];
   [self updateMonsterViews];
   
-  [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(updateMailBadge) name:NEW_FB_INVITE_NOTIFICATION object:nil];
-  [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(updateMailBadge) name:FB_INVITE_RESPONDED_NOTIFICATION object:nil];
-  [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(updateMailBadge) name:NEW_BATTLE_HISTORY_NOTIFICATION object:nil];
-  [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(updateMailBadge) name:BATTLE_HISTORY_VIEWED_NOTIFICATION object:nil];
+  [center addObserver:self selector:@selector(updateMailBadge) name:NEW_FB_INVITE_NOTIFICATION object:nil];
+  [center addObserver:self selector:@selector(updateMailBadge) name:FB_INVITE_RESPONDED_NOTIFICATION object:nil];
+  [center addObserver:self selector:@selector(updateMailBadge) name:NEW_BATTLE_HISTORY_NOTIFICATION object:nil];
+  [center addObserver:self selector:@selector(updateMailBadge) name:BATTLE_HISTORY_VIEWED_NOTIFICATION object:nil];
   [self updateMailBadge];
   
-  [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(updateQuestBadge) name:QUESTS_CHANGED_NOTIFICATION object:nil];
-  [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(updateQuestBadge) name:ACHIEVEMENTS_CHANGED_NOTIFICATION object:nil];
+  [center addObserver:self selector:@selector(updateQuestBadge) name:QUESTS_CHANGED_NOTIFICATION object:nil];
+  [center addObserver:self selector:@selector(updateQuestBadge) name:ACHIEVEMENTS_CHANGED_NOTIFICATION object:nil];
   [self updateQuestBadge];
   
   self.updateTimer = [NSTimer timerWithTimeInterval:1.f target:self selector:@selector(updateLabels) userInfo:nil repeats:YES];
   [[NSRunLoop mainRunLoop] addTimer:self.updateTimer forMode:NSRunLoopCommonModes];
   [self updateLabels];
+  
+  if (!self.chatBottomView) {
+    [[NSBundle mainBundle] loadNibNamed:@"ChatBottomView" owner:self options:nil];
+    [self.chatBottomView openAnimated:NO];
+    
+    CGRect r = self.chatBottomView.frame;
+    r.size.width = self.view.frame.size.width;
+    self.chatBottomView.frame = r;
+  }
+  
+  [center addObserver:self selector:@selector(reloadChatViewAnimated) name:GLOBAL_CHAT_RECEIVED_NOTIFICATION object:nil];
+  [center addObserver:self selector:@selector(reloadChatViewAnimated) name:PRIVATE_CHAT_RECEIVED_NOTIFICATION object:nil];
+  [center addObserver:self selector:@selector(reloadChatViewAnimated) name:CLAN_CHAT_RECEIVED_NOTIFICATION object:nil];
+  [center addObserver:self selector:@selector(incrementClanBadge) name:CLAN_CHAT_RECEIVED_NOTIFICATION object:nil];
+  [center addObserver:self selector:@selector(clanChatsViewed) name:CLAN_CHAT_VIEWED_NOTIFICATION object:nil];
+  [center addObserver:self selector:@selector(privateChatViewed) name:PRIVATE_CHAT_VIEWED_NOTIFICATION object:nil];
 }
 
 - (void) viewDidDisappear:(BOOL)animated {
@@ -152,6 +167,25 @@
 
 - (void) removeClanView {
   self.clanView.alpha = 0.f;
+}
+
+- (void) incrementClanBadge {
+  _clanChatBadgeNum++;
+  
+  if (self.chatBottomView.chatScope != ChatScopeClan) {
+    _shouldShowClanDotOnBotView = YES;
+    [self.chatBottomView reloadDataAnimated];
+  }
+}
+
+- (void) clanChatsViewed {
+  _clanChatBadgeNum = 0;
+  _shouldShowClanDotOnBotView = NO;
+  [self.chatBottomView reloadDataAnimated];
+}
+
+- (void) privateChatViewed {
+  [self.chatBottomView reloadDataAnimated];
 }
 
 - (void) updateMailBadge {
@@ -224,34 +258,123 @@
 
 - (void) replaceChatViewWithView:(MapBotView *)view {
   if (self.curViewOverChatView) {
-    MapBotView *v = self.curViewOverChatView;
-    [v animateOut:^{
-      [v removeFromSuperview];
-      if (self.curViewOverChatView == v) {
-        self.curViewOverChatView = nil;
-        [self addNewView:view];
-      }
-    }];
+    if (self.curViewOverChatView != view) {
+      MapBotView *v = self.curViewOverChatView;
+      [v animateOut:^{
+        [v removeFromSuperview];
+        if (self.curViewOverChatView == v) {
+          self.curViewOverChatView = nil;
+          [self addNewView:view];
+        }
+      }];
+    } else {
+      [view update];
+    }
   } else {
     [self addNewView:view];
   }
 }
 
 - (void) addNewView:(MapBotView *)view {
-  self.curViewOverChatView = view;
-  [self.view insertSubview:self.curViewOverChatView atIndex:0];
-  self.curViewOverChatView.center = ccp(self.view.frame.size.width/2, self.view.frame.size.height-view.frame.size.height/2);
-  [view animateIn:nil];
+  if (view) {
+    self.curViewOverChatView = view;
+    [self.view insertSubview:self.curViewOverChatView atIndex:0];
+    self.curViewOverChatView.center = ccp(self.view.frame.size.width/2, self.view.frame.size.height-view.frame.size.height/2);
+    [view animateIn:nil];
+  }
 }
 
 - (void) removeViewOverChatView {
-  MapBotView *v = self.curViewOverChatView;
-  [v animateOut:^{
-    [v removeFromSuperview];
-    if (self.curViewOverChatView == v) {
-      self.curViewOverChatView = nil;
+  [self replaceChatViewWithView:self.chatBottomView];
+  //MapBotView *v = self.curViewOverChatView;
+  //[v animateOut:^{
+  //  [v removeFromSuperview];
+  //  if (self.curViewOverChatView == v) {
+  //    self.curViewOverChatView = nil;
+  //  }
+  //}];
+}
+
+#pragma mark Chat Bottom View delegate
+
+- (void) reloadChatViewAnimated {
+  [self.chatBottomView reloadDataAnimated];
+}
+
+- (void) updateMapBotView:(ChatBottomView *)botView {
+  [botView reloadData];
+}
+
+- (int) numChatsAvailableForScope:(ChatScope)scope {
+  GameState *gs = [GameState sharedGameState];
+  if (scope == ChatScopeGlobal) {
+    return gs.globalChatMessages.count;
+  } else if (scope == ChatScopeClan) {
+    return gs.clanChatMessages.count;
+  } else if (scope == ChatScopePrivate) {
+    return gs.privateChats.count;
+  }
+  return 0;
+}
+
+- (ChatMessage *) chatMessageForLineNum:(int)lineNum scope:(ChatScope)scope {
+  GameState *gs = [GameState sharedGameState];
+  if (scope == ChatScopeGlobal) {
+    return gs.globalChatMessages[gs.globalChatMessages.count-lineNum-1];
+  } else if (scope == ChatScopeClan) {
+    return gs.clanChatMessages[gs.clanChatMessages.count-lineNum-1];
+  } else if (scope == ChatScopePrivate) {
+    PrivateChatPostProto *post = gs.privateChats[lineNum];
+    
+    ChatMessage *cm = [[ChatMessage alloc] init];
+    cm.sender = post.poster;
+    cm.date = [MSDate dateWithTimeIntervalSince1970:post.timeOfPost/1000.];
+    cm.message = post.content;
+    
+    return cm;
+  }
+  return nil;
+}
+
+- (BOOL) shouldShowNotificationDotForScope:(ChatScope)scope {
+  GameState *gs = [GameState sharedGameState];
+  if (scope == ChatScopePrivate) {
+    int privBadge = 0;
+    for (PrivateChatPostProto *p in gs.privateChats) {
+      if (p.isUnread) {
+        privBadge++;
+      }
     }
-  }];
+    return privBadge > 0;
+  } else if (scope == ChatScopeClan) {
+    return _shouldShowClanDotOnBotView;
+  }
+  return NO;
+}
+
+- (void) willSwitchToScope:(ChatScope)scope {
+  if (scope == ChatScopeClan) {
+    _shouldShowClanDotOnBotView = NO;
+  }
+}
+
+- (void) bottomViewClicked {
+  GameViewController *gvc = (GameViewController *)self.parentViewController;
+  ChatViewController *cvc = [[ChatViewController alloc] init];
+  [gvc addChildViewController:cvc];
+  cvc.view.frame = gvc.view.bounds;
+  [gvc.view addSubview:cvc.view];
+  
+  cvc.clanBadgeIcon.badgeNum = _clanChatBadgeNum;
+  
+  ChatScope scope = self.chatBottomView.chatScope;
+  if (scope == ChatScopeGlobal) {
+    [cvc button1Clicked:nil];
+  } else if (scope == ChatScopeClan) {
+    [cvc button2Clicked:nil];
+  } else if (scope == ChatScopePrivate) {
+    [cvc button3Clicked:nil];
+  }
 }
 
 #pragma mark - IBActions

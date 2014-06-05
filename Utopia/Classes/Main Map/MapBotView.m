@@ -25,8 +25,14 @@
   }];
 }
 
+- (void) update {
+  if ([self.delegate respondsToSelector:@selector(updateMapBotView:)]) {
+    [self.delegate updateMapBotView:self];
+  }
+}
+
 - (void) animateIn:(void (^)())block {
-  [self.delegate updateMapBotView:self];
+  [self update];
   
   self.bgdView.alpha = 0.f;
   [UIView animateWithDuration:ANIMATION_SPEED+ANIMATION_DELAY*self.animateViews.count delay:0.f options:UIViewAnimationOptionCurveEaseInOut animations:^{

@@ -11,22 +11,103 @@
 #import "GameState.h"
 #import "UnreadNotifications.h"
 
+@implementation ChatPopoverView
+
+- (void) awakeFromNib {
+  self.layer.anchorPoint = ccp(0.2578, 1);
+}
+
+- (void) openAtPoint:(CGPoint)pt {
+  [self close:^{
+    self.hidden = NO;
+    self.center = pt;
+    
+    self.alpha = 0.f;
+    self.transform = CGAffineTransformMakeScale(0.f, 0.f);
+    [UIView animateWithDuration:0.2f animations:^{
+      self.alpha = 1.f;
+      self.transform = CGAffineTransformIdentity;
+    }];
+  }];
+}
+
+- (void) close {
+  [self close:nil];
+}
+
+- (void) close:(void (^)(void))completion {
+  if (!self.hidden) {
+    [UIView animateWithDuration:0.1f animations:^{
+      self.transform = CGAffineTransformMakeScale(0.f, 0.f);
+      self.alpha = 0.f;
+    } completion:^(BOOL finished) {
+      self.hidden = YES;
+      self.transform = CGAffineTransformIdentity;
+      if (completion) {
+        completion();
+      }
+    }];
+  } else {
+    if (completion) {
+      completion();
+    }
+  }
+}
+
+- (IBAction)profileClicked:(id)sender {
+  [self.delegate profileClicked];
+  [self close];
+}
+
+- (IBAction)messageClicked:(id)sender {
+  [self.delegate messageClicked];
+  [self close];
+}
+
+- (IBAction)muteClicked:(id)sender {
+  [self.delegate muteClicked];
+  [self close];
+}
+
+@end
+
 @implementation ChatView
+
+- (void) awakeFromNib {
+  self.originalBottomViewRect = self.bottomView.frame;
+  
+  self.chatTable.contentInset = UIEdgeInsetsMake(5, 0, 0, 0);
+}
 
 - (void) updateForChats:(NSArray *)chats animated:(BOOL)animated {
   NSInteger oldCount = self.chats.count;
   self.chats = chats;
   NSInteger newCount = self.chats.count;
   
+  NSIndexPath *lastIp = [NSIndexPath indexPathForRow:newCount-1 inSection:0];
+  BOOL shouldScrollToBottom = NO;
   if (animated && oldCount < newCount) {
     NSMutableArray *indexes = [NSMutableArray array];
-    for (int i = 0; i+oldCount < newCount; i++) {
+    for (int i = oldCount; i < newCount; i++) {
       [indexes addObject:[NSIndexPath indexPathForRow:i inSection:0]];
     }
-    [self.chatTable insertRowsAtIndexPaths:indexes withRowAnimation:UITableViewRowAnimationTop];
+    [self.chatTable insertRowsAtIndexPaths:indexes withRowAnimation:UITableViewRowAnimationBottom];
+    
+    if (self.chatTable.contentOffset.y > self.chatTable.contentSize.height-self.chatTable.frame.size.height-100) {
+      shouldScrollToBottom = YES;
+    }
   } else {
     [self.chatTable reloadData];
+    [self closePopover];
+    shouldScrollToBottom = YES;
   }
+  
+  if (shouldScrollToBottom && newCount) {
+    [self.chatTable scrollToRowAtIndexPath:lastIp atScrollPosition:UITableViewScrollPositionBottom animated:animated];
+  }
+  
+  GameState *gs = [GameState sharedGameState];
+  [self.monsterView updateForMonsterId:gs.avatarMonsterId];
 }
 
 - (IBAction)sendChatClicked:(id)sender {
@@ -36,20 +117,39 @@
   }
 }
 
-- (IBAction)nameClicked:(id)sender {
-  while (sender && ![sender isKindOfClass:[ChatCell class]]) {
-    sender = [sender superview];
-  }
-  ChatCell *cell = (ChatCell *)sender;
-  [self.delegate profileClicked:cell.chatMessage.sender.minUserProto.userId];
+#pragma mark - Popover delegate
+
+- (void) displayPopoverOverCell:(ChatCell *)cell {
+  CGPoint pt = [self.popoverView.superview convertPoint:cell.bubbleAlignView.frame.origin fromView:cell.bubbleAlignView.superview];
+  pt.x += self.popoverView.layer.anchorPoint.x*self.popoverView.frame.size.width;
+  [self.popoverView openAtPoint:pt];
+  self.popoverView.delegate = self;
+  
+  _clickedMsg = cell.chatMessage;
 }
 
-- (IBAction)clanClicked:(id)sender {
-  while (sender && ![sender isKindOfClass:[ChatCell class]]) {
-    sender = [sender superview];
+- (void) closePopover {
+  [self.popoverView close];
+  _clickedMsg = nil;
+}
+
+- (void) profileClicked {
+  if (_clickedMsg) {
+    [self.delegate profileClicked:_clickedMsg.sender.minUserProto.userId];
   }
-  ChatCell *cell = (ChatCell *)sender;
-  [self.delegate clanClicked:cell.chatMessage.sender.minUserProto.clan];
+}
+
+- (void) messageClicked {
+  if (_clickedMsg) {
+    MinimumUserProto *mup = _clickedMsg.sender.minUserProto;
+    [self.delegate beginPrivateChatWithUserId:mup.userId name:mup.name];
+  }
+}
+
+- (void) muteClicked {
+  if (_clickedMsg) {
+    [self.delegate muteClicked:_clickedMsg.sender.minUserProto.userId name:_clickedMsg.sender.minUserProto.name];
+  }
 }
 
 #pragma mark - TextField delegate methods
@@ -79,7 +179,7 @@
   return @"ChatCell";
 }
 
-- (BOOL) showsClanButton {
+- (BOOL) showsClanTag {
   return YES;
 }
 
@@ -89,15 +189,9 @@
   if (!cell) {
     [[NSBundle mainBundle] loadNibNamed:[self cellClassName] owner:self options:nil];
     cell = self.chatCell;
-    
-    if (![self showsClanButton]) {
-      [cell.clanButton.superview removeFromSuperview];
-      cell.clanButton = nil;
-      cell.shieldIcon = nil;
-    }
   }
   
-  [cell updateForChat:self.chats[indexPath.row]];
+  [cell updateForChat:self.chats[indexPath.row] showsClanTag:[self showsClanTag]];
   
   return cell;
 }
@@ -110,17 +204,32 @@
   }
 }
 
-- (CGFloat) tableView:(UITableView *)tableView estimatedHeightForRowAtIndexPath:(NSIndexPath *)indexPath {
-  [self checkIfDimensionsLoaded];
-  return msgLabelInitialFrame.size.height;
-}
-
 - (CGFloat) tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
   [self checkIfDimensionsLoaded];
   NSString *msg = [self.chats[indexPath.row] message];
   CGSize size = [msg sizeWithFont:msgLabelFont constrainedToSize:CGSizeMake(msgLabelInitialFrame.size.width, 999) lineBreakMode:NSLineBreakByWordWrapping];
-  float height = size.height+msgLabelInitialFrame.origin.y+20.f;
+  float height = size.height+msgLabelInitialFrame.origin.y+14.f;
   return height;
+}
+
+- (void) tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+  
+  if (self.popoverView.hidden) {
+    ChatCell *cell = (ChatCell *)[tableView cellForRowAtIndexPath:indexPath];
+    
+    GameState *gs = [GameState sharedGameState];
+    if (cell.chatMessage.sender.minUserProto.userId != gs.userId) {
+      [self.chatTable scrollToRowAtIndexPath:[self.chatTable indexPathForCell:cell] atScrollPosition:UITableViewScrollPositionNone animated:NO];
+      [self displayPopoverOverCell:cell];
+    }
+  } else {
+    [self.popoverView close];
+  }
+}
+
+- (void) scrollViewDidScroll:(UIScrollView *)scrollView {
+  [self.popoverView close];
+  _clickedMsg = nil;
 }
 
 - (void) dealloc {
@@ -143,10 +252,10 @@
 
 @implementation ClanChatView
 
-- (void) updateForChats:(NSArray *)chats andClan:(MinimumClanProto *)clan {
+- (void) updateForChats:(NSArray *)chats andClan:(MinimumClanProto *)clan animated:(BOOL)animated {
   GameState *gs = [GameState sharedGameState];
   
-  [self updateForChats:chats animated:YES];
+  [self updateForChats:chats animated:animated];
   
   self.clan = clan;
   
@@ -159,10 +268,6 @@
   self.mainView.hidden = clan == nil;
 }
 
-- (IBAction)infoClicked:(id)sender {
-  [self.delegate clanClicked:self.clan];
-}
-
 - (IBAction)sendChatClicked:(id)sender {
   if (self.textField.text.length > 0) {
     [[OutgoingEventController sharedOutgoingEventController] sendGroupChat:GroupChatScopeClan message:self.textField.text];
@@ -170,7 +275,7 @@
   [super sendChatClicked:sender];
 }
 
-- (BOOL) showsClanButton {
+- (BOOL) showsClanTag {
   return NO;
 }
 
@@ -178,11 +283,20 @@
 
 @implementation PrivateChatView
 
+- (void) awakeFromNib {
+  [super awakeFromNib];
+  self.backView.alpha = 0.f;
+  [self.backView.superview bringSubviewToFront:self.backView];
+}
+
 - (void) updateForPrivateChatList:(NSArray *)privateChats {
   self.privateChatList = privateChats;
   [self.listTable reloadData];
   
   self.emptyListLabel.hidden = privateChats.count > 0;
+  
+  GameState *gs = [GameState sharedGameState];
+  [self.monsterView updateForMonsterId:gs.avatarMonsterId];
 }
 
 - (void) loadListViewAnimated:(BOOL)animated {
@@ -195,11 +309,13 @@
   if (animated) {
     [UIView animateWithDuration:0.3f animations:^{
       self.frame = r;
+      self.backView.alpha = 0.f;
     } completion:^(BOOL finished) {
       [self.chatTable reloadData];
     }];
   } else {
     self.frame = r;
+    self.backView.alpha = 0.f;
     [self.chatTable reloadData];
   }
 }
@@ -212,9 +328,11 @@
   if (animated) {
     [UIView animateWithDuration:0.3f animations:^{
       self.frame = r;
+      self.backView.alpha = 1.f;
     }];
   } else {
     self.frame = r;
+    self.backView.alpha = 1.f;
   }
 }
 
@@ -222,16 +340,22 @@
   [self loadListViewAnimated:YES];
 }
 
-- (void) openConversationWithUserId:(int)userId animated:(BOOL)animated {
+- (void) openConversationWithUserId:(int)userId name:(NSString *)name animated:(BOOL)animated {
   GameState *gs = [GameState sharedGameState];
-  if (gs.userId != userId) {
-    [[OutgoingEventController sharedOutgoingEventController] retrievePrivateChatPosts:userId delegate:self];
-    [self loadConversationViewAnimated:animated];
-    self.curUserId = userId;
-    _isLoading = YES;
-    [self.chatTable reloadData];
+  if (self.curUserId != userId) {
+    if (gs.userId != userId) {
+      [[OutgoingEventController sharedOutgoingEventController] retrievePrivateChatPosts:userId delegate:self];
+      [self loadConversationViewAnimated:animated];
+      self.curUserId = userId;
+      _isLoading = YES;
+      [self.chatTable reloadData];
+      
+      self.titleLabel.text = name;
+    } else {
+      [self loadListViewAnimated:animated];
+    }
   } else {
-    [self loadListViewAnimated:animated];
+    [Globals addAlertNotification:[NSString stringWithFormat:@"You are already messaging %@.", name]];
   }
 }
 
@@ -283,7 +407,7 @@
   }
 }
 
-- (BOOL) showsClanButton {
+- (BOOL) showsClanTag {
   return NO;
 }
 
@@ -321,14 +445,6 @@
   return cell;
 }
 
-- (CGFloat) tableView:(UITableView *)tableView estimatedHeightForRowAtIndexPath:(NSIndexPath *)indexPath {
-  if (tableView == self.chatTable) {
-    return [super tableView:tableView estimatedHeightForRowAtIndexPath:indexPath];
-  }
-  
-  return self.listTable.rowHeight;
-}
-
 - (CGFloat) tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
   if (tableView == self.chatTable) {
     return [super tableView:tableView heightForRowAtIndexPath:indexPath];
@@ -342,7 +458,7 @@
     [tableView deselectRowAtIndexPath:indexPath animated:NO];
     
     PrivateChatPostProto *post = self.privateChatList[indexPath.row];
-    [self openConversationWithUserId:post.otherUserId animated:YES];
+    [self openConversationWithUserId:post.otherUser.userId name:post.otherUser.name animated:YES];
     [post markAsRead];
     
     [self.delegate viewedPrivateChat];

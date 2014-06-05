@@ -43,6 +43,9 @@
 #define GLOBAL_CHAT_RECEIVED_NOTIFICATION @"GlobalChatReceivedNotification"
 #define CLAN_CHAT_RECEIVED_NOTIFICATION @"ClanChatReceivedNotification"
 #define PRIVATE_CHAT_RECEIVED_NOTIFICATION @"PrivateChatReceivedNotification"
+#define PRIVATE_CHAT_VIEWED_NOTIFICATION @"PrivateChatViewedNotification"
+#define CLAN_CHAT_VIEWED_NOTIFICATION @"ClanChatViewedNotification"
+
 #define NEW_FB_INVITE_NOTIFICATION @"NewFbInviteNotification"
 #define FB_INVITE_RESPONDED_NOTIFICATION @"FbInviteRespondedNotification"
 #define NEW_BATTLE_HISTORY_NOTIFICATION @"NewBattleHistoryNotification"
@@ -57,7 +60,7 @@
 
 #define MY_CLAN_MEMBERS_LIST_KEY @"MyMembersList"
 #define CLAN_RAID_ATTACK_KEY @"ClanRaidAttackKey"
-
+#define MUTED_PLAYERS_KEY @"MutedPlayersKey"
 
 #ifdef LEGENDS_OF_CHAOS
 #define GAME_NAME @"Legends of Chaos"
@@ -285,6 +288,10 @@
 + (void) adjustView:(UIView *)view withLabel:(UILabel *)label forXAnchor:(float)xAnchor;
 
 - (InAppPurchasePackageProto *) packageForProductId:(NSString *)pid;
+
+- (void) muteUserId:(int)userId;
+- (BOOL) isUserIdMuted:(int)userId;
+- (void) unmuteAllPlayers;
 
 @end
 
