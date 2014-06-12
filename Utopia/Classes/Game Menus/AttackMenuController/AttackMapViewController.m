@@ -68,20 +68,6 @@
     [self dropLeagueIcon];
     [gs currentLeagueWasShown];
   }
-  
-//    CAKeyframeAnimation *kf = [CAKeyframeAnimation animationWithKeyPath:@"position" function:BounceEaseOut
-//                                                              fromPoint:ccp(-self.multiplayerView.frame.size.width/2, self.multiplayerView.center.y)
-//                                                                toPoint:ccp(self.multiplayerView.frame.size.width/2, self.multiplayerView.center.y) keyframeCount:150];
-//    kf.duration = 1.6f;
-//    kf.delegate = self;
-//    [self.multiplayerView.layer addAnimation:kf forKey:@"bounce"];
-//    
-//    kf = [CAKeyframeAnimation animationWithKeyPath:@"position" function:BounceEaseOut
-//                                         fromPoint:ccp(self.view.frame.size.width+self.pveView.frame.size.width/2, self.pveView.center.y)
-//                                           toPoint:ccp(self.view.frame.size.width-self.pveView.frame.size.width/2, self.pveView.center.y) keyframeCount:150];
-//    kf.duration = 1.6f;
-//    kf.delegate = self;
-//    [self.pveView.layer addAnimation:kf forKey:@"bounce"];
 }
 
 - (void) dropLeagueIcon {

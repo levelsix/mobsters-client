@@ -14,6 +14,7 @@
 #import "MonsterPopUpViewController.h"
 #import "GenericPopupController.h"
 #import "AchievementUtil.h"
+#import "QuestUtil.h"
 
 #define TABLE_CELL_WIDTH 108
 #define HEADER_OFFSET 8
@@ -461,6 +462,8 @@
     BOOL success = [[OutgoingEventController sharedOutgoingEventController] combineMonsterWithSpeedup:cell.monster.userMonsterId];
     if (success) {
       [self reloadTableAnimated:YES];
+      
+      [QuestUtil checkAllDonateQuests];
     }
   }
 }
@@ -520,7 +523,7 @@
   if (success) {
     // Use this ordering so the new one appears in the queue, then table is reloaded after animation begins
     [self updateQueueViewAnimated:YES];
-    [self animateUserMonsterId:um];
+    [self animateUserMonster:um];
     [self reloadTableAnimated:YES];
     
     if (um.teamSlot) {
@@ -531,7 +534,7 @@
   }
 }
 
-- (void) animateUserMonsterId:(UserMonster *)um {
+- (void) animateUserMonster:(UserMonster *)um {
   int monsterIndex = (int)[self.injuredMonsters indexOfObject:um];
   MyCroniesCardCell *cardCell = (MyCroniesCardCell *)[self.inventoryTable viewAtIndexPath:[NSIndexPath indexPathForRow:monsterIndex inSection:0]];
   
@@ -650,7 +653,9 @@
       sellAmt += um.sellPrice;
     }
     
-    NSString *text = [NSString stringWithFormat:@"Would you like to sell these %d mobsters for %@?", (int)self.sellQueue.count, [Globals cashStringForNumber:sellAmt]];
+    int queueSize = (int)self.sellQueue.count;
+    NSString *amt = queueSize != 1 ? [NSString stringWithFormat:@"these %d mobsters", queueSize] : @"this mobster";
+    NSString *text = [NSString stringWithFormat:@"Would you like to sell %@ for %@?", amt, [Globals cashStringForNumber:sellAmt]];
     [GenericPopupController displayConfirmationWithDescription:text title:@"Sell Mobsters?" okayButton:@"Sell" cancelButton:@"Cancel" target:self selector:@selector(sell)];
   }
 }

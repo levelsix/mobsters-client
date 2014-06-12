@@ -18,16 +18,19 @@ PODS:
   - AFNetworking/UIKit (2.2.0):
     - AFNetworking/NSURLConnection
     - AFNetworking/NSURLSession
+  - GPUImage (0.1.4)
   - NRTouchPoints (0.1.0)
   - UIImage+BlurredFrame (0.0.4)
 
 DEPENDENCIES:
   - AFNetworking (~> 2.0)
+  - GPUImage
   - NRTouchPoints
   - UIImage+BlurredFrame
 
 SPEC CHECKSUMS:
   AFNetworking: 5f2538aa2d150b71d4e6cca3a420d796e1e1c374
+  GPUImage: ac2bde5f4dbea02a81ced6313964cec1f2043ca9
   NRTouchPoints: 27181c60de1320be3510948c363b25bc19e20145
   UIImage+BlurredFrame: 0c38f5760d72125c47d16001a88faaac573bd35d
 

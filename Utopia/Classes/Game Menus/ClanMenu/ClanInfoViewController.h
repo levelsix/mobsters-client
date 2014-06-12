@@ -90,7 +90,7 @@ typedef enum {
   ClanInfoSortOrderBattleWins,
 } ClanInfoSortOrder;
 
-@interface ClanInfoViewController : GenViewController <UITableViewDataSource, UITableViewDelegate, ClanInfoSettingsDelegate> {
+@interface ClanInfoViewController : UIViewController <UITableViewDataSource, UITableViewDelegate, ClanInfoSettingsDelegate> {
   ClanMemberCell *_curClickedCell;
   ClanInfoSettingsButtonView *_clickedButton;
   

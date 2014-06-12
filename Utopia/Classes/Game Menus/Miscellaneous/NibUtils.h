@@ -172,6 +172,10 @@ typedef enum {
 
 @end
 
+@interface NiceFontTextView17 : UITextView
+
+@end
+
 @interface FlipImageView : UIImageView
 
 @end
@@ -370,6 +374,7 @@ typedef enum {
 
 - (void) clickButton:(int)button;
 - (IBAction) buttonClicked:(id)sender;
+- (void) button:(int)button shouldBeHidden:(BOOL)hidden;
 
 @end
 

@@ -13,7 +13,7 @@
 #import "SettingsViewController.h"
 #import "CarpenterViewController.h"
 #import "MyCroniesViewController.h"
-#import "GachaponListViewController.h"
+#import "GachaponViewController.h"
 #import "GameState.h"
 #import "LabViewController.h"
 
@@ -54,7 +54,10 @@
 }
 
 - (IBAction)cratesClicked:(id)sender {
-  [self.navigationController pushViewController:[[GachaponListViewController alloc] init] animated:YES];
+  // Set the frame manually so featured views and such update properly
+  GachaponViewController *gvc = [[GachaponViewController alloc] init];
+  gvc.view.frame = self.view.bounds;
+  [self.navigationController pushViewController:gvc animated:YES];
 }
 
 - (IBAction)buildingsClicked:(id)sender {

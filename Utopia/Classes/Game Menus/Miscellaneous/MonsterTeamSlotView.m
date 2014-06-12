@@ -126,6 +126,10 @@
 }
 
 - (void) animateNewMonster:(UserMonster *)um {
+  [self.cardView.layer removeAllAnimations];
+  [self.rightView.layer removeAllAnimations];
+  [self.layer removeAllAnimations];
+  
   if ([self.monster isEqual:um]) {
     // Monster just started/stopped healing
     CATransition *animation = [CATransition animation];
@@ -147,7 +151,6 @@
     
     CAKeyframeAnimation *kf = [CAKeyframeAnimation animationWithKeyPath:@"position" function:BounceEaseOut fromPoint:ccpAdd(self.emptyIcon.center, ccp(0, -35)) toPoint:center keyframeCount:150];
     kf.duration = 0.5f;
-//    CAKeyframeAnimation *kf = [CAKeyframeAnimation dockBounceAnimationWithIconHeight:40.f];
     kf.delegate = self;
     [self.cardView.layer addAnimation:kf forKey:@"bounce"];
     
@@ -185,7 +188,9 @@
 }
 
 - (void) animationDidStop:(CAAnimation *)anim finished:(BOOL)flag {
-  [self updateForMyCroniesConfiguration:self.monster];
+  if (flag) {
+    [self updateForMyCroniesConfiguration:self.monster];
+  }
 }
 
 - (IBAction)minusClicked:(id)sender {
@@ -207,6 +212,11 @@
   [self addSubview:self.teamSlotView];
   self.teamSlotView.center = ccp(self.frame.size.width/2, self.frame.size.height/2);
   self.backgroundColor = [UIColor clearColor];
+}
+
+- (void) setFrame:(CGRect)frame {
+  [super setFrame:frame];
+  self.teamSlotView.center = ccp(self.frame.size.width/2, self.frame.size.height/2);
 }
 
 @end

@@ -151,6 +151,7 @@
 
 - (void) beginTutorial {
   [self.gameViewController.topBarViewController.mainView setHidden:YES];
+  [self.gameViewController.topBarViewController.chatBottomView setHidden:YES];
   
   self.touchView = [[TutorialTouchView alloc] initWithFrame:self.gameViewController.view.bounds];
   [self.gameViewController.view addSubview:self.touchView];
@@ -335,6 +336,7 @@
   [self.topBarViewController removeFromParentViewController];
   
   [self.gameViewController.topBarViewController.mainView setHidden:NO];
+  [self.gameViewController.topBarViewController.chatBottomView setHidden:NO];
   
   [self.touchView removeFromSuperview];
 }

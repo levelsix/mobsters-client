@@ -416,6 +416,14 @@
 
 @end
 
+@implementation NiceFontTextView17
+
+- (void) awakeFromNib {
+  self.font = [UIFont fontWithName:@"Whitney-SemiboldItalic" size:self.font.pointSize];
+}
+
+@end
+
 @implementation FlipImageView
 
 - (void) awakeFromNib {
@@ -991,6 +999,24 @@
       [self.delegate button3Clicked:sender];
     }
   }
+}
+
+- (void) button:(int)button shouldBeHidden:(BOOL)hidden {
+  UILabel *label = nil;
+  UIImageView *icon = nil;
+  if (button == 1) {
+    label = self.label1;
+    icon = self.icon1;
+  } else if (button == 2) {
+    label = self.label2;
+    icon = self.icon2;
+  } else if (button == 3) {
+    label = self.label3;
+    icon = self.icon3;
+  }
+  label.hidden = hidden;
+  icon.hidden = hidden;
+  [[self viewWithTag:button] setHidden:hidden];
 }
 
 @end

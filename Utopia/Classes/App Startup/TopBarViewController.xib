@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="5053" systemVersion="12F45" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="5056" systemVersion="12F45" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none">
     <dependencies>
         <deployment defaultVersion="1536" identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="3733"/>
@@ -110,11 +110,11 @@
                             </connections>
                         </button>
                         <view contentMode="scaleToFill" id="El6-L4-OGg" userLabel="Home">
-                            <rect key="frame" x="508" y="207" width="53" height="64"/>
+                            <rect key="frame" x="509" y="214" width="51" height="53"/>
                             <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMinY="YES"/>
                             <subviews>
                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="59Z-cS-Cz1" customClass="GeneralButton">
-                                    <rect key="frame" x="-1" y="-1" width="55" height="65"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="51" height="51"/>
                                     <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMinY="YES"/>
                                     <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
                                     <state key="normal" backgroundImage="homebutton.png">
@@ -128,6 +128,15 @@
                                         <action selector="myCityClicked:" destination="-1" eventType="touchUpInside" id="6BU-6C-FaQ"/>
                                     </connections>
                                 </button>
+                                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Home" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" id="NJL-mM-HLl" customClass="NiceFontLabel12">
+                                    <rect key="frame" x="0.0" y="29" width="51" height="21"/>
+                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                    <fontDescription key="fontDescription" type="system" pointSize="10"/>
+                                    <color key="textColor" red="0.23921568630000001" green="0.44705882349999998" blue="0.0039215686269999999" alpha="1" colorSpace="calibratedRGB"/>
+                                    <nil key="highlightedColor"/>
+                                    <color key="shadowColor" red="0.99215686270000003" green="1" blue="0.37254901959999998" alpha="0.75" colorSpace="calibratedRGB"/>
+                                    <size key="shadowOffset" width="0.0" height="1"/>
+                                </label>
                             </subviews>
                             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                         </view>
@@ -176,20 +185,20 @@
                             </subviews>
                             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                         </view>
-                        <view hidden="YES" contentMode="scaleToFill" id="nah-33-Plg" userLabel="Clan">
-                            <rect key="frame" x="517" y="222" width="44" height="44"/>
+                        <view contentMode="scaleToFill" id="nah-33-Plg" userLabel="Clan">
+                            <rect key="frame" x="518" y="224" width="44" height="42"/>
                             <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMinY="YES"/>
                             <subviews>
-                                <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="inaclanbutton.png" id="Seo-k3-0Jo">
-                                    <rect key="frame" x="6" y="5" width="38" height="44"/>
+                                <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="homeclanbutton.png" id="Seo-k3-0Jo">
+                                    <rect key="frame" x="6" y="5" width="36" height="36"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                 </imageView>
-                                <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleAspectFit" image="shield.png" id="i7f-hM-D6z">
-                                    <rect key="frame" x="13" y="10" width="24" height="27"/>
+                                <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleAspectFit" image="noclanlilguys.png" id="i7f-hM-D6z">
+                                    <rect key="frame" x="12" y="9" width="24" height="27"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                 </imageView>
                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="GHk-L0-K49" customClass="MaskedButton">
-                                    <rect key="frame" x="6" y="5" width="38" height="44"/>
+                                    <rect key="frame" x="6" y="5" width="36" height="36"/>
                                     <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMinY="YES"/>
                                     <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
                                     <state key="normal">
@@ -314,7 +323,7 @@
                             <rect key="frame" x="430" y="0.0" width="138" height="109"/>
                             <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxY="YES"/>
                             <subviews>
-                                <view contentMode="scaleToFill" id="VpU-1c-UPu">
+                                <view contentMode="scaleToFill" id="VpU-1c-UPu" userLabel="Cash">
                                     <rect key="frame" x="5" y="7" width="151" height="38"/>
                                     <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxY="YES"/>
                                     <subviews>
@@ -374,7 +383,7 @@
                                     </subviews>
                                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                 </view>
-                                <view contentMode="scaleToFill" id="cN7-iW-rjC">
+                                <view contentMode="scaleToFill" id="cN7-iW-rjC" userLabel="Oil">
                                     <rect key="frame" x="5" y="40" width="151" height="38"/>
                                     <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxY="YES"/>
                                     <subviews>
@@ -434,7 +443,7 @@
                                     </subviews>
                                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                 </view>
-                                <view contentMode="scaleToFill" id="2Q7-bV-IcA">
+                                <view contentMode="scaleToFill" id="2Q7-bV-IcA" userLabel="Gems">
                                     <rect key="frame" x="31" y="77" width="102" height="32"/>
                                     <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxY="YES"/>
                                     <subviews>
@@ -480,11 +489,11 @@
                             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                         </view>
                         <view contentMode="scaleToFill" id="cL0-yI-Pkw" userLabel="Jobs">
-                            <rect key="frame" x="6" y="76" width="62" height="67"/>
+                            <rect key="frame" x="6" y="73" width="58" height="60"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             <subviews>
                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="8Kk-oa-rxb" customClass="GeneralButton">
-                                    <rect key="frame" x="1" y="4" width="56" height="61"/>
+                                    <rect key="frame" x="0.0" y="9" width="51" height="51"/>
                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                     <state key="normal" backgroundImage="jobsbutton.png">
                                         <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
@@ -494,7 +503,7 @@
                                     </connections>
                                 </button>
                                 <view contentMode="scaleToFill" id="FXC-S5-i6S" customClass="BadgeIcon">
-                                    <rect key="frame" x="44" y="0.0" width="18" height="18"/>
+                                    <rect key="frame" x="40" y="0.0" width="18" height="18"/>
                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                     <subviews>
                                         <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="badgeicon.png" id="DfK-vG-zx0">
@@ -516,6 +525,15 @@
                                         <outlet property="badgeLabel" destination="KPE-V0-2C9" id="aLx-4H-6vO"/>
                                     </connections>
                                 </view>
+                                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Jobs" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" id="jgE-M7-8oq" customClass="NiceFontLabel12">
+                                    <rect key="frame" x="4" y="38" width="42" height="21"/>
+                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                    <fontDescription key="fontDescription" type="system" pointSize="10"/>
+                                    <color key="textColor" red="0.23921568630000001" green="0.44705882349999998" blue="0.0039215686269999999" alpha="1" colorSpace="calibratedRGB"/>
+                                    <nil key="highlightedColor"/>
+                                    <color key="shadowColor" red="0.99215686270000003" green="1" blue="0.37254901959999998" alpha="0.75" colorSpace="calibratedRGB"/>
+                                    <size key="shadowOffset" width="0.0" height="1"/>
+                                </label>
                             </subviews>
                             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                         </view>
@@ -615,9 +633,9 @@
         <image name="cashmiddle.png" width="1" height="18"/>
         <image name="diamond.png" width="29" height="27"/>
         <image name="diamondbar.png" width="72" height="18"/>
-        <image name="homebutton.png" width="55" height="65"/>
-        <image name="inaclanbutton.png" width="38" height="44"/>
-        <image name="jobsbutton.png" width="55" height="58"/>
+        <image name="homebutton.png" width="51" height="51"/>
+        <image name="homeclanbutton.png" width="36" height="36"/>
+        <image name="jobsbutton.png" width="51" height="51"/>
         <image name="levelicon.png" width="30" height="30"/>
         <image name="levelxpbglong.png" width="118" height="18"/>
         <image name="mailbutton.png" width="38" height="44"/>
@@ -625,10 +643,10 @@
         <image name="mainmenu.png" width="106" height="47"/>
         <image name="moneystack.png" width="31" height="30"/>
         <image name="myteambg.png" width="244" height="32"/>
+        <image name="noclanlilguys.png" width="25" height="18"/>
         <image name="oilcap.png" width="4" height="18"/>
         <image name="oilicon.png" width="25" height="30"/>
         <image name="oilmiddle.png" width="1" height="18"/>
-        <image name="shield.png" width="31" height="34"/>
         <image name="shieldon.png" width="29" height="32"/>
         <image name="xpcap.png" width="4" height="18"/>
         <image name="xpmiddle.png" width="1" height="18"/>

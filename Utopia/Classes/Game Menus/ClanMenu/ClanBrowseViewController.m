@@ -141,7 +141,7 @@
       [arr addObject:fcp];
     }
   }
-  [browseClansTable reloadData];
+  [self.browseClansTable reloadData];
 }
 
 - (NSMutableArray *) arrayForCurrentState {

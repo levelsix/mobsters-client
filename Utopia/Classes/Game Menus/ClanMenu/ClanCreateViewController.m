@@ -86,9 +86,6 @@
   GameState *gs = [GameState sharedGameState];
   Globals *gl = [Globals sharedGlobals];
   
-  [self setUpCloseButton];
-  [self setUpImageBackButton];
-  
   if (_isEditMode) {
     if (self.clan.clan.requestToJoinRequired) {
       [self typeButtonClicked:nil];
@@ -122,14 +119,10 @@
   }
 }
 
-- (void) willMoveToParentViewController:(UIViewController *)parent {
-  if (!parent) {
-    [[OutgoingEventController sharedOutgoingEventController] unregisterClanEventDelegate:self];
-  }
-}
-
 - (void) viewWillDisappear:(BOOL)animated {
   [self.iconChooserView close:nil];
+  
+  [[OutgoingEventController sharedOutgoingEventController] unregisterClanEventDelegate:self];
 }
 
 - (void) loadClanCreationView {
@@ -294,7 +287,7 @@
 }
 
 - (void) goBack {
-  [super menuBackClicked:nil];
+//  [super menuBackClicked:nil];
 }
 
 - (IBAction)menuCloseClicked:(id)sender {
@@ -309,7 +302,7 @@
 }
 
 - (void) close {
-  [super menuCloseClicked:nil];
+//  [super menuCloseClicked:nil];
 }
 
 #pragma mark - Response handlers

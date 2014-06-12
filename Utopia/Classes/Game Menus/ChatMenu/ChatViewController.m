@@ -252,12 +252,10 @@
 
 - (IBAction)findClanClicked:(id)sender {
   UIViewController *gvc = [GameViewController baseController];
-  MenuNavigationController *m = [[MenuNavigationController alloc] init];
-  [gvc presentViewController:m animated:YES completion:nil];
   ClanViewController *cvc = [[ClanViewController alloc] init];
-  [m pushViewController:cvc animated:NO];
-  
-  [self closeClicked:nil];
+  [gvc addChildViewController:cvc];
+  cvc.view.frame = gvc.view.bounds;
+  [gvc.view addSubview:cvc.view];
 }
 
 - (void) viewedPrivateChat {
@@ -288,7 +286,7 @@
     r.origin.y = cv.bottomView.frame.origin.y-MIN(cv.chatTable.contentSize.height+cv.chatTable.contentInset.top, r.size.height);
     cv.chatTable.frame = r;
     
-    int numRows = [cv.chatTable numberOfRowsInSection:0];
+    int numRows = (int)[cv.chatTable numberOfRowsInSection:0];
     if (numRows > 0) {
       [cv.chatTable scrollToRowAtIndexPath:[NSIndexPath indexPathForRow:numRows-1 inSection:0] atScrollPosition:UITableViewScrollPositionBottom animated:NO];
     }

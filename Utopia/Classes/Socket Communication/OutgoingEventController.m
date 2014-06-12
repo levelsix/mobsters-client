@@ -28,7 +28,7 @@
 #define CASH_AND_OIL_CODE @"greedisgood"
 #define GEMS_CODE @"gemsgalore"
 #define RESET_CODE @"cleanslate"
-#define UNMUTE_CODE @"openears"
+#define UNMUTE_CODE @"allears"
 
 #define  LVL6_SHARED_SECRET @"mister8conrad3chan9is1a2very4great5man"
 

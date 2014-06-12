@@ -130,7 +130,7 @@
     Globals *gl = [Globals sharedGlobals];
     
     self.nameLabel.text = c.clan.name;
-    self.membersLabel.text = [NSString stringWithFormat:@"Members: %d/%d", c.clanSize, gl.maxClanSize];
+    self.membersLabel.text = [NSString stringWithFormat:@"%d/%d MEM.", c.clanSize, gl.maxClanSize];
     self.descriptionView.text = c.clan.description;
     
     ClanIconProto *icon = [gs clanIconWithId:c.clan.clanIconId];
@@ -270,9 +270,6 @@
 }
 
 - (void) viewDidLoad {
-  [self setUpCloseButton];
-  [self setUpImageBackButton];
-  
   [self.infoTable addSubview:self.loadingMembersView];
   [self.infoView loadForClan:self.clan clanStatus:0];
   
@@ -281,12 +278,8 @@
 
 - (void) viewWillDisappear:(BOOL)animated {
   [self.settingsView removeFromSuperview];
-}
-
-- (void) willMoveToParentViewController:(UIViewController *)parent {
-  if (!parent) {
-    [[OutgoingEventController sharedOutgoingEventController] unregisterClanEventDelegate:self];
-  }
+  
+  [[OutgoingEventController sharedOutgoingEventController] unregisterClanEventDelegate:self];
 }
 
 - (void) loadForMyClan {
@@ -871,10 +864,6 @@
   if (proto.status == LeaveClanResponseProto_LeaveClanStatusSuccess) {
     NSArray *arr = [self userRemoved:proto.sender.userId members:self.allMembers];
     [self closeSettingsAndReorderWithArray:arr];
-    
-    if (self.clan.clanSize == 0 && [self.parentViewController isKindOfClass:[UINavigationController class]]) {
-      [self menuCloseClicked:nil];
-    }
   }
 }
 

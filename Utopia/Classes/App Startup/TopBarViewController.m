@@ -22,7 +22,7 @@
 #import "DialogueViewController.h"
 #import "UnreadNotifications.h"
 #import "MiniJobsViewController.h"
-#import "ClanInfoViewController.h"
+#import "ClanViewController.h"
 #import "ChatViewController.h"
 
 @implementation TopBarMonsterView
@@ -285,14 +285,17 @@
 }
 
 - (void) removeViewOverChatView {
-  [self replaceChatViewWithView:self.chatBottomView];
-  //MapBotView *v = self.curViewOverChatView;
-  //[v animateOut:^{
-  //  [v removeFromSuperview];
-  //  if (self.curViewOverChatView == v) {
-  //    self.curViewOverChatView = nil;
-  //  }
-  //}];
+  if (self.chatBottomView) {
+    [self replaceChatViewWithView:self.chatBottomView];
+  } else {
+    MapBotView *v = self.curViewOverChatView;
+    [v animateOut:^{
+      [v removeFromSuperview];
+      if (self.curViewOverChatView == v) {
+        self.curViewOverChatView = nil;
+      }
+    }];
+  }
 }
 
 #pragma mark Chat Bottom View delegate
@@ -308,11 +311,11 @@
 - (int) numChatsAvailableForScope:(ChatScope)scope {
   GameState *gs = [GameState sharedGameState];
   if (scope == ChatScopeGlobal) {
-    return gs.globalChatMessages.count;
+    return (int)gs.globalChatMessages.count;
   } else if (scope == ChatScopeClan) {
-    return gs.clanChatMessages.count;
+    return (int)gs.clanChatMessages.count;
   } else if (scope == ChatScopePrivate) {
-    return gs.privateChats.count;
+    return (int)gs.privateChats.count;
   }
   return 0;
 }
@@ -449,13 +452,11 @@
 }
 
 - (IBAction)clanClicked:(id)sender {
-  MenuNavigationController *m = [[MenuNavigationController alloc] init];
-  UIViewController *gvc = (UIViewController *)self.parentViewController;
-  [gvc presentViewController:m animated:YES completion:nil];
-  
-  ClanInfoViewController *cvc = [[ClanInfoViewController alloc] init];
-  [cvc loadForMyClan];
-  [m pushViewController:cvc animated:NO];
+  UIViewController *gvc = [GameViewController baseController];
+  ClanViewController *cvc = [[ClanViewController alloc] init];
+  [gvc addChildViewController:cvc];
+  cvc.view.frame = gvc.view.bounds;
+  [gvc.view addSubview:cvc.view];
 }
 
 #pragma mark - Updating HUD Stuff
@@ -478,13 +479,13 @@
   self.cashMaxLabel.text = [NSString stringWithFormat:@"MAX: %@", [Globals cashStringForNumber:[gs maxCash]]];
   self.oilMaxLabel.text = [NSString stringWithFormat:@"MAX: %@", [Globals commafyNumber:[gs maxOil]]];
   
-  ClanIconProto *icon = [gs clanIconWithId:gs.clan.clanIconId];
+  ClanIconProto *icon = nil;
   if (gs.clan) {
-    [Globals imageNamed:icon.imgName withView:self.clanIcon greyscale:NO indicator:UIActivityIndicatorViewStyleWhite clearImageDuringDownload:YES];
-    self.clanView.hidden = NO;
-  } else {
-    self.clanView.hidden = YES;
+    icon = [gs clanIconWithId:gs.clan.clanIconId];
+  } else if (gs.staticClanIcons.count) {
+      icon = gs.staticClanIcons[0];
   }
+  [Globals imageNamed:icon.imgName withView:self.clanIcon greyscale:NO indicator:UIActivityIndicatorViewStyleWhite clearImageDuringDownload:YES];
   
   [self updateLabels];
   

@@ -132,6 +132,7 @@
       int timeLeft = [um timeLeftForCombining];
       self.genLabel.text = [NSString stringWithFormat:@"Combines in %@", [Globals convertTimeToShortString:timeLeft]];
       self.combineCostLabel.text = [Globals commafyNumber:[gl calculateGemSpeedupCostForTimeLeft:timeLeft]];
+      [Globals adjustViewForCentering:self.combineCostLabel.superview withLabel:self.combineCostLabel];
     }
   }
 }

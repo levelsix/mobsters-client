@@ -41,7 +41,7 @@
             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
             <subviews>
                 <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Quests" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" id="8OU-9M-y3W" customClass="NiceFontLabel8B">
-                    <rect key="frame" x="20" y="4" width="58" height="21"/>
+                    <rect key="frame" x="20" y="5" width="58" height="21"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                     <fontDescription key="fontDescription" type="system" pointSize="12"/>
                     <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -50,7 +50,7 @@
                     <size key="shadowOffset" width="0.0" height="1"/>
                 </label>
                 <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="whitebackbutton.png" id="tSD-Ef-R3Z">
-                    <rect key="frame" x="0.0" y="5" width="14" height="21"/>
+                    <rect key="frame" x="0.0" y="6" width="14" height="21"/>
                     <autoresizingMask key="autoresizingMask"/>
                 </imageView>
                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="gAw-ph-zu9" customClass="MaskedButton">

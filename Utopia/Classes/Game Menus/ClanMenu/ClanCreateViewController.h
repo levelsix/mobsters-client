@@ -29,7 +29,7 @@
 
 @end
 
-@interface ClanCreateViewController : GenViewController <UITextFieldDelegate, ClanIconChooserDelegate> {
+@interface ClanCreateViewController : UIViewController <UITextFieldDelegate, ClanIconChooserDelegate> {
   BOOL _isRequestType;
   BOOL _isEditMode;
   int _iconId;

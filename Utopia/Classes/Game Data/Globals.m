@@ -695,7 +695,11 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
 
 + (UIImage *) snapShotView:(UIView *)view {
   UIGraphicsBeginImageContextWithOptions(view.bounds.size, NO, 0.f);
-  [view.layer renderInContext:UIGraphicsGetCurrentContext()];
+//  if ([view respondsToSelector:@selector(drawViewHierarchyInRect:afterScreenUpdates:)]) {
+//    [view drawViewHierarchyInRect:view.bounds afterScreenUpdates:YES];
+//  } else {
+    [view.layer renderInContext:UIGraphicsGetCurrentContext()];
+//  }
   UIImage *image = UIGraphicsGetImageFromCurrentImageContext();
   UIGraphicsEndImageContext();
   

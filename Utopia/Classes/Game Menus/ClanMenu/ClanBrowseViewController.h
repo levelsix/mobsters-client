@@ -35,7 +35,7 @@ typedef enum {
 
 @end
 
-@interface ClanBrowseViewController : GenViewController <UITableViewDelegate, UITableViewDataSource, UITextFieldDelegate> {
+@interface ClanBrowseViewController : UIViewController <UITableViewDelegate, UITableViewDataSource, UITextFieldDelegate> {
   BOOL isSearching;
   BOOL _reachedEnd;
 }

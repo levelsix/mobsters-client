@@ -42,11 +42,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Utopia/Classes/Game Data/Globals.m"
-            timestampString = "420432005.188791"
+            timestampString = "423708268.213508"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "1390"
-            endingLineNumber = "1390"
+            startingLineNumber = "1394"
+            endingLineNumber = "1394"
             landmarkName = "-calculateLevelForMonster:experience:"
             landmarkType = "5">
          </BreakpointContent>

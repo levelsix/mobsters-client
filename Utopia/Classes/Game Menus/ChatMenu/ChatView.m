@@ -88,7 +88,7 @@
   BOOL shouldScrollToBottom = NO;
   if (animated && oldCount < newCount) {
     NSMutableArray *indexes = [NSMutableArray array];
-    for (int i = oldCount; i < newCount; i++) {
+    for (NSInteger i = oldCount; i < newCount; i++) {
       [indexes addObject:[NSIndexPath indexPathForRow:i inSection:0]];
     }
     [self.chatTable insertRowsAtIndexPaths:indexes withRowAnimation:UITableViewRowAnimationBottom];

@@ -26,30 +26,20 @@
   [self addChildViewController:self.clanCreateViewController];
   [self addChildViewController:self.clanRaidViewController];
   
-  self.title = @"Clans";
-  self.navigationItem.titleView = self.menuTopBar;
-  [self setUpCloseButton];
-  [self setUpImageBackButton];
-  
-  _shouldLoadFirstController = YES;
-  
   [[OutgoingEventController sharedOutgoingEventController] registerClanEventDelegate:self];
+  
+  [Globals bounceView:self.mainView fadeInBgdView:self.bgdView];
 }
 
 - (void) viewWillAppear:(BOOL)animated {
-  if (_shouldLoadFirstController) {
-    [self updateConfiguration];
-    [self button1Clicked:nil];
-    _shouldLoadFirstController = NO;
-    
-    [self.clanBrowseViewController reload];
-  }
+  [self updateConfiguration];
+  [self button1Clicked:nil];
+  
+  [self.clanBrowseViewController reload];
 }
 
-- (void) willMoveToParentViewController:(UIViewController *)parent {
-  if (!parent) {
-    [[OutgoingEventController sharedOutgoingEventController] unregisterClanEventDelegate:self];
-  }
+- (void) viewWillDisappear:(BOOL)animated {
+  [[OutgoingEventController sharedOutgoingEventController] unregisterClanEventDelegate:self];
 }
 
 - (void) updateConfiguration {
@@ -65,17 +55,11 @@
 - (void) loadInClanConfiguration {
   _controller1 = self.clanInfoViewController;
   _controller2 = self.clanBrowseViewController;
-  
-  self.menuTopBar.label1.text = @"MY CLAN";
-  self.menuTopBar.label2.text = @"BROWSE";
 }
 
 - (void) loadNotInClanConfiguration {
   _controller1 = self.clanBrowseViewController;
   _controller2 = self.clanCreateViewController;
-  
-  self.menuTopBar.label1.text = @"JOIN";
-  self.menuTopBar.label2.text = @"CREATE";
 }
 
 - (void) button1Clicked:(id)sender {
@@ -83,11 +67,10 @@
   [self.clanBrowseViewController.view removeFromSuperview];
   [self.clanInfoViewController.view removeFromSuperview];
   
-  [self.view addSubview:_controller1.view];
-  _controller1.view.frame = self.view.bounds;
+  [self.containerView addSubview:_controller1.view];
+  _controller1.view.frame = self.containerView.bounds;
   
-  [self.menuTopBar clickButton:kButton1];
-  [self.menuTopBar unclickButton:kButton2];
+  [self.topBar clickButton:kButton1];
 }
 
 - (void) button2Clicked:(id)sender {
@@ -95,11 +78,17 @@
   [self.clanBrowseViewController.view removeFromSuperview];
   [self.clanInfoViewController.view removeFromSuperview];
   
-  [self.view addSubview:_controller2.view];
-  _controller2.view.frame = self.view.bounds;
+  [self.containerView addSubview:_controller2.view];
+  _controller2.view.frame = self.containerView.bounds;
   
-  [self.menuTopBar clickButton:kButton2];
-  [self.menuTopBar unclickButton:kButton1];
+  [self.topBar clickButton:kButton2];
+}
+
+- (IBAction) closeClicked:(id)sender {
+  [Globals popOutView:self.mainView fadeOutBgdView:self.bgdView completion:^{
+    [self.view removeFromSuperview];
+    [self removeFromParentViewController];
+  }];
 }
 
 #pragma mark - Response handlers

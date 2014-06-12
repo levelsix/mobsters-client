@@ -13,11 +13,9 @@
 #import "ClanCreateViewController.h"
 #import "ClanRaidListViewController.h"
 
-@interface ClanViewController : GenViewController {
+@interface ClanViewController : UIViewController {
   UIViewController *_controller1;
   UIViewController *_controller2;
-  
-  BOOL _shouldLoadFirstController;
 }
 
 @property (nonatomic, retain) ClanBrowseViewController *clanBrowseViewController;
@@ -25,7 +23,11 @@
 @property (nonatomic, retain) ClanInfoViewController *clanInfoViewController;
 @property (nonatomic, retain) ClanRaidListViewController *clanRaidViewController;
 
-@property (nonatomic, retain) IBOutlet FlipTabBar *menuTopBar;
+@property (nonatomic, retain) IBOutlet ButtonTopBar *topBar;
+@property (nonatomic, retain) IBOutlet UIView *containerView;
+
+@property (nonatomic, retain) IBOutlet UIView *mainView;
+@property (nonatomic, retain) IBOutlet UIView *bgdView;
 
 @property (nonatomic, retain) NSArray *myClanMembersList;
 @property (nonatomic, assign) int canStartRaidStage;
