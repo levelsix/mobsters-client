@@ -15,7 +15,7 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "CF1256411538A94D00E0C1AD"
-               BuildableName = "Age of Chaos.app"
+               BuildableName = "Mobsters.app"
                BlueprintName = "Mobsters"
                ReferencedContainer = "container:Utopia.xcodeproj">
             </BuildableReference>
@@ -43,7 +43,7 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "CF1256411538A94D00E0C1AD"
-            BuildableName = "Age of Chaos.app"
+            BuildableName = "Mobsters.app"
             BlueprintName = "Mobsters"
             ReferencedContainer = "container:Utopia.xcodeproj">
          </BuildableReference>
@@ -63,7 +63,7 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "CF1256411538A94D00E0C1AD"
-            BuildableName = "Age of Chaos.app"
+            BuildableName = "Mobsters.app"
             BlueprintName = "Mobsters"
             ReferencedContainer = "container:Utopia.xcodeproj">
          </BuildableReference>
@@ -86,7 +86,7 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "CF1256411538A94D00E0C1AD"
-            BuildableName = "Age of Chaos.app"
+            BuildableName = "Mobsters.app"
             BlueprintName = "Mobsters"
             ReferencedContainer = "container:Utopia.xcodeproj">
          </BuildableReference>
