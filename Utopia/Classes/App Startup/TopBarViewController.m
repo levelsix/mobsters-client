@@ -23,7 +23,6 @@
 #import "UnreadNotifications.h"
 #import "MiniJobsViewController.h"
 #import "ClanViewController.h"
-#import "ChatViewController.h"
 
 @implementation TopBarMonsterView
 
@@ -372,21 +371,7 @@
 
 - (void) bottomViewClicked {
   GameViewController *gvc = (GameViewController *)self.parentViewController;
-  ChatViewController *cvc = [[ChatViewController alloc] init];
-  [gvc addChildViewController:cvc];
-  cvc.view.frame = gvc.view.bounds;
-  [gvc.view addSubview:cvc.view];
-  
-  cvc.clanBadgeIcon.badgeNum = _clanChatBadgeNum;
-  
-  ChatScope scope = self.chatBottomView.chatScope;
-  if (scope == ChatScopeGlobal) {
-    [cvc button1Clicked:nil];
-  } else if (scope == ChatScopeClan) {
-    [cvc button2Clicked:nil];
-  } else if (scope == ChatScopePrivate) {
-    [cvc button3Clicked:nil];
-  }
+  [gvc openChatWithScope:self.chatBottomView.chatScope];
 }
 
 #pragma mark - IBActions
@@ -479,13 +464,14 @@
   self.cashMaxLabel.text = [NSString stringWithFormat:@"MAX: %@", [Globals cashStringForNumber:[gs maxCash]]];
   self.oilMaxLabel.text = [NSString stringWithFormat:@"MAX: %@", [Globals commafyNumber:[gs maxOil]]];
   
-  ClanIconProto *icon = nil;
+  NSString *imgName = nil;
   if (gs.clan) {
-    icon = [gs clanIconWithId:gs.clan.clanIconId];
-  } else if (gs.staticClanIcons.count) {
-      icon = gs.staticClanIcons[0];
+    ClanIconProto *icon = [gs clanIconWithId:gs.clan.clanIconId];
+    imgName = icon.imgName;
+  } else  {
+    imgName = @"noclanlilguys.png";
   }
-  [Globals imageNamed:icon.imgName withView:self.clanIcon greyscale:NO indicator:UIActivityIndicatorViewStyleWhite clearImageDuringDownload:YES];
+  [Globals imageNamed:imgName withView:self.clanIcon greyscale:NO indicator:UIActivityIndicatorViewStyleWhite clearImageDuringDownload:YES];
   
   [self updateLabels];
   

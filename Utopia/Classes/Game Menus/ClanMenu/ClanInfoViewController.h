@@ -9,78 +9,8 @@
 #import <UIKit/UIKit.h>
 #import "Protocols.pb.h"
 #import "Globals.h"
-
-@interface ClanMemberCell : UITableViewCell
-
-@property (nonatomic, assign) IBOutlet UIImageView *userIcon;
-@property (nonatomic, assign) IBOutlet UILabel *nameLabel;
-@property (nonatomic, assign) IBOutlet UILabel *typeLabel;
-@property (nonatomic, assign) IBOutlet UILabel *levelLabel;
-@property (nonatomic, assign) IBOutlet UILabel *raidContributionLabel;
-@property (nonatomic, assign) IBOutlet UILabel *battleWinsLabel;
-
-@property (nonatomic, assign) IBOutlet UIView *profileView;
-@property (nonatomic, assign) IBOutlet UIView *editMemberView;
-
-@property (nonatomic, retain) IBOutletCollection(MiniMonsterView) NSArray *monsterViews;
-
-@property (nonatomic, retain) MinimumUserProtoForClans *user;
-
-@end
-
-@interface ClanInfoView : UIView
-
-@property (nonatomic, assign) IBOutlet UILabel *nameLabel;
-@property (nonatomic, assign) IBOutlet UILabel *membersLabel;
-@property (nonatomic, assign) IBOutlet UILabel *typeLabel;
-@property (nonatomic, assign) IBOutlet UILabel *foundedLabel;
-@property (nonatomic, assign) IBOutlet UITextView *descriptionView;
-@property (nonatomic, retain) IBOutlet UIImageView *iconImage;
-
-@property (nonatomic, retain) IBOutlet UIView *requestView;
-@property (nonatomic, retain) IBOutlet UIView *cancelView;
-@property (nonatomic, retain) IBOutlet UIView *leaveView;
-@property (nonatomic, retain) IBOutlet UIView *joinView;
-@property (nonatomic, retain) IBOutlet UIView *leaderView;
-@property (nonatomic, retain) IBOutlet UIView *anotherClanView;
-
-@end
-
-@class ClanInfoSettingsButtonView;
-
-typedef enum {
-  ClanSettingTransferLeader = 1,
-  ClanSettingPromoteToJrLeader,
-  ClanSettingPromoteToCaptain,
-  ClanSettingDemoteToCaptain,
-  ClanSettingDemoteToMember,
-  ClanSettingBoot,
-  ClanSettingAcceptMember,
-  ClanSettingRejectMember,
-} ClanSetting;
-
-@protocol ClanInfoSettingsDelegate
-
-- (void) settingClicked:(ClanInfoSettingsButtonView *)button;
-
-@end
-
-@interface ClanInfoSettingsButtonView : UIView
-
-@property (nonatomic, retain) IBOutlet UILabel *topLabel;
-@property (nonatomic, retain) IBOutlet UILabel *botLabel;
-@property (nonatomic, retain) IBOutlet UIActivityIndicatorView *spinner;
-
-@property (nonatomic, assign) ClanSetting setting;
-
-@property (nonatomic, assign) IBOutlet id<ClanInfoSettingsDelegate> delegate;
-
-- (IBAction) buttonClicked:(id)sender;
-
-- (void) beginSpinning;
-- (void) stopSpinning;
-
-@end
+#import "ClanSubViewController.h"
+#import "ClanInfoViews.h"
 
 typedef enum {
   ClanInfoSortOrderLevel = 1,
@@ -90,9 +20,10 @@ typedef enum {
   ClanInfoSortOrderBattleWins,
 } ClanInfoSortOrder;
 
-@interface ClanInfoViewController : UIViewController <UITableViewDataSource, UITableViewDelegate, ClanInfoSettingsDelegate> {
+@interface ClanInfoViewController : ClanSubViewController <UITableViewDataSource, UITableViewDelegate, ClanInfoSettingsDelegate> {
   ClanMemberCell *_curClickedCell;
-  ClanInfoSettingsButtonView *_clickedButton;
+  ClanInfoSettingsButtonView *_clickedSettingsButton;
+  UIButton *_clickedHeaderButton;
   
   BOOL _waitingForResponse;
   BOOL _isMyClan;
@@ -115,8 +46,6 @@ typedef enum {
 @property (nonatomic, retain) IBOutlet UIView *settingsView;
 @property (nonatomic, retain) IBOutlet UIImageView *settingsBgdImage;
 @property (nonatomic, retain) IBOutletCollection(ClanInfoSettingsButtonView) NSArray *settingsButtons;
-
-@property (nonatomic, retain) IBOutletCollection(UIButton) NSArray *headerButtons;
 
 - (id) initWithClanId:(int)clanId andName:(NSString *)name;
 - (id) initWithClan:(FullClanProtoWithClanSize *)clan;

@@ -20,8 +20,17 @@
 
 @end
 
+@protocol ChatViewControllerDelegate <NSObject>
+
+- (void) chatViewControllerDidClose:(id)cvc;
+
+@end
+
 @interface ChatViewController : UIViewController <TabBarDelegate, UITextFieldDelegate, ChatViewDelegate> {
   BOOL _passedThreshold;
+  
+  int _muteUserId;
+  NSString *_muteName;
 }
 
 @property (nonatomic, retain) IBOutlet UIView *containerView;
@@ -37,6 +46,8 @@
 @property (nonatomic, retain) IBOutlet UIView *mainView;
 @property (nonatomic, retain) IBOutlet UIView *bgdView;
 @property (nonatomic, retain) IBOutlet ChatPopoverView *popoverView;
+
+@property (nonatomic, assign) id<ChatViewControllerDelegate> delegate;
 
 - (void) openWithConversationForUserId:(int)userId name:(NSString *)name;
 

@@ -525,6 +525,10 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
     }
     [self.privateChats removeObject:privChat];
     [self.privateChats insertObject:post atIndex:0];
+    
+    [self.privateChats sortUsingComparator:^NSComparisonResult(PrivateChatPostProto *obj1, PrivateChatPostProto *obj2) {
+      return [@(obj2.timeOfPost) compare:@(obj1.timeOfPost)];
+    }];
   }
 }
 

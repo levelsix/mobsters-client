@@ -28,8 +28,8 @@
   self.infoTable.tableHeaderView = self.headerButtonsView;
   self.loadingMembersView.center = ccp(self.infoTable.frame.size.width/2, self.infoTable.frame.size.height/2+self.headerButtonsView.frame.size.height/2);
   
-  [self.headerButtons[2] setTitle:@"Raid Team" forState:UIControlStateNormal];
-  [self.headerButtons[3] setTitle:@"Current Raid" forState:UIControlStateNormal];
+//  [self.headerButtons view setTitle:@"Raid Team" forState:UIControlStateNormal];
+//  [self.headerButtons[3] setTitle:@"Current Raid" forState:UIControlStateNormal];
 }
 
 - (void) createMembersListFromClanMembers:(NSArray *)originalClanMembers {

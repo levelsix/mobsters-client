@@ -21,10 +21,11 @@
 #import "QuestLogViewController.h"
 #import "QuestCompleteLayer.h"
 #import "AchievementUtil.h"
+#import "ChatViewController.h"
 
 @class TutorialController;
 
-@interface GameViewController : UIViewController <AttackMapDelegate, BattleLayerDelegate, CCDirectorDownloaderDelegate, DialogueViewControllerDelegate, ClanRaidDetailsDelegate, MiniTutorialDelegate, QuestUtilDelegate, QuestLogDelegate, QuestCompleteDelegate, AchievementUtilDelegate> {
+@interface GameViewController : UIViewController <AttackMapDelegate, BattleLayerDelegate, CCDirectorDownloaderDelegate, DialogueViewControllerDelegate, ClanRaidDetailsDelegate, MiniTutorialDelegate, QuestUtilDelegate, QuestLogDelegate, QuestCompleteDelegate, AchievementUtilDelegate, ChatViewControllerDelegate> {
   int _questIdAfterDialogue;
   
   int _assetIdForMissionMap;
@@ -42,6 +43,7 @@
 @property (nonatomic, strong) TopBarViewController *topBarViewController;
 @property (nonatomic, strong) OneLineNotificationViewController *notifViewController;
 @property (nonatomic, strong) GameMap *currentMap;
+@property (nonatomic, strong) ChatViewController *chatViewController;
 
 @property (nonatomic, strong) IBOutlet TravelingLoadingView *loadingView;
 
@@ -79,6 +81,7 @@
 - (void) visitCityClicked:(int)cityId;
 
 - (void) openPrivateChatWithUserId:(int)userId name:(NSString *)name;
+- (void) openChatWithScope:(ChatScope)scope;
 
 - (void) openGemShop;
 

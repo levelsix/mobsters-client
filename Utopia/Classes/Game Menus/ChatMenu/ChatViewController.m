@@ -17,6 +17,7 @@
 #import "SoundEngine.h"
 #import "GameViewController.h"
 #import "Globals.h"
+#import "GenericPopupController.h"
 
 #define ANIMATION_SPEED 800.f
 
@@ -166,6 +167,8 @@
     }];
     
     [self.popoverView close];
+    
+    [self.delegate chatViewControllerDidClose:self];
   }
 }
 
@@ -218,15 +221,16 @@
   UIViewController *gvc = [GameViewController baseController];
   [gvc presentViewController:m animated:YES completion:nil];
   
-  GameState *gs = [GameState sharedGameState];
-  ClanInfoViewController *cvc = nil;
-  if (gs.clan.clanId == clan.clanId) {
-    cvc = [[ClanInfoViewController alloc] init];
-    [cvc loadForMyClan];
-  } else {
-    cvc = [[ClanInfoViewController alloc] initWithClanId:clan.clanId andName:clan.name];
-  }
-  [m pushViewController:cvc animated:NO];
+#warning fix
+//  GameState *gs = [GameState sharedGameState];
+//  ClanInfoViewController *cvc = nil;
+//  if (gs.clan.clanId == clan.clanId) {
+//    cvc = [[ClanInfoViewController alloc] init];
+//    [cvc loadForMyClan];
+//  } else {
+//    cvc = [[ClanInfoViewController alloc] initWithClanId:clan.clanId andName:clan.name];
+//  }
+//  [m pushViewController:cvc animated:NO];
   
   [self closeClicked:nil];
 }
@@ -244,10 +248,21 @@
 }
 
 - (void) muteClicked:(int)userId name:(NSString *)name {
-  Globals *gl = [Globals sharedGlobals];
-  [gl muteUserId:userId];
+  NSString *msg = [NSString stringWithFormat:@"Would you like to hide messages from %@ for 24 hours?", name];
+  [GenericPopupController displayConfirmationWithDescription:msg title:[NSString stringWithFormat:@"Mute %@", name] okayButton:@"Mute" cancelButton:@"Cancel" target:self selector:@selector(muteConfirmed)];
   
-  [Globals addGreenAlertNotification:[NSString stringWithFormat:@"%@ has just been muted.", name]];
+  _muteUserId = userId;
+  _muteName = name;
+}
+
+- (void) muteConfirmed {
+  Globals *gl = [Globals sharedGlobals];
+  [gl muteUserId:_muteUserId];
+  
+  [Globals addGreenAlertNotification:[NSString stringWithFormat:@"%@ has just been muted.", _muteName]];
+  
+  _muteUserId = 0;
+  _muteName = nil;
 }
 
 - (IBAction)findClanClicked:(id)sender {

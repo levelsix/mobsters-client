@@ -155,7 +155,7 @@
   Globals *gl = [Globals sharedGlobals];
   NSString *str = [t.text stringByReplacingCharactersInRange:range withString:text];
   
-  if (str.length > gl.maxCharLengthForClanDescription) {
+  if (str.length > gl.maxCharLengthForClanDescription && text.length > 0) {
     return NO;
   }
   return YES;
@@ -263,8 +263,8 @@
 
 - (IBAction)editIconClicked:(id)sender {
   [self.iconChooserView updateWithInitialIconId:_iconId];
-  [self.navigationController.view addSubview:self.iconChooserView];
-  self.iconChooserView.frame = self.navigationController.view.bounds;
+  [self.parentViewController.view addSubview:self.iconChooserView];
+  self.iconChooserView.frame = self.parentViewController.view.bounds;
   [Globals bounceView:self.iconChooserView.mainView fadeInBgdView:self.iconChooserView.bgdView];
 }
 
@@ -276,33 +276,35 @@
   [self.view endEditing:YES];
 }
 
-- (IBAction)menuBackClicked:(id)sender {
+- (BOOL) canGoBack {
   if ((self.descriptionField.text.length > 0 && ![self.descriptionField.text isEqualToString:self.clan.clan.description]) ||
       _isRequestType != self.clan.clan.requestToJoinRequired ||
       _iconId != self.clan.clan.clanIconId) {
     [GenericPopupController displayConfirmationWithDescription:@"You have some unsaved changes. Would you like to save them?" title:@"Save?" okayButton:@"Save" cancelButton:@"Back" okTarget:self okSelector:@selector(updateClan) cancelTarget:self cancelSelector:@selector(goBack)];
+    return NO;
   } else {
-    [self goBack];
+    return YES;
   }
 }
 
 - (void) goBack {
-//  [super menuBackClicked:nil];
+  [self.parentViewController goBack];
 }
 
-- (IBAction)menuCloseClicked:(id)sender {
+- (BOOL) canClose {
   if ((self.descriptionField.text.length > 0 && ![self.descriptionField.text isEqualToString:self.clan.clan.description]) ||
       _isRequestType != self.clan.clan.requestToJoinRequired ||
       _iconId != self.clan.clan.clanIconId) {
     _shouldClose = YES;
     [GenericPopupController displayConfirmationWithDescription:@"You have some unsaved changes. Would you like to save them?" title:@"Save?" okayButton:@"Save" cancelButton:@"Close" okTarget:self okSelector:@selector(updateClan) cancelTarget:self cancelSelector:@selector(close)];
+    return NO;
   } else {
-    [self close];
+    return YES;
   }
 }
 
 - (void) close {
-//  [super menuCloseClicked:nil];
+  [self.parentViewController close];
 }
 
 #pragma mark - Response handlers

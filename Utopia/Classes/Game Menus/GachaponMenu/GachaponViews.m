@@ -187,7 +187,7 @@
     [Globals imageNamed:bgdImage withView:self.bgdView greyscale:NO indicator:UIActivityIndicatorViewStyleWhite clearImageDuringDownload:YES];
     
     if (item.isComplete) {
-      iconName = [Globals imageNameForRarity:item.quality suffix:@"capsule.png"];
+      iconName = [@"gacha" stringByAppendingString:[Globals imageNameForRarity:item.quality suffix:@"ball.png"]];
       self.shadowIcon.hidden = NO;
     } else {
       iconName = [Globals imageNameForRarity:item.quality suffix:@"piece.png"];

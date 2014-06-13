@@ -109,7 +109,6 @@
             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
             <simulatedOrientationMetrics key="simulatedOrientationMetrics" orientation="landscapeRight"/>
             <connections>
-                <outlet property="cardView" destination="jyv-un-7wU" id="2od-jy-04h"/>
                 <outlet property="emptyIcon" destination="fRR-NR-H24" id="qKv-9X-2Nk"/>
                 <outlet property="healthBar" destination="BjA-49-1oH" id="FXS-za-kWK"/>
                 <outlet property="healthView" destination="4Ua-UV-YKv" id="jCK-ag-5JJ"/>

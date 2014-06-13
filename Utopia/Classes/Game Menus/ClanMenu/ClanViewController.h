@@ -8,14 +8,16 @@
 
 #import "NibUtils.h"
 #import "Globals.h"
-#import "ClanBrowseViewController.h"
-#import "ClanInfoViewController.h"
-#import "ClanCreateViewController.h"
-#import "ClanRaidListViewController.h"
+
+@class ClanBrowseViewController;
+@class ClanCreateViewController;
+@class ClanInfoViewController;
+@class ClanRaidListViewController;
+@class ClanSubViewController;
 
 @interface ClanViewController : UIViewController {
-  UIViewController *_controller1;
-  UIViewController *_controller2;
+  ClanSubViewController *_controller1;
+  ClanSubViewController *_controller2;
 }
 
 @property (nonatomic, retain) ClanBrowseViewController *clanBrowseViewController;
@@ -29,7 +31,19 @@
 @property (nonatomic, retain) IBOutlet UIView *mainView;
 @property (nonatomic, retain) IBOutlet UIView *bgdView;
 
+@property (nonatomic, retain) IBOutlet UIView *backView;
+@property (nonatomic, retain) IBOutlet UILabel *backLabel;
+@property (nonatomic, retain) IBOutlet MaskedButton *backMaskedButton;
+
 @property (nonatomic, retain) NSArray *myClanMembersList;
 @property (nonatomic, assign) int canStartRaidStage;
+
+// Navigation controller stack
+@property (nonatomic, retain) NSMutableArray *viewControllers;
+
+- (void) pushViewController:(ClanSubViewController *)viewController animated:(BOOL)animated;
+- (UIViewController *)popViewControllerAnimated:(BOOL)animated;
+- (void) goBack;
+- (void) close;
 
 @end

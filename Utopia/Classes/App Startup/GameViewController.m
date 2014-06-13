@@ -173,8 +173,13 @@
 }
 
 - (void) removeAllViewControllers {
+  [self removeAllViewControllersWithExceptions:nil];
+}
+
+- (void) removeAllViewControllersWithExceptions:(NSArray *)exceptions {
   if (self.view.superview) {
     NSArray *acceptable = @[self.topBarViewController, [CCDirector sharedDirector], self.notifViewController];
+    if (exceptions) acceptable = [acceptable arrayByAddingObjectsFromArray:exceptions];
     for (UIViewController *vc in self.childViewControllers) {
       if (![acceptable containsObject:vc]) {
         if ([vc respondsToSelector:@selector(close)]) {
@@ -761,16 +766,41 @@
 #pragma mark - Chat access
 
 - (void) openPrivateChatWithUserId:(int)userId name:(NSString *)name {
-  void (^openChat)(void) = ^{
-    //[self.topBarViewController.chatViewController openWithConversationForUserId:userId name:name];
-  };
-  if (self.presentedViewController) {
-    [self dismissViewControllerAnimated:YES completion:openChat];
-  } else {
-    openChat();
+  // Do this so that chat view controller doesn't get removed
+  NSArray *arr = self.chatViewController ? @[self.chatViewController] : nil;
+  [self removeAllViewControllersWithExceptions:arr];
+  
+  [self openChatWithScope:ChatScopePrivate];
+  [self.chatViewController openWithConversationForUserId:userId name:name];
+}
+
+- (void) openChatWithScope:(ChatScope)scope {
+  if (!self.chatViewController) {
+    ChatViewController *cvc = [[ChatViewController alloc] init];
+    [self addChildViewController:cvc];
+    cvc.view.frame = self.view.bounds;
+    [self.view addSubview:cvc.view];
+    cvc.delegate = self;
+    self.chatViewController = cvc;
+    
+    cvc.clanBadgeIcon.badgeNum = self.topBarViewController.clanChatBadgeNum;
   }
   
-  [self removeAllViewControllers];
+  if (scope == ChatScopeGlobal) {
+    [self.chatViewController button1Clicked:nil];
+  } else if (scope == ChatScopeClan) {
+    [self.chatViewController button2Clicked:nil];
+  } else if (scope == ChatScopePrivate) {
+    [self.chatViewController button3Clicked:nil];
+  }
+}
+
+- (void) chatViewControllerDidClose:(id)cvc {
+  if (self.chatViewController == cvc) {
+    self.chatViewController = nil;
+  } else {
+    NSAssert(false, @"Multiple chat view controllers seem to have been instantiated.");
+  }
 }
 
 #pragma mark - Gem Shop access

@@ -27,7 +27,7 @@
     if (![um isAvailable]) {
       self.emptyIcon.hidden = NO;
       self.healthView.hidden = YES;
-      [self sendSubviewToBack:self.cardView];
+      [self sendSubviewToBack:self.monsterView];
     } else {
       self.emptyIcon.hidden = YES;
       self.healthView.hidden = NO;
@@ -126,7 +126,7 @@
 }
 
 - (void) animateNewMonster:(UserMonster *)um {
-  [self.cardView.layer removeAllAnimations];
+  [self.monsterView.layer removeAllAnimations];
   [self.rightView.layer removeAllAnimations];
   [self.layer removeAllAnimations];
   
@@ -142,17 +142,19 @@
   
   [self sendSubviewToBack:self.emptyIcon];
   if (um) {
-    CGPoint center = self.cardView.center;
+    CGPoint center = self.emptyIcon.center;
     
     [self updateLeftViewForUserMonster:um];
     
     self.emptyIcon.hidden = NO;
     self.minusButton.hidden = YES;
+    self.monsterView.alpha = 1.f;
     
-    CAKeyframeAnimation *kf = [CAKeyframeAnimation animationWithKeyPath:@"position" function:BounceEaseOut fromPoint:ccpAdd(self.emptyIcon.center, ccp(0, -35)) toPoint:center keyframeCount:150];
+    CAKeyframeAnimation *kf = [CAKeyframeAnimation animationWithKeyPath:@"position" function:BounceEaseOut fromPoint:ccpAdd(center, ccp(0, -35)) toPoint:center keyframeCount:150];
     kf.duration = 0.5f;
     kf.delegate = self;
-    [self.cardView.layer addAnimation:kf forKey:@"bounce"];
+    [self.monsterView.layer addAnimation:kf forKey:@"bounce"];
+    self.monsterView.center = center;
     
     CATransition *animation = [CATransition animation];
     animation.type = kCATransitionFade;
@@ -163,16 +165,16 @@
     self.monster = um;
   } else {
     if (self.monster) {
-      CGPoint center = self.cardView.center;
+      CGPoint center = self.monsterView.center;
       self.minusButton.hidden = YES;
       self.emptyIcon.hidden = NO;
       [UIView animateWithDuration:0.3f animations:^{
-        self.cardView.center = ccpAdd(center, ccp(0, 30));
-        self.cardView.alpha = 0.f;
+        self.monsterView.center = ccpAdd(center, ccp(0, 30));
+        self.monsterView.alpha = 0.f;
       } completion:^(BOOL finished) {
-        self.cardView.center = center;
-        self.cardView.alpha = 1.f;
-        [self updateForMyCroniesConfiguration:um];
+        if (finished) {
+          [self updateForMyCroniesConfiguration:um];
+        }
       }];
       
       CATransition *animation = [CATransition animation];

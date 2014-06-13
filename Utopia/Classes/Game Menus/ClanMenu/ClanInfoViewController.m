@@ -13,241 +13,7 @@
 #import "GenericPopupController.h"
 #import "ClanCreateViewController.h"
 #import "ProfileViewController.h"
-
-@implementation MinimumUserProtoForClans (EqualityCheck)
-
-- (BOOL) isEqual:(MinimumUserProtoForClans *)object {
-  if (![object isKindOfClass:[self class]]) {
-    return NO;
-  }
-  
-  return object.minUserProtoWithLevel.minUserProto.userId == self.minUserProtoWithLevel.minUserProto.userId;
-}
-
-@end
-
-@implementation ClanMemberCell
-
-- (void) awakeFromNib {
-  CGRect r = self.editMemberView.frame;
-  self.editMemberView.frame = r;
-  
-  for (MiniMonsterView *mv in self.monsterViews) {
-    mv.transform = CGAffineTransformMakeScale(0.8, 0.8);
-  }
-}
-
-- (void) loadForUser:(MinimumUserProtoForClans *)mup currentTeam:(NSArray *)currentTeam myStatus:(UserClanStatus)myStatus {
-  MinimumUserProtoWithLevel *mupl = mup.minUserProtoWithLevel;
-  self.user = mup;
-  
-  self.nameLabel.text = mupl.minUserProto.name;
-  self.raidContributionLabel.text = [NSString stringWithFormat:@"%d%%", (int)roundf(mup.raidContribution*100.f)];
-  self.battleWinsLabel.text = [NSString stringWithFormat:@"%@ Win%@", [Globals commafyNumber:mup.battlesWon], mup.battlesWon == 1 ? @"" : @"s"];
-  
-  self.typeLabel.text = [Globals stringForClanStatus:mup.clanStatus];
-  self.typeLabel.highlighted = (mup.clanStatus == UserClanStatusRequesting);
-  self.levelLabel.text = [Globals commafyNumber:mupl.level];
-  
-  for (int i = 0; i < self.monsterViews.count; i++) {
-    MiniMonsterView *mv = self.monsterViews[i];
-    UserMonster *um = i < currentTeam.count ? currentTeam[i] : nil;
-    
-    [mv updateForMonsterId:um.monsterId];
-  }
-  
-  if (myStatus == UserClanStatusLeader) {
-    if (mup.clanStatus != UserClanStatusLeader) {
-      [self editMemberConfiguration];
-    } else {
-      [self regularConfiguration];
-    }
-  } else if (myStatus == UserClanStatusJuniorLeader) {
-    if (mup.clanStatus != UserClanStatusLeader && mup.clanStatus != UserClanStatusJuniorLeader) {
-      [self editMemberConfiguration];
-    } else {
-      [self regularConfiguration];
-    }
-  } else {
-    [self regularConfiguration];
-  }
-}
-
-- (void) editMemberConfiguration {
-  self.editMemberView.hidden = NO;
-  self.profileView.hidden = YES;
-}
-
-- (void) respondInviteConfiguration {
-  self.editMemberView.hidden = YES;
-  self.profileView.hidden = YES;
-}
-
-- (void) regularConfiguration {
-  self.editMemberView.hidden = YES;
-  self.profileView.hidden = NO;
-}
-
-@end
-
-@implementation ClanInfoView
-
-- (void) awakeFromNib {
-  UITextView *text = self.descriptionView;
-  text.layer.shadowColor = [[UIColor colorWithWhite:0.f alpha:0.3f] CGColor];
-  text.layer.shadowOffset = CGSizeMake(0.f, 1.0f);
-  text.layer.shadowOpacity = 1.0f;
-  text.layer.shadowRadius = 1.0f;
-  
-  self.requestView.frame = self.leaderView.frame;
-  [self.leaderView.superview addSubview:self.requestView];
-  
-  self.cancelView.frame = self.leaderView.frame;
-  [self.leaderView.superview addSubview:self.cancelView];
-  
-  self.leaveView.frame = self.leaderView.frame;
-  [self.leaderView.superview addSubview:self.leaveView];
-  
-  self.joinView.frame = self.leaderView.frame;
-  [self.leaderView.superview addSubview:self.joinView];
-  
-  self.anotherClanView.frame = self.leaderView.frame;
-  [self.leaderView.superview addSubview:self.anotherClanView];
-}
-
-- (void) hideAllViews {
-  self.requestView.hidden = YES;
-  self.cancelView.hidden = YES;
-  self.leaveView.hidden = YES;
-  self.joinView.hidden = YES;
-  self.leaderView.hidden = YES;
-  self.anotherClanView.hidden = YES;
-}
-
-- (void) loadForClan:(FullClanProtoWithClanSize *)c clanStatus:(UserClanStatus)clanStatus {
-  if (c) {
-    GameState *gs = [GameState sharedGameState];
-    Globals *gl = [Globals sharedGlobals];
-    
-    self.nameLabel.text = c.clan.name;
-    self.membersLabel.text = [NSString stringWithFormat:@"%d/%d MEM.", c.clanSize, gl.maxClanSize];
-    self.descriptionView.text = c.clan.description;
-    
-    ClanIconProto *icon = [gs clanIconWithId:c.clan.clanIconId];
-    [Globals imageNamed:icon.imgName withView:self.iconImage greyscale:NO indicator:UIActivityIndicatorViewStyleWhite clearImageDuringDownload:YES];
-    
-    NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
-    [dateFormatter setDateStyle:NSDateFormatterShortStyle];
-    MSDate *date = [MSDate dateWithTimeIntervalSince1970:c.clan.createTime/1000.0];
-    self.foundedLabel.text = [NSString stringWithFormat:@"Founded: %@", [dateFormatter stringFromDate:date.relativeNSDate]];
-    
-    if (c.clan.requestToJoinRequired) {
-      self.typeLabel.text = @"By Request Only";
-    } else {
-      self.typeLabel.text = @"Anyone Can Join";
-    }
-    
-    [self hideAllViews];
-    if (gs.clan.clanId == c.clan.clanId) {
-      if (clanStatus == UserClanStatusLeader || clanStatus == UserClanStatusJuniorLeader) {
-        self.leaderView.hidden = NO;
-      } else if (clanStatus) {
-        // Only show if clan status is there, aka this is the editable screen
-        self.leaveView.hidden = NO;
-      }
-    } else if (gs.clan) {
-      self.anotherClanView.hidden = NO;
-    } else {
-      if ([gs.requestedClans containsObject:[NSNumber numberWithInt:c.clan.clanId]]) {
-        self.cancelView.hidden = NO;
-      } else {
-        if (c.clan.requestToJoinRequired) {
-          self.requestView.hidden = NO;
-        } else {
-          self.joinView.hidden = NO;
-        }
-      }
-    }
-  } else {
-    self.nameLabel.text = @"Loading...";
-    self.membersLabel.text = nil;
-    self.typeLabel.text = nil;
-    self.foundedLabel.text = nil;
-    self.descriptionView.text = nil;
-    self.iconImage.image = nil;
-    [self hideAllViews];
-  }
-}
-
-@end
-
-@implementation ClanInfoSettingsButtonView
-
-- (void) updateForSetting:(ClanSetting)setting {
-  self.setting = setting;
-  
-  NSString *topText = nil;
-  NSString *botText = nil;
-  switch (setting) {
-    case ClanSettingBoot:
-      topText = @"Boot From";
-      botText = @"Clan";
-      break;
-    case ClanSettingDemoteToCaptain:
-      topText = @"Demote To";
-      botText = @"Captain";
-      break;
-    case ClanSettingDemoteToMember:
-      topText = @"Demote To";
-      botText = @"Member";
-      break;
-    case ClanSettingPromoteToCaptain:
-      topText = @"Promote To";
-      botText = @"Captain";
-      break;
-    case ClanSettingPromoteToJrLeader:
-      topText = @"Promote To";
-      botText = @"Jr. Leader";
-      break;
-    case ClanSettingTransferLeader:
-      topText = @"Transfer";
-      botText = @"Leadership";
-      break;
-    case ClanSettingAcceptMember:
-      topText = @"Accept";
-      botText = @"Requestee";
-      break;
-    case ClanSettingRejectMember:
-      topText = @"Reject";
-      botText = @"Requestee";
-      break;
-      
-    default:
-      break;
-  }
-  self.topLabel.text = topText;
-  self.botLabel.text = botText;
-  
-  [self stopSpinning];
-}
-
-- (IBAction) buttonClicked:(id)sender {
-  [self.delegate settingClicked:self];
-}
-
-- (void) beginSpinning {
-  self.topLabel.hidden = YES;
-  self.botLabel.hidden = YES;
-  self.spinner.hidden = NO;
-}
-
-- (void) stopSpinning {
-  self.topLabel.hidden = NO;
-  self.botLabel.hidden = NO;
-  self.spinner.hidden = YES;
-}
-
-@end
+#import "GameViewController.h"
 
 @implementation ClanInfoViewController
 
@@ -271,7 +37,7 @@
 
 - (void) viewDidLoad {
   [self.infoTable addSubview:self.loadingMembersView];
-  [self.infoView loadForClan:self.clan clanStatus:0];
+  [self loadInfoViewForClan:self.clan clanStatus:0];
   
   self.settingsView.layer.anchorPoint = ccp(1, 0.5);
 }
@@ -292,7 +58,7 @@
   [[OutgoingEventController sharedOutgoingEventController] retrieveClanInfo:nil clanId:gs.clan.clanId grabType:RetrieveClanInfoRequestProto_ClanInfoGrabTypeAll isForBrowsingList:NO beforeClanId:0 delegate:self];
   [self.infoTable reloadData];
   
-  [self.infoView loadForClan:nil clanStatus:0];
+  [self loadInfoViewForClan:nil clanStatus:0];
   
   self.title = gs.clan.name;
   
@@ -300,10 +66,15 @@
   _isMyClan = YES;
 }
 
+- (void) loadInfoViewForClan:(FullClanProtoWithClanSize *)c clanStatus:(UserClanStatus)clanStatus {
+  [self.infoView loadForClan:c clanStatus:clanStatus];
+  self.infoTable.tableHeaderView = self.infoView;
+  [self.headerButtonsView.superview bringSubviewToFront:self.headerButtonsView];
+}
+
+#pragma mark - Sorting Members
+
 - (void) setSortOrder:(ClanInfoSortOrder)sortOrder {
-  if (_sortOrder) [(UIButton *)[self.headerButtonsView viewWithTag:_sortOrder] setSelected:NO];
-  if (sortOrder) [(UIButton *)[self.headerButtonsView viewWithTag:sortOrder] setSelected:YES];
-  
   _sortOrder = sortOrder;
   
   NSComparator comp = nil;
@@ -450,7 +221,14 @@
   } else {
     [self.infoTable reloadData];
   }
+  
+  UIButton *newHeader = (UIButton *)[self.headerButtonsView viewWithTag:_sortOrder];
+  [_clickedHeaderButton setTitleColor:[UIColor colorWithWhite:0.f alpha:0.6f] forState:UIControlStateNormal];
+  [newHeader setTitleColor:[UIColor colorWithWhite:51/255.f alpha:1.f] forState:UIControlStateNormal];
+  _clickedHeaderButton = newHeader;
 }
+
+#pragma mark - Settings View
 
 - (void) openSettingsView:(ClanMemberCell *)cell {
   [self closeSettingsView:^{
@@ -517,7 +295,7 @@
   [self closeSettingsView:^{
     [self setNewSortOrder:self.sortOrder newArray:arr animated:YES];
   }];
-  [self.infoView loadForClan:self.clan clanStatus:self.myUser.clanStatus];
+  [self loadInfoViewForClan:self.clan clanStatus:self.myUser.clanStatus];
 }
 
 - (BOOL) updateSettingsLabelsForClanStatus:(UserClanStatus)cs myStatus:(UserClanStatus)myStatus {
@@ -593,6 +371,17 @@
   return 1;
 }
 
+- (CGFloat) tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {
+  if (self.clan) {
+    return self.headerButtonsView.frame.size.height;
+  }
+  return 0.f;
+}
+
+- (UIView *) tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section {
+  return self.headerButtonsView;
+}
+
 - (NSInteger) tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
   NSInteger count = self.shownMembers.count;
   self.loadingMembersView.hidden = count > 0;
@@ -652,7 +441,7 @@
     }
     
     if (confirming) {
-      _clickedButton = button;
+      _clickedSettingsButton = button;
     } else {
       _waitingForResponse = YES;
       [button beginSpinning];
@@ -666,26 +455,28 @@
   int userId = _curClickedCell.user.minUserProtoWithLevel.minUserProto.userId;
   [[OutgoingEventController sharedOutgoingEventController] bootPlayerFromClan:userId delegate:self];
   _waitingForResponse = YES;
-  [_clickedButton beginSpinning];
-  _clickedButton = nil;
+  [_clickedSettingsButton beginSpinning];
+  _clickedSettingsButton = nil;
 }
 
 - (void) sendTransferClanOwnership {
   int userId = _curClickedCell.user.minUserProtoWithLevel.minUserProto.userId;
   [[OutgoingEventController sharedOutgoingEventController] transferClanOwnership:userId delegate:self];
   _waitingForResponse = YES;
-  [_clickedButton beginSpinning];
-  _clickedButton = nil;
+  [_clickedSettingsButton beginSpinning];
+  _clickedSettingsButton = nil;
 }
 
 #pragma mark - IBActions for green buttons
 
 - (IBAction)joinClicked:(id)sender {
   [[OutgoingEventController sharedOutgoingEventController] requestJoinClan:self.clan.clan.clanId delegate:self];
+  [self.infoView beginSpinners];
 }
 
 - (IBAction)requestClicked:(id)sender {
   [[OutgoingEventController sharedOutgoingEventController] requestJoinClan:self.clan.clan.clanId delegate:self];
+  [self.infoView beginSpinners];
 }
 
 - (IBAction)leaveClicked:(id)sender {
@@ -700,14 +491,16 @@
 
 - (void) leaveClan {
   [[OutgoingEventController sharedOutgoingEventController] leaveClanWithDelegate:self];
+  [self.infoView beginSpinners];
 }
 
 - (IBAction)editClicked:(id)sender {
-  [self.navigationController pushViewController:[[ClanCreateViewController alloc] initInEditModeForClan:self.clan] animated:YES];
+  [self.parentViewController pushViewController:[[ClanCreateViewController alloc] initInEditModeForClan:self.clan] animated:YES];
 }
 
 - (IBAction)cancelClicked:(id)sender {
   [[OutgoingEventController sharedOutgoingEventController] retractRequestToJoinClan:self.clan.clan.clanId delegate:self];
+  [self.infoView beginSpinners];
 }
 
 - (IBAction)settingsClicked:(id)sender {
@@ -730,16 +523,15 @@
   
   if (sender) {
     ClanMemberCell *cell = (ClanMemberCell *)sender;
-    
     ProfileViewController *mpvc = [[ProfileViewController alloc] initWithUserId:cell.user.minUserProtoWithLevel.minUserProto.userId];
-    UIViewController *parent = self.navigationController;
+    UIViewController *parent = [GameViewController baseController];
     mpvc.view.frame = parent.view.bounds;
     [parent.view addSubview:mpvc.view];
     [parent addChildViewController:mpvc];
   }
 }
 
-- (IBAction)sortClicked:(UIView *)sender {
+- (IBAction)sortClicked:(UIButton *)sender {
   if (sender.tag) {
     [self setNewSortOrder:(int)sender.tag animated:YES];
   }
@@ -823,20 +615,27 @@
   }
   
   [self setNewSortOrder:ClanInfoSortOrderMember animated:YES];
-  [self.infoView loadForClan:self.clan clanStatus:self.myUser.clanStatus];
+  [self loadInfoViewForClan:self.clan clanStatus:self.myUser.clanStatus];
 }
 
+#pragma mark Self Actions
+
 - (void) handleRequestJoinClanResponseProto:(FullEvent *)e {
-  [self.infoView loadForClan:self.clan clanStatus:self.myUser.clanStatus];
+  [self loadInfoViewForClan:self.clan clanStatus:self.myUser.clanStatus];
+  [self.infoView stopAllSpinners];
 }
 
 - (void) handleRetractRequestJoinClanResponseProto:(FullEvent *)e {
-  [self.infoView loadForClan:self.clan clanStatus:self.myUser.clanStatus];
+  [self loadInfoViewForClan:self.clan clanStatus:self.myUser.clanStatus];
+  [self.infoView stopAllSpinners];
 }
 
 - (void) handleLeaveClanResponseProto:(FullEvent *)e {
-  [self.infoView loadForClan:self.clan clanStatus:self.myUser.clanStatus];
+  [self loadInfoViewForClan:self.clan clanStatus:self.myUser.clanStatus];
+  [self.infoView stopAllSpinners];
 }
+
+#pragma mark Other Member Actions
 
 - (void) handleApproveOrRejectRequestToJoinClanResponseProto:(FullEvent *)e {
   [self stopAllClanSettingsSpinners];
@@ -900,7 +699,7 @@
 - (void) handleClanEventChangeClanSettingsResponseProto:(ChangeClanSettingsResponseProto *)proto {
   if (proto.status == ChangeClanSettingsResponseProto_ChangeClanSettingsStatusSuccess) {
     self.clan = proto.fullClan;
-    [self.infoView loadForClan:self.clan clanStatus:self.myUser.clanStatus];
+    [self loadInfoViewForClan:self.clan clanStatus:self.myUser.clanStatus];
   }
 }
 

@@ -35,7 +35,6 @@
 @property (nonatomic, retain) IBOutlet UIButton *minusButton;
 
 @property (nonatomic, retain) IBOutlet UIView *rightView;
-@property (nonatomic, retain) IBOutlet UIView *cardView;
 
 @property (nonatomic, retain) UserMonster *monster;
 

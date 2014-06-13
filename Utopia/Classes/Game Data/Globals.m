@@ -1500,7 +1500,6 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
     view.transform = CGAffineTransformMakeScale(2.0, 2.0);
   } completion:^(BOOL finished) {
     view.transform = CGAffineTransformIdentity;
-    // Don't check finished.. ruins the upgrade popup
     if (completed) {
       completed();
     }

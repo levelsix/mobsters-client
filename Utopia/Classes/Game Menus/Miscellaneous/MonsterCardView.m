@@ -113,7 +113,7 @@ static UIImage *img = nil;
     MonsterProto *mp = [gs monsterWithId:monsterId];
     [self updateForElement:mp.monsterElement imgPrefix:mp.imagePrefix greyscale:NO];
   } else {
-    self.bgdIcon.image = [Globals imageNamed:@"teamempty.png"];
+    self.bgdIcon.image = [Globals imageNamed:@"teamslotopen.png"];
     self.monsterIcon.image = nil;
   }
   self.monsterId = monsterId;

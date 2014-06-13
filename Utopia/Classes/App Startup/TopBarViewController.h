@@ -73,6 +73,7 @@
 @property (nonatomic, retain) IBOutlet TopBarQuestProgressView *questProgressView;
 
 @property (nonatomic, retain) IBOutlet ChatBottomView *chatBottomView;
+@property (nonatomic, readonly) int clanChatBadgeNum;
 
 @property (nonatomic, assign) MapBotView *curViewOverChatView;
 

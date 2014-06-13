@@ -1800,6 +1800,24 @@
 		CFE802BE16C6151E00B6B196 /* forgeinfo@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CF20731615B69F1500A11A6E /* forgeinfo@2x.png */; };
 		CFE954B6166F14F800DA63CF /* smallgoldstack.png in Resources */ = {isa = PBXBuildFile; fileRef = CFE954B4166F14F800DA63CF /* smallgoldstack.png */; };
 		CFE954B7166F14F800DA63CF /* smallgoldstack@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CFE954B5166F14F800DA63CF /* smallgoldstack@2x.png */; };
+		CFE9D342194A714F00BD930E /* gachacommonball.png in Resources */ = {isa = PBXBuildFile; fileRef = CFE9D336194A714F00BD930E /* gachacommonball.png */; };
+		CFE9D343194A714F00BD930E /* gachacommonball@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CFE9D337194A714F00BD930E /* gachacommonball@2x.png */; };
+		CFE9D344194A714F00BD930E /* gachaepicball.png in Resources */ = {isa = PBXBuildFile; fileRef = CFE9D338194A714F00BD930E /* gachaepicball.png */; };
+		CFE9D345194A714F00BD930E /* gachaepicball@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CFE9D339194A714F00BD930E /* gachaepicball@2x.png */; };
+		CFE9D346194A714F00BD930E /* gachalegendball.png in Resources */ = {isa = PBXBuildFile; fileRef = CFE9D33A194A714F00BD930E /* gachalegendball.png */; };
+		CFE9D347194A714F00BD930E /* gachalegendball@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CFE9D33B194A714F00BD930E /* gachalegendball@2x.png */; };
+		CFE9D348194A714F00BD930E /* gacharareball.png in Resources */ = {isa = PBXBuildFile; fileRef = CFE9D33C194A714F00BD930E /* gacharareball.png */; };
+		CFE9D349194A714F00BD930E /* gacharareball@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CFE9D33D194A714F00BD930E /* gacharareball@2x.png */; };
+		CFE9D34A194A714F00BD930E /* gachasuperball.png in Resources */ = {isa = PBXBuildFile; fileRef = CFE9D33E194A714F00BD930E /* gachasuperball.png */; };
+		CFE9D34B194A714F00BD930E /* gachasuperball@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CFE9D33F194A714F00BD930E /* gachasuperball@2x.png */; };
+		CFE9D34C194A714F00BD930E /* gachaultraball.png in Resources */ = {isa = PBXBuildFile; fileRef = CFE9D340194A714F00BD930E /* gachaultraball.png */; };
+		CFE9D34D194A714F00BD930E /* gachaultraball@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CFE9D341194A714F00BD930E /* gachaultraball@2x.png */; };
+		CFE9D357194A80C300BD930E /* ClanSubViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CFE9D356194A80C300BD930E /* ClanSubViewController.m */; };
+		CFE9D35A194A833600BD930E /* ClanInfoViews.m in Sources */ = {isa = PBXBuildFile; fileRef = CFE9D359194A833600BD930E /* ClanInfoViews.m */; };
+		CFE9D35F194A984500BD930E /* clanbrowseactiveicon2.png in Resources */ = {isa = PBXBuildFile; fileRef = CFE9D35B194A984500BD930E /* clanbrowseactiveicon2.png */; };
+		CFE9D360194A984500BD930E /* clanbrowseactiveicon2@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CFE9D35C194A984500BD930E /* clanbrowseactiveicon2@2x.png */; };
+		CFE9D361194A984500BD930E /* clanbrowseinactiveicon2.png in Resources */ = {isa = PBXBuildFile; fileRef = CFE9D35D194A984500BD930E /* clanbrowseinactiveicon2.png */; };
+		CFE9D362194A984500BD930E /* clanbrowseinactiveicon2@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CFE9D35E194A984500BD930E /* clanbrowseinactiveicon2@2x.png */; };
 		CFEAB54416BBD32900AEB7BD /* Accounts.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CFEAB54316BBD32900AEB7BD /* Accounts.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
 		CFEAB54616BBD34C00AEB7BD /* Social.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CFEAB54516BBD34B00AEB7BD /* Social.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
 		CFEB28431593F02500B622FC /* unlockedheader.png in Resources */ = {isa = PBXBuildFile; fileRef = CFEB28411593F02500B622FC /* unlockedheader.png */; };
@@ -4794,6 +4812,26 @@
 		CFE7CD051819FC3300930847 /* wide@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "wide@2x.png"; sourceTree = "<group>"; };
 		CFE954B4166F14F800DA63CF /* smallgoldstack.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = smallgoldstack.png; sourceTree = "<group>"; };
 		CFE954B5166F14F800DA63CF /* smallgoldstack@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "smallgoldstack@2x.png"; sourceTree = "<group>"; };
+		CFE9D336194A714F00BD930E /* gachacommonball.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = gachacommonball.png; sourceTree = "<group>"; };
+		CFE9D337194A714F00BD930E /* gachacommonball@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "gachacommonball@2x.png"; sourceTree = "<group>"; };
+		CFE9D338194A714F00BD930E /* gachaepicball.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = gachaepicball.png; sourceTree = "<group>"; };
+		CFE9D339194A714F00BD930E /* gachaepicball@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "gachaepicball@2x.png"; sourceTree = "<group>"; };
+		CFE9D33A194A714F00BD930E /* gachalegendball.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = gachalegendball.png; sourceTree = "<group>"; };
+		CFE9D33B194A714F00BD930E /* gachalegendball@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "gachalegendball@2x.png"; sourceTree = "<group>"; };
+		CFE9D33C194A714F00BD930E /* gacharareball.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = gacharareball.png; sourceTree = "<group>"; };
+		CFE9D33D194A714F00BD930E /* gacharareball@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "gacharareball@2x.png"; sourceTree = "<group>"; };
+		CFE9D33E194A714F00BD930E /* gachasuperball.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = gachasuperball.png; sourceTree = "<group>"; };
+		CFE9D33F194A714F00BD930E /* gachasuperball@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "gachasuperball@2x.png"; sourceTree = "<group>"; };
+		CFE9D340194A714F00BD930E /* gachaultraball.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = gachaultraball.png; sourceTree = "<group>"; };
+		CFE9D341194A714F00BD930E /* gachaultraball@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "gachaultraball@2x.png"; sourceTree = "<group>"; };
+		CFE9D355194A80C300BD930E /* ClanSubViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ClanSubViewController.h; sourceTree = "<group>"; };
+		CFE9D356194A80C300BD930E /* ClanSubViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ClanSubViewController.m; sourceTree = "<group>"; };
+		CFE9D358194A833600BD930E /* ClanInfoViews.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ClanInfoViews.h; sourceTree = "<group>"; };
+		CFE9D359194A833600BD930E /* ClanInfoViews.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ClanInfoViews.m; sourceTree = "<group>"; };
+		CFE9D35B194A984500BD930E /* clanbrowseactiveicon2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = clanbrowseactiveicon2.png; sourceTree = "<group>"; };
+		CFE9D35C194A984500BD930E /* clanbrowseactiveicon2@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "clanbrowseactiveicon2@2x.png"; sourceTree = "<group>"; };
+		CFE9D35D194A984500BD930E /* clanbrowseinactiveicon2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = clanbrowseinactiveicon2.png; sourceTree = "<group>"; };
+		CFE9D35E194A984500BD930E /* clanbrowseinactiveicon2@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "clanbrowseinactiveicon2@2x.png"; sourceTree = "<group>"; };
 		CFEAB54316BBD32900AEB7BD /* Accounts.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Accounts.framework; path = System/Library/Frameworks/Accounts.framework; sourceTree = SDKROOT; };
 		CFEAB54516BBD34B00AEB7BD /* Social.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Social.framework; path = System/Library/Frameworks/Social.framework; sourceTree = SDKROOT; };
 		CFEB28411593F02500B622FC /* unlockedheader.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = unlockedheader.png; sourceTree = "<group>"; };
@@ -5868,6 +5906,7 @@
 		CF06B584193699FB008BF892 /* Gacha */ = {
 			isa = PBXGroup;
 			children = (
+				CFE9D335194A714F00BD930E /* Balls */,
 				CFEC992C1947FBF300BD893E /* gachatags */,
 				CFC45BFC1942955600BBA4A6 /* 1starmachineactive.png */,
 				CFC45BFD1942955600BBA4A6 /* 1starmachineactive@2x.png */,
@@ -7657,20 +7696,10 @@
 		CF62E6FE15FEC65600DF850F /* ClanMenu */ = {
 			isa = PBXGroup;
 			children = (
-				CF62E70415FEC6D500DF850F /* ClanViewController.h */,
-				CF62E70515FEC6D500DF850F /* ClanViewController.m */,
-				CF62E70615FEC6D500DF850F /* ClanViewController.xib */,
-				CFBF031717C595F40082A9BF /* ClanBrowseViewController.h */,
-				CFBF031817C595F40082A9BF /* ClanBrowseViewController.m */,
-				CFBF031917C595F50082A9BF /* ClanBrowseViewController.xib */,
-				CFD09C031602B2D2005D94D1 /* BrowseClanCell.xib */,
-				CFBF031E17C596870082A9BF /* ClanCreateViewController.h */,
-				CFBF031F17C596880082A9BF /* ClanCreateViewController.m */,
-				CFBF032017C596880082A9BF /* ClanCreateViewController.xib */,
-				CFBF032517C5969E0082A9BF /* ClanInfoViewController.h */,
-				CFBF032617C5969F0082A9BF /* ClanInfoViewController.m */,
-				CFBF032717C596A00082A9BF /* ClanInfoViewController.xib */,
-				CFD09C051602E7DE005D94D1 /* ClanMemberCell.xib */,
+				CFE9D351194A7F0800BD930E /* Main */,
+				CFE9D352194A7F1700BD930E /* Browse */,
+				CFE9D353194A7F2500BD930E /* Create */,
+				CFE9D354194A7F2C00BD930E /* Info */,
 				CFFA31E918B3DC1E008B81B9 /* Raids */,
 			);
 			path = ClanMenu;
@@ -8333,6 +8362,10 @@
 		CF864DF0193E8F2F00DE0D7A /* Nav */ = {
 			isa = PBXGroup;
 			children = (
+				CFE9D35B194A984500BD930E /* clanbrowseactiveicon2.png */,
+				CFE9D35C194A984500BD930E /* clanbrowseactiveicon2@2x.png */,
+				CFE9D35D194A984500BD930E /* clanbrowseinactiveicon2.png */,
+				CFE9D35E194A984500BD930E /* clanbrowseinactiveicon2@2x.png */,
 				CF864DF1193E8F2F00DE0D7A /* clansbrowseactive.png */,
 				CF864DF2193E8F2F00DE0D7A /* clansbrowseactive@2x.png */,
 				CF864DF3193E8F2F00DE0D7A /* clansbrowseinactive.png */,
@@ -9268,6 +9301,71 @@
 				CFE7CD051819FC3300930847 /* wide@2x.png */,
 			);
 			path = "Home screen";
+			sourceTree = "<group>";
+		};
+		CFE9D335194A714F00BD930E /* Balls */ = {
+			isa = PBXGroup;
+			children = (
+				CFE9D336194A714F00BD930E /* gachacommonball.png */,
+				CFE9D337194A714F00BD930E /* gachacommonball@2x.png */,
+				CFE9D338194A714F00BD930E /* gachaepicball.png */,
+				CFE9D339194A714F00BD930E /* gachaepicball@2x.png */,
+				CFE9D33A194A714F00BD930E /* gachalegendball.png */,
+				CFE9D33B194A714F00BD930E /* gachalegendball@2x.png */,
+				CFE9D33C194A714F00BD930E /* gacharareball.png */,
+				CFE9D33D194A714F00BD930E /* gacharareball@2x.png */,
+				CFE9D33E194A714F00BD930E /* gachasuperball.png */,
+				CFE9D33F194A714F00BD930E /* gachasuperball@2x.png */,
+				CFE9D340194A714F00BD930E /* gachaultraball.png */,
+				CFE9D341194A714F00BD930E /* gachaultraball@2x.png */,
+			);
+			path = Balls;
+			sourceTree = "<group>";
+		};
+		CFE9D351194A7F0800BD930E /* Main */ = {
+			isa = PBXGroup;
+			children = (
+				CF62E70415FEC6D500DF850F /* ClanViewController.h */,
+				CF62E70515FEC6D500DF850F /* ClanViewController.m */,
+				CF62E70615FEC6D500DF850F /* ClanViewController.xib */,
+				CFE9D355194A80C300BD930E /* ClanSubViewController.h */,
+				CFE9D356194A80C300BD930E /* ClanSubViewController.m */,
+			);
+			name = Main;
+			sourceTree = "<group>";
+		};
+		CFE9D352194A7F1700BD930E /* Browse */ = {
+			isa = PBXGroup;
+			children = (
+				CFBF031717C595F40082A9BF /* ClanBrowseViewController.h */,
+				CFBF031817C595F40082A9BF /* ClanBrowseViewController.m */,
+				CFBF031917C595F50082A9BF /* ClanBrowseViewController.xib */,
+				CFD09C031602B2D2005D94D1 /* BrowseClanCell.xib */,
+			);
+			name = Browse;
+			sourceTree = "<group>";
+		};
+		CFE9D353194A7F2500BD930E /* Create */ = {
+			isa = PBXGroup;
+			children = (
+				CFBF031E17C596870082A9BF /* ClanCreateViewController.h */,
+				CFBF031F17C596880082A9BF /* ClanCreateViewController.m */,
+				CFBF032017C596880082A9BF /* ClanCreateViewController.xib */,
+			);
+			name = Create;
+			sourceTree = "<group>";
+		};
+		CFE9D354194A7F2C00BD930E /* Info */ = {
+			isa = PBXGroup;
+			children = (
+				CFE9D358194A833600BD930E /* ClanInfoViews.h */,
+				CFE9D359194A833600BD930E /* ClanInfoViews.m */,
+				CFBF032517C5969E0082A9BF /* ClanInfoViewController.h */,
+				CFBF032617C5969F0082A9BF /* ClanInfoViewController.m */,
+				CFBF032717C596A00082A9BF /* ClanInfoViewController.xib */,
+				CFD09C051602E7DE005D94D1 /* ClanMemberCell.xib */,
+			);
+			name = Info;
 			sourceTree = "<group>";
 		};
 		CFEC992C1947FBF300BD893E /* gachatags */ = {
@@ -10850,6 +10948,7 @@
 				CFFBDF8618ACA3D90090CA9A /* Scientist3Blink06@2x.png in Resources */,
 				CF134A5B18A5E4B500D7D700 /* FatBoy1Move12@2x.png in Resources */,
 				CF6890361912E7B500FF1F71 /* hpbarmiddlemj@2x.png in Resources */,
+				CFE9D35F194A984500BD930E /* clanbrowseactiveicon2.png in Resources */,
 				CFFEB10A1834539C007C4BA3 /* fireteam@2x.png in Resources */,
 				CF40D01F18DFCC6C0034A721 /* championleaguebg.png in Resources */,
 				CFEE89BA18EBF14E00047CA4 /* profilegrid.png in Resources */,
@@ -11047,6 +11146,7 @@
 				CF2A4ABD1901B8F500B2D7D7 /* greymenuoption.png in Resources */,
 				CFEE897C18EA0ED200047CA4 /* taskcompletion.png in Resources */,
 				CFFBDF8218ACA3D90090CA9A /* Scientist3Blink02@2x.png in Resources */,
+				CFE9D34B194A714F00BD930E /* gachasuperball@2x.png in Resources */,
 				CFBB37B318F4DD8E00FD6C8C /* questcompletecomplete@2x.png in Resources */,
 				CFFA31DA18B30955008B81B9 /* lockedstage@2x.png in Resources */,
 				CFFA31E618B30955008B81B9 /* stageprogressbg@2x.png in Resources */,
@@ -11449,6 +11549,7 @@
 				CF864E14193E8F3000DE0D7A /* closememberoptions.png in Resources */,
 				CF134A6418A5E4B500D7D700 /* FatBoy2Move08@2x.png in Resources */,
 				CFEC993F1947FBF300BD893E /* gachararetag.png in Resources */,
+				CFE9D349194A714F00BD930E /* gacharareball@2x.png in Resources */,
 				CFFF9A4518BEB67D0036EEC3 /* earthtimermobster.png in Resources */,
 				CF95206B1939690800A98290 /* traininggroundsname@2x.png in Resources */,
 				CFBB378A18F4837B00FD6C8C /* prizesbg.png in Resources */,
@@ -11467,6 +11568,7 @@
 				CF95204F1939690800A98290 /* findmatchbig@2x.png in Resources */,
 				CF06B5E6193699FC008BF892 /* youfound.png in Resources */,
 				CFFA325518BC042B008B81B9 /* lockedrat@2x.png in Resources */,
+				CFE9D346194A714F00BD930E /* gachalegendball.png in Resources */,
 				CFBB377418EF792400FD6C8C /* ZarkT1AttackNF.plist in Resources */,
 				CFF390D91829C74A0010A3BE /* firesideways.png in Resources */,
 				CF6574EA1909CEBC00ABF1F4 /* AchievementsViewController.xib in Resources */,
@@ -11488,6 +11590,7 @@
 				CF2A4B3A1905FA4A00B2D7D7 /* eventsactive.png in Resources */,
 				CFFBDFBC18ACA3D90090CA9A /* Scientist4Breath04@2x.png in Resources */,
 				CF2A4AE41901B8F500B2D7D7 /* attacksactiveicon@2x.png in Resources */,
+				CFE9D34C194A714F00BD930E /* gachaultraball.png in Resources */,
 				CFC8B5F918E4547200CFD652 /* sendbutton@2x.png in Resources */,
 				CFFA31F018B3DFF7008B81B9 /* ClanRaidActiveCell.xib in Resources */,
 				CF864E0D193E8F3000DE0D7A /* redsmallbutton@2x.png in Resources */,
@@ -11678,6 +11781,7 @@
 				CFE7CDC61819FC3300930847 /* waterbar@2x.png in Resources */,
 				CFC8B5E118E4547200CFD652 /* bubble_top_right@2x.png in Resources */,
 				CF99090215BF6C900094F672 /* TutorialGuideBadWalkNF.plist in Resources */,
+				CFE9D361194A984500BD930E /* clanbrowseinactiveicon2.png in Resources */,
 				CF2A4ABC1901B8F500B2D7D7 /* greenmenuoption@2x.png in Resources */,
 				CFFBDF6218ACA3D90090CA9A /* Scientist2Breath00@2x.png in Resources */,
 				CF40D03418DFCC6C0034A721 /* platinumleaguebg@2x.png in Resources */,
@@ -11744,6 +11848,7 @@
 				CFF7874818E28FE200413E78 /* hirelockedslot.png in Resources */,
 				CFFA31DC18B30955008B81B9 /* openstage@2x.png in Resources */,
 				CF12799D181F5F1600211623 /* progressquest@2x.png in Resources */,
+				CFE9D34A194A714F00BD930E /* gachasuperball.png in Resources */,
 				CF7F17F115C26F47005ED86F /* TutorialGuideWalkNF@2x.plist in Resources */,
 				CF688FF41912E4D800FF1F71 /* MiniJobsViewController.xib in Resources */,
 				CFFEB1CF18384123007C4BA3 /* nightbattleringglow.png in Resources */,
@@ -11906,6 +12011,7 @@
 				CF1908AE18D9205E00D6F0E4 /* needshelpbg.png in Resources */,
 				CFFEB16218349B7D007C4BA3 /* lightteam.png in Resources */,
 				CFFBDFCB18ACA3D90090CA9A /* Scientist4Turn06@2x.png in Resources */,
+				CFE9D345194A714F00BD930E /* gachaepicball@2x.png in Resources */,
 				CFF7872818E28FE200413E78 /* askfacebook.png in Resources */,
 				CFEDA90618974A7300867490 /* evolveequals.png in Resources */,
 				CFF7873C18E28FE200413E78 /* friendborder.png in Resources */,
@@ -12031,6 +12137,7 @@
 				CFFF6AFA18DA69A4003A320C /* rockgrenade.png in Resources */,
 				CF134A5318A5E4B500D7D700 /* FatBoy1Move04@2x.png in Resources */,
 				CFF786C618E1045C00413E78 /* activeraid@2x.png in Resources */,
+				CFE9D34D194A714F00BD930E /* gachaultraball@2x.png in Resources */,
 				CFFEB16418349B7D007C4BA3 /* lightteam@2x.png in Resources */,
 				CFE7CD401819FC3300930847 /* diamond@2x.png in Resources */,
 				CF40D02D18DFCC6C0034A721 /* goldleaguebg.png in Resources */,
@@ -12136,6 +12243,7 @@
 				CF19089018D8319900D6F0E4 /* cashcollected.fnt in Resources */,
 				CF951F63193947A400A98290 /* healingicon@2x.png in Resources */,
 				CF8BA22818CE7C41003277D1 /* speechbubbleshortname@2x.png in Resources */,
+				CFE9D362194A984500BD930E /* clanbrowseinactiveicon2@2x.png in Resources */,
 				CFEE89BD18EBF14E00047CA4 /* sendmessagebutton@2x.png in Resources */,
 				CF40D02618DFCC6C0034A721 /* diamondleaguebg@2x.png in Resources */,
 				CFEC994B19492D3200BD893E /* mainattack.png in Resources */,
@@ -12199,18 +12307,21 @@
 				CFEC995719492D3C00BD893E /* enterbutton.png in Resources */,
 				CFE02BB71821E72C0016C1E2 /* swapempty.png in Resources */,
 				CF6890461912E7B500FF1F71 /* epicjob@2x.png in Resources */,
+				CFE9D347194A714F00BD930E /* gachalegendball@2x.png in Resources */,
 				CF9520591939690800A98290 /* opencitypin@2x.png in Resources */,
 				CF06B621193699FC008BF892 /* teaminfoi@2x.png in Resources */,
 				CFF2C92A193FD4C000F28D9E /* chatpressedmiddle@2x.png in Resources */,
 				CFF7874A18E28FE200413E78 /* hireslotbg.png in Resources */,
 				CF06067E188A92EC00A69355 /* HealingCenter@2x.png in Resources */,
 				CF40D02018DFCC6C0034A721 /* championleaguebg@2x.png in Resources */,
+				CFE9D342194A714F00BD930E /* gachacommonball.png in Resources */,
 				CF9520551939690800A98290 /* multiplayerheader@2x.png in Resources */,
 				CFFEB12C1834539C007C4BA3 /* nightcardhealthbar.png in Resources */,
 				CF9520331939690800A98290 /* attacknavmap@2x.png in Resources */,
 				CFFF9A5B18BEB67D0036EEC3 /* watertimermobster@2x.png in Resources */,
 				CFC4D28118D7BD04004681FD /* sfx_attack_button.mp3 in Resources */,
 				CFF390FB1829C74A0010A3BE /* waterorb@2x.png in Resources */,
+				CFE9D360194A984500BD930E /* clanbrowseactiveicon2@2x.png in Resources */,
 				CFFBDF4118ACA3D90090CA9A /* Scientist1Breath10@2x.png in Resources */,
 				CF20F152180FCABC005551B5 /* detaildivider@2x.png in Resources */,
 				CF7064D01846CED8005B30A1 /* homeroad.png in Resources */,
@@ -12227,6 +12338,7 @@
 				CFF2C92B193FD4C000F28D9E /* chatpressedside.png in Resources */,
 				CF40D01B18DFCC6C0034A721 /* bronzerankbg.png in Resources */,
 				CF864E0E193E8F3000DE0D7A /* clancreatebottom.png in Resources */,
+				CFE9D343194A714F00BD930E /* gachacommonball@2x.png in Resources */,
 				CFFEB1001834539C007C4BA3 /* firecard.png in Resources */,
 				CFFF9A4718BEB67D0036EEC3 /* firetimermobster.png in Resources */,
 				CF40D02C18DFCC6C0034A721 /* goldicon@2x.png in Resources */,
@@ -12475,6 +12587,7 @@
 				CFFBDFB218ACA3D90090CA9A /* Scientist4Blink07@2x.png in Resources */,
 				CF3766A51833022700D0A77E /* legendcapsule@2x.png in Resources */,
 				CFCE56FC18137CD400494F8C /* bluenot@2x.png in Resources */,
+				CFE9D344194A714F00BD930E /* gachaepicball.png in Resources */,
 				CFF7875F18E28FE200413E78 /* upgradeactivetab@2x.png in Resources */,
 				CF06B5FC193699FC008BF892 /* menuscreenshot2.png in Resources */,
 				CF2A4AC31901B8F500B2D7D7 /* purplepressed.png in Resources */,
@@ -13078,6 +13191,7 @@
 				CFBB377618EF792400FD6C8C /* ZarkT1Big.png in Resources */,
 				CFE0E6DC17E7B886002ECA84 /* lootcollect@2x.png in Resources */,
 				CF52D08017E9400500A067A6 /* bloodsplatter.png in Resources */,
+				CFE9D348194A714F00BD930E /* gacharareball.png in Resources */,
 				CF54943418C5B955001E7D32 /* arrow.png in Resources */,
 				CFF2C93A193FD71F00F28D9E /* chatclanactive.png in Resources */,
 				CF864DAF193E7C5C00DE0D7A /* greychatcorner.png in Resources */,
@@ -13322,6 +13436,7 @@
 				CF012B2918D1289B004C6825 /* TutorialDropController.m in Sources */,
 				CF629326180D2AFB00C6C196 /* SettingsViewController.m in Sources */,
 				CF20F27B1811229D005551B5 /* MyCroniesMonsterViews.m in Sources */,
+				CFE9D35A194A833600BD930E /* ClanInfoViews.m in Sources */,
 				CF8C7AE1157C1F0E003A6AFE /* FullUserUpdates.m in Sources */,
 				CF6574B01909CAF200ABF1F4 /* EventCity.pb.m in Sources */,
 				CF192978157D9FF100D51C70 /* OtherUpdates.m in Sources */,
@@ -13434,6 +13549,7 @@
 				CF26A8A116FD58E50020D508 /* AmplitudeLocationManagerDelegate.m in Sources */,
 				CF32EA14180D0C0800CBD50D /* InAppPurchaseData.m in Sources */,
 				CF6F19801815156D00CFF2B9 /* QuestLogViewController.m in Sources */,
+				CFE9D357194A80C300BD930E /* ClanSubViewController.m in Sources */,
 				CFFF6B1118DB2044003A320C /* MSDate.m in Sources */,
 				CFC45BF819428B1C00BBA4A6 /* GachaponViews.m in Sources */,
 				CF3B01CE174AEE2B00A3A4F2 /* ODIN.m in Sources */,

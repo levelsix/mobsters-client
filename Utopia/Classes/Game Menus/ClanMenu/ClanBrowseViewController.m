@@ -42,23 +42,27 @@
   
   if (c.clan.requestToJoinRequired) {
     self.typeLabel.text = @"By Request Only";
-    self.typeLabel.textColor = [UIColor colorWithRed:249/255.f green:166/255.f blue:166/255.f alpha:1.f];
-    [self.redButton setImage:[Globals imageNamed:@"heal.png"] forState:UIControlStateNormal];
+    self.typeLabel.textColor = [UIColor colorWithRed:222/255.f green:0/255.f blue:0/255.f alpha:1.f];
+    self.buttonLabel.textColor = [UIColor colorWithRed:131/255.f green:3/255.f blue:0/255.f alpha:1.f];
+    self.buttonLabel.shadowColor = [UIColor colorWithRed:255/255.f green:163/255.f blue:97/255.f alpha:.8f];
+    [self.redButton setImage:[Globals imageNamed:@"redsmallbutton.png"] forState:UIControlStateNormal];
   } else {
     self.typeLabel.text = @"Anyone Can Join";
-    self.typeLabel.textColor = [UIColor colorWithRed:188/255.f green:242/255.f blue:83/255.f alpha:1.f];
-    [self.redButton setImage:[Globals imageNamed:@"confirm.png"] forState:UIControlStateNormal];
+    self.typeLabel.textColor = [UIColor colorWithRed:102/255.f green:165/255.f blue:0/255.f alpha:1.f];
+    self.buttonLabel.textColor = [UIColor colorWithRed:23/255.f green:120/255.f blue:0/255.f alpha:1.f];
+    self.buttonLabel.shadowColor = [UIColor colorWithRed:246/255.f green:255/255.f blue:151/255.f alpha:.8f];
+    [self.redButton setImage:[Globals imageNamed:@"greensmallbutton.png"] forState:UIControlStateNormal];
   }
   
   if (!gs.clan) {
     self.buttonView.hidden = NO;
     if ([gs.requestedClans containsObject:[NSNumber numberWithInt:c.clan.clanId]]) {
-      self.buttonLabel.text = @"CANCEL";
+      self.buttonLabel.text = @"Cancel";
     } else {
       if (c.clan.requestToJoinRequired) {
-        self.buttonLabel.text = @"REQUEST";
+        self.buttonLabel.text = @"Request";
       } else {
-        self.buttonLabel.text = @"JOIN";
+        self.buttonLabel.text = @"Join";
       }
     }
     self.buttonView.hidden = NO;
@@ -74,38 +78,20 @@
 
 @implementation ClanBrowseViewController
 
-@synthesize state;
-@synthesize clanList;
-@synthesize browseClansTable, spinner;
-@synthesize clanCell, searchView;
-@synthesize searchString;
-@synthesize shouldReload;
-@synthesize loadingCell;
-
 - (void) viewDidLoad {
-  self.clanList = [NSMutableArray array];
-  
   self.browseClansTable.tableFooterView = [[UIView alloc] init];
   
-  [self reload];
-  
-  [[OutgoingEventController sharedOutgoingEventController] registerClanEventDelegate:self];
+  self.title = @"Browse";
 }
 
 - (void) viewWillAppear:(BOOL)animated {
   [self.browseClansTable reloadData];
 }
 
-- (void) willMoveToParentViewController:(UIViewController *)parent {
-  if (!parent) {
-    [[OutgoingEventController sharedOutgoingEventController] unregisterClanEventDelegate:self];
-  }
-}
-
 - (void) setState:(ClanBrowseState)s {
-  state = s;
-  [browseClansTable reloadData];
-  [browseClansTable setContentOffset:ccp(0,0) animated:YES];
+  _state = s;
+  [self.browseClansTable reloadData];
+  [self.browseClansTable setContentOffset:ccp(0,0) animated:YES];
 }
 
 - (void) reload {
@@ -126,6 +112,8 @@
   if (search) {self.shouldReload = NO; isSearching = NO; _reachedEnd = YES;}
   else if (clans.count < 10) {self.shouldReload = NO; _reachedEnd = YES;}
   else self.shouldReload = YES;
+  
+  if (!self.clanList) self.clanList = [NSMutableArray array];
   
   for (FullClanProtoWithClanSize *fcp in clans) {
     NSMutableArray *arr = self.clanList;
@@ -157,13 +145,13 @@
 - (NSInteger) tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
   NSInteger ct = [self arrayForCurrentState].count;
   
-  if (ct > 0 || (state == kBrowseSearch && !isSearching) || (state != kBrowseSearch && _reachedEnd)) {
+  if (ct > 0 || (self.state == kBrowseSearch && !isSearching) || (self.state != kBrowseSearch && _reachedEnd)) {
     self.spinner.hidden = YES;
   } else {
     self.spinner.hidden = NO;
   }
   
-  return ct == 0 ? 0 : ct+(state != kBrowseSearch && !_reachedEnd);
+  return ct == 0 ? 0 : ct+(self.state != kBrowseSearch && !_reachedEnd);
 }
 
 - (UITableViewCell *) tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -184,18 +172,24 @@
   return cell;
 }
 
+- (void) tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+  [tableView deselectRowAtIndexPath:indexPath animated:NO];
+  
+  [self cellClicked:[tableView cellForRowAtIndexPath:indexPath]];
+}
+
 - (IBAction) cellClicked:(id)sender {
   while (![sender isKindOfClass:[BrowseClanCell class]]) {
     sender = [sender superview];
   }
   BrowseClanCell *cell = (BrowseClanCell *)sender;
-  [self.navigationController pushViewController:[[ClanInfoViewController alloc] initWithClan:cell.clan] animated:YES];
+  [self.parentViewController pushViewController:[[ClanInfoViewController alloc] initWithClan:cell.clan] animated:YES];
 }
 
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView {
   // Load more rows when we get low enough
   if (scrollView.contentOffset.y > -REFRESH_ROWS*self.browseClansTable.rowHeight) {
-    if (shouldReload) {
+    if (self.shouldReload) {
       int min = [[self.clanList lastObject] clan].clanId;
       [[OutgoingEventController sharedOutgoingEventController] retrieveClanInfo:nil clanId:0 grabType:RetrieveClanInfoRequestProto_ClanInfoGrabTypeClanInfo isForBrowsingList:YES beforeClanId:min delegate:self];
       self.shouldReload = NO;
