@@ -1181,7 +1181,7 @@
     int lowestHealth = [aliveMonsters[0] curHealth];
     for (UserMonster *um in aliveMonsters) {
       if (um.curHealth < lowestHealth) {
-        int damage = [damages[@(um.userMonsterId)] integerValue];
+        int damage = [damages[@(um.userMonsterId)] intValue];
         lowestHealth = um.curHealth-damage;
       }
     }
@@ -1189,7 +1189,7 @@
     int dmgThisRound = lowestHealth * (int)aliveMonsters.count;
     if (dmgThisRound < damageToDeal) {
       for (UserMonster *um in aliveMonsters) {
-        int damage = [damages[@(um.userMonsterId)] integerValue];
+        int damage = [damages[@(um.userMonsterId)] intValue];
         damage += lowestHealth;
         [damages setObject:@(damage) forKey:@(um.userMonsterId)];
       }
@@ -1198,7 +1198,7 @@
       int dmgPerChar = damageToDeal/aliveMonsters.count;
       
       for (UserMonster *um in aliveMonsters) {
-        int damage = [damages[@(um.userMonsterId)] integerValue];
+        int damage = [damages[@(um.userMonsterId)] intValue];
         damage += dmgPerChar;
         [damages setObject:@(damage) forKey:@(um.userMonsterId)];
       }
@@ -1207,7 +1207,7 @@
       damageToDeal -= dmgPerChar * aliveMonsters.count;
       for (int i = 0; i < damageToDeal; i++) {
         UserMonster *um = aliveMonsters[i];
-        int damage = [damages[@(um.userMonsterId)] integerValue];
+        int damage = [damages[@(um.userMonsterId)] intValue];
         damage += 1;
         [damages setObject:@(damage) forKey:@(um.userMonsterId)];
       }
@@ -1216,7 +1216,7 @@
     
     // Clear out all dead monsters
     for (UserMonster *um in userMonsters) {
-      int damage = [damages[@(um.userMonsterId)] integerValue];
+      int damage = [damages[@(um.userMonsterId)] intValue];
       if (um.curHealth-damage <= 0) {
         [aliveMonsters removeObject:um];
       }

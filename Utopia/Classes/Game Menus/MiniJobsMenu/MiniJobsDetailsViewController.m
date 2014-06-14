@@ -349,28 +349,32 @@
     UserMonster *um = self.monsterArray[row];
     MiniJobsDetailsCell *cell = (MiniJobsDetailsCell *)[self.monstersTable cellForRowAtIndexPath:ip];
     
-    [self.pickedMonsters addObject:um];
-    [self.monsterArray removeObjectAtIndex:row];
-    
-    cell.monsterView.alpha = 0.f;
-    [self.animMonsterView updateForMonsterId:um.monsterId];
-    [self.view addSubview:self.animMonsterView];
-    self.animMonsterView.frame = [self.view convertRect:cell.monsterView.frame fromView:cell.monsterView.superview];
-    
-    NSUInteger idx = [self.pickedMonsters indexOfObject:um];
-    MiniJobsMonsterView *mv = [self.monsterViews objectAtIndex:idx];
-    [UIView animateWithDuration:0.3f animations:^{
-      self.animMonsterView.frame = [self.view convertRect:mv.monsterView.frame fromView:mv.monsterView.superview];
-    } completion:^(BOOL finished) {
-      [mv updateForMonsterId:um.monsterId];
-      if (finished) {
-        [self.animMonsterView removeFromSuperview];
-      }
-    }];
-    
-    [self.monstersTable deleteRowsAtIndexPaths:@[ip] withRowAnimation:UITableViewRowAnimationFade];
-    
-    [self updateBottomLabels];
+    if (um.curHealth <= 0) {
+      [Globals addAlertNotification:@"This mobster is not healthy enough to go on this mini job."];
+    } else {
+      [self.pickedMonsters addObject:um];
+      [self.monsterArray removeObjectAtIndex:row];
+      
+      cell.monsterView.alpha = 0.f;
+      [self.animMonsterView updateForMonsterId:um.monsterId];
+      [self.view addSubview:self.animMonsterView];
+      self.animMonsterView.frame = [self.view convertRect:cell.monsterView.frame fromView:cell.monsterView.superview];
+      
+      NSUInteger idx = [self.pickedMonsters indexOfObject:um];
+      MiniJobsMonsterView *mv = [self.monsterViews objectAtIndex:idx];
+      [UIView animateWithDuration:0.3f animations:^{
+        self.animMonsterView.frame = [self.view convertRect:mv.monsterView.frame fromView:mv.monsterView.superview];
+      } completion:^(BOOL finished) {
+        [mv updateForMonsterId:um.monsterId];
+        if (finished) {
+          [self.animMonsterView removeFromSuperview];
+        }
+      }];
+      
+      [self.monstersTable deleteRowsAtIndexPaths:@[ip] withRowAnimation:UITableViewRowAnimationFade];
+      
+      [self updateBottomLabels];
+    }
   } else {
     [Globals addAlertNotification:@"You can't send any more mobsters on this mini job."];
   }

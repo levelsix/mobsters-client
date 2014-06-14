@@ -156,7 +156,7 @@
 }
 
 - (IBAction)closeClicked:(id)sender {
-  if (!self.view.hidden) {
+  if (!self.mainView.layer.animationKeys.count) {
     [UIView animateWithDuration:0.18f animations:^{
       self.mainView.center = ccp(self.view.frame.size.width/2, self.view.frame.size.height*3/2);
       self.bgdView.alpha = 0.f;

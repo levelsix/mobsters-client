@@ -433,7 +433,6 @@ BOOL RedeemMiniJobResponseProto_RedeemMiniJobStatusIsValidValue(RedeemMiniJobRes
   int64_t userMiniJobId;
   int32_t gemCost;
   MinimumUserProto* sender;
-  NSMutableArray* mutableUmchpList;
 }
 - (BOOL) hasSender;
 - (BOOL) hasClientTime;
@@ -445,8 +444,6 @@ BOOL RedeemMiniJobResponseProto_RedeemMiniJobStatusIsValidValue(RedeemMiniJobRes
 @property (readonly) int64_t userMiniJobId;
 - (BOOL) isSpeedUp;
 @property (readonly) int32_t gemCost;
-- (NSArray*) umchpList;
-- (UserMonsterCurrentHealthProto*) umchpAtIndex:(int32_t) index;
 
 + (CompleteMiniJobRequestProto*) defaultInstance;
 - (CompleteMiniJobRequestProto*) defaultInstance;
@@ -508,13 +505,6 @@ BOOL RedeemMiniJobResponseProto_RedeemMiniJobStatusIsValidValue(RedeemMiniJobRes
 - (int32_t) gemCost;
 - (CompleteMiniJobRequestProto_Builder*) setGemCost:(int32_t) value;
 - (CompleteMiniJobRequestProto_Builder*) clearGemCost;
-
-- (NSArray*) umchpList;
-- (UserMonsterCurrentHealthProto*) umchpAtIndex:(int32_t) index;
-- (CompleteMiniJobRequestProto_Builder*) replaceUmchpAtIndex:(int32_t) index with:(UserMonsterCurrentHealthProto*) value;
-- (CompleteMiniJobRequestProto_Builder*) addUmchp:(UserMonsterCurrentHealthProto*) value;
-- (CompleteMiniJobRequestProto_Builder*) addAllUmchp:(NSArray*) values;
-- (CompleteMiniJobRequestProto_Builder*) clearUmchpList;
 @end
 
 @interface CompleteMiniJobResponseProto : PBGeneratedMessage {
@@ -584,6 +574,7 @@ BOOL RedeemMiniJobResponseProto_RedeemMiniJobStatusIsValidValue(RedeemMiniJobRes
   int64_t clientTime;
   int64_t userMiniJobId;
   MinimumUserProtoWithMaxResources* sender;
+  NSMutableArray* mutableUmchpList;
 }
 - (BOOL) hasSender;
 - (BOOL) hasClientTime;
@@ -591,6 +582,8 @@ BOOL RedeemMiniJobResponseProto_RedeemMiniJobStatusIsValidValue(RedeemMiniJobRes
 @property (readonly, retain) MinimumUserProtoWithMaxResources* sender;
 @property (readonly) int64_t clientTime;
 @property (readonly) int64_t userMiniJobId;
+- (NSArray*) umchpList;
+- (UserMonsterCurrentHealthProto*) umchpAtIndex:(int32_t) index;
 
 + (RedeemMiniJobRequestProto*) defaultInstance;
 - (RedeemMiniJobRequestProto*) defaultInstance;
@@ -642,6 +635,13 @@ BOOL RedeemMiniJobResponseProto_RedeemMiniJobStatusIsValidValue(RedeemMiniJobRes
 - (int64_t) userMiniJobId;
 - (RedeemMiniJobRequestProto_Builder*) setUserMiniJobId:(int64_t) value;
 - (RedeemMiniJobRequestProto_Builder*) clearUserMiniJobId;
+
+- (NSArray*) umchpList;
+- (UserMonsterCurrentHealthProto*) umchpAtIndex:(int32_t) index;
+- (RedeemMiniJobRequestProto_Builder*) replaceUmchpAtIndex:(int32_t) index with:(UserMonsterCurrentHealthProto*) value;
+- (RedeemMiniJobRequestProto_Builder*) addUmchp:(UserMonsterCurrentHealthProto*) value;
+- (RedeemMiniJobRequestProto_Builder*) addAllUmchp:(NSArray*) values;
+- (RedeemMiniJobRequestProto_Builder*) clearUmchpList;
 @end
 
 @interface RedeemMiniJobResponseProto : PBGeneratedMessage {

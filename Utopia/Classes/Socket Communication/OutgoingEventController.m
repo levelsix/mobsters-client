@@ -1831,23 +1831,8 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
     [Globals popupMessage:@"Trying to speedup without enough gems."];
   }
   
-  NSDictionary *damages = [userMiniJob damageDealtPerUserMonsterId];
-  
-  // Create monster healths
-  NSMutableArray *monsterHealths = [NSMutableArray array];
-  for (NSNumber *umId in userMiniJob.userMonsterIds) {
-    UserMonster *um = [gs myMonsterWithUserMonsterId:umId.longLongValue];
-    int damage = [damages[@(um.userMonsterId)] integerValue];
-    um.curHealth -= damage;
-    
-    UserMonsterCurrentHealthProto_Builder *bldr = [UserMonsterCurrentHealthProto builder];
-    bldr.userMonsterId = um.userMonsterId;
-    bldr.currentHealth = um.curHealth;
-    [monsterHealths addObject:bldr.build];
-  }
-  
   uint64_t ms = [self getCurrentMilliseconds];
-  int tag = [[SocketCommunication sharedSocketCommunication] sendCompleteMiniJobMessage:userMiniJob.userMiniJobId isSpeedUp:isSpeedup gemCost:gemCost clientTime:ms monsterHealths:monsterHealths];
+  int tag = [[SocketCommunication sharedSocketCommunication] sendCompleteMiniJobMessage:userMiniJob.userMiniJobId isSpeedUp:isSpeedup gemCost:gemCost clientTime:ms];
   [[SocketCommunication sharedSocketCommunication] setDelegate:delegate forTag:tag];
   
   userMiniJob.timeCompleted = [MSDate dateWithTimeIntervalSince1970:ms/1000.];
@@ -1858,9 +1843,26 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
 }
 
 - (void) redeemMiniJob:(UserMiniJob *)userMiniJob delegate:(id)delegate {
+  GameState *gs = [GameState sharedGameState];
   if (userMiniJob.timeCompleted) {
     uint64_t ms = [self getCurrentMilliseconds];
-    int tag = [[SocketCommunication sharedSocketCommunication] sendRedeemMiniJobMessage:userMiniJob.userMiniJobId clientTime:ms];
+    
+    NSDictionary *damages = [userMiniJob damageDealtPerUserMonsterId];
+    
+    // Create monster healths
+    NSMutableArray *monsterHealths = [NSMutableArray array];
+    for (NSNumber *umId in userMiniJob.userMonsterIds) {
+      UserMonster *um = [gs myMonsterWithUserMonsterId:umId.longLongValue];
+      int damage = [damages[@(um.userMonsterId)] intValue];
+      um.curHealth -= damage;
+      
+      UserMonsterCurrentHealthProto_Builder *bldr = [UserMonsterCurrentHealthProto builder];
+      bldr.userMonsterId = um.userMonsterId;
+      bldr.currentHealth = um.curHealth;
+      [monsterHealths addObject:bldr.build];
+    }
+    
+    int tag = [[SocketCommunication sharedSocketCommunication] sendRedeemMiniJobMessage:userMiniJob.userMiniJobId clientTime:ms monsterHealths:monsterHealths];
     [[SocketCommunication sharedSocketCommunication] setDelegate:delegate forTag:tag];
     
     GameState *gs = [GameState sharedGameState];

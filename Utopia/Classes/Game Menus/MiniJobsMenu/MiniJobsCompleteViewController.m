@@ -43,12 +43,15 @@
 
 - (void) loadForMiniJob:(UserMiniJob *)miniJob {
   GameState *gs = [GameState sharedGameState];
+  
+  NSDictionary *damages = [miniJob damageDealtPerUserMonsterId];
   for (int i = 0; i < self.monsterViews.count; i++) {
     MiniJobsCompleteMonsterView *mv = self.monsterViews[i];
     if (i < self.miniJob.userMonsterIds.count) {
       uint64_t umId = [self.miniJob.userMonsterIds[i] longLongValue];
       UserMonster *um = [gs myMonsterWithUserMonsterId:umId];
-      [mv updateForMonsterId:um.monsterId hpLost:0];
+      int damage = [damages[@(um.userMonsterId)] intValue];
+      [mv updateForMonsterId:um.monsterId hpLost:damage];
     } else {
       [mv updateForMonsterId:0 hpLost:0];
     }

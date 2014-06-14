@@ -1230,7 +1230,6 @@ BOOL BeginMiniJobResponseProto_BeginMiniJobStatusIsValidValue(BeginMiniJobRespon
 @property int64_t userMiniJobId;
 @property BOOL isSpeedUp;
 @property int32_t gemCost;
-@property (retain) NSMutableArray* mutableUmchpList;
 @end
 
 @implementation CompleteMiniJobRequestProto
@@ -1275,10 +1274,8 @@ BOOL BeginMiniJobResponseProto_BeginMiniJobStatusIsValidValue(BeginMiniJobRespon
   hasGemCost_ = !!value;
 }
 @synthesize gemCost;
-@synthesize mutableUmchpList;
 - (void) dealloc {
   self.sender = nil;
-  self.mutableUmchpList = nil;
   [super dealloc];
 }
 - (id) init {
@@ -1303,13 +1300,6 @@ static CompleteMiniJobRequestProto* defaultCompleteMiniJobRequestProtoInstance =
 - (CompleteMiniJobRequestProto*) defaultInstance {
   return defaultCompleteMiniJobRequestProtoInstance;
 }
-- (NSArray*) umchpList {
-  return mutableUmchpList;
-}
-- (UserMonsterCurrentHealthProto*) umchpAtIndex:(int32_t) index {
-  id value = [mutableUmchpList objectAtIndex:index];
-  return value;
-}
 - (BOOL) isInitialized {
   return YES;
 }
@@ -1328,9 +1318,6 @@ static CompleteMiniJobRequestProto* defaultCompleteMiniJobRequestProtoInstance =
   }
   if (self.hasGemCost) {
     [output writeInt32:5 value:self.gemCost];
-  }
-  for (UserMonsterCurrentHealthProto* element in self.umchpList) {
-    [output writeMessage:6 value:element];
   }
   [self.unknownFields writeToCodedOutputStream:output];
 }
@@ -1355,9 +1342,6 @@ static CompleteMiniJobRequestProto* defaultCompleteMiniJobRequestProtoInstance =
   }
   if (self.hasGemCost) {
     size += computeInt32Size(5, self.gemCost);
-  }
-  for (UserMonsterCurrentHealthProto* element in self.umchpList) {
-    size += computeMessageSize(6, element);
   }
   size += self.unknownFields.serializedSize;
   memoizedSerializedSize = size;
@@ -1449,12 +1433,6 @@ static CompleteMiniJobRequestProto* defaultCompleteMiniJobRequestProtoInstance =
   if (other.hasGemCost) {
     [self setGemCost:other.gemCost];
   }
-  if (other.mutableUmchpList.count > 0) {
-    if (result.mutableUmchpList == nil) {
-      result.mutableUmchpList = [NSMutableArray array];
-    }
-    [result.mutableUmchpList addObjectsFromArray:other.mutableUmchpList];
-  }
   [self mergeUnknownFields:other.unknownFields];
   return self;
 }
@@ -1499,12 +1477,6 @@ static CompleteMiniJobRequestProto* defaultCompleteMiniJobRequestProtoInstance =
       }
       case 40: {
         [self setGemCost:[input readInt32]];
-        break;
-      }
-      case 50: {
-        UserMonsterCurrentHealthProto_Builder* subBuilder = [UserMonsterCurrentHealthProto builder];
-        [input readMessage:subBuilder extensionRegistry:extensionRegistry];
-        [self addUmchp:[subBuilder buildPartial]];
         break;
       }
     }
@@ -1602,35 +1574,6 @@ static CompleteMiniJobRequestProto* defaultCompleteMiniJobRequestProtoInstance =
 - (CompleteMiniJobRequestProto_Builder*) clearGemCost {
   result.hasGemCost = NO;
   result.gemCost = 0;
-  return self;
-}
-- (NSArray*) umchpList {
-  if (result.mutableUmchpList == nil) { return [NSArray array]; }
-  return result.mutableUmchpList;
-}
-- (UserMonsterCurrentHealthProto*) umchpAtIndex:(int32_t) index {
-  return [result umchpAtIndex:index];
-}
-- (CompleteMiniJobRequestProto_Builder*) replaceUmchpAtIndex:(int32_t) index with:(UserMonsterCurrentHealthProto*) value {
-  [result.mutableUmchpList replaceObjectAtIndex:index withObject:value];
-  return self;
-}
-- (CompleteMiniJobRequestProto_Builder*) addAllUmchp:(NSArray*) values {
-  if (result.mutableUmchpList == nil) {
-    result.mutableUmchpList = [NSMutableArray array];
-  }
-  [result.mutableUmchpList addObjectsFromArray:values];
-  return self;
-}
-- (CompleteMiniJobRequestProto_Builder*) clearUmchpList {
-  result.mutableUmchpList = nil;
-  return self;
-}
-- (CompleteMiniJobRequestProto_Builder*) addUmchp:(UserMonsterCurrentHealthProto*) value {
-  if (result.mutableUmchpList == nil) {
-    result.mutableUmchpList = [NSMutableArray array];
-  }
-  [result.mutableUmchpList addObject:value];
   return self;
 }
 @end
@@ -1890,6 +1833,7 @@ BOOL CompleteMiniJobResponseProto_CompleteMiniJobStatusIsValidValue(CompleteMini
 @property (retain) MinimumUserProtoWithMaxResources* sender;
 @property int64_t clientTime;
 @property int64_t userMiniJobId;
+@property (retain) NSMutableArray* mutableUmchpList;
 @end
 
 @implementation RedeemMiniJobRequestProto
@@ -1915,8 +1859,10 @@ BOOL CompleteMiniJobResponseProto_CompleteMiniJobStatusIsValidValue(CompleteMini
   hasUserMiniJobId_ = !!value;
 }
 @synthesize userMiniJobId;
+@synthesize mutableUmchpList;
 - (void) dealloc {
   self.sender = nil;
+  self.mutableUmchpList = nil;
   [super dealloc];
 }
 - (id) init {
@@ -1939,6 +1885,13 @@ static RedeemMiniJobRequestProto* defaultRedeemMiniJobRequestProtoInstance = nil
 - (RedeemMiniJobRequestProto*) defaultInstance {
   return defaultRedeemMiniJobRequestProtoInstance;
 }
+- (NSArray*) umchpList {
+  return mutableUmchpList;
+}
+- (UserMonsterCurrentHealthProto*) umchpAtIndex:(int32_t) index {
+  id value = [mutableUmchpList objectAtIndex:index];
+  return value;
+}
 - (BOOL) isInitialized {
   return YES;
 }
@@ -1951,6 +1904,9 @@ static RedeemMiniJobRequestProto* defaultRedeemMiniJobRequestProtoInstance = nil
   }
   if (self.hasUserMiniJobId) {
     [output writeInt64:3 value:self.userMiniJobId];
+  }
+  for (UserMonsterCurrentHealthProto* element in self.umchpList) {
+    [output writeMessage:6 value:element];
   }
   [self.unknownFields writeToCodedOutputStream:output];
 }
@@ -1969,6 +1925,9 @@ static RedeemMiniJobRequestProto* defaultRedeemMiniJobRequestProtoInstance = nil
   }
   if (self.hasUserMiniJobId) {
     size += computeInt64Size(3, self.userMiniJobId);
+  }
+  for (UserMonsterCurrentHealthProto* element in self.umchpList) {
+    size += computeMessageSize(6, element);
   }
   size += self.unknownFields.serializedSize;
   memoizedSerializedSize = size;
@@ -2054,6 +2013,12 @@ static RedeemMiniJobRequestProto* defaultRedeemMiniJobRequestProtoInstance = nil
   if (other.hasUserMiniJobId) {
     [self setUserMiniJobId:other.userMiniJobId];
   }
+  if (other.mutableUmchpList.count > 0) {
+    if (result.mutableUmchpList == nil) {
+      result.mutableUmchpList = [NSMutableArray array];
+    }
+    [result.mutableUmchpList addObjectsFromArray:other.mutableUmchpList];
+  }
   [self mergeUnknownFields:other.unknownFields];
   return self;
 }
@@ -2090,6 +2055,12 @@ static RedeemMiniJobRequestProto* defaultRedeemMiniJobRequestProtoInstance = nil
       }
       case 24: {
         [self setUserMiniJobId:[input readInt64]];
+        break;
+      }
+      case 50: {
+        UserMonsterCurrentHealthProto_Builder* subBuilder = [UserMonsterCurrentHealthProto builder];
+        [input readMessage:subBuilder extensionRegistry:extensionRegistry];
+        [self addUmchp:[subBuilder buildPartial]];
         break;
       }
     }
@@ -2155,6 +2126,35 @@ static RedeemMiniJobRequestProto* defaultRedeemMiniJobRequestProtoInstance = nil
 - (RedeemMiniJobRequestProto_Builder*) clearUserMiniJobId {
   result.hasUserMiniJobId = NO;
   result.userMiniJobId = 0L;
+  return self;
+}
+- (NSArray*) umchpList {
+  if (result.mutableUmchpList == nil) { return [NSArray array]; }
+  return result.mutableUmchpList;
+}
+- (UserMonsterCurrentHealthProto*) umchpAtIndex:(int32_t) index {
+  return [result umchpAtIndex:index];
+}
+- (RedeemMiniJobRequestProto_Builder*) replaceUmchpAtIndex:(int32_t) index with:(UserMonsterCurrentHealthProto*) value {
+  [result.mutableUmchpList replaceObjectAtIndex:index withObject:value];
+  return self;
+}
+- (RedeemMiniJobRequestProto_Builder*) addAllUmchp:(NSArray*) values {
+  if (result.mutableUmchpList == nil) {
+    result.mutableUmchpList = [NSMutableArray array];
+  }
+  [result.mutableUmchpList addObjectsFromArray:values];
+  return self;
+}
+- (RedeemMiniJobRequestProto_Builder*) clearUmchpList {
+  result.mutableUmchpList = nil;
+  return self;
+}
+- (RedeemMiniJobRequestProto_Builder*) addUmchp:(UserMonsterCurrentHealthProto*) value {
+  if (result.mutableUmchpList == nil) {
+    result.mutableUmchpList = [NSMutableArray array];
+  }
+  [result.mutableUmchpList addObject:value];
   return self;
 }
 @end
