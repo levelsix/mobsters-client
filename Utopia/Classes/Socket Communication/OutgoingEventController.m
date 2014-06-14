@@ -1821,7 +1821,6 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
 
 - (void) completeMiniJob:(UserMiniJob *)userMiniJob isSpeedup:(BOOL)isSpeedup gemCost:(int)gemCost delegate:(id)delegate {
   GameState *gs = [GameState sharedGameState];
-  Globals *gl = [Globals sharedGlobals];
   
   if (!(userMiniJob.timeStarted && !userMiniJob.timeCompleted)) {
     [Globals popupMessage:@"Trying to complete invalid mini job."];
@@ -1832,65 +1831,15 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
     [Globals popupMessage:@"Trying to speedup without enough gems."];
   }
   
-  NSMutableArray *userMonsters = [NSMutableArray array];
-  int totalAttack = 0;
-  for (NSNumber *umId in userMiniJob.userMonsterIds) {
-    UserMonster *um = [gs myMonsterWithUserMonsterId:umId.longLongValue];
-    if (um) {
-      [userMonsters addObject:um];
-      totalAttack += [gl calculateTotalDamageForMonster:um];
-    } else {
-      [Globals popupMessage:@"Unable to find mobster on mini job."];
-      return;
-    }
-  }
-  
-  // Deal damage evenly
-  float multiplier = 1.f;//userMiniJob.miniJob.atkRequired/(float)totalAttack;
-  int damageToDeal = ceilf(userMiniJob.baseDmgReceived*multiplier);
-  NSMutableArray *aliveMonsters = [userMonsters mutableCopy];
-  while (damageToDeal && aliveMonsters.count > 0) {
-    // Find lowest health
-    int lowestHealth = [aliveMonsters[0] curHealth];
-    for (UserMonster *um in aliveMonsters) {
-      if (um.curHealth < lowestHealth) {
-        lowestHealth = um.curHealth;
-      }
-    }
-    
-    int dmgThisRound = lowestHealth * (int)aliveMonsters.count;
-    if (dmgThisRound < damageToDeal) {
-      for (UserMonster *um in aliveMonsters) {
-        um.curHealth -= lowestHealth;
-      }
-      damageToDeal -= dmgThisRound;
-    } else {
-      int dmgPerChar = damageToDeal/aliveMonsters.count;
-      
-      for (UserMonster *um in aliveMonsters) {
-        um.curHealth -= dmgPerChar;
-      }
-      
-      // Deal remaining damage (i.e. 2 monsters-7 dmg to deal: 1 dmg needs to be dealt to someone)
-      damageToDeal -= dmgPerChar * aliveMonsters.count;
-      for (int i = 0; i < damageToDeal; i++) {
-        UserMonster *um = aliveMonsters[i];
-        um.curHealth -= 1;
-      }
-      damageToDeal = 0;
-    }
-    
-    // Clear out all dead monsters
-    for (UserMonster *um in userMonsters) {
-      if (um.curHealth <= 0) {
-        [aliveMonsters removeObject:um];
-      }
-    }
-  }
+  NSDictionary *damages = [userMiniJob damageDealtPerUserMonsterId];
   
   // Create monster healths
   NSMutableArray *monsterHealths = [NSMutableArray array];
-  for (UserMonster *um in userMonsters) {
+  for (NSNumber *umId in userMiniJob.userMonsterIds) {
+    UserMonster *um = [gs myMonsterWithUserMonsterId:umId.longLongValue];
+    int damage = [damages[@(um.userMonsterId)] integerValue];
+    um.curHealth -= damage;
+    
     UserMonsterCurrentHealthProto_Builder *bldr = [UserMonsterCurrentHealthProto builder];
     bldr.userMonsterId = um.userMonsterId;
     bldr.currentHealth = um.curHealth;

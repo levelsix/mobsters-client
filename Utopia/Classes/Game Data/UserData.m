@@ -1154,6 +1154,78 @@
   return self;
 }
 
+- (NSDictionary *) damageDealtPerUserMonsterId {
+  GameState *gs = [GameState sharedGameState];
+  Globals *gl = [Globals sharedGlobals];
+  NSMutableDictionary *damages = [NSMutableDictionary dictionary];
+  NSMutableArray *userMonsters = [NSMutableArray array];
+  
+  int totalAttack = 0;
+  for (NSNumber *umId in self.userMonsterIds) {
+    UserMonster *um = [gs myMonsterWithUserMonsterId:umId.longLongValue];
+    if (um) {
+      [userMonsters addObject:um];
+      totalAttack += [gl calculateTotalDamageForMonster:um];
+    } else {
+      [Globals popupMessage:@"Unable to find mobster on mini job."];
+      return nil;
+    }
+  }
+  
+  // Deal damage evenly
+  float multiplier = 1.f;//userMiniJob.miniJob.atkRequired/(float)totalAttack;
+  int damageToDeal = ceilf(self.baseDmgReceived*multiplier);
+  NSMutableArray *aliveMonsters = [userMonsters mutableCopy];
+  while (damageToDeal && aliveMonsters.count > 0) {
+    // Find lowest health
+    int lowestHealth = [aliveMonsters[0] curHealth];
+    for (UserMonster *um in aliveMonsters) {
+      if (um.curHealth < lowestHealth) {
+        int damage = [damages[@(um.userMonsterId)] integerValue];
+        lowestHealth = um.curHealth-damage;
+      }
+    }
+    
+    int dmgThisRound = lowestHealth * (int)aliveMonsters.count;
+    if (dmgThisRound < damageToDeal) {
+      for (UserMonster *um in aliveMonsters) {
+        int damage = [damages[@(um.userMonsterId)] integerValue];
+        damage += lowestHealth;
+        [damages setObject:@(damage) forKey:@(um.userMonsterId)];
+      }
+      damageToDeal -= dmgThisRound;
+    } else {
+      int dmgPerChar = damageToDeal/aliveMonsters.count;
+      
+      for (UserMonster *um in aliveMonsters) {
+        int damage = [damages[@(um.userMonsterId)] integerValue];
+        damage += dmgPerChar;
+        [damages setObject:@(damage) forKey:@(um.userMonsterId)];
+      }
+      
+      // Deal remaining damage (i.e. 2 monsters-7 dmg to deal: 1 dmg needs to be dealt to someone)
+      damageToDeal -= dmgPerChar * aliveMonsters.count;
+      for (int i = 0; i < damageToDeal; i++) {
+        UserMonster *um = aliveMonsters[i];
+        int damage = [damages[@(um.userMonsterId)] integerValue];
+        damage += 1;
+        [damages setObject:@(damage) forKey:@(um.userMonsterId)];
+      }
+      damageToDeal = 0;
+    }
+    
+    // Clear out all dead monsters
+    for (UserMonster *um in userMonsters) {
+      int damage = [damages[@(um.userMonsterId)] integerValue];
+      if (um.curHealth-damage <= 0) {
+        [aliveMonsters removeObject:um];
+      }
+    }
+  }
+  
+  return damages;
+}
+
 - (BOOL) isEqual:(UserMiniJob *)object {
   return self.userMiniJobId == object.userMiniJobId;
 }

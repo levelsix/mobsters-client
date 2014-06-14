@@ -33,7 +33,7 @@ typedef enum {
 @property (nonatomic, retain) IBOutlet UIView *headerButtonsView;
 @property (nonatomic, retain) IBOutlet ClanMemberCell *memberCell;
 @property (nonatomic, retain) IBOutlet UITableView *infoTable;
-@property (nonatomic, retain) IBOutlet UIView *loadingMembersView;
+@property (nonatomic, retain) IBOutlet UIActivityIndicatorView *spinner;
 
 @property (nonatomic, retain) FullClanProtoWithClanSize *clan;
 @property (nonatomic, retain) NSArray *allMembers;
@@ -44,7 +44,6 @@ typedef enum {
 @property (nonatomic, assign) ClanInfoSortOrder sortOrder;
 
 @property (nonatomic, retain) IBOutlet UIView *settingsView;
-@property (nonatomic, retain) IBOutlet UIImageView *settingsBgdImage;
 @property (nonatomic, retain) IBOutletCollection(ClanInfoSettingsButtonView) NSArray *settingsButtons;
 
 - (id) initWithClanId:(int)clanId andName:(NSString *)name;

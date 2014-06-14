@@ -328,4 +328,6 @@ typedef enum {
 
 + (id) userMiniJobWithProto:(UserMiniJobProto *)proto;
 
+- (NSDictionary *) damageDealtPerUserMonsterId;
+
 @end

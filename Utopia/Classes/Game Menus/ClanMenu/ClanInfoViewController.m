@@ -36,16 +36,11 @@
 }
 
 - (void) viewDidLoad {
-  [self.infoTable addSubview:self.loadingMembersView];
   [self loadInfoViewForClan:self.clan clanStatus:0];
-  
-  self.settingsView.layer.anchorPoint = ccp(1, 0.5);
 }
 
 - (void) viewWillDisappear:(BOOL)animated {
   [self.settingsView removeFromSuperview];
-  
-  [[OutgoingEventController sharedOutgoingEventController] unregisterClanEventDelegate:self];
 }
 
 - (void) loadForMyClan {
@@ -62,7 +57,6 @@
   
   self.title = gs.clan.name;
   
-  [[OutgoingEventController sharedOutgoingEventController] registerClanEventDelegate:self];
   _isMyClan = YES;
 }
 
@@ -222,10 +216,12 @@
     [self.infoTable reloadData];
   }
   
-  UIButton *newHeader = (UIButton *)[self.headerButtonsView viewWithTag:_sortOrder];
-  [_clickedHeaderButton setTitleColor:[UIColor colorWithWhite:0.f alpha:0.6f] forState:UIControlStateNormal];
-  [newHeader setTitleColor:[UIColor colorWithWhite:51/255.f alpha:1.f] forState:UIControlStateNormal];
-  _clickedHeaderButton = newHeader;
+  if (_sortOrder) {
+    UIButton *newHeader = (UIButton *)[self.headerButtonsView viewWithTag:_sortOrder];
+    [_clickedHeaderButton setTitleColor:[UIColor colorWithWhite:0.f alpha:0.6f] forState:UIControlStateNormal];
+    [newHeader setTitleColor:[UIColor colorWithWhite:51/255.f alpha:1.f] forState:UIControlStateNormal];
+    _clickedHeaderButton = newHeader;
+  }
 }
 
 #pragma mark - Settings View
@@ -239,29 +235,22 @@
     BOOL shouldDisplay = [self updateSettingsLabelsForClanStatus:cell.user.clanStatus myStatus:self.myUser.clanStatus];
     
     if (shouldDisplay) {
+      // Add a button over the entire view to dismiss view
+      CGRect visibleRect;
+      visibleRect.origin = self.infoTable.contentOffset;
+      visibleRect.size = self.infoTable.contentSize;
+      UIButton *button = [[UIButton alloc] initWithFrame:visibleRect];
+      [self.infoTable addSubview:button];
+      [button addTarget:self action:@selector(closeSettingsView) forControlEvents:UIControlEventTouchDown];
+      button.tag = 123;
+      
       [self.infoTable addSubview:self.settingsView];
-      self.settingsView.center = [self.settingsView.superview convertPoint:ccp(cell.editMemberView.frame.origin.x, cell.editMemberView.center.y) fromView:cell.editMemberView.superview];
+      CGPoint finalCenter = [self.settingsView.superview convertPoint:cell.center fromView:cell.superview];
       
-      float minY = self.settingsView.frame.origin.y-3;
-      float maxY = self.settingsView.frame.origin.y+self.settingsView.frame.size.height+3;
-      if (maxY > self.infoTable.contentOffset.y+self.infoTable.frame.size.height) {
-        [self.infoTable setContentOffset:ccp(0, maxY-self.infoTable.frame.size.height) animated:YES];
-      } else if (minY < self.infoTable.contentOffset.y) {
-        [self.infoTable setContentOffset:ccp(0, minY) animated:YES];
-      }
-      
-      self.settingsView.transform = CGAffineTransformMakeScale(0.f, 0.f);
-      [UIView animateWithDuration:0.2f animations:^{
-        self.settingsView.transform = CGAffineTransformIdentity;
+      self.settingsView.center = ccpAdd(finalCenter, ccp(self.view.frame.size.width, 0));
+      [UIView animateWithDuration:0.3f animations:^{
+        self.settingsView.center = finalCenter;
       }];
-      
-      for (int i = 0; i < self.settingsButtons.count; i++) {
-        UIView *v = self.settingsButtons[i];
-        v.transform = CGAffineTransformMakeScale(0.f, 0.f);
-        [UIView animateWithDuration:0.2f delay:i*0.1f+0.1f options:UIViewAnimationOptionCurveEaseInOut animations:^{
-          v.transform = CGAffineTransformIdentity;
-        } completion:nil];
-      }
       
       _curClickedCell = cell;
     }
@@ -270,25 +259,26 @@
 
 - (void) closeSettingsView:(void (^)(void))completion {
   if (self.settingsView.superview) {
-    [UIView animateWithDuration:0.1f animations:^{
-      self.settingsView.transform = CGAffineTransformMakeScale(0.f, 0.f);
+    float dur = completion ? 0.1f : 0.3f;
+    [UIView animateWithDuration:dur animations:^{
+      self.settingsView.center = ccpAdd(self.settingsView.center, ccp(self.view.frame.size.width, 0));
     } completion:^(BOOL finished) {
       _curClickedCell = nil;
       [self.settingsView removeFromSuperview];
+      [[self.infoTable viewWithTag:123] removeFromSuperview];
       if (completion) {
         completion();
       }
     }];
-    
-    float maxY = MAX(0, self.infoTable.contentSize.height-self.infoTable.frame.size.height);
-    if (self.infoTable.contentOffset.y > maxY) {
-      [self.infoTable setContentOffset:ccp(0, maxY) animated:YES];
-    }
   } else {
     if (completion) {
       completion();
     }
   }
+}
+
+- (void) closeSettingsView {
+  [self closeSettingsView:nil];
 }
 
 - (void) closeSettingsAndReorderWithArray:(NSArray *)arr {
@@ -321,35 +311,37 @@
     } else if (myStatus == UserClanStatusJuniorLeader) {
       numOptions = 2;
       
-      [self.settingsButtons[1] updateForSetting:ClanSettingBoot];
+      [self.settingsButtons[3] updateForSetting:ClanSettingBoot];
       
       if (cs == UserClanStatusCaptain) {
-        [self.settingsButtons[0] updateForSetting:ClanSettingDemoteToMember];
+        [self.settingsButtons[2] updateForSetting:ClanSettingDemoteToMember];
       } else if (cs == UserClanStatusMember) {
-        [self.settingsButtons[0] updateForSetting:ClanSettingPromoteToCaptain];
+        [self.settingsButtons[2] updateForSetting:ClanSettingPromoteToCaptain];
       }
     }
   } else {
     if (myStatus == UserClanStatusLeader || myStatus == UserClanStatusJuniorLeader) {
       numOptions = 2;
-      [self.settingsButtons[0] updateForSetting:ClanSettingAcceptMember];
-      [self.settingsButtons[1] updateForSetting:ClanSettingRejectMember];
+      [self.settingsButtons[2] updateForSetting:ClanSettingAcceptMember];
+      [self.settingsButtons[3] updateForSetting:ClanSettingRejectMember];
     }
   }
   
-  self.settingsBgdImage.image = [Globals imageNamed:[NSString stringWithFormat:@"%doptions.png", numOptions]];
-  
-  CGRect r = self.settingsView.frame;
-  r.size = self.settingsBgdImage.image.size;
-  self.settingsView.frame = r;
-  
-  float height = ((UIView *)self.settingsButtons[0]).frame.size.height;
-  float space = (r.size.height-numOptions*height)/(numOptions+1);
-  for (int i = 0; i < self.settingsButtons.count; i++) {
-    UIView *v = self.settingsButtons[i];
-    v.center = ccp(v.center.x, space*(i+1)+height*(i+0.5));
-    
-    v.hidden = i >= numOptions;
+  if (self.settingsView.subviews.count) {
+    UIView *sv = self.settingsView.subviews[0];
+    if (sv.subviews.count) {
+      UIView *ssv = sv.subviews[0];
+      UIView *leftButton = self.settingsButtons[4-numOptions];
+      
+      CGRect r = ssv.frame;
+      r.origin.x = -leftButton.frame.origin.x;
+      ssv.frame = r;
+      
+      r = sv.frame;
+      r.size.width = ssv.frame.size.width+ssv.frame.origin.x;
+      sv.frame = r;
+      sv.center = ccp(self.settingsView.frame.size.width/2, sv.center.y);
+    }
   }
   
   return numOptions > 0;
@@ -384,7 +376,17 @@
 
 - (NSInteger) tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
   NSInteger count = self.shownMembers.count;
-  self.loadingMembersView.hidden = count > 0;
+  if (count == 0) {
+    self.spinner.hidden = NO;
+    [self.spinner startAnimating];
+    if (self.clan) {
+      self.spinner.center = ccp(self.view.frame.size.width/2, self.view.frame.size.height-(self.view.frame.size.height-self.infoView.frame.size.height-self.headerButtonsView.frame.size.height)/2);
+    } else {
+      self.spinner.center = ccp(self.view.frame.size.width/2, self.view.frame.size.height/2);
+    }
+  } else {
+    self.spinner.hidden = YES;
+  }
   return count;
 }
 
@@ -472,11 +474,13 @@
 - (IBAction)joinClicked:(id)sender {
   [[OutgoingEventController sharedOutgoingEventController] requestJoinClan:self.clan.clan.clanId delegate:self];
   [self.infoView beginSpinners];
+  _waitingForResponse = YES;
 }
 
 - (IBAction)requestClicked:(id)sender {
   [[OutgoingEventController sharedOutgoingEventController] requestJoinClan:self.clan.clan.clanId delegate:self];
   [self.infoView beginSpinners];
+  _waitingForResponse = YES;
 }
 
 - (IBAction)leaveClicked:(id)sender {
@@ -492,6 +496,7 @@
 - (void) leaveClan {
   [[OutgoingEventController sharedOutgoingEventController] leaveClanWithDelegate:self];
   [self.infoView beginSpinners];
+  _waitingForResponse = YES;
 }
 
 - (IBAction)editClicked:(id)sender {
@@ -501,6 +506,7 @@
 - (IBAction)cancelClicked:(id)sender {
   [[OutgoingEventController sharedOutgoingEventController] retractRequestToJoinClan:self.clan.clan.clanId delegate:self];
   [self.infoView beginSpinners];
+  _waitingForResponse = YES;
 }
 
 - (IBAction)settingsClicked:(id)sender {
@@ -541,9 +547,11 @@
 
 - (NSArray *) userAdded:(MinimumUserProtoForClans *)user members:(NSArray *)members {
   if (user.clanStatus != UserClanStatusRequesting) {
-    FullClanProtoWithClanSize_Builder *clanBldr = [FullClanProtoWithClanSize builderWithPrototype:self.clan];
-    clanBldr.clanSize++;
-    self.clan = clanBldr.build;
+    if (self.clan) {
+      FullClanProtoWithClanSize_Builder *clanBldr = [FullClanProtoWithClanSize builderWithPrototype:self.clan];
+      clanBldr.clanSize++;
+      self.clan = clanBldr.build;
+    }
   }
   
   return [members arrayByAddingObject:user];
@@ -623,16 +631,19 @@
 - (void) handleRequestJoinClanResponseProto:(FullEvent *)e {
   [self loadInfoViewForClan:self.clan clanStatus:self.myUser.clanStatus];
   [self.infoView stopAllSpinners];
+  _waitingForResponse = NO;
 }
 
 - (void) handleRetractRequestJoinClanResponseProto:(FullEvent *)e {
   [self loadInfoViewForClan:self.clan clanStatus:self.myUser.clanStatus];
   [self.infoView stopAllSpinners];
+  _waitingForResponse = NO;
 }
 
 - (void) handleLeaveClanResponseProto:(FullEvent *)e {
   [self loadInfoViewForClan:self.clan clanStatus:self.myUser.clanStatus];
   [self.infoView stopAllSpinners];
+  _waitingForResponse = NO;
 }
 
 #pragma mark Other Member Actions

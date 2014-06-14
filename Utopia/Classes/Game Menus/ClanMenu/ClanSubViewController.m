@@ -16,14 +16,6 @@
 
 @implementation ClanSubViewController
 
-- (void) willMoveToParentViewController:(UIViewController *)parent {
-  if (!parent) {
-    [[OutgoingEventController sharedOutgoingEventController] unregisterClanEventDelegate:self];
-  } else {
-    [[OutgoingEventController sharedOutgoingEventController] registerClanEventDelegate:self];
-  }
-}
-
 - (BOOL) canGoBack {
   return YES;
 }

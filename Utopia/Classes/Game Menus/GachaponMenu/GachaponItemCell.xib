@@ -20,7 +20,7 @@
                     <autoresizingMask key="autoresizingMask"/>
                 </imageView>
                 <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="EPIC" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" id="rZc-TL-ker" customClass="NiceFontLabel8">
-                    <rect key="frame" x="9" y="33" width="39" height="21"/>
+                    <rect key="frame" x="9" y="34" width="39" height="21"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                     <fontDescription key="fontDescription" type="system" pointSize="8"/>
                     <color key="highlightedColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -31,8 +31,8 @@
                     <rect key="frame" x="11" y="10" width="34" height="26"/>
                     <autoresizingMask key="autoresizingMask"/>
                 </imageView>
-                <imageView opaque="NO" multipleTouchEnabled="YES" contentMode="scaleAspectFit" image="epiccapsule.png" id="yCI-6f-DKi">
-                    <rect key="frame" x="10" y="8" width="35" height="27"/>
+                <imageView opaque="NO" multipleTouchEnabled="YES" contentMode="center" image="gachaepicball.png" id="yCI-6f-DKi">
+                    <rect key="frame" x="13" y="7" width="31" height="31"/>
                     <autoresizingMask key="autoresizingMask"/>
                 </imageView>
             </subviews>
@@ -46,7 +46,7 @@
     </objects>
     <resources>
         <image name="diamond.png" width="29" height="27"/>
-        <image name="epiccapsule.png" width="32" height="32"/>
+        <image name="gachaepicball.png" width="30" height="30"/>
         <image name="prizebg.png" width="50" height="50"/>
     </resources>
 </document>

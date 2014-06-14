@@ -392,6 +392,14 @@
 
 @end
 
+@implementation NiceFontTextField9
+
+- (void) awakeFromNib {
+  self.font =  [UIFont fontWithName:@"Gotham-Bold" size:self.font.pointSize];
+}
+
+@end
+
 @implementation NiceFontTextField17
 
 - (void) awakeFromNib {
@@ -412,6 +420,14 @@
 
 - (void) awakeFromNib {
   self.font = [UIFont fontWithName:@"SanvitoPro-Semibold" size:self.font.pointSize];
+}
+
+@end
+
+@implementation NiceFontTextView9
+
+- (void) awakeFromNib {
+  self.font = [UIFont fontWithName:@"Gotham-Bold" size:self.font.pointSize];
 }
 
 @end
@@ -807,7 +823,7 @@
     }
     [self setImage:[Globals maskImage:img withColor:[UIColor colorWithWhite:0.f alpha:0.4f]] forState:UIControlStateHighlighted];
   } else {
-    [self setImage:nil forState:UIControlStateNormal];
+    [self setImage:nil forState:UIControlStateHighlighted];
   }
 }
 
@@ -978,7 +994,12 @@
     label = self.label3;
     icon = self.icon3;
   }
-  self.selectedView.center = ccp(label.center.x, self.selectedView.center.y);
+  if (label) {
+    self.selectedView.center = ccp(label.center.x, self.selectedView.center.y);
+    self.selectedView.hidden = NO;
+  } else {
+    self.selectedView.hidden = YES;
+  }
   label.textColor = self.activeTextColor;
   label.shadowColor = self.activeShadowColor;
   icon.highlighted = YES;

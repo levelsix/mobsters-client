@@ -39,6 +39,7 @@ typedef enum {
 @interface ClanBrowseViewController : ClanSubViewController <UITableViewDelegate, UITableViewDataSource, UITextFieldDelegate> {
   BOOL isSearching;
   BOOL _reachedEnd;
+  BOOL _waitingForResponse;
 }
 
 @property (nonatomic, assign) ClanBrowseState state;

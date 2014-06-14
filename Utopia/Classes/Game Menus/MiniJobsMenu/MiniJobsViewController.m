@@ -28,7 +28,14 @@
   [Globals bounceView:self.mainView fadeInBgdView:self.bgdView];
 }
 
-- (void) viewDidAppear:(BOOL)animated {
+- (void) viewWillAppear:(BOOL)animated {
+  [super viewWillAppear:animated];
+  
+  UserMiniJob *activeJob = [self activeMiniJob];
+  if (activeJob.timeCompleted) {
+    [self displayCompleteView:activeJob animated:NO];
+  }
+  
   [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(miniJobWaitTimeComplete:) name:MINI_JOB_WAIT_COMPLETE_NOTIFICATION object:nil];
 }
 
@@ -39,6 +46,8 @@
 - (void) miniJobWaitTimeComplete:(NSNotification *)notif {
   if (notif.object != self) {
     self.detailsViewController.activeMiniJob = [self activeMiniJob];
+    [self.listViewController reloadTableAnimated:YES];
+    [self displayCompleteView:[self activeMiniJob] animated:YES];
   }
 }
 
@@ -77,6 +86,7 @@
 
 - (void) transitionToListView {
   MiniJobsDetailsViewController *dvc = self.detailsViewController;
+  self.detailsViewController = nil;
   [self.listViewController reloadTableAnimated:NO];
   [UIView animateWithDuration:0.3f animations:^{
     self.listViewController.view.center = ccp(self.containerView.frame.size.width/2,
@@ -94,6 +104,39 @@
     
     [dvc.view removeFromSuperview];
     [dvc removeFromParentViewController];
+  }];
+}
+
+- (void) displayCompleteView:(UserMiniJob *)miniJob animated:(BOOL)animated {
+  MiniJobsCompleteViewController *comp = [[MiniJobsCompleteViewController alloc] init];
+  [comp loadForMiniJob:miniJob];
+  comp.delegate = self;
+  
+  // Add it right on top of list view so it will transition back from details view
+  [self.listViewController addChildViewController:comp];
+  [self.listViewController.view addSubview:comp.view];
+  
+  if (self.detailsViewController) {
+    [self transitionToListView];
+  } else {
+    if (animated) {
+      comp.view.alpha = 0.f;
+      [UIView animateWithDuration:0.3f animations:^{
+        comp.view.alpha = 1.f;
+      }];
+    }
+  }
+  
+  self.completeViewController = comp;
+}
+
+- (void) removeCompleteView {
+  [UIView animateWithDuration:0.3f animations:^{
+    self.completeViewController.view.alpha = 0.f;
+  } completion:^(BOOL finished) {
+    [self.completeViewController.view removeFromSuperview];
+    [self.completeViewController removeFromParentViewController];
+    self.completeViewController = nil;
   }];
 }
 
@@ -221,6 +264,7 @@
     [self miniJobsListCollectClicked:listCell];
     
     [self.detailsViewController beginCollectSpinning];
+    [self.completeViewController beginSpinning];
   }
 }
 
@@ -243,6 +287,7 @@
   
   [self.detailsViewController stopSpinning];
   self.detailsViewController.activeMiniJob = [self activeMiniJob];
+  [self displayCompleteView:[self activeMiniJob] animated:YES];
   
   [[NSNotificationCenter defaultCenter] postNotificationName:MINI_JOB_WAIT_COMPLETE_NOTIFICATION object:self];
 }
@@ -253,6 +298,8 @@
   
   [self.detailsViewController stopSpinning];
   self.detailsViewController.activeMiniJob = [self activeMiniJob];
+  [self.completeViewController stopSpinning];
+  [self removeCompleteView];
   
   [self.listViewController reloadTableAnimated:YES];
   

@@ -803,6 +803,32 @@
   }
 }
 
+#pragma mark - Clan access
+
+- (void) openClanView {
+  if (!self.clanViewController) {
+    ClanViewController *cvc = [[ClanViewController alloc] init];
+    [self addChildViewController:cvc];
+    cvc.delegate = self;
+    cvc.view.frame = self.view.bounds;
+    [self.view addSubview:cvc.view];
+    self.clanViewController = cvc;
+  }
+}
+
+- (void) openClanViewForClanId:(int)clanId {
+  [self openClanView];
+  [self.clanViewController loadForClanId:clanId];
+}
+
+- (void) clanViewControllerDidClose:(id)cvc {
+  if (self.clanViewController == cvc) {
+    self.clanViewController = nil;
+  } else {
+    NSAssert(false, @"Multiple clan view controllers seem to have been instantiated.");
+  }
+}
+
 #pragma mark - Gem Shop access
 
 - (void) openGemShop {

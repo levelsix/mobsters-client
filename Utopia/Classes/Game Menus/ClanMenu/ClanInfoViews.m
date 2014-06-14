@@ -166,7 +166,7 @@
       }
     }
   } else {
-    self.nameLabel.text = @"Loading...";
+    self.nameLabel.text = nil;
     self.membersLabel.text = nil;
     self.typeLabel.text = nil;
     self.foundedLabel.text = nil;
@@ -178,7 +178,7 @@
   CGSize size = [self.descriptionView.text sizeWithFont:self.descriptionView.font constrainedToSize:self.descriptionView.frame.size];
   CGFloat newSize = MAX(_baseHeight, size.height+self.descriptionView.frame.origin.x);
   CGRect r = self.frame;
-  r.size.height = newSize;
+  r.size.height = ceilf(newSize);
   self.frame = r;
 }
 

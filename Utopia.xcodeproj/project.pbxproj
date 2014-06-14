@@ -2190,6 +2190,12 @@
 		CFF513DA18C8DE3C004B0E56 /* zarkunderline.png in Resources */ = {isa = PBXBuildFile; fileRef = CFF513CA18C8DE3C004B0E56 /* zarkunderline.png */; };
 		CFF513DB18C8DE3C004B0E56 /* zarkunderline@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CFF513CB18C8DE3C004B0E56 /* zarkunderline@2x.png */; };
 		CFF5ACCE1941508500571298 /* FocusScrollView.m in Sources */ = {isa = PBXBuildFile; fileRef = CFF5ACCD1941508500571298 /* FocusScrollView.m */; };
+		CFF5DB97194BD8320019EB2B /* greysquirrel.png in Resources */ = {isa = PBXBuildFile; fileRef = CFF5DB95194BD8320019EB2B /* greysquirrel.png */; };
+		CFF5DB98194BD8320019EB2B /* greysquirrel@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CFF5DB96194BD8320019EB2B /* greysquirrel@2x.png */; };
+		CFF5DBA0194BD8CE0019EB2B /* MiniJobsCompleteViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CFF5DB9E194BD8CE0019EB2B /* MiniJobsCompleteViewController.m */; };
+		CFF5DBA1194BD8CE0019EB2B /* MiniJobsCompleteViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = CFF5DB9F194BD8CE0019EB2B /* MiniJobsCompleteViewController.xib */; };
+		CFF5DBA4194BDACA0019EB2B /* damagedealtbg.png in Resources */ = {isa = PBXBuildFile; fileRef = CFF5DBA2194BDACA0019EB2B /* damagedealtbg.png */; };
+		CFF5DBA5194BDACA0019EB2B /* damagedealtbg@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CFF5DBA3194BDACA0019EB2B /* damagedealtbg@2x.png */; };
 		CFF73FDD18160760009DE4A4 /* AxeHandel.ttf in Resources */ = {isa = PBXBuildFile; fileRef = CFF73FDC18160760009DE4A4 /* AxeHandel.ttf */; };
 		CFF740231817AF09009DE4A4 /* bench1.png in Resources */ = {isa = PBXBuildFile; fileRef = CFF740021817AF09009DE4A4 /* bench1.png */; };
 		CFF740251817AF09009DE4A4 /* bench1@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CFF740031817AF09009DE4A4 /* bench1@2x.png */; };
@@ -5233,6 +5239,13 @@
 		CFF513CB18C8DE3C004B0E56 /* zarkunderline@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "zarkunderline@2x.png"; sourceTree = "<group>"; };
 		CFF5ACCC1941508500571298 /* FocusScrollView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FocusScrollView.h; sourceTree = "<group>"; };
 		CFF5ACCD1941508500571298 /* FocusScrollView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FocusScrollView.m; sourceTree = "<group>"; };
+		CFF5DB95194BD8320019EB2B /* greysquirrel.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = greysquirrel.png; sourceTree = "<group>"; };
+		CFF5DB96194BD8320019EB2B /* greysquirrel@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "greysquirrel@2x.png"; sourceTree = "<group>"; };
+		CFF5DB9D194BD8CE0019EB2B /* MiniJobsCompleteViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MiniJobsCompleteViewController.h; sourceTree = "<group>"; };
+		CFF5DB9E194BD8CE0019EB2B /* MiniJobsCompleteViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MiniJobsCompleteViewController.m; sourceTree = "<group>"; };
+		CFF5DB9F194BD8CE0019EB2B /* MiniJobsCompleteViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MiniJobsCompleteViewController.xib; sourceTree = "<group>"; };
+		CFF5DBA2194BDACA0019EB2B /* damagedealtbg.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = damagedealtbg.png; sourceTree = "<group>"; };
+		CFF5DBA3194BDACA0019EB2B /* damagedealtbg@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "damagedealtbg@2x.png"; sourceTree = "<group>"; };
 		CFF73FDC18160760009DE4A4 /* AxeHandel.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = AxeHandel.ttf; sourceTree = "<group>"; };
 		CFF740021817AF09009DE4A4 /* bench1.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = bench1.png; sourceTree = "<group>"; };
 		CFF740031817AF09009DE4A4 /* bench1@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "bench1@2x.png"; sourceTree = "<group>"; };
@@ -7797,6 +7810,7 @@
 				CF688FF21912E4D800FF1F71 /* MiniJobsViewController.xib */,
 				CF68905D1912E84200FF1F71 /* List */,
 				CF68905E1912E84900FF1F71 /* Details */,
+				CFF5DB9C194BD84A0019EB2B /* Complete */,
 			);
 			path = MiniJobsMenu;
 			sourceTree = "<group>";
@@ -7804,6 +7818,10 @@
 		CF688FFF1912E7B400FF1F71 /* Mini Jobs:Dock */ = {
 			isa = PBXGroup;
 			children = (
+				CFF5DB95194BD8320019EB2B /* greysquirrel.png */,
+				CFF5DB96194BD8320019EB2B /* greysquirrel@2x.png */,
+				CFF5DBA2194BDACA0019EB2B /* damagedealtbg.png */,
+				CFF5DBA3194BDACA0019EB2B /* damagedealtbg@2x.png */,
 				CF145B2A19218E0100AD1D5A /* legendjob.png */,
 				CF145B2B19218E0200AD1D5A /* legendjob@2x.png */,
 				CF145B2C19218E0200AD1D5A /* ultrajob.png */,
@@ -9936,6 +9954,16 @@
 			path = "FB Connect";
 			sourceTree = "<group>";
 		};
+		CFF5DB9C194BD84A0019EB2B /* Complete */ = {
+			isa = PBXGroup;
+			children = (
+				CFF5DB9D194BD8CE0019EB2B /* MiniJobsCompleteViewController.h */,
+				CFF5DB9E194BD8CE0019EB2B /* MiniJobsCompleteViewController.m */,
+				CFF5DB9F194BD8CE0019EB2B /* MiniJobsCompleteViewController.xib */,
+			);
+			name = Complete;
+			sourceTree = "<group>";
+		};
 		CFF740011817AF09009DE4A4 /* dec */ = {
 			isa = PBXGroup;
 			children = (
@@ -11365,6 +11393,7 @@
 				CFFEB1341834539C007C4BA3 /* nightteamhealthbar.png in Resources */,
 				CFF2C904193ECF5600F28D9E /* chatinputtop.png in Resources */,
 				CF2A4A3B19009CD500B2D7D7 /* beigemenuoption.png in Resources */,
+				CFF5DB98194BD8320019EB2B /* greysquirrel@2x.png in Resources */,
 				CFF2C90B193FB51000F28D9E /* Whitney-Black.otf in Resources */,
 				CFBB36DE18EE3AF400FD6C8C /* oilcap.png in Resources */,
 				CFC8B5F218E4547200CFD652 /* privatechatback.png in Resources */,
@@ -11576,6 +11605,7 @@
 				CF134A8C18A5E4B500D7D700 /* FatBoy5Move09@2x.png in Resources */,
 				CFE7CD861819FC3300930847 /* menubutton.png in Resources */,
 				CFC97163182C5A8400FF1D83 /* orbball.png in Resources */,
+				CFF5DBA4194BDACA0019EB2B /* damagedealtbg.png in Resources */,
 				CFBB377218EF792400FD6C8C /* Mafia1T1RunNF.pvr.ccz in Resources */,
 				CFEC99391947FBF300BD893E /* gachacommontag.png in Resources */,
 				CF06B617193699FC008BF892 /* minusteam@2x.png in Resources */,
@@ -12354,6 +12384,7 @@
 				CF134A5818A5E4B500D7D700 /* FatBoy1Move09@2x.png in Resources */,
 				CFC45C091942955600BBA4A6 /* 3starmachineactive@2x.png in Resources */,
 				CFFA9D7018877C5F0097AD72 /* rockorb@2x.png in Resources */,
+				CFF5DBA5194BDACA0019EB2B /* damagedealtbg@2x.png in Resources */,
 				CFBB375A18EF792400FD6C8C /* Goonie3T1RunNF.plist in Resources */,
 				CFEE89ED18EC388000047CA4 /* silverbig@2x.png in Resources */,
 				CFE7CD9C1819FC3300930847 /* moneystack@2x.png in Resources */,
@@ -12480,6 +12511,7 @@
 				CF69FD5617421718001C96D0 /* Default.png in Resources */,
 				CF69FD5717421718001C96D0 /* Default@2x.png in Resources */,
 				CF06B5E4193699FC008BF892 /* ticker.png in Resources */,
+				CFF5DBA1194BD8CE0019EB2B /* MiniJobsCompleteViewController.xib in Resources */,
 				CF134A7B18A5E4B500D7D700 /* FatBoy4Move05@2x.png in Resources */,
 				CFF7876718E28FE200413E78 /* upgradestarbg@2x.png in Resources */,
 				CFFBDFA118ACA3D90090CA9A /* Scientist3Turn07@2x.png in Resources */,
@@ -12726,6 +12758,7 @@
 				CFC8B59C18E431CF00CFD652 /* settingshelp@2x.png in Resources */,
 				CF3765BF1831BBE900D0A77E /* PrivateChatListCell.xib in Resources */,
 				CF664F491815FB3900731AEB /* EnhanceCardCell.xib in Resources */,
+				CFF5DB97194BD8320019EB2B /* greysquirrel.png in Resources */,
 				CFFEB0EE1834539C007C4BA3 /* earthcardhealthbar@2x.png in Resources */,
 				CFF2162A18FDEA200057B5CE /* imgtestpopup.png in Resources */,
 				CFC4D2B518D7E994004681FD /* sfx_jump.wav in Resources */,
@@ -13531,6 +13564,7 @@
 				CF6F1A23181521FF00CFF2B9 /* QuestDetailsViewController.m in Sources */,
 				CFC141FF1658B70D0060188D /* amqp_framing.c in Sources */,
 				CF68907519145DC300FF1F71 /* EventMiniJob.pb.m in Sources */,
+				CFF5DBA0194BD8CE0019EB2B /* MiniJobsCompleteViewController.m in Sources */,
 				CF6574E01909CAF200ABF1F4 /* Quest.pb.m in Sources */,
 				CFC142001658B70D0060188D /* amqp_mem.c in Sources */,
 				CF6574B71909CAF200ABF1F4 /* EventReferral.pb.m in Sources */,

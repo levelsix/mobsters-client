@@ -10,9 +10,10 @@
 
 #import "MiniJobsListViewController.h"
 #import "MiniJobsDetailsViewController.h"
+#import "MiniJobsCompleteViewController.h"
 #import "NibUtils.h"
 
-@interface MiniJobsViewController : UIViewController <MiniJobsListDelegate, MiniJobsDetailsDelegate>  {
+@interface MiniJobsViewController : UIViewController <MiniJobsListDelegate, MiniJobsDetailsDelegate, MiniJobsCompleteDelegate>  {
   MiniJobsListCell *_selectedCell;
   BOOL _isBeginningJob;
 }
@@ -26,6 +27,7 @@
 
 @property (nonatomic, retain) MiniJobsListViewController *listViewController;
 @property (nonatomic, retain) MiniJobsDetailsViewController *detailsViewController;
+@property (nonatomic, retain) MiniJobsCompleteViewController *completeViewController;
 
 - (IBAction)backClicked:(id)sender;
 

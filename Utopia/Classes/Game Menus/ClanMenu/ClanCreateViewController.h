@@ -42,14 +42,15 @@
 @property (nonatomic, assign) IBOutlet UITextField *nameField;
 @property (nonatomic, assign) IBOutlet UITextField *tagField;
 @property (nonatomic, assign) IBOutlet UITextView *descriptionField;
+@property (nonatomic, assign) IBOutlet UILabel *maxTagSizeLabel;
+@property (nonatomic, assign) IBOutlet UILabel *placeholderLabel;
 
-@property (nonatomic, assign) IBOutlet UIImageView *iconImage;
+@property (nonatomic, assign) IBOutlet UIButton *iconButton;
 
 @property (nonatomic, assign) IBOutlet UIView *nameBgd;
 @property (nonatomic, assign) IBOutlet UIView *tagBgd;
 
-@property (nonatomic, assign) IBOutlet UIButton *typeButton;
-@property (nonatomic, assign) IBOutlet UILabel *typeLabel;
+@property (nonatomic, assign) IBOutlet UISwitch *typeSwitch;
 
 @property (nonatomic, assign) IBOutlet UIView *saveButtonView;
 @property (nonatomic, assign) IBOutlet UIView *createButtonView;

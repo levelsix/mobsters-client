@@ -15,9 +15,17 @@
 @class ClanRaidListViewController;
 @class ClanSubViewController;
 
+@protocol ClanViewControllerDelegate <NSObject>
+
+- (void) clanViewControllerDidClose:(id)cvc;
+
+@end
+
 @interface ClanViewController : UIViewController {
   ClanSubViewController *_controller1;
   ClanSubViewController *_controller2;
+  
+  BOOL _isEditing;
 }
 
 @property (nonatomic, retain) ClanBrowseViewController *clanBrowseViewController;
@@ -41,6 +49,9 @@
 // Navigation controller stack
 @property (nonatomic, retain) NSMutableArray *viewControllers;
 
+@property (nonatomic, assign) id<ClanViewControllerDelegate> delegate;
+
+- (void) loadForClanId:(int)clanId;
 - (void) pushViewController:(ClanSubViewController *)viewController animated:(BOOL)animated;
 - (UIViewController *)popViewControllerAnimated:(BOOL)animated;
 - (void) goBack;

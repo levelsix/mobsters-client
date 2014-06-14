@@ -62,7 +62,7 @@
                                 <size key="shadowOffset" width="0.0" height="1"/>
                             </label>
                             <view clipsSubviews="YES" tag="1" contentMode="scaleToFill" id="8Pt-QQ-E09" customClass="MiniMonsterView">
-                                <rect key="frame" x="173" y="1" width="42" height="42"/>
+                                <rect key="frame" x="175" y="1" width="42" height="42"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <subviews>
                                     <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="fireteam.png" id="43L-BG-kFJ">
@@ -100,7 +100,7 @@
                                 </connections>
                             </view>
                             <view clipsSubviews="YES" tag="3" contentMode="scaleToFill" id="aXm-tl-rFo" customClass="MiniMonsterView">
-                                <rect key="frame" x="239" y="1" width="42" height="42"/>
+                                <rect key="frame" x="237" y="1" width="42" height="42"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <subviews>
                                     <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="fireteam.png" id="QCi-Is-5ML">
@@ -180,6 +180,16 @@
                                 </subviews>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                             </view>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="dTM-Ya-Ep2">
+                                <rect key="frame" x="9" y="0.0" width="138" height="41"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <state key="normal">
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <action selector="profileClicked:" destination="-1" eventType="touchUpInside" id="CCw-Gj-FVC"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                     </view>

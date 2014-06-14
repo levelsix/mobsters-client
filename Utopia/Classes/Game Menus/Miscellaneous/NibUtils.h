@@ -160,6 +160,10 @@ typedef enum {
 
 @end
 
+@interface NiceFontTextField9 : UITextField
+
+@end
+
 @interface NiceFontTextField17 : UITextField
 
 @end
@@ -169,6 +173,10 @@ typedef enum {
 @end
 
 @interface NiceFontTextView2 : UITextView
+
+@end
+
+@interface NiceFontTextView9 : UITextView
 
 @end
 

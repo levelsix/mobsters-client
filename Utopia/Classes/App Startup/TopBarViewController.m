@@ -437,11 +437,8 @@
 }
 
 - (IBAction)clanClicked:(id)sender {
-  UIViewController *gvc = [GameViewController baseController];
-  ClanViewController *cvc = [[ClanViewController alloc] init];
-  [gvc addChildViewController:cvc];
-  cvc.view.frame = gvc.view.bounds;
-  [gvc.view addSubview:cvc.view];
+  GameViewController *gvc = [GameViewController baseController];
+  [gvc openClanView];
 }
 
 #pragma mark - Updating HUD Stuff

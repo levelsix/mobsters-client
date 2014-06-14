@@ -22,10 +22,11 @@
 #import "QuestCompleteLayer.h"
 #import "AchievementUtil.h"
 #import "ChatViewController.h"
+#import "ClanViewController.h"
 
 @class TutorialController;
 
-@interface GameViewController : UIViewController <AttackMapDelegate, BattleLayerDelegate, CCDirectorDownloaderDelegate, DialogueViewControllerDelegate, ClanRaidDetailsDelegate, MiniTutorialDelegate, QuestUtilDelegate, QuestLogDelegate, QuestCompleteDelegate, AchievementUtilDelegate, ChatViewControllerDelegate> {
+@interface GameViewController : UIViewController <AttackMapDelegate, BattleLayerDelegate, CCDirectorDownloaderDelegate, DialogueViewControllerDelegate, ClanRaidDetailsDelegate, MiniTutorialDelegate, QuestUtilDelegate, QuestLogDelegate, QuestCompleteDelegate, AchievementUtilDelegate, ChatViewControllerDelegate, ClanViewControllerDelegate> {
   int _questIdAfterDialogue;
   
   int _assetIdForMissionMap;
@@ -43,7 +44,9 @@
 @property (nonatomic, strong) TopBarViewController *topBarViewController;
 @property (nonatomic, strong) OneLineNotificationViewController *notifViewController;
 @property (nonatomic, strong) GameMap *currentMap;
+
 @property (nonatomic, strong) ChatViewController *chatViewController;
+@property (nonatomic, strong) ClanViewController *clanViewController;
 
 @property (nonatomic, strong) IBOutlet TravelingLoadingView *loadingView;
 
@@ -82,6 +85,8 @@
 
 - (void) openPrivateChatWithUserId:(int)userId name:(NSString *)name;
 - (void) openChatWithScope:(ChatScope)scope;
+- (void) openClanView;
+- (void) openClanViewForClanId:(int)clanId;
 
 - (void) openGemShop;
 

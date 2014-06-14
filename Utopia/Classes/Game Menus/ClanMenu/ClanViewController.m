@@ -26,6 +26,8 @@
   self.clanRaidViewController = [[ClanRaidListViewController alloc] init];
   
   [[OutgoingEventController sharedOutgoingEventController] registerClanEventDelegate:self];
+  [[OutgoingEventController sharedOutgoingEventController] registerClanEventDelegate:self.clanBrowseViewController];
+  [[OutgoingEventController sharedOutgoingEventController] registerClanEventDelegate:self.clanInfoViewController];
   
   [Globals bounceView:self.mainView fadeInBgdView:self.bgdView];
   
@@ -45,10 +47,17 @@
   }
   
   [self.clanBrowseViewController reload];
+  
+  [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardWillShow:) name:UIKeyboardWillShowNotification object:nil];
+  [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardWillHide:) name:UIKeyboardWillHideNotification object:nil];
 }
 
 - (void) viewWillDisappear:(BOOL)animated {
   [[OutgoingEventController sharedOutgoingEventController] unregisterClanEventDelegate:self];
+  [[OutgoingEventController sharedOutgoingEventController] unregisterClanEventDelegate:self.clanBrowseViewController];
+  [[OutgoingEventController sharedOutgoingEventController] unregisterClanEventDelegate:self.clanInfoViewController];
+  
+  [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
 - (void) updateConfiguration {
@@ -59,6 +68,14 @@
   } else {
     [self loadNotInClanConfiguration];
   }
+}
+
+- (void) loadForClanId:(int)clanId {
+  [self unloadAllControllers];
+  ClanInfoViewController *civc = [[ClanInfoViewController alloc] initWithClanId:clanId andName:nil];
+  [self pushViewController:civc animated:NO];
+  
+  [self.topBar clickButton:0];
 }
 
 - (void) loadInClanConfiguration {
@@ -99,9 +116,10 @@
 }
 
 - (IBAction) backClicked:(id)sender {
-  if (!self.viewControllers.count || [[self.viewControllers lastObject] canGoBack]) {
+  if (!_isEditing && (!self.viewControllers.count || [[self.viewControllers lastObject] canGoBack])) {
     [self goBack];
   }
+  [self.view endEditing:YES];
 }
 
 - (void) goBack {
@@ -109,9 +127,10 @@
 }
 
 - (IBAction) closeClicked:(id)sender {
-  if (!self.viewControllers.count || [[self.viewControllers lastObject] canGoBack]) {
+  if (!_isEditing && (!self.viewControllers.count || [[self.viewControllers lastObject] canClose])) {
     [self close];
   }
+  [self.view endEditing:YES];
 }
 
 - (void) close {
@@ -119,9 +138,26 @@
     [self.view removeFromSuperview];
     [self removeFromParentViewController];
   }];
+  
+  [self.delegate clanViewControllerDidClose:self];
+}
+
+- (void) keyboardWillShow:(id)n {
+  _isEditing = YES;
+}
+
+- (void) keyboardWillHide:(id)n {
+  _isEditing = NO;
 }
 
 #pragma mark - Navigation Controller
+
+- (void) remakeBackButton {
+  float alpha = self.backView.alpha;
+  self.backView.alpha = 1.f;
+  [self.backMaskedButton remakeImage];
+  self.backView.alpha = alpha;
+}
 
 - (void) pushViewController:(ClanSubViewController *)viewController animated:(BOOL)animated {
   UIViewController *curVc = [self.viewControllers lastObject];
@@ -131,7 +167,7 @@
   if (self.viewControllers.count > 1) {
     shouldDisplayBackButton = YES;
     self.backLabel.text = [self.viewControllers[self.viewControllers.count-2] title];
-    [self.backMaskedButton remakeImage];
+    [self remakeBackButton];
   }
   
   [self.containerView addSubview:viewController.view];
@@ -161,7 +197,7 @@
   if (self.viewControllers.count > 1) {
     shouldDisplayBackButton = YES;
     self.backLabel.text = [self.viewControllers[self.viewControllers.count-2] title];
-    [self.backMaskedButton remakeImage];
+    [self remakeBackButton];
   }
   
   [self.containerView addSubview:topVc.view];
@@ -199,7 +235,7 @@
 - (void) handleClanEventCreateClanResponseProto:(CreateClanResponseProto *)proto {
   if (proto.status == CreateClanResponseProto_CreateClanStatusSuccess) {
     [self updateConfiguration];
-    [self button1Clicked:nil];
+    [self button2Clicked:nil];
   } else if (proto.status == CreateClanResponseProto_CreateClanStatusFailNameTaken) {
     [Globals popupMessage:@"Sorry, this name is already in use."];
   } else if (proto.status == CreateClanResponseProto_CreateClanStatusFailTagTaken) {

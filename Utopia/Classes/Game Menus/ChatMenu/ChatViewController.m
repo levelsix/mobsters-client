@@ -11,7 +11,6 @@
 #import "OutgoingEventController.h"
 #import "GameState.h"
 #import "MenuNavigationController.h"
-#import "ClanViewController.h"
 #import "ProfileViewController.h"
 #import "UnreadNotifications.h"
 #import "SoundEngine.h"
@@ -217,20 +216,8 @@
 #pragma mark - ChatViewDelegate methods
 
 - (void) clanClicked:(MinimumClanProto *)clan {
-  MenuNavigationController *m = [[MenuNavigationController alloc] init];
-  UIViewController *gvc = [GameViewController baseController];
-  [gvc presentViewController:m animated:YES completion:nil];
-  
-#warning fix
-//  GameState *gs = [GameState sharedGameState];
-//  ClanInfoViewController *cvc = nil;
-//  if (gs.clan.clanId == clan.clanId) {
-//    cvc = [[ClanInfoViewController alloc] init];
-//    [cvc loadForMyClan];
-//  } else {
-//    cvc = [[ClanInfoViewController alloc] initWithClanId:clan.clanId andName:clan.name];
-//  }
-//  [m pushViewController:cvc animated:NO];
+  GameViewController *gvc = [GameViewController baseController];
+  [gvc openClanViewForClanId:clan.clanId];
   
   [self closeClicked:nil];
 }
@@ -266,11 +253,8 @@
 }
 
 - (IBAction)findClanClicked:(id)sender {
-  UIViewController *gvc = [GameViewController baseController];
-  ClanViewController *cvc = [[ClanViewController alloc] init];
-  [gvc addChildViewController:cvc];
-  cvc.view.frame = gvc.view.bounds;
-  [gvc.view addSubview:cvc.view];
+  GameViewController *gvc = [GameViewController baseController];
+  [gvc openClanView];
 }
 
 - (void) viewedPrivateChat {

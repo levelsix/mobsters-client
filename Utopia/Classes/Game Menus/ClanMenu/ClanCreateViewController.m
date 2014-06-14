@@ -13,7 +13,7 @@
 
 #define ICON_WIDTH 31.f
 #define ICON_HEIGHT 34.f
-#define ICON_SPACING 12.f
+#define ICON_SPACING 8.f
 
 @implementation ClanIconChooserView
 
@@ -26,8 +26,6 @@
       [validIcons addObject:icon];
     }
   }
-  
-  self.selectedView.hidden = YES;
   
   int numPerRow = self.iconsScrollView.frame.size.width/(ICON_WIDTH+ICON_SPACING);
   int maxY = 0;
@@ -46,19 +44,25 @@
     [iv addTarget:self action:@selector(iconClicked:) forControlEvents:UIControlEventTouchUpInside];
     [self.iconsScrollView addSubview:iv];
     
-    if (icon.clanIconId == iconId) {
-      self.selectedView.center = iv.center;
-      self.selectedView.hidden = NO;
-    }
-    
     maxY = y+ICON_HEIGHT+ICON_SPACING;
   }
+  [self setSelectedIconId:iconId];
   self.iconsScrollView.contentSize = CGSizeMake(self.iconsScrollView.frame.size.width, maxY);
 }
 
+- (void) setSelectedIconId:(int)selectedId {
+  UIView *v = [self.iconsScrollView viewWithTag:selectedId];
+  if (v) {
+    self.selectedView.center = v.center;
+    self.selectedView.hidden = NO;
+  } else {
+    self.selectedView.hidden = YES;
+  }
+}
+
 - (void) iconClicked:(UIButton *)sender {
+  [self setSelectedIconId:(int)sender.tag];
   [self.delegate iconChosen:(int)sender.tag];
-  [self close:nil];
 }
 
 - (IBAction)close:(id)sender {
@@ -88,7 +92,8 @@
   
   if (_isEditMode) {
     if (self.clan.clan.requestToJoinRequired) {
-      [self typeButtonClicked:nil];
+      self.typeSwitch.on = NO;
+      _isRequestType = YES;
     }
     
     self.nameField.text = self.clan.clan.name;
@@ -99,15 +104,20 @@
     self.nameField.userInteractionEnabled = NO;
     self.tagField.userInteractionEnabled = NO;
     
-    self.nameBgd.hidden = YES;
-    self.tagBgd.hidden = YES;
+//    self.nameBgd.hidden = YES;
+//    self.tagBgd.hidden = YES;
     
     self.saveButtonView.hidden = NO;
     self.createButtonView.hidden = YES;
+    
+    self.placeholderLabel.hidden = YES;
+    self.maxTagSizeLabel.hidden = YES;
   } else {
     self.saveButtonView.hidden = YES;
     self.createButtonView.hidden = NO;
     self.costLabel.text = [Globals cashStringForNumber:gl.coinPriceToCreateClan];
+    
+    self.maxTagSizeLabel.text = [NSString stringWithFormat:@"Max %d Characters", gl.maxCharLengthForClanTag];
     
     // Set default clan id
     for (ClanIconProto *cip in gs.staticClanIcons) {
@@ -121,8 +131,6 @@
 
 - (void) viewWillDisappear:(BOOL)animated {
   [self.iconChooserView close:nil];
-  
-  [[OutgoingEventController sharedOutgoingEventController] unregisterClanEventDelegate:self];
 }
 
 - (void) loadClanCreationView {
@@ -136,9 +144,11 @@
   
   if (icon) {
     _iconId = iconId;
-    [Globals imageNamed:icon.imgName withView:self.iconImage greyscale:NO indicator:UIActivityIndicatorViewStyleWhite clearImageDuringDownload:YES];
+    [Globals imageNamed:icon.imgName withView:self.iconButton greyscale:NO indicator:UIActivityIndicatorViewStyleWhite clearImageDuringDownload:YES];
   }
 }
+
+#pragma mark - Textview/Textfield delegate
 
 - (BOOL) textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string {
   NSString *str = [textField.text stringByReplacingCharactersInRange:range withString:string];
@@ -165,6 +175,25 @@
   [textField resignFirstResponder];
   return YES;
 }
+
+- (void)textViewDidEndEditing:(UITextView *)textView
+{
+  if (![textView hasText]) {
+    self.placeholderLabel.hidden = NO;
+  }
+}
+
+- (void) textViewDidChange:(UITextView *)textView
+{
+  if(![textView hasText]) {
+    self.placeholderLabel.hidden = NO;
+  }
+  else{
+    self.placeholderLabel.hidden = YES;
+  }
+}
+
+#pragma mark - IBActions
 
 - (IBAction)bottomButtonClicked:(id)sender {
   if (!_waitingForResponse) {
@@ -250,15 +279,7 @@
 }
 
 - (IBAction)typeButtonClicked:(id)sender {
-  if (_isRequestType) {
-    [self.typeButton setImage:[Globals imageNamed:@"enhancebutton.png"] forState:UIControlStateNormal];
-    self.typeLabel.text = @"OPEN";
-  } else {
-    [self.typeButton setImage:[Globals imageNamed:@"heal.png"] forState:UIControlStateNormal];
-    self.typeLabel.text = @"REQUEST";
-  }
-  
-  _isRequestType = !_isRequestType;
+  _isRequestType = !self.typeSwitch.isOn;
 }
 
 - (IBAction)editIconClicked:(id)sender {
@@ -277,7 +298,9 @@
 }
 
 - (BOOL) canGoBack {
-  if ((self.descriptionField.text.length > 0 && ![self.descriptionField.text isEqualToString:self.clan.clan.description]) ||
+  if (!_isEditMode) {
+    return YES;
+  } else if ((self.descriptionField.text.length > 0 && ![self.descriptionField.text isEqualToString:self.clan.clan.description]) ||
       _isRequestType != self.clan.clan.requestToJoinRequired ||
       _iconId != self.clan.clan.clanIconId) {
     [GenericPopupController displayConfirmationWithDescription:@"You have some unsaved changes. Would you like to save them?" title:@"Save?" okayButton:@"Save" cancelButton:@"Back" okTarget:self okSelector:@selector(updateClan) cancelTarget:self cancelSelector:@selector(goBack)];
@@ -292,7 +315,9 @@
 }
 
 - (BOOL) canClose {
-  if ((self.descriptionField.text.length > 0 && ![self.descriptionField.text isEqualToString:self.clan.clan.description]) ||
+  if (!_isEditMode) {
+    return YES;
+  } else if ((self.descriptionField.text.length > 0 && ![self.descriptionField.text isEqualToString:self.clan.clan.description]) ||
       _isRequestType != self.clan.clan.requestToJoinRequired ||
       _iconId != self.clan.clan.clanIconId) {
     _shouldClose = YES;

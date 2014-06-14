@@ -428,15 +428,15 @@
                             <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
                             <subviews>
                                 <view contentMode="scaleToFill" id="QvB-dK-o7n" userLabel="Private Chat Back View">
-                                    <rect key="frame" x="3" y="0.0" width="427" height="39"/>
+                                    <rect key="frame" x="5" y="0.0" width="443" height="39"/>
                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
                                     <subviews>
                                         <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" image="popupheadermiddle.png" id="gcF-y7-ufs">
-                                            <rect key="frame" x="0.0" y="0.0" width="427" height="39"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="445" height="39"/>
                                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                         </imageView>
                                         <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Meepert" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="10" id="003-5V-mHH" customClass="NiceFontLabel12B">
-                                            <rect key="frame" x="108" y="3" width="211" height="31"/>
+                                            <rect key="frame" x="116" y="3" width="211" height="31"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                             <fontDescription key="fontDescription" type="system" pointSize="13"/>
                                             <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>

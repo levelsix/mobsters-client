@@ -150,16 +150,16 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            shouldBeEnabled = "Yes"
+            shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Utopia/Classes/Game Menus/Miscellaneous/NibUtils.m"
-            timestampString = "424335225.900197"
+            timestampString = "424392821.265896"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "988"
-            endingLineNumber = "988"
-            landmarkName = "-buttonClicked:"
+            startingLineNumber = "814"
+            endingLineNumber = "814"
+            landmarkName = "-remakeImage"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>

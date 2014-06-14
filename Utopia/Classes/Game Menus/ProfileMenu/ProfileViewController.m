@@ -58,6 +58,8 @@
 - (void)loadProfile {
   GameState *gs = [GameState sharedGameState];
   
+  self.sendMsgView.hidden = !self.fup;
+  
   self.winsLabel.text = [Globals commafyNumber:self.fup.pvpLeagueInfo.battlesWon];
   self.lossesLabel.text = [Globals commafyNumber:self.fup.pvpLeagueInfo.battlesLost];
   self.nameLabel.text = self.fup ? [NSString stringWithFormat:@"%@ (LVL %d)", self.fup.name,self.fup.level] : @"Loading...";
@@ -114,30 +116,12 @@
 
 - (IBAction)clanClicked:(id)sender {
   // Go visit clan
-  UIViewController *gvc = (UIViewController *)self.parentViewController;
-  
-#warning fix
-//  GameState *gs = [GameState sharedGameState];
-//  MinimumClanProto *clan = self.fup.clan;
-//  ClanInfoViewController *cvc = nil;
-//  if (gs.clan.clanId == clan.clanId) {
-//    cvc = [[ClanInfoViewController alloc] init];
-//    [cvc loadForMyClan];
-//  } else {
-//    cvc = [[ClanInfoViewController alloc] initWithClanId:clan.clanId andName:clan.name];
-//  }
-//  
-//  // Call close first so that the block will retain this controller
-//  [self close:nil];
-//  if (!gvc.presentingViewController) {
-//    MenuNavigationController *m = [[MenuNavigationController alloc] init];
-//    [gvc presentViewController:m animated:YES completion:nil];
-//    [m pushViewController:cvc animated:NO];
-//  } else {
-//    UINavigationController *nav = self.navigationController;
-//    [self removeFromParentViewController];
-//    [nav pushViewController:cvc animated:YES];
-//  }
+  if (self.fup.hasClan) {
+    GameViewController *gvc = [GameViewController baseController];
+    [gvc openClanViewForClanId:self.fup.clan.clanId];
+    
+    [self close:nil];
+  }
 }
 
 - (IBAction)message:(id)sender {

@@ -226,6 +226,10 @@
 #pragma mark -
 
 - (IBAction)rightButtonClicked:(id)sender {
+  if (_waitingForResponse) {
+    return;
+  }
+  
   while (![sender isKindOfClass:[UITableViewCell class]]) {
     sender = [sender superview];
   }
@@ -241,6 +245,8 @@
   cell.buttonLabel.hidden = YES;
   cell.spinner.hidden = NO;
   [cell.spinner startAnimating];
+  
+  _waitingForResponse = YES;
 }
 
 - (void) touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event {
@@ -251,10 +257,12 @@
 
 - (void) handleRetractRequestJoinClanResponseProto:(FullEvent *)fe {
   [self.browseClansTable reloadData];
+  _waitingForResponse = NO;
 }
 
 - (void) handleRequestJoinClanResponseProto:(FullEvent *)fe {
   [self.browseClansTable reloadData];
+  _waitingForResponse = NO;
 }
 
 - (void) handleClanEventApproveOrRejectRequestToJoinClanResponseProto:(ApproveOrRejectRequestToJoinClanResponseProto *)proto {

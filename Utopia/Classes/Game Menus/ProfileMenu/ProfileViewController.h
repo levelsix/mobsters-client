@@ -15,6 +15,7 @@
 
 @property (nonatomic, strong) IBOutlet UIView *mainView;
 @property (nonatomic, strong) IBOutlet UIView *bgdView;
+@property (nonatomic, strong) IBOutlet UIView *sendMsgView;
 
 @property (nonatomic, strong) IBOutlet UILabel *winsLabel;
 @property (nonatomic, strong) IBOutlet UILabel *lossesLabel;
