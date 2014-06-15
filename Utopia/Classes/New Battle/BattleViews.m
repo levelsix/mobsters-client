@@ -11,6 +11,8 @@
 #import "GameState.h"
 #import "CAKeyframeAnimation+AHEasing.h"
 
+#define REWARDSVIEW_OFFSET 50
+
 @implementation BattleLostView
 
 - (void) didLoadFromCCB {
@@ -21,7 +23,12 @@
 }
 
 - (void) onExitTransitionDidStart {
+  [self.rewardsScrollView removeFromSuperview];
   [self.loadingSpinner removeFromSuperview];
+  
+  CCClippingNode *clip = (CCClippingNode *)self.rewardsView.parent;
+  clip.stencil = nil;
+  
   self.doneButton.title = @"DONE";
   self.manageButton.title = @"MANAGE MOBSTERS";
   [super onExitTransitionDidStart];
@@ -47,12 +54,49 @@
     [CCActionDelay actionWithDuration:firstDur],
     [CCActionEaseBounceOut actionWithAction:[CCActionMoveTo actionWithDuration:secondDur position:orig]], nil]];
   
-  self.stickerHead.scale = 0.f;
-  [self.stickerHead runAction:[CCActionSequence actions:[CCActionDelay actionWithDuration:firstDur+secondDur-0.1],
-                               [CCActionEaseElastic actionWithAction:[CCActionScaleTo actionWithDuration:thirdDur scale:1.f]], nil]];
-  self.stickerHead.rotation = -12.5;
-  CCActionRotateBy *rotate = [CCActionRotateBy actionWithDuration:fourthDur angle:-self.stickerHead.rotation*2];
-  [self.stickerHead runAction:[CCActionRepeatForever actionWithAction:[CCActionSequence actions:rotate, rotate.reverse, nil]]];
+  if (self.stickerHead.visible) {
+    self.stickerHead.scale = 0.f;
+    [self.stickerHead runAction:[CCActionSequence actions:[CCActionDelay actionWithDuration:firstDur+secondDur-0.1],
+                                 [CCActionEaseElastic actionWithAction:[CCActionScaleTo actionWithDuration:thirdDur scale:1.f]], nil]];
+    self.stickerHead.rotation = -12.5;
+    CCActionRotateBy *rotate = [CCActionRotateBy actionWithDuration:fourthDur angle:-self.stickerHead.rotation*2];
+    [self.stickerHead runAction:[CCActionRepeatForever actionWithAction:[CCActionSequence actions:rotate, rotate.reverse, nil]]];
+  } else {
+    self.lostLabel.opacity = 0.f;
+    [self.lostLabel runAction:
+     [CCActionSequence actions:
+      [CCActionDelay actionWithDuration:firstDur+secondDur],
+      [CCActionFadeTo actionWithDuration:thirdDur opacity:1.f], nil]];
+    
+    for (int i = 0; i < self.rewardsView.children.count; i++) {
+      CCNode *n = self.rewardsView.children[i];
+      CGPoint pt = n.position;
+      n.position = ccpAdd(pt, ccp(400, 0));
+      [n recursivelyApplyOpacity:0.f];
+      [n runAction:
+       [CCActionSequence actions:
+        [CCActionDelay actionWithDuration:firstDur+secondDur+i*thirdDur],
+        [CCActionSpawn actions: [RecursiveFadeTo actionWithDuration:0.3f opacity:1.f],
+         [CCActionEaseOut actionWithAction:[CCActionMoveTo actionWithDuration:fourthDur position:pt] rate:10], nil],
+        nil]];
+    }
+    
+    if (self.rewardsView.contentSize.width+REWARDSVIEW_OFFSET*2 > self.rewardsView.parent.contentSize.width) {
+      // Scroll the rewards view with the children
+      float maxSpot = self.rewardsView.parent.contentSize.width-self.rewardsView.contentSize.width-REWARDSVIEW_OFFSET;
+      [self.rewardsView runAction:
+       [CCActionSequence actions:
+        [CCActionDelay actionWithDuration:firstDur+secondDur+thirdDur*1],
+        [CCActionEaseInOut actionWithAction:
+         [CCActionMoveTo actionWithDuration:(self.rewardsView.children.count-1)*thirdDur position:ccp(maxSpot, self.rewardsView.position.y)] rate:1.5f],
+        [CCActionCallBlock actionWithBlock:
+         ^{
+           self.rewardsScrollView.contentOffset = ccp(self.rewardsScrollView.contentSize.width-self.rewardsScrollView.frame.size.width, 0);
+           self.rewardsScrollView.userInteractionEnabled = YES;
+         }], nil]];
+      self.rewardsScrollView.userInteractionEnabled = NO;
+    }
+  }
   
   float time = firstDur+secondDur+thirdDur-0.1;
   CCActionSequence *seq = [CCActionSequence actions:
@@ -99,6 +143,68 @@
      }], nil]];
 }
 
+- (void) updateForRewards:(NSArray *)rewards {
+  if (!rewards.count) {
+    return;
+  }
+  
+  CCLabelTTF *label = [CCLabelTTF labelWithString:@"You will lose out on:" fontName:@"Gotham-Ultra" fontSize:12.f];
+  label.color = [CCColor whiteColor];
+  [self addChild:label];
+  label.position = ccpAdd(self.rewardsBgd.position, ccp(0, self.rewardsBgd.contentSize.height/2-10));
+  self.lostLabel = label;
+  
+  CCNode *node = [CCNode node];
+  
+  for (int i = 0; i < rewards.count; i++) {
+    BattleRewardNode *brn = [[BattleRewardNode alloc] initWithReward:rewards[i] isForLoss:YES];
+    [node addChild:brn];
+    brn.position = ccp((8+brn.contentSize.width)*(i+0.5)+4, 44);
+    
+    node.contentSize = CGSizeMake(brn.position.x+brn.contentSize.width/2+8, 86.f);
+  }
+  node.anchorPoint = ccp(0, 0.5);
+  node.position = ccp(self.rewardsView.contentSize.width, self.rewardsBgd.contentSize.height/2);
+  self.rewardsView = node;
+  
+  [self.rewardsScrollView removeFromSuperview];
+  self.rewardsScrollView = [[UIScrollView alloc] initWithFrame:CGRectMake(110, 180, 349, 76)];
+  self.rewardsScrollView.delegate = self;
+  self.rewardsScrollView.backgroundColor = [UIColor clearColor];
+  self.rewardsScrollView.showsHorizontalScrollIndicator = NO;
+  
+  [Globals displayUIView:self.rewardsScrollView];
+  self.rewardsScrollView.center = ccp(self.contentSize.width/2, 175);
+  
+  CCClippingNode *clip = [CCClippingNode clippingNode];
+  clip.contentSize = self.rewardsScrollView.frame.size;
+  clip.anchorPoint = ccp(0.5, 0.5);
+  [self.rewardsBgd addChild:clip];
+  clip.position = ccp(self.rewardsBgd.contentSize.width/2, self.rewardsBgd.contentSize.height/2-5);
+  CCDrawNode *stencil = [CCDrawNode node];
+  CGPoint rectangle[] = {{0, 0}, {clip.contentSize.width, 0}, {clip.contentSize.width, clip.contentSize.height}, {0, clip.contentSize.height}};
+  [stencil drawPolyWithVerts:rectangle count:4 fillColor:[CCColor whiteColor] borderWidth:1 borderColor:[CCColor whiteColor]];
+  clip.stencil = stencil;
+  
+  [clip addChild:node];
+  
+  // Leave a distance on each side
+  self.rewardsScrollView.contentSize = CGSizeMake(self.rewardsView.contentSize.width+REWARDSVIEW_OFFSET*2, self.rewardsScrollView.frame.size.height);
+  
+  self.stickerHead.visible = NO;
+  
+  [self scrollViewDidScroll:self.rewardsScrollView];
+}
+
+- (void) scrollViewDidScroll:(UIScrollView *)scrollView {
+  if (self.rewardsView.contentSize.width+REWARDSVIEW_OFFSET*2 < self.rewardsScrollView.frame.size.width) {
+    // Smaller
+    self.rewardsView.position = ccp(-self.rewardsScrollView.contentOffset.x+self.rewardsView.parent.contentSize.width/2-self.rewardsView.contentSize.width/2, self.rewardsView.position.y);
+  } else {
+    self.rewardsView.position = ccp(-self.rewardsScrollView.contentOffset.x+REWARDSVIEW_OFFSET, self.rewardsView.position.y);
+  }
+}
+
 - (void) loadSpinnerAtCenter:(CGPoint)center {
   self.loadingSpinner = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleWhite];
   [self.loadingSpinner startAnimating];
@@ -119,8 +225,6 @@
 @end
 
 @implementation BattleWonView
-
-#define REWARDSVIEW_OFFSET 50
 
 - (void) didLoadFromCCB {
   self.spinner.blendFunc = (ccBlendFunc){GL_SRC_ALPHA, GL_ONE};
@@ -145,7 +249,7 @@
   CCNode *node = [CCNode node];
   
   for (int i = 0; i < rewards.count; i++) {
-    BattleRewardNode *brn = [[BattleRewardNode alloc] initWithReward:rewards[i]];
+    BattleRewardNode *brn = [[BattleRewardNode alloc] initWithReward:rewards[i] isForLoss:NO];
     [node addChild:brn];
     brn.position = ccp((8+brn.contentSize.width)*(i+0.5)+4, 50);
     
@@ -304,19 +408,20 @@
 
 @implementation BattleRewardNode
 
-- (id) initWithReward:(Reward *)reward {
+- (id) initWithReward:(Reward *)reward isForLoss:(BOOL)loss {
   GameState *gs = [GameState sharedGameState];
   NSString *imgName = nil;
   NSString *labelName = nil;
+  NSString *labelImage = nil;
   NSString *bgdName = nil;
+  NSString *borderName = nil;
   UIColor *color = nil;
   float scale = 1.f;
   if (reward.type == RewardTypeMonster) {
     MonsterProto *mp = [gs monsterWithId:reward.monsterId];
-    imgName = [Globals imageNameForRarity:mp.quality suffix:@"piece.png"];
+    imgName = [mp.imagePrefix stringByAppendingString:@"Thumbnail.png"];
     bgdName = [Globals imageNameForRarity:mp.quality suffix:@"found.png"];
-    labelName = [Globals stringForRarity:mp.quality];
-    color = [Globals colorForRarity:mp.quality];
+    labelImage = [@"battle" stringByAppendingString:[Globals imageNameForRarity:mp.quality suffix:@"tag.png"]];
   } else if (reward.type == RewardTypeSilver) {
     imgName = @"moneystack.png";
     bgdName = @"cashfound.png";
@@ -340,16 +445,36 @@
     color = [Globals creamColor];
   }
   
+  if (loss) {
+    bgdName = @"youlostitembg.png";
+    borderName = @"youlostitemborder.png";
+  } else {
+    bgdName = @"youwonitembg.png";
+    borderName = @"youwonitemborder.png";
+  }
+  
   if ((self = [super initWithImageNamed:bgdName])) {
     CCSprite *inside = [CCSprite spriteWithImageNamed:imgName];
     [self addChild:inside];
     inside.position = ccp(self.contentSize.width/2, self.contentSize.height/2);
     inside.scale = scale;
     
-    CCLabelTTF *label = [CCLabelTTF labelWithString:labelName fontName:[Globals font] fontSize:13.f];
-    label.color = [CCColor colorWithUIColor:color];
-    [self addChild:label];
-    label.position = ccp(self.contentSize.width/2, -11.f);
+    float labelPosition = loss ? -10.f : -13.f;
+    if (labelName) {
+      CCLabelTTF *label = [CCLabelTTF labelWithString:labelName fontName:@"Gotham-Ultra" fontSize:11.f dimensions:CGSizeMake(self.contentSize.width, 15)];
+      label.horizontalAlignment = CCTextAlignmentCenter;
+      label.color = [CCColor colorWithUIColor:color];
+      [self addChild:label];
+      label.position = ccp(self.contentSize.width/2, labelPosition-1);
+    } else if (labelImage) {
+      CCSprite *label = [CCSprite spriteWithImageNamed:labelImage];
+      [self addChild:label];
+      label.position = ccp(self.contentSize.width/2, labelPosition);
+    }
+    
+    CCSprite *border = [CCSprite spriteWithImageNamed:borderName];
+    [self addChild:border];
+    border.position = ccp(self.contentSize.width/2, self.contentSize.height/2);
   }
   return self;
 }

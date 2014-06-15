@@ -1154,6 +1154,7 @@
 @implementation BadgeIcon
 
 - (void) awakeFromNib {
+  self.alpha = 0.f;
   self.badgeNum = 0;
   self.userInteractionEnabled = NO;
 }

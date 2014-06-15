@@ -15,7 +15,7 @@
 #import <cocos2d.h>
 #import <cocos2d-ui.h>
 
-@interface BattleLostView : CCNode
+@interface BattleLostView : CCNode <UIScrollViewDelegate>
 
 @property (nonatomic, retain) CCNode *bgdNode;
 @property (nonatomic, retain) CCNode *headerView;
@@ -26,8 +26,14 @@
 @property (nonatomic, retain) CCNode *continueButton;
 @property (nonatomic, retain) CCButton *doneButton;
 @property (nonatomic, retain) CCButton *manageButton;
+@property (nonatomic, retain) CCNode *lostLabel;
+@property (nonatomic, retain) CCNode *rewardsBgd;
+@property (nonatomic, retain) CCNode *rewardsView;
 
+@property (nonatomic, retain) UIScrollView *rewardsScrollView;
 @property (nonatomic, retain) UIActivityIndicatorView *loadingSpinner;
+
+- (void) updateForRewards:(NSArray *)rewards;
 
 - (void) spinnerOnDone;
 - (void) spinnerOnManage;
@@ -58,7 +64,7 @@
 
 @interface BattleRewardNode : CCSprite
 
-- (id) initWithReward:(Reward *)reward;
+- (id) initWithReward:(Reward *)reward isForLoss:(BOOL)loss;
 
 @end
 

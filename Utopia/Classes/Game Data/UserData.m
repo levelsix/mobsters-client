@@ -829,10 +829,15 @@
 @implementation Reward
 
 + (NSArray *) createRewardsForDungeon:(BeginDungeonResponseProto *)proto {
+  return [self createRewardsForDungeon:proto tillStage:proto.tspList.count-1];
+}
+
++ (NSArray *) createRewardsForDungeon:(BeginDungeonResponseProto *)proto tillStage:(int)stageNum {
   NSMutableArray *rewards = [NSMutableArray array];
   
   int silverAmount = 0, oilAmount = 0, expAmount = 0;
-  for (TaskStageProto *tsp in proto.tspList) {
+  for (int i = 0; i <= stageNum && i < proto.tspList.count; i++) {
+    TaskStageProto *tsp = proto.tspList[i];
     for (TaskStageMonsterProto *tsm in tsp.stageMonstersList) {
       silverAmount += tsm.cashReward;
       oilAmount += tsm.oilReward;

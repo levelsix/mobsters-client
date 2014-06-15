@@ -41,6 +41,11 @@
   [self makeGoCarrotCalls];
 }
 
+- (void) youLost {
+  [super youLost];
+  [self.lostView updateForRewards:[Reward createRewardsForDungeon:self.dungeonInfo tillStage:_curStage-1]];
+}
+
 - (void) makeGoCarrotCalls {
   //GameState *gs = [GameState sharedGameState];
   for (TaskStageProto *tsp in self.dungeonInfo.tspList) {
