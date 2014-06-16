@@ -19,6 +19,20 @@
   self.descriptionLabel.text = job.description;
   int progress = userJob.isComplete ? job.quantity : userJob.progress;
   self.progressLabel.text = [NSString stringWithFormat:@"%d/%d", progress, job.quantity];
+  
+  self.donateCompleteView.hidden = YES;
+  self.donateView.hidden = YES;
+  self.goView.hidden = NO;
+  if (job.questJobType == QuestJobProto_QuestJobTypeDonateMonster) {
+    self.goView.hidden = YES;
+    if (userJob.isComplete) {
+      self.donateCompleteView.hidden = NO;
+    } else if (userJob.progress >= job.quantity) {
+      self.donateView.hidden = NO;;
+    } else {
+      self.goView.hidden = NO;
+    }
+  }
 }
 
 @end
@@ -102,7 +116,18 @@
   
   if (sender) {
     QuestDetailsCell *cell = (QuestDetailsCell *)sender;
-    [self.delegate visitOrDonateClickedWithDetailsVC:self jobId:(int)cell.tag];
+    [self.delegate visitClickedWithDetailsVC:self jobId:(int)cell.tag];
+  }
+}
+
+- (IBAction)donateClicked:(UIView *)sender {
+  while (sender && ![sender isKindOfClass:[QuestDetailsCell class]]) {
+    sender = sender.superview;
+  }
+  
+  if (sender) {
+    QuestDetailsCell *cell = (QuestDetailsCell *)sender;
+    [self.delegate donateClickedWithDetailsVC:self jobId:(int)cell.tag];
   }
 }
 

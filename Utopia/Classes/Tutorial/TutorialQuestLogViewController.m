@@ -41,10 +41,14 @@
   [self.delegate questClickedInList];
 }
 
-- (void) visitOrDonateClickedWithDetailsVC:(QuestDetailsViewController *)detailsVC jobId:(int)jobId {
+- (void) visitClickedWithDetailsVC:(QuestDetailsViewController *)detailsVC jobId:(int)jobId {
   [self close];
   [Globals removeUIArrowFromViewRecursively:self.view];
   [self.delegate questVisitClicked];
+}
+
+- (void) donateClickedWithDetailsVC:(QuestDetailsViewController *)detailsVC jobId:(int)jobId {
+  
 }
 
 - (void) collectClickedWithDetailsVC:(QuestDetailsViewController *)detailsVC {

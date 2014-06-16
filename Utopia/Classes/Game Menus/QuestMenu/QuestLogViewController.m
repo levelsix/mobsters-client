@@ -241,7 +241,7 @@
 
 #pragma mark - QuestDetailsViewControllerDelegate methods
 
-- (void) visitOrDonateClickedWithDetailsVC:(QuestDetailsViewController *)detailsVC jobId:(int)jobId {
+- (void) visitClickedWithDetailsVC:(QuestDetailsViewController *)detailsVC jobId:(int)jobId {
   GameViewController *gvc = (GameViewController *)self.parentViewController;
   FullQuestProto *quest = detailsVC.quest;
   UserQuest *uq = detailsVC.userQuest;
@@ -254,6 +254,11 @@
     [gvc visitCityClicked:jp.cityId assetId:jp.cityAssetNum];
     [self close:nil];
   }
+}
+
+- (void) donateClickedWithDetailsVC:(QuestDetailsViewController *)detailsVC jobId:(int)jobId {
+  FullQuestProto *quest = detailsVC.quest;
+  [self doDonateForQuest:quest.questId jobId:jobId];
 }
 
 - (void) doDonateForQuest:(int)questId jobId:(int)jobId {
@@ -306,9 +311,9 @@
   UserQuest *uqNew = [[OutgoingEventController sharedOutgoingEventController] donateForQuest:quest.questId jobId:_donateJobId monsterIds:self.userMonsterIds];
   self.userMonsterIds = nil;
   if (uqNew.isComplete) {
-    [UIView animateWithDuration:0.5f animations:^{
-      [self.questDetailsViewController loadWithQuest:quest userQuest:uqNew];
-    }];
+    [self.questDetailsViewController loadWithQuest:quest userQuest:uqNew];
+    
+    [[[QuestUtil sharedQuestUtil] delegate] questComplete:quest];
   }
   [self.questListViewController reloadWithQuests:gs.allCurrentQuests userQuests:gs.myQuests];
   

@@ -1275,7 +1275,9 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
     [[NSNotificationCenter defaultCenter] postNotificationName:MONSTER_QUEUE_CHANGED_NOTIFICATION object:nil];
     [[NSNotificationCenter defaultCenter] postNotificationName:MY_TEAM_CHANGED_NOTIFICATION object:nil];
     [self beginHealingTimer];
+    
     [AchievementUtil checkMonstersHealed:(int)arr.count];
+    [QuestUtil checkAllDonateQuests];
   }
 }
 
@@ -1314,6 +1316,8 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
     [[OutgoingEventController sharedOutgoingEventController] enhanceQueueWaitTimeComplete:arr];
     [[NSNotificationCenter defaultCenter] postNotificationName:ENHANCE_WAIT_COMPLETE_NOTIFICATION object:nil];
     [self beginEnhanceTimer];
+    
+    [QuestUtil checkAllDonateQuests];
   }
 }
 
@@ -1344,6 +1348,8 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
     [[OutgoingEventController sharedOutgoingEventController] finishEvolutionWithGems:NO withDelegate:nil];
     [[NSNotificationCenter defaultCenter] postNotificationName:EVOLUTION_WAIT_COMPLETE_NOTIFICATION object:nil];
     [self beginEvolutionTimer];
+    
+    [QuestUtil checkAllDonateQuests];
   }
 }
 
@@ -1451,6 +1457,8 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
   
   [[NSNotificationCenter defaultCenter] postNotificationName:MINI_JOB_WAIT_COMPLETE_NOTIFICATION object:nil];
   [self beginMiniJobTimer];
+  
+  [QuestUtil checkAllDonateQuests];
 }
 
 - (void) stopMiniJobTimer {

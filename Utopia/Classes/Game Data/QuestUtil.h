@@ -23,6 +23,7 @@
 
 + (void) setDelegate:(id)delegate;
 
++ (QuestUtil *) sharedQuestUtil;
 + (int) checkQuantityForDonateQuestJob:(QuestJobProto *)job;
 + (void) checkAllDonateQuests;
 + (void) checkAllStructQuests;

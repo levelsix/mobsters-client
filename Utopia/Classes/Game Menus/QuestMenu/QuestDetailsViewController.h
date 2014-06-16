@@ -18,15 +18,19 @@
 @property (nonatomic, strong) IBOutlet UILabel *taskNumLabel;
 @property (nonatomic, strong) IBOutlet UILabel *descriptionLabel;
 @property (nonatomic, strong) IBOutlet UILabel *progressLabel;
+@property (nonatomic, strong) IBOutlet UIActivityIndicatorView *donateSpinner;
 
 @property (nonatomic, strong) IBOutlet UIView *goView;
+@property (nonatomic, strong) IBOutlet UIView *donateView;
+@property (nonatomic, strong) IBOutlet UIView *donateCompleteView;
 
 @end
 
 @protocol QuestDetailsViewControllerDelegate <NSObject>
 
 - (void) collectClickedWithDetailsVC:(QuestDetailsViewController *)detailsVC;
-- (void) visitOrDonateClickedWithDetailsVC:(QuestDetailsViewController *)detailsVC jobId:(int)jobId;
+- (void) visitClickedWithDetailsVC:(QuestDetailsViewController *)detailsVC jobId:(int)jobId;
+- (void) donateClickedWithDetailsVC:(QuestDetailsViewController *)detailsVC jobId:(int)jobId;
 
 @end
 
