@@ -967,6 +967,12 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
   return fqp;
 }
 
+- (void) unlockAllTasks {
+  for (FullTaskProto *task in self.staticTasks.allValues) {
+    [self.completedTasks addObject:@(task.taskId)];
+  }
+}
+
 - (BOOL) isTaskUnlocked:(int)taskId {
   if (!taskId) return NO;
   FullTaskProto *task = [self taskWithId:taskId];

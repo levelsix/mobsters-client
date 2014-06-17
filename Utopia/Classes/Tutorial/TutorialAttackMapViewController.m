@@ -41,7 +41,7 @@
   AttackMapIconView *icon = (AttackMapIconView *)sender;
   
   if (icon.cityNumber == self.clickableCityId) {
-    [super cityClicked:nil];
+    [super cityClicked:sender];
   }
 }
 

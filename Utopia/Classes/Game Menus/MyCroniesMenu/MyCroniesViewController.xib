@@ -48,6 +48,10 @@
                             <rect key="frame" x="0.0" y="214" width="568" height="68"/>
                             <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
                             <subviews>
+                                <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" image="greywhite1.png" id="VqT-8w-1jO">
+                                    <rect key="frame" x="0.0" y="-2" width="568" height="2"/>
+                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                </imageView>
                                 <view contentMode="scaleToFill" id="Kon-2F-8zI" customClass="MyCroniesQueueView">
                                     <rect key="frame" x="0.0" y="-1" width="568" height="70"/>
                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -145,10 +149,6 @@
                                         <outlet property="totalTimeLabel" destination="0Nx-O9-5DJ" id="RG4-vO-UVi"/>
                                     </connections>
                                 </view>
-                                <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" image="greywhite1.png" id="VqT-8w-1jO">
-                                    <rect key="frame" x="0.0" y="-2" width="568" height="2"/>
-                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                </imageView>
                                 <view contentMode="scaleToFill" id="1Oc-g5-RTx" customClass="MyCroniesTabBar">
                                     <rect key="frame" x="0.0" y="0.0" width="39" height="68"/>
                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>

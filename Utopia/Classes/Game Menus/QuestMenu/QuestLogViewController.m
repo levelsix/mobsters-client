@@ -256,6 +256,28 @@
   }
 }
 
+- (void) skipClickedWithDetailsVC:(QuestDetailsViewController *)detailsVC {
+  FullQuestProto *quest = detailsVC.quest;
+  UserQuest *uq = detailsVC.userQuest;
+  
+  NSMutableArray *changedJobs = [NSMutableArray array];
+  for (QuestJobProto *qj in quest.jobsList) {
+    UserQuestJob *uqj = [uq jobForId:qj.questJobId];
+    if (!uqj.isComplete) {
+      [uq setProgress:qj.quantity forQuestJobId:qj.questJobId];
+      [uq setIsCompleteForQuestJobId:qj.questJobId];
+      [changedJobs addObject:@(qj.questJobId)];
+    }
+  }
+  uq.isComplete = YES;
+  
+  [[OutgoingEventController sharedOutgoingEventController] questProgress:uq.questId jobIds:changedJobs];
+  
+  [[[QuestUtil sharedQuestUtil] delegate] questComplete:quest];
+  
+  [[NSNotificationCenter defaultCenter] postNotificationName:QUESTS_CHANGED_NOTIFICATION object:nil];
+}
+
 - (void) donateClickedWithDetailsVC:(QuestDetailsViewController *)detailsVC jobId:(int)jobId {
   FullQuestProto *quest = detailsVC.quest;
   [self doDonateForQuest:quest.questId jobId:jobId];

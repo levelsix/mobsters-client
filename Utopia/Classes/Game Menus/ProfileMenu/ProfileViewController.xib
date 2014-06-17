@@ -49,7 +49,7 @@
                 </view>
                 <view contentMode="scaleToFill" id="o0C-dU-Hv2" userLabel="Main View">
                     <rect key="frame" x="119" y="28" width="329" height="265"/>
-                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
                     <subviews>
                         <view clipsSubviews="YES" contentMode="scaleToFill" id="EUJ-PT-SY9" customClass="PopupShadowView">
                             <rect key="frame" x="0.0" y="25" width="329" height="240"/>
@@ -754,7 +754,7 @@
                                 <action selector="message:" destination="-1" eventType="touchUpInside" id="jtJ-Bd-hIV"/>
                             </connections>
                         </button>
-                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Send a Message" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="9" id="FHC-eP-oCb" customClass="NiceFontLabel10">
+                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Send a Message" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="FHC-eP-oCb" customClass="NiceFontLabel10">
                             <rect key="frame" x="31" y="3" width="72" height="16"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             <fontDescription key="fontDescription" type="system" pointSize="8"/>

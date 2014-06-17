@@ -46,6 +46,8 @@
 @property (nonatomic, retain) MSDate *lastMiniJobSpawnTime;
 @property (nonatomic, assign) int avatarMonsterId;
 
+@property (nonatomic, assign) int allowQuestSkipping;
+
 @property (nonatomic, retain) UserPvpLeagueProto *pvpLeague;
 
 @property (nonatomic, retain) NSString *kabamNaid;
@@ -145,6 +147,7 @@
 - (PersistentEventProto *) currentPersistentEventWithType:(PersistentEventProto_EventType)type;
 - (MonsterBattleDialogueProto *) battleDialogueForMonsterId:(int)monsterId type:(MonsterBattleDialogueProto_DialogueType)type;
 
+- (void) unlockAllTasks;
 - (BOOL) isTaskUnlocked:(int)taskId;
 - (BOOL) isCityUnlocked:(int)cityId;
 - (NSArray *) taskIdsToUnlockMoreTasks;

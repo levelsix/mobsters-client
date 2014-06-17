@@ -1246,8 +1246,13 @@
 @implementation LeagueView
 
 - (void) updateForUserLeague:(UserPvpLeagueProto *)upvp ribbonSuffix:(NSString *)ribbonSuffix {
+  
   GameState *gs = [GameState sharedGameState];
   PvpLeagueProto *pvp = [gs leagueForId:upvp.leagueId];
+  if (!upvp && gs.staticLeagues.count > 0) {
+    pvp = gs.staticLeagues[0];
+    upvp = [[[[UserPvpLeagueProto builder] setLeagueId:pvp.leagueId] setRank:pvp.numRanks] build];
+  }
   
   NSString *league = pvp.imgPrefix;
   int rank = upvp.rank;

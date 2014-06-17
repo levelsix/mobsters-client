@@ -24,23 +24,23 @@
                     <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES"/>
                     <subviews>
                         <view contentMode="scaleToFill" id="43">
-                            <rect key="frame" x="0.0" y="8" width="170" height="145"/>
+                            <rect key="frame" x="10" y="18" width="150" height="125"/>
                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                             <subviews>
                                 <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="menubluebox.png" id="44">
-                                    <rect key="frame" x="0.0" y="0.0" width="170" height="145"/>
-                                    <autoresizingMask key="autoresizingMask"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="150" height="125"/>
+                                    <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                 </imageView>
                                 <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="menuaddfunds.png" id="H0Y-1z-lez">
-                                    <rect key="frame" x="50" y="36" width="70" height="64"/>
+                                    <rect key="frame" x="40" y="26" width="70" height="64"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                 </imageView>
                                 <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="menuyellowbar.png" id="sVh-Cj-Svo">
-                                    <rect key="frame" x="25" y="100" width="121" height="23"/>
+                                    <rect key="frame" x="15" y="90" width="121" height="23"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                 </imageView>
                                 <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="ADD FUNDS" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" id="48" customClass="NiceFontLabel12B">
-                                    <rect key="frame" x="34" y="100" width="103" height="21"/>
+                                    <rect key="frame" x="24" y="90" width="103" height="21"/>
                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                     <fontDescription key="fontDescription" type="system" pointSize="9"/>
                                     <color key="textColor" red="0.71764707565307617" green="0.12941177189350128" blue="0.0" alpha="1" colorSpace="deviceRGB"/>
@@ -49,8 +49,8 @@
                                     <size key="shadowOffset" width="0.0" height="1"/>
                                 </label>
                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="49" customClass="MaskedButton">
-                                    <rect key="frame" x="0.0" y="0.0" width="170" height="145"/>
-                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="150" height="125"/>
+                                    <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                     <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
                                     <state key="normal">
                                         <color key="titleColor" red="0.19607843459999999" green="0.30980393290000002" blue="0.52156865600000002" alpha="1" colorSpace="calibratedRGB"/>
@@ -69,19 +69,19 @@
                             <simulatedOrientationMetrics key="simulatedOrientationMetrics" orientation="landscapeRight"/>
                         </view>
                         <view contentMode="scaleToFill" id="JXW-bz-cFf">
-                            <rect key="frame" x="155" y="8" width="170" height="145"/>
+                            <rect key="frame" x="165" y="18" width="150" height="125"/>
                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                             <subviews>
                                 <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="menubluebox.png" id="6dD-dx-mD1">
-                                    <rect key="frame" x="0.0" y="0.0" width="170" height="145"/>
-                                    <autoresizingMask key="autoresizingMask"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="150" height="125"/>
+                                    <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                 </imageView>
                                 <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="menuyellowbar.png" id="GI4-8C-G9j">
-                                    <rect key="frame" x="25" y="100" width="121" height="23"/>
+                                    <rect key="frame" x="15" y="90" width="121" height="23"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                 </imageView>
                                 <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="GET MOBSTERS" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" id="9tG-5P-zXH" customClass="NiceFontLabel12B">
-                                    <rect key="frame" x="34" y="100" width="103" height="21"/>
+                                    <rect key="frame" x="24" y="90" width="103" height="21"/>
                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                     <fontDescription key="fontDescription" type="system" pointSize="9"/>
                                     <color key="textColor" red="0.71764707569999997" green="0.1294117719" blue="0.0" alpha="1" colorSpace="deviceRGB"/>
@@ -90,12 +90,12 @@
                                     <size key="shadowOffset" width="0.0" height="1"/>
                                 </label>
                                 <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="menugetmobsters.png" id="Mfu-mz-wVn">
-                                    <rect key="frame" x="27" y="31" width="117" height="69"/>
+                                    <rect key="frame" x="17" y="21" width="117" height="69"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                 </imageView>
                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="Ani-Hj-4Ne" customClass="MaskedButton">
-                                    <rect key="frame" x="0.0" y="0.0" width="170" height="145"/>
-                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="150" height="125"/>
+                                    <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                     <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
                                     <state key="normal">
                                         <color key="titleColor" red="0.19607843459999999" green="0.30980393290000002" blue="0.52156865600000002" alpha="1" colorSpace="calibratedRGB"/>
@@ -114,19 +114,19 @@
                             <simulatedOrientationMetrics key="simulatedOrientationMetrics" orientation="landscapeRight"/>
                         </view>
                         <view contentMode="scaleToFill" id="N0M-Vg-l3Z">
-                            <rect key="frame" x="310" y="8" width="170" height="145"/>
+                            <rect key="frame" x="320" y="18" width="150" height="125"/>
                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                             <subviews>
                                 <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="menubluebox.png" id="VJZ-gd-Acv">
-                                    <rect key="frame" x="0.0" y="0.0" width="170" height="145"/>
-                                    <autoresizingMask key="autoresizingMask"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="150" height="125"/>
+                                    <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                 </imageView>
                                 <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="menuyellowbar.png" id="fmN-kZ-1FU">
-                                    <rect key="frame" x="25" y="100" width="121" height="23"/>
+                                    <rect key="frame" x="15" y="90" width="121" height="23"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                 </imageView>
                                 <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="MANAGE TEAM" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" id="tvJ-hp-T53" customClass="NiceFontLabel12B">
-                                    <rect key="frame" x="34" y="100" width="103" height="21"/>
+                                    <rect key="frame" x="24" y="90" width="103" height="21"/>
                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                     <fontDescription key="fontDescription" type="system" pointSize="9"/>
                                     <color key="textColor" red="0.71764707569999997" green="0.1294117719" blue="0.0" alpha="1" colorSpace="deviceRGB"/>
@@ -135,12 +135,12 @@
                                     <size key="shadowOffset" width="0.0" height="1"/>
                                 </label>
                                 <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="menumanageteam.png" id="5R9-fP-Xxi">
-                                    <rect key="frame" x="29" y="29" width="113" height="71"/>
+                                    <rect key="frame" x="19" y="19" width="113" height="71"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                 </imageView>
                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="PxD-Tc-lvo" customClass="MaskedButton">
-                                    <rect key="frame" x="0.0" y="0.0" width="170" height="145"/>
-                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="150" height="125"/>
+                                    <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                     <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
                                     <state key="normal">
                                         <color key="titleColor" red="0.19607843459999999" green="0.30980393290000002" blue="0.52156865600000002" alpha="1" colorSpace="calibratedRGB"/>
@@ -159,19 +159,19 @@
                             <simulatedOrientationMetrics key="simulatedOrientationMetrics" orientation="landscapeRight"/>
                         </view>
                         <view contentMode="scaleToFill" id="wGB-zc-MnB">
-                            <rect key="frame" x="0.0" y="143" width="170" height="145"/>
+                            <rect key="frame" x="10" y="153" width="150" height="125"/>
                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                             <subviews>
                                 <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="menubluebox.png" id="yZN-UC-IOQ">
-                                    <rect key="frame" x="0.0" y="0.0" width="170" height="145"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="150" height="125"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                 </imageView>
                                 <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="menuyellowbar.png" id="b7t-K3-hjy">
-                                    <rect key="frame" x="25" y="100" width="121" height="23"/>
+                                    <rect key="frame" x="15" y="90" width="121" height="23"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                 </imageView>
                                 <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="BUILDINGS" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" id="08A-D8-Lew" customClass="NiceFontLabel12B">
-                                    <rect key="frame" x="34" y="100" width="103" height="21"/>
+                                    <rect key="frame" x="24" y="90" width="103" height="21"/>
                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                     <fontDescription key="fontDescription" type="system" pointSize="9"/>
                                     <color key="textColor" red="0.71764707569999997" green="0.1294117719" blue="0.0" alpha="1" colorSpace="deviceRGB"/>
@@ -180,11 +180,11 @@
                                     <size key="shadowOffset" width="0.0" height="1"/>
                                 </label>
                                 <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="menubuildings.png" id="mr8-eH-0ul">
-                                    <rect key="frame" x="45" y="25" width="81" height="75"/>
+                                    <rect key="frame" x="35" y="15" width="81" height="75"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                 </imageView>
                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="ebx-vU-72t" customClass="MaskedButton">
-                                    <rect key="frame" x="0.0" y="0.0" width="170" height="145"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="150" height="125"/>
                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                     <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
                                     <state key="normal">
@@ -204,19 +204,19 @@
                             <simulatedOrientationMetrics key="simulatedOrientationMetrics" orientation="landscapeRight"/>
                         </view>
                         <view contentMode="scaleToFill" id="G4c-GY-ZLM">
-                            <rect key="frame" x="155" y="143" width="170" height="145"/>
+                            <rect key="frame" x="165" y="153" width="150" height="125"/>
                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                             <subviews>
                                 <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="menubluebox.png" id="xhD-Su-hO6">
-                                    <rect key="frame" x="0.0" y="0.0" width="170" height="145"/>
-                                    <autoresizingMask key="autoresizingMask"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="150" height="125"/>
+                                    <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                 </imageView>
                                 <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="menuyellowbar.png" id="TCK-8h-c0x">
-                                    <rect key="frame" x="25" y="100" width="121" height="23"/>
+                                    <rect key="frame" x="15" y="90" width="121" height="23"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                 </imageView>
                                 <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="ENHANCE" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" id="VRU-Fe-aGI" customClass="NiceFontLabel12B">
-                                    <rect key="frame" x="34" y="100" width="103" height="21"/>
+                                    <rect key="frame" x="24" y="90" width="103" height="21"/>
                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                     <fontDescription key="fontDescription" type="system" pointSize="9"/>
                                     <color key="textColor" red="0.71764707569999997" green="0.1294117719" blue="0.0" alpha="1" colorSpace="deviceRGB"/>
@@ -225,12 +225,12 @@
                                     <size key="shadowOffset" width="0.0" height="1"/>
                                 </label>
                                 <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="menulaboratory2.png" id="gKb-Ab-ap6">
-                                    <rect key="frame" x="49" y="18" width="73" height="82"/>
+                                    <rect key="frame" x="39" y="8" width="73" height="82"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                 </imageView>
                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="gNB-56-CFc" customClass="MaskedButton">
-                                    <rect key="frame" x="0.0" y="0.0" width="170" height="145"/>
-                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="150" height="125"/>
+                                    <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                     <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
                                     <state key="normal">
                                         <color key="titleColor" red="0.19607843459999999" green="0.30980393290000002" blue="0.52156865600000002" alpha="1" colorSpace="calibratedRGB"/>
@@ -249,19 +249,19 @@
                             <simulatedOrientationMetrics key="simulatedOrientationMetrics" orientation="landscapeRight"/>
                         </view>
                         <view contentMode="scaleToFill" id="B1h-KN-Cmg">
-                            <rect key="frame" x="310" y="143" width="170" height="145"/>
+                            <rect key="frame" x="320" y="153" width="150" height="125"/>
                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                             <subviews>
                                 <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="menubluebox.png" id="O5G-OC-9Fg">
-                                    <rect key="frame" x="0.0" y="0.0" width="170" height="145"/>
-                                    <autoresizingMask key="autoresizingMask"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="150" height="125"/>
+                                    <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                 </imageView>
                                 <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="menuyellowbar.png" id="AIr-FJ-eDB">
-                                    <rect key="frame" x="25" y="100" width="121" height="23"/>
+                                    <rect key="frame" x="15" y="90" width="121" height="23"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                 </imageView>
                                 <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="EVOLVE" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" id="zfS-jd-UpW" customClass="NiceFontLabel12B">
-                                    <rect key="frame" x="34" y="100" width="103" height="21"/>
+                                    <rect key="frame" x="24" y="90" width="103" height="21"/>
                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                     <fontDescription key="fontDescription" type="system" pointSize="9"/>
                                     <color key="textColor" red="0.71764707569999997" green="0.1294117719" blue="0.0" alpha="1" colorSpace="deviceRGB"/>
@@ -270,12 +270,12 @@
                                     <size key="shadowOffset" width="0.0" height="1"/>
                                 </label>
                                 <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="menulaboratory.png" id="I6w-6A-xtz">
-                                    <rect key="frame" x="49" y="24" width="73" height="76"/>
+                                    <rect key="frame" x="39" y="14" width="73" height="76"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                 </imageView>
                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="YCN-hV-kaP" customClass="MaskedButton">
-                                    <rect key="frame" x="0.0" y="0.0" width="170" height="145"/>
-                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="150" height="125"/>
+                                    <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                     <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
                                     <state key="normal">
                                         <color key="titleColor" red="0.19607843459999999" green="0.30980393290000002" blue="0.52156865600000002" alpha="1" colorSpace="calibratedRGB"/>

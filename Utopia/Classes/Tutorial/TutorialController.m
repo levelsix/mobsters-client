@@ -196,11 +196,11 @@
   
   [scene addChild:self.missionMap];
   CCDirector *dir = [CCDirector sharedDirector];
-  if (!dir.runningScene) {
+//  if (!dir.runningScene) {
     [dir replaceScene:scene];
-  } else {
-    [[CCDirector sharedDirector] replaceScene:scene withTransition:[CCTransition transitionCrossFadeWithDuration:0.4f]];
-  }
+//  } else {
+//    [[CCDirector sharedDirector] replaceScene:scene withTransition:[CCTransition transitionCrossFadeWithDuration:0.4f]];
+//  }
   self.gameViewController.currentMap = self.missionMap;
 }
 
@@ -310,13 +310,15 @@
 }
 
 - (void) initAttackMapViewController {
-  self.attackMapViewController = [[TutorialAttackMapViewController alloc] init];
-  self.attackMapViewController.delegate = self;
-  [self.attackMapViewController allowClickOnCityId:1];
-  MenuNavigationController *nav = [[MenuNavigationController alloc] init];
-  nav.navigationBarHidden = YES;
-  [self.gameViewController presentViewController:nav animated:YES completion:nil];
-  [nav pushViewController:self.attackMapViewController animated:YES];
+  GameViewController *gvc = self.gameViewController;
+  TutorialAttackMapViewController *amvc = [[TutorialAttackMapViewController alloc] init];
+  amvc.delegate = self;
+  [gvc addChildViewController:amvc];
+  amvc.view.frame = gvc.view.bounds;
+  [gvc.view addSubview:amvc.view];
+  self.attackMapViewController = amvc;
+  
+  [amvc allowClickOnCityId:1];
 }
 
 - (void) cacheKeyboard {
@@ -1168,20 +1170,24 @@
 
 #pragma mark - AttackMap delegate
 
-- (void) visitCityClicked:(int)cityId {
+- (void) visitCityClicked:(int)cityId attackMapViewController:(AttackMapViewController *)vc {
   if (_currentStep == TutorialStepAttackMap) {
-    GameState *gs = [GameState sharedGameState];
-    FullCityProto *fcp = [gs cityWithId:self.constants.cityId];
-    self.gameViewController.loadingView.label.text = [NSString stringWithFormat:@"Traveling to\n%@", fcp.name];
-    [self.gameViewController.loadingView display:self.gameViewController.view];
+    [self fadeToMissionMap];
     
-    [self performSelector:@selector(fadeToMissionMap) withObject:nil afterDelay:0.5f];
+    UIView *white = [[UIView alloc] initWithFrame:self.gameViewController.view.bounds];
+    white.backgroundColor = [UIColor whiteColor];
+    [self.gameViewController.view insertSubview:white belowSubview:vc.view];
+    [UIView animateWithDuration:2.1f animations:^{
+      white.alpha = 0.f;
+    } completion:^(BOOL finished) {
+      [white removeFromSuperview];
+    }];
   }
 }
 
 - (void) fadeToMissionMap {
   if (self.userCreateStartupResponse) {
-    [self.gameViewController.loadingView stop];
+    [self.attackMapViewController close];
     
     // Go back to the mission map
     [self initMissionMapWithCenterOnThirdBuilding:YES];

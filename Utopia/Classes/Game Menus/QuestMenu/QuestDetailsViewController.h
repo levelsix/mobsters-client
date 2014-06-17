@@ -29,6 +29,7 @@
 @protocol QuestDetailsViewControllerDelegate <NSObject>
 
 - (void) collectClickedWithDetailsVC:(QuestDetailsViewController *)detailsVC;
+- (void) skipClickedWithDetailsVC:(QuestDetailsViewController *)detailsVC;
 - (void) visitClickedWithDetailsVC:(QuestDetailsViewController *)detailsVC jobId:(int)jobId;
 - (void) donateClickedWithDetailsVC:(QuestDetailsViewController *)detailsVC jobId:(int)jobId;
 
@@ -49,6 +50,8 @@
 @property (nonatomic, strong) IBOutlet QuestDetailsCell *taskCell;
 
 @property (nonatomic, strong) IBOutlet RewardView *rewardView;
+
+@property (nonatomic, strong) IBOutlet UIView *skipView;
 
 @property (nonatomic, weak) id<QuestDetailsViewControllerDelegate> delegate;
 

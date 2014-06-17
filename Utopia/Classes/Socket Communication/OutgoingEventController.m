@@ -29,6 +29,8 @@
 #define GEMS_CODE @"gemsgalore"
 #define RESET_CODE @"cleanslate"
 #define UNMUTE_CODE @"allears"
+#define UNLOCK_BUILDINGS_CODE @"unlockdown"
+#define SKIP_QUESTS_CODE @"quickquests"
 
 #define  LVL6_SHARED_SECRET @"mister8conrad3chan9is1a2very4great5man"
 
@@ -600,44 +602,66 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
     [Globals popupMessage:@"Attempting to send msg that exceeds appropriate length"];
   } else {
     NSRange r = [msg rangeOfString:CODE_PREFIX];
-    if (r.length > 0) {
+    if (gs.isAdmin && r.length > 0) {
       NSString *code = [msg stringByReplacingCharactersInRange:r withString:@""];
+      @try {
+        int cashAmt = 0, oilAmt = 0, gemsAmt = 0;
+        NSString *code = nil;
+        if ((r = [code rangeOfString:CASH_CODE]).length > 0) {
+          r.length++;
+          code = [code stringByReplacingCharactersInRange:r withString:@""];
+          cashAmt = code.intValue;
+          code = CASH_CODE;
+          msg = [NSString stringWithFormat:@"Awarded %d cash.", cashAmt];
+        } else if ((r = [code rangeOfString:OIL_CODE]).length > 0) {
+          r.length++;
+          code = [code stringByReplacingCharactersInRange:r withString:@""];
+          oilAmt = code.intValue;
+          code = OIL_CODE;
+          msg = [NSString stringWithFormat:@"Awarded %d oil.", oilAmt];
+        } else if ((r = [code rangeOfString:CASH_AND_OIL_CODE]).length > 0) {
+          r.length++;
+          code = [code stringByReplacingCharactersInRange:r withString:@""];
+          cashAmt = code.intValue;
+          oilAmt = code.intValue;
+          code = CASH_AND_OIL_CODE;
+          msg = [NSString stringWithFormat:@"Awarded %d cash and oil.", cashAmt];
+        } else if ((r = [code rangeOfString:GEMS_CODE]).length > 0) {
+          r.length++;
+          code = [code stringByReplacingCharactersInRange:r withString:@""];
+          gemsAmt = code.intValue;
+          code = GEMS_CODE;
+          msg = [NSString stringWithFormat:@"Awarded %d gems.", gemsAmt];
+        }
+        
+        if (cashAmt || oilAmt || gemsAmt) {
+          [[OutgoingEventController sharedOutgoingEventController] updateUserCurrencyWithCashChange:cashAmt oilChange:oilAmt gemChange:gemsAmt reason:code];
+        } else if (code) {
+          @throw [NSException exceptionWithName:@"thrown" reason:@"to get msg" userInfo:nil];
+        }
+      }
+      @catch (NSException *exception) {
+        msg = @"You must enter a quantity of currency!";
+      }
+      
       if ([code isEqualToString:PURGE_CODE]) {
         [[Downloader sharedDownloader] purgeAllDownloadedData];
         msg = @"All downloaded data has been purged.";
-      } else if ((r = [code rangeOfString:CASH_CODE]).length > 0) {
-        r.length++;
-        code = [code stringByReplacingCharactersInRange:r withString:@""];
-        int amt = code.intValue;
-        msg = [NSString stringWithFormat:@"Awarded %d cash.", amt];
-        [[OutgoingEventController sharedOutgoingEventController] updateUserCurrencyWithCashChange:amt oilChange:0 gemChange:0 reason:CASH_CODE];
-      } else if ((r = [code rangeOfString:OIL_CODE]).length > 0) {
-        r.length++;
-        code = [code stringByReplacingCharactersInRange:r withString:@""];
-        int amt = code.intValue;
-        msg = [NSString stringWithFormat:@"Awarded %d oil.", amt];
-        [[OutgoingEventController sharedOutgoingEventController] updateUserCurrencyWithCashChange:0 oilChange:amt gemChange:0 reason:OIL_CODE];
-      } else if ((r = [code rangeOfString:CASH_AND_OIL_CODE]).length > 0) {
-        r.length++;
-        code = [code stringByReplacingCharactersInRange:r withString:@""];
-        int amt = code.intValue;
-        msg = [NSString stringWithFormat:@"Awarded %d cash and oil.", amt];
-        [[OutgoingEventController sharedOutgoingEventController] updateUserCurrencyWithCashChange:amt oilChange:amt gemChange:0 reason:CASH_AND_OIL_CODE];
-      } else if ((r = [code rangeOfString:GEMS_CODE]).length > 0) {
-        r.length++;
-        code = [code stringByReplacingCharactersInRange:r withString:@""];
-        int amt = code.intValue;
-        msg = [NSString stringWithFormat:@"Awarded %d gems.", amt];
-        [[OutgoingEventController sharedOutgoingEventController] updateUserCurrencyWithCashChange:0 oilChange:0 gemChange:amt reason:GEMS_CODE];
       } else if ([code isEqualToString:RESET_CODE]) {
         msg = @"Resetting account...";
         [[OutgoingEventController sharedOutgoingEventController] updateUserCurrencyWithCashChange:1234 oilChange:1234 gemChange:1234 reason:RESET_CODE];
       } else if ([code isEqualToString:UNMUTE_CODE]) {
         msg = @"Unmuted all players.";
         [gl unmuteAllPlayers];
+      } else if ([code isEqualToString:UNLOCK_BUILDINGS_CODE]) {
+        msg = @"Unlocked all buildings.";
+        [gs unlockAllTasks];
+      } else if ([code isEqualToString:SKIP_QUESTS_CODE]) {
+        msg = @"Quests can now be skipped.";
+        gs.allowQuestSkipping = YES;
       }
       
-      else {
+      else if (!msg) {
         msg = @"Unaccepted code.";
       }
     } else {

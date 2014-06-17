@@ -9,6 +9,7 @@
 #import "QuestDetailsViewController.h"
 #import "Globals.h"
 #import "FullQuestProto+JobAccess.h"
+#import "GameState.h"
 
 #define SPACING_PER_NODE 38.f
 
@@ -40,6 +41,9 @@
 @implementation QuestDetailsViewController
 
 - (void) loadWithQuest:(FullQuestProto *)quest userQuest:(UserQuest *)userQuest {
+  GameState *gs = [GameState sharedGameState];
+  self.skipView.hidden = !gs.allowQuestSkipping;
+  
   self.quest = quest;
   self.userQuest = userQuest;
   
@@ -129,6 +133,10 @@
     QuestDetailsCell *cell = (QuestDetailsCell *)sender;
     [self.delegate donateClickedWithDetailsVC:self jobId:(int)cell.tag];
   }
+}
+
+- (IBAction) skipClicked:(UIView *)sender {
+  [self.delegate skipClickedWithDetailsVC:self];
 }
 
 @end
