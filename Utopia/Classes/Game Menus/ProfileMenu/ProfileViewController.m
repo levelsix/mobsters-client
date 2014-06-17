@@ -76,6 +76,9 @@
   self.statsView.frame = self.teamView.frame;
   [self.teamView.superview addSubview:self.statsView];
   
+  self.slotEmptyView.center = self.monsterDescriptionView.center;
+  [self.monsterDescriptionView.superview addSubview:self.slotEmptyView];
+  
   [self loadProfile];
 }
 
@@ -101,7 +104,7 @@
       if (um) {
         [mv updateForUserMonster:um];
       } else {
-        [mv updateForEmptySlot:i];
+        [mv updateForEmptySlot:i+1];
       }
     }
     
@@ -155,6 +158,14 @@
 - (void) loadDescriptionViewForSlot:(int)slotNum {
   if (self.curTeam.count >= slotNum) {
     [self.monsterDescriptionView updateForUserMonster:self.curTeam[slotNum-1]];
+    
+    self.slotEmptyView.hidden = YES;
+    self.monsterDescriptionView.hidden = NO;
+  } else {
+    self.slotEmptyView.text = [NSString stringWithFormat:@"Slot %d Empty", slotNum]; 
+    
+    self.slotEmptyView.hidden = NO;
+    self.monsterDescriptionView.hidden = YES;
   }
 }
 

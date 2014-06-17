@@ -34,6 +34,7 @@
 
 @property (nonatomic, strong) IBOutlet ProfileStatsView *statsView;
 @property (nonatomic, strong) IBOutlet UIView *teamView;
+@property (nonatomic, strong) IBOutlet UILabel *slotEmptyView;
 
 @property (nonatomic, strong) IBOutletCollection(ProfileMonsterTeamView) NSArray *monsterTeamViews;
 @property (nonatomic, strong) IBOutlet ProfileMonsterDescriptionView *monsterDescriptionView;

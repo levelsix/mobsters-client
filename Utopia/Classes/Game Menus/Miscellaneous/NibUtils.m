@@ -281,7 +281,7 @@
 - (void) awakeFromNib {
   [super awakeFromNib];
   [Globals adjustFontSizeForSize:self.titleLabel.font.pointSize withUIView:self];
-  self.titleLabel.font = [UIFont fontWithName:@"Gotham-Book" size:self.titleLabel.font.pointSize];
+  self.titleLabel.font = [UIFont fontWithName:@"Gotham-Medium" size:self.titleLabel.font.pointSize];
 }
 
 @end
@@ -1001,7 +1001,8 @@
     icon = self.icon3;
   }
   if (label) {
-    self.selectedView.center = ccp(label.center.x, self.selectedView.center.y);
+    CGPoint center = [self.selectedView.superview convertPoint:label.center fromView:label.superview];
+    self.selectedView.center = ccp(center.x, self.selectedView.center.y);
     self.selectedView.hidden = NO;
   } else {
     self.selectedView.hidden = YES;
@@ -1286,6 +1287,8 @@
   self.layer.shadowOpacity = 0.8;
   self.layer.shadowOffset = CGSizeMake(0, 1);
   self.layer.shadowRadius = 2.f;
+  
+  self.clipsToBounds = YES;
 }
 
 @end

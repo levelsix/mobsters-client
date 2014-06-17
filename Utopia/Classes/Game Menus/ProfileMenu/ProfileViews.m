@@ -21,8 +21,6 @@
   [self.monsterView updateForMonsterId:um.monsterId];
   self.nameLabel.text = mp.hasShorterName ? mp.shorterName : mp.displayName;
   self.levelLabel.text = [NSString stringWithFormat:@"LEVEL %d", um.level];
-  
-  self.emptyLabel.hidden = YES;
 }
 
 - (void) updateForEmptySlot:(int)slotNum {
@@ -31,6 +29,7 @@
   self.monsterView.hidden = YES;
   self.nameLabel.hidden = YES;
   self.levelLabel.hidden = YES;
+  self.emptyLabel.hidden = NO;
 }
 
 @end
@@ -97,7 +96,7 @@
   }
   
   if (user.hasPvpLeagueInfo) {
-    [self.leagueView updateForUserLeague:user.pvpLeagueInfo ribbonSuffix:@"ribbon.png"];
+    [self.leagueView updateForUserLeague:user.pvpLeagueInfo ribbonSuffix:@"profribbon.png"];
     self.leagueView.hidden = NO;
   } else {
     self.leagueView.hidden = YES;
