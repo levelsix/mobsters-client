@@ -310,7 +310,7 @@
 #pragma mark - Focus Scroll View
 
 - (int) numberOfItems {
-  return self.boosterPack.specialItemsList.count;
+  return (int)self.boosterPack.specialItemsList.count;
 }
 
 - (CGFloat) widthPerItem {

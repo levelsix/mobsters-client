@@ -14,27 +14,12 @@
 
 @implementation MyCroniesTabBar
 
+- (void) awakeFromNib {
+  self.selectedView.tintColor = [UIColor colorWithWhite:1.f alpha:0.3f];
+}
+
 - (void) clickButton:(int)button {
-  self.label1.highlighted = NO;
-  self.label2.highlighted = NO;
-  self.label3.highlighted = NO;
-  
-  self.icon1.highlighted = NO;
-  self.icon2.highlighted = NO;
-  self.icon3.highlighted = NO;
-  
-  UILabel *label = nil;
-  UIImageView *icon = nil;
-  if (button == 1) {
-    label = self.label1;
-    icon = self.icon1;
-  } else if (button == 2) {
-    label = self.label2;
-    icon = self.icon2;
-  }
-  label.highlighted = YES;
-  icon.highlighted = YES;
-  
+  [super clickButton:button];
   if (button == 1) {
     self.selectedView.center = ccp(self.selectedView.center.x, self.frame.size.height*3/4);
     self.selectedView.transform = CGAffineTransformIdentity;

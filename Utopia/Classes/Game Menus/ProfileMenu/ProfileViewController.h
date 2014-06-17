@@ -10,23 +10,33 @@
 #import "Protocols.pb.h"
 #import "NibUtils.h"
 #import "MonsterCardView.h"
+#import "ProfileViews.h"
 
-@interface ProfileViewController : UIViewController <MonsterCardViewDelegate>
+@interface ProfileMonsterBar : ButtonTopBar
+
+@property (nonatomic, retain) IBOutlet UIButton *button1;
+@property (nonatomic, retain) IBOutlet UIButton *button2;
+@property (nonatomic, retain) IBOutlet UIButton *button3;
+
+@end
+
+@interface ProfileViewController : UIViewController <MonsterCardViewDelegate, TabBarDelegate>
 
 @property (nonatomic, strong) IBOutlet UIView *mainView;
 @property (nonatomic, strong) IBOutlet UIView *bgdView;
-@property (nonatomic, strong) IBOutlet UIView *sendMsgView;
 
-@property (nonatomic, strong) IBOutlet UILabel *winsLabel;
-@property (nonatomic, strong) IBOutlet UILabel *lossesLabel;
 @property (nonatomic, strong) IBOutlet UILabel *nameLabel;
-@property (nonatomic, strong) IBOutlet MonsterCardContainerView *monsterSlotOne;
-@property (nonatomic, strong) IBOutlet MonsterCardContainerView *monsterSlotTwo;
-@property (nonatomic, strong) IBOutlet MonsterCardContainerView *monsterSlotThree;
-@property (nonatomic, strong) IBOutlet UIButton *clanButton;
-@property (nonatomic, strong) IBOutlet UIImageView *shieldIcon;
+@property (nonatomic, strong) IBOutlet UIImageView *avatarIcon;
+@property (nonatomic, strong) IBOutlet UIImageView *avatarBgd;
 
-@property (nonatomic, strong) IBOutlet LeagueView *leagueView;
+@property (nonatomic, strong) IBOutlet ProfileMonsterBar *monsterBar;
+@property (nonatomic, strong) IBOutlet ButtonTopBar *navBar;
+
+@property (nonatomic, strong) IBOutlet ProfileStatsView *statsView;
+@property (nonatomic, strong) IBOutlet UIView *teamView;
+
+@property (nonatomic, strong) IBOutletCollection(ProfileMonsterTeamView) NSArray *monsterTeamViews;
+@property (nonatomic, strong) IBOutlet ProfileMonsterDescriptionView *monsterDescriptionView;
 
 @property (nonatomic, strong) FullUserProto *fup;
 @property (nonatomic, copy) NSArray *curTeam;

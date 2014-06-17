@@ -13,6 +13,8 @@
 
 @interface MyCroniesTabBar : ButtonTopBar
 
+@property (nonatomic, retain) UIButton *selectedView;
+
 @end
 
 @class MyCroniesCardCell;

@@ -148,7 +148,7 @@
     return;
   }
   
-  CCLabelTTF *label = [CCLabelTTF labelWithString:@"You will lose out on:" fontName:@"Gotham-Ultra" fontSize:12.f];
+  CCLabelTTF *label = [CCLabelTTF labelWithString:@"You will miss out on:" fontName:@"Gotham-Ultra" fontSize:12.f];
   label.color = [CCColor whiteColor];
   [self addChild:label];
   label.position = ccpAdd(self.rewardsBgd.position, ccp(0, self.rewardsBgd.contentSize.height/2-10));
@@ -416,7 +416,6 @@
   NSString *bgdName = nil;
   NSString *borderName = nil;
   UIColor *color = nil;
-  float scale = 1.f;
   if (reward.type == RewardTypeMonster) {
     MonsterProto *mp = [gs monsterWithId:reward.monsterId];
     imgName = [mp.imagePrefix stringByAppendingString:@"Thumbnail.png"];
@@ -457,7 +456,6 @@
     CCSprite *inside = [CCSprite spriteWithImageNamed:imgName];
     [self addChild:inside];
     inside.position = ccp(self.contentSize.width/2, self.contentSize.height/2);
-    inside.scale = scale;
     
     float labelPosition = loss ? -10.f : -13.f;
     if (labelName) {

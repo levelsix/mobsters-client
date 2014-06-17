@@ -969,14 +969,20 @@
 }
 
 - (void) clickButton:(int)button {
-  UIColor *inactiveText = self.inactiveTextColor;
-  UIColor *inactiveShadow = self.inactiveShadowColor;
-  self.label1.textColor = inactiveText;
-  self.label1.shadowColor = inactiveShadow;
-  self.label2.textColor = inactiveText;
-  self.label2.shadowColor = inactiveShadow;
-  self.label3.textColor = inactiveText;
-  self.label3.shadowColor = inactiveShadow;
+  if (!self.label1.highlightedTextColor) {
+    UIColor *inactiveText = self.inactiveTextColor;
+    UIColor *inactiveShadow = self.inactiveShadowColor;
+    self.label1.textColor = inactiveText;
+    self.label1.shadowColor = inactiveShadow;
+    self.label2.textColor = inactiveText;
+    self.label2.shadowColor = inactiveShadow;
+    self.label3.textColor = inactiveText;
+    self.label3.shadowColor = inactiveShadow;
+  } else {
+    self.label1.highlighted = NO;
+    self.label2.highlighted = NO;
+    self.label3.highlighted = NO;
+  }
   
   self.icon1.highlighted = NO;
   self.icon2.highlighted = NO;
@@ -1000,8 +1006,13 @@
   } else {
     self.selectedView.hidden = YES;
   }
-  label.textColor = self.activeTextColor;
-  label.shadowColor = self.activeShadowColor;
+  
+  if (!self.label1.highlightedTextColor) {
+    label.textColor = self.activeTextColor;
+    label.shadowColor = self.activeShadowColor;
+  } else {
+    label.highlighted = YES;
+  }
   icon.highlighted = YES;
 }
 
@@ -1009,15 +1020,15 @@
   NSInteger tag = [(UIView *)sender tag];
   if (tag == 1) {
     if ([self.delegate respondsToSelector:@selector(button1Clicked:)]) {
-      [self.delegate button1Clicked:sender];
+      [self.delegate button1Clicked:self];
     }
   } else if (tag == 2) {
     if ([self.delegate respondsToSelector:@selector(button2Clicked:)]) {
-      [self.delegate button2Clicked:sender];
+      [self.delegate button2Clicked:self];
     }
   } else if (tag == 3) {
     if ([self.delegate respondsToSelector:@selector(button3Clicked:)]) {
-      [self.delegate button3Clicked:sender];
+      [self.delegate button3Clicked:self];
     }
   }
 }

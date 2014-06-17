@@ -15,6 +15,28 @@
 #import "MenuNavigationController.h"
 #import "OutgoingEventController.h"
 
+@implementation ProfileMonsterBar
+
+- (void) awakeFromNib {
+  UIView *buttonView = [[UIView alloc] initWithFrame:self.button1.frame];
+  buttonView.backgroundColor = [UIColor colorWithWhite:0.975 alpha:1.f];
+  UIImage *selectedImage = [Globals snapShotView:buttonView];
+  
+  [self.button1 setImage:selectedImage forState:UIControlStateHighlighted];
+  [self.button2 setImage:selectedImage forState:UIControlStateHighlighted];
+  [self.button3 setImage:selectedImage forState:UIControlStateHighlighted];
+}
+
+- (void) clickButton:(int)button {
+  [super clickButton:button];
+  
+  UIView *view = [self viewWithTag:button];
+  self.selectedView.center = ccp(view.center.x, self.selectedView.center.y);
+  self.selectedView.hidden = NO;
+}
+
+@end
+
 @implementation ProfileViewController
 
 - (id)initWithUserId:(int)userId {
@@ -42,7 +64,6 @@
 - (void)viewDidLoad
 {
   [super viewDidLoad];
-  [self loadProfile];
   
   // Prevent closing button
   self.bgdView.userInteractionEnabled = NO;
@@ -50,60 +71,50 @@
     self.bgdView.userInteractionEnabled = YES;
   }];
   
-  self.monsterSlotOne.monsterCardView.delegate = self;
-  self.monsterSlotTwo.monsterCardView.delegate = self;
-  self.monsterSlotThree.monsterCardView.delegate = self;
+  self.avatarIcon.layer.cornerRadius = self.avatarIcon.frame.size.width/2;
+  
+  self.statsView.frame = self.teamView.frame;
+  [self.teamView.superview addSubview:self.statsView];
+  
+  [self loadProfile];
 }
 
 - (void)loadProfile {
   GameState *gs = [GameState sharedGameState];
   
-  self.sendMsgView.hidden = !self.fup;
-  
-  self.winsLabel.text = [Globals commafyNumber:self.fup.pvpLeagueInfo.battlesWon];
-  self.lossesLabel.text = [Globals commafyNumber:self.fup.pvpLeagueInfo.battlesLost];
-  self.nameLabel.text = self.fup ? [NSString stringWithFormat:@"%@ (LVL %d)", self.fup.name,self.fup.level] : @"Loading...";
-  
-  if (self.fup.hasClan) {
-    [self.clanButton setTitle:self.fup.clan.name forState:UIControlStateNormal];
-    self.clanButton.enabled = YES;
+  if (!self.fup) {
+    self.statsView.hidden = YES;
+    self.teamView.hidden = YES;
     
-    self.shieldIcon.hidden = NO;
-    ClanIconProto *icon = [gs clanIconWithId:self.fup.clan.clanIconId];
-    [Globals imageNamed:icon.imgName withView:self.shieldIcon greyscale:NO indicator:UIActivityIndicatorViewStyleWhite clearImageDuringDownload:YES];
+    self.nameLabel.text = @"Loading...";
+    self.avatarIcon.image = nil;
+    self.avatarBgd.image = nil;
     
-    CGRect r = self.clanButton.frame;
-    r.origin.x = self.shieldIcon.frame.size.width+3;
-    self.clanButton.frame = r;
+    [self.navBar clickButton:0];
   } else {
-    self.clanButton.enabled = NO;
-    self.shieldIcon.hidden = YES;
+    [self.statsView updateForUser:self.fup];
     
-    CGRect r = self.clanButton.frame;
-    r.origin.x = 0;
-    self.clanButton.frame = r;
-  }
-  
-  [Globals adjustViewForCentering:self.clanButton.superview withLabel:self.clanButton.titleLabel];
-  
-  [self.monsterSlotOne.monsterCardView updateForNoMonsterWithLabel:@"Team Slot Empty"];
-  [self.monsterSlotTwo.monsterCardView updateForNoMonsterWithLabel:@"Team Slot Empty"];
-  [self.monsterSlotThree.monsterCardView updateForNoMonsterWithLabel:@"Team Slot Empty"];
-  for (UserMonster *um in self.curTeam) {
-    if (um.teamSlot == 1) {
-      [self.monsterSlotOne.monsterCardView updateForMonster:um];
-    } else if (um.teamSlot == 2) {
-      [self.monsterSlotTwo.monsterCardView updateForMonster:um];
-    } else if (um.teamSlot == 3) {
-      [self.monsterSlotThree.monsterCardView updateForMonster:um];
+    for (int i = 0; i < self.monsterTeamViews.count; i++) {
+      ProfileMonsterTeamView *mv = self.monsterTeamViews[i];
+      UserMonster *um = i < self.curTeam.count ? self.curTeam[i] : nil;
+      
+      if (um) {
+        [mv updateForUserMonster:um];
+      } else {
+        [mv updateForEmptySlot:i];
+      }
     }
-  }
-  
-  if (self.fup.hasPvpLeagueInfo) {
-    [self.leagueView updateForUserLeague:self.fup.pvpLeagueInfo ribbonSuffix:@"ribbon.png"];
-    self.leagueView.hidden = NO;
-  } else {
-    self.leagueView.hidden = YES;
+    
+    self.nameLabel.text = self.fup.name;
+    
+    MonsterProto *avMonster = [gs monsterWithId:self.fup.avatarMonsterId];
+    NSString *file = [Globals imageNameForElement:avMonster.monsterElement suffix:@"bigavatar.png"];
+    [Globals imageNamed:file withView:self.avatarBgd greyscale:NO indicator:UIActivityIndicatorViewStyleGray clearImageDuringDownload:NO];
+    file = [avMonster.imagePrefix stringByAppendingString:@"Thumbnail.png"];
+    [Globals imageNamed:file withView:self.avatarIcon greyscale:NO indicator:UIActivityIndicatorViewStyleWhite clearImageDuringDownload:YES];
+    
+    [self button1Clicked:self.navBar];
+    [self button1Clicked:self.monsterBar];
   }
 }
 
@@ -137,6 +148,50 @@
     [self.view removeFromSuperview];
     [self removeFromParentViewController];
   }];
+}
+
+#pragma mark - Tab Bar delegate
+
+- (void) loadDescriptionViewForSlot:(int)slotNum {
+  if (self.curTeam.count >= slotNum) {
+    [self.monsterDescriptionView updateForUserMonster:self.curTeam[slotNum-1]];
+  }
+}
+
+- (void) button1Clicked:(id)sender {
+  if (self.fup) {
+    if (sender == self.navBar) {
+      self.statsView.hidden = NO;
+      self.teamView.hidden = YES;
+    } else if (sender == self.monsterBar) {
+      [self loadDescriptionViewForSlot:1];
+    }
+    
+    [sender clickButton:1];
+  }
+}
+
+- (void) button2Clicked:(id)sender {
+  if (self.fup) {
+    if (sender == self.navBar) {
+      self.statsView.hidden = YES;
+      self.teamView.hidden = NO;
+    } else if (sender == self.monsterBar) {
+      [self loadDescriptionViewForSlot:2];
+    }
+    
+    [sender clickButton:2];
+  }
+}
+
+- (void) button3Clicked:(id)sender {
+  if (self.fup) {
+    if (sender == self.monsterBar) {
+      [self loadDescriptionViewForSlot:3];
+    }
+    
+    [sender clickButton:3];
+  }
 }
 
 @end

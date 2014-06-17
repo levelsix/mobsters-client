@@ -164,7 +164,7 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
   }
   
   if (userStruct.userStructId == 0) {
-    [Globals popupMessage:@"Waiting for confirmation of purchase!"];
+    [Globals popupMessage:@"Hold on, we are still processing your building purchase."];
   } else if (userStruct.userId != gs.userId) {
     [Globals popupMessage:@"This is not your building!"];
   } else if (!nextFsp) {

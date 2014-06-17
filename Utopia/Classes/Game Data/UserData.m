@@ -829,7 +829,7 @@
 @implementation Reward
 
 + (NSArray *) createRewardsForDungeon:(BeginDungeonResponseProto *)proto {
-  return [self createRewardsForDungeon:proto tillStage:proto.tspList.count-1];
+  return [self createRewardsForDungeon:proto tillStage:(int)proto.tspList.count-1];
 }
 
 + (NSArray *) createRewardsForDungeon:(BeginDungeonResponseProto *)proto tillStage:(int)stageNum {
