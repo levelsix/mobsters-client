@@ -194,6 +194,10 @@
 
 @implementation UpgradeBuildingMenu
 
+- (void) awakeFromNib {
+  [self.statBarView1.superview addSubview:self.cityHallUnlocksView];
+}
+
 - (void) loadForUserStruct:(UserStruct *)us {
   if (us == nil) {
     return;
@@ -297,7 +301,7 @@
   TownHallProto *curSS = (TownHallProto *)us.staticStruct;
   TownHallProto *nextSS = (TownHallProto *)us.staticStructForNextLevel;
   
-  self.cityHallUnlocksLabel.text = [NSString stringWithFormat:@"%@ Level %d Unlocks", curSS.structInfo.name, curSS.structInfo.level+1];
+  self.cityHallUnlocksLabel.text = [NSString stringWithFormat:@"Level %d %@ Unlocks", curSS.structInfo.level+1, curSS.structInfo.name];
   
   // Find new buildings, then find buildings that increase in quantity, then level
   NSMutableArray *unlockViews = [NSMutableArray array];
@@ -325,8 +329,8 @@
   int maxY = 0;
   for (int i = 0; i < unlockViews.count; i++) {
     UIView *v = unlockViews[i];
-    float x = self.cityHallUnlocksScrollView.frame.size.width/2+((i%NUM_PER_ROW)-NUM_PER_ROW/2.f+0.5)*(v.frame.size.width+UNLOCK_VIEW_SPACING);
-    float y = (i/NUM_PER_ROW+0.5)*v.frame.size.height+(i/NUM_PER_ROW+1)*UNLOCK_VIEW_SPACING;
+    float x = (i%NUM_PER_ROW)*(v.frame.size.width+UNLOCK_VIEW_SPACING)+v.frame.size.width/2;
+    float y = (i/NUM_PER_ROW)*(v.frame.size.height+UNLOCK_VIEW_SPACING)+v.frame.size.height/2;
     v.center = ccp(x, y);
     
     [self.cityHallUnlocksScrollView addSubview:v];
