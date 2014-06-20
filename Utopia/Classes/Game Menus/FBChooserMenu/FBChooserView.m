@@ -18,7 +18,17 @@
   self.nameLabel.text = data[@"name"];
   
   self.profilePic.profileID = nil;
-  self.profilePic.profileID = data[@"uid"];
+  
+  // Invitable friends have picture property..
+  // Actual friends don't so just set the id
+  if (![data objectForKey:@"picture"]) {
+    self.profilePic.profileID = data[@"id"];
+  } else if (self.profilePic.subviews.count == 1) {
+    UIImageView *iv = self.profilePic.subviews[0];
+    iv.contentMode = UIViewContentModeScaleToFill;
+    [Globals imageNamed:data[@"picture"][@"data"][@"url"] withView:iv maskedColor:nil indicator:UIActivityIndicatorViewStyleWhite clearImageDuringDownload:YES];
+  }
+  
   self.profilePic.layer.cornerRadius = roundf(self.profilePic.frame.size.width/2.0);
   self.profilePic.layer.masksToBounds = YES;
 }
@@ -30,8 +40,10 @@
 - (void) awakeFromNib {
   [self retrieveFacebookFriends:NO];
   
-  self.unselectAllButton.superview.layer.cornerRadius = 5.f;
   self.chooserTable.tableFooterView = [[UIView alloc] init];
+  
+  self.allFriendsData = [NSMutableArray array];
+  self.gameFriendsData = [NSMutableArray array];
   
   self.state = FBChooserStateAllFriends;
 }
@@ -40,13 +52,27 @@
   if (_retrievedFriends) return;
   
   self.spinner.hidden = NO;
-  [FacebookDelegate getFacebookFriendsWithLoginUI:openLoginUI callback:^(NSArray *fbFriends) {
-    if (openLoginUI) {
+  [FacebookDelegate getAppFacebookFriendsWithLoginUI:openLoginUI callback:^(NSArray *fbFriends) {
+    if (openLoginUI || fbFriends) {
       _retrievedFriends = YES;
-      [self organizeData:fbFriends];
-      [self.chooserTable reloadData];
+      
+      if (fbFriends) {
+        [self organizeData:fbFriends isAppUser:YES];
+        
+        [FacebookDelegate getInvitableFacebookFriendsWithLoginUI:NO callback:^(NSArray *fbFriends) {
+          if (openLoginUI || fbFriends.count) {
+            [self organizeData:fbFriends isAppUser:NO];
+          }
+          self.spinner.hidden = YES;
+          [self.chooserTable reloadData];
+        }];
+      } else {
+        self.spinner.hidden = YES;
+      }
+    } else {
+      self.spinner.hidden = YES;
     }
-    self.spinner.hidden = YES;
+    [self.chooserTable reloadData];
   }];
 }
 
@@ -62,9 +88,11 @@
   
   for (NSArray *arr in self.data) {
     for (NSDictionary *dict in arr) {
-      [self.selectedIds addObject:dict[@"uid"]];
+      [self.selectedIds addObject:dict[@"id"]];
     }
   }
+  
+  self.selectAllCheckmark.hidden = NO;
   
   self.chooserTable.contentOffset = ccp(0,0);
   [self.chooserTable reloadData];
@@ -74,45 +102,76 @@
   return self.state == FBChooserStateGameFriends ? self.gameFriendsData : self.allFriendsData;
 }
 
-- (void) organizeData:(NSArray *)data {
-  NSMutableArray *arr = [data mutableCopy];
-  
-  [arr sortUsingComparator:^NSComparisonResult(NSDictionary *obj1, NSDictionary *obj2) {
-    return [obj1[@"name"] compare:obj2[@"name"]];
-  }];
-  
-  NSMutableArray *arr2 = [NSMutableArray array];
-  NSMutableArray *arr3 = [NSMutableArray array];
-  for (NSDictionary *fbObj in arr) {
-    NSMutableArray *last = [arr2 lastObject];
-    NSDictionary *obj = [last lastObject];
-    if ([obj[@"name"] characterAtIndex:0] == [fbObj[@"name"] characterAtIndex:0]) {
-      [last addObject:fbObj];
-    } else {
-      NSMutableArray *newArr = [NSMutableArray array];
-      [newArr addObject:fbObj];
-      [arr2 addObject:newArr];
-    }
-    
-    if ([fbObj[@"is_app_user"] boolValue]) {
-      NSMutableArray *last = [arr3 lastObject];
-      NSDictionary *obj = [last lastObject];
-      if ([obj[@"name"] characterAtIndex:0] == [fbObj[@"name"] characterAtIndex:0]) {
-        [last addObject:fbObj];
-      } else {
-        NSMutableArray *newArr = [NSMutableArray array];
-        [newArr addObject:fbObj];
-        [arr3 addObject:newArr];
-      }
-    }
+- (BOOL) areAllEntriesSelected {
+  int totalCount = 0;
+  for (NSArray *arr in self.data) {
+    totalCount += arr.count;
   }
   
-  self.allFriendsData = arr2;
-  self.gameFriendsData = arr3;
+  return self.selectedIds.count >= totalCount;
+}
+
+- (void) organizeData:(NSArray *)data isAppUser:(BOOL)appUser {
+  NSMutableArray *arr = [data mutableCopy];
+  
+  for (FBGraphObject *fbObj in arr) {
+    [self addFbUser:fbObj toList:self.allFriendsData];
+    
+    if (appUser) {
+      [self addFbUser:fbObj toList:self.gameFriendsData];
+    }
+  }
   
   [self applyBlacklist];
   
   self.state = self.state;
+}
+
+- (void) addFbUser:(FBGraphObject *)user toList:(NSMutableArray *)list {
+  char userLetter = [user[@"name"] characterAtIndex:0];
+  for (int i = 0; i < list.count; i++) {
+    NSMutableArray *inner = list[i];
+    FBGraphObject *obj = inner[0];
+    
+    char objLetter = [obj[@"name"] characterAtIndex:0];
+    if (userLetter < objLetter) {
+      // Add right before this current list
+      NSMutableArray *newArr = [NSMutableArray array];
+      [newArr addObject:user];
+      [list insertObject:newArr atIndex:i];
+      
+      return;
+    } else if (userLetter == objLetter) {
+      // Find place inside array to add new object
+      int idx = -1;
+      for (int j = 0; j < inner.count; j++) {
+        FBGraphObject *fbObj = inner[j];
+        
+        NSComparisonResult comp = [user[@"name"] compare:fbObj[@"name"]];
+        if (comp != NSOrderedDescending) {
+          // Do this convoluted shit so that we can make sure duplicates don't get through
+          if (![user[@"id"] isEqual:fbObj[@"id"]]) {
+            if (idx == -1) {
+              idx = j;
+            }
+          } else {
+            return;
+          }
+        }
+      }
+      
+      if (idx == -1) {
+        [inner addObject:user];
+      } else {
+        [inner insertObject:user atIndex:idx];
+      }
+      return;
+    }
+  }
+  
+  NSMutableArray *newArr = [NSMutableArray array];
+  [newArr addObject:user];
+  [list addObject:newArr];
 }
 
 - (void) setBlacklistFriendIds:(NSSet *)blacklistFriendIds {
@@ -127,7 +186,7 @@
     for (NSMutableArray *arr in data) {
       NSMutableArray *toRemove = [NSMutableArray array];
       for (FBGraphObject *fbObj in arr) {
-        NSString *uid = [NSString stringWithFormat:@"%@", fbObj[@"uid"]];
+        NSString *uid = [NSString stringWithFormat:@"%@", fbObj[@"id"]];
         if ([self.blacklistFriendIds containsObject:uid]) {
           [toRemove addObject:fbObj];
         }
@@ -167,7 +226,17 @@
 }
 
 - (IBAction)unselectAllClicked:(id)sender {
-  [self.selectedIds removeAllObjects];
+  if ([self areAllEntriesSelected]) {
+    [self.selectedIds removeAllObjects];
+    self.selectAllCheckmark.hidden = YES;
+  } else {
+    for (NSArray *arr in self.data) {
+      for (NSDictionary *dict in arr) {
+        [self.selectedIds addObject:dict[@"id"]];
+      }
+    }
+    self.selectAllCheckmark.hidden = NO;
+  }
   [self.chooserTable reloadData];
 }
 
@@ -188,12 +257,12 @@
 }
 
 - (UIView *) tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section {
-  UIImageView *img = [[UIImageView alloc] initWithImage:[Globals imageNamed:@"friendletterbar.png"]];
-  img.contentMode = UIViewContentModeScaleToFill;
+  UIView *img = [[UIView alloc] initWithFrame:CGRectZero];
+  img.backgroundColor = [UIColor colorWithWhite:0.95 alpha:1.f];
   
-  UILabel *label = [[NiceFontLabel2 alloc] initWithFrame:CGRectMake(12, 1, 100, img.frame.size.height)];
+  UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(12, 1, 100, 14)];
   [img addSubview:label];
-  label.font = [UIFont fontWithName:@"Gotham-UltraItalic" size:10.f];
+  label.font = [UIFont fontWithName:@"Gotham-Bold" size:10.f];
   label.text = [[self.data[section] lastObject][@"name"] substringToIndex:1];
   label.textColor = [UIColor colorWithWhite:0.24f alpha:0.7f];
   
@@ -205,7 +274,7 @@
   
   FBFriendCell *cell = (FBFriendCell *)[tableView cellForRowAtIndexPath:indexPath];
   NSDictionary *obj = self.data[indexPath.section][indexPath.row];
-  NSString *num = obj[@"uid"];
+  NSString *num = obj[@"id"];
   if ([self.selectedIds containsObject:num]) {
     [self.selectedIds removeObject:num];
     cell.checkmark.hidden = YES;
@@ -213,6 +282,8 @@
     [self.selectedIds addObject:num];
     cell.checkmark.hidden = NO;
   }
+  
+  self.selectAllCheckmark.hidden = ![self areAllEntriesSelected];
 }
 
 - (UITableViewCell *) tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -225,7 +296,7 @@
   
   NSDictionary *obj = self.data[indexPath.section][indexPath.row];
   [cell loadForData:obj];
-  cell.checkmark.hidden = ![self.selectedIds containsObject:obj[@"uid"]];
+  cell.checkmark.hidden = ![self.selectedIds containsObject:obj[@"id"]];
   
   return cell;
 }

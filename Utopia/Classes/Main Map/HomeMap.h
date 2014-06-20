@@ -65,7 +65,7 @@
 @property (nonatomic, assign) IBOutlet UILabel *upgradingIncomeLabel;
 @property (nonatomic, assign) IBOutlet UILabel *upgradingSpeedupCostLabel;
 
-@property (nonatomic, retain) UpgradeViewController *upgradeViewController;
+@property (nonatomic, retain) UIViewController *currentViewController;
 
 @property (nonatomic, assign, readonly) BOOL loading;
 @property (nonatomic, assign) int redGid;

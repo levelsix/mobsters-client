@@ -31,14 +31,15 @@ typedef enum {
 @property (nonatomic, retain) IBOutlet UIActivityIndicatorView *spinner;
 @property (nonatomic, retain) IBOutlet FBFriendCell *friendCell;
 
-@property (nonatomic, retain) NSArray *allFriendsData;
-@property (nonatomic, retain) NSArray *gameFriendsData;
+@property (nonatomic, retain) IBOutlet UIImageView *selectAllCheckmark;
+
+@property (nonatomic, retain) NSMutableArray *allFriendsData;
+@property (nonatomic, retain) NSMutableArray *gameFriendsData;
 @property (nonatomic, retain) NSSet *blacklistFriendIds;
 @property (nonatomic, retain) NSMutableSet *selectedIds;
 
 @property (nonatomic, retain) IBOutlet UIButton *allFriendsButton;
 @property (nonatomic, retain) IBOutlet UIButton *gameFriendsButton;
-@property (nonatomic, retain) IBOutlet UIButton *unselectAllButton;
 
 @property (nonatomic, retain) IBOutlet UILabel *noFriendsLabel;
 

@@ -585,12 +585,14 @@ BOOL StructureInfoProto_StructTypeIsValidValue(StructureInfoProto_StructType val
   BOOL hasNumGemsRequired_:1;
   BOOL hasNumAcceptedFbInvites_:1;
   BOOL hasOccupationName_:1;
+  BOOL hasImgSuffix_:1;
   BOOL hasStructInfo_:1;
   int32_t numMonsterSlots;
   int32_t numBonusMonsterSlots;
   int32_t numGemsRequired;
   int32_t numAcceptedFbInvites;
   NSString* occupationName;
+  NSString* imgSuffix;
   StructureInfoProto* structInfo;
 }
 - (BOOL) hasStructInfo;
@@ -599,12 +601,14 @@ BOOL StructureInfoProto_StructTypeIsValidValue(StructureInfoProto_StructType val
 - (BOOL) hasNumGemsRequired;
 - (BOOL) hasNumAcceptedFbInvites;
 - (BOOL) hasOccupationName;
+- (BOOL) hasImgSuffix;
 @property (readonly, retain) StructureInfoProto* structInfo;
 @property (readonly) int32_t numMonsterSlots;
 @property (readonly) int32_t numBonusMonsterSlots;
 @property (readonly) int32_t numGemsRequired;
 @property (readonly) int32_t numAcceptedFbInvites;
 @property (readonly, retain) NSString* occupationName;
+@property (readonly, retain) NSString* imgSuffix;
 
 + (ResidenceProto*) defaultInstance;
 - (ResidenceProto*) defaultInstance;
@@ -671,6 +675,11 @@ BOOL StructureInfoProto_StructTypeIsValidValue(StructureInfoProto_StructType val
 - (NSString*) occupationName;
 - (ResidenceProto_Builder*) setOccupationName:(NSString*) value;
 - (ResidenceProto_Builder*) clearOccupationName;
+
+- (BOOL) hasImgSuffix;
+- (NSString*) imgSuffix;
+- (ResidenceProto_Builder*) setImgSuffix:(NSString*) value;
+- (ResidenceProto_Builder*) clearImgSuffix;
 @end
 
 @interface TownHallProto : PBGeneratedMessage {

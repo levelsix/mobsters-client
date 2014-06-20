@@ -81,7 +81,7 @@
     UserAchievement *ua = userAchievements[@(ap.achievementId)];
     
     if (ua.isRedeemed) {
-      return NO;
+      return ap.prerequisiteId == 0;
     } else {
       if (ap.prerequisiteId) {
         UserAchievement *pre = userAchievements[@(ap.prerequisiteId)];
@@ -95,7 +95,9 @@
   achievements = [achievements sortedArrayUsingComparator:^NSComparisonResult(AchievementProto *obj1, AchievementProto *obj2) {
     UserAchievement *ua1 = userAchievements[@(obj1.achievementId)];
     UserAchievement *ua2 = userAchievements[@(obj2.achievementId)];
-    if (ua1.isComplete != ua2.isComplete) {
+    if (ua1.isRedeemed != ua2.isRedeemed) {
+      return [@(ua1.isRedeemed) compare:@(ua2.isRedeemed)];
+    } else if (ua1.isComplete != ua2.isComplete) {
       return [@(ua2.isComplete) compare:@(ua1.isComplete)];
     } else {
       return [@(obj1.priority) compare:@(obj2.priority)];

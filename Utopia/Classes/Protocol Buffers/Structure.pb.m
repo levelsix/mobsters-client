@@ -2156,6 +2156,7 @@ static LabProto* defaultLabProtoInstance = nil;
 @property int32_t numGemsRequired;
 @property int32_t numAcceptedFbInvites;
 @property (retain) NSString* occupationName;
+@property (retain) NSString* imgSuffix;
 @end
 
 @implementation ResidenceProto
@@ -2202,9 +2203,17 @@ static LabProto* defaultLabProtoInstance = nil;
   hasOccupationName_ = !!value;
 }
 @synthesize occupationName;
+- (BOOL) hasImgSuffix {
+  return !!hasImgSuffix_;
+}
+- (void) setHasImgSuffix:(BOOL) value {
+  hasImgSuffix_ = !!value;
+}
+@synthesize imgSuffix;
 - (void) dealloc {
   self.structInfo = nil;
   self.occupationName = nil;
+  self.imgSuffix = nil;
   [super dealloc];
 }
 - (id) init {
@@ -2215,6 +2224,7 @@ static LabProto* defaultLabProtoInstance = nil;
     self.numGemsRequired = 0;
     self.numAcceptedFbInvites = 0;
     self.occupationName = @"";
+    self.imgSuffix = @"";
   }
   return self;
 }
@@ -2252,6 +2262,9 @@ static ResidenceProto* defaultResidenceProtoInstance = nil;
   if (self.hasOccupationName) {
     [output writeString:6 value:self.occupationName];
   }
+  if (self.hasImgSuffix) {
+    [output writeString:7 value:self.imgSuffix];
+  }
   [self.unknownFields writeToCodedOutputStream:output];
 }
 - (int32_t) serializedSize {
@@ -2278,6 +2291,9 @@ static ResidenceProto* defaultResidenceProtoInstance = nil;
   }
   if (self.hasOccupationName) {
     size += computeStringSize(6, self.occupationName);
+  }
+  if (self.hasImgSuffix) {
+    size += computeStringSize(7, self.imgSuffix);
   }
   size += self.unknownFields.serializedSize;
   memoizedSerializedSize = size;
@@ -2372,6 +2388,9 @@ static ResidenceProto* defaultResidenceProtoInstance = nil;
   if (other.hasOccupationName) {
     [self setOccupationName:other.occupationName];
   }
+  if (other.hasImgSuffix) {
+    [self setImgSuffix:other.imgSuffix];
+  }
   [self mergeUnknownFields:other.unknownFields];
   return self;
 }
@@ -2420,6 +2439,10 @@ static ResidenceProto* defaultResidenceProtoInstance = nil;
       }
       case 50: {
         [self setOccupationName:[input readString]];
+        break;
+      }
+      case 58: {
+        [self setImgSuffix:[input readString]];
         break;
       }
     }
@@ -2533,6 +2556,22 @@ static ResidenceProto* defaultResidenceProtoInstance = nil;
 - (ResidenceProto_Builder*) clearOccupationName {
   result.hasOccupationName = NO;
   result.occupationName = @"";
+  return self;
+}
+- (BOOL) hasImgSuffix {
+  return result.hasImgSuffix;
+}
+- (NSString*) imgSuffix {
+  return result.imgSuffix;
+}
+- (ResidenceProto_Builder*) setImgSuffix:(NSString*) value {
+  result.hasImgSuffix = YES;
+  result.imgSuffix = value;
+  return self;
+}
+- (ResidenceProto_Builder*) clearImgSuffix {
+  result.hasImgSuffix = NO;
+  result.imgSuffix = @"";
   return self;
 }
 @end

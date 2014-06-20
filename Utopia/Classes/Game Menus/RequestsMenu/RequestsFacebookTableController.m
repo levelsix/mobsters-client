@@ -32,7 +32,7 @@
       if (ss.structInfo.structType == StructureInfoProto_StructTypeResidence &&
           ss.structInfo.level == request.invite.structFbLvl) {
         ResidenceProto *rp = (ResidenceProto *)ss;
-        position = [NSString stringWithFormat:@" hiring %@", rp.occupationName];
+        position = [NSString stringWithFormat:@" hiring a %@", rp.occupationName];
       }
     }
     

@@ -22,8 +22,11 @@
   
   @synchronized(self)
   {
-    if (!sharedSingleton)
+    if (!sharedSingleton) {
       sharedSingleton = [[FacebookDelegate alloc] init];
+      
+      //[FacebookDelegate logout];
+    }
     
     return sharedSingleton;
   }
@@ -35,15 +38,21 @@
     [self.friendCache prefetchAndCacheForSession:nil];
     
     _completionHandlers = [NSMutableArray array];
+    
+    //NSArray *log = @[FBLoggingBehaviorFBRequests, FBLoggingBehaviorFBURLConnections, FBLoggingBehaviorAccessTokens,
+    //                 FBLoggingBehaviorSessionStateTransitions, FBLoggingBehaviorPerformanceCharacteristics,
+    //                 FBLoggingBehaviorAppEvents, FBLoggingBehaviorInformational, FBLoggingBehaviorDeveloperErrors];
+    //[FBSettings setLoggingBehavior:[NSSet setWithArray:log]];
   }
   return self;
 }
 
 - (void) respondToCompletionHandlersWithSuccess:(BOOL)success {
-  for (void (^completionHandler)(BOOL success) in _completionHandlers) {
+  NSMutableArray *cp = [_completionHandlers copy];
+  [_completionHandlers removeAllObjects];
+  for (void (^completionHandler)(BOOL success) in cp) {
     completionHandler(success);
   }
-  [_completionHandlers removeAllObjects];
 }
 
 + (void) activateApp {
@@ -84,9 +93,11 @@
     // Show the user the logged-in UI
     
     [self getMyFacebookUser:^(NSDictionary<FBGraphUser> *facebookUser) {
-      LNLog(@"Got facebook user.. Checking if okay to use.");
-      if ([[GameViewController baseController] canProceedWithFacebookId:facebookUser[@"id"]]) {
-        [self facebookIdIsValid];
+      if (facebookUser) {
+        LNLog(@"Got facebook user.. Checking if okay to use.");
+        if ([[GameViewController baseController] canProceedWithFacebookId:facebookUser[@"id"]]) {
+          [self facebookIdIsValid];
+        }
       }
     }];
   } else {
@@ -139,22 +150,28 @@
 }
 
 - (void) openSessionWithLoginUI:(BOOL)login completionHandler:(void (^)(BOOL success))completionHandler {
+  if (completionHandler) {
+    [_completionHandlers addObject:completionHandler];
+  }
+  
   // If the session state is any of the two "open" states when the button is clicked
   if (FBSession.activeSession.state == FBSessionStateOpen
       || FBSession.activeSession.state == FBSessionStateOpenTokenExtended) {
     // Already opened
+    // Only accept this completion handler in case we are checking that the fbId is valid
     if (completionHandler) {
       completionHandler(YES);
+      [_completionHandlers removeObject:completionHandler];
     }
+  } else if (FBSession.activeSession.state == FBSessionStateCreatedTokenLoaded) {
+    [FBSession.activeSession openWithCompletionHandler:^(FBSession *session, FBSessionState state, NSError *error) {
+      [self sessionStateChanged:session state:state error:error];
+    }];
   } else {
-    if (completionHandler) {
-      [_completionHandlers addObject:completionHandler];
-    }
-    
     // Open a session showing the user the login UI
     // You must ALWAYS ask for basic_info permissions when opening a session
     BOOL triedToOpen = NO;
-    if (login) {
+    if (false) {//login) {
       triedToOpen = [FBSession openActiveSessionWithPublishPermissions:PUBLISH_PERMISSIONS
                                                        defaultAudience:FBSessionDefaultAudienceFriends
                                                           allowLoginUI:login
@@ -162,11 +179,13 @@
                                                        [self sessionStateChanged:session state:state error:error];
                                                      }];
     } else {
-      triedToOpen = [FBSession openActiveSessionWithReadPermissions:@[@"basic_info", @"email"]
-                                                       allowLoginUI:login
-                                                  completionHandler:^(FBSession *session, FBSessionState state, NSError *error) {
-                                                    [self sessionStateChanged:session state:state error:error];
-                                                  }];
+      FBSession *session = [[FBSession alloc] initWithPermissions:@[@"public_profile", @"user_friends", @"email"]];
+      [FBSession setActiveSession:session];
+      if (login || session.state == FBSessionStateCreatedTokenLoaded) {
+        [session openWithBehavior:FBSessionLoginBehaviorUseSystemAccountIfPresent completionHandler:^(FBSession *session, FBSessionState state, NSError *error) {
+          [self sessionStateChanged:session state:state error:error];
+        }];
+      }
     }
     
     if (login) {
@@ -188,17 +207,33 @@
   [[self sharedFacebookDelegate] openSessionWithLoginUI:login completionHandler:completionHandler];
 }
 
-+ (void) getFacebookFriendsWithLoginUI:(BOOL)openLoginUI callback:(void (^)(NSArray *fbFriends))completion {
++ (void) getInvitableFacebookFriendsWithLoginUI:(BOOL)openLoginUI callback:(void (^)(NSArray *fbFriends))completion {
   [FacebookDelegate openSessionWithLoginUI:openLoginUI completionHandler:^(BOOL success) {
     if (success) {
-      NSString *query =
-      @"SELECT uid, name, pic, is_app_user FROM user WHERE uid IN "
-      @"(SELECT uid2 FROM friend WHERE uid1 = me())";
-      // Set up the query parameter
-      NSDictionary *queryParam = @{ @"q": query };
-      // Make the API request that uses FQL
-      [FBRequestConnection startWithGraphPath:@"/fql"
-                                   parameters:queryParam
+      [FBRequestConnection startWithGraphPath:@"/me/invitable_friends"
+                                   parameters:nil
+                                   HTTPMethod:@"GET"
+                            completionHandler:^(FBRequestConnection *connection,
+                                                id result,
+                                                NSError *error) {
+                              if (error) {
+                                LNLog(@"Error: %@", [error localizedDescription]);
+                                completion(nil);
+                              } else {
+                                completion(result[@"data"]);
+                              }
+                            }];
+    } else {
+      completion(nil);
+    }
+  }];
+}
+
++ (void) getAppFacebookFriendsWithLoginUI:(BOOL)openLoginUI callback:(void (^)(NSArray *fbFriends))completion {
+  [FacebookDelegate openSessionWithLoginUI:openLoginUI completionHandler:^(BOOL success) {
+    if (success) {
+      [FBRequestConnection startWithGraphPath:@"/me/friends"
+                                   parameters:nil
                                    HTTPMethod:@"GET"
                             completionHandler:^(FBRequestConnection *connection,
                                                 id result,

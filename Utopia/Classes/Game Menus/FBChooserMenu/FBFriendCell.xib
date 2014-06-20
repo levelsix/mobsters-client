@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="5053" systemVersion="12F45" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="5056" systemVersion="12F45" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none">
     <dependencies>
         <deployment defaultVersion="1536" identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="3733"/>
@@ -11,16 +11,16 @@
             </connections>
         </placeholder>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
-        <tableViewCell contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" reuseIdentifier="FBFriendCell" id="aMJ-AX-2b5" customClass="FBFriendCell">
-            <rect key="frame" x="0.0" y="0.0" width="351" height="40"/>
+        <tableViewCell contentMode="scaleToFill" selectionStyle="gray" indentationWidth="10" reuseIdentifier="FBFriendCell" id="aMJ-AX-2b5" customClass="FBFriendCell">
+            <rect key="frame" x="0.0" y="0.0" width="354" height="41"/>
             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
             <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="aMJ-AX-2b5" id="TWR-Qv-oKA">
-                <rect key="frame" x="0.0" y="0.0" width="351" height="39"/>
+                <rect key="frame" x="0.0" y="0.0" width="354" height="40"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
                     <view contentMode="scaleToFill" id="PKx-Ge-aMa">
                         <rect key="frame" x="0.0" y="0.0" width="354" height="40"/>
-                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Cooper Mor" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="7cQ-c2-gBT" customClass="NiceFontLabel5">
                                 <rect key="frame" x="48" y="9" width="248" height="21"/>
@@ -32,24 +32,20 @@
                                 <size key="shadowOffset" width="0.0" height="1"/>
                             </label>
                             <view contentMode="scaleToFill" id="mMU-I3-cI2" customClass="DBFBProfilePictureView">
-                                <rect key="frame" x="9" y="5" width="29" height="29"/>
+                                <rect key="frame" x="9" y="7" width="25" height="25"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                             </view>
                             <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="upgradecheckbg.png" id="8ZT-Ax-cdK">
                                 <rect key="frame" x="318" y="5" width="29" height="30"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxY="YES"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
                             </imageView>
                             <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="sendcheck.png" id="BOF-IS-7cX">
                                 <rect key="frame" x="325" y="13" width="15" height="14"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxY="YES"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
                             </imageView>
-                            <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="friendfacecircle.png" id="9aN-gL-in8">
-                                <rect key="frame" x="8" y="5" width="31" height="31"/>
-                                <autoresizingMask key="autoresizingMask"/>
-                            </imageView>
-                            <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" image="frienddivider.png" id="OLL-yJ-Omc">
-                                <rect key="frame" x="0.0" y="38" width="351" height="2"/>
+                            <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" image="popupline.png" id="ncM-Xk-Jhy" customClass="VerticalFlipImageView">
+                                <rect key="frame" x="0.0" y="39" width="354" height="1"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
                             </imageView>
                         </subviews>
@@ -62,12 +58,17 @@
                 <outlet property="checkmark" destination="BOF-IS-7cX" id="svO-HD-AKd"/>
                 <outlet property="nameLabel" destination="7cQ-c2-gBT" id="j2W-oi-bTs"/>
                 <outlet property="profilePic" destination="mMU-I3-cI2" id="QZ3-K9-mLW"/>
+                <outlet property="selectedBackgroundView" destination="hff-Mo-iqb" id="5LH-rg-Hak"/>
             </connections>
         </tableViewCell>
+        <view contentMode="scaleToFill" id="hff-Mo-iqb">
+            <rect key="frame" x="0.0" y="0.0" width="454" height="52"/>
+            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+            <color key="backgroundColor" red="0.94117647059999998" green="0.94117647059999998" blue="0.94117647059999998" alpha="1" colorSpace="deviceRGB"/>
+        </view>
     </objects>
     <resources>
-        <image name="frienddivider.png" width="1" height="2"/>
-        <image name="friendfacecircle.png" width="31" height="31"/>
+        <image name="popupline.png" width="1" height="1"/>
         <image name="sendcheck.png" width="15" height="14"/>
         <image name="upgradecheckbg.png" width="23" height="24"/>
     </resources>

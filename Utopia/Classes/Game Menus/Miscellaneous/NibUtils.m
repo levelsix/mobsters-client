@@ -1292,8 +1292,6 @@
   self.layer.shadowOpacity = 0.8;
   self.layer.shadowOffset = CGSizeMake(0, 1);
   self.layer.shadowRadius = 2.f;
-  
-  self.clipsToBounds = YES;
 }
 
 @end

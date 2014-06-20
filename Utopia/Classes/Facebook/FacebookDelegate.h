@@ -28,7 +28,8 @@
 
 + (void) openSessionWithLoginUI:(BOOL)login completionHandler:(void (^)(BOOL success))completionHandler;
 
-+ (void) getFacebookFriendsWithLoginUI:(BOOL)openLoginUI callback:(void (^)(NSArray *fbFriends))completion;
++ (void) getInvitableFacebookFriendsWithLoginUI:(BOOL)openLoginUI callback:(void (^)(NSArray *fbFriends))completion;
++ (void) getAppFacebookFriendsWithLoginUI:(BOOL)openLoginUI callback:(void (^)(NSArray *fbFriends))completion;
 + (void) initiateRequestToFacebookIds:(NSArray *)fbIds withMessage:(NSString *)message completionBlock:(void(^)(BOOL success, NSArray *friendIds))completion;
 
 + (void) getFacebookUsersWithIds:(NSArray *)idsArr handler:(void (^)(id result))handler;

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="5053" systemVersion="12F45" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="5056" systemVersion="12F45" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none">
     <dependencies>
         <deployment defaultVersion="1536" identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="3733"/>
@@ -7,236 +7,85 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="UpgradeBonusView">
             <connections>
-                <outlet property="bonusCell" destination="JG3-lf-W6J" id="6o5-wB-mzX"/>
+                <outlet property="bonusCell" destination="7sv-Vp-Ycd" id="nwD-Fz-fLk"/>
             </connections>
         </placeholder>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
-        <tableViewCell contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" reuseIdentifier="UpgradeBonusCell" id="JG3-lf-W6J" customClass="UpgradeBonusCell">
-            <rect key="frame" x="0.0" y="0.0" width="351" height="58"/>
+        <tableViewCell contentMode="scaleToFill" selectionStyle="gray" indentationWidth="10" reuseIdentifier="UpgradeBonusCell" id="7sv-Vp-Ycd" customClass="UpgradeBonusCell">
+            <rect key="frame" x="0.0" y="0.0" width="454" height="55"/>
             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-            <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="JG3-lf-W6J" id="cdM-sd-ttD">
-                <rect key="frame" x="0.0" y="0.0" width="351" height="57"/>
+            <tableViewCellContentView key="contentView" opaque="NO" multipleTouchEnabled="YES" contentMode="center" tableViewCell="7sv-Vp-Ycd" id="QKa-i2-lwP">
+                <rect key="frame" x="0.0" y="0.0" width="454" height="54"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
-                    <view contentMode="scaleToFill" id="nNP-aM-4Km">
-                        <rect key="frame" x="0.0" y="0.0" width="351" height="62"/>
+                    <view contentMode="scaleToFill" id="TvW-8t-Q1m">
+                        <rect key="frame" x="0.0" y="0.0" width="454" height="54"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                        <color key="backgroundColor" red="0.94117647059999998" green="0.94117647059999998" blue="0.94117647059999998" alpha="1" colorSpace="deviceRGB"/>
+                    </view>
+                    <view contentMode="scaleToFill" id="7L8-q9-1aR">
+                        <rect key="frame" x="0.0" y="0.0" width="454" height="54"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="hireslotbg.png" highlightedImage="hirelockedslot.png" id="tLM-x0-Lc4">
-                                <rect key="frame" x="7" y="5" width="337" height="51"/>
-                                <autoresizingMask key="autoresizingMask"/>
+                            <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" image="popupline.png" id="ZrI-QW-RnO" customClass="VerticalFlipImageView">
+                                <rect key="frame" x="0.0" y="53" width="454" height="1"/>
+                                <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
                             </imageView>
-                            <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="questarrow.png" id="sqz-fh-GcP">
-                                <rect key="frame" x="322" y="21" width="12" height="19"/>
-                                <autoresizingMask key="autoresizingMask"/>
-                            </imageView>
-                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Janitor" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" id="Qo8-b5-mZP" customClass="NiceFontLabel">
-                                <rect key="frame" x="20" y="11" width="107" height="21"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="15"/>
-                                <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" text="Meepert" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" id="hLe-0n-bQS" customClass="NiceFontLabel12">
+                                <rect key="frame" x="31" y="8" width="275" height="22"/>
+                                <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="12"/>
+                                <color key="textColor" red="0.0" green="0.49803924560546875" blue="0.92156869173049927" alpha="1" colorSpace="deviceRGB"/>
                                 <nil key="highlightedColor"/>
-                                <color key="shadowColor" red="0.0" green="0.0" blue="0.0" alpha="0.5" colorSpace="calibratedRGB"/>
                                 <size key="shadowOffset" width="0.0" height="1"/>
                             </label>
-                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="3 Bonus Slots" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" id="qn7-OV-nwq" customClass="NiceFontLabel">
-                                <rect key="frame" x="20" y="31" width="175" height="16"/>
+                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Anyone can join" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="10" id="1gL-5d-CP4" customClass="NiceFontLabel9">
+                                <rect key="frame" x="31" y="24" width="270" height="22"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="11"/>
-                                <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="10"/>
+                                <color key="textColor" red="0.20000001788139343" green="0.20000001788139343" blue="0.20000001788139343" alpha="1" colorSpace="deviceRGB"/>
                                 <nil key="highlightedColor"/>
-                                <color key="shadowColor" red="0.0" green="0.0" blue="0.0" alpha="0.5" colorSpace="calibratedRGB"/>
+                                <color key="shadowColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                 <size key="shadowOffset" width="0.0" height="1"/>
                             </label>
-                            <view contentMode="scaleToFill" id="EFw-YM-AGh">
-                                <rect key="frame" x="127" y="12" width="123" height="38"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <subviews>
-                                    <view tag="1" contentMode="scaleToFill" id="4zM-Bj-B0d" customClass="FriendAcceptView">
-                                        <rect key="frame" x="0.0" y="9" width="20" height="20"/>
-                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                        <subviews>
-                                            <view contentMode="scaleToFill" id="b2S-fK-uYT" customClass="DBFBProfilePictureView">
-                                                <rect key="frame" x="0.0" y="0.0" width="20" height="20"/>
-                                                <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                                            </view>
-                                            <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" image="emptyfriendslot.png" highlightedImage="fullfriendborder.png" id="FTz-Lt-edB">
-                                                <rect key="frame" x="0.0" y="0.0" width="20" height="20"/>
-                                                <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                                            </imageView>
-                                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="1" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="0sF-Ky-aaF" customClass="NiceFontLabel">
-                                                <rect key="frame" x="-3" y="-1" width="25" height="21"/>
-                                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                                <fontDescription key="fontDescription" type="system" pointSize="10"/>
-                                                <color key="textColor" red="0.2274509804" green="0.50196078430000002" blue="0.59999999999999998" alpha="1" colorSpace="deviceRGB"/>
-                                                <nil key="highlightedColor"/>
-                                            </label>
-                                        </subviews>
-                                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                                        <connections>
-                                            <outlet property="bgdView" destination="FTz-Lt-edB" id="Lgl-xz-wJh"/>
-                                            <outlet property="profPicView" destination="b2S-fK-uYT" id="bH8-sA-sUR"/>
-                                            <outlet property="slotNumLabel" destination="0sF-Ky-aaF" id="F1L-4o-lOB"/>
-                                        </connections>
-                                    </view>
-                                    <view tag="1" contentMode="scaleToFill" id="JFx-ly-UtC" customClass="FriendAcceptView">
-                                        <rect key="frame" x="25" y="9" width="20" height="20"/>
-                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                        <subviews>
-                                            <view contentMode="scaleToFill" id="2pY-Vl-V29" customClass="DBFBProfilePictureView">
-                                                <rect key="frame" x="0.0" y="0.0" width="20" height="20"/>
-                                                <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                                            </view>
-                                            <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" image="emptyfriendslot.png" highlightedImage="fullfriendborder.png" id="Ri0-4H-5pY">
-                                                <rect key="frame" x="0.0" y="0.0" width="20" height="20"/>
-                                                <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                                            </imageView>
-                                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="2" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="xAe-48-Xml" customClass="NiceFontLabel">
-                                                <rect key="frame" x="-3" y="-1" width="25" height="21"/>
-                                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                                <fontDescription key="fontDescription" type="system" pointSize="10"/>
-                                                <color key="textColor" red="0.2274509804" green="0.50196078430000002" blue="0.59999999999999998" alpha="1" colorSpace="deviceRGB"/>
-                                                <nil key="highlightedColor"/>
-                                            </label>
-                                        </subviews>
-                                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                                        <connections>
-                                            <outlet property="bgdView" destination="Ri0-4H-5pY" id="gfy-Vz-lnv"/>
-                                            <outlet property="profPicView" destination="2pY-Vl-V29" id="iSv-Gd-iDC"/>
-                                            <outlet property="slotNumLabel" destination="xAe-48-Xml" id="zhu-o8-p5V"/>
-                                        </connections>
-                                    </view>
-                                    <view tag="1" contentMode="scaleToFill" id="qeI-YV-z9V" customClass="FriendAcceptView">
-                                        <rect key="frame" x="51" y="9" width="20" height="20"/>
-                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                        <subviews>
-                                            <view contentMode="scaleToFill" id="4j9-7v-tqy" customClass="DBFBProfilePictureView">
-                                                <rect key="frame" x="0.0" y="0.0" width="20" height="20"/>
-                                                <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                                            </view>
-                                            <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" image="emptyfriendslot.png" highlightedImage="fullfriendborder.png" id="gAf-Sy-IPo">
-                                                <rect key="frame" x="0.0" y="0.0" width="20" height="20"/>
-                                                <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                                            </imageView>
-                                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="3" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="pAJ-31-jso" customClass="NiceFontLabel">
-                                                <rect key="frame" x="-3" y="-1" width="25" height="21"/>
-                                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                                <fontDescription key="fontDescription" type="system" pointSize="10"/>
-                                                <color key="textColor" red="0.2274509804" green="0.50196078430000002" blue="0.59999999999999998" alpha="1" colorSpace="deviceRGB"/>
-                                                <nil key="highlightedColor"/>
-                                            </label>
-                                        </subviews>
-                                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                                        <connections>
-                                            <outlet property="bgdView" destination="gAf-Sy-IPo" id="l5B-dg-vjv"/>
-                                            <outlet property="profPicView" destination="4j9-7v-tqy" id="CcI-P1-o4h"/>
-                                            <outlet property="slotNumLabel" destination="pAJ-31-jso" id="EEd-EP-sZB"/>
-                                        </connections>
-                                    </view>
-                                    <view tag="1" contentMode="scaleToFill" id="GUp-59-Mod" customClass="FriendAcceptView">
-                                        <rect key="frame" x="76" y="9" width="20" height="20"/>
-                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                        <subviews>
-                                            <view contentMode="scaleToFill" id="zR6-wP-hia" customClass="DBFBProfilePictureView">
-                                                <rect key="frame" x="0.0" y="0.0" width="20" height="20"/>
-                                                <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                                            </view>
-                                            <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" image="emptyfriendslot.png" highlightedImage="fullfriendborder.png" id="co2-ON-3cD">
-                                                <rect key="frame" x="0.0" y="0.0" width="20" height="20"/>
-                                                <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                                            </imageView>
-                                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="4" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="J8n-8J-AJz" customClass="NiceFontLabel">
-                                                <rect key="frame" x="-3" y="-1" width="25" height="21"/>
-                                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                                <fontDescription key="fontDescription" type="system" pointSize="10"/>
-                                                <color key="textColor" red="0.2274509804" green="0.50196078430000002" blue="0.59999999999999998" alpha="1" colorSpace="deviceRGB"/>
-                                                <nil key="highlightedColor"/>
-                                            </label>
-                                        </subviews>
-                                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                                        <connections>
-                                            <outlet property="bgdView" destination="co2-ON-3cD" id="MZW-bU-ayH"/>
-                                            <outlet property="profPicView" destination="zR6-wP-hia" id="ejo-xz-FPb"/>
-                                            <outlet property="slotNumLabel" destination="J8n-8J-AJz" id="T7z-zY-MgX"/>
-                                        </connections>
-                                    </view>
-                                    <view tag="1" contentMode="scaleToFill" id="Y5E-vI-WB6" customClass="FriendAcceptView">
-                                        <rect key="frame" x="101" y="9" width="20" height="20"/>
-                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                        <subviews>
-                                            <view contentMode="scaleToFill" id="UgM-3k-HaM" customClass="DBFBProfilePictureView">
-                                                <rect key="frame" x="0.0" y="0.0" width="20" height="20"/>
-                                                <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                                            </view>
-                                            <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" image="emptyfriendslot.png" highlightedImage="fullfriendborder.png" id="TFa-cq-1yh">
-                                                <rect key="frame" x="0.0" y="0.0" width="20" height="20"/>
-                                                <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                                            </imageView>
-                                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="5" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="RLJ-fA-rxH" customClass="NiceFontLabel">
-                                                <rect key="frame" x="-3" y="-1" width="25" height="21"/>
-                                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                                <fontDescription key="fontDescription" type="system" pointSize="10"/>
-                                                <color key="textColor" red="0.2274509804" green="0.50196078430000002" blue="0.59999999999999998" alpha="1" colorSpace="deviceRGB"/>
-                                                <nil key="highlightedColor"/>
-                                            </label>
-                                        </subviews>
-                                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                                        <connections>
-                                            <outlet property="bgdView" destination="TFa-cq-1yh" id="3y8-kX-WY7"/>
-                                            <outlet property="profPicView" destination="UgM-3k-HaM" id="2A7-Ud-6uL"/>
-                                            <outlet property="slotNumLabel" destination="RLJ-fA-rxH" id="96x-2e-lDq"/>
-                                        </connections>
-                                    </view>
-                                </subviews>
-                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                            </view>
-                            <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="claimed.png" id="RSt-y5-syr">
-                                <rect key="frame" x="280" y="18" width="54" height="24"/>
+                            <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="openquestarrow.png" id="Nt8-VK-NFR">
+                                <rect key="frame" x="429" y="16" width="13" height="21"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMinY="YES"/>
+                            </imageView>
+                            <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="hired.png" id="ANe-c0-hrx">
+                                <rect key="frame" x="358" y="15" width="43" height="23"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMinY="YES"/>
+                            </imageView>
+                            <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="hiringlocked.png" id="SKt-CF-oKY">
+                                <rect key="frame" x="429" y="19" width="11" height="15"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMinY="YES"/>
+                            </imageView>
+                            <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="jobiconaccountant.png" id="LTS-4h-4SE">
+                                <rect key="frame" x="1" y="4" width="28" height="30"/>
                                 <autoresizingMask key="autoresizingMask"/>
                             </imageView>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="wsu-HO-asB" customClass="MaskedButton">
-                                <rect key="frame" x="7" y="5" width="337" height="51"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <state key="normal">
-                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                                </state>
-                                <connections>
-                                    <action selector="rowSelected:" destination="-1" eventType="touchUpInside" id="M1g-wJ-RvJ"/>
-                                    <outlet property="baseImage" destination="tLM-x0-Lc4" id="ri2-Kr-8ak"/>
-                                </connections>
-                            </button>
                         </subviews>
                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                     </view>
                 </subviews>
             </tableViewCellContentView>
-            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+            <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
             <connections>
-                <outlet property="acceptViewsContainer" destination="EFw-YM-AGh" id="QvL-ze-nc8"/>
-                <outlet property="arrowIcon" destination="sqz-fh-GcP" id="oHH-Ys-n5S"/>
-                <outlet property="bgdImage" destination="tLM-x0-Lc4" id="H3w-vL-kVS"/>
-                <outlet property="claimedIcon" destination="RSt-y5-syr" id="bg8-2p-clS"/>
-                <outlet property="occupationLabel" destination="Qo8-b5-mZP" id="5jp-bd-s8J"/>
-                <outlet property="slotsLabel" destination="qn7-OV-nwq" id="aVe-y8-He4"/>
-                <outletCollection property="acceptViews" destination="4zM-Bj-B0d" id="ffE-Ax-9Pg"/>
-                <outletCollection property="acceptViews" destination="JFx-ly-UtC" id="Sah-Zb-bEr"/>
-                <outletCollection property="acceptViews" destination="qeI-YV-z9V" id="AiW-AY-Uym"/>
-                <outletCollection property="acceptViews" destination="GUp-59-Mod" id="3SZ-G1-eKC"/>
-                <outletCollection property="acceptViews" destination="Y5E-vI-WB6" id="2m8-yp-wa3"/>
+                <outlet property="arrowIcon" destination="Nt8-VK-NFR" id="Cqf-gE-qS4"/>
+                <outlet property="claimedIcon" destination="ANe-c0-hrx" id="CEn-tn-3uF"/>
+                <outlet property="lockIcon" destination="SKt-CF-oKY" id="M4l-W6-LSE"/>
+                <outlet property="occupationIcon" destination="LTS-4h-4SE" id="kFF-9B-jwI"/>
+                <outlet property="occupationLabel" destination="hLe-0n-bQS" id="o8w-wU-nWL"/>
+                <outlet property="selectedBackgroundView" destination="TvW-8t-Q1m" id="G5b-EM-hxe"/>
+                <outlet property="slotsLabel" destination="1gL-5d-CP4" id="hZ2-zY-PHV"/>
             </connections>
         </tableViewCell>
     </objects>
     <resources>
-        <image name="claimed.png" width="54" height="24"/>
-        <image name="emptyfriendslot.png" width="38" height="38"/>
-        <image name="fullfriendborder.png" width="38" height="38"/>
-        <image name="hirelockedslot.png" width="337" height="51"/>
-        <image name="hireslotbg.png" width="337" height="51"/>
-        <image name="questarrow.png" width="11" height="18"/>
+        <image name="hired.png" width="43" height="23"/>
+        <image name="hiringlocked.png" width="11" height="15"/>
+        <image name="jobiconaccountant.png" width="15" height="15"/>
+        <image name="openquestarrow.png" width="13" height="21"/>
+        <image name="popupline.png" width="1" height="1"/>
     </resources>
 </document>

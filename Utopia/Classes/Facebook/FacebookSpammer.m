@@ -14,7 +14,7 @@
 @implementation FacebookSpammer
 
 + (void) spamAllFriendsWithRequest {
-  [FacebookDelegate getFacebookFriendsWithLoginUI:NO callback:^(NSArray *fbFriends) {
+  [FacebookDelegate getInvitableFacebookFriendsWithLoginUI:NO callback:^(NSArray *fbFriends) {
     NSArray *arr = [self facebookIdsFromFbData:fbFriends];
     int maxSize = 50;
     UIApplication *app = [UIApplication sharedApplication];

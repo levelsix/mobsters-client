@@ -606,36 +606,36 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
       NSString *code = [msg stringByReplacingCharactersInRange:r withString:@""];
       @try {
         int cashAmt = 0, oilAmt = 0, gemsAmt = 0;
-        NSString *code = nil;
+        NSString *reason = nil;
         if ((r = [code rangeOfString:CASH_CODE]).length > 0) {
           r.length++;
           code = [code stringByReplacingCharactersInRange:r withString:@""];
           cashAmt = code.intValue;
-          code = CASH_CODE;
+          reason = CASH_CODE;
           msg = [NSString stringWithFormat:@"Awarded %d cash.", cashAmt];
         } else if ((r = [code rangeOfString:OIL_CODE]).length > 0) {
           r.length++;
           code = [code stringByReplacingCharactersInRange:r withString:@""];
           oilAmt = code.intValue;
-          code = OIL_CODE;
+          reason = OIL_CODE;
           msg = [NSString stringWithFormat:@"Awarded %d oil.", oilAmt];
         } else if ((r = [code rangeOfString:CASH_AND_OIL_CODE]).length > 0) {
           r.length++;
           code = [code stringByReplacingCharactersInRange:r withString:@""];
           cashAmt = code.intValue;
           oilAmt = code.intValue;
-          code = CASH_AND_OIL_CODE;
+          reason = CASH_AND_OIL_CODE;
           msg = [NSString stringWithFormat:@"Awarded %d cash and oil.", cashAmt];
         } else if ((r = [code rangeOfString:GEMS_CODE]).length > 0) {
           r.length++;
           code = [code stringByReplacingCharactersInRange:r withString:@""];
           gemsAmt = code.intValue;
-          code = GEMS_CODE;
+          reason = GEMS_CODE;
           msg = [NSString stringWithFormat:@"Awarded %d gems.", gemsAmt];
         }
         
         if (cashAmt || oilAmt || gemsAmt) {
-          [[OutgoingEventController sharedOutgoingEventController] updateUserCurrencyWithCashChange:cashAmt oilChange:oilAmt gemChange:gemsAmt reason:code];
+          [[OutgoingEventController sharedOutgoingEventController] updateUserCurrencyWithCashChange:cashAmt oilChange:oilAmt gemChange:gemsAmt reason:reason];
         } else if (code) {
           @throw [NSException exceptionWithName:@"thrown" reason:@"to get msg" userInfo:nil];
         }

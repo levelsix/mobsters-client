@@ -23,6 +23,7 @@
 #import "CCSoundAnimation.h"
 #import "AchievementUtil.h"
 #import "MiniJobsViewController.h"
+#import "HireViewController.h"
 
 #define FAR_LEFT_EXPANSION_START 58
 #define FAR_RIGHT_EXPANSION_START 58
@@ -697,8 +698,8 @@
   } else {
     self.bottomOptionView = nil;
     _canMove = NO;
-    [self.upgradeViewController closeClicked:nil];
-    self.upgradeViewController = nil;
+    [self.currentViewController performSelector:@selector(closeClicked:) withObject:nil];
+    self.currentViewController = nil;
     if (_purchasing) {
       _purchasing = NO;
       [_purchBuilding removeFromParent];
@@ -1169,19 +1170,20 @@
 - (void) loadUpgradeViewControllerForIsHire:(BOOL)isHire {
   UserStruct *us = ((HomeBuilding *)self.selected).userStruct;
   GameViewController *gvc = [GameViewController baseController];
-  UpgradeViewController *uvc;
+  UIViewController *uvc;
   
   if (!isHire) {
-    uvc = [[UpgradeViewController alloc] initWithUserStruct:us];
+    UpgradeViewController *up = [[UpgradeViewController alloc] initWithUserStruct:us];
+    up.delegate = self;
+    uvc = up;
   } else {
-    uvc = [[UpgradeViewController alloc] initHireViewWithUserStruct:us];
+    uvc = [[HireViewController alloc] initWithUserStruct:us];
   }
   
-  uvc.delegate = self;
   [gvc addChildViewController:uvc];
   uvc.view.frame = gvc.view.bounds;
   [gvc.view addSubview:uvc.view];
-  self.upgradeViewController = uvc;
+  self.currentViewController = uvc;
 }
 
 - (void) loadMiniJobsView {
@@ -1515,9 +1517,9 @@
 - (void) onExitTransitionDidStart {
   [super onExitTransitionDidStart];
   
-  [self.upgradeViewController.view removeFromSuperview];
-  [self.upgradeViewController removeFromParentViewController];
-  self.upgradeViewController = nil;
+  [self.currentViewController.view removeFromSuperview];
+  [self.currentViewController removeFromParentViewController];
+  self.currentViewController = nil;
 }
 
 - (void) onExit {

@@ -8,66 +8,8 @@
 
 #import <UIKit/UIKit.h>
 #import "NibUtils.h"
-#import "FBChooserView.h"
 #import "UserData.h"
 #import "TopBarViewcontroller.h"
-#import "RequestsViewController.h"
-
-@interface FriendAcceptView : UIView
-
-@property (nonatomic, retain) IBOutlet UIImageView *bgdView;
-@property (nonatomic, retain) IBOutlet UILabel *slotNumLabel;
-@property (nonatomic, retain) IBOutlet FBProfilePictureView *profPicView;
-
-@end
-
-@interface UpgradeBonusCell : UITableViewCell
-
-@property (nonatomic, retain) IBOutlet UILabel *occupationLabel;
-@property (nonatomic, retain) IBOutlet UILabel *slotsLabel;
-@property (nonatomic, retain) IBOutlet UIImageView *claimedIcon;
-@property (nonatomic, retain) IBOutlet UIImageView *arrowIcon;
-@property (nonatomic, retain) IBOutlet UIView *acceptViewsContainer;
-@property (nonatomic, retain) IBOutlet UIImageView *bgdImage;
-
-@property (nonatomic, retain) IBOutletCollection(FriendAcceptView) NSArray *acceptViews;
-
-@end
-
-@interface UpgradeBonusView : UIView <UITableViewDataSource> {
-  BOOL _canClick;
-}
-
-@property (nonatomic, retain) IBOutlet UITableView *hireTable;
-@property (nonatomic, retain) IBOutlet UILabel *gemCostLabel;
-@property (nonatomic, retain) IBOutlet UILabel *numSlotsLabel;
-@property (nonatomic, retain) IBOutlet FBChooserView *chooserView;
-
-@property (nonatomic, retain) IBOutlet UIView *gemView;
-@property (nonatomic, retain) IBOutlet UIActivityIndicatorView *gemSpinner;
-
-@property (nonatomic, retain) IBOutlet UIView *acceptViewsContainer;
-@property (nonatomic, retain) IBOutletCollection(FriendAcceptView) NSArray *acceptViews;
-
-@property (nonatomic, retain) IBOutlet UIView *hireView;
-@property (nonatomic, retain) IBOutlet UIView *addSlotsView;
-@property (nonatomic, retain) IBOutlet UIView *friendFinderView;
-
-@property (nonatomic, retain) IBOutlet UpgradeBonusCell *bonusCell;
-
-@property (nonatomic, retain) NSArray *staticStructs;
-@property (nonatomic, assign) UserStruct *userStruct;
-
-- (void) moveToHireView;
-- (void) moveToAddSlotsView;
-- (void) moveToFriendFinderView;
-
-- (void) spinnerOnGems;
-- (void) removeSpinner;
-
-- (IBAction) rowSelected:(UITableViewCell *)sender;
-
-@end
 
 @interface UpgradeBuildingMenu : UIView <UITableViewDelegate>
 
@@ -111,26 +53,11 @@
 
 @end
 
-@interface UpgradeViewController : UIViewController <TabBarDelegate> {
-  BOOL _isHire;
-  BOOL _canClick;
-  BOOL _isOnFriendFinder;
-  
-  BOOL _sendingFbInvites;
-}
+@interface UpgradeViewController : UIViewController <TabBarDelegate>
 
 @property (nonatomic, assign) IBOutlet UILabel *titleLabel;
-@property (nonatomic, assign) IBOutlet ButtonTopBar *bonusTopBar;
-@property (nonatomic, retain) IBOutlet UIView *backView;
-@property (nonatomic, retain) IBOutlet UIView *sendView;
-@property (nonatomic, retain) IBOutlet UIView *closeView;
 
-@property (nonatomic, retain) IBOutlet UIView *sendLabel;
-@property (nonatomic, retain) IBOutlet UIView *sendSpinner;
-
-@property (nonatomic, retain) IBOutlet UIView *menuContainer;
 @property (nonatomic, retain) IBOutlet UpgradeBuildingMenu *upgradeView;
-@property (nonatomic, retain) IBOutlet UpgradeBonusView *bonusView;
 
 @property (nonatomic, retain) IBOutlet UIView *mainView;
 @property (nonatomic, retain) IBOutlet UIView *bgdView;
@@ -140,14 +67,7 @@
 @property (nonatomic, assign) id<UpgradeViewControllerDelegate> delegate;
 
 - (id) initWithUserStruct:(UserStruct *)us;
-- (id) initHireViewWithUserStruct:(UserStruct *)us;
 
-- (IBAction) hireWithGemsClicked:(id)sender;
-- (IBAction) viewFriendsClicked:(id)sender;
-- (IBAction) sendClicked:(id)sender;
-- (IBAction) backClicked:(id)sender;
-- (void) button1Clicked:(id)sender;
-- (void) button2Clicked:(id)sender;
-- (IBAction) closeClicked:(id)sender;
+- (void) closeClicked:(id)sender;
 
 @end
