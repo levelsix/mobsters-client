@@ -39,7 +39,7 @@
     
     GeneralButton *iv = [[GeneralButton alloc] initWithFrame:CGRectMake(x, y, ICON_WIDTH, ICON_HEIGHT)];
     [iv awakeFromNib];
-    [Globals imageNamed:icon.imgName withView:iv greyscale:NO indicator:UIActivityIndicatorViewStyleWhite clearImageDuringDownload:YES];
+    [Globals imageNamed:icon.imgName withView:iv greyscale:NO indicator:UIActivityIndicatorViewStyleGray clearImageDuringDownload:YES];
     iv.tag = icon.clanIconId;
     [iv addTarget:self action:@selector(iconClicked:) forControlEvents:UIControlEventTouchUpInside];
     [self.iconsScrollView addSubview:iv];
