@@ -20,6 +20,8 @@
 @implementation ClanViewController
 
 - (void) viewDidLoad {
+  [super viewDidLoad];
+  
   self.clanBrowseViewController = [[ClanBrowseViewController alloc] init];
   self.clanInfoViewController = [[ClanInfoViewController alloc] init];
   self.clanCreateViewController = [[ClanCreateViewController alloc] init];
@@ -28,12 +30,6 @@
   [[OutgoingEventController sharedOutgoingEventController] registerClanEventDelegate:self];
   [[OutgoingEventController sharedOutgoingEventController] registerClanEventDelegate:self.clanBrowseViewController];
   [[OutgoingEventController sharedOutgoingEventController] registerClanEventDelegate:self.clanInfoViewController];
-  
-  [Globals bounceView:self.mainView fadeInBgdView:self.bgdView];
-  
-  self.viewControllers = [NSMutableArray array];
-  
-  self.backView.alpha = 0.f;
 }
 
 - (void) viewWillAppear:(BOOL)animated {
@@ -71,77 +67,39 @@
 }
 
 - (void) loadForClanId:(int)clanId {
-  [self unloadAllControllers];
   ClanInfoViewController *civc = [[ClanInfoViewController alloc] initWithClanId:clanId andName:nil];
-  [self pushViewController:civc animated:NO];
+  [self replaceRootWithViewController:civc animated:NO];
   
   [self.topBar clickButton:0];
 }
 
 - (void) loadInClanConfiguration {
-  _controller1 = self.clanInfoViewController;
-  _controller2 = self.clanBrowseViewController;
-  
   [self.topBar button:2 shouldBeHidden:NO];
   [self.topBar button:3 shouldBeHidden:YES];
 }
 
 - (void) loadNotInClanConfiguration {
-  _controller1 = self.clanBrowseViewController;
-  _controller2 = self.clanCreateViewController;
-  
   [self.topBar button:2 shouldBeHidden:YES];
   [self.topBar button:3 shouldBeHidden:NO];
 }
 
 - (void) button1Clicked:(id)sender {
-  [self unloadAllControllers];
-  [self pushViewController:self.clanBrowseViewController animated:NO];
+  [self replaceRootWithViewController:self.clanBrowseViewController animated:NO];
   
   [self.topBar clickButton:1];
 }
 
 - (void) button2Clicked:(id)sender {
-  [self unloadAllControllers];
-  [self pushViewController:self.clanInfoViewController animated:NO];
+  [self replaceRootWithViewController:self.clanInfoViewController animated:NO];
   
   [self.topBar clickButton:2];
 }
 
 - (void) button3Clicked:(id)sender {
-  [self unloadAllControllers];
-  [self pushViewController:self.clanCreateViewController animated:NO];
+  [self replaceRootWithViewController:self.clanCreateViewController animated:NO];
   
   [self.topBar clickButton:3];
 }
-
-- (IBAction) backClicked:(id)sender {
-  if (!_isEditing && (!self.viewControllers.count || [[self.viewControllers lastObject] canGoBack])) {
-    [self goBack];
-  }
-  [self.view endEditing:YES];
-}
-
-- (void) goBack {
-  [self popViewControllerAnimated:YES];
-}
-
-- (IBAction) closeClicked:(id)sender {
-  if (!_isEditing && (!self.viewControllers.count || [[self.viewControllers lastObject] canClose])) {
-    [self close];
-  }
-  [self.view endEditing:YES];
-}
-
-- (void) close {
-  [Globals popOutView:self.mainView fadeOutBgdView:self.bgdView completion:^{
-    [self.view removeFromSuperview];
-    [self removeFromParentViewController];
-  }];
-  
-  [self.delegate clanViewControllerDidClose:self];
-}
-
 - (void) keyboardWillShow:(id)n {
   _isEditing = YES;
 }
@@ -150,84 +108,25 @@
   _isEditing = NO;
 }
 
-#pragma mark - Navigation Controller
-
-- (void) remakeBackButton {
-  float alpha = self.backView.alpha;
-  self.backView.alpha = 1.f;
-  [self.backMaskedButton remakeImage];
-  self.backView.alpha = alpha;
-}
-
-- (void) pushViewController:(ClanSubViewController *)viewController animated:(BOOL)animated {
-  UIViewController *curVc = [self.viewControllers lastObject];
-  [self.viewControllers addObject:viewController];
-  
-  BOOL shouldDisplayBackButton = NO;
-  if (self.viewControllers.count > 1) {
-    shouldDisplayBackButton = YES;
-    self.backLabel.text = [self.viewControllers[self.viewControllers.count-2] title];
-    [self remakeBackButton];
-  }
-  
-  [self.containerView addSubview:viewController.view];
-  [self addChildViewController:viewController];
-  viewController.view.frame = self.containerView.bounds;
-  if (animated) {
-    viewController.view.center = ccp(self.containerView.frame.size.width*3/2, self.containerView.frame.size.height/2);
-    [UIView animateWithDuration:0.3f animations:^{
-      viewController.view.center = ccp(self.containerView.frame.size.width/2, self.containerView.frame.size.height/2);
-      curVc.view.center = ccp(-self.containerView.frame.size.width/2, self.containerView.frame.size.height/2);
-      self.backView.alpha = shouldDisplayBackButton;
-    } completion:^(BOOL finished) {
-      [curVc.view removeFromSuperview];
-    }];
+- (void) backClicked:(id)sender {
+  if (_isEditing) {
+    [self.view endEditing:YES];
   } else {
-    self.backView.alpha = shouldDisplayBackButton;
-    [curVc.view removeFromSuperview];
+    [super backClicked:sender];
   }
 }
 
-- (UIViewController *) popViewControllerAnimated:(BOOL)animated {
-  UIViewController *removeVc = [self.viewControllers lastObject];
-  [self.viewControllers removeObject:removeVc];
-  UIViewController *topVc = [self.viewControllers lastObject];
-  
-  BOOL shouldDisplayBackButton = NO;
-  if (self.viewControllers.count > 1) {
-    shouldDisplayBackButton = YES;
-    self.backLabel.text = [self.viewControllers[self.viewControllers.count-2] title];
-    [self remakeBackButton];
-  }
-  
-  [self.containerView addSubview:topVc.view];
-  if (animated) {
-    topVc.view.center = ccp(-self.containerView.frame.size.width/2, self.containerView.frame.size.height/2);
-    [UIView animateWithDuration:0.3f animations:^{
-      removeVc.view.center = ccp(self.containerView.frame.size.width*3/2, self.containerView.frame.size.height/2);
-      topVc.view.frame = self.containerView.bounds;
-      self.backView.alpha = shouldDisplayBackButton;
-    } completion:^(BOOL finished) {
-      [removeVc.view removeFromSuperview];
-      [removeVc removeFromParentViewController];
-    }];
+- (void) closeClicked:(id)sender {
+  if (_isEditing) {
+    [self.view endEditing:YES];
   } else {
-    [removeVc.view removeFromSuperview];
-    [removeVc removeFromParentViewController];
-    self.backView.alpha = shouldDisplayBackButton;
-    
-    topVc.view.frame = self.containerView.bounds;
+    [super closeClicked:sender];
   }
-  
-  return removeVc;
 }
 
-- (void) unloadAllControllers {
-  for (UIViewController *vc in self.viewControllers) {
-    [vc.view removeFromSuperview];
-    [vc removeFromParentViewController];
-  }
-  [self.viewControllers removeAllObjects];
+- (void) close {
+  [super close];
+  [self.delegate clanViewControllerDidClose:self];
 }
 
 #pragma mark - Response handlers

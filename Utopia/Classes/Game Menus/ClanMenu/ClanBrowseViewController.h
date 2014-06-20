@@ -9,7 +9,7 @@
 #import <UIKit/UIKit.h>
 #import "Protocols.pb.h"
 #import "Globals.h"
-#import "ClanSubViewController.h"
+#import "PopupSubViewController.h"
 
 typedef enum {
   kBrowseAll,
@@ -36,7 +36,7 @@ typedef enum {
 
 @end
 
-@interface ClanBrowseViewController : ClanSubViewController <UITableViewDelegate, UITableViewDataSource, UITextFieldDelegate> {
+@interface ClanBrowseViewController : PopupSubViewController <UITableViewDelegate, UITableViewDataSource, UITextFieldDelegate> {
   BOOL isSearching;
   BOOL _reachedEnd;
   BOOL _waitingForResponse;

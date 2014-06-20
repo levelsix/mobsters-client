@@ -8,7 +8,7 @@
 
 #import <UIKit/UIKit.h>
 #import "Globals.h"
-#import "ClanSubViewController.h"
+#import "PopupSubViewController.h"
 
 @protocol ClanIconChooserDelegate <NSObject>
 
@@ -30,7 +30,7 @@
 
 @end
 
-@interface ClanCreateViewController : ClanSubViewController <UITextFieldDelegate, ClanIconChooserDelegate> {
+@interface ClanCreateViewController : PopupSubViewController <UITextFieldDelegate, ClanIconChooserDelegate> {
   BOOL _isRequestType;
   BOOL _isEditMode;
   int _iconId;

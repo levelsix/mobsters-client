@@ -8,6 +8,7 @@
 
 #import "NibUtils.h"
 #import "Globals.h"
+#import "PopupNavViewController.h"
 
 @class ClanBrowseViewController;
 @class ClanCreateViewController;
@@ -21,10 +22,7 @@
 
 @end
 
-@interface ClanViewController : UIViewController {
-  ClanSubViewController *_controller1;
-  ClanSubViewController *_controller2;
-  
+@interface ClanViewController : PopupNavViewController {
   BOOL _isEditing;
 }
 
@@ -34,27 +32,12 @@
 @property (nonatomic, retain) ClanRaidListViewController *clanRaidViewController;
 
 @property (nonatomic, retain) IBOutlet ButtonTopBar *topBar;
-@property (nonatomic, retain) IBOutlet UIView *containerView;
-
-@property (nonatomic, retain) IBOutlet UIView *mainView;
-@property (nonatomic, retain) IBOutlet UIView *bgdView;
-
-@property (nonatomic, retain) IBOutlet UIView *backView;
-@property (nonatomic, retain) IBOutlet UILabel *backLabel;
-@property (nonatomic, retain) IBOutlet MaskedButton *backMaskedButton;
 
 @property (nonatomic, retain) NSArray *myClanMembersList;
 @property (nonatomic, assign) int canStartRaidStage;
 
-// Navigation controller stack
-@property (nonatomic, retain) NSMutableArray *viewControllers;
-
 @property (nonatomic, assign) id<ClanViewControllerDelegate> delegate;
 
 - (void) loadForClanId:(int)clanId;
-- (void) pushViewController:(ClanSubViewController *)viewController animated:(BOOL)animated;
-- (UIViewController *)popViewControllerAnimated:(BOOL)animated;
-- (void) goBack;
-- (void) close;
 
 @end

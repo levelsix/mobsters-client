@@ -9,7 +9,7 @@
 #import <UIKit/UIKit.h>
 #import "Protocols.pb.h"
 #import "Globals.h"
-#import "ClanSubViewController.h"
+#import "PopupSubViewController.h"
 #import "ClanInfoViews.h"
 
 typedef enum {
@@ -20,7 +20,7 @@ typedef enum {
   ClanInfoSortOrderBattleWins,
 } ClanInfoSortOrder;
 
-@interface ClanInfoViewController : ClanSubViewController <UITableViewDataSource, UITableViewDelegate, ClanInfoSettingsDelegate> {
+@interface ClanInfoViewController : PopupSubViewController <UITableViewDataSource, UITableViewDelegate, ClanInfoSettingsDelegate> {
   ClanMemberCell *_curClickedCell;
   ClanInfoSettingsButtonView *_clickedSettingsButton;
   UIButton *_clickedHeaderButton;

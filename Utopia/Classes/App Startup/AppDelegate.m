@@ -24,6 +24,7 @@
 #import "FacebookDelegate.h"
 #import "MSWindow.h"
 #import "GameCenterDelegate.h"
+#import <NewRelicAgent/NewRelic.h>
 
 #define TEST_FLIGHT_APP_TOKEN  @"13d8fb3e-81ac-4d22-842f-1fd7dd4a512b"
 
@@ -42,6 +43,8 @@
 
 #define KAMCORD_DEV_KEY      @"whYswvPukXavib0gs7RbrWE3BU9TXdxAbpIbHF8v15W"
 #define KAMCORD_SECRET       @"AjmSH6fWejpFdnzGTOBItZHAOE91tEOUr7AxkspVUOZ"
+
+#define NEW_RELIC_TOKEN      @"AA01b4a84c5c83bc8345d534eb4910b3a323b70b5b"
 
 @implementation AppDelegate
 
@@ -116,6 +119,9 @@
 #endif
   [Analytics beganApp];
   [Analytics openedApp];
+  
+  // New relic
+  [NewRelicAgent startWithApplicationToken:NEW_RELIC_TOKEN];
   
   // Publish install
   [FacebookDelegate activateApp];
