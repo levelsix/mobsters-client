@@ -68,7 +68,7 @@
     }
   }
   _currentIndex = [self.mainViewControllers indexOfObject:vc];
-  [self replaceRootWithViewController:vc animated:NO];
+  [self replaceRootWithViewController:vc fromRight:NO animated:NO];
   [self loadNextTitleSelectionFromRight:NO animated:NO];
   
   self.containerView.superview.layer.cornerRadius = 5.f;
@@ -78,7 +78,7 @@
 - (IBAction)rightArrowClicked:(id)sender {
   _currentIndex = (_currentIndex+1)%self.mainViewControllers.count;
   PopupSubViewController *svc = self.mainViewControllers[_currentIndex];
-  [self replaceRootWithViewController:svc animated:YES];
+  [self replaceRootWithViewController:svc fromRight:YES animated:YES];
   
   [self loadNextTitleSelectionFromRight:YES animated:YES];
 }
@@ -86,7 +86,7 @@
 - (IBAction)leftArrowClicked:(id)sender {
   _currentIndex = (_currentIndex-1)%self.mainViewControllers.count;
   PopupSubViewController *svc = self.mainViewControllers[_currentIndex];
-  [self replaceRootWithViewController:svc animated:YES];
+  [self replaceRootWithViewController:svc fromRight:NO animated:YES];
   
   [self loadNextTitleSelectionFromRight:NO animated:YES];
 }

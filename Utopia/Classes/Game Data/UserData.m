@@ -213,7 +213,7 @@
   int umScore = [um isOnAMiniJob] ? 4 : [um isHealing] ? 3 : [um isEnhancing] ? 2 : [um isSacrificing] ? 1 : 0;
   
   if (selfScore != umScore) {
-    return [@(umScore) compare:@(selfScore)];
+    return [@(selfScore) compare:@(umScore)];
   } else {
     // Compare hp
     Globals *gl = [Globals sharedGlobals];

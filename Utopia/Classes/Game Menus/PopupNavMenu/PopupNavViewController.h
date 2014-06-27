@@ -25,7 +25,8 @@
 // Navigation controller stack
 @property (nonatomic, retain) NSMutableArray *viewControllers;
 
-- (void) replaceRootWithViewController:(PopupSubViewController *)viewController animated:(BOOL)animated;
+- (void) replaceRootWithViewController:(PopupSubViewController *)viewController;
+- (void) replaceRootWithViewController:(PopupSubViewController *)viewController fromRight:(BOOL)fromRight animated:(BOOL)animated;
 - (void) pushViewController:(PopupSubViewController *)viewController animated:(BOOL)animated;
 - (UIViewController *)popViewControllerAnimated:(BOOL)animated;
 

@@ -252,6 +252,9 @@
   }
   
   [arr sortUsingComparator:^NSComparisonResult(UserMonster *obj1, UserMonster *obj2) {
+    if (obj1.isEnhancing != obj2.isEnhancing) {
+      return [@(obj2.isEnhancing) compare:@(obj1.isEnhancing)];
+    }
     return [obj1 compare:obj2];
   }];
   
@@ -447,7 +450,7 @@
   MonsterQueueCell *queueCell = (MonsterQueueCell *)[self.queueView.collectionView cellForItemAtIndexPath:[NSIndexPath indexPathForItem:monsterIndex inSection:0]];
   
   if (cardCell && queueCell) {
-    [self.queueCell updateForListObject:ei];
+    [self.queueCell updateForListObject:ei.userMonster];
     [self.cardCell updateForListObject:ei.userMonster userEnhancement:self.currentEnhancement];
     
     [self.view addSubview:self.queueCell];

@@ -68,7 +68,7 @@
 
 - (void) loadForClanId:(int)clanId {
   ClanInfoViewController *civc = [[ClanInfoViewController alloc] initWithClanId:clanId andName:nil];
-  [self replaceRootWithViewController:civc animated:NO];
+  [self replaceRootWithViewController:civc];
   
   [self.topBar clickButton:0];
 }
@@ -84,19 +84,19 @@
 }
 
 - (void) button1Clicked:(id)sender {
-  [self replaceRootWithViewController:self.clanBrowseViewController animated:NO];
+  [self replaceRootWithViewController:self.clanBrowseViewController];
   
   [self.topBar clickButton:1];
 }
 
 - (void) button2Clicked:(id)sender {
-  [self replaceRootWithViewController:self.clanInfoViewController animated:NO];
+  [self replaceRootWithViewController:self.clanInfoViewController];
   
   [self.topBar clickButton:2];
 }
 
 - (void) button3Clicked:(id)sender {
-  [self replaceRootWithViewController:self.clanCreateViewController animated:NO];
+  [self replaceRootWithViewController:self.clanCreateViewController];
   
   [self.topBar clickButton:3];
 }

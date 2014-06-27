@@ -64,14 +64,49 @@
   return NO;
 }
 
-- (void) replaceRootWithViewController:(PopupSubViewController *)viewController animated:(BOOL)animated {
-  [self unloadAllControllers];
-  [self pushViewController:viewController animated:NO];
+- (void) replaceRootWithViewController:(PopupSubViewController *)viewController {
+  [self replaceRootWithViewController:viewController fromRight:NO animated:NO];
 }
 
-- (void) pushViewController:(PopupSubViewController *)viewController animated:(BOOL)animated {
+- (void) replaceRootWithViewController:(PopupSubViewController *)viewController fromRight:(BOOL)fromRight animated:(BOOL)animated {
+  if (animated) {
+    UIViewController *removeVc = [self.viewControllers lastObject];
+    [self.viewControllers removeObject:removeVc];
+    UIViewController *topVc = viewController;
+    
+    // Unload the rest so that the stack looks proper when this method exits
+    [self unloadAllControllers];
+    [self.viewControllers addObject:topVc];
+    
+    [removeVc beginAppearanceTransition:NO animated:animated];
+    [topVc beginAppearanceTransition:YES animated:animated];
+    
+    [self.containerView addSubview:topVc.view];
+    [self addChildViewController:topVc];
+    
+    float movementFactor = self.containerView.frame.size.width*(fromRight?1:-1);
+    topVc.view.center = ccp(self.containerView.frame.size.width/2+movementFactor, self.containerView.frame.size.height/2);
+    [UIView animateWithDuration:0.3f animations:^{
+      removeVc.view.center = ccp(self.containerView.frame.size.width/2-movementFactor, self.containerView.frame.size.height/2);
+      topVc.view.frame = self.containerView.bounds;
+      
+      self.backView.alpha = 0.f;
+    } completion:^(BOOL finished) {
+      [removeVc.view removeFromSuperview];
+      [removeVc removeFromParentViewController];
+      
+      [removeVc endAppearanceTransition];
+      [topVc endAppearanceTransition];
+    }];
+  } else {
+    [self unloadAllControllers];
+    [self pushViewController:viewController animated:animated];
+  }
+}
+
+- (void) pushViewController:(PopupSubViewController *)topVc animated:(BOOL)animated {
   UIViewController *curVc = [self.viewControllers lastObject];
-  [self.viewControllers addObject:viewController];
+  [self.viewControllers addObject:topVc];
   
   BOOL shouldDisplayBackButton = NO;
   if (self.viewControllers.count > 1) {
@@ -81,30 +116,30 @@
   }
   
   [curVc beginAppearanceTransition:NO animated:animated];
-  [viewController beginAppearanceTransition:YES animated:animated];
+  [topVc beginAppearanceTransition:YES animated:animated];
   
-  [self.containerView addSubview:viewController.view];
-  [self addChildViewController:viewController];
-  viewController.view.frame = self.containerView.bounds;
+  [self.containerView addSubview:topVc.view];
+  [self addChildViewController:topVc];
+  topVc.view.frame = self.containerView.bounds;
   if (animated) {
-    viewController.view.center = ccp(self.containerView.frame.size.width*3/2, self.containerView.frame.size.height/2);
+    topVc.view.center = ccp(self.containerView.frame.size.width*3/2, self.containerView.frame.size.height/2);
     
     [UIView animateWithDuration:0.3f animations:^{
-      viewController.view.center = ccp(self.containerView.frame.size.width/2, self.containerView.frame.size.height/2);
+      topVc.view.center = ccp(self.containerView.frame.size.width/2, self.containerView.frame.size.height/2);
       curVc.view.center = ccp(-self.containerView.frame.size.width/2, self.containerView.frame.size.height/2);
       self.backView.alpha = shouldDisplayBackButton;
     } completion:^(BOOL finished) {
       [curVc.view removeFromSuperview];
       
       [curVc endAppearanceTransition];
-      [viewController endAppearanceTransition];
+      [topVc endAppearanceTransition];
     }];
   } else {
     self.backView.alpha = shouldDisplayBackButton;
     [curVc.view removeFromSuperview];
     
     [curVc endAppearanceTransition];
-    [viewController endAppearanceTransition];
+    [topVc endAppearanceTransition];
   }
 }
 
@@ -153,10 +188,13 @@
 
 - (void) unloadAllControllers {
   for (UIViewController *vc in self.viewControllers) {
-    [vc beginAppearanceTransition:NO animated:NO];
-    [vc.view removeFromSuperview];
+    if (vc.view.superview) {
+      [vc beginAppearanceTransition:NO animated:NO];
+      [vc.view removeFromSuperview];
+      [vc endAppearanceTransition];
+    }
+    
     [vc removeFromParentViewController];
-    [vc endAppearanceTransition];
   }
   [self.viewControllers removeAllObjects];
 }
@@ -166,17 +204,21 @@
 - (void) replaceTitleView:(UIView *)oldView withNewView:(UIView *)newView fromRight:(BOOL)fromRight animated:(BOOL)animated {
   [oldView.superview insertSubview:newView aboveSubview:oldView];
   if (animated) {
-    float movementFactor = 30.f*(fromRight?1:-1);
+    float movementFactor = 70.f*(fromRight?1:-1);
     newView.center = ccpAdd(oldView.center, ccp(movementFactor, 0));
+    newView.alpha = 0.f;
     [UIView animateWithDuration:0.3f animations:^{
       newView.center = oldView.center;
       oldView.center = ccpAdd(oldView.center, ccp(-movementFactor, 0));
+      
+      oldView.alpha = 0.f;
+      newView.alpha = 1.f;
     } completion:^(BOOL finished) {
       [oldView removeFromSuperview];
     }];
   } else {
     newView.center = oldView.center;
-
+    
     [oldView removeFromSuperview];
   }
 }
