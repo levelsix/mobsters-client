@@ -9,8 +9,25 @@
 #import <UIKit/UIKit.h>
 #import "PopupNavViewController.h"
 
-@interface HomeViewController : PopupNavViewController
+@interface HomeViewController : PopupNavViewController {
+  Class _initViewControllerClass;
+  int _currentIndex;
+}
+
+// HomeTitleView views
+@property (nonatomic, retain) IBOutlet UIImageView *homeTitleImageView;
+@property (nonatomic, retain) IBOutlet UILabel *homeTitleLabel;
+@property (nonatomic, retain) IBOutlet UIView *homeTitleView;
+
+@property (nonatomic, retain) IBOutlet UILabel *bigTitleLabel;
+
+@property (nonatomic, retain) IBOutlet UIView *selectorView;
 
 @property (nonatomic, retain) NSArray *mainViewControllers;
+
+- (id) initWithSell;
+- (id) initWithHeal;
+- (id) initWithTeam;
+- (id) initWithEnhance;
 
 @end

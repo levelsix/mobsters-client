@@ -27,6 +27,8 @@
   self.queueView.isFlipped = YES;
   self.queueView.cellClassName = @"MonsterQueueCell";
   self.listView.cellClassName = @"SellCardCell";
+  
+  self.title = @"SELL MOBSTERS";
 }
 
 - (void) viewWillAppear:(BOOL)animated {
@@ -42,7 +44,6 @@
   [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(waitTimeComplete) name:COMBINE_WAIT_COMPLETE_NOTIFICATION object:nil];
   [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(waitTimeComplete) name:ENHANCE_WAIT_COMPLETE_NOTIFICATION object:nil];
   [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(waitTimeComplete) name:EVOLUTION_WAIT_COMPLETE_NOTIFICATION object:nil];
-  [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(waitTimeComplete) name:MINI_JOB_WAIT_COMPLETE_NOTIFICATION object:nil];
 }
 
 - (void) waitTimeComplete {

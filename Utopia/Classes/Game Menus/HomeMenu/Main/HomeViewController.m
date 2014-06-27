@@ -12,6 +12,7 @@
 #import "SellViewController.h"
 #import "EnhanceChooserViewController.h"
 #import "HealViewController.h"
+#import "TeamViewController.h"
 
 @interface HomeViewController ()
 
@@ -19,16 +20,95 @@
 
 @implementation HomeViewController
 
+- (id) initWithSell {
+  if ((self = [super init])) {
+    _initViewControllerClass = [SellViewController class];
+  }
+  return self;
+}
+
+- (id) initWithHeal {
+  if ((self = [super init])) {
+    _initViewControllerClass = [HealViewController class];
+  }
+  return self;
+}
+
+- (id) initWithTeam {
+  if ((self = [super init])) {
+    _initViewControllerClass = [TeamViewController class];
+  }
+  return self;
+}
+
+- (id) initWithEnhance {
+  if ((self = [super init])) {
+    _initViewControllerClass = [EnhanceChooserViewController class];
+  }
+  return self;
+}
+
+#pragma mark - View loading
+
 - (void) viewDidLoad {
   [super viewDidLoad];
   
-//  EnhanceChooserViewController *svc = [[EnhanceChooserViewController alloc] init];
-//  SellViewController *svc = [[SellViewController alloc] init];
-  HealViewController *svc = [[HealViewController alloc] init];
-  [self replaceRootWithViewController:svc animated:NO];
+  EnhanceChooserViewController *vc1 = [[EnhanceChooserViewController alloc] init];
+  SellViewController *vc2 = [[SellViewController alloc] init];
+  HealViewController *vc3 = [[HealViewController alloc] init];
+  TeamViewController *vc4 = [[TeamViewController alloc] init];
+  self.mainViewControllers = @[vc1, vc2, vc3, vc4];
+  
+  PopupSubViewController *vc = self.mainViewControllers[0];
+  if (_initViewControllerClass) {
+    for (PopupSubViewController *mvc in self.mainViewControllers) {
+      if ([mvc isKindOfClass:_initViewControllerClass]) {
+        vc = mvc;
+      }
+    }
+  }
+  _currentIndex = [self.mainViewControllers indexOfObject:vc];
+  [self replaceRootWithViewController:vc animated:NO];
+  [self loadNextTitleSelectionFromRight:NO animated:NO];
   
   self.containerView.superview.layer.cornerRadius = 5.f;
   self.containerView.superview.clipsToBounds = YES;
+}
+
+- (IBAction)rightArrowClicked:(id)sender {
+  _currentIndex = (_currentIndex+1)%self.mainViewControllers.count;
+  PopupSubViewController *svc = self.mainViewControllers[_currentIndex];
+  [self replaceRootWithViewController:svc animated:YES];
+  
+  [self loadNextTitleSelectionFromRight:YES animated:YES];
+}
+
+- (IBAction)leftArrowClicked:(id)sender {
+  _currentIndex = (_currentIndex-1)%self.mainViewControllers.count;
+  PopupSubViewController *svc = self.mainViewControllers[_currentIndex];
+  [self replaceRootWithViewController:svc animated:YES];
+  
+  [self loadNextTitleSelectionFromRight:NO animated:YES];
+}
+
+- (void) loadNextTitleSelectionFromRight:(BOOL)fromRight animated:(BOOL)animated {
+  UIView *oldView = self.homeTitleView;
+  
+  [[NSBundle mainBundle] loadNibNamed:@"HomeTitleView" owner:self options:nil];
+  
+  [self reloadTitleLabel];
+  [self replaceTitleView:oldView withNewView:self.homeTitleView fromRight:fromRight animated:animated];
+}
+
+- (void) reloadTitleLabel {
+  PopupSubViewController *svc = [self.viewControllers lastObject];
+  if (svc.attributedTitle) {
+    self.homeTitleLabel.attributedText = svc.attributedTitle;
+    self.bigTitleLabel.attributedText = svc.attributedTitle;
+  } else {
+    self.homeTitleLabel.text = svc.title;
+    self.bigTitleLabel.text = svc.title;
+  }
 }
 
 @end

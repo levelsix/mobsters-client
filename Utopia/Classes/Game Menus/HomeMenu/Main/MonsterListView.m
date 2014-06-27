@@ -22,7 +22,7 @@
 - (void) updateTimeWithTimeLeft:(int)timeLeft percent:(float)percentage {
   self.timeLabel.text = [[Globals convertTimeToShortString:timeLeft] uppercaseString];
   self.progressBar.percentage = percentage;
-
+  
   self.timerView.hidden = NO;
 }
 
@@ -48,10 +48,42 @@
   
   self.healthLabel.text = [NSString stringWithFormat:@"%@/%@", [Globals commafyNumber:um.curHealth], [Globals commafyNumber:[gl calculateMaxHealthForMonster:um]]];
   self.healthBar.percentage = um.curHealth/(float)[gl calculateMaxHealthForMonster:um];
+  
+  if ([um isAvailable]) {
+    self.availableView.hidden = NO;
+    self.unavailableView.hidden = YES;
+    self.combiningView.hidden = YES;
+  } else {
+    self.statusLabel.text = [um statusString];
+    
+    if ([um isCombining]) {
+      self.combiningView.hidden = NO;
+      [self updateCombineTimeForUserMonster:um];
+    } else {
+      self.combiningView.hidden = YES;
+    }
+    
+    self.unavailableView.hidden = NO;
+    self.availableView.hidden = YES;
+  }
 }
 
 - (void) updateForListObject:(id)listObject {
   [self updateForListObject:listObject greyscale:NO];
+}
+
+- (void) updateCombineTimeForUserMonster:(UserMonster *)um {
+  Globals *gl = [Globals sharedGlobals];
+  if (!um.isComplete && um.numPieces >= um.staticMonster.numPuzzlePieces) {
+    int timeLeft = [um timeLeftForCombining];
+    self.combineTimeLabel.text = [[Globals convertTimeToShortString:timeLeft] uppercaseString];
+    self.combineCostLabel.text = [Globals commafyNumber:[gl calculateGemSpeedupCostForTimeLeft:timeLeft]];
+    [Globals adjustViewForCentering:self.combineCostLabel.superview withLabel:self.combineCostLabel];
+  }
+}
+
+- (IBAction) speedupClicked:(id)sender {
+  [self.delegate speedupClicked:self];
 }
 
 @end
@@ -85,17 +117,22 @@
   NSArray *rec = self.listObjects;
   self.listObjects = [listObjects copy];
   NSMutableArray *remove = [NSMutableArray array], *add = [NSMutableArray array];
+  NSMutableDictionary *moves = [NSMutableDictionary dictionary];
   
   if (animated) {
-    [Globals calculateDifferencesBetweenOldArray:rec newArray:self.listObjects removalIps:remove additionIps:add section:0];
+    [Globals calculateDifferencesBetweenOldArray:rec newArray:self.listObjects removalIps:remove additionIps:add movedIps:moves section:0];
     
-    if (add.count || remove.count) {
+    if (add.count || remove.count || moves.count) {
       [self.collectionView performBatchUpdates:^{
         if (add.count) {
           [self.collectionView insertItemsAtIndexPaths:add];
         }
         if (remove.count) {
           [self.collectionView deleteItemsAtIndexPaths:remove];
+        }
+        for (NSIndexPath *old in moves) {
+          NSIndexPath *new = moves[old];
+          [self.collectionView moveItemAtIndexPath:old toIndexPath:new];
         }
       } completion:nil];
     }
@@ -150,13 +187,25 @@
 }
 
 - (void) minusClicked:(id)sender {
-  while (sender && ![sender isKindOfClass:[MonsterQueueCell class]]) {
+  while (sender && ![sender isKindOfClass:[MonsterListCell class]]) {
     sender = [sender superview];
   }
   
   if (sender) {
     if ([self.delegate respondsToSelector:@selector(listView:minusClickedAtIndexPath:)]) {
       [self.delegate listView:self minusClickedAtIndexPath:[self.collectionView indexPathForCell:sender]];
+    }
+  }
+}
+
+- (void) speedupClicked:(id)sender {
+  while (sender && ![sender isKindOfClass:[MonsterListCell class]]) {
+    sender = [sender superview];
+  }
+  
+  if (sender) {
+    if ([self.delegate respondsToSelector:@selector(listView:speedupClickedAtIndexPath:)]) {
+      [self.delegate listView:self speedupClickedAtIndexPath:[self.collectionView indexPathForCell:sender]];
     }
   }
 }

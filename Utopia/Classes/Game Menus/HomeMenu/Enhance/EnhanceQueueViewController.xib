@@ -115,10 +115,6 @@
                                 <outlet property="notEmptyListView" destination="MWW-J1-ugR" id="qOX-Ph-HG7"/>
                             </connections>
                         </view>
-                        <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="greywhite1.png" id="xMd-ds-1Uj">
-                            <rect key="frame" x="74" y="13" width="2" height="2"/>
-                            <autoresizingMask key="autoresizingMask"/>
-                        </imageView>
                         <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" image="popuplinevertical.png" id="ucQ-mu-Y19" customClass="FlipImageView">
                             <rect key="frame" x="87" y="6" width="1" height="48"/>
                             <autoresizingMask key="autoresizingMask"/>
@@ -358,7 +354,6 @@
         <image name="enhancebottom.png" width="424" height="60"/>
         <image name="enhancetime.png" width="12" height="12"/>
         <image name="fullhospitalarrow.png" width="185" height="39"/>
-        <image name="greywhite1.png" width="2" height="2"/>
         <image name="hospitalopenarrow.png" width="185" height="39"/>
         <image name="oilicon.png" width="25" height="30"/>
         <image name="popupline.png" width="1" height="1"/>

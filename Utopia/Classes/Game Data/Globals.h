@@ -205,6 +205,7 @@
 + (NSString *) qualifierStringForNumber:(int)rank;
 
 + (void) calculateDifferencesBetweenOldArray:(NSArray *)oArr newArray:(NSArray *)nArr removalIps:(NSMutableArray *)removals additionIps:(NSMutableArray *)additions section:(int)section;
++ (void) calculateDifferencesBetweenOldArray:(NSArray *)oArr newArray:(NSArray *)nArr removalIps:(NSMutableArray *)removals additionIps:(NSMutableArray *)additions movedIps:(NSMutableDictionary *)moves section:(int)section;
 
 + (void) setFrameForView:(UIView *)view forPoint:(CGPoint)pt;
 + (void) popupMessage: (NSString *)msg;

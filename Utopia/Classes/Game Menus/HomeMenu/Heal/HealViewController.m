@@ -32,6 +32,8 @@
   self.queueView.cellClassName = @"MonsterQueueCell";
   self.queueView.footerClassName = @"HealQueueFooterView";
   self.listView.cellClassName = @"HealCardCell";
+  
+  self.title = @"HEAL MOBSTERS";
 }
 
 - (void) viewWillAppear:(BOOL)animated {
@@ -51,7 +53,6 @@
   [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(waitTimeComplete) name:COMBINE_WAIT_COMPLETE_NOTIFICATION object:nil];
   [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(waitTimeComplete) name:ENHANCE_WAIT_COMPLETE_NOTIFICATION object:nil];
   [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(waitTimeComplete) name:EVOLUTION_WAIT_COMPLETE_NOTIFICATION object:nil];
-  [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(waitTimeComplete) name:MINI_JOB_WAIT_COMPLETE_NOTIFICATION object:nil];
 }
 
 - (void) viewWillDisappear:(BOOL)animated {
@@ -304,6 +305,8 @@
     [self reloadListViewAnimated:YES];
     [self animateUserMonsterOutOfQueue:um];
     [self reloadQueueViewAnimated:YES];
+    
+    [self updateLabels];
     
     if (um.teamSlot) {
       [[NSNotificationCenter defaultCenter] postNotificationName:MY_TEAM_CHANGED_NOTIFICATION object:nil];

@@ -59,6 +59,7 @@
 @property (nonatomic, assign) int monsterId;
 
 - (void) updateForMonsterId:(int)monsterId;
+- (void) updateForMonsterId:(int)monsterId greyscale:(BOOL)greyscale;
 - (void) updateForElement:(Element)element imgPrefix:(NSString *)imgPrefix greyscale:(BOOL)greyscale;
 
 @end

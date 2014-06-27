@@ -111,10 +111,14 @@ static UIImage *img = nil;
 @implementation MiniMonsterView
 
 - (void) updateForMonsterId:(int)monsterId {
+  [self updateForMonsterId:monsterId greyscale:NO];
+}
+
+- (void) updateForMonsterId:(int)monsterId greyscale:(BOOL)greyscale {
   if (monsterId) {
     GameState *gs = [GameState sharedGameState];
     MonsterProto *mp = [gs monsterWithId:monsterId];
-    [self updateForElement:mp.monsterElement imgPrefix:mp.imagePrefix greyscale:NO];
+    [self updateForElement:mp.monsterElement imgPrefix:mp.imagePrefix greyscale:greyscale];
   } else {
     self.bgdIcon.image = [Globals imageNamed:@"teamslotopen.png"];
     self.monsterIcon.image = nil;

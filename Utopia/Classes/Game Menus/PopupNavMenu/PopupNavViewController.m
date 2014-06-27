@@ -161,4 +161,24 @@
   [self.viewControllers removeAllObjects];
 }
 
+#pragma mark - Title views
+
+- (void) replaceTitleView:(UIView *)oldView withNewView:(UIView *)newView fromRight:(BOOL)fromRight animated:(BOOL)animated {
+  [oldView.superview insertSubview:newView aboveSubview:oldView];
+  if (animated) {
+    float movementFactor = 30.f*(fromRight?1:-1);
+    newView.center = ccpAdd(oldView.center, ccp(movementFactor, 0));
+    [UIView animateWithDuration:0.3f animations:^{
+      newView.center = oldView.center;
+      oldView.center = ccpAdd(oldView.center, ccp(-movementFactor, 0));
+    } completion:^(BOOL finished) {
+      [oldView removeFromSuperview];
+    }];
+  } else {
+    newView.center = oldView.center;
+
+    [oldView removeFromSuperview];
+  }
+}
+
 @end

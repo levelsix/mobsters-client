@@ -687,6 +687,10 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
 }
 
 + (void) calculateDifferencesBetweenOldArray:(NSArray *)oArr newArray:(NSArray *)nArr removalIps:(NSMutableArray *)removals additionIps:(NSMutableArray *)additions section:(int)section {
+  [self calculateDifferencesBetweenOldArray:oArr newArray:nArr removalIps:removals additionIps:additions movedIps:nil section:section];
+}
+
++ (void) calculateDifferencesBetweenOldArray:(NSArray *)oArr newArray:(NSArray *)nArr removalIps:(NSMutableArray *)removals additionIps:(NSMutableArray *)additions movedIps:(NSMutableDictionary *)moves section:(int)section {
   // Used for animatedly reloading a table
   NSMutableSet *old = [NSMutableSet setWithArray:oArr];
   NSMutableSet *cur = [NSMutableSet setWithArray:nArr];
@@ -702,6 +706,34 @@ LN_SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
   }
   for (id um in removed) {
     [removals addObject:[NSIndexPath indexPathForRow:[oArr indexOfObject:um] inSection:section]];
+  }
+  
+  // Now look for the guys that were moved around by removing all adds and removes
+  NSMutableArray *o = [oArr mutableCopy];
+  NSMutableArray *n = [nArr mutableCopy];
+  [o removeObjectsInArray:removed.allObjects];
+  [n removeObjectsInArray:added.allObjects];
+  
+  // Now all objects should be the same.. cept things will be moved around potentially
+  if (o.count == n.count) {
+    int i = 0;
+    while (i < o.count) {
+      id oObj = o[i];
+      id nObj = n[i];
+      if (oObj == nObj) {
+        i++;
+      } else {
+        int idx = [n indexOfObject:oObj];
+        if (idx != NSNotFound) {
+          [o removeObjectAtIndex:i];
+          [n removeObjectAtIndex:idx];
+          [moves setObject:[NSIndexPath indexPathForRow:[oArr indexOfObject:oObj] inSection:section] forKey:[NSIndexPath indexPathForRow:[nArr indexOfObject:oObj] inSection:section]];
+        } else {
+          LNLog(@"SOMETHING WENT WRONG.. LOOK AT CALCULATE DIFFERENCES");
+          break;
+        }
+      }
+    }
   }
 }
 

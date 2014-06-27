@@ -29,6 +29,8 @@
 - (void) pushViewController:(PopupSubViewController *)viewController animated:(BOOL)animated;
 - (UIViewController *)popViewControllerAnimated:(BOOL)animated;
 
+- (void) replaceTitleView:(UIView *)oldView withNewView:(UIView *)newView fromRight:(BOOL)fromRight animated:(BOOL)animated;
+
 - (IBAction) backClicked:(id)sender;
 - (void) goBack;
 - (IBAction) closeClicked:(id)sender;

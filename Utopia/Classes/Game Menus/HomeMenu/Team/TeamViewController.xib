@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="5056" systemVersion="12F45" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none">
+    <dependencies>
+        <deployment defaultVersion="1536" identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="3733"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="TeamViewController">
+            <connections>
+                <outlet property="listView" destination="aH6-pJ-Lge" id="tZD-t9-feU"/>
+                <outlet property="view" destination="qkx-7N-swe" id="15W-iU-8Zw"/>
+                <outletCollection property="teamSlotViews" destination="GkW-ol-yeO" id="E4z-Wz-Rge"/>
+                <outletCollection property="teamSlotViews" destination="Ikt-QA-sJc" id="zbh-kK-Tpv"/>
+                <outletCollection property="teamSlotViews" destination="F9B-c4-INt" id="H3z-wy-YeX"/>
+            </connections>
+        </placeholder>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view clearsContextBeforeDrawing="NO" contentMode="scaleToFill" id="qkx-7N-swe">
+            <rect key="frame" x="0.0" y="0.0" width="430" height="236"/>
+            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+            <subviews>
+                <view contentMode="scaleToFill" id="aH6-pJ-Lge" customClass="MonsterListView">
+                    <rect key="frame" x="0.0" y="0.0" width="430" height="173"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                    <subviews>
+                        <collectionView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" minimumZoomScale="0.0" maximumZoomScale="0.0" dataMode="none" id="9Tm-bj-uYe">
+                            <rect key="frame" x="0.0" y="0.0" width="430" height="173"/>
+                            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                            <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                            <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="10" minimumInteritemSpacing="9" id="FZi-OM-8Ke">
+                                <size key="itemSize" width="74" height="92"/>
+                                <size key="headerReferenceSize" width="0.0" height="0.0"/>
+                                <size key="footerReferenceSize" width="0.0" height="0.0"/>
+                                <inset key="sectionInset" minX="11" minY="13" maxX="11" maxY="13"/>
+                            </collectionViewFlowLayout>
+                            <cells/>
+                            <connections>
+                                <outlet property="dataSource" destination="aH6-pJ-Lge" id="Y5u-6i-kHu"/>
+                                <outlet property="delegate" destination="aH6-pJ-Lge" id="FmG-VA-UaU"/>
+                            </connections>
+                        </collectionView>
+                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="You have no more available mobsters." textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" id="PMN-jt-NmU" customClass="NiceFontLabel7">
+                            <rect key="frame" x="74" y="50" width="283" height="74"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
+                            <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                            <color key="textColor" white="0.0" alpha="0.80000000000000004" colorSpace="calibratedWhite"/>
+                            <color key="highlightedColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                            <size key="shadowOffset" width="0.0" height="1"/>
+                        </label>
+                    </subviews>
+                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                    <connections>
+                        <outlet property="collectionView" destination="9Tm-bj-uYe" id="xYl-YB-udQ"/>
+                        <outlet property="delegate" destination="-1" id="PgM-FA-EYr"/>
+                        <outlet property="emptyListView" destination="PMN-jt-NmU" id="Qn1-Lg-3CU"/>
+                        <outlet property="notEmptyListView" destination="9Tm-bj-uYe" id="op1-Hm-P4w"/>
+                    </connections>
+                </view>
+                <view contentMode="scaleToFill" id="nBy-aQ-HNA">
+                    <rect key="frame" x="0.0" y="173" width="430" height="60"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                    <subviews>
+                        <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="enhancebottom.png" id="S22-UB-V2F">
+                            <rect key="frame" x="3" y="0.0" width="424" height="60"/>
+                            <autoresizingMask key="autoresizingMask"/>
+                        </imageView>
+                        <view tag="1" contentMode="scaleToFill" id="GkW-ol-yeO">
+                            <rect key="frame" x="5" y="2" width="140" height="56"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                        </view>
+                        <view tag="2" contentMode="scaleToFill" id="Ikt-QA-sJc">
+                            <rect key="frame" x="145" y="2" width="140" height="56"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                        </view>
+                        <view tag="3" contentMode="scaleToFill" id="F9B-c4-INt">
+                            <rect key="frame" x="285" y="2" width="140" height="56"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                        </view>
+                    </subviews>
+                    <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                </view>
+            </subviews>
+            <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+            <simulatedOrientationMetrics key="simulatedOrientationMetrics" orientation="landscapeRight"/>
+        </view>
+    </objects>
+    <resources>
+        <image name="enhancebottom.png" width="424" height="60"/>
+    </resources>
+</document>

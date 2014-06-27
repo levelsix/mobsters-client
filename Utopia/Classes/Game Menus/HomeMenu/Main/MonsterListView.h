@@ -14,6 +14,7 @@
 @protocol MonsterListCellDelegate <NSObject>
 
 - (void) minusClicked:(id)cell;
+- (void) speedupClicked:(id)cell;
 
 @end
 
@@ -24,15 +25,26 @@
 @property (nonatomic, retain) IBOutlet UILabel *healCostLabel;
 @property (nonatomic, retain) IBOutlet UILabel *enhancePercentLabel;
 
+@property (nonatomic, retain) IBOutlet UILabel *combineTimeLabel;
+@property (nonatomic, retain) IBOutlet UILabel *combineCostLabel;
+
 @property (nonatomic, retain) IBOutlet SplitImageProgressBar *healthBar;
 @property (nonatomic, retain) IBOutlet UILabel *healthLabel;
 
+@property (nonatomic, retain) IBOutlet UILabel *statusLabel;
+
 @property (nonatomic, strong) IBOutlet UIView *mainView;
+
+@property (nonatomic, retain) IBOutlet UIView *availableView;
+@property (nonatomic, retain) IBOutlet UIView *unavailableView;
+@property (nonatomic, retain) IBOutlet UIView *combiningView;
 
 @property (nonatomic, assign) id<MonsterListCellDelegate> delegate;
 
 - (void) updateForListObject:(id)listObject;
 - (void) updateForListObject:(id)listObject greyscale:(BOOL)greyscale;
+
+- (void) updateCombineTimeForUserMonster:(UserMonster *)um;
 
 @end
 
@@ -56,6 +68,7 @@
 - (void) listView:(MonsterListView *)listView infoClickedAtIndexPath:(NSIndexPath *)indexPath;
 - (void) listView:(MonsterListView *)listView cardClickedAtIndexPath:(NSIndexPath *)indexPath;
 - (void) listView:(MonsterListView *)listView minusClickedAtIndexPath:(NSIndexPath *)indexPath;
+- (void) listView:(MonsterListView *)listView speedupClickedAtIndexPath:(NSIndexPath *)indexPath;
 
 - (void) listView:(MonsterListView *)listView updateCell:(MonsterListCell *)cell forIndexPath:(NSIndexPath *)indexPath listObject:(id)listObject;
 - (void) listView:(MonsterListView *)listView updateFooterView:(UICollectionReusableView *)footerView;

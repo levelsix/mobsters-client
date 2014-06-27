@@ -11,6 +11,10 @@
 
 @interface PopupSubViewController : UIViewController
 
+// Used by Home view controller
+@property (nonatomic, retain) NSAttributedString *attributedTitle;
+@property (nonatomic, retain) NSString *titleImageName;
+
 @property (nonatomic, readonly) PopupNavViewController *parentViewController;
 
 - (BOOL) canGoBack;

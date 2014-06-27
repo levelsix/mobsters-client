@@ -1,0 +1,341 @@
+//
+//  TeamViewController.m
+//  Utopia
+//
+//  Created by Ashwin Kamath on 6/26/14.
+//  Copyright (c) 2014 LVL6. All rights reserved.
+//
+
+#import "TeamViewController.h"
+
+#import "GameState.h"
+#import "Globals.h"
+
+#import "MonsterPopUpViewController.h"
+#import "GameViewController.h"
+#import "GenericPopupController.h"
+
+#import "OutgoingEventController.h"
+
+@implementation TeamSlotView
+
+- (void) setTag:(NSInteger)tag {
+  [super setTag:tag];
+  self.slotNumLabel.text = [NSString stringWithFormat:@"%d", tag];
+}
+
+- (void) updateLeftViewForUserMonster:(UserMonster *)um {
+  if (!um) {
+    self.monsterView.alpha = 0.f;
+  } else {
+    self.monsterView.alpha = 1.f;
+    
+    [self.monsterView updateForMonsterId:um.monsterId greyscale:um.curHealth <= 0];
+    self.unavailableBorder.hidden = [um isAvailable];
+  }
+}
+
+- (void) updateRightViewForUserMonster:(UserMonster *)um {
+  while (self.topLabel.subviews.count > 0) {
+    [self.topLabel.subviews[0] removeFromSuperview];
+  }
+  
+  GameState *gs = [GameState sharedGameState];
+  Globals *gl = [Globals sharedGlobals];
+  if (!um) {
+    self.botLabel.hidden = NO;
+    self.healthBarView.hidden = YES;
+    
+    self.topLabel.text = [NSString stringWithFormat:@"Slot %d Open", self.tag];
+    self.topLabel.highlighted = YES;
+  } else {
+    MonsterProto *mp = [gs monsterWithId:um.monsterId];
+    
+    
+    NSString *p1 = [NSString stringWithFormat:@"%@ ", mp.hasShorterName ? mp.shorterName : mp.displayName];
+    NSString *p2 = [NSString stringWithFormat:@"L%d", um.level];
+    NSMutableAttributedString *attr = [[NSMutableAttributedString alloc] initWithString:[p1 stringByAppendingString:p2]];
+    [attr addAttribute:NSForegroundColorAttributeName value:[UIColor colorWithRed:48/255.f green:124/255.f blue:238/255.f alpha:1.f] range:NSMakeRange(p1.length, p2.length)];
+    self.topLabel.highlighted = NO;
+    self.topLabel.attributedText = attr;
+    
+    if (![um isAvailable]) {
+      UIImageView *img = [[UIImageView alloc] initWithImage:[Globals imageNamed:um.statusImageName]];
+      [self.topLabel addSubview:img];
+      CGSize s = [self.topLabel.text sizeWithFont:self.topLabel.font constrainedToSize:self.topLabel.frame.size];
+      img.center = ccp(s.width+img.frame.size.width/2+3, self.topLabel.frame.size.height/2);
+      
+      [UIView animateWithDuration:0.75 delay:0 options:UIViewAnimationOptionAutoreverse|UIViewAnimationOptionRepeat animations:^{
+        img.alpha = 0.6;
+      } completion:nil];
+      
+      self.botLabel.hidden = NO;
+      self.healthBarView.hidden = YES;
+      
+      self.monsterView.alpha = 0.6f;
+    } else {
+      self.healthBar.percentage = um.curHealth/(float)[gl calculateMaxHealthForMonster:um];
+      self.healthLabel.text = [NSString stringWithFormat:@"%@/%@", [Globals commafyNumber:um.curHealth], [Globals commafyNumber:[gl calculateMaxHealthForMonster:um]]];
+      
+      self.botLabel.hidden = YES;
+      self.healthBarView.hidden = NO;
+      
+      self.monsterView.alpha = 1.f;
+    }
+  }
+}
+
+- (void) updateForUserMonster:(UserMonster *)um {
+  [self updateLeftViewForUserMonster:um];
+  [self updateRightViewForUserMonster:um];
+}
+
+- (IBAction)minusClicked:(id)sender {
+  [self.delegate teamSlotMinusClicked:self];
+}
+
+- (IBAction)rightSideClicked:(id)sender {
+  [self.delegate teamSlotRightSideClicked:self];
+}
+
+@end
+
+@implementation TeamViewController
+
+- (void) viewDidLoad {
+  [super viewDidLoad];
+  
+  self.cardCell = [[NSBundle mainBundle] loadNibNamed:@"TeamCardCell" owner:self options:nil][0];
+  self.cardCell.cardContainer.monsterCardView.infoButton.hidden = NO;
+  
+  self.teamCell = [[NSBundle mainBundle] loadNibNamed:@"TeamSlotView" owner:self options:nil][0];
+  [self.teamCell.rightView removeFromSuperview];
+  self.teamCell.frame = CGRectMake(0, 0, self.teamCell.leftView.frame.size.width, self.teamCell.leftView.frame.size.height);
+  
+  self.listView.cellClassName = @"TeamCardCell";
+  
+  NSMutableArray *realSlotViews = [NSMutableArray array];
+  for (UIView *fake in self.teamSlotViews) {
+    TeamSlotView *slot = [[NSBundle mainBundle] loadNibNamed:@"TeamSlotView" owner:self options:nil][0];
+    slot.frame = fake.frame;
+    slot.delegate = self;
+    slot.tag = fake.tag;
+    
+    [fake.superview addSubview:slot];
+    [fake removeFromSuperview];
+    
+    [realSlotViews addObject:slot];
+  }
+  self.teamSlotViews = realSlotViews;
+  
+  self.title = @"MY TEAM";
+}
+
+- (void) viewWillAppear:(BOOL)animated {
+  [super viewWillAppear:animated];
+  
+  self.listView.collectionView.contentOffset = ccp(0,0);
+  
+  [self reloadListViewAnimated:NO];
+  [self updateTeamSlotViews];
+  
+  self.updateTimer = [NSTimer timerWithTimeInterval:0.5f target:self selector:@selector(updateLabels) userInfo:nil repeats:YES];
+  [[NSRunLoop mainRunLoop] addTimer:self.updateTimer forMode:NSRunLoopCommonModes];
+  [self updateLabels];
+  
+  [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(waitTimeComplete) name:HEAL_WAIT_COMPLETE_NOTIFICATION object:nil];
+  [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(waitTimeComplete) name:COMBINE_WAIT_COMPLETE_NOTIFICATION object:nil];
+  [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(waitTimeComplete) name:ENHANCE_WAIT_COMPLETE_NOTIFICATION object:nil];
+  [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(waitTimeComplete) name:EVOLUTION_WAIT_COMPLETE_NOTIFICATION object:nil];
+}
+
+- (void) viewWillDisappear:(BOOL)animated {
+  [super viewWillDisappear:animated];
+  
+  [self.updateTimer invalidate];
+  self.updateTimer = nil;
+  
+  [[NSNotificationCenter defaultCenter] removeObserver:self];
+}
+
+- (void) waitTimeComplete {
+  [self reloadListViewAnimated:YES];
+  [self updateTeamSlotViews];
+}
+
+- (void) updateLabels {
+  for (MonsterListCell *listCell in self.listView.collectionView.visibleCells) {
+    UserMonster *um = self.userMonsters[[self.listView.collectionView indexPathForCell:listCell].row];
+    [listCell updateCombineTimeForUserMonster:um];
+  }
+}
+
+- (void) updateTeamSlotViews {
+  for (TeamSlotView *slot in self.teamSlotViews) {
+    UserMonster *um = [self monsterForSlot:slot.tag];
+    [slot updateForUserMonster:um];
+  }
+}
+
+- (UserMonster *) monsterForSlot:(NSInteger)slot {
+  GameState *gs = [GameState sharedGameState];
+  return [gs myMonsterWithSlotNumber:slot];
+}
+
+- (void) openInfoForUserMonster:(UserMonster *)um {
+  MonsterPopUpViewController *mpvc = [[MonsterPopUpViewController alloc] initWithMonsterProto:um allowSell:YES];
+  UIViewController *parent = [GameViewController baseController];
+  mpvc.view.frame = parent.view.bounds;
+  [parent.view addSubview:mpvc.view];
+  [parent addChildViewController:mpvc];
+}
+
+#pragma mark - Reloading collection view
+
+- (void) reloadListViewAnimated:(BOOL)animated {
+  [self reloadMonstersArray];
+  [self.listView reloadTableAnimated:animated listObjects:self.userMonsters];
+}
+
+- (void) reloadMonstersArray {
+  GameState *gs = [GameState sharedGameState];
+  NSMutableArray *avail = [NSMutableArray array];
+  
+  for (UserMonster *um in gs.myMonsters) {
+    // All monsters that aren't currently on your team
+    if (!um.teamSlot) {
+      [avail addObject:um];
+    }
+  }
+  
+  NSComparator comp = ^NSComparisonResult(UserMonster *obj1, UserMonster *obj2) {
+    return [obj1 compare:obj2];
+  };
+  [avail sortUsingComparator:comp];
+  self.userMonsters = avail;
+}
+
+#pragma mark - Monster card delegate
+
+- (void) listView:(MonsterListView *)listView updateCell:(MonsterListCell *)cell forIndexPath:(NSIndexPath *)ip listObject:(UserMonster *)listObject {
+  BOOL greyscale = !listObject.isAvailable;
+  [cell updateForListObject:listObject greyscale:greyscale];
+  cell.cardContainer.monsterCardView.overlayButton.userInteractionEnabled = !greyscale;
+}
+
+- (void) listView:(MonsterListView *)listView cardClickedAtIndexPath:(NSIndexPath *)indexPath {
+  UserMonster *um = self.userMonsters[indexPath.row];
+  if ([um isAvailable]) {
+    BOOL success = [[OutgoingEventController sharedOutgoingEventController] addMonsterToTeam:um.userMonsterId];
+    
+    if (success) {
+      [self updateTeamSlotViews];
+      [self animateUserMonsterIntoSlot:um];
+      [self reloadListViewAnimated:YES];
+      
+      [[NSNotificationCenter defaultCenter] postNotificationName:MY_TEAM_CHANGED_NOTIFICATION object:nil];
+    }
+  }
+}
+
+- (void) animateUserMonsterIntoSlot:(UserMonster *)um {
+  int monsterIndex = (int)[self.listView.listObjects indexOfObject:um];
+  MonsterListCell *cardCell = (MonsterListCell *)[self.listView.collectionView cellForItemAtIndexPath:[NSIndexPath indexPathForRow:monsterIndex inSection:0]];
+  
+  TeamSlotView *slotView = self.teamSlotViews.count >= um.teamSlot ? self.teamSlotViews[um.teamSlot-1] : nil;
+  
+  UIView *animView = slotView.rightView;
+  if (cardCell && slotView) {
+    [self.teamCell updateForUserMonster:um];
+    [self.cardCell updateForListObject:um];
+    
+    [self.view addSubview:self.teamCell];
+    [self.view insertSubview:self.cardCell aboveSubview:self.listView];
+    
+    [Globals animateStartView:cardCell toEndView:slotView.monsterView fakeStartView:self.cardCell fakeEndView:self.teamCell];
+  } else {
+    animView = slotView;
+  }
+  
+  CATransition *animation = [CATransition animation];
+  animation.type = kCATransitionFade;
+  animation.timingFunction = [CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseInEaseOut];
+  [slotView.rightView.layer addAnimation:animation forKey:@"fade"];
+}
+
+- (void) listView:(MonsterListView *)listView infoClickedAtIndexPath:(NSIndexPath *)indexPath {
+  UserMonster *um = self.userMonsters[indexPath.row];
+  [self openInfoForUserMonster:um];
+}
+
+- (void) listView:(MonsterListView *)listView speedupClickedAtIndexPath:(NSIndexPath *)indexPath {
+  GameState *gs = [GameState sharedGameState];
+  Globals *gl = [Globals sharedGlobals];
+  UserMonster *um = self.userMonsters[indexPath.row];
+  int timeLeft = um.timeLeftForCombining;
+  int goldCost = [gl calculateGemSpeedupCostForTimeLeft:timeLeft];
+  
+  if (gs.gold < goldCost) {
+    [GenericPopupController displayNotEnoughGemsView];
+  } else {
+    BOOL success = [[OutgoingEventController sharedOutgoingEventController] combineMonsterWithSpeedup:um.userMonsterId];
+    if (success) {
+      [self reloadListViewAnimated:YES];
+      
+      [QuestUtil checkAllDonateQuests];
+    }
+  }
+}
+
+#pragma mark - Team slot delegate
+
+- (void) teamSlotRightSideClicked:(TeamSlotView *)sender {
+  UserMonster *um = [self monsterForSlot:sender.tag];
+  if (um) {
+    [self openInfoForUserMonster:um];
+  }
+}
+
+- (void) teamSlotMinusClicked:(TeamSlotView *)sender {
+  UserMonster *um = [self monsterForSlot:sender.tag];
+  if (um.teamSlot) {
+    int slotNum = um.teamSlot;
+    BOOL success = [[OutgoingEventController sharedOutgoingEventController] removeMonsterFromTeam:um.userMonsterId];
+    
+    if (success) {
+      [self reloadListViewAnimated:YES];
+      [self animateUserMonsterOutOfSlot:um slotNum:slotNum];
+      [self updateTeamSlotViews];
+      
+      [[NSNotificationCenter defaultCenter] postNotificationName:MY_TEAM_CHANGED_NOTIFICATION object:nil];
+    }
+  }
+}
+
+- (void) animateUserMonsterOutOfSlot:(UserMonster *)um slotNum:(int)slotNum {
+  int monsterIndex = (int)[self.listView.listObjects indexOfObject:um];
+  NSIndexPath *ip = [NSIndexPath indexPathForRow:monsterIndex inSection:0];
+  MonsterListCell *cardCell = (MonsterListCell *)[self.listView.collectionView cellForItemAtIndexPath:ip];
+  
+  TeamSlotView *slotView = self.teamSlotViews.count >= slotNum ? self.teamSlotViews[slotNum-1] : nil;
+  
+  UIView *animView = slotView.rightView;
+  if (cardCell && slotView) {
+    [self.teamCell updateForUserMonster:um];
+    [self.cardCell updateForListObject:um];
+    
+    [self.view addSubview:self.teamCell];
+    [self.view insertSubview:self.cardCell aboveSubview:self.listView];
+    
+    [Globals animateStartView:slotView.monsterView toEndView:cardCell fakeStartView:self.teamCell fakeEndView:self.cardCell];
+  } else {
+    animView = slotView;
+  }
+  
+  CATransition *animation = [CATransition animation];
+  animation.type = kCATransitionFade;
+  animation.timingFunction = [CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseInEaseOut];
+  [animView.layer addAnimation:animation forKey:@"fade"];
+}
+
+@end
